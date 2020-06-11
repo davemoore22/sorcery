@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Categories=Game;Application;
+Terminal=false
+Exec=${NAME}
+Path=${Path}
+Name=${PRODUCTION_LINUX_APP_NAME}
+Comment=${PRODUCTION_LINUX_APP_COMMENT}
+Icon=${PRODUCTION_LINUX_ICON}

@@ -1,0 +1,57 @@
+// Place your key bindings in this file to overwrite the defaults
+[
+	{
+		"key": "f8",
+		"command": "-editor.action.marker.next",
+		"when": "editorFocus && !editorReadonly"
+	},
+	{
+		"key": "f9",
+		"command": "-editor.debug.action.toggleBreakpoint",
+		"when": "editorTextFocus"
+	},
+	{
+		"key": "f10",
+		"command": "-workbench.action.debug.stepOver",
+		"when": "inDebugMode"
+	},
+	{
+		"key": "shift+f8",
+		"command": "-editor.action.marker.prev",
+		"when": "editorFocus && !editorReadonly"
+	},
+	{
+		"key": "shift+f9",
+		"command": "-editor.debug.action.toggleInlineBreakpoint",
+		"when": "editorTextFocus"
+	},
+	{
+		"key": "shift+f10",
+		"command": "-editor.action.showContextMenu",
+		"when": "editorTextFocus"
+	},
+	{
+		"key": "f8",
+		"command": "workbench.action.debug.selectandstart"
+	},
+	{
+		"key": "f9",
+		"command": "workbench.action.tasks.runTask",
+		"args": "Build & Run: Release"
+	},
+	{
+		"key": "shift+f9",
+		"command": "workbench.action.tasks.runTask",
+		"args": "Run: Release"
+	},
+	{
+		"key": "f10",
+		"command": "workbench.action.tasks.runTask",
+		"args": "Build & Run: Debug"
+	},
+	{
+		"key": "shift+f10",
+		"command": "workbench.action.tasks.runTask",
+		"args": "Run: Debug"
+	},
+]

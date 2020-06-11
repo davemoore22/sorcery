@@ -1,0 +1,25 @@
+Sorcery: Dreams of the Mad Overlord
+Copyright (C) 2020 Dave Moore
+
+This is free software. This program comes with ABSOLUTELY NO WARRANTY; for
+details see the file LICENSE. You are welcome to redistribute it under certain
+conditions; see the file LICENSE distributed with this package for details.
+
+Author: Dave Moore (davemoore22@gmail.com)
+
+See the file VERSION for full release notes, and to see what has changed in this
+version, COMPILE for instructions on how to compile from source, and HELP for user
+instructions and a key reference guide.
+
+This software also uses the following libraries:
+
+- SFML https://www.sfml-dev.org/
+- TGUI https://tgui.eu/
+- simpleini https://github.com/brofield/simpleini/
+- jsoncpp https://github.com/open-source-parsers/jsoncpp
+- sqlite_modern_cpp https://github.com/SqliteModernCpp/sqlite_modern_cpp
+- selbaward https://github.com/Hapaxia/SelbaWard
+
+Please note the author of Sorcery: Dreams of the Mad Overlord, gives additional
+permission under the GNU GPL version 3 section 7 to link all source code released
+as part of Sorcery, to these libraries (as per the declaration in each source file.
