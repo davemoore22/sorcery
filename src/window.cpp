@@ -47,7 +47,8 @@ Sorcery::Window::Window(std::string title, System& system, String& string): _tit
 	view = _window.getView();
 
 	// Fonts
-	_system_font.loadFromFile(_system.files->get_path_as_string(FONT_FILE));
+	_mono_system_font.loadFromFile(_system.files->get_path_as_string(MONO_FONT_FILE));
+	_proportional_system_font.loadFromFile(_system.files->get_path_as_string(PROPORTIONAL_FONT_FILE));
 
 	// Load the Textures
 	_textures.clear();
@@ -102,28 +103,26 @@ auto Sorcery::Window::draw_attract_mode(std::vector<unsigned int> attract_mode_d
 		sf::Sprite frame = get_gui_frame(35, 18, 0);
 
 		const sf::Vector2f frame_pos((_current_size.w - frame.getGlobalBounds().width) / 2.0f, 320);
-		const sf::Vector2f creature_pos((_current_size.w - creatures.getGlobalBounds().width) / 2.0f, 400);
-
 		frame.setPosition(frame_pos);
+
+		creatures.setScale(1.8f, 1.8f);
+		const sf::Vector2f creature_pos((_current_size.w - creatures.getGlobalBounds().width) / 2.0f, 400);
 		creatures.setPosition(creature_pos);
-		//creatures.setScale(_creature_sprite_scaling, _creature_sprite_scaling);
+
+
+		//const sf::Vector2f frame_pos((_current_size.w - frame.getGlobalBounds().width) / 2.0f, 320);
+		//const sf::Vector2f creature_pos((_current_size.w - creatures.getGlobalBounds().width) / 2.0f, 400);
+
+		//frame.setPosition(frame_pos);
+		//creatures.setPosition(creature_pos);
+		//creatures.setScale(2.0f, 2.0f);
 
 		_window.draw(frame);
 		_window.draw(creatures);
 
 		sf::Text text;
-		text.setFont(_system_font);
-		text.setString(_string["MAIN_MENU_TITLE_1"]);
+		text.setFont(_proportional_system_font);
 		text.setCharacterSize(24);
-		text.setColor(sf::Color(0xffffffff));
-		text.setPosition(_current_size.w / 2.0f, 340);
-		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
-		_window.draw(text);
-
-		text.setString(_string["MAIN_MENU_TITLE_2"]);
-		text.setPosition(_current_size.w / 2.0f, 368);
-		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
-		_window.draw(text);
 
 		text.setColor(sf::Color(0xd3d3d3ff));
 		text.setString(_string["MAIN_MENU_SUBTITLE_1"]);
@@ -142,8 +141,9 @@ auto Sorcery::Window::draw_attract_mode(std::vector<unsigned int> attract_mode_d
 		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 		_window.draw(text);
 
+		text.setFont(_proportional_system_font);
   		text.setColor(sf::Color(0xffb419ff));
-		text.setCharacterSize(28);
+		text.setCharacterSize(36);
 		text.setString(_string["PRESS_ANY_KEY"]);
 		text.setPosition(_current_size.w / 2.0f, 820);
 		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);

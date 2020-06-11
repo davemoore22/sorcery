@@ -47,7 +47,8 @@ namespace Sorcery
 		inline constexpr auto CONFIG_FILE = "config.ini"sv;
 		inline constexpr auto DATABASE_FILE = "sorcery.db3"sv;
 		inline constexpr auto EXPLAIN_FILE = "explain.json"sv;
-		inline constexpr auto FONT_FILE = "SpaceMono.ttf"sv;
+		inline constexpr auto MONO_FONT_FILE = "monospace.ttf"sv;
+		inline constexpr auto PROPORTIONAL_FONT_FILE = "proportional.ttf"sv;
 		inline constexpr auto HELP_FILE = "HELP"sv;
 		inline constexpr auto LICENSE_FILE = "LICENSE"sv;
 		inline constexpr auto README_FILE = "README"sv;

@@ -84,7 +84,7 @@ Sorcery::Application::Application(int argc, char** argv) {
 	logo.setScale(scale_ratio_needed, scale_ratio_needed);
 	const ImageSize resized {static_cast<unsigned int>(logo.getGlobalBounds().width),
 		static_cast<unsigned int>(logo.getGlobalBounds().height)};
-	logo.setPosition(display->window->centre.x - (resized.w / 2), (resized.h / 2));
+	logo.setPosition(display->window->centre.x - (resized.w / 2), (resized.h / 2) - 50);
 
 	// Get the Cursor
 	sf::Sprite cursor = display->window->get_cursor();

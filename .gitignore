@@ -32,3 +32,9 @@
 *.app
 ext
 collateral
+
+# Binaries
+bin/*
+
+bin/Debug/sorcery-sfml
+bin/Debug/dat/strings.json

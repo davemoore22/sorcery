@@ -83,6 +83,7 @@ namespace Sorcery {
 			float _creature_sprite_scaling;
 			sf::Texture _attract_mode_texture;
 			sf::Texture _gui_frame_texture;
-			sf::Font _system_font;
+			sf::Font _mono_system_font;
+			sf::Font _proportional_system_font;
 	};
 }
