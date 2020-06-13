@@ -26,6 +26,7 @@
 #include "main.hpp"
 #include "system.hpp"
 #include "string.hpp"
+#include "layout.hpp"
 #include "window.hpp"
 
 // Forward Declarations
@@ -33,6 +34,7 @@ namespace Sorcery {
 
 	class System;
 	class String;
+	class Layout;
 	class Window;
 
 	// Superclass to handle basic display requirements such as Windopw Access, Game Text and so on
@@ -52,6 +54,7 @@ namespace Sorcery {
 			// Public Members
 			std::shared_ptr<String> string;
 			std::shared_ptr<Window> window;
+			std::shared_ptr<Layout> layout;
 
 		private:
 

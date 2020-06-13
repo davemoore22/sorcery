@@ -33,6 +33,7 @@ Sorcery::File::File()
 	_add_path(CONFIG_DIR, DATABASE_FILE);
 	_add_path(CONFIG_DIR, CONFIG_FILE);
 	_add_path(DATA_DIR, EXPLAIN_FILE);
+	_add_path(DATA_DIR, LAYOUT_FILE);
 	_add_path(DATA_DIR, MONO_FONT_FILE);
 	_add_path(DATA_DIR, PROPORTIONAL_FONT_FILE);
 	_add_path(DATA_DIR, STRINGS_FILE);

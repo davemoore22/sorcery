@@ -26,8 +26,8 @@
 // also add a TGUI to this
 
 // Standard Constructor
-Sorcery::Window::Window(std::string title, System& system, String& string): _title {title}, _system {system},
-	_string {string} {
+Sorcery::Window::Window(std::string title, System& system, String& string, Layout& layout): _title {title},
+	_system {system}, _string {string}, _layout {layout} {
 
 	// First get the Window Size from System Config
 	_default_size.w = std::stoi(_system.config->get("Window", DEFAULT_SCREEN_WIDTH));
@@ -98,6 +98,11 @@ auto Sorcery::Window::clear_window() -> void {
 auto Sorcery::Window::draw_attract_mode(std::vector<unsigned int> attract_mode_data) -> void {
 	if (attract_mode_data.size() > 0) {
 
+			// Move Logo inside Frame and add a bottom frame for the press any key
+
+			// then bottom frame will have next menu - start game, new game, help
+
+
 		// Get Constituent Parts
 	    sf::Sprite creatures = _get_attract_mode(attract_mode_data);
 		sf::Sprite frame = get_gui_frame(35, 18, 0);
@@ -121,7 +126,7 @@ auto Sorcery::Window::draw_attract_mode(std::vector<unsigned int> attract_mode_d
 		_window.draw(creatures);
 
 		sf::Text text;
-		text.setFont(_proportional_system_font);
+		text.setFont(_mono_system_font);
 		text.setCharacterSize(24);
 
 		text.setColor(sf::Color(0xd3d3d3ff));

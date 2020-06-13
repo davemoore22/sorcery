@@ -26,6 +26,7 @@
 #include "main.hpp"
 #include "system.hpp"
 #include "string.hpp"
+#include "layout.hpp"
 
 // Class to act as a wrapper around SFML Window etc
 namespace Sorcery {
@@ -35,7 +36,7 @@ namespace Sorcery {
 		public:
 
 			// Standard Constructor
-			Window(std::string title, System& system, String& string);
+			Window(std::string title, System& system, String& string, Layout& layout);
 
 			// Standard Destructor
 			virtual ~Window();
@@ -73,6 +74,7 @@ namespace Sorcery {
 			std::string _title;
 			System _system;
 			String _string;
+			Layout _layout;
 			sf::RenderWindow _window;
 			tgui::Gui _gui;
 			std::map<std::string_view, sf::Texture> _textures;

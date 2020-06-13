@@ -42,6 +42,12 @@ namespace Sorcery {
 
 	namespace Enums::Internal {
 
+		enum class FontType {
+			MONOSPACE,
+			PROPORTIONAL,
+			NONE
+		};
+
 		enum class StringType {
 			NORMAL,
 			EXPLAIN

@@ -26,8 +26,8 @@
 // This is the Game Message Handling Class
 
 // Standard Constructor
-Sorcery::String::String(const std::string &filename, const std::string &explain_filename)
-{
+Sorcery::String::String(const std::string &filename, const std::string &explain_filename) {
+
 	// Load strings from file
 	const bool loadresult = {_load(filename, StringType::NORMAL)};
 	const bool explain_loadresult = {_load(explain_filename, StringType::EXPLAIN)};
@@ -38,19 +38,17 @@ Sorcery::String::String(const std::string &filename, const std::string &explain_
 }
 
 // Standard Destructor
-Sorcery::String::~String()
-{
+Sorcery::String::~String() {
 }
 
 // Overload [] Operator
-auto Sorcery::String::operator [](const std::string &key) -> std::string&
-{
+auto Sorcery::String::operator [](const std::string &key) -> std::string& {
 	return _loaded ? _strings[key] : _strings["NONE"];
 }
 
 // Load File into Game Strings
-auto Sorcery::String::_load(const std::string &filename, const StringType string_type) -> bool
-{
+auto Sorcery::String::_load(const std::string &filename, const StringType string_type) -> bool {
+
 	// Work out the destination, but load an empty string anyway in case of error
 	StringMap* string_set {string_type == StringType::NORMAL ? &_strings : &_explain_strings};
 	string_set->clear();
@@ -68,7 +66,7 @@ auto Sorcery::String::_load(const std::string &filename, const StringType string
 		Json::StreamWriterBuilder builder {};
 		builder.settings_["indentation"] = "";
 		if (reader.parse(strings_file, root, false)) {
-			for(Json::Value::iterator it = root.begin(); it !=root.end(); ++it) {
+			for (Json::Value::iterator it = root.begin(); it !=root.end(); ++it) {
 				Json::Value key {it.key()};
 				Json::Value value {(*it)};
 				std::string string_key {Json::writeString(builder, key)};
@@ -91,8 +89,7 @@ auto Sorcery::String::_load(const std::string &filename, const StringType string
 }
 
 // Get Text
-auto Sorcery::String::get(const std::string& key, const StringType string_type) -> std::string
-{
+auto Sorcery::String::get(const std::string& key, const StringType string_type) -> std::string {
 	if (_loaded) {
 		const StringMap* string_set {string_type == StringType::NORMAL ? &_strings : &_explain_strings};
 		return string_set->find(key) != string_set->end() ? string_set->at(key) : KEY_NOT_FOUND;
@@ -101,16 +98,14 @@ auto Sorcery::String::get(const std::string& key, const StringType string_type) 
 }
 
 // Get Explain Text
-auto Sorcery::String::get_explain(const std::string& key) -> std::string
-{
+auto Sorcery::String::get_explain(const std::string& key) -> std::string {
 	if (_loaded)
 		return _explain_strings.find(key) != _explain_strings.end() ? _explain_strings.at(key) : EXPLAIN_KEY_NOT_FOUND;
 	else
 		return STRINGS_NOT_LOADED;
 }
 // Utility function due to lack of std::string::replace_with_substring
-auto Sorcery::String::_replace(std::string& subject, const std::string& search, const std::string& replace) -> void
-{
+auto Sorcery::String::_replace(std::string& subject, const std::string& search, const std::string& replace) -> void {
 	size_t pos {0};
 	while((pos = subject.find(search, pos)) != std::string::npos) {
 		subject.replace(pos, search.length(), replace);

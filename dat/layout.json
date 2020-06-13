@@ -1,0 +1,85 @@
+{
+	"screen": [
+	{
+		"name": "splash",
+		"component": [
+		{
+			"name": "splash_image",
+			"x": "centre",
+			"y": "centre",
+			"scale": "0.5"
+		}
+		]
+	},
+	{
+		"name": "banner",
+		"component": [
+		{
+			"name": "banner_image",
+			"x": "centre",
+			"y": "centre"
+		}
+		]
+	},
+	{
+		"name": "main_menu_attract",
+		"component": [
+		{
+			"name": "attract_creatures",
+			"x": "centre",
+			"y": "320",
+			"scale": "1.8"
+		},
+		{
+			"name": "top_gui_frame",
+			"w": "35",
+			"h": "18",
+			"x": "centre",
+			"y": "320"
+		},
+		{
+			"name": "attract_creatures",
+			"x": "centre",
+			"y": "400",
+			"scale": "1.8"
+		},
+		{
+			"name": "subtitle_1",
+			"x": "centre",
+			"y": "676",
+			"font": "monospace",
+			"colour": "0xd3d3d3ff",
+			"size": "24",
+			"string": "MAIN_MENU_SUBTITLE_1"
+		},
+		{
+			"name": "subtitle_2",
+			"x": "centre",
+			"y": "704",
+			"font": "monospace",
+			"colour": "0xd3d3d3ff",
+			"size": "24",
+			"string": "MAIN_MENU_SUBTITLE_2"
+		},
+		{
+			"name": "copyright",
+			"x": "centre",
+			"y": "740",
+			"font": "monospace",
+			"colour": "0xd3d3d3ff",
+			"size": "24",
+			"string": "MAIN_MENU_SUBTITLE_2"
+		},
+		{
+			"name": "press_any_key",
+			"x": "centre",
+			"y": "820",
+			"font": "proportional",
+			"colour": "0xffb419ff",
+			"size": "36",
+			"string": "PRESS_ANY_KEY"
+		}
+		]
+	}
+	]
+  }

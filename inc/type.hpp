@@ -28,6 +28,29 @@
 
 namespace Sorcery {
 
+	// Struct to represent layout information for a component
+	/* struct Component {
+
+		Component(): screen{""}, name{""}, x{""}, y{""}, w{0}, h{0}, font {0}, size {0}, colour {0}, string {""} {};
+		Component(std::string screen_, std::string name_, std::string x_, std::string y_, unsigned int w_,
+			unsigned int h_, Enums::Internal::FontType font_, unsigned int size_, unsigned int colour_,
+			std::string string_) : screen{screen_}, name{name} , x{x_}, y{y_}, w{w_}, h{h_}, font{font_}, size{size_},
+			colour{colour_}, string{string_} {};
+		Component(const Component &other) : screen{other.screen}, name{other.name}, x{other.x}, y{other.y}, w{other.w},
+			h{other.h}, font{other.font}, size{other.size}, colour{other.colour}, string{other.string} {};
+
+		std::string screen;
+		std::string name;
+		std::string x;
+		std::string y;
+		unsigned int w;
+		unsigned int h;
+		Enums::Internal::FontType font;
+		unsigned int size;
+		unsigned int colour;
+		std::string string;
+	}; */
+
 	// Struct to represent a point on the screen (x, y)
 	struct Point {
 		Point() : x{0}, y{0} {};
