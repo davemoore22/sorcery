@@ -104,23 +104,19 @@ auto Sorcery::Window::draw_attract_mode(std::vector<unsigned int> attract_mode_d
 
 
 		// Get Constituent Parts
-	    sf::Sprite creatures = _get_attract_mode(attract_mode_data);
-		sf::Sprite frame = get_gui_frame(35, 18, 0);
-
-		const sf::Vector2f frame_pos((_current_size.w - frame.getGlobalBounds().width) / 2.0f, 320);
+	    sf::Sprite creatures {_get_attract_mode(attract_mode_data)};
+		Component gui_frame {_layout["main_menu_attract:top_gui_frame"]};
+		sf::Sprite frame { get_gui_frame(std::get<COMPONENT_W>(gui_frame), std::get<COMPONENT_H>(gui_frame), 0)};
+		float frame_x = [&] {
+			return std::get<COMPONENT_X>(gui_frame) == -1 ? get_centre_x(frame.getGlobalBounds().width) :
+				std::get<COMPONENT_X>(gui_frame);
+		}();
+		const sf::Vector2f frame_pos(frame_x, std::get<COMPONENT_Y>(gui_frame));
 		frame.setPosition(frame_pos);
 
 		creatures.setScale(1.8f, 1.8f);
 		const sf::Vector2f creature_pos((_current_size.w - creatures.getGlobalBounds().width) / 2.0f, 400);
 		creatures.setPosition(creature_pos);
-
-
-		//const sf::Vector2f frame_pos((_current_size.w - frame.getGlobalBounds().width) / 2.0f, 320);
-		//const sf::Vector2f creature_pos((_current_size.w - creatures.getGlobalBounds().width) / 2.0f, 400);
-
-		//frame.setPosition(frame_pos);
-		//creatures.setPosition(creature_pos);
-		//creatures.setScale(2.0f, 2.0f);
 
 		_window.draw(frame);
 		_window.draw(creatures);
@@ -271,6 +267,38 @@ auto Sorcery::Window::_get_attract_mode(std::vector<unsigned int> attract_mode_d
 auto Sorcery::Window::get_banner() -> sf::Sprite {
 	sf::Sprite banner(_textures[BANNER_TEXTURE]);
 	return banner;
+}
+
+auto Sorcery::Window::get_centre_x(int component_width) -> unsigned int {
+	return (_current_size.w - component_width) / 2.0f;
+}
+
+auto Sorcery::Window::get_centre_y(int component_height) -> unsigned int {
+	return (_current_size.h - component_height) / 2.0f;
+}
+
+auto Sorcery::Window::get_centre_x(sf::Transformable component) -> unsigned int {
+	sf::Sprite sprite_type;
+	sf::Text text_type;
+	if (typeid(component) == typeid(sprite_type)) {
+			auto sprite = dynamic_cast<sf::Sprite*>(&component);
+			return (_current_size.w - sprite->getGlobalBounds().width) / 2.0f;
+	} else if (typeid(component) == typeid(text_type)) {
+			auto text = dynamic_cast<sf::Text*>(&component);
+			return (_current_size.w - text->getGlobalBounds().width) / 2.0f;
+	}
+}
+
+auto Sorcery::Window::get_centre_y(sf::Transformable component) -> unsigned int {
+	sf::Sprite sprite_type;
+	sf::Text text_type;
+	if (typeid(component) == typeid(sprite_type)) {
+			auto sprite = dynamic_cast<sf::Sprite*>(&component);
+			return (_current_size.h - sprite->getGlobalBounds().height) / 2.0f;
+	} else if (typeid(component) == typeid(text_type)) {
+			auto text = dynamic_cast<sf::Text*>(&component);
+			return (_current_size.h - text->getGlobalBounds().height) / 2.0f;
+	}
 }
 
 auto Sorcery::Window::get_creature_gfx(const int creature_id, const bool known = true) -> sf::Sprite {

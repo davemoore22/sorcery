@@ -56,6 +56,19 @@ namespace Sorcery
 		inline constexpr auto STRINGS_FILE = "strings.json"sv;
 		inline constexpr auto VERSION_FILE = "VERSION"sv;
 
+		// Layout
+		inline constexpr auto COMPONENT_SCREEN = 0;
+		inline constexpr auto COMPONENT_NAME = 1;
+		inline constexpr auto COMPONENT_X = 2;
+		inline constexpr auto COMPONENT_Y = 3;
+		inline constexpr auto COMPONENT_W = 4;
+		inline constexpr auto COMPONENT_H = 5;
+		inline constexpr auto COMPONENT_SCALE = 6;
+		inline constexpr auto COMPONENT_FONT_TYPE = 7;
+		inline constexpr auto COMPONENT_SIZE = 8;
+		inline constexpr auto COMPONENT_COLOUR = 9;
+		inline constexpr auto COMPONENT_STRING = 10;
+
 		// Graphics
 		inline constexpr auto BACKGROUND_TEXTURE = "background.png"sv;
 		inline constexpr auto BANNER_TEXTURE = "banner.png"sv;

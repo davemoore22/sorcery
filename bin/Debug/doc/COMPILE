@@ -3,7 +3,7 @@ Copyright (C) 2020 Dave Moore
 
 Make sure the following packages from the Standard Repositories are installed:
 
-sfml sfml-dev libsfml-dev libsfml-doc libsqlite3-0 libsqlite3-dev
+sfml sfml-dev libsfml-dev libsfml-doc libsqlite3-0 libsqlite3-dev libjsoncpp-dev
 
 Add the following repository:
 
@@ -16,7 +16,5 @@ libtgui-dev
 The additional following third-party libraries are needed to compile:
 
 - simpleini https://github.com/brofield/simpleini/
-- jsoncpp https://github.com/open-source-parsers/jsoncpp
 - sqlite_modern_cpp https://github.com/SqliteModernCpp/sqlite_modern_cpp
-- selbaward https://github.com/Hapaxia/SelbaWard
 

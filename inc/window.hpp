@@ -49,6 +49,10 @@ namespace Sorcery {
 			auto draw_attract_mode(std::vector<unsigned int> attract_mode_data) -> void;
 			auto draw_gui() -> void;
 			auto get_banner() -> sf::Sprite;
+			auto get_centre_x(sf::Transformable component) -> unsigned int;
+			auto get_centre_x(int component_width) -> unsigned int;
+			auto get_centre_y(sf::Transformable component) -> unsigned int;
+			auto get_centre_y(int component_height) -> unsigned int;
 			auto get_creature_gfx(const int creature_id, const bool known) -> sf::Sprite;
 			auto get_cursor() -> sf::Sprite;
 			auto get_gui() -> tgui::Gui*;
@@ -56,6 +60,7 @@ namespace Sorcery {
 			auto get_splash() -> sf::Sprite;
 			auto get_logo() -> sf::Sprite;
 			auto get_window() -> sf::RenderWindow*;
+
 
 			// Public Members
 			std::vector<sf::Sprite> sprites;

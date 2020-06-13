@@ -39,9 +39,8 @@ LINK_LIBRARIES := \
 	sfml-system \
 	tgui \
 	sqlite3 \
-	sfeMovie
-
-PRECOMPILED_HEADER := jsoncpp
+	sfeMovie \
+	jsoncpp
 
 PRODUCTION_FOLDER := build
 

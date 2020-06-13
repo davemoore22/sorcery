@@ -30,6 +30,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <TGUI/TGUI.hpp>
+#include <jsoncpp/json/json.h>
 
 // External Includes
 #pragma GCC diagnostic push
@@ -39,7 +40,7 @@
 #pragma GCC diagnostic ignored "-Wignored-qualifiers"
 #pragma GCC diagnostic ignored "-Wreorder"
 #pragma GCC diagnostic ignored "-Wreturn-type"
-#include "json/json.h"
+//#include "json/json.h"
 #include "sqlite_modern_cpp.h"
 #include "SimpleIni.h"
 #include "sfeMovie/Movie.hpp"
@@ -74,6 +75,7 @@
 #include <string_view>
 #include <thread>
 #include <tuple>
+#include <typeinfo>
 #include <utility>
 #include <vector>
 
