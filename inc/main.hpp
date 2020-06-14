@@ -85,6 +85,7 @@
 #include "macro.hpp"
 #include "type.hpp"
 #include "operator.hpp"
+#include "component.hpp"
 
 // Aliases
 namespace Sorcery {
@@ -109,9 +110,6 @@ namespace Sorcery {
 	using FileType = Enums::File::Type;
 	using FontType = Enums::Internal::FontType;
 	using Import = Enums::Manage::Import;
-	using Component = std::tuple<std::string, std::string, int, int, unsigned int, unsigned int, float,
-		Enums::Internal::FontType, unsigned int, unsigned int, std::string>;
-	using ComponentMap = std::map<std::string, Component>;
 	using MenuEntry = std::tuple<Enums::Menu::ItemType, Enums::Menu::Item, std::string, std::string, bool,
 		Enums::Options, Enums::Character::Class>;
 	using MenuItem = Enums::Menu::Item;

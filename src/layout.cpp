@@ -77,75 +77,109 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 
 			// Iterate through layout file one screen at a time
 			for (int i = 0; i < screens.size(); i++) {
+
+				// Each screen will always have a name and one or more components
 				std::string screen_name {screens[i]["name"].asString()};
 				Json::Value& components {screens[i]["component"]};
 
-				// For every component on that screen read in its value (if present)
+				// For every component on that screen read in their properties
 				for (int j = 0; j < components.size(); j++) {
+
+					// Always Present
 					std::string name {components[j]["name"].asString()};
+
+					// Not always present
 					int x = [&] {
-						if (components[j]["x"].asString() == "centre")
-							return -1;
-						else if (components[j]["x"].asString().length() > 0)
-							return std::stoi(components[j]["x"].asString());
-						else
+						if (components[j].isMember("x")) {
+							if (components[j]["x"].asString() == "centre")
+								return -1;
+							else if (components[j]["x"].asString().length() > 0)
+								return std::stoi(components[j]["x"].asString());
+							else
+								return 0;
+						} else
 							return 0;
 					}();
 					int y = [&] {
-						if (components[j]["y"].asString() == "centre")
-							return -1;
-						else if (components[j]["y"].asString().length() > 0)
-							return std::stoi(components[j]["y"].asString());
-						else
+						if (components[j].isMember("y")) {
+							if (components[j]["y"].asString() == "centre")
+								return -1;
+							else if (components[j]["y"].asString().length() > 0)
+								return std::stoi(components[j]["y"].asString());
+							else
+								return 0;
+						} else
 							return 0;
 					}();
 					unsigned int w = [&] {
-						if (components[j]["w"].asString().length() > 0)
-							return std::stoi(components[j]["w"].asString());
-						else
+						if (components[j].isMember("w")) {
+							if (components[j]["w"].asString().length() > 0)
+								return std::stoi(components[j]["w"].asString());
+							else
+								return 0;
+						} else
 							return 0;
 					}();
 					unsigned int h = [&] {
-						if (components[j]["h"].asString().length() > 0)
-							return std::stoi(components[j]["h"].asString());
-						else
+						if (components[j].isMember("h")) {
+							if (components[j]["h"].asString().length() > 0)
+								return std::stoi(components[j]["h"].asString());
+							else
+								return 0;
+						} else
 							return 0;
 					}();
 					float scale = [&] {
-						if (components[j]["scale"].asString().length() > 0)
-							return std::stof(components[j]["scale"].asString());
-						else
+						if (components[j].isMember("scale")) {
+							if (components[j]["scale"].asString().length() > 0)
+								return std::stof(components[j]["scale"].asString());
+							else
+								return 0.0f;
+						} else
 							return 0.0f;
 					}();
 					FontType font_type = [&] {
-						if (components[j]["string"].asString().length() > 0) {
-							if (components[j]["string"].asString() == "monospace")
-								return FontType::MONOSPACE;
-							else if (components[j]["string"].asString() == "proportional")
-								return FontType::PROPORTIONAL;
-							else
+						if (components[j].isMember("font")) {
+							if (components[j]["font"].asString().length() > 0) {
+								if (components[j]["font"].asString() == "monospace")
+									return FontType::MONOSPACE;
+								else if (components[j]["font"].asString() == "proportional")
+									return FontType::PROPORTIONAL;
+								else
+									return FontType::NONE;
+							} else
 								return FontType::NONE;
 						} else
 							return FontType::NONE;
 					}();
 					unsigned int size = [&] {
-						if (components[j]["size"].asString().length() > 0)
-							return std::stoi(components[j]["size"].asString());
-						else
+						if (components[j].isMember("size")) {
+							if (components[j]["size"].asString().length() > 0)
+								return std::stoi(components[j]["size"].asString());
+							else
+								return 0;
+						} else
 							return 0;
 					}();
 					unsigned int colour = [&] {
-						if (components[j]["colour"].asString().length() > 0)
-							return std::stoi(components[j]["colour"].asString());
-						else
+						if (components[j].isMember("colour")) {
+							if (components[j]["colour"].asString().length() > 0)
+								return std::stoi(components[j]["colour"].asString());
+							else
+								return 0;
+						} else
 							return 0;
 					}();
-					std::string string {components[j]["string"].asString()};
+					std::string string_key = [&] {
+						if (components[j].isMember("string"))
+							return components[j]["string"].asString();
+						else
+							return std::string();
+					} ();
 
 					// Add the Component
 					std::string key = screen_name + ":" + name;
-					Component component = std::make_tuple(screen_name, name, x, y, w, h, scale, font_type, size, colour,
-						string);
+					Component component(screen_name, name, x, y, w, h, scale, font_type, size, colour, string_key);
 					_components[key] = component;
 				}
 			 }
@@ -161,5 +195,4 @@ auto Sorcery::Layout::_refresh_needed() -> bool {
 	_last_modified = std::filesystem::last_write_time(_filename);
 	return _last_modified > _last_loaded;
 }
-
 

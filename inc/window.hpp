@@ -72,6 +72,14 @@ namespace Sorcery {
 
 			// Private Methods
 			auto _get_attract_mode(std::vector<unsigned int> attract_mode_data) -> sf::Sprite;
+			auto _get_centre_x(sf::Sprite& sprite) -> unsigned int;
+			auto _get_centre_y(sf::Sprite& sprite) -> unsigned int;
+			auto _get_centre_x(sf::Text& text) -> unsigned int;
+			auto _get_centre_y(sf::Text& text) -> unsigned int;
+			auto _get_x(sf::Sprite& sprite, int x_position) -> unsigned int;
+			auto _get_x(sf::Text& text, int x_position) -> unsigned int;
+			auto _get_y(sf::Sprite& sprite, int y_position) -> unsigned int;
+			auto _get_y(sf::Text& text, int y_position) -> unsigned int;
 
 			// Private Members
 			ScreenSize _default_size;

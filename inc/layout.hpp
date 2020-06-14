@@ -24,6 +24,7 @@
 #pragma once
 
 #include "main.hpp"
+#include "component.hpp"
 
 // Class to handles managing screen layouts
 namespace Sorcery {
@@ -44,7 +45,7 @@ namespace Sorcery {
 		private:
 
 			// Private Members
-			ComponentMap _components;
+			std::map<std::string, Component> _components;
 			bool _loaded;
 			std::filesystem::file_time_type _last_modified;
 			std::chrono::time_point<std::chrono::file_clock> _last_loaded;
@@ -53,5 +54,7 @@ namespace Sorcery {
 			// Private Methods
 			auto _load(const std::filesystem::path filename) -> bool;
 			auto _refresh_needed() -> bool;
+
+
 	};
 }

@@ -103,23 +103,22 @@ auto Sorcery::Window::draw_attract_mode(std::vector<unsigned int> attract_mode_d
 			// then bottom frame will have next menu - start game, new game, help
 
 
-		// Get Constituent Parts
-	    sf::Sprite creatures {_get_attract_mode(attract_mode_data)};
+		// Get Constituent Parts for the Main Menu
 		Component gui_frame {_layout["main_menu_attract:top_gui_frame"]};
-		sf::Sprite frame { get_gui_frame(std::get<COMPONENT_W>(gui_frame), std::get<COMPONENT_H>(gui_frame), 0)};
-		float frame_x = [&] {
-			return std::get<COMPONENT_X>(gui_frame) == -1 ? get_centre_x(frame.getGlobalBounds().width) :
-				std::get<COMPONENT_X>(gui_frame);
-		}();
-		const sf::Vector2f frame_pos(frame_x, std::get<COMPONENT_Y>(gui_frame));
+		sf::Sprite frame { get_gui_frame(gui_frame.w, gui_frame.h, 0)};
+		const sf::Vector2f frame_pos(_get_x(frame, gui_frame.x), _get_y(frame, gui_frame.y));
 		frame.setPosition(frame_pos);
 
-		creatures.setScale(1.8f, 1.8f);
-		const sf::Vector2f creature_pos((_current_size.w - creatures.getGlobalBounds().width) / 2.0f, 400);
+		Component attract_creatures {_layout["main_menu_attract:attract_creatures"]};
+		sf::Sprite creatures {_get_attract_mode(attract_mode_data)};
+		creatures.setScale(attract_creatures.scale, attract_creatures.scale);
+		const sf::Vector2f creature_pos(_get_x(creatures, attract_creatures.x), _get_y(creatures, attract_creatures.y));
 		creatures.setPosition(creature_pos);
 
 		_window.draw(frame);
 		_window.draw(creatures);
+
+		// Draw Main Menu Text
 
 		sf::Text text;
 		text.setFont(_mono_system_font);
@@ -335,4 +334,36 @@ auto Sorcery::Window::get_splash() -> sf::Sprite {
 
 auto Sorcery::Window::get_window() -> sf::RenderWindow* {
 	return &_window;
+}
+
+auto Sorcery::Window::_get_centre_x(sf::Sprite& sprite) -> unsigned int {
+	return (_current_size.w - sprite.getGlobalBounds().width) / 2.0f;
+}
+
+auto Sorcery::Window::_get_centre_y(sf::Sprite& sprite) -> unsigned int {
+	return (_current_size.h - sprite.getGlobalBounds().height) / 2.0f;
+}
+
+auto Sorcery::Window::_get_centre_x(sf::Text& text) -> unsigned int {
+	return (_current_size.w - text.getGlobalBounds().width) / 2.0f;
+}
+
+auto Sorcery::Window::_get_centre_y(sf::Text& text) -> unsigned int {
+	return (_current_size.h - text.getGlobalBounds().height) / 2.0f;
+}
+
+auto Sorcery::Window::_get_x(sf::Sprite& sprite, int x_position) -> unsigned int {
+	return x_position ==  -1 ? _get_centre_x(sprite) : x_position;
+}
+
+auto Sorcery::Window::_get_x(sf::Text& text, int x_position) -> unsigned int {
+	return x_position ==  -1 ? _get_centre_x(text) : x_position;
+}
+
+auto Sorcery::Window::_get_y(sf::Sprite& sprite, int y_position) -> unsigned int {
+	return y_position ==  -1 ? _get_centre_y(sprite) : y_position;
+}
+
+auto Sorcery::Window::_get_y(sf::Text& text, int y_position) -> unsigned int {
+	return y_position ==  -1 ? _get_centre_y(text) : y_position;
 }
