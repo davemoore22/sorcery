@@ -50,17 +50,18 @@ namespace Sorcery {
 			auto draw_gui() -> void;
 			auto get_banner() -> sf::Sprite;
 			auto get_centre_x(sf::Transformable component) -> unsigned int;
-			auto get_centre_x(int component_width) -> unsigned int;
 			auto get_centre_y(sf::Transformable component) -> unsigned int;
-			auto get_centre_y(int component_height) -> unsigned int;
 			auto get_creature_gfx(const int creature_id, const bool known) -> sf::Sprite;
 			auto get_cursor() -> sf::Sprite;
 			auto get_gui() -> tgui::Gui*;
 			auto get_gui_frame(const unsigned int width, const unsigned int height, const unsigned int alpha) -> sf::Sprite;
+			auto get_gui_frame(sf::RenderTexture& gui_frame_rt, sf::Texture& gui_frame_t, const unsigned int width_units,
+				const unsigned int height_units) -> sf::Sprite;
 			auto get_splash() -> sf::Sprite;
 			auto get_logo() -> sf::Sprite;
 			auto get_window() -> sf::RenderWindow*;
-
+			auto get_x(sf::Sprite& sprite, int x_position) -> unsigned int;
+			auto get_y(sf::Sprite& sprite, int y_position) -> unsigned int;
 
 			// Public Members
 			std::vector<sf::Sprite> sprites;
@@ -71,6 +72,7 @@ namespace Sorcery {
 		private:
 
 			// Private Methods
+			auto _draw_centered_text(sf::Text& text, Component& component) -> void;
 			auto _get_attract_mode(std::vector<unsigned int> attract_mode_data) -> sf::Sprite;
 			auto _get_centre_x(sf::Sprite& sprite) -> unsigned int;
 			auto _get_centre_y(sf::Sprite& sprite) -> unsigned int;
@@ -80,6 +82,7 @@ namespace Sorcery {
 			auto _get_x(sf::Text& text, int x_position) -> unsigned int;
 			auto _get_y(sf::Sprite& sprite, int y_position) -> unsigned int;
 			auto _get_y(sf::Text& text, int y_position) -> unsigned int;
+			auto _get_font(FontType font_Type) -> sf::Font*;
 
 			// Private Members
 			ScreenSize _default_size;

@@ -27,6 +27,7 @@
 #include "system.hpp"
 #include "display.hpp"
 #include "graphics.hpp"
+#include "layout.hpp"
 
 namespace Sorcery {
 

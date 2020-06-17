@@ -104,10 +104,25 @@ auto Sorcery::Window::draw_attract_mode(std::vector<unsigned int> attract_mode_d
 
 
 		// Get Constituent Parts for the Main Menu
-		Component gui_frame {_layout["main_menu_attract:top_gui_frame"]};
-		sf::Sprite frame { get_gui_frame(gui_frame.w, gui_frame.h, 0)};
-		const sf::Vector2f frame_pos(_get_x(frame, gui_frame.x), _get_y(frame, gui_frame.y));
-		frame.setPosition(frame_pos);
+		Component top_frame_c {_layout["main_menu_attract:top_gui_frame"]};
+		sf::RenderTexture top_frame_rt;
+		sf::Texture top_frame_t;
+		sf::Sprite top_frame {get_gui_frame(top_frame_rt, top_frame_t, top_frame_c.w, top_frame_c.h)};
+		const sf::Vector2f top_pos(_get_x(top_frame, top_frame_c.x), _get_y(top_frame, top_frame_c.y));
+		top_frame.setPosition(top_pos);
+
+		Component bottom_frame_c {_layout["main_menu_attract:bottom_gui_frame"]};
+		sf::RenderTexture bottom_frame_rt;
+		sf::Texture bottom_frame_t;
+		sf::Sprite bottom_frame {get_gui_frame(bottom_frame_rt, bottom_frame_t, bottom_frame_c.w, bottom_frame_c.h)};
+		const sf::Vector2f bottom_pos(_get_x(bottom_frame, bottom_frame_c.x), _get_y(bottom_frame, bottom_frame_c.y));
+		bottom_frame.setPosition(bottom_pos);
+
+
+		//sf::Sprite bottom_frame { get_gui_frame(bottom_gui_frame.w, bottom_gui_frame.h, 0)};
+		//const sf::Vector2f bottom_frame_pos(_get_x(bottom_frame, bottom_gui_frame.x), _get_y(bottom_frame,
+		//	bottom_gui_frame.y));
+		//bottom_frame.setPosition(bottom_frame_pos);
 
 		Component attract_creatures {_layout["main_menu_attract:attract_creatures"]};
 		sf::Sprite creatures {_get_attract_mode(attract_mode_data)};
@@ -115,39 +130,16 @@ auto Sorcery::Window::draw_attract_mode(std::vector<unsigned int> attract_mode_d
 		const sf::Vector2f creature_pos(_get_x(creatures, attract_creatures.x), _get_y(creatures, attract_creatures.y));
 		creatures.setPosition(creature_pos);
 
-		_window.draw(frame);
+		_window.draw(top_frame);
+		_window.draw(bottom_frame);
 		_window.draw(creatures);
 
-		// Draw Main Menu Text
-
+		// Draw Attract Mode Text
 		sf::Text text;
-		text.setFont(_mono_system_font);
-		text.setCharacterSize(24);
-
-		text.setColor(sf::Color(0xd3d3d3ff));
-		text.setString(_string["MAIN_MENU_SUBTITLE_1"]);
-		text.setPosition(_current_size.w / 2.0f, 676);
-		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
-		_window.draw(text);
-
-		text.setString(_string["MAIN_MENU_SUBTITLE_2"]);
-		text.setPosition(_current_size.w / 2.0f, 704);
-		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
-		_window.draw(text);
-
-		text.setColor(sf::Color(0xffffffff));
-		text.setString(_string["BRIEF_COPYRIGHT_INFO"]);
-		text.setPosition(_current_size.w / 2.0f, 740);
-		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
-		_window.draw(text);
-
-		text.setFont(_proportional_system_font);
-  		text.setColor(sf::Color(0xffb419ff));
-		text.setCharacterSize(36);
-		text.setString(_string["PRESS_ANY_KEY"]);
-		text.setPosition(_current_size.w / 2.0f, 820);
-		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
-		_window.draw(text);
+		_draw_centered_text(text, _layout["main_menu_attract:subtitle_1"]);
+		_draw_centered_text(text, _layout["main_menu_attract:subtitle_2"]);
+		_draw_centered_text(text, _layout["main_menu_attract:copyright"]);
+		_draw_centered_text(text, _layout["main_menu_attract:press_any_key"]);
 	}
 }
 
@@ -157,6 +149,77 @@ auto Sorcery::Window::draw_gui() -> void {
 
 auto Sorcery::Window::display_window() -> void {
 	_window.display();
+}
+
+auto Sorcery::Window::get_gui_frame(sf::RenderTexture& gui_frame_rt, sf::Texture& gui_frame_t,
+	const unsigned int width_units, const unsigned int height_units) -> sf::Sprite {
+
+	// Defijne the sources of the gui elements
+	sf::IntRect top_left_rect(865, 399, 18, 18);
+	sf::IntRect top_rect(899, 399, 24, 10); // width of 74 is available in texture
+	sf::IntRect top_right_rect(982, 399, 18, 18);
+	sf::IntRect left_rect(865, 428, 10, 24); // height of 59 is available in texture
+	sf::IntRect bottom_left_rect(865, 498, 18, 18);
+	sf::IntRect bottom_rect(899, 506, 24, 10); // width of 74 is available in texture
+	sf::IntRect bottom_right_rect(982, 498, 18, 18);
+	sf::IntRect right_rect(989, 428, 10, 24); // height of 59 is available in texture
+
+	// Work out total size of texture needed from units
+	const sf::Vector2f texture_size(18 + (24 * width_units) + 18, 18 + (24 * height_units) + 18);
+	gui_frame_rt.create(texture_size.x, texture_size.y);
+	gui_frame_rt.clear();
+
+	// Get the Frame Components
+	sf::Sprite top_left(_textures[UI_TEXTURE]);
+	top_left.setTextureRect(top_left_rect);
+	sf::Sprite top(_textures[UI_TEXTURE]);
+	top.setTextureRect(top_rect);
+	sf::Sprite top_right(_textures[UI_TEXTURE]);
+	top_right.setTextureRect(top_right_rect);
+	sf::Sprite left(_textures[UI_TEXTURE]);
+	left.setTextureRect(left_rect);
+	sf::Sprite bottom_left(_textures[UI_TEXTURE]);
+	bottom_left.setTextureRect(bottom_left_rect);
+	sf::Sprite bottom(_textures[UI_TEXTURE]);
+	bottom.setTextureRect(bottom_rect);
+	sf::Sprite bottom_right(_textures[UI_TEXTURE]);
+	bottom_right.setTextureRect(bottom_right_rect);
+	sf::Sprite right(_textures[UI_TEXTURE]);
+	right.setTextureRect(right_rect);
+
+	// Draw the Corners
+	top_left.setPosition(0, 0);
+	gui_frame_rt.draw(top_left);
+	top_right.setPosition(texture_size.x - 18, 0);
+	gui_frame_rt.draw(top_right);
+	bottom_left.setPosition(0, texture_size.y - 18);
+	gui_frame_rt.draw(bottom_left);
+	bottom_right.setPosition(texture_size.x - 18, texture_size.y - 18);
+	gui_frame_rt.draw(bottom_right);
+
+	// Fill in the Sides
+	for (unsigned int x = 0; x < width_units; x++) {
+		int x_pos {18 + (24 * x)};
+		top.setPosition(x_pos, 0);
+		gui_frame_rt.draw(top);
+		bottom.setPosition(x_pos, texture_size.y - 10);
+		gui_frame_rt.draw(bottom);
+	}
+	for (unsigned int y = 0; y < height_units; y++) {
+		int y_pos {18 + (24 * y)};
+		left.setPosition(0, y_pos);
+		gui_frame_rt.draw(left);
+		right.setPosition(texture_size.x - 11, y_pos);
+		gui_frame_rt.draw(right);
+	}
+
+	// And draw
+	gui_frame_rt.display();
+
+	// And return
+	gui_frame_t = gui_frame_rt.getTexture();
+	sf::Sprite gui_frame_sprite(gui_frame_t);
+	return gui_frame_sprite;
 }
 
 
@@ -268,14 +331,6 @@ auto Sorcery::Window::get_banner() -> sf::Sprite {
 	return banner;
 }
 
-auto Sorcery::Window::get_centre_x(int component_width) -> unsigned int {
-	return (_current_size.w - component_width) / 2.0f;
-}
-
-auto Sorcery::Window::get_centre_y(int component_height) -> unsigned int {
-	return (_current_size.h - component_height) / 2.0f;
-}
-
 auto Sorcery::Window::get_centre_x(sf::Transformable component) -> unsigned int {
 	sf::Sprite sprite_type;
 	sf::Text text_type;
@@ -366,4 +421,41 @@ auto Sorcery::Window::_get_y(sf::Sprite& sprite, int y_position) -> unsigned int
 
 auto Sorcery::Window::_get_y(sf::Text& text, int y_position) -> unsigned int {
 	return y_position ==  -1 ? _get_centre_y(text) : y_position;
+}
+auto Sorcery::Window::_get_font(FontType font_Type) -> sf::Font* {
+	switch (font_Type) {
+		case FontType::MONOSPACE:
+			return &_mono_system_font;
+			break;
+		case FontType::PROPORTIONAL:
+			return &_proportional_system_font;
+			break;
+		default:
+			return &_mono_system_font;
+			break;
+	}
+}
+
+// Draw Text on the Screen
+auto Sorcery::Window::_draw_centered_text(sf::Text& text, Component& component) -> void {
+	int x {0};
+	int y {0};
+	text.setFont(_mono_system_font);
+	text.setFont(*(_get_font(component.font)));
+	text.setCharacterSize(component.size);
+	text.setColor(sf::Color(component.colour));
+	text.setString(_string[component.string_key]);
+	x = component.x == -1 ? centre.x :  component.x;
+	y = component.y == -1 ? centre.y :  component.y;
+	text.setPosition(x, y);
+	text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+	_window.draw(text);
+}
+
+auto Sorcery::Window::get_x(sf::Sprite& sprite, int x_position) -> unsigned int {
+	return x_position ==  -1 ? _get_centre_x(sprite) : x_position;
+}
+
+auto Sorcery::Window::get_y(sf::Sprite& sprite, int y_position) -> unsigned int {
+	return y_position ==  -1 ? _get_centre_y(sprite) : y_position;
 }

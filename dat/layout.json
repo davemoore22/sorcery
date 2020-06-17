@@ -38,6 +38,13 @@
 			"y": "300"
 		},
 		{
+			"name": "bottom_gui_frame",
+			"w": "42",
+			"h": "3",
+			"x": "centre",
+			"y": "790"
+		},
+		{
 			"name": "attract_creatures",
 			"x": "centre",
 			"y": "400",
@@ -68,7 +75,7 @@
 			"font": "monospace",
 			"colour": "0xd3d3d3ff",
 			"size": "24",
-			"string": "MAIN_MENU_SUBTITLE_2"
+			"string": "BRIEF_COPYRIGHT_INFO"
 		},
 		{
 			"name": "press_any_key",

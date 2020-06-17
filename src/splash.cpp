@@ -24,7 +24,7 @@
 #include "splash.hpp"
 
 // Standard Constructor
-Sorcery::Splash::Splash(System& system, Display& display,
+Sorcery::Splash::Splash (System& system, Display& display,
 	Graphics& graphics):  _system {system}, _display {display}, _graphics {graphics} {
 
 	// Get the Window and Graphics to Display
@@ -36,6 +36,25 @@ Sorcery::Splash::Splash(System& system, Display& display,
 	_fading_in = true;
 	_fading_out = false;
 	finished = false;
+
+	// Get the Splash Image Details
+	Component splash_c {(*_display.layout)["splash:splash_image"]};
+
+	// Scale the Splash Image to less than the Window Size
+	ImageSize size {static_cast<unsigned int>(_splash.getLocalBounds().width),
+		static_cast<unsigned int>(_splash.getLocalBounds().height)};
+	const ImageSize window_size {_window->getSize().x, _window->getSize().y};
+	float scale_ratio_needed {1.0f};
+	if ((size.w > window_size.w) || (size.h > window_size.h)) {
+		float shrink_width_needed {static_cast<float>(window_size.w) / static_cast<float>(size.w)};
+		float shrink_height_needed {static_cast<float>(window_size.h) / static_cast<float>(size.h)};
+		scale_ratio_needed = std::min(shrink_width_needed, shrink_height_needed);
+	}
+	_splash.setScale(scale_ratio_needed, scale_ratio_needed);
+	_splash.setScale(splash_c.scale, splash_c.scale);
+	const sf::Vector2f splash_pos(_display.window->get_x(_splash, splash_c.x),
+		_display.window->get_y(_splash, splash_c.y));
+	_splash.setPosition(splash_pos);
 }
 
 // Standard Destructor
@@ -44,25 +63,8 @@ Sorcery::Splash::~Splash() {
 
 auto Sorcery::Splash::draw() -> void {
 
-	// Scale the Splash to less than the Window Size
-	sf::Sprite splash = _splash;
-	ImageSize size {static_cast<unsigned int>(splash.getLocalBounds().width),
-		static_cast<unsigned int>(splash.getLocalBounds().height)};
-	const ImageSize window_size {_window->getSize().x, _window->getSize().y};
-	float scale_ratio_needed {1.0f};
-	if ((size.w > window_size.w) || (size.h > window_size.h)) {
-		float shrink_width_needed {static_cast<float>(window_size.w) / static_cast<float>(size.w)};
-		float shrink_height_needed {static_cast<float>(window_size.h) / static_cast<float>(size.h)};
-		scale_ratio_needed = std::min(shrink_width_needed, shrink_height_needed);
-	}
-	splash.setScale(scale_ratio_needed, scale_ratio_needed);
-	splash.setScale(0.5f, 0.5f);
-	splash.setColor(sf::Color(255,255,255, _alpha));
-	const ImageSize resized {static_cast<unsigned int>(splash.getGlobalBounds().width),
-		static_cast<unsigned int>(splash.getGlobalBounds().height)};
-	splash.setPosition(_display.window->centre.x - (resized.w / 2),
-		_display.window->centre.y - (resized.h / 2));
-	_window->draw(splash);
+	_splash.setColor(sf::Color(255,255,255, _alpha));
+	_window->draw(_splash);
 }
 
 auto Sorcery::Splash::update() -> void {

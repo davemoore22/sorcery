@@ -34,7 +34,7 @@ namespace Sorcery {
 			// Standard Constructors
 			Component();
 			Component(std::string screen_, std::string name_, int x_, int y_, unsigned int w_, unsigned int h_,
-				float scale_, Enums::Internal::FontType font_, unsigned int size_, unsigned int colour_,
+				float scale_, Enums::Internal::FontType font_, unsigned int size_, unsigned long long colour_,
 				std::string string_);
 
 			// Copy Constructor
@@ -55,7 +55,7 @@ namespace Sorcery {
 			float scale;
 			Enums::Internal::FontType font;
 			unsigned int size;
-			unsigned int colour;
+			unsigned long long colour;
 			std::string string_key;
 
 		private:

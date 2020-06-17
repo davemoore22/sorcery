@@ -49,14 +49,14 @@ auto Sorcery::Layout::operator [] (const std::string& combined_key) -> Component
 		_load(_filename);
 
 	// Else return the requested component
-	Component empty;
+	Component empty_component;
 	if (_loaded)
 		if (_components.find(combined_key) != _components.end())
 			return _components.at(combined_key);
 		else
-			return empty;
+			return empty_component;
 	else
-		return empty;
+		return empty_component;
 }
 
 auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
@@ -161,14 +161,14 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 						} else
 							return 0;
 					}();
-					unsigned int colour = [&] {
+					unsigned long long colour = [&] {
 						if (components[j].isMember("colour")) {
 							if (components[j]["colour"].asString().length() > 0)
-								return std::stoi(components[j]["colour"].asString());
+								return std::stoull(components[j]["colour"].asString(), 0, 16);
 							else
-								return 0;
+								return static_cast<unsigned long long>(0ull);
 						} else
-							return 0;
+							return static_cast<unsigned long long>(0ull);
 					}();
 					std::string string_key = [&] {
 						if (components[j].isMember("string"))
