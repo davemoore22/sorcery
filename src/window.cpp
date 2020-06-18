@@ -74,7 +74,6 @@ Sorcery::Window::Window(std::string title, System& system, String& string, Layou
 	// Change the Mouse Cursor
 	_window.setMouseCursorVisible(false);
 
-	_attract_mode_data.clear();
 	_creature_sprite_width = 108;
 	_creature_sprite_height = 108;
 	_creature_sprite_spacing = 8;
@@ -93,54 +92,6 @@ auto Sorcery::Window::operator [](std::string_view key) const -> sf::Texture {
 
 auto Sorcery::Window::clear_window() -> void {
 	_window.clear();
-}
-
-auto Sorcery::Window::draw_attract_mode(std::vector<unsigned int> attract_mode_data) -> void {
-	if (attract_mode_data.size() > 0) {
-
-			// Move Logo inside Frame and add a bottom frame for the press any key
-
-			// then bottom frame will have next menu - start game, new game, help
-
-
-		// Get Constituent Parts for the Main Menu
-		Component top_frame_c {_layout["main_menu_attract:top_gui_frame"]};
-		sf::RenderTexture top_frame_rt;
-		sf::Texture top_frame_t;
-		sf::Sprite top_frame {get_gui_frame(top_frame_rt, top_frame_t, top_frame_c.w, top_frame_c.h)};
-		const sf::Vector2f top_pos(_get_x(top_frame, top_frame_c.x), _get_y(top_frame, top_frame_c.y));
-		top_frame.setPosition(top_pos);
-
-		Component bottom_frame_c {_layout["main_menu_attract:bottom_gui_frame"]};
-		sf::RenderTexture bottom_frame_rt;
-		sf::Texture bottom_frame_t;
-		sf::Sprite bottom_frame {get_gui_frame(bottom_frame_rt, bottom_frame_t, bottom_frame_c.w, bottom_frame_c.h)};
-		const sf::Vector2f bottom_pos(_get_x(bottom_frame, bottom_frame_c.x), _get_y(bottom_frame, bottom_frame_c.y));
-		bottom_frame.setPosition(bottom_pos);
-
-
-		//sf::Sprite bottom_frame { get_gui_frame(bottom_gui_frame.w, bottom_gui_frame.h, 0)};
-		//const sf::Vector2f bottom_frame_pos(_get_x(bottom_frame, bottom_gui_frame.x), _get_y(bottom_frame,
-		//	bottom_gui_frame.y));
-		//bottom_frame.setPosition(bottom_frame_pos);
-
-		Component attract_creatures {_layout["main_menu_attract:attract_creatures"]};
-		sf::Sprite creatures {_get_attract_mode(attract_mode_data)};
-		creatures.setScale(attract_creatures.scale, attract_creatures.scale);
-		const sf::Vector2f creature_pos(_get_x(creatures, attract_creatures.x), _get_y(creatures, attract_creatures.y));
-		creatures.setPosition(creature_pos);
-
-		_window.draw(top_frame);
-		_window.draw(bottom_frame);
-		_window.draw(creatures);
-
-		// Draw Attract Mode Text
-		sf::Text text;
-		_draw_centered_text(text, _layout["main_menu_attract:subtitle_1"]);
-		_draw_centered_text(text, _layout["main_menu_attract:subtitle_2"]);
-		_draw_centered_text(text, _layout["main_menu_attract:copyright"]);
-		_draw_centered_text(text, _layout["main_menu_attract:press_any_key"]);
-	}
 }
 
 auto Sorcery::Window::draw_gui() -> void {
@@ -291,41 +242,6 @@ auto Sorcery::Window::get_gui_frame(const unsigned int width, const unsigned int
 	return gui_frame_sprite;
 }
 
-// We generate the attract mode graphic in the main thread, though we generate the IDs in the animation threads
-// https://en.sfml-dev.org/forums/index.php?topic=18672.0
-auto Sorcery::Window::_get_attract_mode(std::vector<unsigned int> attract_mode_data) -> sf::Sprite {
-
-	// Only regenerate if we have a change
-	if (_attract_mode_data != attract_mode_data) {
-		_attract_mode_data = attract_mode_data;
-		const unsigned int number_to_display {attract_mode_data.size()};
-		const sf::Vector2f texture_size(_creature_sprite_width * number_to_display + (_creature_sprite_spacing *
-			(number_to_display - 1)), _creature_sprite_height);
-		sf::RenderTexture attract_texture;
-		attract_texture.create(texture_size.x, texture_size.y);
-		attract_texture.setSmooth(true);
-		attract_texture.clear();
-
-		// Work out their Indexes and Positions
-		unsigned int sprite_index {};
-		unsigned int sprite_x {0};
-		for (auto i: _attract_mode_data) {
-			sf::Sprite sprite = get_creature_gfx(i, true);
-			sprite.setPosition(sprite_x, 0);
-			attract_texture.draw(sprite);
-			sprite_x += (_creature_sprite_width + _creature_sprite_spacing);
-		}
-
-		attract_texture.display();
-		_attract_mode_texture = attract_texture.getTexture();
-		sf::Sprite attract_sprite(_attract_mode_texture);
-		return attract_sprite;
-	} else {
-		sf::Sprite attract_sprite(_attract_mode_texture);
-		return attract_sprite;
-	}
-}
-
 auto Sorcery::Window::get_banner() -> sf::Sprite {
 	sf::Sprite banner(_textures[BANNER_TEXTURE]);
 	return banner;
@@ -434,6 +350,10 @@ auto Sorcery::Window::_get_font(FontType font_Type) -> sf::Font* {
 			return &_mono_system_font;
 			break;
 	}
+}
+
+auto Sorcery::Window::draw_centered_text(sf::Text& text, Component& component) -> void {
+	_draw_centered_text(text, component);
 }
 
 // Draw Text on the Screen

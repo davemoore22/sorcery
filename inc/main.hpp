@@ -110,6 +110,7 @@ namespace Sorcery {
 	using FileType = Enums::File::Type;
 	using FontType = Enums::Internal::FontType;
 	using Import = Enums::Manage::Import;
+	using MainMenuType = Enums::MainMenu::Type;
 	using MenuEntry = std::tuple<Enums::Menu::ItemType, Enums::Menu::Item, std::string, std::string, bool,
 		Enums::Options, Enums::Character::Class>;
 	using MenuItem = Enums::Menu::Item;

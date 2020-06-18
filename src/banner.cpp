@@ -36,6 +36,24 @@ Sorcery::Banner::Banner(System& system, Display& display, Graphics& graphics):  
 	_fading_in = true;
 	_fading_out = false;
 	finished = false;
+
+	// Get the Banner Image Details
+	Component banner_c {(*_display.layout)["banner:banner_image"]};
+
+	// Scale the Banner Image to less than the Window Size
+	ImageSize size {static_cast<unsigned int>(_banner.getLocalBounds().width),
+		static_cast<unsigned int>(_banner.getLocalBounds().height)};
+	const ImageSize window_size {_window->getSize().x, _window->getSize().y};
+	float scale_ratio_needed {1.0f};
+	if ((size.w > window_size.w) || (size.h > window_size.h)) {
+		float shrink_width_needed {static_cast<float>(window_size.w) / static_cast<float>(size.w)};
+		float shrink_height_needed {static_cast<float>(window_size.h) / static_cast<float>(size.h)};
+		scale_ratio_needed = std::min(shrink_width_needed, shrink_height_needed);
+	}
+	_banner.setScale(scale_ratio_needed, scale_ratio_needed);
+	const sf::Vector2f banner_pos(_display.window->get_x(_banner, banner_c.x),
+		_display.window->get_y(_banner, banner_c.y));
+	_banner.setPosition(banner_pos);
 }
 
 // Standard Destructor
@@ -45,7 +63,7 @@ Sorcery::Banner::~Banner() {
 auto Sorcery::Banner::draw() -> void {
 
 	// Scale the Banner to less than the Window Size
-	sf::Sprite banner = _banner;
+	/* sf::Sprite banner = _banner;
 	ImageSize size {static_cast<unsigned int>(banner.getLocalBounds().width),
 		static_cast<unsigned int>(banner.getLocalBounds().height)};
 	const ImageSize window_size {_window->getSize().x, _window->getSize().y};
@@ -61,7 +79,10 @@ auto Sorcery::Banner::draw() -> void {
 		static_cast<unsigned int>(banner.getGlobalBounds().height)};
 	banner.setPosition(_display.window->centre.x - (resized.w / 2),
 		_display.window->centre.y - (resized.h / 2));
-	_window->draw(banner);
+	 */
+
+	_banner.setColor(sf::Color(255,255,255, _alpha));
+	_window->draw(_banner);
 }
 
 auto Sorcery::Banner::update() -> void {

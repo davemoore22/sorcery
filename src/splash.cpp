@@ -24,8 +24,8 @@
 #include "splash.hpp"
 
 // Standard Constructor
-Sorcery::Splash::Splash (System& system, Display& display,
-	Graphics& graphics):  _system {system}, _display {display}, _graphics {graphics} {
+Sorcery::Splash::Splash (System& system, Display& display, Graphics& graphics):  _system {system}, _display {display},
+	_graphics {graphics} {
 
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();

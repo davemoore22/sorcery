@@ -331,6 +331,14 @@ namespace Sorcery {
 		};
 	} // namespace Enums::System
 
+	namespace Enums::MainMenu {
+
+		enum class Type {
+			ATTRACT_MODE,
+			ATTRACT_MENU
+		};
+	}
+
 	// Menu
 	namespace Enums::Menu {
 

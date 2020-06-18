@@ -25,6 +25,11 @@
 		"name": "main_menu_attract",
 		"component": [
 		{
+				"name": "logo_image",
+				"x": "centre",
+				"y": "200"
+		},
+		{
 			"name": "attract_creatures",
 			"x": "centre",
 			"y": "320",

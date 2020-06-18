@@ -33,6 +33,7 @@
 #include "option.hpp"
 #include "splash.hpp"
 #include "banner.hpp"
+#include "mainmenu.hpp"
 
 namespace Sorcery {
 
@@ -69,9 +70,9 @@ namespace Sorcery {
 			// Private Members
 			std::shared_ptr<Banner> _banner;
 			std::shared_ptr<Splash> _splash;
+			std::shared_ptr<MainMenu> _mainmenu;
 			std::shared_ptr<TextFile> _help;
 			std::shared_ptr<TextFile> _version;
 			std::shared_ptr<TextFile> _license;
-			sfe::Movie _background_movie;
 	};
 }

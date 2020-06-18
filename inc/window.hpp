@@ -46,7 +46,7 @@ namespace Sorcery {
 
 			auto clear_window() -> void;
 			auto display_window() -> void;
-			auto draw_attract_mode(std::vector<unsigned int> attract_mode_data) -> void;
+			auto draw_centered_text(sf::Text& text, Component& component) -> void;
 			auto draw_gui() -> void;
 			auto get_banner() -> sf::Sprite;
 			auto get_centre_x(sf::Transformable component) -> unsigned int;
@@ -73,7 +73,6 @@ namespace Sorcery {
 
 			// Private Methods
 			auto _draw_centered_text(sf::Text& text, Component& component) -> void;
-			auto _get_attract_mode(std::vector<unsigned int> attract_mode_data) -> sf::Sprite;
 			auto _get_centre_x(sf::Sprite& sprite) -> unsigned int;
 			auto _get_centre_y(sf::Sprite& sprite) -> unsigned int;
 			auto _get_centre_x(sf::Text& text) -> unsigned int;
