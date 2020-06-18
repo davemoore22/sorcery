@@ -41,15 +41,15 @@ namespace Sorcery {
 			virtual ~Banner();
 
 			// Public Members
-			bool finished;
 
 			// Public Methods
-			auto draw() -> void;
-			auto update() -> void;
+			auto start() -> void;
 
 		private:
 
 			// Private Methods
+			auto _draw() -> void;
+			auto _update() -> void;
 
 			// Private Members
 			System _system;
@@ -60,5 +60,6 @@ namespace Sorcery {
 			unsigned int _alpha;
 			bool _fading_in;
 			bool _fading_out;
+			bool _finished;
 	};
 }

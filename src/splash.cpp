@@ -35,7 +35,7 @@ Sorcery::Splash::Splash (System& system, Display& display, Graphics& graphics): 
 	_alpha = 0;
 	_fading_in = true;
 	_fading_out = false;
-	finished = false;
+	_finished = false;
 
 	// Get the Splash Image Details
 	Component splash_c {(*_display.layout)["splash:splash_image"]};
@@ -61,13 +61,27 @@ Sorcery::Splash::Splash (System& system, Display& display, Graphics& graphics): 
 Sorcery::Splash::~Splash() {
 }
 
-auto Sorcery::Splash::draw() -> void {
+auto Sorcery::Splash::start() -> void {
+	sf::Event input_event {};
+	while (!_finished) {
+		_window->pollEvent(input_event);
+		_window->clear();
+		_update();
+		_draw();
+		std::this_thread::sleep_for(std::chrono::milliseconds(10));
+		_window->display();
+		if ((input_event.type == sf::Event::KeyPressed) || (input_event.type == sf::Event::MouseButtonPressed))
+			_finished = true;
+	}
+}
+
+auto Sorcery::Splash::_draw() -> void {
 
 	_splash.setColor(sf::Color(255,255,255, _alpha));
 	_window->draw(_splash);
 }
 
-auto Sorcery::Splash::update() -> void {
+auto Sorcery::Splash::_update() -> void {
 	if (_fading_in)
 		_alpha++;
 	if (_fading_out)
@@ -77,5 +91,5 @@ auto Sorcery::Splash::update() -> void {
 		_fading_out = true;
 	}
 	if (_alpha == 0)
-		finished = true;
+		_finished = true;
 }

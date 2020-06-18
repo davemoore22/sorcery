@@ -39,32 +39,15 @@ Sorcery::Application::Application(int argc, char** argv) {
 	// Move all this into execute methods, e.g. _splash->execute();
 
 	// Show the Splash Screen and the Banner before starting the Main Menu
-	sf::Event input_event {};
 	sf::RenderWindow* window = display->window->get_window();
 	_splash = std::make_shared<Splash>(*system, *display, *graphics);
-	while (!_splash->finished) {
-		window->pollEvent(input_event);
-		window->clear();
-		_splash->update();
-		_splash->draw();
-		std::this_thread::sleep_for(std::chrono::milliseconds(10));
-		window->display();
-		if ((input_event.type == sf::Event::KeyPressed) || (input_event.type == sf::Event::MouseButtonPressed))
-			_splash->finished = true;
-	}
+	_splash->start();
 	_banner = std::make_shared<Banner>(*system, *display, *graphics);
-	while (!_banner->finished) {
-		window->pollEvent(input_event);
-		window->clear();
-		_banner->update();
-		_banner->draw();
-		std::this_thread::sleep_for(std::chrono::milliseconds(10));
-		window->display();
-		if ((input_event.type == sf::Event::KeyPressed) || (input_event.type == sf::Event::MouseButtonPressed))
-			_banner->finished = true;
-	}
+	_banner->start();
 
+	// Display the main menu
 	_mainmenu = std::make_shared<MainMenu>(*system, *display, *graphics);
+	_mainmenu->start();
 }
 
 // Standard Destructor

@@ -45,13 +45,13 @@ namespace Sorcery {
 			// Public Members
 
 			// Public Methods
-			auto draw(MainMenuType stage, std::vector<unsigned int> attract_mode_data,
-				Component& attract_creatures_c, sf::Sprite &top_frame, sf::Sprite &bottom_frame) -> void;
-			auto update() -> void;
+			auto start() -> void;
 
 		private:
 
 			// Private Methods
+			auto _draw(MainMenuType stage, std::vector<unsigned int> attract_mode_data,
+				Component& attract_creatures_c, sf::Sprite &top_frame, sf::Sprite &bottom_frame) -> void;
 			auto _get_attract_mode(std::vector<unsigned int> attract_mode_data) -> sf::Sprite;
 
 			// Private Members

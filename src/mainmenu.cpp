@@ -44,6 +44,15 @@ Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphic
 	_creature_sprite_scaling =- 2.5f;
 
 	_window->clear();
+}
+
+// Standard Destructor
+Sorcery::MainMenu::~MainMenu() {
+	_graphics.animation->stop_attract_mode_animation_threads();
+	_background_movie.stop();
+}
+
+auto Sorcery::MainMenu::start() -> void {
 
 	// Get the Logo and scale it appropriately
 	Component logo_c {(*_display.layout)["main_menu_attract:logo_image"]};
@@ -64,14 +73,16 @@ Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphic
 
 	// Get Constituent Parts for the Main Menu
 	Component top_frame_c {(*_display.layout)["main_menu_attract:top_gui_frame"]};
+	Component bottom_frame_c {(*_display.layout)["main_menu_attract:bottom_gui_frame"]};
+	Component attract_creatures_c {(*_display.layout)["main_menu_attract:attract_creatures"]};
+
+	// Generate the frames
 	sf::RenderTexture top_frame_rt;
 	sf::Texture top_frame_t;
 	sf::Sprite top_frame {_display.window->get_gui_frame(top_frame_rt, top_frame_t, top_frame_c.w, top_frame_c.h)};
 	const sf::Vector2f top_pos(_display.window->get_x(top_frame, top_frame_c.x), _display.window->get_y(top_frame,
 		top_frame_c.y));
 	top_frame.setPosition(top_pos);
-
-	Component bottom_frame_c {(*_display.layout)["main_menu_attract:bottom_gui_frame"]};
 	sf::RenderTexture bottom_frame_rt;
 	sf::Texture bottom_frame_t;
 	sf::Sprite bottom_frame {_display.window->get_gui_frame(bottom_frame_rt, bottom_frame_t, bottom_frame_c.w,
@@ -80,10 +91,11 @@ Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphic
 		_display.window->get_y(bottom_frame, bottom_frame_c.y));
 	bottom_frame.setPosition(bottom_pos);
 
-	Component attract_creatures {(*_display.layout)["main_menu_attract:attract_creatures"]};
-
 	// Get the Cursor
 	_cursor = _display.window->get_cursor();
+
+	// Scale the Movie
+	_background_movie.fit(0, 0, _window->getSize().x, _window->getSize().y);
 
 	// Now set up attract mode data
 	std::vector<unsigned int> attract_mode_data;
@@ -93,9 +105,7 @@ Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphic
 	_graphics.animation->force_refresh_attract_mode();
 	_graphics.animation->start_attract_mode_animation_threads();
 
-	// Main Menu Loop
-	_background_movie.fit(0, 0, _window->getSize().x, _window->getSize().y);
-    _background_movie.play();
+	_background_movie.play();
 	while (_window->isOpen()) {
 
 		attract_mode_data = _graphics.animation->get_attract_mode_data();
@@ -103,7 +113,7 @@ Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphic
 		while (_window->pollEvent(event)) {
 
 			if (event.type == sf::Event::Closed)
-       			_window->close();
+				_window->close();
 		}
 
 		if (_background_movie.getStatus() == sfe::Stopped) {
@@ -114,18 +124,12 @@ Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphic
 		_window->clear();
 		_window->draw(_background_movie);
 
-		draw(MainMenuType::ATTRACT_MODE, attract_mode_data, attract_creatures, top_frame, bottom_frame);
+		_draw(MainMenuType::ATTRACT_MODE, attract_mode_data, attract_creatures_c, top_frame, bottom_frame);
 		_window->display();
 	}
 }
 
-// Standard Destructor
-Sorcery::MainMenu::~MainMenu() {
-	_graphics.animation->stop_attract_mode_animation_threads();
-	_background_movie.stop();
-}
-
-auto Sorcery::MainMenu::draw(MainMenuType stage, std::vector<unsigned int> attract_mode_data,
+auto Sorcery::MainMenu::_draw(MainMenuType stage, std::vector<unsigned int> attract_mode_data,
 	Component& attract_creatures_c, sf::Sprite &top_frame, sf::Sprite &bottom_frame) -> void {
 
 	// Only draw the attract mode if we have something to draw (to avoid timing issues)
