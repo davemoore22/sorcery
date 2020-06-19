@@ -15,8 +15,10 @@ This software also uses the following libraries:
 
 - SFML https://www.sfml-dev.org/
 - TGUI https://tgui.eu/
-- simpleini https://github.com/brofield/simpleini/
+- sfeMovie https://github.com/Yalir/sfeMovie
+- simpleini https://github.com/brofield/simpleini
 - sqlite_modern_cpp https://github.com/SqliteModernCpp/sqlite_modern_cpp
+- Thor https://github.com/Bromeon/Thor
 
 Please note the author of Sorcery: Dreams of the Mad Overlord, gives additional
 permission under the GNU GPL version 3 section 7 to link all source code released

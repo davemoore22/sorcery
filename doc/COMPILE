@@ -3,7 +3,7 @@ Copyright (C) 2020 Dave Moore
 
 Make sure the following packages from the Standard Repositories are installed:
 
-sfml sfml-dev libsfml-dev libsfml-doc libsqlite3-0 libsqlite3-dev libjsoncpp-dev
+sfml sfml-dev libsfml-dev libsfml-doc libsqlite3-0 libsqlite3-dev libjsoncpp-dev doxygen
 
 Add the following repository:
 
@@ -13,8 +13,10 @@ And then install the following additional package:
 
 libtgui-dev
 
-The additional following third-party libraries are needed to compile:
+The additional following third-party libraries are also needed:
 
 - simpleini https://github.com/brofield/simpleini/
 - sqlite_modern_cpp https://github.com/SqliteModernCpp/sqlite_modern_cpp
+- sfeMovie https://github.com/Yalir/sfeMovie
+- thor https://github.com/Bromeon/Thor
 

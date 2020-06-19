@@ -29,7 +29,6 @@
 #include "graphics.hpp"
 #include "layout.hpp"
 
-
 namespace Sorcery {
 
 	class MainMenu {

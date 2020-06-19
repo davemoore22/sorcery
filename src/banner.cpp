@@ -29,7 +29,7 @@ Sorcery::Banner::Banner(System& system, Display& display, Graphics& graphics):  
 
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();
-	_banner = _display.window->get_banner();
+	_banner.setTexture(system.resources->textures[BANNER_TEXTURE]);
 
 	// Set up the Timers
 	_alpha = 0;

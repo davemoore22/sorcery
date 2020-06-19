@@ -40,7 +40,8 @@ LINK_LIBRARIES := \
 	tgui \
 	sqlite3 \
 	sfeMovie \
-	jsoncpp
+	jsoncpp \
+	thor
 
 PRODUCTION_FOLDER := build
 

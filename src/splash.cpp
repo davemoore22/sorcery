@@ -29,7 +29,7 @@ Sorcery::Splash::Splash (System& system, Display& display, Graphics& graphics): 
 
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();
-	_splash = _display.window->get_splash();
+	_splash.setTexture(system.resources->textures[SPLASH_TEXTURE]);
 
 	// Set up the Timers
 	_alpha = 0;

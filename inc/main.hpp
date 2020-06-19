@@ -31,6 +31,7 @@
 #include <SFML/Window.hpp>
 #include <TGUI/TGUI.hpp>
 #include <jsoncpp/json/json.h>
+#include <Thor/Resources.hpp>
 
 // External Includes
 #pragma GCC diagnostic push

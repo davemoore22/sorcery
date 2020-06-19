@@ -8,11 +8,7 @@
 			"${workspaceFolder}/lib",
 			"${workspaceFolder}/ext",
 			"${workspaceFolder}/inc/sqlitemoderncpp",
-			"${workspaceFolder}/inc/swoosh",
 			"${workspaceFolder}/inc/simpleini",
-			"${workspaceFolder}/inc/json",
-			"${workspaceFolder}/ext/jsoncpp/dist",
-			"${workspaceFolder}/ext/sqlite-modern-cpp/hdr",
 			"/usr/local/include/**",
 			"/usr/include/**"
 		],

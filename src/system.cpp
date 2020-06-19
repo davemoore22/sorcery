@@ -24,8 +24,7 @@
 #include "system.hpp"
 
 // Standard Constructor
-Sorcery::System::System(int argc, char** argv)
-{
+Sorcery::System::System(int argc, char** argv) {
 	// Files Module
 	files = std::make_shared<File>();
 
@@ -41,11 +40,13 @@ Sorcery::System::System(int argc, char** argv)
 
 	// Random Module
 	random = std::make_shared<Random>();
+
+	// Resource Manager
+	resources = std::make_shared<ResourceManager>(*files);
 }
 
 // Standard Destructor
-Sorcery::System::~System()
-{
+Sorcery::System::~System() {
 }
 
 

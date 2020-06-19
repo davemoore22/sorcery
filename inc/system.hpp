@@ -31,15 +31,11 @@
 #include "config.hpp"
 #include "database.hpp"
 #include "string.hpp"
+#include "resourcemanager.hpp"
 
 
 // Superclass to handle all system level requirements such as Random Number Generation, File and Database Access, etc
 namespace Sorcery {
-
-	// Forward Declarations
-	class Random;
-	class Files;
-	class Config;
 
 	class System {
 
@@ -59,6 +55,7 @@ namespace Sorcery {
 			std::shared_ptr<CSimpleIniA> settings;
 			std::shared_ptr<Config> config;
 			std::shared_ptr<Database> database;
+			std::shared_ptr<ResourceManager> resources;
 
 		private:
 
