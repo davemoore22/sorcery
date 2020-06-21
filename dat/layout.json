@@ -27,69 +27,64 @@
 		{
 				"name": "logo_image",
 				"x": "centre",
-				"y": "200"
+				"y": "50"
 		},
 		{
 			"name": "attract_creatures",
 			"x": "centre",
-			"y": "320",
-			"scale": "1.8"
+			"y": "250",
+			"scale": "2.0"
 		},
 		{
 			"name": "top_gui_frame",
-			"w": "35",
-			"h": "18",
+			"w": "42",
+			"h": "25",
 			"x": "centre",
-			"y": "300"
+			"y": "25"
 		},
 		{
 			"name": "bottom_gui_frame",
 			"w": "42",
-			"h": "3",
+			"h": "6",
 			"x": "centre",
-			"y": "770"
+			"y": "680"
 		},
 		{
-			"name": "attract_creatures",
+			"name": "title",
 			"x": "centre",
-			"y": "400",
-			"scale": "1.8"
-		},
-		{
-			"name": "subtitle_1",
-			"x": "centre",
-			"y": "676",
-			"font": "monospace",
+			"y": "480",
+			"font": "proportional",
 			"colour": "0xd3d3d3ff",
-			"size": "24",
-			"string": "MAIN_MENU_SUBTITLE_1"
+			"size": "48",
+			"string": "MAIN_MENU_TITLE"
 		},
 		{
-			"name": "subtitle_2",
+			"name": "subtitle",
 			"x": "centre",
-			"y": "704",
-			"font": "monospace",
+			"y": "530",
+			"font": "proportional",
 			"colour": "0xd3d3d3ff",
-			"size": "24",
-			"string": "MAIN_MENU_SUBTITLE_2"
+			"size": "20",
+			"string": "MAIN_MENU_SUBTITLE"
 		},
 		{
 			"name": "copyright",
 			"x": "centre",
-			"y": "740",
-			"font": "monospace",
-			"colour": "0xd3d3d3ff",
-			"size": "24",
+			"y": "600",
+			"font": "proportional",
+			"colour": "0xff00000ff",
+			"size": "32",
 			"string": "BRIEF_COPYRIGHT_INFO"
 		},
 		{
 			"name": "press_any_key",
 			"x": "centre",
-			"y": "820",
+			"y": "755",
 			"font": "proportional",
-			"colour": "0xffb419ff",
-			"size": "36",
-			"string": "PRESS_ANY_KEY"
+			"colour": "0x404040ff",
+			"size": "48",
+			"string": "PRESS_ANY_KEY",
+			"animated": "true"
 		}
 		]
 	}

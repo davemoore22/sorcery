@@ -56,7 +56,7 @@ auto Sorcery::MainMenu::start() -> void {
 
 	// Get the Logo and scale it appropriately
 	Component logo_c {(*_display.layout)["main_menu_attract:logo_image"]};
-	_logo = _display.window->get_logo();
+	_logo.setTexture(_system.resources->textures[LOGO_TEXTURE]);
 	ImageSize logo_size {static_cast<unsigned int>(_logo.getLocalBounds().width),
 		static_cast<unsigned int>(_logo.getLocalBounds().height)};
 	const ImageSize window_size {_window->getSize().x, _window->getSize().y};
@@ -69,7 +69,8 @@ auto Sorcery::MainMenu::start() -> void {
 	_logo.setScale(scale_ratio_needed, scale_ratio_needed);
 	const ImageSize resized {static_cast<unsigned int>(_logo.getGlobalBounds().width),
 		static_cast<unsigned int>(_logo.getGlobalBounds().height)};
-	_logo.setPosition(_display.window->centre.x - (resized.w / 2), (resized.h / 2) - 50);
+	_logo.setPosition(_display.window->get_x(_logo, logo_c.x), _display.window->get_y(_logo, logo_c.y));
+		//_display.window->centre.x - (resized.w / 2), (resized.h / 2) - 50);
 
 	// Get Constituent Parts for the Main Menu
 	Component top_frame_c {(*_display.layout)["main_menu_attract:top_gui_frame"]};
@@ -101,7 +102,7 @@ auto Sorcery::MainMenu::start() -> void {
 	std::vector<unsigned int> attract_mode_data;
 	attract_mode_data.clear();
 
-	// Start animation worker threads
+	// Start relevant animation worker threads
 	_graphics.animation->force_refresh_attract_mode();
 	_graphics.animation->start_attract_mode_animation_threads();
 
@@ -135,25 +136,24 @@ auto Sorcery::MainMenu::_draw(MainMenuType stage, std::vector<unsigned int> attr
 	// Only draw the attract mode if we have something to draw (to avoid timing issues)
 	if (attract_mode_data.size() > 0) {
 
-		// Move Logo inside Frame and add a bottom frame for the press any key
-		// then bottom frame will have next menu - start game, new game, help
 		sf::Sprite creatures {_get_attract_mode(attract_mode_data)};
 		creatures.setScale(attract_creatures_c.scale, attract_creatures_c.scale);
 		const sf::Vector2f creature_pos(_display.window->get_x(creatures, attract_creatures_c.x),
 			_display.window->get_y(creatures, attract_creatures_c.y));
 		creatures.setPosition(creature_pos);
 
-		_window->draw(_logo);
 		_window->draw(top_frame);
 		_window->draw(bottom_frame);
 		_window->draw(creatures);
+		_window->draw(_logo);
 
 		// Draw Attract Mode Text
+		double lerp = _graphics.animation->colour_lerp;
 		sf::Text text;
-		_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:subtitle_1"]);
-		_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:subtitle_2"]);
+		_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:title"]);
+		_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:subtitle"]);
 		_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:copyright"]);
-		_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:press_any_key"]);
+		_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:press_any_key"], lerp);
 	}
 
 	// Always draw the following
@@ -179,7 +179,7 @@ auto Sorcery::MainMenu::_get_attract_mode(std::vector<unsigned int> attract_mode
 		unsigned int sprite_index {};
 		unsigned int sprite_x {0};
 		for (auto i: _attract_mode_data) {
-			sf::Sprite sprite = _display.window->get_creature_gfx(i, true);
+			sf::Sprite sprite = _get_creature_gfx(i, true);
 			sprite.setPosition(sprite_x, 0);
 			attract_texture.draw(sprite);
 			sprite_x += (_creature_sprite_width + _creature_sprite_spacing);
@@ -193,4 +193,15 @@ auto Sorcery::MainMenu::_get_attract_mode(std::vector<unsigned int> attract_mode
 		sf::Sprite attract_sprite(_attract_mode_texture);
 		return attract_sprite;
 	}
+}
+
+auto Sorcery::MainMenu::_get_creature_gfx(const int creature_id, const bool known) -> sf::Sprite {
+	sf::IntRect creature_rect {};
+	sf::Sprite creature(_system.resources->textures[CREATURES_TEXTURE]);
+	creature_rect.left = (creature_id - 1) * _creature_sprite_width;
+	creature_rect.width = _creature_sprite_width;
+	creature_rect.top = known ? 0 : _creature_sprite_height;
+	creature_rect.height = _creature_sprite_height;
+	creature.setTextureRect(creature_rect);
+	return creature;
 }

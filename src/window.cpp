@@ -50,27 +50,6 @@ Sorcery::Window::Window(std::string title, System& system, String& string, Layou
 	_mono_system_font.loadFromFile(_system.files->get_path_as_string(MONO_FONT_FILE));
 	_proportional_system_font.loadFromFile(_system.files->get_path_as_string(PROPORTIONAL_FONT_FILE));
 
-	// Load the Textures
-	_textures.clear();
-	sf::Texture background;
-	background.loadFromFile(_system.files->get_path_as_string(BACKGROUND_TEXTURE));
-	sf::Texture banner;
-	banner.loadFromFile(_system.files->get_path_as_string(BANNER_TEXTURE));
-	sf::Texture creatures;
-	creatures.loadFromFile(_system.files->get_path_as_string(CREATURES_TEXTURE));
-	sf::Texture logo;
-	logo.loadFromFile(_system.files->get_path_as_string(LOGO_TEXTURE));
-	sf::Texture splash;
-	splash.loadFromFile(_system.files->get_path_as_string(SPLASH_TEXTURE));
-	sf::Texture ui;
-	ui.loadFromFile(_system.files->get_path_as_string(UI_TEXTURE));
-	_textures[BACKGROUND_TEXTURE] = background;
-	_textures[BANNER_TEXTURE] = banner;
-	_textures[CREATURES_TEXTURE] = creatures;
-	_textures[LOGO_TEXTURE] = logo;
-	_textures[SPLASH_TEXTURE] = splash;
-	_textures[UI_TEXTURE] = ui;
-
 	// Change the Mouse Cursor
 	_window.setMouseCursorVisible(false);
 
@@ -82,12 +61,6 @@ Sorcery::Window::Window(std::string title, System& system, String& string, Layou
 
 // Standard Destructor
 Sorcery::Window::~Window() {
-}
-
-// Public Methods
-auto Sorcery::Window::operator [](std::string_view key) const -> sf::Texture {
-	if (_textures.find(key) != _textures.end())
-		return _textures.at(key);
 }
 
 auto Sorcery::Window::clear_window() -> void {
@@ -121,21 +94,22 @@ auto Sorcery::Window::get_gui_frame(sf::RenderTexture& gui_frame_rt, sf::Texture
 	gui_frame_rt.clear();
 
 	// Get the Frame Components
-	sf::Sprite top_left(_textures[UI_TEXTURE]);
+	sf::Sprite top_left(_system.resources->textures[UI_TEXTURE]);
+	//sf::Sprite top_left(_textures[UI_TEXTURE]);
 	top_left.setTextureRect(top_left_rect);
-	sf::Sprite top(_textures[UI_TEXTURE]);
+	sf::Sprite top(_system.resources->textures[UI_TEXTURE]);
 	top.setTextureRect(top_rect);
-	sf::Sprite top_right(_textures[UI_TEXTURE]);
+	sf::Sprite top_right(_system.resources->textures[UI_TEXTURE]);
 	top_right.setTextureRect(top_right_rect);
-	sf::Sprite left(_textures[UI_TEXTURE]);
+	sf::Sprite left(_system.resources->textures[UI_TEXTURE]);
 	left.setTextureRect(left_rect);
-	sf::Sprite bottom_left(_textures[UI_TEXTURE]);
+	sf::Sprite bottom_left(_system.resources->textures[UI_TEXTURE]);
 	bottom_left.setTextureRect(bottom_left_rect);
-	sf::Sprite bottom(_textures[UI_TEXTURE]);
+	sf::Sprite bottom(_system.resources->textures[UI_TEXTURE]);
 	bottom.setTextureRect(bottom_rect);
-	sf::Sprite bottom_right(_textures[UI_TEXTURE]);
+	sf::Sprite bottom_right(_system.resources->textures[UI_TEXTURE]);
 	bottom_right.setTextureRect(bottom_right_rect);
-	sf::Sprite right(_textures[UI_TEXTURE]);
+	sf::Sprite right(_system.resources->textures[UI_TEXTURE]);
 	right.setTextureRect(right_rect);
 
 	// Draw the Corners
@@ -190,100 +164,69 @@ auto Sorcery::Window::get_gui_frame(const unsigned int width, const unsigned int
 	const sf::Vector2f texture_size(18 + (24 * width) + 18, 18 + (24 * height) + 18);
 	sf::RenderTexture gui_frame_texture;
 	gui_frame_texture.create(texture_size.x, texture_size.y);
-	gui_frame_texture.clear();
+	sf::RenderStates render_state;
+	render_state.blendMode = sf::BlendMode(sf::BlendAlpha);
+	gui_frame_texture.clear(sf::Color::Transparent);
 
 	// Get the Frame Components
-	sf::Sprite top_left(_textures[UI_TEXTURE]);
+	sf::Sprite top_left(_system.resources->textures[UI_TEXTURE]);
+	top_left.setColor(sf::Color(0, 0, 0, 255));
 	top_left.setTextureRect(top_left_rect);
-	sf::Sprite top(_textures[UI_TEXTURE]);
+	sf::Sprite top(_system.resources->textures[UI_TEXTURE]);
+	top.setColor(sf::Color(0, 0, 0, 255));
 	top.setTextureRect(top_rect);
-	sf::Sprite top_right(_textures[UI_TEXTURE]);
+	sf::Sprite top_right(_system.resources->textures[UI_TEXTURE]);
+	top_right.setColor(sf::Color(0, 0, 0, 255));
 	top_right.setTextureRect(top_right_rect);
-	sf::Sprite left(_textures[UI_TEXTURE]);
+	sf::Sprite left(_system.resources->textures[UI_TEXTURE]);
+	left.setColor(sf::Color(0, 0, 0, 255));
 	left.setTextureRect(left_rect);
-	sf::Sprite bottom_left(_textures[UI_TEXTURE]);
+	sf::Sprite bottom_left(_system.resources->textures[UI_TEXTURE]);
+	bottom_left.setColor(sf::Color(0, 0, 0, 255));
 	bottom_left.setTextureRect(bottom_left_rect);
-	sf::Sprite bottom(_textures[UI_TEXTURE]);
+	sf::Sprite bottom(_system.resources->textures[UI_TEXTURE]);
+	bottom.setColor(sf::Color(0, 0, 0, 255));
 	bottom.setTextureRect(bottom_rect);
-	sf::Sprite bottom_right(_textures[UI_TEXTURE]);
+	sf::Sprite bottom_right(_system.resources->textures[UI_TEXTURE]);
+	bottom_right.setColor(sf::Color(0, 0, 0, 255));
 	bottom_right.setTextureRect(bottom_right_rect);
-	sf::Sprite right(_textures[UI_TEXTURE]);
+	sf::Sprite right(_system.resources->textures[UI_TEXTURE]);
+	right.setColor(sf::Color(0, 0, 0, 255));
 	right.setTextureRect(right_rect);
 
 	// Draw the Corners
 	top_left.setPosition(0, 0);
-	gui_frame_texture.draw(top_left);
+	gui_frame_texture.draw(top_left, render_state);
 	top_right.setPosition(texture_size.x - 18, 0);
-	gui_frame_texture.draw(top_right);
+	gui_frame_texture.draw(top_right, render_state);
 	bottom_left.setPosition(0, texture_size.y - 18);
-	gui_frame_texture.draw(bottom_left);
+	gui_frame_texture.draw(bottom_left, render_state);
 	bottom_right.setPosition(texture_size.x - 18, texture_size.y - 18);
-	gui_frame_texture.draw(bottom_right);
+	gui_frame_texture.draw(bottom_right, render_state);
 
 	// Fill in the Sides
 	for (unsigned int x = 0; x < width; x++) {
 		int x_pos {18 + (24 * x)};
 		top.setPosition(x_pos, 0);
-		gui_frame_texture.draw(top);
+		gui_frame_texture.draw(top, render_state);
 		bottom.setPosition(x_pos, texture_size.y - 10);
-		gui_frame_texture.draw(bottom);
+		gui_frame_texture.draw(bottom, render_state);
 	}
 	for (unsigned int y = 0; y < height; y++) {
 		int y_pos {18 + (24 * y)};
 		left.setPosition(0, y_pos);
-		gui_frame_texture.draw(left);
+		gui_frame_texture.draw(left, render_state);
 		right.setPosition(texture_size.x - 11, y_pos);
-		gui_frame_texture.draw(right);
+		gui_frame_texture.draw(right, render_state);
 	}
-
 	gui_frame_texture.display();
 	_gui_frame_texture = gui_frame_texture.getTexture();
 	sf::Sprite gui_frame_sprite(_gui_frame_texture);
 	return gui_frame_sprite;
 }
 
-auto Sorcery::Window::get_banner() -> sf::Sprite {
-	sf::Sprite banner(_textures[BANNER_TEXTURE]);
-	return banner;
-}
-
-auto Sorcery::Window::get_centre_x(sf::Transformable component) -> unsigned int {
-	sf::Sprite sprite_type;
-	sf::Text text_type;
-	if (typeid(component) == typeid(sprite_type)) {
-			auto sprite = dynamic_cast<sf::Sprite*>(&component);
-			return (_current_size.w - sprite->getGlobalBounds().width) / 2.0f;
-	} else if (typeid(component) == typeid(text_type)) {
-			auto text = dynamic_cast<sf::Text*>(&component);
-			return (_current_size.w - text->getGlobalBounds().width) / 2.0f;
-	}
-}
-
-auto Sorcery::Window::get_centre_y(sf::Transformable component) -> unsigned int {
-	sf::Sprite sprite_type;
-	sf::Text text_type;
-	if (typeid(component) == typeid(sprite_type)) {
-			auto sprite = dynamic_cast<sf::Sprite*>(&component);
-			return (_current_size.h - sprite->getGlobalBounds().height) / 2.0f;
-	} else if (typeid(component) == typeid(text_type)) {
-			auto text = dynamic_cast<sf::Text*>(&component);
-			return (_current_size.h - text->getGlobalBounds().height) / 2.0f;
-	}
-}
-
-auto Sorcery::Window::get_creature_gfx(const int creature_id, const bool known = true) -> sf::Sprite {
-	sf::IntRect creature_rect {};
-	sf::Sprite creature(_textures[CREATURES_TEXTURE]);
-	creature_rect.left = (creature_id - 1) * _creature_sprite_width;
-	creature_rect.width = _creature_sprite_width;
-	creature_rect.top = known ? 0 : _creature_sprite_height;
-	creature_rect.height = _creature_sprite_height;
-	creature.setTextureRect(creature_rect);
-	return creature;
-}
-
 auto Sorcery::Window::get_cursor() -> sf::Sprite {
-	sf::Sprite cursor(_textures[UI_TEXTURE]);
+	sf::Sprite cursor(_system.resources->textures[UI_TEXTURE]);
 	sf::IntRect cursor_rect(710, 310, 21, 28);
 	cursor.setTextureRect(cursor_rect);
 	return cursor;
@@ -291,16 +234,6 @@ auto Sorcery::Window::get_cursor() -> sf::Sprite {
 
 auto Sorcery::Window::get_gui() -> tgui::Gui* {
 	return &_gui;
-}
-
-auto Sorcery::Window::get_logo() -> sf::Sprite {
-	sf::Sprite splash(_textures[LOGO_TEXTURE]);
-	return splash;
-}
-
-auto Sorcery::Window::get_splash() -> sf::Sprite {
-	sf::Sprite splash(_textures[SPLASH_TEXTURE]);
-	return splash;
 }
 
 auto Sorcery::Window::get_window() -> sf::RenderWindow* {
@@ -338,32 +271,21 @@ auto Sorcery::Window::_get_y(sf::Sprite& sprite, int y_position) -> unsigned int
 auto Sorcery::Window::_get_y(sf::Text& text, int y_position) -> unsigned int {
 	return y_position ==  -1 ? _get_centre_y(text) : y_position;
 }
-auto Sorcery::Window::_get_font(FontType font_Type) -> sf::Font* {
-	switch (font_Type) {
-		case FontType::MONOSPACE:
-			return &_mono_system_font;
-			break;
-		case FontType::PROPORTIONAL:
-			return &_proportional_system_font;
-			break;
-		default:
-			return &_mono_system_font;
-			break;
-	}
-}
 
-auto Sorcery::Window::draw_centered_text(sf::Text& text, Component& component) -> void {
-	_draw_centered_text(text, component);
+auto Sorcery::Window::draw_centered_text(sf::Text& text, Component& component, double lerp) -> void {
+	_draw_centered_text(text, component, lerp);
 }
 
 // Draw Text on the Screen
-auto Sorcery::Window::_draw_centered_text(sf::Text& text, Component& component) -> void {
+auto Sorcery::Window::_draw_centered_text(sf::Text& text, Component& component, double lerp) -> void {
 	int x {0};
 	int y {0};
-	text.setFont(_mono_system_font);
-	text.setFont(*(_get_font(component.font)));
+	text.setFont(_system.resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
-	text.setColor(sf::Color(component.colour));
+	if ((component.animated) && (lerp >= 0.0l))
+		text.setColor(_change_colour(sf::Color(component.colour), lerp));
+	else
+		text.setColor(sf::Color(component.colour));
 	text.setString(_string[component.string_key]);
 	x = component.x == -1 ? centre.x :  component.x;
 	y = component.y == -1 ? centre.y :  component.y;
@@ -378,4 +300,16 @@ auto Sorcery::Window::get_x(sf::Sprite& sprite, int x_position) -> unsigned int 
 
 auto Sorcery::Window::get_y(sf::Sprite& sprite, int y_position) -> unsigned int {
 	return y_position ==  -1 ? _get_centre_y(sprite) : y_position;
+}
+
+// Given a colour, change its brightness
+auto Sorcery::Window::_change_colour(sf::Color colour, double lerp) -> sf::Color {
+	int factor {(lerp - 0.5l) * 255};
+	int r {colour.r};
+	int g {colour.g};
+	int b {colour.b};
+	r = std::min(255, (int) (r + 128 * lerp));
+	g = std::min(255, (int) (g + 128 * lerp));
+	b = std::min(255, (int) (b + 128 * lerp));
+	return sf::Color(r, g, b);
 }

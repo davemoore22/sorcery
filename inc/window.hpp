@@ -42,23 +42,15 @@ namespace Sorcery {
 			virtual ~Window();
 
 			// Public Methods
-			auto operator[] (std::string_view key) const -> sf::Texture;
-
 			auto clear_window() -> void;
 			auto display_window() -> void;
-			auto draw_centered_text(sf::Text& text, Component& component) -> void;
+			auto draw_centered_text(sf::Text& text, Component& component, double lerp = -1.0l) -> void;
 			auto draw_gui() -> void;
-			auto get_banner() -> sf::Sprite;
-			auto get_centre_x(sf::Transformable component) -> unsigned int;
-			auto get_centre_y(sf::Transformable component) -> unsigned int;
-			auto get_creature_gfx(const int creature_id, const bool known) -> sf::Sprite;
 			auto get_cursor() -> sf::Sprite;
 			auto get_gui() -> tgui::Gui*;
 			auto get_gui_frame(const unsigned int width, const unsigned int height, const unsigned int alpha) -> sf::Sprite;
 			auto get_gui_frame(sf::RenderTexture& gui_frame_rt, sf::Texture& gui_frame_t, const unsigned int width_units,
 				const unsigned int height_units) -> sf::Sprite;
-			auto get_splash() -> sf::Sprite;
-			auto get_logo() -> sf::Sprite;
 			auto get_window() -> sf::RenderWindow*;
 			auto get_x(sf::Sprite& sprite, int x_position) -> unsigned int;
 			auto get_y(sf::Sprite& sprite, int y_position) -> unsigned int;
@@ -72,7 +64,8 @@ namespace Sorcery {
 		private:
 
 			// Private Methods
-			auto _draw_centered_text(sf::Text& text, Component& component) -> void;
+			auto _change_colour(sf::Color colour, double lerp) -> sf::Color;
+			auto _draw_centered_text(sf::Text& text, Component& component, double lerp) -> void;
 			auto _get_centre_x(sf::Sprite& sprite) -> unsigned int;
 			auto _get_centre_y(sf::Sprite& sprite) -> unsigned int;
 			auto _get_centre_x(sf::Text& text) -> unsigned int;
@@ -81,7 +74,6 @@ namespace Sorcery {
 			auto _get_x(sf::Text& text, int x_position) -> unsigned int;
 			auto _get_y(sf::Sprite& sprite, int y_position) -> unsigned int;
 			auto _get_y(sf::Text& text, int y_position) -> unsigned int;
-			auto _get_font(FontType font_Type) -> sf::Font*;
 
 			// Private Members
 			ScreenSize _default_size;
@@ -92,13 +84,10 @@ namespace Sorcery {
 			Layout _layout;
 			sf::RenderWindow _window;
 			tgui::Gui _gui;
-			std::map<std::string_view, sf::Texture> _textures;
-			std::vector<unsigned int> _attract_mode_data;
 			unsigned int _creature_sprite_width;
 			unsigned int _creature_sprite_height;
 			unsigned int _creature_sprite_spacing;
 			float _creature_sprite_scaling;
-			sf::Texture _attract_mode_texture;
 			sf::Texture _gui_frame_texture;
 			sf::Font _mono_system_font;
 			sf::Font _proportional_system_font;

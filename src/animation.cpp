@@ -23,10 +23,11 @@
 
 #include "animation.hpp"
 
-// Standard Constructor
+// Standard Constructor - to do this does not need system or display, instead put it as a subclass of display
 Sorcery::Animation::Animation(System& system, Display& display): _system {system}, _display {display} {
 	_finished = false;
 	_attract_mode.clear();
+	_colour_cycling_direction = false;
 }
 
 // Standard Destructor
@@ -38,8 +39,16 @@ auto Sorcery::Animation::force_refresh_attract_mode() -> void {
 	_animate_attract_mode(true);
 }
 
+auto Sorcery::Animation::force_refresh_colour_cycling() -> void {
+	_colour_cycling(true);
+}
+
 auto Sorcery::Animation::start_attract_mode_animation() ->void {
 	_allow_attract_mode_animations = true;
+}
+
+auto Sorcery::Animation::start_colour_cycling() -> void {
+	_allow_colour_cycling = true;
 }
 
 auto Sorcery::Animation::start_attract_mode_animation_threads() -> void {
@@ -48,8 +57,18 @@ auto Sorcery::Animation::start_attract_mode_animation_threads() -> void {
 		_attract_mode_animation_thread = std::thread(&Animation::_animate_attract_mode, this, false);
 }
 
+auto Sorcery::Animation::start_colour_cycling_threads() -> void {
+	start_colour_cycling();
+	if (!_colour_cycling_thread.joinable())
+		_colour_cycling_thread = std::thread(&Animation::_colour_cycling, this, false);
+}
+
 auto Sorcery::Animation::stop_attract_mode_animation() -> void {
 	_allow_attract_mode_animations = false;
+}
+
+auto Sorcery::Animation::stop_colour_cycling() -> void {
+	_allow_colour_cycling = false;
 }
 
 auto Sorcery::Animation::stop_attract_mode_animation_threads() -> void {
@@ -57,6 +76,13 @@ auto Sorcery::Animation::stop_attract_mode_animation_threads() -> void {
 	stop_attract_mode_animation();
 	if (_attract_mode_animation_thread.joinable())
 		_attract_mode_animation_thread.join();
+}
+
+auto Sorcery::Animation::stop_colour_cycling_threads() -> void {
+	_finished = true;
+	stop_colour_cycling();
+	if (_colour_cycling_thread.joinable())
+		_colour_cycling_thread.join();
 }
 
 // Generate an attract mode sprite to display
@@ -73,6 +99,20 @@ auto Sorcery::Animation::_animate_attract_mode(bool force) -> void {
 					_do_attract_mode_animation();
 
 			std::this_thread::sleep_for(std::chrono::milliseconds(500));
+		} while (!_finished);
+	}
+}
+
+// Calculate Colour Cycling
+auto Sorcery::Animation::_colour_cycling(bool force) -> void {
+	if (force)
+		_do_colour_cycling();
+	else {
+		do {
+			if (_allow_colour_cycling)
+				_do_colour_cycling();
+
+			std::this_thread::sleep_for(std::chrono::milliseconds(25));
 		} while (!_finished);
 	}
 }
@@ -96,4 +136,28 @@ auto Sorcery::Animation::_do_attract_mode_animation() -> void {
 auto Sorcery::Animation::get_attract_mode_data() -> std::vector<unsigned int> {
 	std::scoped_lock<std::mutex> _scoped_lock(_attract_mode_mutex);
 	return _attract_mode;
+}
+
+auto Sorcery::Animation::_do_colour_cycling() -> void {
+	std::scoped_lock<std::mutex> _scoped_lock(_colour_cycling_mutex);
+	if (_colour_cycling_direction) {
+		 if (colour_lerp < 1.0l)
+			colour_lerp += 0.025l;
+		 else {
+			_colour_cycling_direction = !_colour_cycling_direction;
+			colour_lerp -= 0.025l;
+		 }
+	} else {
+		if (colour_lerp > 0.0l)
+			colour_lerp -= 0.025l;
+		else {
+			_colour_cycling_direction = !_colour_cycling_direction;
+			colour_lerp += 0.025l;
+		}
+	}
+
+	if (colour_lerp < 0.0l)
+		colour_lerp = 0.0l;
+	if (colour_lerp > 1.0l)
+		colour_lerp = 1.0l;
 }

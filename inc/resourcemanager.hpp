@@ -40,7 +40,6 @@ namespace Sorcery {
 
 			// Public Members
 			thor::ResourceHolder<sf::Texture, std::string_view> textures;
-			//thor::ResourceHolder<sf::Sprite, std::string_view> sprites;
 			thor::ResourceHolder<sf::Font, FontType> fonts;
 
 			// Public Methods

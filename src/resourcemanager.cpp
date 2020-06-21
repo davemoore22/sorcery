@@ -30,26 +30,24 @@ Sorcery::ResourceManager::ResourceManager(File& files): _files {files} {
 	try	{
 
 		textures.acquire(BACKGROUND_TEXTURE,
-			thor::Resources::fromFile<sf::Texture>(_files.get_path_as_string(BACKGROUND_TEXTURE)));
+			thor::Resources::fromFile<sf::Texture>(_files[BACKGROUND_TEXTURE]));
 		textures.acquire(BANNER_TEXTURE,
-			thor::Resources::fromFile<sf::Texture>(_files.get_path_as_string(BANNER_TEXTURE)));
+			thor::Resources::fromFile<sf::Texture>(_files[BANNER_TEXTURE]));
 		textures.acquire(CREATURES_TEXTURE,
-			thor::Resources::fromFile<sf::Texture>(_files.get_path_as_string(CREATURES_TEXTURE)));
+			thor::Resources::fromFile<sf::Texture>(_files[CREATURES_TEXTURE]));
 		textures.acquire(LOGO_TEXTURE,
-			thor::Resources::fromFile<sf::Texture>(_files.get_path_as_string(LOGO_TEXTURE)));
+			thor::Resources::fromFile<sf::Texture>(_files[LOGO_TEXTURE]));
 		textures.acquire(SPLASH_TEXTURE,
-			thor::Resources::fromFile<sf::Texture>(_files.get_path_as_string(SPLASH_TEXTURE)));
+			thor::Resources::fromFile<sf::Texture>(_files[SPLASH_TEXTURE]));
 		textures.acquire(UI_TEXTURE,
-			thor::Resources::fromFile<sf::Texture>(_files.get_path_as_string(UI_TEXTURE)));
+			thor::Resources::fromFile<sf::Texture>(_files[UI_TEXTURE]));
 
 		fonts.acquire(FontType::MONOSPACE,
-			thor::Resources::fromFile<sf::Font>(_files.get_path_as_string(MONO_FONT_FILE)));
+			thor::Resources::fromFile<sf::Font>(_files[MONO_FONT_FILE]));
 		fonts.acquire(FontType::PROPORTIONAL,
-			thor::Resources::fromFile<sf::Font>(_files.get_path_as_string(PROPORTIONAL_FONT_FILE)));
+			thor::Resources::fromFile<sf::Font>(_files[PROPORTIONAL_FONT_FILE]));
 
-
-	}
-	catch (thor::ResourceLoadingException& e) {
+	} catch (thor::ResourceLoadingException& e) {
 		std::cout << e.what() << std::endl;
 	}
 }

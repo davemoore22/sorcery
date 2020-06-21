@@ -36,14 +36,17 @@ Sorcery::Application::Application(int argc, char** argv) {
 	_version = std::make_shared<TextFile>((*system->files)[VERSION_FILE]);
 	_license = std::make_shared<TextFile>((*system->files)[LICENSE_FILE]);
 
-	// Move all this into execute methods, e.g. _splash->execute();
-
 	// Show the Splash Screen and the Banner before starting the Main Menu
 	sf::RenderWindow* window = display->window->get_window();
 	_splash = std::make_shared<Splash>(*system, *display, *graphics);
 	_splash->start();
 	_banner = std::make_shared<Banner>(*system, *display, *graphics);
 	_banner->start();
+
+	// Start relevant animation worker threads
+	graphics->animation->force_refresh_colour_cycling();
+	graphics->animation->start_colour_cycling_threads();
+
 
 	// Display the main menu
 	_mainmenu = std::make_shared<MainMenu>(*system, *display, *graphics);
@@ -52,6 +55,7 @@ Sorcery::Application::Application(int argc, char** argv) {
 
 // Standard Destructor
 Sorcery::Application::~Application() {
+	graphics->animation->stop_colour_cycling_threads();
 }
 
 
