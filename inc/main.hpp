@@ -116,6 +116,7 @@ namespace Sorcery {
 		Enums::Options, Enums::Character::Class>;
 	using MenuItem = Enums::Menu::Item;
 	using MenuType = Enums::Menu::Type;
+	using MenuButtonState = Enums::Menu::ButtonState;
 	using MenuItemType = Enums::Menu::ItemType;
 	using Method = Enums::Manage::Method;
 	using RandomType = Enums::System::Random;

@@ -342,6 +342,14 @@ namespace Sorcery {
 	// Menu
 	namespace Enums::Menu {
 
+		// Button States
+		enum class ButtonState {
+			DISABLED,
+			ENABLED,
+			HOVERED,
+			SELECTED
+		};
+
 		// Menu Types
 		enum class Type {
 			MAIN,

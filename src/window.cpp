@@ -95,7 +95,6 @@ auto Sorcery::Window::get_gui_frame(sf::RenderTexture& gui_frame_rt, sf::Texture
 
 	// Get the Frame Components
 	sf::Sprite top_left(_system.resources->textures[UI_TEXTURE]);
-	//sf::Sprite top_left(_textures[UI_TEXTURE]);
 	top_left.setTextureRect(top_left_rect);
 	sf::Sprite top(_system.resources->textures[UI_TEXTURE]);
 	top.setTextureRect(top_rect);
@@ -164,34 +163,34 @@ auto Sorcery::Window::get_gui_frame(const unsigned int width, const unsigned int
 	const sf::Vector2f texture_size(18 + (24 * width) + 18, 18 + (24 * height) + 18);
 	sf::RenderTexture gui_frame_texture;
 	gui_frame_texture.create(texture_size.x, texture_size.y);
-	sf::RenderStates render_state;
-	render_state.blendMode = sf::BlendMode(sf::BlendAlpha);
 	gui_frame_texture.clear(sf::Color::Transparent);
+	sf::RenderStates render_state;
+	render_state.blendMode = sf::BlendMode(sf::BlendNone);
 
 	// Get the Frame Components
 	sf::Sprite top_left(_system.resources->textures[UI_TEXTURE]);
-	top_left.setColor(sf::Color(0, 0, 0, 255));
+	top_left.setColor(sf::Color(0, 0, 0, 128));
 	top_left.setTextureRect(top_left_rect);
 	sf::Sprite top(_system.resources->textures[UI_TEXTURE]);
-	top.setColor(sf::Color(0, 0, 0, 255));
+	top.setColor(sf::Color(0, 0, 0, 128));
 	top.setTextureRect(top_rect);
 	sf::Sprite top_right(_system.resources->textures[UI_TEXTURE]);
-	top_right.setColor(sf::Color(0, 0, 0, 255));
+	top_right.setColor(sf::Color(0, 0, 0, 128));
 	top_right.setTextureRect(top_right_rect);
 	sf::Sprite left(_system.resources->textures[UI_TEXTURE]);
-	left.setColor(sf::Color(0, 0, 0, 255));
+	left.setColor(sf::Color(0, 0, 0, 128));
 	left.setTextureRect(left_rect);
 	sf::Sprite bottom_left(_system.resources->textures[UI_TEXTURE]);
-	bottom_left.setColor(sf::Color(0, 0, 0, 255));
+	bottom_left.setColor(sf::Color(0, 0, 0, 128));
 	bottom_left.setTextureRect(bottom_left_rect);
 	sf::Sprite bottom(_system.resources->textures[UI_TEXTURE]);
-	bottom.setColor(sf::Color(0, 0, 0, 255));
+	bottom.setColor(sf::Color(0, 0, 0, 128));
 	bottom.setTextureRect(bottom_rect);
 	sf::Sprite bottom_right(_system.resources->textures[UI_TEXTURE]);
-	bottom_right.setColor(sf::Color(0, 0, 0, 255));
+	bottom_right.setColor(sf::Color(0, 0, 0, 128));
 	bottom_right.setTextureRect(bottom_right_rect);
 	sf::Sprite right(_system.resources->textures[UI_TEXTURE]);
-	right.setColor(sf::Color(0, 0, 0, 255));
+	right.setColor(sf::Color(0, 0, 0, 128));
 	right.setTextureRect(right_rect);
 
 	// Draw the Corners

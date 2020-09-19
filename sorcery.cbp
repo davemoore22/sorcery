@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="sorcery" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/debug/sorcery" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/release/sorcery" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wredundant-decls" />
+			<Add option="-Wcast-align" />
+			<Add option="-Wunreachable-code" />
+			<Add option="-Wmissing-declarations" />
+			<Add option="-Wmissing-include-dirs" />
+			<Add option="-Wswitch-default" />
+			<Add option="-Wfatal-errors" />
+			<Add option="-Wextra" />
+			<Add option="-Wall" />
+			<Add option="-pthread" />
+			<Add option="-Wl,-rpath=/usr/local/lib" />
+			<Add option="-fpic" />
+			<Add option="-std=c++20" />
+			<Add option="-Wpedantic" />
+			<Add option="-Wunused" />
+			<Add option="-Wignored-qualifiers" />
+			<Add option="-Wformat-nonliteral" />
+			<Add option="-Wformat=2" />
+			<Add option="-Winvalid-pch" />
+			<Add option="-Wmissing-format-attribute" />
+			<Add option="-Wodr" />
+			<Add option="-fdiagnostics-color=always" />
+			<Add directory="inc" />
+			<Add directory="inc/simpleini" />
+			<Add directory="inc/sqlitemoderncpp" />
+		</Compiler>
+		<Linker>
+			<Add option="-lstdc++fs" />
+			<Add option="-lX11" />
+			<Add option="-lsfml-graphics" />
+			<Add option="-lsfml-audio" />
+			<Add option="-lsfml-network" />
+			<Add option="-lsfml-window" />
+			<Add option="-lsfml-system" />
+			<Add option="-ltgui" />
+			<Add option="-lsqlite3" />
+			<Add option="-lsfeMovie" />
+			<Add option="-ljsoncpp" />
+			<Add option="-lthor" />
+			<Add option="-lpthread" />
+		</Linker>
+		<ExtraCommands>
+			<Add after='mkdir -p &quot;$(TARGET_OUTPUT_DIR)/cfg&quot;' />
+			<Add after='mkdir -p &quot;$(TARGET_OUTPUT_DIR)/dat&quot;' />
+			<Add after='mkdir -p &quot;$(TARGET_OUTPUT_DIR)/doc&quot;' />
+			<Add after='mkdir -p &quot;$(TARGET_OUTPUT_DIR)/gfx&quot;' />
+			<Add after='mkdir -p &quot;$(TARGET_OUTPUT_DIR)/vfx&quot;' />
+			<Add after='cp &quot;$(PROJECT_DIR)/cfg/&quot;* &quot;$(TARGET_OUTPUT_DIR)/cfg/&quot;' />
+			<Add after='cp &quot;$(PROJECT_DIR)/dat/&quot;* &quot;$(TARGET_OUTPUT_DIR)/dat/&quot;' />
+			<Add after='cp &quot;$(PROJECT_DIR)/doc/&quot;* &quot;$(TARGET_OUTPUT_DIR)/doc/&quot;' />
+			<Add after='cp &quot;$(PROJECT_DIR)/gfx/&quot;* &quot;$(TARGET_OUTPUT_DIR)/gfx/&quot;' />
+			<Add after='cp &quot;$(PROJECT_DIR)/vfx/&quot;* &quot;$(TARGET_OUTPUT_DIR)/vfx/&quot;' />
+			<Mode after="always" />
+		</ExtraCommands>
+		<Unit filename="cfg/config.ini" />
+		<Unit filename="dat/explain.json" />
+		<Unit filename="dat/layout.json" />
+		<Unit filename="dat/layout.txt" />
+		<Unit filename="dat/monospace.otf" />
+		<Unit filename="dat/proportional.ttf" />
+		<Unit filename="dat/sorcery.db3" />
+		<Unit filename="dat/strings.json" />
+		<Unit filename="doc/COMPILE" />
+		<Unit filename="doc/HELP" />
+		<Unit filename="doc/LICENSE" />
+		<Unit filename="doc/README" />
+		<Unit filename="doc/VERSION" />
+		<Unit filename="gfx/background.png" />
+		<Unit filename="gfx/banner.png" />
+		<Unit filename="gfx/creatures.png" />
+		<Unit filename="gfx/logo.png" />
+		<Unit filename="gfx/ninepatch.png" />
+		<Unit filename="gfx/splash.png" />
+		<Unit filename="gfx/ui.png" />
+		<Unit filename="inc/animation.hpp" />
+		<Unit filename="inc/application.hpp" />
+		<Unit filename="inc/banner.hpp" />
+		<Unit filename="inc/character.hpp" />
+		<Unit filename="inc/component.hpp" />
+		<Unit filename="inc/config.hpp" />
+		<Unit filename="inc/create.hpp" />
+		<Unit filename="inc/database.hpp" />
+		<Unit filename="inc/define.hpp" />
+		<Unit filename="inc/display.hpp" />
+		<Unit filename="inc/engine.hpp" />
+		<Unit filename="inc/enum.hpp" />
+		<Unit filename="inc/file.hpp" />
+		<Unit filename="inc/graphics.hpp" />
+		<Unit filename="inc/layout.hpp" />
+		<Unit filename="inc/macro.hpp" />
+		<Unit filename="inc/main.hpp" />
+		<Unit filename="inc/mainmenu.hpp" />
+		<Unit filename="inc/manage.hpp" />
+		<Unit filename="inc/map.hpp" />
+		<Unit filename="inc/menu.hpp" />
+		<Unit filename="inc/menubutton.hpp" />
+		<Unit filename="inc/operator.hpp" />
+		<Unit filename="inc/option.hpp" />
+		<Unit filename="inc/platform.hpp" />
+		<Unit filename="inc/random.hpp" />
+		<Unit filename="inc/resourcemanager.hpp" />
+		<Unit filename="inc/splash.hpp" />
+		<Unit filename="inc/string.hpp" />
+		<Unit filename="inc/system.hpp" />
+		<Unit filename="inc/textfile.hpp" />
+		<Unit filename="inc/tile.hpp" />
+		<Unit filename="inc/type.hpp" />
+		<Unit filename="inc/window.hpp" />
+		<Unit filename="src/animation.cpp" />
+		<Unit filename="src/application.cpp" />
+		<Unit filename="src/banner.cpp" />
+		<Unit filename="src/character.cpp" />
+		<Unit filename="src/component.cpp" />
+		<Unit filename="src/config.cpp" />
+		<Unit filename="src/create.cpp" />
+		<Unit filename="src/database.cpp" />
+		<Unit filename="src/display.cpp" />
+		<Unit filename="src/engine.cpp" />
+		<Unit filename="src/file.cpp" />
+		<Unit filename="src/graphics.cpp" />
+		<Unit filename="src/layout.cpp" />
+		<Unit filename="src/main.cpp" />
+		<Unit filename="src/mainmenu.cpp" />
+		<Unit filename="src/manage.cpp" />
+		<Unit filename="src/map.cpp" />
+		<Unit filename="src/menu.cpp" />
+		<Unit filename="src/menubutton.cpp" />
+		<Unit filename="src/operator.cpp" />
+		<Unit filename="src/option.cpp" />
+		<Unit filename="src/platform.cpp" />
+		<Unit filename="src/random.cpp" />
+		<Unit filename="src/resourcemanager.cpp" />
+		<Unit filename="src/splash.cpp" />
+		<Unit filename="src/string.cpp" />
+		<Unit filename="src/system.cpp" />
+		<Unit filename="src/textfile.cpp" />
+		<Unit filename="src/tile.cpp" />
+		<Unit filename="src/window.cpp" />
+		<Unit filename="vfx/menu.mp4" />
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>
