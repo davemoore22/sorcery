@@ -50,7 +50,6 @@
 			<Add option="-Winvalid-pch" />
 			<Add option="-Wmissing-format-attribute" />
 			<Add option="-Wodr" />
-			<Add option="-fdiagnostics-color=always" />
 			<Add directory="inc" />
 			<Add directory="inc/simpleini" />
 			<Add directory="inc/sqlitemoderncpp" />

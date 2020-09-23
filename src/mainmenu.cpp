@@ -37,13 +37,16 @@ Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphic
 	// Load the Background Movie
 	_background_movie.openFromFile(_system.files->get_path_as_string(MENU_VIDEO));
 
+	// Set up the Attract Mode data
 	_attract_mode_data.clear();
 	_creature_sprite_width = 108;
 	_creature_sprite_height = 108;
 	_creature_sprite_spacing = 8;
 	_creature_sprite_scaling =- 2.5f;
 
+	// Clear the window
 	_window->clear();
+	_menu_status = MainMenuType::ATTRACT_MODE;
 }
 
 // Standard Destructor
@@ -151,9 +154,12 @@ auto Sorcery::MainMenu::_draw(MainMenuType stage, std::vector<unsigned int> attr
 		double lerp = _graphics.animation->colour_lerp;
 		sf::Text text;
 		_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:title"]);
-		_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:subtitle"]);
+		_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:subtitle_1"]);
+		_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:subtitle_2"]);
 		_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:copyright"]);
-		_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:press_any_key"], lerp);
+
+		if (_menu_status == MainMenuType::ATTRACT_MODE)
+			_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:press_any_key"], lerp);
 	}
 
 	// Always draw the following

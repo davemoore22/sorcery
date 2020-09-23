@@ -27,62 +27,71 @@
 		{
 				"name": "logo_image",
 				"x": "centre",
-				"y": "50"
+				"y": "2"
 		},
 		{
 			"name": "attract_creatures",
 			"x": "centre",
-			"y": "250",
+			"y": "13",
 			"scale": "2.0"
 		},
 		{
 			"name": "top_gui_frame",
 			"w": "42",
-			"h": "25",
+			"h": "27",
 			"x": "centre",
-			"y": "25"
+			"y": "1"
 		},
 		{
 			"name": "bottom_gui_frame",
-			"w": "42",
-			"h": "6",
+			"w": "46",
+			"h": "7",
 			"x": "centre",
-			"y": "680"
+			"y": "28"
 		},
 		{
 			"name": "title",
 			"x": "centre",
-			"y": "500",
+			"y": "12",
 			"font": "monospace",
 			"colour": "0xffffffff",
-			"size": "48",
+			"size": "40",
 			"string": "MAIN_MENU_TITLE"
 		},
 		{
-			"name": "subtitle",
+			"name": "subtitle_1",
 			"x": "centre",
-			"y": "540",
+			"y": "23",
 			"font": "monospace",
 			"colour": "0xffffffff",
-			"size": "48",
-			"string": "MAIN_MENU_SUBTITLE"
+			"size": "40",
+			"string": "MAIN_MENU_SUBTITLE_1"
+		},
+		{
+			"name": "subtitle_2",
+			"x": "centre",
+			"y": "24",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "40",
+			"string": "MAIN_MENU_SUBTITLE_2"
 		},
 		{
 			"name": "copyright",
 			"x": "centre",
-			"y": "614",
+			"y": "25",
 			"font": "monospace",
 			"colour": "0xffffffff",
-			"size": "48",
+			"size": "40",
 			"string": "BRIEF_COPYRIGHT_INFO"
 		},
 		{
 			"name": "press_any_key",
 			"x": "centre",
-			"y": "760",
+			"y": "31",
 			"font": "monospace",
 			"colour": "0x808080ff",
-			"size": "48",
+			"size": "40",
 			"string": "PRESS_ANY_KEY",
 			"animated": "true"
 		}

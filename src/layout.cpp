@@ -28,6 +28,12 @@
 // Standard Constructor
 Sorcery::Layout::Layout(const std::filesystem::path filename) {
 
+	// Defaults for now as _load is called on the constructor here and layout is created before window object retrieves
+	// the cell height and width from the config file alas! Solution is to pass the system object into this and get both
+	// the layout file name, and the config settings from the system object as we can do
+	_cell_width = 20;
+	_cell_height = 25;
+
 	// Load the layout from file
 	_loaded = _load(filename);
 	if (_loaded) {
@@ -57,6 +63,11 @@ auto Sorcery::Layout::operator [] (const std::string& combined_key) -> Component
 			return empty_component;
 	else
 		return empty_component;
+}
+
+auto Sorcery::Layout::set_grid(unsigned int cell_width, unsigned int cell_height) -> void {
+	_cell_width = cell_width;
+	_cell_height = cell_height;
 }
 
 auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
@@ -94,7 +105,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 							if (components[j]["x"].asString() == "centre")
 								return -1;
 							else if (components[j]["x"].asString().length() > 0)
-								return std::stoi(components[j]["x"].asString());
+								return (std::stoi(components[j]["x"].asString()) * static_cast<int>(_cell_width));
 							else
 								return 0;
 						} else
@@ -105,7 +116,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 							if (components[j]["y"].asString() == "centre")
 								return -1;
 							else if (components[j]["y"].asString().length() > 0)
-								return std::stoi(components[j]["y"].asString());
+								return (std::stoi(components[j]["y"].asString()) * static_cast<int>(_cell_height));
 							else
 								return 0;
 						} else
@@ -205,4 +216,3 @@ auto Sorcery::Layout::_refresh_needed() -> bool {
 	_last_modified = std::filesystem::last_write_time(_filename);
 	return _last_modified > _last_loaded;
 }
-

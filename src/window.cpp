@@ -35,6 +35,11 @@ Sorcery::Window::Window(std::string title, System& system, String& string, Layou
 	_current_size.w = std::stoi(_system.config->get("Window", CURRENT_SCREEN_WIDTH));
 	_current_size.h = std::stoi(_system.config->get("Window", CURRENT_SCREEN_HEIGHT));
 
+	// And then the Positioning Grid Cell Size
+	_cell_height = std::stoi(_system.config->get("Grid", CELL_HEIGHT));
+	_cell_width = std::stoi(_system.config->get("Grid", CELL_WIDTH));
+	_layout.set_grid(_cell_width, _cell_height);
+
 	// Then create the SFML Window and the Main GUI
 	XInitThreads();
 	_window.create(sf::VideoMode(_current_size.w, _current_size.h), _title, sf::Style::Titlebar | sf::Style::Resize |
@@ -311,4 +316,12 @@ auto Sorcery::Window::_change_colour(sf::Color colour, double lerp) -> sf::Color
 	g = std::min(255, (int) (g + 128 * lerp));
 	b = std::min(255, (int) (b + 128 * lerp));
 	return sf::Color(r, g, b);
+}
+
+auto Sorcery::Window::get_cell_height() -> unsigned int {
+	return _cell_height;
+}
+
+auto Sorcery::Window::get_cell_width() -> unsigned int {
+	return _cell_width;
 }

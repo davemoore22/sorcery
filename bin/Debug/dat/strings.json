@@ -1,9 +1,16 @@
 {
 	"TITLE_AND_VERSION_INFO": "Sorcery: Dreams of the Mad Overlord",
 	"MAIN_MENU_TITLE": "WELCOME TO THE WORLD OF SORCERY!",
-	"MAIN_MENU_SUBTITLE": "Infinite Dungeon Adventures inspired by the Classic CRPGs Wizardry 1-5",
+	"MAIN_MENU_SUBTITLE_1": "Infinite Dungeon Adventures inspired by",
+	"MAIN_MENU_SUBTITLE_2": "the Classic CRPGs Wizardry 1-5",
 	"BRIEF_COPYRIGHT_INFO": "WRITTEN BY AND COPYRIGHT 2020 DAVE MOORE",
 	"PRESS_ANY_KEY": "PRESS ANY KEY TO START",
+	"MAIN_MENU_OPTION_1": "Start New Game",
+	"MAIN_MENU_OPTION_2": "Continue Options",
+	"MAIN_MENU_OPTION_3": "Options",
+	"MAIN_MENU_OPTION_4": "Compendium",
+	"MAIN_MENU_OPTION_4": "License",
+	"MAIN_MENU_OPTION_5": "Exit",
 
 "CONFIG_AUTO_SAVE": "Auto Save",
 "CONFIG_CHEAT_MODE": "Cheat Mode",

@@ -73,5 +73,6 @@ namespace Sorcery {
 			sf::Sprite _cursor;
 			sf::Sprite _top_frame;
 			sf::Sprite _bottom_frame;
+			MainMenuType _menu_status;
 	};
 }

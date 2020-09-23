@@ -123,6 +123,8 @@ namespace Sorcery
 	static const std::string DEFAULT_SCREEN_WIDTH = {"default_width"};
 	static const std::string CURRENT_SCREEN_HEIGHT = {"current_height"};
 	static const std::string CURRENT_SCREEN_WIDTH = {"current_width"};
+	static const std::string CELL_HEIGHT = {"cell_height"};
+	static const std::string CELL_WIDTH = {"cell_width"};
 
 	// Gameplay settings
 	static const int NUM_GAME_SETTINGS = {20};

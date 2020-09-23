@@ -46,4 +46,15 @@ namespace Sorcery  {
 	inline auto CSTRV(std::string_view string_to_convert) -> const char* {
 		return !string_to_convert.empty() ? (char *)std::string(string_to_convert).c_str() : (char *)"";
 	}
+
+	// Pad a string to the desired length
+	inline auto PADSTR(std::string string_to_pad, unsigned int desired_width) -> std::string {
+		if (static_cast<unsigned int>(string_to_pad.size()) < desired_width) {
+			const unsigned int padding = {(desired_width - string_to_pad.size())};
+			std::string string_copy = {string_to_pad};
+			string_copy.append(padding, ' ');
+			return string_copy;
+		} else
+			return string_to_pad;
+	}
 }

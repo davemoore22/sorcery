@@ -23,3 +23,35 @@
 
 #include "menu.hpp"
 
+// Standard Constructor
+Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuType type, Component& component):
+	_system {system}, _display {display}, _graphics {graphics}, _component {component} {
+
+	// Get the Window and Graphics to Display
+	_window = _display.window->get_window();
+}
+
+// Standard Destructor
+Sorcery::Menu::~Menu() {
+}
+
+// Draw the Menu
+auto Sorcery::Menu::draw() -> void {
+}
+
+// Add an item to the Menu
+auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const MenuItem code, const std::string& key)
+	-> void {
+}
+
+// Select the first enabled menu item
+auto Sorcery::Menu::_select_first_enabled() -> void {
+}
+
+// Select the last enabled menu item
+auto Sorcery::Menu::_select_last_enabled() -> void {
+}
+
+
+
+

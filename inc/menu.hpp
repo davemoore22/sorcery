@@ -24,6 +24,44 @@
 #pragma once
 
 #include "main.hpp"
+#include "system.hpp"
+#include "display.hpp"
+#include "graphics.hpp"
+#include "component.hpp"
+
 
 namespace Sorcery {
+
+	class Menu {
+
+		public:
+
+			// Standard Constructor
+			Menu(System& system, Display& display, Graphics& graphics, MenuType type, Component& component);
+
+			// Standard Destructor
+			virtual ~Menu();
+
+			// Public Members
+			MenuItem selected_item; // Currently selected menu item
+
+			// Public Methods
+			auto draw() -> void;
+
+		private:
+
+			// Private Methods
+			auto _add_item(int index, const MenuItemType itemtype, const MenuItem code, const std::string& key) -> void;
+			auto _select_first_enabled() -> void;
+			auto _select_last_enabled() -> void;
+
+			// Private Members
+			MenuType _type;
+			System _system;
+			Display _display;
+			Graphics _graphics;
+			Component _component;
+			sf::RenderWindow* _window;
+			std::vector<MenuEntry> _items;
+	};
 }

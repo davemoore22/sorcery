@@ -46,6 +46,8 @@ namespace Sorcery {
 			auto display_window() -> void;
 			auto draw_centered_text(sf::Text& text, Component& component, double lerp = -1.0l) -> void;
 			auto draw_gui() -> void;
+			auto get_cell_height() -> unsigned int;
+			auto get_cell_width() -> unsigned int;
 			auto get_cursor() -> sf::Sprite;
 			auto get_gui() -> tgui::Gui*;
 			auto get_gui_frame(const unsigned int width, const unsigned int height, const unsigned int alpha) -> sf::Sprite;
@@ -84,6 +86,8 @@ namespace Sorcery {
 			Layout _layout;
 			sf::RenderWindow _window;
 			tgui::Gui _gui;
+			unsigned int _cell_height;
+			unsigned int _cell_width;
 			unsigned int _creature_sprite_width;
 			unsigned int _creature_sprite_height;
 			unsigned int _creature_sprite_spacing;

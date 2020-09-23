@@ -42,6 +42,9 @@ namespace Sorcery {
 			// Overload [] operator
 			auto operator[] (const std::string& combined_key) -> Component&;
 
+			// Public Methods
+			auto set_grid(unsigned int cell_width, unsigned int cell_height) -> void;
+
 		private:
 
 			// Private Members
@@ -50,6 +53,8 @@ namespace Sorcery {
 			std::filesystem::file_time_type _last_modified;
 			std::chrono::time_point<std::chrono::file_clock> _last_loaded;
 			std::filesystem::path _filename;
+			unsigned int _cell_width;
+			unsigned int _cell_height;
 
 			// Private Methods
 			auto _load(const std::filesystem::path filename) -> bool;
