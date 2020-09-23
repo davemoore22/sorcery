@@ -140,6 +140,7 @@ auto Sorcery::MainMenu::_draw(MainMenuType stage, std::vector<unsigned int> attr
 	if (attract_mode_data.size() > 0) {
 
 		sf::Sprite creatures {_get_attract_mode(attract_mode_data)};
+		creatures.setColor(sf::Color(255, 255, 255, _graphics.animation->attract_mode_alpha));
 		creatures.setScale(attract_creatures_c.scale, attract_creatures_c.scale);
 		const sf::Vector2f creature_pos(_display.window->get_x(creatures, attract_creatures_c.x),
 			_display.window->get_y(creatures, attract_creatures_c.y));

@@ -41,6 +41,7 @@ namespace Sorcery {
 
 			// Public Members
 			double colour_lerp;
+			unsigned int attract_mode_alpha;
 
 			// Public Methods
 			auto force_refresh_attract_mode() -> void;
@@ -66,6 +67,7 @@ namespace Sorcery {
 			std::atomic<bool> _allow_colour_cycling;
 			std::atomic<bool> _colour_cycling_direction;
 			std::atomic<bool> _finished;
+			std::atomic<bool> _attract_mode_fade_in;
 			std::chrono::time_point<std::chrono::system_clock> _last_attract_mode_animation;
 			std::chrono::time_point<std::chrono::system_clock> _current_time;
 			std::mutex _attract_mode_mutex;

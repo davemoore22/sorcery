@@ -28,6 +28,7 @@ Sorcery::Animation::Animation(System& system, Display& display): _system {system
 	_finished = false;
 	_attract_mode.clear();
 	_colour_cycling_direction = false;
+	_attract_mode_fade_in = true;
 }
 
 // Standard Destructor
@@ -49,6 +50,7 @@ auto Sorcery::Animation::start_attract_mode_animation() ->void {
 
 auto Sorcery::Animation::start_colour_cycling() -> void {
 	_allow_colour_cycling = true;
+	attract_mode_alpha = 0;
 }
 
 auto Sorcery::Animation::start_attract_mode_animation_threads() -> void {
@@ -112,7 +114,7 @@ auto Sorcery::Animation::_colour_cycling(bool force) -> void {
 			if (_allow_colour_cycling)
 				_do_colour_cycling();
 
-			std::this_thread::sleep_for(std::chrono::milliseconds(25));
+			std::this_thread::sleep_for(std::chrono::milliseconds(20));
 		} while (!_finished);
 	}
 }
@@ -130,6 +132,7 @@ auto Sorcery::Animation::_do_attract_mode_animation() -> void {
 		} while (std::find(_attract_mode.begin(), _attract_mode.end(), sprite_index) != _attract_mode.end());
 		_attract_mode.push_back(sprite_index);
 	}
+	attract_mode_alpha = 0;
 	_last_attract_mode_animation = std::chrono::system_clock::now();
 }
 
@@ -138,8 +141,11 @@ auto Sorcery::Animation::get_attract_mode_data() -> std::vector<unsigned int> {
 	return _attract_mode;
 }
 
+// Called 50 times a second
 auto Sorcery::Animation::_do_colour_cycling() -> void {
 	std::scoped_lock<std::mutex> _scoped_lock(_colour_cycling_mutex);
+
+	// Handle menu pulsating
 	if (_colour_cycling_direction) {
 		 if (colour_lerp < 1.0l)
 			colour_lerp += 0.025l;
@@ -160,4 +166,16 @@ auto Sorcery::Animation::_do_colour_cycling() -> void {
 		colour_lerp = 0.0l;
 	if (colour_lerp > 1.0l)
 		colour_lerp = 1.0l;
+
+	// Handle Attract Mode Fade In/Out
+	if (_attract_mode_fade_in == true)
+		if (attract_mode_alpha < 255)
+			attract_mode_alpha +=10;
+		else
+			attract_mode_alpha = 255;
+
+	if (attract_mode_alpha > 255)
+		attract_mode_alpha = 255;
+
+	_attract_mode_fade_in = attract_mode_alpha != 255;
 }
