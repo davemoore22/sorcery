@@ -32,13 +32,13 @@
 		{
 			"name": "attract_creatures",
 			"x": "centre",
-			"y": "13",
-			"scale": "2.0"
+			"y": "16",
+			"scale": "2.2"
 		},
 		{
 			"name": "top_gui_frame",
 			"w": "42",
-			"h": "27",
+			"h": "26",
 			"x": "centre",
 			"y": "1"
 		},
@@ -47,7 +47,7 @@
 			"w": "46",
 			"h": "7",
 			"x": "centre",
-			"y": "28"
+			"y": "27"
 		},
 		{
 			"name": "title",
@@ -61,7 +61,7 @@
 		{
 			"name": "subtitle_1",
 			"x": "centre",
-			"y": "23",
+			"y": "28",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "40",
@@ -70,7 +70,7 @@
 		{
 			"name": "subtitle_2",
 			"x": "centre",
-			"y": "24",
+			"y": "29",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "40",
@@ -79,7 +79,7 @@
 		{
 			"name": "copyright",
 			"x": "centre",
-			"y": "25",
+			"y": "31",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "40",
@@ -88,7 +88,7 @@
 		{
 			"name": "press_any_key",
 			"x": "centre",
-			"y": "31",
+			"y": "33",
 			"font": "monospace",
 			"colour": "0x808080ff",
 			"size": "40",
