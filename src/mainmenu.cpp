@@ -195,9 +195,11 @@ auto Sorcery::MainMenu::_get_attract_mode(std::vector<unsigned int> attract_mode
 		attract_texture.display();
 		_attract_mode_texture = attract_texture.getTexture();
 		sf::Sprite attract_sprite(_attract_mode_texture);
+		attract_sprite.setColor(sf::Color(0, 0, 0, 200));
 		return attract_sprite;
 	} else {
 		sf::Sprite attract_sprite(_attract_mode_texture);
+		attract_sprite.setColor(sf::Color(0, 0, 0, 200));
 		return attract_sprite;
 	}
 }

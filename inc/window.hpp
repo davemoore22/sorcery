@@ -50,7 +50,6 @@ namespace Sorcery {
 			auto get_cell_width() -> unsigned int;
 			auto get_cursor() -> sf::Sprite;
 			auto get_gui() -> tgui::Gui*;
-			auto get_gui_frame(const unsigned int width, const unsigned int height, const unsigned int alpha) -> sf::Sprite;
 			auto get_gui_frame(sf::RenderTexture& gui_frame_rt, sf::Texture& gui_frame_t, const unsigned int width_units,
 				const unsigned int height_units) -> sf::Sprite;
 			auto get_window() -> sf::RenderWindow*;

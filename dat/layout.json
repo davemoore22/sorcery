@@ -32,20 +32,20 @@
 		{
 			"name": "attract_creatures",
 			"x": "centre",
-			"y": "16",
+			"y": "15",
 			"scale": "2.2"
 		},
 		{
 			"name": "top_gui_frame",
-			"w": "42",
-			"h": "26",
+			"w": "50",
+			"h": "31",
 			"x": "centre",
 			"y": "1"
 		},
 		{
 			"name": "bottom_gui_frame",
-			"w": "46",
-			"h": "7",
+			"w": "54",
+			"h": "8",
 			"x": "centre",
 			"y": "27"
 		},
