@@ -37,7 +37,8 @@ namespace Sorcery {
 		public:
 
 			// Standard Constructor
-			Menu(System& system, Display& display, Graphics& graphics, MenuType type, Component& component);
+			Menu(unsigned int width, System& system, Display& display, Graphics& graphics, MenuType type,
+				Component& component);
 
 			// Standard Destructor
 			virtual ~Menu();
@@ -51,11 +52,13 @@ namespace Sorcery {
 		private:
 
 			// Private Methods
-			auto _add_item(int index, const MenuItemType itemtype, const MenuItem code, const std::string& key) -> void;
+			auto _add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string& key,
+				bool enabled = false) -> void;
 			auto _select_first_enabled() -> void;
 			auto _select_last_enabled() -> void;
 
 			// Private Members
+			unsigned int _width;
 			MenuType _type;
 			System _system;
 			Display _display;
@@ -63,5 +66,6 @@ namespace Sorcery {
 			Component _component;
 			sf::RenderWindow* _window;
 			std::vector<MenuEntry> _items;
+			std::vector<MenuEntry>::const_iterator _selected;
 	};
 }

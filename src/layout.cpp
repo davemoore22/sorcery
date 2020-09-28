@@ -55,14 +55,13 @@ auto Sorcery::Layout::operator [] (const std::string& combined_key) -> Component
 		_load(_filename);
 
 	// Else return the requested component
-	Component empty_component;
 	if (_loaded)
 		if (_components.find(combined_key) != _components.end())
 			return _components.at(combined_key);
 		else
-			return empty_component;
+			return _components[0];
 	else
-		return empty_component;
+		return _components[0];
 }
 
 auto Sorcery::Layout::set_grid(unsigned int cell_width, unsigned int cell_height) -> void {
@@ -72,6 +71,8 @@ auto Sorcery::Layout::set_grid(unsigned int cell_width, unsigned int cell_height
 
 auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 	_components.clear();
+	Component empty_component;
+	_components[0] = empty_component;
 
 	// Attempt to load Layout File
 	if (std::ifstream layout_file {filename.string(), std::ifstream::binary}; layout_file.good()) {
@@ -87,14 +88,14 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 			Json::Value& screens {layout["screen"]};
 
 			// Iterate through layout file one screen at a time
-			for (int i = 0; i < screens.size(); i++) {
+			for (unsigned int i = 0; i < screens.size(); i++) {
 
 				// Each screen will always have a name and one or more components
 				std::string screen_name {screens[i]["name"].asString()};
 				Json::Value& components {screens[i]["component"]};
 
 				// For every component on that screen read in their properties
-				for (int j = 0; j < components.size(); j++) {
+				for (unsigned int j = 0; j < components.size(); j++) {
 
 					// Always Present
 					std::string name {components[j]["name"].asString()};
@@ -196,11 +197,20 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 						else
 							return std::string();
 					}();
+					unsigned int alpha = [&] {
+						if (components[j].isMember("alpha")) {
+							if (components[j]["alpha"].asString().length() > 0)
+								return std::stoi(components[j]["alpha"].asString());
+							else
+								return 0;
+						} else
+							return 0;
+					}();
 
 					// Add the Component
 					std::string key = screen_name + ":" + name;
 					Component component(screen_name, name, x, y, w, h, scale, font_type, size, colour, animated,
-						string_key);
+						string_key, alpha);
 					_components[key] = component;
 				}
 			 }

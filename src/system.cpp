@@ -24,7 +24,8 @@
 #include "system.hpp"
 
 // Standard Constructor
-Sorcery::System::System(int argc, char** argv) {
+Sorcery::System::System(int argc __attribute__((unused)), char** argv __attribute__((unused))) {
+
 	// Files Module
 	files = std::make_shared<File>();
 

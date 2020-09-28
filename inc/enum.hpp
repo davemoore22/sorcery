@@ -350,6 +350,15 @@ namespace Sorcery {
 			SELECTED
 		};
 
+		// Menu Type Tuple Fields
+		enum class Field {
+			INDEX = 0,
+			TYPE = 1,
+			ITEM = 2,
+			TEXT = 3,
+			ENABLED = 4
+		};
+
 		// Menu Types
 		enum class Type {
 			MAIN,
@@ -372,13 +381,11 @@ namespace Sorcery {
 			GO_NEXT,
 			RETURN,
 			MM_NEW_GAME,
-			MM_LOAD_GAME,
-			MM_CHARACTER,
-			MM_CONFIG,
-			MM_SCORES,
-			MM_HELP,
-			MM_VERSION,
+			MM_CONTINUE_GAME,
+			MM_OPTIONS,
+			MM_COMPENDIUM,
 			MM_LICENSE,
+			QUIT,
 			SEPARATOR,
 			TITLE,
 			SPACER,

@@ -83,14 +83,15 @@ auto Sorcery::MainMenu::start() -> void {
 	// Generate the frames
 	sf::RenderTexture top_frame_rt;
 	sf::Texture top_frame_t;
-	sf::Sprite top_frame {_display.window->get_gui_frame(top_frame_rt, top_frame_t, top_frame_c.w, top_frame_c.h)};
+	sf::Sprite top_frame {_display.window->get_gui_frame(top_frame_rt, top_frame_t, top_frame_c.w, top_frame_c.h,
+		top_frame_c.alpha)};
 	const sf::Vector2f top_pos(_display.window->get_x(top_frame, top_frame_c.x), _display.window->get_y(top_frame,
 		top_frame_c.y));
 	top_frame.setPosition(top_pos);
 	sf::RenderTexture bottom_frame_rt;
 	sf::Texture bottom_frame_t;
 	sf::Sprite bottom_frame {_display.window->get_gui_frame(bottom_frame_rt, bottom_frame_t, bottom_frame_c.w,
-		bottom_frame_c.h)};
+		bottom_frame_c.h, bottom_frame_c.alpha)};
 	const sf::Vector2f bottom_pos(_display.window->get_x(bottom_frame, bottom_frame_c.x),
 		_display.window->get_y(bottom_frame, bottom_frame_c.y));
 	bottom_frame.setPosition(bottom_pos);
@@ -140,6 +141,7 @@ auto Sorcery::MainMenu::_draw(MainMenuType stage, std::vector<unsigned int> attr
 	if (attract_mode_data.size() > 0) {
 
 		sf::Sprite creatures {_get_attract_mode(attract_mode_data)};
+		//creatures.setColor(sf::Color(0, 0, 0, attract_creatures_c.alpha));
 		creatures.setColor(sf::Color(255, 255, 255, _graphics.animation->attract_mode_alpha));
 		creatures.setScale(attract_creatures_c.scale, attract_creatures_c.scale);
 		const sf::Vector2f creature_pos(_display.window->get_x(creatures, attract_creatures_c.x),
@@ -148,7 +150,7 @@ auto Sorcery::MainMenu::_draw(MainMenuType stage, std::vector<unsigned int> attr
 
 		_window->draw(top_frame);
 		_window->draw(bottom_frame);
-		_window->draw(creatures);
+		_window->draw(creatures, sf::BlendAlpha);
 		_window->draw(_logo);
 
 		// Draw Attract Mode Text
@@ -188,18 +190,21 @@ auto Sorcery::MainMenu::_get_attract_mode(std::vector<unsigned int> attract_mode
 		for (auto i: _attract_mode_data) {
 			sf::Sprite sprite = _get_creature_gfx(i, true);
 			sprite.setPosition(sprite_x, 0);
-			attract_texture.draw(sprite);
+			//sprite.setColor(sf::Color(0, 0, 0, 175));
+			attract_texture.draw(sprite, sf::BlendAlpha);
 			sprite_x += (_creature_sprite_width + _creature_sprite_spacing);
 		}
 
 		attract_texture.display();
 		_attract_mode_texture = attract_texture.getTexture();
 		sf::Sprite attract_sprite(_attract_mode_texture);
-		attract_sprite.setColor(sf::Color(0, 0, 0, 200));
+		attract_sprite.setColor(sf::Color(0, 0, 0, 175));
+		//attract_sprite.setColor(sf::Color(0, 0, 0, 0));
 		return attract_sprite;
 	} else {
 		sf::Sprite attract_sprite(_attract_mode_texture);
-		attract_sprite.setColor(sf::Color(0, 0, 0, 200));
+		attract_sprite.setColor(sf::Color(0, 0, 0, 175));
+		//attract_sprite.setColor(sf::Color(0, 0, 0, 0));
 		return attract_sprite;
 	}
 }

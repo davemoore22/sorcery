@@ -81,7 +81,7 @@ auto Sorcery::Window::display_window() -> void {
 }
 
 auto Sorcery::Window::get_gui_frame(sf::RenderTexture& gui_frame_rt, sf::Texture& gui_frame_t,
-	const unsigned int width_units, const unsigned int height_units) -> sf::Sprite {
+	const unsigned int width_units, const unsigned int height_units, const unsigned int alpha) -> sf::Sprite {
 
 	// Defijne the sources of the gui elements
 	//sf::IntRect top_left_rect(865, 399, 18, 18);
@@ -106,7 +106,7 @@ auto Sorcery::Window::get_gui_frame(sf::RenderTexture& gui_frame_rt, sf::Texture
 	//const sf::Vector2f texture_size(18 + (24 * width_units) + 18, 18 + (24 * height_units) + 18);
 	const sf::Vector2f texture_size(20 + (20 * width_units) + 20, 20 + (20 * height_units) + 20);
 	gui_frame_rt.create(texture_size.x, texture_size.y);
-	gui_frame_rt.clear(sf::Color(0, 0, 0, 200));
+	//gui_frame_rt.clear(sf::Color(0, 0, 0, 200));
 
 	// Get the Frame Components
 	sf::Sprite top_left(_system.resources->textures[UI_TEXTURE]);
@@ -139,7 +139,7 @@ auto Sorcery::Window::get_gui_frame(sf::RenderTexture& gui_frame_rt, sf::Texture
 	bottom_right.setPosition(texture_size.x - 20, texture_size.y - 20);
 	gui_frame_rt.draw(bottom_right);
 
-	// Fill in the Sides
+	// Draw the sides
 	for (unsigned int x = 0; x < width_units; x++) {
 		//int x_pos {18 + (24 * x)};
 		unsigned int x_pos {20 + (20 * x)};
@@ -156,6 +156,12 @@ auto Sorcery::Window::get_gui_frame(sf::RenderTexture& gui_frame_rt, sf::Texture
 		right.setPosition(texture_size.x - 20, y_pos);
 		gui_frame_rt.draw(right);
 	}
+
+	// Draw the background
+	sf::RectangleShape rectangle(sf::Vector2f(texture_size.x - 20, texture_size.y - 20));
+	rectangle.setFillColor(sf::Color(0, 0, 0, alpha));
+	rectangle.setPosition(10, 10);
+	gui_frame_rt.draw(rectangle);
 
 	// And draw
 	gui_frame_rt.display();
@@ -224,9 +230,9 @@ auto Sorcery::Window::_draw_centered_text(sf::Text& text, Component& component, 
 	text.setFont(_system.resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
 	if ((component.animated) && (lerp >= 0.0l))
-		text.setColor(_change_colour(sf::Color(component.colour), lerp));
+		text.setFillColor(_change_colour(sf::Color(component.colour), lerp));
 	else
-		text.setColor(sf::Color(component.colour));
+		text.setFillColor(sf::Color(component.colour));
 	text.setString(_string[component.string_key]);
 	x = component.x == -1 ? centre.x :  component.x;
 	y = component.y == -1 ? centre.y :  component.y;
@@ -245,7 +251,7 @@ auto Sorcery::Window::get_y(sf::Sprite& sprite, int y_position) -> unsigned int 
 
 // Given a colour, change its brightness
 auto Sorcery::Window::_change_colour(sf::Color colour, double lerp) -> sf::Color {
-	int factor {(lerp - 0.5l) * 255};
+	//int factor {(lerp - 0.5l) * 255};
 	int r {colour.r};
 	int g {colour.g};
 	int b {colour.b};

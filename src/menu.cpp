@@ -24,11 +24,27 @@
 #include "menu.hpp"
 
 // Standard Constructor
-Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuType type, Component& component):
-	_system {system}, _display {display}, _graphics {graphics}, _component {component} {
+Sorcery::Menu::Menu(unsigned int width, System& system, Display& display, Graphics& graphics, MenuType type,
+	Component& component): _width {width}, _system {system}, _display {display}, _graphics {graphics}, _component {component} {
 
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();
+
+	// Clear the Items
+	_items.clear();
+
+	// Now depending on the menu type, add the relevant items
+	switch (_type) {
+	case MenuType::MAIN:
+		_add_item(0, MenuItemType::ENTRY, MenuItem::MM_NEW_GAME, (*_display.string)["MAIN_MENU_OPTION_START"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::MM_CONTINUE_GAME, (*_display.string)["MAIN_MENU_OPTION_CONTINUE"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::MM_OPTIONS, (*_display.string)["MAIN_MENU_OPTION_OPTIONS"]);
+		_add_item(3, MenuItemType::ENTRY, MenuItem::MM_COMPENDIUM, (*_display.string)["MAIN_MENU_OPTION_COMPENDIUM"]);
+		_add_item(4, MenuItemType::ENTRY, MenuItem::MM_LICENSE, (*_display.string)["MAIN_MENU_OPTION_LICENSE"]);
+		_add_item(5, MenuItemType::ENTRY, MenuItem::QUIT, (*_display.string)["MAIN_MENU_OPTION_QUIT"]);
+		_selected = _items.begin();
+		break;
+	}
 }
 
 // Standard Destructor
@@ -40,16 +56,34 @@ auto Sorcery::Menu::draw() -> void {
 }
 
 // Add an item to the Menu
-auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const MenuItem code, const std::string& key)
-	-> void {
+auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string& key,
+	bool enabled) -> void {
+	if (key.length() % 2 == 0)
+		key.resize(key.length() + 1, 32);
+	_items.push_back(std::tuple<unsigned int, Enums::Menu::ItemType, Enums::Menu::Item, std::string, bool>(index,
+		itemtype, code, key, enabled));
 }
 
 // Select the first enabled menu item
 auto Sorcery::Menu::_select_first_enabled() -> void {
+	std::vector<MenuEntry>::const_iterator it = {};
+	for (it = _items.begin(); it != _items.end(); ++it)
+		if (std::get<static_cast<int>(MenuField::TYPE)>(*it) == MenuItemType::ENTRY)
+			if (std::get<static_cast<int>(MenuField::ENABLED)>(*it)) {
+				_selected = it;
+				return;
+			}
 }
 
 // Select the last enabled menu item
 auto Sorcery::Menu::_select_last_enabled() -> void {
+	std::vector<MenuEntry>::const_iterator it = {};
+	for (it = _items.end(); it != _items.begin(); --it)
+		if (std::get<static_cast<int>(MenuField::TYPE)>(*it) == MenuItemType::ENTRY)
+			if (std::get<static_cast<int>(MenuField::ENABLED)>(*it)) {
+				_selected = it;
+				return;
+			}
 }
 
 

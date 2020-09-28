@@ -168,11 +168,12 @@ auto Sorcery::Animation::_do_colour_cycling() -> void {
 		colour_lerp = 1.0l;
 
 	// Handle Attract Mode Fade In/Out
-	if (_attract_mode_fade_in == true)
+	if (_attract_mode_fade_in == true) {
 		if (attract_mode_alpha < 255)
 			attract_mode_alpha +=10;
 		else
 			attract_mode_alpha = 255;
+	}
 
 	if (attract_mode_alpha > 255)
 		attract_mode_alpha = 255;

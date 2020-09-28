@@ -48,10 +48,13 @@ namespace Sorcery  {
 	}
 
 	// Pad a string to the desired length
-	inline auto PADSTR(std::string string_to_pad, unsigned int desired_width) -> std::string {
+	inline auto PADSTR(std::string string_to_pad, unsigned int desired_width, bool pad_both = false) -> std::string {
 		if (static_cast<unsigned int>(string_to_pad.size()) < desired_width) {
-			const unsigned int padding = {(desired_width - string_to_pad.size())};
+			const std::string::size_type padding {pad_both ? (desired_width - string_to_pad.size()) / 2 :
+				(desired_width - string_to_pad.size())};
 			std::string string_copy = {string_to_pad};
+			if (pad_both)
+				string_copy.insert(0, padding, ' ');
 			string_copy.append(padding, ' ');
 			return string_copy;
 		} else

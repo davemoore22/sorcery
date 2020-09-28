@@ -33,21 +33,24 @@
 			"name": "attract_creatures",
 			"x": "centre",
 			"y": "15",
-			"scale": "2.2"
+			"scale": "2.2",
+			"alpha": "175"
 		},
 		{
 			"name": "top_gui_frame",
 			"w": "50",
 			"h": "31",
 			"x": "centre",
-			"y": "1"
+			"y": "1",
+			"alpha": "255"
 		},
 		{
 			"name": "bottom_gui_frame",
 			"w": "54",
 			"h": "8",
 			"x": "centre",
-			"y": "27"
+			"y": "27",
+			"alpha": "175"
 		},
 		{
 			"name": "title",
@@ -93,6 +96,15 @@
 			"colour": "0x808080ff",
 			"size": "40",
 			"string": "PRESS_ANY_KEY",
+			"animated": "true"
+		},
+		{
+			"name": "main_menu",
+			"x": "centre",
+			"y": "31",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "40",
 			"animated": "true"
 		}
 		]
