@@ -28,6 +28,7 @@
 #include "display.hpp"
 #include "graphics.hpp"
 #include "layout.hpp"
+#include "menu.hpp"
 
 namespace Sorcery {
 
@@ -74,5 +75,6 @@ namespace Sorcery {
 			sf::Sprite _top_frame;
 			sf::Sprite _bottom_frame;
 			MainMenuType _menu_status;
+			std::shared_ptr<Menu> _main_menu;
 	};
 }

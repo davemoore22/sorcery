@@ -24,8 +24,8 @@
 #include "menu.hpp"
 
 // Standard Constructor
-Sorcery::Menu::Menu(unsigned int width, System& system, Display& display, Graphics& graphics, MenuType type,
-	Component& component): _width {width}, _system {system}, _display {display}, _graphics {graphics}, _component {component} {
+Sorcery::Menu::Menu(unsigned int width, System& system, Display& display, Graphics& graphics, MenuType type):
+	_width {width}, _system {system}, _display {display}, _graphics {graphics}, _type {type} {
 
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();

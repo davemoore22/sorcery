@@ -27,8 +27,6 @@
 #include "system.hpp"
 #include "display.hpp"
 #include "graphics.hpp"
-#include "component.hpp"
-
 
 namespace Sorcery {
 
@@ -37,8 +35,7 @@ namespace Sorcery {
 		public:
 
 			// Standard Constructor
-			Menu(unsigned int width, System& system, Display& display, Graphics& graphics, MenuType type,
-				Component& component);
+			Menu(unsigned int width, System& system, Display& display, Graphics& graphics, MenuType type);
 
 			// Standard Destructor
 			virtual ~Menu();
@@ -63,7 +60,6 @@ namespace Sorcery {
 			System _system;
 			Display _display;
 			Graphics _graphics;
-			Component _component;
 			sf::RenderWindow* _window;
 			std::vector<MenuEntry> _items;
 			std::vector<MenuEntry>::const_iterator _selected;

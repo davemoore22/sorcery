@@ -172,6 +172,13 @@ auto Sorcery::Window::get_gui_frame(sf::RenderTexture& gui_frame_rt, sf::Texture
 	return gui_frame_sprite;
 }
 
+// Draw a menu based upon the passed in component for layout information
+auto Sorcery::Window::draw_menu(Menu& menu, Component& component, double lerp) -> void {
+
+
+
+}
+
 auto Sorcery::Window::get_cursor() -> sf::Sprite {
 	sf::Sprite cursor(_system.resources->textures[UI_TEXTURE]);
 	sf::IntRect cursor_rect(710, 310, 21, 28);

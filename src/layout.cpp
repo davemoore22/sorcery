@@ -71,8 +71,6 @@ auto Sorcery::Layout::set_grid(unsigned int cell_width, unsigned int cell_height
 
 auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 	_components.clear();
-	Component empty_component;
-	_components[0] = empty_component;
 
 	// Attempt to load Layout File
 	if (std::ifstream layout_file {filename.string(), std::ifstream::binary}; layout_file.good()) {

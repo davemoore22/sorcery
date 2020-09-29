@@ -31,6 +31,8 @@
 // Class to act as a wrapper around SFML Window etc
 namespace Sorcery {
 
+	class Menu;
+
 	class Window {
 
 		public:
@@ -45,6 +47,7 @@ namespace Sorcery {
 			auto clear_window() -> void;
 			auto display_window() -> void;
 			auto draw_centered_text(sf::Text& text, Component& component, double lerp = -1.0l) -> void;
+			auto draw_menu(Menu& menu, Component& component, double lerp = -1.0l) -> void;
 			auto draw_gui() -> void;
 			auto get_cell_height() -> unsigned int;
 			auto get_cell_width() -> unsigned int;

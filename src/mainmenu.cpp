@@ -106,11 +106,19 @@ auto Sorcery::MainMenu::start() -> void {
 	std::vector<unsigned int> attract_mode_data;
 	attract_mode_data.clear();
 
+	// Create the Main Menu
+	_main_menu = std::make_shared<Menu>(30, _system, _display, _graphics, MenuType::MAIN);
+	//_main_menu = Menu(30, _system, _display, _graphics, MenuType::MAIN);
+	//Menu main_menu(30, _system, _display, _graphics, MenuType::MAIN);
+
 	// Start relevant animation worker threads
 	_graphics.animation->force_refresh_attract_mode();
 	_graphics.animation->start_attract_mode_animation_threads();
 
+	// Play the background movie!
 	_background_movie.play();
+
+	// And do the main loop
 	while (_window->isOpen()) {
 
 		attract_mode_data = _graphics.animation->get_attract_mode_data();
@@ -163,6 +171,8 @@ auto Sorcery::MainMenu::_draw(MainMenuType stage, std::vector<unsigned int> attr
 
 		if (_menu_status == MainMenuType::ATTRACT_MODE)
 			_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:press_any_key"], lerp);
+		else
+			_display.window->draw_menu(*_main_menu, (*_display.layout)["main_menu_attract:main_menu"], lerp);
 	}
 
 	// Always draw the following
