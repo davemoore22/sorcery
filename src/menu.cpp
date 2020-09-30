@@ -65,14 +65,16 @@ auto Sorcery::Menu::draw(Component& component, double lerp) -> void {
 	int x {0};
 	int y {0};
 	int count {0};
-	sf::Text text;
 
-	text.setFont(_system.resources->fonts[component.font]);
-	text.setCharacterSize(component.size);
+
+
 
 	std::vector<MenuEntry>::const_iterator it = {};
 	for (it = _items.begin(); it != _items.end(); ++it) {
 		std::string text_string {std::get<static_cast<int>(MenuField::TEXT)>(*it)};
+		sf::Text text;
+		text.setFont(_system.resources->fonts[component.font]);
+		text.setCharacterSize(component.size);
 		text.setFillColor(sf::Color(component.colour));
 		text.setString(text_string);
 		x = component.x == -1 ? _display.window->centre.x :  component.x;
@@ -83,14 +85,14 @@ auto Sorcery::Menu::draw(Component& component, double lerp) -> void {
 			sf::FloatRect background_rect {text.getLocalBounds()};
 			sf::RectangleShape background(sf::Vector2f(_width * _display.window->get_cell_width(),
 				background_rect.height + 2));
-			background.setOrigin(background.getGlobalBounds().width / 2.0f, -4);
+			background.setOrigin(background.getGlobalBounds().width / 2.0f, -3);
 			if ((component.animated) && (lerp >= 0.0l))
-				background.setFillColor(_display.window->change_colour(sf::Color(32, 158, 32), lerp));
+				background.setFillColor(_display.window->change_colour(sf::Color(96,96,200), lerp));
 			else
-				background.setFillColor(sf::Color(32, 158, 32));
-			text.setFillColor(sf::Color(0, 0, 0));
-
-
+				background.setFillColor(sf::Color(96,96,200));
+			text.setFillColor(sf::Color(component.colour));
+			text.setOutlineColor(sf::Color(0, 0, 0));
+			text.setOutlineThickness(2);
 			_display.window->get_window()->draw(background, text.getTransform());
 		}
 		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
@@ -131,6 +133,34 @@ auto Sorcery::Menu::_select_last_enabled() -> void {
 			}
 }
 
+auto Sorcery::Menu::choose_previous() -> void {
+	if (_selected > _items.begin()) {
 
+		// Iterate backwards until we find the first previous enabled menu if we can
+		bool found_enabled_option {false};
+		std::vector<MenuEntry>::const_iterator _working {_selected};
+		do {
+			--_working;
+			found_enabled_option = std::get<static_cast<int>(MenuField::ENABLED)>(*_working) &&
+				std::get<static_cast<int>(MenuField::TYPE)>(*_working) == MenuItemType::ENTRY;
+		} while ((_working > _items.begin()) && (!found_enabled_option));
+		if (found_enabled_option)
+				_selected = _working;
+	}
+}
 
+auto Sorcery::Menu::choose_next() -> void {
+	if (_selected < _items.end()) {
 
+		// Iterate forwards until we find the first next enabled menu if we can
+		bool found_enabled_option {false};
+		std::vector<MenuEntry>::const_iterator _working {_selected};
+		do {
+			++_working;
+			found_enabled_option = std::get<static_cast<int>(MenuField::ENABLED)>(*_working) &&
+				std::get<static_cast<int>(MenuField::TYPE)>(*_working) == MenuItemType::ENTRY;
+		} while ((_working < _items.end() - 1) && (!found_enabled_option));
+		if (found_enabled_option)
+				_selected = _working;
+	}
+}

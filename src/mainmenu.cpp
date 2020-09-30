@@ -127,8 +127,19 @@ auto Sorcery::MainMenu::start() -> void {
 			if (event.type == sf::Event::Closed)
 				_window->close();
 
-			if ((event.type == sf::Event::KeyPressed) || (event.type == sf::Event::MouseButtonPressed))
-				_menu_stage = MainMenuType::ATTRACT_MENU;
+			if (_menu_stage == MainMenuType::ATTRACT_MODE) {
+				if ((event.type == sf::Event::KeyPressed) || (event.type == sf::Event::MouseButtonPressed))
+					_menu_stage = MainMenuType::ATTRACT_MENU;
+			}
+
+			if (_menu_stage == MainMenuType::ATTRACT_MENU) {
+				if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Up))
+					_main_menu->choose_previous();
+				if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Down))
+					_main_menu->choose_next();
+
+			}
+
 		}
 
 		if (_background_movie.getStatus() == sfe::Stopped) {

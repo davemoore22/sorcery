@@ -50,12 +50,15 @@ namespace Sorcery {
 
 			// Public Methods
 			auto draw(Component& component, double lerp) -> void;
+			auto choose_next() -> void;
+			auto choose_previous() -> void;
+
 
 		private:
 
 			// Private Methods
 			auto _add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string& key,
-				bool enabled = false) -> void;
+				bool enabled = true) -> void;
 			auto _select_first_enabled() -> void;
 			auto _select_last_enabled() -> void;
 
