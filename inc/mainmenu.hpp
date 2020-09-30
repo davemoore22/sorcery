@@ -50,8 +50,8 @@ namespace Sorcery {
 		private:
 
 			// Private Methods
-			auto _draw(MainMenuType stage, std::vector<unsigned int> attract_mode_data,
-				Component& attract_creatures_c, sf::Sprite &top_frame, sf::Sprite &bottom_frame) -> void;
+			auto _draw(std::vector<unsigned int> attract_mode_data, Component& attract_creatures_c,
+				sf::Sprite &top_frame, sf::Sprite &bottom_frame) -> void;
 			auto _get_attract_mode(std::vector<unsigned int> attract_mode_data) -> sf::Sprite;
 			auto _get_creature_gfx(const int creature_id, const bool known) -> sf::Sprite;
 
@@ -74,7 +74,7 @@ namespace Sorcery {
 			sf::Sprite _cursor;
 			sf::Sprite _top_frame;
 			sf::Sprite _bottom_frame;
-			MainMenuType _menu_status;
+			MainMenuType _menu_stage;
 			std::shared_ptr<Menu> _main_menu;
 	};
 }

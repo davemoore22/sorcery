@@ -58,7 +58,7 @@
 			"y": "12",
 			"font": "monospace",
 			"colour": "0xffffffff",
-			"size": "40",
+			"size": "38",
 			"string": "MAIN_MENU_TITLE"
 		},
 		{
@@ -67,7 +67,7 @@
 			"y": "28",
 			"font": "monospace",
 			"colour": "0xffffffff",
-			"size": "40",
+			"size": "38",
 			"string": "MAIN_MENU_SUBTITLE_1"
 		},
 		{
@@ -76,7 +76,7 @@
 			"y": "29",
 			"font": "monospace",
 			"colour": "0xffffffff",
-			"size": "40",
+			"size": "38",
 			"string": "MAIN_MENU_SUBTITLE_2"
 		},
 		{
@@ -85,7 +85,7 @@
 			"y": "31",
 			"font": "monospace",
 			"colour": "0xffffffff",
-			"size": "40",
+			"size": "38",
 			"string": "BRIEF_COPYRIGHT_INFO"
 		},
 		{
@@ -94,18 +94,19 @@
 			"y": "33",
 			"font": "monospace",
 			"colour": "0x808080ff",
-			"size": "40",
+			"size": "38",
 			"string": "PRESS_ANY_KEY",
 			"animated": "true"
 		},
 		{
 			"name": "main_menu",
 			"x": "centre",
-			"y": "31",
+			"y": "28",
 			"font": "monospace",
 			"colour": "0xffffffff",
-			"size": "40",
-			"animated": "true"
+			"size": "38",
+			"animated": "true",
+			"width": 54
 		}
 		]
 	}

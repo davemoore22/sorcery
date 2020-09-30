@@ -171,13 +171,36 @@ auto Sorcery::Window::get_gui_frame(sf::RenderTexture& gui_frame_rt, sf::Texture
 	sf::Sprite gui_frame_sprite(gui_frame_t);
 	return gui_frame_sprite;
 }
-
-// Draw a menu based upon the passed in component for layout information
-auto Sorcery::Window::draw_menu(Menu& menu, Component& component, double lerp) -> void {
-
-
-
+// Draw Text on the Screen
+auto Sorcery::Window::draw_centered_text(sf::Text& text, Component& component, double lerp) -> void {
+	_draw_centered_text(text, component, lerp);
 }
+
+auto Sorcery::Window::draw_centered_text(sf::Text& text) -> void {
+	_draw_centered_text(text);
+}
+
+auto Sorcery::Window::_draw_centered_text(sf::Text& text) -> void {
+	_window.draw(text);
+}
+
+auto Sorcery::Window::_draw_centered_text(sf::Text& text, Component& component, double lerp) -> void {
+	int x {0};
+	int y {0};
+	text.setFont(_system.resources->fonts[component.font]);
+	text.setCharacterSize(component.size);
+	if ((component.animated) && (lerp >= 0.0l))
+		text.setFillColor(_change_colour(sf::Color(component.colour), lerp));
+	else
+		text.setFillColor(sf::Color(component.colour));
+	text.setString(_string[component.string_key]);
+	x = component.x == -1 ? centre.x :  component.x;
+	y = component.y == -1 ? centre.y :  component.y;
+	text.setPosition(x, y);
+	text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+	_window.draw(text);
+}
+
 
 auto Sorcery::Window::get_cursor() -> sf::Sprite {
 	sf::Sprite cursor(_system.resources->textures[UI_TEXTURE]);
@@ -226,28 +249,6 @@ auto Sorcery::Window::_get_y(sf::Text& text, int y_position) -> unsigned int {
 	return y_position ==  -1 ? _get_centre_y(text) : y_position;
 }
 
-auto Sorcery::Window::draw_centered_text(sf::Text& text, Component& component, double lerp) -> void {
-	_draw_centered_text(text, component, lerp);
-}
-
-// Draw Text on the Screen
-auto Sorcery::Window::_draw_centered_text(sf::Text& text, Component& component, double lerp) -> void {
-	int x {0};
-	int y {0};
-	text.setFont(_system.resources->fonts[component.font]);
-	text.setCharacterSize(component.size);
-	if ((component.animated) && (lerp >= 0.0l))
-		text.setFillColor(_change_colour(sf::Color(component.colour), lerp));
-	else
-		text.setFillColor(sf::Color(component.colour));
-	text.setString(_string[component.string_key]);
-	x = component.x == -1 ? centre.x :  component.x;
-	y = component.y == -1 ? centre.y :  component.y;
-	text.setPosition(x, y);
-	text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
-	_window.draw(text);
-}
-
 auto Sorcery::Window::get_x(sf::Sprite& sprite, int x_position) -> unsigned int {
 	return x_position ==  -1 ? _get_centre_x(sprite) : x_position;
 }
@@ -257,8 +258,11 @@ auto Sorcery::Window::get_y(sf::Sprite& sprite, int y_position) -> unsigned int 
 }
 
 // Given a colour, change its brightness
+auto Sorcery::Window::change_colour(sf::Color colour, double lerp) -> sf::Color {
+	return _change_colour(colour, lerp);
+}
+
 auto Sorcery::Window::_change_colour(sf::Color colour, double lerp) -> sf::Color {
-	//int factor {(lerp - 0.5l) * 255};
 	int r {colour.r};
 	int g {colour.g};
 	int b {colour.b};

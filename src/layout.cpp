@@ -204,11 +204,20 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 						} else
 							return 0;
 					}();
+					unsigned int width = [&] {
+						if (components[j].isMember("width")) {
+							if (components[j]["width"].asString().length() > 0)
+								return std::stoi(components[j]["width"].asString());
+							else
+								return 0;
+						} else
+							return 0;
+					}();
 
 					// Add the Component
 					std::string key = screen_name + ":" + name;
 					Component component(screen_name, name, x, y, w, h, scale, font_type, size, colour, animated,
-						string_key, alpha);
+						string_key, alpha, width);
 					_components[key] = component;
 				}
 			 }

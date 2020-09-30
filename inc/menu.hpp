@@ -35,16 +35,21 @@ namespace Sorcery {
 		public:
 
 			// Standard Constructor
-			Menu(unsigned int width, System& system, Display& display, Graphics& graphics, MenuType type);
+			Menu(System& system, Display& display, Graphics& graphics, MenuType type);
 
 			// Standard Destructor
 			virtual ~Menu();
 
+			// Overload [] operator
+			auto operator[] (const unsigned int index) -> const MenuEntry&;
+
 			// Public Members
-			MenuItem selected_item; // Currently selected menu item
+			MenuItem selected_item;
+			unsigned int count;
+
 
 			// Public Methods
-			auto draw() -> void;
+			auto draw(Component& component, double lerp) -> void;
 
 		private:
 

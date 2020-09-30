@@ -46,7 +46,7 @@ Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphic
 
 	// Clear the window
 	_window->clear();
-	_menu_status = MainMenuType::ATTRACT_MODE;
+	_menu_stage = MainMenuType::ATTRACT_MODE;
 }
 
 // Standard Destructor
@@ -107,9 +107,8 @@ auto Sorcery::MainMenu::start() -> void {
 	attract_mode_data.clear();
 
 	// Create the Main Menu
-	_main_menu = std::make_shared<Menu>(30, _system, _display, _graphics, MenuType::MAIN);
-	//_main_menu = Menu(30, _system, _display, _graphics, MenuType::MAIN);
-	//Menu main_menu(30, _system, _display, _graphics, MenuType::MAIN);
+	_main_menu = std::make_shared<Menu>( _system, _display, _graphics, MenuType::MAIN);
+	_menu_stage = MainMenuType::ATTRACT_MODE;
 
 	// Start relevant animation worker threads
 	_graphics.animation->force_refresh_attract_mode();
@@ -127,6 +126,9 @@ auto Sorcery::MainMenu::start() -> void {
 
 			if (event.type == sf::Event::Closed)
 				_window->close();
+
+			if ((event.type == sf::Event::KeyPressed) || (event.type == sf::Event::MouseButtonPressed))
+				_menu_stage = MainMenuType::ATTRACT_MENU;
 		}
 
 		if (_background_movie.getStatus() == sfe::Stopped) {
@@ -137,12 +139,12 @@ auto Sorcery::MainMenu::start() -> void {
 		_window->clear();
 		_window->draw(_background_movie);
 
-		_draw(MainMenuType::ATTRACT_MODE, attract_mode_data, attract_creatures_c, top_frame, bottom_frame);
+		_draw(attract_mode_data, attract_creatures_c, top_frame, bottom_frame);
 		_window->display();
 	}
 }
 
-auto Sorcery::MainMenu::_draw(MainMenuType stage, std::vector<unsigned int> attract_mode_data,
+auto Sorcery::MainMenu::_draw(std::vector<unsigned int> attract_mode_data,
 	Component& attract_creatures_c, sf::Sprite &top_frame, sf::Sprite &bottom_frame) -> void {
 
 	// Only draw the attract mode if we have something to draw (to avoid timing issues)
@@ -165,14 +167,14 @@ auto Sorcery::MainMenu::_draw(MainMenuType stage, std::vector<unsigned int> attr
 		double lerp = _graphics.animation->colour_lerp;
 		sf::Text text;
 		_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:title"]);
-		_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:subtitle_1"]);
-		_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:subtitle_2"]);
-		_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:copyright"]);
 
-		if (_menu_status == MainMenuType::ATTRACT_MODE)
+		if (_menu_stage == MainMenuType::ATTRACT_MODE) {
 			_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:press_any_key"], lerp);
-		else
-			_display.window->draw_menu(*_main_menu, (*_display.layout)["main_menu_attract:main_menu"], lerp);
+			_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:subtitle_1"]);
+			_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:subtitle_2"]);
+			_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:copyright"]);
+		} else
+			_main_menu->draw((*_display.layout)["main_menu_attract:main_menu"], lerp);
 	}
 
 	// Always draw the following
