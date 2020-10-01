@@ -32,6 +32,7 @@ Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuTy
 
 	// Clear the Items
 	items.clear();
+	bounds.clear();
 	count = 0;
 
 	// Now depending on the menu type, add the relevant items

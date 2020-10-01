@@ -201,19 +201,20 @@ auto Sorcery::Window::_draw_centered_text(sf::Text& text, Component& component, 
 	_window.draw(text);
 }
 
-auto Sorcery::Window::draw_centered_menu(std::vector<MenuEntry>& items, std::vector<MenuEntry>::const_iterator selected,
-	Component& component, double lerp) -> void {
-	_draw_centered_menu(items, selected, component, lerp);
+auto Sorcery::Window::draw_centered_menu(std::vector<MenuEntry>& items, std::vector<sf::FloatRect>& bounds,
+	std::vector<MenuEntry>::const_iterator selected, Component& component, double lerp) -> void {
+	_draw_centered_menu(items, bounds, selected, component, lerp);
 }
 
-auto Sorcery::Window::_draw_centered_menu(std::vector<MenuEntry>& items, std::vector<MenuEntry>::const_iterator selected,
-	Component& component, double lerp) -> void {
+auto Sorcery::Window::_draw_centered_menu(std::vector<MenuEntry>& items, std::vector<sf::FloatRect>& bounds,
+	std::vector<MenuEntry>::const_iterator selected, Component& component, double lerp) -> void {
 
 	unsigned int width {component.width};
 	int x {0};
 	int y {0};
 	int count {0};
 
+	bounds.clear();
 	std::vector<MenuEntry>::const_iterator it = {};
 	for (it = items.begin(); it != items.end(); ++it) {
 		std::string text_string {std::get<static_cast<int>(MenuField::TEXT)>(*it)};
@@ -242,6 +243,8 @@ auto Sorcery::Window::_draw_centered_menu(std::vector<MenuEntry>& items, std::ve
 		}
 		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 		draw_centered_text(text);
+		sf::FloatRect actual_rect {text.getGlobalBounds()};
+		bounds.push_back(actual_rect);
 		count++;
 	}
 }

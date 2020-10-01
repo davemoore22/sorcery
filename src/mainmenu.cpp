@@ -124,14 +124,17 @@ auto Sorcery::MainMenu::start() -> void {
 		sf::Event event;
 		while (_window->pollEvent(event)) {
 
+			// Check for Window Close
 			if (event.type == sf::Event::Closed)
 				_window->close();
 
+			// Check for any key being pressed to move onto the main menu
 			if (_menu_stage == MainMenuType::ATTRACT_MODE) {
 				if ((event.type == sf::Event::KeyPressed) || (event.type == sf::Event::MouseButtonPressed))
 					_menu_stage = MainMenuType::ATTRACT_MENU;
 			}
 
+			// And handle input on the main menu
 			if (_menu_stage == MainMenuType::ATTRACT_MENU) {
 				if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Up))
 					_main_menu->choose_previous();
@@ -185,7 +188,7 @@ auto Sorcery::MainMenu::_draw(std::vector<unsigned int> attract_mode_data,
 			_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:subtitle_2"]);
 			_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:copyright"]);
 		} else
-			_display.window->draw_centered_menu(_main_menu->items, _main_menu->selected,
+			_display.window->draw_centered_menu(_main_menu->items, _main_menu->bounds, _main_menu->selected,
 				(*_display.layout)["main_menu_attract:main_menu"], lerp);
 	}
 

@@ -45,12 +45,18 @@ namespace Sorcery {
 
 			// Public Members
 			std::vector<MenuEntry> items;
+			std::vector<sf::FloatRect> bounds;
 			std::vector<MenuEntry>::const_iterator selected;
 			unsigned int count;
 
 			// Public Methods
 			auto choose_next() -> void;
 			auto choose_previous() -> void;
+
+			// Given a mouse position, work out if one of the options has been mouse-overed by the mouse - note that the
+			// option rects are calculated in the draw event
+
+			// also since there's a 1 to 1 correlation between items and bounds, can use this to set selexted too
 
 		private:
 
