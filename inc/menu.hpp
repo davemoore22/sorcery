@@ -44,15 +44,13 @@ namespace Sorcery {
 			auto operator[] (const unsigned int index) -> const MenuEntry&;
 
 			// Public Members
-			MenuItem selected_item;
+			std::vector<MenuEntry> items;
+			std::vector<MenuEntry>::const_iterator selected;
 			unsigned int count;
 
-
 			// Public Methods
-			auto draw(Component& component, double lerp) -> void;
 			auto choose_next() -> void;
 			auto choose_previous() -> void;
-
 
 		private:
 
@@ -69,7 +67,6 @@ namespace Sorcery {
 			Display _display;
 			Graphics _graphics;
 			sf::RenderWindow* _window;
-			std::vector<MenuEntry> _items;
-			std::vector<MenuEntry>::const_iterator _selected;
+
 	};
 }

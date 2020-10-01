@@ -201,6 +201,50 @@ auto Sorcery::Window::_draw_centered_text(sf::Text& text, Component& component, 
 	_window.draw(text);
 }
 
+auto Sorcery::Window::draw_centered_menu(std::vector<MenuEntry>& items, std::vector<MenuEntry>::const_iterator selected,
+	Component& component, double lerp) -> void {
+	_draw_centered_menu(items, selected, component, lerp);
+}
+
+auto Sorcery::Window::_draw_centered_menu(std::vector<MenuEntry>& items, std::vector<MenuEntry>::const_iterator selected,
+	Component& component, double lerp) -> void {
+
+	unsigned int width {component.width};
+	int x {0};
+	int y {0};
+	int count {0};
+
+	std::vector<MenuEntry>::const_iterator it = {};
+	for (it = items.begin(); it != items.end(); ++it) {
+		std::string text_string {std::get<static_cast<int>(MenuField::TEXT)>(*it)};
+		sf::Text text;
+		text.setFont(_system.resources->fonts[component.font]);
+		text.setCharacterSize(component.size);
+		text.setFillColor(sf::Color(component.colour));
+		text.setString(text_string);
+		x = component.x == -1 ? centre.x :  component.x;
+		y = component.y == -1 ? centre.y :  component.y;
+		y = y + (count * get_cell_height());
+		text.setPosition(x, y);
+		if (selected == it) {
+			sf::FloatRect background_rect {text.getLocalBounds()};
+			sf::RectangleShape background(sf::Vector2f(width * get_cell_width(),
+				background_rect.height + 2));
+			background.setOrigin(background.getGlobalBounds().width / 2.0f, -3);
+			if ((component.animated) && (lerp >= 0.0l))
+				background.setFillColor(change_colour(sf::Color(96,96,200), lerp));
+			else
+				background.setFillColor(sf::Color(96,96,200));
+			text.setFillColor(sf::Color(component.colour));
+			text.setOutlineColor(sf::Color(0, 0, 0));
+			text.setOutlineThickness(2);
+			_window.draw(background, text.getTransform());
+		}
+		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+		draw_centered_text(text);
+		count++;
+	}
+}
 
 auto Sorcery::Window::get_cursor() -> sf::Sprite {
 	sf::Sprite cursor(_system.resources->textures[UI_TEXTURE]);

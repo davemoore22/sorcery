@@ -31,7 +31,7 @@ Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuTy
 	_window = _display.window->get_window();
 
 	// Clear the Items
-	_items.clear();
+	items.clear();
 	count = 0;
 
 	// Now depending on the menu type, add the relevant items
@@ -43,7 +43,7 @@ Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuTy
 		_add_item(3, MenuItemType::ENTRY, MenuItem::MM_COMPENDIUM, (*_display.string)["MAIN_MENU_OPTION_COMPENDIUM"]);
 		_add_item(4, MenuItemType::ENTRY, MenuItem::MM_LICENSE, (*_display.string)["MAIN_MENU_OPTION_LICENSE"]);
 		_add_item(5, MenuItemType::ENTRY, MenuItem::QUIT, (*_display.string)["MAIN_MENU_OPTION_QUIT"]);
-		_selected = _items.begin();
+		selected = items.begin();
 		break;
 	}
 }
@@ -54,51 +54,7 @@ Sorcery::Menu::~Menu() {
 
 // Overload [] Operator
 auto Sorcery::Menu::operator [] (const unsigned int index) -> const MenuEntry& {
-	return _items.at(index);
-}
-
-// Draw the Menu
-auto Sorcery::Menu::draw(Component& component, double lerp) -> void {
-
-	_width = component.width;
-
-	int x {0};
-	int y {0};
-	int count {0};
-
-
-
-
-	std::vector<MenuEntry>::const_iterator it = {};
-	for (it = _items.begin(); it != _items.end(); ++it) {
-		std::string text_string {std::get<static_cast<int>(MenuField::TEXT)>(*it)};
-		sf::Text text;
-		text.setFont(_system.resources->fonts[component.font]);
-		text.setCharacterSize(component.size);
-		text.setFillColor(sf::Color(component.colour));
-		text.setString(text_string);
-		x = component.x == -1 ? _display.window->centre.x :  component.x;
-		y = component.y == -1 ? _display.window->centre.y :  component.y;
-		y = y + (count * _display.window->get_cell_height());
-		text.setPosition(x, y);
-		if (_selected == it) {
-			sf::FloatRect background_rect {text.getLocalBounds()};
-			sf::RectangleShape background(sf::Vector2f(_width * _display.window->get_cell_width(),
-				background_rect.height + 2));
-			background.setOrigin(background.getGlobalBounds().width / 2.0f, -3);
-			if ((component.animated) && (lerp >= 0.0l))
-				background.setFillColor(_display.window->change_colour(sf::Color(96,96,200), lerp));
-			else
-				background.setFillColor(sf::Color(96,96,200));
-			text.setFillColor(sf::Color(component.colour));
-			text.setOutlineColor(sf::Color(0, 0, 0));
-			text.setOutlineThickness(2);
-			_display.window->get_window()->draw(background, text.getTransform());
-		}
-		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
-		_display.window->draw_centered_text(text);
-		count++;
-	}
+	return items.at(index);
 }
 
 // Add an item to the Menu
@@ -106,7 +62,7 @@ auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const Menu
 	bool enabled) -> void {
 	if (key.length() % 2 == 0)
 		key.resize(key.length() + 1, 32);
-	_items.push_back(std::tuple<unsigned int, Enums::Menu::ItemType, Enums::Menu::Item, std::string, bool>(index,
+	items.push_back(std::tuple<unsigned int, Enums::Menu::ItemType, Enums::Menu::Item, std::string, bool>(index,
 		itemtype, code, key, enabled));
 	++count;
 }
@@ -114,10 +70,10 @@ auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const Menu
 // Select the first enabled menu item
 auto Sorcery::Menu::_select_first_enabled() -> void {
 	std::vector<MenuEntry>::const_iterator it = {};
-	for (it = _items.begin(); it != _items.end(); ++it)
+	for (it = items.begin(); it != items.end(); ++it)
 		if (std::get<static_cast<int>(MenuField::TYPE)>(*it) == MenuItemType::ENTRY)
 			if (std::get<static_cast<int>(MenuField::ENABLED)>(*it)) {
-				_selected = it;
+				selected = it;
 				return;
 			}
 }
@@ -125,42 +81,42 @@ auto Sorcery::Menu::_select_first_enabled() -> void {
 // Select the last enabled menu item
 auto Sorcery::Menu::_select_last_enabled() -> void {
 	std::vector<MenuEntry>::const_iterator it = {};
-	for (it = _items.end(); it != _items.begin(); --it)
+	for (it = items.end(); it != items.begin(); --it)
 		if (std::get<static_cast<int>(MenuField::TYPE)>(*it) == MenuItemType::ENTRY)
 			if (std::get<static_cast<int>(MenuField::ENABLED)>(*it)) {
-				_selected = it;
+				selected = it;
 				return;
 			}
 }
 
 auto Sorcery::Menu::choose_previous() -> void {
-	if (_selected > _items.begin()) {
+	if (selected > items.begin()) {
 
 		// Iterate backwards until we find the first previous enabled menu if we can
 		bool found_enabled_option {false};
-		std::vector<MenuEntry>::const_iterator _working {_selected};
+		std::vector<MenuEntry>::const_iterator _working {selected};
 		do {
 			--_working;
 			found_enabled_option = std::get<static_cast<int>(MenuField::ENABLED)>(*_working) &&
 				std::get<static_cast<int>(MenuField::TYPE)>(*_working) == MenuItemType::ENTRY;
-		} while ((_working > _items.begin()) && (!found_enabled_option));
+		} while ((_working > items.begin()) && (!found_enabled_option));
 		if (found_enabled_option)
-				_selected = _working;
+			selected = _working;
 	}
 }
 
 auto Sorcery::Menu::choose_next() -> void {
-	if (_selected < _items.end()) {
+	if (selected < items.end()) {
 
 		// Iterate forwards until we find the first next enabled menu if we can
 		bool found_enabled_option {false};
-		std::vector<MenuEntry>::const_iterator _working {_selected};
+		std::vector<MenuEntry>::const_iterator _working {selected};
 		do {
 			++_working;
 			found_enabled_option = std::get<static_cast<int>(MenuField::ENABLED)>(*_working) &&
 				std::get<static_cast<int>(MenuField::TYPE)>(*_working) == MenuItemType::ENTRY;
-		} while ((_working < _items.end() - 1) && (!found_enabled_option));
+		} while ((_working < items.end() - 1) && (!found_enabled_option));
 		if (found_enabled_option)
-				_selected = _working;
+			selected = _working;
 	}
 }

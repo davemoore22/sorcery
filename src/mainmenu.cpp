@@ -185,11 +185,13 @@ auto Sorcery::MainMenu::_draw(std::vector<unsigned int> attract_mode_data,
 			_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:subtitle_2"]);
 			_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:copyright"]);
 		} else
-			_main_menu->draw((*_display.layout)["main_menu_attract:main_menu"], lerp);
+			_display.window->draw_centered_menu(_main_menu->items, _main_menu->selected,
+				(*_display.layout)["main_menu_attract:main_menu"], lerp);
 	}
 
 	// Always draw the following
 	_cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+	_window->draw(_cursor);
 }
 
 // We generate the attract mode graphic in the main thread, though we generate the IDs in the animation threads
