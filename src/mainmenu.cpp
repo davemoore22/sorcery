@@ -117,6 +117,8 @@ auto Sorcery::MainMenu::start() -> void {
 	// Play the background movie!
 	_background_movie.play();
 
+	std::optional<std::vector<MenuEntry>::const_iterator> selected_option {std::nullopt};
+
 	// And do the main loop
 	while (_window->isOpen()) {
 
@@ -132,22 +134,23 @@ auto Sorcery::MainMenu::start() -> void {
 			if (_menu_stage == MainMenuType::ATTRACT_MODE) {
 				if ((event.type == sf::Event::KeyPressed) || (event.type == sf::Event::MouseButtonPressed))
 					_menu_stage = MainMenuType::ATTRACT_MENU;
-			}
+			} else if (_menu_stage == MainMenuType::ATTRACT_MENU) {
 
-			// And handle input on the main menu
-			if (_menu_stage == MainMenuType::ATTRACT_MENU) {
-				std::optional<std::vector<MenuEntry>::const_iterator> selected_option {};
-
+				// And handle input on the main menu
 				if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Up))
 					selected_option = _main_menu->choose_previous();
 				if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Down))
 					selected_option = _main_menu->choose_next();
-
 				if (event.type == sf::Event::MouseMoved)
-					selected_option = _main_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					selected_option =
+						_main_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+				if ((event.type == sf::Event::MouseButtonReleased) || ((event.type == sf::Event::KeyPressed) &&
+					((event.key.code == sf::Keyboard::Space) || (event.key.code == sf::Keyboard::Enter)))) {
+					if (selected_option) {
+						int option_chosen = std::get<static_cast<int>(MenuField::INDEX)>(*selected_option.value());
 
-				if (selected_option) {
-
+						// We have selected something from the menu
+					}
 				}
 			}
 
