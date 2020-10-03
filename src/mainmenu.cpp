@@ -136,13 +136,19 @@ auto Sorcery::MainMenu::start() -> void {
 
 			// And handle input on the main menu
 			if (_menu_stage == MainMenuType::ATTRACT_MENU) {
+				std::optional<std::vector<MenuEntry>::const_iterator> selected_option {};
+
 				if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Up))
-					_main_menu->choose_previous();
+					selected_option = _main_menu->choose_previous();
 				if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Down))
-					_main_menu->choose_next();
+					selected_option = _main_menu->choose_next();
 
 				if (event.type == sf::Event::MouseMoved)
-					_main_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					selected_option = _main_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+
+				if (selected_option) {
+
+				}
 			}
 
 		}
@@ -206,7 +212,7 @@ auto Sorcery::MainMenu::_get_attract_mode(std::vector<unsigned int> attract_mode
 	// Only regenerate if we have a change
 	if (_attract_mode_data != attract_mode_data) {
 		_attract_mode_data = attract_mode_data;
-		const unsigned int number_to_display {attract_mode_data.size()};
+		const unsigned int number_to_display {static_cast<unsigned int>(attract_mode_data.size())};
 		const sf::Vector2f texture_size(_creature_sprite_width * number_to_display + (_creature_sprite_spacing *
 			(number_to_display - 1)), _creature_sprite_height);
 		sf::RenderTexture attract_texture;

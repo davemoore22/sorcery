@@ -46,6 +46,24 @@ Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuTy
 		_add_item(5, MenuItemType::ENTRY, MenuItem::QUIT, (*_display.string)["MAIN_MENU_OPTION_QUIT"]);
 		selected = items.begin();
 		break;
+	case MenuType::ALLOCATE_CHARACTER_ATTRIBUTES:
+		break;
+	case MenuType::CHOOSE_CHARACTER_ALIGNMENT:
+		break;
+	case MenuType::CHOOSE_CHARACTER_CLASS:
+		break;
+	case MenuType::CHOOSE_CHARACTER_PORTRAIT:
+		break;
+	case MenuType::CHOOSE_CHARACTER_RACE:
+		break;
+	case MenuType::OPTIONS:
+		break;
+	case MenuType::PAUSE:
+		break;
+	case MenuType::REVIEW_AND_CONFIRM:
+		break;
+	default:
+		break;
 	}
 }
 
@@ -91,7 +109,8 @@ auto Sorcery::Menu::_select_last_enabled() -> void {
 }
 
 // Check if the mouse cursor is on a menu item, and if so set it
-auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_position) -> std::vector<MenuEntry>::const_iterator {
+auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_position) ->
+	std::optional<std::vector<MenuEntry>::const_iterator> {
 	bool found {false};
 	std::vector<sf::FloatRect>::const_iterator working_bounds = {bounds.begin()};
 	std::vector<MenuEntry>::const_iterator working_items = {items.begin()};
@@ -107,14 +126,15 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_position) -> std::vect
 		} while ((working_bounds < bounds.end()) && (!found));
 
 	// If we reach here the mouse cursor is outside the items so we don't do anything
+	return std::nullopt;
 }
 
 // Set selected based upon the item index
-auto Sorcery::Menu::choose(unsigned int index) -> std::vector<MenuEntry>::const_iterator {
+auto Sorcery::Menu::choose(unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	// Iterate through til we have found it
+	bool found {false};
 	if (index < items.size()) {
-		bool found {false};
 		std::vector<MenuEntry>::const_iterator working {items.begin()};
 		do {
 			found = std::get<static_cast<int>(MenuField::INDEX)>(*working) == index;
@@ -125,10 +145,13 @@ auto Sorcery::Menu::choose(unsigned int index) -> std::vector<MenuEntry>::const_
 			return selected;
 		}
 	}
+
+	// If we reach here the mouse cursor is outside the items so we don't do anything
+	return std::nullopt;
 }
 
 // Choose the previous selected item
-auto Sorcery::Menu::choose_previous() -> void {
+auto Sorcery::Menu::choose_previous() -> std::optional<std::vector<MenuEntry>::const_iterator> {
 	if (selected > items.begin()) {
 
 		// Iterate backwards until we find the first previous enabled menu if we can
@@ -139,13 +162,17 @@ auto Sorcery::Menu::choose_previous() -> void {
 			found_enabled_option = std::get<static_cast<int>(MenuField::ENABLED)>(*working) &&
 				std::get<static_cast<int>(MenuField::TYPE)>(*working) == MenuItemType::ENTRY;
 		} while ((working > items.begin()) && (!found_enabled_option));
-		if (found_enabled_option)
+		if (found_enabled_option) {
 			selected = working;
+			return selected;
+		}
 	}
+
+	return std::nullopt;
 }
 
 // Choose the next selected item
-auto Sorcery::Menu::choose_next() -> void {
+auto Sorcery::Menu::choose_next() -> std::optional<std::vector<MenuEntry>::const_iterator> {
 	if (selected < items.end()) {
 
 		// Iterate forwards until we find the first next enabled menu if we can
@@ -156,7 +183,11 @@ auto Sorcery::Menu::choose_next() -> void {
 			found_enabled_option = std::get<static_cast<int>(MenuField::ENABLED)>(*working) &&
 				std::get<static_cast<int>(MenuField::TYPE)>(*working) == MenuItemType::ENTRY;
 		} while ((working < items.end() - 1) && (!found_enabled_option));
-		if (found_enabled_option)
+		if (found_enabled_option) {
 			selected = working;
+			return selected;
+		}
 	}
+
+	return std::nullopt;
 }

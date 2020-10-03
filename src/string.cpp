@@ -42,7 +42,7 @@ Sorcery::String::~String() {
 }
 
 // Overload [] Operator
-auto Sorcery::String::operator [] (const std::string &key) -> std::string& {
+auto Sorcery::String::operator[] (const std::string &key) -> std::string& {
 	return _loaded ? _strings[key] : _strings["NONE"];
 }
 

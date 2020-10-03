@@ -123,7 +123,6 @@
 		<Unit filename="inc/manage.hpp" />
 		<Unit filename="inc/map.hpp" />
 		<Unit filename="inc/menu.hpp" />
-		<Unit filename="inc/menubutton.hpp" />
 		<Unit filename="inc/operator.hpp" />
 		<Unit filename="inc/option.hpp" />
 		<Unit filename="inc/platform.hpp" />
@@ -154,7 +153,6 @@
 		<Unit filename="src/manage.cpp" />
 		<Unit filename="src/map.cpp" />
 		<Unit filename="src/menu.cpp" />
-		<Unit filename="src/menubutton.cpp" />
 		<Unit filename="src/operator.cpp" />
 		<Unit filename="src/option.cpp" />
 		<Unit filename="src/platform.cpp" />

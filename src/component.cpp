@@ -33,12 +33,30 @@ Sorcery::Component::Component(std::string screen_, std::string name_, int x_, in
 	alpha{alpha_}, width{width_} {
 }
 
-// Copy Constructor
+// Copy Constructors
 Sorcery::Component::Component(const Component &other): screen{other.screen}, name{other.name}, x{other.x}, y{other.y},
 	w{other.w}, h{other.h}, scale{other.scale}, font{other.font}, size{other.size}, colour{other.colour},
 	animated{other.animated}, string_key{other.string_key}, alpha{other.alpha}, width{other.width} {
 }
 
-// Standard Destructor
-Sorcery::Component::~Component() {
+auto Sorcery::Component::operator= (const Component &other) -> Component& {
+	screen = other.screen;
+	name = other.name;
+	x = other.x;
+	y = other.y;
+	w = other.w;
+	h = other.h;
+	scale = other.scale;
+	font = other.font;
+	size = other.size;
+	colour = other.colour;
+	animated = other.animated;
+	string_key = other.string_key;
+	alpha = other.alpha;
+	width = other.width;
+
+	return *this;
 }
+
+// Standard Destructor
+Sorcery::Component::~Component() = default;

@@ -50,10 +50,11 @@ namespace Sorcery {
 			unsigned int count;
 
 			// Public Methods
-			auto choose_next() -> void;
-			auto choose_previous() -> void;
-			auto choose(unsigned int index) -> std::vector<MenuEntry>::const_iterator;
-			auto set_mouse_selected(sf::Vector2f mouse_position) -> std::vector<MenuEntry>::const_iterator;
+			auto choose_next() -> std::optional<std::vector<MenuEntry>::const_iterator>;
+			auto choose_previous() -> std::optional<std::vector<MenuEntry>::const_iterator>;
+			auto choose(unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator>;
+			auto set_mouse_selected(sf::Vector2f mouse_position) ->
+				std::optional<std::vector<MenuEntry>::const_iterator>;
 
 		private:
 
@@ -64,12 +65,12 @@ namespace Sorcery {
 			auto _select_last_enabled() -> void;
 
 			// Private Members
-			unsigned int _width;
-			MenuType _type;
 			System _system;
 			Display _display;
 			Graphics _graphics;
 			sf::RenderWindow* _window;
+			unsigned int _width;
+			MenuType _type;
 
 	};
 }

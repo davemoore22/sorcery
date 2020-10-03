@@ -37,8 +37,9 @@ namespace Sorcery {
 				float scale_, Enums::Internal::FontType font_, unsigned int size_, unsigned long long colour_,
 				bool animated_, std::string string_key_, unsigned int alpha_, unsigned int width_);
 
-			// Copy Constructor
+			// Copy Constructors
 			Component(const Component &other);
+			auto operator= (const Component &other) -> Component&;
 
 			// Standard Destructor
 			virtual ~Component();
