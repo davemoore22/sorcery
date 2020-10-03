@@ -141,6 +141,8 @@ auto Sorcery::MainMenu::start() -> void {
 				if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Down))
 					_main_menu->choose_next();
 
+				if (event.type == sf::Event::MouseMoved)
+					_main_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 			}
 
 		}
@@ -213,12 +215,10 @@ auto Sorcery::MainMenu::_get_attract_mode(std::vector<unsigned int> attract_mode
 		attract_texture.clear();
 
 		// Work out their Indexes and Positions
-		unsigned int sprite_index {};
 		unsigned int sprite_x {0};
 		for (auto i: _attract_mode_data) {
 			sf::Sprite sprite = _get_creature_gfx(i, true);
 			sprite.setPosition(sprite_x, 0);
-			//sprite.setColor(sf::Color(0, 0, 0, 175));
 			attract_texture.draw(sprite, sf::BlendAlpha);
 			sprite_x += (_creature_sprite_width + _creature_sprite_spacing);
 		}

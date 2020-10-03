@@ -52,11 +52,8 @@ namespace Sorcery {
 			// Public Methods
 			auto choose_next() -> void;
 			auto choose_previous() -> void;
-
-			// Given a mouse position, work out if one of the options has been mouse-overed by the mouse - note that the
-			// option rects are calculated in the draw event
-
-			// also since there's a 1 to 1 correlation between items and bounds, can use this to set selexted too
+			auto choose(unsigned int index) -> std::vector<MenuEntry>::const_iterator;
+			auto set_mouse_selected(sf::Vector2f mouse_position) -> std::vector<MenuEntry>::const_iterator;
 
 		private:
 
