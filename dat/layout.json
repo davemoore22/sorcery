@@ -93,7 +93,7 @@
 			"x": "centre",
 			"y": "33",
 			"font": "monospace",
-			"colour": "0x808080ff",
+			"colour": "0x999999ff",
 			"size": "38",
 			"string": "PRESS_ANY_KEY",
 			"animated": "true"

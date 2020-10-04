@@ -147,25 +147,25 @@ auto Sorcery::Animation::_do_colour_cycling() -> void {
 
 	// Handle menu pulsating
 	if (_colour_cycling_direction) {
-		 if (colour_lerp < 1.0l)
-			colour_lerp += 0.025l;
+		 if (colour_lerp < 0.5l)
+			colour_lerp += 0.0125l;
 		 else {
 			_colour_cycling_direction = !_colour_cycling_direction;
-			colour_lerp -= 0.025l;
+			colour_lerp -= 0.0125l;
 		 }
 	} else {
-		if (colour_lerp > 0.0l)
-			colour_lerp -= 0.025l;
+		if (colour_lerp > -0.5l)
+			colour_lerp -= 0.0125l;
 		else {
 			_colour_cycling_direction = !_colour_cycling_direction;
-			colour_lerp += 0.025l;
+			colour_lerp += 0.0125l;
 		}
 	}
 
-	if (colour_lerp < 0.0l)
-		colour_lerp = 0.0l;
-	if (colour_lerp > 1.0l)
-		colour_lerp = 1.0l;
+	if (colour_lerp < -0.5l)
+		colour_lerp = -0.5l;
+	if (colour_lerp > 0.5l)
+		colour_lerp = 0.5l;
 
 	// Handle Attract Mode Fade In/Out
 	if (_attract_mode_fade_in == true) {

@@ -189,7 +189,7 @@ auto Sorcery::Window::_draw_centered_text(sf::Text& text, Component& component, 
 	int y {0};
 	text.setFont(_system.resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
-	if ((component.animated) && (lerp >= 0.0l))
+	if (component.animated)
 		text.setFillColor(_change_colour(sf::Color(component.colour), lerp));
 	else
 		text.setFillColor(sf::Color(component.colour));
@@ -232,7 +232,7 @@ auto Sorcery::Window::_draw_centered_menu(std::vector<MenuEntry>& items, std::ve
 			sf::RectangleShape background(sf::Vector2f(width * get_cell_width(),
 				background_rect.height + 2));
 			background.setOrigin(background.getGlobalBounds().width / 2.0f, -3);
-			if ((component.animated) && (lerp >= 0.0l))
+			if (component.animated)
 				background.setFillColor(change_colour(sf::Color(96,96,200), lerp));
 			else
 				background.setFillColor(sf::Color(96,96,200));
@@ -304,25 +304,46 @@ auto Sorcery::Window::get_y(sf::Sprite& sprite, int y_position) -> unsigned int 
 	return y_position ==  -1 ? _get_centre_y(sprite) : y_position;
 }
 
-// Given a colour, change its brightness
-auto Sorcery::Window::change_colour(sf::Color colour, double lerp) -> sf::Color {
-	return _change_colour(colour, lerp);
-}
-
-auto Sorcery::Window::_change_colour(sf::Color colour, double lerp) -> sf::Color {
-	int r {colour.r};
-	int g {colour.g};
-	int b {colour.b};
-	r = std::min(255, (int) (r + 128 * lerp));
-	g = std::min(255, (int) (g + 128 * lerp));
-	b = std::min(255, (int) (b + 128 * lerp));
-	return sf::Color(r, g, b);
-}
-
 auto Sorcery::Window::get_cell_height() -> unsigned int {
 	return _cell_height;
 }
 
 auto Sorcery::Window::get_cell_width() -> unsigned int {
 	return _cell_width;
+}
+
+// Given a colour, change its brightness
+auto Sorcery::Window::change_colour(sf::Color colour, double lerp) -> sf::Color {
+	return _change_colour(colour, lerp);
+}
+
+auto Sorcery::Window::_change_colour(sf::Color colour, double lerp) -> sf::Color {
+	/* int r {colour.r};
+	int g {colour.g};
+	int b {colour.b};
+	r = std::min(255, (int) (r + 64 * lerp));
+	g = std::min(255, (int) (g + 64 * lerp));
+	b = std::min(255, (int) (b + 64 * lerp));
+	r = std::max(0, (int) (r));
+	g = std::max(0, (int) (g));
+	b = std::max(0, (int) (b));
+	return sf::Color(r, g, b); */
+
+	double red {colour.r};
+	double green {colour.g};
+	double blue {colour.b};
+	if (lerp < 0) {
+		lerp = 1 + lerp;
+		red *= lerp;
+		green *= lerp;
+		blue *= lerp;
+	} else {
+		red = (255 - red) * lerp + red;
+		green = (255 - green) * lerp + green;
+		blue = (255 - blue) * lerp + blue;
+	}
+
+	//std::cout << red << " " << green << " " << blue << std::endl;
+
+	return sf::Color(red, green, blue);
 }
