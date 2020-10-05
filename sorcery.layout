@@ -49,7 +49,7 @@
 	</File>
 	<File name="inc/main.hpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3414" topLine="102" />
+			<Cursor1 position="4055" topLine="102" />
 		</Cursor>
 	</File>
 	<File name="src/banner.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -79,7 +79,7 @@
 	</File>
 	<File name="src/mainmenu.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="6576" topLine="126" />
+			<Cursor1 position="7843" topLine="180" />
 		</Cursor>
 	</File>
 	<File name="src/string.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -112,14 +112,14 @@
 			<Cursor1 position="1765" topLine="26" />
 		</Cursor>
 	</File>
-	<File name="dat/layout.json" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="dat/layout.json" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1752" topLine="84" />
 		</Cursor>
 	</File>
-	<File name="src/window.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/window.cpp" open="1" top="1" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="12286" topLine="301" />
+			<Cursor1 position="13384" topLine="334" />
 		</Cursor>
 	</File>
 	<File name="inc/layout.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -147,7 +147,7 @@
 			<Cursor1 position="2537" topLine="47" />
 		</Cursor>
 	</File>
-	<File name="cfg/config.ini" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="cfg/config.ini" open="1" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="121" topLine="0" />
 		</Cursor>
@@ -169,7 +169,7 @@
 	</File>
 	<File name="dat/strings.json" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="380" topLine="0" />
+			<Cursor1 position="368" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

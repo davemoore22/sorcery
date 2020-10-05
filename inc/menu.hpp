@@ -55,6 +55,8 @@ namespace Sorcery {
 			auto choose(unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator>;
 			auto set_mouse_selected(sf::Vector2f mouse_position) ->
 				std::optional<std::vector<MenuEntry>::const_iterator>;
+			auto get_mouse_clicked(sf::Event::MouseButtonEvent mouse_button_event) ->
+				std::optional<std::vector<MenuEntry>::const_iterator>;
 
 		private:
 

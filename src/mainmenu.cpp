@@ -118,6 +118,7 @@ auto Sorcery::MainMenu::start() -> void {
 	_background_movie.play();
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected_option {std::nullopt};
+	_display.window->input_mode = WindowInputMode::NORMAL;
 
 	// And do the main loop
 	while (_window->isOpen()) {
@@ -126,34 +127,48 @@ auto Sorcery::MainMenu::start() -> void {
 		sf::Event event;
 		while (_window->pollEvent(event)) {
 
-			// Check for Window Close
-			if (event.type == sf::Event::Closed)
-				_window->close();
+			// If we are in normal input mode
+			if (_display.window->input_mode == WindowInputMode::NORMAL) {
 
-			// Check for any key being pressed to move onto the main menu
-			if (_menu_stage == MainMenuType::ATTRACT_MODE) {
-				if ((event.type == sf::Event::KeyPressed) || (event.type == sf::Event::MouseButtonPressed))
-					_menu_stage = MainMenuType::ATTRACT_MENU;
-			} else if (_menu_stage == MainMenuType::ATTRACT_MENU) {
+				// Check for Window Close
+				if (event.type == sf::Event::Closed)
+					_window->close();
 
-				// And handle input on the main menu
-				if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Up))
-					selected_option = _main_menu->choose_previous();
-				if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Down))
-					selected_option = _main_menu->choose_next();
-				if (event.type == sf::Event::MouseMoved)
-					selected_option =
-						_main_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				if ((event.type == sf::Event::MouseButtonReleased) || ((event.type == sf::Event::KeyPressed) &&
-					((event.key.code == sf::Keyboard::Space) || (event.key.code == sf::Keyboard::Enter)))) {
-					if (selected_option) {
-						int option_chosen = std::get<static_cast<int>(MenuField::INDEX)>(*selected_option.value());
+				// Check for any key being pressed to move onto the main menu
+				if (_menu_stage == MainMenuType::ATTRACT_MODE) {
+					if ((event.type == sf::Event::KeyPressed) || (event.type == sf::Event::MouseButtonPressed))
+						_menu_stage = MainMenuType::ATTRACT_MENU;
+				} else if (_menu_stage == MainMenuType::ATTRACT_MENU) {
 
-						// We have selected something from the menu
+					// And handle input on the main menu
+					if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Up))
+						selected_option = _main_menu->choose_previous();
+					if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Down))
+						selected_option = _main_menu->choose_next();
+					if (event.type == sf::Event::MouseMoved)
+						selected_option =
+							_main_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					if ((event.type == sf::Event::MouseButtonReleased) || ((event.type == sf::Event::KeyPressed) &&
+						((event.key.code == sf::Keyboard::Space) || (event.key.code == sf::Keyboard::Enter)))) {
+						if (selected_option) {
+							int option_chosen = std::get<static_cast<int>(MenuField::INDEX)>(*selected_option.value());
+
+							// We have selected something from the menu
+							if (option_chosen == 5) {
+								_display.window->input_mode = WindowInputMode::CONFIRM_Y_OR_N;
+								_yes_or_no = WindowConfirm::NO;
+							}
+						}
 					}
 				}
-			}
+			} else if (_display.window->input_mode == WindowInputMode::CONFIRM_Y_OR_N) {
 
+				// Check for Window Close
+				if (event.type == sf::Event::Closed)
+					_window->close();
+
+				// All we can do is select Y or N
+			}
 		}
 
 		if (_background_movie.getStatus() == sfe::Stopped) {
@@ -198,9 +213,15 @@ auto Sorcery::MainMenu::_draw(std::vector<unsigned int> attract_mode_data,
 			_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:subtitle_1"]);
 			_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:subtitle_2"]);
 			_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:copyright"]);
-		} else
+		} else {
 			_display.window->draw_centered_menu(_main_menu->items, _main_menu->bounds, _main_menu->selected,
 				(*_display.layout)["main_menu_attract:main_menu"], lerp);
+			if (_display.window->input_mode == WindowInputMode::CONFIRM_Y_OR_N) {
+				_display.window->draw_confirm((*_display.layout)["main_menu_attract:confirm_exit_gui_frame"],
+				(*_display.layout)["main_menu_attract:confirm_exit_game"],
+					static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)), _yes_or_no);
+			}
+		}
 	}
 
 	// Always draw the following

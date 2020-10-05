@@ -76,5 +76,6 @@ namespace Sorcery {
 			sf::Sprite _bottom_frame;
 			MainMenuType _menu_stage;
 			std::shared_ptr<Menu> _main_menu;
+			WindowConfirm _yes_or_no;
 	};
 }

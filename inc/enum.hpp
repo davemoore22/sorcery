@@ -30,6 +30,20 @@
 // Enums
 namespace Sorcery {
 
+	namespace Enums::Window {
+
+		// Input Mode
+		enum InputMode {
+			NORMAL,
+			CONFIRM_Y_OR_N
+		};
+
+		enum Confirm {
+			YES,
+			NO
+		};
+	}
+
 	namespace Enums::Settings {
 
 		// Settings

@@ -106,7 +106,26 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"animated": "true",
-			"width": 54
+			"width": 54,
+			"background": "0x6060c8ff"
+		},
+		{
+			"name": "confirm_exit_gui_frame",
+			"w": "44",
+			"h": "7",
+			"x": "centre",
+			"y": "14",
+			"alpha": "175"
+		},
+		{
+			"name": "confirm_exit_game",
+			"x": "centre",
+			"y": "16",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CONFIRM_EXIT_GAME",
+			"background": "0x6060c8ff"
 		}
 		]
 	}

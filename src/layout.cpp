@@ -213,11 +213,20 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 						} else
 							return 0;
 					}();
+					unsigned long long background = [&] {
+						if (components[j].isMember("background")) {
+							if (components[j]["background"].asString().length() > 0)
+								return std::stoull(components[j]["background"].asString(), 0, 16);
+							else
+								return static_cast<unsigned long long>(0ull);
+						} else
+							return static_cast<unsigned long long>(0ull);
+					}();
 
 					// Add the Component
 					std::string key = screen_name + ":" + name;
 					Component component(screen_name, name, x, y, w, h, scale, font_type, size, colour, animated,
-						string_key, alpha, width);
+						string_key, alpha, width, background);
 					_components[key] = component;
 				}
 			 }
