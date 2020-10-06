@@ -46,7 +46,7 @@ namespace Sorcery {
 			auto clear_window() -> void;
 			auto darken_colour(sf::Color colour, double lerp) -> sf::Color;
 			auto draw_confirm(Component& gui_component, Component& text_component, sf::Vector2f mouse_position,
-				WindowConfirm& yes_or_no) -> void;
+				WindowConfirm& yes_or_no, double lerp) -> void;
 			auto display_window() -> void;
 			auto draw_centered_menu(std::vector<MenuEntry>& items, std::vector<sf::FloatRect>& bounds,
 				std::vector<MenuEntry>::const_iterator iterator, Component& component, double lerp) -> void;
@@ -76,7 +76,7 @@ namespace Sorcery {
 			// Private Methods
 			auto _change_colour(sf::Color colour, double lerp) -> sf::Color;
 			auto _draw_confirm(Component& gui_component, Component& text_component, sf::Vector2f mouse_position,
-				WindowConfirm& yes_or_no) -> void;
+				WindowConfirm& yes_or_no, double lerp) -> void;
 			auto _draw_centered_menu(std::vector<MenuEntry>& items, std::vector<sf::FloatRect>& bounds,
 				std::vector<MenuEntry>::const_iterator iterator, Component& component, double lerp) -> void;
 			auto _draw_centered_text(sf::Text& text, Component& component, double lerp) -> void;

@@ -168,6 +168,27 @@ auto Sorcery::MainMenu::start() -> void {
 					_window->close();
 
 				// All we can do is select Y or N
+				if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Left)) {
+					if (_yes_or_no == WindowConfirm::YES)
+						_yes_or_no = WindowConfirm::NO;
+					else if (_yes_or_no == WindowConfirm::NO)
+						_yes_or_no = WindowConfirm::YES;
+				}
+
+				if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Right)) {
+					if (_yes_or_no == WindowConfirm::YES)
+						_yes_or_no = WindowConfirm::NO;
+					else if (_yes_or_no == WindowConfirm::NO)
+						_yes_or_no = WindowConfirm::YES;
+				}
+
+				if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Y))
+					_yes_or_no = WindowConfirm::YES;
+
+				if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::N))
+					_yes_or_no = WindowConfirm::NO;
+
+				// Handle mouse over too and mouse click/enter/space
 			}
 		}
 
@@ -219,7 +240,7 @@ auto Sorcery::MainMenu::_draw(std::vector<unsigned int> attract_mode_data,
 			if (_display.window->input_mode == WindowInputMode::CONFIRM_Y_OR_N) {
 				_display.window->draw_confirm((*_display.layout)["main_menu_attract:confirm_exit_gui_frame"],
 				(*_display.layout)["main_menu_attract:confirm_exit_game"],
-					static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)), _yes_or_no);
+					static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)), _yes_or_no, lerp);
 			}
 		}
 	}

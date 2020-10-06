@@ -215,8 +215,7 @@ auto Sorcery::Window::_draw_centered_menu(std::vector<MenuEntry>& items, std::ve
 	int count {0};
 
 	bounds.clear();
-	std::vector<MenuEntry>::const_iterator it = {};
-	for (it = items.begin(); it != items.end(); ++it) {
+	for (std::vector<MenuEntry>::const_iterator it = items.begin(); it != items.end(); ++it) {
 		std::string text_string {std::get<static_cast<int>(MenuField::TEXT)>(*it)};
 		sf::Text text;
 		text.setFont(_system.resources->fonts[component.font]);
@@ -248,6 +247,74 @@ auto Sorcery::Window::_draw_centered_menu(std::vector<MenuEntry>& items, std::ve
 		count++;
 	}
 }
+
+auto Sorcery::Window::draw_confirm(Component& gui_component, Component& text_component, sf::Vector2f mouse_position,
+ 	WindowConfirm& yes_or_no, double lerp) -> void {_draw_confirm(gui_component, text_component, mouse_position,
+	 yes_or_no, lerp);
+}
+
+auto Sorcery::Window::_draw_confirm(Component& gui_component, Component& text_component, sf::Vector2f mouse_position,
+	WindowConfirm& yes_or_no, double lerp) -> void {
+
+	// Generate back frame
+	sf::RenderTexture back_frame_rt {};
+	sf::Texture back_frame_t {};
+	sf::Sprite back_frame {get_gui_frame(back_frame_rt, back_frame_t, gui_component.w, gui_component.h,
+		gui_component.alpha)};
+	const sf::Vector2f back_pos {get_x(back_frame, gui_component.x), get_y(back_frame, gui_component.y)};
+	back_frame.setPosition(back_pos);
+	_window.draw(back_frame);
+
+	// Display Confirmation Message
+	sf::Text text {};
+	draw_centered_text(text, text_component);
+
+	// Draw Yes / No (and highlight them depending on which one chosen)
+	int yes_no_y {text_component.y + (_cell_height * 2)};
+	int yes_x {centre.x - (_cell_width * 4)};
+	int no_x {centre.x + (_cell_width * 2)};
+	sf::Text yes_text {};
+	sf::Text no_text {};
+
+	yes_text.setFont(_system.resources->fonts[text_component.font]);
+	yes_text.setCharacterSize(text_component.size);
+	yes_text.setFillColor(sf::Color(text_component.colour));
+	yes_text.setString("YES");
+	yes_text.setPosition(yes_x, yes_no_y);
+	//yes_text.setOrigin(yes_text.getLocalBounds().width / 2.0f, yes_text.getLocalBounds().height / 2.0f);
+	no_text.setFont(_system.resources->fonts[text_component.font]);
+	no_text.setCharacterSize(text_component.size);
+	no_text.setFillColor(sf::Color(text_component.colour));
+	no_text.setString("NO");
+	no_text.setPosition(no_x, yes_no_y);
+	//no_text.setOrigin(no_text.getLocalBounds().width / 2.0f, no_text.getLocalBounds().height / 2.0f);
+
+	// Draw backgrounds
+	if (yes_or_no == WindowConfirm::YES) {
+		sf::FloatRect yes_background_rect {yes_text.getGlobalBounds()};
+		sf::RectangleShape yes_background(sf::Vector2(yes_background_rect.width + 6, yes_background_rect.height + 8));
+		yes_background.setOrigin(0, 0 - yes_text.getLocalBounds().height + 10);
+		yes_background.setFillColor(change_colour(sf::Color(text_component.background), lerp));
+		yes_text.setFillColor(sf::Color(text_component.colour));
+		yes_text.setOutlineColor(sf::Color(0, 0, 0));
+		yes_text.setOutlineThickness(2);
+		_window.draw(yes_background, yes_text.getTransform());
+	} else if (yes_or_no == WindowConfirm::NO) {
+		sf::FloatRect no_background_rect {no_text.getGlobalBounds()};
+		sf::RectangleShape no_background(sf::Vector2f(no_background_rect.width + 6, no_background_rect.height + 8));
+		no_background.setOrigin(0, 0 - no_text.getLocalBounds().height + 10);
+		//no_background.setOrigin(no_text.getLocalBounds().width / 2.0f, no_text.getLocalBounds().height / 2.0f);
+		no_background.setFillColor(change_colour(sf::Color(text_component.background), lerp));
+		no_text.setFillColor(sf::Color(text_component.colour));
+		no_text.setOutlineColor(sf::Color(0, 0, 0));
+		no_text.setOutlineThickness(2);
+		_window.draw(no_background, no_text.getTransform());
+	}
+
+	_window.draw(yes_text);
+	_window.draw(no_text);
+}
+
 
 auto Sorcery::Window::get_cursor() -> sf::Sprite {
 	sf::Sprite cursor(_system.resources->textures[UI_TEXTURE]);
@@ -336,56 +403,4 @@ auto Sorcery::Window::_change_colour(sf::Color colour, double lerp) -> sf::Color
 	}
 
 	return sf::Color(red, green, blue);
-}
-
-auto Sorcery::Window::draw_confirm(Component& gui_component, Component& text_component, sf::Vector2f mouse_position,
- 	WindowConfirm& yes_or_no) -> void {_draw_confirm(gui_component, text_component, mouse_position, yes_or_no);
-}
-
-auto Sorcery::Window::_draw_confirm(Component& gui_component, Component& text_component, sf::Vector2f mouse_position,
-	WindowConfirm& yes_or_no) -> void {
-
-	// Generate back frame
-	sf::RenderTexture back_frame_rt {};
-	sf::Texture back_frame_t {};
-	sf::Sprite back_frame {get_gui_frame(back_frame_rt, back_frame_t, gui_component.w, gui_component.h,
-		gui_component.alpha)};
-	const sf::Vector2f back_pos {get_x(back_frame, gui_component.x), get_y(back_frame, gui_component.y)};
-	back_frame.setPosition(back_pos);
-	_window.draw(back_frame);
-
-	// Display Confirmation Message
-	sf::Text text {};
-	draw_centered_text(text, text_component);
-
-	// Draw Yes / No (and highlight them depending on which one chosen)
-	int yes_no_y {text_component.y + (_cell_height * 2)};
-	int yes_x {centre.x - (_cell_width * 2)};
-	int no_x {centre.x + (_cell_width * 2)};
-	sf::Text yes_text {};
-	sf::Text no_text {};
-
-	yes_text.setFont(_system.resources->fonts[text_component.font]);
-	yes_text.setCharacterSize(text_component.size);
-	yes_text.setFillColor(sf::Color(text_component.colour));
-	yes_text.setString("YES");
-	yes_text.setPosition(yes_x, yes_no_y);
-	yes_text.setOrigin(yes_text.getLocalBounds().width / 2.0f, yes_text.getLocalBounds().height / 2.0f);
-	_window.draw(yes_text);
-	no_text.setFont(_system.resources->fonts[text_component.font]);
-	no_text.setCharacterSize(text_component.size);
-	no_text.setFillColor(sf::Color(text_component.colour));
-	no_text.setString("NO");
-	no_text.setPosition(no_x, yes_no_y);
-	no_text.setOrigin(no_text.getLocalBounds().width / 2.0f, no_text.getLocalBounds().height / 2.0f);
-	_window.draw(no_text);
-
-	// Draw backgrounds
-	if (yes_or_no == WindowConfirm::YES) {
-
-
-	} else if (yes_or_no == WindowConfirm::NO) {
-
-
-	}
 }

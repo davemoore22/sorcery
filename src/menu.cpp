@@ -88,8 +88,7 @@ auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const Menu
 
 // Select the first enabled menu item
 auto Sorcery::Menu::_select_first_enabled() -> void {
-	std::vector<MenuEntry>::const_iterator it = {};
-	for (it = items.begin(); it != items.end(); ++it)
+	for (std::vector<MenuEntry>::const_iterator it = items.begin(); it != items.end(); ++it)
 		if (std::get<static_cast<int>(MenuField::TYPE)>(*it) == MenuItemType::ENTRY)
 			if (std::get<static_cast<int>(MenuField::ENABLED)>(*it)) {
 				selected = it;
@@ -99,8 +98,7 @@ auto Sorcery::Menu::_select_first_enabled() -> void {
 
 // Select the last enabled menu item
 auto Sorcery::Menu::_select_last_enabled() -> void {
-	std::vector<MenuEntry>::const_iterator it = {};
-	for (it = items.end(); it != items.begin(); --it)
+	for (std::vector<MenuEntry>::const_iterator it = items.end(); it != items.begin(); --it)
 		if (std::get<static_cast<int>(MenuField::TYPE)>(*it) == MenuItemType::ENTRY)
 			if (std::get<static_cast<int>(MenuField::ENABLED)>(*it)) {
 				selected = it;
