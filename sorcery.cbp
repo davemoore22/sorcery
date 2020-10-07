@@ -108,6 +108,7 @@
 		<Unit filename="inc/character.hpp" />
 		<Unit filename="inc/component.hpp" />
 		<Unit filename="inc/config.hpp" />
+		<Unit filename="inc/confirm.hpp" />
 		<Unit filename="inc/create.hpp" />
 		<Unit filename="inc/database.hpp" />
 		<Unit filename="inc/define.hpp" />
@@ -141,6 +142,7 @@
 		<Unit filename="src/character.cpp" />
 		<Unit filename="src/component.cpp" />
 		<Unit filename="src/config.cpp" />
+		<Unit filename="src/confirm.cpp" />
 		<Unit filename="src/create.cpp" />
 		<Unit filename="src/database.cpp" />
 		<Unit filename="src/display.cpp" />

@@ -73,6 +73,5 @@ namespace Sorcery {
 			sf::RenderWindow* _window;
 			unsigned int _width;
 			MenuType _type;
-
 	};
 }
