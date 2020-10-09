@@ -21,36 +21,29 @@
 // licensors of this Program grant you additional permission to convey the
 // resulting work.
 
-#include "system.hpp"
+#pragma once
 
-// Standard Constructor
-Sorcery::System::System(int argc __attribute__((unused)), char** argv __attribute__((unused))) {
+#include "main.hpp"
 
-	// Files Module
-	files = std::make_shared<File>();
+namespace Sorcery {
 
-	// Settings File/Config Module
-	settings = std::make_shared<CSimpleIniA>();
-	settings->SetUnicode();
-	const std::string settings_file_path {(*files)[CONFIG_FILE]};
-	settings->LoadFile(CSTR(settings_file_path));
-	config = std::make_shared<Config>(settings.get(), (*files)[CONFIG_FILE]);
+	class Input {
 
-	// Game Database
-	database = std::make_shared<Database>((*files)[DATABASE_FILE]);
+		public:
 
-	// Random Module
-	random = std::make_shared<Random>();
+			// Standard Constructor
+			Input();
 
-	// Resource Manager
-	resources = std::make_shared<ResourceManager>(*files);
+			// Standard Destructor
+			virtual ~Input();
 
-	// Input Module
-	input = std::make_shared<Input>();
+			// Public Members
+
+			// Public Methods
+			auto check_for_event(sf::Event) -> std::optional<WindowInput>;
+
+		private:
+
+			// Private Methods
+	};
 }
-
-// Standard Destructor
-Sorcery::System::~System() {
-}
-
-

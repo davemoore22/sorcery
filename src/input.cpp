@@ -21,36 +21,21 @@
 // licensors of this Program grant you additional permission to convey the
 // resulting work.
 
-#include "system.hpp"
+#include "input.hpp"
 
 // Standard Constructor
-Sorcery::System::System(int argc __attribute__((unused)), char** argv __attribute__((unused))) {
+Sorcery::Input::Input() {
 
-	// Files Module
-	files = std::make_shared<File>();
-
-	// Settings File/Config Module
-	settings = std::make_shared<CSimpleIniA>();
-	settings->SetUnicode();
-	const std::string settings_file_path {(*files)[CONFIG_FILE]};
-	settings->LoadFile(CSTR(settings_file_path));
-	config = std::make_shared<Config>(settings.get(), (*files)[CONFIG_FILE]);
-
-	// Game Database
-	database = std::make_shared<Database>((*files)[DATABASE_FILE]);
-
-	// Random Module
-	random = std::make_shared<Random>();
-
-	// Resource Manager
-	resources = std::make_shared<ResourceManager>(*files);
-
-	// Input Module
-	input = std::make_shared<Input>();
 }
+
 
 // Standard Destructor
-Sorcery::System::~System() {
+Sorcery::Input::~Input() {
+
 }
 
+// Check for a type of input
+auto Sorcery::Input::check_for_event(sf::Event) -> std::optional<WindowInput> {
 
+
+}

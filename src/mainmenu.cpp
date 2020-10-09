@@ -37,7 +37,7 @@ Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphic
 	// Load the Background Movie
 	_background_movie.openFromFile(_system.files->get_path_as_string(MENU_VIDEO));
 
-	// Set up the Attract Mode data
+	// Set up the Attract Mode data;
 	_attract_mode_data.clear();
 	_creature_sprite_width = 108;
 	_creature_sprite_height = 108;
@@ -141,19 +141,37 @@ auto Sorcery::MainMenu::start() -> void {
 
 				// Check for any key being pressed to move onto the main menu
 				if (_menu_stage == MainMenuType::ATTRACT_MODE) {
-					if ((event.type == sf::Event::KeyPressed) || (event.type == sf::Event::MouseButtonPressed))
+					if ((event.type == sf::Event::KeyPressed) || (event.type == sf::Event::MouseButtonPressed) ||
+						(event.type == sf::Event::JoystickButtonPressed))
 						_menu_stage = MainMenuType::ATTRACT_MENU;
 				} else if (_menu_stage == MainMenuType::ATTRACT_MENU) {
+
+					std::cout << sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::U) << std::endl;
+					std::cout << sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::V) << std::endl;
+					//std::cout << sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::U) << std::endl;
+					//std::cout << sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::V) << std::endl;
 
 					// And handle input on the main menu
 					if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Up))
 						selected_option = _main_menu->choose_previous();
-					if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Down))
+					else if ((event.type == sf::Event::JoystickMoved) &&
+						(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) == -100))
+						selected_option = _main_menu->choose_previous();
+					else if ((event.type == sf::Event::JoystickMoved) &&
+						(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::PovY) == -100))
+						selected_option = _main_menu->choose_previous();
+					else if ((event.type == sf::Event::JoystickMoved) &&
+						(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) == 100))
 						selected_option = _main_menu->choose_next();
-					if (event.type == sf::Event::MouseMoved)
+					else if ((event.type == sf::Event::JoystickMoved) &&
+						(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::PovY) == -100))
+						selected_option = _main_menu->choose_next();
+					else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Down))
+						selected_option = _main_menu->choose_next();
+					else if (event.type == sf::Event::MouseMoved)
 						selected_option =
 							_main_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					if ((event.type == sf::Event::MouseButtonReleased) || ((event.type == sf::Event::KeyPressed) &&
+					else if ((event.type == sf::Event::MouseButtonReleased) || ((event.type == sf::Event::KeyPressed) &&
 						((event.key.code == sf::Keyboard::Space) || (event.key.code == sf::Keyboard::Enter)))) {
 						if (selected_option) {
 							int option_chosen = std::get<static_cast<int>(MenuField::INDEX)>(*selected_option.value());
@@ -164,9 +182,7 @@ auto Sorcery::MainMenu::start() -> void {
 								_yes_or_no = WindowConfirm::NO;
 							}
 						}
-					}
-
-					if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape)) {
+					} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape)) {
 						_display.window->input_mode = WindowInputMode::CONFIRM_Y_OR_N;
 						_yes_or_no = WindowConfirm::NO;
 					}
@@ -180,23 +196,17 @@ auto Sorcery::MainMenu::start() -> void {
 				// All we can do is select Y or N
 				if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Left))
 					_confirm_exit->toggle_highlighted();
-
-				if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Right))
+				else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Right))
 					_confirm_exit->toggle_highlighted();
-
-				if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Y))
+				else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Y))
 					_confirm_exit->currently_highlighted = WindowConfirm::YES;
-
-				if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::N))
+				else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::N))
 					_confirm_exit->currently_highlighted = WindowConfirm::NO;
-
-				if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape))
+				else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape))
 					_display.window->input_mode = WindowInputMode::NORMAL;
-
-				if (event.type == sf::Event::MouseMoved)
+				else if (event.type == sf::Event::MouseMoved)
 					_confirm_exit->check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-
-				if ((event.type == sf::Event::MouseButtonReleased) || ((event.type == sf::Event::KeyPressed) &&
+				else if ((event.type == sf::Event::MouseButtonReleased) || ((event.type == sf::Event::KeyPressed) &&
 					((event.key.code == sf::Keyboard::Space) || (event.key.code == sf::Keyboard::Enter)))) {
 					std::optional<WindowConfirm> option_chosen =
 						_confirm_exit->check_if_option_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));

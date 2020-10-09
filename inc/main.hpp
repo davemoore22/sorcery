@@ -131,5 +131,6 @@ namespace Sorcery {
 	using StringType = Enums::Internal::StringType;
 	using StringMap = std::map<std::string, std::string>;
 	using WindowInputMode = Enums::Window::InputMode;
+	using WindowInput = Enums::Controls::Input;
 	using WindowConfirm = Enums::Window::Confirm;
 }

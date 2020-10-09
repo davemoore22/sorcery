@@ -30,6 +30,22 @@
 // Enums
 namespace Sorcery {
 
+	namespace Enums::Controls {
+
+		enum Input {
+			UP,
+			DOWN,
+			LEFT,
+			RIGHT,
+			MOVE,
+			CONFIRM,
+			CANCEL,
+			YES,
+			NO,
+			ALPHANUMERIC
+		};
+	}
+
 	namespace Enums::Window {
 
 		// Input Mode
@@ -52,7 +68,7 @@ namespace Sorcery {
 			GAMEPLAY,
 			GRAPHICS
 		};
-	} // namespace Enums::Settings
+	}
 
 	namespace Enums::Internal {
 
