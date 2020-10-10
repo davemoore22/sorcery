@@ -48,6 +48,7 @@ auto Sorcery::Confirm::check_for_mouse_move(sf::Vector2f mouse_position) -> std:
 		return std::nullopt;
 }
 
+// Only works for the Mouse
 auto Sorcery::Confirm::check_if_option_selected(sf::Vector2f mouse_position) -> std::optional<WindowConfirm> {
 	if (_yes_background_rect.contains(mouse_position)) {
 		currently_highlighted = WindowConfirm::YES;

@@ -146,56 +146,64 @@ auto Sorcery::MainMenu::start() -> void {
 				} else if (_menu_stage == MainMenuType::ATTRACT_MENU) {
 
 					// And handle input on the main menu
-					if (_system.input->check_for_event(WindowInput::UP, event)) {
+					if (_system.input->check_for_event(WindowInput::UP, event))
 						selected_option = _main_menu->choose_previous();
-					} else if (_system.input->check_for_event(WindowInput::DOWN, event)) {
+					else if (_system.input->check_for_event(WindowInput::DOWN, event))
 						selected_option = _main_menu->choose_next();
-					} else if (_system.input->check_for_event(WindowInput::MOVE, event)) {
+					else if (_system.input->check_for_event(WindowInput::MOVE, event))
 						selected_option =
 							_main_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					} else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
+					else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
 						if (selected_option) {
-							int option_chosen {std::get<static_cast<int>(MenuField::INDEX)>(*selected_option.value())};
+							unsigned int option_chosen {std::get<static_cast<unsigned int>(MenuField::INDEX)>(*selected_option.value())};
 
 							// We have selected something from the menu
 							if (option_chosen == 5) {
-								_display.window->input_mode = WindowInputMode::CONFIRM_Y_OR_N;
+								_display.window->input_mode = WindowInputMode::CONFIRM_EXIT;
 								_yes_or_no = WindowConfirm::NO;
 							}
 						}
 					} else if (_system.input->check_for_event(WindowInput::CANCEL, event)) {
-						_display.window->input_mode = WindowInputMode::CONFIRM_Y_OR_N;
+						_display.window->input_mode = WindowInputMode::CONFIRM_EXIT;
 						_yes_or_no = WindowConfirm::NO;
 					}
 				}
-			} else if (_display.window->input_mode == WindowInputMode::CONFIRM_Y_OR_N) {
+			} else if (_display.window->input_mode == WindowInputMode::CONFIRM_EXIT) {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
 					_window->close();
 
 				// All we can do is select Y or N
-				if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Left))
+				if (_system.input->check_for_event(WindowInput::LEFT, event))
 					_confirm_exit->toggle_highlighted();
-				else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Right))
+				else if (_system.input->check_for_event(WindowInput::RIGHT, event))
 					_confirm_exit->toggle_highlighted();
-				else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Y))
+				else if (_system.input->check_for_event(WindowInput::YES, event))
 					_confirm_exit->currently_highlighted = WindowConfirm::YES;
-				else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::N))
+				else if (_system.input->check_for_event(WindowInput::NO, event))
 					_confirm_exit->currently_highlighted = WindowConfirm::NO;
-				else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape))
+				else if (_system.input->check_for_event(WindowInput::CANCEL, event))
 					_display.window->input_mode = WindowInputMode::NORMAL;
-				else if (event.type == sf::Event::MouseMoved)
+				else if (_system.input->check_for_event(WindowInput::MOVE, event))
 					_confirm_exit->check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if ((event.type == sf::Event::MouseButtonReleased) || ((event.type == sf::Event::KeyPressed) &&
-					((event.key.code == sf::Keyboard::Space) || (event.key.code == sf::Keyboard::Enter)))) {
+				else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
 					std::optional<WindowConfirm> option_chosen =
 						_confirm_exit->check_if_option_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+
+					// Mouse click only
 					if (option_chosen) {
 						if (option_chosen.value() == WindowConfirm::YES)
 							_window->close();
 						if (option_chosen.value() == WindowConfirm::NO)
 							_display.window->input_mode = WindowInputMode::NORMAL;
+					} else {
+
+							// Button/Keyboard
+							if (_confirm_exit->currently_highlighted == WindowConfirm::YES)
+								_window->close();
+							else if (_confirm_exit->currently_highlighted == WindowConfirm::NO)
+								_display.window->input_mode = WindowInputMode::NORMAL;
 					}
 				}
 			}
@@ -221,7 +229,6 @@ auto Sorcery::MainMenu::_draw(std::vector<unsigned int> attract_mode_data,
 	if (attract_mode_data.size() > 0) {
 
 		sf::Sprite creatures {_get_attract_mode(attract_mode_data)};
-		//creatures.setColor(sf::Color(0, 0, 0, attract_creatures_c.alpha));
 		creatures.setColor(sf::Color(255, 255, 255, _graphics.animation->attract_mode_alpha));
 		creatures.setScale(attract_creatures_c.scale, attract_creatures_c.scale);
 		const sf::Vector2f creature_pos(_display.window->get_x(creatures, attract_creatures_c.x),
@@ -246,7 +253,7 @@ auto Sorcery::MainMenu::_draw(std::vector<unsigned int> attract_mode_data,
 		} else {
 			_display.window->draw_centered_menu(_main_menu->items, _main_menu->bounds, _main_menu->selected,
 				(*_display.layout)["main_menu_attract:main_menu"], lerp);
-			if (_display.window->input_mode == WindowInputMode::CONFIRM_Y_OR_N) {
+			if (_display.window->input_mode == WindowInputMode::CONFIRM_EXIT) {
 				_confirm_exit->draw(lerp);
 			}
 		}

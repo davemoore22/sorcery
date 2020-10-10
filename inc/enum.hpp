@@ -52,7 +52,7 @@ namespace Sorcery {
 		// Input Mode
 		enum InputMode {
 			NORMAL,
-			CONFIRM_Y_OR_N
+			CONFIRM_EXIT
 		};
 
 		enum Confirm {
