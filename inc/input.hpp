@@ -40,10 +40,12 @@ namespace Sorcery {
 			// Public Members
 
 			// Public Methods
-			auto check_for_event(sf::Event) -> std::optional<WindowInput>;
+			auto check_for_event(WindowInput input, sf::Event event) -> bool;
 
 		private:
 
 			// Private Methods
+			int _axis_sensitivity_min;
+			int _axis_sensitivity_max;
 	};
 }

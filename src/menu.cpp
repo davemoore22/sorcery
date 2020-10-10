@@ -133,7 +133,7 @@ auto Sorcery::Menu::choose(unsigned int index) -> std::optional<std::vector<Menu
 	// Iterate through til we have found it
 	bool found {false};
 	if (index < items.size()) {
-		std::vector<MenuEntry>::const_iterator working {items.begin()};
+		std::vector<MenuEntry>::const_iterator working = {items.begin()};
 		do {
 			found = std::get<static_cast<int>(MenuField::INDEX)>(*working) == index;
 			++working;
@@ -164,6 +164,9 @@ auto Sorcery::Menu::choose_previous() -> std::optional<std::vector<MenuEntry>::c
 			selected = working;
 			return selected;
 		}
+	} else {
+		selected = items.end() - 1;
+		return selected;
 	}
 
 	return std::nullopt;
@@ -171,7 +174,7 @@ auto Sorcery::Menu::choose_previous() -> std::optional<std::vector<MenuEntry>::c
 
 // Choose the next selected item
 auto Sorcery::Menu::choose_next() -> std::optional<std::vector<MenuEntry>::const_iterator> {
-	if (selected < items.end()) {
+	if (selected < items.end() - 1) {
 
 		// Iterate forwards until we find the first next enabled menu if we can
 		bool found_enabled_option {false};
@@ -185,6 +188,9 @@ auto Sorcery::Menu::choose_next() -> std::optional<std::vector<MenuEntry>::const
 			selected = working;
 			return selected;
 		}
+	} else {
+		selected = items.begin();
+		return selected;
 	}
 
 	return std::nullopt;

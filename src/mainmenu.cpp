@@ -122,14 +122,14 @@ auto Sorcery::MainMenu::start() -> void {
 	// Play the background movie!
 	_background_movie.play();
 
-	std::optional<std::vector<MenuEntry>::const_iterator> selected_option {std::nullopt};
+	std::optional<std::vector<MenuEntry>::const_iterator> selected_option {_main_menu->items.begin()};
 	_display.window->input_mode = WindowInputMode::NORMAL;
 
 	// And do the main loop
+	sf::Event event {};
 	while (_window->isOpen()) {
 
 		attract_mode_data = _graphics.animation->get_attract_mode_data();
-		sf::Event event;
 		while (_window->pollEvent(event)) {
 
 			// If we are in normal input mode
@@ -141,40 +141,21 @@ auto Sorcery::MainMenu::start() -> void {
 
 				// Check for any key being pressed to move onto the main menu
 				if (_menu_stage == MainMenuType::ATTRACT_MODE) {
-					if ((event.type == sf::Event::KeyPressed) || (event.type == sf::Event::MouseButtonPressed) ||
-						(event.type == sf::Event::JoystickButtonPressed))
+					if (_system.input->check_for_event(WindowInput::ANYTHING, event))
 						_menu_stage = MainMenuType::ATTRACT_MENU;
 				} else if (_menu_stage == MainMenuType::ATTRACT_MENU) {
 
-					std::cout << sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::U) << std::endl;
-					std::cout << sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::V) << std::endl;
-					//std::cout << sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::U) << std::endl;
-					//std::cout << sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::V) << std::endl;
-
 					// And handle input on the main menu
-					if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Up))
+					if (_system.input->check_for_event(WindowInput::UP, event)) {
 						selected_option = _main_menu->choose_previous();
-					else if ((event.type == sf::Event::JoystickMoved) &&
-						(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) == -100))
-						selected_option = _main_menu->choose_previous();
-					else if ((event.type == sf::Event::JoystickMoved) &&
-						(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::PovY) == -100))
-						selected_option = _main_menu->choose_previous();
-					else if ((event.type == sf::Event::JoystickMoved) &&
-						(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) == 100))
+					} else if (_system.input->check_for_event(WindowInput::DOWN, event)) {
 						selected_option = _main_menu->choose_next();
-					else if ((event.type == sf::Event::JoystickMoved) &&
-						(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::PovY) == -100))
-						selected_option = _main_menu->choose_next();
-					else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Down))
-						selected_option = _main_menu->choose_next();
-					else if (event.type == sf::Event::MouseMoved)
+					} else if (_system.input->check_for_event(WindowInput::MOVE, event)) {
 						selected_option =
 							_main_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					else if ((event.type == sf::Event::MouseButtonReleased) || ((event.type == sf::Event::KeyPressed) &&
-						((event.key.code == sf::Keyboard::Space) || (event.key.code == sf::Keyboard::Enter)))) {
+					} else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
 						if (selected_option) {
-							int option_chosen = std::get<static_cast<int>(MenuField::INDEX)>(*selected_option.value());
+							int option_chosen {std::get<static_cast<int>(MenuField::INDEX)>(*selected_option.value())};
 
 							// We have selected something from the menu
 							if (option_chosen == 5) {
@@ -182,7 +163,7 @@ auto Sorcery::MainMenu::start() -> void {
 								_yes_or_no = WindowConfirm::NO;
 							}
 						}
-					} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape)) {
+					} else if (_system.input->check_for_event(WindowInput::CANCEL, event)) {
 						_display.window->input_mode = WindowInputMode::CONFIRM_Y_OR_N;
 						_yes_or_no = WindowConfirm::NO;
 					}

@@ -33,6 +33,7 @@ namespace Sorcery {
 	namespace Enums::Controls {
 
 		enum Input {
+			ANYTHING,
 			UP,
 			DOWN,
 			LEFT,
