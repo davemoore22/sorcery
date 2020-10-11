@@ -30,36 +30,7 @@ auto main(int argc, char *argv[]) -> int
 
 	// Create an application
 	auto app = std::make_unique<Sorcery::Application>(argc, argv);
-
-
-	/* sf::RenderWindow* window = app->display->window->get_window();
-	tgui::Gui* gui = app->display->window->get_gui();
-
-	sf::Event event;
-
-	tgui::TextBox::Ptr textbox = tgui::TextBox::create();
-	textbox->setPosition(10, 10);
-	textbox->setSize(50, 50);
-	textbox->setTextSize(16);
-	gui->add(textbox);
-
-	while (window->isOpen())
-	{
-		while (window->pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window->close();
-		}
-
-		app->display->window->sprites[0].setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window)));
-
-		window->clear();
-		window->setView(app->display->window->view);
-        window->draw(app->display->window->sprites[0]);
-
-		gui->draw();
-		window->display();
-	} */
+	app->start();
 
 	return 0;
 }

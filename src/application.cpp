@@ -49,7 +49,6 @@ Sorcery::Application::Application(int argc, char** argv) {
 
 	// Display the main menu
 	_mainmenu = std::make_shared<MainMenu>(*system, *display, *graphics);
-	_mainmenu->start();
 }
 
 // Standard Destructor
@@ -57,6 +56,8 @@ Sorcery::Application::~Application() {
 	graphics->animation->stop_colour_cycling_threads();
 }
 
-
+auto Sorcery::Application::start() -> void {
+	_mainmenu->start();
+}
 
 

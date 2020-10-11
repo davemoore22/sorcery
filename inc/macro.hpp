@@ -33,12 +33,12 @@ namespace Sorcery  {
 	}
 
 	// Macro to convert std::string to C string
-	inline auto CSTR(const std::string &string_to_convert) -> const char* {
+	inline auto CSTR(const std::string& string_to_convert) -> const char* {
 		return !string_to_convert.empty() ? (char *)string_to_convert.c_str() : (char *)"";
 	}
 
 	// Macro to convert std::string to Wide C string
-	inline auto WCSTR(const std::string &string_to_convert) -> const wchar_t* {
+	inline auto WCSTR(const std::string& string_to_convert) -> const wchar_t* {
 		return !string_to_convert.empty() ? (wchar_t *)string_to_convert.c_str() : (wchar_t *)"";
 	}
 

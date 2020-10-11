@@ -62,6 +62,7 @@ namespace Sorcery {
 			std::unique_ptr<Graphics> graphics;
 
 			// Public Methods
+			auto start() -> void;
 
 		private:
 
