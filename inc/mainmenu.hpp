@@ -46,7 +46,8 @@ namespace Sorcery {
 			// Public Members
 
 			// Public Methods
-			auto start() -> void;
+			auto start(MainMenuType menu_stage) -> std::optional<MenuItem>;
+			auto stop() -> void;
 
 		private:
 

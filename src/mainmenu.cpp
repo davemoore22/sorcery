@@ -47,15 +47,27 @@ Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphic
 	// Clear the window
 	_window->clear();
 	_menu_stage = MainMenuType::ATTRACT_MODE;
+
+	// Create the Main Menu
+	_main_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::MAIN);
+
+	// Create the Confirmation Exit Dialog
+	_confirm_exit = std::make_shared<Confirm>(_system, _display, _graphics,
+		(*_display.layout)["main_menu_attract:confirm_exit_gui_frame"],
+		(*_display.layout)["main_menu_attract:confirm_exit_game"]);
+
 }
 
 // Standard Destructor
 Sorcery::MainMenu::~MainMenu() {
 	_graphics.animation->stop_attract_mode_animation_threads();
-	_background_movie.stop();
+	if (_background_movie.getStatus() == sfe::Playing)
+		_background_movie.stop();
 }
 
-auto Sorcery::MainMenu::start() -> void {
+auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem> {
+
+	_menu_stage = menu_stage;
 
 	// Get the Logo and scale it appropriately
 	Component logo_c {(*_display.layout)["main_menu_attract:logo_image"]};
@@ -107,20 +119,20 @@ auto Sorcery::MainMenu::start() -> void {
 	attract_mode_data.clear();
 
 	// Create the Main Menu
-	_main_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::MAIN);
-	_menu_stage = MainMenuType::ATTRACT_MODE;
+	//_main_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::MAIN);
 
 	// Create the Confirmation Exit Dialog
-	_confirm_exit = std::make_shared<Confirm>(_system, _display, _graphics,
-		(*_display.layout)["main_menu_attract:confirm_exit_gui_frame"],
-		(*_display.layout)["main_menu_attract:confirm_exit_game"]);
+	//_confirm_exit = std::make_shared<Confirm>(_system, _display, _graphics,
+	//	(*_display.layout)["main_menu_attract:confirm_exit_gui_frame"],
+	//	(*_display.layout)["main_menu_attract:confirm_exit_game"]);
 
 	// Start relevant animation worker threads
 	_graphics.animation->force_refresh_attract_mode();
 	_graphics.animation->start_attract_mode_animation_threads();
 
 	// Play the background movie!
-	_background_movie.play();
+	if (_background_movie.getStatus() == sfe::Stopped)
+		_background_movie.play();
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected_option {_main_menu->items.begin()};
 	_display.window->input_mode = WindowInputMode::NORMAL;
@@ -137,7 +149,7 @@ auto Sorcery::MainMenu::start() -> void {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					_window->close();
+					return std::nullopt;
 
 				// Check for any key being pressed to move onto the main menu
 				if (_menu_stage == MainMenuType::ATTRACT_MODE) {
@@ -155,10 +167,16 @@ auto Sorcery::MainMenu::start() -> void {
 							_main_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
 						if (selected_option) {
-							unsigned int option_chosen {std::get<static_cast<unsigned int>(MenuField::INDEX)>(*selected_option.value())};
+							const MenuItem option_chosen {std::get<static_cast<unsigned int>(MenuField::ITEM)>(*selected_option.value())};
 
 							// We have selected something from the menu
-							if (option_chosen == 5) {
+							if (option_chosen == MenuItem::MM_LICENSE) {
+								_display.window->input_mode = WindowInputMode::DISPLAY_TEXT_FILE;
+								return MenuItem::MM_LICENSE;
+							}
+
+
+							if (option_chosen == MenuItem::QUIT) {
 								_display.window->input_mode = WindowInputMode::CONFIRM_EXIT;
 								_yes_or_no = WindowConfirm::NO;
 							}
@@ -172,7 +190,7 @@ auto Sorcery::MainMenu::start() -> void {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					_window->close();
+					return std::nullopt;
 
 				// All we can do is select Y or N
 				if (_system.input->check_for_event(WindowInput::LEFT, event))
@@ -220,6 +238,15 @@ auto Sorcery::MainMenu::start() -> void {
 		_draw(attract_mode_data, attract_creatures_c, top_frame, bottom_frame);
 		_window->display();
 	}
+
+	return std::nullopt;
+}
+
+auto  Sorcery::MainMenu::stop() -> void {
+
+	// Stop the background movie!
+	if (_background_movie.getStatus() == sfe::Playing)
+		_background_movie.stop();
 }
 
 auto Sorcery::MainMenu::_draw(std::vector<unsigned int> attract_mode_data,

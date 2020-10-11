@@ -75,5 +75,6 @@ namespace Sorcery {
 			std::shared_ptr<TextFile> _help;
 			std::shared_ptr<TextFile> _version;
 			std::shared_ptr<TextFile> _license;
+			sf::RenderWindow* _window;
 	};
 }

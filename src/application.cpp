@@ -36,8 +36,10 @@ Sorcery::Application::Application(int argc, char** argv) {
 	_version = std::make_shared<TextFile>((*system->files)[VERSION_FILE]);
 	_license = std::make_shared<TextFile>((*system->files)[LICENSE_FILE]);
 
+	// Get the SFML Window
+	_window = display->window->get_window();
+
 	// Show the Splash Screen and the Banner before starting the Main Menu
-	//sf::RenderWindow* window = display->window->get_window();
 	//_splash = std::make_shared<Splash>(*system, *display, *graphics);
 	//_splash->start();
 	//_banner = std::make_shared<Banner>(*system, *display, *graphics);
@@ -57,7 +59,27 @@ Sorcery::Application::~Application() {
 }
 
 auto Sorcery::Application::start() -> void {
-	_mainmenu->start();
+
+	std::optional<MenuItem> option_chosen {MenuItem::NONE};
+	MainMenuType menu_stage {MainMenuType::ATTRACT_MODE};
+	do {
+		option_chosen = _mainmenu->start(menu_stage);
+		_mainmenu->stop();
+		if (option_chosen) {
+
+			switch (option_chosen.value()) {
+			case MenuItem::MM_LICENSE:
+				break;
+			default:
+				break;
+			}
+
+			menu_stage = MainMenuType::ATTRACT_MENU;
+		}
+
+	} while (option_chosen);
+
+	_window->close();
 }
 
 
