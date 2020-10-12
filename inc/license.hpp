@@ -24,35 +24,47 @@
 #pragma once
 
 #include "main.hpp"
-#include "file.hpp"
-#include "textfile.hpp"
+#include "system.hpp"
+#include "display.hpp"
+#include "graphics.hpp"
+#include "layout.hpp"
 
 namespace Sorcery {
 
-	class ResourceManager {
+	class License {
 
 		public:
 
 			// Standard Constructor
-			ResourceManager(File& files);
+			License(System& system, Display& display, Graphics& graphics);
 
 			// Standard Destructor
-			virtual ~ResourceManager();
+			virtual ~License();
 
 			// Public Members
-			thor::ResourceHolder<sf::Texture, std::string_view> textures;
-			thor::ResourceHolder<sf::Font, FontType> fonts;
-			std::shared_ptr<TextFile> license_file;
 
 			// Public Methods
+			auto start() -> void;
+			auto stop() -> void;
 
 		private:
 
 			// Private Methods
-
+			auto _draw(sf::Sprite &frame) -> void;
+			auto _display_file_contents() const -> void;
 
 			// Private Members
-			File _files;
+			System _system;
+			Display _display;
+			Graphics _graphics;
+			sf::RenderWindow* _window;
+			sf::Texture _gui_frame_texture;
+			sf::Font _mono_system_font;
+			sf::Font _proportional_system_font;
+			sfe::Movie _background_movie;
+			sf::Sprite _frame;
+			sf::Sprite _cursor;
+			std::shared_ptr<TextFile> _textfile;
+			unsigned int _current_line;
 	};
 }
-

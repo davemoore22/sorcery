@@ -43,7 +43,11 @@ namespace Sorcery {
 			CANCEL,
 			YES,
 			NO,
-			ALPHANUMERIC
+			ALPHANUMERIC,
+			PAGE_UP,
+			PAGE_DOWN,
+			HOME,
+			END
 		};
 	}
 

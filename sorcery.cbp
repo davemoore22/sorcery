@@ -119,6 +119,7 @@
 		<Unit filename="inc/graphics.hpp" />
 		<Unit filename="inc/input.hpp" />
 		<Unit filename="inc/layout.hpp" />
+		<Unit filename="inc/license.hpp" />
 		<Unit filename="inc/macro.hpp" />
 		<Unit filename="inc/main.hpp" />
 		<Unit filename="inc/mainmenu.hpp" />
@@ -152,6 +153,7 @@
 		<Unit filename="src/graphics.cpp" />
 		<Unit filename="src/input.cpp" />
 		<Unit filename="src/layout.cpp" />
+		<Unit filename="src/license.cpp" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/mainmenu.cpp" />
 		<Unit filename="src/manage.cpp" />

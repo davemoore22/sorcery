@@ -201,6 +201,18 @@ auto Sorcery::Window::_draw_centered_text(sf::Text& text, Component& component, 
 	_window.draw(text);
 }
 
+auto Sorcery::Window::draw_left_text(sf::Text& text, Component& component) -> void {
+	_draw_left_text(text, component);
+}
+
+auto Sorcery::Window::_draw_left_text(sf::Text& text, Component& component) -> void {
+	text.setFont(_system.resources->fonts[component.font]);
+	text.setCharacterSize(component.size);
+	text.setFillColor(sf::Color(component.colour));
+	text.setPosition(component.x, component.y);
+	_window.draw(text);
+}
+
 auto Sorcery::Window::draw_centered_menu(std::vector<MenuEntry>& items, std::vector<sf::FloatRect>& bounds,
 	std::vector<MenuEntry>::const_iterator selected, Component& component, double lerp) -> void {
 	_draw_centered_menu(items, bounds, selected, component, lerp);

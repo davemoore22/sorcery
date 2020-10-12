@@ -44,6 +44,7 @@ auto Sorcery::Input::check_for_event(WindowInput input, sf::Event event) -> bool
 		break;
 	case WindowInput::UP:
 		return (((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Up)) ||
+			((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Numpad8)) ||
 			((event.type == sf::Event::JoystickMoved) && (sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) == _axis_sensitivity_min)) ||
 			((event.type == sf::Event::JoystickMoved) && (sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::PovY) == _axis_sensitivity_min)) ||
 			((event.type == sf::Event::JoystickMoved) && (sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::U) == _axis_sensitivity_min)) ||
@@ -52,6 +53,7 @@ auto Sorcery::Input::check_for_event(WindowInput input, sf::Event event) -> bool
 		break;
 	case WindowInput::DOWN:
 		return (((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Down)) ||
+			((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Numpad2)) ||
 			((event.type == sf::Event::JoystickMoved) && (sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) == _axis_sensitivity_max)) ||
 			((event.type == sf::Event::JoystickMoved) && (sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::PovY) == _axis_sensitivity_max)) ||
 			((event.type == sf::Event::JoystickMoved) && (sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::U) == _axis_sensitivity_max)) ||
@@ -60,6 +62,7 @@ auto Sorcery::Input::check_for_event(WindowInput input, sf::Event event) -> bool
 		break;
 	case WindowInput::LEFT:
 		return (((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Left)) ||
+			((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Numpad4)) ||
 			((event.type == sf::Event::JoystickMoved) && (sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) == _axis_sensitivity_min)) ||
 			((event.type == sf::Event::JoystickMoved) && (sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::PovX) == _axis_sensitivity_min)) ||
 			((event.type == sf::Event::JoystickMoved) && (sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::V) == _axis_sensitivity_min)) ||
@@ -67,6 +70,7 @@ auto Sorcery::Input::check_for_event(WindowInput input, sf::Event event) -> bool
 		break;
 	case WindowInput::RIGHT:
 		return (((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Right)) ||
+			((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Numpad6)) ||
 			((event.type == sf::Event::JoystickMoved) && (sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) == _axis_sensitivity_max)) ||
 			((event.type == sf::Event::JoystickMoved) && (sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::PovX) == _axis_sensitivity_max)) ||
 			((event.type == sf::Event::JoystickMoved) && (sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::V) == _axis_sensitivity_max)) ||
@@ -90,6 +94,21 @@ auto Sorcery::Input::check_for_event(WindowInput input, sf::Event event) -> bool
 		break;
 	case WindowInput::NO:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::N));
+		break;
+	case WindowInput::PAGE_UP:
+		return (((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::PageUp)) ||
+			((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Numpad9)));
+		break;
+	case WindowInput::PAGE_DOWN:
+		return (((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::PageDown)) ||
+			((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Numpad3)));
+		break;
+	case WindowInput::HOME:
+		return (((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Home)) ||
+			((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Numpad7)));
+	case WindowInput::END:
+		return (((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::End)) ||
+			((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Numpad1)));
 		break;
 	case WindowInput::ALPHANUMERIC:
 		// TODO

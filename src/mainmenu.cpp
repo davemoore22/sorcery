@@ -44,18 +44,14 @@ Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphic
 	_creature_sprite_spacing = 8;
 	_creature_sprite_scaling =- 2.5f;
 
-	// Clear the window
-	_window->clear();
-	_menu_stage = MainMenuType::ATTRACT_MODE;
-
 	// Create the Main Menu
+	_menu_stage = MainMenuType::ATTRACT_MODE;
 	_main_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::MAIN);
 
 	// Create the Confirmation Exit Dialog
 	_confirm_exit = std::make_shared<Confirm>(_system, _display, _graphics,
 		(*_display.layout)["main_menu_attract:confirm_exit_gui_frame"],
 		(*_display.layout)["main_menu_attract:confirm_exit_game"]);
-
 }
 
 // Standard Destructor
@@ -66,6 +62,9 @@ Sorcery::MainMenu::~MainMenu() {
 }
 
 auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem> {
+
+	// Clear the window
+	_window->clear();
 
 	_menu_stage = menu_stage;
 
@@ -118,14 +117,6 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	std::vector<unsigned int> attract_mode_data;
 	attract_mode_data.clear();
 
-	// Create the Main Menu
-	//_main_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::MAIN);
-
-	// Create the Confirmation Exit Dialog
-	//_confirm_exit = std::make_shared<Confirm>(_system, _display, _graphics,
-	//	(*_display.layout)["main_menu_attract:confirm_exit_gui_frame"],
-	//	(*_display.layout)["main_menu_attract:confirm_exit_game"]);
-
 	// Start relevant animation worker threads
 	_graphics.animation->force_refresh_attract_mode();
 	_graphics.animation->start_attract_mode_animation_threads();
@@ -174,7 +165,6 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 								_display.window->input_mode = WindowInputMode::DISPLAY_TEXT_FILE;
 								return MenuItem::MM_LICENSE;
 							}
-
 
 							if (option_chosen == MenuItem::QUIT) {
 								_display.window->input_mode = WindowInputMode::CONFIRM_EXIT;
@@ -319,12 +309,10 @@ auto Sorcery::MainMenu::_get_attract_mode(std::vector<unsigned int> attract_mode
 		_attract_mode_texture = attract_texture.getTexture();
 		sf::Sprite attract_sprite(_attract_mode_texture);
 		attract_sprite.setColor(sf::Color(0, 0, 0, 175));
-		//attract_sprite.setColor(sf::Color(0, 0, 0, 0));
 		return attract_sprite;
 	} else {
 		sf::Sprite attract_sprite(_attract_mode_texture);
 		attract_sprite.setColor(sf::Color(0, 0, 0, 175));
-		//attract_sprite.setColor(sf::Color(0, 0, 0, 0));
 		return attract_sprite;
 	}
 }

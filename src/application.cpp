@@ -32,9 +32,7 @@ Sorcery::Application::Application(int argc, char** argv) {
 	graphics = std::make_unique<Graphics>(system.get(), display.get());
 
 	// Set up Game files
-	_help = std::make_shared<TextFile>((*system->files)[HELP_FILE]);
-	_version = std::make_shared<TextFile>((*system->files)[VERSION_FILE]);
-	_license = std::make_shared<TextFile>((*system->files)[LICENSE_FILE]);
+	//_license_file = std::make_shared<TextFile>((*system->files)[LICENSE_FILE]);
 
 	// Get the SFML Window
 	_window = display->window->get_window();
@@ -49,8 +47,9 @@ Sorcery::Application::Application(int argc, char** argv) {
 	graphics->animation->force_refresh_colour_cycling();
 	graphics->animation->start_colour_cycling_threads();
 
-	// Display the main menu
+	// Generate the necessary modules
 	_mainmenu = std::make_shared<MainMenu>(*system, *display, *graphics);
+	_license = std::make_shared<License>(*system, *display, *graphics);
 }
 
 // Standard Destructor
@@ -69,6 +68,8 @@ auto Sorcery::Application::start() -> void {
 
 			switch (option_chosen.value()) {
 			case MenuItem::MM_LICENSE:
+				_license->start();
+				_license->stop();
 				break;
 			default:
 				break;

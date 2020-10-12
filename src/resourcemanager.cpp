@@ -47,6 +47,8 @@ Sorcery::ResourceManager::ResourceManager(File& files): _files {files} {
 		fonts.acquire(FontType::PROPORTIONAL,
 			thor::Resources::fromFile<sf::Font>(_files[PROPORTIONAL_FONT_FILE]));
 
+		license_file = std::make_shared<TextFile>(_files[LICENSE_FILE]);
+
 	} catch (thor::ResourceLoadingException& e) {
 		std::cout << e.what() << std::endl;
 	}

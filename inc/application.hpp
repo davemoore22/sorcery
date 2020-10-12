@@ -27,13 +27,10 @@
 #include "system.hpp"
 #include "display.hpp"
 #include "graphics.hpp"
-#include "menu.hpp"
-#include "textfile.hpp"
-#include "map.hpp"
-#include "option.hpp"
 #include "splash.hpp"
 #include "banner.hpp"
 #include "mainmenu.hpp"
+#include "license.hpp"
 
 namespace Sorcery {
 
@@ -72,9 +69,7 @@ namespace Sorcery {
 			std::shared_ptr<Banner> _banner;
 			std::shared_ptr<Splash> _splash;
 			std::shared_ptr<MainMenu> _mainmenu;
-			std::shared_ptr<TextFile> _help;
-			std::shared_ptr<TextFile> _version;
-			std::shared_ptr<TextFile> _license;
+			std::shared_ptr<License> _license;
 			sf::RenderWindow* _window;
 	};
 }

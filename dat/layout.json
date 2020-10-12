@@ -128,6 +128,26 @@
 			"background": "0x6060c8ff"
 		}
 		]
+	},
+	{
+		"name": "license",
+		"component": [
+		{
+			"name": "gui_frame",
+			"w": "50",
+			"h": "40",
+			"x": "centre",
+			"y": "1",
+			"alpha": "255"
+		},
+		{
+			"name": "license_file_text",
+			"font": "monospace",
+			"colour": "0xd0d0d0ff",
+			"size": "22",
+			"x": "15"
+		}
+		]
 	}
 	]
   }
