@@ -153,6 +153,8 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 							if (components[j]["font"].asString().length() > 0) {
 								if (components[j]["font"].asString() == "monospace")
 									return FontType::MONOSPACE;
+								else if (components[j]["font"].asString() == "text")
+									return FontType::TEXT;
 								else if (components[j]["font"].asString() == "proportional")
 									return FontType::PROPORTIONAL;
 								else

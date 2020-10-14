@@ -56,6 +56,7 @@ auto Sorcery::License::start() -> void {
 
 	// Get Constituent Parts for the Display
 	Component frame_c {(*_display.layout)["license:gui_frame"]};
+	Component frame_top_c {(*_display.layout)["license:gui_frame_title"]};
 
 	// Generate the frame
 	sf::RenderTexture frame_rt;
@@ -63,6 +64,14 @@ auto Sorcery::License::start() -> void {
 	sf::Sprite frame {_display.window->get_gui_frame(frame_rt, frame_t, frame_c.w, frame_c.h, frame_c.alpha)};
 	const sf::Vector2f pos(_display.window->get_x(frame, frame_c.x), _display.window->get_y(frame, frame_c.y));
 	frame.setPosition(pos);
+
+	sf::RenderTexture frame_top_rt;
+	sf::Texture frame_top_t;
+	sf::Sprite frame_top {_display.window->get_gui_frame(frame_top_rt, frame_top_t, frame_top_c.w, frame_top_c.h,
+		frame_top_c.alpha)};
+	const sf::Vector2f pos_top(_display.window->get_x(frame_top, frame_top_c.x),
+		_display.window->get_y(frame_top, frame_top_c.y));
+	frame_top.setPosition(pos_top);
 
 	// Get the Cursor
 	_cursor = _display.window->get_cursor();
@@ -123,7 +132,7 @@ auto Sorcery::License::start() -> void {
 		_window->clear();
 		_window->draw(_background_movie);
 
-		_draw(frame);
+		_draw(frame, frame_top);
 		_window->display();
 	}
 }
@@ -134,8 +143,15 @@ auto Sorcery::License::stop() -> void {
 		_background_movie.stop();
 }
 
-auto Sorcery::License::_draw(sf::Sprite &frame) -> void {
+auto Sorcery::License::_draw(sf::Sprite &frame, sf::Sprite &frame_top) -> void {
+
 	_window->draw(frame);
+	_window->draw(frame_top);
+	sf::Text title_text;
+	_display.window->draw_centered_text(title_text, (*_display.layout)["license:gui_frame_title_text"]);
+	std::string progress = _textfile->get_reading_progress(_current_line);
+	sf::Text progress_text;
+	_display.window->draw_right_text(progress_text, (*_display.layout)["license:license_file_progress"], progress);
 	_display_file_contents();
 }
 
@@ -143,8 +159,8 @@ auto Sorcery::License::_display_file_contents() const -> void {
 
 	const Component frame_c {(*_display.layout)["license:gui_frame"]};
 	Component text_c {(*_display.layout)["license:license_file_text"]};
-	const int lines_to_display {frame_c.h - 9};
-	const int top_y {(frame_c.x * _display.window->get_cell_height()) + (3 * _display.window->get_cell_height())};
+	const int lines_to_display {text_c.h};
+	const int top_y {text_c.y};
 
 	// Check for approaching end of file
 	const int end_line = [&] {

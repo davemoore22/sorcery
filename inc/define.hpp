@@ -49,6 +49,7 @@ namespace Sorcery
 		inline constexpr auto EXPLAIN_FILE = "explain.json"sv;
 		inline constexpr auto MONO_FONT_FILE = "monospace.otf"sv;
 		inline constexpr auto PROPORTIONAL_FONT_FILE = "proportional.ttf"sv;
+		inline constexpr auto TEXT_FONT_FILE = "text.ttf"sv;
 		inline constexpr auto HELP_FILE = "HELP"sv;
 		inline constexpr auto LAYOUT_FILE = "layout.json"sv;
 		inline constexpr auto LICENSE_FILE = "LICENSE"sv;

@@ -25,9 +25,9 @@
 		"name": "main_menu_attract",
 		"component": [
 		{
-				"name": "logo_image",
-				"x": "centre",
-				"y": "2"
+			"name": "logo_image",
+			"x": "centre",
+			"y": "3"
 		},
 		{
 			"name": "attract_creatures",
@@ -39,9 +39,9 @@
 		{
 			"name": "top_gui_frame",
 			"w": "50",
-			"h": "31",
+			"h": "29",
 			"x": "centre",
-			"y": "1",
+			"y": "2",
 			"alpha": "255"
 		},
 		{
@@ -49,8 +49,8 @@
 			"w": "54",
 			"h": "8",
 			"x": "centre",
-			"y": "27",
-			"alpha": "175"
+			"y": "26",
+			"alpha": "255"
 		},
 		{
 			"name": "title",
@@ -64,7 +64,7 @@
 		{
 			"name": "subtitle_1",
 			"x": "centre",
-			"y": "28",
+			"y": "27",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
@@ -73,7 +73,7 @@
 		{
 			"name": "subtitle_2",
 			"x": "centre",
-			"y": "29",
+			"y": "28",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
@@ -82,7 +82,7 @@
 		{
 			"name": "copyright",
 			"x": "centre",
-			"y": "31",
+			"y": "30",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
@@ -91,7 +91,7 @@
 		{
 			"name": "press_any_key",
 			"x": "centre",
-			"y": "33",
+			"y": "32",
 			"font": "monospace",
 			"colour": "0x999999ff",
 			"size": "38",
@@ -101,7 +101,7 @@
 		{
 			"name": "main_menu",
 			"x": "centre",
-			"y": "28",
+			"y": "27",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
@@ -135,17 +135,44 @@
 		{
 			"name": "gui_frame",
 			"w": "50",
-			"h": "40",
+			"h": "38",
+			"x": "centre",
+			"y": "2",
+			"alpha": "255"
+		},
+		{
+			"name": "gui_frame_title",
+			"w": "9",
+			"h": "2",
 			"x": "centre",
 			"y": "1",
 			"alpha": "255"
 		},
 		{
-			"name": "license_file_text",
+			"name": "gui_frame_title_text",
+			"x": "centre",
+			"y": "2",
 			"font": "monospace",
-			"colour": "0xd0d0d0ff",
-			"size": "22",
-			"x": "15"
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "LICENSE_TITLE"
+		},
+		{
+			"name": "license_file_text",
+			"font": "text",
+			"colour": "0xc0c0c0ff",
+			"size": "26",
+			"x": "15",
+			"y": "5",
+			"h": "27"
+		},
+		{
+			"name": "license_file_progress",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "26",
+			"x": "65",
+			"y": "32"
 		}
 		]
 	}

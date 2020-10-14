@@ -50,7 +50,7 @@ namespace Sorcery {
 		private:
 
 			// Private Methods
-			auto _draw(sf::Sprite &frame) -> void;
+			auto _draw(sf::Sprite &frame,  sf::Sprite &frame_top) -> void;
 			auto _display_file_contents() const -> void;
 
 			// Private Members
@@ -63,6 +63,7 @@ namespace Sorcery {
 			sf::Font _proportional_system_font;
 			sfe::Movie _background_movie;
 			sf::Sprite _frame;
+			sf::Sprite _frame_top;
 			sf::Sprite _cursor;
 			std::shared_ptr<TextFile> _textfile;
 			unsigned int _current_line;

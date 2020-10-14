@@ -81,6 +81,7 @@ namespace Sorcery {
 		enum class FontType {
 			MONOSPACE,
 			PROPORTIONAL,
+			TEXT,
 			NONE
 		};
 

@@ -51,6 +51,8 @@ namespace Sorcery {
 			auto draw_centered_text(sf::Text& text, Component& component, double lerp = -1.0l) -> void;
 			auto draw_centered_text(sf::Text& text) -> void;
 			auto draw_left_text(sf::Text& text, Component& component) -> void;
+			auto draw_left_text(sf::Text& text, Component& component, std::string& string) -> void;
+			auto draw_right_text(sf::Text& text, Component& component, std::string& string) -> void;
 			auto draw_gui() -> void;
 			auto get_cell_height() -> unsigned int;
 			auto get_cell_width() -> unsigned int;
@@ -79,6 +81,8 @@ namespace Sorcery {
 			auto _draw_centered_text(sf::Text& text, Component& component, double lerp) -> void;
 			auto _draw_centered_text(sf::Text& text) -> void;
 			auto _draw_left_text(sf::Text& text, Component& component) -> void;
+			auto _draw_left_text(sf::Text& text, Component& component, std::string& string) -> void;
+			auto _draw_right_text(sf::Text& text, Component& component, std::string& string) -> void;
 			auto _get_centre_x(sf::Sprite& sprite) -> unsigned int;
 			auto _get_centre_y(sf::Sprite& sprite) -> unsigned int;
 			auto _get_centre_x(sf::Text& text) -> unsigned int;
