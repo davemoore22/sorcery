@@ -13,7 +13,8 @@
 	"MAIN_MENU_OPTION_EXIT": "EXIT",
 	"CONFIRM_EXIT_GAME": "ARE YOU SURE YOU WANT TO EXIT THE GAME?",
 	"LICENSE_TITLE": "LICENSE",
-	"CONFIG_TITLE": "Gameplay and Graphics Settings",
+	"OPTIONS_TITLE": "GAME OPTIONS",
+	"COMPENDIUM_TITLE": "COMPENDIUM",
 	"CONFIG_SUBTITLE_GAMEPLAY": "Gameplay Options",
 	"CONFIG_AUTO_SAVE": "Auto Save",
 	"CONFIG_CHEAT_MODE": "Cheat Mode",
@@ -43,6 +44,8 @@
 	"MENU_OPTIONS_CANCEL" : "Cancel Changes",
 	"MENU_OPTIONS_SAVE" : "Save Changes",
 	"MENU_SPACER": "",
+
+
 
 
 "CONFIRM_TITLE": "Confirmation Needed!",

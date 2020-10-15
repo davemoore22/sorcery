@@ -31,6 +31,8 @@
 #include "banner.hpp"
 #include "mainmenu.hpp"
 #include "license.hpp"
+#include "options.hpp"
+#include "compendium.hpp"
 
 namespace Sorcery {
 
@@ -70,6 +72,8 @@ namespace Sorcery {
 			std::shared_ptr<Splash> _splash;
 			std::shared_ptr<MainMenu> _mainmenu;
 			std::shared_ptr<License> _license;
+			std::shared_ptr<Options> _options;
+			std::shared_ptr<Compendium> _compendium;
 			sf::RenderWindow* _window;
 	};
 }

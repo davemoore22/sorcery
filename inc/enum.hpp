@@ -57,7 +57,9 @@ namespace Sorcery {
 		enum InputMode {
 			NORMAL,
 			CONFIRM_EXIT,
-			DISPLAY_TEXT_FILE
+			DISPLAY_TEXT_FILE,
+			GAME_OPTIONS,
+			COMPENDIUM
 		};
 
 		enum Confirm {

@@ -52,6 +52,13 @@ Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphic
 	_confirm_exit = std::make_shared<Confirm>(_system, _display, _graphics,
 		(*_display.layout)["main_menu_attract:confirm_exit_gui_frame"],
 		(*_display.layout)["main_menu_attract:confirm_exit_game"]);
+
+	// Setup Components
+	_title = sf::Text();
+	_press_any_key  = sf::Text();
+	_subtitle_1 = sf::Text();
+	_subtitle_2 = sf::Text();
+	_copyright = sf::Text();
 }
 
 // Standard Destructor
@@ -67,6 +74,11 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	_window->clear();
 
 	_menu_stage = menu_stage;
+
+	sf::RenderTexture top_frame_rt;
+	sf::Texture top_frame_t;
+	sf::RenderTexture bottom_frame_rt;
+	sf::Texture bottom_frame_t;
 
 	// Get the Logo and scale it appropriately
 	Component logo_c {(*_display.layout)["main_menu_attract:logo_image"]};
@@ -89,24 +101,20 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	// Get Constituent Parts for the Main Menu
 	Component top_frame_c {(*_display.layout)["main_menu_attract:top_gui_frame"]};
 	Component bottom_frame_c {(*_display.layout)["main_menu_attract:bottom_gui_frame"]};
-	//Component attract_creatures_c {(*_display.layout)["main_menu_attract:attract_creatures"]};
 	_attract_creatures_c = Component((*_display.layout)["main_menu_attract:attract_creatures"]);
 
 	// Generate the frames
-	sf::RenderTexture top_frame_rt;
-	sf::Texture top_frame_t;
-	sf::Sprite top_frame {_display.window->get_gui_frame(top_frame_rt, top_frame_t, top_frame_c.w, top_frame_c.h,
-		top_frame_c.alpha)};
-	const sf::Vector2f top_pos(_display.window->get_x(top_frame, top_frame_c.x), _display.window->get_y(top_frame,
+	_top_frame = sf::Sprite(_display.window->get_gui_frame(top_frame_rt, top_frame_t, top_frame_c.w, top_frame_c.h,
+		top_frame_c.alpha));
+	const sf::Vector2f top_pos(_display.window->get_x(_top_frame, top_frame_c.x), _display.window->get_y(_top_frame,
 		top_frame_c.y));
-	top_frame.setPosition(top_pos);
-	sf::RenderTexture bottom_frame_rt;
-	sf::Texture bottom_frame_t;
-	sf::Sprite bottom_frame {_display.window->get_gui_frame(bottom_frame_rt, bottom_frame_t, bottom_frame_c.w,
-		bottom_frame_c.h, bottom_frame_c.alpha)};
-	const sf::Vector2f bottom_pos(_display.window->get_x(bottom_frame, bottom_frame_c.x),
-		_display.window->get_y(bottom_frame, bottom_frame_c.y));
-	bottom_frame.setPosition(bottom_pos);
+	_top_frame.setPosition(top_pos);
+
+	_bottom_frame = sf::Sprite(_display.window->get_gui_frame(bottom_frame_rt, bottom_frame_t, bottom_frame_c.w,
+		bottom_frame_c.h, bottom_frame_c.alpha));
+	const sf::Vector2f bottom_pos(_display.window->get_x(_bottom_frame, bottom_frame_c.x),
+		_display.window->get_y(_bottom_frame, bottom_frame_c.y));
+	_bottom_frame.setPosition(bottom_pos);
 
 	// Get the Cursor
 	_cursor = _display.window->get_cursor();
@@ -164,6 +172,16 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 							if (option_chosen == MenuItem::MM_LICENSE) {
 								_display.window->input_mode = WindowInputMode::DISPLAY_TEXT_FILE;
 								return MenuItem::MM_LICENSE;
+							}
+
+							if (option_chosen == MenuItem::MM_COMPENDIUM) {
+								_display.window->input_mode = WindowInputMode::COMPENDIUM;
+								return MenuItem::MM_COMPENDIUM;
+							}
+
+							if (option_chosen == MenuItem::MM_OPTIONS) {
+								_display.window->input_mode = WindowInputMode::GAME_OPTIONS;
+								return MenuItem::MM_OPTIONS;
 							}
 
 							if (option_chosen == MenuItem::QUIT) {
@@ -225,7 +243,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 		_window->clear();
 		_window->draw(_background_movie);
 
-		_draw(top_frame, bottom_frame);
+		_draw();
 		_window->display();
 	}
 
@@ -239,33 +257,32 @@ auto  Sorcery::MainMenu::stop() -> void {
 		_background_movie.stop();
 }
 
-auto Sorcery::MainMenu::_draw(sf::Sprite &top_frame, sf::Sprite &bottom_frame) -> void {
+auto Sorcery::MainMenu::_draw() -> void {
 
 	// Only draw the attract mode if we have something to draw (to avoid timing issues)
 	if (_attract_mode_data_temp.size() > 0) {
 
-		sf::Sprite creatures {_get_attract_mode(_attract_mode_data_temp)};
+		sf::Sprite creatures {_get_attract_mode()};
 		creatures.setColor(sf::Color(255, 255, 255, _graphics.animation->attract_mode_alpha));
 		creatures.setScale(_attract_creatures_c.scale, _attract_creatures_c.scale);
 		const sf::Vector2f creature_pos(_display.window->get_x(creatures, _attract_creatures_c.x),
 			_display.window->get_y(creatures, _attract_creatures_c.y));
 		creatures.setPosition(creature_pos);
 
-		_window->draw(top_frame);
-		_window->draw(bottom_frame);
+		_window->draw(_top_frame);
+		_window->draw(_bottom_frame);
 		_window->draw(creatures, sf::BlendAlpha);
 		_window->draw(_logo);
 
 		// Draw Attract Mode Text
 		double lerp = _graphics.animation->colour_lerp;
-		sf::Text text;
-		_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:title"]);
+		_display.window->draw_centered_text(_title, (*_display.layout)["main_menu_attract:title"]);
 
 		if (_menu_stage == MainMenuType::ATTRACT_MODE) {
-			_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:press_any_key"], lerp);
-			_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:subtitle_1"]);
-			_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:subtitle_2"]);
-			_display.window->draw_centered_text(text, (*_display.layout)["main_menu_attract:copyright"]);
+			_display.window->draw_centered_text(_press_any_key, (*_display.layout)["main_menu_attract:press_any_key"], lerp);
+			_display.window->draw_centered_text(_subtitle_1, (*_display.layout)["main_menu_attract:subtitle_1"]);
+			_display.window->draw_centered_text(_subtitle_2, (*_display.layout)["main_menu_attract:subtitle_2"]);
+			_display.window->draw_centered_text(_copyright, (*_display.layout)["main_menu_attract:copyright"]);
 		} else {
 			_display.window->draw_centered_menu(_main_menu->items, _main_menu->bounds, _main_menu->selected,
 				(*_display.layout)["main_menu_attract:main_menu"], lerp);
@@ -282,12 +299,12 @@ auto Sorcery::MainMenu::_draw(sf::Sprite &top_frame, sf::Sprite &bottom_frame) -
 
 // We generate the attract mode graphic in the main thread, though we generate the IDs in the animation threads
 // https://en.sfml-dev.org/forums/index.php?topic=18672.0
-auto Sorcery::MainMenu::_get_attract_mode(std::vector<unsigned int> attract_mode_data) -> sf::Sprite {
+auto Sorcery::MainMenu::_get_attract_mode() -> sf::Sprite {
 
 	// Only regenerate if we have a change
-	if (_attract_mode_data != attract_mode_data) {
-		_attract_mode_data = attract_mode_data;
-		const unsigned int number_to_display {static_cast<unsigned int>(attract_mode_data.size())};
+	if (_attract_mode_data != _attract_mode_data_temp) {
+		_attract_mode_data = _attract_mode_data_temp;
+		const unsigned int number_to_display {static_cast<unsigned int>(_attract_mode_data_temp.size())};
 		const sf::Vector2f texture_size(_creature_sprite_width * number_to_display + (_creature_sprite_spacing *
 			(number_to_display - 1)), _creature_sprite_height);
 		sf::RenderTexture attract_texture;

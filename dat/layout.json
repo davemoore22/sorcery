@@ -175,6 +175,66 @@
 			"y": "32"
 		}
 		]
+	},
+	{
+		"name": "options",
+		"component": [
+		{
+			"name": "gui_frame",
+			"w": "50",
+			"h": "38",
+			"x": "centre",
+			"y": "2",
+			"alpha": "255"
+		},
+		{
+			"name": "gui_frame_title",
+			"w": "13",
+			"h": "2",
+			"x": "centre",
+			"y": "1",
+			"alpha": "255"
+		},
+		{
+			"name": "gui_frame_title_text",
+			"x": "centre",
+			"y": "2",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "OPTIONS_TITLE"
+		}
+		]
+	},
+	{
+		"name": "compendium",
+		"component": [
+		{
+			"name": "gui_frame",
+			"w": "50",
+			"h": "38",
+			"x": "centre",
+			"y": "2",
+			"alpha": "255"
+		},
+		{
+			"name": "gui_frame_title",
+			"w": "12",
+			"h": "2",
+			"x": "centre",
+			"y": "1",
+			"alpha": "255"
+		},
+		{
+			"name": "gui_frame_title_text",
+			"x": "centre",
+			"y": "2",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "COMPENDIUM_TITLE"
+		}
+		]
 	}
 	]
   }

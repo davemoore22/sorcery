@@ -21,10 +21,10 @@
 // licensors of this Program grant you additional permission to convey the
 // resulting work.
 
-#include "license.hpp"
+#include "options.hpp"
 
 // Standard Constructor
-Sorcery::License::License (System& system, Display& display, Graphics& graphics):  _system {system},
+Sorcery::Options::Options (System& system, Display& display, Graphics& graphics):  _system {system},
 	_display {display}, _graphics {graphics} {
 
 	// Get the Window and Graphics to Display
@@ -37,30 +37,25 @@ Sorcery::License::License (System& system, Display& display, Graphics& graphics)
 	// Load the Background Movie
 	_background_movie.openFromFile(_system.files->get_path_as_string(MENU_VIDEO));
 
-	// setup text file
-	_textfile = system.resources->license_file;
-	_current_line = 1;
-
 	// Setup Components
 	_title_text = sf::Text();
-	_progress_text = sf::Text();
-	_line_text = sf::Text();
 }
 
 // Standard Destructor
-Sorcery::License::~License() {
+Sorcery::Options::~Options() {
 	if (_background_movie.getStatus() == sfe::Playing)
 		_background_movie.stop();
 }
 
-auto Sorcery::License::start() -> void {
+
+auto Sorcery::Options::start() -> void {
 
 	// Clear the window
 	_window->clear();
 
 	// Get Constituent Parts for the Display
-	Component frame_c {(*_display.layout)["license:gui_frame"]};
-	Component frame_top_c {(*_display.layout)["license:gui_frame_title"]};
+	Component frame_c {(*_display.layout)["options:gui_frame"]};
+	Component frame_top_c {(*_display.layout)["options:gui_frame_title"]};
 
 	// Generate the frame
 	sf::RenderTexture frame_rt;
@@ -90,7 +85,6 @@ auto Sorcery::License::start() -> void {
 
 	// And do the main loop
 	sf::Event event {};
-	const unsigned int lines_to_display {frame_c.h - 9};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
 
@@ -100,30 +94,6 @@ auto Sorcery::License::start() -> void {
 
 			if (_system.input->check_for_event(WindowInput::CANCEL, event)) {
 				return;
-			} else if (_system.input->check_for_event(WindowInput::DOWN, event)) {
-				if (_current_line < _textfile->size())
-					++_current_line;
-			} else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
-				if (_current_line < _textfile->size())
-					++_current_line;
-			} else if (_system.input->check_for_event(WindowInput::UP, event)) {
-				if (_current_line > 1)
-					_current_line--;
-			} else if (_system.input->check_for_event(WindowInput::PAGE_DOWN, event)) {
-				if (_current_line < (_textfile->size() - lines_to_display))
-					_current_line += lines_to_display;
-				else
-					_current_line = _textfile->size();
-			} else if (_system.input->check_for_event(WindowInput::PAGE_UP, event)) {
-				if (_current_line >= lines_to_display)
-					_current_line -= lines_to_display;
-				else
-					_current_line = 1;
-				break;
-			} else if (_system.input->check_for_event(WindowInput::HOME, event)) {
-				_current_line = 1;
-			} else if (_system.input->check_for_event(WindowInput::END, event)) {
-				_current_line = _textfile->size() - 1;
 			}
 		}
 
@@ -140,42 +110,16 @@ auto Sorcery::License::start() -> void {
 	}
 }
 
-auto Sorcery::License::stop() -> void {
+
+auto Sorcery::Options::stop() -> void {
 
 	if (_background_movie.getStatus() == sfe::Playing)
 		_background_movie.stop();
 }
 
-auto Sorcery::License::_draw() -> void {
+auto Sorcery::Options::_draw() -> void {
 
 	_window->draw(_frame);
 	_window->draw(_frame_top);
-	_display.window->draw_centered_text(_title_text, (*_display.layout)["license:gui_frame_title_text"]);
-	std::string progress = _textfile->get_reading_progress(_current_line);
-	_display.window->draw_right_text(_progress_text, (*_display.layout)["license:license_file_progress"], progress);
-	_display_file_contents();
-}
-
-auto Sorcery::License::_display_file_contents() -> void {
-
-	const Component frame_c {(*_display.layout)["license:gui_frame"]};
-	Component text_c {(*_display.layout)["license:license_file_text"]};
-	const unsigned int lines_to_display {text_c.h};
-	const int top_y {text_c.y};
-
-	// Check for approaching end of file
-	const unsigned int end_line = [&] {
-		if (_current_line < (_textfile->size() - lines_to_display))
-			return static_cast<unsigned int>(_current_line + lines_to_display);
-		else
-			return static_cast<unsigned int>(_textfile->size());
-	}();
-
-	// File Contents
-	for (auto y = _current_line; y < end_line; ++y) {
-		std::string line_contents {(*_textfile)[y]};
-		_line_text.setString(line_contents);
-		text_c.y = top_y + ((y - _current_line) * _display.window->get_cell_height());
-		_display.window->draw_left_text(_line_text, text_c);
-	}
+	_display.window->draw_centered_text(_title_text, (*_display.layout)["options:gui_frame_title_text"]);
 }

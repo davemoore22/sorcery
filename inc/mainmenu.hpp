@@ -52,8 +52,8 @@ namespace Sorcery {
 		private:
 
 			// Private Methods
-			auto _draw(sf::Sprite &top_frame, sf::Sprite &bottom_frame) -> void;
-			auto _get_attract_mode(std::vector<unsigned int> attract_mode_data) -> sf::Sprite;
+			auto _draw() -> void;
+			auto _get_attract_mode() -> sf::Sprite;
 			auto _get_creature_gfx(const int creature_id, const bool known) -> sf::Sprite;
 
 			// Private Members
@@ -81,5 +81,12 @@ namespace Sorcery {
 			std::shared_ptr<Confirm> _confirm_exit;
 			WindowConfirm _yes_or_no;
 			Component _attract_creatures_c;
+			sf::Text _title;
+			sf::Text _press_any_key;
+			sf::Text _subtitle_1;
+			sf::Text _subtitle_2;
+			sf::Text _copyright;
+
+
 	};
 }

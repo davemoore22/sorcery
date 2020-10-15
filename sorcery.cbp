@@ -106,6 +106,7 @@
 		<Unit filename="inc/application.hpp" />
 		<Unit filename="inc/banner.hpp" />
 		<Unit filename="inc/character.hpp" />
+		<Unit filename="inc/compendium.hpp" />
 		<Unit filename="inc/component.hpp" />
 		<Unit filename="inc/config.hpp" />
 		<Unit filename="inc/confirm.hpp" />
@@ -127,7 +128,7 @@
 		<Unit filename="inc/map.hpp" />
 		<Unit filename="inc/menu.hpp" />
 		<Unit filename="inc/operator.hpp" />
-		<Unit filename="inc/option.hpp" />
+		<Unit filename="inc/options.hpp" />
 		<Unit filename="inc/platform.hpp" />
 		<Unit filename="inc/random.hpp" />
 		<Unit filename="inc/resourcemanager.hpp" />
@@ -142,6 +143,7 @@
 		<Unit filename="src/application.cpp" />
 		<Unit filename="src/banner.cpp" />
 		<Unit filename="src/character.cpp" />
+		<Unit filename="src/compendium.cpp" />
 		<Unit filename="src/component.cpp" />
 		<Unit filename="src/config.cpp" />
 		<Unit filename="src/confirm.cpp" />
@@ -160,7 +162,7 @@
 		<Unit filename="src/map.cpp" />
 		<Unit filename="src/menu.cpp" />
 		<Unit filename="src/operator.cpp" />
-		<Unit filename="src/option.cpp" />
+		<Unit filename="src/options.cpp" />
 		<Unit filename="src/platform.cpp" />
 		<Unit filename="src/random.cpp" />
 		<Unit filename="src/resourcemanager.cpp" />

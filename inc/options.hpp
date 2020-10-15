@@ -21,5 +21,49 @@
 // licensors of this Program grant you additional permission to convey the
 // resulting work.
 
-#include "option.hpp"
+#pragma once
 
+#include "main.hpp"
+#include "system.hpp"
+#include "display.hpp"
+#include "graphics.hpp"
+#include "layout.hpp"
+
+namespace Sorcery {
+
+	class Options {
+
+		public:
+
+			// Standard Constructor
+			Options(System& system, Display& display, Graphics& graphics);
+
+			// Standard Destructor
+			virtual ~Options();
+
+			// Public Members
+
+			// Public Methods
+			auto start() -> void;
+			auto stop() -> void;
+
+		private:
+
+			// Private Methods
+			auto _draw() -> void;
+
+			// Private Members
+			System _system;
+			Display _display;
+			Graphics _graphics;
+			sf::RenderWindow* _window;
+			sf::Texture _gui_frame_texture;
+			sf::Font _mono_system_font;
+			sf::Font _proportional_system_font;
+			sfe::Movie _background_movie;
+			sf::Sprite _frame;
+			sf::Sprite _frame_top;
+			sf::Sprite _cursor;
+			sf::Text _title_text;
+	};
+}
