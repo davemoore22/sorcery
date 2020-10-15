@@ -40,6 +40,11 @@ Sorcery::License::License (System& system, Display& display, Graphics& graphics)
 	// setup text file
 	_textfile = system.resources->license_file;
 	_current_line = 1;
+
+	// Setup Components
+	_title_text = sf::Text();
+	_progress_text = sf::Text();
+	_line_text = sf::Text();
 }
 
 
@@ -61,17 +66,16 @@ auto Sorcery::License::start() -> void {
 	// Generate the frame
 	sf::RenderTexture frame_rt;
 	sf::Texture frame_t;
-	sf::Sprite frame {_display.window->get_gui_frame(frame_rt, frame_t, frame_c.w, frame_c.h, frame_c.alpha)};
-	const sf::Vector2f pos(_display.window->get_x(frame, frame_c.x), _display.window->get_y(frame, frame_c.y));
-	frame.setPosition(pos);
-
 	sf::RenderTexture frame_top_rt;
 	sf::Texture frame_top_t;
-	sf::Sprite frame_top {_display.window->get_gui_frame(frame_top_rt, frame_top_t, frame_top_c.w, frame_top_c.h,
-		frame_top_c.alpha)};
-	const sf::Vector2f pos_top(_display.window->get_x(frame_top, frame_top_c.x),
-		_display.window->get_y(frame_top, frame_top_c.y));
-	frame_top.setPosition(pos_top);
+	_frame = sf::Sprite(_display.window->get_gui_frame(frame_rt, frame_t, frame_c.w, frame_c.h, frame_c.alpha));
+	const sf::Vector2f pos(_display.window->get_x(_frame, frame_c.x), _display.window->get_y(_frame, frame_c.y));
+	_frame.setPosition(pos);
+	_frame_top = sf::Sprite(_display.window->get_gui_frame(frame_top_rt, frame_top_t, frame_top_c.w, frame_top_c.h,
+		frame_top_c.alpha));
+	const sf::Vector2f pos_top(_display.window->get_x(_frame_top, frame_top_c.x),
+		_display.window->get_y(_frame_top, frame_top_c.y));
+	_frame_top.setPosition(pos_top);
 
 	// Get the Cursor
 	_cursor = _display.window->get_cursor();
@@ -87,7 +91,7 @@ auto Sorcery::License::start() -> void {
 
 	// And do the main loop
 	sf::Event event {};
-	const int lines_to_display {frame_c.h - 9};
+	const unsigned int lines_to_display {frame_c.h - 9};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
 
@@ -132,7 +136,7 @@ auto Sorcery::License::start() -> void {
 		_window->clear();
 		_window->draw(_background_movie);
 
-		_draw(frame, frame_top);
+		_draw();
 		_window->display();
 	}
 }
@@ -143,39 +147,36 @@ auto Sorcery::License::stop() -> void {
 		_background_movie.stop();
 }
 
-auto Sorcery::License::_draw(sf::Sprite &frame, sf::Sprite &frame_top) -> void {
+auto Sorcery::License::_draw() -> void {
 
-	_window->draw(frame);
-	_window->draw(frame_top);
-	sf::Text title_text;
-	_display.window->draw_centered_text(title_text, (*_display.layout)["license:gui_frame_title_text"]);
+	_window->draw(_frame);
+	_window->draw(_frame_top);
+	_display.window->draw_centered_text(_title_text, (*_display.layout)["license:gui_frame_title_text"]);
 	std::string progress = _textfile->get_reading_progress(_current_line);
-	sf::Text progress_text;
-	_display.window->draw_right_text(progress_text, (*_display.layout)["license:license_file_progress"], progress);
+	_display.window->draw_right_text(_progress_text, (*_display.layout)["license:license_file_progress"], progress);
 	_display_file_contents();
 }
 
-auto Sorcery::License::_display_file_contents() const -> void {
+auto Sorcery::License::_display_file_contents() -> void {
 
 	const Component frame_c {(*_display.layout)["license:gui_frame"]};
 	Component text_c {(*_display.layout)["license:license_file_text"]};
-	const int lines_to_display {text_c.h};
+	const unsigned int lines_to_display {text_c.h};
 	const int top_y {text_c.y};
 
 	// Check for approaching end of file
-	const int end_line = [&] {
+	const unsigned int end_line = [&] {
 		if (_current_line < (_textfile->size() - lines_to_display))
-			return static_cast<int>(_current_line + lines_to_display);
+			return static_cast<unsigned int>(_current_line + lines_to_display);
 		else
-			return static_cast<int>(_textfile->size());
+			return static_cast<unsigned int>(_textfile->size());
 	}();
 
 	// File Contents
 	for (auto y = _current_line; y < end_line; ++y) {
 		std::string line_contents {(*_textfile)[y]};
-		sf::Text line_text;
-		line_text.setString(line_contents);
+		_line_text.setString(line_contents);
 		text_c.y = top_y + ((y - _current_line) * _display.window->get_cell_height());
-		_display.window->draw_left_text(line_text, text_c);
+		_display.window->draw_left_text(_line_text, text_c);
 	}
 }

@@ -393,7 +393,8 @@ namespace Sorcery {
 			TYPE = 1,
 			ITEM = 2,
 			TEXT = 3,
-			ENABLED = 4
+			ENABLED = 4,
+			CONFIG_OPTION = 5
 		};
 
 		// Menu Types
@@ -417,6 +418,7 @@ namespace Sorcery {
 			GO_BACK,
 			GO_NEXT,
 			RETURN,
+			SAVE,
 			MM_NEW_GAME,
 			MM_CONTINUE_GAME,
 			MM_OPTIONS,

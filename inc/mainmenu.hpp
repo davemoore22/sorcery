@@ -52,8 +52,7 @@ namespace Sorcery {
 		private:
 
 			// Private Methods
-			auto _draw(std::vector<unsigned int> attract_mode_data, Component& attract_creatures_c,
-				sf::Sprite &top_frame, sf::Sprite &bottom_frame) -> void;
+			auto _draw(sf::Sprite &top_frame, sf::Sprite &bottom_frame) -> void;
 			auto _get_attract_mode(std::vector<unsigned int> attract_mode_data) -> sf::Sprite;
 			auto _get_creature_gfx(const int creature_id, const bool known) -> sf::Sprite;
 
@@ -63,6 +62,7 @@ namespace Sorcery {
 			Graphics _graphics;
 			sf::RenderWindow* _window;
 			std::vector<unsigned int> _attract_mode_data;
+			std::vector<unsigned int> _attract_mode_data_temp;
 			unsigned int _creature_sprite_width;
 			unsigned int _creature_sprite_height;
 			unsigned int _creature_sprite_spacing;
@@ -80,5 +80,6 @@ namespace Sorcery {
 			std::shared_ptr<Menu> _main_menu;
 			std::shared_ptr<Confirm> _confirm_exit;
 			WindowConfirm _yes_or_no;
+			Component _attract_creatures_c;
 	};
 }

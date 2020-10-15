@@ -62,7 +62,7 @@ namespace Sorcery {
 
 			// Private Methods
 			auto _add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string& key,
-				bool enabled = true) -> void;
+				bool enabled = true, ConfigOption option = ConfigOption::NONE) -> void;
 			auto _select_first_enabled() -> void;
 			auto _select_last_enabled() -> void;
 

@@ -40,6 +40,9 @@
 	"CONFIRM_LEAVE_GAME_OPTIONS": "Are you sure you want to Cancel your changes?",
 	"CONFIRM_SAVE_GAME_OPTIONS": "Are you sure you want to Save your changes and return to the Menu?",
 	"CONFIRM_SWITCH_ON_STRICT_MODE": "Switching on Strict Mode changes many Game Options - the game will be MUCH more difficult in Strict Mode",
+	"MENU_OPTIONS_CANCEL" : "Cancel Changes",
+	"MENU_OPTIONS_SAVE" : "Save Changes",
+	"MENU_SPACER": "",
 
 
 "CONFIRM_TITLE": "Confirmation Needed!",
