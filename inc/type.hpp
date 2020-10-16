@@ -23,37 +23,36 @@
 
 #pragma once
 
-
 #include "main.hpp"
 
 namespace Sorcery {
 
-	// Struct to represent layout information for a component
-	/* struct Component {
+	// Note that we need to use full details in here as aliases haven't yet been set up in main.hpp when we include
+	// enums.hpp
 
-		Component(): screen{""}, name{""}, x{""}, y{""}, w{0}, h{0}, font {0}, size {0}, colour {0}, string {""} {};
-		Component(std::string screen_, std::string name_, std::string x_, std::string y_, unsigned int w_,
-			unsigned int h_, Enums::Internal::FontType font_, unsigned int size_, unsigned int colour_,
-			std::string string_) : screen{screen_}, name{name} , x{x_}, y{y_}, w{w_}, h{h_}, font{font_}, size{size_},
-			colour{colour_}, string{string_} {};
-		Component(const Component &other) : screen{other.screen}, name{other.name}, x{other.x}, y{other.y}, w{other.w},
-			h{other.h}, font{other.font}, size{other.size}, colour{other.colour}, string{other.string} {};
+	// Struct to represent a menu entry
+	struct MenuEntry {
+		MenuEntry(): index{0}, type{Enums::Menu::ItemType::NONE}, item{Enums::Menu::Item::NONE}, key{}, enabled{false},
+			config{Enums::Options::NONE} {};
+		MenuEntry(unsigned int index_, Enums::Menu::ItemType type_, Enums::Menu::Item item_, std::string key_,
+			bool enabled_, Enums::Options config_): index{index_}, type{type_}, item{item_}, key{key_},
+			enabled{enabled_}, config{config_} {};
+		auto operator==(const MenuEntry &a) const -> bool {
+			return ((index == a.index) && (type == a.type) && (item == a.item) && (key == a.key) &&
+				(enabled == a.enabled) && (config == a.config));
+		}
 
-		std::string screen;
-		std::string name;
-		std::string x;
-		std::string y;
-		unsigned int w;
-		unsigned int h;
-		Enums::Internal::FontType font;
-		unsigned int size;
-		unsigned int colour;
-		std::string string;
-	}; */
+		unsigned int index;
+		Enums::Menu::ItemType type;
+		Enums::Menu::Item item;
+		std::string key;
+		bool enabled;
+		Enums::Options config;
+	};
 
 	// Struct to represent a point on the screen (x, y)
 	struct Point {
-		Point() : x{0}, y{0} {};
+		Point(): x{0}, y{0} {};
 		Point(unsigned int x_, unsigned int y_) : x{x_}, y{y_} {};
 		Point(const Point &other) : x{other.x}, y{other.y} {};
 		auto operator==(const Point &a) const -> bool {
@@ -66,9 +65,9 @@ namespace Sorcery {
 
 	// Struct to represent an area of the screen (w, h)
 	struct ScreenSize {
-		ScreenSize() : w{0}, h{0} {};
-		ScreenSize(unsigned int w_, unsigned int h_) : w{w_}, h{h_} {};
-		ScreenSize(const ScreenSize &other) : w{other.w}, h{other.h} {};
+		ScreenSize(): w{0}, h{0} {};
+		ScreenSize(unsigned int w_, unsigned int h_): w{w_}, h{h_} {};
+		ScreenSize(const ScreenSize &other): w{other.w}, h{other.h} {};
 
 		unsigned int w;
 		unsigned int h;
@@ -76,9 +75,9 @@ namespace Sorcery {
 
 	// Struct to represent the size of an image
 	struct ImageSize {
-		ImageSize() : w{0}, h{0} {};
-		ImageSize(unsigned int w_, unsigned int h_) : w{w_}, h{h_} {};
-		ImageSize(const ImageSize &other) : w{other.w}, h{other.h} {};
+		ImageSize(): w{0}, h{0} {};
+		ImageSize(unsigned int w_, unsigned int h_): w{w_}, h{h_} {};
+		ImageSize(const ImageSize &other): w{other.w}, h{other.h} {};
 
 		unsigned int w;
 		unsigned int h;
@@ -86,9 +85,9 @@ namespace Sorcery {
 
 	// Struct to represent a rect on the screen
 	struct Rect {
-		Rect() : x{0}, y{0}, w{0}, h{0} {};
-		Rect(unsigned int x_, unsigned int y_, unsigned int w_, unsigned int h_) : x{x_}, y{y_}, w{w_}, h{h_} {};
-		Rect(const Rect &other) : x{other.x}, y{other.y}, w{other.w}, h{other.h} {};
+		Rect(): x{0}, y{0}, w{0}, h{0} {};
+		Rect(unsigned int x_, unsigned int y_, unsigned int w_, unsigned int h_): x{x_}, y{y_}, w{w_}, h{h_} {};
+		Rect(const Rect &other): x{other.x}, y{other.y}, w{other.w}, h{other.h} {};
 
 		auto menu_contains(unsigned int i, unsigned int j) -> bool {
 			// Note the >= etc here - menu rects start at y - if not = then first item in menu would fail this test
@@ -117,7 +116,7 @@ namespace Sorcery {
 	};
 
 	struct SpellDetails {
-		// Need to use full details in here as Aliases haven't yet been set up in main.hpp when we include enums.hpp
+
 		Enums::Magic::Spell id;
 		Enums::Magic::SpellType spelltype;
 		std::string name;

@@ -166,7 +166,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 							_main_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
 						if (selected_option) {
-							const MenuItem option_chosen {std::get<static_cast<unsigned int>(MenuField::ITEM)>(*selected_option.value())};
+							const MenuItem option_chosen {(*selected_option.value()).item};
 
 							// We have selected something from the menu
 							if (option_chosen == MenuItem::MM_LICENSE) {

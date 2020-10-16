@@ -107,29 +107,29 @@ auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const Menu
 	bool enabled, ConfigOption option) -> void {
 	if (key.length() % 2 == 0)
 		key.resize(key.length() + 1, 32);
-	items.push_back(std::tuple<unsigned int, Enums::Menu::ItemType, Enums::Menu::Item, std::string, bool,
-		Enums::Options>(index, itemtype, code, key, enabled, option));
+
+	items.push_back({index, itemtype, code, key, enabled, option});
+	//items.push_back(std::tuple<unsigned int, Enums::Menu::ItemType, Enums::Menu::Item, std::string, bool,
+	//	Enums::Options>(index, itemtype, code, key, enabled, option));
 	++count;
 }
 
 // Select the first enabled menu item
 auto Sorcery::Menu::_select_first_enabled() -> void {
 	for (std::vector<MenuEntry>::const_iterator it = items.begin(); it != items.end(); ++it)
-		if (std::get<static_cast<int>(MenuField::TYPE)>(*it) == MenuItemType::ENTRY)
-			if (std::get<static_cast<int>(MenuField::ENABLED)>(*it)) {
-				selected = it;
-				return;
-			}
+		if (((*it).type == MenuItemType::ENTRY) && ((*it).enabled)) {
+			selected = it;
+			return;
+		}
 }
 
 // Select the last enabled menu item
 auto Sorcery::Menu::_select_last_enabled() -> void {
 	for (std::vector<MenuEntry>::const_iterator it = items.end(); it != items.begin(); --it)
-		if (std::get<static_cast<int>(MenuField::TYPE)>(*it) == MenuItemType::ENTRY)
-			if (std::get<static_cast<int>(MenuField::ENABLED)>(*it)) {
-				selected = it;
-				return;
-			}
+		if (((*it).type == MenuItemType::ENTRY) && ((*it).enabled)) {
+			selected = it;
+			return;
+		}
 }
 
 // Check if the mouse cursor is on a menu item, and if so set it
@@ -161,7 +161,7 @@ auto Sorcery::Menu::choose(unsigned int index) -> std::optional<std::vector<Menu
 	if (index < items.size()) {
 		std::vector<MenuEntry>::const_iterator working {items.begin()};
 		do {
-			found = std::get<static_cast<int>(MenuField::INDEX)>(*working) == index;
+			found = (*working).index == index;
 			++working;
 		} while ((working > items.begin()) && (!found));
 		if (found) {
@@ -183,8 +183,7 @@ auto Sorcery::Menu::choose_previous() -> std::optional<std::vector<MenuEntry>::c
 		std::vector<MenuEntry>::const_iterator working {selected};
 		do {
 			--working;
-			found_enabled_option = std::get<static_cast<int>(MenuField::ENABLED)>(*working) &&
-				std::get<static_cast<int>(MenuField::TYPE)>(*working) == MenuItemType::ENTRY;
+			found_enabled_option = ((*working).enabled) && ((*working).type == MenuItemType::ENTRY);
 		} while ((working > items.begin()) && (!found_enabled_option));
 		if (found_enabled_option) {
 			selected = working;
@@ -207,8 +206,7 @@ auto Sorcery::Menu::choose_next() -> std::optional<std::vector<MenuEntry>::const
 		std::vector<MenuEntry>::const_iterator working {selected};
 		do {
 			++working;
-			found_enabled_option = std::get<static_cast<int>(MenuField::ENABLED)>(*working) &&
-				std::get<static_cast<int>(MenuField::TYPE)>(*working) == MenuItemType::ENTRY;
+			found_enabled_option = ((*working).enabled) && ((*working).type == MenuItemType::ENTRY);
 		} while ((working < items.end() - 1) && (!found_enabled_option));
 		if (found_enabled_option) {
 			selected = working;

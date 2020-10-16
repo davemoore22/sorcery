@@ -482,6 +482,7 @@ namespace Sorcery {
 
 		// Menu Items
 		enum class ItemType {
+			NONE,
 			ENTRY,
 			TITLE,
 			SEPARATOR,

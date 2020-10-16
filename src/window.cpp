@@ -257,7 +257,7 @@ auto Sorcery::Window::_draw_centered_menu(std::vector<MenuEntry>& items, std::ve
 
 	bounds.clear();
 	for (std::vector<MenuEntry>::const_iterator it = items.begin(); it != items.end(); ++it) {
-		std::string text_string {std::get<static_cast<int>(MenuField::TEXT)>(*it)};
+		std::string text_string {(*it).key};
 		sf::Text text;
 		text.setFont(_system.resources->fonts[component.font]);
 		text.setCharacterSize(component.size);
@@ -377,3 +377,5 @@ auto Sorcery::Window::_change_colour(sf::Color colour, double lerp) -> sf::Color
 
 	return sf::Color(red, green, blue);
 }
+
+// each screen has a list of userdefined areas for tooltips, and an index, and when adding a component to the screen it adds a strong key
