@@ -224,11 +224,27 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 						} else
 							return static_cast<unsigned long long>(0ull);
 					}();
+					Justification justification = [&] {
+						if (components[j].isMember("justification")) {
+							if (components[j]["justification"].asString().length() > 0) {
+								if (components[j]["justification"].asString() == "left")
+									return Justification::LEFT;
+								else if (components[j]["justification"].asString() == "centre")
+									return Justification::CENTRE;
+								else if (components[j]["justification"].asString() == "right")
+									return Justification::RIGHT;
+								else
+									return Justification::LEFT;
+							} else
+								return Justification::LEFT;
+						} else
+							return Justification::LEFT;
+					}();
 
 					// Add the Component
 					std::string key = screen_name + ":" + name;
 					Component component(screen_name, name, x, y, w, h, scale, font_type, size, colour, animated,
-						string_key, alpha, width, background);
+						string_key, alpha, width, background, justification);
 					_components[key] = component;
 				}
 			 }

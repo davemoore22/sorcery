@@ -80,8 +80,8 @@ Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuTy
 		_add_item(20, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_ENCOUNTERS, (*_display.string)["GRAPHICS_ENCOUNTERS"], true, ConfigOption::DISPLAY_ENCOUNTERS);
 		_add_item(21, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_PROGRESS, (*_display.string)["GRAPHICS_PROGRESS"], true, ConfigOption::DISPLAY_PROGRESS);
 		_add_item(22, MenuItemType::SPACER, MenuItem::SPACER, (*_display.string)["MENU_SPACER"]);
-		_add_item(23, MenuItemType::ENTRY, MenuItem::SAVE, (*_display.string)["MENU_OPTIONS_SAVE"]);
-		_add_item(24, MenuItemType::ENTRY, MenuItem::CANCEL, (*_display.string)["MENU_OPTIONS_CANCEL"]);
+		//_add_item(23, MenuItemType::ENTRY, MenuItem::SAVE, (*_display.string)["MENU_OPTIONS_SAVE"]);
+		//_add_item(24, MenuItemType::ENTRY, MenuItem::CANCEL, (*_display.string)["MENU_OPTIONS_CANCEL"]);
 		selected = items.begin();
 		break;
 	case MenuType::PAUSE:

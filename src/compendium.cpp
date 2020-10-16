@@ -122,4 +122,8 @@ auto Sorcery::Compendium::_draw() -> void {
 	_window->draw(_frame);
 	_window->draw(_frame_top);
 	_display.window->draw_centered_text(_title_text, (*_display.layout)["compendium:gui_frame_title_text"]);
+
+	// Always draw the following
+	_cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+	_window->draw(_cursor);
 }

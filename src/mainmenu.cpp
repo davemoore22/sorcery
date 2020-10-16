@@ -185,16 +185,16 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 							}
 
 							if (option_chosen == MenuItem::QUIT) {
-								_display.window->input_mode = WindowInputMode::CONFIRM_EXIT;
+								_display.window->input_mode = WindowInputMode::CONFIRM;
 								_yes_or_no = WindowConfirm::NO;
 							}
 						}
 					} else if (_system.input->check_for_event(WindowInput::CANCEL, event)) {
-						_display.window->input_mode = WindowInputMode::CONFIRM_EXIT;
+						_display.window->input_mode = WindowInputMode::CONFIRM;
 						_yes_or_no = WindowConfirm::NO;
 					}
 				}
-			} else if (_display.window->input_mode == WindowInputMode::CONFIRM_EXIT) {
+			} else if (_display.window->input_mode == WindowInputMode::CONFIRM) {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
@@ -286,7 +286,7 @@ auto Sorcery::MainMenu::_draw() -> void {
 		} else {
 			_display.window->draw_centered_menu(_main_menu->items, _main_menu->bounds, _main_menu->selected,
 				(*_display.layout)["main_menu_attract:main_menu"], lerp);
-			if (_display.window->input_mode == WindowInputMode::CONFIRM_EXIT) {
+			if (_display.window->input_mode == WindowInputMode::CONFIRM) {
 				_confirm_exit->draw(lerp);
 			}
 		}

@@ -154,6 +154,10 @@ auto Sorcery::License::_draw() -> void {
 	std::string progress = _textfile->get_reading_progress(_current_line);
 	_display.window->draw_right_text(_progress_text, (*_display.layout)["license:license_file_progress"], progress);
 	_display_file_contents();
+
+	// Always draw the following
+	_cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+	_window->draw(_cursor);
 }
 
 auto Sorcery::License::_display_file_contents() -> void {

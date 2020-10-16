@@ -39,6 +39,8 @@ Sorcery::Options::Options (System& system, Display& display, Graphics& graphics)
 
 	// Setup Components
 	_title_text = sf::Text();
+
+	_options_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::OPTIONS);
 }
 
 // Standard Destructor
@@ -81,7 +83,9 @@ auto Sorcery::Options::start() -> void {
 	if (_background_movie.getStatus() == sfe::Stopped)
 		_background_movie.play();
 
-	_display.window->input_mode = WindowInputMode::DISPLAY_TEXT_FILE;
+
+	std::optional<std::vector<MenuEntry>::const_iterator> selected_option {_options_menu->items.begin()};
+	_display.window->input_mode = WindowInputMode::GAME_OPTIONS;
 
 	// And do the main loop
 	sf::Event event {};
@@ -122,4 +126,18 @@ auto Sorcery::Options::_draw() -> void {
 	_window->draw(_frame);
 	_window->draw(_frame_top);
 	_display.window->draw_centered_text(_title_text, (*_display.layout)["options:gui_frame_title_text"]);
+
+	double lerp = _graphics.animation->colour_lerp;
+
+	_display.window->draw_centered_menu(_options_menu->items, _options_menu->bounds, _options_menu->selected,
+		(*_display.layout)["options:options_menu"], lerp);
+	if (_display.window->input_mode == WindowInputMode::CONFIRM) {
+		_confirm_save->draw(lerp);
+	} else if (_display.window->input_mode == WindowInputMode::CANCEL) {
+		_confirm_cancel->draw(lerp);
+	}
+
+	// Always draw the following
+	_cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+	_window->draw(_cursor);
 }

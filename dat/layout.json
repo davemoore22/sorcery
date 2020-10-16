@@ -59,7 +59,8 @@
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
-			"string": "MAIN_MENU_TITLE"
+			"string": "MAIN_MENU_TITLE",
+			"justification": "centre"
 		},
 		{
 			"name": "subtitle_1",
@@ -68,7 +69,8 @@
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
-			"string": "MAIN_MENU_SUBTITLE_1"
+			"string": "MAIN_MENU_SUBTITLE_1",
+			"justification": "centre"
 		},
 		{
 			"name": "subtitle_2",
@@ -77,7 +79,8 @@
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
-			"string": "MAIN_MENU_SUBTITLE_2"
+			"string": "MAIN_MENU_SUBTITLE_2",
+			"justification": "centre"
 		},
 		{
 			"name": "copyright",
@@ -86,7 +89,8 @@
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
-			"string": "BRIEF_COPYRIGHT_INFO"
+			"string": "BRIEF_COPYRIGHT_INFO",
+			"justification": "centre"
 		},
 		{
 			"name": "press_any_key",
@@ -96,7 +100,8 @@
 			"colour": "0x999999ff",
 			"size": "38",
 			"string": "PRESS_ANY_KEY",
-			"animated": "true"
+			"animated": "true",
+			"justification": "centre"
 		},
 		{
 			"name": "main_menu",
@@ -107,7 +112,8 @@
 			"size": "38",
 			"animated": "true",
 			"width": 54,
-			"background": "0x6060c8ff"
+			"background": "0x6060c8ff",
+			"justification": "centre"
 		},
 		{
 			"name": "confirm_exit_gui_frame",
@@ -125,7 +131,8 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "CONFIRM_EXIT_GAME",
-			"background": "0x6060c8ff"
+			"background": "0x6060c8ff",
+			"justification": "centre"
 		}
 		]
 	},
@@ -155,7 +162,8 @@
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
-			"string": "LICENSE_TITLE"
+			"string": "LICENSE_TITLE",
+			"justification": "centre"
 		},
 		{
 			"name": "license_file_text",
@@ -172,7 +180,8 @@
 			"colour": "0xffffffff",
 			"size": "26",
 			"x": "65",
-			"y": "32"
+			"y": "32",
+			"justification": "right"
 		}
 		]
 	},
@@ -202,7 +211,21 @@
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
-			"string": "OPTIONS_TITLE"
+			"string": "OPTIONS_TITLE",
+			"justification": "centre"
+		},
+		{
+
+			"name": "options_menu",
+			"x": "centre",
+			"y": "10",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"animated": "true",
+			"width": 50,
+			"background": "0x6060c8ff",
+			"justification": "left"
 		}
 		]
 	},

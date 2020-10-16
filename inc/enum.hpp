@@ -56,7 +56,8 @@ namespace Sorcery {
 		// Input Mode
 		enum InputMode {
 			NORMAL,
-			CONFIRM_EXIT,
+			CONFIRM,
+			CANCEL,
 			DISPLAY_TEXT_FILE,
 			GAME_OPTIONS,
 			COMPENDIUM
@@ -65,6 +66,12 @@ namespace Sorcery {
 		enum Confirm {
 			YES,
 			NO
+		};
+
+		enum Justification {
+			LEFT,
+			RIGHT,
+			CENTRE
 		};
 	}
 
@@ -91,6 +98,7 @@ namespace Sorcery {
 			NORMAL,
 			EXPLAIN
 		};
+
 	}
 
 	namespace Enums::Magic {

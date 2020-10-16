@@ -23,21 +23,22 @@
 #include "component.hpp"
 
 Sorcery::Component::Component(): screen{""}, name{""}, x{0}, y{0}, w{0}, h{0}, scale{0.0f}, font{0},
-	size{0}, colour{0}, animated{false}, string_key{""}, alpha{255}, background{0} {
+	size{0}, colour{0}, animated{false}, string_key{""}, alpha{255}, background{0}, justification {} {
 }
 
 Sorcery::Component::Component(std::string screen_, std::string name_, int x_, int y_, unsigned int w_, unsigned int h_,
 	float scale_, Enums::Internal::FontType font_, unsigned int size_, unsigned long long colour_, bool animated_,
-	std::string string_key_, unsigned int alpha_, unsigned int width_, unsigned long long background_): screen{screen_},
-	name{name_} , x{x_}, y{y_}, w{w_}, h{h_}, scale{scale_}, font{font_}, size{size_}, colour{colour_},
-	animated{animated_}, string_key{string_key_}, alpha{alpha_}, width{width_}, background {background_} {
+	std::string string_key_, unsigned int alpha_, unsigned int width_, unsigned long long background_,
+	Enums::Window::Justification justification_): screen{screen_}, name{name_} , x{x_}, y{y_}, w{w_}, h{h_},
+	scale{scale_}, font{font_}, size{size_}, colour{colour_}, animated{animated_}, string_key{string_key_},
+	alpha{alpha_}, width{width_}, background {background_}, justification {justification_} {
 }
 
 // Copy Constructors
 Sorcery::Component::Component(const Component &other): screen{other.screen}, name{other.name}, x{other.x}, y{other.y},
 	w{other.w}, h{other.h}, scale{other.scale}, font{other.font}, size{other.size}, colour{other.colour},
 	animated{other.animated}, string_key{other.string_key}, alpha{other.alpha}, width{other.width},
-	background {other.background} {
+	background {other.background}, justification {other.justification} {
 }
 
 auto Sorcery::Component::operator= (const Component &other) -> Component& {
@@ -56,6 +57,7 @@ auto Sorcery::Component::operator= (const Component &other) -> Component& {
 	alpha = other.alpha;
 	width = other.width;
 	background = other.background;
+	justification = other.justification;
 
 	return *this;
 }

@@ -28,6 +28,8 @@
 #include "display.hpp"
 #include "graphics.hpp"
 #include "layout.hpp"
+#include "menu.hpp"
+#include "confirm.hpp"
 
 namespace Sorcery {
 
@@ -65,5 +67,9 @@ namespace Sorcery {
 			sf::Sprite _frame_top;
 			sf::Sprite _cursor;
 			sf::Text _title_text;
+
+			std::shared_ptr<Menu> _options_menu;
+			std::shared_ptr<Confirm> _confirm_save;
+			std::shared_ptr<Confirm> _confirm_cancel;
 	};
 }
