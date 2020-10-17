@@ -29,7 +29,7 @@
 	"GAME_ALLOW_AMBUSH_HIDE": "Allow Ambush/Hide",
 	"GAME_ALLOW_RANGED_WEAPONS": "Allow Ranged Weaponry",
 	"GAME_SPELL_CASTING_SURPRISE_ROUND": "Spellcasting in Surprise Round",
-	"GAME_BATCH_HEALING_AFTER_RETURN": "Automated Healing after Returning to Base",
+	"GAME_BATCH_HEALING_AFTER_RETURN": "Automated Town Healing",
 	"GAME_REROLL_ONES": "Ignore 1s on Dice Rolls",
 	"CONFIG_SUBTITLE_GRAPHICS": "Graphics Options",
 	"GRAPHICS_WIREFRAME": "Wireframe Graphics Only",
@@ -41,8 +41,8 @@
 	"CONFIRM_LEAVE_GAME_OPTIONS": "Are you sure you want to Cancel your changes?",
 	"CONFIRM_SAVE_GAME_OPTIONS": "Are you sure you want to Save your changes and return to the Menu?",
 	"CONFIRM_SWITCH_ON_STRICT_MODE": "Switching on Strict Mode changes many Game Options - the game will be MUCH more difficult in Strict Mode",
-	"MENU_OPTIONS_CANCEL" : "Cancel Changes",
-	"MENU_OPTIONS_SAVE" : "Save Changes",
+	"MENU_OPTIONS_CANCEL" : "Cancel",
+	"MENU_OPTIONS_SAVE" : "Save",
 	"MENU_SPACER": "",
 
 

@@ -276,15 +276,15 @@ auto Sorcery::MainMenu::_draw() -> void {
 
 		// Draw Attract Mode Text
 		double lerp = _graphics.animation->colour_lerp;
-		_display.window->draw_centered_text(_title, (*_display.layout)["main_menu_attract:title"]);
+		_display.window->draw_text(_title, (*_display.layout)["main_menu_attract:title"]);
 
 		if (_menu_stage == MainMenuType::ATTRACT_MODE) {
-			_display.window->draw_centered_text(_press_any_key, (*_display.layout)["main_menu_attract:press_any_key"], lerp);
-			_display.window->draw_centered_text(_subtitle_1, (*_display.layout)["main_menu_attract:subtitle_1"]);
-			_display.window->draw_centered_text(_subtitle_2, (*_display.layout)["main_menu_attract:subtitle_2"]);
-			_display.window->draw_centered_text(_copyright, (*_display.layout)["main_menu_attract:copyright"]);
+			_display.window->draw_text(_press_any_key, (*_display.layout)["main_menu_attract:press_any_key"], lerp);
+			_display.window->draw_text(_subtitle_1, (*_display.layout)["main_menu_attract:subtitle_1"]);
+			_display.window->draw_text(_subtitle_2, (*_display.layout)["main_menu_attract:subtitle_2"]);
+			_display.window->draw_text(_copyright, (*_display.layout)["main_menu_attract:copyright"]);
 		} else {
-			_display.window->draw_centered_menu(_main_menu->items, _main_menu->bounds, _main_menu->selected,
+			_display.window->draw_menu(_main_menu->items, _main_menu->bounds, _main_menu->selected,
 				(*_display.layout)["main_menu_attract:main_menu"], lerp);
 			if (_display.window->input_mode == WindowInputMode::CONFIRM) {
 				_confirm_exit->draw(lerp);

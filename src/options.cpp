@@ -125,11 +125,11 @@ auto Sorcery::Options::_draw() -> void {
 
 	_window->draw(_frame);
 	_window->draw(_frame_top);
-	_display.window->draw_centered_text(_title_text, (*_display.layout)["options:gui_frame_title_text"]);
+	_display.window->draw_text(_title_text, (*_display.layout)["options:gui_frame_title_text"]);
 
 	double lerp = _graphics.animation->colour_lerp;
 
-	_display.window->draw_centered_menu(_options_menu->items, _options_menu->bounds, _options_menu->selected,
+	_display.window->draw_menu(_options_menu->items, _options_menu->bounds, _options_menu->selected,
 		(*_display.layout)["options:options_menu"], lerp);
 	if (_display.window->input_mode == WindowInputMode::CONFIRM) {
 		_confirm_save->draw(lerp);

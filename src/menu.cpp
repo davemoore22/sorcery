@@ -62,6 +62,7 @@ Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuTy
 		_add_item(2, MenuItemType::ENTRY, MenuItem::OP_CHEAT_MODE, (*_display.string)["CONFIG_CHEAT_MODE"],  true, ConfigOption::CHEAT_MODE);
 		_add_item(3, MenuItemType::ENTRY, MenuItem::OP_DICE_ROLLS, (*_display.string)["CONFIG_DICE_ROLLS"], true, ConfigOption::DICE_ROLLS);
 		_add_item(4, MenuItemType::SPACER, MenuItem::SPACER, (*_display.string)["MENU_SPACER"]);
+		_add_item(4, MenuItemType::SPACER, MenuItem::SPACER, (*_display.string)["MENU_SPACER"]);
 		_add_item(5, MenuItemType::ENTRY, MenuItem::OP_ALLOW_MIXED_ALIGNMENT_PARTY, (*_display.string)["GAME_ALLOW_MIXED_ALIGNMENT"], true, ConfigOption::ALLOW_MIXED_ALIGNMENT_PARTY);
 		_add_item(6, MenuItemType::ENTRY, MenuItem::OP_STAT_LOSS_ON_LEVEL_UP, (*_display.string)["GAME_STAT_LOSS_LEVEL_GAIN"], true, ConfigOption::STAT_LOSS_ON_LEVEL_UP);
 		_add_item(7, MenuItemType::ENTRY, MenuItem::OP_REROLL_HIT_POINTS_ON_LEVEL_GAIN, (*_display.string)["GAME_REROLL_HIT_POINTS"], true, ConfigOption::REROLL_HIT_POINTS_ON_LEVEL_GAIN);
@@ -72,6 +73,7 @@ Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuTy
 		_add_item(12, MenuItemType::ENTRY, MenuItem::OP_SPELLCASTING_IN_SURPRISE_ROUND, (*_display.string)["GAME_SPELL_CASTING_SURPRISE_ROUND"], true, ConfigOption::SPELLCASTING_IN_SURPRISE_ROUND);
 		_add_item(13, MenuItemType::ENTRY, MenuItem::OP_BATCH_HEALING_AFTER_RETURN_TO_CASTLE, (*_display.string)["GAME_BATCH_HEALING_AFTER_RETURN"], true, ConfigOption::BATCH_HEALING_AFTER_RETURN_TO_CASTLE);
 		_add_item(14, MenuItemType::ENTRY, MenuItem::OP_REROLL_ONES_ON_DICE, (*_display.string)["GAME_REROLL_ONES"], true, ConfigOption::REROLL_ONES_ON_DICE);
+		_add_item(15, MenuItemType::SPACER, MenuItem::SPACER, (*_display.string)["MENU_SPACER"]);
 		_add_item(15, MenuItemType::SPACER, MenuItem::SPACER, (*_display.string)["MENU_SPACER"]);
 		_add_item(16, MenuItemType::ENTRY, MenuItem::OP_WIREFRAME_MODE, (*_display.string)["GRAPHICS_WIREFRAME"], true, ConfigOption::WIREFRAME_MODE);
 		_add_item(17, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_TEXTURES, (*_display.string)["GRAPHICS_TEXTURES"], true, ConfigOption::DISPLAY_TEXTURES);

@@ -217,13 +217,13 @@
 		{
 
 			"name": "options_menu",
-			"x": "centre",
-			"y": "10",
+			"x": "16",
+			"y": "6",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
 			"animated": "true",
-			"width": 50,
+			"width": 48,
 			"background": "0x6060c8ff",
 			"justification": "left"
 		}

@@ -82,7 +82,7 @@ auto Sorcery::Confirm::draw(double lerp) -> void {
 
 	// Display Confirmation Message
 	sf::Text text {};
-	_display.window->draw_centered_text(text, _text_component);
+	_display.window->draw_text(text, _text_component);
 
 	// Draw Yes / No (and highlight them depending on which one chosen)
 	unsigned int yes_no_y {_text_component.y + (_display.window->get_cell_height() * 2)};

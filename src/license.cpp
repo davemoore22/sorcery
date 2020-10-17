@@ -150,7 +150,7 @@ auto Sorcery::License::_draw() -> void {
 
 	_window->draw(_frame);
 	_window->draw(_frame_top);
-	_display.window->draw_centered_text(_title_text, (*_display.layout)["license:gui_frame_title_text"]);
+	_display.window->draw_text(_title_text, (*_display.layout)["license:gui_frame_title_text"]);
 	std::string progress = _textfile->get_reading_progress(_current_line);
 	_display.window->draw_right_text(_progress_text, (*_display.layout)["license:license_file_progress"], progress);
 	_display_file_contents();

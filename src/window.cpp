@@ -172,19 +172,19 @@ auto Sorcery::Window::get_gui_frame(sf::RenderTexture& gui_frame_rt, sf::Texture
 	return gui_frame_sprite;
 }
 // Draw Text on the Screen
-auto Sorcery::Window::draw_centered_text(sf::Text& text, Component& component, double lerp) -> void {
-	_draw_centered_text(text, component, lerp);
+auto Sorcery::Window::draw_text(sf::Text& text, Component& component, double lerp) -> void {
+	_draw_text(text, component, lerp);
 }
 
-auto Sorcery::Window::draw_centered_text(sf::Text& text) -> void {
-	_draw_centered_text(text);
+auto Sorcery::Window::draw_text(sf::Text& text) -> void {
+	_draw_text(text);
 }
 
-auto Sorcery::Window::_draw_centered_text(sf::Text& text) -> void {
+auto Sorcery::Window::_draw_text(sf::Text& text) -> void {
 	_window.draw(text);
 }
 
-auto Sorcery::Window::_draw_centered_text(sf::Text& text, Component& component, double lerp) -> void {
+auto Sorcery::Window::_draw_text(sf::Text& text, Component& component, double lerp) -> void {
 	int x {0};
 	int y {0};
 	text.setFont(_system.resources->fonts[component.font]);
@@ -197,7 +197,8 @@ auto Sorcery::Window::_draw_centered_text(sf::Text& text, Component& component, 
 	x = component.x == -1 ? centre.x :  component.x;
 	y = component.y == -1 ? centre.y :  component.y;
 	text.setPosition(x, y);
-	text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+	if (component.justification == Justification::CENTRE)
+		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 	_window.draw(text);
 }
 
@@ -241,13 +242,12 @@ auto Sorcery::Window::_draw_right_text(sf::Text& text, Component& component, std
 	_window.draw(text);
 }
 
-
-auto Sorcery::Window::draw_centered_menu(std::vector<MenuEntry>& items, std::vector<sf::FloatRect>& bounds,
+auto Sorcery::Window::draw_menu(std::vector<MenuEntry>& items, std::vector<sf::FloatRect>& bounds,
 	std::vector<MenuEntry>::const_iterator selected, Component& component, double lerp) -> void {
-	_draw_centered_menu(items, bounds, selected, component, lerp);
+	_draw_menu(items, bounds, selected, component, lerp);
 }
 
-auto Sorcery::Window::_draw_centered_menu(std::vector<MenuEntry>& items, std::vector<sf::FloatRect>& bounds,
+auto Sorcery::Window::_draw_menu(std::vector<MenuEntry>& items, std::vector<sf::FloatRect>& bounds,
 	std::vector<MenuEntry>::const_iterator selected, Component& component, double lerp) -> void {
 
 	unsigned int width {component.width};
@@ -257,34 +257,44 @@ auto Sorcery::Window::_draw_centered_menu(std::vector<MenuEntry>& items, std::ve
 
 	bounds.clear();
 	for (std::vector<MenuEntry>::const_iterator it = items.begin(); it != items.end(); ++it) {
-		std::string text_string {(*it).key};
-		sf::Text text;
-		text.setFont(_system.resources->fonts[component.font]);
-		text.setCharacterSize(component.size);
-		text.setFillColor(sf::Color(component.colour));
-		text.setString(text_string);
-		x = component.x == -1 ? centre.x :  component.x;
-		y = component.y == -1 ? centre.y :  component.y;
-		y = y + (count * get_cell_height());
-		text.setPosition(x, y);
-		if (selected == it) {
-			sf::FloatRect background_rect {text.getLocalBounds()};
-			sf::RectangleShape background(sf::Vector2f(width * get_cell_width(),
-				background_rect.height + 2));
-			background.setOrigin(background.getGlobalBounds().width / 2.0f, -3);
-			if (component.animated)
-				background.setFillColor(change_colour(sf::Color(component.background), lerp));
-			else
-				background.setFillColor(sf::Color(component.background));
+		if (((*it).type == MenuItemType::TEXT) || ((*it).type == MenuItemType::ENTRY)) {
+			std::string text_string {(*it).key};
+			sf::Text text;
+			text.setFont(_system.resources->fonts[component.font]);
+			text.setCharacterSize(component.size);
 			text.setFillColor(sf::Color(component.colour));
-			text.setOutlineColor(sf::Color(0, 0, 0));
-			text.setOutlineThickness(2);
-			_window.draw(background, text.getTransform());
+			text.setString(text_string);
+			x = component.x == -1 ? centre.x :  component.x;
+			y = component.y == -1 ? centre.y :  component.y;
+			y = y + (count * get_cell_height());
+			text.setPosition(x, y);
+			if (selected == it) {
+				sf::FloatRect background_rect {text.getLocalBounds()};
+				sf::RectangleShape background(sf::Vector2f(width * get_cell_width(),
+					background_rect.height + 2));
+				if (component.justification == Justification::CENTRE)
+					background.setOrigin(background.getGlobalBounds().width / 2.0f, -3);
+				else
+					background.setOrigin(0, -3);
+				if (component.animated)
+					background.setFillColor(change_colour(sf::Color(component.background), lerp));
+				else
+					background.setFillColor(sf::Color(component.background));
+				text.setFillColor(sf::Color(component.colour));
+				text.setOutlineColor(sf::Color(0, 0, 0));
+				text.setOutlineThickness(2);
+				_window.draw(background, text.getTransform());
+			}
+			if (component.justification == Justification::CENTRE)
+				text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+			else
+				text.setOrigin(0, text.getLocalBounds().height / 2.0f);
+			draw_text(text);
+			if ((*it).type == MenuItemType::ENTRY) {
+				sf::FloatRect actual_rect {text.getGlobalBounds()};
+				bounds.push_back(actual_rect);
+			}
 		}
-		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
-		draw_centered_text(text);
-		sf::FloatRect actual_rect {text.getGlobalBounds()};
-		bounds.push_back(actual_rect);
 		count++;
 	}
 }
