@@ -99,6 +99,15 @@ auto Sorcery::Options::start() -> void {
 			if (_system.input->check_for_event(WindowInput::CANCEL, event)) {
 				return;
 			}
+
+			// And handle input on the main menu
+			if (_system.input->check_for_event(WindowInput::UP, event))
+				selected_option = _options_menu->choose_previous();
+			else if (_system.input->check_for_event(WindowInput::DOWN, event))
+				selected_option = _options_menu->choose_next();
+			else if (_system.input->check_for_event(WindowInput::MOVE, event))
+				selected_option =
+					_options_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 		}
 
 		if (_background_movie.getStatus() == sfe::Stopped) {

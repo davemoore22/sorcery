@@ -152,7 +152,7 @@ auto Sorcery::License::_draw() -> void {
 	_window->draw(_frame_top);
 	_display.window->draw_text(_title_text, (*_display.layout)["license:gui_frame_title_text"]);
 	std::string progress = _textfile->get_reading_progress(_current_line);
-	_display.window->draw_right_text(_progress_text, (*_display.layout)["license:license_file_progress"], progress);
+	_display.window->draw_text(_progress_text, (*_display.layout)["license:license_file_progress"], progress);
 	_display_file_contents();
 
 	// Always draw the following
@@ -180,6 +180,6 @@ auto Sorcery::License::_display_file_contents() -> void {
 		std::string line_contents {(*_textfile)[y]};
 		_line_text.setString(line_contents);
 		text_c.y = top_y + ((y - _current_line) * _display.window->get_cell_height());
-		_display.window->draw_left_text(_line_text, text_c);
+		_display.window->draw_text(_line_text, text_c, line_contents);
 	}
 }
