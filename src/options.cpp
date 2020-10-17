@@ -41,6 +41,8 @@ Sorcery::Options::Options (System& system, Display& display, Graphics& graphics)
 	_title_text = sf::Text();
 
 	_options_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::OPTIONS);
+	_option_on = Component((*_display.layout)["options:option_on"]);
+	_option_off = Component((*_display.layout)["options:option_off"]);
 }
 
 // Standard Destructor
@@ -51,6 +53,9 @@ Sorcery::Options::~Options() {
 
 
 auto Sorcery::Options::start() -> void {
+
+	// On entry store the current settings
+	_system.config->store_current_settings();
 
 	// Clear the window
 	_window->clear();
@@ -108,6 +113,24 @@ auto Sorcery::Options::start() -> void {
 			else if (_system.input->check_for_event(WindowInput::MOVE, event))
 				selected_option =
 					_options_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+			else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
+
+				if ((*_options_menu->selected).type == MenuItemType::ENTRY) {
+					ConfigOption config_to_toggle = (*_options_menu->selected).config;
+					if ((config_to_toggle == ConfigOption::STRICT_MODE) && (!(*_system.config)[config_to_toggle])) {
+
+						// Handle Strict Mode Toggling
+						_system.config->set_strict_mode();
+
+					} else {
+
+						// And toggling off strict mode
+						(*_system.config)[config_to_toggle] = !(*_system.config)[config_to_toggle];
+						if (!_system.config->is_strict_mode())
+							(*_system.config)[ConfigOption::STRICT_MODE] = false;
+					}
+				}
+			}
 		}
 
 		if (_background_movie.getStatus() == sfe::Stopped) {
@@ -139,7 +162,14 @@ auto Sorcery::Options::_draw() -> void {
 	double lerp = _graphics.animation->colour_lerp;
 
 	_display.window->draw_menu(_options_menu->items, _options_menu->bounds, _options_menu->selected,
-		(*_display.layout)["options:options_menu"], lerp);
+		(*_display.layout)["options:options_menu"], _options_menu->get_type(), lerp);
+
+	_display.window->draw_text(_gameplay_text, (*_display.layout)["options:subtitle_gameplay"]);
+	_display.window->draw_text(_general_text, (*_display.layout)["options:subtitle_general"]);
+	_display.window->draw_text(_graphics_text, (*_display.layout)["options:subtitle_graphics"]);
+	_display.window->draw_text(_save_text, (*_display.layout)["options:options_save_text"]);
+	_display.window->draw_text(_cancel_text, (*_display.layout)["options:options_cancel_text"]);
+
 	if (_display.window->input_mode == WindowInputMode::CONFIRM) {
 		_confirm_save->draw(lerp);
 	} else if (_display.window->input_mode == WindowInputMode::CANCEL) {

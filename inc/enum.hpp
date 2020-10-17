@@ -587,8 +587,8 @@ namespace Sorcery {
 
 		// Options
 		enum Options {
-			AUTO_SAVE,
 			STRICT_MODE,
+			AUTO_SAVE,
 			CHEAT_MODE,
 			DICE_ROLLS,
 			WIREFRAME_MODE,

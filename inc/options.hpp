@@ -67,9 +67,17 @@ namespace Sorcery {
 			sf::Sprite _frame_top;
 			sf::Sprite _cursor;
 			sf::Text _title_text;
+			sf::Text _gameplay_text;
+			sf::Text _general_text;
+			sf::Text _graphics_text;
+			sf::Text _save_text;
+			sf::Text _cancel_text;
+			Component _option_on;
+			Component _option_off;
 
 			std::shared_ptr<Menu> _options_menu;
 			std::shared_ptr<Confirm> _confirm_save;
 			std::shared_ptr<Confirm> _confirm_cancel;
+			std::shared_ptr<Confirm> _confirm_strict_on;
 	};
 }

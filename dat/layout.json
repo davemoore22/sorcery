@@ -215,6 +215,36 @@
 			"justification": "centre"
 		},
 		{
+			"name": "subtitle_gameplay",
+			"x": "centre",
+			"y": "5",
+			"font": "monospace",
+			"colour": "0xffff00ff",
+			"size": "38",
+			"string": "CONFIG_SUBTITLE_GAMEPLAY",
+			"justification": "centre"
+		},
+		{
+			"name": "subtitle_general",
+			"x": "centre",
+			"y": "11",
+			"font": "monospace",
+			"colour": "0xffff00ff",
+			"size": "38",
+			"string": "CONFIG_SUBTITLE_GENERAL",
+			"justification": "centre"
+		},
+		{
+			"name": "subtitle_graphics",
+			"x": "centre",
+			"y": "23",
+			"font": "monospace",
+			"colour": "0xffff00ff",
+			"size": "38",
+			"string": "CONFIG_SUBTITLE_GRAPHICS",
+			"justification": "centre"
+		},
+		{
 
 			"name": "options_menu",
 			"x": "16",
@@ -226,6 +256,42 @@
 			"width": 48,
 			"background": "0x6060c8ff",
 			"justification": "left"
+		},
+		{
+			"name": "options_save_text",
+			"x": "36",
+			"y": "31",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "MENU_OPTIONS_SAVE",
+			"justification": "centre"
+		},
+		{
+			"name": "options_cancel_text",
+			"x": "44",
+			"y": "31",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "MENU_OPTIONS_CANCEL",
+			"justification": "centre"
+		},
+		{
+			"name": "option_on",
+			"font": "text",
+			"colour": "0x3fff3fff",
+			"size": "38",
+			"justification": "right",
+			"string": "OPTION_ON"
+		},
+		{
+			"name": "option_off",
+			"font": "text",
+			"colour": "0xff3f3fff",
+			"size": "38",
+			"justification": "right",
+			"string": "OPTION_OFF"
 		}
 		]
 	},

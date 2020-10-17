@@ -57,8 +57,8 @@ Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuTy
 	case MenuType::CHOOSE_CHARACTER_RACE:
 		break;
 	case MenuType::OPTIONS:
-		_add_item(0, MenuItemType::ENTRY, MenuItem::OP_AUTO_SAVE, (*_display.string)["CONFIG_AUTO_SAVE"], true, ConfigOption::AUTO_SAVE);
-		_add_item(1, MenuItemType::ENTRY, MenuItem::OP_STRICT_MODE, (*_display.string)["CONFIG_STRICT_MODE"], true, ConfigOption::STRICT_MODE);
+		_add_item(0, MenuItemType::ENTRY, MenuItem::OP_STRICT_MODE, (*_display.string)["CONFIG_STRICT_MODE"], true, ConfigOption::STRICT_MODE);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::OP_AUTO_SAVE, (*_display.string)["CONFIG_AUTO_SAVE"], true, ConfigOption::AUTO_SAVE);
 		_add_item(2, MenuItemType::ENTRY, MenuItem::OP_CHEAT_MODE, (*_display.string)["CONFIG_CHEAT_MODE"],  true, ConfigOption::CHEAT_MODE);
 		_add_item(3, MenuItemType::ENTRY, MenuItem::OP_DICE_ROLLS, (*_display.string)["CONFIG_DICE_ROLLS"], true, ConfigOption::DICE_ROLLS);
 		_add_item(4, MenuItemType::SPACER, MenuItem::SPACER, (*_display.string)["MENU_SPACER"]);
@@ -104,6 +104,10 @@ auto Sorcery::Menu::operator [] (const unsigned int index) -> const MenuEntry& {
 	return items.at(index);
 }
 
+auto Sorcery::Menu::get_type() -> MenuType {
+	return _type;
+}
+
 // Add an item to the Menu
 auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string& key,
 	bool enabled, ConfigOption option) -> void {
@@ -111,8 +115,6 @@ auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const Menu
 		key.resize(key.length() + 1, 32);
 
 	items.push_back({index, itemtype, code, key, enabled, option});
-	//items.push_back(std::tuple<unsigned int, Enums::Menu::ItemType, Enums::Menu::Item, std::string, bool,
-	//	Enums::Options>(index, itemtype, code, key, enabled, option));
 	++count;
 }
 

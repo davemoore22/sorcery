@@ -52,22 +52,19 @@
 			<Cursor1 position="1329" topLine="21" />
 		</Cursor>
 	</File>
-	<File name="src/confirm.cpp" open="1" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/confirm.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="5946" topLine="40" />
+			<Cursor1 position="3332" topLine="79" />
 		</Cursor>
-		<Folding>
-			<Collapse line="70" />
-		</Folding>
 	</File>
 	<File name="inc/display.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="0" topLine="16" />
 		</Cursor>
 	</File>
-	<File name="src/window.cpp" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/window.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3608" topLine="73" />
+			<Cursor1 position="11815" topLine="281" />
 		</Cursor>
 	</File>
 	<File name="src/resourcemanager.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -85,7 +82,7 @@
 			<Cursor1 position="1702" topLine="28" />
 		</Cursor>
 	</File>
-	<File name="dat/strings.json" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="dat/strings.json" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="710" topLine="0" />
 		</Cursor>
@@ -137,7 +134,7 @@
 	</File>
 	<File name="src/menu.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2960" topLine="34" />
+			<Cursor1 position="7089" topLine="95" />
 		</Cursor>
 	</File>
 	<File name="inc/menu.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

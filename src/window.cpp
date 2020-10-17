@@ -224,17 +224,22 @@ auto Sorcery::Window::get_gui_frame(sf::RenderTexture& gui_frame_rt, sf::Texture
 
 
 auto Sorcery::Window::draw_menu(std::vector<MenuEntry>& items, std::vector<sf::FloatRect>& bounds,
-	std::vector<MenuEntry>::const_iterator selected, Component& component, double lerp) -> void {
-	_draw_menu(items, bounds, selected, component, lerp);
+	std::vector<MenuEntry>::const_iterator selected, Component& component, MenuType menu_type, double lerp) -> void {
+	_draw_menu(items, bounds, selected, component, menu_type, lerp);
 }
 
 auto Sorcery::Window::_draw_menu(std::vector<MenuEntry>& items, std::vector<sf::FloatRect>& bounds,
-	std::vector<MenuEntry>::const_iterator selected, Component& component, double lerp) -> void {
+	std::vector<MenuEntry>::const_iterator selected, Component& component,  MenuType menu_type, double lerp) -> void {
 
 	unsigned int width {component.width};
 	int x {0};
 	int y {0};
+	int option_x {0};
+	int option_y {0};
 	int count {0};
+
+	Component on_component =  _layout["options:option_on"];
+	Component off_component =  _layout["options:option_off"];
 
 	bounds.clear();
 	for (std::vector<MenuEntry>::const_iterator it = items.begin(); it != items.end(); ++it) {
@@ -278,6 +283,44 @@ auto Sorcery::Window::_draw_menu(std::vector<MenuEntry>& items, std::vector<sf::
 				sf::FloatRect actual_rect;
 				bounds.push_back(actual_rect);
 			}
+
+			// Add options in case of the Options Menu
+			if (menu_type == MenuType::OPTIONS) {
+				option_y = y;
+				option_x = x + (component.width * get_cell_width());
+				const bool option_value = {(*_system.config)[(*it).config] ? true : false};
+				sf::Text option_text {};
+				if (option_value) {
+
+					// On
+					option_text.setFont(_system.resources->fonts[on_component.font]);
+					option_text.setCharacterSize(on_component.size);
+					option_text.setFillColor(sf::Color(on_component.colour));
+					option_text.setString(_string[on_component.string_key]);
+					sf::FloatRect bounds = option_text.getLocalBounds();
+					option_text.setPosition(option_x - bounds.width, option_y);
+					option_text.setOrigin(0, option_text.getLocalBounds().height / 2.0f);
+				} else {
+
+					// Off
+					option_text.setFont(_system.resources->fonts[off_component.font]);
+					option_text.setCharacterSize(off_component.size);
+					option_text.setFillColor(sf::Color(off_component.colour));
+					option_text.setString(_string[off_component.string_key]);
+					sf::FloatRect bounds = option_text.getLocalBounds();
+					option_text.setPosition(option_x - bounds.width, option_y);
+					option_text.setOrigin(0, option_text.getLocalBounds().height / 2.0f);
+				}
+
+				if (selected == it) {
+					option_text.setOutlineColor(sf::Color(0, 0, 0));
+					option_text.setOutlineThickness(2);
+				}
+
+				draw_text(option_text);
+
+			}
+
 		} else {
 			sf::FloatRect actual_rect;
 			bounds.push_back(actual_rect);

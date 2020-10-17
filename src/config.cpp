@@ -23,46 +23,38 @@
 
 #include "config.hpp"
 
-
 // Standard Constructor
 Sorcery::Config::Config(CSimpleIniA* settings, const std::filesystem::path config_file_path): _settings {settings},
-	_config_file_path {config_file_path}
-{
+	_config_file_path {config_file_path} {
 	_load();
 }
 
 // Standard Destructor
-Sorcery::Config::~Config()
-{
+Sorcery::Config::~Config() {
 }
 
 // Overload [] operator - remember if this is a pointer, use the (*options)[i]
 // syntax to deference properly!
-auto Sorcery::Config::operator [](const unsigned int i) -> bool&
-{
+auto Sorcery::Config::operator [](const unsigned int i) -> bool& {
 	return _options[i];
 }
 
 // Get a value from the config file
-auto Sorcery::Config::get(const std::string& section, const std::string& value) const -> std::string
-{
+auto Sorcery::Config::get(const std::string& section, const std::string& value) const -> std::string {
 	return _settings->GetValue(CSTR(section), CSTR(value));
 }
 
 // Check if the options have changed
-bool Sorcery::Config::has_changed()
-{
+bool Sorcery::Config::has_changed() {
 	return _options == _options_backup;
 }
 
-auto Sorcery::Config::load() -> bool
-{
+auto Sorcery::Config::load() -> bool {
 	return _load();
 }
 
 // Load settings from ini file
-auto Sorcery::Config::_load() -> bool
-{
+auto Sorcery::Config::_load() -> bool {
 	// Attempt to read the settings from the Settings file if possible
 	_options.fill(false);
 
@@ -118,8 +110,7 @@ auto Sorcery::Config::_load() -> bool
 }
 
 // Save current settings to ini file
-bool Sorcery::Config::save()
-{
+bool Sorcery::Config::save() {
 	_settings->SetValue("Options", CSTR(OPT_AUTO_SAVE), BOOL2OPTIONCSTR(_options[Enums::Options::AUTO_SAVE]));
 	_settings->SetValue("Options", CSTR(OPT_STRICT_MODE), BOOL2OPTIONCSTR(_options[Enums::Options::STRICT_MODE]));
 	_settings->SetValue("Options", CSTR(OPT_CHEAT_MODE), BOOL2OPTIONCSTR(_options[Enums::Options::CHEAT_MODE]));
@@ -160,8 +151,7 @@ bool Sorcery::Config::save()
 }
 
 // Preset Options
-auto Sorcery::Config::set_recommended_mode() -> void
-{
+auto Sorcery::Config::set_recommended_mode() -> void {
 	std::array<bool, NUM_GAME_SETTINGS> _recommended_settings {
 		false, true, false, true,
 		false, true, true, true, true, true,
@@ -171,8 +161,7 @@ auto Sorcery::Config::set_recommended_mode() -> void
 }
 
 // Preset Options
-auto Sorcery::Config::set_strict_mode() -> void
-{
+auto Sorcery::Config::set_strict_mode() -> void {
 	std::array<bool, NUM_GAME_SETTINGS> _strict_mode_settings {
 		true, true, false, false,
 		true, false, false, false, false, false,
@@ -182,7 +171,16 @@ auto Sorcery::Config::set_strict_mode() -> void
 }
 
 // Store to enable comparison for checking if anything has changed on cancel
-auto Sorcery::Config::store_current_settings() -> void
-{
+auto Sorcery::Config::store_current_settings() -> void {
 	_options_backup = _options;
+}
+
+// Compare to Strict Mode
+auto Sorcery::Config::is_strict_mode() -> bool {
+	std::array<bool, NUM_GAME_SETTINGS> _strict_mode_settings {
+		true, true, false, false,
+		true, false, false, false, false, false,
+		false, true, true, true, true, false, false, false, false, false
+	};
+	return _options == _strict_mode_settings;
 }

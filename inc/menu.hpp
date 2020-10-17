@@ -57,6 +57,7 @@ namespace Sorcery {
 				std::optional<std::vector<MenuEntry>::const_iterator>;
 			auto get_mouse_clicked(sf::Event::MouseButtonEvent mouse_button_event) ->
 				std::optional<std::vector<MenuEntry>::const_iterator>;
+			auto get_type() -> MenuType;
 
 		private:
 

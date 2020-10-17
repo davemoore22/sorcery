@@ -285,7 +285,7 @@ auto Sorcery::MainMenu::_draw() -> void {
 			_display.window->draw_text(_copyright, (*_display.layout)["main_menu_attract:copyright"]);
 		} else {
 			_display.window->draw_menu(_main_menu->items, _main_menu->bounds, _main_menu->selected,
-				(*_display.layout)["main_menu_attract:main_menu"], lerp);
+				(*_display.layout)["main_menu_attract:main_menu"], _main_menu->get_type(), lerp);
 			if (_display.window->input_mode == WindowInputMode::CONFIRM) {
 				_confirm_exit->draw(lerp);
 			}
