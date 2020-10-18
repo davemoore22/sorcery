@@ -104,23 +104,10 @@ auto Sorcery::Confirm::draw(double lerp) -> void {
 
 	// Draw backgrounds
 	if (currently_highlighted == WindowConfirm::YES) {
-		sf::FloatRect yes_background_rect {_yes_text.getGlobalBounds()};
-		sf::RectangleShape yes_background(sf::Vector2(yes_background_rect.width + 6, yes_background_rect.height + 8));
-		yes_background.setOrigin(0, 0 - _yes_text.getLocalBounds().height + 16);
-		yes_background.setFillColor(_display.window->change_colour(sf::Color(_text_component.background), lerp));
-		_yes_text.setFillColor(sf::Color(_text_component.colour));
-		_yes_text.setOutlineColor(sf::Color(0, 0, 0));
-		_yes_text.setOutlineThickness(2);
+		sf::RectangleShape yes_background {_display.window->highlight_text(_yes_text, _text_component, lerp)};
 		_window->draw(yes_background, _yes_text.getTransform());
 	} else if (currently_highlighted == WindowConfirm::NO) {
-		sf::FloatRect no_background_rect {_no_text.getGlobalBounds()};
-		sf::RectangleShape no_background(sf::Vector2f(no_background_rect.width + 6, no_background_rect.height + 8));
-		no_background.setOrigin(0, 0 - _no_text.getLocalBounds().height + 16);
-		//no_background.setOrigin(no_text.getLocalBounds().width / 2.0f, no_text.getLocalBounds().height / 2.0f);
-		no_background.setFillColor(_display.window->change_colour(sf::Color(_text_component.background), lerp));
-		_no_text.setFillColor(sf::Color(_text_component.colour));
-		_no_text.setOutlineColor(sf::Color(0, 0, 0));
-		_no_text.setOutlineThickness(2);
+		sf::RectangleShape no_background {_display.window->highlight_text(_no_text, _text_component, lerp)};
 		_window->draw(no_background, _no_text.getTransform());
 	}
 

@@ -265,7 +265,8 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "MENU_OPTIONS_SAVE",
-			"justification": "centre"
+			"justification": "centre",
+			"background": "0x6060c8ff"
 		},
 		{
 			"name": "options_cancel_text",
@@ -275,7 +276,8 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "MENU_OPTIONS_CANCEL",
-			"justification": "centre"
+			"justification": "centre",
+			"background": "0x6060c8ff"
 		},
 		{
 			"name": "options_reset_text",
@@ -285,7 +287,8 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "RESET_OPTIONS",
-			"justification": "centre"
+			"justification": "centre",
+			"background": "0x6060c8ff"
 		},
 		{
 			"name": "option_on",
@@ -331,7 +334,8 @@
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
-			"string": "COMPENDIUM_TITLE"
+			"string": "COMPENDIUM_TITLE",
+			"justification": "centre"
 		}
 		]
 	}

@@ -68,6 +68,13 @@ namespace Sorcery {
 			NO
 		};
 
+		enum class Option {
+			SAVE,
+			CANCEL,
+			RESET,
+			NONE
+		};
+
 		enum Justification {
 			LEFT,
 			RIGHT,

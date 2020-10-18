@@ -63,6 +63,7 @@ namespace Sorcery {
 			auto get_x(sf::Sprite& sprite, int x_position) -> unsigned int;
 			auto get_y(sf::Sprite& sprite, int y_position) -> unsigned int;
 			auto lighten_colour(sf::Color colour, double lerp) -> sf::Color;
+			auto highlight_text(sf::Text& text, Component component, double lerp) -> sf::RectangleShape;
 
 			// Public Members
 			std::vector<sf::Sprite> sprites;

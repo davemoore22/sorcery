@@ -53,6 +53,7 @@ namespace Sorcery {
 
 			// Private Methods
 			auto _draw() -> void;
+			auto _check_for_mouse_move(sf::Vector2f mouse_position) -> std::optional<WindowInputOption>;
 
 			// Private Members
 			System _system;
@@ -75,6 +76,10 @@ namespace Sorcery {
 			sf::Text _reset_text;
 			Component _option_on;
 			Component _option_off;
+			sf::FloatRect _save_background_rect;
+			sf::FloatRect _reset_background_rect;
+			sf::FloatRect _cancel_background_rect;
+			WindowInputOption _currently_highlighted;
 
 			std::shared_ptr<Menu> _options_menu;
 			std::shared_ptr<Confirm> _confirm_save;

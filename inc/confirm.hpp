@@ -54,8 +54,6 @@ namespace Sorcery {
 
 			// Private Methods
 
-
-
 			// Private Members
 			System _system;
 			Display _display;

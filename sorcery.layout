@@ -147,7 +147,7 @@
 			<Cursor1 position="3858" topLine="99" />
 		</Cursor>
 	</File>
-	<File name="src/layout.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/layout.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="7894" topLine="204" />
 		</Cursor>
@@ -189,7 +189,7 @@
 	</File>
 	<File name="inc/enum.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="5583" topLine="334" />
+			<Cursor1 position="1613" topLine="58" />
 		</Cursor>
 	</File>
 	<File name="inc/splash.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

@@ -133,4 +133,5 @@ namespace Sorcery {
 	using WindowInputMode = Enums::Window::InputMode;
 	using WindowInput = Enums::Controls::Input;
 	using WindowConfirm = Enums::Window::Confirm;
+	using WindowInputOption = Enums::Window::Option;
 }
