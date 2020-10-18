@@ -114,20 +114,21 @@ auto Sorcery::Options::start() -> void {
 				selected_option =
 					_options_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 			else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
+				if (selected_option) {
+					if ((*_options_menu->selected).type == MenuItemType::ENTRY) {
+						ConfigOption config_to_toggle = (*_options_menu->selected).config;
+						if ((config_to_toggle == ConfigOption::STRICT_MODE) && (!(*_system.config)[config_to_toggle])) {
 
-				if ((*_options_menu->selected).type == MenuItemType::ENTRY) {
-					ConfigOption config_to_toggle = (*_options_menu->selected).config;
-					if ((config_to_toggle == ConfigOption::STRICT_MODE) && (!(*_system.config)[config_to_toggle])) {
+							// Handle Strict Mode Toggling
+							_system.config->set_strict_mode();
 
-						// Handle Strict Mode Toggling
-						_system.config->set_strict_mode();
+						} else {
 
-					} else {
-
-						// And toggling off strict mode
-						(*_system.config)[config_to_toggle] = !(*_system.config)[config_to_toggle];
-						if (!_system.config->is_strict_mode())
-							(*_system.config)[ConfigOption::STRICT_MODE] = false;
+							// And toggling off strict mode
+							(*_system.config)[config_to_toggle] = !(*_system.config)[config_to_toggle];
+							if (!_system.config->is_strict_mode())
+								(*_system.config)[ConfigOption::STRICT_MODE] = false;
+						}
 					}
 				}
 			}
@@ -164,6 +165,7 @@ auto Sorcery::Options::_draw() -> void {
 	_display.window->draw_menu(_options_menu->items, _options_menu->bounds, _options_menu->selected,
 		(*_display.layout)["options:options_menu"], _options_menu->get_type(), lerp);
 
+	_display.window->draw_text(_reset_text, (*_display.layout)["options:options_reset_text"]);
 	_display.window->draw_text(_gameplay_text, (*_display.layout)["options:subtitle_gameplay"]);
 	_display.window->draw_text(_general_text, (*_display.layout)["options:subtitle_general"]);
 	_display.window->draw_text(_graphics_text, (*_display.layout)["options:subtitle_graphics"]);

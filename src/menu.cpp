@@ -136,6 +136,25 @@ auto Sorcery::Menu::_select_last_enabled() -> void {
 		}
 }
 
+// Check if the mouse cursor is on a menu item
+auto Sorcery::Menu::check_menu_mouseover(sf::Vector2f mouse_position) ->
+	std::optional<std::vector<MenuEntry>::const_iterator> {
+	bool found {false};
+	std::vector<sf::FloatRect>::const_iterator working_bounds {bounds.begin()};
+	std::vector<MenuEntry>::const_iterator working_items {items.begin()};
+	do {
+		if (working_bounds->contains(mouse_position)) {
+			return working_items;
+		}
+
+		++working_bounds;
+		++working_items;
+		} while ((working_bounds < bounds.end()) && (!found));
+
+	// If we reach here the mouse cursor is outside the items so we don't do anything
+	return std::nullopt;
+}
+
 // Check if the mouse cursor is on a menu item, and if so set it
 auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_position) ->
 	std::optional<std::vector<MenuEntry>::const_iterator> {

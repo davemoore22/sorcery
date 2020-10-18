@@ -259,7 +259,7 @@
 		},
 		{
 			"name": "options_save_text",
-			"x": "36",
+			"x": "39",
 			"y": "31",
 			"font": "monospace",
 			"colour": "0xffffffff",
@@ -269,12 +269,22 @@
 		},
 		{
 			"name": "options_cancel_text",
-			"x": "44",
+			"x": "47",
 			"y": "31",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "MENU_OPTIONS_CANCEL",
+			"justification": "centre"
+		},
+		{
+			"name": "options_reset_text",
+			"x": "31",
+			"y": "31",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "RESET_OPTIONS",
 			"justification": "centre"
 		},
 		{

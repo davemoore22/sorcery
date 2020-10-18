@@ -72,6 +72,7 @@ namespace Sorcery {
 			sf::Text _graphics_text;
 			sf::Text _save_text;
 			sf::Text _cancel_text;
+			sf::Text _reset_text;
 			Component _option_on;
 			Component _option_off;
 
