@@ -447,6 +447,7 @@ namespace Sorcery {
 			SPACER,
 			OP_AUTO_SAVE,
 			OP_STRICT_MODE,
+			OP_RECOMMENDED_MODE,
 			OP_CHEAT_MODE,
 			OP_DICE_ROLLS,
 			OP_WIREFRAME_MODE,
@@ -502,7 +503,9 @@ namespace Sorcery {
 			TITLE,
 			SEPARATOR,
 			SPACER,
-			TEXT
+			TEXT,
+			SAVE,
+			CANCEL
 		};
 	} // namespace Enums::Menu
 
@@ -594,6 +597,7 @@ namespace Sorcery {
 
 		// Options
 		enum Options {
+			RECOMMENDED_MODE,
 			STRICT_MODE,
 			AUTO_SAVE,
 			CHEAT_MODE,

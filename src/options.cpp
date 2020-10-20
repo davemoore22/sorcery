@@ -43,8 +43,6 @@ Sorcery::Options::Options (System& system, Display& display, Graphics& graphics)
 	_options_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::OPTIONS);
 	_option_on = Component((*_display.layout)["options:option_on"]);
 	_option_off = Component((*_display.layout)["options:option_off"]);
-
-	_currently_highlighted = WindowInputOption::NONE;
 }
 
 // Standard Destructor
@@ -90,9 +88,10 @@ auto Sorcery::Options::start() -> void {
 	if (_background_movie.getStatus() == sfe::Stopped)
 		_background_movie.play();
 
-
-	std::optional<std::vector<MenuEntry>::const_iterator> selected_option {_options_menu->items.begin()};
+	// And select the first option by default;
 	_display.window->input_mode = WindowInputMode::GAME_OPTIONS;
+	_options_menu->selected = _options_menu->items.begin();
+	std::optional<std::vector<MenuEntry>::const_iterator> selected_option {_options_menu->items.begin()};
 
 	// And do the main loop
 	sf::Event event {};
@@ -103,19 +102,17 @@ auto Sorcery::Options::start() -> void {
 			if (event.type == sf::Event::Closed)
 				return;
 
-			if (_system.input->check_for_event(WindowInput::CANCEL, event)) {
+			if (_system.input->check_for_event(WindowInput::CANCEL, event))
 				return;
-			}
 
 			// And handle input on the main menu
-			if (_system.input->check_for_event(WindowInput::UP, event))
-				selected_option = _options_menu->choose_previous();
-			else if (_system.input->check_for_event(WindowInput::DOWN, event))
-				selected_option = _options_menu->choose_next();
-			else if (_system.input->check_for_event(WindowInput::MOVE, event)) {
-				selected_option =
-					_options_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				_check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+			if (_system.input->check_for_event(WindowInput::UP, event)) {
+					selected_option = _options_menu->choose_previous();
+			} else if (_system.input->check_for_event(WindowInput::DOWN, event)) {
+					selected_option = _options_menu->choose_next();
+			} else if (_system.input->check_for_event(WindowInput::MOVE, event)) {
+					selected_option =
+						_options_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 			} else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
 				if (selected_option) {
 					if ((*_options_menu->selected).type == MenuItemType::ENTRY) {
@@ -125,12 +122,17 @@ auto Sorcery::Options::start() -> void {
 							// Handle Strict Mode Toggling
 							_system.config->set_strict_mode();
 
+						} if ((config_to_toggle == ConfigOption::RECOMMENDED_MODE) && (!(*_system.config)[config_to_toggle])) {
+
+							// Handle Recommended Toggling
+							_system.config->set_recommended_mode();
+
 						} else {
 
 							// And toggling off strict mode
 							(*_system.config)[config_to_toggle] = !(*_system.config)[config_to_toggle];
-							if (!_system.config->is_strict_mode())
-								(*_system.config)[ConfigOption::STRICT_MODE] = false;
+							//if (!_system.config->is_strict_mode())
+							//	(*_system.config)[ConfigOption::STRICT_MODE] = false;
 						}
 					}
 				}
@@ -169,57 +171,9 @@ auto Sorcery::Options::_draw() -> void {
 		(*_display.layout)["options:options_menu"], _options_menu->get_type(), lerp);
 
 	_display.window->draw_text(_gameplay_text, (*_display.layout)["options:subtitle_gameplay"]);
-	_display.window->draw_text(_general_text, (*_display.layout)["options:subtitle_general"]);
 	_display.window->draw_text(_graphics_text, (*_display.layout)["options:subtitle_graphics"]);
-
-	//if (_display.window->input_mode == WindowInputMode::CONFIRM) {
-	//	_confirm_save->draw(lerp);
-	//} else if (_display.window->input_mode == WindowInputMode::CANCEL) {
-	//	_confirm_cancel->draw(lerp);
-	//}
-
-	// Draw backgrounds
-	if (_currently_highlighted == WindowInputOption::RESET) {
-		sf::RectangleShape reset_background {_display.window->highlight_text(_reset_text,
-			(*_display.layout)["options:options_reset_text"], lerp)};
-		_window->draw(reset_background, _reset_text.getTransform());
-		_options_menu->selected = _options_menu->items.end();
-	} else if (_currently_highlighted == WindowInputOption::SAVE) {
-		sf::RectangleShape save_background {_display.window->highlight_text(_save_text,
-			(*_display.layout)["options:options_save_text"], lerp)};
-		_window->draw(save_background, _save_text.getTransform());
-		_options_menu->selected = _options_menu->items.end();
-	} else if (_currently_highlighted == WindowInputOption::CANCEL) {
-		sf::RectangleShape cancel_background {_display.window->highlight_text(_cancel_text,
-			(*_display.layout)["options:options_cancel_text"], lerp)};
-		_window->draw(cancel_background, _cancel_text.getTransform());
-		_options_menu->selected = _options_menu->items.end();
-	}
-
-	_display.window->draw_text(_save_text, (*_display.layout)["options:options_save_text"]);
-	_display.window->draw_text(_cancel_text, (*_display.layout)["options:options_cancel_text"]);
-	_display.window->draw_text(_reset_text, (*_display.layout)["options:options_reset_text"]);
-
-
-	_save_background_rect = _save_text.getGlobalBounds();
-	_reset_background_rect = _reset_text.getGlobalBounds();
-	_cancel_background_rect = _cancel_text.getGlobalBounds();
 
 	// Always draw the following
 	_cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 	_window->draw(_cursor);
-}
-
-auto Sorcery::Options::_check_for_mouse_move(sf::Vector2f mouse_position) -> std::optional<WindowInputOption> {
-	if (_save_background_rect.contains(mouse_position)) {
-		_currently_highlighted = WindowInputOption::SAVE;
-		return _currently_highlighted;
-	} else if (_reset_background_rect.contains(mouse_position)) {
-		_currently_highlighted = WindowInputOption::RESET;
-		return _currently_highlighted;
-	} else if (_cancel_background_rect.contains(mouse_position)) {
-		_currently_highlighted = WindowInputOption::CANCEL;
-		return _currently_highlighted;
-	} else
-		return std::nullopt;
 }

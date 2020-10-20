@@ -58,33 +58,18 @@ auto Sorcery::Config::_load() -> bool {
 	// Attempt to read the settings from the Settings file if possible
 	_options.fill(false);
 
-	// Overall Settings
+	// Gameplay Settings
 	std::string option {};
-	option = _settings->GetValue("Options", CSTR(OPT_AUTO_SAVE), CSTR(OFF));
-	_options[Enums::Options::AUTO_SAVE] = option.compare(ON) == 0;
+	option = _settings->GetValue("Options", CSTR(OPT_RECOMMENDED_MODE), CSTR(OFF));
+	_options[Enums::Options::RECOMMENDED_MODE] = option.compare(ON) == 0;
 	option = _settings->GetValue("Options", CSTR(OPT_STRICT_MODE), CSTR(OFF));
 	_options[Enums::Options::STRICT_MODE] = option.compare(ON) == 0;
+	option = _settings->GetValue("Options", CSTR(OPT_AUTO_SAVE), CSTR(OFF));
+	_options[Enums::Options::AUTO_SAVE] = option.compare(ON) == 0;
 	option = _settings->GetValue("Options", CSTR(OPT_CHEAT_MODE), CSTR(OFF));
 	_options[Enums::Options::CHEAT_MODE] = option.compare(ON) == 0;
 	option = _settings->GetValue("Options", CSTR(OPT_DICE_ROLLS), CSTR(ON));
 	_options[Enums::Options::DICE_ROLLS] = option.compare(ON) == 0;
-
-	// Graphics Settings
-	option = _settings->GetValue("Graphics", CSTR(GFX_WIREFRAME), CSTR(OFF));
-	_options[Enums::Options::WIREFRAME_MODE] = option.compare(ON) == 0;
-	option = _settings->GetValue("Graphics", CSTR(GFX_TEXTURES), CSTR(ON));
-	_options[Enums::Options::DISPLAY_TEXTURES] = option.compare(ON) == 0;
-	option = _settings->GetValue("Graphics", CSTR(GFX_TRAPS), CSTR(ON));
-	_options[Enums::Options::DISPLAY_TRAPS] = option.compare(ON) == 0;
-	option = _settings->GetValue("Graphics", CSTR(GFX_TELEPORTERS), CSTR(ON));
-	_options[Enums::Options::DISPLAY_TELEPORTERS] = option.compare(ON) == 0;
-	option = _settings->GetValue("Graphics", CSTR(GFX_ENCOUNTERS), CSTR(ON));
-	_options[Enums::Options::DISPLAY_ENCOUNTERS] = option.compare(ON) == 0;
-	option = _settings->GetValue("Graphics", CSTR(GFX_PROGRESS), CSTR(ON));
-	_options[Enums::Options::DISPLAY_PROGRESS] = option.compare(ON) == 0;
-
-
-	// Gameplay Options
 	option = _settings->GetValue("Gameplay", CSTR(GAME_ALLOW_MIXED_ALIGNMENT_PARTY), CSTR(ON));
 	_options[Enums::Options::ALLOW_MIXED_ALIGNMENT_PARTY] = option.compare(ON) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(GAME_STAT_LOSS_ON_LEVEL_UP), CSTR(OFF));
@@ -106,16 +91,32 @@ auto Sorcery::Config::_load() -> bool {
 	option = _settings->GetValue("Gameplay", CSTR(GAME_ALLOW_AMBUSH_HIDE), CSTR(ON));
 	_options[Enums::Options::ALLOW_AMBUSH_HIDE] = option.compare(ON) == 0;
 
+	// Graphics Settings
+	option = _settings->GetValue("Graphics", CSTR(GFX_WIREFRAME), CSTR(OFF));
+	_options[Enums::Options::WIREFRAME_MODE] = option.compare(ON) == 0;
+	option = _settings->GetValue("Graphics", CSTR(GFX_TEXTURES), CSTR(ON));
+	_options[Enums::Options::DISPLAY_TEXTURES] = option.compare(ON) == 0;
+	option = _settings->GetValue("Graphics", CSTR(GFX_TRAPS), CSTR(ON));
+	_options[Enums::Options::DISPLAY_TRAPS] = option.compare(ON) == 0;
+	option = _settings->GetValue("Graphics", CSTR(GFX_TELEPORTERS), CSTR(ON));
+	_options[Enums::Options::DISPLAY_TELEPORTERS] = option.compare(ON) == 0;
+	option = _settings->GetValue("Graphics", CSTR(GFX_ENCOUNTERS), CSTR(ON));
+	_options[Enums::Options::DISPLAY_ENCOUNTERS] = option.compare(ON) == 0;
+	option = _settings->GetValue("Graphics", CSTR(GFX_PROGRESS), CSTR(ON));
+	_options[Enums::Options::DISPLAY_PROGRESS] = option.compare(ON) == 0;
+
+
+
 	return true;
 }
 
 // Save current settings to ini file
 bool Sorcery::Config::save() {
-	_settings->SetValue("Options", CSTR(OPT_AUTO_SAVE), BOOL2OPTIONCSTR(_options[Enums::Options::AUTO_SAVE]));
+	_settings->SetValue("Options", CSTR(OPT_RECOMMENDED_MODE), BOOL2OPTIONCSTR(_options[Enums::Options::RECOMMENDED_MODE]));
 	_settings->SetValue("Options", CSTR(OPT_STRICT_MODE), BOOL2OPTIONCSTR(_options[Enums::Options::STRICT_MODE]));
+	_settings->SetValue("Options", CSTR(OPT_AUTO_SAVE), BOOL2OPTIONCSTR(_options[Enums::Options::AUTO_SAVE]));
 	_settings->SetValue("Options", CSTR(OPT_CHEAT_MODE), BOOL2OPTIONCSTR(_options[Enums::Options::CHEAT_MODE]));
 	_settings->SetValue("Options", CSTR(OPT_DICE_ROLLS), BOOL2OPTIONCSTR(_options[Enums::Options::DICE_ROLLS]));
-
 	_settings->SetValue("Graphics", CSTR(GFX_WIREFRAME), BOOL2OPTIONCSTR(_options[Enums::Options::WIREFRAME_MODE]));
 	_settings->SetValue("Graphics", CSTR(GFX_TEXTURES), BOOL2OPTIONCSTR(_options[Enums::Options::DISPLAY_TEXTURES]));
 	_settings->SetValue("Graphics", CSTR(GFX_TRAPS), BOOL2OPTIONCSTR(_options[Enums::Options::DISPLAY_TRAPS]));
@@ -124,7 +125,6 @@ bool Sorcery::Config::save() {
 	_settings->SetValue("Graphics", CSTR(GFX_ENCOUNTERS),
 		BOOL2OPTIONCSTR(_options[Enums::Options::DISPLAY_ENCOUNTERS]));
 	_settings->SetValue("Graphics", CSTR(GFX_PROGRESS), BOOL2OPTIONCSTR(_options[Enums::Options::DISPLAY_PROGRESS]));
-
 	_settings->SetValue("Gameplay", CSTR(GAME_ALLOW_MIXED_ALIGNMENT_PARTY),
 		BOOL2OPTIONCSTR(_options[Enums::Options::ALLOW_MIXED_ALIGNMENT_PARTY]));
 	_settings->SetValue("Gameplay", CSTR(GAME_STAT_LOSS_ON_LEVEL_UP),
@@ -153,7 +153,7 @@ bool Sorcery::Config::save() {
 // Preset Options
 auto Sorcery::Config::set_recommended_mode() -> void {
 	std::array<bool, NUM_GAME_SETTINGS> _recommended_settings {
-		false, true, false, true,
+		true, false, true, false, true,
 		false, true, true, true, true, true,
 		true, false, false, false, false, true, true, true, true, true
 	};
@@ -163,7 +163,7 @@ auto Sorcery::Config::set_recommended_mode() -> void {
 // Preset Options
 auto Sorcery::Config::set_strict_mode() -> void {
 	std::array<bool, NUM_GAME_SETTINGS> _strict_mode_settings {
-		true, true, false, false,
+		false, true, true, false, false,
 		true, false, false, false, false, false,
 		false, true, true, true, true, false, false, false, false, false
 	};
@@ -178,9 +178,19 @@ auto Sorcery::Config::store_current_settings() -> void {
 // Compare to Strict Mode
 auto Sorcery::Config::is_strict_mode() -> bool {
 	std::array<bool, NUM_GAME_SETTINGS> _strict_mode_settings {
-		true, true, false, false,
+		false, true, true, false, false,
 		true, false, false, false, false, false,
 		false, true, true, true, true, false, false, false, false, false
 	};
 	return _options == _strict_mode_settings;
+}
+
+// Compare to Recommended Mode
+auto Sorcery::Config::is_recommended_mode() -> bool {
+	std::array<bool, NUM_GAME_SETTINGS> _recommended_settings {
+		true, false, true, false, true,
+		false, true, true, true, true, true,
+		true, false, false, false, false, true, true, true, true, true
+	};
+	return _options == _recommended_settings;
 }

@@ -52,6 +52,8 @@ namespace Sorcery {
 			// Public Methods
 			auto choose_next() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 			auto choose_previous() -> std::optional<std::vector<MenuEntry>::const_iterator>;
+			auto choose_first() -> std::optional<std::vector<MenuEntry>::const_iterator>;
+			auto choose_last() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 			auto choose(unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator>;
 			auto set_mouse_selected(sf::Vector2f mouse_position) ->
 				std::optional<std::vector<MenuEntry>::const_iterator>;
@@ -66,8 +68,8 @@ namespace Sorcery {
 			// Private Methods
 			auto _add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string& key,
 				bool enabled = true, ConfigOption option = ConfigOption::NONE) -> void;
-			auto _select_first_enabled() -> void;
-			auto _select_last_enabled() -> void;
+			auto _select_first_enabled() -> std::optional<std::vector<MenuEntry>::const_iterator>;
+			auto _select_last_enabled() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 
 			// Private Members
 			System _system;

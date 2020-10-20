@@ -128,8 +128,9 @@ namespace Sorcery
 	static const std::string CELL_WIDTH = {"cell_width"};
 
 	// Gameplay settings
-	static const int NUM_GAME_SETTINGS = {20};
+	static const int NUM_GAME_SETTINGS = {21};
 	static const std::string OPT_AUTO_SAVE = {"autosave"};
+	static const std::string OPT_RECOMMENDED_MODE = {"recommended_mode"};
 	static const std::string OPT_STRICT_MODE = {"strict_mode"};
 	static const std::string OPT_CHEAT_MODE = {"cheat_mode"};
 	static const std::string OPT_DICE_ROLLS = {"dice_rolls"};

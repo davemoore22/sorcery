@@ -243,7 +243,8 @@ auto Sorcery::Window::_draw_menu(std::vector<MenuEntry>& items, std::vector<sf::
 
 	bounds.clear();
 	for (std::vector<MenuEntry>::const_iterator it = items.begin(); it != items.end(); ++it) {
-		if (((*it).type == MenuItemType::TEXT) || ((*it).type == MenuItemType::ENTRY)) {
+		if (((*it).type == MenuItemType::TEXT) || ((*it).type == MenuItemType::ENTRY) ||
+			((*it).type == MenuItemType::SAVE) || ((*it).type == MenuItemType::CANCEL)) {
 			std::string text_string {(*it).key};
 			sf::Text text;
 			text.setFont(_system.resources->fonts[component.font]);
@@ -271,12 +272,26 @@ auto Sorcery::Window::_draw_menu(std::vector<MenuEntry>& items, std::vector<sf::
 				text.setOutlineThickness(2);
 				_window.draw(background, text.getTransform());
 			}
-			if (component.justification == Justification::CENTRE)
-				text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
-			else
-				text.setOrigin(0, text.getLocalBounds().height / 2.0f);
+			if (menu_type == MenuType::OPTIONS) {
+				if ((*it).type == MenuItemType::ENTRY) {
+					if (component.justification == Justification::CENTRE)
+						text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+					else
+						text.setOrigin(0, text.getLocalBounds().height / 2.0f);
+				} else if (((*it).type == MenuItemType::SAVE) || ((*it).type == MenuItemType::CANCEL)) {
+					x =  (component.x / 2) + ((component.width * get_cell_height()) / 2);
+					text.setPosition(x, y);
+					text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+				}
+			} else {
+				if (component.justification == Justification::CENTRE)
+					text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+				else
+					text.setOrigin(0, text.getLocalBounds().height / 2.0f);
+			}
 			draw_text(text);
-			if ((*it).type == MenuItemType::ENTRY) {
+			if (((*it).type == MenuItemType::ENTRY) || ((*it).type == MenuItemType::SAVE) ||
+				((*it).type == MenuItemType::CANCEL)) {
 				sf::FloatRect actual_rect {text.getGlobalBounds()};
 				bounds.push_back(actual_rect);
 			} else {
@@ -285,7 +300,7 @@ auto Sorcery::Window::_draw_menu(std::vector<MenuEntry>& items, std::vector<sf::
 			}
 
 			// Add options in case of the Options Menu
-			if (menu_type == MenuType::OPTIONS) {
+			if ((menu_type == MenuType::OPTIONS) && ((*it).type == MenuItemType::ENTRY)) {
 				option_y = y;
 				option_x = x + (component.width * get_cell_width());
 				const bool option_value = {(*_system.config)[(*it).config] ? true : false};
@@ -318,7 +333,6 @@ auto Sorcery::Window::_draw_menu(std::vector<MenuEntry>& items, std::vector<sf::
 				}
 
 				draw_text(option_text);
-
 			}
 
 		} else {

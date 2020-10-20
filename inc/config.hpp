@@ -49,6 +49,7 @@ namespace Sorcery {
 			auto set_strict_mode() -> void;
 			auto store_current_settings() -> void;
 			auto is_strict_mode() -> bool;
+			auto is_recommended_mode() -> bool;
 
 		private:
 

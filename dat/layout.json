@@ -237,7 +237,7 @@
 		{
 			"name": "subtitle_graphics",
 			"x": "centre",
-			"y": "23",
+			"y": "22",
 			"font": "monospace",
 			"colour": "0xffff00ff",
 			"size": "38",
@@ -270,7 +270,7 @@
 		},
 		{
 			"name": "options_cancel_text",
-			"x": "47",
+			"x": "48",
 			"y": "31",
 			"font": "monospace",
 			"colour": "0xffffffff",
