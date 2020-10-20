@@ -117,23 +117,31 @@ auto Sorcery::Options::start() -> void {
 				if (selected_option) {
 					if ((*_options_menu->selected).type == MenuItemType::ENTRY) {
 						ConfigOption config_to_toggle = (*_options_menu->selected).config;
-						if ((config_to_toggle == ConfigOption::STRICT_MODE) && (!(*_system.config)[config_to_toggle])) {
+						if ((config_to_toggle == ConfigOption::STRICT_MODE) &&
+							(!(*_system.config)[ConfigOption::STRICT_MODE])) {
 
 							// Handle Strict Mode Toggling
 							_system.config->set_strict_mode();
+							(*_system.config)[ConfigOption::STRICT_MODE] = true;
 
-						} if ((config_to_toggle == ConfigOption::RECOMMENDED_MODE) && (!(*_system.config)[config_to_toggle])) {
+						} if ((config_to_toggle == ConfigOption::RECOMMENDED_MODE) &&
+							(!(*_system.config)[ConfigOption::RECOMMENDED_MODE])) {
 
 							// Handle Recommended Toggling
 							_system.config->set_recommended_mode();
+							(*_system.config)[ConfigOption::RECOMMENDED_MODE] = true;
 
 						} else {
 
 							// And toggling off strict mode
 							(*_system.config)[config_to_toggle] = !(*_system.config)[config_to_toggle];
-							//if (!_system.config->is_strict_mode())
-							//	(*_system.config)[ConfigOption::STRICT_MODE] = false;
 						}
+					} else if ((*_options_menu->selected).type == MenuItemType::SAVE) {
+						_system.config->save();
+						return;
+					} else if ((*_options_menu->selected).type == MenuItemType::CANCEL) {
+						_system.config->load();
+						return;
 					}
 				}
 			}

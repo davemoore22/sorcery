@@ -105,14 +105,13 @@ auto Sorcery::Config::_load() -> bool {
 	option = _settings->GetValue("Graphics", CSTR(GFX_PROGRESS), CSTR(ON));
 	_options[Enums::Options::DISPLAY_PROGRESS] = option.compare(ON) == 0;
 
-
-
 	return true;
 }
 
 // Save current settings to ini file
 bool Sorcery::Config::save() {
-	_settings->SetValue("Options", CSTR(OPT_RECOMMENDED_MODE), BOOL2OPTIONCSTR(_options[Enums::Options::RECOMMENDED_MODE]));
+	_settings->SetValue("Options", CSTR(OPT_RECOMMENDED_MODE),
+		BOOL2OPTIONCSTR(_options[Enums::Options::RECOMMENDED_MODE]));
 	_settings->SetValue("Options", CSTR(OPT_STRICT_MODE), BOOL2OPTIONCSTR(_options[Enums::Options::STRICT_MODE]));
 	_settings->SetValue("Options", CSTR(OPT_AUTO_SAVE), BOOL2OPTIONCSTR(_options[Enums::Options::AUTO_SAVE]));
 	_settings->SetValue("Options", CSTR(OPT_CHEAT_MODE), BOOL2OPTIONCSTR(_options[Enums::Options::CHEAT_MODE]));

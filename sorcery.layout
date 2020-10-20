@@ -64,7 +64,7 @@
 	</File>
 	<File name="src/window.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="11815" topLine="281" />
+			<Cursor1 position="11795" topLine="303" />
 		</Cursor>
 	</File>
 	<File name="src/resourcemanager.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -129,7 +129,7 @@
 	</File>
 	<File name="src/config.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1726" topLine="40" />
+			<Cursor1 position="9024" topLine="7" />
 		</Cursor>
 	</File>
 	<File name="src/menu.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -169,7 +169,7 @@
 	</File>
 	<File name="cfg/config.ini" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="122" topLine="1" />
+			<Cursor1 position="107" topLine="3" />
 		</Cursor>
 	</File>
 	<File name="src/splash.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -184,7 +184,7 @@
 	</File>
 	<File name="src/options.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="6944" topLine="143" />
+			<Cursor1 position="4909" topLine="119" />
 		</Cursor>
 	</File>
 	<File name="src/mainmenu.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
