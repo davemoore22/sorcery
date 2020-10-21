@@ -33,17 +33,6 @@ Sorcery::Tooltip::Tooltip (System& system, Display& display, Graphics& graphics,
 	// Get the standard layout information
 	_layout = Component((*_display.layout)["global:tooltip"]);
 
-	// Workout the size of the Frame needed
-	_width = string.length() < 40 ? string.length() : 40;
-	_height = std::ceil(static_cast<float>(string.length()) / 40.0f);
-
-	sf::RenderTexture frame_render_texture;
-	_frame_texture = sf::Texture();
-
-	// Get the frame
-	_frame = sf::Sprite(_display.window->get_hint_frame(frame_render_texture, _frame_texture, _width + 4, _height + 4,
-		_layout.alpha));
-
 	// Get the display lines
 	const std::regex regex(R"([#]+)");
 	std::sregex_token_iterator it {string.begin(), string.end(), regex, -1};
@@ -57,17 +46,41 @@ Sorcery::Tooltip::Tooltip (System& system, Display& display, Graphics& graphics,
 
 	_texts.clear();
 	int x {18};
-	int y {18};
-	for (auto each_string: _strings) {
+	int y {0};
+	for (const auto each_string: _strings) {
 		sf::Text text;
 		text.setFont(_system.resources->fonts[_layout.font]);
 		text.setCharacterSize(_layout.size);
 		text.setFillColor(sf::Color(_layout.colour));
 		text.setString(each_string);
-		text.setPosition(x, y * 18);
-		++x;
+		text.setPosition(x, 18 + y * 24);
+		++y;
 		_texts.push_back(text);
 	}
+
+	// Workout the size of the Frame needed
+	size_t max_length {0};
+	for (const auto& each_string: _strings) {
+		if (each_string.length() > max_length) {
+			max_length = each_string.length();
+		}
+	}
+	_width = max_length + 4;
+	_height = _strings.size() + 4;
+
+	// Get the frame
+		sf::RenderTexture frame_render_texture;
+	_frame_texture = sf::Texture();
+	_frame = sf::Sprite(_display.window->get_hint_frame(frame_render_texture, _frame_texture, _width / 2.15f,
+		_height / 2.0f, _layout.alpha));
+	// Divided here since 20 font size is much less than 18 unit measurement used for frame
+
+	// need to use get character size to sort this out, remembering that gui units is 18 pixels
+
+	// Get the background
+	// _background = sf::RectangleShape(sf::Vector2f((_width * 18) - 18, (_height * 18) - 18));
+	// _background.setFillColor(sf::Color(0, 0, 0, _layout.alpha));
+	// _background.setPosition(9, 9);
 }
 
 // Standard Destructor
@@ -76,6 +89,7 @@ Sorcery::Tooltip::~Tooltip() {
 
 auto Sorcery::Tooltip::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
 	target.draw(_frame, states);
+	// target.draw(_background);
 	for (auto each_text: _texts) {
 		target.draw(each_text, states);
 	}

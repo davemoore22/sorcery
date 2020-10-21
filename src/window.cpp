@@ -460,6 +460,12 @@ auto Sorcery::Window::get_hint_frame(sf::RenderTexture& hint_frame_rt, sf::Textu
 	const sf::Vector2f texture_size(18 + (24 * width_units) + 18, 18 + (24 * height_units) + 18);
 	hint_frame_rt.create(texture_size.x, texture_size.y);
 
+	// Draw the background
+	sf::RectangleShape rectangle(sf::Vector2f(texture_size.x - 10, texture_size.y - 10));
+	rectangle.setFillColor(sf::Color(0, 0, 0, alpha));
+	rectangle.setPosition(5, 5);
+	hint_frame_rt.draw(rectangle);
+
 	// Get the Frame Components
 	sf::Sprite top_left(_system.resources->textures[UI_TEXTURE]);
 	top_left.setTextureRect(top_left_rect);
@@ -493,22 +499,16 @@ auto Sorcery::Window::get_hint_frame(sf::RenderTexture& hint_frame_rt, sf::Textu
 		unsigned int x_pos {18 + (24 * x)};
 		top.setPosition(x_pos, 0);
 		hint_frame_rt.draw(top);
-		bottom.setPosition(x_pos, texture_size.y - 20);
+		bottom.setPosition(x_pos, texture_size.y - 10);
 		hint_frame_rt.draw(bottom);
 	}
 	for (unsigned int y = 0; y < height_units; y++) {
 		unsigned int y_pos {18 + (24 * y)};
 		left.setPosition(0, y_pos);
 		hint_frame_rt.draw(left);
-		right.setPosition(texture_size.x - 20, y_pos);
+		right.setPosition(texture_size.x - 11, y_pos);
 		hint_frame_rt.draw(right);
 	}
-
-	// Draw the background
-	sf::RectangleShape rectangle(sf::Vector2f(texture_size.x - 20, texture_size.y - 20));
-	rectangle.setFillColor(sf::Color(0, 0, 0, alpha));
-	rectangle.setPosition(10, 10);
-	hint_frame_rt.draw(rectangle);
 
 	// And draw
 	hint_frame_rt.display();

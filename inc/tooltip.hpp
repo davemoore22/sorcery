@@ -59,6 +59,7 @@ namespace Sorcery {
 			sf::RenderTexture _frame_render_texture;
 			sf::Texture _frame_texture;
 			sf::Sprite _frame;
+			sf::RectangleShape _background;
 			Component _layout;
 			unsigned int _width;
 			unsigned int _height;

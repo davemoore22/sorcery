@@ -53,7 +53,7 @@
 
 
 "CONFIRM_TITLE": "Confirmation Needed!",
-"EXPLAIN_CONFIG_AUTO_SAVE": "Game Status/Progress saved to disk after every move/encounter",
+"EXPLAIN_CONFIG_AUTO_SAVE": "Game Status/Progress saved to disk#after every move/encounter",
 "EXPLAIN_CONFIG_CHEAT_MODE": "Enable Wizard/Chat Mode and Avoid Permanent Character Death",
 "EXPLAIN_CONFIG_DICE_ROLLS": "Show all internal Dice Rolls and Game Mechanics",
 "EXPLAIN_CONFIG_STRICT_MODE": "All gameplay options emulate the original Wizardry I, II, and III Games",
