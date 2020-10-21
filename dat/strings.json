@@ -47,6 +47,11 @@
 	"OPTION_ON" : "ON",
 	"OPTION_OFF" : "OFF",
 	"RESET_OPTIONS": "RESET",
+
+
+
+
+
 "CONFIRM_TITLE": "Confirmation Needed!",
 "EXPLAIN_CONFIG_AUTO_SAVE": "Game Status/Progress saved to disk after every move/encounter",
 "EXPLAIN_CONFIG_CHEAT_MODE": "Enable Wizard/Chat Mode and Avoid Permanent Character Death",

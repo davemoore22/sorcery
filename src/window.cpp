@@ -443,4 +443,81 @@ auto Sorcery::Window::highlight_text(sf::Text& text, Component component, double
 	return text_background;
 }
 
+auto Sorcery::Window::get_hint_frame(sf::RenderTexture& hint_frame_rt, sf::Texture& hint_frame_t,
+	const unsigned int width_units, const unsigned int height_units, unsigned int alpha) -> sf::Sprite {
+
+	// Defijne the sources of the gui elements
+	sf::IntRect top_left_rect(865, 399, 18, 18);
+	sf::IntRect top_rect(899, 399, 24, 10); // width of 74 is available in texture
+	sf::IntRect top_right_rect(982, 399, 18, 18);
+	sf::IntRect left_rect(865, 428, 10, 24); // height of 59 is available in texture
+	sf::IntRect bottom_left_rect(865, 498, 18, 18);
+	sf::IntRect bottom_rect(899, 506, 24, 10); // width of 74 is available in texture
+	sf::IntRect bottom_right_rect(982, 498, 18, 18);
+	sf::IntRect right_rect(989, 428, 10, 24);
+
+	// Work out total size of texture needed from units
+	const sf::Vector2f texture_size(18 + (24 * width_units) + 18, 18 + (24 * height_units) + 18);
+	hint_frame_rt.create(texture_size.x, texture_size.y);
+
+	// Get the Frame Components
+	sf::Sprite top_left(_system.resources->textures[UI_TEXTURE]);
+	top_left.setTextureRect(top_left_rect);
+	sf::Sprite top(_system.resources->textures[UI_TEXTURE]);
+	top.setTextureRect(top_rect);
+	sf::Sprite top_right(_system.resources->textures[UI_TEXTURE]);
+	top_right.setTextureRect(top_right_rect);
+	sf::Sprite left(_system.resources->textures[UI_TEXTURE]);
+	left.setTextureRect(left_rect);
+	sf::Sprite bottom_left(_system.resources->textures[UI_TEXTURE]);
+	bottom_left.setTextureRect(bottom_left_rect);
+	sf::Sprite bottom(_system.resources->textures[UI_TEXTURE]);
+	bottom.setTextureRect(bottom_rect);
+	sf::Sprite bottom_right(_system.resources->textures[UI_TEXTURE]);
+	bottom_right.setTextureRect(bottom_right_rect);
+	sf::Sprite right(_system.resources->textures[UI_TEXTURE]);
+	right.setTextureRect(right_rect);
+
+	// Draw the Corners
+	top_left.setPosition(0, 0);
+	hint_frame_rt.draw(top_left);
+	top_right.setPosition(texture_size.x - 18, 0);
+	hint_frame_rt.draw(top_right);
+	bottom_left.setPosition(0, texture_size.y - 18);
+	hint_frame_rt.draw(bottom_left);
+	bottom_right.setPosition(texture_size.x - 18, texture_size.y - 18);
+	hint_frame_rt.draw(bottom_right);
+
+	// Draw the sides
+	for (unsigned int x = 0; x < width_units; x++) {
+		unsigned int x_pos {18 + (24 * x)};
+		top.setPosition(x_pos, 0);
+		hint_frame_rt.draw(top);
+		bottom.setPosition(x_pos, texture_size.y - 20);
+		hint_frame_rt.draw(bottom);
+	}
+	for (unsigned int y = 0; y < height_units; y++) {
+		unsigned int y_pos {18 + (24 * y)};
+		left.setPosition(0, y_pos);
+		hint_frame_rt.draw(left);
+		right.setPosition(texture_size.x - 20, y_pos);
+		hint_frame_rt.draw(right);
+	}
+
+	// Draw the background
+	sf::RectangleShape rectangle(sf::Vector2f(texture_size.x - 20, texture_size.y - 20));
+	rectangle.setFillColor(sf::Color(0, 0, 0, alpha));
+	rectangle.setPosition(10, 10);
+	hint_frame_rt.draw(rectangle);
+
+	// And draw
+	hint_frame_rt.display();
+
+	// And return
+	hint_frame_t = hint_frame_rt.getTexture();
+	sf::Sprite hint_frame_sprite(hint_frame_t);
+	return hint_frame_sprite;
+}
+
+
 // each screen has a list of userdefined areas for tooltips, and an index, and when adding a component to the screen it adds a strong key

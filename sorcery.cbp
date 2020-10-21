@@ -137,6 +137,7 @@
 		<Unit filename="inc/system.hpp" />
 		<Unit filename="inc/textfile.hpp" />
 		<Unit filename="inc/tile.hpp" />
+		<Unit filename="inc/tooltip.hpp" />
 		<Unit filename="inc/type.hpp" />
 		<Unit filename="inc/window.hpp" />
 		<Unit filename="src/animation.cpp" />
@@ -171,6 +172,7 @@
 		<Unit filename="src/system.cpp" />
 		<Unit filename="src/textfile.cpp" />
 		<Unit filename="src/tile.cpp" />
+		<Unit filename="src/tooltip.cpp" />
 		<Unit filename="src/window.cpp" />
 		<Unit filename="vfx/menu.mp4" />
 		<Extensions />

@@ -1,6 +1,17 @@
 {
 	"screen": [
 	{
+		"name": "global",
+		"component": [
+		{
+			"name": "tooltip",
+			"font": "text",
+			"colour": "0xffffffff",
+			"size": "10"
+		}
+		]
+	},
+	{
 		"name": "splash",
 		"component": [
 		{
