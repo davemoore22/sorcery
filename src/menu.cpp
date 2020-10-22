@@ -57,29 +57,59 @@ Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuTy
 	case MenuType::CHOOSE_CHARACTER_RACE:
 		break;
 	case MenuType::OPTIONS:
-		_add_item(0, MenuItemType::ENTRY, MenuItem::OP_RECOMMENDED_MODE, (*_display.string)["CONFIG_RECOMMENDED_MODE"], true, ConfigOption::RECOMMENDED_MODE);
-		_add_item(1, MenuItemType::ENTRY, MenuItem::OP_STRICT_MODE, (*_display.string)["CONFIG_STRICT_MODE"], true, ConfigOption::STRICT_MODE);
-		_add_item(2, MenuItemType::ENTRY, MenuItem::OP_AUTO_SAVE, (*_display.string)["CONFIG_AUTO_SAVE"], true, ConfigOption::AUTO_SAVE);
-		_add_item(3, MenuItemType::ENTRY, MenuItem::OP_CHEAT_MODE, (*_display.string)["CONFIG_CHEAT_MODE"],  true, ConfigOption::CHEAT_MODE);
-		_add_item(4, MenuItemType::ENTRY, MenuItem::OP_DICE_ROLLS, (*_display.string)["CONFIG_DICE_ROLLS"], true, ConfigOption::DICE_ROLLS);
-		_add_item(5, MenuItemType::ENTRY, MenuItem::OP_ALLOW_MIXED_ALIGNMENT_PARTY, (*_display.string)["GAME_ALLOW_MIXED_ALIGNMENT"], true, ConfigOption::ALLOW_MIXED_ALIGNMENT_PARTY);
-		_add_item(6, MenuItemType::ENTRY, MenuItem::OP_STAT_LOSS_ON_LEVEL_UP, (*_display.string)["GAME_STAT_LOSS_LEVEL_GAIN"], true, ConfigOption::STAT_LOSS_ON_LEVEL_UP);
-		_add_item(7, MenuItemType::ENTRY, MenuItem::OP_REROLL_HIT_POINTS_ON_LEVEL_GAIN, (*_display.string)["GAME_REROLL_HIT_POINTS"], true, ConfigOption::REROLL_HIT_POINTS_ON_LEVEL_GAIN);
-		_add_item(8, MenuItemType::ENTRY, MenuItem::OP_STAT_RESET_ON_CLASS_CHANGE, (*_display.string)["GAME_STAT_RESET_CLASS_CHANGE"], true, ConfigOption::STAT_RESET_ON_CLASS_CHANGE);
-		_add_item(9, MenuItemType::ENTRY, MenuItem::OP_AGING_ON_CLASS_CHANGE, (*_display.string)["GAME_AGING_CLASS_CHANGE"], true, ConfigOption::AGING_ON_CLASS_CHANGE);
-		_add_item(10, MenuItemType::ENTRY, MenuItem::OP_ALLOW_AMBUSH_HIDE, (*_display.string)["GAME_ALLOW_AMBUSH_HIDE"], true, ConfigOption::ALLOW_AMBUSH_HIDE);
-		_add_item(11, MenuItemType::ENTRY, MenuItem::OP_ALLOW_RANGED_WEAPONS, (*_display.string)["GAME_ALLOW_RANGED_WEAPONS"], true, ConfigOption::ALLOW_RANGED_WEAPONS);
-		_add_item(12, MenuItemType::ENTRY, MenuItem::OP_SPELLCASTING_IN_SURPRISE_ROUND, (*_display.string)["GAME_SPELL_CASTING_SURPRISE_ROUND"], true, ConfigOption::SPELLCASTING_IN_SURPRISE_ROUND);
-		_add_item(13, MenuItemType::ENTRY, MenuItem::OP_BATCH_HEALING_AFTER_RETURN_TO_CASTLE, (*_display.string)["GAME_BATCH_HEALING_AFTER_RETURN"], true, ConfigOption::BATCH_HEALING_AFTER_RETURN_TO_CASTLE);
-		_add_item(14, MenuItemType::ENTRY, MenuItem::OP_REROLL_ONES_ON_DICE, (*_display.string)["GAME_REROLL_ONES"], true, ConfigOption::REROLL_ONES_ON_DICE);
+		_add_item(0, MenuItemType::ENTRY, MenuItem::OP_RECOMMENDED_MODE, (*_display.string)["CONFIG_RECOMMENDED_MODE"],
+		true, ConfigOption::RECOMMENDED_MODE, (*_display.string)["HINT_CONFIG_RECOMMENDED_MODE"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::OP_STRICT_MODE, (*_display.string)["CONFIG_STRICT_MODE"], true,
+			ConfigOption::STRICT_MODE, (*_display.string)["HINT_CONFIG_STRICT_MODE"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::OP_CHEAT_MODE, (*_display.string)["CONFIG_CHEAT_MODE"],  true,
+			ConfigOption::CHEAT_MODE, (*_display.string)["HINT_CONFIG_CHEAT_MODE"]);
+		_add_item(3, MenuItemType::ENTRY, MenuItem::OP_AUTO_SAVE, (*_display.string)["CONFIG_AUTO_SAVE"], true,
+			ConfigOption::AUTO_SAVE, (*_display.string)["HINT_CONFIG_AUTO_SAVE"]);
+		_add_item(4, MenuItemType::ENTRY, MenuItem::OP_DICE_ROLLS, (*_display.string)["CONFIG_DICE_ROLLS"], true,
+			ConfigOption::DICE_ROLLS, (*_display.string)["HINT_CONFIG_DICE_ROLLS"]);
+		_add_item(5, MenuItemType::ENTRY, MenuItem::OP_ALLOW_MIXED_ALIGNMENT_PARTY,
+			(*_display.string)["GAME_ALLOW_MIXED_ALIGNMENT"], true, ConfigOption::ALLOW_MIXED_ALIGNMENT_PARTY,
+			(*_display.string)["HINT_GAME_ALLOW_MIXED_ALIGNMENT"]);
+		_add_item(6, MenuItemType::ENTRY, MenuItem::OP_STAT_LOSS_ON_LEVEL_UP,
+			(*_display.string)["GAME_STAT_LOSS_LEVEL_GAIN"], true, ConfigOption::STAT_LOSS_ON_LEVEL_UP,
+			(*_display.string)["HINT_GAME_STAT_LOSS_LEVEL_GAIN"]);
+		_add_item(7, MenuItemType::ENTRY, MenuItem::OP_REROLL_HIT_POINTS_ON_LEVEL_GAIN,
+			(*_display.string)["GAME_REROLL_HIT_POINTS"], true, ConfigOption::REROLL_HIT_POINTS_ON_LEVEL_GAIN,
+			(*_display.string)["HINT_GAME_REROLL_HIT_POINTS"]);
+		_add_item(8, MenuItemType::ENTRY, MenuItem::OP_STAT_RESET_ON_CLASS_CHANGE,
+			(*_display.string)["GAME_STAT_RESET_CLASS_CHANGE"], true, ConfigOption::STAT_RESET_ON_CLASS_CHANGE,
+			(*_display.string)["HINT_GAME_STAT_RESET_CLASS_CHANGE"]);
+		_add_item(9, MenuItemType::ENTRY, MenuItem::OP_AGING_ON_CLASS_CHANGE,
+			(*_display.string)["GAME_AGING_CLASS_CHANGE"], true, ConfigOption::AGING_ON_CLASS_CHANGE,
+			(*_display.string)["HINT_HINT_GAME_AGING_CLASS_CHANGE"]);
+		_add_item(10, MenuItemType::ENTRY, MenuItem::OP_ALLOW_AMBUSH_HIDE, (*_display.string)["GAME_ALLOW_AMBUSH_HIDE"],
+			true, ConfigOption::ALLOW_AMBUSH_HIDE, (*_display.string)["HINT_GAME_ALLOW_AMBUSH_HIDE"]);
+		_add_item(11, MenuItemType::ENTRY, MenuItem::OP_ALLOW_RANGED_WEAPONS,
+			(*_display.string)["GAME_ALLOW_RANGED_WEAPONS"], true, ConfigOption::ALLOW_RANGED_WEAPONS,
+			(*_display.string)["HINT_GAME_ALLOW_RANGED_WEAPONS"]);
+		_add_item(12, MenuItemType::ENTRY, MenuItem::OP_SPELLCASTING_IN_SURPRISE_ROUND,
+			(*_display.string)["GAME_SPELL_CASTING_SURPRISE_ROUND"], true, ConfigOption::SPELLCASTING_IN_SURPRISE_ROUND,
+			(*_display.string)["HINT_GAME_SPELL_CASTING_SURPRISE_ROUND"]);
+		_add_item(13, MenuItemType::ENTRY, MenuItem::OP_BATCH_HEALING_AFTER_RETURN_TO_CASTLE,
+			(*_display.string)["GAME_BATCH_HEALING_AFTER_RETURN"], true,
+			ConfigOption::BATCH_HEALING_AFTER_RETURN_TO_CASTLE,
+			(*_display.string)["HINT_GAME_BATCH_HEALING_AFTER_RETURN"]);
+		_add_item(14, MenuItemType::ENTRY, MenuItem::OP_REROLL_ONES_ON_DICE, (*_display.string)["GAME_REROLL_ONES"],
+			true, ConfigOption::REROLL_ONES_ON_DICE, (*_display.string)["HINT_GAME_REROLL_ONES"]);
 		_add_item(15, MenuItemType::SPACER, MenuItem::SPACER, (*_display.string)["MENU_SPACER"]);
 		_add_item(16, MenuItemType::SPACER, MenuItem::SPACER, (*_display.string)["MENU_SPACER"]);
-		_add_item(17, MenuItemType::ENTRY, MenuItem::OP_WIREFRAME_MODE, (*_display.string)["GRAPHICS_WIREFRAME"], true, ConfigOption::WIREFRAME_MODE);
-		_add_item(18, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_TEXTURES, (*_display.string)["GRAPHICS_TEXTURES"], true, ConfigOption::DISPLAY_TEXTURES);
-		_add_item(19, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_TRAPS, (*_display.string)["GRAPHICS_TRAPS"], true, ConfigOption::DISPLAY_TRAPS);
-		_add_item(20, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_TELEPORTERS, (*_display.string)["GRAPHICS_TELEPORTERS"], true, ConfigOption::DISPLAY_TELEPORTERS);
-		_add_item(21, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_ENCOUNTERS, (*_display.string)["GRAPHICS_ENCOUNTERS"], true, ConfigOption::DISPLAY_ENCOUNTERS);
-		_add_item(22, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_PROGRESS, (*_display.string)["GRAPHICS_PROGRESS"], true, ConfigOption::DISPLAY_PROGRESS);
+		_add_item(17, MenuItemType::ENTRY, MenuItem::OP_WIREFRAME_MODE, (*_display.string)["GRAPHICS_WIREFRAME"], true,
+			ConfigOption::WIREFRAME_MODE, (*_display.string)["HINT_GRAPHICS_WIREFRAME"]);
+		_add_item(18, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_TEXTURES, (*_display.string)["GRAPHICS_TEXTURES"], true,
+			ConfigOption::DISPLAY_TEXTURES, (*_display.string)["HINT_GRAPHICS_TEXTURES"]);
+		_add_item(19, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_TRAPS, (*_display.string)["GRAPHICS_TRAPS"], true,
+			ConfigOption::DISPLAY_TRAPS, (*_display.string)["HINT_GRAPHICS_TRAPS"]);
+		_add_item(20, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_TELEPORTERS, (*_display.string)["GRAPHICS_TELEPORTERS"],
+			true, ConfigOption::DISPLAY_TELEPORTERS, (*_display.string)["HINT_GRAPHICS_TELEPORTERS"]);
+		_add_item(21, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_ENCOUNTERS, (*_display.string)["GRAPHICS_ENCOUNTERS"],
+			true, ConfigOption::DISPLAY_ENCOUNTERS, (*_display.string)["HINT_GRAPHICS_ENCOUNTERS"]);
+		_add_item(22, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_PROGRESS, (*_display.string)["GRAPHICS_PROGRESS"], true,
+			ConfigOption::DISPLAY_PROGRESS, (*_display.string)["HINT_GRAPHICS_PROGRESS"]);
 		_add_item(23, MenuItemType::SPACER, MenuItem::SPACER, (*_display.string)["MENU_SPACER"]);
 		_add_item(23, MenuItemType::SAVE, MenuItem::SAVE, (*_display.string)["MENU_OPTIONS_SAVE"]);
 		_add_item(24, MenuItemType::CANCEL, MenuItem::CANCEL, (*_display.string)["MENU_OPTIONS_CANCEL"]);
@@ -108,12 +138,22 @@ auto Sorcery::Menu::get_type() -> MenuType {
 }
 
 // Add an item to the Menu
-auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string& key,
-	bool enabled, ConfigOption option) -> void {
+auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string& key) -> void {
 	if (key.length() % 2 == 0)
 		key.resize(key.length() + 1, 32);
 
-	items.push_back({index, itemtype, code, key, enabled, option});
+	std::string hint {};
+	items.push_back({index, itemtype, code, key, true, ConfigOption::NONE, hint});
+	++count;
+}
+
+// Add an item to the Menu
+auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string& key,
+	bool enabled, ConfigOption option, std::string& hint) -> void {
+	if (key.length() % 2 == 0)
+		key.resize(key.length() + 1, 32);
+
+	items.push_back({index, itemtype, code, key, enabled, option, hint});
 	++count;
 }
 

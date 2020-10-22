@@ -33,13 +33,13 @@ namespace Sorcery {
 	// Struct to represent a menu entry
 	struct MenuEntry {
 		MenuEntry(): index{0}, type{Enums::Menu::ItemType::NONE}, item{Enums::Menu::Item::NONE}, key{}, enabled{false},
-			config{Enums::Options::NONE} {};
+			config{Enums::Options::NONE}, hint{} {};
 		MenuEntry(unsigned int index_, Enums::Menu::ItemType type_, Enums::Menu::Item item_, std::string key_,
-			bool enabled_, Enums::Options config_): index{index_}, type{type_}, item{item_}, key{key_},
-			enabled{enabled_}, config{config_} {};
+			bool enabled_, Enums::Options config_, std::string hint_): index{index_}, type{type_}, item{item_}, key{key_},
+			enabled{enabled_}, config{config_}, hint{hint_} {};
 		auto operator==(const MenuEntry &a) const -> bool {
 			return ((index == a.index) && (type == a.type) && (item == a.item) && (key == a.key) &&
-				(enabled == a.enabled) && (config == a.config));
+				(enabled == a.enabled) && (config == a.config) && (hint == a.hint));
 		}
 
 		unsigned int index;
@@ -48,6 +48,7 @@ namespace Sorcery {
 		std::string key;
 		bool enabled;
 		Enums::Options config;
+		std::string hint;
 	};
 
 	// Struct to represent a point on the screen (x, y)
