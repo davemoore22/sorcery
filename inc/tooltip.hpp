@@ -29,7 +29,10 @@
 #include "graphics.hpp"
 #include "layout.hpp"
 
+
 namespace Sorcery {
+
+	class Display;
 
 	class Tooltip: public sf::Transformable, public sf::Drawable {
 
@@ -42,6 +45,8 @@ namespace Sorcery {
 			virtual ~Tooltip();
 
 			// Public Members
+			std::optional<std::chrono::time_point<std::chrono::steady_clock>> entry_time;
+			sf::FloatRect bounding_rectangle;
 
 			// Public Methods
 

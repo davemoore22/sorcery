@@ -54,14 +54,11 @@
 	"GRAPHICS_TRAPS": "SHOW TRAPS",
 	"HINT_GRAPHICS_TRAPS": "Show nearby traps in the Dungeon",
 	"GRAPHICS_TELEPORTERS": "SHOW TELEPORTERS",
-	"HINT_GRAPHICS_TELEPORTERS": "Show nearby teleporters in the Dungeon","
+	"HINT_GRAPHICS_TELEPORTERS": "Show nearby teleporters in the Dungeon",
 	"GRAPHICS_ENCOUNTERS": "SHOW VISIBLE ENCOUNTERS",
 	"HINT_GRAPHICS_ENCOUNTERS": "Show incoming encounters in the Dungeon",
 	"GRAPHICS_PROGRESS": "SHOW EXPLORED TILES",
 	"HINT_GRAPHICS_PROGRESS": "Show explored tiles in the Map",
-
-
-
 	"CONFIRM_LEAVE_GAME_OPTIONS": "Are you sure you want to Cancel your changes?",
 	"CONFIRM_SAVE_GAME_OPTIONS": "Are you sure you want to Save your changes and return to the Menu?",
 	"CONFIRM_SWITCH_ON_STRICT_MODE": "Switching on Strict Mode changes many Game Options - the game will be MUCH more difficult in Strict Mode",
@@ -71,12 +68,6 @@
 	"OPTION_ON" : "ON",
 	"OPTION_OFF" : "OFF",
 	"RESET_OPTIONS": "RESET",
-
-
-
-
-
-
 
 "CONFIRM_TITLE": "Confirmation Needed!",
 "MAIN_MENU_CHARACTER": "Create and Manage Characters",

@@ -130,6 +130,7 @@ namespace Sorcery {
 	using Stage = Enums::Character::Stage;
 	using StringType = Enums::Internal::StringType;
 	using StringMap = std::map<std::string, std::string>;
+	using WindowTooltipList = std::map<std::string, sf::FloatRect>;
 	using WindowInputMode = Enums::Window::InputMode;
 	using WindowInput = Enums::Controls::Input;
 	using WindowConfirm = Enums::Window::Confirm;

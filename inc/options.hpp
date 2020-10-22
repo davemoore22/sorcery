@@ -76,12 +76,12 @@ namespace Sorcery {
 			sf::Text _reset_text;
 			Component _option_on;
 			Component _option_off;
-
 			std::shared_ptr<Menu> _options_menu;
+			std::vector<std::unique_ptr<Tooltip>> _tooltips;
 			std::shared_ptr<Confirm> _confirm_save;
 			std::shared_ptr<Confirm> _confirm_cancel;
 			std::shared_ptr<Confirm> _confirm_strict_on;
 
-			std::shared_ptr<Tooltip> t;
+
 	};
 }

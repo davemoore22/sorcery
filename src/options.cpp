@@ -43,9 +43,6 @@ Sorcery::Options::Options (System& system, Display& display, Graphics& graphics)
 	_options_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::OPTIONS);
 	_option_on = Component((*_display.layout)["options:option_on"]);
 	_option_off = Component((*_display.layout)["options:option_off"]);
-
-
-	 t = std::make_shared<Tooltip>(_system, _display, _graphics, (*_display.string)["EXPLAIN_CONFIG_AUTO_SAVE"]);
 }
 
 // Standard Destructor
@@ -62,6 +59,7 @@ auto Sorcery::Options::start() -> void {
 
 	// Clear the window
 	_window->clear();
+	_display.window->tooltips.clear();
 
 	// Get Constituent Parts for the Display
 	Component frame_c {(*_display.layout)["options:gui_frame"]};
@@ -187,7 +185,4 @@ auto Sorcery::Options::_draw() -> void {
 	// Always draw the following
 	_cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 	_window->draw(_cursor);
-
-	t->setPosition(1,1);
-	_window->draw(*t);
 }

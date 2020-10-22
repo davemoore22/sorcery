@@ -74,6 +74,7 @@ namespace Sorcery {
 			sf::View view;
 			Point centre;
 			WindowInputMode input_mode;
+			WindowTooltipList tooltips;
 
 		private:
 

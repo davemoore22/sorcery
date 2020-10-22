@@ -62,6 +62,8 @@ Sorcery::Window::Window(std::string title, System& system, String& string, Layou
 	_creature_sprite_height = 108;
 	_creature_sprite_spacing = 8;
 	_creature_sprite_scaling =- 2.5f;
+
+	tooltips.clear();
 }
 
 // Standard Destructor
@@ -294,9 +296,15 @@ auto Sorcery::Window::_draw_menu(std::vector<MenuEntry>& items, std::vector<sf::
 				((*it).type == MenuItemType::CANCEL)) {
 				sf::FloatRect actual_rect {text.getGlobalBounds()};
 				bounds.push_back(actual_rect);
+				WindowTooltipList::iterator tooltipit = tooltips.find((*it).hint);
+				if (tooltipit == tooltips.end())
+					tooltips[(*it).hint] = actual_rect;
 			} else {
 				sf::FloatRect actual_rect;
 				bounds.push_back(actual_rect);
+					WindowTooltipList::iterator tooltipit = tooltips.find((*it).hint);
+				if (tooltipit == tooltips.end())
+					tooltips[(*it).hint] = actual_rect;
 			}
 
 			// Add options in case of the Options Menu
@@ -518,6 +526,3 @@ auto Sorcery::Window::get_hint_frame(sf::RenderTexture& hint_frame_rt, sf::Textu
 	sf::Sprite hint_frame_sprite(hint_frame_t);
 	return hint_frame_sprite;
 }
-
-
-// each screen has a list of userdefined areas for tooltips, and an index, and when adding a component to the screen it adds a strong key
