@@ -43,6 +43,8 @@ Sorcery::Options::Options (System& system, Display& display, Graphics& graphics)
 	_options_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::OPTIONS);
 	_option_on = Component((*_display.layout)["options:option_on"]);
 	_option_off = Component((*_display.layout)["options:option_off"]);
+
+	_tooltip = std::make_shared<Tooltip>(_system, _display, _graphics);
 }
 
 // Standard Destructor
@@ -60,6 +62,7 @@ auto Sorcery::Options::start() -> void {
 	// Clear the window
 	_window->clear();
 	_display.window->tooltips.clear();
+	_display_tooltip = false;
 
 	// Get Constituent Parts for the Display
 	Component frame_c {(*_display.layout)["options:gui_frame"]};
@@ -114,6 +117,8 @@ auto Sorcery::Options::start() -> void {
 			} else if (_system.input->check_for_event(WindowInput::MOVE, event)) {
 					selected_option =
 						_options_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					_display_tooltip = _set_tooltip(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+
 			} else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
 				if (selected_option) {
 					if ((*_options_menu->selected).type == MenuItemType::ENTRY) {
@@ -185,4 +190,29 @@ auto Sorcery::Options::_draw() -> void {
 	// Always draw the following
 	_cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 	_window->draw(_cursor);
+
+	if (_display_tooltip) {
+		sf::Vector2i tooltip_position = sf::Mouse::getPosition(*_window);
+		tooltip_position.x += 10;
+		tooltip_position.y += 10;
+		_tooltip->setPosition(tooltip_position.x, tooltip_position.y);
+		_window->draw(*_tooltip);
+	}
+}
+
+auto Sorcery::Options::_set_tooltip(sf::Vector2f mouse_position) -> bool {
+	if (!_display.window->tooltips.empty()) {
+		WindowTooltipList::iterator contain = std::find_if(_display.window->tooltips.begin(),
+			_display.window->tooltips.end(), [&mouse_position](const auto& entry){
+				sf::FloatRect candidate = entry.second;
+				if (candidate.contains(mouse_position))
+					return true;
+			});
+		if (contain != _display.window->tooltips.end()) {
+				std::string hint = (*contain).first;
+			_tooltip->set(hint);
+			return true;
+		}
+	} else
+		return false;
 }

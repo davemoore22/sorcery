@@ -27,7 +27,6 @@
 #include "system.hpp"
 #include "display.hpp"
 #include "graphics.hpp"
-#include "tooltip.hpp"
 
 namespace Sorcery {
 
@@ -48,7 +47,6 @@ namespace Sorcery {
 			std::vector<MenuEntry> items;
 			std::vector<sf::FloatRect> bounds;
 			std::vector<MenuEntry>::const_iterator selected;
-			std::vector<std::unique_ptr<Tooltip>> tooltips;
 			unsigned int count;
 
 			// Public Methods

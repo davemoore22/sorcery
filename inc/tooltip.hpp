@@ -39,7 +39,7 @@ namespace Sorcery {
 	public:
 
 			// Standard Constructor
-			Tooltip(System& system, Display& display, Graphics& graphics, std::string& string);
+			Tooltip(System& system, Display& display, Graphics& graphics);
 
 			// Standard Destructor
 			virtual ~Tooltip();
@@ -47,8 +47,10 @@ namespace Sorcery {
 			// Public Members
 			std::optional<std::chrono::time_point<std::chrono::steady_clock>> entry_time;
 			sf::FloatRect bounding_rectangle;
+			bool valid;
 
 			// Public Methods
+			auto set(std::string& string) -> void;
 
 
 		private:

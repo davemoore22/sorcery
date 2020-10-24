@@ -67,7 +67,6 @@ namespace Sorcery {
 			auto get_hint_frame(sf::RenderTexture& hint_frame_rt, sf::Texture& hint_frame_t,
 				const unsigned int width_units, const unsigned int height_units, unsigned int alpha) -> sf::Sprite;
 
-
 			// Public Members
 			std::vector<sf::Sprite> sprites;
 			std::vector<sf::Texture> textures;

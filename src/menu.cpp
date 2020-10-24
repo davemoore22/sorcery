@@ -33,7 +33,6 @@ Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuTy
 	// Clear the Items
 	items.clear();
 	bounds.clear();
-	tooltips.clear();
 	count = 0;
 
 	// Now depending on the menu type, add the relevant items
@@ -145,8 +144,6 @@ auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const Menu
 
 	std::string hint {};
 	items.push_back({index, itemtype, code, key, true, ConfigOption::NONE, hint});
-	auto tooltip = std::make_unique<Tooltip>(_system, _display, _graphics, hint);
-	tooltips.push_back(std::move(tooltip));
 	++count;
 }
 
@@ -157,8 +154,6 @@ auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const Menu
 		key.resize(key.length() + 1, 32);
 
 	items.push_back({index, itemtype, code, key, enabled, option, hint});
-	auto tooltip = std::make_unique<Tooltip>(_system, _display, _graphics, hint);
-	tooltips.push_back(std::move(tooltip));
 	++count;
 }
 
@@ -210,21 +205,15 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_position) ->
 	bool found {false};
 	std::vector<sf::FloatRect>::const_iterator working_bounds {bounds.begin()};
 	std::vector<MenuEntry>::const_iterator working_items {items.begin()};
-	std::vector<std::unique_ptr<Tooltip>> ::iterator working_tooltips {tooltips.begin()};
 	do {
 		if (working_bounds->contains(mouse_position)) {
-			if (!(*working_tooltips)->entry_time)
-				(*working_tooltips)->entry_time = std::chrono::steady_clock::now();
-
 			found = true;
 			selected = working_items;
 			return working_items;
-		} else
-			(*working_tooltips)->entry_time = std::nullopt;
+		}
 
 		++working_bounds;
 		++working_items;
-		++working_tooltips;
 		} while ((working_bounds < bounds.end()) && (!found));
 
 	// If we reach here the mouse cursor is outside the items so we don't do anything

@@ -24,14 +24,27 @@
 #include "tooltip.hpp"
 
 // Standard Constructor
-Sorcery::Tooltip::Tooltip (System& system, Display& display, Graphics& graphics, std::string& string):
-	 _system {system}, _display {display}, _graphics {graphics}, _string {string} {
+Sorcery::Tooltip::Tooltip (System& system, Display& display, Graphics& graphics):
+	 _system {system}, _display {display}, _graphics {graphics} {
 
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();
 
 	// Get the standard layout information
 	_layout = Component((*_display.layout)["global:tooltip"]);
+
+	valid = false;
+}
+
+auto Sorcery::Tooltip::set(std::string& string) -> void {
+
+	_strings.clear();
+	_texts.clear();
+	_width = 0;
+	_height = 0;
+	_frame_texture = sf::Texture();
+	_frame = sf::Sprite();
+
 
 	// Get the display lines
 	const std::regex regex(R"([#]+)");
@@ -44,7 +57,6 @@ Sorcery::Tooltip::Tooltip (System& system, Display& display, Graphics& graphics,
     	split.end());
 	_strings = split;
 
-	_texts.clear();
 	int x {18};
 	int y {0};
 	for (const auto each_string: _strings) {
@@ -69,7 +81,7 @@ Sorcery::Tooltip::Tooltip (System& system, Display& display, Graphics& graphics,
 	_height = _strings.size() + 4;
 
 	// Get the frame
-		sf::RenderTexture frame_render_texture;
+	sf::RenderTexture frame_render_texture;
 	_frame_texture = sf::Texture();
 	_frame = sf::Sprite(_display.window->get_hint_frame(frame_render_texture, _frame_texture, _width / 2.15f,
 		_height / 2.0f, _layout.alpha));
@@ -81,6 +93,8 @@ Sorcery::Tooltip::Tooltip (System& system, Display& display, Graphics& graphics,
 	// _background = sf::RectangleShape(sf::Vector2f((_width * 18) - 18, (_height * 18) - 18));
 	// _background.setFillColor(sf::Color(0, 0, 0, _layout.alpha));
 	// _background.setPosition(9, 9);
+
+	valid = true;
 }
 
 // Standard Destructor
@@ -88,9 +102,31 @@ Sorcery::Tooltip::~Tooltip() {
 }
 
 auto Sorcery::Tooltip::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
+
+	states.transform *= getTransform();
+
 	target.draw(_frame, states);
 	// target.draw(_background);
 	for (auto each_text: _texts) {
 		target.draw(each_text, states);
 	}
 }
+
+/*
+
+auto tooltip = std::make_unique<Tooltip>(_system, _display, _graphics, hint);
+	tooltips.push_back(std::move(tooltip));
+
+	std::vector<std::unique_ptr<Tooltip>> ::iterator working_tooltips {tooltips.begin()};
+
+
+if (!(*working_tooltips)->entry_time)
+				(*working_tooltips)->entry_time = std::chrono::steady_clock::now();
+
+			std::vector<std::unique_ptr<Tooltip>> tooltips;
+
+ else
+			(*working_tooltips)->entry_time = std::nullopt;
+
+
+			*/

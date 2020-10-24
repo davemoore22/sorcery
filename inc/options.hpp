@@ -54,6 +54,7 @@ namespace Sorcery {
 
 			// Private Methods
 			auto _draw() -> void;
+			auto _set_tooltip(sf::Vector2f mouse_position) -> bool;
 
 			// Private Members
 			System _system;
@@ -77,7 +78,8 @@ namespace Sorcery {
 			Component _option_on;
 			Component _option_off;
 			std::shared_ptr<Menu> _options_menu;
-			std::vector<std::unique_ptr<Tooltip>> _tooltips;
+			std::shared_ptr<Tooltip> _tooltip;
+			bool _display_tooltip;
 			std::shared_ptr<Confirm> _confirm_save;
 			std::shared_ptr<Confirm> _confirm_cancel;
 			std::shared_ptr<Confirm> _confirm_strict_on;
