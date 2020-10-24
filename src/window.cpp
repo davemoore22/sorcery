@@ -311,7 +311,7 @@ auto Sorcery::Window::_draw_menu(std::vector<MenuEntry>& items, std::vector<sf::
 			if ((menu_type == MenuType::OPTIONS) && ((*it).type == MenuItemType::ENTRY)) {
 				option_y = y;
 				option_x = x + (component.width * get_cell_width());
-				const bool option_value = {(*_system.config)[(*it).config] ? true : false};
+				const bool option_value {(*_system.config)[(*it).config] ? true : false};
 				sf::Text option_text {};
 				if (option_value) {
 

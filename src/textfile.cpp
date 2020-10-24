@@ -24,15 +24,13 @@
 #include "textfile.hpp"
 
 // Standard Constructor
-Sorcery::TextFile::TextFile(std::filesystem::path text_file_path):_text_file_path {text_file_path}
-{
+Sorcery::TextFile::TextFile(std::filesystem::path text_file_path):_text_file_path {text_file_path} {
 	// Attempt to load the text file specified
 	width = 0;
-	std::ifstream text_file {CSTR(text_file_path.string()), std::ifstream::in};
-	if (text_file.good()) {
+	if (std::ifstream text_file {CSTR(text_file_path.string()), std::ifstream::in}; text_file.good()) {
 		_contents_buffer.clear();
 		_contents_buffer.push_back(EMPTY);
-		std::string line_of_text = {};
+		std::string line_of_text {};
 		while (std::getline(text_file, line_of_text)) {
 
 			// Get rid of trailing spaces and add to the buffer
@@ -49,13 +47,12 @@ Sorcery::TextFile::TextFile(std::filesystem::path text_file_path):_text_file_pat
 }
 
 // Standard Destructor
-Sorcery::TextFile::~TextFile()
-{
+Sorcery::TextFile::~TextFile() {
 }
 
 // Overload the array operator [] to allow direct access to the contents
-auto Sorcery::TextFile::operator[] (const unsigned int index) -> std::string&
-{
+auto Sorcery::TextFile::operator[] (const unsigned int index) -> std::string& {
+
 	try {
 		return _contents_buffer.at(index);
 	} catch (std::out_of_range &e) {
@@ -64,8 +61,7 @@ auto Sorcery::TextFile::operator[] (const unsigned int index) -> std::string&
 }
 
 // Size (in lines)
-auto Sorcery::TextFile::TextFile::size() const -> unsigned int
-{
+auto Sorcery::TextFile::TextFile::size() const -> unsigned int {
 	return _contents_buffer.size();
 }
 
@@ -84,5 +80,4 @@ auto Sorcery::TextFile::get_reading_progress(int current_line) -> std::string {
 		progress};
 
 	return status_line;
-
 }

@@ -81,8 +81,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 #pragma GCC diagnostic pop
 		Json::StreamWriterBuilder builder {};
 		builder.settings_["indentation"] = "";
-		Json::Value layout;
-		if (reader.parse(layout_file, layout)) {
+		if (Json::Value layout; reader.parse(layout_file, layout)) {
 			Json::Value& screens {layout["screen"]};
 
 			// Iterate through layout file one screen at a time

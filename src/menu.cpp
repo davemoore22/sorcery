@@ -81,7 +81,7 @@ Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuTy
 			(*_display.string)["HINT_GAME_STAT_RESET_CLASS_CHANGE"]);
 		_add_item(9, MenuItemType::ENTRY, MenuItem::OP_AGING_ON_CLASS_CHANGE,
 			(*_display.string)["GAME_AGING_CLASS_CHANGE"], true, ConfigOption::AGING_ON_CLASS_CHANGE,
-			(*_display.string)["HINT_HINT_GAME_AGING_CLASS_CHANGE"]);
+			(*_display.string)["HINT_GAME_AGING_CLASS_CHANGE"]);
 		_add_item(10, MenuItemType::ENTRY, MenuItem::OP_ALLOW_AMBUSH_HIDE, (*_display.string)["GAME_ALLOW_AMBUSH_HIDE"],
 			true, ConfigOption::ALLOW_AMBUSH_HIDE, (*_display.string)["HINT_GAME_ALLOW_AMBUSH_HIDE"]);
 		_add_item(11, MenuItemType::ENTRY, MenuItem::OP_ALLOW_RANGED_WEAPONS,
@@ -143,7 +143,7 @@ auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const Menu
 		key.resize(key.length() + 1, 32);
 
 	std::string hint {};
-	items.push_back({index, itemtype, code, key, true, ConfigOption::NONE, hint});
+	items.push_back({static_cast<unsigned int>(index), itemtype, code, key, true, ConfigOption::NONE, hint});
 	++count;
 }
 
@@ -153,7 +153,7 @@ auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const Menu
 	if (key.length() % 2 == 0)
 		key.resize(key.length() + 1, 32);
 
-	items.push_back({index, itemtype, code, key, enabled, option, hint});
+	items.push_back({static_cast<unsigned int>(index), itemtype, code, key, enabled, option, hint});
 	++count;
 }
 

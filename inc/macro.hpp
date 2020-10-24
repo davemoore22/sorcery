@@ -52,7 +52,7 @@ namespace Sorcery  {
 		if (static_cast<unsigned int>(string_to_pad.size()) < desired_width) {
 			const std::string::size_type padding {pad_both ? (desired_width - string_to_pad.size()) / 2 :
 				(desired_width - string_to_pad.size())};
-			std::string string_copy = {string_to_pad};
+			std::string string_copy {string_to_pad};
 			if (pad_both)
 				string_copy.insert(0, padding, ' ');
 			string_copy.append(padding, ' ');

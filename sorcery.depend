@@ -123,13 +123,13 @@
 
 1591211577 /home/dave/Development/wizardry/sorcery-sfml/inc/simpleini/ConvertUTF.h
 
-1603219707 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
+1603564928 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
 1603221076 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
-1602425412 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
+1603565631 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
 	"main.hpp"
 
 1603380655 /home/dave/Development/wizardry/sorcery-sfml/inc/type.hpp
@@ -192,7 +192,7 @@
 	"string.hpp"
 	"layout.hpp"
 
-1602935568 source:/home/dave/Development/wizardry/sorcery-sfml/src/application.cpp
+1603565908 source:/home/dave/Development/wizardry/sorcery-sfml/src/application.cpp
 	"application.hpp"
 
 1602795458 /home/dave/Development/wizardry/sorcery-sfml/inc/application.hpp
@@ -283,13 +283,13 @@
 1591451293 /home/dave/Development/wizardry/sorcery-sfml/inc/engine.hpp
 	"main.hpp"
 
-1602677448 source:/home/dave/Development/wizardry/sorcery-sfml/src/file.cpp
+1603566017 source:/home/dave/Development/wizardry/sorcery-sfml/src/file.cpp
 	"file.hpp"
 
 1590931731 source:/home/dave/Development/wizardry/sorcery-sfml/src/graphics.cpp
 	"graphics.hpp"
 
-1602885086 source:/home/dave/Development/wizardry/sorcery-sfml/src/layout.cpp
+1603566135 source:/home/dave/Development/wizardry/sorcery-sfml/src/layout.cpp
 	"layout.hpp"
 
 1602426340 source:/home/dave/Development/wizardry/sorcery-sfml/src/main.cpp
@@ -308,7 +308,7 @@
 1590869110 source:/home/dave/Development/wizardry/sorcery-sfml/src/map.cpp
 	"map.hpp"
 
-1603546601 source:/home/dave/Development/wizardry/sorcery-sfml/src/menu.cpp
+1603565304 source:/home/dave/Development/wizardry/sorcery-sfml/src/menu.cpp
 	"menu.hpp"
 
 1597513199 source:/home/dave/Development/wizardry/sorcery-sfml/src/menubutton.cpp
@@ -332,19 +332,19 @@
 1602838176 source:/home/dave/Development/wizardry/sorcery-sfml/src/random.cpp
 	"random.hpp"
 
-1602677161 source:/home/dave/Development/wizardry/sorcery-sfml/src/resourcemanager.cpp
+1603565084 source:/home/dave/Development/wizardry/sorcery-sfml/src/resourcemanager.cpp
 	"resourcemanager.hpp"
 
 1592596705 source:/home/dave/Development/wizardry/sorcery-sfml/src/splash.cpp
 	"splash.hpp"
 
-1601750761 source:/home/dave/Development/wizardry/sorcery-sfml/src/string.cpp
+1603565640 source:/home/dave/Development/wizardry/sorcery-sfml/src/string.cpp
 	"string.hpp"
 
 1602426081 source:/home/dave/Development/wizardry/sorcery-sfml/src/system.cpp
 	"system.hpp"
 
-1602787947 source:/home/dave/Development/wizardry/sorcery-sfml/src/textfile.cpp
+1603565645 source:/home/dave/Development/wizardry/sorcery-sfml/src/textfile.cpp
 	"textfile.hpp"
 
 1590869105 source:/home/dave/Development/wizardry/sorcery-sfml/src/tile.cpp
@@ -353,7 +353,7 @@
 1591452128 /home/dave/Development/wizardry/sorcery-sfml/inc/tile.hpp
 	"main.hpp"
 
-1603548097 source:/home/dave/Development/wizardry/sorcery-sfml/src/window.cpp
+1603565650 source:/home/dave/Development/wizardry/sorcery-sfml/src/window.cpp
 	"window.hpp"
 
 1603028324 /home/dave/Development/wizardry/sorcery-sfml/inc/confirm.hpp
@@ -381,7 +381,7 @@
 1602942458 source:/home/dave/Development/wizardry/sorcery-sfml/src/license.cpp
 	"license.hpp"
 
-1603551388 source:/home/dave/Development/wizardry/sorcery-sfml/src/options.cpp
+1603565528 source:/home/dave/Development/wizardry/sorcery-sfml/src/options.cpp
 	"options.hpp"
 
 1603550742 /home/dave/Development/wizardry/sorcery-sfml/inc/options.hpp
@@ -411,6 +411,18 @@
 	"graphics.hpp"
 	"layout.hpp"
 
-1603546658 source:/home/dave/Development/wizardry/sorcery-sfml/src/tooltip.cpp
+1603552360 source:/home/dave/Development/wizardry/sorcery-sfml/src/tooltip.cpp
 	"tooltip.hpp"
+
+1603552822 source:/home/dave/Development/wizardry/sorcery-sfml/src/game.cpp
+	"game.hpp"
+
+1603552940 /home/dave/Development/wizardry/sorcery-sfml/inc/game.hpp
+	"main.hpp"
+
+1603552924 source:/home/dave/Development/wizardry/sorcery-sfml/src/town.cpp
+	"town.hpp"
+
+1603552936 /home/dave/Development/wizardry/sorcery-sfml/inc/town.hpp
+	"main.hpp"
 

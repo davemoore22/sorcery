@@ -101,6 +101,7 @@
 		<Unit filename="gfx/logo.png" />
 		<Unit filename="gfx/ninepatch.png" />
 		<Unit filename="gfx/splash.png" />
+		<Unit filename="gfx/town.png" />
 		<Unit filename="gfx/ui.png" />
 		<Unit filename="inc/animation.hpp" />
 		<Unit filename="inc/application.hpp" />
@@ -117,6 +118,7 @@
 		<Unit filename="inc/engine.hpp" />
 		<Unit filename="inc/enum.hpp" />
 		<Unit filename="inc/file.hpp" />
+		<Unit filename="inc/game.hpp" />
 		<Unit filename="inc/graphics.hpp" />
 		<Unit filename="inc/input.hpp" />
 		<Unit filename="inc/layout.hpp" />
@@ -138,6 +140,7 @@
 		<Unit filename="inc/textfile.hpp" />
 		<Unit filename="inc/tile.hpp" />
 		<Unit filename="inc/tooltip.hpp" />
+		<Unit filename="inc/town.hpp" />
 		<Unit filename="inc/type.hpp" />
 		<Unit filename="inc/window.hpp" />
 		<Unit filename="src/animation.cpp" />
@@ -153,6 +156,7 @@
 		<Unit filename="src/display.cpp" />
 		<Unit filename="src/engine.cpp" />
 		<Unit filename="src/file.cpp" />
+		<Unit filename="src/game.cpp" />
 		<Unit filename="src/graphics.cpp" />
 		<Unit filename="src/input.cpp" />
 		<Unit filename="src/layout.cpp" />
@@ -173,6 +177,7 @@
 		<Unit filename="src/textfile.cpp" />
 		<Unit filename="src/tile.cpp" />
 		<Unit filename="src/tooltip.cpp" />
+		<Unit filename="src/town.cpp" />
 		<Unit filename="src/window.cpp" />
 		<Unit filename="vfx/menu.mp4" />
 		<Extensions />

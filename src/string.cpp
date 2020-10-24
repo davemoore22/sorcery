@@ -29,8 +29,8 @@
 Sorcery::String::String(const std::string &filename, const std::string &explain_filename) {
 
 	// Load strings from file
-	const bool loadresult = {_load(filename, StringType::NORMAL)};
-	const bool explain_loadresult = {_load(explain_filename, StringType::EXPLAIN)};
+	const bool loadresult {_load(filename, StringType::NORMAL)};
+	const bool explain_loadresult {_load(explain_filename, StringType::EXPLAIN)};
 
 	// Check result
 	_loaded = (loadresult) && (explain_loadresult);

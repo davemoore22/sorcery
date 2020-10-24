@@ -77,6 +77,7 @@ namespace Sorcery
 		inline constexpr auto LOGO_TEXTURE = "logo.png"sv;
 		inline constexpr auto NINEPATCH_TEXTURE = "ninepatch.png"sv;
 		inline constexpr auto SPLASH_TEXTURE = "splash.png"sv;
+		inline constexpr auto TOWN_TEXTURE = "town.png"sv;
 		inline constexpr auto UI_TEXTURE = "ui.png"sv;
 
 		// Videos

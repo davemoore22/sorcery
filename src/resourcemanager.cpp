@@ -39,6 +39,8 @@ Sorcery::ResourceManager::ResourceManager(File& files): _files {files} {
 			thor::Resources::fromFile<sf::Texture>(_files[LOGO_TEXTURE]));
 		textures.acquire(SPLASH_TEXTURE,
 			thor::Resources::fromFile<sf::Texture>(_files[SPLASH_TEXTURE]));
+		textures.acquire(TOWN_TEXTURE,
+			thor::Resources::fromFile<sf::Texture>(_files[TOWN_TEXTURE]));
 		textures.acquire(UI_TEXTURE,
 			thor::Resources::fromFile<sf::Texture>(_files[UI_TEXTURE]));
 

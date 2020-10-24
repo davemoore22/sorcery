@@ -205,14 +205,14 @@ auto Sorcery::Options::_set_tooltip(sf::Vector2f mouse_position) -> bool {
 		WindowTooltipList::iterator contain = std::find_if(_display.window->tooltips.begin(),
 			_display.window->tooltips.end(), [&mouse_position](const auto& entry){
 				sf::FloatRect candidate = entry.second;
-				if (candidate.contains(mouse_position))
-					return true;
+				return candidate.contains(mouse_position);
 			});
 		if (contain != _display.window->tooltips.end()) {
 				std::string hint = (*contain).first;
 			_tooltip->set(hint);
 			return true;
-		}
+		} else
+			return false;
 	} else
 		return false;
 }
