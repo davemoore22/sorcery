@@ -137,6 +137,7 @@
 		<Unit filename="inc/splash.hpp" />
 		<Unit filename="inc/string.hpp" />
 		<Unit filename="inc/system.hpp" />
+		<Unit filename="inc/template.hpp" />
 		<Unit filename="inc/textfile.hpp" />
 		<Unit filename="inc/tile.hpp" />
 		<Unit filename="inc/tooltip.hpp" />
@@ -174,6 +175,7 @@
 		<Unit filename="src/splash.cpp" />
 		<Unit filename="src/string.cpp" />
 		<Unit filename="src/system.cpp" />
+		<Unit filename="src/template.cpp" />
 		<Unit filename="src/textfile.cpp" />
 		<Unit filename="src/tile.cpp" />
 		<Unit filename="src/tooltip.cpp" />
