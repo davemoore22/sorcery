@@ -118,6 +118,7 @@
 		<Unit filename="inc/engine.hpp" />
 		<Unit filename="inc/enum.hpp" />
 		<Unit filename="inc/file.hpp" />
+		<Unit filename="inc/frame.hpp" />
 		<Unit filename="inc/game.hpp" />
 		<Unit filename="inc/graphics.hpp" />
 		<Unit filename="inc/input.hpp" />
@@ -157,6 +158,7 @@
 		<Unit filename="src/display.cpp" />
 		<Unit filename="src/engine.cpp" />
 		<Unit filename="src/file.cpp" />
+		<Unit filename="src/frame.cpp" />
 		<Unit filename="src/game.cpp" />
 		<Unit filename="src/graphics.cpp" />
 		<Unit filename="src/input.cpp" />

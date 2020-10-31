@@ -24,8 +24,8 @@
 #include "tooltip.hpp"
 
 // Standard Constructor
-Sorcery::Tooltip::Tooltip (System& system, Display& display, Graphics& graphics):
-	 _system {system}, _display {display}, _graphics {graphics} {
+Sorcery::Tooltip::Tooltip (System& system, Display& display, Graphics& graphics): _system {system}, _display {display},
+	_graphics {graphics} {
 
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();
@@ -44,7 +44,6 @@ auto Sorcery::Tooltip::set(std::string& string) -> void {
 	_height = 0;
 	_frame_texture = sf::Texture();
 	_frame = sf::Sprite();
-
 
 	// Get the display lines
 	const std::regex regex(R"([#]+)");
@@ -111,22 +110,3 @@ auto Sorcery::Tooltip::draw(sf::RenderTarget& target, sf::RenderStates states) c
 		target.draw(each_text, states);
 	}
 }
-
-/*
-
-auto tooltip = std::make_unique<Tooltip>(_system, _display, _graphics, hint);
-	tooltips.push_back(std::move(tooltip));
-
-	std::vector<std::unique_ptr<Tooltip>> ::iterator working_tooltips {tooltips.begin()};
-
-
-if (!(*working_tooltips)->entry_time)
-				(*working_tooltips)->entry_time = std::chrono::steady_clock::now();
-
-			std::vector<std::unique_ptr<Tooltip>> tooltips;
-
- else
-			(*working_tooltips)->entry_time = std::nullopt;
-
-
-			*/
