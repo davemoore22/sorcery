@@ -59,12 +59,9 @@ namespace Sorcery {
 			Display _display;
 			Graphics _graphics;
 			sf::RenderWindow* _window;
-			sf::Texture _gui_frame_texture;
 			sf::Font _mono_system_font;
 			sf::Font _proportional_system_font;
 			sfe::Movie _background_movie;
-			sf::Sprite _frame;
-			sf::Sprite _frame_top;
 			sf::Sprite _cursor;
 			std::shared_ptr<TextFile> _textfile;
 			unsigned int _current_line;

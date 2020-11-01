@@ -64,9 +64,6 @@ namespace Sorcery {
 			Display _display;
 			Graphics _graphics;
 			sf::RenderWindow* _window;
-			sf::RenderTexture _frame_render_texture;
-			sf::Texture _frame_texture;
-			sf::Sprite _frame;
 			sf::RectangleShape _background;
 			Component _layout;
 			unsigned int _width;
@@ -74,5 +71,6 @@ namespace Sorcery {
 			std::string _string;
 			std::vector<std::string> _strings;
 			std::vector<sf::Text> _texts;
+			std::unique_ptr<Frame> _frame;
 	};
 }

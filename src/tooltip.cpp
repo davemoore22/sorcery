@@ -42,8 +42,8 @@ auto Sorcery::Tooltip::set(std::string& string) -> void {
 	_texts.clear();
 	_width = 0;
 	_height = 0;
-	_frame_texture = sf::Texture();
-	_frame = sf::Sprite();
+	//_frame_texture = sf::Texture();
+	//_frame = sf::Sprite();
 
 	// Get the display lines
 	const std::regex regex(R"([#]+)");
@@ -80,13 +80,8 @@ auto Sorcery::Tooltip::set(std::string& string) -> void {
 	_height = _strings.size() + 4;
 
 	// Get the frame
-	sf::RenderTexture frame_render_texture;
-	_frame_texture = sf::Texture();
-	_frame = sf::Sprite(_display.window->get_hint_frame(frame_render_texture, _frame_texture, _width / 2.15f,
-		_height / 2.0f, _layout.alpha));
-	// Divided here since 20 font size is much less than 18 unit measurement used for frame
-
-	// need to use get character size to sort this out, remembering that gui units is 18 pixels
+	_frame = std::make_unique<Frame>(_system, _display, _graphics, WindowFrameType::HINT, _width / 2.15f,
+		_height / 2.0f, _layout.alpha);
 
 	// Get the background
 	// _background = sf::RectangleShape(sf::Vector2f((_width * 18) - 18, (_height * 18) - 18));
@@ -103,9 +98,7 @@ Sorcery::Tooltip::~Tooltip() {
 auto Sorcery::Tooltip::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
-
-	target.draw(_frame, states);
-	// target.draw(_background);
+	target.draw(*_frame, states);
 	for (auto each_text: _texts) {
 		target.draw(each_text, states);
 	}

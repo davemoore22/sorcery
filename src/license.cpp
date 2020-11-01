@@ -59,22 +59,18 @@ auto Sorcery::License::start() -> void {
 	_window->clear();
 
 	// Get Constituent Parts for the Display
-	Component frame_c {(*_display.layout)["license:gui_frame"]};
-	Component frame_top_c {(*_display.layout)["license:gui_frame_title"]};
+	Component outside_frame_c {(*_display.layout)["license:gui_frame"]};
+	Component title_frame_c {(*_display.layout)["license:gui_frame_title"]};
 
 	// Generate the frame
-	sf::RenderTexture frame_rt;
-	sf::Texture frame_t;
-	sf::RenderTexture frame_top_rt;
-	sf::Texture frame_top_t;
-	_frame = sf::Sprite(_display.window->get_gui_frame(frame_rt, frame_t, frame_c.w, frame_c.h, frame_c.alpha));
-	const sf::Vector2f pos(_display.window->get_x(_frame, frame_c.x), _display.window->get_y(_frame, frame_c.y));
-	_frame.setPosition(pos);
-	_frame_top = sf::Sprite(_display.window->get_gui_frame(frame_top_rt, frame_top_t, frame_top_c.w, frame_top_c.h,
-		frame_top_c.alpha));
-	const sf::Vector2f pos_top(_display.window->get_x(_frame_top, frame_top_c.x),
-		_display.window->get_y(_frame_top, frame_top_c.y));
-	_frame_top.setPosition(pos_top);
+	_outside_frame = std::make_unique<Frame>(_system, _display, _graphics, WindowFrameType::NORMAL, outside_frame_c.w,
+		outside_frame_c.h, outside_frame_c.alpha);
+	_title_frame = std::make_unique<Frame>(_system, _display, _graphics, WindowFrameType::NORMAL, title_frame_c.w,
+		title_frame_c.h, title_frame_c.alpha);
+	_outside_frame->setPosition(_display.window->get_x(_outside_frame->sprite, outside_frame_c.x),
+		_display.window->get_y(_outside_frame->sprite, outside_frame_c.y));
+	_title_frame->setPosition(_display.window->get_x(_title_frame->sprite, title_frame_c.x),
+		_display.window->get_y(_title_frame->sprite, title_frame_c.y));
 
 	// Get the Cursor
 	_cursor = _display.window->get_cursor();
@@ -90,7 +86,7 @@ auto Sorcery::License::start() -> void {
 
 	// And do the main loop
 	sf::Event event {};
-	const unsigned int lines_to_display {frame_c.h - 9};
+	const unsigned int lines_to_display {outside_frame_c.h - 9};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
 
@@ -148,8 +144,8 @@ auto Sorcery::License::stop() -> void {
 
 auto Sorcery::License::_draw() -> void {
 
-	_window->draw(_frame);
-	_window->draw(_frame_top);
+	_window->draw(*_outside_frame);
+	_window->draw(*_title_frame);
 	_display.window->draw_text(_title_text, (*_display.layout)["license:gui_frame_title_text"]);
 	std::string progress = _textfile->get_reading_progress(_current_line);
 	_display.window->draw_text(_progress_text, (*_display.layout)["license:license_file_progress"], progress);

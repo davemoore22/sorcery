@@ -132,7 +132,7 @@ Sorcery::Frame::Frame(System& system, Display& display, Graphics& graphics, Wind
 		}();
 		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)].setPosition(0, y_pos);
 		_render_texture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)]);
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)].setPosition(texture_size.x - (border * 2),
+		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)].setPosition(texture_size.x - (border * 2) - 1,
 			y_pos);
 		_render_texture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)]);
 	}

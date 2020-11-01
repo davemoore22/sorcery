@@ -57,15 +57,11 @@ namespace Sorcery {
 			auto get_cell_width() -> unsigned int;
 			auto get_cursor() -> sf::Sprite;
 			auto get_gui() -> tgui::Gui*;
-			auto get_gui_frame(sf::RenderTexture& gui_frame_rt, sf::Texture& gui_frame_t, const unsigned int width_units,
-				const unsigned int height_units, unsigned int alpha) -> sf::Sprite;
 			auto get_window() -> sf::RenderWindow*;
 			auto get_x(sf::Sprite& sprite, int x_position) -> unsigned int;
 			auto get_y(sf::Sprite& sprite, int y_position) -> unsigned int;
 			auto lighten_colour(sf::Color colour, double lerp) -> sf::Color;
 			auto highlight_text(sf::Text& text, Component component, double lerp) -> sf::RectangleShape;
-			auto get_hint_frame(sf::RenderTexture& hint_frame_rt, sf::Texture& hint_frame_t,
-				const unsigned int width_units, const unsigned int height_units, unsigned int alpha) -> sf::Sprite;
 
 			// Public Members
 			std::vector<sf::Sprite> sprites;
