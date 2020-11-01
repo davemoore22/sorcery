@@ -31,6 +31,7 @@
 #include "menu.hpp"
 #include "confirm.hpp"
 #include "tooltip.hpp"
+#include "frame.hpp"
 
 namespace Sorcery {
 
@@ -83,6 +84,9 @@ namespace Sorcery {
 			std::shared_ptr<Confirm> _confirm_save;
 			std::shared_ptr<Confirm> _confirm_cancel;
 			std::shared_ptr<Confirm> _confirm_strict_on;
+			std::unique_ptr<Frame> _outside_frame;
+			std::unique_ptr<Frame> _title_frame;
+
 
 
 	};

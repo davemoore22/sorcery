@@ -28,6 +28,7 @@
 #include "display.hpp"
 #include "graphics.hpp"
 #include "layout.hpp"
+#include "frame.hpp"
 
 namespace Sorcery {
 
@@ -70,5 +71,7 @@ namespace Sorcery {
 			sf::Text _title_text;
 			sf::Text _progress_text;
 			sf::Text _line_text;
+			std::unique_ptr<Frame> _outside_frame;
+			std::unique_ptr<Frame> _title_frame;
 	};
 }

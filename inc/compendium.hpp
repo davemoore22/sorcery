@@ -28,6 +28,7 @@
 #include "display.hpp"
 #include "graphics.hpp"
 #include "layout.hpp"
+#include "frame.hpp"
 
 namespace Sorcery {
 
@@ -57,13 +58,12 @@ namespace Sorcery {
 			Display _display;
 			Graphics _graphics;
 			sf::RenderWindow* _window;
-			sf::Texture _gui_frame_texture;
 			sf::Font _mono_system_font;
 			sf::Font _proportional_system_font;
 			sfe::Movie _background_movie;
-			sf::Sprite _frame;
-			sf::Sprite _frame_top;
 			sf::Sprite _cursor;
 			sf::Text _title_text;
+			std::unique_ptr<Frame> _outside_frame;
+			std::unique_ptr<Frame> _title_frame;
 	};
 }
