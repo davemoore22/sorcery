@@ -75,11 +75,6 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 
 	_menu_stage = menu_stage;
 
-	sf::RenderTexture top_frame_rt;
-	sf::Texture top_frame_t;
-	sf::RenderTexture bottom_frame_rt;
-	sf::Texture bottom_frame_t;
-
 	// Get the Logo and scale it appropriately
 	Component logo_c {(*_display.layout)["main_menu_attract:logo_image"]};
 	_logo.setTexture(_system.resources->textures[LOGO_TEXTURE]);
@@ -96,25 +91,20 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	const ImageSize resized {static_cast<unsigned int>(_logo.getGlobalBounds().width),
 		static_cast<unsigned int>(_logo.getGlobalBounds().height)};
 	_logo.setPosition(_display.window->get_x(_logo, logo_c.x), _display.window->get_y(_logo, logo_c.y));
-		//_display.window->centre.x - (resized.w / 2), (resized.h / 2) - 50);
 
 	// Get Constituent Parts for the Main Menu
 	Component top_frame_c {(*_display.layout)["main_menu_attract:top_gui_frame"]};
-	Component bottom_frame_c {(*_display.layout)["main_menu_attract:bottom_gui_frame"]};
+	Component menu_frame_c {(*_display.layout)["main_menu_attract:bottom_gui_frame"]};
 	_attract_creatures_c = Component((*_display.layout)["main_menu_attract:attract_creatures"]);
+	_attract_frame = std::make_unique<Frame>(_system, _display, _graphics, WindowFrameType::NORMAL, top_frame_c.w,
+		top_frame_c.h, top_frame_c.alpha);
+	_menu_frame = std::make_unique<Frame>(_system, _display, _graphics, WindowFrameType::NORMAL, menu_frame_c.w,
+		menu_frame_c.h, menu_frame_c.alpha);
 
-	// Generate the frames
-	_top_frame = sf::Sprite(_display.window->get_gui_frame(top_frame_rt, top_frame_t, top_frame_c.w, top_frame_c.h,
-		top_frame_c.alpha));
-	const sf::Vector2f top_pos(_display.window->get_x(_top_frame, top_frame_c.x), _display.window->get_y(_top_frame,
-		top_frame_c.y));
-	_top_frame.setPosition(top_pos);
-
-	_bottom_frame = sf::Sprite(_display.window->get_gui_frame(bottom_frame_rt, bottom_frame_t, bottom_frame_c.w,
-		bottom_frame_c.h, bottom_frame_c.alpha));
-	const sf::Vector2f bottom_pos(_display.window->get_x(_bottom_frame, bottom_frame_c.x),
-		_display.window->get_y(_bottom_frame, bottom_frame_c.y));
-	_bottom_frame.setPosition(bottom_pos);
+	_attract_frame->setPosition(_display.window->get_x(_attract_frame->sprite, top_frame_c.x),
+		_display.window->get_y(_attract_frame->sprite, top_frame_c.y));
+	_menu_frame->setPosition(_display.window->get_x(_menu_frame->sprite, menu_frame_c.x),
+		_display.window->get_y(_menu_frame->sprite, menu_frame_c.y));
 
 	// Get the Cursor
 	_cursor = _display.window->get_cursor();
@@ -269,8 +259,8 @@ auto Sorcery::MainMenu::_draw() -> void {
 			_display.window->get_y(creatures, _attract_creatures_c.y));
 		creatures.setPosition(creature_pos);
 
-		_window->draw(_top_frame);
-		_window->draw(_bottom_frame);
+		_window->draw(*_attract_frame);
+		_window->draw(*_menu_frame);
 		_window->draw(creatures, sf::BlendAlpha);
 		_window->draw(_logo);
 

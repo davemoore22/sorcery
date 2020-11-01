@@ -27,6 +27,7 @@
 #include "system.hpp"
 #include "display.hpp"
 #include "graphics.hpp"
+#include "frame.hpp"
 
 namespace Sorcery {
 
@@ -66,5 +67,6 @@ namespace Sorcery {
 			sf::FloatRect _yes_background_rect;
 			sf::Text _no_text;
 			sf::Text _yes_text;
+			std::unique_ptr<Frame> _frame;
 	};
 }

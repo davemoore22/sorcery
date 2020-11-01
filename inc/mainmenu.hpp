@@ -30,6 +30,7 @@
 #include "layout.hpp"
 #include "menu.hpp"
 #include "confirm.hpp"
+#include "frame.hpp"
 
 namespace Sorcery {
 
@@ -86,7 +87,7 @@ namespace Sorcery {
 			sf::Text _subtitle_1;
 			sf::Text _subtitle_2;
 			sf::Text _copyright;
-
-
+			std::unique_ptr<Frame> _attract_frame;
+			std::unique_ptr<Frame> _menu_frame;
 	};
 }

@@ -54,12 +54,15 @@ Sorcery::Frame::Frame(System& system, Display& display, Graphics& graphics, Wind
 	}
 
 	// Get the Frame Components
-	unsigned int count = 0;
-	for (auto frame_sprite : _frame_sprites) {
+	unsigned int loop = 0;
+	for (auto& frame_sprite : _frame_sprites) {
 		frame_sprite = sf::Sprite(_system.resources->textures[UI_TEXTURE]);
-		frame_sprite.setTextureRect(_frame_parts[count]);
-		++count;
+		frame_sprite.setTextureRect(_frame_parts[loop]);
+		++loop;
 	}
+
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wreturn-type"
 
 	// Work out total size of texture needed from units
 	const unsigned int texture_size_x = [&] {
@@ -134,10 +137,16 @@ Sorcery::Frame::Frame(System& system, Display& display, Graphics& graphics, Wind
 		_render_texture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)]);
 	}
 
+	#pragma GCC diagnostic pop
+
 	// And draw
 	_render_texture.display();
 	_texture = _render_texture.getTexture();
 	_frame = sf::Sprite(_texture);
+
+	width = _frame.getLocalBounds().width;
+	height = _frame.getLocalBounds().height;
+	sprite = _frame;
 }
 
 // Standard Destructor

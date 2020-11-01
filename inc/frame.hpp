@@ -48,7 +48,9 @@ namespace Sorcery {
 			// Public Members
 
 			// Public Methods
-
+			unsigned int width;
+			unsigned int height;
+			sf::Sprite sprite;
 
 		private:
 
@@ -63,8 +65,6 @@ namespace Sorcery {
 			unsigned int _width_units;
 			unsigned int _height_units;
 			unsigned int _alpha;
-			unsigned int _width;
-			unsigned int _height;
 			sf::RenderWindow* _window;
 			std::array<sf::IntRect, 8> _frame_parts;
 			std::array<sf::Sprite, 8> _frame_sprites;

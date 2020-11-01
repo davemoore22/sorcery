@@ -241,7 +241,7 @@
 	"display.hpp"
 	"graphics.hpp"
 
-1602793198 /home/dave/Development/wizardry/sorcery-sfml/inc/mainmenu.hpp
+1604245663 /home/dave/Development/wizardry/sorcery-sfml/inc/mainmenu.hpp
 	"main.hpp"
 	"system.hpp"
 	"display.hpp"
@@ -249,6 +249,7 @@
 	"layout.hpp"
 	"menu.hpp"
 	"confirm.hpp"
+	"frame.hpp"
 
 1592596794 source:/home/dave/Development/wizardry/sorcery-sfml/src/banner.cpp
 	"banner.hpp"
@@ -296,7 +297,7 @@
 	"main.hpp"
 	"application.hpp"
 
-1603396499 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
+1604245010 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
 	"mainmenu.hpp"
 
 1590869110 source:/home/dave/Development/wizardry/sorcery-sfml/src/manage.cpp
@@ -356,11 +357,12 @@
 1603565650 source:/home/dave/Development/wizardry/sorcery-sfml/src/window.cpp
 	"window.hpp"
 
-1603028324 /home/dave/Development/wizardry/sorcery-sfml/inc/confirm.hpp
+1604245793 /home/dave/Development/wizardry/sorcery-sfml/inc/confirm.hpp
 	"main.hpp"
 	"system.hpp"
 	"display.hpp"
 	"graphics.hpp"
+	"frame.hpp"
 
 1603030981 source:/home/dave/Development/wizardry/sorcery-sfml/src/confirm.cpp
 	"confirm.hpp"
@@ -404,14 +406,15 @@
 1602935245 source:/home/dave/Development/wizardry/sorcery-sfml/src/compendium.cpp
 	"compendium.hpp"
 
-1603546318 /home/dave/Development/wizardry/sorcery-sfml/inc/tooltip.hpp
+1604237052 /home/dave/Development/wizardry/sorcery-sfml/inc/tooltip.hpp
 	"main.hpp"
 	"system.hpp"
 	"display.hpp"
 	"graphics.hpp"
 	"layout.hpp"
+	"frame.hpp"
 
-1603552360 source:/home/dave/Development/wizardry/sorcery-sfml/src/tooltip.cpp
+1604186949 source:/home/dave/Development/wizardry/sorcery-sfml/src/tooltip.cpp
 	"tooltip.hpp"
 
 1603552822 source:/home/dave/Development/wizardry/sorcery-sfml/src/game.cpp
@@ -435,4 +438,14 @@
 	"display.hpp"
 	"graphics.hpp"
 	"layout.hpp"
+
+1604244860 /home/dave/Development/wizardry/sorcery-sfml/inc/frame.hpp
+	"main.hpp"
+	"system.hpp"
+	"display.hpp"
+	"graphics.hpp"
+	"layout.hpp"
+
+1604244781 source:/home/dave/Development/wizardry/sorcery-sfml/src/frame.cpp
+	"frame.hpp"
 
