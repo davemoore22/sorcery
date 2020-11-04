@@ -35,11 +35,9 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructors
 			Window(std::string title, System& system, String& string, Layout& layout);
-
-			// Standard Destructor
-			virtual ~Window();
+			Window() = delete;
 
 			// Public Methods
 			auto change_colour(sf::Color colour, double lerp) -> sf::Color;

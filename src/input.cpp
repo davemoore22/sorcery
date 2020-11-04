@@ -29,11 +29,6 @@ Sorcery::Input::Input() {
 	_axis_sensitivity_min = -100;
 }
 
-// Standard Destructor
-Sorcery::Input::~Input() {
-
-}
-
 // Check for a type of input
 auto Sorcery::Input::check_for_event(WindowInput input, sf::Event event) -> bool {
 	switch (input) {

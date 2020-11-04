@@ -31,11 +31,9 @@ namespace Sorcery {
 	class Config {
 
 		public:
-			// Standard Constructor
-			explicit Config(CSimpleIniA *settings, const std::filesystem::path config_file_path);
-
-			// Standard Destructor
-			virtual ~Config();
+			// Constructors
+			Config(CSimpleIniA *settings, const std::filesystem::path config_file_path);
+			Config() = delete;
 
 			// Overload [] operator
 			auto operator[](const unsigned int i) -> bool &;

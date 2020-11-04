@@ -31,11 +31,9 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructors
 			String(const std::string& filename, const std::string &explain_filename);
-
-			// Standard Destructor
-			virtual ~String();
+			String() = delete;
 
 			// Overload [] operator
 			auto operator[] (const std::string& key) -> std::string&;

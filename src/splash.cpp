@@ -57,10 +57,6 @@ Sorcery::Splash::Splash (System& system, Display& display, Graphics& graphics): 
 	_splash.setPosition(splash_pos);
 }
 
-// Standard Destructor
-Sorcery::Splash::~Splash() {
-}
-
 auto Sorcery::Splash::start() -> void {
 	sf::Event input_event {};
 	while (!_finished) {

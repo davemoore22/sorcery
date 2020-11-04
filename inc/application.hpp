@@ -45,11 +45,12 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructors
 			Application(int argc, char**argv);
+			Application() = delete;
 
 			// Standard Destructor
-			virtual ~Application();
+			~Application();
 
 			// Overload [] operator (for file operations)
 			auto operator[] (const char* key) const -> std::string;

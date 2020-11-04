@@ -66,10 +66,6 @@ Sorcery::Window::Window(std::string title, System& system, String& string, Layou
 	tooltips.clear();
 }
 
-// Standard Destructor
-Sorcery::Window::~Window() {
-}
-
 auto Sorcery::Window::clear_window() -> void {
 	_window.clear();
 }

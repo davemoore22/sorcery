@@ -149,10 +149,6 @@ Sorcery::Frame::Frame(System& system, Display& display, Graphics& graphics, Wind
 	sprite = _frame;
 }
 
-// Standard Destructor
-Sorcery::Frame::~Frame() {
-}
-
 auto Sorcery::Frame::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();

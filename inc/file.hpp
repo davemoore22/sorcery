@@ -35,11 +35,8 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructors
 			File();
-
-			// Standard Destructor
-			virtual ~File();
 
 			// Public Methods
 			auto operator[] (std::string_view key) const -> std::filesystem::path;

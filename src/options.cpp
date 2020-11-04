@@ -53,7 +53,6 @@ Sorcery::Options::~Options() {
 		_background_movie.stop();
 }
 
-
 auto Sorcery::Options::start() -> void {
 
 	// On entry store the current settings

@@ -24,11 +24,10 @@
 #include "database.hpp"
 
 // Standard Constructor
-Sorcery::Database::Database(const std::filesystem::path &db_file_path):_db_file_path {db_file_path}
-{
+Sorcery::Database::Database(const std::filesystem::path &db_file_path):_db_file_path {db_file_path} {
 	try {
+
 		// Attempt to connect to the database to check it is valid
-		//const std::string _db_path {_db_file_path.string()};
 		sqlite::database database(_db_file_path.string());
 		const std::string check_valid_db_SQL {"pragma schema_version"};
  		database << check_valid_db_SQL >> [&](int return_code) {
@@ -39,16 +38,10 @@ Sorcery::Database::Database(const std::filesystem::path &db_file_path):_db_file_
 	}
 }
 
-// Standard Destructor
-Sorcery::Database::~Database()
-{
-}
-
 // Get the Character List
-auto Sorcery::Database::get_character_list() -> std::vector<CharacterList>
-{
+auto Sorcery::Database::get_character_list() -> std::vector<CharacterList> {
+
 	std::vector<CharacterList> character_list;
-	//const std::string _db_path {_db_file_path.string()};
 	sqlite::database database(_db_file_path.string());
 
 	const std::string get_character_list_SQL {

@@ -33,11 +33,9 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructors
 			Layout(const std::filesystem::path filename);
-
-			// Standard Destructor
-			virtual ~Layout();
+			Layout() = delete;
 
 			// Overload [] operator
 			auto operator[] (const std::string& combined_key) -> Component&;

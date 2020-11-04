@@ -38,11 +38,12 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructors
 			Template(System& system, Display& display, Graphics& graphics);
+			Template() = delete;
 
-			// Standard Destructor
-			virtual ~Template();
+			// Destructor
+			 ~Template();
 
 			// Public Members
 

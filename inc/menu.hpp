@@ -34,11 +34,10 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructors
 			Menu(System& system, Display& display, Graphics& graphics, MenuType type);
+			Menu() = delete;
 
-			// Standard Destructor
-			virtual ~Menu();
 
 			// Overload [] operator
 			auto operator[] (const unsigned int index) -> const MenuEntry&;

@@ -42,11 +42,10 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructors
 			System(int argc, char** argv);
+			System() = delete;
 
-			// Standard Destructor
-			virtual ~System();
 
 			// Public Methods
 
@@ -58,8 +57,6 @@ namespace Sorcery {
 			std::shared_ptr<Database> database;
 			std::shared_ptr<ResourceManager> resources;
 			std::shared_ptr<Input> input;
-
-			/// Need an input class that detects if a key is pressed, e.g. for select its space/enter/mouse left click/joypad buttons
 
 			// also need for each class to contain a list of mouse-sensitive area based upon component, so that you can check if a mouse cursor is in
 			// a component

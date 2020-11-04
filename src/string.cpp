@@ -34,11 +34,6 @@ Sorcery::String::String(const std::string &filename, const std::string &explain_
 
 	// Check result
 	_loaded = (loadresult) && (explain_loadresult);
-
-}
-
-// Standard Destructor
-Sorcery::String::~String() {
 }
 
 // Overload [] Operator

@@ -29,10 +29,6 @@ Sorcery::Config::Config(CSimpleIniA* settings, const std::filesystem::path confi
 	_load();
 }
 
-// Standard Destructor
-Sorcery::Config::~Config() {
-}
-
 // Overload [] operator - remember if this is a pointer, use the (*options)[i]
 // syntax to deference properly!
 auto Sorcery::Config::operator [](const unsigned int i) -> bool& {

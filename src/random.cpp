@@ -59,12 +59,6 @@ Sorcery::Random::Random()
     _range[RandomType::ZERO_TO_129] = std::make_tuple(0, 129);
     _range[RandomType::ZERO_TO_299] = std::make_tuple(0, 299);
 }
-
-// Standard Destructor
-Sorcery::Random::~Random()
-{
-}
-
 // Overload [] operator
 auto Sorcery::Random::operator[] (const RandomType random_type) -> unsigned int
 {

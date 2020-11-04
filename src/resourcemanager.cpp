@@ -57,7 +57,3 @@ Sorcery::ResourceManager::ResourceManager(File& files): _files {files} {
 		std::cout << e.what() << std::endl;
 	}
 }
-
-// Standard Destructor
-Sorcery::ResourceManager::~ResourceManager() {
-}

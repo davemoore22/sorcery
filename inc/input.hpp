@@ -31,11 +31,8 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructor
 			Input();
-
-			// Standard Destructor
-			virtual ~Input();
 
 			// Public Members
 

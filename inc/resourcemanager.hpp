@@ -33,11 +33,9 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructors
 			ResourceManager(File& files);
-
-			// Standard Destructor
-			virtual ~ResourceManager();
+			ResourceManager() = delete;
 
 			// Public Members
 			thor::ResourceHolder<sf::Texture, std::string_view> textures;
@@ -49,7 +47,6 @@ namespace Sorcery {
 		private:
 
 			// Private Methods
-
 
 			// Private Members
 			File _files;

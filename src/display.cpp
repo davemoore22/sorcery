@@ -25,14 +25,10 @@
 
 // Standard Constructor
 Sorcery::Display::Display(System* system) {
+
 	string = std::make_shared<String>((*system->files)[STRINGS_FILE], (*system->files)[EXPLAIN_FILE]);
 	std::string window_title {string->get("TITLE_AND_VERSION_INFO")};
 	layout = std::make_shared<Layout>((*system->files)[LAYOUT_FILE]);
 	window = std::make_shared<Window>(window_title, *system, *string, *layout);
 }
-
-// Standard Destructor
-Sorcery::Display::~Display() {
-}
-
 

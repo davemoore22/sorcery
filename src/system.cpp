@@ -49,8 +49,3 @@ Sorcery::System::System(int argc __attribute__((unused)), char** argv __attribut
 	input = std::make_shared<Input>();
 }
 
-// Standard Destructor
-Sorcery::System::~System() {
-}
-
-

@@ -37,11 +37,9 @@ namespace Sorcery {
 	class Graphics {
 		public:
 
-			// Standard Constructor
+			// Constructors
 			Graphics(System* system, Display* display);
-
-			// Standard Destructor
-			virtual  ~Graphics();
+			Graphics() = delete;
 
 			// Public Methods
 

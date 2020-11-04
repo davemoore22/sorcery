@@ -34,11 +34,9 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructors
 			Banner(System& system, Display& display, Graphics& graphics);
-
-			// Standard Destructor
-			virtual ~Banner();
+			Banner() = delete;
 
 			// Public Members
 

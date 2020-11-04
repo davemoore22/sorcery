@@ -33,11 +33,9 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructors
 			TextFile(std::filesystem::path text_file_path);
-
-			// Standard Destructor
-			virtual ~TextFile();
+			TextFile() = delete;
 
 			// Overloaded [] operator to get access to each line of the contained file
 			auto operator[] (const unsigned int index) -> std::string&;

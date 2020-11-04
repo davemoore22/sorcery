@@ -32,10 +32,6 @@ Sorcery::Confirm::Confirm(System& system, Display& display, Graphics& graphics, 
 	currently_highlighted = WindowConfirm::NO;
 }
 
-// Standard Destructor
-Sorcery::Confirm::~Confirm() {
-
-}
 
 auto Sorcery::Confirm::check_for_mouse_move(sf::Vector2f mouse_position) -> std::optional<WindowConfirm> {
 	if (_yes_background_rect.contains(mouse_position)) {

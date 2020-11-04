@@ -35,12 +35,10 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructors
 			Confirm(System& system, Display& display, Graphics& graphics, Component& gui_component,
 				Component& text_component);
-
-			// Standard Destructor
-			virtual ~Confirm();
+			Confirm() = delete;
 
 			// Public Members
 			WindowConfirm currently_highlighted;

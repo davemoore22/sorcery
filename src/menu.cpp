@@ -124,10 +124,6 @@ Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuTy
 	}
 }
 
-// Standard Destructor
-Sorcery::Menu::~Menu() {
-}
-
 // Overload [] Operator
 auto Sorcery::Menu::operator [] (const unsigned int index) -> const MenuEntry& {
 	return items.at(index);

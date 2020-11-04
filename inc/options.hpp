@@ -39,11 +39,12 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructors
 			Options(System& system, Display& display, Graphics& graphics);
+			Options() = delete;
 
-			// Standard Destructor
-			virtual ~Options();
+			// Destructor
+			 ~Options();
 
 			// Public Members
 

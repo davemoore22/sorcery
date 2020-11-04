@@ -43,10 +43,6 @@ Sorcery::Layout::Layout(const std::filesystem::path filename) {
 	}
 }
 
-// Standard Destructor
-Sorcery::Layout::~Layout() {
-}
-
 // Overload [] Operator
 auto Sorcery::Layout::operator [] (const std::string& combined_key) -> Component& {
 

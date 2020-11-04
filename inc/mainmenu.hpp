@@ -38,8 +38,9 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructors
 			MainMenu(System& system, Display& display, Graphics& graphics);
+			MainMenu() = delete;
 
 			// Standard Destructor
 			virtual ~MainMenu();

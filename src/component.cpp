@@ -61,6 +61,3 @@ auto Sorcery::Component::operator= (const Component &other) -> Component& {
 
 	return *this;
 }
-
-// Standard Destructor
-Sorcery::Component::~Component() = default;

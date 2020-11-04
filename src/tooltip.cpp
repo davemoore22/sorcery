@@ -33,6 +33,7 @@ Sorcery::Tooltip::Tooltip (System& system, Display& display, Graphics& graphics)
 	// Get the standard layout information
 	_layout = Component((*_display.layout)["global:tooltip"]);
 
+	// Not valid until we call the set command
 	valid = false;
 }
 
@@ -42,8 +43,6 @@ auto Sorcery::Tooltip::set(std::string& string) -> void {
 	_texts.clear();
 	_width = 0;
 	_height = 0;
-	//_frame_texture = sf::Texture();
-	//_frame = sf::Sprite();
 
 	// Get the display lines
 	const std::regex regex(R"([#]+)");
@@ -79,20 +78,12 @@ auto Sorcery::Tooltip::set(std::string& string) -> void {
 	_width = max_length + 4;
 	_height = _strings.size() + 4;
 
-	// Get the frame
+	// Get the frame (remember that the Frame has a Background set to Alpha)
 	_frame = std::make_unique<Frame>(_system, _display, _graphics, WindowFrameType::HINT, _width / 2.15f,
 		_height / 2.0f, _layout.alpha);
 
-	// Get the background
-	// _background = sf::RectangleShape(sf::Vector2f((_width * 18) - 18, (_height * 18) - 18));
-	// _background.setFillColor(sf::Color(0, 0, 0, _layout.alpha));
-	// _background.setPosition(9, 9);
-
+	// We're ok to draw it now
 	valid = true;
-}
-
-// Standard Destructor
-Sorcery::Tooltip::~Tooltip() {
 }
 
 auto Sorcery::Tooltip::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {

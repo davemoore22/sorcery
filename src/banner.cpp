@@ -56,10 +56,6 @@ Sorcery::Banner::Banner(System& system, Display& display, Graphics& graphics):  
 	_banner.setPosition(banner_pos);
 }
 
-// Standard Destructor
-Sorcery::Banner::~Banner() {
-}
-
 auto Sorcery::Banner::start() -> void {
 	sf::Event input_event {};
 	while (!_finished) {

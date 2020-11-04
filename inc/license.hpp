@@ -36,11 +36,11 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructor
 			License(System& system, Display& display, Graphics& graphics);
 
-			// Standard Destructor
-			virtual ~License();
+			// Destructor
+			~License();
 
 			// Public Members
 

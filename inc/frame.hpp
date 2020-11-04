@@ -38,12 +38,10 @@ namespace Sorcery {
 
 	public:
 
-			// Standard Constructor
+			// Constructors
 			Frame(System& system, Display& display, Graphics& graphics, WindowFrameType _type,
 				const unsigned int width_units, const unsigned int height_units, const unsigned int alpha);
-
-			// Standard Destructor
-			virtual ~Frame();
+			Frame() = delete;
 
 			// Public Members
 

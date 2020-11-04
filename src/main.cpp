@@ -25,8 +25,7 @@
 #include "main.hpp"
 #include "application.hpp"
 
-auto main(int argc, char *argv[]) -> int
-{
+auto main(int argc, char *argv[]) -> int {
 
 	// Create an application
 	auto app = std::make_unique<Sorcery::Application>(argc, argv);

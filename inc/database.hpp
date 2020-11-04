@@ -31,11 +31,9 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructors
 			Database(const std::filesystem::path &db_file_path);
-
-			// Standard Destructor
-			virtual ~Database();
+			Database() = delete;
 
 			// Public Methods
 			auto get_character_list() -> std::vector<CharacterList>;

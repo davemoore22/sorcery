@@ -35,14 +35,11 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructors
 			Splash(System& system, Display& display, Graphics& graphics);
-
-			// Standard Destructor
-			virtual ~Splash();
+			Splash() = delete;
 
 			// Public Members
-
 
 			// Public Methods
 			auto start() -> void;

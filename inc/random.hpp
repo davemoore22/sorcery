@@ -32,11 +32,8 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructor
 			Random();
-
-			// Standard Destructor
-			virtual ~Random();
 
 			// Overload [] operator
 			auto operator[] (const RandomType random_type) -> unsigned int;

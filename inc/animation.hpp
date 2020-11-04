@@ -33,11 +33,12 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructors
 			Animation(System& system, Display& display);
+			Animation() = delete;
 
 			// Standard Destructor
-			virtual ~Animation();
+			~Animation();
 
 			// Public Members
 			double colour_lerp;

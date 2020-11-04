@@ -38,9 +38,10 @@ namespace Sorcery {
 
 			// Standard Constructor
 			Compendium(System& system, Display& display, Graphics& graphics);
+			Compendium() = delete;
 
 			// Standard Destructor
-			virtual ~Compendium();
+			~Compendium();
 
 			// Public Members
 

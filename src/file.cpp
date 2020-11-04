@@ -52,10 +52,6 @@ Sorcery::File::File() {
 	_add_path(VIDEO_DIR, MENU_VIDEO);
 }
 
-// Standard Destructor
-Sorcery::File::~File() {
-}
-
 // Overload [] Operator
 auto Sorcery::File::operator [](std::string_view key) const -> std::filesystem::path {
 	if (_file_paths.find(key) != _file_paths.end())

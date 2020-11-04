@@ -42,14 +42,11 @@ namespace Sorcery {
 
 		public:
 
-			// Standard Constructor
+			// Constructors
 			Display(System* system);
-
-			// Standard Destructor
-			virtual ~Display();
+			Display() = delete;
 
 			// Public Methods
-			auto render() -> void;
 
 			// Public Members
 			std::shared_ptr<String> string;
