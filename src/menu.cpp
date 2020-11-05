@@ -198,21 +198,27 @@ auto Sorcery::Menu::check_menu_mouseover(sf::Vector2f mouse_position) ->
 // Check if the mouse cursor is on a menu item, and if so set it
 auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_position) ->
 	std::optional<std::vector<MenuEntry>::const_iterator> {
-	bool found {false};
-	std::vector<sf::FloatRect>::const_iterator working_bounds {bounds.begin()};
-	std::vector<MenuEntry>::const_iterator working_items {items.begin()};
-	do {
-		if (working_bounds->contains(mouse_position)) {
-			found = true;
-			selected = working_items;
-			return working_items;
-		}
 
-		++working_bounds;
-		++working_items;
+	if (bounds.size() > 0) {
+		bool found {false};
+		std::vector<sf::FloatRect>::const_iterator working_bounds {bounds.begin()};
+		std::vector<MenuEntry>::const_iterator working_items {items.begin()};
+		do {
+			if (working_bounds->contains(mouse_position)) {
+				found = true;
+				selected = working_items;
+				return working_items;
+			}
+
+			++working_bounds;
+			++working_items;
 		} while ((working_bounds < bounds.end()) && (!found));
 
-	// If we reach here the mouse cursor is outside the items so we don't do anything
+		// If we reach here the mouse cursor is outside the items so we don't do anything
+		return std::nullopt;
+	}
+
+	// And if we reach here it means that bounds (which requites a draw to take place, hasn't been populated yet)
 	return std::nullopt;
 }
 
