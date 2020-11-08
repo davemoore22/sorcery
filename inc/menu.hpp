@@ -27,10 +27,11 @@
 #include "system.hpp"
 #include "display.hpp"
 #include "graphics.hpp"
+#include "component.hpp"
 
 namespace Sorcery {
 
-	class Menu {
+	class Menu: public sf::Transformable, public sf::Drawable {
 
 		public:
 
@@ -61,10 +62,12 @@ namespace Sorcery {
 			auto get_mouse_clicked(sf::Event::MouseButtonEvent mouse_button_event) ->
 				std::optional<std::vector<MenuEntry>::const_iterator>;
 			auto get_type() -> MenuType;
+			auto generate(Component& component, double selected_lerp) -> void;
 
 		private:
 
 			// Private Methods
+			auto virtual draw(sf::RenderTarget& target, sf::RenderStates states) const -> void;
 			auto _add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string& key,
 				bool enabled, ConfigOption option, std::string& hint) -> void;
 			auto _add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string& key) -> void;
@@ -78,6 +81,11 @@ namespace Sorcery {
 			sf::RenderWindow* _window;
 			unsigned int _width;
 			MenuType _type;
+			sf::RenderTexture _render_texture;
+			sf::Texture _texture;
+			std::vector<sf::Text> _texts;
+			std::vector<sf::Text> _options;
+			sf::RectangleShape _selected_background;
 
 	};
 }

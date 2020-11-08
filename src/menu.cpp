@@ -291,3 +291,156 @@ auto Sorcery::Menu::choose_next() -> std::optional<std::vector<MenuEntry>::const
 
 	return std::nullopt;
 }
+
+auto Sorcery::Menu::generate(Component& component, double selected_lerp) -> void {
+
+	int entry_x {0};
+	int entry_y {0};
+	int option_x {0};
+	int option_y {0};
+	int count{0};
+
+	// In case we are generating the Options Menu
+	Component on_component {(*_display.layout)["options:option_on"]};
+	Component off_component {(*_display.layout)["options:option_off"]};
+
+	// Work out total size of texture needed
+	const unsigned int texture_size_x {component.w * _display.window->get_cell_width()};
+	const unsigned int texture_size_y {component.h * _display.window->get_cell_height()};
+	const sf::Vector2f texture_size(texture_size_x, texture_size_y);
+	_render_texture.create(texture_size.x, texture_size.y);
+
+	// Bounds are generated for each menu item to handle mouse over
+	_texts.clear();
+	_options.clear();
+	bounds.clear();
+	for (std::vector<MenuEntry>::const_iterator it = items.begin(); it != items.end(); ++it) {
+		if (((*it).type == MenuItemType::TEXT) || ((*it).type == MenuItemType::ENTRY) ||
+			((*it).type == MenuItemType::SAVE) || ((*it).type == MenuItemType::CANCEL)) {
+			std::string text_string {(*it).key};
+			sf::Text text;
+			text.setFont(_system.resources->fonts[component.font]);
+			text.setCharacterSize(component.size);
+			text.setFillColor(sf::Color(component.colour));
+			text.setString(text_string);
+
+			// Check for alignment and set location appropriately
+			entry_x = component.x == -1 ? texture_size_x / 2 :  0;
+			entry_y += _display.window->get_cell_height();
+			text.setPosition(entry_x, entry_y);
+
+			// If we have a selected entry, change the background colour
+			if (selected == it) {
+				sf::FloatRect background_rect {text.getLocalBounds()};
+				sf::RectangleShape background(sf::Vector2f(component.width * _display.window->get_cell_width(),
+					background_rect.height + 2));
+				if (component.justification == Justification::CENTRE)
+					background.setOrigin(background.getGlobalBounds().width / 2.0f, -3);
+				else
+					background.setOrigin(0, -3);
+				if (component.animated)
+					background.setFillColor(_display.window->change_colour(sf::Color(component.background),
+						selected_lerp));
+				else
+					background.setFillColor(sf::Color(component.background));
+				text.setFillColor(sf::Color(component.colour));
+				text.setOutlineColor(sf::Color(0, 0, 0));
+				text.setOutlineThickness(2);
+
+				_selected_background = background;
+			}
+
+			// Handle Justification
+			if (_type == MenuType::OPTIONS) {
+				if ((*it).type == MenuItemType::ENTRY) {
+					if (component.justification == Justification::CENTRE)
+						text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+					else
+						text.setOrigin(0, text.getLocalBounds().height / 2.0f);
+				} else if (((*it).type == MenuItemType::SAVE) || ((*it).type == MenuItemType::CANCEL)) {
+					entry_x =  (component.x / 2) + ((component.width * _display.window->get_cell_height()) / 2);
+					text.setPosition(entry_x, entry_y);
+					text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+				}
+			} else {
+				if (component.justification == Justification::CENTRE)
+					text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+				else
+					text.setOrigin(0, text.getLocalBounds().height / 2.0f);
+			}
+
+			_texts.emplace_back(text);
+
+			// Now handle the tooltips!
+			if (((*it).type == MenuItemType::ENTRY) || ((*it).type == MenuItemType::SAVE) ||
+				((*it).type == MenuItemType::CANCEL)) {
+				sf::FloatRect actual_rect {text.getGlobalBounds()};
+				bounds.push_back(actual_rect);
+				WindowTooltipList::iterator tooltipit = _display.window->tooltips.find((*it).hint);
+				if (tooltipit == _display.window->tooltips.end())
+					_display.window->tooltips[(*it).hint] = actual_rect;
+			} else {
+				sf::FloatRect actual_rect;
+				bounds.push_back(actual_rect);
+					WindowTooltipList::iterator tooltipit = _display.window->tooltips.find((*it).hint);
+				if (tooltipit == _display.window->tooltips.end())
+					_display.window->tooltips[(*it).hint] = actual_rect;
+			}
+
+
+			// Add options in case of the Options Menu
+			if ((_type == MenuType::OPTIONS) && ((*it).type == MenuItemType::ENTRY)) {
+				option_y = entry_y;
+				option_x = component.width * _display.window->get_cell_height();
+				const bool option_value {(*_system.config)[(*it).config] ? true : false};
+				sf::Text option_text {};
+				if (option_value) {
+
+					// On
+					option_text.setFont(_system.resources->fonts[on_component.font]);
+					option_text.setCharacterSize(on_component.size);
+					option_text.setFillColor(sf::Color(on_component.colour));
+					option_text.setString((*_display.string)[on_component.string_key]);
+					sf::FloatRect bounds = option_text.getLocalBounds();
+					option_text.setPosition(option_x - bounds.width, option_y);
+					option_text.setOrigin(0, option_text.getLocalBounds().height / 2.0f);
+				} else {
+
+					// Off
+					option_text.setFont(_system.resources->fonts[off_component.font]);
+					option_text.setCharacterSize(off_component.size);
+					option_text.setFillColor(sf::Color(off_component.colour));
+					option_text.setString((*_display.string)[off_component.string_key]);
+					sf::FloatRect bounds = option_text.getLocalBounds();
+					option_text.setPosition(option_x - bounds.width, option_y);
+					option_text.setOrigin(0, option_text.getLocalBounds().height / 2.0f);
+				}
+
+				if (selected == it) {
+					option_text.setOutlineColor(sf::Color(0, 0, 0));
+					option_text.setOutlineThickness(2);
+				}
+
+				_options.emplace_back(option_text);
+			}
+		} else {
+			sf::FloatRect actual_rect;
+			bounds.push_back(actual_rect);
+		}
+		count++;
+	}
+
+}
+
+auto Sorcery::Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
+
+	states.transform *= getTransform();
+
+	target.draw(_selected_background, states);
+	for (auto& text: _texts)
+		target.draw(text, states);
+
+	if (_type == MenuType::OPTIONS)
+		for (auto& option: _options)
+			target.draw(option, states);
+}

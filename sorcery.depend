@@ -213,11 +213,12 @@
 	"display.hpp"
 	"animation.hpp"
 
-1604517123 /home/dave/Development/wizardry/sorcery-sfml/inc/menu.hpp
+1604847558 /home/dave/Development/wizardry/sorcery-sfml/inc/menu.hpp
 	"main.hpp"
 	"system.hpp"
 	"display.hpp"
 	"graphics.hpp"
+	"component.hpp"
 
 1604517497 /home/dave/Development/wizardry/sorcery-sfml/inc/textfile.hpp
 	"main.hpp"
@@ -370,7 +371,7 @@
 1604516822 /home/dave/Development/wizardry/sorcery-sfml/inc/input.hpp
 	"main.hpp"
 
-1604516772 source:/home/dave/Development/wizardry/sorcery-sfml/src/input.cpp
+1604614742 source:/home/dave/Development/wizardry/sorcery-sfml/src/input.cpp
 	"input.hpp"
 
 1604516942 /home/dave/Development/wizardry/sorcery-sfml/inc/license.hpp
