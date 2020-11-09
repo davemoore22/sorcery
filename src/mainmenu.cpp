@@ -274,8 +274,11 @@ auto Sorcery::MainMenu::_draw() -> void {
 			_display.window->draw_text(_subtitle_2, (*_display.layout)["main_menu_attract:subtitle_2"]);
 			_display.window->draw_text(_copyright, (*_display.layout)["main_menu_attract:copyright"]);
 		} else {
-			_display.window->draw_menu(_main_menu->items, _main_menu->bounds, _main_menu->selected,
-				(*_display.layout)["main_menu_attract:main_menu"], _main_menu->get_type(), lerp);
+			_main_menu->generate((*_display.layout)["main_menu_attract:main_menu"], lerp);
+			const sf::Vector2f menu_pos((*_display.layout)["main_menu_attract:main_menu"].x,
+				(*_display.layout)["main_menu_attract:main_menu"].y);
+			_main_menu->setPosition(menu_pos);
+			_window->draw(*_main_menu);
 			if (_display.window->input_mode == WindowInputMode::CONFIRM) {
 				_confirm_exit->draw(lerp);
 			}

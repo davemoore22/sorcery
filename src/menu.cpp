@@ -200,6 +200,11 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_position) ->
 	std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	if (bounds.size() > 0) {
+		sf::Vector2f global_pos = this->getPosition();
+		mouse_position -= global_pos;
+
+
+// get plosition from transformation and subtrac tto check for mouse over
 		bool found {false};
 		std::vector<sf::FloatRect>::const_iterator working_bounds {bounds.begin()};
 		std::vector<MenuEntry>::const_iterator working_items {items.begin()};
@@ -304,6 +309,8 @@ auto Sorcery::Menu::generate(Component& component, double selected_lerp) -> void
 	Component on_component {(*_display.layout)["options:option_on"]};
 	Component off_component {(*_display.layout)["options:option_off"]};
 
+	const sf::Vector2f global_pos(component.x, component.y);
+
 	// Work out total size of texture needed
 	const unsigned int texture_size_x {component.w * _display.window->get_cell_width()};
 	const unsigned int texture_size_y {component.h * _display.window->get_cell_height()};
@@ -325,7 +332,7 @@ auto Sorcery::Menu::generate(Component& component, double selected_lerp) -> void
 			text.setString(text_string);
 
 			// Check for alignment and set location appropriately
-			entry_x = component.x == -1 ? texture_size_x / 2 :  0;
+			entry_x = (component.justification == Justification::CENTRE) ? texture_size_x / 2 :  0;
 			entry_y += _display.window->get_cell_height();
 			text.setPosition(entry_x, entry_y);
 
@@ -334,10 +341,7 @@ auto Sorcery::Menu::generate(Component& component, double selected_lerp) -> void
 				sf::FloatRect background_rect {text.getLocalBounds()};
 				sf::RectangleShape background(sf::Vector2f(component.width * _display.window->get_cell_width(),
 					background_rect.height + 2));
-				if (component.justification == Justification::CENTRE)
-					background.setOrigin(background.getGlobalBounds().width / 2.0f, -3);
-				else
-					background.setOrigin(0, -3);
+				background.setPosition(0, entry_y);
 				if (component.animated)
 					background.setFillColor(_display.window->change_colour(sf::Color(component.background),
 						selected_lerp));

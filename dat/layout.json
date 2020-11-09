@@ -117,13 +117,15 @@
 		},
 		{
 			"name": "main_menu",
-			"x": "centre",
-			"y": "27",
+			"x": "13",
+			"y": "26",
+			"w": "54",
+			"h": "6",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
 			"animated": "true",
-			"width": 54,
+			"width": "54",
 			"background": "0x6060c8ff",
 			"justification": "centre"
 		},
