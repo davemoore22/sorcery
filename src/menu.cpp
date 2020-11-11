@@ -381,8 +381,7 @@ auto Sorcery::Menu::generate(Component& component, double selected_lerp) -> void
 			_texts.emplace_back(text);
 
 			// Now handle the tooltips!
-			if (((*it).type == MenuItemType::ENTRY) || ((*it).type == MenuItemType::SAVE) ||
-				((*it).type == MenuItemType::CANCEL)) {
+			if ((*it).type == MenuItemType::ENTRY) {
 				sf::FloatRect actual_rect {text.getGlobalBounds()};
 				bounds.push_back(actual_rect);
 				WindowTooltipList::iterator tooltipit = _display.window->tooltips.find((*it).hint);
