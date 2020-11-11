@@ -62,6 +62,9 @@ auto Sorcery::Application::start() -> void {
 	std::optional<MenuItem> option_chosen {MenuItem::NONE};
 	MainMenuType menu_stage {MainMenuType::ATTRACT_MODE};
 	do {
+		_options->start();
+		_options->stop();
+
 		option_chosen = _mainmenu->start(menu_stage);
 		_mainmenu->stop();
 		if (option_chosen) {

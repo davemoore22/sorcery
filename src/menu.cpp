@@ -180,18 +180,26 @@ auto Sorcery::Menu::_select_last_enabled() -> std::optional<std::vector<MenuEntr
 // Check if the mouse cursor is on a menu item
 auto Sorcery::Menu::check_menu_mouseover(sf::Vector2f mouse_position) ->
 	std::optional<std::vector<MenuEntry>::const_iterator> {
-	bool found {false};
-	std::vector<sf::FloatRect>::const_iterator working_bounds {bounds.begin()};
-	std::vector<MenuEntry>::const_iterator working_items {items.begin()};
-	do {
-		if (working_bounds->contains(mouse_position))
-			return working_items;
 
-		++working_bounds;
-		++working_items;
-		} while ((working_bounds < bounds.end()) && (!found));
+	if (bounds.size() > 0) {
+		bool found {false};
+		sf::Vector2f global_pos {this->getPosition()};
+		mouse_position -= global_pos;
+		std::vector<sf::FloatRect>::const_iterator working_bounds {bounds.begin()};
+		std::vector<MenuEntry>::const_iterator working_items {items.begin()};
+		do {
+			if (working_bounds->contains(mouse_position))
+				return working_items;
 
-	// If we reach here the mouse cursor is outside the items so we don't do anything
+			++working_bounds;
+			++working_items;
+			} while ((working_bounds < bounds.end()) && (!found));
+
+		// If we reach here the mouse cursor is outside the items so we don't do anything
+		return std::nullopt;
+	}
+
+	// And if we reach here it means that bounds (which requites a draw to take place, hasn't been populated yet)
 	return std::nullopt;
 }
 
@@ -200,11 +208,8 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_position) ->
 	std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	if (bounds.size() > 0) {
-		sf::Vector2f global_pos = this->getPosition();
+		sf::Vector2f global_pos {this->getPosition()};
 		mouse_position -= global_pos;
-
-
-// get plosition from transformation and subtrac tto check for mouse over
 		bool found {false};
 		std::vector<sf::FloatRect>::const_iterator working_bounds {bounds.begin()};
 		std::vector<MenuEntry>::const_iterator working_items {items.begin()};
@@ -339,7 +344,7 @@ auto Sorcery::Menu::generate(Component& component, double selected_lerp) -> void
 			// If we have a selected entry, change the background colour
 			if (selected == it) {
 				sf::FloatRect background_rect {text.getLocalBounds()};
-				sf::RectangleShape background(sf::Vector2f(component.width * _display.window->get_cell_width(),
+				sf::RectangleShape background(sf::Vector2f(component.w * _display.window->get_cell_width(),
 					background_rect.height + 2));
 				background.setPosition(0, entry_y);
 				if (component.animated)
@@ -362,7 +367,7 @@ auto Sorcery::Menu::generate(Component& component, double selected_lerp) -> void
 					else
 						text.setOrigin(0, text.getLocalBounds().height / 2.0f);
 				} else if (((*it).type == MenuItemType::SAVE) || ((*it).type == MenuItemType::CANCEL)) {
-					entry_x =  (component.x / 2) + ((component.width * _display.window->get_cell_height()) / 2);
+					entry_x =  ((component.width * _display.window->get_cell_width()) / 2);
 					text.setPosition(entry_x, entry_y);
 					text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 				}
@@ -386,16 +391,15 @@ auto Sorcery::Menu::generate(Component& component, double selected_lerp) -> void
 			} else {
 				sf::FloatRect actual_rect;
 				bounds.push_back(actual_rect);
-					WindowTooltipList::iterator tooltipit = _display.window->tooltips.find((*it).hint);
+				WindowTooltipList::iterator tooltipit = _display.window->tooltips.find((*it).hint);
 				if (tooltipit == _display.window->tooltips.end())
 					_display.window->tooltips[(*it).hint] = actual_rect;
 			}
 
-
 			// Add options in case of the Options Menu
 			if ((_type == MenuType::OPTIONS) && ((*it).type == MenuItemType::ENTRY)) {
 				option_y = entry_y;
-				option_x = component.width * _display.window->get_cell_height();
+				option_x = component.w * _display.window->get_cell_width();
 				const bool option_value {(*_system.config)[(*it).config] ? true : false};
 				sf::Text option_text {};
 				if (option_value) {
@@ -430,6 +434,7 @@ auto Sorcery::Menu::generate(Component& component, double selected_lerp) -> void
 		} else {
 			sf::FloatRect actual_rect;
 			bounds.push_back(actual_rect);
+			entry_y += _display.window->get_cell_height();
 		}
 		count++;
 	}

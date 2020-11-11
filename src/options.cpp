@@ -176,8 +176,11 @@ auto Sorcery::Options::_draw() -> void {
 
 	double lerp = _graphics.animation->colour_lerp;
 
-	_display.window->draw_menu(_options_menu->items, _options_menu->bounds, _options_menu->selected,
-		(*_display.layout)["options:options_menu"], _options_menu->get_type(), lerp);
+	_options_menu->generate((*_display.layout)["options:options_menu"], lerp);
+	const sf::Vector2f menu_pos((*_display.layout)["options:options_menu"].x,
+		(*_display.layout)["options:options_menu"].y);
+	_options_menu->setPosition(menu_pos);
+	_window->draw(*_options_menu);
 
 	_display.window->draw_text(_gameplay_text, (*_display.layout)["options:subtitle_gameplay"]);
 	_display.window->draw_text(_graphics_text, (*_display.layout)["options:subtitle_graphics"]);

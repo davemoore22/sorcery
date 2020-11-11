@@ -27,9 +27,9 @@
 			<Cursor1 position="2720" topLine="61" />
 		</Cursor>
 	</File>
-	<File name="src/menu.cpp" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/menu.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="10348" topLine="180" />
+			<Cursor1 position="17518" topLine="377" />
 		</Cursor>
 	</File>
 	<File name="src/compendium.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -92,9 +92,9 @@
 			<Cursor1 position="1685" topLine="26" />
 		</Cursor>
 	</File>
-	<File name="src/mainmenu.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+	<File name="src/mainmenu.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="11496" topLine="318" />
+			<Cursor1 position="13139" topLine="314" />
 		</Cursor>
 	</File>
 	<File name="cfg/config.ini" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -117,7 +117,7 @@
 			<Cursor1 position="1177" topLine="15" />
 		</Cursor>
 	</File>
-	<File name="dat/layout.json" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="dat/layout.json" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="154" topLine="0" />
 		</Cursor>
@@ -159,7 +159,7 @@
 	</File>
 	<File name="src/banner.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2840" topLine="56" />
+			<Cursor1 position="2472" topLine="50" />
 		</Cursor>
 	</File>
 	<File name="src/component.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

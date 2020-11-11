@@ -251,7 +251,7 @@
 		{
 			"name": "subtitle_graphics",
 			"x": "centre",
-			"y": "22",
+			"y": "23",
 			"font": "monospace",
 			"colour": "0xffff00ff",
 			"size": "38",
@@ -259,10 +259,11 @@
 			"justification": "centre"
 		},
 		{
-
 			"name": "options_menu",
 			"x": "16",
 			"y": "6",
+			"w": "48",
+			"h": "20",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
