@@ -124,8 +124,7 @@ auto Sorcery::Options::start() -> void {
 							// Handle Strict Mode Toggling
 							_system.config->set_strict_mode();
 							(*_system.config)[ConfigOption::STRICT_MODE] = true;
-
-						} if ((config_to_toggle == ConfigOption::RECOMMENDED_MODE) &&
+						} else if ((config_to_toggle == ConfigOption::RECOMMENDED_MODE) &&
 							(!(*_system.config)[ConfigOption::RECOMMENDED_MODE])) {
 
 							// Handle Recommended Toggling
@@ -200,6 +199,9 @@ auto Sorcery::Options::_draw() -> void {
 
 auto Sorcery::Options::_set_tooltip(sf::Vector2f mouse_position) -> bool {
 	if (!_display.window->tooltips.empty()) {
+		sf::Vector2f global_pos {_options_menu->getPosition()};
+		mouse_position -= global_pos;
+
 		WindowTooltipList::iterator contain = std::find_if(_display.window->tooltips.begin(),
 			_display.window->tooltips.end(), [&mouse_position](const auto& entry){
 				sf::FloatRect candidate = entry.second;

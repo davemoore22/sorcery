@@ -367,7 +367,7 @@ auto Sorcery::Menu::generate(Component& component, double selected_lerp) -> void
 					else
 						text.setOrigin(0, text.getLocalBounds().height / 2.0f);
 				} else if (((*it).type == MenuItemType::SAVE) || ((*it).type == MenuItemType::CANCEL)) {
-					entry_x =  ((component.width * _display.window->get_cell_width()) / 2);
+					entry_x = (component.width * _display.window->get_cell_width()) / 2;
 					text.setPosition(entry_x, entry_y);
 					text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 				}
@@ -395,6 +395,7 @@ auto Sorcery::Menu::generate(Component& component, double selected_lerp) -> void
 				if (tooltipit == _display.window->tooltips.end())
 					_display.window->tooltips[(*it).hint] = actual_rect;
 			}
+
 
 			// Add options in case of the Options Menu
 			if ((_type == MenuType::OPTIONS) && ((*it).type == MenuItemType::ENTRY)) {
