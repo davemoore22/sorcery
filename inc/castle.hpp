@@ -29,6 +29,7 @@
 #include "graphics.hpp"
 #include "layout.hpp"
 #include "frame.hpp"
+#include "menu.hpp"
 
 namespace Sorcery {
 
@@ -66,5 +67,8 @@ namespace Sorcery {
 			sf::Text _title_text;
 			std::unique_ptr<Frame> _outside_frame;
 			std::unique_ptr<Frame> _title_frame;
+			std::unique_ptr<Frame> _character_frame;
+			std::unique_ptr<Frame> _menu_frame;
+			std::shared_ptr<Menu> _castle_menu;
 	};
 }

@@ -39,6 +39,7 @@ Sorcery::Castle::Castle (System& system, Display& display, Graphics& graphics): 
 
 	// Setup Components
 	_title_text = sf::Text();
+	_castle_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::CASTLE);
 }
 
 // Standard Destructor
@@ -56,16 +57,26 @@ auto Sorcery::Castle::start() -> void {
 	// Get Constituent Parts for the Display
 	Component outside_frame_c {(*_display.layout)["castle:gui_frame"]};
 	Component title_frame_c {(*_display.layout)["castle:gui_frame_title"]};
+	Component character_frame_c {(*_display.layout)["castle:character_frame"]};
+	Component menu_frame_c {(*_display.layout)["castle:menu_frame"]};
 
 	// Generate the frame
 	_outside_frame = std::make_unique<Frame>(_system, _display, _graphics, WindowFrameType::NORMAL, outside_frame_c.w,
 		outside_frame_c.h, outside_frame_c.alpha);
 	_title_frame = std::make_unique<Frame>(_system, _display, _graphics, WindowFrameType::NORMAL, title_frame_c.w,
 		title_frame_c.h, title_frame_c.alpha);
+	_character_frame = std::make_unique<Frame>(_system, _display, _graphics, WindowFrameType::NORMAL,
+		character_frame_c.w, character_frame_c.h, character_frame_c.alpha);
+	_menu_frame = std::make_unique<Frame>(_system, _display, _graphics, WindowFrameType::NORMAL,
+		menu_frame_c.w, menu_frame_c.h, menu_frame_c.alpha);
 	_outside_frame->setPosition(_display.window->get_x(_outside_frame->sprite, outside_frame_c.x),
 		_display.window->get_y(_outside_frame->sprite, outside_frame_c.y));
 	_title_frame->setPosition(_display.window->get_x(_title_frame->sprite, title_frame_c.x),
 		_display.window->get_y(_title_frame->sprite, title_frame_c.y));
+	_character_frame->setPosition(_display.window->get_x(_character_frame->sprite, character_frame_c.x),
+		_display.window->get_y(_character_frame->sprite, character_frame_c.y));
+	_menu_frame->setPosition(_display.window->get_x(_menu_frame->sprite, menu_frame_c.x),
+		_display.window->get_y(_menu_frame->sprite, menu_frame_c.y));
 
 	// Get the Cursor
 	_cursor = _display.window->get_cursor();
@@ -77,7 +88,8 @@ auto Sorcery::Castle::start() -> void {
 	if (_background_movie.getStatus() == sfe::Stopped)
 		_background_movie.play();
 
-	_display.window->input_mode = WindowInputMode::DISPLAY_TEXT_FILE;
+	_display.window->input_mode = WindowInputMode::CASTLE;
+	std::optional<std::vector<MenuEntry>::const_iterator> selected_option {_castle_menu->items.begin()};
 
 	// And do the main loop
 	sf::Event event {};
@@ -88,9 +100,14 @@ auto Sorcery::Castle::start() -> void {
 			if (event.type == sf::Event::Closed)
 				return;
 
-			if (_system.input->check_for_event(WindowInput::CANCEL, event)) {
-				return;
-			}
+			// And handle input on the main menu
+			if (_system.input->check_for_event(WindowInput::UP, event))
+				selected_option = _castle_menu->choose_previous();
+			else if (_system.input->check_for_event(WindowInput::DOWN, event))
+				selected_option = _castle_menu->choose_next();
+			else if (_system.input->check_for_event(WindowInput::MOVE, event))
+				selected_option =
+					_castle_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 		}
 
 		if (_background_movie.getStatus() == sfe::Stopped) {
@@ -118,6 +135,14 @@ auto Sorcery::Castle::_draw() -> void {
 	_window->draw(*_outside_frame);
 	_window->draw(*_title_frame);
 	_display.window->draw_text(_title_text, (*_display.layout)["castle:gui_frame_title_text"]);
+	_window->draw(*_character_frame);
+	_window->draw(*_menu_frame);
+
+	double lerp = _graphics.animation->colour_lerp;
+	_castle_menu->generate((*_display.layout)["castle:castle_menu"], lerp);
+	const sf::Vector2f menu_pos((*_display.layout)["castle:castle_menu"].x, (*_display.layout)["castle:castle_menu"].y);
+	_castle_menu->setPosition(menu_pos);
+	_window->draw(*_castle_menu);
 
 	// Always draw the following
 	_cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));

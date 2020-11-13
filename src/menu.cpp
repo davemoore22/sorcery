@@ -46,6 +46,21 @@ Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuTy
 		_add_item(5, MenuItemType::ENTRY, MenuItem::QUIT, (*_display.string)["MAIN_MENU_OPTION_EXIT"]);
 		selected = items.begin();
 		break;
+	case MenuType::CASTLE:
+		_add_item(0, MenuItemType::ENTRY, MenuItem::CA_TAVERN, (*_display.string)["MENU_TAVERN"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::CA_INN, (*_display.string)["MENU_INN"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::CA_SHOP, (*_display.string)["MENU_SHOP"]);
+		_add_item(3, MenuItemType::ENTRY, MenuItem::CA_TEMPLE, (*_display.string)["MENU_TEMPLE"]);
+		_add_item(4, MenuItemType::ENTRY, MenuItem::CA_EDGE_OF_TOWN, (*_display.string)["MENU_EDGE_OF_TOWN"]);
+		selected = items.begin();
+		break;
+	case MenuType::EDGE_OF_TOWN:
+		_add_item(0, MenuItemType::ENTRY, MenuItem::ET_CASTLE, (*_display.string)["MENU_CASTLE"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::ET_TRAIN, (*_display.string)["MENU_TRAIN"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::ET_MAZE, (*_display.string)["MENU_MAZE"]);
+		_add_item(3, MenuItemType::ENTRY, MenuItem::ET_LEAVE_GAME, (*_display.string)["MENU_LEAVE_GAME"]);
+		selected = items.begin();
+		break;
 	case MenuType::ALLOCATE_CHARACTER_ATTRIBUTES:
 		break;
 	case MenuType::CHOOSE_CHARACTER_ALIGNMENT:

@@ -382,6 +382,44 @@
 			"size": "38",
 			"string": "CASTLE_TITLE",
 			"justification": "centre"
+		},
+		{
+			"name": "main_gui_frame",
+			"w": "50",
+			"h": "29",
+			"x": "centre",
+			"y": "2",
+			"alpha": "255"
+		},
+		{
+			"name": "character_frame",
+			"w": "54",
+			"h": "8",
+			"x": "centre",
+			"y": "26",
+			"alpha": "255"
+		},
+		{
+			"name": "menu_frame",
+			"w": "36",
+			"h": "7",
+			"x": "centre",
+			"y": "10",
+			"alpha": "175"
+		},
+		{
+			"name": "castle_menu",
+			"x": "22",
+			"y": "10",
+			"w": "36",
+			"h": "5",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"animated": "true",
+			"width": "36",
+			"background": "0x6060c8ff",
+			"justification": "centre"
 		}
 		]
 	}
