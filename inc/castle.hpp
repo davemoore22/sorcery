@@ -70,5 +70,8 @@ namespace Sorcery {
 			std::unique_ptr<Frame> _character_frame;
 			std::unique_ptr<Frame> _menu_frame;
 			std::shared_ptr<Menu> _castle_menu;
+			sf::Sprite _background;
+			std::array<Component, 6> _character_legend_layout;
+			std::array<sf::Text, 6> _character_legend_text;
 	};
 }

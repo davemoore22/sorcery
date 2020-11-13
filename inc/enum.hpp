@@ -99,6 +99,19 @@ namespace Sorcery {
 		};
 	}
 
+	namespace Enums::Graphics {
+
+		enum class Background {
+			CASTLE,
+			TAVERN,
+			INN,
+			SHOP,
+			TEMPLE,
+			EDGE_OF_TOWN,
+			TRAIN
+		};
+	}
+
 	namespace Enums::Settings {
 
 		// Settings
@@ -538,7 +551,7 @@ namespace Sorcery {
 	} // namespace Enums::Menu
 
 	// Display
-	namespace Enums::Display	{
+	namespace Enums::Display {
 
 		// Colour Types
 		enum class Colour {

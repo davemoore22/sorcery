@@ -99,7 +99,7 @@
 	</File>
 	<File name="src/layout.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2102" topLine="45" />
+			<Cursor1 position="8588" topLine="232" />
 		</Cursor>
 	</File>
 	<File name="src/license.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -139,7 +139,7 @@
 	</File>
 	<File name="src/castle.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="5186" topLine="119" />
+			<Cursor1 position="7037" topLine="143" />
 		</Cursor>
 	</File>
 	<File name="inc/display.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -149,7 +149,7 @@
 	</File>
 	<File name="dat/layout.json" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="154" topLine="0" />
+			<Cursor1 position="8513" topLine="473" />
 		</Cursor>
 	</File>
 	<File name="src/config.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

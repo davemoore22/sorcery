@@ -91,6 +91,7 @@
 // Aliases
 namespace Sorcery {
 
+	using Background = Enums::Graphics::Background;
 	using Category = Enums::Manage::Category;
 	using CharacterAbility = Enums::Character::Ability;
 	using CharacterAbilities = std::map<Enums::Character::Ability, int>;

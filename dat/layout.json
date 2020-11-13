@@ -405,7 +405,7 @@
 			"h": "7",
 			"x": "centre",
 			"y": "10",
-			"alpha": "175"
+			"alpha": "225"
 		},
 		{
 			"name": "castle_menu",
@@ -420,6 +420,78 @@
 			"width": "36",
 			"background": "0x6060c8ff",
 			"justification": "centre"
+		},
+		{
+			"name": "background_image",
+			"x": "centre",
+			"y": "5",
+			"scale": "1.25"
+		},
+		{
+			"name": "background_image",
+			"x": "centre",
+			"y": "5",
+			"scale": "1.25"
+		},
+		{
+			"name": "character_legend_name",
+			"x": "14",
+			"y": "27",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "28",
+			"string": "CHARACTER_LEGEND_NAME",
+			"justification": "left"
+		},
+		{
+			"name": "character_legend_class",
+			"x": "30",
+			"y": "27",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "28",
+			"string": "CHARACTER_LEGEND_CLASS",
+			"justification": "left"
+		},
+		{
+			"name": "character_legend_alignment",
+			"x": "39",
+			"y": "27",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "28",
+			"string": "CHARACTER_LEGEND_ALIGNMENT",
+			"justification": "left"
+		},
+		{
+			"name": "character_legend_ac",
+			"x": "49",
+			"y": "27",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "28",
+			"string": "CHARACTER_LEGEND_AC",
+			"justification": "left"
+		},
+		{
+			"name": "character_legend_hp",
+			"x": "53",
+			"y": "27",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "28",
+			"string": "CHARACTER_LEGEND_HP",
+			"justification": "left"
+		},
+		{
+			"name": "character_legend_status",
+			"x": "57",
+			"y": "27",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "28",
+			"string": "CHARACTER_LEGEND_STATUS",
+			"justification": "left"
 		}
 		]
 	}

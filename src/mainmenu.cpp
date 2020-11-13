@@ -70,7 +70,7 @@ Sorcery::MainMenu::~MainMenu() {
 
 auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem> {
 
-	// Clear the window
+	// Clear the window7
 	_window->clear();
 
 	_menu_stage = menu_stage;
