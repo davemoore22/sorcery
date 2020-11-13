@@ -68,6 +68,7 @@
 	"OPTION_ON" : "ON",
 	"OPTION_OFF" : "OFF",
 	"RESET_OPTIONS": "RESET",
+	"CASTLE_TITLE": "CASTLE",
 
 "CONFIRM_TITLE": "Confirmation Needed!",
 "MAIN_MENU_CHARACTER": "Create and Manage Characters",

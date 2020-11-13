@@ -27,56 +27,44 @@
 #include "system.hpp"
 #include "display.hpp"
 #include "graphics.hpp"
-#include "splash.hpp"
-#include "banner.hpp"
-#include "mainmenu.hpp"
-#include "license.hpp"
-#include "options.hpp"
-#include "compendium.hpp"
-#include "castle.hpp"
+#include "layout.hpp"
+#include "frame.hpp"
 
 namespace Sorcery {
 
-	// Application is a container class to hold the entire game structure, data, and any associated meta-objects.  Only
-	// one instance is ever created, at start-up, and it is (automatically) freed just before the game is exited. This
-	//  class is responsible for creating the various subclasses to handle all the other parts of the game. It's
-	// technically not a singleton even though only one instance is ever created in main.cpp as there's nothing to
-	// prevent another copy being created, and game state isn’t held in this class. So there!
-	class Application {
+	class Castle {
 
 		public:
 
-			// Constructors
-			Application(int argc, char**argv);
-			Application() = delete;
+			// Standard Constructor
+			Castle(System& system, Display& display, Graphics& graphics);
+			Castle() = delete;
 
 			// Standard Destructor
-			~Application();
-
-			// Overload [] operator (for file operations)
-			auto operator[] (const char* key) const -> std::string;
-			auto operator[] (std::string key) const -> std::string;
+			~Castle();
 
 			// Public Members
-			std::unique_ptr<System> system;
-			std::unique_ptr<Display> display;
-			std::unique_ptr<Graphics> graphics;
 
 			// Public Methods
 			auto start() -> void;
+			auto stop() -> void;
 
 		private:
 
 			// Private Methods
+			auto _draw() -> void;
 
 			// Private Members
-			std::shared_ptr<Banner> _banner;
-			std::shared_ptr<Splash> _splash;
-			std::shared_ptr<MainMenu> _mainmenu;
-			std::shared_ptr<License> _license;
-			std::shared_ptr<Options> _options;
-			std::shared_ptr<Compendium> _compendium;
-			std::shared_ptr<Castle> _castle;
+			System _system;
+			Display _display;
+			Graphics _graphics;
 			sf::RenderWindow* _window;
+			sf::Font _mono_system_font;
+			sf::Font _proportional_system_font;
+			sfe::Movie _background_movie;
+			sf::Sprite _cursor;
+			sf::Text _title_text;
+			std::unique_ptr<Frame> _outside_frame;
+			std::unique_ptr<Frame> _title_frame;
 	};
 }

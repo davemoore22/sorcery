@@ -60,7 +60,8 @@ namespace Sorcery {
 			CANCEL,
 			DISPLAY_TEXT_FILE,
 			GAME_OPTIONS,
-			COMPENDIUM
+			COMPENDIUM,
+			CASTLE
 		};
 
 		enum Confirm {

@@ -156,9 +156,15 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 							_main_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
 						if (selected_option) {
-							const MenuItem option_chosen {(*selected_option.value()).item};
 
 							// We have selected something from the menu
+							const MenuItem option_chosen {(*selected_option.value()).item};
+
+							if (option_chosen == MenuItem::MM_NEW_GAME) {
+								_display.window->input_mode = WindowInputMode::CASTLE;
+								return MenuItem::MM_NEW_GAME;
+							}
+
 							if (option_chosen == MenuItem::MM_LICENSE) {
 								_display.window->input_mode = WindowInputMode::DISPLAY_TEXT_FILE;
 								return MenuItem::MM_LICENSE;

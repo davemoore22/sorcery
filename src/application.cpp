@@ -50,6 +50,7 @@ Sorcery::Application::Application(int argc, char** argv) {
 	_license = std::make_shared<License>(*system, *display, *graphics);
 	_options = std::make_shared<Options>(*system, *display, *graphics);
 	_compendium = std::make_shared<Compendium>(*system, *display, *graphics);
+	_castle = std::make_shared<Castle>(*system, *display, *graphics);
 }
 
 // Standard Destructor
@@ -67,6 +68,10 @@ auto Sorcery::Application::start() -> void {
 		if (option_chosen) {
 
 			switch (option_chosen.value()) {
+			case MenuItem::MM_NEW_GAME:
+				_castle->start();
+				_castle->stop();
+				break;
 			case MenuItem::MM_OPTIONS:
 				_options->start();
 				_options->stop();

@@ -106,6 +106,7 @@
 		<Unit filename="inc/animation.hpp" />
 		<Unit filename="inc/application.hpp" />
 		<Unit filename="inc/banner.hpp" />
+		<Unit filename="inc/castle.hpp" />
 		<Unit filename="inc/character.hpp" />
 		<Unit filename="inc/compendium.hpp" />
 		<Unit filename="inc/component.hpp" />
@@ -148,6 +149,7 @@
 		<Unit filename="src/animation.cpp" />
 		<Unit filename="src/application.cpp" />
 		<Unit filename="src/banner.cpp" />
+		<Unit filename="src/castle.cpp" />
 		<Unit filename="src/character.cpp" />
 		<Unit filename="src/compendium.cpp" />
 		<Unit filename="src/component.cpp" />
