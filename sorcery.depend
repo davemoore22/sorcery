@@ -7,7 +7,7 @@
 	"system.hpp"
 	"display.hpp"
 
-1605359938 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1605382386 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -37,6 +37,7 @@
 	<map>
 	<memory>
 	<mutex>
+	<numbers>
 	<random>
 	<regex>
 	<sstream>
@@ -476,6 +477,12 @@
 	"frame.hpp"
 	"menu.hpp"
 
-1605378454 source:/home/dave/Development/wizardry/sorcery-sfml/src/gamemenu.cpp
+1605379163 source:/home/dave/Development/wizardry/sorcery-sfml/src/gamemenu.cpp
 	"gamemenu.hpp"
+
+1605382439 source:/home/dave/Development/wizardry/sorcery-sfml/src/camera.cpp
+	"camera.hpp"
+
+1605382053 /home/dave/Development/wizardry/sorcery-sfml/inc/camera.hpp
+	"main.hpp"
 

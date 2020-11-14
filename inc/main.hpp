@@ -68,6 +68,7 @@
 #include <map>
 #include <memory>
 #include <mutex>
+#include <numbers>
 #include <random>
 #include <regex>
 #include <sstream>
