@@ -33,7 +33,7 @@
 #include "license.hpp"
 #include "options.hpp"
 #include "compendium.hpp"
-#include "castle.hpp"
+#include "gamemenu.hpp"
 
 namespace Sorcery {
 
@@ -76,7 +76,7 @@ namespace Sorcery {
 			std::shared_ptr<License> _license;
 			std::shared_ptr<Options> _options;
 			std::shared_ptr<Compendium> _compendium;
-			std::shared_ptr<Castle> _castle;
+			std::shared_ptr<GameMenu> _gamemenu;
 			sf::RenderWindow* _window;
 	};
 }

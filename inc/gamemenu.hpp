@@ -33,21 +33,21 @@
 
 namespace Sorcery {
 
-	class Castle {
+	class GameMenu {
 
 		public:
 
 			// Standard Constructor
-			Castle(System& system, Display& display, Graphics& graphics);
-			Castle() = delete;
+			GameMenu(System& system, Display& display, Graphics& graphics);
+			GameMenu() = delete;
 
 			// Standard Destructor
-			~Castle();
+			~GameMenu();
 
 			// Public Members
 
 			// Public Methods
-			auto start() -> void;
+			auto start() -> std::optional<MenuItem>;
 			auto stop() -> void;
 
 		private:
@@ -67,11 +67,15 @@ namespace Sorcery {
 			sf::Text _title_text;
 			std::unique_ptr<Frame> _outside_frame;
 			std::unique_ptr<Frame> _title_frame;
-			std::unique_ptr<Frame> _character_frame;
-			std::unique_ptr<Frame> _menu_frame;
+			std::unique_ptr<Frame> _character_frame; // Move this into its own component
+			std::unique_ptr<Frame> _castle_menu_frame;
+			std::unique_ptr<Frame> _edge_of_town_menu_frame;
 			std::shared_ptr<Menu> _castle_menu;
-			sf::Sprite _background;
+			std::shared_ptr<Menu> _edge_of_town_menu;
+			sf::Sprite _castle_background;
+			sf::Sprite _edge_of_town_background;
 			std::array<Component, 6> _character_legend_layout;
 			std::array<sf::Text, 6> _character_legend_text;
+			GameMenuType _menu_stage;
 	};
 }

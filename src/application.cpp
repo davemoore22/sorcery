@@ -50,7 +50,7 @@ Sorcery::Application::Application(int argc, char** argv) {
 	_license = std::make_shared<License>(*system, *display, *graphics);
 	_options = std::make_shared<Options>(*system, *display, *graphics);
 	_compendium = std::make_shared<Compendium>(*system, *display, *graphics);
-	_castle = std::make_shared<Castle>(*system, *display, *graphics);
+	_gamemenu = std::make_shared<GameMenu>(*system, *display, *graphics);
 }
 
 // Standard Destructor
@@ -64,8 +64,8 @@ auto Sorcery::Application::start() -> void {
 	MainMenuType menu_stage {MainMenuType::ATTRACT_MODE};
 	do {
 
-		_castle->start();
-		_castle->stop();
+		_gamemenu->start();
+		_gamemenu->stop();
 
 		option_chosen = _mainmenu->start(menu_stage);
 		_mainmenu->stop();
@@ -73,8 +73,8 @@ auto Sorcery::Application::start() -> void {
 
 			switch (option_chosen.value()) {
 			case MenuItem::MM_NEW_GAME:
-				_castle->start();
-				_castle->stop();
+				_gamemenu->start();
+				_gamemenu->stop();
 				break;
 			case MenuItem::MM_OPTIONS:
 				_options->start();

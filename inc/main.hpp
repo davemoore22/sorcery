@@ -111,6 +111,7 @@ namespace Sorcery {
 	using ConfigOption = Enums::Options;
 	using FileType = Enums::File::Type;
 	using FontType = Enums::Internal::FontType;
+	using GameMenuType = Enums::GameMenu::Type;
 	using Import = Enums::Manage::Import;
 	using Justification = Enums::Window::Justification;
 	using MainMenuType = Enums::MainMenu::Type;

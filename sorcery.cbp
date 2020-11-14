@@ -106,7 +106,6 @@
 		<Unit filename="inc/animation.hpp" />
 		<Unit filename="inc/application.hpp" />
 		<Unit filename="inc/banner.hpp" />
-		<Unit filename="inc/castle.hpp" />
 		<Unit filename="inc/character.hpp" />
 		<Unit filename="inc/compendium.hpp" />
 		<Unit filename="inc/component.hpp" />
@@ -121,6 +120,7 @@
 		<Unit filename="inc/file.hpp" />
 		<Unit filename="inc/frame.hpp" />
 		<Unit filename="inc/game.hpp" />
+		<Unit filename="inc/gamemenu.hpp" />
 		<Unit filename="inc/graphics.hpp" />
 		<Unit filename="inc/input.hpp" />
 		<Unit filename="inc/layout.hpp" />
@@ -143,13 +143,11 @@
 		<Unit filename="inc/textfile.hpp" />
 		<Unit filename="inc/tile.hpp" />
 		<Unit filename="inc/tooltip.hpp" />
-		<Unit filename="inc/town.hpp" />
 		<Unit filename="inc/type.hpp" />
 		<Unit filename="inc/window.hpp" />
 		<Unit filename="src/animation.cpp" />
 		<Unit filename="src/application.cpp" />
 		<Unit filename="src/banner.cpp" />
-		<Unit filename="src/castle.cpp" />
 		<Unit filename="src/character.cpp" />
 		<Unit filename="src/compendium.cpp" />
 		<Unit filename="src/component.cpp" />
@@ -162,6 +160,7 @@
 		<Unit filename="src/file.cpp" />
 		<Unit filename="src/frame.cpp" />
 		<Unit filename="src/game.cpp" />
+		<Unit filename="src/gamemenu.cpp" />
 		<Unit filename="src/graphics.cpp" />
 		<Unit filename="src/input.cpp" />
 		<Unit filename="src/layout.cpp" />
@@ -183,7 +182,6 @@
 		<Unit filename="src/textfile.cpp" />
 		<Unit filename="src/tile.cpp" />
 		<Unit filename="src/tooltip.cpp" />
-		<Unit filename="src/town.cpp" />
 		<Unit filename="src/window.cpp" />
 		<Unit filename="vfx/menu.mp4" />
 		<Extensions />

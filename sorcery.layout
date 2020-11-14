@@ -137,17 +137,12 @@
 			<Cursor1 position="2314" topLine="55" />
 		</Cursor>
 	</File>
-	<File name="src/castle.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7037" topLine="143" />
-		</Cursor>
-	</File>
 	<File name="inc/display.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="0" topLine="16" />
 		</Cursor>
 	</File>
-	<File name="dat/layout.json" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="dat/layout.json" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="8513" topLine="473" />
 		</Cursor>
@@ -185,6 +180,11 @@
 	<File name="src/confirm.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1544" topLine="23" />
+		</Cursor>
+	</File>
+	<File name="src/gamemenu.cpp" open="1" top="1" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7436" topLine="132" />
 		</Cursor>
 	</File>
 	<File name="src/animation.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

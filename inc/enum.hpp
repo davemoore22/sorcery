@@ -423,6 +423,14 @@ namespace Sorcery {
 		};
 	}
 
+	namespace Enums::GameMenu {
+
+		enum class Type {
+			CASTLE,
+			EDGE_OF_TOWN
+		};
+	}
+
 	// Menu
 	namespace Enums::Menu {
 
