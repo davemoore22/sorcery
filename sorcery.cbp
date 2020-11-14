@@ -117,6 +117,7 @@
 		<Unit filename="inc/define.hpp" />
 		<Unit filename="inc/display.hpp" />
 		<Unit filename="inc/engine.hpp" />
+		<Unit filename="inc/entity.hpp" />
 		<Unit filename="inc/enum.hpp" />
 		<Unit filename="inc/file.hpp" />
 		<Unit filename="inc/frame.hpp" />
@@ -131,12 +132,14 @@
 		<Unit filename="inc/mainmenu.hpp" />
 		<Unit filename="inc/manage.hpp" />
 		<Unit filename="inc/map.hpp" />
+		<Unit filename="inc/maptile.hpp" />
 		<Unit filename="inc/maputils.hpp" />
 		<Unit filename="inc/menu.hpp" />
 		<Unit filename="inc/operator.hpp" />
 		<Unit filename="inc/options.hpp" />
 		<Unit filename="inc/platform.hpp" />
 		<Unit filename="inc/random.hpp" />
+		<Unit filename="inc/raycaster.hpp" />
 		<Unit filename="inc/resourcemanager.hpp" />
 		<Unit filename="inc/splash.hpp" />
 		<Unit filename="inc/string.hpp" />
@@ -160,6 +163,7 @@
 		<Unit filename="src/database.cpp" />
 		<Unit filename="src/display.cpp" />
 		<Unit filename="src/engine.cpp" />
+		<Unit filename="src/entity.cpp" />
 		<Unit filename="src/file.cpp" />
 		<Unit filename="src/frame.cpp" />
 		<Unit filename="src/game.cpp" />
@@ -172,11 +176,13 @@
 		<Unit filename="src/mainmenu.cpp" />
 		<Unit filename="src/manage.cpp" />
 		<Unit filename="src/map.cpp" />
+		<Unit filename="src/maptile.cpp" />
 		<Unit filename="src/menu.cpp" />
 		<Unit filename="src/operator.cpp" />
 		<Unit filename="src/options.cpp" />
 		<Unit filename="src/platform.cpp" />
 		<Unit filename="src/random.cpp" />
+		<Unit filename="src/raycaster.cpp" />
 		<Unit filename="src/resourcemanager.cpp" />
 		<Unit filename="src/splash.cpp" />
 		<Unit filename="src/string.cpp" />
