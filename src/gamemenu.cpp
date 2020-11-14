@@ -38,7 +38,8 @@ Sorcery::GameMenu::GameMenu (System& system, Display& display, Graphics& graphic
 	_background_movie.openFromFile(_system.files->get_path_as_string(MENU_VIDEO));
 
 	// Setup Components
-	_title_text = sf::Text();
+	_castle_title_text = sf::Text();
+	_edge_of_town_title_text = sf::Text();
 	_castle_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::CASTLE);
 	_edge_of_town_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::EDGE_OF_TOWN);
 
@@ -61,7 +62,8 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 
 	// Get Constituent Parts for the Display
 	Component outside_frame_c {(*_display.layout)["castle:gui_frame"]};
-	Component title_frame_c {(*_display.layout)["castle:gui_frame_title"]};
+	Component castle_title_frame_c {(*_display.layout)["castle:castle_gui_frame_title"]};
+	Component edge_of_town_title_frame_c {(*_display.layout)["castle:edge_of_town_gui_frame_title"]};
 	Component character_frame_c {(*_display.layout)["castle:character_frame"]};
 	Component castle_menu_frame_c {(*_display.layout)["castle:castle_menu_frame"]};
 	Component edge_of_town_menu_frame_c {(*_display.layout)["castle:edge_of_town_menu_frame"]};
@@ -84,8 +86,10 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 	// Generate the frames
 	_outside_frame = std::make_unique<Frame>(_system, _display, _graphics, WindowFrameType::NORMAL, outside_frame_c.w,
 		outside_frame_c.h, outside_frame_c.alpha);
-	_title_frame = std::make_unique<Frame>(_system, _display, _graphics, WindowFrameType::NORMAL, title_frame_c.w,
-		title_frame_c.h, title_frame_c.alpha);
+	_castle_title_frame = std::make_unique<Frame>(_system, _display, _graphics, WindowFrameType::NORMAL,
+		castle_title_frame_c.w, castle_title_frame_c.h, castle_title_frame_c.alpha);
+	_edge_of_town_title_frame = std::make_unique<Frame>(_system, _display, _graphics, WindowFrameType::NORMAL,
+		edge_of_town_title_frame_c.w, edge_of_town_title_frame_c.h, edge_of_town_title_frame_c.alpha);
 	_character_frame = std::make_unique<Frame>(_system, _display, _graphics, WindowFrameType::NORMAL,
 		character_frame_c.w, character_frame_c.h, character_frame_c.alpha);
 	_castle_menu_frame = std::make_unique<Frame>(_system, _display, _graphics, WindowFrameType::NORMAL,
@@ -95,8 +99,11 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 
 	_outside_frame->setPosition(_display.window->get_x(_outside_frame->sprite, outside_frame_c.x),
 		_display.window->get_y(_outside_frame->sprite, outside_frame_c.y));
-	_title_frame->setPosition(_display.window->get_x(_title_frame->sprite, title_frame_c.x),
-		_display.window->get_y(_title_frame->sprite, title_frame_c.y));
+	_castle_title_frame->setPosition(_display.window->get_x(_castle_title_frame->sprite, castle_title_frame_c.x),
+		_display.window->get_y(_castle_title_frame->sprite, castle_title_frame_c.y));
+	_edge_of_town_title_frame->setPosition(_display.window->get_x(_edge_of_town_title_frame->sprite,
+		edge_of_town_title_frame_c.x), _display.window->get_y(_edge_of_town_title_frame->sprite,
+		edge_of_town_title_frame_c.y));
 	_character_frame->setPosition(_display.window->get_x(_character_frame->sprite, character_frame_c.x),
 		_display.window->get_y(_character_frame->sprite, character_frame_c.y));
 	_castle_menu_frame->setPosition(_display.window->get_x(_castle_menu_frame->sprite, castle_menu_frame_c.x),
@@ -211,8 +218,14 @@ auto Sorcery::GameMenu::_draw() -> void {
 
 	// Components
 	_window->draw(*_outside_frame);
-	_window->draw(*_title_frame);
-	_display.window->draw_text(_title_text, (*_display.layout)["castle:gui_frame_title_text"]);
+	if (_menu_stage == GameMenuType::CASTLE) {
+		_window->draw(*_castle_title_frame);
+		_display.window->draw_text(_castle_title_text, (*_display.layout)["castle:castle_gui_frame_title_text"]);
+	} else if (_menu_stage == GameMenuType::EDGE_OF_TOWN) {
+		_window->draw(*_edge_of_town_title_frame);
+		_display.window->draw_text(_edge_of_town_title_text,
+			(*_display.layout)["castle:edge_of_town_gui_frame_title_text"]);
+	}
 	_window->draw(*_character_frame);
 	if (_menu_stage == GameMenuType::CASTLE) {
 		_window->draw(_castle_background);

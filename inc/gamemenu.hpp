@@ -64,9 +64,11 @@ namespace Sorcery {
 			sf::Font _proportional_system_font;
 			sfe::Movie _background_movie;
 			sf::Sprite _cursor;
-			sf::Text _title_text;
+			sf::Text _castle_title_text;
+			sf::Text _edge_of_town_title_text;
 			std::unique_ptr<Frame> _outside_frame;
-			std::unique_ptr<Frame> _title_frame;
+			std::unique_ptr<Frame> _castle_title_frame;
+			std::unique_ptr<Frame> _edge_of_town_title_frame;
 			std::unique_ptr<Frame> _character_frame; // Move this into its own component
 			std::unique_ptr<Frame> _castle_menu_frame;
 			std::unique_ptr<Frame> _edge_of_town_menu_frame;
