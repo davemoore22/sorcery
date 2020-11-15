@@ -188,6 +188,8 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 						_menu_stage = GameMenuType::CASTLE;
 					} else if  (option_chosen == MenuItem::ET_LEAVE_GAME) {
 						return MenuItem::ET_LEAVE_GAME;
+					} else if  (option_chosen == MenuItem::ET_MAZE) {
+						return MenuItem::ET_MAZE;
 					}
 				}
 			}

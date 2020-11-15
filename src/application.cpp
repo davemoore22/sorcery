@@ -51,6 +51,7 @@ Sorcery::Application::Application(int argc, char** argv) {
 	_options = std::make_shared<Options>(*system, *display, *graphics);
 	_compendium = std::make_shared<Compendium>(*system, *display, *graphics);
 	_gamemenu = std::make_shared<GameMenu>(*system, *display, *graphics);
+	_engine = std::make_shared<Engine>(*system, *display, *graphics);
 }
 
 // Standard Destructor
@@ -73,7 +74,7 @@ auto Sorcery::Application::start() -> void {
 
 			switch (option_chosen.value()) {
 			case MenuItem::MM_NEW_GAME:
-				_gamemenu->start();
+				option_chosen = _gamemenu->start();
 				_gamemenu->stop();
 				break;
 			case MenuItem::MM_OPTIONS:
@@ -88,6 +89,9 @@ auto Sorcery::Application::start() -> void {
 				_compendium->start();
 				_compendium->stop();
 				break;
+			case MenuItem::ET_MAZE:
+				_engine->start();
+				_engine->stop();
 			default:
 				break;
 			}

@@ -24,6 +24,44 @@
 #pragma once
 
 #include "main.hpp"
+#include "system.hpp"
+#include "display.hpp"
+#include "graphics.hpp"
+#include "entity.hpp"
+#include "raycaster.hpp"
+#include "map.hpp"
 
 namespace Sorcery {
+
+	class Engine {
+
+		public:
+
+			// Standard Constructor - need to pass in game object to this to
+			Engine(System& system, Display& display, Graphics& graphics);
+			Engine() = delete;
+
+			// Standard Destructor
+			~Engine();
+
+			// Public Members
+
+			// Public Methods
+			auto start() -> void;
+			auto stop() -> void;
+
+		private:
+
+			// Private Methods
+			auto _draw() -> void;
+
+			// Private Members
+			System _system;
+			Display _display;
+			Graphics _graphics;
+			sf::RenderWindow* _window;
+			sf::Font _mono_system_font;
+			sf::Font _proportional_system_font;
+			sf::Sprite _cursor;
+	};
 }

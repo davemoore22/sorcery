@@ -34,6 +34,7 @@
 #include "options.hpp"
 #include "compendium.hpp"
 #include "gamemenu.hpp"
+#include "engine.hpp"
 
 namespace Sorcery {
 
@@ -77,6 +78,7 @@ namespace Sorcery {
 			std::shared_ptr<Options> _options;
 			std::shared_ptr<Compendium> _compendium;
 			std::shared_ptr<GameMenu> _gamemenu;
+			std::shared_ptr<Engine> _engine;
 			sf::RenderWindow* _window;
 	};
 }
