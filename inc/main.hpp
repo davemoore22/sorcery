@@ -108,6 +108,7 @@ namespace Sorcery {
 	using CharacterRace = Enums::Character::Race;
 	// using CharacterStatus = Enums::Character::Status;
 	using CharacterView = Enums::Character::Display;
+	using ComponentType = Enums::Window::ComponentType;
 	using Colour = Enums::Display::Colour;
 	using ConfigOption = Enums::Options;
 	using FileType = Enums::File::Type;

@@ -43,9 +43,6 @@ Sorcery::Engine::~Engine() {
 
 auto Sorcery::Engine::start() -> void {
 
-	#define WINDOW_WIDTH 640
-	#define WINDOW_HEIGHT 480
-
 	// This example map is a large room with the different features
 	// showcased inside of it.
 	// It's dimensions are 20x20.
@@ -96,14 +93,14 @@ auto Sorcery::Engine::start() -> void {
 
 	// Load textures into the map object
 	const std::filesystem::path file_path {_system.files->get_base_path() / "gfx" };
-	worldMap.loadTexture(1, file_path.string() + "wall1.png");
-	worldMap.loadTexture(1, file_path.string() + "wall1.png");  // 128x128 version
-	worldMap.loadTexture(2, file_path.string() + "wall2.png");  // 128x128 version
-	worldMap.loadTexture(3, file_path.string() + "wall3.png");  // 128x128 version
-	worldMap.loadTexture(0, file_path.string() + + "floor1.png");  // 128x128 version
-	worldMap.loadTexture(-1, file_path.string() + + "floor2.png");  // 128x128 version
-	worldMap.loadTexture(4, file_path.string() + + "sprite1.png");
-	worldMap.loadTexture(5, file_path.string() + + "sprite2.png");
+	worldMap.loadTexture(1, file_path.string() + "/wall1.png");
+	worldMap.loadTexture(1, file_path.string() + "/wall1.png");  // 128x128 version
+	worldMap.loadTexture(2, file_path.string() + "/wall2.png");  // 128x128 version
+	worldMap.loadTexture(3, file_path.string() + "/wall3.png");  // 128x128 version
+	worldMap.loadTexture(0, file_path.string() + "/floor1.png");  // 128x128 version
+	worldMap.loadTexture(-1, file_path.string() + "/floor2.png");  // 128x128 version
+	worldMap.loadTexture(4, file_path.string() + "/sprite1.png");
+	worldMap.loadTexture(5, file_path.string() + "/sprite2.png");
 
 	// load in the map data from above
 	worldMap.setDataFromIntArray(basicLargeRoom, mapWidth, mapHeight);
@@ -142,7 +139,7 @@ auto Sorcery::Engine::start() -> void {
 	raycaster.setMaxObjectRenderDistance(100);
 
 	// Set the raycaster engine's drawing size
-	raycaster.setSize(640, 480);
+	raycaster.setSize(1600, 900);
 
 	// Set up the camera
 	Sorcery::Camera camera;
@@ -161,14 +158,6 @@ auto Sorcery::Engine::start() -> void {
 	fps_text.setCharacterSize(32);
 	fps_text.setColor(sf::Color::Yellow);
 	fps_text.setPosition(10, 10);
-
-	sf::Texture overlayTexture;
-	overlayTexture.loadFromFile(file_path.string() + "overlay.png");
-	sf::Sprite overlaySprite(overlayTexture);
-	overlaySprite.setOrigin(0.0f, overlayTexture.getSize().y);
-	overlaySprite.setScale(2.0f, 2.0f);
-	overlaySprite.setPosition(WINDOW_WIDTH * 0.65f, WINDOW_HEIGHT + 100);
-	bool drawOverlay = false;
 
 	// Start the game loop. This is the normal basics used in SFML.
 	while (_window->isOpen())
@@ -223,10 +212,6 @@ auto Sorcery::Engine::start() -> void {
 					current = 0;
 				}
 				raycaster.setEntityRenderMethod((Sorcery::EntityRenderMethod)current);
-			}
-			// B: toggle overlay render on/off
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::B){
-				drawOverlay = !drawOverlay;
 			}
 		}
 
@@ -288,14 +273,7 @@ auto Sorcery::Engine::start() -> void {
 		raycaster.drawForCamera(*_window, camera);
 
 		// RESET THE VIEW
-		_window->setView(_window->getDefaultView());
-
-		// DRAW THE OVERLAY
-		if (drawOverlay)
-		{
-			_window->draw(overlaySprite);
-		}
-
+		//_window->setView(_window->getDefaultView());
 
 		// Draw the framerate counter
 		fps_timer -= delta;

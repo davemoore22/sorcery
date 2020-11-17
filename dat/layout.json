@@ -8,7 +8,8 @@
 			"font": "text",
 			"colour": "0xffffffff",
 			"size": "24",
-			"alpha": "200"
+			"alpha": "200",
+			"type": "tooltip"
 		}
 		]
 	},
@@ -19,7 +20,8 @@
 			"name": "splash_image",
 			"x": "centre",
 			"y": "centre",
-			"scale": "0.5"
+			"scale": "0.5",
+			"type": "image"
 		}
 		]
 	},
@@ -29,7 +31,8 @@
 		{
 			"name": "banner_image",
 			"x": "centre",
-			"y": "centre"
+			"y": "centre",
+			"type": "image"
 		}
 		]
 	},
@@ -39,14 +42,16 @@
 		{
 			"name": "logo_image",
 			"x": "centre",
-			"y": "3"
+			"y": "3",
+			"type": "image"
 		},
 		{
 			"name": "attract_creatures",
 			"x": "centre",
 			"y": "15",
 			"scale": "2.2",
-			"alpha": "175"
+			"alpha": "175",
+			"type": "image"
 		},
 		{
 			"name": "top_gui_frame",
@@ -54,7 +59,8 @@
 			"h": "29",
 			"x": "centre",
 			"y": "2",
-			"alpha": "255"
+			"alpha": "255",
+			"type": "frame"
 		},
 		{
 			"name": "bottom_gui_frame",
@@ -62,7 +68,8 @@
 			"h": "8",
 			"x": "centre",
 			"y": "26",
-			"alpha": "255"
+			"alpha": "255",
+			"type": "frame"
 		},
 		{
 			"name": "title",
@@ -72,7 +79,8 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "MAIN_MENU_TITLE",
-			"justification": "centre"
+			"justification": "centre",
+			"type": "text"
 		},
 		{
 			"name": "subtitle_1",
@@ -82,7 +90,8 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "MAIN_MENU_SUBTITLE_1",
-			"justification": "centre"
+			"justification": "centre",
+			"type": "text"
 		},
 		{
 			"name": "subtitle_2",
@@ -92,7 +101,8 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "MAIN_MENU_SUBTITLE_2",
-			"justification": "centre"
+			"justification": "centre",
+			"type": "text"
 		},
 		{
 			"name": "copyright",
@@ -102,7 +112,8 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "BRIEF_COPYRIGHT_INFO",
-			"justification": "centre"
+			"justification": "centre",
+			"type": "text"
 		},
 		{
 			"name": "press_any_key",
@@ -113,7 +124,8 @@
 			"size": "38",
 			"string": "PRESS_ANY_KEY",
 			"animated": "true",
-			"justification": "centre"
+			"justification": "centre",
+			"type": "text"
 		},
 		{
 			"name": "main_menu",
@@ -127,7 +139,8 @@
 			"animated": "true",
 			"width": "54",
 			"background": "0x6060c8ff",
-			"justification": "centre"
+			"justification": "centre",
+			"type": "menu"
 		},
 		{
 			"name": "confirm_exit_gui_frame",
@@ -135,7 +148,8 @@
 			"h": "7",
 			"x": "centre",
 			"y": "14",
-			"alpha": "175"
+			"alpha": "175",
+			"type": "frame"
 		},
 		{
 			"name": "confirm_exit_game",
@@ -146,7 +160,8 @@
 			"size": "38",
 			"string": "CONFIRM_EXIT_GAME",
 			"background": "0x6060c8ff",
-			"justification": "centre"
+			"justification": "centre",
+			"type": "text"
 		}
 		]
 	},
@@ -159,7 +174,8 @@
 			"h": "38",
 			"x": "centre",
 			"y": "2",
-			"alpha": "255"
+			"alpha": "255",
+			"type": "frame"
 		},
 		{
 			"name": "gui_frame_title",
@@ -167,7 +183,8 @@
 			"h": "2",
 			"x": "centre",
 			"y": "1",
-			"alpha": "255"
+			"alpha": "255",
+			"type": "frame"
 		},
 		{
 			"name": "gui_frame_title_text",
@@ -177,7 +194,8 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "LICENSE_TITLE",
-			"justification": "centre"
+			"justification": "centre",
+			"type": "text"
 		},
 		{
 			"name": "license_file_text",
@@ -186,7 +204,8 @@
 			"size": "26",
 			"x": "15",
 			"y": "5",
-			"h": "27"
+			"h": "27",
+			"type": "text"
 		},
 		{
 			"name": "license_file_progress",
@@ -195,7 +214,8 @@
 			"size": "26",
 			"x": "65",
 			"y": "32",
-			"justification": "right"
+			"justification": "right",
+			"type": "text"
 		}
 		]
 	},
@@ -208,7 +228,8 @@
 			"h": "38",
 			"x": "centre",
 			"y": "2",
-			"alpha": "255"
+			"alpha": "255",
+			"type": "frame"
 		},
 		{
 			"name": "gui_frame_title",
@@ -216,7 +237,8 @@
 			"h": "2",
 			"x": "centre",
 			"y": "1",
-			"alpha": "255"
+			"alpha": "255",
+			"type": "frame"
 		},
 		{
 			"name": "gui_frame_title_text",
@@ -226,7 +248,8 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "OPTIONS_TITLE",
-			"justification": "centre"
+			"justification": "centre",
+			"type": "text"
 		},
 		{
 			"name": "subtitle_gameplay",
@@ -236,7 +259,8 @@
 			"colour": "0xffff00ff",
 			"size": "38",
 			"string": "CONFIG_SUBTITLE_GAMEPLAY",
-			"justification": "centre"
+			"justification": "centre",
+			"type": "text"
 		},
 		{
 			"name": "subtitle_general",
@@ -246,7 +270,8 @@
 			"colour": "0xffff00ff",
 			"size": "38",
 			"string": "CONFIG_SUBTITLE_GENERAL",
-			"justification": "centre"
+			"justification": "centre",
+			"type": "text"
 		},
 		{
 			"name": "subtitle_graphics",
@@ -256,7 +281,8 @@
 			"colour": "0xffff00ff",
 			"size": "38",
 			"string": "CONFIG_SUBTITLE_GRAPHICS",
-			"justification": "centre"
+			"justification": "centre",
+			"type": "text"
 		},
 		{
 			"name": "options_menu",
@@ -270,7 +296,8 @@
 			"animated": "true",
 			"width": 48,
 			"background": "0x6060c8ff",
-			"justification": "left"
+			"justification": "left",
+			"type": "menu"
 		},
 		{
 			"name": "options_save_text",
@@ -281,7 +308,8 @@
 			"size": "38",
 			"string": "MENU_OPTIONS_SAVE",
 			"justification": "centre",
-			"background": "0x6060c8ff"
+			"background": "0x6060c8ff",
+			"type": "text"
 		},
 		{
 			"name": "options_cancel_text",
@@ -292,7 +320,8 @@
 			"size": "38",
 			"string": "MENU_OPTIONS_CANCEL",
 			"justification": "centre",
-			"background": "0x6060c8ff"
+			"background": "0x6060c8ff",
+			"type": "text"
 		},
 		{
 			"name": "options_reset_text",
@@ -303,7 +332,8 @@
 			"size": "38",
 			"string": "RESET_OPTIONS",
 			"justification": "centre",
-			"background": "0x6060c8ff"
+			"background": "0x6060c8ff",
+			"type": "text"
 		},
 		{
 			"name": "option_on",
@@ -311,7 +341,8 @@
 			"colour": "0x3fff3fff",
 			"size": "38",
 			"justification": "right",
-			"string": "OPTION_ON"
+			"string": "OPTION_ON",
+			"type": "text"
 		},
 		{
 			"name": "option_off",
@@ -319,7 +350,8 @@
 			"colour": "0xff3f3fff",
 			"size": "38",
 			"justification": "right",
-			"string": "OPTION_OFF"
+			"string": "OPTION_OFF",
+			"type": "text"
 		}
 		]
 	},
@@ -332,7 +364,8 @@
 			"h": "38",
 			"x": "centre",
 			"y": "2",
-			"alpha": "255"
+			"alpha": "255",
+			"type": "frame"
 		},
 		{
 			"name": "gui_frame_title",
@@ -340,7 +373,8 @@
 			"h": "2",
 			"x": "centre",
 			"y": "1",
-			"alpha": "255"
+			"alpha": "255",
+			"type": "frame"
 		},
 		{
 			"name": "gui_frame_title_text",
@@ -350,7 +384,8 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "COMPENDIUM_TITLE",
-			"justification": "centre"
+			"justification": "centre",
+			"type": "text"
 		}
 		]
 	},
@@ -363,7 +398,8 @@
 			"h": "38",
 			"x": "centre",
 			"y": "2",
-			"alpha": "255"
+			"alpha": "255",
+			"type": "frame"
 		},
 		{
 			"name": "castle_gui_frame_title",
@@ -371,7 +407,8 @@
 			"h": "2",
 			"x": "centre",
 			"y": "1",
-			"alpha": "255"
+			"alpha": "255",
+			"type": "frame"
 		},
 		{
 			"name": "edge_of_town_gui_frame_title",
@@ -379,7 +416,8 @@
 			"h": "2",
 			"x": "centre",
 			"y": "1",
-			"alpha": "255"
+			"alpha": "255",
+			"type": "frame"
 		},
 		{
 			"name": "castle_gui_frame_title_text",
@@ -389,7 +427,8 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "CASTLE_TITLE",
-			"justification": "centre"
+			"justification": "centre",
+			"type": "text"
 		},
 		{
 			"name": "edge_of_town_gui_frame_title_text",
@@ -399,7 +438,8 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "EDGE_OF_TOWN_TITLE",
-			"justification": "centre"
+			"justification": "centre",
+			"type": "text"
 		},
 		{
 			"name": "main_gui_frame",
@@ -407,7 +447,8 @@
 			"h": "29",
 			"x": "centre",
 			"y": "2",
-			"alpha": "255"
+			"alpha": "255",
+			"type": "frame"
 		},
 		{
 			"name": "character_frame",
@@ -415,7 +456,8 @@
 			"h": "8",
 			"x": "centre",
 			"y": "26",
-			"alpha": "255"
+			"alpha": "255",
+			"type": "frame"
 		},
 		{
 			"name": "castle_menu_frame",
@@ -423,7 +465,8 @@
 			"h": "7",
 			"x": "centre",
 			"y": "10",
-			"alpha": "225"
+			"alpha": "225",
+			"type": "frame"
 		},
 		{
 			"name": "edge_of_town_menu_frame",
@@ -431,7 +474,8 @@
 			"h": "6",
 			"x": "centre",
 			"y": "10",
-			"alpha": "225"
+			"alpha": "225",
+			"type": "frame"
 		},
 		{
 			"name": "castle_menu",
@@ -445,7 +489,8 @@
 			"animated": "true",
 			"width": "36",
 			"background": "0x6060c8ff",
-			"justification": "centre"
+			"justification": "centre",
+			"type": "menu"
 		},
 		{
 			"name": "edge_of_town_menu",
@@ -459,19 +504,15 @@
 			"animated": "true",
 			"width": "36",
 			"background": "0x6060c8ff",
-			"justification": "centre"
+			"justification": "centre",
+			"type": "menu"
 		},
 		{
 			"name": "background_image",
 			"x": "centre",
 			"y": "5",
-			"scale": "1.25"
-		},
-		{
-			"name": "background_image",
-			"x": "centre",
-			"y": "5",
-			"scale": "1.25"
+			"scale": "1.25",
+			"type": "image"
 		},
 		{
 			"name": "character_legend_name",
@@ -481,7 +522,8 @@
 			"colour": "0xffffffff",
 			"size": "28",
 			"string": "CHARACTER_LEGEND_NAME",
-			"justification": "left"
+			"justification": "left",
+			"type": "text"
 		},
 		{
 			"name": "character_legend_class",
@@ -491,7 +533,8 @@
 			"colour": "0xffffffff",
 			"size": "28",
 			"string": "CHARACTER_LEGEND_CLASS",
-			"justification": "left"
+			"justification": "left",
+			"type": "text"
 		},
 		{
 			"name": "character_legend_alignment",
@@ -501,7 +544,8 @@
 			"colour": "0xffffffff",
 			"size": "28",
 			"string": "CHARACTER_LEGEND_ALIGNMENT",
-			"justification": "left"
+			"justification": "left",
+			"type": "text"
 		},
 		{
 			"name": "character_legend_ac",
@@ -511,7 +555,8 @@
 			"colour": "0xffffffff",
 			"size": "28",
 			"string": "CHARACTER_LEGEND_AC",
-			"justification": "left"
+			"justification": "left",
+			"type": "text"
 		},
 		{
 			"name": "character_legend_hp",
@@ -521,7 +566,8 @@
 			"colour": "0xffffffff",
 			"size": "28",
 			"string": "CHARACTER_LEGEND_HP",
-			"justification": "left"
+			"justification": "left",
+			"type": "text"
 		},
 		{
 			"name": "character_legend_status",
@@ -531,7 +577,8 @@
 			"colour": "0xffffffff",
 			"size": "28",
 			"string": "CHARACTER_LEGEND_STATUS",
-			"justification": "left"
+			"justification": "left",
+			"type": "text"
 		}
 		]
 	}

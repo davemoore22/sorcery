@@ -235,11 +235,31 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 						} else
 							return Justification::LEFT;
 					}();
+					ComponentType component_type = [&] {
+						if (components[j].isMember("type")) {
+							if (components[j]["type"].asString().length() > 0) {
+								if (components[j]["type"].asString() == "frame")
+									return ComponentType::FRAME;
+								else if (components[j]["type"].asString() == "text")
+									return ComponentType::TEXT;
+								else if (components[j]["type"].asString() == "image")
+									return ComponentType::IMAGE;
+								else if (components[j]["type"].asString() == "tooltip")
+									return ComponentType::TOOLTIP;
+								else if (components[j]["type"].asString() == "menu")
+									return ComponentType::MENU;
+								else
+									return ComponentType::UNKNOWN;
+							} else
+								return ComponentType::UNKNOWN;
+						} else
+							return ComponentType::UNKNOWN;
+					}();
 
 					// Add the Component
 					std::string key = screen_name + ":" + name;
 					Component component(screen_name, name, x, y, w, h, scale, font_type, size, colour, animated,
-						string_key, alpha, width, background, justification);
+						string_key, alpha, width, background, justification, component_type);
 					_components[key] = component;
 				}
 			 }
