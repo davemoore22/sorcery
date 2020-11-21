@@ -43,7 +43,8 @@
 			"name": "logo_image",
 			"x": "centre",
 			"y": "3",
-			"type": "image"
+			"type": "image",
+			"priority": "1"
 		},
 		{
 			"name": "attract_creatures",
@@ -51,7 +52,8 @@
 			"y": "15",
 			"scale": "2.2",
 			"alpha": "175",
-			"type": "image"
+			"type": "image",
+			"priority": "3"
 		},
 		{
 			"name": "top_gui_frame",
@@ -60,7 +62,8 @@
 			"x": "centre",
 			"y": "2",
 			"alpha": "255",
-			"type": "frame"
+			"type": "frame",
+			"priority": "2"
 		},
 		{
 			"name": "bottom_gui_frame",
@@ -69,7 +72,8 @@
 			"x": "centre",
 			"y": "26",
 			"alpha": "255",
-			"type": "frame"
+			"type": "frame",
+			"priority": "4"
 		},
 		{
 			"name": "title",
@@ -80,7 +84,8 @@
 			"size": "38",
 			"string": "MAIN_MENU_TITLE",
 			"justification": "centre",
-			"type": "text"
+			"type": "text",
+			"priority": "5"
 		},
 		{
 			"name": "subtitle_1",
@@ -91,7 +96,8 @@
 			"size": "38",
 			"string": "MAIN_MENU_SUBTITLE_1",
 			"justification": "centre",
-			"type": "text"
+			"type": "text",
+			"priority": "6"
 		},
 		{
 			"name": "subtitle_2",
@@ -102,7 +108,8 @@
 			"size": "38",
 			"string": "MAIN_MENU_SUBTITLE_2",
 			"justification": "centre",
-			"type": "text"
+			"type": "text",
+			"priority": "7"
 		},
 		{
 			"name": "copyright",
@@ -113,7 +120,8 @@
 			"size": "38",
 			"string": "BRIEF_COPYRIGHT_INFO",
 			"justification": "centre",
-			"type": "text"
+			"type": "text",
+			"priority": "8"
 		},
 		{
 			"name": "press_any_key",
@@ -125,7 +133,8 @@
 			"string": "PRESS_ANY_KEY",
 			"animated": "true",
 			"justification": "centre",
-			"type": "text"
+			"type": "text",
+			"priority": "9"
 		},
 		{
 			"name": "main_menu",
@@ -140,7 +149,8 @@
 			"width": "54",
 			"background": "0x6060c8ff",
 			"justification": "centre",
-			"type": "menu"
+			"type": "menu",
+			"priority": "10"
 		},
 		{
 			"name": "confirm_exit_gui_frame",
@@ -175,7 +185,8 @@
 			"x": "centre",
 			"y": "2",
 			"alpha": "255",
-			"type": "frame"
+			"type": "frame",
+			"priority": "1"
 		},
 		{
 			"name": "gui_frame_title",
@@ -184,7 +195,8 @@
 			"x": "centre",
 			"y": "1",
 			"alpha": "255",
-			"type": "frame"
+			"type": "frame",
+			"priority": "2"
 		},
 		{
 			"name": "gui_frame_title_text",
@@ -195,7 +207,8 @@
 			"size": "38",
 			"string": "LICENSE_TITLE",
 			"justification": "centre",
-			"type": "text"
+			"type": "text",
+			"priority": "3"
 		},
 		{
 			"name": "license_file_text",
@@ -205,7 +218,8 @@
 			"x": "15",
 			"y": "5",
 			"h": "27",
-			"type": "text"
+			"type": "text",
+			"priority": "4"
 		},
 		{
 			"name": "license_file_progress",
@@ -215,7 +229,8 @@
 			"x": "65",
 			"y": "32",
 			"justification": "right",
-			"type": "text"
+			"type": "text",
+			"priority": "5"
 		}
 		]
 	},
@@ -229,7 +244,8 @@
 			"x": "centre",
 			"y": "2",
 			"alpha": "255",
-			"type": "frame"
+			"type": "frame",
+			"priority": "1"
 		},
 		{
 			"name": "gui_frame_title",
@@ -238,7 +254,8 @@
 			"x": "centre",
 			"y": "1",
 			"alpha": "255",
-			"type": "frame"
+			"type": "frame",
+			"priority": "2"
 		},
 		{
 			"name": "gui_frame_title_text",
@@ -249,7 +266,8 @@
 			"size": "38",
 			"string": "OPTIONS_TITLE",
 			"justification": "centre",
-			"type": "text"
+			"type": "text",
+			"priority": "3"
 		},
 		{
 			"name": "subtitle_gameplay",
@@ -260,18 +278,8 @@
 			"size": "38",
 			"string": "CONFIG_SUBTITLE_GAMEPLAY",
 			"justification": "centre",
-			"type": "text"
-		},
-		{
-			"name": "subtitle_general",
-			"x": "centre",
-			"y": "11",
-			"font": "monospace",
-			"colour": "0xffff00ff",
-			"size": "38",
-			"string": "CONFIG_SUBTITLE_GENERAL",
-			"justification": "centre",
-			"type": "text"
+			"type": "text",
+			"priority": "5"
 		},
 		{
 			"name": "subtitle_graphics",
@@ -282,7 +290,8 @@
 			"size": "38",
 			"string": "CONFIG_SUBTITLE_GRAPHICS",
 			"justification": "centre",
-			"type": "text"
+			"type": "text",
+			"priority": "6"
 		},
 		{
 			"name": "options_menu",
@@ -297,43 +306,8 @@
 			"width": 48,
 			"background": "0x6060c8ff",
 			"justification": "left",
-			"type": "menu"
-		},
-		{
-			"name": "options_save_text",
-			"x": "39",
-			"y": "31",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "38",
-			"string": "MENU_OPTIONS_SAVE",
-			"justification": "centre",
-			"background": "0x6060c8ff",
-			"type": "text"
-		},
-		{
-			"name": "options_cancel_text",
-			"x": "48",
-			"y": "31",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "38",
-			"string": "MENU_OPTIONS_CANCEL",
-			"justification": "centre",
-			"background": "0x6060c8ff",
-			"type": "text"
-		},
-		{
-			"name": "options_reset_text",
-			"x": "31",
-			"y": "31",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "38",
-			"string": "RESET_OPTIONS",
-			"justification": "centre",
-			"background": "0x6060c8ff",
-			"type": "text"
+			"type": "menu",
+			"priority": "4"
 		},
 		{
 			"name": "option_on",
@@ -365,7 +339,8 @@
 			"x": "centre",
 			"y": "2",
 			"alpha": "255",
-			"type": "frame"
+			"type": "frame",
+			"priority": "1"
 		},
 		{
 			"name": "gui_frame_title",
@@ -374,7 +349,8 @@
 			"x": "centre",
 			"y": "1",
 			"alpha": "255",
-			"type": "frame"
+			"type": "frame",
+			"priority": "2"
 		},
 		{
 			"name": "gui_frame_title_text",
@@ -385,7 +361,8 @@
 			"size": "38",
 			"string": "COMPENDIUM_TITLE",
 			"justification": "centre",
-			"type": "text"
+			"type": "text",
+			"priority": "3"
 		}
 		]
 	},
@@ -399,7 +376,8 @@
 			"x": "centre",
 			"y": "2",
 			"alpha": "255",
-			"type": "frame"
+			"type": "frame",
+			"priority": "1"
 		},
 		{
 			"name": "castle_gui_frame_title",
@@ -408,7 +386,8 @@
 			"x": "centre",
 			"y": "1",
 			"alpha": "255",
-			"type": "frame"
+			"type": "frame",
+			"priority": "2"
 		},
 		{
 			"name": "edge_of_town_gui_frame_title",
@@ -417,7 +396,8 @@
 			"x": "centre",
 			"y": "1",
 			"alpha": "255",
-			"type": "frame"
+			"type": "frame",
+			"priority": "2"
 		},
 		{
 			"name": "castle_gui_frame_title_text",
@@ -428,7 +408,8 @@
 			"size": "38",
 			"string": "CASTLE_TITLE",
 			"justification": "centre",
-			"type": "text"
+			"type": "text",
+			"priority": "3"
 		},
 		{
 			"name": "edge_of_town_gui_frame_title_text",
@@ -439,7 +420,8 @@
 			"size": "38",
 			"string": "EDGE_OF_TOWN_TITLE",
 			"justification": "centre",
-			"type": "text"
+			"type": "text",
+			"priority": "3"
 		},
 		{
 			"name": "main_gui_frame",
@@ -448,7 +430,8 @@
 			"x": "centre",
 			"y": "2",
 			"alpha": "255",
-			"type": "frame"
+			"type": "frame",
+			"priority": "4"
 		},
 		{
 			"name": "character_frame",
@@ -457,7 +440,8 @@
 			"x": "centre",
 			"y": "26",
 			"alpha": "255",
-			"type": "frame"
+			"type": "frame",
+			"priority": "5"
 		},
 		{
 			"name": "castle_menu_frame",
@@ -466,7 +450,8 @@
 			"x": "centre",
 			"y": "10",
 			"alpha": "225",
-			"type": "frame"
+			"type": "frame",
+			"priority": "6"
 		},
 		{
 			"name": "edge_of_town_menu_frame",
@@ -475,7 +460,8 @@
 			"x": "centre",
 			"y": "10",
 			"alpha": "225",
-			"type": "frame"
+			"type": "frame",
+			"priority": "6"
 		},
 		{
 			"name": "castle_menu",
@@ -490,7 +476,8 @@
 			"width": "36",
 			"background": "0x6060c8ff",
 			"justification": "centre",
-			"type": "menu"
+			"type": "menu",
+			"priority": "8"
 		},
 		{
 			"name": "edge_of_town_menu",
@@ -505,14 +492,16 @@
 			"width": "36",
 			"background": "0x6060c8ff",
 			"justification": "centre",
-			"type": "menu"
+			"type": "menu",
+			"priority": "8"
 		},
 		{
 			"name": "background_image",
 			"x": "centre",
 			"y": "5",
 			"scale": "1.25",
-			"type": "image"
+			"type": "image",
+			"priority": "7"
 		},
 		{
 			"name": "character_legend_name",

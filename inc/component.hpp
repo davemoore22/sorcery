@@ -36,7 +36,7 @@ namespace Sorcery {
 				float scale_, Enums::Internal::FontType font_, unsigned int size_, unsigned long long colour_,
 				bool animated_, std::string string_key_, unsigned int alpha_, unsigned int width_,
 				unsigned long long background_, Enums::Window::Justification justification_,
-				Enums::Window::ComponentType type_);
+				Enums::Window::ComponentType type_, unsigned int priority_);
 			Component();
 
 			// Copy Constructors
@@ -63,6 +63,7 @@ namespace Sorcery {
 			unsigned long long background;
 			Enums::Window::Justification justification;
 			Enums::Window::ComponentType type;
+			unsigned int priority;
 
 		private:
 

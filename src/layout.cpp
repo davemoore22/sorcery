@@ -44,7 +44,7 @@ Sorcery::Layout::Layout(const std::filesystem::path filename) {
 }
 
 // Overload [] Operator
-auto Sorcery::Layout::operator [] (const std::string& combined_key) -> Component& {
+auto Sorcery::Layout::operator[] (const std::string& combined_key) -> Component& {
 
 	// First check if we need to reload if anything has changed!
 	if (_refresh_needed())
@@ -58,6 +58,32 @@ auto Sorcery::Layout::operator [] (const std::string& combined_key) -> Component
 			return _components[0];
 	else
 		return _components[0];
+}
+
+// Overload () Operator
+auto Sorcery::Layout::operator() (const std::string& screen) -> std::optional<std::vector<Component>> {
+
+	// First check if we need to reload if anything has changed!
+	if (_refresh_needed())
+		_load(_filename);
+
+	// Else return the requested components for the screen
+	std::vector<Component> results;
+	if (_loaded) {
+		for (const auto &component : _components) {
+			if (component.second.screen == screen)
+				results.push_back(component.second);
+		}
+
+		// Sort by priority
+		std::sort(results.begin(), results.end(), [](const auto& first, const auto& second) {
+				return first.priority < second.priority;
+		});
+
+		return results;
+	}
+
+	return std::nullopt;
 }
 
 auto Sorcery::Layout::set_grid(unsigned int cell_width, unsigned int cell_height) -> void {
@@ -255,11 +281,20 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 						} else
 							return ComponentType::UNKNOWN;
 					}();
+					unsigned int priority = [&] {
+						if (components[j].isMember("priority")) {
+							if (components[j]["priority"].asString().length() > 0)
+								return std::stoi(components[j]["priority"].asString());
+							else
+								return 999;
+						} else
+							return 999;
+					}();
 
 					// Add the Component
 					std::string key = screen_name + ":" + name;
 					Component component(screen_name, name, x, y, w, h, scale, font_type, size, colour, animated,
-						string_key, alpha, width, background, justification, component_type);
+						string_key, alpha, width, background, justification, component_type, priority);
 					_components[key] = component;
 				}
 			 }
