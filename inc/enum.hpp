@@ -53,6 +53,12 @@ namespace Sorcery {
 
 	namespace Enums::Window {
 
+		// Draw Mode
+		enum class DrawMode {
+			MANUAL,
+			AUTOMATIC
+		};
+
 		// Input Mode
 		enum InputMode {
 			NORMAL,

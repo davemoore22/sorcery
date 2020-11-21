@@ -37,6 +37,11 @@ Sorcery::Banner::Banner(System& system, Display& display, Graphics& graphics):  
 	_fading_out = false;
 	_finished = false;
 
+	// Get the components
+	_components = (*_display.layout)("banner");
+
+	_generate();
+
 	// Get the Banner Image Details
 	Component banner_c {(*_display.layout)["banner:banner_image"]};
 
@@ -56,7 +61,9 @@ Sorcery::Banner::Banner(System& system, Display& display, Graphics& graphics):  
 	_banner.setPosition(banner_pos);
 }
 
+
 auto Sorcery::Banner::start() -> void {
+
 	sf::Event input_event {};
 	while (!_finished) {
 		_window->pollEvent(input_event);
@@ -67,6 +74,40 @@ auto Sorcery::Banner::start() -> void {
 		_window->display();
 		if ((input_event.type == sf::Event::KeyPressed) || (input_event.type == sf::Event::MouseButtonPressed))
 			_finished = true;
+	}
+}
+
+auto Sorcery::Banner::_generate() -> void {
+
+	// Generate the drawable components
+	_sprites.clear();
+	_texts.clear();
+	_frames.clear();
+	if (_components) {
+		for (const auto& component: _components.value()) {
+			switch (component.type) {
+				case ComponentType::FRAME:
+
+
+					break;
+				case ComponentType::IMAGE:
+
+
+
+
+					break;
+				case ComponentType::TEXT:
+
+
+					break;
+				case ComponentType::MENU:
+
+
+					break;
+				default:
+					break;
+			}
+		}
 	}
 }
 

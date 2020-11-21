@@ -27,6 +27,7 @@
 #include "system.hpp"
 #include "display.hpp"
 #include "graphics.hpp"
+#include "frame.hpp"
 
 namespace Sorcery {
 
@@ -47,6 +48,7 @@ namespace Sorcery {
 
 			// Private Methods
 			auto _draw() -> void;
+			auto _generate() -> void;
 			auto _update() -> void;
 
 			// Private Members
@@ -59,5 +61,9 @@ namespace Sorcery {
 			bool _fading_in;
 			bool _fading_out;
 			bool _finished;
+			std::optional<std::vector<Component>> _components;
+			std::vector<sf::Sprite> _sprites;
+			std::vector<sf::Text> _texts;
+			std::vector<Frame> _frames;
 	};
 }

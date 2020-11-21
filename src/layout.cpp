@@ -71,7 +71,7 @@ auto Sorcery::Layout::operator() (const std::string& screen) -> std::optional<st
 	std::vector<Component> results;
 	if (_loaded) {
 		for (const auto &component : _components) {
-			if (component.second.screen == screen)
+			if ((component.second.screen == screen) && (component.second.drawmode == WindowDrawMode::AUTOMATIC))
 				results.push_back(component.second);
 		}
 
@@ -290,11 +290,25 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 						} else
 							return 999;
 					}();
+					WindowDrawMode drawmode = [&] {
+						if (components[j].isMember("priority")) {
+							if (components[j]["type"].asString().length() > 0) {
+								if (components[j]["type"].asString() == "manual")
+									return WindowDrawMode::MANUAL;
+								else if (components[j]["type"].asString() == "automatic")
+									return WindowDrawMode::AUTOMATIC;
+								else
+									return WindowDrawMode::AUTOMATIC;
+							} else
+								return WindowDrawMode::AUTOMATIC;
+						} else
+							return WindowDrawMode::AUTOMATIC;
+					}();
 
 					// Add the Component
 					std::string key = screen_name + ":" + name;
 					Component component(screen_name, name, x, y, w, h, scale, font_type, size, colour, animated,
-						string_key, alpha, width, background, justification, component_type, priority);
+						string_key, alpha, width, background, justification, component_type, priority, drawmode);
 					_components[key] = component;
 				}
 			 }
