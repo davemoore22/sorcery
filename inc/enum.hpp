@@ -125,6 +125,18 @@ namespace Sorcery {
 			EDGE_OF_TOWN,
 			TRAIN
 		};
+
+		enum class Texture {
+			UNKNOWN,
+			BACKGROUND,
+			BANNER,
+			CREATURES,
+			LOGO,
+			NINEPATCH,
+			SPLASH,
+			TOWN,
+			UI
+		};
 	}
 
 	namespace Enums::Settings {

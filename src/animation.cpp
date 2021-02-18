@@ -56,13 +56,13 @@ auto Sorcery::Animation::start_colour_cycling() -> void {
 auto Sorcery::Animation::start_attract_mode_animation_threads() -> void {
 	start_attract_mode_animation();
 	if (!_attract_mode_animation_thread.joinable())
-		_attract_mode_animation_thread = std::thread(&Animation::_animate_attract_mode, this, false);
+		_attract_mode_animation_thread = std::jthread(&Animation::_animate_attract_mode, this, false);
 }
 
 auto Sorcery::Animation::start_colour_cycling_threads() -> void {
 	start_colour_cycling();
 	if (!_colour_cycling_thread.joinable())
-		_colour_cycling_thread = std::thread(&Animation::_colour_cycling, this, false);
+		_colour_cycling_thread = std::jthread(&Animation::_colour_cycling, this, false);
 }
 
 auto Sorcery::Animation::stop_attract_mode_animation() -> void {

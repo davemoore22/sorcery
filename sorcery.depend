@@ -1,13 +1,13 @@
 # depslib dependency file v1.0
-1602431769 source:/home/dave/Development/wizardry/sorcery-sfml/src/animation.cpp
+1613682751 source:/home/dave/Development/wizardry/sorcery-sfml/src/animation.cpp
 	"animation.hpp"
 
-1604516097 /home/dave/Development/wizardry/sorcery-sfml/inc/animation.hpp
+1613682740 /home/dave/Development/wizardry/sorcery-sfml/inc/animation.hpp
 	"main.hpp"
 	"system.hpp"
 	"display.hpp"
 
-1605984441 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1613683415 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -124,10 +124,10 @@
 
 1591211577 /home/dave/Development/wizardry/sorcery-sfml/inc/simpleini/ConvertUTF.h
 
-1603564928 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
+1606055154 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
-1605984421 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
+1613684078 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
 1603565631 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
@@ -139,7 +139,7 @@
 1591451794 /home/dave/Development/wizardry/sorcery-sfml/inc/operator.hpp
 	"main.hpp"
 
-1605984990 /home/dave/Development/wizardry/sorcery-sfml/inc/component.hpp
+1613683730 /home/dave/Development/wizardry/sorcery-sfml/inc/component.hpp
 	"main.hpp"
 
 1604517348 /home/dave/Development/wizardry/sorcery-sfml/inc/system.hpp
@@ -193,7 +193,7 @@
 	"string.hpp"
 	"layout.hpp"
 
-1605968544 source:/home/dave/Development/wizardry/sorcery-sfml/src/application.cpp
+1613682915 source:/home/dave/Development/wizardry/sorcery-sfml/src/application.cpp
 	"application.hpp"
 
 1605466480 /home/dave/Development/wizardry/sorcery-sfml/inc/application.hpp
@@ -242,11 +242,12 @@
 	"graphics.hpp"
 	"layout.hpp"
 
-1605985562 /home/dave/Development/wizardry/sorcery-sfml/inc/banner.hpp
+1605985989 /home/dave/Development/wizardry/sorcery-sfml/inc/banner.hpp
 	"main.hpp"
 	"system.hpp"
 	"display.hpp"
 	"graphics.hpp"
+	"frame.hpp"
 
 1604516990 /home/dave/Development/wizardry/sorcery-sfml/inc/mainmenu.hpp
 	"main.hpp"
@@ -258,7 +259,7 @@
 	"confirm.hpp"
 	"frame.hpp"
 
-1604516045 source:/home/dave/Development/wizardry/sorcery-sfml/src/banner.cpp
+1613683015 source:/home/dave/Development/wizardry/sorcery-sfml/src/banner.cpp
 	"banner.hpp"
 
 1590869111 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp

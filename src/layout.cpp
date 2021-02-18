@@ -305,10 +305,38 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 							return WindowDrawMode::AUTOMATIC;
 					}();
 
+					GraphicsTexture texture = [&] {
+						if (components[j].isMember("texture")) {
+							if (components[j]["texture"].asString().length() > 0) {
+								if (components[j]["texture"].asString() == "background")
+									return GraphicsTexture::BACKGROUND;
+								else if (components[j]["type"].asString() == "banner")
+									return GraphicsTexture::BANNER;
+								else if (components[j]["type"].asString() == "creature")
+									return GraphicsTexture::CREATURES;
+								else if (components[j]["type"].asString() == "logo")
+									return GraphicsTexture::LOGO;
+								else if (components[j]["type"].asString() == "ninepatch")
+									return GraphicsTexture::NINEPATCH;
+								else if (components[j]["type"].asString() == "splash")
+									return GraphicsTexture::SPLASH;
+								else if (components[j]["type"].asString() == "town")
+									return GraphicsTexture::TOWN;
+								else if (components[j]["type"].asString() == "ui")
+									return GraphicsTexture::UI;
+								else
+									return GraphicsTexture::UNKNOWN;
+							} else
+								return GraphicsTexture::UNKNOWN;
+						} else
+							return GraphicsTexture::UNKNOWN;
+					}();
+
 					// Add the Component
 					std::string key = screen_name + ":" + name;
 					Component component(screen_name, name, x, y, w, h, scale, font_type, size, colour, animated,
-						string_key, alpha, width, background, justification, component_type, priority, drawmode);
+						string_key, alpha, width, background, justification, component_type, priority, drawmode,
+						texture);
 					_components[key] = component;
 				}
 			 }

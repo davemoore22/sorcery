@@ -91,7 +91,7 @@ auto Sorcery::Banner::_generate() -> void {
 
 					break;
 				case ComponentType::IMAGE:
-
+					std::cout << component.name << std::endl;
 
 
 

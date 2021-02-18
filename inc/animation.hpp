@@ -62,8 +62,8 @@ namespace Sorcery {
 			// Private Members
 			System _system;
 			Display _display;
-			std::thread _attract_mode_animation_thread;
-			std::thread _colour_cycling_thread;
+			std::jthread _attract_mode_animation_thread;
+			std::jthread _colour_cycling_thread;
 			std::atomic<bool> _allow_attract_mode_animations;
 			std::atomic<bool> _allow_colour_cycling;
 			std::atomic<bool> _colour_cycling_direction;
