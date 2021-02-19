@@ -243,13 +243,3 @@ auto Sorcery::Window::highlight_text(sf::Text& text, Component component, double
 	text.setOutlineThickness(2);
 	return text_background;
 }
-
-auto Sorcery::Window::generate_display_components(const std::string screen) -> void {
-
-	std::optional<std::vector<Component>> components {_layout(screen)};
-
-	std::vector<std::pair<std::string, sf::Sprite>> _sprites;
-	std::vector<std::pair<std::string, sf::Text>> _texts;
-	//std::vector<std::pair<std::string, Frame>> _frames;
-
-}

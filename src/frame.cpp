@@ -24,8 +24,8 @@
 #include "frame.hpp"
 
 // Standard Constructor
-Sorcery::Frame::Frame(System& system, WindowFrameType type, const unsigned int width_units,
-	const unsigned int height_units, const unsigned int alpha): _system {system}, _type{type},
+Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type, const unsigned int width_units,
+	const unsigned int height_units, const unsigned int alpha): _texture {texture}, _type{type},
 	_width_units{width_units}, _height_units{height_units}, _alpha {alpha} {
 
 	// Define the 8 parts of the Frame based upon the location in the GUI Texture
@@ -52,7 +52,7 @@ Sorcery::Frame::Frame(System& system, WindowFrameType type, const unsigned int w
 	// Get the Frame Components
 	unsigned int loop = 0;
 	for (auto& frame_sprite : _frame_sprites) {
-		frame_sprite = sf::Sprite(_system.resources->textures[UI_TEXTURE]);
+		frame_sprite = sf::Sprite(_texture);
 		frame_sprite.setTextureRect(_frame_parts[loop]);
 		++loop;
 	}
@@ -61,19 +61,19 @@ Sorcery::Frame::Frame(System& system, WindowFrameType type, const unsigned int w
 	#pragma GCC diagnostic ignored "-Wreturn-type"
 
 	// Work out total size of texture needed from units
-	const unsigned int texture_size_x = [&] {
+	_texture_size_x = [&] {
 		if (_type == WindowFrameType::NORMAL)
 			return 20 + (20 * width_units) + 20;
 		else if (_type == WindowFrameType::HINT)
 			return 18 + (24 * width_units) + 18;
 	}();
-	const unsigned int texture_size_y = [&] {
+	_texture_size_y = [&] {
 		if (_type == WindowFrameType::NORMAL)
 			return 20 + (20 * height_units) + 20;
 		else if (_type == WindowFrameType::HINT)
 			return 18 + (24 * height_units) + 18;
 	}();
-	const sf::Vector2f texture_size(texture_size_x, texture_size_y);
+	const sf::Vector2f texture_size(_texture_size_x, _texture_size_y);
 	_render_texture.create(texture_size.x, texture_size.y);
 
 	// Render the background

@@ -24,9 +24,6 @@
 #pragma once
 
 #include "main.hpp"
-#include "system.hpp"
-#include "display.hpp"
-#include "graphics.hpp"
 #include "layout.hpp"
 
 
@@ -39,16 +36,17 @@ namespace Sorcery {
 	public:
 
 			// Constructors
-			Frame(System& system, WindowFrameType _type, const unsigned int width_units,
+			Frame(sf::Texture texture, WindowFrameType _type, const unsigned int width_units,
 				const unsigned int height_units, const unsigned int alpha);
 			Frame() = delete;
 
 			// Public Members
-
-			// Public Methods
 			unsigned int width;
 			unsigned int height;
 			sf::Sprite sprite;
+
+			// Public Methods
+
 
 		private:
 
@@ -56,7 +54,6 @@ namespace Sorcery {
 			auto virtual draw(sf::RenderTarget& target, sf::RenderStates states) const -> void;
 
 			// Private Members
-			System _system;
 			WindowFrameType _type;
 			unsigned int _width_units;
 			unsigned int _height_units;
@@ -67,5 +64,7 @@ namespace Sorcery {
 			sf::Texture _texture;
 			sf::Sprite _frame;
 			sf::RectangleShape _background;
+			unsigned int _texture_size_x;
+			unsigned int _texture_size_y;
 	};
 }

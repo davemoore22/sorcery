@@ -126,4 +126,4 @@ namespace Sorcery {
 		void setFloorRenderColor(const sf::Color& color);
 		void setWallRenderColor(const sf::Color& color);
 	};
-};
+}

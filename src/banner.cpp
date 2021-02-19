@@ -27,9 +27,8 @@
 Sorcery::Banner::Banner(System& system, Display& display, Graphics& graphics):  _system {system}, _display {display},
 	_graphics {graphics} {
 
-	// Get the Window and Graphics to Display
+	// Get the Main Window
 	_window = _display.window->get_window();
-	_banner.setTexture(system.resources->textures[BANNER_TEXTURE]);
 
 	// Set up the Timers
 	_alpha = 0;
@@ -37,31 +36,8 @@ Sorcery::Banner::Banner(System& system, Display& display, Graphics& graphics):  
 	_fading_out = false;
 	_finished = false;
 
-	// Get the components
-	_components = (*_display.layout)("banner");
-
-	_generate();
-
-	// Get the Banner Image Details
-	Component banner_c {(*_display.layout)["banner:banner_image"]};
-
-	// Scale the Banner Image to less than the Window Size
-	ImageSize size {static_cast<unsigned int>(_banner.getLocalBounds().width),
-		static_cast<unsigned int>(_banner.getLocalBounds().height)};
-	const ImageSize window_size {_window->getSize().x, _window->getSize().y};
-	float scale_ratio_needed {1.0f};
-	if ((size.w > window_size.w) || (size.h > window_size.h)) {
-		float shrink_width_needed {static_cast<float>(window_size.w) / static_cast<float>(size.w)};
-		float shrink_height_needed {static_cast<float>(window_size.h) / static_cast<float>(size.h)};
-		scale_ratio_needed = std::min(shrink_width_needed, shrink_height_needed);
-	}
-	_banner.setScale(scale_ratio_needed, scale_ratio_needed);
-	const sf::Vector2f banner_pos(_display.window->get_x(_banner, banner_c.x),
-		_display.window->get_y(_banner, banner_c.y));
-	_banner.setPosition(banner_pos);
-
-	// Add the sprites/texts/images to a vector::stdpair in the windows class?
-	// therefore the drawing of all the standard stuff can be based upon the screen only
+	// Get the Display Components
+	_display.generate_components("banner");
 }
 
 
@@ -80,73 +56,13 @@ auto Sorcery::Banner::start() -> void {
 	}
 }
 
-auto Sorcery::Banner::_generate() -> void {
-
-	// Generate the drawable components
-	_sprites.clear();
-	_texts.clear();
-	_frames.clear();
-
-	if (_components) {
-		for (const auto& component: _components.value()) {
-			if (component.type == ComponentType::IMAGE) {
-
-				// Skip in case of an error
-				if (component.texture == GraphicsTexture::NONE)
-					continue;
-
-				// Get the texture
-				sf::Sprite image;
-				//image.setTexture(_system.resources->textures[BANNER_TEXTURE]);
-				image.setTexture(_system.resources->texture[component.texture]);
-
-				// Scale to less than the window size if needed
-				if (component.unique_key == "banner:banner_image") {
-					ImageSize size {static_cast<unsigned int>(image.getLocalBounds().width),
-						static_cast<unsigned int>(image.getLocalBounds().height)};
-					const ImageSize window_size {_window->getSize().x, _window->getSize().y};
-
-					float scale_ratio_needed {1.0f};
-					if ((size.w > window_size.w) || (size.h > window_size.h)) {
-						float shrink_width_needed {static_cast<float>(window_size.w) / static_cast<float>(size.w)};
-						float shrink_height_needed {static_cast<float>(window_size.h) / static_cast<float>(size.h)};
-						scale_ratio_needed = std::min(shrink_width_needed, shrink_height_needed);
-					}
-					image.setScale(scale_ratio_needed, scale_ratio_needed);
-				}
-
-				// Set the image position
-				const sf::Vector2f image_pos(_display.window->get_x(image, component.x),
-					_display.window->get_y(image, component.y));
-				image.setPosition(image_pos);
-
-				// Add the image to the components ready to draw
-				_sprites.push_back(image);
-
-			} else if (component.type == ComponentType::FRAME) {
-
-
-			} else if (component.type == ComponentType::TEXT) {
-
-			}
-		}
-	}
-}
-
 auto Sorcery::Banner::_draw() -> void {
-	//_banner.setColor(sf::Color(255,255,255, _alpha));
-	//_window->draw(_banner);
 
-
-	for (auto& sprite: _sprites) {
-		sprite.setColor(sf::Color(255,255,255, _alpha));
-		_window->draw(sprite);
-
-
-	}
+	_display.display_components(_alpha);
 }
 
 auto Sorcery::Banner::_update() -> void {
+
 	if (_fading_in)
 		_alpha++;
 	if (_fading_out)

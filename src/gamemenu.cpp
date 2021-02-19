@@ -84,17 +84,17 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 		_display.window->get_y(_edge_of_town_background, background_c.y));
 
 	// Generate the frames
-	_outside_frame = std::make_unique<Frame>(_system, WindowFrameType::NORMAL, outside_frame_c.w,
+	_outside_frame = std::make_unique<Frame>(_display.ui_texture, WindowFrameType::NORMAL, outside_frame_c.w,
 		outside_frame_c.h, outside_frame_c.alpha);
-	_castle_title_frame = std::make_unique<Frame>(_system, WindowFrameType::NORMAL,
+	_castle_title_frame = std::make_unique<Frame>(_display.ui_texture, WindowFrameType::NORMAL,
 		castle_title_frame_c.w, castle_title_frame_c.h, castle_title_frame_c.alpha);
-	_edge_of_town_title_frame = std::make_unique<Frame>(_system, WindowFrameType::NORMAL,
+	_edge_of_town_title_frame = std::make_unique<Frame>(_display.ui_texture, WindowFrameType::NORMAL,
 		edge_of_town_title_frame_c.w, edge_of_town_title_frame_c.h, edge_of_town_title_frame_c.alpha);
-	_character_frame = std::make_unique<Frame>(_system, WindowFrameType::NORMAL,
+	_character_frame = std::make_unique<Frame>(_display.ui_texture, WindowFrameType::NORMAL,
 		character_frame_c.w, character_frame_c.h, character_frame_c.alpha);
-	_castle_menu_frame = std::make_unique<Frame>(_system, WindowFrameType::NORMAL,
+	_castle_menu_frame = std::make_unique<Frame>(_display.ui_texture, WindowFrameType::NORMAL,
 		castle_menu_frame_c.w, castle_menu_frame_c.h, castle_menu_frame_c.alpha);
-	_edge_of_town_menu_frame = std::make_unique<Frame>(_system, WindowFrameType::NORMAL,
+	_edge_of_town_menu_frame = std::make_unique<Frame>(_display.ui_texture, WindowFrameType::NORMAL,
 		edge_of_town_menu_frame_c.w, edge_of_town_menu_frame_c.h, edge_of_town_menu_frame_c.alpha);
 
 	_outside_frame->setPosition(_display.window->get_x(_outside_frame->sprite, outside_frame_c.x),

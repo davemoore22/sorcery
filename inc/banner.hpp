@@ -48,7 +48,6 @@ namespace Sorcery {
 
 			// Private Methods
 			auto _draw() -> void;
-			auto _generate() -> void;
 			auto _update() -> void;
 
 			// Private Members
@@ -56,14 +55,9 @@ namespace Sorcery {
 			Display _display;
 			Graphics _graphics;
 			sf::RenderWindow* _window;
-			sf::Sprite _banner;
 			unsigned int _alpha;
 			bool _fading_in;
 			bool _fading_out;
 			bool _finished;
-			std::optional<std::vector<Component>> _components;
-			std::vector<sf::Sprite> _sprites;
-			std::vector<sf::Text> _texts;
-			std::vector<Frame> _frames;
 	};
 }
