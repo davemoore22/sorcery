@@ -127,7 +127,7 @@ namespace Sorcery {
 		};
 
 		enum class Texture {
-			UNKNOWN,
+			NONE,
 			BACKGROUND,
 			BANNER,
 			CREATURES,

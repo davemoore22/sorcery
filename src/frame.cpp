@@ -24,13 +24,9 @@
 #include "frame.hpp"
 
 // Standard Constructor
-Sorcery::Frame::Frame(System& system, Display& display, Graphics& graphics, WindowFrameType type,
-	const unsigned int width_units, const unsigned int height_units, const unsigned int alpha): _system {system},
-	_display {display}, _graphics {graphics}, _type{type}, _width_units{width_units}, _height_units{height_units},
-	_alpha {alpha} {
-
-	// Get the Window Pointer
-	_window = _display.window->get_window();
+Sorcery::Frame::Frame(System& system, WindowFrameType type, const unsigned int width_units,
+	const unsigned int height_units, const unsigned int alpha): _system {system}, _type{type},
+	_width_units{width_units}, _height_units{height_units}, _alpha {alpha} {
 
 	// Define the 8 parts of the Frame based upon the location in the GUI Texture
 	if (_type == WindowFrameType::NORMAL) {

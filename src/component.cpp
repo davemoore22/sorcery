@@ -25,6 +25,8 @@
 Sorcery::Component::Component(): screen{""}, name{""}, x{0}, y{0}, w{0}, h{0}, scale{0.0f}, font{0},
 	size{0}, colour{0}, animated{false}, string_key{""}, alpha{255}, background{0}, justification{}, type{},
 	priority{999}, drawmode{}, texture{} {
+
+	unique_key.clear();
 }
 
 Sorcery::Component::Component(std::string screen_, std::string name_, int x_, int y_, unsigned int w_, unsigned int h_,
@@ -35,6 +37,8 @@ Sorcery::Component::Component(std::string screen_, std::string name_, int x_, in
 	w{w_}, h{h_}, scale{scale_}, font{font_}, size{size_}, colour{colour_}, animated{animated_},
 	string_key{string_key_}, alpha{alpha_}, width{width_}, background{background_}, justification{justification_},
 	type{type_}, priority{priority_}, drawmode{drawmode_}, texture{texture_} {
+
+	unique_key = screen + ":" + name;
 }
 
 // Copy Constructors
@@ -43,6 +47,8 @@ Sorcery::Component::Component(const Component &other): screen{other.screen}, nam
 	animated{other.animated}, string_key{other.string_key}, alpha{other.alpha}, width{other.width},
 	background{other.background}, justification{other.justification}, type{other.type}, priority{other.priority},
 	drawmode{other.drawmode}, texture{other.texture} {
+
+	unique_key = other.unique_key;
 }
 
 auto Sorcery::Component::operator= (const Component &other) -> Component& {
@@ -66,6 +72,7 @@ auto Sorcery::Component::operator= (const Component &other) -> Component& {
 	priority = other.priority;
 	drawmode = other.drawmode;
 	texture = other.texture;
+	unique_key = other.unique_key;
 
 	return *this;
 }

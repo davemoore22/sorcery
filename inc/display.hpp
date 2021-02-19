@@ -28,6 +28,7 @@
 #include "string.hpp"
 #include "layout.hpp"
 #include "window.hpp"
+//#include "frame.hpp"
 
 // Forward Declarations
 namespace Sorcery {
@@ -36,6 +37,7 @@ namespace Sorcery {
 	class String;
 	class Layout;
 	class Window;
+	//class Frame;
 
 	// Superclass to handle basic display requirements such as Windopw Access, Game Text and so on
 	class Display {
@@ -56,6 +58,9 @@ namespace Sorcery {
 		private:
 
 			// Private Members
+			std::vector<std::pair<std::string, sf::Sprite>> _sprites;
+			std::vector<std::pair<std::string, sf::Text>> _texts;
+			std::vector<std::pair<std::string, sf::Sprite>> _frames;
 
 			// Private Methods
 	};

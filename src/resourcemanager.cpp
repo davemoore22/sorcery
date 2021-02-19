@@ -44,6 +44,21 @@ Sorcery::ResourceManager::ResourceManager(File& files): _files {files} {
 		textures.acquire(UI_TEXTURE,
 			thor::Resources::fromFile<sf::Texture>(_files[UI_TEXTURE]));
 
+		texture.acquire(Enums::Graphics::Texture::BACKGROUND,
+			thor::Resources::fromFile<sf::Texture>(_files[BACKGROUND_TEXTURE]));
+		texture.acquire(Enums::Graphics::Texture::BANNER,
+			thor::Resources::fromFile<sf::Texture>(_files[BANNER_TEXTURE]));
+		texture.acquire(Enums::Graphics::Texture::CREATURES,
+			thor::Resources::fromFile<sf::Texture>(_files[CREATURES_TEXTURE]));
+		texture.acquire(Enums::Graphics::Texture::LOGO,
+			thor::Resources::fromFile<sf::Texture>(_files[LOGO_TEXTURE]));
+		texture.acquire(Enums::Graphics::Texture::SPLASH,
+			thor::Resources::fromFile<sf::Texture>(_files[SPLASH_TEXTURE]));
+		texture.acquire(Enums::Graphics::Texture::TOWN,
+			thor::Resources::fromFile<sf::Texture>(_files[TOWN_TEXTURE]));
+		texture.acquire(Enums::Graphics::Texture::UI,
+			thor::Resources::fromFile<sf::Texture>(_files[UI_TEXTURE]));
+
 		fonts.acquire(FontType::MONOSPACE,
 			thor::Resources::fromFile<sf::Font>(_files[MONO_FONT_FILE]));
 		fonts.acquire(FontType::PROPORTIONAL,

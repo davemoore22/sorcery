@@ -39,8 +39,8 @@ namespace Sorcery {
 	public:
 
 			// Constructors
-			Frame(System& system, Display& display, Graphics& graphics, WindowFrameType _type,
-				const unsigned int width_units, const unsigned int height_units, const unsigned int alpha);
+			Frame(System& system, WindowFrameType _type, const unsigned int width_units,
+				const unsigned int height_units, const unsigned int alpha);
 			Frame() = delete;
 
 			// Public Members
@@ -57,13 +57,10 @@ namespace Sorcery {
 
 			// Private Members
 			System _system;
-			Display _display;
-			Graphics _graphics;
 			WindowFrameType _type;
 			unsigned int _width_units;
 			unsigned int _height_units;
 			unsigned int _alpha;
-			sf::RenderWindow* _window;
 			std::array<sf::IntRect, 8> _frame_parts;
 			std::array<sf::Sprite, 8> _frame_sprites;
 			sf::RenderTexture _render_texture;

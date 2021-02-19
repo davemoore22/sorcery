@@ -67,6 +67,7 @@ namespace Sorcery {
 			unsigned int priority;
 			Enums::Window::DrawMode drawmode;
 			Enums::Graphics::Texture texture;
+			std::string unique_key;
 
 		private:
 

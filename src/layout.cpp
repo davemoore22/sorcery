@@ -310,26 +310,26 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 							if (components[j]["texture"].asString().length() > 0) {
 								if (components[j]["texture"].asString() == "background")
 									return GraphicsTexture::BACKGROUND;
-								else if (components[j]["type"].asString() == "banner")
+								else if (components[j]["texture"].asString() == "banner")
 									return GraphicsTexture::BANNER;
-								else if (components[j]["type"].asString() == "creature")
+								else if (components[j]["texture"].asString() == "creature")
 									return GraphicsTexture::CREATURES;
-								else if (components[j]["type"].asString() == "logo")
+								else if (components[j]["texture"].asString() == "logo")
 									return GraphicsTexture::LOGO;
-								else if (components[j]["type"].asString() == "ninepatch")
+								else if (components[j]["texture"].asString() == "ninepatch")
 									return GraphicsTexture::NINEPATCH;
-								else if (components[j]["type"].asString() == "splash")
+								else if (components[j]["texture"].asString() == "splash")
 									return GraphicsTexture::SPLASH;
-								else if (components[j]["type"].asString() == "town")
+								else if (components[j]["texture"].asString() == "town")
 									return GraphicsTexture::TOWN;
-								else if (components[j]["type"].asString() == "ui")
+								else if (components[j]["texture"].asString() == "ui")
 									return GraphicsTexture::UI;
 								else
-									return GraphicsTexture::UNKNOWN;
+									return GraphicsTexture::NONE;
 							} else
-								return GraphicsTexture::UNKNOWN;
+								return GraphicsTexture::NONE;
 						} else
-							return GraphicsTexture::UNKNOWN;
+							return GraphicsTexture::NONE;
 					}();
 
 					// Add the Component

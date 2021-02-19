@@ -22,7 +22,8 @@
 			"x": "centre",
 			"y": "centre",
 			"scale": "0.5",
-			"type": "image"
+			"type": "image",
+			"texture": "splash"
 		}
 		]
 	},
@@ -46,7 +47,8 @@
 			"x": "centre",
 			"y": "3",
 			"type": "image",
-			"priority": "1"
+			"priority": "1",
+			"texture": "logo"
 		},
 		{
 			"name": "attract_creatures",
@@ -56,7 +58,8 @@
 			"alpha": "175",
 			"type": "image",
 			"priority": "3",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"texture": "creatures"
 		},
 		{
 			"name": "top_gui_frame",
@@ -506,7 +509,8 @@
 			"y": "5",
 			"scale": "1.25",
 			"type": "image",
-			"priority": "7"
+			"priority": "7",
+			"texture": "town"
 		},
 		{
 			"name": "character_legend_name",

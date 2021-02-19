@@ -39,6 +39,7 @@ namespace Sorcery {
 
 			// Public Members
 			thor::ResourceHolder<sf::Texture, std::string_view> textures;
+			thor::ResourceHolder<sf::Texture, Enums::Graphics::Texture> texture;
 			thor::ResourceHolder<sf::Font, FontType> fonts;
 			std::shared_ptr<TextFile> license_file;
 

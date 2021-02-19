@@ -58,10 +58,10 @@ auto Sorcery::Compendium::start() -> void {
 	Component title_frame_c {(*_display.layout)["compendium:gui_frame_title"]};
 
 	// Generate the frame
-	_outside_frame = std::make_unique<Frame>(_system, _display, _graphics, WindowFrameType::NORMAL, outside_frame_c.w,
-		outside_frame_c.h, outside_frame_c.alpha);
-	_title_frame = std::make_unique<Frame>(_system, _display, _graphics, WindowFrameType::NORMAL, title_frame_c.w,
-		title_frame_c.h, title_frame_c.alpha);
+	_outside_frame = std::make_unique<Frame>(_system, WindowFrameType::NORMAL, outside_frame_c.w, outside_frame_c.h,
+		outside_frame_c.alpha);
+	_title_frame = std::make_unique<Frame>(_system, WindowFrameType::NORMAL, title_frame_c.w, title_frame_c.h,
+		title_frame_c.alpha);
 	_outside_frame->setPosition(_display.window->get_x(_outside_frame->sprite, outside_frame_c.x),
 		_display.window->get_y(_outside_frame->sprite, outside_frame_c.y));
 	_title_frame->setPosition(_display.window->get_x(_title_frame->sprite, title_frame_c.x),

@@ -96,9 +96,9 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	Component top_frame_c {(*_display.layout)["main_menu_attract:top_gui_frame"]};
 	Component menu_frame_c {(*_display.layout)["main_menu_attract:bottom_gui_frame"]};
 	_attract_creatures_c = Component((*_display.layout)["main_menu_attract:attract_creatures"]);
-	_attract_frame = std::make_unique<Frame>(_system, _display, _graphics, WindowFrameType::NORMAL, top_frame_c.w,
+	_attract_frame = std::make_unique<Frame>(_system, WindowFrameType::NORMAL, top_frame_c.w,
 		top_frame_c.h, top_frame_c.alpha);
-	_menu_frame = std::make_unique<Frame>(_system, _display, _graphics, WindowFrameType::NORMAL, menu_frame_c.w,
+	_menu_frame = std::make_unique<Frame>(_system, WindowFrameType::NORMAL, menu_frame_c.w,
 		menu_frame_c.h, menu_frame_c.alpha);
 
 	_attract_frame->setPosition(_display.window->get_x(_attract_frame->sprite, top_frame_c.x),
