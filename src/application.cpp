@@ -36,10 +36,10 @@ Sorcery::Application::Application(int argc, char** argv) {
 	_window = display->window->get_window();
 
 	// Show the Splash Screen and the Banner before starting the Main Menu
-	//_splash = std::make_shared<Splash>(*system, *display, *graphics);
-	//_splash->start();
-	_banner = std::make_shared<Banner>(*system, *display, *graphics);
-	_banner->start();
+	_splash = std::make_shared<Splash>(*system, *display, *graphics);
+	_splash->start();
+	//_banner = std::make_shared<Banner>(*system, *display, *graphics);
+	//_banner->start();
 
 	// Start relevant animation worker threads
 	graphics->animation->force_refresh_colour_cycling();

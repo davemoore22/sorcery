@@ -82,9 +82,9 @@
 			<Cursor1 position="286" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src/display.cpp" open="1" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/display.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3269" topLine="61" />
+			<Cursor1 position="3453" topLine="73" />
 		</Cursor>
 	</File>
 	<File name="inc/graphics.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -109,7 +109,7 @@
 	</File>
 	<File name="src/splash.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="22" />
+			<Cursor1 position="1656" topLine="28" />
 		</Cursor>
 	</File>
 	<File name="src/config.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

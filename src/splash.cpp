@@ -29,7 +29,6 @@ Sorcery::Splash::Splash (System& system, Display& display, Graphics& graphics): 
 
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();
-	_splash.setTexture(system.resources->textures[SPLASH_TEXTURE]);
 
 	// Set up the Timers
 	_alpha = 0;
@@ -37,24 +36,8 @@ Sorcery::Splash::Splash (System& system, Display& display, Graphics& graphics): 
 	_fading_out = false;
 	_finished = false;
 
-	// Get the Splash Image Details
-	Component splash_c {(*_display.layout)["splash:splash_image"]};
-
-	// Scale the Splash Image to less than the Window Size
-	ImageSize size {static_cast<unsigned int>(_splash.getLocalBounds().width),
-		static_cast<unsigned int>(_splash.getLocalBounds().height)};
-	const ImageSize window_size {_window->getSize().x, _window->getSize().y};
-	float scale_ratio_needed {1.0f};
-	if ((size.w > window_size.w) || (size.h > window_size.h)) {
-		float shrink_width_needed {static_cast<float>(window_size.w) / static_cast<float>(size.w)};
-		float shrink_height_needed {static_cast<float>(window_size.h) / static_cast<float>(size.h)};
-		scale_ratio_needed = std::min(shrink_width_needed, shrink_height_needed);
-	}
-	_splash.setScale(scale_ratio_needed, scale_ratio_needed);
-	_splash.setScale(splash_c.scale, splash_c.scale);
-	const sf::Vector2f splash_pos(_display.window->get_x(_splash, splash_c.x),
-		_display.window->get_y(_splash, splash_c.y));
-	_splash.setPosition(splash_pos);
+	// Get the Display Components
+	_display.generate_components("splash");
 }
 
 auto Sorcery::Splash::start() -> void {
@@ -73,8 +56,7 @@ auto Sorcery::Splash::start() -> void {
 
 auto Sorcery::Splash::_draw() -> void {
 
-	_splash.setColor(sf::Color(255,255,255, _alpha));
-	_window->draw(_splash);
+	_display.display_components(_alpha);
 }
 
 auto Sorcery::Splash::_update() -> void {

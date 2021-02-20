@@ -55,7 +55,6 @@ namespace Sorcery {
 			Display _display;
 			Graphics _graphics;
 			sf::RenderWindow* _window;
-			sf::Sprite _splash;
 			unsigned int _alpha;
 			bool _fading_in;
 			bool _fading_out;

@@ -50,11 +50,10 @@ auto Sorcery::Display::generate_components(const std::string screen) -> void {
 
 				// Get the texture
 				sf::Sprite image;
-				//image.setTexture(_system.resources->textures[BANNER_TEXTURE]);
 				image.setTexture(_system->resources->texture[component.texture]);
 
 				// Scale to less than the window size if needed
-				if (component.unique_key == "banner:banner_image") {
+				if ((component.unique_key == "banner:banner_image") || (component.unique_key == "splash:splash_image")) {
 					ImageSize size {static_cast<unsigned int>(image.getLocalBounds().width),
 						static_cast<unsigned int>(image.getLocalBounds().height)};
 					const ImageSize window_size {window->get_window()->getSize().x, window->get_window()->getSize().y};
@@ -90,7 +89,7 @@ auto Sorcery::Display::generate_components(const std::string screen) -> void {
 auto Sorcery::Display::display_components(std::optional<std::any> parameter) -> void {
 
 	for (auto& [unique_key, sprite]: _sprites) {
-		if (unique_key == "banner:banner_image") {
+		if ((unique_key == "banner:banner_image") || (unique_key == "splash:splash_image")){
 			if (parameter) {
 				sprite.setColor(sf::Color(255,255,255, std::any_cast<unsigned int>(parameter.value())));
 			}
