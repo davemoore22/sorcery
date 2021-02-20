@@ -39,6 +39,7 @@ auto Sorcery::Display::generate_components(const std::string screen) -> void {
 
 	_sprites.clear();
 	_texts.clear();
+	_frames.clear();
 	std::optional<std::vector<Component>> components {(*layout)(screen)};
 	if (components) {
 		for (const auto& component: components.value()) {
@@ -76,6 +77,11 @@ auto Sorcery::Display::generate_components(const std::string screen) -> void {
 
 			} else if (component.type == ComponentType::FRAME) {
 
+				auto frame = std::make_shared<Frame>(_system->resources->texture[GraphicsTexture::UI],
+					WindowFrameType::NORMAL, component.w, component.h, component.alpha);
+				frame->setPosition(window->get_x(frame->sprite, component.x),
+					window->get_y(frame->sprite, component.y));
+				_frames.insert(std::make_pair(component.unique_key, std::move(frame)));
 
 			} else if (component.type == ComponentType::TEXT) {
 
@@ -112,6 +118,11 @@ auto Sorcery::Display::generate_components(const std::string screen) -> void {
 }
 
 auto Sorcery::Display::display_components(const std::string screen, std::optional<std::any> parameter) -> void {
+
+	for (auto& [unique_key, frame]: _frames) {
+		window->get_window()->draw(*frame);
+	}
+
 
 	for (auto& [unique_key, sprite]: _sprites) {
 		if ((unique_key == "banner:banner_image") || (unique_key == "splash:splash_image")) {
