@@ -53,11 +53,11 @@ auto Sorcery::Display::generate_components(const std::string screen) -> void {
 				image.setTexture(_system->resources->texture[component.texture]);
 
 				// Scale to less than the window size if needed
-				if ((component.unique_key == "banner:banner_image") || (component.unique_key == "splash:splash_image")) {
+				if ((component.unique_key == "banner:banner_image") || (component.unique_key == "splash:splash_image")
+					|| (component.unique_key == "main_menu_attract:logo_image")) {
 					ImageSize size {static_cast<unsigned int>(image.getLocalBounds().width),
 						static_cast<unsigned int>(image.getLocalBounds().height)};
 					const ImageSize window_size {window->get_window()->getSize().x, window->get_window()->getSize().y};
-
 					float scale_ratio_needed {1.0f};
 					if ((size.w > window_size.w) || (size.h > window_size.h)) {
 						float shrink_width_needed {static_cast<float>(window_size.w) / static_cast<float>(size.w)};
@@ -79,6 +79,31 @@ auto Sorcery::Display::generate_components(const std::string screen) -> void {
 
 			} else if (component.type == ComponentType::TEXT) {
 
+				sf::Text text;
+				int x {0};
+				int y {0};
+
+				text.setFont(_system->resources->fonts[component.font]);
+				text.setCharacterSize(component.size);
+				text.setFillColor(sf::Color(component.colour));
+				text.setString((*string)[component.string_key]);
+				x = component.x == -1 ? window->centre.x :  component.x;
+				y = component.y == -1 ? window->centre.y :  component.y;
+				if (component.justification == Justification::CENTRE) {
+					text.setPosition(x, y);
+					text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+				} else if (component.justification == Justification::RIGHT) {
+					text.setPosition(x, y);
+					sf::FloatRect bounds = text.getLocalBounds();
+					text.setPosition(component.x - bounds.width, component.y);
+				} else {
+					text.setPosition(x, y);
+					text.setOrigin(0, text.getLocalBounds().height / 2.0f);
+				}
+
+				// Add the image to the components ready to draw
+				_texts[component.unique_key] = text;
+
 			} else if (component.type == ComponentType::MENU) {
 
 			}
@@ -86,15 +111,45 @@ auto Sorcery::Display::generate_components(const std::string screen) -> void {
 	}
 }
 
-auto Sorcery::Display::display_components(std::optional<std::any> parameter) -> void {
+auto Sorcery::Display::display_components(const std::string screen, std::optional<std::any> parameter) -> void {
 
 	for (auto& [unique_key, sprite]: _sprites) {
-		if ((unique_key == "banner:banner_image") || (unique_key == "splash:splash_image")){
+		if ((unique_key == "banner:banner_image") || (unique_key == "splash:splash_image")) {
 			if (parameter) {
 				sprite.setColor(sf::Color(255,255,255, std::any_cast<unsigned int>(parameter.value())));
 			}
 		}
 
 		window->get_window()->draw(sprite);
+	}
+
+	for (auto& [unique_key, text]: _texts) {
+
+		if (screen == "main_menu_attract") {
+			if (parameter) {
+				MainMenuType menu_stage {std::any_cast<MainMenuType>(parameter.value())};
+				if (menu_stage == MainMenuType::ATTRACT_MENU) {
+					if ((unique_key == "main_menu_attract:press_any_key") ||
+						(unique_key == "main_menu_attract:subtitle_1") ||
+						(unique_key == "main_menu_attract:subtitle_2") ||
+						(unique_key == "main_menu_attract:copyright"))
+						continue;
+				} else if (menu_stage == MainMenuType::ATTRACT_MODE) {
+				}
+			}
+		} else if (screen == "castle") {
+			if (parameter) {
+				GameMenuType menu_stage {std::any_cast<GameMenuType>(parameter.value())};
+				if (menu_stage == GameMenuType::CASTLE) {
+					if (unique_key == "castle:edge_of_town_gui_frame_title_text")
+						continue;
+				} else if (menu_stage == GameMenuType::EDGE_OF_TOWN) {
+					if (unique_key == "castle:castle_gui_frame_title_text")
+						continue;
+				}
+			}
+		}
+
+		window->get_window()->draw(text);
 	}
 }

@@ -54,11 +54,10 @@ Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphic
 		(*_display.layout)["main_menu_attract:confirm_exit_game"]);
 
 	// Setup Components
-	_title = sf::Text();
 	_press_any_key  = sf::Text();
-	_subtitle_1 = sf::Text();
-	_subtitle_2 = sf::Text();
-	_copyright = sf::Text();
+
+	// Get the Display Components
+	_display.generate_components("main_menu_attract");
 }
 
 // Standard Destructor
@@ -74,23 +73,6 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	_window->clear();
 
 	_menu_stage = menu_stage;
-
-	// Get the Logo and scale it appropriately
-	Component logo_c {(*_display.layout)["main_menu_attract:logo_image"]};
-	_logo.setTexture(_system.resources->textures[LOGO_TEXTURE]);
-	ImageSize logo_size {static_cast<unsigned int>(_logo.getLocalBounds().width),
-		static_cast<unsigned int>(_logo.getLocalBounds().height)};
-	const ImageSize window_size {_window->getSize().x, _window->getSize().y};
-	float scale_ratio_needed {1.0f};
-	if ((logo_size.w > window_size.w) || (logo_size.h > window_size.h)) {
-		float shrink_width_needed {static_cast<float>(window_size.w) / static_cast<float>(logo_size.w)};
-		float shrink_height_needed {static_cast<float>(window_size.h) / static_cast<float>(logo_size.h)};
-		scale_ratio_needed = std::min(shrink_width_needed, shrink_height_needed);
-	}
-	_logo.setScale(scale_ratio_needed, scale_ratio_needed);
-	const ImageSize resized {static_cast<unsigned int>(_logo.getGlobalBounds().width),
-		static_cast<unsigned int>(_logo.getGlobalBounds().height)};
-	_logo.setPosition(_display.window->get_x(_logo, logo_c.x), _display.window->get_y(_logo, logo_c.y));
 
 	// Get Constituent Parts for the Main Menu
 	Component top_frame_c {(*_display.layout)["main_menu_attract:top_gui_frame"]};
@@ -268,18 +250,18 @@ auto Sorcery::MainMenu::_draw() -> void {
 		_window->draw(*_attract_frame);
 		_window->draw(*_menu_frame);
 		_window->draw(creatures, sf::BlendAlpha);
-		_window->draw(_logo);
 
-		// Draw Attract Mode Text
 		double lerp = _graphics.animation->colour_lerp;
-		_display.window->draw_text(_title, (*_display.layout)["main_menu_attract:title"]);
+		_display.display_components("main_menu_attract", _menu_stage);
+
+
+
 
 		if (_menu_stage == MainMenuType::ATTRACT_MODE) {
 			_display.window->draw_text(_press_any_key, (*_display.layout)["main_menu_attract:press_any_key"], lerp);
-			_display.window->draw_text(_subtitle_1, (*_display.layout)["main_menu_attract:subtitle_1"]);
-			_display.window->draw_text(_subtitle_2, (*_display.layout)["main_menu_attract:subtitle_2"]);
-			_display.window->draw_text(_copyright, (*_display.layout)["main_menu_attract:copyright"]);
 		} else {
+
+			// Draw rhe menu
 			_main_menu->generate((*_display.layout)["main_menu_attract:main_menu"], lerp);
 			const sf::Vector2f menu_pos((*_display.layout)["main_menu_attract:main_menu"].x,
 				(*_display.layout)["main_menu_attract:main_menu"].y);

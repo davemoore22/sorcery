@@ -59,7 +59,7 @@
 	</File>
 	<File name="src/compendium.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2285" topLine="48" />
+			<Cursor1 position="1745" topLine="29" />
 		</Cursor>
 	</File>
 	<File name="inc/component.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -169,7 +169,7 @@
 	</File>
 	<File name="src/license.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="6009" topLine="155" />
+			<Cursor1 position="2156" topLine="50" />
 		</Cursor>
 	</File>
 	<File name="src/application.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

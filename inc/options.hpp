@@ -67,10 +67,6 @@ namespace Sorcery {
 			sf::Font _proportional_system_font;
 			sfe::Movie _background_movie;
 			sf::Sprite _cursor;
-			sf::Text _title_text;
-			sf::Text _gameplay_text;
-			sf::Text _general_text;
-			sf::Text _graphics_text;
 			sf::Text _save_text;
 			sf::Text _cancel_text;
 			sf::Text _reset_text;

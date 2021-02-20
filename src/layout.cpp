@@ -291,11 +291,11 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 							return 999;
 					}();
 					WindowDrawMode drawmode = [&] {
-						if (components[j].isMember("priority")) {
-							if (components[j]["type"].asString().length() > 0) {
-								if (components[j]["type"].asString() == "manual")
+						if (components[j].isMember("drawmode")) {
+							if (components[j]["drawmode"].asString().length() > 0) {
+								if (components[j]["drawmode"].asString() == "manual")
 									return WindowDrawMode::MANUAL;
-								else if (components[j]["type"].asString() == "automatic")
+								else if (components[j]["drawmode"].asString() == "automatic")
 									return WindowDrawMode::AUTOMATIC;
 								else
 									return WindowDrawMode::AUTOMATIC;

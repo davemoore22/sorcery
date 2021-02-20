@@ -42,9 +42,11 @@ Sorcery::License::License (System& system, Display& display, Graphics& graphics)
 	_current_line = 1;
 
 	// Setup Components
-	_title_text = sf::Text();
 	_progress_text = sf::Text();
 	_line_text = sf::Text();
+
+	// Get the Display Components
+	_display.generate_components("license");
 }
 
 // Standard Destructor
@@ -144,9 +146,12 @@ auto Sorcery::License::stop() -> void {
 
 auto Sorcery::License::_draw() -> void {
 
+
 	_window->draw(*_outside_frame);
 	_window->draw(*_title_frame);
-	_display.window->draw_text(_title_text, (*_display.layout)["license:gui_frame_title_text"]);
+
+	_display.display_components("license");
+
 	std::string progress = _textfile->get_reading_progress(_current_line);
 	_display.window->draw_text(_progress_text, (*_display.layout)["license:license_file_progress"], progress);
 	_display_file_contents();

@@ -74,7 +74,6 @@ namespace Sorcery {
 			sf::Font _mono_system_font;
 			sf::Font _proportional_system_font;
 			sfe::Movie _background_movie;
-			sf::Sprite _logo;
 			sf::Sprite _cursor;
 			sf::Sprite _top_frame;
 			sf::Sprite _bottom_frame;
@@ -83,11 +82,7 @@ namespace Sorcery {
 			std::shared_ptr<Confirm> _confirm_exit;
 			WindowConfirm _yes_or_no;
 			Component _attract_creatures_c;
-			sf::Text _title;
 			sf::Text _press_any_key;
-			sf::Text _subtitle_1;
-			sf::Text _subtitle_2;
-			sf::Text _copyright;
 			std::unique_ptr<Frame> _attract_frame;
 			std::unique_ptr<Frame> _menu_frame;
 	};

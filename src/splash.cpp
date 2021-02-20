@@ -56,7 +56,7 @@ auto Sorcery::Splash::start() -> void {
 
 auto Sorcery::Splash::_draw() -> void {
 
-	_display.display_components(_alpha);
+	_display.display_components("splash", _alpha);
 }
 
 auto Sorcery::Splash::_update() -> void {

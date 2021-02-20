@@ -38,12 +38,15 @@ Sorcery::GameMenu::GameMenu (System& system, Display& display, Graphics& graphic
 	_background_movie.openFromFile(_system.files->get_path_as_string(MENU_VIDEO));
 
 	// Setup Components
-	_castle_title_text = sf::Text();
-	_edge_of_town_title_text = sf::Text();
+	//_castle_title_text = sf::Text();
+	//_edge_of_town_title_text = sf::Text();
 	_castle_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::CASTLE);
 	_edge_of_town_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::EDGE_OF_TOWN);
 
 	_menu_stage = GameMenuType::CASTLE;
+
+	// Get the Display Components
+	_display.generate_components("castle");
 }
 
 // Standard Destructor
@@ -113,7 +116,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 		edge_of_town_menu_frame_c.y));
 
 	// Get the character legend
-	_character_legend_layout[0] = Component((*_display.layout)["castle:character_legend_name"]);
+	/* _character_legend_layout[0] = Component((*_display.layout)["castle:character_legend_name"]);
 	_character_legend_layout[1] = Component((*_display.layout)["castle:character_legend_class"]);
 	_character_legend_layout[2] = Component((*_display.layout)["castle:character_legend_alignment"]);
 	_character_legend_layout[3] = Component((*_display.layout)["castle:character_legend_ac"]);
@@ -129,7 +132,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 		legend_text.setPosition(_character_legend_layout[loop].x, _character_legend_layout[loop].y);
 		legend_text.setOrigin(0, legend_text.getLocalBounds().height / 2.0f);
 		++loop;
-	}
+	} */
 
 	// Get the Cursor
 	_cursor = _display.window->get_cursor();
@@ -222,12 +225,10 @@ auto Sorcery::GameMenu::_draw() -> void {
 	_window->draw(*_outside_frame);
 	if (_menu_stage == GameMenuType::CASTLE) {
 		_window->draw(*_castle_title_frame);
-		_display.window->draw_text(_castle_title_text, (*_display.layout)["castle:castle_gui_frame_title_text"]);
 	} else if (_menu_stage == GameMenuType::EDGE_OF_TOWN) {
 		_window->draw(*_edge_of_town_title_frame);
-		_display.window->draw_text(_edge_of_town_title_text,
-			(*_display.layout)["castle:edge_of_town_gui_frame_title_text"]);
 	}
+
 	_window->draw(*_character_frame);
 	if (_menu_stage == GameMenuType::CASTLE) {
 		_window->draw(_castle_background);
@@ -237,8 +238,7 @@ auto Sorcery::GameMenu::_draw() -> void {
 		_window->draw(*_edge_of_town_menu_frame);
 	}
 
-	for (auto& legend_text: _character_legend_text)
-		_window->draw(legend_text);
+	_display.display_components("castle", _menu_stage);
 
 	// And the Menu
 	double lerp = _graphics.animation->colour_lerp;

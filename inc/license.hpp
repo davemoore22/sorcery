@@ -65,7 +65,6 @@ namespace Sorcery {
 			sf::Sprite _cursor;
 			std::shared_ptr<TextFile> _textfile;
 			unsigned int _current_line;
-			sf::Text _title_text;
 			sf::Text _progress_text;
 			sf::Text _line_text;
 			std::unique_ptr<Frame> _outside_frame;

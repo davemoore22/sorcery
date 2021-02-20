@@ -58,7 +58,7 @@ auto Sorcery::Banner::start() -> void {
 
 auto Sorcery::Banner::_draw() -> void {
 
-	_display.display_components(_alpha);
+	_display.display_components("banner", _alpha);
 }
 
 auto Sorcery::Banner::_update() -> void {

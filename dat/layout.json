@@ -140,7 +140,8 @@
 			"animated": "true",
 			"justification": "centre",
 			"type": "text",
-			"priority": "9"
+			"priority": "9",
+			"drawmode": "manual"
 		},
 		{
 			"name": "main_menu",
@@ -238,7 +239,8 @@
 			"y": "32",
 			"justification": "right",
 			"type": "text",
-			"priority": "5"
+			"priority": "5",
+			"drawmode": "manual"
 		}
 		]
 	},

@@ -37,8 +37,8 @@ Sorcery::Compendium::Compendium (System& system, Display& display, Graphics& gra
 	// Load the Background Movie
 	_background_movie.openFromFile(_system.files->get_path_as_string(MENU_VIDEO));
 
-	// Setup Components
-	_title_text = sf::Text();
+	// Get the Display Components
+	_display.generate_components("compendium");
 }
 
 // Standard Destructor
@@ -117,7 +117,8 @@ auto Sorcery::Compendium::_draw() -> void {
 
 	_window->draw(*_outside_frame);
 	_window->draw(*_title_frame);
-	_display.window->draw_text(_title_text, (*_display.layout)["compendium:gui_frame_title_text"]);
+
+	_display.display_components("compendium");
 
 	// Always draw the following
 	_cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));

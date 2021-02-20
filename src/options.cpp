@@ -37,14 +37,14 @@ Sorcery::Options::Options (System& system, Display& display, Graphics& graphics)
 	// Load the Background Movie
 	_background_movie.openFromFile(_system.files->get_path_as_string(MENU_VIDEO));
 
-	// Setup Components
-	_title_text = sf::Text();
-
 	_options_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::OPTIONS);
 	_option_on = Component((*_display.layout)["options:option_on"]);
 	_option_off = Component((*_display.layout)["options:option_off"]);
 
 	_tooltip = std::make_shared<Tooltip>(_system, _display, _graphics);
+
+	// Get the Display Components
+	_display.generate_components("options");
 }
 
 // Standard Destructor
@@ -171,7 +171,6 @@ auto Sorcery::Options::_draw() -> void {
 
 	_window->draw(*_outside_frame);
 	_window->draw(*_title_frame);
-	_display.window->draw_text(_title_text, (*_display.layout)["options:gui_frame_title_text"]);
 
 	double lerp = _graphics.animation->colour_lerp;
 
@@ -181,8 +180,7 @@ auto Sorcery::Options::_draw() -> void {
 	_options_menu->setPosition(menu_pos);
 	_window->draw(*_options_menu);
 
-	_display.window->draw_text(_gameplay_text, (*_display.layout)["options:subtitle_gameplay"]);
-	_display.window->draw_text(_graphics_text, (*_display.layout)["options:subtitle_graphics"]);
+	_display.display_components("options");
 
 	// Always draw the following
 	_cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
