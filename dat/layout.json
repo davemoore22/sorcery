@@ -387,7 +387,7 @@
 			"y": "2",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "1"
+			"priority": "4"
 		},
 		{
 			"name": "castle_gui_frame_title",
@@ -441,7 +441,7 @@
 			"y": "2",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "4"
+			"priority": "1"
 		},
 		{
 			"name": "character_frame",
@@ -461,7 +461,8 @@
 			"y": "10",
 			"alpha": "225",
 			"type": "frame",
-			"priority": "6"
+			"priority": "6",
+			"drawmode": "manual"
 		},
 		{
 			"name": "edge_of_town_menu_frame",
@@ -471,7 +472,8 @@
 			"y": "10",
 			"alpha": "225",
 			"type": "frame",
-			"priority": "6"
+			"priority": "6",
+			"drawmode": "manual"
 		},
 		{
 			"name": "castle_menu",

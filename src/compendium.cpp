@@ -53,20 +53,6 @@ auto Sorcery::Compendium::start() -> void {
 	// Clear the window
 	_window->clear();
 
-	// Get Constituent Parts for the Display
-	Component outside_frame_c {(*_display.layout)["compendium:gui_frame"]};
-	Component title_frame_c {(*_display.layout)["compendium:gui_frame_title"]};
-
-	// Generate the frame
-	_outside_frame = std::make_unique<Frame>(_display.ui_texture, WindowFrameType::NORMAL, outside_frame_c.w,
-		outside_frame_c.h, outside_frame_c.alpha);
-	_title_frame = std::make_unique<Frame>(_display.ui_texture, WindowFrameType::NORMAL, title_frame_c.w,
-		title_frame_c.h, title_frame_c.alpha);
-	_outside_frame->setPosition(_display.window->get_x(_outside_frame->sprite, outside_frame_c.x),
-		_display.window->get_y(_outside_frame->sprite, outside_frame_c.y));
-	_title_frame->setPosition(_display.window->get_x(_title_frame->sprite, title_frame_c.x),
-		_display.window->get_y(_title_frame->sprite, title_frame_c.y));
-
 	// Get the Cursor
 	_cursor = _display.window->get_cursor();
 
@@ -114,9 +100,6 @@ auto Sorcery::Compendium::stop() -> void {
 }
 
 auto Sorcery::Compendium::_draw() -> void {
-
-	_window->draw(*_outside_frame);
-	_window->draw(*_title_frame);
 
 	_display.display_components("compendium");
 

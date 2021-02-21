@@ -67,7 +67,5 @@ namespace Sorcery {
 			unsigned int _current_line;
 			sf::Text _progress_text;
 			sf::Text _line_text;
-			std::unique_ptr<Frame> _outside_frame;
-			std::unique_ptr<Frame> _title_frame;
 	};
 }

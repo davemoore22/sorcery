@@ -75,15 +75,11 @@ namespace Sorcery {
 			sf::Font _proportional_system_font;
 			sfe::Movie _background_movie;
 			sf::Sprite _cursor;
-			//sf::Sprite _top_frame;
-			//sf::Sprite _bottom_frame;
 			MainMenuType _menu_stage;
 			std::shared_ptr<Menu> _main_menu;
 			std::shared_ptr<Confirm> _confirm_exit;
 			WindowConfirm _yes_or_no;
 			Component _attract_creatures_c;
 			sf::Text _press_any_key;
-			//std::unique_ptr<Frame> _attract_frame;
-			//std::unique_ptr<Frame> _menu_frame;
 	};
 }

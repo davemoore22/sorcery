@@ -63,20 +63,6 @@ auto Sorcery::Options::start() -> void {
 	_display.window->tooltips.clear();
 	_display_tooltip = false;
 
-	// Get Constituent Parts for the Display
-	Component outside_frame_c {(*_display.layout)["options:gui_frame"]};
-	Component title_frame_c {(*_display.layout)["options:gui_frame_title"]};
-
-	// Generate the frame
-	_outside_frame = std::make_unique<Frame>(_display.ui_texture, WindowFrameType::NORMAL, outside_frame_c.w,
-		outside_frame_c.h, outside_frame_c.alpha);
-	_title_frame = std::make_unique<Frame>(_display.ui_texture, WindowFrameType::NORMAL, title_frame_c.w,
-		title_frame_c.h, title_frame_c.alpha);
-	_outside_frame->setPosition(_display.window->get_x(_outside_frame->sprite, outside_frame_c.x),
-		_display.window->get_y(_outside_frame->sprite, outside_frame_c.y));
-	_title_frame->setPosition(_display.window->get_x(_title_frame->sprite, title_frame_c.x),
-		_display.window->get_y(_title_frame->sprite, title_frame_c.y));
-
 	// Get the Cursor
 	_cursor = _display.window->get_cursor();
 
@@ -169,18 +155,14 @@ auto Sorcery::Options::stop() -> void {
 
 auto Sorcery::Options::_draw() -> void {
 
-	_window->draw(*_outside_frame);
-	_window->draw(*_title_frame);
-
 	double lerp = _graphics.animation->colour_lerp;
+	_display.display_components("options");
 
 	_options_menu->generate((*_display.layout)["options:options_menu"], lerp);
 	const sf::Vector2f menu_pos((*_display.layout)["options:options_menu"].x,
 		(*_display.layout)["options:options_menu"].y);
 	_options_menu->setPosition(menu_pos);
 	_window->draw(*_options_menu);
-
-	_display.display_components("options");
 
 	// Always draw the following
 	_cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));

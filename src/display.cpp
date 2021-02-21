@@ -120,9 +120,21 @@ auto Sorcery::Display::generate_components(const std::string screen) -> void {
 auto Sorcery::Display::display_components(const std::string screen, std::optional<std::any> parameter) -> void {
 
 	for (auto& [unique_key, frame]: _frames) {
+		if (screen == "castle") {
+			if (parameter) {
+				GameMenuType menu_stage {std::any_cast<GameMenuType>(parameter.value())};
+				if (menu_stage == GameMenuType::CASTLE) {
+					if (unique_key == "castle:edge_of_town_menu_frame")
+						continue;
+				} else if (menu_stage == GameMenuType::EDGE_OF_TOWN) {
+					if (unique_key == "castle:castle_menu_frame")
+						continue;
+				}
+			}
+		}
+
 		window->get_window()->draw(*frame);
 	}
-
 
 	for (auto& [unique_key, sprite]: _sprites) {
 		if ((unique_key == "banner:banner_image") || (unique_key == "splash:splash_image")) {
