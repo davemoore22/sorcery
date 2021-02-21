@@ -126,8 +126,8 @@ Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuTy
 		_add_item(22, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_PROGRESS, (*_display.string)["GRAPHICS_PROGRESS"], true,
 			ConfigOption::DISPLAY_PROGRESS, (*_display.string)["HINT_GRAPHICS_PROGRESS"]);
 		_add_item(23, MenuItemType::SPACER, MenuItem::SPACER, (*_display.string)["MENU_SPACER"]);
-		_add_item(23, MenuItemType::SAVE, MenuItem::SAVE, (*_display.string)["MENU_OPTIONS_SAVE"]);
-		_add_item(24, MenuItemType::CANCEL, MenuItem::CANCEL, (*_display.string)["MENU_OPTIONS_CANCEL"]);
+		_add_item(24, MenuItemType::SAVE, MenuItem::SAVE, (*_display.string)["MENU_OPTIONS_SAVE"]);
+		_add_item(25, MenuItemType::CANCEL, MenuItem::CANCEL, (*_display.string)["MENU_OPTIONS_CANCEL"]);
 		selected = items.begin();
 		break;
 	case MenuType::PAUSE:
@@ -395,8 +395,9 @@ auto Sorcery::Menu::generate(Component& component, double selected_lerp) -> void
 
 			_texts.emplace_back(text);
 
-			// Now handle the tooltips!
-			if ((*it).type == MenuItemType::ENTRY) {
+			// Now handle the mouse move/select (and tooltip generation)!
+			if (((*it).type == MenuItemType::ENTRY) || ((*it).type == MenuItemType::SAVE) ||
+				((*it).type == MenuItemType::CANCEL)) {
 				sf::FloatRect actual_rect {text.getGlobalBounds()};
 				bounds.push_back(actual_rect);
 				WindowTooltipList::iterator tooltipit = _display.window->tooltips.find((*it).hint);

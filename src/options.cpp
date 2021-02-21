@@ -98,7 +98,13 @@ auto Sorcery::Options::start() -> void {
 			} else if (_system.input->check_for_event(WindowInput::MOVE, event)) {
 					selected_option =
 						_options_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					_display_tooltip = _set_tooltip(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					if (selected_option) {
+						if ((*_options_menu->selected).type == MenuItemType::ENTRY)
+							_display_tooltip = _set_tooltip(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						else
+							_display_tooltip = false;
+					}
+
 
 			} else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
 				if (selected_option) {
