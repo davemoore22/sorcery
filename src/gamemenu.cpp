@@ -63,14 +63,6 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 	// Clear the window
 	_window->clear();
 
-	// Get Constituent Parts for the Display
-	Component outside_frame_c {(*_display.layout)["castle:gui_frame"]};
-	Component castle_title_frame_c {(*_display.layout)["castle:castle_gui_frame_title"]};
-	Component edge_of_town_title_frame_c {(*_display.layout)["castle:edge_of_town_gui_frame_title"]};
-	Component character_frame_c {(*_display.layout)["castle:character_frame"]};
-	Component castle_menu_frame_c {(*_display.layout)["castle:castle_menu_frame"]};
-	Component edge_of_town_menu_frame_c {(*_display.layout)["castle:edge_of_town_menu_frame"]};
-
 	// Get the background
 	Component background_c {(*_display.layout)["castle:background_image"]};
 	sf::IntRect castle_background_rect(125, 249, 773, 388);
@@ -87,6 +79,8 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 		_display.window->get_y(_edge_of_town_background, background_c.y));
 
 	// Generate the custom frames
+	Component castle_menu_frame_c {(*_display.layout)["castle:castle_menu_frame"]};
+	Component edge_of_town_menu_frame_c {(*_display.layout)["castle:edge_of_town_menu_frame"]};
 	_castle_menu_frame = std::make_unique<Frame>(_display.ui_texture, WindowFrameType::NORMAL,
 		castle_menu_frame_c.w, castle_menu_frame_c.h, castle_menu_frame_c.alpha);
 	_edge_of_town_menu_frame = std::make_unique<Frame>(_display.ui_texture, WindowFrameType::NORMAL,
@@ -132,9 +126,11 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 				else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
 
 					// We have selected something from the menu
-					const MenuItem option_chosen {(*selected_castle_option.value()).item};
-					if (option_chosen == MenuItem::CA_EDGE_OF_TOWN) {
-						_menu_stage = GameMenuType::EDGE_OF_TOWN;
+					if (selected_castle_option) {
+						const MenuItem option_chosen {(*selected_castle_option.value()).item};
+						if (option_chosen == MenuItem::CA_EDGE_OF_TOWN) {
+							_menu_stage = GameMenuType::EDGE_OF_TOWN;
+						}
 					}
 				}
 
@@ -149,13 +145,15 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 				else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
 
 					// We have selected something from the menu
-					const MenuItem option_chosen {(*selected_edge_of_town_option.value()).item};
-					if (option_chosen == MenuItem::ET_CASTLE) {
-						_menu_stage = GameMenuType::CASTLE;
-					} else if  (option_chosen == MenuItem::ET_LEAVE_GAME) {
-						return MenuItem::ET_LEAVE_GAME;
-					} else if  (option_chosen == MenuItem::ET_MAZE) {
-						return MenuItem::ET_MAZE;
+					if (selected_edge_of_town_option) {
+						const MenuItem option_chosen {(*selected_edge_of_town_option.value()).item};
+						if (option_chosen == MenuItem::ET_CASTLE) {
+							_menu_stage = GameMenuType::CASTLE;
+						} else if  (option_chosen == MenuItem::ET_LEAVE_GAME) {
+							return MenuItem::ET_LEAVE_GAME;
+						} else if  (option_chosen == MenuItem::ET_MAZE) {
+							return MenuItem::ET_MAZE;
+						}
 					}
 				}
 			}

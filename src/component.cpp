@@ -38,7 +38,20 @@ Sorcery::Component::Component(std::string screen_, std::string name_, int x_, in
 	string_key{string_key_}, alpha{alpha_}, width{width_}, background{background_}, justification{justification_},
 	type{type_}, priority{priority_}, drawmode{drawmode_}, texture{texture_} {
 
-	unique_key = screen + ":" + name;
+	// Unique Key is like this because it is used for runtime component-sorting (std::map is sorted by key)
+
+	// std::string priority_id = std::format("prefix.{:03d}.suffix", priority);
+	std::string priority_id = [&] {
+		if (priority < 10) {
+			return "00" + std::to_string(priority);
+		} else if (priority < 100) {
+			return "0" + std::to_string(priority);
+		} else {
+			return std::to_string(priority);
+		}
+	}();
+
+	unique_key = priority_id + "_" + screen + ":" + name;
 }
 
 // Copy Constructors

@@ -40,6 +40,7 @@ auto Sorcery::Display::generate_components(const std::string screen) -> void {
 	_sprites.clear();
 	_texts.clear();
 	_frames.clear();
+	__frames.clear();
 	std::optional<std::vector<Component>> components {(*layout)(screen)};
 	if (components) {
 		for (const auto& component: components.value()) {
@@ -54,8 +55,9 @@ auto Sorcery::Display::generate_components(const std::string screen) -> void {
 				image.setTexture(_system->resources->texture[component.texture]);
 
 				// Scale to less than the window size if needed
-				if ((component.unique_key == "banner:banner_image") || (component.unique_key == "splash:splash_image")
-					|| (component.unique_key == "main_menu_attract:logo_image")) {
+				if ((component.unique_key.ends_with("banner:banner_image")) ||
+					(component.unique_key.ends_with("splash:splash_image")) ||
+					(component.unique_key.ends_with("main_menu_attract:logo_image"))) {
 					ImageSize size {static_cast<unsigned int>(image.getLocalBounds().width),
 						static_cast<unsigned int>(image.getLocalBounds().height)};
 					const ImageSize window_size {window->get_window()->getSize().x, window->get_window()->getSize().y};
@@ -81,7 +83,7 @@ auto Sorcery::Display::generate_components(const std::string screen) -> void {
 					WindowFrameType::NORMAL, component.w, component.h, component.alpha);
 				frame->setPosition(window->get_x(frame->sprite, component.x),
 					window->get_y(frame->sprite, component.y));
-				_frames.insert(std::make_pair(component.unique_key, std::move(frame)));
+				_frames.emplace(std::make_pair(component.unique_key, std::move(frame)));
 
 			} else if (component.type == ComponentType::TEXT) {
 
@@ -124,10 +126,10 @@ auto Sorcery::Display::display_components(const std::string screen, std::optiona
 			if (parameter) {
 				GameMenuType menu_stage {std::any_cast<GameMenuType>(parameter.value())};
 				if (menu_stage == GameMenuType::CASTLE) {
-					if (unique_key == "castle:edge_of_town_menu_frame")
+					if (unique_key.ends_with("castle:edge_of_town_menu_frame"))
 						continue;
 				} else if (menu_stage == GameMenuType::EDGE_OF_TOWN) {
-					if (unique_key == "castle:castle_menu_frame")
+					if (unique_key.ends_with("castle:castle_menu_frame"))
 						continue;
 				}
 			}
@@ -137,7 +139,7 @@ auto Sorcery::Display::display_components(const std::string screen, std::optiona
 	}
 
 	for (auto& [unique_key, sprite]: _sprites) {
-		if ((unique_key == "banner:banner_image") || (unique_key == "splash:splash_image")) {
+		if ((unique_key.ends_with("banner:banner_image")) || (unique_key.ends_with("splash:splash_image"))) {
 			if (parameter) {
 				sprite.setColor(sf::Color(255,255,255, std::any_cast<unsigned int>(parameter.value())));
 			}
@@ -152,10 +154,10 @@ auto Sorcery::Display::display_components(const std::string screen, std::optiona
 			if (parameter) {
 				MainMenuType menu_stage {std::any_cast<MainMenuType>(parameter.value())};
 				if (menu_stage == MainMenuType::ATTRACT_MENU) {
-					if ((unique_key == "main_menu_attract:press_any_key") ||
-						(unique_key == "main_menu_attract:subtitle_1") ||
-						(unique_key == "main_menu_attract:subtitle_2") ||
-						(unique_key == "main_menu_attract:copyright"))
+					if ((unique_key.ends_with("main_menu_attract:press_any_key")) ||
+						(unique_key.ends_with("main_menu_attract:subtitle_1")) ||
+						(unique_key.ends_with("main_menu_attract:subtitle_2")) ||
+						(unique_key.ends_with("main_menu_attract:copyright")))
 						continue;
 				} else if (menu_stage == MainMenuType::ATTRACT_MODE) {
 				}
@@ -164,10 +166,10 @@ auto Sorcery::Display::display_components(const std::string screen, std::optiona
 			if (parameter) {
 				GameMenuType menu_stage {std::any_cast<GameMenuType>(parameter.value())};
 				if (menu_stage == GameMenuType::CASTLE) {
-					if (unique_key == "castle:edge_of_town_gui_frame_title_text")
+					if (unique_key.ends_with("castle:edge_of_town_gui_frame_title_text"))
 						continue;
 				} else if (menu_stage == GameMenuType::EDGE_OF_TOWN) {
-					if (unique_key == "castle:castle_gui_frame_title_text")
+					if (unique_key.ends_with("castle:castle_gui_frame_title_text"))
 						continue;
 				}
 			}

@@ -64,6 +64,7 @@ namespace Sorcery {
 			std::map<std::string, sf::Text> _texts;
 			std::map<std::string, std::shared_ptr<Frame>> _frames;
 			System* _system;
+			std::vector<std::pair<std::string, std::shared_ptr<Frame>>> __frames;
 
 			// Private Methods
 	};

@@ -17,7 +17,7 @@
 			<Cursor1 position="1725" topLine="34" />
 		</Cursor>
 	</File>
-	<File name="inc/main.hpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="inc/main.hpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="4055" topLine="102" />
 		</Cursor>
@@ -84,7 +84,7 @@
 	</File>
 	<File name="src/display.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3453" topLine="73" />
+			<Cursor1 position="3624" topLine="58" />
 		</Cursor>
 	</File>
 	<File name="inc/graphics.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -184,7 +184,7 @@
 	</File>
 	<File name="src/gamemenu.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="5248" topLine="94" />
+			<Cursor1 position="5808" topLine="119" />
 		</Cursor>
 	</File>
 	<File name="inc/tooltip.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -204,7 +204,7 @@
 	</File>
 	<File name="src/layout.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="8588" topLine="232" />
+			<Cursor1 position="12313" topLine="320" />
 		</Cursor>
 	</File>
 	<File name="inc/license.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

@@ -71,13 +71,14 @@ auto Sorcery::Layout::operator() (const std::string& screen) -> std::optional<st
 	std::vector<Component> results;
 	if (_loaded) {
 		for (const auto &component : _components) {
-			if ((component.second.screen == screen) && (component.second.drawmode == WindowDrawMode::AUTOMATIC))
+			if ((component.second.screen == screen) && (component.second.drawmode == WindowDrawMode::AUTOMATIC)) {
 				results.push_back(component.second);
+			}
 		}
 
 		// Sort by priority
 		std::sort(results.begin(), results.end(), [](const auto& first, const auto& second) {
-				return first.priority < second.priority;
+			return first.priority < second.priority;
 		});
 
 		return results;
