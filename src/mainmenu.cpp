@@ -30,9 +30,6 @@ Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphic
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();
 
-	// Load the Background Movie
-	_background_movie.openFromFile(_system.files->get_path_as_string(MENU_VIDEO));
-
 	// Set up the Attract Mode data;
 	_attract_mode_data.clear();
 	_creature_sprite_width = 108;
@@ -59,8 +56,7 @@ Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphic
 // Standard Destructor
 Sorcery::MainMenu::~MainMenu() {
 	_graphics.animation->stop_attract_mode_animation_threads();
-	if (_background_movie.getStatus() == sfe::Playing)
-		_background_movie.stop();
+	_display.stop_background_movie();
 }
 
 auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem> {
@@ -73,9 +69,6 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	// Get Constituent Parts for the Main Menu
 	_attract_creatures_c = Component((*_display.layout)["main_menu_attract:attract_creatures"]);
 
-	// Scale the Movie
-	_background_movie.fit(0, 0, _window->getSize().x, _window->getSize().y);
-
 	// Now set up attract mode data
 	_attract_mode_data_temp.clear();
 
@@ -84,8 +77,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	_graphics.animation->start_attract_mode_animation_threads();
 
 	// Play the background movie!
-	if (_background_movie.getStatus() == sfe::Stopped)
-		_background_movie.play();
+	_display.start_background_movie();
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected_option {_main_menu->items.begin()};
 	_display.window->input_mode = WindowInputMode::NORMAL;
@@ -195,13 +187,10 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 			}
 		}
 
-		if (_background_movie.getStatus() == sfe::Stopped) {
-			_background_movie.play();
-		}
-		_background_movie.update();
-
 		_window->clear();
-		_window->draw(_background_movie);
+		_display.start_background_movie();
+		_display.update_background_movie();
+		_display.draw_background_movie();
 
 		_draw();
 		_window->display();
@@ -213,8 +202,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 auto  Sorcery::MainMenu::stop() -> void {
 
 	// Stop the background movie!
-	if (_background_movie.getStatus() == sfe::Playing)
-		_background_movie.stop();
+	_display.stop_background_movie();
 }
 
 auto Sorcery::MainMenu::_draw() -> void {

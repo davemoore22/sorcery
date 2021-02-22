@@ -30,17 +30,13 @@ Sorcery::Compendium::Compendium (System& system, Display& display, Graphics& gra
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();
 
-	// Load the Background Movie
-	_background_movie.openFromFile(_system.files->get_path_as_string(MENU_VIDEO));
-
 	// Get the Display Components
 	_display.generate_components("compendium");
 }
 
 // Standard Destructor
 Sorcery::Compendium::~Compendium() {
-	if (_background_movie.getStatus() == sfe::Playing)
-		_background_movie.stop();
+	_display.stop_background_movie();
 }
 
 
@@ -49,12 +45,8 @@ auto Sorcery::Compendium::start() -> void {
 	// Clear the window
 	_window->clear();
 
-	// Scale the Movie
-	_background_movie.fit(0, 0, _window->getSize().x, _window->getSize().y);
-
 	// Play the background movie!
-	if (_background_movie.getStatus() == sfe::Stopped)
-		_background_movie.play();
+	_display.start_background_movie();
 
 	_display.window->input_mode = WindowInputMode::DISPLAY_TEXT_FILE;
 
@@ -72,13 +64,11 @@ auto Sorcery::Compendium::start() -> void {
 			}
 		}
 
-		if (_background_movie.getStatus() == sfe::Stopped) {
-			_background_movie.play();
-		}
-		_background_movie.update();
-
 		_window->clear();
-		_window->draw(_background_movie);
+
+		_display.start_background_movie();
+		_display.update_background_movie();
+		_display.draw_background_movie();
 
 		_draw();
 		_window->display();
@@ -88,8 +78,7 @@ auto Sorcery::Compendium::start() -> void {
 
 auto Sorcery::Compendium::stop() -> void {
 
-	if (_background_movie.getStatus() == sfe::Playing)
-		_background_movie.stop();
+	_display.stop_background_movie();
 }
 
 auto Sorcery::Compendium::_draw() -> void {

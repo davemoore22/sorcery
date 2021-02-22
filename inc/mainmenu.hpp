@@ -70,8 +70,6 @@ namespace Sorcery {
 			unsigned int _creature_sprite_spacing;
 			float _creature_sprite_scaling;
 			sf::Texture _attract_mode_texture;
-			sf::Texture _gui_frame_texture;
-			sfe::Movie _background_movie;
 			MainMenuType _menu_stage;
 			std::shared_ptr<Menu> _main_menu;
 			std::shared_ptr<Confirm> _confirm_exit;

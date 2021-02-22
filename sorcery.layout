@@ -17,7 +17,7 @@
 			<Cursor1 position="3094" topLine="69" />
 		</Cursor>
 	</File>
-	<File name="dat/layout.json" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="dat/layout.json" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="6344" topLine="323" />
 		</Cursor>
@@ -182,9 +182,9 @@
 			<Cursor1 position="1893" topLine="33" />
 		</Cursor>
 	</File>
-	<File name="src/compendium.cpp" open="1" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/compendium.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1745" topLine="29" />
+			<Cursor1 position="1542" topLine="29" />
 		</Cursor>
 	</File>
 	<File name="src/config.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -197,9 +197,9 @@
 			<Cursor1 position="1544" topLine="23" />
 		</Cursor>
 	</File>
-	<File name="src/display.cpp" open="1" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/display.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3624" topLine="58" />
+			<Cursor1 position="5895" topLine="133" />
 		</Cursor>
 	</File>
 	<File name="inc/tooltip.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -217,9 +217,9 @@
 			<Cursor1 position="2339" topLine="54" />
 		</Cursor>
 	</File>
-	<File name="src/template.cpp" open="1" top="1" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/template.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="0" />
+			<Cursor1 position="1493" topLine="24" />
 		</Cursor>
 	</File>
 	<File name="src/layout.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -242,9 +242,9 @@
 			<Cursor1 position="1683" topLine="55" />
 		</Cursor>
 	</File>
-	<File name="src/gamemenu.cpp" open="1" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/gamemenu.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="5808" topLine="119" />
+			<Cursor1 position="1425" topLine="28" />
 		</Cursor>
 	</File>
 	<File name="cfg/config.ini" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

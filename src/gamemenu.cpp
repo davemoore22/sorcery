@@ -30,12 +30,7 @@ Sorcery::GameMenu::GameMenu (System& system, Display& display, Graphics& graphic
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();
 
-	// Load the Background Movie
-	_background_movie.openFromFile(_system.files->get_path_as_string(MENU_VIDEO));
-
 	// Setup Components
-	//_castle_title_text = sf::Text();
-	//_edge_of_town_title_text = sf::Text();
 	_castle_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::CASTLE);
 	_edge_of_town_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::EDGE_OF_TOWN);
 
@@ -47,8 +42,7 @@ Sorcery::GameMenu::GameMenu (System& system, Display& display, Graphics& graphic
 
 // Standard Destructor
 Sorcery::GameMenu::~GameMenu() {
-	if (_background_movie.getStatus() == sfe::Playing)
-		_background_movie.stop();
+	_display.stop_background_movie();
 }
 
 
@@ -87,12 +81,8 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 		edge_of_town_menu_frame_c.x), _display.window->get_y(_edge_of_town_menu_frame->sprite,
 		edge_of_town_menu_frame_c.y));
 
-	// Scale the Movie
-	_background_movie.fit(0, 0, _window->getSize().x, _window->getSize().y);
-
 	// Play the background movie!
-	if (_background_movie.getStatus() == sfe::Stopped)
-		_background_movie.play();
+	_display.start_background_movie();
 
 	_display.window->input_mode = WindowInputMode::CASTLE;
 	std::optional<std::vector<MenuEntry>::const_iterator> selected_castle_option {_castle_menu->items.begin()};
@@ -152,13 +142,11 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 			}
 		}
 
-		if (_background_movie.getStatus() == sfe::Stopped) {
-			_background_movie.play();
-		}
-		_background_movie.update();
-
 		_window->clear();
-		_window->draw(_background_movie);
+
+		_display.start_background_movie();
+		_display.update_background_movie();
+		_display.draw_background_movie();
 
 		_draw();
 		_window->display();
@@ -168,9 +156,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 }
 
 auto Sorcery::GameMenu::stop() -> void {
-
-	if (_background_movie.getStatus() == sfe::Playing)
-		_background_movie.stop();
+	_display.stop_background_movie();
 }
 
 auto Sorcery::GameMenu::_draw() -> void {

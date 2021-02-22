@@ -26,13 +26,13 @@
 // Standard Constructor
 Sorcery::Display::Display(System* system) {
 
-	string = std::make_shared<String>((*system->files)[STRINGS_FILE], (*system->files)[EXPLAIN_FILE]);
-	std::string window_title {string->get("TITLE_AND_VERSION_INFO")};
-	layout = std::make_shared<Layout>((*system->files)[LAYOUT_FILE]);
-	window = std::make_shared<Window>(window_title, *system, *string, *layout);
-	ui_texture = (*system->resources).textures[UI_TEXTURE];
-
 	_system = system;
+	string = std::make_shared<String>((*_system->files)[STRINGS_FILE], (*_system->files)[EXPLAIN_FILE]);
+	std::string window_title {string->get("TITLE_AND_VERSION_INFO")};
+	layout = std::make_shared<Layout>((*_system->files)[LAYOUT_FILE]);
+	window = std::make_shared<Window>(window_title, *_system, *string, *layout);
+	ui_texture = (*system->resources).textures[UI_TEXTURE];
+	_background_movie.openFromFile(_system->files->get_path_as_string(MENU_VIDEO));
 }
 
 auto Sorcery::Display::generate_components(const std::string screen) -> void {
@@ -184,4 +184,23 @@ auto Sorcery::Display::display_cursor() -> void {
 	sf::Sprite cursor = window->get_cursor();
 	cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window->get_window())));
 	window->get_window()->draw(cursor);
+}
+
+auto Sorcery::Display::start_background_movie () -> void {
+	_background_movie.fit(0, 0, window->get_window()->getSize().x, window->get_window()->getSize().y);
+	if (_background_movie.getStatus() == sfe::Stopped)
+		_background_movie.play();
+}
+
+auto Sorcery::Display::stop_background_movie () -> void {
+	if (_background_movie.getStatus() == sfe::Playing)
+		_background_movie.stop();
+}
+
+auto Sorcery::Display::update_background_movie() -> void {
+	_background_movie.update();
+}
+
+auto Sorcery::Display::draw_background_movie() -> void {
+	window->get_window()->draw(_background_movie);
 }

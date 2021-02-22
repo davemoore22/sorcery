@@ -63,7 +63,6 @@ namespace Sorcery {
 			Display _display;
 			Graphics _graphics;
 			sf::RenderWindow* _window;
-			sfe::Movie _background_movie;
 			sf::Text _save_text;
 			sf::Text _cancel_text;
 			sf::Text _reset_text;

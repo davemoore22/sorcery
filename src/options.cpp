@@ -30,9 +30,6 @@ Sorcery::Options::Options (System& system, Display& display, Graphics& graphics)
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();
 
-	// Load the Background Movie
-	_background_movie.openFromFile(_system.files->get_path_as_string(MENU_VIDEO));
-
 	_options_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::OPTIONS);
 	_option_on = Component((*_display.layout)["options:option_on"]);
 	_option_off = Component((*_display.layout)["options:option_off"]);
@@ -45,8 +42,7 @@ Sorcery::Options::Options (System& system, Display& display, Graphics& graphics)
 
 // Standard Destructor
 Sorcery::Options::~Options() {
-	if (_background_movie.getStatus() == sfe::Playing)
-		_background_movie.stop();
+	_display.stop_background_movie();
 }
 
 auto Sorcery::Options::start() -> void {
@@ -59,12 +55,8 @@ auto Sorcery::Options::start() -> void {
 	_display.window->tooltips.clear();
 	_display_tooltip = false;
 
-	// Scale the Movie
-	_background_movie.fit(0, 0, _window->getSize().x, _window->getSize().y);
-
 	// Play the background movie!
-	if (_background_movie.getStatus() == sfe::Stopped)
-		_background_movie.play();
+	_display.start_background_movie();
 
 	// And select the first option by default;
 	_display.window->input_mode = WindowInputMode::GAME_OPTIONS;
@@ -132,13 +124,11 @@ auto Sorcery::Options::start() -> void {
 			}
 		}
 
-		if (_background_movie.getStatus() == sfe::Stopped) {
-			_background_movie.play();
-		}
-		_background_movie.update();
-
 		_window->clear();
-		_window->draw(_background_movie);
+
+		_display.start_background_movie();
+		_display.update_background_movie();
+		_display.draw_background_movie();
 
 		_draw();
 		_window->display();
@@ -147,9 +137,7 @@ auto Sorcery::Options::start() -> void {
 
 
 auto Sorcery::Options::stop() -> void {
-
-	if (_background_movie.getStatus() == sfe::Playing)
-		_background_movie.stop();
+	_display.stop_background_movie();
 }
 
 auto Sorcery::Options::_draw() -> void {

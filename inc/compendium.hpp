@@ -59,6 +59,5 @@ namespace Sorcery {
 			Display _display;
 			Graphics _graphics;
 			sf::RenderWindow* _window;
-			sfe::Movie _background_movie;
 	};
 }

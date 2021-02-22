@@ -60,7 +60,6 @@ namespace Sorcery {
 			Graphics _graphics;
 			sf::RenderWindow* _window;
 
-			sfe::Movie _background_movie;
 			std::shared_ptr<TextFile> _textfile;
 			unsigned int _current_line;
 			sf::Text _progress_text;

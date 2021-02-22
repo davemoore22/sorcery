@@ -51,6 +51,10 @@ namespace Sorcery {
 			auto generate_components(const std::string screen) -> void;
 			auto display_components(const std::string screen, std::optional<std::any> parameter = std::nullopt) -> void;
 			auto display_cursor() -> void;
+			auto start_background_movie() -> void;
+			auto stop_background_movie() -> void;
+			auto update_background_movie() -> void;
+			auto draw_background_movie() -> void;
 
 			// Public Members
 			std::shared_ptr<String> string;
@@ -66,6 +70,7 @@ namespace Sorcery {
 			std::map<std::string, std::shared_ptr<Frame>> _frames;
 			System* _system;
 			std::vector<std::pair<std::string, std::shared_ptr<Frame>>> __frames;
+			sfe::Movie _background_movie;
 
 			// Private Methods
 	};
