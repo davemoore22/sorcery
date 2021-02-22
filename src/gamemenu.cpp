@@ -91,9 +91,6 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 		edge_of_town_menu_frame_c.x), _display.window->get_y(_edge_of_town_menu_frame->sprite,
 		edge_of_town_menu_frame_c.y));
 
-	// Get the Cursor
-	_cursor = _display.window->get_cursor();
-
 	// Scale the Movie
 	_background_movie.fit(0, 0, _window->getSize().x, _window->getSize().y);
 
@@ -208,6 +205,5 @@ auto Sorcery::GameMenu::_draw() -> void {
 	}
 
 	// Always draw the following
-	_cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	_window->draw(_cursor);
+	_display.display_cursor();
 }

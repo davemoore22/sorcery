@@ -60,9 +60,6 @@ auto Sorcery::License::start() -> void {
 	// Clear the window
 	_window->clear();
 
-	// Get the Cursor
-	_cursor = _display.window->get_cursor();
-
 	// Scale the Movie
 	_background_movie.fit(0, 0, _window->getSize().x, _window->getSize().y);
 
@@ -132,10 +129,6 @@ auto Sorcery::License::stop() -> void {
 
 auto Sorcery::License::_draw() -> void {
 
-
-	//_window->draw(*_outside_frame);
-	//_window->draw(*_title_frame);
-
 	_display.display_components("license");
 
 	std::string progress = _textfile->get_reading_progress(_current_line);
@@ -143,8 +136,7 @@ auto Sorcery::License::_draw() -> void {
 	_display_file_contents();
 
 	// Always draw the following
-	_cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	_window->draw(_cursor);
+	_display.display_cursor();
 }
 
 auto Sorcery::License::_display_file_contents() -> void {

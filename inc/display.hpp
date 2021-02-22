@@ -50,6 +50,7 @@ namespace Sorcery {
 			// Public Methods
 			auto generate_components(const std::string screen) -> void;
 			auto display_components(const std::string screen, std::optional<std::any> parameter = std::nullopt) -> void;
+			auto display_cursor() -> void;
 
 			// Public Members
 			std::shared_ptr<String> string;

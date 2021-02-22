@@ -178,3 +178,10 @@ auto Sorcery::Display::display_components(const std::string screen, std::optiona
 		window->get_window()->draw(text);
 	}
 }
+
+auto Sorcery::Display::display_cursor() -> void {
+
+	sf::Sprite cursor = window->get_cursor();
+	cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window->get_window())));
+	window->get_window()->draw(cursor);
+}

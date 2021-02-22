@@ -74,7 +74,6 @@ namespace Sorcery {
 			sf::Font _mono_system_font;
 			sf::Font _proportional_system_font;
 			sfe::Movie _background_movie;
-			sf::Sprite _cursor;
 			MainMenuType _menu_stage;
 			std::shared_ptr<Menu> _main_menu;
 			std::shared_ptr<Confirm> _confirm_exit;

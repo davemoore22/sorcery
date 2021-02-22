@@ -63,9 +63,6 @@ auto Sorcery::Options::start() -> void {
 	_display.window->tooltips.clear();
 	_display_tooltip = false;
 
-	// Get the Cursor
-	_cursor = _display.window->get_cursor();
-
 	// Scale the Movie
 	_background_movie.fit(0, 0, _window->getSize().x, _window->getSize().y);
 
@@ -171,8 +168,7 @@ auto Sorcery::Options::_draw() -> void {
 	_window->draw(*_options_menu);
 
 	// Always draw the following
-	_cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	_window->draw(_cursor);
+	_display.display_cursor();
 
 	if (_display_tooltip) {
 		sf::Vector2i tooltip_position = sf::Mouse::getPosition(*_window);

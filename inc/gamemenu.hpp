@@ -60,10 +60,7 @@ namespace Sorcery {
 			Display _display;
 			Graphics _graphics;
 			sf::RenderWindow* _window;
-			sf::Font _mono_system_font;
-			sf::Font _proportional_system_font;
 			sfe::Movie _background_movie;
-			sf::Sprite _cursor;
 			std::unique_ptr<Frame> _castle_menu_frame;
 			std::unique_ptr<Frame> _edge_of_town_menu_frame;
 			std::shared_ptr<Menu> _castle_menu;

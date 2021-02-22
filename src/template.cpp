@@ -69,9 +69,6 @@ auto Sorcery::Template::start() -> void {
 	_title_frame->setPosition(_display.window->get_x(_title_frame->sprite, title_frame_c.x),
 		_display.window->get_y(_title_frame->sprite, title_frame_c.y));
 
-	// Get the Cursor
-	_cursor = _display.window->get_cursor();
-
 	// Scale the Movie
 	_background_movie.fit(0, 0, _window->getSize().x, _window->getSize().y);
 
@@ -122,6 +119,5 @@ auto Sorcery::Template::_draw() -> void {
 	_display.window->draw_text(_title_text, (*_display.layout)["compendium:gui_frame_title_text"]);
 
 	// Always draw the following
-	_cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	_window->draw(_cursor);
+	_display.display_cursor();
 }

@@ -77,9 +77,6 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	// Get Constituent Parts for the Main Menu
 	_attract_creatures_c = Component((*_display.layout)["main_menu_attract:attract_creatures"]);
 
-	// Get the Cursor
-	_cursor = _display.window->get_cursor();
-
 	// Scale the Movie
 	_background_movie.fit(0, 0, _window->getSize().x, _window->getSize().y);
 
@@ -258,8 +255,7 @@ auto Sorcery::MainMenu::_draw() -> void {
 	}
 
 	// Always draw the following
-	_cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	_window->draw(_cursor);
+	_display.display_cursor();
 }
 
 // We generate the attract mode graphic in the main thread, though we generate the IDs in the animation threads

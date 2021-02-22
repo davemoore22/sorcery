@@ -64,7 +64,6 @@ namespace Sorcery {
 			sf::Font _mono_system_font;
 			sf::Font _proportional_system_font;
 			sfe::Movie _background_movie;
-			sf::Sprite _cursor;
 			sf::Text _title_text;
 			std::unique_ptr<Frame> _outside_frame;
 			std::unique_ptr<Frame> _title_frame;
