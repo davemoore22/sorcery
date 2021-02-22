@@ -51,10 +51,6 @@ Sorcery::Window::Window(std::string title, System& system, String& string, Layou
 	_gui.setTarget(_window);
 	view = _window.getView();
 
-	// Fonts
-	_mono_system_font.loadFromFile(_system.files->get_path_as_string(MONO_FONT_FILE));
-	_proportional_system_font.loadFromFile(_system.files->get_path_as_string(PROPORTIONAL_FONT_FILE));
-
 	// Change the Mouse Cursor
 	_window.setMouseCursorVisible(false);
 

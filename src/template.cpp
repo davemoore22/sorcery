@@ -32,10 +32,6 @@ Sorcery::Template::Template (System& system, Display& display, Graphics& graphic
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();
 
-	// Load the Fonts
-	_mono_system_font.loadFromFile(_system.files->get_path_as_string(MONO_FONT_FILE));
-	_proportional_system_font.loadFromFile(_system.files->get_path_as_string(PROPORTIONAL_FONT_FILE));
-
 	// Load the Background Movie
 	_background_movie.openFromFile(_system.files->get_path_as_string(MENU_VIDEO));
 
