@@ -99,7 +99,5 @@ namespace Sorcery {
 			unsigned int _creature_sprite_spacing;
 			float _creature_sprite_scaling;
 			sf::Texture _gui_frame_texture;
-			sf::Font _mono_system_font;
-			sf::Font _proportional_system_font;
 	};
 }

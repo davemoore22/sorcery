@@ -30,11 +30,6 @@ Sorcery::Engine::Engine (System& system, Display& display, Graphics& graphics): 
 
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();
-
-	// Load the Fonts
-	_mono_system_font.loadFromFile(_system.files->get_path_as_string(MONO_FONT_FILE));
-	_proportional_system_font.loadFromFile(_system.files->get_path_as_string(PROPORTIONAL_FONT_FILE));
-
 }
 
 // Standard Destructor
@@ -154,7 +149,7 @@ auto Sorcery::Engine::start() -> void {
 
 	// Framerate counter TEXT OBJECT
 	sf::Text fps_text;
-	fps_text.setFont(_proportional_system_font);
+	//fps_text.setFont(_proportional_system_font);
 	fps_text.setCharacterSize(32);
 	fps_text.setColor(sf::Color::Yellow);
 	fps_text.setPosition(10, 10);
