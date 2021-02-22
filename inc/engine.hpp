@@ -62,6 +62,5 @@ namespace Sorcery {
 			sf::RenderWindow* _window;
 			sf::Font _mono_system_font;
 			sf::Font _proportional_system_font;
-			sf::Sprite _cursor;
 	};
 }

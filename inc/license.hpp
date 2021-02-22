@@ -62,7 +62,6 @@ namespace Sorcery {
 			sf::Font _mono_system_font;
 			sf::Font _proportional_system_font;
 			sfe::Movie _background_movie;
-			sf::Sprite _cursor;
 			std::shared_ptr<TextFile> _textfile;
 			unsigned int _current_line;
 			sf::Text _progress_text;
