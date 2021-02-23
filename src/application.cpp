@@ -31,10 +31,6 @@ Sorcery::Application::Application(int argc, char** argv) {
 	display = std::make_unique<Display>(system.get());
 	graphics = std::make_unique<Graphics>(system.get(), display.get());
 
-
-	// Get the SFML Window
-	_window = display->window->get_window();
-
 	// Show the Splash Screen and the Banner before starting the Main Menu
 	//_splash = std::make_shared<Splash>(*system, *display, *graphics);
 	//_splash->start();
@@ -98,7 +94,7 @@ auto Sorcery::Application::start() -> void {
 
 	} while (option_chosen);
 
-	_window->close();
+	display->window->get_window()->close();
 }
 
 

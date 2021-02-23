@@ -72,6 +72,7 @@
 #include <mutex>
 #include <numbers>
 #include <random>
+#include <ranges>
 #include <regex>
 #include <sstream>
 #include <stdexcept>

@@ -70,9 +70,10 @@ auto Sorcery::Layout::operator() (const std::string& screen) -> std::optional<st
 	// Else return the requested components for the screen
 	std::vector<Component> results;
 	if (_loaded) {
-		for (const auto &component : _components) {
-			if ((component.second.screen == screen) && (component.second.drawmode == WindowDrawMode::AUTOMATIC)) {
-				results.push_back(component.second);
+
+		for (const auto& [unique_key, component] : _components) {
+			if ((component.screen == screen) && (component.drawmode == WindowDrawMode::AUTOMATIC)) {
+				results.push_back(component);
 			}
 		}
 

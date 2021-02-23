@@ -69,8 +69,12 @@ namespace Sorcery {
 			std::map<std::string, sf::Text> _texts;
 			std::map<std::string, std::shared_ptr<Frame>> _frames;
 			System* _system;
-			std::vector<std::pair<std::string, std::shared_ptr<Frame>>> __frames;
 			sfe::Movie _background_movie;
+
+			// then these can be sorted by component.priority and then we can sort the layering
+			std::map<Component, std::variant<sf::Sprite, sf::Text, std::shared_ptr<Frame>>> _components;
+
+			// attract mode to become an object too?
 
 			// Private Methods
 	};

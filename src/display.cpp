@@ -40,7 +40,6 @@ auto Sorcery::Display::generate_components(const std::string screen) -> void {
 	_sprites.clear();
 	_texts.clear();
 	_frames.clear();
-	__frames.clear();
 	std::optional<std::vector<Component>> components {(*layout)(screen)};
 	if (components) {
 		for (const auto& component: components.value()) {

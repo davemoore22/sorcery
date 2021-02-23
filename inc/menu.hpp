@@ -78,7 +78,6 @@ namespace Sorcery {
 			System _system;
 			Display _display;
 			Graphics _graphics;
-			sf::RenderWindow* _window;
 			unsigned int _width;
 			MenuType _type;
 			sf::RenderTexture _render_texture;

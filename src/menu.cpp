@@ -27,9 +27,6 @@
 Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuType type): _system {system},
 	_display {display}, _graphics {graphics}, _type {type} {
 
-	// Get the Window and Graphics to Display#
-	_window = _display.window->get_window();
-
 	// Clear the Items
 	items.clear();
 	bounds.clear();

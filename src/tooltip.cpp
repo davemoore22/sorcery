@@ -27,9 +27,6 @@
 Sorcery::Tooltip::Tooltip (System& system, Display& display, Graphics& graphics): _system {system}, _display {display},
 	_graphics {graphics} {
 
-	// Get the Window and Graphics to Display
-	_window = _display.window->get_window();
-
 	// Get the standard layout information
 	_layout = Component((*_display.layout)["global:tooltip"]);
 

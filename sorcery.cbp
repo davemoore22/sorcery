@@ -105,6 +105,7 @@
 		<Unit filename="gfx/ui.png" />
 		<Unit filename="inc/animation.hpp" />
 		<Unit filename="inc/application.hpp" />
+		<Unit filename="inc/attractmode.hpp" />
 		<Unit filename="inc/banner.hpp" />
 		<Unit filename="inc/camera.hpp" />
 		<Unit filename="inc/character.hpp" />
@@ -152,6 +153,7 @@
 		<Unit filename="inc/window.hpp" />
 		<Unit filename="src/animation.cpp" />
 		<Unit filename="src/application.cpp" />
+		<Unit filename="src/attractmode.cpp" />
 		<Unit filename="src/banner.cpp" />
 		<Unit filename="src/camera.cpp" />
 		<Unit filename="src/character.cpp" />

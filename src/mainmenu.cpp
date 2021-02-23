@@ -30,13 +30,6 @@ Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphic
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();
 
-	// Set up the Attract Mode data;
-	_attract_mode_data.clear();
-	_creature_sprite_width = 108;
-	_creature_sprite_height = 108;
-	_creature_sprite_spacing = 8;
-	_creature_sprite_scaling =- 2.5f;
-
 	// Create the Main Menu
 	_menu_stage = MainMenuType::ATTRACT_MODE;
 	_main_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::MAIN);
@@ -48,6 +41,15 @@ Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphic
 
 	// Setup Custom Components
 	_press_any_key  = sf::Text();
+
+	// Now set up attract mode data
+	_attract_mode = std::make_shared<AttractMode>(_system.resources->textures[CREATURES_TEXTURE],
+		(*_display.layout)["main_menu_attract:attract_creatures"]);
+	_attract_mode->data.clear();
+	_creature_sprite_width = 108;
+	_creature_sprite_height = 108;
+	_creature_sprite_spacing = 8;
+	_creature_sprite_scaling =- 2.5f;
 
 	// Get the Display Components
 	_display.generate_components("main_menu_attract");
@@ -70,7 +72,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	_attract_creatures_c = Component((*_display.layout)["main_menu_attract:attract_creatures"]);
 
 	// Now set up attract mode data
-	_attract_mode_data_temp.clear();
+	_attract_mode->data_temp.clear();
 
 	// Start relevant animation worker threads
 	_graphics.animation->force_refresh_attract_mode();
@@ -86,7 +88,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	sf::Event event {};
 	while (_window->isOpen()) {
 
-		_attract_mode_data_temp = _graphics.animation->get_attract_mode_data();
+		_attract_mode->data_temp = _graphics.animation->get_attract_mode_data();
 		while (_window->pollEvent(event)) {
 
 			// If we are in normal input mode
@@ -208,7 +210,7 @@ auto  Sorcery::MainMenu::stop() -> void {
 auto Sorcery::MainMenu::_draw() -> void {
 
 	// Only draw the attract mode if we have something to draw (to avoid timing issues)
-	if (_attract_mode_data_temp.size() > 0) {
+	if (_attract_mode->data_temp.size() > 0) {
 
 		sf::Sprite creatures {_get_attract_mode()};
 		creatures.setColor(sf::Color(255, 255, 255, _graphics.animation->attract_mode_alpha));
@@ -247,9 +249,9 @@ auto Sorcery::MainMenu::_draw() -> void {
 auto Sorcery::MainMenu::_get_attract_mode() -> sf::Sprite {
 
 	// Only regenerate if we have a change
-	if (_attract_mode_data != _attract_mode_data_temp) {
-		_attract_mode_data = _attract_mode_data_temp;
-		const unsigned int number_to_display {static_cast<unsigned int>(_attract_mode_data_temp.size())};
+	if (_attract_mode->data != _attract_mode->data_temp) {
+		_attract_mode->data = _attract_mode->data_temp;
+		const unsigned int number_to_display {static_cast<unsigned int>(_attract_mode->data_temp.size())};
 		const sf::Vector2f texture_size(_creature_sprite_width * number_to_display + (_creature_sprite_spacing *
 			(number_to_display - 1)), _creature_sprite_height);
 		sf::RenderTexture attract_texture;
@@ -259,7 +261,7 @@ auto Sorcery::MainMenu::_get_attract_mode() -> sf::Sprite {
 
 		// Work out their Indexes and Positions
 		unsigned int sprite_x {0};
-		for (auto i: _attract_mode_data) {
+		for (auto i: _attract_mode->data) {
 			sf::Sprite sprite = _get_creature_gfx(i, true);
 			sprite.setPosition(sprite_x, 0);
 			attract_texture.draw(sprite, sf::BlendAlpha);

@@ -24,28 +24,25 @@
 #pragma once
 
 #include "main.hpp"
-#include "layout.hpp"
+#include "component.hpp"
 
 namespace Sorcery {
 
 	class Display;
 
-	class Frame: public sf::Transformable, public sf::Drawable {
+	class AttractMode: public sf::Transformable, public sf::Drawable {
 
 		public:
 
 			// Constructors
-			Frame(sf::Texture texture, WindowFrameType _type, const unsigned int width_units,
-				const unsigned int height_units, const unsigned int alpha);
-			Frame() = delete;
+			AttractMode(sf::Texture texture, Component component);
+			AttractMode() = delete;
 
 			// Public Members
-			unsigned int width;
-			unsigned int height;
-			sf::Sprite sprite;
+			std::vector<unsigned int> data;
+			std::vector<unsigned int> data_temp;
 
 			// Public Methods
-
 
 		private:
 
@@ -53,17 +50,13 @@ namespace Sorcery {
 			auto virtual draw(sf::RenderTarget& target, sf::RenderStates states) const -> void;
 
 			// Private Members
-			WindowFrameType _type;
-			unsigned int _width_units;
-			unsigned int _height_units;
-			unsigned int _alpha;
-			std::array<sf::IntRect, 8> _frame_parts;
-			std::array<sf::Sprite, 8> _frame_sprites;
-			sf::RenderTexture _render_texture;
 			sf::Texture _texture;
-			sf::Sprite _frame;
-			sf::RectangleShape _background;
-			unsigned int _texture_size_x;
-			unsigned int _texture_size_y;
+			sf::RenderTexture _render_texture;
+			sf::Sprite _sprite;
+			Component _component;
+			unsigned int _creature_sprite_width;
+			unsigned int _creature_sprite_height;
+			unsigned int _creature_sprite_spacing;
+			float _creature_sprite_scaling;
 	};
 }

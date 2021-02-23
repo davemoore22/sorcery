@@ -79,6 +79,5 @@ namespace Sorcery {
 			std::shared_ptr<Compendium> _compendium;
 			std::shared_ptr<GameMenu> _gamemenu;
 			std::shared_ptr<Engine> _engine;
-			sf::RenderWindow* _window;
 	};
 }

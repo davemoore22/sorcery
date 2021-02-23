@@ -21,49 +21,22 @@
 // licensors of this Program grant you additional permission to convey the
 // resulting work.
 
-#pragma once
+#include "attractmode.hpp"
 
-#include "main.hpp"
-#include "layout.hpp"
+// Standard Constructor
+Sorcery::AttractMode::AttractMode(sf::Texture texture, Component component): _texture {texture},
+	_component {component} {
 
-namespace Sorcery {
+	_creature_sprite_width = 108;
+	_creature_sprite_height = 108;
+	_creature_sprite_spacing = 8;
+	_creature_sprite_scaling =- 2.5f;
 
-	class Display;
-
-	class Frame: public sf::Transformable, public sf::Drawable {
-
-		public:
-
-			// Constructors
-			Frame(sf::Texture texture, WindowFrameType _type, const unsigned int width_units,
-				const unsigned int height_units, const unsigned int alpha);
-			Frame() = delete;
-
-			// Public Members
-			unsigned int width;
-			unsigned int height;
-			sf::Sprite sprite;
-
-			// Public Methods
+}
 
 
-		private:
+auto Sorcery::AttractMode::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
 
-			// Private Methods
-			auto virtual draw(sf::RenderTarget& target, sf::RenderStates states) const -> void;
-
-			// Private Members
-			WindowFrameType _type;
-			unsigned int _width_units;
-			unsigned int _height_units;
-			unsigned int _alpha;
-			std::array<sf::IntRect, 8> _frame_parts;
-			std::array<sf::Sprite, 8> _frame_sprites;
-			sf::RenderTexture _render_texture;
-			sf::Texture _texture;
-			sf::Sprite _frame;
-			sf::RectangleShape _background;
-			unsigned int _texture_size_x;
-			unsigned int _texture_size_y;
-	};
+	states.transform *= getTransform();
+	target.draw(_sprite, states);
 }
