@@ -56,21 +56,12 @@ namespace Sorcery {
 
 			// Private Methods
 			auto _draw() -> void;
-			auto _get_attract_mode() -> sf::Sprite;
-			auto _get_creature_gfx(const int creature_id, const bool known) -> sf::Sprite;
 
 			// Private Members
 			System _system;
 			Display _display;
 			Graphics _graphics;
 			sf::RenderWindow* _window;
-			std::vector<unsigned int> _attract_mode_data;
-			std::vector<unsigned int> _attract_mode_data_temp;
-			unsigned int _creature_sprite_width;
-			unsigned int _creature_sprite_height;
-			unsigned int _creature_sprite_spacing;
-			float _creature_sprite_scaling;
-			sf::Texture _attract_mode_texture;
 			MainMenuType _menu_stage;
 			std::shared_ptr<Menu> _main_menu;
 			std::shared_ptr<Confirm> _confirm_exit;

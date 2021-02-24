@@ -35,23 +35,28 @@ namespace Sorcery {
 		public:
 
 			// Constructors
-			AttractMode(sf::Texture texture, Component component);
+			AttractMode(sf::Texture creatures_texture, Component component);
 			AttractMode() = delete;
 
 			// Public Members
 			std::vector<unsigned int> data;
 			std::vector<unsigned int> data_temp;
+			sf::Sprite sprite;
 
 			// Public Methods
+			auto generate() -> sf::Sprite;
+			auto set_alpha(unsigned int alpha) -> void;
 
 		private:
 
 			// Private Methods
 			auto virtual draw(sf::RenderTarget& target, sf::RenderStates states) const -> void;
+			auto _get_creature_gfx(const int creature_id, const bool known) -> sf::Sprite;
 
 			// Private Members
-			sf::Texture _texture;
+			sf::Texture _creatures_texture;
 			sf::RenderTexture _render_texture;
+			sf::Texture _texture;
 			sf::Sprite _sprite;
 			Component _component;
 			unsigned int _creature_sprite_width;

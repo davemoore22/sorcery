@@ -46,10 +46,6 @@ Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphic
 	_attract_mode = std::make_shared<AttractMode>(_system.resources->textures[CREATURES_TEXTURE],
 		(*_display.layout)["main_menu_attract:attract_creatures"]);
 	_attract_mode->data.clear();
-	_creature_sprite_width = 108;
-	_creature_sprite_height = 108;
-	_creature_sprite_spacing = 8;
-	_creature_sprite_scaling =- 2.5f;
 
 	// Get the Display Components
 	_display.generate_components("main_menu_attract");
@@ -67,9 +63,6 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	_window->clear();
 
 	_menu_stage = menu_stage;
-
-	// Get Constituent Parts for the Main Menu
-	_attract_creatures_c = Component((*_display.layout)["main_menu_attract:attract_creatures"]);
 
 	// Now set up attract mode data
 	_attract_mode->data_temp.clear();
@@ -212,18 +205,24 @@ auto Sorcery::MainMenu::_draw() -> void {
 	// Only draw the attract mode if we have something to draw (to avoid timing issues)
 	if (_attract_mode->data_temp.size() > 0) {
 
-		sf::Sprite creatures {_get_attract_mode()};
-		creatures.setColor(sf::Color(255, 255, 255, _graphics.animation->attract_mode_alpha));
-		creatures.setScale(_attract_creatures_c.scale, _attract_creatures_c.scale);
-		const sf::Vector2f creature_pos(_display.window->get_x(creatures, _attract_creatures_c.x),
-			_display.window->get_y(creatures, _attract_creatures_c.y));
-		creatures.setPosition(creature_pos);
-
 		double lerp = _graphics.animation->colour_lerp;
 		_display.display_components("main_menu_attract", _menu_stage);
-		_window->draw(creatures, sf::BlendAlpha);
 
+		// Generate and draw the Attract Mode Graphics
+		Component attract_creatures_c {(*_display.layout)["main_menu_attract:attract_creatures"]};
+		_attract_mode->generate();
+		_attract_mode->setScale(attract_creatures_c.scale, attract_creatures_c.scale);
+		_attract_mode->set_alpha(_graphics.animation->attract_mode_alpha);
 
+		// Horrible - but needed since the size of the Attract Mode Graphics are variable
+		sf::Vector2u attract_mode_size {_attract_mode->sprite.getGlobalBounds().width * _attract_mode->getScale().x,
+			_attract_mode->sprite.getGlobalBounds().height * _attract_mode->getScale().y};
+		const sf::Vector2f creature_pos(_display.window->centre.x - (attract_mode_size.x / 2),
+			_display.window->get_y(_attract_mode->sprite, attract_creatures_c.y));
+		_attract_mode->setPosition(creature_pos);
+		_window->draw(*_attract_mode);
+
+		// And either the blurb or the main menu
 		if (_menu_stage == MainMenuType::ATTRACT_MODE) {
 			_display.window->draw_text(_press_any_key, (*_display.layout)["main_menu_attract:press_any_key"], lerp);
 		} else {
@@ -242,51 +241,4 @@ auto Sorcery::MainMenu::_draw() -> void {
 
 	// Always draw the following
 	_display.display_cursor();
-}
-
-// We generate the attract mode graphic in the main thread, though we generate the IDs in the animation threads
-// https://en.sfml-dev.org/forums/index.php?topic=18672.0
-auto Sorcery::MainMenu::_get_attract_mode() -> sf::Sprite {
-
-	// Only regenerate if we have a change
-	if (_attract_mode->data != _attract_mode->data_temp) {
-		_attract_mode->data = _attract_mode->data_temp;
-		const unsigned int number_to_display {static_cast<unsigned int>(_attract_mode->data_temp.size())};
-		const sf::Vector2f texture_size(_creature_sprite_width * number_to_display + (_creature_sprite_spacing *
-			(number_to_display - 1)), _creature_sprite_height);
-		sf::RenderTexture attract_texture;
-		attract_texture.create(texture_size.x, texture_size.y);
-		attract_texture.setSmooth(true);
-		attract_texture.clear();
-
-		// Work out their Indexes and Positions
-		unsigned int sprite_x {0};
-		for (auto i: _attract_mode->data) {
-			sf::Sprite sprite = _get_creature_gfx(i, true);
-			sprite.setPosition(sprite_x, 0);
-			attract_texture.draw(sprite, sf::BlendAlpha);
-			sprite_x += (_creature_sprite_width + _creature_sprite_spacing);
-		}
-
-		attract_texture.display();
-		_attract_mode_texture = attract_texture.getTexture();
-		sf::Sprite attract_sprite(_attract_mode_texture);
-		attract_sprite.setColor(sf::Color(0, 0, 0, 175));
-		return attract_sprite;
-	} else {
-		sf::Sprite attract_sprite(_attract_mode_texture);
-		attract_sprite.setColor(sf::Color(0, 0, 0, 175));
-		return attract_sprite;
-	}
-}
-
-auto Sorcery::MainMenu::_get_creature_gfx(const int creature_id, const bool known) -> sf::Sprite {
-	sf::IntRect creature_rect {};
-	sf::Sprite creature(_system.resources->textures[CREATURES_TEXTURE]);
-	creature_rect.left = (creature_id - 1) * _creature_sprite_width;
-	creature_rect.width = _creature_sprite_width;
-	creature_rect.top = known ? 0 : _creature_sprite_height;
-	creature_rect.height = _creature_sprite_height;
-	creature.setTextureRect(creature_rect);
-	return creature;
 }

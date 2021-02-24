@@ -53,7 +53,6 @@ namespace Sorcery {
 			auto virtual draw(sf::RenderTarget& target, sf::RenderStates states) const -> void;
 
 			// Private Members
-			WindowFrameType _type;
 			unsigned int _width_units;
 			unsigned int _height_units;
 			unsigned int _alpha;
@@ -61,6 +60,7 @@ namespace Sorcery {
 			std::array<sf::Sprite, 8> _frame_sprites;
 			sf::RenderTexture _render_texture;
 			sf::Texture _texture;
+			WindowFrameType _type;
 			sf::Sprite _frame;
 			sf::RectangleShape _background;
 			unsigned int _texture_size_x;
