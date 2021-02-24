@@ -1,9 +1,9 @@
 Sorcery: Dreams of the Mad Overlord
-Copyright (C) 2020 Dave Moore
+Copyright (C) 2021 Dave Moore
 
-Make sure the following packages from the Standard Repositories are installed:
+Make sure the following packages from the Standard/Universe Repositories are installed:
 
-sfml sfml-dev libsfml-dev libsfml-doc libsqlite3-0 libsqlite3-dev libjsoncpp-dev doxygen
+sfml sfml-dev libsfml-dev libsfml-doc libsqlite3-0 libsqlite3-dev libjsoncpp-dev doxygen libfmt-dev
 
 Add the following repository:
 

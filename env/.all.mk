@@ -41,7 +41,8 @@ LINK_LIBRARIES := \
 	sqlite3 \
 	sfeMovie \
 	jsoncpp \
-	thor
+	thor \
+	fmt
 
 PRODUCTION_FOLDER := build
 

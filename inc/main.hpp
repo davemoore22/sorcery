@@ -60,7 +60,7 @@
 #include <cstdio>
 #include <exception>
 #include <filesystem>
-//#include <format>
+#include <fmt/core.h> // #include <format> when supported
 #include <fstream>
 #include <iomanip>
 #include <ios>

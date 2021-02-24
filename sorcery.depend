@@ -7,7 +7,7 @@
 	"system.hpp"
 	"display.hpp"
 
-1614109876 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1614201898 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -29,6 +29,7 @@
 	<cstdio>
 	<exception>
 	<filesystem>
+	<fmt/core.h>
 	<fstream>
 	<iomanip>
 	<ios>
@@ -272,7 +273,7 @@
 1591451087 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
 	"main.hpp"
 
-1613942275 source:/home/dave/Development/wizardry/sorcery-sfml/src/component.cpp
+1614201943 source:/home/dave/Development/wizardry/sorcery-sfml/src/component.cpp
 	"component.hpp"
 
 1604516231 source:/home/dave/Development/wizardry/sorcery-sfml/src/config.cpp
@@ -311,11 +312,11 @@
 1614112670 source:/home/dave/Development/wizardry/sorcery-sfml/src/layout.cpp
 	"layout.hpp"
 
-1604516962 source:/home/dave/Development/wizardry/sorcery-sfml/src/main.cpp
+1614201825 source:/home/dave/Development/wizardry/sorcery-sfml/src/main.cpp
 	"main.hpp"
 	"application.hpp"
 
-1614200130 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
+1614201046 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
 	"mainmenu.hpp"
 
 1590869110 source:/home/dave/Development/wizardry/sorcery-sfml/src/manage.cpp
