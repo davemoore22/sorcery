@@ -32,25 +32,23 @@ namespace Sorcery {
 		public:
 
 			// Constructors
-			String(const std::string& filename, const std::string &explain_filename);
+			String(const std::string& filename);
 			String() = delete;
 
 			// Overload [] operator
 			auto operator[] (const std::string& key) -> std::string&;
 
 			// Public Methods
-			auto get(const std::string& key, const StringType string_type = StringType::NORMAL) -> std::string;
-			auto get_explain(const std::string& key) -> std::string;
+			auto get(const std::string& key) -> std::string;
 
 		private:
 
 			// Private Members
 			StringMap _strings; // String Storage Table
-			StringMap _explain_strings;
 			bool _loaded;
 
 			// Private Methods
-			auto _load(const std::string& filename, const StringType string_type = StringType::NORMAL) -> bool;
+			auto _load(const std::string& filename) -> bool;
 			auto _replace(std::string& subject, const std::string& search, const std::string& replace) -> void;
 	};
 }

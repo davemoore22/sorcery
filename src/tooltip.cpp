@@ -34,7 +34,7 @@ Sorcery::Tooltip::Tooltip (System& system, Display& display, Graphics& graphics)
 	valid = false;
 }
 
-auto Sorcery::Tooltip::set(std::string& string) -> void {
+auto Sorcery::Tooltip::set(const std::string& string) -> void {
 
 	_strings.clear();
 	_texts.clear();
@@ -49,7 +49,7 @@ auto Sorcery::Tooltip::set(std::string& string) -> void {
 		[](std::string const& s) {
 			return s.size() == 0;
 		}),
-    	split.end());
+		split.end());
 	_strings = split;
 
 	int x {18};

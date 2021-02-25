@@ -27,7 +27,7 @@
 Sorcery::Display::Display(System* system) {
 
 	_system = system;
-	string = std::make_shared<String>((*_system->files)[STRINGS_FILE], (*_system->files)[EXPLAIN_FILE]);
+	string = std::make_shared<String>((*_system->files)[STRINGS_FILE]);
 	std::string window_title {string->get("TITLE_AND_VERSION_INFO")};
 	layout = std::make_shared<Layout>((*_system->files)[LAYOUT_FILE]);
 	window = std::make_shared<Window>(window_title, *_system, *string, *layout);

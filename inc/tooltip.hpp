@@ -49,7 +49,7 @@ namespace Sorcery {
 			bool valid;
 
 			// Public Methods
-			auto set(std::string& string) -> void;
+			auto set(const std::string& string) -> void;
 
 		private:
 
@@ -60,8 +60,6 @@ namespace Sorcery {
 			System _system;
 			Display _display;
 			Graphics _graphics;
-			sf::RenderWindow* _window;
-			sf::RectangleShape _background;
 			Component _layout;
 			unsigned int _width;
 			unsigned int _height;

@@ -67,7 +67,10 @@ namespace Sorcery {
 			DISPLAY_TEXT_FILE,
 			GAME_OPTIONS,
 			COMPENDIUM,
-			CASTLE
+			CASTLE,
+			SAVE_CHANGES,
+			CANCEL_CHANGES,
+			SWITCH_ON_STRICT_MODE
 		};
 
 		enum Confirm {

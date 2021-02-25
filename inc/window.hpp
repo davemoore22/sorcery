@@ -37,7 +37,7 @@ namespace Sorcery {
 		public:
 
 			// Constructors
-			Window(std::string title, System& system, String& string, Layout& layout);
+			Window(const std::string title, System& system, String& string, Layout& layout);
 			Window() = delete;
 
 			// Public Methods
@@ -46,8 +46,8 @@ namespace Sorcery {
 			auto darken_colour(sf::Color colour, double lerp) -> sf::Color;
 			auto display_window() -> void;
 			auto draw_text(sf::Text& text) -> void;
-			auto draw_text(sf::Text& text, Component& component, double lerp  = -1.0f) -> void;
-			auto draw_text(sf::Text& text, Component& component, std::string& string) -> void;
+			auto draw_text(sf::Text& text, const Component& component, const double lerp = -1.0f) -> void;
+			auto draw_text(sf::Text& text, const Component& component, const std::string& string) -> void;
 			auto draw_gui() -> void;
 			auto get_cell_height() const -> unsigned int;
 			auto get_cell_width() const -> unsigned int;
@@ -72,8 +72,8 @@ namespace Sorcery {
 			// Private Methods
 			auto _change_colour(sf::Color colour, double lerp) const -> sf::Color;
 			auto _draw_text(sf::Text& text) -> void;
-			auto _draw_text(sf::Text& text, Component& component, const double lerp) -> void;
-			auto _draw_text(sf::Text& text, Component& component, std::string& string) -> void;
+			auto _draw_text(sf::Text& text, const Component& component, const double lerp) -> void;
+			auto _draw_text(sf::Text& text, const Component& component, const std::string& string) -> void;
 			auto _get_centre_x(const sf::Sprite& sprite) const -> unsigned int;
 			auto _get_centre_y(const sf::Sprite& sprite) const -> unsigned int;
 			auto _get_centre_x(const sf::Text& text) const -> unsigned int;
@@ -94,10 +94,5 @@ namespace Sorcery {
 			tgui::Gui _gui;
 			unsigned int _cell_height;
 			unsigned int _cell_width;
-			unsigned int _creature_sprite_width;
-			unsigned int _creature_sprite_height;
-			unsigned int _creature_sprite_spacing;
-			float _creature_sprite_scaling;
-			sf::Texture _gui_frame_texture;
 	};
 }

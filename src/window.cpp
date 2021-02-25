@@ -26,7 +26,7 @@
 // also add a TGUI to this
 
 // Standard Constructor
-Sorcery::Window::Window(std::string title, System& system, String& string, Layout& layout): _title {title},
+Sorcery::Window::Window(const std::string title, System& system, String& string, Layout& layout): _title {title},
 	_system {system}, _string {string}, _layout {layout} {
 
 	// First get the Window Size from System Config
@@ -54,11 +54,6 @@ Sorcery::Window::Window(std::string title, System& system, String& string, Layou
 	// Change the Mouse Cursor
 	_window.setMouseCursorVisible(false);
 
-	_creature_sprite_width = 108;
-	_creature_sprite_height = 108;
-	_creature_sprite_spacing = 8;
-	_creature_sprite_scaling =- 2.5f;
-
 	tooltips.clear();
 }
 
@@ -83,12 +78,12 @@ auto Sorcery::Window::draw_text(sf::Text& text) -> void {
 	_draw_text(text);
 }
 
-auto Sorcery::Window::draw_text(sf::Text& text, Component& component, std::string& string) -> void {
+auto Sorcery::Window::draw_text(sf::Text& text, const Component& component, const std::string& string) -> void {
 
 	_draw_text(text, component, string);
 }
 
-auto Sorcery::Window::draw_text(sf::Text& text, Component& component, double lerp) -> void {
+auto Sorcery::Window::draw_text(sf::Text& text, const Component& component, const double lerp) -> void {
 
 	_draw_text(text, component, lerp);
 }
@@ -98,7 +93,7 @@ auto Sorcery::Window::_draw_text(sf::Text& text) -> void {
 	_window.draw(text);
 }
 
-auto Sorcery::Window::_draw_text(sf::Text& text, Component& component, double lerp) -> void {
+auto Sorcery::Window::_draw_text(sf::Text& text, const Component& component, const double lerp) -> void {
 
 	int x {0};
 	int y {0};
@@ -125,7 +120,7 @@ auto Sorcery::Window::_draw_text(sf::Text& text, Component& component, double le
 	_window.draw(text);
 }
 
-auto Sorcery::Window::_draw_text(sf::Text& text, Component& component, std::string& string) -> void {
+auto Sorcery::Window::_draw_text(sf::Text& text, const Component& component, const std::string& string) -> void {
 
 	int x {0};
 	int y {0};
@@ -133,8 +128,8 @@ auto Sorcery::Window::_draw_text(sf::Text& text, Component& component, std::stri
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
 	text.setString(string);
-	x = component.x == -1 ? centre.x :  component.x;
-	y = component.y == -1 ? centre.y :  component.y;
+	x = component.x == -1 ? centre.x : component.x;
+	y = component.y == -1 ? centre.y : component.y;
 	if (component.justification == Justification::CENTRE) {
 		text.setPosition(x, y);
 		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);

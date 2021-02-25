@@ -336,6 +336,75 @@
 			"justification": "right",
 			"string": "OPTION_OFF",
 			"type": "text"
+		},
+		{
+			"name": "confirm_save_game_options_frame",
+			"w": "14",
+			"h": "7",
+			"x": "centre",
+			"y": "14",
+			"alpha": "175",
+			"type": "frame",
+			"drawmode": "manual"
+		},
+		{
+			"name": "confirm_save_game_options",
+			"x": "centre",
+			"y": "16",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CONFIRM_SAVE_GAME_OPTIONS",
+			"background": "0x6060c8ff",
+			"justification": "centre",
+			"type": "text",
+			"drawmode": "manual"
+		},
+		{
+			"name": "confirm_cancel_changes_options_frame",
+			"w": "14",
+			"h": "7",
+			"x": "centre",
+			"y": "14",
+			"alpha": "175",
+			"type": "frame",
+			"drawmode": "manual"
+		},
+		{
+			"name": "confirm_cancel_changes_options",
+			"x": "centre",
+			"y": "16",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CONFIRM_CANCEL_CHANGES_OPTIONS",
+			"background": "0x6060c8ff",
+			"justification": "centre",
+			"type": "text",
+			"drawmode": "manual"
+		},
+		{
+			"name": "confirm_strict_mode_options_frame",
+			"w": "44",
+			"h": "7",
+			"x": "centre",
+			"y": "14",
+			"alpha": "175",
+			"type": "frame",
+			"drawmode": "manual"
+		},
+		{
+			"name": "confirm_strict_mode_options",
+			"x": "centre",
+			"y": "16",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CONFIRM_SWITCH_ON_STRICT_MODE",
+			"background": "0x6060c8ff",
+			"justification": "centre",
+			"type": "text",
+			"drawmode": "manual"
 		}
 		]
 	},

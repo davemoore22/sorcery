@@ -17,9 +17,14 @@
 			<Cursor1 position="3094" topLine="69" />
 		</Cursor>
 	</File>
-	<File name="dat/layout.json" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="dat/explain.json" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="6344" topLine="323" />
+			<Cursor1 position="4629" topLine="18" />
+		</Cursor>
+	</File>
+	<File name="dat/layout.json" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="846" topLine="63" />
 		</Cursor>
 	</File>
 	<File name="src/frame.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -42,9 +47,9 @@
 			<Cursor1 position="17518" topLine="377" />
 		</Cursor>
 	</File>
-	<File name="dat/strings.json" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="dat/strings.json" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4597" topLine="60" />
+			<Cursor1 position="4597" topLine="15" />
 		</Cursor>
 	</File>
 	<File name="inc/maputils.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -117,9 +122,9 @@
 			<Cursor1 position="1242" topLine="13" />
 		</Cursor>
 	</File>
-	<File name="src/textfile.cpp" open="1" top="1" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/textfile.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="0" />
+			<Cursor1 position="1907" topLine="40" />
 		</Cursor>
 	</File>
 	<File name="src/main.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -169,7 +174,7 @@
 	</File>
 	<File name="src/string.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1725" topLine="34" />
+			<Cursor1 position="1289" topLine="22" />
 		</Cursor>
 	</File>
 	<File name="inc/animation.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -209,7 +214,7 @@
 	</File>
 	<File name="src/display.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1790" topLine="31" />
+			<Cursor1 position="1190" topLine="18" />
 		</Cursor>
 	</File>
 	<File name="inc/tooltip.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -242,9 +247,9 @@
 			<Cursor1 position="2545" topLine="53" />
 		</Cursor>
 	</File>
-	<File name="src/mainmenu.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+	<File name="src/mainmenu.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="8506" topLine="209" />
+			<Cursor1 position="8090" topLine="209" />
 		</Cursor>
 	</File>
 	<File name="src/platform.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

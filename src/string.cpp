@@ -26,14 +26,10 @@
 // This is the Game Message Handling Class
 
 // Standard Constructor
-Sorcery::String::String(const std::string &filename, const std::string &explain_filename) {
+Sorcery::String::String(const std::string &filename) {
 
 	// Load strings from file
-	const bool loadresult {_load(filename, StringType::NORMAL)};
-	const bool explain_loadresult {_load(explain_filename, StringType::EXPLAIN)};
-
-	// Check result
-	_loaded = (loadresult) && (explain_loadresult);
+	_loaded = _load(filename);
 }
 
 // Overload [] Operator
@@ -43,12 +39,11 @@ auto Sorcery::String::operator[] (const std::string &key) -> std::string& {
 }
 
 // Load File into Game Strings
-auto Sorcery::String::_load(const std::string &filename, const StringType string_type) -> bool {
+auto Sorcery::String::_load(const std::string &filename) -> bool {
 
 	// Work out the destination, but load an empty string anyway in case of error
-	StringMap* string_set {string_type == StringType::NORMAL ? &_strings : &_explain_strings};
-	string_set->clear();
-	(*string_set)["NONE"] = STRINGS_NOT_LOADED;
+	_strings.clear();
+	_strings["NONE"] = STRINGS_NOT_LOADED;
 
 	// Attempt to load Strings File
 	if (std::ifstream strings_file {filename, std::ifstream::binary}; strings_file.good()) {
@@ -74,7 +69,7 @@ auto Sorcery::String::_load(const std::string &filename, const StringType string
 				string_key.erase(remove(string_key.begin(), string_key.end(), '\n' ), string_key.end());
 
 				// Insert it into the map
-				(*string_set)[string_key] = string_value;
+				_strings[string_key] = string_value;
 			}
 		} else
 			return false;
@@ -85,23 +80,15 @@ auto Sorcery::String::_load(const std::string &filename, const StringType string
 }
 
 // Get Text
-auto Sorcery::String::get(const std::string& key, const StringType string_type) -> std::string {
+auto Sorcery::String::get(const std::string& key) -> std::string {
 
-	if (_loaded) {
-		const StringMap* string_set {string_type == StringType::NORMAL ? &_strings : &_explain_strings};
-		return string_set->find(key) != string_set->end() ? string_set->at(key) : KEY_NOT_FOUND;
-	} else
-		return STRINGS_NOT_LOADED;
-}
-
-// Get Explain Text
-
-auto Sorcery::String::get_explain(const std::string& key) -> std::string {
 	if (_loaded)
-		return _explain_strings.find(key) != _explain_strings.end() ? _explain_strings.at(key) : EXPLAIN_KEY_NOT_FOUND;
+		return _strings.find(key) != _strings.end() ? _strings.at(key) : KEY_NOT_FOUND;
 	else
 		return STRINGS_NOT_LOADED;
 }
+
+
 // Utility function due to lack of std::string::replace_with_substring
 auto Sorcery::String::_replace(std::string& subject, const std::string& search, const std::string& replace) -> void {
 
