@@ -41,7 +41,7 @@ namespace Sorcery {
 			Window() = delete;
 
 			// Public Methods
-			auto change_colour(sf::Color colour, double lerp) -> sf::Color;
+			auto change_colour(sf::Color colour, double lerp) const -> sf::Color;
 			auto clear_window() -> void;
 			auto darken_colour(sf::Color colour, double lerp) -> sf::Color;
 			auto display_window() -> void;
@@ -49,13 +49,13 @@ namespace Sorcery {
 			auto draw_text(sf::Text& text, Component& component, double lerp  = -1.0f) -> void;
 			auto draw_text(sf::Text& text, Component& component, std::string& string) -> void;
 			auto draw_gui() -> void;
-			auto get_cell_height() -> unsigned int;
-			auto get_cell_width() -> unsigned int;
-			auto get_cursor() -> sf::Sprite;
+			auto get_cell_height() const -> unsigned int;
+			auto get_cell_width() const -> unsigned int;
+			auto get_cursor() const -> sf::Sprite;
 			auto get_gui() -> tgui::Gui*;
 			auto get_window() -> sf::RenderWindow*;
-			auto get_x(sf::Sprite& sprite, int x_position) -> unsigned int;
-			auto get_y(sf::Sprite& sprite, int y_position) -> unsigned int;
+			auto get_x(const sf::Sprite& sprite, int x_position) const -> unsigned int;
+			auto get_y(const sf::Sprite& sprite, int y_position) const -> unsigned int;
 			auto lighten_colour(sf::Color colour, double lerp) -> sf::Color;
 			auto highlight_text(sf::Text& text, Component component, double lerp) -> sf::RectangleShape;
 
@@ -70,18 +70,18 @@ namespace Sorcery {
 		private:
 
 			// Private Methods
-			auto _change_colour(sf::Color colour, double lerp) -> sf::Color;
+			auto _change_colour(sf::Color colour, double lerp) const -> sf::Color;
 			auto _draw_text(sf::Text& text) -> void;
-			auto _draw_text(sf::Text& text, Component& component, double lerp) -> void;
+			auto _draw_text(sf::Text& text, Component& component, const double lerp) -> void;
 			auto _draw_text(sf::Text& text, Component& component, std::string& string) -> void;
-			auto _get_centre_x(sf::Sprite& sprite) -> unsigned int;
-			auto _get_centre_y(sf::Sprite& sprite) -> unsigned int;
-			auto _get_centre_x(sf::Text& text) -> unsigned int;
-			auto _get_centre_y(sf::Text& text) -> unsigned int;
-			auto _get_x(sf::Sprite& sprite, int x_position) -> unsigned int;
-			auto _get_x(sf::Text& text, int x_position) -> unsigned int;
-			auto _get_y(sf::Sprite& sprite, int y_position) -> unsigned int;
-			auto _get_y(sf::Text& text, int y_position) -> unsigned int;
+			auto _get_centre_x(const sf::Sprite& sprite) const -> unsigned int;
+			auto _get_centre_y(const sf::Sprite& sprite) const -> unsigned int;
+			auto _get_centre_x(const sf::Text& text) const -> unsigned int;
+			auto _get_centre_y(const sf::Text& text) const -> unsigned int;
+			auto _get_x(const sf::Sprite& sprite, const int x_position) const -> unsigned int;
+			auto _get_x(const sf::Text& text, const int x_position) const -> unsigned int;
+			auto _get_y(const sf::Sprite& sprite, const int y_position) const -> unsigned int;
+			auto _get_y(const sf::Text& text, const int y_position) const -> unsigned int;
 
 			// Private Members
 			ScreenSize _default_size;

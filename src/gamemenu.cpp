@@ -42,6 +42,7 @@ Sorcery::GameMenu::GameMenu (System& system, Display& display, Graphics& graphic
 
 // Standard Destructor
 Sorcery::GameMenu::~GameMenu() {
+
 	_display.stop_background_movie();
 }
 
@@ -156,6 +157,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 }
 
 auto Sorcery::GameMenu::stop() -> void {
+
 	_display.stop_background_movie();
 }
 

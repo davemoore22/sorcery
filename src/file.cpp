@@ -54,6 +54,7 @@ Sorcery::File::File() {
 
 // Overload [] Operator
 auto Sorcery::File::operator [](std::string_view key) const -> std::filesystem::path {
+
 	if (_file_paths.find(key) != _file_paths.end())
 		return (_file_paths.at(key));
 	else
@@ -61,6 +62,7 @@ auto Sorcery::File::operator [](std::string_view key) const -> std::filesystem::
 }
 
 auto Sorcery::File::get_path_as_string(std::string_view key) const -> std::string {
+
 	if (_file_paths.find(key) != _file_paths.end())
 		return (_file_paths.at(key)).string();
 	else
@@ -68,17 +70,19 @@ auto Sorcery::File::get_path_as_string(std::string_view key) const -> std::strin
 }
 
 auto Sorcery::File::get_base_path() const -> std::filesystem::path {
+
     return _base_path;
 }
 
 auto Sorcery::File::_add_path(const std::string_view dir, const std::string_view file) -> void {
-	//const std::string _file {file};
+
 	const std::filesystem::path file_path {_base_path / dir / file};
 	_file_paths[file] = file_path;
 }
 
 // This is linux only
 auto Sorcery::File::_get_exe_path() -> std::string_view {
+
 	char result[PATH_MAX];
 	const ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
 	const char *path;

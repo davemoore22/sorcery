@@ -89,11 +89,13 @@ auto Sorcery::Layout::operator() (const std::string& screen) -> std::optional<st
 }
 
 auto Sorcery::Layout::set_grid(unsigned int cell_width, unsigned int cell_height) -> void {
+
 	_cell_width = cell_width;
 	_cell_height = cell_height;
 }
 
 auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
+
 	_components.clear();
 
 	// Attempt to load Layout File
@@ -351,6 +353,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 }
 
 auto Sorcery::Layout::_refresh_needed() -> bool {
+
 	_last_modified = std::filesystem::last_write_time(_filename);
 	return _last_modified > _last_loaded;
 }

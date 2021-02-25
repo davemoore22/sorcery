@@ -36,6 +36,7 @@ Sorcery::Compendium::Compendium (System& system, Display& display, Graphics& gra
 
 // Standard Destructor
 Sorcery::Compendium::~Compendium() {
+
 	_display.stop_background_movie();
 }
 

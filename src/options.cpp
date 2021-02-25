@@ -42,6 +42,7 @@ Sorcery::Options::Options (System& system, Display& display, Graphics& graphics)
 
 // Standard Destructor
 Sorcery::Options::~Options() {
+
 	_display.stop_background_movie();
 }
 
@@ -137,6 +138,7 @@ auto Sorcery::Options::start() -> void {
 
 
 auto Sorcery::Options::stop() -> void {
+
 	_display.stop_background_movie();
 }
 
@@ -164,6 +166,7 @@ auto Sorcery::Options::_draw() -> void {
 }
 
 auto Sorcery::Options::_set_tooltip(sf::Vector2f mouse_position) -> bool {
+
 	if (!_display.window->tooltips.empty()) {
 		sf::Vector2f global_pos {_options_menu->getPosition()};
 		mouse_position -= global_pos;

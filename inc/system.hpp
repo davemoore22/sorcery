@@ -46,7 +46,6 @@ namespace Sorcery {
 			System(int argc, char** argv);
 			System() = delete;
 
-
 			// Public Methods
 
 			// Public Members
@@ -64,7 +63,6 @@ namespace Sorcery {
 		private:
 
 			// Private Members
-
 
 			// Private Methods
 	};

@@ -52,6 +52,7 @@ Sorcery::Application::Application(int argc, char** argv) {
 
 // Standard Destructor
 Sorcery::Application::~Application() {
+
 	graphics->animation->stop_colour_cycling_threads();
 }
 

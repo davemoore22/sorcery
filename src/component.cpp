@@ -54,6 +54,7 @@ Sorcery::Component::Component(const Component &other): screen{other.screen}, nam
 }
 
 auto Sorcery::Component::operator= (const Component &other) -> Component& {
+
 	screen = other.screen;
 	name = other.name;
 	x = other.x;

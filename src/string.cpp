@@ -38,6 +38,7 @@ Sorcery::String::String(const std::string &filename, const std::string &explain_
 
 // Overload [] Operator
 auto Sorcery::String::operator[] (const std::string &key) -> std::string& {
+
 	return _loaded ? _strings[key] : _strings["NONE"];
 }
 
@@ -85,6 +86,7 @@ auto Sorcery::String::_load(const std::string &filename, const StringType string
 
 // Get Text
 auto Sorcery::String::get(const std::string& key, const StringType string_type) -> std::string {
+
 	if (_loaded) {
 		const StringMap* string_set {string_type == StringType::NORMAL ? &_strings : &_explain_strings};
 		return string_set->find(key) != string_set->end() ? string_set->at(key) : KEY_NOT_FOUND;
@@ -93,6 +95,7 @@ auto Sorcery::String::get(const std::string& key, const StringType string_type) 
 }
 
 // Get Explain Text
+
 auto Sorcery::String::get_explain(const std::string& key) -> std::string {
 	if (_loaded)
 		return _explain_strings.find(key) != _explain_strings.end() ? _explain_strings.at(key) : EXPLAIN_KEY_NOT_FOUND;
@@ -101,6 +104,7 @@ auto Sorcery::String::get_explain(const std::string& key) -> std::string {
 }
 // Utility function due to lack of std::string::replace_with_substring
 auto Sorcery::String::_replace(std::string& subject, const std::string& search, const std::string& replace) -> void {
+
 	size_t pos {0};
 	while((pos = subject.find(search, pos)) != std::string::npos) {
 		subject.replace(pos, search.length(), replace);

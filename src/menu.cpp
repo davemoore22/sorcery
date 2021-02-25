@@ -138,15 +138,18 @@ Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuTy
 
 // Overload [] Operator
 auto Sorcery::Menu::operator [] (const unsigned int index) -> const MenuEntry& {
+
 	return items.at(index);
 }
 
 auto Sorcery::Menu::get_type() -> MenuType {
+
 	return _type;
 }
 
 // Add an item to the Menu
 auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string& key) -> void {
+
 	if (key.length() % 2 == 0)
 		key.resize(key.length() + 1, 32);
 
@@ -158,6 +161,7 @@ auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const Menu
 // Add an item to the Menu
 auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string& key,
 	bool enabled, ConfigOption option, std::string& hint) -> void {
+
 	if (key.length() % 2 == 0)
 		key.resize(key.length() + 1, 32);
 
@@ -167,6 +171,7 @@ auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const Menu
 
 // Select the first enabled menu item
 auto Sorcery::Menu::_select_first_enabled() -> std::optional<std::vector<MenuEntry>::const_iterator> {
+
 	for (std::vector<MenuEntry>::const_iterator it = items.begin(); it != items.end(); ++it)
 		if ((((*it).type == MenuItemType::ENTRY) || ((*it).type == MenuItemType::SAVE) ||
 			((*it).type == MenuItemType::CANCEL)) && ((*it).enabled)) {
@@ -179,6 +184,7 @@ auto Sorcery::Menu::_select_first_enabled() -> std::optional<std::vector<MenuEnt
 
 // Select the last enabled menu item
 auto Sorcery::Menu::_select_last_enabled() -> std::optional<std::vector<MenuEntry>::const_iterator> {
+
 	for (std::vector<MenuEntry>::const_iterator it = items.end() - 1; it != items.begin(); --it)
 		if ((((*it).type == MenuItemType::ENTRY) || ((*it).type == MenuItemType::SAVE) ||
 			((*it).type == MenuItemType::CANCEL)) && ((*it).enabled)) {
@@ -266,14 +272,17 @@ auto Sorcery::Menu::choose(unsigned int index) -> std::optional<std::vector<Menu
 }
 
 auto Sorcery::Menu::choose_first() -> std::optional<std::vector<MenuEntry>::const_iterator> {
+
 	return  _select_first_enabled();
 }
 auto Sorcery::Menu::choose_last() -> std::optional<std::vector<MenuEntry>::const_iterator> {
+
 	return  _select_last_enabled();
 }
 
 // Choose the previous selected item
 auto Sorcery::Menu::choose_previous() -> std::optional<std::vector<MenuEntry>::const_iterator> {
+
 	if (selected > items.begin()) {
 
 		// Iterate backwards until we find the first previous enabled menu if we can
@@ -295,6 +304,7 @@ auto Sorcery::Menu::choose_previous() -> std::optional<std::vector<MenuEntry>::c
 
 // Choose the next selected item
 auto Sorcery::Menu::choose_next() -> std::optional<std::vector<MenuEntry>::const_iterator> {
+
 	if (selected < (items.end() - 1)) {
 
 		// Iterate forwards until we find the first next enabled menu if we can

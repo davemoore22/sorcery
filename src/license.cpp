@@ -44,6 +44,7 @@ Sorcery::License::License (System& system, Display& display, Graphics& graphics)
 
 // Standard Destructor
 Sorcery::License::~License() {
+
 	_display.stop_background_movie();
 }
 
@@ -108,6 +109,7 @@ auto Sorcery::License::start() -> void {
 }
 
 auto Sorcery::License::stop() -> void {
+
 	_display.stop_background_movie();
 }
 

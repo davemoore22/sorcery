@@ -31,6 +31,7 @@ Sorcery::Input::Input() {
 
 // Check for a type of input
 auto Sorcery::Input::check_for_event(WindowInput input, sf::Event event) -> bool {
+
 	switch (input) {
 	case WindowInput::ANYTHING:
 		return ((event.type == sf::Event::KeyPressed) ||

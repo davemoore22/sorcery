@@ -186,20 +186,24 @@ auto Sorcery::Display::display_cursor() -> void {
 }
 
 auto Sorcery::Display::start_background_movie () -> void {
+
 	_background_movie.fit(0, 0, window->get_window()->getSize().x, window->get_window()->getSize().y);
 	if (_background_movie.getStatus() == sfe::Stopped)
 		_background_movie.play();
 }
 
 auto Sorcery::Display::stop_background_movie () -> void {
+
 	if (_background_movie.getStatus() == sfe::Playing)
 		_background_movie.stop();
 }
 
 auto Sorcery::Display::update_background_movie() -> void {
+
 	_background_movie.update();
 }
 
 auto Sorcery::Display::draw_background_movie() -> void {
+
 	window->get_window()->draw(_background_movie);
 }

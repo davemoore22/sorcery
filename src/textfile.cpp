@@ -59,10 +59,11 @@ auto Sorcery::TextFile::operator[] (const unsigned int index) -> std::string& {
 
 // Size (in lines)
 auto Sorcery::TextFile::TextFile::size() const -> unsigned int {
+
 	return _contents_buffer.size();
 }
 
-auto Sorcery::TextFile::get_reading_progress(int current_line) -> std::string {
+auto Sorcery::TextFile::get_reading_progress(int current_line) const -> std::string {
 
 	// Work out progress through file
 	const float percent {(static_cast<float>(current_line) / static_cast<float>(_contents_buffer.size())) * 100};

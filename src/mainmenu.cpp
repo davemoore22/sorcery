@@ -53,6 +53,7 @@ Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphic
 
 // Standard Destructor
 Sorcery::MainMenu::~MainMenu() {
+
 	_graphics.animation->stop_attract_mode_animation_threads();
 	_display.stop_background_movie();
 }

@@ -41,6 +41,7 @@ Sorcery::Splash::Splash (System& system, Display& display, Graphics& graphics): 
 }
 
 auto Sorcery::Splash::start() -> void {
+
 	sf::Event input_event {};
 	while (!_finished) {
 		_window->pollEvent(input_event);
@@ -60,6 +61,7 @@ auto Sorcery::Splash::_draw() -> void {
 }
 
 auto Sorcery::Splash::_update() -> void {
+
 	if (_fading_in)
 		_alpha++;
 	if (_fading_out)

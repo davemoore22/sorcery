@@ -71,6 +71,7 @@ auto Sorcery::AttractMode::generate() -> sf::Sprite {
 
 // Get the Sprite from the Creatures Texture
 auto Sorcery::AttractMode::_get_creature_gfx(const int creature_id, const bool known) -> sf::Sprite {
+
 	sf::IntRect creature_rect {};
 	sf::Sprite creature(_creatures_texture);
 	creature_rect.left = (creature_id - 1) * _creature_sprite_width;
@@ -83,12 +84,13 @@ auto Sorcery::AttractMode::_get_creature_gfx(const int creature_id, const bool k
 
 // Adjust the Alpha
 auto Sorcery::AttractMode::set_alpha(unsigned int alpha) -> void {
-	if (data_temp.size() > 0) {
+
+	if (data_temp.size() > 0)
 		_sprite.setColor(sf::Color(255, 255, 255, alpha));
-	}
 }
 
 auto Sorcery::AttractMode::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
+
 	if (data_temp.size() > 0) {
 		states.transform *= getTransform();
 		target.draw(_sprite, states);

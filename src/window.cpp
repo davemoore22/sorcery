@@ -63,35 +63,43 @@ Sorcery::Window::Window(std::string title, System& system, String& string, Layou
 }
 
 auto Sorcery::Window::clear_window() -> void {
+
 	_window.clear();
 }
 
 auto Sorcery::Window::display_window() -> void {
+
 	_window.display();
 }
 
 auto Sorcery::Window::draw_gui() -> void {
+
 	_gui.draw();
 }
 
 // Draw Text on the Screen
 auto Sorcery::Window::draw_text(sf::Text& text) -> void {
+
 	_draw_text(text);
 }
 
 auto Sorcery::Window::draw_text(sf::Text& text, Component& component, std::string& string) -> void {
+
 	_draw_text(text, component, string);
 }
 
 auto Sorcery::Window::draw_text(sf::Text& text, Component& component, double lerp) -> void {
+
 	_draw_text(text, component, lerp);
 }
 
 auto Sorcery::Window::_draw_text(sf::Text& text) -> void {
+
 	_window.draw(text);
 }
 
 auto Sorcery::Window::_draw_text(sf::Text& text, Component& component, double lerp) -> void {
+
 	int x {0};
 	int y {0};
 	text.setFont(_system.resources->fonts[component.font]);
@@ -118,6 +126,7 @@ auto Sorcery::Window::_draw_text(sf::Text& text, Component& component, double le
 }
 
 auto Sorcery::Window::_draw_text(sf::Text& text, Component& component, std::string& string) -> void {
+
 	int x {0};
 	int y {0};
 	text.setFont(_system.resources->fonts[component.font]);
@@ -140,7 +149,8 @@ auto Sorcery::Window::_draw_text(sf::Text& text, Component& component, std::stri
 	_window.draw(text);
 }
 
-auto Sorcery::Window::get_cursor() -> sf::Sprite {
+auto Sorcery::Window::get_cursor() const -> sf::Sprite {
+
 	sf::Sprite cursor(_system.resources->textures[UI_TEXTURE]);
 	sf::IntRect cursor_rect(710, 310, 21, 28);
 	cursor.setTextureRect(cursor_rect);
@@ -148,67 +158,83 @@ auto Sorcery::Window::get_cursor() -> sf::Sprite {
 }
 
 auto Sorcery::Window::get_gui() -> tgui::Gui* {
+
 	return &_gui;
 }
 
 auto Sorcery::Window::get_window() -> sf::RenderWindow* {
+
 	return &_window;
 }
 
-auto Sorcery::Window::_get_centre_x(sf::Sprite& sprite) -> unsigned int {
+auto Sorcery::Window::_get_centre_x(const sf::Sprite& sprite) const -> unsigned int {
+
 	return (_current_size.w - sprite.getGlobalBounds().width) / 2.0f;
 }
 
-auto Sorcery::Window::_get_centre_y(sf::Sprite& sprite) -> unsigned int {
+auto Sorcery::Window::_get_centre_y(const sf::Sprite& sprite) const -> unsigned int {
+
 	return (_current_size.h - sprite.getGlobalBounds().height) / 2.0f;
 }
 
-auto Sorcery::Window::_get_centre_x(sf::Text& text) -> unsigned int {
+auto Sorcery::Window::_get_centre_x(const sf::Text& text) const -> unsigned int {
+
 	return (_current_size.w - text.getGlobalBounds().width) / 2.0f;
 }
 
-auto Sorcery::Window::_get_centre_y(sf::Text& text) -> unsigned int {
+auto Sorcery::Window::_get_centre_y(const sf::Text& text) const -> unsigned int {
+
 	return (_current_size.h - text.getGlobalBounds().height) / 2.0f;
 }
 
-auto Sorcery::Window::_get_x(sf::Sprite& sprite, int x_position) -> unsigned int {
+auto Sorcery::Window::_get_x(const sf::Sprite& sprite, const int x_position) const -> unsigned int {
+
 	return x_position ==  -1 ? _get_centre_x(sprite) : x_position;
 }
 
-auto Sorcery::Window::_get_x(sf::Text& text, int x_position) -> unsigned int {
+auto Sorcery::Window::_get_x(const sf::Text& text, const int x_position) const -> unsigned int {
+
 	return x_position ==  -1 ? _get_centre_x(text) : x_position;
 }
 
-auto Sorcery::Window::_get_y(sf::Sprite& sprite, int y_position) -> unsigned int {
+auto Sorcery::Window::_get_y(const sf::Sprite& sprite, const int y_position) const -> unsigned int {
+
 	return y_position ==  -1 ? _get_centre_y(sprite) : y_position;
 }
 
-auto Sorcery::Window::_get_y(sf::Text& text, int y_position) -> unsigned int {
+auto Sorcery::Window::_get_y(const sf::Text& text, const int y_position) const -> unsigned int {
+
 	return y_position ==  -1 ? _get_centre_y(text) : y_position;
 }
 
-auto Sorcery::Window::get_x(sf::Sprite& sprite, int x_position) -> unsigned int {
+auto Sorcery::Window::get_x(const sf::Sprite& sprite, const int x_position) const -> unsigned int {
+
 	return x_position ==  -1 ? _get_centre_x(sprite) : x_position;
 }
 
-auto Sorcery::Window::get_y(sf::Sprite& sprite, int y_position) -> unsigned int {
+auto Sorcery::Window::get_y(const sf::Sprite& sprite, const int y_position) const -> unsigned int {
+
 	return y_position ==  -1 ? _get_centre_y(sprite) : y_position;
 }
 
-auto Sorcery::Window::get_cell_height() -> unsigned int {
+auto Sorcery::Window::get_cell_height() const -> unsigned int {
+
 	return _cell_height;
 }
 
-auto Sorcery::Window::get_cell_width() -> unsigned int {
+auto Sorcery::Window::get_cell_width() const -> unsigned int {
+
 	return _cell_width;
 }
 
 // Given a colour, change its brightness
-auto Sorcery::Window::change_colour(sf::Color colour, double lerp) -> sf::Color {
+auto Sorcery::Window::change_colour(sf::Color colour, double lerp) const -> sf::Color {
+
 	return _change_colour(colour, lerp);
 }
 
-auto Sorcery::Window::_change_colour(sf::Color colour, double lerp) -> sf::Color {
+auto Sorcery::Window::_change_colour(sf::Color colour, double lerp) const -> sf::Color {
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnarrowing"
 	double red {colour.r};
@@ -229,7 +255,8 @@ auto Sorcery::Window::_change_colour(sf::Color colour, double lerp) -> sf::Color
 	return sf::Color(red, green, blue);
 }
 
-auto Sorcery::Window::highlight_text(sf::Text& text, Component component, double lerp) -> sf::RectangleShape {
+auto Sorcery::Window::highlight_text(sf::Text& text, Component component, const double lerp) -> sf::RectangleShape {
+
 	sf::FloatRect text_rect {text.getGlobalBounds()};
 	sf::RectangleShape text_background(sf::Vector2(text_rect.width + 6, text_rect.height + 8));
 	text_background.setOrigin(0, 0 - text.getLocalBounds().height + 16);

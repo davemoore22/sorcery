@@ -25,6 +25,7 @@
 
 // Standard Constructor - to do this does not need system or display, instead put it as a subclass of display
 Sorcery::Animation::Animation(System& system, Display& display): _system {system}, _display {display} {
+
 	_finished = false;
 	_attract_mode.clear();
 	_colour_cycling_direction = false;
@@ -33,47 +34,57 @@ Sorcery::Animation::Animation(System& system, Display& display): _system {system
 
 // Standard Destructor
 Sorcery::Animation::~Animation() {
+
 	_finished = true;
 }
 
 auto Sorcery::Animation::force_refresh_attract_mode() -> void {
+
 	_animate_attract_mode(true);
 }
 
 auto Sorcery::Animation::force_refresh_colour_cycling() -> void {
+
 	_colour_cycling(true);
 }
 
 auto Sorcery::Animation::start_attract_mode_animation() ->void {
+
 	_allow_attract_mode_animations = true;
 }
 
 auto Sorcery::Animation::start_colour_cycling() -> void {
+
 	_allow_colour_cycling = true;
 	attract_mode_alpha = 0;
 }
 
 auto Sorcery::Animation::start_attract_mode_animation_threads() -> void {
+
 	start_attract_mode_animation();
 	if (!_attract_mode_animation_thread.joinable())
 		_attract_mode_animation_thread = std::jthread(&Animation::_animate_attract_mode, this, false);
 }
 
 auto Sorcery::Animation::start_colour_cycling_threads() -> void {
+
 	start_colour_cycling();
 	if (!_colour_cycling_thread.joinable())
 		_colour_cycling_thread = std::jthread(&Animation::_colour_cycling, this, false);
 }
 
 auto Sorcery::Animation::stop_attract_mode_animation() -> void {
+
 	_allow_attract_mode_animations = false;
 }
 
 auto Sorcery::Animation::stop_colour_cycling() -> void {
+
 	_allow_colour_cycling = false;
 }
 
 auto Sorcery::Animation::stop_attract_mode_animation_threads() -> void {
+
 	_finished = true;
 	stop_attract_mode_animation();
 	if (_attract_mode_animation_thread.joinable())
@@ -81,6 +92,7 @@ auto Sorcery::Animation::stop_attract_mode_animation_threads() -> void {
 }
 
 auto Sorcery::Animation::stop_colour_cycling_threads() -> void {
+
 	_finished = true;
 	stop_colour_cycling();
 	if (_colour_cycling_thread.joinable())
@@ -89,6 +101,7 @@ auto Sorcery::Animation::stop_colour_cycling_threads() -> void {
 
 // Generate an attract mode sprite to display
 auto Sorcery::Animation::_animate_attract_mode(bool force) -> void {
+
 	if (force)
 		_do_attract_mode_animation();
 	else {
@@ -107,6 +120,7 @@ auto Sorcery::Animation::_animate_attract_mode(bool force) -> void {
 
 // Calculate Colour Cycling
 auto Sorcery::Animation::_colour_cycling(bool force) -> void {
+
 	if (force)
 		_do_colour_cycling();
 	else {
@@ -122,6 +136,7 @@ auto Sorcery::Animation::_colour_cycling(bool force) -> void {
 // Note for Thread Safety Purposes, we only generate/update the IDs here
 // https://www.sfml-dev.org/tutorials/2.0/graphics-draw.php#drawing-from-threads
 auto Sorcery::Animation::_do_attract_mode_animation() -> void {
+
 	std::scoped_lock<std::mutex> _scoped_lock(_attract_mode_mutex);
 	unsigned int sprite_index {};
 	const unsigned int number_to_display {(*_system.random)[RandomType::D4]};
@@ -137,12 +152,14 @@ auto Sorcery::Animation::_do_attract_mode_animation() -> void {
 }
 
 auto Sorcery::Animation::get_attract_mode_data() -> std::vector<unsigned int> {
+
 	std::scoped_lock<std::mutex> _scoped_lock(_attract_mode_mutex);
 	return _attract_mode;
 }
 
 // Called 50 times a second
 auto Sorcery::Animation::_do_colour_cycling() -> void {
+
 	std::scoped_lock<std::mutex> _scoped_lock(_colour_cycling_mutex);
 
 	// Handle menu pulsating
