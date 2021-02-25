@@ -30,6 +30,7 @@
 #include "layout.hpp"
 #include "frame.hpp"
 #include "menu.hpp"
+#include "confirm.hpp"
 
 namespace Sorcery {
 
@@ -67,5 +68,6 @@ namespace Sorcery {
 			sf::Sprite _castle_background;
 			sf::Sprite _edge_of_town_background;
 			GameMenuType _menu_stage;
+			std::shared_ptr<Confirm> _confirm_leave_game;
 	};
 }

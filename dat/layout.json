@@ -641,7 +641,30 @@
 			"string": "CHARACTER_LEGEND_STATUS",
 			"justification": "left",
 			"type": "text"
-		}
+		},
+		{
+			"name": "confirm_leave_game_frame",
+			"w": "14",
+			"h": "7",
+			"x": "centre",
+			"y": "14",
+			"alpha": "175",
+			"type": "frame",
+			"drawmode": "manual"
+		},
+		{
+			"name": "confirm_leave_game_options",
+			"x": "centre",
+			"y": "16",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CONFIRM_LEAVE_GAME",
+			"background": "0x6060c8ff",
+			"justification": "centre",
+			"type": "text",
+			"drawmode": "manual"
+		},
 		]
 	}
 	]

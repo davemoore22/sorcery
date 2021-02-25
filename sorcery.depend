@@ -130,7 +130,7 @@
 1606055154 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
-1613755886 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
+1614287642 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
 1603565631 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
@@ -481,7 +481,7 @@
 1605304690 source:/home/dave/Development/wizardry/sorcery-sfml/src/castle.cpp
 	"castle.hpp"
 
-1614025841 /home/dave/Development/wizardry/sorcery-sfml/inc/gamemenu.hpp
+1614287934 /home/dave/Development/wizardry/sorcery-sfml/inc/gamemenu.hpp
 	"main.hpp"
 	"system.hpp"
 	"display.hpp"
@@ -489,6 +489,7 @@
 	"layout.hpp"
 	"frame.hpp"
 	"menu.hpp"
+	"confirm.hpp"
 
 1614283060 source:/home/dave/Development/wizardry/sorcery-sfml/src/gamemenu.cpp
 	"gamemenu.hpp"

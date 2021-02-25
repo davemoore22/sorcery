@@ -42,11 +42,9 @@ Sorcery::Options::Options (System& system, Display& display, Graphics& graphics)
 	_confirm_save = std::make_shared<Confirm>(_system, _display, _graphics,
 		(*_display.layout)["options:confirm_save_game_options_frame"],
 		(*_display.layout)["options:confirm_save_game_options"]);
-
 	_confirm_cancel = std::make_shared<Confirm>(_system, _display, _graphics,
 		(*_display.layout)["options:confirm_cancel_changes_options_frame"],
 		(*_display.layout)["options:confirm_cancel_changes_options"]);
-
 	_confirm_strict_on = std::make_shared<Confirm>(_system, _display, _graphics,
 		(*_display.layout)["options:confirm_strict_mode_options_frame"],
 		(*_display.layout)["options:confirm_strict_mode_options"]);
