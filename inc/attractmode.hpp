@@ -44,7 +44,7 @@ namespace Sorcery {
 			sf::Sprite sprite;
 
 			// Public Methods
-			auto generate() -> sf::Sprite;
+			auto generate() -> void;
 			auto set_alpha(unsigned int alpha) -> void;
 
 		private:
@@ -62,6 +62,5 @@ namespace Sorcery {
 			unsigned int _creature_sprite_width;
 			unsigned int _creature_sprite_height;
 			unsigned int _creature_sprite_spacing;
-			float _creature_sprite_scaling;
 	};
 }

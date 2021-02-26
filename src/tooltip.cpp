@@ -54,7 +54,7 @@ auto Sorcery::Tooltip::set(const std::string& string) -> void {
 
 	int x {18};
 	int y {0};
-	for (const auto each_string: _strings) {
+	for (const auto& each_string: _strings) {
 		sf::Text text;
 		text.setFont(_system.resources->fonts[_layout.font]);
 		text.setCharacterSize(_layout.size);

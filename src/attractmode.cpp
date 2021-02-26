@@ -30,12 +30,11 @@ Sorcery::AttractMode::AttractMode(sf::Texture creatures_texture, Component compo
 	_creature_sprite_width = 108;
 	_creature_sprite_height = 108;
 	_creature_sprite_spacing = 8;
-	_creature_sprite_scaling =- 2.5f;
 }
 
 // We generate the attract mode graphic in the main thread, though we generate the IDs in the animation threads
 // https://en.sfml-dev.org/forums/index.php?topic=18672.0
-auto Sorcery::AttractMode::generate() -> sf::Sprite {
+auto Sorcery::AttractMode::generate() -> void {
 
 	// Only regenerate if we have a change
 	if (data != data_temp) {

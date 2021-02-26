@@ -25,6 +25,7 @@
 
 // Standard Constructor
 Sorcery::Input::Input() {
+
 	_axis_sensitivity_max = 100;
 	_axis_sensitivity_min = -100;
 }

@@ -216,7 +216,7 @@ auto Sorcery::MainMenu::_draw() -> void {
 		_attract_mode->set_alpha(_graphics.animation->attract_mode_alpha);
 
 		// Horrible - but needed since the size of the Attract Mode Graphics are variable
-		sf::Vector2u attract_mode_size {_attract_mode->sprite.getGlobalBounds().width * _attract_mode->getScale().x,
+		sf::Vector2f attract_mode_size {_attract_mode->sprite.getGlobalBounds().width * _attract_mode->getScale().x,
 			_attract_mode->sprite.getGlobalBounds().height * _attract_mode->getScale().y};
 		const sf::Vector2f creature_pos(_display.window->centre.x - (attract_mode_size.x / 2),
 			_display.window->get_y(_attract_mode->sprite, attract_creatures_c.y));

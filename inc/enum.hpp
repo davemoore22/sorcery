@@ -70,7 +70,8 @@ namespace Sorcery {
 			CASTLE,
 			SAVE_CHANGES,
 			CANCEL_CHANGES,
-			SWITCH_ON_STRICT_MODE
+			SWITCH_ON_STRICT_MODE,
+			LEAVE_GAME
 		};
 
 		enum Confirm {
