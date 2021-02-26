@@ -18,62 +18,60 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 #pragma once
 
-#include "main.hpp"
-#include "system.hpp"
+#include "confirm.hpp"
 #include "display.hpp"
+#include "frame.hpp"
 #include "graphics.hpp"
 #include "layout.hpp"
+#include "main.hpp"
 #include "menu.hpp"
-#include "confirm.hpp"
+#include "system.hpp"
 #include "tooltip.hpp"
-#include "frame.hpp"
 
 namespace Sorcery {
 
 	class Options {
 
-		public:
+	  public:
+		// Constructors
+		Options(System &system, Display &display, Graphics &graphics);
+		Options() = delete;
 
-			// Constructors
-			Options(System& system, Display& display, Graphics& graphics);
-			Options() = delete;
+		// Destructor
+		~Options();
 
-			// Destructor
-			 ~Options();
+		// Public Members
 
-			// Public Members
+		// Public Methods
+		auto start() -> void;
+		auto stop() -> void;
 
-			// Public Methods
-			auto start() -> void;
-			auto stop() -> void;
+	  private:
+		// Private Methods
+		auto _draw() -> void;
+		auto _set_tooltip(sf::Vector2f mouse_position) -> bool;
 
-		private:
-
-			// Private Methods
-			auto _draw() -> void;
-			auto _set_tooltip(sf::Vector2f mouse_position) -> bool;
-
-			// Private Members
-			System _system;
-			Display _display;
-			Graphics _graphics;
-			sf::RenderWindow* _window;
-			sf::Text _save_text;
-			sf::Text _cancel_text;
-			sf::Text _reset_text;
-			Component _option_on;
-			Component _option_off;
-			std::shared_ptr<Menu> _options_menu;
-			std::shared_ptr<Tooltip> _tooltip;
-			bool _display_tooltip;
-			std::shared_ptr<Confirm> _confirm_save;
-			std::shared_ptr<Confirm> _confirm_cancel;
-			std::shared_ptr<Confirm> _confirm_strict_on;
-			WindowConfirm _yes_or_no;
+		// Private Members
+		System _system;
+		Display _display;
+		Graphics _graphics;
+		sf::RenderWindow *_window;
+		sf::Text _save_text;
+		sf::Text _cancel_text;
+		sf::Text _reset_text;
+		Component _option_on;
+		Component _option_off;
+		std::shared_ptr<Menu> _options_menu;
+		std::shared_ptr<Tooltip> _tooltip;
+		bool _display_tooltip;
+		std::shared_ptr<Confirm> _confirm_save;
+		std::shared_ptr<Confirm> _confirm_cancel;
+		std::shared_ptr<Confirm> _confirm_strict_on;
+		WindowConfirm _yes_or_no;
 	};
-}
+} // namespace Sorcery

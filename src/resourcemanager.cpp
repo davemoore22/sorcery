@@ -24,51 +24,38 @@
 #include "resourcemanager.hpp"
 
 // Standard Constructor
-Sorcery::ResourceManager::ResourceManager(File& files): _files {files} {
+Sorcery::ResourceManager::ResourceManager(File &files) : _files{files} {
 
 	// Load all the Fixed Resources
-	try	{
+	try {
 
-		textures.acquire(BACKGROUND_TEXTURE,
-			thor::Resources::fromFile<sf::Texture>(_files[BACKGROUND_TEXTURE]));
-		textures.acquire(BANNER_TEXTURE,
-			thor::Resources::fromFile<sf::Texture>(_files[BANNER_TEXTURE]));
-		textures.acquire(CREATURES_TEXTURE,
-			thor::Resources::fromFile<sf::Texture>(_files[CREATURES_TEXTURE]));
-		textures.acquire(LOGO_TEXTURE,
-			thor::Resources::fromFile<sf::Texture>(_files[LOGO_TEXTURE]));
-		textures.acquire(SPLASH_TEXTURE,
-			thor::Resources::fromFile<sf::Texture>(_files[SPLASH_TEXTURE]));
-		textures.acquire(TOWN_TEXTURE,
-			thor::Resources::fromFile<sf::Texture>(_files[TOWN_TEXTURE]));
-		textures.acquire(UI_TEXTURE,
-			thor::Resources::fromFile<sf::Texture>(_files[UI_TEXTURE]));
+		textures.acquire(BACKGROUND_TEXTURE, thor::Resources::fromFile<sf::Texture>(_files[BACKGROUND_TEXTURE]));
+		textures.acquire(BANNER_TEXTURE, thor::Resources::fromFile<sf::Texture>(_files[BANNER_TEXTURE]));
+		textures.acquire(CREATURES_TEXTURE, thor::Resources::fromFile<sf::Texture>(_files[CREATURES_TEXTURE]));
+		textures.acquire(LOGO_TEXTURE, thor::Resources::fromFile<sf::Texture>(_files[LOGO_TEXTURE]));
+		textures.acquire(SPLASH_TEXTURE, thor::Resources::fromFile<sf::Texture>(_files[SPLASH_TEXTURE]));
+		textures.acquire(TOWN_TEXTURE, thor::Resources::fromFile<sf::Texture>(_files[TOWN_TEXTURE]));
+		textures.acquire(UI_TEXTURE, thor::Resources::fromFile<sf::Texture>(_files[UI_TEXTURE]));
 
-		texture.acquire(Enums::Graphics::Texture::BACKGROUND,
-			thor::Resources::fromFile<sf::Texture>(_files[BACKGROUND_TEXTURE]));
-		texture.acquire(Enums::Graphics::Texture::BANNER,
-			thor::Resources::fromFile<sf::Texture>(_files[BANNER_TEXTURE]));
-		texture.acquire(Enums::Graphics::Texture::CREATURES,
-			thor::Resources::fromFile<sf::Texture>(_files[CREATURES_TEXTURE]));
-		texture.acquire(Enums::Graphics::Texture::LOGO,
-			thor::Resources::fromFile<sf::Texture>(_files[LOGO_TEXTURE]));
-		texture.acquire(Enums::Graphics::Texture::SPLASH,
-			thor::Resources::fromFile<sf::Texture>(_files[SPLASH_TEXTURE]));
-		texture.acquire(Enums::Graphics::Texture::TOWN,
-			thor::Resources::fromFile<sf::Texture>(_files[TOWN_TEXTURE]));
-		texture.acquire(Enums::Graphics::Texture::UI,
-			thor::Resources::fromFile<sf::Texture>(_files[UI_TEXTURE]));
+		texture.acquire(
+			Enums::Graphics::Texture::BACKGROUND, thor::Resources::fromFile<sf::Texture>(_files[BACKGROUND_TEXTURE]));
+		texture.acquire(
+			Enums::Graphics::Texture::BANNER, thor::Resources::fromFile<sf::Texture>(_files[BANNER_TEXTURE]));
+		texture.acquire(
+			Enums::Graphics::Texture::CREATURES, thor::Resources::fromFile<sf::Texture>(_files[CREATURES_TEXTURE]));
+		texture.acquire(Enums::Graphics::Texture::LOGO, thor::Resources::fromFile<sf::Texture>(_files[LOGO_TEXTURE]));
+		texture.acquire(
+			Enums::Graphics::Texture::SPLASH, thor::Resources::fromFile<sf::Texture>(_files[SPLASH_TEXTURE]));
+		texture.acquire(Enums::Graphics::Texture::TOWN, thor::Resources::fromFile<sf::Texture>(_files[TOWN_TEXTURE]));
+		texture.acquire(Enums::Graphics::Texture::UI, thor::Resources::fromFile<sf::Texture>(_files[UI_TEXTURE]));
 
-		fonts.acquire(FontType::MONOSPACE,
-			thor::Resources::fromFile<sf::Font>(_files[MONO_FONT_FILE]));
-		fonts.acquire(FontType::PROPORTIONAL,
-			thor::Resources::fromFile<sf::Font>(_files[PROPORTIONAL_FONT_FILE]));
-		fonts.acquire(FontType::TEXT,
-			thor::Resources::fromFile<sf::Font>(_files[TEXT_FONT_FILE]));
+		fonts.acquire(FontType::MONOSPACE, thor::Resources::fromFile<sf::Font>(_files[MONO_FONT_FILE]));
+		fonts.acquire(FontType::PROPORTIONAL, thor::Resources::fromFile<sf::Font>(_files[PROPORTIONAL_FONT_FILE]));
+		fonts.acquire(FontType::TEXT, thor::Resources::fromFile<sf::Font>(_files[TEXT_FONT_FILE]));
 
 		license_file = std::make_shared<TextFile>(_files[LICENSE_FILE]);
 
-	} catch (thor::ResourceLoadingException& e) {
+	} catch (thor::ResourceLoadingException &e) {
 		std::cout << e.what() << std::endl;
 	}
 }

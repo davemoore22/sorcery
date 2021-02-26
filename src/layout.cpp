@@ -44,7 +44,7 @@ Sorcery::Layout::Layout(const std::filesystem::path filename) {
 }
 
 // Overload [] Operator
-auto Sorcery::Layout::operator[] (const std::string& combined_key) -> Component& {
+auto Sorcery::Layout::operator[](const std::string &combined_key) -> Component & {
 
 	// First check if we need to reload if anything has changed!
 	if (_refresh_needed())
@@ -61,7 +61,7 @@ auto Sorcery::Layout::operator[] (const std::string& combined_key) -> Component&
 }
 
 // Overload () Operator
-auto Sorcery::Layout::operator() (const std::string& screen) -> std::optional<std::vector<Component>> {
+auto Sorcery::Layout::operator()(const std::string &screen) -> std::optional<std::vector<Component>> {
 
 	// First check if we need to reload if anything has changed!
 	if (_refresh_needed())
@@ -71,14 +71,14 @@ auto Sorcery::Layout::operator() (const std::string& screen) -> std::optional<st
 	std::vector<Component> results;
 	if (_loaded) {
 
-		for (const auto& [unique_key, component] : _components) {
+		for (const auto &[unique_key, component] : _components) {
 			if ((component.screen == screen) && (component.drawmode == WindowDrawMode::AUTOMATIC)) {
 				results.push_back(component);
 			}
 		}
 
 		// Sort by priority
-		std::sort(results.begin(), results.end(), [](const auto& first, const auto& second) {
+		std::sort(results.begin(), results.end(), [](const auto &first, const auto &second) {
 			return first.priority < second.priority;
 		});
 
@@ -99,29 +99,29 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 	_components.clear();
 
 	// Attempt to load Layout File
-	if (std::ifstream layout_file {filename.string(), std::ifstream::binary}; layout_file.good()) {
+	if (std::ifstream layout_file{filename.string(), std::ifstream::binary}; layout_file.good()) {
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-		Json::Reader reader {};
+		Json::Reader reader{};
 #pragma GCC diagnostic pop
-		Json::StreamWriterBuilder builder {};
+		Json::StreamWriterBuilder builder{};
 		builder.settings_["indentation"] = "";
 		if (Json::Value layout; reader.parse(layout_file, layout)) {
-			Json::Value& screens {layout["screen"]};
+			Json::Value &screens{layout["screen"]};
 
 			// Iterate through layout file one screen at a time
 			for (unsigned int i = 0; i < screens.size(); i++) {
 
 				// Each screen will always have a name and one or more components
-				std::string screen_name {screens[i]["name"].asString()};
-				Json::Value& components {screens[i]["component"]};
+				std::string screen_name{screens[i]["name"].asString()};
+				Json::Value &components{screens[i]["component"]};
 
 				// For every component on that screen read in their properties
 				for (unsigned int j = 0; j < components.size(); j++) {
 
 					// Always Present
-					std::string name {components[j]["name"].asString()};
+					std::string name{components[j]["name"].asString()};
 
 					// Not always present
 					int x = [&] {
@@ -343,7 +343,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 						texture);
 					_components[key] = component;
 				}
-			 }
+			}
 		} else
 			return false;
 	} else

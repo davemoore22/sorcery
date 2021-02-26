@@ -24,8 +24,8 @@
 #include "mainmenu.hpp"
 
 // Standard Constructor
-Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphics):  _system {system},
-	_display {display}, _graphics {graphics} {
+Sorcery::MainMenu::MainMenu(System &system, Display &display, Graphics &graphics)
+	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();
@@ -40,11 +40,11 @@ Sorcery::MainMenu::MainMenu (System& system, Display& display, Graphics& graphic
 		(*_display.layout)["main_menu_attract:confirm_exit_game"]);
 
 	// Setup Custom Components
-	_press_any_key  = sf::Text();
+	_press_any_key = sf::Text();
 
 	// Now set up attract mode data
-	_attract_mode = std::make_shared<AttractMode>(_system.resources->textures[CREATURES_TEXTURE],
-		(*_display.layout)["main_menu_attract:attract_creatures"]);
+	_attract_mode = std::make_shared<AttractMode>(
+		_system.resources->textures[CREATURES_TEXTURE], (*_display.layout)["main_menu_attract:attract_creatures"]);
 	_attract_mode->data.clear();
 
 	// Get the Display Components
@@ -75,11 +75,11 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	// Play the background movie!
 	_display.start_background_movie();
 
-	std::optional<std::vector<MenuEntry>::const_iterator> selected_option {_main_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> selected_option{_main_menu->items.begin()};
 	_display.window->input_mode = WindowInputMode::NORMAL;
 
 	// And do the main loop
-	sf::Event event {};
+	sf::Event event{};
 	while (_window->isOpen()) {
 
 		_attract_mode->data_temp = _graphics.animation->get_attract_mode_data();
@@ -110,7 +110,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 						if (selected_option) {
 
 							// We have selected something from the menu
-							const MenuItem option_chosen {(*selected_option.value()).item};
+							const MenuItem option_chosen{(*selected_option.value()).item};
 
 							if (option_chosen == MenuItem::MM_NEW_GAME) {
 								_display.window->input_mode = WindowInputMode::CASTLE;
@@ -162,8 +162,8 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 				else if (_system.input->check_for_event(WindowInput::MOVE, event))
 					_confirm_exit->check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 				else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
-					std::optional<WindowConfirm> option_chosen =
-						_confirm_exit->check_if_option_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					std::optional<WindowConfirm> option_chosen = _confirm_exit->check_if_option_selected(
+						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 
 					// Mouse click only
 					if (option_chosen) {
@@ -195,7 +195,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	return std::nullopt;
 }
 
-auto  Sorcery::MainMenu::stop() -> void {
+auto Sorcery::MainMenu::stop() -> void {
 
 	// Stop the background movie!
 	_display.stop_background_movie();
@@ -210,13 +210,13 @@ auto Sorcery::MainMenu::_draw() -> void {
 		_display.display_components("main_menu_attract", _menu_stage);
 
 		// Generate and draw the Attract Mode Graphics
-		Component attract_creatures_c {(*_display.layout)["main_menu_attract:attract_creatures"]};
+		Component attract_creatures_c{(*_display.layout)["main_menu_attract:attract_creatures"]};
 		_attract_mode->generate();
 		_attract_mode->setScale(attract_creatures_c.scale, attract_creatures_c.scale);
 		_attract_mode->set_alpha(_graphics.animation->attract_mode_alpha);
 
 		// Horrible - but needed since the size of the Attract Mode Graphics are variable
-		sf::Vector2f attract_mode_size {_attract_mode->sprite.getGlobalBounds().width * _attract_mode->getScale().x,
+		sf::Vector2f attract_mode_size{_attract_mode->sprite.getGlobalBounds().width * _attract_mode->getScale().x,
 			_attract_mode->sprite.getGlobalBounds().height * _attract_mode->getScale().y};
 		const sf::Vector2f creature_pos(_display.window->centre.x - (attract_mode_size.x / 2),
 			_display.window->get_y(_attract_mode->sprite, attract_creatures_c.y));

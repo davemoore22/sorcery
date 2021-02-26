@@ -18,7 +18,7 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
@@ -26,5 +26,4 @@
 
 #include "main.hpp"
 
-namespace Sorcery {
-}
+namespace Sorcery {}

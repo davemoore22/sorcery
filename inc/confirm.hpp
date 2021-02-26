@@ -18,54 +18,52 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
 #pragma once
 
+#include "display.hpp"
+#include "frame.hpp"
+#include "graphics.hpp"
 #include "main.hpp"
 #include "system.hpp"
-#include "display.hpp"
-#include "graphics.hpp"
-#include "frame.hpp"
 
 namespace Sorcery {
 
 	class Confirm {
 
-		public:
+	  public:
+		// Constructors
+		Confirm(
+			System &system, Display &display, Graphics &graphics, Component &gui_component, Component &text_component);
+		Confirm() = delete;
 
-			// Constructors
-			Confirm(System& system, Display& display, Graphics& graphics, Component& gui_component,
-				Component& text_component);
-			Confirm() = delete;
+		// Public Members
+		WindowConfirm currently_highlighted;
 
-			// Public Members
-			WindowConfirm currently_highlighted;
+		// Public Methods
+		auto check_for_mouse_move(sf::Vector2f mouse_position) -> std::optional<WindowConfirm>;
+		auto check_if_option_selected(sf::Vector2f mouse_position) -> std::optional<WindowConfirm>;
+		auto toggle_highlighted() -> WindowConfirm;
+		auto draw(double lerp) -> void;
 
-			// Public Methods
-			auto check_for_mouse_move(sf::Vector2f mouse_position) -> std::optional<WindowConfirm>;
-			auto check_if_option_selected(sf::Vector2f mouse_position) -> std::optional<WindowConfirm>;
-			auto toggle_highlighted() -> WindowConfirm;
-			auto draw(double lerp) -> void;
+	  private:
+		// Private Methods
 
-		private:
-
-			// Private Methods
-
-			// Private Members
-			System _system;
-			Display _display;
-			Graphics _graphics;
-			Component _gui_component;
-			Component _text_component;
-			sf::RenderWindow* _window;
-			std::string_view _text;
-			sf::FloatRect _no_background_rect;
-			sf::FloatRect _yes_background_rect;
-			sf::Text _no_text;
-			sf::Text _yes_text;
-			std::unique_ptr<Frame> _frame;
+		// Private Members
+		System _system;
+		Display _display;
+		Graphics _graphics;
+		Component _gui_component;
+		Component _text_component;
+		sf::RenderWindow *_window;
+		std::string_view _text;
+		sf::FloatRect _no_background_rect;
+		sf::FloatRect _yes_background_rect;
+		sf::Text _no_text;
+		sf::Text _yes_text;
+		std::unique_ptr<Frame> _frame;
 	};
-}
+} // namespace Sorcery

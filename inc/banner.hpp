@@ -18,47 +18,45 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
 #pragma once
 
+#include "display.hpp"
+#include "frame.hpp"
+#include "graphics.hpp"
 #include "main.hpp"
 #include "system.hpp"
-#include "display.hpp"
-#include "graphics.hpp"
-#include "frame.hpp"
 
 namespace Sorcery {
 
 	class Banner {
 
-		public:
+	  public:
+		// Constructors
+		Banner(System &system, Display &display, Graphics &graphics);
+		Banner() = delete;
 
-			// Constructors
-			Banner(System& system, Display& display, Graphics& graphics);
-			Banner() = delete;
+		// Public Members
 
-			// Public Members
+		// Public Methods
+		auto start() -> void;
 
-			// Public Methods
-			auto start() -> void;
+	  private:
+		// Private Methods
+		auto _draw() -> void;
+		auto _update() -> void;
 
-		private:
-
-			// Private Methods
-			auto _draw() -> void;
-			auto _update() -> void;
-
-			// Private Members
-			System _system;
-			Display _display;
-			Graphics _graphics;
-			sf::RenderWindow* _window;
-			unsigned int _alpha;
-			bool _fading_in;
-			bool _fading_out;
-			bool _finished;
+		// Private Members
+		System _system;
+		Display _display;
+		Graphics _graphics;
+		sf::RenderWindow *_window;
+		unsigned int _alpha;
+		bool _fading_in;
+		bool _fading_out;
+		bool _finished;
 	};
-}
+} // namespace Sorcery

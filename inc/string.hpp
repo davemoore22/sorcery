@@ -18,7 +18,7 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
@@ -30,26 +30,24 @@ namespace Sorcery {
 
 	class String {
 
-		public:
+	  public:
+		// Constructors
+		String(const std::string &filename);
+		String() = delete;
 
-			// Constructors
-			String(const std::string& filename);
-			String() = delete;
+		// Overload [] operator
+		auto operator[](const std::string &key) -> std::string &;
 
-			// Overload [] operator
-			auto operator[] (const std::string& key) -> std::string&;
+		// Public Methods
+		auto get(const std::string &key) -> std::string;
 
-			// Public Methods
-			auto get(const std::string& key) -> std::string;
+	  private:
+		// Private Members
+		StringMap _strings; // String Storage Table
+		bool _loaded;
 
-		private:
-
-			// Private Members
-			StringMap _strings; // String Storage Table
-			bool _loaded;
-
-			// Private Methods
-			auto _load(const std::string& filename) -> bool;
-			auto _replace(std::string& subject, const std::string& search, const std::string& replace) -> void;
+		// Private Methods
+		auto _load(const std::string &filename) -> bool;
+		auto _replace(std::string &subject, const std::string &search, const std::string &replace) -> void;
 	};
-}
+} // namespace Sorcery

@@ -24,8 +24,8 @@
 #include "menu.hpp"
 
 // Standard Constructor
-Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuType type): _system {system},
-	_display {display}, _graphics {graphics}, _type {type} {
+Sorcery::Menu::Menu(System &system, Display &display, Graphics &graphics, MenuType type)
+	: _system{system}, _display{display}, _graphics{graphics}, _type{type} {
 
 	// Clear the Items
 	items.clear();
@@ -70,10 +70,10 @@ Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuTy
 		break;
 	case MenuType::OPTIONS:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::OP_RECOMMENDED_MODE, (*_display.string)["CONFIG_RECOMMENDED_MODE"],
-		true, ConfigOption::RECOMMENDED_MODE, (*_display.string)["HINT_CONFIG_RECOMMENDED_MODE"]);
+			true, ConfigOption::RECOMMENDED_MODE, (*_display.string)["HINT_CONFIG_RECOMMENDED_MODE"]);
 		_add_item(1, MenuItemType::ENTRY, MenuItem::OP_STRICT_MODE, (*_display.string)["CONFIG_STRICT_MODE"], true,
 			ConfigOption::STRICT_MODE, (*_display.string)["HINT_CONFIG_STRICT_MODE"]);
-		_add_item(2, MenuItemType::ENTRY, MenuItem::OP_CHEAT_MODE, (*_display.string)["CONFIG_CHEAT_MODE"],  true,
+		_add_item(2, MenuItemType::ENTRY, MenuItem::OP_CHEAT_MODE, (*_display.string)["CONFIG_CHEAT_MODE"], true,
 			ConfigOption::CHEAT_MODE, (*_display.string)["HINT_CONFIG_CHEAT_MODE"]);
 		_add_item(3, MenuItemType::ENTRY, MenuItem::OP_AUTO_SAVE, (*_display.string)["CONFIG_AUTO_SAVE"], true,
 			ConfigOption::AUTO_SAVE, (*_display.string)["HINT_CONFIG_AUTO_SAVE"]);
@@ -137,7 +137,7 @@ Sorcery::Menu::Menu(System& system, Display& display, Graphics& graphics, MenuTy
 }
 
 // Overload [] Operator
-auto Sorcery::Menu::operator [] (const unsigned int index) -> const MenuEntry& {
+auto Sorcery::Menu::operator[](const unsigned int index) -> const MenuEntry & {
 
 	return items.at(index);
 }
@@ -148,19 +148,19 @@ auto Sorcery::Menu::get_type() -> MenuType {
 }
 
 // Add an item to the Menu
-auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string& key) -> void {
+auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string &key) -> void {
 
 	if (key.length() % 2 == 0)
 		key.resize(key.length() + 1, 32);
 
-	std::string hint {};
+	std::string hint{};
 	items.push_back({static_cast<unsigned int>(index), itemtype, code, key, true, ConfigOption::NONE, hint});
 	++count;
 }
 
 // Add an item to the Menu
-auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string& key,
-	bool enabled, ConfigOption option, std::string& hint) -> void {
+auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string &key,
+	bool enabled, ConfigOption option, std::string &hint) -> void {
 
 	if (key.length() % 2 == 0)
 		key.resize(key.length() + 1, 32);
@@ -174,7 +174,8 @@ auto Sorcery::Menu::_select_first_enabled() -> std::optional<std::vector<MenuEnt
 
 	for (std::vector<MenuEntry>::const_iterator it = items.begin(); it != items.end(); ++it)
 		if ((((*it).type == MenuItemType::ENTRY) || ((*it).type == MenuItemType::SAVE) ||
-			((*it).type == MenuItemType::CANCEL)) && ((*it).enabled)) {
+				((*it).type == MenuItemType::CANCEL)) &&
+			((*it).enabled)) {
 			selected = it;
 			return selected;
 		}
@@ -187,7 +188,8 @@ auto Sorcery::Menu::_select_last_enabled() -> std::optional<std::vector<MenuEntr
 
 	for (std::vector<MenuEntry>::const_iterator it = items.end() - 1; it != items.begin(); --it)
 		if ((((*it).type == MenuItemType::ENTRY) || ((*it).type == MenuItemType::SAVE) ||
-			((*it).type == MenuItemType::CANCEL)) && ((*it).enabled)) {
+				((*it).type == MenuItemType::CANCEL)) &&
+			((*it).enabled)) {
 			selected = it;
 			return selected;
 		}
@@ -196,22 +198,22 @@ auto Sorcery::Menu::_select_last_enabled() -> std::optional<std::vector<MenuEntr
 }
 
 // Check if the mouse cursor is on a menu item
-auto Sorcery::Menu::check_menu_mouseover(sf::Vector2f mouse_position) ->
-	std::optional<std::vector<MenuEntry>::const_iterator> {
+auto Sorcery::Menu::check_menu_mouseover(sf::Vector2f mouse_position)
+	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	if (bounds.size() > 0) {
-		bool found {false};
-		sf::Vector2f global_pos {this->getPosition()};
+		bool found{false};
+		sf::Vector2f global_pos{this->getPosition()};
 		mouse_position -= global_pos;
-		std::vector<sf::FloatRect>::const_iterator working_bounds {bounds.begin()};
-		std::vector<MenuEntry>::const_iterator working_items {items.begin()};
+		std::vector<sf::FloatRect>::const_iterator working_bounds{bounds.begin()};
+		std::vector<MenuEntry>::const_iterator working_items{items.begin()};
 		do {
 			if (working_bounds->contains(mouse_position))
 				return working_items;
 
 			++working_bounds;
 			++working_items;
-			} while ((working_bounds < bounds.end()) && (!found));
+		} while ((working_bounds < bounds.end()) && (!found));
 
 		// If we reach here the mouse cursor is outside the items so we don't do anything
 		return std::nullopt;
@@ -222,18 +224,18 @@ auto Sorcery::Menu::check_menu_mouseover(sf::Vector2f mouse_position) ->
 }
 
 // Check if the mouse cursor is on a menu item, and if so set it
-auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_position) ->
-	std::optional<std::vector<MenuEntry>::const_iterator> {
+auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_position)
+	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	if (bounds.size() > 0) {
-		sf::Vector2f global_pos {this->getPosition()};
+		sf::Vector2f global_pos{this->getPosition()};
 		mouse_position -= global_pos;
-		bool found {false};
-		std::vector<sf::FloatRect>::const_iterator working_bounds {bounds.begin()};
-		std::vector<MenuEntry>::const_iterator working_items {items.begin()};
+		bool found{false};
+		std::vector<sf::FloatRect>::const_iterator working_bounds{bounds.begin()};
+		std::vector<MenuEntry>::const_iterator working_items{items.begin()};
 		do {
 			if (working_bounds->contains(mouse_position)) {
-				found = true;
+				found = true; // NOLINT(clang-analyzer-deadcode.DeadStores)
 				selected = working_items;
 				return working_items;
 			}
@@ -254,9 +256,9 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_position) ->
 auto Sorcery::Menu::choose(unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	// Iterate through til we have found it
-	bool found {false};
+	bool found{false};
 	if (index < items.size()) {
-		std::vector<MenuEntry>::const_iterator working {items.begin()};
+		std::vector<MenuEntry>::const_iterator working{items.begin()};
 		do {
 			found = (*working).index == index;
 			++working;
@@ -273,11 +275,11 @@ auto Sorcery::Menu::choose(unsigned int index) -> std::optional<std::vector<Menu
 
 auto Sorcery::Menu::choose_first() -> std::optional<std::vector<MenuEntry>::const_iterator> {
 
-	return  _select_first_enabled();
+	return _select_first_enabled();
 }
 auto Sorcery::Menu::choose_last() -> std::optional<std::vector<MenuEntry>::const_iterator> {
 
-	return  _select_last_enabled();
+	return _select_last_enabled();
 }
 
 // Choose the previous selected item
@@ -286,8 +288,8 @@ auto Sorcery::Menu::choose_previous() -> std::optional<std::vector<MenuEntry>::c
 	if (selected > items.begin()) {
 
 		// Iterate backwards until we find the first previous enabled menu if we can
-		bool found_enabled_option {false};
-		std::vector<MenuEntry>::const_iterator working {selected};
+		bool found_enabled_option{false};
+		std::vector<MenuEntry>::const_iterator working{selected};
 		do {
 			--working;
 			found_enabled_option = ((*working).enabled) && ((*working).type == MenuItemType::ENTRY);
@@ -308,8 +310,8 @@ auto Sorcery::Menu::choose_next() -> std::optional<std::vector<MenuEntry>::const
 	if (selected < (items.end() - 1)) {
 
 		// Iterate forwards until we find the first next enabled menu if we can
-		bool found_enabled_option {false};
-		std::vector<MenuEntry>::const_iterator working {selected};
+		bool found_enabled_option{false};
+		std::vector<MenuEntry>::const_iterator working{selected};
 		do {
 			++working;
 			found_enabled_option = ((*working).enabled) && ((*working).type == MenuItemType::ENTRY);
@@ -324,23 +326,23 @@ auto Sorcery::Menu::choose_next() -> std::optional<std::vector<MenuEntry>::const
 	return std::nullopt;
 }
 
-auto Sorcery::Menu::generate(Component& component, double selected_lerp) -> void {
+auto Sorcery::Menu::generate(Component &component, double selected_lerp) -> void {
 
-	int entry_x {0};
-	int entry_y {0};
-	int option_x {0};
-	int option_y {0};
+	int entry_x{0};
+	int entry_y{0};
+	int option_x{0};
+	int option_y{0};
 	int count{0};
 
 	// In case we are generating the Options Menu
-	Component on_component {(*_display.layout)["options:option_on"]};
-	Component off_component {(*_display.layout)["options:option_off"]};
+	Component on_component{(*_display.layout)["options:option_on"]};
+	Component off_component{(*_display.layout)["options:option_off"]};
 
 	const sf::Vector2f global_pos(component.x, component.y);
 
 	// Work out total size of texture needed
-	const unsigned int texture_size_x {component.w * _display.window->get_cell_width()};
-	const unsigned int texture_size_y {component.h * _display.window->get_cell_height()};
+	const unsigned int texture_size_x{component.w * _display.window->get_cell_width()};
+	const unsigned int texture_size_y{component.h * _display.window->get_cell_height()};
 	const sf::Vector2f texture_size(texture_size_x, texture_size_y);
 	_render_texture.create(texture_size.x, texture_size.y);
 
@@ -351,7 +353,7 @@ auto Sorcery::Menu::generate(Component& component, double selected_lerp) -> void
 	for (std::vector<MenuEntry>::const_iterator it = items.begin(); it != items.end(); ++it) {
 		if (((*it).type == MenuItemType::TEXT) || ((*it).type == MenuItemType::ENTRY) ||
 			((*it).type == MenuItemType::SAVE) || ((*it).type == MenuItemType::CANCEL)) {
-			std::string text_string {(*it).key};
+			std::string text_string{(*it).key};
 			sf::Text text;
 			text.setFont(_system.resources->fonts[component.font]);
 			text.setCharacterSize(component.size);
@@ -359,19 +361,19 @@ auto Sorcery::Menu::generate(Component& component, double selected_lerp) -> void
 			text.setString(text_string);
 
 			// Check for alignment and set location appropriately
-			entry_x = (component.justification == Justification::CENTRE) ? texture_size_x / 2 :  0;
+			entry_x = (component.justification == Justification::CENTRE) ? texture_size_x / 2 : 0;
 			entry_y += _display.window->get_cell_height();
 			text.setPosition(entry_x, entry_y);
 
 			// If we have a selected entry, change the background colour
 			if (selected == it) {
-				sf::FloatRect background_rect {text.getLocalBounds()};
-				sf::RectangleShape background(sf::Vector2f(component.w * _display.window->get_cell_width(),
-					background_rect.height + 2));
+				sf::FloatRect background_rect{text.getLocalBounds()};
+				sf::RectangleShape background(
+					sf::Vector2f(component.w * _display.window->get_cell_width(), background_rect.height + 2));
 				background.setPosition(0, entry_y);
 				if (component.animated)
-					background.setFillColor(_display.window->change_colour(sf::Color(component.background),
-						selected_lerp));
+					background.setFillColor(
+						_display.window->change_colour(sf::Color(component.background), selected_lerp));
 				else
 					background.setFillColor(sf::Color(component.background));
 				text.setFillColor(sf::Color(component.colour));
@@ -405,7 +407,7 @@ auto Sorcery::Menu::generate(Component& component, double selected_lerp) -> void
 			// Now handle the mouse move/select (and tooltip generation)!
 			if (((*it).type == MenuItemType::ENTRY) || ((*it).type == MenuItemType::SAVE) ||
 				((*it).type == MenuItemType::CANCEL)) {
-				sf::FloatRect actual_rect {text.getGlobalBounds()};
+				sf::FloatRect actual_rect{text.getGlobalBounds()};
 				bounds.push_back(actual_rect);
 				WindowTooltipList::iterator tooltipit = _display.window->tooltips.find((*it).hint);
 				if (tooltipit == _display.window->tooltips.end())
@@ -418,13 +420,12 @@ auto Sorcery::Menu::generate(Component& component, double selected_lerp) -> void
 					_display.window->tooltips[(*it).hint] = actual_rect;
 			}
 
-
 			// Add options in case of the Options Menu
 			if ((_type == MenuType::OPTIONS) && ((*it).type == MenuItemType::ENTRY)) {
 				option_y = entry_y;
 				option_x = component.w * _display.window->get_cell_width();
-				const bool option_value {(*_system.config)[(*it).config] ? true : false};
-				sf::Text option_text {};
+				const bool option_value{(*_system.config)[(*it).config] ? true : false};
+				sf::Text option_text{};
 				if (option_value) {
 
 					// On
@@ -461,18 +462,17 @@ auto Sorcery::Menu::generate(Component& component, double selected_lerp) -> void
 		}
 		count++;
 	}
-
 }
 
-auto Sorcery::Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
+auto Sorcery::Menu::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 
 	target.draw(_selected_background, states);
-	for (auto& text: _texts)
+	for (auto &text : _texts)
 		target.draw(text, states);
 
 	if (_type == MenuType::OPTIONS)
-		for (auto& option: _options)
+		for (auto &option : _options)
 			target.draw(option, states);
 }

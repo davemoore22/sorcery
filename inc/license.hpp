@@ -18,52 +18,50 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
 #pragma once
 
-#include "main.hpp"
-#include "system.hpp"
 #include "display.hpp"
+#include "frame.hpp"
 #include "graphics.hpp"
 #include "layout.hpp"
-#include "frame.hpp"
+#include "main.hpp"
+#include "system.hpp"
 
 namespace Sorcery {
 
 	class License {
 
-		public:
+	  public:
+		// Constructor
+		License(System &system, Display &display, Graphics &graphics);
 
-			// Constructor
-			License(System& system, Display& display, Graphics& graphics);
+		// Destructor
+		~License();
 
-			// Destructor
-			~License();
+		// Public Members
 
-			// Public Members
+		// Public Methods
+		auto start() -> void;
+		auto stop() -> void;
 
-			// Public Methods
-			auto start() -> void;
-			auto stop() -> void;
+	  private:
+		// Private Methods
+		auto _draw() -> void;
+		auto _display_file_contents() -> void;
 
-		private:
+		// Private Members
+		System _system;
+		Display _display;
+		Graphics _graphics;
+		sf::RenderWindow *_window;
 
-			// Private Methods
-			auto _draw() -> void;
-			auto _display_file_contents() -> void;
-
-			// Private Members
-			System _system;
-			Display _display;
-			Graphics _graphics;
-			sf::RenderWindow* _window;
-
-			std::shared_ptr<TextFile> _textfile;
-			unsigned int _current_line;
-			sf::Text _progress_text;
-			sf::Text _line_text;
+		std::shared_ptr<TextFile> _textfile;
+		unsigned int _current_line;
+		sf::Text _progress_text;
+		sf::Text _line_text;
 	};
-}
+} // namespace Sorcery

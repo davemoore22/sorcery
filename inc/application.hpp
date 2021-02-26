@@ -18,24 +18,24 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
 #pragma once
 
-#include "main.hpp"
-#include "system.hpp"
-#include "display.hpp"
-#include "graphics.hpp"
-#include "splash.hpp"
 #include "banner.hpp"
-#include "mainmenu.hpp"
-#include "license.hpp"
-#include "options.hpp"
 #include "compendium.hpp"
-#include "gamemenu.hpp"
+#include "display.hpp"
 #include "engine.hpp"
+#include "gamemenu.hpp"
+#include "graphics.hpp"
+#include "license.hpp"
+#include "main.hpp"
+#include "mainmenu.hpp"
+#include "options.hpp"
+#include "splash.hpp"
+#include "system.hpp"
 
 namespace Sorcery {
 
@@ -46,39 +46,37 @@ namespace Sorcery {
 	// prevent another copy being created, and game state isn’t held in this class. So there!
 	class Application {
 
-		public:
+	  public:
+		// Constructors
+		Application(int argc, char **argv);
+		Application() = delete;
 
-			// Constructors
-			Application(int argc, char**argv);
-			Application() = delete;
+		// Standard Destructor
+		~Application();
 
-			// Standard Destructor
-			~Application();
+		// Overload [] operator (for file operations)
+		auto operator[](const char *key) const -> std::string;
+		auto operator[](std::string key) const -> std::string;
 
-			// Overload [] operator (for file operations)
-			auto operator[] (const char* key) const -> std::string;
-			auto operator[] (std::string key) const -> std::string;
+		// Public Members
+		std::unique_ptr<System> system;
+		std::unique_ptr<Display> display;
+		std::unique_ptr<Graphics> graphics;
 
-			// Public Members
-			std::unique_ptr<System> system;
-			std::unique_ptr<Display> display;
-			std::unique_ptr<Graphics> graphics;
+		// Public Methods
+		auto start() -> void;
 
-			// Public Methods
-			auto start() -> void;
+	  private:
+		// Private Methods
 
-		private:
-
-			// Private Methods
-
-			// Private Members
-			std::shared_ptr<Banner> _banner;
-			std::shared_ptr<Splash> _splash;
-			std::shared_ptr<MainMenu> _mainmenu;
-			std::shared_ptr<License> _license;
-			std::shared_ptr<Options> _options;
-			std::shared_ptr<Compendium> _compendium;
-			std::shared_ptr<GameMenu> _gamemenu;
-			std::shared_ptr<Engine> _engine;
+		// Private Members
+		std::shared_ptr<Banner> _banner;
+		std::shared_ptr<Splash> _splash;
+		std::shared_ptr<MainMenu> _mainmenu;
+		std::shared_ptr<License> _license;
+		std::shared_ptr<Options> _options;
+		std::shared_ptr<Compendium> _compendium;
+		std::shared_ptr<GameMenu> _gamemenu;
+		std::shared_ptr<Engine> _engine;
 	};
-}
+} // namespace Sorcery

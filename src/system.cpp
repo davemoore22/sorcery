@@ -24,7 +24,7 @@
 #include "system.hpp"
 
 // Standard Constructor
-Sorcery::System::System(int argc __attribute__((unused)), char** argv __attribute__((unused))) {
+Sorcery::System::System(int argc __attribute__((unused)), char **argv __attribute__((unused))) {
 
 	// Files Module
 	files = std::make_shared<File>();
@@ -32,7 +32,7 @@ Sorcery::System::System(int argc __attribute__((unused)), char** argv __attribut
 	// Settings File/Config Module
 	settings = std::make_shared<CSimpleIniA>();
 	settings->SetUnicode();
-	const std::string settings_file_path {(*files)[CONFIG_FILE]};
+	const std::string settings_file_path{(*files)[CONFIG_FILE]};
 	settings->LoadFile(CSTR(settings_file_path));
 	config = std::make_shared<Config>(settings.get(), (*files)[CONFIG_FILE]);
 
@@ -48,4 +48,3 @@ Sorcery::System::System(int argc __attribute__((unused)), char** argv __attribut
 	// Input Module
 	input = std::make_shared<Input>();
 }
-

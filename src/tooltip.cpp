@@ -24,8 +24,8 @@
 #include "tooltip.hpp"
 
 // Standard Constructor
-Sorcery::Tooltip::Tooltip (System& system, Display& display, Graphics& graphics): _system {system}, _display {display},
-	_graphics {graphics} {
+Sorcery::Tooltip::Tooltip(System &system, Display &display, Graphics &graphics)
+	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the standard layout information
 	_layout = Component((*_display.layout)["global:tooltip"]);
@@ -34,7 +34,7 @@ Sorcery::Tooltip::Tooltip (System& system, Display& display, Graphics& graphics)
 	valid = false;
 }
 
-auto Sorcery::Tooltip::set(const std::string& string) -> void {
+auto Sorcery::Tooltip::set(const std::string &string) -> void {
 
 	_strings.clear();
 	_texts.clear();
@@ -43,18 +43,18 @@ auto Sorcery::Tooltip::set(const std::string& string) -> void {
 
 	// Get the display lines
 	const std::regex regex(R"([#]+)");
-	std::sregex_token_iterator it {string.begin(), string.end(), regex, -1};
+	std::sregex_token_iterator it{string.begin(), string.end(), regex, -1};
 	std::vector<std::string> split{it, {}};
 	split.erase(std::remove_if(split.begin(), split.end(),
-		[](std::string const& s) {
-			return s.size() == 0;
-		}),
+					[](std::string const &s) {
+						return s.size() == 0;
+					}),
 		split.end());
 	_strings = split;
 
-	int x {18};
-	int y {0};
-	for (const auto& each_string: _strings) {
+	int x{18};
+	int y{0};
+	for (const auto &each_string : _strings) {
 		sf::Text text;
 		text.setFont(_system.resources->fonts[_layout.font]);
 		text.setCharacterSize(_layout.size);
@@ -66,8 +66,8 @@ auto Sorcery::Tooltip::set(const std::string& string) -> void {
 	}
 
 	// Workout the size of the Frame needed
-	size_t max_length {0};
-	for (const auto& each_string: _strings) {
+	size_t max_length{0};
+	for (const auto &each_string : _strings) {
 		if (each_string.length() > max_length) {
 			max_length = each_string.length();
 		}
@@ -76,18 +76,18 @@ auto Sorcery::Tooltip::set(const std::string& string) -> void {
 	_height = _strings.size() + 4;
 
 	// Get the frame (remember that the Frame has a Background set to Alpha)
-	_frame = std::make_unique<Frame>(_display.ui_texture, WindowFrameType::HINT, _width / 2.15f,
-		_height / 2.0f, _layout.alpha);
+	_frame = std::make_unique<Frame>(
+		_display.ui_texture, WindowFrameType::HINT, _width / 2.15f, _height / 2.0f, _layout.alpha);
 
 	// We're ok to draw it now
 	valid = true;
 }
 
-auto Sorcery::Tooltip::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
+auto Sorcery::Tooltip::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 	target.draw(*_frame, states);
-	for (auto each_text: _texts) {
+	for (auto each_text : _texts) {
 		target.draw(each_text, states);
 	}
 }

@@ -24,7 +24,7 @@
 #include "graphics.hpp"
 
 // Standard Constructor
-Sorcery::Graphics::Graphics(System* system, Display* display) {
+Sorcery::Graphics::Graphics(System *system, Display *display) {
 
 	animation = std::make_shared<Animation>(*system, *display);
 }

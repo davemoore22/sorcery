@@ -18,47 +18,43 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 #pragma once
 
-#include "main.hpp"
 #include "component.hpp"
+#include "main.hpp"
 
 // Class to handles managing screen layouts
 namespace Sorcery {
 
 	class Layout {
 
-		public:
+	  public:
+		// Constructors
+		Layout(const std::filesystem::path filename);
+		Layout() = delete;
 
-			// Constructors
-			Layout(const std::filesystem::path filename);
-			Layout() = delete;
+		// Overload [] operator
+		auto operator[](const std::string &combined_key) -> Component &;
+		auto operator()(const std::string &screen) -> std::optional<std::vector<Component>>;
 
-			// Overload [] operator
-			auto operator[] (const std::string& combined_key) -> Component&;
-			auto operator() (const std::string& screen) -> std::optional<std::vector<Component>>;
+		// Public Methods
+		auto set_grid(unsigned int cell_width, unsigned int cell_height) -> void;
 
-			// Public Methods
-			auto set_grid(unsigned int cell_width, unsigned int cell_height) -> void;
+	  private:
+		// Private Members
+		std::map<std::string, Component> _components;
+		bool _loaded;
+		std::filesystem::file_time_type _last_modified;
+		std::chrono::time_point<std::chrono::file_clock> _last_loaded;
+		std::filesystem::path _filename;
+		unsigned int _cell_width;
+		unsigned int _cell_height;
 
-		private:
-
-			// Private Members
-			std::map<std::string, Component> _components;
-			bool _loaded;
-			std::filesystem::file_time_type _last_modified;
-			std::chrono::time_point<std::chrono::file_clock> _last_loaded;
-			std::filesystem::path _filename;
-			unsigned int _cell_width;
-			unsigned int _cell_height;
-
-			// Private Methods
-			auto _load(const std::filesystem::path filename) -> bool;
-			auto _refresh_needed() -> bool;
-
-
+		// Private Methods
+		auto _load(const std::filesystem::path filename) -> bool;
+		auto _refresh_needed() -> bool;
 	};
-}
+} // namespace Sorcery

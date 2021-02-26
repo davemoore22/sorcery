@@ -18,7 +18,7 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
@@ -31,24 +31,22 @@ namespace Sorcery {
 
 	class Entity {
 
-		public:
+	  public:
+		// Standard Constructor
+		Entity();
 
-			// Standard Constructor
-			Entity();
+		// Public Members
 
-			// Public Members
+		// Public Methods
+		auto getPosition() -> sf::Vector2f;
+		auto setPosition(sf::Vector2f position) -> void;
+		auto setPosition(float x, float y) -> void;
+		auto getTextureUID() -> int;
+		auto setTextureUID(int uid) -> void;
 
-			// Public Methods
-			auto getPosition() -> sf::Vector2f;
-			auto setPosition(sf::Vector2f position) -> void ;
-			auto setPosition(float x, float y) -> void;
-			auto getTextureUID() -> int;
-			auto setTextureUID(int uid) -> void;
-
-		protected:
-
-			// Protected Members
-			sf::Vector2f mPosition;
-			int	mTextureUID;
+	  protected:
+		// Protected Members
+		sf::Vector2f mPosition;
+		int mTextureUID;
 	};
-}
+} // namespace Sorcery

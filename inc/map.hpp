@@ -18,14 +18,14 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
 #pragma once
 
-#include "main.hpp"
 #include "entity.hpp"
+#include "main.hpp"
 #include "maptile.hpp"
 #include "maputils.hpp"
 
@@ -36,32 +36,36 @@ namespace Sorcery {
 	*/
 	enum TileStoreOrder {
 		ColumnFirstOrder = 0, // x and then y
-		RowFirstOrder // y and then x
+		RowFirstOrder		  // y and then x
 	};
 
 	class Map {
-	protected:
+	  protected:
 		TileStoreOrder mTileStoreOrder;
 		std::vector<MapTile> mData;
-		std::map<int,sf::Texture> mTextures;
+		std::map<int, sf::Texture> mTextures;
 		std::map<int, std::vector<sf::Color>> mTexturePixelData;
 		int mWidth;
 		int mHeight;
 
-		std::vector<Sorcery::Entity*> mEntities;
+		std::vector<Sorcery::Entity *> mEntities;
 
-	public:
+	  public:
 		Map();
 		~Map();
 
 		std::vector<RoomDim> Rooms;
 
 		// getters
-		int getWidth() { return mWidth; };
-		int getHeight() { return mHeight; };
+		int getWidth() {
+			return mWidth;
+		};
+		int getHeight() {
+			return mHeight;
+		};
 
-		MapTile& getTile(const unsigned int x, const unsigned int y);
-		MapTile& getTile(const unsigned int index);
+		MapTile &getTile(const unsigned int x, const unsigned int y);
+		MapTile &getTile(const unsigned int index);
 
 		TileStoreOrder getTileStoreOrder();
 		void setTileStoreOrder(TileStoreOrder order);
@@ -72,10 +76,10 @@ namespace Sorcery {
 
 		void loadTexture(int numeric_index, const std::string &path);
 
-		sf::Texture&getTexture(int index);
+		sf::Texture &getTexture(int index);
 		sf::Color getPixelFromTexture(int index, int x, int y);
 
-		std::vector<Sorcery::Entity*> getEntities();
-		void addEntity(Sorcery::Entity* entity);
-    };
-}
+		std::vector<Sorcery::Entity *> getEntities();
+		void addEntity(Sorcery::Entity *entity);
+	};
+} // namespace Sorcery

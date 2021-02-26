@@ -18,15 +18,15 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
 #pragma once
 
 #include "main.hpp"
-#include <limits.h>
 #include <libgen.h>
+#include <limits.h>
 #include <unistd.h>
 
 // Class to handles managing filepaths
@@ -34,26 +34,24 @@ namespace Sorcery {
 
 	class File {
 
-		public:
+	  public:
+		// Constructors
+		File();
 
-			// Constructors
-			File();
+		// Public Methods
+		auto operator[](std::string_view key) const -> std::filesystem::path;
+		auto get_path_as_string(std::string_view key) const -> std::string;
 
-			// Public Methods
-			auto operator[] (std::string_view key) const -> std::filesystem::path;
-			auto get_path_as_string(std::string_view key) const -> std::string;
+		// Public Members
+		auto get_base_path() const -> std::filesystem::path;
 
-			// Public Members
-			auto get_base_path() const -> std::filesystem::path;
+	  private:
+		// Private Members
+		std::map<std::string_view, std::filesystem::path> _file_paths;
+		std::filesystem::path _base_path;
 
-		private:
-
-			// Private Members
-			std::map<std::string_view, std::filesystem::path> _file_paths;
-			std::filesystem::path _base_path;
-
-			// Private Methods
-			auto _add_path(const std::string_view dir, const std::string_view file) -> void;
-			auto _get_exe_path() -> std::string_view;
+		// Private Methods
+		auto _add_path(const std::string_view dir, const std::string_view file) -> void;
+		auto _get_exe_path() -> std::string_view;
 	};
-}
+} // namespace Sorcery

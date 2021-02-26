@@ -18,7 +18,7 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
@@ -28,40 +28,36 @@
 
 namespace Sorcery {
 
-		enum MapTileType {
-			Floor = 0,
-			Wall = 1
-		};
+	enum MapTileType { Floor = 0, Wall = 1 };
 
-		class MapTile {
-		protected:
-			MapTileType     mTileType;
-			bool            mIsSolid;
+	class MapTile {
+	  protected:
+		MapTileType mTileType;
+		bool mIsSolid;
 
-			int             mTextureIndex;
-			unsigned int    mTextureWidth;
-			unsigned int    mTextureHeight;
+		int mTextureIndex;
+		unsigned int mTextureWidth;
+		unsigned int mTextureHeight;
 
-		public:
-			MapTile();
+	  public:
+		MapTile();
 
-			bool            isWall();
-			bool            isFloor();
+		bool isWall();
+		bool isFloor();
 
-			void            setTileType(MapTileType t);
-			MapTileType     getTileType();
+		void setTileType(MapTileType t);
+		MapTileType getTileType();
 
-			bool            isSolid();
-			void            setIsSolid(bool is_solid);
+		bool isSolid();
+		void setIsSolid(bool is_solid);
 
-			int             getTextureIndex();
-			void            setTextureIndex(int index);
+		int getTextureIndex();
+		void setTextureIndex(int index);
 
-			unsigned int    getTextureWidth();
-			unsigned int    getTextureHeight();
-			void            setTextureWidth(unsigned int w);
-			void            setTextureHeight(unsigned int h);
-			void            setTextureSize(unsigned int width, unsigned int height);
-		};
-	}
-
+		unsigned int getTextureWidth();
+		unsigned int getTextureHeight();
+		void setTextureWidth(unsigned int w);
+		void setTextureHeight(unsigned int h);
+		void setTextureSize(unsigned int width, unsigned int height);
+	};
+} // namespace Sorcery

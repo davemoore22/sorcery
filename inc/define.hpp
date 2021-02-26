@@ -18,7 +18,7 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
@@ -26,8 +26,7 @@
 
 #include "main.hpp"
 
-namespace Sorcery
-{
+namespace Sorcery {
 	// Options
 	inline constexpr auto EMPTY = "";
 	inline constexpr auto ON = "on";
@@ -35,46 +34,39 @@ namespace Sorcery
 
 	using namespace std::literals;
 
-		// Directories
-		inline constexpr auto CONFIG_DIR = "cfg"sv;
-		inline constexpr auto DATA_DIR = "dat"sv;
-		inline constexpr auto DOCUMENTS_DIR = "doc"sv;
-		inline constexpr auto GRAPHICS_DIR = "gfx"sv;
-		inline constexpr auto VIDEO_DIR = "vfx"sv;
+	// Directories
+	inline constexpr auto CONFIG_DIR = "cfg"sv;
+	inline constexpr auto DATA_DIR = "dat"sv;
+	inline constexpr auto DOCUMENTS_DIR = "doc"sv;
+	inline constexpr auto GRAPHICS_DIR = "gfx"sv;
+	inline constexpr auto VIDEO_DIR = "vfx"sv;
 
-		// Files
-		inline constexpr auto CONFIG_FILE = "config.ini"sv;
-		inline constexpr auto DATABASE_FILE = "sorcery.db3"sv;
-		inline constexpr auto EXPLAIN_FILE = "explain.json"sv;
-		inline constexpr auto MONO_FONT_FILE = "monospace.otf"sv;
-		inline constexpr auto PROPORTIONAL_FONT_FILE = "proportional.ttf"sv;
-		inline constexpr auto TEXT_FONT_FILE = "text.ttf"sv;
-		inline constexpr auto HELP_FILE = "HELP"sv;
-		inline constexpr auto LAYOUT_FILE = "layout.json"sv;
-		inline constexpr auto LICENSE_FILE = "LICENSE"sv;
-		inline constexpr auto README_FILE = "README"sv;
-		inline constexpr auto STRINGS_FILE = "strings.json"sv;
-		inline constexpr auto VERSION_FILE = "VERSION"sv;
+	// Files
+	inline constexpr auto CONFIG_FILE = "config.ini"sv;
+	inline constexpr auto DATABASE_FILE = "sorcery.db3"sv;
+	inline constexpr auto EXPLAIN_FILE = "explain.json"sv;
+	inline constexpr auto MONO_FONT_FILE = "monospace.otf"sv;
+	inline constexpr auto PROPORTIONAL_FONT_FILE = "proportional.ttf"sv;
+	inline constexpr auto TEXT_FONT_FILE = "text.ttf"sv;
+	inline constexpr auto HELP_FILE = "HELP"sv;
+	inline constexpr auto LAYOUT_FILE = "layout.json"sv;
+	inline constexpr auto LICENSE_FILE = "LICENSE"sv;
+	inline constexpr auto README_FILE = "README"sv;
+	inline constexpr auto STRINGS_FILE = "strings.json"sv;
+	inline constexpr auto VERSION_FILE = "VERSION"sv;
 
-		// Graphics
-		inline constexpr auto BACKGROUND_TEXTURE = "background.png"sv;
-		inline constexpr auto BANNER_TEXTURE = "banner.png"sv;
-		inline constexpr auto CREATURES_TEXTURE = "creatures.png"sv;
-		inline constexpr auto LOGO_TEXTURE = "logo.png"sv;
-		inline constexpr auto NINEPATCH_TEXTURE = "ninepatch.png"sv;
-		inline constexpr auto SPLASH_TEXTURE = "splash.png"sv;
-		inline constexpr auto TOWN_TEXTURE = "town.png"sv;
-		inline constexpr auto UI_TEXTURE = "ui.png"sv;
+	// Graphics
+	inline constexpr auto BACKGROUND_TEXTURE = "background.png"sv;
+	inline constexpr auto BANNER_TEXTURE = "banner.png"sv;
+	inline constexpr auto CREATURES_TEXTURE = "creatures.png"sv;
+	inline constexpr auto LOGO_TEXTURE = "logo.png"sv;
+	inline constexpr auto NINEPATCH_TEXTURE = "ninepatch.png"sv;
+	inline constexpr auto SPLASH_TEXTURE = "splash.png"sv;
+	inline constexpr auto TOWN_TEXTURE = "town.png"sv;
+	inline constexpr auto UI_TEXTURE = "ui.png"sv;
 
-		// Videos
-		inline constexpr auto MENU_VIDEO = "menu.mp4"sv;
-
-
-
-
-
-
-
+	// Videos
+	inline constexpr auto MENU_VIDEO = "menu.mp4"sv;
 
 	// For ease of use
 	//static const std::string EMPTY = {""};
@@ -149,4 +141,4 @@ namespace Sorcery
 	static const std::string KEY_NOT_FOUND = {"KEY NOT FOUND"};
 	static const std::string STRINGS_NOT_LOADED = {"GAME STRINGS NOT LOADED"};
 	static const std::string FILE_NOT_FOUND = {"FILE NOT FOUND"};
-} // namespace
+} // namespace Sorcery

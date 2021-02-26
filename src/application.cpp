@@ -24,7 +24,7 @@
 #include "application.hpp"
 
 // Standard Constructor
-Sorcery::Application::Application(int argc, char** argv) {
+Sorcery::Application::Application(int argc, char **argv) {
 
 	// First set up System modules
 	system = std::make_unique<System>(argc, argv);
@@ -58,8 +58,8 @@ Sorcery::Application::~Application() {
 
 auto Sorcery::Application::start() -> void {
 
-	std::optional<MenuItem> option_chosen {MenuItem::NONE};
-	MainMenuType menu_stage {MainMenuType::ATTRACT_MODE};
+	std::optional<MenuItem> option_chosen{MenuItem::NONE};
+	MainMenuType menu_stage{MainMenuType::ATTRACT_MODE};
 	do {
 
 		option_chosen = _gamemenu->start();
@@ -100,5 +100,3 @@ auto Sorcery::Application::start() -> void {
 
 	display->window->get_window()->close();
 }
-
-

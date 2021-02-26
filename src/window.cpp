@@ -26,8 +26,8 @@
 // also add a TGUI to this
 
 // Standard Constructor
-Sorcery::Window::Window(const std::string title, System& system, String& string, Layout& layout): _title {title},
-	_system {system}, _string {string}, _layout {layout} {
+Sorcery::Window::Window(const std::string title, System &system, String &string, Layout &layout)
+	: _title{title}, _system{system}, _string{string}, _layout{layout} {
 
 	// First get the Window Size from System Config
 	_default_size.w = std::stoi(_system.config->get("Window", DEFAULT_SCREEN_WIDTH));
@@ -42,12 +42,12 @@ Sorcery::Window::Window(const std::string title, System& system, String& string,
 
 	// Then create the SFML Window and the Main GUI
 	XInitThreads();
-	_window.create(sf::VideoMode(_current_size.w, _current_size.h), _title, sf::Style::Titlebar | sf::Style::Resize |
-		sf::Style::Close);
+	_window.create(sf::VideoMode(_current_size.w, _current_size.h), _title,
+		sf::Style::Titlebar | sf::Style::Resize | sf::Style::Close);
 	centre.x = _current_size.w / 2;
 	centre.y = _current_size.h / 2;
 	_window.setFramerateLimit(60);
-  	_window.setVerticalSyncEnabled(true);
+	_window.setVerticalSyncEnabled(true);
 	_gui.setTarget(_window);
 	view = _window.getView();
 
@@ -73,30 +73,30 @@ auto Sorcery::Window::draw_gui() -> void {
 }
 
 // Draw Text on the Screen
-auto Sorcery::Window::draw_text(sf::Text& text) -> void {
+auto Sorcery::Window::draw_text(sf::Text &text) -> void {
 
 	_draw_text(text);
 }
 
-auto Sorcery::Window::draw_text(sf::Text& text, const Component& component, const std::string& string) -> void {
+auto Sorcery::Window::draw_text(sf::Text &text, const Component &component, const std::string &string) -> void {
 
 	_draw_text(text, component, string);
 }
 
-auto Sorcery::Window::draw_text(sf::Text& text, const Component& component, const double lerp) -> void {
+auto Sorcery::Window::draw_text(sf::Text &text, const Component &component, const double lerp) -> void {
 
 	_draw_text(text, component, lerp);
 }
 
-auto Sorcery::Window::_draw_text(sf::Text& text) -> void {
+auto Sorcery::Window::_draw_text(sf::Text &text) -> void {
 
 	_window.draw(text);
 }
 
-auto Sorcery::Window::_draw_text(sf::Text& text, const Component& component, const double lerp) -> void {
+auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, const double lerp) -> void {
 
-	int x {0};
-	int y {0};
+	int x{0};
+	int y{0};
 	text.setFont(_system.resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
 	if (component.animated)
@@ -104,8 +104,8 @@ auto Sorcery::Window::_draw_text(sf::Text& text, const Component& component, con
 	else
 		text.setFillColor(sf::Color(component.colour));
 	text.setString(_string[component.string_key]);
-	x = component.x == -1 ? centre.x :  component.x;
-	y = component.y == -1 ? centre.y :  component.y;
+	x = component.x == -1 ? centre.x : component.x;
+	y = component.y == -1 ? centre.y : component.y;
 	if (component.justification == Justification::CENTRE) {
 		text.setPosition(x, y);
 		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
@@ -120,10 +120,10 @@ auto Sorcery::Window::_draw_text(sf::Text& text, const Component& component, con
 	_window.draw(text);
 }
 
-auto Sorcery::Window::_draw_text(sf::Text& text, const Component& component, const std::string& string) -> void {
+auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, const std::string &string) -> void {
 
-	int x {0};
-	int y {0};
+	int x{0};
+	int y{0};
 	text.setFont(_system.resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
@@ -152,64 +152,64 @@ auto Sorcery::Window::get_cursor() const -> sf::Sprite {
 	return cursor;
 }
 
-auto Sorcery::Window::get_gui() -> tgui::Gui* {
+auto Sorcery::Window::get_gui() -> tgui::Gui * {
 
 	return &_gui;
 }
 
-auto Sorcery::Window::get_window() -> sf::RenderWindow* {
+auto Sorcery::Window::get_window() -> sf::RenderWindow * {
 
 	return &_window;
 }
 
-auto Sorcery::Window::_get_centre_x(const sf::Sprite& sprite) const -> unsigned int {
+auto Sorcery::Window::_get_centre_x(const sf::Sprite &sprite) const -> unsigned int {
 
 	return (_current_size.w - sprite.getGlobalBounds().width) / 2.0f;
 }
 
-auto Sorcery::Window::_get_centre_y(const sf::Sprite& sprite) const -> unsigned int {
+auto Sorcery::Window::_get_centre_y(const sf::Sprite &sprite) const -> unsigned int {
 
 	return (_current_size.h - sprite.getGlobalBounds().height) / 2.0f;
 }
 
-auto Sorcery::Window::_get_centre_x(const sf::Text& text) const -> unsigned int {
+auto Sorcery::Window::_get_centre_x(const sf::Text &text) const -> unsigned int {
 
 	return (_current_size.w - text.getGlobalBounds().width) / 2.0f;
 }
 
-auto Sorcery::Window::_get_centre_y(const sf::Text& text) const -> unsigned int {
+auto Sorcery::Window::_get_centre_y(const sf::Text &text) const -> unsigned int {
 
 	return (_current_size.h - text.getGlobalBounds().height) / 2.0f;
 }
 
-auto Sorcery::Window::_get_x(const sf::Sprite& sprite, const int x_position) const -> unsigned int {
+auto Sorcery::Window::_get_x(const sf::Sprite &sprite, const int x_position) const -> unsigned int {
 
-	return x_position ==  -1 ? _get_centre_x(sprite) : x_position;
+	return x_position == -1 ? _get_centre_x(sprite) : x_position;
 }
 
-auto Sorcery::Window::_get_x(const sf::Text& text, const int x_position) const -> unsigned int {
+auto Sorcery::Window::_get_x(const sf::Text &text, const int x_position) const -> unsigned int {
 
-	return x_position ==  -1 ? _get_centre_x(text) : x_position;
+	return x_position == -1 ? _get_centre_x(text) : x_position;
 }
 
-auto Sorcery::Window::_get_y(const sf::Sprite& sprite, const int y_position) const -> unsigned int {
+auto Sorcery::Window::_get_y(const sf::Sprite &sprite, const int y_position) const -> unsigned int {
 
-	return y_position ==  -1 ? _get_centre_y(sprite) : y_position;
+	return y_position == -1 ? _get_centre_y(sprite) : y_position;
 }
 
-auto Sorcery::Window::_get_y(const sf::Text& text, const int y_position) const -> unsigned int {
+auto Sorcery::Window::_get_y(const sf::Text &text, const int y_position) const -> unsigned int {
 
-	return y_position ==  -1 ? _get_centre_y(text) : y_position;
+	return y_position == -1 ? _get_centre_y(text) : y_position;
 }
 
-auto Sorcery::Window::get_x(const sf::Sprite& sprite, const int x_position) const -> unsigned int {
+auto Sorcery::Window::get_x(const sf::Sprite &sprite, const int x_position) const -> unsigned int {
 
-	return x_position ==  -1 ? _get_centre_x(sprite) : x_position;
+	return x_position == -1 ? _get_centre_x(sprite) : x_position;
 }
 
-auto Sorcery::Window::get_y(const sf::Sprite& sprite, const int y_position) const -> unsigned int {
+auto Sorcery::Window::get_y(const sf::Sprite &sprite, const int y_position) const -> unsigned int {
 
-	return y_position ==  -1 ? _get_centre_y(sprite) : y_position;
+	return y_position == -1 ? _get_centre_y(sprite) : y_position;
 }
 
 auto Sorcery::Window::get_cell_height() const -> unsigned int {
@@ -232,9 +232,9 @@ auto Sorcery::Window::_change_colour(sf::Color colour, double lerp) const -> sf:
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnarrowing"
-	double red {colour.r};
-	double green {colour.g};
-	double blue {colour.b};
+	double red{colour.r};
+	double green{colour.g};
+	double blue{colour.b};
 #pragma GCC diagnostic pop
 	if (lerp < 0) {
 		lerp = 1 + lerp;
@@ -250,9 +250,9 @@ auto Sorcery::Window::_change_colour(sf::Color colour, double lerp) const -> sf:
 	return sf::Color(red, green, blue);
 }
 
-auto Sorcery::Window::highlight_text(sf::Text& text, Component component, const double lerp) -> sf::RectangleShape {
+auto Sorcery::Window::highlight_text(sf::Text &text, Component component, const double lerp) -> sf::RectangleShape {
 
-	sf::FloatRect text_rect {text.getGlobalBounds()};
+	sf::FloatRect text_rect{text.getGlobalBounds()};
 	sf::RectangleShape text_background(sf::Vector2(text_rect.width + 6, text_rect.height + 8));
 	text_background.setOrigin(0, 0 - text.getLocalBounds().height + 16);
 	text_background.setFillColor(change_colour(sf::Color(component.background), lerp));

@@ -18,16 +18,16 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
 #pragma once
 
+#include "animation.hpp"
+#include "display.hpp"
 #include "main.hpp"
 #include "system.hpp"
-#include "display.hpp"
-#include "animation.hpp"
 
 namespace Sorcery {
 
@@ -36,21 +36,19 @@ namespace Sorcery {
 
 	// Superclass to handle graphics specific functionality such as animation
 	class Graphics {
-		public:
+	  public:
+		// Constructors
+		Graphics(System *system, Display *display);
+		Graphics() = delete;
 
-			// Constructors
-			Graphics(System* system, Display* display);
-			Graphics() = delete;
+		// Public Methods
 
-			// Public Methods
+		// Public Members
+		std::shared_ptr<Animation> animation;
 
-			// Public Members
-			std::shared_ptr<Animation> animation;
+	  private:
+		// Private Members
 
-		private:
-
-			// Private Members
-
-			// Private Methods
+		// Private Methods
 	};
-}
+} // namespace Sorcery

@@ -24,14 +24,14 @@
 #include "confirm.hpp"
 
 // Standard Constructor
-Sorcery::Confirm::Confirm(System& system, Display& display, Graphics& graphics, Component& gui_component,
-	Component& text_component): _system {system}, _display {display}, _graphics {graphics},
-	_gui_component {gui_component}, _text_component {text_component} {
+Sorcery::Confirm::Confirm(
+	System &system, Display &display, Graphics &graphics, Component &gui_component, Component &text_component)
+	: _system{system}, _display{display}, _graphics{graphics}, _gui_component{gui_component}, _text_component{
+																								  text_component} {
 
 	_window = _display.window->get_window();
 	currently_highlighted = WindowConfirm::NO;
 }
-
 
 auto Sorcery::Confirm::check_for_mouse_move(sf::Vector2f mouse_position) -> std::optional<WindowConfirm> {
 
@@ -70,20 +70,20 @@ auto Sorcery::Confirm::toggle_highlighted() -> WindowConfirm {
 auto Sorcery::Confirm::draw(double lerp) -> void {
 
 	// Generate back frame
-	_frame = std::make_unique<Frame>(_display.ui_texture, WindowFrameType::NORMAL, _gui_component.w, _gui_component.h,
-		_gui_component.alpha);
+	_frame = std::make_unique<Frame>(
+		_display.ui_texture, WindowFrameType::NORMAL, _gui_component.w, _gui_component.h, _gui_component.alpha);
 	_frame->setPosition(_display.window->get_x(_frame->sprite, _gui_component.x),
 		_display.window->get_y(_frame->sprite, _gui_component.y));
 	_window->draw(*_frame);
 
 	// Display Confirmation Message
-	sf::Text text {};
+	sf::Text text{};
 	_display.window->draw_text(text, _text_component);
 
 	// Draw Yes / No (and highlight them depending on which one chosen)
-	unsigned int yes_no_y {_text_component.y + (_display.window->get_cell_height() * 2)};
-	unsigned int yes_x {_display.window->centre.x - (_display.window->get_cell_width() * 4)};
-	unsigned int no_x {_display.window->centre.x + (_display.window->get_cell_width() * 2)};
+	unsigned int yes_no_y{_text_component.y + (_display.window->get_cell_height() * 2)};
+	unsigned int yes_x{_display.window->centre.x - (_display.window->get_cell_width() * 4)};
+	unsigned int no_x{_display.window->centre.x + (_display.window->get_cell_width() * 2)};
 
 	_yes_text.setFont(_system.resources->fonts[_text_component.font]);
 	_yes_text.setCharacterSize(_text_component.size);
@@ -100,10 +100,10 @@ auto Sorcery::Confirm::draw(double lerp) -> void {
 
 	// Draw backgrounds
 	if (currently_highlighted == WindowConfirm::YES) {
-		sf::RectangleShape yes_background {_display.window->highlight_text(_yes_text, _text_component, lerp)};
+		sf::RectangleShape yes_background{_display.window->highlight_text(_yes_text, _text_component, lerp)};
 		_window->draw(yes_background, _yes_text.getTransform());
 	} else if (currently_highlighted == WindowConfirm::NO) {
-		sf::RectangleShape no_background {_display.window->highlight_text(_no_text, _text_component, lerp)};
+		sf::RectangleShape no_background{_display.window->highlight_text(_no_text, _text_component, lerp)};
 		_window->draw(no_background, _no_text.getTransform());
 	}
 

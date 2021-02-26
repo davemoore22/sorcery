@@ -18,7 +18,7 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
@@ -31,51 +31,48 @@ namespace Sorcery {
 
 	class Component {
 
-		public:
+	  public:
+		// Constructors
+		Component(std::string screen_, std::string name_, int x_, int y_, unsigned int w_, unsigned int h_,
+			float scale_, Enums::Internal::FontType font_, unsigned int size_, unsigned long long colour_,
+			bool animated_, std::string string_key_, unsigned int alpha_, unsigned int width_,
+			unsigned long long background_, Enums::Window::Justification justification_,
+			Enums::Window::ComponentType type_, unsigned int priority_, Enums::Window::DrawMode drawmode_,
+			Enums::Graphics::Texture texture_);
+		Component();
 
-			// Constructors
-			Component(std::string screen_, std::string name_, int x_, int y_, unsigned int w_, unsigned int h_,
-				float scale_, Enums::Internal::FontType font_, unsigned int size_, unsigned long long colour_,
-				bool animated_, std::string string_key_, unsigned int alpha_, unsigned int width_,
-				unsigned long long background_, Enums::Window::Justification justification_,
-				Enums::Window::ComponentType type_, unsigned int priority_, Enums::Window::DrawMode drawmode_,
-				Enums::Graphics::Texture texture_);
-			Component();
+		// Copy Constructors
+		Component(const Component &other);
+		auto operator=(const Component &other) -> Component &;
 
-			// Copy Constructors
-			Component(const Component &other);
-			auto operator= (const Component &other) -> Component&;
+		// Public Methods
 
-			// Public Methods
+		// Public Members
+		std::string screen;
+		std::string name;
+		int x;
+		int y;
+		unsigned int w;
+		unsigned int h;
+		float scale;
+		Enums::Internal::FontType font;
+		unsigned int size;
+		unsigned long long colour;
+		bool animated;
+		std::string string_key;
+		unsigned int alpha;
+		unsigned int width;
+		unsigned long long background;
+		Enums::Window::Justification justification;
+		Enums::Window::ComponentType type;
+		unsigned int priority;
+		Enums::Window::DrawMode drawmode;
+		Enums::Graphics::Texture texture;
+		std::string unique_key;
 
-			// Public Members
-			std::string screen;
-			std::string name;
-			int x;
-			int y;
-			unsigned int w;
-			unsigned int h;
-			float scale;
-			Enums::Internal::FontType font;
-			unsigned int size;
-			unsigned long long colour;
-			bool animated;
-			std::string string_key;
-			unsigned int alpha;
-			unsigned int width;
-			unsigned long long background;
-			Enums::Window::Justification justification;
-			Enums::Window::ComponentType type;
-			unsigned int priority;
-			Enums::Window::DrawMode drawmode;
-			Enums::Graphics::Texture texture;
-			std::string unique_key;
+	  private:
+		// Private Methods
 
-		private:
-
-			// Private Methods
-
-			// Private Members
-
+		// Private Members
 	};
-}
+} // namespace Sorcery

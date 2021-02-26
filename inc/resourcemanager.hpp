@@ -18,7 +18,7 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
@@ -30,25 +30,25 @@
 
 namespace Sorcery {
 
-class ResourceManager {
+	class ResourceManager {
 
-  public:
-	// Constructors
-	ResourceManager(File &files);
-	ResourceManager() = delete;
+	  public:
+		// Constructors
+		ResourceManager(File &files);
+		ResourceManager() = delete;
 
-	// Public Members
-	thor::ResourceHolder<sf::Texture, std::string_view> textures;
-	thor::ResourceHolder<sf::Texture, Enums::Graphics::Texture> texture;
-	thor::ResourceHolder<sf::Font, FontType> fonts;
-	std::shared_ptr<TextFile> license_file;
+		// Public Members
+		thor::ResourceHolder<sf::Texture, std::string_view> textures;
+		thor::ResourceHolder<sf::Texture, Enums::Graphics::Texture> texture;
+		thor::ResourceHolder<sf::Font, FontType> fonts;
+		std::shared_ptr<TextFile> license_file;
 
-	// Public Methods
+		// Public Methods
 
-  private:
-	// Private Methods
+	  private:
+		// Private Methods
 
-	// Private Members
-	File _files;
-};
+		// Private Members
+		File _files;
+	};
 } // namespace Sorcery

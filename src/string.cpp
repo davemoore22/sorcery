@@ -33,7 +33,7 @@ Sorcery::String::String(const std::string &filename) {
 }
 
 // Overload [] Operator
-auto Sorcery::String::operator[] (const std::string &key) -> std::string& {
+auto Sorcery::String::operator[](const std::string &key) -> std::string & {
 
 	return _loaded ? _strings[key] : _strings["NONE"];
 }
@@ -46,27 +46,27 @@ auto Sorcery::String::_load(const std::string &filename) -> bool {
 	_strings["NONE"] = STRINGS_NOT_LOADED;
 
 	// Attempt to load Strings File
-	if (std::ifstream strings_file {filename, std::ifstream::binary}; strings_file.good()) {
+	if (std::ifstream strings_file{filename, std::ifstream::binary}; strings_file.good()) {
 
 		// Iterate through the file
 		Json::Value root{};
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-		Json::Reader reader {};
+		Json::Reader reader{};
 #pragma GCC diagnostic pop
-		Json::StreamWriterBuilder builder {};
+		Json::StreamWriterBuilder builder{};
 		builder.settings_["indentation"] = "";
 		if (reader.parse(strings_file, root, false)) {
-			for (Json::Value::iterator it = root.begin(); it !=root.end(); ++it) {
-				Json::Value key {it.key()};
-				Json::Value value {(*it)};
-				std::string string_key {Json::writeString(builder, key)};
-				std::string string_value {Json::writeString(builder, value)};
+			for (Json::Value::iterator it = root.begin(); it != root.end(); ++it) {
+				Json::Value key{it.key()};
+				Json::Value value{(*it)};
+				std::string string_key{Json::writeString(builder, key)};
+				std::string string_value{Json::writeString(builder, value)};
 
 				// Remove Special Characters from file
-				string_key.erase(remove(string_key.begin(), string_key.end(), '\"' ), string_key.end());
-				string_value.erase(remove(string_value.begin(), string_value.end(), '\"' ), string_value.end());
-				string_key.erase(remove(string_key.begin(), string_key.end(), '\n' ), string_key.end());
+				string_key.erase(remove(string_key.begin(), string_key.end(), '\"'), string_key.end());
+				string_value.erase(remove(string_value.begin(), string_value.end(), '\"'), string_value.end());
+				string_key.erase(remove(string_key.begin(), string_key.end(), '\n'), string_key.end());
 
 				// Insert it into the map
 				_strings[string_key] = string_value;
@@ -80,7 +80,7 @@ auto Sorcery::String::_load(const std::string &filename) -> bool {
 }
 
 // Get Text
-auto Sorcery::String::get(const std::string& key) -> std::string {
+auto Sorcery::String::get(const std::string &key) -> std::string {
 
 	if (_loaded)
 		return _strings.find(key) != _strings.end() ? _strings.at(key) : KEY_NOT_FOUND;
@@ -88,12 +88,11 @@ auto Sorcery::String::get(const std::string& key) -> std::string {
 		return STRINGS_NOT_LOADED;
 }
 
-
 // Utility function due to lack of std::string::replace_with_substring
-auto Sorcery::String::_replace(std::string& subject, const std::string& search, const std::string& replace) -> void {
+auto Sorcery::String::_replace(std::string &subject, const std::string &search, const std::string &replace) -> void {
 
-	size_t pos {0};
-	while((pos = subject.find(search, pos)) != std::string::npos) {
+	size_t pos{0};
+	while ((pos = subject.find(search, pos)) != std::string::npos) {
 		subject.replace(pos, search.length(), replace);
 		pos += replace.length();
 	}

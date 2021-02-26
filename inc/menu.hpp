@@ -18,74 +18,68 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
 #pragma once
 
-#include "main.hpp"
-#include "system.hpp"
+#include "component.hpp"
 #include "display.hpp"
 #include "graphics.hpp"
-#include "component.hpp"
+#include "main.hpp"
+#include "system.hpp"
 
 namespace Sorcery {
 
-	class Menu: public sf::Transformable, public sf::Drawable {
+	class Menu : public sf::Transformable, public sf::Drawable {
 
-		public:
+	  public:
+		// Constructors
+		Menu(System &system, Display &display, Graphics &graphics, MenuType type);
+		Menu() = delete;
 
-			// Constructors
-			Menu(System& system, Display& display, Graphics& graphics, MenuType type);
-			Menu() = delete;
+		// Overload [] operator
+		auto operator[](const unsigned int index) -> const MenuEntry &;
 
+		// Public Members
+		std::vector<MenuEntry> items;
+		std::vector<sf::FloatRect> bounds;
+		std::vector<MenuEntry>::const_iterator selected;
+		unsigned int count;
 
-			// Overload [] operator
-			auto operator[] (const unsigned int index) -> const MenuEntry&;
+		// Public Methods
+		auto choose_next() -> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto choose_previous() -> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto choose_first() -> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto choose_last() -> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto choose(unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto set_mouse_selected(sf::Vector2f mouse_position) -> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto check_menu_mouseover(sf::Vector2f mouse_position) -> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto get_mouse_clicked(sf::Event::MouseButtonEvent mouse_button_event)
+			-> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto get_type() -> MenuType;
+		auto generate(Component &component, double selected_lerp) -> void;
 
-			// Public Members
-			std::vector<MenuEntry> items;
-			std::vector<sf::FloatRect> bounds;
-			std::vector<MenuEntry>::const_iterator selected;
-			unsigned int count;
+	  private:
+		// Private Methods
+		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto _add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string &key, bool enabled,
+			ConfigOption option, std::string &hint) -> void;
+		auto _add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string &key) -> void;
+		auto _select_first_enabled() -> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto _select_last_enabled() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 
-			// Public Methods
-			auto choose_next() -> std::optional<std::vector<MenuEntry>::const_iterator>;
-			auto choose_previous() -> std::optional<std::vector<MenuEntry>::const_iterator>;
-			auto choose_first() -> std::optional<std::vector<MenuEntry>::const_iterator>;
-			auto choose_last() -> std::optional<std::vector<MenuEntry>::const_iterator>;
-			auto choose(unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator>;
-			auto set_mouse_selected(sf::Vector2f mouse_position) ->
-				std::optional<std::vector<MenuEntry>::const_iterator>;
-			auto check_menu_mouseover(sf::Vector2f mouse_position) ->
-				std::optional<std::vector<MenuEntry>::const_iterator>;
-			auto get_mouse_clicked(sf::Event::MouseButtonEvent mouse_button_event) ->
-				std::optional<std::vector<MenuEntry>::const_iterator>;
-			auto get_type() -> MenuType;
-			auto generate(Component& component, double selected_lerp) -> void;
-
-		private:
-
-			// Private Methods
-			auto virtual draw(sf::RenderTarget& target, sf::RenderStates states) const -> void;
-			auto _add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string& key,
-				bool enabled, ConfigOption option, std::string& hint) -> void;
-			auto _add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string& key) -> void;
-			auto _select_first_enabled() -> std::optional<std::vector<MenuEntry>::const_iterator>;
-			auto _select_last_enabled() -> std::optional<std::vector<MenuEntry>::const_iterator>;
-
-			// Private Members
-			System _system;
-			Display _display;
-			Graphics _graphics;
-			unsigned int _width;
-			MenuType _type;
-			sf::RenderTexture _render_texture;
-			sf::Texture _texture;
-			std::vector<sf::Text> _texts;
-			std::vector<sf::Text> _options;
-			sf::RectangleShape _selected_background;
-
+		// Private Members
+		System _system;
+		Display _display;
+		Graphics _graphics;
+		unsigned int _width;
+		MenuType _type;
+		sf::RenderTexture _render_texture;
+		sf::Texture _texture;
+		std::vector<sf::Text> _texts;
+		std::vector<sf::Text> _options;
+		sf::RectangleShape _selected_background;
 	};
-}
+} // namespace Sorcery

@@ -18,7 +18,7 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
@@ -31,26 +31,24 @@ namespace Sorcery {
 
 	class Random {
 
-		public:
+	  public:
+		// Constructor
+		Random();
 
-			// Constructor
-			Random();
+		// Overload [] operator
+		auto operator[](const RandomType random_type) -> unsigned int;
 
-			// Overload [] operator
-			auto operator[] (const RandomType random_type) -> unsigned int;
+		// Public Methods
 
-			// Public Methods
+		// Public Members
 
-			// Public Members
+	  private:
+		// Private Members
+		std::random_device _random_device;
+		std::mt19937_64 _random;
+		std::map<RandomType, Range> _range;
 
-		private:
-
-			// Private Members
-			std::random_device _random_device;
-			std::mt19937_64 _random;
-			std::map<RandomType, Range> _range;
-
-			// Private Methods
-			auto _get(const RandomType random_type) -> unsigned int;
+		// Private Methods
+		auto _get(const RandomType random_type) -> unsigned int;
 	};
-}
+} // namespace Sorcery

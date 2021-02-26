@@ -24,7 +24,7 @@
 // https://github.com/lxndrdagreat/sfray
 #include "raycaster.hpp"
 
-Sorcery::Raycaster::Raycaster(int width_, int height_){
+Sorcery::Raycaster::Raycaster(int width_, int height_) {
 	mGfxWidth = width_;
 	mGfxHeight = height_;
 
@@ -34,12 +34,12 @@ Sorcery::Raycaster::Raycaster(int width_, int height_){
 	mEntityRenderMethod = Entity_Texture;
 
 	// these distances will never change, so store them once to remove computation and division later.
-	for (int i = 0; i < height_; ++i){
+	for (int i = 0; i < height_; ++i) {
 		mHeightMap.push_back(mGfxHeight / (2.0 * i - mGfxHeight));
 	}
 
 	mZBuffer.clear();
-	for (unsigned int i = 0; i < mGfxWidth; ++i){
+	for (unsigned int i = 0; i < mGfxWidth; ++i) {
 		mZBuffer.push_back(0);
 	}
 
@@ -56,12 +56,12 @@ Sorcery::Raycaster::Raycaster(int width_, int height_){
 	mWallRenderColor = sf::Color::Blue;
 }
 
-void Sorcery::Raycaster::setMap(Sorcery::Map &map){
+void Sorcery::Raycaster::setMap(Sorcery::Map &map) {
 	mMap = map;
 }
 
-void Sorcery::Raycaster::drawForCamera(sf::RenderWindow& window, Sorcery::Camera& camera){
-	sf::View view = sf::View(sf::FloatRect(0,0,mGfxWidth,mGfxHeight));
+void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera &camera) {
+	sf::View view = sf::View(sf::FloatRect(0, 0, mGfxWidth, mGfxHeight));
 
 	window.setView(view);
 
@@ -70,7 +70,7 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow& window, Sorcery::Camera
 	window.setView(window.getDefaultView());
 }
 
-void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera &camera, sf::View& view){
+void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera &camera, sf::View &view) {
 
 	int times = 0;
 
@@ -82,9 +82,9 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 		* we start by cleaning up the texture that fits across the entire
 		* background.
 		*/
-	if (mFloorRenderMethod == Floor_Texture || mCeilingRenderMethod == Ceiling_Texture){
+	if (mFloorRenderMethod == Floor_Texture || mCeilingRenderMethod == Ceiling_Texture) {
 
-		for (unsigned int i = 3; i < mGfxWidth * mGfxHeight * 4; i += 4){
+		for (unsigned int i = 3; i < mGfxWidth * mGfxHeight * 4; i += 4) {
 			mFloorcastingPixels[i] = 0;
 		}
 	}
@@ -100,7 +100,7 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 	}
 	/* The ceiling works in the same way as the floor.
 		*/
-	if (mCeilingRenderMethod != Ceiling_Texture){
+	if (mCeilingRenderMethod != Ceiling_Texture) {
 		sf::RectangleShape ceilshape;
 		ceilshape.setFillColor(mCeilingRenderColor);
 		ceilshape.setSize(sf::Vector2f(mGfxWidth, mGfxHeight / 2));
@@ -120,7 +120,7 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 		* both textured and colored walls, we also figure out how "big" to
 		* draw this slice of the wall based on distance away.
 		*/
-	for (unsigned int x = 0; x < mGfxWidth; ++x){
+	for (unsigned int x = 0; x < mGfxWidth; ++x) {
 
 		/* We start by figuring out where our camera is located
 			* and where it is looking.
@@ -153,49 +153,45 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 		int hit = 0;
 		int side;
 
-		if (rayDirX < 0){
+		if (rayDirX < 0) {
 			stepX = -1;
 			sideDistX = (rayPosX - mapX) * deltaDistX;
-		}
-		else{
+		} else {
 			stepX = 1;
 			sideDistX = (mapX + 1.0 - rayPosX) * deltaDistX;
 		}
 
-		if (rayDirY < 0){
+		if (rayDirY < 0) {
 			stepY = -1;
 			sideDistY = (rayPosY - mapY) * deltaDistY;
-		}
-		else{
+		} else {
 			stepY = 1;
 			sideDistY = (mapY + 1.0 - rayPosY) * deltaDistY;
 		}
 
 		// perform DDA
-		while (hit == 0){
+		while (hit == 0) {
 			// jump to next map square, OR in x-direction OR in y-direction
-			if (sideDistX < sideDistY){
+			if (sideDistX < sideDistY) {
 				sideDistX += deltaDistX;
 				mapX += stepX;
 				side = 0;
-			}
-			else{
+			} else {
 				sideDistY += deltaDistY;
 				mapY += stepY;
 				side = 1;
 			}
 
 			// check if ray has hit a wall
-			if (mMap.getTile(mapX, mapY).isWall()){
+			if (mMap.getTile(mapX, mapY).isWall()) {
 				hit = 1;
 			}
 		}
 
 		// calculate distance projected on camera direction
-		if (side == 0){
+		if (side == 0) {
 			perpWallDist = fabs((float(mapX) - rayPosX + float(1 - stepX) / 2.0) / rayDirX);
-		}
-		else{
+		} else {
 			perpWallDist = fabs((float(mapY) - rayPosY + float(1 - stepY) / 2.0) / rayDirY);
 		}
 
@@ -217,8 +213,7 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 		float wallX;
 		if (side == 1) {
 			wallX = rayPosX + ((mapY - rayPosY + (1 - stepY) / 2) / rayDirY) * rayDirX;
-		}
-		else {
+		} else {
 			wallX = rayPosY + ((mapX - rayPosX + (1 - stepX) / 2) / rayDirX) * rayDirY;
 		}
 		wallX -= floor((wallX));
@@ -256,8 +251,7 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 				slice[3].texCoords = sf::Vector2f(texX, TEXTURE_HEIGHT);
 
 				window.draw(slice, &mMap.getTexture(texNum));
-			}
-			else if (mWallRenderMethod == Wall_Color) {
+			} else if (mWallRenderMethod == Wall_Color) {
 				sf::VertexArray slice(sf::Quads, 4);
 				slice[0].position = sf::Vector2f(x, drawStart);
 				slice[1].position = sf::Vector2f(x + 1, drawStart);
@@ -283,7 +277,6 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 
 		++times;
 
-
 		/* THIRD STEP
 			* Floor and ceiling.
 			*
@@ -304,19 +297,16 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 		float floorYWall;
 
 		// 4 different wall directions possible
-		if (side == 0 && rayDirX > 0){
+		if (side == 0 && rayDirX > 0) {
 			floorXWall = mapX;
 			floorYWall = mapY + wallX;
-		}
-		else if (side == 0 && rayDirX < 0){
+		} else if (side == 0 && rayDirX < 0) {
 			floorXWall = mapX + 1.0;
 			floorYWall = mapY + wallX;
-		}
-		else if (side == 1 && rayDirY > 0){
+		} else if (side == 1 && rayDirY > 0) {
 			floorXWall = mapX + wallX;
 			floorYWall = mapY;
-		}
-		else{
+		} else {
 			floorXWall = mapX + wallX;
 			floorYWall = mapY + 1.0;
 		}
@@ -328,7 +318,7 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 		distWall = perpWallDist;
 		distPlayer = 0.0;
 
-		if (drawEnd < 0){
+		if (drawEnd < 0) {
 			drawEnd = mGfxHeight;
 		}
 
@@ -342,9 +332,8 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 			*
 			* THIS IS VERY IMPORTANT FOR PERFORMANCE.
 			*/
-		if ((mFloorRenderMethod == Floor_Texture || mCeilingRenderMethod == Ceiling_Texture) && camera.moved == true)
-		{
-			for (unsigned int y = drawEnd + 1; y < mGfxHeight; ++y){
+		if ((mFloorRenderMethod == Floor_Texture || mCeilingRenderMethod == Ceiling_Texture) && camera.moved == true) {
+			for (unsigned int y = drawEnd + 1; y < mGfxHeight; ++y) {
 				currentDist = mHeightMap[y];
 
 				float weight = (currentDist - distPlayer) / (distWall - distPlayer);
@@ -352,8 +341,10 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 				float currentFloorX = weight * floorXWall + (1.0 - weight) * camera.getPosition().x;
 				float currentFloorY = weight * floorYWall + (1.0 - weight) * camera.getPosition().y;
 
-				float distanceToFloorTile = ((camera.getPosition().x - int(currentFloorX)) * (camera.getPosition().x - int(currentFloorX)) + (camera.getPosition().y - int(currentFloorY)) * (camera.getPosition().y - int(currentFloorY)));
-				if (distanceToFloorTile > mMaxFloorRenderDistance){
+				float distanceToFloorTile =
+					((camera.getPosition().x - int(currentFloorX)) * (camera.getPosition().x - int(currentFloorX)) +
+						(camera.getPosition().y - int(currentFloorY)) * (camera.getPosition().y - int(currentFloorY)));
+				if (distanceToFloorTile > mMaxFloorRenderDistance) {
 					continue;
 				}
 				Sorcery::MapTile tile = mMap.getTile(int(currentFloorX), int(currentFloorY));
@@ -366,20 +357,20 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 
 				sf::Color pix = mMap.getPixelFromTexture(tile.getTextureIndex(), floorTexX, floorTexY);
 
-				if (mFloorRenderMethod == Floor_Texture){
-					unsigned int index = (y * (mGfxWidth * 4)) + (x*4);
+				if (mFloorRenderMethod == Floor_Texture) {
+					unsigned int index = (y * (mGfxWidth * 4)) + (x * 4);
 					mFloorcastingPixels[index] = pix.r;
-					mFloorcastingPixels[index+1] = pix.g;
-					mFloorcastingPixels[index+2] = pix.b;
-					mFloorcastingPixels[index+3] = pix.a;
+					mFloorcastingPixels[index + 1] = pix.g;
+					mFloorcastingPixels[index + 2] = pix.b;
+					mFloorcastingPixels[index + 3] = pix.a;
 				}
 
-				if (mCeilingRenderMethod == Ceiling_Texture){
-					unsigned int index2 = ((mGfxHeight-y) * (mGfxWidth * 4)) + (x*4);
+				if (mCeilingRenderMethod == Ceiling_Texture) {
+					unsigned int index2 = ((mGfxHeight - y) * (mGfxWidth * 4)) + (x * 4);
 					mFloorcastingPixels[index2] = pix.r * 0.5;
-					mFloorcastingPixels[index2+1] = pix.g * 0.5;
-					mFloorcastingPixels[index2+2] = pix.b * 0.5;
-					mFloorcastingPixels[index2+3] = pix.a;
+					mFloorcastingPixels[index2 + 1] = pix.g * 0.5;
+					mFloorcastingPixels[index2 + 2] = pix.b * 0.5;
+					mFloorcastingPixels[index2 + 3] = pix.a;
 				}
 			}
 		}
@@ -387,14 +378,14 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 	/* Again, check if camera has moved and if we are drawing textures before
 		* updating the background texture.
 		*/
-	if (camera.moved && (mFloorRenderMethod == Floor_Texture || mCeilingRenderMethod == Ceiling_Texture)){
+	if (camera.moved && (mFloorRenderMethod == Floor_Texture || mCeilingRenderMethod == Ceiling_Texture)) {
 		mFloorcastingTexture.update(mFloorcastingPixels);
 	}
 
 	/* If we ARE drawing the textures, then we draw the background,
 		* every time, whether or not the player has moved.
 		*/
-	if (mFloorRenderMethod == Floor_Texture || mCeilingRenderMethod == Ceiling_Texture){
+	if (mFloorRenderMethod == Floor_Texture || mCeilingRenderMethod == Ceiling_Texture) {
 		window.draw(mFloorcastingSprite);
 	}
 
@@ -404,18 +395,21 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 		* we do have to check and make sure they are not too far away
 		* or obstructed by walls or other objects.
 		*/
-	if (mEntityRenderMethod != Entity_None){
+	if (mEntityRenderMethod != Entity_None) {
 
 		/* Start by sorting all of the entities by distance
 			* to the camera.
 			*/
-		std::vector<Sorcery::Entity*> sprites = mMap.getEntities();
+		std::vector<Sorcery::Entity *> sprites = mMap.getEntities();
 		std::vector<int> mSpriteOrder;
 		std::vector<float> mSpriteDistance;
-		for (unsigned int i = 0; i < sprites.size(); ++i){
-			float dist = ((camera.getPosition().x - sprites[i]->getPosition().x) * (camera.getPosition().x - sprites[i]->getPosition().x) + (camera.getPosition().y - sprites[i]->getPosition().y) * (camera.getPosition().y - sprites[i]->getPosition().y));
+		for (unsigned int i = 0; i < sprites.size(); ++i) {
+			float dist = ((camera.getPosition().x - sprites[i]->getPosition().x) *
+							  (camera.getPosition().x - sprites[i]->getPosition().x) +
+						  (camera.getPosition().y - sprites[i]->getPosition().y) *
+							  (camera.getPosition().y - sprites[i]->getPosition().y));
 
-			if (dist > mMaxObjectRenderDistance){
+			if (dist > mMaxObjectRenderDistance) {
 				continue;
 			}
 			mSpriteOrder.push_back(i);
@@ -424,28 +418,34 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 		combSort(mSpriteOrder, mSpriteDistance, mSpriteOrder.size());
 
 		// after sorting the sprites, do the projection and draw them
-		for (unsigned int i = 0; i < mSpriteOrder.size(); ++i){
+		for (unsigned int i = 0; i < mSpriteOrder.size(); ++i) {
 			// translate the sprite position to relative to camera
 			float spriteX = sprites[mSpriteOrder[i]]->getPosition().x - camera.getPosition().x;
 			float spriteY = sprites[mSpriteOrder[i]]->getPosition().y - camera.getPosition().y;
 
 			// transform sprite with the inverse camera matrix
-			float invDet = 1.0 / (camera.getPlane().x * camera.getDirection().y - camera.getDirection().x * camera.getPlane().y); // require for correct matrix multiplication.
+			float invDet =
+				1.0 / (camera.getPlane().x * camera.getDirection().y -
+						  camera.getDirection().x * camera.getPlane().y); // require for correct matrix multiplication.
 
 			float transformX = invDet * (camera.getDirection().y * spriteX - camera.getDirection().x * spriteY);
-			float transformY = invDet * (-camera.getPlane().y * spriteX + camera.getPlane().x * spriteY); // this is actually the depth inside the screen, that what Z is in the 3D
+			float transformY =
+				invDet * (-camera.getPlane().y * spriteX +
+							 camera.getPlane().x *
+								 spriteY); // this is actually the depth inside the screen, that what Z is in the 3D
 
 			/* If we cannot see this object because of rotation,
 				* then we skip it and move on.
 				*/
-			if (transformY < 0){
+			if (transformY < 0) {
 				continue;
 			}
 
-			int spriteScreenX = int(( mGfxWidth / 2) * (1 + transformX / transformY));
+			int spriteScreenX = int((mGfxWidth / 2) * (1 + transformX / transformY));
 
 			// calculate height of the sprite on screen
-			int spriteHeight = abs(int(mGfxHeight / (transformY))); // using <transformY> instead of the real distance prevents fisheye
+			int spriteHeight =
+				abs(int(mGfxHeight / (transformY))); // using <transformY> instead of the real distance prevents fisheye
 			// calculate lowest and highest pixel to fill in current stripe
 			int drawStartY = -spriteHeight / 2 + mGfxHeight / 2;
 			int drawEndY = spriteHeight / 2 + mGfxHeight / 2;
@@ -470,17 +470,17 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 
 			int width = (int)mGfxWidth;
 
-			if (drawStartX > width || drawEndX < 0){
+			if (drawStartX > width || drawEndX < 0) {
 				continue;
 			}
 
-			for (int stripe = drawStartX; stripe <= drawEndX; ++stripe){
-				if (stripe < 0){
+			for (int stripe = drawStartX; stripe <= drawEndX; ++stripe) {
+				if (stripe < 0) {
 					drawStartX += 1;
 					continue;
 				}
 				// are other walls in front
-				if (transformY > mZBuffer[stripe]){
+				if (transformY > mZBuffer[stripe]) {
 					drawStartX += 1;
 					continue;
 				}
@@ -494,13 +494,13 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 
 			spriteLeft = TEXTURE_WIDTH - (float)TEXTURE_WIDTH / d;
 
-			for (int stripe = drawEndX; stripe > drawStartX; --stripe){
-				if (stripe > width){
+			for (int stripe = drawEndX; stripe > drawStartX; --stripe) {
+				if (stripe > width) {
 					drawEndX -= 1;
 					continue;
 				}
 
-				if (transformY > mZBuffer[stripe]){
+				if (transformY > mZBuffer[stripe]) {
 					drawEndX -= 1;
 					continue;
 				}
@@ -530,46 +530,46 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 	}
 }
 
-Sorcery::WallRenderMethod Sorcery::Raycaster::getWallRenderMethod(){
+Sorcery::WallRenderMethod Sorcery::Raycaster::getWallRenderMethod() {
 	return mWallRenderMethod;
 }
 
-void Sorcery::Raycaster::setWallRenderMethod(WallRenderMethod method){
+void Sorcery::Raycaster::setWallRenderMethod(WallRenderMethod method) {
 	mWallRenderMethod = method;
 }
 
-Sorcery::FloorRenderMethod Sorcery::Raycaster::getFloorRenderMethod(){
+Sorcery::FloorRenderMethod Sorcery::Raycaster::getFloorRenderMethod() {
 	return mFloorRenderMethod;
 }
 
-void Sorcery::Raycaster::setFloorRenderMethod(FloorRenderMethod method){
+void Sorcery::Raycaster::setFloorRenderMethod(FloorRenderMethod method) {
 	mFloorRenderMethod = method;
 }
 
-Sorcery::CeilingRenderMethod Sorcery::Raycaster::getCeilingRenderMethod(){
+Sorcery::CeilingRenderMethod Sorcery::Raycaster::getCeilingRenderMethod() {
 	return mCeilingRenderMethod;
 }
 
-void Sorcery::Raycaster::setCeilingRenderMethod(CeilingRenderMethod method){
+void Sorcery::Raycaster::setCeilingRenderMethod(CeilingRenderMethod method) {
 	mCeilingRenderMethod = method;
 }
 
-Sorcery::EntityRenderMethod Sorcery::Raycaster::getEntityRenderMethod(){
+Sorcery::EntityRenderMethod Sorcery::Raycaster::getEntityRenderMethod() {
 	return mEntityRenderMethod;
 }
 
-void Sorcery::Raycaster::setEntityRenderMethod(EntityRenderMethod method){
+void Sorcery::Raycaster::setEntityRenderMethod(EntityRenderMethod method) {
 	mEntityRenderMethod = method;
 }
 
-void Sorcery::Raycaster::updateForSize(){
+void Sorcery::Raycaster::updateForSize() {
 	// distances
 	mHeightMap.clear();
-	for (unsigned int i = 0; i < mGfxHeight; ++i){
+	for (unsigned int i = 0; i < mGfxHeight; ++i) {
 		mHeightMap.push_back(mGfxHeight / (2.0 * i - mGfxHeight));
 	}
 
-	if (mFloorcastingPixels != nullptr){
+	if (mFloorcastingPixels != nullptr) {
 		delete mFloorcastingPixels;
 		mFloorcastingPixels = nullptr;
 	}
@@ -578,51 +578,51 @@ void Sorcery::Raycaster::updateForSize(){
 	mFloorcastingTexture.create(mGfxWidth, mGfxHeight);
 	mFloorcastingSprite = sf::Sprite(mFloorcastingTexture);
 
-	mFloorcastingSprite.setPosition(0,0);
+	mFloorcastingSprite.setPosition(0, 0);
 
 	mZBuffer.clear();
-	for (unsigned int i = 0; i < mGfxWidth; ++i){
+	for (unsigned int i = 0; i < mGfxWidth; ++i) {
 		mZBuffer.push_back(0);
 	}
 }
 
-void Sorcery::Raycaster::setWidth(unsigned int amount){
+void Sorcery::Raycaster::setWidth(unsigned int amount) {
 	mGfxWidth = amount;
 	updateForSize();
 }
 
-void Sorcery::Raycaster::setHeight(unsigned int amount){
+void Sorcery::Raycaster::setHeight(unsigned int amount) {
 	mGfxHeight = amount;
 	updateForSize();
 }
 
-void Sorcery::Raycaster::setSize(unsigned int width_, unsigned int height_){
+void Sorcery::Raycaster::setSize(unsigned int width_, unsigned int height_) {
 	mGfxWidth = width_;
 	mGfxHeight = height_;
 	updateForSize();
 }
 
 // sorting algorithm
-void Sorcery::Raycaster::combSort(std::vector<int>& order, std::vector<float>& dist, int amount){
+void Sorcery::Raycaster::combSort(std::vector<int> &order, std::vector<float> &dist, int amount) {
 	//std::cout << "start sort" << std::endl;
 
 	int gap = amount;
 	bool swapped = false;
-	while (gap > 1 || swapped){
+	while (gap > 1 || swapped) {
 		// shrink factor 1.3
 		gap = (gap * 10) / 13;
-		if (gap == 9 || gap == 10){
+		if (gap == 9 || gap == 10) {
 			gap = 11;
 		}
-		if (gap < 1){
+		if (gap < 1) {
 			gap = 1;
 		}
 		swapped = false;
-		for (int i = 0; i < amount - gap; ++i){
+		for (int i = 0; i < amount - gap; ++i) {
 			int j = i + gap;
-			if (dist[i] < dist[j]){
-				std::swap(dist[i],dist[j]);
-				std::swap(order[i],order[j]);
+			if (dist[i] < dist[j]) {
+				std::swap(dist[i], dist[j]);
+				std::swap(order[i], order[j]);
 				swapped = true;
 			}
 		}
@@ -631,23 +631,23 @@ void Sorcery::Raycaster::combSort(std::vector<int>& order, std::vector<float>& d
 	//std::cout << "end sort" << std::endl;
 }
 
-float Sorcery::Raycaster::getMaxObjectRenderDistance(){
+float Sorcery::Raycaster::getMaxObjectRenderDistance() {
 	return mMaxObjectRenderDistance;
 }
 
-void Sorcery::Raycaster::setMaxObjectRenderDistance(float distance){
+void Sorcery::Raycaster::setMaxObjectRenderDistance(float distance) {
 	mMaxObjectRenderDistance = distance;
 }
 
-void Sorcery::Raycaster::setWallRenderColor(const sf::Color& color){
+void Sorcery::Raycaster::setWallRenderColor(const sf::Color &color) {
 	mWallRenderColor = color;
 }
 
-void Sorcery::Raycaster::setCeilingRenderColor(const sf::Color& color){
+void Sorcery::Raycaster::setCeilingRenderColor(const sf::Color &color) {
 	mCeilingRenderColor = color;
 }
 
-void Sorcery::Raycaster::setFloorRenderColor(const sf::Color& color){
+void Sorcery::Raycaster::setFloorRenderColor(const sf::Color &color) {
 	mFloorRenderColor = color;
 }
 

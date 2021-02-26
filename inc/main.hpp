@@ -18,7 +18,7 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
@@ -31,8 +31,8 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <TGUI/TGUI.hpp>
-#include <jsoncpp/json/json.h>
 #include <Thor/Resources.hpp>
+#include <jsoncpp/json/json.h>
 
 // External Includes
 #pragma GCC diagnostic push
@@ -42,9 +42,9 @@
 #pragma GCC diagnostic ignored "-Wignored-qualifiers"
 #pragma GCC diagnostic ignored "-Wreorder"
 #pragma GCC diagnostic ignored "-Wreturn-type"
-#include "sqlite_modern_cpp.h"
 #include "SimpleIni.h"
 #include "sfeMovie/Movie.hpp"
+#include "sqlite_modern_cpp.h"
 #pragma GCC diagnostic pop
 
 // Include this here to avoid Status enums defined within clashing with above
@@ -56,8 +56,8 @@
 #include <array>
 #include <atomic>
 #include <chrono>
-#include <ctime>
 #include <cstdio>
+#include <ctime>
 #include <exception>
 #include <filesystem>
 #include <fmt/core.h> // #include <format> when supported
@@ -85,12 +85,12 @@
 #include <vector>
 
 // Internal Includes
+#include "component.hpp"
 #include "define.hpp"
 #include "enum.hpp"
 #include "macro.hpp"
-#include "type.hpp"
 #include "operator.hpp"
-#include "component.hpp"
+#include "type.hpp"
 
 // Aliases
 namespace Sorcery {
@@ -106,8 +106,8 @@ namespace Sorcery {
 	using CharacterClassList = std::map<Enums::Character::Class, std::string>;
 	using CharacterClassMenu = std::pair<Enums::Character::Class, Enums::Menu::Item>;
 	using CharacterClassQualified = std::map<Enums::Character::Class, bool>;
-	using CharacterList = std::tuple<std::string, std::string, unsigned int, unsigned int, unsigned int, std::string,
-		std::string>;
+	using CharacterList =
+		std::tuple<std::string, std::string, unsigned int, unsigned int, unsigned int, std::string, std::string>;
 	using CharacterRace = Enums::Character::Race;
 	// using CharacterStatus = Enums::Character::Status;
 	using CharacterView = Enums::Character::Display;
@@ -131,8 +131,8 @@ namespace Sorcery {
 	using Range = std::tuple<unsigned int, unsigned int>;
 	using Spell = Enums::Magic::Spell;
 	using SpellCategory = Enums::Magic::SpellCategory;
-	using SpellEntry = std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>;
+	using SpellEntry =
+		std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int, Enums::Magic::SpellCategory, bool>;
 	using SpellPoints = std::map<unsigned int, unsigned int>;
 	using SpellType = Enums::Magic::SpellType;
 	using Stage = Enums::Character::Stage;
@@ -146,4 +146,4 @@ namespace Sorcery {
 	using WindowInputOption = Enums::Window::Option;
 	using WindowFrameType = Enums::Window::FrameType;
 	using WindowFrameParts = Enums::Window::FrameParts;
-}
+} // namespace Sorcery

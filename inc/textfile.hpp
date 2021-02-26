@@ -18,7 +18,7 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
@@ -26,33 +26,30 @@
 
 #include "main.hpp"
 
-
 // Class to handles loading and displaying on the console the contents of text files (such as COPYING and README)
 namespace Sorcery {
 
 	class TextFile {
 
-		public:
+	  public:
+		// Constructors
+		TextFile(std::filesystem::path text_file_path);
+		TextFile() = delete;
 
-			// Constructors
-			TextFile(std::filesystem::path text_file_path);
-			TextFile() = delete;
+		// Overloaded [] operator to get access to each line of the contained file
+		auto operator[](const unsigned int index) -> std::string &;
 
-			// Overloaded [] operator to get access to each line of the contained file
-			auto operator[] (const unsigned int index) -> std::string&;
+		// Public Methods
+		auto size() const -> unsigned int; // Size (in lines)
+		auto valid() const -> bool;		   // Valid flag, indicates if there are contents
+		auto get_reading_progress(int current_line) const -> std::string;
 
-			// Public Methods
-			auto size() const -> unsigned int; // Size (in lines)
-			auto valid() const -> bool; // Valid flag, indicates if there are contents
-			auto get_reading_progress(int current_line) const -> std::string;
+		// Public Members
+		unsigned int width; // Column Size of max
 
-			// Public Members
-			unsigned int width; // Column Size of max
-
-		private:
-
-			// Private Members
-			std::filesystem::path _text_file_path; // Filename
-			std::vector<std::string> _contents_buffer; // Contents of text file
+	  private:
+		// Private Members
+		std::filesystem::path _text_file_path;	   // Filename
+		std::vector<std::string> _contents_buffer; // Contents of text file
 	};
-}
+} // namespace Sorcery

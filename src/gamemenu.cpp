@@ -24,8 +24,8 @@
 #include "gamemenu.hpp"
 
 // Standard Constructor
-Sorcery::GameMenu::GameMenu (System& system, Display& display, Graphics& graphics):  _system {system},
-	_display {display}, _graphics {graphics} {
+Sorcery::GameMenu::GameMenu(System &system, Display &display, Graphics &graphics)
+	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();
@@ -40,8 +40,7 @@ Sorcery::GameMenu::GameMenu (System& system, Display& display, Graphics& graphic
 	_display.generate_components("castle");
 
 	_confirm_leave_game = std::make_shared<Confirm>(_system, _display, _graphics,
-		(*_display.layout)["castle:confirm_leave_game_frame"],
-		(*_display.layout)["castle:confirm_leave_game"]);
+		(*_display.layout)["castle:confirm_leave_game_frame"], (*_display.layout)["castle:confirm_leave_game"]);
 }
 
 // Standard Destructor
@@ -49,7 +48,6 @@ Sorcery::GameMenu::~GameMenu() {
 
 	_display.stop_background_movie();
 }
-
 
 auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 
@@ -59,7 +57,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 	_window->clear();
 
 	// Get the background
-	Component background_c {(*_display.layout)["castle:background_image"]};
+	Component background_c{(*_display.layout)["castle:background_image"]};
 	sf::IntRect castle_background_rect(125, 249, 773, 388);
 	sf::IntRect edge_of_town_background_rect(1147, 249, 773, 388);
 	_castle_background.setTexture(_system.resources->textures[TOWN_TEXTURE]);
@@ -74,27 +72,28 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 		_display.window->get_y(_edge_of_town_background, background_c.y));
 
 	// Generate the custom frames
-	Component castle_menu_frame_c {(*_display.layout)["castle:castle_menu_frame"]};
-	Component edge_of_town_menu_frame_c {(*_display.layout)["castle:edge_of_town_menu_frame"]};
-	_castle_menu_frame = std::make_unique<Frame>(_display.ui_texture, WindowFrameType::NORMAL,
-		castle_menu_frame_c.w, castle_menu_frame_c.h, castle_menu_frame_c.alpha);
+	Component castle_menu_frame_c{(*_display.layout)["castle:castle_menu_frame"]};
+	Component edge_of_town_menu_frame_c{(*_display.layout)["castle:edge_of_town_menu_frame"]};
+	_castle_menu_frame = std::make_unique<Frame>(_display.ui_texture, WindowFrameType::NORMAL, castle_menu_frame_c.w,
+		castle_menu_frame_c.h, castle_menu_frame_c.alpha);
 	_edge_of_town_menu_frame = std::make_unique<Frame>(_display.ui_texture, WindowFrameType::NORMAL,
 		edge_of_town_menu_frame_c.w, edge_of_town_menu_frame_c.h, edge_of_town_menu_frame_c.alpha);
 	_castle_menu_frame->setPosition(_display.window->get_x(_castle_menu_frame->sprite, castle_menu_frame_c.x),
 		_display.window->get_y(_castle_menu_frame->sprite, castle_menu_frame_c.y));
-	_edge_of_town_menu_frame->setPosition(_display.window->get_x(_edge_of_town_menu_frame->sprite,
-		edge_of_town_menu_frame_c.x), _display.window->get_y(_edge_of_town_menu_frame->sprite,
-		edge_of_town_menu_frame_c.y));
+	_edge_of_town_menu_frame->setPosition(
+		_display.window->get_x(_edge_of_town_menu_frame->sprite, edge_of_town_menu_frame_c.x),
+		_display.window->get_y(_edge_of_town_menu_frame->sprite, edge_of_town_menu_frame_c.y));
 
 	// Play the background movie!
 	_display.start_background_movie();
 
 	_display.window->input_mode = WindowInputMode::CASTLE;
-	std::optional<std::vector<MenuEntry>::const_iterator> selected_castle_option {_castle_menu->items.begin()};
-	std::optional<std::vector<MenuEntry>::const_iterator> selected_edge_of_town_option {_edge_of_town_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> selected_castle_option{_castle_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> selected_edge_of_town_option{
+		_edge_of_town_menu->items.begin()};
 
 	// And do the main loop
-	sf::Event event {};
+	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
 
@@ -112,13 +111,13 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 					else if (_system.input->check_for_event(WindowInput::DOWN, event))
 						selected_castle_option = _castle_menu->choose_next();
 					else if (_system.input->check_for_event(WindowInput::MOVE, event))
-						selected_castle_option =
-							_castle_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						selected_castle_option = _castle_menu->set_mouse_selected(
+							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
 
 						// We have selected something from the menu
 						if (selected_castle_option) {
-							const MenuItem option_chosen {(*selected_castle_option.value()).item};
+							const MenuItem option_chosen{(*selected_castle_option.value()).item};
 							if (option_chosen == MenuItem::CA_EDGE_OF_TOWN) {
 								_menu_stage = GameMenuType::EDGE_OF_TOWN;
 							}
@@ -131,20 +130,20 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 					else if (_system.input->check_for_event(WindowInput::DOWN, event))
 						selected_edge_of_town_option = _edge_of_town_menu->choose_next();
 					else if (_system.input->check_for_event(WindowInput::MOVE, event))
-						selected_edge_of_town_option =
-							_edge_of_town_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						selected_edge_of_town_option = _edge_of_town_menu->set_mouse_selected(
+							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
 
 						// We have selected something from the menu
 						if (selected_edge_of_town_option) {
-							const MenuItem option_chosen {(*selected_edge_of_town_option.value()).item};
+							const MenuItem option_chosen{(*selected_edge_of_town_option.value()).item};
 							if (option_chosen == MenuItem::ET_CASTLE) {
 								_menu_stage = GameMenuType::CASTLE;
-							} else if  (option_chosen == MenuItem::ET_LEAVE_GAME) {
+							} else if (option_chosen == MenuItem::ET_LEAVE_GAME) {
 								_display.window->input_mode = WindowInputMode::LEAVE_GAME;
 								_yes_or_no = WindowConfirm::NO;
 								//return MenuItem::ET_LEAVE_GAME;
-							} else if  (option_chosen == MenuItem::ET_MAZE) {
+							} else if (option_chosen == MenuItem::ET_MAZE) {
 								return MenuItem::ET_MAZE;
 							}
 						}
@@ -171,10 +170,11 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 				else if (_system.input->check_for_event(WindowInput::CANCEL, event))
 					_display.window->input_mode = WindowInputMode::CASTLE;
 				else if (_system.input->check_for_event(WindowInput::MOVE, event))
-					_confirm_leave_game->check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					_confirm_leave_game->check_for_mouse_move(
+						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 				else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
-					std::optional<WindowConfirm> option_chosen =
-						_confirm_leave_game->check_if_option_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					std::optional<WindowConfirm> option_chosen = _confirm_leave_game->check_if_option_selected(
+						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 
 					// Mouse click only
 					if (option_chosen) {
@@ -228,13 +228,14 @@ auto Sorcery::GameMenu::_draw() -> void {
 	double lerp = _graphics.animation->colour_lerp;
 	if (_menu_stage == GameMenuType::CASTLE) {
 		_castle_menu->generate((*_display.layout)["castle:castle_menu"], lerp);
-		const sf::Vector2f menu_pos((*_display.layout)["castle:castle_menu"].x, (*_display.layout)["castle:castle_menu"].y);
+		const sf::Vector2f menu_pos(
+			(*_display.layout)["castle:castle_menu"].x, (*_display.layout)["castle:castle_menu"].y);
 		_castle_menu->setPosition(menu_pos);
 		_window->draw(*_castle_menu);
 	} else if (_menu_stage == GameMenuType::EDGE_OF_TOWN) {
 		_edge_of_town_menu->generate((*_display.layout)["castle:edge_of_town_menu"], lerp);
-		const sf::Vector2f menu_pos((*_display.layout)["castle:edge_of_town_menu"].x,
-			(*_display.layout)["castle:edge_of_town_menu"].y);
+		const sf::Vector2f menu_pos(
+			(*_display.layout)["castle:edge_of_town_menu"].x, (*_display.layout)["castle:edge_of_town_menu"].y);
 		_edge_of_town_menu->setPosition(menu_pos);
 		_window->draw(*_edge_of_town_menu);
 		if (_display.window->input_mode == WindowInputMode::LEAVE_GAME)

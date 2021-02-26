@@ -18,7 +18,7 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
@@ -53,10 +53,7 @@ namespace Sorcery {
 	namespace Enums::Window {
 
 		// Draw Mode
-		enum class DrawMode {
-			MANUAL,
-			AUTOMATIC
-		};
+		enum class DrawMode { MANUAL, AUTOMATIC };
 
 		// Input Mode
 		enum InputMode {
@@ -73,37 +70,15 @@ namespace Sorcery {
 			LEAVE_GAME
 		};
 
-		enum Confirm {
-			YES,
-			NO
-		};
+		enum Confirm { YES, NO };
 
-		enum class ComponentType {
-			IMAGE,
-			TEXT,
-			TOOLTIP,
-			MENU,
-			FRAME,
-			UNKNOWN
-		};
+		enum class ComponentType { IMAGE, TEXT, TOOLTIP, MENU, FRAME, UNKNOWN };
 
-		enum class Option {
-			SAVE,
-			CANCEL,
-			RESET,
-			NONE
-		};
+		enum class Option { SAVE, CANCEL, RESET, NONE };
 
-		enum Justification {
-			LEFT,
-			RIGHT,
-			CENTRE
-		};
+		enum Justification { LEFT, RIGHT, CENTRE };
 
-		enum class FrameType {
-			HINT,
-			NORMAL
-		};
+		enum class FrameType { HINT, NORMAL };
 
 		enum class FrameParts {
 			TOP_LEFT = 0,
@@ -115,73 +90,34 @@ namespace Sorcery {
 			BOTTOM_RIGHT = 6,
 			RIGHT = 7
 		};
-	}
+	} // namespace Enums::Window
 
 	namespace Enums::Graphics {
 
-		enum class Background {
-			CASTLE,
-			TAVERN,
-			INN,
-			SHOP,
-			TEMPLE,
-			EDGE_OF_TOWN,
-			TRAIN
-		};
+		enum class Background { CASTLE, TAVERN, INN, SHOP, TEMPLE, EDGE_OF_TOWN, TRAIN };
 
-		enum class Texture {
-			NONE,
-			BACKGROUND,
-			BANNER,
-			CREATURES,
-			LOGO,
-			NINEPATCH,
-			SPLASH,
-			TOWN,
-			UI
-		};
-	}
+		enum class Texture { NONE, BACKGROUND, BANNER, CREATURES, LOGO, NINEPATCH, SPLASH, TOWN, UI };
+	} // namespace Enums::Graphics
 
 	namespace Enums::Settings {
 
 		// Settings
-		enum Category {
-			GENERAL,
-			GAMEPLAY,
-			GRAPHICS
-		};
-	}
+		enum Category { GENERAL, GAMEPLAY, GRAPHICS };
+	} // namespace Enums::Settings
 
 	namespace Enums::Internal {
 
-		enum class FontType {
-			MONOSPACE,
-			PROPORTIONAL,
-			TEXT,
-			NONE
-		};
+		enum class FontType { MONOSPACE, PROPORTIONAL, TEXT, NONE };
 
-		enum class StringType {
-			NORMAL,
-			EXPLAIN
-		};
+		enum class StringType { NORMAL, EXPLAIN };
 
-	}
+	} // namespace Enums::Internal
 
 	namespace Enums::Magic {
 
-		enum class SpellType {
-			MAGE,
-			PRIEST
-		};
+		enum class SpellType { MAGE, PRIEST };
 
-		enum class SpellCategory {
-			HEALING,
-			FIELD,
-			SUPPORT,
-			DISABLE,
-			ATTACK
-		};
+		enum class SpellCategory { HEALING, FIELD, SUPPORT, DISABLE, ATTACK };
 
 		enum Spell {
 			HALITO,
@@ -244,34 +180,18 @@ namespace Sorcery {
 	// Management Menu
 	namespace Enums::Manage {
 
-		enum Category {
-			MANAGE,
-			CREATE,
-			IMPORT
-		};
+		enum Category { MANAGE, CREATE, IMPORT };
 
-		enum Method {
-			QUICK,
-			FULL,
-			RANDOM
-		};
+		enum Method { QUICK, FULL, RANDOM };
 
-		enum Import {
-			WIZARDRY,
-			BARDS_TALE,
-			ULTIMA
-		};
+		enum Import { WIZARDRY, BARDS_TALE, ULTIMA };
 	} // namespace Enums::Manage
 
 	// Text Files
 	namespace Enums::File {
 
 		// Text File Types
-		enum class Type {
-			HELP,
-			VERSION,
-			LICENSE
-		};
+		enum class Type { HELP, VERSION, LICENSE };
 	} // namespace Enums::File
 
 	// Character Stuff
@@ -303,33 +223,11 @@ namespace Sorcery {
 		};
 
 		// Character Classes
-		enum class Race {
-			NONE,
-			HUMAN,
-			ELF,
-			DWARF,
-			GNOME,
-			HOBBIT
-		};
+		enum class Race { NONE, HUMAN, ELF, DWARF, GNOME, HOBBIT };
 
-		enum class Class {
-			NONE,
-			FIGHTER,
-			MAGE,
-			PRIEST,
-			THIEF,
-			BISHOP,
-			SAMURAI,
-			LORD,
-			NINJA
-		};
+		enum class Class { NONE, FIGHTER, MAGE, PRIEST, THIEF, BISHOP, SAMURAI, LORD, NINJA };
 
-		enum class Align {
-			NONE,
-			GOOD,
-			NEUTRAL,
-			EVIL
-		};
+		enum class Align { NONE, GOOD, NEUTRAL, EVIL };
 
 		/* enum class Status {
 			OK,
@@ -342,15 +240,7 @@ namespace Sorcery {
 			LOST
 		}; */
 
-		enum class Attribute {
-			NONE,
-			STRENGTH,
-			IQ,
-			PIETY,
-			VITALITY,
-			AGILITY,
-			LUCK
-		};
+		enum class Attribute { NONE, STRENGTH, IQ, PIETY, VITALITY, AGILITY, LUCK };
 
 		enum class Ability {
 			CURRENT_HP,
@@ -447,40 +337,22 @@ namespace Sorcery {
 
 	namespace Enums::MainMenu {
 
-		enum class Type {
-			ATTRACT_MODE,
-			ATTRACT_MENU
-		};
+		enum class Type { ATTRACT_MODE, ATTRACT_MENU };
 	}
 
 	namespace Enums::GameMenu {
 
-		enum class Type {
-			CASTLE,
-			EDGE_OF_TOWN
-		};
+		enum class Type { CASTLE, EDGE_OF_TOWN };
 	}
 
 	// Menu
 	namespace Enums::Menu {
 
 		// Button States
-		enum class ButtonState {
-			DISABLED,
-			ENABLED,
-			HOVERED,
-			SELECTED
-		};
+		enum class ButtonState { DISABLED, ENABLED, HOVERED, SELECTED };
 
 		// Menu Type Tuple Fields
-		enum class Field {
-			INDEX = 0,
-			TYPE = 1,
-			ITEM = 2,
-			TEXT = 3,
-			ENABLED = 4,
-			CONFIG_OPTION = 5
-		};
+		enum class Field { INDEX = 0, TYPE = 1, ITEM = 2, TEXT = 3, ENABLED = 4, CONFIG_OPTION = 5 };
 
 		// Menu Types
 		enum class Type {
@@ -576,16 +448,7 @@ namespace Sorcery {
 		};
 
 		// Menu Items
-		enum class ItemType {
-			NONE,
-			ENTRY,
-			TITLE,
-			SEPARATOR,
-			SPACER,
-			TEXT,
-			SAVE,
-			CANCEL
-		};
+		enum class ItemType { NONE, ENTRY, TITLE, SEPARATOR, SPACER, TEXT, SAVE, CANCEL };
 	} // namespace Enums::Menu
 
 	// Display
@@ -669,10 +532,7 @@ namespace Sorcery {
 
 	namespace Enums {
 
-		enum Dialog {
-			OK,
-			CANCEL
-		};
+		enum Dialog { OK, CANCEL };
 
 		// Options
 		enum Options {
@@ -710,4 +570,4 @@ namespace Sorcery {
 			// LABADI - drain hp from enemy and add to caster
 		};
 	} // namespace Enums
-}
+} // namespace Sorcery

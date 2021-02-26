@@ -24,8 +24,8 @@
 #include "license.hpp"
 
 // Standard Constructor
-Sorcery::License::License (System& system, Display& display, Graphics& graphics):  _system {system},
-	_display {display}, _graphics {graphics} {
+Sorcery::License::License(System &system, Display &display, Graphics &graphics)
+	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();
@@ -59,8 +59,8 @@ auto Sorcery::License::start() -> void {
 	_display.window->input_mode = WindowInputMode::DISPLAY_TEXT_FILE;
 
 	// And do the main loop
-	sf::Event event {};
-	const unsigned int lines_to_display {38 - 9};
+	sf::Event event{};
+	const unsigned int lines_to_display{38 - 9};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
 
@@ -127,10 +127,10 @@ auto Sorcery::License::_draw() -> void {
 
 auto Sorcery::License::_display_file_contents() -> void {
 
-	const Component frame_c {(*_display.layout)["license:gui_frame"]};
-	Component text_c {(*_display.layout)["license:license_file_text"]};
-	const unsigned int lines_to_display {text_c.h};
-	const int top_y {text_c.y};
+	const Component frame_c{(*_display.layout)["license:gui_frame"]};
+	Component text_c{(*_display.layout)["license:license_file_text"]};
+	const unsigned int lines_to_display{text_c.h};
+	const int top_y{text_c.y};
 
 	// Check for approaching end of file
 	const unsigned int end_line = [&] {
@@ -142,7 +142,7 @@ auto Sorcery::License::_display_file_contents() -> void {
 
 	// File Contents
 	for (auto y = _current_line; y < end_line; ++y) {
-		std::string line_contents {(*_textfile)[y]};
+		std::string line_contents{(*_textfile)[y]};
 		_line_text.setString(line_contents);
 		text_c.y = top_y + ((y - _current_line) * _display.window->get_cell_height());
 		_display.window->draw_text(_line_text, text_c, line_contents);

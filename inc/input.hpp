@@ -18,7 +18,7 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
@@ -30,20 +30,18 @@ namespace Sorcery {
 
 	class Input {
 
-		public:
+	  public:
+		// Constructor
+		Input();
 
-			// Constructor
-			Input();
+		// Public Members
 
-			// Public Members
+		// Public Methods
+		auto check_for_event(WindowInput input, sf::Event event) -> bool;
 
-			// Public Methods
-			auto check_for_event(WindowInput input, sf::Event event) -> bool;
-
-		private:
-
-			// Private Methods
-			int _axis_sensitivity_min;
-			int _axis_sensitivity_max;
+	  private:
+		// Private Methods
+		int _axis_sensitivity_min;
+		int _axis_sensitivity_max;
 	};
-}
+} // namespace Sorcery

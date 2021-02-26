@@ -25,6 +25,7 @@
 
 // Standard Constructor
 Sorcery::Random::Random() {
+
 	// Random Seeding Device
 	_random = std::mt19937_64(_random_device());
 
@@ -60,7 +61,7 @@ Sorcery::Random::Random() {
 }
 
 // Overload [] operator
-auto Sorcery::Random::operator[] (const RandomType random_type) -> unsigned int {
+auto Sorcery::Random::operator[](const RandomType random_type) -> unsigned int {
 
 	return _get(random_type);
 }

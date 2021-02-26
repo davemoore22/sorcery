@@ -18,7 +18,7 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
@@ -33,14 +33,15 @@ namespace Sorcery {
 
 	// Struct to represent a menu entry
 	struct MenuEntry {
-		MenuEntry(): index{0}, type{Enums::Menu::ItemType::NONE}, item{Enums::Menu::Item::NONE}, key{}, enabled{false},
-			config{Enums::Options::NONE}, hint{} {};
+		MenuEntry()
+			: index{0}, type{Enums::Menu::ItemType::NONE}, item{Enums::Menu::Item::NONE}, key{}, enabled{false},
+			  config{Enums::Options::NONE}, hint{} {};
 		MenuEntry(unsigned int index_, Enums::Menu::ItemType type_, Enums::Menu::Item item_, std::string key_,
-			bool enabled_, Enums::Options config_, std::string hint_): index{index_}, type{type_}, item{item_}, key{key_},
-			enabled{enabled_}, config{config_}, hint{hint_} {};
+			bool enabled_, Enums::Options config_, std::string hint_)
+			: index{index_}, type{type_}, item{item_}, key{key_}, enabled{enabled_}, config{config_}, hint{hint_} {};
 		auto operator==(const MenuEntry &a) const -> bool {
 			return ((index == a.index) && (type == a.type) && (item == a.item) && (key == a.key) &&
-				(enabled == a.enabled) && (config == a.config) && (hint == a.hint));
+					(enabled == a.enabled) && (config == a.config) && (hint == a.hint));
 		}
 
 		unsigned int index;
@@ -54,7 +55,7 @@ namespace Sorcery {
 
 	// Struct to represent a point on the screen (x, y)
 	struct Point {
-		Point(): x{0}, y{0} {};
+		Point() : x{0}, y{0} {};
 		Point(unsigned int x_, unsigned int y_) : x{x_}, y{y_} {};
 		Point(const Point &other) : x{other.x}, y{other.y} {};
 		auto operator==(const Point &a) const -> bool {
@@ -67,9 +68,9 @@ namespace Sorcery {
 
 	// Struct to represent an area of the screen (w, h)
 	struct ScreenSize {
-		ScreenSize(): w{0}, h{0} {};
-		ScreenSize(unsigned int w_, unsigned int h_): w{w_}, h{h_} {};
-		ScreenSize(const ScreenSize &other): w{other.w}, h{other.h} {};
+		ScreenSize() : w{0}, h{0} {};
+		ScreenSize(unsigned int w_, unsigned int h_) : w{w_}, h{h_} {};
+		ScreenSize(const ScreenSize &other) : w{other.w}, h{other.h} {};
 
 		unsigned int w;
 		unsigned int h;
@@ -77,9 +78,9 @@ namespace Sorcery {
 
 	// Struct to represent the size of an image
 	struct ImageSize {
-		ImageSize(): w{0}, h{0} {};
-		ImageSize(unsigned int w_, unsigned int h_): w{w_}, h{h_} {};
-		ImageSize(const ImageSize &other): w{other.w}, h{other.h} {};
+		ImageSize() : w{0}, h{0} {};
+		ImageSize(unsigned int w_, unsigned int h_) : w{w_}, h{h_} {};
+		ImageSize(const ImageSize &other) : w{other.w}, h{other.h} {};
 
 		unsigned int w;
 		unsigned int h;
@@ -87,9 +88,9 @@ namespace Sorcery {
 
 	// Struct to represent a rect on the screen
 	struct Rect {
-		Rect(): x{0}, y{0}, w{0}, h{0} {};
-		Rect(unsigned int x_, unsigned int y_, unsigned int w_, unsigned int h_): x{x_}, y{y_}, w{w_}, h{h_} {};
-		Rect(const Rect &other): x{other.x}, y{other.y}, w{other.w}, h{other.h} {};
+		Rect() : x{0}, y{0}, w{0}, h{0} {};
+		Rect(unsigned int x_, unsigned int y_, unsigned int w_, unsigned int h_) : x{x_}, y{y_}, w{w_}, h{h_} {};
+		Rect(const Rect &other) : x{other.x}, y{other.y}, w{other.w}, h{other.h} {};
 
 		auto menu_contains(unsigned int i, unsigned int j) -> bool {
 			// Note the >= etc here - menu rects start at y - if not = then first item in menu would fail this test
@@ -125,4 +126,4 @@ namespace Sorcery {
 		std::string translated_name;
 		std::string details;
 	};
-}
+} // namespace Sorcery

@@ -24,8 +24,8 @@
 #include "banner.hpp"
 
 // Standard Constructor
-Sorcery::Banner::Banner(System& system, Display& display, Graphics& graphics):  _system {system}, _display {display},
-	_graphics {graphics} {
+Sorcery::Banner::Banner(System &system, Display &display, Graphics &graphics)
+	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the Main Window
 	_window = _display.window->get_window();
@@ -40,10 +40,9 @@ Sorcery::Banner::Banner(System& system, Display& display, Graphics& graphics):  
 	_display.generate_components("banner");
 }
 
-
 auto Sorcery::Banner::start() -> void {
 
-	sf::Event input_event {};
+	sf::Event input_event{};
 	while (!_finished) {
 		_window->pollEvent(input_event);
 		_window->clear();

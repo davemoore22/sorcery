@@ -18,58 +18,56 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
 #pragma once
 
-#include "main.hpp"
-#include "system.hpp"
+#include "confirm.hpp"
 #include "display.hpp"
+#include "frame.hpp"
 #include "graphics.hpp"
 #include "layout.hpp"
-#include "frame.hpp"
+#include "main.hpp"
 #include "menu.hpp"
-#include "confirm.hpp"
+#include "system.hpp"
 
 namespace Sorcery {
 
 	class GameMenu {
 
-		public:
+	  public:
+		// Standard Constructor
+		GameMenu(System &system, Display &display, Graphics &graphics);
+		GameMenu() = delete;
 
-			// Standard Constructor
-			GameMenu(System& system, Display& display, Graphics& graphics);
-			GameMenu() = delete;
+		// Standard Destructor
+		~GameMenu();
 
-			// Standard Destructor
-			~GameMenu();
+		// Public Members
 
-			// Public Members
+		// Public Methods
+		auto start() -> std::optional<MenuItem>;
+		auto stop() -> void;
 
-			// Public Methods
-			auto start() -> std::optional<MenuItem>;
-			auto stop() -> void;
+	  private:
+		// Private Methods
+		auto _draw() -> void;
 
-		private:
-
-			// Private Methods
-			auto _draw() -> void;
-
-			// Private Members
-			System _system;
-			Display _display;
-			Graphics _graphics;
-			sf::RenderWindow* _window;
-			std::unique_ptr<Frame> _castle_menu_frame;
-			std::unique_ptr<Frame> _edge_of_town_menu_frame;
-			std::shared_ptr<Menu> _castle_menu;
-			std::shared_ptr<Menu> _edge_of_town_menu;
-			sf::Sprite _castle_background;
-			sf::Sprite _edge_of_town_background;
-			GameMenuType _menu_stage;
-			std::shared_ptr<Confirm> _confirm_leave_game;
-			WindowConfirm _yes_or_no;
+		// Private Members
+		System _system;
+		Display _display;
+		Graphics _graphics;
+		sf::RenderWindow *_window;
+		std::unique_ptr<Frame> _castle_menu_frame;
+		std::unique_ptr<Frame> _edge_of_town_menu_frame;
+		std::shared_ptr<Menu> _castle_menu;
+		std::shared_ptr<Menu> _edge_of_town_menu;
+		sf::Sprite _castle_background;
+		sf::Sprite _edge_of_town_background;
+		GameMenuType _menu_stage;
+		std::shared_ptr<Confirm> _confirm_leave_game;
+		WindowConfirm _yes_or_no;
 	};
-}
+} // namespace Sorcery

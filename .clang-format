@@ -1,8 +1,14 @@
 Language: Cpp
+# EmptyLineBeforeAccessModifier: Always
+# IndentAccessModifiers: true
+NamespaceIndentation: All
 IndentWidth: 4
 UseTab: Always
 TabWidth: 4
 ReflowComments: false
 ColumnLimit: 120
-IndentAccessModifiers: true
-NamespaceIndentation: All
+AllowShortFunctionsOnASingleLine: Empty
+ConstructorInitializerIndentWidth: 4
+AlignAfterOpenBracket: DontAlign
+AllowShortLambdasOnASingleLine: None
+AlwaysBreakBeforeMultilineStrings: true

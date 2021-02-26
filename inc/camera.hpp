@@ -18,7 +18,7 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
@@ -31,33 +31,31 @@ namespace Sorcery {
 
 	class Camera {
 
-		public:
+	  public:
+		// Standard Constructor
+		Camera();
 
-			// Standard Constructor
-			Camera();
+		// Public Members
+		bool moved;
 
-			// Public Members
-			bool moved;
+		// Public Methods
+		auto getDirection() -> sf::Vector2f;
+		auto setDirection(const sf::Vector2f &direction) -> void;
+		auto setDirection(float x, float y) -> void;
+		auto getPlane() -> sf::Vector2f;
+		auto setPlane(const sf::Vector2f &plane) -> void;
+		auto setPlane(float x, float y) -> void;
+		auto getPosition() -> sf::Vector2f;
+		auto setPosition(const sf::Vector2f &position) -> void;
+		auto setPosition(float x, float y) -> void;
+		auto setDirectionInDegrees(float degrees) -> void;
+		auto getDirectionInDegrees() -> float;
+		auto rotateByDegrees(float degrees) -> void;
 
-			// Public Methods
-			auto getDirection() -> sf::Vector2f;
-			auto setDirection(const sf::Vector2f& direction) -> void;
-			auto setDirection(float x, float y) -> void;
-			auto getPlane() -> sf::Vector2f;
-			auto setPlane(const sf::Vector2f& plane) -> void;
-			auto setPlane(float x, float y) -> void;
-			auto getPosition() -> sf::Vector2f;
-			auto setPosition(const sf::Vector2f& position) -> void;
-			auto setPosition(float x, float y) -> void;
-			auto setDirectionInDegrees(float degrees) -> void;
-			auto getDirectionInDegrees() -> float;
-			auto rotateByDegrees(float degrees) -> void;
-
-		private:
-
-			// Private Members
-			sf::Vector2f mDirection;
-			sf::Vector2f mPlane;
-			sf::Vector2f mPosition;
+	  private:
+		// Private Members
+		sf::Vector2f mDirection;
+		sf::Vector2f mPlane;
+		sf::Vector2f mPosition;
 	};
-}
+} // namespace Sorcery

@@ -18,82 +18,79 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
 #pragma once
 
-#include "main.hpp"
-#include "system.hpp"
-#include "string.hpp"
 #include "layout.hpp"
+#include "main.hpp"
+#include "string.hpp"
+#include "system.hpp"
 
 // Class to act as a wrapper around SFML Window etc
 namespace Sorcery {
 
-
 	class Window {
 
-		public:
+	  public:
+		// Constructors
+		Window(const std::string title, System &system, String &string, Layout &layout);
+		Window() = delete;
 
-			// Constructors
-			Window(const std::string title, System& system, String& string, Layout& layout);
-			Window() = delete;
+		// Public Methods
+		auto change_colour(sf::Color colour, double lerp) const -> sf::Color;
+		auto clear_window() -> void;
+		auto darken_colour(sf::Color colour, double lerp) -> sf::Color;
+		auto display_window() -> void;
+		auto draw_text(sf::Text &text) -> void;
+		auto draw_text(sf::Text &text, const Component &component, const double lerp = -1.0f) -> void;
+		auto draw_text(sf::Text &text, const Component &component, const std::string &string) -> void;
+		auto draw_gui() -> void;
+		auto get_cell_height() const -> unsigned int;
+		auto get_cell_width() const -> unsigned int;
+		auto get_cursor() const -> sf::Sprite;
+		auto get_gui() -> tgui::Gui *;
+		auto get_window() -> sf::RenderWindow *;
+		auto get_x(const sf::Sprite &sprite, int x_position) const -> unsigned int;
+		auto get_y(const sf::Sprite &sprite, int y_position) const -> unsigned int;
+		auto lighten_colour(sf::Color colour, double lerp) -> sf::Color;
+		auto highlight_text(sf::Text &text, Component component, double lerp) -> sf::RectangleShape;
 
-			// Public Methods
-			auto change_colour(sf::Color colour, double lerp) const -> sf::Color;
-			auto clear_window() -> void;
-			auto darken_colour(sf::Color colour, double lerp) -> sf::Color;
-			auto display_window() -> void;
-			auto draw_text(sf::Text& text) -> void;
-			auto draw_text(sf::Text& text, const Component& component, const double lerp = -1.0f) -> void;
-			auto draw_text(sf::Text& text, const Component& component, const std::string& string) -> void;
-			auto draw_gui() -> void;
-			auto get_cell_height() const -> unsigned int;
-			auto get_cell_width() const -> unsigned int;
-			auto get_cursor() const -> sf::Sprite;
-			auto get_gui() -> tgui::Gui*;
-			auto get_window() -> sf::RenderWindow*;
-			auto get_x(const sf::Sprite& sprite, int x_position) const -> unsigned int;
-			auto get_y(const sf::Sprite& sprite, int y_position) const -> unsigned int;
-			auto lighten_colour(sf::Color colour, double lerp) -> sf::Color;
-			auto highlight_text(sf::Text& text, Component component, double lerp) -> sf::RectangleShape;
+		// Public Members
+		std::vector<sf::Sprite> sprites;
+		std::vector<sf::Texture> textures;
+		sf::View view;
+		Point centre;
+		WindowInputMode input_mode;
+		WindowTooltipList tooltips;
 
-			// Public Members
-			std::vector<sf::Sprite> sprites;
-			std::vector<sf::Texture> textures;
-			sf::View view;
-			Point centre;
-			WindowInputMode input_mode;
-			WindowTooltipList tooltips;
+	  private:
+		// Private Methods
+		auto _change_colour(sf::Color colour, double lerp) const -> sf::Color;
+		auto _draw_text(sf::Text &text) -> void;
+		auto _draw_text(sf::Text &text, const Component &component, const double lerp) -> void;
+		auto _draw_text(sf::Text &text, const Component &component, const std::string &string) -> void;
+		auto _get_centre_x(const sf::Sprite &sprite) const -> unsigned int;
+		auto _get_centre_y(const sf::Sprite &sprite) const -> unsigned int;
+		auto _get_centre_x(const sf::Text &text) const -> unsigned int;
+		auto _get_centre_y(const sf::Text &text) const -> unsigned int;
+		auto _get_x(const sf::Sprite &sprite, const int x_position) const -> unsigned int;
+		auto _get_x(const sf::Text &text, const int x_position) const -> unsigned int;
+		auto _get_y(const sf::Sprite &sprite, const int y_position) const -> unsigned int;
+		auto _get_y(const sf::Text &text, const int y_position) const -> unsigned int;
 
-		private:
-
-			// Private Methods
-			auto _change_colour(sf::Color colour, double lerp) const -> sf::Color;
-			auto _draw_text(sf::Text& text) -> void;
-			auto _draw_text(sf::Text& text, const Component& component, const double lerp) -> void;
-			auto _draw_text(sf::Text& text, const Component& component, const std::string& string) -> void;
-			auto _get_centre_x(const sf::Sprite& sprite) const -> unsigned int;
-			auto _get_centre_y(const sf::Sprite& sprite) const -> unsigned int;
-			auto _get_centre_x(const sf::Text& text) const -> unsigned int;
-			auto _get_centre_y(const sf::Text& text) const -> unsigned int;
-			auto _get_x(const sf::Sprite& sprite, const int x_position) const -> unsigned int;
-			auto _get_x(const sf::Text& text, const int x_position) const -> unsigned int;
-			auto _get_y(const sf::Sprite& sprite, const int y_position) const -> unsigned int;
-			auto _get_y(const sf::Text& text, const int y_position) const -> unsigned int;
-
-			// Private Members
-			ScreenSize _default_size;
-			ScreenSize _current_size;
-			std::string _title;
-			System _system;
-			String _string;
-			Layout _layout;
-			sf::RenderWindow _window;
-			tgui::Gui _gui;
-			unsigned int _cell_height;
-			unsigned int _cell_width;
+		// Private Members
+		ScreenSize _default_size;
+		ScreenSize _current_size;
+		std::string _title;
+		System _system;
+		String _string;
+		Layout _layout;
+		sf::RenderWindow _window;
+		tgui::Gui _gui;
+		unsigned int _cell_height;
+		unsigned int _cell_width;
 	};
-}
+} // namespace Sorcery

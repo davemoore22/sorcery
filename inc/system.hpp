@@ -18,53 +18,48 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
 #pragma once
 
-#include "main.hpp"
-
-#include "main.hpp"
-#include "random.hpp"
-#include "file.hpp"
 #include "config.hpp"
 #include "database.hpp"
-#include "string.hpp"
+#include "file.hpp"
 #include "input.hpp"
+#include "main.hpp"
+#include "random.hpp"
 #include "resourcemanager.hpp"
-
+#include "string.hpp"
 
 // Superclass to handle all system level requirements such as Random Number Generation, File and Database Access, etc
 namespace Sorcery {
 
 	class System {
 
-		public:
+	  public:
+		// Constructors
+		System(int argc, char **argv);
+		System() = delete;
 
-			// Constructors
-			System(int argc, char** argv);
-			System() = delete;
+		// Public Methods
 
-			// Public Methods
+		// Public Members
+		std::shared_ptr<Random> random;
+		std::shared_ptr<File> files;
+		std::shared_ptr<CSimpleIniA> settings;
+		std::shared_ptr<Config> config;
+		std::shared_ptr<Database> database;
+		std::shared_ptr<ResourceManager> resources;
+		std::shared_ptr<Input> input;
 
-			// Public Members
-			std::shared_ptr<Random> random;
-			std::shared_ptr<File> files;
-			std::shared_ptr<CSimpleIniA> settings;
-			std::shared_ptr<Config> config;
-			std::shared_ptr<Database> database;
-			std::shared_ptr<ResourceManager> resources;
-			std::shared_ptr<Input> input;
+		// also need for each class to contain a list of mouse-sensitive area based upon component, so that you can check if a mouse cursor is in
+		// a component
 
-			// also need for each class to contain a list of mouse-sensitive area based upon component, so that you can check if a mouse cursor is in
-			// a component
+	  private:
+		// Private Members
 
-		private:
-
-			// Private Members
-
-			// Private Methods
+		// Private Methods
 	};
-}
+} // namespace Sorcery

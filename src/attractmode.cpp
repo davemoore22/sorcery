@@ -24,8 +24,8 @@
 #include "attractmode.hpp"
 
 // Standard Constructor
-Sorcery::AttractMode::AttractMode(sf::Texture creatures_texture, Component component):
-	_creatures_texture {creatures_texture}, _component {component} {
+Sorcery::AttractMode::AttractMode(sf::Texture creatures_texture, Component component)
+	: _creatures_texture{creatures_texture}, _component{component} {
 
 	_creature_sprite_width = 108;
 	_creature_sprite_height = 108;
@@ -41,9 +41,10 @@ auto Sorcery::AttractMode::generate() -> void {
 		data = data_temp;
 
 		// Work out the new size
-		const unsigned int number_to_display {static_cast<unsigned int>(data_temp.size())};
-		const sf::Vector2f texture_size(_creature_sprite_width * number_to_display + (_creature_sprite_spacing *
-			(number_to_display - 1)), _creature_sprite_height);
+		const unsigned int number_to_display{static_cast<unsigned int>(data_temp.size())};
+		const sf::Vector2f texture_size(
+			_creature_sprite_width * number_to_display + (_creature_sprite_spacing * (number_to_display - 1)),
+			_creature_sprite_height);
 
 		// Don't worry about previous contents of this
 		_render_texture.create(texture_size.x, texture_size.y);
@@ -51,8 +52,8 @@ auto Sorcery::AttractMode::generate() -> void {
 		_render_texture.clear();
 
 		// Get the Required Sprites
-		unsigned int sprite_x {0};
-		for (auto i: data) {
+		unsigned int sprite_x{0};
+		for (auto i : data) {
 			sf::Sprite sprite = _get_creature_gfx(i, true);
 			sprite.setPosition(sprite_x, 0);
 			_render_texture.draw(sprite, sf::BlendAlpha);
@@ -71,7 +72,7 @@ auto Sorcery::AttractMode::generate() -> void {
 // Get the Sprite from the Creatures Texture
 auto Sorcery::AttractMode::_get_creature_gfx(const int creature_id, const bool known) -> sf::Sprite {
 
-	sf::IntRect creature_rect {};
+	sf::IntRect creature_rect{};
 	sf::Sprite creature(_creatures_texture);
 	creature_rect.left = (creature_id - 1) * _creature_sprite_width;
 	creature_rect.width = _creature_sprite_width;
@@ -88,7 +89,7 @@ auto Sorcery::AttractMode::set_alpha(unsigned int alpha) -> void {
 		_sprite.setColor(sf::Color(255, 255, 255, alpha));
 }
 
-auto Sorcery::AttractMode::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
+auto Sorcery::AttractMode::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	if (data_temp.size() > 0) {
 		states.transform *= getTransform();

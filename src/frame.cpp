@@ -25,8 +25,8 @@
 
 // Standard Constructor
 Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type, const unsigned int width_units,
-	const unsigned int height_units, const unsigned int alpha): _texture {texture}, _type{type},
-	_width_units{width_units}, _height_units{height_units}, _alpha {alpha} {
+	const unsigned int height_units, const unsigned int alpha)
+	: _texture{texture}, _type{type}, _width_units{width_units}, _height_units{height_units}, _alpha{alpha} {
 
 	// Define the 8 parts of the Frame based upon the location in the GUI Texture
 	if (_type == WindowFrameType::NORMAL) {
@@ -38,7 +38,7 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type, const unsigned 
 		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM)] = sf::IntRect(20, 590, 20, 20);
 		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)] = sf::IntRect(40, 590, 20, 20);
 		_frame_parts[static_cast<unsigned int>(WindowFrameParts::RIGHT)] = sf::IntRect(40, 570, 20, 20);
-	} else if (_type == WindowFrameType::HINT){
+	} else if (_type == WindowFrameType::HINT) {
 		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)] = sf::IntRect(865, 399, 18, 18);
 		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP)] = sf::IntRect(899, 399, 24, 10);
 		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)] = sf::IntRect(982, 399, 18, 18);
@@ -51,14 +51,14 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type, const unsigned 
 
 	// Get the Frame Components
 	unsigned int loop = 0;
-	for (auto& frame_sprite : _frame_sprites) {
+	for (auto &frame_sprite : _frame_sprites) {
 		frame_sprite = sf::Sprite(_texture);
 		frame_sprite.setTextureRect(_frame_parts[loop]);
 		++loop;
 	}
 
-	#pragma GCC diagnostic push
-	#pragma GCC diagnostic ignored "-Wreturn-type"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wreturn-type"
 
 	// Work out total size of texture needed from units
 	_texture_size_x = [&] {
@@ -101,8 +101,8 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type, const unsigned 
 	_render_texture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)]);
 	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)].setPosition(0, texture_size.y - offset);
 	_render_texture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)]);
-	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)].setPosition(texture_size.x - offset,
-		texture_size.y - offset);
+	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)].setPosition(
+		texture_size.x - offset, texture_size.y - offset);
 	_render_texture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)]);
 
 	// Draw the Sides of the Frame
@@ -115,8 +115,8 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type, const unsigned 
 		}();
 		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)].setPosition(x_pos, 0);
 		_render_texture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)]);
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)].setPosition(x_pos,
-			texture_size.y -(border * 2));
+		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)].setPosition(
+			x_pos, texture_size.y - (border * 2));
 		_render_texture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)]);
 	}
 	for (unsigned int y = 0; y < height_units; y++) {
@@ -128,12 +128,12 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type, const unsigned 
 		}();
 		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)].setPosition(0, y_pos);
 		_render_texture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)]);
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)].setPosition(texture_size.x - (border * 2) - 1,
-			y_pos);
+		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)].setPosition(
+			texture_size.x - (border * 2) - 1, y_pos);
 		_render_texture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)]);
 	}
 
-	#pragma GCC diagnostic pop
+#pragma GCC diagnostic pop
 
 	// And draw
 	_render_texture.display();
@@ -145,7 +145,7 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type, const unsigned 
 	sprite = _frame;
 }
 
-auto Sorcery::Frame::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
+auto Sorcery::Frame::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 	target.draw(_frame, states);

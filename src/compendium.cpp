@@ -24,8 +24,8 @@
 #include "compendium.hpp"
 
 // Standard Constructor
-Sorcery::Compendium::Compendium (System& system, Display& display, Graphics& graphics):  _system {system},
-	_display {display}, _graphics {graphics} {
+Sorcery::Compendium::Compendium(System &system, Display &display, Graphics &graphics)
+	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();
@@ -40,7 +40,6 @@ Sorcery::Compendium::~Compendium() {
 	_display.stop_background_movie();
 }
 
-
 auto Sorcery::Compendium::start() -> void {
 
 	// Clear the window
@@ -52,7 +51,7 @@ auto Sorcery::Compendium::start() -> void {
 	_display.window->input_mode = WindowInputMode::DISPLAY_TEXT_FILE;
 
 	// And do the main loop
-	sf::Event event {};
+	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
 
@@ -75,7 +74,6 @@ auto Sorcery::Compendium::start() -> void {
 		_window->display();
 	}
 }
-
 
 auto Sorcery::Compendium::stop() -> void {
 

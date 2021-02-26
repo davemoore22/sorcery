@@ -24,7 +24,7 @@
 #include "animation.hpp"
 
 // Standard Constructor - to do this does not need system or display, instead put it as a subclass of display
-Sorcery::Animation::Animation(System& system, Display& display): _system {system}, _display {display} {
+Sorcery::Animation::Animation(System &system, Display &display) : _system{system}, _display{display} {
 
 	_finished = false;
 	_attract_mode.clear();
@@ -48,7 +48,7 @@ auto Sorcery::Animation::force_refresh_colour_cycling() -> void {
 	_colour_cycling(true);
 }
 
-auto Sorcery::Animation::start_attract_mode_animation() ->void {
+auto Sorcery::Animation::start_attract_mode_animation() -> void {
 
 	_allow_attract_mode_animations = true;
 }
@@ -138,8 +138,8 @@ auto Sorcery::Animation::_colour_cycling(bool force) -> void {
 auto Sorcery::Animation::_do_attract_mode_animation() -> void {
 
 	std::scoped_lock<std::mutex> _scoped_lock(_attract_mode_mutex);
-	unsigned int sprite_index {};
-	const unsigned int number_to_display {(*_system.random)[RandomType::D4]};
+	unsigned int sprite_index{};
+	const unsigned int number_to_display{(*_system.random)[RandomType::D4]};
 	_attract_mode.clear();
 	for (unsigned int i = 0; i < number_to_display; i++) {
 		do {
@@ -164,12 +164,12 @@ auto Sorcery::Animation::_do_colour_cycling() -> void {
 
 	// Handle menu pulsating
 	if (_colour_cycling_direction) {
-		 if (colour_lerp < 0.5l)
+		if (colour_lerp < 0.5l)
 			colour_lerp += 0.0125l;
-		 else {
+		else {
 			_colour_cycling_direction = !_colour_cycling_direction;
 			colour_lerp -= 0.0125l;
-		 }
+		}
 	} else {
 		if (colour_lerp > -0.5l)
 			colour_lerp -= 0.0125l;
@@ -187,7 +187,7 @@ auto Sorcery::Animation::_do_colour_cycling() -> void {
 	// Handle Attract Mode Fade In/Out
 	if (_attract_mode_fade_in == true) {
 		if (attract_mode_alpha < 255)
-			attract_mode_alpha +=10;
+			attract_mode_alpha += 10;
 		else
 			attract_mode_alpha = 255;
 	}

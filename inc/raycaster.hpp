@@ -18,81 +18,70 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
 // https://github.com/lxndrdagreat/sfray
 #pragma once
 
+#include "camera.hpp"
 #include "main.hpp"
 #include "map.hpp"
-#include "camera.hpp"
 
 namespace Sorcery {
 
-	enum WallRenderMethod {
-		Wall_None = 0,
-		Wall_Color,
-		Wall_Texture
-	};
+	enum WallRenderMethod { Wall_None = 0, Wall_Color, Wall_Texture };
 
-	enum FloorRenderMethod {
-		Floor_None = 0,
-		Floor_Color,
-		Floor_Texture
-	};
+	enum FloorRenderMethod { Floor_None = 0, Floor_Color, Floor_Texture };
 
-	enum CeilingRenderMethod {
-		Ceiling_None = 0,
-		Ceiling_Color,
-		Ceiling_Texture
-	};
+	enum CeilingRenderMethod { Ceiling_None = 0, Ceiling_Color, Ceiling_Texture };
 
-	enum EntityRenderMethod {
-		Entity_None = 0,
-		Entity_Texture
-	};
+	enum EntityRenderMethod { Entity_None = 0, Entity_Texture };
 
-	class Raycaster{
-	private:
+	class Raycaster {
+	  private:
 		unsigned int mGfxWidth;
 		unsigned int mGfxHeight;
 
 		// render options
-		WallRenderMethod	mWallRenderMethod;
-		FloorRenderMethod	mFloorRenderMethod;
-		CeilingRenderMethod	mCeilingRenderMethod;
-		float               mMaxWallRenderDistance;
-		float               mMaxFloorRenderDistance;
-		float				mMaxObjectRenderDistance;
-		EntityRenderMethod	mEntityRenderMethod;
+		WallRenderMethod mWallRenderMethod;
+		FloorRenderMethod mFloorRenderMethod;
+		CeilingRenderMethod mCeilingRenderMethod;
+		float mMaxWallRenderDistance;
+		float mMaxFloorRenderDistance;
+		float mMaxObjectRenderDistance;
+		EntityRenderMethod mEntityRenderMethod;
 
-		sf::Color			mWallRenderColor;
-		sf::Color			mCeilingRenderColor;
-		sf::Color			mFloorRenderColor;
+		sf::Color mWallRenderColor;
+		sf::Color mCeilingRenderColor;
+		sf::Color mFloorRenderColor;
 
 		// Z Buffer and getHeight Map used to speed up calculations in the loop.
-		std::vector<int> 	mZBuffer;
-		std::vector<float> 	mHeightMap;
+		std::vector<int> mZBuffer;
+		std::vector<float> mHeightMap;
 
 		// Floorcasting pieces
-		sf::Uint8*			mFloorcastingPixels;
-		sf::Texture			mFloorcastingTexture;
-		sf::Sprite			mFloorcastingSprite;
+		sf::Uint8 *mFloorcastingPixels;
+		sf::Texture mFloorcastingTexture;
+		sf::Sprite mFloorcastingSprite;
 
 		// The world map
-		Map 				mMap;
+		Map mMap;
 
 		void updateForSize();
-		void combSort(std::vector<int>& order, std::vector<float>& dist, int amount);
+		void combSort(std::vector<int> &order, std::vector<float> &dist, int amount);
 
-	public:
-		Raycaster(int width_=320, int height_=240);
+	  public:
+		Raycaster(int width_ = 320, int height_ = 240);
 
 		// size accessors and setters
-		int getWidth() { return mGfxWidth; };
-		int getHeight() { return mGfxHeight; };
+		int getWidth() {
+			return mGfxWidth;
+		};
+		int getHeight() {
+			return mGfxHeight;
+		};
 		void setWidth(unsigned int amount);
 		void setHeight(unsigned int amount);
 		void setSize(unsigned int width_, unsigned int height_);
@@ -101,8 +90,8 @@ namespace Sorcery {
 		void setMap(Sorcery::Map &map);
 
 		// Draw
-		void drawForCamera(sf::RenderWindow& window, Camera& camera);
-		void drawForCamera(sf::RenderWindow& window, Camera& camera, sf::View& view);
+		void drawForCamera(sf::RenderWindow &window, Camera &camera);
+		void drawForCamera(sf::RenderWindow &window, Camera &camera, sf::View &view);
 
 		// Rendering option getters/setters
 		WallRenderMethod getWallRenderMethod();
@@ -123,8 +112,8 @@ namespace Sorcery {
 		float getMaxFloorRenderDistance();
 		void setMaxFloorRenderDistance(float distance);
 
-		void setCeilingRenderColor(const sf::Color& color);
-		void setFloorRenderColor(const sf::Color& color);
-		void setWallRenderColor(const sf::Color& color);
+		void setCeilingRenderColor(const sf::Color &color);
+		void setFloorRenderColor(const sf::Color &color);
+		void setWallRenderColor(const sf::Color &color);
 	};
-}
+} // namespace Sorcery

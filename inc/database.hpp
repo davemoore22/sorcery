@@ -18,7 +18,7 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
@@ -30,23 +30,21 @@ namespace Sorcery {
 
 	class Database {
 
-		public:
+	  public:
+		// Constructors
+		Database(const std::filesystem::path &db_file_path);
+		Database() = delete;
 
-			// Constructors
-			Database(const std::filesystem::path &db_file_path);
-			Database() = delete;
+		// Public Methods
+		auto get_character_list() -> std::vector<CharacterList>;
 
-			// Public Methods
-			auto get_character_list() -> std::vector<CharacterList>;
+		// Public Members
+		bool connected;
 
-			// Public Members
-			bool connected;
+	  private:
+		// Private Members
+		std::filesystem::path _db_file_path;
 
-		private:
-
-			// Private Members
-			std::filesystem::path _db_file_path;
-
-			// Private Methods
+		// Private Methods
 	};
-}
+} // namespace Sorcery

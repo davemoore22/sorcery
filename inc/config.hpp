@@ -18,7 +18,7 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
@@ -31,34 +31,33 @@ namespace Sorcery {
 
 	class Config {
 
-		public:
-			// Constructors
-			Config(CSimpleIniA *settings, const std::filesystem::path config_file_path);
-			Config() = delete;
+	  public:
+		// Constructors
+		Config(CSimpleIniA *settings, const std::filesystem::path config_file_path);
+		Config() = delete;
 
-			// Overload [] operator
-			auto operator[](const unsigned int i) -> bool &;
+		// Overload [] operator
+		auto operator[](const unsigned int i) -> bool &;
 
-			// Public Methods
-			auto get(const std::string& section, const std::string& value) const -> std::string;
-			auto has_changed() -> bool;
-			auto load() -> bool;
-			auto save() -> bool;
-			auto set_recommended_mode() -> void;
-			auto set_strict_mode() -> void;
-			auto store_current_settings() -> void;
-			auto is_strict_mode() -> bool;
-			auto is_recommended_mode() -> bool;
+		// Public Methods
+		auto get(const std::string &section, const std::string &value) const -> std::string;
+		auto has_changed() -> bool;
+		auto load() -> bool;
+		auto save() -> bool;
+		auto set_recommended_mode() -> void;
+		auto set_strict_mode() -> void;
+		auto store_current_settings() -> void;
+		auto is_strict_mode() -> bool;
+		auto is_recommended_mode() -> bool;
 
-		private:
+	  private:
+		// Private Members
+		CSimpleIniA *_settings;								 // Dependency-injected
+		std::array<bool, NUM_GAME_SETTINGS> _options;		 // Game Settings
+		std::array<bool, NUM_GAME_SETTINGS> _options_backup; // To handle cancel
+		std::filesystem::path _config_file_path;
 
-			// Private Members
-			CSimpleIniA *_settings;								 // Dependency-injected
-			std::array<bool, NUM_GAME_SETTINGS> _options;		 // Game Settings
-			std::array<bool, NUM_GAME_SETTINGS> _options_backup; // To handle cancel
-			std::filesystem::path _config_file_path;
-
-			// Private Methods
-			auto _load() -> bool;
+		// Private Methods
+		auto _load() -> bool;
 	};
-}
+} // namespace Sorcery

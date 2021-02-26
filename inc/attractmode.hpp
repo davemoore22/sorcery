@@ -18,50 +18,48 @@
 //
 // If you modify this program, or any covered work, by linking or combining
 // it with the libraries referred to in README (or a modified version of
-// said  libraries), containing parts covered by the terms of said libraries,
+// said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
 #pragma once
 
-#include "main.hpp"
 #include "component.hpp"
+#include "main.hpp"
 
 namespace Sorcery {
 
 	class Display;
 
-	class AttractMode: public sf::Transformable, public sf::Drawable {
+	class AttractMode : public sf::Transformable, public sf::Drawable {
 
-		public:
+	  public:
+		// Constructors
+		AttractMode(sf::Texture creatures_texture, Component component);
+		AttractMode() = delete;
 
-			// Constructors
-			AttractMode(sf::Texture creatures_texture, Component component);
-			AttractMode() = delete;
+		// Public Members
+		std::vector<unsigned int> data;
+		std::vector<unsigned int> data_temp;
+		sf::Sprite sprite;
 
-			// Public Members
-			std::vector<unsigned int> data;
-			std::vector<unsigned int> data_temp;
-			sf::Sprite sprite;
+		// Public Methods
+		auto generate() -> void;
+		auto set_alpha(unsigned int alpha) -> void;
 
-			// Public Methods
-			auto generate() -> void;
-			auto set_alpha(unsigned int alpha) -> void;
+	  private:
+		// Private Methods
+		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto _get_creature_gfx(const int creature_id, const bool known) -> sf::Sprite;
 
-		private:
-
-			// Private Methods
-			auto virtual draw(sf::RenderTarget& target, sf::RenderStates states) const -> void;
-			auto _get_creature_gfx(const int creature_id, const bool known) -> sf::Sprite;
-
-			// Private Members
-			sf::Texture _creatures_texture;
-			sf::RenderTexture _render_texture;
-			sf::Texture _texture;
-			sf::Sprite _sprite;
-			Component _component;
-			unsigned int _creature_sprite_width;
-			unsigned int _creature_sprite_height;
-			unsigned int _creature_sprite_spacing;
+		// Private Members
+		sf::Texture _creatures_texture;
+		sf::RenderTexture _render_texture;
+		sf::Texture _texture;
+		sf::Sprite _sprite;
+		Component _component;
+		unsigned int _creature_sprite_width;
+		unsigned int _creature_sprite_height;
+		unsigned int _creature_sprite_spacing;
 	};
-}
+} // namespace Sorcery
