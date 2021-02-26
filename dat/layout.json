@@ -339,7 +339,7 @@
 		},
 		{
 			"name": "confirm_save_game_options_frame",
-			"w": "14",
+			"w": "16",
 			"h": "7",
 			"x": "centre",
 			"y": "14",
@@ -362,7 +362,7 @@
 		},
 		{
 			"name": "confirm_cancel_changes_options_frame",
-			"w": "14",
+			"w": "16",
 			"h": "7",
 			"x": "centre",
 			"y": "14",

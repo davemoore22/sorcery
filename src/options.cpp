@@ -129,16 +129,27 @@ auto Sorcery::Options::start() -> void {
 								(*_system.config)[config_to_toggle] = !(*_system.config)[config_to_toggle];
 							}
 						} else if ((*_options_menu->selected).type == MenuItemType::SAVE) {
-							_system.config->save();
-							return;
+
+							// Ask for confirmation of Save
+							_display.window->input_mode = WindowInputMode::SAVE_CHANGES;
+							_yes_or_no = WindowConfirm::NO;
+
+							//_system.config->save();
+							//return;
 						} else if ((*_options_menu->selected).type == MenuItemType::CANCEL) {
-							_system.config->load();
-							return;
+
+							// Ask for confirmation of Cancel
+							_display.window->input_mode = WindowInputMode::CANCEL_CHANGES;
+							_yes_or_no = WindowConfirm::NO;
+							//_system.config->load();
+							//return;
 						}
 					}
 				}
 
-			} else if (_display.window->input_mode == WindowInputMode::SWITCH_ON_STRICT_MODE) {
+			} else if ((_display.window->input_mode == WindowInputMode::SWITCH_ON_STRICT_MODE) ||
+				(_display.window->input_mode == WindowInputMode::SAVE_CHANGES) ||
+				(_display.window->input_mode == WindowInputMode::CANCEL_CHANGES)) {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
@@ -155,11 +166,27 @@ auto Sorcery::Options::start() -> void {
 					_confirm_strict_on->currently_highlighted = WindowConfirm::NO;
 				else if (_system.input->check_for_event(WindowInput::CANCEL, event))
 					_display.window->input_mode = WindowInputMode::GAME_OPTIONS;
-				else if (_system.input->check_for_event(WindowInput::MOVE, event))
-					_confirm_strict_on->check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
-					std::optional<WindowConfirm> option_chosen =
-						_confirm_strict_on->check_if_option_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+				else if (_system.input->check_for_event(WindowInput::MOVE, event)) {
+					if (_display.window->input_mode == WindowInputMode::SWITCH_ON_STRICT_MODE) {
+						_confirm_strict_on->check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					} else if (_display.window->input_mode == WindowInputMode::SAVE_CHANGES) {
+						_confirm_save->check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					} else if (_display.window->input_mode == WindowInputMode::CANCEL_CHANGES) {
+						_confirm_cancel->check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					}
+				} else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
+
+					std::optional<WindowConfirm> option_chosen {};
+					if (_display.window->input_mode == WindowInputMode::SWITCH_ON_STRICT_MODE) {
+						option_chosen =
+							_confirm_strict_on->check_if_option_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					} else if (_display.window->input_mode == WindowInputMode::SAVE_CHANGES) {
+						option_chosen =
+							_confirm_save->check_if_option_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					} else if (_display.window->input_mode == WindowInputMode::CANCEL_CHANGES) {
+						option_chosen =
+							_confirm_cancel->check_if_option_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					}
 
 					// Mouse click only
 					if (option_chosen) {
@@ -170,6 +197,12 @@ auto Sorcery::Options::start() -> void {
 								_system.config->set_strict_mode();
 								(*_system.config)[ConfigOption::STRICT_MODE] = true;
 								_display.window->input_mode = WindowInputMode::GAME_OPTIONS;
+							} else if (_display.window->input_mode == WindowInputMode::CANCEL_CHANGES) {
+								_system.config->load();
+								return;
+							} else if (_display.window->input_mode == WindowInputMode::SAVE_CHANGES) {
+								_system.config->save();
+								return;
 							}
 						}
 						if (option_chosen.value() == WindowConfirm::NO)
@@ -184,7 +217,12 @@ auto Sorcery::Options::start() -> void {
 									_system.config->set_strict_mode();
 									(*_system.config)[ConfigOption::STRICT_MODE] = true;
 									_display.window->input_mode = WindowInputMode::GAME_OPTIONS;
-
+								} else if (_display.window->input_mode == WindowInputMode::CANCEL_CHANGES) {
+									_system.config->load();
+									return;
+								} else if (_display.window->input_mode == WindowInputMode::SAVE_CHANGES) {
+									_system.config->save();
+									return;
 								}
 							} else if (_confirm_strict_on->currently_highlighted == WindowConfirm::NO)
 								_display.window->input_mode = WindowInputMode::GAME_OPTIONS;
@@ -224,6 +262,10 @@ auto Sorcery::Options::_draw() -> void {
 	_window->draw(*_options_menu);
 	if (_display.window->input_mode == WindowInputMode::SWITCH_ON_STRICT_MODE) {
 		_confirm_strict_on->draw(lerp);
+	} else if (_display.window->input_mode == WindowInputMode::SAVE_CHANGES) {
+		_confirm_save->draw(lerp);
+	} else if (_display.window->input_mode == WindowInputMode::CANCEL_CHANGES) {
+		_confirm_cancel->draw(lerp);
 	} else if (_display_tooltip) {
 		sf::Vector2i tooltip_position = sf::Mouse::getPosition(*_window);
 		tooltip_position.x += 10;

@@ -37,7 +37,7 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wswitch-default"
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#pragma GCC diagnostic ignored "-Wvolatile"
+#pragma GCC diagnostic ignored "-Wvolatile" // NOLINT(clang-diagnostic-unknown-warning-option)
 #pragma GCC diagnostic ignored "-Wignored-qualifiers"
 #pragma GCC diagnostic ignored "-Wreorder"
 #pragma GCC diagnostic ignored "-Wreturn-type"
