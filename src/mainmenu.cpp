@@ -173,11 +173,11 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 							_display.window->input_mode = WindowInputMode::NORMAL;
 					} else {
 
-							// Button/Keyboard
-							if (_confirm_exit->currently_highlighted == WindowConfirm::YES)
-								_window->close();
-							else if (_confirm_exit->currently_highlighted == WindowConfirm::NO)
-								_display.window->input_mode = WindowInputMode::NORMAL;
+						// Button/Keyboard
+						if (_confirm_exit->currently_highlighted == WindowConfirm::YES)
+							_window->close();
+						else if (_confirm_exit->currently_highlighted == WindowConfirm::NO)
+							_display.window->input_mode = WindowInputMode::NORMAL;
 					}
 				}
 			}

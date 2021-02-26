@@ -69,5 +69,6 @@ namespace Sorcery {
 			sf::Sprite _edge_of_town_background;
 			GameMenuType _menu_stage;
 			std::shared_ptr<Confirm> _confirm_leave_game;
+			WindowConfirm _yes_or_no;
 	};
 }

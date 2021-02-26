@@ -62,8 +62,8 @@ auto Sorcery::Application::start() -> void {
 	MainMenuType menu_stage {MainMenuType::ATTRACT_MODE};
 	do {
 
-		_options->start();
-		_options->stop();
+		option_chosen = _gamemenu->start();
+		_gamemenu->stop();
 
 		option_chosen = _mainmenu->start(menu_stage);
 		_mainmenu->stop();

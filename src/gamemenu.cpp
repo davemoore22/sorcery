@@ -98,50 +98,97 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
 
-			// Check for Window Close
-			if (event.type == sf::Event::Closed)
-				return std::nullopt;
+			// If we are in normal input mode
+			if (_display.window->input_mode == WindowInputMode::CASTLE) {
 
-			// And handle input on the main menu
-			if (_menu_stage == GameMenuType::CASTLE) {
-				if (_system.input->check_for_event(WindowInput::UP, event))
-					selected_castle_option = _castle_menu->choose_previous();
-				else if (_system.input->check_for_event(WindowInput::DOWN, event))
-					selected_castle_option = _castle_menu->choose_next();
-				else if (_system.input->check_for_event(WindowInput::MOVE, event))
-					selected_castle_option =
-						_castle_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
+				// Check for Window Close
+				if (event.type == sf::Event::Closed)
+					return std::nullopt;
 
-					// We have selected something from the menu
-					if (selected_castle_option) {
-						const MenuItem option_chosen {(*selected_castle_option.value()).item};
-						if (option_chosen == MenuItem::CA_EDGE_OF_TOWN) {
-							_menu_stage = GameMenuType::EDGE_OF_TOWN;
+				// And handle input on the main menu
+				if (_menu_stage == GameMenuType::CASTLE) {
+					if (_system.input->check_for_event(WindowInput::UP, event))
+						selected_castle_option = _castle_menu->choose_previous();
+					else if (_system.input->check_for_event(WindowInput::DOWN, event))
+						selected_castle_option = _castle_menu->choose_next();
+					else if (_system.input->check_for_event(WindowInput::MOVE, event))
+						selected_castle_option =
+							_castle_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
+
+						// We have selected something from the menu
+						if (selected_castle_option) {
+							const MenuItem option_chosen {(*selected_castle_option.value()).item};
+							if (option_chosen == MenuItem::CA_EDGE_OF_TOWN) {
+								_menu_stage = GameMenuType::EDGE_OF_TOWN;
+							}
 						}
 					}
-				}
 
-			} else if (_menu_stage == GameMenuType::EDGE_OF_TOWN) {
-				if (_system.input->check_for_event(WindowInput::UP, event))
-					selected_edge_of_town_option = _edge_of_town_menu->choose_previous();
-				else if (_system.input->check_for_event(WindowInput::DOWN, event))
-					selected_edge_of_town_option = _edge_of_town_menu->choose_next();
-				else if (_system.input->check_for_event(WindowInput::MOVE, event))
-					selected_edge_of_town_option =
-						_edge_of_town_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
+				} else if (_menu_stage == GameMenuType::EDGE_OF_TOWN) {
+					if (_system.input->check_for_event(WindowInput::UP, event))
+						selected_edge_of_town_option = _edge_of_town_menu->choose_previous();
+					else if (_system.input->check_for_event(WindowInput::DOWN, event))
+						selected_edge_of_town_option = _edge_of_town_menu->choose_next();
+					else if (_system.input->check_for_event(WindowInput::MOVE, event))
+						selected_edge_of_town_option =
+							_edge_of_town_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
 
-					// We have selected something from the menu
-					if (selected_edge_of_town_option) {
-						const MenuItem option_chosen {(*selected_edge_of_town_option.value()).item};
-						if (option_chosen == MenuItem::ET_CASTLE) {
-							_menu_stage = GameMenuType::CASTLE;
-						} else if  (option_chosen == MenuItem::ET_LEAVE_GAME) {
-							return MenuItem::ET_LEAVE_GAME;
-						} else if  (option_chosen == MenuItem::ET_MAZE) {
-							return MenuItem::ET_MAZE;
+						// We have selected something from the menu
+						if (selected_edge_of_town_option) {
+							const MenuItem option_chosen {(*selected_edge_of_town_option.value()).item};
+							if (option_chosen == MenuItem::ET_CASTLE) {
+								_menu_stage = GameMenuType::CASTLE;
+							} else if  (option_chosen == MenuItem::ET_LEAVE_GAME) {
+								_display.window->input_mode = WindowInputMode::LEAVE_GAME;
+								_yes_or_no = WindowConfirm::NO;
+								//return MenuItem::ET_LEAVE_GAME;
+							} else if  (option_chosen == MenuItem::ET_MAZE) {
+								return MenuItem::ET_MAZE;
+							}
 						}
+					} else if (_system.input->check_for_event(WindowInput::CANCEL, event)) {
+						_display.window->input_mode = WindowInputMode::LEAVE_GAME;
+						_yes_or_no = WindowConfirm::NO;
+					}
+				}
+			} else if (_display.window->input_mode == WindowInputMode::LEAVE_GAME) {
+
+				// Check for Window Close
+				if (event.type == sf::Event::Closed)
+					return std::nullopt;
+
+				// All we can do is select Y or N
+				if (_system.input->check_for_event(WindowInput::LEFT, event))
+					_confirm_leave_game->toggle_highlighted();
+				else if (_system.input->check_for_event(WindowInput::RIGHT, event))
+					_confirm_leave_game->toggle_highlighted();
+				else if (_system.input->check_for_event(WindowInput::YES, event))
+					_confirm_leave_game->currently_highlighted = WindowConfirm::YES;
+				else if (_system.input->check_for_event(WindowInput::NO, event))
+					_confirm_leave_game->currently_highlighted = WindowConfirm::NO;
+				else if (_system.input->check_for_event(WindowInput::CANCEL, event))
+					_display.window->input_mode = WindowInputMode::CASTLE;
+				else if (_system.input->check_for_event(WindowInput::MOVE, event))
+					_confirm_leave_game->check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+				else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
+					std::optional<WindowConfirm> option_chosen =
+						_confirm_leave_game->check_if_option_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+
+					// Mouse click only
+					if (option_chosen) {
+						if (option_chosen.value() == WindowConfirm::YES)
+							_window->close();
+						if (option_chosen.value() == WindowConfirm::NO)
+							_display.window->input_mode = WindowInputMode::CASTLE;
+					} else {
+
+						// Button/Keyboard
+						if (_confirm_leave_game->currently_highlighted == WindowConfirm::YES)
+							_window->close();
+						else if (_confirm_leave_game->currently_highlighted == WindowConfirm::NO)
+							_display.window->input_mode = WindowInputMode::CASTLE;
 					}
 				}
 			}
@@ -190,6 +237,8 @@ auto Sorcery::GameMenu::_draw() -> void {
 			(*_display.layout)["castle:edge_of_town_menu"].y);
 		_edge_of_town_menu->setPosition(menu_pos);
 		_window->draw(*_edge_of_town_menu);
+		if (_display.window->input_mode == WindowInputMode::LEAVE_GAME)
+			_confirm_leave_game->draw(lerp);
 	}
 
 	// Always draw the following
