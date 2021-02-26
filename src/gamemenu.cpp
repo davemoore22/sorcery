@@ -41,6 +41,9 @@ Sorcery::GameMenu::GameMenu(System &system, Display &display, Graphics &graphics
 
 	_confirm_leave_game = std::make_shared<Confirm>(_system, _display, _graphics,
 		(*_display.layout)["castle:confirm_leave_game_frame"], (*_display.layout)["castle:confirm_leave_game"]);
+
+	// Modules
+	_training = std::make_shared<Training>(system, display, graphics);
 }
 
 // Standard Destructor
@@ -145,6 +148,9 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 								//return MenuItem::ET_LEAVE_GAME;
 							} else if (option_chosen == MenuItem::ET_MAZE) {
 								return MenuItem::ET_MAZE;
+							} else if (option_chosen == MenuItem::ET_TRAIN) {
+								_training->start();
+								_training->stop();
 							}
 						}
 					} else if (_system.input->check_for_event(WindowInput::CANCEL, event)) {

@@ -194,6 +194,7 @@
 		<Unit filename="src/textfile.cpp" />
 		<Unit filename="src/tile.cpp" />
 		<Unit filename="src/tooltip.cpp" />
+		<Unit filename="src/training.cpp" />
 		<Unit filename="src/window.cpp" />
 		<Unit filename="vfx/menu.mp4" />
 		<Extensions />

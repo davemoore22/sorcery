@@ -32,6 +32,7 @@
 #include "main.hpp"
 #include "menu.hpp"
 #include "system.hpp"
+#include "training.hpp"
 
 namespace Sorcery {
 
@@ -69,5 +70,6 @@ namespace Sorcery {
 		GameMenuType _menu_stage;
 		std::shared_ptr<Confirm> _confirm_leave_game;
 		WindowConfirm _yes_or_no;
+		std::shared_ptr<Training> _training;
 	};
 } // namespace Sorcery

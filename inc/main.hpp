@@ -85,12 +85,15 @@
 #include <vector>
 
 // Internal Includes
-#include "component.hpp"
+
+// clang-format off
 #include "define.hpp"
 #include "enum.hpp"
 #include "macro.hpp"
 #include "operator.hpp"
 #include "type.hpp"
+#include "component.hpp"
+// clang-format on
 
 // Aliases
 namespace Sorcery {
