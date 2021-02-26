@@ -385,11 +385,11 @@
 		},
 		{
 			"name": "confirm_strict_mode_options_frame",
-			"w": "44",
+			"w": "52",
 			"h": "7",
 			"x": "centre",
 			"y": "14",
-			"alpha": "175",
+			"alpha": "225",
 			"type": "frame",
 			"drawmode": "manual"
 		},
@@ -653,7 +653,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "confirm_leave_game_options",
+			"name": "confirm_leave_game",
 			"x": "centre",
 			"y": "16",
 			"font": "monospace",
@@ -664,7 +664,7 @@
 			"justification": "centre",
 			"type": "text",
 			"drawmode": "manual"
-		},
+		}
 		]
 	}
 	]

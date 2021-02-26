@@ -40,8 +40,8 @@ Sorcery::GameMenu::GameMenu (System& system, Display& display, Graphics& graphic
 	_display.generate_components("castle");
 
 	_confirm_leave_game = std::make_shared<Confirm>(_system, _display, _graphics,
-		(*_display.layout)["castle:confirm_leave_game_options_frame"],
-		(*_display.layout)["castle:confirm_leave_game_options"]);
+		(*_display.layout)["castle:confirm_leave_game_frame"],
+		(*_display.layout)["castle:confirm_leave_game"]);
 }
 
 // Standard Destructor

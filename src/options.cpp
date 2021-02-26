@@ -79,60 +79,120 @@ auto Sorcery::Options::start() -> void {
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
 
-			// Check for Window Close
-			if (event.type == sf::Event::Closed)
-				return;
+			// If we are in normal input mode
+			if (_display.window->input_mode == WindowInputMode::GAME_OPTIONS) {
 
-			if (_system.input->check_for_event(WindowInput::CANCEL, event))
-				return;
+				// Check for Window Close
+				if (event.type == sf::Event::Closed)
+					return;
 
-			// And handle input on the main menu
-			if (_system.input->check_for_event(WindowInput::UP, event)) {
-					selected_option = _options_menu->choose_previous();
-			} else if (_system.input->check_for_event(WindowInput::DOWN, event)) {
-					selected_option = _options_menu->choose_next();
-			} else if (_system.input->check_for_event(WindowInput::MOVE, event)) {
-					selected_option =
-						_options_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					if (selected_option) {
-						if ((*_options_menu->selected).type == MenuItemType::ENTRY)
-							_display_tooltip = _set_tooltip(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-						else
-							_display_tooltip = false;
-					}
+				if (_system.input->check_for_event(WindowInput::CANCEL, event))
+					return;
 
-
-			} else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
-				if (selected_option) {
-					if ((*_options_menu->selected).type == MenuItemType::ENTRY) {
-						ConfigOption config_to_toggle = (*_options_menu->selected).config;
-						if ((config_to_toggle == ConfigOption::STRICT_MODE) &&
-							(!(*_system.config)[ConfigOption::STRICT_MODE])) {
-
-							// Handle Strict Mode Toggling
-							_system.config->set_strict_mode();
-							(*_system.config)[ConfigOption::STRICT_MODE] = true;
-						} else if ((config_to_toggle == ConfigOption::RECOMMENDED_MODE) &&
-							(!(*_system.config)[ConfigOption::RECOMMENDED_MODE])) {
-
-							// Handle Recommended Toggling
-							_system.config->set_recommended_mode();
-							(*_system.config)[ConfigOption::RECOMMENDED_MODE] = true;
-
-						} else {
-
-							// And toggling off strict mode
-							(*_system.config)[config_to_toggle] = !(*_system.config)[config_to_toggle];
+				// And handle input on the main menu
+				if (_system.input->check_for_event(WindowInput::UP, event)) {
+						selected_option = _options_menu->choose_previous();
+				} else if (_system.input->check_for_event(WindowInput::DOWN, event)) {
+						selected_option = _options_menu->choose_next();
+				} else if (_system.input->check_for_event(WindowInput::MOVE, event)) {
+						selected_option =
+							_options_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						if (selected_option) {
+							if ((*_options_menu->selected).type == MenuItemType::ENTRY)
+								_display_tooltip = _set_tooltip(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+							else
+								_display_tooltip = false;
 						}
-					} else if ((*_options_menu->selected).type == MenuItemType::SAVE) {
-						_system.config->save();
-						return;
-					} else if ((*_options_menu->selected).type == MenuItemType::CANCEL) {
-						_system.config->load();
-						return;
+
+
+				} else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
+					if (selected_option) {
+						if ((*_options_menu->selected).type == MenuItemType::ENTRY) {
+							ConfigOption config_to_toggle = (*_options_menu->selected).config;
+							if ((config_to_toggle == ConfigOption::STRICT_MODE) &&
+								(!(*_system.config)[ConfigOption::STRICT_MODE])) {
+
+									// Ask for confirmation of Strict Mode
+									_display.window->input_mode = WindowInputMode::SWITCH_ON_STRICT_MODE;
+									_yes_or_no = WindowConfirm::NO;
+
+							} else if ((config_to_toggle == ConfigOption::RECOMMENDED_MODE) &&
+								(!(*_system.config)[ConfigOption::RECOMMENDED_MODE])) {
+
+								// Handle Recommended Toggling
+								_system.config->set_recommended_mode();
+								(*_system.config)[ConfigOption::RECOMMENDED_MODE] = true;
+
+							} else {
+
+								// And toggling off strict mode
+								(*_system.config)[config_to_toggle] = !(*_system.config)[config_to_toggle];
+							}
+						} else if ((*_options_menu->selected).type == MenuItemType::SAVE) {
+							_system.config->save();
+							return;
+						} else if ((*_options_menu->selected).type == MenuItemType::CANCEL) {
+							_system.config->load();
+							return;
+						}
 					}
 				}
+
+			} else if (_display.window->input_mode == WindowInputMode::SWITCH_ON_STRICT_MODE) {
+
+				// Check for Window Close
+				if (event.type == sf::Event::Closed)
+					return;
+
+					// All we can do is select Y or N
+				if (_system.input->check_for_event(WindowInput::LEFT, event))
+					_confirm_strict_on->toggle_highlighted();
+				else if (_system.input->check_for_event(WindowInput::RIGHT, event))
+					_confirm_strict_on->toggle_highlighted();
+				else if (_system.input->check_for_event(WindowInput::YES, event))
+					_confirm_strict_on->currently_highlighted = WindowConfirm::YES;
+				else if (_system.input->check_for_event(WindowInput::NO, event))
+					_confirm_strict_on->currently_highlighted = WindowConfirm::NO;
+				else if (_system.input->check_for_event(WindowInput::CANCEL, event))
+					_display.window->input_mode = WindowInputMode::GAME_OPTIONS;
+				else if (_system.input->check_for_event(WindowInput::MOVE, event))
+					_confirm_strict_on->check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+				else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
+					std::optional<WindowConfirm> option_chosen =
+						_confirm_strict_on->check_if_option_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+
+					// Mouse click only
+					if (option_chosen) {
+						if (option_chosen.value() == WindowConfirm::YES) {
+
+							// Switch on Strict Mode Here!
+							if (_display.window->input_mode == WindowInputMode::SWITCH_ON_STRICT_MODE) {
+								_system.config->set_strict_mode();
+								(*_system.config)[ConfigOption::STRICT_MODE] = true;
+								_display.window->input_mode = WindowInputMode::GAME_OPTIONS;
+							}
+						}
+						if (option_chosen.value() == WindowConfirm::NO)
+							_display.window->input_mode = WindowInputMode::GAME_OPTIONS;
+					} else {
+
+							// Button/Keyboard
+							if (_confirm_strict_on->currently_highlighted == WindowConfirm::YES) {
+
+								// Switch on Strict Mode Here!
+								if (_display.window->input_mode == WindowInputMode::SWITCH_ON_STRICT_MODE) {
+									_system.config->set_strict_mode();
+									(*_system.config)[ConfigOption::STRICT_MODE] = true;
+									_display.window->input_mode = WindowInputMode::GAME_OPTIONS;
+
+								}
+							} else if (_confirm_strict_on->currently_highlighted == WindowConfirm::NO)
+								_display.window->input_mode = WindowInputMode::GAME_OPTIONS;
+					}
+				}
+
 			}
+
 		}
 
 		_window->clear();
@@ -162,17 +222,18 @@ auto Sorcery::Options::_draw() -> void {
 		(*_display.layout)["options:options_menu"].y);
 	_options_menu->setPosition(menu_pos);
 	_window->draw(*_options_menu);
-
-	// Always draw the following
-	_display.display_cursor();
-
-	if (_display_tooltip) {
+	if (_display.window->input_mode == WindowInputMode::SWITCH_ON_STRICT_MODE) {
+		_confirm_strict_on->draw(lerp);
+	} else if (_display_tooltip) {
 		sf::Vector2i tooltip_position = sf::Mouse::getPosition(*_window);
 		tooltip_position.x += 10;
 		tooltip_position.y += 10;
 		_tooltip->setPosition(tooltip_position.x, tooltip_position.y);
 		_window->draw(*_tooltip);
 	}
+
+	// Always draw the following
+	_display.display_cursor();
 }
 
 auto Sorcery::Options::_set_tooltip(sf::Vector2f mouse_position) -> bool {

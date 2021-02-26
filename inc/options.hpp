@@ -74,5 +74,6 @@ namespace Sorcery {
 			std::shared_ptr<Confirm> _confirm_save;
 			std::shared_ptr<Confirm> _confirm_cancel;
 			std::shared_ptr<Confirm> _confirm_strict_on;
+			WindowConfirm _yes_or_no;
 	};
 }
