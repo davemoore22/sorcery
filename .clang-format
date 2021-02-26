@@ -1,0 +1,8 @@
+Language: Cpp
+IndentWidth: 4
+UseTab: Always
+TabWidth: 4
+ReflowComments: false
+ColumnLimit: 120
+IndentAccessModifiers: true
+NamespaceIndentation: All
