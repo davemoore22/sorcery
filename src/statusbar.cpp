@@ -21,46 +21,4 @@
 // licensors of this Program grant you additional permission to convey the
 // resulting work.
 
-#pragma once
-
-#include "display.hpp"
-#include "frame.hpp"
-#include "graphics.hpp"
-#include "layout.hpp"
-#include "main.hpp"
-#include "menu.hpp"
-#include "system.hpp"
-
-namespace Sorcery {
-
-	class Training {
-
-	  public:
-		// Standard Constructor
-		Training(System &system, Display &display, Graphics &graphics);
-		Training() = delete;
-
-		// Standard Destructor
-		~Training();
-
-		// Public Members
-
-		// Public Methods
-		auto start() -> std::optional<MenuItem>;
-		auto stop() -> void;
-
-	  private:
-		// Private Methods
-		auto _draw() -> void;
-
-		// Private Members
-		System _system;
-		Display _display;
-		Graphics _graphics;
-		sf::RenderWindow *_window;
-		MainMenuType _menu_stage;
-		std::shared_ptr<Menu> _menu;
-		sf::Sprite _background;
-		std::unique_ptr<Frame> _menu_frame;
-	};
-} // namespace Sorcery
+#include "statusbar.hpp"

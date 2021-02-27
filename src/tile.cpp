@@ -1,4 +1,4 @@
-// Copyright (C) 2020 Dave Moore
+// Copyright (C) 2021 Dave Moore
 //
 // This file is part of Sorcery: Dreams of the Mad Overlord.
 //
@@ -22,4 +22,3 @@
 // resulting work.
 
 #include "tile.hpp"
-

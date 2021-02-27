@@ -1,4 +1,4 @@
-// Copyright (C) 2020 Dave Moore
+// Copyright (C) 2021 Dave Moore
 //
 // This file is part of Sorcery: Dreams of the Mad Overlord.
 //
@@ -53,7 +53,7 @@ Sorcery::File::File() {
 }
 
 // Overload [] Operator
-auto Sorcery::File::operator [](std::string_view key) const -> std::filesystem::path {
+auto Sorcery::File::operator[](std::string_view key) const -> std::filesystem::path {
 
 	if (_file_paths.find(key) != _file_paths.end())
 		return (_file_paths.at(key));
@@ -71,12 +71,12 @@ auto Sorcery::File::get_path_as_string(std::string_view key) const -> std::strin
 
 auto Sorcery::File::get_base_path() const -> std::filesystem::path {
 
-    return _base_path;
+	return _base_path;
 }
 
 auto Sorcery::File::_add_path(const std::string_view dir, const std::string_view file) -> void {
 
-	const std::filesystem::path file_path {_base_path / dir / file};
+	const std::filesystem::path file_path{_base_path / dir / file};
 	_file_paths[file] = file_path;
 }
 
@@ -88,7 +88,7 @@ auto Sorcery::File::_get_exe_path() -> std::string_view {
 	const char *path;
 	if (count != -1) {
 		path = dirname(result);
-		std::string_view base_path {path};
+		std::string_view base_path{path};
 		return base_path;
 	} else {
 		return "";

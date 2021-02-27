@@ -1,4 +1,4 @@
-// Copyright (C) 2020 Dave Moore
+// Copyright (C) 2021 Dave Moore
 //
 // This file is part of Sorcery: Dreams of the Mad Overlord.
 //
@@ -25,14 +25,13 @@
 #include "camera.hpp"
 
 // Standard Constructor
-Sorcery::Camera::Camera(): mDirection(-1.0f, 0) ,mPlane(0, 0.66f) ,mPosition(0, 0) {
-}
+Sorcery::Camera::Camera() : mDirection(-1.0f, 0), mPlane(0, 0.66f), mPosition(0, 0) {}
 
 auto Sorcery::Camera::getDirection() -> sf::Vector2f {
 	return mDirection;
 }
 
-auto Sorcery::Camera::setDirection(const sf::Vector2f& direction) -> void {
+auto Sorcery::Camera::setDirection(const sf::Vector2f &direction) -> void {
 	mDirection = direction;
 }
 
@@ -44,7 +43,7 @@ auto Sorcery::Camera::getPlane() -> sf::Vector2f {
 	return mPlane;
 }
 
-auto Sorcery::Camera::setPlane(const sf::Vector2f& plane) -> void{
+auto Sorcery::Camera::setPlane(const sf::Vector2f &plane) -> void {
 	mPlane = plane;
 }
 
@@ -56,7 +55,7 @@ auto Sorcery::Camera::getPosition() -> sf::Vector2f {
 	return mPosition;
 }
 
-auto Sorcery::Camera::setPosition(const sf::Vector2f& position) -> void {
+auto Sorcery::Camera::setPosition(const sf::Vector2f &position) -> void {
 	mPosition = position;
 }
 
@@ -64,16 +63,16 @@ auto Sorcery::Camera::setPosition(float x, float y) -> void {
 	mPosition = sf::Vector2f(x, y);
 }
 
-auto Sorcery::Camera::getDirectionInDegrees() -> float{
+auto Sorcery::Camera::getDirectionInDegrees() -> float {
 	return atan2f(mDirection.y, mDirection.x) * (180.0f / std::numbers::pi);
 }
 
 auto Sorcery::Camera::setDirectionInDegrees(float degrees) -> void {
-	float angle {degrees * (std::numbers::pi / 180.0f)};
+	float angle{degrees * (std::numbers::pi / 180.0f)};
 	mDirection.x = cosf(angle);
 	mDirection.y = sinf(angle);
 
-	float perp {(degrees - 90) * (std::numbers::pi / 180.0f)};
+	float perp{(degrees - 90) * (std::numbers::pi / 180.0f)};
 	//float fov = 2 * atan(0.66/1.0);
 	mPlane.x = cosf(perp) * 0.66f;
 	mPlane.y = sinf(perp) * 0.66f;
@@ -84,4 +83,3 @@ auto Sorcery::Camera::rotateByDegrees(float degrees) -> void {
 	current += degrees;
 	setDirectionInDegrees(current);
 }
-

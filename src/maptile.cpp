@@ -1,4 +1,4 @@
-// Copyright (C) 2020 Dave Moore
+// Copyright (C) 2021 Dave Moore
 //
 // This file is part of Sorcery: Dreams of the Mad Overlord.
 //
@@ -23,11 +23,7 @@
 
 #include "maptile.hpp"
 
-Sorcery::MapTile::MapTile()
-	:mTileType(Floor)
-	,mIsSolid(false)
-	,mTextureIndex(0)
-	{ }
+Sorcery::MapTile::MapTile() : mTileType(Floor), mIsSolid(false), mTextureIndex(0) {}
 
 bool Sorcery::MapTile::isWall() {
 	return mTileType == MapTileType::Wall;
@@ -47,10 +43,9 @@ void Sorcery::MapTile::setIsSolid(bool is_solid) {
 
 void Sorcery::MapTile::setTileType(MapTileType t) {
 	mTileType = t;
-	if (mTileType == MapTileType::Wall){
+	if (mTileType == MapTileType::Wall) {
 		mIsSolid = true;
-	}
-	else{
+	} else {
 		mIsSolid = false;
 	}
 }
@@ -66,7 +61,6 @@ int Sorcery::MapTile::getTextureIndex() {
 void Sorcery::MapTile::setTextureIndex(int index) {
 	mTextureIndex = index;
 }
-
 
 unsigned int Sorcery::MapTile::getTextureWidth() {
 	return mTextureWidth;

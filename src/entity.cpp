@@ -1,4 +1,4 @@
-// Copyright (C) 2020 Dave Moore
+// Copyright (C) 2021 Dave Moore
 //
 // This file is part of Sorcery: Dreams of the Mad Overlord.
 //
@@ -24,8 +24,7 @@
 // https://github.com/lxndrdagreat/sfray
 #include "entity.hpp"
 
-Sorcery::Entity::Entity(): mPosition(0, 0) {
-}
+Sorcery::Entity::Entity() : mPosition(0, 0) {}
 
 auto Sorcery::Entity::getPosition() -> sf::Vector2f {
 	return mPosition;

@@ -1,4 +1,4 @@
-// Copyright (C) 2020 Dave Moore
+// Copyright (C) 2021 Dave Moore
 //
 // This file is part of Sorcery: Dreams of the Mad Overlord.
 //
@@ -23,18 +23,16 @@
 
 #include "engine.hpp"
 
-
 // Standard Constructor
-Sorcery::Engine::Engine (System& system, Display& display, Graphics& graphics):  _system {system},
-	_display {display}, _graphics {graphics} {
+Sorcery::Engine::Engine(System &system, Display &display, Graphics &graphics)
+	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();
 }
 
 // Standard Destructor
-Sorcery::Engine::~Engine() {
-}
+Sorcery::Engine::~Engine() {}
 
 auto Sorcery::Engine::start() -> void {
 
@@ -43,41 +41,29 @@ auto Sorcery::Engine::start() -> void {
 	// It's dimensions are 20x20.
 	unsigned int mapWidth = 20;
 	unsigned int mapHeight = 20;
-	std::vector<int> basicLargeRoom{
-			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-			1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-			1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 1,
-			1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-			1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-			1, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-			1, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-			1, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-			1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-			1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-			1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-			1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-			1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-			1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-			1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 1,
-			1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1,
-			1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1,
-			1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1,
-			1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-	};
+	std::vector<int> basicLargeRoom{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0,
+		0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		1, 1, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
+		0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0,
+		0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1, 1,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+		1, 1};
 
 	// This map is for testing the drawing distance
 	std::vector<std::vector<int>> hugeSpace;
-	for (int x = 0; x < 50; ++x){
+	for (int x = 0; x < 50; ++x) {
 		hugeSpace.push_back(std::vector<int>());
-		for (int y = 0; y < 50; ++y){
-			if (x == 0 || x == 49){
+		for (int y = 0; y < 50; ++y) {
+			if (x == 0 || x == 49) {
 				hugeSpace[x].push_back(1);
-			}
-			else if (y == 0 || y == 49){
+			} else if (y == 0 || y == 49) {
 				hugeSpace[x].push_back(2);
-			}
-			else{
+			} else {
 				hugeSpace[x].push_back(0);
 			}
 		}
@@ -87,13 +73,13 @@ auto Sorcery::Engine::start() -> void {
 	Sorcery::Map worldMap;
 
 	// Load textures into the map object
-	const std::filesystem::path file_path {_system.files->get_base_path() / "gfx" };
+	const std::filesystem::path file_path{_system.files->get_base_path() / "gfx"};
 	worldMap.loadTexture(1, file_path.string() + "/wall1.png");
-	worldMap.loadTexture(1, file_path.string() + "/wall1.png");  // 128x128 version
-	worldMap.loadTexture(2, file_path.string() + "/wall2.png");  // 128x128 version
-	worldMap.loadTexture(3, file_path.string() + "/wall3.png");  // 128x128 version
+	worldMap.loadTexture(1, file_path.string() + "/wall1.png");	  // 128x128 version
+	worldMap.loadTexture(2, file_path.string() + "/wall2.png");	  // 128x128 version
+	worldMap.loadTexture(3, file_path.string() + "/wall3.png");	  // 128x128 version
 	worldMap.loadTexture(0, file_path.string() + "/floor1.png");  // 128x128 version
-	worldMap.loadTexture(-1, file_path.string() + "/floor2.png");  // 128x128 version
+	worldMap.loadTexture(-1, file_path.string() + "/floor2.png"); // 128x128 version
 	worldMap.loadTexture(4, file_path.string() + "/sprite1.png");
 	worldMap.loadTexture(5, file_path.string() + "/sprite2.png");
 
@@ -101,12 +87,12 @@ auto Sorcery::Engine::start() -> void {
 	worldMap.setDataFromIntArray(basicLargeRoom, mapWidth, mapHeight);
 
 	// Some example entities for testing
-	for (unsigned int i = 0; i < 10; ++i){
-		Sorcery::Entity* ent = new Sorcery::Entity();
+	for (unsigned int i = 0; i < 10; ++i) {
+		Sorcery::Entity *ent = new Sorcery::Entity();
 		ent->setTextureUID((rand() % 2 == 0 ? 4 : 5));
 		int x = 1 + rand() % (worldMap.getWidth() - 2);
 		int y = 1 + rand() % (worldMap.getHeight() - 2);
-		while(!worldMap.getTile(x, y).isFloor()){
+		while (!worldMap.getTile(x, y).isFloor()) {
 			x = 1 + rand() % (worldMap.getWidth() - 2);
 			y = 1 + rand() % (worldMap.getHeight() - 2);
 		}
@@ -155,12 +141,10 @@ auto Sorcery::Engine::start() -> void {
 	fps_text.setPosition(10, 10);
 
 	// Start the game loop. This is the normal basics used in SFML.
-	while (_window->isOpen())
-	{
+	while (_window->isOpen()) {
 		// Process events
 		sf::Event event;
-		while (_window->pollEvent(event))
-		{
+		while (_window->pollEvent(event)) {
 			// Close window : exit
 			if (event.type == sf::Event::Closed) {
 				_window->close();
@@ -173,37 +157,37 @@ auto Sorcery::Engine::start() -> void {
 
 			// render settings for debug
 			// Z: Change floor render method
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Z){
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Z) {
 				int current = raycaster.getFloorRenderMethod();
 				current += 1;
-				if (current > 2){
+				if (current > 2) {
 					current = 0;
 				}
 				raycaster.setFloorRenderMethod((Sorcery::FloorRenderMethod)current);
 			}
 			// X: Change ceiling render method
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::X){
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::X) {
 				int current = raycaster.getCeilingRenderMethod();
 				current += 1;
-				if (current > 2){
+				if (current > 2) {
 					current = 0;
 				}
 				raycaster.setCeilingRenderMethod((Sorcery::CeilingRenderMethod)current);
 			}
 			// C: Change wall render method
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::C){
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::C) {
 				int current = raycaster.getWallRenderMethod();
 				current += 1;
-				if (current > 2){
+				if (current > 2) {
 					current = 0;
 				}
 				raycaster.setWallRenderMethod((Sorcery::WallRenderMethod)current);
 			}
 			// V: change entity render method
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::V){
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::V) {
 				int current = raycaster.getEntityRenderMethod();
 				current += 1;
-				if (current > 1){
+				if (current > 1) {
 					current = 0;
 				}
 				raycaster.setEntityRenderMethod((Sorcery::EntityRenderMethod)current);
@@ -220,40 +204,48 @@ auto Sorcery::Engine::start() -> void {
 
 		camera.moved = true;
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 			camera.moved = true;
 			// rotate camera left
 			camera.rotateByDegrees(degreesToRotate);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 			camera.moved = true;
 			// rotate camera right
 			camera.rotateByDegrees(-degreesToRotate);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 			// move camera forwards
 			camera.moved = true;
 			sf::Vector2f pos = camera.getPosition();
-			if (worldMap.getTile(int(camera.getPosition().x + camera.getDirection().x * moveCheck),
-								int(camera.getPosition().y)).isWall() == false){
+			if (worldMap
+					.getTile(
+						int(camera.getPosition().x + camera.getDirection().x * moveCheck), int(camera.getPosition().y))
+					.isWall() == false) {
 				pos.x += camera.getDirection().x * moveSpeed;
 			}
-			if (worldMap.getTile(int(camera.getPosition().x),
-								int(camera.getPosition().y + camera.getDirection().y * moveCheck)).isWall() == false){
+			if (worldMap
+					.getTile(
+						int(camera.getPosition().x), int(camera.getPosition().y + camera.getDirection().y * moveCheck))
+					.isWall() == false) {
 				pos.y += camera.getDirection().y * moveSpeed;
 			}
 			camera.setPosition(pos);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 			// move camera backwards
 			camera.moved = true;
 			sf::Vector2f pos = camera.getPosition();
-			if (worldMap.getTile(int(camera.getPosition().x - camera.getDirection().x * moveCheck),
-								int(camera.getPosition().y)).isWall() == false){
+			if (worldMap
+					.getTile(
+						int(camera.getPosition().x - camera.getDirection().x * moveCheck), int(camera.getPosition().y))
+					.isWall() == false) {
 				pos.x -= camera.getDirection().x * moveSpeed;
 			}
-			if (worldMap.getTile(int(camera.getPosition().x),
-								int(camera.getPosition().y - camera.getDirection().y * moveCheck)).isWall() == false){
+			if (worldMap
+					.getTile(
+						int(camera.getPosition().x), int(camera.getPosition().y - camera.getDirection().y * moveCheck))
+					.isWall() == false) {
 				pos.y -= camera.getDirection().y * moveSpeed;
 			}
 			camera.setPosition(pos);
@@ -272,7 +264,7 @@ auto Sorcery::Engine::start() -> void {
 
 		// Draw the framerate counter
 		fps_timer -= delta;
-		if (fps_timer <= 0.0f){
+		if (fps_timer <= 0.0f) {
 			fps_timer = 1.0f;
 			fps_text.setString(std::to_string((int)fps));
 		}
@@ -283,10 +275,6 @@ auto Sorcery::Engine::start() -> void {
 	}
 }
 
-auto Sorcery::Engine::stop() -> void {
+auto Sorcery::Engine::stop() -> void {}
 
-}
-
-auto Sorcery::Engine::_draw() -> void {
-
-}
+auto Sorcery::Engine::_draw() -> void {}
