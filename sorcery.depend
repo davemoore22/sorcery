@@ -130,7 +130,7 @@
 1614377195 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
-1614377195 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
+1614379768 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
 1614377195 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
@@ -327,7 +327,7 @@
 1605389985 source:/home/dave/Development/wizardry/sorcery-sfml/src/map.cpp
 	"map.hpp"
 
-1614376162 source:/home/dave/Development/wizardry/sorcery-sfml/src/menu.cpp
+1614379799 source:/home/dave/Development/wizardry/sorcery-sfml/src/menu.cpp
 	"menu.hpp"
 
 1597513199 source:/home/dave/Development/wizardry/sorcery-sfml/src/menubutton.cpp
@@ -491,7 +491,7 @@
 	"system.hpp"
 	"training.hpp"
 
-1614378911 source:/home/dave/Development/wizardry/sorcery-sfml/src/gamemenu.cpp
+1614441920 source:/home/dave/Development/wizardry/sorcery-sfml/src/gamemenu.cpp
 	"gamemenu.hpp"
 
 1605382439 source:/home/dave/Development/wizardry/sorcery-sfml/src/camera.cpp
@@ -530,7 +530,7 @@
 1614376612 source:/home/dave/Development/wizardry/sorcery-sfml/src/attractmode.cpp
 	"attractmode.hpp"
 
-1614378681 /home/dave/Development/wizardry/sorcery-sfml/inc/training.hpp
+1614442212 /home/dave/Development/wizardry/sorcery-sfml/inc/training.hpp
 	"display.hpp"
 	"frame.hpp"
 	"graphics.hpp"
@@ -538,4 +538,7 @@
 	"main.hpp"
 	"menu.hpp"
 	"system.hpp"
+
+1614442455 source:/home/dave/Development/wizardry/sorcery-sfml/src/training.cpp
+	"training.hpp"
 

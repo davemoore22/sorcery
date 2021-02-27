@@ -151,6 +151,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 							} else if (option_chosen == MenuItem::ET_TRAIN) {
 								_training->start();
 								_training->stop();
+								_display.window->input_mode = WindowInputMode::CASTLE;
 							}
 						}
 					} else if (_system.input->check_for_event(WindowInput::CANCEL, event)) {
@@ -185,14 +186,14 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 					// Mouse click only
 					if (option_chosen) {
 						if (option_chosen.value() == WindowConfirm::YES)
-							_window->close();
+							return MenuItem::ET_LEAVE_GAME;
 						if (option_chosen.value() == WindowConfirm::NO)
 							_display.window->input_mode = WindowInputMode::CASTLE;
 					} else {
 
 						// Button/Keyboard
 						if (_confirm_leave_game->currently_highlighted == WindowConfirm::YES)
-							_window->close();
+							return MenuItem::ET_LEAVE_GAME;
 						else if (_confirm_leave_game->currently_highlighted == WindowConfirm::NO)
 							_display.window->input_mode = WindowInputMode::CASTLE;
 					}

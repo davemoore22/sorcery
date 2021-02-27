@@ -32,6 +32,8 @@ Sorcery::Training::Training(System &system, Display &display, Graphics &graphics
 
 	// Get the Display Components
 	_display.generate_components("training_grounds");
+
+	_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::TRAINING_GROUNDS);
 }
 
 // Standard Destructor
@@ -40,7 +42,21 @@ Sorcery::Training::~Training() {
 	_display.stop_background_movie();
 }
 
-auto Sorcery::Training::start() -> void {
+auto Sorcery::Training::start() -> std::optional<MenuItem> {
+
+	Component background_c{(*_display.layout)["training_grounds:background_image"]};
+	sf::IntRect background_rect(1147, 249, 773, 388);
+	_background.setTexture(_system.resources->textures[TOWN_TEXTURE]);
+	_background.setTextureRect(background_rect);
+	_background.setScale(background_c.scale, background_c.scale);
+	_background.setPosition(
+		_display.window->get_x(_background, background_c.x), _display.window->get_y(_background, background_c.y));
+
+	Component menu_frame_c{(*_display.layout)["training_grounds:menu_frame"]};
+	_menu_frame = std::make_unique<Frame>(
+		_display.ui_texture, WindowFrameType::NORMAL, menu_frame_c.w, menu_frame_c.h, menu_frame_c.alpha);
+	_menu_frame->setPosition(_display.window->get_x(_menu_frame->sprite, menu_frame_c.x),
+		_display.window->get_y(_menu_frame->sprite, menu_frame_c.y));
 
 	// Clear the window
 	_window->clear();
@@ -49,6 +65,7 @@ auto Sorcery::Training::start() -> void {
 	_display.start_background_movie();
 
 	_display.window->input_mode = WindowInputMode::NORMAL;
+	std::optional<std::vector<MenuEntry>::const_iterator> selected_option{_menu->items.begin()};
 
 	// And do the main loop
 	sf::Event event{};
@@ -57,10 +74,27 @@ auto Sorcery::Training::start() -> void {
 
 			// Check for Window Close
 			if (event.type == sf::Event::Closed)
-				return;
+				return std::nullopt;
 
-			if (_system.input->check_for_event(WindowInput::CANCEL, event)) {
-				return;
+			if (_system.input->check_for_event(WindowInput::CANCEL, event))
+				return std::nullopt;
+
+			if (_system.input->check_for_event(WindowInput::UP, event))
+				selected_option = _menu->choose_previous();
+			else if (_system.input->check_for_event(WindowInput::DOWN, event))
+				selected_option = _menu->choose_next();
+			else if (_system.input->check_for_event(WindowInput::MOVE, event))
+				selected_option =
+					_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+			else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
+
+				// We have selected something from the menu
+				if (selected_option) {
+					const MenuItem option_chosen{(*selected_option.value()).item};
+					if (option_chosen == MenuItem::TR_EDGE_OF_TOWN) {
+						return MenuItem::ET_LEAVE_GAME;
+					}
+				}
 			}
 		}
 
@@ -73,6 +107,8 @@ auto Sorcery::Training::start() -> void {
 		_draw();
 		_window->display();
 	}
+
+	return std::nullopt;
 }
 
 auto Sorcery::Training::stop() -> void {
@@ -83,6 +119,21 @@ auto Sorcery::Training::stop() -> void {
 
 auto Sorcery::Training::_draw() -> void {
 
+	// Display Components
 	_display.display_components("training_grounds");
+
+	// Custom Layering
+	_window->draw(_background);
+	_window->draw(*_menu_frame);
+
+	// And the Menu
+	double lerp = _graphics.animation->colour_lerp;
+	_menu->generate((*_display.layout)["training_grounds:menu"], lerp);
+	const sf::Vector2f menu_pos(
+		(*_display.layout)["training_grounds:menu"].x, (*_display.layout)["training_grounds:menu"].y);
+	_menu->setPosition(menu_pos);
+	_window->draw(*_menu);
+
+	// And finally the Cursor
 	_display.display_cursor();
 }

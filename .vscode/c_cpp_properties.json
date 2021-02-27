@@ -1,22 +1,25 @@
 {
-	"configurations": [{
-		"name": "Linux",
-		"intelliSenseMode": "gcc-x64",
-		"includePath": [
-			"${workspaceFolder}/inc",
-			"${workspaceFolder}/src",
-			"${workspaceFolder}/lib",
-			"${workspaceFolder}/ext",
-			"${workspaceFolder}/inc/sqlitemoderncpp",
-			"${workspaceFolder}/inc/simpleini",
-			"/usr/local/include/**",
-			"/usr/include/**"
-		],
-		"defines": [
-			"_DEBUG"
-		],
-		"cStandard": "c11",
-		"cppStandard": "c++20"
-	}],
-	"version": 4
+    "configurations": [
+        {
+            "name": "Linux",
+            "intelliSenseMode": "gcc-x64",
+            "includePath": [
+                "${workspaceFolder}/inc",
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/lib",
+                "${workspaceFolder}/ext",
+                "${workspaceFolder}/inc/sqlitemoderncpp",
+                "${workspaceFolder}/inc/simpleini",
+                "/usr/local/include/**",
+                "/usr/include/**"
+            ],
+            "defines": [
+                "_DEBUG"
+            ],
+            "cStandard": "c11",
+            "cppStandard": "c++20",
+            "compileCommands": "${workspaceFolder}/compile_commands.json"
+        }
+    ],
+    "version": 4
 }

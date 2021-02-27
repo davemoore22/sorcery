@@ -58,6 +58,18 @@ Sorcery::Menu::Menu(System &system, Display &display, Graphics &graphics, MenuTy
 		_add_item(3, MenuItemType::ENTRY, MenuItem::ET_LEAVE_GAME, (*_display.string)["MENU_LEAVE_GAME"]);
 		selected = items.begin();
 		break;
+	case MenuType::TRAINING_GROUNDS:
+		_add_item(
+			0, MenuItemType::ENTRY, MenuItem::TR_CREATE, (*_display.string)["TRAINING_GROUNDS_MENU_OPTION_CREATE"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::TR_EDIT, (*_display.string)["TRAINING_GROUNDS_MENU_OPTION_EDIT"]);
+		_add_item(
+			2, MenuItemType::ENTRY, MenuItem::TR_DELETE, (*_display.string)["TRAINING_GROUNDS_MENU_OPTION_DELETE"]);
+		_add_item(
+			3, MenuItemType::ENTRY, MenuItem::TR_INSPECT, (*_display.string)["TRAINING_GROUNDS_MENU_OPTION_INSPECT"]);
+		_add_item(4, MenuItemType::ENTRY, MenuItem::TR_EDGE_OF_TOWN,
+			(*_display.string)["TRAINING_GROUNDS_MENU_OPTION_RETURN"]);
+		selected = items.begin();
+		break;
 	case MenuType::ALLOCATE_CHARACTER_ATTRIBUTES:
 		break;
 	case MenuType::CHOOSE_CHARACTER_ALIGNMENT:

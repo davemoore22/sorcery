@@ -46,7 +46,7 @@ namespace Sorcery {
 		// Public Members
 
 		// Public Methods
-		auto start() -> void;
+		auto start() -> std::optional<MenuItem>;
 		auto stop() -> void;
 
 	  private:
@@ -59,6 +59,8 @@ namespace Sorcery {
 		Graphics _graphics;
 		sf::RenderWindow *_window;
 		MainMenuType _menu_stage;
-		std::shared_ptr<Menu> _training_grounds_menu;
+		std::shared_ptr<Menu> _menu;
+		sf::Sprite _background;
+		std::unique_ptr<Frame> _menu_frame;
 	};
 } // namespace Sorcery

@@ -479,6 +479,43 @@
 			"justification": "centre",
 			"type": "text",
 			"priority": "3"
+		},
+		{
+			"name": "background_image",
+			"x": "centre",
+			"y": "5",
+			"scale": "1.25",
+			"type": "image",
+			"priority": "7",
+			"texture": "town",
+			"drawmode" : "manual"
+		},
+		{
+			"name": "menu_frame",
+			"w": "36",
+			"h": "7",
+			"x": "centre",
+			"y": "10",
+			"alpha": "225",
+			"type": "frame",
+			"priority": "6",
+			"drawmode": "manual"
+		},
+		{
+			"name": "menu",
+			"x": "22",
+			"y": "10",
+			"w": "36",
+			"h": "4",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"animated": "true",
+			"width": "36",
+			"background": "0x6060c8ff",
+			"justification": "centre",
+			"type": "menu",
+			"priority": "8"
 		}
 		]
 	},
