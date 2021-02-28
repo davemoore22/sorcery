@@ -43,8 +43,8 @@ Sorcery::MainMenu::MainMenu(System &system, Display &display, Graphics &graphics
 	_press_any_key = sf::Text();
 
 	// Now set up attract mode data
-	_attract_mode = std::make_shared<AttractMode>(
-		_system.resources->textures[CREATURES_TEXTURE], (*_display.layout)["main_menu_attract:attract_creatures"]);
+	_attract_mode = std::make_shared<AttractMode>(_system.resources->textures[CREATURES_TEXTURE],
+		(*_display.layout)["main_menu_attract:attract_creatures"]);
 	_attract_mode->data.clear();
 
 	// Get the Display Components
@@ -75,7 +75,8 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	// Play the background movie!
 	_display.start_background_movie();
 
-	std::optional<std::vector<MenuEntry>::const_iterator> selected_option{_main_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> selected_option{
+		_main_menu->items.begin()};
 	_display.window->input_mode = WindowInputMode::NORMAL;
 
 	// And do the main loop
@@ -104,8 +105,8 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 					else if (_system.input->check_for_event(WindowInput::DOWN, event))
 						selected_option = _main_menu->choose_next();
 					else if (_system.input->check_for_event(WindowInput::MOVE, event))
-						selected_option =
-							_main_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						selected_option = _main_menu->set_mouse_selected(
+							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
 						if (selected_option) {
 
@@ -113,7 +114,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 							const MenuItem option_chosen{(*selected_option.value()).item};
 
 							if (option_chosen == MenuItem::MM_NEW_GAME) {
-								_display.window->input_mode = WindowInputMode::CASTLE;
+								_display.window->input_mode = WindowInputMode::NORMAL;
 								return MenuItem::MM_NEW_GAME;
 							}
 
@@ -160,10 +161,12 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 				else if (_system.input->check_for_event(WindowInput::CANCEL, event))
 					_display.window->input_mode = WindowInputMode::NORMAL;
 				else if (_system.input->check_for_event(WindowInput::MOVE, event))
-					_confirm_exit->check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
-					std::optional<WindowConfirm> option_chosen = _confirm_exit->check_if_option_selected(
+					_confirm_exit->check_for_mouse_move(
 						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+				else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
+					std::optional<WindowConfirm> option_chosen =
+						_confirm_exit->check_if_option_selected(
+							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 
 					// Mouse click only
 					if (option_chosen) {
@@ -216,7 +219,8 @@ auto Sorcery::MainMenu::_draw() -> void {
 		_attract_mode->set_alpha(_graphics.animation->attract_mode_alpha);
 
 		// Horrible - but needed since the size of the Attract Mode Graphics are variable
-		sf::Vector2f attract_mode_size{_attract_mode->sprite.getGlobalBounds().width * _attract_mode->getScale().x,
+		sf::Vector2f attract_mode_size{
+			_attract_mode->sprite.getGlobalBounds().width * _attract_mode->getScale().x,
 			_attract_mode->sprite.getGlobalBounds().height * _attract_mode->getScale().y};
 		const sf::Vector2f creature_pos(_display.window->centre.x - (attract_mode_size.x / 2),
 			_display.window->get_y(_attract_mode->sprite, attract_creatures_c.y));
@@ -225,7 +229,8 @@ auto Sorcery::MainMenu::_draw() -> void {
 
 		// And either the blurb or the main menu
 		if (_menu_stage == MainMenuType::ATTRACT_MODE) {
-			_display.window->draw_text(_press_any_key, (*_display.layout)["main_menu_attract:press_any_key"], lerp);
+			_display.window->draw_text(
+				_press_any_key, (*_display.layout)["main_menu_attract:press_any_key"], lerp);
 		} else {
 
 			// Draw rhe menu

@@ -45,21 +45,20 @@ Sorcery::Training::~Training() {
 
 auto Sorcery::Training::start() -> std::optional<MenuItem> {
 
-	Component background_c{(*_display.layout)["training_grounds:background_image"]};
-	sf::IntRect background_rect(1147, 249, 773, 388);
-	_background.setTexture(_system.resources->textures[TOWN_TEXTURE]);
-	_background.setTextureRect(background_rect);
-	_background.setScale(background_c.scale, background_c.scale);
-	_background.setPosition(
-		_display.window->get_x(_background, background_c.x), _display.window->get_y(_background, background_c.y));
+	const Component bg_c{(*_display.layout)["training_grounds:background_image"]};
+	sf::IntRect bg_rect(1147, 249, 773, 388);
+	_bg.setTexture(_system.resources->textures[TOWN_TEXTURE]);
+	_bg.setTextureRect(bg_rect);
+	_bg.setScale(bg_c.scale, bg_c.scale);
+	_bg.setPosition(_display.window->get_x(_bg, bg_c.x), _display.window->get_y(_bg, bg_c.y));
 
-	Component menu_frame_c{(*_display.layout)["training_grounds:menu_frame"]};
+	const Component menu_fc{(*_display.layout)["training_grounds:menu_frame"]};
 	_menu_frame = std::make_unique<Frame>(
-		_display.ui_texture, WindowFrameType::NORMAL, menu_frame_c.w, menu_frame_c.h, menu_frame_c.alpha);
-	_menu_frame->setPosition(_display.window->get_x(_menu_frame->sprite, menu_frame_c.x),
-		_display.window->get_y(_menu_frame->sprite, menu_frame_c.y));
+		_display.ui_texture, WindowFrameType::NORMAL, menu_fc.w, menu_fc.h, menu_fc.alpha);
+	_menu_frame->setPosition(_display.window->get_x(_menu_frame->sprite, menu_fc.x),
+		_display.window->get_y(_menu_frame->sprite, menu_fc.y));
 
-	Component status_bar_c{(*_display.layout)["status_bar:status_bar"]};
+	const Component status_bar_c{(*_display.layout)["status_bar:status_bar"]};
 	_status_bar->setPosition(_display.window->get_x(_status_bar->sprite, status_bar_c.x),
 		_display.window->get_y(_status_bar->sprite, status_bar_c.y));
 
@@ -70,7 +69,7 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 	_display.start_background_movie();
 
 	_display.window->input_mode = WindowInputMode::NORMAL;
-	std::optional<std::vector<MenuEntry>::const_iterator> selected_option{_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->items.begin()};
 
 	// And do the main loop
 	sf::Event event{};
@@ -85,17 +84,17 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 				return std::nullopt;
 
 			if (_system.input->check_for_event(WindowInput::UP, event))
-				selected_option = _menu->choose_previous();
+				selected = _menu->choose_previous();
 			else if (_system.input->check_for_event(WindowInput::DOWN, event))
-				selected_option = _menu->choose_next();
+				selected = _menu->choose_next();
 			else if (_system.input->check_for_event(WindowInput::MOVE, event))
-				selected_option =
-					_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+				selected = _menu->set_mouse_selected(
+					static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 			else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
 
 				// We have selected something from the menu
-				if (selected_option) {
-					const MenuItem option_chosen{(*selected_option.value()).item};
+				if (selected) {
+					const MenuItem option_chosen{(*selected.value()).item};
 					if (option_chosen == MenuItem::TR_EDGE_OF_TOWN) {
 						return MenuItem::ET_LEAVE_GAME;
 					}
@@ -118,7 +117,7 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 
 auto Sorcery::Training::stop() -> void {
 
-	_display.window->input_mode = WindowInputMode::CASTLE;
+	_display.window->input_mode = WindowInputMode::NORMAL;
 	_display.stop_background_movie();
 }
 
@@ -129,14 +128,14 @@ auto Sorcery::Training::_draw() -> void {
 	_window->draw(*_status_bar);
 
 	// Custom Layering
-	_window->draw(_background);
+	_window->draw(_bg);
 	_window->draw(*_menu_frame);
 
 	// And the Menu
 	double lerp = _graphics.animation->colour_lerp;
 	_menu->generate((*_display.layout)["training_grounds:menu"], lerp);
-	const sf::Vector2f menu_pos(
-		(*_display.layout)["training_grounds:menu"].x, (*_display.layout)["training_grounds:menu"].y);
+	const sf::Vector2f menu_pos((*_display.layout)["training_grounds:menu"].x,
+		(*_display.layout)["training_grounds:menu"].y);
 	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 

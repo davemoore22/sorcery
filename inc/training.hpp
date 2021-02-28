@@ -61,7 +61,7 @@ namespace Sorcery {
 		sf::RenderWindow *_window;
 		MainMenuType _menu_stage;
 		std::shared_ptr<Menu> _menu;
-		sf::Sprite _background;
+		sf::Sprite _bg;
 		std::unique_ptr<Frame> _menu_frame;
 		std::unique_ptr<StatusBar> _status_bar;
 	};

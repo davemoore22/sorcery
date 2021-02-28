@@ -316,7 +316,7 @@
 	"main.hpp"
 	"application.hpp"
 
-1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
+1614553872 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
 	"mainmenu.hpp"
 
 1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/manage.cpp
@@ -481,7 +481,7 @@
 1605304690 source:/home/dave/Development/wizardry/sorcery-sfml/src/castle.cpp
 	"castle.hpp"
 
-1614529537 /home/dave/Development/wizardry/sorcery-sfml/inc/gamemenu.hpp
+1614553747 /home/dave/Development/wizardry/sorcery-sfml/inc/gamemenu.hpp
 	"confirm.hpp"
 	"display.hpp"
 	"frame.hpp"
@@ -532,7 +532,7 @@
 1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/attractmode.cpp
 	"attractmode.hpp"
 
-1614549828 /home/dave/Development/wizardry/sorcery-sfml/inc/training.hpp
+1614554062 /home/dave/Development/wizardry/sorcery-sfml/inc/training.hpp
 	"display.hpp"
 	"frame.hpp"
 	"graphics.hpp"
