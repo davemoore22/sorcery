@@ -110,7 +110,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return std::nullopt;
+					_window->close();
 
 				// And handle input on the main menu
 				if (_menu_stage == GameMenuType::CASTLE) {
@@ -168,7 +168,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return std::nullopt;
+					_window->close();
 
 				// All we can do is select Y or N
 				if (_system.input->check_for_event(WindowInput::LEFT, event))

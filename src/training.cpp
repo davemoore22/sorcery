@@ -79,7 +79,7 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 
 			// Check for Window Close
 			if (event.type == sf::Event::Closed)
-				return std::nullopt;
+				_window->close();
 
 			if (_system.input->check_for_event(WindowInput::CANCEL, event))
 				return std::nullopt;

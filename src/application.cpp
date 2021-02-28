@@ -26,16 +26,27 @@
 // Standard Constructor
 Sorcery::Application::Application(int argc, char **argv) {
 
+	// Get any command line arguments
+	_arguments.clear();
+	for (auto loop = 0; loop < argc; ++loop) {
+		std::string arg = {argv[loop]};
+		std::transform(arg.begin(), arg.end(), arg.begin(), ::tolower);
+		_arguments.push_back(arg);
+	}
+
 	// First set up System modules
 	system = std::make_unique<System>(argc, argv);
 	display = std::make_unique<Display>(system.get());
 	graphics = std::make_unique<Graphics>(system.get(), display.get());
 
-	// Show the Splash Screen and the Banner before starting the Main Menu
-	//_splash = std::make_shared<Splash>(*system, *display, *graphics);
-	//_splash->start();
-	//_banner = std::make_shared<Banner>(*system, *display, *graphics);
-	//_banner->start();
+	if (!_check_for_parameter(SKIP_INTRO)) {
+
+		// Show the Splash Screen and the Banner before starting the Main Menu
+		_splash = std::make_shared<Splash>(*system, *display, *graphics);
+		_splash->start();
+		_banner = std::make_shared<Banner>(*system, *display, *graphics);
+		_banner->start();
+	}
 
 	// Start relevant animation worker threads
 	graphics->animation->force_refresh_colour_cycling();
@@ -62,8 +73,9 @@ auto Sorcery::Application::start() -> void {
 	MainMenuType menu_stage{MainMenuType::ATTRACT_MODE};
 	do {
 
-		option_chosen = _gamemenu->start();
-		_gamemenu->stop();
+		auto training = std::make_shared<Training>(*system, *display, *graphics);
+		training->start();
+		training->stop();
 
 		option_chosen = _mainmenu->start(menu_stage);
 		_mainmenu->stop();
@@ -99,4 +111,13 @@ auto Sorcery::Application::start() -> void {
 	} while (option_chosen);
 
 	display->window->get_window()->close();
+}
+
+// Check for a command line parameter
+auto Sorcery::Application::_check_for_parameter(std::string_view parameter) const -> bool {
+	for (auto arg : _arguments)
+		if (const std::size_t match_found = {arg.find(parameter)}; match_found != std::string::npos)
+			return true;
+
+	return false;
 }

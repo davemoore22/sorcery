@@ -11,6 +11,7 @@
 				<Option object_output="obj/debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="--skip_intro" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>

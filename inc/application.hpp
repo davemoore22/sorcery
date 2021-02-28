@@ -36,6 +36,7 @@
 #include "options.hpp"
 #include "splash.hpp"
 #include "system.hpp"
+#include "training.hpp" // temp
 
 namespace Sorcery {
 
@@ -68,6 +69,7 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
+		auto _check_for_parameter(std::string_view parameter) const -> bool;
 
 		// Private Members
 		std::shared_ptr<Banner> _banner;
@@ -78,5 +80,6 @@ namespace Sorcery {
 		std::shared_ptr<Compendium> _compendium;
 		std::shared_ptr<GameMenu> _gamemenu;
 		std::shared_ptr<Engine> _engine;
+		std::vector<std::string> _arguments;
 	};
 } // namespace Sorcery

@@ -34,6 +34,9 @@ namespace Sorcery {
 
 	using namespace std::literals;
 
+	// Command Line Arguments
+	inline constexpr auto SKIP_INTRO = "skip_intro"sv;
+
 	// Directories
 	inline constexpr auto CONFIG_DIR = "cfg"sv;
 	inline constexpr auto DATA_DIR = "dat"sv;
@@ -72,16 +75,6 @@ namespace Sorcery {
 	//static const std::string EMPTY = {""};
 	//static const std::string ON = {"on"};
 	//static const std::string OFF = {"off"};
-
-	// Files
-	/* static const std::string CFG_FILE = {"config.ini"};
-	static const std::string DB_FILE = {"sorcery.db3"};
-	static const std::string STR_FILE = {"strings.json"};
-	static const std::string EXPLAIN_FILE = {"explain.json"};
-	static const std::string LICENSE_FILE = {"LICENSE"};
-	static const std::string HELP_FILE = {"HELP"};
-	static const std::string README_FILE = {"README"};
-	static const std::string VERSION_FILE = {"VERSION"}; */
 
 	// Graphics
 	/* static const std::string FONT_FILE = {"font.png"};
