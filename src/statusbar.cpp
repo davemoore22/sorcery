@@ -27,6 +27,8 @@
 Sorcery::StatusBar::StatusBar(System &system, Display &display, Graphics &graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
+	_texts.clear();
+
 	// Get any Layout Information
 	_layout = Component((*_display.layout)["status_bar:status_bar"]);
 	_frame_c = Component((*_display.layout)["status_bar:outer_frame"]);
@@ -51,8 +53,12 @@ Sorcery::StatusBar::StatusBar(System &system, Display &display, Graphics &graphi
 	_frame_sprite.setPosition(0, 0);
 	_render_texture.draw(_frame_sprite);
 
+	_generate_components();
+	_draw_components();
+
 	// Normally we'd be passed in a vector of character shared ptrs, and draw each one (in a seperate update method?)
 	// but for now, just do this
+	_render_texture.display();
 	_texture = _render_texture.getTexture();
 	sprite = sf::Sprite(_texture);
 
@@ -64,4 +70,44 @@ auto Sorcery::StatusBar::draw(sf::RenderTarget &target, sf::RenderStates states)
 
 	states.transform *= getTransform();
 	target.draw(sprite, states);
+}
+
+auto Sorcery::StatusBar::_generate_components() -> void {
+
+	// For now - this is copied from display.cpp
+	std::optional<std::vector<Component>> components{(*_display.layout)("status_bar")};
+	if (components) {
+		for (const auto &component : components.value()) {
+			if (component.type == ComponentType::TEXT) {
+				sf::Text text;
+				text.setFont(_system.resources->fonts[component.font]);
+				text.setCharacterSize(component.size);
+				text.setFillColor(sf::Color(component.colour));
+				text.setString((*_display.string)[component.string_key]);
+				int x = component.x == -1 ? _display.window->centre.x : component.x;
+				int y = component.y == -1 ? _display.window->centre.y : component.y;
+				if (component.justification == Justification::CENTRE) {
+					text.setPosition(x, y);
+					text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+				} else if (component.justification == Justification::RIGHT) {
+					text.setPosition(x, y);
+					sf::FloatRect bounds = text.getLocalBounds();
+					text.setPosition(component.x - bounds.width, component.y);
+				} else {
+					text.setPosition(x, y);
+					text.setOrigin(0, text.getLocalBounds().height / 2.0f);
+				}
+
+				_texts[component.unique_key] = text;
+			}
+		}
+	}
+}
+
+auto Sorcery::StatusBar::_draw_components() -> void {
+
+	// For now - this is copied from display.cpp
+	for (auto &[unique_key, text] : _texts) {
+		_render_texture.draw(text);
+	}
 }

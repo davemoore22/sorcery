@@ -112,6 +112,8 @@ auto Sorcery::Display::generate_components(const std::string screen) -> void {
 				_texts[component.unique_key] = text;
 
 			} else if (component.type == ComponentType::MENU) {
+
+				// Don't do this
 			}
 		}
 	}

@@ -29,6 +29,7 @@
 #include "layout.hpp"
 #include "main.hpp"
 #include "menu.hpp"
+#include "statusbar.hpp"
 #include "system.hpp"
 
 namespace Sorcery {
@@ -62,5 +63,6 @@ namespace Sorcery {
 		std::shared_ptr<Menu> _menu;
 		sf::Sprite _background;
 		std::unique_ptr<Frame> _menu_frame;
+		std::unique_ptr<StatusBar> _status_bar;
 	};
 } // namespace Sorcery

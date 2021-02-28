@@ -109,6 +109,7 @@
 			"terminal.ansiBrightBlue": "#5599ff"
 		},
 		"debug.console.fontSize": 12,
-		"terminal.integrated.fontSize": 12
+		"terminal.integrated.fontSize": 12,
+		"editor.fontSize": 15
 	}
 }

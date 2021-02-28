@@ -34,6 +34,7 @@ Sorcery::Training::Training(System &system, Display &display, Graphics &graphics
 	_display.generate_components("training_grounds");
 
 	_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::TRAINING_GROUNDS);
+	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics);
 }
 
 // Standard Destructor
@@ -57,6 +58,10 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 		_display.ui_texture, WindowFrameType::NORMAL, menu_frame_c.w, menu_frame_c.h, menu_frame_c.alpha);
 	_menu_frame->setPosition(_display.window->get_x(_menu_frame->sprite, menu_frame_c.x),
 		_display.window->get_y(_menu_frame->sprite, menu_frame_c.y));
+
+	Component status_bar_c{(*_display.layout)["status_bar:status_bar"]};
+	_status_bar->setPosition(_display.window->get_x(_status_bar->sprite, status_bar_c.x),
+		_display.window->get_y(_status_bar->sprite, status_bar_c.y));
 
 	// Clear the window
 	_window->clear();
@@ -121,6 +126,7 @@ auto Sorcery::Training::_draw() -> void {
 
 	// Display Components
 	_display.display_components("training_grounds");
+	_window->draw(*_status_bar);
 
 	// Custom Layering
 	_window->draw(_background);

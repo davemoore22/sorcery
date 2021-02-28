@@ -49,5 +49,6 @@
 	},
 	"[applescript]": {
 		"files.encoding": "utf8"
-	}
+	},
+	"editor.fontSize": 15
 }
