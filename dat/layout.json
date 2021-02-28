@@ -520,6 +520,97 @@
 		]
 	},
 	{
+		"name": "status_bar",
+		"component": [
+			{
+				"name": "status_bar",
+				"w": "56",
+				"h": "8",
+				"x": "centre",
+				"y": "26",
+				"alpha": "255",
+				"type": "other",
+				"drawmode": "manual"
+			},
+			{
+				"name": "outer_frame",
+				"w": "54",
+				"h": "8",
+				"x": "1",
+				"y": "0",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "5"
+			},
+			{
+				"name": "character_legend_name",
+				"x": "4",
+				"y": "3",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "28",
+				"string": "CHARACTER_LEGEND_NAME",
+				"justification": "left",
+				"type": "text"
+			},
+			{
+				"name": "character_legend_class",
+				"x": "10",
+				"y": "3",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "28",
+				"string": "CHARACTER_LEGEND_CLASS",
+				"justification": "left",
+				"type": "text"
+			},
+			{
+				"name": "character_legend_alignment",
+				"x": "19",
+				"y": "3",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "28",
+				"string": "CHARACTER_LEGEND_ALIGNMENT",
+				"justification": "left",
+				"type": "text"
+			},
+			{
+				"name": "character_legend_ac",
+				"x": "29",
+				"y": "3",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "28",
+				"string": "CHARACTER_LEGEND_AC",
+				"justification": "left",
+				"type": "text"
+			},
+			{
+				"name": "character_legend_hp",
+				"x": "33",
+				"y": "3",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "28",
+				"string": "CHARACTER_LEGEND_HP",
+				"justification": "left",
+				"type": "text"
+			},
+			{
+				"name": "character_legend_status",
+				"x": "37",
+				"y": "3",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "28",
+				"string": "CHARACTER_LEGEND_STATUS",
+				"justification": "left",
+				"type": "text"
+			}
+		]
+	},
+	{
 		"name": "castle",
 		"component": [
 		{
@@ -584,7 +675,8 @@
 			"y": "26",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "5"
+			"priority": "5",
+			"drawmode": "manual"
 		},
 		{
 			"name": "castle_menu_frame",

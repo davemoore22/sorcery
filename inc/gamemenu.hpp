@@ -31,6 +31,7 @@
 #include "layout.hpp"
 #include "main.hpp"
 #include "menu.hpp"
+#include "statusbar.hpp"
 #include "system.hpp"
 #include "training.hpp"
 
@@ -71,5 +72,6 @@ namespace Sorcery {
 		std::shared_ptr<Confirm> _confirm_leave_game;
 		WindowConfirm _yes_or_no;
 		std::shared_ptr<Training> _training;
+		std::unique_ptr<StatusBar> _status_bar;
 	};
 } // namespace Sorcery

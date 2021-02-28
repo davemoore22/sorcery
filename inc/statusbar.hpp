@@ -22,3 +22,45 @@
 // resulting work.
 
 #pragma once
+
+#include "display.hpp"
+#include "frame.hpp"
+#include "graphics.hpp"
+#include "layout.hpp"
+#include "main.hpp"
+#include "system.hpp"
+
+namespace Sorcery {
+
+	class Display;
+
+	class StatusBar : public sf::Transformable, public sf::Drawable {
+
+	  public:
+		// Constructors
+		StatusBar(System &system, Display &display, Graphics &graphics);
+		StatusBar() = delete;
+
+		// Public Members
+		unsigned int width;
+		unsigned int height;
+		sf::Sprite sprite;
+
+		// Public Methods
+
+	  private:
+		// Private Methods
+		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+
+		// Private Members
+		System _system;
+		Display _display;
+		Graphics _graphics;
+		Component _layout;
+		Component _frame_c;
+		std::unique_ptr<Frame> _frame;
+		sf::RenderTexture _render_texture;
+		sf::Sprite _frame_sprite;
+		sf::Texture _texture;
+	};
+} // namespace Sorcery
