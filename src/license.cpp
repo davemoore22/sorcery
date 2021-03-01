@@ -119,8 +119,7 @@ auto Sorcery::License::_draw() -> void {
 	_display.display_components("license");
 
 	std::string progress = _textfile->get_reading_progress(_current_line);
-	_display.window->draw_text(
-		_progress_text, (*_display.layout)["license:license_file_progress"], progress);
+	_display.window->draw_text(_progress_text, (*_display.layout)["license:progress"], progress);
 	_display_file_contents();
 
 	// Always draw the following
@@ -129,8 +128,7 @@ auto Sorcery::License::_draw() -> void {
 
 auto Sorcery::License::_display_file_contents() -> void {
 
-	const Component frame_c{(*_display.layout)["license:gui_frame"]};
-	Component text_c{(*_display.layout)["license:license_file_text"]};
+	Component text_c{(*_display.layout)["license:file_text"]};
 	const unsigned int lines_to_display{text_c.h};
 	const int top_y{text_c.y};
 

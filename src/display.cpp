@@ -134,7 +134,7 @@ auto Sorcery::Display::display_components(
 			if (parameter) {
 				GameMenuType menu_stage{std::any_cast<GameMenuType>(parameter.value())};
 				if (menu_stage == GameMenuType::CASTLE) {
-					if (unique_key.ends_with("castle:edge_of_town_menu_frame"))
+					if (unique_key.ends_with("castle:edge_menu_frame"))
 						continue;
 				} else if (menu_stage == GameMenuType::EDGE_OF_TOWN) {
 					if (unique_key.ends_with("castle:castle_menu_frame"))
@@ -176,10 +176,12 @@ auto Sorcery::Display::display_components(
 			if (parameter) {
 				GameMenuType menu_stage{std::any_cast<GameMenuType>(parameter.value())};
 				if (menu_stage == GameMenuType::CASTLE) {
-					if (unique_key.ends_with("castle:edge_of_town_gui_frame_title_text"))
+					if ((unique_key.ends_with("castle:edit_title_frame")) ||
+						(unique_key.ends_with("castle:edit_title_text")))
 						continue;
 				} else if (menu_stage == GameMenuType::EDGE_OF_TOWN) {
-					if (unique_key.ends_with("castle:castle_gui_frame_title_text"))
+					if ((unique_key.ends_with("castle:castle_title_frame")) ||
+						(unique_key.ends_with("castle:castle_title_text")))
 						continue;
 				}
 			}

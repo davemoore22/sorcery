@@ -188,7 +188,7 @@
 		"name": "license",
 		"component": [
 		{
-			"name": "gui_frame",
+			"name": "frame",
 			"w": "50",
 			"h": "38",
 			"x": "centre",
@@ -198,7 +198,7 @@
 			"priority": "1"
 		},
 		{
-			"name": "gui_frame_title",
+			"name": "title_frame",
 			"w": "9",
 			"h": "2",
 			"x": "centre",
@@ -208,7 +208,7 @@
 			"priority": "2"
 		},
 		{
-			"name": "gui_frame_title_text",
+			"name": "title_text",
 			"x": "centre",
 			"y": "2",
 			"font": "monospace",
@@ -220,7 +220,7 @@
 			"priority": "3"
 		},
 		{
-			"name": "license_file_text",
+			"name": "file_text",
 			"font": "text",
 			"colour": "0xc0c0c0ff",
 			"size": "26",
@@ -228,10 +228,11 @@
 			"y": "5",
 			"h": "27",
 			"type": "text",
-			"priority": "4"
+			"priority": "4",
+			"drawmode": "manual"
 		},
 		{
-			"name": "license_file_progress",
+			"name": "progress",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "26",
@@ -248,7 +249,7 @@
 		"name": "options",
 		"component": [
 		{
-			"name": "gui_frame",
+			"name": "frame",
 			"w": "50",
 			"h": "38",
 			"x": "centre",
@@ -258,7 +259,7 @@
 			"priority": "1"
 		},
 		{
-			"name": "gui_frame_title",
+			"name": "title_frame",
 			"w": "13",
 			"h": "2",
 			"x": "centre",
@@ -268,7 +269,7 @@
 			"priority": "2"
 		},
 		{
-			"name": "gui_frame_title_text",
+			"name": "title_text",
 			"x": "centre",
 			"y": "2",
 			"font": "monospace",
@@ -280,7 +281,7 @@
 			"priority": "3"
 		},
 		{
-			"name": "subtitle_gameplay",
+			"name": "gameplay",
 			"x": "centre",
 			"y": "5",
 			"font": "monospace",
@@ -292,7 +293,7 @@
 			"priority": "5"
 		},
 		{
-			"name": "subtitle_graphics",
+			"name": "graphics",
 			"x": "centre",
 			"y": "23",
 			"font": "monospace",
@@ -304,7 +305,7 @@
 			"priority": "6"
 		},
 		{
-			"name": "options_menu",
+			"name": "menu",
 			"x": "16",
 			"y": "6",
 			"w": "48",
@@ -317,28 +318,31 @@
 			"background": "0x6060c8ff",
 			"justification": "left",
 			"type": "menu",
-			"priority": "4"
+			"priority": "4",
+			"drawmode": "manual"
 		},
 		{
-			"name": "option_on",
+			"name": "on",
 			"font": "text",
 			"colour": "0x3fff3fff",
 			"size": "38",
 			"justification": "right",
 			"string": "OPTION_ON",
-			"type": "text"
+			"type": "text",
+			"drawmode": "manual"
 		},
 		{
-			"name": "option_off",
+			"name": "off",
 			"font": "text",
 			"colour": "0xff3f3fff",
 			"size": "38",
 			"justification": "right",
 			"string": "OPTION_OFF",
-			"type": "text"
+			"type": "text",
+			"drawmode": "manual"
 		},
 		{
-			"name": "confirm_save_game_options_frame",
+			"name": "save_frame",
 			"w": "16",
 			"h": "7",
 			"x": "centre",
@@ -348,7 +352,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "confirm_save_game_options",
+			"name": "save_text",
 			"x": "centre",
 			"y": "16",
 			"font": "monospace",
@@ -361,7 +365,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "confirm_cancel_changes_options_frame",
+			"name": "cancel_frame",
 			"w": "16",
 			"h": "7",
 			"x": "centre",
@@ -371,7 +375,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "confirm_cancel_changes_options",
+			"name": "cancel_text",
 			"x": "centre",
 			"y": "16",
 			"font": "monospace",
@@ -384,7 +388,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "confirm_strict_mode_options_frame",
+			"name": "strict_frame",
 			"w": "52",
 			"h": "7",
 			"x": "centre",
@@ -394,7 +398,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "confirm_strict_mode_options",
+			"name": "strict_text",
 			"x": "centre",
 			"y": "16",
 			"font": "monospace",
@@ -412,7 +416,7 @@
 		"name": "compendium",
 		"component": [
 		{
-			"name": "gui_frame",
+			"name": "frame",
 			"w": "50",
 			"h": "38",
 			"x": "centre",
@@ -422,7 +426,7 @@
 			"priority": "1"
 		},
 		{
-			"name": "gui_frame_title",
+			"name": "title_frame",
 			"w": "12",
 			"h": "2",
 			"x": "centre",
@@ -432,7 +436,7 @@
 			"priority": "2"
 		},
 		{
-			"name": "gui_frame_title_text",
+			"name": "title_text",
 			"x": "centre",
 			"y": "2",
 			"font": "monospace",
@@ -449,7 +453,7 @@
 		"name": "training_grounds",
 		"component": [
 		{
-			"name": "gui_frame",
+			"name": "frame",
 			"w": "50",
 			"h": "38",
 			"x": "centre",
@@ -459,7 +463,7 @@
 			"priority": "1"
 		},
 		{
-			"name": "training_grounds_frame_title",
+			"name": "title_frame",
 			"w": "22",
 			"h": "2",
 			"x": "centre",
@@ -469,7 +473,7 @@
 			"priority": "2"
 		},
 		{
-			"name": "training_grounds_frame_title_text",
+			"name": "title_text",
 			"x": "centre",
 			"y": "2",
 			"font": "monospace",
@@ -481,7 +485,7 @@
 			"priority": "3"
 		},
 		{
-			"name": "background_image",
+			"name": "background",
 			"x": "centre",
 			"y": "5",
 			"scale": "1.25",
@@ -614,7 +618,7 @@
 		"name": "castle",
 		"component": [
 		{
-			"name": "castle_gui_frame_title",
+			"name": "castle_title_frame",
 			"w": "12",
 			"h": "2",
 			"x": "centre",
@@ -624,7 +628,7 @@
 			"priority": "2"
 		},
 		{
-			"name": "edge_of_town_gui_frame_title",
+			"name": "edge_title_frame",
 			"w": "20",
 			"h": "2",
 			"x": "centre",
@@ -634,7 +638,7 @@
 			"priority": "2"
 		},
 		{
-			"name": "castle_gui_frame_title_text",
+			"name": "castle_title_text",
 			"x": "centre",
 			"y": "2",
 			"font": "monospace",
@@ -646,7 +650,7 @@
 			"priority": "3"
 		},
 		{
-			"name": "edge_of_town_gui_frame_title_text",
+			"name": "edge_title_text",
 			"x": "centre",
 			"y": "2",
 			"font": "monospace",
@@ -658,7 +662,7 @@
 			"priority": "3"
 		},
 		{
-			"name": "main_gui_frame",
+			"name": "frame",
 			"w": "50",
 			"h": "29",
 			"x": "centre",
@@ -666,17 +670,6 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "1"
-		},
-		{
-			"name": "character_frame",
-			"w": "54",
-			"h": "8",
-			"x": "centre",
-			"y": "26",
-			"alpha": "255",
-			"type": "frame",
-			"priority": "5",
-			"drawmode": "manual"
 		},
 		{
 			"name": "castle_menu_frame",
@@ -690,7 +683,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "edge_of_town_menu_frame",
+			"name": "edge_menu_frame",
 			"w": "36",
 			"h": "6",
 			"x": "centre",
@@ -717,7 +710,7 @@
 			"priority": "8"
 		},
 		{
-			"name": "edge_of_town_menu",
+			"name": "edge_menu",
 			"x": "22",
 			"y": "10",
 			"w": "36",
@@ -733,7 +726,7 @@
 			"priority": "8"
 		},
 		{
-			"name": "background_image",
+			"name": "background",
 			"x": "centre",
 			"y": "5",
 			"scale": "1.25",
@@ -743,73 +736,7 @@
 			"drawmode" : "manual"
 		},
 		{
-			"name": "character_legend_name",
-			"x": "14",
-			"y": "27",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "28",
-			"string": "CHARACTER_LEGEND_NAME",
-			"justification": "left",
-			"type": "text"
-		},
-		{
-			"name": "character_legend_class",
-			"x": "30",
-			"y": "27",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "28",
-			"string": "CHARACTER_LEGEND_CLASS",
-			"justification": "left",
-			"type": "text"
-		},
-		{
-			"name": "character_legend_alignment",
-			"x": "39",
-			"y": "27",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "28",
-			"string": "CHARACTER_LEGEND_ALIGNMENT",
-			"justification": "left",
-			"type": "text"
-		},
-		{
-			"name": "character_legend_ac",
-			"x": "49",
-			"y": "27",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "28",
-			"string": "CHARACTER_LEGEND_AC",
-			"justification": "left",
-			"type": "text"
-		},
-		{
-			"name": "character_legend_hp",
-			"x": "53",
-			"y": "27",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "28",
-			"string": "CHARACTER_LEGEND_HP",
-			"justification": "left",
-			"type": "text"
-		},
-		{
-			"name": "character_legend_status",
-			"x": "57",
-			"y": "27",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "28",
-			"string": "CHARACTER_LEGEND_STATUS",
-			"justification": "left",
-			"type": "text"
-		},
-		{
-			"name": "confirm_leave_game_frame",
+			"name": "confirm_frame",
 			"w": "14",
 			"h": "7",
 			"x": "centre",
@@ -819,7 +746,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "confirm_leave_game",
+			"name": "confirm_text",
 			"x": "centre",
 			"y": "16",
 			"font": "monospace",

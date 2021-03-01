@@ -32,8 +32,8 @@ Sorcery::Options::Options(System &system, Display &display, Graphics &graphics)
 	_window = _display.window->get_window();
 
 	_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::OPTIONS);
-	_option_on = Component((*_display.layout)["options:option_on"]);
-	_option_off = Component((*_display.layout)["options:option_off"]);
+	_option_on = Component((*_display.layout)["options:on"]);
+	_option_off = Component((*_display.layout)["options:off"]);
 
 	_tt = std::make_shared<Tooltip>(_system, _display, _graphics);
 
@@ -41,14 +41,11 @@ Sorcery::Options::Options(System &system, Display &display, Graphics &graphics)
 	_display.generate_components("options");
 
 	_confirm_save = std::make_shared<Confirm>(_system, _display, _graphics,
-		(*_display.layout)["options:confirm_save_game_options_frame"],
-		(*_display.layout)["options:confirm_save_game_options"]);
+		(*_display.layout)["options:save_frame"], (*_display.layout)["options:save_text"]);
 	_confirm_cancel = std::make_shared<Confirm>(_system, _display, _graphics,
-		(*_display.layout)["options:confirm_cancel_changes_options_frame"],
-		(*_display.layout)["options:confirm_cancel_changes_options"]);
+		(*_display.layout)["options:cancel_frame"], (*_display.layout)["options:cancel_text"]);
 	_confirm_strict_on = std::make_shared<Confirm>(_system, _display, _graphics,
-		(*_display.layout)["options:confirm_strict_mode_options_frame"],
-		(*_display.layout)["options:confirm_strict_mode_options"]);
+		(*_display.layout)["options:strict_frame"], (*_display.layout)["options:strict_text"]);
 }
 
 // Standard Destructor
@@ -264,9 +261,9 @@ auto Sorcery::Options::_draw() -> void {
 	const double lerp = _graphics.animation->colour_lerp;
 	_display.display_components("options");
 
-	_menu->generate((*_display.layout)["options:options_menu"], lerp);
+	_menu->generate((*_display.layout)["options:menu"], lerp);
 	const sf::Vector2f menu_pos(
-		(*_display.layout)["options:options_menu"].x, (*_display.layout)["options:options_menu"].y);
+		(*_display.layout)["options:menu"].x, (*_display.layout)["options:menu"].y);
 	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 	if (_display.window->input_mode == WindowInputMode::SWITCH_ON_STRICT_MODE) {

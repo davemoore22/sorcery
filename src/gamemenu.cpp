@@ -41,8 +41,7 @@ Sorcery::GameMenu::GameMenu(System &system, Display &display, Graphics &graphics
 	_display.generate_components("castle");
 
 	_leave_game = std::make_shared<Confirm>(_system, _display, _graphics,
-		(*_display.layout)["castle:confirm_leave_game_frame"],
-		(*_display.layout)["castle:confirm_leave_game"]);
+		(*_display.layout)["castle:confirm_frame"], (*_display.layout)["castle:confirm_text"]);
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics);
@@ -63,7 +62,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 	_window->clear();
 
 	// Get the background
-	const Component bg_c{(*_display.layout)["castle:background_image"]};
+	const Component bg_c{(*_display.layout)["castle:background"]};
 	sf::IntRect castle_bg_rect(125, 249, 773, 388);
 	sf::IntRect edge_bg_rect(1147, 249, 773, 388);
 	_castle_bg.setTexture(_system.resources->textures[TOWN_TEXTURE]);
@@ -79,7 +78,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 
 	// Generate the custom frames
 	const Component castle_mf_c{(*_display.layout)["castle:castle_menu_frame"]};
-	const Component edge_mf_c{(*_display.layout)["castle:edge_of_town_menu_frame"]};
+	const Component edge_mf_c{(*_display.layout)["castle:edge_menu_frame"]};
 	_castle_frame = std::make_unique<Frame>(_display.ui_texture, WindowFrameType::NORMAL,
 		castle_mf_c.w, castle_mf_c.h, castle_mf_c.alpha);
 	_edge_frame = std::make_unique<Frame>(
@@ -249,9 +248,9 @@ auto Sorcery::GameMenu::_draw() -> void {
 		_castle_menu->setPosition(menu_pos);
 		_window->draw(*_castle_menu);
 	} else if (_menu_stage == GameMenuType::EDGE_OF_TOWN) {
-		_edge_menu->generate((*_display.layout)["castle:edge_of_town_menu"], lerp);
-		const sf::Vector2f menu_pos((*_display.layout)["castle:edge_of_town_menu"].x,
-			(*_display.layout)["castle:edge_of_town_menu"].y);
+		_edge_menu->generate((*_display.layout)["castle:edge_menu"], lerp);
+		const sf::Vector2f menu_pos(
+			(*_display.layout)["castle:edge_menu"].x, (*_display.layout)["castle:edge_menu"].y);
 		_edge_menu->setPosition(menu_pos);
 		_window->draw(*_edge_menu);
 		if (_display.window->input_mode == WindowInputMode::LEAVE_GAME)

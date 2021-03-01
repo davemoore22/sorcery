@@ -386,8 +386,8 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 	int count{0};
 
 	// In case we are generating the Options Menu
-	const Component on_c{(*_display.layout)["options:option_on"]};
-	const Component off_c{(*_display.layout)["options:option_off"]};
+	const Component on_c{(*_display.layout)["options:on"]};
+	const Component off_c{(*_display.layout)["options:off"]};
 	const sf::Vector2f global_pos(component.x, component.y);
 
 	// Work out total size of texture needed
