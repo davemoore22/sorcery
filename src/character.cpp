@@ -24,10 +24,6 @@
 
 #include "character.hpp"
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wswitch-default"
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-
 // Standard Constructor
 Sorcery::Character::Character(System &system, Display &display, Graphics &graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
@@ -37,6 +33,7 @@ Sorcery::Character::Character(System &system, Display &display, Graphics &graphi
 
 // Overloaded Operator
 auto Sorcery::Character::operator[](const CharacterAbility &key) -> int & {
+
 	return _abilities[key];
 }
 
@@ -44,6 +41,7 @@ auto Sorcery::Character::operator[](const CharacterAbility &key) -> int & {
 
 // Reset a character back to the empty state
 auto Sorcery::Character::reset() -> void {
+
 	_starting_attributes.clear();
 	_current_attributes.clear();
 	_max_attributes.clear();
@@ -58,16 +56,17 @@ auto Sorcery::Character::reset() -> void {
 	_possible_classes.clear();
 	_num_possible_classes = 0;
 	_portrait_index = 0;
-	_cleric_max_spell_points.clear();
-	_cleric_current_spell_points.clear();
-	_mage_max_spell_points.clear();
-	_mage_current_spell_points.clear();
+	_cleric_max_sp.clear();
+	_cleric_current_sp.clear();
+	_mage_max_sp.clear();
+	_mage_current_sp.clear();
 	_spells.clear();
 	_create_spell_lists();
 }
 
 // Given a character's current stats and alignment, work out what classes are available
 auto Sorcery::Character::set_possible_classes() -> void {
+
 	_possible_classes.clear();
 
 	// Do the basic classes first (this also sets _num_possible_character_classes); data is from
@@ -156,6 +155,7 @@ auto Sorcery::Character::set_possible_classes() -> void {
 // Enum to String functions
 auto Sorcery::Character::get_alignment(CharacterAlignment character_alignment) const
 	-> std::string {
+
 	switch (character_alignment) {
 	case CharacterAlignment::GOOD:
 		return (*_display.string)["CHARACTER_ALIGNMENT_GOOD"];
@@ -173,6 +173,7 @@ auto Sorcery::Character::get_alignment(CharacterAlignment character_alignment) c
 }
 
 auto Sorcery::Character::get_race(CharacterRace character_race) const -> std::string {
+
 	switch (character_race) {
 	case CharacterRace::HUMAN:
 		return (*_display.string)["CHARACTER_RACE_HUMAN"];
@@ -196,6 +197,7 @@ auto Sorcery::Character::get_race(CharacterRace character_race) const -> std::st
 }
 
 auto Sorcery::Character::get_class(CharacterClass character_class) const -> std::string {
+
 	switch (character_class) {
 	case CharacterClass::FIGHTER:
 		return (*_display.string)["CHARACTER_CLASS_FIGHTER"];
@@ -229,16 +231,20 @@ auto Sorcery::Character::get_class(CharacterClass character_class) const -> std:
 
 // Save from DB
 auto Sorcery::Character::_save() -> unsigned int {
+
+	// For now
 	return 1;
 }
 
 // Load from DB
-auto Sorcery::Character::_load([[maybe_unused]] unsigned int character_id) -> void {}
+auto Sorcery::Character::_load([[maybe_unused]] unsigned int character_id) -> void {
 
-// Character Creation Functions
+	// For now
+}
 
 // Last step of creating new a character
 auto Sorcery::Character::finalise() -> void {
+
 	_generate_starting_information();
 	_generate_secondary_abilities();
 	_set_starting_spells();
@@ -247,6 +253,7 @@ auto Sorcery::Character::finalise() -> void {
 
 // Work out all the stuff to do with starting a new character
 auto Sorcery::Character::_generate_starting_information() -> void {
+
 	_abilities[CharacterAbility::CURRENT_LEVEL] = 1;
 	_abilities[CharacterAbility::MAX_LEVEL] = 1;
 	_abilities[CharacterAbility::NEGATIVE_LEVEL] = 0;
@@ -266,6 +273,7 @@ auto Sorcery::Character::_generate_starting_information() -> void {
 
 // Given the characters current level, work out all the secondary abilities/stats etc
 auto Sorcery::Character::_generate_secondary_abilities() -> void {
+
 	// Formulae used are from here http://www.zimlab.com/wizardry/walk/w123calc.htm and also from
 	// https://mirrors.apple2.org.za/ftp.apple.asimov.net/images/games/rpg/wizardry/wizardry_I/Wizardry_i_SourceCode.zip
 	int current_level = {_abilities[CharacterAbility::CURRENT_LEVEL]};
@@ -451,6 +459,8 @@ auto Sorcery::Character::_generate_secondary_abilities() -> void {
 		_abilities[CharacterAbility::MAX_HP] =
 			chance <= 50 ? 16 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
 						 : 16 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+		break;
+	default:
 		break;
 	}
 	if (_abilities[CharacterAbility::MAX_HP] < 1)
@@ -652,6 +662,8 @@ auto Sorcery::Character::_generate_secondary_abilities() -> void {
 		_abilities[CharacterAbility::RESISTANCE_VS_SILENCE] =
 			_abilities[CharacterAbility::BASE_RESIST_BONUS] + 3;
 		break;
+	default:
+		break;
 	}
 	if (_race == CharacterRace::HUMAN)
 		_abilities[CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS] += 1;
@@ -712,6 +724,8 @@ auto Sorcery::Character::_generate_secondary_abilities() -> void {
 			case 20:
 				_abilities[CharacterAbility::BONUS_PRIEST_SPELLS] = 3;
 				break;
+			default:
+		break;
 			}
 			break;
 		case CharacterClass::MAGE:
@@ -727,7 +741,11 @@ auto Sorcery::Character::_generate_secondary_abilities() -> void {
 			case 20:
 				_abilities[CharacterAbility::BONUS_MAGE_SPELLS] = 3;
 				break;
+			default:
+		break;
 			}
+			break;
+		default:
 			break;
 		}
 	}
@@ -735,6 +753,7 @@ auto Sorcery::Character::_generate_secondary_abilities() -> void {
 
 // Set the starting spellpoints
 auto Sorcery::Character::_set_starting_sp() -> void {
+
 	// By default clear all spells
 	_clear_sp();
 
@@ -743,36 +762,40 @@ auto Sorcery::Character::_set_starting_sp() -> void {
 	// easier if we're not in strict mode
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::PRIEST:
-		_cleric_max_spell_points[1] = (*_system.config)[ConfigOption::STRICT_MODE]
-										  ? 2
-										  : 2 + _abilities[CharacterAbility::BONUS_PRIEST_SPELLS];
+		_cleric_max_sp[1] = (*_system.config)[ConfigOption::STRICT_MODE]
+								? 2
+								: 2 + _abilities[CharacterAbility::BONUS_PRIEST_SPELLS];
 		break;
 	case CharacterClass::BISHOP:
-		_mage_max_spell_points[1] = 2;
+		_mage_max_sp[1] = 2;
 		break;
 	case CharacterClass::MAGE:
-		_mage_max_spell_points[1] = (*_system.config)[ConfigOption::STRICT_MODE]
-										? 2
-										: 2 + _abilities[CharacterAbility::BONUS_MAGE_SPELLS];
+		_mage_max_sp[1] = (*_system.config)[ConfigOption::STRICT_MODE]
+							  ? 2
+							  : 2 + _abilities[CharacterAbility::BONUS_MAGE_SPELLS];
+		break;
+	default:
 		break;
 	}
 
-	_cleric_current_spell_points[1] = _cleric_max_spell_points[1];
-	_mage_current_spell_points[1] = _mage_max_spell_points[1];
+	_cleric_current_sp[1] = _cleric_max_sp[1];
+	_mage_current_sp[1] = _mage_max_sp[1];
 }
 
 // Clear all spell-points to begin with
 auto Sorcery::Character::_clear_sp() -> void {
+
 	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
-		_cleric_max_spell_points[spell_level] = 0;
-		_cleric_current_spell_points[spell_level] = 0;
-		_mage_max_spell_points[spell_level] = 0;
-		_mage_current_spell_points[spell_level] = 0;
+		_cleric_max_sp[spell_level] = 0;
+		_cleric_current_sp[spell_level] = 0;
+		_mage_max_sp[spell_level] = 0;
+		_mage_current_sp[spell_level] = 0;
 	}
 }
 
 // Set starting spells
 auto Sorcery::Character::_set_starting_spells() -> void {
+
 	// This is taken from "KEEPCHYN" which hard codes the spells known to beginning characters!
 	std::vector<SpellEntry>::iterator it;
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
@@ -812,6 +835,8 @@ auto Sorcery::Character::_set_starting_spells() -> void {
 		if (it != _spells.end())
 			std::get<4>(*it) = true;
 		break;
+	default:
+		break;
 	}
 }
 
@@ -819,6 +844,7 @@ auto Sorcery::Character::_set_starting_spells() -> void {
 
 // Get HP gained for all levels apart from the first
 auto Sorcery::Character::_get_hp_gained_per_level() -> int {
+
 	// In the original code ("MOREHP"), Samurai get 2d8
 	int extra_hp = {};
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
@@ -841,6 +867,8 @@ auto Sorcery::Character::_get_hp_gained_per_level() -> int {
 		extra_hp += (*_system.random)[RandomType::D8];
 		extra_hp += (*_system.random)[RandomType::D8];
 		break;
+	default:
+		break;
 	}
 
 	extra_hp += _abilities[CharacterAbility::BONUS_HIT_POINTS];
@@ -854,6 +882,7 @@ auto Sorcery::Character::_get_hp_gained_per_level() -> int {
 
 // Add hit points on level gain (but note the strict mode limitation mentioned below)
 auto Sorcery::Character::_update_hp_for_level() -> void {
+
 	// Note the annoying thing in the original Wizardry ("MADELEV") and reproduced here in strict
 	// mode where it recalculates all HP and thus often you end up with gaining only one HP - this
 	// also reproduces the equally annoying thing where if you have changed class it uses your
@@ -877,20 +906,27 @@ auto Sorcery::Character::_update_hp_for_level() -> void {
 }
 
 // Level a character up
-auto Sorcery::Character::level_up() -> void {}
+auto Sorcery::Character::level_up() -> void {
+
+	// For now
+}
 
 // Level a character down (e.g. drain levels or give/increase negative levels_
-auto Sorcery::Character::level_down() -> void {}
+auto Sorcery::Character::level_down() -> void {
+
+	// For now
+}
 
 // For each spell level, try to learn spells - called before set_spellpoints
 auto Sorcery::Character::_try_to_learn_spells(SpellType spell_type, unsigned int spell_level)
 	-> void {
+
 	// Only do spells if a character can learn them
 	if (spell_type == SpellType::PRIEST)
-		if (_cleric_max_spell_points[spell_level] == 0)
+		if (_cleric_max_sp[spell_level] == 0)
 			return;
 	if (spell_type == SpellType::MAGE)
-		if (_mage_max_spell_points[spell_level] == 0)
+		if (_mage_max_sp[spell_level] == 0)
 			return;
 
 	// First, get the spells themselves
@@ -922,8 +958,8 @@ auto Sorcery::Character::_try_to_learn_spells(SpellType spell_type, unsigned int
 // Reimplementation of SPLPERLV
 auto Sorcery::Character::_calculate_sp(
 	SpellType spell_type, unsigned int level_mod, unsigned int level_offset) -> void {
-	SpellPoints *spells =
-		spell_type == SpellType::PRIEST ? &_cleric_max_spell_points : &_mage_max_spell_points;
+
+	SpellPoints *spells = spell_type == SpellType::PRIEST ? &_cleric_max_sp : &_mage_max_sp;
 
 	int spell_count{static_cast<int>(_abilities[CharacterAbility::CURRENT_LEVEL] - level_mod)};
 	if (spell_count <= 0)
@@ -943,12 +979,13 @@ auto Sorcery::Character::_calculate_sp(
 
 // Copied and rewritten from the original code from MINMAG/MINPRI/NWPRIEST/NWMAGE
 auto Sorcery::Character::_set_sp() -> void {
+
 	// First work out the number of spells known at each level (not this deliberately does not alter
 	// spells learned in a previous class to allow those to remain the same (see MINMAG/MINPRI in
 	// the code)
 	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
-		_cleric_max_spell_points[spell_level] = _get_spells_known(SpellType::PRIEST, spell_level);
-		_mage_max_spell_points[spell_level] = _get_spells_known(SpellType::MAGE, spell_level);
+		_cleric_max_sp[spell_level] = _get_spells_known(SpellType::PRIEST, spell_level);
+		_mage_max_sp[spell_level] = _get_spells_known(SpellType::MAGE, spell_level);
 	}
 
 	// Then bump up spells according to level
@@ -974,12 +1011,15 @@ auto Sorcery::Character::_set_sp() -> void {
 	case CharacterClass::LORD:
 		_calculate_sp(SpellType::PRIEST, 3, 2);
 		break;
+	default:
+		break;
 	}
 }
 
 // In the original code this is from SPLPERLV
 auto Sorcery::Character::_get_spells_known(SpellType spell_type, unsigned int spell_level)
 	-> unsigned int {
+
 	unsigned int spells_known = {0};
 	std::vector<SpellEntry>::iterator it;
 	it = std::find_if(_spells.begin(), _spells.end(), [=](auto item) {
@@ -999,6 +1039,7 @@ auto Sorcery::Character::_get_spells_known(SpellType spell_type, unsigned int sp
 
 // Given a level, get the XP needed for it
 auto Sorcery::Character::_get_xp_for_level(unsigned int level) const -> int {
+
 	// Values obtained from http://www.the-spoiler.com/RPG/Sir-Tech/wizardry.1.2.html
 	float base = {};
 	float coefficient_2_to_3 = {};
@@ -1052,6 +1093,8 @@ auto Sorcery::Character::_get_xp_for_level(unsigned int level) const -> int {
 		coefficient_3_to_13 = 1.754;
 		coefficient_13_plus = 1.326;
 		base = 1450;
+		break;
+	default:
 		break;
 	}
 
@@ -1428,6 +1471,7 @@ _display.screen->load_from_offscreen(_character_bg, summary_loc);
 
 // Create a (semi) random character
 auto Sorcery::Character::create_random() -> void {
+
 	// Exclude Samurai/Lord/Ninja/Bishop from this method of character creation
 	_class = {static_cast<CharacterClass>((*_system.random)[RandomType::D4])};
 	_race = {static_cast<CharacterRace>((*_system.random)[RandomType::D5])};
@@ -1443,6 +1487,8 @@ auto Sorcery::Character::create_random() -> void {
 	case CharacterClass::THIEF:
 		_alignment = (*_system.random)[RandomType::D2] == 1 ? CharacterAlignment::NEUTRAL
 															: CharacterAlignment::EVIL;
+		break;
+	default:
 		break;
 	}
 
@@ -1476,6 +1522,8 @@ auto Sorcery::Character::create_random() -> void {
 			{CharacterAttribute::PIETY, 7}, {CharacterAttribute::VITALITY, 6},
 			{CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 12}};
 		break;
+	default:
+		break;
 	};
 
 	// Put most of the points into the main attribute (note that 10 points means a Human Priest and
@@ -1502,6 +1550,8 @@ auto Sorcery::Character::create_random() -> void {
 		_points_left -= (15 - _starting_attributes[CharacterAttribute::AGILITY]);
 		_starting_attributes[CharacterAttribute::AGILITY] = 15;
 		_portrait_index = 1;
+		break;
+	default:
 		break;
 	}
 
@@ -1537,10 +1587,9 @@ auto Sorcery::Character::create_random() -> void {
 	}
 */
 
-auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::Character::draw(
+	[[maybe_unused]] sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 	// target.draw(_frame, states);
 }
-
-#pragma GCC diagnostic pop

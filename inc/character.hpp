@@ -24,12 +24,10 @@
 
 #pragma once
 
-// clang-format off
-#include "main.hpp"
-#include "system.hpp"
 #include "display.hpp"
 #include "graphics.hpp"
-// clang-format on
+#include "main.hpp"
+#include "system.hpp"
 
 namespace Sorcery {
 
@@ -99,10 +97,10 @@ namespace Sorcery {
 		Display _display;
 		Graphics _graphics;
 		CharacterAbilities _abilities;
-		SpellPoints _cleric_max_spell_points;
-		SpellPoints _cleric_current_spell_points;
-		SpellPoints _mage_max_spell_points;
-		SpellPoints _mage_current_spell_points;
+		SpellPoints _cleric_max_sp;
+		SpellPoints _cleric_current_sp;
+		SpellPoints _mage_max_sp;
+		SpellPoints _mage_current_sp;
 		std::vector<SpellEntry> _spells;
 		// std::vector<CharacterStatus> _status;
 	};
