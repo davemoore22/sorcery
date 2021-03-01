@@ -41,7 +41,7 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
-		int _axis_sensitivity_min;
-		int _axis_sensitivity_max;
+		int _jp_min; // Maximum Joypad Axis Sensitivity
+		int _jp_max; // Minimum Joypad Axis Sensitivity
 	};
 } // namespace Sorcery

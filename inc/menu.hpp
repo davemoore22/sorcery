@@ -36,7 +36,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Menu(System &system, Display &display, Graphics &graphics, MenuType type);
+		Menu(System &system, Display &display, Graphics &graphics, const MenuType type);
 		Menu() = delete;
 
 		// Overload [] operator
@@ -53,20 +53,25 @@ namespace Sorcery {
 		auto choose_previous() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto choose_first() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto choose_last() -> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto choose(unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto set_mouse_selected(sf::Vector2f mouse_position) -> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto check_menu_mouseover(sf::Vector2f mouse_position) -> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto get_mouse_clicked(sf::Event::MouseButtonEvent mouse_button_event)
+		auto choose(const unsigned int index)
+			-> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto set_mouse_selected(sf::Vector2f mouse_pos)
+			-> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto check_menu_mouseover(sf::Vector2f mouse_pos)
+			-> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto get_mouse_clicked(const sf::Event::MouseButtonEvent mb_event)
 			-> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto get_type() -> MenuType;
-		auto generate(Component &component, double selected_lerp) -> void;
+		auto generate(Component &component, const double selected_lerp) -> void;
 
 	  private:
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
-		auto _add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string &key, bool enabled,
-			ConfigOption option, std::string &hint) -> void;
-		auto _add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string &key) -> void;
+		auto _add_item(const int index, const MenuItemType itemtype, const MenuItem code,
+			std::string &key, const bool enabled, const ConfigOption option,
+			const std::string &hint) -> void;
+		auto _add_item(
+			int index, const MenuItemType itemtype, const MenuItem code, std::string &key) -> void;
 		auto _select_first_enabled() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto _select_last_enabled() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 
@@ -76,10 +81,10 @@ namespace Sorcery {
 		Graphics _graphics;
 		unsigned int _width;
 		MenuType _type;
-		sf::RenderTexture _render_texture;
+		sf::RenderTexture _rtexture;
 		sf::Texture _texture;
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Text> _options;
-		sf::RectangleShape _selected_background;
+		sf::RectangleShape _selected_bg;
 	};
 } // namespace Sorcery

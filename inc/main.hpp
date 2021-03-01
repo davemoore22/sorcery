@@ -109,8 +109,8 @@ namespace Sorcery {
 	using CharacterClassList = std::map<Enums::Character::Class, std::string>;
 	using CharacterClassMenu = std::pair<Enums::Character::Class, Enums::Menu::Item>;
 	using CharacterClassQualified = std::map<Enums::Character::Class, bool>;
-	using CharacterList =
-		std::tuple<std::string, std::string, unsigned int, unsigned int, unsigned int, std::string, std::string>;
+	using CharacterList = std::tuple<std::string, std::string, unsigned int, unsigned int,
+		unsigned int, std::string, std::string>;
 	using CharacterRace = Enums::Character::Race;
 	// using CharacterStatus = Enums::Character::Status;
 	using CharacterView = Enums::Character::Display;
@@ -134,8 +134,8 @@ namespace Sorcery {
 	using Range = std::tuple<unsigned int, unsigned int>;
 	using Spell = Enums::Magic::Spell;
 	using SpellCategory = Enums::Magic::SpellCategory;
-	using SpellEntry =
-		std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int, Enums::Magic::SpellCategory, bool>;
+	using SpellEntry = std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
+		Enums::Magic::SpellCategory, bool>;
 	using SpellPoints = std::map<unsigned int, unsigned int>;
 	using SpellType = Enums::Magic::SpellType;
 	using Stage = Enums::Character::Stage;

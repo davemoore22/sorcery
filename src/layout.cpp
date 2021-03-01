@@ -2,24 +2,25 @@
 //
 // This file is part of Sorcery: Dreams of the Mad Overlord.
 //
-// Sorcery: Dreams of the Mad Overlord is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// (at your option) any later version.
+// Sorcery: Dreams of the Mad Overlord is free software: you can redistribute
+// it and/or modify it under the terms of the GNU General Public License as
+// published by the Free Software Foundation, either version 2 of the License,
+// or (at your option) any later version.
 //
-// Sorcery: Dreams of the Mad Overlord is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
+// Sorcery: Dreams of the Mad Overlord is distributed in the hope that it wil
+// be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+// Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Sorcery: Dreams of the Mad Overlord.  If not, see <http://www.gnu.org/licenses/>.
+// along with Sorcery: Dreams of the Mad Overlord.  If not,
+// see <http://www.gnu.org/licenses/>.
 //
-// If you modify this Program, or any covered work, by linking or combining it
-// with the libraries referred to in README (or a modified version of said
-// libraries), containing parts covered by the terms of said libraries, the
-// licensors of this Program grant you additional permission to convey the
-// resulting work.
+// If you modify this program, or any covered work, by linking or combining
+// it with the libraries referred to in README (or a modified version of
+// said libraries), containing parts covered by the terms of said libraries,
+// the licensors of this program grant you additional permission to convey
+// the resulting work.
 
 #include "layout.hpp"
 
@@ -28,9 +29,10 @@
 // Standard Constructor
 Sorcery::Layout::Layout(const std::filesystem::path filename) {
 
-	// Defaults for now as _load is called on the constructor here and layout is created before window object retrieves
-	// the cell height and width from the config file alas! Solution is to pass the system object into this and get both
-	// the layout file name, and the config settings from the system object as we can do
+	// Defaults for now as _load is called on the constructor here and layout is created before
+	// window object retrieves the cell height and width from the config file alas! Solution is to
+	// pass the system object into this and get both the layout file name, and the config settings
+	// from the system object as we can do
 	_cell_width = 20;
 	_cell_height = 25;
 
@@ -61,7 +63,8 @@ auto Sorcery::Layout::operator[](const std::string &combined_key) -> Component &
 }
 
 // Overload () Operator
-auto Sorcery::Layout::operator()(const std::string &screen) -> std::optional<std::vector<Component>> {
+auto Sorcery::Layout::operator()(const std::string &screen)
+	-> std::optional<std::vector<Component>> {
 
 	// First check if we need to reload if anything has changed!
 	if (_refresh_needed())
@@ -99,7 +102,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 	_components.clear();
 
 	// Attempt to load Layout File
-	if (std::ifstream layout_file{filename.string(), std::ifstream::binary}; layout_file.good()) {
+	if (std::ifstream file{filename.string(), std::ifstream::binary}; file.good()) {
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
@@ -107,7 +110,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 #pragma GCC diagnostic pop
 		Json::StreamWriterBuilder builder{};
 		builder.settings_["indentation"] = "";
-		if (Json::Value layout; reader.parse(layout_file, layout)) {
+		if (Json::Value layout; reader.parse(file, layout)) {
 			Json::Value &screens{layout["screen"]};
 
 			// Iterate through layout file one screen at a time
@@ -129,7 +132,8 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 							if (components[j]["x"].asString() == "centre")
 								return -1;
 							else if (components[j]["x"].asString().length() > 0)
-								return (std::stoi(components[j]["x"].asString()) * static_cast<int>(_cell_width));
+								return (std::stoi(components[j]["x"].asString()) *
+										static_cast<int>(_cell_width));
 							else
 								return 0;
 						} else
@@ -140,7 +144,8 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 							if (components[j]["y"].asString() == "centre")
 								return -1;
 							else if (components[j]["y"].asString().length() > 0)
-								return (std::stoi(components[j]["y"].asString()) * static_cast<int>(_cell_height));
+								return (std::stoi(components[j]["y"].asString()) *
+										static_cast<int>(_cell_height));
 							else
 								return 0;
 						} else
@@ -338,9 +343,9 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 
 					// Add the Component
 					std::string key = screen_name + ":" + name;
-					Component component(screen_name, name, x, y, w, h, scale, font_type, size, colour, animated,
-						string_key, alpha, width, background, justification, component_type, priority, drawmode,
-						texture);
+					Component component(screen_name, name, x, y, w, h, scale, font_type, size,
+						colour, animated, string_key, alpha, width, background, justification,
+						component_type, priority, drawmode, texture);
 					_components[key] = component;
 				}
 			}

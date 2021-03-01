@@ -32,8 +32,8 @@ Sorcery::System::System(int argc __attribute__((unused)), char **argv __attribut
 	// Settings File/Config Module
 	settings = std::make_shared<CSimpleIniA>();
 	settings->SetUnicode();
-	const std::string settings_file_path{(*files)[CONFIG_FILE]};
-	settings->LoadFile(CSTR(settings_file_path));
+	const std::string settings_fp{(*files)[CONFIG_FILE]};
+	settings->LoadFile(CSTR(settings_fp));
 	config = std::make_shared<Config>(settings.get(), (*files)[CONFIG_FILE]);
 
 	// Game Database

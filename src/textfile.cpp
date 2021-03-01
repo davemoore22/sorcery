@@ -24,26 +24,26 @@
 #include "textfile.hpp"
 
 // Standard Constructor
-Sorcery::TextFile::TextFile(std::filesystem::path text_file_path) : _text_file_path{text_file_path} {
+Sorcery::TextFile::TextFile(std::filesystem::path text_file_path) : _text_fp{text_file_path} {
 
 	// Attempt to load the text file specified
 	width = 0;
-	if (std::ifstream text_file{CSTR(text_file_path.string()), std::ifstream::in}; text_file.good()) {
-		_contents_buffer.clear();
-		_contents_buffer.push_back(EMPTY);
-		std::string line_of_text{};
-		while (std::getline(text_file, line_of_text)) {
+	if (std::ifstream file{CSTR(text_file_path.string()), std::ifstream::in}; file.good()) {
+		_contents.clear();
+		_contents.push_back(EMPTY);
+		std::string line{};
+		while (std::getline(file, line)) {
 
 			// Get rid of trailing spaces and add to the buffer
-			line_of_text = std::regex_replace(line_of_text, std::regex(" +$"), "");
-			_contents_buffer.push_back(line_of_text);
+			line = std::regex_replace(line, std::regex(" +$"), "");
+			_contents.push_back(line);
 
 			// Work out maximum length
-			if (line_of_text.length() > width)
-				width = line_of_text.length();
+			if (line.length() > width)
+				width = line.length();
 		}
 
-		text_file.close();
+		file.close();
 	}
 }
 
@@ -51,30 +51,31 @@ Sorcery::TextFile::TextFile(std::filesystem::path text_file_path) : _text_file_p
 auto Sorcery::TextFile::operator[](const unsigned int index) -> std::string & {
 
 	try {
-		return _contents_buffer.at(index);
+		return _contents.at(index);
 	} catch (std::out_of_range &e) {
-		return _contents_buffer.at(0);
+		return _contents.at(0);
 	}
 }
 
 // Size (in lines)
 auto Sorcery::TextFile::TextFile::size() const -> unsigned int {
 
-	return _contents_buffer.size();
+	return _contents.size();
 }
 
-auto Sorcery::TextFile::get_reading_progress(int current_line) const -> std::string {
+auto Sorcery::TextFile::get_reading_progress(const int current_line) const -> std::string {
 
 	// Work out progress through file
-	const float percent{(static_cast<float>(current_line) / static_cast<float>(_contents_buffer.size())) * 100};
+	const float percent{
+		(static_cast<float>(current_line) / static_cast<float>(_contents.size())) * 100};
 	const float percentage{std::round(percent)};
 	std::stringstream pss{};
 	pss << std::fixed << std::setprecision(0) << percentage;
 	const std::string progress{" (" + pss.str() + "%)"};
 
 	// Build status line
-	const std::string status_line{
-		std::to_string(current_line) + "/" + std::to_string(_contents_buffer.size()) + progress};
+	const std::string status{
+		std::to_string(current_line) + "/" + std::to_string(_contents.size()) + progress};
 
-	return status_line;
+	return status;
 }

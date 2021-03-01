@@ -2,24 +2,25 @@
 //
 // This file is part of Sorcery: Dreams of the Mad Overlord.
 //
-// Sorcery: Dreams of the Mad Overlord is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// (at your option) any later version.
+// Sorcery: Dreams of the Mad Overlord is free software: you can redistribute
+// it and/or modify it under the terms of the GNU General Public License as
+// published by the Free Software Foundation, either version 2 of the License,
+// or (at your option) any later version.
 //
-// Sorcery: Dreams of the Mad Overlord is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
+// Sorcery: Dreams of the Mad Overlord is distributed in the hope that it wil
+// be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+// Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Sorcery: Dreams of the Mad Overlord.  If not, see <http://www.gnu.org/licenses/>.
+// along with Sorcery: Dreams of the Mad Overlord.  If not,
+// see <http://www.gnu.org/licenses/>.
 //
-// If you modify this Program, or any covered work, by linking or combining it
-// with the libraries referred to in README (or a modified version of said
-// libraries), containing parts covered by the terms of said libraries, the
-// licensors of this Program grant you additional permission to convey the
-// resulting work.
+// If you modify this program, or any covered work, by linking or combining
+// it with the libraries referred to in README (or a modified version of
+// said libraries), containing parts covered by the terms of said libraries,
+// the licensors of this program grant you additional permission to convey
+// the resulting work.
 
 #include "statusbar.hpp"
 
@@ -33,33 +34,33 @@ Sorcery::StatusBar::StatusBar(System &system, Display &display, Graphics &graphi
 	_layout = Component((*_display.layout)["status_bar:status_bar"]);
 	_frame_c = Component((*_display.layout)["status_bar:outer_frame"]);
 
-	_render_texture.create(
-		_layout.w * _display.window->get_cell_width(), _layout.h * _display.window->get_cell_height());
-	_render_texture.setSmooth(true);
-	_render_texture.clear();
+	_rtexture.create(_layout.w * _display.window->get_cell_width(),
+		_layout.h * _display.window->get_cell_height());
+	_rtexture.setSmooth(true);
+	_rtexture.clear();
 
 	// Create the Outside Fram
-	_frame =
-		std::make_unique<Frame>(_display.ui_texture, WindowFrameType::NORMAL, _frame_c.w, _frame_c.h, _frame_c.alpha);
+	_frame = std::make_unique<Frame>(
+		_display.ui_texture, WindowFrameType::NORMAL, _frame_c.w, _frame_c.h, _frame_c.alpha);
 
 	// Render the background (inset by the frame)
-	sf::RectangleShape rectangle(sf::Vector2f((_display.window->get_cell_width() * (_layout.w)) - 20,
+	sf::RectangleShape rect(sf::Vector2f((_display.window->get_cell_width() * (_layout.w)) - 20,
 		(_display.window->get_cell_height() * (_layout.h)) - 20));
-	rectangle.setFillColor(sf::Color(0, 0, 0, _layout.alpha));
-	rectangle.setPosition(10, 10);
-	_render_texture.draw(rectangle);
+	rect.setFillColor(sf::Color(0, 0, 0, _layout.alpha));
+	rect.setPosition(10, 10);
+	_rtexture.draw(rect);
 
-	_frame_sprite = _frame->sprite;
-	_frame_sprite.setPosition(0, 0);
-	_render_texture.draw(_frame_sprite);
+	_fsprite = _frame->sprite;
+	_fsprite.setPosition(0, 0);
+	_rtexture.draw(_fsprite);
 
 	_generate_components();
 	_draw_components();
 
-	// Normally we'd be passed in a vector of character shared ptrs, and draw each one (in a seperate update method?)
-	// but for now, just do this
-	_render_texture.display();
-	_texture = _render_texture.getTexture();
+	// Normally we'd be passed in a vector of character shared ptrs, and draw each one (in a
+	// seperate update method?) but for now, just do this
+	_rtexture.display();
+	_texture = _rtexture.getTexture();
 	sprite = sf::Sprite(_texture);
 
 	width = sprite.getLocalBounds().width;
@@ -88,10 +89,11 @@ auto Sorcery::StatusBar::_generate_components() -> void {
 				int y = component.y == -1 ? _display.window->centre.y : component.y;
 				if (component.justification == Justification::CENTRE) {
 					text.setPosition(x, y);
-					text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+					text.setOrigin(
+						text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 				} else if (component.justification == Justification::RIGHT) {
 					text.setPosition(x, y);
-					sf::FloatRect bounds = text.getLocalBounds();
+					const sf::FloatRect bounds = text.getLocalBounds();
 					text.setPosition(component.x - bounds.width, component.y);
 				} else {
 					text.setPosition(x, y);
@@ -108,6 +110,6 @@ auto Sorcery::StatusBar::_draw_components() -> void {
 
 	// For now - this is copied from display.cpp
 	for (auto &[unique_key, text] : _texts) {
-		_render_texture.draw(text);
+		_rtexture.draw(text);
 	}
 }

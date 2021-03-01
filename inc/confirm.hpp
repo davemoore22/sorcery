@@ -36,18 +36,18 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Confirm(
-			System &system, Display &display, Graphics &graphics, Component &gui_component, Component &text_component);
+		Confirm(System &system, Display &display, Graphics &graphics, Component &gui_c,
+			Component &text_c);
 		Confirm() = delete;
 
 		// Public Members
-		WindowConfirm currently_highlighted;
+		WindowConfirm highlighted;
 
 		// Public Methods
-		auto check_for_mouse_move(sf::Vector2f mouse_position) -> std::optional<WindowConfirm>;
-		auto check_if_option_selected(sf::Vector2f mouse_position) -> std::optional<WindowConfirm>;
+		auto check_for_mouse_move(const sf::Vector2f mouse_pos) -> std::optional<WindowConfirm>;
+		auto check_if_option_selected(const sf::Vector2f mouse_pos) -> std::optional<WindowConfirm>;
 		auto toggle_highlighted() -> WindowConfirm;
-		auto draw(double lerp) -> void;
+		auto draw(const double lerp) -> void;
 
 	  private:
 		// Private Methods
@@ -56,12 +56,12 @@ namespace Sorcery {
 		System _system;
 		Display _display;
 		Graphics _graphics;
-		Component _gui_component;
-		Component _text_component;
+		Component _gui_c;
+		Component _text_c;
 		sf::RenderWindow *_window;
 		std::string_view _text;
-		sf::FloatRect _no_background_rect;
-		sf::FloatRect _yes_background_rect;
+		sf::FloatRect _no_bg_tect;
+		sf::FloatRect _yes_bg_rect;
 		sf::Text _no_text;
 		sf::Text _yes_text;
 		std::unique_ptr<Frame> _frame;

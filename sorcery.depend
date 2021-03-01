@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1614379064 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1614556450 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -133,7 +133,7 @@
 1614379768 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
-1614377195 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
+1614556502 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
 	"main.hpp"
 
 1614377193 /home/dave/Development/wizardry/sorcery-sfml/inc/type.hpp
@@ -155,7 +155,7 @@
 	"resourcemanager.hpp"
 	"string.hpp"
 
-1614377151 /home/dave/Development/wizardry/sorcery-sfml/inc/random.hpp
+1614555760 /home/dave/Development/wizardry/sorcery-sfml/inc/random.hpp
 	"main.hpp"
 
 1614377195 /home/dave/Development/wizardry/sorcery-sfml/inc/file.hpp
@@ -170,7 +170,7 @@
 1614377195 /home/dave/Development/wizardry/sorcery-sfml/inc/database.hpp
 	"main.hpp"
 
-1614377193 /home/dave/Development/wizardry/sorcery-sfml/inc/string.hpp
+1614555531 /home/dave/Development/wizardry/sorcery-sfml/inc/string.hpp
 	"main.hpp"
 
 1614377220 /home/dave/Development/wizardry/sorcery-sfml/inc/resourcemanager.hpp
@@ -186,11 +186,11 @@
 	"system.hpp"
 	"window.hpp"
 
-1614377195 /home/dave/Development/wizardry/sorcery-sfml/inc/layout.hpp
+1614556555 /home/dave/Development/wizardry/sorcery-sfml/inc/layout.hpp
 	"component.hpp"
 	"main.hpp"
 
-1614377193 /home/dave/Development/wizardry/sorcery-sfml/inc/window.hpp
+1614555137 /home/dave/Development/wizardry/sorcery-sfml/inc/window.hpp
 	"layout.hpp"
 	"main.hpp"
 	"string.hpp"
@@ -214,20 +214,20 @@
 	"system.hpp"
 	"training.hpp"
 
-1614377195 /home/dave/Development/wizardry/sorcery-sfml/inc/graphics.hpp
+1614556711 /home/dave/Development/wizardry/sorcery-sfml/inc/graphics.hpp
 	"animation.hpp"
 	"display.hpp"
 	"main.hpp"
 	"system.hpp"
 
-1614377245 /home/dave/Development/wizardry/sorcery-sfml/inc/menu.hpp
+1614554904 /home/dave/Development/wizardry/sorcery-sfml/inc/menu.hpp
 	"component.hpp"
 	"display.hpp"
 	"graphics.hpp"
 	"main.hpp"
 	"system.hpp"
 
-1614377193 /home/dave/Development/wizardry/sorcery-sfml/inc/textfile.hpp
+1614555431 /home/dave/Development/wizardry/sorcery-sfml/inc/textfile.hpp
 	"main.hpp"
 
 1614377195 /home/dave/Development/wizardry/sorcery-sfml/inc/map.hpp
@@ -316,7 +316,7 @@
 	"main.hpp"
 	"application.hpp"
 
-1614553872 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
+1614556088 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
 	"mainmenu.hpp"
 
 1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/manage.cpp
@@ -328,7 +328,7 @@
 1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/map.cpp
 	"map.hpp"
 
-1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/menu.cpp
+1614555064 source:/home/dave/Development/wizardry/sorcery-sfml/src/menu.cpp
 	"menu.hpp"
 
 1597513199 source:/home/dave/Development/wizardry/sorcery-sfml/src/menubutton.cpp
@@ -349,22 +349,22 @@
 1614377195 /home/dave/Development/wizardry/sorcery-sfml/inc/platform.hpp
 	"main.hpp"
 
-1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/random.cpp
+1614555762 source:/home/dave/Development/wizardry/sorcery-sfml/src/random.cpp
 	"random.hpp"
 
-1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/resourcemanager.cpp
+1614555699 source:/home/dave/Development/wizardry/sorcery-sfml/src/resourcemanager.cpp
 	"resourcemanager.hpp"
 
-1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/splash.cpp
+1614555672 source:/home/dave/Development/wizardry/sorcery-sfml/src/splash.cpp
 	"splash.hpp"
 
-1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/string.cpp
+1614555546 source:/home/dave/Development/wizardry/sorcery-sfml/src/string.cpp
 	"string.hpp"
 
-1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/system.cpp
+1614555512 source:/home/dave/Development/wizardry/sorcery-sfml/src/system.cpp
 	"system.hpp"
 
-1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/textfile.cpp
+1614555479 source:/home/dave/Development/wizardry/sorcery-sfml/src/textfile.cpp
 	"textfile.hpp"
 
 1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/tile.cpp
@@ -373,26 +373,26 @@
 1614377195 /home/dave/Development/wizardry/sorcery-sfml/inc/tile.hpp
 	"main.hpp"
 
-1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/window.cpp
+1614555183 source:/home/dave/Development/wizardry/sorcery-sfml/src/window.cpp
 	"window.hpp"
 
-1614377193 /home/dave/Development/wizardry/sorcery-sfml/inc/confirm.hpp
+1614556126 /home/dave/Development/wizardry/sorcery-sfml/inc/confirm.hpp
 	"display.hpp"
 	"frame.hpp"
 	"graphics.hpp"
 	"main.hpp"
 	"system.hpp"
 
-1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/confirm.cpp
+1614556265 source:/home/dave/Development/wizardry/sorcery-sfml/src/confirm.cpp
 	"confirm.hpp"
 
-1614377195 /home/dave/Development/wizardry/sorcery-sfml/inc/input.hpp
+1614556682 /home/dave/Development/wizardry/sorcery-sfml/inc/input.hpp
 	"main.hpp"
 
 1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/input.cpp
 	"input.hpp"
 
-1614377195 /home/dave/Development/wizardry/sorcery-sfml/inc/license.hpp
+1614556521 /home/dave/Development/wizardry/sorcery-sfml/inc/license.hpp
 	"display.hpp"
 	"frame.hpp"
 	"graphics.hpp"
@@ -403,10 +403,10 @@
 1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/license.cpp
 	"license.hpp"
 
-1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/options.cpp
+1614556086 source:/home/dave/Development/wizardry/sorcery-sfml/src/options.cpp
 	"options.hpp"
 
-1614377238 /home/dave/Development/wizardry/sorcery-sfml/inc/options.hpp
+1614555942 /home/dave/Development/wizardry/sorcery-sfml/inc/options.hpp
 	"confirm.hpp"
 	"display.hpp"
 	"frame.hpp"
@@ -428,7 +428,7 @@
 1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/compendium.cpp
 	"compendium.hpp"
 
-1614377193 /home/dave/Development/wizardry/sorcery-sfml/inc/tooltip.hpp
+1614555208 /home/dave/Development/wizardry/sorcery-sfml/inc/tooltip.hpp
 	"display.hpp"
 	"frame.hpp"
 	"graphics.hpp"
@@ -436,7 +436,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/tooltip.cpp
+1614555210 source:/home/dave/Development/wizardry/sorcery-sfml/src/tooltip.cpp
 	"tooltip.hpp"
 
 1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/game.cpp
@@ -462,7 +462,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1614526269 /home/dave/Development/wizardry/sorcery-sfml/inc/frame.hpp
+1614556817 /home/dave/Development/wizardry/sorcery-sfml/inc/frame.hpp
 	"layout.hpp"
 	"main.hpp"
 
@@ -493,7 +493,7 @@
 	"system.hpp"
 	"training.hpp"
 
-1614533262 source:/home/dave/Development/wizardry/sorcery-sfml/src/gamemenu.cpp
+1614556085 source:/home/dave/Development/wizardry/sorcery-sfml/src/gamemenu.cpp
 	"gamemenu.hpp"
 
 1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/camera.cpp
@@ -542,10 +542,10 @@
 	"statusbar.hpp"
 	"system.hpp"
 
-1614549948 source:/home/dave/Development/wizardry/sorcery-sfml/src/training.cpp
+1614554283 source:/home/dave/Development/wizardry/sorcery-sfml/src/training.cpp
 	"training.hpp"
 
-1614548529 /home/dave/Development/wizardry/sorcery-sfml/inc/statusbar.hpp
+1614555619 /home/dave/Development/wizardry/sorcery-sfml/inc/statusbar.hpp
 	"display.hpp"
 	"frame.hpp"
 	"graphics.hpp"
@@ -553,6 +553,6 @@
 	"main.hpp"
 	"system.hpp"
 
-1614549084 source:/home/dave/Development/wizardry/sorcery-sfml/src/statusbar.cpp
+1614555652 source:/home/dave/Development/wizardry/sorcery-sfml/src/statusbar.cpp
 	"statusbar.hpp"
 

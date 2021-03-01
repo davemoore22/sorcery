@@ -6,7 +6,7 @@ NamespaceIndentation: All
 IndentWidth: 4
 UseTab: Always
 TabWidth: 4
-ReflowComments: false
+ReflowComments: true
 ColumnLimit: 100
 AllowShortFunctionsOnASingleLine: Empty
 ConstructorInitializerIndentWidth: 4

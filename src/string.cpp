@@ -46,7 +46,7 @@ auto Sorcery::String::_load(const std::string &filename) -> bool {
 	_strings["NONE"] = STRINGS_NOT_LOADED;
 
 	// Attempt to load Strings File
-	if (std::ifstream strings_file{filename, std::ifstream::binary}; strings_file.good()) {
+	if (std::ifstream file{filename, std::ifstream::binary}; file.good()) {
 
 		// Iterate through the file
 		Json::Value root{};
@@ -56,7 +56,7 @@ auto Sorcery::String::_load(const std::string &filename) -> bool {
 #pragma GCC diagnostic pop
 		Json::StreamWriterBuilder builder{};
 		builder.settings_["indentation"] = "";
-		if (reader.parse(strings_file, root, false)) {
+		if (reader.parse(file, root, false)) {
 			for (Json::Value::iterator it = root.begin(); it != root.end(); ++it) {
 				Json::Value key{it.key()};
 				Json::Value value{(*it)};
@@ -64,9 +64,12 @@ auto Sorcery::String::_load(const std::string &filename) -> bool {
 				std::string string_value{Json::writeString(builder, value)};
 
 				// Remove Special Characters from file
-				string_key.erase(remove(string_key.begin(), string_key.end(), '\"'), string_key.end());
-				string_value.erase(remove(string_value.begin(), string_value.end(), '\"'), string_value.end());
-				string_key.erase(remove(string_key.begin(), string_key.end(), '\n'), string_key.end());
+				string_key.erase(
+					remove(string_key.begin(), string_key.end(), '\"'), string_key.end());
+				string_value.erase(
+					remove(string_value.begin(), string_value.end(), '\"'), string_value.end());
+				string_key.erase(
+					remove(string_key.begin(), string_key.end(), '\n'), string_key.end());
 
 				// Insert it into the map
 				_strings[string_key] = string_value;
@@ -89,7 +92,8 @@ auto Sorcery::String::get(const std::string &key) -> std::string {
 }
 
 // Utility function due to lack of std::string::replace_with_substring
-auto Sorcery::String::_replace(std::string &subject, const std::string &search, const std::string &replace) -> void {
+auto Sorcery::String::_replace(
+	std::string &subject, const std::string &search, const std::string &replace) -> void {
 
 	size_t pos{0};
 	while ((pos = subject.find(search, pos)) != std::string::npos) {

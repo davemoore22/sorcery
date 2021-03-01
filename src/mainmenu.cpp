@@ -155,9 +155,9 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 				else if (_system.input->check_for_event(WindowInput::RIGHT, event))
 					_confirm_exit->toggle_highlighted();
 				else if (_system.input->check_for_event(WindowInput::YES, event))
-					_confirm_exit->currently_highlighted = WindowConfirm::YES;
+					_confirm_exit->highlighted = WindowConfirm::YES;
 				else if (_system.input->check_for_event(WindowInput::NO, event))
-					_confirm_exit->currently_highlighted = WindowConfirm::NO;
+					_confirm_exit->highlighted = WindowConfirm::NO;
 				else if (_system.input->check_for_event(WindowInput::CANCEL, event))
 					_display.window->input_mode = WindowInputMode::NORMAL;
 				else if (_system.input->check_for_event(WindowInput::MOVE, event))
@@ -177,9 +177,9 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 					} else {
 
 						// Button/Keyboard
-						if (_confirm_exit->currently_highlighted == WindowConfirm::YES)
+						if (_confirm_exit->highlighted == WindowConfirm::YES)
 							_window->close();
-						else if (_confirm_exit->currently_highlighted == WindowConfirm::NO)
+						else if (_confirm_exit->highlighted == WindowConfirm::NO)
 							_display.window->input_mode = WindowInputMode::NORMAL;
 					}
 				}

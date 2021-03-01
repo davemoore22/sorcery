@@ -44,7 +44,7 @@ namespace Sorcery {
 
 		// Public Members
 		std::optional<std::chrono::time_point<std::chrono::steady_clock>> entry_time;
-		sf::FloatRect bounding_rectangle;
+		sf::FloatRect bound_rect;
 		bool valid;
 
 		// Public Methods

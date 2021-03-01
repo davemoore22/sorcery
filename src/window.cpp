@@ -78,12 +78,14 @@ auto Sorcery::Window::draw_text(sf::Text &text) -> void {
 	_draw_text(text);
 }
 
-auto Sorcery::Window::draw_text(sf::Text &text, const Component &component, const std::string &string) -> void {
+auto Sorcery::Window::draw_text(
+	sf::Text &text, const Component &component, const std::string &string) -> void {
 
 	_draw_text(text, component, string);
 }
 
-auto Sorcery::Window::draw_text(sf::Text &text, const Component &component, const double lerp) -> void {
+auto Sorcery::Window::draw_text(sf::Text &text, const Component &component, const double lerp)
+	-> void {
 
 	_draw_text(text, component, lerp);
 }
@@ -93,7 +95,8 @@ auto Sorcery::Window::_draw_text(sf::Text &text) -> void {
 	_window.draw(text);
 }
 
-auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, const double lerp) -> void {
+auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, const double lerp)
+	-> void {
 
 	int x{0};
 	int y{0};
@@ -120,7 +123,8 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, con
 	_window.draw(text);
 }
 
-auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, const std::string &string) -> void {
+auto Sorcery::Window::_draw_text(
+	sf::Text &text, const Component &component, const std::string &string) -> void {
 
 	int x{0};
 	int y{0};
@@ -250,14 +254,15 @@ auto Sorcery::Window::_change_colour(sf::Color colour, double lerp) const -> sf:
 	return sf::Color(red, green, blue);
 }
 
-auto Sorcery::Window::highlight_text(sf::Text &text, Component component, const double lerp) -> sf::RectangleShape {
+auto Sorcery::Window::highlight_text(sf::Text &text, Component component, const double lerp)
+	-> sf::RectangleShape {
 
 	sf::FloatRect text_rect{text.getGlobalBounds()};
-	sf::RectangleShape text_background(sf::Vector2(text_rect.width + 6, text_rect.height + 8));
-	text_background.setOrigin(0, 0 - text.getLocalBounds().height + 16);
-	text_background.setFillColor(change_colour(sf::Color(component.background), lerp));
+	sf::RectangleShape test_bg(sf::Vector2(text_rect.width + 6, text_rect.height + 8));
+	test_bg.setOrigin(0, 0 - text.getLocalBounds().height + 16);
+	test_bg.setFillColor(change_colour(sf::Color(component.background), lerp));
 	text.setFillColor(sf::Color(component.colour));
 	text.setOutlineColor(sf::Color(0, 0, 0));
 	text.setOutlineThickness(2);
-	return text_background;
+	return test_bg;
 }

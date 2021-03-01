@@ -150,7 +150,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 							} else if (option_chosen == MenuItem::ET_LEAVE_GAME) {
 								_display.window->input_mode = WindowInputMode::LEAVE_GAME;
 								_yes_or_no = WindowConfirm::NO;
-								//return MenuItem::ET_LEAVE_GAME;
+								// return MenuItem::ET_LEAVE_GAME;
 							} else if (option_chosen == MenuItem::ET_MAZE) {
 								return MenuItem::ET_MAZE;
 							} else if (option_chosen == MenuItem::ET_TRAIN) {
@@ -176,9 +176,9 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 				else if (_system.input->check_for_event(WindowInput::RIGHT, event))
 					_leave_game->toggle_highlighted();
 				else if (_system.input->check_for_event(WindowInput::YES, event))
-					_leave_game->currently_highlighted = WindowConfirm::YES;
+					_leave_game->highlighted = WindowConfirm::YES;
 				else if (_system.input->check_for_event(WindowInput::NO, event))
-					_leave_game->currently_highlighted = WindowConfirm::NO;
+					_leave_game->highlighted = WindowConfirm::NO;
 				else if (_system.input->check_for_event(WindowInput::CANCEL, event))
 					_display.window->input_mode = WindowInputMode::NORMAL;
 				else if (_system.input->check_for_event(WindowInput::MOVE, event))
@@ -198,9 +198,9 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 					} else {
 
 						// Button/Keyboard
-						if (_leave_game->currently_highlighted == WindowConfirm::YES)
+						if (_leave_game->highlighted == WindowConfirm::YES)
 							return MenuItem::ET_LEAVE_GAME;
-						else if (_leave_game->currently_highlighted == WindowConfirm::NO)
+						else if (_leave_game->highlighted == WindowConfirm::NO)
 							_display.window->input_mode = WindowInputMode::NORMAL;
 					}
 				}

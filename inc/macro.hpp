@@ -35,22 +35,23 @@ namespace Sorcery {
 	}
 
 	// Macro to convert std::string to C string
-	inline auto CSTR(const std::string &string_to_convert) -> const char * {
+	inline auto CSTR(const std::string &string) -> const char * {
 
-		return !string_to_convert.empty() ? (char *)string_to_convert.c_str() : (char *)"";
+		return !string.empty() ? (char *)string.c_str() : (char *)"";
 	}
 
 	// Pad a string to the desired length
-	inline auto PADSTR(std::string string_to_pad, unsigned int desired_width, bool pad_both = false) -> std::string {
-		if (static_cast<unsigned int>(string_to_pad.size()) < desired_width) {
+	inline auto PADSTR(std::string string, unsigned int width, bool pad_both = false)
+		-> std::string {
+		if (static_cast<unsigned int>(string.size()) < width) {
 			const std::string::size_type padding{
-				pad_both ? (desired_width - string_to_pad.size()) / 2 : (desired_width - string_to_pad.size())};
-			std::string string_copy{string_to_pad};
+				pad_both ? (width - string.size()) / 2 : (width - string.size())};
+			std::string string_copy{string};
 			if (pad_both)
 				string_copy.insert(0, padding, ' ');
 			string_copy.append(padding, ' ');
 			return string_copy;
 		} else
-			return string_to_pad;
+			return string;
 	}
 } // namespace Sorcery

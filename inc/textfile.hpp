@@ -26,7 +26,8 @@
 
 #include "main.hpp"
 
-// Class to handles loading and displaying on the console the contents of text files (such as COPYING and README)
+// Class to handles loading and displaying on the console the contents of text files (such as
+// COPYING and README)
 namespace Sorcery {
 
 	class TextFile {
@@ -42,14 +43,14 @@ namespace Sorcery {
 		// Public Methods
 		auto size() const -> unsigned int; // Size (in lines)
 		auto valid() const -> bool;		   // Valid flag, indicates if there are contents
-		auto get_reading_progress(int current_line) const -> std::string;
+		auto get_reading_progress(const int current_line) const -> std::string;
 
 		// Public Members
 		unsigned int width; // Column Size of max
 
 	  private:
 		// Private Members
-		std::filesystem::path _text_file_path;	   // Filename
-		std::vector<std::string> _contents_buffer; // Contents of text file
+		std::filesystem::path _text_fp;		// Filename
+		std::vector<std::string> _contents; // Contents of text file
 	};
 } // namespace Sorcery

@@ -53,15 +53,15 @@ namespace Sorcery {
 		// Private Members
 		std::array<sf::IntRect, 8> _frame_parts;
 		std::array<sf::Sprite, 8> _frame_sprites;
-		sf::RenderTexture _render_texture;
+		sf::RenderTexture _rtexture;
 		sf::Texture _texture;
 		WindowFrameType _type;
 		unsigned int _width_units;
 		unsigned int _height_units;
 		unsigned int _alpha;
 		sf::Sprite _frame;
-		sf::RectangleShape _background;
-		unsigned int _texture_size_x;
-		unsigned int _texture_size_y;
+		sf::RectangleShape _bg;
+		unsigned int _texture_w;
+		unsigned int _texture_h;
 	};
 } // namespace Sorcery

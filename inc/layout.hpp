@@ -21,6 +21,7 @@
 // said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
+
 #pragma once
 
 #include "component.hpp"

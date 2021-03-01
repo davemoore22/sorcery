@@ -45,8 +45,10 @@ namespace Sorcery {
 		auto darken_colour(sf::Color colour, double lerp) -> sf::Color;
 		auto display_window() -> void;
 		auto draw_text(sf::Text &text) -> void;
-		auto draw_text(sf::Text &text, const Component &component, const double lerp = -1.0f) -> void;
-		auto draw_text(sf::Text &text, const Component &component, const std::string &string) -> void;
+		auto draw_text(sf::Text &text, const Component &component, const double lerp = -1.0f)
+			-> void;
+		auto draw_text(sf::Text &text, const Component &component, const std::string &string)
+			-> void;
 		auto draw_gui() -> void;
 		auto get_cell_height() const -> unsigned int;
 		auto get_cell_width() const -> unsigned int;
@@ -71,7 +73,8 @@ namespace Sorcery {
 		auto _change_colour(sf::Color colour, double lerp) const -> sf::Color;
 		auto _draw_text(sf::Text &text) -> void;
 		auto _draw_text(sf::Text &text, const Component &component, const double lerp) -> void;
-		auto _draw_text(sf::Text &text, const Component &component, const std::string &string) -> void;
+		auto _draw_text(sf::Text &text, const Component &component, const std::string &string)
+			-> void;
 		auto _get_centre_x(const sf::Sprite &sprite) const -> unsigned int;
 		auto _get_centre_y(const sf::Sprite &sprite) const -> unsigned int;
 		auto _get_centre_x(const sf::Text &text) const -> unsigned int;

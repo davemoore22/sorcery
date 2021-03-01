@@ -44,7 +44,7 @@ namespace Sorcery {
 
 	  private:
 		// Private Members
-		std::random_device _random_device;
+		std::random_device _device;
 		std::mt19937_64 _random;
 		std::map<RandomType, Range> _range;
 

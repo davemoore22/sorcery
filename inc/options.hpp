@@ -21,6 +21,7 @@
 // said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
+
 #pragma once
 
 #include "confirm.hpp"
@@ -54,7 +55,7 @@ namespace Sorcery {
 	  private:
 		// Private Methods
 		auto _draw() -> void;
-		auto _set_tooltip(sf::Vector2f mouse_position) -> bool;
+		auto _set_tooltip(sf::Vector2f mouse_pos) -> bool;
 
 		// Private Members
 		System _system;
@@ -66,9 +67,9 @@ namespace Sorcery {
 		sf::Text _reset_text;
 		Component _option_on;
 		Component _option_off;
-		std::shared_ptr<Menu> _options_menu;
-		std::shared_ptr<Tooltip> _tooltip;
-		bool _display_tooltip;
+		std::shared_ptr<Menu> _menu;
+		std::shared_ptr<Tooltip> _tt;
+		bool _display_tt;
 		std::shared_ptr<Confirm> _confirm_save;
 		std::shared_ptr<Confirm> _confirm_cancel;
 		std::shared_ptr<Confirm> _confirm_strict_on;
