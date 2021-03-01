@@ -759,6 +759,53 @@
 			"drawmode": "manual"
 		}
 		]
+	},
+	{
+		"name": "create",
+		"component": [
+		{
+			"name": "frame",
+			"w": "50",
+			"h": "38",
+			"x": "centre",
+			"y": "2",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "1"
+		},
+		{
+			"name": "title_frame",
+			"w": "20",
+			"h": "2",
+			"x": "centre",
+			"y": "1",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "2"
+		},
+		{
+			"name": "title_text",
+			"x": "centre",
+			"y": "2",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CREATE_TITLE",
+			"justification": "centre",
+			"type": "text",
+			"priority": "3"
+		},
+		{
+			"name": "background",
+			"x": "centre",
+			"y": "5",
+			"scale": "1.25",
+			"type": "image",
+			"priority": "7",
+			"texture": "town",
+			"drawmode" : "manual"
+		}
+		]
 	}
 	]
   }

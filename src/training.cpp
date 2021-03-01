@@ -36,6 +36,7 @@ Sorcery::Training::Training(System &system, Display &display, Graphics &graphics
 
 	_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::TRAINING_GROUNDS);
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics);
+	_create = std::make_unique<Create>(_system, _display, _graphics);
 }
 
 // Standard Destructor
@@ -98,6 +99,10 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 					const MenuItem option_chosen{(*selected.value()).item};
 					if (option_chosen == MenuItem::TR_EDGE_OF_TOWN) {
 						return MenuItem::ET_LEAVE_GAME;
+					} else if (option_chosen == MenuItem::TR_CREATE) {
+						_create->start();
+						_create->stop();
+						_display.window->input_mode = WindowInputMode::NORMAL;
 					}
 				}
 			}

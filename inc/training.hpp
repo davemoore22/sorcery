@@ -23,6 +23,7 @@
 
 #pragma once
 
+#include "create.hpp"
 #include "display.hpp"
 #include "frame.hpp"
 #include "graphics.hpp"
@@ -64,5 +65,6 @@ namespace Sorcery {
 		sf::Sprite _bg;
 		std::unique_ptr<Frame> _menu_frame;
 		std::unique_ptr<StatusBar> _status_bar;
+		std::unique_ptr<Create> _create;
 	};
 } // namespace Sorcery

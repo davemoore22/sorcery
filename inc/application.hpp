@@ -26,6 +26,7 @@
 
 #include "banner.hpp"
 #include "compendium.hpp"
+#include "create.hpp" // temp
 #include "display.hpp"
 #include "engine.hpp"
 #include "gamemenu.hpp"
@@ -36,7 +37,6 @@
 #include "options.hpp"
 #include "splash.hpp"
 #include "system.hpp"
-#include "training.hpp" // temp
 
 namespace Sorcery {
 

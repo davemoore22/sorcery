@@ -74,9 +74,9 @@ auto Sorcery::Application::start() -> void {
 	MainMenuType menu_stage{MainMenuType::ATTRACT_MODE};
 	do {
 
-		auto training = std::make_shared<Training>(*system, *display, *graphics);
-		training->start();
-		training->stop();
+		auto create = std::make_shared<Create>(*system, *display, *graphics);
+		create->start();
+		create->stop();
 
 		option_chosen = _mainmenu->start(menu_stage);
 		_mainmenu->stop();

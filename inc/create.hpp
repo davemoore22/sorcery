@@ -26,4 +26,42 @@
 
 #include "main.hpp"
 
-namespace Sorcery {}
+#pragma once
+
+#include "display.hpp"
+#include "frame.hpp"
+#include "graphics.hpp"
+#include "layout.hpp"
+#include "main.hpp"
+#include "system.hpp"
+
+namespace Sorcery {
+
+	class Create {
+
+	  public:
+		// Constructor
+		Create(System &system, Display &display, Graphics &graphics);
+		Create() = delete;
+
+		// Destructor
+		~Create();
+
+		// Public Members
+
+		// Public Methods
+		auto start() -> std::optional<MenuItem>;
+		auto stop() -> void;
+
+	  private:
+		// Private Methods
+		auto _draw() -> void;
+
+		// Private Members
+		System _system;
+		Display _display;
+		Graphics _graphics;
+		sf::RenderWindow *_window;
+		sf::Sprite _bg;
+	};
+} // namespace Sorcery

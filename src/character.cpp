@@ -28,6 +28,9 @@
 Sorcery::Character::Character(System &system, Display &display, Graphics &graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
+	// need a character stage enum, which controls status and also the current drawing
+	// once its created fully, its set to the end state, which allows for reviewing
+
 	reset();
 }
 
@@ -725,7 +728,7 @@ auto Sorcery::Character::_generate_secondary_abilities() -> void {
 				_abilities[CharacterAbility::BONUS_PRIEST_SPELLS] = 3;
 				break;
 			default:
-		break;
+				break;
 			}
 			break;
 		case CharacterClass::MAGE:
@@ -742,7 +745,7 @@ auto Sorcery::Character::_generate_secondary_abilities() -> void {
 				_abilities[CharacterAbility::BONUS_MAGE_SPELLS] = 3;
 				break;
 			default:
-		break;
+				break;
 			}
 			break;
 		default:
@@ -1589,6 +1592,20 @@ auto Sorcery::Character::create_random() -> void {
 
 auto Sorcery::Character::draw(
 	[[maybe_unused]] sf::RenderTarget &target, sf::RenderStates states) const -> void {
+
+	// Note depending on the current character stage, then we draw its repreentation differently
+	/*
+	1. Select Name
+	2. Choose Race
+	3. Choose Alignment
+	4. Allocate Attributes
+	5. Choose Class
+	6. Choose Portrait
+	7. Review and Confirm
+
+	also we need to draw a summary version too, perhaps a derived class (Character Summary)?
+
+	*/
 
 	states.transform *= getTransform();
 	// target.draw(_frame, states);
