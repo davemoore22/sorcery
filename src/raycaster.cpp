@@ -2,24 +2,25 @@
 //
 // This file is part of Sorcery: Dreams of the Mad Overlord.
 //
-// Sorcery: Dreams of the Mad Overlord is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// (at your option) any later version.
+// Sorcery: Dreams of the Mad Overlord is free software: you can redistribute
+// it and/or modify it under the terms of the GNU General Public License as
+// published by the Free Software Foundation, either version 2 of the License,
+// or (at your option) any later version.
 //
-// Sorcery: Dreams of the Mad Overlord is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
+// Sorcery: Dreams of the Mad Overlord is distributed in the hope that it wil
+// be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+// Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Sorcery: Dreams of the Mad Overlord.  If not, see <http://www.gnu.org/licenses/>.
+// along with Sorcery: Dreams of the Mad Overlord.  If not,
+// see <http://www.gnu.org/licenses/>.
 //
-// If you modify this Program, or any covered work, by linking or combining it
-// with the libraries referred to in README (or a modified version of said
-// libraries), containing parts covered by the terms of said libraries, the
-// licensors of this Program grant you additional permission to convey the
-// resulting work.
+// If you modify this program, or any covered work, by linking or combining
+// it with the libraries referred to in README (or a modified version of
+// said libraries), containing parts covered by the terms of said libraries,
+// the licensors of this program grant you additional permission to convey
+// the resulting work.
 
 // https://github.com/lxndrdagreat/sfray
 #include "raycaster.hpp"
@@ -33,7 +34,8 @@ Sorcery::Raycaster::Raycaster(int width_, int height_) {
 	mCeilingRenderMethod = Ceiling_Texture;
 	mEntityRenderMethod = Entity_Texture;
 
-	// these distances will never change, so store them once to remove computation and division later.
+	// these distances will never change, so store them once to remove computation and division
+	// later.
 	for (int i = 0; i < height_; ++i) {
 		mHeightMap.push_back(mGfxHeight / (2.0 * i - mGfxHeight));
 	}
@@ -70,18 +72,19 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 	window.setView(window.getDefaultView());
 }
 
-void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera &camera, sf::View &view) {
+void Sorcery::Raycaster::drawForCamera(
+	sf::RenderWindow &window, Sorcery::Camera &camera, sf::View &view) {
 
 	int times = 0;
 
 	/* FIRST STEP:
-		* The background. This is can be nothing, a color, or the texture
-		* created via the floor casting later on.
-		*
-		* If either the floor or ceiling rendering method is "Texture",
-		* we start by cleaning up the texture that fits across the entire
-		* background.
-		*/
+	 * The background. This is can be nothing, a color, or the texture
+	 * created via the floor casting later on.
+	 *
+	 * If either the floor or ceiling rendering method is "Texture",
+	 * we start by cleaning up the texture that fits across the entire
+	 * background.
+	 */
 	if (mFloorRenderMethod == Floor_Texture || mCeilingRenderMethod == Ceiling_Texture) {
 
 		for (unsigned int i = 3; i < mGfxWidth * mGfxHeight * 4; i += 4) {
@@ -89,8 +92,8 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 		}
 	}
 	/* If we aren't texturing the floor, then we don't do the raycasting
-		* later on, and instead we go ahead and draw our colored floor.
-		*/
+	 * later on, and instead we go ahead and draw our colored floor.
+	 */
 	if (mFloorRenderMethod != Floor_Texture) {
 		sf::RectangleShape floorshape;
 		floorshape.setFillColor(mFloorRenderColor);
@@ -99,7 +102,7 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 		window.draw(floorshape);
 	}
 	/* The ceiling works in the same way as the floor.
-		*/
+	 */
 	if (mCeilingRenderMethod != Ceiling_Texture) {
 		sf::RectangleShape ceilshape;
 		ceilshape.setFillColor(mCeilingRenderColor);
@@ -109,22 +112,22 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 	}
 
 	/* SECOND STEP:
-		* Raycasting.
-		* Now we start doing our raycasting, taking vertical slices across
-		* the width of our drawing area.
-		*
-		* For each slice, we cast a ray from the camera to find out if and
-		* where it hits a wall. We then calculate the distance and
-		* perspective for that part of the wall. If we are using a texture,
-		* we use this to figure out what part of the texture to draw. For
-		* both textured and colored walls, we also figure out how "big" to
-		* draw this slice of the wall based on distance away.
-		*/
+	 * Raycasting.
+	 * Now we start doing our raycasting, taking vertical slices across
+	 * the width of our drawing area.
+	 *
+	 * For each slice, we cast a ray from the camera to find out if and
+	 * where it hits a wall. We then calculate the distance and
+	 * perspective for that part of the wall. If we are using a texture,
+	 * we use this to figure out what part of the texture to draw. For
+	 * both textured and colored walls, we also figure out how "big" to
+	 * draw this slice of the wall based on distance away.
+	 */
 	for (unsigned int x = 0; x < mGfxWidth; ++x) {
 
 		/* We start by figuring out where our camera is located
-			* and where it is looking.
-			*/
+		 * and where it is looking.
+		 */
 		float cameraX = 2 * x / float(mGfxWidth) - 1;
 
 		float rayPosX = camera.getPosition().x;
@@ -133,7 +136,7 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 		float rayDirX = camera.getDirection().x + camera.getPlane().x * cameraX;
 		float rayDirY = camera.getDirection().y + camera.getPlane().y * cameraX;
 
-		//which box of the map we're in
+		// which box of the map we're in
 		int mapX = int(rayPosX);
 		int mapY = int(rayPosY);
 
@@ -231,12 +234,12 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 		}
 
 		/* Draw the slice of wall to the screen.
-			*
-			* Use a Quad sf::VertexArray to do the drawing.
-			* This gives more flexibility and keeps from having
-			* to draw each pixel one at a time, which boosts our
-			* performance.
-			*/
+		 *
+		 * Use a Quad sf::VertexArray to do the drawing.
+		 * This gives more flexibility and keeps from having
+		 * to draw each pixel one at a time, which boosts our
+		 * performance.
+		 */
 		if (perpWallDist <= mMaxWallRenderDistance) {
 			if (mWallRenderMethod == Wall_Texture) {
 				sf::VertexArray slice(sf::Quads, 4);
@@ -278,21 +281,21 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 		++times;
 
 		/* THIRD STEP
-			* Floor and ceiling.
-			*
-			* This is where we take the biggest hit in performance.
-			*
-			* For a long time, games would draw a flat color instead
-			* of a texture, because it is not as simple as drawing the
-			* slices of walls. Instead, each point on the floor has to be
-			* mapped to part of a texture, which is a lot of math calculations.
-			* Then, each pixel has to be individually drawn to the screen, which
-			* is also a major performance hit.
-			*
-			* For each slice, we need to figure out (remember from before) where
-			* the wall (if there was one) starts and ends. This way, we can draw
-			* floor and ceiling below and above it, respectively.
-			*/
+		 * Floor and ceiling.
+		 *
+		 * This is where we take the biggest hit in performance.
+		 *
+		 * For a long time, games would draw a flat color instead
+		 * of a texture, because it is not as simple as drawing the
+		 * slices of walls. Instead, each point on the floor has to be
+		 * mapped to part of a texture, which is a lot of math calculations.
+		 * Then, each pixel has to be individually drawn to the screen, which
+		 * is also a major performance hit.
+		 *
+		 * For each slice, we need to figure out (remember from before) where
+		 * the wall (if there was one) starts and ends. This way, we can draw
+		 * floor and ceiling below and above it, respectively.
+		 */
 		float floorXWall;
 		float floorYWall;
 
@@ -323,16 +326,17 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 		}
 
 		/* We only do all of this work if a few conditions are met:
-			*
-			* 1) We have to be drawing the textures for either the floor or ceiling.
-			*    if they're just the color, then we have no need to be here.
-			* 2) If the camera has moved since last time. If the camera has not moved
-			*    then we do not need to redo all of our math and drawing. We can just
-			*    redraw what we had from before.
-			*
-			* THIS IS VERY IMPORTANT FOR PERFORMANCE.
-			*/
-		if ((mFloorRenderMethod == Floor_Texture || mCeilingRenderMethod == Ceiling_Texture) && camera.moved == true) {
+		 *
+		 * 1) We have to be drawing the textures for either the floor or ceiling.
+		 *    if they're just the color, then we have no need to be here.
+		 * 2) If the camera has moved since last time. If the camera has not moved
+		 *    then we do not need to redo all of our math and drawing. We can just
+		 *    redraw what we had from before.
+		 *
+		 * THIS IS VERY IMPORTANT FOR PERFORMANCE.
+		 */
+		if ((mFloorRenderMethod == Floor_Texture || mCeilingRenderMethod == Ceiling_Texture) &&
+			camera.moved == true) {
 			for (unsigned int y = drawEnd + 1; y < mGfxHeight; ++y) {
 				currentDist = mHeightMap[y];
 
@@ -341,9 +345,10 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 				float currentFloorX = weight * floorXWall + (1.0 - weight) * camera.getPosition().x;
 				float currentFloorY = weight * floorYWall + (1.0 - weight) * camera.getPosition().y;
 
-				float distanceToFloorTile =
-					((camera.getPosition().x - int(currentFloorX)) * (camera.getPosition().x - int(currentFloorX)) +
-						(camera.getPosition().y - int(currentFloorY)) * (camera.getPosition().y - int(currentFloorY)));
+				float distanceToFloorTile = ((camera.getPosition().x - int(currentFloorX)) *
+												 (camera.getPosition().x - int(currentFloorX)) +
+											 (camera.getPosition().y - int(currentFloorY)) *
+												 (camera.getPosition().y - int(currentFloorY)));
 				if (distanceToFloorTile > mMaxFloorRenderDistance) {
 					continue;
 				}
@@ -355,7 +360,8 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 				int floorTexX = int(currentFloorX * floorTextureWidth) % floorTextureWidth;
 				int floorTexY = int(currentFloorY * floorTextureHeight) % floorTextureHeight;
 
-				sf::Color pix = mMap.getPixelFromTexture(tile.getTextureIndex(), floorTexX, floorTexY);
+				sf::Color pix =
+					mMap.getPixelFromTexture(tile.getTextureIndex(), floorTexX, floorTexY);
 
 				if (mFloorRenderMethod == Floor_Texture) {
 					unsigned int index = (y * (mGfxWidth * 4)) + (x * 4);
@@ -376,30 +382,31 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 		}
 	}
 	/* Again, check if camera has moved and if we are drawing textures before
-		* updating the background texture.
-		*/
-	if (camera.moved && (mFloorRenderMethod == Floor_Texture || mCeilingRenderMethod == Ceiling_Texture)) {
+	 * updating the background texture.
+	 */
+	if (camera.moved &&
+		(mFloorRenderMethod == Floor_Texture || mCeilingRenderMethod == Ceiling_Texture)) {
 		mFloorcastingTexture.update(mFloorcastingPixels);
 	}
 
 	/* If we ARE drawing the textures, then we draw the background,
-		* every time, whether or not the player has moved.
-		*/
+	 * every time, whether or not the player has moved.
+	 */
 	if (mFloorRenderMethod == Floor_Texture || mCeilingRenderMethod == Ceiling_Texture) {
 		window.draw(mFloorcastingSprite);
 	}
 
 	/* STEP, THE LAST
-		* In which we draw our sprite entities.
-		* These are supposed to be drawn above the floor; however,
-		* we do have to check and make sure they are not too far away
-		* or obstructed by walls or other objects.
-		*/
+	 * In which we draw our sprite entities.
+	 * These are supposed to be drawn above the floor; however,
+	 * we do have to check and make sure they are not too far away
+	 * or obstructed by walls or other objects.
+	 */
 	if (mEntityRenderMethod != Entity_None) {
 
 		/* Start by sorting all of the entities by distance
-			* to the camera.
-			*/
+		 * to the camera.
+		 */
 		std::vector<Sorcery::Entity *> sprites = mMap.getEntities();
 		std::vector<int> mSpriteOrder;
 		std::vector<float> mSpriteDistance;
@@ -426,17 +433,19 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 			// transform sprite with the inverse camera matrix
 			float invDet =
 				1.0 / (camera.getPlane().x * camera.getDirection().y -
-						  camera.getDirection().x * camera.getPlane().y); // require for correct matrix multiplication.
+						  camera.getDirection().x *
+							  camera.getPlane().y); // require for correct matrix multiplication.
 
-			float transformX = invDet * (camera.getDirection().y * spriteX - camera.getDirection().x * spriteY);
+			float transformX =
+				invDet * (camera.getDirection().y * spriteX - camera.getDirection().x * spriteY);
 			float transformY =
 				invDet * (-camera.getPlane().y * spriteX +
-							 camera.getPlane().x *
-								 spriteY); // this is actually the depth inside the screen, that what Z is in the 3D
+							 camera.getPlane().x * spriteY); // this is actually the depth inside
+															 // the screen, that what Z is in the 3D
 
 			/* If we cannot see this object because of rotation,
-				* then we skip it and move on.
-				*/
+			 * then we skip it and move on.
+			 */
 			if (transformY < 0) {
 				continue;
 			}
@@ -444,8 +453,9 @@ void Sorcery::Raycaster::drawForCamera(sf::RenderWindow &window, Sorcery::Camera
 			int spriteScreenX = int((mGfxWidth / 2) * (1 + transformX / transformY));
 
 			// calculate height of the sprite on screen
-			int spriteHeight =
-				abs(int(mGfxHeight / (transformY))); // using <transformY> instead of the real distance prevents fisheye
+			int spriteHeight = abs(int(
+				mGfxHeight /
+				(transformY))); // using <transformY> instead of the real distance prevents fisheye
 			// calculate lowest and highest pixel to fill in current stripe
 			int drawStartY = -spriteHeight / 2 + mGfxHeight / 2;
 			int drawEndY = spriteHeight / 2 + mGfxHeight / 2;
@@ -604,7 +614,7 @@ void Sorcery::Raycaster::setSize(unsigned int width_, unsigned int height_) {
 
 // sorting algorithm
 void Sorcery::Raycaster::combSort(std::vector<int> &order, std::vector<float> &dist, int amount) {
-	//std::cout << "start sort" << std::endl;
+	// std::cout << "start sort" << std::endl;
 
 	int gap = amount;
 	bool swapped = false;
@@ -628,7 +638,7 @@ void Sorcery::Raycaster::combSort(std::vector<int> &order, std::vector<float> &d
 		}
 	}
 
-	//std::cout << "end sort" << std::endl;
+	// std::cout << "end sort" << std::endl;
 }
 
 float Sorcery::Raycaster::getMaxObjectRenderDistance() {

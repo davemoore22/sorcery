@@ -55,7 +55,7 @@ namespace Sorcery {
 		CSimpleIniA *_settings;								 // Dependency-injected
 		std::array<bool, NUM_GAME_SETTINGS> _options;		 // Game Settings
 		std::array<bool, NUM_GAME_SETTINGS> _options_backup; // To handle cancel
-		std::filesystem::path _config_file_path;
+		std::filesystem::path _config_fp;
 
 		// Private Methods
 		auto _load() -> bool;

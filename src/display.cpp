@@ -2,24 +2,25 @@
 //
 // This file is part of Sorcery: Dreams of the Mad Overlord.
 //
-// Sorcery: Dreams of the Mad Overlord is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// (at your option) any later version.
+// Sorcery: Dreams of the Mad Overlord is free software: you can redistribute
+// it and/or modify it under the terms of the GNU General Public License as
+// published by the Free Software Foundation, either version 2 of the License,
+// or (at your option) any later version.
 //
-// Sorcery: Dreams of the Mad Overlord is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
+// Sorcery: Dreams of the Mad Overlord is distributed in the hope that it wil
+// be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+// Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Sorcery: Dreams of the Mad Overlord.  If not, see <http://www.gnu.org/licenses/>.
+// along with Sorcery: Dreams of the Mad Overlord.  If not,
+// see <http://www.gnu.org/licenses/>.
 //
-// If you modify this Program, or any covered work, by linking or combining it
-// with the libraries referred to in README (or a modified version of said
-// libraries), containing parts covered by the terms of said libraries, the
-// licensors of this Program grant you additional permission to convey the
-// resulting work.
+// If you modify this program, or any covered work, by linking or combining
+// it with the libraries referred to in README (or a modified version of
+// said libraries), containing parts covered by the terms of said libraries,
+// the licensors of this program grant you additional permission to convey
+// the resulting work.
 
 #include "display.hpp"
 
@@ -59,18 +60,22 @@ auto Sorcery::Display::generate_components(const std::string screen) -> void {
 					(component.unique_key.ends_with("main_menu_attract:logo_image"))) {
 					ImageSize size{static_cast<unsigned int>(image.getLocalBounds().width),
 						static_cast<unsigned int>(image.getLocalBounds().height)};
-					const ImageSize window_size{window->get_window()->getSize().x, window->get_window()->getSize().y};
+					const ImageSize window_size{
+						window->get_window()->getSize().x, window->get_window()->getSize().y};
 					float scale_ratio_needed{1.0f};
 					if ((size.w > window_size.w) || (size.h > window_size.h)) {
-						float shrink_width_needed{static_cast<float>(window_size.w) / static_cast<float>(size.w)};
-						float shrink_height_needed{static_cast<float>(window_size.h) / static_cast<float>(size.h)};
+						float shrink_width_needed{
+							static_cast<float>(window_size.w) / static_cast<float>(size.w)};
+						float shrink_height_needed{
+							static_cast<float>(window_size.h) / static_cast<float>(size.h)};
 						scale_ratio_needed = std::min(shrink_width_needed, shrink_height_needed);
 					}
 					image.setScale(scale_ratio_needed, scale_ratio_needed);
 				}
 
 				// Set the image position
-				const sf::Vector2f image_pos(window->get_x(image, component.x), window->get_y(image, component.y));
+				const sf::Vector2f image_pos(
+					window->get_x(image, component.x), window->get_y(image, component.y));
 				image.setPosition(image_pos);
 
 				// Add the image to the components ready to draw
@@ -78,10 +83,11 @@ auto Sorcery::Display::generate_components(const std::string screen) -> void {
 
 			} else if (component.type == ComponentType::FRAME) {
 
-				auto frame = std::make_shared<Frame>(_system->resources->texture[GraphicsTexture::UI],
-					WindowFrameType::NORMAL, component.w, component.h, component.alpha);
-				frame->setPosition(
-					window->get_x(frame->sprite, component.x), window->get_y(frame->sprite, component.y));
+				auto frame =
+					std::make_shared<Frame>(_system->resources->texture[GraphicsTexture::UI],
+						WindowFrameType::NORMAL, component.w, component.h, component.alpha);
+				frame->setPosition(window->get_x(frame->sprite, component.x),
+					window->get_y(frame->sprite, component.y));
 				_frames.emplace(std::make_pair(component.unique_key, std::move(frame)));
 
 			} else if (component.type == ComponentType::TEXT) {
@@ -98,7 +104,8 @@ auto Sorcery::Display::generate_components(const std::string screen) -> void {
 				y = component.y == -1 ? window->centre.y : component.y;
 				if (component.justification == Justification::CENTRE) {
 					text.setPosition(x, y);
-					text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+					text.setOrigin(
+						text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 				} else if (component.justification == Justification::RIGHT) {
 					text.setPosition(x, y);
 					sf::FloatRect bounds = text.getLocalBounds();
@@ -119,7 +126,8 @@ auto Sorcery::Display::generate_components(const std::string screen) -> void {
 	}
 }
 
-auto Sorcery::Display::display_components(const std::string screen, std::optional<std::any> parameter) -> void {
+auto Sorcery::Display::display_components(
+	const std::string screen, std::optional<std::any> parameter) -> void {
 
 	for (auto &[unique_key, frame] : _frames) {
 		if (screen == "castle") {
@@ -139,9 +147,11 @@ auto Sorcery::Display::display_components(const std::string screen, std::optiona
 	}
 
 	for (auto &[unique_key, sprite] : _sprites) {
-		if ((unique_key.ends_with("banner:banner_image")) || (unique_key.ends_with("splash:splash_image"))) {
+		if ((unique_key.ends_with("banner:banner_image")) ||
+			(unique_key.ends_with("splash:splash_image"))) {
 			if (parameter) {
-				sprite.setColor(sf::Color(255, 255, 255, std::any_cast<unsigned int>(parameter.value())));
+				sprite.setColor(
+					sf::Color(255, 255, 255, std::any_cast<unsigned int>(parameter.value())));
 			}
 		}
 
@@ -188,7 +198,8 @@ auto Sorcery::Display::display_cursor() -> void {
 
 auto Sorcery::Display::start_background_movie() -> void {
 
-	_background_movie.fit(0, 0, window->get_window()->getSize().x, window->get_window()->getSize().y);
+	_background_movie.fit(
+		0, 0, window->get_window()->getSize().x, window->get_window()->getSize().y);
 	if (_background_movie.getStatus() == sfe::Stopped)
 		_background_movie.play();
 }
