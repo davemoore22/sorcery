@@ -42,7 +42,7 @@ namespace Sorcery {
 
 		// Public Members
 		double colour_lerp;
-		unsigned int attract_mode_alpha;
+		unsigned int attract_alpha;
 
 		// Public Methods
 		auto force_refresh_attract_mode() -> void;
@@ -61,23 +61,21 @@ namespace Sorcery {
 		// Private Members
 		System _system;
 		Display _display;
-		std::jthread _attract_mode_animation_thread;
-		std::jthread _colour_cycling_thread;
-		std::atomic<bool> _allow_attract_mode_animations;
-		std::atomic<bool> _allow_colour_cycling;
-		std::atomic<bool> _colour_cycling_direction;
+		std::jthread _attract_thrd;
+		std::jthread _colcyc_thrd;
+		std::atomic<bool> _allow_attract_ani;
+		std::atomic<bool> _allow_colcyc;
+		std::atomic<bool> _colcyc_dir;
 		std::atomic<bool> _finished;
 		std::atomic<bool> _attract_mode_fade_in;
-		std::chrono::time_point<std::chrono::system_clock> _last_attract_mode_animation;
+		std::chrono::time_point<std::chrono::system_clock> _last_attract_ani;
 		std::chrono::time_point<std::chrono::system_clock> _current_time;
-		std::mutex _attract_mode_mutex;
-		std::mutex _colour_cycling_mutex;
+		std::mutex _attract_mutex;
+		std::mutex _colour_mutex;
 		std::vector<unsigned int> _attract_mode;
 
 		// Private Methods
 		auto _animate_attract_mode(bool force) -> void;
-		auto _calculate_attract_mode_screen_positions(const unsigned int number_to_display) const
-			-> std::vector<unsigned int>;
 		auto _colour_cycling(bool force) -> void;
 		auto _do_attract_mode_animation() -> void;
 		auto _do_colour_cycling() -> void;

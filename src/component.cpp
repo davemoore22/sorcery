@@ -23,34 +23,40 @@
 #include "component.hpp"
 
 Sorcery::Component::Component()
-	: screen{""}, name{""}, x{0}, y{0}, w{0}, h{0}, scale{0.0f}, font{0}, size{0}, colour{0}, animated{false},
-	  string_key{""}, alpha{255}, background{0}, justification{}, type{}, priority{999}, drawmode{}, texture{} {
+	: screen{""}, name{""}, x{0}, y{0}, w{0}, h{0}, scale{0.0f}, font{0}, size{0}, colour{0},
+	  animated{false}, string_key{""}, alpha{255}, background{0},
+	  justification{}, type{}, priority{999}, drawmode{}, texture{} {
 
 	unique_key.clear();
 }
 
-Sorcery::Component::Component(std::string screen_, std::string name_, int x_, int y_, unsigned int w_, unsigned int h_,
-	float scale_, Enums::Internal::FontType font_, unsigned int size_, unsigned long long colour_, bool animated_,
-	std::string string_key_, unsigned int alpha_, unsigned int width_, unsigned long long background_,
-	Enums::Window::Justification justification_, Enums::Window::ComponentType type_, unsigned int priority_,
-	Enums::Window::DrawMode drawmode_, Enums::Graphics::Texture texture_)
-	: screen{screen_}, name{name_}, x{x_}, y{y_}, w{w_}, h{h_}, scale{scale_}, font{font_}, size{size_},
-	  colour{colour_}, animated{animated_}, string_key{string_key_}, alpha{alpha_}, width{width_},
-	  background{background_},
-	  justification{justification_}, type{type_}, priority{priority_}, drawmode{drawmode_}, texture{texture_} {
+Sorcery::Component::Component(std::string screen_, std::string name_, int x_, int y_,
+	unsigned int w_, unsigned int h_, float scale_, Enums::Internal::FontType font_,
+	unsigned int size_, unsigned long long colour_, bool animated_, std::string string_key_,
+	unsigned int alpha_, unsigned int width_, unsigned long long background_,
+	Enums::Window::Justification justification_, Enums::Window::ComponentType type_,
+	unsigned int priority_, Enums::Window::DrawMode drawmode_, Enums::Graphics::Texture texture_)
+	: screen{screen_}, name{name_}, x{x_}, y{y_}, w{w_}, h{h_}, scale{scale_}, font{font_},
+	  size{size_}, colour{colour_}, animated{animated_}, string_key{string_key_}, alpha{alpha_},
+	  width{width_}, background{background_}, justification{justification_}, type{type_},
+	  priority{priority_}, drawmode{drawmode_}, texture{texture_} {
 
-	// Unique Key is like this because it is used for runtime component-sorting (std::map is sorted by key)
-	std::string priority_id = fmt::format("prefix.{:03d}.suffix", priority);
-	unique_key = priority_id + "_" + screen + ":" + name;
+	// Unique Key is like this because it is used for runtime component-sorting (std::map is sorted
+	// by key) (also needs to be replaced with std::format when available)
+	const std::string priority_id = fmt::format("prefix.{:03d}.suffix", priority);
+	unique_key = fmt::format("{}_{}:{}", priority_id, screen, name);
+	// unique_key = priority_id + "_" + screen + ":" + name;
 }
 
 // Copy Constructors
 Sorcery::Component::Component(const Component &other)
-	: screen{other.screen}, name{other.name}, x{other.x}, y{other.y}, w{other.w}, h{other.h}, scale{other.scale},
-	  font{other.font}, size{other.size}, colour{other.colour}, animated{other.animated}, string_key{other.string_key},
-	  alpha{other.alpha}, width{other.width}, background{other.background}, justification{other.justification},
+	: screen{other.screen}, name{other.name}, x{other.x}, y{other.y}, w{other.w}, h{other.h},
+	  scale{other.scale}, font{other.font}, size{other.size}, colour{other.colour},
+	  animated{other.animated}, string_key{other.string_key}, alpha{other.alpha},
+	  width{other.width}, background{other.background}, justification{other.justification},
 	  type{other.type}, priority{other.priority}, drawmode{other.drawmode}, texture{other.texture} {
 
+	// Not sure why I'm doing this here and not in the initialiser list?
 	unique_key = other.unique_key;
 }
 

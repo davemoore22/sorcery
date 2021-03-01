@@ -35,7 +35,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		AttractMode(sf::Texture creatures_texture, Component component);
+		AttractMode(sf::Texture ctexture, Component component);
 		AttractMode() = delete;
 
 		// Public Members
@@ -53,13 +53,13 @@ namespace Sorcery {
 		auto _get_creature_gfx(const int creature_id, const bool known) -> sf::Sprite;
 
 		// Private Members
-		sf::Texture _creatures_texture;
-		sf::RenderTexture _render_texture;
+		sf::Texture _ctexture;
+		sf::RenderTexture _rtexture;
 		sf::Texture _texture;
 		sf::Sprite _sprite;
 		Component _component;
-		unsigned int _creature_sprite_width;
-		unsigned int _creature_sprite_height;
-		unsigned int _creature_sprite_spacing;
+		unsigned int _cs_width;
+		unsigned int _cs_height;
+		unsigned int _cs_spacing;
 	};
 } // namespace Sorcery

@@ -40,11 +40,12 @@
 
 namespace Sorcery {
 
-	// Application is a container class to hold the entire game structure, data, and any associated meta-objects.  Only
-	// one instance is ever created, at start-up, and it is (automatically) freed just before the game is exited. This
-	//  class is responsible for creating the various subclasses to handle all the other parts of the game. It's
-	// technically not a singleton even though only one instance is ever created in main.cpp as there's nothing to
-	// prevent another copy being created, and game state isn’t held in this class. So there!
+	// Application is a container class to hold the entire game structure, data, and any associated
+	// meta-objects. Only one instance is ever created, at start-up, and it is (automatically)
+	// freed just before the game is exited. This class is responsible for creating the various
+	// subclasses to handle all the other parts of the game. It's technically not a singleton even
+	// though only one instance is ever created in main.cpp as there's nothing to prevent another
+	// copy being created, and game state isn’t held in this class. So there!
 	class Application {
 
 	  public:
