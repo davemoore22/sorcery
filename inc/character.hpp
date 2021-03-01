@@ -24,6 +24,86 @@
 
 #pragma once
 
+// clang-format off
 #include "main.hpp"
+#include "system.hpp"
+#include "display.hpp"
+#include "graphics.hpp"
+// clang-format on
 
-namespace Sorcery {}
+namespace Sorcery {
+
+	class Character : public sf::Transformable, public sf::Drawable {
+
+	  public:
+		// Constructors
+		Character(System &system, Display &display, Graphics &graphics);
+		Character() = delete;
+
+		// Overloaded Operators
+		auto operator[](const CharacterAbility &key) -> int &;
+
+		auto reset() -> void;
+		auto set_possible_classes() -> void;
+		auto finalise() -> void;
+		auto level_up() -> void;
+		auto level_down() -> void;
+		// auto render(unsigned int y_position) -> void;
+		auto get_alignment(CharacterAlignment alignment) const -> std::string;
+		auto get_race(CharacterRace race) const -> std::string;
+		auto get_class(CharacterClass cclass) const -> std::string;
+		auto create_random() -> void;
+
+		// Public Members
+
+		// Public Members (for now, need accessors)
+		std::string _name;
+		CharacterRace _race;
+		CharacterClass _class;
+		CharacterAlignment _alignment;
+		CharacterAttributes _starting_attributes;
+		CharacterAttributes _current_attributes;
+		CharacterAttributes _max_attributes;
+		CharacterView _view;
+		unsigned int _points_left;
+		unsigned int _starting_points;
+		CharacterClassQualified _possible_classes;
+		CharacterClassList _class_list;
+		unsigned int _num_possible_classes;
+		int _portrait_index;
+
+		// Public Methods
+
+	  private:
+		// Private Methods
+		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto _save() -> unsigned int;
+		auto _load(unsigned int character_id) -> void;
+		auto _generate_starting_information() -> void;
+		auto _generate_secondary_abilities() -> void;
+		auto _set_starting_sp() -> void;
+		auto _clear_sp() -> void;
+		auto _set_starting_spells() -> void;
+		auto _get_hp_gained_per_level() -> int;
+		auto _update_hp_for_level() -> void;
+		auto _try_to_learn_spells(SpellType spell_type, unsigned int spell_level) -> void;
+		auto _calculate_sp(SpellType spell_type, unsigned int level_mod, unsigned int level_offset)
+			-> void;
+		auto _set_sp() -> void;
+		auto _get_spells_known(SpellType spell_type, unsigned int spell_level) -> unsigned int;
+		auto _get_xp_for_level(unsigned int level) const -> int;
+		auto _create_spell_lists() -> void;
+
+		// Private Members
+		System _system;
+		Display _display;
+		Graphics _graphics;
+		CharacterAbilities _abilities;
+		SpellPoints _cleric_max_spell_points;
+		SpellPoints _cleric_current_spell_points;
+		SpellPoints _mage_max_spell_points;
+		SpellPoints _mage_current_spell_points;
+		std::vector<SpellEntry> _spells;
+		// std::vector<CharacterStatus> _status;
+	};
+} // namespace Sorcery
