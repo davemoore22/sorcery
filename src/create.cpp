@@ -43,7 +43,7 @@ Sorcery::Create::~Create() {
 auto Sorcery::Create::start() -> std::optional<MenuItem> {
 
 	const Component bg_c{(*_display.layout)["create:background"]};
-	sf::IntRect bg_rect(1147, 249, 773, 388);
+	const sf::IntRect bg_rect(1147, 249, 773, 388);
 	_bg.setTexture(_system.resources->textures[TOWN_TEXTURE]);
 	_bg.setTextureRect(bg_rect);
 	_bg.setScale(bg_c.scale, bg_c.scale);

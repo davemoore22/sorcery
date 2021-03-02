@@ -104,10 +104,10 @@ auto Sorcery::Confirm::draw(const double lerp) -> void {
 
 	// Draw backgrounds
 	if (highlighted == WindowConfirm::YES) {
-		sf::RectangleShape yes_bg{_display.window->highlight_text(_yes_text, _text_c, lerp)};
+		const sf::RectangleShape yes_bg{_display.window->highlight_text(_yes_text, _text_c, lerp)};
 		_window->draw(yes_bg, _yes_text.getTransform());
 	} else if (highlighted == WindowConfirm::NO) {
-		sf::RectangleShape no_bg{_display.window->highlight_text(_no_text, _text_c, lerp)};
+		const sf::RectangleShape no_bg{_display.window->highlight_text(_no_text, _text_c, lerp)};
 		_window->draw(no_bg, _no_text.getTransform());
 	}
 

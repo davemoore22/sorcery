@@ -245,14 +245,14 @@ auto Sorcery::Character::get_class(CharacterClass character_class) const -> std:
 // Save from DB
 auto Sorcery::Character::_save() -> unsigned int {
 
-	// For now
+	// TODO:
 	return 1;
 }
 
 // Load from DB
 auto Sorcery::Character::_load([[maybe_unused]] unsigned int character_id) -> void {
 
-	// For now
+	// TODO:
 }
 
 // Last step of creating new a character
@@ -289,7 +289,7 @@ auto Sorcery::Character::_generate_secondary_abilities() -> void {
 
 	// Formulae used are from here http://www.zimlab.com/wizardry/walk/w123calc.htm and also from
 	// https://mirrors.apple2.org.za/ftp.apple.asimov.net/images/games/rpg/wizardry/wizardry_I/Wizardry_i_SourceCode.zip
-	int current_level = {_abilities[CharacterAbility::CURRENT_LEVEL]};
+	const int current_level = {_abilities[CharacterAbility::CURRENT_LEVEL]};
 
 	// Bonus Melee to Hit per Attack (num)
 	if (_current_attributes[CharacterAttribute::STRENGTH] > 15)
@@ -809,6 +809,8 @@ auto Sorcery::Character::_clear_sp() -> void {
 // Set starting spells
 auto Sorcery::Character::_set_starting_spells() -> void {
 
+	// TODO: see if get can be replaced bv named parameter (i.e. use struct not tuple?)
+
 	// This is taken from "KEEPCHYN" which hard codes the spells known to beginning characters!
 	std::vector<SpellEntry>::iterator it;
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
@@ -952,6 +954,8 @@ auto Sorcery::Character::_try_to_learn_spells(SpellType spell_type, unsigned int
 			return std::get<1>(item) == spell_type && std::get<2>(item) == spell_level;
 		});
 
+		// TODO: same comment about struct instead of tuple
+
 		// If spell already known, skip
 		if (std::get<4>(*it))
 			continue;
@@ -972,6 +976,7 @@ auto Sorcery::Character::_try_to_learn_spells(SpellType spell_type, unsigned int
 auto Sorcery::Character::_calculate_sp(
 	SpellType spell_type, unsigned int level_mod, unsigned int level_offset) -> void {
 
+	// No ownership granted by use of raw pointer here
 	SpellPoints *spells = spell_type == SpellType::PRIEST ? &_cleric_max_sp : &_mage_max_sp;
 
 	int spell_count{static_cast<int>(_abilities[CharacterAbility::CURRENT_LEVEL] - level_mod)};
