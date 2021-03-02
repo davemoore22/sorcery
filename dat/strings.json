@@ -109,7 +109,13 @@
 	"CHARACTER_CLASS_LORD": "Lord",
 	"CHARACTER_CLASS_NINJA": "Ninja",
 	"CREATE_TITLE": "CREATE CHARACTER",
-
+	"CHARACTER_CREATION_STAGE1": "Stage 1/7: Choose Name",
+	"CHARACTER_CREATION_STAGE2": "Stage 2/7: Choose Race",
+	"CHARACTER_CREATION_STAGE3": "Stage 3/7: Choose Alignment",
+	"CHARACTER_CREATION_STAGE4": "Stage 4/7: Allocate Attributes",
+	"CHARACTER_CREATION_STAGE5": "Stage 5/7: Choose Class",
+	"CHARACTER_CREATION_STAGE6": "Stage 6/7: Choose Portrait",
+	"CHARACTER_CREATION_STAGE7": "Stage 7/7: Review and Confirm",
 
 
 
@@ -132,13 +138,6 @@
 "MAIN_MENU_INSTRUCTIONS": "[\\x18][\\x19] to choose an option, [\\x17] to select it, or [\\x16] to exit",
 "TEXT_FILE_INSTRUCTIONS": "[\\x18][\\x0c][\\x0e][\\x19][\\x0d][\\x0f] to move through the file, [\\x16][\\x17] to return to the Main Menu",
 "CHARACTER_CREATION_TITLE": "Create a new Character",
-"CHARACTER_CREATION_STAGE1": "Stage 1/7: Choose Name",
-"CHARACTER_CREATION_STAGE2": "Stage 2/7: Choose Race",
-"CHARACTER_CREATION_STAGE3": "Stage 3/7: Choose Alignment",
-"CHARACTER_CREATION_STAGE4": "Stage 4/7: Allocate Attributes",
-"CHARACTER_CREATION_STAGE5": "Stage 5/7: Choose Class",
-"CHARACTER_CREATION_STAGE6": "Stage 6/7: Choose Portrait",
-"CHARACTER_CREATION_STAGE7": "Stage 7/7: Review and Confirm",
 "CHARACTER_CREATION_RANDOM": "Choose Random!",
 "CHARACTER_CREATION_INSTRUCTIONS": "[\\x18][\\x19] to choose an option, [\\x17] to confirm, or [\\x16] to go back to the previous step or quit",
 "CHARACTER_CREATION_NOT_ALLOCATED": "Not all bonus points are allocated!",

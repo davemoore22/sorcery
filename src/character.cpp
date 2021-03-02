@@ -28,10 +28,7 @@
 Sorcery::Character::Character(System &system, Display &display, Graphics &graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
-	// need a character stage enum, which controls status and also the current drawing
-	// once its created fully, its set to the end state, which allows for reviewing
-
-	reset();
+	set_stage(CharacterStage::ENTER_NAME);
 }
 
 // Overloaded Operator
@@ -42,29 +39,42 @@ auto Sorcery::Character::operator[](const CharacterAbility &key) -> int & {
 
 // Utility Functions
 
-// Reset a character back to the empty state
-auto Sorcery::Character::reset() -> void {
+auto Sorcery::Character::get_stage() const -> CharacterStage {
 
-	_starting_attributes.clear();
-	_current_attributes.clear();
-	_max_attributes.clear();
-	//_status.clear();
-	_name.clear();
-	_abilities.clear();
-	_race = CharacterRace::NONE;
-	_class = CharacterClass::NONE;
-	_alignment = CharacterAlignment::NONE;
-	_points_left = 0;
-	_starting_points = 0;
-	_possible_classes.clear();
-	_num_possible_classes = 0;
-	_portrait_index = 0;
-	_cleric_max_sp.clear();
-	_cleric_current_sp.clear();
-	_mage_max_sp.clear();
-	_mage_current_sp.clear();
-	_spells.clear();
-	_create_spell_lists();
+	return _current_stage;
+}
+
+// Reset a character back to a particular state
+auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
+
+	_current_stage = stage;
+
+	switch (stage) {
+	case CharacterStage::ENTER_NAME:
+		_starting_attributes.clear();
+		_current_attributes.clear();
+		_max_attributes.clear();
+		//_status.clear();
+		_name.clear();
+		_abilities.clear();
+		_race = CharacterRace::NONE;
+		_class = CharacterClass::NONE;
+		_alignment = CharacterAlignment::NONE;
+		_points_left = 0;
+		_starting_points = 0;
+		_possible_classes.clear();
+		_num_possible_classes = 0;
+		_portrait_index = 0;
+		_cleric_max_sp.clear();
+		_cleric_current_sp.clear();
+		_mage_max_sp.clear();
+		_mage_current_sp.clear();
+		_spells.clear();
+		_create_spell_lists();
+		break;
+	default:
+		break;
+	}
 }
 
 // Given a character's current stats and alignment, work out what classes are available

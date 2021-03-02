@@ -798,12 +798,59 @@
 		{
 			"name": "background",
 			"x": "centre",
-			"y": "5",
+			"y": "centre",
 			"scale": "1.25",
 			"type": "image",
 			"priority": "7",
 			"texture": "town",
 			"drawmode" : "manual"
+		}
+		]
+	},
+	{
+		"name": "character_create_stage_1",
+		"component": [
+		{
+			"name": "title_frame",
+			"w": "20",
+			"h": "2",
+			"x": "centre",
+			"y": "10",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "2"
+		},
+		{
+			"name": "title_text",
+			"x": "centre",
+			"y": "12",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CHARACTER_CREATION_STAGE1",
+			"justification": "centre",
+			"type": "text",
+			"priority": "3"
+		},
+		{
+			"name": "name_frame",
+			"w": "30",
+			"h": "2",
+			"x": "centre",
+			"y": "20",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "2"
+		},
+		{
+			"name": "name_text",
+			"w": "16",
+			"h": "2",
+			"x": "centre",
+			"y": "21",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "2"
 		}
 		]
 	}

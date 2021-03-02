@@ -112,6 +112,7 @@ namespace Sorcery {
 	using CharacterList = std::tuple<std::string, std::string, unsigned int, unsigned int,
 		unsigned int, std::string, std::string>;
 	using CharacterRace = Enums::Character::Race;
+	using CharacterStage = Enums::Character::Stage;
 	// using CharacterStatus = Enums::Character::Status;
 	using CharacterView = Enums::Character::Display;
 	using ComponentType = Enums::Window::ComponentType;

@@ -41,34 +41,23 @@ namespace Sorcery {
 		// Overloaded Operators
 		auto operator[](const CharacterAbility &key) -> int &;
 
-		auto reset() -> void;
+		// Public Methods
+		auto reset(const CharacterStage stage) -> void;
+		auto get_stage() const -> CharacterStage;
+		auto set_stage(const CharacterStage stage) -> void;
 		auto set_possible_classes() -> void;
 		auto finalise() -> void;
 		auto level_up() -> void;
 		auto level_down() -> void;
 		// auto render(unsigned int y_position) -> void;
-		auto get_alignment(CharacterAlignment alignment) const -> std::string;
-		auto get_race(CharacterRace race) const -> std::string;
-		auto get_class(CharacterClass cclass) const -> std::string;
+		auto get_alignment(const CharacterAlignment alignment) const -> std::string;
+		auto get_race(const CharacterRace race) const -> std::string;
+		auto get_class(const CharacterClass cclass) const -> std::string;
 		auto create_random() -> void;
 
 		// Public Members
 
 		// Public Members (for now, need accessors)
-		std::string _name;
-		CharacterRace _race;
-		CharacterClass _class;
-		CharacterAlignment _alignment;
-		CharacterAttributes _starting_attributes;
-		CharacterAttributes _current_attributes;
-		CharacterAttributes _max_attributes;
-		CharacterView _view;
-		unsigned int _points_left;
-		unsigned int _starting_points;
-		CharacterClassQualified _possible_classes;
-		CharacterClassList _class_list;
-		unsigned int _num_possible_classes;
-		int _portrait_index;
 
 		// Public Methods
 
@@ -103,5 +92,20 @@ namespace Sorcery {
 		SpellPoints _mage_current_sp;
 		std::vector<SpellEntry> _spells;
 		// std::vector<CharacterStatus> _status;
+		CharacterStage _current_stage;
+		std::string _name;
+		CharacterRace _race;
+		CharacterClass _class;
+		CharacterAlignment _alignment;
+		CharacterAttributes _starting_attributes;
+		CharacterAttributes _current_attributes;
+		CharacterAttributes _max_attributes;
+		CharacterView _view;
+		unsigned int _points_left;
+		unsigned int _starting_points;
+		CharacterClassQualified _possible_classes;
+		CharacterClassList _class_list;
+		unsigned int _num_possible_classes;
+		int _portrait_index;
 	};
 } // namespace Sorcery

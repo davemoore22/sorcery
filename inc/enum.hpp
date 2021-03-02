@@ -63,11 +63,11 @@ namespace Sorcery {
 			DISPLAY_TEXT_FILE,
 			GAME_OPTIONS,
 			COMPENDIUM,
-			CASTLE,
 			SAVE_CHANGES,
 			CANCEL_CHANGES,
 			SWITCH_ON_STRICT_MODE,
-			LEAVE_GAME
+			LEAVE_GAME,
+			INPUT_TEXT
 		};
 
 		enum Confirm { YES, NO };
@@ -96,7 +96,17 @@ namespace Sorcery {
 
 		enum class Background { CASTLE, TAVERN, INN, SHOP, TEMPLE, EDGE_OF_TOWN, TRAIN };
 
-		enum class Texture { NONE, BACKGROUND, BANNER, CREATURES, LOGO, NINEPATCH, SPLASH, TOWN, UI };
+		enum class Texture {
+			NONE,
+			BACKGROUND,
+			BANNER,
+			CREATURES,
+			LOGO,
+			NINEPATCH,
+			SPLASH,
+			TOWN,
+			UI
+		};
 	} // namespace Enums::Graphics
 
 	namespace Enums::Settings {
@@ -206,7 +216,8 @@ namespace Sorcery {
 			CHOOSE_PORTRAIT,
 			REVIEW_AND_CONFIRM,
 			ENTER_NAME,
-			FINISH_AND_SAVE
+			FINISH_AND_SAVE,
+			COMPLETED
 		};
 
 		// Display Sections
@@ -352,7 +363,14 @@ namespace Sorcery {
 		enum class ButtonState { DISABLED, ENABLED, HOVERED, SELECTED };
 
 		// Menu Type Tuple Fields
-		enum class Field { INDEX = 0, TYPE = 1, ITEM = 2, TEXT = 3, ENABLED = 4, CONFIG_OPTION = 5 };
+		enum class Field {
+			INDEX = 0,
+			TYPE = 1,
+			ITEM = 2,
+			TEXT = 3,
+			ENABLED = 4,
+			CONFIG_OPTION = 5
+		};
 
 		// Menu Types
 		enum class Type {
