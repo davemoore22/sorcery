@@ -219,6 +219,7 @@ auto Sorcery::Menu::_add_item(const int index, const MenuItemType itemtype, cons
 auto Sorcery::Menu::_select_first_enabled()
 	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
+	// Why not use new for auto loop?
 	for (std::vector<MenuEntry>::const_iterator it = items.begin(); it != items.end(); ++it)
 		if ((((*it).type == MenuItemType::ENTRY) || ((*it).type == MenuItemType::SAVE) ||
 				((*it).type == MenuItemType::CANCEL)) &&
@@ -234,6 +235,7 @@ auto Sorcery::Menu::_select_first_enabled()
 auto Sorcery::Menu::_select_last_enabled()
 	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
+	// Why not use new for auto loop?
 	for (std::vector<MenuEntry>::const_iterator it = items.end() - 1; it != items.begin(); --it)
 		if ((((*it).type == MenuItemType::ENTRY) || ((*it).type == MenuItemType::SAVE) ||
 				((*it).type == MenuItemType::CANCEL)) &&
@@ -251,7 +253,7 @@ auto Sorcery::Menu::check_menu_mouseover(sf::Vector2f mouse_pos)
 
 	if (bounds.size() > 0) {
 		bool found{false};
-		sf::Vector2f global_pos{this->getPosition()};
+		const sf::Vector2f global_pos{this->getPosition()};
 		mouse_pos -= global_pos;
 		std::vector<sf::FloatRect>::const_iterator temp_bounds{bounds.begin()};
 		std::vector<MenuEntry>::const_iterator temp_items{items.begin()};
@@ -277,7 +279,7 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
 	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	if (bounds.size() > 0) {
-		sf::Vector2f global_pos{this->getPosition()};
+		const sf::Vector2f global_pos{this->getPosition()};
 		mouse_pos -= global_pos;
 		bool found{false};
 		std::vector<sf::FloatRect>::const_iterator temp_bounds{bounds.begin()};
@@ -403,7 +405,7 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 	for (std::vector<MenuEntry>::const_iterator it = items.begin(); it != items.end(); ++it) {
 		if (((*it).type == MenuItemType::TEXT) || ((*it).type == MenuItemType::ENTRY) ||
 			((*it).type == MenuItemType::SAVE) || ((*it).type == MenuItemType::CANCEL)) {
-			std::string text_string{(*it).key};
+			const std::string text_string{(*it).key};
 			sf::Text text;
 			text.setFont(_system.resources->fonts[component.font]);
 			text.setCharacterSize(component.size);
@@ -417,7 +419,7 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 
 			// If we have a selected entry, change the background colour
 			if (selected == it) {
-				sf::FloatRect bg_rect{text.getLocalBounds()};
+				const sf::FloatRect bg_rect{text.getLocalBounds()};
 				sf::RectangleShape bg(sf::Vector2f(
 					component.w * _display.window->get_cell_width(), bg_rect.height + 2));
 				bg.setPosition(0, entry_y);
@@ -461,13 +463,13 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 			// Now handle the mouse move/select (and tooltip generation)!
 			if (((*it).type == MenuItemType::ENTRY) || ((*it).type == MenuItemType::SAVE) ||
 				((*it).type == MenuItemType::CANCEL)) {
-				sf::FloatRect actual_rect{text.getGlobalBounds()};
+				const sf::FloatRect actual_rect{text.getGlobalBounds()};
 				bounds.push_back(actual_rect);
 				WindowTooltipList::iterator tt_it = _display.window->tooltips.find((*it).hint);
 				if (tt_it == _display.window->tooltips.end())
 					_display.window->tooltips[(*it).hint] = actual_rect;
 			} else {
-				sf::FloatRect actual_rect;
+				const sf::FloatRect actual_rect;
 				bounds.push_back(actual_rect);
 				WindowTooltipList::iterator tt_it = _display.window->tooltips.find((*it).hint);
 				if (tt_it == _display.window->tooltips.end())
@@ -510,7 +512,7 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 				_options.emplace_back(option_text);
 			}
 		} else {
-			sf::FloatRect actual_rect;
+			const sf::FloatRect actual_rect;
 			bounds.push_back(actual_rect);
 			entry_y += _display.window->get_cell_height();
 		}

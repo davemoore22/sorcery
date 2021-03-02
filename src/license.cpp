@@ -57,9 +57,8 @@ auto Sorcery::License::start() -> void {
 	// Play the background movie!
 	_display.start_background_movie();
 
-	_display.window->input_mode = WindowInputMode::DISPLAY_TEXT_FILE;
-
 	// And do the main loop
+	_display.window->input_mode = WindowInputMode::DISPLAY_TEXT_FILE;
 	sf::Event event{};
 	const unsigned int lines_to_display{38 - 9};
 	while (_window->isOpen()) {
@@ -118,7 +117,7 @@ auto Sorcery::License::_draw() -> void {
 
 	_display.display_components("license");
 
-	std::string progress = _textfile->get_reading_progress(_current_line);
+	const std::string progress = _textfile->get_reading_progress(_current_line);
 	_display.window->draw_text(_progress_text, (*_display.layout)["license:progress"], progress);
 	_display_file_contents();
 
@@ -142,7 +141,7 @@ auto Sorcery::License::_display_file_contents() -> void {
 
 	// File Contents
 	for (auto y = _current_line; y < end_line; ++y) {
-		std::string line_contents{(*_textfile)[y]};
+		const std::string line_contents{(*_textfile)[y]};
 		_line_text.setString(line_contents);
 		text_c.y = top_y + ((y - _current_line) * _display.window->get_cell_height());
 		_display.window->draw_text(_line_text, text_c, line_contents);

@@ -63,8 +63,8 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 
 	// Get the background
 	const Component bg_c{(*_display.layout)["castle:background"]};
-	sf::IntRect castle_bg_rect(125, 249, 773, 388);
-	sf::IntRect edge_bg_rect(1147, 249, 773, 388);
+	const sf::IntRect castle_bg_rect(125, 249, 773, 388);
+	const sf::IntRect edge_bg_rect(1147, 249, 773, 388);
 	_castle_bg.setTexture(_system.resources->textures[TOWN_TEXTURE]);
 	_castle_bg.setTextureRect(castle_bg_rect);
 	_castle_bg.setScale(bg_c.scale, bg_c.scale);
@@ -95,12 +95,11 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 	// Play the background movie!
 	_display.start_background_movie();
 
+	// And do the main loop
 	_display.window->input_mode = WindowInputMode::NORMAL;
 	std::optional<std::vector<MenuEntry>::const_iterator> castle_option{
 		_castle_menu->items.begin()};
 	std::optional<std::vector<MenuEntry>::const_iterator> edge_option{_edge_menu->items.begin()};
-
-	// And do the main loop
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
@@ -185,7 +184,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 					_leave_game->check_for_mouse_move(
 						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 				else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
-					std::optional<WindowConfirm> option_chosen =
+					const std::optional<WindowConfirm> option_chosen =
 						_leave_game->check_if_option_selected(
 							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 

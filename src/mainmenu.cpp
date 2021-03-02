@@ -210,7 +210,7 @@ auto Sorcery::MainMenu::_draw() -> void {
 	// Only draw the attract mode if we have something to draw (to avoid timing issues)
 	if (_attract_mode->data_temp.size() > 0) {
 
-		double lerp = _graphics.animation->colour_lerp;
+		const double lerp = _graphics.animation->colour_lerp;
 		_display.display_components("main_menu_attract", _menu_stage);
 
 		// Generate and draw the Attract Mode Graphics
@@ -220,7 +220,7 @@ auto Sorcery::MainMenu::_draw() -> void {
 		_attract_mode->set_alpha(_graphics.animation->attract_alpha);
 
 		// Horrible - but needed since the size of the Attract Mode Graphics are variable
-		sf::Vector2f attract_mode_size{
+		const sf::Vector2f attract_mode_size{
 			_attract_mode->sprite.getGlobalBounds().width * _attract_mode->getScale().x,
 			_attract_mode->sprite.getGlobalBounds().height * _attract_mode->getScale().y};
 		const sf::Vector2f creature_pos(_display.window->centre.x - (attract_mode_size.x / 2),

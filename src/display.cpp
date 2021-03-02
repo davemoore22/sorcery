@@ -44,6 +44,8 @@ auto Sorcery::Display::display_components(const std::string screen,
 	for (auto &[unique_key, frame] : frames) {
 		if (screen == "castle") {
 			if (parameter) {
+
+				// TODO: replace with IF-INIT?
 				const GameMenuType menu_stage{std::any_cast<GameMenuType>(parameter.value())};
 				if (menu_stage == GameMenuType::CASTLE) {
 					if (unique_key.ends_with("castle:edge_menu_frame"))
@@ -74,6 +76,8 @@ auto Sorcery::Display::display_components(const std::string screen,
 
 		if (screen == "main_menu_attract") {
 			if (parameter) {
+
+				// TODO: replace with IF-INIT?
 				const MainMenuType menu_stage{std::any_cast<MainMenuType>(parameter.value())};
 				if (menu_stage == MainMenuType::ATTRACT_MENU) {
 					if ((unique_key.ends_with("main_menu_attract:press_any_key")) ||
@@ -86,6 +90,8 @@ auto Sorcery::Display::display_components(const std::string screen,
 			}
 		} else if (screen == "castle") {
 			if (parameter) {
+
+				// TODO: replace with IF-INIT?
 				const GameMenuType menu_stage{std::any_cast<GameMenuType>(parameter.value())};
 				if (menu_stage == GameMenuType::CASTLE) {
 					if ((unique_key.ends_with("castle:edit_title_frame")) ||
@@ -110,7 +116,7 @@ auto Sorcery::Display::generate_components(const std::string screen,
 	sprites.clear();
 	texts.clear();
 	frames.clear();
-	std::optional<std::vector<Component>> components{(*layout)(screen)};
+	const std::optional<std::vector<Component>> components{(*layout)(screen)};
 	if (components) {
 		for (const auto &component : components.value()) {
 			if (component.type == ComponentType::IMAGE) {

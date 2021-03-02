@@ -106,7 +106,7 @@ auto Sorcery::Options::start() -> void {
 				} else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
 					if (selected) {
 						if ((*_menu->selected).type == MenuItemType::ENTRY) {
-							ConfigOption config_to_toggle = (*_menu->selected).config;
+							const ConfigOption config_to_toggle = (*_menu->selected).config;
 							if ((config_to_toggle == ConfigOption::STRICT_MODE) &&
 								(!(*_system.config)[ConfigOption::STRICT_MODE])) {
 
@@ -287,16 +287,16 @@ auto Sorcery::Options::_draw() -> void {
 auto Sorcery::Options::_set_tooltip(sf::Vector2f mouse_pos) -> bool {
 
 	if (!_display.window->tooltips.empty()) {
-		sf::Vector2f global_pos{_menu->getPosition()};
+		const sf::Vector2f global_pos{_menu->getPosition()};
 		mouse_pos -= global_pos;
 
 		WindowTooltipList::iterator contain = std::find_if(_display.window->tooltips.begin(),
 			_display.window->tooltips.end(), [&mouse_pos](const auto &entry) {
-				sf::FloatRect candidate = entry.second;
+				const sf::FloatRect candidate = entry.second;
 				return candidate.contains(mouse_pos);
 			});
 		if (contain != _display.window->tooltips.end()) {
-			std::string hint = (*contain).first;
+			const std::string hint = (*contain).first;
 			_tt->set(hint);
 			return true;
 		} else

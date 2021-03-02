@@ -342,7 +342,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 					}();
 
 					// Add the Component
-					std::string key = screen_name + ":" + name;
+					const std::string key = screen_name + ":" + name;
 					Component component(screen_name, name, x, y, w, h, scale, font_type, size,
 						colour, animated, string_key, alpha, width, background, justification,
 						component_type, priority, drawmode, texture);

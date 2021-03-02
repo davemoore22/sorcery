@@ -115,7 +115,7 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, con
 		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 	} else if (component.justification == Justification::RIGHT) {
 		text.setPosition(x, y);
-		sf::FloatRect bounds = text.getLocalBounds();
+		const sf::FloatRect bounds = text.getLocalBounds();
 		text.setPosition(component.x - bounds.width, component.y);
 	} else {
 		text.setPosition(x, y);
@@ -140,7 +140,7 @@ auto Sorcery::Window::_draw_text(
 		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 	} else if (component.justification == Justification::RIGHT) {
 		text.setPosition(x, y);
-		sf::FloatRect bounds = text.getLocalBounds();
+		const sf::FloatRect bounds = text.getLocalBounds();
 		text.setPosition(component.x - bounds.width, component.y);
 	} else {
 		text.setPosition(x, y);
@@ -152,7 +152,7 @@ auto Sorcery::Window::_draw_text(
 auto Sorcery::Window::get_cursor() const -> sf::Sprite {
 
 	sf::Sprite cursor(_system.resources->textures[UI_TEXTURE]);
-	sf::IntRect cursor_rect(710, 310, 21, 28);
+	const sf::IntRect cursor_rect(710, 310, 21, 28);
 	cursor.setTextureRect(cursor_rect);
 	return cursor;
 }
@@ -258,7 +258,7 @@ auto Sorcery::Window::_change_colour(sf::Color colour, double lerp) const -> sf:
 auto Sorcery::Window::highlight_text(sf::Text &text, Component component, const double lerp)
 	-> sf::RectangleShape {
 
-	sf::FloatRect text_rect{text.getGlobalBounds()};
+	const sf::FloatRect text_rect{text.getGlobalBounds()};
 	sf::RectangleShape test_bg(sf::Vector2(text_rect.width + 6, text_rect.height + 8));
 	test_bg.setOrigin(0, 0 - text.getLocalBounds().height + 16);
 	test_bg.setFillColor(change_colour(sf::Color(component.background), lerp));
