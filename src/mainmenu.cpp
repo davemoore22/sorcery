@@ -112,29 +112,20 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 						if (selected_option) {
 
 							// We have selected something from the menu
-							const MenuItem option_chosen{(*selected_option.value()).item};
-
-							if (option_chosen == MenuItem::MM_NEW_GAME) {
+							if (const MenuItem option_chosen{(*selected_option.value()).item};
+								option_chosen == MenuItem::MM_NEW_GAME) {
 								_display.window->input_mode = WindowInputMode::NORMAL;
 								return MenuItem::MM_NEW_GAME;
-							}
-
-							if (option_chosen == MenuItem::MM_LICENSE) {
+							} else if (option_chosen == MenuItem::MM_LICENSE) {
 								_display.window->input_mode = WindowInputMode::DISPLAY_TEXT_FILE;
 								return MenuItem::MM_LICENSE;
-							}
-
-							if (option_chosen == MenuItem::MM_COMPENDIUM) {
+							} else if (option_chosen == MenuItem::MM_COMPENDIUM) {
 								_display.window->input_mode = WindowInputMode::COMPENDIUM;
 								return MenuItem::MM_COMPENDIUM;
-							}
-
-							if (option_chosen == MenuItem::MM_OPTIONS) {
+							} else if (option_chosen == MenuItem::MM_OPTIONS) {
 								_display.window->input_mode = WindowInputMode::GAME_OPTIONS;
 								return MenuItem::MM_OPTIONS;
-							}
-
-							if (option_chosen == MenuItem::QUIT) {
+							} else if (option_chosen == MenuItem::QUIT) {
 								_display.window->input_mode = WindowInputMode::CONFIRM;
 								_yes_or_no = WindowConfirm::NO;
 							}
@@ -165,9 +156,9 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 					_confirm_exit->check_for_mouse_move(
 						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 				else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
-					std::optional<WindowConfirm> option_chosen =
+					std::optional<WindowConfirm> option_chosen{
 						_confirm_exit->check_if_option_selected(
-							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)))};
 
 					// Mouse click only
 					if (option_chosen) {

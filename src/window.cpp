@@ -259,11 +259,11 @@ auto Sorcery::Window::highlight_text(sf::Text &text, Component component, const 
 	-> sf::RectangleShape {
 
 	const sf::FloatRect text_rect{text.getGlobalBounds()};
-	sf::RectangleShape test_bg(sf::Vector2(text_rect.width + 6, text_rect.height + 8));
-	test_bg.setOrigin(0, 0 - text.getLocalBounds().height + 16);
-	test_bg.setFillColor(change_colour(sf::Color(component.background), lerp));
+	sf::RectangleShape text_bg(sf::Vector2(text_rect.width + 6, text_rect.height + 8));
+	text_bg.setOrigin(0, 0 - text.getLocalBounds().height + 16);
+	text_bg.setFillColor(change_colour(sf::Color(component.background), lerp));
 	text.setFillColor(sf::Color(component.colour));
 	text.setOutlineColor(sf::Color(0, 0, 0));
 	text.setOutlineThickness(2);
-	return test_bg;
+	return text_bg;
 }

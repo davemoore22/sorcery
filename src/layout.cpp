@@ -54,7 +54,7 @@ auto Sorcery::Layout::operator[](const std::string &combined_key) -> Component &
 
 	// Else return the requested component
 	if (_loaded)
-		if (_components.find(combined_key) != _components.end())
+		if (_components.contains(combined_key))
 			return _components.at(combined_key);
 		else
 			return _components[0];
@@ -342,7 +342,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 					}();
 
 					// Add the Component
-					const std::string key = screen_name + ":" + name;
+					const std::string key{fmt::format("{}:{}", screen_name, name)};
 					Component component(screen_name, name, x, y, w, h, scale, font_type, size,
 						colour, animated, string_key, alpha, width, background, justification,
 						component_type, priority, drawmode, texture);

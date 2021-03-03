@@ -124,8 +124,8 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 
 						// We have selected something from the menu
 						if (castle_option) {
-							const MenuItem option_chosen{(*castle_option.value()).item};
-							if (option_chosen == MenuItem::CA_EDGE_OF_TOWN) {
+							if (const MenuItem option_chosen{(*castle_option.value()).item};
+								option_chosen == MenuItem::CA_EDGE_OF_TOWN) {
 								_menu_stage = GameMenuType::EDGE_OF_TOWN;
 							}
 						}
@@ -143,8 +143,8 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 
 						// We have selected something from the menu
 						if (edge_option) {
-							const MenuItem option_chosen{(*edge_option.value()).item};
-							if (option_chosen == MenuItem::ET_CASTLE) {
+							if (const MenuItem option_chosen{(*edge_option.value()).item};
+								option_chosen == MenuItem::ET_CASTLE) {
 								_menu_stage = GameMenuType::CASTLE;
 							} else if (option_chosen == MenuItem::ET_LEAVE_GAME) {
 								_display.window->input_mode = WindowInputMode::LEAVE_GAME;
@@ -184,12 +184,12 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 					_leave_game->check_for_mouse_move(
 						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 				else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
-					const std::optional<WindowConfirm> option_chosen =
-						_leave_game->check_if_option_selected(
-							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 
 					// Mouse click only
-					if (option_chosen) {
+					if (std::optional<WindowConfirm> option_chosen =
+							_leave_game->check_if_option_selected(
+								static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						option_chosen) {
 						if (option_chosen.value() == WindowConfirm::YES)
 							return MenuItem::ET_LEAVE_GAME;
 						if (option_chosen.value() == WindowConfirm::NO)

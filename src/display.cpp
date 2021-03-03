@@ -46,8 +46,8 @@ auto Sorcery::Display::display_components(const std::string screen,
 			if (parameter) {
 
 				// TODO: replace with IF-INIT?
-				const GameMenuType menu_stage{std::any_cast<GameMenuType>(parameter.value())};
-				if (menu_stage == GameMenuType::CASTLE) {
+				if (const GameMenuType menu_stage{std::any_cast<GameMenuType>(parameter.value())};
+					menu_stage == GameMenuType::CASTLE) {
 					if (unique_key.ends_with("castle:edge_menu_frame"))
 						continue;
 				} else if (menu_stage == GameMenuType::EDGE_OF_TOWN) {
@@ -78,8 +78,8 @@ auto Sorcery::Display::display_components(const std::string screen,
 			if (parameter) {
 
 				// TODO: replace with IF-INIT?
-				const MainMenuType menu_stage{std::any_cast<MainMenuType>(parameter.value())};
-				if (menu_stage == MainMenuType::ATTRACT_MENU) {
+				if (const MainMenuType menu_stage{std::any_cast<MainMenuType>(parameter.value())};
+					menu_stage == MainMenuType::ATTRACT_MENU) {
 					if ((unique_key.ends_with("main_menu_attract:press_any_key")) ||
 						(unique_key.ends_with("main_menu_attract:subtitle_1")) ||
 						(unique_key.ends_with("main_menu_attract:subtitle_2")) ||

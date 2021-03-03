@@ -87,7 +87,7 @@ auto Sorcery::String::_load(const std::string &filename) -> bool {
 auto Sorcery::String::get(const std::string &key) -> std::string {
 
 	if (_loaded)
-		return _strings.find(key) != _strings.end() ? _strings.at(key) : KEY_NOT_FOUND;
+		return (_strings.contains(key) ? _strings.at(key) : KEY_NOT_FOUND);
 	else
 		return STRINGS_NOT_LOADED;
 }

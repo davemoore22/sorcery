@@ -87,9 +87,9 @@ namespace Sorcery {
 		Graphics _graphics;
 		CharacterAbilities _abilities;
 		SpellPoints _cleric_max_sp;
-		SpellPoints _cleric_current_sp;
+		SpellPoints _cleric_cur_sp;
 		SpellPoints _mage_max_sp;
-		SpellPoints _mage_current_sp;
+		SpellPoints _mage_cur_sp;
 		std::vector<SpellEntry> _spells;
 		// std::vector<CharacterStatus> _status;
 		CharacterStage _current_stage;
@@ -97,15 +97,15 @@ namespace Sorcery {
 		CharacterRace _race;
 		CharacterClass _class;
 		CharacterAlignment _alignment;
-		CharacterAttributes _starting_attributes;
-		CharacterAttributes _current_attributes;
-		CharacterAttributes _max_attributes;
+		CharacterAttributes _start_attr;
+		CharacterAttributes _cur_attr;
+		CharacterAttributes _max_attr;
 		CharacterView _view;
 		unsigned int _points_left;
-		unsigned int _starting_points;
-		CharacterClassQualified _possible_classes;
+		unsigned int _st_points;
+		CharacterClassQualified _pos_classes;
 		CharacterClassList _class_list;
-		unsigned int _num_possible_classes;
+		unsigned int _num_pos_classes;
 		int _portrait_index;
 	};
 } // namespace Sorcery
