@@ -811,11 +811,11 @@
 		"name": "character_create_stage_1",
 		"component": [
 		{
-			"name": "title_frame",
-			"w": "20",
+			"name": "stage_frame",
+			"w": "40",
 			"h": "2",
 			"x": "centre",
-			"y": "10",
+			"y": "7",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2"
@@ -823,7 +823,7 @@
 		{
 			"name": "title_text",
 			"x": "centre",
-			"y": "12",
+			"y": "8",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
@@ -834,23 +834,25 @@
 		},
 		{
 			"name": "name_frame",
-			"w": "30",
-			"h": "2",
+			"w": "24",
+			"h": "4",
 			"x": "centre",
-			"y": "20",
+			"y": "16",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2"
 		},
 		{
-			"name": "name_text",
-			"w": "16",
-			"h": "2",
+			"name": "name_prompt",
 			"x": "centre",
-			"y": "21",
-			"alpha": "255",
-			"type": "frame",
-			"priority": "2"
+			"y": "17",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CHARACTER_CREATION_INPUT_NAME",
+			"justification": "centre",
+			"type": "text",
+			"priority": "3"
 		}
 		]
 	}

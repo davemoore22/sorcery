@@ -24,11 +24,13 @@
 
 #pragma once
 
-#include "component.hpp"
+
 #include "main.hpp"
+#include "component.hpp"
 
 // Class to handles managing screen layouts
 namespace Sorcery {
+
 
 	class Layout {
 

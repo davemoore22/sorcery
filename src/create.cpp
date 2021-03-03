@@ -30,8 +30,11 @@ Sorcery::Create::Create(System &system, Display &display, Graphics &graphics)
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();
 
-	// Get the Display Components
+	// Get the Background Display Components
 	_display.generate_components("create");
+
+	// Create the Candidate Character
+	_candidate = std::make_shared<Character>(system, display, graphics);
 }
 
 // Standard Destructor
@@ -77,6 +80,8 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 		_display.draw_background_movie();
 
 		_draw();
+		_display.display_components(
+			"character_create_stage_1", _candidate->sprites, _candidate->texts, _candidate->frames);
 		_window->display();
 	}
 
@@ -91,7 +96,7 @@ auto Sorcery::Create::stop() -> void {
 auto Sorcery::Create::_draw() -> void {
 
 	// Display Components
-	_display.display_components("training_grounds");
+	_display.display_components("create");
 
 	// Custom Layering
 	_window->draw(_bg);

@@ -56,8 +56,9 @@ namespace Sorcery {
 		auto create_random() -> void;
 
 		// Public Members
-
-		// Public Members (for now, need accessors)
+		std::map<std::string, sf::Sprite> sprites;
+		std::map<std::string, sf::Text> texts;
+		std::map<std::string, std::shared_ptr<Frame>> frames;
 
 		// Public Methods
 

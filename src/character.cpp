@@ -29,6 +29,28 @@ Sorcery::Character::Character(System &system, Display &display, Graphics &graphi
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	set_stage(CharacterStage::ENTER_NAME);
+	_display.generate_components("character_create_stage_1", sprites, texts, frames);
+}
+
+auto Sorcery::Character::draw(
+	[[maybe_unused]] sf::RenderTarget &target, sf::RenderStates states) const -> void {
+
+	// Note depending on the current character stage, then we draw its repreentation differently
+	/*
+	1. Select Name
+	2. Choose Race
+	3. Choose Alignment
+	4. Allocate Attributes
+	5. Choose Class
+	6. Choose Portrait
+	7. Review and Confirm
+
+	also we need to draw a summary version too, perhaps a derived class (Character Summary)?
+
+	*/
+
+	states.transform *= getTransform();
+	// target.draw(_frame, states);
 }
 
 // Overloaded Operator
@@ -1591,24 +1613,3 @@ auto Sorcery::Character::create_random() -> void {
 		break;
 	}
 */
-
-auto Sorcery::Character::draw(
-	[[maybe_unused]] sf::RenderTarget &target, sf::RenderStates states) const -> void {
-
-	// Note depending on the current character stage, then we draw its repreentation differently
-	/*
-	1. Select Name
-	2. Choose Race
-	3. Choose Alignment
-	4. Allocate Attributes
-	5. Choose Class
-	6. Choose Portrait
-	7. Review and Confirm
-
-	also we need to draw a summary version too, perhaps a derived class (Character Summary)?
-
-	*/
-
-	states.transform *= getTransform();
-	// target.draw(_frame, states);
-}

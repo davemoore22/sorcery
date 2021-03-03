@@ -28,6 +28,7 @@
 
 #pragma once
 
+#include "character.hpp"
 #include "display.hpp"
 #include "frame.hpp"
 #include "graphics.hpp"
@@ -63,5 +64,6 @@ namespace Sorcery {
 		Graphics _graphics;
 		sf::RenderWindow *_window;
 		sf::Sprite _bg;
+		std::shared_ptr<Character> _candidate;
 	};
 } // namespace Sorcery
