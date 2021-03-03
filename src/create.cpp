@@ -45,12 +45,18 @@ Sorcery::Create::~Create() {
 
 auto Sorcery::Create::start() -> std::optional<MenuItem> {
 
+	// Get the custom components //TODO: see if this can be done in sprites by extending the
+	// component object with the bg_rect?
 	const Component bg_c{(*_display.layout)["create:background"]};
 	const sf::IntRect bg_rect(1147, 249, 773, 388);
 	_bg.setTexture(_system.resources->textures[TOWN_TEXTURE]);
 	_bg.setTextureRect(bg_rect);
 	_bg.setScale(bg_c.scale, bg_c.scale);
 	_bg.setPosition(_display.window->get_x(_bg, bg_c.x), _display.window->get_y(_bg, bg_c.y));
+
+	// Clear Everything"
+	const Component name_c{(*_display.layout)["character_create_stage_1:name_candidate"]};
+	_candidate->set_stage(CharacterStage::ENTER_NAME);
 
 	// Clear the window
 	_window->clear();
@@ -59,7 +65,8 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 	_display.start_background_movie();
 
 	// Will need to change this for the seven screens
-	_display.window->input_mode = WindowInputMode::NORMAL;
+	_display.window->input_mode = WindowInputMode::INPUT_TEXT;
+	std::string candidate_name{};
 
 	sf::Event event{};
 	while (_window->isOpen()) {
@@ -71,18 +78,41 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 
 			if (_system.input->check_for_event(WindowInput::CANCEL, event))
 				return std::nullopt;
+
+			candidate_name = _candidate->name();
+			if ((_system.input->check_for_event(WindowInput::ALPHANUMERIC, event)) ||
+				(_system.input->check_for_event(WindowInput::SPACE, event))) {
+				if (candidate_name.length() < 24) {
+					candidate_name += static_cast<char>(event.text.unicode);
+					_candidate->name(candidate_name);
+				}
+			}
+
+			if (_system.input->check_for_event(WindowInput::DELETE, event)) {
+				if (candidate_name.length() > 0) {
+					candidate_name.pop_back();
+					_candidate->name(candidate_name);
+				}
+			}
+
+			if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
+
+				if (candidate_name.length() > 0) {
+
+					return std::nullopt;
+					//_candidate->set_stage(CharacterStage::CHOOSE_RACE);
+				}
+			}
+
+			_window->clear();
+
+			_display.start_background_movie();
+			_display.update_background_movie();
+			_display.draw_background_movie();
+
+			_draw();
+			_window->display();
 		}
-
-		_window->clear();
-
-		_display.start_background_movie();
-		_display.update_background_movie();
-		_display.draw_background_movie();
-
-		_draw();
-		_display.display_components(
-			"character_create_stage_1", _candidate->sprites, _candidate->texts, _candidate->frames);
-		_window->display();
 	}
 
 	return std::nullopt;
@@ -95,6 +125,13 @@ auto Sorcery::Create::stop() -> void {
 
 auto Sorcery::Create::_draw() -> void {
 
+	double lerp = _graphics.animation->colour_lerp;
+	sf::Text name_text;
+	name_text.setOutlineColor(sf::Color(255, 0, 0, 0));
+	name_text.setOutlineThickness(1);
+	std::string candidate_name{};
+	std::string display_name{};
+
 	// Display Components
 	_display.display_components("create");
 
@@ -102,6 +139,16 @@ auto Sorcery::Create::_draw() -> void {
 	_window->draw(_bg);
 
 	// And draw the current state of the character!
+	_display.display_components(
+		"character_create_stage_1", _candidate->sprites, _candidate->texts, _candidate->frames);
+
+	// TODO: use character-<draw for this!
+	display_name = _candidate->name();
+	_display.window->draw_text(name_text,
+		(*_display.layout)["character_create_stage_1:name_candidate"], display_name, lerp);
+
+	// name_text.setFillColor(_display.window->change_colour(
+	//	sf::Color((*_display.layout)["character_create_stage_1:name_candidate"].colour), lerp));
 
 	// And finally the Cursor
 	_display.display_cursor();

@@ -46,7 +46,9 @@ namespace Sorcery {
 			PAGE_UP,
 			PAGE_DOWN,
 			HOME,
-			END
+			END,
+			DELETE,
+			SPACE
 		};
 	}
 

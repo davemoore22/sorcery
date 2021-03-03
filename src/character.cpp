@@ -73,6 +73,8 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 
 	switch (stage) {
 	case CharacterStage::ENTER_NAME:
+
+		_display.window->input_mode = WindowInputMode::INPUT_TEXT;
 		_start_attr.clear();
 		_cur_attr.clear();
 		_max_attr.clear();
@@ -97,6 +99,16 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 	default:
 		break;
 	}
+}
+
+auto Sorcery::Character::name() const -> std::string {
+
+	return _name;
+}
+
+auto Sorcery::Character::name(const std::string &value) -> void {
+
+	_name = value;
 }
 
 // Given a character's current stats and alignment, work out what classes are available

@@ -834,8 +834,8 @@
 		},
 		{
 			"name": "name_frame",
-			"w": "24",
-			"h": "4",
+			"w": "40",
+			"h": "6",
 			"x": "centre",
 			"y": "16",
 			"alpha": "255",
@@ -853,6 +853,19 @@
 			"justification": "centre",
 			"type": "text",
 			"priority": "3"
+		},
+		{
+			"name": "name_candidate",
+			"x": "centre",
+			"y": "19",
+			"font": "monospace",
+			"colour": "0x6060c8ff",
+			"size": "52",
+			"justification": "centre",
+			"type": "text",
+			"priority": "3",
+			"animated": "true",
+			"drawmode": "manual"
 		}
 		]
 	}

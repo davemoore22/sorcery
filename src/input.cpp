@@ -142,7 +142,17 @@ auto Sorcery::Input::check_for_event(WindowInput input, sf::Event event) -> bool
 			((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Numpad1)));
 		break;
 	case WindowInput::ALPHANUMERIC:
-		// TODO
+		return ((event.type == sf::Event::TextEntered) &&
+				(((event.text.unicode >= 65) && (event.text.unicode <= 90)) ||
+					((event.text.unicode >= 97) && (event.text.unicode <= 122))));
+		break;
+	case WindowInput::DELETE:
+		return ((event.type == sf::Event::KeyPressed) &&
+				((event.key.code == sf::Keyboard::Delete) ||
+					(event.key.code == sf::Keyboard::BackSpace)));
+		break;
+	case WindowInput::SPACE:
+		return ((event.type == sf::Event::TextEntered) && (event.text.unicode == 32));
 		break;
 	default:
 		return false;

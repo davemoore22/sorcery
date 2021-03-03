@@ -85,6 +85,12 @@ auto Sorcery::Window::draw_text(
 	_draw_text(text, component, string);
 }
 
+auto Sorcery::Window::draw_text(sf::Text &text, const Component &component,
+	const std::string &string, const double lerp) -> void {
+
+	_draw_text(text, component, string, lerp);
+}
+
 auto Sorcery::Window::draw_text(sf::Text &text, const Component &component, const double lerp)
 	-> void {
 
@@ -132,6 +138,34 @@ auto Sorcery::Window::_draw_text(
 	text.setFont(_system.resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
+	text.setString(string);
+	x = component.x == -1 ? centre.x : component.x;
+	y = component.y == -1 ? centre.y : component.y;
+	if (component.justification == Justification::CENTRE) {
+		text.setPosition(x, y);
+		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+	} else if (component.justification == Justification::RIGHT) {
+		text.setPosition(x, y);
+		const sf::FloatRect bounds = text.getLocalBounds();
+		text.setPosition(component.x - bounds.width, component.y);
+	} else {
+		text.setPosition(x, y);
+		text.setOrigin(0, text.getLocalBounds().height / 2.0f);
+	}
+	_window.draw(text);
+}
+
+auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component,
+	const std::string &string, const double lerp) -> void {
+
+	int x{0};
+	int y{0};
+	text.setFont(_system.resources->fonts[component.font]);
+	text.setCharacterSize(component.size);
+	if (component.animated)
+		text.setFillColor(_change_colour(sf::Color(component.colour), lerp));
+	else
+		text.setFillColor(sf::Color(component.colour));
 	text.setString(string);
 	x = component.x == -1 ? centre.x : component.x;
 	y = component.y == -1 ? centre.y : component.y;
