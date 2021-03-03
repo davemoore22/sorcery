@@ -57,6 +57,7 @@ namespace Sorcery {
 			std::optional<std::any> parameter = std::nullopt) -> void;
 
 		auto display_cursor() -> void;
+		auto fit_background_movie() -> void;
 		auto start_background_movie() -> void;
 		auto stop_background_movie() -> void;
 		auto update_background_movie() -> void;

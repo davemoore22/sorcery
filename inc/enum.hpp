@@ -39,6 +39,7 @@ namespace Sorcery {
 			RIGHT,
 			MOVE,
 			CONFIRM,
+			CONFIRM_NO_SPACE,
 			CANCEL,
 			YES,
 			NO,

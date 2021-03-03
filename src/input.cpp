@@ -108,6 +108,14 @@ auto Sorcery::Input::check_for_event(WindowInput input, sf::Event event) -> bool
 				((event.type == sf::Event::JoystickButtonReleased) &&
 					((event.joystickButton.button == 0) || (event.joystickButton.button == 0))));
 		break;
+	case WindowInput::CONFIRM_NO_SPACE:
+		return (
+			((event.type == sf::Event::MouseButtonReleased) &&
+				(event.mouseButton.button == sf::Mouse::Button::Left)) ||
+			((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Enter)) ||
+			((event.type == sf::Event::JoystickButtonReleased) &&
+				((event.joystickButton.button == 0) || (event.joystickButton.button == 0))));
+		break;
 	case WindowInput::CANCEL:
 		return (
 			((event.type == sf::Event::MouseButtonReleased) &&

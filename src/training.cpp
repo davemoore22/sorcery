@@ -68,6 +68,7 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 	_window->clear();
 
 	// Play the background movie!
+	_display.fit_background_movie();
 	_display.start_background_movie();
 
 	_display.window->input_mode = WindowInputMode::NORMAL;

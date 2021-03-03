@@ -65,5 +65,6 @@ namespace Sorcery {
 		sf::RenderWindow *_window;
 		sf::Sprite _bg;
 		std::shared_ptr<Character> _candidate;
+		Component _name_c;
 	};
 } // namespace Sorcery

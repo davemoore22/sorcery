@@ -65,6 +65,7 @@ auto Sorcery::Options::start() -> void {
 	_display_tt = false;
 
 	// Play the background movie!
+	_display.fit_background_movie();
 	_display.start_background_movie();
 
 	// And select the first option by default;

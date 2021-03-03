@@ -222,10 +222,13 @@ auto Sorcery::Display::display_cursor() -> void {
 	window->get_window()->draw(cursor);
 }
 
-auto Sorcery::Display::start_background_movie() -> void {
-
+auto Sorcery::Display::fit_background_movie() -> void {
 	_background_movie.fit(
 		0, 0, window->get_window()->getSize().x, window->get_window()->getSize().y);
+}
+
+auto Sorcery::Display::start_background_movie() -> void {
+
 	if (_background_movie.getStatus() == sfe::Stopped)
 		_background_movie.play();
 }

@@ -93,6 +93,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 		_display.window->get_y(_status_bar->sprite, status_bar_c.y));
 
 	// Play the background movie!
+	_display.fit_background_movie();
 	_display.start_background_movie();
 
 	// And do the main loop

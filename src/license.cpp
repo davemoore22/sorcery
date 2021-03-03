@@ -55,6 +55,7 @@ auto Sorcery::License::start() -> void {
 	_window->clear();
 
 	// Play the background movie!
+	_display.fit_background_movie();
 	_display.start_background_movie();
 
 	// And do the main loop

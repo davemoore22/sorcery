@@ -35,6 +35,8 @@ Sorcery::Create::Create(System &system, Display &display, Graphics &graphics)
 
 	// Create the Candidate Character
 	_candidate = std::make_shared<Character>(system, display, graphics);
+
+	_name_c = Component((*_display.layout)["character_create_stage_1:name_candidate"]);
 }
 
 // Standard Destructor
@@ -62,6 +64,7 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 	_window->clear();
 
 	// Play the background movie!
+	_display.fit_background_movie();
 	_display.start_background_movie();
 
 	// Will need to change this for the seven screens
@@ -86,16 +89,12 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 					candidate_name += static_cast<char>(event.text.unicode);
 					_candidate->name(candidate_name);
 				}
-			}
-
-			if (_system.input->check_for_event(WindowInput::DELETE, event)) {
+			} else if (_system.input->check_for_event(WindowInput::DELETE, event)) {
 				if (candidate_name.length() > 0) {
 					candidate_name.pop_back();
 					_candidate->name(candidate_name);
 				}
-			}
-
-			if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
+			} else if (_system.input->check_for_event(WindowInput::CONFIRM_NO_SPACE, event)) {
 
 				if (candidate_name.length() > 0) {
 
@@ -127,9 +126,6 @@ auto Sorcery::Create::_draw() -> void {
 
 	double lerp = _graphics.animation->colour_lerp;
 	sf::Text name_text;
-	name_text.setOutlineColor(sf::Color(255, 0, 0, 0));
-	name_text.setOutlineThickness(1);
-	std::string candidate_name{};
 	std::string display_name{};
 
 	// Display Components
@@ -144,11 +140,7 @@ auto Sorcery::Create::_draw() -> void {
 
 	// TODO: use character-<draw for this!
 	display_name = _candidate->name();
-	_display.window->draw_text(name_text,
-		(*_display.layout)["character_create_stage_1:name_candidate"], display_name, lerp);
-
-	// name_text.setFillColor(_display.window->change_colour(
-	//	sf::Color((*_display.layout)["character_create_stage_1:name_candidate"].colour), lerp));
+	_display.window->draw_text(name_text, _name_c, display_name, lerp);
 
 	// And finally the Cursor
 	_display.display_cursor();

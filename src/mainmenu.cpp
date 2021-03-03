@@ -74,6 +74,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	_graphics.animation->start_attract_mode_animation_threads();
 
 	// Play the background movie!
+	_display.fit_background_movie();
 	_display.start_background_movie();
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected_option{
