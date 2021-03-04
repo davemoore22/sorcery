@@ -150,7 +150,6 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 							} else if (option_chosen == MenuItem::ET_LEAVE_GAME) {
 								_display.window->input_mode = WindowInputMode::LEAVE_GAME;
 								_yes_or_no = WindowConfirm::NO;
-								// return MenuItem::ET_LEAVE_GAME;
 							} else if (option_chosen == MenuItem::ET_MAZE) {
 								return MenuItem::ET_MAZE;
 							} else if (option_chosen == MenuItem::ET_TRAIN) {
@@ -240,7 +239,7 @@ auto Sorcery::GameMenu::_draw() -> void {
 	}
 
 	// And the Menu
-	const double lerp = _graphics.animation->colour_lerp;
+	const double lerp{_graphics.animation->colour_lerp};
 	if (_menu_stage == GameMenuType::CASTLE) {
 		_castle_menu->generate((*_display.layout)["castle:castle_menu"], lerp);
 		const sf::Vector2f menu_pos(

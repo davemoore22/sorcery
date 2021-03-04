@@ -465,13 +465,13 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 				((*it).type == MenuItemType::CANCEL)) {
 				const sf::FloatRect actual_rect{text.getGlobalBounds()};
 				bounds.push_back(actual_rect);
-				WindowTooltipList::iterator tt_it = _display.window->tooltips.find((*it).hint);
+				WindowTooltipList::iterator tt_it{_display.window->tooltips.find((*it).hint)};
 				if (tt_it == _display.window->tooltips.end())
 					_display.window->tooltips[(*it).hint] = actual_rect;
 			} else {
 				const sf::FloatRect actual_rect;
 				bounds.push_back(actual_rect);
-				WindowTooltipList::iterator tt_it = _display.window->tooltips.find((*it).hint);
+				WindowTooltipList::iterator tt_it{_display.window->tooltips.find((*it).hint)};
 				if (tt_it == _display.window->tooltips.end())
 					_display.window->tooltips[(*it).hint] = actual_rect;
 			}
@@ -489,7 +489,7 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 					option_text.setCharacterSize(on_c.size);
 					option_text.setFillColor(sf::Color(on_c.colour));
 					option_text.setString((*_display.string)[on_c.string_key]);
-					sf::FloatRect bounds = option_text.getLocalBounds();
+					sf::FloatRect bounds{option_text.getLocalBounds()};
 					option_text.setPosition(option_x - bounds.width, option_y);
 					option_text.setOrigin(0, option_text.getLocalBounds().height / 2.0f);
 				} else {
@@ -499,7 +499,7 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 					option_text.setCharacterSize(off_c.size);
 					option_text.setFillColor(sf::Color(off_c.colour));
 					option_text.setString((*_display.string)[off_c.string_key]);
-					sf::FloatRect bounds = option_text.getLocalBounds();
+					sf::FloatRect bounds{option_text.getLocalBounds()};
 					option_text.setPosition(option_x - bounds.width, option_y);
 					option_text.setOrigin(0, option_text.getLocalBounds().height / 2.0f);
 				}

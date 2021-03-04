@@ -118,7 +118,7 @@ auto Sorcery::License::_draw() -> void {
 
 	_display.display_components("license");
 
-	const std::string progress = _textfile->get_reading_progress(_current_line);
+	const std::string progress{_textfile->get_reading_progress(_current_line)};
 	_display.window->draw_text(_progress_text, (*_display.layout)["license:progress"], progress);
 	_display_file_contents();
 

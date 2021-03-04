@@ -70,7 +70,7 @@ auto Sorcery::Random::operator[](const RandomType random_type) -> unsigned int {
 auto Sorcery::Random::_get(const RandomType random_type) -> unsigned int {
 
 	// Generate a random number of a specified type
-	const auto [min, max] = _range[random_type];
-	auto dist = std::uniform_int_distribution<unsigned int>(min, max);
+	const auto [min, max]{_range[random_type]};
+	auto dist{std::uniform_int_distribution<unsigned int>(min, max)};
 	return dist(_random);
 }

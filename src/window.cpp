@@ -27,7 +27,7 @@
 // also add a TGUI to this
 
 // Standard Constructor
-Sorcery::Window::Window(const std::string title, System &system, String &string, Layout &layout)
+Sorcery::Window::Window(const std::string &title, System &system, String &string, Layout &layout)
 	: _title{title}, _system{system}, _string{string}, _layout{layout} {
 
 	// First get the Window Size from System Config
@@ -121,7 +121,7 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, con
 		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 	} else if (component.justification == Justification::RIGHT) {
 		text.setPosition(x, y);
-		const sf::FloatRect bounds = text.getLocalBounds();
+		const sf::FloatRect bounds{text.getLocalBounds()};
 		text.setPosition(component.x - bounds.width, component.y);
 	} else {
 		text.setPosition(x, y);
@@ -146,7 +146,7 @@ auto Sorcery::Window::_draw_text(
 		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 	} else if (component.justification == Justification::RIGHT) {
 		text.setPosition(x, y);
-		const sf::FloatRect bounds = text.getLocalBounds();
+		const sf::FloatRect bounds{text.getLocalBounds()};
 		text.setPosition(component.x - bounds.width, component.y);
 	} else {
 		text.setPosition(x, y);
@@ -174,7 +174,7 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component,
 		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 	} else if (component.justification == Justification::RIGHT) {
 		text.setPosition(x, y);
-		const sf::FloatRect bounds = text.getLocalBounds();
+		const sf::FloatRect bounds{text.getLocalBounds()};
 		text.setPosition(component.x - bounds.width, component.y);
 	} else {
 		text.setPosition(x, y);

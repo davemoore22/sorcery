@@ -41,7 +41,7 @@ namespace Sorcery {
 	}
 
 	// Pad a string to the desired length
-	inline auto PADSTR(std::string string, unsigned int width, bool pad_both = false)
+	inline auto PADSTR(std::string &string, unsigned int width, bool pad_both = false)
 		-> std::string {
 		if (static_cast<unsigned int>(string.size()) < width) {
 			const std::string::size_type padding{

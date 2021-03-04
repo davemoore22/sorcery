@@ -36,7 +36,7 @@ Sorcery::Display::Display(System *system) {
 	_background_movie.openFromFile(_system->files->get_path_as_string(MENU_VIDEO));
 }
 
-auto Sorcery::Display::display_components(const std::string screen,
+auto Sorcery::Display::display_components(const std::string &screen,
 	std::map<std::string, sf::Sprite> &sprites, std::map<std::string, sf::Text> &texts,
 	std::map<std::string, std::shared_ptr<Frame>> &frames, std::optional<std::any> parameter)
 	-> void {
@@ -109,7 +109,7 @@ auto Sorcery::Display::display_components(const std::string screen,
 	}
 }
 
-auto Sorcery::Display::generate_components(const std::string screen,
+auto Sorcery::Display::generate_components(const std::string &screen,
 	std::map<std::string, sf::Sprite> &sprites, std::map<std::string, sf::Text> &texts,
 	std::map<std::string, std::shared_ptr<Frame>> &frames) -> void {
 
@@ -183,7 +183,7 @@ auto Sorcery::Display::generate_components(const std::string screen,
 						text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 				} else if (component.justification == Justification::RIGHT) {
 					text.setPosition(x, y);
-					const sf::FloatRect bounds = text.getLocalBounds();
+					const sf::FloatRect bounds{text.getLocalBounds()};
 					text.setPosition(component.x - bounds.width, component.y);
 				} else {
 					text.setPosition(x, y);
@@ -202,12 +202,12 @@ auto Sorcery::Display::generate_components(const std::string screen,
 }
 
 auto Sorcery::Display::display_components(
-	const std::string screen, std::optional<std::any> parameter) -> void {
+	const std::string &screen, std::optional<std::any> parameter) -> void {
 
 	display_components(screen, _sprites, _texts, _frames, parameter);
 }
 
-auto Sorcery::Display::generate_components(const std::string screen) -> void {
+auto Sorcery::Display::generate_components(const std::string &screen) -> void {
 
 	_sprites.clear();
 	_texts.clear();
@@ -217,7 +217,7 @@ auto Sorcery::Display::generate_components(const std::string screen) -> void {
 
 auto Sorcery::Display::display_cursor() -> void {
 
-	sf::Sprite cursor = window->get_cursor();
+	sf::Sprite cursor{window->get_cursor()};
 	cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window->get_window())));
 	window->get_window()->draw(cursor);
 }

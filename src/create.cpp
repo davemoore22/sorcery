@@ -124,7 +124,7 @@ auto Sorcery::Create::stop() -> void {
 
 auto Sorcery::Create::_draw() -> void {
 
-	double lerp = _graphics.animation->colour_lerp;
+	double lerp{_graphics.animation->colour_lerp};
 	sf::Text name_text;
 	std::string display_name{};
 

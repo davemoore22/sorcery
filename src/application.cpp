@@ -30,7 +30,7 @@ Sorcery::Application::Application(int argc, char **argv) {
 	// Get any command line arguments
 	_arguments.clear();
 	for (auto loop = 0; loop < argc; ++loop) {
-		std::string arg = {argv[loop]};
+		std::string arg{argv[loop]};
 		std::transform(arg.begin(), arg.end(), arg.begin(), ::tolower);
 		_arguments.push_back(arg);
 	}
@@ -117,7 +117,7 @@ auto Sorcery::Application::start() -> void {
 // Check for a command line parameter
 auto Sorcery::Application::_check_for_parameter(std::string_view parameter) const -> bool {
 	for (auto arg : _arguments)
-		if (const std::size_t match_found = {arg.find(parameter)}; match_found != std::string::npos)
+		if (const std::size_t match_found{arg.find(parameter)}; match_found != std::string::npos)
 			return true;
 
 	return false;

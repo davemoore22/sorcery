@@ -316,7 +316,7 @@ auto Sorcery::Character::_generate_secondary_abilities() -> void {
 
 	// Formulae used are from here http://www.zimlab.com/wizardry/walk/w123calc.htm and also from
 	// https://mirrors.apple2.org.za/ftp.apple.asimov.net/images/games/rpg/wizardry/wizardry_I/Wizardry_i_SourceCode.zip
-	const int current_level = {_abilities[CharacterAbility::CURRENT_LEVEL]};
+	const int current_level{_abilities[CharacterAbility::CURRENT_LEVEL]};
 
 	// Bonus Melee to Hit per Attack (num)
 	if (_cur_attr[CharacterAttribute::STRENGTH] > 15)
@@ -466,7 +466,7 @@ auto Sorcery::Character::_generate_secondary_abilities() -> void {
 	_abilities[CharacterAbility::BONUS_HIT_POINTS] = _abilities[CharacterAbility::VITALITY_BONUS];
 
 	// Base Hit Points (num)
-	switch (unsigned int chance = {(*_system.random)[RandomType::D100]};
+	switch (unsigned int chance{(*_system.random)[RandomType::D100]};
 			_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::FIGHTER:
 	case CharacterClass::LORD:
@@ -882,7 +882,7 @@ auto Sorcery::Character::_set_starting_spells() -> void {
 auto Sorcery::Character::_get_hp_gained_per_level() -> int {
 
 	// In the original code ("MOREHP"), Samurai get 2d8
-	int extra_hp = {};
+	int extra_hp{0};
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::FIGHTER:
 	case CharacterClass::LORD:
@@ -924,18 +924,18 @@ auto Sorcery::Character::_update_hp_for_level() -> void {
 	// also reproduces the equally annoying thing where if you have changed class it uses your
 	// *current* class level for recalculation, hence until you get back to where you were before
 	// changing class you will probably only ever gain 1 hp each time unless the random dice rolls
-	// are really in your favour
+	// are really in your favour!
 	if ((*_system.config)[ConfigOption::REROLL_HIT_POINTS_ON_LEVEL_GAIN]) {
-		int running_hp_total = {0};
+		int hp_total{0};
 		for (auto level = 1; level < _abilities[CharacterAbility::CURRENT_LEVEL]; level++)
-			running_hp_total += _get_hp_gained_per_level();
-		if (running_hp_total < _abilities[CharacterAbility::MAX_HP])
-			running_hp_total = _abilities[CharacterAbility::MAX_HP] + 1;
-		int hp_gained = running_hp_total - _abilities[CharacterAbility::MAX_HP];
+			hp_total += _get_hp_gained_per_level();
+		if (hp_total < _abilities[CharacterAbility::MAX_HP])
+			hp_total = _abilities[CharacterAbility::MAX_HP] + 1;
+		int hp_gained{hp_total - _abilities[CharacterAbility::MAX_HP]};
 		_abilities[CharacterAbility::MAX_HP] += hp_gained;
 		_abilities[CharacterAbility::CURRENT_HP] += hp_gained;
 	} else {
-		int hp_gained = {_get_hp_gained_per_level()};
+		int hp_gained{_get_hp_gained_per_level()};
 		_abilities[CharacterAbility::MAX_HP] += hp_gained;
 		_abilities[CharacterAbility::CURRENT_HP] += hp_gained;
 	}
@@ -997,8 +997,8 @@ auto Sorcery::Character::_try_to_learn_spells(SpellType spell_type, unsigned int
 auto Sorcery::Character::_calculate_sp(
 	SpellType spell_type, unsigned int level_mod, unsigned int level_offset) -> void {
 
-	// No ownership granted by use of raw pointer here
-	SpellPoints *spells = spell_type == SpellType::PRIEST ? &_cleric_max_sp : &_mage_max_sp;
+	// No ownership granted by use of raw pointer here - is the only reason we use it!
+	SpellPoints *spells{spell_type == SpellType::PRIEST ? &_cleric_max_sp : &_mage_max_sp};
 
 	int spell_count{static_cast<int>(_abilities[CharacterAbility::CURRENT_LEVEL] - level_mod)};
 	if (spell_count <= 0)

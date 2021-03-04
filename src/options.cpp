@@ -107,7 +107,7 @@ auto Sorcery::Options::start() -> void {
 				} else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
 					if (selected) {
 						if ((*_menu->selected).type == MenuItemType::ENTRY) {
-							const ConfigOption config_to_toggle = (*_menu->selected).config;
+							const ConfigOption config_to_toggle{(*_menu->selected).config};
 							if ((config_to_toggle == ConfigOption::STRICT_MODE) &&
 								(!(*_system.config)[ConfigOption::STRICT_MODE])) {
 
@@ -134,16 +134,11 @@ auto Sorcery::Options::start() -> void {
 							// Ask for confirmation of Save
 							_display.window->input_mode = WindowInputMode::SAVE_CHANGES;
 							_yes_or_no = WindowConfirm::NO;
-
-							//_system.config->save();
-							// return;
 						} else if ((*_menu->selected).type == MenuItemType::CANCEL) {
 
 							// Ask for confirmation of Cancel
 							_display.window->input_mode = WindowInputMode::CANCEL_CHANGES;
 							_yes_or_no = WindowConfirm::NO;
-							//_system.config->load();
-							// return;
 						}
 					}
 				}
@@ -259,7 +254,7 @@ auto Sorcery::Options::stop() -> void {
 
 auto Sorcery::Options::_draw() -> void {
 
-	const double lerp = _graphics.animation->colour_lerp;
+	const double lerp{_graphics.animation->colour_lerp};
 	_display.display_components("options");
 
 	_menu->generate((*_display.layout)["options:menu"], lerp);
@@ -274,7 +269,7 @@ auto Sorcery::Options::_draw() -> void {
 	} else if (_display.window->input_mode == WindowInputMode::CANCEL_CHANGES) {
 		_confirm_cancel->draw(lerp);
 	} else if (_display_tt) {
-		sf::Vector2i tooltip_position = sf::Mouse::getPosition(*_window);
+		sf::Vector2i tooltip_position{sf::Mouse::getPosition(*_window)};
 		tooltip_position.x += 10;
 		tooltip_position.y += 10;
 		_tt->setPosition(tooltip_position.x, tooltip_position.y);
@@ -291,13 +286,13 @@ auto Sorcery::Options::_set_tooltip(sf::Vector2f mouse_pos) -> bool {
 		const sf::Vector2f global_pos{_menu->getPosition()};
 		mouse_pos -= global_pos;
 
-		WindowTooltipList::iterator contain = std::find_if(_display.window->tooltips.begin(),
+		WindowTooltipList::iterator contain{std::find_if(_display.window->tooltips.begin(),
 			_display.window->tooltips.end(), [&mouse_pos](const auto &entry) {
-				const sf::FloatRect candidate = entry.second;
+				const sf::FloatRect candidate{entry.second};
 				return candidate.contains(mouse_pos);
-			});
+			})};
 		if (contain != _display.window->tooltips.end()) {
-			const std::string hint = (*contain).first;
+			const std::string hint{(*contain).first};
 			_tt->set(hint);
 			return true;
 		} else

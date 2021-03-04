@@ -36,7 +36,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Window(const std::string title, System &system, String &string, Layout &layout);
+		Window(const std::string &title, System &system, String &string, Layout &layout);
 		Window() = delete;
 
 		// Public Methods

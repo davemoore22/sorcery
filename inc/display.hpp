@@ -48,23 +48,22 @@ namespace Sorcery {
 		Display() = delete;
 
 		// Public Methods
-		auto generate_components(const std::string screen) -> void;
+		auto generate_components(const std::string &screen) -> void;
 		auto display_components(
-			const std::string screen, std::optional<std::any> parameter = std::nullopt) -> void;
-		auto display_components(const std::string screen,
+			const std::string &screen, std::optional<std::any> parameter = std::nullopt) -> void;
+		auto display_components(const std::string &screen,
 			std::map<std::string, sf::Sprite> &sprites, std::map<std::string, sf::Text> &texts,
 			std::map<std::string, std::shared_ptr<Frame>> &frames,
 			std::optional<std::any> parameter = std::nullopt) -> void;
-
+		auto generate_components(const std::string &screen,
+			std::map<std::string, sf::Sprite> &sprites, std::map<std::string, sf::Text> &texts,
+			std::map<std::string, std::shared_ptr<Frame>> &frames) -> void;
 		auto display_cursor() -> void;
 		auto fit_background_movie() -> void;
 		auto start_background_movie() -> void;
 		auto stop_background_movie() -> void;
 		auto update_background_movie() -> void;
 		auto draw_background_movie() -> void;
-		auto generate_components(const std::string screen,
-			std::map<std::string, sf::Sprite> &sprites, std::map<std::string, sf::Text> &texts,
-			std::map<std::string, std::shared_ptr<Frame>> &frames) -> void;
 
 		// Public Members
 		std::shared_ptr<String> string;

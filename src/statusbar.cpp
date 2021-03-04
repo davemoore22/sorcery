@@ -85,15 +85,15 @@ auto Sorcery::StatusBar::_generate_components() -> void {
 				text.setCharacterSize(component.size);
 				text.setFillColor(sf::Color(component.colour));
 				text.setString((*_display.string)[component.string_key]);
-				const int x = component.x == -1 ? _display.window->centre.x : component.x;
-				const int y = component.y == -1 ? _display.window->centre.y : component.y;
+				const unsigned int x{component.x == -1 ? _display.window->centre.x : component.x};
+				const unsigned int y{component.y == -1 ? _display.window->centre.y : component.y};
 				if (component.justification == Justification::CENTRE) {
 					text.setPosition(x, y);
 					text.setOrigin(
 						text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 				} else if (component.justification == Justification::RIGHT) {
 					text.setPosition(x, y);
-					const sf::FloatRect bounds = text.getLocalBounds();
+					const sf::FloatRect bounds{text.getLocalBounds()};
 					text.setPosition(component.x - bounds.width, component.y);
 				} else {
 					text.setPosition(x, y);

@@ -68,7 +68,7 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type, const unsigned 
 	}
 
 	// Get the Frame Components
-	unsigned int loop = 0;
+	unsigned int loop{0};
 	for (auto &frame_sprite : _frame_sprites) {
 		frame_sprite = sf::Sprite(_texture);
 		frame_sprite.setTextureRect(_frame_parts[loop]);
