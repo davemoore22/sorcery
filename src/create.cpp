@@ -36,7 +36,11 @@ Sorcery::Create::Create(System &system, Display &display, Graphics &graphics)
 	// Create the Candidate Character
 	_candidate = std::make_shared<Character>(system, display, graphics);
 
+	// Create the On-Screen Keyboard
+	_keyboard = std::make_shared<Keyboard>(system, display, graphics);
+
 	_name_c = Component((*_display.layout)["character_create_stage_1:name_candidate"]);
+	_keyb_c = Component((*_display.layout)["character_create_stage_1:keyboard"]);
 }
 
 // Standard Destructor
@@ -56,7 +60,10 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 	_bg.setScale(bg_c.scale, bg_c.scale);
 	_bg.setPosition(_display.window->get_x(_bg, bg_c.x), _display.window->get_y(_bg, bg_c.y));
 
-	// Clear Everything"
+	// Clear Everything
+	_keyboard->setPosition(_keyb_c.x, _keyb_c.y);
+	//_display.window->get_x(_bg, _keyb_c.x), _display.window->get_y(_bg, _keyb_c.y));
+
 	const Component name_c{(*_display.layout)["character_create_stage_1:name_candidate"]};
 	_candidate->set_stage(CharacterStage::ENTER_NAME);
 
@@ -141,6 +148,8 @@ auto Sorcery::Create::_draw() -> void {
 	// TODO: use character-<draw for this!
 	display_name = _candidate->name();
 	_display.window->draw_text(name_text, _name_c, display_name, lerp);
+
+	_window->draw(*_keyboard);
 
 	// And finally the Cursor
 	_display.display_cursor();

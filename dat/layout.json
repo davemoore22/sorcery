@@ -28,6 +28,37 @@
 		]
 	},
 	{
+		"name": "keyboard",
+		"component": [
+		{
+			"name": "frame",
+			"w": "46",
+			"h": "10",
+			"x": "0",
+			"y": "0",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "4",
+			"drawmode": "manual"
+		},
+		{
+			"name": "letters",
+			"w": "60",
+			"h": "54",
+			"x": "32",
+			"y": "20",
+			"scale": "15",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "52",
+			"type": "text",
+			"drawmode": "manual",
+			"priority": "5",
+			"background": "0x6060c8ff"
+		}
+		]
+	},
+	{
 		"name": "banner",
 		"component": [
 		{
@@ -864,6 +895,16 @@
 			"justification": "centre",
 			"type": "text",
 			"priority": "3",
+			"animated": "true",
+			"drawmode": "manual"
+		},
+		{
+			"name": "keyboard",
+			"x": "17",
+			"y": "23",
+			"alpha": "255",
+			"type": "other",
+			"priority": "4",
 			"animated": "true",
 			"drawmode": "manual"
 		}

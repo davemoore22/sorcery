@@ -24,50 +24,44 @@
 
 #pragma once
 
-#include "main.hpp"
-
-#pragma once
-
-#include "character.hpp"
 #include "display.hpp"
 #include "frame.hpp"
 #include "graphics.hpp"
-#include "keyboard.hpp"
 #include "layout.hpp"
 #include "main.hpp"
-#include "system.hpp"
 
 namespace Sorcery {
 
-	class Create {
+	class Display;
+
+	class Keyboard : public sf::Transformable, public sf::Drawable {
 
 	  public:
-		// Constructor
-		Create(System &system, Display &display, Graphics &graphics);
-		Create() = delete;
-
-		// Destructor
-		~Create();
+		// Constructors
+		Keyboard(System &system, Display &display, Graphics &graphics);
+		Keyboard() = delete;
 
 		// Public Members
+		unsigned int width;
+		unsigned int height;
+		sf::Sprite sprite;
 
 		// Public Methods
-		auto start() -> std::optional<MenuItem>;
-		auto stop() -> void;
 
 	  private:
 		// Private Methods
-		auto _draw() -> void;
+		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
 		System _system;
 		Display _display;
 		Graphics _graphics;
-		sf::RenderWindow *_window;
-		sf::Sprite _bg;
-		std::shared_ptr<Character> _candidate;
-		Component _name_c;
-		Component _keyb_c;
-		std::shared_ptr<Keyboard> _keyboard;
+		Component _frame_c;
+		Component _text_c;
+		std::map<std::string, sf::Text> _texts;
+		std::unique_ptr<Frame> _frame;
+		sf::RenderTexture _rtexture;
+		sf::Sprite _fsprite;
+		sf::Texture _texture;
 	};
 } // namespace Sorcery

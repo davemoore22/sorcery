@@ -128,6 +128,7 @@
 		<Unit filename="inc/gamemenu.hpp" />
 		<Unit filename="inc/graphics.hpp" />
 		<Unit filename="inc/input.hpp" />
+		<Unit filename="inc/keyboard.hpp" />
 		<Unit filename="inc/layout.hpp" />
 		<Unit filename="inc/license.hpp" />
 		<Unit filename="inc/macro.hpp" />
@@ -175,6 +176,7 @@
 		<Unit filename="src/gamemenu.cpp" />
 		<Unit filename="src/graphics.cpp" />
 		<Unit filename="src/input.cpp" />
+		<Unit filename="src/keyboard.cpp" />
 		<Unit filename="src/layout.cpp" />
 		<Unit filename="src/license.cpp" />
 		<Unit filename="src/main.cpp" />
