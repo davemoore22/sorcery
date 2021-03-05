@@ -314,12 +314,27 @@ auto Sorcery::Keyboard::set_selected(WindowInput input) -> void {
 	default:
 		break;
 	}
-	//
+}
+
+auto Sorcery::Keyboard::set_mouse_selected(Component &component, sf::Vector2f mouse_pos)
+	-> std::optional<std::string> {
+
+	// Now look through the global positions of each text object and see if it matches the mouse
+	// position (remembering that we need to add in the position of the this keyboard object)
+
+	// TODO: for all drawables, pass its position in in the constructor
+	for (auto &[key, text] : _texts) {
+		sf::Rect text_area = text.getGlobalBounds();
+		text_area.left += component.x;
+		text_area.top += component.y;
+		if (text_area.contains(mouse_pos))
+			return key;
+	}
+
+	return std::nullopt;
 }
 
 auto Sorcery::Keyboard::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
-
-	// need lerp and highlighted string
 
 	// Draw the backgroud and Frame
 	states.transform *= getTransform();

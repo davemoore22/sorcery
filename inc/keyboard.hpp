@@ -50,6 +50,8 @@ namespace Sorcery {
 		// Public Methods
 		auto set_selected_background() -> void;
 		auto set_selected(WindowInput input) -> void;
+		auto set_mouse_selected(Component &component, sf::Vector2f mouse_pos)
+			-> std::optional<std::string>;
 
 	  private:
 		// Private Methods

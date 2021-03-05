@@ -54,4 +54,51 @@ namespace Sorcery {
 		} else
 			return string;
 	}
+
+	// String trim Functions
+	// https://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
+
+	// Trim a string
+	inline auto LTRIM(std::string &s) -> void {
+		s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+			return !std::isspace(ch);
+		}));
+	}
+
+	// trim from end (in place)
+	inline auto RTRIM(std::string &s) -> void {
+		s.erase(std::find_if(s.rbegin(), s.rend(),
+					[](unsigned char ch) {
+						return !std::isspace(ch);
+					})
+					.base(),
+			s.end());
+	}
+
+	// trim from both ends (in place)
+	inline auto TRIM(std::string &s) -> void {
+		LTRIM(s);
+		RTRIM(s);
+	}
+
+	// trim from start (copying)
+	inline auto LTRIM_COPY(std::string s)
+		-> std::string { // NOLINT(clang-diagnostic-unused-function)
+		LTRIM(s);
+		return s;
+	}
+
+	// trim from end (copying)
+	inline auto RTRIM_COPY(std::string s)
+		-> std::string { // NOLINT(clang-diagnostic-unused-function)
+		RTRIM(s);
+		return s;
+	}
+
+	// trim from both ends (copying)
+	inline auto TRIM_COPY(std::string s)
+		-> std::string { // NOLINT(clang-diagnostic-unused-function)
+		TRIM(s);
+		return s;
+	}
 } // namespace Sorcery

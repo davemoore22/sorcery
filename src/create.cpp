@@ -62,7 +62,6 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 
 	// Clear Everything
 	_keyboard->setPosition(_keyb_c.x, _keyb_c.y);
-	//_display.window->get_x(_bg, _keyb_c.x), _display.window->get_y(_bg, _keyb_c.y));
 
 	const Component name_c{(*_display.layout)["character_create_stage_1:name_candidate"]};
 	_candidate->set_stage(CharacterStage::ENTER_NAME);
@@ -74,10 +73,11 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 	_display.fit_background_movie();
 	_display.start_background_movie();
 
-	// Will need to change this for the seven screens
+	// Will need to change this for the seven screens as needed
 	_display.window->input_mode = WindowInputMode::INPUT_TEXT;
 	std::string candidate_name{};
-
+	std::optional<std::string> mouse_selected{};
+	sf::Vector2f mouse_pos;
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
@@ -90,8 +90,15 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 				return std::nullopt;
 
 			candidate_name = _candidate->name();
-			if ((_system.input->check_for_event(WindowInput::ALPHANUMERIC, event)) ||
-				(_system.input->check_for_event(WindowInput::SPACE, event))) {
+			if (_system.input->check_for_event(WindowInput::MOVE, event)) {
+
+				mouse_pos = static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window));
+				mouse_selected = _keyboard->set_mouse_selected(_keyb_c, mouse_pos);
+				if (mouse_selected)
+					_keyboard->selected = mouse_selected.value();
+
+			} else if ((_system.input->check_for_event(WindowInput::ALPHANUMERIC, event)) ||
+					   (_system.input->check_for_event(WindowInput::SPACE, event))) {
 				if (candidate_name.length() < 24) {
 					candidate_name += static_cast<char>(event.text.unicode);
 					_candidate->name(candidate_name);
@@ -113,9 +120,11 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 					_keyboard->selected = key_pressed;
 				}
 			} else if (_system.input->check_for_event(WindowInput::SELECT, event)) {
-				if ((_keyboard->selected == "End") && (candidate_name.length() > 0)) {
-					return std::nullopt;
-					//_candidate->set_stage(CharacterStage::CHOOSE_RACE);
+				if (_keyboard->selected == "End") {
+					if (TRIM_COPY(candidate_name).length() > 0) {
+						return std::nullopt;
+						//_candidate->set_stage(CharacterStage::CHOOSE_RACE);
+					}
 				} else if (_keyboard->selected == "Spc") {
 					if (candidate_name.length() < 24) {
 						candidate_name += " ";
@@ -133,12 +142,12 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 			} else if (_system.input->check_for_event(WindowInput::CONFIRM_NO_SPACE, event)) {
 
 				if (_keyboard->selected == "End") {
-					if (candidate_name.length() > 0) {
+					if (TRIM_COPY(candidate_name).length() > 0) {
 						return std::nullopt;
 						//_candidate->set_stage(CharacterStage::CHOOSE_RACE);
 					}
 				} else {
-					if (candidate_name.length() > 0) {
+					if (TRIM_COPY(candidate_name).length() > 0) {
 						return std::nullopt;
 						//_candidate->set_stage(CharacterStage::CHOOSE_RACE);
 					}
@@ -188,7 +197,7 @@ auto Sorcery::Create::_draw() -> void {
 		"character_create_stage_1", _candidate->sprites, _candidate->texts, _candidate->frames);
 
 	// TODO: use character-<draw for this!
-	display_name = _candidate->name();
+	display_name = _candidate->name() + "_";
 	_display.window->draw_text(name_text, _name_c, display_name, lerp);
 
 	// Draw the On Screen Keyboard
