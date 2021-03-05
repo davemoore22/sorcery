@@ -158,7 +158,8 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 								_display.window->input_mode = WindowInputMode::NORMAL;
 							}
 						}
-					} else if (_system.input->check_for_event(WindowInput::CANCEL, event)) {
+					} else if ((_system.input->check_for_event(WindowInput::CANCEL, event)) ||
+							   ((_system.input->check_for_event(WindowInput::BACK, event)))) {
 						_display.window->input_mode = WindowInputMode::LEAVE_GAME;
 						_yes_or_no = WindowConfirm::NO;
 					}

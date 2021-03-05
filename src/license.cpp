@@ -69,7 +69,8 @@ auto Sorcery::License::start() -> void {
 			if (event.type == sf::Event::Closed)
 				return;
 
-			if (_system.input->check_for_event(WindowInput::CANCEL, event)) {
+			if ((_system.input->check_for_event(WindowInput::CANCEL, event)) ||
+				(_system.input->check_for_event(WindowInput::BACK, event))) {
 				return;
 			} else if (_system.input->check_for_event(WindowInput::DOWN, event)) {
 				if (_current_line < _textfile->size())

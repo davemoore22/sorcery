@@ -116,13 +116,20 @@ auto Sorcery::Input::check_for_event(WindowInput input, sf::Event event) -> bool
 			((event.type == sf::Event::JoystickButtonReleased) &&
 				((event.joystickButton.button == 0) || (event.joystickButton.button == 0))));
 		break;
+	case WindowInput::SELECT:
+		return (((event.type == sf::Event::MouseButtonReleased) &&
+					(event.mouseButton.button == sf::Mouse::Button::Left)) ||
+				((event.type == sf::Event::JoystickButtonReleased) &&
+					((event.joystickButton.button == 0) || (event.joystickButton.button == 0))));
+		break;
 	case WindowInput::CANCEL:
-		return (
-			((event.type == sf::Event::MouseButtonReleased) &&
-				(event.mouseButton.button == sf::Mouse::Right)) ||
-			((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Escape)) ||
-			((event.type == sf::Event::JoystickButtonReleased) &&
-				(event.joystickButton.button == 1)));
+		return ((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Escape));
+		break;
+	case WindowInput::BACK:
+		return (((event.type == sf::Event::MouseButtonReleased) &&
+					(event.mouseButton.button == sf::Mouse::Right)) ||
+				((event.type == sf::Event::JoystickButtonReleased) &&
+					(event.joystickButton.button == 1)));
 		break;
 	case WindowInput::YES:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Y));

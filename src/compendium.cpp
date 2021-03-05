@@ -64,6 +64,10 @@ auto Sorcery::Compendium::start() -> void {
 			if (_system.input->check_for_event(WindowInput::CANCEL, event)) {
 				return;
 			}
+
+			if (_system.input->check_for_event(WindowInput::BACK, event)) {
+				return;
+			}
 		}
 
 		_window->clear();

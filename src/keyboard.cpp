@@ -68,16 +68,21 @@ Sorcery::Keyboard::Keyboard(System &system, Display &display, Graphics &graphics
 			letter_pos.y += spacing.y;
 			current_col = 1;
 		}
+		if (_text_c.font == FontType::PROPORTIONAL)
+			_texts[key].setPosition(_texts[key].getPosition().x,
+				_texts[key].getPosition().y -
+					((_text_c.size - _texts[key].getLocalBounds().height) / 2));
 	}
 
 	// Space
-	std::string space{"Sp"};
+	std::string space{"Spc"};
 	_texts[space] = sf::Text();
 	_texts[space].setString(space);
 	_texts[space].setFont(_system.resources->fonts[_text_c.font]);
-	_texts[space].setCharacterSize(_text_c.size - 16);
+	_texts[space].setCharacterSize(_text_c.size - 24);
 	_texts[space].setFillColor(sf::Color(_text_c.colour));
-	_texts[space].setPosition(letter_pos.x, letter_pos.y);
+	_texts[space].setPosition(
+		letter_pos.x, letter_pos.y + _texts[space].getLocalBounds().height / 1.5f);
 	_texts[space].setOrigin(
 		_texts[space].getLocalBounds().width / 2.0f, _texts[space].getLocalBounds().height / 2.0f);
 	if (current_col < max_col) {
@@ -88,6 +93,10 @@ Sorcery::Keyboard::Keyboard(System &system, Display &display, Graphics &graphics
 		letter_pos.y += spacing.y;
 		current_col = 1;
 	}
+	if (_text_c.font == FontType::PROPORTIONAL)
+		_texts[space].setPosition(_texts[space].getPosition().x,
+			_texts[space].getPosition().y -
+				((_text_c.size - _texts[space].getLocalBounds().height) / 2));
 
 	// Letters a to z lowercase
 	for (char ascii = 'a'; ascii <= 'z'; ascii++) {
@@ -109,6 +118,10 @@ Sorcery::Keyboard::Keyboard(System &system, Display &display, Graphics &graphics
 			letter_pos.y += spacing.y;
 			current_col = 1;
 		}
+		if (_text_c.font == FontType::PROPORTIONAL)
+			_texts[key].setPosition(_texts[key].getPosition().x,
+				_texts[key].getPosition().y -
+					((_text_c.size - _texts[key].getLocalBounds().height) / 2));
 	}
 
 	// Del, End
@@ -116,9 +129,10 @@ Sorcery::Keyboard::Keyboard(System &system, Display &display, Graphics &graphics
 	_texts[del] = sf::Text();
 	_texts[del].setString(del);
 	_texts[del].setFont(_system.resources->fonts[_text_c.font]);
-	_texts[del].setCharacterSize(_text_c.size - 16);
+	_texts[del].setCharacterSize(_text_c.size - 24);
 	_texts[del].setFillColor(sf::Color(_text_c.colour));
-	_texts[del].setPosition(letter_pos.x, letter_pos.y);
+	_texts[del].setPosition(
+		letter_pos.x, letter_pos.y + _texts[del].getLocalBounds().height / 1.5f);
 	_texts[del].setOrigin(
 		_texts[del].getLocalBounds().width / 2.0f, _texts[del].getLocalBounds().height / 2.0f);
 	if (current_col < max_col) {
@@ -128,15 +142,25 @@ Sorcery::Keyboard::Keyboard(System &system, Display &display, Graphics &graphics
 		letter_pos.x = offset.x;
 		letter_pos.y += spacing.y;
 	}
+	if (_text_c.font == FontType::PROPORTIONAL)
+		_texts[del].setPosition(_texts[del].getPosition().x,
+			_texts[del].getPosition().y -
+				((_text_c.size - _texts[del].getLocalBounds().height) / 2));
+
 	std::string end{"End"};
 	_texts[end] = sf::Text();
 	_texts[end].setString(end);
 	_texts[end].setFont(_system.resources->fonts[_text_c.font]);
-	_texts[end].setCharacterSize(_text_c.size - 16);
+	_texts[end].setCharacterSize(_text_c.size - 24);
 	_texts[end].setFillColor(sf::Color(_text_c.colour));
-	_texts[end].setPosition(letter_pos.x, letter_pos.y);
+	_texts[end].setPosition(
+		letter_pos.x, letter_pos.y + _texts[end].getLocalBounds().height / 1.5f);
 	_texts[end].setOrigin(
 		_texts[end].getLocalBounds().width / 2.0f, _texts[end].getLocalBounds().height / 2.0f);
+	if (_text_c.font == FontType::PROPORTIONAL)
+		_texts[end].setPosition(_texts[end].getPosition().x,
+			_texts[end].getPosition().y -
+				((_text_c.size - _texts[end].getLocalBounds().height) / 2));
 
 	_frame = std::make_unique<Frame>(
 		_display.ui_texture, WindowFrameType::NORMAL, _frame_c.w - 2, _frame_c.h, _frame_c.alpha);
@@ -161,16 +185,83 @@ Sorcery::Keyboard::Keyboard(System &system, Display &display, Graphics &graphics
 
 	width = sprite.getLocalBounds().width;
 	height = sprite.getLocalBounds().height;
+
+	selected = "A";
 }
 
-auto Sorcery::Keyboard::draw(
-	[[maybe_unused]] sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::Keyboard::set_selected_background() -> void {
+
+	// Find the text that is highlighted
+	const sf::FloatRect text_rect{_texts.at(selected).getPosition().x * 1.0f,
+		_texts.at(selected).getPosition().y * 1.0f, _text_c.size * 1.0f, _text_c.size * 1.0f};
+	_selected_bg = sf::RectangleShape(sf::Vector2(text_rect.width, text_rect.height));
+	_selected_bg.setFillColor(_display.window->change_colour(
+		sf::Color(_text_c.background), _graphics.animation->colour_lerp));
+	_selected_bg.setPosition(_texts.at(selected).getPosition().x - (_text_c.size / 2),
+		_texts.at(selected).getPosition().y - 8);
+	_texts.at(selected).setFillColor(sf::Color(_text_c.colour));
+	_texts.at(selected).setOutlineColor(sf::Color(0, 0, 0));
+	_texts.at(selected).setOutlineThickness(2);
+}
+
+auto Sorcery::Keyboard::set_selected(WindowInput input) -> void {
+
+	switch (input) {
+	case WindowInput::UP:
+
+		break;
+	case WindowInput::DOWN:
+		break;
+	case WindowInput::LEFT:
+		if (selected == "A")
+			selected = "End";
+		else if (selected == "End")
+			selected = "Del";
+		else if (selected == "Del")
+			selected = "z";
+		else if (selected == "a")
+			selected = "Spc";
+		else if (selected == "Spc")
+			selected = "Z";
+		else {
+			selected.at(0) = selected.at(0)--;
+		}
+		break;
+	case WindowInput::RIGHT:
+		if (selected == "End")
+			selected = "A";
+		else if (selected == "Del")
+			selected = "End";
+		else if (selected == "z")
+			selected = "Del";
+		else if (selected == "Spc")
+			selected = "a";
+		else if (selected == "Z")
+			selected = "Spc";
+		else {
+			selected.at(0) = selected.at(0)++;
+		}
+		break;
+	case WindowInput::BACK:
+	case WindowInput::CANCEL:
+		selected = "Del";
+		break;
+	default:
+		break;
+	}
+	//
+};
+
+auto Sorcery::Keyboard::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	// need lerp and highlighted string
 
 	// Draw the backgroud and Frame
 	states.transform *= getTransform();
 	target.draw(sprite, states);
+
+	// Selected Background
+	target.draw(_selected_bg, states);
 
 	// Now each text
 	for (auto &[key, text] : _texts) {

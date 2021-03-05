@@ -162,6 +162,8 @@ auto Sorcery::Options::start() -> void {
 					_confirm_strict_on->highlighted = WindowConfirm::NO;
 				else if (_system.input->check_for_event(WindowInput::CANCEL, event))
 					_display.window->input_mode = WindowInputMode::GAME_OPTIONS;
+				else if (_system.input->check_for_event(WindowInput::BACK, event))
+					_display.window->input_mode = WindowInputMode::GAME_OPTIONS;
 				else if (_system.input->check_for_event(WindowInput::MOVE, event)) {
 					if (_display.window->input_mode == WindowInputMode::SWITCH_ON_STRICT_MODE) {
 						_confirm_strict_on->check_for_mouse_move(

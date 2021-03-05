@@ -96,19 +96,61 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 					candidate_name += static_cast<char>(event.text.unicode);
 					_candidate->name(candidate_name);
 				}
-			} else if (_system.input->check_for_event(WindowInput::DELETE, event)) {
+				if (static_cast<char>(event.text.unicode) == ' ') {
+					std::string key_pressed{"Spc"};
+					_keyboard->selected = key_pressed;
+				} else {
+					std::string key_pressed{};
+					key_pressed.push_back(static_cast<char>(event.text.unicode));
+					_keyboard->selected = key_pressed;
+				}
+			} else if ((_system.input->check_for_event(WindowInput::DELETE, event)) ||
+					   (_system.input->check_for_event(WindowInput::BACK, event))) {
 				if (candidate_name.length() > 0) {
 					candidate_name.pop_back();
 					_candidate->name(candidate_name);
+					std::string key_pressed{"Del"};
+					_keyboard->selected = key_pressed;
 				}
-			} else if (_system.input->check_for_event(WindowInput::CONFIRM_NO_SPACE, event)) {
-
-				if (candidate_name.length() > 0) {
-
+			} else if (_system.input->check_for_event(WindowInput::SELECT, event)) {
+				if ((_keyboard->selected == "End") && (candidate_name.length() > 0)) {
 					return std::nullopt;
 					//_candidate->set_stage(CharacterStage::CHOOSE_RACE);
+				} else if (_keyboard->selected == "Spc") {
+					if (candidate_name.length() < 24) {
+						candidate_name += " ";
+						_candidate->name(candidate_name);
+					} else if ((_keyboard->selected == "Del") && (candidate_name.length() > 0)) {
+						candidate_name.pop_back();
+						_candidate->name(candidate_name);
+					} else {
+						candidate_name += _keyboard->selected;
+						_candidate->name(candidate_name);
+					}
 				}
-			}
+
+			} else if (_system.input->check_for_event(WindowInput::CONFIRM_NO_SPACE, event)) {
+
+				if (_keyboard->selected == "End") {
+					if (candidate_name.length() > 0) {
+						return std::nullopt;
+						//_candidate->set_stage(CharacterStage::CHOOSE_RACE);
+					}
+				} else {
+					if (candidate_name.length() > 0) {
+						return std::nullopt;
+						//_candidate->set_stage(CharacterStage::CHOOSE_RACE);
+					}
+				}
+
+			} else if (_system.input->check_for_event(WindowInput::LEFT, event))
+				_keyboard->set_selected(WindowInput::LEFT);
+			else if (_system.input->check_for_event(WindowInput::RIGHT, event))
+				_keyboard->set_selected(WindowInput::RIGHT);
+			else if (_system.input->check_for_event(WindowInput::UP, event))
+				_keyboard->set_selected(WindowInput::UP);
+			else if (_system.input->check_for_event(WindowInput::DOWN, event))
+				_keyboard->set_selected(WindowInput::DOWN);
 
 			_window->clear();
 
@@ -149,6 +191,8 @@ auto Sorcery::Create::_draw() -> void {
 	display_name = _candidate->name();
 	_display.window->draw_text(name_text, _name_c, display_name, lerp);
 
+	// Draw the On Screen Keyboard
+	_keyboard->set_selected_background();
 	_window->draw(*_keyboard);
 
 	// And finally the Cursor

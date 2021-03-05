@@ -131,7 +131,8 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 								_yes_or_no = WindowConfirm::NO;
 							}
 						}
-					} else if (_system.input->check_for_event(WindowInput::CANCEL, event)) {
+					} else if ((_system.input->check_for_event(WindowInput::CANCEL, event)) ||
+							   ((_system.input->check_for_event(WindowInput::BACK, event)))) {
 						_display.window->input_mode = WindowInputMode::CONFIRM;
 						_yes_or_no = WindowConfirm::NO;
 					}
@@ -152,6 +153,8 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 				else if (_system.input->check_for_event(WindowInput::NO, event))
 					_confirm_exit->highlighted = WindowConfirm::NO;
 				else if (_system.input->check_for_event(WindowInput::CANCEL, event))
+					_display.window->input_mode = WindowInputMode::NORMAL;
+				else if (_system.input->check_for_event(WindowInput::BACK, event))
 					_display.window->input_mode = WindowInputMode::NORMAL;
 				else if (_system.input->check_for_event(WindowInput::MOVE, event))
 					_confirm_exit->check_for_mouse_move(

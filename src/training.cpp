@@ -86,6 +86,9 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 			if (_system.input->check_for_event(WindowInput::CANCEL, event))
 				return std::nullopt;
 
+			if (_system.input->check_for_event(WindowInput::BACK, event))
+				return std::nullopt;
+
 			if (_system.input->check_for_event(WindowInput::UP, event))
 				selected = _menu->choose_previous();
 			else if (_system.input->check_for_event(WindowInput::DOWN, event))

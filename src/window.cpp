@@ -127,6 +127,12 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, con
 		text.setPosition(x, y);
 		text.setOrigin(0, text.getLocalBounds().height / 2.0f);
 	}
+
+	// Handle varying height of proportional fonts
+	if (component.font == FontType::PROPORTIONAL)
+		text.setPosition(text.getPosition().x,
+			text.getPosition().y - ((component.size - text.getLocalBounds().height) / 2));
+
 	_window.draw(text);
 }
 
@@ -152,6 +158,12 @@ auto Sorcery::Window::_draw_text(
 		text.setPosition(x, y);
 		text.setOrigin(0, text.getLocalBounds().height / 2.0f);
 	}
+
+	// Handle varying height of proportional fonts
+	if (component.font == FontType::PROPORTIONAL)
+		text.setPosition(text.getPosition().x,
+			text.getPosition().y - ((component.size - text.getLocalBounds().height) / 2));
+
 	_window.draw(text);
 }
 
@@ -180,6 +192,12 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component,
 		text.setPosition(x, y);
 		text.setOrigin(0, text.getLocalBounds().height / 2.0f);
 	}
+
+	// Handle varying height of proportional fonts
+	if (component.font == FontType::PROPORTIONAL)
+		text.setPosition(text.getPosition().x,
+			text.getPosition().y - ((component.size - text.getLocalBounds().height) / 2));
+
 	_window.draw(text);
 }
 
@@ -300,4 +318,9 @@ auto Sorcery::Window::highlight_text(sf::Text &text, Component component, const 
 	text.setOutlineColor(sf::Color(0, 0, 0));
 	text.setOutlineThickness(2);
 	return text_bg;
+}
+
+auto Sorcery::Window::get_text_y_adjustment(sf::Text &text, Component &component) -> int {
+
+	return component.size - text.getLocalBounds().height;
 }

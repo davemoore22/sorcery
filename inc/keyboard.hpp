@@ -49,6 +49,7 @@ namespace Sorcery {
 
 		// Public Methods
 		auto set_selected_background() -> void;
+		auto set_selected(WindowInput input) -> void;
 
 	  private:
 		// Private Methods

@@ -49,7 +49,9 @@ namespace Sorcery {
 			HOME,
 			END,
 			DELETE,
-			SPACE
+			SPACE,
+			BACK,
+			SELECT
 		};
 	}
 
