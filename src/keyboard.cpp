@@ -206,11 +206,70 @@ auto Sorcery::Keyboard::set_selected_background() -> void {
 
 auto Sorcery::Keyboard::set_selected(WindowInput input) -> void {
 
+	// TODO: This will sadly break if the columns in the key grid is changed - need to change this
+	// to use something else to handle precedent and succedent selected
 	switch (input) {
 	case WindowInput::UP:
-
+		if (selected == "J")
+			selected = "End";
+		else if (selected == "I")
+			selected = "Del";
+		else if (selected == "Del")
+			selected = "l";
+		else if (selected == "End")
+			selected = "m";
+		else if (selected == "Spc")
+			selected = "L";
+		else if (selected == "o")
+			selected = "Spc";
+		else {
+			std::transform(selected.begin(), selected.end(), selected.begin(),
+				[](unsigned char c) -> unsigned char {
+					if ((c >= 'A') && (c <= 'H'))
+						return c += 50;
+					else if ((c >= 'K') && (c <= 'O'))
+						return c += 35;
+					else if ((c >= 'P') && (c <= 'Z'))
+						return c -= 15;
+					else if ((c >= 'a') && (c <= 'n'))
+						return c -= 20;
+					else if ((c >= 'p') && (c <= 'z'))
+						return c -= 15;
+					else
+						return c;
+				});
+		}
 		break;
 	case WindowInput::DOWN:
+		if (selected == "End")
+			selected = "J";
+		else if (selected == "Del")
+			selected = "I";
+		else if (selected == "Spc")
+			selected = "o";
+		else if (selected == "l")
+			selected = "Del";
+		else if (selected == "m")
+			selected = "End";
+		else if (selected == "L")
+			selected = "Spc";
+		else {
+			std::transform(selected.begin(), selected.end(), selected.begin(),
+				[](unsigned char c) -> unsigned char {
+					if ((c >= 'A') && (c <= 'K'))
+						return c += 15;
+					else if ((c >= 'M') && (c <= 'Z'))
+						return c += 20;
+					else if ((c >= 'a') && (c <= 'k'))
+						return c += 15;
+					else if ((c >= 'n') && (c <= 'r'))
+						return c -= 35;
+					else if ((c >= 's') && (c <= 'z'))
+						return c -= 50;
+					else
+						return c;
+				});
+		}
 		break;
 	case WindowInput::LEFT:
 		if (selected == "A")
@@ -224,7 +283,10 @@ auto Sorcery::Keyboard::set_selected(WindowInput input) -> void {
 		else if (selected == "Spc")
 			selected = "Z";
 		else {
-			selected.at(0) = selected.at(0)--;
+			std::transform(selected.begin(), selected.end(), selected.begin(),
+				[](unsigned char c) -> unsigned char {
+					return --c;
+				});
 		}
 		break;
 	case WindowInput::RIGHT:
@@ -239,7 +301,10 @@ auto Sorcery::Keyboard::set_selected(WindowInput input) -> void {
 		else if (selected == "Z")
 			selected = "Spc";
 		else {
-			selected.at(0) = selected.at(0)++;
+			std::transform(selected.begin(), selected.end(), selected.begin(),
+				[](unsigned char c) -> unsigned char {
+					return ++c;
+				});
 		}
 		break;
 	case WindowInput::BACK:
@@ -250,7 +315,7 @@ auto Sorcery::Keyboard::set_selected(WindowInput input) -> void {
 		break;
 	}
 	//
-};
+}
 
 auto Sorcery::Keyboard::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
 

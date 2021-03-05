@@ -120,15 +120,16 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 					if (candidate_name.length() < 24) {
 						candidate_name += " ";
 						_candidate->name(candidate_name);
-					} else if ((_keyboard->selected == "Del") && (candidate_name.length() > 0)) {
+					}
+				} else if (_keyboard->selected == "Del") {
+					if (candidate_name.length() > 0) {
 						candidate_name.pop_back();
 						_candidate->name(candidate_name);
-					} else {
-						candidate_name += _keyboard->selected;
-						_candidate->name(candidate_name);
 					}
+				} else {
+					candidate_name += _keyboard->selected;
+					_candidate->name(candidate_name);
 				}
-
 			} else if (_system.input->check_for_event(WindowInput::CONFIRM_NO_SPACE, event)) {
 
 				if (_keyboard->selected == "End") {
@@ -142,7 +143,6 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 						//_candidate->set_stage(CharacterStage::CHOOSE_RACE);
 					}
 				}
-
 			} else if (_system.input->check_for_event(WindowInput::LEFT, event))
 				_keyboard->set_selected(WindowInput::LEFT);
 			else if (_system.input->check_for_event(WindowInput::RIGHT, event))
