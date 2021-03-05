@@ -45,8 +45,10 @@ namespace Sorcery {
 		unsigned int width;
 		unsigned int height;
 		sf::Sprite sprite;
+		std::string selected;
 
 		// Public Methods
+		auto set_selected_background() -> void;
 
 	  private:
 		// Private Methods
@@ -63,5 +65,6 @@ namespace Sorcery {
 		sf::RenderTexture _rtexture;
 		sf::Sprite _fsprite;
 		sf::Texture _texture;
+		sf::RectangleShape _selected_bg;
 	};
 } // namespace Sorcery
