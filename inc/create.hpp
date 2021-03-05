@@ -35,6 +35,7 @@
 #include "keyboard.hpp"
 #include "layout.hpp"
 #include "main.hpp"
+#include "menu.hpp"
 #include "system.hpp"
 
 namespace Sorcery {
@@ -69,5 +70,6 @@ namespace Sorcery {
 		Component _name_c;
 		Component _keyb_c;
 		std::shared_ptr<Keyboard> _keyboard;
+		std::shared_ptr<Menu> _race_menu;
 	};
 } // namespace Sorcery
