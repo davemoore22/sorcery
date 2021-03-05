@@ -73,6 +73,12 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 
 	// TODO: assignment/copy operators to backups at each stage so we can go back and undo
 
+	// Also need methods to boost to next stage from start, e.g. random name or race, and going into
+	// create immediately sets that
+
+	// Also need, similar to tooltip, an explanation box drawable containing a frame, and a text
+	// that can be set when a race/alignment etc are selected
+
 	switch (stage) {
 	case CharacterStage::ENTER_NAME:
 		_display.generate_components("character_create_stage_1", sprites, texts, frames);
