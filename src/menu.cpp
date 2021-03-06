@@ -329,9 +329,47 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
 	return std::nullopt;
 }
 
-// Set selected based upon the item passed in (using std::any!)
-auto Sorcery::Menu::choose(std::any menu_option)
-	-> std::optional<std::vector<MenuEntry>::const_iterator>{};
+// Set selected based upon the item passed in
+auto Sorcery::Menu::choose(std::any option)
+	-> std::optional<std::vector<MenuEntry>::const_iterator> {
+
+	switch (_type) {
+	case MenuType::CHOOSE_CHARACTER_RACE:
+		switch (const CharacterRace character_race{std::any_cast<CharacterRace>(option)}) {
+		case CharacterRace::DWARF:
+			// find menu option corresponding to MenuOption::CR_DRAWD and set it, also setting
+			// selected
+			break;
+		case CharacterRace::ELF:
+			break;
+		case CharacterRace::GNOME:
+			break;
+		case CharacterRace::HOBBIT:
+			break;
+		case CharacterRace::HUMAN:
+			break;
+		default:
+			break;
+		}
+
+		break;
+	case MenuType::CHOOSE_CHARACTER_ALIGNMENT:
+		switch (const CharacterAlignment character_alignment{
+			std::any_cast<CharacterAlignment>(option)}) {
+		case CharacterAlignment::EVIL:
+			break;
+		case CharacterAlignment::GOOD:
+			break;
+		case CharacterAlignment::NEUTRAL:
+			break;
+		default:
+			break;
+		}
+		break;
+	default:
+		break;
+	}
+};
 
 // Set selected based upon the item index
 auto Sorcery::Menu::choose(const unsigned int index)

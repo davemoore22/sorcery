@@ -102,6 +102,23 @@ auto Sorcery::Create::stop() -> void {
 	_display.stop_background_movie();
 }
 
+auto Sorcery::Create::_go_to_previous_stage() -> void {
+
+	switch (_candidate->get_stage()) {
+
+	case CharacterStage::CHOOSE_RACE:
+		_candidate->set_stage(CharacterStage::ENTER_NAME);
+		_display.window->input_mode = WindowInputMode::INPUT_TEXT;
+	case CharacterStage::CHOOSE_ALIGNMENT:
+		_candidate->set_stage(CharacterStage::CHOOSE_RACE);
+		_race_menu->choose(_candidate->get_race());
+		_set_info_panel_contents(_race_menu->selected);
+	default:
+
+		break;
+	}
+}
+
 auto Sorcery::Create::_go_to_next_stage() -> void {
 
 	switch (_candidate->get_stage()) {
