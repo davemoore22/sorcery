@@ -55,6 +55,7 @@ namespace Sorcery {
 		auto choose_last() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto choose(const unsigned int index)
 			-> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto choose(std::any menu_option) -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto set_mouse_selected(sf::Vector2f mouse_pos)
 			-> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto check_menu_mouseover(sf::Vector2f mouse_pos)

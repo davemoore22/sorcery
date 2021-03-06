@@ -83,6 +83,15 @@ Sorcery::Menu::Menu(System &system, Display &display, Graphics &graphics, const 
 	case MenuType::ALLOCATE_CHARACTER_ATTRIBUTES:
 		break;
 	case MenuType::CHOOSE_CHARACTER_ALIGNMENT:
+		_add_item(0, MenuItemType::ENTRY, MenuItem::CA_GOOD,
+			(*_display.string)["CHARACTER_ALIGNMENT_GOOD"], true, ConfigOption::NONE,
+			(*_display.string)["HINT_CHARACTER_ALIGNMENT_GOOD"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::CA_NEUTRAL,
+			(*_display.string)["CHARACTER_ALIGNMENT_NEUTRAL"], true, ConfigOption::NONE,
+			(*_display.string)["HINT_CHARACTER_ALIGNMENT_NEUTRAL"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::CA_EVIL,
+			(*_display.string)["CHARACTER_ALIGNMENT_EVIL"], true, ConfigOption::NONE,
+			(*_display.string)["HINT_CHARACTER_ALIGNMENT_EVIL"]);
 		break;
 	case MenuType::CHOOSE_CHARACTER_CLASS:
 		break;
@@ -319,6 +328,10 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
 	// populated yet)
 	return std::nullopt;
 }
+
+// Set selected based upon the item passed in (using std::any!)
+auto Sorcery::Menu::choose(std::any menu_option)
+	-> std::optional<std::vector<MenuEntry>::const_iterator>{};
 
 // Set selected based upon the item index
 auto Sorcery::Menu::choose(const unsigned int index)

@@ -46,10 +46,13 @@ Sorcery::Create::Create(System &system, Display &display, Graphics &graphics)
 	_name_c = Component((*_display.layout)["character_create_stage_1:name_candidate"]);
 	_keyb_c = Component((*_display.layout)["character_create_stage_1:keyboard"]);
 	_ip_race_c = Component((*_display.layout)["character_create_stage_2:info_panel"]);
+	_ip_alignment_c = Component((*_display.layout)["character_create_stage_3:info_panel"]);
 
 	// Menus
 	_race_menu =
 		std::make_shared<Menu>(_system, _display, _graphics, MenuType::CHOOSE_CHARACTER_RACE);
+	_alignment_menu =
+		std::make_shared<Menu>(_system, _display, _graphics, MenuType::CHOOSE_CHARACTER_ALIGNMENT);
 }
 
 // Standard Destructor
@@ -108,6 +111,12 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		_race_menu->selected = _race_menu->items.begin();
 		_set_info_panel_contents(_race_menu->selected);
 		break;
+	case CharacterStage::CHOOSE_RACE:
+		_candidate->set_stage(CharacterStage::CHOOSE_ALIGNMENT);
+		_display.window->input_mode = WindowInputMode::NORMAL;
+		_alignment_menu->selected = _alignment_menu->items.begin();
+		_set_info_panel_contents(_alignment_menu->selected);
+		break;
 	default:
 
 		break;
@@ -126,7 +135,7 @@ auto Sorcery::Create::_do_event_loop() -> std::optional<ModuleResult> {
 				if (module_result.value() == ModuleResult::CLOSE)
 					return ModuleResult::CLOSE;
 				if (module_result.value() == ModuleResult::BACK)
-					return ModuleResult::BACK;
+					_go_to_previous_stage();
 				if (module_result.value() == ModuleResult::EXIT)
 					return ModuleResult::EXIT;
 				if (module_result.value() == ModuleResult::CANCEL)
@@ -173,7 +182,7 @@ auto Sorcery::Create::_generate_character(const sf::Event &event) -> std::option
 		std::optional<std::string> mouse_selected{};
 		sf::Vector2f mouse_pos;
 
-		candidate_name = _candidate->name();
+		candidate_name = _candidate->get_name();
 		if (_system.input->check_for_event(WindowInput::MOVE, event)) {
 
 			mouse_pos = static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window));
@@ -185,7 +194,7 @@ auto Sorcery::Create::_generate_character(const sf::Event &event) -> std::option
 				   (_system.input->check_for_event(WindowInput::SPACE, event))) {
 			if (candidate_name.length() < 24) {
 				candidate_name += static_cast<char>(event.text.unicode);
-				_candidate->name(candidate_name);
+				_candidate->set_name(candidate_name);
 			}
 			if (static_cast<char>(event.text.unicode) == ' ') {
 				std::string key_pressed{"Spc"};
@@ -199,7 +208,7 @@ auto Sorcery::Create::_generate_character(const sf::Event &event) -> std::option
 				   (_system.input->check_for_event(WindowInput::BACK, event))) {
 			if (candidate_name.length() > 0) {
 				candidate_name.pop_back();
-				_candidate->name(candidate_name);
+				_candidate->set_name(candidate_name);
 				std::string key_pressed{"Del"};
 				_keyboard->selected = key_pressed;
 			}
@@ -212,26 +221,28 @@ auto Sorcery::Create::_generate_character(const sf::Event &event) -> std::option
 			} else if (_keyboard->selected == "Spc") {
 				if (candidate_name.length() < 24) {
 					candidate_name += " ";
-					_candidate->name(candidate_name);
+					_candidate->set_name(candidate_name);
 				}
 			} else if (_keyboard->selected == "Del") {
 				if (candidate_name.length() > 0) {
 					candidate_name.pop_back();
-					_candidate->name(candidate_name);
+					_candidate->set_name(candidate_name);
 				}
 			} else {
 				candidate_name += _keyboard->selected;
-				_candidate->name(candidate_name);
+				_candidate->set_name(candidate_name);
 			}
 		} else if (_system.input->check_for_event(WindowInput::CONFIRM_NO_SPACE, event)) {
 
 			if (_keyboard->selected == "End") {
 				if (TRIM_COPY(candidate_name).length() > 0) {
+					_candidate->set_name(candidate_name);
 					_go_to_next_stage();
 					return std::nullopt;
 				}
 			} else {
 				if (TRIM_COPY(candidate_name).length() > 0) {
+					_candidate->set_name(candidate_name);
 					_go_to_next_stage();
 					return std::nullopt;
 				}
@@ -261,26 +272,71 @@ auto Sorcery::Create::_generate_character(const sf::Event &event) -> std::option
 
 			// We have selected something from the menu
 			if (race_selected) {
-				const MenuItem option_chosen{(*race_selected.value()).item};
 
-				/* if (option_chosen == MenuItem::TR_EDGE_OF_TOWN) {
-						return MenuItem::ET_LEAVE_GAME;
-					} else if (option_chosen == MenuItem::TR_CREATE) {
-						_create->start();
-						_create->stop();
-						_display.window->input_mode = WindowInputMode::NORMAL;
-					} */
+				switch (const MenuItem option_chosen{(*race_selected.value()).item}) {
+				case MenuItem::CR_HUMAN:
+					_candidate->set_race(CharacterRace::HUMAN);
+					break;
+				case MenuItem::CR_ELF:
+					_candidate->set_race(CharacterRace::ELF);
+					break;
+				case MenuItem::CR_DWARF:
+					_candidate->set_race(CharacterRace::DWARF);
+					break;
+				case MenuItem::CR_GNOME:
+					_candidate->set_race(CharacterRace::GNOME);
+					break;
+				case MenuItem::CR_HOBBIT:
+					_candidate->set_race(CharacterRace::HOBBIT);
+					break;
+				default:
+
+					break;
+				}
+				_go_to_next_stage();
+				return std::nullopt;
 			}
 		}
 
 		_set_info_panel_contents(_race_menu->selected);
-		/* if ((*_race_menu->selected).type == MenuItemType::ENTRY) {
-			std::string ip_contents{(*_race_menu->selected).hint};
-			_ip->set(ip_contents);
-			_ip->valid = true;
-		} else {
-			_ip->valid = false;
-		} */
+
+		return std::nullopt;
+	} else if (_candidate->get_stage() == CharacterStage::CHOOSE_ALIGNMENT) {
+
+		std::optional<std::vector<MenuEntry>::const_iterator> alignment_selected{
+			_alignment_menu->selected};
+		if (_system.input->check_for_event(WindowInput::UP, event))
+			alignment_selected = _alignment_menu->choose_previous();
+		else if (_system.input->check_for_event(WindowInput::DOWN, event))
+			alignment_selected = _alignment_menu->choose_next();
+		else if (_system.input->check_for_event(WindowInput::MOVE, event))
+			alignment_selected = _alignment_menu->set_mouse_selected(
+				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
+
+			// We have selected something from the menu
+			if (alignment_selected) {
+
+				switch (const MenuItem option_chosen{(*alignment_selected.value()).item}) {
+				case MenuItem::CA_GOOD:
+					//_candidate->set_race(CharacterRace::HUMAN);
+					break;
+				case MenuItem::CA_NEUTRAL:
+					//_candidate->set_race(CharacterRace::ELF);
+					break;
+				case MenuItem::CA_EVIL:
+					//_candidate->set_race(CharacterRace::DWARF);
+					break;
+				default:
+
+					break;
+				}
+				//_go_to_next_stage();
+				return std::nullopt;
+			}
+		}
+
+		_set_info_panel_contents(_alignment_menu->selected);
 
 		return std::nullopt;
 	}
@@ -319,7 +375,7 @@ auto Sorcery::Create::_draw() -> void {
 			"character_create_stage_1", _candidate->sprites, _candidate->texts, _candidate->frames);
 
 		// TODO: use character-<draw for this!
-		display_name = _candidate->name() + "_";
+		display_name = _candidate->get_name() + "_";
 		_display.window->draw_text(name_text, _name_c, display_name, lerp);
 
 		// Draw the On Screen Keyboard
@@ -340,6 +396,23 @@ auto Sorcery::Create::_draw() -> void {
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
 			_ip->setPosition(_ip_race_c.x, _ip_race_c.y);
+			_window->draw(*_ip);
+		}
+	} else if (_candidate->get_stage() == CharacterStage::CHOOSE_ALIGNMENT) {
+
+		_display.display_components(
+			"character_create_stage_3", _candidate->sprites, _candidate->texts, _candidate->frames);
+
+		double lerp{_graphics.animation->colour_lerp};
+		_alignment_menu->generate((*_display.layout)["character_create_stage_3:menu"], lerp);
+		const sf::Vector2f menu_pos((*_display.layout)["character_create_stage_3:menu"].x,
+			(*_display.layout)["character_create_stage_3:menu"].y);
+		_alignment_menu->setPosition(menu_pos);
+		_window->draw(*_alignment_menu);
+
+		// Display bottom text depending on the menu item selected
+		if (_ip->valid) {
+			_ip->setPosition(_ip_alignment_c.x, _ip_alignment_c.y);
 			_window->draw(*_ip);
 		}
 	}

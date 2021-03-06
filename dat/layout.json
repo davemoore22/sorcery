@@ -994,6 +994,82 @@
 			"drawmode": "manual"
 		}
 		]
+	},
+	{
+		"name": "character_create_stage_3",
+		"component": [
+		{
+			"name": "stage_frame",
+			"w": "40",
+			"h": "2",
+			"x": "centre",
+			"y": "7",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "2"
+		},
+		{
+			"name": "title_text",
+			"x": "centre",
+			"y": "8",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CHARACTER_CREATION_STAGE3",
+			"justification": "centre",
+			"type": "text",
+			"priority": "3"
+		},
+		{
+			"name": "menu_frame",
+			"w": "25",
+			"h": "5",
+			"x": "centre",
+			"y": "16",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "6",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "menu",
+			"x": "28",
+			"y": "16",
+			"w": "24",
+			"h": "5",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"animated": "true",
+			"width": "25",
+			"background": "0x6060c8ff",
+			"justification": "centre",
+			"type": "menu",
+			"priority": "10"
+		},
+		{
+			"name": "explanation_frame",
+			"w": "40",
+			"h": "6",
+			"x": "centre",
+			"y": "26",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "6",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "info_panel",
+			"w": "38",
+			"h": "4",
+			"x": "19",
+			"y": "26",
+			"alpha": "255",
+			"type": "panel",
+			"priority": "6",
+			"drawmode": "manual"
+		}
+		]
 	}
 	]
   }

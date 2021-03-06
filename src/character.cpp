@@ -124,9 +124,6 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 	// Also need methods to boost to next stage from start, e.g. random name or race, and going into
 	// create immediately sets that
 
-	// Also need, similar to tooltip, an explanation box drawable containing a frame, and a text
-	// that can be set when a race/alignment etc are selected
-
 	// As well as a summary display of character (to be displayed where?)
 
 	// Also handle going back to previous stage as well
@@ -179,19 +176,50 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 		_spells.clear();
 		_create_spell_lists();
 		break;
+	case CharacterStage::CHOOSE_ALIGNMENT:
+		_display.generate_components("character_create_stage_3", sprites, texts, frames);
+		_display.window->input_mode = WindowInputMode::NORMAL;
+		_start_attr.clear();
+		_cur_attr.clear();
+		_max_attr.clear();
+		//_status.clear();
+		_abilities.clear();
+		_class = CharacterClass::NONE;
+		_alignment = CharacterAlignment::NONE;
+		_points_left = 0;
+		_st_points = 0;
+		_pos_classes.clear();
+		_num_pos_classes = 0;
+		_portrait_index = 0;
+		_cleric_max_sp.clear();
+		_cleric_cur_sp.clear();
+		_mage_max_sp.clear();
+		_mage_cur_sp.clear();
+		_spells.clear();
+		_create_spell_lists();
 	default:
 		break;
 	}
 }
 
-auto Sorcery::Character::name() const -> std::string {
+auto Sorcery::Character::get_name() const -> std::string {
 
 	return _name;
 }
 
-auto Sorcery::Character::name(const std::string &value) -> void {
+auto Sorcery::Character::set_name(const std::string &value) -> void {
 
 	_name = value;
+}
+
+auto Sorcery::Character::get_race() const -> CharacterRace {
+
+	return _race;
+}
+
+auto Sorcery::Character::set_race(const CharacterRace &value) -> void {
+
+	_race = value;
 }
 
 // Given a character's current stats and alignment, work out what classes are available

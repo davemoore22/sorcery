@@ -59,8 +59,10 @@ namespace Sorcery {
 		auto get_class(const CharacterClass cclass) const -> std::string;
 		auto create_random() -> void;
 
-		auto name() const -> std::string;
-		auto name(const std::string &value) -> void;
+		auto get_name() const -> std::string;
+		auto set_name(const std::string &value) -> void;
+		auto get_race() const -> CharacterRace;
+		auto set_race(const CharacterRace &value) -> void;
 
 		// Public Members
 		std::map<std::string, sf::Sprite> sprites;

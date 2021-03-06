@@ -122,6 +122,9 @@
 	"HINT_CHARACTER_RACE_DWARF":  "Dwarves are stronger, more pious, and considerably#sturdier than Humans, though not as agile. They are#often Fighters, Priests, or Samurai.",
 	"HINT_CHARACTER_RACE_GNOME":  "Gnomes are slightly less clever and not as strong#as Humans, but in comparison are often more pious and#more agile. They can be good Priests, Thieves, or even#Samurai.",
 	"HINT_CHARACTER_RACE_HOBBIT": "Hobbits have the highest initial attribute total,#but that's because their luck starts out so much higher#than any other race. Their strength and vitality are#much less than Humans but they are very agile.#They often end up being Thieves, Lords, or even Ninjas.",
+	"HINT_CHARACTER_ALIGNMENT_GOOD": "Good Characters will not (if alignment restrictions are enforced)#voluntarily occupy a party with an Evil Character. Thieves#cannot be of good alignment, and both Samurai and Lords must be.",
+	"HINT_CHARACTER_ALIGNMENT_NEUTRAL": "Neutral Characters will get along with everyone. They can be every#class apart from Ninjas, Samurai, Lords, and Bishops.",
+	"HINT_CHARACTER_ALIGNMENT_EVIL": "Evil Characters will not (if alignment restrictions are enforced)#voluntarily occupy a party with a Good Character. Only Evil#Characterscan be Ninjas, and cannot be Samurai or Lords.",
 
 
 
