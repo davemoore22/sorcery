@@ -109,10 +109,12 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 	case CharacterStage::CHOOSE_RACE:
 		_candidate->set_stage(CharacterStage::ENTER_NAME);
 		_display.window->input_mode = WindowInputMode::INPUT_TEXT;
+		break;
 	case CharacterStage::CHOOSE_ALIGNMENT:
 		_candidate->set_stage(CharacterStage::CHOOSE_RACE);
 		_race_menu->choose(_candidate->get_race());
 		_set_info_panel_contents(_race_menu->selected);
+		break;
 	default:
 
 		break;
@@ -187,6 +189,10 @@ auto Sorcery::Create::_handle_input(const sf::Event &event) -> std::optional<Mod
 		return ModuleResult::EXIT;
 	else if (_system.input->check_for_event(WindowInput::CANCEL, event))
 		return ModuleResult::CANCEL;
+	else if (_candidate->get_stage() != CharacterStage::ENTER_NAME) {
+		if (_system.input->check_for_event(WindowInput::BACK, event))
+			return ModuleResult::BACK;
+	}
 
 	return std::nullopt;
 }

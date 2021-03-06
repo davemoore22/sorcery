@@ -333,42 +333,61 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
 auto Sorcery::Menu::choose(std::any option)
 	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
+	bool found{false};
+	MenuItem search_for{MenuItem::NONE};
 	switch (_type) {
 	case MenuType::CHOOSE_CHARACTER_RACE:
 		switch (const CharacterRace character_race{std::any_cast<CharacterRace>(option)}) {
 		case CharacterRace::DWARF:
-			// find menu option corresponding to MenuOption::CR_DRAWD and set it, also setting
-			// selected
+			search_for = MenuItem::CR_DWARF;
 			break;
 		case CharacterRace::ELF:
+			search_for = MenuItem::CR_ELF;
 			break;
 		case CharacterRace::GNOME:
+			search_for = MenuItem::CR_GNOME;
 			break;
 		case CharacterRace::HOBBIT:
+			search_for = MenuItem::CR_HOBBIT;
 			break;
 		case CharacterRace::HUMAN:
+			search_for = MenuItem::CR_HUMAN;
 			break;
 		default:
 			break;
 		}
-
 		break;
 	case MenuType::CHOOSE_CHARACTER_ALIGNMENT:
 		switch (const CharacterAlignment character_alignment{
 			std::any_cast<CharacterAlignment>(option)}) {
 		case CharacterAlignment::EVIL:
+			search_for = MenuItem::CA_EVIL;
 			break;
 		case CharacterAlignment::GOOD:
+			search_for = MenuItem::CA_GOOD;
 			break;
 		case CharacterAlignment::NEUTRAL:
+			search_for = MenuItem::CA_NEUTRAL;
 			break;
 		default:
 			break;
 		}
 		break;
 	default:
+		return std::nullopt;
 		break;
 	}
+
+	std::vector<MenuEntry>::const_iterator working{items.begin()};
+	do {
+		found = (*working).item == search_for;
+		++working;
+	} while ((working > items.begin()) && (!found));
+	if (found) {
+		selected = working;
+		return selected;
+	} else
+		return std::nullopt;
 };
 
 // Set selected based upon the item index
