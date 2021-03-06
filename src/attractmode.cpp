@@ -42,7 +42,7 @@ auto Sorcery::AttractMode::generate() -> void {
 		data = data_temp;
 
 		// Work out the new size
-		const unsigned int number_to_display{static_cast<unsigned int>(data_temp.size())};
+		const auto number_to_display{static_cast<unsigned int>(data_temp.size())};
 		const sf::Vector2f texture_size(
 			_cs_width * number_to_display + (_cs_spacing * (number_to_display - 1)), _cs_height);
 

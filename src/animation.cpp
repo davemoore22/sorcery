@@ -143,9 +143,9 @@ auto Sorcery::Animation::_do_attract_mode_animation() -> void {
 
 	std::scoped_lock<std::mutex> _scoped_lock(_attract_mutex);
 	unsigned int sprite_index{};
-	const unsigned int num{(*_system.random)[RandomType::D4]};
+	const auto num{(*_system.random)[RandomType::D4]};
 	_attract_mode.clear();
-	for (unsigned int i = 0; i < num; i++) {
+	for (auto i = 0u; i < num; i++) {
 		do {
 			sprite_index = (*_system.random)[RandomType::ZERO_TO_101];
 		} while (std::find(_attract_mode.begin(), _attract_mode.end(), sprite_index) !=

@@ -79,6 +79,10 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 	// Also need, similar to tooltip, an explanation box drawable containing a frame, and a text
 	// that can be set when a race/alignment etc are selected
 
+	// As well as a summary display of character (to be displayed where?)
+
+	// Also handle going back to previous stage as well
+
 	switch (stage) {
 	case CharacterStage::ENTER_NAME:
 		_display.generate_components("character_create_stage_1", sprites, texts, frames);

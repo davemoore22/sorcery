@@ -131,6 +131,7 @@ namespace Sorcery {
 	using MenuButtonState = Enums::Menu::ButtonState;
 	using MenuItemType = Enums::Menu::ItemType;
 	using Method = Enums::Manage::Method;
+	using ModuleResult = Enums::System::ModuleResult;
 	using RandomType = Enums::System::Random;
 	using Range = std::tuple<unsigned int, unsigned int>;
 	using Spell = Enums::Magic::Spell;

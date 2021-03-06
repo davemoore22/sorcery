@@ -52,6 +52,8 @@ namespace Sorcery {
 	  private:
 		// Private Methods
 		auto _draw() -> void;
+		auto _do_event_loop() -> std::optional<ModuleResult>;
+		auto _handle_input(const sf::Event &event) -> std::optional<ModuleResult>;
 
 		// Private Members
 		System _system;

@@ -319,6 +319,8 @@ namespace Sorcery {
 	// System
 	namespace Enums::System {
 
+		enum class ModuleResult { CLOSE, BACK };
+
 		// Random (Dice) Types
 		enum class Random {
 			D2,

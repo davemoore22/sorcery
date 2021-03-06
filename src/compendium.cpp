@@ -50,23 +50,34 @@ auto Sorcery::Compendium::start() -> void {
 	_display.fit_background_movie();
 	_display.start_background_movie();
 
-	_display.window->input_mode = WindowInputMode::DISPLAY_TEXT_FILE;
+	_display.window->input_mode = WindowInputMode::COMPENDIUM;
+
+	_do_event_loop();
+}
+
+auto Sorcery::Compendium::stop() -> void {
+
+	_display.stop_background_movie();
+}
+
+auto Sorcery::Compendium::_draw() -> void {
+
+	_display.display_components("compendium");
+	_display.display_cursor();
+}
+
+auto Sorcery::Compendium::_do_event_loop() -> std::optional<ModuleResult> {
 
 	// And do the main loop
-	sf::Event event{};
 	while (_window->isOpen()) {
+		sf::Event event{};
 		while (_window->pollEvent(event)) {
-
-			// Check for Window Close
-			if (event.type == sf::Event::Closed)
-				return;
-
-			if (_system.input->check_for_event(WindowInput::CANCEL, event)) {
-				return;
-			}
-
-			if (_system.input->check_for_event(WindowInput::BACK, event)) {
-				return;
+			auto const module_result = _handle_input(event);
+			if (module_result) {
+				if (module_result.value() == ModuleResult::CLOSE)
+					return ModuleResult::CLOSE;
+				if (module_result.value() == ModuleResult::BACK)
+					return ModuleResult::BACK;
 			}
 		}
 
@@ -79,15 +90,21 @@ auto Sorcery::Compendium::start() -> void {
 		_draw();
 		_window->display();
 	}
-}
 
-auto Sorcery::Compendium::stop() -> void {
+	return std::nullopt;
+};
 
-	_display.stop_background_movie();
-}
+auto Sorcery::Compendium::_handle_input(const sf::Event &event) -> std::optional<ModuleResult> {
 
-auto Sorcery::Compendium::_draw() -> void {
+	// Check for Window Close
+	if (event.type == sf::Event::Closed)
+		return ModuleResult::CLOSE;
 
-	_display.display_components("compendium");
-	_display.display_cursor();
+	if (_system.input->check_for_event(WindowInput::CANCEL, event))
+		return ModuleResult::CLOSE;
+
+	if (_system.input->check_for_event(WindowInput::BACK, event))
+		return ModuleResult::BACK;
+
+	return std::nullopt;
 }
