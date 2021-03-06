@@ -214,6 +214,7 @@ namespace Sorcery {
 
 		// State of Character Creation
 		enum class Stage {
+			NOT_BEGUN,
 			CHOOSE_RACE,
 			CHOOSE_ALIGNMENT,
 			ALLOCATE_STATS,

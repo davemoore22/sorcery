@@ -109,6 +109,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 	case CharacterStage::CHOOSE_RACE:
 		_candidate->set_stage(CharacterStage::ENTER_NAME);
 		_display.window->input_mode = WindowInputMode::INPUT_TEXT;
+
 		break;
 	case CharacterStage::CHOOSE_ALIGNMENT:
 		_candidate->set_stage(CharacterStage::CHOOSE_RACE);
