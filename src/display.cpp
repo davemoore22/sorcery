@@ -36,6 +36,30 @@ Sorcery::Display::Display(System *system) {
 	_background_movie.openFromFile(_system->files->get_path_as_string(MENU_VIDEO));
 }
 
+Sorcery::Display::Display(const Display &other)
+	: string{other.string}, window{other.window}, layout{other.layout},
+	  ui_texture{other.ui_texture}, _sprites{other._sprites}, _texts{other._texts},
+	  _frames{other._frames}, _system{other._system}, _background_movie{other._background_movie},
+	  _components{other._components} {}
+
+auto Sorcery::Display::operator=(const Display &other) -> Display & {
+
+	string = other.string;
+	window = other.window;
+	layout = other.layout;
+	ui_texture = other.ui_texture;
+
+	_sprites = other._sprites;
+	_texts = other._texts;
+	_frames = other._frames;
+	_system = other._system;
+
+	_background_movie = other._background_movie;
+	_components = other._components;
+
+	return *this;
+}
+
 auto Sorcery::Display::display_components(const std::string &screen,
 	std::map<std::string, sf::Sprite> &sprites, std::map<std::string, sf::Text> &texts,
 	std::map<std::string, std::shared_ptr<Frame>> &frames, std::optional<std::any> parameter)

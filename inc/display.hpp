@@ -47,6 +47,10 @@ namespace Sorcery {
 		Display(System *system);
 		Display() = delete;
 
+		// Copy Constructors
+		Display(const Display &other);
+		auto operator=(const Display &other) -> Display &;
+
 		// Public Methods
 		auto generate_components(const std::string &screen) -> void;
 		auto display_components(
@@ -78,11 +82,7 @@ namespace Sorcery {
 		std::map<std::string, std::shared_ptr<Frame>> _frames;
 		System *_system;
 		sfe::Movie _background_movie;
-
-		// then these can be sorted by component.priority and then we can sort the layering
 		std::map<Component, std::variant<sf::Sprite, sf::Text, std::shared_ptr<Frame>>> _components;
-
-		// attract mode to become an object too?
 
 		// Private Methods
 	};

@@ -32,6 +32,54 @@ Sorcery::Character::Character(System &system, Display &display, Graphics &graphi
 	_display.generate_components("character_create_stage_1", sprites, texts, frames);
 }
 
+// Note for the copy constuctors we only copy the character data/PODs within
+Sorcery::Character::Character(const Character &other)
+	: sprites{other.sprites}, texts{other.texts}, frames{other.frames}, _system{other._system},
+	  _display{other._display}, _graphics{other._graphics}, _abilities{other._abilities},
+	  _cleric_max_sp{other._cleric_max_sp}, _cleric_cur_sp{other._cleric_cur_sp},
+	  _mage_max_sp{other._mage_max_sp}, _mage_cur_sp{other._mage_cur_sp}, _spells{other._spells},
+	  _current_stage{other._current_stage}, _name{other._name}, _race{other._race},
+	  _class{other._class}, _alignment{other._alignment}, _start_attr{other._start_attr},
+	  _cur_attr{other._cur_attr}, _max_attr{other._max_attr}, _view{other._view},
+	  _points_left{other._points_left}, _st_points{other._st_points},
+	  _pos_classes{other._pos_classes}, _class_list{other._class_list},
+	  _num_pos_classes{other._num_pos_classes}, _portrait_index{other._portrait_index} {}
+
+auto Sorcery::Character::operator=(const Character &other) -> Character & {
+
+	sprites = other.sprites;
+	texts = other.texts;
+	frames = other.frames;
+
+	_system = other._system;
+	_display = other._display;
+	_graphics = other._graphics;
+
+	_abilities = other._abilities;
+	_cleric_max_sp = other._cleric_max_sp;
+	_cleric_cur_sp = other._cleric_cur_sp;
+	_mage_max_sp = other._mage_max_sp;
+	_mage_cur_sp = other._mage_cur_sp;
+	_spells = other._spells;
+	_current_stage = other._current_stage;
+	_name = other._name;
+	_race = other._race;
+	_class = other._class;
+	_alignment = other._alignment;
+	_start_attr = other._start_attr;
+	_cur_attr = other._cur_attr;
+	_max_attr = other._max_attr;
+	_view = other._view;
+	_points_left = other._points_left;
+	_st_points = other._st_points;
+	_pos_classes = other._pos_classes;
+	_class_list = other._class_list;
+	_num_pos_classes = other._num_pos_classes;
+	_portrait_index = other._portrait_index;
+
+	return *this;
+}
+
 auto Sorcery::Character::draw(
 	[[maybe_unused]] sf::RenderTarget &target, sf::RenderStates states) const -> void {
 

@@ -130,7 +130,7 @@
 1614551626 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
-1615044390 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
+1615047618 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
 1614978227 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
@@ -145,7 +145,7 @@
 1614617930 /home/dave/Development/wizardry/sorcery-sfml/inc/component.hpp
 	"main.hpp"
 
-1614377193 /home/dave/Development/wizardry/sorcery-sfml/inc/system.hpp
+1615062638 /home/dave/Development/wizardry/sorcery-sfml/inc/system.hpp
 	"config.hpp"
 	"database.hpp"
 	"file.hpp"
@@ -178,7 +178,7 @@
 	"main.hpp"
 	"textfile.hpp"
 
-1614885822 /home/dave/Development/wizardry/sorcery-sfml/inc/display.hpp
+1615061945 /home/dave/Development/wizardry/sorcery-sfml/inc/display.hpp
 	"frame.hpp"
 	"layout.hpp"
 	"main.hpp"
@@ -214,7 +214,7 @@
 	"splash.hpp"
 	"system.hpp"
 
-1614556711 /home/dave/Development/wizardry/sorcery-sfml/inc/graphics.hpp
+1615061819 /home/dave/Development/wizardry/sorcery-sfml/inc/graphics.hpp
 	"animation.hpp"
 	"display.hpp"
 	"main.hpp"
@@ -270,7 +270,7 @@
 1614984300 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
 	"character.hpp"
 
-1614805437 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
+1615061214 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
 	"display.hpp"
 	"graphics.hpp"
 	"main.hpp"
@@ -285,7 +285,7 @@
 1614983728 source:/home/dave/Development/wizardry/sorcery-sfml/src/create.cpp
 	"create.hpp"
 
-1614983717 /home/dave/Development/wizardry/sorcery-sfml/inc/create.hpp
+1615061195 /home/dave/Development/wizardry/sorcery-sfml/inc/create.hpp
 	"main.hpp"
 	"character.hpp"
 	"display.hpp"
@@ -437,7 +437,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1614969031 source:/home/dave/Development/wizardry/sorcery-sfml/src/compendium.cpp
+1615047164 source:/home/dave/Development/wizardry/sorcery-sfml/src/compendium.cpp
 	"compendium.hpp"
 
 1614555208 /home/dave/Development/wizardry/sorcery-sfml/inc/tooltip.hpp

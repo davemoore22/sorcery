@@ -29,3 +29,12 @@ Sorcery::Graphics::Graphics(System *system, Display *display) {
 
 	animation = std::make_shared<Animation>(*system, *display);
 }
+
+Sorcery::Graphics::Graphics(const Graphics &other) : animation{other.animation} {}
+
+auto Sorcery::Graphics::operator=(const Graphics &other) -> Graphics & {
+
+	animation = other.animation;
+
+	return *this;
+}

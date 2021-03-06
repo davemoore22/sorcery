@@ -41,6 +41,10 @@ namespace Sorcery {
 		Graphics(System *system, Display *display);
 		Graphics() = delete;
 
+		// Copy Constructors
+		Graphics(const Graphics &other);
+		auto operator=(const Graphics &other) -> Graphics &;
+
 		// Public Methods
 
 		// Public Members

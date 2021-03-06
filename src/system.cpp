@@ -37,15 +37,32 @@ Sorcery::System::System(int argc __attribute__((unused)), char **argv __attribut
 	settings->LoadFile(CSTR(settings_fp));
 	config = std::make_shared<Config>(settings.get(), (*files)[CONFIG_FILE]);
 
-	// Game Database
-	database = std::make_shared<Database>((*files)[DATABASE_FILE]);
-
 	// Random Module
 	random = std::make_shared<Random>();
+
+	// Game Database
+	database = std::make_shared<Database>((*files)[DATABASE_FILE]);
 
 	// Resource Manager
 	resources = std::make_shared<ResourceManager>(*files);
 
 	// Input Module
 	input = std::make_shared<Input>();
+}
+
+Sorcery::System::System(const System &other)
+	: files{other.files}, settings{other.settings}, config{other.config}, random{other.random},
+	  database{other.database}, resources{other.resources}, input{other.input} {}
+
+auto Sorcery::System::operator=(const System &other) -> System & {
+
+	files = other.files;
+	settings = other.settings;
+	config = other.config;
+	random = other.random;
+	database = other.database;
+	resources = other.resources;
+	input = other.input;
+
+	return *this;
 }

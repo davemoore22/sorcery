@@ -38,6 +38,10 @@ namespace Sorcery {
 		Character(System &system, Display &display, Graphics &graphics);
 		Character() = delete;
 
+		// Copy Constructors
+		Character(const Character &other);
+		auto operator=(const Character &other) -> Character &;
+
 		// Overloaded Operators
 		auto operator[](const CharacterAbility &key) -> int &;
 

@@ -52,7 +52,9 @@ auto Sorcery::Compendium::start() -> void {
 
 	_display.window->input_mode = WindowInputMode::COMPENDIUM;
 
-	_do_event_loop();
+	auto module_result = _do_event_loop();
+	if (module_result == ModuleResult::EXIT)
+		_window->close();
 }
 
 auto Sorcery::Compendium::stop() -> void {
@@ -78,6 +80,8 @@ auto Sorcery::Compendium::_do_event_loop() -> std::optional<ModuleResult> {
 					return ModuleResult::CLOSE;
 				if (module_result.value() == ModuleResult::BACK)
 					return ModuleResult::BACK;
+				if (module_result.value() == ModuleResult::EXIT)
+					return ModuleResult::EXIT;
 			}
 		}
 
@@ -92,13 +96,13 @@ auto Sorcery::Compendium::_do_event_loop() -> std::optional<ModuleResult> {
 	}
 
 	return std::nullopt;
-};
+}
 
 auto Sorcery::Compendium::_handle_input(const sf::Event &event) -> std::optional<ModuleResult> {
 
 	// Check for Window Close
 	if (event.type == sf::Event::Closed)
-		return ModuleResult::CLOSE;
+		return ModuleResult::EXIT;
 
 	if (_system.input->check_for_event(WindowInput::CANCEL, event))
 		return ModuleResult::CLOSE;
