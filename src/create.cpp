@@ -39,9 +39,15 @@ Sorcery::Create::Create(System &system, Display &display, Graphics &graphics)
 	// Create the On-Screen Keyboard
 	_keyboard = std::make_shared<Keyboard>(system, display, graphics);
 
+	// Get the Infopanel
+	_ip = std::make_shared<InfoPanel>(_system, _display, _graphics);
+
+	// Layout Information
 	_name_c = Component((*_display.layout)["character_create_stage_1:name_candidate"]);
 	_keyb_c = Component((*_display.layout)["character_create_stage_1:keyboard"]);
+	_ip_race_c = Component((*_display.layout)["character_create_stage_2:info_panel"]);
 
+	// Menus
 	_race_menu =
 		std::make_shared<Menu>(_system, _display, _graphics, MenuType::CHOOSE_CHARACTER_RACE);
 }
@@ -54,14 +60,16 @@ Sorcery::Create::~Create() {
 
 auto Sorcery::Create::start() -> std::optional<MenuItem> {
 
-	// Get the custom components //TODO: see if this can be done in sprites by extending the
-	// component object with the bg_rect?
+	// Get the custom components
 	const Component bg_c{(*_display.layout)["create:background"]};
 	const sf::IntRect bg_rect(1147, 249, 773, 388);
 	_bg.setTexture(_system.resources->textures[TOWN_TEXTURE]);
 	_bg.setTextureRect(bg_rect);
 	_bg.setScale(bg_c.scale, bg_c.scale);
 	_bg.setPosition(_display.window->get_x(_bg, bg_c.x), _display.window->get_y(_bg, bg_c.y));
+
+	// Don't display the info panel yet
+	_ip->valid = false;
 
 	// Get the Keyboard
 	_keyboard->setPosition(_keyb_c.x, _keyb_c.y);
@@ -91,48 +99,6 @@ auto Sorcery::Create::stop() -> void {
 	_display.stop_background_movie();
 }
 
-auto Sorcery::Create::_draw() -> void {
-
-	double lerp{_graphics.animation->colour_lerp};
-	sf::Text name_text;
-	std::string display_name{};
-
-	// Display Components
-	_display.display_components("create");
-
-	// Custom Layering
-	_window->draw(_bg);
-
-	// And draw the current state of the character!
-	if (_candidate->get_stage() == CharacterStage::ENTER_NAME) {
-
-		_display.display_components(
-			"character_create_stage_1", _candidate->sprites, _candidate->texts, _candidate->frames);
-
-		// TODO: use character-<draw for this!
-		display_name = _candidate->name() + "_";
-		_display.window->draw_text(name_text, _name_c, display_name, lerp);
-
-		// Draw the On Screen Keyboard
-		_keyboard->set_selected_background();
-		_window->draw(*_keyboard);
-	} else if (_candidate->get_stage() == CharacterStage::CHOOSE_RACE) {
-
-		_display.display_components(
-			"character_create_stage_2", _candidate->sprites, _candidate->texts, _candidate->frames);
-
-		double lerp{_graphics.animation->colour_lerp};
-		_race_menu->generate((*_display.layout)["character_create_stage_2:menu"], lerp);
-		const sf::Vector2f menu_pos((*_display.layout)["character_create_stage_2:menu"].x,
-			(*_display.layout)["character_create_stage_2:menu"].y);
-		_race_menu->setPosition(menu_pos);
-		_window->draw(*_race_menu);
-	}
-
-	// And finally the Cursor
-	_display.display_cursor();
-}
-
 auto Sorcery::Create::_go_to_next_stage() -> void {
 
 	switch (_candidate->get_stage()) {
@@ -140,6 +106,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		_candidate->set_stage(CharacterStage::CHOOSE_RACE);
 		_display.window->input_mode = WindowInputMode::NORMAL;
 		_race_menu->selected = _race_menu->items.begin();
+		_set_info_panel_contents(_race_menu->selected);
 		break;
 	default:
 
@@ -260,13 +227,13 @@ auto Sorcery::Create::_generate_character(const sf::Event &event) -> std::option
 
 			if (_keyboard->selected == "End") {
 				if (TRIM_COPY(candidate_name).length() > 0) {
-					_candidate->set_stage(CharacterStage::CHOOSE_RACE);
-					_display.window->input_mode = WindowInputMode::NORMAL;
+					_go_to_next_stage();
+					return std::nullopt;
 				}
 			} else {
 				if (TRIM_COPY(candidate_name).length() > 0) {
-					_candidate->set_stage(CharacterStage::CHOOSE_RACE);
-					_display.window->input_mode = WindowInputMode::NORMAL;
+					_go_to_next_stage();
+					return std::nullopt;
 				}
 			}
 		} else if (_system.input->check_for_event(WindowInput::LEFT, event))
@@ -277,6 +244,8 @@ auto Sorcery::Create::_generate_character(const sf::Event &event) -> std::option
 			_keyboard->set_selected(WindowInput::UP);
 		else if (_system.input->check_for_event(WindowInput::DOWN, event))
 			_keyboard->set_selected(WindowInput::DOWN);
+
+		return std::nullopt;
 
 	} else if (_candidate->get_stage() == CharacterStage::CHOOSE_RACE) {
 
@@ -303,7 +272,78 @@ auto Sorcery::Create::_generate_character(const sf::Event &event) -> std::option
 					} */
 			}
 		}
+
+		_set_info_panel_contents(_race_menu->selected);
+		/* if ((*_race_menu->selected).type == MenuItemType::ENTRY) {
+			std::string ip_contents{(*_race_menu->selected).hint};
+			_ip->set(ip_contents);
+			_ip->valid = true;
+		} else {
+			_ip->valid = false;
+		} */
+
+		return std::nullopt;
 	}
 
 	return std::nullopt;
+}
+
+auto Sorcery::Create::_set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it)
+	-> void {
+
+	if ((*it).type == MenuItemType::ENTRY) {
+		std::string ip_contents{(*it).hint};
+		_ip->set(ip_contents);
+		_ip->valid = true;
+	} else {
+		_ip->valid = false;
+	}
+}
+
+auto Sorcery::Create::_draw() -> void {
+
+	double lerp{_graphics.animation->colour_lerp};
+	sf::Text name_text;
+	std::string display_name{};
+
+	// Display Components
+	_display.display_components("create");
+
+	// Custom Layering
+	_window->draw(_bg);
+
+	// And draw the current state of the character!
+	if (_candidate->get_stage() == CharacterStage::ENTER_NAME) {
+
+		_display.display_components(
+			"character_create_stage_1", _candidate->sprites, _candidate->texts, _candidate->frames);
+
+		// TODO: use character-<draw for this!
+		display_name = _candidate->name() + "_";
+		_display.window->draw_text(name_text, _name_c, display_name, lerp);
+
+		// Draw the On Screen Keyboard
+		_keyboard->set_selected_background();
+		_window->draw(*_keyboard);
+	} else if (_candidate->get_stage() == CharacterStage::CHOOSE_RACE) {
+
+		_display.display_components(
+			"character_create_stage_2", _candidate->sprites, _candidate->texts, _candidate->frames);
+
+		double lerp{_graphics.animation->colour_lerp};
+		_race_menu->generate((*_display.layout)["character_create_stage_2:menu"], lerp);
+		const sf::Vector2f menu_pos((*_display.layout)["character_create_stage_2:menu"].x,
+			(*_display.layout)["character_create_stage_2:menu"].y);
+		_race_menu->setPosition(menu_pos);
+		_window->draw(*_race_menu);
+
+		// Display bottom text depending on the menu item selected
+		if (_ip->valid) {
+			_ip->setPosition(_ip_race_c.x, _ip_race_c.y);
+			_window->draw(*_ip);
+		}
+	}
+
+	// And finally the Cursor
+	_display.display_cursor();
 }

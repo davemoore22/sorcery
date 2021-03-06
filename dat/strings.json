@@ -117,11 +117,11 @@
 	"CHARACTER_CREATION_STAGE6": "STAGE 6/7: CHOOSE PORTRAIT",
 	"CHARACTER_CREATION_STAGE7": "STAGE 7/7: REVIEW AND CONFIRM",
 	"CHARACTER_CREATION_INPUT_NAME": "ENTER NAME:",
-	"HINT_CHARACTER_RACE_HUMAN": "Humans are the most balanced of all the races, but they suffer from the lowest initial attribute total. They make excellent Fighters, Mages, or Thieves.",
-	"HINT_CHARACTER_RACE_ELF": "Elves are somewhat less sturdy than Humans, but tend to be more clever and pious, and often tend towards Mages, Priests, Bishops, or Samurai.",
-	"HINT_CHARACTER_RACE_DWARF": "Dwarves are stronger, more pious, and considerably sturdier than Humans, though not as agile. They are often Fighters, Priests, or Samurai.",
-	"HINT_CHARACTER_RACE_GNOME": "Gnomes are slightly less clever and not as strong as Humans, but in comparison are often more pious and more agile. They can be good Priests, Thieves, or even Samurai.",
-	"HINT_CHARACTER_RACE_HOBBIT": "Hobbits have the highest initial attribute total, but that's because their luck starts out so much higher than any other race. Their strength and vitality are much less than Humans but they are very agile. They often end up being Thieves, Lords, or even Ninjas.",
+	"HINT_CHARACTER_RACE_HUMAN":  "Humans are the most balanced of all the races#but they suffer from the lowest initial attribute total.#They make excellent Fighters, Mages, or Thieves.",
+	"HINT_CHARACTER_RACE_ELF":    "Elves are somewhat less sturdy than Humans, but#tend to be more clever and pious, and often tend towards#Mages, Priests, Bishops, or Samurai.",
+	"HINT_CHARACTER_RACE_DWARF":  "Dwarves are stronger, more pious, and considerably#sturdier than Humans, though not as agile. They are#often Fighters, Priests, or Samurai.",
+	"HINT_CHARACTER_RACE_GNOME":  "Gnomes are slightly less clever and not as strong#as Humans, but in comparison are often more pious and#more agile. They can be good Priests, Thieves, or even#Samurai.",
+	"HINT_CHARACTER_RACE_HOBBIT": "Hobbits have the highest initial attribute total,#but that's because their luck starts out so much higher#than any other race. Their strength and vitality are#much less than Humans but they are very agile.#They often end up being Thieves, Lords, or even Ninjas.",
 
 
 

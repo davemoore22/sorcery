@@ -31,15 +31,18 @@ Sorcery::Options::Options(System &system, Display &display, Graphics &graphics)
 	// Get the Window and Graphics to Display
 	_window = _display.window->get_window();
 
+	// Menu and Options
 	_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::OPTIONS);
 	_option_on = Component((*_display.layout)["options:on"]);
 	_option_off = Component((*_display.layout)["options:off"]);
 
+	// Get the Tooltip
 	_tt = std::make_shared<Tooltip>(_system, _display, _graphics);
 
 	// Get the Display Components
 	_display.generate_components("options");
 
+	// Create the Confirmation Boxes
 	_confirm_save = std::make_shared<Confirm>(_system, _display, _graphics,
 		(*_display.layout)["options:save_frame"], (*_display.layout)["options:save_text"]);
 	_confirm_cancel = std::make_shared<Confirm>(_system, _display, _graphics,

@@ -24,57 +24,42 @@
 
 #pragma once
 
-#include "character.hpp"
 #include "display.hpp"
-#include "frame.hpp"
 #include "graphics.hpp"
-#include "infopanel.hpp"
-#include "keyboard.hpp"
 #include "layout.hpp"
 #include "main.hpp"
-#include "menu.hpp"
 #include "system.hpp"
 
 namespace Sorcery {
 
-	class Create {
+	class Display;
+
+	class InfoPanel : public sf::Transformable, public sf::Drawable {
 
 	  public:
-		// Constructor
-		Create(System &system, Display &display, Graphics &graphics);
-		Create() = delete;
-
-		// Destructor
-		~Create();
+		// Constructors
+		InfoPanel(System &system, Display &display, Graphics &graphics);
+		InfoPanel() = delete;
 
 		// Public Members
+		bool valid;
 
 		// Public Methods
-		auto start() -> std::optional<MenuItem>;
-		auto stop() -> void;
+		auto set(const std::string &string) -> void;
 
 	  private:
 		// Private Methods
-		auto _draw() -> void;
-		auto _do_event_loop() -> std::optional<ModuleResult>;
-		auto _handle_input(const sf::Event &event) -> std::optional<ModuleResult>;
-		auto _generate_character(const sf::Event &event) -> std::optional<ModuleResult>;
-		auto _go_to_next_stage() -> void;
-		auto _go_to_previous_stage() -> void;
-		auto _set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void;
+		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
 		System _system;
 		Display _display;
 		Graphics _graphics;
-		sf::RenderWindow *_window;
-		sf::Sprite _bg;
-		std::shared_ptr<Character> _candidate;
-		Component _name_c;
-		Component _keyb_c;
-		Component _ip_race_c;
-		std::shared_ptr<Keyboard> _keyboard;
-		std::shared_ptr<Menu> _race_menu;
-		std::shared_ptr<InfoPanel> _ip;
+		Component _layout;
+		unsigned int _width;
+		unsigned int _height;
+		std::string _string;
+		std::vector<std::string> _strings;
+		std::vector<sf::Text> _texts;
 	};
 } // namespace Sorcery

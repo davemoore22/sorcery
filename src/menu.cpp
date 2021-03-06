@@ -89,16 +89,21 @@ Sorcery::Menu::Menu(System &system, Display &display, Graphics &graphics, const 
 	case MenuType::CHOOSE_CHARACTER_PORTRAIT:
 		break;
 	case MenuType::CHOOSE_CHARACTER_RACE:
-		_add_item(
-			0, MenuItemType::ENTRY, MenuItem::CR_HUMAN, (*_display.string)["CHARACTER_RACE_HUMAN"]);
-		_add_item(
-			1, MenuItemType::ENTRY, MenuItem::CR_ELF, (*_display.string)["CHARACTER_RACE_ELF"]);
-		_add_item(
-			2, MenuItemType::ENTRY, MenuItem::CR_DWARF, (*_display.string)["CHARACTER_RACE_DWARF"]);
-		_add_item(
-			3, MenuItemType::ENTRY, MenuItem::CR_GNOME, (*_display.string)["CHARACTER_RACE_GNOME"]);
+		_add_item(0, MenuItemType::ENTRY, MenuItem::CR_HUMAN,
+			(*_display.string)["CHARACTER_RACE_HUMAN"], true, ConfigOption::NONE,
+			(*_display.string)["HINT_CHARACTER_RACE_HUMAN"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::CR_ELF,
+			(*_display.string)["CHARACTER_RACE_ELF"], true, ConfigOption::NONE,
+			(*_display.string)["HINT_CHARACTER_RACE_ELF"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::CR_DWARF,
+			(*_display.string)["CHARACTER_RACE_DWARF"], true, ConfigOption::NONE,
+			(*_display.string)["HINT_CHARACTER_RACE_DWARF"]);
+		_add_item(3, MenuItemType::ENTRY, MenuItem::CR_GNOME,
+			(*_display.string)["CHARACTER_RACE_GNOME"], true, ConfigOption::NONE,
+			(*_display.string)["HINT_CHARACTER_RACE_GNOME"]);
 		_add_item(4, MenuItemType::ENTRY, MenuItem::CR_HUMAN,
-			(*_display.string)["CHARACTER_RACE_HOBBIT"]);
+			(*_display.string)["CHARACTER_RACE_HOBBIT"], true, ConfigOption::NONE,
+			(*_display.string)["HINT_CHARACTER_RACE_HOBBIT"]);
 		selected = items.begin();
 		break;
 	case MenuType::OPTIONS:
