@@ -406,7 +406,7 @@ auto Sorcery::Menu::choose(std::any option)
 		return selected;
 	} else
 		return std::nullopt;
-};
+}
 
 // Set selected based upon the item index
 auto Sorcery::Menu::choose(const unsigned int index)

@@ -130,7 +130,7 @@
 1614551626 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
-1615128020 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
+1615134927 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
 1614978227 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
@@ -267,10 +267,10 @@
 1614617911 source:/home/dave/Development/wizardry/sorcery-sfml/src/banner.cpp
 	"banner.hpp"
 
-1615128939 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
+1615142671 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
 	"character.hpp"
 
-1615127911 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
+1615134567 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
 	"display.hpp"
 	"graphics.hpp"
 	"main.hpp"
@@ -282,10 +282,11 @@
 1614621062 source:/home/dave/Development/wizardry/sorcery-sfml/src/config.cpp
 	"config.hpp"
 
-1615129769 source:/home/dave/Development/wizardry/sorcery-sfml/src/create.cpp
+1615145563 source:/home/dave/Development/wizardry/sorcery-sfml/src/create.cpp
 	"create.hpp"
 
-1615127759 /home/dave/Development/wizardry/sorcery-sfml/inc/create.hpp
+1615131310 /home/dave/Development/wizardry/sorcery-sfml/inc/create.hpp
+	"allocatepanel.hpp"
 	"character.hpp"
 	"display.hpp"
 	"frame.hpp"
@@ -340,7 +341,7 @@
 1614621285 source:/home/dave/Development/wizardry/sorcery-sfml/src/map.cpp
 	"map.hpp"
 
-1615127746 source:/home/dave/Development/wizardry/sorcery-sfml/src/menu.cpp
+1615135730 source:/home/dave/Development/wizardry/sorcery-sfml/src/menu.cpp
 	"menu.hpp"
 
 1597513199 source:/home/dave/Development/wizardry/sorcery-sfml/src/menubutton.cpp
@@ -588,4 +589,15 @@
 
 1615064947 source:/home/dave/Development/wizardry/sorcery-sfml/src/infopanel.cpp
 	"infopanel.hpp"
+
+1615145267 /home/dave/Development/wizardry/sorcery-sfml/inc/allocatepanel.hpp
+	"character.hpp"
+	"display.hpp"
+	"graphics.hpp"
+	"layout.hpp"
+	"main.hpp"
+	"system.hpp"
+
+1615145310 source:/home/dave/Development/wizardry/sorcery-sfml/src/allocatepanel.cpp
+	"allocatepanel.hpp"
 

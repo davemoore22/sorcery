@@ -58,6 +58,7 @@ namespace Sorcery {
 		auto get_race(const CharacterRace race) const -> std::string;
 		auto get_class(const CharacterClass cclass) const -> std::string;
 		auto create_random() -> void;
+		auto set_starting_attributes() -> void;
 
 		auto get_name() const -> std::string;
 		auto set_name(const std::string &value) -> void;
@@ -65,6 +66,8 @@ namespace Sorcery {
 		auto set_race(const CharacterRace &value) -> void;
 		auto get_alignment() const -> CharacterAlignment;
 		auto set_alignment(const CharacterAlignment &value) -> void;
+		auto get_current_attributes() const -> CharacterAttributes;
+		auto get_starting_attributes() const -> CharacterAttributes;
 
 		// Public Members
 		std::map<std::string, sf::Sprite> sprites;

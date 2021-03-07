@@ -20,6 +20,15 @@
 			"alpha": "255",
 			"type": "panel",
 			"drawmode": "manual"
+		},
+		{
+			"name": "allocate_panel",
+			"font": "text",
+			"size": "36",
+			"colour": "0xffff33ff",
+			"alpha": "255",
+			"type": "panel",
+			"drawmode": "manual"
 		}
 		]
 	},
@@ -1072,6 +1081,63 @@
 		]
 	},
 	{
+		"name": "allocate_panel",
+		"component": [
+		{
+			"name": "to_allocate_text",
+			"x": "36",
+			"y": "21",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CHARACTER_STAT_TO_ALLOCATE",
+			"justification": "right",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "bonus_points",
+			"x": "34",
+			"y": "22",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CHARACTER_STAT_BONUS_POINTS",
+			"justification": "right",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "to_allocate_number",
+			"x": "46",
+			"y": "21",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CHARACTER_STAT_TO_ALLOCATE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "bonus_points_number",
+			"x": "46",
+			"y": "22",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CHARACTER_STAT_BONUS_POINTS",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		}
+		]
+	},
+	{
 		"name": "character_create_stage_4",
 		"component": [
 		{
@@ -1099,9 +1165,9 @@
 		{
 			"name": "menu_frame",
 			"w": "40",
-			"h": "8",
+			"h": "14",
 			"x": "centre",
-			"y": "16",
+			"y": "12",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
@@ -1110,7 +1176,7 @@
 		{
 			"name": "menu",
 			"x": "24",
-			"y": "16",
+			"y": "13",
 			"w": "10",
 			"h": "5",
 			"font": "monospace",
@@ -1140,6 +1206,17 @@
 			"h": "6",
 			"x": "19",
 			"y": "26",
+			"alpha": "255",
+			"type": "panel",
+			"priority": "6",
+			"drawmode": "manual"
+		},
+		{
+			"name": "allocate_panel",
+			"w": "38",
+			"h": "10",
+			"x": "32",
+			"y": "14",
 			"alpha": "255",
 			"type": "panel",
 			"priority": "6",

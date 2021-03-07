@@ -105,6 +105,7 @@
 		<Unit filename="gfx/splash.png" />
 		<Unit filename="gfx/town.png" />
 		<Unit filename="gfx/ui.png" />
+		<Unit filename="inc/allocatepanel.hpp" />
 		<Unit filename="inc/animation.hpp" />
 		<Unit filename="inc/application.hpp" />
 		<Unit filename="inc/attractmode.hpp" />
@@ -156,6 +157,7 @@
 		<Unit filename="inc/tooltip.hpp" />
 		<Unit filename="inc/type.hpp" />
 		<Unit filename="inc/window.hpp" />
+		<Unit filename="src/allocatepanel.cpp" />
 		<Unit filename="src/animation.cpp" />
 		<Unit filename="src/application.cpp" />
 		<Unit filename="src/attractmode.cpp" />

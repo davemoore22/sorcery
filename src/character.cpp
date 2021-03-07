@@ -274,6 +274,65 @@ auto Sorcery::Character::set_alignment(const CharacterAlignment &value) -> void 
 	_alignment = value;
 }
 
+auto Sorcery::Character::set_starting_attributes() -> void {
+
+	_start_attr.clear();
+	_cur_attr.clear();
+	switch (_race) {
+	case CharacterRace::HUMAN:
+		_start_attr = {{CharacterAttribute::STRENGTH, 8}, {CharacterAttribute::IQ, 5},
+			{CharacterAttribute::PIETY, 5}, {CharacterAttribute::VITALITY, 8},
+			{CharacterAttribute::AGILITY, 8}, {CharacterAttribute::LUCK, 9}};
+		break;
+	case CharacterRace::ELF:
+		_start_attr = {{CharacterAttribute::STRENGTH, 7}, {CharacterAttribute::IQ, 10},
+			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 6},
+			{CharacterAttribute::AGILITY, 9}, {CharacterAttribute::LUCK, 6}};
+		break;
+	case CharacterRace::DWARF:
+		_start_attr = {{CharacterAttribute::STRENGTH, 10}, {CharacterAttribute::IQ, 7},
+			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 10},
+			{CharacterAttribute::AGILITY, 5}, {CharacterAttribute::LUCK, 6}};
+		break;
+	case CharacterRace::GNOME:
+		_start_attr = {{CharacterAttribute::STRENGTH, 7}, {CharacterAttribute::IQ, 7},
+			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 8},
+			{CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 7}};
+		break;
+	case CharacterRace::HOBBIT:
+		_start_attr = {{CharacterAttribute::STRENGTH, 5}, {CharacterAttribute::IQ, 7},
+			{CharacterAttribute::PIETY, 7}, {CharacterAttribute::VITALITY, 6},
+			{CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 12}};
+		break;
+	default:
+		break;
+	};
+	_cur_attr = _start_attr;
+
+	// Formula soured from http://www.zimlab.com/wizardry/walk/w123calc.htm
+	_points_left = {(*_system.random)[RandomType::ZERO_TO_3]};
+	const bool chance_of_more = {(*_system.random)[RandomType::D10] == 1};
+	const bool chance_of_more_again = {(*_system.random)[RandomType::D10] == 1};
+	_points_left += 7;
+	if (_points_left < 20)
+		if (chance_of_more)
+			_points_left += 10;
+	if (_points_left < 20)
+		if (chance_of_more_again)
+			_points_left += 10;
+	_st_points = _points_left;
+}
+
+auto Sorcery::Character::get_current_attributes() const -> CharacterAttributes {
+
+	return _cur_attr;
+}
+
+auto Sorcery::Character::get_starting_attributes() const -> CharacterAttributes {
+
+	return _start_attr;
+}
+
 // Given a character's current stats and alignment, work out what classes are available
 auto Sorcery::Character::set_possible_classes() -> void {
 

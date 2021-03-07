@@ -258,7 +258,15 @@ namespace Sorcery {
 			LOST
 		}; */
 
-		enum class Attribute { NONE, STRENGTH, IQ, PIETY, VITALITY, AGILITY, LUCK };
+		enum class Attribute {
+			NONE = 0,
+			STRENGTH = 1,
+			IQ = 2,
+			PIETY = 3,
+			VITALITY = 4,
+			AGILITY = 5,
+			LUCK = 6
+		};
 
 		enum class Ability {
 			CURRENT_HP,
