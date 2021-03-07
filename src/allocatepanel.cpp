@@ -47,8 +47,6 @@ auto Sorcery::AllocatePanel::set() -> void {
 	int x{18};
 	int y{0};
 
-	CharacterAttributes wibble = _character->get_current_attributes();
-
 	for (const auto &[attribute, value] : _character->get_current_attributes()) {
 		sf::Text text;
 		text.setFont(_system.resources->fonts[_layout.font]);

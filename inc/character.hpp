@@ -68,6 +68,10 @@ namespace Sorcery {
 		auto set_alignment(const CharacterAlignment &value) -> void;
 		auto get_current_attributes() const -> CharacterAttributes;
 		auto get_starting_attributes() const -> CharacterAttributes;
+		auto get_bonus_points_to_allocate() const -> unsigned int;
+		auto set_bonus_points_to_allocate(const unsigned int &value) -> void;
+		auto get_starting_bonus_points() const -> unsigned int;
+		auto set_starting_bonus_points(const unsigned int &value) -> void;
 
 		// Public Members
 		std::map<std::string, sf::Sprite> sprites;

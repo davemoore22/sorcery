@@ -25,7 +25,7 @@
 			"name": "allocate_panel",
 			"font": "text",
 			"size": "36",
-			"colour": "0xffff33ff",
+			"colour": "0xffffffff",
 			"alpha": "255",
 			"type": "panel",
 			"drawmode": "manual"
@@ -1085,7 +1085,7 @@
 		"component": [
 		{
 			"name": "to_allocate_text",
-			"x": "36",
+			"x": "34",
 			"y": "21",
 			"font": "monospace",
 			"colour": "0xffffffff",
@@ -1111,7 +1111,7 @@
 		},
 		{
 			"name": "to_allocate_number",
-			"x": "46",
+			"x": "35",
 			"y": "21",
 			"font": "monospace",
 			"colour": "0xffffffff",
@@ -1124,7 +1124,7 @@
 		},
 		{
 			"name": "bonus_points_number",
-			"x": "46",
+			"x": "35",
 			"y": "22",
 			"font": "monospace",
 			"colour": "0xffffffff",
@@ -1215,7 +1215,7 @@
 			"name": "allocate_panel",
 			"w": "38",
 			"h": "10",
-			"x": "32",
+			"x": "34",
 			"y": "14",
 			"alpha": "255",
 			"type": "panel",

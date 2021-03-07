@@ -374,8 +374,11 @@ auto Sorcery::Create::_generate_character(const sf::Event &event) -> std::option
 				default:
 					break;
 				}
+
+				// TODO: don't like the order of this
 				_go_to_next_stage();
 				_candidate->set_starting_attributes();
+				_ap->set();
 				return std::nullopt;
 			}
 		}
@@ -496,6 +499,14 @@ auto Sorcery::Create::_draw() -> void {
 			_ap->setPosition(_ap_c.x, _ap_c.y);
 			_window->draw(*_ap);
 			_display.display_components("allocate_panel", _ap->sprites, _ap->texts, _ap->frames);
+			sf::Text points_left{};
+			sf::Text points_started{};
+			_display.window->draw_text(points_left,
+				(*_display.layout)["allocate_panel:to_allocate_number"],
+				std::to_string(_candidate->get_bonus_points_to_allocate()));
+			_display.window->draw_text(points_started,
+				(*_display.layout)["allocate_panel:bonus_points_number"],
+				std::to_string(_candidate->get_starting_bonus_points()));
 		}
 
 		// Display bottom text depending on the menu item selected

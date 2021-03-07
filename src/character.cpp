@@ -274,6 +274,25 @@ auto Sorcery::Character::set_alignment(const CharacterAlignment &value) -> void 
 	_alignment = value;
 }
 
+auto Sorcery::Character::get_bonus_points_to_allocate() const -> unsigned int {
+
+	return _points_left;
+}
+
+auto Sorcery::Character::set_bonus_points_to_allocate(const unsigned int &value) -> void {
+
+	_points_left = value;
+}
+
+auto Sorcery::Character::get_starting_bonus_points() const -> unsigned int {
+
+	return _st_points;
+}
+auto Sorcery::Character::set_starting_bonus_points(const unsigned int &value) -> void {
+
+	_st_points = value;
+}
+
 auto Sorcery::Character::set_starting_attributes() -> void {
 
 	_start_attr.clear();
