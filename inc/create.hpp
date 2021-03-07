@@ -74,9 +74,11 @@ namespace Sorcery {
 		Component _keyb_c;
 		Component _ip_race_c;
 		Component _ip_alignment_c;
+		Component _ip_attribute_c;
 		std::shared_ptr<Keyboard> _keyboard;
 		std::shared_ptr<Menu> _race_menu;
 		std::shared_ptr<Menu> _alignment_menu;
+		std::shared_ptr<Menu> _attribute_menu;
 		std::shared_ptr<InfoPanel> _ip;
 	};
 } // namespace Sorcery

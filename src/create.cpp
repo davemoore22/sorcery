@@ -47,12 +47,15 @@ Sorcery::Create::Create(System &system, Display &display, Graphics &graphics)
 	_keyb_c = Component((*_display.layout)["character_create_stage_1:keyboard"]);
 	_ip_race_c = Component((*_display.layout)["character_create_stage_2:info_panel"]);
 	_ip_alignment_c = Component((*_display.layout)["character_create_stage_3:info_panel"]);
+	_ip_attribute_c = Component((*_display.layout)["character_create_stage_4:info_panel"]);
 
 	// Menus
 	_race_menu =
 		std::make_shared<Menu>(_system, _display, _graphics, MenuType::CHOOSE_CHARACTER_RACE);
 	_alignment_menu =
 		std::make_shared<Menu>(_system, _display, _graphics, MenuType::CHOOSE_CHARACTER_ALIGNMENT);
+	_attribute_menu = std::make_shared<Menu>(
+		_system, _display, _graphics, MenuType::ALLOCATE_CHARACTER_ATTRIBUTES);
 }
 
 // Standard Destructor
@@ -109,13 +112,16 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 	case CharacterStage::CHOOSE_RACE:
 		_candidate->set_stage(CharacterStage::ENTER_NAME);
 		_display.window->input_mode = WindowInputMode::INPUT_TEXT;
-
 		break;
 	case CharacterStage::CHOOSE_ALIGNMENT:
 		_candidate->set_stage(CharacterStage::CHOOSE_RACE);
 		_race_menu->choose(_candidate->get_race());
 		_set_info_panel_contents(_race_menu->selected);
 		break;
+	case CharacterStage::ALLOCATE_STATS:
+		_candidate->set_stage(CharacterStage::CHOOSE_ALIGNMENT);
+		_alignment_menu->choose(_candidate->get_alignment());
+		_set_info_panel_contents(_alignment_menu->selected);
 	default:
 
 		break;
@@ -136,6 +142,12 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		_display.window->input_mode = WindowInputMode::NORMAL;
 		_alignment_menu->selected = _alignment_menu->items.begin();
 		_set_info_panel_contents(_alignment_menu->selected);
+		break;
+	case CharacterStage::CHOOSE_ALIGNMENT:
+		_candidate->set_stage(CharacterStage::ALLOCATE_STATS);
+		_display.window->input_mode = WindowInputMode::ALLOCATE_STATS;
+		_attribute_menu->selected = _attribute_menu->items.begin();
+		_set_info_panel_contents(_attribute_menu->selected);
 		break;
 	default:
 
@@ -314,7 +326,6 @@ auto Sorcery::Create::_generate_character(const sf::Event &event) -> std::option
 					_candidate->set_race(CharacterRace::HOBBIT);
 					break;
 				default:
-
 					break;
 				}
 				_go_to_next_stage();
@@ -343,24 +354,37 @@ auto Sorcery::Create::_generate_character(const sf::Event &event) -> std::option
 
 				switch (const MenuItem option_chosen{(*alignment_selected.value()).item}) {
 				case MenuItem::CA_GOOD:
-					//_candidate->set_race(CharacterRace::HUMAN);
+					_candidate->set_alignment(CharacterAlignment::GOOD);
 					break;
 				case MenuItem::CA_NEUTRAL:
-					//_candidate->set_race(CharacterRace::ELF);
+					_candidate->set_alignment(CharacterAlignment::NEUTRAL);
 					break;
 				case MenuItem::CA_EVIL:
-					//_candidate->set_race(CharacterRace::DWARF);
+					_candidate->set_alignment(CharacterAlignment::EVIL);
 					break;
 				default:
-
 					break;
 				}
-				//_go_to_next_stage();
+				_go_to_next_stage();
 				return std::nullopt;
 			}
 		}
 
 		_set_info_panel_contents(_alignment_menu->selected);
+
+		return std::nullopt;
+	} else if (_candidate->get_stage() == CharacterStage::ALLOCATE_STATS) {
+		std::optional<std::vector<MenuEntry>::const_iterator> attribute_Selected{
+			_attribute_menu->selected};
+		if (_system.input->check_for_event(WindowInput::UP, event))
+			attribute_Selected = _attribute_menu->choose_previous();
+		else if (_system.input->check_for_event(WindowInput::DOWN, event))
+			attribute_Selected = _attribute_menu->choose_next();
+		else if (_system.input->check_for_event(WindowInput::MOVE, event))
+			attribute_Selected = _attribute_menu->set_mouse_selected(
+				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+
+		_set_info_panel_contents(_attribute_menu->selected);
 
 		return std::nullopt;
 	}
@@ -437,6 +461,23 @@ auto Sorcery::Create::_draw() -> void {
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
 			_ip->setPosition(_ip_alignment_c.x, _ip_alignment_c.y);
+			_window->draw(*_ip);
+		}
+	} else if (_candidate->get_stage() == CharacterStage::ALLOCATE_STATS) {
+
+		_display.display_components(
+			"character_create_stage_4", _candidate->sprites, _candidate->texts, _candidate->frames);
+
+		double lerp{_graphics.animation->colour_lerp};
+		_attribute_menu->generate((*_display.layout)["character_create_stage_4:menu"], lerp);
+		const sf::Vector2f menu_pos((*_display.layout)["character_create_stage_4:menu"].x,
+			(*_display.layout)["character_create_stage_3:menu"].y);
+		_attribute_menu->setPosition(menu_pos);
+		_window->draw(*_attribute_menu);
+
+		// Display bottom text depending on the menu item selected
+		if (_ip->valid) {
+			_ip->setPosition(_ip_attribute_c.x, _ip_attribute_c.y);
 			_window->draw(*_ip);
 		}
 	}

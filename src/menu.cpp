@@ -81,6 +81,24 @@ Sorcery::Menu::Menu(System &system, Display &display, Graphics &graphics, const 
 		selected = items.begin();
 		break;
 	case MenuType::ALLOCATE_CHARACTER_ATTRIBUTES:
+		_add_item(0, MenuItemType::ENTRY, MenuItem::CS_STRENGTH,
+			(*_display.string)["CHARACTER_STAT_STRENGTH"], true, ConfigOption::NONE,
+			(*_display.string)["HINT_CHARACTER_STAT_STRENGTH"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::CS_IQ,
+			(*_display.string)["CHARACTER_STAT_INTELLIGENCE"], true, ConfigOption::NONE,
+			(*_display.string)["HINT_CHARACTER_STAT_INTELLIGENCE"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::CS_PIETY,
+			(*_display.string)["CHARACTER_STAT_PIETY"], true, ConfigOption::NONE,
+			(*_display.string)["HINT_CHARACTER_STAT_PIETY"]);
+		_add_item(3, MenuItemType::ENTRY, MenuItem::CS_VITALITY,
+			(*_display.string)["CHARACTER_STAT_VITALITY"], true, ConfigOption::NONE,
+			(*_display.string)["HINT_CHARACTER_STAT_VITALITY"]);
+		_add_item(4, MenuItemType::ENTRY, MenuItem::CS_AGILITY,
+			(*_display.string)["CHARACTER_STAT_AGILITY"], true, ConfigOption::NONE,
+			(*_display.string)["HINT_CHARACTER_STAT_AGILITY"]);
+		_add_item(5, MenuItemType::ENTRY, MenuItem::CS_LUCK,
+			(*_display.string)["CHARACTER_STAT_LUCK"], true, ConfigOption::NONE,
+			(*_display.string)["HINT_CHARACTER_STAT_LUCK"]);
 		break;
 	case MenuType::CHOOSE_CHARACTER_ALIGNMENT:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::CA_GOOD,
@@ -522,7 +540,8 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 			}
 
 			// Handle Justification
-			if (_type == MenuType::OPTIONS) {
+			if ((_type == MenuType::OPTIONS) ||
+				(_type == MenuType::ALLOCATE_CHARACTER_ATTRIBUTES)) {
 				if ((*it).type == MenuItemType::ENTRY) {
 					if (component.justification == Justification::CENTRE)
 						text.setOrigin(text.getLocalBounds().width / 2.0f,
@@ -596,7 +615,7 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 				}
 
 				_options.emplace_back(option_text);
-			}
+			} // TODO: add stats for Allocate Menu
 		} else {
 			const sf::FloatRect actual_rect;
 			bounds.push_back(actual_rect);

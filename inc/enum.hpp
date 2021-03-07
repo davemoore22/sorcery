@@ -72,7 +72,8 @@ namespace Sorcery {
 			CANCEL_CHANGES,
 			SWITCH_ON_STRICT_MODE,
 			LEAVE_GAME,
-			INPUT_TEXT
+			INPUT_TEXT,
+			ALLOCATE_STATS
 		};
 
 		enum Confirm { YES, NO };

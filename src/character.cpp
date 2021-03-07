@@ -131,18 +131,18 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 	switch (stage) {
 	case CharacterStage::NOT_BEGUN:
 		_name.clear();
+		[[fallthrough]];
 	case CharacterStage::ENTER_NAME:
-		_display.generate_components("character_create_stage_1", sprites, texts, frames);
-		_display.window->input_mode = WindowInputMode::INPUT_TEXT;
-
 		_race = CharacterRace::NONE;
+
+		_alignment = CharacterAlignment::NONE;
+
 		_start_attr.clear();
 		_cur_attr.clear();
 		_max_attr.clear();
 		//_status.clear();
 		_abilities.clear();
 		_class = CharacterClass::NONE;
-		_alignment = CharacterAlignment::NONE;
 		_points_left = 0;
 		_st_points = 0;
 		_pos_classes.clear();
@@ -156,16 +156,16 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 		_create_spell_lists();
 		break;
 	case CharacterStage::CHOOSE_RACE:
-		_display.generate_components("character_create_stage_2", sprites, texts, frames);
-		_display.window->input_mode = WindowInputMode::NORMAL;
 		_race = CharacterRace::NONE;
+
+		_alignment = CharacterAlignment::NONE;
+
 		_start_attr.clear();
 		_cur_attr.clear();
 		_max_attr.clear();
 		//_status.clear();
 		_abilities.clear();
 		_class = CharacterClass::NONE;
-		_alignment = CharacterAlignment::NONE;
 		_points_left = 0;
 		_st_points = 0;
 		_pos_classes.clear();
@@ -179,15 +179,15 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 		_create_spell_lists();
 		break;
 	case CharacterStage::CHOOSE_ALIGNMENT:
-		_display.generate_components("character_create_stage_3", sprites, texts, frames);
-		_display.window->input_mode = WindowInputMode::NORMAL;
+		_alignment = CharacterAlignment::NONE;
+
 		_start_attr.clear();
 		_cur_attr.clear();
 		_max_attr.clear();
 		//_status.clear();
 		_abilities.clear();
 		_class = CharacterClass::NONE;
-		_alignment = CharacterAlignment::NONE;
+
 		_points_left = 0;
 		_st_points = 0;
 		_pos_classes.clear();
@@ -199,6 +199,47 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 		_mage_cur_sp.clear();
 		_spells.clear();
 		_create_spell_lists();
+		break;
+	case CharacterStage::ALLOCATE_STATS:
+		_start_attr.clear();
+		_cur_attr.clear();
+		_max_attr.clear();
+		//_status.clear();
+		_abilities.clear();
+		_class = CharacterClass::NONE;
+		_points_left = 0;
+		_st_points = 0;
+		_pos_classes.clear();
+		_num_pos_classes = 0;
+		_portrait_index = 0;
+		_cleric_max_sp.clear();
+		_cleric_cur_sp.clear();
+		_mage_max_sp.clear();
+		_mage_cur_sp.clear();
+		_spells.clear();
+		_create_spell_lists();
+
+	default:
+		break;
+	}
+
+	switch (stage) {
+	case CharacterStage::ENTER_NAME:
+		_display.generate_components("character_create_stage_1", sprites, texts, frames);
+		_display.window->input_mode = WindowInputMode::INPUT_TEXT;
+		break;
+	case CharacterStage::CHOOSE_RACE:
+		_display.generate_components("character_create_stage_2", sprites, texts, frames);
+		_display.window->input_mode = WindowInputMode::NORMAL;
+		break;
+	case CharacterStage::CHOOSE_ALIGNMENT:
+		_display.generate_components("character_create_stage_3", sprites, texts, frames);
+		_display.window->input_mode = WindowInputMode::NORMAL;
+		break;
+	case CharacterStage::ALLOCATE_STATS:
+		_display.generate_components("character_create_stage_4", sprites, texts, frames);
+		_display.window->input_mode = WindowInputMode::ALLOCATE_STATS;
+		break;
 	default:
 		break;
 	}
@@ -222,6 +263,15 @@ auto Sorcery::Character::get_race() const -> CharacterRace {
 auto Sorcery::Character::set_race(const CharacterRace &value) -> void {
 
 	_race = value;
+}
+
+auto Sorcery::Character::get_alignment() const -> CharacterAlignment {
+
+	return _alignment;
+}
+auto Sorcery::Character::set_alignment(const CharacterAlignment &value) -> void {
+
+	_alignment = value;
 }
 
 // Given a character's current stats and alignment, work out what classes are available
