@@ -72,6 +72,9 @@ namespace Sorcery {
 		auto set_bonus_points_to_allocate(const unsigned int &value) -> void;
 		auto get_starting_bonus_points() const -> unsigned int;
 		auto set_starting_bonus_points(const unsigned int &value) -> void;
+		auto get_attribute(const CharacterAttribute attribute) const -> unsigned int;
+		auto get_starting_attribute(const CharacterAttribute attribute) const -> unsigned int;
+		auto set_attribute(const CharacterAttribute attribute, const int adjustment) -> void;
 
 		// Public Members
 		std::map<std::string, sf::Sprite> sprites;

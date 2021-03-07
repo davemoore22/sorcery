@@ -293,6 +293,23 @@ auto Sorcery::Character::set_starting_bonus_points(const unsigned int &value) ->
 	_st_points = value;
 }
 
+auto Sorcery::Character::get_attribute(const CharacterAttribute attribute) const -> unsigned int {
+
+	return _cur_attr.at(attribute);
+}
+
+auto Sorcery::Character::get_starting_attribute(const CharacterAttribute attribute) const
+	-> unsigned int {
+
+	return _start_attr.at(attribute);
+}
+
+auto Sorcery::Character::set_attribute(const CharacterAttribute attribute, const int adjustment)
+	-> void {
+
+	_cur_attr.at(attribute) += adjustment;
+}
+
 auto Sorcery::Character::set_starting_attributes() -> void {
 
 	_start_attr.clear();

@@ -152,7 +152,6 @@ auto Sorcery::Window::_draw_text(
 		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 	} else if (component.justification == Justification::RIGHT) {
 		text.setPosition(x, y);
-
 		const sf::FloatRect bounds{text.getLocalBounds()};
 		text.setPosition(component.x - bounds.width, component.y);
 		text.setOrigin(text.getLocalBounds().width / 2.0f,

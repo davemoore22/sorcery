@@ -123,14 +123,15 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 		_candidate->set_stage(CharacterStage::CHOOSE_RACE);
 		_race_menu->choose(_candidate->get_race());
 		_set_info_panel_contents(_race_menu->selected);
+		_display.window->input_mode = WindowInputMode::NORMAL;
 		break;
 	case CharacterStage::ALLOCATE_STATS:
 		_candidate->set_stage(CharacterStage::CHOOSE_ALIGNMENT);
 		_alignment_menu->choose(_candidate->get_alignment());
 		_set_info_panel_contents(_alignment_menu->selected);
+		_display.window->input_mode = WindowInputMode::NORMAL;
 		_ap->valid = false;
 	default:
-
 		break;
 	}
 }
@@ -210,8 +211,20 @@ auto Sorcery::Create::_handle_input(const sf::Event &event) -> std::optional<Mod
 		return ModuleResult::EXIT;
 	else if (_system.input->check_for_event(WindowInput::CANCEL, event))
 		return ModuleResult::CANCEL;
-	else if (_candidate->get_stage() != CharacterStage::ENTER_NAME) {
-		if (_system.input->check_for_event(WindowInput::BACK, event))
+	else if (_system.input->check_for_event(WindowInput::BACK, event)) {
+		if (_candidate->get_stage() == CharacterStage::ENTER_NAME) {
+
+			// Back in Enter Name Stage only works if you have no name selected
+			if (_candidate->get_name().length() == 0)
+				return ModuleResult::BACK;
+
+		} else if (_candidate->get_stage() == CharacterStage::ALLOCATE_STATS) {
+
+			// Back in Allocate Stats only works if you have not allocated any points!
+			if (_candidate->get_bonus_points_to_allocate() ==
+				_candidate->get_starting_bonus_points())
+				return ModuleResult::BACK;
+		} else
 			return ModuleResult::BACK;
 	}
 
@@ -387,15 +400,92 @@ auto Sorcery::Create::_generate_character(const sf::Event &event) -> std::option
 
 		return std::nullopt;
 	} else if (_candidate->get_stage() == CharacterStage::ALLOCATE_STATS) {
-		std::optional<std::vector<MenuEntry>::const_iterator> attribute_Selected{
+		std::optional<std::vector<MenuEntry>::const_iterator> attribute_selected{
 			_attribute_menu->selected};
 		if (_system.input->check_for_event(WindowInput::UP, event))
-			attribute_Selected = _attribute_menu->choose_previous();
+			attribute_selected = _attribute_menu->choose_previous();
 		else if (_system.input->check_for_event(WindowInput::DOWN, event))
-			attribute_Selected = _attribute_menu->choose_next();
+			attribute_selected = _attribute_menu->choose_next();
 		else if (_system.input->check_for_event(WindowInput::MOVE, event))
-			attribute_Selected = _attribute_menu->set_mouse_selected(
+			attribute_selected = _attribute_menu->set_mouse_selected(
 				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		else if ((_system.input->check_for_event(WindowInput::LEFT, event)) ||
+				 (_system.input->check_for_event(WindowInput::BACK, event))) {
+
+			if (attribute_selected) {
+				std::optional<CharacterAttribute> stat_to_adjust{};
+				switch (attribute_selected.value()->item) {
+				case MenuItem::CS_STRENGTH:
+					stat_to_adjust = CharacterAttribute::STRENGTH;
+					break;
+				case MenuItem::CS_IQ:
+					stat_to_adjust = CharacterAttribute::IQ;
+					break;
+				case MenuItem::CS_PIETY:
+					stat_to_adjust = CharacterAttribute::PIETY;
+					break;
+				case MenuItem::CS_VITALITY:
+					stat_to_adjust = CharacterAttribute::VITALITY;
+					break;
+				case MenuItem::CS_AGILITY:
+					stat_to_adjust = CharacterAttribute::AGILITY;
+					break;
+				case MenuItem::CS_LUCK:
+					stat_to_adjust = CharacterAttribute::LUCK;
+					break;
+				default:
+					break;
+				}
+				if (stat_to_adjust) {
+					if (_candidate->get_bonus_points_to_allocate() <
+						_candidate->get_starting_bonus_points()) {
+						if (_candidate->get_attribute(stat_to_adjust.value()) >
+							_candidate->get_starting_attribute(stat_to_adjust.value())) {
+							_candidate->set_attribute(stat_to_adjust.value(), -1);
+							_candidate->set_bonus_points_to_allocate(
+								_candidate->get_bonus_points_to_allocate() + 1);
+						}
+					}
+				}
+			}
+		} else if ((_system.input->check_for_event(WindowInput::RIGHT, event)) ||
+				   (_system.input->check_for_event(WindowInput::CONFIRM, event))) {
+			if (attribute_selected) {
+				std::optional<CharacterAttribute> stat_to_adjust{};
+				switch (attribute_selected.value()->item) {
+				case MenuItem::CS_STRENGTH:
+					stat_to_adjust = CharacterAttribute::STRENGTH;
+					break;
+				case MenuItem::CS_IQ:
+					stat_to_adjust = CharacterAttribute::IQ;
+					break;
+				case MenuItem::CS_PIETY:
+					stat_to_adjust = CharacterAttribute::PIETY;
+					break;
+				case MenuItem::CS_VITALITY:
+					stat_to_adjust = CharacterAttribute::VITALITY;
+					break;
+				case MenuItem::CS_AGILITY:
+					stat_to_adjust = CharacterAttribute::AGILITY;
+					break;
+				case MenuItem::CS_LUCK:
+					stat_to_adjust = CharacterAttribute::LUCK;
+					break;
+				default:
+					break;
+				}
+				if (stat_to_adjust) {
+
+					if (_candidate->get_bonus_points_to_allocate() > 0) {
+						if (_candidate->get_attribute(stat_to_adjust.value()) < 18) {
+							_candidate->set_attribute(stat_to_adjust.value(), 1);
+							_candidate->set_bonus_points_to_allocate(
+								_candidate->get_bonus_points_to_allocate() - 1);
+						}
+					}
+				}
+			}
+		}
 
 		// LEFT AND RIGHT for add and remove stat, and confirm to select a stat, and if no stat left
 		// then confirm will move o9n
@@ -499,6 +589,8 @@ auto Sorcery::Create::_draw() -> void {
 			_ap->setPosition(_ap_c.x, _ap_c.y);
 			_window->draw(*_ap);
 			_display.display_components("allocate_panel", _ap->sprites, _ap->texts, _ap->frames);
+
+			// Move these into the allocate panel!
 			sf::Text points_left{};
 			sf::Text points_started{};
 			_display.window->draw_text(points_left,
