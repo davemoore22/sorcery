@@ -48,15 +48,3 @@ PRODUCTION_LINUX_ICON := sorcery
 
 PRODUCTION_LINUX_APP_NAME := sorcery
 PRODUCTION_LINUX_APP_COMMENT := sorcery
-
-post-build:
-	mkdir -p bin/$(BUILD)/cfg
-	mkdir -p bin/$(BUILD)/dat
-	mkdir -p bin/$(BUILD)/doc
-	mkdir -p bin/$(BUILD)/gfx
-	mkdir -p bin/$(BUILD)/vfx
-	cp -r cfg/* bin/$(BUILD)/cfg/
-	cp -r dat/* bin/$(BUILD)/dat/
-	cp -r doc/* bin/$(BUILD)/doc/
-	cp -r gfx/* bin/$(BUILD)/gfx/
-	cp -r vfx/* bin/$(BUILD)/vfx/

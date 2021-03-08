@@ -54,6 +54,8 @@ namespace Sorcery {
 	  private:
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto _get_attribute_bar(CharacterAttribute attribute)
+			-> std::tuple<sf::RectangleShape, sf::RectangleShape, sf::RectangleShape>;
 
 		// Private Members
 		System _system;
@@ -63,7 +65,15 @@ namespace Sorcery {
 		Character *_character; // Non-owning Pointer
 		unsigned int _width;
 		unsigned int _height;
-		std::vector<sf::Text> _stats;
-		std::vector<sf::Sprite> _bars;
+		std::vector<sf::Text> _texts;
+		std::vector<sf::RectangleShape> _bars;
+		Component _c_points_left;
+		Component _c_points_started;
+		sf::Color _green;
+		sf::Color _red;
+		sf::Color _blue;
+		sf::Color _base;
+		sf::Color _outline;
+		Component _stat_bar;
 	};
 } // namespace Sorcery

@@ -15,7 +15,7 @@
 		{
 			"name": "info_panel",
 			"font": "text",
-			"colour": "0xffffffff",
+			"colour": "0xdddddddff",
 			"size": "24",
 			"alpha": "255",
 			"type": "panel",
@@ -23,9 +23,9 @@
 		},
 		{
 			"name": "allocate_panel",
-			"font": "text",
-			"size": "36",
-			"colour": "0xffffffff",
+			"font": "monospace",
+			"size": "38",
+			"colour": "0xffff28ff",
 			"alpha": "255",
 			"type": "panel",
 			"drawmode": "manual"
@@ -67,8 +67,8 @@
 			"y": "32",
 			"scale": "15",
 			"font": "proportional",
-			"colour": "0xffffffff",
-			"size": "52",
+			"colour": "0xffff28ff",
+			"size": "48",
 			"type": "text",
 			"drawmode": "manual",
 			"priority": "5",
@@ -283,8 +283,8 @@
 		{
 			"name": "progress",
 			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "26",
+			"colour": "0xaaaaaaff",
+			"size": "20",
 			"x": "65",
 			"y": "32",
 			"justification": "right",
@@ -906,10 +906,10 @@
 		{
 			"name": "name_candidate",
 			"x": "centre",
-			"y": "19",
+			"y": "20",
 			"font": "proportional",
-			"colour": "0xffffffff",
-			"size": "72",
+			"colour": "0x169016ff",
+			"size": "54",
 			"justification": "centre",
 			"type": "text",
 			"priority": "3",
@@ -995,7 +995,7 @@
 			"name": "info_panel",
 			"w": "38",
 			"h": "4",
-			"x": "22",
+			"x": "25",
 			"y": "26",
 			"alpha": "255",
 			"type": "panel",
@@ -1071,68 +1071,11 @@
 			"name": "info_panel",
 			"w": "38",
 			"h": "4",
-			"x": "19",
+			"x": "25",
 			"y": "26",
 			"alpha": "255",
 			"type": "panel",
 			"priority": "6",
-			"drawmode": "manual"
-		}
-		]
-	},
-	{
-		"name": "allocate_panel",
-		"component": [
-		{
-			"name": "to_allocate_text",
-			"x": "34",
-			"y": "21",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "38",
-			"string": "CHARACTER_STAT_TO_ALLOCATE",
-			"justification": "right",
-			"type": "text",
-			"priority": "3",
-			"drawmode": "automatic"
-		},
-		{
-			"name": "bonus_points",
-			"x": "34",
-			"y": "22",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "38",
-			"string": "CHARACTER_STAT_BONUS_POINTS",
-			"justification": "right",
-			"type": "text",
-			"priority": "3",
-			"drawmode": "automatic"
-		},
-		{
-			"name": "to_allocate_number",
-			"x": "35",
-			"y": "21",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "38",
-			"string": "CHARACTER_STAT_TO_ALLOCATE",
-			"justification": "left",
-			"type": "text",
-			"priority": "3",
-			"drawmode": "manual"
-		},
-		{
-			"name": "bonus_points_number",
-			"x": "35",
-			"y": "22",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "38",
-			"string": "CHARACTER_STAT_BONUS_POINTS",
-			"justification": "left",
-			"type": "text",
-			"priority": "3",
 			"drawmode": "manual"
 		}
 		]
@@ -1165,9 +1108,9 @@
 		{
 			"name": "menu_frame",
 			"w": "40",
-			"h": "14",
+			"h": "16",
 			"x": "centre",
-			"y": "12",
+			"y": "11",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
@@ -1175,9 +1118,9 @@
 		},
 		{
 			"name": "menu",
-			"x": "24",
-			"y": "13",
-			"w": "10",
+			"x": "25",
+			"y": "12",
+			"w": "9",
 			"h": "5",
 			"font": "monospace",
 			"colour": "0xffffffff",
@@ -1204,7 +1147,7 @@
 			"name": "info_panel",
 			"w": "38",
 			"h": "6",
-			"x": "19",
+			"x": "25",
 			"y": "26",
 			"alpha": "255",
 			"type": "panel",
@@ -1216,11 +1159,86 @@
 			"w": "38",
 			"h": "10",
 			"x": "34",
-			"y": "14",
+			"y": "13",
 			"alpha": "255",
 			"type": "panel",
 			"priority": "6",
 			"drawmode": "manual"
+		}
+		]
+	},
+	{
+		"name": "allocate_panel",
+		"component": [
+		{
+			"name": "stat_bar",
+			"w": "42",
+			"h": "28",
+			"type": "stat_bar",
+			"drawmode": "manual"
+		},
+		{
+			"name": "to_allocate",
+			"x": "0",
+			"y": "7",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CHARACTER_STAT_TO_ALLOCATE",
+			"justification": "right",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "bonus_points",
+			"x": "0",
+			"y": "6",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CHARACTER_STAT_BONUS_POINTS",
+			"justification": "right",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "to_allocate_number",
+			"x": "1",
+			"y": "6",
+			"font": "monospace",
+			"colour": "0xffff28ff",
+			"size": "38",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "bonus_points_number",
+			"x": "1",
+			"y": "5",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "allowed_classes",
+			"x": "22",
+			"y": "6",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CHARACTER_ALLOWED_CLASSES",
+			"justification": "right",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
 		}
 		]
 	}

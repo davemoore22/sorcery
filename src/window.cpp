@@ -123,6 +123,8 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, con
 		text.setPosition(x, y);
 		const sf::FloatRect bounds{text.getLocalBounds()};
 		text.setPosition(component.x - bounds.width, component.y);
+		// TODO: Right doesn't put it down for some reason?
+		// text.setOrigin(0, text.getLocalBounds().height / 2.0f);
 	} else {
 		text.setPosition(x, y);
 		text.setOrigin(0, text.getLocalBounds().height / 2.0f);
@@ -154,9 +156,8 @@ auto Sorcery::Window::_draw_text(
 		text.setPosition(x, y);
 		const sf::FloatRect bounds{text.getLocalBounds()};
 		text.setPosition(component.x - bounds.width, component.y);
-		text.setOrigin(text.getLocalBounds().width / 2.0f,
-			text.getLocalBounds().height / 2.0f); // TODO: this has been added in, why?
-
+		// TODO: Right doesn't put it down for some reason?
+		// text.setOrigin(0, text.getLocalBounds().height / 2.0f);
 	} else {
 		text.setPosition(x, y);
 		text.setOrigin(0, text.getLocalBounds().height / 2.0f);
@@ -191,6 +192,8 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component,
 		text.setPosition(x, y);
 		const sf::FloatRect bounds{text.getLocalBounds()};
 		text.setPosition(component.x - bounds.width, component.y);
+		// TODO: Right doesn't put it down for some reason?
+		// text.setOrigin(0, text.getLocalBounds().height / 2.0f);
 	} else {
 		text.setPosition(x, y);
 		text.setOrigin(0, text.getLocalBounds().height / 2.0f);
