@@ -66,8 +66,8 @@
 			"x": "32",
 			"y": "32",
 			"scale": "15",
-			"font": "proportional",
-			"colour": "0xffff28ff",
+			"font": "text",
+			"colour": "0xddddddff",
 			"size": "48",
 			"type": "text",
 			"drawmode": "manual",
@@ -907,8 +907,8 @@
 			"name": "name_candidate",
 			"x": "centre",
 			"y": "20",
-			"font": "proportional",
-			"colour": "0x169016ff",
+			"font": "text",
+			"colour": "0xddddddff",
 			"size": "54",
 			"justification": "centre",
 			"type": "text",
@@ -940,6 +940,13 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2"
+		},
+		{
+			"name": "icon",
+			"x": "20",
+			"y": "26",
+			"priority": "6",
+			"drawmode": "manual"
 		},
 		{
 			"name": "title_text",

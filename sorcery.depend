@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1615038674 source:/home/dave/Development/wizardry/sorcery-sfml/src/animation.cpp
+1615320392 source:/home/dave/Development/wizardry/sorcery-sfml/src/animation.cpp
 	"animation.hpp"
 
 1614617599 /home/dave/Development/wizardry/sorcery-sfml/inc/animation.hpp
@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1615044197 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1615320276 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -127,10 +127,10 @@
 
 1591211577 /home/dave/Development/wizardry/sorcery-sfml/inc/simpleini/ConvertUTF.h
 
-1614551626 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
+1615316850 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
-1615134927 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
+1615316872 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
 1614978227 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
@@ -214,9 +214,10 @@
 	"splash.hpp"
 	"system.hpp"
 
-1615061819 /home/dave/Development/wizardry/sorcery-sfml/inc/graphics.hpp
+1615322341 /home/dave/Development/wizardry/sorcery-sfml/inc/graphics.hpp
 	"animation.hpp"
 	"display.hpp"
+	"iconstore.hpp"
 	"main.hpp"
 	"system.hpp"
 
@@ -316,10 +317,10 @@
 	"raycaster.hpp"
 	"system.hpp"
 
-1614802130 source:/home/dave/Development/wizardry/sorcery-sfml/src/file.cpp
+1615316904 source:/home/dave/Development/wizardry/sorcery-sfml/src/file.cpp
 	"file.hpp"
 
-1615062497 source:/home/dave/Development/wizardry/sorcery-sfml/src/graphics.cpp
+1615322369 source:/home/dave/Development/wizardry/sorcery-sfml/src/graphics.cpp
 	"graphics.hpp"
 
 1614886965 source:/home/dave/Development/wizardry/sorcery-sfml/src/layout.cpp
@@ -365,7 +366,7 @@
 1614886521 source:/home/dave/Development/wizardry/sorcery-sfml/src/random.cpp
 	"random.hpp"
 
-1614555699 source:/home/dave/Development/wizardry/sorcery-sfml/src/resourcemanager.cpp
+1615322785 source:/home/dave/Development/wizardry/sorcery-sfml/src/resourcemanager.cpp
 	"resourcemanager.hpp"
 
 1614555672 source:/home/dave/Development/wizardry/sorcery-sfml/src/splash.cpp
@@ -600,4 +601,12 @@
 
 1615239237 source:/home/dave/Development/wizardry/sorcery-sfml/src/allocatepanel.cpp
 	"allocatepanel.hpp"
+
+1615322916 /home/dave/Development/wizardry/sorcery-sfml/inc/iconstore.hpp
+	"display.hpp"
+	"main.hpp"
+	"system.hpp"
+
+1615323099 source:/home/dave/Development/wizardry/sorcery-sfml/src/iconstore.cpp
+	"iconstore.hpp"
 

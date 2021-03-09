@@ -107,6 +107,7 @@ namespace Sorcery {
 			BACKGROUND,
 			BANNER,
 			CREATURES,
+			ICONS,
 			LOGO,
 			NINEPATCH,
 			SPLASH,

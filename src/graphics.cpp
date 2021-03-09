@@ -28,13 +28,16 @@
 Sorcery::Graphics::Graphics(System *system, Display *display) {
 
 	animation = std::make_shared<Animation>(*system, *display);
+	icons = std::make_shared<IconStore>(*system, *display);
 }
 
-Sorcery::Graphics::Graphics(const Graphics &other) : animation{other.animation} {}
+Sorcery::Graphics::Graphics(const Graphics &other)
+	: animation{other.animation}, icons{other.icons} {}
 
 auto Sorcery::Graphics::operator=(const Graphics &other) -> Graphics & {
 
 	animation = other.animation;
+	icons = other.icons;
 
 	return *this;
 }

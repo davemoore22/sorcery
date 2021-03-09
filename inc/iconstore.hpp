@@ -24,38 +24,39 @@
 
 #pragma once
 
-#include "animation.hpp"
 #include "display.hpp"
-#include "iconstore.hpp"
 #include "main.hpp"
 #include "system.hpp"
 
 namespace Sorcery {
 
-	// Forward Declarations
-	class Animation;
-	class IconStore;
+	class IconStore {
 
-	// Superclass to handle graphics specific functionality such as animation
-	class Graphics {
 	  public:
 		// Constructors
-		Graphics(System *system, Display *display);
-		Graphics() = delete;
+		IconStore(System &system, Display &display);
+		IconStore() = delete;
 
-		// Copy Constructors
-		Graphics(const Graphics &other);
-		auto operator=(const Graphics &other) -> Graphics &;
+		// Overload [] operator
+		auto operator[](const std::string &key) -> std::optional<sf::Sprite>;
 
 		// Public Methods
-
-		// Public Members
-		std::shared_ptr<Animation> animation;
-		std::shared_ptr<IconStore> icons;
+		auto get(const std::string &key) -> std::optional<sf::Sprite>;
 
 	  private:
 		// Private Members
+		System _system;
+		Display _display;
+		IconLibrary _icons;
+		bool _loaded;
+		sf::Texture _texture;
+		unsigned int _index; // Used only during setting
+		sf::Vector2u _size;
+		sf::Vector2f _scale;
 
 		// Private Methods
+		auto _set_icons() -> bool;
+		auto _get_rect(unsigned int index) const -> sf::IntRect;
+		auto _load_icon(std::string key) -> void;
 	};
 } // namespace Sorcery

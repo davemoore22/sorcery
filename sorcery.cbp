@@ -100,6 +100,7 @@
 		<Unit filename="gfx/background.png" />
 		<Unit filename="gfx/banner.png" />
 		<Unit filename="gfx/creatures.png" />
+		<Unit filename="gfx/icons.png" />
 		<Unit filename="gfx/logo.png" />
 		<Unit filename="gfx/ninepatch.png" />
 		<Unit filename="gfx/splash.png" />
@@ -128,6 +129,7 @@
 		<Unit filename="inc/game.hpp" />
 		<Unit filename="inc/gamemenu.hpp" />
 		<Unit filename="inc/graphics.hpp" />
+		<Unit filename="inc/iconstore.hpp" />
 		<Unit filename="inc/infopanel.hpp" />
 		<Unit filename="inc/input.hpp" />
 		<Unit filename="inc/keyboard.hpp" />
@@ -178,6 +180,7 @@
 		<Unit filename="src/game.cpp" />
 		<Unit filename="src/gamemenu.cpp" />
 		<Unit filename="src/graphics.cpp" />
+		<Unit filename="src/iconstore.cpp" />
 		<Unit filename="src/infopanel.cpp" />
 		<Unit filename="src/input.cpp" />
 		<Unit filename="src/keyboard.cpp" />

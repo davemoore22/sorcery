@@ -24,8 +24,7 @@
 
 #include "animation.hpp"
 
-// Standard Constructor - to do this does not need system or display, instead put it as a subclass
-// of display
+// Standard Constructor
 Sorcery::Animation::Animation(System &system, Display &display)
 	: _system{system}, _display{display} {
 

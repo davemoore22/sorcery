@@ -62,6 +62,7 @@ namespace Sorcery {
 	inline constexpr auto BACKGROUND_TEXTURE = "background.png"sv;
 	inline constexpr auto BANNER_TEXTURE = "banner.png"sv;
 	inline constexpr auto CREATURES_TEXTURE = "creatures.png"sv;
+	inline constexpr auto ICONS_TEXTURE = "icons.png"sv;
 	inline constexpr auto LOGO_TEXTURE = "logo.png"sv;
 	inline constexpr auto NINEPATCH_TEXTURE = "ninepatch.png"sv;
 	inline constexpr auto SPLASH_TEXTURE = "splash.png"sv;
@@ -72,9 +73,9 @@ namespace Sorcery {
 	inline constexpr auto MENU_VIDEO = "menu.mp4"sv;
 
 	// For ease of use
-	//static const std::string EMPTY = {""};
-	//static const std::string ON = {"on"};
-	//static const std::string OFF = {"off"};
+	// static const std::string EMPTY = {""};
+	// static const std::string ON = {"on"};
+	// static const std::string OFF = {"off"};
 
 	// Graphics
 	/* static const std::string FONT_FILE = {"font.png"};
@@ -90,7 +91,8 @@ namespace Sorcery {
 	static const std::string CHARACTER_TEMPLATE_FILE_SPELLS_MAGE = {"character-spells-mage.xp"};
 	static const std::string CHARACTER_TEMPLATE_FILE_SPELLS_CLERIC = {"character-spells-cleric.xp"};
 	static const std::string CHARACTER_TEMPLATE_FILE_MESSAGES = {"character-messages.xp"};
-	static const std::string CHARACTER_TEMPLATE_FILE_ACHIEVEMENTS = {"character-achievements.xp"}; */
+	static const std::string CHARACTER_TEMPLATE_FILE_ACHIEVEMENTS = {"character-achievements.xp"};
+  */
 	// Game config settings
 	static const std::string DEFAULT_SCREEN_HEIGHT = {"default_height"};
 	static const std::string DEFAULT_SCREEN_WIDTH = {"default_width"};
@@ -114,12 +116,15 @@ namespace Sorcery {
 	static const std::string GFX_PROGRESS = {"display_progress"};
 	static const std::string GAME_ALLOW_MIXED_ALIGNMENT_PARTY = {"allow_mixed_alignment_party"};
 	static const std::string GAME_STAT_LOSS_ON_LEVEL_UP = {"stat_loss_on_level_up"};
-	static const std::string GAME_REROLL_HIT_POINTS_ON_LEVEL_GAIN = {"reroll_hit_points_on_level_gain"};
+	static const std::string GAME_REROLL_HIT_POINTS_ON_LEVEL_GAIN = {
+		"reroll_hit_points_on_level_gain"};
 	static const std::string GAME_STAT_RESET_ON_CLASS_CHANGE = {"stat_reset_on_class_change"};
 	static const std::string GAME_AGING_ON_CLASS_CHANGE = {"aging_on_class_change"};
 	static const std::string GAME_ALLOW_RANGED_WEAPONS = {"allow_ranged_weapons"};
-	static const std::string GAME_SPELLCASTING_IN_SURPRISE_ROUND = {"spellcasting_in_surprise_round"};
-	static const std::string GAME_BATCH_HEALING_AFTER_RETURN_TO_CASTLE = {"batch_healing_after_return_to_castle"};
+	static const std::string GAME_SPELLCASTING_IN_SURPRISE_ROUND = {
+		"spellcasting_in_surprise_round"};
+	static const std::string GAME_BATCH_HEALING_AFTER_RETURN_TO_CASTLE = {
+		"batch_healing_after_return_to_castle"};
 	static const std::string GAME_REROLL_ONES_ON_DICE = {"reroll_ones_on_dice"};
 	static const std::string GAME_ALLOW_AMBUSH_HIDE = {"allow_ambush_hide"};
 
