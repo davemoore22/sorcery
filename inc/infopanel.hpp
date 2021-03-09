@@ -45,7 +45,8 @@ namespace Sorcery {
 		bool valid;
 
 		// Public Methods
-		auto set(const std::string &string) -> void;
+		auto set_text(const std::string &string) -> void;
+		auto set_icon(const std::string &string) -> void;
 
 	  private:
 		// Private Methods
@@ -61,5 +62,6 @@ namespace Sorcery {
 		std::string _string;
 		std::vector<std::string> _strings;
 		std::vector<sf::Text> _texts;
+		sf::Sprite _icon;
 	};
 } // namespace Sorcery

@@ -31,12 +31,13 @@ Sorcery::IconStore::IconStore(System &system, Display &display)
 	// First get the Icon Texture
 	_texture = _system.resources->textures[ICONS_TEXTURE];
 
+	// Set the scaling size (note we are using square icons here!) before loading!
+	_size = sf::Vector2f{128, 128};
+	float texture_size{static_cast<float>(_texture.getSize().y)};
+	_scale = sf::Vector2f(_size.x / texture_size, _size.y / texture_size);
+
 	// Set the Icons TODO: use a json file for the keys
 	_loaded = _set_icons();
-
-	// Set the scaling size
-	_size = sf::Vector2u{48, 48};
-	_scale = sf::Vector2f(_texture.getSize().y / _size.x, _texture.getSize().y / _size.y);
 }
 
 // Overload [] Operator
@@ -77,6 +78,11 @@ auto Sorcery::IconStore::_set_icons() -> bool {
 	_load_icon("vitality");
 	_load_icon("agility");
 	_load_icon("luck");
+	_load_icon("human");
+	_load_icon("elf");
+	_load_icon("dwarf");
+	_load_icon("gnome");
+	_load_icon("hobbit");
 
 	return true;
 }

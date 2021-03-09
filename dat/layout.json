@@ -942,13 +942,6 @@
 			"priority": "2"
 		},
 		{
-			"name": "icon",
-			"x": "20",
-			"y": "26",
-			"priority": "6",
-			"drawmode": "manual"
-		},
-		{
 			"name": "title_text",
 			"x": "centre",
 			"y": "8",
@@ -1002,7 +995,7 @@
 			"name": "info_panel",
 			"w": "38",
 			"h": "4",
-			"x": "25",
+			"x": "20",
 			"y": "26",
 			"alpha": "255",
 			"type": "panel",
@@ -1078,7 +1071,7 @@
 			"name": "info_panel",
 			"w": "38",
 			"h": "4",
-			"x": "25",
+			"x": "20",
 			"y": "26",
 			"alpha": "255",
 			"type": "panel",
@@ -1154,7 +1147,7 @@
 			"name": "info_panel",
 			"w": "38",
 			"h": "6",
-			"x": "25",
+			"x": "20",
 			"y": "26",
 			"alpha": "255",
 			"type": "panel",

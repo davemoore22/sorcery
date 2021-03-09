@@ -34,7 +34,19 @@ Sorcery::InfoPanel::InfoPanel(System &system, Display &display, Graphics &graphi
 	valid = false;
 }
 
-auto Sorcery::InfoPanel::set(const std::string &string) -> void {
+// Set the Icon
+auto Sorcery::InfoPanel::set_icon(const std::string &string) -> void {
+
+	if ((*_graphics.icons)[string])
+		_icon = (*_graphics.icons)[string].value();
+	else
+		_icon = sf::Sprite();
+
+	_icon.setPosition(0, 16);
+}
+
+// Set the Text
+auto Sorcery::InfoPanel::set_text(const std::string &string) -> void {
 
 	_strings.clear();
 	_texts.clear();
@@ -52,7 +64,7 @@ auto Sorcery::InfoPanel::set(const std::string &string) -> void {
 		split.end());
 	_strings = split;
 
-	int x{18};
+	int x{140};
 	int y{0};
 	for (const auto &each_string : _strings) {
 		sf::Text text;
@@ -85,4 +97,6 @@ auto Sorcery::InfoPanel::draw(sf::RenderTarget &target, sf::RenderStates states)
 	for (auto each_text : _texts) {
 		target.draw(each_text, states);
 	}
+
+	target.draw(_icon, states);
 }

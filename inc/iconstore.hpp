@@ -51,7 +51,7 @@ namespace Sorcery {
 		bool _loaded;
 		sf::Texture _texture;
 		unsigned int _index; // Used only during setting
-		sf::Vector2u _size;
+		sf::Vector2f _size;
 		sf::Vector2f _scale;
 
 		// Private Methods

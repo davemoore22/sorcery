@@ -505,12 +505,88 @@ auto Sorcery::Create::_generate_character(const sf::Event &event) -> std::option
 auto Sorcery::Create::_set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it)
 	-> void {
 
+	// Set the Text
 	if ((*it).type == MenuItemType::ENTRY) {
 		std::string ip_contents{(*it).hint};
-		_ip->set(ip_contents);
+		_ip->set_text(ip_contents);
 		_ip->valid = true;
 	} else {
 		_ip->valid = false;
+	}
+
+	// Set the Icon (TODO: this is terrible, needs to be changed)
+	if ((*it).type == MenuItemType::ENTRY) {
+		switch ((*it).item) {
+		case MenuItem::CR_DWARF:
+			_ip->set_icon("dwarf");
+			break;
+		case MenuItem::CR_ELF:
+			_ip->set_icon("elf");
+			break;
+		case MenuItem::CR_GNOME:
+			_ip->set_icon("gnome");
+			break;
+		case MenuItem::CR_HOBBIT:
+			_ip->set_icon("hobbit");
+			break;
+		case MenuItem::CR_HUMAN:
+			_ip->set_icon("human");
+			break;
+		case MenuItem::CA_EVIL:
+			_ip->set_icon("evil");
+			break;
+		case MenuItem::CA_GOOD:
+			_ip->set_icon("good");
+			break;
+		case MenuItem::CA_NEUTRAL:
+			_ip->set_icon("neutral");
+			break;
+		case MenuItem::CC_SAMURAI:
+			_ip->set_icon("samurai");
+			break;
+		case MenuItem::CC_FIGHTER:
+			_ip->set_icon("fighter");
+			break;
+		case MenuItem::CC_LORD:
+			_ip->set_icon("lord");
+			break;
+		case MenuItem::CC_THIEF:
+			_ip->set_icon("thief");
+			break;
+		case MenuItem::CC_NINJA:
+			_ip->set_icon("ninja");
+			break;
+		case MenuItem::CC_PRIEST:
+			_ip->set_icon("priest");
+			break;
+		case MenuItem::CC_BISHOP:
+			_ip->set_icon("bishop");
+			break;
+		case MenuItem::CC_MAGE:
+			_ip->set_icon("mage");
+			break;
+		case MenuItem::CS_STRENGTH:
+			_ip->set_icon("strength");
+			break;
+		case MenuItem::CS_VITALITY:
+			_ip->set_icon("vitality");
+			break;
+		case MenuItem::CS_PIETY:
+			_ip->set_icon("piety");
+			break;
+		case MenuItem::CS_IQ:
+			_ip->set_icon("iq");
+			break;
+		case MenuItem::CS_LUCK:
+			_ip->set_icon("luck");
+			break;
+		case MenuItem::CS_AGILITY:
+			_ip->set_icon("agility");
+			break;
+
+		default:
+			break;
+		}
 	}
 }
 
