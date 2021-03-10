@@ -102,9 +102,9 @@
 			<Cursor1 position="1243" topLine="21" />
 		</Cursor>
 	</File>
-	<File name="src/infopanel.cpp" open="1" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/infopanel.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="0" />
+			<Cursor1 position="2235" topLine="56" />
 		</Cursor>
 	</File>
 	<File name="inc/component.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -134,7 +134,7 @@
 	</File>
 	<File name="src/iconstore.cpp" open="1" top="1" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1498" topLine="17" />
+			<Cursor1 position="3731" topLine="82" />
 		</Cursor>
 	</File>
 	<File name="src/textfile.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

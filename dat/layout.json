@@ -32,8 +32,9 @@
 		},
 		{
 			"name": "icon",
-			"w": "48",
-			"h": "48",
+			"w": "128",
+			"h": "128",
+			"size": "128",
 			"type": "icon",
 			"drawmode": "manual",
 			"colour": "0xffffffff"

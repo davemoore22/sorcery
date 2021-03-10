@@ -53,7 +53,8 @@ namespace Sorcery {
 		unsigned int _index; // Used only during setting
 		sf::Vector2f _size;
 		sf::Vector2f _scale;
-		std::map<MenuItem, Icon> _icon_mapping;
+		std::map<MenuItem, Icon> _menu_icon_map;
+		std::map<std::string, sf::Sprite> _icon_store;
 
 		// Private Methods
 		auto _set_icons() -> bool;

@@ -29,17 +29,22 @@ Sorcery::IconStore::IconStore(
 	System &system, Display &display, const std::filesystem::path filename)
 	: _system{system}, _display{display} {
 
+	// Prepare the icon stores
+	_icon_store.clear();
+	_menu_icon_map.clear();
+
 	// First get the Icon Texture
 	_texture = _system.resources->textures[ICONS_TEXTURE];
 
-	// Set the scaling size (note we are using square icons here!) before loading! TODO: get from
-	// component
-	_size = sf::Vector2f{128, 128};
+	// Set the Icon scaling (remember we are using square icons)
+	Component icon_layout{(*_display.layout)["global:icon"]};
+	_size = sf::Vector2f(icon_layout.size, icon_layout.size);
 	float texture_size{static_cast<float>(_texture.getSize().y)};
 	_scale = sf::Vector2f(_size.x / texture_size, _size.y / texture_size);
 
-	_loaded = _set_icons();
+	//_loaded = _set_icons();
 
+	// Load the Icons
 	_loaded = _load(filename);
 }
 
@@ -47,7 +52,7 @@ Sorcery::IconStore::IconStore(
 auto Sorcery::IconStore::operator[](const std::string &key) -> std::optional<sf::Sprite> {
 
 	if (_loaded)
-		return _icons.at(key);
+		return _icon_store.at(key);
 	else
 		return std::nullopt;
 }
@@ -55,7 +60,7 @@ auto Sorcery::IconStore::operator[](const std::string &key) -> std::optional<sf:
 auto Sorcery::IconStore::get(const std::string &key) -> std::optional<sf::Sprite> {
 
 	if (_loaded)
-		return _icons.at(key);
+		return _icon_store.at(key);
 	else
 		return std::nullopt;
 }
@@ -79,7 +84,8 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 
 				// Get the mappings for each icon (note that all parameters should always be present
 				// for each icon entry in the mapping file or else this will error)
-				unsigned int index{std::stoul(icons[i]["index"].asString())};
+				unsigned int index{
+					static_cast<unsigned int>(std::stoul(icons[i]["index"].asString()))};
 				std::string filename{icons[i]["filename"].asString()};
 				std::string menu_item_s{icons[i]["menu_item"].asString()};
 				std::string key{icons[i]["key"].asString()};
@@ -94,15 +100,42 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 				if (item_t.has_value())
 					menu_item = item_t.value();
 
-				// Add the Mapping
+				// Add the Mapping for Icons
 				const Icon icon{index, menu_item, key, filename, colour};
-				_icon_mapping[menu_item] = icon;
+
+				// First for Menu Items
+				if (menu_item != MenuItem::NONE) {
+					_menu_icon_map[menu_item] = icon;
+				}
+
+				// Now work out the Corresponding Sprite in all cases and add it
+				sf::IntRect sprite_r = _get_rect(icon.index);
+				sf::Sprite sprite(_texture);
+				sprite.setTextureRect(sprite_r);
+				sprite.setScale(_scale);
+				sprite.setColor(colour);
+				_icon_store[key] = sprite;
 			}
 		}
 	} else
 		return false;
 
 	return true;
+}
+
+// Fortunately we are using square icons!
+auto Sorcery::IconStore::_get_rect(unsigned int index) const -> sf::IntRect {
+
+	return sf::IntRect(_texture.getSize().y * index, 0, _texture.getSize().y, _texture.getSize().y);
+}
+
+auto Sorcery::IconStore::_load_icon(std::string key) -> void {
+
+	sf::Sprite sprite(_texture);
+	sprite.setTextureRect(_get_rect(_index));
+	sprite.setScale(_scale);
+	_icons[key] = sprite;
+	++_index;
 }
 
 auto Sorcery::IconStore::_set_icons() -> bool {
@@ -141,19 +174,4 @@ auto Sorcery::IconStore::_set_icons() -> bool {
 	_load_icon("hobbit");
 
 	return true;
-}
-
-// Fortunately we are using square icons!
-auto Sorcery::IconStore::_get_rect(unsigned int index) const -> sf::IntRect {
-
-	return sf::IntRect(_texture.getSize().y * index, 0, _texture.getSize().y, _texture.getSize().y);
-}
-
-auto Sorcery::IconStore::_load_icon(std::string key) -> void {
-
-	sf::Sprite sprite(_texture);
-	sprite.setTextureRect(_get_rect(_index));
-	sprite.setScale(_scale);
-	_icons[key] = sprite;
-	++_index;
 }
