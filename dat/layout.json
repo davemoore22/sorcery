@@ -29,6 +29,14 @@
 			"alpha": "255",
 			"type": "panel",
 			"drawmode": "manual"
+		},
+		{
+			"name": "icon",
+			"w": "48",
+			"h": "48",
+			"type": "icon",
+			"drawmode": "manual",
+			"colour": "0xffffffff"
 		}
 		]
 	},

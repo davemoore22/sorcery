@@ -25,19 +25,22 @@
 #include "iconstore.hpp"
 
 // Standard Constructor
-Sorcery::IconStore::IconStore(System &system, Display &display, const std::string &filename)
+Sorcery::IconStore::IconStore(
+	System &system, Display &display, const std::filesystem::path filename)
 	: _system{system}, _display{display} {
 
 	// First get the Icon Texture
 	_texture = _system.resources->textures[ICONS_TEXTURE];
 
-	// Set the scaling size (note we are using square icons here!) before loading!
+	// Set the scaling size (note we are using square icons here!) before loading! TODO: get from
+	// component
 	_size = sf::Vector2f{128, 128};
 	float texture_size{static_cast<float>(_texture.getSize().y)};
 	_scale = sf::Vector2f(_size.x / texture_size, _size.y / texture_size);
 
-	// Set the Icons TODO: use a json file for the keys
 	_loaded = _set_icons();
+
+	_loaded = _load(filename);
 }
 
 // Overload [] Operator
@@ -57,7 +60,60 @@ auto Sorcery::IconStore::get(const std::string &key) -> std::optional<sf::Sprite
 		return std::nullopt;
 }
 
+auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
+
+	// Attempt to load Layout File
+	if (std::ifstream file{filename.string(), std::ifstream::binary}; file.good()) {
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+		Json::Reader reader{};
+#pragma GCC diagnostic pop
+		Json::StreamWriterBuilder builder{};
+		builder.settings_["indentation"] = "";
+		if (Json::Value layout; reader.parse(file, layout)) {
+			Json::Value &icons{layout["icon"]};
+
+			// Iterate through icon file one icon at a time
+			for (unsigned int i = 0; i < icons.size(); i++) {
+
+				// Get the mappings for each icon (note that all parameters should always be present
+				// for each icon entry in the mapping file or else this will error)
+				unsigned int index{std::stoul(icons[i]["index"].asString())};
+				std::string filename{icons[i]["filename"].asString()};
+				std::string menu_item_s{icons[i]["menu_item"].asString()};
+				std::string key{icons[i]["key"].asString()};
+				std::string colour_hex{icons[i]["colour"].asString()};
+				if (colour_hex.length() == 0)
+					colour_hex = "0xFFFFFFFF"; // TODO: read from icon component!
+				sf::Color colour(std::stoul(colour_hex, 0, 16));
+				MenuItem menu_item{MenuItem::NONE};
+
+				// Use Magic Enum Library Reflection to convert the string to the type!
+				auto item_t = magic_enum::enum_cast<Sorcery::Enums::Menu::Item>(menu_item_s);
+				if (item_t.has_value())
+					menu_item = item_t.value();
+
+				// Add the Mapping
+				const Icon icon{index, menu_item, key, filename, colour};
+				_icon_mapping[menu_item] = icon;
+			}
+		}
+	} else
+		return false;
+
+	return true;
+}
+
 auto Sorcery::IconStore::_set_icons() -> bool {
+
+	auto color = magic_enum::enum_cast<Sorcery::Enums::Menu::Item>("CR_HUMAN");
+	if (color.has_value()) {
+		MenuItem wibble = color.value();
+		if (wibble == MenuItem::CR_HUMAN) {
+			std::cout << "yay!" << std::endl;
+		}
+	}
 
 	// Icon List load here
 	_index = 0;

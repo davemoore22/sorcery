@@ -3,14 +3,156 @@
 		{
 			"index": "0",
 			"filename": "samurai-helmet",
-			"menu_item": "1",
-			"name": "samurai"
+			"menu_item": "CC_SAMURAI",
+			"key": "samurai",
+			"color": "0xC41E3AFF"
 		},
 		{
-
+			"index": "1",
+			"filename": "brutal-helm",
+			"menu_item": "CC_FIGHTER",
+			"key": "fighter",
+			"color": "0xC69B6DFF"
 		},
 		{
-
+			"index": "2",
+			"filename": "elf-helmet",
+			"menu_item": "CC_LORD",
+			"key": "lord",
+			"color": "0xF48CBAFF"
+		},
+		{
+			"index": "3",
+			"filename": "cowled",
+			"menu_item": "CC_THIEF",
+			"key": "thief",
+			"color": "0xFFF468FF"
+		},
+		{
+			"index": "4",
+			"filename": "ninja-star",
+			"menu_item": "CC_NINJA",
+			"key": "ninja",
+			"color": "0xA330C9FF"
+		},
+		{
+			"index": "5",
+			"filename": "nun-face",
+			"menu_item": "CC_PRIEST",
+			"key": "priest",
+			"color": "0xFFFFFFFF"
+		},
+		{
+			"index": "6",
+			"filename": "pope-crown",
+			"menu_item": "CC_BISHOP",
+			"key": "bishop",
+			"color": "0x0070DDFF"
+		},
+		{
+			"index": "7",
+			"filename": "wizard-face",
+			"menu_item": "CC_MAGE",
+			"key": "mage",
+			"color": "0x3FC7EBFF"
+		},
+		{
+			"index": "8",
+			"filename": "sunbeams",
+			"menu_item": "CA_GOOD",
+			"key": "good",
+			"color": "0x00FF98FF"
+		},
+		{
+			"index": "9",
+			"filename": "scales",
+			"menu_item": "CA_NEUTRAL",
+			"key": "neutral",
+			"color": "0xFF7C0AFF"
+		},
+		{
+			"index": "10",
+			"filename": "cursed-star",
+			"menu_item": "CA_EVIL",
+			"key": "evil",
+			"color": "0x8788EEFF"
+		},
+		{
+			"index": "11",
+			"filename": "weight-lifting-up",
+			"menu_item": "CS_STRENGTH",
+			"key": "strength",
+			"color": "0xf34f41ff"
+		},
+		{
+			"index": "12",
+			"filename": "brain",
+			"menu_item": "CS_IQ",
+			"key": "iq",
+			"color": "0xfefff3ff"
+		},
+		{
+			"index": "13",
+			"filename": "meditation",
+			"menu_item": "CS_PIETY",
+			"key": "piety",
+			"color": "0x77dd78ff"
+		},
+		{
+			"index": "14",
+			"filename": "heart-beats",
+			"menu_item": "CS_VITALITY",
+			"key": "vitality",
+			"color": "0x03c03cff"
+		},
+		{
+			"index": "15",
+			"filename": "body-balance",
+			"menu_item": "CS_AGILITY",
+			"key": "agility",
+			"color": "0xfbfa93ff"
+		},
+		{
+			"index": "16",
+			"filename": "horseshow",
+			"menu_item": "CS_LUCK",
+			"key": "luck",
+			"color": "0x77dd78ff"
+		},
+		{
+			"index": "17",
+			"filename": "vitruvian-man",
+			"menu_item": "CR_HUMAN",
+			"key": "human",
+			"color": "0xedffc9ff"
+		},
+		{
+			"index": "18",
+			"filename": "woman-elf-face",
+			"menu_item": "CR_ELF",
+			"key": "elf",
+			"color": "0x4faaa1ff"
+		},
+		{
+			"index": "19",
+			"filename": "dwarf-face",
+			"menu_item": "CR_DWARF",
+			"key": "dwarf",
+			"color": "0xcc759aff"
+		},
+		{
+			"index": "20",
+			"filename": "bad-gnome",
+			"menu_item": "CR_GNOME",
+			"key": "gnome",
+			"color": "0xa09fe6ff"
+		},
+		{
+			"index": "21",
+			"filename": "barbarian",
+			"menu_item": "CR_HOBBIT",
+			"key": "hobbit",
+			"color": "0xb8f4ffff"
 		}
 	]
 }

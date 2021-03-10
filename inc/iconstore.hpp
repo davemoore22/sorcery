@@ -34,7 +34,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		IconStore(System &system, Display &display, const std::string &filename);
+		IconStore(System &system, Display &display, const std::filesystem::path filename);
 		IconStore() = delete;
 
 		// Overload [] operator
@@ -53,11 +53,12 @@ namespace Sorcery {
 		unsigned int _index; // Used only during setting
 		sf::Vector2f _size;
 		sf::Vector2f _scale;
-		std::map<MenuItem, unsigned int> _icon_mapping;
+		std::map<MenuItem, Icon> _icon_mapping;
 
 		// Private Methods
 		auto _set_icons() -> bool;
 		auto _get_rect(unsigned int index) const -> sf::IntRect;
 		auto _load_icon(std::string key) -> void;
+		auto _load(const std::filesystem::path filename) -> bool;
 	};
 } // namespace Sorcery

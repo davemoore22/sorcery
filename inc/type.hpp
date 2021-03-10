@@ -28,17 +28,18 @@
 
 namespace Sorcery {
 
-	// Note that we need to use full details in here as aliases haven't yet been set up in main.hpp when we include
-	// enums.hpp
+	// Note that we need to use full details in here as aliases haven't yet been set up in main.hpp
+	// when we include enums.hpp
 
 	// Struct to represent a menu entry
 	struct MenuEntry {
 		MenuEntry()
-			: index{0}, type{Enums::Menu::ItemType::NONE}, item{Enums::Menu::Item::NONE}, key{}, enabled{false},
-			  config{Enums::Options::NONE}, hint{} {};
-		MenuEntry(unsigned int index_, Enums::Menu::ItemType type_, Enums::Menu::Item item_, std::string key_,
-			bool enabled_, Enums::Options config_, std::string hint_)
-			: index{index_}, type{type_}, item{item_}, key{key_}, enabled{enabled_}, config{config_}, hint{hint_} {};
+			: index{0}, type{Enums::Menu::ItemType::NONE}, item{Enums::Menu::Item::NONE}, key{},
+			  enabled{false}, config{Enums::Options::NONE}, hint{} {};
+		MenuEntry(unsigned int index_, Enums::Menu::ItemType type_, Enums::Menu::Item item_,
+			std::string key_, bool enabled_, Enums::Options config_, std::string hint_)
+			: index{index_}, type{type_}, item{item_}, key{key_}, enabled{enabled_},
+			  config{config_}, hint{hint_} {};
 		auto operator==(const MenuEntry &a) const -> bool {
 			return ((index == a.index) && (type == a.type) && (item == a.item) && (key == a.key) &&
 					(enabled == a.enabled) && (config == a.config) && (hint == a.hint));
@@ -51,6 +52,24 @@ namespace Sorcery {
 		bool enabled;
 		Enums::Options config;
 		std::string hint;
+	};
+
+	// Struct to represent an icon
+	struct Icon {
+		Icon() : index{0}, item{Enums::Menu::Item::NONE}, key{}, filename{}, colour{} {};
+		Icon(unsigned int index_, Enums::Menu::Item item_, std::string key_, std::string filename_,
+			sf::Color colour_)
+			: index{index_}, item{item_}, key{key_}, filename{filename_}, colour{colour_} {};
+		auto operator==(const Icon &a) const -> bool {
+			return ((index == a.index) && (item == a.item) && (key == a.key) &&
+					(filename == a.filename) && (colour == a.colour));
+		}
+
+		unsigned int index;
+		Enums::Menu::Item item;
+		std::string key;
+		std::string filename;
+		sf::Color colour;
 	};
 
 	// Struct to represent a point on the screen (x, y)
@@ -89,11 +108,13 @@ namespace Sorcery {
 	// Struct to represent a rect on the screen
 	struct Rect {
 		Rect() : x{0}, y{0}, w{0}, h{0} {};
-		Rect(unsigned int x_, unsigned int y_, unsigned int w_, unsigned int h_) : x{x_}, y{y_}, w{w_}, h{h_} {};
+		Rect(unsigned int x_, unsigned int y_, unsigned int w_, unsigned int h_)
+			: x{x_}, y{y_}, w{w_}, h{h_} {};
 		Rect(const Rect &other) : x{other.x}, y{other.y}, w{other.w}, h{other.h} {};
 
 		auto menu_contains(unsigned int i, unsigned int j) -> bool {
-			// Note the >= etc here - menu rects start at y - if not = then first item in menu would fail this test
+			// Note the >= etc here - menu rects start at y - if not = then first item in menu would
+			// fail this test
 			return ((i >= x) && (j >= y) && (i < (x + w - 1)) && (j < (y + h)));
 		}
 
