@@ -31,6 +31,7 @@ LIB_DIRS := \
 INCLUDE_DIRS := \
 	inc \
 	inc/simpleini \
+	inc/magicenum \
 	inc/sqlitemoderncpp \
 	/usr/local/include
 

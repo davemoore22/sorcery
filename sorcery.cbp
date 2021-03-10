@@ -13,8 +13,12 @@
 				<Option compiler="gcc" />
 				<Option parameters="--skip_intro" />
 				<Compiler>
+					<Add option="-pg" />
 					<Add option="-g" />
 				</Compiler>
+				<Linker>
+					<Add option="-pg" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/release/sorcery" prefix_auto="1" extension_auto="1" />
@@ -39,6 +43,7 @@
 			<Add option="-Wfatal-errors" />
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
+			<Add option="-pg" />
 			<Add option="-pthread" />
 			<Add option="-Wl,-rpath=/usr/local/lib" />
 			<Add option="-fpic" />
@@ -54,8 +59,10 @@
 			<Add directory="inc" />
 			<Add directory="inc/simpleini" />
 			<Add directory="inc/sqlitemoderncpp" />
+			<Add directory="inc/magicenum" />
 		</Compiler>
 		<Linker>
+			<Add option="-pg" />
 			<Add option="-lstdc++fs" />
 			<Add option="-lX11" />
 			<Add option="-lsfml-graphics" />
@@ -86,6 +93,7 @@
 		</ExtraCommands>
 		<Unit filename="cfg/config.ini" />
 		<Unit filename="dat/explain.json" />
+		<Unit filename="dat/icons.json" />
 		<Unit filename="dat/layout.json" />
 		<Unit filename="dat/layout.txt" />
 		<Unit filename="dat/monospace.otf" />

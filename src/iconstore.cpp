@@ -25,7 +25,7 @@
 #include "iconstore.hpp"
 
 // Standard Constructor
-Sorcery::IconStore::IconStore(System &system, Display &display)
+Sorcery::IconStore::IconStore(System &system, Display &display, const std::string &filename)
 	: _system{system}, _display{display} {
 
 	// First get the Icon Texture

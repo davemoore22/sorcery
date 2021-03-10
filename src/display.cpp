@@ -265,7 +265,7 @@ auto Sorcery::Display::stop_background_movie() -> void {
 
 auto Sorcery::Display::update_background_movie() -> void {
 
-	_background_movie.update();
+	//_background_movie.update();
 }
 
 auto Sorcery::Display::draw_background_movie() -> void {

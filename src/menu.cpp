@@ -128,7 +128,7 @@ Sorcery::Menu::Menu(System &system, Display &display, Graphics &graphics, const 
 		_add_item(3, MenuItemType::ENTRY, MenuItem::CR_GNOME,
 			(*_display.string)["CHARACTER_RACE_GNOME"], true, ConfigOption::NONE,
 			(*_display.string)["HINT_CHARACTER_RACE_GNOME"]);
-		_add_item(4, MenuItemType::ENTRY, MenuItem::CR_HUMAN,
+		_add_item(4, MenuItemType::ENTRY, MenuItem::CR_HOBBIT,
 			(*_display.string)["CHARACTER_RACE_HOBBIT"], true, ConfigOption::NONE,
 			(*_display.string)["HINT_CHARACTER_RACE_HOBBIT"]);
 		selected = items.begin();

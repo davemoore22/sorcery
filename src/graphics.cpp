@@ -28,7 +28,7 @@
 Sorcery::Graphics::Graphics(System *system, Display *display) {
 
 	animation = std::make_shared<Animation>(*system, *display);
-	icons = std::make_shared<IconStore>(*system, *display);
+	icons = std::make_shared<IconStore>(*system, *display, (*system->files)[ICONS_FILE]);
 }
 
 Sorcery::Graphics::Graphics(const Graphics &other)

@@ -45,6 +45,7 @@
 #include "SimpleIni.h"
 #include "sfeMovie/Movie.hpp"
 #include "sqlite_modern_cpp.h"
+#include "magic_enum.hpp"
 #pragma GCC diagnostic pop
 
 // Include this here to avoid Status enums defined within clashing with above
