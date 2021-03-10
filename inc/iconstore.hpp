@@ -39,9 +39,11 @@ namespace Sorcery {
 
 		// Overload [] operator
 		auto operator[](const std::string &key) -> std::optional<sf::Sprite>;
+		auto operator[](const MenuItem key) -> std::optional<sf::Sprite>;
 
 		// Public Methods
 		auto get(const std::string &key) -> std::optional<sf::Sprite>;
+		auto get(const MenuItem key) -> std::optional<sf::Sprite>;
 
 	  private:
 		// Private Members
@@ -53,6 +55,7 @@ namespace Sorcery {
 		unsigned int _index; // Used only during setting
 		sf::Vector2f _size;
 		sf::Vector2f _scale;
+		Component _layout;
 		std::map<MenuItem, Icon> _menu_icon_map;
 		std::map<std::string, sf::Sprite> _icon_store;
 

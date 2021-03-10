@@ -47,6 +47,7 @@ namespace Sorcery {
 		// Public Methods
 		auto set_text(const std::string &string) -> void;
 		auto set_icon(const std::string &string) -> void;
+		auto set_icon(const MenuItem menu_item) -> void;
 
 	  private:
 		// Private Methods

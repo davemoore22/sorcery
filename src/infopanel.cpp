@@ -45,6 +45,16 @@ auto Sorcery::InfoPanel::set_icon(const std::string &string) -> void {
 	_icon.setPosition(0, 16);
 }
 
+auto Sorcery::InfoPanel::set_icon(const MenuItem menu_item) -> void {
+
+	if ((*_graphics.icons)[menu_item])
+		_icon = (*_graphics.icons)[menu_item].value();
+	else
+		_icon = sf::Sprite();
+
+	_icon.setPosition(0, 16);
+}
+
 // Set the Text
 auto Sorcery::InfoPanel::set_text(const std::string &string) -> void {
 

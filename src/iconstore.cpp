@@ -37,12 +37,10 @@ Sorcery::IconStore::IconStore(
 	_texture = _system.resources->textures[ICONS_TEXTURE];
 
 	// Set the Icon scaling (remember we are using square icons)
-	Component icon_layout{(*_display.layout)["global:icon"]};
-	_size = sf::Vector2f(icon_layout.size, icon_layout.size);
+	_layout = Component{(*_display.layout)["global:icon"]};
+	_size = sf::Vector2f(_layout.size, _layout.size);
 	float texture_size{static_cast<float>(_texture.getSize().y)};
 	_scale = sf::Vector2f(_size.x / texture_size, _size.y / texture_size);
-
-	//_loaded = _set_icons();
 
 	// Load the Icons
 	_loaded = _load(filename);
@@ -51,17 +49,33 @@ Sorcery::IconStore::IconStore(
 // Overload [] Operator
 auto Sorcery::IconStore::operator[](const std::string &key) -> std::optional<sf::Sprite> {
 
+	return get(key);
+}
+
+auto Sorcery::IconStore::operator[](const MenuItem key) -> std::optional<sf::Sprite> {
+
+	return get(key);
+}
+
+// Find the corresponding item in the map by String
+auto Sorcery::IconStore::get(const std::string &key) -> std::optional<sf::Sprite> {
+
 	if (_loaded)
 		return _icon_store.at(key);
 	else
 		return std::nullopt;
 }
 
-auto Sorcery::IconStore::get(const std::string &key) -> std::optional<sf::Sprite> {
+// Find the corresponding item in the map by Menu Item
+auto Sorcery::IconStore::get(const MenuItem key) -> std::optional<sf::Sprite> {
 
-	if (_loaded)
-		return _icon_store.at(key);
-	else
+	auto it = std::find_if(_menu_icon_map.begin(), _menu_icon_map.end(), [&key](const auto &item) {
+		return item.second.item == key;
+	});
+	if (it != _menu_icon_map.end()) {
+		const std::string string_key = (*it).second.key;
+		return _icon_store.at(string_key);
+	} else
 		return std::nullopt;
 }
 
@@ -90,9 +104,12 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 				std::string menu_item_s{icons[i]["menu_item"].asString()};
 				std::string key{icons[i]["key"].asString()};
 				std::string colour_hex{icons[i]["colour"].asString()};
-				if (colour_hex.length() == 0)
-					colour_hex = "0xFFFFFFFF"; // TODO: read from icon component!
-				sf::Color colour(std::stoul(colour_hex, 0, 16));
+				sf::Color colour = [&] {
+					if (colour_hex.length() == 0)
+						return sf::Color(_layout.colour);
+					else
+						return sf::Color(std::stoul(colour_hex, 0, 16));
+				}();
 				MenuItem menu_item{MenuItem::NONE};
 
 				// Use Magic Enum Library Reflection to convert the string to the type!
