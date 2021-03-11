@@ -915,10 +915,10 @@
 		{
 			"name": "name_candidate",
 			"x": "centre",
-			"y": "20",
+			"y": "19",
 			"font": "text",
 			"colour": "0xddddddff",
-			"size": "54",
+			"size": "72",
 			"justification": "centre",
 			"type": "text",
 			"priority": "3",

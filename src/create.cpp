@@ -60,6 +60,8 @@ Sorcery::Create::Create(System &system, Display &display, Graphics &graphics)
 		std::make_shared<Menu>(_system, _display, _graphics, MenuType::CHOOSE_CHARACTER_ALIGNMENT);
 	_attribute_menu = std::make_shared<Menu>(
 		_system, _display, _graphics, MenuType::ALLOCATE_CHARACTER_ATTRIBUTES);
+
+	_stages.clear();
 }
 
 // Standard Destructor
@@ -116,17 +118,23 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 	switch (_candidate->get_stage()) {
 
 	case CharacterStage::CHOOSE_RACE:
+		_candidate = std::move(_stages.back());
 		_candidate->set_stage(CharacterStage::ENTER_NAME);
+		_stages.pop_back();
 		_display.window->input_mode = WindowInputMode::INPUT_TEXT;
 		break;
 	case CharacterStage::CHOOSE_ALIGNMENT:
+		_candidate = std::move(_stages.back());
 		_candidate->set_stage(CharacterStage::CHOOSE_RACE);
+		_stages.pop_back();
 		_race_menu->choose(_candidate->get_race());
 		_set_info_panel_contents(_race_menu->selected);
 		_display.window->input_mode = WindowInputMode::NORMAL;
 		break;
 	case CharacterStage::ALLOCATE_STATS:
+		_candidate = std::move(_stages.back());
 		_candidate->set_stage(CharacterStage::CHOOSE_ALIGNMENT);
+		_stages.pop_back();
 		_alignment_menu->choose(_candidate->get_alignment());
 		_set_info_panel_contents(_alignment_menu->selected);
 		_display.window->input_mode = WindowInputMode::NORMAL;
@@ -140,18 +148,21 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 
 	switch (_candidate->get_stage()) {
 	case CharacterStage::ENTER_NAME:
+		_stages.emplace_back(_candidate);
 		_candidate->set_stage(CharacterStage::CHOOSE_RACE);
 		_display.window->input_mode = WindowInputMode::NORMAL;
 		_race_menu->selected = _race_menu->items.begin();
 		_set_info_panel_contents(_race_menu->selected);
 		break;
 	case CharacterStage::CHOOSE_RACE:
+		_stages.emplace_back(_candidate);
 		_candidate->set_stage(CharacterStage::CHOOSE_ALIGNMENT);
 		_display.window->input_mode = WindowInputMode::NORMAL;
 		_alignment_menu->selected = _alignment_menu->items.begin();
 		_set_info_panel_contents(_alignment_menu->selected);
 		break;
 	case CharacterStage::CHOOSE_ALIGNMENT:
+		_stages.emplace_back(_candidate);
 		_candidate->set_stage(CharacterStage::ALLOCATE_STATS);
 		_display.window->input_mode = WindowInputMode::ALLOCATE_STATS;
 		_attribute_menu->selected = _attribute_menu->items.begin();
@@ -293,14 +304,14 @@ auto Sorcery::Create::_generate_character(const sf::Event &event) -> std::option
 
 			if (_keyboard->selected == "End") {
 				if (TRIM_COPY(candidate_name).length() > 0) {
-					_go_to_next_stage();
 					_candidate->set_name(candidate_name);
+					_go_to_next_stage();
 					return std::nullopt;
 				}
 			} else {
 				if (TRIM_COPY(candidate_name).length() > 0) {
-					_go_to_next_stage();
 					_candidate->set_name(candidate_name);
+					_go_to_next_stage();
 					return std::nullopt;
 				}
 			}

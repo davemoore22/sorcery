@@ -83,5 +83,6 @@ namespace Sorcery {
 		std::shared_ptr<Menu> _attribute_menu;
 		std::shared_ptr<InfoPanel> _ip;
 		std::shared_ptr<AllocatePanel> _ap;
+		std::vector<std::shared_ptr<Character>> _stages;
 	};
 } // namespace Sorcery

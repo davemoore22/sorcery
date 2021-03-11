@@ -52,7 +52,6 @@ namespace Sorcery {
 		IconLibrary _icons;
 		bool _loaded;
 		sf::Texture _texture;
-		unsigned int _index; // Used only during setting
 		sf::Vector2f _size;
 		sf::Vector2f _scale;
 		Component _layout;
@@ -60,9 +59,7 @@ namespace Sorcery {
 		std::map<std::string, sf::Sprite> _icon_store;
 
 		// Private Methods
-		auto _set_icons() -> bool;
 		auto _get_rect(unsigned int index) const -> sf::IntRect;
-		auto _load_icon(std::string key) -> void;
 		auto _load(const std::filesystem::path filename) -> bool;
 	};
 } // namespace Sorcery

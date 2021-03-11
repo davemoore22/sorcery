@@ -125,10 +125,33 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 	// create immediately sets that
 
 	// As well as a summary display of character (to be displayed where?)
-
-	// Also handle going back to previous stage as well
-
 	switch (stage) {
+	case CharacterStage::NOT_BEGUN:
+		_name.clear();
+		_race = CharacterRace::NONE;
+		_alignment = CharacterAlignment::NONE;
+		_start_attr.clear();
+		_cur_attr.clear();
+		_max_attr.clear();
+		//_status.clear();
+		_abilities.clear();
+		_class = CharacterClass::NONE;
+		_points_left = 0;
+		_st_points = 0;
+		_pos_classes.clear();
+		_num_pos_classes = 0;
+		_portrait_index = 0;
+		_cleric_max_sp.clear();
+		_cleric_cur_sp.clear();
+		_mage_max_sp.clear();
+		_mage_cur_sp.clear();
+		_spells.clear();
+		_create_spell_lists();
+	default:
+		break;
+	}
+
+	/* switch (stage) {
 	case CharacterStage::NOT_BEGUN:
 		_name.clear();
 		[[fallthrough]];
@@ -221,7 +244,7 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 
 	default:
 		break;
-	}
+	} */
 
 	switch (stage) {
 	case CharacterStage::ENTER_NAME:

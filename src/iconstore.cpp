@@ -33,7 +33,7 @@ Sorcery::IconStore::IconStore(
 	_icon_store.clear();
 	_menu_icon_map.clear();
 
-	// First get the Icon Texture
+	// First get the Icon Texture and load it into the Spritesheet
 	_texture = _system.resources->textures[ICONS_TEXTURE];
 
 	// Set the Icon scaling (remember we are using square icons)
@@ -69,19 +69,23 @@ auto Sorcery::IconStore::get(const std::string &key) -> std::optional<sf::Sprite
 // Find the corresponding item in the map by Menu Item
 auto Sorcery::IconStore::get(const MenuItem key) -> std::optional<sf::Sprite> {
 
-	auto it = std::find_if(_menu_icon_map.begin(), _menu_icon_map.end(), [&key](const auto &item) {
-		return item.second.item == key;
-	});
-	if (it != _menu_icon_map.end()) {
-		const std::string string_key = (*it).second.key;
-		return _icon_store.at(string_key);
+	if (_loaded) {
+		auto it =
+			std::find_if(_menu_icon_map.begin(), _menu_icon_map.end(), [&key](const auto &item) {
+				return item.second.item == key;
+			});
+
+		if (it != _menu_icon_map.end())
+			return _icon_store.at((*it).second.key);
+		else
+			return std::nullopt;
 	} else
 		return std::nullopt;
 }
 
+// Attempt to load Icons from Layout File
 auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 
-	// Attempt to load Layout File
 	if (std::ifstream file{filename.string(), std::ifstream::binary}; file.good()) {
 
 #pragma GCC diagnostic push
@@ -112,7 +116,8 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 				}();
 				MenuItem menu_item{MenuItem::NONE};
 
-				// Use Magic Enum Library Reflection to convert the string to the type!
+				// Use Magic Enum Library Reflection to convert the string to the type if we have an
+				// associated menu item for the icon (which is used in an info panel beneath a menu)
 				auto item_t = magic_enum::enum_cast<Sorcery::Enums::Menu::Item>(menu_item_s);
 				if (item_t.has_value())
 					menu_item = item_t.value();
@@ -140,55 +145,9 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 	return true;
 }
 
-// Fortunately we are using square icons!
+// Fortunately we are using square icons so we can easily find the appropriate icon from the
+// spritesheet
 auto Sorcery::IconStore::_get_rect(unsigned int index) const -> sf::IntRect {
 
 	return sf::IntRect(_texture.getSize().y * index, 0, _texture.getSize().y, _texture.getSize().y);
-}
-
-auto Sorcery::IconStore::_load_icon(std::string key) -> void {
-
-	sf::Sprite sprite(_texture);
-	sprite.setTextureRect(_get_rect(_index));
-	sprite.setScale(_scale);
-	_icons[key] = sprite;
-	++_index;
-}
-
-auto Sorcery::IconStore::_set_icons() -> bool {
-
-	auto color = magic_enum::enum_cast<Sorcery::Enums::Menu::Item>("CR_HUMAN");
-	if (color.has_value()) {
-		MenuItem wibble = color.value();
-		if (wibble == MenuItem::CR_HUMAN) {
-			std::cout << "yay!" << std::endl;
-		}
-	}
-
-	// Icon List load here
-	_index = 0;
-	_load_icon("samurai");
-	_load_icon("fighter");
-	_load_icon("lord");
-	_load_icon("thief");
-	_load_icon("ninja");
-	_load_icon("priest");
-	_load_icon("bishop");
-	_load_icon("mage");
-	_load_icon("good");
-	_load_icon("neutral");
-	_load_icon("evil");
-	_load_icon("strength");
-	_load_icon("iq");
-	_load_icon("piety");
-	_load_icon("vitality");
-	_load_icon("agility");
-	_load_icon("luck");
-	_load_icon("human");
-	_load_icon("elf");
-	_load_icon("dwarf");
-	_load_icon("gnome");
-	_load_icon("hobbit");
-
-	return true;
 }
