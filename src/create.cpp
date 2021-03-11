@@ -116,7 +116,6 @@ auto Sorcery::Create::stop() -> void {
 auto Sorcery::Create::_go_to_previous_stage() -> void {
 
 	switch (_candidate->get_stage()) {
-
 	case CharacterStage::CHOOSE_RACE:
 		_candidate = std::move(_stages.back());
 		_candidate->set_stage(CharacterStage::ENTER_NAME);
@@ -142,6 +141,8 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 	default:
 		break;
 	}
+
+	std::cout << "after previous, so count is now " << _stages.size() << std::endl;
 }
 
 auto Sorcery::Create::_go_to_next_stage() -> void {
@@ -170,9 +171,10 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		_set_info_panel_contents(_attribute_menu->selected);
 		break;
 	default:
-
 		break;
 	}
+
+	std::cout << "after next, so count is now " << _stages.size() << std::endl;
 }
 
 auto Sorcery::Create::_do_event_loop() -> std::optional<ModuleResult> {
@@ -283,8 +285,10 @@ auto Sorcery::Create::_generate_character(const sf::Event &event) -> std::option
 		} else if (_system.input->check_for_event(WindowInput::SELECT, event)) {
 			if (_keyboard->selected == "End") {
 				if (TRIM_COPY(candidate_name).length() > 0) {
+					_candidate->set_name(candidate_name);
 					_candidate->set_stage(CharacterStage::CHOOSE_RACE);
-					_display.window->input_mode = WindowInputMode::NORMAL;
+					_go_to_next_stage();
+					return std::nullopt;
 				}
 			} else if (_keyboard->selected == "Spc") {
 				if (candidate_name.length() < 24) {
