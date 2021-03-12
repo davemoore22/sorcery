@@ -291,7 +291,7 @@ auto Sorcery::Options::_set_tooltip(sf::Vector2f mouse_pos) -> bool {
 		const sf::Vector2f global_pos{_menu->getPosition()};
 		mouse_pos -= global_pos;
 
-		WindowTooltipList::iterator contain{std::find_if(_display.window->tooltips.begin(),
+		auto contain{std::find_if(_display.window->tooltips.begin(),
 			_display.window->tooltips.end(), [&mouse_pos](const auto &entry) {
 				const sf::FloatRect candidate{entry.second};
 				return candidate.contains(mouse_pos);

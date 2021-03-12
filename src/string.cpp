@@ -92,6 +92,7 @@ auto Sorcery::String::get(const std::string &key) -> std::string {
 		return STRINGS_NOT_LOADED;
 }
 
+// TODO: not used?
 // Utility function due to lack of std::string::replace_with_substring
 auto Sorcery::String::_replace(
 	std::string &subject, const std::string &search, const std::string &replace) -> void {

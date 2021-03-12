@@ -69,14 +69,9 @@ auto Sorcery::TextFile::get_reading_progress(const int current_line) const -> st
 	// Work out progress through file
 	const float percent{
 		(static_cast<float>(current_line) / static_cast<float>(_contents.size())) * 100};
-	const float percentage{std::round(percent)};
-	std::stringstream pss{};
-	pss << std::fixed << std::setprecision(0) << percentage;
-	const std::string progress{" (" + pss.str() + "%)"};
 
 	// Build status line
 	const std::string status{
-		std::to_string(current_line) + "/" + std::to_string(_contents.size()) + progress};
-
+		fmt::format("{}/{} ({}%)", current_line, _contents.size(), std::lround(percent))};
 	return status;
 }

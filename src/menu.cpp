@@ -99,6 +99,7 @@ Sorcery::Menu::Menu(System &system, Display &display, Graphics &graphics, const 
 		_add_item(5, MenuItemType::ENTRY, MenuItem::CS_LUCK,
 			(*_display.string)["CHARACTER_STAT_LUCK"], true, ConfigOption::NONE,
 			(*_display.string)["HINT_CHARACTER_STAT_LUCK"]);
+		selected = items.begin();
 		break;
 	case MenuType::CHOOSE_CHARACTER_ALIGNMENT:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::CA_GOOD,
@@ -110,8 +111,12 @@ Sorcery::Menu::Menu(System &system, Display &display, Graphics &graphics, const 
 		_add_item(2, MenuItemType::ENTRY, MenuItem::CA_EVIL,
 			(*_display.string)["CHARACTER_ALIGNMENT_EVIL"], true, ConfigOption::NONE,
 			(*_display.string)["HINT_CHARACTER_ALIGNMENT_EVIL"]);
+		selected = items.begin();
 		break;
 	case MenuType::CHOOSE_CHARACTER_CLASS:
+
+		// Some characters may not quality for the furst class in the menu, so choose the first
+		// active instead
 		break;
 	case MenuType::CHOOSE_CHARACTER_PORTRAIT:
 		break;
@@ -262,23 +267,25 @@ auto Sorcery::Menu::_add_item(const int index, const MenuItemType itemtype, cons
 auto Sorcery::Menu::_select_first_enabled()
 	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
-	// Why not use new for auto loop?
-	for (std::vector<MenuEntry>::const_iterator it = items.begin(); it != items.end(); ++it)
-		if ((((*it).type == MenuItemType::ENTRY) || ((*it).type == MenuItemType::SAVE) ||
-				((*it).type == MenuItemType::CANCEL)) &&
-			((*it).enabled)) {
-			selected = it;
-			return selected;
-		}
+	auto it = std::find_if(items.begin(), items.end(), [&](const auto &menu_item) {
+		return (
+			((menu_item.type == MenuItemType::ENTRY) || (menu_item.type == MenuItemType::SAVE) ||
+				(menu_item.type == MenuItemType::CANCEL)) &&
+			(menu_item.enabled));
+	});
 
-	return std::nullopt;
+	if (it != items.end())
+		return it;
+	else
+		return std::nullopt;
 }
 
 // Select the last enabled menu item
 auto Sorcery::Menu::_select_last_enabled()
 	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
-	// Why not use new for auto loop?
+	// Would be nice to use a ranges reverse view to handle this, or a std::find_last_if, instead we
+	// have to do a forward iterator backwards since we can't use a backwards iterator either!
 	for (std::vector<MenuEntry>::const_iterator it = items.end() - 1; it != items.begin(); --it)
 		if ((((*it).type == MenuItemType::ENTRY) || ((*it).type == MenuItemType::SAVE) ||
 				((*it).type == MenuItemType::CANCEL)) &&
@@ -295,24 +302,22 @@ auto Sorcery::Menu::check_menu_mouseover(sf::Vector2f mouse_pos)
 	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	if (bounds.size() > 0) {
-		bool found{false};
+
+		// Look for the bounds the mouse cursor is in, but return the associated item with the same
+		// index, since both containers track each other
 		const sf::Vector2f global_pos{this->getPosition()};
 		mouse_pos -= global_pos;
-		std::vector<sf::FloatRect>::const_iterator temp_bounds{bounds.begin()};
-		std::vector<MenuEntry>::const_iterator temp_items{items.begin()};
-		do {
-			if (temp_bounds->contains(mouse_pos))
-				return temp_items;
-
-			++temp_bounds;
-			++temp_items;
-		} while ((temp_bounds < bounds.end()) && (!found));
-
-		// If we reach here the mouse cursor is outside the items so we don't do anything
-		return std::nullopt;
+		auto it = std::find_if(bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) {
+			return item.contains(mouse_pos);
+		});
+		if (it != bounds.end()) {
+			auto dist{std::distance(bounds.begin(), it)};
+			return items.begin() + dist;
+		} else
+			return std::nullopt;
 	}
 
-	// And if we reach here it means that bounds (which requites a draw to take place, hasn't been
+	// If we reach here it means that bounds (which requites a draw to take place, hasn't been
 	// populated yet)
 	return std::nullopt;
 }
@@ -322,27 +327,23 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
 	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	if (bounds.size() > 0) {
+
+		// Look for the bounds the mouse cursor is in, but select and return the associated item
+		// with the same index, since both containers track each other
 		const sf::Vector2f global_pos{this->getPosition()};
 		mouse_pos -= global_pos;
-		bool found{false};
-		std::vector<sf::FloatRect>::const_iterator temp_bounds{bounds.begin()};
-		std::vector<MenuEntry>::const_iterator working_items{items.begin()};
-		do {
-			if (temp_bounds->contains(mouse_pos)) {
-				found = true; // NOLINT(clang-analyzer-deadcode.DeadStores)
-				selected = working_items;
-				return working_items;
-			}
-
-			++temp_bounds;
-			++working_items;
-		} while ((temp_bounds < bounds.end()) && (!found));
-
-		// If we reach here the mouse cursor is outside the items so we don't do anything
-		return std::nullopt;
+		auto it = std::find_if(bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) {
+			return item.contains(mouse_pos);
+		});
+		if (it != bounds.end()) {
+			auto dist{std::distance(bounds.begin(), it)};
+			selected = items.begin() + dist;
+			return selected;
+		} else
+			return std::nullopt;
 	}
 
-	// And if we reach here it means that bounds (which requites a draw to take place, hasn't been
+	// If we reach here it means that bounds (which requites a draw to take place, hasn't been
 	// populated yet)
 	return std::nullopt;
 }
@@ -395,8 +396,8 @@ auto Sorcery::Menu::choose(std::any option)
 		break;
 	}
 
-	auto it = std::find_if(items.begin(), items.end(), [&](const auto &menu_item) {
-		return menu_item.item == search_for;
+	auto it = std::find_if(items.begin(), items.end(), [&](const auto &item) {
+		return item.item == search_for;
 	});
 	if (it != items.end()) {
 		selected = it;
@@ -409,20 +410,15 @@ auto Sorcery::Menu::choose(std::any option)
 auto Sorcery::Menu::choose(const unsigned int index)
 	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
-	// Iterate through til we have found it
-	bool found{false};
-	if (index < items.size()) {
-		std::vector<MenuEntry>::const_iterator working{items.begin()};
-		do {
-			found = (*working).index == index;
-			if (found) {
-				selected = working;
-				return selected;
-			}
+	// Iterate through til we have found the item with the associated index
+	auto it = std::find_if(items.begin(), items.end(), [&](const auto &item) {
+		return item.index == index;
+	});
 
-			++working;
-		} while (working > items.begin());
-	}
+	if (it != items.end())
+		return it;
+	else
+		return std::nullopt;
 
 	// If we reach here the mouse cursor is outside the items so we don't do anything
 	return std::nullopt;
@@ -441,6 +437,10 @@ auto Sorcery::Menu::choose_last() -> std::optional<std::vector<MenuEntry>::const
 auto Sorcery::Menu::choose_previous() -> std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	if (selected > items.begin()) {
+
+		// Repeat the comment from above, that it would be nice to use a ranges reverse view to
+		// handle this, or a std::find_last_if, instead we have to do a forward iterator backwards
+		// since we can't use a backwards iterator either!
 
 		// Iterate backwards until we find the first previous enabled menu if we can
 		bool found{false};

@@ -284,10 +284,10 @@
 1614621062 source:/home/dave/Development/wizardry/sorcery-sfml/src/config.cpp
 	"config.hpp"
 
-1615577628 source:/home/dave/Development/wizardry/sorcery-sfml/src/create.cpp
+1615582705 source:/home/dave/Development/wizardry/sorcery-sfml/src/create.cpp
 	"create.hpp"
 
-1615576947 /home/dave/Development/wizardry/sorcery-sfml/inc/create.hpp
+1615582504 /home/dave/Development/wizardry/sorcery-sfml/inc/create.hpp
 	"allocatepanel.hpp"
 	"character.hpp"
 	"display.hpp"
@@ -370,16 +370,16 @@
 1615322785 source:/home/dave/Development/wizardry/sorcery-sfml/src/resourcemanager.cpp
 	"resourcemanager.hpp"
 
-1614555672 source:/home/dave/Development/wizardry/sorcery-sfml/src/splash.cpp
+1615583373 source:/home/dave/Development/wizardry/sorcery-sfml/src/splash.cpp
 	"splash.hpp"
 
-1614801943 source:/home/dave/Development/wizardry/sorcery-sfml/src/string.cpp
+1615583321 source:/home/dave/Development/wizardry/sorcery-sfml/src/string.cpp
 	"string.hpp"
 
 1615062645 source:/home/dave/Development/wizardry/sorcery-sfml/src/system.cpp
 	"system.hpp"
 
-1614621211 source:/home/dave/Development/wizardry/sorcery-sfml/src/textfile.cpp
+1615583254 source:/home/dave/Development/wizardry/sorcery-sfml/src/textfile.cpp
 	"textfile.hpp"
 
 1614621205 source:/home/dave/Development/wizardry/sorcery-sfml/src/tile.cpp
@@ -418,7 +418,7 @@
 1614969136 source:/home/dave/Development/wizardry/sorcery-sfml/src/license.cpp
 	"license.hpp"
 
-1615065105 source:/home/dave/Development/wizardry/sorcery-sfml/src/options.cpp
+1615583530 source:/home/dave/Development/wizardry/sorcery-sfml/src/options.cpp
 	"options.hpp"
 
 1614555942 /home/dave/Development/wizardry/sorcery-sfml/inc/options.hpp
@@ -451,7 +451,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1614621199 source:/home/dave/Development/wizardry/sorcery-sfml/src/tooltip.cpp
+1615582822 source:/home/dave/Development/wizardry/sorcery-sfml/src/tooltip.cpp
 	"tooltip.hpp"
 
 1614621318 source:/home/dave/Development/wizardry/sorcery-sfml/src/game.cpp
@@ -569,7 +569,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1614895986 source:/home/dave/Development/wizardry/sorcery-sfml/src/statusbar.cpp
+1615583341 source:/home/dave/Development/wizardry/sorcery-sfml/src/statusbar.cpp
 	"statusbar.hpp"
 
 1614980827 /home/dave/Development/wizardry/sorcery-sfml/inc/keyboard.hpp

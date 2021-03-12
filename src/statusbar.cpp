@@ -76,7 +76,7 @@ auto Sorcery::StatusBar::draw(sf::RenderTarget &target, sf::RenderStates states)
 auto Sorcery::StatusBar::_generate_components() -> void {
 
 	// For now - this is copied from display.cpp
-	std::optional<std::vector<Component>> components{(*_display.layout)("status_bar")};
+	auto components{(*_display.layout)("status_bar")};
 	if (components) {
 		for (const auto &component : components.value()) {
 			if (component.type == ComponentType::TEXT) {

@@ -43,16 +43,15 @@ Sorcery::Splash::Splash(System &system, Display &display, Graphics &graphics)
 
 auto Sorcery::Splash::start() -> void {
 
-	sf::Event input_event{};
+	sf::Event event{};
 	while (!_finished) {
-		_window->pollEvent(input_event);
+		_window->pollEvent(event);
 		_window->clear();
 		_update();
 		_draw();
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 		_window->display();
-		if ((input_event.type == sf::Event::KeyPressed) ||
-			(input_event.type == sf::Event::MouseButtonPressed))
+		if ((event.type == sf::Event::KeyPressed) || (event.type == sf::Event::MouseButtonPressed))
 			_finished = true;
 	}
 }
