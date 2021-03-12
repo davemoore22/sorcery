@@ -24,12 +24,14 @@
 
 #include "character.hpp"
 
+Sorcery::Character::Character() {}
+
 // Standard Constructor
-Sorcery::Character::Character(System &system, Display &display, Graphics &graphics)
+Sorcery::Character::Character(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	set_stage(CharacterStage::NOT_BEGUN);
-	_display.generate_components("character_create_stage_1", sprites, texts, frames);
+	_display->generate_components("character_create_stage_1", sprites, texts, frames);
 }
 
 // Note for the copy constuctors we only copy the character data/PODs within
@@ -248,20 +250,20 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 
 	switch (stage) {
 	case CharacterStage::ENTER_NAME:
-		_display.generate_components("character_create_stage_1", sprites, texts, frames);
-		_display.window->input_mode = WindowInputMode::INPUT_TEXT;
+		_display->generate_components("character_create_stage_1", sprites, texts, frames);
+		_display->window->input_mode = WindowInputMode::INPUT_TEXT;
 		break;
 	case CharacterStage::CHOOSE_RACE:
-		_display.generate_components("character_create_stage_2", sprites, texts, frames);
-		_display.window->input_mode = WindowInputMode::NORMAL;
+		_display->generate_components("character_create_stage_2", sprites, texts, frames);
+		_display->window->input_mode = WindowInputMode::NORMAL;
 		break;
 	case CharacterStage::CHOOSE_ALIGNMENT:
-		_display.generate_components("character_create_stage_3", sprites, texts, frames);
-		_display.window->input_mode = WindowInputMode::NORMAL;
+		_display->generate_components("character_create_stage_3", sprites, texts, frames);
+		_display->window->input_mode = WindowInputMode::NORMAL;
 		break;
 	case CharacterStage::ALLOCATE_STATS:
-		_display.generate_components("character_create_stage_4", sprites, texts, frames);
-		_display.window->input_mode = WindowInputMode::ALLOCATE_STATS;
+		_display->generate_components("character_create_stage_4", sprites, texts, frames);
+		_display->window->input_mode = WindowInputMode::ALLOCATE_STATS;
 		break;
 	default:
 		break;
@@ -369,9 +371,9 @@ auto Sorcery::Character::set_starting_attributes() -> void {
 	_cur_attr = _start_attr;
 
 	// Formula soured from http://www.zimlab.com/wizardry/walk/w123calc.htm
-	_points_left = {(*_system.random)[RandomType::ZERO_TO_3]};
-	const bool chance_of_more = {(*_system.random)[RandomType::D10] == 1};
-	const bool chance_of_more_again = {(*_system.random)[RandomType::D10] == 1};
+	_points_left = {(*_system->random)[RandomType::ZERO_TO_3]};
+	const bool chance_of_more = {(*_system->random)[RandomType::D10] == 1};
+	const bool chance_of_more_again = {(*_system->random)[RandomType::D10] == 1};
 	_points_left += 7;
 	if (_points_left < 20)
 		if (chance_of_more)
@@ -479,13 +481,13 @@ auto Sorcery::Character::get_alignment(CharacterAlignment character_alignment) c
 
 	switch (character_alignment) {
 	case CharacterAlignment::GOOD:
-		return (*_display.string)["CHARACTER_ALIGNMENT_GOOD"];
+		return (*_display->string)["CHARACTER_ALIGNMENT_GOOD"];
 		break;
 	case CharacterAlignment::NEUTRAL:
-		return (*_display.string)["CHARACTER_ALIGNMENT_NEUTRAL"];
+		return (*_display->string)["CHARACTER_ALIGNMENT_NEUTRAL"];
 		break;
 	case CharacterAlignment::EVIL:
-		return (*_display.string)["CHARACTER_ALIGNMENT_EVIL"];
+		return (*_display->string)["CHARACTER_ALIGNMENT_EVIL"];
 		break;
 	default:
 		return "";
@@ -497,19 +499,19 @@ auto Sorcery::Character::get_race(CharacterRace character_race) const -> std::st
 
 	switch (character_race) {
 	case CharacterRace::HUMAN:
-		return (*_display.string)["CHARACTER_RACE_HUMAN"];
+		return (*_display->string)["CHARACTER_RACE_HUMAN"];
 		break;
 	case CharacterRace::ELF:
-		return (*_display.string)["CHARACTER_RACE_ELF"];
+		return (*_display->string)["CHARACTER_RACE_ELF"];
 		break;
 	case CharacterRace::DWARF:
-		return (*_display.string)["CHARACTER_RACE_DWARF"];
+		return (*_display->string)["CHARACTER_RACE_DWARF"];
 		break;
 	case CharacterRace::GNOME:
-		return (*_display.string)["CHARACTER_RACE_GNOME"];
+		return (*_display->string)["CHARACTER_RACE_GNOME"];
 		break;
 	case CharacterRace::HOBBIT:
-		return (*_display.string)["CHARACTER_RACE_HOBBIT"];
+		return (*_display->string)["CHARACTER_RACE_HOBBIT"];
 		break;
 	default:
 		return "";
@@ -521,28 +523,28 @@ auto Sorcery::Character::get_class(CharacterClass character_class) const -> std:
 
 	switch (character_class) {
 	case CharacterClass::FIGHTER:
-		return (*_display.string)["CHARACTER_CLASS_FIGHTER"];
+		return (*_display->string)["CHARACTER_CLASS_FIGHTER"];
 		break;
 	case CharacterClass::MAGE:
-		return (*_display.string)["CHARACTER_CLASS_MAGE"];
+		return (*_display->string)["CHARACTER_CLASS_MAGE"];
 		break;
 	case CharacterClass::PRIEST:
-		return (*_display.string)["CHARACTER_CLASS_PRIEST"];
+		return (*_display->string)["CHARACTER_CLASS_PRIEST"];
 		break;
 	case CharacterClass::THIEF:
-		return (*_display.string)["CHARACTER_CLASS_THIEF"];
+		return (*_display->string)["CHARACTER_CLASS_THIEF"];
 		break;
 	case CharacterClass::BISHOP:
-		return (*_display.string)["CHARACTER_CLASS_BISHOP"];
+		return (*_display->string)["CHARACTER_CLASS_BISHOP"];
 		break;
 	case CharacterClass::SAMURAI:
-		return (*_display.string)["CHARACTER_CLASS_SAMURAI"];
+		return (*_display->string)["CHARACTER_CLASS_SAMURAI"];
 		break;
 	case CharacterClass::LORD:
-		return (*_display.string)["CHARACTER_CLASS_LORD"];
+		return (*_display->string)["CHARACTER_CLASS_LORD"];
 		break;
 	case CharacterClass::NINJA:
-		return (*_display.string)["CHARACTER_CLASS_NINJA"];
+		return (*_display->string)["CHARACTER_CLASS_NINJA"];
 		break;
 	default:
 		return "";
@@ -579,8 +581,8 @@ auto Sorcery::Character::_generate_starting_information() -> void {
 	_abilities[CharacterAbility::MAX_LEVEL] = 1;
 	_abilities[CharacterAbility::NEGATIVE_LEVEL] = 0;
 	_abilities[CharacterAbility::HIT_DICE] = 1;
-	_abilities[CharacterAbility::GOLD] = (*_system.random)[RandomType::ZERO_TO_99] + 90;
-	_abilities[CharacterAbility::AGE] = (18 * 52) + (*_system.random)[RandomType::ZERO_TO_299];
+	_abilities[CharacterAbility::GOLD] = (*_system->random)[RandomType::ZERO_TO_99] + 90;
+	_abilities[CharacterAbility::AGE] = (18 * 52) + (*_system->random)[RandomType::ZERO_TO_299];
 	_abilities[CharacterAbility::SWIM] = 1;
 	_abilities[CharacterAbility::MARKS] = 0;
 	_abilities[CharacterAbility::DEATHS] = 0;
@@ -747,7 +749,7 @@ auto Sorcery::Character::_generate_secondary_abilities() -> void {
 	_abilities[CharacterAbility::BONUS_HIT_POINTS] = _abilities[CharacterAbility::VITALITY_BONUS];
 
 	// Base Hit Points (num)
-	switch (unsigned int chance{(*_system.random)[RandomType::D100]};
+	switch (unsigned int chance{(*_system->random)[RandomType::D100]};
 			_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::FIGHTER:
 	case CharacterClass::LORD:
@@ -1024,7 +1026,7 @@ auto Sorcery::Character::_generate_secondary_abilities() -> void {
 	// depending on their associated stats
 	_abilities[CharacterAbility::BONUS_MAGE_SPELLS] = 0;
 	_abilities[CharacterAbility::BONUS_PRIEST_SPELLS] = 0;
-	if (!(*_system.config)[ConfigOption::STRICT_MODE]) {
+	if (!(*_system->config)[ConfigOption::STRICT_MODE]) {
 		switch (_class) { // NOLINT(clang-diagnostic-switch)
 		case CharacterClass::PRIEST:
 			switch (_cur_attr[CharacterAttribute::PIETY]) {
@@ -1077,7 +1079,7 @@ auto Sorcery::Character::_set_starting_sp() -> void {
 	// easier if we're not in strict mode
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::PRIEST:
-		_cleric_max_sp[1] = (*_system.config)[ConfigOption::STRICT_MODE]
+		_cleric_max_sp[1] = (*_system->config)[ConfigOption::STRICT_MODE]
 								? 2
 								: 2 + _abilities[CharacterAbility::BONUS_PRIEST_SPELLS];
 		break;
@@ -1085,7 +1087,7 @@ auto Sorcery::Character::_set_starting_sp() -> void {
 		_mage_max_sp[1] = 2;
 		break;
 	case CharacterClass::MAGE:
-		_mage_max_sp[1] = (*_system.config)[ConfigOption::STRICT_MODE]
+		_mage_max_sp[1] = (*_system->config)[ConfigOption::STRICT_MODE]
 							  ? 2
 							  : 2 + _abilities[CharacterAbility::BONUS_MAGE_SPELLS];
 		break;
@@ -1167,22 +1169,22 @@ auto Sorcery::Character::_get_hp_gained_per_level() -> int {
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::FIGHTER:
 	case CharacterClass::LORD:
-		extra_hp += (*_system.random)[RandomType::D10];
+		extra_hp += (*_system->random)[RandomType::D10];
 		break;
 	case CharacterClass::PRIEST:
-		extra_hp += (*_system.random)[RandomType::D8];
+		extra_hp += (*_system->random)[RandomType::D8];
 		break;
 	case CharacterClass::THIEF:
 	case CharacterClass::BISHOP:
 	case CharacterClass::NINJA:
-		extra_hp += (*_system.random)[RandomType::D6];
+		extra_hp += (*_system->random)[RandomType::D6];
 		break;
 	case CharacterClass::MAGE:
-		extra_hp += (*_system.random)[RandomType::D4];
+		extra_hp += (*_system->random)[RandomType::D4];
 		break;
 	case CharacterClass::SAMURAI:
-		extra_hp += (*_system.random)[RandomType::D8];
-		extra_hp += (*_system.random)[RandomType::D8];
+		extra_hp += (*_system->random)[RandomType::D8];
+		extra_hp += (*_system->random)[RandomType::D8];
 		break;
 	default:
 		break;
@@ -1206,7 +1208,7 @@ auto Sorcery::Character::_update_hp_for_level() -> void {
 	// *current* class level for recalculation, hence until you get back to where you were before
 	// changing class you will probably only ever gain 1 hp each time unless the random dice rolls
 	// are really in your favour!
-	if ((*_system.config)[ConfigOption::REROLL_HIT_POINTS_ON_LEVEL_GAIN]) {
+	if ((*_system->config)[ConfigOption::REROLL_HIT_POINTS_ON_LEVEL_GAIN]) {
 		int hp_total{0};
 		for (auto level = 1; level < _abilities[CharacterAbility::CURRENT_LEVEL]; level++)
 			hp_total += _get_hp_gained_per_level();
@@ -1264,11 +1266,11 @@ auto Sorcery::Character::_try_to_learn_spells(SpellType spell_type, unsigned int
 
 		// Check the Spell Type against the relevant stat (see SPLPERLV//TRYLEARN)
 		if (spell_type == SpellType::PRIEST)
-			if ((*_system.random)[RandomType::ZERO_TO_29] <=
+			if ((*_system->random)[RandomType::ZERO_TO_29] <=
 				static_cast<unsigned int>(_cur_attr[CharacterAttribute::PIETY]))
 				std::get<4>(*it) = true;
 		if (spell_type == SpellType::MAGE)
-			if ((*_system.random)[RandomType::ZERO_TO_29] <=
+			if ((*_system->random)[RandomType::ZERO_TO_29] <=
 				static_cast<unsigned int>(_cur_attr[CharacterAttribute::IQ]))
 				std::get<4>(*it) = true;
 	}
@@ -1793,20 +1795,20 @@ _display.screen->load_from_offscreen(_character_bg, summary_loc);
 auto Sorcery::Character::create_random() -> void {
 
 	// Exclude Samurai/Lord/Ninja/Bishop from this method of character creation
-	_class = {static_cast<CharacterClass>((*_system.random)[RandomType::D4])};
-	_race = {static_cast<CharacterRace>((*_system.random)[RandomType::D5])};
+	_class = {static_cast<CharacterClass>((*_system->random)[RandomType::D4])};
+	_race = {static_cast<CharacterRace>((*_system->random)[RandomType::D5])};
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::FIGHTER:
 	case CharacterClass::MAGE:
-		_alignment = {static_cast<CharacterAlignment>((*_system.random)[RandomType::D3])};
+		_alignment = {static_cast<CharacterAlignment>((*_system->random)[RandomType::D3])};
 		break;
 	case CharacterClass::PRIEST:
-		_alignment = (*_system.random)[RandomType::D2] == 1 ? CharacterAlignment::GOOD
-															: CharacterAlignment::EVIL;
+		_alignment = (*_system->random)[RandomType::D2] == 1 ? CharacterAlignment::GOOD
+															 : CharacterAlignment::EVIL;
 		break;
 	case CharacterClass::THIEF:
-		_alignment = (*_system.random)[RandomType::D2] == 1 ? CharacterAlignment::NEUTRAL
-															: CharacterAlignment::EVIL;
+		_alignment = (*_system->random)[RandomType::D2] == 1 ? CharacterAlignment::NEUTRAL
+															 : CharacterAlignment::EVIL;
 		break;
 	default:
 		break;

@@ -331,7 +331,7 @@ namespace Sorcery {
 	namespace Enums::System {
 
 		// Return values
-		enum class ModuleResult { CLOSE, BACK, EXIT, NEXT, CANCEL };
+		enum class ModuleResult { CLOSE, BACK, EXIT, NEXT, CANCEL, DELETE };
 
 		// Random (Dice) Types
 		enum class Random {

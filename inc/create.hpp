@@ -58,11 +58,11 @@ namespace Sorcery {
 		// Private Methods
 		auto _draw() -> void;
 		auto _do_event_loop() -> std::optional<ModuleResult>;
-		auto _handle_input(const sf::Event &event) -> std::optional<ModuleResult>;
-		auto _generate_character(const sf::Event &event) -> std::optional<ModuleResult>;
 		auto _go_to_next_stage() -> void;
 		auto _go_to_previous_stage() -> void;
+		auto _handle_input(const sf::Event &event) -> std::optional<ModuleResult>;
 		auto _set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void;
+		auto _update_character(const sf::Event &event) -> std::optional<ModuleResult>;
 
 		// Private Members
 		System _system;
@@ -70,7 +70,7 @@ namespace Sorcery {
 		Graphics _graphics;
 		sf::RenderWindow *_window;
 		sf::Sprite _bg;
-		std::shared_ptr<Character> _candidate;
+		Character _candidate;
 		Component _name_c;
 		Component _keyb_c;
 		Component _ip_race_c;
@@ -83,6 +83,6 @@ namespace Sorcery {
 		std::shared_ptr<Menu> _attribute_menu;
 		std::shared_ptr<InfoPanel> _ip;
 		std::shared_ptr<AllocatePanel> _ap;
-		std::vector<std::shared_ptr<Character>> _stages;
+		std::vector<Character> _stages;
 	};
 } // namespace Sorcery

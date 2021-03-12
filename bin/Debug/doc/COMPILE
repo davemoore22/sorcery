@@ -19,4 +19,6 @@ The additional following third-party libraries are also needed:
 - sqlite_modern_cpp https://github.com/SqliteModernCpp/sqlite_modern_cpp
 - sfeMovie https://github.com/Yalir/sfeMovie
 - thor https://github.com/Bromeon/Thor
+- magic enum c++ https://github.com/Neargye/magic_enum
 
+Note that to compile Sorcery requires a compiler with C++20 support.

@@ -351,7 +351,6 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
 auto Sorcery::Menu::choose(std::any option)
 	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
-	bool found{false};
 	MenuItem search_for{MenuItem::NONE};
 	switch (_type) {
 	case MenuType::CHOOSE_CHARACTER_RACE:
@@ -396,13 +395,11 @@ auto Sorcery::Menu::choose(std::any option)
 		break;
 	}
 
-	std::vector<MenuEntry>::const_iterator working{items.begin()};
-	do {
-		found = (*working).item == search_for;
-		++working;
-	} while ((working > items.begin()) && (!found));
-	if (found) {
-		selected = working;
+	auto it = std::find_if(items.begin(), items.end(), [&](const auto &menu_item) {
+		return menu_item.item == search_for;
+	});
+	if (it != items.end()) {
+		selected = it;
 		return selected;
 	} else
 		return std::nullopt;
@@ -418,12 +415,13 @@ auto Sorcery::Menu::choose(const unsigned int index)
 		std::vector<MenuEntry>::const_iterator working{items.begin()};
 		do {
 			found = (*working).index == index;
+			if (found) {
+				selected = working;
+				return selected;
+			}
+
 			++working;
-		} while ((working > items.begin()) && (!found));
-		if (found) {
-			selected = working;
-			return selected;
-		}
+		} while (working > items.begin());
 	}
 
 	// If we reach here the mouse cursor is outside the items so we don't do anything

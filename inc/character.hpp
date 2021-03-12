@@ -35,8 +35,8 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Character(System &system, Display &display, Graphics &graphics);
-		Character() = delete;
+		Character();
+		Character(System *system, Display *display, Graphics *graphics);
 
 		// Copy Constructors
 		Character(const Character &other);
@@ -104,9 +104,9 @@ namespace Sorcery {
 		auto _create_spell_lists() -> void;
 
 		// Private Members
-		System _system;
-		Display _display;
-		Graphics _graphics;
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
 		CharacterAbilities _abilities;
 		SpellPoints _cleric_max_sp;
 		SpellPoints _cleric_cur_sp;
