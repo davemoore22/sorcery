@@ -121,8 +121,6 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 
 	_current_stage = stage;
 
-	// TODO: assignment/copy operators to backups at each stage so we can go back and undo
-
 	// Also need methods to boost to next stage from start, e.g. random name or race, and going into
 	// create immediately sets that
 
@@ -152,101 +150,6 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 	default:
 		break;
 	}
-
-	/* switch (stage) {
-	case CharacterStage::NOT_BEGUN:
-		_name.clear();
-		[[fallthrough]];
-	case CharacterStage::ENTER_NAME:
-		_race = CharacterRace::NONE;
-
-		_alignment = CharacterAlignment::NONE;
-
-		_start_attr.clear();
-		_cur_attr.clear();
-		_max_attr.clear();
-		//_status.clear();
-		_abilities.clear();
-		_class = CharacterClass::NONE;
-		_points_left = 0;
-		_st_points = 0;
-		_pos_classes.clear();
-		_num_pos_classes = 0;
-		_portrait_index = 0;
-		_cleric_max_sp.clear();
-		_cleric_cur_sp.clear();
-		_mage_max_sp.clear();
-		_mage_cur_sp.clear();
-		_spells.clear();
-		_create_spell_lists();
-		break;
-	case CharacterStage::CHOOSE_RACE:
-		_race = CharacterRace::NONE;
-
-		_alignment = CharacterAlignment::NONE;
-
-		_start_attr.clear();
-		_cur_attr.clear();
-		_max_attr.clear();
-		//_status.clear();
-		_abilities.clear();
-		_class = CharacterClass::NONE;
-		_points_left = 0;
-		_st_points = 0;
-		_pos_classes.clear();
-		_num_pos_classes = 0;
-		_portrait_index = 0;
-		_cleric_max_sp.clear();
-		_cleric_cur_sp.clear();
-		_mage_max_sp.clear();
-		_mage_cur_sp.clear();
-		_spells.clear();
-		_create_spell_lists();
-		break;
-	case CharacterStage::CHOOSE_ALIGNMENT:
-		_alignment = CharacterAlignment::NONE;
-
-		_start_attr.clear();
-		_cur_attr.clear();
-		_max_attr.clear();
-		//_status.clear();
-		_abilities.clear();
-		_class = CharacterClass::NONE;
-
-		_points_left = 0;
-		_st_points = 0;
-		_pos_classes.clear();
-		_num_pos_classes = 0;
-		_portrait_index = 0;
-		_cleric_max_sp.clear();
-		_cleric_cur_sp.clear();
-		_mage_max_sp.clear();
-		_mage_cur_sp.clear();
-		_spells.clear();
-		_create_spell_lists();
-		break;
-	case CharacterStage::ALLOCATE_STATS:
-		_start_attr.clear();
-		_cur_attr.clear();
-		_max_attr.clear();
-		//_status.clear();
-		_abilities.clear();
-		_class = CharacterClass::NONE;
-		_points_left = 0;
-		_st_points = 0;
-		_pos_classes.clear();
-		_num_pos_classes = 0;
-		_portrait_index = 0;
-		_cleric_max_sp.clear();
-		_cleric_cur_sp.clear();
-		_mage_max_sp.clear();
-		_mage_cur_sp.clear();
-		_spells.clear();
-		_create_spell_lists();
-
-	default:
-		break;
-	} */
 
 	switch (stage) {
 	case CharacterStage::ENTER_NAME:
@@ -1280,7 +1183,7 @@ auto Sorcery::Character::_try_to_learn_spells(SpellType spell_type, unsigned int
 auto Sorcery::Character::_calculate_sp(
 	SpellType spell_type, unsigned int level_mod, unsigned int level_offset) -> void {
 
-	// No ownership granted by use of raw pointer here - is the only reason we use it!
+	// No ownership granted by use of raw pointer here
 	SpellPoints *spells{spell_type == SpellType::PRIEST ? &_cleric_max_sp : &_mage_max_sp};
 
 	int spell_count{static_cast<int>(_abilities[CharacterAbility::CURRENT_LEVEL] - level_mod)};
@@ -1444,8 +1347,6 @@ auto Sorcery::Character::_get_xp_for_level(unsigned int level) const -> int {
 						  std::pow(coefficient_13_plus, level - 13));
 	}
 }
-
-// Other Functions
 
 // Note a few extra spells taken from Wizardry V, such as DESTO, CALIFIC, LITOFEIT, and LABADI
 auto Sorcery::Character::_create_spell_lists() -> void {

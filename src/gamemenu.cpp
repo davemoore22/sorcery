@@ -61,7 +61,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 	// Clear the window
 	_window->clear();
 
-	// Get the background
+	// Get the background - complicated since this is dependent upon which screen we are in
 	const Component bg_c{(*_display.layout)["castle:background"]};
 	const sf::IntRect castle_bg_rect(125, 249, 773, 388);
 	const sf::IntRect edge_bg_rect(1147, 249, 773, 388);

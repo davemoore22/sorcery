@@ -524,12 +524,6 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 			}
 		}
 
-		// LEFT AND RIGHT for add and remove stat, and confirm to select a stat, and if no stat left
-		// then confirm will move o9n
-
-		// also need to display possible classes too - using a possible class pane, which also takes
-		// in character
-
 		_ap->set();
 		_set_info_panel_contents(_attribute_menu->selected);
 
@@ -630,7 +624,6 @@ auto Sorcery::Create::_draw() -> void {
 		if (_ap->valid) {
 			_ap->setPosition(_ap_c.x, _ap_c.y);
 			_window->draw(*_ap);
-			//_display.display_components("allocate_panel", _ap->sprites, _ap->texts, _ap->frames);
 		}
 
 		// Display bottom text depending on the menu item selected

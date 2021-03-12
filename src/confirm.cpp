@@ -92,15 +92,12 @@ auto Sorcery::Confirm::draw(const double lerp) -> void {
 	_yes_text.setFillColor(sf::Color(_text_c.colour));
 	_yes_text.setString("YES");
 	_yes_text.setPosition(yes_x, yes_no_y);
-	// yes_text.setOrigin(yes_text.getLocalBounds().width / 2.0f, yes_text.getLocalBounds().height
-	// / 2.0f);
+
 	_no_text.setFont(_system.resources->fonts[_text_c.font]);
 	_no_text.setCharacterSize(_text_c.size);
 	_no_text.setFillColor(sf::Color(_text_c.colour));
 	_no_text.setString("NO");
 	_no_text.setPosition(no_x, yes_no_y);
-	// no_text.setOrigin(no_text.getLocalBounds().width / 2.0f, no_text.getLocalBounds().height
-	// / 2.0f);
 
 	// Draw backgrounds
 	if (highlighted == WindowConfirm::YES) {

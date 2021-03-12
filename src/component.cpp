@@ -44,7 +44,7 @@ Sorcery::Component::Component(std::string screen_, std::string name_, int x_, in
 	  priority{priority_}, drawmode{drawmode_}, texture{texture_} {
 
 	// Unique Key is like this because it is used for runtime component-sorting (std::map is sorted
-	// by key) (TODO: also needs to be replaced with std::format when available)
+	// by key) (also needs to be replaced with std::format when available)
 	const std::string priority_id{fmt::format("prefix.{:03d}.suffix", priority)};
 	unique_key = fmt::format("{}_{}:{}", priority_id, screen, name);
 }

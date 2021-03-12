@@ -487,7 +487,6 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 	int entry_y{0};
 	int option_x{0};
 	int option_y{0};
-	int count{0};
 
 	// In case we are generating the Options Menu
 	const Component on_c{(*_display.layout)["options:on"]};
@@ -504,10 +503,13 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 	_texts.clear();
 	_options.clear();
 	bounds.clear();
-	for (std::vector<MenuEntry>::const_iterator it = items.begin(); it != items.end(); ++it) {
-		if (((*it).type == MenuItemType::TEXT) || ((*it).type == MenuItemType::ENTRY) ||
-			((*it).type == MenuItemType::SAVE) || ((*it).type == MenuItemType::CANCEL)) {
-			const std::string text_string{(*it).key};
+	int index{0};
+	for (const auto &item : items) {
+
+		auto current{items.begin() + index};
+		if ((item.type == MenuItemType::TEXT) || (item.type == MenuItemType::ENTRY) ||
+			(item.type == MenuItemType::SAVE) || (item.type == MenuItemType::CANCEL)) {
+			const std::string text_string{item.key};
 			sf::Text text;
 			text.setFont(_system.resources->fonts[component.font]);
 			text.setCharacterSize(component.size);
@@ -520,7 +522,7 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 			text.setPosition(entry_x, entry_y);
 
 			// If we have a selected entry, change the background colour
-			if (selected == it) {
+			if (selected == current) {
 				const sf::FloatRect bg_rect{text.getLocalBounds()};
 				sf::RectangleShape bg(sf::Vector2f(
 					component.w * _display.window->get_cell_width(), bg_rect.height + 2));
@@ -540,14 +542,14 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 			// Handle Justification
 			if ((_type == MenuType::OPTIONS) ||
 				(_type == MenuType::ALLOCATE_CHARACTER_ATTRIBUTES)) {
-				if ((*it).type == MenuItemType::ENTRY) {
+				if (item.type == MenuItemType::ENTRY) {
 					if (component.justification == Justification::CENTRE)
 						text.setOrigin(text.getLocalBounds().width / 2.0f,
 							text.getLocalBounds().height / 2.0f);
 					else
 						text.setOrigin(0, text.getLocalBounds().height / 2.0f);
-				} else if (((*it).type == MenuItemType::SAVE) ||
-						   ((*it).type == MenuItemType::CANCEL)) {
+				} else if ((item.type == MenuItemType::SAVE) ||
+						   (item.type == MenuItemType::CANCEL)) {
 					entry_x = (component.width * _display.window->get_cell_width()) / 2;
 					text.setPosition(entry_x, entry_y);
 					text.setOrigin(
@@ -564,26 +566,26 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 			_texts.emplace_back(text);
 
 			// Now handle the mouse move/select (and tooltip generation)!
-			if (((*it).type == MenuItemType::ENTRY) || ((*it).type == MenuItemType::SAVE) ||
-				((*it).type == MenuItemType::CANCEL)) {
+			if ((item.type == MenuItemType::ENTRY) || (item.type == MenuItemType::SAVE) ||
+				(item.type == MenuItemType::CANCEL)) {
 				const sf::FloatRect actual_rect{text.getGlobalBounds()};
 				bounds.push_back(actual_rect);
-				WindowTooltipList::iterator tt_it{_display.window->tooltips.find((*it).hint)};
+				WindowTooltipList::iterator tt_it{_display.window->tooltips.find(item.hint)};
 				if (tt_it == _display.window->tooltips.end())
-					_display.window->tooltips[(*it).hint] = actual_rect;
+					_display.window->tooltips[item.hint] = actual_rect;
 			} else {
 				const sf::FloatRect actual_rect;
 				bounds.push_back(actual_rect);
-				WindowTooltipList::iterator tt_it{_display.window->tooltips.find((*it).hint)};
+				WindowTooltipList::iterator tt_it{_display.window->tooltips.find(item.hint)};
 				if (tt_it == _display.window->tooltips.end())
-					_display.window->tooltips[(*it).hint] = actual_rect;
+					_display.window->tooltips[item.hint] = actual_rect;
 			}
 
 			// Add options in case of the Options Menu
-			if ((_type == MenuType::OPTIONS) && ((*it).type == MenuItemType::ENTRY)) {
+			if ((_type == MenuType::OPTIONS) && (item.type == MenuItemType::ENTRY)) {
 				option_y = entry_y;
 				option_x = component.w * _display.window->get_cell_width();
-				const bool option_value{(*_system.config)[(*it).config] ? true : false};
+				const bool option_value{(*_system.config)[item.config] ? true : false};
 				sf::Text option_text{};
 				if (option_value) {
 
@@ -607,19 +609,19 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 					option_text.setOrigin(0, option_text.getLocalBounds().height / 2.0f);
 				}
 
-				if (selected == it) {
+				if (selected == current) {
 					option_text.setOutlineColor(sf::Color(0, 0, 0));
 					option_text.setOutlineThickness(2);
 				}
 
 				_options.emplace_back(option_text);
-			} // TODO: add stats for Allocate Menu
+			}
 		} else {
 			const sf::FloatRect actual_rect;
 			bounds.push_back(actual_rect);
 			entry_y += _display.window->get_cell_height();
 		}
-		count++;
+		++index;
 	}
 }
 
