@@ -55,11 +55,11 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 
 	// Menus
 	_race_menu =
-		std::make_shared<Menu>(*_system, *_display, *_graphics, MenuType::CHOOSE_CHARACTER_RACE);
-	_alignment_menu = std::make_shared<Menu>(
-		*_system, *_display, *_graphics, MenuType::CHOOSE_CHARACTER_ALIGNMENT);
+		std::make_shared<Menu>(_system, _display, _graphics, MenuType::CHOOSE_CHARACTER_RACE);
+	_alignment_menu =
+		std::make_shared<Menu>(_system, _display, _graphics, MenuType::CHOOSE_CHARACTER_ALIGNMENT);
 	_attribute_menu = std::make_shared<Menu>(
-		*_system, *_display, *_graphics, MenuType::ALLOCATE_CHARACTER_ATTRIBUTES);
+		_system, _display, _graphics, MenuType::ALLOCATE_CHARACTER_ATTRIBUTES);
 
 	_stages.clear();
 }

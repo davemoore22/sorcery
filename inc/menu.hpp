@@ -36,7 +36,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Menu(System &system, Display &display, Graphics &graphics, const MenuType type);
+		Menu(System *system, Display *display, Graphics *graphics, const MenuType type);
 		Menu() = delete;
 
 		// Overload [] operator
@@ -77,9 +77,9 @@ namespace Sorcery {
 		auto _select_last_enabled() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 
 		// Private Members
-		System _system;
-		Display _display;
-		Graphics _graphics;
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
 		unsigned int _width;
 		MenuType _type;
 		sf::RenderTexture _rtexture;

@@ -25,7 +25,7 @@
 #include "menu.hpp"
 
 // Standard Constructor
-Sorcery::Menu::Menu(System &system, Display &display, Graphics &graphics, const MenuType type)
+Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics, const MenuType type)
 	: _system{system}, _display{display}, _graphics{graphics}, _type{type} {
 
 	// Clear the Items
@@ -37,80 +37,80 @@ Sorcery::Menu::Menu(System &system, Display &display, Graphics &graphics, const 
 	switch (_type) {
 	case MenuType::MAIN:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::MM_NEW_GAME,
-			(*_display.string)["MAIN_MENU_OPTION_START"]);
+			(*_display->string)["MAIN_MENU_OPTION_START"]);
 		_add_item(1, MenuItemType::ENTRY, MenuItem::MM_CONTINUE_GAME,
-			(*_display.string)["MAIN_MENU_OPTION_CONTINUE"]);
+			(*_display->string)["MAIN_MENU_OPTION_CONTINUE"]);
 		_add_item(2, MenuItemType::ENTRY, MenuItem::MM_OPTIONS,
-			(*_display.string)["MAIN_MENU_OPTION_OPTIONS"]);
+			(*_display->string)["MAIN_MENU_OPTION_OPTIONS"]);
 		_add_item(3, MenuItemType::ENTRY, MenuItem::MM_COMPENDIUM,
-			(*_display.string)["MAIN_MENU_OPTION_COMPENDIUM"]);
+			(*_display->string)["MAIN_MENU_OPTION_COMPENDIUM"]);
 		_add_item(4, MenuItemType::ENTRY, MenuItem::MM_LICENSE,
-			(*_display.string)["MAIN_MENU_OPTION_LICENSE"]);
+			(*_display->string)["MAIN_MENU_OPTION_LICENSE"]);
 		_add_item(
-			5, MenuItemType::ENTRY, MenuItem::QUIT, (*_display.string)["MAIN_MENU_OPTION_EXIT"]);
+			5, MenuItemType::ENTRY, MenuItem::QUIT, (*_display->string)["MAIN_MENU_OPTION_EXIT"]);
 		selected = items.begin();
 		break;
 	case MenuType::CASTLE:
-		_add_item(0, MenuItemType::ENTRY, MenuItem::CA_TAVERN, (*_display.string)["MENU_TAVERN"]);
-		_add_item(1, MenuItemType::ENTRY, MenuItem::CA_INN, (*_display.string)["MENU_INN"]);
-		_add_item(2, MenuItemType::ENTRY, MenuItem::CA_SHOP, (*_display.string)["MENU_SHOP"]);
-		_add_item(3, MenuItemType::ENTRY, MenuItem::CA_TEMPLE, (*_display.string)["MENU_TEMPLE"]);
+		_add_item(0, MenuItemType::ENTRY, MenuItem::CA_TAVERN, (*_display->string)["MENU_TAVERN"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::CA_INN, (*_display->string)["MENU_INN"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::CA_SHOP, (*_display->string)["MENU_SHOP"]);
+		_add_item(3, MenuItemType::ENTRY, MenuItem::CA_TEMPLE, (*_display->string)["MENU_TEMPLE"]);
 		_add_item(4, MenuItemType::ENTRY, MenuItem::CA_EDGE_OF_TOWN,
-			(*_display.string)["MENU_EDGE_OF_TOWN"]);
+			(*_display->string)["MENU_EDGE_OF_TOWN"]);
 		selected = items.begin();
 		break;
 	case MenuType::EDGE_OF_TOWN:
-		_add_item(0, MenuItemType::ENTRY, MenuItem::ET_CASTLE, (*_display.string)["MENU_CASTLE"]);
-		_add_item(1, MenuItemType::ENTRY, MenuItem::ET_TRAIN, (*_display.string)["MENU_TRAIN"]);
-		_add_item(2, MenuItemType::ENTRY, MenuItem::ET_MAZE, (*_display.string)["MENU_MAZE"]);
-		_add_item(
-			3, MenuItemType::ENTRY, MenuItem::ET_LEAVE_GAME, (*_display.string)["MENU_LEAVE_GAME"]);
+		_add_item(0, MenuItemType::ENTRY, MenuItem::ET_CASTLE, (*_display->string)["MENU_CASTLE"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::ET_TRAIN, (*_display->string)["MENU_TRAIN"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::ET_MAZE, (*_display->string)["MENU_MAZE"]);
+		_add_item(3, MenuItemType::ENTRY, MenuItem::ET_LEAVE_GAME,
+			(*_display->string)["MENU_LEAVE_GAME"]);
 		selected = items.begin();
 		break;
 	case MenuType::TRAINING_GROUNDS:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::TR_CREATE,
-			(*_display.string)["TRAINING_GROUNDS_MENU_OPTION_CREATE"]);
+			(*_display->string)["TRAINING_GROUNDS_MENU_OPTION_CREATE"]);
 		_add_item(1, MenuItemType::ENTRY, MenuItem::TR_EDIT,
-			(*_display.string)["TRAINING_GROUNDS_MENU_OPTION_EDIT"]);
+			(*_display->string)["TRAINING_GROUNDS_MENU_OPTION_EDIT"]);
 		_add_item(2, MenuItemType::ENTRY, MenuItem::TR_DELETE,
-			(*_display.string)["TRAINING_GROUNDS_MENU_OPTION_DELETE"]);
+			(*_display->string)["TRAINING_GROUNDS_MENU_OPTION_DELETE"]);
 		_add_item(3, MenuItemType::ENTRY, MenuItem::TR_INSPECT,
-			(*_display.string)["TRAINING_GROUNDS_MENU_OPTION_INSPECT"]);
+			(*_display->string)["TRAINING_GROUNDS_MENU_OPTION_INSPECT"]);
 		_add_item(4, MenuItemType::ENTRY, MenuItem::TR_EDGE_OF_TOWN,
-			(*_display.string)["TRAINING_GROUNDS_MENU_OPTION_RETURN"]);
+			(*_display->string)["TRAINING_GROUNDS_MENU_OPTION_RETURN"]);
 		selected = items.begin();
 		break;
 	case MenuType::ALLOCATE_CHARACTER_ATTRIBUTES:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::CS_STRENGTH,
-			(*_display.string)["CHARACTER_STAT_STRENGTH"], true, ConfigOption::NONE,
-			(*_display.string)["HINT_CHARACTER_STAT_STRENGTH"]);
+			(*_display->string)["CHARACTER_STAT_STRENGTH"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_STAT_STRENGTH"]);
 		_add_item(1, MenuItemType::ENTRY, MenuItem::CS_IQ,
-			(*_display.string)["CHARACTER_STAT_INTELLIGENCE"], true, ConfigOption::NONE,
-			(*_display.string)["HINT_CHARACTER_STAT_INTELLIGENCE"]);
+			(*_display->string)["CHARACTER_STAT_INTELLIGENCE"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_STAT_INTELLIGENCE"]);
 		_add_item(2, MenuItemType::ENTRY, MenuItem::CS_PIETY,
-			(*_display.string)["CHARACTER_STAT_PIETY"], true, ConfigOption::NONE,
-			(*_display.string)["HINT_CHARACTER_STAT_PIETY"]);
+			(*_display->string)["CHARACTER_STAT_PIETY"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_STAT_PIETY"]);
 		_add_item(3, MenuItemType::ENTRY, MenuItem::CS_VITALITY,
-			(*_display.string)["CHARACTER_STAT_VITALITY"], true, ConfigOption::NONE,
-			(*_display.string)["HINT_CHARACTER_STAT_VITALITY"]);
+			(*_display->string)["CHARACTER_STAT_VITALITY"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_STAT_VITALITY"]);
 		_add_item(4, MenuItemType::ENTRY, MenuItem::CS_AGILITY,
-			(*_display.string)["CHARACTER_STAT_AGILITY"], true, ConfigOption::NONE,
-			(*_display.string)["HINT_CHARACTER_STAT_AGILITY"]);
+			(*_display->string)["CHARACTER_STAT_AGILITY"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_STAT_AGILITY"]);
 		_add_item(5, MenuItemType::ENTRY, MenuItem::CS_LUCK,
-			(*_display.string)["CHARACTER_STAT_LUCK"], true, ConfigOption::NONE,
-			(*_display.string)["HINT_CHARACTER_STAT_LUCK"]);
+			(*_display->string)["CHARACTER_STAT_LUCK"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_STAT_LUCK"]);
 		selected = items.begin();
 		break;
 	case MenuType::CHOOSE_CHARACTER_ALIGNMENT:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::CA_GOOD,
-			(*_display.string)["CHARACTER_ALIGNMENT_GOOD"], true, ConfigOption::NONE,
-			(*_display.string)["HINT_CHARACTER_ALIGNMENT_GOOD"]);
+			(*_display->string)["CHARACTER_ALIGNMENT_GOOD"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_ALIGNMENT_GOOD"]);
 		_add_item(1, MenuItemType::ENTRY, MenuItem::CA_NEUTRAL,
-			(*_display.string)["CHARACTER_ALIGNMENT_NEUTRAL"], true, ConfigOption::NONE,
-			(*_display.string)["HINT_CHARACTER_ALIGNMENT_NEUTRAL"]);
+			(*_display->string)["CHARACTER_ALIGNMENT_NEUTRAL"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_ALIGNMENT_NEUTRAL"]);
 		_add_item(2, MenuItemType::ENTRY, MenuItem::CA_EVIL,
-			(*_display.string)["CHARACTER_ALIGNMENT_EVIL"], true, ConfigOption::NONE,
-			(*_display.string)["HINT_CHARACTER_ALIGNMENT_EVIL"]);
+			(*_display->string)["CHARACTER_ALIGNMENT_EVIL"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_ALIGNMENT_EVIL"]);
 		selected = items.begin();
 		break;
 	case MenuType::CHOOSE_CHARACTER_CLASS:
@@ -122,100 +122,100 @@ Sorcery::Menu::Menu(System &system, Display &display, Graphics &graphics, const 
 		break;
 	case MenuType::CHOOSE_CHARACTER_RACE:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::CR_HUMAN,
-			(*_display.string)["CHARACTER_RACE_HUMAN"], true, ConfigOption::NONE,
-			(*_display.string)["HINT_CHARACTER_RACE_HUMAN"]);
+			(*_display->string)["CHARACTER_RACE_HUMAN"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_RACE_HUMAN"]);
 		_add_item(1, MenuItemType::ENTRY, MenuItem::CR_ELF,
-			(*_display.string)["CHARACTER_RACE_ELF"], true, ConfigOption::NONE,
-			(*_display.string)["HINT_CHARACTER_RACE_ELF"]);
+			(*_display->string)["CHARACTER_RACE_ELF"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_RACE_ELF"]);
 		_add_item(2, MenuItemType::ENTRY, MenuItem::CR_DWARF,
-			(*_display.string)["CHARACTER_RACE_DWARF"], true, ConfigOption::NONE,
-			(*_display.string)["HINT_CHARACTER_RACE_DWARF"]);
+			(*_display->string)["CHARACTER_RACE_DWARF"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_RACE_DWARF"]);
 		_add_item(3, MenuItemType::ENTRY, MenuItem::CR_GNOME,
-			(*_display.string)["CHARACTER_RACE_GNOME"], true, ConfigOption::NONE,
-			(*_display.string)["HINT_CHARACTER_RACE_GNOME"]);
+			(*_display->string)["CHARACTER_RACE_GNOME"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_RACE_GNOME"]);
 		_add_item(4, MenuItemType::ENTRY, MenuItem::CR_HOBBIT,
-			(*_display.string)["CHARACTER_RACE_HOBBIT"], true, ConfigOption::NONE,
-			(*_display.string)["HINT_CHARACTER_RACE_HOBBIT"]);
+			(*_display->string)["CHARACTER_RACE_HOBBIT"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_RACE_HOBBIT"]);
 		selected = items.begin();
 		break;
 	case MenuType::OPTIONS:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::OP_RECOMMENDED_MODE,
-			(*_display.string)["CONFIG_RECOMMENDED_MODE"], true, ConfigOption::RECOMMENDED_MODE,
-			(*_display.string)["HINT_CONFIG_RECOMMENDED_MODE"]);
+			(*_display->string)["CONFIG_RECOMMENDED_MODE"], true, ConfigOption::RECOMMENDED_MODE,
+			(*_display->string)["HINT_CONFIG_RECOMMENDED_MODE"]);
 		_add_item(1, MenuItemType::ENTRY, MenuItem::OP_STRICT_MODE,
-			(*_display.string)["CONFIG_STRICT_MODE"], true, ConfigOption::STRICT_MODE,
-			(*_display.string)["HINT_CONFIG_STRICT_MODE"]);
+			(*_display->string)["CONFIG_STRICT_MODE"], true, ConfigOption::STRICT_MODE,
+			(*_display->string)["HINT_CONFIG_STRICT_MODE"]);
 		_add_item(2, MenuItemType::ENTRY, MenuItem::OP_CHEAT_MODE,
-			(*_display.string)["CONFIG_CHEAT_MODE"], true, ConfigOption::CHEAT_MODE,
-			(*_display.string)["HINT_CONFIG_CHEAT_MODE"]);
+			(*_display->string)["CONFIG_CHEAT_MODE"], true, ConfigOption::CHEAT_MODE,
+			(*_display->string)["HINT_CONFIG_CHEAT_MODE"]);
 		_add_item(3, MenuItemType::ENTRY, MenuItem::OP_AUTO_SAVE,
-			(*_display.string)["CONFIG_AUTO_SAVE"], true, ConfigOption::AUTO_SAVE,
-			(*_display.string)["HINT_CONFIG_AUTO_SAVE"]);
+			(*_display->string)["CONFIG_AUTO_SAVE"], true, ConfigOption::AUTO_SAVE,
+			(*_display->string)["HINT_CONFIG_AUTO_SAVE"]);
 		_add_item(4, MenuItemType::ENTRY, MenuItem::OP_DICE_ROLLS,
-			(*_display.string)["CONFIG_DICE_ROLLS"], true, ConfigOption::DICE_ROLLS,
-			(*_display.string)["HINT_CONFIG_DICE_ROLLS"]);
+			(*_display->string)["CONFIG_DICE_ROLLS"], true, ConfigOption::DICE_ROLLS,
+			(*_display->string)["HINT_CONFIG_DICE_ROLLS"]);
 		_add_item(5, MenuItemType::ENTRY, MenuItem::OP_ALLOW_MIXED_ALIGNMENT_PARTY,
-			(*_display.string)["GAME_ALLOW_MIXED_ALIGNMENT"], true,
+			(*_display->string)["GAME_ALLOW_MIXED_ALIGNMENT"], true,
 			ConfigOption::ALLOW_MIXED_ALIGNMENT_PARTY,
-			(*_display.string)["HINT_GAME_ALLOW_MIXED_ALIGNMENT"]);
+			(*_display->string)["HINT_GAME_ALLOW_MIXED_ALIGNMENT"]);
 		_add_item(6, MenuItemType::ENTRY, MenuItem::OP_STAT_LOSS_ON_LEVEL_UP,
-			(*_display.string)["GAME_STAT_LOSS_LEVEL_GAIN"], true,
+			(*_display->string)["GAME_STAT_LOSS_LEVEL_GAIN"], true,
 			ConfigOption::STAT_LOSS_ON_LEVEL_UP,
-			(*_display.string)["HINT_GAME_STAT_LOSS_LEVEL_GAIN"]);
+			(*_display->string)["HINT_GAME_STAT_LOSS_LEVEL_GAIN"]);
 		_add_item(7, MenuItemType::ENTRY, MenuItem::OP_REROLL_HIT_POINTS_ON_LEVEL_GAIN,
-			(*_display.string)["GAME_REROLL_HIT_POINTS"], true,
+			(*_display->string)["GAME_REROLL_HIT_POINTS"], true,
 			ConfigOption::REROLL_HIT_POINTS_ON_LEVEL_GAIN,
-			(*_display.string)["HINT_GAME_REROLL_HIT_POINTS"]);
+			(*_display->string)["HINT_GAME_REROLL_HIT_POINTS"]);
 		_add_item(8, MenuItemType::ENTRY, MenuItem::OP_STAT_RESET_ON_CLASS_CHANGE,
-			(*_display.string)["GAME_STAT_RESET_CLASS_CHANGE"], true,
+			(*_display->string)["GAME_STAT_RESET_CLASS_CHANGE"], true,
 			ConfigOption::STAT_RESET_ON_CLASS_CHANGE,
-			(*_display.string)["HINT_GAME_STAT_RESET_CLASS_CHANGE"]);
+			(*_display->string)["HINT_GAME_STAT_RESET_CLASS_CHANGE"]);
 		_add_item(9, MenuItemType::ENTRY, MenuItem::OP_AGING_ON_CLASS_CHANGE,
-			(*_display.string)["GAME_AGING_CLASS_CHANGE"], true,
+			(*_display->string)["GAME_AGING_CLASS_CHANGE"], true,
 			ConfigOption::AGING_ON_CLASS_CHANGE,
-			(*_display.string)["HINT_GAME_AGING_CLASS_CHANGE"]);
+			(*_display->string)["HINT_GAME_AGING_CLASS_CHANGE"]);
 		_add_item(10, MenuItemType::ENTRY, MenuItem::OP_ALLOW_AMBUSH_HIDE,
-			(*_display.string)["GAME_ALLOW_AMBUSH_HIDE"], true, ConfigOption::ALLOW_AMBUSH_HIDE,
-			(*_display.string)["HINT_GAME_ALLOW_AMBUSH_HIDE"]);
+			(*_display->string)["GAME_ALLOW_AMBUSH_HIDE"], true, ConfigOption::ALLOW_AMBUSH_HIDE,
+			(*_display->string)["HINT_GAME_ALLOW_AMBUSH_HIDE"]);
 		_add_item(11, MenuItemType::ENTRY, MenuItem::OP_ALLOW_RANGED_WEAPONS,
-			(*_display.string)["GAME_ALLOW_RANGED_WEAPONS"], true,
+			(*_display->string)["GAME_ALLOW_RANGED_WEAPONS"], true,
 			ConfigOption::ALLOW_RANGED_WEAPONS,
-			(*_display.string)["HINT_GAME_ALLOW_RANGED_WEAPONS"]);
+			(*_display->string)["HINT_GAME_ALLOW_RANGED_WEAPONS"]);
 		_add_item(12, MenuItemType::ENTRY, MenuItem::OP_SPELLCASTING_IN_SURPRISE_ROUND,
-			(*_display.string)["GAME_SPELL_CASTING_SURPRISE_ROUND"], true,
+			(*_display->string)["GAME_SPELL_CASTING_SURPRISE_ROUND"], true,
 			ConfigOption::SPELLCASTING_IN_SURPRISE_ROUND,
-			(*_display.string)["HINT_GAME_SPELL_CASTING_SURPRISE_ROUND"]);
+			(*_display->string)["HINT_GAME_SPELL_CASTING_SURPRISE_ROUND"]);
 		_add_item(13, MenuItemType::ENTRY, MenuItem::OP_BATCH_HEALING_AFTER_RETURN_TO_CASTLE,
-			(*_display.string)["GAME_BATCH_HEALING_AFTER_RETURN"], true,
+			(*_display->string)["GAME_BATCH_HEALING_AFTER_RETURN"], true,
 			ConfigOption::BATCH_HEALING_AFTER_RETURN_TO_CASTLE,
-			(*_display.string)["HINT_GAME_BATCH_HEALING_AFTER_RETURN"]);
+			(*_display->string)["HINT_GAME_BATCH_HEALING_AFTER_RETURN"]);
 		_add_item(14, MenuItemType::ENTRY, MenuItem::OP_REROLL_ONES_ON_DICE,
-			(*_display.string)["GAME_REROLL_ONES"], true, ConfigOption::REROLL_ONES_ON_DICE,
-			(*_display.string)["HINT_GAME_REROLL_ONES"]);
-		_add_item(15, MenuItemType::SPACER, MenuItem::SPACER, (*_display.string)["MENU_SPACER"]);
-		_add_item(16, MenuItemType::SPACER, MenuItem::SPACER, (*_display.string)["MENU_SPACER"]);
+			(*_display->string)["GAME_REROLL_ONES"], true, ConfigOption::REROLL_ONES_ON_DICE,
+			(*_display->string)["HINT_GAME_REROLL_ONES"]);
+		_add_item(15, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+		_add_item(16, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
 		_add_item(17, MenuItemType::ENTRY, MenuItem::OP_WIREFRAME_MODE,
-			(*_display.string)["GRAPHICS_WIREFRAME"], true, ConfigOption::WIREFRAME_MODE,
-			(*_display.string)["HINT_GRAPHICS_WIREFRAME"]);
+			(*_display->string)["GRAPHICS_WIREFRAME"], true, ConfigOption::WIREFRAME_MODE,
+			(*_display->string)["HINT_GRAPHICS_WIREFRAME"]);
 		_add_item(18, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_TEXTURES,
-			(*_display.string)["GRAPHICS_TEXTURES"], true, ConfigOption::DISPLAY_TEXTURES,
-			(*_display.string)["HINT_GRAPHICS_TEXTURES"]);
+			(*_display->string)["GRAPHICS_TEXTURES"], true, ConfigOption::DISPLAY_TEXTURES,
+			(*_display->string)["HINT_GRAPHICS_TEXTURES"]);
 		_add_item(19, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_TRAPS,
-			(*_display.string)["GRAPHICS_TRAPS"], true, ConfigOption::DISPLAY_TRAPS,
-			(*_display.string)["HINT_GRAPHICS_TRAPS"]);
+			(*_display->string)["GRAPHICS_TRAPS"], true, ConfigOption::DISPLAY_TRAPS,
+			(*_display->string)["HINT_GRAPHICS_TRAPS"]);
 		_add_item(20, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_TELEPORTERS,
-			(*_display.string)["GRAPHICS_TELEPORTERS"], true, ConfigOption::DISPLAY_TELEPORTERS,
-			(*_display.string)["HINT_GRAPHICS_TELEPORTERS"]);
+			(*_display->string)["GRAPHICS_TELEPORTERS"], true, ConfigOption::DISPLAY_TELEPORTERS,
+			(*_display->string)["HINT_GRAPHICS_TELEPORTERS"]);
 		_add_item(21, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_ENCOUNTERS,
-			(*_display.string)["GRAPHICS_ENCOUNTERS"], true, ConfigOption::DISPLAY_ENCOUNTERS,
-			(*_display.string)["HINT_GRAPHICS_ENCOUNTERS"]);
+			(*_display->string)["GRAPHICS_ENCOUNTERS"], true, ConfigOption::DISPLAY_ENCOUNTERS,
+			(*_display->string)["HINT_GRAPHICS_ENCOUNTERS"]);
 		_add_item(22, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_PROGRESS,
-			(*_display.string)["GRAPHICS_PROGRESS"], true, ConfigOption::DISPLAY_PROGRESS,
-			(*_display.string)["HINT_GRAPHICS_PROGRESS"]);
-		_add_item(23, MenuItemType::SPACER, MenuItem::SPACER, (*_display.string)["MENU_SPACER"]);
-		_add_item(24, MenuItemType::SAVE, MenuItem::SAVE, (*_display.string)["MENU_OPTIONS_SAVE"]);
+			(*_display->string)["GRAPHICS_PROGRESS"], true, ConfigOption::DISPLAY_PROGRESS,
+			(*_display->string)["HINT_GRAPHICS_PROGRESS"]);
+		_add_item(23, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+		_add_item(24, MenuItemType::SAVE, MenuItem::SAVE, (*_display->string)["MENU_OPTIONS_SAVE"]);
 		_add_item(
-			25, MenuItemType::CANCEL, MenuItem::CANCEL, (*_display.string)["MENU_OPTIONS_CANCEL"]);
+			25, MenuItemType::CANCEL, MenuItem::CANCEL, (*_display->string)["MENU_OPTIONS_CANCEL"]);
 		selected = items.begin();
 		break;
 	case MenuType::PAUSE:
@@ -489,13 +489,13 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 	int option_y{0};
 
 	// In case we are generating the Options Menu
-	const Component on_c{(*_display.layout)["options:on"]};
-	const Component off_c{(*_display.layout)["options:off"]};
+	const Component on_c{(*_display->layout)["options:on"]};
+	const Component off_c{(*_display->layout)["options:off"]};
 	const sf::Vector2f global_pos(component.x, component.y);
 
 	// Work out total size of texture needed
-	const unsigned int texture_w{component.w * _display.window->get_cell_width()};
-	const unsigned int texture_h{component.h * _display.window->get_cell_height()};
+	const unsigned int texture_w{component.w * _display->window->get_cell_width()};
+	const unsigned int texture_h{component.h * _display->window->get_cell_height()};
 	const sf::Vector2f texture_size(texture_w, texture_h);
 	_rtexture.create(texture_size.x, texture_size.y);
 
@@ -511,24 +511,24 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 			(item.type == MenuItemType::SAVE) || (item.type == MenuItemType::CANCEL)) {
 			const std::string text_string{item.key};
 			sf::Text text;
-			text.setFont(_system.resources->fonts[component.font]);
+			text.setFont(_system->resources->fonts[component.font]);
 			text.setCharacterSize(component.size);
 			text.setFillColor(sf::Color(component.colour));
 			text.setString(text_string);
 
 			// Check for alignment and set location appropriately
 			entry_x = (component.justification == Justification::CENTRE) ? texture_w / 2 : 0;
-			entry_y += _display.window->get_cell_height();
+			entry_y += _display->window->get_cell_height();
 			text.setPosition(entry_x, entry_y);
 
 			// If we have a selected entry, change the background colour
 			if (selected == current) {
 				const sf::FloatRect bg_rect{text.getLocalBounds()};
 				sf::RectangleShape bg(sf::Vector2f(
-					component.w * _display.window->get_cell_width(), bg_rect.height + 2));
+					component.w * _display->window->get_cell_width(), bg_rect.height + 2));
 				bg.setPosition(0, entry_y);
 				if (component.animated)
-					bg.setFillColor(_display.window->change_colour(
+					bg.setFillColor(_display->window->change_colour(
 						sf::Color(component.background), selected_lerp));
 				else
 					bg.setFillColor(sf::Color(component.background));
@@ -550,7 +550,7 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 						text.setOrigin(0, text.getLocalBounds().height / 2.0f);
 				} else if ((item.type == MenuItemType::SAVE) ||
 						   (item.type == MenuItemType::CANCEL)) {
-					entry_x = (component.width * _display.window->get_cell_width()) / 2;
+					entry_x = (component.width * _display->window->get_cell_width()) / 2;
 					text.setPosition(entry_x, entry_y);
 					text.setOrigin(
 						text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
@@ -570,40 +570,40 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 				(item.type == MenuItemType::CANCEL)) {
 				const sf::FloatRect actual_rect{text.getGlobalBounds()};
 				bounds.push_back(actual_rect);
-				WindowTooltipList::iterator tt_it{_display.window->tooltips.find(item.hint)};
-				if (tt_it == _display.window->tooltips.end())
-					_display.window->tooltips[item.hint] = actual_rect;
+				WindowTooltipList::iterator tt_it{_display->window->tooltips.find(item.hint)};
+				if (tt_it == _display->window->tooltips.end())
+					_display->window->tooltips[item.hint] = actual_rect;
 			} else {
 				const sf::FloatRect actual_rect;
 				bounds.push_back(actual_rect);
-				WindowTooltipList::iterator tt_it{_display.window->tooltips.find(item.hint)};
-				if (tt_it == _display.window->tooltips.end())
-					_display.window->tooltips[item.hint] = actual_rect;
+				WindowTooltipList::iterator tt_it{_display->window->tooltips.find(item.hint)};
+				if (tt_it == _display->window->tooltips.end())
+					_display->window->tooltips[item.hint] = actual_rect;
 			}
 
 			// Add options in case of the Options Menu
 			if ((_type == MenuType::OPTIONS) && (item.type == MenuItemType::ENTRY)) {
 				option_y = entry_y;
-				option_x = component.w * _display.window->get_cell_width();
-				const bool option_value{(*_system.config)[item.config] ? true : false};
+				option_x = component.w * _display->window->get_cell_width();
+				const bool option_value{(*_system->config)[item.config] ? true : false};
 				sf::Text option_text{};
 				if (option_value) {
 
 					// On
-					option_text.setFont(_system.resources->fonts[on_c.font]);
+					option_text.setFont(_system->resources->fonts[on_c.font]);
 					option_text.setCharacterSize(on_c.size);
 					option_text.setFillColor(sf::Color(on_c.colour));
-					option_text.setString((*_display.string)[on_c.string_key]);
+					option_text.setString((*_display->string)[on_c.string_key]);
 					sf::FloatRect bounds{option_text.getLocalBounds()};
 					option_text.setPosition(option_x - bounds.width, option_y);
 					option_text.setOrigin(0, option_text.getLocalBounds().height / 2.0f);
 				} else {
 
 					// Off
-					option_text.setFont(_system.resources->fonts[off_c.font]);
+					option_text.setFont(_system->resources->fonts[off_c.font]);
 					option_text.setCharacterSize(off_c.size);
 					option_text.setFillColor(sf::Color(off_c.colour));
-					option_text.setString((*_display.string)[off_c.string_key]);
+					option_text.setString((*_display->string)[off_c.string_key]);
 					sf::FloatRect bounds{option_text.getLocalBounds()};
 					option_text.setPosition(option_x - bounds.width, option_y);
 					option_text.setOrigin(0, option_text.getLocalBounds().height / 2.0f);
@@ -619,7 +619,7 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 		} else {
 			const sf::FloatRect actual_rect;
 			bounds.push_back(actual_rect);
-			entry_y += _display.window->get_cell_height();
+			entry_y += _display->window->get_cell_height();
 		}
 		++index;
 	}

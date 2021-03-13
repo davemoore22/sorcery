@@ -32,8 +32,8 @@ Sorcery::GameMenu::GameMenu(System &system, Display &display, Graphics &graphics
 	_window = _display.window->get_window();
 
 	// Setup Components
-	_castle_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::CASTLE);
-	_edge_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::EDGE_OF_TOWN);
+	_castle_menu = std::make_shared<Menu>(&_system, &_display, &_graphics, MenuType::CASTLE);
+	_edge_menu = std::make_shared<Menu>(&_system, &_display, &_graphics, MenuType::EDGE_OF_TOWN);
 
 	_menu_stage = GameMenuType::CASTLE;
 

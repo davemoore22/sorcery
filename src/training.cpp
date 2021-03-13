@@ -34,7 +34,7 @@ Sorcery::Training::Training(System &system, Display &display, Graphics &graphics
 	// Get the Display Components
 	_display.generate_components("training_grounds");
 
-	_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::TRAINING_GROUNDS);
+	_menu = std::make_shared<Menu>(&_system, &_display, &_graphics, MenuType::TRAINING_GROUNDS);
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics);
 	_create = std::make_unique<Create>(&_system, &_display, &_graphics);
 }
