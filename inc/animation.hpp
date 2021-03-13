@@ -34,7 +34,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Animation(System &system, Display &display);
+		Animation(System *system, Display *display);
 		Animation() = delete;
 
 		// Standard Destructor
@@ -59,8 +59,8 @@ namespace Sorcery {
 
 	  private:
 		// Private Members
-		System _system;
-		Display _display;
+		System *_system;
+		Display *_display;
 		std::jthread _attract_thrd;
 		std::jthread _colcyc_thrd;
 		std::atomic<bool> _allow_attract_ani;

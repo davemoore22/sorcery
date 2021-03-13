@@ -36,7 +36,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Window(const std::string &title, System &system, String &string, Layout &layout);
+		Window(System *system, String *string, Layout *layout, const std::string &title);
 		Window() = delete;
 
 		// Public Methods
@@ -92,10 +92,10 @@ namespace Sorcery {
 		// Private Members
 		ScreenSize _default_size;
 		ScreenSize _current_size;
+		System *_system;
+		String *_string;
+		Layout *_layout;
 		std::string _title;
-		System _system;
-		String _string;
-		Layout _layout;
 		sf::RenderWindow _window;
 		tgui::Gui _gui;
 		unsigned int _cell_height;

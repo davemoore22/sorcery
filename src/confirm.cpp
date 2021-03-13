@@ -26,10 +26,10 @@
 
 // Standard Constructor
 Sorcery::Confirm::Confirm(
-	System &system, Display &display, Graphics &graphics, Component &gui_c, Component &text_c)
+	System *system, Display *display, Graphics *graphics, Component &gui_c, Component &text_c)
 	: _system{system}, _display{display}, _graphics{graphics}, _gui_c{gui_c}, _text_c{text_c} {
 
-	_window = _display.window->get_window();
+	_window = _display->window->get_window();
 	highlighted = WindowConfirm::NO;
 }
 
@@ -73,27 +73,27 @@ auto Sorcery::Confirm::draw(const double lerp) -> void {
 
 	// Generate back frame
 	_frame = std::make_unique<Frame>(
-		_display.ui_texture, WindowFrameType::NORMAL, _gui_c.w, _gui_c.h, _gui_c.alpha);
-	_frame->setPosition(_display.window->get_x(_frame->sprite, _gui_c.x),
-		_display.window->get_y(_frame->sprite, _gui_c.y));
+		_display->ui_texture, WindowFrameType::NORMAL, _gui_c.w, _gui_c.h, _gui_c.alpha);
+	_frame->setPosition(_display->window->get_x(_frame->sprite, _gui_c.x),
+		_display->window->get_y(_frame->sprite, _gui_c.y));
 	_window->draw(*_frame);
 
 	// Display Confirmation Message
 	sf::Text text{};
-	_display.window->draw_text(text, _text_c);
+	_display->window->draw_text(text, _text_c);
 
 	// Draw Yes / No (and highlight them depending on which one chosen)
-	const unsigned int yes_no_y{_text_c.y + (_display.window->get_cell_height() * 2)};
-	const unsigned int yes_x{_display.window->centre.x - (_display.window->get_cell_width() * 4)};
-	const unsigned int no_x{_display.window->centre.x + (_display.window->get_cell_width() * 2)};
+	const unsigned int yes_no_y{_text_c.y + (_display->window->get_cell_height() * 2)};
+	const unsigned int yes_x{_display->window->centre.x - (_display->window->get_cell_width() * 4)};
+	const unsigned int no_x{_display->window->centre.x + (_display->window->get_cell_width() * 2)};
 
-	_yes_text.setFont(_system.resources->fonts[_text_c.font]);
+	_yes_text.setFont(_system->resources->fonts[_text_c.font]);
 	_yes_text.setCharacterSize(_text_c.size);
 	_yes_text.setFillColor(sf::Color(_text_c.colour));
 	_yes_text.setString("YES");
 	_yes_text.setPosition(yes_x, yes_no_y);
 
-	_no_text.setFont(_system.resources->fonts[_text_c.font]);
+	_no_text.setFont(_system->resources->fonts[_text_c.font]);
 	_no_text.setCharacterSize(_text_c.size);
 	_no_text.setFillColor(sf::Color(_text_c.colour));
 	_no_text.setString("NO");
@@ -101,10 +101,10 @@ auto Sorcery::Confirm::draw(const double lerp) -> void {
 
 	// Draw backgrounds
 	if (highlighted == WindowConfirm::YES) {
-		const sf::RectangleShape yes_bg{_display.window->highlight_text(_yes_text, _text_c, lerp)};
+		const sf::RectangleShape yes_bg{_display->window->highlight_text(_yes_text, _text_c, lerp)};
 		_window->draw(yes_bg, _yes_text.getTransform());
 	} else if (highlighted == WindowConfirm::NO) {
-		const sf::RectangleShape no_bg{_display.window->highlight_text(_no_text, _text_c, lerp)};
+		const sf::RectangleShape no_bg{_display->window->highlight_text(_no_text, _text_c, lerp)};
 		_window->draw(no_bg, _no_text.getTransform());
 	}
 

@@ -39,7 +39,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Template(System &system, Display &display, Graphics &graphics);
+		Template(System *system, Display *display, Graphics *graphics);
 		Template() = delete;
 
 		// Destructor
@@ -56,9 +56,9 @@ namespace Sorcery {
 		auto _draw() -> void;
 
 		// Private Members
-		System _system;
-		Display _display;
-		Graphics _graphics;
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
 		sf::RenderWindow *_window;
 		sf::Text _title_text;
 		std::unique_ptr<Frame> _outside_frame;

@@ -27,11 +27,11 @@
 #include "template.hpp"
 
 // Standard Constructor
-Sorcery::Template::Template(System &system, Display &display, Graphics &graphics)
+Sorcery::Template::Template(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the Window and Graphics to Display
-	_window = _display.window->get_window();
+	_window = _display->window->get_window();
 
 	// Setup Components
 	_title_text = sf::Text();
@@ -40,7 +40,7 @@ Sorcery::Template::Template(System &system, Display &display, Graphics &graphics
 // Standard Destructor
 Sorcery::Template::~Template() {
 
-	_display.stop_background_movie();
+	_display->stop_background_movie();
 }
 
 auto Sorcery::Template::start() -> void {
@@ -49,23 +49,23 @@ auto Sorcery::Template::start() -> void {
 	_window->clear();
 
 	// Get Constituent Parts for the Display
-	Component outside_frame_c{(*_display.layout)["compendium:gui_frame"]};
-	Component title_frame_c{(*_display.layout)["compendium:gui_frame_title"]};
+	Component outside_frame_c{(*_display->layout)["compendium:gui_frame"]};
+	Component title_frame_c{(*_display->layout)["compendium:gui_frame_title"]};
 
 	// Generate the frame
-	_outside_frame = std::make_unique<Frame>(_display.ui_texture, WindowFrameType::NORMAL,
+	_outside_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL,
 		outside_frame_c.w, outside_frame_c.h, outside_frame_c.alpha);
-	_title_frame = std::make_unique<Frame>(_display.ui_texture, WindowFrameType::NORMAL,
+	_title_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL,
 		title_frame_c.w, title_frame_c.h, title_frame_c.alpha);
-	_outside_frame->setPosition(_display.window->get_x(_outside_frame->sprite, outside_frame_c.x),
-		_display.window->get_y(_outside_frame->sprite, outside_frame_c.y));
-	_title_frame->setPosition(_display.window->get_x(_title_frame->sprite, title_frame_c.x),
-		_display.window->get_y(_title_frame->sprite, title_frame_c.y));
+	_outside_frame->setPosition(_display->window->get_x(_outside_frame->sprite, outside_frame_c.x),
+		_display->window->get_y(_outside_frame->sprite, outside_frame_c.y));
+	_title_frame->setPosition(_display->window->get_x(_title_frame->sprite, title_frame_c.x),
+		_display->window->get_y(_title_frame->sprite, title_frame_c.y));
 
 	// Play the background movie!
-	_display.start_background_movie();
+	_display->start_background_movie();
 
-	_display.window->input_mode = WindowInputMode::DISPLAY_TEXT_FILE;
+	_display->window->input_mode = WindowInputMode::DISPLAY_TEXT_FILE;
 
 	// And do the main loop
 	sf::Event event{};
@@ -76,16 +76,16 @@ auto Sorcery::Template::start() -> void {
 			if (event.type == sf::Event::Closed)
 				return;
 
-			if (_system.input->check_for_event(WindowInput::CANCEL, event)) {
+			if (_system->input->check_for_event(WindowInput::CANCEL, event)) {
 				return;
 			}
 		}
 
 		_window->clear();
 
-		_display.start_background_movie();
-		_display.update_background_movie();
-		_display.draw_background_movie();
+		_display->start_background_movie();
+		_display->update_background_movie();
+		_display->draw_background_movie();
 
 		_draw();
 		_window->display();
@@ -93,14 +93,15 @@ auto Sorcery::Template::start() -> void {
 }
 
 auto Sorcery::Template::stop() -> void {
-	_display.stop_background_movie();
+	_display->stop_background_movie();
 }
 
 auto Sorcery::Template::_draw() -> void {
 	_window->draw(*_outside_frame);
 	_window->draw(*_title_frame);
-	_display.window->draw_text(_title_text, (*_display.layout)["compendium:gui_frame_title_text"]);
+	_display->window->draw_text(
+		_title_text, (*_display->layout)["compendium:gui_frame_title_text"]);
 
 	// Always draw the following
-	_display.display_cursor();
+	_display->display_cursor();
 }

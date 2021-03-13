@@ -25,41 +25,41 @@
 #include "license.hpp"
 
 // Standard Constructor
-Sorcery::License::License(System &system, Display &display, Graphics &graphics)
+Sorcery::License::License(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the Window and Graphics to Display
-	_window = _display.window->get_window();
+	_window = _display->window->get_window();
 
 	// Setup text file
-	_textfile = system.resources->license_file;
+	_textfile = system->resources->license_file;
 	_current_line = 1;
 
 	// Setup Components
 	_progress_text = sf::Text();
 	_line_text = sf::Text();
-
-	// Get the Display Components
-	_display.generate_components("license");
 }
 
 // Standard Destructor
 Sorcery::License::~License() {
 
-	_display.stop_background_movie();
+	_display->stop_background_movie();
 }
 
 auto Sorcery::License::start() -> void {
+
+	// Get the Background Display Components and load them into Display module storage (not local)
+	_display->generate_components("license");
 
 	// Clear the window
 	_window->clear();
 
 	// Play the background movie!
-	_display.fit_background_movie();
-	_display.start_background_movie();
+	_display->fit_background_movie();
+	_display->start_background_movie();
 
 	// And do the main loop
-	_display.window->input_mode = WindowInputMode::DISPLAY_TEXT_FILE;
+	_display->window->input_mode = WindowInputMode::DISPLAY_TEXT_FILE;
 	sf::Event event{};
 	const unsigned int lines_to_display{38 - 9};
 	while (_window->isOpen()) {
@@ -69,41 +69,41 @@ auto Sorcery::License::start() -> void {
 			if (event.type == sf::Event::Closed)
 				return;
 
-			if ((_system.input->check_for_event(WindowInput::CANCEL, event)) ||
-				(_system.input->check_for_event(WindowInput::BACK, event))) {
+			if ((_system->input->check_for_event(WindowInput::CANCEL, event)) ||
+				(_system->input->check_for_event(WindowInput::BACK, event))) {
 				return;
-			} else if (_system.input->check_for_event(WindowInput::DOWN, event)) {
+			} else if (_system->input->check_for_event(WindowInput::DOWN, event)) {
 				if (_current_line < _textfile->size())
 					++_current_line;
-			} else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
+			} else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
 				if (_current_line < _textfile->size())
 					++_current_line;
-			} else if (_system.input->check_for_event(WindowInput::UP, event)) {
+			} else if (_system->input->check_for_event(WindowInput::UP, event)) {
 				if (_current_line > 1)
 					_current_line--;
-			} else if (_system.input->check_for_event(WindowInput::PAGE_DOWN, event)) {
+			} else if (_system->input->check_for_event(WindowInput::PAGE_DOWN, event)) {
 				if (_current_line < (_textfile->size() - lines_to_display))
 					_current_line += lines_to_display;
 				else
 					_current_line = _textfile->size();
-			} else if (_system.input->check_for_event(WindowInput::PAGE_UP, event)) {
+			} else if (_system->input->check_for_event(WindowInput::PAGE_UP, event)) {
 				if (_current_line >= lines_to_display)
 					_current_line -= lines_to_display;
 				else
 					_current_line = 1;
 				break;
-			} else if (_system.input->check_for_event(WindowInput::HOME, event)) {
+			} else if (_system->input->check_for_event(WindowInput::HOME, event)) {
 				_current_line = 1;
-			} else if (_system.input->check_for_event(WindowInput::END, event)) {
+			} else if (_system->input->check_for_event(WindowInput::END, event)) {
 				_current_line = _textfile->size() - 1;
 			}
 		}
 
 		_window->clear();
 
-		_display.start_background_movie();
-		_display.update_background_movie();
-		_display.draw_background_movie();
+		_display->start_background_movie();
+		_display->update_background_movie();
+		_display->draw_background_movie();
 
 		_draw();
 		_window->display();
@@ -112,24 +112,24 @@ auto Sorcery::License::start() -> void {
 
 auto Sorcery::License::stop() -> void {
 
-	_display.stop_background_movie();
+	_display->stop_background_movie();
 }
 
 auto Sorcery::License::_draw() -> void {
 
-	_display.display_components("license");
+	_display->display_components("license");
 
 	const std::string progress{_textfile->get_reading_progress(_current_line)};
-	_display.window->draw_text(_progress_text, (*_display.layout)["license:progress"], progress);
+	_display->window->draw_text(_progress_text, (*_display->layout)["license:progress"], progress);
 	_display_file_contents();
 
 	// Always draw the following
-	_display.display_cursor();
+	_display->display_cursor();
 }
 
 auto Sorcery::License::_display_file_contents() -> void {
 
-	Component text_c{(*_display.layout)["license:file_text"]};
+	Component text_c{(*_display->layout)["license:file_text"]};
 	const unsigned int lines_to_display{text_c.h};
 	const int top_y{text_c.y};
 
@@ -145,7 +145,7 @@ auto Sorcery::License::_display_file_contents() -> void {
 	for (auto y = _current_line; y < end_line; ++y) {
 		const std::string line_contents{(*_textfile)[y]};
 		_line_text.setString(line_contents);
-		text_c.y = top_y + ((y - _current_line) * _display.window->get_cell_height());
-		_display.window->draw_text(_line_text, text_c, line_contents);
+		text_c.y = top_y + ((y - _current_line) * _display->window->get_cell_height());
+		_display->window->draw_text(_line_text, text_c, line_contents);
 	}
 }

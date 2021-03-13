@@ -40,7 +40,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Options(System &system, Display &display, Graphics &graphics);
+		Options(System *system, Display *display, Graphics *graphics);
 		Options() = delete;
 
 		// Destructor
@@ -58,9 +58,9 @@ namespace Sorcery {
 		auto _set_tooltip(sf::Vector2f mouse_pos) -> bool;
 
 		// Private Members
-		System _system;
-		Display _display;
-		Graphics _graphics;
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
 		sf::RenderWindow *_window;
 		sf::Text _save_text;
 		sf::Text _cancel_text;

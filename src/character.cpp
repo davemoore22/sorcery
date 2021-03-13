@@ -1569,7 +1569,7 @@ case CharacterView::MAIN:
 		Colour::CHARACTER_SUMMARY_HP);
 
 	// Character Portrait
-	_display.screen->portraits->blit2x(_character_bg.get(), portrait_top_left.x,
+	_display->screen->portraits->blit2x(_character_bg.get(), portrait_top_left.x,
 		portrait_top_left.y, portrait_x_index * portrait_size, portrait_y_index * portrait_size,
 		portrait_size, portrait_size);
 

@@ -39,7 +39,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Tooltip(System &system, Display &display, Graphics &graphics);
+		Tooltip(System *system, Display *display, Graphics *graphics);
 		Tooltip() = delete;
 
 		// Public Members
@@ -55,9 +55,9 @@ namespace Sorcery {
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
-		System _system;
-		Display _display;
-		Graphics _graphics;
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
 		Component _layout;
 		unsigned int _width;
 		unsigned int _height;

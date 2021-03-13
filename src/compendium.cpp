@@ -25,32 +25,32 @@
 #include "compendium.hpp"
 
 // Standard Constructor
-Sorcery::Compendium::Compendium(System &system, Display &display, Graphics &graphics)
+Sorcery::Compendium::Compendium(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the Window and Graphics to Display
-	_window = _display.window->get_window();
-
-	// Get the Display Components
-	_display.generate_components("compendium");
+	_window = _display->window->get_window();
 }
 
 // Standard Destructor
 Sorcery::Compendium::~Compendium() {
 
-	_display.stop_background_movie();
+	_display->stop_background_movie();
 }
 
 auto Sorcery::Compendium::start() -> void {
+
+	// Get the Background Display Components and load them into Display module storage (not local)
+	_display->generate_components("compendium");
 
 	// Clear the window
 	_window->clear();
 
 	// Play the background movie!
-	_display.fit_background_movie();
-	_display.start_background_movie();
+	_display->fit_background_movie();
+	_display->start_background_movie();
 
-	_display.window->input_mode = WindowInputMode::COMPENDIUM;
+	_display->window->input_mode = WindowInputMode::COMPENDIUM;
 
 	auto module_result = _do_event_loop();
 	if (module_result == ModuleResult::EXIT)
@@ -59,13 +59,13 @@ auto Sorcery::Compendium::start() -> void {
 
 auto Sorcery::Compendium::stop() -> void {
 
-	_display.stop_background_movie();
+	_display->stop_background_movie();
 }
 
 auto Sorcery::Compendium::_draw() -> void {
 
-	_display.display_components("compendium");
-	_display.display_cursor();
+	_display->display_components("compendium");
+	_display->display_cursor();
 }
 
 auto Sorcery::Compendium::_do_event_loop() -> std::optional<ModuleResult> {
@@ -87,9 +87,9 @@ auto Sorcery::Compendium::_do_event_loop() -> std::optional<ModuleResult> {
 
 		_window->clear();
 
-		_display.start_background_movie();
-		_display.update_background_movie();
-		_display.draw_background_movie();
+		_display->start_background_movie();
+		_display->update_background_movie();
+		_display->draw_background_movie();
 
 		_draw();
 		_window->display();
@@ -104,10 +104,10 @@ auto Sorcery::Compendium::_handle_input(const sf::Event &event) -> std::optional
 	if (event.type == sf::Event::Closed)
 		return ModuleResult::EXIT;
 
-	if (_system.input->check_for_event(WindowInput::CANCEL, event))
+	if (_system->input->check_for_event(WindowInput::CANCEL, event))
 		return ModuleResult::CLOSE;
 
-	if (_system.input->check_for_event(WindowInput::BACK, event))
+	if (_system->input->check_for_event(WindowInput::BACK, event))
 		return ModuleResult::BACK;
 
 	return std::nullopt;

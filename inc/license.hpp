@@ -37,7 +37,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructor
-		License(System &system, Display &display, Graphics &graphics);
+		License(System *system, Display *display, Graphics *graphics);
 
 		// Destructor
 		~License();
@@ -54,9 +54,9 @@ namespace Sorcery {
 		auto _display_file_contents() -> void;
 
 		// Private Members
-		System _system;
-		Display _display;
-		Graphics _graphics;
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
 		sf::RenderWindow *_window;
 
 		std::shared_ptr<TextFile> _textfile;

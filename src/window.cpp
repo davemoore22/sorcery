@@ -27,19 +27,19 @@
 // also add a TGUI to this
 
 // Standard Constructor
-Sorcery::Window::Window(const std::string &title, System &system, String &string, Layout &layout)
-	: _title{title}, _system{system}, _string{string}, _layout{layout} {
+Sorcery::Window::Window(System *system, String *string, Layout *layout, const std::string &title)
+	: _system{system}, _string{string}, _layout{layout}, _title{title} {
 
 	// First get the Window Size from System Config
-	_default_size.w = std::stoi(_system.config->get("Window", DEFAULT_SCREEN_WIDTH));
-	_default_size.h = std::stoi(_system.config->get("Window", DEFAULT_SCREEN_HEIGHT));
-	_current_size.w = std::stoi(_system.config->get("Window", CURRENT_SCREEN_WIDTH));
-	_current_size.h = std::stoi(_system.config->get("Window", CURRENT_SCREEN_HEIGHT));
+	_default_size.w = std::stoi(_system->config->get("Window", DEFAULT_SCREEN_WIDTH));
+	_default_size.h = std::stoi(_system->config->get("Window", DEFAULT_SCREEN_HEIGHT));
+	_current_size.w = std::stoi(_system->config->get("Window", CURRENT_SCREEN_WIDTH));
+	_current_size.h = std::stoi(_system->config->get("Window", CURRENT_SCREEN_HEIGHT));
 
 	// And then the Positioning Grid Cell Size
-	_cell_height = std::stoi(_system.config->get("Grid", CELL_HEIGHT));
-	_cell_width = std::stoi(_system.config->get("Grid", CELL_WIDTH));
-	_layout.set_grid(_cell_width, _cell_height);
+	_cell_height = std::stoi(_system->config->get("Grid", CELL_HEIGHT));
+	_cell_width = std::stoi(_system->config->get("Grid", CELL_WIDTH));
+	_layout->set_grid(_cell_width, _cell_height);
 
 	// Then create the SFML Window and the Main GUI
 	XInitThreads();
@@ -107,13 +107,13 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, con
 
 	int x{0};
 	int y{0};
-	text.setFont(_system.resources->fonts[component.font]);
+	text.setFont(_system->resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
 	if (component.animated)
 		text.setFillColor(_change_colour(sf::Color(component.colour), lerp));
 	else
 		text.setFillColor(sf::Color(component.colour));
-	text.setString(_string[component.string_key]);
+	text.setString((*_string)[component.string_key]);
 	x = component.x == -1 ? centre.x : component.x;
 	y = component.y == -1 ? centre.y : component.y;
 	if (component.justification == Justification::CENTRE) {
@@ -143,7 +143,7 @@ auto Sorcery::Window::_draw_text(
 
 	int x{0};
 	int y{0};
-	text.setFont(_system.resources->fonts[component.font]);
+	text.setFont(_system->resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
 	text.setString(string);
@@ -176,7 +176,7 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component,
 
 	int x{0};
 	int y{0};
-	text.setFont(_system.resources->fonts[component.font]);
+	text.setFont(_system->resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
 	if (component.animated)
 		text.setFillColor(_change_colour(sf::Color(component.colour), lerp));
@@ -209,7 +209,7 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component,
 
 auto Sorcery::Window::get_cursor() const -> sf::Sprite {
 
-	sf::Sprite cursor(_system.resources->textures[UI_TEXTURE]);
+	sf::Sprite cursor(_system->resources->textures[UI_TEXTURE]);
 	const sf::IntRect cursor_rect(710, 310, 21, 28);
 	cursor.setTextureRect(cursor_rect);
 	return cursor;

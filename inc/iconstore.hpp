@@ -34,7 +34,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		IconStore(System &system, Display &display, const std::filesystem::path filename);
+		IconStore(System *system, Display *display, const std::filesystem::path filename);
 		IconStore() = delete;
 
 		// Overload [] operator
@@ -47,8 +47,8 @@ namespace Sorcery {
 
 	  private:
 		// Private Members
-		System _system;
-		Display _display;
+		System *_system;
+		Display *_display;
 		IconLibrary _icons;
 		bool _loaded;
 		sf::Texture _texture;

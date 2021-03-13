@@ -25,7 +25,7 @@
 #include "animation.hpp"
 
 // Standard Constructor
-Sorcery::Animation::Animation(System &system, Display &display)
+Sorcery::Animation::Animation(System *system, Display *display)
 	: _system{system}, _display{display} {
 
 	_finished = false;
@@ -142,11 +142,11 @@ auto Sorcery::Animation::_do_attract_mode_animation() -> void {
 
 	std::scoped_lock<std::mutex> _scoped_lock(_attract_mutex);
 	unsigned int sprite_index{};
-	const auto num{(*_system.random)[RandomType::D4]};
+	const auto num{(*_system->random)[RandomType::D4]};
 	_attract_mode.clear();
 	for (auto i = 0u; i < num; i++) {
 		do {
-			sprite_index = (*_system.random)[RandomType::ZERO_TO_101];
+			sprite_index = (*_system->random)[RandomType::ZERO_TO_101];
 		} while (std::find(_attract_mode.begin(), _attract_mode.end(), sprite_index) !=
 				 _attract_mode.end());
 		_attract_mode.push_back(sprite_index);

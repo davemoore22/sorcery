@@ -36,7 +36,7 @@ Sorcery::AllocatePanel::AllocatePanel(
 	_c_points_started = Component((*_display->layout)["allocate_panel:bonus_points_number"]);
 	_stat_bar = Component((*_display->layout)["allocate_panel:stat_bar"]);
 
-	// Get the standard components
+	// Get the Background Display Components
 	_display->generate_components("allocate_panel", sprites, texts, frames);
 
 	// Colors used

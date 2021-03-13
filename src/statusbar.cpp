@@ -25,27 +25,27 @@
 #include "statusbar.hpp"
 
 // Standard Constructor
-Sorcery::StatusBar::StatusBar(System &system, Display &display, Graphics &graphics)
+Sorcery::StatusBar::StatusBar(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	_texts.clear();
 
 	// Get any Layout Information
-	_layout = Component((*_display.layout)["status_bar:status_bar"]);
-	_frame_c = Component((*_display.layout)["status_bar:outer_frame"]);
+	_layout = Component((*_display->layout)["status_bar:status_bar"]);
+	_frame_c = Component((*_display->layout)["status_bar:outer_frame"]);
 
-	_rtexture.create(_layout.w * _display.window->get_cell_width(),
-		_layout.h * _display.window->get_cell_height());
+	_rtexture.create(_layout.w * _display->window->get_cell_width(),
+		_layout.h * _display->window->get_cell_height());
 	_rtexture.setSmooth(true);
 	_rtexture.clear();
 
 	// Create the Outside Fram
 	_frame = std::make_unique<Frame>(
-		_display.ui_texture, WindowFrameType::NORMAL, _frame_c.w, _frame_c.h, _frame_c.alpha);
+		_display->ui_texture, WindowFrameType::NORMAL, _frame_c.w, _frame_c.h, _frame_c.alpha);
 
 	// Render the background (inset by the frame)
-	sf::RectangleShape rect(sf::Vector2f((_display.window->get_cell_width() * (_layout.w)) - 20,
-		(_display.window->get_cell_height() * (_layout.h)) - 20));
+	sf::RectangleShape rect(sf::Vector2f((_display->window->get_cell_width() * (_layout.w)) - 20,
+		(_display->window->get_cell_height() * (_layout.h)) - 20));
 	rect.setFillColor(sf::Color(0, 0, 0, _layout.alpha));
 	rect.setPosition(10, 10);
 	_rtexture.draw(rect);
@@ -76,17 +76,17 @@ auto Sorcery::StatusBar::draw(sf::RenderTarget &target, sf::RenderStates states)
 auto Sorcery::StatusBar::_generate_components() -> void {
 
 	// For now - this is copied from display.cpp
-	auto components{(*_display.layout)("status_bar")};
+	auto components{(*_display->layout)("status_bar")};
 	if (components) {
 		for (const auto &component : components.value()) {
 			if (component.type == ComponentType::TEXT) {
 				sf::Text text;
-				text.setFont(_system.resources->fonts[component.font]);
+				text.setFont(_system->resources->fonts[component.font]);
 				text.setCharacterSize(component.size);
 				text.setFillColor(sf::Color(component.colour));
-				text.setString((*_display.string)[component.string_key]);
-				const unsigned int x{component.x == -1 ? _display.window->centre.x : component.x};
-				const unsigned int y{component.y == -1 ? _display.window->centre.y : component.y};
+				text.setString((*_display->string)[component.string_key]);
+				const unsigned int x{component.x == -1 ? _display->window->centre.x : component.x};
+				const unsigned int y{component.y == -1 ? _display->window->centre.y : component.y};
 				if (component.justification == Justification::CENTRE) {
 					text.setPosition(x, y);
 					text.setOrigin(
@@ -108,7 +108,6 @@ auto Sorcery::StatusBar::_generate_components() -> void {
 
 auto Sorcery::StatusBar::_draw_components() -> void {
 
-	// For now - this is copied from display.cpp
 	for (auto &[unique_key, text] : _texts) {
 		_rtexture.draw(text);
 	}

@@ -25,23 +25,23 @@
 #include "banner.hpp"
 
 // Standard Constructor
-Sorcery::Banner::Banner(System &system, Display &display, Graphics &graphics)
+Sorcery::Banner::Banner(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the Main Window
-	_window = _display.window->get_window();
+	_window = _display->window->get_window();
 
 	// Set up the Timers
 	_alpha = 0;
 	_fading_in = true;
 	_fading_out = false;
 	_finished = false;
-
-	// Get the Display Components
-	_display.generate_components("banner");
 }
 
 auto Sorcery::Banner::start() -> void {
+
+	// Get the Background Display Components and load them into Display module storage (not local)
+	_display->generate_components("banner");
 
 	sf::Event input_event{};
 	while (!_finished) {
@@ -59,7 +59,7 @@ auto Sorcery::Banner::start() -> void {
 
 auto Sorcery::Banner::_draw() -> void {
 
-	_display.display_components("banner", _alpha);
+	_display->display_components("banner", _alpha);
 }
 
 auto Sorcery::Banner::_update() -> void {

@@ -38,7 +38,7 @@ namespace Sorcery {
 
 	  public:
 		// Standard Constructor - need to pass in game object to this to
-		Engine(System &system, Display &display, Graphics &graphics);
+		Engine(System *system, Display *display, Graphics *graphics);
 		Engine() = delete;
 
 		// Standard Destructor
@@ -55,9 +55,9 @@ namespace Sorcery {
 		auto _draw() -> void;
 
 		// Private Members
-		System _system;
-		Display _display;
-		Graphics _graphics;
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
 		sf::RenderWindow *_window;
 	};
 } // namespace Sorcery

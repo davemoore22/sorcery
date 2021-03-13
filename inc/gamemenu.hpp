@@ -41,7 +41,7 @@ namespace Sorcery {
 
 	  public:
 		// Standard Constructor
-		GameMenu(System &system, Display &display, Graphics &graphics);
+		GameMenu(System *system, Display *display, Graphics *graphics);
 		GameMenu() = delete;
 
 		// Standard Destructor
@@ -58,9 +58,9 @@ namespace Sorcery {
 		auto _draw() -> void;
 
 		// Private Members
-		System _system;
-		Display _display;
-		Graphics _graphics;
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
 		sf::RenderWindow *_window;
 		std::unique_ptr<Frame> _castle_frame;
 		std::unique_ptr<Frame> _edge_frame;

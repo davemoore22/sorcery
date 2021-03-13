@@ -26,7 +26,7 @@
 
 // Standard Constructor
 Sorcery::IconStore::IconStore(
-	System &system, Display &display, const std::filesystem::path filename)
+	System *system, Display *display, const std::filesystem::path filename)
 	: _system{system}, _display{display} {
 
 	// Prepare the icon stores
@@ -34,10 +34,10 @@ Sorcery::IconStore::IconStore(
 	_menu_icon_map.clear();
 
 	// First get the Icon Texture and load it into the Spritesheet
-	_texture = _system.resources->textures[ICONS_TEXTURE];
+	_texture = _system->resources->textures[ICONS_TEXTURE];
 
 	// Set the Icon scaling (remember we are using square icons)
-	_layout = Component{(*_display.layout)["global:icon"]};
+	_layout = Component{(*_display->layout)["global:icon"]};
 	_size = sf::Vector2f(_layout.size, _layout.size);
 	float texture_size{static_cast<float>(_texture.getSize().y)};
 	_scale = sf::Vector2f(_size.x / texture_size, _size.y / texture_size);

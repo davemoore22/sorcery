@@ -25,23 +25,23 @@
 #include "splash.hpp"
 
 // Standard Constructor
-Sorcery::Splash::Splash(System &system, Display &display, Graphics &graphics)
+Sorcery::Splash::Splash(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the Window and Graphics to Display
-	_window = _display.window->get_window();
+	_window = _display->window->get_window();
 
 	// Set up the Timers
 	_alpha = 0;
 	_fading_in = true;
 	_fading_out = false;
 	_finished = false;
-
-	// Get the Display Components
-	_display.generate_components("splash");
 }
 
 auto Sorcery::Splash::start() -> void {
+
+	// Get the Background Display Components and load them into Display module storage (not local)
+	_display->generate_components("splash");
 
 	sf::Event event{};
 	while (!_finished) {
@@ -58,7 +58,7 @@ auto Sorcery::Splash::start() -> void {
 
 auto Sorcery::Splash::_draw() -> void {
 
-	_display.display_components("splash", _alpha);
+	_display->display_components("splash", _alpha);
 }
 
 auto Sorcery::Splash::_update() -> void {

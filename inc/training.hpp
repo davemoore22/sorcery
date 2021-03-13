@@ -39,7 +39,7 @@ namespace Sorcery {
 
 	  public:
 		// Standard Constructor
-		Training(System &system, Display &display, Graphics &graphics);
+		Training(System *system, Display *display, Graphics *graphics);
 		Training() = delete;
 
 		// Standard Destructor
@@ -56,9 +56,9 @@ namespace Sorcery {
 		auto _draw() -> void;
 
 		// Private Members
-		System _system;
-		Display _display;
-		Graphics _graphics;
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
 		sf::RenderWindow *_window;
 		MainMenuType _menu_stage;
 		std::shared_ptr<Menu> _menu;

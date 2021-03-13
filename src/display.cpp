@@ -25,13 +25,13 @@
 #include "display.hpp"
 
 // Standard Constructor
-Sorcery::Display::Display(System *system) {
+Sorcery::Display::Display(System *system) : _system{system} {
 
-	_system = system;
+	//_system = system;
 	string = std::make_shared<String>((*_system->files)[STRINGS_FILE]);
-	const std::string title{string->get("TITLE_AND_VERSION_INFO")};
 	layout = std::make_shared<Layout>((*_system->files)[LAYOUT_FILE]);
-	window = std::make_shared<Window>(title, *_system, *string, *layout);
+	window = std::make_shared<Window>(
+		_system, string.get(), layout.get(), (*string)["TITLE_AND_VERSION_INFO"]);
 	ui_texture = (*system->resources).textures[UI_TEXTURE];
 	_background_movie.openFromFile(_system->files->get_path_as_string(MENU_VIDEO));
 }
@@ -60,77 +60,12 @@ auto Sorcery::Display::operator=(const Display &other) -> Display & {
 	return *this;
 }
 
-auto Sorcery::Display::display_components(const std::string &screen,
-	std::map<std::string, sf::Sprite> &sprites, std::map<std::string, sf::Text> &texts,
-	std::map<std::string, std::shared_ptr<Frame>> &frames, std::optional<std::any> parameter)
-	-> void {
+auto Sorcery::Display::generate_components(const std::string &screen) -> void {
 
-	for (auto &[unique_key, frame] : frames) {
-		if (screen == "castle") {
-			if (parameter) {
-
-				// TODO: replace with IF-INIT?
-				if (const GameMenuType menu_stage{std::any_cast<GameMenuType>(parameter.value())};
-					menu_stage == GameMenuType::CASTLE) {
-					if (unique_key.ends_with("castle:edge_menu_frame"))
-						continue;
-				} else if (menu_stage == GameMenuType::EDGE_OF_TOWN) {
-					if (unique_key.ends_with("castle:castle_menu_frame"))
-						continue;
-				}
-			}
-		}
-
-		window->get_window()->draw(*frame);
-	}
-
-	for (auto &[unique_key, sprite] : sprites) {
-		if ((unique_key.ends_with("banner:banner_image")) ||
-			(unique_key.ends_with("splash:splash_image"))) {
-			if (parameter) {
-				sprite.setColor(
-					sf::Color(255, 255, 255, std::any_cast<unsigned int>(parameter.value())));
-			}
-		}
-
-		window->get_window()->draw(sprite);
-	}
-
-	for (auto &[unique_key, text] : texts) {
-
-		if (screen == "main_menu_attract") {
-			if (parameter) {
-
-				// TODO: replace with IF-INIT?
-				if (const MainMenuType menu_stage{std::any_cast<MainMenuType>(parameter.value())};
-					menu_stage == MainMenuType::ATTRACT_MENU) {
-					if ((unique_key.ends_with("main_menu_attract:press_any_key")) ||
-						(unique_key.ends_with("main_menu_attract:subtitle_1")) ||
-						(unique_key.ends_with("main_menu_attract:subtitle_2")) ||
-						(unique_key.ends_with("main_menu_attract:copyright")))
-						continue;
-				} else if (menu_stage == MainMenuType::ATTRACT_MODE) {
-				}
-			}
-		} else if (screen == "castle") {
-			if (parameter) {
-
-				// TODO: replace with IF-INIT?
-				const GameMenuType menu_stage{std::any_cast<GameMenuType>(parameter.value())};
-				if (menu_stage == GameMenuType::CASTLE) {
-					if ((unique_key.ends_with("castle:edit_title_frame")) ||
-						(unique_key.ends_with("castle:edit_title_text")))
-						continue;
-				} else if (menu_stage == GameMenuType::EDGE_OF_TOWN) {
-					if ((unique_key.ends_with("castle:castle_title_frame")) ||
-						(unique_key.ends_with("castle:castle_title_text")))
-						continue;
-				}
-			}
-		}
-
-		window->get_window()->draw(text);
-	}
+	_sprites.clear();
+	_texts.clear();
+	_frames.clear();
+	generate_components(screen, _sprites, _texts, _frames);
 }
 
 auto Sorcery::Display::generate_components(const std::string &screen,
@@ -219,7 +154,7 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 
 			} else if (component.type == ComponentType::MENU) {
 
-				// Don't do this
+				// Don't do this here - they are all manually displayed
 			}
 		}
 	}
@@ -231,12 +166,77 @@ auto Sorcery::Display::display_components(
 	display_components(screen, _sprites, _texts, _frames, parameter);
 }
 
-auto Sorcery::Display::generate_components(const std::string &screen) -> void {
+auto Sorcery::Display::display_components(const std::string &screen,
+	std::map<std::string, sf::Sprite> &sprites, std::map<std::string, sf::Text> &texts,
+	std::map<std::string, std::shared_ptr<Frame>> &frames, std::optional<std::any> parameter)
+	-> void {
 
-	_sprites.clear();
-	_texts.clear();
-	_frames.clear();
-	generate_components(screen, _sprites, _texts, _frames);
+	for (auto &[unique_key, frame] : frames) {
+		if (screen == "castle") {
+			if (parameter) {
+
+				// TODO: replace with IF-INIT?
+				if (const GameMenuType menu_stage{std::any_cast<GameMenuType>(parameter.value())};
+					menu_stage == GameMenuType::CASTLE) {
+					if (unique_key.ends_with("castle:edge_menu_frame"))
+						continue;
+				} else if (menu_stage == GameMenuType::EDGE_OF_TOWN) {
+					if (unique_key.ends_with("castle:castle_menu_frame"))
+						continue;
+				}
+			}
+		}
+
+		window->get_window()->draw(*frame);
+	}
+
+	for (auto &[unique_key, sprite] : sprites) {
+		if ((unique_key.ends_with("banner:banner_image")) ||
+			(unique_key.ends_with("splash:splash_image"))) {
+			if (parameter) {
+				sprite.setColor(
+					sf::Color(255, 255, 255, std::any_cast<unsigned int>(parameter.value())));
+			}
+		}
+
+		window->get_window()->draw(sprite);
+	}
+
+	for (auto &[unique_key, text] : texts) {
+
+		if (screen == "main_menu_attract") {
+			if (parameter) {
+
+				// TODO: replace with IF-INIT?
+				if (const MainMenuType menu_stage{std::any_cast<MainMenuType>(parameter.value())};
+					menu_stage == MainMenuType::ATTRACT_MENU) {
+					if ((unique_key.ends_with("main_menu_attract:press_any_key")) ||
+						(unique_key.ends_with("main_menu_attract:subtitle_1")) ||
+						(unique_key.ends_with("main_menu_attract:subtitle_2")) ||
+						(unique_key.ends_with("main_menu_attract:copyright")))
+						continue;
+				} else if (menu_stage == MainMenuType::ATTRACT_MODE) {
+				}
+			}
+		} else if (screen == "castle") {
+			if (parameter) {
+
+				// TODO: replace with IF-INIT?
+				const GameMenuType menu_stage{std::any_cast<GameMenuType>(parameter.value())};
+				if (menu_stage == GameMenuType::CASTLE) {
+					if ((unique_key.ends_with("castle:edit_title_frame")) ||
+						(unique_key.ends_with("castle:edit_title_text")))
+						continue;
+				} else if (menu_stage == GameMenuType::EDGE_OF_TOWN) {
+					if ((unique_key.ends_with("castle:castle_title_frame")) ||
+						(unique_key.ends_with("castle:castle_title_text")))
+						continue;
+				}
+			}
+		}
+
+		window->get_window()->draw(text);
+	}
 }
 
 auto Sorcery::Display::display_cursor() -> void {
@@ -265,7 +265,7 @@ auto Sorcery::Display::stop_background_movie() -> void {
 
 auto Sorcery::Display::update_background_movie() -> void {
 
-	//_background_movie.update();
+	_background_movie.update();
 }
 
 auto Sorcery::Display::draw_background_movie() -> void {

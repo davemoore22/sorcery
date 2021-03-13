@@ -36,7 +36,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Confirm(System &system, Display &display, Graphics &graphics, Component &gui_c,
+		Confirm(System *system, Display *display, Graphics *graphics, Component &gui_c,
 			Component &text_c);
 		Confirm() = delete;
 
@@ -53,9 +53,9 @@ namespace Sorcery {
 		// Private Methods
 
 		// Private Members
-		System _system;
-		Display _display;
-		Graphics _graphics;
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
 		Component _gui_c;
 		Component _text_c;
 		sf::RenderWindow *_window;

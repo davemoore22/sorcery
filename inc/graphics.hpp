@@ -41,7 +41,7 @@ namespace Sorcery {
 	  public:
 		// Constructors
 		Graphics(System *system, Display *display);
-		Graphics() = delete;
+		Graphics() = default;
 
 		// Copy Constructors
 		Graphics(const Graphics &other);

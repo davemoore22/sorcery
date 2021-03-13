@@ -36,7 +36,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Splash(System &system, Display &display, Graphics &graphics);
+		Splash(System *system, Display *display, Graphics *graphics);
 		Splash() = delete;
 
 		// Public Members
@@ -50,9 +50,9 @@ namespace Sorcery {
 		auto _update() -> void;
 
 		// Private Members
-		System _system;
-		Display _display;
-		Graphics _graphics;
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
 		sf::RenderWindow *_window;
 		unsigned int _alpha;
 		bool _fading_in;

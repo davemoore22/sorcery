@@ -25,11 +25,11 @@
 #include "engine.hpp"
 
 // Standard Constructor
-Sorcery::Engine::Engine(System &system, Display &display, Graphics &graphics)
+Sorcery::Engine::Engine(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the Window and Graphics to Display
-	_window = _display.window->get_window();
+	_window = _display->window->get_window();
 }
 
 // Standard Destructor
@@ -76,7 +76,7 @@ auto Sorcery::Engine::start() -> void {
 	Sorcery::Map worldMap;
 
 	// Load textures into the map object
-	const std::filesystem::path file_path{_system.files->get_base_path() / "gfx"};
+	const std::filesystem::path file_path{_system->files->get_base_path() / "gfx"};
 	worldMap.loadTexture(1, file_path.string() + "/wall1.png");
 	worldMap.loadTexture(1, file_path.string() + "/wall1.png");	  // 128x128 version
 	worldMap.loadTexture(2, file_path.string() + "/wall2.png");	  // 128x128 version

@@ -25,11 +25,11 @@
 #include "tooltip.hpp"
 
 // Standard Constructor
-Sorcery::Tooltip::Tooltip(System &system, Display &display, Graphics &graphics)
+Sorcery::Tooltip::Tooltip(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the standard layout information
-	_layout = Component((*_display.layout)["global:tooltip"]);
+	_layout = Component((*_display->layout)["global:tooltip"]);
 
 	// Not valid until we call the set command
 	valid = false;
@@ -57,7 +57,7 @@ auto Sorcery::Tooltip::set(const std::string &string) -> void {
 	int y{0};
 	for (const auto &each_string : _strings) {
 		sf::Text text;
-		text.setFont(_system.resources->fonts[_layout.font]);
+		text.setFont(_system->resources->fonts[_layout.font]);
 		text.setCharacterSize(_layout.size);
 		text.setFillColor(sf::Color(_layout.colour));
 		text.setString(each_string);
@@ -78,7 +78,7 @@ auto Sorcery::Tooltip::set(const std::string &string) -> void {
 
 	// Get the frame (remember that the Frame has a Background set to Alpha)
 	_frame = std::make_unique<Frame>(
-		_display.ui_texture, WindowFrameType::HINT, _width / 2.15f, _height / 2.0f, _layout.alpha);
+		_display->ui_texture, WindowFrameType::HINT, _width / 2.15f, _height / 2.0f, _layout.alpha);
 
 	// We're ok to draw it now
 	valid = true;

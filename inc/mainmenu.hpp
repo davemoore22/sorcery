@@ -40,7 +40,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		MainMenu(System &system, Display &display, Graphics &graphics);
+		MainMenu(System *system, Display *display, Graphics *graphics);
 		MainMenu() = delete;
 
 		// Standard Destructor
@@ -57,9 +57,9 @@ namespace Sorcery {
 		auto _draw() -> void;
 
 		// Private Members
-		System _system;
-		Display _display;
-		Graphics _graphics;
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
 		sf::RenderWindow *_window;
 		MainMenuType _menu_stage;
 		std::shared_ptr<Menu> _main_menu;

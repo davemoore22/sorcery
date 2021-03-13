@@ -39,7 +39,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		StatusBar(System &system, Display &display, Graphics &graphics);
+		StatusBar(System *system, Display *display, Graphics *graphics);
 		StatusBar() = delete;
 
 		// Public Members
@@ -56,9 +56,9 @@ namespace Sorcery {
 		auto _draw_components() -> void;
 
 		// Private Members
-		System _system;
-		Display _display;
-		Graphics _graphics;
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
 		Component _layout;
 		Component _frame_c;
 		std::unique_ptr<Frame> _frame;
