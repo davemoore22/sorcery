@@ -42,7 +42,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructor
-		Create(System &system, Display &display, Graphics &graphics);
+		Create(System *system, Display *display, Graphics *graphics);
 		Create() = delete;
 
 		// Destructor
@@ -65,9 +65,9 @@ namespace Sorcery {
 		auto _update_character(const sf::Event &event) -> std::optional<ModuleResult>;
 
 		// Private Members
-		System _system;
-		Display _display;
-		Graphics _graphics;
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
 		sf::RenderWindow *_window;
 		sf::Sprite _bg;
 		Character _candidate;

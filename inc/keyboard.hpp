@@ -38,7 +38,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Keyboard(System &system, Display &display, Graphics &graphics);
+		Keyboard(System *system, Display *display, Graphics *graphics);
 		Keyboard() = delete;
 
 		// Public Members
@@ -58,9 +58,9 @@ namespace Sorcery {
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
-		System _system;
-		Display _display;
-		Graphics _graphics;
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
 		Component _frame_c;
 		Component _text_c;
 		std::map<std::string, sf::Text> _texts;

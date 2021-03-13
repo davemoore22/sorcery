@@ -39,7 +39,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		AllocatePanel(System &system, Display &display, Graphics &graphics, Character *character);
+		AllocatePanel(System *system, Display *display, Graphics *graphics, Character *character);
 		AllocatePanel() = delete;
 
 		// Public Members
@@ -58,9 +58,9 @@ namespace Sorcery {
 			-> std::tuple<sf::RectangleShape, sf::RectangleShape, sf::RectangleShape>;
 
 		// Private Members
-		System _system;
-		Display _display;
-		Graphics _graphics;
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
 		Component _layout;
 		Character *_character; // Non-owning Pointer
 		unsigned int _width;

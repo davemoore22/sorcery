@@ -23,18 +23,21 @@
 
 #include "allocatepanel.hpp"
 
+// create a classbar graphic object as part of this? (get the texture of the relevant section of the
+// icons texture for all the classes, then set parts of the image - will need a component for this)
+
 Sorcery::AllocatePanel::AllocatePanel(
-	System &system, Display &display, Graphics &graphics, Character *character)
+	System *system, Display *display, Graphics *graphics, Character *character)
 	: _system{system}, _display{display}, _graphics{graphics}, _character{character} {
 
 	// Get the standard layout information
-	_layout = Component((*_display.layout)["global:allocate_panel"]);
-	_c_points_left = Component((*_display.layout)["allocate_panel:to_allocate_number"]);
-	_c_points_started = Component((*_display.layout)["allocate_panel:bonus_points_number"]);
-	_stat_bar = Component((*_display.layout)["allocate_panel:stat_bar"]);
+	_layout = Component((*_display->layout)["global:allocate_panel"]);
+	_c_points_left = Component((*_display->layout)["allocate_panel:to_allocate_number"]);
+	_c_points_started = Component((*_display->layout)["allocate_panel:bonus_points_number"]);
+	_stat_bar = Component((*_display->layout)["allocate_panel:stat_bar"]);
 
 	// Get the standard components
-	_display.generate_components("allocate_panel", sprites, texts, frames);
+	_display->generate_components("allocate_panel", sprites, texts, frames);
 
 	// Colors used
 	_green = sf::Color(0x169016ff);
@@ -61,7 +64,7 @@ auto Sorcery::AllocatePanel::set() -> void {
 
 		// Get the current stat
 		sf::Text text;
-		text.setFont(_system.resources->fonts[_layout.font]);
+		text.setFont(_system->resources->fonts[_layout.font]);
 		text.setCharacterSize(_layout.size);
 		if (value > static_cast<int>(_character->get_starting_attribute(attribute)))
 			text.setFillColor(_green);
@@ -69,16 +72,16 @@ auto Sorcery::AllocatePanel::set() -> void {
 			text.setFillColor(sf::Color(_layout.colour));
 		text.setString(fmt::format("{:>2}", value));
 		text.setOrigin(0, text.getLocalBounds().height / 2.0f);
-		text.setPosition(x, y * _display.window->get_cell_height());
+		text.setPosition(x, y * _display->window->get_cell_height());
 		_texts.push_back(text);
 
 		// Get the bars (note drawing order!)
 		auto [max_bar, allocated_bar, base_bar] = _get_attribute_bar(attribute);
-		max_bar.setPosition(x + _layout.size * 2, y * _display.window->get_cell_height());
+		max_bar.setPosition(x + _layout.size * 2, y * _display->window->get_cell_height());
 		max_bar.setOrigin(0, 0 - max_bar.getLocalBounds().height / 2.0f);
-		allocated_bar.setPosition(x + _layout.size * 2, y * _display.window->get_cell_height());
+		allocated_bar.setPosition(x + _layout.size * 2, y * _display->window->get_cell_height());
 		allocated_bar.setOrigin(0, 0 - allocated_bar.getLocalBounds().height / 2.0f);
-		base_bar.setPosition(x + _layout.size * 2, y * _display.window->get_cell_height());
+		base_bar.setPosition(x + _layout.size * 2, y * _display->window->get_cell_height());
 		base_bar.setOrigin(0, 0 - base_bar.getLocalBounds().height / 2.0f);
 		_bars.push_back(max_bar);
 		_bars.push_back(allocated_bar);
@@ -88,7 +91,7 @@ auto Sorcery::AllocatePanel::set() -> void {
 	}
 
 	sf::Text t_points_left;
-	t_points_left.setFont(_system.resources->fonts[_c_points_left.font]);
+	t_points_left.setFont(_system->resources->fonts[_c_points_left.font]);
 	t_points_left.setCharacterSize(_c_points_left.size);
 	if (_character->get_bonus_points_to_allocate() == _character->get_starting_bonus_points())
 		t_points_left.setFillColor(_green);
@@ -98,17 +101,17 @@ auto Sorcery::AllocatePanel::set() -> void {
 		t_points_left.setFillColor(sf::Color(_c_points_left.colour));
 	t_points_left.setString(fmt::format("{:>2}", _character->get_bonus_points_to_allocate()));
 	t_points_left.setPosition(
-		_c_points_left.x, _c_points_left.y + _display.window->get_cell_height());
+		_c_points_left.x, _c_points_left.y + _display->window->get_cell_height());
 
 	_texts.push_back(t_points_left);
 
 	sf::Text t_points_started;
-	t_points_started.setFont(_system.resources->fonts[_c_points_started.font]);
+	t_points_started.setFont(_system->resources->fonts[_c_points_started.font]);
 	t_points_started.setCharacterSize(_c_points_started.size);
 	t_points_started.setFillColor(sf::Color(_c_points_started.colour));
 	t_points_started.setString(fmt::format("{:>2}", _character->get_starting_bonus_points()));
 	t_points_started.setPosition(
-		_c_points_started.x, _c_points_started.y + _display.window->get_cell_height());
+		_c_points_started.x, _c_points_started.y + _display->window->get_cell_height());
 	_texts.push_back(t_points_started);
 
 	valid = true;

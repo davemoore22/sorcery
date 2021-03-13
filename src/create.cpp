@@ -24,17 +24,17 @@
 #include "create.hpp"
 
 // Standard Constructor
-Sorcery::Create::Create(System &system, Display &display, Graphics &graphics)
+Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the Window and Graphics to Display
-	_window = _display.window->get_window();
+	_window = _display->window->get_window();
 
 	// Get the Background Display Components
-	_display.generate_components("create");
+	_display->generate_components("create");
 
 	// Create the Candidate Character
-	_candidate = Character(&system, &display, &graphics);
+	_candidate = Character(system, display, graphics);
 
 	// Create the On-Screen Keyboard
 	_keyboard = std::make_shared<Keyboard>(system, display, graphics);
@@ -46,20 +46,20 @@ Sorcery::Create::Create(System &system, Display &display, Graphics &graphics)
 	_ap = std::make_shared<AllocatePanel>(_system, _display, _graphics, &_candidate);
 
 	// Layout Information
-	_name_c = Component((*_display.layout)["character_create_stage_1:name_candidate"]);
-	_keyb_c = Component((*_display.layout)["character_create_stage_1:keyboard"]);
-	_ip_race_c = Component((*_display.layout)["character_create_stage_2:info_panel"]);
-	_ip_alignment_c = Component((*_display.layout)["character_create_stage_3:info_panel"]);
-	_ip_attribute_c = Component((*_display.layout)["character_create_stage_4:info_panel"]);
-	_ap_c = Component((*_display.layout)["character_create_stage_4:allocate_panel"]);
+	_name_c = Component((*_display->layout)["character_create_stage_1:name_candidate"]);
+	_keyb_c = Component((*_display->layout)["character_create_stage_1:keyboard"]);
+	_ip_race_c = Component((*_display->layout)["character_create_stage_2:info_panel"]);
+	_ip_alignment_c = Component((*_display->layout)["character_create_stage_3:info_panel"]);
+	_ip_attribute_c = Component((*_display->layout)["character_create_stage_4:info_panel"]);
+	_ap_c = Component((*_display->layout)["character_create_stage_4:allocate_panel"]);
 
 	// Menus
 	_race_menu =
-		std::make_shared<Menu>(_system, _display, _graphics, MenuType::CHOOSE_CHARACTER_RACE);
-	_alignment_menu =
-		std::make_shared<Menu>(_system, _display, _graphics, MenuType::CHOOSE_CHARACTER_ALIGNMENT);
+		std::make_shared<Menu>(*_system, *_display, *_graphics, MenuType::CHOOSE_CHARACTER_RACE);
+	_alignment_menu = std::make_shared<Menu>(
+		*_system, *_display, *_graphics, MenuType::CHOOSE_CHARACTER_ALIGNMENT);
 	_attribute_menu = std::make_shared<Menu>(
-		_system, _display, _graphics, MenuType::ALLOCATE_CHARACTER_ATTRIBUTES);
+		*_system, *_display, *_graphics, MenuType::ALLOCATE_CHARACTER_ATTRIBUTES);
 
 	_stages.clear();
 }
@@ -67,18 +67,18 @@ Sorcery::Create::Create(System &system, Display &display, Graphics &graphics)
 // Standard Destructor
 Sorcery::Create::~Create() {
 
-	_display.stop_background_movie();
+	_display->stop_background_movie();
 }
 
 auto Sorcery::Create::start() -> std::optional<MenuItem> {
 
 	// Get the custom components
-	const Component bg_c{(*_display.layout)["create:background"]};
+	const Component bg_c{(*_display->layout)["create:background"]};
 	const sf::IntRect bg_rect(1147, 249, 773, 388);
-	_bg.setTexture(_system.resources->textures[TOWN_TEXTURE]);
+	_bg.setTexture(_system->resources->textures[TOWN_TEXTURE]);
 	_bg.setTextureRect(bg_rect);
 	_bg.setScale(bg_c.scale, bg_c.scale);
-	_bg.setPosition(_display.window->get_x(_bg, bg_c.x), _display.window->get_y(_bg, bg_c.y));
+	_bg.setPosition(_display->window->get_x(_bg, bg_c.x), _display->window->get_y(_bg, bg_c.y));
 
 	// Don't display the info panel yet
 	_ip->valid = false;
@@ -88,18 +88,18 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 	_keyboard->setPosition(_keyb_c.x, _keyb_c.y);
 	_ap->setPosition(_ap_c.x, _ap_c.y);
 
-	const Component name_c{(*_display.layout)["character_create_stage_1:name_candidate"]};
+	const Component name_c{(*_display->layout)["character_create_stage_1:name_candidate"]};
 	_candidate.set_stage(CharacterStage::ENTER_NAME);
 
 	// Clear the window
 	_window->clear();
 
 	// Play the background movie!
-	_display.fit_background_movie();
-	_display.start_background_movie();
+	_display->fit_background_movie();
+	_display->start_background_movie();
 
 	// Will need to change this for the seven screens as needed
-	_display.window->input_mode = WindowInputMode::INPUT_TEXT;
+	_display->window->input_mode = WindowInputMode::INPUT_TEXT;
 
 	auto module_result = _do_event_loop();
 	if (module_result == ModuleResult::EXIT)
@@ -110,7 +110,7 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 
 auto Sorcery::Create::stop() -> void {
 
-	_display.stop_background_movie();
+	_display->stop_background_movie();
 }
 
 // create copy of shared_ptr and then push it onto the vector
@@ -123,7 +123,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 		_candidate = popped;
 		_candidate.set_stage(CharacterStage::ENTER_NAME);
 		_stages.pop_back();
-		_display.window->input_mode = WindowInputMode::INPUT_TEXT;
+		_display->window->input_mode = WindowInputMode::INPUT_TEXT;
 	} break;
 	case CharacterStage::CHOOSE_ALIGNMENT: {
 		auto popped = _stages.back();
@@ -132,7 +132,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 		_stages.pop_back();
 		_race_menu->choose(_candidate.get_race());
 		_set_info_panel_contents(_race_menu->selected);
-		_display.window->input_mode = WindowInputMode::NORMAL;
+		_display->window->input_mode = WindowInputMode::NORMAL;
 	} break;
 	case CharacterStage::ALLOCATE_STATS: {
 		auto popped = _stages.back();
@@ -141,7 +141,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 		_stages.pop_back();
 		_alignment_menu->choose(_candidate.get_alignment());
 		_set_info_panel_contents(_alignment_menu->selected);
-		_display.window->input_mode = WindowInputMode::NORMAL;
+		_display->window->input_mode = WindowInputMode::NORMAL;
 		_ap->valid = false;
 	} break;
 	default:
@@ -156,7 +156,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		auto to_push(_candidate);
 		_stages.emplace_back(to_push);
 		_candidate.set_stage(CharacterStage::CHOOSE_RACE);
-		_display.window->input_mode = WindowInputMode::NORMAL;
+		_display->window->input_mode = WindowInputMode::NORMAL;
 		_race_menu->selected = _race_menu->items.begin();
 		_set_info_panel_contents(_race_menu->selected);
 	} break;
@@ -164,7 +164,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		auto to_push(_candidate);
 		_stages.emplace_back(to_push);
 		_candidate.set_stage(CharacterStage::CHOOSE_ALIGNMENT);
-		_display.window->input_mode = WindowInputMode::NORMAL;
+		_display->window->input_mode = WindowInputMode::NORMAL;
 		_alignment_menu->selected = _alignment_menu->items.begin();
 		_set_info_panel_contents(_alignment_menu->selected);
 	} break;
@@ -172,7 +172,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		auto to_push(_candidate);
 		_stages.emplace_back(to_push);
 		_candidate.set_stage(CharacterStage::ALLOCATE_STATS);
-		_display.window->input_mode = WindowInputMode::ALLOCATE_STATS;
+		_display->window->input_mode = WindowInputMode::ALLOCATE_STATS;
 		_attribute_menu->selected = _attribute_menu->items.begin();
 		_ap->set();
 		_set_info_panel_contents(_attribute_menu->selected);
@@ -217,9 +217,9 @@ auto Sorcery::Create::_do_event_loop() -> std::optional<ModuleResult> {
 
 			_window->clear();
 
-			_display.start_background_movie();
-			_display.update_background_movie();
-			_display.draw_background_movie();
+			_display->start_background_movie();
+			_display->update_background_movie();
+			_display->draw_background_movie();
 
 			_draw();
 			_window->display();
@@ -234,9 +234,9 @@ auto Sorcery::Create::_handle_input(const sf::Event &event) -> std::optional<Mod
 	// Check for Window Close
 	if (event.type == sf::Event::Closed)
 		return ModuleResult::EXIT;
-	else if (_system.input->check_for_event(WindowInput::CANCEL, event))
+	else if (_system->input->check_for_event(WindowInput::CANCEL, event))
 		return ModuleResult::CANCEL;
-	else if (_system.input->check_for_event(WindowInput::BACK, event)) {
+	else if (_system->input->check_for_event(WindowInput::BACK, event)) {
 		if (_candidate.get_stage() == CharacterStage::ENTER_NAME) {
 
 			// Back in Enter Name Stage only works if you have no name selected
@@ -251,7 +251,7 @@ auto Sorcery::Create::_handle_input(const sf::Event &event) -> std::optional<Mod
 		} else
 			return ModuleResult::BACK;
 
-	} else if (_system.input->check_for_event(WindowInput::DELETE, event)) {
+	} else if (_system->input->check_for_event(WindowInput::DELETE, event)) {
 
 		// Check for Deletes but map them to Back where needed
 		if (_candidate.get_stage() == CharacterStage::ENTER_NAME) {
@@ -276,7 +276,7 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 	if (_candidate.get_stage() == CharacterStage::ENTER_NAME) {
 
 		std::string candidate_name{_candidate.get_name()};
-		if (_system.input->check_for_event(WindowInput::MOVE, event)) {
+		if (_system->input->check_for_event(WindowInput::MOVE, event)) {
 
 			sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
 			std::optional<std::string> mouse_selected{
@@ -284,8 +284,8 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 			if (mouse_selected)
 				_keyboard->selected = mouse_selected.value();
 
-		} else if ((_system.input->check_for_event(WindowInput::ALPHANUMERIC, event)) ||
-				   (_system.input->check_for_event(WindowInput::SPACE, event))) {
+		} else if ((_system->input->check_for_event(WindowInput::ALPHANUMERIC, event)) ||
+				   (_system->input->check_for_event(WindowInput::SPACE, event))) {
 			if (candidate_name.length() < 24) {
 				candidate_name += static_cast<char>(event.text.unicode);
 				_candidate.set_name(candidate_name);
@@ -297,14 +297,14 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 				key_pressed.push_back(static_cast<char>(event.text.unicode));
 				_keyboard->selected = key_pressed;
 			}
-		} else if ((_system.input->check_for_event(WindowInput::DELETE, event)) ||
-				   (_system.input->check_for_event(WindowInput::BACK, event))) {
+		} else if ((_system->input->check_for_event(WindowInput::DELETE, event)) ||
+				   (_system->input->check_for_event(WindowInput::BACK, event))) {
 			if (candidate_name.length() > 0) {
 				candidate_name.pop_back();
 				_candidate.set_name(candidate_name);
 				_keyboard->selected = "Del";
 			}
-		} else if (_system.input->check_for_event(WindowInput::SELECT, event)) {
+		} else if (_system->input->check_for_event(WindowInput::SELECT, event)) {
 			if (_keyboard->selected == "End") {
 				if (TRIM_COPY(candidate_name).length() > 0) {
 					_candidate.set_name(candidate_name);
@@ -326,7 +326,7 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 				candidate_name += _keyboard->selected;
 				_candidate.set_name(candidate_name);
 			}
-		} else if (_system.input->check_for_event(WindowInput::CONFIRM_NO_SPACE, event)) {
+		} else if (_system->input->check_for_event(WindowInput::CONFIRM_NO_SPACE, event)) {
 
 			if (_keyboard->selected == "End") {
 				if (TRIM_COPY(candidate_name).length() > 0) {
@@ -341,13 +341,13 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 					return std::nullopt;
 				}
 			}
-		} else if (_system.input->check_for_event(WindowInput::LEFT, event))
+		} else if (_system->input->check_for_event(WindowInput::LEFT, event))
 			_keyboard->set_selected(WindowInput::LEFT);
-		else if (_system.input->check_for_event(WindowInput::RIGHT, event))
+		else if (_system->input->check_for_event(WindowInput::RIGHT, event))
 			_keyboard->set_selected(WindowInput::RIGHT);
-		else if (_system.input->check_for_event(WindowInput::UP, event))
+		else if (_system->input->check_for_event(WindowInput::UP, event))
 			_keyboard->set_selected(WindowInput::UP);
-		else if (_system.input->check_for_event(WindowInput::DOWN, event))
+		else if (_system->input->check_for_event(WindowInput::DOWN, event))
 			_keyboard->set_selected(WindowInput::DOWN);
 
 		return std::nullopt;
@@ -355,14 +355,14 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_RACE) {
 
 		std::optional<std::vector<MenuEntry>::const_iterator> race_selected{_race_menu->selected};
-		if (_system.input->check_for_event(WindowInput::UP, event))
+		if (_system->input->check_for_event(WindowInput::UP, event))
 			race_selected = _race_menu->choose_previous();
-		else if (_system.input->check_for_event(WindowInput::DOWN, event))
+		else if (_system->input->check_for_event(WindowInput::DOWN, event))
 			race_selected = _race_menu->choose_next();
-		else if (_system.input->check_for_event(WindowInput::MOVE, event))
+		else if (_system->input->check_for_event(WindowInput::MOVE, event))
 			race_selected = _race_menu->set_mouse_selected(
 				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-		else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
+		else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
 
 			// We have selected something from the menu
 			if (race_selected) {
@@ -399,14 +399,14 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 
 		std::optional<std::vector<MenuEntry>::const_iterator> alignment_selected{
 			_alignment_menu->selected};
-		if (_system.input->check_for_event(WindowInput::UP, event))
+		if (_system->input->check_for_event(WindowInput::UP, event))
 			alignment_selected = _alignment_menu->choose_previous();
-		else if (_system.input->check_for_event(WindowInput::DOWN, event))
+		else if (_system->input->check_for_event(WindowInput::DOWN, event))
 			alignment_selected = _alignment_menu->choose_next();
-		else if (_system.input->check_for_event(WindowInput::MOVE, event))
+		else if (_system->input->check_for_event(WindowInput::MOVE, event))
 			alignment_selected = _alignment_menu->set_mouse_selected(
 				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-		else if (_system.input->check_for_event(WindowInput::CONFIRM, event)) {
+		else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
 
 			// We have selected something from the menu
 			if (alignment_selected) {
@@ -437,17 +437,18 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 
 		return std::nullopt;
 	} else if (_candidate.get_stage() == CharacterStage::ALLOCATE_STATS) {
+
 		std::optional<std::vector<MenuEntry>::const_iterator> attribute_selected{
 			_attribute_menu->selected};
-		if (_system.input->check_for_event(WindowInput::UP, event))
+		if (_system->input->check_for_event(WindowInput::UP, event))
 			attribute_selected = _attribute_menu->choose_previous();
-		else if (_system.input->check_for_event(WindowInput::DOWN, event))
+		else if (_system->input->check_for_event(WindowInput::DOWN, event))
 			attribute_selected = _attribute_menu->choose_next();
-		else if (_system.input->check_for_event(WindowInput::MOVE, event))
+		else if (_system->input->check_for_event(WindowInput::MOVE, event))
 			attribute_selected = _attribute_menu->set_mouse_selected(
 				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-		else if ((_system.input->check_for_event(WindowInput::LEFT, event)) ||
-				 (_system.input->check_for_event(WindowInput::BACK, event))) {
+		else if ((_system->input->check_for_event(WindowInput::LEFT, event)) ||
+				 (_system->input->check_for_event(WindowInput::BACK, event))) {
 
 			if (attribute_selected) {
 				std::optional<CharacterAttribute> stat_to_adjust{};
@@ -484,9 +485,10 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 						}
 					}
 				}
+				_candidate.set_possible_classes();
 			}
-		} else if ((_system.input->check_for_event(WindowInput::RIGHT, event)) ||
-				   (_system.input->check_for_event(WindowInput::CONFIRM, event))) {
+		} else if ((_system->input->check_for_event(WindowInput::RIGHT, event)) ||
+				   (_system->input->check_for_event(WindowInput::CONFIRM, event))) {
 			if (attribute_selected) {
 				std::optional<CharacterAttribute> stat_to_adjust{};
 				switch (attribute_selected.value()->item) {
@@ -521,6 +523,7 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 						}
 					}
 				}
+				_candidate.set_possible_classes();
 			}
 		}
 
@@ -552,12 +555,12 @@ auto Sorcery::Create::_set_info_panel_contents(std::vector<Sorcery::MenuEntry>::
 
 auto Sorcery::Create::_draw() -> void {
 
-	double lerp{_graphics.animation->colour_lerp};
+	double lerp{_graphics->animation->colour_lerp};
 	sf::Text name_text;
 	std::string display_name{};
 
 	// Display Components
-	_display.display_components("create");
+	_display->display_components("create");
 
 	// Custom Layering
 	_window->draw(_bg);
@@ -565,25 +568,25 @@ auto Sorcery::Create::_draw() -> void {
 	// And draw the current state of the character!
 	if (_candidate.get_stage() == CharacterStage::ENTER_NAME) {
 
-		_display.display_components(
+		_display->display_components(
 			"character_create_stage_1", _candidate.sprites, _candidate.texts, _candidate.frames);
 
 		// TODO: use character-<draw for this!
 		display_name = _candidate.get_name() + "_";
-		_display.window->draw_text(name_text, _name_c, display_name, lerp);
+		_display->window->draw_text(name_text, _name_c, display_name, lerp);
 
 		// Draw the On Screen Keyboard
 		_keyboard->set_selected_background();
 		_window->draw(*_keyboard);
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_RACE) {
 
-		_display.display_components(
+		_display->display_components(
 			"character_create_stage_2", _candidate.sprites, _candidate.texts, _candidate.frames);
 
-		double lerp{_graphics.animation->colour_lerp};
-		_race_menu->generate((*_display.layout)["character_create_stage_2:menu"], lerp);
-		const sf::Vector2f menu_pos((*_display.layout)["character_create_stage_2:menu"].x,
-			(*_display.layout)["character_create_stage_2:menu"].y);
+		double lerp{_graphics->animation->colour_lerp};
+		_race_menu->generate((*_display->layout)["character_create_stage_2:menu"], lerp);
+		const sf::Vector2f menu_pos((*_display->layout)["character_create_stage_2:menu"].x,
+			(*_display->layout)["character_create_stage_2:menu"].y);
 		_race_menu->setPosition(menu_pos);
 		_window->draw(*_race_menu);
 
@@ -594,13 +597,13 @@ auto Sorcery::Create::_draw() -> void {
 		}
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_ALIGNMENT) {
 
-		_display.display_components(
+		_display->display_components(
 			"character_create_stage_3", _candidate.sprites, _candidate.texts, _candidate.frames);
 
-		double lerp{_graphics.animation->colour_lerp};
-		_alignment_menu->generate((*_display.layout)["character_create_stage_3:menu"], lerp);
-		const sf::Vector2f menu_pos((*_display.layout)["character_create_stage_3:menu"].x,
-			(*_display.layout)["character_create_stage_3:menu"].y);
+		double lerp{_graphics->animation->colour_lerp};
+		_alignment_menu->generate((*_display->layout)["character_create_stage_3:menu"], lerp);
+		const sf::Vector2f menu_pos((*_display->layout)["character_create_stage_3:menu"].x,
+			(*_display->layout)["character_create_stage_3:menu"].y);
 		_alignment_menu->setPosition(menu_pos);
 		_window->draw(*_alignment_menu);
 
@@ -611,13 +614,13 @@ auto Sorcery::Create::_draw() -> void {
 		}
 	} else if (_candidate.get_stage() == CharacterStage::ALLOCATE_STATS) {
 
-		_display.display_components(
+		_display->display_components(
 			"character_create_stage_4", _candidate.sprites, _candidate.texts, _candidate.frames);
 
-		double lerp{_graphics.animation->colour_lerp};
-		_attribute_menu->generate((*_display.layout)["character_create_stage_4:menu"], lerp);
-		const sf::Vector2f menu_pos((*_display.layout)["character_create_stage_4:menu"].x,
-			(*_display.layout)["character_create_stage_4:menu"].y);
+		double lerp{_graphics->animation->colour_lerp};
+		_attribute_menu->generate((*_display->layout)["character_create_stage_4:menu"], lerp);
+		const sf::Vector2f menu_pos((*_display->layout)["character_create_stage_4:menu"].x,
+			(*_display->layout)["character_create_stage_4:menu"].y);
 		_attribute_menu->setPosition(menu_pos);
 		_window->draw(*_attribute_menu);
 
@@ -636,5 +639,5 @@ auto Sorcery::Create::_draw() -> void {
 	}
 
 	// And finally the Cursor
-	_display.display_cursor();
+	_display->display_cursor();
 }

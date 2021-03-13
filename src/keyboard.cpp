@@ -25,24 +25,24 @@
 #include "keyboard.hpp"
 
 // Standard Constructor
-Sorcery::Keyboard::Keyboard(System &system, Display &display, Graphics &graphics)
+Sorcery::Keyboard::Keyboard(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the Layout and Component Information (the Frame is the surrounding!)
-	_frame_c = Component((*_display.layout)["keyboard:frame"]);
-	_text_c = Component((*_display.layout)["keyboard:letters"]);
+	_frame_c = Component((*_display->layout)["keyboard:frame"]);
+	_text_c = Component((*_display->layout)["keyboard:letters"]);
 	_texts.clear();
 
 	// Set up the Draw Surface
-	_rtexture.create(_frame_c.w * _display.window->get_cell_width(),
-		_frame_c.h * _display.window->get_cell_height());
+	_rtexture.create(_frame_c.w * _display->window->get_cell_width(),
+		_frame_c.h * _display->window->get_cell_height());
 	_rtexture.setSmooth(true);
 	_rtexture.clear();
 
 	// Use x and y for offset (remember to divide this by cell dimensions), w and h for letter
 	// spacing, and the scale for the number of letters per row
-	const sf::Vector2i offset(_text_c.x / _display.window->get_cell_width(),
-		_text_c.y / _display.window->get_cell_height());
+	const sf::Vector2i offset(_text_c.x / _display->window->get_cell_width(),
+		_text_c.y / _display->window->get_cell_height());
 	const sf::Vector2u spacing{_text_c.w, _text_c.h};
 	const int max_col{static_cast<int>(_text_c.scale)};
 	sf::Vector2i letter_pos{offset.x, offset.y};
@@ -54,7 +54,7 @@ Sorcery::Keyboard::Keyboard(System &system, Display &display, Graphics &graphics
 		key.push_back(ascii);
 		_texts[key] = sf::Text();
 		_texts[key].setString(key);
-		_texts[key].setFont(_system.resources->fonts[_text_c.font]);
+		_texts[key].setFont(_system->resources->fonts[_text_c.font]);
 		_texts[key].setCharacterSize(_text_c.size);
 		_texts[key].setFillColor(sf::Color(_text_c.colour));
 		_texts[key].setPosition(letter_pos.x, letter_pos.y);
@@ -78,7 +78,7 @@ Sorcery::Keyboard::Keyboard(System &system, Display &display, Graphics &graphics
 	std::string space{"Spc"};
 	_texts[space] = sf::Text();
 	_texts[space].setString(space);
-	_texts[space].setFont(_system.resources->fonts[_text_c.font]);
+	_texts[space].setFont(_system->resources->fonts[_text_c.font]);
 	_texts[space].setCharacterSize(_text_c.size - 24);
 	_texts[space].setFillColor(sf::Color(_text_c.colour));
 	_texts[space].setPosition(
@@ -104,7 +104,7 @@ Sorcery::Keyboard::Keyboard(System &system, Display &display, Graphics &graphics
 		key.push_back(ascii);
 		_texts[key] = sf::Text();
 		_texts[key].setString(key);
-		_texts[key].setFont(_system.resources->fonts[_text_c.font]);
+		_texts[key].setFont(_system->resources->fonts[_text_c.font]);
 		_texts[key].setCharacterSize(_text_c.size);
 		_texts[key].setFillColor(sf::Color(_text_c.colour));
 		_texts[key].setPosition(letter_pos.x, letter_pos.y);
@@ -128,7 +128,7 @@ Sorcery::Keyboard::Keyboard(System &system, Display &display, Graphics &graphics
 	std::string del{"Del"};
 	_texts[del] = sf::Text();
 	_texts[del].setString(del);
-	_texts[del].setFont(_system.resources->fonts[_text_c.font]);
+	_texts[del].setFont(_system->resources->fonts[_text_c.font]);
 	_texts[del].setCharacterSize(_text_c.size - 24);
 	_texts[del].setFillColor(sf::Color(_text_c.colour));
 	_texts[del].setPosition(
@@ -150,7 +150,7 @@ Sorcery::Keyboard::Keyboard(System &system, Display &display, Graphics &graphics
 	std::string end{"End"};
 	_texts[end] = sf::Text();
 	_texts[end].setString(end);
-	_texts[end].setFont(_system.resources->fonts[_text_c.font]);
+	_texts[end].setFont(_system->resources->fonts[_text_c.font]);
 	_texts[end].setCharacterSize(_text_c.size - 24);
 	_texts[end].setFillColor(sf::Color(_text_c.colour));
 	_texts[end].setPosition(
@@ -163,13 +163,13 @@ Sorcery::Keyboard::Keyboard(System &system, Display &display, Graphics &graphics
 				((_text_c.size - _texts[end].getLocalBounds().height) / 2));
 
 	_frame = std::make_unique<Frame>(
-		_display.ui_texture, WindowFrameType::NORMAL, _frame_c.w - 2, _frame_c.h, _frame_c.alpha);
-	_frame->setPosition(_display.window->get_x(_frame->sprite, _frame_c.x),
-		_display.window->get_y(_frame->sprite, _frame_c.y));
+		_display->ui_texture, WindowFrameType::NORMAL, _frame_c.w - 2, _frame_c.h, _frame_c.alpha);
+	_frame->setPosition(_display->window->get_x(_frame->sprite, _frame_c.x),
+		_display->window->get_y(_frame->sprite, _frame_c.y));
 
 	// Render the background (inset by the frame)
-	sf::RectangleShape rect(sf::Vector2f((_display.window->get_cell_width() * (_frame_c.w)) - 20,
-		(_display.window->get_cell_height() * (_frame_c.h)) - 20));
+	sf::RectangleShape rect(sf::Vector2f((_display->window->get_cell_width() * (_frame_c.w)) - 20,
+		(_display->window->get_cell_height() * (_frame_c.h)) - 20));
 	rect.setFillColor(sf::Color(255, 0, 0, _frame_c.alpha));
 	rect.setPosition(10, 10);
 	_rtexture.draw(rect);
@@ -195,8 +195,8 @@ auto Sorcery::Keyboard::set_selected_background() -> void {
 	const sf::FloatRect text_rect{_texts.at(selected).getPosition().x * 1.0f,
 		_texts.at(selected).getPosition().y * 1.0f, _text_c.size * 1.0f, _text_c.size * 1.0f};
 	_selected_bg = sf::RectangleShape(sf::Vector2(text_rect.width, text_rect.height));
-	_selected_bg.setFillColor(_display.window->change_colour(
-		sf::Color(_text_c.background), _graphics.animation->colour_lerp));
+	_selected_bg.setFillColor(_display->window->change_colour(
+		sf::Color(_text_c.background), _graphics->animation->colour_lerp));
 	_selected_bg.setPosition(_texts.at(selected).getPosition().x - (_text_c.size / 2),
 		_texts.at(selected).getPosition().y - 8);
 	_texts.at(selected).setFillColor(sf::Color(_text_c.colour));

@@ -24,11 +24,11 @@
 #include "infopanel.hpp"
 
 // Standard Constructor
-Sorcery::InfoPanel::InfoPanel(System &system, Display &display, Graphics &graphics)
+Sorcery::InfoPanel::InfoPanel(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the standard layout information
-	_layout = Component((*_display.layout)["global:info_panel"]);
+	_layout = Component((*_display->layout)["global:info_panel"]);
 
 	// Not valid until we call the set command
 	valid = false;
@@ -37,8 +37,8 @@ Sorcery::InfoPanel::InfoPanel(System &system, Display &display, Graphics &graphi
 // Set the Icon
 auto Sorcery::InfoPanel::set_icon(const std::string &string) -> void {
 
-	if ((*_graphics.icons)[string])
-		_icon = (*_graphics.icons)[string].value();
+	if ((*_graphics->icons)[string])
+		_icon = (*_graphics->icons)[string].value();
 	else
 		_icon = sf::Sprite();
 
@@ -47,8 +47,8 @@ auto Sorcery::InfoPanel::set_icon(const std::string &string) -> void {
 
 auto Sorcery::InfoPanel::set_icon(const MenuItem menu_item) -> void {
 
-	if ((*_graphics.icons)[menu_item])
-		_icon = (*_graphics.icons)[menu_item].value();
+	if ((*_graphics->icons)[menu_item])
+		_icon = (*_graphics->icons)[menu_item].value();
 	else
 		_icon = sf::Sprite();
 
@@ -78,7 +78,7 @@ auto Sorcery::InfoPanel::set_text(const std::string &string) -> void {
 	int y{0};
 	for (const auto &each_string : _strings) {
 		sf::Text text;
-		text.setFont(_system.resources->fonts[_layout.font]);
+		text.setFont(_system->resources->fonts[_layout.font]);
 		text.setCharacterSize(_layout.size);
 		text.setFillColor(sf::Color(_layout.colour));
 		text.setString(each_string);
