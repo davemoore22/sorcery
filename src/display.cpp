@@ -32,7 +32,7 @@ Sorcery::Display::Display(System *system) : _system{system} {
 	layout = std::make_shared<Layout>((*_system->files)[LAYOUT_FILE]);
 	window = std::make_shared<Window>(
 		_system, string.get(), layout.get(), (*string)["TITLE_AND_VERSION_INFO"]);
-	ui_texture = (*system->resources).textures[UI_TEXTURE];
+	ui_texture = (*system->resources).textures[GraphicsTexture::UI];
 	_background_movie.openFromFile(_system->files->get_path_as_string(MENU_VIDEO));
 }
 
@@ -86,7 +86,7 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 
 				// Get the texture
 				sf::Sprite image;
-				image.setTexture(_system->resources->texture[component.texture]);
+				image.setTexture(_system->resources->textures[component.texture]);
 
 				// Scale to less than the window size if needed
 				if ((component.unique_key.ends_with("banner:banner_image")) ||
@@ -122,7 +122,7 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 			} else if (component.type == ComponentType::FRAME) {
 
 				auto frame =
-					std::make_shared<Frame>(_system->resources->texture[GraphicsTexture::UI],
+					std::make_shared<Frame>(_system->resources->textures[GraphicsTexture::UI],
 						WindowFrameType::NORMAL, component.w, component.h, component.alpha);
 				frame->setPosition(window->get_x(frame->sprite, component.x),
 					window->get_y(frame->sprite, component.y));

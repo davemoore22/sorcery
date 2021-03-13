@@ -30,38 +30,21 @@ Sorcery::ResourceManager::ResourceManager(File &files) : _files{files} {
 	// Load all the Fixed Resources
 	try {
 
-		// Note we need both here to allow different access - TODO: change this
-		textures.acquire(
-			BACKGROUND_TEXTURE, thor::Resources::fromFile<sf::Texture>(_files[BACKGROUND_TEXTURE]));
-		textures.acquire(
-			BANNER_TEXTURE, thor::Resources::fromFile<sf::Texture>(_files[BANNER_TEXTURE]));
-		textures.acquire(
-			CREATURES_TEXTURE, thor::Resources::fromFile<sf::Texture>(_files[CREATURES_TEXTURE]));
-		textures.acquire(
-			ICONS_TEXTURE, thor::Resources::fromFile<sf::Texture>(_files[ICONS_TEXTURE]));
-		textures.acquire(
-			LOGO_TEXTURE, thor::Resources::fromFile<sf::Texture>(_files[LOGO_TEXTURE]));
-		textures.acquire(
-			SPLASH_TEXTURE, thor::Resources::fromFile<sf::Texture>(_files[SPLASH_TEXTURE]));
-		textures.acquire(
-			TOWN_TEXTURE, thor::Resources::fromFile<sf::Texture>(_files[TOWN_TEXTURE]));
-		textures.acquire(UI_TEXTURE, thor::Resources::fromFile<sf::Texture>(_files[UI_TEXTURE]));
-
-		texture.acquire(Enums::Graphics::Texture::BACKGROUND,
+		textures.acquire(Enums::Graphics::Texture::BACKGROUND,
 			thor::Resources::fromFile<sf::Texture>(_files[BACKGROUND_TEXTURE]));
-		texture.acquire(Enums::Graphics::Texture::BANNER,
+		textures.acquire(Enums::Graphics::Texture::BANNER,
 			thor::Resources::fromFile<sf::Texture>(_files[BANNER_TEXTURE]));
-		texture.acquire(Enums::Graphics::Texture::CREATURES,
+		textures.acquire(Enums::Graphics::Texture::CREATURES,
 			thor::Resources::fromFile<sf::Texture>(_files[CREATURES_TEXTURE]));
-		texture.acquire(Enums::Graphics::Texture::LOGO,
+		textures.acquire(Enums::Graphics::Texture::LOGO,
 			thor::Resources::fromFile<sf::Texture>(_files[LOGO_TEXTURE]));
-		texture.acquire(Enums::Graphics::Texture::ICONS,
+		textures.acquire(Enums::Graphics::Texture::ICONS,
 			thor::Resources::fromFile<sf::Texture>(_files[ICONS_TEXTURE]));
-		texture.acquire(Enums::Graphics::Texture::SPLASH,
+		textures.acquire(Enums::Graphics::Texture::SPLASH,
 			thor::Resources::fromFile<sf::Texture>(_files[SPLASH_TEXTURE]));
-		texture.acquire(Enums::Graphics::Texture::TOWN,
+		textures.acquire(Enums::Graphics::Texture::TOWN,
 			thor::Resources::fromFile<sf::Texture>(_files[TOWN_TEXTURE]));
-		texture.acquire(Enums::Graphics::Texture::UI,
+		textures.acquire(Enums::Graphics::Texture::UI,
 			thor::Resources::fromFile<sf::Texture>(_files[UI_TEXTURE]));
 
 		fonts.acquire(

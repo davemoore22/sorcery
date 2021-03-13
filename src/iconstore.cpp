@@ -34,7 +34,7 @@ Sorcery::IconStore::IconStore(
 	_menu_icon_map.clear();
 
 	// First get the Icon Texture and load it into the Spritesheet
-	_texture = _system->resources->textures[ICONS_TEXTURE];
+	_texture = _system->resources->textures[GraphicsTexture::ICONS];
 
 	// Set the Icon scaling (remember we are using square icons)
 	_layout = Component{(*_display->layout)["global:icon"]};

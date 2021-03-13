@@ -44,8 +44,9 @@ Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics
 	_press_any_key = sf::Text();
 
 	// Now set up attract mode data
-	_attract_mode = std::make_shared<AttractMode>(_system->resources->textures[CREATURES_TEXTURE],
-		(*_display->layout)["main_menu_attract:attract_creatures"]);
+	_attract_mode =
+		std::make_shared<AttractMode>(_system->resources->textures[GraphicsTexture::CREATURES],
+			(*_display->layout)["main_menu_attract:attract_creatures"]);
 	_attract_mode->data.clear();
 }
 

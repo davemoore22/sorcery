@@ -45,8 +45,7 @@ Sorcery::System::System(int argc __attribute__((unused)), char **argv __attribut
 
 	// Resource Manager
 	resources = std::make_shared<ResourceManager>(*files);
-	resources->textures[BACKGROUND_TEXTURE].setRepeated(true);
-	resources->texture[Enums::Graphics::Texture::BACKGROUND].setRepeated(true);
+	resources->textures[Enums::Graphics::Texture::BACKGROUND].setRepeated(true);
 
 	// Input Module
 	input = std::make_shared<Input>();

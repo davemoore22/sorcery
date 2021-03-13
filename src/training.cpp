@@ -47,7 +47,7 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 	// Set up the Custom Components
 	const Component bg_c{(*_display->layout)["training_grounds:background"]};
 	const sf::IntRect bg_rect(1147, 249, 773, 388);
-	_bg.setTexture(_system->resources->textures[TOWN_TEXTURE]);
+	_bg.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
 	_bg.setTextureRect(bg_rect);
 	_bg.setScale(bg_c.scale, bg_c.scale);
 	_bg.setPosition(_display->window->get_x(_bg, bg_c.x), _display->window->get_y(_bg, bg_c.y));
