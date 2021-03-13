@@ -30,12 +30,6 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
-	// Get the Background Display Components
-	_display->generate_components("create");
-
-	// Create the Candidate Character
-	_candidate = Character(system, display, graphics);
-
 	// Create the On-Screen Keyboard
 	_keyboard = std::make_shared<Keyboard>(system, display, graphics);
 
@@ -61,16 +55,18 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 	_attribute_menu = std::make_shared<Menu>(
 		_system, _display, _graphics, MenuType::ALLOCATE_CHARACTER_ATTRIBUTES);
 
+	// Create the Candidate Character
 	_stages.clear();
+	_candidate = Character(_system, _display, _graphics);
 }
 
 // Standard Destructor
-Sorcery::Create::~Create() {
-
-	_display->stop_background_movie();
-}
+Sorcery::Create::~Create() {}
 
 auto Sorcery::Create::start() -> std::optional<MenuItem> {
+
+	// Get the Background Display Components and load them into Display module storage (not local)
+	_display->generate_components("create");
 
 	// Get the custom components
 	const Component bg_c{(*_display->layout)["create:background"]};
@@ -94,10 +90,6 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 	// Clear the window
 	_window->clear();
 
-	// Play the background movie!
-	_display->fit_background_movie();
-	_display->start_background_movie();
-
 	// Will need to change this for the seven screens as needed
 	_display->window->input_mode = WindowInputMode::INPUT_TEXT;
 
@@ -108,10 +100,7 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 	return std::nullopt;
 }
 
-auto Sorcery::Create::stop() -> void {
-
-	_display->stop_background_movie();
-}
+auto Sorcery::Create::stop() -> void {}
 
 // create copy of shared_ptr and then push it onto the vector
 
@@ -216,10 +205,6 @@ auto Sorcery::Create::_do_event_loop() -> std::optional<ModuleResult> {
 			}
 
 			_window->clear();
-
-			_display->start_background_movie();
-			_display->update_background_movie();
-			_display->draw_background_movie();
 
 			_draw();
 			_window->display();
