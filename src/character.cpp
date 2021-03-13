@@ -297,6 +297,11 @@ auto Sorcery::Character::get_starting_attributes() const -> CharacterAttributes 
 	return _start_attr;
 }
 
+auto Sorcery::Character::get_possible_classes() const -> CharacterClassQualified {
+
+	return _pos_classes;
+}
+
 // Given a character's current stats and alignment, work out what classes are available
 auto Sorcery::Character::set_possible_classes() -> void {
 

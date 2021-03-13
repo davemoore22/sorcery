@@ -67,6 +67,7 @@ namespace Sorcery {
 		auto get_alignment() const -> CharacterAlignment;
 		auto set_alignment(const CharacterAlignment &value) -> void;
 		auto get_current_attributes() const -> CharacterAttributes;
+		auto get_possible_classes() const -> CharacterClassQualified;
 		auto get_starting_attributes() const -> CharacterAttributes;
 		auto get_bonus_points_to_allocate() const -> unsigned int;
 		auto set_bonus_points_to_allocate(const unsigned int &value) -> void;

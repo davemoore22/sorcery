@@ -1278,6 +1278,15 @@
 			"type": "text",
 			"priority": "3",
 			"drawmode": "automatic"
+		},
+		{
+			"name": "allowed_classes_panel",
+			"x": "4",
+			"y": "8",
+			"size": "50",
+			"type": "image",
+			"priority": "3",
+			"drawmode": "manual"
 		}
 		]
 	}
