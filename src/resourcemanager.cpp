@@ -30,6 +30,7 @@ Sorcery::ResourceManager::ResourceManager(File &files) : _files{files} {
 	// Load all the Fixed Resources
 	try {
 
+		// Note we need both here to allow different access - TODO: change this
 		textures.acquire(
 			BACKGROUND_TEXTURE, thor::Resources::fromFile<sf::Texture>(_files[BACKGROUND_TEXTURE]));
 		textures.acquire(

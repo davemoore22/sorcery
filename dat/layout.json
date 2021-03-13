@@ -511,6 +511,16 @@
 		"name": "training_grounds",
 		"component": [
 		{
+
+			"name": "wallpaper",
+			"x": "0",
+			"y": "0",
+			"scale": "1.25",
+			"type": "image",
+			"priority": "1",
+			"texture": "background"
+		},
+		{
 			"name": "frame",
 			"w": "50",
 			"h": "38",
@@ -676,6 +686,16 @@
 		"name": "castle",
 		"component": [
 		{
+
+			"name": "wallpaper",
+			"x": "0",
+			"y": "0",
+			"scale": "1.25",
+			"type": "image",
+			"priority": "1",
+			"texture": "background"
+		},
+		{
 			"name": "castle_title_frame",
 			"w": "12",
 			"h": "2",
@@ -822,6 +842,16 @@
 		"name": "create",
 		"component": [
 		{
+
+			"name": "wallpaper",
+			"x": "0",
+			"y": "0",
+			"scale": "1.25",
+			"type": "image",
+			"priority": "1",
+			"texture": "background"
+		},
+		{
 			"name": "frame",
 			"w": "50",
 			"h": "38",
@@ -829,7 +859,7 @@
 			"y": "2",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "1"
+			"priority": "2"
 		},
 		{
 			"name": "title_frame",
@@ -839,7 +869,7 @@
 			"y": "1",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "2"
+			"priority": "3"
 		},
 		{
 			"name": "title_text",
@@ -851,7 +881,7 @@
 			"string": "CREATE_TITLE",
 			"justification": "centre",
 			"type": "text",
-			"priority": "3"
+			"priority": "4"
 		},
 		{
 			"name": "background",

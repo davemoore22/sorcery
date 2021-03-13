@@ -105,6 +105,10 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 						scale_ratio_needed = std::min(shrink_width_needed, shrink_height_needed);
 					}
 					image.setScale(scale_ratio_needed, scale_ratio_needed);
+				} else if (component.unique_key.ends_with("wallpaper")) {
+					// Handle background wallpaper tiling
+					std::cout << image.getTexture()->isRepeated() << std::endl;
+					image.setTextureRect(window->size);
 				}
 
 				// Set the image position
@@ -171,6 +175,12 @@ auto Sorcery::Display::display_components(const std::string &screen,
 	std::map<std::string, std::shared_ptr<Frame>> &frames, std::optional<std::any> parameter)
 	-> void {
 
+	// first draw anything with wallpaper
+	for (auto &[unique_key, sprite] : sprites) {
+		if (unique_key.ends_with("wallpaper"))
+			window->get_window()->draw(sprite);
+	}
+
 	for (auto &[unique_key, frame] : frames) {
 		if (screen == "castle") {
 			if (parameter) {
@@ -190,6 +200,7 @@ auto Sorcery::Display::display_components(const std::string &screen,
 		window->get_window()->draw(*frame);
 	}
 
+	// Display all other sprites, but not the background wallpaper
 	for (auto &[unique_key, sprite] : sprites) {
 		if ((unique_key.ends_with("banner:banner_image")) ||
 			(unique_key.ends_with("splash:splash_image"))) {
@@ -199,7 +210,10 @@ auto Sorcery::Display::display_components(const std::string &screen,
 			}
 		}
 
-		window->get_window()->draw(sprite);
+		if (unique_key.ends_with("wallpaper"))
+			continue;
+		else
+			window->get_window()->draw(sprite);
 	}
 
 	for (auto &[unique_key, text] : texts) {

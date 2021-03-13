@@ -54,6 +54,7 @@ Sorcery::Window::Window(System *system, String *string, Layout *layout, const st
 
 	// Change the Mouse Cursor
 	_window.setMouseCursorVisible(false);
+	size = sf::IntRect(0, 0, _current_size.w, _current_size.h);
 
 	tooltips.clear();
 }

@@ -70,6 +70,7 @@ namespace Sorcery {
 		Point centre;
 		WindowInputMode input_mode;
 		WindowTooltipList tooltips;
+		sf::IntRect size;
 
 	  private:
 		// Private Methods
