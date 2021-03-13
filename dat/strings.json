@@ -140,7 +140,11 @@
 	"HINT_CHARACTER_STAT_VITALITY":		"A high Vitality stat increases the number of hit points#a Character gains per level, and improves the chance#for a Character to survive a Resurrection attempt",
 	"HINT_CHARACTER_STAT_AGILITY":		"A high Agility stat increases a Character's Initiative#allowing him or her to go first in battle, as well#as giving bonuses to a character's ranged hit chance#probability (if applicable), and increases the chance to#identify traps and to avoid triggering them on a failed#disarm attempt.",
 	"HINT_CHARACTER_STAT_LUCK": 		"A high Luck stat improves a Character's ability to#resist hostile magic and negative status effects.'",
-
+	"SUMMARY_STAGE1": "NAME",
+	"SUMMARY_STAGE2": "RACE",
+	"SUMMARY_STAGE3": "ALIGNMENT",
+	"SUMMARY_STAGE4": "ATTRIBUTES",
+	"SUMMARY_STAGE5": "CLASS",
 
 
 "CONFIRM_TITLE": "Confirmation Needed!",

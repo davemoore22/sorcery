@@ -575,6 +575,10 @@ auto Sorcery::Create::_draw() -> void {
 		_race_menu->setPosition(menu_pos);
 		_window->draw(*_race_menu);
 
+		sf::Text stage_1_name{};
+		_display->window->draw_text(
+			stage_1_name, (*_display->layout)["create:stage_1_name"], _candidate.get_name());
+
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
 			_ip->setPosition(_ip_race_c.x, _ip_race_c.y);
@@ -591,6 +595,16 @@ auto Sorcery::Create::_draw() -> void {
 			(*_display->layout)["character_create_stage_3:menu"].y);
 		_alignment_menu->setPosition(menu_pos);
 		_window->draw(*_alignment_menu);
+
+		// Draw Icons
+		sf::Text stage_1_name{};
+		_display->window->draw_text(
+			stage_1_name, (*_display->layout)["create:stage_1_name"], _candidate.get_name());
+
+		auto stage_2 = _candidate.get_icon(CharacterStage::CHOOSE_RACE);
+		stage_2->setPosition((*_display->layout)["create:stage_2_icon"].x,
+			(*_display->layout)["create:stage_2_icon"].y);
+		_window->draw(*stage_2);
 
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
@@ -620,7 +634,23 @@ auto Sorcery::Create::_draw() -> void {
 			_window->draw(*_ip);
 		}
 
-		// and possible classes panel too
+		// and also name
+
+		sf::Text stage_1_name{};
+		_display->window->draw_text(
+			stage_1_name, (*_display->layout)["create:stage_1_name"], _candidate.get_name());
+
+		// Draw Icons
+		auto stage_1 = _candidate.get_icon(CharacterStage::CHOOSE_RACE);
+		stage_1->setPosition((*_display->layout)["create:stage_2_icon"].x,
+			(*_display->layout)["create:stage_2_icon"].y);
+		_window->draw(*stage_1);
+
+		// Draw Icons
+		auto stage_2 = _candidate.get_icon(CharacterStage::CHOOSE_ALIGNMENT);
+		stage_2->setPosition((*_display->layout)["create:stage_3_icon"].x,
+			(*_display->layout)["create:stage_3_icon"].y);
+		_window->draw(*stage_2);
 	}
 
 	// And finally the Cursor

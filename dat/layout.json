@@ -892,6 +892,147 @@
 			"priority": "7",
 			"texture": "town",
 			"drawmode" : "manual"
+		},
+		{
+			"name": "stage_1_frame",
+			"w": "10",
+			"h": "10",
+			"x": "1",
+			"y": "2",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "2"
+		},
+		{
+			"name": "stage_2_frame",
+			"w": "10",
+			"h": "10",
+			"x": "1",
+			"y": "13",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "2"
+		},
+		{
+			"name": "stage_3_frame",
+			"w": "10",
+			"h": "10",
+			"x": "1",
+			"y": "24",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "2"
+		},
+		{
+			"name": "stage_4_frame",
+			"w": "10",
+			"h": "24",
+			"x": "67",
+			"y": "2",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "2"
+		},
+		{
+			"name": "stage_5_frame",
+			"w": "10",
+			"h": "10",
+			"x": "67",
+			"y": "24",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "2"
+		},
+		{
+			"name": "stage_1_name",
+			"x": "7",
+			"y": "7",
+			"font": "proportional",
+			"colour": "0xffffffff",
+			"size": "72",
+			"string": "NAME",
+			"justification": "centre",
+			"type": "text",
+			"priority": "4",
+			"drawmode": "manual"
+		},
+		{
+			"name": "stage_1_summary",
+			"x": "7",
+			"y": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "SUMMARY_STAGE1",
+			"justification": "centre",
+			"type": "text",
+			"priority": "4"
+		},
+		{
+			"name": "stage_2_icon",
+			"x": "4",
+			"y": "16",
+			"size": "128",
+			"type": "image",
+			"priority": "4",
+			"drawmode": "manual"
+		},
+		{
+			"name": "stage_2_summary",
+			"x": "7",
+			"y": "14",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "SUMMARY_STAGE2",
+			"justification": "centre",
+			"type": "text",
+			"priority": "4"
+		},
+		{
+			"name": "stage_3_icon",
+			"x": "4",
+			"y": "27",
+			"size": "128",
+			"type": "image",
+			"priority": "4",
+			"drawmode": "manual"
+		},
+		{
+			"name": "stage_3_summary",
+			"x": "7",
+			"y": "25",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "SUMMARY_STAGE3",
+			"justification": "centre",
+			"type": "text",
+			"priority": "4"
+		},
+		{
+			"name": "stage_4_summary",
+			"x": "73",
+			"y": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "SUMMARY_STAGE4",
+			"justification": "centre",
+			"type": "text",
+			"priority": "4"
+		},
+		{
+			"name": "stage_5_summary",
+			"x": "73",
+			"y": "25",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "SUMMARY_STAGE5",
+			"justification": "centre",
+			"type": "text",
+			"priority": "4"
 		}
 		]
 	},
@@ -946,7 +1087,7 @@
 			"name": "name_candidate",
 			"x": "centre",
 			"y": "19",
-			"font": "text",
+			"font": "proportional",
 			"colour": "0xddddddff",
 			"size": "72",
 			"justification": "centre",

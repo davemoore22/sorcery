@@ -240,8 +240,9 @@ auto Sorcery::Menu::get_type() -> MenuType {
 
 // Add an item to the Menu
 auto Sorcery::Menu::_add_item(
-	int index, const MenuItemType itemtype, const MenuItem code, std::string &key) -> void {
+	int index, const MenuItemType itemtype, const MenuItem code, std::string key) -> void {
 
+	// Note passing key by value as we are modifying the key here
 	if (key.length() % 2 == 0)
 		key.resize(key.length() + 1, 32);
 
@@ -253,9 +254,10 @@ auto Sorcery::Menu::_add_item(
 
 // Add an item to the Menu
 auto Sorcery::Menu::_add_item(const int index, const MenuItemType itemtype, const MenuItem code,
-	std::string &key, const bool enabled, const ConfigOption option, const std::string &hint)
+	std::string key, const bool enabled, const ConfigOption option, const std::string hint)
 	-> void {
 
+	// Note passing key by value as we are modifying the key here
 	if (key.length() % 2 == 0)
 		key.resize(key.length() + 1, 32);
 

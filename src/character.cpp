@@ -302,6 +302,35 @@ auto Sorcery::Character::get_possible_classes() const -> CharacterClassQualified
 	return _pos_classes;
 }
 
+auto Sorcery::Character::get_icon(CharacterStage type) -> std::optional<sf::Sprite> {
+
+	switch (type) {
+	case CharacterStage::CHOOSE_ALIGNMENT: {
+		std::string alignment{get_alignment(_alignment)};
+		std::transform(alignment.begin(), alignment.end(), alignment.begin(), ::tolower);
+		return (*_graphics->icons)[alignment].value();
+	} break;
+	case CharacterStage::CHOOSE_RACE: {
+		std::string race{get_race(_race)};
+		std::transform(race.begin(), race.end(), race.begin(), ::tolower);
+		return (*_graphics->icons)[race].value();
+	} break;
+	case CharacterStage::CHOOSE_CLASS: {
+		std::string cclass{get_class(_class)};
+		std::transform(cclass.begin(), cclass.end(), cclass.begin(), ::tolower);
+		return (*_graphics->icons)[cclass].value();
+	} break;
+	default:
+		break;
+	}
+
+	return std::nullopt;
+}
+auto Sorcery::Character::get_attribute_graphic(bool alignment) -> sf::Sprite {
+
+	// todo
+}
+
 // Given a character's current stats and alignment, work out what classes are available
 auto Sorcery::Character::set_possible_classes() -> void {
 
@@ -405,6 +434,8 @@ auto Sorcery::Character::get_alignment(CharacterAlignment character_alignment) c
 
 auto Sorcery::Character::get_race(CharacterRace character_race) const -> std::string {
 
+	std::string ddfd = (*_display->string)["CHARACTER_RACE_HOBBIT"];
+	std::string dddfd = (*_display->string)["CHARACTER_RACE_HUMAN"];
 	switch (character_race) {
 	case CharacterRace::HUMAN:
 		return (*_display->string)["CHARACTER_RACE_HUMAN"];
@@ -505,7 +536,8 @@ auto Sorcery::Character::_generate_starting_information() -> void {
 // Given the characters current level, work out all the secondary abilities/stats etc
 auto Sorcery::Character::_generate_secondary_abilities() -> void {
 
-	// Formulae used are from here http://www.zimlab.com/wizardry/walk/w123calc.htm and also from
+	// Formulae used are from here http://www.zimlab.com/wizardry/walk/w123calc.htm and also
+	// from
 	// https://mirrors.apple2.org.za/ftp.apple.asimov.net/images/games/rpg/wizardry/wizardry_I/Wizardry_i_SourceCode.zip
 	const int current_level{_abilities[CharacterAbility::CURRENT_LEVEL]};
 
@@ -982,9 +1014,9 @@ auto Sorcery::Character::_set_starting_sp() -> void {
 	// By default clear all spells
 	_clear_sp();
 
-	// In the original code this is handled in "SETSPELS"/"SPLPERLV"/"NWMAGE"/"NWPRIEST" - but we
-	// are just setting them straight for now but adding in extra slots for casters to make things
-	// easier if we're not in strict mode
+	// In the original code this is handled in "SETSPELS"/"SPLPERLV"/"NWMAGE"/"NWPRIEST" - but
+	// we are just setting them straight for now but adding in extra slots for casters to make
+	// things easier if we're not in strict mode
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::PRIEST:
 		_cleric_max_sp[1] = (*_system->config)[ConfigOption::STRICT_MODE]
@@ -1102,20 +1134,20 @@ auto Sorcery::Character::_get_hp_gained_per_level() -> int {
 	if (extra_hp < 0)
 		extra_hp = 1;
 
-	// Though this could be an unsigned int as it will always be greater than 0, just return int as
-	// everything else is
+	// Though this could be an unsigned int as it will always be greater than 0, just return int
+	// as everything else is
 	return extra_hp;
 }
 
 // Add hit points on level gain (but note the strict mode limitation mentioned below)
 auto Sorcery::Character::_update_hp_for_level() -> void {
 
-	// Note the annoying thing in the original Wizardry ("MADELEV") and reproduced here in strict
-	// mode where it recalculates all HP and thus often you end up with gaining only one HP - this
-	// also reproduces the equally annoying thing where if you have changed class it uses your
-	// *current* class level for recalculation, hence until you get back to where you were before
-	// changing class you will probably only ever gain 1 hp each time unless the random dice rolls
-	// are really in your favour!
+	// Note the annoying thing in the original Wizardry ("MADELEV") and reproduced here in
+	// strict mode where it recalculates all HP and thus often you end up with gaining only one
+	// HP - this also reproduces the equally annoying thing where if you have changed class it
+	// uses your *current* class level for recalculation, hence until you get back to where you
+	// were before changing class you will probably only ever gain 1 hp each time unless the
+	// random dice rolls are really in your favour!
 	if ((*_system->config)[ConfigOption::REROLL_HIT_POINTS_ON_LEVEL_GAIN]) {
 		int hp_total{0};
 		for (auto level = 1; level < _abilities[CharacterAbility::CURRENT_LEVEL]; level++)
@@ -1210,9 +1242,9 @@ auto Sorcery::Character::_calculate_sp(
 // Copied and rewritten from the original code from MINMAG/MINPRI/NWPRIEST/NWMAGE
 auto Sorcery::Character::_set_sp() -> void {
 
-	// First work out the number of spells known at each level (not this deliberately does not alter
-	// spells learned in a previous class to allow those to remain the same (see MINMAG/MINPRI in
-	// the code)
+	// First work out the number of spells known at each level (not this deliberately does not
+	// alter spells learned in a previous class to allow those to remain the same (see
+	// MINMAG/MINPRI in the code)
 	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
 		_cleric_max_sp[spell_level] = _get_spells_known(SpellType::PRIEST, spell_level);
 		_mage_max_sp[spell_level] = _get_spells_known(SpellType::MAGE, spell_level);
@@ -1723,7 +1755,8 @@ auto Sorcery::Character::create_random() -> void {
 	// Now get minimum attributes for race/class combo (note as we are only allowing creation of
 	// some classes, it will be as if we had a maximum of 10 bonus points to spend - in order to
 	// incentivise full blown character creation! see table IV (A) at
-	// https://gamefaqs.gamespot.com/pc/946844-the-ultimate-wizardry-archives/faqs/45726 for info
+	// https://gamefaqs.gamespot.com/pc/946844-the-ultimate-wizardry-archives/faqs/45726 for
+	// info
 	switch (_race) { // NOLINT(clang-diagnostic-switch)
 	case CharacterRace::HUMAN:
 		_start_attr = {{CharacterAttribute::STRENGTH, 8}, {CharacterAttribute::IQ, 5},
@@ -1754,8 +1787,9 @@ auto Sorcery::Character::create_random() -> void {
 		break;
 	};
 
-	// Put most of the points into the main attribute (note that 10 points means a Human Priest and
-	// Dwarf Thief have allocated all points to their main attribute with no points left over)
+	// Put most of the points into the main attribute (note that 10 points means a Human Priest
+	// and Dwarf Thief have allocated all points to their main attribute with no points left
+	// over)
 	_points_left = 10;
 	_st_points = _points_left;
 	switch (_class) { // NOLINT(clang-diagnostic-switch)

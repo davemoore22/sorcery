@@ -65,6 +65,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 	const sf::IntRect castle_bg_rect(125, 249, 773, 388);
 	const sf::IntRect edge_bg_rect(1147, 249, 773, 388);
 	_castle_bg.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
+	_edge_bg.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
 
 	_castle_bg.setTextureRect(castle_bg_rect);
 	_castle_bg.setScale(bg_c.scale, bg_c.scale);

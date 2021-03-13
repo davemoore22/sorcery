@@ -76,6 +76,8 @@ namespace Sorcery {
 		auto get_attribute(const CharacterAttribute attribute) const -> unsigned int;
 		auto get_starting_attribute(const CharacterAttribute attribute) const -> unsigned int;
 		auto set_attribute(const CharacterAttribute attribute, const int adjustment) -> void;
+		auto get_icon(CharacterStage type) -> std::optional<sf::Sprite>;
+		auto get_attribute_graphic(bool alignment) -> sf::Sprite;
 
 		// Public Members
 		std::map<std::string, sf::Sprite> sprites;

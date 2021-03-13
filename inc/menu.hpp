@@ -69,10 +69,10 @@ namespace Sorcery {
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _add_item(const int index, const MenuItemType itemtype, const MenuItem code,
-			std::string &key, const bool enabled, const ConfigOption option,
-			const std::string &hint) -> void;
-		auto _add_item(
-			int index, const MenuItemType itemtype, const MenuItem code, std::string &key) -> void;
+			std::string key, const bool enabled, const ConfigOption option, const std::string hint)
+			-> void;
+		auto _add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string key)
+			-> void;
 		auto _select_first_enabled() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto _select_last_enabled() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 
