@@ -62,6 +62,7 @@ namespace Sorcery {
 		auto _go_to_previous_stage() -> void;
 		auto _handle_input(const sf::Event &event) -> std::optional<ModuleResult>;
 		auto _set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void;
+		auto _set_progress_panel_contents() -> void;
 		auto _update_character(const sf::Event &event) -> std::optional<ModuleResult>;
 
 		// Private Members
@@ -84,5 +85,6 @@ namespace Sorcery {
 		std::shared_ptr<InfoPanel> _ip;
 		std::shared_ptr<AllocatePanel> _ap;
 		std::vector<Character> _stages;
+		std::array<std::optional<std::variant<sf::Text, sf::Sprite>>, 5> _progress;
 	};
 } // namespace Sorcery

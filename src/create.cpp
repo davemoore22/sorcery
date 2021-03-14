@@ -58,6 +58,9 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 	// Create the Candidate Character
 	_stages.clear();
 	_candidate = Character(_system, _display, _graphics);
+
+	for (auto &progress : _progress)
+		progress = std::nullopt;
 }
 
 // Standard Destructor
@@ -113,6 +116,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 		_candidate.set_stage(CharacterStage::ENTER_NAME);
 		_stages.pop_back();
 		_display->window->input_mode = WindowInputMode::INPUT_TEXT;
+		_set_progress_panel_contents();
 	} break;
 	case CharacterStage::CHOOSE_ALIGNMENT: {
 		auto popped = _stages.back();
@@ -122,6 +126,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 		_race_menu->choose(_candidate.get_race());
 		_set_info_panel_contents(_race_menu->selected);
 		_display->window->input_mode = WindowInputMode::NORMAL;
+		_set_progress_panel_contents();
 	} break;
 	case CharacterStage::ALLOCATE_STATS: {
 		auto popped = _stages.back();
@@ -132,6 +137,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 		_set_info_panel_contents(_alignment_menu->selected);
 		_display->window->input_mode = WindowInputMode::NORMAL;
 		_ap->valid = false;
+		_set_progress_panel_contents();
 	} break;
 	default:
 		break;
@@ -148,6 +154,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		_display->window->input_mode = WindowInputMode::NORMAL;
 		_race_menu->selected = _race_menu->items.begin();
 		_set_info_panel_contents(_race_menu->selected);
+		_set_progress_panel_contents();
 	} break;
 	case CharacterStage::CHOOSE_RACE: {
 		auto to_push(_candidate);
@@ -156,6 +163,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		_display->window->input_mode = WindowInputMode::NORMAL;
 		_alignment_menu->selected = _alignment_menu->items.begin();
 		_set_info_panel_contents(_alignment_menu->selected);
+		_set_progress_panel_contents();
 	} break;
 	case CharacterStage::CHOOSE_ALIGNMENT: {
 		auto to_push(_candidate);
@@ -165,6 +173,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		_attribute_menu->selected = _attribute_menu->items.begin();
 		_ap->set();
 		_set_info_panel_contents(_attribute_menu->selected);
+		_set_progress_panel_contents();
 	} break;
 	default:
 		break;
@@ -521,6 +530,51 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 	return std::nullopt;
 }
 
+auto Sorcery::Create::_set_progress_panel_contents() -> void {
+
+	switch (_candidate.get_stage()) {
+	case CharacterStage::ENTER_NAME: {
+		for (auto &progress : _progress)
+			progress = std::nullopt;
+	} break;
+	case CharacterStage::CHOOSE_RACE: {
+		_progress[0] = sf::Text();
+		_progress[1] = std::nullopt; // TODO: ranges library has something for last 4 elements?
+		_progress[2] = std::nullopt;
+		_progress[3] = std::nullopt;
+		_progress[4] = std::nullopt;
+	} break;
+	case CharacterStage::CHOOSE_ALIGNMENT: {
+		_progress[0] = sf::Text();
+		auto stage_2 = _candidate.get_icon(CharacterStage::CHOOSE_RACE);
+		stage_2->setPosition((*_display->layout)["create:stage_2_icon"].x,
+			(*_display->layout)["create:stage_2_icon"].y);
+		_progress[1] = stage_2;
+		_progress[2] = std::nullopt;
+		_progress[3] = std::nullopt;
+		_progress[4] = std::nullopt;
+
+	} break;
+	case CharacterStage::ALLOCATE_STATS: {
+		_progress[0] = sf::Text();
+		auto stage_2 = _candidate.get_icon(CharacterStage::CHOOSE_RACE);
+		stage_2->setPosition((*_display->layout)["create:stage_2_icon"].x,
+			(*_display->layout)["create:stage_2_icon"].y);
+		_progress[1] = stage_2;
+		auto stage_3 = _candidate.get_icon(CharacterStage::CHOOSE_ALIGNMENT);
+		stage_3->setPosition((*_display->layout)["create:stage_3_icon"].x,
+			(*_display->layout)["create:stage_3_icon"].y);
+		_progress[2] = stage_3;
+		_progress[3] = std::nullopt;
+		_progress[4] = std::nullopt;
+	} break;
+
+	default:
+		break;
+	}
+	//
+}
+
 auto Sorcery::Create::_set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it)
 	-> void {
 
@@ -575,10 +629,6 @@ auto Sorcery::Create::_draw() -> void {
 		_race_menu->setPosition(menu_pos);
 		_window->draw(*_race_menu);
 
-		sf::Text stage_1_name{};
-		_display->window->draw_text(
-			stage_1_name, (*_display->layout)["create:stage_1_name"], _candidate.get_name());
-
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
 			_ip->setPosition(_ip_race_c.x, _ip_race_c.y);
@@ -595,16 +645,6 @@ auto Sorcery::Create::_draw() -> void {
 			(*_display->layout)["character_create_stage_3:menu"].y);
 		_alignment_menu->setPosition(menu_pos);
 		_window->draw(*_alignment_menu);
-
-		// Draw Icons
-		sf::Text stage_1_name{};
-		_display->window->draw_text(
-			stage_1_name, (*_display->layout)["create:stage_1_name"], _candidate.get_name());
-
-		auto stage_2 = _candidate.get_icon(CharacterStage::CHOOSE_RACE);
-		stage_2->setPosition((*_display->layout)["create:stage_2_icon"].x,
-			(*_display->layout)["create:stage_2_icon"].y);
-		_window->draw(*stage_2);
 
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
@@ -633,24 +673,20 @@ auto Sorcery::Create::_draw() -> void {
 			_ip->setPosition(_ip_attribute_c.x, _ip_attribute_c.y);
 			_window->draw(*_ip);
 		}
+	}
 
-		// and also name
-
-		sf::Text stage_1_name{};
-		_display->window->draw_text(
-			stage_1_name, (*_display->layout)["create:stage_1_name"], _candidate.get_name());
-
-		// Draw Icons
-		auto stage_1 = _candidate.get_icon(CharacterStage::CHOOSE_RACE);
-		stage_1->setPosition((*_display->layout)["create:stage_2_icon"].x,
-			(*_display->layout)["create:stage_2_icon"].y);
-		_window->draw(*stage_1);
-
-		// Draw Icons
-		auto stage_2 = _candidate.get_icon(CharacterStage::CHOOSE_ALIGNMENT);
-		stage_2->setPosition((*_display->layout)["create:stage_3_icon"].x,
-			(*_display->layout)["create:stage_3_icon"].y);
-		_window->draw(*stage_2);
+	// Draw the progress bars (TODO: can't use a visit lambda here for some reason)
+	for (auto &item : _progress) {
+		if (item) {
+			if (std::holds_alternative<sf::Text>(item.value())) {
+				auto text{std::get<sf::Text>(item.value())};
+				_display->window->draw_text(
+					text, (*_display->layout)["create:stage_1_name"], _candidate.get_name());
+			} else if (std::holds_alternative<sf::Sprite>(item.value())) {
+				auto sprite{std::get<sf::Sprite>(item.value())};
+				_window->draw(sprite);
+			}
+		}
 	}
 
 	// And finally the Cursor
