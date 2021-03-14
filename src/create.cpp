@@ -384,20 +384,20 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_RACE) {
 
-		std::optional<std::vector<MenuEntry>::const_iterator> race_selected{_race_menu->selected};
+		std::optional<std::vector<MenuEntry>::const_iterator> selected{_race_menu->selected};
 		if (_system->input->check_for_event(WindowInput::UP, event))
-			race_selected = _race_menu->choose_previous();
+			selected = _race_menu->choose_previous();
 		else if (_system->input->check_for_event(WindowInput::DOWN, event))
-			race_selected = _race_menu->choose_next();
+			selected = _race_menu->choose_next();
 		else if (_system->input->check_for_event(WindowInput::MOVE, event))
-			race_selected = _race_menu->set_mouse_selected(
+			selected = _race_menu->set_mouse_selected(
 				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 		else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
 
 			// We have selected something from the menu
-			if (race_selected) {
+			if (selected) {
 
-				switch (const MenuItem option_chosen{(*race_selected.value()).item}) {
+				switch (const MenuItem option_chosen{(*selected.value()).item}) {
 				case MenuItem::CR_HUMAN:
 					_candidate.set_race(CharacterRace::HUMAN);
 					break;
@@ -427,21 +427,20 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 		return std::nullopt;
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_ALIGNMENT) {
 
-		std::optional<std::vector<MenuEntry>::const_iterator> alignment_selected{
-			_alignment_menu->selected};
+		std::optional<std::vector<MenuEntry>::const_iterator> selected{_alignment_menu->selected};
 		if (_system->input->check_for_event(WindowInput::UP, event))
-			alignment_selected = _alignment_menu->choose_previous();
+			selected = _alignment_menu->choose_previous();
 		else if (_system->input->check_for_event(WindowInput::DOWN, event))
-			alignment_selected = _alignment_menu->choose_next();
+			selected = _alignment_menu->choose_next();
 		else if (_system->input->check_for_event(WindowInput::MOVE, event))
-			alignment_selected = _alignment_menu->set_mouse_selected(
+			selected = _alignment_menu->set_mouse_selected(
 				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 		else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
 
 			// We have selected something from the menu
-			if (alignment_selected) {
+			if (selected) {
 
-				switch (const MenuItem option_chosen{(*alignment_selected.value()).item}) {
+				switch (const MenuItem option_chosen{(*selected.value()).item}) {
 				case MenuItem::CA_GOOD:
 					_candidate.set_alignment(CharacterAlignment::GOOD);
 					break;
@@ -468,21 +467,20 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 		return std::nullopt;
 	} else if (_candidate.get_stage() == CharacterStage::ALLOCATE_STATS) {
 
-		std::optional<std::vector<MenuEntry>::const_iterator> attribute_selected{
-			_attribute_menu->selected};
+		std::optional<std::vector<MenuEntry>::const_iterator> selected{_attribute_menu->selected};
 		if (_system->input->check_for_event(WindowInput::UP, event))
-			attribute_selected = _attribute_menu->choose_previous();
+			selected = _attribute_menu->choose_previous();
 		else if (_system->input->check_for_event(WindowInput::DOWN, event))
-			attribute_selected = _attribute_menu->choose_next();
+			selected = _attribute_menu->choose_next();
 		else if (_system->input->check_for_event(WindowInput::MOVE, event))
-			attribute_selected = _attribute_menu->set_mouse_selected(
+			selected = _attribute_menu->set_mouse_selected(
 				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 		else if ((_system->input->check_for_event(WindowInput::LEFT, event)) ||
 				 (_system->input->check_for_event(WindowInput::BACK, event))) {
 
-			if (attribute_selected) {
+			if (selected) {
 				std::optional<CharacterAttribute> stat_to_adjust{};
-				switch (attribute_selected.value()->item) {
+				switch (selected.value()->item) {
 				case MenuItem::CS_STRENGTH:
 					stat_to_adjust = CharacterAttribute::STRENGTH;
 					break;
@@ -524,14 +522,13 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 				(_candidate.get_bonus_points_to_allocate() == 0)) {
 
 				_go_to_next_stage();
-				//_candidate.set_starting_attributes();
 				_ap->set();
 				return std::nullopt;
 			}
 
-			if (attribute_selected) {
+			if (selected) {
 				std::optional<CharacterAttribute> stat_to_adjust{};
-				switch (attribute_selected.value()->item) {
+				switch (selected.value()->item) {
 				case MenuItem::CS_STRENGTH:
 					stat_to_adjust = CharacterAttribute::STRENGTH;
 					break;
@@ -566,11 +563,12 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 				_candidate.set_possible_classes();
 			}
 
-			_ap->set();
 			_set_info_panel_contents(_attribute_menu->selected);
-
-			return std::nullopt;
 		}
+
+		_ap->set();
+		_set_info_panel_contents(_attribute_menu->selected);
+		return std::nullopt;
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_CLASS) {
 
 		std::optional<std::vector<MenuEntry>::const_iterator> class_selected{_class_menu->selected};

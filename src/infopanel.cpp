@@ -65,6 +65,7 @@ auto Sorcery::InfoPanel::set_text(const std::string &string) -> void {
 
 	// Get the display lines
 	const std::regex regex(R"([#]+)");
+	// const std::regex regex(R"(.{1,50})(?:\s|$)");
 	std::sregex_token_iterator it{string.begin(), string.end(), regex, -1};
 	std::vector<std::string> split{it, {}};
 	split.erase(std::remove_if(split.begin(), split.end(),
