@@ -25,6 +25,7 @@
 #pragma once
 
 #include "allocatepanel.hpp"
+#include "attributedisplay.hpp"
 #include "character.hpp"
 #include "display.hpp"
 #include "frame.hpp"
@@ -79,6 +80,7 @@ namespace Sorcery {
 		Component _ip_attribute_c;
 		Component _ip_class_c;
 		Component _ap_c;
+		Component _ad_c;
 		std::shared_ptr<Keyboard> _keyboard;
 		std::shared_ptr<Menu> _race_menu;
 		std::shared_ptr<Menu> _alignment_menu;
@@ -86,6 +88,7 @@ namespace Sorcery {
 		std::shared_ptr<Menu> _class_menu;
 		std::shared_ptr<InfoPanel> _ip;
 		std::shared_ptr<AllocatePanel> _ap;
+		std::shared_ptr<AttributeDisplay> _ad;
 		std::vector<Character> _stages;
 		std::array<std::optional<std::variant<sf::Text, sf::Sprite>>, 5> _progress;
 	};

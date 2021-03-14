@@ -31,6 +31,15 @@
 			"drawmode": "manual"
 		},
 		{
+			"name": "attribute_display",
+			"font": "monospace",
+			"size": "18",
+			"colour": "0x169016ff",
+			"alpha": "255",
+			"type": "panel",
+			"drawmode": "manual"
+		},
+		{
 			"name": "icon",
 			"w": "128",
 			"h": "128",
@@ -1023,6 +1032,15 @@
 			"priority": "4"
 		},
 		{
+			"name": "stage_4_attribute_display",
+			"x": "68",
+			"y": "2",
+			"size": "128",
+			"type": "image",
+			"priority": "4",
+			"drawmode": "manual"
+		},
+		{
 			"name": "stage_5_summary",
 			"x": "73",
 			"y": "25",
@@ -1345,6 +1363,30 @@
 			"priority": "6",
 			"drawmode": "manual"
 		}
+		]
+	},
+	{
+		"name": "attribute_display",
+		"component": [
+			{
+				"name": "stat_bar",
+				"x": "0",
+				"y": "17",
+				"w": "38",
+				"h": "39",
+				"scale": "1.60",
+				"colour": "0x169016ff",
+				"type": "stat_bar",
+				"drawmode": "manual"
+			},
+			{
+				"name": "attribute_icons",
+				"x": "0",
+				"y": "18",
+				"size": "32",
+				"type": "image",
+				"drawmode": "manual"
+			}
 		]
 	},
 	{

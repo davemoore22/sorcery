@@ -39,6 +39,9 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 	// Get the Allocate Stat Panel
 	_ap = std::make_shared<AllocatePanel>(_system, _display, _graphics, &_candidate);
 
+	// Get the Attribute Display Panel
+	_ad = std::make_shared<AttributeDisplay>(_system, _display, _graphics, &_candidate);
+
 	// Layout Information
 	_name_c = Component((*_display->layout)["character_create_stage_1:name_candidate"]);
 	_keyb_c = Component((*_display->layout)["character_create_stage_1:keyboard"]);
@@ -47,6 +50,7 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 	_ip_attribute_c = Component((*_display->layout)["character_create_stage_4:info_panel"]);
 	_ip_class_c = Component((*_display->layout)["character_create_stage_5:info_panel"]);
 	_ap_c = Component((*_display->layout)["character_create_stage_4:allocate_panel"]);
+	_ad_c = Component((*_display->layout)["create:stage_4_attribute_display"]);
 
 	// Menus
 	_race_menu =
@@ -88,6 +92,7 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 	// Don't display the info panel yet
 	_ip->valid = false;
 	_ap->valid = false;
+	_ad->valid = false;
 
 	// Get the Keyboard
 	_keyboard->setPosition(_keyb_c.x, _keyb_c.y);
@@ -153,6 +158,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 		_display->window->input_mode = WindowInputMode::ALLOCATE_STATS;
 		_attribute_menu->selected = _attribute_menu->items.begin();
 		_ap->set();
+		_ad->valid = false;
 		_set_info_panel_contents(_attribute_menu->selected);
 		_set_progress_panel_contents();
 	} break;
@@ -201,6 +207,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		// Set and enable the class menu depending on the possible classes!
 		_class_menu->selected = _class_menu->items.begin();
 		_ap->valid = false;
+		_ad->set();
 		_set_info_panel_contents(_class_menu->selected);
 		_set_progress_panel_contents();
 	}
@@ -665,11 +672,24 @@ auto Sorcery::Create::_set_progress_panel_contents() -> void {
 		_progress[3] = std::nullopt;
 		_progress[4] = std::nullopt;
 	} break;
+	case CharacterStage::CHOOSE_CLASS: {
 
+		// progress[3] is a sf:drawable
+		_progress[0] = sf::Text();
+		auto stage_2 = _candidate.get_icon(CharacterStage::CHOOSE_RACE);
+		stage_2->setPosition((*_display->layout)["create:stage_2_icon"].x,
+			(*_display->layout)["create:stage_2_icon"].y);
+		_progress[1] = stage_2;
+		auto stage_3 = _candidate.get_icon(CharacterStage::CHOOSE_ALIGNMENT);
+		stage_3->setPosition((*_display->layout)["create:stage_3_icon"].x,
+			(*_display->layout)["create:stage_3_icon"].y);
+		_progress[2] = stage_3;
+		_progress[3] = std::nullopt;
+		_progress[4] = std::nullopt;
+	}
 	default:
 		break;
 	}
-	//
 }
 
 auto Sorcery::Create::_set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it)
@@ -790,6 +810,12 @@ auto Sorcery::Create::_draw() -> void {
 		if (_ip->valid) {
 			_ip->setPosition(_ip_class_c.x, _ip_class_c.y);
 			_window->draw(*_ip);
+		}
+
+		// And the Attribute Bar
+		if (_ad->valid) {
+			_ad->setPosition(_ad_c.x, _ad_c.y);
+			_window->draw(*_ad);
 		}
 	}
 

@@ -77,7 +77,7 @@ BUILD_DEPENDENCIES?=
 
 # NAME should always be passed as an argument from tasks.json as the root folder name, but uses a fallback of "game.exe"
 # This is used for the output filename (game.exe)
-NAME?=game.exe
+NAME?=sorcery
 
 #==============================================================================
 # The source file directory

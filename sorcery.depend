@@ -284,11 +284,12 @@
 1614621062 source:/home/dave/Development/wizardry/sorcery-sfml/src/config.cpp
 	"config.hpp"
 
-1615750122 source:/home/dave/Development/wizardry/sorcery-sfml/src/create.cpp
+1615757029 source:/home/dave/Development/wizardry/sorcery-sfml/src/create.cpp
 	"create.hpp"
 
-1615736833 /home/dave/Development/wizardry/sorcery-sfml/inc/create.hpp
+1615753992 /home/dave/Development/wizardry/sorcery-sfml/inc/create.hpp
 	"allocatepanel.hpp"
+	"attributedisplay.hpp"
 	"character.hpp"
 	"display.hpp"
 	"frame.hpp"
@@ -623,4 +624,15 @@
 	<optional>
 	<string>
 	<string_view>
+
+1615758514 source:/home/dave/Development/wizardry/sorcery-sfml/src/attributedisplay.cpp
+	"attributedisplay.hpp"
+
+1615756870 /home/dave/Development/wizardry/sorcery-sfml/inc/attributedisplay.hpp
+	"character.hpp"
+	"display.hpp"
+	"graphics.hpp"
+	"layout.hpp"
+	"main.hpp"
+	"system.hpp"
 
