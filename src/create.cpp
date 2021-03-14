@@ -45,6 +45,7 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 	_ip_race_c = Component((*_display->layout)["character_create_stage_2:info_panel"]);
 	_ip_alignment_c = Component((*_display->layout)["character_create_stage_3:info_panel"]);
 	_ip_attribute_c = Component((*_display->layout)["character_create_stage_4:info_panel"]);
+	_ip_class_c = Component((*_display->layout)["character_create_stage_5:info_panel"]);
 	_ap_c = Component((*_display->layout)["character_create_stage_4:allocate_panel"]);
 
 	// Menus
@@ -54,6 +55,11 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 		std::make_shared<Menu>(_system, _display, _graphics, MenuType::CHOOSE_CHARACTER_ALIGNMENT);
 	_attribute_menu = std::make_shared<Menu>(
 		_system, _display, _graphics, MenuType::ALLOCATE_CHARACTER_ATTRIBUTES);
+
+	// Unlike the others, this one doesn't have the first item selected in its constructor since it
+	// is possible for not all classes to be viable/allowed choices
+	_class_menu =
+		std::make_shared<Menu>(_system, _display, _graphics, MenuType::CHOOSE_CHARACTER_CLASS);
 
 	// Create the Candidate Character
 	_stages.clear();
@@ -139,6 +145,17 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 		_ap->valid = false;
 		_set_progress_panel_contents();
 	} break;
+	case CharacterStage::CHOOSE_CLASS: {
+		auto popped = _stages.back();
+		_candidate = popped;
+		_candidate.set_stage(CharacterStage::ALLOCATE_STATS);
+		_stages.pop_back();
+		_display->window->input_mode = WindowInputMode::ALLOCATE_STATS;
+		_attribute_menu->selected = _attribute_menu->items.begin();
+		_ap->set();
+		_set_info_panel_contents(_attribute_menu->selected);
+		_set_progress_panel_contents();
+	} break;
 	default:
 		break;
 	}
@@ -175,6 +192,18 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		_set_info_panel_contents(_attribute_menu->selected);
 		_set_progress_panel_contents();
 	} break;
+	case CharacterStage::ALLOCATE_STATS: {
+		auto to_push(_candidate);
+		_stages.emplace_back(to_push);
+		_candidate.set_stage(CharacterStage::CHOOSE_CLASS);
+		_display->window->input_mode = WindowInputMode::NORMAL;
+
+		// Set and enable the class menu depending on the possible classes!
+		_class_menu->selected = _class_menu->items.begin();
+		_ap->valid = false;
+		_set_info_panel_contents(_class_menu->selected);
+		_set_progress_panel_contents();
+	}
 	default:
 		break;
 	}
@@ -195,7 +224,7 @@ auto Sorcery::Create::_do_event_loop() -> std::optional<ModuleResult> {
 
 					// Just skip a frame refresh at this point to avoid calling _generate_character
 					// with a back result which will result in a pop back of the name since we have
-					// already set the state back to ENTER_NAME.
+					// already set the state back to ENTER_NAME (TODO: why does this happen?)
 					_go_to_previous_stage();
 					continue;
 				}
@@ -260,6 +289,13 @@ auto Sorcery::Create::_handle_input(const sf::Event &event) -> std::optional<Mod
 				return ModuleResult::BACK;
 		} else
 			return ModuleResult::BACK;
+	} else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+
+		// Only proceed if we have spent all the points!
+		if (_candidate.get_stage() == CharacterStage::ALLOCATE_STATS) {
+			if (_candidate.get_bonus_points_to_allocate() == 0)
+				return ModuleResult::NEXT;
+		}
 	}
 
 	return std::nullopt;
@@ -483,6 +519,16 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 			}
 		} else if ((_system->input->check_for_event(WindowInput::RIGHT, event)) ||
 				   (_system->input->check_for_event(WindowInput::CONFIRM, event))) {
+
+			if ((_system->input->check_for_event(WindowInput::CONFIRM, event)) &&
+				(_candidate.get_bonus_points_to_allocate() == 0)) {
+
+				_go_to_next_stage();
+				//_candidate.set_starting_attributes();
+				_ap->set();
+				return std::nullopt;
+			}
+
 			if (attribute_selected) {
 				std::optional<CharacterAttribute> stat_to_adjust{};
 				switch (attribute_selected.value()->item) {
@@ -519,11 +565,64 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 				}
 				_candidate.set_possible_classes();
 			}
+
+			_ap->set();
+			_set_info_panel_contents(_attribute_menu->selected);
+
+			return std::nullopt;
+		}
+	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_CLASS) {
+
+		std::optional<std::vector<MenuEntry>::const_iterator> class_selected{_class_menu->selected};
+		if (_system->input->check_for_event(WindowInput::UP, event))
+			class_selected = _class_menu->choose_previous();
+		else if (_system->input->check_for_event(WindowInput::DOWN, event))
+			class_selected = _class_menu->choose_next();
+		else if (_system->input->check_for_event(WindowInput::MOVE, event))
+			class_selected = _class_menu->set_mouse_selected(
+				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+
+			// We have selected something from the menu
+			if (class_selected) {
+
+				switch (const MenuItem option_chosen{(*class_selected.value()).item}) {
+
+				case MenuItem::CC_SAMURAI:
+					_candidate.set_class(CharacterClass::SAMURAI);
+					break;
+				case MenuItem::CC_FIGHTER:
+					_candidate.set_class(CharacterClass::FIGHTER);
+					break;
+				case MenuItem::CC_LORD:
+					_candidate.set_class(CharacterClass::LORD);
+					break;
+				case MenuItem::CC_THIEF:
+					_candidate.set_class(CharacterClass::THIEF);
+					break;
+				case MenuItem::CC_NINJA:
+					_candidate.set_class(CharacterClass::NINJA);
+					break;
+				case MenuItem::CC_PRIEST:
+					_candidate.set_class(CharacterClass::PRIEST);
+					break;
+				case MenuItem::CC_BISHOP:
+					_candidate.set_class(CharacterClass::BISHOP);
+					break;
+				case MenuItem::CC_MAGE:
+					_candidate.set_class(CharacterClass::MAGE);
+					break;
+
+				default:
+					break;
+				}
+
+				_go_to_next_stage();
+				return std::nullopt;
+			}
 		}
 
-		_ap->set();
-		_set_info_panel_contents(_attribute_menu->selected);
-
+		_set_info_panel_contents(_class_menu->selected);
 		return std::nullopt;
 	}
 
@@ -671,6 +770,27 @@ auto Sorcery::Create::_draw() -> void {
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
 			_ip->setPosition(_ip_attribute_c.x, _ip_attribute_c.y);
+			_window->draw(*_ip);
+		}
+	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_CLASS) {
+		_display->display_components(
+			"character_create_stage_5", _candidate.sprites, _candidate.texts, _candidate.frames);
+
+		double lerp{_graphics->animation->colour_lerp};
+		_class_menu->generate((*_display->layout)["character_create_stage_5:menu"], lerp);
+		const sf::Vector2f menu_pos((*_display->layout)["character_create_stage_5:menu"].x,
+			(*_display->layout)["character_create_stage_5:menu"].y);
+		_class_menu->setPosition(menu_pos);
+		_window->draw(*_class_menu);
+
+		if (_ap->valid) {
+			_ap->setPosition(_ap_c.x, _ap_c.y);
+			_window->draw(*_ap);
+		}
+
+		// Display bottom text depending on the menu item selected
+		if (_ip->valid) {
+			_ip->setPosition(_ip_class_c.x, _ip_class_c.y);
 			_window->draw(*_ip);
 		}
 	}

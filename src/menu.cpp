@@ -114,9 +114,31 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics, const 
 		selected = items.begin();
 		break;
 	case MenuType::CHOOSE_CHARACTER_CLASS:
-
-		// Some characters may not quality for the furst class in the menu, so choose the first
-		// active instead
+		_add_item(0, MenuItemType::ENTRY, MenuItem::CC_SAMURAI,
+			(*_display->string)["CHARACTER_CLASS_SAMURAI"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_CLASS_SAMURAI"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::CC_FIGHTER,
+			(*_display->string)["CHARACTER_CLASS_FIGHTER"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_CLASS_FIGHTER"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::CC_LORD,
+			(*_display->string)["CHARACTER_CLASS_LORD"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_CLASS_LORD"]);
+		_add_item(3, MenuItemType::ENTRY, MenuItem::CC_THIEF,
+			(*_display->string)["CHARACTER_CLASS_THIEF"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_CLASS_THIEF"]);
+		_add_item(4, MenuItemType::ENTRY, MenuItem::CC_NINJA,
+			(*_display->string)["CHARACTER_CLASS_NINJA"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_CLASS_NINJA"]);
+		_add_item(5, MenuItemType::ENTRY, MenuItem::CC_PRIEST,
+			(*_display->string)["CHARACTER_CLASS_PRIEST"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_CLASS_PRIEST"]);
+		_add_item(6, MenuItemType::ENTRY, MenuItem::CC_BISHOP,
+			(*_display->string)["CHARACTER_CLASS_BISHOP"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_CLASS_BISHOP"]);
+		_add_item(7, MenuItemType::ENTRY, MenuItem::CC_MAGE,
+			(*_display->string)["CHARACTER_CLASS_MAGE"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_CLASS_MAGE"]);
+		// Some characters may not quality for the furst class in the menu, so don't prechoose any!
 		break;
 	case MenuType::CHOOSE_CHARACTER_PORTRAIT:
 		break;
@@ -388,6 +410,36 @@ auto Sorcery::Menu::choose(std::any option)
 			break;
 		case CharacterAlignment::NEUTRAL:
 			search_for = MenuItem::CA_NEUTRAL;
+			break;
+		default:
+			break;
+		}
+		break;
+	case MenuType::CHOOSE_CHARACTER_CLASS:
+		switch (const CharacterClass character_class{std::any_cast<CharacterClass>(option)}) {
+		case CharacterClass::SAMURAI:
+			search_for = MenuItem::CC_SAMURAI;
+			break;
+		case CharacterClass::FIGHTER:
+			search_for = MenuItem::CC_SAMURAI;
+			break;
+		case CharacterClass::LORD:
+			search_for = MenuItem::CC_LORD;
+			break;
+		case CharacterClass::THIEF:
+			search_for = MenuItem::CC_THIEF;
+			break;
+		case CharacterClass::NINJA:
+			search_for = MenuItem::CC_NINJA;
+			break;
+		case CharacterClass::PRIEST:
+			search_for = MenuItem::CC_PRIEST;
+			break;
+		case CharacterClass::BISHOP:
+			search_for = MenuItem::CC_BISHOP;
+			break;
+		case CharacterClass::MAGE:
+			search_for = MenuItem::CC_SAMURAI;
 			break;
 		default:
 			break;

@@ -77,11 +77,13 @@ namespace Sorcery {
 		Component _ip_race_c;
 		Component _ip_alignment_c;
 		Component _ip_attribute_c;
+		Component _ip_class_c;
 		Component _ap_c;
 		std::shared_ptr<Keyboard> _keyboard;
 		std::shared_ptr<Menu> _race_menu;
 		std::shared_ptr<Menu> _alignment_menu;
 		std::shared_ptr<Menu> _attribute_menu;
+		std::shared_ptr<Menu> _class_menu;
 		std::shared_ptr<InfoPanel> _ip;
 		std::shared_ptr<AllocatePanel> _ap;
 		std::vector<Character> _stages;

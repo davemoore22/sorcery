@@ -168,6 +168,10 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 		_display->generate_components("character_create_stage_4", sprites, texts, frames);
 		_display->window->input_mode = WindowInputMode::ALLOCATE_STATS;
 		break;
+	case CharacterStage::CHOOSE_CLASS:
+		_display->generate_components("character_create_stage_5", sprites, texts, frames);
+		_display->window->input_mode = WindowInputMode::NORMAL;
+		break;
 	default:
 		break;
 	}
@@ -200,6 +204,15 @@ auto Sorcery::Character::get_alignment() const -> CharacterAlignment {
 auto Sorcery::Character::set_alignment(const CharacterAlignment &value) -> void {
 
 	_alignment = value;
+}
+
+auto Sorcery::Character::get_class() const -> CharacterClass {
+
+	return _class;
+}
+auto Sorcery::Character::set_class(const CharacterClass &value) -> void {
+
+	_class = value;
 }
 
 auto Sorcery::Character::get_bonus_points_to_allocate() const -> unsigned int {

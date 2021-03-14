@@ -7,7 +7,6 @@
                 "${workspaceFolder}/inc",
                 "${workspaceFolder}/src",
                 "${workspaceFolder}/lib",
-                "${workspaceFolder}/ext",
                 "${workspaceFolder}/inc/sqlitemoderncpp",
                 "${workspaceFolder}/inc/simpleini",
 				"${workspaceFolder}/inc/magicenum",

@@ -64,6 +64,8 @@ namespace Sorcery {
 		auto set_name(const std::string &value) -> void;
 		auto get_race() const -> CharacterRace;
 		auto set_race(const CharacterRace &value) -> void;
+		auto get_class() const -> CharacterClass;
+		auto set_class(const CharacterClass &value) -> void;
 		auto get_alignment() const -> CharacterAlignment;
 		auto set_alignment(const CharacterAlignment &value) -> void;
 		auto get_current_attributes() const -> CharacterAttributes;
