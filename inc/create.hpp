@@ -62,6 +62,7 @@ namespace Sorcery {
 		auto _go_to_next_stage() -> void;
 		auto _go_to_previous_stage() -> void;
 		auto _handle_input(const sf::Event &event) -> std::optional<ModuleResult>;
+		auto _set_classes_menu() -> void;
 		auto _set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void;
 		auto _set_progress_panel_contents() -> void;
 		auto _update_character(const sf::Event &event) -> std::optional<ModuleResult>;

@@ -138,7 +138,7 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics, const 
 		_add_item(7, MenuItemType::ENTRY, MenuItem::CC_MAGE,
 			(*_display->string)["CHARACTER_CLASS_MAGE"], true, ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_MAGE"]);
-		// Some characters may not quality for the furst class in the menu, so don't prechoose any!
+		selected = items.begin();
 		break;
 	case MenuType::CHOOSE_CHARACTER_PORTRAIT:
 		break;
@@ -250,7 +250,7 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics, const 
 }
 
 // Overload [] Operator
-auto Sorcery::Menu::operator[](const unsigned int index) -> const MenuEntry & {
+auto Sorcery::Menu::operator[](const unsigned int index) -> MenuEntry & {
 
 	return items.at(index);
 }
@@ -676,6 +676,27 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 			entry_y += _display->window->get_cell_height();
 		}
 		++index;
+	}
+}
+
+auto Sorcery::Menu::refresh(sf::Color enabled_color) -> void {
+
+	// Relies upon the fact that all the menu options are different strings
+	for (auto &item : items) {
+		if ((item.type == MenuItemType::TEXT) || (item.type == MenuItemType::ENTRY) ||
+			(item.type == MenuItemType::SAVE) || (item.type == MenuItemType::CANCEL)) {
+			auto found{std::find_if(_texts.begin(), _texts.end(), [&](const auto &text) {
+				std::string wibble = text.getString();
+				return text.getString() == item.key;
+			})};
+			if (found != _texts.end()) {
+				if (item.enabled) {
+					(*found).setFillColor(enabled_color);
+				} else {
+					(*found).setFillColor(sf::Color(0x404040ff));
+				}
+			}
+		}
 	}
 }
 

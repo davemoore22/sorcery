@@ -62,9 +62,9 @@
 			<Cursor1 position="1335" topLine="18" />
 		</Cursor>
 	</File>
-	<File name="src/menu.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/menu.cpp" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="12323" topLine="229" />
+			<Cursor1 position="14983" topLine="284" />
 		</Cursor>
 	</File>
 	<File name="cfg/config.ini" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -122,9 +122,9 @@
 			<Cursor1 position="6556" topLine="166" />
 		</Cursor>
 	</File>
-	<File name="src/attributedisplay.cpp" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/attributedisplay.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="415" topLine="0" />
+			<Cursor1 position="2135" topLine="35" />
 		</Cursor>
 	</File>
 	<File name="src/main.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

@@ -206,6 +206,10 @@ auto Sorcery::Character::set_alignment(const CharacterAlignment &value) -> void 
 	_alignment = value;
 }
 
+auto Sorcery::Character::get_number_possible_classes() const -> unsigned int {
+	return _num_pos_classes;
+}
+
 auto Sorcery::Character::get_class() const -> CharacterClass {
 
 	return _class;

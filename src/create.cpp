@@ -203,11 +203,16 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		_stages.emplace_back(to_push);
 		_candidate.set_stage(CharacterStage::CHOOSE_CLASS);
 		_display->window->input_mode = WindowInputMode::NORMAL;
-
-		// Set and enable the class menu depending on the possible classes!
-		_class_menu->selected = _class_menu->items.begin();
 		_ap->valid = false;
 		_ad->set();
+
+		// Set and enable the class menu depending on the possible classes!
+		_set_classes_menu();
+		Component classes_menu_c = Component((*_display->layout)["character_create_stage_5:menu"]);
+		_class_menu->refresh(sf::Color(classes_menu_c.colour));
+		_class_menu->choose_first();
+
+		// Order is important here
 		_set_info_panel_contents(_class_menu->selected);
 		_set_progress_panel_contents();
 	}
@@ -526,7 +531,8 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 				   (_system->input->check_for_event(WindowInput::CONFIRM, event))) {
 
 			if ((_system->input->check_for_event(WindowInput::CONFIRM, event)) &&
-				(_candidate.get_bonus_points_to_allocate() == 0)) {
+				(_candidate.get_bonus_points_to_allocate() == 0) &&
+				(_candidate.get_number_possible_classes() > 0)) {
 
 				_go_to_next_stage();
 				_ap->set();
@@ -690,6 +696,19 @@ auto Sorcery::Create::_set_progress_panel_contents() -> void {
 	default:
 		break;
 	}
+}
+
+auto Sorcery::Create::_set_classes_menu() -> void {
+
+	auto possible_classes{_candidate.get_possible_classes()};
+	(*_class_menu)[0].enabled = possible_classes[CharacterClass::SAMURAI];
+	(*_class_menu)[1].enabled = possible_classes[CharacterClass::FIGHTER];
+	(*_class_menu)[2].enabled = possible_classes[CharacterClass::LORD];
+	(*_class_menu)[3].enabled = possible_classes[CharacterClass::THIEF];
+	(*_class_menu)[4].enabled = possible_classes[CharacterClass::NINJA];
+	(*_class_menu)[5].enabled = possible_classes[CharacterClass::PRIEST];
+	(*_class_menu)[6].enabled = possible_classes[CharacterClass::BISHOP];
+	(*_class_menu)[7].enabled = possible_classes[CharacterClass::MAGE];
 }
 
 auto Sorcery::Create::_set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it)
