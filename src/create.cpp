@@ -51,6 +51,7 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 	_ip_class_c = Component((*_display->layout)["character_create_stage_5:info_panel"]);
 	_ap_c = Component((*_display->layout)["character_create_stage_4:allocate_panel"]);
 	_ad_c = Component((*_display->layout)["create:stage_4_attribute_display"]);
+	// need component for portrait picker
 
 	// Menus
 	_race_menu =
@@ -59,9 +60,6 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 		std::make_shared<Menu>(_system, _display, _graphics, MenuType::CHOOSE_CHARACTER_ALIGNMENT);
 	_attribute_menu = std::make_shared<Menu>(
 		_system, _display, _graphics, MenuType::ALLOCATE_CHARACTER_ATTRIBUTES);
-
-	// Unlike the others, this one doesn't have the first item selected in its constructor since it
-	// is possible for not all classes to be viable/allowed choices
 	_class_menu =
 		std::make_shared<Menu>(_system, _display, _graphics, MenuType::CHOOSE_CHARACTER_CLASS);
 
@@ -162,6 +160,18 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 		_set_info_panel_contents(_attribute_menu->selected);
 		_set_progress_panel_contents();
 	} break;
+	case CharacterStage::CHOOSE_PORTRAIT: {
+		auto popped = _stages.back();
+		_candidate = popped;
+		_candidate.set_stage(CharacterStage::CHOOSE_CLASS);
+		_stages.pop_back();
+		_class_menu->choose(_candidate.get_class());
+		_set_info_panel_contents(_class_menu->selected);
+		_display->window->input_mode = WindowInputMode::NORMAL;
+		_ap->valid = false;
+		_ad->set();
+		_set_progress_panel_contents();
+	}
 	default:
 		break;
 	}
@@ -208,13 +218,18 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 
 		// Set and enable the class menu depending on the possible classes!
 		_set_classes_menu();
-		Component classes_menu_c = Component((*_display->layout)["character_create_stage_5:menu"]);
 		_class_menu->choose_first();
-
-		// Order is important here
 		_set_info_panel_contents(_class_menu->selected);
 		_set_progress_panel_contents();
-	}
+	} break;
+	case CharacterStage::CHOOSE_CLASS: {
+		auto to_push(_candidate);
+		_stages.emplace_back(to_push);
+		_candidate.set_stage(CharacterStage::CHOOSE_PORTRAIT);
+		_display->window->input_mode = WindowInputMode::NORMAL; // TODO: Portrait!
+		// set portrait class
+		_set_progress_panel_contents();
+	} break;
 	default:
 		break;
 	}
@@ -428,7 +443,6 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 					break;
 				}
 				_go_to_next_stage();
-
 				return std::nullopt;
 			}
 		}
@@ -597,7 +611,6 @@ auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional
 			if (class_selected) {
 
 				switch (const MenuItem option_chosen{(*class_selected.value()).item}) {
-
 				case MenuItem::CC_SAMURAI:
 					_candidate.set_class(CharacterClass::SAMURAI);
 					break;
@@ -691,6 +704,23 @@ auto Sorcery::Create::_set_progress_panel_contents() -> void {
 		_progress[2] = stage_3;
 		_progress[3] = std::nullopt;
 		_progress[4] = std::nullopt;
+	} break;
+	case CharacterStage::CHOOSE_PORTRAIT: {
+		// progress[3] is a sf:drawable
+		_progress[0] = sf::Text();
+		auto stage_2 = _candidate.get_icon(CharacterStage::CHOOSE_RACE);
+		stage_2->setPosition((*_display->layout)["create:stage_2_icon"].x,
+			(*_display->layout)["create:stage_2_icon"].y);
+		_progress[1] = stage_2;
+		auto stage_3 = _candidate.get_icon(CharacterStage::CHOOSE_ALIGNMENT);
+		stage_3->setPosition((*_display->layout)["create:stage_3_icon"].x,
+			(*_display->layout)["create:stage_3_icon"].y);
+		_progress[2] = stage_3;
+		_progress[3] = std::nullopt;
+		auto stage_5 = _candidate.get_icon(CharacterStage::CHOOSE_CLASS);
+		stage_5->setPosition((*_display->layout)["create:stage_5_icon"].x,
+			(*_display->layout)["create:stage_5_icon"].y);
+		_progress[4] = stage_5;
 	}
 	default:
 		break;
@@ -829,6 +859,20 @@ auto Sorcery::Create::_draw() -> void {
 			_ip->setPosition(_ip_class_c.x, _ip_class_c.y);
 			_window->draw(*_ip);
 		}
+
+		// And the Attribute Bar
+		if (_ad->valid) {
+			_ad->setPosition(_ad_c.x, _ad_c.y);
+			_window->draw(*_ad);
+		}
+	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_PORTRAIT) {
+
+		_display->display_components(
+			"character_create_stage_6", _candidate.sprites, _candidate.texts, _candidate.frames);
+
+		// double lerp{_graphics->animation->colour_lerp};
+
+		// todo stuff here
 
 		// And the Attribute Bar
 		if (_ad->valid) {

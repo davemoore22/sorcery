@@ -79,11 +79,6 @@
 		},
 		{
 			"name": "letters",
-			"w": "61",
-			"h": "51",
-			"x": "32",
-			"y": "32",
-			"scale": "15",
 			"font": "text",
 			"colour": "0xddddddff",
 			"size": "48",
@@ -1060,6 +1055,15 @@
 			"justification": "centre",
 			"type": "text",
 			"priority": "4"
+		},
+		{
+			"name": "stage_5_icon",
+			"x": "70",
+			"y": "27",
+			"size": "128",
+			"type": "image",
+			"priority": "4",
+			"drawmode": "manual"
 		}
 		]
 	},
@@ -1555,6 +1559,44 @@
 			"type": "panel",
 			"priority": "6",
 			"drawmode": "manual"
+		}
+		]
+	},
+	{
+		"name": "character_create_stage_6",
+		"component": [
+		{
+			"name": "stage_frame",
+			"w": "36",
+			"h": "2",
+			"x": "centre",
+			"y": "7",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "2"
+		},
+		{
+			"name": "title_text",
+			"x": "centre",
+			"y": "8",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CHARACTER_CREATION_STAGE6",
+			"justification": "centre",
+			"type": "text",
+			"priority": "3"
+		},
+		{
+			"name": "portrait_frame",
+			"w": "21",
+			"h": "21",
+			"x": "centre",
+			"y": "11",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "6",
+			"drawmode": "automatic"
 		}
 		]
 	}

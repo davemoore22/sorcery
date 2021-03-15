@@ -172,6 +172,10 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 		_display->generate_components("character_create_stage_5", sprites, texts, frames);
 		_display->window->input_mode = WindowInputMode::NORMAL;
 		break;
+	case CharacterStage::CHOOSE_PORTRAIT:
+		_display->generate_components("character_create_stage_6", sprites, texts, frames);
+		_display->window->input_mode = WindowInputMode::NORMAL; // TODO
+		break;
 	default:
 		break;
 	}
