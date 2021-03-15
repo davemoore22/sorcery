@@ -346,6 +346,17 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 					Component component(screen_name, name, x, y, w, h, scale, font_type, size,
 						colour, animated, string_key, alpha, width, background, justification,
 						component_type, priority, drawmode, texture);
+
+					// Now look for any extra data
+					if (components[j].isMember("data")) {
+						Json::Value &extra_data{components[j]["data"][0]};
+						auto data_keys{extra_data.getMemberNames()};
+						for (auto &data_key : data_keys) {
+							auto data_value = extra_data[data_key].asString();
+							component.set(data_key, data_value);
+						}
+					}
+
 					_components[key] = component;
 				}
 			}

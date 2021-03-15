@@ -106,8 +106,8 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 					}
 					image.setScale(scale_ratio_needed, scale_ratio_needed);
 				} else if (component.unique_key.ends_with("wallpaper")) {
+
 					// Handle background wallpaper tiling
-					std::cout << image.getTexture()->isRepeated() << std::endl;
 					image.setTextureRect(window->size);
 				}
 

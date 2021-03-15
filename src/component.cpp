@@ -30,6 +30,7 @@ Sorcery::Component::Component()
 	  justification{}, type{}, priority{999}, drawmode{}, texture{} {
 
 	unique_key.clear();
+	_data.clear();
 }
 
 Sorcery::Component::Component(std::string screen_, std::string name_, int x_, int y_,
@@ -47,6 +48,7 @@ Sorcery::Component::Component(std::string screen_, std::string name_, int x_, in
 	// by key) (also needs to be replaced with std::format when available)
 	const std::string priority_id{fmt::format("{:03d}", priority)};
 	unique_key = fmt::format("{}_{}:{}", priority_id, screen, name);
+	_data.clear();
 }
 
 // Copy Constructors
@@ -59,6 +61,7 @@ Sorcery::Component::Component(const Component &other)
 
 	// Not sure why I'm doing this here and not in the initialiser list?
 	unique_key = other.unique_key;
+	_data = other._data;
 }
 
 auto Sorcery::Component::operator=(const Component &other) -> Component & {
@@ -84,6 +87,30 @@ auto Sorcery::Component::operator=(const Component &other) -> Component & {
 	drawmode = other.drawmode;
 	texture = other.texture;
 	unique_key = other.unique_key;
+	_data = other._data;
 
 	return *this;
+}
+
+// Overload [] operator
+auto Sorcery::Component::operator[](const std::string &key) -> std::optional<std::string> {
+
+	if (_data.capacity() == 0)
+		return std::nullopt;
+	auto it = std::find_if(_data.begin(), _data.end(), [&key](auto item) {
+		return item.first == key;
+	});
+	if (it != _data.end())
+		return it->second;
+	else
+		return std::nullopt;
+}
+
+auto Sorcery::Component::set(const std::string &key, const std::string &value) -> void {
+
+	auto it = std::find_if(_data.begin(), _data.end(), [&key](auto item) {
+		return item.first == key;
+	});
+	if (it == _data.end())
+		_data.push_back(std::make_pair(key, value));
 }

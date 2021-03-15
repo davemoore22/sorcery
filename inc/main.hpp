@@ -43,9 +43,9 @@
 #pragma GCC diagnostic ignored "-Wreorder"
 #pragma GCC diagnostic ignored "-Wreturn-type"
 #include "SimpleIni.h"
+#include "magic_enum.hpp"
 #include "sfeMovie/Movie.hpp"
 #include "sqlite_modern_cpp.h"
-#include "magic_enum.hpp"
 #pragma GCC diagnostic pop
 
 // Include this here to avoid Status enums defined within clashing with above
@@ -116,6 +116,7 @@ namespace Sorcery {
 	using CharacterStage = Enums::Character::Stage;
 	// using CharacterStatus = Enums::Character::Status;
 	using CharacterView = Enums::Character::Display;
+	using ComponentData = std::pair<std::string, std::string>;
 	using ComponentType = Enums::Window::ComponentType;
 	using Colour = Enums::Display::Colour;
 	using ConfigOption = Enums::Options;

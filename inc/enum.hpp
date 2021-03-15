@@ -110,6 +110,7 @@ namespace Sorcery {
 			ICONS,
 			LOGO,
 			NINEPATCH,
+			PORTRAITS,
 			SPLASH,
 			TOWN,
 			UI

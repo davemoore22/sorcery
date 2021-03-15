@@ -111,6 +111,7 @@
 		<Unit filename="gfx/icons.png" />
 		<Unit filename="gfx/logo.png" />
 		<Unit filename="gfx/ninepatch.png" />
+		<Unit filename="gfx/potraits.png" />
 		<Unit filename="gfx/splash.png" />
 		<Unit filename="gfx/town.png" />
 		<Unit filename="gfx/ui.png" />

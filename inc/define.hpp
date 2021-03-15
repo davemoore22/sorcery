@@ -65,6 +65,7 @@ namespace Sorcery {
 	inline constexpr auto ICONS_TEXTURE = "icons.png"sv;
 	inline constexpr auto LOGO_TEXTURE = "logo.png"sv;
 	inline constexpr auto NINEPATCH_TEXTURE = "ninepatch.png"sv;
+	inline constexpr auto POTRAITS_TEXTURE = "potraits.png"sv;
 	inline constexpr auto SPLASH_TEXTURE = "splash.png"sv;
 	inline constexpr auto TOWN_TEXTURE = "town.png"sv;
 	inline constexpr auto UI_TEXTURE = "ui.png"sv;
@@ -72,27 +73,6 @@ namespace Sorcery {
 	// Videos
 	inline constexpr auto MENU_VIDEO = "menu.mp4"sv;
 
-	// For ease of use
-	// static const std::string EMPTY = {""};
-	// static const std::string ON = {"on"};
-	// static const std::string OFF = {"off"};
-
-	// Graphics
-	/* static const std::string FONT_FILE = {"font.png"};
-	static const std::string LOGO_FILE = {"logo.png"};
-	static const std::string BKG_FILE = {"background.png"};
-	static const std::string BLANK_CREATURE_FILE = {"blank.png"};
-	static const std::string ICONS_FILE = {"icons.png"};
-	static const std::string CONCEPTS_FILE = {"concepts.png"};
-	static const std::string PORTRAITS_FILE = {"portraits.png"};
-	static const std::string CHARACTER_TEMPLATE_FILE_MAIN = {"character-main.xp"};
-	static const std::string CHARACTER_TEMPLATE_FILE_DETAILED = {"character-detailed.xp"};
-	static const std::string CHARACTER_TEMPLATE_FILE_INVENTORY = {"character-inventory.xp"};
-	static const std::string CHARACTER_TEMPLATE_FILE_SPELLS_MAGE = {"character-spells-mage.xp"};
-	static const std::string CHARACTER_TEMPLATE_FILE_SPELLS_CLERIC = {"character-spells-cleric.xp"};
-	static const std::string CHARACTER_TEMPLATE_FILE_MESSAGES = {"character-messages.xp"};
-	static const std::string CHARACTER_TEMPLATE_FILE_ACHIEVEMENTS = {"character-achievements.xp"};
-  */
 	// Game config settings
 	static const std::string DEFAULT_SCREEN_HEIGHT = {"default_height"};
 	static const std::string DEFAULT_SCREEN_WIDTH = {"default_width"};

@@ -40,6 +40,8 @@ Sorcery::ResourceManager::ResourceManager(File &files) : _files{files} {
 			thor::Resources::fromFile<sf::Texture>(_files[LOGO_TEXTURE]));
 		textures.acquire(Enums::Graphics::Texture::ICONS,
 			thor::Resources::fromFile<sf::Texture>(_files[ICONS_TEXTURE]));
+		textures.acquire(Enums::Graphics::Texture::PORTRAITS,
+			thor::Resources::fromFile<sf::Texture>(_files[POTRAITS_TEXTURE]));
 		textures.acquire(Enums::Graphics::Texture::SPLASH,
 			thor::Resources::fromFile<sf::Texture>(_files[SPLASH_TEXTURE]));
 		textures.acquire(Enums::Graphics::Texture::TOWN,

@@ -209,7 +209,6 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		// Set and enable the class menu depending on the possible classes!
 		_set_classes_menu();
 		Component classes_menu_c = Component((*_display->layout)["character_create_stage_5:menu"]);
-		_class_menu->refresh(sf::Color(classes_menu_c.colour));
 		_class_menu->choose_first();
 
 		// Order is important here

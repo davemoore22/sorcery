@@ -46,7 +46,11 @@ namespace Sorcery {
 		Component(const Component &other);
 		auto operator=(const Component &other) -> Component &;
 
+		// Overload [] operator
+		auto operator[](const std::string &key) -> std::optional<std::string>;
+
 		// Public Methods
+		auto set(const std::string &key, const std::string &value) -> void;
 
 		// Public Members
 		std::string screen;
@@ -75,5 +79,6 @@ namespace Sorcery {
 		// Private Methods
 
 		// Private Members
+		std::vector<std::pair<std::string, std::string>> _data;
 	};
 } // namespace Sorcery

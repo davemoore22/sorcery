@@ -62,7 +62,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	// Get the Background Display Components and load them into Display module storage (not local)
 	_display->generate_components("main_menu_attract");
 
-	// Clear the window7
+	// Clear the window
 	_window->clear();
 
 	_menu_stage = menu_stage;

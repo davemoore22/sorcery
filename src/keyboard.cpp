@@ -39,12 +39,13 @@ Sorcery::Keyboard::Keyboard(System *system, Display *display, Graphics *graphics
 	_rtexture.setSmooth(true);
 	_rtexture.clear();
 
-	// Use x and y for offset (remember to divide this by cell dimensions), w and h for letter
-	// spacing, and the scale for the number of letters per row
-	const sf::Vector2i offset(_text_c.x / _display->window->get_cell_width(),
-		_text_c.y / _display->window->get_cell_height());
-	const sf::Vector2u spacing{_text_c.w, _text_c.h};
-	const int max_col{static_cast<int>(_text_c.scale)};
+	// Get the Keyboard Layout
+	const sf::Vector2i offset(
+		std::stoi(_text_c["offset_x"].value()), std::stoi(_text_c["offset_y"].value()));
+	const sf::Vector2i spacing{
+		std::stoi(_text_c["spacing_x"].value()), std::stoi(_text_c["spacing_y"].value())};
+	const int max_col{std::stoi(_text_c["columns_per_row"].value())};
+
 	sf::Vector2i letter_pos{offset.x, offset.y};
 	int current_col{1};
 

@@ -298,9 +298,10 @@ auto Sorcery::Menu::_select_first_enabled()
 			(menu_item.enabled));
 	});
 
-	if (it != items.end())
+	if (it != items.end()) {
+		selected = it;
 		return it;
-	else
+	} else
 		return std::nullopt;
 }
 
@@ -567,7 +568,10 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 			sf::Text text;
 			text.setFont(_system->resources->fonts[component.font]);
 			text.setCharacterSize(component.size);
-			text.setFillColor(sf::Color(component.colour));
+			if (item.enabled)
+				text.setFillColor(sf::Color(component.colour));
+			else
+				text.setFillColor(sf::Color(0x606060ff));
 			text.setString(text_string);
 
 			// Check for alignment and set location appropriately
@@ -676,27 +680,6 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 			entry_y += _display->window->get_cell_height();
 		}
 		++index;
-	}
-}
-
-auto Sorcery::Menu::refresh(sf::Color enabled_color) -> void {
-
-	// Relies upon the fact that all the menu options are different strings
-	for (auto &item : items) {
-		if ((item.type == MenuItemType::TEXT) || (item.type == MenuItemType::ENTRY) ||
-			(item.type == MenuItemType::SAVE) || (item.type == MenuItemType::CANCEL)) {
-			auto found{std::find_if(_texts.begin(), _texts.end(), [&](const auto &text) {
-				std::string wibble = text.getString();
-				return text.getString() == item.key;
-			})};
-			if (found != _texts.end()) {
-				if (item.enabled) {
-					(*found).setFillColor(enabled_color);
-				} else {
-					(*found).setFillColor(sf::Color(0x404040ff));
-				}
-			}
-		}
 	}
 }
 

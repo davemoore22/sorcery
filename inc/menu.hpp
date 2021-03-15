@@ -64,7 +64,6 @@ namespace Sorcery {
 			-> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto get_type() -> MenuType;
 		auto generate(Component &component, const double selected_lerp) -> void;
-		auto refresh(sf::Color enabled_color) -> void;
 
 	  private:
 		// Private Methods

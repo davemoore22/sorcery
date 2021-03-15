@@ -90,7 +90,16 @@
 			"type": "text",
 			"drawmode": "manual",
 			"priority": "5",
-			"background": "0x6060c8ff"
+			"background": "0x6060c8ff",
+			"data": [
+				{
+					"offset_x": "32",
+					"offset_y": "32",
+					"spacing_x": "61",
+					"spacing_y": "51",
+					"columns_per_row": "15"
+				}
+			]
 		}
 		]
 	},
