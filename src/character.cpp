@@ -347,10 +347,6 @@ auto Sorcery::Character::get_icon(CharacterStage type) -> std::optional<sf::Spri
 
 	return std::nullopt;
 }
-auto Sorcery::Character::get_attribute_graphic(bool alignment) -> sf::Sprite {
-
-	// todo
-}
 
 // Given a character's current stats and alignment, work out what classes are available
 auto Sorcery::Character::set_possible_classes() -> void {

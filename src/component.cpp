@@ -31,6 +31,8 @@ Sorcery::Component::Component()
 
 	unique_key.clear();
 	_data.clear();
+	_enabled = false;
+	_visible = false;
 }
 
 Sorcery::Component::Component(std::string screen_, std::string name_, int x_, int y_,
@@ -49,6 +51,8 @@ Sorcery::Component::Component(std::string screen_, std::string name_, int x_, in
 	const std::string priority_id{fmt::format("{:03d}", priority)};
 	unique_key = fmt::format("{}_{}:{}", priority_id, screen, name);
 	_data.clear();
+	_enabled = true;
+	_visible = true;
 }
 
 // Copy Constructors
@@ -62,6 +66,8 @@ Sorcery::Component::Component(const Component &other)
 	// Not sure why I'm doing this here and not in the initialiser list?
 	unique_key = other.unique_key;
 	_data = other._data;
+	_enabled = other._enabled;
+	_visible = other._visible;
 }
 
 auto Sorcery::Component::operator=(const Component &other) -> Component & {
@@ -88,6 +94,8 @@ auto Sorcery::Component::operator=(const Component &other) -> Component & {
 	texture = other.texture;
 	unique_key = other.unique_key;
 	_data = other._data;
+	_enabled = other._enabled;
+	_visible = other._visible;
 
 	return *this;
 }
@@ -113,4 +121,24 @@ auto Sorcery::Component::set(const std::string &key, const std::string &value) -
 	});
 	if (it == _data.end())
 		_data.push_back(std::make_pair(key, value));
+}
+
+auto Sorcery::Component::set_enabled(bool value) -> void {
+
+	_enabled = value;
+}
+
+auto Sorcery::Component::get_enabled() -> bool {
+
+	return _enabled;
+}
+
+auto Sorcery::Component::set_visible(bool value) -> void {
+
+	_visible = value;
+}
+
+auto Sorcery::Component::get_visible() -> bool {
+
+	return _visible;
 }

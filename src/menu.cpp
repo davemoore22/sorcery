@@ -380,7 +380,7 @@ auto Sorcery::Menu::choose(std::any option)
 	MenuItem search_for{MenuItem::NONE};
 	switch (_type) {
 	case MenuType::CHOOSE_CHARACTER_RACE:
-		switch (const CharacterRace character_race{std::any_cast<CharacterRace>(option)}) {
+		switch (std::any_cast<CharacterRace>(option)) {
 		case CharacterRace::DWARF:
 			search_for = MenuItem::CR_DWARF;
 			break;
@@ -401,8 +401,7 @@ auto Sorcery::Menu::choose(std::any option)
 		}
 		break;
 	case MenuType::CHOOSE_CHARACTER_ALIGNMENT:
-		switch (const CharacterAlignment character_alignment{
-			std::any_cast<CharacterAlignment>(option)}) {
+		switch (std::any_cast<CharacterAlignment>(option)) {
 		case CharacterAlignment::EVIL:
 			search_for = MenuItem::CA_EVIL;
 			break;
@@ -417,7 +416,7 @@ auto Sorcery::Menu::choose(std::any option)
 		}
 		break;
 	case MenuType::CHOOSE_CHARACTER_CLASS:
-		switch (const CharacterClass character_class{std::any_cast<CharacterClass>(option)}) {
+		switch (std::any_cast<CharacterClass>(option)) {
 		case CharacterClass::SAMURAI:
 			search_for = MenuItem::CC_SAMURAI;
 			break;

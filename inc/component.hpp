@@ -51,6 +51,10 @@ namespace Sorcery {
 
 		// Public Methods
 		auto set(const std::string &key, const std::string &value) -> void;
+		auto set_enabled(bool value) -> void;
+		auto get_enabled() -> bool;
+		auto set_visible(bool value) -> void;
+		auto get_visible() -> bool;
 
 		// Public Members
 		std::string screen;
@@ -77,6 +81,8 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
+		bool _enabled;
+		bool _visible;
 
 		// Private Members
 		std::vector<std::pair<std::string, std::string>> _data;
