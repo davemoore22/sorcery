@@ -485,6 +485,8 @@ auto Sorcery::Create::_handle_choose_class(const sf::Event &event) -> std::optio
 	else if (_system->input->check_for_event(WindowInput::MOVE, event))
 		class_selected = _class_menu->set_mouse_selected(
 			static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+	else if (_system->input->check_for_event(WindowInput::BACK, event))
+		return ModuleResult::BACK;
 	else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
 
 		// We have selected something from the menu

@@ -439,7 +439,7 @@ auto Sorcery::Menu::choose(std::any option)
 			search_for = MenuItem::CC_BISHOP;
 			break;
 		case CharacterClass::MAGE:
-			search_for = MenuItem::CC_SAMURAI;
+			search_for = MenuItem::CC_MAGE;
 			break;
 		default:
 			break;
