@@ -121,33 +121,27 @@ auto Sorcery::Create::_do_event_loop() -> std::optional<ModuleResult> {
 		sf::Event event{};
 		while (_window->pollEvent(event)) {
 
-			auto const module_result = _handle_navigation(event);
+			// See what happens
+			auto const module_result = _handle_input(event);
 			if (module_result) {
 				if (module_result.value() == ModuleResult::CLOSE)
 					return ModuleResult::CLOSE;
-				else if (module_result.value() == ModuleResult::BACK) {
-
-					// Just skip a frame refresh at this point to avoid calling _generate_character
-					// with a back result which will result in a pop back of the name since we have
-					// already set the state back to ENTER_NAME (TODO: why does this happen?)
-					_go_to_previous_stage();
-					continue;
-				} else if (module_result.value() == ModuleResult::EXIT)
+				else if (module_result.value() == ModuleResult::EXIT)
 					return ModuleResult::EXIT;
 				else if (module_result.value() == ModuleResult::CANCEL)
 					return ModuleResult::CANCEL;
-				else if (module_result.value() == ModuleResult::NEXT)
+				else if (module_result.value() == ModuleResult::BACK) {
+					_go_to_previous_stage();
+					continue;
+				} else if (module_result.value() == ModuleResult::NEXT) {
 					_go_to_next_stage();
+					continue;
+				}
 			}
 
-			auto result = _handle_stage_input(event);
-			if (result) {
-
-				// TODO: save character or reject it
-			}
-
+			// Redraw whilst in the module
+			_set_progress_panel_contents();
 			_window->clear();
-
 			_draw();
 			_window->display();
 		}
@@ -156,57 +150,12 @@ auto Sorcery::Create::_do_event_loop() -> std::optional<ModuleResult> {
 	return std::nullopt;
 }
 
-auto Sorcery::Create::_handle_navigation(const sf::Event &event) -> std::optional<ModuleResult> {
+auto Sorcery::Create::_handle_input(const sf::Event &event) -> std::optional<ModuleResult> {
 
-	// Check for Window Close
 	if (event.type == sf::Event::Closed)
 		return ModuleResult::EXIT;
 	else if (_system->input->check_for_event(WindowInput::CANCEL, event))
 		return ModuleResult::CANCEL;
-	else if (_system->input->check_for_event(WindowInput::BACK, event)) {
-		if (_candidate.get_stage() == CharacterStage::ENTER_NAME) {
-
-			// Back in Enter Name Stage only works if you have no name selected
-			if (_candidate.get_name().length() == 0)
-				return ModuleResult::DELETE;
-
-		} else if (_candidate.get_stage() == CharacterStage::ALLOCATE_STATS) {
-
-			// Back in Allocate Stats only works if you have not allocated any points!
-			if (_candidate.get_bonus_points_to_allocate() == _candidate.get_starting_bonus_points())
-				return ModuleResult::BACK;
-		} else
-			return ModuleResult::BACK;
-
-	} else if (_system->input->check_for_event(WindowInput::DELETE, event)) {
-
-		// Check for Deletes but map them to Back where needed
-		if (_candidate.get_stage() == CharacterStage::ENTER_NAME) {
-			if (_candidate.get_name().length() == 0)
-				return ModuleResult::BACK;
-			else
-				return ModuleResult::DELETE;
-		} else if (_candidate.get_stage() == CharacterStage::ALLOCATE_STATS) {
-
-			// Back in Allocate Stats only works if you have not allocated any points!
-			if (_candidate.get_bonus_points_to_allocate() == _candidate.get_starting_bonus_points())
-				return ModuleResult::BACK;
-		} else
-			return ModuleResult::BACK;
-	} else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
-
-		// Only proceed if we have spent all the points!
-		if (_candidate.get_stage() == CharacterStage::ALLOCATE_STATS) {
-			if (_candidate.get_bonus_points_to_allocate() == 0)
-				return ModuleResult::NEXT;
-		}
-	}
-
-	return std::nullopt;
-}
-
-auto Sorcery::Create::_handle_stage_input(const sf::Event &event) -> std::optional<ModuleResult> {
-
 	if (_candidate.get_stage() == CharacterStage::ENTER_NAME)
 		return _handle_choose_name(event);
 	else if (_candidate.get_stage() == CharacterStage::CHOOSE_RACE)
@@ -217,6 +166,10 @@ auto Sorcery::Create::_handle_stage_input(const sf::Event &event) -> std::option
 		return _handle_allocate_attributes(event);
 	else if (_candidate.get_stage() == CharacterStage::CHOOSE_CLASS)
 		return _handle_choose_class(event);
+	else if (_candidate.get_stage() == CharacterStage::CHOOSE_PORTRAIT)
+		return _handle_choose_potraits(event);
+	else if (_candidate.get_stage() == CharacterStage::REVIEW_AND_CONFIRM)
+		return _handle_review_and_confirm(event);
 	else
 		return std::nullopt;
 }
@@ -231,7 +184,6 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::option
 			_keyboard->set_mouse_selected(_keyb_c, mouse_pos)};
 		if (mouse_selected)
 			_keyboard->selected = mouse_selected.value();
-
 	} else if ((_system->input->check_for_event(WindowInput::ALPHANUMERIC, event)) ||
 			   (_system->input->check_for_event(WindowInput::SPACE, event))) {
 		if (candidate_name.length() < 24) {
@@ -245,21 +197,29 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::option
 			key_pressed.push_back(static_cast<char>(event.text.unicode));
 			_keyboard->selected = key_pressed;
 		}
-	} else if ((_system->input->check_for_event(WindowInput::DELETE, event)) ||
-			   (_system->input->check_for_event(WindowInput::BACK, event))) {
+	} else if (_system->input->check_for_event(WindowInput::DELETE, event)) {
 		if (candidate_name.length() > 0) {
 			candidate_name.pop_back();
 			_candidate.set_name(candidate_name);
 			_keyboard->selected = "Del";
 		}
+	} else if (_system->input->check_for_event(WindowInput::BACK, event)) {
+		if (candidate_name.length() > 0) {
+			candidate_name.pop_back();
+			_candidate.set_name(candidate_name);
+			_keyboard->selected = "Del";
+		} else {
+
+			// Return if Back Button is selected and no character name is chosen
+			return ModuleResult::BACK;
+		}
 	} else if (_system->input->check_for_event(WindowInput::SELECT, event)) {
 		if (_keyboard->selected == "End") {
 			if (TRIM_COPY(candidate_name).length() > 0) {
 				_candidate.set_name(candidate_name);
-				_candidate.set_stage(CharacterStage::CHOOSE_RACE);
-				// return ModuleResult::NEXT;
-				_go_to_next_stage();
-				return std::nullopt;
+
+				// Return if End Icon is selected on the keyboard
+				return ModuleResult::NEXT;
 			}
 		} else if (_keyboard->selected == "Spc") {
 			if (candidate_name.length() < 24) {
@@ -280,16 +240,16 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::option
 		if (_keyboard->selected == "End") {
 			if (TRIM_COPY(candidate_name).length() > 0) {
 				_candidate.set_name(candidate_name);
-				// return ModuleResult::NEXT;
-				_go_to_next_stage();
-				return std::nullopt;
+
+				// Return if End Icon is highlighted and Confirmed
+				return ModuleResult::NEXT;
 			}
 		} else {
 			if (TRIM_COPY(candidate_name).length() > 0) {
 				_candidate.set_name(candidate_name);
-				// return ModuleResult::NEXT;
-				_go_to_next_stage();
-				return std::nullopt;
+
+				// Return if Confirmation is selected
+				return ModuleResult::NEXT;
 			}
 		}
 	} else if (_system->input->check_for_event(WindowInput::LEFT, event))
@@ -314,6 +274,8 @@ auto Sorcery::Create::_handle_choose_race(const sf::Event &event) -> std::option
 	else if (_system->input->check_for_event(WindowInput::MOVE, event))
 		selected = _race_menu->set_mouse_selected(
 			static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+	else if (_system->input->check_for_event(WindowInput::BACK, event))
+		return ModuleResult::BACK;
 	else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
 
 		// We have selected something from the menu
@@ -336,15 +298,16 @@ auto Sorcery::Create::_handle_choose_race(const sf::Event &event) -> std::option
 				_candidate.set_race(CharacterRace::HOBBIT);
 				break;
 			default:
+				return std::nullopt;
 				break;
 			}
 
-			// return ModuleResult::NEXT;
-			_go_to_next_stage();
-			return std::nullopt;
+			// We have chosen a class
+			return ModuleResult::NEXT;
 		}
 	}
 
+	// If we get here then we are still on the Race Choice screen so set the Info Panel
 	_set_info_panel_contents(_race_menu->selected);
 
 	return std::nullopt;
@@ -361,6 +324,8 @@ auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event)
 	else if (_system->input->check_for_event(WindowInput::MOVE, event))
 		selected = _alignment_menu->set_mouse_selected(
 			static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+	else if (_system->input->check_for_event(WindowInput::BACK, event))
+		return ModuleResult::BACK;
 	else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
 
 		// We have selected something from the menu
@@ -377,20 +342,19 @@ auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event)
 				_candidate.set_alignment(CharacterAlignment::EVIL);
 				break;
 			default:
+				return std::nullopt;
 				break;
 			}
 
-			// TODO: don't like the order of this
-			_go_to_next_stage();
+			// We have chosen an alignment, so what we need to do is to set the candidate's starting
+			// stats and enable the allocation panel before continuing
 			_candidate.set_starting_attributes();
 			_ap->set();
-			return std::nullopt;
-			//_candidate.set_starting_attributes();
-			//_ap->set();
-			// return ModuleResult::NEXT;
+			return ModuleResult::NEXT;
 		}
 	}
 
+	// If we get here then we are still on the Alignment Choice screen so set the Info Panel
 	_set_info_panel_contents(_alignment_menu->selected);
 
 	return std::nullopt;
@@ -446,6 +410,13 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event)
 				}
 			}
 			_candidate.set_possible_classes();
+
+			// Handle going back if we have no assigned points
+			if (_system->input->check_for_event(WindowInput::BACK, event)) {
+				if (_candidate.get_bonus_points_to_allocate() ==
+					_candidate.get_starting_bonus_points())
+					return ModuleResult::BACK;
+			}
 		}
 	} else if ((_system->input->check_for_event(WindowInput::RIGHT, event)) ||
 			   (_system->input->check_for_event(WindowInput::CONFIRM, event))) {
@@ -454,11 +425,10 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event)
 			(_candidate.get_bonus_points_to_allocate() == 0) &&
 			(_candidate.get_number_possible_classes() > 0)) {
 
-			_go_to_next_stage();
-			_ap->set();
-			return std::nullopt;
-			//_ap->set();
-			// return ModuleResult::NEXT;
+			// If we have confirmation AND have spent all the points AND have at least one possible
+			// class to choose
+			_ap->valid = false;
+			return ModuleResult::NEXT;
 		}
 
 		if (selected) {
@@ -495,10 +465,9 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event)
 					}
 				}
 			}
+
 			_candidate.set_possible_classes();
 		}
-
-		_set_info_panel_contents(_attribute_menu->selected);
 	}
 
 	_ap->set();
@@ -546,14 +515,13 @@ auto Sorcery::Create::_handle_choose_class(const sf::Event &event) -> std::optio
 			case MenuItem::CC_MAGE:
 				_candidate.set_class(CharacterClass::MAGE);
 				break;
-
 			default:
+				return std::nullopt;
 				break;
 			}
 
-			_go_to_next_stage();
-			return std::nullopt;
-			// return ModuleResult::NEXT;
+			// We have chosen the Class ok so continue
+			return ModuleResult::NEXT;
 		}
 	}
 
@@ -564,11 +532,17 @@ auto Sorcery::Create::_handle_choose_class(const sf::Event &event) -> std::optio
 auto Sorcery::Create::_handle_choose_potraits(const sf::Event &event)
 	-> std::optional<ModuleResult> {
 
+	if (_system->input->check_for_event(WindowInput::BACK, event))
+		return ModuleResult::BACK;
+
 	return std::nullopt;
 }
 
 auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event)
 	-> std::optional<ModuleResult> {
+
+	if (_system->input->check_for_event(WindowInput::BACK, event))
+		return ModuleResult::BACK;
 
 	return std::nullopt;
 }
@@ -582,7 +556,6 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 		_candidate.set_stage(CharacterStage::ENTER_NAME);
 		_stages.pop_back();
 		_display->window->input_mode = WindowInputMode::INPUT_TEXT;
-		_set_progress_panel_contents();
 	} break;
 	case CharacterStage::CHOOSE_ALIGNMENT: {
 		auto popped = _stages.back();
@@ -592,7 +565,6 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 		_race_menu->choose(_candidate.get_race());
 		_set_info_panel_contents(_race_menu->selected);
 		_display->window->input_mode = WindowInputMode::NORMAL;
-		_set_progress_panel_contents();
 	} break;
 	case CharacterStage::ALLOCATE_STATS: {
 		auto popped = _stages.back();
@@ -603,7 +575,6 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 		_set_info_panel_contents(_alignment_menu->selected);
 		_display->window->input_mode = WindowInputMode::NORMAL;
 		_ap->valid = false;
-		_set_progress_panel_contents();
 	} break;
 	case CharacterStage::CHOOSE_CLASS: {
 		auto popped = _stages.back();
@@ -615,7 +586,6 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 		_ap->set();
 		_ad->valid = false;
 		_set_info_panel_contents(_attribute_menu->selected);
-		_set_progress_panel_contents();
 	} break;
 	case CharacterStage::CHOOSE_PORTRAIT: {
 		auto popped = _stages.back();
@@ -627,7 +597,9 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 		_display->window->input_mode = WindowInputMode::NORMAL;
 		_ap->valid = false;
 		_ad->set();
-		_set_progress_panel_contents();
+	}
+	case CharacterStage::REVIEW_AND_CONFIRM: {
+		// TODO
 	}
 	default:
 		break;
@@ -644,7 +616,6 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		_display->window->input_mode = WindowInputMode::NORMAL;
 		_race_menu->selected = _race_menu->items.begin();
 		_set_info_panel_contents(_race_menu->selected);
-		_set_progress_panel_contents();
 	} break;
 	case CharacterStage::CHOOSE_RACE: {
 		auto to_push(_candidate);
@@ -652,8 +623,6 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		_candidate.set_stage(CharacterStage::CHOOSE_ALIGNMENT);
 		_display->window->input_mode = WindowInputMode::NORMAL;
 		_alignment_menu->selected = _alignment_menu->items.begin();
-		_set_info_panel_contents(_alignment_menu->selected);
-		_set_progress_panel_contents();
 	} break;
 	case CharacterStage::CHOOSE_ALIGNMENT: {
 		auto to_push(_candidate);
@@ -663,7 +632,6 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		_attribute_menu->selected = _attribute_menu->items.begin();
 		_ap->set();
 		_set_info_panel_contents(_attribute_menu->selected);
-		_set_progress_panel_contents();
 	} break;
 	case CharacterStage::ALLOCATE_STATS: {
 		auto to_push(_candidate);
@@ -677,15 +645,18 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		_set_classes_menu();
 		_class_menu->choose_first();
 		_set_info_panel_contents(_class_menu->selected);
-		_set_progress_panel_contents();
 	} break;
 	case CharacterStage::CHOOSE_CLASS: {
 		auto to_push(_candidate);
 		_stages.emplace_back(to_push);
 		_candidate.set_stage(CharacterStage::CHOOSE_PORTRAIT);
-		_display->window->input_mode = WindowInputMode::NORMAL; // TODO: Portrait!
-		// set portrait class
-		_set_progress_panel_contents();
+		_display->window->input_mode = WindowInputMode::NORMAL;
+		_candidate.set_potrait_index(0);
+		// set portrait class to default
+	} break;
+	case CharacterStage::CHOOSE_PORTRAIT: {
+		// TODO
+
 	} break;
 	default:
 		break;
@@ -937,329 +908,4 @@ auto Sorcery::Create::_draw() -> void {
 
 	// And finally the Cursor
 	_display->display_cursor();
-}
-
-auto Sorcery::Create::_update_character(const sf::Event &event) -> std::optional<ModuleResult> {
-
-	if (_candidate.get_stage() == CharacterStage::ENTER_NAME) {
-
-		std::string candidate_name{_candidate.get_name()};
-		if (_system->input->check_for_event(WindowInput::MOVE, event)) {
-
-			sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
-			std::optional<std::string> mouse_selected{
-				_keyboard->set_mouse_selected(_keyb_c, mouse_pos)};
-			if (mouse_selected)
-				_keyboard->selected = mouse_selected.value();
-
-		} else if ((_system->input->check_for_event(WindowInput::ALPHANUMERIC, event)) ||
-				   (_system->input->check_for_event(WindowInput::SPACE, event))) {
-			if (candidate_name.length() < 24) {
-				candidate_name += static_cast<char>(event.text.unicode);
-				_candidate.set_name(candidate_name);
-			}
-			if (static_cast<char>(event.text.unicode) == ' ') {
-				_keyboard->selected = "Spc";
-			} else {
-				std::string key_pressed{};
-				key_pressed.push_back(static_cast<char>(event.text.unicode));
-				_keyboard->selected = key_pressed;
-			}
-		} else if ((_system->input->check_for_event(WindowInput::DELETE, event)) ||
-				   (_system->input->check_for_event(WindowInput::BACK, event))) {
-			if (candidate_name.length() > 0) {
-				candidate_name.pop_back();
-				_candidate.set_name(candidate_name);
-				_keyboard->selected = "Del";
-			}
-		} else if (_system->input->check_for_event(WindowInput::SELECT, event)) {
-			if (_keyboard->selected == "End") {
-				if (TRIM_COPY(candidate_name).length() > 0) {
-					_candidate.set_name(candidate_name);
-					_candidate.set_stage(CharacterStage::CHOOSE_RACE);
-					_go_to_next_stage();
-					return std::nullopt;
-				}
-			} else if (_keyboard->selected == "Spc") {
-				if (candidate_name.length() < 24) {
-					candidate_name += " ";
-					_candidate.set_name(candidate_name);
-				}
-			} else if (_keyboard->selected == "Del") {
-				if (candidate_name.length() > 0) {
-					candidate_name.pop_back();
-					_candidate.set_name(candidate_name);
-				}
-			} else {
-				candidate_name += _keyboard->selected;
-				_candidate.set_name(candidate_name);
-			}
-		} else if (_system->input->check_for_event(WindowInput::CONFIRM_NO_SPACE, event)) {
-
-			if (_keyboard->selected == "End") {
-				if (TRIM_COPY(candidate_name).length() > 0) {
-					_candidate.set_name(candidate_name);
-					_go_to_next_stage();
-					return std::nullopt;
-				}
-			} else {
-				if (TRIM_COPY(candidate_name).length() > 0) {
-					_candidate.set_name(candidate_name);
-					_go_to_next_stage();
-					return std::nullopt;
-				}
-			}
-		} else if (_system->input->check_for_event(WindowInput::LEFT, event))
-			_keyboard->set_selected(WindowInput::LEFT);
-		else if (_system->input->check_for_event(WindowInput::RIGHT, event))
-			_keyboard->set_selected(WindowInput::RIGHT);
-		else if (_system->input->check_for_event(WindowInput::UP, event))
-			_keyboard->set_selected(WindowInput::UP);
-		else if (_system->input->check_for_event(WindowInput::DOWN, event))
-			_keyboard->set_selected(WindowInput::DOWN);
-
-		return std::nullopt;
-
-	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_RACE) {
-
-		std::optional<std::vector<MenuEntry>::const_iterator> selected{_race_menu->selected};
-		if (_system->input->check_for_event(WindowInput::UP, event))
-			selected = _race_menu->choose_previous();
-		else if (_system->input->check_for_event(WindowInput::DOWN, event))
-			selected = _race_menu->choose_next();
-		else if (_system->input->check_for_event(WindowInput::MOVE, event))
-			selected = _race_menu->set_mouse_selected(
-				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-		else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
-
-			// We have selected something from the menu
-			if (selected) {
-
-				switch (const MenuItem option_chosen{(*selected.value()).item}) {
-				case MenuItem::CR_HUMAN:
-					_candidate.set_race(CharacterRace::HUMAN);
-					break;
-				case MenuItem::CR_ELF:
-					_candidate.set_race(CharacterRace::ELF);
-					break;
-				case MenuItem::CR_DWARF:
-					_candidate.set_race(CharacterRace::DWARF);
-					break;
-				case MenuItem::CR_GNOME:
-					_candidate.set_race(CharacterRace::GNOME);
-					break;
-				case MenuItem::CR_HOBBIT:
-					_candidate.set_race(CharacterRace::HOBBIT);
-					break;
-				default:
-					break;
-				}
-				_go_to_next_stage();
-				return std::nullopt;
-			}
-		}
-
-		_set_info_panel_contents(_race_menu->selected);
-
-		return std::nullopt;
-	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_ALIGNMENT) {
-
-		std::optional<std::vector<MenuEntry>::const_iterator> selected{_alignment_menu->selected};
-		if (_system->input->check_for_event(WindowInput::UP, event))
-			selected = _alignment_menu->choose_previous();
-		else if (_system->input->check_for_event(WindowInput::DOWN, event))
-			selected = _alignment_menu->choose_next();
-		else if (_system->input->check_for_event(WindowInput::MOVE, event))
-			selected = _alignment_menu->set_mouse_selected(
-				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-		else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
-
-			// We have selected something from the menu
-			if (selected) {
-
-				switch (const MenuItem option_chosen{(*selected.value()).item}) {
-				case MenuItem::CA_GOOD:
-					_candidate.set_alignment(CharacterAlignment::GOOD);
-					break;
-				case MenuItem::CA_NEUTRAL:
-					_candidate.set_alignment(CharacterAlignment::NEUTRAL);
-					break;
-				case MenuItem::CA_EVIL:
-					_candidate.set_alignment(CharacterAlignment::EVIL);
-					break;
-				default:
-					break;
-				}
-
-				// TODO: don't like the order of this
-				_go_to_next_stage();
-				_candidate.set_starting_attributes();
-				_ap->set();
-				return std::nullopt;
-			}
-		}
-
-		_set_info_panel_contents(_alignment_menu->selected);
-
-		return std::nullopt;
-	} else if (_candidate.get_stage() == CharacterStage::ALLOCATE_STATS) {
-
-		std::optional<std::vector<MenuEntry>::const_iterator> selected{_attribute_menu->selected};
-		if (_system->input->check_for_event(WindowInput::UP, event))
-			selected = _attribute_menu->choose_previous();
-		else if (_system->input->check_for_event(WindowInput::DOWN, event))
-			selected = _attribute_menu->choose_next();
-		else if (_system->input->check_for_event(WindowInput::MOVE, event))
-			selected = _attribute_menu->set_mouse_selected(
-				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-		else if ((_system->input->check_for_event(WindowInput::LEFT, event)) ||
-				 (_system->input->check_for_event(WindowInput::BACK, event))) {
-
-			if (selected) {
-				std::optional<CharacterAttribute> stat_to_adjust{};
-				switch (selected.value()->item) {
-				case MenuItem::CS_STRENGTH:
-					stat_to_adjust = CharacterAttribute::STRENGTH;
-					break;
-				case MenuItem::CS_IQ:
-					stat_to_adjust = CharacterAttribute::IQ;
-					break;
-				case MenuItem::CS_PIETY:
-					stat_to_adjust = CharacterAttribute::PIETY;
-					break;
-				case MenuItem::CS_VITALITY:
-					stat_to_adjust = CharacterAttribute::VITALITY;
-					break;
-				case MenuItem::CS_AGILITY:
-					stat_to_adjust = CharacterAttribute::AGILITY;
-					break;
-				case MenuItem::CS_LUCK:
-					stat_to_adjust = CharacterAttribute::LUCK;
-					break;
-				default:
-					break;
-				}
-				if (stat_to_adjust) {
-					if (_candidate.get_bonus_points_to_allocate() <
-						_candidate.get_starting_bonus_points()) {
-						if (_candidate.get_attribute(stat_to_adjust.value()) >
-							_candidate.get_starting_attribute(stat_to_adjust.value())) {
-							_candidate.set_attribute(stat_to_adjust.value(), -1);
-							_candidate.set_bonus_points_to_allocate(
-								_candidate.get_bonus_points_to_allocate() + 1);
-						}
-					}
-				}
-				_candidate.set_possible_classes();
-			}
-		} else if ((_system->input->check_for_event(WindowInput::RIGHT, event)) ||
-				   (_system->input->check_for_event(WindowInput::CONFIRM, event))) {
-
-			if ((_system->input->check_for_event(WindowInput::CONFIRM, event)) &&
-				(_candidate.get_bonus_points_to_allocate() == 0) &&
-				(_candidate.get_number_possible_classes() > 0)) {
-
-				_go_to_next_stage();
-				_ap->set();
-				return std::nullopt;
-			}
-
-			if (selected) {
-				std::optional<CharacterAttribute> stat_to_adjust{};
-				switch (selected.value()->item) {
-				case MenuItem::CS_STRENGTH:
-					stat_to_adjust = CharacterAttribute::STRENGTH;
-					break;
-				case MenuItem::CS_IQ:
-					stat_to_adjust = CharacterAttribute::IQ;
-					break;
-				case MenuItem::CS_PIETY:
-					stat_to_adjust = CharacterAttribute::PIETY;
-					break;
-				case MenuItem::CS_VITALITY:
-					stat_to_adjust = CharacterAttribute::VITALITY;
-					break;
-				case MenuItem::CS_AGILITY:
-					stat_to_adjust = CharacterAttribute::AGILITY;
-					break;
-				case MenuItem::CS_LUCK:
-					stat_to_adjust = CharacterAttribute::LUCK;
-					break;
-				default:
-					break;
-				}
-				if (stat_to_adjust) {
-
-					if (_candidate.get_bonus_points_to_allocate() > 0) {
-						if (_candidate.get_attribute(stat_to_adjust.value()) < 18) {
-							_candidate.set_attribute(stat_to_adjust.value(), 1);
-							_candidate.set_bonus_points_to_allocate(
-								_candidate.get_bonus_points_to_allocate() - 1);
-						}
-					}
-				}
-				_candidate.set_possible_classes();
-			}
-
-			_set_info_panel_contents(_attribute_menu->selected);
-		}
-
-		_ap->set();
-		_set_info_panel_contents(_attribute_menu->selected);
-		return std::nullopt;
-	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_CLASS) {
-
-		std::optional<std::vector<MenuEntry>::const_iterator> class_selected{_class_menu->selected};
-		if (_system->input->check_for_event(WindowInput::UP, event))
-			class_selected = _class_menu->choose_previous();
-		else if (_system->input->check_for_event(WindowInput::DOWN, event))
-			class_selected = _class_menu->choose_next();
-		else if (_system->input->check_for_event(WindowInput::MOVE, event))
-			class_selected = _class_menu->set_mouse_selected(
-				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-		else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
-
-			// We have selected something from the menu
-			if (class_selected) {
-
-				switch (const MenuItem option_chosen{(*class_selected.value()).item}) {
-				case MenuItem::CC_SAMURAI:
-					_candidate.set_class(CharacterClass::SAMURAI);
-					break;
-				case MenuItem::CC_FIGHTER:
-					_candidate.set_class(CharacterClass::FIGHTER);
-					break;
-				case MenuItem::CC_LORD:
-					_candidate.set_class(CharacterClass::LORD);
-					break;
-				case MenuItem::CC_THIEF:
-					_candidate.set_class(CharacterClass::THIEF);
-					break;
-				case MenuItem::CC_NINJA:
-					_candidate.set_class(CharacterClass::NINJA);
-					break;
-				case MenuItem::CC_PRIEST:
-					_candidate.set_class(CharacterClass::PRIEST);
-					break;
-				case MenuItem::CC_BISHOP:
-					_candidate.set_class(CharacterClass::BISHOP);
-					break;
-				case MenuItem::CC_MAGE:
-					_candidate.set_class(CharacterClass::MAGE);
-					break;
-
-				default:
-					break;
-				}
-
-				_go_to_next_stage();
-				return std::nullopt;
-			}
-		}
-
-		_set_info_panel_contents(_class_menu->selected);
-		return std::nullopt;
-	}
-
-	return std::nullopt;
 }

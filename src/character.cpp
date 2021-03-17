@@ -259,6 +259,16 @@ auto Sorcery::Character::set_attribute(const CharacterAttribute attribute, const
 	_cur_attr.at(attribute) += adjustment;
 }
 
+auto Sorcery::Character::get_potrait_index() const -> unsigned int {
+
+	return _portrait_index;
+}
+
+auto Sorcery::Character::set_potrait_index(const unsigned int value) -> void {
+
+	_portrait_index = value;
+}
+
 auto Sorcery::Character::set_starting_attributes() -> void {
 
 	_start_attr.clear();

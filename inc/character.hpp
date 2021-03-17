@@ -80,6 +80,8 @@ namespace Sorcery {
 		auto get_starting_attribute(const CharacterAttribute attribute) const -> unsigned int;
 		auto set_attribute(const CharacterAttribute attribute, const int adjustment) -> void;
 		auto get_icon(CharacterStage type) -> std::optional<sf::Sprite>;
+		auto get_potrait_index() const -> unsigned int;
+		auto set_potrait_index(const unsigned int value) -> void;
 
 		// Public Members
 		std::map<std::string, sf::Sprite> sprites;

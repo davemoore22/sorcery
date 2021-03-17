@@ -59,7 +59,7 @@
 	</File>
 	<File name="src/create.cpp" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="7165" topLine="187" />
+			<Cursor1 position="21775" topLine="640" />
 		</Cursor>
 	</File>
 	<File name="doc/COMPILE" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -157,7 +157,7 @@
 			<Cursor1 position="1525" topLine="48" />
 		</Cursor>
 	</File>
-	<File name="src/character.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/character.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="10671" topLine="329" />
 		</Cursor>
@@ -192,7 +192,7 @@
 			<Cursor1 position="1544" topLine="23" />
 		</Cursor>
 	</File>
-	<File name="src/iconstore.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/iconstore.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="2286" topLine="52" />
 		</Cursor>
