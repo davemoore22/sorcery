@@ -30,8 +30,8 @@ Sorcery::Character::Character() {}
 Sorcery::Character::Character(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
-	set_stage(CharacterStage::NOT_BEGUN);
-	_display->generate_components("character_create_stage_1", sprites, texts, frames);
+	set_stage(CharacterStage::CHOOSE_METHOD);
+	_display->generate_components("choose_method", sprites, texts, frames);
 }
 
 // Note for the copy constuctors we only copy the character data/PODs within
@@ -126,7 +126,7 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 
 	// As well as a summary display of character (to be displayed where?)
 	switch (stage) {
-	case CharacterStage::NOT_BEGUN:
+	case CharacterStage::CHOOSE_METHOD:
 		_name.clear();
 		_race = CharacterRace::NONE;
 		_alignment = CharacterAlignment::NONE;
@@ -152,6 +152,10 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 	}
 
 	switch (stage) {
+	case CharacterStage::CHOOSE_METHOD:
+		_display->generate_components("choose_method", sprites, texts, frames);
+		_display->window->input_mode = WindowInputMode::NORMAL;
+		break;
 	case CharacterStage::ENTER_NAME:
 		_display->generate_components("character_create_stage_1", sprites, texts, frames);
 		_display->window->input_mode = WindowInputMode::INPUT_TEXT;

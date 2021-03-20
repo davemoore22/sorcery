@@ -120,6 +120,7 @@ namespace Sorcery {
 	using ComponentType = Enums::Window::ComponentType;
 	using Colour = Enums::Display::Colour;
 	using ConfigOption = Enums::Options;
+	using CreateMethod = Enums::Manage::Method;
 	using FileType = Enums::File::Type;
 	using FontType = Enums::Internal::FontType;
 	using GameMenuType = Enums::GameMenu::Type;

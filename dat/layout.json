@@ -1068,6 +1068,107 @@
 		]
 	},
 	{
+		"name": "choose_method",
+		"component": [
+			{
+				"name": "stage_frame",
+				"w": "40",
+				"h": "2",
+				"x": "centre",
+				"y": "7",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "2"
+			},
+			{
+				"name": "title_text",
+				"x": "centre",
+				"y": "8",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHOOSE_METHOD",
+				"justification": "centre",
+				"type": "text",
+				"priority": "3"
+			},
+			{
+				"name": "choice_frame",
+				"w": "38",
+				"h": "14",
+				"x": "centre",
+				"y": "12",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "full_method",
+				"x": "27",
+				"y": "22",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "FULL_CHARACTER_CREATION",
+				"justification": "centre",
+				"type": "text",
+				"priority": "3"
+			},
+			{
+				"name": "quick_method",
+				"x": "40",
+				"y": "22",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "QUICK_CHARACTER_CREATION",
+				"justification": "centre",
+				"type": "text",
+				"priority": "3"
+			},
+			{
+				"name": "random_method",
+				"x": "53",
+				"y": "22",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "RANDOM_CHARACTER_CREATION",
+				"justification": "centre",
+				"type": "text",
+				"priority": "3"
+			},
+			{
+				"name": "full_icon",
+				"x": "22",
+				"y": "13",
+				"scale": "0.4",
+				"type": "image",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "quick_icon",
+				"x": "35",
+				"y": "13",
+				"scale": "0.4",
+				"type": "image",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "random_icon",
+				"x": "48",
+				"y": "13",
+				"scale": "0.4",
+				"type": "image",
+				"priority": "3",
+				"drawmode": "manual"
+			}
+		]
+	},
+	{
 		"name": "character_create_stage_1",
 		"component": [
 		{

@@ -63,6 +63,7 @@ namespace Sorcery {
 		auto _go_to_next_stage() -> void;
 		auto _go_to_previous_stage() -> void;
 		auto _handle_allocate_attributes(const sf::Event &event) -> std::optional<ModuleResult>;
+		auto _handle_choose_create_method(const sf::Event &event) -> std::optional<ModuleResult>;
 		auto _handle_choose_name(const sf::Event &event) -> std::optional<ModuleResult>;
 		auto _handle_choose_race(const sf::Event &event) -> std::optional<ModuleResult>;
 		auto _handle_choose_alignment(const sf::Event &event) -> std::optional<ModuleResult>;
@@ -101,5 +102,7 @@ namespace Sorcery {
 		std::shared_ptr<AttributeDisplay> _ad;
 		std::vector<Character> _stages;
 		std::array<std::optional<std::variant<sf::Text, sf::Sprite>>, 5> _progress;
+		std::array<std::pair<Component, sf::Sprite>, 3> _method_icons;
+		CreateMethod _method;
 	};
 } // namespace Sorcery

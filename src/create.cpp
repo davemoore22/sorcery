@@ -70,8 +70,17 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 	_stages.clear();
 	_candidate = Character(_system, _display, _graphics);
 
+	// Set up the Progress Display
 	for (auto &progress : _progress)
 		progress = std::nullopt;
+
+	// Get the Create Choice Icons
+	_method_icons[0].first = (*_display->layout)["choose_method:full_icon"];
+	_method_icons[0].second = (*_graphics->icons)["full_creation"].value();
+	_method_icons[1].first = (*_display->layout)["choose_method:quick_icon"];
+	_method_icons[1].second = (*_graphics->icons)["quick_creation"].value();
+	_method_icons[2].first = (*_display->layout)["choose_method:random_icon"];
+	_method_icons[2].second = (*_graphics->icons)["random_creation"].value();
 }
 
 // Standard Destructor
@@ -100,13 +109,13 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 	_ap->setPosition(_ap_c.x, _ap_c.y);
 
 	const Component name_c{(*_display->layout)["character_create_stage_1:name_candidate"]};
-	_candidate.set_stage(CharacterStage::ENTER_NAME);
+	_candidate.set_stage(CharacterStage::CHOOSE_METHOD);
 
 	// Clear the window
 	_window->clear();
 
-	// Will need to change this for the seven screens as needed
-	_display->window->input_mode = WindowInputMode::INPUT_TEXT;
+	_display->window->input_mode = WindowInputMode::NORMAL;
+	_method = CreateMethod::FULL;
 
 	auto module_result = _do_event_loop();
 	if (module_result == ModuleResult::EXIT)
@@ -159,7 +168,9 @@ auto Sorcery::Create::_handle_input(const sf::Event &event) -> std::optional<Mod
 		return ModuleResult::EXIT;
 	else if (_system->input->check_for_event(WindowInput::CANCEL, event))
 		return ModuleResult::CANCEL;
-	if (_candidate.get_stage() == CharacterStage::ENTER_NAME)
+	if (_candidate.get_stage() == CharacterStage::CHOOSE_METHOD)
+		return _handle_choose_create_method(event);
+	else if (_candidate.get_stage() == CharacterStage::ENTER_NAME)
 		return _handle_choose_name(event);
 	else if (_candidate.get_stage() == CharacterStage::CHOOSE_RACE)
 		return _handle_choose_race(event);
@@ -175,6 +186,12 @@ auto Sorcery::Create::_handle_input(const sf::Event &event) -> std::optional<Mod
 		return _handle_review_and_confirm(event);
 	else
 		return std::nullopt;
+}
+
+auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event)
+	-> std::optional<ModuleResult> {
+
+	return std::nullopt;
 }
 
 auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::optional<ModuleResult> {
@@ -555,6 +572,13 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event)
 auto Sorcery::Create::_go_to_previous_stage() -> void {
 
 	switch (_candidate.get_stage()) {
+	case CharacterStage::ENTER_NAME: {
+		auto popped = _stages.back();
+		_candidate = popped;
+		_candidate.set_stage(CharacterStage::CHOOSE_METHOD);
+		_stages.pop_back();
+		_display->window->input_mode = WindowInputMode::NORMAL;
+	} break;
 	case CharacterStage::CHOOSE_RACE: {
 		auto popped = _stages.back();
 		_candidate = popped;
@@ -614,6 +638,16 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 auto Sorcery::Create::_go_to_next_stage() -> void {
 
 	switch (_candidate.get_stage()) {
+	case CharacterStage::CHOOSE_METHOD: {
+
+		auto to_push(_candidate);
+		_stages.emplace_back(to_push);
+
+		_candidate.set_stage(CharacterStage::CHOOSE_METHOD);
+		_display->window->input_mode = WindowInputMode::INPUT_TEXT;
+		// depending on method will need to skip ahead, generate random etc
+	} break;
+
 	case CharacterStage::ENTER_NAME: {
 		auto to_push(_candidate);
 		_stages.emplace_back(to_push);
@@ -671,6 +705,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 auto Sorcery::Create::_set_progress_panel_contents() -> void {
 
 	switch (_candidate.get_stage()) {
+	case CharacterStage::CHOOSE_METHOD:
 	case CharacterStage::ENTER_NAME: {
 		for (auto &progress : _progress)
 			progress = std::nullopt;
@@ -786,7 +821,20 @@ auto Sorcery::Create::_draw() -> void {
 	_window->draw(_bg);
 
 	// And draw the current state of the character!
-	if (_candidate.get_stage() == CharacterStage::ENTER_NAME) {
+	if (_candidate.get_stage() == CharacterStage::CHOOSE_METHOD) {
+
+		_display->display_components(
+			"choose_method", _candidate.sprites, _candidate.texts, _candidate.frames);
+		double lerp{_graphics->animation->colour_lerp};
+		for (auto &icon : _method_icons) {
+
+			// set the icon colour via the lerp
+			icon.second.setPosition(icon.first.x, icon.first.y);
+			icon.second.setScale(icon.first.scale, icon.first.scale);
+			_window->draw(icon.second);
+		}
+
+	} else if (_candidate.get_stage() == CharacterStage::ENTER_NAME) {
 
 		_display->display_components(
 			"character_create_stage_1", _candidate.sprites, _candidate.texts, _candidate.frames);

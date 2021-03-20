@@ -153,6 +153,27 @@
 			"menu_item": "CR_HOBBIT",
 			"key": "hobbit",
 			"colour": "0xb8f4ffff"
+		},
+		{
+			"index": "22",
+			"filename": "dice-twenty-faces-twenty",
+			"menu_item": "CR_NONE",
+			"key": "random_creation",
+			"colour": "0xff2020ff"
+		},
+		{
+			"index": "23",
+			"filename": "skills",
+			"menu_item": "CR_NONE",
+			"key": "quick_creation",
+			"colour": "0x2020ffff"
+		},
+		{
+			"index": "24",
+			"filename": "calculator",
+			"menu_item": "CR_NONE",
+			"key": "full_creation",
+			"colour": "0x20ff20ff"
 		}
 	]
 }
