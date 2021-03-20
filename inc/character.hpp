@@ -109,6 +109,7 @@ namespace Sorcery {
 		auto _get_spells_known(SpellType spell_type, unsigned int spell_level) -> unsigned int;
 		auto _get_xp_for_level(unsigned int level) const -> int;
 		auto _create_spell_lists() -> void;
+		auto _create_random() -> void;
 
 		// Private Members
 		System *_system;
@@ -135,6 +136,6 @@ namespace Sorcery {
 		CharacterClassQualified _pos_classes;
 		CharacterClassList _class_list;
 		unsigned int _num_pos_classes;
-		int _portrait_index;
+		unsigned int _portrait_index;
 	};
 } // namespace Sorcery

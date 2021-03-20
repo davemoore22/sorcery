@@ -53,6 +53,9 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 	_ad_c = Component((*_display->layout)["create:stage_4_attribute_display"]);
 	// need component for portrait picker
 
+	// Get the Texture for the Potraits
+	_potrait_texture = &system->resources->textures[GraphicsTexture::PORTRAITS];
+
 	// Menus
 	_race_menu =
 		std::make_shared<Menu>(_system, _display, _graphics, MenuType::CHOOSE_CHARACTER_RACE);
@@ -883,9 +886,13 @@ auto Sorcery::Create::_draw() -> void {
 		_display->display_components(
 			"character_create_stage_6", _candidate.sprites, _candidate.texts, _candidate.frames);
 
-		// double lerp{_graphics->animation->colour_lerp};
+		sf::Sprite portrait = _get_character_portrait(_candidate.get_potrait_index()).value();
+		portrait.setPosition((*_display->layout)["character_create_stage_6:current_portrait"].x,
+			(*_display->layout)["character_create_stage_6:current_portrait"].y);
+		portrait.setScale((*_display->layout)["character_create_stage_6:current_portrait"].scale,
+			(*_display->layout)["character_create_stage_6:current_portrait"].scale);
 
-		// todo stuff here
+		_window->draw(portrait);
 
 		// And the Attribute Bar
 		if (_ad->valid) {
@@ -910,4 +917,19 @@ auto Sorcery::Create::_draw() -> void {
 
 	// And finally the Cursor
 	_display->display_cursor();
+}
+
+auto Sorcery::Create::_get_character_portrait(const unsigned int index)
+	-> std::optional<sf::Sprite> {
+
+	// Workout the location of the potrait on the texture, noting that the potraits are all square
+	// and are 600x600 pixels in size arranged in a grid of 6 by 5
+	sf::Vector2u top_left{(index / 6) * 600, (index % 6) * 600};
+	sf::IntRect rect = sf::IntRect(top_left.x, top_left.y, 600, 600);
+
+	// Grab the associated part of the texture and return it
+	sf::Sprite portrait(_system->resources->textures[GraphicsTexture::PORTRAITS]);
+	portrait.setTextureRect(rect);
+
+	return portrait;
 }

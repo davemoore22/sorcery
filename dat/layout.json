@@ -1597,6 +1597,16 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "automatic"
+		},
+		{
+			"name": "current_portrait",
+			"x": "32",
+			"y": "12",
+			"scale" : "0.7",
+			"alpha": "255",
+			"type": "image",
+			"priority": "6",
+			"drawmode": "manual"
 		}
 		]
 	}

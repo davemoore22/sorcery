@@ -157,9 +157,9 @@
 			<Cursor1 position="1525" topLine="48" />
 		</Cursor>
 	</File>
-	<File name="src/character.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/character.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="10671" topLine="329" />
+			<Cursor1 position="10721" topLine="320" />
 		</Cursor>
 	</File>
 	<File name="src/component.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -192,9 +192,9 @@
 			<Cursor1 position="1544" topLine="23" />
 		</Cursor>
 	</File>
-	<File name="src/iconstore.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/iconstore.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2286" topLine="52" />
+			<Cursor1 position="2228" topLine="49" />
 		</Cursor>
 	</File>
 	<File name="src/engine.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -262,9 +262,9 @@
 			<Cursor1 position="4629" topLine="18" />
 		</Cursor>
 	</File>
-	<File name="src/keyboard.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/keyboard.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1733" topLine="30" />
+			<Cursor1 position="1227" topLine="15" />
 		</Cursor>
 	</File>
 	<File name="src/main.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

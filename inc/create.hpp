@@ -59,6 +59,7 @@ namespace Sorcery {
 		// Private Methods
 		auto _draw() -> void;
 		auto _do_event_loop() -> std::optional<ModuleResult>;
+		auto _get_character_portrait(const unsigned int index) -> std::optional<sf::Sprite>;
 		auto _go_to_next_stage() -> void;
 		auto _go_to_previous_stage() -> void;
 		auto _handle_allocate_attributes(const sf::Event &event) -> std::optional<ModuleResult>;
@@ -80,6 +81,7 @@ namespace Sorcery {
 		Graphics *_graphics;
 		sf::RenderWindow *_window;
 		sf::Sprite _bg;
+		sf::Texture *_potrait_texture;
 		Character _candidate;
 		Component _name_c;
 		Component _keyb_c;
