@@ -907,7 +907,7 @@
 			"drawmode" : "manual"
 		},
 		{
-			"name": "stage_1_frame",
+			"name": "stage_1_frame_progress",
 			"w": "10",
 			"h": "10",
 			"x": "1",
@@ -917,7 +917,7 @@
 			"priority": "2"
 		},
 		{
-			"name": "stage_2_frame",
+			"name": "stage_2_frame_progress",
 			"w": "10",
 			"h": "10",
 			"x": "1",
@@ -927,7 +927,7 @@
 			"priority": "2"
 		},
 		{
-			"name": "stage_3_frame",
+			"name": "stage_3_frame_progress",
 			"w": "10",
 			"h": "10",
 			"x": "1",
@@ -937,7 +937,7 @@
 			"priority": "2"
 		},
 		{
-			"name": "stage_4_frame",
+			"name": "stage_4_frame_progress",
 			"w": "10",
 			"h": "24",
 			"x": "67",
@@ -947,7 +947,7 @@
 			"priority": "2"
 		},
 		{
-			"name": "stage_5_frame",
+			"name": "stage_5_frame_progress",
 			"w": "10",
 			"h": "10",
 			"x": "67",
@@ -957,7 +957,7 @@
 			"priority": "2"
 		},
 		{
-			"name": "stage_1_name",
+			"name": "stage_1_name_progress",
 			"x": "7",
 			"y": "7",
 			"font": "proportional",
@@ -970,7 +970,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "stage_1_summary",
+			"name": "stage_1_summary_progress",
 			"x": "7",
 			"y": "3",
 			"font": "monospace",
@@ -991,7 +991,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "stage_2_summary",
+			"name": "stage_2_summary_progress",
 			"x": "7",
 			"y": "14",
 			"font": "monospace",
@@ -1012,7 +1012,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "stage_3_summary",
+			"name": "stage_3_summary_progress",
 			"x": "7",
 			"y": "25",
 			"font": "monospace",
@@ -1024,7 +1024,7 @@
 			"priority": "4"
 		},
 		{
-			"name": "stage_4_summary",
+			"name": "stage_4_summary_progress",
 			"x": "73",
 			"y": "3",
 			"font": "monospace",
@@ -1045,7 +1045,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "stage_5_summary",
+			"name": "stage_5_summary_progress",
 			"x": "73",
 			"y": "25",
 			"font": "monospace",

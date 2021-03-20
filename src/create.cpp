@@ -215,6 +215,12 @@ auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event)
 		return ModuleResult::NEXT;
 	else if (_system->input->check_for_event(WindowInput::MOVE, event)) {
 		sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
+		if (_method_icons[0].second.getGlobalBounds().contains(mouse_pos))
+			_method = CreateMethod::FULL;
+		else if (_method_icons[1].second.getGlobalBounds().contains(mouse_pos))
+			_method = CreateMethod::QUICK;
+		else if (_method_icons[2].second.getGlobalBounds().contains(mouse_pos))
+			_method = CreateMethod::RANDOM;
 	}
 
 	return std::nullopt;
@@ -853,7 +859,7 @@ auto Sorcery::Create::_draw() -> void {
 	std::string display_name{};
 
 	// Display Components
-	_display->display_components("create");
+	_display->display_components("create", _candidate.get_stage());
 
 	// Custom Layering
 	_window->draw(_bg);
@@ -991,8 +997,8 @@ auto Sorcery::Create::_draw() -> void {
 		if (item) {
 			if (std::holds_alternative<sf::Text>(item.value())) {
 				auto text{std::get<sf::Text>(item.value())};
-				_display->window->draw_text(
-					text, (*_display->layout)["create:stage_1_name"], _candidate.get_name());
+				_display->window->draw_text(text,
+					(*_display->layout)["create:stage_1_name_progress"], _candidate.get_name());
 			} else if (std::holds_alternative<sf::Sprite>(item.value())) {
 				auto sprite{std::get<sf::Sprite>(item.value())};
 				_window->draw(sprite);
