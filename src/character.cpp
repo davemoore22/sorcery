@@ -31,15 +31,14 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	set_stage(CharacterStage::CHOOSE_METHOD);
-	_display->generate_components("choose_method", sprites, texts, frames);
 }
 
 // Note for the copy constuctors we only copy the character data/PODs within
 Sorcery::Character::Character(const Character &other)
-	: sprites{other.sprites}, texts{other.texts}, frames{other.frames}, _system{other._system},
-	  _display{other._display}, _graphics{other._graphics}, _abilities{other._abilities},
-	  _cleric_max_sp{other._cleric_max_sp}, _cleric_cur_sp{other._cleric_cur_sp},
-	  _mage_max_sp{other._mage_max_sp}, _mage_cur_sp{other._mage_cur_sp}, _spells{other._spells},
+	: _system{other._system}, _display{other._display}, _graphics{other._graphics},
+	  _abilities{other._abilities}, _cleric_max_sp{other._cleric_max_sp},
+	  _cleric_cur_sp{other._cleric_cur_sp}, _mage_max_sp{other._mage_max_sp},
+	  _mage_cur_sp{other._mage_cur_sp}, _spells{other._spells},
 	  _current_stage{other._current_stage}, _name{other._name}, _race{other._race},
 	  _class{other._class}, _alignment{other._alignment}, _start_attr{other._start_attr},
 	  _cur_attr{other._cur_attr}, _max_attr{other._max_attr}, _view{other._view},
@@ -48,10 +47,6 @@ Sorcery::Character::Character(const Character &other)
 	  _num_pos_classes{other._num_pos_classes}, _portrait_index{other._portrait_index} {}
 
 auto Sorcery::Character::operator=(const Character &other) -> Character & {
-
-	sprites = other.sprites;
-	texts = other.texts;
-	frames = other.frames;
 
 	_system = other._system;
 	_display = other._display;
@@ -147,39 +142,6 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 		_mage_cur_sp.clear();
 		_spells.clear();
 		_create_spell_lists();
-	default:
-		break;
-	}
-
-	switch (stage) {
-	case CharacterStage::CHOOSE_METHOD:
-		_display->generate_components("choose_method", sprites, texts, frames);
-		_display->window->input_mode = WindowInputMode::NORMAL;
-		break;
-	case CharacterStage::ENTER_NAME:
-		_display->generate_components("character_create_stage_1", sprites, texts, frames);
-		_display->window->input_mode = WindowInputMode::INPUT_TEXT;
-		break;
-	case CharacterStage::CHOOSE_RACE:
-		_display->generate_components("character_create_stage_2", sprites, texts, frames);
-		_display->window->input_mode = WindowInputMode::NORMAL;
-		break;
-	case CharacterStage::CHOOSE_ALIGNMENT:
-		_display->generate_components("character_create_stage_3", sprites, texts, frames);
-		_display->window->input_mode = WindowInputMode::NORMAL;
-		break;
-	case CharacterStage::ALLOCATE_STATS:
-		_display->generate_components("character_create_stage_4", sprites, texts, frames);
-		_display->window->input_mode = WindowInputMode::ALLOCATE_STATS;
-		break;
-	case CharacterStage::CHOOSE_CLASS:
-		_display->generate_components("character_create_stage_5", sprites, texts, frames);
-		_display->window->input_mode = WindowInputMode::NORMAL;
-		break;
-	case CharacterStage::CHOOSE_PORTRAIT:
-		_display->generate_components("character_create_stage_6", sprites, texts, frames);
-		_display->window->input_mode = WindowInputMode::NORMAL; // TODO
-		break;
 	default:
 		break;
 	}

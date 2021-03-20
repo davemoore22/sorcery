@@ -200,7 +200,7 @@ namespace Sorcery {
 
 		enum Category { MANAGE, CREATE, IMPORT };
 
-		enum Method { QUICK, FULL, RANDOM };
+		enum Method { FULL = 0, QUICK = 1, RANDOM = 2 };
 
 		enum Import { WIZARDRY, BARDS_TALE, ULTIMA };
 	} // namespace Enums::Manage

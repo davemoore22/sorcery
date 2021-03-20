@@ -1146,7 +1146,15 @@
 				"scale": "0.4",
 				"type": "image",
 				"priority": "3",
-				"drawmode": "manual"
+				"drawmode": "manual",
+				"animated" : "true",
+				"background": "0x6060c8ff",
+				"colour": "0x20ff20ff",
+				"data": [
+					{
+					"method": "0"
+					}
+				]
 			},
 			{
 				"name": "quick_icon",
@@ -1155,7 +1163,15 @@
 				"scale": "0.4",
 				"type": "image",
 				"priority": "3",
-				"drawmode": "manual"
+				"drawmode": "manual",
+				"animated" : "true",
+				"background": "0x6060c8ff",
+				"colour": "0x2020ffff",
+				"data": [
+					{
+					"method": "1"
+					}
+				]
 			},
 			{
 				"name": "random_icon",
@@ -1164,7 +1180,15 @@
 				"scale": "0.4",
 				"type": "image",
 				"priority": "3",
-				"drawmode": "manual"
+				"drawmode": "manual",
+				"animated" : "true",
+				"background": "0x6060c8ff",
+				"colour": "0xff2020ff",
+				"data": [
+					{
+					"method": "2"
+					}
+				]
 			}
 		]
 	},

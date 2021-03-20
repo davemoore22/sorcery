@@ -104,5 +104,8 @@ namespace Sorcery {
 		std::array<std::optional<std::variant<sf::Text, sf::Sprite>>, 5> _progress;
 		std::array<std::pair<Component, sf::Sprite>, 3> _method_icons;
 		CreateMethod _method;
+		std::map<std::string, sf::Sprite> _sprites;
+		std::map<std::string, sf::Text> _texts;
+		std::map<std::string, std::shared_ptr<Frame>> _frames;
 	};
 } // namespace Sorcery

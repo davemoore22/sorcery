@@ -84,9 +84,6 @@ namespace Sorcery {
 		auto set_potrait_index(const unsigned int value) -> void;
 
 		// Public Members
-		std::map<std::string, sf::Sprite> sprites;
-		std::map<std::string, sf::Text> texts;
-		std::map<std::string, std::shared_ptr<Frame>> frames;
 
 		// Public Methods
 
