@@ -875,6 +875,20 @@
 			"priority": "2"
 		},
 		{
+			"name": "left_method_icon",
+			"x": "20",
+			"y": "7",
+			"scale": "0.1",
+			"drawmode": "manual"
+		},
+		{
+			"name": "right_method_icon",
+			"x": "57",
+			"y": "7",
+			"scale": "0.1",
+			"drawmode": "manual"
+		},
+		{
 			"name": "title_frame",
 			"w": "20",
 			"h": "2",
@@ -1149,7 +1163,7 @@
 				"drawmode": "manual",
 				"animated" : "true",
 				"background": "0x6060c8ff",
-				"colour": "0x20ff20ff",
+				"colour": "0x80ff80ff",
 				"data": [
 					{
 					"method": "0"
@@ -1166,7 +1180,7 @@
 				"drawmode": "manual",
 				"animated" : "true",
 				"background": "0x6060c8ff",
-				"colour": "0x2020ffff",
+				"colour": "0x8080ffff",
 				"data": [
 					{
 					"method": "1"
@@ -1183,7 +1197,7 @@
 				"drawmode": "manual",
 				"animated" : "true",
 				"background": "0x6060c8ff",
-				"colour": "0xff2020ff",
+				"colour": "0xff8080ff",
 				"data": [
 					{
 					"method": "2"
@@ -1692,7 +1706,7 @@
 		"component": [
 		{
 			"name": "stage_frame",
-			"w": "36",
+			"w": "40",
 			"h": "2",
 			"x": "centre",
 			"y": "7",
@@ -1714,8 +1728,8 @@
 		},
 		{
 			"name": "portrait_frame",
-			"w": "21",
-			"h": "21",
+			"w": "23",
+			"h": "22",
 			"x": "centre",
 			"y": "11",
 			"alpha": "255",
@@ -1725,7 +1739,7 @@
 		},
 		{
 			"name": "current_portrait",
-			"x": "32",
+			"x": "30",
 			"y": "12",
 			"scale" : "0.7",
 			"alpha": "255",

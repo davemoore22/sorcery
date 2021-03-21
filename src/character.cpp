@@ -1722,9 +1722,9 @@ _display.screen->load_from_offscreen(_character_bg, summary_loc);
 */
 //}
 
-// Create a (semi) random character
-auto Sorcery::Character::create_random() -> void {
+auto Sorcery::Character::create_quick() -> void {
 
+	// Enter Name and Portrait, rest is random
 	// Exclude Samurai/Lord/Ninja/Bishop from this method of character creation
 	_class = {static_cast<CharacterClass>((*_system->random)[RandomType::D4])};
 	_race = {static_cast<CharacterRace>((*_system->random)[RandomType::D5])};
@@ -1815,6 +1815,12 @@ auto Sorcery::Character::create_random() -> void {
 		_start_attr[CharacterAttribute::VITALITY] += _points_left;
 
 	_cur_attr = _start_attr;
+}
+
+// Create a (semi) random character
+auto Sorcery::Character::create_random() -> void {
+
+	// Random Name and Portrait
 }
 
 // For level draining, optionally keep a track of negative levels unless in strict mode

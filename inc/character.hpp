@@ -58,6 +58,7 @@ namespace Sorcery {
 		auto get_race(const CharacterRace race) const -> std::string;
 		auto get_class(const CharacterClass cclass) const -> std::string;
 		auto create_random() -> void;
+		auto create_quick() -> void;
 		auto set_starting_attributes() -> void;
 
 		auto get_name() const -> std::string;
@@ -106,7 +107,6 @@ namespace Sorcery {
 		auto _get_spells_known(SpellType spell_type, unsigned int spell_level) -> unsigned int;
 		auto _get_xp_for_level(unsigned int level) const -> int;
 		auto _create_spell_lists() -> void;
-		auto _create_random() -> void;
 
 		// Private Members
 		System *_system;

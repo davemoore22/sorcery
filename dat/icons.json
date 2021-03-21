@@ -159,21 +159,21 @@
 			"filename": "dice-twenty-faces-twenty",
 			"menu_item": "CR_NONE",
 			"key": "random_creation",
-			"colour": "0xff2020ff"
+			"colour": "0xff8080ff"
 		},
 		{
 			"index": "23",
 			"filename": "skills",
 			"menu_item": "CR_NONE",
 			"key": "quick_creation",
-			"colour": "0x2020ffff"
+			"colour": "0x8080ffff"
 		},
 		{
 			"index": "24",
 			"filename": "calculator",
 			"menu_item": "CR_NONE",
 			"key": "full_creation",
-			"colour": "0x20ff20ff"
+			"colour": "0x80ff80ff"
 		}
 	]
 }

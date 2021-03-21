@@ -73,6 +73,9 @@ namespace Sorcery {
 	// Videos
 	inline constexpr auto MENU_VIDEO = "menu.mp4"sv;
 
+	// Miscellaneous Settings
+	inline constexpr auto MAX_PORTRAIT_INDEX = 29u;
+
 	// Game config settings
 	static const std::string DEFAULT_SCREEN_HEIGHT = {"default_height"};
 	static const std::string DEFAULT_SCREEN_WIDTH = {"default_width"};
