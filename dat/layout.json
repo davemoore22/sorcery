@@ -875,20 +875,6 @@
 			"priority": "2"
 		},
 		{
-			"name": "left_method_icon",
-			"x": "20",
-			"y": "7",
-			"scale": "0.1",
-			"drawmode": "manual"
-		},
-		{
-			"name": "right_method_icon",
-			"x": "57",
-			"y": "7",
-			"scale": "0.1",
-			"drawmode": "manual"
-		},
-		{
 			"name": "title_frame",
 			"w": "20",
 			"h": "2",

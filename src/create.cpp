@@ -82,8 +82,6 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 	_method_icons[2].first = (*_display->layout)["choose_method:random_icon"];
 	_method_icons[2].second = (*_graphics->icons)["random_creation"].value();
 
-	_method_icons_display = _method_icons;
-
 	_frames.clear();
 	_texts.clear();
 	_sprites.clear();
@@ -224,20 +222,6 @@ auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event)
 		else if (_method_icons[2].second.getGlobalBounds().contains(mouse_pos))
 			_method = CreateMethod::RANDOM;
 	}
-
-	_l_method_icon = _method_icons_display[_method].second;
-	_l_method_icon.setPosition((*_display->layout)["create:left_method_icon"].x,
-		(*_display->layout)["create:left_method_icon"].y +
-			(_display->window->get_cell_height() / 2));
-	_l_method_icon.setScale((*_display->layout)["create:left_method_icon"].scale,
-		(*_display->layout)["create:left_method_icon"].scale);
-	_r_method_icon = _method_icons_display[_method].second;
-	_r_method_icon.setPosition((*_display->layout)["create:right_method_icon"].x +
-								   (_display->window->get_cell_width() / 2),
-		(*_display->layout)["create:right_method_icon"].y +
-			(_display->window->get_cell_height() / 2));
-	_r_method_icon.setScale((*_display->layout)["create:right_method_icon"].scale,
-		(*_display->layout)["create:right_method_icon"].scale);
 
 	return std::nullopt;
 }
@@ -989,8 +973,6 @@ auto Sorcery::Create::_draw() -> void {
 		// Draw the On Screen Keyboard
 		_keyboard->set_selected_background();
 		_window->draw(*_keyboard);
-		_window->draw(_l_method_icon);
-		_window->draw(_r_method_icon);
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_RACE) {
 
 		_display->display_components("character_create_stage_2", _sprites, _texts, _frames);
@@ -1007,8 +989,6 @@ auto Sorcery::Create::_draw() -> void {
 			_ip->setPosition(_ip_race_c.x, _ip_race_c.y);
 			_window->draw(*_ip);
 		}
-		_window->draw(_l_method_icon);
-		_window->draw(_r_method_icon);
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_ALIGNMENT) {
 
 		_display->display_components("character_create_stage_3", _sprites, _texts, _frames);
@@ -1025,8 +1005,6 @@ auto Sorcery::Create::_draw() -> void {
 			_ip->setPosition(_ip_alignment_c.x, _ip_alignment_c.y);
 			_window->draw(*_ip);
 		}
-		_window->draw(_l_method_icon);
-		_window->draw(_r_method_icon);
 	} else if (_candidate.get_stage() == CharacterStage::ALLOCATE_STATS) {
 
 		_display->display_components("character_create_stage_4", _sprites, _texts, _frames);
@@ -1048,8 +1026,6 @@ auto Sorcery::Create::_draw() -> void {
 			_ip->setPosition(_ip_attribute_c.x, _ip_attribute_c.y);
 			_window->draw(*_ip);
 		}
-		_window->draw(_l_method_icon);
-		_window->draw(_r_method_icon);
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_CLASS) {
 		_display->display_components("character_create_stage_5", _sprites, _texts, _frames);
 
@@ -1076,8 +1052,6 @@ auto Sorcery::Create::_draw() -> void {
 			_ad->setPosition(_ad_c.x, _ad_c.y);
 			_window->draw(*_ad);
 		}
-		_window->draw(_l_method_icon);
-		_window->draw(_r_method_icon);
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_PORTRAIT) {
 
 		_display->display_components("character_create_stage_6", _sprites, _texts, _frames);
@@ -1095,8 +1069,6 @@ auto Sorcery::Create::_draw() -> void {
 			_ad->setPosition(_ad_c.x, _ad_c.y);
 			_window->draw(*_ad);
 		}
-		_window->draw(_l_method_icon);
-		_window->draw(_r_method_icon);
 	}
 
 	// Draw the progress bars (TODO: can't use a visit lambda here for some reason)

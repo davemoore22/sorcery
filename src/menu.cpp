@@ -362,8 +362,12 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
 		});
 		if (it != bounds.end()) {
 			auto dist{std::distance(bounds.begin(), it)};
-			selected = items.begin() + dist;
-			return selected;
+			auto candidate{items.begin() + dist};
+			if (candidate->enabled) {
+				selected = candidate;
+				return selected;
+			} else
+				return std::nullopt;
 		} else
 			return std::nullopt;
 	}
