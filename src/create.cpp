@@ -607,7 +607,8 @@ auto Sorcery::Create::_handle_choose_potraits(const sf::Event &event)
 			_candidate.set_potrait_index(++index);
 		else
 			_candidate.set_potrait_index(0);
-	}
+	} else if (_system->input->check_for_event(WindowInput::CONFIRM, event))
+		return ModuleResult::NEXT;
 
 	return std::nullopt;
 }
@@ -688,9 +689,13 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_ad->set();
 		} break;
 		case CharacterStage::REVIEW_AND_CONFIRM: {
-
+			auto popped = _stages.back();
+			_candidate = popped;
+			_candidate.set_stage(CharacterStage::CHOOSE_PORTRAIT);
 			_display->generate_components("character_create_stage_6", _sprites, _texts, _frames);
-			// TODO
+			_stages.pop_back();
+			_ap->valid = false;
+			_ad->set();
 		}
 		default:
 			break;
@@ -716,7 +721,15 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_ap->valid = false;
 			_ad->valid = false;
 		} break;
-
+		case CharacterStage::REVIEW_AND_CONFIRM: {
+			auto popped = _stages.back();
+			_candidate = popped;
+			_candidate.set_stage(CharacterStage::CHOOSE_PORTRAIT);
+			_display->generate_components("character_create_stage_6", _sprites, _texts, _frames);
+			_stages.pop_back();
+			_ap->valid = false;
+			_ad->set();
+		}
 		default:
 			break;
 		}
@@ -784,17 +797,18 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_display->generate_components("character_create_stage_6", _sprites, _texts, _frames);
 			_display->window->input_mode = WindowInputMode::NORMAL;
 			_candidate.set_potrait_index(0);
-			// set portrait class to default
 		} break;
 		case CharacterStage::CHOOSE_PORTRAIT: {
-			// TODO
-
+			auto to_push(_candidate);
+			_stages.emplace_back(to_push);
+			_candidate.set_stage(CharacterStage::REVIEW_AND_CONFIRM);
+			_display->generate_components("character_create_stage_7", _sprites, _texts, _frames);
+			_display->window->input_mode = WindowInputMode::NORMAL;
 		} break;
 		default:
 			break;
 		}
 	} else if (_method == CreateMethod::QUICK) {
-
 		switch (_candidate.get_stage()) {
 		case CharacterStage::CHOOSE_METHOD: {
 			auto to_push(_candidate);
@@ -816,8 +830,11 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_ap->valid = false;
 		} break;
 		case CharacterStage::CHOOSE_PORTRAIT: {
-			// TODO
-
+			auto to_push(_candidate);
+			_stages.emplace_back(to_push);
+			_candidate.set_stage(CharacterStage::REVIEW_AND_CONFIRM);
+			_display->generate_components("character_create_stage_7", _sprites, _texts, _frames);
+			_display->window->input_mode = WindowInputMode::NORMAL;
 		} break;
 		default:
 			break;
@@ -829,6 +846,7 @@ auto Sorcery::Create::_set_progress_panel_contents() -> void {
 
 	switch (_candidate.get_stage()) {
 	case CharacterStage::CHOOSE_METHOD:
+	case CharacterStage::REVIEW_AND_CONFIRM:
 	case CharacterStage::ENTER_NAME: {
 		for (auto &progress : _progress)
 			progress = std::nullopt;
@@ -933,24 +951,18 @@ auto Sorcery::Create::_set_info_panel_contents(std::vector<Sorcery::MenuEntry>::
 
 auto Sorcery::Create::_draw() -> void {
 
-	double lerp{_graphics->animation->colour_lerp};
-	sf::Text name_text;
-	std::string display_name{};
-
-	// Display Components
+	// Display Base Components
 	_display->display_components("create", _candidate.get_stage());
 
 	// Custom Layering
 	_window->draw(_bg);
 
 	// And draw the current state of the character!
+	double lerp{_graphics->animation->colour_lerp};
 	if (_candidate.get_stage() == CharacterStage::CHOOSE_METHOD) {
 
 		_display->display_components("choose_method", _sprites, _texts, _frames);
-		double lerp{_graphics->animation->colour_lerp};
 		for (auto &icon : _method_icons) {
-
-			// set the icon colour via the lerp
 			icon.second.setPosition(icon.first.x, icon.first.y);
 			icon.second.setScale(icon.first.scale, icon.first.scale);
 			if (std::stoi(icon.first["method"].value()) == _method)
@@ -965,9 +977,8 @@ auto Sorcery::Create::_draw() -> void {
 	} else if (_candidate.get_stage() == CharacterStage::ENTER_NAME) {
 
 		_display->display_components("character_create_stage_1", _sprites, _texts, _frames);
-
-		// TODO: use character-<draw for this!
-		display_name = _candidate.get_name() + "_";
+		std::string display_name{_candidate.get_name() + "_"};
+		sf::Text name_text;
 		_display->window->draw_text(name_text, _name_c, display_name, lerp);
 
 		// Draw the On Screen Keyboard
@@ -976,8 +987,6 @@ auto Sorcery::Create::_draw() -> void {
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_RACE) {
 
 		_display->display_components("character_create_stage_2", _sprites, _texts, _frames);
-
-		double lerp{_graphics->animation->colour_lerp};
 		_race_menu->generate((*_display->layout)["character_create_stage_2:menu"], lerp);
 		const sf::Vector2f menu_pos((*_display->layout)["character_create_stage_2:menu"].x,
 			(*_display->layout)["character_create_stage_2:menu"].y);
@@ -992,8 +1001,6 @@ auto Sorcery::Create::_draw() -> void {
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_ALIGNMENT) {
 
 		_display->display_components("character_create_stage_3", _sprites, _texts, _frames);
-
-		double lerp{_graphics->animation->colour_lerp};
 		_alignment_menu->generate((*_display->layout)["character_create_stage_3:menu"], lerp);
 		const sf::Vector2f menu_pos((*_display->layout)["character_create_stage_3:menu"].x,
 			(*_display->layout)["character_create_stage_3:menu"].y);
@@ -1008,8 +1015,6 @@ auto Sorcery::Create::_draw() -> void {
 	} else if (_candidate.get_stage() == CharacterStage::ALLOCATE_STATS) {
 
 		_display->display_components("character_create_stage_4", _sprites, _texts, _frames);
-
-		double lerp{_graphics->animation->colour_lerp};
 		_attribute_menu->generate((*_display->layout)["character_create_stage_4:menu"], lerp);
 		const sf::Vector2f menu_pos((*_display->layout)["character_create_stage_4:menu"].x,
 			(*_display->layout)["character_create_stage_4:menu"].y);
@@ -1028,8 +1033,6 @@ auto Sorcery::Create::_draw() -> void {
 		}
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_CLASS) {
 		_display->display_components("character_create_stage_5", _sprites, _texts, _frames);
-
-		double lerp{_graphics->animation->colour_lerp};
 		_class_menu->generate((*_display->layout)["character_create_stage_5:menu"], lerp);
 		const sf::Vector2f menu_pos((*_display->layout)["character_create_stage_5:menu"].x,
 			(*_display->layout)["character_create_stage_5:menu"].y);
@@ -1069,6 +1072,9 @@ auto Sorcery::Create::_draw() -> void {
 			_ad->setPosition(_ad_c.x, _ad_c.y);
 			_window->draw(*_ad);
 		}
+	} else if (_candidate.get_stage() == CharacterStage::REVIEW_AND_CONFIRM) {
+
+		_display->display_components("character_create_stage_7", _sprites, _texts, _frames);
 	}
 
 	// Draw the progress bars (TODO: can't use a visit lambda here for some reason)

@@ -1734,6 +1734,44 @@
 			"drawmode": "manual"
 		}
 		]
+	},
+	{
+		"name": "character_create_stage_7",
+		"component": [
+		{
+			"name": "stage_frame",
+			"w": "40",
+			"h": "2",
+			"x": "centre",
+			"y": "7",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "2"
+		},
+		{
+			"name": "title_text",
+			"x": "centre",
+			"y": "8",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CHARACTER_CREATION_STAGE7",
+			"justification": "centre",
+			"type": "text",
+			"priority": "3"
+		},
+		{
+			"name": "main_frame",
+			"w": "47",
+			"h": "25",
+			"x": "centre",
+			"y": "11",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "6",
+			"drawmode": "automatic"
+		}
+		]
 	}
 	]
   }

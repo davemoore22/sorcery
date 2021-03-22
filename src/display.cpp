@@ -181,6 +181,7 @@ auto Sorcery::Display::display_components(const std::string &screen,
 			window->get_window()->draw(sprite);
 	}
 
+	// Handle the different sized window frames in the town menu
 	for (auto &[unique_key, frame] : frames) {
 		if (screen == "castle") {
 			if (parameter) {
@@ -197,7 +198,8 @@ auto Sorcery::Display::display_components(const std::string &screen,
 			if (parameter) {
 				if (const CharacterStage character_stage{
 						std::any_cast<CharacterStage>(parameter.value())};
-					character_stage == CharacterStage::CHOOSE_METHOD) {
+					character_stage == CharacterStage::CHOOSE_METHOD ||
+					character_stage == CharacterStage::REVIEW_AND_CONFIRM) {
 					if ((unique_key.ends_with("_frame_progress")) ||
 						(unique_key.ends_with("_summary_progres")))
 						continue;
@@ -259,7 +261,8 @@ auto Sorcery::Display::display_components(const std::string &screen,
 			if (parameter) {
 				if (const CharacterStage character_stage{
 						std::any_cast<CharacterStage>(parameter.value())};
-					character_stage == CharacterStage::CHOOSE_METHOD) {
+					character_stage == CharacterStage::CHOOSE_METHOD ||
+					character_stage == CharacterStage::REVIEW_AND_CONFIRM) {
 					if ((unique_key.ends_with("_frame_progress")) ||
 						(unique_key.ends_with("_summary_progress")))
 						continue;
