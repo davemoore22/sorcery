@@ -43,7 +43,6 @@
 			<Add option="-Wfatal-errors" />
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
-			<Add option="-pg" />
 			<Add option="-pthread" />
 			<Add option="-Wl,-rpath=/usr/local/lib" />
 			<Add option="-fpic" />
@@ -62,7 +61,6 @@
 			<Add directory="inc/magicenum" />
 		</Compiler>
 		<Linker>
-			<Add option="-pg" />
 			<Add option="-lstdc++fs" />
 			<Add option="-lX11" />
 			<Add option="-lsfml-graphics" />

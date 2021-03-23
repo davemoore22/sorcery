@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1616250554 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1616450903 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -156,7 +156,7 @@
 	"resourcemanager.hpp"
 	"string.hpp"
 
-1614555760 /home/dave/Development/wizardry/sorcery-sfml/inc/random.hpp
+1616525870 /home/dave/Development/wizardry/sorcery-sfml/inc/random.hpp
 	"main.hpp"
 
 1614377195 /home/dave/Development/wizardry/sorcery-sfml/inc/file.hpp
@@ -284,7 +284,7 @@
 1614621062 source:/home/dave/Development/wizardry/sorcery-sfml/src/config.cpp
 	"config.hpp"
 
-1616447981 source:/home/dave/Development/wizardry/sorcery-sfml/src/create.cpp
+1616448348 source:/home/dave/Development/wizardry/sorcery-sfml/src/create.cpp
 	"create.hpp"
 
 1616446321 /home/dave/Development/wizardry/sorcery-sfml/inc/create.hpp
@@ -365,7 +365,7 @@
 1614377195 /home/dave/Development/wizardry/sorcery-sfml/inc/platform.hpp
 	"main.hpp"
 
-1614886521 source:/home/dave/Development/wizardry/sorcery-sfml/src/random.cpp
+1616527319 source:/home/dave/Development/wizardry/sorcery-sfml/src/random.cpp
 	"random.hpp"
 
 1615829824 source:/home/dave/Development/wizardry/sorcery-sfml/src/resourcemanager.cpp
@@ -635,4 +635,22 @@
 	"layout.hpp"
 	"main.hpp"
 	"system.hpp"
+
+1616448725 /home/dave/Development/wizardry/sorcery-sfml/inc/namegen/namegen.hpp
+	<stddef.h>
+	<iosfwd>
+	<memory>
+	<stack>
+	<string>
+	<unordered_map>
+	<vector>
+
+1577595938 /home/dave/Development/wizardry/sorcery-sfml/inc/namegen/namegen.h
+	<stddef.h>
+	<iosfwd>
+	<memory>
+	<stack>
+	<string>
+	<unordered_map>
+	<vector>
 

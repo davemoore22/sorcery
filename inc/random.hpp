@@ -39,6 +39,7 @@ namespace Sorcery {
 		auto operator[](const RandomType random_type) -> unsigned int;
 
 		// Public Methods
+		auto get_random_name() -> std::string;
 
 		// Public Members
 
@@ -47,6 +48,9 @@ namespace Sorcery {
 		std::random_device _device;
 		std::mt19937_64 _random;
 		std::map<RandomType, Range> _range;
+		std::vector<std::string> _sy1;
+		std::vector<std::string> _sy2;
+		std::vector<std::string> _sy3;
 
 		// Private Methods
 		auto _get(const RandomType random_type) -> unsigned int;

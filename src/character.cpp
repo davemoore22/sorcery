@@ -1821,6 +1821,9 @@ auto Sorcery::Character::create_quick() -> void {
 auto Sorcery::Character::create_random() -> void {
 
 	// Random Name and Portrait
+	create_quick();
+	_name = _system->random->get_random_name();
+	_portrait_index = (*_system->random)[RandomType::ZERO_TO_29];
 }
 
 // For level draining, optionally keep a track of negative levels unless in strict mode

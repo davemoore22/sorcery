@@ -14,6 +14,7 @@ instructions and a key reference guide.
 This software also uses the following libraries:
 
 - SFML https://www.sfml-dev.org/
+- jsoncpp https://github.com/open-source-parsers/jsoncpp
 - TGUI https://tgui.eu/
 - sfeMovie https://github.com/Yalir/sfeMovie
 - simpleini https://github.com/brofield/simpleini
@@ -28,11 +29,11 @@ as part of Sorcery, to these libraries (as per the declaration in each source fi
 Graphics used were from the following:
 
 - Banner - http://retro.land/wizardry-proving-grounds-of-the-mad-overlord/
-- Creatures - http://www.pekori.jp/~emonoya/index.htm (Windows Wizardry)
+- Creatures - http://www.pekori.jp/~emonoya/index.htm ( Ripped from Windows Wizardry)
 - Town Backgrounds - Ripped from SNES Wizardry Trilogy
 - Classes - https://game-icons.net/
 - Alignment - https://game-icons.net/
-- Character Potraits - https://opengameart.org/content/60-terrible-character-portraits
+- Character Potraits - https://opengameart.org/users/justin-nichol
 - GUI Elements - https://opengameart.org/content/rpg-gui-contstruction-kit-vmoon
 - Background Movie - https://www.youtube.com/watch?v=NoOqrAfm_Es
 - Background Texture - https://pxhere.com/en/photo/1457103
