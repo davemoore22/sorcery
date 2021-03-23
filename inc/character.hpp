@@ -81,8 +81,8 @@ namespace Sorcery {
 		auto get_starting_attribute(const CharacterAttribute attribute) const -> unsigned int;
 		auto set_attribute(const CharacterAttribute attribute, const int adjustment) -> void;
 		auto get_icon(CharacterStage type) -> std::optional<sf::Sprite>;
-		auto get_potrait_index() const -> unsigned int;
-		auto set_potrait_index(const unsigned int value) -> void;
+		auto get_portrait_index() const -> unsigned int;
+		auto set_portrait_index(const unsigned int value) -> void;
 
 		// Public Members
 
@@ -93,6 +93,7 @@ namespace Sorcery {
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _save() -> unsigned int;
 		auto _load(unsigned int character_id) -> void;
+		auto _generate() -> void;
 		auto _generate_starting_information() -> void;
 		auto _generate_secondary_abilities() -> void;
 		auto _set_starting_sp() -> void;
@@ -107,6 +108,7 @@ namespace Sorcery {
 		auto _get_spells_known(SpellType spell_type, unsigned int spell_level) -> unsigned int;
 		auto _get_xp_for_level(unsigned int level) const -> int;
 		auto _create_spell_lists() -> void;
+		auto _get_character_portrait() -> sf::Sprite;
 
 		// Private Members
 		System *_system;
@@ -134,5 +136,8 @@ namespace Sorcery {
 		CharacterClassList _class_list;
 		unsigned int _num_pos_classes;
 		unsigned int _portrait_index;
+		std::map<std::string, sf::Sprite> _sprites;
+		std::map<std::string, sf::Text> _texts;
+		std::map<std::string, std::shared_ptr<Frame>> _frames;
 	};
 } // namespace Sorcery

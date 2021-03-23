@@ -49,7 +49,7 @@
 	</File>
 	<File name="src/layout.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4262" topLine="117" />
+			<Cursor1 position="2514" topLine="57" />
 		</Cursor>
 	</File>
 	<File name="src/map.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -57,7 +57,7 @@
 			<Cursor1 position="363" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src/create.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/create.cpp" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="40039" topLine="1072" />
 		</Cursor>
@@ -157,7 +157,7 @@
 			<Cursor1 position="1525" topLine="48" />
 		</Cursor>
 	</File>
-	<File name="src/character.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/character.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="10721" topLine="320" />
 		</Cursor>
@@ -242,9 +242,9 @@
 			<Cursor1 position="1493" topLine="24" />
 		</Cursor>
 	</File>
-	<File name="inc/main.hpp" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="inc/main.hpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2839" topLine="87" />
+			<Cursor1 position="1481" topLine="30" />
 		</Cursor>
 	</File>
 	<File name="dat/layout.json" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -267,9 +267,9 @@
 			<Cursor1 position="1227" topLine="15" />
 		</Cursor>
 	</File>
-	<File name="src/random.cpp" open="1" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/random.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="0" />
+			<Cursor1 position="2696" topLine="44" />
 		</Cursor>
 	</File>
 	<File name="src/main.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -339,7 +339,7 @@
 	</File>
 	<File name="src/display.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="6556" topLine="166" />
+			<Cursor1 position="5198" topLine="134" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

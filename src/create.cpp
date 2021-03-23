@@ -592,21 +592,21 @@ auto Sorcery::Create::_handle_choose_class(const sf::Event &event) -> std::optio
 auto Sorcery::Create::_handle_choose_potraits(const sf::Event &event)
 	-> std::optional<ModuleResult> {
 
-	unsigned int index = _candidate.get_potrait_index();
+	unsigned int index = _candidate.get_portrait_index();
 	if (_system->input->check_for_event(WindowInput::BACK, event))
 		return ModuleResult::BACK;
 	else if (_system->input->check_for_event(WindowInput::DELETE, event))
 		return ModuleResult::BACK;
 	else if (_system->input->check_for_event(WindowInput::LEFT, event)) {
 		if (index > 0)
-			_candidate.set_potrait_index(--index);
+			_candidate.set_portrait_index(--index);
 		else
-			_candidate.set_potrait_index(MAX_PORTRAIT_INDEX);
+			_candidate.set_portrait_index(MAX_PORTRAIT_INDEX);
 	} else if (_system->input->check_for_event(WindowInput::RIGHT, event)) {
 		if (index < MAX_PORTRAIT_INDEX)
-			_candidate.set_potrait_index(++index);
+			_candidate.set_portrait_index(++index);
 		else
-			_candidate.set_potrait_index(0);
+			_candidate.set_portrait_index(0);
 	} else if (_system->input->check_for_event(WindowInput::CONFIRM, event))
 		return ModuleResult::NEXT;
 
@@ -796,7 +796,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_candidate.set_stage(CharacterStage::CHOOSE_PORTRAIT);
 			_display->generate_components("character_create_stage_6", _sprites, _texts, _frames);
 			_display->window->input_mode = WindowInputMode::NORMAL;
-			_candidate.set_potrait_index(0);
+			_candidate.set_portrait_index(0);
 		} break;
 		case CharacterStage::CHOOSE_PORTRAIT: {
 			auto to_push(_candidate);
@@ -810,9 +810,9 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			break;
 		}
 	} else if (_method == CreateMethod::RANDOM) {
-		_candidate.set_stage(CharacterStage::REVIEW_AND_CONFIRM);
 		_candidate.create_random();
 		_candidate.finalise();
+		_candidate.set_stage(CharacterStage::REVIEW_AND_CONFIRM);
 		_display->generate_components("character_create_stage_7", _sprites, _texts, _frames);
 		_display->window->input_mode = WindowInputMode::NORMAL;
 	} else if (_method == CreateMethod::QUICK) {
@@ -832,7 +832,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_candidate.set_stage(CharacterStage::CHOOSE_PORTRAIT);
 			_display->generate_components("character_create_stage_6", _sprites, _texts, _frames);
 			_display->window->input_mode = WindowInputMode::NORMAL;
-			_candidate.set_potrait_index(0);
+			_candidate.set_portrait_index(0);
 			_ad->set();
 			_ap->valid = false;
 		} break;
@@ -1067,7 +1067,7 @@ auto Sorcery::Create::_draw() -> void {
 
 		_display->display_components("character_create_stage_6", _sprites, _texts, _frames);
 
-		sf::Sprite portrait = _get_character_portrait(_candidate.get_potrait_index()).value();
+		sf::Sprite portrait = _get_character_portrait(_candidate.get_portrait_index()).value();
 		portrait.setPosition((*_display->layout)["character_create_stage_6:current_portrait"].x,
 			(*_display->layout)["character_create_stage_6:current_portrait"].y);
 		portrait.setScale((*_display->layout)["character_create_stage_6:current_portrait"].scale,
@@ -1083,6 +1083,9 @@ auto Sorcery::Create::_draw() -> void {
 	} else if (_candidate.get_stage() == CharacterStage::REVIEW_AND_CONFIRM) {
 
 		_display->display_components("character_create_stage_7", _sprites, _texts, _frames);
+		_candidate.setPosition((*_display->layout)["character_create_stage_7:candidate"].x,
+			(*_display->layout)["character_create_stage_7:candidate"].y);
+		_window->draw(_candidate);
 	}
 
 	// Draw the progress bars (TODO: can't use a visit lambda here for some reason)

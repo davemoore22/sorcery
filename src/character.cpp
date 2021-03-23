@@ -31,6 +31,9 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	set_stage(CharacterStage::CHOOSE_METHOD);
+	_texts.clear();
+	_sprites.clear();
+	_frames.clear();
 }
 
 // Note for the copy constuctors we only copy the character data/PODs within
@@ -77,27 +80,6 @@ auto Sorcery::Character::operator=(const Character &other) -> Character & {
 	return *this;
 }
 
-auto Sorcery::Character::draw(
-	[[maybe_unused]] sf::RenderTarget &target, sf::RenderStates states) const -> void {
-
-	// Note depending on the current character stage, then we draw its repreentation differently
-	/*
-	1. Select Name
-	2. Choose Race
-	3. Choose Alignment
-	4. Allocate Attributes
-	5. Choose Class
-	6. Choose Portrait
-	7. Review and Confirm
-
-	also we need to draw a summary version too, perhaps a derived class (Character Summary)?
-
-	*/
-
-	states.transform *= getTransform();
-	// target.draw(_frame, states);
-}
-
 // Overloaded Operator
 auto Sorcery::Character::operator[](const CharacterAbility &key) -> int & {
 
@@ -142,6 +124,12 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 		_mage_cur_sp.clear();
 		_spells.clear();
 		_create_spell_lists();
+		break;
+	case CharacterStage::REVIEW_AND_CONFIRM:
+
+		// Handle the generation of the Character Display Here
+		_generate();
+		break;
 	default:
 		break;
 	}
@@ -225,12 +213,12 @@ auto Sorcery::Character::set_attribute(const CharacterAttribute attribute, const
 	_cur_attr.at(attribute) += adjustment;
 }
 
-auto Sorcery::Character::get_potrait_index() const -> unsigned int {
+auto Sorcery::Character::get_portrait_index() const -> unsigned int {
 
 	return _portrait_index;
 }
 
-auto Sorcery::Character::set_potrait_index(const unsigned int value) -> void {
+auto Sorcery::Character::set_portrait_index(const unsigned int value) -> void {
 
 	_portrait_index = value;
 }
@@ -1561,6 +1549,124 @@ auto Sorcery::Character::_create_spell_lists() -> void {
 		Spell::KADORTO, SpellType::PRIEST, 7, SpellCategory::HEALING, false));
 }
 
+auto Sorcery::Character::create_quick() -> void {
+
+	// Enter Name and Portrait, rest is random
+	// Exclude Samurai/Lord/Ninja/Bishop from this method of character creation
+	_class = {static_cast<CharacterClass>((*_system->random)[RandomType::D4])};
+	_race = {static_cast<CharacterRace>((*_system->random)[RandomType::D5])};
+	switch (_class) { // NOLINT(clang-diagnostic-switch)
+	case CharacterClass::FIGHTER:
+	case CharacterClass::MAGE:
+		_alignment = {static_cast<CharacterAlignment>((*_system->random)[RandomType::D3])};
+		break;
+	case CharacterClass::PRIEST:
+		_alignment = (*_system->random)[RandomType::D2] == 1 ? CharacterAlignment::GOOD
+															 : CharacterAlignment::EVIL;
+		break;
+	case CharacterClass::THIEF:
+		_alignment = (*_system->random)[RandomType::D2] == 1 ? CharacterAlignment::NEUTRAL
+															 : CharacterAlignment::EVIL;
+		break;
+	default:
+		break;
+	}
+
+	// Now get minimum attributes for race/class combo (note as we are only allowing creation of
+	// some classes, it will be as if we had a maximum of 10 bonus points to spend - in order to
+	// incentivise full blown character creation! see table IV (A) at
+	// https://gamefaqs.gamespot.com/pc/946844-the-ultimate-wizardry-archives/faqs/45726 for
+	// info
+	switch (_race) { // NOLINT(clang-diagnostic-switch)
+	case CharacterRace::HUMAN:
+		_start_attr = {{CharacterAttribute::STRENGTH, 8}, {CharacterAttribute::IQ, 5},
+			{CharacterAttribute::PIETY, 5}, {CharacterAttribute::VITALITY, 8},
+			{CharacterAttribute::AGILITY, 8}, {CharacterAttribute::LUCK, 9}};
+		break;
+	case CharacterRace::ELF:
+		_start_attr = {{CharacterAttribute::STRENGTH, 7}, {CharacterAttribute::IQ, 10},
+			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 6},
+			{CharacterAttribute::AGILITY, 9}, {CharacterAttribute::LUCK, 6}};
+		break;
+	case CharacterRace::DWARF:
+		_start_attr = {{CharacterAttribute::STRENGTH, 10}, {CharacterAttribute::IQ, 7},
+			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 10},
+			{CharacterAttribute::AGILITY, 5}, {CharacterAttribute::LUCK, 6}};
+		break;
+	case CharacterRace::GNOME:
+		_start_attr = {{CharacterAttribute::STRENGTH, 7}, {CharacterAttribute::IQ, 7},
+			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 8},
+			{CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 7}};
+		break;
+	case CharacterRace::HOBBIT:
+		_start_attr = {{CharacterAttribute::STRENGTH, 5}, {CharacterAttribute::IQ, 7},
+			{CharacterAttribute::PIETY, 7}, {CharacterAttribute::VITALITY, 6},
+			{CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 12}};
+		break;
+	default:
+		break;
+	};
+
+	// Put most of the points into the main attribute (note that 10 points means a Human Priest
+	// and Dwarf Thief have allocated all points to their main attribute with no points left
+	// over)
+	_points_left = 10;
+	_st_points = _points_left;
+	switch (_class) { // NOLINT(clang-diagnostic-switch)
+	case CharacterClass::FIGHTER:
+		_points_left -= (15 - _start_attr[CharacterAttribute::STRENGTH]);
+		_start_attr[CharacterAttribute::STRENGTH] = 15;
+		break;
+	case CharacterClass::MAGE:
+		_points_left -= (15 - _start_attr[CharacterAttribute::IQ]);
+		_start_attr[CharacterAttribute::IQ] = 15;
+		break;
+	case CharacterClass::PRIEST:
+		_points_left -= (15 - _start_attr[CharacterAttribute::PIETY]);
+		_start_attr[CharacterAttribute::PIETY] = 15;
+		break;
+	case CharacterClass::THIEF:
+		_points_left -= (15 - _start_attr[CharacterAttribute::AGILITY]);
+		_start_attr[CharacterAttribute::AGILITY] = 15;
+		break;
+	default:
+		break;
+	}
+
+	// Pump any points left into the Vitality attribute
+	if (_points_left > 0)
+		_start_attr[CharacterAttribute::VITALITY] += _points_left;
+
+	_cur_attr = _start_attr;
+}
+
+// Create a (semi) random character
+auto Sorcery::Character::create_random() -> void {
+
+	// Random Name and Portrait
+	create_quick();
+	_name = _system->random->get_random_name();
+	_portrait_index = (*_system->random)[RandomType::ZERO_TO_29];
+}
+
+auto Sorcery::Character::_get_character_portrait() -> sf::Sprite {
+
+	// Workout the location of the potrait on the texture, noting that the potraits are all
+	// square and are 600x600 pixels in size arranged in a grid of 6 by 5
+	sf::Vector2u top_left{(_portrait_index % 6) * 600, (_portrait_index / 6) * 600};
+	sf::IntRect rect = sf::IntRect(top_left.x, top_left.y, 600, 600);
+
+	// Grab the associated part of the texture and return it
+	sf::Sprite portrait(_system->resources->textures[GraphicsTexture::PORTRAITS]);
+	portrait.setTextureRect(rect);
+
+	return portrait;
+}
+
+// For level draining, optionally keep a track of negative levels unless in strict mode
+
+// Need to also handle character class switching
+
 // Render the character
 // auto Sorcery::Character::render(unsigned int y_position) -> void {
 
@@ -1720,133 +1826,36 @@ case CharacterView::DETAILED:
 const Point summary_loc = {(_display.screen->width() - 79) / 2, y_position};
 _display.screen->load_from_offscreen(_character_bg, summary_loc);
 */
-//}
 
-auto Sorcery::Character::create_quick() -> void {
+auto Sorcery::Character::_generate() -> void {
 
-	// Enter Name and Portrait, rest is random
-	// Exclude Samurai/Lord/Ninja/Bishop from this method of character creation
-	_class = {static_cast<CharacterClass>((*_system->random)[RandomType::D4])};
-	_race = {static_cast<CharacterRace>((*_system->random)[RandomType::D5])};
-	switch (_class) { // NOLINT(clang-diagnostic-switch)
-	case CharacterClass::FIGHTER:
-	case CharacterClass::MAGE:
-		_alignment = {static_cast<CharacterAlignment>((*_system->random)[RandomType::D3])};
-		break;
-	case CharacterClass::PRIEST:
-		_alignment = (*_system->random)[RandomType::D2] == 1 ? CharacterAlignment::GOOD
-															 : CharacterAlignment::EVIL;
-		break;
-	case CharacterClass::THIEF:
-		_alignment = (*_system->random)[RandomType::D2] == 1 ? CharacterAlignment::NEUTRAL
-															 : CharacterAlignment::EVIL;
-		break;
-	default:
-		break;
-	}
+	_sprites.clear();
+	_texts.clear();
+	_frames.clear();
 
-	// Now get minimum attributes for race/class combo (note as we are only allowing creation of
-	// some classes, it will be as if we had a maximum of 10 bonus points to spend - in order to
-	// incentivise full blown character creation! see table IV (A) at
-	// https://gamefaqs.gamespot.com/pc/946844-the-ultimate-wizardry-archives/faqs/45726 for
-	// info
-	switch (_race) { // NOLINT(clang-diagnostic-switch)
-	case CharacterRace::HUMAN:
-		_start_attr = {{CharacterAttribute::STRENGTH, 8}, {CharacterAttribute::IQ, 5},
-			{CharacterAttribute::PIETY, 5}, {CharacterAttribute::VITALITY, 8},
-			{CharacterAttribute::AGILITY, 8}, {CharacterAttribute::LUCK, 9}};
-		break;
-	case CharacterRace::ELF:
-		_start_attr = {{CharacterAttribute::STRENGTH, 7}, {CharacterAttribute::IQ, 10},
-			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 6},
-			{CharacterAttribute::AGILITY, 9}, {CharacterAttribute::LUCK, 6}};
-		break;
-	case CharacterRace::DWARF:
-		_start_attr = {{CharacterAttribute::STRENGTH, 10}, {CharacterAttribute::IQ, 7},
-			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 10},
-			{CharacterAttribute::AGILITY, 5}, {CharacterAttribute::LUCK, 6}};
-		break;
-	case CharacterRace::GNOME:
-		_start_attr = {{CharacterAttribute::STRENGTH, 7}, {CharacterAttribute::IQ, 7},
-			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 8},
-			{CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 7}};
-		break;
-	case CharacterRace::HOBBIT:
-		_start_attr = {{CharacterAttribute::STRENGTH, 5}, {CharacterAttribute::IQ, 7},
-			{CharacterAttribute::PIETY, 7}, {CharacterAttribute::VITALITY, 6},
-			{CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 12}};
-		break;
-	default:
-		break;
-	};
+	_display->generate_components("character", _sprites, _texts, _frames);
+	auto portrait = _get_character_portrait();
+	Component portrait_c{(*_display->layout)["character:portrait"]};
+	portrait.setPosition(portrait_c.x, portrait_c.y);
+	portrait.setScale(portrait_c.scale, portrait_c.scale);
+	_sprites.emplace(portrait_c.unique_key, portrait);
 
-	// Put most of the points into the main attribute (note that 10 points means a Human Priest
-	// and Dwarf Thief have allocated all points to their main attribute with no points left
-	// over)
-	_points_left = 10;
-	_st_points = _points_left;
-	switch (_class) { // NOLINT(clang-diagnostic-switch)
-	case CharacterClass::FIGHTER:
-		_points_left -= (15 - _start_attr[CharacterAttribute::STRENGTH]);
-		_start_attr[CharacterAttribute::STRENGTH] = 15;
-		_portrait_index = 12;
-		break;
-	case CharacterClass::MAGE:
-		_points_left -= (15 - _start_attr[CharacterAttribute::IQ]);
-		_start_attr[CharacterAttribute::IQ] = 15;
-		_portrait_index = 35;
-		break;
-	case CharacterClass::PRIEST:
-		_points_left -= (15 - _start_attr[CharacterAttribute::PIETY]);
-		_start_attr[CharacterAttribute::PIETY] = 15;
-		_portrait_index = 31;
-		break;
-	case CharacterClass::THIEF:
-		_points_left -= (15 - _start_attr[CharacterAttribute::AGILITY]);
-		_start_attr[CharacterAttribute::AGILITY] = 15;
-		_portrait_index = 1;
-		break;
-	default:
-		break;
-	}
-
-	// Pump any points left into the Vitality attribute
-	if (_points_left > 0)
-		_start_attr[CharacterAttribute::VITALITY] += _points_left;
-
-	_cur_attr = _start_attr;
+	// name class level too
 }
 
-// Create a (semi) random character
-auto Sorcery::Character::create_random() -> void {
+auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
-	// Random Name and Portrait
-	create_quick();
-	_name = _system->random->get_random_name();
-	_portrait_index = (*_system->random)[RandomType::ZERO_TO_29];
+	states.transform *= getTransform();
+
+	// Draw the standard components
+	for (const auto &[unique_key, frame] : _frames)
+		target.draw(*frame, states);
+
+	for (const auto &[unique_key, sprite] : _sprites)
+		target.draw(sprite, states);
+
+	for (const auto &[unique_key, text] : _texts)
+		target.draw(text, states);
+
+	// Draw the custom components
 }
-
-// For level draining, optionally keep a track of negative levels unless in strict mode
-
-// Need to also handle character class switching
-
-/* switch (_class) {
-
-		case CharacterClass::FIGHTER:
-		break;
-	case CharacterClass::MAGE:
-		break;
-	case CharacterClass::PRIEST:
-		break;
-	case CharacterClass::THIEF:
-		break;
-	case CharacterClass::BISHOP:
-		break
-	case CharacterClass::SAMURAI:
-		break;
-	case CharacterClass::LORD:
-		break;
-	case CharacterClass::NINJA:
-		break;
-	}
-*/
