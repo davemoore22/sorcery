@@ -1841,6 +1841,56 @@ auto Sorcery::Character::_generate() -> void {
 	_sprites.emplace(portrait_c.unique_key, portrait);
 
 	// name class level too
+	_add_text((*_display->layout)["character:cs1_strength_value"], "{:>2}",
+		std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
+	_add_text((*_display->layout)["character:cs1_iq_value"], "{:>2}",
+		std::to_string(_cur_attr.at(CharacterAttribute::IQ)));
+	_add_text((*_display->layout)["character:cs1_piety_value"], "{:>2}",
+		std::to_string(_cur_attr.at(CharacterAttribute::PIETY)));
+	_add_text((*_display->layout)["character:cs1_agility_value"], "{:>2}",
+		std::to_string(_cur_attr.at(CharacterAttribute::AGILITY)));
+	_add_text((*_display->layout)["character:cs1_vitality_value"], "{:>2}",
+		std::to_string(_cur_attr.at(CharacterAttribute::VITALITY)));
+	_add_text((*_display->layout)["character:cs1_luck_value"], "{:>2}",
+		std::to_string(_cur_attr.at(CharacterAttribute::LUCK)));
+	_add_text((*_display->layout)["character:cs1_hp_value"], "{}",
+		fmt::format("{}/{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
+			std::to_string(_abilities.at(CharacterAbility::MAX_HP))));
+}
+
+auto Sorcery::Character::_add_text(
+	Component &component, std::string format, unsigned int count, ...) -> void {
+
+	// add_text((*_display->layout)["character:cs1_hp_value"], "{}/{}", 2,
+	//	CSTR(std::to_string(_abilities.at(CharacterAbility::CURRENT_HP))),
+	//	CSTR(std::to_string(_abilities.at(CharacterAbility::MAX_HP))));
+
+	// Doesn't work?
+
+	va_list arguments;
+	va_start(arguments, count);
+	std::string formatted_value{fmt::format(format, static_cast<void *>(arguments), count)};
+	va_end(arguments);
+	sf::Text text;
+	text.setFont(_system->resources->fonts[component.font]);
+	text.setCharacterSize(component.size);
+	text.setFillColor(sf::Color(component.colour));
+	text.setString(formatted_value);
+	text.setPosition(component.x, component.y);
+	_texts.emplace(component.unique_key, text);
+}
+
+auto Sorcery::Character::_add_text(Component &component, std::string format, std::string value)
+	-> void {
+
+	sf::Text text;
+	std::string formatted_value{fmt::format(format, value)};
+	text.setFont(_system->resources->fonts[component.font]);
+	text.setCharacterSize(component.size);
+	text.setFillColor(sf::Color(component.colour));
+	text.setString(formatted_value);
+	text.setPosition(component.x, component.y);
+	_texts.emplace(component.unique_key, text);
 }
 
 auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {

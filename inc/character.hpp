@@ -109,6 +109,8 @@ namespace Sorcery {
 		auto _get_xp_for_level(unsigned int level) const -> int;
 		auto _create_spell_lists() -> void;
 		auto _get_character_portrait() -> sf::Sprite;
+		auto _add_text(Component &component, std::string format, std::string value) -> void;
+		auto _add_text(Component &component, std::string format, unsigned int count, ...) -> void;
 
 		// Private Members
 		System *_system;
