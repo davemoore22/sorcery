@@ -85,11 +85,15 @@ auto Sorcery::Random::operator[](const RandomType random_type) -> unsigned int {
 
 auto Sorcery::Random::get_random_name() -> std::string {
 
-	auto sy1_dist{std::uniform_int_distribution<unsigned int>(0, _sy1.size())};
-	auto sy2_dist{std::uniform_int_distribution<unsigned int>(0, _sy2.size())};
-	auto sy3_dist{std::uniform_int_distribution<unsigned int>(0, _sy3.size())};
-	std::string name{fmt::format("{}{}{}", _sy1.at(sy1_dist(_random)), _sy2.at(sy2_dist(_random)),
-		_sy3.at(sy3_dist(_random)))};
+	auto sy1_dist{std::uniform_int_distribution<unsigned int>(0, _sy1.size() - 1)};
+	auto sy2_dist{std::uniform_int_distribution<unsigned int>(0, _sy2.size() - 1)};
+	auto sy3_dist{std::uniform_int_distribution<unsigned int>(0, _sy3.size() - 1)};
+
+	std::string name{};
+	do {
+		name = fmt::format("{}{}{}", _sy1.at(sy1_dist(_random)), _sy2.at(sy2_dist(_random)),
+			_sy3.at(sy3_dist(_random)));
+	} while (name.length() < 12);
 
 	return name;
 }

@@ -111,7 +111,7 @@
 		"debug.console.fontSize": 12,
 		"terminal.integrated.fontSize": 12,
 		"editor.fontSize": 16,
-		"editor.fontFamily": "'Fira Code','Monaco','Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+		"editor.fontFamily": "'Fira Code Medium','Monaco','Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
 		"explorer.autoReveal": false
 	}
 }

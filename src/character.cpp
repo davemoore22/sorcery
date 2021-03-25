@@ -1840,7 +1840,12 @@ auto Sorcery::Character::_generate() -> void {
 	portrait.setScale(portrait_c.scale, portrait_c.scale);
 	_sprites.emplace(portrait_c.unique_key, portrait);
 
-	// name class level too
+	auto name_text = _add_text((*_display->layout)["character:name_text"], "{}", _name);
+	// name_text->setOrigin(name_text->getLocalBounds().width, 0);
+	_add_text((*_display->layout)["character:summary_text"], "{}",
+		fmt::format("{}{} {} {} {}", (*_display->string)["CHARACTER1_LEVEL"],
+			std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
+			get_alignment(_alignment), get_race(_race), get_class(_class)));
 	_add_text((*_display->layout)["character:cs1_strength_value"], "{:>2}",
 		std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
 	_add_text((*_display->layout)["character:cs1_iq_value"], "{:>2}",
@@ -1856,10 +1861,17 @@ auto Sorcery::Character::_generate() -> void {
 	_add_text((*_display->layout)["character:cs1_hp_value"], "{}",
 		fmt::format("{}/{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
 			std::to_string(_abilities.at(CharacterAbility::MAX_HP))));
+	_add_text((*_display->layout)["character:cs1_ac_value"], "{}",
+		std::to_string(_abilities.at(CharacterAbility::CURRENT_ARMOUR_CLASS)));
+	_add_text((*_display->layout)["character:cs1_age_value"], "{}",
+		std::to_string(static_cast<int>(_abilities.at(CharacterAbility::AGE) / 52)));
+	_add_text((*_display->layout)["character:cs1_swim_value"], "{}",
+		std::to_string(_abilities.at(CharacterAbility::SWIM)));
+	// Status Here too
 }
 
 auto Sorcery::Character::_add_text(
-	Component &component, std::string format, unsigned int count, ...) -> void {
+	Component &component, std::string format, unsigned int count, ...) -> sf::Text * {
 
 	// add_text((*_display->layout)["character:cs1_hp_value"], "{}/{}", 2,
 	//	CSTR(std::to_string(_abilities.at(CharacterAbility::CURRENT_HP))),
@@ -1878,10 +1890,11 @@ auto Sorcery::Character::_add_text(
 	text.setString(formatted_value);
 	text.setPosition(component.x, component.y);
 	_texts.emplace(component.unique_key, text);
+	return &_texts.at(component.unique_key);
 }
 
 auto Sorcery::Character::_add_text(Component &component, std::string format, std::string value)
-	-> void {
+	-> sf::Text * {
 
 	sf::Text text;
 	std::string formatted_value{fmt::format(format, value)};
@@ -1891,6 +1904,7 @@ auto Sorcery::Character::_add_text(Component &component, std::string format, std
 	text.setString(formatted_value);
 	text.setPosition(component.x, component.y);
 	_texts.emplace(component.unique_key, text);
+	return &_texts.at(component.unique_key);
 }
 
 auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {

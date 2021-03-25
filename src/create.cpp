@@ -149,7 +149,10 @@ auto Sorcery::Create::_do_event_loop() -> std::optional<ModuleResult> {
 				else if (module_result.value() == ModuleResult::CANCEL)
 					return ModuleResult::CANCEL;
 				else if (module_result.value() == ModuleResult::BACK) {
-					_go_to_previous_stage();
+					if (_candidate.get_stage() == CharacterStage::CHOOSE_METHOD)
+						return std::nullopt;
+					else
+						_go_to_previous_stage();
 					continue;
 				} else if (module_result.value() == ModuleResult::NEXT) {
 					_go_to_next_stage();
@@ -238,7 +241,7 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::option
 			_keyboard->selected = mouse_selected.value();
 	} else if ((_system->input->check_for_event(WindowInput::ALPHANUMERIC, event)) ||
 			   (_system->input->check_for_event(WindowInput::SPACE, event))) {
-		if (candidate_name.length() < 24) {
+		if (candidate_name.length() < 16) {
 			candidate_name += static_cast<char>(event.text.unicode);
 			_candidate.set_name(candidate_name);
 		}
@@ -274,7 +277,7 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::option
 				return ModuleResult::NEXT;
 			}
 		} else if (_keyboard->selected == "Spc") {
-			if (candidate_name.length() < 24) {
+			if (candidate_name.length() < 16) {
 				candidate_name += " ";
 				_candidate.set_name(candidate_name);
 			}
@@ -618,6 +621,8 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event)
 
 	if (_system->input->check_for_event(WindowInput::BACK, event))
 		return ModuleResult::BACK;
+	else if (_system->input->check_for_event(WindowInput::DELETE, event))
+		return ModuleResult::BACK;
 
 	return std::nullopt;
 }
@@ -626,6 +631,9 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 
 	if (_method == CreateMethod::FULL) {
 		switch (_candidate.get_stage()) {
+		case CharacterStage::CHOOSE_METHOD:
+			// Don't do anything special here - handled in the calling function
+			break;
 		case CharacterStage::ENTER_NAME: {
 			auto popped = _stages.back();
 			_candidate = popped;
@@ -700,9 +708,18 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			break;
 		}
 	} else if (_method == CreateMethod::RANDOM) {
-		// Don't do anything
+		if (_candidate.get_stage() == CharacterStage::CHOOSE_METHOD) {
+			// Don't do anything special here - handled in the calling function
+		} else if (_candidate.get_stage() == CharacterStage::REVIEW_AND_CONFIRM) {
+			_candidate.set_stage(CharacterStage::CHOOSE_METHOD);
+			_display->generate_components("choose_method", _sprites, _texts, _frames);
+			_display->window->input_mode = WindowInputMode::NORMAL;
+		}
 	} else if (_method == CreateMethod::QUICK) {
 		switch (_candidate.get_stage()) {
+		case CharacterStage::CHOOSE_METHOD:
+			// Don't do anything special here - handled in the calling function
+			break;
 		case CharacterStage::ENTER_NAME: {
 			auto popped = _stages.back();
 			_candidate = popped;

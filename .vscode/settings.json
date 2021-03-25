@@ -7,7 +7,7 @@
 	"C_Cpp.workspaceParsingPriority": "highest",
 	"C_Cpp.enhancedColorization": "Disabled",
 	"debug.toolBarLocation": "docked",
-	"editor.fontFamily": "'Fira Code','Monaco','Ubuntu Mono', 'Courier Prime Code', 'Courier', 'Courier New', Consolas, monospace",
+	"editor.fontFamily": "'Fira Code Medium','Monaco','Ubuntu Mono', 'Courier Prime Code', 'Courier', 'Courier New', Consolas, monospace",
 	"editor.tabSize": 4,
 	"editor.insertSpaces": false,
 	"files.encoding": "utf8",
