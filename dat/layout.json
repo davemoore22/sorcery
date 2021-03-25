@@ -1791,8 +1791,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
-			"drawmode": "automatic",
-			"colour": "0x808080ff"
+			"drawmode": "automatic"
 		},
 		{
 			"name": "portrait",
@@ -1811,8 +1810,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
-			"drawmode": "automatic",
-			"colour": "0x808080ff"
+			"drawmode": "automatic"
 		},
 		{
 			"name": "stat_frame",
@@ -1823,8 +1821,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
-			"drawmode": "automatic",
-			"colour": "0x808080ff"
+			"drawmode": "automatic"
 		},
 		{
 			"name": "name_text",
