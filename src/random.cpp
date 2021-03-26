@@ -90,10 +90,8 @@ auto Sorcery::Random::get_random_name() -> std::string {
 	auto sy3_dist{std::uniform_int_distribution<unsigned int>(0, _sy3.size() - 1)};
 
 	std::string name{};
-	do {
-		name = fmt::format("{}{}{}", _sy1.at(sy1_dist(_random)), _sy2.at(sy2_dist(_random)),
-			_sy3.at(sy3_dist(_random)));
-	} while (name.length() > 12);
+	name = fmt::format("{}{}{}", _sy1.at(sy1_dist(_random)), _sy2.at(sy2_dist(_random)),
+		_sy3.at(sy3_dist(_random)));
 
 	return name;
 }

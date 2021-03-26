@@ -1840,6 +1840,13 @@ auto Sorcery::Character::_generate() -> void {
 	portrait.setScale(portrait_c.scale, portrait_c.scale);
 	_sprites.emplace(portrait_c.unique_key, portrait);
 
+	_add_text((*_display->layout)["character:name_text"], "{}", _name);
+	_add_text((*_display->layout)["character:level_text"], "{}",
+		std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)));
+
+	/*
+	_add_text((*_display->layout)["character:name_text"], "{}", _name)};
+
 	auto name_text{_add_text((*_display->layout)["character:name_text"], "{}", _name)};
 	// name_text->setOrigin(name_text->getLocalBounds().width, 0);
 	auto summary_text{_add_text((*_display->layout)["character:summary_text"], "{}",
@@ -1852,6 +1859,7 @@ auto Sorcery::Character::_generate() -> void {
 	//							  _display->window->get_cell_width(),
 	//	summary_text->getGlobalBounds().top - (name_text->getGlobalBounds().height / 2));
 
+	*/
 	_add_text((*_display->layout)["character:cs1_strength_value"], "{:>2}",
 		std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
 	_add_text((*_display->layout)["character:cs1_iq_value"], "{:>2}",
@@ -1874,6 +1882,34 @@ auto Sorcery::Character::_generate() -> void {
 	_add_text((*_display->layout)["character:cs1_swim_value"], "{}",
 		std::to_string(_abilities.at(CharacterAbility::SWIM)));
 	// Status Here too
+
+	auto class_icon = get_icon(CharacterStage::CHOOSE_CLASS).value();
+	class_icon.setPosition((*_display->layout)["character:class_icon"].x,
+		(*_display->layout)["character:class_icon"].y);
+	class_icon.setScale((*_display->layout)["character:class_icon"].scale,
+		(*_display->layout)["character:class_icon"].scale);
+	_sprites.emplace((*_display->layout)["character:class_icon"].unique_key, class_icon);
+
+	auto race_icon = get_icon(CharacterStage::CHOOSE_RACE).value();
+	race_icon.setPosition(
+		(*_display->layout)["character:race_icon"].x, (*_display->layout)["character:race_icon"].y);
+	race_icon.setScale((*_display->layout)["character:race_icon"].scale,
+		(*_display->layout)["character:race_icon"].scale);
+	_sprites.emplace((*_display->layout)["character:race_icon"].unique_key, race_icon);
+
+	auto alignment_icon = get_icon(CharacterStage::CHOOSE_ALIGNMENT).value();
+	alignment_icon.setPosition((*_display->layout)["character:alignment_icon"].x,
+		(*_display->layout)["character:alignment_icon"].y);
+	alignment_icon.setScale((*_display->layout)["character:alignment_icon"].scale,
+		(*_display->layout)["character:alignment_icon"].scale);
+	_sprites.emplace((*_display->layout)["character:alignment_icon"].unique_key, alignment_icon);
+
+	auto level_icon = (*_graphics->icons)["level"].value();
+	level_icon.setPosition((*_display->layout)["character:level_icon"].x,
+		(*_display->layout)["character:level_icon"].y);
+	level_icon.setScale((*_display->layout)["character:level_icon"].scale,
+		(*_display->layout)["character:level_icon"].scale);
+	_sprites.emplace((*_display->layout)["character:level_icon"].unique_key, level_icon);
 }
 
 auto Sorcery::Character::_add_text(

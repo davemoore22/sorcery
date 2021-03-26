@@ -1840,6 +1840,55 @@
 			"drawmode": "manual"
 		},
 		{
+			"name": "level_icon",
+			"x": "41",
+			"y": "1",
+			"scale": "0.1",
+			"type": "image",
+			"priority": "4",
+			"drawmode": "manual"
+		},
+		{
+			"name": "level_text",
+			"x": "44",
+			"y": "1",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "alignment_icon",
+			"x": "46",
+			"y": "1",
+			"scale": "0.1",
+			"type": "image",
+			"priority": "4",
+			"drawmode": "manual"
+		},
+		{
+			"name": "race_icon",
+			"x": "49",
+			"y": "1",
+			"scale": "0.1",
+			"type": "image",
+			"priority": "4",
+			"drawmode": "manual"
+		},
+		{
+			"name": "class_icon",
+			"x": "52",
+			"y": "1",
+			"scale": "0.1",
+			"type": "image",
+			"priority": "4",
+			"drawmode": "manual"
+		},
+		{
 			"name": "summary_text",
 			"x": "31",
 			"y": "1",
