@@ -29,14 +29,13 @@
 
 namespace Sorcery {
 
-	class Display;
-
 	class Frame : public sf::Transformable, public sf::Drawable {
 
 	  public:
 		// Constructors
 		Frame(sf::Texture texture, WindowFrameType _type, const unsigned int width_units,
-			const unsigned int height_units, const unsigned int alpha);
+			const unsigned int height_units, const unsigned long long colour,
+			const unsigned int alpha);
 		Frame() = delete;
 
 		// Public Members
@@ -58,6 +57,7 @@ namespace Sorcery {
 		WindowFrameType _type;
 		unsigned int _width_units;
 		unsigned int _height_units;
+		unsigned long long _colour;
 		unsigned int _alpha;
 		sf::Sprite _frame;
 		sf::RectangleShape _bg;

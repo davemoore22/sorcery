@@ -40,8 +40,8 @@ Sorcery::StatusBar::StatusBar(System *system, Display *display, Graphics *graphi
 	_rtexture.clear();
 
 	// Create the Outside Fram
-	_frame = std::make_unique<Frame>(
-		_display->ui_texture, WindowFrameType::NORMAL, _frame_c.w, _frame_c.h, _frame_c.alpha);
+	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _frame_c.w,
+		_frame_c.h, _frame_c.colour, _frame_c.alpha);
 
 	// Render the background (inset by the frame)
 	sf::RectangleShape rect(sf::Vector2f((_display->window->get_cell_width() * (_layout.w)) - 20,

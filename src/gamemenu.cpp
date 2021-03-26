@@ -81,9 +81,9 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 	const Component castle_mf_c{(*_display->layout)["castle:castle_menu_frame"]};
 	const Component edge_mf_c{(*_display->layout)["castle:edge_menu_frame"]};
 	_castle_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL,
-		castle_mf_c.w, castle_mf_c.h, castle_mf_c.alpha);
-	_edge_frame = std::make_unique<Frame>(
-		_display->ui_texture, WindowFrameType::NORMAL, edge_mf_c.w, edge_mf_c.h, edge_mf_c.alpha);
+		castle_mf_c.w, castle_mf_c.h, castle_mf_c.colour, castle_mf_c.alpha);
+	_edge_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL,
+		edge_mf_c.w, edge_mf_c.h, edge_mf_c.colour, edge_mf_c.alpha);
 	_castle_frame->setPosition(_display->window->get_x(_castle_frame->sprite, castle_mf_c.x),
 		_display->window->get_y(_castle_frame->sprite, castle_mf_c.y));
 	_edge_frame->setPosition(_display->window->get_x(_edge_frame->sprite, edge_mf_c.x),

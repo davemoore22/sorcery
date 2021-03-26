@@ -124,9 +124,10 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 				auto frame_type{(component.unique_key.find("character:") != std::string::npos)
 									? WindowFrameType::HINT
 									: WindowFrameType::NORMAL};
-				auto frame =
-					std::make_shared<Frame>(_system->resources->textures[GraphicsTexture::UI],
-						frame_type, component.w, component.h, component.alpha);
+
+				auto frame = std::make_shared<Frame>(
+					_system->resources->textures[GraphicsTexture::UI], WindowFrameType::NORMAL,
+					component.w, component.h, component.colour, component.alpha);
 				frame->setPosition(window->get_x(frame->sprite, component.x),
 					window->get_y(frame->sprite, component.y));
 				frames.emplace(std::make_pair(component.unique_key, std::move(frame)));

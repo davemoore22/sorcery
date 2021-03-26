@@ -26,9 +26,9 @@
 
 // Standard Constructor
 Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type, const unsigned int width_units,
-	const unsigned int height_units, const unsigned int alpha)
+	const unsigned int height_units, const unsigned long long colour, const unsigned int alpha)
 	: _texture{texture}, _type{type}, _width_units{width_units},
-	  _height_units{height_units}, _alpha{alpha} {
+	  _height_units{height_units}, _colour{colour}, _alpha{alpha} {
 
 	// Define the 8 parts of the Frame based upon the location in the GUI Texture
 	if (_type == WindowFrameType::NORMAL) {
@@ -72,6 +72,8 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type, const unsigned 
 	for (auto &frame_sprite : _frame_sprites) {
 		frame_sprite = sf::Sprite(_texture);
 		frame_sprite.setTextureRect(_frame_parts[loop]);
+		if (_colour != 0ull)
+			frame_sprite.setColor(sf::Color(_colour));
 		++loop;
 	}
 
