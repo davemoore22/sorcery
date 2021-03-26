@@ -270,10 +270,10 @@
 1615651315 source:/home/dave/Development/wizardry/sorcery-sfml/src/banner.cpp
 	"banner.hpp"
 
-1616788932 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
+1616790157 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
 	"character.hpp"
 
-1616709718 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
+1616789894 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
 	"display.hpp"
 	"graphics.hpp"
 	"main.hpp"

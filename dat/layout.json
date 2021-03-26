@@ -1889,6 +1889,60 @@
 			"drawmode": "manual"
 		},
 		{
+			"name": "strength_icon",
+			"x": "17",
+			"y": "5",
+			"scale": "0.15",
+			"type": "image",
+			"priority": "4",
+			"drawmode": "manual"
+		},
+		{
+			"name": "iq_icon",
+			"x": "31",
+			"y": "5",
+			"scale": "0.15",
+			"type": "image",
+			"priority": "4",
+			"drawmode": "manual"
+		},
+		{
+			"name": "piety_icon",
+			"x": "45",
+			"y": "5",
+			"scale": "0.15",
+			"type": "image",
+			"priority": "4",
+			"drawmode": "manual"
+		},
+		{
+			"name": "agility_icon",
+			"x": "17",
+			"y": "8",
+			"scale": "0.15",
+			"type": "image",
+			"priority": "4",
+			"drawmode": "manual"
+		},
+		{
+			"name": "vitality_icon",
+			"x": "31",
+			"y": "8",
+			"scale": "0.15",
+			"type": "image",
+			"priority": "4",
+			"drawmode": "manual"
+		},
+		{
+			"name": "luck_icon",
+			"x": "45",
+			"y": "8",
+			"scale": "0.15",
+			"type": "image",
+			"priority": "4",
+			"drawmode": "manual"
+		},
+		{
 			"name": "summary_text",
 			"x": "31",
 			"y": "1",

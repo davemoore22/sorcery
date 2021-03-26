@@ -1910,6 +1910,21 @@ auto Sorcery::Character::_generate() -> void {
 	level_icon.setScale((*_display->layout)["character:level_icon"].scale,
 		(*_display->layout)["character:level_icon"].scale);
 	_sprites.emplace((*_display->layout)["character:level_icon"].unique_key, level_icon);
+
+	_add_icon((*_display->layout)["character:strength_icon"], "strength");
+	_add_icon((*_display->layout)["character:iq_icon"], "iq");
+	_add_icon((*_display->layout)["character:piety_icon"], "piety");
+	_add_icon((*_display->layout)["character:agility_icon"], "agility");
+	_add_icon((*_display->layout)["character:vitality_icon"], "vitality");
+	_add_icon((*_display->layout)["character:luck_icon"], "luck");
+}
+
+auto Sorcery::Character::_add_icon(Component &component, std::string icon_key) -> void {
+
+	auto icon = (*_graphics->icons)[icon_key].value();
+	icon.setPosition(component.x, component.y);
+	icon.setScale(component.scale, component.scale);
+	_sprites.emplace(component.unique_key, icon);
 }
 
 auto Sorcery::Character::_add_text(

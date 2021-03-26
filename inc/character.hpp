@@ -112,6 +112,7 @@ namespace Sorcery {
 		auto _add_text(Component &component, std::string format, std::string value) -> sf::Text *;
 		auto _add_text(Component &component, std::string format, unsigned int count, ...)
 			-> sf::Text *;
+		auto _add_icon(Component &component, std::string icon_key) -> void;
 
 		// Private Members
 		System *_system;
