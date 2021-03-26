@@ -62,6 +62,7 @@ namespace Sorcery {
 		auto lighten_colour(sf::Color colour, double lerp) -> sf::Color;
 		auto highlight_text(sf::Text &text, Component component, double lerp) -> sf::RectangleShape;
 		auto get_text_y_adjustment(sf::Text &text, Component &component) -> int;
+		auto shove_text(sf::Text &shovee, sf::Text &shover, unsigned int gap_units) -> void;
 
 		// Public Members
 		std::vector<sf::Sprite> sprites;

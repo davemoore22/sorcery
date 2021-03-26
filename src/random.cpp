@@ -93,7 +93,7 @@ auto Sorcery::Random::get_random_name() -> std::string {
 	do {
 		name = fmt::format("{}{}{}", _sy1.at(sy1_dist(_random)), _sy2.at(sy2_dist(_random)),
 			_sy3.at(sy3_dist(_random)));
-	} while (name.length() < 12);
+	} while (name.length() > 12);
 
 	return name;
 }

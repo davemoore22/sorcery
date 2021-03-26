@@ -172,6 +172,15 @@ auto Sorcery::Window::_draw_text(
 	_window.draw(text);
 }
 
+// Shove one text component next to another!
+auto Sorcery::Window::shove_text(sf::Text &shovee, sf::Text &shover, unsigned int gap_units)
+	-> void {
+
+	shover.setPosition(
+		shovee.getGlobalBounds().left + shovee.getGlobalBounds().width + (_cell_width * gap_units),
+		shover.getGlobalBounds().top - (shovee.getGlobalBounds().height / 2));
+}
+
 auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component,
 	const std::string &string, const double lerp) -> void {
 

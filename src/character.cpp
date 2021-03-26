@@ -1834,18 +1834,24 @@ auto Sorcery::Character::_generate() -> void {
 	_frames.clear();
 
 	_display->generate_components("character", _sprites, _texts, _frames);
-	auto portrait = _get_character_portrait();
+	auto portrait{_get_character_portrait()};
 	Component portrait_c{(*_display->layout)["character:portrait"]};
 	portrait.setPosition(portrait_c.x, portrait_c.y);
 	portrait.setScale(portrait_c.scale, portrait_c.scale);
 	_sprites.emplace(portrait_c.unique_key, portrait);
 
-	auto name_text = _add_text((*_display->layout)["character:name_text"], "{}", _name);
+	auto name_text{_add_text((*_display->layout)["character:name_text"], "{}", _name)};
 	// name_text->setOrigin(name_text->getLocalBounds().width, 0);
-	_add_text((*_display->layout)["character:summary_text"], "{}",
+	auto summary_text{_add_text((*_display->layout)["character:summary_text"], "{}",
 		fmt::format("{}{} {} {} {}", (*_display->string)["CHARACTER1_LEVEL"],
 			std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
-			get_alignment(_alignment), get_race(_race), get_class(_class)));
+			get_alignment(_alignment), get_race(_race), get_class(_class)))};
+	_display->window->shove_text(*name_text, *summary_text, 1);
+	// summary_text->setPosition(name_text->getGlobalBounds().left +
+	//							  name_text->getGlobalBounds().width +
+	//							  _display->window->get_cell_width(),
+	//	summary_text->getGlobalBounds().top - (name_text->getGlobalBounds().height / 2));
+
 	_add_text((*_display->layout)["character:cs1_strength_value"], "{:>2}",
 		std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
 	_add_text((*_display->layout)["character:cs1_iq_value"], "{:>2}",
