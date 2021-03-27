@@ -146,8 +146,9 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 }
 
 // Fortunately we are using square icons so we can easily find the appropriate icon from the
-// spritesheet
+// spritesheet - note that we have 15 icons per row, and each icon is 511x511 pixels
 auto Sorcery::IconStore::_get_rect(unsigned int index) const -> sf::IntRect {
 
-	return sf::IntRect(_texture.getSize().y * index, 0, _texture.getSize().y, _texture.getSize().y);
+	constexpr int icon_size{511};
+	return sf::IntRect(icon_size * (index % 15), icon_size * (index / 15), icon_size, icon_size);
 }

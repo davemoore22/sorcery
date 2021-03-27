@@ -1891,8 +1891,8 @@
 		{
 			"name": "strength_icon",
 			"x": "17",
-			"y": "5",
-			"scale": "0.15",
+			"y": "6",
+			"scale": "0.10",
 			"type": "image",
 			"priority": "4",
 			"drawmode": "manual"
@@ -1900,8 +1900,8 @@
 		{
 			"name": "iq_icon",
 			"x": "31",
-			"y": "5",
-			"scale": "0.15",
+			"y": "6",
+			"scale": "0.10",
 			"type": "image",
 			"priority": "4",
 			"drawmode": "manual"
@@ -1909,8 +1909,8 @@
 		{
 			"name": "piety_icon",
 			"x": "45",
-			"y": "5",
-			"scale": "0.15",
+			"y": "6",
+			"scale": "0.10",
 			"type": "image",
 			"priority": "4",
 			"drawmode": "manual"
@@ -1918,8 +1918,8 @@
 		{
 			"name": "agility_icon",
 			"x": "17",
-			"y": "8",
-			"scale": "0.15",
+			"y": "9",
+			"scale": "0.10",
 			"type": "image",
 			"priority": "4",
 			"drawmode": "manual"
@@ -1927,8 +1927,8 @@
 		{
 			"name": "vitality_icon",
 			"x": "31",
-			"y": "8",
-			"scale": "0.15",
+			"y": "9",
+			"scale": "0.10",
 			"type": "image",
 			"priority": "4",
 			"drawmode": "manual"
@@ -1936,8 +1936,8 @@
 		{
 			"name": "luck_icon",
 			"x": "45",
-			"y": "8",
-			"scale": "0.15",
+			"y": "9",
+			"scale": "0.10",
 			"type": "image",
 			"priority": "4",
 			"drawmode": "manual"
@@ -1966,7 +1966,7 @@
 			"justification": "right",
 			"type": "text",
 			"priority": "3",
-			"drawmode": "automatic"
+			"drawmode": "manual"
 		},
 		{
 			"name": "cs1_iq_label",
@@ -1979,7 +1979,7 @@
 			"justification": "right",
 			"type": "text",
 			"priority": "3",
-			"drawmode": "automatic"
+			"drawmode": "manual"
 		},
 		{
 			"name": "cs1_piety_label",
@@ -1992,7 +1992,7 @@
 			"justification": "right",
 			"type": "text",
 			"priority": "3",
-			"drawmode": "automatic"
+			"drawmode": "manual"
 		},
 		{
 			"name": "cs1_vitality_label",
@@ -2005,7 +2005,7 @@
 			"justification": "right",
 			"type": "text",
 			"priority": "3",
-			"drawmode": "automatic"
+			"drawmode": "manual"
 		},
 		{
 			"name": "cs1_agility_label",
@@ -2018,7 +2018,7 @@
 			"justification": "right",
 			"type": "text",
 			"priority": "3",
-			"drawmode": "automatic"
+			"drawmode": "manual"
 		},
 		{
 			"name": "cs1_luck_label",
@@ -2031,15 +2031,15 @@
 			"justification": "right",
 			"type": "text",
 			"priority": "3",
-			"drawmode": "automatic"
+			"drawmode": "manual"
 		},
 		{
 			"name": "cs1_strength_value",
-			"x": "26",
-			"y": "5",
+			"x": "20",
+			"y": "6",
 			"font": "monospace",
 			"colour": "0x00ff00ff",
-			"size": "32",
+			"size": "48",
 			"string": "NONE",
 			"justification": "left",
 			"type": "text",
@@ -2048,11 +2048,11 @@
 		},
 		{
 			"name": "cs1_iq_value",
-			"x": "26",
+			"x": "34",
 			"y": "6",
 			"font": "monospace",
 			"colour": "0x00ff00ff",
-			"size": "32",
+			"size": "48",
 			"string": "CHARACTER1_IQ",
 			"justification": "left",
 			"type": "text",
@@ -2061,11 +2061,11 @@
 		},
 		{
 			"name": "cs1_piety_value",
-			"x": "26",
-			"y": "7",
+			"x": "48",
+			"y": "6",
 			"font": "monospace",
 			"colour": "0x00ff00ff",
-			"size": "32",
+			"size": "48",
 			"string": "CHARACTER1_PIETY",
 			"justification": "left",
 			"type": "text",
@@ -2073,25 +2073,12 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "cs1_vitality_value",
-			"x": "26",
-			"y": "8",
-			"font": "monospace",
-			"colour": "0x00ff00ff",
-			"size": "32",
-			"string": "CHARACTER1_VITALITY",
-			"justification": "left",
-			"type": "text",
-			"priority": "3",
-			"drawmode": "manual"
-		},
-		{
 			"name": "cs1_agility_value",
-			"x": "26",
+			"x": "20",
 			"y": "9",
 			"font": "monospace",
 			"colour": "0x00ff00ff",
-			"size": "32",
+			"size": "48",
 			"string": "CHARACTER1_AGILITY",
 			"justification": "left",
 			"type": "text",
@@ -2099,12 +2086,25 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "cs1_luck_value",
-			"x": "26",
-			"y": "10",
+			"name": "cs1_vitality_value",
+			"x": "34",
+			"y": "9",
 			"font": "monospace",
 			"colour": "0x00ff00ff",
-			"size": "32",
+			"size": "48",
+			"string": "CHARACTER1_VITALITY",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "cs1_luck_value",
+			"x": "48",
+			"y": "9",
+			"font": "monospace",
+			"colour": "0x00ff00ff",
+			"size": "48",
 			"string": "CHARACTER1_LUCK",
 			"justification": "left",
 			"type": "text",
@@ -2113,7 +2113,7 @@
 		},
 		{
 			"name": "cs1_hp_label",
-			"x": "35",
+			"x": "47",
 			"y": "5",
 			"font": "monospace",
 			"colour": "0xffffffff",
