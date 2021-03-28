@@ -125,6 +125,7 @@
 	"CHARACTER1_HP": "Hit Probability:",
 	"CHARACTER1_BD": "Bonus Damage:",
 	"CHARACTER1_NA": "Number of Attacks:",
+	"CHARACTER1_MU": "Max Unarmed Damage:",
 	"CHARACTER1_SP": "Spell Learn (Cleric):",
 	"CHARACTER1_RS": "Recall Success:",
 	"CHARACTER1_BS": "Base Dispell:",
@@ -159,11 +160,17 @@
 	"CHARACTER1_SE": "vs Sleep:",
 	"CHARACTER1_DE": "vs Death:",
 	"CHARACTER1_SU": "vs Statue:",
-	"CHARACTER_LEVEL": "Level",
-
-
-
-
+	"CHARACTER1_LEVEL": "L",
+	"CHARACTER1_HS": "HP:",
+	"CHARACTER1_AR": "AC:",
+	"CHARACTER1_AG": "Age:",
+	"CHARACTER1_SW": "Swim:",
+	"CHARACTER1_SS": "Status:",
+	"CHARACTER1_XP": "Exp:",
+	"CHARACTER1_NX": "Next:",
+	"CHARACTER1_GO": "Gold:",
+	"CHARACTER1_MK": "Marks:",
+	"CHARACTER1_DA": "Deaths:",
 	"HINT_CHARACTER_RACE_HUMAN":				"Humans are the most balanced of all the races but they#suffer from the lowest initial attribute total. They   #make excellent Fighters, Mages, or Thieves.",
 	"HINT_CHARACTER_RACE_ELF":					"Elves are somewhat less sturdy than Humans, but tend  #to be more clever and pious, and often tend towards    #Mages, Priests, Bishops, or Samurai.",
 	"HINT_CHARACTER_RACE_DWARF":				"Dwarves are stronger, more pious, and considerably    #sturdier than Humans, though not as agile. They are    #often Fighters, Priests, or Samurai.",

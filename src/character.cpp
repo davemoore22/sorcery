@@ -1835,13 +1835,13 @@ auto Sorcery::Character::_generate() -> void {
 
 	_display->generate_components("character", _sprites, _texts, _frames);
 	auto portrait{_get_character_portrait()};
-	Component portrait_c{(*_display->layout)["character:portrait"]};
+	Component portrait_c{(*_display->layout)["character:cs1_portrait"]};
 	portrait.setPosition(portrait_c.x, portrait_c.y);
 	portrait.setScale(portrait_c.scale, portrait_c.scale);
 	_sprites.emplace(portrait_c.unique_key, portrait);
 
-	_add_text((*_display->layout)["character:name_text"], "{}", _name);
-	_add_text((*_display->layout)["character:level_text"], "{}",
+	_add_text((*_display->layout)["character:cs1_name_text"], "{}", _name);
+	_add_text((*_display->layout)["character:cs1_level_text"], "{}",
 		std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)));
 
 	/*
@@ -1884,39 +1884,33 @@ auto Sorcery::Character::_generate() -> void {
 	// Status Here too
 
 	auto class_icon = get_icon(CharacterStage::CHOOSE_CLASS).value();
-	class_icon.setPosition((*_display->layout)["character:class_icon"].x,
-		(*_display->layout)["character:class_icon"].y);
-	class_icon.setScale((*_display->layout)["character:class_icon"].scale,
-		(*_display->layout)["character:class_icon"].scale);
-	_sprites.emplace((*_display->layout)["character:class_icon"].unique_key, class_icon);
+	class_icon.setPosition((*_display->layout)["character:cs1_class_icon"].x,
+		(*_display->layout)["character:cs1_class_icon"].y);
+	class_icon.setScale((*_display->layout)["character:cs1_class_icon"].scale,
+		(*_display->layout)["character:cs1_class_icon"].scale);
+	_sprites.emplace((*_display->layout)["character:cs1_class_icon"].unique_key, class_icon);
 
 	auto race_icon = get_icon(CharacterStage::CHOOSE_RACE).value();
-	race_icon.setPosition(
-		(*_display->layout)["character:race_icon"].x, (*_display->layout)["character:race_icon"].y);
-	race_icon.setScale((*_display->layout)["character:race_icon"].scale,
-		(*_display->layout)["character:race_icon"].scale);
-	_sprites.emplace((*_display->layout)["character:race_icon"].unique_key, race_icon);
+	race_icon.setPosition((*_display->layout)["character:cs1_race_icon"].x,
+		(*_display->layout)["character:cs1_race_icon"].y);
+	race_icon.setScale((*_display->layout)["character:cs1_race_icon"].scale,
+		(*_display->layout)["character:cs1_race_icon"].scale);
+	_sprites.emplace((*_display->layout)["character:cs1_race_icon"].unique_key, race_icon);
 
 	auto alignment_icon = get_icon(CharacterStage::CHOOSE_ALIGNMENT).value();
-	alignment_icon.setPosition((*_display->layout)["character:alignment_icon"].x,
-		(*_display->layout)["character:alignment_icon"].y);
-	alignment_icon.setScale((*_display->layout)["character:alignment_icon"].scale,
-		(*_display->layout)["character:alignment_icon"].scale);
-	_sprites.emplace((*_display->layout)["character:alignment_icon"].unique_key, alignment_icon);
+	alignment_icon.setPosition((*_display->layout)["character:cs1_alignment_icon"].x,
+		(*_display->layout)["character:cs1_alignment_icon"].y);
+	alignment_icon.setScale((*_display->layout)["character:cs1_alignment_icon"].scale,
+		(*_display->layout)["character:cs1_alignment_icon"].scale);
+	_sprites.emplace(
+		(*_display->layout)["character:cs1_alignment_icon"].unique_key, alignment_icon);
 
 	auto level_icon = (*_graphics->icons)["level"].value();
-	level_icon.setPosition((*_display->layout)["character:level_icon"].x,
-		(*_display->layout)["character:level_icon"].y);
-	level_icon.setScale((*_display->layout)["character:level_icon"].scale,
-		(*_display->layout)["character:level_icon"].scale);
-	_sprites.emplace((*_display->layout)["character:level_icon"].unique_key, level_icon);
-
-	_add_icon((*_display->layout)["character:strength_icon"], "strength");
-	_add_icon((*_display->layout)["character:iq_icon"], "iq");
-	_add_icon((*_display->layout)["character:piety_icon"], "piety");
-	_add_icon((*_display->layout)["character:agility_icon"], "agility");
-	_add_icon((*_display->layout)["character:vitality_icon"], "vitality");
-	_add_icon((*_display->layout)["character:luck_icon"], "luck");
+	level_icon.setPosition((*_display->layout)["character:cs1_level_icon"].x,
+		(*_display->layout)["character:cs1_level_icon"].y);
+	level_icon.setScale((*_display->layout)["character:cs1_cs1_level_icon"].scale,
+		(*_display->layout)["character:cs1_level_icon"].scale);
+	_sprites.emplace((*_display->layout)["character:cs1_level_icon"].unique_key, level_icon);
 }
 
 auto Sorcery::Character::_add_icon(Component &component, std::string icon_key) -> void {

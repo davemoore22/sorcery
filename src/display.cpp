@@ -34,6 +34,8 @@ Sorcery::Display::Display(System *system) : _system{system} {
 		_system, string.get(), layout.get(), (*string)["TITLE_AND_VERSION_INFO"]);
 	ui_texture = (*system->resources).textures[GraphicsTexture::UI];
 	_background_movie.openFromFile(_system->files->get_path_as_string(MENU_VIDEO));
+	auto icon_layout{(*layout)["global:icon"]};
+	_icons = std::make_unique<IconStore>(system, icon_layout, (*system->files)[ICONS_FILE]);
 }
 
 Sorcery::Display::Display(const Display &other)
@@ -78,7 +80,19 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 	const std::optional<std::vector<Component>> components{(*layout)(screen)};
 	if (components) {
 		for (const auto &component : components.value()) {
-			if (component.type == ComponentType::IMAGE) {
+			if (component.type == ComponentType::ICON) {
+
+				// use string for the icon key
+				auto icon{(*_icons)[component.string_key]};
+				if (icon) {
+					auto image{icon.value()};
+					image.setPosition(component.x, component.y);
+					image.setScale(component.scale, component.scale);
+
+					// Add the image to the components ready to draw
+					sprites[component.unique_key] = image;
+				}
+			} else if (component.type == ComponentType::IMAGE) {
 
 				// Skip in case of an error
 				if (component.texture == GraphicsTexture::NONE)

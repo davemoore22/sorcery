@@ -78,7 +78,7 @@ namespace Sorcery {
 
 		enum Confirm { YES, NO };
 
-		enum class ComponentType { IMAGE, TEXT, TOOLTIP, MENU, FRAME, UNKNOWN };
+		enum class ComponentType { IMAGE, TEXT, TOOLTIP, MENU, FRAME, ICON, UNKNOWN };
 
 		enum class Option { SAVE, CANCEL, RESET, NONE };
 

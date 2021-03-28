@@ -281,6 +281,8 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 									return ComponentType::IMAGE;
 								else if (components[j]["type"].asString() == "tooltip")
 									return ComponentType::TOOLTIP;
+								else if (components[j]["type"].asString() == "icon")
+									return ComponentType::ICON;
 								else if (components[j]["type"].asString() == "menu")
 									return ComponentType::MENU;
 								else

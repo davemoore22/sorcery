@@ -1783,7 +1783,7 @@
 		"name": "character",
 		"component": [
 		{
-			"name": "portrait_frame",
+			"name": "cs1_portrait_frame",
 			"w": "13",
 			"h": "13",
 			"x": "0",
@@ -1795,7 +1795,7 @@
 			"colour": "0x808080ff"
 		},
 		{
-			"name": "portrait",
+			"name": "cs1_portrait",
 			"x": "1",
 			"y": "1",
 			"scale": "0.42",
@@ -1803,7 +1803,7 @@
 			"type": "image"
 		},
 		{
-			"name": "summary_frame",
+			"name": "cs1_summary_frame",
 			"w": "38",
 			"h": "3",
 			"x": "16",
@@ -1815,7 +1815,7 @@
 			"colour": "0x808080ff"
 		},
 		{
-			"name": "stat_frame",
+			"name": "cs1_stat_frame",
 			"w": "38",
 			"h": "7",
 			"x": "16",
@@ -1827,7 +1827,19 @@
 			"colour": "0x808080ff"
 		},
 		{
-			"name": "name_text",
+			"name": "cs1_other_frame",
+			"w": "27",
+			"h": "9",
+			"x": "0",
+			"y": "13",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "6",
+			"drawmode": "automatic",
+			"colour": "0x808080ff"
+		},
+		{
+			"name": "cs1_name_text",
 			"x": "17",
 			"y": "0",
 			"font": "proportional",
@@ -1840,7 +1852,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "level_icon",
+			"name": "cs1_level_icon",
 			"x": "41",
 			"y": "1",
 			"scale": "0.1",
@@ -1849,7 +1861,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "level_text",
+			"name": "cs1_level_text",
 			"x": "44",
 			"y": "1",
 			"font": "monospace",
@@ -1862,7 +1874,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "alignment_icon",
+			"name": "cs1_alignment_icon",
 			"x": "46",
 			"y": "1",
 			"scale": "0.1",
@@ -1871,7 +1883,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "race_icon",
+			"name": "cs1_race_icon",
 			"x": "49",
 			"y": "1",
 			"scale": "0.1",
@@ -1880,7 +1892,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "class_icon",
+			"name": "cs1_class_icon",
 			"x": "52",
 			"y": "1",
 			"scale": "0.1",
@@ -1889,58 +1901,64 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "strength_icon",
+			"name": "cs1_strength_icon",
 			"x": "17",
 			"y": "6",
 			"scale": "0.10",
-			"type": "image",
+			"type": "icon",
 			"priority": "4",
-			"drawmode": "manual"
+			"drawmode": "automatic",
+			"string": "strength"
 		},
 		{
-			"name": "iq_icon",
+			"name": "cs1_iq_icon",
 			"x": "31",
 			"y": "6",
 			"scale": "0.10",
-			"type": "image",
+			"type": "icon",
 			"priority": "4",
-			"drawmode": "manual"
+			"drawmode": "automatic",
+			"string": "iq"
 		},
 		{
-			"name": "piety_icon",
+			"name": "cs1_piety_icon",
 			"x": "45",
 			"y": "6",
 			"scale": "0.10",
-			"type": "image",
+			"type": "icon",
 			"priority": "4",
-			"drawmode": "manual"
+			"drawmode": "automatic",
+			"string": "piety"
 		},
 		{
-			"name": "agility_icon",
+			"name": "cs1_agility_icon",
 			"x": "17",
 			"y": "9",
 			"scale": "0.10",
-			"type": "image",
+			"type": "icon",
 			"priority": "4",
-			"drawmode": "manual"
+			"drawmode": "automatic",
+			"string": "agility"
 		},
 		{
-			"name": "vitality_icon",
+			"name": "cs1_vitality_icon",
 			"x": "31",
 			"y": "9",
 			"scale": "0.10",
-			"type": "image",
+			"type": "icon",
 			"priority": "4",
-			"drawmode": "manual"
+			"drawmode": "automatic",
+			"string": "vitality"
 		},
 		{
-			"name": "luck_icon",
+			"name": "cs1_luck_icon",
 			"x": "45",
 			"y": "9",
 			"scale": "0.10",
-			"type": "image",
+			"type": "icon",
 			"priority": "4",
-			"drawmode": "manual"
+			"drawmode": "automatic",
+			"string": "luck"
 		},
 		{
 			"name": "summary_text",

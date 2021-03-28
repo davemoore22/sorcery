@@ -25,6 +25,7 @@
 #pragma once
 
 #include "frame.hpp"
+#include "iconstore.hpp"
 #include "layout.hpp"
 #include "main.hpp"
 #include "string.hpp"
@@ -38,6 +39,7 @@ namespace Sorcery {
 	class String;
 	class Layout;
 	class Window;
+	class IconStore;
 
 	// Superclass to handle basic display requirements such as Windopw Access, Game Text and so on
 	class Display {
@@ -83,6 +85,7 @@ namespace Sorcery {
 		System *_system;
 		sfe::Movie _background_movie;
 		std::map<Component, std::variant<sf::Sprite, sf::Text, std::shared_ptr<Frame>>> _components;
+		std::unique_ptr<IconStore> _icons;
 
 		// Private Methods
 	};
