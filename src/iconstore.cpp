@@ -49,12 +49,16 @@ Sorcery::IconStore::IconStore(
 // Overload [] Operator
 auto Sorcery::IconStore::operator[](const std::string &key) -> std::optional<sf::Sprite> {
 
-	return get(key);
+	auto sprite = get(key);
+	auto copy = sprite;
+	return copy;
 }
 
 auto Sorcery::IconStore::operator[](const MenuItem key) -> std::optional<sf::Sprite> {
 
-	return get(key);
+	auto sprite = get(key);
+	auto copy = sprite;
+	return copy;
 }
 
 // Find the corresponding item in the map by String

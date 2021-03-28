@@ -888,6 +888,8 @@ auto Sorcery::Create::_set_progress_panel_contents() -> void {
 		auto stage_2 = _candidate.get_icon(CharacterStage::CHOOSE_RACE);
 		stage_2->setPosition((*_display->layout)["create:stage_2_icon"].x,
 			(*_display->layout)["create:stage_2_icon"].y);
+		stage_2->setScale((*_display->layout)["create:stage_2_icon"].scale,
+			(*_display->layout)["create:stage_2_icon"].scale);
 		_progress[1] = stage_2;
 		_progress[2] = std::nullopt;
 		_progress[3] = std::nullopt;
@@ -899,10 +901,14 @@ auto Sorcery::Create::_set_progress_panel_contents() -> void {
 		auto stage_2 = _candidate.get_icon(CharacterStage::CHOOSE_RACE);
 		stage_2->setPosition((*_display->layout)["create:stage_2_icon"].x,
 			(*_display->layout)["create:stage_2_icon"].y);
+		stage_2->setScale((*_display->layout)["create:stage_2_icon"].scale,
+			(*_display->layout)["create:stage_2_icon"].scale);
 		_progress[1] = stage_2;
 		auto stage_3 = _candidate.get_icon(CharacterStage::CHOOSE_ALIGNMENT);
 		stage_3->setPosition((*_display->layout)["create:stage_3_icon"].x,
 			(*_display->layout)["create:stage_3_icon"].y);
+		stage_3->setScale((*_display->layout)["create:stage_3_icon"].scale,
+			(*_display->layout)["create:stage_3_icon"].scale);
 		_progress[2] = stage_3;
 		_progress[3] = std::nullopt;
 		_progress[4] = std::nullopt;
@@ -914,10 +920,14 @@ auto Sorcery::Create::_set_progress_panel_contents() -> void {
 		auto stage_2 = _candidate.get_icon(CharacterStage::CHOOSE_RACE);
 		stage_2->setPosition((*_display->layout)["create:stage_2_icon"].x,
 			(*_display->layout)["create:stage_2_icon"].y);
+		stage_2->setScale((*_display->layout)["create:stage_2_icon"].scale,
+			(*_display->layout)["create:stage_2_icon"].scale);
 		_progress[1] = stage_2;
 		auto stage_3 = _candidate.get_icon(CharacterStage::CHOOSE_ALIGNMENT);
 		stage_3->setPosition((*_display->layout)["create:stage_3_icon"].x,
 			(*_display->layout)["create:stage_3_icon"].y);
+		stage_3->setScale((*_display->layout)["create:stage_3_icon"].scale,
+			(*_display->layout)["create:stage_3_icon"].scale);
 		_progress[2] = stage_3;
 		_progress[3] = std::nullopt;
 		_progress[4] = std::nullopt;
@@ -928,15 +938,21 @@ auto Sorcery::Create::_set_progress_panel_contents() -> void {
 		auto stage_2 = _candidate.get_icon(CharacterStage::CHOOSE_RACE);
 		stage_2->setPosition((*_display->layout)["create:stage_2_icon"].x,
 			(*_display->layout)["create:stage_2_icon"].y);
+		stage_2->setScale((*_display->layout)["create:stage_2_icon"].scale,
+			(*_display->layout)["create:stage_2_icon"].scale);
 		_progress[1] = stage_2;
 		auto stage_3 = _candidate.get_icon(CharacterStage::CHOOSE_ALIGNMENT);
 		stage_3->setPosition((*_display->layout)["create:stage_3_icon"].x,
 			(*_display->layout)["create:stage_3_icon"].y);
+		stage_3->setScale((*_display->layout)["create:stage_3_icon"].scale,
+			(*_display->layout)["create:stage_3_icon"].scale);
 		_progress[2] = stage_3;
 		_progress[3] = std::nullopt;
 		auto stage_5 = _candidate.get_icon(CharacterStage::CHOOSE_CLASS);
 		stage_5->setPosition((*_display->layout)["create:stage_5_icon"].x,
 			(*_display->layout)["create:stage_5_icon"].y);
+		stage_5->setScale((*_display->layout)["create:stage_5_icon"].scale,
+			(*_display->layout)["create:stage_5_icon"].scale);
 		_progress[4] = stage_5;
 	}
 	default:

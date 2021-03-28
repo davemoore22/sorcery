@@ -39,8 +39,8 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 // Note for the copy constuctors we only copy the character data/PODs within
 Sorcery::Character::Character(const Character &other)
 	: _system{other._system}, _display{other._display}, _graphics{other._graphics},
-	  _abilities{other._abilities}, _cleric_max_sp{other._cleric_max_sp},
-	  _cleric_cur_sp{other._cleric_cur_sp}, _mage_max_sp{other._mage_max_sp},
+	  _abilities{other._abilities}, _priest_max_sp{other._priest_max_sp},
+	  _priest_cur_sp{other._priest_cur_sp}, _mage_max_sp{other._mage_max_sp},
 	  _mage_cur_sp{other._mage_cur_sp}, _spells{other._spells},
 	  _current_stage{other._current_stage}, _name{other._name}, _race{other._race},
 	  _class{other._class}, _alignment{other._alignment}, _start_attr{other._start_attr},
@@ -56,8 +56,8 @@ auto Sorcery::Character::operator=(const Character &other) -> Character & {
 	_graphics = other._graphics;
 
 	_abilities = other._abilities;
-	_cleric_max_sp = other._cleric_max_sp;
-	_cleric_cur_sp = other._cleric_cur_sp;
+	_priest_max_sp = other._priest_max_sp;
+	_priest_cur_sp = other._priest_cur_sp;
 	_mage_max_sp = other._mage_max_sp;
 	_mage_cur_sp = other._mage_cur_sp;
 	_spells = other._spells;
@@ -118,8 +118,8 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 		_pos_classes.clear();
 		_num_pos_classes = 0;
 		_portrait_index = 0;
-		_cleric_max_sp.clear();
-		_cleric_cur_sp.clear();
+		_priest_max_sp.clear();
+		_priest_cur_sp.clear();
 		_mage_max_sp.clear();
 		_mage_cur_sp.clear();
 		_spells.clear();
@@ -510,6 +510,7 @@ auto Sorcery::Character::_generate_starting_information() -> void {
 	_start_attr = _cur_attr;
 	_max_attr = _cur_attr;
 
+	_abilities[CharacterAbility::CURRENT_XP] = 0;
 	_abilities[CharacterAbility::NEXT_LEVEL_XP] =
 		_get_xp_for_level(_abilities[CharacterAbility::CURRENT_LEVEL]);
 }
@@ -1000,7 +1001,7 @@ auto Sorcery::Character::_set_starting_sp() -> void {
 	// things easier if we're not in strict mode
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::PRIEST:
-		_cleric_max_sp[1] = (*_system->config)[ConfigOption::STRICT_MODE]
+		_priest_max_sp[1] = (*_system->config)[ConfigOption::STRICT_MODE]
 								? 2
 								: 2 + _abilities[CharacterAbility::BONUS_PRIEST_SPELLS];
 		break;
@@ -1016,7 +1017,7 @@ auto Sorcery::Character::_set_starting_sp() -> void {
 		break;
 	}
 
-	_cleric_cur_sp[1] = _cleric_max_sp[1];
+	_priest_cur_sp[1] = _priest_max_sp[1];
 	_mage_cur_sp[1] = _mage_max_sp[1];
 }
 
@@ -1024,8 +1025,8 @@ auto Sorcery::Character::_set_starting_sp() -> void {
 auto Sorcery::Character::_clear_sp() -> void {
 
 	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
-		_cleric_max_sp[spell_level] = 0;
-		_cleric_cur_sp[spell_level] = 0;
+		_priest_max_sp[spell_level] = 0;
+		_priest_cur_sp[spell_level] = 0;
 		_mage_max_sp[spell_level] = 0;
 		_mage_cur_sp[spell_level] = 0;
 	}
@@ -1163,7 +1164,7 @@ auto Sorcery::Character::_try_to_learn_spells(SpellType spell_type, unsigned int
 
 	// Only do spells if a character can learn them
 	if (spell_type == SpellType::PRIEST)
-		if (_cleric_max_sp[spell_level] == 0)
+		if (_priest_max_sp[spell_level] == 0)
 			return;
 	if (spell_type == SpellType::MAGE)
 		if (_mage_max_sp[spell_level] == 0)
@@ -1202,7 +1203,7 @@ auto Sorcery::Character::_calculate_sp(
 	SpellType spell_type, unsigned int level_mod, unsigned int level_offset) -> void {
 
 	// No ownership granted by use of raw pointer here
-	SpellPoints *spells{spell_type == SpellType::PRIEST ? &_cleric_max_sp : &_mage_max_sp};
+	SpellPoints *spells{spell_type == SpellType::PRIEST ? &_priest_max_sp : &_mage_max_sp};
 
 	int spell_count{static_cast<int>(_abilities[CharacterAbility::CURRENT_LEVEL] - level_mod)};
 	if (spell_count <= 0)
@@ -1227,7 +1228,7 @@ auto Sorcery::Character::_set_sp() -> void {
 	// alter spells learned in a previous class to allow those to remain the same (see
 	// MINMAG/MINPRI in the code)
 	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
-		_cleric_max_sp[spell_level] = _get_spells_known(SpellType::PRIEST, spell_level);
+		_priest_max_sp[spell_level] = _get_spells_known(SpellType::PRIEST, spell_level);
 		_mage_max_sp[spell_level] = _get_spells_known(SpellType::MAGE, spell_level);
 	}
 
@@ -1663,6 +1664,32 @@ auto Sorcery::Character::_get_character_portrait() -> sf::Sprite {
 	return portrait;
 }
 
+auto Sorcery::Character::_get_mage_magic_status(bool current) -> std::string {
+
+	std::string value{};
+	for (auto level = 1; level <= 7; level++)
+		if (current)
+			value.append(fmt::format(" {} ", _mage_cur_sp[level]));
+		else
+			value.append(fmt::format("({})", _mage_max_sp[level]));
+
+	RTRIM(value);
+	return value;
+}
+
+auto Sorcery::Character::_get_priest_magic_status(bool current) -> std::string {
+
+	std::string value{};
+	for (auto level = 1; level <= 7; level++)
+		if (current)
+			value.append(fmt::format(" {} ", _priest_cur_sp[level]));
+		else
+			value.append(fmt::format("({})", _priest_max_sp[level]));
+
+	RTRIM(value);
+	return value;
+}
+
 // For level draining, optionally keep a track of negative levels unless in strict mode
 
 // Need to also handle character class switching
@@ -1881,7 +1908,24 @@ auto Sorcery::Character::_generate() -> void {
 		std::to_string(static_cast<int>(_abilities.at(CharacterAbility::AGE) / 52)));
 	_add_text((*_display->layout)["character:cs1_swim_value"], "{}",
 		std::to_string(_abilities.at(CharacterAbility::SWIM)));
-	// Status Here too
+	_add_text((*_display->layout)["character:cs1_exp_value"], "{}",
+		std::to_string(_abilities.at(CharacterAbility::CURRENT_XP)));
+	_add_text((*_display->layout)["character:cs1_next_value"], "{}",
+		std::to_string(_abilities.at(CharacterAbility::NEXT_LEVEL_XP)));
+	_add_text((*_display->layout)["character:cs1_gold_value"], "{}",
+		std::to_string(_abilities.at(CharacterAbility::GOLD)));
+	_add_text((*_display->layout)["character:cs1_marks_value"], "{}",
+		std::to_string(_abilities.at(CharacterAbility::MARKS)));
+	_add_text((*_display->layout)["character:cs1_deaths_value"], "{}",
+		std::to_string(_abilities.at(CharacterAbility::DEATHS)));
+	_add_text((*_display->layout)["character:cs1_current_mage_magic_value"], "{}",
+		_get_mage_magic_status(true));
+	_add_text((*_display->layout)["character:cs1_current_priest_magic_value"], "{}",
+		_get_priest_magic_status(true));
+	_add_text((*_display->layout)["character:cs1_max_mage_magic_value"], "{}",
+		_get_mage_magic_status(false));
+	_add_text((*_display->layout)["character:cs1_max_priest_magic_value"], "{}",
+		_get_priest_magic_status(false));
 
 	auto class_icon = get_icon(CharacterStage::CHOOSE_CLASS).value();
 	class_icon.setPosition((*_display->layout)["character:cs1_class_icon"].x,
@@ -1908,7 +1952,7 @@ auto Sorcery::Character::_generate() -> void {
 	auto level_icon = (*_graphics->icons)["level"].value();
 	level_icon.setPosition((*_display->layout)["character:cs1_level_icon"].x,
 		(*_display->layout)["character:cs1_level_icon"].y);
-	level_icon.setScale((*_display->layout)["character:cs1_cs1_level_icon"].scale,
+	level_icon.setScale((*_display->layout)["character:cs1_level_icon"].scale,
 		(*_display->layout)["character:cs1_level_icon"].scale);
 	_sprites.emplace((*_display->layout)["character:cs1_level_icon"].unique_key, level_icon);
 }

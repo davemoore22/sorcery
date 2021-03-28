@@ -113,14 +113,16 @@ namespace Sorcery {
 		auto _add_text(Component &component, std::string format, unsigned int count, ...)
 			-> sf::Text *;
 		auto _add_icon(Component &component, std::string icon_key) -> void;
+		auto _get_mage_magic_status(bool current) -> std::string;
+		auto _get_priest_magic_status(bool current) -> std::string;
 
 		// Private Members
 		System *_system;
 		Display *_display;
 		Graphics *_graphics;
 		CharacterAbilities _abilities;
-		SpellPoints _cleric_max_sp;
-		SpellPoints _cleric_cur_sp;
+		SpellPoints _priest_max_sp;
+		SpellPoints _priest_cur_sp;
 		SpellPoints _mage_max_sp;
 		SpellPoints _mage_cur_sp;
 		std::vector<SpellEntry> _spells;

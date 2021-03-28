@@ -40,8 +40,7 @@ Sorcery::AttributeDisplay::AttributeDisplay(
 	_attribute_icons[5] = (*_graphics->icons)[MenuItem::CS_LUCK].value();
 
 	const sf::Vector2u icon_size{_icons_c.size, _icons_c.size};
-	float texture_size{
-		static_cast<float>(system->resources->textures[GraphicsTexture::ICONS].getSize().y)};
+	float texture_size{511};
 	sf::Vector2f scale{icon_size.x / texture_size, icon_size.y / texture_size};
 
 	int index{0};

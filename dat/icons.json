@@ -187,70 +187,70 @@
 			"filename": "health-normal",
 			"menu_item": "CR_NONE",
 			"key": "hp",
-			"colour": "0xffffffff"
+			"colour": "0x66cc00ff"
 		},
 		{
 			"index": "27",
 			"filename": "dragon-shield",
 			"menu_item": "CR_NONE",
 			"key": "ac",
-			"colour": "0xffffffff"
+			"colour": "0x808080ff"
 		},
 		{
 			"index": "28",
 			"filename": "ages",
 			"menu_item": "CR_NONE",
 			"key": "age",
-			"colour": "0xffffffff"
+			"colour": "0xcc00ccff"
 		},
 		{
 			"index": "29",
 			"filename": "swimfins",
 			"menu_item": "CR_NONE",
 			"key": "swim",
-			"colour": "0xffffffff"
+			"colour": "0x0066ccff"
 		},
 		{
 			"index": "30",
 			"filename": "caduceus",
 			"menu_item": "CR_NONE",
 			"key": "status",
-			"colour": "0xffffffff"
+			"colour": "0x00ff00ff"
 		},
 		{
 			"index": "31",
 			"filename": "gift-of-knowledge",
 			"menu_item": "CR_NONE",
 			"key": "exp",
-			"colour": "0xffffffff"
+			"colour": "0xff8800ff"
 		},
 		{
 			"index": "32",
 			"filename": "progression",
 			"menu_item": "CR_NONE",
 			"key": "next",
-			"colour": "0xffffffff"
+			"colour": "0xcc6600ff"
 		},
 		{
 			"index": "33",
 			"filename": "coins",
 			"menu_item": "CR_NONE",
 			"key": "gold",
-			"colour": "0xffffffff"
+			"colour": "0xffff00fff"
 		},
 		{
 			"index": "34",
 			"filename": "trophy",
 			"menu_item": "CR_NONE",
 			"key": "marks",
-			"colour": "0xffffffff"
+			"colour": "0x0000ffff"
 		},
 		{
 			"index": "35",
 			"filename": "death-skill",
 			"menu_item": "CR_NONE",
 			"key": "deaths",
-			"colour": "0xffffffff"
+			"colour": "0xff0000ff"
 		}
 	]
 }
