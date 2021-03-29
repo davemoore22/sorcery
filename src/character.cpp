@@ -1860,6 +1860,9 @@ auto Sorcery::Character::_generate() -> void {
 	_texts.clear();
 	_frames.clear();
 
+	_ad = std::make_unique<AttributeDisplay>(
+		_system, _display, _graphics, this, Alignment::HORIZONTAL);
+
 	_display->generate_components("character", _sprites, _texts, _frames);
 	auto portrait{_get_character_portrait()};
 	Component portrait_c{(*_display->layout)["character:cs1_portrait"]};
@@ -1870,6 +1873,10 @@ auto Sorcery::Character::_generate() -> void {
 	_add_text((*_display->layout)["character:cs1_name_text"], "{}", _name);
 	_add_text((*_display->layout)["character:cs1_level_text"], "{}",
 		std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)));
+
+	_ad_c = Component((*_display->layout)["character:cs1_attribute_display"]);
+	_ad->set();
+	_ad->setPosition(_ad_c.x, _ad_c.y);
 
 	/*
 	_add_text((*_display->layout)["character:name_text"], "{}", _name)};
@@ -2015,6 +2022,9 @@ auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states)
 
 	for (const auto &[unique_key, text] : _texts)
 		target.draw(text, states);
+
+	if (_ad->valid)
+		target.draw(*_ad);
 
 	// Draw the custom components
 }

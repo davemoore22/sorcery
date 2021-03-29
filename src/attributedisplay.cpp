@@ -29,13 +29,17 @@ Sorcery::AttributeDisplay::AttributeDisplay(
 	: _system{system}, _display{display}, _graphics{graphics}, _character{character},
 	  _alignment{alignment} {
 
+	_bars.clear();
+
 	// Get the standard layout information
 	if (alignment == Alignment::VERTICAL) {
 		_bar_c = Component((*_display->layout)["attribute_display:stat_bar_vertical"]);
 		_icons_c = Component((*_display->layout)["attribute_display:attribute_icons_vertical"]);
+		_text_c = Component((*_display->layout)["attribute_display:stat_text_vertical"]);
 	} else {
 		_bar_c = Component((*_display->layout)["attribute_display:stat_bar_horizontal"]);
 		_icons_c = Component((*_display->layout)["attribute_display:attribute_icons_horizontal"]);
+		_text_c = Component((*_display->layout)["attribute_display:stat_text_horizontal"]);
 	}
 
 	_attribute_icons[0] = (*_graphics->icons)[MenuItem::CS_STRENGTH].value();
@@ -77,11 +81,15 @@ auto Sorcery::AttributeDisplay::set() -> void {
 				(_bar_c.w / 3) + _bar_c.x + (x * _display->window->get_cell_width() * _bar_c.scale),
 				_bar_c.y + _bar_c.size * 2);
 			bar.scale(1.0f, -1.0f);
-		} else
-			bar.setPosition((_bar_c.w + _bar_c.size * 2),
+		} else {
+			auto text{_get_attribute_text(attribute)};
+			text.setPosition(
+				_text_c.x + std::stoi(_text_c["offset_x"].value()), _text_c.y + (y * _text_c.size));
+			bar.setPosition((_bar_c.x + std::stoi(_bar_c["offset_x"].value())),
 				(_bar_c.h / 3) + _bar_c.y +
 					(y * _display->window->get_cell_height() * _bar_c.scale));
-		;
+			_texts.push_back(text);
+		};
 
 		_bars.push_back(bar);
 
@@ -90,6 +98,27 @@ auto Sorcery::AttributeDisplay::set() -> void {
 	}
 
 	valid = true;
+}
+
+auto Sorcery::AttributeDisplay::_get_attribute_text(CharacterAttribute attribute) -> sf::Text {
+
+	if (_alignment == Alignment::VERTICAL) {
+
+		sf::Text text;
+
+		// TODO
+		return text;
+
+	} else {
+		sf::Text text;
+		std::string formatted_value{fmt::format("{:>2}", _character->get_attribute(attribute))};
+		text.setFont(_system->resources->fonts[_text_c.font]);
+		text.setCharacterSize(_text_c.size);
+		text.setFillColor(sf::Color(_text_c.colour));
+		text.setString(formatted_value);
+
+		return text;
+	}
 }
 
 auto Sorcery::AttributeDisplay::_get_attribute_bar(CharacterAttribute attribute)
@@ -121,4 +150,7 @@ auto Sorcery::AttributeDisplay::draw(sf::RenderTarget &target, sf::RenderStates 
 
 	for (const auto &icon : _attribute_icons)
 		target.draw(icon, states);
+
+	for (const auto &text : _texts)
+		target.draw(text, states);
 }

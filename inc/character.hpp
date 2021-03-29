@@ -24,12 +24,17 @@
 
 #pragma once
 
+// clang-format off
 #include "display.hpp"
 #include "graphics.hpp"
 #include "main.hpp"
 #include "system.hpp"
+#include "attributedisplay.hpp"
+// clang-format on
 
 namespace Sorcery {
+
+	class AttributeDisplay;
 
 	class Character : public sf::Transformable, public sf::Drawable {
 
@@ -145,5 +150,7 @@ namespace Sorcery {
 		std::map<std::string, sf::Sprite> _sprites;
 		std::map<std::string, sf::Text> _texts;
 		std::map<std::string, std::shared_ptr<Frame>> _frames;
+		std::unique_ptr<AttributeDisplay> _ad;
+		Component _ad_c;
 	};
 } // namespace Sorcery

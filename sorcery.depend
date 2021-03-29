@@ -271,14 +271,15 @@
 1615651315 source:/home/dave/Development/wizardry/sorcery-sfml/src/banner.cpp
 	"banner.hpp"
 
-1617031078 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
+1617041661 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
 	"character.hpp"
 
-1616970548 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
+1617041575 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
 	"display.hpp"
 	"graphics.hpp"
 	"main.hpp"
 	"system.hpp"
+	"attributedisplay.hpp"
 
 1615926770 source:/home/dave/Development/wizardry/sorcery-sfml/src/component.cpp
 	"component.hpp"
@@ -610,7 +611,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1616971123 source:/home/dave/Development/wizardry/sorcery-sfml/src/iconstore.cpp
+1617034072 source:/home/dave/Development/wizardry/sorcery-sfml/src/iconstore.cpp
 	"iconstore.hpp"
 
 1615367144 /home/dave/Development/wizardry/sorcery-sfml/inc/magicenum/magic_enum.hpp
@@ -626,16 +627,16 @@
 	<string>
 	<string_view>
 
-1617033501 source:/home/dave/Development/wizardry/sorcery-sfml/src/attributedisplay.cpp
+1617046619 source:/home/dave/Development/wizardry/sorcery-sfml/src/attributedisplay.cpp
 	"attributedisplay.hpp"
 
-1617024189 /home/dave/Development/wizardry/sorcery-sfml/inc/attributedisplay.hpp
-	"character.hpp"
+1617044443 /home/dave/Development/wizardry/sorcery-sfml/inc/attributedisplay.hpp
 	"display.hpp"
 	"graphics.hpp"
 	"layout.hpp"
 	"main.hpp"
 	"system.hpp"
+	"character.hpp"
 
 1616448725 /home/dave/Development/wizardry/sorcery-sfml/inc/namegen/namegen.hpp
 	<stddef.h>

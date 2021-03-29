@@ -25,14 +25,18 @@
 
 #pragma once
 
-#include "character.hpp"
+// clang-format off
 #include "display.hpp"
 #include "graphics.hpp"
 #include "layout.hpp"
 #include "main.hpp"
 #include "system.hpp"
+#include "character.hpp"
+// clang-format on
 
 namespace Sorcery {
+
+	class Character;
 
 	class AttributeDisplay : public sf::Transformable, public sf::Drawable {
 
@@ -55,6 +59,7 @@ namespace Sorcery {
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _get_attribute_bar(CharacterAttribute attribute) -> sf::RectangleShape;
+		auto _get_attribute_text(CharacterAttribute attribute) -> sf::Text;
 
 		// Private Members
 		System *_system;
@@ -63,11 +68,13 @@ namespace Sorcery {
 		Character *_character; // Non-owning Pointer
 		Component _bar_c;
 		Component _icons_c;
+		Component _text_c;
 		unsigned int _width;
 		unsigned int _height;
 		Alignment _alignment;
 
 		std::vector<sf::RectangleShape> _bars;
 		std::array<sf::Sprite, 6> _attribute_icons;
+		std::vector<sf::Text> _texts;
 	};
 } // namespace Sorcery
