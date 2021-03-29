@@ -25,12 +25,18 @@
 
 // Standard Constructor
 Sorcery::AttributeDisplay::AttributeDisplay(
-	System *system, Display *display, Graphics *graphics, Character *character)
-	: _system{system}, _display{display}, _graphics{graphics}, _character{character} {
+	System *system, Display *display, Graphics *graphics, Character *character, Alignment alignment)
+	: _system{system}, _display{display}, _graphics{graphics}, _character{character},
+	  _alignment{alignment} {
 
 	// Get the standard layout information
-	_bar_c = Component((*_display->layout)["attribute_display:stat_bar"]);
-	_icons_c = Component((*_display->layout)["attribute_display:attribute_icons"]);
+	if (alignment == Alignment::VERTICAL) {
+		_bar_c = Component((*_display->layout)["attribute_display:stat_bar_vertical"]);
+		_icons_c = Component((*_display->layout)["attribute_display:attribute_icons_vertical"]);
+	} else {
+		_bar_c = Component((*_display->layout)["attribute_display:stat_bar_horizontal"]);
+		_icons_c = Component((*_display->layout)["attribute_display:attribute_icons_horizontal"]);
+	}
 
 	_attribute_icons[0] = (*_graphics->icons)[MenuItem::CS_STRENGTH].value();
 	_attribute_icons[1] = (*_graphics->icons)[MenuItem::CS_IQ].value();
@@ -40,13 +46,16 @@ Sorcery::AttributeDisplay::AttributeDisplay(
 	_attribute_icons[5] = (*_graphics->icons)[MenuItem::CS_LUCK].value();
 
 	const sf::Vector2u icon_size{_icons_c.size, _icons_c.size};
-	float texture_size{511};
+	constexpr float texture_size{511};
 	sf::Vector2f scale{icon_size.x / texture_size, icon_size.y / texture_size};
 
 	int index{0};
 	for (auto &icon : _attribute_icons) {
 		icon.setScale(scale);
-		icon.setPosition(8 + _icons_c.x + (index * _icons_c.size), _icons_c.y);
+		if (_alignment == Alignment::VERTICAL)
+			icon.setPosition(8 + _icons_c.x + (index * _icons_c.size), _icons_c.y);
+		else
+			icon.setPosition(_icons_c.x, 8 + _icons_c.y + (index * _icons_c.size));
 		++index;
 	}
 
@@ -59,16 +68,25 @@ auto Sorcery::AttributeDisplay::set() -> void {
 	_bars.clear();
 
 	int x{0};
+	int y{0};
 	for (const auto &[attribute, value] : _character->get_current_attributes()) {
 
 		auto bar{_get_attribute_bar(attribute)};
-		bar.setPosition(
-			(_bar_c.w / 3) + _bar_c.x + (x * _display->window->get_cell_width() * _bar_c.scale),
-			_bar_c.y + _bar_c.size * 2);
-		bar.scale(1.0f, -1.0f);
+		if (_alignment == Alignment::VERTICAL) {
+			bar.setPosition(
+				(_bar_c.w / 3) + _bar_c.x + (x * _display->window->get_cell_width() * _bar_c.scale),
+				_bar_c.y + _bar_c.size * 2);
+			bar.scale(1.0f, -1.0f);
+		} else
+			bar.setPosition((_bar_c.w + _bar_c.size * 2),
+				(_bar_c.h / 3) + _bar_c.y +
+					(y * _display->window->get_cell_height() * _bar_c.scale));
+		;
+
 		_bars.push_back(bar);
 
 		++x;
+		++y;
 	}
 
 	valid = true;
@@ -78,12 +96,19 @@ auto Sorcery::AttributeDisplay::_get_attribute_bar(CharacterAttribute attribute)
 	-> sf::RectangleShape {
 
 	// Generate three bars which will simply be put on top of each other
-	sf::RectangleShape attr(
-		sf::Vector2f(_bar_c.w / 2, (_bar_c.h * _character->get_attribute(attribute) / 2)));
-	attr.setFillColor(sf::Color(_bar_c.colour));
-	attr.setOutlineThickness(1);
-
-	return attr;
+	if (_alignment == Alignment::VERTICAL) {
+		sf::RectangleShape attr(
+			sf::Vector2f(_bar_c.w / 2, (_bar_c.h * _character->get_attribute(attribute) / 2)));
+		attr.setFillColor(sf::Color(_bar_c.colour));
+		attr.setOutlineThickness(1);
+		return attr;
+	} else {
+		sf::RectangleShape attr(
+			sf::Vector2f(_bar_c.w * _character->get_attribute(attribute) / 2, _bar_c.h / 2));
+		attr.setFillColor(sf::Color(_bar_c.colour));
+		attr.setOutlineThickness(1);
+		return attr;
+	}
 }
 
 auto Sorcery::AttributeDisplay::draw(sf::RenderTarget &target, sf::RenderStates states) const

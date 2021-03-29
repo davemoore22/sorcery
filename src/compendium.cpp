@@ -52,7 +52,7 @@ auto Sorcery::Compendium::start() -> void {
 
 	_display->window->input_mode = WindowInputMode::COMPENDIUM;
 
-	auto module_result = _do_event_loop();
+	auto module_result{_do_event_loop()};
 	if (module_result == ModuleResult::EXIT)
 		_window->close();
 }

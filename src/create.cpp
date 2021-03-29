@@ -40,7 +40,8 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 	_ap = std::make_shared<AllocatePanel>(_system, _display, _graphics, &_candidate);
 
 	// Get the Attribute Display Panel
-	_ad = std::make_shared<AttributeDisplay>(_system, _display, _graphics, &_candidate);
+	_ad = std::make_shared<AttributeDisplay>(
+		_system, _display, _graphics, &_candidate, Alignment::VERTICAL);
 
 	// Layout Information
 	_name_c = Component((*_display->layout)["character_create_stage_1:name_candidate"]);
@@ -123,7 +124,7 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 	_window->clear();
 	_method = CreateMethod::FULL;
 
-	auto module_result = _do_event_loop();
+	auto module_result{_do_event_loop()};
 	if (module_result == ModuleResult::EXIT)
 		_window->close();
 
@@ -818,8 +819,8 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		case CharacterStage::CHOOSE_PORTRAIT: {
 			auto to_push(_candidate);
 			_stages.emplace_back(to_push);
-			_candidate.set_stage(CharacterStage::REVIEW_AND_CONFIRM);
 			_candidate.finalise();
+			_candidate.set_stage(CharacterStage::REVIEW_AND_CONFIRM);
 			_display->generate_components("character_create_stage_7", _sprites, _texts, _frames);
 			_display->window->input_mode = WindowInputMode::NORMAL;
 		} break;

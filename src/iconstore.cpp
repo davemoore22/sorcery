@@ -39,7 +39,7 @@ Sorcery::IconStore::IconStore(
 	// Set the Icon scaling (remember we are using square icons)
 	//_layout = Component{(*_display->layout)["global:icon"]};
 	_size = sf::Vector2f(_layout.size, _layout.size);
-	float texture_size{static_cast<float>(_texture.getSize().y)};
+	constexpr float texture_size{511};
 	_scale = sf::Vector2f(_size.x / texture_size, _size.y / texture_size);
 
 	// Load the Icons

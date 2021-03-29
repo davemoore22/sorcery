@@ -1510,7 +1510,7 @@
 		"name": "attribute_display",
 		"component": [
 			{
-				"name": "stat_bar",
+				"name": "stat_bar_vertical",
 				"x": "0",
 				"y": "17",
 				"w": "38",
@@ -1521,9 +1521,29 @@
 				"drawmode": "manual"
 			},
 			{
-				"name": "attribute_icons",
+				"name": "attribute_icons_vertical",
 				"x": "0",
 				"y": "18",
+				"size": "32",
+				"type": "image",
+				"drawmode": "manual",
+				"scale": "0.2"
+			},
+			{
+				"name": "stat_bar_horizontal",
+				"x": "3",
+				"y": "0",
+				"w": "39",
+				"h": "38",
+				"scale": "1.60",
+				"colour": "0x169016ff",
+				"type": "stat_bar",
+				"drawmode": "manual"
+			},
+			{
+				"name": "attribute_icons_horizontal",
+				"x": "0",
+				"y": "0",
 				"size": "32",
 				"type": "image",
 				"drawmode": "manual",
@@ -1858,7 +1878,7 @@
 			"name": "cs1_name_text",
 			"x": "17",
 			"y": "0",
-			"font": "proportional",
+			"font": "monospace",
 			"colour": "0x6060c8ff",
 			"size": "64",
 			"string": "NONE",

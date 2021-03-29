@@ -38,8 +38,8 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		AttributeDisplay(
-			System *system, Display *display, Graphics *graphics, Character *character);
+		AttributeDisplay(System *system, Display *display, Graphics *graphics, Character *character,
+			Alignment alignment);
 		AttributeDisplay() = delete;
 
 		// Public Members
@@ -65,6 +65,7 @@ namespace Sorcery {
 		Component _icons_c;
 		unsigned int _width;
 		unsigned int _height;
+		Alignment _alignment;
 
 		std::vector<sf::RectangleShape> _bars;
 		std::array<sf::Sprite, 6> _attribute_icons;

@@ -60,6 +60,8 @@ namespace Sorcery {
 		// Draw Mode
 		enum class DrawMode { MANUAL, AUTOMATIC };
 
+		enum class Alignment { VERTICAL, HORIZONTAL };
+
 		// Input Mode
 		enum InputMode {
 			NORMAL,

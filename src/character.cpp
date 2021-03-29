@@ -260,8 +260,8 @@ auto Sorcery::Character::set_starting_attributes() -> void {
 
 	// Formula soured from http://www.zimlab.com/wizardry/walk/w123calc.htm
 	_points_left = {(*_system->random)[RandomType::ZERO_TO_3]};
-	const bool chance_of_more = {(*_system->random)[RandomType::D10] == 1};
-	const bool chance_of_more_again = {(*_system->random)[RandomType::D10] == 1};
+	const bool chance_of_more{(*_system->random)[RandomType::D10] == 1};
+	const bool chance_of_more_again{(*_system->random)[RandomType::D10] == 1};
 	_points_left += 7;
 	if (_points_left < 20)
 		if (chance_of_more)
@@ -415,8 +415,6 @@ auto Sorcery::Character::get_alignment(CharacterAlignment character_alignment) c
 
 auto Sorcery::Character::get_race(CharacterRace character_race) const -> std::string {
 
-	std::string ddfd = (*_display->string)["CHARACTER_RACE_HOBBIT"];
-	std::string dddfd = (*_display->string)["CHARACTER_RACE_HUMAN"];
 	switch (character_race) {
 	case CharacterRace::HUMAN:
 		return (*_display->string)["CHARACTER_RACE_HUMAN"];
@@ -1209,7 +1207,7 @@ auto Sorcery::Character::_calculate_sp(
 	if (spell_count <= 0)
 		return;
 
-	unsigned int spell_level = {1};
+	unsigned int spell_level{1};
 	while (spell_level >= 1 && spell_level <= 7 && spell_count > 0) {
 		if (static_cast<unsigned int>(spell_count) > (*spells)[spell_level])
 			(*spells)[spell_level] = spell_count;
@@ -1264,7 +1262,7 @@ auto Sorcery::Character::_set_sp() -> void {
 auto Sorcery::Character::_get_spells_known(SpellType spell_type, unsigned int spell_level)
 	-> unsigned int {
 
-	unsigned int spells_known = {0};
+	unsigned int spells_known{0};
 	std::vector<SpellEntry>::iterator it;
 	it = std::find_if(_spells.begin(), _spells.end(), [=](auto item) {
 		return std::get<1>(item) == spell_type && std::get<2>(item) == spell_level;
@@ -1285,10 +1283,10 @@ auto Sorcery::Character::_get_spells_known(SpellType spell_type, unsigned int sp
 auto Sorcery::Character::_get_xp_for_level(unsigned int level) const -> int {
 
 	// Values obtained from http://www.the-spoiler.com/RPG/Sir-Tech/wizardry.1.2.html
-	float base = {};
-	float coefficient_2_to_3 = {};
-	float coefficient_3_to_13 = {};
-	float coefficient_13_plus = {};
+	float base{};
+	float coefficient_2_to_3{};
+	float coefficient_3_to_13{};
+	float coefficient_13_plus{};
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::FIGHTER:
 		base = 1000;
@@ -1654,8 +1652,10 @@ auto Sorcery::Character::_get_character_portrait() -> sf::Sprite {
 
 	// Workout the location of the potrait on the texture, noting that the potraits are all
 	// square and are 600x600 pixels in size arranged in a grid of 6 by 5
-	sf::Vector2u top_left{(_portrait_index % 6) * 600, (_portrait_index / 6) * 600};
-	sf::IntRect rect = sf::IntRect(top_left.x, top_left.y, 600, 600);
+	constexpr int portrait_size{600};
+	sf::Vector2u top_left{
+		(_portrait_index % 6) * portrait_size, (_portrait_index / 6) * portrait_size};
+	sf::IntRect rect{sf::IntRect(top_left.x, top_left.y, portrait_size, portrait_size)};
 
 	// Grab the associated part of the texture and return it
 	sf::Sprite portrait(_system->resources->textures[GraphicsTexture::PORTRAITS]);

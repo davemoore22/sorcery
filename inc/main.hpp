@@ -100,6 +100,7 @@
 // Aliases
 namespace Sorcery {
 
+	using Alignment = Enums::Window::Alignment;
 	using Background = Enums::Graphics::Background;
 	using Category = Enums::Manage::Category;
 	using CharacterAbility = Enums::Character::Ability;
