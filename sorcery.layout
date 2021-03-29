@@ -7,7 +7,7 @@
 			<Cursor1 position="4631" topLine="121" />
 		</Cursor>
 	</File>
-	<File name="src/character.cpp" open="1" top="1" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/character.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1579" topLine="24" />
 		</Cursor>
@@ -82,7 +82,7 @@
 			<Cursor1 position="2560" topLine="51" />
 		</Cursor>
 	</File>
-	<File name="src/display.cpp" open="1" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/display.cpp" open="1" top="1" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="5198" topLine="134" />
 		</Cursor>

@@ -960,7 +960,7 @@
 			"name": "stage_1_name_progress",
 			"x": "7",
 			"y": "7",
-			"font": "proportional",
+			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "72",
 			"string": "NAME",
@@ -1246,7 +1246,7 @@
 			"name": "name_candidate",
 			"x": "centre",
 			"y": "19",
-			"font": "proportional",
+			"font": "monospace",
 			"colour": "0xddddddff",
 			"size": "72",
 			"justification": "centre",
@@ -1878,7 +1878,7 @@
 			"data": [
 				{
 					"offset_x": "0",
-					"offset_y": "14"
+					"offset_y": "6"
 				}
 			]
 		},
@@ -1904,7 +1904,12 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "automatic",
-			"colour": "0x808080ff"
+			"colour": "0x808080ff",
+			"data": [
+				{
+					"offset_y": "-8"
+				}
+			]
 		},
 		{
 			"name": "cs1_other_frame",

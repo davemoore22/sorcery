@@ -86,7 +86,21 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 				auto icon{(*_icons)[component.string_key]};
 				if (icon) {
 					auto image{icon.value()};
-					image.setPosition(component.x, component.y);
+
+					// Check for Offsets
+					const int offset_x = [&] {
+						if (component["offset_x"])
+							return std::stoi(component["offset_x"].value());
+						else
+							return 0;
+					}();
+					const int offset_y = [&] {
+						if (component["offset_y"])
+							return std::stoi(component["offset_y"].value());
+						else
+							return 0;
+					}();
+					image.setPosition(component.x + offset_x, component.y + offset_y);
 					image.setScale(component.scale, component.scale);
 
 					// Add the image to the components ready to draw
@@ -125,9 +139,23 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 					image.setTextureRect(window->size);
 				}
 
+				// Check for Offsets
+				const int offset_x = [&] {
+					if (component["offset_x"])
+						return std::stoi(component["offset_x"].value());
+					else
+						return 0;
+				}();
+				const int offset_y = [&] {
+					if (component["offset_y"])
+						return std::stoi(component["offset_y"].value());
+					else
+						return 0;
+				}();
+
 				// Set the image position
-				const sf::Vector2f image_pos(
-					window->get_x(image, component.x), window->get_y(image, component.y));
+				const sf::Vector2f image_pos(window->get_x(image, component.x + offset_x),
+					window->get_y(image, component.y + offset_y));
 				image.setPosition(image_pos);
 
 				// Add the image to the components ready to draw
@@ -138,8 +166,23 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 				auto frame = std::make_shared<Frame>(
 					_system->resources->textures[GraphicsTexture::UI], WindowFrameType::NORMAL,
 					component.w, component.h, component.colour, component.alpha);
-				frame->setPosition(window->get_x(frame->sprite, component.x),
-					window->get_y(frame->sprite, component.y));
+
+				// Check for Offsets
+				const int offset_x = [&] {
+					if (component["offset_x"])
+						return std::stoi(component["offset_x"].value());
+					else
+						return 0;
+				}();
+				const int offset_y = [&] {
+					if (component["offset_y"])
+						return std::stoi(component["offset_y"].value());
+					else
+						return 0;
+				}();
+
+				frame->setPosition(window->get_x(frame->sprite, component.x) + offset_x,
+					window->get_y(frame->sprite, component.y) + offset_y);
 				frames.emplace(std::make_pair(component.unique_key, std::move(frame)));
 			} else if (component.type == ComponentType::TEXT) {
 
@@ -153,16 +196,31 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 				text.setString((*string)[component.string_key]);
 				x = component.x == -1 ? window->centre.x : component.x;
 				y = component.y == -1 ? window->centre.y : component.y;
+
+				// Check for Offsets
+				const int offset_x = [&] {
+					if (component["offset_x"])
+						return std::stoi(component["offset_x"].value());
+					else
+						return 0;
+				}();
+				const int offset_y = [&] {
+					if (component["offset_y"])
+						return std::stoi(component["offset_y"].value());
+					else
+						return 0;
+				}();
+
 				if (component.justification == Justification::CENTRE) {
-					text.setPosition(x, y);
+					text.setPosition(x + offset_x, y + offset_y);
 					text.setOrigin(
 						text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 				} else if (component.justification == Justification::RIGHT) {
-					text.setPosition(x, y);
+					text.setPosition(x + offset_x, y + offset_y);
 					const sf::FloatRect bounds{text.getLocalBounds()};
 					text.setPosition(component.x - bounds.width, component.y);
 				} else {
-					text.setPosition(x, y);
+					text.setPosition(x + offset_x, y + offset_y);
 					text.setOrigin(0, text.getLocalBounds().height / 2.0f);
 				}
 

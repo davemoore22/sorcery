@@ -103,15 +103,12 @@ auto Sorcery::Component::operator=(const Component &other) -> Component & {
 // Overload [] operator
 auto Sorcery::Component::operator[](const std::string &key) -> std::optional<std::string> {
 
-	if (_data.capacity() == 0)
-		return std::nullopt;
-	auto it = std::find_if(_data.begin(), _data.end(), [&key](auto item) {
-		return item.first == key;
-	});
-	if (it != _data.end())
-		return it->second;
-	else
-		return std::nullopt;
+	return _get(key);
+}
+
+auto Sorcery::Component::operator[](const std::string &key) const -> std::optional<std::string> {
+
+	return _get(key);
 }
 
 auto Sorcery::Component::set(const std::string &key, const std::string &value) -> void {
@@ -141,4 +138,16 @@ auto Sorcery::Component::set_visible(bool value) -> void {
 auto Sorcery::Component::get_visible() -> bool {
 
 	return _visible;
+}
+
+auto Sorcery::Component::_get(const std::string &key) const -> std::optional<std::string> {
+	if (_data.capacity() == 0)
+		return std::nullopt;
+	auto it = std::find_if(_data.begin(), _data.end(), [&key](auto item) {
+		return item.first == key;
+	});
+	if (it != _data.end())
+		return it->second;
+	else
+		return std::nullopt;
 }

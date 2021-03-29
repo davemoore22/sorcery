@@ -48,6 +48,7 @@ namespace Sorcery {
 
 		// Overload [] operator
 		auto operator[](const std::string &key) -> std::optional<std::string>;
+		auto operator[](const std::string &key) const -> std::optional<std::string>;
 
 		// Public Methods
 		auto set(const std::string &key, const std::string &value) -> void;
@@ -81,10 +82,11 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
-		bool _enabled;
-		bool _visible;
+		auto _get(const std::string &key) const -> std::optional<std::string>;
 
 		// Private Members
+		bool _enabled;
+		bool _visible;
 		std::vector<std::pair<std::string, std::string>> _data;
 	};
 } // namespace Sorcery
