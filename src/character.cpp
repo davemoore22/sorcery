@@ -1876,7 +1876,8 @@ auto Sorcery::Character::_generate() -> void {
 
 	_ad_c = Component((*_display->layout)["character:cs1_attribute_display"]);
 	_ad->set();
-	_ad->setPosition(_ad_c.x, _ad_c.y);
+	_ad->setPosition(_ad_c.x + std::stoi(_ad_c["offset_x"].value()),
+		_ad_c.y + std::stoi(_ad_c["offset_y"].value()));
 
 	/*
 	_add_text((*_display->layout)["character:name_text"], "{}", _name)};
@@ -1894,7 +1895,7 @@ auto Sorcery::Character::_generate() -> void {
 	//	summary_text->getGlobalBounds().top - (name_text->getGlobalBounds().height / 2));
 
 	*/
-	_add_text((*_display->layout)["character:cs1_strength_value"], "{:>2}",
+	/* _add_text((*_display->layout)["character:cs1_strength_value"], "{:>2}",
 		std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
 	_add_text((*_display->layout)["character:cs1_iq_value"], "{:>2}",
 		std::to_string(_cur_attr.at(CharacterAttribute::IQ)));
@@ -1905,7 +1906,7 @@ auto Sorcery::Character::_generate() -> void {
 	_add_text((*_display->layout)["character:cs1_vitality_value"], "{:>2}",
 		std::to_string(_cur_attr.at(CharacterAttribute::VITALITY)));
 	_add_text((*_display->layout)["character:cs1_luck_value"], "{:>2}",
-		std::to_string(_cur_attr.at(CharacterAttribute::LUCK)));
+		std::to_string(_cur_attr.at(CharacterAttribute::LUCK))); */
 	_add_text((*_display->layout)["character:cs1_hp_value"], "{}",
 		fmt::format("{}/{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
 			std::to_string(_abilities.at(CharacterAbility::MAX_HP))));
@@ -2024,7 +2025,7 @@ auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states)
 		target.draw(text, states);
 
 	if (_ad->valid)
-		target.draw(*_ad);
+		target.draw(*_ad, states);
 
 	// Draw the custom components
 }
