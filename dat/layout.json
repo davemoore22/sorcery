@@ -2234,7 +2234,12 @@
 			"type": "icon",
 			"priority": "4",
 			"drawmode": "automatic",
-			"string": "hp"
+			"string": "hp",
+			"data": [
+				{
+					"offset_y": "-4"
+				}
+			]
 		},
 		{
 			"name": "cs1_ac_icon",
@@ -2244,7 +2249,12 @@
 			"type": "icon",
 			"priority": "4",
 			"drawmode": "automatic",
-			"string": "ac"
+			"string": "ac",
+			"data": [
+				{
+					"offset_y": "-4"
+				}
+			]
 		},
 		{
 			"name": "cs1_age_icon",
@@ -2254,7 +2264,12 @@
 			"type": "icon",
 			"priority": "4",
 			"drawmode": "automatic",
-			"string": "age"
+			"string": "age",
+			"data": [
+				{
+					"offset_y": "-4"
+				}
+			]
 		},
 		{
 			"name": "cs1_swim_icon",
@@ -2264,7 +2279,12 @@
 			"type": "icon",
 			"priority": "4",
 			"drawmode": "automatic",
-			"string": "swim"
+			"string": "swim",
+			"data": [
+				{
+					"offset_y": "-4"
+				}
+			]
 		},
 		{
 			"name": "cs1_exp_icon",
@@ -2274,7 +2294,12 @@
 			"type": "icon",
 			"priority": "4",
 			"drawmode": "automatic",
-			"string": "exp"
+			"string": "exp",
+			"data": [
+				{
+					"offset_y": "-4"
+				}
+			]
 		},
 		{
 			"name": "cs1_next_icon",
@@ -2284,7 +2309,12 @@
 			"type": "icon",
 			"priority": "4",
 			"drawmode": "automatic",
-			"string": "next"
+			"string": "next",
+			"data": [
+				{
+					"offset_y": "-4"
+				}
+			]
 		},
 		{
 			"name": "cs1_gold_icon",
@@ -2294,7 +2324,12 @@
 			"type": "icon",
 			"priority": "4",
 			"drawmode": "automatic",
-			"string": "gold"
+			"string": "gold",
+			"data": [
+				{
+					"offset_y": "-4"
+				}
+			]
 		},
 		{
 			"name": "cs1_status_icon",
@@ -2304,7 +2339,12 @@
 			"type": "icon",
 			"priority": "4",
 			"drawmode": "automatic",
-			"string": "status"
+			"string": "status",
+			"data": [
+				{
+					"offset_y": "-4"
+				}
+			]
 		},
 		{
 			"name": "cs1_marks_icon",
@@ -2314,7 +2354,12 @@
 			"type": "icon",
 			"priority": "4",
 			"drawmode": "automatic",
-			"string": "marks"
+			"string": "marks",
+			"data": [
+				{
+					"offset_y": "-4"
+				}
+			]
 		},
 		{
 			"name": "cs1_deaths_icon",
@@ -2324,7 +2369,12 @@
 			"type": "icon",
 			"priority": "4",
 			"drawmode": "automatic",
-			"string": "deaths"
+			"string": "deaths",
+			"data": [
+				{
+					"offset_y": "-4"
+				}
+			]
 		},
 		{
 			"name": "cs1_hp_value",
@@ -2337,7 +2387,12 @@
 			"justification": "left",
 			"type": "text",
 			"priority": "3",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_y": "-12"
+				}
+			]
 		},
 		{
 			"name": "cs1_ac_value",
@@ -2350,7 +2405,12 @@
 			"justification": "left",
 			"type": "text",
 			"priority": "3",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_y": "-12"
+				}
+			]
 		},
 		{
 			"name": "cs1_age_value",
@@ -2363,7 +2423,12 @@
 			"justification": "left",
 			"type": "text",
 			"priority": "3",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_y": "-12"
+				}
+			]
 		},
 		{
 			"name": "cs1_swim_value",
@@ -2376,7 +2441,12 @@
 			"justification": "left",
 			"type": "text",
 			"priority": "3",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_y": "-12"
+				}
+			]
 		},
 		{
 			"name": "cs1_exp_value",
@@ -2389,7 +2459,12 @@
 			"justification": "left",
 			"type": "text",
 			"priority": "3",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_y": "-12"
+				}
+			]
 		},
 		{
 			"name": "cs1_next_value",
@@ -2402,7 +2477,12 @@
 			"justification": "left",
 			"type": "text",
 			"priority": "3",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_y": "-12"
+				}
+			]
 		},
 		{
 			"name": "cs1_gold_value",
@@ -2415,7 +2495,12 @@
 			"justification": "left",
 			"type": "text",
 			"priority": "3",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_y": "-12"
+				}
+			]
 		},
 		{
 			"name": "cs1_status_value",
@@ -2428,7 +2513,12 @@
 			"justification": "left",
 			"type": "text",
 			"priority": "3",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_y": "-12"
+				}
+			]
 		},
 		{
 			"name": "cs1_marks_value",
@@ -2441,7 +2531,12 @@
 			"justification": "left",
 			"type": "text",
 			"priority": "3",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_y": "-12"
+				}
+			]
 		},
 		{
 			"name": "cs1_deaths_value",
@@ -2454,7 +2549,12 @@
 			"justification": "left",
 			"type": "text",
 			"priority": "3",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_y": "-12"
+				}
+			]
 		},
 		{
 			"name": "cs1_mage_magic_icon",

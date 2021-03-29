@@ -1968,7 +1968,19 @@ auto Sorcery::Character::_generate() -> void {
 auto Sorcery::Character::_add_icon(Component &component, std::string icon_key) -> void {
 
 	auto icon = (*_graphics->icons)[icon_key].value();
-	icon.setPosition(component.x, component.y);
+	const int offset_x = [&] {
+		if (component["offset_x"])
+			return std::stoi(component["offset_x"].value());
+		else
+			return 0;
+	}();
+	const int offset_y = [&] {
+		if (component["offset_y"])
+			return std::stoi(component["offset_y"].value());
+		else
+			return 0;
+	}();
+	icon.setPosition(component.x + offset_x, component.y + offset_y);
 	icon.setScale(component.scale, component.scale);
 	_sprites.emplace(component.unique_key, icon);
 }
@@ -1991,7 +2003,19 @@ auto Sorcery::Character::_add_text(
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
 	text.setString(formatted_value);
-	text.setPosition(component.x, component.y);
+	const int offset_x = [&] {
+		if (component["offset_x"])
+			return std::stoi(component["offset_x"].value());
+		else
+			return 0;
+	}();
+	const int offset_y = [&] {
+		if (component["offset_y"])
+			return std::stoi(component["offset_y"].value());
+		else
+			return 0;
+	}();
+	text.setPosition(component.x + offset_x, component.y + offset_y);
 	_texts.emplace(component.unique_key, text);
 	return &_texts.at(component.unique_key);
 }
@@ -2005,7 +2029,19 @@ auto Sorcery::Character::_add_text(Component &component, std::string format, std
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
 	text.setString(formatted_value);
-	text.setPosition(component.x, component.y);
+	const int offset_x = [&] {
+		if (component["offset_x"])
+			return std::stoi(component["offset_x"].value());
+		else
+			return 0;
+	}();
+	const int offset_y = [&] {
+		if (component["offset_y"])
+			return std::stoi(component["offset_y"].value());
+		else
+			return 0;
+	}();
+	text.setPosition(component.x + offset_x, component.y + offset_y);
 	_texts.emplace(component.unique_key, text);
 	return &_texts.at(component.unique_key);
 }
