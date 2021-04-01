@@ -47,6 +47,8 @@ namespace Sorcery {
 		Character(const Character &other);
 		auto operator=(const Character &other) -> Character &;
 
+		// TODO move constructors?
+
 		// Overloaded Operators
 		auto operator[](const CharacterAbility &key) -> int &;
 

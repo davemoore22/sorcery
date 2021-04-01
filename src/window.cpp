@@ -45,9 +45,9 @@ Sorcery::Window::Window(System *system, String *string, Layout *layout, const st
 	XInitThreads();
 	_window.create(sf::VideoMode(_current_size.w, _current_size.h), _title,
 		sf::Style::Titlebar | sf::Style::Resize | sf::Style::Close);
+	_window.setFramerateLimit(FRAMERATE);
 	centre.x = _current_size.w / 2;
 	centre.y = _current_size.h / 2;
-	_window.setFramerateLimit(60);
 	_window.setVerticalSyncEnabled(true);
 	_gui.setTarget(_window);
 	view = _window.getView();

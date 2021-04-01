@@ -46,6 +46,10 @@ namespace Sorcery {
 		Component(const Component &other);
 		auto operator=(const Component &other) -> Component &;
 
+		// Move Constructors
+		Component(Component &&other) noexcept;
+		auto operator=(Component &&other) noexcept -> Component &;
+
 		// Overload [] operator
 		auto operator[](const std::string &key) -> std::optional<std::string>;
 		auto operator[](const std::string &key) const -> std::optional<std::string>;

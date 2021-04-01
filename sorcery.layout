@@ -17,7 +17,7 @@
 			<Cursor1 position="2238" topLine="52" />
 		</Cursor>
 	</File>
-	<File name="src/create.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/create.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="39151" topLine="1036" />
 		</Cursor>
@@ -82,7 +82,7 @@
 			<Cursor1 position="2560" topLine="51" />
 		</Cursor>
 	</File>
-	<File name="src/display.cpp" open="1" top="1" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/display.cpp" open="1" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="5198" topLine="134" />
 		</Cursor>
@@ -197,7 +197,7 @@
 			<Cursor1 position="6027" topLine="136" />
 		</Cursor>
 	</File>
-	<File name="inc/enum.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="inc/enum.hpp" open="1" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1683" topLine="55" />
 		</Cursor>
@@ -287,7 +287,7 @@
 			<Cursor1 position="1333" topLine="32" />
 		</Cursor>
 	</File>
-	<File name="src/component.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/component.cpp" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="4200" topLine="84" />
 		</Cursor>

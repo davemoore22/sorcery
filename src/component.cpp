@@ -100,6 +100,116 @@ auto Sorcery::Component::operator=(const Component &other) -> Component & {
 	return *this;
 }
 
+// Move Constructors
+Sorcery::Component::Component(Component &&other) noexcept {
+
+	screen = other.screen;
+	name = other.name;
+	x = other.x;
+	y = other.y;
+	w = other.w;
+	h = other.h;
+	scale = other.scale;
+	font = other.font;
+	size = other.size;
+	colour = other.colour;
+	animated = other.animated;
+	string_key = other.string_key;
+	alpha = other.alpha;
+	width = other.width;
+	background = other.background;
+	justification = other.justification;
+	type = other.type;
+	priority = other.priority;
+	drawmode = other.drawmode;
+	texture = other.texture;
+	unique_key = other.unique_key;
+	_data = other._data;
+	_enabled = other._enabled;
+	_visible = other._visible;
+
+	other.screen = "";
+	other.name = "";
+	other.x = 0;
+	other.y = 0;
+	other.w = 0;
+	other.h = 0;
+	other.scale = 0;
+	other.font = FontType::NONE;
+	other.size = 0;
+	other.colour = 0;
+	other.animated = false;
+	other.string_key = "";
+	other.alpha = 0;
+	other.width = 0;
+	other.background = 0;
+	other.justification = Justification::NONE;
+	other.type = ComponentType::NONE;
+	other.priority = 0;
+	other.drawmode = WindowDrawMode::NONE;
+	other.texture = GraphicsTexture::NONE;
+	other.unique_key = "";
+	other._data.clear();
+	other._enabled = false;
+	other._visible = false;
+}
+
+auto Sorcery::Component::operator=(Component &&other) noexcept -> Component & {
+
+	if (this != &other) {
+		screen = other.screen;
+		name = other.name;
+		x = other.x;
+		y = other.y;
+		w = other.w;
+		h = other.h;
+		scale = other.scale;
+		font = other.font;
+		size = other.size;
+		colour = other.colour;
+		animated = other.animated;
+		string_key = other.string_key;
+		alpha = other.alpha;
+		width = other.width;
+		background = other.background;
+		justification = other.justification;
+		type = other.type;
+		priority = other.priority;
+		drawmode = other.drawmode;
+		texture = other.texture;
+		unique_key = other.unique_key;
+		_data = other._data;
+		_enabled = other._enabled;
+		_visible = other._visible;
+
+		other.screen = "";
+		other.name = "";
+		other.x = 0;
+		other.y = 0;
+		other.w = 0;
+		other.h = 0;
+		other.scale = 0;
+		other.font = FontType::NONE;
+		other.size = 0;
+		other.colour = 0;
+		other.animated = false;
+		other.string_key = "";
+		other.alpha = 0;
+		other.width = 0;
+		other.background = 0;
+		other.justification = Justification::NONE;
+		other.type = ComponentType::NONE;
+		other.priority = 0;
+		other.drawmode = WindowDrawMode::NONE;
+		other.texture = GraphicsTexture::NONE;
+		other.unique_key = "";
+		other._data.clear();
+		other._enabled = false;
+		other._visible = false;
+	}
+	return *this;
+}
+
 // Overload [] operator
 auto Sorcery::Component::operator[](const std::string &key) -> std::optional<std::string> {
 

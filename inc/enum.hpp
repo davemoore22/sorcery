@@ -31,7 +31,8 @@ namespace Sorcery {
 
 	namespace Enums::Controls {
 
-		enum Input {
+		enum class Input {
+			NONE,
 			ANYTHING,
 			UP,
 			DOWN,
@@ -58,12 +59,13 @@ namespace Sorcery {
 	namespace Enums::Window {
 
 		// Draw Mode
-		enum class DrawMode { MANUAL, AUTOMATIC };
+		enum class DrawMode { NONE, MANUAL, AUTOMATIC };
 
-		enum class Alignment { VERTICAL, HORIZONTAL };
+		enum class Alignment { NONE, VERTICAL, HORIZONTAL };
 
 		// Input Mode
-		enum InputMode {
+		enum class InputMode {
+			NONE,
 			NORMAL,
 			CONFIRM,
 			CANCEL,
@@ -78,17 +80,18 @@ namespace Sorcery {
 			ALLOCATE_STATS
 		};
 
-		enum Confirm { YES, NO };
+		enum class Confirm { NONE, YES, NO };
 
-		enum class ComponentType { IMAGE, TEXT, TOOLTIP, MENU, FRAME, ICON, UNKNOWN };
+		enum class ComponentType { NONE, IMAGE, TEXT, TOOLTIP, MENU, FRAME, ICON, UNKNOWN };
 
 		enum class Option { SAVE, CANCEL, RESET, NONE };
 
-		enum Justification { LEFT, RIGHT, CENTRE };
+		enum class Justification { NONE, LEFT, RIGHT, CENTRE };
 
-		enum class FrameType { HINT, NORMAL };
+		enum class FrameType { NONE, HINT, NORMAL };
 
 		enum class FrameParts {
+			NONE = -1,
 			TOP_LEFT = 0,
 			TOP = 1,
 			TOP_RIGHT = 2,
@@ -102,7 +105,7 @@ namespace Sorcery {
 
 	namespace Enums::Graphics {
 
-		enum class Background { CASTLE, TAVERN, INN, SHOP, TEMPLE, EDGE_OF_TOWN, TRAIN };
+		enum class Background { NONE, CASTLE, TAVERN, INN, SHOP, TEMPLE, EDGE_OF_TOWN, TRAIN };
 
 		enum class Texture {
 			NONE,
@@ -122,24 +125,25 @@ namespace Sorcery {
 	namespace Enums::Settings {
 
 		// Settings
-		enum Category { GENERAL, GAMEPLAY, GRAPHICS };
+		enum class Category { NONE, GENERAL, GAMEPLAY, GRAPHICS };
 	} // namespace Enums::Settings
 
 	namespace Enums::Internal {
 
-		enum class FontType { MONOSPACE, PROPORTIONAL, TEXT, NONE };
+		enum class FontType { NONE, MONOSPACE, PROPORTIONAL, TEXT };
 
-		enum class StringType { NORMAL, EXPLAIN };
+		enum class StringType { NONE, NORMAL, EXPLAIN };
 
 	} // namespace Enums::Internal
 
 	namespace Enums::Magic {
 
-		enum class SpellType { MAGE, PRIEST };
+		enum class SpellType { NONE, MAGE, PRIEST };
 
-		enum class SpellCategory { HEALING, FIELD, SUPPORT, DISABLE, ATTACK };
+		enum class SpellCategory { NONE, HEALING, FIELD, SUPPORT, DISABLE, ATTACK };
 
-		enum Spell {
+		enum class Spell {
+			NONE,
 			HALITO,
 			MOGREF,
 			KATINO,
@@ -200,18 +204,18 @@ namespace Sorcery {
 	// Management Menu
 	namespace Enums::Manage {
 
-		enum Category { MANAGE, CREATE, IMPORT };
+		enum class Category { NONE, MANAGE, CREATE, IMPORT };
 
 		enum Method { FULL = 0, QUICK = 1, RANDOM = 2 };
 
-		enum Import { WIZARDRY, BARDS_TALE, ULTIMA };
+		enum class Import { NONE, WIZARDRY, BARDS_TALE, ULTIMA };
 	} // namespace Enums::Manage
 
 	// Text Files
 	namespace Enums::File {
 
 		// Text File Types
-		enum class Type { HELP, VERSION, LICENSE };
+		enum class Type { NONE, HELP, VERSION, LICENSE };
 	} // namespace Enums::File
 
 	// Character Stuff
@@ -219,6 +223,7 @@ namespace Sorcery {
 
 		// State of Character Creation
 		enum class Stage {
+			NONE,
 			CHOOSE_METHOD,
 			CHOOSE_RACE,
 			CHOOSE_ALIGNMENT,
@@ -233,6 +238,7 @@ namespace Sorcery {
 
 		// Display Sections
 		enum class Display {
+			NONE,
 			BEGINNING_OF_LIST,
 			MAIN,
 			DETAILED,
@@ -273,6 +279,7 @@ namespace Sorcery {
 		};
 
 		enum class Ability {
+			NONE,
 			CURRENT_HP,
 			MAX_HP,
 			HIT_DICE,
@@ -334,10 +341,11 @@ namespace Sorcery {
 	namespace Enums::System {
 
 		// Return values
-		enum class ModuleResult { CLOSE, BACK, EXIT, NEXT, CANCEL, DELETE };
+		enum class ModuleResult { NONE, CLOSE, BACK, EXIT, NEXT, CANCEL, DELETE };
 
 		// Random (Dice) Types
 		enum class Random {
+			NONE,
 			D2,
 			D3,
 			D4,
@@ -370,22 +378,23 @@ namespace Sorcery {
 
 	namespace Enums::MainMenu {
 
-		enum class Type { ATTRACT_MODE, ATTRACT_MENU };
+		enum class Type { NONE, ATTRACT_MODE, ATTRACT_MENU };
 	}
 
 	namespace Enums::GameMenu {
 
-		enum class Type { CASTLE, EDGE_OF_TOWN };
+		enum class Type { NONE, CASTLE, EDGE_OF_TOWN };
 	}
 
 	// Menu
 	namespace Enums::Menu {
 
 		// Button States
-		enum class ButtonState { DISABLED, ENABLED, HOVERED, SELECTED };
+		enum class ButtonState { NONE, DISABLED, ENABLED, HOVERED, SELECTED };
 
 		// Menu Type Tuple Fields
 		enum class Field {
+			NONE = -1,
 			INDEX = 0,
 			TYPE = 1,
 			ITEM = 2,
@@ -396,6 +405,7 @@ namespace Sorcery {
 
 		// Menu Types
 		enum class Type {
+			NONE,
 			MAIN,
 			OPTIONS,
 			PAUSE,
@@ -502,6 +512,7 @@ namespace Sorcery {
 
 		// Colour Types
 		enum class Colour {
+			NONE,
 			DEFAULT_BG,
 			DEFAULT_FG,
 			TEXT_FILE_CONTENTS,
@@ -578,32 +589,32 @@ namespace Sorcery {
 
 	namespace Enums {
 
-		enum Dialog { OK, CANCEL };
+		enum class Dialog { NONE, OK, CANCEL };
 
 		// Options
 		enum Options {
-			RECOMMENDED_MODE,
-			STRICT_MODE,
-			AUTO_SAVE,
-			CHEAT_MODE,
-			DICE_ROLLS,
-			WIREFRAME_MODE,
-			DISPLAY_TEXTURES,
-			DISPLAY_TRAPS,
-			DISPLAY_TELEPORTERS,
-			DISPLAY_ENCOUNTERS,
-			DISPLAY_PROGRESS,
-			ALLOW_MIXED_ALIGNMENT_PARTY,
-			STAT_LOSS_ON_LEVEL_UP,
-			REROLL_HIT_POINTS_ON_LEVEL_GAIN,
-			STAT_RESET_ON_CLASS_CHANGE,
-			AGING_ON_CLASS_CHANGE,
-			ALLOW_AMBUSH_HIDE,
-			ALLOW_RANGED_WEAPONS,
-			SPELLCASTING_IN_SURPRISE_ROUND,
-			BATCH_HEALING_AFTER_RETURN_TO_CASTLE,
-			REROLL_ONES_ON_DICE,
-			NONE // Note this is ignored by NUM_SETTINGS
+			RECOMMENDED_MODE = 0,
+			STRICT_MODE = 1,
+			AUTO_SAVE = 2,
+			CHEAT_MODE = 3,
+			DICE_ROLLS = 4,
+			WIREFRAME_MODE = 5,
+			DISPLAY_TEXTURES = 6,
+			DISPLAY_TRAPS = 7,
+			DISPLAY_TELEPORTERS = 8,
+			DISPLAY_ENCOUNTERS = 9,
+			DISPLAY_PROGRESS = 10,
+			ALLOW_MIXED_ALIGNMENT_PARTY = 11,
+			STAT_LOSS_ON_LEVEL_UP = 12,
+			REROLL_HIT_POINTS_ON_LEVEL_GAIN = 13,
+			STAT_RESET_ON_CLASS_CHANGE = 14,
+			AGING_ON_CLASS_CHANGE = 15,
+			ALLOW_AMBUSH_HIDE = 16,
+			ALLOW_RANGED_WEAPONS = 17,
+			SPELLCASTING_IN_SURPRISE_ROUND = 18,
+			BATCH_HEALING_AFTER_RETURN_TO_CASTLE = 19,
+			REROLL_ONES_ON_DICE = 20,
+			NONE = 21 // Note this is ignored by NUM_GAME_SETTINGS
 
 			// need additional options (turned off in strict mode) for
 			// dispelled creatures give 1/4 xp

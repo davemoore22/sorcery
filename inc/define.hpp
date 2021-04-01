@@ -27,12 +27,13 @@
 #include "main.hpp"
 
 namespace Sorcery {
+
+	using namespace std::literals;
+
 	// Options
 	inline constexpr auto EMPTY = "";
 	inline constexpr auto ON = "on";
 	inline constexpr auto OFF = "off";
-
-	using namespace std::literals;
 
 	// Command Line Arguments
 	inline constexpr auto SKIP_INTRO = "skip_intro"sv;
@@ -72,6 +73,9 @@ namespace Sorcery {
 
 	// Videos
 	inline constexpr auto MENU_VIDEO = "menu.mp4"sv;
+
+	// Frame Limit
+	inline constexpr auto FRAMERATE = 60;
 
 	// Miscellaneous Settings
 	inline constexpr auto MAX_PORTRAIT_INDEX = 29u;
