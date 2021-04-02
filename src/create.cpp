@@ -865,8 +865,8 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		case CharacterStage::CHOOSE_PORTRAIT: {
 			auto to_push(_candidate);
 			_stages.emplace_back(to_push);
-			_candidate.set_stage(CharacterStage::REVIEW_AND_CONFIRM);
 			_candidate.finalise();
+			_candidate.set_stage(CharacterStage::REVIEW_AND_CONFIRM);
 			_display->generate_components("character_create_stage_7", _sprites, _texts, _frames);
 			_display->window->input_mode = WindowInputMode::NORMAL;
 		} break;

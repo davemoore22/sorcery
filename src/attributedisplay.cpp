@@ -85,12 +85,91 @@ Sorcery::AttributeDisplay::AttributeDisplay(const AttributeDisplay &other) {
 	_attribute_icons = other._attribute_icons;
 	_texts = other._texts;
 }
-auto Sorcery::AttributeDisplay::operator=(const AttributeDisplay &other) -> AttributeDisplay & {}
+auto Sorcery::AttributeDisplay::operator=(const AttributeDisplay &other) -> AttributeDisplay & {
+
+	_system = other._system;
+	_display = other._display;
+	_graphics = other._graphics;
+	_character = other._character; // Non-owning Pointer
+	_bar_c = other._bar_c;
+	_icons_c = other._icons_c;
+	_text_c = other._text_c;
+	_width = other._width;
+	_height = other._height;
+	_alignment = other._alignment;
+
+	_bars = other._bars;
+	_attribute_icons = other._attribute_icons;
+	_texts = other._texts;
+
+	return *this;
+}
 
 // Move Constructors
-Sorcery::AttributeDisplay::AttributeDisplay(AttributeDisplay &&other) noexcept {}
-auto Sorcery::AttributeDisplay::operator=(AttributeDisplay &&other) noexcept -> AttributeDisplay & {
+Sorcery::AttributeDisplay::AttributeDisplay(AttributeDisplay &&other) noexcept {
 
+	_system = other._system;
+	_display = other._display;
+	_graphics = other._graphics;
+	_character = other._character; // Non-owning Pointer
+	_bar_c = other._bar_c;
+	_icons_c = other._icons_c;
+	_text_c = other._text_c;
+	_width = other._width;
+	_height = other._height;
+	_alignment = other._alignment;
+
+	_bars = std::move(other._bars);
+	_attribute_icons = std::move(other._attribute_icons);
+	_texts = std::move(other._texts);
+
+	_system = nullptr;
+	_display = nullptr;
+	_graphics = nullptr;
+	_character = nullptr; // Non-owning Pointer
+	_bar_c = Component();
+	_icons_c = Component();
+	_text_c = Component();
+	_width = 0;
+	_height = 0;
+	_alignment = Alignment::NONE;
+	_bars.clear();
+	_attribute_icons = {};
+	_texts.clear();
+}
+auto Sorcery::AttributeDisplay::operator=(AttributeDisplay &&other) noexcept -> AttributeDisplay & {
+	if (this != &other) {
+
+		_system = other._system;
+		_display = other._display;
+		_graphics = other._graphics;
+		_character = other._character; // Non-owning Pointer
+		_bar_c = other._bar_c;
+		_icons_c = other._icons_c;
+		_text_c = other._text_c;
+		_width = other._width;
+		_height = other._height;
+		_alignment = other._alignment;
+
+		_bars = std::move(other._bars);
+		_attribute_icons = std::move(other._attribute_icons);
+		_texts = std::move(other._texts);
+
+		_system = nullptr;
+		_display = nullptr;
+		_graphics = nullptr;
+		_character = nullptr; // Non-owning Pointer
+		_bar_c = Component();
+		_icons_c = Component();
+		_text_c = Component();
+		_width = 0;
+		_height = 0;
+		_alignment = Alignment::NONE;
+		_bars.clear();
+		_attribute_icons = {};
+		_texts.clear();
+	}
+	return *this;
 }
 
 auto Sorcery::AttributeDisplay::set() -> void {

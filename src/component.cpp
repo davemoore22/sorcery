@@ -124,7 +124,7 @@ Sorcery::Component::Component(Component &&other) noexcept {
 	drawmode = other.drawmode;
 	texture = other.texture;
 	unique_key = other.unique_key;
-	_data = other._data;
+	_data = std::move(other._data);
 	_enabled = other._enabled;
 	_visible = other._visible;
 
@@ -178,7 +178,7 @@ auto Sorcery::Component::operator=(Component &&other) noexcept -> Component & {
 		drawmode = other.drawmode;
 		texture = other.texture;
 		unique_key = other.unique_key;
-		_data = other._data;
+		_data = _data = std::move(other._data);
 		_enabled = other._enabled;
 		_visible = other._visible;
 
