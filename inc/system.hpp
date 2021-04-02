@@ -42,7 +42,6 @@ namespace Sorcery {
 	  public:
 		// Constructors
 		System(int argc, char **argv);
-		System() = delete;
 
 		// Copy Constructors
 		System(const System &other);

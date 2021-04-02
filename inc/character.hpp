@@ -47,7 +47,9 @@ namespace Sorcery {
 		Character(const Character &other);
 		auto operator=(const Character &other) -> Character &;
 
-		// TODO move constructors?
+		// Move Constructors
+		Character(Character &&other) noexcept;
+		auto operator=(Character &&other) noexcept -> Character &;
 
 		// Overloaded Operators
 		auto operator[](const CharacterAbility &key) -> int &;
@@ -152,7 +154,7 @@ namespace Sorcery {
 		std::map<std::string, sf::Sprite> _sprites;
 		std::map<std::string, sf::Text> _texts;
 		std::map<std::string, std::shared_ptr<Frame>> _frames;
-		std::unique_ptr<AttributeDisplay> _ad;
+		std::shared_ptr<AttributeDisplay> _ad;
 		Component _ad_c;
 	};
 } // namespace Sorcery

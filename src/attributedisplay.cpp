@@ -67,6 +67,32 @@ Sorcery::AttributeDisplay::AttributeDisplay(
 	valid = false;
 }
 
+// Copy Constructors
+Sorcery::AttributeDisplay::AttributeDisplay(const AttributeDisplay &other) {
+
+	_system = other._system;
+	_display = other._display;
+	_graphics = other._graphics;
+	_character = other._character; // Non-owning Pointer
+	_bar_c = other._bar_c;
+	_icons_c = other._icons_c;
+	_text_c = other._text_c;
+	_width = other._width;
+	_height = other._height;
+	_alignment = other._alignment;
+
+	_bars = other._bars;
+	_attribute_icons = other._attribute_icons;
+	_texts = other._texts;
+}
+auto Sorcery::AttributeDisplay::operator=(const AttributeDisplay &other) -> AttributeDisplay & {}
+
+// Move Constructors
+Sorcery::AttributeDisplay::AttributeDisplay(AttributeDisplay &&other) noexcept {}
+auto Sorcery::AttributeDisplay::operator=(AttributeDisplay &&other) noexcept -> AttributeDisplay & {
+
+}
+
 auto Sorcery::AttributeDisplay::set() -> void {
 
 	_bars.clear();

@@ -44,7 +44,14 @@ namespace Sorcery {
 		// Constructors
 		AttributeDisplay(System *system, Display *display, Graphics *graphics, Character *character,
 			Alignment alignment);
-		AttributeDisplay() = delete;
+
+		// Copy Constructors
+		AttributeDisplay(const AttributeDisplay &other);
+		auto operator=(const AttributeDisplay &other) -> AttributeDisplay &;
+
+		// Move Constructors
+		AttributeDisplay(AttributeDisplay &&other) noexcept;
+		auto operator=(AttributeDisplay &&other) noexcept -> AttributeDisplay &;
 
 		// Public Members
 		bool valid;

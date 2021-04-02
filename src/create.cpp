@@ -225,6 +225,10 @@ auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event)
 			_method = CreateMethod::QUICK;
 		else if (_method_icons[2].second.getGlobalBounds().contains(mouse_pos))
 			_method = CreateMethod::RANDOM;
+	} else if (_system->input->check_for_event(WindowInput::BACK, event)) {
+		return ModuleResult::BACK;
+	} else if (_system->input->check_for_event(WindowInput::DELETE, event)) {
+		return ModuleResult::BACK;
 	}
 
 	return std::nullopt;
@@ -773,8 +777,10 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_candidate.set_stage(CharacterStage::CHOOSE_RACE);
 			_display->generate_components("character_create_stage_2", _sprites, _texts, _frames);
 			_display->window->input_mode = WindowInputMode::NORMAL;
-			_race_menu->selected = _race_menu->items.begin();
+			_race_menu->choose_first();
+			//_race_menu->selected = _race_menu->items.begin();
 			_set_info_panel_contents(_race_menu->selected);
+
 		} break;
 		case CharacterStage::CHOOSE_RACE: {
 			auto to_push(_candidate);
@@ -782,7 +788,8 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_candidate.set_stage(CharacterStage::CHOOSE_ALIGNMENT);
 			_display->generate_components("character_create_stage_3", _sprites, _texts, _frames);
 			_display->window->input_mode = WindowInputMode::NORMAL;
-			_alignment_menu->selected = _alignment_menu->items.begin();
+			_alignment_menu->choose_first();
+			//_alignment_menu->selected = _alignment_menu->items.begin();
 		} break;
 		case CharacterStage::CHOOSE_ALIGNMENT: {
 			auto to_push(_candidate);
@@ -790,7 +797,8 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_candidate.set_stage(CharacterStage::ALLOCATE_STATS);
 			_display->generate_components("character_create_stage_4", _sprites, _texts, _frames);
 			_display->window->input_mode = WindowInputMode::ALLOCATE_STATS;
-			_attribute_menu->selected = _attribute_menu->items.begin();
+			_attribute_menu->choose_first();
+			//_attribute_menu->selected = _attribute_menu->items.begin();
 			_ap->set();
 			_set_info_panel_contents(_attribute_menu->selected);
 		} break;

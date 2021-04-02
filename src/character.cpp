@@ -47,7 +47,14 @@ Sorcery::Character::Character(const Character &other)
 	  _cur_attr{other._cur_attr}, _max_attr{other._max_attr}, _view{other._view},
 	  _points_left{other._points_left}, _st_points{other._st_points},
 	  _pos_classes{other._pos_classes}, _class_list{other._class_list},
-	  _num_pos_classes{other._num_pos_classes}, _portrait_index{other._portrait_index} {}
+	  _num_pos_classes{other._num_pos_classes}, _portrait_index{other._portrait_index} {
+
+	_sprites = other._sprites;
+	_texts = other._texts;
+	_frames = other._frames;
+	_ad = other._ad;
+	_ad_c = other._ad_c;
+}
 
 auto Sorcery::Character::operator=(const Character &other) -> Character & {
 
@@ -77,6 +84,140 @@ auto Sorcery::Character::operator=(const Character &other) -> Character & {
 	_num_pos_classes = other._num_pos_classes;
 	_portrait_index = other._portrait_index;
 
+	_sprites = other._sprites;
+	_texts = other._texts;
+	_frames = other._frames;
+	_ad = other._ad;
+	_ad_c = other._ad_c;
+
+	return *this;
+}
+
+// Move Constructors
+Sorcery::Character::Character(Character &&other) noexcept {
+
+	if (this != &other) {
+		_system = other._system;
+		_display = other._display;
+		_graphics = other._graphics;
+
+		_abilities = other._abilities;
+		_priest_max_sp = other._priest_max_sp;
+		_priest_cur_sp = other._priest_cur_sp;
+		_mage_max_sp = other._mage_max_sp;
+		_mage_cur_sp = other._mage_cur_sp;
+		_spells = other._spells;
+		_current_stage = other._current_stage;
+		_name = other._name;
+		_race = other._race;
+		_class = other._class;
+		_alignment = other._alignment;
+		_start_attr = other._start_attr;
+		_cur_attr = other._cur_attr;
+		_max_attr = other._max_attr;
+		_view = other._view;
+		_points_left = other._points_left;
+		_st_points = other._st_points;
+		_pos_classes = other._pos_classes;
+		_class_list = other._class_list;
+		_num_pos_classes = other._num_pos_classes;
+		_portrait_index = other._portrait_index;
+
+		_sprites = std::move(other._sprites);
+		_texts = std::move(other._texts);
+		_frames = std::move(other._frames);
+		_ad = std::move(other._ad);
+		_ad_c = std::move(other._ad_c);
+
+		other._system = nullptr;
+		other._display = nullptr;
+		other._graphics = nullptr;
+
+		other._abilities.clear();
+		other._priest_max_sp.clear();
+		other._priest_cur_sp.clear();
+		other._mage_max_sp.clear();
+		other._mage_cur_sp.clear();
+		other._spells.clear();
+		other._current_stage = CharacterStage::NONE;
+		other._name.clear();
+		other._race = CharacterRace::NONE;
+		other._class = CharacterClass::NONE;
+		other._alignment = CharacterAlignment::NONE;
+		other._start_attr.clear();
+		other._cur_attr.clear();
+		other._max_attr.clear();
+		other._view = CharacterView::NONE;
+		other._points_left = 0;
+		other._st_points = 0;
+		other._pos_classes.clear();
+		other._class_list.clear();
+		other._num_pos_classes = 0;
+		other._portrait_index = 0;
+	}
+}
+
+auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
+
+	if (this != &other) {
+		_system = other._system;
+		_display = other._display;
+		_graphics = other._graphics;
+
+		_abilities = other._abilities;
+		_priest_max_sp = other._priest_max_sp;
+		_priest_cur_sp = other._priest_cur_sp;
+		_mage_max_sp = other._mage_max_sp;
+		_mage_cur_sp = other._mage_cur_sp;
+		_spells = other._spells;
+		_current_stage = other._current_stage;
+		_name = other._name;
+		_race = other._race;
+		_class = other._class;
+		_alignment = other._alignment;
+		_start_attr = other._start_attr;
+		_cur_attr = other._cur_attr;
+		_max_attr = other._max_attr;
+		_view = other._view;
+		_points_left = other._points_left;
+		_st_points = other._st_points;
+		_pos_classes = other._pos_classes;
+		_class_list = other._class_list;
+		_num_pos_classes = other._num_pos_classes;
+		_portrait_index = other._portrait_index;
+
+		_sprites = std::move(other._sprites);
+		_texts = std::move(other._texts);
+		_frames = std::move(other._frames);
+		_ad = std::move(other._ad);
+		_ad_c = std::move(other._ad_c);
+
+		other._system = nullptr;
+		other._display = nullptr;
+		other._graphics = nullptr;
+
+		other._abilities.clear();
+		other._priest_max_sp.clear();
+		other._priest_cur_sp.clear();
+		other._mage_max_sp.clear();
+		other._mage_cur_sp.clear();
+		other._spells.clear();
+		other._current_stage = CharacterStage::NONE;
+		other._name.clear();
+		other._race = CharacterRace::NONE;
+		other._class = CharacterClass::NONE;
+		other._alignment = CharacterAlignment::NONE;
+		other._start_attr.clear();
+		other._cur_attr.clear();
+		other._max_attr.clear();
+		other._view = CharacterView::NONE;
+		other._points_left = 0;
+		other._st_points = 0;
+		other._pos_classes.clear();
+		other._class_list.clear();
+		other._num_pos_classes = 0;
+		other._portrait_index = 0;
+	}
 	return *this;
 }
 
@@ -1860,7 +2001,7 @@ auto Sorcery::Character::_generate() -> void {
 	_texts.clear();
 	_frames.clear();
 
-	_ad = std::make_unique<AttributeDisplay>(
+	_ad = std::make_shared<AttributeDisplay>(
 		_system, _display, _graphics, this, Alignment::HORIZONTAL);
 
 	_display->generate_components("character", _sprites, _texts, _frames);

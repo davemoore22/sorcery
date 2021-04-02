@@ -128,8 +128,8 @@ Sorcery::Component::Component(Component &&other) noexcept {
 	_enabled = other._enabled;
 	_visible = other._visible;
 
-	other.screen = "";
-	other.name = "";
+	other.screen.clear();
+	other.name.clear();
 	other.x = 0;
 	other.y = 0;
 	other.w = 0;
@@ -139,7 +139,7 @@ Sorcery::Component::Component(Component &&other) noexcept {
 	other.size = 0;
 	other.colour = 0;
 	other.animated = false;
-	other.string_key = "";
+	other.string_key.clear();
 	other.alpha = 0;
 	other.width = 0;
 	other.background = 0;
@@ -148,7 +148,7 @@ Sorcery::Component::Component(Component &&other) noexcept {
 	other.priority = 0;
 	other.drawmode = WindowDrawMode::NONE;
 	other.texture = GraphicsTexture::NONE;
-	other.unique_key = "";
+	other.unique_key.clear();
 	other._data.clear();
 	other._enabled = false;
 	other._visible = false;
@@ -182,8 +182,8 @@ auto Sorcery::Component::operator=(Component &&other) noexcept -> Component & {
 		_enabled = other._enabled;
 		_visible = other._visible;
 
-		other.screen = "";
-		other.name = "";
+		other.screen.clear();
+		other.name.clear();
 		other.x = 0;
 		other.y = 0;
 		other.w = 0;
@@ -193,7 +193,7 @@ auto Sorcery::Component::operator=(Component &&other) noexcept -> Component & {
 		other.size = 0;
 		other.colour = 0;
 		other.animated = false;
-		other.string_key = "";
+		other.string_key.clear();
 		other.alpha = 0;
 		other.width = 0;
 		other.background = 0;
@@ -202,7 +202,7 @@ auto Sorcery::Component::operator=(Component &&other) noexcept -> Component & {
 		other.priority = 0;
 		other.drawmode = WindowDrawMode::NONE;
 		other.texture = GraphicsTexture::NONE;
-		other.unique_key = "";
+		other.unique_key.clear();
 		other._data.clear();
 		other._enabled = false;
 		other._visible = false;
