@@ -127,8 +127,11 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 								_menu_stage = GameMenuType::EDGE_OF_TOWN;
 							}
 						}
+					} else if ((_system->input->check_for_event(WindowInput::CANCEL, event)) ||
+							   ((_system->input->check_for_event(WindowInput::BACK, event)))) {
+						_display->window->input_mode = WindowInputMode::LEAVE_GAME;
+						_yes_or_no = WindowConfirm::NO;
 					}
-
 				} else if (_menu_stage == GameMenuType::EDGE_OF_TOWN) {
 					if (_system->input->check_for_event(WindowInput::UP, event))
 						edge_option = _edge_menu->choose_previous();
@@ -237,6 +240,8 @@ auto Sorcery::GameMenu::_draw() -> void {
 			(*_display->layout)["castle:castle_menu"].y);
 		_castle_menu->setPosition(menu_pos);
 		_window->draw(*_castle_menu);
+		if (_display->window->input_mode == WindowInputMode::LEAVE_GAME)
+			_leave_game->draw(lerp);
 	} else if (_menu_stage == GameMenuType::EDGE_OF_TOWN) {
 		_edge_menu->generate((*_display->layout)["castle:edge_menu"], lerp);
 		const sf::Vector2f menu_pos(

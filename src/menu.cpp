@@ -32,6 +32,8 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics, const 
 	items.clear();
 	bounds.clear();
 	count = 0;
+	_texts.clear();
+	_options.clear();
 
 	// Now depending on the menu type, add the relevant items
 	switch (_type) {
@@ -539,150 +541,226 @@ auto Sorcery::Menu::choose_next() -> std::optional<std::vector<MenuEntry>::const
 	return std::nullopt;
 }
 
+// todo: optimise this so that it isn't created on every refresh!
+
 auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -> void {
 
-	int entry_x{0};
-	int entry_y{0};
-	int option_x{0};
-	int option_y{0};
+	if (_texts.size() == 0) {
 
-	// In case we are generating the Options Menu
-	const Component on_c{(*_display->layout)["options:on"]};
-	const Component off_c{(*_display->layout)["options:off"]};
-	const sf::Vector2f global_pos(component.x, component.y);
+		int entry_x{0};
+		int entry_y{0};
+		int option_x{0};
+		int option_y{0};
 
-	// Work out total size of texture needed
-	const unsigned int texture_w{component.w * _display->window->get_cell_width()};
-	const unsigned int texture_h{component.h * _display->window->get_cell_height()};
-	const sf::Vector2f texture_size(texture_w, texture_h);
-	_rtexture.create(texture_size.x, texture_size.y);
+		// In case we are generating the Options Menu
+		const Component on_c{(*_display->layout)["options:on"]};
+		const Component off_c{(*_display->layout)["options:off"]};
+		const sf::Vector2f global_pos(component.x, component.y);
 
-	// Bounds are generated for each menu item to handle mouse over
-	_texts.clear();
-	_options.clear();
-	bounds.clear();
-	int index{0};
-	for (const auto &item : items) {
+		// Work out total size of texture needed
+		const unsigned int texture_w{component.w * _display->window->get_cell_width()};
+		const unsigned int texture_h{component.h * _display->window->get_cell_height()};
+		const sf::Vector2f texture_size(texture_w, texture_h);
+		_rtexture.create(texture_size.x, texture_size.y);
 
-		auto current{items.begin() + index};
-		if ((item.type == MenuItemType::TEXT) || (item.type == MenuItemType::ENTRY) ||
-			(item.type == MenuItemType::SAVE) || (item.type == MenuItemType::CANCEL)) {
-			const std::string text_string{item.key};
-			sf::Text text;
-			text.setFont(_system->resources->fonts[component.font]);
-			text.setCharacterSize(component.size);
-			if (item.enabled)
-				text.setFillColor(sf::Color(component.colour));
-			else
-				text.setFillColor(sf::Color(0x606060ff));
-			text.setString(text_string);
+		// Bounds are generated for each menu item to handle mouse over
+		_texts.clear();
+		_options.clear();
+		bounds.clear();
+		int index{0};
+		for (const auto &item : items) {
 
-			// Check for alignment and set location appropriately
-			entry_x = (component.justification == Justification::CENTRE) ? texture_w / 2 : 0;
-			entry_y += _display->window->get_cell_height();
-			text.setPosition(entry_x, entry_y);
-
-			// If we have a selected entry, change the background colour
-			if (selected == current) {
-				const sf::FloatRect bg_rect{text.getLocalBounds()};
-				sf::RectangleShape bg(sf::Vector2f(
-					component.w * _display->window->get_cell_width(), bg_rect.height + 2));
-				bg.setPosition(0, entry_y);
-				if (component.animated)
-					bg.setFillColor(_display->window->change_colour(
-						sf::Color(component.background), selected_lerp));
+			auto current{items.begin() + index};
+			if ((item.type == MenuItemType::TEXT) || (item.type == MenuItemType::ENTRY) ||
+				(item.type == MenuItemType::SAVE) || (item.type == MenuItemType::CANCEL)) {
+				const std::string text_string{item.key};
+				sf::Text text;
+				text.setFont(_system->resources->fonts[component.font]);
+				text.setCharacterSize(component.size);
+				if (item.enabled)
+					text.setFillColor(sf::Color(component.colour));
 				else
-					bg.setFillColor(sf::Color(component.background));
-				text.setFillColor(sf::Color(component.colour));
-				text.setOutlineColor(sf::Color(0, 0, 0));
-				text.setOutlineThickness(2);
+					text.setFillColor(sf::Color(0x606060ff));
+				text.setString(text_string);
 
-				_selected_bg = bg;
-			}
+				// Check for alignment and set location appropriately
+				entry_x = (component.justification == Justification::CENTRE) ? texture_w / 2 : 0;
+				entry_y += _display->window->get_cell_height();
+				text.setPosition(entry_x, entry_y);
 
-			// Handle Justification
-			if ((_type == MenuType::OPTIONS) ||
-				(_type == MenuType::ALLOCATE_CHARACTER_ATTRIBUTES)) {
-				if (item.type == MenuItemType::ENTRY) {
+				// If we have a selected entry, change the background colour
+				if (selected == current) {
+					const sf::FloatRect bg_rect{text.getLocalBounds()};
+					sf::RectangleShape bg(sf::Vector2f(
+						component.w * _display->window->get_cell_width(), bg_rect.height + 2));
+					bg.setPosition(0, entry_y);
+					if (component.animated)
+						bg.setFillColor(_display->window->change_colour(
+							sf::Color(component.background), selected_lerp));
+					else
+						bg.setFillColor(sf::Color(component.background));
+					text.setFillColor(sf::Color(component.colour));
+					text.setOutlineColor(sf::Color(0, 0, 0));
+					text.setOutlineThickness(2);
+
+					_selected_bg = bg;
+				}
+
+				// Handle Justification
+				if ((_type == MenuType::OPTIONS) ||
+					(_type == MenuType::ALLOCATE_CHARACTER_ATTRIBUTES)) {
+					if (item.type == MenuItemType::ENTRY) {
+						if (component.justification == Justification::CENTRE)
+							text.setOrigin(text.getLocalBounds().width / 2.0f,
+								text.getLocalBounds().height / 2.0f);
+						else
+							text.setOrigin(0, text.getLocalBounds().height / 2.0f);
+					} else if ((item.type == MenuItemType::SAVE) ||
+							   (item.type == MenuItemType::CANCEL)) {
+						entry_x = (component.width * _display->window->get_cell_width()) / 2;
+						text.setPosition(entry_x, entry_y);
+						text.setOrigin(text.getLocalBounds().width / 2.0f,
+							text.getLocalBounds().height / 2.0f);
+					}
+				} else {
 					if (component.justification == Justification::CENTRE)
 						text.setOrigin(text.getLocalBounds().width / 2.0f,
 							text.getLocalBounds().height / 2.0f);
 					else
 						text.setOrigin(0, text.getLocalBounds().height / 2.0f);
-				} else if ((item.type == MenuItemType::SAVE) ||
-						   (item.type == MenuItemType::CANCEL)) {
-					entry_x = (component.width * _display->window->get_cell_width()) / 2;
-					text.setPosition(entry_x, entry_y);
-					text.setOrigin(
-						text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 				}
-			} else {
-				if (component.justification == Justification::CENTRE)
-					text.setOrigin(
-						text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
-				else
-					text.setOrigin(0, text.getLocalBounds().height / 2.0f);
-			}
 
-			_texts.emplace_back(text);
+				_texts.emplace_back(text);
 
-			// Now handle the mouse move/select (and tooltip generation)!
-			if ((item.type == MenuItemType::ENTRY) || (item.type == MenuItemType::SAVE) ||
-				(item.type == MenuItemType::CANCEL)) {
-				const sf::FloatRect actual_rect{text.getGlobalBounds()};
-				bounds.push_back(actual_rect);
-				WindowTooltipList::iterator tt_it{_display->window->tooltips.find(item.hint)};
-				if (tt_it == _display->window->tooltips.end())
-					_display->window->tooltips[item.hint] = actual_rect;
-			} else {
-				const sf::FloatRect actual_rect;
-				bounds.push_back(actual_rect);
-				WindowTooltipList::iterator tt_it{_display->window->tooltips.find(item.hint)};
-				if (tt_it == _display->window->tooltips.end())
-					_display->window->tooltips[item.hint] = actual_rect;
-			}
-
-			// Add options in case of the Options Menu
-			if ((_type == MenuType::OPTIONS) && (item.type == MenuItemType::ENTRY)) {
-				option_y = entry_y;
-				option_x = component.w * _display->window->get_cell_width();
-				const bool option_value{(*_system->config)[item.config] ? true : false};
-				sf::Text option_text{};
-				if (option_value) {
-
-					// On
-					option_text.setFont(_system->resources->fonts[on_c.font]);
-					option_text.setCharacterSize(on_c.size);
-					option_text.setFillColor(sf::Color(on_c.colour));
-					option_text.setString((*_display->string)[on_c.string_key]);
-					sf::FloatRect bounds{option_text.getLocalBounds()};
-					option_text.setPosition(option_x - bounds.width, option_y);
-					option_text.setOrigin(0, option_text.getLocalBounds().height / 2.0f);
+				// Now handle the mouse move/select (and tooltip generation)!
+				if ((item.type == MenuItemType::ENTRY) || (item.type == MenuItemType::SAVE) ||
+					(item.type == MenuItemType::CANCEL)) {
+					const sf::FloatRect actual_rect{text.getGlobalBounds()};
+					bounds.push_back(actual_rect);
+					WindowTooltipList::iterator tt_it{_display->window->tooltips.find(item.hint)};
+					if (tt_it == _display->window->tooltips.end())
+						_display->window->tooltips[item.hint] = actual_rect;
 				} else {
-
-					// Off
-					option_text.setFont(_system->resources->fonts[off_c.font]);
-					option_text.setCharacterSize(off_c.size);
-					option_text.setFillColor(sf::Color(off_c.colour));
-					option_text.setString((*_display->string)[off_c.string_key]);
-					sf::FloatRect bounds{option_text.getLocalBounds()};
-					option_text.setPosition(option_x - bounds.width, option_y);
-					option_text.setOrigin(0, option_text.getLocalBounds().height / 2.0f);
+					const sf::FloatRect actual_rect;
+					bounds.push_back(actual_rect);
+					WindowTooltipList::iterator tt_it{_display->window->tooltips.find(item.hint)};
+					if (tt_it == _display->window->tooltips.end())
+						_display->window->tooltips[item.hint] = actual_rect;
 				}
 
-				if (selected == current) {
-					option_text.setOutlineColor(sf::Color(0, 0, 0));
-					option_text.setOutlineThickness(2);
-				}
+				// Add options in case of the Options Menu
+				if ((_type == MenuType::OPTIONS) && (item.type == MenuItemType::ENTRY)) {
+					option_y = entry_y;
+					option_x = component.w * _display->window->get_cell_width();
+					const bool option_value{(*_system->config)[item.config] ? true : false};
+					sf::Text option_text{};
+					if (option_value) {
 
-				_options.emplace_back(option_text);
+						// On
+						option_text.setFont(_system->resources->fonts[on_c.font]);
+						option_text.setCharacterSize(on_c.size);
+						option_text.setFillColor(sf::Color(on_c.colour));
+						option_text.setString((*_display->string)[on_c.string_key]);
+						sf::FloatRect bounds{option_text.getLocalBounds()};
+						option_text.setPosition(option_x - bounds.width, option_y);
+						option_text.setOrigin(0, option_text.getLocalBounds().height / 2.0f);
+					} else {
+
+						// Off
+						option_text.setFont(_system->resources->fonts[off_c.font]);
+						option_text.setCharacterSize(off_c.size);
+						option_text.setFillColor(sf::Color(off_c.colour));
+						option_text.setString((*_display->string)[off_c.string_key]);
+						sf::FloatRect bounds{option_text.getLocalBounds()};
+						option_text.setPosition(option_x - bounds.width, option_y);
+						option_text.setOrigin(0, option_text.getLocalBounds().height / 2.0f);
+					}
+
+					if (selected == current) {
+						option_text.setOutlineColor(sf::Color(0, 0, 0));
+						option_text.setOutlineThickness(2);
+					}
+
+					_options.emplace_back(option_text);
+				}
+			} else {
+				sf::Text empty_text{};
+				const sf::FloatRect actual_rect{};
+				bounds.push_back(actual_rect);
+				entry_y += _display->window->get_cell_height();
 			}
-		} else {
-			const sf::FloatRect actual_rect;
-			bounds.push_back(actual_rect);
-			entry_y += _display->window->get_cell_height();
+			++index;
 		}
-		++index;
+	} else {
+
+		// Only change what needs to be changed
+		int entry_y{0};
+		int index{0};
+		int options_index{0};
+		int option_x{0};
+		int option_y{0};
+		const Component on_c{(*_display->layout)["options:on"]};
+		const Component off_c{(*_display->layout)["options:off"]};
+		for (const auto &item : items) {
+			auto current{items.begin() + index};
+			if ((item.type == MenuItemType::TEXT) || (item.type == MenuItemType::ENTRY) ||
+				(item.type == MenuItemType::SAVE) || (item.type == MenuItemType::CANCEL)) {
+				entry_y += _display->window->get_cell_height();
+				if (selected == current) {
+					const sf::FloatRect bg_rect{_texts.at(index).getLocalBounds()};
+					sf::RectangleShape bg(sf::Vector2f(
+						component.w * _display->window->get_cell_width(), bg_rect.height + 2));
+					bg.setPosition(0, entry_y);
+					if (component.animated)
+						bg.setFillColor(_display->window->change_colour(
+							sf::Color(component.background), selected_lerp));
+					else
+						bg.setFillColor(sf::Color(component.background));
+					_texts.at(index).setFillColor(sf::Color(component.colour));
+					_texts.at(index).setOutlineColor(sf::Color(0, 0, 0));
+					_texts.at(index).setOutlineThickness(2);
+
+					_selected_bg = bg;
+				}
+
+				if ((_type == MenuType::OPTIONS) && (item.type == MenuItemType::ENTRY)) {
+
+					option_y = entry_y;
+					option_x = component.w * _display->window->get_cell_width();
+					const bool option_value{(*_system->config)[item.config] ? true : false};
+					if (option_value) {
+
+						// On
+						_options.at(options_index).setString((*_display->string)[on_c.string_key]);
+						sf::FloatRect bounds{_options.at(options_index).getLocalBounds()};
+						_options.at(options_index).setPosition(option_x - bounds.width, option_y);
+						_options.at(options_index)
+							.setOrigin(
+								0, _options.at(options_index).getLocalBounds().height / 2.0f);
+						_options.at(options_index).setFillColor(sf::Color(on_c.colour));
+					} else {
+
+						// Off
+						_options.at(options_index).setString((*_display->string)[off_c.string_key]);
+						sf::FloatRect bounds{_options.at(options_index).getLocalBounds()};
+						_options.at(options_index).setPosition(option_x - bounds.width, option_y);
+						_options.at(options_index)
+							.setOrigin(
+								0, _options.at(options_index).getLocalBounds().height / 2.0f);
+
+						_options.at(options_index).setFillColor(sf::Color(off_c.colour));
+					}
+
+					if (selected == current) {
+						_options.at(options_index).setOutlineColor(sf::Color(0, 0, 0));
+						_options.at(options_index).setOutlineThickness(2);
+					}
+					++options_index;
+				}
+
+				++index;
+			}
+		}
 	}
 }
 

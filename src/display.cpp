@@ -318,8 +318,8 @@ auto Sorcery::Display::display_components(const std::string &screen,
 				// TODO: replace with IF-INIT?
 				const GameMenuType menu_stage{std::any_cast<GameMenuType>(parameter.value())};
 				if (menu_stage == GameMenuType::CASTLE) {
-					if ((unique_key.ends_with("castle:edit_title_frame")) ||
-						(unique_key.ends_with("castle:edit_title_text")))
+					if ((unique_key.ends_with("castle:edge_title_frame")) ||
+						(unique_key.ends_with("castle:edge_title_text")))
 						continue;
 				} else if (menu_stage == GameMenuType::EDGE_OF_TOWN) {
 					if ((unique_key.ends_with("castle:castle_title_frame")) ||

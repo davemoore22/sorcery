@@ -778,7 +778,6 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_display->generate_components("character_create_stage_2", _sprites, _texts, _frames);
 			_display->window->input_mode = WindowInputMode::NORMAL;
 			_race_menu->choose_first();
-			//_race_menu->selected = _race_menu->items.begin();
 			_set_info_panel_contents(_race_menu->selected);
 
 		} break;
@@ -789,7 +788,6 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_display->generate_components("character_create_stage_3", _sprites, _texts, _frames);
 			_display->window->input_mode = WindowInputMode::NORMAL;
 			_alignment_menu->choose_first();
-			//_alignment_menu->selected = _alignment_menu->items.begin();
 		} break;
 		case CharacterStage::CHOOSE_ALIGNMENT: {
 			auto to_push(_candidate);
@@ -798,7 +796,6 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_display->generate_components("character_create_stage_4", _sprites, _texts, _frames);
 			_display->window->input_mode = WindowInputMode::ALLOCATE_STATS;
 			_attribute_menu->choose_first();
-			//_attribute_menu->selected = _attribute_menu->items.begin();
 			_ap->set();
 			_set_info_panel_contents(_attribute_menu->selected);
 		} break;
