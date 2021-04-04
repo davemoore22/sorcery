@@ -159,6 +159,7 @@ namespace Sorcery {
 		std::map<std::string, std::shared_ptr<Frame>> _frames;
 		std::shared_ptr<AttributeDisplay> _ad;
 		std::shared_ptr<SpellSummary> _ss;
+		Component _ss_c;
 		Component _ad_c;
 	};
 } // namespace Sorcery

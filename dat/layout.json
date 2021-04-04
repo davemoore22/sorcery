@@ -1945,6 +1945,15 @@
 			"colour": "0x808080ff"
 		},
 		{
+			"name": "cs1_spellsummary",
+			"x": "31",
+			"y": "14",
+			"alpha": "255",
+			"type": "panel",
+			"priority": "6",
+			"drawmode": "drawmode"
+		},
+		{
 			"name": "cs1_name_text",
 			"x": "17",
 			"y": "0",

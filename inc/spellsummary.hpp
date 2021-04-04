@@ -42,7 +42,15 @@ namespace Sorcery {
 	  public:
 		// Constructors
 		SpellSummary(System *system, Display *display, Graphics *graphics, Character *character);
-		SpellSummary() = delete;
+		SpellSummary() = default;
+
+		// Copy Constructors
+		SpellSummary(const SpellSummary &other);
+		auto operator=(const SpellSummary &other) -> SpellSummary &;
+
+		// Move Constructors
+		SpellSummary(SpellSummary &&other) noexcept;
+		auto operator=(SpellSummary &&other) noexcept -> SpellSummary &;
 
 		// Public Members
 		bool valid;
@@ -62,10 +70,12 @@ namespace Sorcery {
 		System *_system;
 		Display *_display;
 		Graphics *_graphics;
-		Component _layout;
 		Character *_character; // Non-owning Pointer
+
+		Component _layout;
 		unsigned int _width;
 		unsigned int _height;
+
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Sprite> _icons;
 	};

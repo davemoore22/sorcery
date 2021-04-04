@@ -36,6 +36,127 @@ Sorcery::SpellSummary::SpellSummary(
 	_height = 0;
 }
 
+// Copy Constructors
+Sorcery::SpellSummary::SpellSummary(const SpellSummary &other) {
+
+	_system = other._system;
+	_display = other._display;
+	_graphics = other._graphics;
+	_character = other._character; // Non-owning Pointer
+
+	_layout = other._layout;
+	_width = other._width;
+	_height = other._height;
+
+	valid = other.valid;
+	sprites = other.sprites;
+	texts = other.texts;
+	frames = other.frames;
+
+	_texts = other._texts;
+	_icons = other._icons;
+}
+
+auto Sorcery::SpellSummary::operator=(const SpellSummary &other) -> SpellSummary & {
+
+	_system = other._system;
+	_display = other._display;
+	_graphics = other._graphics;
+	_character = other._character; // Non-owning Pointer
+
+	_layout = other._layout;
+	_width = other._width;
+	_height = other._height;
+
+	valid = other.valid;
+	sprites = other.sprites;
+	texts = other.texts;
+	frames = other.frames;
+
+	_texts = other._texts;
+	_icons = other._icons;
+
+	return *this;
+}
+
+// Move Constructors
+Sorcery::SpellSummary::SpellSummary(SpellSummary &&other) noexcept {
+
+	_system = other._system;
+	_display = other._display;
+	_graphics = other._graphics;
+	_character = other._character; // Non-owning Pointer
+
+	_layout = other._layout;
+	_width = other._width;
+	_height = other._height;
+
+	valid = other.valid;
+	sprites = std::move(other.sprites);
+	texts = std::move(other.texts);
+	frames = std::move(other.frames);
+
+	_texts = std::move(other._texts);
+	_icons = std::move(other._icons);
+
+	other._system = nullptr;
+	other._display = nullptr;
+	other._graphics = nullptr;
+	other._character = nullptr; // Non-owning Pointer
+
+	other._layout = Component();
+	other._width = 0;
+	other._height = 0;
+
+	other.valid = false;
+	other.sprites.clear();
+	other.texts.clear();
+	other.frames.clear();
+
+	other._texts.clear();
+	other._icons.clear();
+}
+
+auto Sorcery::SpellSummary::operator=(SpellSummary &&other) noexcept -> SpellSummary & {
+
+	if (this != &other) {
+		_system = other._system;
+		_display = other._display;
+		_graphics = other._graphics;
+		_character = other._character; // Non-owning Pointer
+
+		_layout = other._layout;
+		_width = other._width;
+		_height = other._height;
+
+		valid = other.valid;
+		sprites = std::move(other.sprites);
+		texts = std::move(other.texts);
+		frames = std::move(other.frames);
+
+		_texts = std::move(other._texts);
+		_icons = std::move(other._icons);
+
+		other._system = nullptr;
+		other._display = nullptr;
+		other._graphics = nullptr;
+		other._character = nullptr; // Non-owning Pointer
+
+		other._layout = Component();
+		other._width = 0;
+		other._height = 0;
+
+		other.valid = false;
+		other.sprites.clear();
+		other.texts.clear();
+		other.frames.clear();
+
+		other._texts.clear();
+		other._icons.clear();
+	}
+	return *this;
+}
+
 auto Sorcery::SpellSummary::set() -> void {
 
 	_texts.clear();

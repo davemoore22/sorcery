@@ -55,6 +55,7 @@ Sorcery::Character::Character(const Character &other)
 	_ad = other._ad;
 	_ss = other._ss;
 	_ad_c = other._ad_c;
+	_ss_c = other._ss_c;
 }
 
 auto Sorcery::Character::operator=(const Character &other) -> Character & {
@@ -91,6 +92,7 @@ auto Sorcery::Character::operator=(const Character &other) -> Character & {
 	_ad = other._ad;
 	_ad_c = other._ad_c;
 	_ss = other._ss;
+	_ss_c = other._ss_c;
 
 	return *this;
 }
@@ -131,6 +133,7 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		_ad = std::move(other._ad);
 		_ad_c = std::move(other._ad_c);
 		_ss = std::move(other._ss);
+		_ss_c = std::move(other._ss_c);
 
 		other._system = nullptr;
 		other._display = nullptr;
@@ -157,6 +160,12 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		other._class_list.clear();
 		other._num_pos_classes = 0;
 		other._portrait_index = 0;
+
+		other._sprites.clear();
+		other._texts.clear();
+		other._frames.clear();
+		other._ad_c = Component();
+		other._ss_c = Component();
 	}
 }
 
@@ -195,6 +204,7 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		_ad = std::move(other._ad);
 		_ad_c = std::move(other._ad_c);
 		_ss = std::move(other._ss);
+		_ss_c = std::move(other._ss_c);
 
 		other._system = nullptr;
 		other._display = nullptr;
@@ -221,6 +231,12 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		other._class_list.clear();
 		other._num_pos_classes = 0;
 		other._portrait_index = 0;
+
+		other._sprites.clear();
+		other._texts.clear();
+		other._frames.clear();
+		other._ad_c = Component();
+		other._ss_c = Component();
 	}
 	return *this;
 }

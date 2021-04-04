@@ -44,6 +44,7 @@ namespace Sorcery {
 		// Constructors
 		AttributeDisplay(System *system, Display *display, Graphics *graphics, Character *character,
 			Alignment alignment);
+		AttributeDisplay() = default;
 
 		// Copy Constructors
 		AttributeDisplay(const AttributeDisplay &other);
@@ -73,6 +74,7 @@ namespace Sorcery {
 		Display *_display;
 		Graphics *_graphics;
 		Character *_character; // Non-owning Pointer
+
 		Component _bar_c;
 		Component _icons_c;
 		Component _text_c;
