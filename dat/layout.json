@@ -1951,7 +1951,13 @@
 			"alpha": "255",
 			"type": "panel",
 			"priority": "6",
-			"drawmode": "drawmode"
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_x": "0",
+					"offset_y": "0"
+				}
+			]
 		},
 		{
 			"name": "cs1_name_text",
@@ -2646,6 +2652,62 @@
 			"priority": "3",
 			"drawmode": "manual"
 		}
+		]
+	},
+	{
+		"name": "spell_summary",
+		"component": [
+			{
+				"name": "mage_spell_title",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"string": "CHARACTER1_MAGE_SPELLS",
+				"justification": "centre",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"x": "14",
+				"y": "0",
+				"data": [
+					{
+						"offset_x": "0"
+					}
+				]
+			},
+			{
+				"name": "priest_spell_title",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"string": "CHARACTER1_PRIEST_SPELLS",
+				"justification": "centre",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"x": "14",
+				"y": "4",
+				"data": [
+					{
+						"offset_x": "0"
+					}
+				]
+			},
+			{
+				"name": "attribute_icons_horizontal",
+				"x": "0",
+				"y": "0",
+				"size": "23",
+				"type": "image",
+				"drawmode": "manual",
+				"scale": "0.1",
+				"data": [
+					{
+						"offset_x": "32",
+						"offset_y": "32"
+					}
+				]
+			}
 		]
 	}
 	]

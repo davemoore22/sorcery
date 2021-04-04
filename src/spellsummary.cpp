@@ -30,6 +30,9 @@ Sorcery::SpellSummary::SpellSummary(
 	// Get the standard layout information
 	_layout = Component((*_display->layout)["global:spell_summary"]);
 
+	// Get the Background Display Components
+	_display->generate_components("spell_summary", sprites, texts, frames);
+
 	// Not valid until we call the set command
 	valid = false;
 	_width = 0;
@@ -161,6 +164,8 @@ auto Sorcery::SpellSummary::set() -> void {
 
 	_texts.clear();
 	_icons.clear();
+
+	valid = true;
 }
 
 auto Sorcery::SpellSummary::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {

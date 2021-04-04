@@ -2042,6 +2042,11 @@ auto Sorcery::Character::_generate() -> void {
 	_ad->setPosition(_ad_c.x + std::stoi(_ad_c["offset_x"].value()),
 		_ad_c.y + std::stoi(_ad_c["offset_y"].value()));
 
+	_ss_c = Component((*_display->layout)["character:cs1_spellsummary"]);
+	_ss->set();
+	_ss->setPosition(_ss_c.x + std::stoi(_ss_c["offset_x"].value()),
+		_ss_c.y + std::stoi(_ss_c["offset_y"].value()));
+
 	/*
 	_add_text((*_display->layout)["character:name_text"], "{}", _name)};
 
@@ -2089,14 +2094,14 @@ auto Sorcery::Character::_generate() -> void {
 		std::to_string(_abilities.at(CharacterAbility::MARKS)));
 	_add_text((*_display->layout)["character:cs1_deaths_value"], "{}",
 		std::to_string(_abilities.at(CharacterAbility::DEATHS)));
-	_add_text((*_display->layout)["character:cs1_current_mage_magic_value"], "{}",
+	/* _add_text((*_display->layout)["character:cs1_current_mage_magic_value"], "{}",
 		_get_mage_magic_status(true));
 	_add_text((*_display->layout)["character:cs1_current_priest_magic_value"], "{}",
 		_get_priest_magic_status(true));
 	_add_text((*_display->layout)["character:cs1_max_mage_magic_value"], "{}",
 		_get_mage_magic_status(false));
 	_add_text((*_display->layout)["character:cs1_max_priest_magic_value"], "{}",
-		_get_priest_magic_status(false));
+		_get_priest_magic_status(false)); */
 
 	auto class_icon = get_icon(CharacterStage::CHOOSE_CLASS).value();
 	class_icon.setPosition((*_display->layout)["character:cs1_class_icon"].x,
