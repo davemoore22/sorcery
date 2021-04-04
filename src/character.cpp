@@ -53,6 +53,7 @@ Sorcery::Character::Character(const Character &other)
 	_texts = other._texts;
 	_frames = other._frames;
 	_ad = other._ad;
+	_ss = other._ss;
 	_ad_c = other._ad_c;
 }
 
@@ -89,6 +90,7 @@ auto Sorcery::Character::operator=(const Character &other) -> Character & {
 	_frames = other._frames;
 	_ad = other._ad;
 	_ad_c = other._ad_c;
+	_ss = other._ss;
 
 	return *this;
 }
@@ -128,6 +130,7 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		_frames = std::move(other._frames);
 		_ad = std::move(other._ad);
 		_ad_c = std::move(other._ad_c);
+		_ss = std::move(other._ss);
 
 		other._system = nullptr;
 		other._display = nullptr;
@@ -191,6 +194,7 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		_frames = std::move(other._frames);
 		_ad = std::move(other._ad);
 		_ad_c = std::move(other._ad_c);
+		_ss = std::move(other._ss);
 
 		other._system = nullptr;
 		other._display = nullptr;
@@ -2004,6 +2008,8 @@ auto Sorcery::Character::_generate() -> void {
 	_ad = std::make_shared<AttributeDisplay>(
 		_system, _display, _graphics, this, Alignment::HORIZONTAL);
 
+	_ss = std::make_shared<SpellSummary>(_system, _display, _graphics, this);
+
 	_display->generate_components("character", _sprites, _texts, _frames);
 	auto portrait{_get_character_portrait()};
 	Component portrait_c{(*_display->layout)["character:cs1_portrait"]};
@@ -2201,8 +2207,10 @@ auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states)
 	for (const auto &[unique_key, text] : _texts)
 		target.draw(text, states);
 
+	// Draw the custom components
 	if (_ad->valid)
 		target.draw(*_ad, states);
 
-	// Draw the custom components
+	if (_ss->valid)
+		target.draw(*_ss, states);
 }

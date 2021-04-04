@@ -157,6 +157,7 @@
 		<Unit filename="inc/random.hpp" />
 		<Unit filename="inc/raycaster.hpp" />
 		<Unit filename="inc/resourcemanager.hpp" />
+		<Unit filename="inc/spellsummary.hpp" />
 		<Unit filename="inc/splash.hpp" />
 		<Unit filename="inc/statusbar.hpp" />
 		<Unit filename="inc/string.hpp" />
@@ -207,6 +208,7 @@
 		<Unit filename="src/random.cpp" />
 		<Unit filename="src/raycaster.cpp" />
 		<Unit filename="src/resourcemanager.cpp" />
+		<Unit filename="src/spellsummary.cpp" />
 		<Unit filename="src/splash.cpp" />
 		<Unit filename="src/statusbar.cpp" />
 		<Unit filename="src/string.cpp" />

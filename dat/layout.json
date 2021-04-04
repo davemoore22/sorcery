@@ -31,6 +31,15 @@
 			"drawmode": "manual"
 		},
 		{
+			"name": "spell_summary",
+			"font": "monospace",
+			"size": "24",
+			"colour": "0xffff28ff",
+			"alpha": "255",
+			"type": "panel",
+			"drawmode": "manual"
+		},
+		{
 			"name": "attribute_display",
 			"font": "monospace",
 			"size": "18",

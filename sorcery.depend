@@ -271,15 +271,16 @@
 1615651315 source:/home/dave/Development/wizardry/sorcery-sfml/src/banner.cpp
 	"banner.hpp"
 
-1617394815 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
+1617555626 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
 	"character.hpp"
 
-1617374860 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
+1617556122 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
 	"display.hpp"
 	"graphics.hpp"
 	"main.hpp"
 	"system.hpp"
 	"attributedisplay.hpp"
+	"spellsummary.hpp"
 
 1617394158 source:/home/dave/Development/wizardry/sorcery-sfml/src/component.cpp
 	"component.hpp"
@@ -512,7 +513,7 @@
 	"system.hpp"
 	"training.hpp"
 
-1616780811 source:/home/dave/Development/wizardry/sorcery-sfml/src/gamemenu.cpp
+1617399238 source:/home/dave/Development/wizardry/sorcery-sfml/src/gamemenu.cpp
 	"gamemenu.hpp"
 
 1614621388 source:/home/dave/Development/wizardry/sorcery-sfml/src/camera.cpp
@@ -655,4 +656,15 @@
 	<string>
 	<unordered_map>
 	<vector>
+
+1617556151 /home/dave/Development/wizardry/sorcery-sfml/inc/spellsummary.hpp
+	"character.hpp"
+	"display.hpp"
+	"graphics.hpp"
+	"layout.hpp"
+	"main.hpp"
+	"system.hpp"
+
+1617554780 source:/home/dave/Development/wizardry/sorcery-sfml/src/spellsummary.cpp
+	"spellsummary.hpp"
 
