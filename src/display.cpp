@@ -32,6 +32,7 @@ Sorcery::Display::Display(System *system) : _system{system} {
 	layout = std::make_shared<Layout>((*_system->files)[LAYOUT_FILE]);
 	window = std::make_shared<Window>(
 		_system, string.get(), layout.get(), (*string)["TITLE_AND_VERSION_INFO"]);
+	overlay = std::make_shared<ControlOverlay>(_system, this, (*layout)["global:control_overlay"]);
 	ui_texture = (*system->resources).textures[GraphicsTexture::UI];
 	_background_movie.openFromFile(_system->files->get_path_as_string(MENU_VIDEO));
 	auto icon_layout{(*layout)["global:icon"]};
@@ -342,6 +343,17 @@ auto Sorcery::Display::display_components(const std::string &screen,
 
 		window->get_window()->draw(text);
 	}
+}
+
+auto Sorcery::Display::set_input_mode(WindowInputMode input_mode) -> void {
+
+	window->set_input_mode(input_mode);
+	overlay->set_input_mode(input_mode);
+}
+
+auto Sorcery::Display::get_input_mode() const -> WindowInputMode {
+
+	return window->get_input_mode();
 }
 
 auto Sorcery::Display::display_cursor() -> void {

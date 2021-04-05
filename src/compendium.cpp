@@ -50,7 +50,7 @@ auto Sorcery::Compendium::start() -> void {
 	_display->fit_background_movie();
 	_display->start_background_movie();
 
-	_display->window->set_input_mode(WindowInputMode::COMPENDIUM);
+	_display->set_input_mode(WindowInputMode::COMPENDIUM);
 
 	auto module_result{_do_event_loop()};
 	if (module_result == ModuleResult::EXIT)

@@ -17,6 +17,11 @@
 			<Cursor1 position="599" topLine="0" />
 		</Cursor>
 	</File>
+	<File name="src/controloverlay.cpp" open="1" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
 	<File name="src/string.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1289" topLine="22" />
@@ -60,6 +65,11 @@
 	<File name="inc/raycaster.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="3891" topLine="113" />
+		</Cursor>
+	</File>
+	<File name="inc/controloverlay.hpp" open="1" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="src/frame.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -312,7 +322,7 @@
 			<Cursor1 position="2537" topLine="47" />
 		</Cursor>
 	</File>
-	<File name="src/display.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/display.cpp" open="1" top="1" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="2639" topLine="60" />
 		</Cursor>
@@ -322,7 +332,7 @@
 			<Cursor1 position="2498" topLine="48" />
 		</Cursor>
 	</File>
-	<File name="src/character.cpp" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/character.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="8397" topLine="269" />
 		</Cursor>

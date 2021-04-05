@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include "controloverlay.hpp"
 #include "frame.hpp"
 #include "iconstore.hpp"
 #include "layout.hpp"
@@ -40,6 +41,7 @@ namespace Sorcery {
 	class Layout;
 	class Window;
 	class IconStore;
+	class ControlOverlay;
 
 	// Superclass to handle basic display requirements such as Windopw Access, Game Text and so on
 	class Display {
@@ -70,11 +72,14 @@ namespace Sorcery {
 		auto stop_background_movie() -> void;
 		auto update_background_movie() -> void;
 		auto draw_background_movie() -> void;
+		auto set_input_mode(WindowInputMode input_mode) -> void;
+		auto get_input_mode() const -> WindowInputMode;
 
 		// Public Members
 		std::shared_ptr<String> string;
 		std::shared_ptr<Window> window;
 		std::shared_ptr<Layout> layout;
+		std::shared_ptr<ControlOverlay> overlay;
 		sf::Texture ui_texture;
 
 	  private:

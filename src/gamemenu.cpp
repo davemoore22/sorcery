@@ -94,7 +94,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
 
 	// And do the main loop
-	_display->window->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> castle_option{
 		_castle_menu->items.begin()};
 	std::optional<std::vector<MenuEntry>::const_iterator> edge_option{_edge_menu->items.begin()};
@@ -103,7 +103,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 		while (_window->pollEvent(event)) {
 
 			// If we are in normal input mode
-			if (_display->window->get_input_mode() == WindowInputMode::NAVIGATE_MENU) {
+			if (_display->get_input_mode() == WindowInputMode::NAVIGATE_MENU) {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
@@ -129,7 +129,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 						}
 					} else if ((_system->input->check_for_event(WindowInput::CANCEL, event)) ||
 							   ((_system->input->check_for_event(WindowInput::BACK, event)))) {
-						_display->window->set_input_mode(WindowInputMode::CONFIRM_LEAVE_GAME);
+						_display->set_input_mode(WindowInputMode::CONFIRM_LEAVE_GAME);
 						_yes_or_no = WindowConfirm::NO;
 					}
 				} else if (_menu_stage == GameMenuType::EDGE_OF_TOWN) {
@@ -148,24 +148,23 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 								option_chosen == MenuItem::ET_CASTLE) {
 								_menu_stage = GameMenuType::CASTLE;
 							} else if (option_chosen == MenuItem::ET_LEAVE_GAME) {
-								_display->window->set_input_mode(
-									WindowInputMode::CONFIRM_LEAVE_GAME);
+								_display->set_input_mode(WindowInputMode::CONFIRM_LEAVE_GAME);
 								_yes_or_no = WindowConfirm::NO;
 							} else if (option_chosen == MenuItem::ET_MAZE) {
 								return MenuItem::ET_MAZE;
 							} else if (option_chosen == MenuItem::ET_TRAIN) {
 								_training->start();
 								_training->stop();
-								_display->window->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							}
 						}
 					} else if ((_system->input->check_for_event(WindowInput::CANCEL, event)) ||
 							   ((_system->input->check_for_event(WindowInput::BACK, event)))) {
-						_display->window->set_input_mode(WindowInputMode::CONFIRM_LEAVE_GAME);
+						_display->set_input_mode(WindowInputMode::CONFIRM_LEAVE_GAME);
 						_yes_or_no = WindowConfirm::NO;
 					}
 				}
-			} else if (_display->window->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME) {
+			} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME) {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
@@ -181,7 +180,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 				else if (_system->input->check_for_event(WindowInput::NO, event))
 					_leave_game->highlighted = WindowConfirm::NO;
 				else if (_system->input->check_for_event(WindowInput::CANCEL, event))
-					_display->window->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 				else if (_system->input->check_for_event(WindowInput::MOVE, event))
 					_leave_game->check_for_mouse_move(
 						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
@@ -195,14 +194,14 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 						if (option_chosen.value() == WindowConfirm::YES)
 							return MenuItem::ET_LEAVE_GAME;
 						if (option_chosen.value() == WindowConfirm::NO)
-							_display->window->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					} else {
 
 						// Button/Keyboard
 						if (_leave_game->highlighted == WindowConfirm::YES)
 							return MenuItem::ET_LEAVE_GAME;
 						else if (_leave_game->highlighted == WindowConfirm::NO)
-							_display->window->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					}
 				}
 			}
@@ -241,7 +240,7 @@ auto Sorcery::GameMenu::_draw() -> void {
 			(*_display->layout)["castle:castle_menu"].y);
 		_castle_menu->setPosition(menu_pos);
 		_window->draw(*_castle_menu);
-		if (_display->window->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME)
+		if (_display->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME)
 			_leave_game->draw(lerp);
 	} else if (_menu_stage == GameMenuType::EDGE_OF_TOWN) {
 		_edge_menu->generate((*_display->layout)["castle:edge_menu"], lerp);
@@ -249,7 +248,7 @@ auto Sorcery::GameMenu::_draw() -> void {
 			(*_display->layout)["castle:edge_menu"].x, (*_display->layout)["castle:edge_menu"].y);
 		_edge_menu->setPosition(menu_pos);
 		_window->draw(*_edge_menu);
-		if (_display->window->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME)
+		if (_display->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME)
 			_leave_game->draw(lerp);
 	}
 

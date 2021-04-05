@@ -31,6 +31,15 @@
 			"drawmode": "manual"
 		},
 		{
+			"name": "control_overlay",
+			"font": "monospace",
+			"size": "38",
+			"colour": "0xffffffff",
+			"alpha": "255",
+			"type": "panel",
+			"drawmode": "manual"
+		},
+		{
 			"name": "spell_summary",
 			"font": "monospace",
 			"size": "24",
@@ -102,6 +111,36 @@
 					"spacing_x": "61",
 					"spacing_y": "51",
 					"columns_per_row": "15"
+				}
+			]
+		}
+		]
+	},
+	{
+		"name": "control_overlay",
+		"component": [
+		{
+			"name": "frame",
+			"w": "26",
+			"h": "20",
+			"x": "0",
+			"y": "0",
+			"alpha": "200",
+			"type": "frame",
+			"priority": "4",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "letters",
+			"font": "monospace",
+			"colour": "0xddddddff",
+			"size": "24",
+			"type": "text",
+			"drawmode": "manual",
+			"priority": "5",
+			"background": "0x6060c8ff",
+			"data": [
+				{
 				}
 			]
 		}
