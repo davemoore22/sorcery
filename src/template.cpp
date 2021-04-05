@@ -65,7 +65,7 @@ auto Sorcery::Template::start() -> void {
 	// Play the background movie!
 	_display->start_background_movie();
 
-	_display->window->input_mode = WindowInputMode::DISPLAY_TEXT_FILE;
+	_display->window->set_input_mode(WindowInputMode::DISPLAY_TEXT_FILE);
 
 	// And do the main loop
 	sf::Event event{};

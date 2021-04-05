@@ -340,3 +340,12 @@ auto Sorcery::Window::get_text_y_adjustment(sf::Text &text, Component &component
 
 	return component.size - text.getLocalBounds().height;
 }
+
+auto Sorcery::Window::set_input_mode(WindowInputMode value) -> void {
+
+	_input_mode = value;
+}
+auto Sorcery::Window::get_input_mode() const -> WindowInputMode {
+
+	return _input_mode;
+}

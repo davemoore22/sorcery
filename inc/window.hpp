@@ -63,13 +63,14 @@ namespace Sorcery {
 		auto highlight_text(sf::Text &text, Component component, double lerp) -> sf::RectangleShape;
 		auto get_text_y_adjustment(sf::Text &text, Component &component) -> int;
 		auto shove_text(sf::Text &shovee, sf::Text &shover, unsigned int gap_units) -> void;
+		auto set_input_mode(WindowInputMode value) -> void;
+		auto get_input_mode() const -> WindowInputMode;
 
 		// Public Members
 		std::vector<sf::Sprite> sprites;
 		std::vector<sf::Texture> textures;
 		sf::View view;
 		Point centre;
-		WindowInputMode input_mode;
 		WindowTooltipList tooltips;
 		sf::IntRect size;
 
@@ -102,5 +103,6 @@ namespace Sorcery {
 		tgui::Gui _gui;
 		unsigned int _cell_height;
 		unsigned int _cell_width;
+		WindowInputMode _input_mode;
 	};
 } // namespace Sorcery

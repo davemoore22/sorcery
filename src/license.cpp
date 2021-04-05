@@ -59,7 +59,7 @@ auto Sorcery::License::start() -> void {
 	_display->start_background_movie();
 
 	// And do the main loop
-	_display->window->input_mode = WindowInputMode::DISPLAY_TEXT_FILE;
+	_display->window->set_input_mode(WindowInputMode::DISPLAY_TEXT_FILE);
 	sf::Event event{};
 	const unsigned int lines_to_display{38 - 9};
 	while (_window->isOpen()) {

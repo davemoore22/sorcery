@@ -66,7 +66,7 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 	_window->clear();
 	;
 
-	_display->window->input_mode = WindowInputMode::NAVIGATE_MENU;
+	_display->window->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->items.begin()};
 
 	// And do the main loop
@@ -101,7 +101,7 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 					} else if (option_chosen == MenuItem::TR_CREATE) {
 						_create->start();
 						_create->stop();
-						_display->window->input_mode = WindowInputMode::NAVIGATE_MENU;
+						_display->window->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					}
 				}
 			}
@@ -118,7 +118,7 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 
 auto Sorcery::Training::stop() -> void {
 
-	_display->window->input_mode = WindowInputMode::NAVIGATE_MENU;
+	_display->window->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 }
 
 auto Sorcery::Training::_draw() -> void {
