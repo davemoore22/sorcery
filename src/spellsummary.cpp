@@ -165,7 +165,63 @@ auto Sorcery::SpellSummary::set() -> void {
 	_texts.clear();
 	_icons.clear();
 
+	// Set the Custom Components
+	Component msl{(*_display->layout)["spell_summary:cs1_mage_spell_levels"]};
+	Component psl{(*_display->layout)["spell_summary:cs1_priest_spell_levels"]};
+	int x{msl.x};
+	int y{msl.y};
+	auto current_mage_sp{_character->get_spell_points(SpellType::MAGE, SpellPointStatus::CURRENT)};
+	for (auto level = 1; level <= 7; level++) {
+		auto sp_text{
+			_add_text(msl, x, y, level, "{}", std::to_string(current_mage_sp.value().at(level)))};
+		x += std::stoi(msl["spacing_x"].value());
+		if (current_mage_sp.value().at(level) == 0) {
+			auto zero_color{std::stoull(msl["zero_colour"].value(), 0, 16)};
+			sp_text->setFillColor(sf::Color(zero_color));
+		}
+	}
+	x = psl.x;
+	y = psl.y;
+	auto current_priest_sp{
+		_character->get_spell_points(SpellType::PRIEST, SpellPointStatus::CURRENT)};
+	for (auto level = 1; level <= 7; level++) {
+		auto sp_text{
+			_add_text(psl, x, y, level, "{}", std::to_string(current_priest_sp.value().at(level)))};
+		x += std::stoi(psl["spacing_x"].value());
+		if (current_priest_sp.value().at(level) == 0) {
+			auto zero_color{std::stoull(psl["zero_colour"].value(), 0, 16)};
+			sp_text->setFillColor(sf::Color(zero_color));
+		}
+	}
+
 	valid = true;
+}
+
+auto Sorcery::SpellSummary::_add_text(Component &component, int x, int y, int index,
+	std::string format, std::string value) -> sf::Text * {
+
+	sf::Text text;
+	std::string formatted_value{fmt::format(format, value)};
+	text.setFont(_system->resources->fonts[component.font]);
+	text.setCharacterSize(component.size);
+	text.setFillColor(sf::Color(component.colour));
+	text.setString(formatted_value);
+	const int offset_x = [&] {
+		if (component["offset_x"])
+			return std::stoi(component["offset_x"].value());
+		else
+			return 0;
+	}();
+	const int offset_y = [&] {
+		if (component["offset_y"])
+			return std::stoi(component["offset_y"].value());
+		else
+			return 0;
+	}();
+	std::string key{fmt::format("{}_{}", component.unique_key, index)};
+	text.setPosition(x + offset_x, y + offset_y);
+	_texts.emplace_back(text);
+	return &_texts.back();
 }
 
 auto Sorcery::SpellSummary::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {

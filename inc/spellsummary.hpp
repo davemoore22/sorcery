@@ -63,7 +63,8 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
-
+		auto _add_text(Component &component, int x, int y, int index, std::string format,
+			std::string value) -> sf::Text *;
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members

@@ -140,6 +140,8 @@ namespace Sorcery {
 
 		enum class SpellType { NONE, MAGE, PRIEST };
 
+		enum class SpellPointStatus { NONE, CURRENT, MAXIMUM };
+
 		enum class SpellCategory { NONE, HEALING, FIELD, SUPPORT, DISABLE, ATTACK };
 
 		enum class Spell {

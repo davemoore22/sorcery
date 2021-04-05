@@ -2579,78 +2579,6 @@
 					"offset_y": "-12"
 				}
 			]
-		},
-		{
-			"name": "cs1_mage_magic_icon",
-			"x": "31",
-			"y": "14",
-			"scale": "0.15",
-			"type": "icon",
-			"priority": "4",
-			"drawmode": "automatic",
-			"string": "mage"
-		},
-		{
-			"name": "cs1_priest_magic_icon",
-			"x": "31",
-			"y": "18",
-			"scale": "0.15",
-			"type": "icon",
-			"priority": "4",
-			"drawmode": "automatic",
-			"string": "priest"
-		},
-		{
-			"name": "cs1_current_mage_magic_value",
-			"x": "35",
-			"y": "14",
-			"font": "monospace",
-			"colour": "0xffddddff",
-			"size": "32",
-			"string": "NONE",
-			"justification": "left",
-			"type": "text",
-			"priority": "3",
-			"drawmode": "manual"
-		},
-		{
-			"name": "cs1_max_mage_magic_value",
-			"x": "35",
-			"y": "15",
-			"font": "monospace",
-			"colour": "0xff4040ff",
-			"size": "32",
-			"string": "NONE",
-			"justification": "left",
-			"type": "text",
-			"priority": "3",
-			"drawmode": "manual"
-		},
-		{
-			"name": "cs1_current_priest_magic_value",
-			"x": "35",
-			"y": "18",
-			"font": "monospace",
-			"colour": "0xddddffff",
-			"size": "32",
-			"string": "NONE",
-			"justification": "left",
-			"type": "text",
-			"priority": "3",
-			"drawmode": "manual"
-		},
-		{
-			"name": "cs1_max_priest_magic_value",
-			"x": "35",
-			"y": "19",
-			"font": "monospace",
-			"colour": "0x4040ffff",
-			"size": "32",
-			"string": "NONE",
-			"justification": "left",
-			"type": "text",
-			"priority": "3",
-			"drawmode": "manual"
 		}
 		]
 	},
@@ -2694,19 +2622,115 @@
 				]
 			},
 			{
-				"name": "attribute_icons_horizontal",
+				"name": "cs1_mage_magic_icon",
 				"x": "0",
 				"y": "0",
-				"size": "23",
-				"type": "image",
+				"scale": "0.15",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "mage"
+			},
+			{
+				"name": "cs1_priest_magic_icon",
+				"x": "0",
+				"y": "4",
+				"scale": "0.15",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "priest"
+			},
+			{
+				"name": "cs1_mage_spell_levels",
+				"x": "8",
+				"y": "1",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "centre",
+				"type": "text",
+				"priority": "3",
 				"drawmode": "manual",
-				"scale": "0.1",
 				"data": [
 					{
-						"offset_x": "32",
-						"offset_y": "32"
+					"spacing_x": "38",
+					"zero_colour": "0x808080ff"
 					}
 				]
+			},
+			{
+				"name": "cs1_priest_spell_levels",
+				"x": "8",
+				"y": "5",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "centre",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual",
+				"data": [
+					{
+					"spacing_x": "38",
+					"zero_colour": "0x808080ff"
+					}
+				]
+			},
+
+			{
+				"name": "cs1_current_mage_magic_value",
+				"x": "35",
+				"y": "14",
+				"font": "monospace",
+				"colour": "0xffddddff",
+				"size": "32",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "cs1_max_mage_magic_value",
+				"x": "35",
+				"y": "15",
+				"font": "monospace",
+				"colour": "0xff4040ff",
+				"size": "32",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "cs1_current_priest_magic_value",
+				"x": "35",
+				"y": "18",
+				"font": "monospace",
+				"colour": "0xddddffff",
+				"size": "32",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "cs1_max_priest_magic_value",
+				"x": "35",
+				"y": "19",
+				"font": "monospace",
+				"colour": "0x4040ffff",
+				"size": "32",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
 			}
 		]
 	}

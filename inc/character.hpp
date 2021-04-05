@@ -95,6 +95,8 @@ namespace Sorcery {
 		auto get_icon(CharacterStage type) -> std::optional<sf::Sprite>;
 		auto get_portrait_index() const -> unsigned int;
 		auto set_portrait_index(const unsigned int value) -> void;
+		auto get_spell_points(const SpellType type, const SpellPointStatus status) const
+			-> std::optional<SpellPoints>;
 
 		// Public Members
 

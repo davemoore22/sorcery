@@ -146,6 +146,7 @@ namespace Sorcery {
 		Enums::Magic::SpellCategory, bool>;
 	using SpellPoints = std::map<unsigned int, unsigned int>;
 	using SpellType = Enums::Magic::SpellType;
+	using SpellPointStatus = Enums::Magic::SpellPointStatus;
 	using Stage = Enums::Character::Stage;
 	using StringType = Enums::Internal::StringType;
 	using StringMap = std::map<std::string, std::string>;

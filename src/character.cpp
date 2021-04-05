@@ -1825,6 +1825,21 @@ auto Sorcery::Character::_get_character_portrait() -> sf::Sprite {
 	return portrait;
 }
 
+auto Sorcery::Character::get_spell_points(const SpellType type, const SpellPointStatus status) const
+	-> std::optional<SpellPoints> {
+
+	if ((type == SpellType::MAGE) && (status == SpellPointStatus::CURRENT))
+		return _mage_cur_sp;
+	else if ((type == SpellType::MAGE) && (status == SpellPointStatus::MAXIMUM))
+		return _mage_max_sp;
+	else if ((type == SpellType::PRIEST) && (status == SpellPointStatus::CURRENT))
+		return _priest_cur_sp;
+	else if ((type == SpellType::PRIEST) && (status == SpellPointStatus::MAXIMUM))
+		return _priest_max_sp;
+	else
+		return std::nullopt;
+}
+
 auto Sorcery::Character::_get_mage_magic_status(bool current) -> std::string {
 
 	std::string value{};
