@@ -80,7 +80,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected_option{
 		_main_menu->items.begin()};
-	_display->window->input_mode = WindowInputMode::NORMAL;
+	_display->window->input_mode = WindowInputMode::NAVIGATE_MENU;
 
 	// And do the main loop
 	sf::Event event{};
@@ -90,7 +90,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 		while (_window->pollEvent(event)) {
 
 			// If we are in normal input mode
-			if (_display->window->input_mode == WindowInputMode::NORMAL) {
+			if (_display->window->input_mode == WindowInputMode::NAVIGATE_MENU) {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
@@ -116,7 +116,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 							// We have selected something from the menu
 							if (const MenuItem option_chosen{(*selected_option.value()).item};
 								option_chosen == MenuItem::MM_NEW_GAME) {
-								_display->window->input_mode = WindowInputMode::NORMAL;
+								_display->window->input_mode = WindowInputMode::NAVIGATE_MENU;
 								return MenuItem::MM_NEW_GAME;
 							} else if (option_chosen == MenuItem::MM_LICENSE) {
 								_display->window->input_mode = WindowInputMode::DISPLAY_TEXT_FILE;
@@ -154,9 +154,9 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 				else if (_system->input->check_for_event(WindowInput::NO, event))
 					_confirm_exit->highlighted = WindowConfirm::NO;
 				else if (_system->input->check_for_event(WindowInput::CANCEL, event))
-					_display->window->input_mode = WindowInputMode::NORMAL;
+					_display->window->input_mode = WindowInputMode::NAVIGATE_MENU;
 				else if (_system->input->check_for_event(WindowInput::BACK, event))
-					_display->window->input_mode = WindowInputMode::NORMAL;
+					_display->window->input_mode = WindowInputMode::NAVIGATE_MENU;
 				else if (_system->input->check_for_event(WindowInput::MOVE, event))
 					_confirm_exit->check_for_mouse_move(
 						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
@@ -170,14 +170,14 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 						if (option_chosen.value() == WindowConfirm::YES)
 							_window->close();
 						if (option_chosen.value() == WindowConfirm::NO)
-							_display->window->input_mode = WindowInputMode::NORMAL;
+							_display->window->input_mode = WindowInputMode::NAVIGATE_MENU;
 					} else {
 
 						// Button/Keyboard
 						if (_confirm_exit->highlighted == WindowConfirm::YES)
 							_window->close();
 						else if (_confirm_exit->highlighted == WindowConfirm::NO)
-							_display->window->input_mode = WindowInputMode::NORMAL;
+							_display->window->input_mode = WindowInputMode::NAVIGATE_MENU;
 					}
 				}
 			}

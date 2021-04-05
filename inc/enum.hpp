@@ -66,18 +66,22 @@ namespace Sorcery {
 		// Input Mode
 		enum class InputMode {
 			NONE,
-			NORMAL,
-			CONFIRM,
-			CANCEL,
+			NAVIGATE_MENU,
 			DISPLAY_TEXT_FILE,
 			GAME_OPTIONS,
 			COMPENDIUM,
+			NORMAL,
+			CONFIRM,
+			CANCEL,
 			SAVE_CHANGES,
 			CANCEL_CHANGES,
 			SWITCH_ON_STRICT_MODE,
 			LEAVE_GAME,
-			INPUT_TEXT,
-			ALLOCATE_STATS
+			INPUT_NAME,
+			ALLOCATE_STATS,
+			CHOOSE_METHOD,
+			CHOOSE_PORTRAIT,
+			REVIEW_AND_CONFIRM
 		};
 
 		enum class Confirm { NONE, YES, NO };

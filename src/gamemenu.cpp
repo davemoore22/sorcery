@@ -94,7 +94,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
 
 	// And do the main loop
-	_display->window->input_mode = WindowInputMode::NORMAL;
+	_display->window->input_mode = WindowInputMode::NAVIGATE_MENU;
 	std::optional<std::vector<MenuEntry>::const_iterator> castle_option{
 		_castle_menu->items.begin()};
 	std::optional<std::vector<MenuEntry>::const_iterator> edge_option{_edge_menu->items.begin()};
@@ -103,7 +103,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 		while (_window->pollEvent(event)) {
 
 			// If we are in normal input mode
-			if (_display->window->input_mode == WindowInputMode::NORMAL) {
+			if (_display->window->input_mode == WindowInputMode::NAVIGATE_MENU) {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
@@ -155,7 +155,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 							} else if (option_chosen == MenuItem::ET_TRAIN) {
 								_training->start();
 								_training->stop();
-								_display->window->input_mode = WindowInputMode::NORMAL;
+								_display->window->input_mode = WindowInputMode::NAVIGATE_MENU;
 							}
 						}
 					} else if ((_system->input->check_for_event(WindowInput::CANCEL, event)) ||
@@ -180,7 +180,7 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 				else if (_system->input->check_for_event(WindowInput::NO, event))
 					_leave_game->highlighted = WindowConfirm::NO;
 				else if (_system->input->check_for_event(WindowInput::CANCEL, event))
-					_display->window->input_mode = WindowInputMode::NORMAL;
+					_display->window->input_mode = WindowInputMode::NAVIGATE_MENU;
 				else if (_system->input->check_for_event(WindowInput::MOVE, event))
 					_leave_game->check_for_mouse_move(
 						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
@@ -194,14 +194,14 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 						if (option_chosen.value() == WindowConfirm::YES)
 							return MenuItem::ET_LEAVE_GAME;
 						if (option_chosen.value() == WindowConfirm::NO)
-							_display->window->input_mode = WindowInputMode::NORMAL;
+							_display->window->input_mode = WindowInputMode::NAVIGATE_MENU;
 					} else {
 
 						// Button/Keyboard
 						if (_leave_game->highlighted == WindowConfirm::YES)
 							return MenuItem::ET_LEAVE_GAME;
 						else if (_leave_game->highlighted == WindowConfirm::NO)
-							_display->window->input_mode = WindowInputMode::NORMAL;
+							_display->window->input_mode = WindowInputMode::NAVIGATE_MENU;
 					}
 				}
 			}
