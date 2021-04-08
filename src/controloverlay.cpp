@@ -36,6 +36,106 @@ Sorcery::ControlOverlay::ControlOverlay(System *system, Display *display, Compon
 auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void {
 
 	_input_mode = input_mode;
+
+	/* Control Menu Items
+
+		TAB Key or YELLOW Y Buttonm to Activate as long as held
+
+		ANYTHING:			ALL
+		UP: 				CURSOR/JOYPAD UP,
+		DOWN: 				CURSOR/JOYPAD DOWN,
+		LEFT: 				CURSOR/JOYPAD LEFT,
+		RIGHT:				CURSOR/JOYPAD RIGHT,
+		MOVE:				MOUSE/JOYPAD MOVE,
+		CONFIRM:			LEFT-MOUSE, SPACE, ENTER, JOYPAD GREEN A
+		CONFIRM-NO-SPACE:	LEFT-MOUSE, ENTER, JOYPAD GREEN A,
+		SELECT:				LEFT-MOUSE, JOYPAD GREEN A
+		CANCEL:				ESCAPE
+		BACK:				RIGHT-MOUSE, JOYPAD RED B
+		YES:				KEY Y
+		NO:					KEY N
+		DELETE:				DELETE/BACKSPACE
+		NAVIGATE FILE:		9/PAGE_UP
+							3/PAGE_DOWN
+							7/HOME,
+							1/END
+		SPACE:
+		ALPHANUMERIC:		KEYS A to Z, and SPACE
+
+	ATTRACT_MODE:
+
+	NAVIGATE_MENU:
+
+		MOUSE MOVE:		Choose Menu Item
+		UP: 			Previous Menu Item
+		DOWN:			Next Menu Item
+		CONFIRM: 		Select Menu Item
+
+	DISPLAY_TEXT_FILE:
+
+		UP: 			Previous Line
+		DOWN:			Next Line
+		PAGE_UP:		Previous Page
+		PAGE_DOWN:		Next Page
+		HOME:			Beginning of Text
+		END:			End of Text
+
+	GAME_OPTIONS:
+
+		MOUSE MOVE:		Select Option
+		UP: 			Previous Option
+		DOWN:			Next Option
+		CONFIRM: 		Toggle Option On/Off
+
+	COMPENDIUM:
+
+	CONFIRM_QUIT_GAME:
+	CONFIRM_STRICT_MODE:
+	CONFIRM_LEAVE_GAME:
+	SAVE_CHANGES:
+	CANCEL_CHANGES:
+
+		MOUSE MOVE:		Change Option
+		LEFT:			Change Option
+		RIGHT:			Change Option
+		CONFIRM:		Choose Option
+		Y/N:			Choose Y or N
+
+	INPUT_NAME:
+
+		ALPHANUMERIC:		KEYS A to Z, and SPACE
+
+	ALLOCATE_STATS:
+
+		UP: 			Previous Stat
+		DOWN:			Next Stat
+		LEFT: 			Decrease Stat
+		RIGHT:			Increase Stat
+
+	CHOOSE_METHOD:
+
+		LEFT: 			Change Method
+		RIGHT:			Change Method
+		CONFIRM:		Choose Method
+
+	CHOOSE_PORTRAIT:
+
+		LEFT: 			Previous Portrait
+		RIGHT:			Next Portrait
+		CONFIRM:		Choose Portrait
+
+	REVIEW_AND_CONFIRM:
+
+		LEFT: 			Previous Section
+		RIGHT:			Next Section
+		CONFIRM:		Confirm Character
+
+	Always (add to bottom of frame):
+
+		BACK/DELETE: 	Cancel and Return to Previous Screen
+		ESCAPE: 		Quit to Main Menu
+
+	*/
 }
 
 auto Sorcery::ControlOverlay::draw(sf::RenderTarget &target, sf::RenderStates states) const

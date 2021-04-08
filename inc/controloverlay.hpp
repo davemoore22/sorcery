@@ -59,5 +59,6 @@ namespace Sorcery {
 		std::vector<sf::Text> _texts;
 		Component _layout;
 		WindowInputMode _input_mode;
+		std::map<WindowInputMode, std::array<bool, 10>> _controls;
 	};
 } // namespace Sorcery
