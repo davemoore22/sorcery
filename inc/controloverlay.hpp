@@ -44,6 +44,7 @@ namespace Sorcery {
 		// Public Members
 		unsigned int width;
 		unsigned int height;
+		bool valid;
 
 		// Public Methods
 		auto set_input_mode(WindowInputMode input_mode) -> void;
@@ -62,5 +63,6 @@ namespace Sorcery {
 		WindowInputMode _input_mode;
 		std::vector<std::pair<std::string, sf::Sprite>> _controls;
 		sf::Texture _control_texture;
+		std::unique_ptr<Frame> _frame;
 	};
 } // namespace Sorcery

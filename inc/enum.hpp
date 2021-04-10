@@ -52,7 +52,8 @@ namespace Sorcery {
 			DELETE,
 			SPACE,
 			BACK,
-			SELECT
+			SELECT,
+			SHOW_CONTROLS
 		};
 	}
 

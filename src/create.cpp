@@ -174,6 +174,13 @@ auto Sorcery::Create::_do_event_loop() -> std::optional<ModuleResult> {
 
 auto Sorcery::Create::_handle_input(const sf::Event &event) -> std::optional<ModuleResult> {
 
+	// Handle enabling help overlay
+	if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event))
+		_display->show_overlay();
+	else
+		_display->hide_overlay();
+
+	// Now look for other events to respond to
 	if (event.type == sf::Event::Closed)
 		return ModuleResult::EXIT;
 	else if (_system->input->check_for_event(WindowInput::CANCEL, event))

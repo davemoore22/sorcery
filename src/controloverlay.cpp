@@ -36,108 +36,9 @@ Sorcery::ControlOverlay::ControlOverlay(System *system, Display *display, Compon
 	_controls.clear();
 }
 
-/* Control Menu Items
-
-	TAB Key or YELLOW Y Buttonm to Activate as long as held
-
-	ANYTHING:			ALL
-	UP: 				CURSOR/JOYPAD UP,
-	DOWN: 				CURSOR/JOYPAD DOWN,
-	LEFT: 				CURSOR/JOYPAD LEFT,
-	RIGHT:				CURSOR/JOYPAD RIGHT,
-	MOVE:				MOUSE/JOYPAD MOVE,
-	CONFIRM:			LEFT-MOUSE, SPACE, ENTER, JOYPAD GREEN A
-	CONFIRM-NO-SPACE:	LEFT-MOUSE, ENTER, JOYPAD GREEN A,
-	SELECT:				LEFT-MOUSE, JOYPAD GREEN A
-	CANCEL:				ESCAPE
-	BACK:				RIGHT-MOUSE, JOYPAD RED B
-	YES:				KEY Y
-	NO:					KEY N
-	DELETE:				DELETE/BACKSPACE
-	NAVIGATE FILE:		9/PAGE_UP
-						3/PAGE_DOWN
-						7/HOME,
-						1/END
-	SPACE:
-	ALPHANUMERIC:		KEYS A to Z, and SPACE
-
-ATTRACT_MODE:
-
-NAVIGATE_MENU:
-
-	MOUSE MOVE:		Choose Menu Item
-	UP: 			Previous Menu Item
-	DOWN:			Next Menu Item
-	CONFIRM: 		Select Menu Item
-
-DISPLAY_TEXT_FILE:
-
-	UP: 			Previous Line
-	DOWN:			Next Line
-	PAGE_UP:		Previous Page
-	PAGE_DOWN:		Next Page
-	HOME:			Beginning of Text
-	END:			End of Text
-
-GAME_OPTIONS:
-
-	MOUSE MOVE:		Select Option
-	UP: 			Previous Option
-	DOWN:			Next Option
-	CONFIRM: 		Toggle Option On/Off
-
-COMPENDIUM:
-
-CONFIRM_QUIT_GAME:
-CONFIRM_STRICT_MODE:
-CONFIRM_LEAVE_GAME:
-SAVE_CHANGES:
-CANCEL_CHANGES:
-
-	MOUSE MOVE:		Change Option
-	LEFT:			Change Option
-	RIGHT:			Change Option
-	CONFIRM:		Choose Option
-	Y/N:			Choose Y or N
-
-INPUT_NAME:
-
-	ALPHANUMERIC:		KEYS A to Z, and SPACE
-
-ALLOCATE_STATS:
-
-	UP: 			Previous Stat
-	DOWN:			Next Stat
-	LEFT: 			Decrease Stat
-	RIGHT:			Increase Stat
-
-CHOOSE_METHOD:
-
-	LEFT: 			Change Method
-	RIGHT:			Change Method
-	CONFIRM:		Choose Method
-
-CHOOSE_PORTRAIT:
-
-	LEFT: 			Previous Portrait
-	RIGHT:			Next Portrait
-	CONFIRM:		Choose Portrait
-
-REVIEW_AND_CONFIRM:
-
-	LEFT: 			Previous Section
-	RIGHT:			Next Section
-	CONFIRM:		Confirm Character
-
-Always (add to bottom of frame):
-
-	BACK/DELETE: 	Cancel and Return to Previous Screen
-	ESCAPE: 		Quit to Main Menu
-
-*/
-
 auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void {
 
+	valid = false;
 	_input_mode = input_mode;
 	_controls.clear();
 
@@ -269,6 +170,48 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 		_get_control_gfx(WindowInputCategory::ESCAPE)));
 
 	// Now generate the various Components
+	auto count{_controls.size()};
+	Component frame_c{(*_display->layout)["control_overlay:frame"]};
+	if (_frame.get()) {
+		_frame.release();
+		_frame.reset();
+	}
+	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, frame_c.w,
+		count + 4, frame_c.colour, frame_c.alpha);
+	auto fsprite{_frame->sprite};
+	fsprite.setPosition(0, 0);
+	_sprites.emplace_back(fsprite);
+
+	Component sprite_c{(*_display->layout)["control_overlay:graphics"]};
+	Component text_c{(*_display->layout)["control_overlay:text"]};
+
+	int sprite_x{std::stoi(sprite_c["offset_x"].value())};
+	int sprite_y{std::stoi(sprite_c["offset_y"].value())};
+	int sprite_spacing_y{std::stoi(sprite_c["spacing_y"].value())};
+	int text_x{std::stoi(text_c["offset_x"].value())};
+	int text_y{std::stoi(text_c["offset_y"].value())};
+	int text_spacing_y{std::stoi(text_c["spacing_y"].value())};
+
+	for (auto &control : _controls) {
+		std::string caption{control.first};
+		sf::Sprite image{control.second};
+
+		sf::Text text;
+		text.setFont(_system->resources->fonts[text_c.font]);
+		text.setCharacterSize(text_c.size);
+		text.setFillColor(sf::Color(text_c.colour));
+		text.setString(caption);
+		text.setPosition(text_x, text_y);
+		_texts.emplace_back(text);
+		text_y += text_spacing_y;
+
+		image.setPosition(sprite_x, sprite_y);
+		image.setScale(sprite_c.scale, sprite_c.scale);
+		_sprites.emplace_back(image);
+		sprite_y += sprite_spacing_y;
+	}
+
+	valid = true;
 }
 
 auto Sorcery::ControlOverlay::_get_control_gfx(WindowInputCategory input) -> sf::Sprite {
@@ -276,7 +219,7 @@ auto Sorcery::ControlOverlay::_get_control_gfx(WindowInputCategory input) -> sf:
 	constexpr unsigned int row_height{100};
 	const unsigned int row_width{_control_texture.getSize().x};
 	const unsigned int y{static_cast<unsigned int>(input) * row_height};
-	auto const crect = sf::IntRect(0, row_width, y, row_height);
+	auto const crect = sf::IntRect(0, y, row_width, row_height);
 
 	sf::Sprite control(_control_texture);
 	control.setTextureRect(crect);

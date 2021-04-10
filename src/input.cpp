@@ -35,6 +35,13 @@ Sorcery::Input::Input() {
 auto Sorcery::Input::check_for_event(WindowInput input, sf::Event event) -> bool {
 
 	switch (input) {
+	case WindowInput::SHOW_CONTROLS:
+		return (((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F1)) ||
+				(((event.type == sf::Event::MouseButtonPressed) &&
+					(event.mouseButton.button == sf::Mouse::Middle))) ||
+				(((event.type == sf::Event::JoystickButtonPressed) &&
+					(event.joystickButton.button == 2))));
+		break;
 	case WindowInput::ANYTHING:
 		return ((event.type == sf::Event::KeyPressed) ||
 				(event.type == sf::Event::MouseButtonPressed) ||

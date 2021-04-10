@@ -74,6 +74,8 @@ namespace Sorcery {
 		auto draw_background_movie() -> void;
 		auto set_input_mode(WindowInputMode input_mode) -> void;
 		auto get_input_mode() const -> WindowInputMode;
+		auto show_overlay() -> void;
+		auto hide_overlay() -> void;
 
 		// Public Members
 		std::shared_ptr<String> string;
@@ -91,6 +93,7 @@ namespace Sorcery {
 		sfe::Movie _background_movie;
 		std::map<Component, std::variant<sf::Sprite, sf::Text, std::shared_ptr<Frame>>> _components;
 		std::unique_ptr<IconStore> _icons;
+		bool _show_overlay;
 
 		// Private Methods
 	};

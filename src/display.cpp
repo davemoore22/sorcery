@@ -235,10 +235,23 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 	}
 }
 
+auto Sorcery::Display::show_overlay() -> void {
+	_show_overlay = true;
+}
+
+auto Sorcery::Display::hide_overlay() -> void {
+	_show_overlay = false;
+}
+
 auto Sorcery::Display::display_components(
 	const std::string &screen, std::optional<std::any> parameter) -> void {
 
 	display_components(screen, _sprites, _texts, _frames, parameter);
+	if ((_show_overlay) && (overlay->valid)) {
+		overlay->setPosition(
+			(*layout)["global:control_overlay"].x, (*layout)["global:control_overlay"].y);
+		window->get_window()->draw(*overlay);
+	}
 }
 
 auto Sorcery::Display::display_components(const std::string &screen,

@@ -37,7 +37,9 @@
 			"colour": "0xffffffff",
 			"alpha": "255",
 			"type": "panel",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"x": "centre",
+			"y": "centre"
 		},
 		{
 			"name": "spell_summary",
@@ -121,26 +123,43 @@
 		"component": [
 		{
 			"name": "frame",
-			"w": "26",
+			"w": "40",
 			"h": "20",
 			"x": "0",
 			"y": "0",
 			"alpha": "200",
 			"type": "frame",
 			"priority": "4",
-			"drawmode": "automatic"
+			"drawmode": "manual"
 		},
 		{
-			"name": "letters",
-			"font": "monospace",
+			"name": "text",
+			"font": "text",
 			"colour": "0xddddddff",
-			"size": "24",
+			"size": "32",
 			"type": "text",
 			"drawmode": "manual",
 			"priority": "5",
 			"background": "0x6060c8ff",
 			"data": [
 				{
+					"offset_x": "216",
+					"offset_y": "24",
+					"spacing_y": "32"
+				}
+			]
+		},
+		{
+			"name": "graphics",
+			"scale": "0.4",
+			"type": "icon",
+			"drawmode": "manual",
+			"priority": "5",
+			"data": [
+				{
+					"offset_x": "16",
+					"offset_y": "32",
+					"spacing_y": "32"
 				}
 			]
 		}
