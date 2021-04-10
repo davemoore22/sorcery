@@ -31,111 +31,165 @@ Sorcery::ControlOverlay::ControlOverlay(System *system, Display *display, Compon
 	_texts.clear();
 
 	_input_mode = WindowInputMode::NONE;
+	_control_texture = (*_system->resources).textures[GraphicsTexture::CONTROLS];
+
+	_controls.clear();
+
+	// turn this into a vector of std::pair<string, sprites> for each screen
+
+	/*
+	// MOUSE-MOVE
+	// UP
+	// DOWN
+	// LEFT
+	// RIGHT
+	// CONFIRM
+	// Y/N
+	// ALPHANUMERIC
+	// PAGE_UP
+	// PAGE_DOWN
+	// HOME
+	// END
+	// BACK/DELETE (always set)
+	// ESCAPE (always set)
+	*/
+
+	/* Control Menu Items
+
+			TAB Key or YELLOW Y Buttonm to Activate as long as held
+
+			ANYTHING:			ALL
+			UP: 				CURSOR/JOYPAD UP,
+			DOWN: 				CURSOR/JOYPAD DOWN,
+			LEFT: 				CURSOR/JOYPAD LEFT,
+			RIGHT:				CURSOR/JOYPAD RIGHT,
+			MOVE:				MOUSE/JOYPAD MOVE,
+			CONFIRM:			LEFT-MOUSE, SPACE, ENTER, JOYPAD GREEN A
+			CONFIRM-NO-SPACE:	LEFT-MOUSE, ENTER, JOYPAD GREEN A,
+			SELECT:				LEFT-MOUSE, JOYPAD GREEN A
+			CANCEL:				ESCAPE
+			BACK:				RIGHT-MOUSE, JOYPAD RED B
+			YES:				KEY Y
+			NO:					KEY N
+			DELETE:				DELETE/BACKSPACE
+			NAVIGATE FILE:		9/PAGE_UP
+								3/PAGE_DOWN
+								7/HOME,
+								1/END
+			SPACE:
+			ALPHANUMERIC:		KEYS A to Z, and SPACE
+
+		ATTRACT_MODE:
+
+		NAVIGATE_MENU:
+
+			MOUSE MOVE:		Choose Menu Item
+			UP: 			Previous Menu Item
+			DOWN:			Next Menu Item
+			CONFIRM: 		Select Menu Item
+
+		DISPLAY_TEXT_FILE:
+
+			UP: 			Previous Line
+			DOWN:			Next Line
+			PAGE_UP:		Previous Page
+			PAGE_DOWN:		Next Page
+			HOME:			Beginning of Text
+			END:			End of Text
+
+		GAME_OPTIONS:
+
+			MOUSE MOVE:		Select Option
+			UP: 			Previous Option
+			DOWN:			Next Option
+			CONFIRM: 		Toggle Option On/Off
+
+		COMPENDIUM:
+
+		CONFIRM_QUIT_GAME:
+		CONFIRM_STRICT_MODE:
+		CONFIRM_LEAVE_GAME:
+		SAVE_CHANGES:
+		CANCEL_CHANGES:
+
+			MOUSE MOVE:		Change Option
+			LEFT:			Change Option
+			RIGHT:			Change Option
+			CONFIRM:		Choose Option
+			Y/N:			Choose Y or N
+
+		INPUT_NAME:
+
+			ALPHANUMERIC:		KEYS A to Z, and SPACE
+
+		ALLOCATE_STATS:
+
+			UP: 			Previous Stat
+			DOWN:			Next Stat
+			LEFT: 			Decrease Stat
+			RIGHT:			Increase Stat
+
+		CHOOSE_METHOD:
+
+			LEFT: 			Change Method
+			RIGHT:			Change Method
+			CONFIRM:		Choose Method
+
+		CHOOSE_PORTRAIT:
+
+			LEFT: 			Previous Portrait
+			RIGHT:			Next Portrait
+			CONFIRM:		Choose Portrait
+
+		REVIEW_AND_CONFIRM:
+
+			LEFT: 			Previous Section
+			RIGHT:			Next Section
+			CONFIRM:		Confirm Character
+
+		Always (add to bottom of frame):
+
+			BACK/DELETE: 	Cancel and Return to Previous Screen
+			ESCAPE: 		Quit to Main Menu
+
+		*/
 }
 
+// Need a texture holding all the keys
 auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void {
 
 	_input_mode = input_mode;
 
-	/* Control Menu Items
-
-		TAB Key or YELLOW Y Buttonm to Activate as long as held
-
-		ANYTHING:			ALL
-		UP: 				CURSOR/JOYPAD UP,
-		DOWN: 				CURSOR/JOYPAD DOWN,
-		LEFT: 				CURSOR/JOYPAD LEFT,
-		RIGHT:				CURSOR/JOYPAD RIGHT,
-		MOVE:				MOUSE/JOYPAD MOVE,
-		CONFIRM:			LEFT-MOUSE, SPACE, ENTER, JOYPAD GREEN A
-		CONFIRM-NO-SPACE:	LEFT-MOUSE, ENTER, JOYPAD GREEN A,
-		SELECT:				LEFT-MOUSE, JOYPAD GREEN A
-		CANCEL:				ESCAPE
-		BACK:				RIGHT-MOUSE, JOYPAD RED B
-		YES:				KEY Y
-		NO:					KEY N
-		DELETE:				DELETE/BACKSPACE
-		NAVIGATE FILE:		9/PAGE_UP
-							3/PAGE_DOWN
-							7/HOME,
-							1/END
-		SPACE:
-		ALPHANUMERIC:		KEYS A to Z, and SPACE
-
-	ATTRACT_MODE:
-
-	NAVIGATE_MENU:
-
-		MOUSE MOVE:		Choose Menu Item
-		UP: 			Previous Menu Item
-		DOWN:			Next Menu Item
-		CONFIRM: 		Select Menu Item
-
-	DISPLAY_TEXT_FILE:
-
-		UP: 			Previous Line
-		DOWN:			Next Line
-		PAGE_UP:		Previous Page
-		PAGE_DOWN:		Next Page
-		HOME:			Beginning of Text
-		END:			End of Text
-
-	GAME_OPTIONS:
-
-		MOUSE MOVE:		Select Option
-		UP: 			Previous Option
-		DOWN:			Next Option
-		CONFIRM: 		Toggle Option On/Off
-
-	COMPENDIUM:
-
-	CONFIRM_QUIT_GAME:
-	CONFIRM_STRICT_MODE:
-	CONFIRM_LEAVE_GAME:
-	SAVE_CHANGES:
-	CANCEL_CHANGES:
-
-		MOUSE MOVE:		Change Option
-		LEFT:			Change Option
-		RIGHT:			Change Option
-		CONFIRM:		Choose Option
-		Y/N:			Choose Y or N
-
-	INPUT_NAME:
-
-		ALPHANUMERIC:		KEYS A to Z, and SPACE
-
-	ALLOCATE_STATS:
-
-		UP: 			Previous Stat
-		DOWN:			Next Stat
-		LEFT: 			Decrease Stat
-		RIGHT:			Increase Stat
-
-	CHOOSE_METHOD:
-
-		LEFT: 			Change Method
-		RIGHT:			Change Method
-		CONFIRM:		Choose Method
-
-	CHOOSE_PORTRAIT:
-
-		LEFT: 			Previous Portrait
-		RIGHT:			Next Portrait
-		CONFIRM:		Choose Portrait
-
-	REVIEW_AND_CONFIRM:
-
-		LEFT: 			Previous Section
-		RIGHT:			Next Section
-		CONFIRM:		Confirm Character
-
-	Always (add to bottom of frame):
-
-		BACK/DELETE: 	Cancel and Return to Previous Screen
-		ESCAPE: 		Quit to Main Menu
-
-	*/
+	switch (input_mode) {
+	case WindowInputMode::ALLOCATE_STATS:
+		break;
+	case WindowInputMode::ATTRACT_MODE:
+		break;
+	case WindowInputMode::CHOOSE_METHOD:
+		break;
+	case WindowInputMode::CHOOSE_PORTRAIT:
+		break;
+	case WindowInputMode::COMPENDIUM:
+		break;
+	case WindowInputMode::CONFIRM_LEAVE_GAME:
+	case WindowInputMode::CONFIRM_QUIT_GAME:
+	case WindowInputMode::CONFIRM_STRICT_MODE:
+	case WindowInputMode::SAVE_CHANGES:
+	case WindowInputMode::CANCEL_CHANGES:
+		break;
+	case WindowInputMode::DISPLAY_TEXT_FILE:
+		break;
+	case WindowInputMode::GAME_OPTIONS:
+		break;
+	case WindowInputMode::INPUT_NAME:
+		break;
+	case WindowInputMode::NAVIGATE_MENU:
+		break;
+	case WindowInputMode::REVIEW_AND_CONFIRM:
+		break;
+	default:
+		break;
+	};
 }
 
 auto Sorcery::ControlOverlay::draw(sf::RenderTarget &target, sf::RenderStates states) const

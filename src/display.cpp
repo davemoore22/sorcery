@@ -33,10 +33,10 @@ Sorcery::Display::Display(System *system) : _system{system} {
 	window = std::make_shared<Window>(
 		_system, string.get(), layout.get(), (*string)["TITLE_AND_VERSION_INFO"]);
 	overlay = std::make_shared<ControlOverlay>(_system, this, (*layout)["global:control_overlay"]);
-	ui_texture = (*system->resources).textures[GraphicsTexture::UI];
+	ui_texture = (*_system->resources).textures[GraphicsTexture::UI];
 	_background_movie.openFromFile(_system->files->get_path_as_string(MENU_VIDEO));
 	auto icon_layout{(*layout)["global:icon"]};
-	_icons = std::make_unique<IconStore>(system, icon_layout, (*system->files)[ICONS_FILE]);
+	_icons = std::make_unique<IconStore>(_system, icon_layout, (*_system->files)[ICONS_FILE]);
 }
 
 Sorcery::Display::Display(const Display &other)

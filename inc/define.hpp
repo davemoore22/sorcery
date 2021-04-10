@@ -62,6 +62,7 @@ namespace Sorcery {
 	// Graphics
 	inline constexpr auto BACKGROUND_TEXTURE = "background.png"sv;
 	inline constexpr auto BANNER_TEXTURE = "banner.png"sv;
+	inline constexpr auto CONTROLS_TEXTURE = "controls.png"sv;
 	inline constexpr auto CREATURES_TEXTURE = "creatures.png"sv;
 	inline constexpr auto ICONS_TEXTURE = "icons.png"sv;
 	inline constexpr auto LOGO_TEXTURE = "logo.png"sv;

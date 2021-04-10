@@ -83,6 +83,25 @@ namespace Sorcery {
 			REVIEW_AND_CONFIRM
 		};
 
+		enum class InputCategory {
+
+			MOUSE_MOVE = 0,
+			UP = 1,
+			DOWN = 2,
+			LEFT = 3,
+			RIGHT = 4,
+			CONFIRM = 5,
+			YES_NO = 6,
+			ALPHANUMERIC = 7,
+			PAGE_UP = 8,
+			PAGE_DOWN = 9,
+			HOME = 10,
+			END = 11,
+			BACK_DELETE_CANCEL = 12,
+			ESCAPE = 13,
+			HELP = 14
+		};
+
 		enum class Confirm { NONE, YES, NO };
 
 		enum class ComponentType { NONE, IMAGE, TEXT, TOOLTIP, MENU, FRAME, ICON, UNKNOWN };
@@ -114,6 +133,7 @@ namespace Sorcery {
 			NONE,
 			BACKGROUND,
 			BANNER,
+			CONTROLS,
 			CREATURES,
 			ICONS,
 			LOGO,
