@@ -34,140 +34,147 @@ Sorcery::ControlOverlay::ControlOverlay(System *system, Display *display, Compon
 	_control_texture = (*_system->resources).textures[GraphicsTexture::CONTROLS];
 
 	_controls.clear();
-
-	// turn this into a vector of std::pair<string, sprites> for each screen
-
-	/*
-	// MOUSE-MOVE
-	// UP
-	// DOWN
-	// LEFT
-	// RIGHT
-	// CONFIRM
-	// Y/N
-	// ALPHANUMERIC
-	// PAGE_UP
-	// PAGE_DOWN
-	// HOME
-	// END
-	// BACK/DELETE (always set)
-	// ESCAPE (always set)
-	*/
-
-	/* Control Menu Items
-
-			TAB Key or YELLOW Y Buttonm to Activate as long as held
-
-			ANYTHING:			ALL
-			UP: 				CURSOR/JOYPAD UP,
-			DOWN: 				CURSOR/JOYPAD DOWN,
-			LEFT: 				CURSOR/JOYPAD LEFT,
-			RIGHT:				CURSOR/JOYPAD RIGHT,
-			MOVE:				MOUSE/JOYPAD MOVE,
-			CONFIRM:			LEFT-MOUSE, SPACE, ENTER, JOYPAD GREEN A
-			CONFIRM-NO-SPACE:	LEFT-MOUSE, ENTER, JOYPAD GREEN A,
-			SELECT:				LEFT-MOUSE, JOYPAD GREEN A
-			CANCEL:				ESCAPE
-			BACK:				RIGHT-MOUSE, JOYPAD RED B
-			YES:				KEY Y
-			NO:					KEY N
-			DELETE:				DELETE/BACKSPACE
-			NAVIGATE FILE:		9/PAGE_UP
-								3/PAGE_DOWN
-								7/HOME,
-								1/END
-			SPACE:
-			ALPHANUMERIC:		KEYS A to Z, and SPACE
-
-		ATTRACT_MODE:
-
-		NAVIGATE_MENU:
-
-			MOUSE MOVE:		Choose Menu Item
-			UP: 			Previous Menu Item
-			DOWN:			Next Menu Item
-			CONFIRM: 		Select Menu Item
-
-		DISPLAY_TEXT_FILE:
-
-			UP: 			Previous Line
-			DOWN:			Next Line
-			PAGE_UP:		Previous Page
-			PAGE_DOWN:		Next Page
-			HOME:			Beginning of Text
-			END:			End of Text
-
-		GAME_OPTIONS:
-
-			MOUSE MOVE:		Select Option
-			UP: 			Previous Option
-			DOWN:			Next Option
-			CONFIRM: 		Toggle Option On/Off
-
-		COMPENDIUM:
-
-		CONFIRM_QUIT_GAME:
-		CONFIRM_STRICT_MODE:
-		CONFIRM_LEAVE_GAME:
-		SAVE_CHANGES:
-		CANCEL_CHANGES:
-
-			MOUSE MOVE:		Change Option
-			LEFT:			Change Option
-			RIGHT:			Change Option
-			CONFIRM:		Choose Option
-			Y/N:			Choose Y or N
-
-		INPUT_NAME:
-
-			ALPHANUMERIC:		KEYS A to Z, and SPACE
-
-		ALLOCATE_STATS:
-
-			UP: 			Previous Stat
-			DOWN:			Next Stat
-			LEFT: 			Decrease Stat
-			RIGHT:			Increase Stat
-
-		CHOOSE_METHOD:
-
-			LEFT: 			Change Method
-			RIGHT:			Change Method
-			CONFIRM:		Choose Method
-
-		CHOOSE_PORTRAIT:
-
-			LEFT: 			Previous Portrait
-			RIGHT:			Next Portrait
-			CONFIRM:		Choose Portrait
-
-		REVIEW_AND_CONFIRM:
-
-			LEFT: 			Previous Section
-			RIGHT:			Next Section
-			CONFIRM:		Confirm Character
-
-		Always (add to bottom of frame):
-
-			BACK/DELETE: 	Cancel and Return to Previous Screen
-			ESCAPE: 		Quit to Main Menu
-
-		*/
 }
 
-// Need a texture holding all the keys
+/* Control Menu Items
+
+	TAB Key or YELLOW Y Buttonm to Activate as long as held
+
+	ANYTHING:			ALL
+	UP: 				CURSOR/JOYPAD UP,
+	DOWN: 				CURSOR/JOYPAD DOWN,
+	LEFT: 				CURSOR/JOYPAD LEFT,
+	RIGHT:				CURSOR/JOYPAD RIGHT,
+	MOVE:				MOUSE/JOYPAD MOVE,
+	CONFIRM:			LEFT-MOUSE, SPACE, ENTER, JOYPAD GREEN A
+	CONFIRM-NO-SPACE:	LEFT-MOUSE, ENTER, JOYPAD GREEN A,
+	SELECT:				LEFT-MOUSE, JOYPAD GREEN A
+	CANCEL:				ESCAPE
+	BACK:				RIGHT-MOUSE, JOYPAD RED B
+	YES:				KEY Y
+	NO:					KEY N
+	DELETE:				DELETE/BACKSPACE
+	NAVIGATE FILE:		9/PAGE_UP
+						3/PAGE_DOWN
+						7/HOME,
+						1/END
+	SPACE:
+	ALPHANUMERIC:		KEYS A to Z, and SPACE
+
+ATTRACT_MODE:
+
+NAVIGATE_MENU:
+
+	MOUSE MOVE:		Choose Menu Item
+	UP: 			Previous Menu Item
+	DOWN:			Next Menu Item
+	CONFIRM: 		Select Menu Item
+
+DISPLAY_TEXT_FILE:
+
+	UP: 			Previous Line
+	DOWN:			Next Line
+	PAGE_UP:		Previous Page
+	PAGE_DOWN:		Next Page
+	HOME:			Beginning of Text
+	END:			End of Text
+
+GAME_OPTIONS:
+
+	MOUSE MOVE:		Select Option
+	UP: 			Previous Option
+	DOWN:			Next Option
+	CONFIRM: 		Toggle Option On/Off
+
+COMPENDIUM:
+
+CONFIRM_QUIT_GAME:
+CONFIRM_STRICT_MODE:
+CONFIRM_LEAVE_GAME:
+SAVE_CHANGES:
+CANCEL_CHANGES:
+
+	MOUSE MOVE:		Change Option
+	LEFT:			Change Option
+	RIGHT:			Change Option
+	CONFIRM:		Choose Option
+	Y/N:			Choose Y or N
+
+INPUT_NAME:
+
+	ALPHANUMERIC:		KEYS A to Z, and SPACE
+
+ALLOCATE_STATS:
+
+	UP: 			Previous Stat
+	DOWN:			Next Stat
+	LEFT: 			Decrease Stat
+	RIGHT:			Increase Stat
+
+CHOOSE_METHOD:
+
+	LEFT: 			Change Method
+	RIGHT:			Change Method
+	CONFIRM:		Choose Method
+
+CHOOSE_PORTRAIT:
+
+	LEFT: 			Previous Portrait
+	RIGHT:			Next Portrait
+	CONFIRM:		Choose Portrait
+
+REVIEW_AND_CONFIRM:
+
+	LEFT: 			Previous Section
+	RIGHT:			Next Section
+	CONFIRM:		Confirm Character
+
+Always (add to bottom of frame):
+
+	BACK/DELETE: 	Cancel and Return to Previous Screen
+	ESCAPE: 		Quit to Main Menu
+
+*/
+
 auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void {
 
 	_input_mode = input_mode;
+	_controls.clear();
 
-	switch (input_mode) {
+	// Populate the Available Control Methods
+	switch (_input_mode) {
 	case WindowInputMode::ALLOCATE_STATS:
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_MOUSE_ALLOCATE_STATS"],
+			_get_control_gfx(WindowInputCategory::MOUSE_MOVE)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_UP_ALLOCATE_STATS"],
+			_get_control_gfx(WindowInputCategory::UP)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_DOWN_ALLOCATE_STATS"],
+			_get_control_gfx(WindowInputCategory::DOWN)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_LEFT_ALLOCATE_STATS"],
+			_get_control_gfx(WindowInputCategory::LEFT)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_RIGHT_ALLOCATE_STATS"],
+			_get_control_gfx(WindowInputCategory::RIGHT)));
 		break;
 	case WindowInputMode::ATTRACT_MODE:
 		break;
 	case WindowInputMode::CHOOSE_METHOD:
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_MOUSE_METHOD"],
+			_get_control_gfx(WindowInputCategory::MOUSE_MOVE)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_LEFT_METHOD"],
+			_get_control_gfx(WindowInputCategory::LEFT)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_RIGHT_METHOD"],
+			_get_control_gfx(WindowInputCategory::RIGHT)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_CONFIRM_METHOD"],
+			_get_control_gfx(WindowInputCategory::CONFIRM)));
 		break;
 	case WindowInputMode::CHOOSE_PORTRAIT:
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_LEFT_CHOOSE_PORTRAIT"],
+			_get_control_gfx(WindowInputCategory::LEFT)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_RIGHT_CHOOSE_PORTRAIT"],
+			_get_control_gfx(WindowInputCategory::RIGHT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_CONFIRM_CHOOSE_PORTRAIT"],
+				_get_control_gfx(WindowInputCategory::CONFIRM)));
 		break;
 	case WindowInputMode::COMPENDIUM:
 		break;
@@ -176,20 +183,105 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 	case WindowInputMode::CONFIRM_STRICT_MODE:
 	case WindowInputMode::SAVE_CHANGES:
 	case WindowInputMode::CANCEL_CHANGES:
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_MOUSE_CONFIRMATION"],
+			_get_control_gfx(WindowInputCategory::MOUSE_MOVE)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_LEFT_CONFIRMATION"],
+			_get_control_gfx(WindowInputCategory::LEFT)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_RIGHT_CONFIRMATION"],
+			_get_control_gfx(WindowInputCategory::RIGHT)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_CONFIRM_CONFIRMATION"],
+			_get_control_gfx(WindowInputCategory::CONFIRM)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_Y_N_CONFIRMATION"],
+			_get_control_gfx(WindowInputCategory::YES_NO)));
 		break;
 	case WindowInputMode::DISPLAY_TEXT_FILE:
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_UP_FILE"], _get_control_gfx(WindowInputCategory::UP)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_DOWN_FILE"], _get_control_gfx(WindowInputCategory::DOWN)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_PAGE_UP_FILE"],
+			_get_control_gfx(WindowInputCategory::PAGE_UP)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_PAGE_DOWN_FILE"],
+			_get_control_gfx(WindowInputCategory::PAGE_DOWN)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_HOME_FILE"], _get_control_gfx(WindowInputCategory::HOME)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_END_FILE"], _get_control_gfx(WindowInputCategory::END)));
 		break;
 	case WindowInputMode::GAME_OPTIONS:
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_MOUSE_OPTION"],
+			_get_control_gfx(WindowInputCategory::MOUSE_MOVE)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_UP_OPTION"], _get_control_gfx(WindowInputCategory::UP)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_DOWN_OPTION"],
+			_get_control_gfx(WindowInputCategory::DOWN)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_LEFT_OPTION"],
+			_get_control_gfx(WindowInputCategory::LEFT)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_RIGHT_OPTION"],
+			_get_control_gfx(WindowInputCategory::RIGHT)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_CONFIRM_OPTION"],
+			_get_control_gfx(WindowInputCategory::CONFIRM)));
 		break;
 	case WindowInputMode::INPUT_NAME:
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_MOUSE_INPUT_NAME"],
+			_get_control_gfx(WindowInputCategory::MOUSE_MOVE)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_UP_INPUT_NAME"],
+			_get_control_gfx(WindowInputCategory::UP)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_DOWN_INPUT_NAME"],
+			_get_control_gfx(WindowInputCategory::DOWN)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_LEFT_INPUT_NAME"],
+			_get_control_gfx(WindowInputCategory::LEFT)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_RIGHT_INPUT_NAME"],
+			_get_control_gfx(WindowInputCategory::RIGHT)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_CONFIRM_INPUT_NAME"],
+			_get_control_gfx(WindowInputCategory::CONFIRM)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_ALPHANUMERIC_INPUT_NAME"],
+				_get_control_gfx(WindowInputCategory::ALPHANUMERIC)));
 		break;
 	case WindowInputMode::NAVIGATE_MENU:
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_MOUSE_MOVE_MENU"],
+			_get_control_gfx(WindowInputCategory::MOUSE_MOVE)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_UP_MENU"], _get_control_gfx(WindowInputCategory::UP)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_DOWN_MENU"], _get_control_gfx(WindowInputCategory::DOWN)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_CONFIRM_MENU"],
+			_get_control_gfx(WindowInputCategory::CONFIRM)));
 		break;
 	case WindowInputMode::REVIEW_AND_CONFIRM:
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_LEFT_REVIEW_AND_CONFIRM"],
+				_get_control_gfx(WindowInputCategory::LEFT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_RIGHT_REVIEW_AND_CONFIRM"],
+				_get_control_gfx(WindowInputCategory::RIGHT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_CONFIRM_REVIEW_AND_CONFIRM"],
+				_get_control_gfx(WindowInputCategory::CONFIRM)));
 		break;
 	default:
 		break;
 	};
+	_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_DELETE_BACK_ALWAYS"],
+		_get_control_gfx(WindowInputCategory::BACK_DELETE_CANCEL)));
+	_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_ESCAPE_ALWAYS"],
+		_get_control_gfx(WindowInputCategory::ESCAPE)));
+
+	// Now generate the various Components
+}
+
+auto Sorcery::ControlOverlay::_get_control_gfx(WindowInputCategory input) -> sf::Sprite {
+
+	constexpr unsigned int row_height{100};
+	const unsigned int row_width{_control_texture.getSize().x};
+	const unsigned int y{static_cast<unsigned int>(input) * row_height};
+	auto const crect = sf::IntRect(0, row_width, y, row_height);
+
+	sf::Sprite control(_control_texture);
+	control.setTextureRect(crect);
+
+	return control;
 }
 
 auto Sorcery::ControlOverlay::draw(sf::RenderTarget &target, sf::RenderStates states) const

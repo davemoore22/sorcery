@@ -152,7 +152,9 @@ namespace Sorcery {
 	using StringMap = std::map<std::string, std::string>;
 	using WindowTooltipList = std::map<std::string, sf::FloatRect>;
 	using WindowInputMode = Enums::Window::InputMode;
+	using WindowInputCategory = Enums::Window::InputCategory;
 	using WindowInput = Enums::Controls::Input;
+
 	using WindowConfirm = Enums::Window::Confirm;
 	using WindowDrawMode = Enums::Window::DrawMode;
 	using WindowInputOption = Enums::Window::Option;
