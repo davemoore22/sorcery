@@ -69,6 +69,13 @@ auto Sorcery::License::start() -> void {
 			if (event.type == sf::Event::Closed)
 				return;
 
+			// Handle enabling help overlay
+			if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
+				_display->show_overlay();
+				continue;
+			} else
+				_display->hide_overlay();
+
 			if ((_system->input->check_for_event(WindowInput::CANCEL, event)) ||
 				(_system->input->check_for_event(WindowInput::BACK, event))) {
 				return;
@@ -124,6 +131,7 @@ auto Sorcery::License::_draw() -> void {
 	_display_file_contents();
 
 	// Always draw the following
+	_display->display_overlay();
 	_display->display_cursor();
 }
 

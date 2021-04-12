@@ -65,6 +65,7 @@ auto Sorcery::Compendium::stop() -> void {
 auto Sorcery::Compendium::_draw() -> void {
 
 	_display->display_components("compendium");
+	_display->display_overlay();
 	_display->display_cursor();
 }
 
@@ -109,6 +110,13 @@ auto Sorcery::Compendium::_handle_input(const sf::Event &event) -> std::optional
 
 	if (_system->input->check_for_event(WindowInput::BACK, event))
 		return ModuleResult::BACK;
+
+	// Handle enabling help overlay
+	if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
+		_display->show_overlay();
+		return std::nullopt;
+	} else
+		_display->hide_overlay();
 
 	return std::nullopt;
 }

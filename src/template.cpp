@@ -103,5 +103,6 @@ auto Sorcery::Template::_draw() -> void {
 		_title_text, (*_display->layout)["compendium:gui_frame_title_text"]);
 
 	// Always draw the following
+	_display->display_overlay();
 	_display->display_cursor();
 }

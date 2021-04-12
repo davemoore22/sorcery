@@ -41,6 +41,8 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 	valid = false;
 	_input_mode = input_mode;
 	_controls.clear();
+	_sprites.clear();
+	_texts.clear();
 
 	// Populate the Available Control Methods
 	switch (_input_mode) {
@@ -57,6 +59,8 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 			_get_control_gfx(WindowInputCategory::RIGHT)));
 		break;
 	case WindowInputMode::ATTRACT_MODE:
+		valid = false;
+		return;
 		break;
 	case WindowInputMode::CHOOSE_METHOD:
 		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_MOUSE_METHOD"],
@@ -177,7 +181,8 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 		_frame.reset();
 	}
 	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, frame_c.w,
-		count + std::stoi(frame_c["padding_y"].value()), frame_c.colour, frame_c.alpha);
+		(count + std::stoi(frame_c["padding_y"].value())) * std::stof(frame_c["scale_y"].value()),
+		frame_c.colour, frame_c.alpha);
 	auto fsprite{_frame->sprite};
 	fsprite.setPosition(0, 0);
 	_sprites.emplace_back(fsprite);

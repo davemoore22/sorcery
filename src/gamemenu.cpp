@@ -109,6 +109,13 @@ auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
 				if (event.type == sf::Event::Closed)
 					_window->close();
 
+				// Handle enabling help overlay
+				if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
+					_display->show_overlay();
+					continue;
+				} else
+					_display->hide_overlay();
+
 				// And handle input on the main menu
 				if (_menu_stage == GameMenuType::CASTLE) {
 					if (_system->input->check_for_event(WindowInput::UP, event))
@@ -253,5 +260,6 @@ auto Sorcery::GameMenu::_draw() -> void {
 	}
 
 	// Always draw the following
+	_display->display_overlay();
 	_display->display_cursor();
 }

@@ -133,7 +133,8 @@
 			"drawmode": "manual",
 			"data": [
 				{
-					"padding_y": "7"
+					"padding_y": "6",
+					"scale_y": "1.20"
 				}
 			]
 		},

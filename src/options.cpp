@@ -91,6 +91,13 @@ auto Sorcery::Options::start() -> void {
 				if (_system->input->check_for_event(WindowInput::CANCEL, event))
 					return;
 
+				// Handle enabling help overlay
+				if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
+					_display->show_overlay();
+					continue;
+				} else
+					_display->hide_overlay();
+
 				// And handle input on the main menu
 				if (_system->input->check_for_event(WindowInput::UP, event)) {
 					selected = _menu->choose_previous();
@@ -281,6 +288,7 @@ auto Sorcery::Options::_draw() -> void {
 	}
 
 	// Always draw the following
+	_display->display_overlay();
 	_display->display_cursor();
 }
 

@@ -120,6 +120,13 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 				if (event.type == sf::Event::Closed)
 					return std::nullopt;
 
+				// Handle enabling help overlay
+				if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
+					_display->show_overlay();
+					continue;
+				} else
+					_display->hide_overlay();
+
 				// And handle input on the main menu
 				if (_system->input->check_for_event(WindowInput::UP, event))
 					selected_option = _main_menu->choose_previous();
@@ -261,5 +268,6 @@ auto Sorcery::MainMenu::_draw() -> void {
 	}
 
 	// Always draw the following
+	_display->display_overlay();
 	_display->display_cursor();
 }

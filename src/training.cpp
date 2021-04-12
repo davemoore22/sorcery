@@ -78,6 +78,13 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 			if (event.type == sf::Event::Closed)
 				_window->close();
 
+			// Handle enabling help overlay
+			if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
+				_display->show_overlay();
+				continue;
+			} else
+				_display->hide_overlay();
+
 			if (_system->input->check_for_event(WindowInput::CANCEL, event))
 				return std::nullopt;
 
@@ -140,5 +147,6 @@ auto Sorcery::Training::_draw() -> void {
 	_window->draw(*_menu);
 
 	// And finally the Cursor
+	_display->display_overlay();
 	_display->display_cursor();
 }
