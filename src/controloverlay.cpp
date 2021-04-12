@@ -177,7 +177,7 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 		_frame.reset();
 	}
 	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, frame_c.w,
-		count + 4, frame_c.colour, frame_c.alpha);
+		count + std::stoi(frame_c["padding_y"].value()), frame_c.colour, frame_c.alpha);
 	auto fsprite{_frame->sprite};
 	fsprite.setPosition(0, 0);
 	_sprites.emplace_back(fsprite);
@@ -210,6 +210,9 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 		_sprites.emplace_back(image);
 		sprite_y += sprite_spacing_y;
 	}
+
+	width = _frame->width;
+	height = _frame->height;
 
 	valid = true;
 }

@@ -235,19 +235,59 @@ auto Sorcery::Window::get_window() -> sf::RenderWindow * {
 	return &_window;
 }
 
+auto Sorcery::Window::get_x(const sf::Sprite &sprite, int x_position) const -> unsigned int {
+
+	return _get_x(sprite, x_position);
+}
+
+auto Sorcery::Window::get_y(const sf::Sprite &sprite, int y_position) const -> unsigned int {
+
+	return _get_y(sprite, y_position);
+}
+
+auto Sorcery::Window::get_x(const sf::Text &text, int x_position) const -> unsigned int {
+
+	return _get_x(text, x_position);
+}
+
+auto Sorcery::Window::get_y(const sf::Text &text, int y_position) const -> unsigned int {
+
+	return _get_y(text, y_position);
+}
+
+auto Sorcery::Window::get_x(unsigned int width, int x_position) const -> unsigned int {
+
+	return _get_x(width, x_position);
+}
+
+auto Sorcery::Window::get_y(unsigned int width, int y_position) const -> unsigned int {
+
+	return _get_y(width, y_position);
+}
+
+auto Sorcery::Window::_get_centre_x(unsigned int width) const -> unsigned int {
+
+	return (_current_size.w - width) / 2.0f;
+}
+
 auto Sorcery::Window::_get_centre_x(const sf::Sprite &sprite) const -> unsigned int {
 
 	return (_current_size.w - sprite.getGlobalBounds().width) / 2.0f;
 }
 
-auto Sorcery::Window::_get_centre_y(const sf::Sprite &sprite) const -> unsigned int {
-
-	return (_current_size.h - sprite.getGlobalBounds().height) / 2.0f;
-}
-
 auto Sorcery::Window::_get_centre_x(const sf::Text &text) const -> unsigned int {
 
 	return (_current_size.w - text.getGlobalBounds().width) / 2.0f;
+}
+
+auto Sorcery::Window::_get_centre_y(unsigned int width) const -> unsigned int {
+
+	return (_current_size.h - width) / 2.0f;
+}
+
+auto Sorcery::Window::_get_centre_y(const sf::Sprite &sprite) const -> unsigned int {
+
+	return (_current_size.h - sprite.getGlobalBounds().height) / 2.0f;
 }
 
 auto Sorcery::Window::_get_centre_y(const sf::Text &text) const -> unsigned int {
@@ -265,6 +305,11 @@ auto Sorcery::Window::_get_x(const sf::Text &text, const int x_position) const -
 	return x_position == -1 ? _get_centre_x(text) : x_position;
 }
 
+auto Sorcery::Window::_get_x(unsigned int width, const int x_position) const -> unsigned int {
+
+	return x_position == -1 ? _get_centre_x(width) : x_position;
+}
+
 auto Sorcery::Window::_get_y(const sf::Sprite &sprite, const int y_position) const -> unsigned int {
 
 	return y_position == -1 ? _get_centre_y(sprite) : y_position;
@@ -275,14 +320,9 @@ auto Sorcery::Window::_get_y(const sf::Text &text, const int y_position) const -
 	return y_position == -1 ? _get_centre_y(text) : y_position;
 }
 
-auto Sorcery::Window::get_x(const sf::Sprite &sprite, const int x_position) const -> unsigned int {
+auto Sorcery::Window::_get_y(unsigned int width, const int y_position) const -> unsigned int {
 
-	return x_position == -1 ? _get_centre_x(sprite) : x_position;
-}
-
-auto Sorcery::Window::get_y(const sf::Sprite &sprite, const int y_position) const -> unsigned int {
-
-	return y_position == -1 ? _get_centre_y(sprite) : y_position;
+	return y_position == -1 ? _get_centre_y(width) : y_position;
 }
 
 auto Sorcery::Window::get_cell_height() const -> unsigned int {

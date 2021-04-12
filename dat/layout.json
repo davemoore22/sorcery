@@ -124,19 +124,24 @@
 		{
 			"name": "frame",
 			"w": "40",
-			"h": "20",
+			"h": "25",
 			"x": "0",
 			"y": "0",
-			"alpha": "200",
+			"alpha": "225",
 			"type": "frame",
 			"priority": "4",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"data": [
+				{
+					"padding_y": "7"
+				}
+			]
 		},
 		{
 			"name": "text",
 			"font": "text",
 			"colour": "0xddddddff",
-			"size": "32",
+			"size": "38",
 			"type": "text",
 			"drawmode": "manual",
 			"priority": "5",
@@ -145,21 +150,21 @@
 				{
 					"offset_x": "216",
 					"offset_y": "24",
-					"spacing_y": "32"
+					"spacing_y": "38"
 				}
 			]
 		},
 		{
 			"name": "graphics",
-			"scale": "0.4",
+			"scale": "0.36",
 			"type": "icon",
 			"drawmode": "manual",
 			"priority": "5",
 			"data": [
 				{
-					"offset_x": "16",
+					"offset_x": "48",
 					"offset_y": "32",
-					"spacing_y": "32"
+					"spacing_y": "38"
 				}
 			]
 		}

@@ -76,6 +76,7 @@ namespace Sorcery {
 		auto get_input_mode() const -> WindowInputMode;
 		auto show_overlay() -> void;
 		auto hide_overlay() -> void;
+		auto display_overlay() -> void;
 
 		// Public Members
 		std::shared_ptr<String> string;

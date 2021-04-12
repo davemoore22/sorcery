@@ -59,6 +59,10 @@ namespace Sorcery {
 		auto get_window() -> sf::RenderWindow *;
 		auto get_x(const sf::Sprite &sprite, int x_position) const -> unsigned int;
 		auto get_y(const sf::Sprite &sprite, int y_position) const -> unsigned int;
+		auto get_x(const sf::Text &text, int x_position) const -> unsigned int;
+		auto get_y(const sf::Text &text, int y_position) const -> unsigned int;
+		auto get_x(unsigned int width, int x_position) const -> unsigned int;
+		auto get_y(unsigned int width, int y_position) const -> unsigned int;
 		auto lighten_colour(sf::Color colour, double lerp) -> sf::Color;
 		auto highlight_text(sf::Text &text, Component component, double lerp) -> sf::RectangleShape;
 		auto get_text_y_adjustment(sf::Text &text, Component &component) -> int;
@@ -85,12 +89,16 @@ namespace Sorcery {
 		auto _draw_text(sf::Text &text) -> void;
 		auto _get_centre_x(const sf::Sprite &sprite) const -> unsigned int;
 		auto _get_centre_x(const sf::Text &text) const -> unsigned int;
+		auto _get_centre_x(unsigned int width) const -> unsigned int;
 		auto _get_centre_y(const sf::Sprite &sprite) const -> unsigned int;
 		auto _get_centre_y(const sf::Text &text) const -> unsigned int;
+		auto _get_centre_y(unsigned int width) const -> unsigned int;
 		auto _get_x(const sf::Sprite &sprite, const int x_position) const -> unsigned int;
 		auto _get_x(const sf::Text &text, const int x_position) const -> unsigned int;
+		auto _get_x(unsigned int width, const int x_position) const -> unsigned int;
 		auto _get_y(const sf::Sprite &sprite, const int y_position) const -> unsigned int;
 		auto _get_y(const sf::Text &text, const int y_position) const -> unsigned int;
+		auto _get_y(unsigned int width, const int y_position) const -> unsigned int;
 
 		// Private Members
 		ScreenSize _default_size;

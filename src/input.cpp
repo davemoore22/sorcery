@@ -40,7 +40,7 @@ auto Sorcery::Input::check_for_event(WindowInput input, sf::Event event) -> bool
 				(((event.type == sf::Event::MouseButtonPressed) &&
 					(event.mouseButton.button == sf::Mouse::Middle))) ||
 				(((event.type == sf::Event::JoystickButtonPressed) &&
-					(event.joystickButton.button == 2))));
+					(event.joystickButton.button == 3))));
 		break;
 	case WindowInput::ANYTHING:
 		return ((event.type == sf::Event::KeyPressed) ||

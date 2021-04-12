@@ -247,9 +247,15 @@ auto Sorcery::Display::display_components(
 	const std::string &screen, std::optional<std::any> parameter) -> void {
 
 	display_components(screen, _sprites, _texts, _frames, parameter);
+}
+
+auto Sorcery::Display::display_overlay() -> void {
+
+	const sf::Vector2f pos(window->get_x(overlay->width, (*layout)["global:control_overlay"].x),
+		window->get_y(overlay->height, (*layout)["global:control_overlay"].y));
+
 	if ((_show_overlay) && (overlay->valid)) {
-		overlay->setPosition(
-			(*layout)["global:control_overlay"].x, (*layout)["global:control_overlay"].y);
+		overlay->setPosition(pos);
 		window->get_window()->draw(*overlay);
 	}
 }

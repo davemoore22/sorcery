@@ -1150,6 +1150,9 @@ auto Sorcery::Create::_draw() -> void {
 		}
 	}
 
+	// Draw the Overlay if present
+	_display->display_overlay();
+
 	// And finally the Cursor
 	_display->display_cursor();
 }
