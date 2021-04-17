@@ -117,7 +117,7 @@ namespace Sorcery {
 	using CharacterRace = Enums::Character::Race;
 	using CharacterStage = Enums::Character::Stage;
 	// using CharacterStatus = Enums::Character::Status;
-	using CharacterView = Enums::Character::Display;
+	using CharacterView = Enums::Character::View;
 	using ComponentData = std::pair<std::string, std::string>;
 	using ComponentType = Enums::Window::ComponentType;
 	using Colour = Enums::Display::Colour;

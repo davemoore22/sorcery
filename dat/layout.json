@@ -127,7 +127,7 @@
 			"h": "25",
 			"x": "0",
 			"y": "0",
-			"alpha": "225",
+			"alpha": "200",
 			"type": "frame",
 			"priority": "4",
 			"drawmode": "manual",
@@ -1921,7 +1921,7 @@
 		"name": "character",
 		"component": [
 		{
-			"name": "cs1_portrait_frame",
+			"name": "portrait_frame",
 			"w": "13",
 			"h": "13",
 			"x": "0",
@@ -1933,7 +1933,7 @@
 			"colour": "0x808080ff"
 		},
 		{
-			"name": "cs1_portrait",
+			"name": "portrait",
 			"x": "1",
 			"y": "1",
 			"scale": "0.42",
@@ -1941,7 +1941,87 @@
 			"type": "image"
 		},
 		{
-			"name": "cs1_attribute_display",
+			"name": "name_text",
+			"x": "17",
+			"y": "0",
+			"font": "monospace",
+			"colour": "0x6060c8ff",
+			"size": "64",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "level_icon",
+			"x": "41",
+			"y": "1",
+			"scale": "0.1",
+			"type": "image",
+			"priority": "4",
+			"drawmode": "manual"
+		},
+		{
+			"name": "level_text",
+			"x": "44",
+			"y": "1",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "alignment_icon",
+			"x": "46",
+			"y": "1",
+			"scale": "0.1",
+			"type": "image",
+			"priority": "4",
+			"drawmode": "manual"
+		},
+		{
+			"name": "race_icon",
+			"x": "49",
+			"y": "1",
+			"scale": "0.1",
+			"type": "image",
+			"priority": "4",
+			"drawmode": "manual"
+		},
+		{
+			"name": "class_icon",
+			"x": "52",
+			"y": "1",
+			"scale": "0.1",
+			"type": "image",
+			"priority": "4",
+			"drawmode": "manual"
+		},
+		{
+			"name": "summary_text",
+			"x": "31",
+			"y": "1",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		}
+		]
+	},
+	{
+		"name": "character_cs1",
+		"component": [
+		{
+			"name": "attribute_display",
 			"x": "17",
 			"y": "5",
 			"size": "128",
@@ -1956,7 +2036,7 @@
 			]
 		},
 		{
-			"name": "cs1_summary_frame",
+			"name": "summary_frame",
 			"w": "38",
 			"h": "3",
 			"x": "16",
@@ -1968,7 +2048,7 @@
 			"colour": "0x808080ff"
 		},
 		{
-			"name": "cs1_stat_frame",
+			"name": "stat_frame",
 			"w": "38",
 			"h": "7",
 			"x": "16",
@@ -1985,7 +2065,7 @@
 			]
 		},
 		{
-			"name": "cs1_other_frame",
+			"name": "other_frame",
 			"w": "27",
 			"h": "9",
 			"x": "0",
@@ -1997,7 +2077,7 @@
 			"colour": "0x808080ff"
 		},
 		{
-			"name": "cs1_magic_frame",
+			"name": "magic_frame",
 			"w": "24",
 			"h": "9",
 			"x": "30",
@@ -2009,7 +2089,7 @@
 			"colour": "0x808080ff"
 		},
 		{
-			"name": "cs1_spellsummary",
+			"name": "spellsummary",
 			"x": "31",
 			"y": "14",
 			"alpha": "255",
@@ -2024,69 +2104,7 @@
 			]
 		},
 		{
-			"name": "cs1_name_text",
-			"x": "17",
-			"y": "0",
-			"font": "monospace",
-			"colour": "0x6060c8ff",
-			"size": "64",
-			"string": "NONE",
-			"justification": "left",
-			"type": "text",
-			"priority": "3",
-			"drawmode": "manual"
-		},
-		{
-			"name": "cs1_level_icon",
-			"x": "41",
-			"y": "1",
-			"scale": "0.1",
-			"type": "image",
-			"priority": "4",
-			"drawmode": "manual"
-		},
-		{
-			"name": "cs1_level_text",
-			"x": "44",
-			"y": "1",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "38",
-			"string": "NONE",
-			"justification": "left",
-			"type": "text",
-			"priority": "3",
-			"drawmode": "manual"
-		},
-		{
-			"name": "cs1_alignment_icon",
-			"x": "46",
-			"y": "1",
-			"scale": "0.1",
-			"type": "image",
-			"priority": "4",
-			"drawmode": "manual"
-		},
-		{
-			"name": "cs1_race_icon",
-			"x": "49",
-			"y": "1",
-			"scale": "0.1",
-			"type": "image",
-			"priority": "4",
-			"drawmode": "manual"
-		},
-		{
-			"name": "cs1_class_icon",
-			"x": "52",
-			"y": "1",
-			"scale": "0.1",
-			"type": "image",
-			"priority": "4",
-			"drawmode": "manual"
-		},
-		{
-			"name": "cs1_strength_icon",
+			"name": "strength_icon",
 			"x": "17",
 			"y": "6",
 			"scale": "0.10",
@@ -2096,7 +2114,7 @@
 			"string": "strength"
 		},
 		{
-			"name": "cs1_iq_icon",
+			"name": "iq_icon",
 			"x": "31",
 			"y": "6",
 			"scale": "0.10",
@@ -2106,7 +2124,7 @@
 			"string": "iq"
 		},
 		{
-			"name": "cs1_piety_icon",
+			"name": "piety_icon",
 			"x": "45",
 			"y": "6",
 			"scale": "0.10",
@@ -2116,7 +2134,7 @@
 			"string": "piety"
 		},
 		{
-			"name": "cs1_agility_icon",
+			"name": "agility_icon",
 			"x": "17",
 			"y": "9",
 			"scale": "0.10",
@@ -2126,7 +2144,7 @@
 			"string": "agility"
 		},
 		{
-			"name": "cs1_vitality_icon",
+			"name": "vitality_icon",
 			"x": "31",
 			"y": "9",
 			"scale": "0.10",
@@ -2136,7 +2154,7 @@
 			"string": "vitality"
 		},
 		{
-			"name": "cs1_luck_icon",
+			"name": "luck_icon",
 			"x": "45",
 			"y": "9",
 			"scale": "0.10",
@@ -2146,20 +2164,7 @@
 			"string": "luck"
 		},
 		{
-			"name": "summary_text",
-			"x": "31",
-			"y": "1",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "38",
-			"string": "NONE",
-			"justification": "left",
-			"type": "text",
-			"priority": "3",
-			"drawmode": "manual"
-		},
-		{
-			"name": "cs1_strength_label",
+			"name": "strength_label",
 			"x": "25",
 			"y": "5",
 			"font": "monospace",
@@ -2172,7 +2177,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "cs1_iq_label",
+			"name": "iq_label",
 			"x": "25",
 			"y": "6",
 			"font": "monospace",
@@ -2185,7 +2190,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "cs1_piety_label",
+			"name": "piety_label",
 			"x": "25",
 			"y": "7",
 			"font": "monospace",
@@ -2198,7 +2203,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "cs1_vitality_label",
+			"name": "vitality_label",
 			"x": "25",
 			"y": "8",
 			"font": "monospace",
@@ -2211,7 +2216,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "cs1_agility_label",
+			"name": "agility_label",
 			"x": "25",
 			"y": "9",
 			"font": "monospace",
@@ -2224,7 +2229,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "cs1_luck_label",
+			"name": "luck_label",
 			"x": "25",
 			"y": "10",
 			"font": "monospace",
@@ -2237,7 +2242,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "cs1_strength_value",
+			"name": "strength_value",
 			"x": "20",
 			"y": "6",
 			"font": "monospace",
@@ -2250,7 +2255,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "cs1_iq_value",
+			"name": "iq_value",
 			"x": "34",
 			"y": "6",
 			"font": "monospace",
@@ -2263,7 +2268,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "cs1_piety_value",
+			"name": "piety_value",
 			"x": "48",
 			"y": "6",
 			"font": "monospace",
@@ -2276,7 +2281,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "cs1_agility_value",
+			"name": "agility_value",
 			"x": "20",
 			"y": "9",
 			"font": "monospace",
@@ -2289,7 +2294,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "cs1_vitality_value",
+			"name": "vitality_value",
 			"x": "34",
 			"y": "9",
 			"font": "monospace",
@@ -2302,7 +2307,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "cs1_luck_value",
+			"name": "luck_value",
 			"x": "48",
 			"y": "9",
 			"font": "monospace",
@@ -2315,7 +2320,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "cs1_hp_icon",
+			"name": "hp_icon",
 			"x": "1",
 			"y": "14",
 			"scale": "0.06",
@@ -2330,7 +2335,7 @@
 			]
 		},
 		{
-			"name": "cs1_ac_icon",
+			"name": "ac_icon",
 			"x": "1",
 			"y": "16",
 			"scale": "0.06",
@@ -2345,7 +2350,7 @@
 			]
 		},
 		{
-			"name": "cs1_age_icon",
+			"name": "age_icon",
 			"x": "1",
 			"y": "18",
 			"scale": "0.06",
@@ -2360,7 +2365,7 @@
 			]
 		},
 		{
-			"name": "cs1_swim_icon",
+			"name": "swim_icon",
 			"x": "1",
 			"y": "20",
 			"scale": "0.06",
@@ -2375,7 +2380,7 @@
 			]
 		},
 		{
-			"name": "cs1_exp_icon",
+			"name": "exp_icon",
 			"x": "10",
 			"y": "14",
 			"scale": "0.06",
@@ -2390,7 +2395,7 @@
 			]
 		},
 		{
-			"name": "cs1_next_icon",
+			"name": "next_icon",
 			"x": "10",
 			"y": "16",
 			"scale": "0.06",
@@ -2405,7 +2410,7 @@
 			]
 		},
 		{
-			"name": "cs1_gold_icon",
+			"name": "gold_icon",
 			"x": "10",
 			"y": "18",
 			"scale": "0.06",
@@ -2420,7 +2425,7 @@
 			]
 		},
 		{
-			"name": "cs1_status_icon",
+			"name": "status_icon",
 			"x": "10",
 			"y": "20",
 			"scale": "0.06",
@@ -2435,7 +2440,7 @@
 			]
 		},
 		{
-			"name": "cs1_marks_icon",
+			"name": "marks_icon",
 			"x": "19",
 			"y": "14",
 			"scale": "0.06",
@@ -2450,7 +2455,7 @@
 			]
 		},
 		{
-			"name": "cs1_deaths_icon",
+			"name": "deaths_icon",
 			"x": "19",
 			"y": "16",
 			"scale": "0.06",
@@ -2465,7 +2470,7 @@
 			]
 		},
 		{
-			"name": "cs1_hp_value",
+			"name": "hp_value",
 			"x": "4",
 			"y": "14",
 			"font": "monospace",
@@ -2483,7 +2488,7 @@
 			]
 		},
 		{
-			"name": "cs1_ac_value",
+			"name": "ac_value",
 			"x": "4",
 			"y": "16",
 			"font": "monospace",
@@ -2501,7 +2506,7 @@
 			]
 		},
 		{
-			"name": "cs1_age_value",
+			"name": "age_value",
 			"x": "4",
 			"y": "18",
 			"font": "monospace",
@@ -2519,7 +2524,7 @@
 			]
 		},
 		{
-			"name": "cs1_swim_value",
+			"name": "swim_value",
 			"x": "4",
 			"y": "20",
 			"font": "monospace",
@@ -2537,7 +2542,7 @@
 			]
 		},
 		{
-			"name": "cs1_exp_value",
+			"name": "exp_value",
 			"x": "13",
 			"y": "14",
 			"font": "monospace",
@@ -2555,7 +2560,7 @@
 			]
 		},
 		{
-			"name": "cs1_next_value",
+			"name": "next_value",
 			"x": "13",
 			"y": "16",
 			"font": "monospace",
@@ -2573,7 +2578,7 @@
 			]
 		},
 		{
-			"name": "cs1_gold_value",
+			"name": "gold_value",
 			"x": "13",
 			"y": "18",
 			"font": "monospace",
@@ -2591,7 +2596,7 @@
 			]
 		},
 		{
-			"name": "cs1_status_value",
+			"name": "status_value",
 			"x": "13",
 			"y": "20",
 			"font": "monospace",
@@ -2609,7 +2614,7 @@
 			]
 		},
 		{
-			"name": "cs1_marks_value",
+			"name": "marks_value",
 			"x": "22",
 			"y": "14",
 			"font": "monospace",
@@ -2627,7 +2632,7 @@
 			]
 		},
 		{
-			"name": "cs1_deaths_value",
+			"name": "deaths_value",
 			"x": "22",
 			"y": "16",
 			"font": "monospace",
@@ -2644,6 +2649,11 @@
 				}
 			]
 		}
+		]
+	},
+	{
+		"name": "character_cs2",
+		"component": [
 		]
 	},
 	{

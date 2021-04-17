@@ -97,6 +97,10 @@ namespace Sorcery {
 		auto set_portrait_index(const unsigned int value) -> void;
 		auto get_spell_points(const SpellType type, const SpellPointStatus status) const
 			-> std::optional<SpellPoints>;
+		auto get_view() const -> CharacterView;
+		auto set_view(const CharacterView value) -> void;
+		auto left_view() -> void;
+		auto right_view() -> void;
 
 		// Public Members
 
@@ -107,7 +111,7 @@ namespace Sorcery {
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _save() -> unsigned int;
 		auto _load(unsigned int character_id) -> void;
-		auto _generate() -> void;
+		auto _generate_display() -> void;
 		auto _generate_starting_information() -> void;
 		auto _generate_secondary_abilities() -> void;
 		auto _set_starting_sp() -> void;
@@ -123,7 +127,8 @@ namespace Sorcery {
 		auto _get_xp_for_level(unsigned int level) const -> int;
 		auto _create_spell_lists() -> void;
 		auto _get_character_portrait() -> sf::Sprite;
-		auto _add_text(Component &component, std::string format, std::string value) -> sf::Text *;
+		auto _add_text(Component &component, std::string format, std::string value,
+			bool is_view = true) -> sf::Text *;
 		auto _add_text(Component &component, std::string format, unsigned int count, ...)
 			-> sf::Text *;
 		auto _add_icon(Component &component, std::string icon_key) -> void;
@@ -159,6 +164,9 @@ namespace Sorcery {
 		std::map<std::string, sf::Sprite> _sprites;
 		std::map<std::string, sf::Text> _texts;
 		std::map<std::string, std::shared_ptr<Frame>> _frames;
+		std::map<std::string, sf::Sprite> _v_sprites;
+		std::map<std::string, sf::Text> _v_texts;
+		std::map<std::string, std::shared_ptr<Frame>> _v_frames;
 		std::shared_ptr<AttributeDisplay> _ad;
 		std::shared_ptr<SpellSummary> _ss;
 		Component _ss_c;

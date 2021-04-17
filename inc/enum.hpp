@@ -262,18 +262,16 @@ namespace Sorcery {
 			COMPLETED
 		};
 
-		// Display Sections
-		enum class Display {
-			NONE,
-			BEGINNING_OF_LIST,
-			MAIN,
-			DETAILED,
-			INVENTORY,
-			MAGE_SPELLS,
-			CLERIC_SPELLS,
-			MESSAGES,
-			ACHIEVEMENTS,
-			END_OF_LIST,
+		// View Sections
+		enum class View {
+			NONE = 0,
+			MAIN = 1,
+			DETAILED = 2,
+			INVENTORY = 3,
+			MAGE_SPELLS = 4,
+			CLERIC_SPELLS = 5,
+			MESSAGES = 6,
+			ACHIEVEMENTS = 7
 		};
 
 		// Character Classes

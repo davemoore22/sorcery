@@ -636,6 +636,10 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event)
 		return ModuleResult::BACK;
 	else if (_system->input->check_for_event(WindowInput::DELETE, event))
 		return ModuleResult::BACK;
+	else if (_system->input->check_for_event(WindowInput::LEFT, event))
+		_candidate.left_view();
+	else if (_system->input->check_for_event(WindowInput::RIGHT, event))
+		_candidate.right_view();
 
 	return std::nullopt;
 }

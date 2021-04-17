@@ -203,7 +203,7 @@
 	"CONTROL_RIGHT_CONFIRMATION": "Select Next Option",
 	"CONTROL_RIGHT_CHOOSE_PORTRAIT": "Select Next Portrait",
 	"CONTROL_RIGHT_INPUT_NAME": "Select Letter",
-	"CONTROL_CONFIRM_MENU": "Choose Selected Option",
+	"CONTROL_CONFIRM_MENU": "Choose Selected Item",
 	"CONTROL_CONFIRM_OPTION": "Toggle Option",
 	"CONTROL_CONFIRM_METHOD": "Choose Selected Method",
 	"CONTROL_CONFIRM_CONFIRMATION": "Choose Selected Option",
@@ -217,7 +217,7 @@
 	"CONTROL_Y_N_CONFIRMATION": "Select Yes/No",
 	"CONTROL_ALPHANUMERIC_INPUT_NAME": "Add Letter to Name",
 	"CONTROL_SPACE_INPUT_NAME": "Add Space to Name",
-	"CONTROL_DELETE_BACK_ALWAYS": "Cancel",
+	"CONTROL_DELETE_BACK_ALWAYS": "Cancel and Go Back",
 	"CONTROL_ESCAPE_ALWAYS": "Escape to Main or Game Menu",
 
 
