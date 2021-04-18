@@ -1921,39 +1921,6 @@
 		"name": "character",
 		"component": [
 		{
-			"name": "portrait_frame",
-			"w": "13",
-			"h": "13",
-			"x": "0",
-			"y": "0",
-			"alpha": "255",
-			"type": "frame",
-			"priority": "6",
-			"drawmode": "automatic",
-			"colour": "0x808080ff"
-		},
-		{
-			"name": "portrait",
-			"x": "1",
-			"y": "1",
-			"scale": "0.42",
-			"drawmode": "manual",
-			"type": "image"
-		},
-		{
-			"name": "name_text",
-			"x": "17",
-			"y": "0",
-			"font": "monospace",
-			"colour": "0x6060c8ff",
-			"size": "64",
-			"string": "NONE",
-			"justification": "left",
-			"type": "text",
-			"priority": "3",
-			"drawmode": "manual"
-		},
-		{
 			"name": "level_icon",
 			"x": "41",
 			"y": "1",
@@ -2001,6 +1968,59 @@
 			"type": "image",
 			"priority": "4",
 			"drawmode": "manual"
+		}
+		]
+	},
+	{
+		"name": "character_cs1",
+		"component": [
+		{
+			"name": "portrait_frame",
+			"w": "13",
+			"h": "13",
+			"x": "0",
+			"y": "0",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "6",
+			"drawmode": "automatic",
+			"colour": "0x808080ff"
+		},
+		{
+			"name": "portrait",
+			"x": "1",
+			"y": "1",
+			"scale": "0.42",
+			"drawmode": "manual",
+			"type": "image"
+		},
+		{
+			"name": "name_text",
+			"x": "17",
+			"y": "0",
+			"font": "monospace",
+			"colour": "0x6060c8ff",
+			"size": "64",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "attribute_display",
+			"x": "17",
+			"y": "5",
+			"size": "128",
+			"type": "image",
+			"priority": "4",
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_x": "0",
+					"offset_y": "6"
+				}
+			]
 		},
 		{
 			"name": "summary_text",
@@ -2026,26 +2046,6 @@
 			"priority": "6",
 			"drawmode": "automatic",
 			"colour": "0x808080ff"
-		}
-		]
-	},
-	{
-		"name": "character_cs1",
-		"component": [
-		{
-			"name": "attribute_display",
-			"x": "17",
-			"y": "5",
-			"size": "128",
-			"type": "image",
-			"priority": "4",
-			"drawmode": "manual",
-			"data": [
-				{
-					"offset_x": "0",
-					"offset_y": "6"
-				}
-			]
 		},
 		{
 			"name": "stat_frame",
@@ -2655,8 +2655,33 @@
 		"name": "character_cs2",
 		"component": [
 			{
+				"name": "name_text",
+				"x": "1",
+				"y": "0",
+				"font": "monospace",
+				"colour": "0x6060c8ff",
+				"size": "64",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "summary_frame",
+				"w": "54",
+				"h": "3",
+				"x": "0",
+				"y": "0",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic",
+				"colour": "0x808080ff"
+			},
+			{
 				"name": "strength_label",
-				"x": "26",
+				"x": "11",
 				"y": "5",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -2669,7 +2694,7 @@
 			},
 			{
 				"name": "strength_value",
-				"x": "27",
+				"x": "11",
 				"y": "5",
 				"font": "monospace",
 				"colour": "0x00ff00ff",
@@ -2678,11 +2703,16 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "manual"
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "8"
+					}
+				]
 			},
 			{
 				"name": "strength_detailed_values",
-				"x": "27",
+				"x": "11",
 				"y": "7",
 				"font": "monospace",
 				"colour": "0xaaffaaff",
@@ -2691,11 +2721,16 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "manual"
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "8"
+					}
+				]
 			},
 			{
 				"name": "strength_am",
-				"x": "26",
+				"x": "11",
 				"y": "7",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -2713,7 +2748,7 @@
 			},
 			{
 				"name": "strength_hp",
-				"x": "26",
+				"x": "11",
 				"y": "8",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -2731,7 +2766,7 @@
 			},
 			{
 				"name": "strength_bd",
-				"x": "26",
+				"x": "11",
 				"y": "9",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -2749,7 +2784,7 @@
 			},
 			{
 				"name": "strength_na",
-				"x": "26",
+				"x": "11",
 				"y": "10",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -2767,7 +2802,7 @@
 			},
 			{
 				"name": "strength_mu",
-				"x": "26",
+				"x": "11",
 				"y": "11",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -2785,7 +2820,7 @@
 			},
 			{
 				"name": "iq_label",
-				"x": "39",
+				"x": "25",
 				"y": "5",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -2798,7 +2833,7 @@
 			},
 			{
 				"name": "iq_value",
-				"x": "40",
+				"x": "25",
 				"y": "5",
 				"font": "monospace",
 				"colour": "0x00ff00ff",
@@ -2807,11 +2842,16 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "manual"
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "8"
+					}
+				]
 			},
 			{
 				"name": "iq_detailed_values",
-				"x": "40",
+				"x": "25",
 				"y": "7",
 				"font": "monospace",
 				"colour": "0xaaffaaff",
@@ -2820,11 +2860,16 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "manual"
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "8"
+					}
+				]
 			},
 			{
 				"name": "iq_sm",
-				"x": "39",
+				"x": "25",
 				"y": "7",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -2842,7 +2887,7 @@
 			},
 			{
 				"name": "iq_ii",
-				"x": "39",
+				"x": "25",
 				"y": "8",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -2860,7 +2905,7 @@
 			},
 			{
 				"name": "iq_ic",
-				"x": "39",
+				"x": "25",
 				"y": "9",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -2878,7 +2923,7 @@
 			},
 			{
 				"name": "iq_if",
-				"x": "39",
+				"x": "25",
 				"y": "10",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -2896,7 +2941,7 @@
 			},
 			{
 				"name": "iq_bm",
-				"x": "39",
+				"x": "25",
 				"y": "11",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -2914,7 +2959,7 @@
 			},
 			{
 				"name": "piety_label",
-				"x": "52",
+				"x": "39",
 				"y": "5",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -2927,7 +2972,7 @@
 			},
 			{
 				"name": "piety_value",
-				"x": "53",
+				"x": "39",
 				"y": "5",
 				"font": "monospace",
 				"colour": "0x00ff00ff",
@@ -2936,11 +2981,16 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "manual"
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "8"
+					}
+				]
 			},
 			{
 				"name": "piety_detailed_values",
-				"x": "53",
+				"x": "39",
 				"y": "7",
 				"font": "monospace",
 				"colour": "0xaaffaaff",
@@ -2949,11 +2999,16 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "manual"
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "8"
+					}
+				]
 			},
 			{
 				"name": "piety_sp",
-				"x": "52",
+				"x": "39",
 				"y": "7",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -2971,7 +3026,7 @@
 			},
 			{
 				"name": "piety_rs",
-				"x": "52",
+				"x": "39",
 				"y": "8",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -2989,7 +3044,7 @@
 			},
 			{
 				"name": "piety_bs",
-				"x": "52",
+				"x": "39",
 				"y": "9",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -3007,7 +3062,7 @@
 			},
 			{
 				"name": "piety_bc",
-				"x": "52",
+				"x": "39",
 				"y": "10",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -3025,7 +3080,7 @@
 			},
 			{
 				"name": "vitality_label",
-				"x": "26",
+				"x": "11",
 				"y": "12",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -3038,7 +3093,7 @@
 			},
 			{
 				"name": "vitality_value",
-				"x": "27",
+				"x": "11",
 				"y": "12",
 				"font": "monospace",
 				"colour": "0x00ff00ff",
@@ -3047,11 +3102,16 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "manual"
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "8"
+					}
+				]
 			},
 			{
 				"name": "vitality_detailed_values",
-				"x": "27",
+				"x": "11",
 				"y": "14",
 				"font": "monospace",
 				"colour": "0xaaffaaff",
@@ -3060,11 +3120,16 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "manual"
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "8"
+					}
+				]
 			},
 			{
 				"name": "vitality_vb",
-				"x": "26",
+				"x": "11",
 				"y": "14",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -3082,7 +3147,7 @@
 			},
 			{
 				"name": "vitality_bh",
-				"x": "26",
+				"x": "11",
 				"y": "15",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -3100,7 +3165,7 @@
 			},
 			{
 				"name": "vitality_rd",
-				"x": "26",
+				"x": "11",
 				"y": "16",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -3118,7 +3183,7 @@
 			},
 			{
 				"name": "vitality_ra",
-				"x": "26",
+				"x": "11",
 				"y": "17",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -3136,7 +3201,7 @@
 			},
 			{
 				"name": "vitality_re",
-				"x": "26",
+				"x": "11",
 				"y": "18",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -3154,7 +3219,7 @@
 			},
 			{
 				"name": "agility_label",
-				"x": "39",
+				"x": "25",
 				"y": "12",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -3167,7 +3232,7 @@
 			},
 			{
 				"name": "agility_value",
-				"x": "40",
+				"x": "25",
 				"y": "12",
 				"font": "monospace",
 				"colour": "0x00ff00ff",
@@ -3176,11 +3241,16 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "manual"
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "8"
+					}
+				]
 			},
 			{
 				"name": "agility_detailed_values",
-				"x": "40",
+				"x": "25",
 				"y": "14",
 				"font": "monospace",
 				"colour": "0xaaffaaff",
@@ -3189,11 +3259,16 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "manual"
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "8"
+					}
+				]
 			},
 			{
 				"name": "agility_im",
-				"x": "39",
+				"x": "25",
 				"y": "14",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -3211,7 +3286,7 @@
 			},
 			{
 				"name": "agility_ch",
-				"x": "39",
+				"x": "25",
 				"y": "15",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -3229,7 +3304,7 @@
 			},
 			{
 				"name": "agility_it",
-				"x": "39",
+				"x": "25",
 				"y": "16",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -3247,7 +3322,7 @@
 			},
 			{
 				"name": "agility_dt",
-				"x": "39",
+				"x": "25",
 				"y": "17",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -3265,7 +3340,7 @@
 			},
 			{
 				"name": "agility_at",
-				"x": "39",
+				"x": "25",
 				"y": "18",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -3282,8 +3357,8 @@
 				]
 			},
 			{
-				"name": "agility_iap",
-				"x": "39",
+				"name": "agility_ap",
+				"x": "25",
 				"y": "19",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -3301,7 +3376,7 @@
 			},
 			{
 				"name": "agility_ac",
-				"x": "39",
+				"x": "25",
 				"y": "20",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -3319,7 +3394,7 @@
 			},
 			{
 				"name": "luck_label",
-				"x": "52",
+				"x": "39",
 				"y": "12",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -3332,7 +3407,7 @@
 			},
 			{
 				"name": "luck_value",
-				"x": "53",
+				"x": "39",
 				"y": "12",
 				"font": "monospace",
 				"colour": "0x00ff00ff",
@@ -3341,11 +3416,16 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "manual"
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "8"
+					}
+				]
 			},
 			{
 				"name": "luck_detailed_values",
-				"x": "53",
+				"x": "39",
 				"y": "14",
 				"font": "monospace",
 				"colour": "0xaaffaaff",
@@ -3354,11 +3434,16 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "manual"
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "8"
+					}
+				]
 			},
 			{
 				"name": "luck_rb",
-				"x": "52",
+				"x": "39",
 				"y": "14",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -3376,7 +3461,7 @@
 			},
 			{
 				"name": "luck_wi",
-				"x": "52",
+				"x": "39",
 				"y": "15",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
@@ -3394,8 +3479,8 @@
 			},
 			{
 				"name": "resistances_label",
-				"x": "13",
-				"y": "12",
+				"x": "54",
+				"y": "5",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "32",
@@ -3407,8 +3492,8 @@
 			},
 			{
 				"name": "resistances_detailed_values",
-				"x": "14",
-				"y": "14",
+				"x": "54",
+				"y": "7",
 				"font": "monospace",
 				"colour": "0xaaffaaff",
 				"size": "18",
@@ -3416,12 +3501,17 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "manual"
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "8"
+					}
+				]
 			},
 			{
 				"name": "resistances_rc",
-				"x": "13",
-				"y": "14",
+				"x": "54",
+				"y": "7",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3438,8 +3528,8 @@
 			},
 			{
 				"name": "resistances_pp",
-				"x": "13",
-				"y": "15",
+				"x": "54",
+				"y": "8",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3456,8 +3546,8 @@
 			},
 			{
 				"name": "resistances_st",
-				"x": "13",
-				"y": "16",
+				"x": "54",
+				"y": "9",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3474,8 +3564,8 @@
 			},
 			{
 				"name": "resistances_ba",
-				"x": "13",
-				"y": "17",
+				"x": "54",
+				"y": "10",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3492,8 +3582,8 @@
 			},
 			{
 				"name": "resistances_pg",
-				"x": "13",
-				"y": "18",
+				"x": "54",
+				"y": "11",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3510,8 +3600,8 @@
 			},
 			{
 				"name": "resistances_mt",
-				"x": "13",
-				"y": "19",
+				"x": "54",
+				"y": "12",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3528,8 +3618,8 @@
 			},
 			{
 				"name": "resistances_sl",
-				"x": "13",
-				"y": "20",
+				"x": "54",
+				"y": "13",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3546,12 +3636,84 @@
 			},
 			{
 				"name": "resistances_rf",
-				"x": "13",
-				"y": "21",
+				"x": "54",
+				"y": "14",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
 				"string": "CHARACTER_RF",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "resistances_si",
+				"x": "54",
+				"y": "15",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_SI",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "resistances_se",
+				"x": "54",
+				"y": "16",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_SE",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "resistances_de",
+				"x": "54",
+				"y": "17",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_DE",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "resistances_su",
+				"x": "54",
+				"y": "18",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_SU",
 				"justification": "right",
 				"type": "text",
 				"priority": "3",

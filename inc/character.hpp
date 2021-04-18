@@ -112,6 +112,7 @@ namespace Sorcery {
 		auto _save() -> unsigned int;
 		auto _load(unsigned int character_id) -> void;
 		auto _generate_display() -> void;
+		auto _generate_summary_icons() -> void;
 		auto _generate_starting_information() -> void;
 		auto _generate_secondary_abilities() -> void;
 		auto _set_starting_sp() -> void;

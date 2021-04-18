@@ -1920,165 +1920,38 @@ auto Sorcery::Character::_get_priest_magic_status(bool current) -> std::string {
 
 // Need to also handle character class switching
 
-// Render the character
-// auto Sorcery::Character::render(unsigned int y_position) -> void {
+auto Sorcery::Character::_generate_summary_icons() -> void {
+	auto class_icon = get_icon(CharacterStage::CHOOSE_CLASS).value();
+	class_icon.setPosition((*_display->layout)["character:class_icon"].x,
+		(*_display->layout)["character:class_icon"].y);
+	class_icon.setScale((*_display->layout)["character:class_icon"].scale,
+		(*_display->layout)["character:class_icon"].scale);
+	_v_sprites.emplace((*_display->layout)["character:class_icon"].unique_key, class_icon);
 
-/* // Character Templates are 79x39
-switch (_view) {
-case CharacterView::MAIN:
-	_character_bg =
-		std::make_unique<TCODConsole>(CSTR((*_system.files)[CHARACTER_TEMPLATE_FILE_MAIN]));
-	break;
-case CharacterView::DETAILED:
-	_character_bg =
-		std::make_unique<TCODConsole>(CSTR((*_system.files)[CHARACTER_TEMPLATE_FILE_DETAILED]));
-	break;
-};
+	auto race_icon = get_icon(CharacterStage::CHOOSE_RACE).value();
+	race_icon.setPosition(
+		(*_display->layout)["character:race_icon"].x, (*_display->layout)["character:race_icon"].y);
+	race_icon.setScale((*_display->layout)["character:race_icon"].scale,
+		(*_display->layout)["character:race_icon"].scale);
+	_v_sprites.emplace((*_display->layout)["character:race_icon"].unique_key, race_icon);
 
-// And always update the console with the basic character info
-_print(Point(21, 3), _name, Colour::CHARACTER_SUMMARY_INFORMATION);
-_print(Point(40, 3), "L" + std::to_string(_abilities[CharacterAbility::CURRENT_LEVEL]));
-_print(Point(47, 3), get_character_class_alignment(_alignment).substr(0, 1) + "-" +
-						 get_character_class_string(_class));
-_print(Point(60, 3), get_character_race_string(_race));
+	auto alignment_icon = get_icon(CharacterStage::CHOOSE_ALIGNMENT).value();
+	alignment_icon.setPosition((*_display->layout)["character:alignment_icon"].x,
+		(*_display->layout)["character:alignment_icon"].y);
+	alignment_icon.setScale((*_display->layout)["character:alignment_icon"].scale,
+		(*_display->layout)["character:alignment_icon"].scale);
+	_v_sprites.emplace((*_display->layout)["character:alignment_icon"].unique_key, alignment_icon);
 
-const Point portrait_top_left = {3, 3};
-const int portrait_size = {32};
-const int portrait_x_index = {_portrait_index % 7}; // Number of Portraits in Graphic by Column
-const int portrait_y_index = {
-	std::floor(_portrait_index / 7)}; // Number of Portraits in Graphic by Row
+	auto level_icon = (*_graphics->icons)["level"].value();
+	level_icon.setPosition((*_display->layout)["character:level_icon"].x,
+		(*_display->layout)["character:level_icon"].y);
+	level_icon.setScale((*_display->layout)["character:level_icon"].scale,
+		(*_display->layout)["character:level_icon"].scale);
+	_v_sprites.emplace((*_display->layout)["character:level_icon"].unique_key, level_icon);
 
-switch (_view) {
-case CharacterView::MAIN:
-
-	// Current/Max HP
-	_print(Point(46, 7),
-		std::to_string(_abilities[CharacterAbility::CURRENT_HP]) + "/" +
-			std::to_string(_abilities[CharacterAbility::MAX_HP]),
-		Colour::CHARACTER_SUMMARY_HP);
-
-	// Character Portrait
-	_display->screen->portraits->blit2x(_character_bg.get(), portrait_top_left.x,
-		portrait_top_left.y, portrait_x_index * portrait_size, portrait_y_index * portrait_size,
-		portrait_size, portrait_size);
-
-	// Attributes
-	_print(Point(31, 7), _max_attributes[CharacterAttribute::STRENGTH],
-		Colour::CHARACTER_SUMMARY_ATTRIBUTES_MAX);
-	if (_current_attributes[CharacterAttribute::STRENGTH] !=
-		_max_attributes[CharacterAttribute::STRENGTH])
-		_print(Point(34, 7), _current_attributes[CharacterAttribute::STRENGTH]);
-	_print(Point(31, 9), _max_attributes[CharacterAttribute::IQ]);
-	if (_current_attributes[CharacterAttribute::IQ] != _max_attributes[CharacterAttribute::IQ])
-		_print(Point(34, 9), _current_attributes[CharacterAttribute::IQ]);
-	_print(Point(31, 11), _max_attributes[CharacterAttribute::PIETY]);
-	if (_current_attributes[CharacterAttribute::PIETY] !=
-		_max_attributes[CharacterAttribute::PIETY])
-		_print(Point(34, 11), _current_attributes[CharacterAttribute::PIETY]);
-	_print(Point(31, 13), _max_attributes[CharacterAttribute::VITALITY]);
-	if (_current_attributes[CharacterAttribute::VITALITY] !=
-		_max_attributes[CharacterAttribute::VITALITY])
-		_print(Point(34, 13), _current_attributes[CharacterAttribute::VITALITY]);
-	_print(Point(31, 15), _max_attributes[CharacterAttribute::AGILITY],
-		Colour::CHARACTER_SUMMARY_ATTRIBUTES_MAX);
-	if (_current_attributes[CharacterAttribute::AGILITY] !=
-		_max_attributes[CharacterAttribute::AGILITY])
-		_print(Point(34, 15), _current_attributes[CharacterAttribute::AGILITY]);
-	_print(Point(31, 17), _max_attributes[CharacterAttribute::LUCK],
-		Colour::CHARACTER_SUMMARY_ATTRIBUTES_MAX);
-	if (_current_attributes[CharacterAttribute::LUCK] !=
-		_max_attributes[CharacterAttribute::LUCK])
-		_print(Point(34, 17), _current_attributes[CharacterAttribute::LUCK]);
-
-	// Other character stuff
-	_print(
-		Point(66, 11), _abilities[CharacterAbility::GOLD], Colour::CHARACTER_SUMMARY_ABILITIES);
-	_print(Point(46, 9), _abilities[CharacterAbility::CURRENT_ARMOUR_CLASS]);
-	_print(Point(46, 11), _abilities[CharacterAbility::AGE] / 52);
-	_print(Point(46, 13), _abilities[CharacterAbility::SWIM]);
-	_print(Point(66, 7), _abilities[CharacterAbility::CURRENT_XP]);
-	_print(Point(66, 9), _abilities[CharacterAbility::NEXT_LEVEL_XP]);
-	_print(Point(66, 15), _abilities[CharacterAbility::MARKS]);
-	_print(Point(66, 17), _abilities[CharacterAbility::DEATHS]);
-
-	// Spell points
-	for (auto level = 1; level <= 7; level++) {
-		_print(Point(13 + ((level - 1) * 8), 21), _mage_current_spell_points[level],
-			Colour::CHARACTER_SUMMARY_SPELLS_MIN);
-		_print(Point(16 + ((level - 1) * 8), 21), _mage_max_spell_points[level],
-			Colour::CHARACTER_SUMMARY_SPELLS_MAX);
-		_print(Point(13 + ((level - 1) * 8), 23), _cleric_current_spell_points[level],
-			Colour::CHARACTER_SUMMARY_SPELLS_MIN);
-		_print(Point(16 + ((level - 1) * 8), 23), _cleric_max_spell_points[level],
-			Colour::CHARACTER_SUMMARY_SPELLS_MAX);
-	}
-	break;
-case CharacterView::DETAILED:
-
-	_print(Point(23, 6), _current_attributes[CharacterAttribute::STRENGTH],
-		Colour::CHARACTER_DETAILED_ATTRIBUTES);
-	_print(Point(23, 14), _current_attributes[CharacterAttribute::IQ]);
-	_print(Point(49, 6), _current_attributes[CharacterAttribute::PIETY]);
-	_print(Point(49, 14), _current_attributes[CharacterAttribute::VITALITY]);
-	_print(Point(74, 6), _current_attributes[CharacterAttribute::AGILITY]);
-	_print(Point(74, 17), _current_attributes[CharacterAttribute::LUCK]);
-
-	_print(Point(23, 8), _abilities[CharacterAbility::ATTACK_MODIFIER],
-		Colour::CHARACTER_DETAILED_ABILITIES);
-	_print(Point(23, 9), _abilities[CharacterAbility::HIT_PROBABILITY]);
-	_print(Point(23, 10), _abilities[CharacterAbility::BONUS_DAMAGE]);
-	_print(Point(23, 11), _abilities[CharacterAbility::BASE_NUMBER_OF_ATTACKS]);
-	_print(Point(23, 12), _abilities[CharacterAbility::UNARMED_DAMAGE]);
-
-	_print(Point(23, 16), _abilities[CharacterAbility::MAGE_SPELL_LEARN]);
-	_print(Point(23, 17), _abilities[CharacterAbility::IDENTIFY_ITEMS]);
-	_print(Point(23, 18), _abilities[CharacterAbility::IDENTIFY_CURSE]);
-	_print(Point(23, 19), _abilities[CharacterAbility::IDENTIFY_FOES]);
-	_print(Point(23, 20), _abilities[CharacterAbility::BONUS_MAGE_SPELLS]);
-
-	_print(Point(49, 8), _abilities[CharacterAbility::PRIEST_SPELL_LEARN]);
-	_print(Point(49, 9), _abilities[CharacterAbility::LOKTOFELT_SUCCESS]);
-	_print(Point(49, 10), _abilities[CharacterAbility::BASE_DISPELL]);
-	_print(Point(49, 11), _abilities[CharacterAbility::BONUS_PRIEST_SPELLS]);
-
-	_print(Point(49, 16), _abilities[CharacterAbility::VITALITY_BONUS]);
-	_print(Point(49, 17), _abilities[CharacterAbility::BONUS_HIT_POINTS]);
-	_print(Point(49, 18), _abilities[CharacterAbility::DEAD_RESURRECT]);
-	_print(Point(49, 19), _abilities[CharacterAbility::ASHES_RESURRECT]);
-	_print(Point(49, 20), _abilities[CharacterAbility::DI_KADORTO_RESURRECT]);
-
-	_print(Point(74, 8), _abilities[CharacterAbility::INITIATIVE_MODIFIER]);
-	_print(Point(74, 9), _abilities[CharacterAbility::BASE_CRITICAL_HIT]);
-	_print(Point(74, 10), _abilities[CharacterAbility::IDENTIFY_TRAP]);
-	_print(Point(74, 11), _abilities[CharacterAbility::BASE_DISARM_TRAP]);
-	_print(Point(74, 12), _abilities[CharacterAbility::ACTIVATE_TRAP]);
-	_print(Point(74, 13), _abilities[CharacterAbility::BASE_AVOID_PIT]);
-	_print(Point(74, 14), _abilities[CharacterAbility::BASE_ARMOUR_CLASS]);
-
-	_print(Point(74, 19), _abilities[CharacterAbility::BASE_RESIST_BONUS]);
-	_print(Point(74, 20), _abilities[CharacterAbility::EQUIPMENT_INTACT_ON_WIPE]);
-
-	_print(Point(23, 26), _abilities[CharacterAbility::RESISTANCE_VS_CRITICAL_HIT]);
-	_print(Point(23, 27), _abilities[CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS]);
-	_print(Point(23, 28), _abilities[CharacterAbility::RESISTANCE_VS_STONING]);
-	_print(Point(23, 29), _abilities[CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS]);
-	_print(Point(23, 30), _abilities[CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP]);
-	_print(Point(23, 31), _abilities[CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP]);
-
-	_print(Point(49, 26), _abilities[CharacterAbility::RECOVER_FROM_SLEEP]);
-	_print(Point(49, 27), _abilities[CharacterAbility::RECOVER_FROM_FEAR]);
-	_print(Point(49, 28), _abilities[CharacterAbility::RESISTANCE_VS_SILENCE]);
-	_print(Point(49, 29), _abilities[CharacterAbility::RESISTANCE_VS_KATINO]);
-	_print(Point(49, 30), _abilities[CharacterAbility::RESISTANCE_VS_BADI]);
-	_print(Point(49, 31), _abilities[CharacterAbility::RESISTANCE_VS_MANIFO]);
-
-	break;
-};
-
-// And display
-const Point summary_loc = {(_display.screen->width() - 79) / 2, y_position};
-_display.screen->load_from_offscreen(_character_bg, summary_loc);
-*/
+	_add_text((*_display->layout)["character:level_text"], "{}",
+		std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)), true);
+}
 
 auto Sorcery::Character::_generate_display() -> void {
 
@@ -2090,47 +1963,20 @@ auto Sorcery::Character::_generate_display() -> void {
 	_v_frames.clear();
 
 	_display->generate_components("character", _sprites, _texts, _frames);
-	auto portrait{_get_character_portrait()};
-	Component portrait_c{(*_display->layout)["character:portrait"]};
-	portrait.setPosition(portrait_c.x, portrait_c.y);
-	portrait.setScale(portrait_c.scale, portrait_c.scale);
-	_sprites.emplace(portrait_c.unique_key, portrait);
-
-	_add_text((*_display->layout)["character:name_text"], "{}", _name, false);
-	_add_text((*_display->layout)["character:level_text"], "{}",
-		std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)), false);
-
-	auto class_icon = get_icon(CharacterStage::CHOOSE_CLASS).value();
-	class_icon.setPosition((*_display->layout)["character:class_icon"].x,
-		(*_display->layout)["character:class_icon"].y);
-	class_icon.setScale((*_display->layout)["character:class_icon"].scale,
-		(*_display->layout)["character:class_icon"].scale);
-	_sprites.emplace((*_display->layout)["character:class_icon"].unique_key, class_icon);
-
-	auto race_icon = get_icon(CharacterStage::CHOOSE_RACE).value();
-	race_icon.setPosition(
-		(*_display->layout)["character:race_icon"].x, (*_display->layout)["character:race_icon"].y);
-	race_icon.setScale((*_display->layout)["character:race_icon"].scale,
-		(*_display->layout)["character:race_icon"].scale);
-	_sprites.emplace((*_display->layout)["character:race_icon"].unique_key, race_icon);
-
-	auto alignment_icon = get_icon(CharacterStage::CHOOSE_ALIGNMENT).value();
-	alignment_icon.setPosition((*_display->layout)["character:alignment_icon"].x,
-		(*_display->layout)["character:alignment_icon"].y);
-	alignment_icon.setScale((*_display->layout)["character:alignment_icon"].scale,
-		(*_display->layout)["character:alignment_icon"].scale);
-	_sprites.emplace((*_display->layout)["character:alignment_icon"].unique_key, alignment_icon);
-
-	auto level_icon = (*_graphics->icons)["level"].value();
-	level_icon.setPosition((*_display->layout)["character:level_icon"].x,
-		(*_display->layout)["character:level_icon"].y);
-	level_icon.setScale((*_display->layout)["character:level_icon"].scale,
-		(*_display->layout)["character:level_icon"].scale);
-	_sprites.emplace((*_display->layout)["character:level_icon"].unique_key, level_icon);
 
 	if (_view == CharacterView::MAIN) {
 
 		_display->generate_components("character_cs1", _v_sprites, _v_texts, _v_frames);
+
+		_generate_summary_icons();
+
+		auto portrait{_get_character_portrait()};
+		Component portrait_c{(*_display->layout)["character_cs1:portrait"]};
+		portrait.setPosition(portrait_c.x, portrait_c.y);
+		portrait.setScale(portrait_c.scale, portrait_c.scale);
+		_v_sprites.emplace(portrait_c.unique_key, portrait);
+
+		_add_text((*_display->layout)["character_cs1:name_text"], "{}", _name);
 
 		_ad = std::make_shared<AttributeDisplay>(
 			_system, _display, _graphics, this, Alignment::HORIZONTAL);
@@ -2185,6 +2031,10 @@ auto Sorcery::Character::_generate_display() -> void {
 	} else if (_view == CharacterView::DETAILED) {
 
 		_display->generate_components("character_cs2", _v_sprites, _v_texts, _v_frames);
+
+		_add_text((*_display->layout)["character_cs2:name_text"], "{}", _name);
+
+		_generate_summary_icons();
 
 		_add_text((*_display->layout)["character_cs2:strength_value"], "{:>2}",
 			std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
@@ -2309,6 +2159,18 @@ auto Sorcery::Character::_generate_display() -> void {
 		resistances_c.y += _display->window->get_cell_height();
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RECOVER_FROM_FEAR)));
+		resistances_c.y += _display->window->get_cell_height();
+		_add_text(resistances_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_SILENCE)));
+		resistances_c.y += _display->window->get_cell_height();
+		_add_text(resistances_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_KATINO)));
+		resistances_c.y += _display->window->get_cell_height();
+		_add_text(resistances_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_BADI)));
+		resistances_c.y += _display->window->get_cell_height();
+		_add_text(resistances_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_MANIFO)));
 	}
 }
 
