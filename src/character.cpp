@@ -1005,6 +1005,10 @@ auto Sorcery::Character::_generate_secondary_abilities() -> void {
 	else if (_cur_attr[CharacterAttribute::LUCK] >= 6)
 		_abilities[CharacterAbility::BASE_RESIST_BONUS] += 1;
 
+	// Chance equipment is intact on a corpse TODO: check this is accurate
+	_abilities[CharacterAbility::EQUIPMENT_INTACT_ON_WIPE] =
+		(_cur_attr[CharacterAttribute::LUCK] / 21.0) * 100;
+
 	// Other Resists (d20)
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::SAMURAI:
@@ -2231,6 +2235,51 @@ auto Sorcery::Character::_generate_display() -> void {
 		piety_c.y += _display->window->get_cell_height();
 		_add_text(
 			piety_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_PRIEST_SPELLS)));
+
+		Component vitality_c((*_display->layout)["character_cs2:vitality_detailed_values"]);
+		_add_text(
+			vitality_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::VITALITY_BONUS)));
+		vitality_c.y += _display->window->get_cell_height();
+		_add_text(
+			vitality_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_HIT_POINTS)));
+		vitality_c.y += _display->window->get_cell_height();
+		_add_text(
+			vitality_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::DEAD_RESURRECT)));
+		vitality_c.y += _display->window->get_cell_height();
+		_add_text(
+			vitality_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::ASHES_RESURRECT)));
+		vitality_c.y += _display->window->get_cell_height();
+		_add_text(vitality_c, "{:>2}",
+			std::to_string(_abilities.at(CharacterAbility::DI_KADORTO_RESURRECT)));
+
+		Component agility_c((*_display->layout)["character_cs2:agility_detailed_values"]);
+		_add_text(agility_c, "{:>2}",
+			std::to_string(_abilities.at(CharacterAbility::INITIATIVE_MODIFIER)));
+		agility_c.y += _display->window->get_cell_height();
+		_add_text(
+			agility_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BASE_CRITICAL_HIT)));
+		agility_c.y += _display->window->get_cell_height();
+		_add_text(
+			agility_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_TRAP)));
+		agility_c.y += _display->window->get_cell_height();
+		_add_text(
+			agility_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BASE_DISARM_TRAP)));
+		agility_c.y += _display->window->get_cell_height();
+		_add_text(
+			agility_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::ACTIVATE_TRAP)));
+		agility_c.y += _display->window->get_cell_height();
+		_add_text(
+			agility_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BASE_AVOID_PIT)));
+		agility_c.y += _display->window->get_cell_height();
+		_add_text(
+			agility_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BASE_ARMOUR_CLASS)));
+
+		Component luck_c((*_display->layout)["character_cs2:luck_detailed_values"]);
+		_add_text(
+			luck_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BASE_RESIST_BONUS)));
+		luck_c.y += _display->window->get_cell_height();
+		_add_text(luck_c, "{:>2}",
+			std::to_string(_abilities.at(CharacterAbility::EQUIPMENT_INTACT_ON_WIPE)));
 	}
 }
 

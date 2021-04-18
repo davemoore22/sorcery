@@ -3050,6 +3050,109 @@
 				"drawmode": "manual"
 			},
 			{
+				"name": "vitality_detailed_values",
+				"x": "27",
+				"y": "15",
+				"font": "monospace",
+				"colour": "0xaaffaaff",
+				"size": "18",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "vitality_vb",
+				"x": "26",
+				"y": "15",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_VB",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "vitality_bh",
+				"x": "26",
+				"y": "16",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_BH",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "vitality_rd",
+				"x": "26",
+				"y": "17",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_RD",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "vitality_ra",
+				"x": "26",
+				"y": "18",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_RA",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "vitality_re",
+				"x": "26",
+				"y": "19",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_RE",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
 				"name": "agility_label",
 				"x": "39",
 				"y": "13",
@@ -3076,6 +3179,145 @@
 				"drawmode": "manual"
 			},
 			{
+				"name": "agility_detailed_values",
+				"x": "40",
+				"y": "15",
+				"font": "monospace",
+				"colour": "0xaaffaaff",
+				"size": "18",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "agility_im",
+				"x": "39",
+				"y": "15",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_IM",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "agility_ch",
+				"x": "39",
+				"y": "16",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_CH",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "agility_it",
+				"x": "39",
+				"y": "17",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_IT",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "agility_dt",
+				"x": "39",
+				"y": "18",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_DT",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "agility_at",
+				"x": "39",
+				"y": "19",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_AT",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "agility_iap",
+				"x": "39",
+				"y": "20",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_AP",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "agility_ac",
+				"x": "39",
+				"y": "21",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_AC",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
 				"name": "luck_label",
 				"x": "52",
 				"y": "13",
@@ -3100,6 +3342,55 @@
 				"type": "text",
 				"priority": "3",
 				"drawmode": "manual"
+			},
+			{
+				"name": "luck_detailed_values",
+				"x": "53",
+				"y": "15",
+				"font": "monospace",
+				"colour": "0xaaffaaff",
+				"size": "18",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "luck_rb",
+				"x": "52",
+				"y": "15",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_RB",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "luck_wi",
+				"x": "52",
+				"y": "16",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_WI",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
 			},
 			{
 				"name": "resistances_label",
