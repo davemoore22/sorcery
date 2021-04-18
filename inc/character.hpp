@@ -135,6 +135,8 @@ namespace Sorcery {
 		auto _add_icon(Component &component, std::string icon_key) -> void;
 		auto _get_mage_magic_status(bool current) -> std::string;
 		auto _get_priest_magic_status(bool current) -> std::string;
+		auto _adjust_ability_colour(int value, CharacterAbilityType ability_type)
+			-> unsigned long long;
 
 		// Private Members
 		System *_system;

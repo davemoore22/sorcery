@@ -1953,6 +1953,52 @@ auto Sorcery::Character::_generate_summary_icons() -> void {
 		std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)), true);
 }
 
+auto Sorcery::Character::_adjust_ability_colour(int value, CharacterAbilityType ability_type)
+	-> unsigned long long {
+
+	switch (ability_type) {
+	case CharacterAbilityType::NUMBER:
+		if (value < 0)
+			return 0xff1a1aff;
+		else if (value == 0)
+			return 0xffff55ff;
+		else
+			return 0x169016ff;
+		break;
+	case CharacterAbilityType::STAT:
+		if (value < 5)
+			return 0xff1a1aff;
+		else if (value < 10)
+			return 0xFFA500FF;
+		else if (value < 15)
+			return 0xffff55ff;
+		else
+			return 0x169016ff;
+		break;
+	case CharacterAbilityType::PERCENTAGE:
+		if (value < 25)
+			return 0xff1a1aff; // Red
+		else if (value < 50)
+			return 0xFFA500FF; // Orange
+		else if (value < 75)
+			return 0xffff55ff; // Yellow
+		else
+			return 0x169016ff; // Green
+		break;
+	case CharacterAbilityType::MODIFIER:
+		if (value < 0)
+			return 0xff1a1aff;
+		else if (value == 0)
+			return 0xffff55ff;
+		else
+			return 0x169016ff;
+		break;
+	default:
+		return 0x169016ff;
+		break;
+	};
+}
+
 auto Sorcery::Character::_generate_display() -> void {
 
 	_sprites.clear();
@@ -2050,125 +2096,256 @@ auto Sorcery::Character::_generate_display() -> void {
 			std::to_string(_cur_attr.at(CharacterAttribute::LUCK)));
 
 		Component strength_c((*_display->layout)["character_cs2:strength_detailed_values"]);
+
+		strength_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::ATTACK_MODIFIER), CharacterAbilityType::MODIFIER);
 		_add_text(
 			strength_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::ATTACK_MODIFIER)));
+
 		strength_c.y += _display->window->get_cell_height();
+		strength_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::HIT_PROBABILITY), CharacterAbilityType::MODIFIER);
 		_add_text(
 			strength_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::HIT_PROBABILITY)));
+
 		strength_c.y += _display->window->get_cell_height();
+		strength_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::BONUS_DAMAGE), CharacterAbilityType::MODIFIER);
 		_add_text(
 			strength_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_DAMAGE)));
+
 		strength_c.y += _display->window->get_cell_height();
+		strength_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::BASE_NUMBER_OF_ATTACKS), CharacterAbilityType::NUMBER);
 		_add_text(strength_c, "{:>2}",
 			std::to_string(_abilities.at(CharacterAbility::BASE_NUMBER_OF_ATTACKS)));
+
 		strength_c.y += _display->window->get_cell_height();
+		strength_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::UNARMED_DAMAGE), CharacterAbilityType::NUMBER);
 		_add_text(
 			strength_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::UNARMED_DAMAGE)));
 
 		Component iq_c((*_display->layout)["character_cs2:iq_detailed_values"]);
+
+		iq_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::MAGE_SPELL_LEARN), CharacterAbilityType::PERCENTAGE);
 		_add_text(
 			iq_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::MAGE_SPELL_LEARN)));
+
 		iq_c.y += _display->window->get_cell_height();
+		iq_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::IDENTIFY_ITEMS), CharacterAbilityType::PERCENTAGE);
 		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_ITEMS)));
+
 		iq_c.y += _display->window->get_cell_height();
+		iq_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::IDENTIFY_CURSE), CharacterAbilityType::PERCENTAGE);
 		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_CURSE)));
+
 		iq_c.y += _display->window->get_cell_height();
+		iq_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::IDENTIFY_FOES), CharacterAbilityType::PERCENTAGE);
 		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_FOES)));
+
 		iq_c.y += _display->window->get_cell_height();
+		iq_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::IDENTIFY_FOES), CharacterAbilityType::NUMBER);
 		_add_text(
 			iq_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_MAGE_SPELLS)));
 
 		Component piety_c((*_display->layout)["character_cs2:piety_detailed_values"]);
+		piety_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::PRIEST_SPELL_LEARN), CharacterAbilityType::PERCENTAGE);
 		_add_text(
 			piety_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::PRIEST_SPELL_LEARN)));
+
 		piety_c.y += _display->window->get_cell_height();
+		piety_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::LOKTOFELT_SUCCESS), CharacterAbilityType::PERCENTAGE);
 		_add_text(
 			piety_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::LOKTOFELT_SUCCESS)));
+
 		piety_c.y += _display->window->get_cell_height();
+		piety_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::BASE_DISPELL), CharacterAbilityType::PERCENTAGE);
 		_add_text(piety_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_DISPELL)));
+
 		piety_c.y += _display->window->get_cell_height();
+		piety_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::BONUS_PRIEST_SPELLS), CharacterAbilityType::NUMBER);
 		_add_text(
 			piety_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_PRIEST_SPELLS)));
 
 		Component vitality_c((*_display->layout)["character_cs2:vitality_detailed_values"]);
+
 		_add_text(
 			vitality_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::VITALITY_BONUS)));
+		vitality_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::VITALITY_BONUS), CharacterAbilityType::MODIFIER);
+
 		vitality_c.y += _display->window->get_cell_height();
+		vitality_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::BONUS_HIT_POINTS), CharacterAbilityType::MODIFIER);
 		_add_text(vitality_c, "{:+>2}",
 			std::to_string(_abilities.at(CharacterAbility::BONUS_HIT_POINTS)));
+
 		vitality_c.y += _display->window->get_cell_height();
+		vitality_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::DEAD_RESURRECT), CharacterAbilityType::PERCENTAGE);
 		_add_text(
 			vitality_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::DEAD_RESURRECT)));
+
 		vitality_c.y += _display->window->get_cell_height();
+		vitality_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::ASHES_RESURRECT), CharacterAbilityType::PERCENTAGE);
 		_add_text(
 			vitality_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::ASHES_RESURRECT)));
+
 		vitality_c.y += _display->window->get_cell_height();
+		vitality_c.colour =
+			_adjust_ability_colour(_abilities.at(CharacterAbility::DI_KADORTO_RESURRECT),
+				CharacterAbilityType::PERCENTAGE);
 		_add_text(vitality_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::DI_KADORTO_RESURRECT)));
 
 		Component agility_c((*_display->layout)["character_cs2:agility_detailed_values"]);
+
+		vitality_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::INITIATIVE_MODIFIER), CharacterAbilityType::MODIFIER);
 		_add_text(agility_c, "{:+>2}",
 			std::to_string(_abilities.at(CharacterAbility::INITIATIVE_MODIFIER)));
+
 		agility_c.y += _display->window->get_cell_height();
+		agility_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::BASE_CRITICAL_HIT), CharacterAbilityType::PERCENTAGE);
 		_add_text(agility_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::BASE_CRITICAL_HIT)));
+
 		agility_c.y += _display->window->get_cell_height();
+		agility_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::IDENTIFY_TRAP), CharacterAbilityType::PERCENTAGE);
 		_add_text(
 			agility_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_TRAP)));
+
 		agility_c.y += _display->window->get_cell_height();
+		agility_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::BASE_DISARM_TRAP), CharacterAbilityType::PERCENTAGE);
 		_add_text(
 			agility_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_DISARM_TRAP)));
+
 		agility_c.y += _display->window->get_cell_height();
+		agility_c.colour =
+			_adjust_ability_colour((100 - _abilities.at(CharacterAbility::ACTIVATE_TRAP)),
+				CharacterAbilityType::PERCENTAGE);
 		_add_text(agility_c, "{:>2}%",
 			std::to_string(100 - _abilities.at(CharacterAbility::ACTIVATE_TRAP)));
+
 		agility_c.y += _display->window->get_cell_height();
+		agility_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::BASE_AVOID_PIT), CharacterAbilityType::PERCENTAGE);
 		_add_text(
 			agility_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_AVOID_PIT)));
+
 		agility_c.y += _display->window->get_cell_height();
+		agility_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::BASE_ARMOUR_CLASS), CharacterAbilityType::NUMBER);
 		_add_text(
 			agility_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BASE_ARMOUR_CLASS)));
 
 		Component luck_c((*_display->layout)["character_cs2:luck_detailed_values"]);
+
+		luck_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::BASE_RESIST_BONUS), CharacterAbilityType::PERCENTAGE);
 		_add_text(
 			luck_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_RESIST_BONUS)));
+
 		luck_c.y += _display->window->get_cell_height();
+		luck_c.colour =
+			_adjust_ability_colour(_abilities.at(CharacterAbility::EQUIPMENT_INTACT_ON_WIPE),
+				CharacterAbilityType::PERCENTAGE);
 		_add_text(luck_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::EQUIPMENT_INTACT_ON_WIPE)));
 
 		Component resistances_c((*_display->layout)["character_cs2:resistances_detailed_values"]);
+
+		resistances_c.colour =
+			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_CRITICAL_HIT),
+				CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_CRITICAL_HIT)));
+
 		resistances_c.y += _display->window->get_cell_height();
+		resistances_c.colour =
+			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS),
+				CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS)));
+
 		resistances_c.y += _display->window->get_cell_height();
+		resistances_c.colour =
+			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_STONING),
+				CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_STONING)));
+
 		resistances_c.y += _display->window->get_cell_height();
+		resistances_c.colour =
+			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS),
+				CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS)));
+
 		resistances_c.y += _display->window->get_cell_height();
+		resistances_c.colour =
+			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP),
+				CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP)));
+
 		resistances_c.y += _display->window->get_cell_height();
+		resistances_c.colour =
+			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP),
+				CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP)));
+
 		resistances_c.y += _display->window->get_cell_height();
+		resistances_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::RECOVER_FROM_SLEEP), CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RECOVER_FROM_SLEEP)));
+
 		resistances_c.y += _display->window->get_cell_height();
+		resistances_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::RECOVER_FROM_FEAR), CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RECOVER_FROM_FEAR)));
+
 		resistances_c.y += _display->window->get_cell_height();
+		resistances_c.colour =
+			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_SILENCE),
+				CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_SILENCE)));
+
 		resistances_c.y += _display->window->get_cell_height();
+		resistances_c.colour =
+			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_KATINO),
+				CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_KATINO)));
+
 		resistances_c.y += _display->window->get_cell_height();
+		resistances_c.colour = _adjust_ability_colour(
+			_abilities.at(CharacterAbility::RESISTANCE_VS_BADI), CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_BADI)));
+
 		resistances_c.y += _display->window->get_cell_height();
+		resistances_c.colour =
+			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_MANIFO),
+				CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_MANIFO)));
 	}
@@ -2212,6 +2389,7 @@ auto Sorcery::Character::_add_text(
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
 	text.setString(formatted_value);
+	text.setStyle(sf::Text::Bold);
 	const int offset_x = [&] {
 		if (component["offset_x"])
 			return std::stoi(component["offset_x"].value());
@@ -2242,6 +2420,7 @@ auto Sorcery::Character::_add_text(
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
 	text.setString(formatted_value);
+	text.setStyle(sf::Text::Bold);
 	const int offset_x = [&] {
 		if (component["offset_x"])
 			return std::stoi(component["offset_x"].value());
