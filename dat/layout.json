@@ -3026,7 +3026,7 @@
 			{
 				"name": "vitality_label",
 				"x": "26",
-				"y": "13",
+				"y": "12",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "32",
@@ -3039,7 +3039,7 @@
 			{
 				"name": "vitality_value",
 				"x": "27",
-				"y": "13",
+				"y": "12",
 				"font": "monospace",
 				"colour": "0x00ff00ff",
 				"size": "32",
@@ -3052,7 +3052,7 @@
 			{
 				"name": "vitality_detailed_values",
 				"x": "27",
-				"y": "15",
+				"y": "14",
 				"font": "monospace",
 				"colour": "0xaaffaaff",
 				"size": "18",
@@ -3065,7 +3065,7 @@
 			{
 				"name": "vitality_vb",
 				"x": "26",
-				"y": "15",
+				"y": "14",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3083,7 +3083,7 @@
 			{
 				"name": "vitality_bh",
 				"x": "26",
-				"y": "16",
+				"y": "15",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3101,7 +3101,7 @@
 			{
 				"name": "vitality_rd",
 				"x": "26",
-				"y": "17",
+				"y": "16",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3119,7 +3119,7 @@
 			{
 				"name": "vitality_ra",
 				"x": "26",
-				"y": "18",
+				"y": "17",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3137,7 +3137,7 @@
 			{
 				"name": "vitality_re",
 				"x": "26",
-				"y": "19",
+				"y": "18",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3155,7 +3155,7 @@
 			{
 				"name": "agility_label",
 				"x": "39",
-				"y": "13",
+				"y": "12",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "32",
@@ -3168,7 +3168,7 @@
 			{
 				"name": "agility_value",
 				"x": "40",
-				"y": "13",
+				"y": "12",
 				"font": "monospace",
 				"colour": "0x00ff00ff",
 				"size": "32",
@@ -3181,7 +3181,7 @@
 			{
 				"name": "agility_detailed_values",
 				"x": "40",
-				"y": "15",
+				"y": "14",
 				"font": "monospace",
 				"colour": "0xaaffaaff",
 				"size": "18",
@@ -3194,7 +3194,7 @@
 			{
 				"name": "agility_im",
 				"x": "39",
-				"y": "15",
+				"y": "14",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3212,7 +3212,7 @@
 			{
 				"name": "agility_ch",
 				"x": "39",
-				"y": "16",
+				"y": "15",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3230,7 +3230,7 @@
 			{
 				"name": "agility_it",
 				"x": "39",
-				"y": "17",
+				"y": "16",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3248,7 +3248,7 @@
 			{
 				"name": "agility_dt",
 				"x": "39",
-				"y": "18",
+				"y": "17",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3266,7 +3266,7 @@
 			{
 				"name": "agility_at",
 				"x": "39",
-				"y": "19",
+				"y": "18",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3284,7 +3284,7 @@
 			{
 				"name": "agility_iap",
 				"x": "39",
-				"y": "20",
+				"y": "19",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3302,7 +3302,7 @@
 			{
 				"name": "agility_ac",
 				"x": "39",
-				"y": "21",
+				"y": "20",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3320,7 +3320,7 @@
 			{
 				"name": "luck_label",
 				"x": "52",
-				"y": "13",
+				"y": "12",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "32",
@@ -3333,7 +3333,7 @@
 			{
 				"name": "luck_value",
 				"x": "53",
-				"y": "13",
+				"y": "12",
 				"font": "monospace",
 				"colour": "0x00ff00ff",
 				"size": "32",
@@ -3346,7 +3346,7 @@
 			{
 				"name": "luck_detailed_values",
 				"x": "53",
-				"y": "15",
+				"y": "14",
 				"font": "monospace",
 				"colour": "0xaaffaaff",
 				"size": "18",
@@ -3359,7 +3359,7 @@
 			{
 				"name": "luck_rb",
 				"x": "52",
-				"y": "15",
+				"y": "14",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3377,7 +3377,7 @@
 			{
 				"name": "luck_wi",
 				"x": "52",
-				"y": "16",
+				"y": "15",
 				"font": "monospace",
 				"colour": "0xaaaaaaff",
 				"size": "18",
@@ -3394,8 +3394,8 @@
 			},
 			{
 				"name": "resistances_label",
-				"x": "14",
-				"y": "13",
+				"x": "13",
+				"y": "12",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "32",
@@ -3404,6 +3404,163 @@
 				"type": "text",
 				"priority": "3",
 				"drawmode": "automatic"
+			},
+			{
+				"name": "resistances_detailed_values",
+				"x": "14",
+				"y": "14",
+				"font": "monospace",
+				"colour": "0xaaffaaff",
+				"size": "18",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "resistances_rc",
+				"x": "13",
+				"y": "14",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_RC",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "resistances_pp",
+				"x": "13",
+				"y": "15",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_PP",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "resistances_st",
+				"x": "13",
+				"y": "16",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_ST",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "resistances_ba",
+				"x": "13",
+				"y": "17",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_BA",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "resistances_pg",
+				"x": "13",
+				"y": "18",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_PG",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "resistances_mt",
+				"x": "13",
+				"y": "19",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_MT",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "resistances_sl",
+				"x": "13",
+				"y": "20",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_SL",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
+			},
+			{
+				"name": "resistances_rf",
+				"x": "13",
+				"y": "21",
+				"font": "monospace",
+				"colour": "0xaaaaaaff",
+				"size": "18",
+				"string": "CHARACTER_RF",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "12"
+					}
+				]
 			}
 		]
 	},

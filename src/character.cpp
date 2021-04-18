@@ -1150,6 +1150,9 @@ auto Sorcery::Character::_generate_secondary_abilities() -> void {
 	if (_abilities[CharacterAbility::RESISTANCE_VS_MANIFO] > 100)
 		_abilities[CharacterAbility::RESISTANCE_VS_MANIFO] = 100;
 
+	_abilities[CharacterAbility::RECOVER_FROM_SLEEP] = current_level * 10;
+	_abilities[CharacterAbility::RECOVER_FROM_FEAR] = current_level * 5;
+
 	// If we are not in strict mode, add some bonus spellpoints to first level priests/,ages
 	// depending on their associated stats
 	_abilities[CharacterAbility::BONUS_MAGE_SPELLS] = 0;
@@ -2198,13 +2201,13 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		Component strength_c((*_display->layout)["character_cs2:strength_detailed_values"]);
 		_add_text(
-			strength_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::ATTACK_MODIFIER)));
+			strength_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::ATTACK_MODIFIER)));
 		strength_c.y += _display->window->get_cell_height();
 		_add_text(
-			strength_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::HIT_PROBABILITY)));
+			strength_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::HIT_PROBABILITY)));
 		strength_c.y += _display->window->get_cell_height();
 		_add_text(
-			strength_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_DAMAGE)));
+			strength_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_DAMAGE)));
 		strength_c.y += _display->window->get_cell_height();
 		_add_text(strength_c, "{:>2}",
 			std::to_string(_abilities.at(CharacterAbility::BASE_NUMBER_OF_ATTACKS)));
@@ -2213,73 +2216,99 @@ auto Sorcery::Character::_generate_display() -> void {
 			strength_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::UNARMED_DAMAGE)));
 
 		Component iq_c((*_display->layout)["character_cs2:iq_detailed_values"]);
-		_add_text(iq_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::MAGE_SPELL_LEARN)));
+		_add_text(
+			iq_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::MAGE_SPELL_LEARN)));
 		iq_c.y += _display->window->get_cell_height();
-		_add_text(iq_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_ITEMS)));
+		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_ITEMS)));
 		iq_c.y += _display->window->get_cell_height();
-		_add_text(iq_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_CURSE)));
+		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_CURSE)));
 		iq_c.y += _display->window->get_cell_height();
-		_add_text(iq_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_FOES)));
+		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_FOES)));
 		iq_c.y += _display->window->get_cell_height();
 		_add_text(
 			iq_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_MAGE_SPELLS)));
 
 		Component piety_c((*_display->layout)["character_cs2:piety_detailed_values"]);
 		_add_text(
-			piety_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::PRIEST_SPELL_LEARN)));
+			piety_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::PRIEST_SPELL_LEARN)));
 		piety_c.y += _display->window->get_cell_height();
 		_add_text(
-			piety_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::LOKTOFELT_SUCCESS)));
+			piety_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::LOKTOFELT_SUCCESS)));
 		piety_c.y += _display->window->get_cell_height();
-		_add_text(piety_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BASE_DISPELL)));
+		_add_text(piety_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_DISPELL)));
 		piety_c.y += _display->window->get_cell_height();
 		_add_text(
 			piety_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_PRIEST_SPELLS)));
 
 		Component vitality_c((*_display->layout)["character_cs2:vitality_detailed_values"]);
 		_add_text(
-			vitality_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::VITALITY_BONUS)));
+			vitality_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::VITALITY_BONUS)));
+		vitality_c.y += _display->window->get_cell_height();
+		_add_text(vitality_c, "{:+>2}",
+			std::to_string(_abilities.at(CharacterAbility::BONUS_HIT_POINTS)));
 		vitality_c.y += _display->window->get_cell_height();
 		_add_text(
-			vitality_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_HIT_POINTS)));
+			vitality_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::DEAD_RESURRECT)));
 		vitality_c.y += _display->window->get_cell_height();
 		_add_text(
-			vitality_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::DEAD_RESURRECT)));
+			vitality_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::ASHES_RESURRECT)));
 		vitality_c.y += _display->window->get_cell_height();
-		_add_text(
-			vitality_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::ASHES_RESURRECT)));
-		vitality_c.y += _display->window->get_cell_height();
-		_add_text(vitality_c, "{:>2}",
+		_add_text(vitality_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::DI_KADORTO_RESURRECT)));
 
 		Component agility_c((*_display->layout)["character_cs2:agility_detailed_values"]);
-		_add_text(agility_c, "{:>2}",
+		_add_text(agility_c, "{:+>2}",
 			std::to_string(_abilities.at(CharacterAbility::INITIATIVE_MODIFIER)));
 		agility_c.y += _display->window->get_cell_height();
-		_add_text(
-			agility_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BASE_CRITICAL_HIT)));
+		_add_text(agility_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::BASE_CRITICAL_HIT)));
 		agility_c.y += _display->window->get_cell_height();
 		_add_text(
-			agility_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_TRAP)));
+			agility_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_TRAP)));
 		agility_c.y += _display->window->get_cell_height();
 		_add_text(
-			agility_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BASE_DISARM_TRAP)));
+			agility_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_DISARM_TRAP)));
+		agility_c.y += _display->window->get_cell_height();
+		_add_text(agility_c, "{:>2}%",
+			std::to_string(100 - _abilities.at(CharacterAbility::ACTIVATE_TRAP)));
 		agility_c.y += _display->window->get_cell_height();
 		_add_text(
-			agility_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::ACTIVATE_TRAP)));
-		agility_c.y += _display->window->get_cell_height();
-		_add_text(
-			agility_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BASE_AVOID_PIT)));
+			agility_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_AVOID_PIT)));
 		agility_c.y += _display->window->get_cell_height();
 		_add_text(
 			agility_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BASE_ARMOUR_CLASS)));
 
 		Component luck_c((*_display->layout)["character_cs2:luck_detailed_values"]);
 		_add_text(
-			luck_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BASE_RESIST_BONUS)));
+			luck_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_RESIST_BONUS)));
 		luck_c.y += _display->window->get_cell_height();
-		_add_text(luck_c, "{:>2}",
+		_add_text(luck_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::EQUIPMENT_INTACT_ON_WIPE)));
+
+		Component resistances_c((*_display->layout)["character_cs2:resistances_detailed_values"]);
+		_add_text(resistances_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_CRITICAL_HIT)));
+		resistances_c.y += _display->window->get_cell_height();
+		_add_text(resistances_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS)));
+		resistances_c.y += _display->window->get_cell_height();
+		_add_text(resistances_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_STONING)));
+		resistances_c.y += _display->window->get_cell_height();
+		_add_text(resistances_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS)));
+		resistances_c.y += _display->window->get_cell_height();
+		_add_text(resistances_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP)));
+		resistances_c.y += _display->window->get_cell_height();
+		_add_text(resistances_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP)));
+		resistances_c.y += _display->window->get_cell_height();
+		_add_text(resistances_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::RECOVER_FROM_SLEEP)));
+		resistances_c.y += _display->window->get_cell_height();
+		_add_text(resistances_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::RECOVER_FROM_FEAR)));
 	}
 }
 
