@@ -2156,18 +2156,6 @@ auto Sorcery::Character::_generate_display() -> void {
 		//	summary_text->getGlobalBounds().top - (name_text->getGlobalBounds().height / 2));
 
 		*/
-		/* _add_text((*_display->layout)["character:cs1_strength_value"], "{:>2}",
-			std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
-		_add_text((*_display->layout)["character:cs1_iq_value"], "{:>2}",
-			std::to_string(_cur_attr.at(CharacterAttribute::IQ)));
-		_add_text((*_display->layout)["character:cs1_piety_value"], "{:>2}",
-			std::to_string(_cur_attr.at(CharacterAttribute::PIETY)));
-		_add_text((*_display->layout)["character:cs1_agility_value"], "{:>2}",
-			std::to_string(_cur_attr.at(CharacterAttribute::AGILITY)));
-		_add_text((*_display->layout)["character:cs1_vitality_value"], "{:>2}",
-			std::to_string(_cur_attr.at(CharacterAttribute::VITALITY)));
-		_add_text((*_display->layout)["character:cs1_luck_value"], "{:>2}",
-			std::to_string(_cur_attr.at(CharacterAttribute::LUCK))); */
 		_add_text((*_display->layout)["character_cs1:hp_value"], "{}",
 			fmt::format("{}/{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
 				std::to_string(_abilities.at(CharacterAbility::MAX_HP))));
@@ -2187,17 +2175,62 @@ auto Sorcery::Character::_generate_display() -> void {
 			std::to_string(_abilities.at(CharacterAbility::MARKS)));
 		_add_text((*_display->layout)["character_cs1:deaths_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::DEATHS)));
-		/* _add_text((*_display->layout)["character:cs1_current_mage_magic_value"], "{}",
-			_get_mage_magic_status(true));
-		_add_text((*_display->layout)["character:cs1_current_priest_magic_value"], "{}",
-			_get_priest_magic_status(true));
-		_add_text((*_display->layout)["character:cs1_max_mage_magic_value"], "{}",
-			_get_mage_magic_status(false));
-		_add_text((*_display->layout)["character:cs1_max_priest_magic_value"], "{}",
-			_get_priest_magic_status(false)); */
 	} else if (_view == CharacterView::DETAILED) {
 
 		_display->generate_components("character_cs2", _v_sprites, _v_texts, _v_frames);
+
+		_add_text((*_display->layout)["character_cs2:strength_value"], "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
+		_add_text((*_display->layout)["character_cs2:iq_value"], "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::IQ)));
+		_add_text((*_display->layout)["character_cs2:piety_value"], "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::PIETY)));
+		_add_text((*_display->layout)["character_cs2:agility_value"], "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::AGILITY)));
+		_add_text((*_display->layout)["character_cs2:vitality_value"], "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::VITALITY)));
+		_add_text((*_display->layout)["character_cs2:luck_value"], "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::LUCK)));
+
+		Component strength_c((*_display->layout)["character_cs2:strength_detailed_values"]);
+		_add_text(
+			strength_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::ATTACK_MODIFIER)));
+		strength_c.y += _display->window->get_cell_height();
+		_add_text(
+			strength_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::HIT_PROBABILITY)));
+		strength_c.y += _display->window->get_cell_height();
+		_add_text(
+			strength_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_DAMAGE)));
+		strength_c.y += _display->window->get_cell_height();
+		_add_text(strength_c, "{:>2}",
+			std::to_string(_abilities.at(CharacterAbility::BASE_NUMBER_OF_ATTACKS)));
+		strength_c.y += _display->window->get_cell_height();
+		_add_text(
+			strength_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::UNARMED_DAMAGE)));
+
+		Component iq_c((*_display->layout)["character_cs2:iq_detailed_values"]);
+		_add_text(iq_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::MAGE_SPELL_LEARN)));
+		iq_c.y += _display->window->get_cell_height();
+		_add_text(iq_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_ITEMS)));
+		iq_c.y += _display->window->get_cell_height();
+		_add_text(iq_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_CURSE)));
+		iq_c.y += _display->window->get_cell_height();
+		_add_text(iq_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_FOES)));
+		iq_c.y += _display->window->get_cell_height();
+		_add_text(
+			iq_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_MAGE_SPELLS)));
+
+		Component piety_c((*_display->layout)["character_cs2:piety_detailed_values"]);
+		_add_text(
+			piety_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::PRIEST_SPELL_LEARN)));
+		piety_c.y += _display->window->get_cell_height();
+		_add_text(
+			piety_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::LOKTOFELT_SUCCESS)));
+		piety_c.y += _display->window->get_cell_height();
+		_add_text(piety_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BASE_DISPELL)));
+		piety_c.y += _display->window->get_cell_height();
+		_add_text(
+			piety_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_PRIEST_SPELLS)));
 	}
 }
 
@@ -2252,8 +2285,12 @@ auto Sorcery::Character::_add_text(
 			return 0;
 	}();
 	text.setPosition(component.x + offset_x, component.y + offset_y);
-	_v_texts.emplace(component.unique_key, text);
-	return &_v_texts.at(component.unique_key);
+
+	// Generate a new key as this is a map, and we might call this with the same base component
+	std::string new_unique_key{
+		component.name + std::to_string(component.x) + std::to_string(component.y)};
+	_v_texts.emplace(new_unique_key, text);
+	return &_v_texts.at(new_unique_key);
 }
 
 auto Sorcery::Character::_add_text(
@@ -2278,12 +2315,16 @@ auto Sorcery::Character::_add_text(
 			return 0;
 	}();
 	text.setPosition(component.x + offset_x, component.y + offset_y);
+
+	// Generate a new key as this is a map, and we might call this with the same base component
+	std::string new_unique_key{
+		component.name + std::to_string(component.x) + std::to_string(component.y)};
 	if (is_view) {
-		_v_texts.emplace(component.unique_key, text);
-		return &_v_texts.at(component.unique_key);
+		_v_texts.emplace(new_unique_key, text);
+		return &_v_texts.at(new_unique_key);
 	} else {
-		_texts.emplace(component.unique_key, text);
-		return &_texts.at(component.unique_key);
+		_texts.emplace(new_unique_key, text);
+		return &_texts.at(new_unique_key);
 	}
 }
 

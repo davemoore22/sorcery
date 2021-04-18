@@ -172,6 +172,8 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 		_get_control_gfx(WindowInputCategory::BACK_DELETE_CANCEL)));
 	_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_ESCAPE_ALWAYS"],
 		_get_control_gfx(WindowInputCategory::ESCAPE)));
+	_controls.emplace_back(std::make_pair(
+		(*_display->string)["CONTROL_HELP_ALWAYS"], _get_control_gfx(WindowInputCategory::HELP)));
 
 	// Now generate the various Components
 	auto count{_controls.size()};
