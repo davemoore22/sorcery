@@ -1244,46 +1244,44 @@ auto Sorcery::Character::_clear_sp() -> void {
 // Set starting spells
 auto Sorcery::Character::_set_starting_spells() -> void {
 
-	// TODO: see if get can be replaced bv named parameter (i.e. use struct not tuple?)
-
 	// This is taken from "KEEPCHYN" which hard codes the spells known to beginning characters!
-	std::vector<SpellEntry>::iterator it;
+	std::vector<Spell>::iterator it;
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::BISHOP:
-		it = std::find_if(_spells.begin(), _spells.end(), [=](auto item) {
-			return std::get<0>(item) == Spell::KATINO;
+		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
+			return item.id == SpellID::KATINO;
 		});
 		if (it != _spells.end())
-			std::get<4>(*it) = true;
-		it = std::find_if(_spells.begin(), _spells.end(), [=](auto item) {
-			return std::get<0>(item) == Spell::HALITO;
+			(*it).known = true;
+		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
+			return item.id == SpellID::HALITO;
 		});
 		if (it != _spells.end())
-			std::get<4>(*it) = true;
+			(*it).known = true;
 		break;
 	case CharacterClass::MAGE:
-		it = std::find_if(_spells.begin(), _spells.end(), [=](auto item) {
-			return std::get<0>(item) == Spell::DUMAPIC;
+		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
+			return item.id == SpellID::DUMAPIC;
 		});
 		if (it != _spells.end())
-			std::get<4>(*it) = true;
-		it = std::find_if(_spells.begin(), _spells.end(), [=](auto item) {
-			return std::get<0>(item) == Spell::MOGREF;
+			(*it).known = true;
+		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
+			return item.id == SpellID::MOGREF;
 		});
 		if (it != _spells.end())
-			std::get<4>(*it) = true;
+			(*it).known = true;
 		break;
 	case CharacterClass::PRIEST:
-		it = std::find_if(_spells.begin(), _spells.end(), [=](auto item) {
-			return std::get<0>(item) == Spell::DIOS;
+		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
+			return item.id == SpellID::DIOS;
 		});
 		if (it != _spells.end())
-			std::get<4>(*it) = true;
-		it = std::find_if(_spells.begin(), _spells.end(), [=](auto item) {
-			return std::get<0>(item) == Spell::BADIOS;
+			(*it).known = true;
+		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
+			return item.id == SpellID::BADIOS;
 		});
 		if (it != _spells.end())
-			std::get<4>(*it) = true;
+			(*it).known = true;
 		break;
 	default:
 		break;
@@ -1380,30 +1378,28 @@ auto Sorcery::Character::_try_to_learn_spells(SpellType spell_type, unsigned int
 			return;
 
 	// First, get the spells themselves
-	std::vector<SpellEntry>::iterator it;
-	it = std::find_if(_spells.begin(), _spells.end(), [=](auto item) {
-		return std::get<1>(item) == spell_type && std::get<2>(item) == spell_level;
+	std::vector<Spell>::iterator it;
+	it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
+		return item.type == spell_type && item.level == spell_level;
 	});
 	while (it != _spells.end()) {
-		it = std::find_if(++it, _spells.end(), [=](auto item) {
-			return std::get<1>(item) == spell_type && std::get<2>(item) == spell_level;
+		it = std::find_if(++it, _spells.end(), [&](auto item) {
+			return item.type == spell_type && item.level == spell_level;
 		});
 
-		// TODO: same comment about struct instead of tuple
-
 		// If spell already known, skip
-		if (std::get<4>(*it))
+		if ((*it).known)
 			continue;
 
 		// Check the Spell Type against the relevant stat (see SPLPERLV//TRYLEARN)
 		if (spell_type == SpellType::PRIEST)
 			if ((*_system->random)[RandomType::ZERO_TO_29] <=
 				static_cast<unsigned int>(_cur_attr[CharacterAttribute::PIETY]))
-				std::get<4>(*it) = true;
+				(*it).known = true;
 		if (spell_type == SpellType::MAGE)
 			if ((*_system->random)[RandomType::ZERO_TO_29] <=
 				static_cast<unsigned int>(_cur_attr[CharacterAttribute::IQ]))
-				std::get<4>(*it) = true;
+				(*it).known = true;
 	}
 }
 
@@ -1474,16 +1470,16 @@ auto Sorcery::Character::_get_spells_known(SpellType spell_type, unsigned int sp
 	-> unsigned int {
 
 	unsigned int spells_known{0};
-	std::vector<SpellEntry>::iterator it;
-	it = std::find_if(_spells.begin(), _spells.end(), [=](auto item) {
-		return std::get<1>(item) == spell_type && std::get<2>(item) == spell_level;
+	std::vector<Spell>::iterator it;
+	it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
+		return item.type == spell_type && item.level == spell_level;
 	});
 	while (it != _spells.end()) {
 		it = std::find_if(++it, _spells.end(), [=](auto item) {
-			return std::get<1>(item) == spell_type && std::get<2>(item) == spell_level;
+			return item.type == spell_type && item.level == spell_level;
 		});
 
-		if (std::get<4>(*it))
+		if ((*it).known)
 			++spells_known;
 	}
 
@@ -1581,182 +1577,142 @@ auto Sorcery::Character::_create_spell_lists() -> void {
 	_spells.clear();
 
 	// Mage Spells (grouped by level)
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::DUMAPIC, SpellType::MAGE, 1, SpellCategory::FIELD, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::HALITO, SpellType::MAGE, 1, SpellCategory::ATTACK, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::KATINO, SpellType::MAGE, 1, SpellCategory::DISABLE, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::MOGREF, SpellType::MAGE, 1, SpellCategory::SUPPORT, false));
+	unsigned int level{1};
+	_spells.emplace_back(SpellID::DUMAPIC, SpellType::MAGE, SpellCategory::FIELD, level, false,
+		"DUMAPIC", "Clarity", "");
+	_spells.emplace_back(SpellID::HALITO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
+		"HALITO", "Little Fire", "");
+	_spells.emplace_back(SpellID::KATINO, SpellType::MAGE, SpellCategory::DISABLE, level, false,
+		"KATINO", "Bad Air", "");
+	_spells.emplace_back(SpellID::MOGREF, SpellType::MAGE, SpellCategory::SUPPORT, level, false,
+		"MOGREF", "Body Iron", "");
 
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::DESTO, SpellType::MAGE, 2, SpellCategory::FIELD, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::DILTO, SpellType::MAGE, 2, SpellCategory::DISABLE, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::SOPIC, SpellType::MAGE, 2, SpellCategory::SUPPORT, false));
+	++level;
+	_spells.emplace_back(
+		SpellID::DESTO, SpellType::MAGE, SpellCategory::FIELD, level, false, "DESTO", "Unlock", "");
+	_spells.emplace_back(SpellID::DILTO, SpellType::MAGE, SpellCategory::DISABLE, level, false,
+		"DILTO", "Darkness", "");
+	_spells.emplace_back(SpellID::SOPIC, SpellType::MAGE, SpellCategory::SUPPORT, level, false,
+		"SOPIC", "Glass", "");
 
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::CALIFIC, SpellType::MAGE, 3, SpellCategory::FIELD, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::MAHALITO, SpellType::MAGE, 3, SpellCategory::ATTACK, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::MOLITO, SpellType::MAGE, 3, SpellCategory::ATTACK, false));
+	++level;
+	_spells.emplace_back(SpellID::CALIFIC, SpellType::MAGE, SpellCategory::FIELD, level, false,
+		"CALIFIC", "Reveal", "");
+	_spells.emplace_back(SpellID::MAHALITO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
+		"MAHALITO", "Big Fire", "");
+	_spells.emplace_back(SpellID::SOPIC, SpellType::MAGE, SpellCategory::ATTACK, level, false,
+		"MOLITO", "Spark Storm", "");
 
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::DALTO, SpellType::MAGE, 4, SpellCategory::ATTACK, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::LAHALITO, SpellType::MAGE, 4, SpellCategory::ATTACK, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::LITOFEIT, SpellType::MAGE, 4, SpellCategory::FIELD, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::MORLIS, SpellType::MAGE, 4, SpellCategory::DISABLE, false));
+	++level;
+	_spells.emplace_back(SpellID::DALTO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
+		"DALTO", "Blizzard", "");
+	_spells.emplace_back(SpellID::LAHALITO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
+		"LAHALITO", "Torch", "");
+	_spells.emplace_back(SpellID::LITOFEIT, SpellType::MAGE, SpellCategory::FIELD, level, false,
+		"LITOFEIT", "Levitate", "");
+	_spells.emplace_back(SpellID::MORLIS, SpellType::MAGE, SpellCategory::DISABLE, level, false,
+		"MORLIS", "Fear", "");
 
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::MADALTO, SpellType::MAGE, 5, SpellCategory::ATTACK, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::MAKANITO, SpellType::MAGE, 5, SpellCategory::ATTACK, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::MAMORLIS, SpellType::MAGE, 5, SpellCategory::DISABLE, false));
+	++level;
+	_spells.emplace_back(SpellID::MADALTO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
+		"MADALTO", "Frost", "");
+	_spells.emplace_back(SpellID::MAKANITO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
+		"MAKANITO", "Deadly Air", "");
+	_spells.emplace_back(SpellID::MAMORLIS, SpellType::MAGE, SpellCategory::DISABLE, level, false,
+		"MAMORLIS", "Terror", "");
 
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::HAMAN, SpellType::MAGE, 6, SpellCategory::SUPPORT, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::LAKANITO, SpellType::MAGE, 6, SpellCategory::ATTACK, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::MASOPIC, SpellType::MAGE, 6, SpellCategory::SUPPORT, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::ZILWAN, SpellType::MAGE, 6, SpellCategory::ATTACK, false));
+	++level;
+	_spells.emplace_back(SpellID::HAMAN, SpellType::MAGE, SpellCategory::SUPPORT, level, false,
+		"HAMAN", "Change", "");
+	_spells.emplace_back(SpellID::LAKANITO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
+		"LAKANITO", "Suffocation", "");
+	_spells.emplace_back(SpellID::MASOPIC, SpellType::MAGE, SpellCategory::SUPPORT, level, false,
+		"MASOPIC", "Big Glass", "");
+	_spells.emplace_back(SpellID::ZILWAN, SpellType::MAGE, SpellCategory::ATTACK, level, false,
+		"ZILWAN", "Dispel", "");
 
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::MAHAMAN, SpellType::MAGE, 7, SpellCategory::SUPPORT, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::MALOR, SpellType::MAGE, 7, SpellCategory::FIELD, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::TILTOWAIT, SpellType::MAGE, 7, SpellCategory::ATTACK, false));
+	++level;
+	_spells.emplace_back(SpellID::MAHAMAN, SpellType::MAGE, SpellCategory::SUPPORT, level, false,
+		"MAHAMAN", "Great Change", "");
+	_spells.emplace_back(
+		SpellID::MALOR, SpellType::MAGE, SpellCategory::FIELD, level, false, "MALOR", "Apport", "");
+	_spells.emplace_back(SpellID::TILTOWAIT, SpellType::MAGE, SpellCategory::ATTACK, level, false,
+		"TILTOWAIT", "Explosion", "");
 
-	// Cleric Spells (grouped by level)
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::BADIOS, SpellType::PRIEST, 1, SpellCategory::ATTACK, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::DIOS, SpellType::PRIEST, 1, SpellCategory::HEALING, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::KALKI, SpellType::PRIEST, 1, SpellCategory::SUPPORT, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::MILWA, SpellType::PRIEST, 1, SpellCategory::FIELD, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::PORFIC, SpellType::PRIEST, 1, SpellCategory::SUPPORT, false));
+	// Priest Spells (grouped by level)
+	level = 1u;
+	_spells.emplace_back(SpellID::BADIOS, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
+		"BADIOS", "Harm", "");
+	_spells.emplace_back(
+		SpellID::DIOS, SpellType::PRIEST, SpellCategory::HEALING, level, false, "DIOS", "Heal", "");
+	_spells.emplace_back(SpellID::KALKI, SpellType::PRIEST, SpellCategory::SUPPORT, level, false,
+		"KALKI", "Blessings", "");
+	_spells.emplace_back(SpellID::MILWA, SpellType::PRIEST, SpellCategory::FIELD, level, false,
+		"MILWA", "Light", "");
+	_spells.emplace_back(SpellID::PORFIC, SpellType::PRIEST, SpellCategory::SUPPORT, level, false,
+		"PORFIC", "Shield", "");
 
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::CALFO, SpellType::PRIEST, 2, SpellCategory::FIELD, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::MANIFO, SpellType::PRIEST, 2, SpellCategory::DISABLE, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::MATU, SpellType::PRIEST, 2, SpellCategory::SUPPORT, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::MONTINO, SpellType::PRIEST, 2, SpellCategory::DISABLE, false));
+	++level;
+	_spells.emplace_back(SpellID::CALFO, SpellType::PRIEST, SpellCategory::FIELD, level, false,
+		"CALFO", "X-Ray Vision", "");
+	_spells.emplace_back(SpellID::MANIFO, SpellType::PRIEST, SpellCategory::DISABLE, level, false,
+		"MANIFO", "Statue", "");
+	_spells.emplace_back(SpellID::MATU, SpellType::PRIEST, SpellCategory::SUPPORT, level, false,
+		"MATU", "Blessing", "");
+	_spells.emplace_back(SpellID::MONTINO, SpellType::PRIEST, SpellCategory::DISABLE, level, false,
+		"MONTINO", "Still Air", "");
 
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::BAMATU, SpellType::PRIEST, 3, SpellCategory::SUPPORT, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::DIALKO, SpellType::PRIEST, 3, SpellCategory::HEALING, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::LATUMAPIC, SpellType::PRIEST, 3, SpellCategory::FIELD, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::LOMILWA, SpellType::PRIEST, 3, SpellCategory::FIELD, false));
+	++level;
+	_spells.emplace_back(SpellID::BAMATU, SpellType::PRIEST, SpellCategory::SUPPORT, level, false,
+		"BAMATU", "Prayer", "");
+	_spells.emplace_back(SpellID::DIALKO, SpellType::PRIEST, SpellCategory::HEALING, level, false,
+		"DIALKO", "Softness", "");
+	_spells.emplace_back(SpellID::LATUMAPIC, SpellType::PRIEST, SpellCategory::FIELD, level, false,
+		"LATUMAPIC", "Identify", "");
+	_spells.emplace_back(SpellID::LOMILWA, SpellType::PRIEST, SpellCategory::FIELD, level, false,
+		"LOMILWA", "More Light", "");
 
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::BADIAL, SpellType::PRIEST, 4, SpellCategory::ATTACK, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::DIAL, SpellType::PRIEST, 4, SpellCategory::HEALING, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::LATUMOFIS, SpellType::PRIEST, 4, SpellCategory::HEALING, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::MAPORFIC, SpellType::PRIEST, 4, SpellCategory::FIELD, false));
+	++level;
+	_spells.emplace_back(SpellID::BADIAL, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
+		"BADIAL", "More Hurt", "");
+	_spells.emplace_back(SpellID::DIAL, SpellType::PRIEST, SpellCategory::HEALING, level, false,
+		"DIAL", "More Heal", "");
+	_spells.emplace_back(SpellID::LATUMOFIS, SpellType::PRIEST, SpellCategory::HEALING, level,
+		false, "LATUMOFIS", "Cure Poison", "");
+	_spells.emplace_back(SpellID::MAPORFIC, SpellType::PRIEST, SpellCategory::FIELD, level, false,
+		"MAPORFIC", "Big Shield", "");
 
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::BADI, SpellType::PRIEST, 5, SpellCategory::ATTACK, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::BADIALMA, SpellType::PRIEST, 5, SpellCategory::ATTACK, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::DI, SpellType::PRIEST, 5, SpellCategory::HEALING, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::DIALMA, SpellType::PRIEST, 5, SpellCategory::HEALING, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::KANDI, SpellType::PRIEST, 5, SpellCategory::FIELD, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::LITOKAN, SpellType::PRIEST, 5, SpellCategory::ATTACK, false));
+	++level;
+	_spells.emplace_back(
+		SpellID::BADI, SpellType::PRIEST, SpellCategory::ATTACK, level, false, "BADI", "Death", "");
+	_spells.emplace_back(SpellID::BADIALMA, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
+		"BADIALMA", "Great Hurt", "");
+	_spells.emplace_back(
+		SpellID::DI, SpellType::PRIEST, SpellCategory::HEALING, level, false, "DI", "Life", "");
+	_spells.emplace_back(SpellID::DIALMA, SpellType::PRIEST, SpellCategory::HEALING, level, false,
+		"DIALMA", "Great Heal", "");
+	_spells.emplace_back(SpellID::KANDI, SpellType::PRIEST, SpellCategory::FIELD, level, false,
+		"KANDI", "Locate Soul", "");
+	_spells.emplace_back(SpellID::LITOKAN, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
+		"LITOKAN", "Flame Tower", "");
 
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::LABADI, SpellType::PRIEST, 6, SpellCategory::ATTACK, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::LOKTOFEIT, SpellType::PRIEST, 6, SpellCategory::FIELD, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::LORTO, SpellType::PRIEST, 6, SpellCategory::ATTACK, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::MABADI, SpellType::PRIEST, 6, SpellCategory::ATTACK, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::MADI, SpellType::PRIEST, 6, SpellCategory::HEALING, false));
+	++level;
+	_spells.emplace_back(SpellID::LABADI, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
+		"LABADI", "Life Steal", "");
+	_spells.emplace_back(SpellID::LOKTOFEIT, SpellType::PRIEST, SpellCategory::FIELD, level, false,
+		"LOKTOFEIT", "Recall", "");
+	_spells.emplace_back(SpellID::LORTO, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
+		"LORTO", "Blades", "");
+	_spells.emplace_back(SpellID::MABADI, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
+		"MABADI", "Harming", "");
+	_spells.emplace_back(SpellID::MADI, SpellType::PRIEST, SpellCategory::HEALING, level, false,
+		"MADI", "Healing", "");
 
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::MALIKTO, SpellType::PRIEST, 7, SpellCategory::ATTACK, false));
-	_spells.push_back(std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>(
-		Spell::KADORTO, SpellType::PRIEST, 7, SpellCategory::HEALING, false));
+	++level;
+	_spells.emplace_back(SpellID::MALIKTO, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
+		"MALIKTO", "Resurrection", "");
+	_spells.emplace_back(SpellID::KADORTO, SpellType::PRIEST, SpellCategory::HEALING, level, false,
+		"KADORTO", "Death Ward", "");
 }
 
 auto Sorcery::Character::create_quick() -> void {

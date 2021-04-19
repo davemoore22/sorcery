@@ -141,9 +141,9 @@ namespace Sorcery {
 	using ModuleResult = Enums::System::ModuleResult;
 	using RandomType = Enums::System::Random;
 	using Range = std::tuple<unsigned int, unsigned int>;
-	using Spell = Enums::Magic::Spell;
+	using SpellID = Enums::Magic::SpellID;
 	using SpellCategory = Enums::Magic::SpellCategory;
-	using SpellEntry = std::tuple<Enums::Magic::Spell, Enums::Magic::SpellType, unsigned int,
+	using SpellEntry = std::tuple<Enums::Magic::SpellID, Enums::Magic::SpellType, unsigned int,
 		Enums::Magic::SpellCategory, bool>;
 	using SpellPoints = std::map<unsigned int, unsigned int>;
 	using SpellType = Enums::Magic::SpellType;

@@ -139,12 +139,47 @@ namespace Sorcery {
 		unsigned int h;
 	};
 
-	struct SpellDetails {
+	// Spells
+	struct Spell {
 
-		Enums::Magic::Spell id;
-		Enums::Magic::SpellType spelltype;
+		Spell()
+			: id{Enums::Magic::SpellID::NONE}, type{Enums::Magic::SpellType::NONE},
+			  category{Enums::Magic::SpellCategory::NONE}, level{0}, known{false}, name{""},
+			  translated_name{""}, details{""} {};
+		Spell(Enums::Magic::SpellID id_, Enums::Magic::SpellType type_,
+			Enums::Magic::SpellCategory category_, unsigned int level_, bool known_,
+			std::string name_, std::string translated_name_, std::string details_)
+			: id{id_}, type{type_}, category{category_}, level{level_}, known{known_}, name{name_},
+			  translated_name{translated_name_}, details{details_} {};
+		Spell(const Spell &other)
+			: id{other.id}, type{other.type}, category{other.category}, level{other.level},
+			  known{other.known}, name{other.name},
+			  translated_name{other.translated_name}, details{other.details} {};
+		auto operator=(const Spell &other) -> Spell & {
+
+			id = other.id;
+			type = other.type;
+			category = other.category;
+			level = other.level;
+			name = other.name;
+			translated_name = other.translated_name;
+			details = other.details;
+
+			return *this;
+		};
+
+		Spell(Spell &&other) = default;
+		Spell &operator=(Spell &&other) = default;
+
+		Enums::Magic::SpellID id;
+		Enums::Magic::SpellType type;
+		Enums::Magic::SpellCategory category;
+		unsigned int level;
+		bool known;
 		std::string name;
 		std::string translated_name;
 		std::string details;
 	};
+
+	struct SpellDetails {};
 } // namespace Sorcery

@@ -147,7 +147,8 @@ namespace Sorcery {
 		SpellPoints _priest_cur_sp;
 		SpellPoints _mage_max_sp;
 		SpellPoints _mage_cur_sp;
-		std::vector<SpellEntry> _spells;
+		// std::vector<SpellEntry> _spells;
+		std::vector<Spell> _spells;
 		// std::vector<CharacterStatus> _status;
 		CharacterStage _current_stage;
 		std::string _name;

@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1618777380 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1618842416 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -132,13 +132,13 @@
 1618066926 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
-1618777421 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
+1618842406 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
 1614978227 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
 	"main.hpp"
 
-1615406845 /home/dave/Development/wizardry/sorcery-sfml/inc/type.hpp
+1618849437 /home/dave/Development/wizardry/sorcery-sfml/inc/type.hpp
 	"main.hpp"
 
 1614377195 /home/dave/Development/wizardry/sorcery-sfml/inc/operator.hpp
@@ -275,7 +275,7 @@
 1618779233 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
 	"character.hpp"
 
-1618778885 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
+1618843575 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
 	"display.hpp"
 	"graphics.hpp"
 	"main.hpp"

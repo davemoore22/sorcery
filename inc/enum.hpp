@@ -168,7 +168,7 @@ namespace Sorcery {
 
 		enum class SpellCategory { NONE, HEALING, FIELD, SUPPORT, DISABLE, ATTACK };
 
-		enum class Spell {
+		enum class SpellID {
 			NONE,
 			HALITO,
 			MOGREF,
