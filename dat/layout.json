@@ -2668,6 +2668,19 @@
 				"drawmode": "manual"
 			},
 			{
+				"name": "summary_text",
+				"x": "3",
+				"y": "0",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
 				"name": "summary_frame",
 				"w": "54",
 				"h": "3",

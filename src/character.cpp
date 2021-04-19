@@ -412,7 +412,10 @@ auto Sorcery::Character::set_portrait_index(const unsigned int value) -> void {
 auto Sorcery::Character::left_view() -> void {
 
 	int view_index = magic_enum::enum_integer<CharacterView>(_view);
-	view_index = view_index == 1 ? 7 : --view_index;
+	if (view_index == 1)
+		view_index = 7;
+	else
+		--view_index;
 	_view = magic_enum::enum_cast<CharacterView>(view_index).value();
 
 	_generate_display();
@@ -421,7 +424,10 @@ auto Sorcery::Character::left_view() -> void {
 auto Sorcery::Character::right_view() -> void {
 
 	int view_index = magic_enum::enum_integer<CharacterView>(_view);
-	view_index = view_index == 7 ? 1 : ++view_index;
+	if (view_index == 7)
+		view_index = 1;
+	else
+		++view_index;
 	_view = magic_enum::enum_cast<CharacterView>(view_index).value();
 
 	_generate_display();
@@ -1995,22 +2001,6 @@ auto Sorcery::Character::_generate_display() -> void {
 		_ss->setPosition(_ss_c.x + std::stoi(_ss_c["offset_x"].value()),
 			_ss_c.y + std::stoi(_ss_c["offset_y"].value()));
 
-		/*
-		_add_text((*_display->layout)["character:name_text"], "{}", _name)};
-
-		auto name_text{_add_text((*_display->layout)["character:name_text"], "{}", _name)};
-		// name_text->setOrigin(name_text->getLocalBounds().width, 0);
-		auto summary_text{_add_text((*_display->layout)["character:summary_text"], "{}",
-			fmt::format("{}{} {} {} {}", (*_display->string)["CHARACTER1_LEVEL"],
-				std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
-				get_alignment(_alignment), get_race(_race), get_class(_class)))};
-		_display->window->shove_text(*name_text, *summary_text, 1);
-		// summary_text->setPosition(name_text->getGlobalBounds().left +
-		//							  name_text->getGlobalBounds().width +
-		//							  _display->window->get_cell_width(),
-		//	summary_text->getGlobalBounds().top - (name_text->getGlobalBounds().height / 2));
-
-		*/
 		_add_text((*_display->layout)["character_cs1:hp_value"], "{}",
 			fmt::format("{}/{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
 				std::to_string(_abilities.at(CharacterAbility::MAX_HP))));
@@ -2034,9 +2024,12 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		_display->generate_components("character_cs2", _v_sprites, _v_texts, _v_frames);
 
-		_add_text((*_display->layout)["character_cs2:name_text"], "{}", _name);
-
-		_generate_summary_icons();
+		auto name_text{_add_text((*_display->layout)["character_cs2:name_text"], "{}", _name)};
+		auto summary_text{_add_text((*_display->layout)["character_cs2:summary_text"], "{}",
+			fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
+				std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
+				get_alignment(_alignment), get_race(_race), get_class(_class)))};
+		_display->window->shove_text(*name_text, *summary_text, 1);
 
 		_add_text((*_display->layout)["character_cs2:strength_value"], "{:>2}",
 			std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
