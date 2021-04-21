@@ -221,6 +221,7 @@
 	"CONTROL_DELETE_BACK_ALWAYS": "Cancel and Go Back",
 	"CONTROL_ESCAPE_ALWAYS": "Escape to Main or Game Menu",
 	"CONTROL_HELP_ALWAYS": "Show Controls",
+	"CHARACTER_SPELL_LEVEL": "LEVEL",
 
 	"HINT_CHARACTER_RACE_HUMAN":				"Humans are the most balanced of all the races but they#suffer from the lowest initial attribute total. They   #make excellent Fighters, Mages, or Thieves.",
 	"HINT_CHARACTER_RACE_ELF":					"Elves are somewhat less sturdy than Humans, but tend  #to be more clever and pious, and often tend towards    #Mages, Priests, Bishops, or Samurai.",

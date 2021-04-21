@@ -1972,7 +1972,7 @@
 		]
 	},
 	{
-		"name": "character_cs1",
+		"name": "character_main",
 		"component": [
 		{
 			"name": "portrait_frame",
@@ -2652,7 +2652,7 @@
 		]
 	},
 	{
-		"name": "character_cs2",
+		"name": "character_detailed",
 		"component": [
 			{
 				"name": "name_text",
@@ -3736,6 +3736,271 @@
 						"offset_y": "12"
 					}
 				]
+			}
+		]
+	},
+	{
+		"name": "character_inventory",
+		"component": [
+			{
+				"name": "name_text",
+				"x": "1",
+				"y": "0",
+				"font": "monospace",
+				"colour": "0x6060c8ff",
+				"size": "64",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "summary_text",
+				"x": "3",
+				"y": "0",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "summary_frame",
+				"w": "54",
+				"h": "3",
+				"x": "0",
+				"y": "0",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic",
+				"colour": "0x808080ff"
+			}
+		]
+	},
+	{
+		"name": "character_mage_spells",
+		"component": [
+			{
+				"name": "name_text",
+				"x": "1",
+				"y": "0",
+				"font": "monospace",
+				"colour": "0x6060c8ff",
+				"size": "64",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "summary_text",
+				"x": "3",
+				"y": "0",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "summary_frame",
+				"w": "54",
+				"h": "3",
+				"x": "0",
+				"y": "0",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic",
+				"colour": "0x808080ff"
+			},
+			{
+				"name": "level_label",
+				"x": "3",
+				"y": "4",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "32",
+				"string": "CHARACTER_SPELL_LEVEL",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "18",
+						"offset_y": "6"
+					}
+				]
+			},
+			{
+				"name": "spell_points",
+				"font": "monospace",
+				"colour": "0x80ff80ff",
+				"size": "32",
+				"string": "CHARACTER_SPELL_LEVEL",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "spell_label",
+				"x": "11",
+				"y": "5",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "18",
+				"string": "CHARACTER_SPELL_LEVEL",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual",
+				"data": [
+					{
+						"known_colour": "0xffffffff",
+						"unknown_colour": "0x808080ff"
+					}
+				]
+			}
+
+		]
+	},
+	{
+		"name": "character_priest_spells",
+		"component": [
+			{
+				"name": "name_text",
+				"x": "1",
+				"y": "0",
+				"font": "monospace",
+				"colour": "0x6060c8ff",
+				"size": "64",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "summary_text",
+				"x": "3",
+				"y": "0",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "summary_frame",
+				"w": "54",
+				"h": "3",
+				"x": "0",
+				"y": "0",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic",
+				"colour": "0x808080ff"
+			}
+		]
+	},
+	{
+		"name": "character_messages",
+		"component": [
+			{
+				"name": "name_text",
+				"x": "1",
+				"y": "0",
+				"font": "monospace",
+				"colour": "0x6060c8ff",
+				"size": "64",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "summary_text",
+				"x": "3",
+				"y": "0",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "summary_frame",
+				"w": "54",
+				"h": "3",
+				"x": "0",
+				"y": "0",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic",
+				"colour": "0x808080ff"
+			}
+		]
+	},
+	{
+		"name": "character_achievements",
+		"component": [
+			{
+				"name": "name_text",
+				"x": "1",
+				"y": "0",
+				"font": "monospace",
+				"colour": "0x6060c8ff",
+				"size": "64",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "summary_text",
+				"x": "3",
+				"y": "0",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "summary_frame",
+				"w": "54",
+				"h": "3",
+				"x": "0",
+				"y": "0",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic",
+				"colour": "0x808080ff"
 			}
 		]
 	},

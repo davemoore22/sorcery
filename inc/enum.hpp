@@ -269,7 +269,7 @@ namespace Sorcery {
 			DETAILED = 2,
 			INVENTORY = 3,
 			MAGE_SPELLS = 4,
-			CLERIC_SPELLS = 5,
+			PRIEST_SPELLS = 5,
 			MESSAGES = 6,
 			ACHIEVEMENTS = 7
 		};

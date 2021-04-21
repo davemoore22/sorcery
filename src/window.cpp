@@ -176,9 +176,14 @@ auto Sorcery::Window::_draw_text(
 auto Sorcery::Window::shove_text(sf::Text &shovee, sf::Text &shover, unsigned int gap_units)
 	-> void {
 
-	shover.setPosition(
-		shovee.getGlobalBounds().left + shovee.getGlobalBounds().width + (_cell_width * gap_units),
-		shovee.getGlobalBounds().top - (shovee.getGlobalBounds().height / 4));
+	if (shovee.getGlobalBounds().height != shover.getGlobalBounds().height)
+		shover.setPosition(shovee.getGlobalBounds().left + shovee.getGlobalBounds().width +
+							   (_cell_width * gap_units),
+			shovee.getGlobalBounds().top - (shovee.getGlobalBounds().height / 4));
+	else
+		shover.setPosition(shovee.getGlobalBounds().left + shovee.getGlobalBounds().width +
+							   (_cell_width * gap_units),
+			shovee.getGlobalBounds().top);
 }
 
 auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component,

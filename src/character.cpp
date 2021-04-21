@@ -1974,77 +1974,77 @@ auto Sorcery::Character::_generate_display() -> void {
 
 	if (_view == CharacterView::MAIN) {
 
-		_display->generate_components("character_cs1", _v_sprites, _v_texts, _v_frames);
+		_display->generate_components("character_main", _v_sprites, _v_texts, _v_frames);
 
 		_generate_summary_icons();
 
 		auto portrait{_get_character_portrait()};
-		Component portrait_c{(*_display->layout)["character_cs1:portrait"]};
+		Component portrait_c{(*_display->layout)["character_main:portrait"]};
 		portrait.setPosition(portrait_c.x, portrait_c.y);
 		portrait.setScale(portrait_c.scale, portrait_c.scale);
 		_v_sprites.emplace(portrait_c.unique_key, portrait);
 
-		_add_text((*_display->layout)["character_cs1:name_text"], "{}", _name);
+		_add_text((*_display->layout)["character_main:name_text"], "{}", _name);
 
 		_ad = std::make_shared<AttributeDisplay>(
 			_system, _display, _graphics, this, Alignment::HORIZONTAL);
 
 		_ss = std::make_shared<SpellSummary>(_system, _display, _graphics, this);
 
-		_ad_c = Component((*_display->layout)["character_cs1:attribute_display"]);
+		_ad_c = Component((*_display->layout)["character_main:attribute_display"]);
 		_ad->set();
 		_ad->setPosition(_ad_c.x + std::stoi(_ad_c["offset_x"].value()),
 			_ad_c.y + std::stoi(_ad_c["offset_y"].value()));
 
-		_ss_c = Component((*_display->layout)["character_cs1:spellsummary"]);
+		_ss_c = Component((*_display->layout)["character_main:spellsummary"]);
 		_ss->set();
 		_ss->setPosition(_ss_c.x + std::stoi(_ss_c["offset_x"].value()),
 			_ss_c.y + std::stoi(_ss_c["offset_y"].value()));
 
-		_add_text((*_display->layout)["character_cs1:hp_value"], "{}",
+		_add_text((*_display->layout)["character_main:hp_value"], "{}",
 			fmt::format("{}/{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
 				std::to_string(_abilities.at(CharacterAbility::MAX_HP))));
-		_add_text((*_display->layout)["character_cs1:ac_value"], "{}",
+		_add_text((*_display->layout)["character_main:ac_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::CURRENT_ARMOUR_CLASS)));
-		_add_text((*_display->layout)["character_cs1:age_value"], "{}",
+		_add_text((*_display->layout)["character_main:age_value"], "{}",
 			std::to_string(static_cast<int>(_abilities.at(CharacterAbility::AGE) / 52)));
-		_add_text((*_display->layout)["character_cs1:swim_value"], "{}",
+		_add_text((*_display->layout)["character_main:swim_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::SWIM)));
-		_add_text((*_display->layout)["character_cs1:exp_value"], "{}",
+		_add_text((*_display->layout)["character_main:exp_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::CURRENT_XP)));
-		_add_text((*_display->layout)["character_cs1:next_value"], "{}",
+		_add_text((*_display->layout)["character_main:next_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::NEXT_LEVEL_XP)));
-		_add_text((*_display->layout)["character_cs1:gold_value"], "{}",
+		_add_text((*_display->layout)["character_main:gold_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::GOLD)));
-		_add_text((*_display->layout)["character_cs1:marks_value"], "{}",
+		_add_text((*_display->layout)["character_main:marks_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::MARKS)));
-		_add_text((*_display->layout)["character_cs1:deaths_value"], "{}",
+		_add_text((*_display->layout)["character_main:deaths_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::DEATHS)));
 	} else if (_view == CharacterView::DETAILED) {
 
-		_display->generate_components("character_cs2", _v_sprites, _v_texts, _v_frames);
+		_display->generate_components("character_detailed", _v_sprites, _v_texts, _v_frames);
 
-		auto name_text{_add_text((*_display->layout)["character_cs2:name_text"], "{}", _name)};
-		auto summary_text{_add_text((*_display->layout)["character_cs2:summary_text"], "{}",
+		auto name_text{_add_text((*_display->layout)["character_detailed:name_text"], "{}", _name)};
+		auto summary_text{_add_text((*_display->layout)["character_detailed:summary_text"], "{}",
 			fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
 				std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
 				get_alignment(_alignment), get_race(_race), get_class(_class)))};
 		_display->window->shove_text(*name_text, *summary_text, 1);
 
-		_add_text((*_display->layout)["character_cs2:strength_value"], "{:>2}",
+		_add_text((*_display->layout)["character_detailed:strength_value"], "{:>2}",
 			std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
-		_add_text((*_display->layout)["character_cs2:iq_value"], "{:>2}",
+		_add_text((*_display->layout)["character_detailed:iq_value"], "{:>2}",
 			std::to_string(_cur_attr.at(CharacterAttribute::IQ)));
-		_add_text((*_display->layout)["character_cs2:piety_value"], "{:>2}",
+		_add_text((*_display->layout)["character_detailed:piety_value"], "{:>2}",
 			std::to_string(_cur_attr.at(CharacterAttribute::PIETY)));
-		_add_text((*_display->layout)["character_cs2:agility_value"], "{:>2}",
+		_add_text((*_display->layout)["character_detailed:agility_value"], "{:>2}",
 			std::to_string(_cur_attr.at(CharacterAttribute::AGILITY)));
-		_add_text((*_display->layout)["character_cs2:vitality_value"], "{:>2}",
+		_add_text((*_display->layout)["character_detailed:vitality_value"], "{:>2}",
 			std::to_string(_cur_attr.at(CharacterAttribute::VITALITY)));
-		_add_text((*_display->layout)["character_cs2:luck_value"], "{:>2}",
+		_add_text((*_display->layout)["character_detailed:luck_value"], "{:>2}",
 			std::to_string(_cur_attr.at(CharacterAttribute::LUCK)));
 
-		Component strength_c((*_display->layout)["character_cs2:strength_detailed_values"]);
+		Component strength_c((*_display->layout)["character_detailed:strength_detailed_values"]);
 
 		strength_c.colour = _adjust_ability_colour(
 			_abilities.at(CharacterAbility::ATTACK_MODIFIER), CharacterAbilityType::MODIFIER);
@@ -2075,7 +2075,7 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text(
 			strength_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::UNARMED_DAMAGE)));
 
-		Component iq_c((*_display->layout)["character_cs2:iq_detailed_values"]);
+		Component iq_c((*_display->layout)["character_detailed:iq_detailed_values"]);
 
 		iq_c.colour = _adjust_ability_colour(
 			_abilities.at(CharacterAbility::MAGE_SPELL_LEARN), CharacterAbilityType::PERCENTAGE);
@@ -2103,7 +2103,7 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text(
 			iq_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_MAGE_SPELLS)));
 
-		Component piety_c((*_display->layout)["character_cs2:piety_detailed_values"]);
+		Component piety_c((*_display->layout)["character_detailed:piety_detailed_values"]);
 		piety_c.colour = _adjust_ability_colour(
 			_abilities.at(CharacterAbility::PRIEST_SPELL_LEARN), CharacterAbilityType::PERCENTAGE);
 		_add_text(
@@ -2126,7 +2126,7 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text(
 			piety_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_PRIEST_SPELLS)));
 
-		Component vitality_c((*_display->layout)["character_cs2:vitality_detailed_values"]);
+		Component vitality_c((*_display->layout)["character_detailed:vitality_detailed_values"]);
 
 		_add_text(
 			vitality_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::VITALITY_BONUS)));
@@ -2158,7 +2158,7 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text(vitality_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::DI_KADORTO_RESURRECT)));
 
-		Component agility_c((*_display->layout)["character_cs2:agility_detailed_values"]);
+		Component agility_c((*_display->layout)["character_detailed:agility_detailed_values"]);
 
 		vitality_c.colour = _adjust_ability_colour(
 			_abilities.at(CharacterAbility::INITIATIVE_MODIFIER), CharacterAbilityType::MODIFIER);
@@ -2202,7 +2202,7 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text(
 			agility_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BASE_ARMOUR_CLASS)));
 
-		Component luck_c((*_display->layout)["character_cs2:luck_detailed_values"]);
+		Component luck_c((*_display->layout)["character_detailed:luck_detailed_values"]);
 
 		luck_c.colour = _adjust_ability_colour(
 			_abilities.at(CharacterAbility::BASE_RESIST_BONUS), CharacterAbilityType::PERCENTAGE);
@@ -2216,7 +2216,8 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text(luck_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::EQUIPMENT_INTACT_ON_WIPE)));
 
-		Component resistances_c((*_display->layout)["character_cs2:resistances_detailed_values"]);
+		Component resistances_c(
+			(*_display->layout)["character_detailed:resistances_detailed_values"]);
 
 		resistances_c.colour =
 			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_CRITICAL_HIT),
@@ -2297,6 +2298,152 @@ auto Sorcery::Character::_generate_display() -> void {
 				CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_MANIFO)));
+	} else if (_view == CharacterView::INVENTORY) {
+
+		_display->generate_components("character_inventory", _v_sprites, _v_texts, _v_frames);
+
+		auto name_text{
+			_add_text((*_display->layout)["character_inventory:name_text"], "{}", _name)};
+		auto summary_text{_add_text((*_display->layout)["character_inventory:summary_text"], "{}",
+			fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
+				std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
+				get_alignment(_alignment), get_race(_race), get_class(_class)))};
+		_display->window->shove_text(*name_text, *summary_text, 1);
+	} else if (_view == CharacterView::MAGE_SPELLS) {
+
+		_display->generate_components("character_mage_spells", _v_sprites, _v_texts, _v_frames);
+
+		auto name_text{
+			_add_text((*_display->layout)["character_mage_spells:name_text"], "{}", _name)};
+		auto summary_text{_add_text((*_display->layout)["character_mage_spells:summary_text"], "{}",
+			fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
+				std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
+				get_alignment(_alignment), get_race(_race), get_class(_class)))};
+		_display->window->shove_text(*name_text, *summary_text, 1);
+
+		Component level_c{(*_display->layout)["character_mage_spells:level_label"]};
+		Component sp_c{(*_display->layout)["character_mage_spells:spell_points"]};
+		Component spell_c{(*_display->layout)["character_mage_spells:spell_label"]};
+
+		int level_x{level_c.x};
+		int level_y{level_c.y};
+		for (unsigned int level = 1; level <= 7; level++) {
+
+			auto title{_add_text(level_c,
+				"{}:", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
+			auto spell_points{_add_text(
+				sp_c, "{}", fmt::format("{}({})", _mage_cur_sp.at(level), _mage_max_sp.at(level)))};
+			_display->window->shove_text(*title, *spell_points, 1);
+
+			if ((level % 3 == 1) || (level % 3 == 2)) {
+				level_c.x +=
+					(std::stoi(level_c["offset_x"].value()) * _display->window->get_cell_width());
+			} else if (level % 3 == 0) {
+				level_c.x = level_x;
+				level_c.y +=
+					(std::stoi(level_c["offset_y"].value()) * _display->window->get_cell_height());
+			}
+
+			spell_c.x = level_c.x;
+			spell_c.y = level_c.y + _display->window->get_cell_height();
+
+			// need method to get all spells from a vector
+
+			sp_c.x = level_c.x;
+			sp_c.y = level_c.y;
+		}
+
+		/* unsigned int level{1};
+
+		auto title1{_add_text(level_c,
+			"{}:", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
+		auto sp_text1{_add_text(
+			sp_c, "{}", fmt::format("{}({})", _mage_cur_sp.at(level), _mage_max_sp.at(level)))};
+		_display->window->shove_text(*title1, *sp_text1, 1);
+
+		level_c.x += (std::stoi(level_c["offset_x"].value()) * _display->window->get_cell_width());
+		++level;
+		auto title2{_add_text(level_c,
+			"{}:", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
+		auto sp_text2{_add_text(
+			sp_c, "{}", fmt::format("{}({})", _mage_cur_sp.at(level), _mage_max_sp.at(level)))};
+		_display->window->shove_text(*title2, *sp_text2, 1);
+
+		++level;
+		level_c.x += (std::stoi(level_c["offset_x"].value()) * _display->window->get_cell_width());
+		auto title3{_add_text(level_c,
+			"{}:", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
+		auto sp_text3{_add_text(
+			sp_c, "{}", fmt::format("{}({})", _mage_cur_sp.at(level), _mage_max_sp.at(level)))};
+		_display->window->shove_text(*title3, *sp_text3, 1);
+
+		level_c.x = level_x;
+		level_c.y += (std::stoi(level_c["offset_y"].value()) * _display->window->get_cell_height());
+		++level;
+		auto title4{_add_text(level_c,
+			"{}:", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
+		auto sp_text4{_add_text(
+			sp_c, "{}", fmt::format("{}({})", _mage_cur_sp.at(level), _mage_max_sp.at(level)))};
+		_display->window->shove_text(*title4, *sp_text4, 1);
+
+		level_c.x += (std::stoi(level_c["offset_x"].value()) * _display->window->get_cell_width());
+		++level;
+		auto title5{_add_text(level_c, "{}",
+			fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
+		auto sp_text5{_add_text(
+			sp_c, "{}", fmt::format("{}({})", _mage_cur_sp.at(level), _mage_max_sp.at(level)))};
+		_display->window->shove_text(*title5, *sp_text5, 1);
+
+		level_c.x += (std::stoi(level_c["offset_x"].value()) * _display->window->get_cell_width());
+		++level;
+		auto title6{_add_text(level_c,
+			"{}:", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
+		auto sp_text6{_add_text(
+			sp_c, "{}", fmt::format("{}({})", _mage_cur_sp.at(level), _mage_max_sp.at(level)))};
+		_display->window->shove_text(*title6, *sp_text6, 1);
+
+		level_c.x = level_x;
+		level_c.y += (std::stoi(level_c["offset_y"].value()) * _display->window->get_cell_height());
+		++level;
+		auto title7{_add_text(level_c,
+			"{}:", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
+		auto sp_text7{_add_text(
+			sp_c, "{}", fmt::format("{}({})", _mage_cur_sp.at(level), _mage_max_sp.at(level)))};
+		_display->window->shove_text(*title7, *sp_text7, 1); */
+	} else if (_view == CharacterView::PRIEST_SPELLS) {
+
+		_display->generate_components("character_priest_spells", _v_sprites, _v_texts, _v_frames);
+
+		auto name_text{
+			_add_text((*_display->layout)["character_priest_spells:name_text"], "{}", _name)};
+		auto summary_text{
+			_add_text((*_display->layout)["character_priest_spells:summary_text"], "{}",
+				fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
+					std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
+					get_alignment(_alignment), get_race(_race), get_class(_class)))};
+		_display->window->shove_text(*name_text, *summary_text, 1);
+	} else if (_view == CharacterView::MESSAGES) {
+
+		_display->generate_components("character_messages", _v_sprites, _v_texts, _v_frames);
+
+		auto name_text{_add_text((*_display->layout)["character_messages:name_text"], "{}", _name)};
+		auto summary_text{_add_text((*_display->layout)["character_messages:summary_text"], "{}",
+			fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
+				std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
+				get_alignment(_alignment), get_race(_race), get_class(_class)))};
+		_display->window->shove_text(*name_text, *summary_text, 1);
+	} else if (_view == CharacterView::ACHIEVEMENTS) {
+
+		_display->generate_components("character_achievements", _v_sprites, _v_texts, _v_frames);
+
+		auto name_text{
+			_add_text((*_display->layout)["character_achievements:name_text"], "{}", _name)};
+		auto summary_text{
+			_add_text((*_display->layout)["character_achievements:summary_text"], "{}",
+				fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
+					std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
+					get_alignment(_alignment), get_race(_race), get_class(_class)))};
+		_display->window->shove_text(*name_text, *summary_text, 1);
 	}
 }
 
