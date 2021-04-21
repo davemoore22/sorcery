@@ -3854,7 +3854,7 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"colour_none": "0x808080ff"
+						"colour_none": "0xff8080ff"
 					}
 				]
 			},
@@ -3872,8 +3872,8 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"known_colour": "0xffffffff",
-						"unknown_colour": "0x808080ff"
+						"known_colour": "0x80ff80ff",
+						"unknown_colour": "0xff8080ff"
 					}
 				]
 			},
@@ -3881,7 +3881,7 @@
 				"name": "spell_translated_name_label",
 				"x": "11",
 				"y": "5",
-				"font": "monospace",
+				"font": "text",
 				"colour": "0xffffffff",
 				"size": "18",
 				"string": "CHARACTER_SPELL_LEVEL",
@@ -3891,8 +3891,8 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"known_colour": "0xffffffff",
-						"unknown_colour": "0x808080ff"
+						"known_colour": "0x80ff80ff",
+						"unknown_colour": "0xff8080ff"
 					}
 				]
 			}
@@ -3971,7 +3971,7 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"colour_none": "0x808080ff"
+						"colour_none": "0xff8080ff"
 					}
 				]
 			},
@@ -3989,8 +3989,8 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"known_colour": "0xffffffff",
-						"unknown_colour": "0x808080ff"
+						"known_colour": "0x80ff80ff",
+						"unknown_colour": "0xff8080ff"
 					}
 				]
 			},
@@ -3998,7 +3998,7 @@
 				"name": "spell_translated_name_label",
 				"x": "11",
 				"y": "5",
-				"font": "monospace",
+				"font": "text",
 				"colour": "0xffffffff",
 				"size": "18",
 				"string": "CHARACTER_SPELL_LEVEL",
@@ -4008,8 +4008,8 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"known_colour": "0xffffffff",
-						"unknown_colour": "0x808080ff"
+						"known_colour": "0x80ff80ff",
+						"unknown_colour": "0xff8080ff"
 					}
 				]
 			}

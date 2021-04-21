@@ -2029,7 +2029,7 @@ auto Sorcery::Character::_generate_display() -> void {
 			fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
 				std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
 				get_alignment(_alignment), get_race(_race), get_class(_class)))};
-		_display->window->shove_text(*name_text, *summary_text, 1);
+		_display->window->shove_text(*name_text, *summary_text, 1u);
 
 		_add_text((*_display->layout)["character_detailed:strength_value"], "{:>2}",
 			std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
@@ -2308,7 +2308,7 @@ auto Sorcery::Character::_generate_display() -> void {
 			fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
 				std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
 				get_alignment(_alignment), get_race(_race), get_class(_class)))};
-		_display->window->shove_text(*name_text, *summary_text, 1);
+		_display->window->shove_text(*name_text, *summary_text, 1u);
 	} else if (_view == CharacterView::MAGE_SPELLS) {
 
 		_display->generate_components("character_mage_spells", _v_sprites, _v_texts, _v_frames);
@@ -2319,7 +2319,7 @@ auto Sorcery::Character::_generate_display() -> void {
 			fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
 				std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
 				get_alignment(_alignment), get_race(_race), get_class(_class)))};
-		_display->window->shove_text(*name_text, *summary_text, 1);
+		_display->window->shove_text(*name_text, *summary_text, 1u);
 
 		Component level_c{(*_display->layout)["character_mage_spells:level_label"]};
 		Component sp_c{(*_display->layout)["character_mage_spells:spell_points"]};
@@ -2334,14 +2334,14 @@ auto Sorcery::Character::_generate_display() -> void {
 			auto title{_add_text(level_c,
 				"{}:", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
 			auto spell_points{_add_text(
-				sp_c, "{}", fmt::format("{}({})", _mage_cur_sp.at(level), _mage_max_sp.at(level)))};
+				sp_c, "{}", fmt::format("{}/{}", _mage_cur_sp.at(level), _mage_max_sp.at(level)))};
 			if (_mage_max_sp.at(level) == 0)
 				spell_points->setFillColor(
 					sf::Color(std::stoull(sp_c["colour_none"].value(), 0, 16)));
 			else
 				spell_points->setFillColor(sf::Color(sp_c.colour));
 
-			_display->window->shove_text(*title, *spell_points, 1);
+			_display->window->shove_text(*title, *spell_points, 1.0f);
 
 			sp_c.x = level_c.x;
 			sp_c.y = level_c.y;
@@ -2356,7 +2356,7 @@ auto Sorcery::Character::_generate_display() -> void {
 				auto spell_name{_add_text(spell_name_c, "{}:", spell.name)};
 				auto spell_translated_name{_add_text(spell_t_name_c, "{}", spell.translated_name)};
 				spell_name->setPosition(spell_name_c.x, spell_name_c.y);
-				_display->window->shove_text(*spell_name, *spell_translated_name, 1);
+				_display->window->shove_text(*spell_name, *spell_translated_name, 0.5f);
 				if (spell.known) {
 					spell_translated_name->setFillColor(
 						sf::Color(std::stoull(spell_t_name_c["known_colour"].value(), 0, 16)));
@@ -2393,7 +2393,7 @@ auto Sorcery::Character::_generate_display() -> void {
 				fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
 					std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
 					get_alignment(_alignment), get_race(_race), get_class(_class)))};
-		_display->window->shove_text(*name_text, *summary_text, 1);
+		_display->window->shove_text(*name_text, *summary_text, 1u);
 
 		Component level_c{(*_display->layout)["character_priest_spells:level_label"]};
 		Component sp_c{(*_display->layout)["character_priest_spells:spell_points"]};
@@ -2408,14 +2408,14 @@ auto Sorcery::Character::_generate_display() -> void {
 			auto title{_add_text(level_c,
 				"{}:", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
 			auto spell_points{_add_text(sp_c, "{}",
-				fmt::format("{}({})", _priest_cur_sp.at(level), _priest_max_sp.at(level)))};
+				fmt::format("{}/{}", _priest_cur_sp.at(level), _priest_max_sp.at(level)))};
 			if (_priest_max_sp.at(level) == 0)
 				spell_points->setFillColor(
 					sf::Color(std::stoull(sp_c["colour_none"].value(), 0, 16)));
 			else
 				spell_points->setFillColor(sf::Color(sp_c.colour));
 
-			_display->window->shove_text(*title, *spell_points, 1);
+			_display->window->shove_text(*title, *spell_points, 1.0f);
 
 			sp_c.x = level_c.x;
 			sp_c.y = level_c.y;
@@ -2430,7 +2430,7 @@ auto Sorcery::Character::_generate_display() -> void {
 				auto spell_name{_add_text(spell_name_c, "{}:", spell.name)};
 				auto spell_translated_name{_add_text(spell_t_name_c, "{}", spell.translated_name)};
 				spell_name->setPosition(spell_name_c.x, spell_name_c.y);
-				_display->window->shove_text(*spell_name, *spell_translated_name, 1);
+				_display->window->shove_text(*spell_name, *spell_translated_name, 0.5f);
 				if (spell.known) {
 					spell_translated_name->setFillColor(
 						sf::Color(std::stoull(spell_t_name_c["known_colour"].value(), 0, 16)));
@@ -2465,7 +2465,7 @@ auto Sorcery::Character::_generate_display() -> void {
 			fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
 				std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
 				get_alignment(_alignment), get_race(_race), get_class(_class)))};
-		_display->window->shove_text(*name_text, *summary_text, 1);
+		_display->window->shove_text(*name_text, *summary_text, 1u);
 	} else if (_view == CharacterView::ACHIEVEMENTS) {
 
 		_display->generate_components("character_achievements", _v_sprites, _v_texts, _v_frames);
@@ -2477,7 +2477,7 @@ auto Sorcery::Character::_generate_display() -> void {
 				fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
 					std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
 					get_alignment(_alignment), get_race(_race), get_class(_class)))};
-		_display->window->shove_text(*name_text, *summary_text, 1);
+		_display->window->shove_text(*name_text, *summary_text, 1u);
 	}
 }
 
