@@ -40,6 +40,16 @@ namespace Sorcery {
 		return !string.empty() ? (char *)string.c_str() : (char *)"";
 	}
 
+	// Macro to create a GUID (Linux Only!)
+	inline auto GUID() -> std::string {
+
+		uuid_t uuidObj;
+		uuid_generate(uuidObj);
+		std::string value{std::begin(uuidObj), std::end(uuidObj)};
+
+		return value;
+	}
+
 	// Pad a string to the desired length
 	inline auto PADSTR(std::string &string, unsigned int width, bool pad_both = false)
 		-> std::string {

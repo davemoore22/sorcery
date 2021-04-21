@@ -2323,7 +2323,9 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		Component level_c{(*_display->layout)["character_mage_spells:level_label"]};
 		Component sp_c{(*_display->layout)["character_mage_spells:spell_points"]};
-		Component spell_c{(*_display->layout)["character_mage_spells:spell_label"]};
+		Component spell_name_c{(*_display->layout)["character_mage_spells:spell_name_label"]};
+		Component spell_t_name_c{
+			(*_display->layout)["character_mage_spells:spell_translated_name_label"]};
 
 		int level_x{level_c.x};
 		int level_y{level_c.y};
@@ -2333,7 +2335,42 @@ auto Sorcery::Character::_generate_display() -> void {
 				"{}:", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
 			auto spell_points{_add_text(
 				sp_c, "{}", fmt::format("{}({})", _mage_cur_sp.at(level), _mage_max_sp.at(level)))};
+			if (_mage_max_sp.at(level) == 0)
+				spell_points->setFillColor(
+					sf::Color(std::stoull(sp_c["colour_none"].value(), 0, 16)));
+			else
+				spell_points->setFillColor(sf::Color(sp_c.colour));
+
 			_display->window->shove_text(*title, *spell_points, 1);
+
+			sp_c.x = level_c.x;
+			sp_c.y = level_c.y;
+
+			spell_name_c.x = level_c.x + _display->window->get_cell_width() * 2;
+			spell_name_c.y = level_c.y + _display->window->get_cell_height() * 2;
+
+			auto spells = _spells | std::views::filter([&](Spell spell) {
+				return (spell.type == SpellType::MAGE) && (spell.level == level);
+			});
+			for (auto spell : spells) {
+				auto spell_name{_add_text(spell_name_c, "{}:", spell.name)};
+				auto spell_translated_name{_add_text(spell_t_name_c, "{}", spell.translated_name)};
+				spell_name->setPosition(spell_name_c.x, spell_name_c.y);
+				_display->window->shove_text(*spell_name, *spell_translated_name, 1);
+				if (spell.known) {
+					spell_translated_name->setFillColor(
+						sf::Color(std::stoull(spell_t_name_c["known_colour"].value(), 0, 16)));
+					spell_name->setFillColor(
+						sf::Color(std::stoull(spell_name_c["known_colour"].value(), 0, 16)));
+				} else {
+					spell_translated_name->setFillColor(
+						sf::Color(std::stoull(spell_t_name_c["unknown_colour"].value(), 0, 16)));
+					spell_name->setFillColor(
+						sf::Color(std::stoull(spell_name_c["unknown_colour"].value(), 0, 16)));
+				}
+
+				spell_name_c.y += spell_name_c.size + 2;
+			}
 
 			if ((level % 3 == 1) || (level % 3 == 2)) {
 				level_c.x +=
@@ -2343,73 +2380,8 @@ auto Sorcery::Character::_generate_display() -> void {
 				level_c.y +=
 					(std::stoi(level_c["offset_y"].value()) * _display->window->get_cell_height());
 			}
-
-			spell_c.x = level_c.x;
-			spell_c.y = level_c.y + _display->window->get_cell_height();
-
-			// need method to get all spells from a vector
-
-			sp_c.x = level_c.x;
-			sp_c.y = level_c.y;
 		}
 
-		/* unsigned int level{1};
-
-		auto title1{_add_text(level_c,
-			"{}:", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
-		auto sp_text1{_add_text(
-			sp_c, "{}", fmt::format("{}({})", _mage_cur_sp.at(level), _mage_max_sp.at(level)))};
-		_display->window->shove_text(*title1, *sp_text1, 1);
-
-		level_c.x += (std::stoi(level_c["offset_x"].value()) * _display->window->get_cell_width());
-		++level;
-		auto title2{_add_text(level_c,
-			"{}:", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
-		auto sp_text2{_add_text(
-			sp_c, "{}", fmt::format("{}({})", _mage_cur_sp.at(level), _mage_max_sp.at(level)))};
-		_display->window->shove_text(*title2, *sp_text2, 1);
-
-		++level;
-		level_c.x += (std::stoi(level_c["offset_x"].value()) * _display->window->get_cell_width());
-		auto title3{_add_text(level_c,
-			"{}:", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
-		auto sp_text3{_add_text(
-			sp_c, "{}", fmt::format("{}({})", _mage_cur_sp.at(level), _mage_max_sp.at(level)))};
-		_display->window->shove_text(*title3, *sp_text3, 1);
-
-		level_c.x = level_x;
-		level_c.y += (std::stoi(level_c["offset_y"].value()) * _display->window->get_cell_height());
-		++level;
-		auto title4{_add_text(level_c,
-			"{}:", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
-		auto sp_text4{_add_text(
-			sp_c, "{}", fmt::format("{}({})", _mage_cur_sp.at(level), _mage_max_sp.at(level)))};
-		_display->window->shove_text(*title4, *sp_text4, 1);
-
-		level_c.x += (std::stoi(level_c["offset_x"].value()) * _display->window->get_cell_width());
-		++level;
-		auto title5{_add_text(level_c, "{}",
-			fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
-		auto sp_text5{_add_text(
-			sp_c, "{}", fmt::format("{}({})", _mage_cur_sp.at(level), _mage_max_sp.at(level)))};
-		_display->window->shove_text(*title5, *sp_text5, 1);
-
-		level_c.x += (std::stoi(level_c["offset_x"].value()) * _display->window->get_cell_width());
-		++level;
-		auto title6{_add_text(level_c,
-			"{}:", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
-		auto sp_text6{_add_text(
-			sp_c, "{}", fmt::format("{}({})", _mage_cur_sp.at(level), _mage_max_sp.at(level)))};
-		_display->window->shove_text(*title6, *sp_text6, 1);
-
-		level_c.x = level_x;
-		level_c.y += (std::stoi(level_c["offset_y"].value()) * _display->window->get_cell_height());
-		++level;
-		auto title7{_add_text(level_c,
-			"{}:", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
-		auto sp_text7{_add_text(
-			sp_c, "{}", fmt::format("{}({})", _mage_cur_sp.at(level), _mage_max_sp.at(level)))};
-		_display->window->shove_text(*title7, *sp_text7, 1); */
 	} else if (_view == CharacterView::PRIEST_SPELLS) {
 
 		_display->generate_components("character_priest_spells", _v_sprites, _v_texts, _v_frames);
@@ -2422,6 +2394,68 @@ auto Sorcery::Character::_generate_display() -> void {
 					std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
 					get_alignment(_alignment), get_race(_race), get_class(_class)))};
 		_display->window->shove_text(*name_text, *summary_text, 1);
+
+		Component level_c{(*_display->layout)["character_priest_spells:level_label"]};
+		Component sp_c{(*_display->layout)["character_priest_spells:spell_points"]};
+		Component spell_name_c{(*_display->layout)["character_priest_spells:spell_name_label"]};
+		Component spell_t_name_c{
+			(*_display->layout)["character_priest_spells:spell_translated_name_label"]};
+
+		int level_x{level_c.x};
+		int level_y{level_c.y};
+		for (unsigned int level = 1; level <= 7; level++) {
+
+			auto title{_add_text(level_c,
+				"{}:", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
+			auto spell_points{_add_text(sp_c, "{}",
+				fmt::format("{}({})", _priest_cur_sp.at(level), _priest_max_sp.at(level)))};
+			if (_priest_max_sp.at(level) == 0)
+				spell_points->setFillColor(
+					sf::Color(std::stoull(sp_c["colour_none"].value(), 0, 16)));
+			else
+				spell_points->setFillColor(sf::Color(sp_c.colour));
+
+			_display->window->shove_text(*title, *spell_points, 1);
+
+			sp_c.x = level_c.x;
+			sp_c.y = level_c.y;
+
+			spell_name_c.x = level_c.x + _display->window->get_cell_width() * 2;
+			spell_name_c.y = level_c.y + _display->window->get_cell_height() * 2;
+
+			auto spells = _spells | std::views::filter([&](Spell spell) {
+				return (spell.type == SpellType::PRIEST) && (spell.level == level);
+			});
+			for (auto spell : spells) {
+				auto spell_name{_add_text(spell_name_c, "{}:", spell.name)};
+				auto spell_translated_name{_add_text(spell_t_name_c, "{}", spell.translated_name)};
+				spell_name->setPosition(spell_name_c.x, spell_name_c.y);
+				_display->window->shove_text(*spell_name, *spell_translated_name, 1);
+				if (spell.known) {
+					spell_translated_name->setFillColor(
+						sf::Color(std::stoull(spell_t_name_c["known_colour"].value(), 0, 16)));
+					spell_name->setFillColor(
+						sf::Color(std::stoull(spell_name_c["known_colour"].value(), 0, 16)));
+				} else {
+					spell_translated_name->setFillColor(
+						sf::Color(std::stoull(spell_t_name_c["unknown_colour"].value(), 0, 16)));
+					spell_name->setFillColor(
+						sf::Color(std::stoull(spell_name_c["unknown_colour"].value(), 0, 16)));
+				}
+
+				spell_name_c.y += spell_name_c.size + 2;
+			}
+
+			if ((level % 3 == 1) || (level % 3 == 2)) {
+				level_c.x +=
+					(std::stoi(level_c["offset_x"].value()) * _display->window->get_cell_width());
+			} else if (level % 3 == 0) {
+				level_c.x = level_x;
+				level_c.y +=
+					(std::stoi(level_c["offset_y"].value()) * _display->window->get_cell_height());
+			}
+		}
+
 	} else if (_view == CharacterView::MESSAGES) {
 
 		_display->generate_components("character_messages", _v_sprites, _v_texts, _v_frames);
@@ -2485,7 +2519,7 @@ auto Sorcery::Character::_add_text(
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
 	text.setString(formatted_value);
-	text.setStyle(sf::Text::Bold);
+	// text.setStyle(sf::Text::Bold);
 	const int offset_x = [&] {
 		if (component["offset_x"])
 			return std::stoi(component["offset_x"].value());
@@ -2501,8 +2535,7 @@ auto Sorcery::Character::_add_text(
 	text.setPosition(component.x + offset_x, component.y + offset_y);
 
 	// Generate a new key as this is a map, and we might call this with the same base component
-	std::string new_unique_key{
-		component.name + std::to_string(component.x) + std::to_string(component.y)};
+	std::string new_unique_key{GUID()};
 	_v_texts.emplace(new_unique_key, text);
 	return &_v_texts.at(new_unique_key);
 }
@@ -2516,7 +2549,7 @@ auto Sorcery::Character::_add_text(
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
 	text.setString(formatted_value);
-	text.setStyle(sf::Text::Bold);
+	// text.setStyle(sf::Text::Bold);
 	const int offset_x = [&] {
 		if (component["offset_x"])
 			return std::stoi(component["offset_x"].value());
@@ -2532,8 +2565,7 @@ auto Sorcery::Character::_add_text(
 	text.setPosition(component.x + offset_x, component.y + offset_y);
 
 	// Generate a new key as this is a map, and we might call this with the same base component
-	std::string new_unique_key{
-		component.name + std::to_string(component.x) + std::to_string(component.y)};
+	std::string new_unique_key{GUID()};
 	if (is_view) {
 		_v_texts.emplace(new_unique_key, text);
 		return &_v_texts.at(new_unique_key);

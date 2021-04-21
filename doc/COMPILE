@@ -3,7 +3,16 @@ Copyright (C) 2021 Dave Moore
 
 Make sure the following packages from the Standard/Universe Repositories are installed:
 
-sfml sfml-dev libsfml-dev libsfml-doc libsqlite3-0 libsqlite3-dev libjsoncpp-dev doxygen libfmt-dev
+- sfml
+- sfml-dev
+- libsfml-dev
+- libsfml-doc
+- libsqlite3-0
+- libsqlite3-dev
+- libjsoncpp-dev
+- doxygen
+- libfmt-dev
+- uuid-dev
 
 Add the following repository:
 
@@ -16,9 +25,9 @@ libtgui-dev
 The additional following third-party libraries are also needed:
 
 - simpleini https://github.com/brofield/simpleini/
-- sqlite_modern_cpp https://github.com/SqliteModernCpp/sqlite_modern_cpp
+- sqlite modern cpp wrapper https://github.com/SqliteModernCpp/sqlite_modern_cpp
 - sfeMovie https://github.com/Yalir/sfeMovie
-- thor https://github.com/Bromeon/Thor
-- magic enum c++ https://github.com/Neargye/magic_enum
+- Thor https://github.com/Bromeon/Thor
+- Magic Enum C++ https://github.com/Neargye/magic_enum
 
-Note that to compile Sorcery requires a compiler with C++20 support.
+Note that to compile Sorcery: Dreams of the Mad Overlord requires a compiler with C++20 support.

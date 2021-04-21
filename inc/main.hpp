@@ -84,6 +84,7 @@
 #include <tuple>
 #include <typeinfo>
 #include <utility>
+#include <uuid/uuid.h>
 #include <vector>
 
 // Internal Includes

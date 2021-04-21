@@ -42,7 +42,8 @@ LINK_LIBRARIES := \
 	sfeMovie \
 	jsoncpp \
 	thor \
-	fmt
+	fmt \
+	uuid
 
 PRODUCTION_FOLDER := build
 

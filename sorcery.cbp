@@ -75,6 +75,7 @@
 			<Add option="-lthor" />
 			<Add option="-lpthread" />
 			<Add option="-lfmt" />
+			<Add option="-luuid" />
 		</Linker>
 		<ExtraCommands>
 			<Add after='mkdir -p &quot;$(TARGET_OUTPUT_DIR)/cfg&quot;' />
