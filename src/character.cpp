@@ -412,8 +412,8 @@ auto Sorcery::Character::set_portrait_index(const unsigned int value) -> void {
 auto Sorcery::Character::left_view() -> void {
 
 	int view_index = magic_enum::enum_integer<CharacterView>(_view);
-	if (view_index == 1)
-		view_index = 7;
+	if (view_index == magic_enum::enum_integer<CharacterView>(CharacterView::MAIN))
+		view_index = magic_enum::enum_integer<CharacterView>(CharacterView::STRICT);
 	else
 		--view_index;
 	_view = magic_enum::enum_cast<CharacterView>(view_index).value();
@@ -424,8 +424,8 @@ auto Sorcery::Character::left_view() -> void {
 auto Sorcery::Character::right_view() -> void {
 
 	int view_index = magic_enum::enum_integer<CharacterView>(_view);
-	if (view_index == 7)
-		view_index = 1;
+	if (view_index == magic_enum::enum_integer<CharacterView>(CharacterView::STRICT))
+		view_index = magic_enum::enum_integer<CharacterView>(CharacterView::MAIN);
 	else
 		++view_index;
 	_view = magic_enum::enum_cast<CharacterView>(view_index).value();
@@ -1972,7 +1972,68 @@ auto Sorcery::Character::_generate_display() -> void {
 
 	_display->generate_components("character", _sprites, _texts, _frames);
 
-	if (_view == CharacterView::MAIN) {
+	if (_view == CharacterView::STRICT) {
+
+		_display->generate_components("character_strict", _v_sprites, _v_texts, _v_frames);
+
+		std::string summary{fmt::format("{} L {:>2} {}-{} {}", _name,
+			_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
+			get_class(_class).substr(0, 3), get_race(_race))};
+		_add_text((*_display->layout)["character_strict:name_and_summary_text"], "{}", summary);
+
+		/* auto portrait{_get_character_portrait()};
+		Component portrait_c{(*_display->layout)["character_strict:portrait"]};
+		portrait.setPosition(portrait_c.x, portrait_c.y);
+		portrait.setScale(portrait_c.scale, portrait_c.scale);
+		_v_sprites.emplace(portrait_c.unique_key, portrait); */
+
+		_add_text((*_display->layout)["character_strict:strength_value"], "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
+		_add_text((*_display->layout)["character_strict:iq_value"], "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::IQ)));
+		_add_text((*_display->layout)["character_strict:piety_value"], "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::PIETY)));
+		_add_text((*_display->layout)["character_strict:agility_value"], "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::AGILITY)));
+		_add_text((*_display->layout)["character_strict:vitality_value"], "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::VITALITY)));
+		_add_text((*_display->layout)["character_strict:luck_value"], "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::LUCK)));
+
+		_add_text((*_display->layout)["character_strict:hp_value"], "{}",
+			fmt::format("{}/{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
+				std::to_string(_abilities.at(CharacterAbility::MAX_HP))));
+		_add_text((*_display->layout)["character_strict:ac_value"], "{}",
+			std::to_string(_abilities.at(CharacterAbility::CURRENT_ARMOUR_CLASS)));
+		_add_text((*_display->layout)["character_strict:age_value"], "{}",
+			std::to_string(static_cast<int>(_abilities.at(CharacterAbility::AGE) / 52)));
+		_add_text((*_display->layout)["character_strict:swim_value"], "{}",
+			std::to_string(_abilities.at(CharacterAbility::SWIM)));
+		_add_text((*_display->layout)["character_strict:status_value"], "{}",
+			"OK"); // TODO
+
+		_add_text((*_display->layout)["character_strict:exp_value"], "{}",
+			std::to_string(_abilities.at(CharacterAbility::CURRENT_XP)));
+		_add_text((*_display->layout)["character_strict:next_value"], "{}",
+			std::to_string(_abilities.at(CharacterAbility::NEXT_LEVEL_XP)));
+		_add_text((*_display->layout)["character_strict:gold_value"], "{}",
+			std::to_string(_abilities.at(CharacterAbility::GOLD)));
+		_add_text((*_display->layout)["character_strict:marks_value"], "{}",
+			std::to_string(_abilities.at(CharacterAbility::MARKS)));
+		_add_text((*_display->layout)["character_strict:deaths_value"], "{}",
+			std::to_string(_abilities.at(CharacterAbility::DEATHS)));
+
+		std::string mage_spells{fmt::format("{}/{}/{}/{}/{}/{}/{}", _mage_cur_sp.at(1),
+			_mage_cur_sp.at(2), _mage_cur_sp.at(3), _mage_cur_sp.at(4), _mage_cur_sp.at(5),
+			_mage_cur_sp.at(6), _mage_cur_sp.at(7))};
+		std::string priest_spells{fmt::format("{}/{}/{}/{}/{}/{}/{}", _priest_cur_sp.at(1),
+			_priest_cur_sp.at(2), _priest_cur_sp.at(3), _priest_cur_sp.at(4), _priest_cur_sp.at(5),
+			_priest_cur_sp.at(6), _priest_cur_sp.at(7))};
+
+		_add_text((*_display->layout)["character_strict:mage_spells"], "{}", mage_spells);
+		_add_text((*_display->layout)["character_strict:priest_spells"], "{}", priest_spells);
+
+	} else if (_view == CharacterView::MAIN) {
 
 		_display->generate_components("character_main", _v_sprites, _v_texts, _v_frames);
 

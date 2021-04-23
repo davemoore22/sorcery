@@ -271,7 +271,8 @@ namespace Sorcery {
 			MAGE_SPELLS = 4,
 			PRIEST_SPELLS = 5,
 			MESSAGES = 6,
-			ACHIEVEMENTS = 7
+			ACHIEVEMENTS = 7,
+			STRICT = 8
 		};
 
 		// Character Classes

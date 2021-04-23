@@ -4365,6 +4365,810 @@
 		]
 	},
 	{
+		"name": "character_strict",
+		"component": [
+
+			{
+				"name": "name_and_summary_text",
+				"x": "0",
+				"y": "0",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "portrait",
+				"x": "46",
+				"y": "2",
+				"scale": "0.32",
+				"drawmode": "manual",
+				"type": "image"
+			},
+			{
+				"name": "strength_label",
+				"x": "9",
+				"y": "3",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_STRENGTH",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "strength_value",
+				"x": "10",
+				"y": "3",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "0"
+					}
+				]
+			},
+			{
+				"name": "iq_label",
+				"x": "9",
+				"y": "4",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_IQ",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "iq_value",
+				"x": "10",
+				"y": "4",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "0"
+					}
+				]
+			},
+			{
+				"name": "piety_label",
+				"x": "9",
+				"y": "5",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_PIETY",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "piety_value",
+				"x": "10",
+				"y": "5",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "0"
+					}
+				]
+			},
+			{
+				"name": "vitality_label",
+				"x": "9",
+				"y": "6",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_VITALITY",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "vitality_value",
+				"x": "10",
+				"y": "6",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "0"
+					}
+				]
+			},
+			{
+				"name": "agility_label",
+				"x": "9",
+				"y": "7",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_AGILITY",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "agility_value",
+				"x": "10",
+				"y": "7",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "0"
+					}
+				]
+			},
+			{
+				"name": "luck_label",
+				"x": "9",
+				"y": "8",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_LUCK",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "luck_value",
+				"x": "10",
+				"y": "8",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "0"
+					}
+				]
+			},
+			{
+				"name": "hp_label",
+				"x": "22",
+				"y": "3",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_HS",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "ac_label",
+				"x": "22",
+				"y": "4",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_AR",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "age_label",
+				"x": "22",
+				"y": "5",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_AG",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "swim_label",
+				"x": "22",
+				"y": "6",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_SW",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "status_label",
+				"x": "22",
+				"y": "8",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_SS",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "hp_value",
+				"x": "23",
+				"y": "3",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "ac_value",
+				"x": "23",
+				"y": "4",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "age_value",
+				"x": "23",
+				"y": "5",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "swim_value",
+				"x": "23",
+				"y": "6",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "status_value",
+				"x": "23",
+				"y": "8",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "exp_label",
+				"x": "39",
+				"y": "3",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_XP",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "next_label",
+				"x": "39",
+				"y": "4",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_NX",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "gold_label",
+				"x": "39",
+				"y": "5",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_GO",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "marks_label",
+				"x": "39",
+				"y": "7",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_MK",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "deaths_label",
+				"x": "39",
+				"y": "8",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_DA",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "exp_value",
+				"x": "40",
+				"y": "3",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "next_value",
+				"x": "40",
+				"y": "4",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "gold_value",
+				"x": "40",
+				"y": "5",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "marks_value",
+				"x": "40",
+				"y": "7",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "deaths_value",
+				"x": "40",
+				"y": "8",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "mage_spells_label",
+				"x": "9",
+				"y": "10",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_MAGE",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "mage_spells",
+				"x": "10",
+				"y": "10",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "priest_spells_label",
+				"x": "39",
+				"y": "10",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_PRIEST",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "priest_spells",
+				"x": "40",
+				"y": "10",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "mh_label",
+				"x": "15",
+				"y": "12",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_STRICT_MAIN_HAND",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "mh_blank",
+				"x": "16",
+				"y": "12",
+				"font": "monospace",
+				"colour": "0x808080ff",
+				"size": "38",
+				"string": "INVENTORY_BLANK",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "-4"
+					}
+				]
+			},
+			{
+				"name": "oh_label",
+				"x": "15",
+				"y": "13",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_STRICT_OFF_HAND",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "oh_blank",
+				"x": "16",
+				"y": "13",
+				"font": "monospace",
+				"colour": "0x808080ff",
+				"size": "38",
+				"string": "INVENTORY_BLANK",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "-4"
+					}
+				]
+			},
+			{
+				"name": "ra_label",
+				"x": "15",
+				"y": "14",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_STRICT_RANGED",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "ra_blank",
+				"x": "16",
+				"y": "14",
+				"font": "monospace",
+				"colour": "0x808080ff",
+				"size": "38",
+				"string": "INVENTORY_BLANK",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "-4"
+					}
+				]
+			},
+			{
+				"name": "to_label",
+				"x": "15",
+				"y": "15",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_STRICT_TORSO",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "to_blank",
+				"x": "16",
+				"y": "15",
+				"font": "monospace",
+				"colour": "0x808080ff",
+				"size": "38",
+				"string": "INVENTORY_BLANK",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "-4"
+					}
+				]
+			},
+			{
+				"name": "he_label",
+				"x": "15",
+				"y": "16",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_STRICT_HEAD",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "he_blank",
+				"x": "16",
+				"y": "16",
+				"font": "monospace",
+				"colour": "0x808080ff",
+				"size": "38",
+				"string": "INVENTORY_BLANK",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "-4"
+					}
+				]
+			},
+			{
+				"name": "ha_label",
+				"x": "15",
+				"y": "17",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_STRICT_HANDS",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "ha_blank",
+				"x": "16",
+				"y": "17",
+				"font": "monospace",
+				"colour": "0x808080ff",
+				"size": "38",
+				"string": "INVENTORY_BLANK",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "-4"
+					}
+				]
+			},
+			{
+				"name": "ne_label",
+				"x": "15",
+				"y": "18",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_STRICT_NECK",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "ne_blank",
+				"x": "16",
+				"y": "18",
+				"font": "monospace",
+				"colour": "0x808080ff",
+				"size": "38",
+				"string": "INVENTORY_BLANK",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "-4"
+					}
+				]
+			},
+			{
+				"name": "lf_label",
+				"x": "15",
+				"y": "19",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_STRICT_LEFT_FINGER",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "lf_blank",
+				"x": "16",
+				"y": "19",
+				"font": "monospace",
+				"colour": "0x808080ff",
+				"size": "38",
+				"string": "INVENTORY_BLANK",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "-4"
+					}
+				]
+			},
+			{
+				"name": "rf_label",
+				"x": "15",
+				"y": "20",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_STRICT_RIGHT_FINGER",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "rf_blank",
+				"x": "16",
+				"y": "20",
+				"font": "monospace",
+				"colour": "0x808080ff",
+				"size": "38",
+				"string": "INVENTORY_BLANK",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "-4"
+					}
+				]
+			}
+		]
+	},
+	{
 		"name": "spell_summary",
 		"component": [
 			{
