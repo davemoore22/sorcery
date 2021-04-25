@@ -4057,7 +4057,7 @@
 			{
 				"name": "spell_points",
 				"font": "monospace",
-				"colour": "0x00ff00ff",
+				"colour": "0xffffffff",
 				"size": "32",
 				"string": "CHARACTER_SPELL_LEVEL",
 				"justification": "left",
@@ -4066,7 +4066,7 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"colour_none": "0xff8080ff"
+						"colour_none": "0x404040ff"
 					}
 				]
 			},
@@ -4084,8 +4084,8 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"known_colour": "0x80ff80ff",
-						"unknown_colour": "0xff8080ff"
+						"known_colour": "0xffffffff",
+						"unknown_colour": "0x404040ff"
 					}
 				]
 			},
@@ -4093,7 +4093,7 @@
 				"name": "spell_translated_name_label",
 				"x": "11",
 				"y": "6",
-				"font": "text",
+				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "18",
 				"string": "CHARACTER_SPELL_LEVEL",
@@ -4103,8 +4103,8 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"known_colour": "0x80ff80ff",
-						"unknown_colour": "0xff8080ff"
+						"known_colour": "0xffffffff",
+						"unknown_colour": "0x404040ff"
 					}
 				]
 			}
@@ -4191,7 +4191,7 @@
 			{
 				"name": "spell_points",
 				"font": "monospace",
-				"colour": "0x00ff00ff",
+				"colour": "0xffffffff",
 				"size": "32",
 				"string": "CHARACTER_SPELL_LEVEL",
 				"justification": "left",
@@ -4200,7 +4200,7 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"colour_none": "0xff8080ff"
+						"colour_none": "0x404040ff"
 					}
 				]
 			},
@@ -4218,8 +4218,8 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"known_colour": "0x80ff80ff",
-						"unknown_colour": "0xff8080ff"
+						"known_colour": "0xffffffff",
+						"unknown_colour": "0x404040ff"
 					}
 				]
 			},
@@ -4227,7 +4227,7 @@
 				"name": "spell_translated_name_label",
 				"x": "11",
 				"y": "6",
-				"font": "text",
+				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "18",
 				"string": "CHARACTER_SPELL_LEVEL",
@@ -4237,8 +4237,8 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"known_colour": "0x80ff80ff",
-						"unknown_colour": "0xff8080ff"
+						"known_colour": "0xffffffff",
+						"unknown_colour": "0x404040ff"
 					}
 				]
 			}
@@ -4392,7 +4392,7 @@
 			{
 				"name": "strength_label",
 				"x": "9",
-				"y": "3",
+				"y": "2",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4405,7 +4405,7 @@
 			{
 				"name": "strength_value",
 				"x": "10",
-				"y": "3",
+				"y": "2",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4423,7 +4423,7 @@
 			{
 				"name": "iq_label",
 				"x": "9",
-				"y": "4",
+				"y": "3",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4436,7 +4436,7 @@
 			{
 				"name": "iq_value",
 				"x": "10",
-				"y": "4",
+				"y": "3",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4454,7 +4454,7 @@
 			{
 				"name": "piety_label",
 				"x": "9",
-				"y": "5",
+				"y": "4",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4467,7 +4467,7 @@
 			{
 				"name": "piety_value",
 				"x": "10",
-				"y": "5",
+				"y": "4",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4485,7 +4485,7 @@
 			{
 				"name": "vitality_label",
 				"x": "9",
-				"y": "6",
+				"y": "5",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4498,7 +4498,7 @@
 			{
 				"name": "vitality_value",
 				"x": "10",
-				"y": "6",
+				"y": "5",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4516,7 +4516,7 @@
 			{
 				"name": "agility_label",
 				"x": "9",
-				"y": "7",
+				"y": "6",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4529,7 +4529,7 @@
 			{
 				"name": "agility_value",
 				"x": "10",
-				"y": "7",
+				"y": "6",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4547,7 +4547,7 @@
 			{
 				"name": "luck_label",
 				"x": "9",
-				"y": "8",
+				"y": "7",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4560,7 +4560,7 @@
 			{
 				"name": "luck_value",
 				"x": "10",
-				"y": "8",
+				"y": "7",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4577,8 +4577,8 @@
 			},
 			{
 				"name": "hp_label",
-				"x": "22",
-				"y": "3",
+				"x": "35",
+				"y": "7",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4589,9 +4589,22 @@
 				"drawmode": "automatic"
 			},
 			{
+				"name": "hp_value",
+				"x": "36",
+				"y": "7",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
 				"name": "ac_label",
-				"x": "22",
-				"y": "4",
+				"x": "35",
+				"y": "5",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4602,35 +4615,22 @@
 				"drawmode": "automatic"
 			},
 			{
-				"name": "age_label",
-				"x": "22",
+				"name": "ac_value",
+				"x": "36",
 				"y": "5",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
-				"string": "CHARACTER_AG",
-				"justification": "right",
+				"string": "NONE",
+				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "automatic"
-			},
-			{
-				"name": "swim_label",
-				"x": "22",
-				"y": "6",
-				"font": "monospace",
-				"colour": "0xffffffff",
-				"size": "38",
-				"string": "CHARACTER_SW",
-				"justification": "right",
-				"type": "text",
-				"priority": "3",
-				"drawmode": "automatic"
+				"drawmode": "manual"
 			},
 			{
 				"name": "status_label",
-				"x": "22",
-				"y": "8",
+				"x": "20",
+				"y": "7",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4641,74 +4641,35 @@
 				"drawmode": "automatic"
 			},
 			{
-				"name": "hp_value",
-				"x": "23",
-				"y": "3",
-				"font": "monospace",
-				"colour": "0xffffffff",
-				"size": "38",
-				"string": "NONE",
-				"justification": "left",
-				"type": "text",
-				"priority": "3",
-				"drawmode": "manual"
-			},
-			{
-				"name": "ac_value",
-				"x": "23",
-				"y": "4",
-				"font": "monospace",
-				"colour": "0xffffffff",
-				"size": "38",
-				"string": "NONE",
-				"justification": "left",
-				"type": "text",
-				"priority": "3",
-				"drawmode": "manual"
-			},
-			{
-				"name": "age_value",
-				"x": "23",
-				"y": "5",
-				"font": "monospace",
-				"colour": "0xffffffff",
-				"size": "38",
-				"string": "NONE",
-				"justification": "left",
-				"type": "text",
-				"priority": "3",
-				"drawmode": "manual"
-			},
-			{
-				"name": "swim_value",
-				"x": "23",
-				"y": "6",
-				"font": "monospace",
-				"colour": "0xffffffff",
-				"size": "38",
-				"string": "NONE",
-				"justification": "left",
-				"type": "text",
-				"priority": "3",
-				"drawmode": "manual"
-			},
-			{
 				"name": "status_value",
-				"x": "23",
-				"y": "8",
+				"x": "21",
+				"y": "7",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
 				"string": "NONE",
 				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "lev_label",
+				"x": "20",
+				"y": "2",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_LV",
+				"justification": "right",
 				"type": "text",
 				"priority": "3",
 				"drawmode": "manual"
 			},
 			{
 				"name": "exp_label",
-				"x": "39",
-				"y": "3",
+				"x": "20",
+				"y": "2",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4720,8 +4681,8 @@
 			},
 			{
 				"name": "next_label",
-				"x": "39",
-				"y": "4",
+				"x": "20",
+				"y": "3",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4733,7 +4694,7 @@
 			},
 			{
 				"name": "gold_label",
-				"x": "39",
+				"x": "20",
 				"y": "5",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -4745,35 +4706,22 @@
 				"drawmode": "automatic"
 			},
 			{
-				"name": "marks_label",
-				"x": "39",
-				"y": "7",
+				"name": "lev_value",
+				"x": "20",
+				"y": "2",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
-				"string": "CHARACTER_MK",
-				"justification": "right",
+				"string": "NONE",
+				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "automatic"
-			},
-			{
-				"name": "deaths_label",
-				"x": "39",
-				"y": "8",
-				"font": "monospace",
-				"colour": "0xffffffff",
-				"size": "38",
-				"string": "CHARACTER_DA",
-				"justification": "right",
-				"type": "text",
-				"priority": "3",
-				"drawmode": "automatic"
+				"drawmode": "manual"
 			},
 			{
 				"name": "exp_value",
-				"x": "40",
-				"y": "3",
+				"x": "21",
+				"y": "2",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4785,8 +4733,8 @@
 			},
 			{
 				"name": "next_value",
-				"x": "40",
-				"y": "4",
+				"x": "21",
+				"y": "3",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4798,7 +4746,7 @@
 			},
 			{
 				"name": "gold_value",
-				"x": "40",
+				"x": "21",
 				"y": "5",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -4810,9 +4758,87 @@
 				"drawmode": "manual"
 			},
 			{
+				"name": "age_label",
+				"x": "35",
+				"y": "2",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_AG",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "age_value",
+				"x": "36",
+				"y": "2",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "swim_label",
+				"x": "35",
+				"y": "3",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_SW",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "swim_value",
+				"x": "36",
+				"y": "3",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "marks_label",
+				"x": "48",
+				"y": "2",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_MK",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "deaths_label",
+				"x": "48",
+				"y": "3",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_DA",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
 				"name": "marks_value",
-				"x": "40",
-				"y": "7",
+				"x": "49",
+				"y": "2",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4824,8 +4850,8 @@
 			},
 			{
 				"name": "deaths_value",
-				"x": "40",
-				"y": "8",
+				"x": "49",
+				"y": "3",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4838,7 +4864,7 @@
 			{
 				"name": "mage_spells_label",
 				"x": "9",
-				"y": "10",
+				"y": "9",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4851,7 +4877,7 @@
 			{
 				"name": "mage_spells",
 				"x": "10",
-				"y": "10",
+				"y": "9",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4863,8 +4889,8 @@
 			},
 			{
 				"name": "priest_spells_label",
-				"x": "39",
-				"y": "10",
+				"x": "35",
+				"y": "9",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4876,8 +4902,8 @@
 			},
 			{
 				"name": "priest_spells",
-				"x": "40",
-				"y": "10",
+				"x": "36",
+				"y": "9",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4890,7 +4916,7 @@
 			{
 				"name": "mh_label",
 				"x": "15",
-				"y": "12",
+				"y": "11",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4903,7 +4929,7 @@
 			{
 				"name": "mh_blank",
 				"x": "16",
-				"y": "12",
+				"y": "11",
 				"font": "monospace",
 				"colour": "0x808080ff",
 				"size": "38",
@@ -4921,7 +4947,7 @@
 			{
 				"name": "oh_label",
 				"x": "15",
-				"y": "13",
+				"y": "12",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4934,7 +4960,7 @@
 			{
 				"name": "oh_blank",
 				"x": "16",
-				"y": "13",
+				"y": "12",
 				"font": "monospace",
 				"colour": "0x808080ff",
 				"size": "38",
@@ -4952,7 +4978,7 @@
 			{
 				"name": "ra_label",
 				"x": "15",
-				"y": "14",
+				"y": "13",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4964,6 +4990,37 @@
 			},
 			{
 				"name": "ra_blank",
+				"x": "16",
+				"y": "13",
+				"font": "monospace",
+				"colour": "0x808080ff",
+				"size": "38",
+				"string": "INVENTORY_BLANK",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic",
+				"data": [
+					{
+						"offset_y": "-4"
+					}
+				]
+			},
+			{
+				"name": "qu_label",
+				"x": "15",
+				"y": "14",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHARACTER_STRICT_QUIVER",
+				"justification": "right",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "qu_blank",
 				"x": "16",
 				"y": "14",
 				"font": "monospace",

@@ -101,6 +101,7 @@ namespace Sorcery {
 		auto set_view(const CharacterView value) -> void;
 		auto left_view() -> void;
 		auto right_view() -> void;
+		auto summary_text() -> std::string;
 
 		// Public Members
 

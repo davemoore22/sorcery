@@ -1961,6 +1961,35 @@ auto Sorcery::Character::_adjust_ability_colour(int value, CharacterAbilityType 
 	};
 }
 
+auto Sorcery::Character::summary_text() -> std::string {
+
+	// handle different stages here
+
+	// Character Sheet version has no 15 name padding
+	// Roster version/character creation has 15 padding
+
+	// Names 15 characters
+
+	// CHOOSE NAME: 		"???             L  1 ?-??? ???"
+	// CHOOSE RACE: 		"NAMENAMENAMENAM L  1 ?-??? ???"
+	// CHOOSE ALIGNMENT: 	"NAMENAMENAMENAM L  1 ?-??? RAC"
+	// ALLOCATE STATS:		"NAMENAMENAMENAM L  1 A-??? RAC"
+	// CHOOSE PORTRAIT:		"NAMENAMENAMENAM L  1 A-CLA RAC"
+
+	return fmt::format("{:<15} L {:>2} {}-{} {}", _name,
+		_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
+		get_class(_class).substr(0, 3), get_race(_race));
+
+	// starting equipment
+
+	// priest, bishop: staff and robes
+	// fighter: longsword leather armour
+	// bishop: staff and robes
+	// mage: dagger robes
+	// thief: short sword leather armour
+	// samurai, lord, ninja?
+}
+
 auto Sorcery::Character::_generate_display() -> void {
 
 	_sprites.clear();
@@ -1976,10 +2005,8 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		_display->generate_components("character_strict", _v_sprites, _v_texts, _v_frames);
 
-		std::string summary{fmt::format("{} L {:>2} {}-{} {}", _name,
-			_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
-			get_class(_class).substr(0, 3), get_race(_race))};
-		_add_text((*_display->layout)["character_strict:name_and_summary_text"], "{}", summary);
+		_add_text(
+			(*_display->layout)["character_strict:name_and_summary_text"], "{}", summary_text());
 
 		/* auto portrait{_get_character_portrait()};
 		Component portrait_c{(*_display->layout)["character_strict:portrait"]};
@@ -2012,6 +2039,8 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text((*_display->layout)["character_strict:status_value"], "{}",
 			"OK"); // TODO
 
+		//_add_text((*_display->layout)["character_strict:lev_value"], "{}",
+		//		std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)));
 		_add_text((*_display->layout)["character_strict:exp_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::CURRENT_XP)));
 		_add_text((*_display->layout)["character_strict:next_value"], "{}",
