@@ -61,11 +61,21 @@ Sorcery::AllocatePanel::AllocatePanel(
 	sf::Vector2f scale{icon_size.x / texture_size, icon_size.y / texture_size};
 
 	int index{0};
+	int pos_x{_c_allowed_classes.x};
+	int pos_y{_c_allowed_classes.y};
 	for (auto &icon : _class_icons) {
 		icon.setScale(scale);
-		icon.setPosition(
-			_c_allowed_classes.x + (index * _c_allowed_classes.size), _c_allowed_classes.y);
+		icon.setPosition(pos_x, pos_y);
+		if (index == 3) {
+			pos_x += _c_allowed_classes.size;
+			pos_y = _c_allowed_classes.y;
+		} else
+			pos_y += _c_allowed_classes.size;
 		++index;
+
+		// icon.setPosition(
+		//	_c_allowed_classes.x + (index * _c_allowed_classes.size), _c_allowed_classes.x);
+		//++index;
 	}
 
 	// Not valid until we call the set command
@@ -79,7 +89,7 @@ auto Sorcery::AllocatePanel::set() -> void {
 	_texts.clear();
 	_bars.clear();
 
-	int x{18};
+	int x{14};
 	int y{0};
 
 	for (const auto &[attribute, value] : _character->get_current_attributes()) {
@@ -122,19 +132,20 @@ auto Sorcery::AllocatePanel::set() -> void {
 	else
 		t_points_left.setFillColor(sf::Color(_c_points_left.colour));
 	t_points_left.setString(fmt::format("{:>2}", _character->get_bonus_points_to_allocate()));
-	t_points_left.setPosition(
-		_c_points_left.x, _c_points_left.y + _display->window->get_cell_height());
+	t_points_left.setPosition(_c_points_left.x, _c_points_left.y);
+	// t_points_left.setPosition(
+	//	_c_points_left.x, _c_points_left.y + _display->window->get_cell_height());
 
 	_texts.push_back(t_points_left);
 
-	sf::Text t_points_started;
+	/* sf::Text t_points_started;
 	t_points_started.setFont(_system->resources->fonts[_c_points_started.font]);
 	t_points_started.setCharacterSize(_c_points_started.size);
 	t_points_started.setFillColor(sf::Color(_c_points_started.colour));
 	t_points_started.setString(fmt::format("{:>2}", _character->get_starting_bonus_points()));
 	t_points_started.setPosition(
 		_c_points_started.x, _c_points_started.y + _display->window->get_cell_height());
-	_texts.push_back(t_points_started);
+	_texts.push_back(t_points_started); */
 
 	valid = true;
 

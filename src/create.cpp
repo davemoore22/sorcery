@@ -710,7 +710,8 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_set_info_panel_contents(_class_menu->selected);
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 			_ap->valid = false;
-			_ad->set();
+			_ad->valid = false;
+			//_ad->set();
 		} break;
 		case CharacterStage::REVIEW_AND_CONFIRM: {
 			auto popped = _stages.back();
@@ -763,7 +764,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_display->generate_components("character_create_stage_6", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_ap->valid = false;
-			_ad->set();
+			//_ad->set();
 			_display->set_input_mode(WindowInputMode::CHOOSE_PORTRAIT);
 		}
 		default:
@@ -820,7 +821,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_display->generate_components("character_create_stage_5", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 			_ap->valid = false;
-			_ad->set();
+			//_ad->set();
 
 			// Set and enable the class menu depending on the possible classes!
 			_set_classes_menu();
@@ -1020,6 +1021,7 @@ auto Sorcery::Create::_draw() -> void {
 
 	// And draw the current state of the character!
 	double lerp{_graphics->animation->colour_lerp};
+	sf::Text summary_text;
 	if (_candidate.get_stage() == CharacterStage::CHOOSE_METHOD) {
 
 		_display->display_components("choose_method", _sprites, _texts, _frames);
@@ -1041,8 +1043,6 @@ auto Sorcery::Create::_draw() -> void {
 		std::string display_name{_candidate.get_name() + "_"};
 		sf::Text name_text;
 		_display->window->draw_text(name_text, _name_c, display_name, lerp);
-
-		sf::Text summary_text;
 		_display->window->draw_text(summary_text,
 			(*_display->layout)["character_create_stage_1:summary_text"],
 			_candidate.summary_text());
@@ -1059,6 +1059,10 @@ auto Sorcery::Create::_draw() -> void {
 		_race_menu->setPosition(menu_pos);
 		_window->draw(*_race_menu);
 
+		_display->window->draw_text(summary_text,
+			(*_display->layout)["character_create_stage_2:summary_text"],
+			_candidate.summary_text());
+
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
 			_ip->setPosition(_ip_race_c.x, _ip_race_c.y);
@@ -1073,6 +1077,10 @@ auto Sorcery::Create::_draw() -> void {
 		_alignment_menu->setPosition(menu_pos);
 		_window->draw(*_alignment_menu);
 
+		_display->window->draw_text(summary_text,
+			(*_display->layout)["character_create_stage_3:summary_text"],
+			_candidate.summary_text());
+
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
 			_ip->setPosition(_ip_alignment_c.x, _ip_alignment_c.y);
@@ -1086,6 +1094,10 @@ auto Sorcery::Create::_draw() -> void {
 			(*_display->layout)["character_create_stage_4:menu"].y);
 		_attribute_menu->setPosition(menu_pos);
 		_window->draw(*_attribute_menu);
+
+		_display->window->draw_text(summary_text,
+			(*_display->layout)["character_create_stage_4:summary_text"],
+			_candidate.summary_text());
 
 		if (_ap->valid) {
 			_ap->setPosition(_ap_c.x, _ap_c.y);
@@ -1110,6 +1122,10 @@ auto Sorcery::Create::_draw() -> void {
 			_window->draw(*_ap);
 		}
 
+		_display->window->draw_text(summary_text,
+			(*_display->layout)["character_create_stage_5:summary_text"],
+			_candidate.summary_text());
+
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
 			_ip->setPosition(_ip_class_c.x, _ip_class_c.y);
@@ -1131,6 +1147,10 @@ auto Sorcery::Create::_draw() -> void {
 		portrait.setScale((*_display->layout)["character_create_stage_6:current_portrait"].scale,
 			(*_display->layout)["character_create_stage_6:current_portrait"].scale);
 
+		_display->window->draw_text(summary_text,
+			(*_display->layout)["character_create_stage_6:summary_text"],
+			_candidate.summary_text());
+
 		_window->draw(portrait);
 
 		// And the Attribute Bar
@@ -1147,7 +1167,7 @@ auto Sorcery::Create::_draw() -> void {
 	}
 
 	// Draw the progress bars (TODO: can't use a visit lambda here for some reason)
-	for (auto &item : _progress) {
+	/* for (auto &item : _progress) {
 		if (item) {
 			if (std::holds_alternative<sf::Text>(item.value())) {
 				auto text{std::get<sf::Text>(item.value())};
@@ -1158,7 +1178,7 @@ auto Sorcery::Create::_draw() -> void {
 				_window->draw(sprite);
 			}
 		}
-	}
+	} */
 
 	// Draw the Overlay if present
 	_display->display_overlay();

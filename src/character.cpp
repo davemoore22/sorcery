@@ -295,6 +295,9 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 		_max_attr.clear();
 		//_status.clear();
 		_abilities.clear();
+
+		// Used in the display from this point onwards
+		_abilities[CharacterAbility::CURRENT_LEVEL] = 1;
 		_class = CharacterClass::NONE;
 		_points_left = 0;
 		_st_points = 0;
@@ -705,7 +708,7 @@ auto Sorcery::Character::finalise() -> void {
 // Work out all the stuff to do with starting a new character
 auto Sorcery::Character::_generate_starting_information() -> void {
 
-	_abilities[CharacterAbility::CURRENT_LEVEL] = 1;
+	// _abilities[CharacterAbility::CURRENT_LEVEL] = 1;
 	_abilities[CharacterAbility::MAX_LEVEL] = 1;
 	_abilities[CharacterAbility::NEGATIVE_LEVEL] = 0;
 	_abilities[CharacterAbility::HIT_DICE] = 1;
