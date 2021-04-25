@@ -1042,6 +1042,11 @@ auto Sorcery::Create::_draw() -> void {
 		sf::Text name_text;
 		_display->window->draw_text(name_text, _name_c, display_name, lerp);
 
+		sf::Text summary_text;
+		_display->window->draw_text(summary_text,
+			(*_display->layout)["character_create_stage_1:summary_text"],
+			_candidate.summary_text());
+
 		// Draw the On Screen Keyboard
 		_keyboard->set_selected_background();
 		_window->draw(*_keyboard);

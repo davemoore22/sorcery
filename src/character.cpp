@@ -1963,22 +1963,53 @@ auto Sorcery::Character::_adjust_ability_colour(int value, CharacterAbilityType 
 
 auto Sorcery::Character::summary_text() -> std::string {
 
-	// handle different stages here
+	// CHOOSE NAME: 			"???             L  1 ?-??? ???"
+	// CHOOSE RACE: 			"NAMENAMENAMENAM L  1 ?-??? ???"
+	// CHOOSE ALIGNMENT: 		"NAMENAMENAMENAM L  1 ?-??? RAC"
+	// ALLOCATE STATS:			"NAMENAMENAMENAM L  1 A-??? RAC"
+	// CHOOSE PORTRAIT:			"NAMENAMENAMENAM L  1 A-CLA RAC"
+	// REVIEW AND CONFIRM:		"NAMENAMENAMENAM L  1 A-CLA RAC"
+	switch (_current_stage) {
+	case CharacterStage::ENTER_NAME:
+		return fmt::format("{:<15} L ?? ?-??? ???", "???");
+		break;
+	case CharacterStage::CHOOSE_RACE:
+		return fmt::format(
+			"{:<15} L {:>2} ?-??? ???", _name, _abilities.at(CharacterAbility::CURRENT_LEVEL));
+		break;
+	case CharacterStage::CHOOSE_ALIGNMENT:
+		return fmt::format("{:<15} L {:>2} ?-??? {}", _name,
+			_abilities.at(CharacterAbility::CURRENT_LEVEL), get_race(_race));
+		break;
+	case CharacterStage::ALLOCATE_STATS:
+		return fmt::format("{:<15} L {:>2} {}-??? {}", _name,
+			_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
+			get_race(_race));
+		break;
+	case CharacterStage::CHOOSE_CLASS:
+		return fmt::format("{:<15} L {:>2} {}-??? {}", _name,
+			_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
+			get_race(_race));
+		break;
+	case CharacterStage::CHOOSE_PORTRAIT:
+		return fmt::format("{:<15} L {:>2} {}-{} {}", _name,
+			_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
+			get_class(_class).substr(0, 3), get_race(_race));
+		break;
+	case CharacterStage::REVIEW_AND_CONFIRM:
+		return fmt::format("{:<15} L {:>2} {}-{} {}", _name,
+			_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
+			get_class(_class).substr(0, 3), get_race(_race));
+		break;
+	default:
+		return "";
+		break;
+	}
 
 	// Character Sheet version has no 15 name padding
 	// Roster version/character creation has 15 padding
 
 	// Names 15 characters
-
-	// CHOOSE NAME: 		"???             L  1 ?-??? ???"
-	// CHOOSE RACE: 		"NAMENAMENAMENAM L  1 ?-??? ???"
-	// CHOOSE ALIGNMENT: 	"NAMENAMENAMENAM L  1 ?-??? RAC"
-	// ALLOCATE STATS:		"NAMENAMENAMENAM L  1 A-??? RAC"
-	// CHOOSE PORTRAIT:		"NAMENAMENAMENAM L  1 A-CLA RAC"
-
-	return fmt::format("{:<15} L {:>2} {}-{} {}", _name,
-		_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
-		get_class(_class).substr(0, 3), get_race(_race));
 
 	// starting equipment
 
