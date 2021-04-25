@@ -1573,19 +1573,19 @@
 		"component": [
 		{
 			"name": "stage_frame",
-			"w": "40",
+			"w": "25",
 			"h": "2",
 			"x": "centre",
-			"y": "6",
+			"y": "10",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"drawmode": "manual"
+			"drawmode": "automatic"
 		},
 		{
-			"name": "title_text",
+			"name": "stage_text",
 			"x": "centre",
-			"y": "7",
+			"y": "11",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
@@ -1593,7 +1593,7 @@
 			"justification": "centre",
 			"type": "text",
 			"priority": "3",
-			"drawmode": "manual"
+			"drawmode": "automatic"
 		},
 		{
 			"name": "summary_frame",
@@ -1624,7 +1624,7 @@
 			"w": "40",
 			"h": "12",
 			"x": "centre",
-			"y": "10",
+			"y": "14",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
@@ -1633,7 +1633,7 @@
 		{
 			"name": "menu",
 			"x": "21",
-			"y": "11",
+			"y": "15",
 			"w": "9",
 			"h": "5",
 			"font": "monospace",
@@ -1673,7 +1673,7 @@
 			"w": "28",
 			"h": "10",
 			"x": "30",
-			"y": "12",
+			"y": "16",
 			"alpha": "255",
 			"type": "panel",
 			"priority": "6",
@@ -1855,30 +1855,6 @@
 		"name": "character_create_stage_5",
 		"component": [
 		{
-			"name": "stage_frame",
-			"w": "40",
-			"h": "2",
-			"x": "centre",
-			"y": "6",
-			"alpha": "255",
-			"type": "frame",
-			"priority": "2",
-			"drawmode": "manual"
-		},
-		{
-			"name": "title_text",
-			"x": "centre",
-			"y": "7",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "38",
-			"string": "CHARACTER_CREATION_STAGE5",
-			"justification": "centre",
-			"type": "text",
-			"priority": "3",
-			"drawmode": "manual"
-		},
-		{
 			"name": "summary_frame",
 			"w": "40",
 			"h": "2",
@@ -1903,11 +1879,35 @@
 			"drawmode": "manual"
 		},
 		{
+			"name": "stage_frame",
+			"w": "25",
+			"h": "2",
+			"x": "centre",
+			"y": "10",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "2",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "stage_text",
+			"x": "centre",
+			"y": "11",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CHARACTER_CREATION_STAGE5",
+			"justification": "centre",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
+		},
+		{
 			"name": "menu_frame",
 			"w": "21",
 			"h": "11",
 			"x": "centre",
-			"y": "10",
+			"y": "14",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
@@ -1916,7 +1916,7 @@
 		{
 			"name": "menu",
 			"x": "30",
-			"y": "10",
+			"y": "14",
 			"w": "20",
 			"h": "9",
 			"font": "monospace",
@@ -1934,7 +1934,7 @@
 			"w": "40",
 			"h": "11",
 			"x": "centre",
-			"y": "22",
+			"y": "25",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
@@ -1945,7 +1945,7 @@
 			"w": "38",
 			"h": "11",
 			"x": "20",
-			"y": "23",
+			"y": "26",
 			"alpha": "255",
 			"type": "panel",
 			"priority": "6",
@@ -1956,30 +1956,6 @@
 	{
 		"name": "character_create_stage_6",
 		"component": [
-		{
-			"name": "stage_frame",
-			"w": "40",
-			"h": "2",
-			"x": "centre",
-			"y": "6",
-			"alpha": "255",
-			"type": "frame",
-			"priority": "2",
-			"drawmode": "manual"
-		},
-		{
-			"name": "title_text",
-			"x": "centre",
-			"y": "7",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "38",
-			"string": "CHARACTER_CREATION_STAGE6",
-			"justification": "centre",
-			"type": "text",
-			"priority": "3",
-			"drawmode": "manual"
-		},
 		{
 			"name": "summary_frame",
 			"w": "40",
@@ -2005,11 +1981,35 @@
 			"drawmode": "manual"
 		},
 		{
+			"name": "stage_frame",
+			"w": "25",
+			"h": "2",
+			"x": "centre",
+			"y": "10",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "2",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "stage_text",
+			"x": "centre",
+			"y": "11",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CHARACTER_CREATION_STAGE6",
+			"justification": "centre",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
+		},
+		{
 			"name": "portrait_frame",
 			"w": "23",
 			"h": "22",
 			"x": "centre",
-			"y": "12",
+			"y": "14",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
@@ -2018,7 +2018,7 @@
 		{
 			"name": "current_portrait",
 			"x": "30",
-			"y": "13",
+			"y": "15",
 			"scale" : "0.7",
 			"alpha": "255",
 			"type": "image",
@@ -2032,17 +2032,17 @@
 		"component": [
 		{
 			"name": "stage_frame",
-			"w": "40",
+			"w": "25",
 			"h": "2",
 			"x": "centre",
 			"y": "6",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"drawmode": "manual"
+			"drawmode": "automatic"
 		},
 		{
-			"name": "title_text",
+			"name": "stage_text",
 			"x": "centre",
 			"y": "7",
 			"font": "monospace",
@@ -2052,14 +2052,14 @@
 			"justification": "centre",
 			"type": "text",
 			"priority": "3",
-			"drawmode": "manual"
+			"drawmode": "automatic"
 		},
 		{
 			"name": "main_frame",
 			"w": "57",
-			"h": "28",
+			"h": "29",
 			"x": "centre",
-			"y": "11",
+			"y": "10",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
@@ -2068,7 +2068,7 @@
 		{
 			"name": "candidate",
 			"x": "12",
-			"y": "12",
+			"y": "11",
 			"drawmode": "manual"
 		}
 		]
