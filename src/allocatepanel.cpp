@@ -62,13 +62,13 @@ Sorcery::AllocatePanel::AllocatePanel(
 
 	int index{0};
 	int pos_x{_c_allowed_classes.x};
-	int pos_y{_c_allowed_classes.y};
+	int pos_y{_c_allowed_classes.y + 8};
 	for (auto &icon : _class_icons) {
 		icon.setScale(scale);
 		icon.setPosition(pos_x, pos_y);
 		if (index == 3) {
 			pos_x += _c_allowed_classes.size;
-			pos_y = _c_allowed_classes.y;
+			pos_y = _c_allowed_classes.y + 8;
 		} else
 			pos_y += _c_allowed_classes.size;
 		++index;
@@ -99,12 +99,12 @@ auto Sorcery::AllocatePanel::set() -> void {
 		text.setFont(_system->resources->fonts[_layout.font]);
 		text.setCharacterSize(_layout.size);
 		if (value > static_cast<int>(_character->get_starting_attribute(attribute)))
-			text.setFillColor(_green);
+			text.setFillColor(sf::Color(_layout.colour));
 		else
 			text.setFillColor(sf::Color(_layout.colour));
 		text.setString(fmt::format("{:>2}", value));
 		text.setOrigin(0, text.getLocalBounds().height / 2.0f);
-		text.setPosition(x, y * _display->window->get_cell_height());
+		text.setPosition(x, (y * _display->window->get_cell_height()));
 		_texts.push_back(text);
 
 		// Get the bars (note drawing order!)
@@ -125,14 +125,14 @@ auto Sorcery::AllocatePanel::set() -> void {
 	sf::Text t_points_left;
 	t_points_left.setFont(_system->resources->fonts[_c_points_left.font]);
 	t_points_left.setCharacterSize(_c_points_left.size);
-	if (_character->get_bonus_points_to_allocate() == _character->get_starting_bonus_points())
-		t_points_left.setFillColor(_green);
-	else if (_character->get_bonus_points_to_allocate() == 0)
-		t_points_left.setFillColor(_red);
-	else
-		t_points_left.setFillColor(sf::Color(_c_points_left.colour));
+	/* 	if (_character->get_bonus_points_to_allocate() == _character->get_starting_bonus_points())
+			t_points_left.setFillColor(_green);
+		else if (_character->get_bonus_points_to_allocate() == 0)
+			t_points_left.setFillColor(_red);
+		else */
+	t_points_left.setFillColor(sf::Color(_c_points_left.colour));
 	t_points_left.setString(fmt::format("{:>2}", _character->get_bonus_points_to_allocate()));
-	t_points_left.setPosition(_c_points_left.x, _c_points_left.y);
+	t_points_left.setPosition(_c_points_left.x - 4, _c_points_left.y);
 	// t_points_left.setPosition(
 	//	_c_points_left.x, _c_points_left.y + _display->window->get_cell_height());
 

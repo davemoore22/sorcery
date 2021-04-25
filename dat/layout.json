@@ -1161,7 +1161,7 @@
 				"w": "40",
 				"h": "2",
 				"x": "centre",
-				"y": "7",
+				"y": "6",
 				"alpha": "255",
 				"type": "frame",
 				"priority": "2"
@@ -1169,7 +1169,7 @@
 			{
 				"name": "title_text",
 				"x": "centre",
-				"y": "8",
+				"y": "7",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -1282,7 +1282,7 @@
 		"name": "character_create_stage_1",
 		"component": [
 		{
-			"name": "stage_frame",
+			"name": "summary_frame",
 			"w": "40",
 			"h": "2",
 			"x": "centre",
@@ -1292,19 +1292,9 @@
 			"priority": "2"
 		},
 		{
-			"name": "summary_frame",
-			"w": "40",
-			"h": "2",
-			"x": "centre",
-			"y": "10",
-			"alpha": "255",
-			"type": "frame",
-			"priority": "2"
-		},
-		{
 			"name": "summary_text",
 			"x": "22",
-			"y": "11",
+			"y": "7",
 			"alpha": "255",
 			"font": "monospace",
 			"colour": "0xffffffff",
@@ -1316,43 +1306,43 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "title_text",
+			"name": "stage_frame",
+			"w": "25",
+			"h": "2",
 			"x": "centre",
-			"y": "7",
+			"y": "10",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "2",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "stage_text",
+			"x": "centre",
+			"y": "11",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "CHARACTER_CREATION_STAGE1",
 			"justification": "centre",
 			"type": "text",
-			"priority": "3"
+			"priority": "3",
+			"drawmode": "automatic"
 		},
 		{
 			"name": "name_frame",
 			"w": "40",
-			"h": "6",
+			"h": "5",
 			"x": "centre",
-			"y": "16",
+			"y": "14",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2"
 		},
 		{
-			"name": "name_prompt",
-			"x": "centre",
-			"y": "17",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "38",
-			"string": "CHARACTER_CREATION_INPUT_NAME",
-			"justification": "centre",
-			"type": "text",
-			"priority": "3"
-		},
-		{
 			"name": "name_candidate",
 			"x": "centre",
-			"y": "19",
+			"y": "16",
 			"font": "monospace",
 			"colour": "0xddddddff",
 			"size": "72",
@@ -1365,7 +1355,7 @@
 		{
 			"name": "keyboard",
 			"x": "17",
-			"y": "23",
+			"y": "21",
 			"alpha": "255",
 			"type": "other",
 			"priority": "4",
@@ -1378,7 +1368,7 @@
 		"name": "character_create_stage_2",
 		"component": [
 		{
-			"name": "stage_frame",
+			"name": "summary_frame",
 			"w": "40",
 			"h": "2",
 			"x": "centre",
@@ -1388,31 +1378,9 @@
 			"priority": "2"
 		},
 		{
-			"name": "title_text",
-			"x": "centre",
-			"y": "7",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "38",
-			"string": "CHARACTER_CREATION_STAGE2",
-			"justification": "centre",
-			"type": "text",
-			"priority": "3"
-		},
-		{
-			"name": "summary_frame",
-			"w": "40",
-			"h": "2",
-			"x": "centre",
-			"y": "10",
-			"alpha": "255",
-			"type": "frame",
-			"priority": "2"
-		},
-		{
 			"name": "summary_text",
 			"x": "22",
-			"y": "11",
+			"y": "7",
 			"alpha": "255",
 			"font": "monospace",
 			"colour": "0xffffffff",
@@ -1424,11 +1392,35 @@
 			"drawmode": "manual"
 		},
 		{
+			"name": "stage_frame",
+			"w": "25",
+			"h": "2",
+			"x": "centre",
+			"y": "10",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "2",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "stage_text",
+			"x": "centre",
+			"y": "11",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CHARACTER_CREATION_STAGE2",
+			"justification": "centre",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
+		},
+		{
 			"name": "menu_frame",
 			"w": "25",
 			"h": "7",
 			"x": "centre",
-			"y": "16",
+			"y": "14",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
@@ -1437,7 +1429,7 @@
 		{
 			"name": "menu",
 			"x": "28",
-			"y": "16",
+			"y": "14",
 			"w": "24",
 			"h": "7",
 			"font": "monospace",
@@ -1478,7 +1470,7 @@
 		"name": "character_create_stage_3",
 		"component": [
 		{
-			"name": "stage_frame",
+			"name": "summary_frame",
 			"w": "40",
 			"h": "2",
 			"x": "centre",
@@ -1488,31 +1480,9 @@
 			"priority": "2"
 		},
 		{
-			"name": "title_text",
-			"x": "centre",
-			"y": "7",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "38",
-			"string": "CHARACTER_CREATION_STAGE3",
-			"justification": "centre",
-			"type": "text",
-			"priority": "3"
-		},
-		{
-			"name": "summary_frame",
-			"w": "40",
-			"h": "2",
-			"x": "centre",
-			"y": "10",
-			"alpha": "255",
-			"type": "frame",
-			"priority": "2"
-		},
-		{
 			"name": "summary_text",
 			"x": "22",
-			"y": "11",
+			"y": "7",
 			"alpha": "255",
 			"font": "monospace",
 			"colour": "0xffffffff",
@@ -1524,11 +1494,35 @@
 			"drawmode": "manual"
 		},
 		{
+			"name": "stage_frame",
+			"w": "25",
+			"h": "2",
+			"x": "centre",
+			"y": "10",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "2",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "stage_text",
+			"x": "centre",
+			"y": "11",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CHARACTER_CREATION_STAGE3",
+			"justification": "centre",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
+		},
+		{
 			"name": "menu_frame",
 			"w": "25",
 			"h": "5",
 			"x": "centre",
-			"y": "16",
+			"y": "14",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
@@ -1537,7 +1531,7 @@
 		{
 			"name": "menu",
 			"x": "28",
-			"y": "16",
+			"y": "14",
 			"w": "24",
 			"h": "5",
 			"font": "monospace",
@@ -1585,7 +1579,8 @@
 			"y": "6",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "2"
+			"priority": "2",
+			"drawmode": "manual"
 		},
 		{
 			"name": "title_text",
@@ -1597,14 +1592,15 @@
 			"string": "CHARACTER_CREATION_STAGE4",
 			"justification": "centre",
 			"type": "text",
-			"priority": "3"
+			"priority": "3",
+			"drawmode": "manual"
 		},
 		{
 			"name": "summary_frame",
 			"w": "40",
 			"h": "2",
 			"x": "centre",
-			"y": "10",
+			"y": "6",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2"
@@ -1612,7 +1608,7 @@
 		{
 			"name": "summary_text",
 			"x": "22",
-			"y": "11",
+			"y": "7",
 			"alpha": "255",
 			"font": "monospace",
 			"colour": "0xffffffff",
@@ -1628,7 +1624,7 @@
 			"w": "40",
 			"h": "12",
 			"x": "centre",
-			"y": "14",
+			"y": "10",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
@@ -1637,7 +1633,7 @@
 		{
 			"name": "menu",
 			"x": "21",
-			"y": "15",
+			"y": "11",
 			"w": "9",
 			"h": "5",
 			"font": "monospace",
@@ -1653,9 +1649,9 @@
 		{
 			"name": "explanation_frame",
 			"w": "40",
-			"h": "7",
+			"h": "8",
 			"x": "centre",
-			"y": "26",
+			"y": "25",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
@@ -1664,9 +1660,9 @@
 		{
 			"name": "info_panel",
 			"w": "38",
-			"h": "6",
+			"h": "7",
 			"x": "20",
-			"y": "26",
+			"y": "25",
 			"alpha": "255",
 			"type": "panel",
 			"priority": "6",
@@ -1677,7 +1673,7 @@
 			"w": "28",
 			"h": "10",
 			"x": "30",
-			"y": "16",
+			"y": "12",
 			"alpha": "255",
 			"type": "panel",
 			"priority": "6",
@@ -1812,7 +1808,7 @@
 			"x": "1",
 			"y": "6",
 			"font": "monospace",
-			"colour": "0xffff28ff",
+			"colour": "0xffffffff",
 			"size": "38",
 			"justification": "left",
 			"type": "text",
@@ -1866,7 +1862,8 @@
 			"y": "6",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "2"
+			"priority": "2",
+			"drawmode": "manual"
 		},
 		{
 			"name": "title_text",
@@ -1878,14 +1875,15 @@
 			"string": "CHARACTER_CREATION_STAGE5",
 			"justification": "centre",
 			"type": "text",
-			"priority": "3"
+			"priority": "3",
+			"drawmode": "manual"
 		},
 		{
 			"name": "summary_frame",
 			"w": "40",
 			"h": "2",
 			"x": "centre",
-			"y": "10",
+			"y": "6",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2"
@@ -1893,7 +1891,7 @@
 		{
 			"name": "summary_text",
 			"x": "22",
-			"y": "11",
+			"y": "7",
 			"alpha": "255",
 			"font": "monospace",
 			"colour": "0xffffffff",
@@ -1909,7 +1907,7 @@
 			"w": "21",
 			"h": "11",
 			"x": "centre",
-			"y": "14",
+			"y": "10",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
@@ -1918,7 +1916,7 @@
 		{
 			"name": "menu",
 			"x": "30",
-			"y": "14",
+			"y": "10",
 			"w": "20",
 			"h": "9",
 			"font": "monospace",
@@ -1934,9 +1932,9 @@
 		{
 			"name": "explanation_frame",
 			"w": "40",
-			"h": "10",
+			"h": "11",
 			"x": "centre",
-			"y": "26",
+			"y": "22",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
@@ -1945,9 +1943,9 @@
 		{
 			"name": "info_panel",
 			"w": "38",
-			"h": "10",
+			"h": "11",
 			"x": "20",
-			"y": "27",
+			"y": "23",
 			"alpha": "255",
 			"type": "panel",
 			"priority": "6",
@@ -1966,7 +1964,8 @@
 			"y": "6",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "2"
+			"priority": "2",
+			"drawmode": "manual"
 		},
 		{
 			"name": "title_text",
@@ -1978,14 +1977,15 @@
 			"string": "CHARACTER_CREATION_STAGE6",
 			"justification": "centre",
 			"type": "text",
-			"priority": "3"
+			"priority": "3",
+			"drawmode": "manual"
 		},
 		{
 			"name": "summary_frame",
 			"w": "40",
 			"h": "2",
 			"x": "centre",
-			"y": "10",
+			"y": "6",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2"
@@ -1993,7 +1993,7 @@
 		{
 			"name": "summary_text",
 			"x": "22",
-			"y": "11",
+			"y": "7",
 			"alpha": "255",
 			"font": "monospace",
 			"colour": "0xffffffff",
@@ -2009,7 +2009,7 @@
 			"w": "23",
 			"h": "22",
 			"x": "centre",
-			"y": "14",
+			"y": "12",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
@@ -2018,7 +2018,7 @@
 		{
 			"name": "current_portrait",
 			"x": "30",
-			"y": "15",
+			"y": "13",
 			"scale" : "0.7",
 			"alpha": "255",
 			"type": "image",
@@ -2038,7 +2038,8 @@
 			"y": "6",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "2"
+			"priority": "2",
+			"drawmode": "manual"
 		},
 		{
 			"name": "title_text",
@@ -2050,7 +2051,8 @@
 			"string": "CHARACTER_CREATION_STAGE7",
 			"justification": "centre",
 			"type": "text",
-			"priority": "3"
+			"priority": "3",
+			"drawmode": "manual"
 		},
 		{
 			"name": "main_frame",
