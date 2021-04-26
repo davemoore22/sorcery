@@ -2167,7 +2167,7 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "automatic",
-			"colour": "0x808080ff"
+			"colour": "0x606060ff"
 		},
 		{
 			"name": "portrait",
@@ -2228,7 +2228,7 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "automatic",
-			"colour": "0x808080ff"
+			"colour": "0x606060ff"
 		},
 		{
 			"name": "stat_frame",
@@ -2240,7 +2240,7 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "automatic",
-			"colour": "0x808080ff",
+			"colour": "0x606060ff",
 			"data": [
 				{
 					"offset_y": "-8"
@@ -2257,7 +2257,7 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "automatic",
-			"colour": "0x808080ff"
+			"colour": "0x606060ff"
 		},
 		{
 			"name": "magic_frame",
@@ -2269,7 +2269,7 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "automatic",
-			"colour": "0x808080ff"
+			"colour": "0x606060ff"
 		},
 		{
 			"name": "spellsummary",
@@ -2886,7 +2886,7 @@
 				"type": "frame",
 				"priority": "6",
 				"drawmode": "manual",
-				"colour": "0x808080ff"
+				"colour": "0x606060ff"
 			},
 			{
 				"name": "outside_frame",
@@ -2898,7 +2898,7 @@
 				"type": "frame",
 				"priority": "6",
 				"drawmode": "manual",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"data": [
 					{
 						"offset_y": "-8"
@@ -2941,7 +2941,7 @@
 				"x": "15",
 				"y": "3",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "NONE",
 				"justification": "left",
@@ -2959,7 +2959,7 @@
 				"x": "14",
 				"y": "3",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_AM",
 				"justification": "right",
@@ -2977,7 +2977,7 @@
 				"x": "14",
 				"y": "4",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_HP",
 				"justification": "right",
@@ -2995,7 +2995,7 @@
 				"x": "14",
 				"y": "5",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_BD",
 				"justification": "right",
@@ -3013,7 +3013,7 @@
 				"x": "14",
 				"y": "6",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_NA",
 				"justification": "right",
@@ -3031,7 +3031,7 @@
 				"x": "14",
 				"y": "7",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_MU",
 				"justification": "right",
@@ -3080,7 +3080,7 @@
 				"x": "33",
 				"y": "3",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "NONE",
 				"justification": "left",
@@ -3098,7 +3098,7 @@
 				"x": "32",
 				"y": "3",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_SM",
 				"justification": "right",
@@ -3116,7 +3116,7 @@
 				"x": "32",
 				"y": "4",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_II",
 				"justification": "right",
@@ -3134,7 +3134,7 @@
 				"x": "32",
 				"y": "5",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_IC",
 				"justification": "right",
@@ -3152,7 +3152,7 @@
 				"x": "32",
 				"y": "6",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_IF",
 				"justification": "right",
@@ -3170,7 +3170,7 @@
 				"x": "32",
 				"y": "7",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_BM",
 				"justification": "right",
@@ -3219,7 +3219,7 @@
 				"x": "51",
 				"y": "3",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "NONE",
 				"justification": "left",
@@ -3237,7 +3237,7 @@
 				"x": "50",
 				"y": "3",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_SP",
 				"justification": "right",
@@ -3255,7 +3255,7 @@
 				"x": "50",
 				"y": "4",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_RS",
 				"justification": "right",
@@ -3273,7 +3273,7 @@
 				"x": "50",
 				"y": "5",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_BS",
 				"justification": "right",
@@ -3291,7 +3291,7 @@
 				"x": "50",
 				"y": "6",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_BC",
 				"justification": "right",
@@ -3340,7 +3340,7 @@
 				"x": "15",
 				"y": "10",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "NONE",
 				"justification": "left",
@@ -3358,7 +3358,7 @@
 				"x": "14",
 				"y": "10",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_VB",
 				"justification": "right",
@@ -3376,7 +3376,7 @@
 				"x": "14",
 				"y": "11",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_BH",
 				"justification": "right",
@@ -3394,7 +3394,7 @@
 				"x": "14",
 				"y": "12",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_RD",
 				"justification": "right",
@@ -3412,7 +3412,7 @@
 				"x": "14",
 				"y": "13",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_RA",
 				"justification": "right",
@@ -3430,7 +3430,7 @@
 				"x": "14",
 				"y": "14",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_RE",
 				"justification": "right",
@@ -3479,7 +3479,7 @@
 				"x": "33",
 				"y": "10",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "NONE",
 				"justification": "left",
@@ -3497,7 +3497,7 @@
 				"x": "32",
 				"y": "10",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_IM",
 				"justification": "right",
@@ -3515,7 +3515,7 @@
 				"x": "32",
 				"y": "11",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_CH",
 				"justification": "right",
@@ -3533,7 +3533,7 @@
 				"x": "32",
 				"y": "12",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_IT",
 				"justification": "right",
@@ -3551,7 +3551,7 @@
 				"x": "32",
 				"y": "13",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_DT",
 				"justification": "right",
@@ -3569,7 +3569,7 @@
 				"x": "32",
 				"y": "14",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_AT",
 				"justification": "right",
@@ -3587,7 +3587,7 @@
 				"x": "32",
 				"y": "15",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_AP",
 				"justification": "right",
@@ -3605,7 +3605,7 @@
 				"x": "32",
 				"y": "16",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_AC",
 				"justification": "right",
@@ -3654,7 +3654,7 @@
 				"x": "51",
 				"y": "10",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "NONE",
 				"justification": "left",
@@ -3672,7 +3672,7 @@
 				"x": "50",
 				"y": "10",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_RB",
 				"justification": "right",
@@ -3690,7 +3690,7 @@
 				"x": "50",
 				"y": "11",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_WI",
 				"justification": "right",
@@ -3721,7 +3721,7 @@
 				"x": "15",
 				"y": "18",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "NONE",
 				"justification": "left",
@@ -3740,7 +3740,7 @@
 				"x": "14",
 				"y": "18",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_RC",
 				"justification": "right",
@@ -3758,7 +3758,7 @@
 				"x": "14",
 				"y": "19",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_PP",
 				"justification": "right",
@@ -3776,7 +3776,7 @@
 				"x": "14",
 				"y": "20",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_ST",
 				"justification": "right",
@@ -3794,7 +3794,7 @@
 				"x": "14",
 				"y": "21",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_BA",
 				"justification": "right",
@@ -3812,7 +3812,7 @@
 				"x": "32",
 				"y": "18",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_PG",
 				"justification": "right",
@@ -3830,7 +3830,7 @@
 				"x": "32",
 				"y": "19",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_MT",
 				"justification": "right",
@@ -3848,7 +3848,7 @@
 				"x": "32",
 				"y": "20",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_SL",
 				"justification": "right",
@@ -3866,7 +3866,7 @@
 				"x": "32",
 				"y": "21",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_RF",
 				"justification": "right",
@@ -3884,7 +3884,7 @@
 				"x": "50",
 				"y": "18",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_SI",
 				"justification": "right",
@@ -3902,7 +3902,7 @@
 				"x": "50",
 				"y": "19",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_SE",
 				"justification": "right",
@@ -3920,7 +3920,7 @@
 				"x": "50",
 				"y": "20",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_DE",
 				"justification": "right",
@@ -3938,7 +3938,7 @@
 				"x": "50",
 				"y": "21",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "CHARACTER_SU",
 				"justification": "right",
@@ -4005,7 +4005,7 @@
 				"type": "frame",
 				"priority": "6",
 				"drawmode": "manual",
-				"colour": "0x808080ff"
+				"colour": "0x606060ff"
 
 			},
 			{
@@ -4018,7 +4018,7 @@
 				"type": "frame",
 				"priority": "6",
 				"drawmode": "manual",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"data": [
 					{
 						"offset_y": "-8"
@@ -4035,7 +4035,7 @@
 				"type": "frame",
 				"priority": "6",
 				"drawmode": "manual",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"data": [
 					{
 						"offset_y": "-8"
@@ -4060,7 +4060,7 @@
 				"x": "16",
 				"y": "13",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "NONE",
 				"justification": "right",
@@ -4092,7 +4092,7 @@
 				"x": "16",
 				"y": "2",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "INVENTORY_BLANK",
 				"justification": "left",
@@ -4123,7 +4123,7 @@
 				"x": "16",
 				"y": "3",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "INVENTORY_BLANK",
 				"justification": "left",
@@ -4154,7 +4154,7 @@
 				"x": "16",
 				"y": "4",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "INVENTORY_BLANK",
 				"justification": "left",
@@ -4185,7 +4185,7 @@
 				"x": "16",
 				"y": "5",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "INVENTORY_BLANK",
 				"justification": "left",
@@ -4216,7 +4216,7 @@
 				"x": "16",
 				"y": "6",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "INVENTORY_BLANK",
 				"justification": "left",
@@ -4247,7 +4247,7 @@
 				"x": "16",
 				"y": "7",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "INVENTORY_BLANK",
 				"justification": "left",
@@ -4278,7 +4278,7 @@
 				"x": "16",
 				"y": "8",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "INVENTORY_BLANK",
 				"justification": "left",
@@ -4309,7 +4309,7 @@
 				"x": "16",
 				"y": "9",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "INVENTORY_BLANK",
 				"justification": "left",
@@ -4340,7 +4340,7 @@
 				"x": "16",
 				"y": "10",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "INVENTORY_BLANK",
 				"justification": "left",
@@ -4371,7 +4371,7 @@
 				"x": "16",
 				"y": "11",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "INVENTORY_BLANK",
 				"justification": "left",
@@ -4438,7 +4438,7 @@
 				"type": "frame",
 				"priority": "6",
 				"drawmode": "manual",
-				"colour": "0x808080ff"
+				"colour": "0x606060ff"
 			},
 			{
 				"name": "outside_frame",
@@ -4450,7 +4450,7 @@
 				"type": "frame",
 				"priority": "6",
 				"drawmode": "manual",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"data": [
 					{
 						"offset_y": "-8"
@@ -4507,7 +4507,7 @@
 				"data": [
 					{
 						"known_colour": "0xffffffff",
-						"unknown_colour": "0x404040ff"
+						"unknown_colour": "0x606060ff"
 					}
 				]
 			},
@@ -4526,7 +4526,7 @@
 				"data": [
 					{
 						"known_colour": "0xffffffff",
-						"unknown_colour": "0x404040ff"
+						"unknown_colour": "0x606060ff"
 					}
 				]
 			}
@@ -4585,7 +4585,7 @@
 				"type": "frame",
 				"priority": "6",
 				"drawmode": "manual",
-				"colour": "0x808080ff"
+				"colour": "0x606060ff"
 			},
 			{
 				"name": "outside_frame",
@@ -4597,7 +4597,7 @@
 				"type": "frame",
 				"priority": "6",
 				"drawmode": "manual",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"data": [
 					{
 						"offset_y": "-8"
@@ -4654,7 +4654,7 @@
 				"data": [
 					{
 						"known_colour": "0xffffffff",
-						"unknown_colour": "0x404040ff"
+						"unknown_colour": "0x606060ff"
 					}
 				]
 			},
@@ -4673,7 +4673,7 @@
 				"data": [
 					{
 						"known_colour": "0xffffffff",
-						"unknown_colour": "0x404040ff"
+						"unknown_colour": "0x606060ff"
 					}
 				]
 			}
@@ -4718,7 +4718,7 @@
 				"type": "frame",
 				"priority": "6",
 				"drawmode": "automatic",
-				"colour": "0x808080ff"
+				"colour": "0x606060ff"
 			},
 			{
 				"name": "outside_frame",
@@ -4730,7 +4730,7 @@
 				"type": "frame",
 				"priority": "6",
 				"drawmode": "automatic",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"data": [
 					{
 						"offset_y": "-8"
@@ -4778,7 +4778,7 @@
 				"type": "frame",
 				"priority": "6",
 				"drawmode": "automatic",
-				"colour": "0x808080ff"
+				"colour": "0x606060ff"
 			},
 			{
 				"name": "outside_frame",
@@ -4790,7 +4790,7 @@
 				"type": "frame",
 				"priority": "6",
 				"drawmode": "automatic",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"data": [
 					{
 						"offset_y": "-8"
@@ -5366,7 +5366,7 @@
 				"x": "16",
 				"y": "11",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "INVENTORY_BLANK",
 				"justification": "left",
@@ -5397,7 +5397,7 @@
 				"x": "16",
 				"y": "12",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "INVENTORY_BLANK",
 				"justification": "left",
@@ -5428,7 +5428,7 @@
 				"x": "16",
 				"y": "13",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "INVENTORY_BLANK",
 				"justification": "left",
@@ -5459,7 +5459,7 @@
 				"x": "16",
 				"y": "14",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "INVENTORY_BLANK",
 				"justification": "left",
@@ -5490,7 +5490,7 @@
 				"x": "16",
 				"y": "15",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "INVENTORY_BLANK",
 				"justification": "left",
@@ -5521,7 +5521,7 @@
 				"x": "16",
 				"y": "16",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "INVENTORY_BLANK",
 				"justification": "left",
@@ -5552,7 +5552,7 @@
 				"x": "16",
 				"y": "17",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "INVENTORY_BLANK",
 				"justification": "left",
@@ -5583,7 +5583,7 @@
 				"x": "16",
 				"y": "18",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "INVENTORY_BLANK",
 				"justification": "left",
@@ -5614,7 +5614,7 @@
 				"x": "16",
 				"y": "19",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "INVENTORY_BLANK",
 				"justification": "left",
@@ -5645,7 +5645,7 @@
 				"x": "16",
 				"y": "20",
 				"font": "monospace",
-				"colour": "0x808080ff",
+				"colour": "0x606060ff",
 				"size": "38",
 				"string": "INVENTORY_BLANK",
 				"justification": "left",
@@ -5734,7 +5734,7 @@
 				"data": [
 					{
 					"spacing_x": "38",
-					"zero_colour": "0x808080ff"
+					"zero_colour": "0x606060ff"
 					}
 				]
 			},
@@ -5753,7 +5753,7 @@
 				"data": [
 					{
 					"spacing_x": "38",
-					"zero_colour": "0x808080ff"
+					"zero_colour": "0x606060ff"
 					}
 				]
 			},

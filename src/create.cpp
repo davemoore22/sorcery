@@ -769,7 +769,8 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_display->set_input_mode(WindowInputMode::CHOOSE_PORTRAIT);
 			_stages.pop_back();
 			_ap->valid = false;
-			_ad->set();
+			_ad->valid = false;
+			//_ad->set();
 			_show_final_menu = false;
 		}
 		default:

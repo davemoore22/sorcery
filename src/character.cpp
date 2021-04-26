@@ -1921,49 +1921,47 @@ auto Sorcery::Character::_generate_summary_icons() -> void {
 auto Sorcery::Character::_adjust_ability_colour(int value, CharacterAbilityType ability_type)
 	-> unsigned long long {
 
-	return 0xffffffff;
-
-	/* switch (ability_type) {
+	switch (ability_type) {
 	case CharacterAbilityType::NUMBER:
 		if (value < 0)
-			return 0xff1a1aff;
+			return 0x606060ff;
 		else if (value == 0)
-			return 0xffff55ff;
+			return 0x606060ff;
 		else
-			return 0x169016ff;
+			return 0x606060ff;
 		break;
 	case CharacterAbilityType::STAT:
 		if (value < 5)
-			return 0xff1a1aff;
+			return 0x606060ff;
 		else if (value < 10)
-			return 0xFFA500FF;
+			return 0x606060ff;
 		else if (value < 15)
-			return 0xffff55ff;
+			return 0x606060ff;
 		else
-			return 0x169016ff;
+			return 0x606060ff;
 		break;
 	case CharacterAbilityType::PERCENTAGE:
 		if (value < 25)
-			return 0xff1a1aff; // Red
+			return 0x606060ff;
 		else if (value < 50)
-			return 0xFFA500FF; // Orange
+			return 0x606060ff;
 		else if (value < 75)
-			return 0xffff55ff; // Yellow
+			return 0x606060ff;
 		else
-			return 0x169016ff; // Green
+			return 0x606060ff;
 		break;
 	case CharacterAbilityType::MODIFIER:
 		if (value < 0)
-			return 0xff1a1aff;
+			return 0x606060ff;
 		else if (value == 0)
-			return 0xffff55ff;
+			return 0x606060ff;
 		else
-			return 0x169016ff;
+			return 0x606060ff;
 		break;
 	default:
-		return 0x169016ff;
+		return 0x606060ff;
 		break;
-	}; */
+	};
 }
 
 auto Sorcery::Character::summary_text() -> std::string {

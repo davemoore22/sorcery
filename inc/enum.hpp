@@ -445,7 +445,8 @@ namespace Sorcery {
 			ALLOCATE_CHARACTER_ATTRIBUTES,
 			CHOOSE_CHARACTER_CLASS,
 			CHOOSE_CHARACTER_PORTRAIT,
-			REVIEW_AND_CONFIRM
+			REVIEW_AND_CONFIRM,
+			CHOOSE_METHOD
 		};
 
 		// Menu Items
@@ -531,7 +532,10 @@ namespace Sorcery {
 			TR_EDGE_OF_TOWN,
 			RC_ACCEPT,
 			RC_REJECT,
-			RC_CANCEL
+			RC_CANCEL,
+			CM_FULL,
+			CM_QUICK,
+			CM_RANDOM
 		};
 
 		// Menu Items
