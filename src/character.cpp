@@ -2437,13 +2437,24 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		_display->generate_components("character_inventory", _v_sprites, _v_texts, _v_frames);
 
-		auto name_text{
+		/* auto name_text{
 			_add_text((*_display->layout)["character_inventory:name_text"], "{}", _name)};
 		auto summary_text{_add_text((*_display->layout)["character_inventory:summary_text"], "{}",
 			fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
 				std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
 				get_alignment(_alignment), get_race(_race), get_class(_class)))};
-		_display->window->shove_text(*name_text, *summary_text, 1u);
+		_display->window->shove_text(*name_text, *summary_text, 1u); */
+
+		_add_text(
+			(*_display->layout)["character_inventory:name_and_summary_text"], "{}", summary_text());
+
+		Component carried_c((*_display->layout)["character_inventory:carried_blank"]);
+		int slots{std::stoi(carried_c["number_of_slots"].value())};
+		for (int loop = 0; loop < slots; loop++) {
+			_add_text(carried_c, "{}", (*_display->string)["INVENTORY_BLANK"]);
+			carried_c.y += _display->window->get_cell_height();
+		}
+
 	} else if (_view == CharacterView::MAGE_SPELLS) {
 
 		_display->generate_components("character_mage_spells", _v_sprites, _v_texts, _v_frames);
@@ -2573,7 +2584,7 @@ auto Sorcery::Character::_generate_display() -> void {
 				return (spell.type == SpellType::PRIEST) && (spell.level == level);
 			});
 			for (auto spell : spells) {
-				auto spell_name{_add_text(spell_name_c, "{}:", spell.name)};
+				auto spell_name{_add_text(spell_name_c, "{}", spell.name)};
 				// auto spell_translated_name{_add_text(spell_t_name_c, "{}",
 				// spell.translated_name)};
 				spell_name->setPosition(spell_name_c.x, spell_name_c.y);
