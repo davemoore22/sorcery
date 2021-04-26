@@ -140,7 +140,7 @@
 		},
 		{
 			"name": "text",
-			"font": "text",
+			"font": "monospace",
 			"colour": "0xddddddff",
 			"size": "38",
 			"type": "text",
@@ -2070,6 +2070,33 @@
 			"x": "12",
 			"y": "11",
 			"drawmode": "manual"
+		},
+		{
+			"name": "menu_frame",
+			"w": "25",
+			"h": "5",
+			"x": "27",
+			"y": "14",
+			"alpha": "200",
+			"type": "frame",
+			"priority": "6",
+			"drawmode": "manual"
+		},
+		{
+			"name": "menu",
+			"x": "28",
+			"y": "14",
+			"w": "24",
+			"h": "5",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"animated": "true",
+			"width": "25",
+			"background": "0x6060c8ff",
+			"justification": "centre",
+			"type": "menu",
+			"priority": "10"
 		}
 		]
 	},

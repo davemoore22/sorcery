@@ -52,6 +52,7 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 	_ip_class_c = Component((*_display->layout)["character_create_stage_5:info_panel"]);
 	_ap_c = Component((*_display->layout)["character_create_stage_4:allocate_panel"]);
 	_ad_c = Component((*_display->layout)["create:stage_4_attribute_display"]);
+
 	// need component for portrait picker
 
 	// Get the Texture for the Potraits
@@ -66,6 +67,12 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 		_system, _display, _graphics, MenuType::ALLOCATE_CHARACTER_ATTRIBUTES);
 	_class_menu =
 		std::make_shared<Menu>(_system, _display, _graphics, MenuType::CHOOSE_CHARACTER_CLASS);
+	_final_menu =
+		std::make_shared<Menu>(_system, _display, _graphics, MenuType::REVIEW_AND_CONFIRM);
+
+	Component _fmf_c{(*_display->layout)["character_create_stage_7:menu_frame"]};
+	_final_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL,
+		_fmf_c.w, _fmf_c.h, _fmf_c.colour, _fmf_c.alpha);
 
 	// Create the Candidate Character
 	_stages.clear();
@@ -86,6 +93,8 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 	_frames.clear();
 	_texts.clear();
 	_sprites.clear();
+
+	_show_final_menu = false;
 }
 
 // Standard Destructor
@@ -632,14 +641,53 @@ auto Sorcery::Create::_handle_choose_potraits(const sf::Event &event)
 auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event)
 	-> std::optional<ModuleResult> {
 
-	if (_system->input->check_for_event(WindowInput::BACK, event))
-		return ModuleResult::BACK;
-	else if (_system->input->check_for_event(WindowInput::DELETE, event))
-		return ModuleResult::BACK;
-	else if (_system->input->check_for_event(WindowInput::LEFT, event))
-		_candidate.left_view();
-	else if (_system->input->check_for_event(WindowInput::RIGHT, event))
-		_candidate.right_view();
+	std::optional<std::vector<MenuEntry>::const_iterator> selected{_final_menu->selected};
+	if (_show_final_menu) {
+		if (_system->input->check_for_event(WindowInput::BACK, event)) {
+			_show_final_menu = false;
+			_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
+		} else if (_system->input->check_for_event(WindowInput::DELETE, event)) {
+			_show_final_menu = false;
+			_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
+		} else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+			if (selected) {
+
+				switch ((*selected.value()).item) {
+				case MenuItem::RC_ACCEPT:
+					// do save here
+					break;
+				case MenuItem::RC_REJECT:
+					return ModuleResult::CLOSE;
+					break;
+				case MenuItem::RC_CANCEL:
+					_show_final_menu = false;
+					_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
+					break;
+				default:
+					break;
+				}
+			}
+		} else if (_system->input->check_for_event(WindowInput::UP, event))
+			selected = _final_menu->choose_previous();
+		else if (_system->input->check_for_event(WindowInput::DOWN, event))
+			selected = _final_menu->choose_next();
+		else if (_system->input->check_for_event(WindowInput::MOVE, event))
+			selected = _final_menu->set_mouse_selected(
+				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+	} else {
+
+		if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+			_show_final_menu = true;
+			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+		} else if (_system->input->check_for_event(WindowInput::BACK, event))
+			return ModuleResult::BACK;
+		else if (_system->input->check_for_event(WindowInput::DELETE, event))
+			return ModuleResult::BACK;
+		else if (_system->input->check_for_event(WindowInput::LEFT, event))
+			_candidate.left_view();
+		else if (_system->input->check_for_event(WindowInput::RIGHT, event))
+			_candidate.right_view();
+	}
 
 	return std::nullopt;
 }
@@ -722,6 +770,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_stages.pop_back();
 			_ap->valid = false;
 			_ad->set();
+			_show_final_menu = false;
 		}
 		default:
 			break;
@@ -733,6 +782,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_candidate.set_stage(CharacterStage::CHOOSE_METHOD);
 			_display->generate_components("choose_method", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::CHOOSE_METHOD);
+			_show_final_menu = false;
 		}
 	} else if (_method == CreateMethod::QUICK) {
 		switch (_candidate.get_stage()) {
@@ -766,6 +816,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_ap->valid = false;
 			//_ad->set();
 			_display->set_input_mode(WindowInputMode::CHOOSE_PORTRAIT);
+			_show_final_menu = false;
 		}
 		default:
 			break;
@@ -843,6 +894,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_candidate.set_stage(CharacterStage::REVIEW_AND_CONFIRM);
 			_display->generate_components("character_create_stage_7", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
+			_show_final_menu = false;
 		} break;
 		default:
 			break;
@@ -881,6 +933,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_candidate.set_stage(CharacterStage::REVIEW_AND_CONFIRM);
 			_display->generate_components("character_create_stage_7", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
+			_show_final_menu = false;
 		} break;
 		default:
 			break;
@@ -1163,7 +1216,21 @@ auto Sorcery::Create::_draw() -> void {
 		_display->display_components("character_create_stage_7", _sprites, _texts, _frames);
 		_candidate.setPosition((*_display->layout)["character_create_stage_7:candidate"].x,
 			(*_display->layout)["character_create_stage_7:candidate"].y);
+
 		_window->draw(_candidate);
+
+		if (_show_final_menu) {
+			_final_menu->generate((*_display->layout)["character_create_stage_7:menu"], lerp);
+			const sf::Vector2f menu_pos((*_display->layout)["character_create_stage_7:menu"].x,
+				(*_display->layout)["character_create_stage_7:menu"].y);
+			const sf::Vector2f frame_pos(
+				(*_display->layout)["character_create_stage_7:menu_frame"].x,
+				(*_display->layout)["character_create_stage_7:menu_frame"].y);
+			_final_menu->setPosition(menu_pos);
+			_final_menu_frame->setPosition(frame_pos);
+			_window->draw(*_final_menu_frame);
+			_window->draw(*_final_menu);
+		}
 	}
 
 	// Draw the progress bars (TODO: can't use a visit lambda here for some reason)

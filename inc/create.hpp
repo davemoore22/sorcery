@@ -97,6 +97,7 @@ namespace Sorcery {
 		std::shared_ptr<Menu> _alignment_menu;
 		std::shared_ptr<Menu> _attribute_menu;
 		std::shared_ptr<Menu> _class_menu;
+		std::shared_ptr<Menu> _final_menu;
 		std::shared_ptr<InfoPanel> _ip;
 		std::shared_ptr<AllocatePanel> _ap;
 		std::shared_ptr<AttributeDisplay> _ad;
@@ -107,5 +108,7 @@ namespace Sorcery {
 		std::map<std::string, sf::Sprite> _sprites;
 		std::map<std::string, sf::Text> _texts;
 		std::map<std::string, std::shared_ptr<Frame>> _frames;
+		std::unique_ptr<Frame> _final_menu_frame;
+		bool _show_final_menu;
 	};
 } // namespace Sorcery
