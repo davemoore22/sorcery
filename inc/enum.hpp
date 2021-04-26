@@ -266,13 +266,14 @@ namespace Sorcery {
 		enum class View {
 			NONE = 0,
 			MAIN = 1,
-			DETAILED = 2,
-			INVENTORY = 3,
-			MAGE_SPELLS = 4,
-			PRIEST_SPELLS = 5,
-			MESSAGES = 6,
-			ACHIEVEMENTS = 7,
-			STRICT = 8
+			STRICT = 2,
+			DETAILED = 3,
+			INVENTORY = 4,
+			MAGE_SPELLS = 5,
+			PRIEST_SPELLS = 6
+			// MESSAGES = 6,
+			// ACHIEVEMENTS = 7,
+			// STRICT = 8
 		};
 
 		// Character Classes
@@ -527,7 +528,10 @@ namespace Sorcery {
 			TR_EDIT,
 			TR_DELETE,
 			TR_INSPECT,
-			TR_EDGE_OF_TOWN
+			TR_EDGE_OF_TOWN,
+			RC_ACCEPT,
+			RC_REJECT,
+			RC_CANCEL
 		};
 
 		// Menu Items

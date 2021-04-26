@@ -52,6 +52,12 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics, const 
 			5, MenuItemType::ENTRY, MenuItem::QUIT, (*_display->string)["MAIN_MENU_OPTION_EXIT"]);
 		selected = items.begin();
 		break;
+	case MenuType::REVIEW_AND_CONFIRM:
+		_add_item(0, MenuItemType::ENTRY, MenuItem::RC_ACCEPT, (*_display->string)["RC_ACCEPT"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::RC_REJECT, (*_display->string)["RC_REJECT"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::RC_CANCEL, (*_display->string)["RC_CAMCEL"]);
+		selected = items.begin();
+		break;
 	case MenuType::CASTLE:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::CA_TAVERN, (*_display->string)["MENU_TAVERN"]);
 		_add_item(1, MenuItemType::ENTRY, MenuItem::CA_INN, (*_display->string)["MENU_INN"]);
@@ -243,8 +249,6 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics, const 
 		selected = items.begin();
 		break;
 	case MenuType::PAUSE:
-		break;
-	case MenuType::REVIEW_AND_CONFIRM:
 		break;
 	default:
 		break;

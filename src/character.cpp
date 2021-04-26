@@ -315,7 +315,7 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 	case CharacterStage::REVIEW_AND_CONFIRM:
 
 		// Handle the generation of the Character Display Here
-		_view = CharacterView::MAIN;
+		_view = CharacterView::STRICT;
 		_generate_display();
 		break;
 	default:
@@ -416,7 +416,7 @@ auto Sorcery::Character::left_view() -> void {
 
 	int view_index = magic_enum::enum_integer<CharacterView>(_view);
 	if (view_index == magic_enum::enum_integer<CharacterView>(CharacterView::MAIN))
-		view_index = magic_enum::enum_integer<CharacterView>(CharacterView::STRICT);
+		view_index = magic_enum::enum_integer<CharacterView>(CharacterView::PRIEST_SPELLS);
 	else
 		--view_index;
 	_view = magic_enum::enum_cast<CharacterView>(view_index).value();
@@ -427,7 +427,7 @@ auto Sorcery::Character::left_view() -> void {
 auto Sorcery::Character::right_view() -> void {
 
 	int view_index = magic_enum::enum_integer<CharacterView>(_view);
-	if (view_index == magic_enum::enum_integer<CharacterView>(CharacterView::STRICT))
+	if (view_index == magic_enum::enum_integer<CharacterView>(CharacterView::PRIEST_SPELLS))
 		view_index = magic_enum::enum_integer<CharacterView>(CharacterView::MAIN);
 	else
 		++view_index;
@@ -2613,28 +2613,29 @@ auto Sorcery::Character::_generate_display() -> void {
 							  _display->window->get_cell_height());
 			}
 		}
-	} else if (_view == CharacterView::MESSAGES) {
+		/* } else if (_view == CharacterView::MESSAGES) {
 
-		_display->generate_components("character_messages", _v_sprites, _v_texts, _v_frames);
+			_display->generate_components("character_messages", _v_sprites, _v_texts, _v_frames);
 
-		auto name_text{_add_text((*_display->layout)["character_messages:name_text"], "{}", _name)};
-		auto summary_text{_add_text((*_display->layout)["character_messages:summary_text"], "{}",
-			fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
-				std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
-				get_alignment(_alignment), get_race(_race), get_class(_class)))};
-		_display->window->shove_text(*name_text, *summary_text, 1u);
-	} else if (_view == CharacterView::ACHIEVEMENTS) {
-
-		_display->generate_components("character_achievements", _v_sprites, _v_texts, _v_frames);
-
-		auto name_text{
-			_add_text((*_display->layout)["character_achievements:name_text"], "{}", _name)};
-		auto summary_text{
-			_add_text((*_display->layout)["character_achievements:summary_text"], "{}",
-				fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
+			auto name_text{_add_text((*_display->layout)["character_messages:name_text"], "{}",
+		_name)}; auto summary_text{_add_text((*_display->layout)["character_messages:summary_text"],
+		"{}", fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
 					std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
 					get_alignment(_alignment), get_race(_race), get_class(_class)))};
-		_display->window->shove_text(*name_text, *summary_text, 1u);
+			_display->window->shove_text(*name_text, *summary_text, 1u);
+		} else if (_view == CharacterView::ACHIEVEMENTS) {
+
+			_display->generate_components("character_achievements", _v_sprites, _v_texts,
+		_v_frames);
+
+			auto name_text{
+				_add_text((*_display->layout)["character_achievements:name_text"], "{}", _name)};
+			auto summary_text{
+				_add_text((*_display->layout)["character_achievements:summary_text"], "{}",
+					fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
+						std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
+						get_alignment(_alignment), get_race(_race), get_class(_class)))};
+			_display->window->shove_text(*name_text, *summary_text, 1u); */
 	}
 }
 
