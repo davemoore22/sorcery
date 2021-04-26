@@ -1921,7 +1921,9 @@ auto Sorcery::Character::_generate_summary_icons() -> void {
 auto Sorcery::Character::_adjust_ability_colour(int value, CharacterAbilityType ability_type)
 	-> unsigned long long {
 
-	switch (ability_type) {
+	return 0xffffffff;
+
+	/* switch (ability_type) {
 	case CharacterAbilityType::NUMBER:
 		if (value < 0)
 			return 0xff1a1aff;
@@ -1961,7 +1963,7 @@ auto Sorcery::Character::_adjust_ability_colour(int value, CharacterAbilityType 
 	default:
 		return 0x169016ff;
 		break;
-	};
+	}; */
 }
 
 auto Sorcery::Character::summary_text() -> std::string {
@@ -2000,7 +2002,7 @@ auto Sorcery::Character::summary_text() -> std::string {
 			get_class(_class).substr(0, 3), get_race(_race));
 		break;
 	case CharacterStage::REVIEW_AND_CONFIRM:
-		return fmt::format("{:<15} L {:>2} {}-{} {}", _name,
+		return fmt::format("{} L {:>2} {}-{} {}", _name,
 			_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
 			get_class(_class).substr(0, 3), get_race(_race));
 		break;
@@ -2148,12 +2150,14 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		_display->generate_components("character_detailed", _v_sprites, _v_texts, _v_frames);
 
-		auto name_text{_add_text((*_display->layout)["character_detailed:name_text"], "{}", _name)};
-		auto summary_text{_add_text((*_display->layout)["character_detailed:summary_text"], "{}",
-			fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
+		/* auto name_text{_add_text((*_display->layout)["character_detailed:name_text"], "{}",
+		_name)}; auto summary_text{_add_text((*_display->layout)["character_detailed:summary_text"],
+		"{}", fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
 				std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
 				get_alignment(_alignment), get_race(_race), get_class(_class)))};
-		_display->window->shove_text(*name_text, *summary_text, 1u);
+		_display->window->shove_text(*name_text, *summary_text, 1u); */
+		_add_text(
+			(*_display->layout)["character_strict:name_and_summary_text"], "{}", summary_text());
 
 		_add_text((*_display->layout)["character_detailed:strength_value"], "{:>2}",
 			std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
@@ -2342,6 +2346,9 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		Component resistances_c(
 			(*_display->layout)["character_detailed:resistances_detailed_values"]);
+		int pos_x{resistances_c.x};
+		int pos_y{resistances_c.y};
+		int offset_columns{std::stoi(resistances_c["offset_columns"].value())};
 
 		resistances_c.colour =
 			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_CRITICAL_HIT),
@@ -2370,7 +2377,9 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS)));
 
-		resistances_c.y += _display->window->get_cell_height();
+		// resistances_c.y += _display->window->get_cell_height();
+		resistances_c.y = pos_y;
+		resistances_c.x = pos_x + (offset_columns * _display->window->get_cell_width());
 		resistances_c.colour =
 			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP),
 				CharacterAbilityType::PERCENTAGE);
@@ -2396,7 +2405,9 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RECOVER_FROM_FEAR)));
 
-		resistances_c.y += _display->window->get_cell_height();
+		// resistances_c.y += _display->window->get_cell_height();
+		resistances_c.y = pos_y;
+		resistances_c.x = pos_x + (2 * offset_columns * _display->window->get_cell_width());
 		resistances_c.colour =
 			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_SILENCE),
 				CharacterAbilityType::PERCENTAGE);

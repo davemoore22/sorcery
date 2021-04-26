@@ -2811,6 +2811,19 @@
 		"name": "character_detailed",
 		"component": [
 			{
+				"name": "name_and_summary_text",
+				"x": "0",
+				"y": "0",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
 				"name": "name_text",
 				"x": "1",
 				"y": "0",
@@ -2845,7 +2858,7 @@
 				"alpha": "255",
 				"type": "frame",
 				"priority": "6",
-				"drawmode": "automatic",
+				"drawmode": "manual",
 				"colour": "0x808080ff"
 			},
 			{
@@ -2857,7 +2870,7 @@
 				"alpha": "255",
 				"type": "frame",
 				"priority": "6",
-				"drawmode": "automatic",
+				"drawmode": "manual",
 				"colour": "0x808080ff",
 				"data": [
 					{
@@ -2867,11 +2880,11 @@
 			},
 			{
 				"name": "strength_label",
-				"x": "11",
-				"y": "5",
+				"x": "14",
+				"y": "2",
 				"font": "monospace",
 				"colour": "0xffffffff",
-				"size": "32",
+				"size": "38",
 				"string": "CHARACTER_STRENGTH",
 				"justification": "right",
 				"type": "text",
@@ -2880,11 +2893,11 @@
 			},
 			{
 				"name": "strength_value",
-				"x": "11",
-				"y": "5",
+				"x": "15",
+				"y": "2",
 				"font": "monospace",
-				"colour": "0x00ff00ff",
-				"size": "32",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "NONE",
 				"justification": "left",
 				"type": "text",
@@ -2892,17 +2905,17 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"offset_x": "8"
+						"offset_x": "0"
 					}
 				]
 			},
 			{
 				"name": "strength_detailed_values",
-				"x": "11",
-				"y": "7",
+				"x": "15",
+				"y": "3",
 				"font": "monospace",
-				"colour": "0xaaffaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "NONE",
 				"justification": "left",
 				"type": "text",
@@ -2910,17 +2923,17 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"offset_x": "8"
+						"offset_x": "0"
 					}
 				]
 			},
 			{
 				"name": "strength_am",
-				"x": "11",
-				"y": "7",
+				"x": "14",
+				"y": "3",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_AM",
 				"justification": "right",
 				"type": "text",
@@ -2928,17 +2941,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "strength_hp",
-				"x": "11",
-				"y": "8",
+				"x": "14",
+				"y": "4",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_HP",
 				"justification": "right",
 				"type": "text",
@@ -2946,17 +2959,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "strength_bd",
-				"x": "11",
-				"y": "9",
+				"x": "14",
+				"y": "5",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_BD",
 				"justification": "right",
 				"type": "text",
@@ -2964,17 +2977,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "strength_na",
-				"x": "11",
-				"y": "10",
+				"x": "14",
+				"y": "6",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_NA",
 				"justification": "right",
 				"type": "text",
@@ -2982,17 +2995,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "strength_mu",
-				"x": "11",
-				"y": "11",
+				"x": "14",
+				"y": "7",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_MU",
 				"justification": "right",
 				"type": "text",
@@ -3000,17 +3013,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "iq_label",
-				"x": "25",
-				"y": "5",
+				"x": "32",
+				"y": "2",
 				"font": "monospace",
 				"colour": "0xffffffff",
-				"size": "32",
+				"size": "38",
 				"string": "CHARACTER_IQ",
 				"justification": "right",
 				"type": "text",
@@ -3019,11 +3032,11 @@
 			},
 			{
 				"name": "iq_value",
-				"x": "25",
-				"y": "5",
+				"x": "33",
+				"y": "2",
 				"font": "monospace",
-				"colour": "0x00ff00ff",
-				"size": "32",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_IQ",
 				"justification": "left",
 				"type": "text",
@@ -3031,17 +3044,17 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"offset_x": "8"
+						"offset_x": "0"
 					}
 				]
 			},
 			{
 				"name": "iq_detailed_values",
-				"x": "25",
-				"y": "7",
+				"x": "33",
+				"y": "3",
 				"font": "monospace",
-				"colour": "0xaaffaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "NONE",
 				"justification": "left",
 				"type": "text",
@@ -3049,17 +3062,17 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"offset_x": "8"
+						"offset_x": "0"
 					}
 				]
 			},
 			{
 				"name": "iq_sm",
-				"x": "25",
-				"y": "7",
+				"x": "32",
+				"y": "3",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_SM",
 				"justification": "right",
 				"type": "text",
@@ -3067,17 +3080,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "iq_ii",
-				"x": "25",
-				"y": "8",
+				"x": "32",
+				"y": "4",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_II",
 				"justification": "right",
 				"type": "text",
@@ -3085,17 +3098,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "iq_ic",
-				"x": "25",
-				"y": "9",
+				"x": "32",
+				"y": "5",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_IC",
 				"justification": "right",
 				"type": "text",
@@ -3103,17 +3116,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "iq_if",
-				"x": "25",
-				"y": "10",
+				"x": "32",
+				"y": "6",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_IF",
 				"justification": "right",
 				"type": "text",
@@ -3121,17 +3134,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "iq_bm",
-				"x": "25",
-				"y": "11",
+				"x": "32",
+				"y": "7",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_BM",
 				"justification": "right",
 				"type": "text",
@@ -3139,17 +3152,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "piety_label",
-				"x": "39",
-				"y": "5",
+				"x": "50",
+				"y": "2",
 				"font": "monospace",
 				"colour": "0xffffffff",
-				"size": "32",
+				"size": "38",
 				"string": "CHARACTER_PIETY",
 				"justification": "right",
 				"type": "text",
@@ -3158,11 +3171,11 @@
 			},
 			{
 				"name": "piety_value",
-				"x": "39",
-				"y": "5",
+				"x": "51",
+				"y": "2",
 				"font": "monospace",
-				"colour": "0x00ff00ff",
-				"size": "32",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_PIETY",
 				"justification": "left",
 				"type": "text",
@@ -3170,17 +3183,17 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"offset_x": "8"
+						"offset_x": "0"
 					}
 				]
 			},
 			{
 				"name": "piety_detailed_values",
-				"x": "39",
-				"y": "7",
+				"x": "51",
+				"y": "3",
 				"font": "monospace",
-				"colour": "0xaaffaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "NONE",
 				"justification": "left",
 				"type": "text",
@@ -3188,17 +3201,17 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"offset_x": "8"
+						"offset_x": "0"
 					}
 				]
 			},
 			{
 				"name": "piety_sp",
-				"x": "39",
-				"y": "7",
+				"x": "50",
+				"y": "3",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_SP",
 				"justification": "right",
 				"type": "text",
@@ -3206,17 +3219,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "piety_rs",
-				"x": "39",
-				"y": "8",
+				"x": "50",
+				"y": "4",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_RS",
 				"justification": "right",
 				"type": "text",
@@ -3224,17 +3237,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "piety_bs",
-				"x": "39",
-				"y": "9",
+				"x": "50",
+				"y": "5",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_BS",
 				"justification": "right",
 				"type": "text",
@@ -3242,17 +3255,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "piety_bc",
-				"x": "39",
-				"y": "10",
+				"x": "50",
+				"y": "6",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_BC",
 				"justification": "right",
 				"type": "text",
@@ -3260,17 +3273,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "vitality_label",
-				"x": "11",
-				"y": "12",
+				"x": "14",
+				"y": "9",
 				"font": "monospace",
 				"colour": "0xffffffff",
-				"size": "32",
+				"size": "38",
 				"string": "CHARACTER_VITALITY",
 				"justification": "right",
 				"type": "text",
@@ -3279,11 +3292,11 @@
 			},
 			{
 				"name": "vitality_value",
-				"x": "11",
-				"y": "12",
+				"x": "15",
+				"y": "9",
 				"font": "monospace",
-				"colour": "0x00ff00ff",
-				"size": "32",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_VITALITY",
 				"justification": "left",
 				"type": "text",
@@ -3291,17 +3304,17 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"offset_x": "8"
+						"offset_x": "0"
 					}
 				]
 			},
 			{
 				"name": "vitality_detailed_values",
-				"x": "11",
-				"y": "14",
+				"x": "15",
+				"y": "10",
 				"font": "monospace",
-				"colour": "0xaaffaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "NONE",
 				"justification": "left",
 				"type": "text",
@@ -3309,17 +3322,17 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"offset_x": "8"
+						"offset_x": "0"
 					}
 				]
 			},
 			{
 				"name": "vitality_vb",
-				"x": "11",
-				"y": "14",
+				"x": "14",
+				"y": "10",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_VB",
 				"justification": "right",
 				"type": "text",
@@ -3327,17 +3340,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "vitality_bh",
-				"x": "11",
-				"y": "15",
+				"x": "14",
+				"y": "11",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_BH",
 				"justification": "right",
 				"type": "text",
@@ -3345,17 +3358,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "vitality_rd",
-				"x": "11",
-				"y": "16",
+				"x": "14",
+				"y": "12",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_RD",
 				"justification": "right",
 				"type": "text",
@@ -3363,17 +3376,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "vitality_ra",
-				"x": "11",
-				"y": "17",
+				"x": "14",
+				"y": "13",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_RA",
 				"justification": "right",
 				"type": "text",
@@ -3381,17 +3394,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "vitality_re",
-				"x": "11",
-				"y": "18",
+				"x": "14",
+				"y": "14",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_RE",
 				"justification": "right",
 				"type": "text",
@@ -3399,17 +3412,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "agility_label",
-				"x": "25",
-				"y": "12",
+				"x": "32",
+				"y": "9",
 				"font": "monospace",
 				"colour": "0xffffffff",
-				"size": "32",
+				"size": "38",
 				"string": "CHARACTER_AGILITY",
 				"justification": "right",
 				"type": "text",
@@ -3418,11 +3431,11 @@
 			},
 			{
 				"name": "agility_value",
-				"x": "25",
-				"y": "12",
+				"x": "33",
+				"y": "9",
 				"font": "monospace",
-				"colour": "0x00ff00ff",
-				"size": "32",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_AGILITY",
 				"justification": "left",
 				"type": "text",
@@ -3430,17 +3443,17 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"offset_x": "8"
+						"offset_x": "0"
 					}
 				]
 			},
 			{
 				"name": "agility_detailed_values",
-				"x": "25",
-				"y": "14",
+				"x": "33",
+				"y": "10",
 				"font": "monospace",
-				"colour": "0xaaffaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "NONE",
 				"justification": "left",
 				"type": "text",
@@ -3448,17 +3461,17 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"offset_x": "8"
+						"offset_x": "0"
 					}
 				]
 			},
 			{
 				"name": "agility_im",
-				"x": "25",
-				"y": "14",
+				"x": "32",
+				"y": "10",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_IM",
 				"justification": "right",
 				"type": "text",
@@ -3466,17 +3479,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "agility_ch",
-				"x": "25",
-				"y": "15",
+				"x": "32",
+				"y": "11",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_CH",
 				"justification": "right",
 				"type": "text",
@@ -3484,17 +3497,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "agility_it",
-				"x": "25",
-				"y": "16",
+				"x": "32",
+				"y": "12",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_IT",
 				"justification": "right",
 				"type": "text",
@@ -3502,17 +3515,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "agility_dt",
-				"x": "25",
-				"y": "17",
+				"x": "32",
+				"y": "13",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_DT",
 				"justification": "right",
 				"type": "text",
@@ -3520,17 +3533,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "agility_at",
-				"x": "25",
-				"y": "18",
+				"x": "32",
+				"y": "14",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_AT",
 				"justification": "right",
 				"type": "text",
@@ -3538,17 +3551,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "agility_ap",
-				"x": "25",
-				"y": "19",
+				"x": "32",
+				"y": "15",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_AP",
 				"justification": "right",
 				"type": "text",
@@ -3556,17 +3569,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "agility_ac",
-				"x": "25",
-				"y": "20",
+				"x": "32",
+				"y": "16",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_AC",
 				"justification": "right",
 				"type": "text",
@@ -3574,17 +3587,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "luck_label",
-				"x": "39",
-				"y": "12",
+				"x": "50",
+				"y": "9",
 				"font": "monospace",
 				"colour": "0xffffffff",
-				"size": "32",
+				"size": "38",
 				"string": "CHARACTER_LUCK",
 				"justification": "right",
 				"type": "text",
@@ -3593,11 +3606,11 @@
 			},
 			{
 				"name": "luck_value",
-				"x": "39",
-				"y": "12",
+				"x": "51",
+				"y": "9",
 				"font": "monospace",
-				"colour": "0x00ff00ff",
-				"size": "32",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_LUCK",
 				"justification": "left",
 				"type": "text",
@@ -3605,17 +3618,17 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"offset_x": "8"
+						"offset_x": "0"
 					}
 				]
 			},
 			{
 				"name": "luck_detailed_values",
-				"x": "39",
-				"y": "14",
+				"x": "51",
+				"y": "10",
 				"font": "monospace",
-				"colour": "0xaaffaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "NONE",
 				"justification": "left",
 				"type": "text",
@@ -3623,17 +3636,17 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"offset_x": "8"
+						"offset_x": "0"
 					}
 				]
 			},
 			{
 				"name": "luck_rb",
-				"x": "39",
-				"y": "14",
+				"x": "50",
+				"y": "10",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_RB",
 				"justification": "right",
 				"type": "text",
@@ -3641,17 +3654,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "luck_wi",
-				"x": "39",
-				"y": "15",
+				"x": "50",
+				"y": "11",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_WI",
 				"justification": "right",
 				"type": "text",
@@ -3659,17 +3672,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "resistances_label",
-				"x": "54",
-				"y": "5",
+				"x": "14",
+				"y": "17",
 				"font": "monospace",
 				"colour": "0xffffffff",
-				"size": "32",
+				"size": "38",
 				"string": "CHARACTER_RESISTANCES",
 				"justification": "right",
 				"type": "text",
@@ -3678,11 +3691,11 @@
 			},
 			{
 				"name": "resistances_detailed_values",
-				"x": "53",
-				"y": "7",
+				"x": "15",
+				"y": "18",
 				"font": "monospace",
-				"colour": "0xaaffaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "NONE",
 				"justification": "left",
 				"type": "text",
@@ -3690,17 +3703,18 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"offset_x": "8"
+						"offset_x": "0",
+						"offset_columns": "18"
 					}
 				]
 			},
 			{
 				"name": "resistances_rc",
-				"x": "53",
-				"y": "7",
+				"x": "14",
+				"y": "18",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_RC",
 				"justification": "right",
 				"type": "text",
@@ -3708,17 +3722,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "resistances_pp",
-				"x": "53",
-				"y": "8",
+				"x": "14",
+				"y": "19",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_PP",
 				"justification": "right",
 				"type": "text",
@@ -3726,17 +3740,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "resistances_st",
-				"x": "53",
-				"y": "9",
+				"x": "14",
+				"y": "20",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_ST",
 				"justification": "right",
 				"type": "text",
@@ -3744,17 +3758,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "resistances_ba",
-				"x": "53",
-				"y": "10",
+				"x": "14",
+				"y": "21",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_BA",
 				"justification": "right",
 				"type": "text",
@@ -3762,17 +3776,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "resistances_pg",
-				"x": "53",
-				"y": "11",
+				"x": "32",
+				"y": "18",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_PG",
 				"justification": "right",
 				"type": "text",
@@ -3780,17 +3794,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "resistances_mt",
-				"x": "53",
-				"y": "12",
+				"x": "32",
+				"y": "19",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_MT",
 				"justification": "right",
 				"type": "text",
@@ -3798,17 +3812,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "resistances_sl",
-				"x": "53",
-				"y": "13",
+				"x": "32",
+				"y": "20",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_SL",
 				"justification": "right",
 				"type": "text",
@@ -3816,17 +3830,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "resistances_rf",
-				"x": "53",
-				"y": "14",
+				"x": "32",
+				"y": "21",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_RF",
 				"justification": "right",
 				"type": "text",
@@ -3834,17 +3848,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "resistances_si",
-				"x": "53",
-				"y": "15",
+				"x": "50",
+				"y": "18",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_SI",
 				"justification": "right",
 				"type": "text",
@@ -3852,17 +3866,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "resistances_se",
-				"x": "53",
-				"y": "16",
+				"x": "50",
+				"y": "19",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_SE",
 				"justification": "right",
 				"type": "text",
@@ -3870,17 +3884,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "resistances_de",
-				"x": "53",
-				"y": "17",
+				"x": "50",
+				"y": "20",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_DE",
 				"justification": "right",
 				"type": "text",
@@ -3888,17 +3902,17 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "resistances_su",
-				"x": "53",
-				"y": "18",
+				"x": "50",
+				"y": "21",
 				"font": "monospace",
-				"colour": "0xaaaaaaff",
-				"size": "18",
+				"colour": "0xffffffff",
+				"size": "38",
 				"string": "CHARACTER_SU",
 				"justification": "right",
 				"type": "text",
@@ -3906,7 +3920,7 @@
 				"drawmode": "automatic",
 				"data": [
 					{
-						"offset_y": "12"
+						"offset_y": "0"
 					}
 				]
 			}
