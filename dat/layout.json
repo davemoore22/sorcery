@@ -4151,6 +4151,19 @@
 		"name": "character_mage_spells",
 		"component": [
 			{
+				"name": "name_and_summary_text",
+				"x": "0",
+				"y": "0",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
 				"name": "name_text",
 				"x": "1",
 				"y": "0",
@@ -4185,7 +4198,7 @@
 				"alpha": "255",
 				"type": "frame",
 				"priority": "6",
-				"drawmode": "automatic",
+				"drawmode": "manual",
 				"colour": "0x808080ff"
 			},
 			{
@@ -4197,7 +4210,7 @@
 				"alpha": "255",
 				"type": "frame",
 				"priority": "6",
-				"drawmode": "automatic",
+				"drawmode": "manual",
 				"colour": "0x808080ff",
 				"data": [
 					{
@@ -4207,11 +4220,11 @@
 			},
 			{
 				"name": "level_label",
-				"x": "3",
-				"y": "5",
+				"x": "1",
+				"y": "2",
 				"font": "monospace",
 				"colour": "0xffffffff",
-				"size": "32",
+				"size": "38",
 				"string": "CHARACTER_SPELL_LEVEL",
 				"justification": "left",
 				"type": "text",
@@ -4219,8 +4232,8 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"offset_x": "18",
-						"offset_y": "6"
+						"offset_columns": "18",
+						"offset_rows": "7"
 					}
 				]
 			},
@@ -4228,7 +4241,7 @@
 				"name": "spell_points",
 				"font": "monospace",
 				"colour": "0xffffffff",
-				"size": "32",
+				"size": "38",
 				"string": "CHARACTER_SPELL_LEVEL",
 				"justification": "left",
 				"type": "text",
@@ -4242,11 +4255,11 @@
 			},
 			{
 				"name": "spell_name_label",
-				"x": "11",
-				"y": "6",
+				"x": "1",
+				"y": "3",
 				"font": "monospace",
 				"colour": "0xffffffff",
-				"size": "18",
+				"size": "38",
 				"string": "CHARACTER_SPELL_LEVEL",
 				"justification": "left",
 				"type": "text",
@@ -4261,11 +4274,11 @@
 			},
 			{
 				"name": "spell_translated_name_label",
-				"x": "11",
-				"y": "6",
+				"x": "9",
+				"y": "3",
 				"font": "monospace",
 				"colour": "0xffffffff",
-				"size": "18",
+				"size": "38",
 				"string": "CHARACTER_SPELL_LEVEL",
 				"justification": "left",
 				"type": "text",
@@ -4285,6 +4298,19 @@
 		"name": "character_priest_spells",
 		"component": [
 			{
+				"name": "name_and_summary_text",
+				"x": "0",
+				"y": "0",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
 				"name": "name_text",
 				"x": "1",
 				"y": "0",
@@ -4319,7 +4345,7 @@
 				"alpha": "255",
 				"type": "frame",
 				"priority": "6",
-				"drawmode": "automatic",
+				"drawmode": "manual",
 				"colour": "0x808080ff"
 			},
 			{
@@ -4331,7 +4357,7 @@
 				"alpha": "255",
 				"type": "frame",
 				"priority": "6",
-				"drawmode": "automatic",
+				"drawmode": "manual",
 				"colour": "0x808080ff",
 				"data": [
 					{
@@ -4341,11 +4367,11 @@
 			},
 			{
 				"name": "level_label",
-				"x": "3",
-				"y": "5",
+				"x": "1",
+				"y": "2",
 				"font": "monospace",
 				"colour": "0xffffffff",
-				"size": "32",
+				"size": "38",
 				"string": "CHARACTER_SPELL_LEVEL",
 				"justification": "left",
 				"type": "text",
@@ -4353,8 +4379,8 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"offset_x": "18",
-						"offset_y": "6"
+						"offset_columns": "18",
+						"offset_rows": "7"
 					}
 				]
 			},
@@ -4362,7 +4388,7 @@
 				"name": "spell_points",
 				"font": "monospace",
 				"colour": "0xffffffff",
-				"size": "32",
+				"size": "38",
 				"string": "CHARACTER_SPELL_LEVEL",
 				"justification": "left",
 				"type": "text",
@@ -4376,11 +4402,11 @@
 			},
 			{
 				"name": "spell_name_label",
-				"x": "11",
-				"y": "6",
+				"x": "1",
+				"y": "3",
 				"font": "monospace",
 				"colour": "0xffffffff",
-				"size": "18",
+				"size": "38",
 				"string": "CHARACTER_SPELL_LEVEL",
 				"justification": "left",
 				"type": "text",
