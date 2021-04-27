@@ -1973,6 +1973,7 @@ auto Sorcery::Character::summary_text() -> std::string {
 	// CHOOSE PORTRAIT:			"NAMENAMENAMENAM L  1 A-CLA RAC"
 	// REVIEW AND CONFIRM:		"NAMENAMENAMENAM L  1 A-CLA RAC"
 	switch (_current_stage) {
+	case CharacterStage::CHOOSE_METHOD:
 	case CharacterStage::ENTER_NAME:
 		return fmt::format("{:<15} L ?? ?-??? ???", "???");
 		break;
