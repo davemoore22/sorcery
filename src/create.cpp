@@ -806,6 +806,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_candidate.set_stage(CharacterStage::CHOOSE_CLASS);
 			_display->generate_components("character_create_stage_5", _sprites, _texts, _frames);
 			_stages.pop_back();
+			_set_classes_menu();
 			_class_menu->choose(_candidate.get_class());
 			_set_info_panel_contents(_class_menu->selected);
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
@@ -1151,6 +1152,9 @@ auto Sorcery::Create::_draw() -> void {
 			(*_display->layout)["choose_method:menu"].y);
 		_method_menu->setPosition(menu_pos);
 		_window->draw(*_method_menu);
+
+		_display->window->draw_text(summary_text, (*_display->layout)["choose_method:summary_text"],
+			_candidate.summary_text());
 
 		if (_ip->valid) {
 			_ip->setPosition(_ip_method_c.x, _ip_method_c.y);

@@ -1157,7 +1157,7 @@
 		"name": "choose_method",
 		"component": [
 			{
-				"name": "stage_frame",
+				"name": "summary_frame",
 				"w": "40",
 				"h": "2",
 				"x": "centre",
@@ -1167,9 +1167,33 @@
 				"priority": "2"
 			},
 			{
+				"name": "summary_text",
+				"x": "22",
+				"y": "7",
+				"alpha": "255",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "stage_frame",
+				"w": "40",
+				"h": "2",
+				"x": "centre",
+				"y": "10",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "2"
+			},
+			{
 				"name": "title_text",
 				"x": "centre",
-				"y": "7",
+				"y": "11",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",

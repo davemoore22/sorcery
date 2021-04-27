@@ -456,7 +456,7 @@ auto Sorcery::Menu::choose(std::any option)
 			search_for = MenuItem::CC_SAMURAI;
 			break;
 		case CharacterClass::FIGHTER:
-			search_for = MenuItem::CC_SAMURAI;
+			search_for = MenuItem::CC_FIGHTER;
 			break;
 		case CharacterClass::LORD:
 			search_for = MenuItem::CC_LORD;
