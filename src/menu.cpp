@@ -55,7 +55,6 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics, const 
 	case MenuType::REVIEW_AND_CONFIRM:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::RC_ACCEPT, (*_display->string)["RC_ACCEPT"]);
 		_add_item(1, MenuItemType::ENTRY, MenuItem::RC_REJECT, (*_display->string)["RC_REJECT"]);
-		_add_item(2, MenuItemType::ENTRY, MenuItem::RC_CANCEL, (*_display->string)["RC_CAMCEL"]);
 		selected = items.begin();
 		break;
 	case MenuType::CASTLE:
@@ -166,6 +165,18 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics, const 
 		_add_item(4, MenuItemType::ENTRY, MenuItem::CR_HOBBIT,
 			(*_display->string)["CHARACTER_RACE_HOBBIT"], true, ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_RACE_HOBBIT"]);
+		selected = items.begin();
+		break;
+	case MenuType::CHOOSE_METHOD:
+		_add_item(0, MenuItemType::ENTRY, MenuItem::CM_FULL,
+			(*_display->string)["CHARACTER_CREATION_METHOD_FULL"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_CREATION_METHOD_FULL"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::CM_QUICK,
+			(*_display->string)["CHARACTER_CREATION_METHOD_QUICK"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_CREATION_METHOD_QUICK"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::CM_RANDOM,
+			(*_display->string)["CHARACTER_CREATION_METHOD_RANDOM"], true, ConfigOption::NONE,
+			(*_display->string)["HINT_CHARACTER_CREATION_METHOD_RANDOM"]);
 		selected = items.begin();
 		break;
 	case MenuType::OPTIONS:
@@ -389,6 +400,20 @@ auto Sorcery::Menu::choose(std::any option)
 
 	MenuItem search_for{MenuItem::NONE};
 	switch (_type) {
+	case MenuType::CHOOSE_METHOD:
+		switch (std::any_cast<CreateMethod>(option)) {
+		case CreateMethod::FULL:
+			search_for = MenuItem::CM_FULL;
+			break;
+		case CreateMethod::QUICK:
+			search_for = MenuItem::CM_QUICK;
+			break;
+		case CreateMethod::RANDOM:
+			search_for = MenuItem::CM_RANDOM;
+			break;
+		default:
+			break;
+		}
 	case MenuType::CHOOSE_CHARACTER_RACE:
 		switch (std::any_cast<CharacterRace>(option)) {
 		case CharacterRace::DWARF:

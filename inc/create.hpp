@@ -90,9 +90,11 @@ namespace Sorcery {
 		Component _ip_alignment_c;
 		Component _ip_attribute_c;
 		Component _ip_class_c;
+		Component _ip_method_c;
 		Component _ap_c;
 		Component _ad_c;
 		std::shared_ptr<Keyboard> _keyboard;
+		std::shared_ptr<Menu> _method_menu;
 		std::shared_ptr<Menu> _race_menu;
 		std::shared_ptr<Menu> _alignment_menu;
 		std::shared_ptr<Menu> _attribute_menu;

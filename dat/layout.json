@@ -1179,6 +1179,55 @@
 				"priority": "3"
 			},
 			{
+				"name": "menu_frame",
+				"w": "25",
+				"h": "5",
+				"x": "centre",
+				"y": "14",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "menu",
+				"x": "28",
+				"y": "14",
+				"w": "24",
+				"h": "5",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"animated": "true",
+				"width": "25",
+				"background": "0x6060c8ff",
+				"justification": "centre",
+				"type": "menu",
+				"priority": "10"
+			},
+			{
+				"name": "explanation_frame",
+				"w": "40",
+				"h": "6",
+				"x": "centre",
+				"y": "26",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "info_panel",
+				"w": "38",
+				"h": "4",
+				"x": "20",
+				"y": "26",
+				"alpha": "255",
+				"type": "panel",
+				"priority": "6",
+				"drawmode": "manual"
+			},
+			{
 				"name": "choice_frame",
 				"w": "38",
 				"h": "14",
@@ -1187,43 +1236,46 @@
 				"alpha": "255",
 				"type": "frame",
 				"priority": "6",
-				"drawmode": "automatic"
+				"drawmode": "manual"
 			},
 			{
 				"name": "full_method",
 				"x": "27",
 				"y": "22",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0xff8080ff",
 				"size": "38",
 				"string": "FULL_CHARACTER_CREATION",
 				"justification": "centre",
 				"type": "text",
-				"priority": "3"
+				"priority": "3",
+				"drawmode": "manual"
 			},
 			{
 				"name": "quick_method",
 				"x": "40",
 				"y": "22",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x80ff80ff",
 				"size": "38",
 				"string": "QUICK_CHARACTER_CREATION",
 				"justification": "centre",
 				"type": "text",
-				"priority": "3"
+				"priority": "3",
+				"drawmode": "manual"
 			},
 			{
 				"name": "random_method",
 				"x": "53",
 				"y": "22",
 				"font": "monospace",
-				"colour": "0xffffffff",
+				"colour": "0x8080ffff",
 				"size": "38",
 				"string": "RANDOM_CHARACTER_CREATION",
 				"justification": "centre",
 				"type": "text",
-				"priority": "3"
+				"priority": "3",
+				"drawmode": "manual"
 			},
 			{
 				"name": "full_icon",
@@ -2074,7 +2126,7 @@
 		{
 			"name": "menu_frame",
 			"w": "25",
-			"h": "5",
+			"h": "4",
 			"x": "27",
 			"y": "14",
 			"alpha": "200",
@@ -2087,7 +2139,7 @@
 			"x": "28",
 			"y": "14",
 			"w": "24",
-			"h": "5",
+			"h": "4",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",

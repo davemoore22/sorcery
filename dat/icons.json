@@ -157,23 +157,23 @@
 		{
 			"index": "22",
 			"filename": "dice-twenty-faces-twenty",
-			"menu_item": "CR_NONE",
+			"menu_item": "CM_RANDOM",
 			"key": "random_creation",
-			"colour": "0xffffffff"
+			"colour": "0x6060ffff"
 		},
 		{
 			"index": "23",
 			"filename": "skills",
-			"menu_item": "CR_NONE",
+			"menu_item": "CM_QUICK",
 			"key": "quick_creation",
-			"colour": "0xffffffff"
+			"colour": "0x60ff60ff"
 		},
 		{
 			"index": "24",
 			"filename": "calculator",
-			"menu_item": "CR_NONE",
+			"menu_item": "CM_FULL",
 			"key": "full_creation",
-			"colour": "0xffffffff"
+			"colour": "0xff6060ff"
 		},
 		{
 			"index": "25",

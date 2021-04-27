@@ -62,7 +62,7 @@
 			<Cursor1 position="363" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src/engine.cpp" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/engine.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="8105" topLine="209" />
 		</Cursor>
@@ -162,7 +162,7 @@
 			<Cursor1 position="2506" topLine="28" />
 		</Cursor>
 	</File>
-	<File name="inc/maputils.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="inc/maputils.hpp" open="1" top="1" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="2982" topLine="86" />
 		</Cursor>

@@ -2743,6 +2743,16 @@ auto Sorcery::Character::set_view(const CharacterView value) -> void {
 	_generate_display();
 }
 
+auto Sorcery::Character::get_method() const -> CreateMethod {
+
+	return _method;
+}
+
+auto Sorcery::Character::set_method(const CreateMethod value) -> void {
+
+	_method = value;
+}
+
 auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();

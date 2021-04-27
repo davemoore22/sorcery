@@ -102,6 +102,8 @@ namespace Sorcery {
 		auto left_view() -> void;
 		auto right_view() -> void;
 		auto summary_text() -> std::string;
+		auto get_method() const -> CreateMethod;
+		auto set_method(const CreateMethod value) -> void;
 
 		// Public Members
 
@@ -176,5 +178,6 @@ namespace Sorcery {
 		std::shared_ptr<SpellSummary> _ss;
 		Component _ss_c;
 		Component _ad_c;
+		CreateMethod _method;
 	};
 } // namespace Sorcery
