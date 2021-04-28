@@ -2149,14 +2149,8 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		_display->generate_components("character_detailed", _v_sprites, _v_texts, _v_frames);
 
-		/* auto name_text{_add_text((*_display->layout)["character_detailed:name_text"], "{}",
-		_name)}; auto summary_text{_add_text((*_display->layout)["character_detailed:summary_text"],
-		"{}", fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
-				std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
-				get_alignment(_alignment), get_race(_race), get_class(_class)))};
-		_display->window->shove_text(*name_text, *summary_text, 1u); */
 		_add_text(
-			(*_display->layout)["character_strict:name_and_summary_text"], "{}", summary_text());
+			(*_display->layout)["character_detailed:name_and_summary_text"], "{}", summary_text());
 
 		_add_text((*_display->layout)["character_detailed:strength_value"], "{:>2}",
 			std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
@@ -2376,7 +2370,6 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS)));
 
-		// resistances_c.y += _display->window->get_cell_height();
 		resistances_c.y = pos_y;
 		resistances_c.x = pos_x + (offset_columns * _display->window->get_cell_width());
 		resistances_c.colour =
@@ -2404,7 +2397,6 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RECOVER_FROM_FEAR)));
 
-		// resistances_c.y += _display->window->get_cell_height();
 		resistances_c.y = pos_y;
 		resistances_c.x = pos_x + (2 * offset_columns * _display->window->get_cell_width());
 		resistances_c.colour =
@@ -2436,14 +2428,6 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		_display->generate_components("character_inventory", _v_sprites, _v_texts, _v_frames);
 
-		/* auto name_text{
-			_add_text((*_display->layout)["character_inventory:name_text"], "{}", _name)};
-		auto summary_text{_add_text((*_display->layout)["character_inventory:summary_text"], "{}",
-			fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
-				std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
-				get_alignment(_alignment), get_race(_race), get_class(_class)))};
-		_display->window->shove_text(*name_text, *summary_text, 1u); */
-
 		_add_text(
 			(*_display->layout)["character_inventory:name_and_summary_text"], "{}", summary_text());
 
@@ -2458,13 +2442,6 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		_display->generate_components("character_mage_spells", _v_sprites, _v_texts, _v_frames);
 
-		/* auto name_text{
-			_add_text((*_display->layout)["character_mage_spells:name_text"], "{}", _name)};
-		auto summary_text{_add_text((*_display->layout)["character_mage_spells:summary_text"], "{}",
-			fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
-				std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
-				get_alignment(_alignment), get_race(_race), get_class(_class)))};
-		_display->window->shove_text(*name_text, *summary_text, 1u); */
 		_add_text((*_display->layout)["character_mage_spells:name_and_summary_text"], "{}",
 			summary_text());
 
@@ -2475,23 +2452,10 @@ auto Sorcery::Character::_generate_display() -> void {
 			(*_display->layout)["character_mage_spells:spell_translated_name_label"]};
 
 		int level_x{level_c.x};
-		int level_y{level_c.y};
 		for (unsigned int level = 1; level <= 7; level++) {
 
 			_add_text(level_c, "{}",
 				fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level));
-
-			/* auto title{_add_text(level_c, "{}",
-				fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
-			auto spell_points{_add_text(
-				sp_c, "{}", fmt::format("{}/{}", _mage_cur_sp.at(level), _mage_max_sp.at(level)))};
-
-			if (_mage_max_sp.at(level) == 0)
-				title->setFillColor(sf::Color(std::stoull(sp_c["colour_none"].value(), 0, 16)));
-			else
-				title->setFillColor(sf::Color(sp_c.colour)); */
-
-			//_display->window->shove_text(*title, *spell_points, 1.0f);
 
 			sp_c.x = level_c.x;
 			sp_c.y = level_c.y;
@@ -2504,21 +2468,12 @@ auto Sorcery::Character::_generate_display() -> void {
 			});
 			for (auto spell : spells) {
 				auto spell_name{_add_text(spell_name_c, "{}", spell.name)};
-				// auto spell_translated_name{
-				//	_add_text(spell_t_name_c, "({})", spell.translated_name)};
-				// spell_name->setPosition(spell_name_c.x, spell_name_c.y);
-				//_display->window->shove_text(*spell_name, *spell_translated_name, 1.0f);
-				if (spell.known) {
-					// spell_translated_name->setFillColor(
-					//	sf::Color(std::stoull(spell_t_name_c["known_colour"].value(), 0, 16)));
+				if (spell.known)
 					spell_name->setFillColor(
 						sf::Color(std::stoull(spell_name_c["known_colour"].value(), 0, 16)));
-				} else {
-					// spell_translated_name->setFillColor(
-					//	sf::Color(std::stoull(spell_t_name_c["unknown_colour"].value(), 0, 16)));
+				else
 					spell_name->setFillColor(
 						sf::Color(std::stoull(spell_name_c["unknown_colour"].value(), 0, 16)));
-				}
 
 				// spell_name_c.y += spell_name_c.size;
 				spell_name_c.y += _display->window->get_cell_height();
@@ -2537,14 +2492,6 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		_display->generate_components("character_priest_spells", _v_sprites, _v_texts, _v_frames);
 
-		/* auto name_text{
-			_add_text((*_display->layout)["character_priest_spells:name_text"], "{}", _name)};
-		auto summary_text{
-			_add_text((*_display->layout)["character_priest_spells:summary_text"], "{}",
-				fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
-					std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
-					get_alignment(_alignment), get_race(_race), get_class(_class)))};
-		_display->window->shove_text(*name_text, *summary_text, 1u); */
 		_add_text((*_display->layout)["character_priest_spells:name_and_summary_text"], "{}",
 			summary_text());
 
@@ -2555,23 +2502,10 @@ auto Sorcery::Character::_generate_display() -> void {
 			(*_display->layout)["character_priest_spells:spell_translated_name_label"]};
 
 		int level_x{level_c.x};
-		int level_y{level_c.y};
 		for (unsigned int level = 1; level <= 7; level++) {
 
 			_add_text(level_c, "{}",
 				fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level));
-
-			/* auto title{_add_text(level_c, "{}",
-				fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level))};
-			auto spell_points{_add_text(sp_c, "{}",
-				fmt::format("{}/{}", _priest_cur_sp.at(level), _priest_max_sp.at(level)))};
-			if (_priest_max_sp.at(level) == 0)
-				spell_points->setFillColor(
-					sf::Color(std::stoull(sp_c["colour_none"].value(), 0, 16)));
-			else
-				spell_points->setFillColor(sf::Color(sp_c.colour)); */
-
-			//_display->window->shove_text(*title, *spell_points, 1.0f);
 
 			sp_c.x = level_c.x;
 			sp_c.y = level_c.y;
@@ -2584,21 +2518,13 @@ auto Sorcery::Character::_generate_display() -> void {
 			});
 			for (auto spell : spells) {
 				auto spell_name{_add_text(spell_name_c, "{}", spell.name)};
-				// auto spell_translated_name{_add_text(spell_t_name_c, "{}",
-				// spell.translated_name)};
 				spell_name->setPosition(spell_name_c.x, spell_name_c.y);
-				//_display->window->shove_text(*spell_name, *spell_translated_name, 0.5f);
-				if (spell.known) {
-					// spell_translated_name->setFillColor(
-					//	sf::Color(std::stoull(spell_t_name_c["known_colour"].value(), 0, 16)));
+				if (spell.known)
 					spell_name->setFillColor(
 						sf::Color(std::stoull(spell_name_c["known_colour"].value(), 0, 16)));
-				} else {
-					// spell_translated_name->setFillColor(
-					//	sf::Color(std::stoull(spell_t_name_c["unknown_colour"].value(), 0, 16)));
+				else
 					spell_name->setFillColor(
 						sf::Color(std::stoull(spell_name_c["unknown_colour"].value(), 0, 16)));
-				}
 
 				spell_name_c.y += _display->window->get_cell_height();
 			}
@@ -2612,29 +2538,6 @@ auto Sorcery::Character::_generate_display() -> void {
 							  _display->window->get_cell_height());
 			}
 		}
-		/* } else if (_view == CharacterView::MESSAGES) {
-
-			_display->generate_components("character_messages", _v_sprites, _v_texts, _v_frames);
-
-			auto name_text{_add_text((*_display->layout)["character_messages:name_text"], "{}",
-		_name)}; auto summary_text{_add_text((*_display->layout)["character_messages:summary_text"],
-		"{}", fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
-					std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
-					get_alignment(_alignment), get_race(_race), get_class(_class)))};
-			_display->window->shove_text(*name_text, *summary_text, 1u);
-		} else if (_view == CharacterView::ACHIEVEMENTS) {
-
-			_display->generate_components("character_achievements", _v_sprites, _v_texts,
-		_v_frames);
-
-			auto name_text{
-				_add_text((*_display->layout)["character_achievements:name_text"], "{}", _name)};
-			auto summary_text{
-				_add_text((*_display->layout)["character_achievements:summary_text"], "{}",
-					fmt::format("{} {} {} {} {}", (*_display->string)["CHARACTER_LEVEL"],
-						std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)),
-						get_alignment(_alignment), get_race(_race), get_class(_class)))};
-			_display->window->shove_text(*name_text, *summary_text, 1u); */
 	}
 }
 
@@ -2656,45 +2559,6 @@ auto Sorcery::Character::_add_icon(Component &component, std::string icon_key) -
 	icon.setPosition(component.x + offset_x, component.y + offset_y);
 	icon.setScale(component.scale, component.scale);
 	_v_sprites.emplace(component.unique_key, icon);
-}
-
-auto Sorcery::Character::_add_text(
-	Component &component, std::string format, unsigned int count, ...) -> sf::Text * {
-
-	// add_text((*_display->layout)["character:cs1_hp_value"], "{}/{}", 2,
-	//	CSTR(std::to_string(_abilities.at(CharacterAbility::CURRENT_HP))),
-	//	CSTR(std::to_string(_abilities.at(CharacterAbility::MAX_HP))));
-
-	// Doesn't work?
-
-	va_list arguments;
-	va_start(arguments, count);
-	std::string formatted_value{fmt::format(format, static_cast<void *>(arguments), count)};
-	va_end(arguments);
-	sf::Text text;
-	text.setFont(_system->resources->fonts[component.font]);
-	text.setCharacterSize(component.size);
-	text.setFillColor(sf::Color(component.colour));
-	text.setString(formatted_value);
-	// text.setStyle(sf::Text::Bold);
-	const int offset_x = [&] {
-		if (component["offset_x"])
-			return std::stoi(component["offset_x"].value());
-		else
-			return 0;
-	}();
-	const int offset_y = [&] {
-		if (component["offset_y"])
-			return std::stoi(component["offset_y"].value());
-		else
-			return 0;
-	}();
-	text.setPosition(component.x + offset_x, component.y + offset_y);
-
-	// Generate a new key as this is a map, and we might call this with the same base component
-	std::string new_unique_key{GUID()};
-	_v_texts.emplace(new_unique_key, text);
-	return &_v_texts.at(new_unique_key);
 }
 
 auto Sorcery::Character::_add_text(

@@ -276,7 +276,7 @@
 1619557211 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
 	"character.hpp"
 
-1619554001 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
+1619636335 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
 	"display.hpp"
 	"graphics.hpp"
 	"main.hpp"
@@ -596,7 +596,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1615741465 source:/home/dave/Development/wizardry/sorcery-sfml/src/infopanel.cpp
+1619635809 source:/home/dave/Development/wizardry/sorcery-sfml/src/infopanel.cpp
 	"infopanel.hpp"
 
 1617132045 /home/dave/Development/wizardry/sorcery-sfml/inc/allocatepanel.hpp

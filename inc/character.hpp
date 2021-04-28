@@ -133,8 +133,6 @@ namespace Sorcery {
 		auto _get_character_portrait() -> sf::Sprite;
 		auto _add_text(Component &component, std::string format, std::string value,
 			bool is_view = true) -> sf::Text *;
-		auto _add_text(Component &component, std::string format, unsigned int count, ...)
-			-> sf::Text *;
 		auto _add_icon(Component &component, std::string icon_key) -> void;
 		auto _get_mage_magic_status(bool current) -> std::string;
 		auto _get_priest_magic_status(bool current) -> std::string;
