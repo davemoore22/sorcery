@@ -39,23 +39,6 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 	// Get the Allocate Stat Panel
 	_ap = std::make_shared<AllocatePanel>(_system, _display, _graphics, &_candidate);
 
-	// Get the Attribute Display Panel
-	//_ad = std::make_shared<AttributeDisplay>(
-	//	_system, _display, _graphics, &_candidate, Alignment::VERTICAL);
-
-	// Layout Information
-	_name_c = Component((*_display->layout)["character_create_stage_1:name_candidate"]);
-	_keyb_c = Component((*_display->layout)["character_create_stage_1:keyboard"]);
-	_ip_method_c = Component((*_display->layout)["choose_method:info_panel"]);
-	_ip_race_c = Component((*_display->layout)["character_create_stage_2:info_panel"]);
-	_ip_alignment_c = Component((*_display->layout)["character_create_stage_3:info_panel"]);
-	_ip_attribute_c = Component((*_display->layout)["character_create_stage_4:info_panel"]);
-	_ip_class_c = Component((*_display->layout)["character_create_stage_5:info_panel"]);
-	_ap_c = Component((*_display->layout)["character_create_stage_4:allocate_panel"]);
-	//_ad_c = Component((*_display->layout)["create:stage_4_attribute_display"]);
-
-	// need component for portrait picker
-
 	// Get the Texture for the Potraits
 	_potrait_texture = &system->resources->textures[GraphicsTexture::PORTRAITS];
 
@@ -79,18 +62,6 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 	// Create the Candidate Character
 	_stages.clear();
 	_candidate = Character(_system, _display, _graphics);
-
-	// Set up the Progress Display
-	for (auto &progress : _progress)
-		progress = std::nullopt;
-
-	// Get the Create Choice Icons
-	_method_icons[0].first = (*_display->layout)["choose_method:full_icon"];
-	_method_icons[0].second = (*_graphics->icons)["full_creation"].value();
-	_method_icons[1].first = (*_display->layout)["choose_method:quick_icon"];
-	_method_icons[1].second = (*_graphics->icons)["quick_creation"].value();
-	_method_icons[2].first = (*_display->layout)["choose_method:random_icon"];
-	_method_icons[2].second = (*_graphics->icons)["random_creation"].value();
 
 	_frames.clear();
 	_texts.clear();
@@ -118,11 +89,10 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 	// Don't display the info panel yet
 	_ip->valid = false;
 	_ap->valid = false;
-	//_ad->valid = false;
 
 	// Get the Keyboard
-	_keyboard->setPosition(_keyb_c.x, _keyb_c.y);
-	_ap->setPosition(_ap_c.x, _ap_c.y);
+	_keyboard->setPosition((*_display->layout)["character_create_stage_1:keyboard"].x,
+		(*_display->layout)["character_create_stage_1:keyboard"].y);
 
 	const Component name_c{(*_display->layout)["character_create_stage_1:name_candidate"]};
 
@@ -174,7 +144,6 @@ auto Sorcery::Create::_do_event_loop() -> std::optional<ModuleResult> {
 			}
 
 			// Redraw whilst in the module
-			_set_progress_panel_contents();
 			_window->clear();
 			_draw();
 			_window->display();
@@ -262,43 +231,6 @@ auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event)
 	_set_info_panel_contents(_method_menu->selected);
 
 	return std::nullopt;
-
-	// If we get here then we are still on the Race Choice screen so set the Info Panel
-	//_set_info_panel_contents(_race_menu->selected);
-
-	// return std::nullopt;
-
-	/* if (_system->input->check_for_event(WindowInput::LEFT, event)) {
-		if (_method == CreateMethod::FULL)
-			_method = CreateMethod::RANDOM;
-		else if (_method == CreateMethod::RANDOM)
-			_method = CreateMethod::QUICK;
-		else if (_method == CreateMethod::QUICK)
-			_method = CreateMethod::FULL;
-	} else if (_system->input->check_for_event(WindowInput::RIGHT, event)) {
-		if (_method == CreateMethod::FULL)
-			_method = CreateMethod::QUICK;
-		else if (_method == CreateMethod::QUICK)
-			_method = CreateMethod::RANDOM;
-		else if (_method == CreateMethod::RANDOM)
-			_method = CreateMethod::FULL;
-	} else if (_system->input->check_for_event(WindowInput::CONFIRM, event))
-		return ModuleResult::NEXT;
-	else if (_system->input->check_for_event(WindowInput::MOVE, event)) {
-		sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
-		if (_method_icons[0].second.getGlobalBounds().contains(mouse_pos))
-			_method = CreateMethod::FULL;
-		else if (_method_icons[1].second.getGlobalBounds().contains(mouse_pos))
-			_method = CreateMethod::QUICK;
-		else if (_method_icons[2].second.getGlobalBounds().contains(mouse_pos))
-			_method = CreateMethod::RANDOM;
-	} else if (_system->input->check_for_event(WindowInput::BACK, event)) {
-		return ModuleResult::BACK;
-	} else if (_system->input->check_for_event(WindowInput::DELETE, event)) {
-		return ModuleResult::BACK;
-	} */
-
-	return std::nullopt;
 }
 
 auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::optional<ModuleResult> {
@@ -307,8 +239,8 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::option
 	if (_system->input->check_for_event(WindowInput::MOVE, event)) {
 
 		sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
-		std::optional<std::string> mouse_selected{
-			_keyboard->set_mouse_selected(_keyb_c, mouse_pos)};
+		std::optional<std::string> mouse_selected{_keyboard->set_mouse_selected(
+			(*_display->layout)["character_create_stage_1:keyboard"], mouse_pos)};
 		if (mouse_selected)
 			_keyboard->selected = mouse_selected.value();
 	} else if ((_system->input->check_for_event(WindowInput::ALPHANUMERIC, event)) ||
@@ -797,7 +729,6 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_display->set_input_mode(WindowInputMode::ALLOCATE_STATS);
 			_attribute_menu->selected = _attribute_menu->items.begin();
 			_ap->set();
-			//_ad->valid = false;
 			_set_info_panel_contents(_attribute_menu->selected);
 		} break;
 		case CharacterStage::CHOOSE_PORTRAIT: {
@@ -811,8 +742,6 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_set_info_panel_contents(_class_menu->selected);
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 			_ap->valid = false;
-			//_ad->valid = false;
-			//_ad->set();
 		} break;
 		case CharacterStage::REVIEW_AND_CONFIRM: {
 			auto popped = _stages.back();
@@ -822,8 +751,6 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_display->set_input_mode(WindowInputMode::CHOOSE_PORTRAIT);
 			_stages.pop_back();
 			_ap->valid = false;
-			//_ad->valid = false;
-			//_ad->set();
 			_show_final_menu = false;
 		}
 		default:
@@ -843,7 +770,8 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 	} else if (_method == CreateMethod::QUICK) {
 		switch (_candidate.get_stage()) {
 		case CharacterStage::CHOOSE_METHOD:
-			// Don't do anything special here - handled in the calling function
+
+			// Don't do anything special here
 			break;
 		case CharacterStage::ENTER_NAME: {
 			auto popped = _stages.back();
@@ -863,7 +791,6 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_stages.pop_back();
 			_display->set_input_mode(WindowInputMode::INPUT_NAME);
 			_ap->valid = false;
-			//_ad->valid = false;
 		} break;
 		case CharacterStage::REVIEW_AND_CONFIRM: {
 			auto popped = _stages.back();
@@ -872,7 +799,6 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_display->generate_components("character_create_stage_6", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_ap->valid = false;
-			//_ad->set();
 			_display->set_input_mode(WindowInputMode::CHOOSE_PORTRAIT);
 			_show_final_menu = false;
 		}
@@ -893,7 +819,6 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_candidate.set_stage(CharacterStage::ENTER_NAME);
 			_display->generate_components("character_create_stage_1", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::INPUT_NAME);
-			// depending on method will need to skip ahead, generate random etc
 		} break;
 		case CharacterStage::ENTER_NAME: {
 			auto to_push(_candidate);
@@ -971,7 +896,6 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_candidate.set_stage(CharacterStage::ENTER_NAME);
 			_display->generate_components("character_create_stage_1", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::INPUT_NAME);
-			// depending on method will need to skip ahead, generate random etc
 		} break;
 		case CharacterStage::ENTER_NAME: {
 			auto to_push(_candidate);
@@ -981,7 +905,6 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_display->generate_components("character_create_stage_6", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::CHOOSE_PORTRAIT);
 			_candidate.set_portrait_index(0);
-			//_ad->set();
 			_ap->valid = false;
 		} break;
 		case CharacterStage::CHOOSE_PORTRAIT: {
@@ -996,99 +919,6 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		default:
 			break;
 		}
-	}
-}
-
-auto Sorcery::Create::_set_progress_panel_contents() -> void {
-
-	switch (_candidate.get_stage()) {
-	case CharacterStage::CHOOSE_METHOD:
-	case CharacterStage::REVIEW_AND_CONFIRM:
-	case CharacterStage::ENTER_NAME: {
-		for (auto &progress : _progress)
-			progress = std::nullopt;
-	} break;
-	case CharacterStage::CHOOSE_RACE: {
-		_progress[0] = sf::Text();
-		_progress[1] = std::nullopt; // TODO: ranges library has something for last 4 elements?
-		_progress[2] = std::nullopt;
-		_progress[3] = std::nullopt;
-		_progress[4] = std::nullopt;
-	} break;
-	case CharacterStage::CHOOSE_ALIGNMENT: {
-		_progress[0] = sf::Text();
-		auto stage_2 = _candidate.get_icon(CharacterStage::CHOOSE_RACE);
-		stage_2->setPosition((*_display->layout)["create:stage_2_icon"].x,
-			(*_display->layout)["create:stage_2_icon"].y);
-		stage_2->setScale((*_display->layout)["create:stage_2_icon"].scale,
-			(*_display->layout)["create:stage_2_icon"].scale);
-		_progress[1] = stage_2;
-		_progress[2] = std::nullopt;
-		_progress[3] = std::nullopt;
-		_progress[4] = std::nullopt;
-
-	} break;
-	case CharacterStage::ALLOCATE_STATS: {
-		_progress[0] = sf::Text();
-		auto stage_2 = _candidate.get_icon(CharacterStage::CHOOSE_RACE);
-		stage_2->setPosition((*_display->layout)["create:stage_2_icon"].x,
-			(*_display->layout)["create:stage_2_icon"].y);
-		stage_2->setScale((*_display->layout)["create:stage_2_icon"].scale,
-			(*_display->layout)["create:stage_2_icon"].scale);
-		_progress[1] = stage_2;
-		auto stage_3 = _candidate.get_icon(CharacterStage::CHOOSE_ALIGNMENT);
-		stage_3->setPosition((*_display->layout)["create:stage_3_icon"].x,
-			(*_display->layout)["create:stage_3_icon"].y);
-		stage_3->setScale((*_display->layout)["create:stage_3_icon"].scale,
-			(*_display->layout)["create:stage_3_icon"].scale);
-		_progress[2] = stage_3;
-		_progress[3] = std::nullopt;
-		_progress[4] = std::nullopt;
-	} break;
-	case CharacterStage::CHOOSE_CLASS: {
-
-		// progress[3] is a sf:drawable
-		_progress[0] = sf::Text();
-		auto stage_2 = _candidate.get_icon(CharacterStage::CHOOSE_RACE);
-		stage_2->setPosition((*_display->layout)["create:stage_2_icon"].x,
-			(*_display->layout)["create:stage_2_icon"].y);
-		stage_2->setScale((*_display->layout)["create:stage_2_icon"].scale,
-			(*_display->layout)["create:stage_2_icon"].scale);
-		_progress[1] = stage_2;
-		auto stage_3 = _candidate.get_icon(CharacterStage::CHOOSE_ALIGNMENT);
-		stage_3->setPosition((*_display->layout)["create:stage_3_icon"].x,
-			(*_display->layout)["create:stage_3_icon"].y);
-		stage_3->setScale((*_display->layout)["create:stage_3_icon"].scale,
-			(*_display->layout)["create:stage_3_icon"].scale);
-		_progress[2] = stage_3;
-		_progress[3] = std::nullopt;
-		_progress[4] = std::nullopt;
-	} break;
-	case CharacterStage::CHOOSE_PORTRAIT: {
-		// progress[3] is a sf:drawable
-		_progress[0] = sf::Text();
-		auto stage_2 = _candidate.get_icon(CharacterStage::CHOOSE_RACE);
-		stage_2->setPosition((*_display->layout)["create:stage_2_icon"].x,
-			(*_display->layout)["create:stage_2_icon"].y);
-		stage_2->setScale((*_display->layout)["create:stage_2_icon"].scale,
-			(*_display->layout)["create:stage_2_icon"].scale);
-		_progress[1] = stage_2;
-		auto stage_3 = _candidate.get_icon(CharacterStage::CHOOSE_ALIGNMENT);
-		stage_3->setPosition((*_display->layout)["create:stage_3_icon"].x,
-			(*_display->layout)["create:stage_3_icon"].y);
-		stage_3->setScale((*_display->layout)["create:stage_3_icon"].scale,
-			(*_display->layout)["create:stage_3_icon"].scale);
-		_progress[2] = stage_3;
-		_progress[3] = std::nullopt;
-		auto stage_5 = _candidate.get_icon(CharacterStage::CHOOSE_CLASS);
-		stage_5->setPosition((*_display->layout)["create:stage_5_icon"].x,
-			(*_display->layout)["create:stage_5_icon"].y);
-		stage_5->setScale((*_display->layout)["create:stage_5_icon"].scale,
-			(*_display->layout)["create:stage_5_icon"].scale);
-		_progress[4] = stage_5;
-	}
-	default:
-		break;
 	}
 }
 
@@ -1136,17 +966,7 @@ auto Sorcery::Create::_draw() -> void {
 	if (_candidate.get_stage() == CharacterStage::CHOOSE_METHOD) {
 
 		_display->display_components("choose_method", _sprites, _texts, _frames);
-		/* for (auto &icon : _method_icons) {
-			icon.second.setPosition(icon.first.x, icon.first.y);
-			icon.second.setScale(icon.first.scale, icon.first.scale);
-			if (std::stoi(icon.first["method"].value()) == _method)
-				icon.second.setColor(
-					_display->window->change_colour(sf::Color(icon.first.background), lerp));
-			else
-				icon.second.setColor(sf::Color(icon.first.colour));
 
-			_window->draw(icon.second);
-		} */
 		_method_menu->generate((*_display->layout)["choose_method:menu"], lerp);
 		const sf::Vector2f menu_pos((*_display->layout)["choose_method:menu"].x,
 			(*_display->layout)["choose_method:menu"].y);
@@ -1157,7 +977,8 @@ auto Sorcery::Create::_draw() -> void {
 			_candidate.summary_text());
 
 		if (_ip->valid) {
-			_ip->setPosition(_ip_method_c.x, _ip_method_c.y);
+			_ip->setPosition((*_display->layout)["choose_method:info_panel"].x,
+				(*_display->layout)["choose_method:info_panel"].y);
 			_window->draw(*_ip);
 		}
 
@@ -1166,7 +987,8 @@ auto Sorcery::Create::_draw() -> void {
 		_display->display_components("character_create_stage_1", _sprites, _texts, _frames);
 		std::string display_name{_candidate.get_name() + "_"};
 		sf::Text name_text;
-		_display->window->draw_text(name_text, _name_c, display_name, lerp);
+		_display->window->draw_text(name_text,
+			(*_display->layout)["character_create_stage_1:name_candidate"], display_name, lerp);
 		_display->window->draw_text(summary_text,
 			(*_display->layout)["character_create_stage_1:summary_text"],
 			_candidate.summary_text());
@@ -1189,7 +1011,8 @@ auto Sorcery::Create::_draw() -> void {
 
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
-			_ip->setPosition(_ip_race_c.x, _ip_race_c.y);
+			_ip->setPosition((*_display->layout)["character_create_stage_2:info_panel"].x,
+				(*_display->layout)["character_create_stage_2:info_panel"].y);
 			_window->draw(*_ip);
 		}
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_ALIGNMENT) {
@@ -1207,7 +1030,8 @@ auto Sorcery::Create::_draw() -> void {
 
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
-			_ip->setPosition(_ip_alignment_c.x, _ip_alignment_c.y);
+			_ip->setPosition((*_display->layout)["character_create_stage_3:info_panel"].x,
+				(*_display->layout)["character_create_stage_3:info_panel"].y);
 			_window->draw(*_ip);
 		}
 	} else if (_candidate.get_stage() == CharacterStage::ALLOCATE_STATS) {
@@ -1224,13 +1048,15 @@ auto Sorcery::Create::_draw() -> void {
 			_candidate.summary_text());
 
 		if (_ap->valid) {
-			_ap->setPosition(_ap_c.x, _ap_c.y);
+			_ap->setPosition((*_display->layout)["character_create_stage_4:allocate_panel"].x,
+				(*_display->layout)["character_create_stage_4:allocate_panel"].y);
 			_window->draw(*_ap);
 		}
 
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
-			_ip->setPosition(_ip_attribute_c.x, _ip_attribute_c.y);
+			_ip->setPosition((*_display->layout)["character_create_stage_4:info_panel"].x,
+				(*_display->layout)["character_create_stage_4:info_panel"].y);
 			_window->draw(*_ip);
 		}
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_CLASS) {
@@ -1242,7 +1068,8 @@ auto Sorcery::Create::_draw() -> void {
 		_window->draw(*_class_menu);
 
 		if (_ap->valid) {
-			_ap->setPosition(_ap_c.x, _ap_c.y);
+			_ap->setPosition((*_display->layout)["character_create_stage_4:allocate_panel"].x,
+				(*_display->layout)["character_create_stage_4:allocate_panel"].y);
 			_window->draw(*_ap);
 		}
 
@@ -1252,15 +1079,11 @@ auto Sorcery::Create::_draw() -> void {
 
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
-			_ip->setPosition(_ip_class_c.x, _ip_class_c.y);
+			_ip->setPosition((*_display->layout)["character_create_stage_5:info_panel"].x,
+				(*_display->layout)["character_create_stage_5:info_panel"].y);
 			_window->draw(*_ip);
 		}
 
-		// And the Attribute Bar
-		/* if (_ad->valid) {
-			_ad->setPosition(_ad_c.x, _ad_c.y);
-			_window->draw(*_ad);
-		} */
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_PORTRAIT) {
 
 		_display->display_components("character_create_stage_6", _sprites, _texts, _frames);
@@ -1277,11 +1100,6 @@ auto Sorcery::Create::_draw() -> void {
 
 		_window->draw(portrait);
 
-		// And the Attribute Bar
-		/* if (_ad->valid) {
-			_ad->setPosition(_ad_c.x, _ad_c.y);
-			_window->draw(*_ad);
-		} */
 	} else if (_candidate.get_stage() == CharacterStage::REVIEW_AND_CONFIRM) {
 
 		_display->display_components("character_create_stage_7", _sprites, _texts, _frames);
@@ -1303,20 +1121,6 @@ auto Sorcery::Create::_draw() -> void {
 			_window->draw(*_final_menu);
 		}
 	}
-
-	// Draw the progress bars (TODO: can't use a visit lambda here for some reason)
-	/* for (auto &item : _progress) {
-		if (item) {
-			if (std::holds_alternative<sf::Text>(item.value())) {
-				auto text{std::get<sf::Text>(item.value())};
-				_display->window->draw_text(text,
-					(*_display->layout)["create:stage_1_name_progress"], _candidate.get_name());
-			} else if (std::holds_alternative<sf::Sprite>(item.value())) {
-				auto sprite{std::get<sf::Sprite>(item.value())};
-				_window->draw(sprite);
-			}
-		}
-	} */
 
 	// Draw the Overlay if present
 	_display->display_overlay();

@@ -53,6 +53,7 @@ auto Sorcery::InfoPanel::set_icon(const MenuItem menu_item) -> void {
 		_icon = sf::Sprite();
 
 	_icon.setPosition(0, 16);
+	_icon.setColor(sf::Color(0xffffffff));
 }
 
 // Set the Text

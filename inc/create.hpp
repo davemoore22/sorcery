@@ -73,7 +73,6 @@ namespace Sorcery {
 		auto _handle_review_and_confirm(const sf::Event &event) -> std::optional<ModuleResult>;
 		auto _set_classes_menu() -> void;
 		auto _set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void;
-		auto _set_progress_panel_contents() -> void;
 		auto _update_character(const sf::Event &event) -> std::optional<ModuleResult>;
 
 		// Private Members
@@ -84,15 +83,6 @@ namespace Sorcery {
 		sf::Sprite _bg;
 		sf::Texture *_potrait_texture;
 		Character _candidate;
-		Component _name_c;
-		Component _keyb_c;
-		Component _ip_race_c;
-		Component _ip_alignment_c;
-		Component _ip_attribute_c;
-		Component _ip_class_c;
-		Component _ip_method_c;
-		Component _ap_c;
-		Component _ad_c;
 		std::shared_ptr<Keyboard> _keyboard;
 		std::shared_ptr<Menu> _method_menu;
 		std::shared_ptr<Menu> _race_menu;
@@ -102,10 +92,7 @@ namespace Sorcery {
 		std::shared_ptr<Menu> _final_menu;
 		std::shared_ptr<InfoPanel> _ip;
 		std::shared_ptr<AllocatePanel> _ap;
-		std::shared_ptr<AttributeDisplay> _ad;
 		std::vector<Character> _stages;
-		std::array<std::optional<std::variant<sf::Text, sf::Sprite>>, 5> _progress;
-		std::array<std::pair<Component, sf::Sprite>, 3> _method_icons;
 		CreateMethod _method;
 		std::map<std::string, sf::Sprite> _sprites;
 		std::map<std::string, sf::Text> _texts;
