@@ -29,6 +29,7 @@
 #include "create.hpp" // temp
 #include "display.hpp"
 #include "engine.hpp"
+#include "game.hpp"
 #include "gamemenu.hpp"
 #include "graphics.hpp"
 #include "license.hpp"
@@ -79,6 +80,7 @@ namespace Sorcery {
 		std::shared_ptr<License> _license;
 		std::shared_ptr<Options> _options;
 		std::shared_ptr<Compendium> _compendium;
+		std::shared_ptr<Game> _game;
 		std::shared_ptr<GameMenu> _gamemenu;
 		std::shared_ptr<Engine> _engine;
 		std::vector<std::string> _arguments;

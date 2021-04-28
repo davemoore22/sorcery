@@ -48,7 +48,8 @@ Sorcery::GameMenu::GameMenu(System *system, Display *display, Graphics *graphics
 // Standard Destructor
 Sorcery::GameMenu::~GameMenu() {}
 
-auto Sorcery::GameMenu::start() -> std::optional<MenuItem> {
+// Start/Continue a new Game
+auto Sorcery::GameMenu::start(bool new_game) -> std::optional<MenuItem> {
 
 	_menu_stage = GameMenuType::CASTLE;
 

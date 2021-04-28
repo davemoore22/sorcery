@@ -53,11 +53,16 @@ Sorcery::Application::Application(int argc, char **argv) {
 	graphics->animation->force_refresh_colour_cycling();
 	graphics->animation->start_colour_cycling_threads();
 
+	// Create a Game (load the existing one if possible)
+	_game = std::make_shared<Game>(system.get(), display.get(), graphics.get());
+
 	// Generate the necessary modules
 	_mainmenu = std::make_shared<MainMenu>(system.get(), display.get(), graphics.get());
 	_license = std::make_shared<License>(system.get(), display.get(), graphics.get());
 	_options = std::make_shared<Options>(system.get(), display.get(), graphics.get());
 	_compendium = std::make_shared<Compendium>(system.get(), display.get(), graphics.get());
+
+	// TODO need to pass in game object into these two
 	_gamemenu = std::make_shared<GameMenu>(system.get(), display.get(), graphics.get());
 	_engine = std::make_shared<Engine>(system.get(), display.get(), graphics.get());
 }
@@ -80,7 +85,13 @@ auto Sorcery::Application::start() -> void {
 
 			switch (option_chosen.value()) {
 			case MenuItem::MM_NEW_GAME:
-				option_chosen = _gamemenu->start();
+				option_chosen = _gamemenu->start(true);
+				_gamemenu->stop();
+				break;
+			case MenuItem::MM_CONTINUE_GAME:
+				// Need a check that a game exists - perhaps disable the menu in generate if it
+				// doesn't exist?
+				option_chosen = _gamemenu->start(false);
 				_gamemenu->stop();
 				break;
 			case MenuItem::MM_OPTIONS:

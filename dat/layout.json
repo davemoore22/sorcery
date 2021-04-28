@@ -328,7 +328,7 @@
 		},
 		{
 			"name": "confirm_new_game_gui_frame",
-			"w": "44",
+			"w": "48",
 			"h": "7",
 			"x": "centre",
 			"y": "14",

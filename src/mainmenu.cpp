@@ -146,8 +146,9 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 							option_chosen == MenuItem::MM_NEW_GAME) {
 							_display->set_input_mode(WindowInputMode::CONFIRM_NEW_GAME);
 							_yes_or_no = WindowConfirm::NO;
-							//_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-							// return MenuItem::MM_NEW_GAME;
+						} else if (option_chosen == MenuItem::MM_CONTINUE_GAME) {
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+							return MenuItem::MM_CONTINUE_GAME;
 						} else if (option_chosen == MenuItem::MM_LICENSE) {
 							_display->set_input_mode(WindowInputMode::DISPLAY_TEXT_FILE);
 							return MenuItem::MM_LICENSE;

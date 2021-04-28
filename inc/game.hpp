@@ -24,6 +24,31 @@
 
 #pragma once
 
+#include "character.hpp"
+#include "display.hpp"
+#include "graphics.hpp"
 #include "main.hpp"
+#include "system.hpp"
 
-namespace Sorcery {}
+namespace Sorcery {
+
+	// Game holds the current active game in progress
+	class Game {
+
+	  public:
+		// Constructor
+		Game(System *system, Display *display, Graphics *graphics);
+
+		// Public Members
+
+		// Public Methods
+
+	  private:
+		// Private Methods
+
+		// Private Members
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
+	};
+} // namespace Sorcery

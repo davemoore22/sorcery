@@ -23,3 +23,16 @@
 // the resulting work.
 
 #include "game.hpp"
+
+Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
+	: _system{system}, _display{display}, _graphics{graphics} {
+
+	// Attempt to load a game from the Database - if none is present set a flag
+
+	// _load - private method
+	// new_game - public method
+
+	// bool _valid
+	// get_valid()
+	// set_valid()
+}

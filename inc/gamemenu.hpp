@@ -50,7 +50,7 @@ namespace Sorcery {
 		// Public Members
 
 		// Public Methods
-		auto start() -> std::optional<MenuItem>;
+		auto start(bool new_game) -> std::optional<MenuItem>;
 		auto stop() -> void;
 
 	  private:
