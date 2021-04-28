@@ -104,6 +104,9 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 					image.setPosition(component.x + offset_x, component.y + offset_y);
 					image.setScale(component.scale, component.scale);
 
+					if (component.colour != 0ull)
+						image.setColor(sf::Color(component.colour));
+
 					// Add the image to the components ready to draw
 					sprites[component.unique_key] = image;
 				}

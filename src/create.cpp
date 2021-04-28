@@ -855,7 +855,6 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_display->generate_components("character_create_stage_5", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 			_ap->valid = false;
-			//_ad->set();
 
 			// Set and enable the class menu depending on the possible classes!
 			_set_classes_menu();
@@ -985,7 +984,7 @@ auto Sorcery::Create::_draw() -> void {
 	} else if (_candidate.get_stage() == CharacterStage::ENTER_NAME) {
 
 		_display->display_components("character_create_stage_1", _sprites, _texts, _frames);
-		std::string display_name{_candidate.get_name() + "_"};
+		std::string display_name{">" + _candidate.get_name() + "_"};
 		sf::Text name_text;
 		_display->window->draw_text(name_text,
 			(*_display->layout)["character_create_stage_1:name_candidate"], display_name, lerp);

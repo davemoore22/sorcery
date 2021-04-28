@@ -35,10 +35,13 @@ Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics
 	_menu_stage = MainMenuType::ATTRACT_MODE;
 	_main_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::MAIN);
 
-	// Create the Confirmation Exit Dialog
+	// Create the Confirmation Dialogs
 	_confirm_exit = std::make_shared<Confirm>(_system, _display, _graphics,
 		(*_display->layout)["main_menu_attract:confirm_exit_gui_frame"],
 		(*_display->layout)["main_menu_attract:confirm_exit_game"]);
+	_confirm_new_game = std::make_shared<Confirm>(_system, _display, _graphics,
+		(*_display->layout)["main_menu_attract:confirm_new_game_gui_frame"],
+		(*_display->layout)["main_menu_attract:confirm_new_game"]);
 
 	// Setup Custom Components
 	_press_any_key = sf::Text();
@@ -141,8 +144,10 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 						// We have selected something from the menu
 						if (const MenuItem option_chosen{(*selected_option.value()).item};
 							option_chosen == MenuItem::MM_NEW_GAME) {
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-							return MenuItem::MM_NEW_GAME;
+							_display->set_input_mode(WindowInputMode::CONFIRM_NEW_GAME);
+							_yes_or_no = WindowConfirm::NO;
+							//_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+							// return MenuItem::MM_NEW_GAME;
 						} else if (option_chosen == MenuItem::MM_LICENSE) {
 							_display->set_input_mode(WindowInputMode::DISPLAY_TEXT_FILE);
 							return MenuItem::MM_LICENSE;
@@ -161,6 +166,52 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 						   ((_system->input->check_for_event(WindowInput::BACK, event)))) {
 					_display->set_input_mode(WindowInputMode::CONFIRM_QUIT_GAME);
 					_yes_or_no = WindowConfirm::NO;
+				}
+
+			} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_NEW_GAME) {
+
+				// Check for Window Close
+				if (event.type == sf::Event::Closed)
+					return std::nullopt;
+
+				// All we can do is select Y or N
+				if (_system->input->check_for_event(WindowInput::LEFT, event))
+					_confirm_new_game->toggle_highlighted();
+				else if (_system->input->check_for_event(WindowInput::RIGHT, event))
+					_confirm_new_game->toggle_highlighted();
+				else if (_system->input->check_for_event(WindowInput::YES, event))
+					_confirm_new_game->highlighted = WindowConfirm::YES;
+				else if (_system->input->check_for_event(WindowInput::NO, event))
+					_confirm_new_game->highlighted = WindowConfirm::NO;
+				else if (_system->input->check_for_event(WindowInput::CANCEL, event))
+					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+				else if (_system->input->check_for_event(WindowInput::BACK, event))
+					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+				else if (_system->input->check_for_event(WindowInput::MOVE, event))
+					_confirm_new_game->check_for_mouse_move(
+						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+				else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+					std::optional<WindowConfirm> option_chosen{
+						_confirm_new_game->check_if_option_selected(
+							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)))};
+
+					// Mouse click only
+					if (option_chosen) {
+						if (option_chosen.value() == WindowConfirm::YES) {
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+							return MenuItem::MM_NEW_GAME;
+						}
+						if (option_chosen.value() == WindowConfirm::NO)
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} else {
+
+						// Button/Keyboard
+						if (_confirm_exit->highlighted == WindowConfirm::YES) {
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+							return MenuItem::MM_NEW_GAME;
+						} else if (_confirm_exit->highlighted == WindowConfirm::NO)
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					}
 				}
 
 			} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_QUIT_GAME) {
@@ -263,6 +314,8 @@ auto Sorcery::MainMenu::_draw() -> void {
 			_window->draw(*_main_menu);
 			if (_display->get_input_mode() == WindowInputMode::CONFIRM_QUIT_GAME) {
 				_confirm_exit->draw(lerp);
+			} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_NEW_GAME) {
+				_confirm_new_game->draw(lerp);
 			}
 		}
 	}

@@ -414,6 +414,7 @@ auto Sorcery::Menu::choose(std::any option)
 		default:
 			break;
 		}
+		break;
 	case MenuType::CHOOSE_CHARACTER_RACE:
 		switch (std::any_cast<CharacterRace>(option)) {
 		case CharacterRace::DWARF:

@@ -325,6 +325,29 @@
 			"justification": "centre",
 			"type": "text",
 			"drawmode": "manual"
+		},
+		{
+			"name": "confirm_new_game_gui_frame",
+			"w": "44",
+			"h": "7",
+			"x": "centre",
+			"y": "14",
+			"alpha": "175",
+			"type": "frame",
+			"drawmode": "manual"
+		},
+		{
+			"name": "confirm_new_game",
+			"x": "centre",
+			"y": "16",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CONFIRM_NEW_GAME",
+			"background": "0x6060c8ff",
+			"justification": "centre",
+			"type": "text",
+			"drawmode": "manual"
 		}
 		]
 	},
