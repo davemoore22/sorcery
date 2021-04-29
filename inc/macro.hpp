@@ -111,4 +111,37 @@ namespace Sorcery {
 		TRIM(s);
 		return s;
 	}
+
+	// Wrap text (https://www.cplusplus.com/forum/beginner/132223/)
+	inline auto WORDWRAP(std::string text, unsigned per_line) -> std::string {
+
+		unsigned line_begin{0};
+		while (line_begin < text.size()) {
+			const unsigned int ideal_end{line_begin + per_line};
+			unsigned int line_end = ideal_end <= text.size() ? ideal_end : text.size() - 1;
+
+			if (line_end == text.size() - 1)
+				++line_end;
+			else if (std::isspace(text[line_end])) {
+				text[line_end] = '@';
+				++line_end;
+			} else {
+				// backtrack
+				unsigned end = line_end;
+				while ((end > line_begin) && (!std::isspace(text[end])))
+					--end;
+
+				if (end != line_begin) {
+					line_end = end;
+					text[line_end++] = '@';
+				} else
+					text.insert(line_end++, 1, '@');
+			}
+
+			line_begin = line_end;
+		}
+
+		return text;
+	}
+
 } // namespace Sorcery

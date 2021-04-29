@@ -942,9 +942,8 @@ auto Sorcery::Create::_set_info_panel_contents(std::vector<Sorcery::MenuEntry>::
 		std::string ip_contents{(*it).hint};
 		_ip->set_text(ip_contents);
 		_ip->valid = true;
-	} else {
+	} else
 		_ip->valid = false;
-	}
 
 	// Set the Icon
 	if ((*it).type == MenuItemType::ENTRY)

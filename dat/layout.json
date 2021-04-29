@@ -10,7 +10,8 @@
 			"size": "24",
 			"alpha": "200",
 			"type": "tooltip",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"w": "30"
 		},
 		{
 			"name": "info_panel",
@@ -19,7 +20,8 @@
 			"size": "24",
 			"alpha": "255",
 			"type": "panel",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"w": "54"
 		},
 		{
 			"name": "allocate_panel",
@@ -1477,7 +1479,7 @@
 			"w": "40",
 			"h": "8",
 			"x": "centre",
-			"y": "25",
+			"y": "26",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
@@ -1488,7 +1490,7 @@
 			"w": "38",
 			"h": "7",
 			"x": "20",
-			"y": "25",
+			"y": "26",
 			"alpha": "255",
 			"type": "panel",
 			"priority": "6",
@@ -1771,7 +1773,7 @@
 			"w": "38",
 			"h": "11",
 			"x": "20",
-			"y": "26",
+			"y": "25",
 			"alpha": "255",
 			"type": "panel",
 			"priority": "6",
