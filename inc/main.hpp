@@ -158,6 +158,8 @@ namespace Sorcery {
 	using WindowInput = Enums::Controls::Input;
 
 	using WindowConfirm = Enums::Window::Confirm;
+	using WindowDialogButton = Enums::Window::DialogButton;
+	using WindowDialogType = Enums::Window::DialogType;
 	using WindowDrawMode = Enums::Window::DrawMode;
 	using WindowInputOption = Enums::Window::Option;
 	using WindowFrameType = Enums::Window::FrameType;

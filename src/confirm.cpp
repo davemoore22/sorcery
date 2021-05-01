@@ -31,6 +31,47 @@ Sorcery::Confirm::Confirm(
 
 	_window = _display->window->get_window();
 	highlighted = WindowConfirm::NO;
+
+	_strings.clear();
+	_texts.clear();
+
+	// Wrap the display lines
+	unsigned int chunk_size{_gui_c.w};
+	std::string string{(*_display->string)[_text_c.string_key]};
+	std::string wrapped_text = WORDWRAP(string, chunk_size);
+
+	// Split the display lines into a vector
+	const std::regex regex(R"([@]+)");
+	std::sregex_token_iterator it{wrapped_text.begin(), wrapped_text.end(), regex, -1};
+	std::vector<std::string> split{it, {}};
+	split.erase(std::remove_if(split.begin(), split.end(),
+					[](std::string const &s) {
+						return s.size() == 0;
+					}),
+		split.end());
+	_strings = split;
+
+	unsigned int x{_gui_c.x + _display->window->get_cell_width() * 2};
+	unsigned int y{_gui_c.y + _display->window->get_cell_height() * 2};
+	int index{0};
+	for (const auto &each_string : _strings) {
+		sf::Text text;
+		text.setFont(_system->resources->fonts[_text_c.font]);
+		text.setCharacterSize(_text_c.size);
+		text.setFillColor(sf::Color(_text_c.colour));
+		text.setString(each_string);
+		text.setPosition(x, y + (index * _display->window->get_cell_height()));
+		if (_text_c.justification == Justification::CENTRE)
+			text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+		else if (_text_c.justification == Justification::RIGHT) {
+			const sf::FloatRect bounds{text.getLocalBounds()};
+			text.setPosition(_text_c.x - bounds.width, _text_c.y);
+		} else
+			text.setOrigin(0, text.getLocalBounds().height / 2.0f);
+
+		++index;
+		_texts.push_back(text);
+	}
 }
 
 auto Sorcery::Confirm::check_for_mouse_move(const sf::Vector2f mouse_pos)
@@ -73,14 +114,17 @@ auto Sorcery::Confirm::draw(const double lerp) -> void {
 
 	// Generate back frame
 	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _gui_c.w,
-		_gui_c.h, _gui_c.colour, _gui_c.alpha);
+		_strings.size() + 5, _gui_c.colour, _gui_c.alpha);
 	_frame->setPosition(_display->window->get_x(_frame->sprite, _gui_c.x),
 		_display->window->get_y(_frame->sprite, _gui_c.y));
 	_window->draw(*_frame);
 
 	// Display Confirmation Message
-	sf::Text text{};
-	_display->window->draw_text(text, _text_c);
+	// sf::Text text{};
+	//_display->window->draw_text(text, _text_c);
+
+	for (const auto &text : _texts)
+		_window->draw(text);
 
 	// Draw Yes / No (and highlight them depending on which one chosen)
 	const unsigned int yes_no_y{_text_c.y + (_display->window->get_cell_height() * 2)};

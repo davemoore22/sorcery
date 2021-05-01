@@ -27,45 +27,56 @@
 #include "display.hpp"
 #include "frame.hpp"
 #include "graphics.hpp"
+#include "layout.hpp"
 #include "main.hpp"
 #include "system.hpp"
 
 namespace Sorcery {
 
-	class Confirm {
+	class Dialog : public sf::Transformable, public sf::Drawable {
 
 	  public:
 		// Constructors
-		Confirm(System *system, Display *display, Graphics *graphics, Component &gui_c,
-			Component &text_c);
-		Confirm() = delete;
+		Dialog(System *system, Display *display, Graphics *graphics, Component &_frame_c,
+			Component &text_c, WindowDialogType type);
+		Dialog() = delete;
 
 		// Public Members
-		WindowConfirm highlighted;
 
 		// Public Methods
-		auto check_for_mouse_move(const sf::Vector2f mouse_pos) -> std::optional<WindowConfirm>;
-		auto check_if_option_selected(const sf::Vector2f mouse_pos) -> std::optional<WindowConfirm>;
-		auto toggle_highlighted() -> WindowConfirm;
-		auto draw(const double lerp) -> void;
+		auto check_for_mouse_move(const sf::Vector2f mouse_pos)
+			-> std::optional<WindowDialogButton>;
+		auto check_if_option_selected(const sf::Vector2f mouse_pos)
+			-> std::optional<WindowDialogButton>;
+		auto get_selected() -> WindowDialogButton;
+		auto set_selected(WindowDialogButton value) -> void;
 
 	  private:
 		// Private Methods
+		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
 		System *_system;
 		Display *_display;
 		Graphics *_graphics;
-		Component _gui_c;
+
+		unsigned int _width;
+		unsigned int _height;
+		WindowDialogButton _selected;
+
+		Component _frame_c;
 		Component _text_c;
-		sf::RenderWindow *_window;
-		std::string_view _text;
-		sf::FloatRect _no_bg_tect;
-		sf::FloatRect _yes_bg_rect;
-		sf::Text _no_text;
-		sf::Text _yes_text;
-		std::unique_ptr<Frame> _frame;
+
+		WindowDialogType _type;
+
 		std::vector<std::string> _strings;
+		std::vector<sf::Sprite> _sprites;
 		std::vector<sf::Text> _texts;
+		std::vector<sf::FloatRect> _rects;
+
+		std::unique_ptr<Frame> _frame;
+
+		std::chrono::time_point<std::chrono::system_clock> _start;
+		std::chrono::time_point<std::chrono::system_clock> _current_time;
 	};
 } // namespace Sorcery

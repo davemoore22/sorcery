@@ -131,6 +131,7 @@
 		<Unit filename="inc/create.hpp" />
 		<Unit filename="inc/database.hpp" />
 		<Unit filename="inc/define.hpp" />
+		<Unit filename="inc/dialog.hpp" />
 		<Unit filename="inc/display.hpp" />
 		<Unit filename="inc/engine.hpp" />
 		<Unit filename="inc/entity.hpp" />
@@ -186,6 +187,7 @@
 		<Unit filename="src/controloverlay.cpp" />
 		<Unit filename="src/create.cpp" />
 		<Unit filename="src/database.cpp" />
+		<Unit filename="src/dialog.cpp" />
 		<Unit filename="src/display.cpp" />
 		<Unit filename="src/engine.cpp" />
 		<Unit filename="src/entity.cpp" />

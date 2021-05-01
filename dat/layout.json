@@ -86,6 +86,31 @@
 		]
 	},
 	{
+		"name": "dialog",
+		"component": [
+		{
+			"name": "text",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"type": "text",
+			"drawmode": "manual",
+			"priority": "5",
+			"background": "0x6060c8ff"
+		},
+		{
+			"name": "buttons",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"type": "text",
+			"drawmode": "manual",
+			"priority": "5",
+			"background": "0x6060c8ff"
+		}
+		]
+	},
+	{
 		"name": "keyboard",
 		"component": [
 		{
