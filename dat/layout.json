@@ -375,6 +375,26 @@
 			"justification": "centre",
 			"type": "text",
 			"drawmode": "manual"
+		},
+		{
+			"name": "dialog_new_game",
+			"x": "19",
+			"y": "14",
+			"w": "40",
+			"type": "dialog",
+			"drawmode": "manual",
+			"alpha": "200"
+		},
+		{
+			"name": "dialog_new_game_text",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CONFIRM_NEW_GAME",
+			"background": "0x6060c8ff",
+			"justification": "centre",
+			"type": "text",
+			"drawmode": "manual"
 		}
 		]
 	},

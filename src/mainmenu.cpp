@@ -51,6 +51,12 @@ Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics
 		std::make_shared<AttractMode>(_system->resources->textures[GraphicsTexture::CREATURES],
 			(*_display->layout)["main_menu_attract:attract_creatures"]);
 	_attract_mode->data.clear();
+
+	_dialog_new_game = std::make_shared<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["main_menu_attract:dialog_new_game"],
+		(*_display->layout)["main_menu_attract:dialog_new_game_text"], WindowDialogType::CONFIRM);
+	_dialog_new_game->setPosition((*_display->layout)["main_menu_attract:dialog_new_game"].x,
+		(*_display->layout)["main_menu_attract:dialog_new_game"].y);
 }
 
 // Standard Destructor
@@ -320,6 +326,9 @@ auto Sorcery::MainMenu::_draw() -> void {
 			}
 		}
 	}
+
+	_dialog_new_game->update();
+	_window->draw(*_dialog_new_game);
 
 	// Always draw the following
 	_display->display_overlay();

@@ -38,7 +38,7 @@ namespace Sorcery {
 	  public:
 		// Constructors
 		Dialog(System *system, Display *display, Graphics *graphics, Component &_frame_c,
-			Component &text_c, WindowDialogType type);
+			Component &string_c, WindowDialogType type);
 		Dialog() = delete;
 
 		// Public Members
@@ -50,6 +50,7 @@ namespace Sorcery {
 			-> std::optional<WindowDialogButton>;
 		auto get_selected() -> WindowDialogButton;
 		auto set_selected(WindowDialogButton value) -> void;
+		auto update() -> void;
 
 	  private:
 		// Private Methods
@@ -65,7 +66,10 @@ namespace Sorcery {
 		WindowDialogButton _selected;
 
 		Component _frame_c;
+		Component _string_c;
+
 		Component _text_c;
+		Component _buttons_c;
 
 		WindowDialogType _type;
 
@@ -73,6 +77,10 @@ namespace Sorcery {
 		std::vector<sf::Sprite> _sprites;
 		std::vector<sf::Text> _texts;
 		std::vector<sf::FloatRect> _rects;
+		std::map<WindowDialogButton, sf::Text> _buttons;
+		std::map<WindowDialogButton, sf::Text> _buttons_hl;
+		std::map<WindowDialogButton, sf::FloatRect> _buttons_fr;
+		std::map<WindowDialogButton, sf::RectangleShape> _highlights;
 
 		std::unique_ptr<Frame> _frame;
 

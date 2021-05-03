@@ -26,6 +26,7 @@
 
 #include "attractmode.hpp"
 #include "confirm.hpp"
+#include "dialog.hpp"
 #include "display.hpp"
 #include "frame.hpp"
 #include "graphics.hpp"
@@ -69,5 +70,6 @@ namespace Sorcery {
 		WindowConfirm _yes_or_no;
 		Component _attract_creatures_c;
 		sf::Text _press_any_key;
+		std::shared_ptr<Dialog> _dialog_new_game;
 	};
 } // namespace Sorcery
