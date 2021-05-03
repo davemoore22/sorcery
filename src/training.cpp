@@ -54,7 +54,7 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 
 	const Component menu_fc{(*_display->layout)["training_grounds:menu_frame"]};
 	_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, menu_fc.w,
-		menu_fc.h, menu_fc.colour, menu_fc.alpha);
+		menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
 	_menu_frame->setPosition(_display->window->get_x(_menu_frame->sprite, menu_fc.x),
 		_display->window->get_y(_menu_frame->sprite, menu_fc.y));
 

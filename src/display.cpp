@@ -167,9 +167,10 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 
 			} else if (component.type == ComponentType::FRAME) {
 
-				auto frame = std::make_shared<Frame>(
-					_system->resources->textures[GraphicsTexture::UI], WindowFrameType::NORMAL,
-					component.w, component.h, component.colour, component.alpha);
+				auto frame =
+					std::make_shared<Frame>(_system->resources->textures[GraphicsTexture::UI],
+						WindowFrameType::NORMAL, component.w, component.h, component.colour,
+						component.background, component.alpha);
 
 				// Check for Offsets
 				const int offset_x = [&] {

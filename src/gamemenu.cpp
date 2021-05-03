@@ -37,8 +37,11 @@ Sorcery::GameMenu::GameMenu(System *system, Display *display, Graphics *graphics
 
 	_menu_stage = GameMenuType::CASTLE;
 
-	_leave_game = std::make_shared<Confirm>(_system, _display, _graphics,
-		(*_display->layout)["castle:confirm_frame"], (*_display->layout)["castle:confirm_text"]);
+	_dialog_leave_game = std::make_shared<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["castle:dialog_leave_game"],
+		(*_display->layout)["castle:dialog_leave_game_text"], WindowDialogType::CONFIRM);
+	_dialog_leave_game->setPosition((*_display->layout)["castle:dialog_leave_game"].x,
+		(*_display->layout)["castle:dialog_leave_game"].y);
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics);
@@ -81,10 +84,11 @@ auto Sorcery::GameMenu::start(bool new_game) -> std::optional<MenuItem> {
 	// Generate the custom frames
 	const Component castle_mf_c{(*_display->layout)["castle:castle_menu_frame"]};
 	const Component edge_mf_c{(*_display->layout)["castle:edge_menu_frame"]};
-	_castle_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL,
-		castle_mf_c.w, castle_mf_c.h, castle_mf_c.colour, castle_mf_c.alpha);
+	_castle_frame =
+		std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, castle_mf_c.w,
+			castle_mf_c.h, castle_mf_c.colour, castle_mf_c.background, castle_mf_c.alpha);
 	_edge_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL,
-		edge_mf_c.w, edge_mf_c.h, edge_mf_c.colour, edge_mf_c.alpha);
+		edge_mf_c.w, edge_mf_c.h, edge_mf_c.colour, edge_mf_c.background, edge_mf_c.alpha);
 	_castle_frame->setPosition(_display->window->get_x(_castle_frame->sprite, castle_mf_c.x),
 		_display->window->get_y(_castle_frame->sprite, castle_mf_c.y));
 	_edge_frame->setPosition(_display->window->get_x(_edge_frame->sprite, edge_mf_c.x),
@@ -180,35 +184,40 @@ auto Sorcery::GameMenu::start(bool new_game) -> std::optional<MenuItem> {
 
 				// All we can do is select Y or N
 				if (_system->input->check_for_event(WindowInput::LEFT, event))
-					_leave_game->toggle_highlighted();
+					_dialog_leave_game->toggle_highlighted();
 				else if (_system->input->check_for_event(WindowInput::RIGHT, event))
-					_leave_game->toggle_highlighted();
+					_dialog_leave_game->toggle_highlighted();
 				else if (_system->input->check_for_event(WindowInput::YES, event))
-					_leave_game->highlighted = WindowConfirm::YES;
+					_dialog_leave_game->set_selected(WindowDialogButton::YES);
 				else if (_system->input->check_for_event(WindowInput::NO, event))
-					_leave_game->highlighted = WindowConfirm::NO;
+					_dialog_leave_game->set_selected(WindowDialogButton::NO);
 				else if (_system->input->check_for_event(WindowInput::CANCEL, event))
 					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+				else if (_system->input->check_for_event(WindowInput::BACK, event))
+					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 				else if (_system->input->check_for_event(WindowInput::MOVE, event))
-					_leave_game->check_for_mouse_move(
+					_dialog_leave_game->check_for_mouse_move(
 						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 				else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+					std::optional<WindowDialogButton> button_chosen{
+						_dialog_leave_game->check_if_option_selected(
+							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)))};
 
 					// Mouse click only
-					if (std::optional<WindowConfirm> option_chosen =
-							_leave_game->check_if_option_selected(
-								static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-						option_chosen) {
-						if (option_chosen.value() == WindowConfirm::YES)
-							return MenuItem::ET_LEAVE_GAME;
-						if (option_chosen.value() == WindowConfirm::NO)
+					if (button_chosen) {
+						if (button_chosen.value() == WindowDialogButton::YES) {
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+							return MenuItem::ET_LEAVE_GAME;
+						} else if (button_chosen.value() == WindowDialogButton::NO)
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+
 					} else {
 
 						// Button/Keyboard
-						if (_leave_game->highlighted == WindowConfirm::YES)
+						if (_dialog_leave_game->get_selected() == WindowDialogButton::YES) {
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							return MenuItem::ET_LEAVE_GAME;
-						else if (_leave_game->highlighted == WindowConfirm::NO)
+						} else if (_dialog_leave_game->get_selected() == WindowDialogButton::NO)
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					}
 				}
@@ -248,16 +257,20 @@ auto Sorcery::GameMenu::_draw() -> void {
 			(*_display->layout)["castle:castle_menu"].y);
 		_castle_menu->setPosition(menu_pos);
 		_window->draw(*_castle_menu);
-		if (_display->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME)
-			_leave_game->draw(lerp);
+		if (_display->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME) {
+			_dialog_leave_game->update();
+			_window->draw(*_dialog_leave_game);
+		}
 	} else if (_menu_stage == GameMenuType::EDGE_OF_TOWN) {
 		_edge_menu->generate((*_display->layout)["castle:edge_menu"], lerp);
 		const sf::Vector2f menu_pos(
 			(*_display->layout)["castle:edge_menu"].x, (*_display->layout)["castle:edge_menu"].y);
 		_edge_menu->setPosition(menu_pos);
 		_window->draw(*_edge_menu);
-		if (_display->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME)
-			_leave_game->draw(lerp);
+		if (_display->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME) {
+			_dialog_leave_game->update();
+			_window->draw(*_dialog_leave_game);
+		}
 	}
 
 	// Always draw the following

@@ -54,9 +54,11 @@ auto Sorcery::Template::start() -> void {
 
 	// Generate the frame
 	_outside_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL,
-		outside_frame_c.w, outside_frame_c.h, outside_frame_c.colour, outside_frame_c.alpha);
-	_title_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL,
-		title_frame_c.w, title_frame_c.h, title_frame_c.colour, title_frame_c.alpha);
+		outside_frame_c.w, outside_frame_c.h, outside_frame_c.colour, outside_frame_c.background,
+		outside_frame_c.alpha);
+	_title_frame =
+		std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, title_frame_c.w,
+			title_frame_c.h, title_frame_c.colour, title_frame_c.background, title_frame_c.alpha);
 	_outside_frame->setPosition(_display->window->get_x(_outside_frame->sprite, outside_frame_c.x),
 		_display->window->get_y(_outside_frame->sprite, outside_frame_c.y));
 	_title_frame->setPosition(_display->window->get_x(_title_frame->sprite, title_frame_c.x),

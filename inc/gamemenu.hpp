@@ -24,7 +24,7 @@
 
 #pragma once
 
-#include "confirm.hpp"
+#include "dialog.hpp"
 #include "display.hpp"
 #include "frame.hpp"
 #include "graphics.hpp"
@@ -69,7 +69,7 @@ namespace Sorcery {
 		sf::Sprite _castle_bg;
 		sf::Sprite _edge_bg;
 		GameMenuType _menu_stage;
-		std::shared_ptr<Confirm> _leave_game;
+		std::shared_ptr<Dialog> _dialog_leave_game;
 		WindowConfirm _yes_or_no;
 		std::shared_ptr<Training> _training;
 		std::unique_ptr<StatusBar> _status_bar;

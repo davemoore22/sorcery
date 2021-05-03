@@ -82,7 +82,7 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 
 	// Add the standard components - first the frame
 	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _frame_c.w,
-		frame_h, _frame_c.colour, _frame_c.alpha);
+		frame_h, _frame_c.colour, _frame_c.background, _frame_c.alpha);
 	_frame->setPosition(0, 0);
 
 	// Then the strings
@@ -233,7 +233,7 @@ auto Sorcery::Dialog::check_for_mouse_move(const sf::Vector2f mouse_pos)
 		if (_buttons_fr.at(WindowDialogButton::OK).contains(local_mouse_pos)) {
 			_selected = WindowDialogButton::OK;
 			return WindowDialogButton::OK;
-		}
+		} break;
 	case WindowDialogType::CONFIRM:
 		if (_buttons_fr.at(WindowDialogButton::YES).contains(local_mouse_pos)) {
 			_selected = WindowDialogButton::YES;

@@ -25,7 +25,6 @@
 #pragma once
 
 #include "attractmode.hpp"
-#include "confirm.hpp"
 #include "dialog.hpp"
 #include "display.hpp"
 #include "frame.hpp"
@@ -64,8 +63,6 @@ namespace Sorcery {
 		sf::RenderWindow *_window;
 		MainMenuType _menu_stage;
 		std::shared_ptr<Menu> _main_menu;
-		// std::shared_ptr<Confirm> _confirm_exit;
-		// std::shared_ptr<Confirm> _confirm_new_game;
 		std::shared_ptr<AttractMode> _attract_mode;
 		WindowConfirm _yes_or_no;
 		Component _attract_creatures_c;

@@ -164,7 +164,7 @@ Sorcery::Keyboard::Keyboard(System *system, Display *display, Graphics *graphics
 				((_text_c.size - _texts[end].getLocalBounds().height) / 2));
 
 	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _frame_c.w - 2,
-		_frame_c.h, _frame_c.colour, _frame_c.alpha);
+		_frame_c.h, _frame_c.colour, _frame_c.background, _frame_c.alpha);
 	_frame->setPosition(_display->window->get_x(_frame->sprite, _frame_c.x),
 		_display->window->get_y(_frame->sprite, _frame_c.y));
 

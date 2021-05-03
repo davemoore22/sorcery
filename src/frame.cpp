@@ -26,9 +26,10 @@
 
 // Standard Constructor
 Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type, const unsigned int width_units,
-	const unsigned int height_units, const unsigned long long colour, const unsigned int alpha)
+	const unsigned int height_units, const unsigned long long colour,
+	const unsigned long long bg_colour, const unsigned int alpha)
 	: _texture{texture}, _type{type}, _width_units{width_units},
-	  _height_units{height_units}, _colour{colour}, _alpha{alpha} {
+	  _height_units{height_units}, _colour{colour}, _bg_colour(bg_colour), _alpha{alpha} {
 
 	// Define the 8 parts of the Frame based upon the location in the GUI Texture
 	if (_type == WindowFrameType::NORMAL) {
@@ -105,7 +106,10 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type, const unsigned 
 	}();
 	sf::RectangleShape rectangle(
 		sf::Vector2f(texture_size.x - (border * 2), texture_size.y - (border * 2)));
-	rectangle.setFillColor(sf::Color(0, 0, 0, _alpha));
+	sf::Color fill{sf::Color(bg_colour)};
+	rectangle.setFillColor(sf::Color(fill.r, fill.g, fill.b, _alpha));
+
+	// rectangle.setFillColor(sf::Color(0, 0, 0, _alpha));
 	rectangle.setPosition(border, border);
 	_rtexture.draw(rectangle);
 

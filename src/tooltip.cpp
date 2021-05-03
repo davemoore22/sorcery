@@ -78,7 +78,7 @@ auto Sorcery::Tooltip::set(const std::string &string) -> void {
 
 	// Get the frame (remember that the Frame has a Background set to Alpha)
 	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::HINT, _width / 2.15f,
-		_height / 2.0f, _layout.colour, _layout.alpha);
+		_height / 2.0f, _layout.colour, _layout.background, _layout.alpha);
 
 	// We're ok to draw it now
 	valid = true;

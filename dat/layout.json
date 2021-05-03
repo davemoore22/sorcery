@@ -96,7 +96,6 @@
 			"type": "text",
 			"drawmode": "manual",
 			"priority": "5",
-			"background": "0x6060c8ff"
 		},
 		{
 			"name": "buttons",
@@ -331,52 +330,6 @@
 			"priority": "10"
 		},
 		{
-			"name": "confirm_exit_gui_frame",
-			"w": "44",
-			"h": "7",
-			"x": "centre",
-			"y": "14",
-			"alpha": "175",
-			"type": "frame",
-			"drawmode": "manual"
-		},
-		{
-			"name": "confirm_exit_game",
-			"x": "centre",
-			"y": "16",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "38",
-			"string": "CONFIRM_EXIT_GAME",
-			"background": "0x6060c8ff",
-			"justification": "centre",
-			"type": "text",
-			"drawmode": "manual"
-		},
-		{
-			"name": "confirm_new_game_gui_frame",
-			"w": "48",
-			"h": "7",
-			"x": "centre",
-			"y": "14",
-			"alpha": "175",
-			"type": "frame",
-			"drawmode": "manual"
-		},
-		{
-			"name": "confirm_new_game",
-			"x": "centre",
-			"y": "16",
-			"font": "monospace",
-			"colour": "0xffffffff",
-			"size": "38",
-			"string": "CONFIRM_NEW_GAME",
-			"background": "0x6060c8ff",
-			"justification": "centre",
-			"type": "text",
-			"drawmode": "manual"
-		},
-		{
 			"name": "dialog_new_game",
 			"x": "19",
 			"y": "13",
@@ -403,7 +356,8 @@
 			"w": "40",
 			"type": "dialog",
 			"drawmode": "manual",
-			"alpha": "175"
+			"alpha": "175",
+			"background": "0x01004dff"
 		},
 		{
 			"name": "dialog_exit_text",
@@ -990,19 +944,16 @@
 			"drawmode" : "manual"
 		},
 		{
-			"name": "confirm_frame",
-			"w": "14",
-			"h": "7",
-			"x": "centre",
-			"y": "14",
+			"name": "dialog_leave_game",
+			"x": "19",
+			"y": "13",
+			"w": "40",
+			"type": "dialog",
+			"drawmode": "manual",
 			"alpha": "175",
-			"type": "frame",
-			"drawmode": "manual"
 		},
 		{
-			"name": "confirm_text",
-			"x": "centre",
-			"y": "16",
+			"name": "dialog_leave_game_text",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",

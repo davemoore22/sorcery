@@ -57,7 +57,7 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
 
 	Component _fmf_c{(*_display->layout)["character_create_stage_7:menu_frame"]};
 	_final_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL,
-		_fmf_c.w, _fmf_c.h, _fmf_c.colour, _fmf_c.alpha);
+		_fmf_c.w, _fmf_c.h, _fmf_c.colour, _fmf_c.background, _fmf_c.alpha);
 
 	// Create the Candidate Character
 	_stages.clear();
