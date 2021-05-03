@@ -200,41 +200,102 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 	}
 }
 
+auto Sorcery::Dialog::toggle_highlighted() -> WindowDialogButton {
+
+	switch (_type) {
+	case WindowDialogType::OK:
+		// Can't be toggled
+	case WindowDialogType::CONFIRM:
+		if (_selected == WindowDialogButton::YES)
+			_selected = WindowDialogButton::NO;
+		else if (_selected == WindowDialogButton::NO)
+			_selected = WindowDialogButton::YES;
+		return _selected;
+	case WindowDialogType::MENU:
+		break;
+	case WindowDialogType::TIMED:
+		break;
+	default:
+		break;
+	}
+
+	return WindowDialogButton::NONE; // TODO optional
+}
+
 auto Sorcery::Dialog::check_for_mouse_move(const sf::Vector2f mouse_pos)
 	-> std::optional<WindowDialogButton> {
 
-	/* switch (_type) {
-	case WindowDialogType::OK:
-		if (_highlights.at(WindowDialogButton::OK)
+	const sf::Vector2f global_pos{this->getPosition()};
+	const sf::Vector2f local_mouse_pos{mouse_pos - global_pos};
 
-				contains(mouse_pos))
-			return break;
+	switch (_type) {
+	case WindowDialogType::OK:
+		if (_buttons_fr.at(WindowDialogButton::OK).contains(local_mouse_pos)) {
+			_selected = WindowDialogButton::OK;
+			return WindowDialogButton::OK;
+		}
 	case WindowDialogType::CONFIRM:
+		if (_buttons_fr.at(WindowDialogButton::YES).contains(local_mouse_pos)) {
+			_selected = WindowDialogButton::YES;
+			return WindowDialogButton::YES;
+		} else if (_buttons_fr.at(WindowDialogButton::NO).contains(local_mouse_pos)) {
+			_selected = WindowDialogButton::NO;
+			return WindowDialogButton::NO;
+		}
 		break;
 	case WindowDialogType::MENU:
 		break;
 	case WindowDialogType::TIMED:
 		break;
-		default break;
+	default:
+		break;
 	}
 
-	if (_yes_bg_rect.contains(mouse_pos)) {
-		highlighted = WindowConfirm::YES;
-		return highlighted;
-	} else if (_no_bg_tect.contains(mouse_pos)) {
-		highlighted = WindowConfirm::NO;
-		return highlighted;
-	} else
-		return std::nullopt; */
+	return std::nullopt;
 }
 
 // Only works for the Mouse
 auto Sorcery::Dialog::check_if_option_selected(const sf::Vector2f mouse_pos)
-	-> std::optional<WindowDialogButton> {}
+	-> std::optional<WindowDialogButton> {
 
-auto Sorcery::Dialog::set_selected(WindowDialogButton value) -> void {}
+	const sf::Vector2f global_pos{this->getPosition()};
+	const sf::Vector2f local_mouse_pos{mouse_pos - global_pos};
 
-auto Sorcery::Dialog::get_selected() -> WindowDialogButton {}
+	switch (_type) {
+	case WindowDialogType::OK:
+		if (_buttons_fr.at(WindowDialogButton::OK).contains(local_mouse_pos)) {
+			_selected = WindowDialogButton::OK;
+			return WindowDialogButton::OK;
+		}
+	case WindowDialogType::CONFIRM:
+		if (_buttons_fr.at(WindowDialogButton::YES).contains(local_mouse_pos)) {
+			_selected = WindowDialogButton::YES;
+			return WindowDialogButton::YES;
+		} else if (_buttons_fr.at(WindowDialogButton::NO).contains(local_mouse_pos)) {
+			_selected = WindowDialogButton::NO;
+			return WindowDialogButton::NO;
+		}
+		break;
+	case WindowDialogType::MENU:
+		break;
+	case WindowDialogType::TIMED:
+		break;
+	default:
+		break;
+	}
+
+	return std::nullopt;
+}
+
+auto Sorcery::Dialog::set_selected(WindowDialogButton value) -> void {
+
+	_selected = value;
+}
+
+auto Sorcery::Dialog::get_selected() -> WindowDialogButton {
+
+	return _selected;
+}
 
 auto Sorcery::Dialog::update() -> void {
 

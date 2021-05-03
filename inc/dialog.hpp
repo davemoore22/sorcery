@@ -50,6 +50,7 @@ namespace Sorcery {
 			-> std::optional<WindowDialogButton>;
 		auto get_selected() -> WindowDialogButton;
 		auto set_selected(WindowDialogButton value) -> void;
+		auto toggle_highlighted() -> WindowDialogButton;
 		auto update() -> void;
 
 	  private:

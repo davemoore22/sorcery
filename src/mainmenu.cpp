@@ -182,7 +182,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 					return std::nullopt;
 
 				// All we can do is select Y or N
-				if (_system->input->check_for_event(WindowInput::LEFT, event))
+				/* if (_system->input->check_for_event(WindowInput::LEFT, event))
 					_confirm_new_game->toggle_highlighted();
 				else if (_system->input->check_for_event(WindowInput::RIGHT, event))
 					_confirm_new_game->toggle_highlighted();
@@ -218,10 +218,49 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 							return MenuItem::MM_NEW_GAME;
 						} else if (_confirm_exit->highlighted == WindowConfirm::NO)
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} */
+
+				if (_system->input->check_for_event(WindowInput::LEFT, event))
+					_dialog_new_game->toggle_highlighted();
+				else if (_system->input->check_for_event(WindowInput::RIGHT, event))
+					_dialog_new_game->toggle_highlighted();
+				else if (_system->input->check_for_event(WindowInput::YES, event))
+					_dialog_new_game->set_selected(WindowDialogButton::YES);
+				else if (_system->input->check_for_event(WindowInput::NO, event))
+					_dialog_new_game->set_selected(WindowDialogButton::NO);
+				else if (_system->input->check_for_event(WindowInput::CANCEL, event))
+					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+				else if (_system->input->check_for_event(WindowInput::BACK, event))
+					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+				else if (_system->input->check_for_event(WindowInput::MOVE, event))
+					_dialog_new_game->check_for_mouse_move(
+						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+				else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+					std::optional<WindowDialogButton> button_chosen{
+						_dialog_new_game->check_if_option_selected(
+							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)))};
+
+					// Mouse click only
+					if (button_chosen) {
+						if (button_chosen.value() == WindowDialogButton::YES) {
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+							return MenuItem::MM_NEW_GAME;
+						} else if (button_chosen.value() == WindowDialogButton::NO)
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+
+					} else {
+
+						// Button/Keyboard
+						if (_dialog_new_game->get_selected() == WindowDialogButton::YES) {
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+							return MenuItem::MM_NEW_GAME;
+						} else if (_dialog_new_game->get_selected() == WindowDialogButton::NO)
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					}
 				}
+			}
 
-			} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_QUIT_GAME) {
+			else if (_display->get_input_mode() == WindowInputMode::CONFIRM_QUIT_GAME) {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
@@ -322,13 +361,11 @@ auto Sorcery::MainMenu::_draw() -> void {
 			if (_display->get_input_mode() == WindowInputMode::CONFIRM_QUIT_GAME) {
 				_confirm_exit->draw(lerp);
 			} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_NEW_GAME) {
-				_confirm_new_game->draw(lerp);
+				_dialog_new_game->update();
+				_window->draw(*_dialog_new_game);
 			}
 		}
 	}
-
-	_dialog_new_game->update();
-	_window->draw(*_dialog_new_game);
 
 	// Always draw the following
 	_display->display_overlay();
