@@ -31,8 +31,8 @@ auto main(int argc, char *argv[]) -> int {
 	auto app = std::make_unique<Sorcery::Application>(argc, argv);
 
 	// Start it
-	app->start();
+	int exit_code{app->start()};
 
 	// Quit
-	return 0;
+	return exit_code;
 }

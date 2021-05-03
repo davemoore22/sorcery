@@ -35,6 +35,9 @@ namespace Sorcery {
 	inline constexpr auto ON = "on";
 	inline constexpr auto OFF = "off";
 
+	// Exit Codes
+	inline constexpr auto EXIT_OK = 0;
+
 	// Command Line Arguments
 	inline constexpr auto SKIP_INTRO = "skip_intro"sv;
 

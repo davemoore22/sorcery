@@ -73,7 +73,7 @@ Sorcery::Application::~Application() {
 	graphics->animation->stop_colour_cycling_threads();
 }
 
-auto Sorcery::Application::start() -> void {
+auto Sorcery::Application::start() -> int {
 
 	std::optional<MenuItem> option_chosen{MenuItem::NONE};
 	MainMenuType menu_stage{MainMenuType::ATTRACT_MODE};
@@ -93,6 +93,9 @@ auto Sorcery::Application::start() -> void {
 				// doesn't exist?
 				option_chosen = _gamemenu->start(false);
 				_gamemenu->stop();
+				break;
+			case MenuItem::QUIT:
+				return EXIT_OK;
 				break;
 			case MenuItem::MM_OPTIONS:
 				_options->start();
@@ -118,7 +121,7 @@ auto Sorcery::Application::start() -> void {
 
 	} while (option_chosen);
 
-	display->window->get_window()->close();
+	return EXIT_OK;
 }
 
 // Check for a command line parameter
