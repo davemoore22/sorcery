@@ -170,6 +170,12 @@ auto Sorcery::Options::start() -> void {
 				if (event.type == sf::Event::Closed)
 					return;
 
+				if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
+					_display->show_overlay();
+					continue;
+				} else
+					_display->hide_overlay();
+
 				// All we can do is select Y or N
 				if (_display->get_input_mode() == WindowInputMode::CONFIRM_STRICT_MODE) {
 

@@ -182,6 +182,12 @@ auto Sorcery::GameMenu::start(bool new_game) -> std::optional<MenuItem> {
 				if (event.type == sf::Event::Closed)
 					_window->close();
 
+				if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
+					_display->show_overlay();
+					continue;
+				} else
+					_display->hide_overlay();
+
 				// All we can do is select Y or N
 				if (_system->input->check_for_event(WindowInput::LEFT, event))
 					_dialog_leave_game->toggle_highlighted();

@@ -179,6 +179,12 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 				if (event.type == sf::Event::Closed)
 					return std::nullopt;
 
+				if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
+					_display->show_overlay();
+					continue;
+				} else
+					_display->hide_overlay();
+
 				// All we can do is select Y or N
 				if (_system->input->check_for_event(WindowInput::LEFT, event))
 					_dialog_new_game->toggle_highlighted();
@@ -225,6 +231,12 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
 					return std::nullopt;
+
+				if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
+					_display->show_overlay();
+					continue;
+				} else
+					_display->hide_overlay();
 
 				// All we can do is select Y or N
 				if (_system->input->check_for_event(WindowInput::LEFT, event))
