@@ -65,9 +65,9 @@ auto Sorcery::Banner::_draw() -> void {
 auto Sorcery::Banner::_update() -> void {
 
 	if (_fading_in)
-		_alpha++;
+		++_alpha;
 	if (_fading_out)
-		_alpha--;
+		--_alpha;
 	if (_alpha == 255) {
 		_fading_in = false;
 		_fading_out = true;

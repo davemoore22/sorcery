@@ -537,7 +537,9 @@ auto Sorcery::Menu::choose_previous() -> std::optional<std::vector<MenuEntry>::c
 		std::vector<MenuEntry>::const_iterator working{selected};
 		do {
 			--working;
-			found = ((*working).enabled) && ((*working).type == MenuItemType::ENTRY);
+			found = ((*working).enabled) && (((*working).type == MenuItemType::ENTRY) ||
+												((*working).type == MenuItemType::SAVE) ||
+												((*working).type == MenuItemType::CANCEL));
 		} while ((working >= items.begin()) && (!found));
 		if (found) {
 			selected = working;
@@ -559,7 +561,9 @@ auto Sorcery::Menu::choose_next() -> std::optional<std::vector<MenuEntry>::const
 		std::vector<MenuEntry>::const_iterator working{selected};
 		do {
 			++working;
-			found = ((*working).enabled) && ((*working).type == MenuItemType::ENTRY);
+			found = ((*working).enabled) && (((*working).type == MenuItemType::ENTRY) ||
+												((*working).type == MenuItemType::SAVE) ||
+												((*working).type == MenuItemType::CANCEL));
 		} while ((working <= items.end() - 1) && (!found));
 		if (found) {
 			selected = working;
@@ -571,8 +575,7 @@ auto Sorcery::Menu::choose_next() -> std::optional<std::vector<MenuEntry>::const
 	return std::nullopt;
 }
 
-// todo: optimise this so that it isn't created on every refresh!
-
+// TODO: optimise this so that it isn't created on every refresh!
 auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -> void {
 
 	if (_texts.size() == 0) {
@@ -717,6 +720,7 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 				sf::Text empty_text{};
 				const sf::FloatRect actual_rect{};
 				bounds.push_back(actual_rect);
+				_texts.emplace_back(empty_text);
 				entry_y += _display->window->get_cell_height();
 			}
 			++index;
@@ -733,9 +737,9 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 		const Component off_c{(*_display->layout)["options:off"]};
 		for (const auto &item : items) {
 			auto current{items.begin() + index};
+			entry_y += _display->window->get_cell_height();
 			if ((item.type == MenuItemType::TEXT) || (item.type == MenuItemType::ENTRY) ||
 				(item.type == MenuItemType::SAVE) || (item.type == MenuItemType::CANCEL)) {
-				entry_y += _display->window->get_cell_height();
 				if (selected == current) {
 					const sf::FloatRect bg_rect{_texts.at(index).getLocalBounds()};
 					sf::RectangleShape bg(sf::Vector2f(
@@ -787,9 +791,8 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 					}
 					++options_index;
 				}
-
-				++index;
 			}
+			++index;
 		}
 	}
 }
