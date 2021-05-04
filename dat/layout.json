@@ -95,7 +95,7 @@
 			"size": "38",
 			"type": "text",
 			"drawmode": "manual",
-			"priority": "5",
+			"priority": "5"
 		},
 		{
 			"name": "buttons",
@@ -225,7 +225,7 @@
 			"x": "centre",
 			"y": "15",
 			"scale": "2.2",
-			"alpha": "175",
+			"alpha": "200",
 			"type": "image",
 			"priority": "3",
 			"drawmode": "manual",
@@ -336,7 +336,8 @@
 			"w": "40",
 			"type": "dialog",
 			"drawmode": "manual",
-			"alpha": "175"
+			"alpha": "255",
+			"background": "0x000000ff"
 		},
 		{
 			"name": "dialog_new_game_text",
@@ -356,8 +357,8 @@
 			"w": "40",
 			"type": "dialog",
 			"drawmode": "manual",
-			"alpha": "175",
-			"background": "0x01004dff"
+			"alpha": "255",
+			"background": "0x000000ff"
 		},
 		{
 			"name": "dialog_exit_text",
@@ -530,19 +531,17 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "save_frame",
+			"name": "dialog_confirm_save",
+			"x": "31",
+			"y": "13",
 			"w": "16",
-			"h": "7",
-			"x": "centre",
-			"y": "14",
-			"alpha": "175",
-			"type": "frame",
-			"drawmode": "manual"
+			"type": "dialog",
+			"drawmode": "manual",
+			"alpha": "255",
+			"background": "0x000000ff"
 		},
 		{
-			"name": "save_text",
-			"x": "centre",
-			"y": "16",
+			"name": "dialog_confirm_save_text",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
@@ -553,19 +552,17 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "cancel_frame",
+			"name": "dialog_confirm_cancel",
+			"x": "31",
+			"y": "13",
 			"w": "16",
-			"h": "7",
-			"x": "centre",
-			"y": "14",
-			"alpha": "175",
-			"type": "frame",
-			"drawmode": "manual"
+			"type": "dialog",
+			"drawmode": "manual",
+			"alpha": "255",
+			"background": "0x000000ff"
 		},
 		{
-			"name": "cancel_text",
-			"x": "centre",
-			"y": "16",
+			"name": "dialog_confirm_cancel_text",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
@@ -576,19 +573,17 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "strict_frame",
-			"w": "52",
-			"h": "7",
-			"x": "centre",
-			"y": "14",
-			"alpha": "225",
-			"type": "frame",
-			"drawmode": "manual"
+			"name": "dialog_confirm_strict_on",
+			"x": "19",
+			"y": "13",
+			"w": "40",
+			"type": "dialog",
+			"drawmode": "manual",
+			"alpha": "255",
+			"background": "0x000000ff"
 		},
 		{
-			"name": "strict_text",
-			"x": "centre",
-			"y": "16",
+			"name": "dialog_confirm_strict_on_text",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
@@ -950,7 +945,8 @@
 			"w": "40",
 			"type": "dialog",
 			"drawmode": "manual",
-			"alpha": "175",
+			"alpha": "255",
+			"background": "0x000000ff"
 		},
 		{
 			"name": "dialog_leave_game_text",

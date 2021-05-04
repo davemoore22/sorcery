@@ -39,13 +39,23 @@ Sorcery::Options::Options(System *system, Display *display, Graphics *graphics)
 	// Get the Tooltip
 	_tt = std::make_shared<Tooltip>(_system, _display, _graphics);
 
-	// Create the Confirmation Boxes
-	_confirm_save = std::make_shared<Confirm>(_system, _display, _graphics,
-		(*_display->layout)["options:save_frame"], (*_display->layout)["options:save_text"]);
-	_confirm_cancel = std::make_shared<Confirm>(_system, _display, _graphics,
-		(*_display->layout)["options:cancel_frame"], (*_display->layout)["options:cancel_text"]);
-	_confirm_strict_on = std::make_shared<Confirm>(_system, _display, _graphics,
-		(*_display->layout)["options:strict_frame"], (*_display->layout)["options:strict_text"]);
+	// Create the Confirmation Dialog Boxes
+	_dialog_confirm_save = std::make_shared<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["options:dialog_confirm_save"],
+		(*_display->layout)["options:dialog_confirm_save_text"], WindowDialogType::CONFIRM);
+	_dialog_confirm_save->setPosition((*_display->layout)["options:dialog_confirm_save"].x,
+		(*_display->layout)["options:dialog_confirm_save"].y);
+	_dialog_confirm_cancel = std::make_shared<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["options:dialog_confirm_cancel"],
+		(*_display->layout)["options:dialog_confirm_cancel_text"], WindowDialogType::CONFIRM);
+	_dialog_confirm_cancel->setPosition((*_display->layout)["options:dialog_confirm_cancel"].x,
+		(*_display->layout)["options:dialog_confirm_cancel"].y);
+	_dialog_confirm_strict_on = std::make_shared<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["options:dialog_confirm_strict_on"],
+		(*_display->layout)["options:dialog_confirm_strict_on_text"], WindowDialogType::CONFIRM);
+	_dialog_confirm_strict_on->setPosition(
+		(*_display->layout)["options:dialog_confirm_strict_on"].x,
+		(*_display->layout)["options:dialog_confirm_strict_on"].y);
 }
 
 // Standard Destructor
@@ -161,87 +171,148 @@ auto Sorcery::Options::start() -> void {
 					return;
 
 				// All we can do is select Y or N
-				if (_system->input->check_for_event(WindowInput::LEFT, event))
-					_confirm_strict_on->toggle_highlighted();
-				else if (_system->input->check_for_event(WindowInput::RIGHT, event))
-					_confirm_strict_on->toggle_highlighted();
-				else if (_system->input->check_for_event(WindowInput::YES, event))
-					_confirm_strict_on->highlighted = WindowConfirm::YES;
-				else if (_system->input->check_for_event(WindowInput::NO, event))
-					_confirm_strict_on->highlighted = WindowConfirm::NO;
-				else if (_system->input->check_for_event(WindowInput::CANCEL, event))
-					_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
-				else if (_system->input->check_for_event(WindowInput::BACK, event))
-					_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
-				else if (_system->input->check_for_event(WindowInput::MOVE, event)) {
-					if (_display->get_input_mode() == WindowInputMode::CONFIRM_STRICT_MODE) {
-						_confirm_strict_on->check_for_mouse_move(
-							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					} else if (_display->get_input_mode() == WindowInputMode::SAVE_CHANGES) {
-						_confirm_save->check_for_mouse_move(
-							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					} else if (_display->get_input_mode() == WindowInputMode::CANCEL_CHANGES) {
-						_confirm_cancel->check_for_mouse_move(
-							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					}
-				} else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+				if (_display->get_input_mode() == WindowInputMode::CONFIRM_STRICT_MODE) {
 
-					std::optional<WindowConfirm> option{};
-					if (_display->get_input_mode() == WindowInputMode::CONFIRM_STRICT_MODE) {
-						option = _confirm_strict_on->check_if_option_selected(
+					if (_system->input->check_for_event(WindowInput::LEFT, event))
+						_dialog_confirm_strict_on->toggle_highlighted();
+					else if (_system->input->check_for_event(WindowInput::RIGHT, event))
+						_dialog_confirm_strict_on->toggle_highlighted();
+					else if (_system->input->check_for_event(WindowInput::YES, event))
+						_dialog_confirm_strict_on->set_selected(WindowDialogButton::YES);
+					else if (_system->input->check_for_event(WindowInput::NO, event))
+						_dialog_confirm_strict_on->set_selected(WindowDialogButton::YES);
+					else if (_system->input->check_for_event(WindowInput::CANCEL, event))
+						_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
+					else if (_system->input->check_for_event(WindowInput::BACK, event))
+						_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
+					else if (_system->input->check_for_event(WindowInput::MOVE, event))
+						_dialog_confirm_strict_on->check_for_mouse_move(
 							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					} else if (_display->get_input_mode() == WindowInputMode::SAVE_CHANGES) {
-						option = _confirm_save->check_if_option_selected(
-							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					} else if (_display->get_input_mode() == WindowInputMode::CANCEL_CHANGES) {
-						option = _confirm_cancel->check_if_option_selected(
-							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					}
+					else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
 
-					// Mouse click only
-					if (option) {
-						if (option.value() == WindowConfirm::YES) {
+						std::optional<WindowDialogButton> button_chosen{
+							_dialog_confirm_strict_on->check_if_option_selected(
+								static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)))};
 
-							// Switch on Strict Mode Here!
-							if (_display->get_input_mode() ==
-								WindowInputMode::CONFIRM_STRICT_MODE) {
+						// Mouse click only
+						if (button_chosen) {
+							if (button_chosen.value() == WindowDialogButton::YES) {
 								_system->config->set_strict_mode();
 								(*_system->config)[ConfigOption::STRICT_MODE] = true;
 								_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
-							} else if (_display->get_input_mode() ==
-									   WindowInputMode::CANCEL_CHANGES) {
-								_system->config->load();
-								return;
-							} else if (_display->get_input_mode() ==
-									   WindowInputMode::SAVE_CHANGES) {
-								_system->config->save();
-								return;
+								// REVIEW return;
+							} else if (button_chosen.value() == WindowDialogButton::NO) {
+								//_system->config->load();
+								_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
+								// REVIEW return;
+							}
+						} else {
+
+							// Button/Keyboard
+							if (_dialog_confirm_strict_on->get_selected() ==
+								WindowDialogButton::YES) {
+								_system->config->set_strict_mode();
+								(*_system->config)[ConfigOption::STRICT_MODE] = true;
+								_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
+							} else if (_dialog_confirm_strict_on->get_selected() ==
+									   WindowDialogButton::NO) {
+								//_system->config->load();
+								_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
+								// REVIEW return; return;
 							}
 						}
-						if (option.value() == WindowConfirm::NO)
-							_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
-					} else {
+					}
+				} else if (_display->get_input_mode() == WindowInputMode::SAVE_CHANGES) {
 
-						// Button/Keyboard
-						if (_confirm_strict_on->highlighted == WindowConfirm::YES) {
+					if (_system->input->check_for_event(WindowInput::LEFT, event))
+						_dialog_confirm_save->toggle_highlighted();
+					else if (_system->input->check_for_event(WindowInput::RIGHT, event))
+						_dialog_confirm_save->toggle_highlighted();
+					else if (_system->input->check_for_event(WindowInput::YES, event))
+						_dialog_confirm_save->set_selected(WindowDialogButton::YES);
+					else if (_system->input->check_for_event(WindowInput::NO, event))
+						_dialog_confirm_save->set_selected(WindowDialogButton::YES);
+					else if (_system->input->check_for_event(WindowInput::CANCEL, event))
+						_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
+					else if (_system->input->check_for_event(WindowInput::BACK, event))
+						_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
+					else if (_system->input->check_for_event(WindowInput::MOVE, event))
+						_dialog_confirm_save->check_for_mouse_move(
+							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
 
-							// Switch on Strict Mode Here!
-							if (_display->get_input_mode() ==
-								WindowInputMode::CONFIRM_STRICT_MODE) {
-								_system->config->set_strict_mode();
-								(*_system->config)[ConfigOption::STRICT_MODE] = true;
-								_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
-							} else if (_display->get_input_mode() ==
-									   WindowInputMode::CANCEL_CHANGES) {
-								_system->config->load();
-								return;
-							} else if (_display->get_input_mode() ==
-									   WindowInputMode::SAVE_CHANGES) {
+						std::optional<WindowDialogButton> button_chosen{
+							_dialog_confirm_save->check_if_option_selected(
+								static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)))};
+
+						// Mouse click only
+						if (button_chosen) {
+							if (button_chosen.value() == WindowDialogButton::YES) {
 								_system->config->save();
 								return;
+							} else if (button_chosen.value() == WindowDialogButton::NO) {
+								_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
+								// REVIEW return;
 							}
-						} else if (_confirm_strict_on->highlighted == WindowConfirm::NO)
-							_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
+						} else {
+
+							// Button/Keyboard
+							if (_dialog_confirm_save->get_selected() == WindowDialogButton::YES) {
+								_system->config->save();
+								return;
+							} else if (_dialog_confirm_save->get_selected() ==
+									   WindowDialogButton::NO) {
+								_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
+								//_system->config->load();
+								// REVIEW return;
+							}
+						}
+					}
+				} else if (_display->get_input_mode() == WindowInputMode::CANCEL_CHANGES) {
+
+					if (_system->input->check_for_event(WindowInput::LEFT, event))
+						_dialog_confirm_cancel->toggle_highlighted();
+					else if (_system->input->check_for_event(WindowInput::RIGHT, event))
+						_dialog_confirm_cancel->toggle_highlighted();
+					else if (_system->input->check_for_event(WindowInput::YES, event))
+						_dialog_confirm_cancel->set_selected(WindowDialogButton::YES);
+					else if (_system->input->check_for_event(WindowInput::NO, event))
+						_dialog_confirm_cancel->set_selected(WindowDialogButton::YES);
+					else if (_system->input->check_for_event(WindowInput::CANCEL, event))
+						_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
+					else if (_system->input->check_for_event(WindowInput::BACK, event))
+						_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
+					else if (_system->input->check_for_event(WindowInput::MOVE, event))
+						_dialog_confirm_cancel->check_for_mouse_move(
+							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+
+						std::optional<WindowDialogButton> button_chosen{
+							_dialog_confirm_cancel->check_if_option_selected(
+								static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)))};
+
+						// Mouse click only
+						if (button_chosen) {
+							if (button_chosen.value() == WindowDialogButton::YES) {
+								_system->config->load();
+								return;
+							} else if (button_chosen.value() == WindowDialogButton::NO) {
+								_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
+								// REVIEW return;
+							}
+						} else {
+
+							// Button/Keyboard
+							if (_dialog_confirm_cancel->get_selected() == WindowDialogButton::YES) {
+								_system->config->load();
+								return;
+							} else if (_dialog_confirm_cancel->get_selected() ==
+									   WindowDialogButton::NO) {
+								_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
+								//_system->config->load();
+								// REVIEW return;
+							}
+						}
 					}
 				}
 			}
@@ -274,11 +345,14 @@ auto Sorcery::Options::_draw() -> void {
 	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 	if (_display->get_input_mode() == WindowInputMode::CONFIRM_STRICT_MODE) {
-		_confirm_strict_on->draw(lerp);
+		_dialog_confirm_strict_on->update();
+		_window->draw(*_dialog_confirm_strict_on);
 	} else if (_display->get_input_mode() == WindowInputMode::SAVE_CHANGES) {
-		_confirm_save->draw(lerp);
+		_dialog_confirm_save->update();
+		_window->draw(*_dialog_confirm_save);
 	} else if (_display->get_input_mode() == WindowInputMode::CANCEL_CHANGES) {
-		_confirm_cancel->draw(lerp);
+		_dialog_confirm_cancel->update();
+		_window->draw(*_dialog_confirm_cancel);
 	} else if (_display_tt) {
 		sf::Vector2i tooltip_position{sf::Mouse::getPosition(*_window)};
 		tooltip_position.x += 10;

@@ -24,7 +24,7 @@
 
 #pragma once
 
-#include "confirm.hpp"
+#include "dialog.hpp"
 #include "display.hpp"
 #include "frame.hpp"
 #include "graphics.hpp"
@@ -70,9 +70,9 @@ namespace Sorcery {
 		std::shared_ptr<Menu> _menu;
 		std::shared_ptr<Tooltip> _tt;
 		bool _display_tt;
-		std::shared_ptr<Confirm> _confirm_save;
-		std::shared_ptr<Confirm> _confirm_cancel;
-		std::shared_ptr<Confirm> _confirm_strict_on;
+		std::shared_ptr<Dialog> _dialog_confirm_save;
+		std::shared_ptr<Dialog> _dialog_confirm_cancel;
+		std::shared_ptr<Dialog> _dialog_confirm_strict_on;
 		WindowConfirm _yes_or_no;
 	};
 } // namespace Sorcery
