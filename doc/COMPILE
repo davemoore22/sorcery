@@ -1,8 +1,8 @@
 Sorcery: Dreams of the Mad Overlord
 Copyright (C) 2021 Dave Moore
 
-Make sure the following packages from the Standard/Universe Repositories are
-installed:
+Make sure the following packages/third-party libraries from the Standard and
+Universe Repositories are installed:
 
 - sfml
 - sfml-dev
