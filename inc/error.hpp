@@ -32,7 +32,8 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Error(Enums::System::Error error_code, std::exception exception, std::string notes);
+		Error(Enums::System::Error error_code, std::exception &exception);
+		Error(Enums::System::Error error_code, std::exception &exception, std::string notes);
 		Error() = delete;
 
 		// Overloaded Operators

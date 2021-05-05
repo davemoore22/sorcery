@@ -48,18 +48,35 @@ Sorcery::Layout::Layout(const std::filesystem::path filename) {
 // Overload [] Operator
 auto Sorcery::Layout::operator[](const std::string &combined_key) -> Component & {
 
-	// First check if we need to reload if anything has changed!
-	if (_refresh_needed())
-		_load(_filename);
+	try {
 
-	// Else return the requested component
-	if (_loaded)
-		if (_components.contains(combined_key))
-			return _components.at(combined_key);
+		// First check if we need to reload if anything has changed!
+		if (_refresh_needed())
+			_load(_filename);
+
+	} catch (std::exception &e) {
+		Error error{SystemError::JSON_PARSE_ERROR, e, "layout.json is not valid JSON!"};
+		std::cout << error;
+		exit(EXIT_FAILURE);
+	}
+
+	try {
+
+		// Else return the requested component
+		if (_loaded)
+			if (_components.contains(combined_key))
+				return _components.at(combined_key);
+			else
+				return _components[0];
 		else
 			return _components[0];
-	else
-		return _components[0];
+
+	} catch (std::exception &e) {
+		Error error{SystemError::UNKNOWN_COMPONNENT, e,
+			fmt::format("Unable to find Component '{}' in layout.json!", combined_key)};
+		std::cout << error;
+		exit(EXIT_FAILURE);
+	}
 }
 
 // Overload () Operator

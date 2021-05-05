@@ -24,8 +24,21 @@
 
 #include "error.hpp"
 
-Sorcery::Error::Error(
-	Enums::System::Error error_code, std::exception exception, std::string notes = {})
+Sorcery::Error::Error(Enums::System::Error error_code, std::exception &exception)
+	: _error_code{error_code}, _exception{exception} {
+
+	_timestamp = std::chrono::system_clock::now();
+	_notes = "";
+
+	_details.clear();
+	_details.emplace_back(std::to_string(magic_enum::enum_integer(_error_code)));
+	_details.emplace_back(magic_enum::enum_name(_error_code));
+	_details.emplace_back(_exception.what());
+	_details.emplace_back(get_when());
+	_details.emplace_back(_notes);
+}
+
+Sorcery::Error::Error(Enums::System::Error error_code, std::exception &exception, std::string notes)
 	: _error_code{error_code}, _exception{exception}, _notes{notes} {
 
 	_timestamp = std::chrono::system_clock::now();
@@ -71,14 +84,16 @@ auto Sorcery::Error::get() -> std::vector<std::string> {
 	return _details;
 }
 
-auto Sorcery::operator<<(std::ostream &out_stream, const Sorcery::Error &error) -> std::ostream & {
+namespace Sorcery {
 
-	out_stream << fmt::format(
-					  "{:<16}:{}/{}", "ERROR CODE/TYPE", error._details[0], error._details[1])
-			   << std::endl;
-	out_stream << fmt::format("{:<16}:{}", "EXCEPTION", error._details[2]) << std::endl;
-	out_stream << fmt::format("{:<16}:{}", "TIMESTAMP", error._details[3]) << std::endl;
-	out_stream << fmt::format("{:<16}:{}", "DETAILS:", error._details[4]) << std::endl;
+	auto operator<<(std::ostream &out_stream, const Sorcery::Error &error) -> std::ostream & {
 
-	return out_stream;
-}
+		out_stream << fmt::format("{:>5}: {} - {}", "Error", error._details[0], error._details[1])
+				   << std::endl;
+		out_stream << fmt::format("{:>5}: {}", "What", error._details[2]) << std::endl;
+		out_stream << fmt::format("{:>5}: {}", "When", error._details[3]) << std::endl;
+		out_stream << fmt::format("{:>5}: {}", "Info", error._details[4]) << std::endl;
+
+		return out_stream;
+	}
+} // namespace Sorcery
