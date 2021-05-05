@@ -59,6 +59,7 @@
 			<Add directory="inc/simpleini" />
 			<Add directory="inc/sqlitemoderncpp" />
 			<Add directory="inc/magicenum" />
+			<Add directory="inc/backwardcpp" />
 		</Compiler>
 		<Linker>
 			<Add option="-lstdc++fs" />
@@ -76,6 +77,9 @@
 			<Add option="-lpthread" />
 			<Add option="-lfmt" />
 			<Add option="-luuid" />
+			<Add option="-lbfd" />
+			<Add option="-ldl" />
+			<Add option="-lunwind" />
 		</Linker>
 		<ExtraCommands>
 			<Add after='mkdir -p &quot;$(TARGET_OUTPUT_DIR)/cfg&quot;' />
@@ -120,6 +124,7 @@
 		<Unit filename="inc/application.hpp" />
 		<Unit filename="inc/attractmode.hpp" />
 		<Unit filename="inc/attributedisplay.hpp" />
+		<Unit filename="inc/backwardcpp/backward.cpp" />
 		<Unit filename="inc/banner.hpp" />
 		<Unit filename="inc/camera.hpp" />
 		<Unit filename="inc/character.hpp" />

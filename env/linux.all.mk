@@ -33,6 +33,7 @@ INCLUDE_DIRS := \
 	inc/simpleini \
 	inc/magicenum \
 	inc/sqlitemoderncpp \
+	inc/backwardcpp \
 	/usr/local/include
 
 BUILD_FLAGS := \

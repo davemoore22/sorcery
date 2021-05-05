@@ -28,7 +28,7 @@ DUMP_ASSEMBLY := false
 
 _CFLAGS_STD := -std=c++20
 _CFLAGS_WARNINGS := -Wall -Wextra -Wpedantic -Wunreachable-code -Wunused -Wignored-qualifiers -Wcast-align -Wformat-nonliteral -Wformat=2 -Winvalid-pch -Wmissing-declarations -Wmissing-format-attribute -Wmissing-include-dirs -Wredundant-decls -Wswitch-default -Wodr
-_CFLAGS_OTHER := -Wfatal-errors -fdiagnostics-color=always -pthread
+_CFLAGS_OTHER := -Wfatal-errors -fdiagnostics-color=always -pthread -g
 CFLAGS := $(_CFLAGS_STD) $(_CFLAGS_WARNINGS) $(_CFLAGS_OTHER)
 
 LINK_LIBRARIES := \
@@ -43,7 +43,10 @@ LINK_LIBRARIES := \
 	jsoncpp \
 	thor \
 	fmt \
-	uuid
+	uuid \
+	bfd \
+	dl \
+	unwind
 
 PRODUCTION_FOLDER := build
 
