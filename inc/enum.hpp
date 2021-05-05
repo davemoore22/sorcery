@@ -373,6 +373,14 @@ namespace Sorcery {
 	// System
 	namespace Enums::System {
 
+		// Errors
+		enum class Error {
+			NONE = 0,
+			JSON_PARSE_ERROR = 1,
+			UNKNOWN_STRING_KEY = 2,
+			UNKNOWN_COMPONNENT = 3
+		};
+
 		// Return values
 		enum class ModuleResult { NONE, CLOSE, BACK, EXIT, NEXT, CANCEL, DELETE };
 

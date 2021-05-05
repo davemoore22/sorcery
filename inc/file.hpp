@@ -38,8 +38,10 @@ namespace Sorcery {
 		// Constructors
 		File();
 
-		// Public Methods
+		// Overloaded Operators
 		auto operator[](std::string_view key) const -> std::filesystem::path;
+
+		// Public Methods
 		auto get_path_as_string(std::string_view key) const -> std::string;
 
 		// Public Members

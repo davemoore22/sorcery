@@ -97,6 +97,7 @@
 #include "operator.hpp"
 #include "type.hpp"
 #include "component.hpp"
+#include "error.hpp"
 // clang-format on
 
 // Aliases
@@ -153,6 +154,7 @@ namespace Sorcery {
 	using Stage = Enums::Character::Stage;
 	using StringType = Enums::Internal::StringType;
 	using StringMap = std::map<std::string, std::string>;
+	using SystemError = Enums::System::Error;
 	using WindowTooltipList = std::map<std::string, sf::FloatRect>;
 	using WindowInputMode = Enums::Window::InputMode;
 	using WindowInputCategory = Enums::Window::InputCategory;

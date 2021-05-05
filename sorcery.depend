@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1620206803 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1620247810 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -62,6 +62,7 @@
 	"operator.hpp"
 	"type.hpp"
 	"component.hpp"
+	"error.hpp"
 
 1518522417 /home/dave/Development/wizardry/sorcery-sfml/inc/sqlitemoderncpp/sqlite_modern_cpp.h
 	<algorithm>
@@ -134,7 +135,7 @@
 1620070876 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
-1619991618 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
+1620246906 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
 1619731255 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
@@ -162,7 +163,7 @@
 1616525870 /home/dave/Development/wizardry/sorcery-sfml/inc/random.hpp
 	"main.hpp"
 
-1614377195 /home/dave/Development/wizardry/sorcery-sfml/inc/file.hpp
+1620246515 /home/dave/Development/wizardry/sorcery-sfml/inc/file.hpp
 	"main.hpp"
 	<libgen.h>
 	<limits.h>
@@ -327,7 +328,7 @@
 	"raycaster.hpp"
 	"system.hpp"
 
-1618067012 source:/home/dave/Development/wizardry/sorcery-sfml/src/file.cpp
+1620246490 source:/home/dave/Development/wizardry/sorcery-sfml/src/file.cpp
 	"file.hpp"
 
 1616962446 source:/home/dave/Development/wizardry/sorcery-sfml/src/graphics.cpp
@@ -760,4 +761,10 @@
 
 1620207076 source:/home/dave/Development/wizardry/sorcery-sfml/inc/backwardcpp/backward.cpp
 	"backward.hpp"
+
+1620247782 source:/home/dave/Development/wizardry/sorcery-sfml/src/error.cpp
+	"error.hpp"
+
+1620248063 /home/dave/Development/wizardry/sorcery-sfml/inc/error.hpp
+	"main.hpp"
 
