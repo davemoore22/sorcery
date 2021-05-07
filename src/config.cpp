@@ -96,6 +96,17 @@ auto Sorcery::Config::_load() -> bool {
 	option = _settings->GetValue("Gameplay", CSTR(GAME_ALLOW_AMBUSH_HIDE), CSTR(ON));
 	_options[Enums::Options::ALLOW_AMBUSH_HIDE] = option.compare(ON) == 0;
 
+	option = _settings->GetValue("Gameplay", CSTR(GAME_ALLOW_LOST_LEGATED), CSTR(ON));
+	_options[Enums::Options::ALLOW_LOST_LEGATED] = option.compare(ON) == 0;
+	option = _settings->GetValue("Gameplay", CSTR(GAME_ALLOW_CURABLE_DRAIN), CSTR(ON));
+	_options[Enums::Options::ALLOW_CURABLE_DRAIN] = option.compare(ON) == 0;
+	option = _settings->GetValue("Gameplay", CSTR(GAME_ALLOW_SHARED_INVENTORY), CSTR(ON));
+	_options[Enums::Options::ALLOW_SHARED_INVENTORY] = option.compare(ON) == 0;
+	option = _settings->GetValue("Gameplay", CSTR(GAME_CAMPING_RESTORE_SPELL_POINTS), CSTR(ON));
+	_options[Enums::Options::CAMPING_RESTORE_SPELL_POINTS] = option.compare(ON) == 0;
+	option = _settings->GetValue("Gameplay", CSTR(GAME_CHARGED_ITEMS), CSTR(ON));
+	_options[Enums::Options::CHARGED_ITEMS] = option.compare(ON) == 0;
+
 	// Graphics Settings
 	option = _settings->GetValue("Graphics", CSTR(GFX_WIREFRAME), CSTR(OFF));
 	_options[Enums::Options::WIREFRAME_MODE] = option.compare(ON) == 0;
@@ -159,6 +170,17 @@ bool Sorcery::Config::save() {
 	_settings->SetValue("Gameplay", CSTR(GAME_REROLL_ONES_ON_DICE),
 		BOOL2OPTIONCSTR(_options[Enums::Options::REROLL_ONES_ON_DICE]));
 
+	_settings->SetValue("Gameplay", CSTR(GAME_ALLOW_LOST_LEGATED),
+		BOOL2OPTIONCSTR(_options[Enums::Options::ALLOW_LOST_LEGATED]));
+	_settings->SetValue("Gameplay", CSTR(GAME_ALLOW_CURABLE_DRAIN),
+		BOOL2OPTIONCSTR(_options[Enums::Options::ALLOW_CURABLE_DRAIN]));
+	_settings->SetValue("Gameplay", CSTR(GAME_ALLOW_SHARED_INVENTORY),
+		BOOL2OPTIONCSTR(_options[Enums::Options::ALLOW_SHARED_INVENTORY]));
+	_settings->SetValue("Gameplay", CSTR(GAME_CAMPING_RESTORE_SPELL_POINTS),
+		BOOL2OPTIONCSTR(_options[Enums::Options::CAMPING_RESTORE_SPELL_POINTS]));
+	_settings->SetValue("Gameplay", CSTR(GAME_CHARGED_ITEMS),
+		BOOL2OPTIONCSTR(_options[Enums::Options::CHARGED_ITEMS]));
+
 	SI_Error result{_settings->SaveFile(CSTR(_config_fp))};
 	return (result >= 0);
 }
@@ -167,7 +189,8 @@ bool Sorcery::Config::save() {
 auto Sorcery::Config::set_recommended_mode() -> void {
 
 	std::array<bool, NUM_GAME_SETTINGS> _rec_settings{true, false, true, false, true, false, true,
-		true, true, true, true, true, false, false, false, false, true, true, true, true, true};
+		true, true, true, true, true, false, false, false, false, true, true, true, true, true,
+		true, true, false, false, true};
 	std::swap(_options, _rec_settings);
 }
 
@@ -176,7 +199,7 @@ auto Sorcery::Config::set_strict_mode() -> void {
 
 	std::array<bool, NUM_GAME_SETTINGS> _strict_settings{false, true, true, false, false, true,
 		false, false, false, false, false, false, true, true, true, true, false, false, false,
-		false, false};
+		false, false, false, false, false, false};
 	std::swap(_options, _strict_settings);
 }
 
@@ -191,7 +214,7 @@ auto Sorcery::Config::is_strict_mode() -> bool {
 
 	std::array<bool, NUM_GAME_SETTINGS> _strict_settings{false, true, true, false, false, true,
 		false, false, false, false, false, false, true, true, true, true, false, false, false,
-		false, false};
+		false, false, false, false, false, false, false};
 	return _options == _strict_settings;
 }
 
@@ -199,6 +222,7 @@ auto Sorcery::Config::is_strict_mode() -> bool {
 auto Sorcery::Config::is_recommended_mode() -> bool {
 
 	std::array<bool, NUM_GAME_SETTINGS> _rec_settings{true, false, true, false, true, false, true,
-		true, true, true, true, true, false, false, false, false, true, true, true, true, true};
+		true, true, true, true, true, false, false, false, false, true, true, true, true, true,
+		true, true, false, false, true};
 	return _options == _rec_settings;
 }

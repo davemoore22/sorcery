@@ -93,7 +93,7 @@ namespace Sorcery {
 	static const std::string CELL_WIDTH = {"cell_width"};
 
 	// Gameplay settings
-	static const int NUM_GAME_SETTINGS = {21};
+	static const int NUM_GAME_SETTINGS = {26};
 	static const std::string OPT_AUTO_SAVE = {"autosave"};
 	static const std::string OPT_RECOMMENDED_MODE = {"recommended_mode"};
 	static const std::string OPT_STRICT_MODE = {"strict_mode"};
@@ -118,6 +118,11 @@ namespace Sorcery {
 		"batch_healing_after_return_to_castle"};
 	static const std::string GAME_REROLL_ONES_ON_DICE = {"reroll_ones_on_dice"};
 	static const std::string GAME_ALLOW_AMBUSH_HIDE = {"allow_ambush_hide"};
+	static const std::string GAME_ALLOW_LOST_LEGATED = {"allow_lost_legated"};
+	static const std::string GAME_ALLOW_CURABLE_DRAIN = {"allow_curable_drained_levels"};
+	static const std::string GAME_ALLOW_SHARED_INVENTORY = {"allow_shared_inventory"};
+	static const std::string GAME_CAMPING_RESTORE_SPELL_POINTS = {"camping_restores_spell_points"};
+	static const std::string GAME_CHARGED_ITEMS = {"charged_items"};
 
 	// Screen Size settings
 	static const unsigned int MINIMUM_SCREEN_WIDTH = {1280};

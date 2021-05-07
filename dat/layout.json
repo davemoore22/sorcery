@@ -470,33 +470,9 @@
 			"priority": "3"
 		},
 		{
-			"name": "gameplay",
-			"x": "centre",
-			"y": "5",
-			"font": "monospace",
-			"colour": "0xffff00ff",
-			"size": "38",
-			"string": "CONFIG_SUBTITLE_GAMEPLAY",
-			"justification": "centre",
-			"type": "text",
-			"priority": "5"
-		},
-		{
-			"name": "graphics",
-			"x": "centre",
-			"y": "23",
-			"font": "monospace",
-			"colour": "0xffff00ff",
-			"size": "38",
-			"string": "CONFIG_SUBTITLE_GRAPHICS",
-			"justification": "centre",
-			"type": "text",
-			"priority": "6"
-		},
-		{
 			"name": "menu",
 			"x": "16",
-			"y": "6",
+			"y": "4",
 			"w": "48",
 			"h": "20",
 			"font": "monospace",
@@ -591,6 +567,28 @@
 			"background": "0x6060c8ff",
 			"justification": "centre",
 			"type": "text",
+			"drawmode": "manual"
+		},
+		{
+			"name": "explanation_frame",
+			"w": "40",
+			"h": "6",
+			"x": "centre",
+			"y": "29",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "6",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "info_panel",
+			"w": "38",
+			"h": "4",
+			"x": "20",
+			"y": "29",
+			"alpha": "255",
+			"type": "panel",
+			"priority": "6",
 			"drawmode": "manual"
 		}
 		]

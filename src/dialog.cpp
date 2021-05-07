@@ -39,15 +39,19 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 	_highlights.clear();
 	_buttons_fr.clear();
 
+	// Get the Window
+	_window = _display->window->get_window();
+
+	// Get the Layout
 	_text_c = Component((*_display->layout)["dialog:text"]);
 	_buttons_c = Component((*_display->layout)["dialog:buttons"]);
 
-	// Get the display text
+	// Get the Text
 	unsigned int text_width{_frame_c.w - 4};
 	std::string string{(*_display->string)[string_c.string_key]};
 	std::string wrapped_text = WORDWRAP(string, text_width);
 
-	// Split the display text into lines
+	// Split the Text into lines
 	const std::regex regex(R"([@]+)");
 	std::sregex_token_iterator it{wrapped_text.begin(), wrapped_text.end(), regex, -1};
 	std::vector<std::string> split{it, {}};
@@ -200,11 +204,65 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 	}
 }
 
+auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WindowDialogButton> {
+	switch (_type) {
+
+	case WindowDialogType::OK:
+		// Can't be toggled
+		break;
+	case WindowDialogType::CONFIRM:
+		if (_system->input->check_for_event(WindowInput::LEFT, event))
+			toggle_highlighted();
+		else if (_system->input->check_for_event(WindowInput::RIGHT, event))
+			toggle_highlighted();
+		else if (_system->input->check_for_event(WindowInput::YES, event))
+			set_selected(WindowDialogButton::YES);
+		else if (_system->input->check_for_event(WindowInput::NO, event))
+			set_selected(WindowDialogButton::NO);
+		else if (_system->input->check_for_event(WindowInput::CANCEL, event))
+			return WindowDialogButton::NO;
+		else if (_system->input->check_for_event(WindowInput::BACK, event))
+			return WindowDialogButton::NO;
+		else if (_system->input->check_for_event(WindowInput::MOVE, event))
+			check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+			std::optional<WindowDialogButton> button_chosen{check_if_option_selected(
+				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)))};
+
+			// Mouse click only
+			if (button_chosen) {
+				if (button_chosen.value() == WindowDialogButton::YES)
+					return WindowDialogButton::YES;
+				else if (button_chosen.value() == WindowDialogButton::NO)
+					return WindowDialogButton::NO;
+
+			} else {
+
+				// Button/Keyboard
+				if (get_selected() == WindowDialogButton::YES) {
+					return WindowDialogButton::YES;
+				} else if (get_selected() == WindowDialogButton::NO)
+					return WindowDialogButton::NO;
+			}
+		}
+		break;
+	case WindowDialogType::MENU:
+		break;
+	case WindowDialogType::TIMED:
+		break;
+	default:
+		break;
+	}
+
+	return std::nullopt;
+}
+
 auto Sorcery::Dialog::toggle_highlighted() -> WindowDialogButton {
 
 	switch (_type) {
 	case WindowDialogType::OK:
 		// Can't be toggled
+		break;
 	case WindowDialogType::CONFIRM:
 		if (_selected == WindowDialogButton::YES)
 			_selected = WindowDialogButton::NO;
@@ -233,7 +291,8 @@ auto Sorcery::Dialog::check_for_mouse_move(const sf::Vector2f mouse_pos)
 		if (_buttons_fr.at(WindowDialogButton::OK).contains(local_mouse_pos)) {
 			_selected = WindowDialogButton::OK;
 			return WindowDialogButton::OK;
-		} break;
+		}
+		break;
 	case WindowDialogType::CONFIRM:
 		if (_buttons_fr.at(WindowDialogButton::YES).contains(local_mouse_pos)) {
 			_selected = WindowDialogButton::YES;

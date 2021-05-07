@@ -52,6 +52,7 @@ namespace Sorcery {
 		auto set_selected(WindowDialogButton value) -> void;
 		auto toggle_highlighted() -> WindowDialogButton;
 		auto update() -> void;
+		auto handle_input(sf::Event event) -> std::optional<WindowDialogButton>;
 
 	  private:
 		// Private Methods
@@ -61,6 +62,8 @@ namespace Sorcery {
 		System *_system;
 		Display *_display;
 		Graphics *_graphics;
+
+		sf::RenderWindow *_window;
 
 		unsigned int _width;
 		unsigned int _height;

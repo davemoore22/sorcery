@@ -117,11 +117,11 @@ auto Sorcery::Options::start() -> void {
 					selected = _menu->set_mouse_selected(
 						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					if (selected) {
-						if ((*_menu->selected).type == MenuItemType::ENTRY)
+						/* if ((*_menu->selected).type == MenuItemType::ENTRY)
 							_display_tt = _set_tooltip(
 								static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-						else
-							_display_tt = false;
+						else */
+						_display_tt = false;
 					}
 
 				} else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {

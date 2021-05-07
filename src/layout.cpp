@@ -48,6 +48,7 @@ Sorcery::Layout::Layout(const std::filesystem::path filename) {
 // Overload [] Operator
 auto Sorcery::Layout::operator[](const std::string &combined_key) -> Component & {
 
+	// swap into _load instead and check if refresh needed is called unnecessary
 	try {
 
 		// First check if we need to reload if anything has changed!

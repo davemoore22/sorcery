@@ -233,30 +233,34 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics, const 
 		_add_item(14, MenuItemType::ENTRY, MenuItem::OP_REROLL_ONES_ON_DICE,
 			(*_display->string)["GAME_REROLL_ONES"], true, ConfigOption::REROLL_ONES_ON_DICE,
 			(*_display->string)["HINT_GAME_REROLL_ONES"]);
-		_add_item(15, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
-		_add_item(16, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
-		_add_item(17, MenuItemType::ENTRY, MenuItem::OP_WIREFRAME_MODE,
-			(*_display->string)["GRAPHICS_WIREFRAME"], true, ConfigOption::WIREFRAME_MODE,
-			(*_display->string)["HINT_GRAPHICS_WIREFRAME"]);
-		_add_item(18, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_TEXTURES,
-			(*_display->string)["GRAPHICS_TEXTURES"], true, ConfigOption::DISPLAY_TEXTURES,
-			(*_display->string)["HINT_GRAPHICS_TEXTURES"]);
-		_add_item(19, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_TRAPS,
-			(*_display->string)["GRAPHICS_TRAPS"], true, ConfigOption::DISPLAY_TRAPS,
-			(*_display->string)["HINT_GRAPHICS_TRAPS"]);
-		_add_item(20, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_TELEPORTERS,
-			(*_display->string)["GRAPHICS_TELEPORTERS"], true, ConfigOption::DISPLAY_TELEPORTERS,
-			(*_display->string)["HINT_GRAPHICS_TELEPORTERS"]);
-		_add_item(21, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_ENCOUNTERS,
-			(*_display->string)["GRAPHICS_ENCOUNTERS"], true, ConfigOption::DISPLAY_ENCOUNTERS,
-			(*_display->string)["HINT_GRAPHICS_ENCOUNTERS"]);
-		_add_item(22, MenuItemType::ENTRY, MenuItem::OP_DISPLAY_PROGRESS,
-			(*_display->string)["GRAPHICS_PROGRESS"], true, ConfigOption::DISPLAY_PROGRESS,
-			(*_display->string)["HINT_GRAPHICS_PROGRESS"]);
-		_add_item(23, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
-		_add_item(24, MenuItemType::SAVE, MenuItem::SAVE, (*_display->string)["MENU_OPTIONS_SAVE"]);
+
+		_add_item(15, MenuItemType::ENTRY, MenuItem::OP_ALLOW_LOST_LEGATED,
+			(*_display->string)["GAME_ALLOW_LOST_LEGATED"], true, ConfigOption::ALLOW_LOST_LEGATED,
+			(*_display->string)["HINT_GAME_ALLOW_LOST_LEGATED"]);
+
+		_add_item(16, MenuItemType::ENTRY, MenuItem::OP_ALLOW_CURABLE_DRAIN,
+			(*_display->string)["GAME_ALLOW_CURABLE_DRAIN"], true,
+			ConfigOption::ALLOW_CURABLE_DRAIN,
+			(*_display->string)["HINT_GAME_ALLOW_CURABLE_DRAIN"]);
+
+		_add_item(17, MenuItemType::ENTRY, MenuItem::OP_ALLOW_SHARED_INVENTORY,
+			(*_display->string)["GAME_ALLOW_SHARED_INVENTORY"], true,
+			ConfigOption::ALLOW_SHARED_INVENTORY,
+			(*_display->string)["HINT_GAME_ALLOW_SHARED_INVENTORY"]);
+
+		_add_item(18, MenuItemType::ENTRY, MenuItem::OP_CAMPING_RESTORE_SPELL_POINTS,
+			(*_display->string)["GAME_CAMPING_SPELL_POINTS"], true,
+			ConfigOption::CAMPING_RESTORE_SPELL_POINTS,
+			(*_display->string)["HINT_GAME_CAMPING_SPELL_POINTS"]);
+
+		_add_item(19, MenuItemType::ENTRY, MenuItem::OP_CHARGED_ITEMS,
+			(*_display->string)["GAME_CHARGED_ITEMS"], true, ConfigOption::CHARGED_ITEMS,
+			(*_display->string)["HINT_GAME_CHARGED_ITEMS"]);
+
+		_add_item(20, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+		_add_item(21, MenuItemType::SAVE, MenuItem::SAVE, (*_display->string)["MENU_OPTIONS_SAVE"]);
 		_add_item(
-			25, MenuItemType::CANCEL, MenuItem::CANCEL, (*_display->string)["MENU_OPTIONS_CANCEL"]);
+			22, MenuItemType::CANCEL, MenuItem::CANCEL, (*_display->string)["MENU_OPTIONS_CANCEL"]);
 		selected = items.begin();
 		break;
 	case MenuType::PAUSE:
