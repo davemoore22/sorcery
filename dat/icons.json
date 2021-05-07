@@ -251,6 +251,13 @@
 			"menu_item": "CR_NONE",
 			"key": "deaths",
 			"colour": "0xff0000ff"
+		},
+		{
+			"index": "36",
+			"filename": "cog",
+			"menu_item": "OP_ALL",
+			"key": "option",
+			"colour": "0xff0000ff"
 		}
 	]
 }

@@ -36,8 +36,11 @@ Sorcery::Options::Options(System *system, Display *display, Graphics *graphics)
 	_option_on = Component((*_display->layout)["options:on"]);
 	_option_off = Component((*_display->layout)["options:off"]);
 
+	// Get the Infopanel
+	_ip = std::make_shared<InfoPanel>(_system, _display, _graphics);
+
 	// Get the Tooltip
-	_tt = std::make_shared<Tooltip>(_system, _display, _graphics);
+	//_tt = std::make_shared<Tooltip>(_system, _display, _graphics);
 
 	// Create the Confirmation Dialog Boxes
 	_dialog_confirm_save = std::make_shared<Dialog>(_system, _display, _graphics,
@@ -75,7 +78,8 @@ auto Sorcery::Options::start() -> void {
 	// Clear the window
 	_window->clear();
 	_display->window->tooltips.clear();
-	_display_tt = false;
+	//_display_tt = false;
+	_ip->valid = false;
 
 	// Play the background movie!
 	_display->fit_background_movie();
@@ -85,6 +89,7 @@ auto Sorcery::Options::start() -> void {
 	_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
 	_menu->choose_first();
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->items.begin()};
+	_set_info_panel_contents(_menu->selected);
 
 	// And do the main loop
 	sf::Event event{};
@@ -121,7 +126,7 @@ auto Sorcery::Options::start() -> void {
 							_display_tt = _set_tooltip(
 								static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 						else */
-						_display_tt = false;
+						//_display_tt = false;
 					}
 
 				} else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
@@ -161,6 +166,8 @@ auto Sorcery::Options::start() -> void {
 						}
 					}
 				}
+
+				_set_info_panel_contents(_menu->selected);
 
 			} else if ((_display->get_input_mode() == WindowInputMode::CONFIRM_STRICT_MODE) ||
 					   (_display->get_input_mode() == WindowInputMode::SAVE_CHANGES) ||
@@ -340,6 +347,22 @@ auto Sorcery::Options::stop() -> void {
 	_display->stop_background_movie();
 }
 
+auto Sorcery::Options::_set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it)
+	-> void {
+
+	// Set the Text
+	if ((*it).type == MenuItemType::ENTRY) {
+		std::string ip_contents{(*it).hint};
+		_ip->set_text(ip_contents);
+		_ip->valid = true;
+	} else
+		_ip->valid = false;
+
+	// Set the Icon
+	if ((*it).type == MenuItemType::ENTRY)
+		_ip->set_icon(MenuItem::OP_ALL);
+}
+
 auto Sorcery::Options::_draw() -> void {
 
 	const double lerp{_graphics->animation->colour_lerp};
@@ -359,12 +382,18 @@ auto Sorcery::Options::_draw() -> void {
 	} else if (_display->get_input_mode() == WindowInputMode::CANCEL_CHANGES) {
 		_dialog_confirm_cancel->update();
 		_window->draw(*_dialog_confirm_cancel);
-	} else if (_display_tt) {
+	} /* else if (_display_tt) {
 		sf::Vector2i tooltip_position{sf::Mouse::getPosition(*_window)};
 		tooltip_position.x += 10;
 		tooltip_position.y += 10;
 		_tt->setPosition(tooltip_position.x, tooltip_position.y);
 		_window->draw(*_tt);
+	} */
+
+	if (_ip->valid) {
+		_ip->setPosition((*_display->layout)["options:info_panel"].x,
+			(*_display->layout)["options:info_panel"].y);
+		_window->draw(*_ip);
 	}
 
 	// Always draw the following
@@ -385,7 +414,7 @@ auto Sorcery::Options::_set_tooltip(sf::Vector2f mouse_pos) -> bool {
 			})};
 		if (contain != _display->window->tooltips.end()) {
 			const std::string hint{(*contain).first};
-			_tt->set(hint);
+			//_tt->set(hint);
 			return true;
 		} else
 			return false;
