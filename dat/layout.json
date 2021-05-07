@@ -41,7 +41,8 @@
 			"type": "panel",
 			"drawmode": "manual",
 			"x": "centre",
-			"y": "centre"
+			"y": "centre",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "spell_summary",
@@ -69,6 +70,13 @@
 			"type": "icon",
 			"drawmode": "manual",
 			"colour": "0xffffffff"
+		},
+		{
+			"name": "frame",
+			"type": "frame",
+			"drawmode": "manual",
+			"colour": "0xffffffff",
+			"background": "0x000049ff"
 		}
 		]
 	},
@@ -95,7 +103,8 @@
 			"size": "38",
 			"type": "text",
 			"drawmode": "manual",
-			"priority": "5"
+			"priority": "5",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "buttons",
@@ -105,7 +114,7 @@
 			"type": "text",
 			"drawmode": "manual",
 			"priority": "5",
-			"background": "0x6060c8ff"
+			"background": "0xffff66ff"
 		}
 		]
 	},
@@ -121,7 +130,8 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "4",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "letters",
@@ -131,7 +141,7 @@
 			"type": "text",
 			"drawmode": "manual",
 			"priority": "5",
-			"background": "0x6060c8ff",
+			"background": "0xffff66ff",
 			"data": [
 				{
 					"offset_x": "32",
@@ -153,10 +163,11 @@
 			"h": "25",
 			"x": "0",
 			"y": "0",
-			"alpha": "200",
+			"alpha": "255",
 			"type": "frame",
 			"priority": "4",
 			"drawmode": "manual",
+			"background": "0x000049ff",
 			"data": [
 				{
 					"padding_y": "6",
@@ -172,7 +183,7 @@
 			"type": "text",
 			"drawmode": "manual",
 			"priority": "5",
-			"background": "0x6060c8ff",
+			"background": "0xffff66ff",
 			"data": [
 				{
 					"offset_x": "216",
@@ -239,7 +250,8 @@
 			"y": "2",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "2"
+			"priority": "2",
+			"background": "0x000024ff"
 		},
 		{
 			"name": "bottom_gui_frame",
@@ -249,7 +261,8 @@
 			"y": "26",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "4"
+			"priority": "4",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "title",
@@ -324,10 +337,11 @@
 			"size": "38",
 			"animated": "true",
 			"width": "54",
-			"background": "0x6060c8ff",
+			"background": "0xffff66ff",
 			"justification": "centre",
 			"type": "menu",
-			"priority": "10"
+			"priority": "10",
+			"old_background": "0x6060c8ff"
 		},
 		{
 			"name": "dialog_new_game",
@@ -337,7 +351,7 @@
 			"type": "dialog",
 			"drawmode": "manual",
 			"alpha": "255",
-			"background": "0x000000ff"
+			"background": "0x000049ff"
 		},
 		{
 			"name": "dialog_new_game_text",
@@ -345,7 +359,7 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "CONFIRM_NEW_GAME",
-			"background": "0x6060c8ff",
+			"background": "0xffff66ff",
 			"justification": "centre",
 			"type": "text",
 			"drawmode": "manual"
@@ -358,7 +372,7 @@
 			"type": "dialog",
 			"drawmode": "manual",
 			"alpha": "255",
-			"background": "0x000000ff"
+			"background": "0x000049ff"
 		},
 		{
 			"name": "dialog_exit_text",
@@ -366,7 +380,7 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "CONFIRM_EXIT_GAME",
-			"background": "0x6060c8ff",
+			"background": "0xffff66ff",
 			"justification": "centre",
 			"type": "text",
 			"drawmode": "manual"
@@ -384,7 +398,8 @@
 			"y": "2",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "1"
+			"priority": "1",
+			"background": "0x000024ff"
 		},
 		{
 			"name": "title_frame",
@@ -394,7 +409,8 @@
 			"y": "1",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "2"
+			"priority": "2",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "title_text",
@@ -445,7 +461,8 @@
 			"y": "2",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "1"
+			"priority": "1",
+			"background": "0x000024ff"
 		},
 		{
 			"name": "title_frame",
@@ -455,7 +472,8 @@
 			"y": "1",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "2"
+			"priority": "2",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "title_text",
@@ -480,7 +498,7 @@
 			"size": "38",
 			"animated": "true",
 			"width": 48,
-			"background": "0x6060c8ff",
+			"background": "0xffff66ff",
 			"justification": "left",
 			"type": "menu",
 			"priority": "4",
@@ -514,7 +532,7 @@
 			"type": "dialog",
 			"drawmode": "manual",
 			"alpha": "255",
-			"background": "0x000000ff"
+			"background": "0x000049ff"
 		},
 		{
 			"name": "dialog_confirm_save_text",
@@ -522,7 +540,7 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "CONFIRM_SAVE_GAME_OPTIONS",
-			"background": "0x6060c8ff",
+			"background": "0xffff66ff",
 			"justification": "centre",
 			"type": "text",
 			"drawmode": "manual"
@@ -535,7 +553,7 @@
 			"type": "dialog",
 			"drawmode": "manual",
 			"alpha": "255",
-			"background": "0x000000ff"
+			"background": "0x000049ff"
 		},
 		{
 			"name": "dialog_confirm_cancel_text",
@@ -543,7 +561,7 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "CONFIRM_CANCEL_CHANGES_OPTIONS",
-			"background": "0x6060c8ff",
+			"background": "0xffff66ff",
 			"justification": "centre",
 			"type": "text",
 			"drawmode": "manual"
@@ -556,7 +574,7 @@
 			"type": "dialog",
 			"drawmode": "manual",
 			"alpha": "255",
-			"background": "0x000000ff"
+			"background": "0x000049ff"
 		},
 		{
 			"name": "dialog_confirm_strict_on_text",
@@ -564,7 +582,7 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "CONFIRM_SWITCH_ON_STRICT_MODE",
-			"background": "0x6060c8ff",
+			"background": "0xffff66ff",
 			"justification": "centre",
 			"type": "text",
 			"drawmode": "manual"
@@ -578,7 +596,8 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "info_panel",
@@ -604,7 +623,8 @@
 			"y": "2",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "1"
+			"priority": "1",
+			"background": "0x000024ff"
 		},
 		{
 			"name": "title_frame",
@@ -614,7 +634,8 @@
 			"y": "1",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "2"
+			"priority": "2",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "title_text",
@@ -651,7 +672,8 @@
 			"y": "2",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "1"
+			"priority": "1",
+			"background": "0x000024ff"
 		},
 		{
 			"name": "title_frame",
@@ -661,7 +683,8 @@
 			"y": "1",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "2"
+			"priority": "2",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "title_text",
@@ -694,7 +717,8 @@
 			"alpha": "225",
 			"type": "frame",
 			"priority": "6",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "menu",
@@ -707,7 +731,7 @@
 			"size": "38",
 			"animated": "true",
 			"width": "36",
-			"background": "0x6060c8ff",
+			"background": "0xffff66ff",
 			"justification": "centre",
 			"type": "menu",
 			"priority": "8"
@@ -735,7 +759,8 @@
 				"y": "0",
 				"alpha": "255",
 				"type": "frame",
-				"priority": "5"
+				"priority": "5",
+				"background": "0x000049ff"
 			},
 			{
 				"name": "character_legend_name",
@@ -826,7 +851,8 @@
 			"y": "1",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "2"
+			"priority": "2",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "edge_title_frame",
@@ -836,7 +862,8 @@
 			"y": "1",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "2"
+			"priority": "2",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "castle_title_text",
@@ -870,7 +897,8 @@
 			"y": "2",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "1"
+			"priority": "1",
+			"background": "0x000024ff"
 		},
 		{
 			"name": "castle_menu_frame",
@@ -881,7 +909,8 @@
 			"alpha": "225",
 			"type": "frame",
 			"priority": "6",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "edge_menu_frame",
@@ -892,7 +921,8 @@
 			"alpha": "225",
 			"type": "frame",
 			"priority": "6",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "castle_menu",
@@ -905,7 +935,7 @@
 			"size": "38",
 			"animated": "true",
 			"width": "36",
-			"background": "0x6060c8ff",
+			"background": "0xffff66ff",
 			"justification": "centre",
 			"type": "menu",
 			"priority": "8"
@@ -921,7 +951,7 @@
 			"size": "38",
 			"animated": "true",
 			"width": "36",
-			"background": "0x6060c8ff",
+			"background": "0xffff66ff",
 			"justification": "centre",
 			"type": "menu",
 			"priority": "8"
@@ -944,7 +974,7 @@
 			"type": "dialog",
 			"drawmode": "manual",
 			"alpha": "255",
-			"background": "0x000000ff"
+			"background": "0x000049ff"
 		},
 		{
 			"name": "dialog_leave_game_text",
@@ -952,7 +982,7 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "CONFIRM_LEAVE_GAME",
-			"background": "0x6060c8ff",
+			"background": "0xffff66ff",
 			"justification": "centre",
 			"type": "text",
 			"drawmode": "manual"
@@ -980,7 +1010,8 @@
 			"y": "2",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "2"
+			"priority": "2",
+			"background": "0x000024ff"
 		},
 		{
 			"name": "title_frame",
@@ -990,7 +1021,8 @@
 			"y": "1",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "3"
+			"priority": "3",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "title_text",
@@ -1027,7 +1059,8 @@
 				"y": "6",
 				"alpha": "255",
 				"type": "frame",
-				"priority": "2"
+				"priority": "2",
+				"background": "0x000049ff"
 			},
 			{
 				"name": "summary_text",
@@ -1051,7 +1084,8 @@
 				"y": "10",
 				"alpha": "255",
 				"type": "frame",
-				"priority": "2"
+				"priority": "2",
+				"background": "0x000049ff"
 			},
 			{
 				"name": "title_text",
@@ -1074,7 +1108,8 @@
 				"alpha": "255",
 				"type": "frame",
 				"priority": "6",
-				"drawmode": "automatic"
+				"drawmode": "automatic",
+				"background": "0x000049ff"
 			},
 			{
 				"name": "menu",
@@ -1087,7 +1122,7 @@
 				"size": "38",
 				"animated": "true",
 				"width": "25",
-				"background": "0x6060c8ff",
+				"background": "0xffff66ff",
 				"justification": "centre",
 				"type": "menu",
 				"priority": "10"
@@ -1101,7 +1136,8 @@
 				"alpha": "255",
 				"type": "frame",
 				"priority": "6",
-				"drawmode": "automatic"
+				"drawmode": "automatic",
+				"background": "0x000049ff"
 			},
 			{
 				"name": "info_panel",
@@ -1127,7 +1163,8 @@
 			"y": "6",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "2"
+			"priority": "2",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "summary_text",
@@ -1152,7 +1189,8 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "stage_text",
@@ -1175,7 +1213,8 @@
 			"y": "14",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "2"
+			"priority": "2",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "name_candidate",
@@ -1213,7 +1252,8 @@
 			"y": "6",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "2"
+			"priority": "2",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "summary_text",
@@ -1238,7 +1278,8 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "stage_text",
@@ -1262,7 +1303,8 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "menu",
@@ -1275,7 +1317,7 @@
 			"size": "38",
 			"animated": "true",
 			"width": "25",
-			"background": "0x6060c8ff",
+			"background": "0xffff66ff",
 			"justification": "centre",
 			"type": "menu",
 			"priority": "10"
@@ -1289,7 +1331,8 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "info_panel",
@@ -1315,7 +1358,8 @@
 			"y": "6",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "2"
+			"priority": "2",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "summary_text",
@@ -1340,7 +1384,8 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "stage_text",
@@ -1364,7 +1409,8 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "menu",
@@ -1377,7 +1423,7 @@
 			"size": "38",
 			"animated": "true",
 			"width": "25",
-			"background": "0x6060c8ff",
+			"background": "0xffff66ff",
 			"justification": "centre",
 			"type": "menu",
 			"priority": "10"
@@ -1391,7 +1437,8 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "info_panel",
@@ -1418,7 +1465,8 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "stage_text",
@@ -1441,7 +1489,8 @@
 			"y": "6",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "2"
+			"priority": "2",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "summary_text",
@@ -1466,7 +1515,8 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "menu",
@@ -1479,7 +1529,7 @@
 			"size": "38",
 			"animated": "true",
 			"width": "25",
-			"background": "0x6060c8ff",
+			"background": "0xffff66ff",
 			"justification": "right",
 			"type": "menu",
 			"priority": "10"
@@ -1493,7 +1543,8 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "info_panel",
@@ -1700,7 +1751,8 @@
 			"y": "6",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "2"
+			"priority": "2",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "summary_text",
@@ -1725,7 +1777,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"drawmode": "automatic"
+			"background": "0x000049ff"
 		},
 		{
 			"name": "stage_text",
@@ -1749,7 +1801,8 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "menu",
@@ -1762,7 +1815,7 @@
 			"size": "38",
 			"animated": "true",
 			"width": "25",
-			"background": "0x6060c8ff",
+			"background": "0xffff66ff",
 			"justification": "centre",
 			"type": "menu",
 			"priority": "10"
@@ -1776,7 +1829,8 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "info_panel",
@@ -1802,7 +1856,8 @@
 			"y": "6",
 			"alpha": "255",
 			"type": "frame",
-			"priority": "2"
+			"priority": "2",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "summary_text",
@@ -1827,7 +1882,8 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "stage_text",
@@ -1877,7 +1933,8 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "stage_text",
@@ -1901,7 +1958,8 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"background": "0x000024ff"
 		},
 		{
 			"name": "candidate",
@@ -1918,7 +1976,8 @@
 			"alpha": "200",
 			"type": "frame",
 			"priority": "6",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "menu",
@@ -1931,7 +1990,7 @@
 			"size": "38",
 			"animated": "true",
 			"width": "25",
-			"background": "0x6060c8ff",
+			"background": "0xffff66ff",
 			"justification": "centre",
 			"type": "menu",
 			"priority": "10"
@@ -2066,7 +2125,8 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "automatic",
-			"colour": "0x606060ff"
+			"colour": "0x606060ff",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "stat_frame",
@@ -2079,6 +2139,7 @@
 			"priority": "6",
 			"drawmode": "automatic",
 			"colour": "0x606060ff",
+			"background": "0x000049ff",
 			"data": [
 				{
 					"offset_y": "-8"
@@ -2095,7 +2156,8 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "automatic",
-			"colour": "0x606060ff"
+			"colour": "0x606060ff",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "magic_frame",
@@ -2107,7 +2169,8 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "automatic",
-			"colour": "0x606060ff"
+			"colour": "0x606060ff",
+			"background": "0x000049ff"
 		},
 		{
 			"name": "spellsummary",
@@ -4148,7 +4211,8 @@
 				"type": "frame",
 				"priority": "6",
 				"drawmode": "manual",
-				"colour": "0x606060ff"
+				"colour": "0x606060ff",
+				"background": "0x000049ff"
 			},
 			{
 				"name": "outside_frame",
@@ -4161,6 +4225,7 @@
 				"priority": "6",
 				"drawmode": "manual",
 				"colour": "0x606060ff",
+				"background": "0x000024ff",
 				"data": [
 					{
 						"offset_y": "-8"
@@ -4295,7 +4360,8 @@
 				"type": "frame",
 				"priority": "6",
 				"drawmode": "manual",
-				"colour": "0x606060ff"
+				"colour": "0x606060ff",
+				"background": "0x000049ff"
 			},
 			{
 				"name": "outside_frame",
@@ -4308,6 +4374,7 @@
 				"priority": "6",
 				"drawmode": "manual",
 				"colour": "0x606060ff",
+				"background": "0x000024ff",
 				"data": [
 					{
 						"offset_y": "-8"
@@ -4428,7 +4495,8 @@
 				"type": "frame",
 				"priority": "6",
 				"drawmode": "automatic",
-				"colour": "0x606060ff"
+				"colour": "0x606060ff",
+				"background": "0x000049ff"
 			},
 			{
 				"name": "outside_frame",
@@ -4441,6 +4509,7 @@
 				"priority": "6",
 				"drawmode": "automatic",
 				"colour": "0x606060ff",
+				"background": "0x000024ff",
 				"data": [
 					{
 						"offset_y": "-8"
@@ -4488,7 +4557,9 @@
 				"type": "frame",
 				"priority": "6",
 				"drawmode": "automatic",
-				"colour": "0x606060ff"
+				"colour": "0x606060ff",
+				"background": "0x000049ff"
+
 			},
 			{
 				"name": "outside_frame",
@@ -4501,6 +4572,7 @@
 				"priority": "6",
 				"drawmode": "automatic",
 				"colour": "0x606060ff",
+				"background": "0x000024ff",
 				"data": [
 					{
 						"offset_y": "-8"

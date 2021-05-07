@@ -49,7 +49,7 @@ auto Sorcery::AttractMode::generate() -> void {
 		// Don't worry about previous contents of this
 		_rtexture.create(texture_size.x, texture_size.y);
 		_rtexture.setSmooth(true);
-		_rtexture.clear();
+		//_rtexture.clear();
 
 		// Get the Required Sprites
 		unsigned int sprite_x{0};
@@ -64,7 +64,7 @@ auto Sorcery::AttractMode::generate() -> void {
 		_rtexture.display();
 		_texture = _rtexture.getTexture();
 		_sprite = sf::Sprite(_texture);
-		_sprite.setColor(sf::Color(0, 0, 0, 175));
+		//_sprite.setColor(sf::Color(0, 0, 0, 175));
 		sprite = _sprite;
 	}
 }

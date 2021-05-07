@@ -149,9 +149,15 @@ auto Sorcery::Options::start() -> void {
 
 							} else {
 
-								// And toggling off strict mode
 								(*_system->config)[config_to_toggle] =
 									!(*_system->config)[config_to_toggle];
+
+								// And toggling off strict mode
+								if (!_system->config->is_strict_mode())
+									(*_system->config)[ConfigOption::STRICT_MODE] = false;
+
+								if (!_system->config->is_recommended_mode())
+									(*_system->config)[ConfigOption::RECOMMENDED_MODE] = false;
 							}
 						} else if ((*_menu->selected).type == MenuItemType::SAVE) {
 

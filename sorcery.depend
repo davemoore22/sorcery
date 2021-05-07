@@ -290,7 +290,7 @@
 1617394158 source:/home/dave/Development/wizardry/sorcery-sfml/src/component.cpp
 	"component.hpp"
 
-1620414146 source:/home/dave/Development/wizardry/sorcery-sfml/src/config.cpp
+1620420089 source:/home/dave/Development/wizardry/sorcery-sfml/src/config.cpp
 	"config.hpp"
 
 1620415061 source:/home/dave/Development/wizardry/sorcery-sfml/src/create.cpp
@@ -428,7 +428,7 @@
 1618259095 source:/home/dave/Development/wizardry/sorcery-sfml/src/license.cpp
 	"license.hpp"
 
-1620416588 source:/home/dave/Development/wizardry/sorcery-sfml/src/options.cpp
+1620420163 source:/home/dave/Development/wizardry/sorcery-sfml/src/options.cpp
 	"options.hpp"
 
 1620415134 /home/dave/Development/wizardry/sorcery-sfml/inc/options.hpp
@@ -558,7 +558,7 @@
 	"component.hpp"
 	"main.hpp"
 
-1615038872 source:/home/dave/Development/wizardry/sorcery-sfml/src/attractmode.cpp
+1620422132 source:/home/dave/Development/wizardry/sorcery-sfml/src/attractmode.cpp
 	"attractmode.hpp"
 
 1615649364 /home/dave/Development/wizardry/sorcery-sfml/inc/training.hpp
