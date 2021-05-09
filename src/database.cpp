@@ -44,17 +44,61 @@ auto Sorcery::Database::has_game() -> bool {
 
 	try {
 		sqlite::database database(_db_file_path.string());
-		const std::string check_has_game_SQL{"SELECT count(g.id) AS count FROM game g;"};
+		const std::string check_has_game_SQL{
+			"SELECT "
+			"	count(g.id) AS count "
+			"	FROM "
+			"	game g;"};
 		int count{};
 		database << check_has_game_SQL >> count;
 		return count > 0;
 	} catch (sqlite::sqlite_exception &e) {
 		Error error{SystemError::SQLLITE_ERROR, e,
 			fmt::format(
-				"{} {} {} {}}", e.get_code(), e.what(), e.get_sql(), _db_file_path.string())};
+				"{} {} {} {}", e.get_code(), e.what(), e.get_sql(), _db_file_path.string())};
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}
+}
+
+auto Sorcery::Database::add_game() -> int {
+	try {
+
+		sqlite::database database(_db_file_path.string());
+		if (has_game()) {
+
+			const std::string delete_existing_game_SQL{
+				"DELETE * FROM"
+				"	game;"};
+			database << delete_existing_game_SQL;
+		}
+
+		std::string new_unique_key{GUID()};
+		auto now_t{std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())};
+		std::stringstream ss{};
+		ss << std::put_time(std::localtime(&now_t), "%Y-%m-%d %X");
+		auto stated{ss.str()};
+		auto last_played{ss.str()};
+		const std::string insert_new_game_SQL{
+			"INSERT INTO game ("
+			"	key, "
+			"	status, "
+			"	started, "
+			"	last_played"
+			") VALUES (?,?,?,?);"};
+		database << insert_new_game_SQL << new_unique_key << "CURRENT" << stated << last_played;
+
+		return database.last_insert_rowid();
+
+	} catch (sqlite::sqlite_exception &e) {
+		Error error{SystemError::SQLLITE_ERROR, e,
+			fmt::format(
+				"{} {} {} {}", e.get_code(), e.what(), e.get_sql(), _db_file_path.string())};
+		std::cout << error;
+		exit(EXIT_FAILURE);
+	}
+
+	return 0;
 }
 
 // Get the Character List
