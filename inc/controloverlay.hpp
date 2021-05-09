@@ -24,14 +24,17 @@
 
 #pragma once
 
+// clang-format off
+#include "main.hpp"
+#include "system.hpp"
 #include "display.hpp"
 #include "frame.hpp"
 #include "layout.hpp"
-#include "main.hpp"
-#include "system.hpp"
+// clang-format on
 
 namespace Sorcery {
 
+	class Frame;
 	class Display;
 
 	class ControlOverlay : public sf::Transformable, public sf::Drawable {

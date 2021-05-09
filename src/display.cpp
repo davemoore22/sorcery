@@ -116,54 +116,78 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 				if (component.texture == GraphicsTexture::NONE)
 					continue;
 
-				// Get the texture
-				sf::Sprite image;
-				image.setTexture(_system->resources->textures[component.texture]);
+				if (component.unique_key.ends_with("background")) {
 
-				// Scale to less than the window size if needed
-				if ((component.unique_key.ends_with("banner:banner_image")) ||
-					(component.unique_key.ends_with("splash:splash_image")) ||
-					(component.unique_key.ends_with("main_menu_attract:logo_image"))) {
-					const ImageSize size{static_cast<unsigned int>(image.getLocalBounds().width),
-						static_cast<unsigned int>(image.getLocalBounds().height)};
-					const ImageSize window_size{
-						window->get_window()->getSize().x, window->get_window()->getSize().y};
-					float scale_ratio_needed{1.0f};
-					if ((size.w > window_size.w) || (size.h > window_size.h)) {
-						float shrink_width_needed{
-							static_cast<float>(window_size.w) / static_cast<float>(size.w)};
-						float shrink_height_needed{
-							static_cast<float>(window_size.h) / static_cast<float>(size.h)};
-						scale_ratio_needed = std::min(shrink_width_needed, shrink_height_needed);
+					// Town Frame Wallpapers
+					sf::IntRect bg_rect{};
+					bg_rect.width = std::stoi(component["source_w"].value());
+					bg_rect.height = std::stoi(component["source_h"].value());
+					bg_rect.top = 0;
+					bg_rect.left = std::stoi(component["source_w"].value()) *
+								   std::stoi(component["source_index"].value());
+					sf::Sprite image{};
+					image.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
+					image.setTextureRect(bg_rect);
+					image.setScale(std::stof(component["scale_x"].value()),
+						std::stof(component["scale_y"].value()));
+					image.setPosition(
+						window->get_x(image, component.x), window->get_y(image, component.y));
+
+					// Add the image to the components ready to draw
+					sprites[component.unique_key] = image;
+				} else {
+
+					// Get the texture
+					sf::Sprite image;
+					image.setTexture(_system->resources->textures[component.texture]);
+
+					// Scale to less than the window size if needed
+					if ((component.unique_key.ends_with("banner:banner_image")) ||
+						(component.unique_key.ends_with("splash:splash_image")) ||
+						(component.unique_key.ends_with("main_menu_attract:logo_image"))) {
+						const ImageSize size{
+							static_cast<unsigned int>(image.getLocalBounds().width),
+							static_cast<unsigned int>(image.getLocalBounds().height)};
+						const ImageSize window_size{
+							window->get_window()->getSize().x, window->get_window()->getSize().y};
+						float scale_ratio_needed{1.0f};
+						if ((size.w > window_size.w) || (size.h > window_size.h)) {
+							float shrink_width_needed{
+								static_cast<float>(window_size.w) / static_cast<float>(size.w)};
+							float shrink_height_needed{
+								static_cast<float>(window_size.h) / static_cast<float>(size.h)};
+							scale_ratio_needed =
+								std::min(shrink_width_needed, shrink_height_needed);
+						}
+						image.setScale(scale_ratio_needed, scale_ratio_needed);
+					} else if (component.unique_key.ends_with("wallpaper")) {
+
+						// Handle background wallpaper tiling
+						image.setTextureRect(window->size);
 					}
-					image.setScale(scale_ratio_needed, scale_ratio_needed);
-				} else if (component.unique_key.ends_with("wallpaper")) {
 
-					// Handle background wallpaper tiling
-					image.setTextureRect(window->size);
+					// Check for Offsets
+					const int offset_x = [&] {
+						if (component["offset_x"])
+							return std::stoi(component["offset_x"].value());
+						else
+							return 0;
+					}();
+					const int offset_y = [&] {
+						if (component["offset_y"])
+							return std::stoi(component["offset_y"].value());
+						else
+							return 0;
+					}();
+
+					// Set the image position
+					const sf::Vector2f image_pos(window->get_x(image, component.x + offset_x),
+						window->get_y(image, component.y + offset_y));
+					image.setPosition(image_pos);
+
+					// Add the image to the components ready to draw
+					sprites[component.unique_key] = image;
 				}
-
-				// Check for Offsets
-				const int offset_x = [&] {
-					if (component["offset_x"])
-						return std::stoi(component["offset_x"].value());
-					else
-						return 0;
-				}();
-				const int offset_y = [&] {
-					if (component["offset_y"])
-						return std::stoi(component["offset_y"].value());
-					else
-						return 0;
-				}();
-
-				// Set the image position
-				const sf::Vector2f image_pos(window->get_x(image, component.x + offset_x),
-					window->get_y(image, component.y + offset_y));
-				image.setPosition(image_pos);
-
-				// Add the image to the components ready to draw
-				sprites[component.unique_key] = image;
 
 			} else if (component.type == ComponentType::FRAME) {
 
@@ -269,9 +293,11 @@ auto Sorcery::Display::display_components(const std::string &screen,
 	std::map<std::string, std::shared_ptr<Frame>> &frames, std::optional<std::any> parameter)
 	-> void {
 
-	// first draw anything with wallpaper
+	// first draw anything with wallpaper/background
 	for (auto &[unique_key, sprite] : sprites) {
 		if (unique_key.ends_with("wallpaper"))
+			window->get_window()->draw(sprite);
+		if (unique_key.ends_with("background"))
 			window->get_window()->draw(sprite);
 	}
 
@@ -315,6 +341,8 @@ auto Sorcery::Display::display_components(const std::string &screen,
 		}
 
 		if (unique_key.ends_with("wallpaper"))
+			continue;
+		else if (unique_key.ends_with("background"))
 			continue;
 		else
 			window->get_window()->draw(sprite);

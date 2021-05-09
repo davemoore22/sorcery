@@ -46,10 +46,17 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 
 	// Set up the Custom Components
 	const Component bg_c{(*_display->layout)["training_grounds:background"]};
-	const sf::IntRect bg_rect(1147, 249, 773, 388);
+	// const sf::IntRect bg_rect(1147, 249, 773, 388);
+	sf::IntRect bg_rect{};
+	bg_rect.width = std::stoi(bg_c["source_w"].value());
+	bg_rect.height = std::stoi(bg_c["source_h"].value());
+	bg_rect.top = 0;
+	bg_rect.left = std::stoi(bg_c["source_w"].value()) * std::stoi(bg_c["source_index"].value());
+
 	_bg.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
 	_bg.setTextureRect(bg_rect);
-	_bg.setScale(bg_c.scale, bg_c.scale);
+	_bg.setScale(std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
+	//_bg.setScale(bg_c.scale, bg_c.scale);
 	_bg.setPosition(_display->window->get_x(_bg, bg_c.x), _display->window->get_y(_bg, bg_c.y));
 
 	const Component menu_fc{(*_display->layout)["training_grounds:menu_frame"]};
@@ -130,12 +137,14 @@ auto Sorcery::Training::stop() -> void {
 
 auto Sorcery::Training::_draw() -> void {
 
+	// Custom Layering
+	//_window->draw(_bg);
+
 	// Display Components
 	_display->display_components("training_grounds");
 	_window->draw(*_status_bar);
 
-	// Custom Layering
-	_window->draw(_bg);
+	// Menu Frame
 	_window->draw(*_menu_frame);
 
 	// And the Menu

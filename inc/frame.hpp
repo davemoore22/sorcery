@@ -24,15 +24,26 @@
 
 #pragma once
 
-#include "layout.hpp"
+// clang-format off
 #include "main.hpp"
+#include "system.hpp"
+#include "display.hpp"
+#include "component.hpp"
+#include "layout.hpp"
+// clang-format on
 
 namespace Sorcery {
+
+	class Component;
+	class Display;
 
 	class Frame : public sf::Transformable, public sf::Drawable {
 
 	  public:
 		// Constructors
+		Frame(System *system, WindowFrameType type);
+		Frame(System *system, Display *display, WindowFrameType type, const Component layout);
+
 		Frame(sf::Texture texture, WindowFrameType _type, const unsigned int width_units,
 			const unsigned int height_units, const unsigned long long colour,
 			const unsigned long long bg_colour, const unsigned int alpha);
@@ -50,11 +61,18 @@ namespace Sorcery {
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
+		System *_system;
+		Display *_display;
+		WindowFrameType _type;
+		Component _layout;
+
 		std::array<sf::IntRect, 8> _frame_parts;
 		std::array<sf::Sprite, 8> _frame_sprites;
 		sf::RenderTexture _rtexture;
 		sf::Texture _texture;
-		WindowFrameType _type;
+		sf::Texture _frame_texture;
+		sf::Texture _bg_texture;
+
 		unsigned int _width_units;
 		unsigned int _height_units;
 		unsigned long long _colour;

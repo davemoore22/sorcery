@@ -24,18 +24,21 @@
 
 #pragma once
 
+// clang-format off
+#include "main.hpp"
+#include "system.hpp"
 #include "controloverlay.hpp"
 #include "frame.hpp"
 #include "iconstore.hpp"
 #include "layout.hpp"
-#include "main.hpp"
 #include "string.hpp"
-#include "system.hpp"
 #include "window.hpp"
+// clang-format on
 
 // Forward Declarations
 namespace Sorcery {
 
+	class Frame;
 	class System;
 	class String;
 	class Layout;

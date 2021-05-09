@@ -66,18 +66,34 @@ auto Sorcery::GameMenu::start(bool new_game) -> std::optional<MenuItem> {
 
 	// Get the background - complicated since this is dependent upon which screen we are in
 	const Component bg_c{(*_display->layout)["castle:background"]};
-	const sf::IntRect castle_bg_rect(125, 249, 773, 388);
-	const sf::IntRect edge_bg_rect(1147, 249, 773, 388);
+	sf::IntRect castle_bg_rect{};
+	castle_bg_rect.width = std::stoi(bg_c["source_w"].value());
+	castle_bg_rect.height = std::stoi(bg_c["source_h"].value());
+	castle_bg_rect.top = 0;
+	castle_bg_rect.left =
+		std::stoi(bg_c["source_w"].value()) * std::stoi(bg_c["source_index_castle"].value());
+
+	sf::IntRect edge_bg_rect{};
+	edge_bg_rect.width = std::stoi(bg_c["source_w"].value());
+	edge_bg_rect.height = std::stoi(bg_c["source_h"].value());
+	edge_bg_rect.top = 0;
+	edge_bg_rect.left =
+		std::stoi(bg_c["source_w"].value()) * std::stoi(bg_c["source_index_edge"].value());
+
+	// const sf::IntRect castle_bg_rect const sf::IntRect castle_bg_rect(125, 249, 773, 388);
+	// const sf::IntRect edge_bg_rect(1147, 249, 773, 388);
 	_castle_bg.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
 	_edge_bg.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
 
 	_castle_bg.setTextureRect(castle_bg_rect);
-	_castle_bg.setScale(bg_c.scale, bg_c.scale);
+	_castle_bg.setScale(std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
+	//_castle_bg.setScale(bg_c.scale, bg_c.scale);
 	_castle_bg.setPosition(
 		_display->window->get_x(_castle_bg, bg_c.x), _display->window->get_y(_castle_bg, bg_c.y));
 	_castle_bg.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
 	_edge_bg.setTextureRect(edge_bg_rect);
-	_edge_bg.setScale(bg_c.scale, bg_c.scale);
+	//_edge_bg.setScale(bg_c.scale, bg_c.scale);
+	_edge_bg.setScale(std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
 	_edge_bg.setPosition(
 		_display->window->get_x(_edge_bg, bg_c.x), _display->window->get_y(_edge_bg, bg_c.y));
 
@@ -248,10 +264,8 @@ auto Sorcery::GameMenu::_draw() -> void {
 	_window->draw(*_status_bar);
 
 	if (_menu_stage == GameMenuType::CASTLE) {
-		_window->draw(_castle_bg);
 		_window->draw(*_castle_frame);
 	} else if (_menu_stage == GameMenuType::EDGE_OF_TOWN) {
-		_window->draw(_edge_bg);
 		_window->draw(*_edge_frame);
 	}
 

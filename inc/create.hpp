@@ -24,18 +24,20 @@
 
 #pragma once
 
+// clang-format off
+#include "main.hpp"
+#include "system.hpp"
+#include "display.hpp"
+#include "graphics.hpp"
 #include "allocatepanel.hpp"
 #include "attributedisplay.hpp"
 #include "character.hpp"
-#include "display.hpp"
 #include "frame.hpp"
-#include "graphics.hpp"
 #include "infopanel.hpp"
 #include "keyboard.hpp"
 #include "layout.hpp"
-#include "main.hpp"
 #include "menu.hpp"
-#include "system.hpp"
+// clang-format on
 
 namespace Sorcery {
 
