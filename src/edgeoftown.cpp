@@ -59,29 +59,7 @@ auto Sorcery::EdgeOfTown::start() -> std::optional<MenuItem> {
 	// Clear the window
 	_window->clear();
 
-	// Get the background - complicated since this is dependent upon which screen we are in
-	const Component bg_c{(*_display->layout)["edge_of_town:background"]};
-	sf::IntRect bg_rect{};
-	bg_rect.width = std::stoi(bg_c["source_w"].value());
-	bg_rect.height = std::stoi(bg_c["source_h"].value());
-	bg_rect.top = 0;
-	bg_rect.left = std::stoi(bg_c["source_w"].value()) * std::stoi(bg_c["source_index"].value());
-
-	// const sf::IntRect castle_bg_rect const sf::IntRect castle_bg_rect(125, 249, 773, 388);
-	// const sf::IntRect edge_bg_rect(1147, 249, 773, 388);
-	_bg.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
-	_bg.setTextureRect(bg_rect);
-	//_edge_bg.setScale(bg_c.scale, bg_c.scale);
-	_bg.setScale(std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
-	_bg.setPosition(_display->window->get_x(_bg, bg_c.x), _display->window->get_y(_bg, bg_c.y));
-
-	// Generate the custom frames
-	const Component mf_c{(*_display->layout)["edge_of_town:menu_frame"]};
-	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, mf_c.w, mf_c.h,
-		mf_c.colour, mf_c.background, mf_c.alpha);
-	_frame->setPosition(_display->window->get_x(_frame->sprite, mf_c.x),
-		_display->window->get_y(_frame->sprite, mf_c.y));
-
+	// Draw the Custom Components
 	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
 	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
 		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
@@ -212,7 +190,7 @@ auto Sorcery::EdgeOfTown::_draw() -> void {
 	_display->display_components("edge_of_town");
 	_window->draw(*_status_bar);
 
-	_window->draw(*_frame);
+	//_window->draw(*_frame);
 
 	// And the Menu
 	const double lerp{_graphics->animation->colour_lerp};

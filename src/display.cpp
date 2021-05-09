@@ -298,7 +298,6 @@ auto Sorcery::Display::display_components(const std::string &screen,
 		if (unique_key.ends_with("wallpaper"))
 			window->get_window()->draw(sprite);
 		if (unique_key.ends_with("background")) {
-			std::cout << unique_key << std::endl;
 			window->get_window()->draw(sprite);
 		}
 	}

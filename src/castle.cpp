@@ -59,13 +59,7 @@ auto Sorcery::Castle::start(bool new_game) -> std::optional<MenuItem> {
 	// Clear the window
 	_window->clear();
 
-	// Generate the custom frames
-	const Component mf_c{(*_display->layout)["castle:menu_frame"]};
-	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, mf_c.w, mf_c.h,
-		mf_c.colour, mf_c.background, mf_c.alpha);
-	_frame->setPosition(_display->window->get_x(_frame->sprite, mf_c.x),
-		_display->window->get_y(_frame->sprite, mf_c.y));
-
+	// Generate the Components
 	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
 	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
 		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
@@ -191,7 +185,6 @@ auto Sorcery::Castle::_draw() -> void {
 	// Custom Components
 	_display->display_components("castle");
 	_window->draw(*_status_bar);
-	_window->draw(*_frame);
 
 	// And the Menu
 	const double lerp{_graphics->animation->colour_lerp};
