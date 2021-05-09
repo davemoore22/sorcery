@@ -40,6 +40,23 @@ Sorcery::Database::Database(const std::filesystem::path &db_file_path)
 	}
 }
 
+auto Sorcery::Database::has_game() -> bool {
+
+	try {
+		sqlite::database database(_db_file_path.string());
+		const std::string check_has_game_SQL{"SELECT count(g.id) AS count FROM game g;"};
+		int count{};
+		database << check_has_game_SQL >> count;
+		return count > 0;
+	} catch (sqlite::sqlite_exception &e) {
+		Error error{SystemError::SQLLITE_ERROR, e,
+			fmt::format(
+				"{} {} {} {}}", e.get_code(), e.what(), e.get_sql(), _db_file_path.string())};
+		std::cout << error;
+		exit(EXIT_FAILURE);
+	}
+}
+
 // Get the Character List
 auto Sorcery::Database::get_character_list() -> std::vector<CharacterList> {
 

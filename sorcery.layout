@@ -207,6 +207,11 @@
 			<Cursor1 position="1544" topLine="23" />
 		</Cursor>
 	</File>
+	<File name="src/database.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1861" topLine="26" />
+		</Cursor>
+	</File>
 	<File name="src/attractmode.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="3524" topLine="78" />
@@ -232,9 +237,9 @@
 			<Cursor1 position="1525" topLine="48" />
 		</Cursor>
 	</File>
-	<File name="src/application.cpp" open="1" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/application.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1907" topLine="38" />
+			<Cursor1 position="3341" topLine="65" />
 		</Cursor>
 	</File>
 	<File name="inc/system.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -262,9 +267,9 @@
 			<Cursor1 position="1932" topLine="38" />
 		</Cursor>
 	</File>
-	<File name="src/edgeoftown.cpp" open="1" top="1" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/edgeoftown.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="0" />
+			<Cursor1 position="3832" topLine="72" />
 		</Cursor>
 	</File>
 	<File name="inc/frame.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -352,9 +357,9 @@
 			<Cursor1 position="2013" topLine="36" />
 		</Cursor>
 	</File>
-	<File name="src/castle.cpp" open="1" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/castle.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="0" />
+			<Cursor1 position="7524" topLine="169" />
 		</Cursor>
 	</File>
 	<File name="src/system.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

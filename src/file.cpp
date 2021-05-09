@@ -30,8 +30,8 @@ Sorcery::File::File() {
 	// Generate and add the file paths
 	_base_path = _get_exe_path();
 	_file_paths.clear();
-	_add_path(CONFIG_DIR, DATABASE_FILE);
 	_add_path(CONFIG_DIR, CONFIG_FILE);
+	_add_path(DATA_DIR, DATABASE_FILE);
 	_add_path(DATA_DIR, ICONS_FILE);
 	_add_path(DATA_DIR, LAYOUT_FILE);
 	_add_path(DATA_DIR, MONO_FONT_FILE);

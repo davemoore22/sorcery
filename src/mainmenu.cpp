@@ -92,6 +92,9 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	else
 		_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 
+	// See if we have a Game to Continue;
+	_set_main_menu();
+
 	// And do the main loop
 	sf::Event event{};
 	while (_window->isOpen()) {
@@ -296,6 +299,11 @@ auto Sorcery::MainMenu::stop() -> void {
 
 	// Stop the background movie!
 	_display->stop_background_movie();
+}
+
+auto Sorcery::MainMenu::_set_main_menu() -> void {
+
+	(*_main_menu)[1].enabled = _system->database->has_game();
 }
 
 auto Sorcery::MainMenu::_draw() -> void {

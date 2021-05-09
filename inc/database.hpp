@@ -37,6 +37,7 @@ namespace Sorcery {
 
 		// Public Methods
 		auto get_character_list() -> std::vector<CharacterList>;
+		auto has_game() -> bool;
 
 		// Public Members
 		bool connected;

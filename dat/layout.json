@@ -42,7 +42,7 @@
 			"drawmode": "manual",
 			"x": "centre",
 			"y": "centre",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "spell_summary",
@@ -76,7 +76,7 @@
 			"type": "frame",
 			"drawmode": "manual",
 			"colour": "0xffffffff",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		}
 		]
 	},
@@ -104,7 +104,7 @@
 			"type": "text",
 			"drawmode": "manual",
 			"priority": "5",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "buttons",
@@ -114,7 +114,7 @@
 			"type": "text",
 			"drawmode": "manual",
 			"priority": "5",
-			"background": "0xffff66ff"
+			"background": " 0xff0000ff"
 		}
 		]
 	},
@@ -131,7 +131,7 @@
 			"type": "frame",
 			"priority": "4",
 			"drawmode": "manual",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "letters",
@@ -141,7 +141,7 @@
 			"type": "text",
 			"drawmode": "manual",
 			"priority": "5",
-			"background": "0xffff66ff",
+			"background": " 0xff0000ff",
 			"data": [
 				{
 					"offset_x": "32",
@@ -167,7 +167,7 @@
 			"type": "frame",
 			"priority": "4",
 			"drawmode": "manual",
-			"background": "0x000049ff",
+			"background": " 0x000000ff",
 			"data": [
 				{
 					"padding_y": "6",
@@ -183,7 +183,7 @@
 			"type": "text",
 			"drawmode": "manual",
 			"priority": "5",
-			"background": "0xffff66ff",
+			"background": " 0xff0000ff",
 			"data": [
 				{
 					"offset_x": "216",
@@ -262,7 +262,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "4",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "title",
@@ -337,7 +337,7 @@
 			"size": "38",
 			"animated": "true",
 			"width": "54",
-			"background": "0xffff66ff",
+			"background": " 0xff0000ff",
 			"justification": "centre",
 			"type": "menu",
 			"priority": "10",
@@ -351,7 +351,7 @@
 			"type": "dialog",
 			"drawmode": "manual",
 			"alpha": "255",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "dialog_new_game_text",
@@ -359,7 +359,7 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "CONFIRM_NEW_GAME",
-			"background": "0xffff66ff",
+			"background": " 0xff0000ff",
 			"justification": "centre",
 			"type": "text",
 			"drawmode": "manual"
@@ -372,7 +372,7 @@
 			"type": "dialog",
 			"drawmode": "manual",
 			"alpha": "255",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "dialog_exit_text",
@@ -380,7 +380,7 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "CONFIRM_EXIT_GAME",
-			"background": "0xffff66ff",
+			"background": " 0xff0000ff",
 			"justification": "centre",
 			"type": "text",
 			"drawmode": "manual"
@@ -399,7 +399,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "1",
-			"background": "0x000024ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "title_frame",
@@ -410,7 +410,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "title_text",
@@ -462,7 +462,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "1",
-			"background": "0x000024ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "title_frame",
@@ -473,7 +473,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "title_text",
@@ -498,7 +498,7 @@
 			"size": "38",
 			"animated": "true",
 			"width": 48,
-			"background": "0xffff66ff",
+			"background": " 0xff0000ff",
 			"justification": "left",
 			"type": "menu",
 			"priority": "4",
@@ -532,7 +532,7 @@
 			"type": "dialog",
 			"drawmode": "manual",
 			"alpha": "255",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "dialog_confirm_save_text",
@@ -540,7 +540,7 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "CONFIRM_SAVE_GAME_OPTIONS",
-			"background": "0xffff66ff",
+			"background": " 0xff0000ff",
 			"justification": "centre",
 			"type": "text",
 			"drawmode": "manual"
@@ -553,7 +553,7 @@
 			"type": "dialog",
 			"drawmode": "manual",
 			"alpha": "255",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "dialog_confirm_cancel_text",
@@ -561,7 +561,7 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "CONFIRM_CANCEL_CHANGES_OPTIONS",
-			"background": "0xffff66ff",
+			"background": " 0xff0000ff",
 			"justification": "centre",
 			"type": "text",
 			"drawmode": "manual"
@@ -574,7 +574,7 @@
 			"type": "dialog",
 			"drawmode": "manual",
 			"alpha": "255",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "dialog_confirm_strict_on_text",
@@ -582,7 +582,7 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "CONFIRM_SWITCH_ON_STRICT_MODE",
-			"background": "0xffff66ff",
+			"background": " 0xff0000ff",
 			"justification": "centre",
 			"type": "text",
 			"drawmode": "manual"
@@ -597,7 +597,7 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "automatic",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "info_panel",
@@ -624,7 +624,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "1",
-			"background": "0x000024ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "title_frame",
@@ -635,7 +635,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "title_text",
@@ -673,7 +673,7 @@
 			"alpha": "0",
 			"type": "frame",
 			"priority": "3",
-			"background": "0x000024ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "title_frame",
@@ -684,7 +684,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "4",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "title_text",
@@ -728,7 +728,7 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "manual",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "menu",
@@ -741,7 +741,7 @@
 			"size": "38",
 			"animated": "true",
 			"width": "36",
-			"background": "0xffff66ff",
+			"background": " 0xff0000ff",
 			"justification": "centre",
 			"type": "menu",
 			"priority": "8"
@@ -770,7 +770,7 @@
 				"alpha": "255",
 				"type": "frame",
 				"priority": "5",
-				"background": "0x000049ff"
+				"background": " 0x000000ff"
 			},
 			{
 				"name": "character_legend_name",
@@ -862,7 +862,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "3",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "title_text",
@@ -885,7 +885,7 @@
 			"alpha": "0",
 			"type": "frame",
 			"priority": "1",
-			"background": "0x000024ff",
+			"background": " 0x000000ff",
 			"drawmode": "automatic"
 		},
 		{
@@ -898,7 +898,7 @@
 			"type": "frame",
 			"priority": "3",
 			"drawmode": "automatic",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "menu",
@@ -911,7 +911,7 @@
 			"size": "38",
 			"animated": "true",
 			"width": "36",
-			"background": "0xffff66ff",
+			"background": " 0xff0000ff",
 			"justification": "centre",
 			"type": "menu",
 			"priority": "4"
@@ -943,7 +943,7 @@
 			"type": "dialog",
 			"drawmode": "manual",
 			"alpha": "255",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "dialog_leave_game_text",
@@ -951,7 +951,7 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "CONFIRM_LEAVE_GAME",
-			"background": "0xffff66ff",
+			"background": " 0xff0000ff",
 			"justification": "centre",
 			"type": "text",
 			"drawmode": "manual"
@@ -980,7 +980,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "3",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "title_text",
@@ -1003,7 +1003,7 @@
 			"alpha": "0",
 			"type": "frame",
 			"priority": "1",
-			"background": "0x000024ff",
+			"background": " 0x000000ff",
 			"drawmode": "automatic"
 		},
 		{
@@ -1016,7 +1016,7 @@
 			"type": "frame",
 			"priority": "3",
 			"drawmode": "automatic",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "menu",
@@ -1029,7 +1029,7 @@
 			"size": "38",
 			"animated": "true",
 			"width": "36",
-			"background": "0xffff66ff",
+			"background": " 0xff0000ff",
 			"justification": "centre",
 			"type": "menu",
 			"priority": "4"
@@ -1061,7 +1061,7 @@
 			"type": "dialog",
 			"drawmode": "manual",
 			"alpha": "255",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "dialog_leave_game_text",
@@ -1069,7 +1069,7 @@
 			"colour": "0xffffffff",
 			"size": "38",
 			"string": "CONFIRM_LEAVE_GAME",
-			"background": "0xffff66ff",
+			"background": " 0xff0000ff",
 			"justification": "centre",
 			"type": "text",
 			"drawmode": "manual"
@@ -1098,7 +1098,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"background": "0x000024ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "title_frame",
@@ -1109,7 +1109,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "3",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "title_text",
@@ -1147,7 +1147,7 @@
 				"alpha": "255",
 				"type": "frame",
 				"priority": "2",
-				"background": "0x000049ff"
+				"background": " 0x000000ff"
 			},
 			{
 				"name": "summary_text",
@@ -1172,7 +1172,7 @@
 				"alpha": "255",
 				"type": "frame",
 				"priority": "2",
-				"background": "0x000049ff"
+				"background": " 0x000000ff"
 			},
 			{
 				"name": "title_text",
@@ -1196,7 +1196,7 @@
 				"type": "frame",
 				"priority": "6",
 				"drawmode": "automatic",
-				"background": "0x000049ff"
+				"background": " 0x000000ff"
 			},
 			{
 				"name": "menu",
@@ -1209,7 +1209,7 @@
 				"size": "38",
 				"animated": "true",
 				"width": "25",
-				"background": "0xffff66ff",
+				"background": " 0xff0000ff",
 				"justification": "centre",
 				"type": "menu",
 				"priority": "10"
@@ -1224,7 +1224,7 @@
 				"type": "frame",
 				"priority": "6",
 				"drawmode": "automatic",
-				"background": "0x000049ff"
+				"background": " 0x000000ff"
 			},
 			{
 				"name": "info_panel",
@@ -1251,7 +1251,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "summary_text",
@@ -1277,7 +1277,7 @@
 			"type": "frame",
 			"priority": "2",
 			"drawmode": "automatic",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "stage_text",
@@ -1301,7 +1301,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "name_candidate",
@@ -1340,7 +1340,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "summary_text",
@@ -1366,7 +1366,7 @@
 			"type": "frame",
 			"priority": "2",
 			"drawmode": "automatic",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "stage_text",
@@ -1391,7 +1391,7 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "automatic",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "menu",
@@ -1404,7 +1404,7 @@
 			"size": "38",
 			"animated": "true",
 			"width": "25",
-			"background": "0xffff66ff",
+			"background": " 0xff0000ff",
 			"justification": "centre",
 			"type": "menu",
 			"priority": "10"
@@ -1419,7 +1419,7 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "automatic",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "info_panel",
@@ -1446,7 +1446,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "summary_text",
@@ -1472,7 +1472,7 @@
 			"type": "frame",
 			"priority": "2",
 			"drawmode": "automatic",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "stage_text",
@@ -1497,7 +1497,7 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "automatic",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "menu",
@@ -1510,7 +1510,7 @@
 			"size": "38",
 			"animated": "true",
 			"width": "25",
-			"background": "0xffff66ff",
+			"background": " 0xff0000ff",
 			"justification": "centre",
 			"type": "menu",
 			"priority": "10"
@@ -1525,7 +1525,7 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "automatic",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "info_panel",
@@ -1553,7 +1553,7 @@
 			"type": "frame",
 			"priority": "2",
 			"drawmode": "automatic",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "stage_text",
@@ -1577,7 +1577,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "summary_text",
@@ -1603,7 +1603,7 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "automatic",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "menu",
@@ -1616,7 +1616,7 @@
 			"size": "38",
 			"animated": "true",
 			"width": "25",
-			"background": "0xffff66ff",
+			"background": " 0xff0000ff",
 			"justification": "right",
 			"type": "menu",
 			"priority": "10"
@@ -1631,7 +1631,7 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "automatic",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "info_panel",
@@ -1839,7 +1839,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "summary_text",
@@ -1864,7 +1864,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "stage_text",
@@ -1889,7 +1889,7 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "automatic",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "menu",
@@ -1902,7 +1902,7 @@
 			"size": "38",
 			"animated": "true",
 			"width": "25",
-			"background": "0xffff66ff",
+			"background": " 0xff0000ff",
 			"justification": "centre",
 			"type": "menu",
 			"priority": "10"
@@ -1917,7 +1917,7 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "automatic",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "info_panel",
@@ -1944,7 +1944,7 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "2",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "summary_text",
@@ -1970,7 +1970,7 @@
 			"type": "frame",
 			"priority": "2",
 			"drawmode": "automatic",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "stage_text",
@@ -2021,7 +2021,7 @@
 			"type": "frame",
 			"priority": "2",
 			"drawmode": "automatic",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "stage_text",
@@ -2046,7 +2046,7 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "automatic",
-			"background": "0x000024ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "candidate",
@@ -2064,7 +2064,7 @@
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "manual",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "menu",
@@ -2077,7 +2077,7 @@
 			"size": "38",
 			"animated": "true",
 			"width": "25",
-			"background": "0xffff66ff",
+			"background": " 0xff0000ff",
 			"justification": "centre",
 			"type": "menu",
 			"priority": "10"
@@ -2213,7 +2213,7 @@
 			"priority": "6",
 			"drawmode": "automatic",
 			"colour": "0x606060ff",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "stat_frame",
@@ -2226,7 +2226,7 @@
 			"priority": "6",
 			"drawmode": "automatic",
 			"colour": "0x606060ff",
-			"background": "0x000049ff",
+			"background": " 0x000000ff",
 			"data": [
 				{
 					"offset_y": "-8"
@@ -2244,7 +2244,7 @@
 			"priority": "6",
 			"drawmode": "automatic",
 			"colour": "0x606060ff",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "magic_frame",
@@ -2257,7 +2257,7 @@
 			"priority": "6",
 			"drawmode": "automatic",
 			"colour": "0x606060ff",
-			"background": "0x000049ff"
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "spellsummary",
@@ -4299,7 +4299,7 @@
 				"priority": "6",
 				"drawmode": "manual",
 				"colour": "0x606060ff",
-				"background": "0x000049ff"
+				"background": " 0x000000ff"
 			},
 			{
 				"name": "outside_frame",
@@ -4312,7 +4312,7 @@
 				"priority": "6",
 				"drawmode": "manual",
 				"colour": "0x606060ff",
-				"background": "0x000024ff",
+				"background": " 0x000000ff",
 				"data": [
 					{
 						"offset_y": "-8"
@@ -4448,7 +4448,7 @@
 				"priority": "6",
 				"drawmode": "manual",
 				"colour": "0x606060ff",
-				"background": "0x000049ff"
+				"background": " 0x000000ff"
 			},
 			{
 				"name": "outside_frame",
@@ -4461,7 +4461,7 @@
 				"priority": "6",
 				"drawmode": "manual",
 				"colour": "0x606060ff",
-				"background": "0x000024ff",
+				"background": " 0x000000ff",
 				"data": [
 					{
 						"offset_y": "-8"
@@ -4583,7 +4583,7 @@
 				"priority": "6",
 				"drawmode": "automatic",
 				"colour": "0x606060ff",
-				"background": "0x000049ff"
+				"background": " 0x000000ff"
 			},
 			{
 				"name": "outside_frame",
@@ -4596,7 +4596,7 @@
 				"priority": "6",
 				"drawmode": "automatic",
 				"colour": "0x606060ff",
-				"background": "0x000024ff",
+				"background": " 0x000000ff",
 				"data": [
 					{
 						"offset_y": "-8"
@@ -4645,7 +4645,7 @@
 				"priority": "6",
 				"drawmode": "automatic",
 				"colour": "0x606060ff",
-				"background": "0x000049ff"
+				"background": " 0x000000ff"
 
 			},
 			{
@@ -4659,7 +4659,7 @@
 				"priority": "6",
 				"drawmode": "automatic",
 				"colour": "0x606060ff",
-				"background": "0x000024ff",
+				"background": " 0x000000ff",
 				"data": [
 					{
 						"offset_y": "-8"
