@@ -127,6 +127,7 @@
 		<Unit filename="inc/backwardcpp/backward.cpp" />
 		<Unit filename="inc/banner.hpp" />
 		<Unit filename="inc/camera.hpp" />
+		<Unit filename="inc/castle.hpp" />
 		<Unit filename="inc/character.hpp" />
 		<Unit filename="inc/compendium.hpp" />
 		<Unit filename="inc/component.hpp" />
@@ -138,6 +139,7 @@
 		<Unit filename="inc/define.hpp" />
 		<Unit filename="inc/dialog.hpp" />
 		<Unit filename="inc/display.hpp" />
+		<Unit filename="inc/edgeoftown.hpp" />
 		<Unit filename="inc/engine.hpp" />
 		<Unit filename="inc/entity.hpp" />
 		<Unit filename="inc/enum.hpp" />
@@ -185,6 +187,7 @@
 		<Unit filename="src/attributedisplay.cpp" />
 		<Unit filename="src/banner.cpp" />
 		<Unit filename="src/camera.cpp" />
+		<Unit filename="src/castle.cpp" />
 		<Unit filename="src/character.cpp" />
 		<Unit filename="src/compendium.cpp" />
 		<Unit filename="src/component.cpp" />
@@ -195,6 +198,7 @@
 		<Unit filename="src/database.cpp" />
 		<Unit filename="src/dialog.cpp" />
 		<Unit filename="src/display.cpp" />
+		<Unit filename="src/edgeoftown.cpp" />
 		<Unit filename="src/engine.cpp" />
 		<Unit filename="src/entity.cpp" />
 		<Unit filename="src/error.cpp" />

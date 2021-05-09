@@ -24,48 +24,50 @@
 
 #pragma once
 
-// clang-format off
-#include "main.hpp"
-#include "system.hpp"
+#include "dialog.hpp"
 #include "display.hpp"
+#include "edgeoftown.hpp"
 #include "frame.hpp"
+#include "graphics.hpp"
 #include "layout.hpp"
-// clang-format on
+#include "main.hpp"
+#include "menu.hpp"
+#include "statusbar.hpp"
+#include "system.hpp"
 
 namespace Sorcery {
 
-	class Frame;
-	class Frame;
-
-	class ControlOverlay : public sf::Transformable, public sf::Drawable {
+	class Castle {
 
 	  public:
-		// Constructors
-		ControlOverlay(System *system, Display *display, Component layout);
-		ControlOverlay() = delete;
+		// Standard Constructor
+		Castle(System *system, Display *display, Graphics *graphics);
+		Castle() = delete;
+
+		// Standard Destructor
+		~Castle();
 
 		// Public Members
-		unsigned int width;
-		unsigned int height;
-		bool valid;
 
 		// Public Methods
-		auto set_input_mode(WindowInputMode input_mode) -> void;
+		auto start(bool new_game) -> std::optional<MenuItem>;
+		auto stop() -> void;
 
 	  private:
 		// Private Methods
-		auto _get_control_gfx(WindowInputCategory input) -> sf::Sprite;
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto _draw() -> void;
 
 		// Private Members
 		System *_system;
 		Display *_display;
-		std::vector<sf::Sprite> _sprites;
-		std::vector<sf::Text> _texts;
-		Component _layout;
-		WindowInputMode _input_mode;
-		std::vector<std::pair<std::string, sf::Sprite>> _controls;
-		sf::Texture _control_texture;
+		Graphics *_graphics;
+		sf::RenderWindow *_window;
 		std::unique_ptr<Frame> _frame;
+		std::shared_ptr<Menu> _menu;
+		sf::Sprite _bg;
+		std::shared_ptr<Dialog> _dialog_leave_game;
+		WindowConfirm _yes_or_no;
+		std::shared_ptr<EdgeOfTown> _edge_of_town;
+		std::unique_ptr<StatusBar> _status_bar;
 	};
 } // namespace Sorcery

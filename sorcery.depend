@@ -203,17 +203,16 @@
 	"string.hpp"
 	"system.hpp"
 
-1620070908 source:/home/dave/Development/wizardry/sorcery-sfml/src/application.cpp
+1620573575 source:/home/dave/Development/wizardry/sorcery-sfml/src/application.cpp
 	"application.hpp"
 
-1620070826 /home/dave/Development/wizardry/sorcery-sfml/inc/application.hpp
+1620573553 /home/dave/Development/wizardry/sorcery-sfml/inc/application.hpp
 	"banner.hpp"
+	"castle.hpp"
 	"compendium.hpp"
-	"create.hpp"
 	"display.hpp"
 	"engine.hpp"
 	"game.hpp"
-	"gamemenu.hpp"
 	"graphics.hpp"
 	"license.hpp"
 	"main.hpp"
@@ -313,7 +312,7 @@
 1614621365 source:/home/dave/Development/wizardry/sorcery-sfml/src/database.cpp
 	"database.hpp"
 
-1620571203 source:/home/dave/Development/wizardry/sorcery-sfml/src/display.cpp
+1620577892 source:/home/dave/Development/wizardry/sorcery-sfml/src/display.cpp
 	"display.hpp"
 
 1615648940 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine.cpp
@@ -501,16 +500,19 @@
 1620567948 source:/home/dave/Development/wizardry/sorcery-sfml/src/frame.cpp
 	"frame.hpp"
 
-1605300802 /home/dave/Development/wizardry/sorcery-sfml/inc/castle.hpp
-	"main.hpp"
-	"system.hpp"
+1620574410 /home/dave/Development/wizardry/sorcery-sfml/inc/castle.hpp
+	"dialog.hpp"
 	"display.hpp"
+	"edgeoftown.hpp"
+	"frame.hpp"
 	"graphics.hpp"
 	"layout.hpp"
-	"frame.hpp"
+	"main.hpp"
 	"menu.hpp"
+	"statusbar.hpp"
+	"system.hpp"
 
-1605304690 source:/home/dave/Development/wizardry/sorcery-sfml/src/castle.cpp
+1620577963 source:/home/dave/Development/wizardry/sorcery-sfml/src/castle.cpp
 	"castle.hpp"
 
 1620073272 /home/dave/Development/wizardry/sorcery-sfml/inc/gamemenu.hpp
@@ -680,7 +682,7 @@
 1619641049 source:/home/dave/Development/wizardry/sorcery-sfml/src/spellsummary.cpp
 	"spellsummary.hpp"
 
-1620476016 /home/dave/Development/wizardry/sorcery-sfml/inc/controloverlay.hpp
+1620573421 /home/dave/Development/wizardry/sorcery-sfml/inc/controloverlay.hpp
 	"main.hpp"
 	"system.hpp"
 	"display.hpp"
@@ -770,4 +772,19 @@
 
 1620249583 /home/dave/Development/wizardry/sorcery-sfml/inc/error.hpp
 	"main.hpp"
+
+1620574470 /home/dave/Development/wizardry/sorcery-sfml/inc/edgeoftown.hpp
+	"dialog.hpp"
+	"display.hpp"
+	"frame.hpp"
+	"graphics.hpp"
+	"layout.hpp"
+	"main.hpp"
+	"menu.hpp"
+	"statusbar.hpp"
+	"system.hpp"
+	"training.hpp"
+
+1620576097 source:/home/dave/Development/wizardry/sorcery-sfml/src/edgeoftown.cpp
+	"edgeoftown.hpp"
 

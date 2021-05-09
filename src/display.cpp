@@ -297,24 +297,15 @@ auto Sorcery::Display::display_components(const std::string &screen,
 	for (auto &[unique_key, sprite] : sprites) {
 		if (unique_key.ends_with("wallpaper"))
 			window->get_window()->draw(sprite);
-		if (unique_key.ends_with("background"))
+		if (unique_key.ends_with("background")) {
+			std::cout << unique_key << std::endl;
 			window->get_window()->draw(sprite);
+		}
 	}
 
 	// Handle the different sized window frames in the town menu
 	for (auto &[unique_key, frame] : frames) {
-		if (screen == "castle") {
-			if (parameter) {
-				if (const GameMenuType menu_stage{std::any_cast<GameMenuType>(parameter.value())};
-					menu_stage == GameMenuType::CASTLE) {
-					if (unique_key.ends_with("castle:edge_menu_frame"))
-						continue;
-				} else if (menu_stage == GameMenuType::EDGE_OF_TOWN) {
-					if (unique_key.ends_with("castle:castle_menu_frame"))
-						continue;
-				}
-			}
-		} else if (screen == "create") {
+		if (screen == "create") {
 			if (parameter) {
 				if (const CharacterStage character_stage{
 						std::any_cast<CharacterStage>(parameter.value())};
@@ -362,21 +353,6 @@ auto Sorcery::Display::display_components(const std::string &screen,
 						(unique_key.ends_with("main_menu_attract:copyright")))
 						continue;
 				} else if (menu_stage == MainMenuType::ATTRACT_MODE) {
-				}
-			}
-		} else if (screen == "castle") {
-			if (parameter) {
-
-				// TODO: replace with IF-INIT?
-				const GameMenuType menu_stage{std::any_cast<GameMenuType>(parameter.value())};
-				if (menu_stage == GameMenuType::CASTLE) {
-					if ((unique_key.ends_with("castle:edge_title_frame")) ||
-						(unique_key.ends_with("castle:edge_title_text")))
-						continue;
-				} else if (menu_stage == GameMenuType::EDGE_OF_TOWN) {
-					if ((unique_key.ends_with("castle:castle_title_frame")) ||
-						(unique_key.ends_with("castle:castle_title_text")))
-						continue;
 				}
 			}
 		} else if (screen == "create") {

@@ -63,7 +63,7 @@ Sorcery::Application::Application(int argc, char **argv) {
 	_compendium = std::make_shared<Compendium>(system.get(), display.get(), graphics.get());
 
 	// TODO need to pass in game object into these two
-	_gamemenu = std::make_shared<GameMenu>(system.get(), display.get(), graphics.get());
+	_castle = std::make_shared<Castle>(system.get(), display.get(), graphics.get());
 	_engine = std::make_shared<Engine>(system.get(), display.get(), graphics.get());
 }
 
@@ -85,14 +85,14 @@ auto Sorcery::Application::start() -> int {
 
 			switch (option_chosen.value()) {
 			case MenuItem::MM_NEW_GAME:
-				option_chosen = _gamemenu->start(true);
-				_gamemenu->stop();
+				option_chosen = _castle->start(true);
+				_castle->stop();
 				break;
 			case MenuItem::MM_CONTINUE_GAME:
 				// Need a check that a game exists - perhaps disable the menu in generate if it
 				// doesn't exist?
-				option_chosen = _gamemenu->start(false);
-				_gamemenu->stop();
+				option_chosen = _castle->start(false);
+				_castle->stop();
 				break;
 			case MenuItem::QUIT:
 				return EXIT_OK;
