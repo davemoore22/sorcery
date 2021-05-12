@@ -43,9 +43,11 @@ namespace Sorcery {
 	// Macro to create a GUID (Linux Only!)
 	inline auto GUID() -> std::string {
 
+		char guid[100];
 		uuid_t uuidObj;
 		uuid_generate(uuidObj);
-		std::string value{std::begin(uuidObj), std::end(uuidObj)};
+		uuid_unparse(uuidObj, guid);
+		std::string value{guid};
 
 		return value;
 	}

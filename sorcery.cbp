@@ -60,6 +60,7 @@
 			<Add directory="inc/sqlitemoderncpp" />
 			<Add directory="inc/magicenum" />
 			<Add directory="inc/backwardcpp" />
+			<Add directory="inc/cereal" />
 		</Compiler>
 		<Linker>
 			<Add option="-lstdc++fs" />

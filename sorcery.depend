@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1620247810 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1620846960 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -18,6 +18,7 @@
 	<jsoncpp/json/json.h>
 	"SimpleIni.h"
 	"backward.hpp"
+	"cereal.hpp"
 	"magic_enum.hpp"
 	"sfeMovie/Movie.hpp"
 	"sqlite_modern_cpp.h"
@@ -138,7 +139,7 @@
 1620584295 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
-1619731255 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
+1620595728 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
 	"main.hpp"
 
 1618849437 /home/dave/Development/wizardry/sorcery-sfml/inc/type.hpp
@@ -309,7 +310,7 @@
 	"layout.hpp"
 	"menu.hpp"
 
-1620589262 source:/home/dave/Development/wizardry/sorcery-sfml/src/database.cpp
+1620596327 source:/home/dave/Development/wizardry/sorcery-sfml/src/database.cpp
 	"database.hpp"
 
 1620578784 source:/home/dave/Development/wizardry/sorcery-sfml/src/display.cpp
@@ -340,7 +341,7 @@
 	"main.hpp"
 	"application.hpp"
 
-1620581839 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
+1620846530 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
 	"mainmenu.hpp"
 
 1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/manage.cpp
@@ -787,4 +788,63 @@
 
 1620578842 source:/home/dave/Development/wizardry/sorcery-sfml/src/edgeoftown.cpp
 	"edgeoftown.hpp"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/cereal.hpp
+	<type_traits>
+	<string>
+	<memory>
+	<functional>
+	<unordered_map>
+	<unordered_set>
+	<vector>
+	<cstddef>
+	<cstdint>
+	<functional>
+	"cereal/macros.hpp"
+	"cereal/details/traits.hpp"
+	"cereal/details/helpers.hpp"
+	"cereal/types/base_class.hpp"
+	"cereal/types/common.hpp"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/macros.hpp
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/details/traits.hpp
+	<type_traits>
+	<typeindex>
+	"cereal/macros.hpp"
+	"cereal/access.hpp"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/access.hpp
+	<type_traits>
+	<iostream>
+	<cstdint>
+	<functional>
+	"cereal/macros.hpp"
+	"cereal/specialize.hpp"
+	"cereal/details/helpers.hpp"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/specialize.hpp
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/details/helpers.hpp
+	<type_traits>
+	<cstdint>
+	<utility>
+	<memory>
+	<unordered_map>
+	<stdexcept>
+	"cereal/macros.hpp"
+	"cereal/details/static_object.hpp"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/details/static_object.hpp
+	"cereal/macros.hpp"
+	<mutex>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/types/base_class.hpp
+	"cereal/details/traits.hpp"
+	"cereal/details/polymorphic_impl_fwd.hpp"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/details/polymorphic_impl_fwd.hpp
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/types/common.hpp
+	"cereal/cereal.hpp"
 

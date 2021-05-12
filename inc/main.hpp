@@ -44,6 +44,7 @@
 #pragma GCC diagnostic ignored "-Wreturn-type"
 #include "SimpleIni.h"
 #include "backward.hpp"
+#include "cereal.hpp"
 #include "magic_enum.hpp"
 #include "sfeMovie/Movie.hpp"
 #include "sqlite_modern_cpp.h"

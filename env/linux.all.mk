@@ -34,6 +34,7 @@ INCLUDE_DIRS := \
 	inc/magicenum \
 	inc/sqlitemoderncpp \
 	inc/backwardcpp \
+	inc/cereal \
 	/usr/local/include
 
 BUILD_FLAGS := \

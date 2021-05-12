@@ -33,6 +33,7 @@ The additional following third-party libraries are also needed:
 - Thor https://github.com/Bromeon/Thor
 - Magic Enum C++ https://github.com/Neargye/magic_enum
 - Backward-cpp https://github.com/bombela/backward-cpp
+- cereal https://github.com/USCiLab/cereal
 
 Note that to compile Sorcery: Dreams of the Mad Overlord requires a compiler
 with C++20 support.

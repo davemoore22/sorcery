@@ -44,11 +44,7 @@ auto Sorcery::Database::has_game() -> bool {
 
 	try {
 		sqlite::database database(_db_file_path.string());
-		const std::string check_has_game_SQL{
-			"SELECT "
-			"	count(g.id) AS count "
-			"	FROM "
-			"	game g;"};
+		const std::string check_has_game_SQL{"SELECT count(g.id) AS count FROM game g;"};
 		int count{};
 		database << check_has_game_SQL >> count;
 		return count > 0;
@@ -67,9 +63,7 @@ auto Sorcery::Database::add_game() -> int {
 		sqlite::database database(_db_file_path.string());
 		if (has_game()) {
 
-			const std::string delete_existing_game_SQL{
-				"DELETE * FROM"
-				"	game;"};
+			const std::string delete_existing_game_SQL{"DELETE FROM game;"};
 			database << delete_existing_game_SQL;
 		}
 
@@ -79,14 +73,10 @@ auto Sorcery::Database::add_game() -> int {
 		ss << std::put_time(std::localtime(&now_t), "%Y-%m-%d %X");
 		auto stated{ss.str()};
 		auto last_played{ss.str()};
+		std::string status{"OK"};
 		const std::string insert_new_game_SQL{
-			"INSERT INTO game ("
-			"	key, "
-			"	status, "
-			"	started, "
-			"	last_played"
-			") VALUES (?,?,?,?);"};
-		database << insert_new_game_SQL << new_unique_key << "CURRENT" << stated << last_played;
+			"INSERT INTO game (key, status, started, last_played) VALUES (?,?,?,?)"};
+		database << insert_new_game_SQL << new_unique_key << status << stated << last_played;
 
 		return database.last_insert_rowid();
 
