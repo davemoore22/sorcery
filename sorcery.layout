@@ -342,7 +342,7 @@
 			<Cursor1 position="2435" topLine="57" />
 		</Cursor>
 	</File>
-	<File name="src/application.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/application.cpp" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="3341" topLine="74" />
 		</Cursor>
@@ -357,9 +357,9 @@
 			<Cursor1 position="107" topLine="3" />
 		</Cursor>
 	</File>
-	<File name="src/mainmenu.cpp" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+	<File name="src/mainmenu.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="11851" topLine="290" />
+			<Cursor1 position="11658" topLine="264" />
 		</Cursor>
 	</File>
 	<File name="src/menu.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

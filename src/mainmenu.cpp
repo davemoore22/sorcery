@@ -178,106 +178,30 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 
 			} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_NEW_GAME) {
 
-				// Check for Window Close
-				if (event.type == sf::Event::Closed)
-					return std::nullopt;
-
-				if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
-					_display->show_overlay();
-					continue;
-				} else
-					_display->hide_overlay();
-
-				// All we can do is select Y or N
-				if (_system->input->check_for_event(WindowInput::LEFT, event))
-					_dialog_new_game->toggle_highlighted();
-				else if (_system->input->check_for_event(WindowInput::RIGHT, event))
-					_dialog_new_game->toggle_highlighted();
-				else if (_system->input->check_for_event(WindowInput::YES, event))
-					_dialog_new_game->set_selected(WindowDialogButton::YES);
-				else if (_system->input->check_for_event(WindowInput::NO, event))
-					_dialog_new_game->set_selected(WindowDialogButton::NO);
-				else if (_system->input->check_for_event(WindowInput::CANCEL, event))
-					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-				else if (_system->input->check_for_event(WindowInput::BACK, event))
-					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-				else if (_system->input->check_for_event(WindowInput::MOVE, event))
-					_dialog_new_game->check_for_mouse_move(
-						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
-					std::optional<WindowDialogButton> button_chosen{
-						_dialog_new_game->check_if_option_selected(
-							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)))};
-
-					// Mouse click only
-					if (button_chosen) {
-						if (button_chosen.value() == WindowDialogButton::YES) {
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-							return MenuItem::MM_NEW_GAME;
-						} else if (button_chosen.value() == WindowDialogButton::NO)
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-
-					} else {
-
-						// Button/Keyboard
-						if (_dialog_new_game->get_selected() == WindowDialogButton::YES) {
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-							return MenuItem::MM_NEW_GAME;
-						} else if (_dialog_new_game->get_selected() == WindowDialogButton::NO)
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+				auto dialog_input{_dialog_new_game->handle_input(event)};
+				if (dialog_input) {
+					if (dialog_input.value() == WindowDialogButton::CLOSE) {
+						return std::nullopt;
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} else if (dialog_input.value() == WindowDialogButton::YES) {
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						return MenuItem::MM_NEW_GAME;
+					} else if (dialog_input.value() == WindowDialogButton::NO) {
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					}
 				}
-			}
+			} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_QUIT_GAME) {
 
-			else if (_display->get_input_mode() == WindowInputMode::CONFIRM_QUIT_GAME) {
-
-				// Check for Window Close
-				if (event.type == sf::Event::Closed)
-					return std::nullopt;
-
-				if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
-					_display->show_overlay();
-					continue;
-				} else
-					_display->hide_overlay();
-
-				// All we can do is select Y or N
-				if (_system->input->check_for_event(WindowInput::LEFT, event))
-					_dialog_exit->toggle_highlighted();
-				else if (_system->input->check_for_event(WindowInput::RIGHT, event))
-					_dialog_exit->toggle_highlighted();
-				else if (_system->input->check_for_event(WindowInput::YES, event))
-					_dialog_exit->set_selected(WindowDialogButton::YES);
-				else if (_system->input->check_for_event(WindowInput::NO, event))
-					_dialog_exit->set_selected(WindowDialogButton::NO);
-				else if (_system->input->check_for_event(WindowInput::CANCEL, event))
-					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-				else if (_system->input->check_for_event(WindowInput::BACK, event))
-					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-				else if (_system->input->check_for_event(WindowInput::MOVE, event))
-					_dialog_exit->check_for_mouse_move(
-						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
-					std::optional<WindowDialogButton> button_chosen{
-						_dialog_exit->check_if_option_selected(
-							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)))};
-
-					// Mouse click only
-					if (button_chosen) {
-						if (button_chosen.value() == WindowDialogButton::YES) {
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-							return MenuItem::QUIT;
-						} else if (button_chosen.value() == WindowDialogButton::NO)
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-
-					} else {
-
-						// Button/Keyboard
-						if (_dialog_exit->get_selected() == WindowDialogButton::YES) {
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-							return MenuItem::QUIT;
-						} else if (_dialog_exit->get_selected() == WindowDialogButton::NO)
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+				auto dialog_input{_dialog_exit->handle_input(event)};
+				if (dialog_input) {
+					if (dialog_input.value() == WindowDialogButton::CLOSE) {
+						return std::nullopt;
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} else if (dialog_input.value() == WindowDialogButton::YES) {
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						return MenuItem::QUIT;
+					} else if (dialog_input.value() == WindowDialogButton::NO) {
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					}
 				}
 			}

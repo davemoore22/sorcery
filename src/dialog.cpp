@@ -205,8 +205,17 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 }
 
 auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WindowDialogButton> {
-	switch (_type) {
 
+	if (event.type == sf::Event::Closed)
+		return WindowDialogButton::CLOSE;
+
+	if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
+		_display->show_overlay();
+		return std::nullopt;
+	} else
+		_display->hide_overlay();
+
+	switch (_type) {
 	case WindowDialogType::OK:
 		// Can't be toggled
 		break;

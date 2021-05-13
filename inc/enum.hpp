@@ -106,7 +106,7 @@ namespace Sorcery {
 
 		enum class Confirm { NONE, YES, NO };
 
-		enum class DialogButton { NONE, OK, YES, NO };
+		enum class DialogButton { NONE, OK, YES, NO, CLOSE };
 
 		enum class ComponentType { NONE, IMAGE, TEXT, TOOLTIP, MENU, FRAME, ICON, DIALOG, UNKNOWN };
 
