@@ -341,7 +341,7 @@
 	"main.hpp"
 	"application.hpp"
 
-1620924354 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
+1620925587 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
 	"mainmenu.hpp"
 
 1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/manage.cpp
@@ -431,7 +431,7 @@
 1620420163 source:/home/dave/Development/wizardry/sorcery-sfml/src/options.cpp
 	"options.hpp"
 
-1620415134 /home/dave/Development/wizardry/sorcery-sfml/inc/options.hpp
+1621014908 /home/dave/Development/wizardry/sorcery-sfml/inc/options.hpp
 	"dialog.hpp"
 	"display.hpp"
 	"frame.hpp"

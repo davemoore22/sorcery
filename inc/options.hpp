@@ -50,7 +50,7 @@ namespace Sorcery {
 		// Public Members
 
 		// Public Methods
-		auto start() -> void;
+		auto start() -> bool;
 		auto stop() -> void;
 
 	  private:
