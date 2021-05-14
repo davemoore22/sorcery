@@ -309,7 +309,7 @@ auto Sorcery::Options::_draw() -> void {
 	_display->display_cursor();
 }
 
-auto Sorcery::Options::_set_tooltip(sf::Vector2f mouse_pos) -> bool {
+auto Sorcery::Options::_set_tooltip(sf::Vector2f	 mouse_pos) -> bool {
 
 	if (!_display->window->tooltips.empty()) {
 		const sf::Vector2f global_pos{_menu->getPosition()};

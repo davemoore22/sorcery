@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1620847706 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1621023659 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -19,6 +19,7 @@
 	"SimpleIni.h"
 	"backward.hpp"
 	"cereal.hpp"
+	"cereal/archives/json.hpp"
 	"magic_enum.hpp"
 	"sfeMovie/Movie.hpp"
 	"sqlite_modern_cpp.h"
@@ -276,10 +277,10 @@
 1620165265 source:/home/dave/Development/wizardry/sorcery-sfml/src/banner.cpp
 	"banner.hpp"
 
-1619636701 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
+1621022187 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
 	"character.hpp"
 
-1619636335 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
+1621024064 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
 	"display.hpp"
 	"graphics.hpp"
 	"main.hpp"
@@ -293,7 +294,7 @@
 1620420089 source:/home/dave/Development/wizardry/sorcery-sfml/src/config.cpp
 	"config.hpp"
 
-1620415061 source:/home/dave/Development/wizardry/sorcery-sfml/src/create.cpp
+1621022099 source:/home/dave/Development/wizardry/sorcery-sfml/src/create.cpp
 	"create.hpp"
 
 1620473854 /home/dave/Development/wizardry/sorcery-sfml/inc/create.hpp
@@ -428,7 +429,7 @@
 1618259095 source:/home/dave/Development/wizardry/sorcery-sfml/src/license.cpp
 	"license.hpp"
 
-1621015118 source:/home/dave/Development/wizardry/sorcery-sfml/src/options.cpp
+1621020289 source:/home/dave/Development/wizardry/sorcery-sfml/src/options.cpp
 	"options.hpp"
 
 1621014908 /home/dave/Development/wizardry/sorcery-sfml/inc/options.hpp
@@ -513,7 +514,7 @@
 	"statusbar.hpp"
 	"system.hpp"
 
-1620589014 source:/home/dave/Development/wizardry/sorcery-sfml/src/castle.cpp
+1621018971 source:/home/dave/Development/wizardry/sorcery-sfml/src/castle.cpp
 	"castle.hpp"
 
 1620073272 /home/dave/Development/wizardry/sorcery-sfml/inc/gamemenu.hpp
@@ -786,7 +787,7 @@
 	"system.hpp"
 	"training.hpp"
 
-1620578842 source:/home/dave/Development/wizardry/sorcery-sfml/src/edgeoftown.cpp
+1621018950 source:/home/dave/Development/wizardry/sorcery-sfml/src/edgeoftown.cpp
 	"edgeoftown.hpp"
 
 1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/cereal.hpp
@@ -847,4 +848,202 @@
 
 1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/types/common.hpp
 	"cereal/cereal.hpp"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/archives/xml.hpp
+	"cereal/cereal.hpp"
+	"cereal/details/util.hpp"
+	"cereal/external/rapidxml/rapidxml.hpp"
+	"cereal/external/rapidxml/rapidxml_print.hpp"
+	"cereal/external/base64.hpp"
+	<sstream>
+	<stack>
+	<vector>
+	<limits>
+	<string>
+	<cstring>
+	<cmath>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/details/util.hpp
+	<typeinfo>
+	<string>
+	<cxxabi.h>
+	<cstdlib>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidxml/rapidxml.hpp
+	<cstdlib>
+	<cassert>
+	<new>
+	<exception>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidxml/rapidxml_print.hpp
+	"rapidxml.hpp"
+	<ostream>
+	<iterator>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/base64.hpp
+	<string>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/archives/json.hpp
+	"cereal/cereal.hpp"
+	"cereal/details/util.hpp"
+	"cereal/external/rapidjson/prettywriter.h"
+	"cereal/external/rapidjson/ostreamwrapper.h"
+	"cereal/external/rapidjson/istreamwrapper.h"
+	"cereal/external/rapidjson/document.h"
+	"cereal/external/base64.hpp"
+	<limits>
+	<sstream>
+	<stack>
+	<vector>
+	<string>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/prettywriter.h
+	"writer.h"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/writer.h
+	"stream.h"
+	"internal/meta.h"
+	"internal/stack.h"
+	"internal/strfunc.h"
+	"internal/dtoa.h"
+	"internal/itoa.h"
+	"stringbuffer.h"
+	<new>
+	<intrin.h>
+	<nmmintrin.h>
+	<emmintrin.h>
+	<arm_neon.h>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/stream.h
+	"rapidjson.h"
+	"encodings.h"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/rapidjson.h
+	<cstdlib>
+	<cstring>
+	"rapidjson/..."
+	<string>
+	"msinttypes/stdint.h"
+	"msinttypes/inttypes.h"
+	<stdint.h>
+	<inttypes.h>
+	<endian.h>
+	"rapidjson/..."
+	<cassert>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/msinttypes/stdint.h
+	<stdint.h>
+	<limits.h>
+	<wchar.h>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/msinttypes/inttypes.h
+	"stdint.h"
+	<inttypes.h>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/encodings.h
+	"rapidjson.h"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/internal/meta.h
+	"../rapidjson.h"
+	<type_traits>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/internal/stack.h
+	"../allocators.h"
+	"swap.h"
+	<cstddef>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/allocators.h
+	"rapidjson.h"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/internal/swap.h
+	"../rapidjson.h"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/internal/strfunc.h
+	"../stream.h"
+	<cwchar>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/internal/dtoa.h
+	"itoa.h"
+	"diyfp.h"
+	"ieee754.h"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/internal/itoa.h
+	"../rapidjson.h"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/internal/diyfp.h
+	"../rapidjson.h"
+	<limits>
+	<intrin.h>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/internal/ieee754.h
+	"../rapidjson.h"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/stringbuffer.h
+	"stream.h"
+	"internal/stack.h"
+	<utility>
+	"internal/stack.h"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/ostreamwrapper.h
+	"stream.h"
+	<iosfwd>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/istreamwrapper.h
+	"stream.h"
+	<iosfwd>
+	<ios>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/document.h
+	"reader.h"
+	"internal/meta.h"
+	"internal/strfunc.h"
+	"memorystream.h"
+	"encodedstream.h"
+	<new>
+	<limits>
+	<compare>
+	<iterator>
+	<utility>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/reader.h
+	"allocators.h"
+	"stream.h"
+	"encodedstream.h"
+	"internal/meta.h"
+	"internal/stack.h"
+	"internal/strtod.h"
+	<limits>
+	<intrin.h>
+	<nmmintrin.h>
+	<emmintrin.h>
+	<arm_neon.h>
+	<stdexcept>
+	"rapidjson/error/error.h"
+	"rapidjson/reader.h"
+	"error/error.h"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/encodedstream.h
+	"stream.h"
+	"memorystream.h"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/memorystream.h
+	"stream.h"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/internal/strtod.h
+	"ieee754.h"
+	"biginteger.h"
+	"diyfp.h"
+	"pow10.h"
+	<climits>
+	<limits>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/internal/biginteger.h
+	"../rapidjson.h"
+	<intrin.h>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/internal/pow10.h
+	"../rapidjson.h"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/external/rapidjson/error/error.h
+	"../rapidjson.h"
 

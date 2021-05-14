@@ -634,9 +634,19 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event)
 		} else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
 			if (selected) {
 
+				std::stringstream ss;
+
 				switch ((*selected.value()).item) {
 				case MenuItem::RC_ACCEPT:
 					// do save here
+
+					{
+
+						cereal::JSONOutputArchive archive(ss);
+						archive(_candidate);
+					}
+					std::cout << ss.str() << std::endl;
+
 					break;
 				case MenuItem::RC_REJECT:
 					return ModuleResult::CLOSE;

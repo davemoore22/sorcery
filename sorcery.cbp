@@ -61,6 +61,7 @@
 			<Add directory="inc/magicenum" />
 			<Add directory="inc/backwardcpp" />
 			<Add directory="inc/cereal" />
+			<Add directory="inc/cereal/archives" />
 		</Compiler>
 		<Linker>
 			<Add option="-lstdc++fs" />

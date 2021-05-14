@@ -57,6 +57,11 @@ namespace Sorcery {
 		// Overloaded Operators
 		auto operator[](const CharacterAbility &key) -> int &;
 
+		// Serialisation
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(_name, _race, _class, _alignment);
+		}
+
 		// Public Methods
 		auto reset(const CharacterStage stage) -> void;
 		auto get_stage() const -> CharacterStage;
@@ -65,14 +70,12 @@ namespace Sorcery {
 		auto finalise() -> void;
 		auto level_up() -> void;
 		auto level_down() -> void;
-		// auto render(unsigned int y_position) -> void;
 		auto get_alignment(const CharacterAlignment alignment) const -> std::string;
 		auto get_race(const CharacterRace race) const -> std::string;
 		auto get_class(const CharacterClass cclass) const -> std::string;
 		auto create_random() -> void;
 		auto create_quick() -> void;
 		auto set_starting_attributes() -> void;
-
 		auto get_name() const -> std::string;
 		auto set_name(const std::string &value) -> void;
 		auto get_race() const -> CharacterRace;
@@ -106,8 +109,6 @@ namespace Sorcery {
 		auto set_method(const CreateMethod value) -> void;
 
 		// Public Members
-
-		// Public Methods
 
 	  private:
 		// Private Methods
