@@ -14,12 +14,12 @@
 	</File>
 	<File name="src/castle.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="7524" topLine="169" />
+			<Cursor1 position="1384" topLine="24" />
 		</Cursor>
 	</File>
 	<File name="src/training.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4631" topLine="121" />
+			<Cursor1 position="1448" topLine="24" />
 		</Cursor>
 	</File>
 	<File name="inc/application.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -29,7 +29,7 @@
 	</File>
 	<File name="src/application.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3341" topLine="74" />
+			<Cursor1 position="2418" topLine="52" />
 		</Cursor>
 	</File>
 	<File name="src/iconstore.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -192,9 +192,9 @@
 			<Cursor1 position="4110" topLine="61" />
 		</Cursor>
 	</File>
-	<File name="src/character.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/character.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="90778" topLine="2406" />
+			<Cursor1 position="60394" topLine="1675" />
 		</Cursor>
 	</File>
 	<File name="inc/raycaster.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -257,9 +257,9 @@
 			<Cursor1 position="1544" topLine="23" />
 		</Cursor>
 	</File>
-	<File name="src/database.cpp" open="1" top="1" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/database.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2192" topLine="57" />
+			<Cursor1 position="2812" topLine="62" />
 		</Cursor>
 	</File>
 	<File name="src/attributedisplay.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -339,7 +339,7 @@
 	</File>
 	<File name="src/game.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1301" topLine="12" />
+			<Cursor1 position="1876" topLine="26" />
 		</Cursor>
 	</File>
 	<File name="inc/macro.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -359,7 +359,7 @@
 	</File>
 	<File name="src/edgeoftown.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3832" topLine="72" />
+			<Cursor1 position="1768" topLine="30" />
 		</Cursor>
 	</File>
 	<File name="inc/maputils.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

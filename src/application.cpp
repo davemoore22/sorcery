@@ -64,7 +64,7 @@ Sorcery::Application::Application(int argc, char **argv) {
 	_compendium = std::make_shared<Compendium>(system.get(), display.get(), graphics.get());
 
 	// TODO need to pass in game object into these two
-	_castle = std::make_shared<Castle>(system.get(), display.get(), graphics.get());
+	_castle = std::make_shared<Castle>(system.get(), display.get(), graphics.get(), _game.get());
 	_engine = std::make_shared<Engine>(system.get(), display.get(), graphics.get());
 }
 

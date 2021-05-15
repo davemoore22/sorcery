@@ -44,6 +44,7 @@ namespace Sorcery {
 
 		// Public Methods
 		auto start_new_game() -> void;
+		auto save_new_character(Character &character) -> unsigned int;
 
 	  private:
 		// Private Methods

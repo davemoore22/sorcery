@@ -25,15 +25,15 @@
 #include "training.hpp"
 
 // Standard Constructor
-Sorcery::Training::Training(System *system, Display *display, Graphics *graphics)
-	: _system{system}, _display{display}, _graphics{graphics} {
+Sorcery::Training::Training(System *system, Display *display, Graphics *graphics, Game *game)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
 	_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::TRAINING_GROUNDS);
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics);
-	_create = std::make_unique<Create>(_system, _display, _graphics);
+	_create = std::make_unique<Create>(_system, _display, _graphics, _game);
 }
 
 // Standard Destructor

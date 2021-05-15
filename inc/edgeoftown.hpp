@@ -27,6 +27,7 @@
 #include "dialog.hpp"
 #include "display.hpp"
 #include "frame.hpp"
+#include "game.hpp"
 #include "graphics.hpp"
 #include "layout.hpp"
 #include "main.hpp"
@@ -41,7 +42,7 @@ namespace Sorcery {
 
 	  public:
 		// Standard Constructor
-		EdgeOfTown(System *system, Display *display, Graphics *graphics);
+		EdgeOfTown(System *system, Display *display, Graphics *graphics, Game *game);
 		EdgeOfTown() = delete;
 
 		// Standard Destructor
@@ -61,6 +62,7 @@ namespace Sorcery {
 		System *_system;
 		Display *_display;
 		Graphics *_graphics;
+		Game *_game;
 		sf::RenderWindow *_window;
 		std::unique_ptr<Frame> _frame;
 		std::shared_ptr<Menu> _menu;

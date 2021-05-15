@@ -41,3 +41,15 @@ auto Sorcery::Game::start_new_game() -> void {
 	auto [_id, _key, _status, _start_time, _last_time] = _system->database->get_game().value();
 	valid = true;
 }
+
+auto Sorcery::Game::save_new_character(Character &character) -> unsigned int {
+
+	std::stringstream ss;
+	{
+		cereal::JSONOutputArchive archive(ss);
+		archive(character);
+	}
+	std::string character_data{ss.str()};
+
+	return _system->database->insert_character(_id, character.get_name(), character_data);
+}

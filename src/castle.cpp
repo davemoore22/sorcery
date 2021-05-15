@@ -25,8 +25,8 @@
 #include "castle.hpp"
 
 // Standard Constructor
-Sorcery::Castle::Castle(System *system, Display *display, Graphics *graphics)
-	: _system{system}, _display{display}, _graphics{graphics} {
+Sorcery::Castle::Castle(System *system, Display *display, Graphics *graphics, Game *game)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
@@ -42,7 +42,7 @@ Sorcery::Castle::Castle(System *system, Display *display, Graphics *graphics)
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics);
-	_edge_of_town = std::make_shared<EdgeOfTown>(system, display, graphics);
+	_edge_of_town = std::make_shared<EdgeOfTown>(_system, _display, _graphics, _game);
 }
 
 // Standard Destructor

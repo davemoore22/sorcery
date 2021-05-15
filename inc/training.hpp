@@ -26,6 +26,7 @@
 #include "create.hpp"
 #include "display.hpp"
 #include "frame.hpp"
+#include "game.hpp"
 #include "graphics.hpp"
 #include "layout.hpp"
 #include "main.hpp"
@@ -39,7 +40,7 @@ namespace Sorcery {
 
 	  public:
 		// Standard Constructor
-		Training(System *system, Display *display, Graphics *graphics);
+		Training(System *system, Display *display, Graphics *graphics, Game *game);
 		Training() = delete;
 
 		// Standard Destructor
@@ -59,6 +60,7 @@ namespace Sorcery {
 		System *_system;
 		Display *_display;
 		Graphics *_graphics;
+		Game *_game;
 		sf::RenderWindow *_window;
 		MainMenuType _menu_stage;
 		std::shared_ptr<Menu> _menu;

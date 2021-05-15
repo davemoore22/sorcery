@@ -37,6 +37,7 @@
 #include "keyboard.hpp"
 #include "layout.hpp"
 #include "menu.hpp"
+#include "game.hpp"
 // clang-format on
 
 namespace Sorcery {
@@ -45,7 +46,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructor
-		Create(System *system, Display *display, Graphics *graphics);
+		Create(System *system, Display *display, Graphics *graphics, Game *game);
 		Create() = delete;
 
 		// Destructor
@@ -81,6 +82,7 @@ namespace Sorcery {
 		System *_system;
 		Display *_display;
 		Graphics *_graphics;
+		Game *_game;
 		sf::RenderWindow *_window;
 		sf::Sprite _bg;
 		sf::Texture *_potrait_texture;

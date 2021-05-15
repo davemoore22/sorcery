@@ -25,8 +25,8 @@
 #include "edgeoftown.hpp"
 
 // Standard Constructor
-Sorcery::EdgeOfTown::EdgeOfTown(System *system, Display *display, Graphics *graphics)
-	: _system{system}, _display{display}, _graphics{graphics} {
+Sorcery::EdgeOfTown::EdgeOfTown(System *system, Display *display, Graphics *graphics, Game *game)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
@@ -42,7 +42,7 @@ Sorcery::EdgeOfTown::EdgeOfTown(System *system, Display *display, Graphics *grap
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics);
-	_training = std::make_shared<Training>(system, display, graphics);
+	_training = std::make_shared<Training>(_system, _display, _graphics, _game);
 }
 
 // Standard Destructor

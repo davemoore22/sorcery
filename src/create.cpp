@@ -24,8 +24,8 @@
 #include "create.hpp"
 
 // Standard Constructor
-Sorcery::Create::Create(System *system, Display *display, Graphics *graphics)
-	: _system{system}, _display{display}, _graphics{graphics} {
+Sorcery::Create::Create(System *system, Display *display, Graphics *graphics, Game *game)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
@@ -639,14 +639,7 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event)
 				switch ((*selected.value()).item) {
 				case MenuItem::RC_ACCEPT:
 					// do save here
-
-					{
-
-						cereal::JSONOutputArchive archive(ss);
-						archive(_candidate);
-					}
-					std::cout << ss.str() << std::endl;
-
+					_game->save_new_character(_candidate);
 					break;
 				case MenuItem::RC_REJECT:
 					return ModuleResult::CLOSE;

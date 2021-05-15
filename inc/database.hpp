@@ -38,8 +38,9 @@ namespace Sorcery {
 		// Public Methods
 		auto get_character_list() -> std::vector<CharacterList>;
 		auto has_game() -> bool;
-		auto add_game() -> int;
+		auto add_game() -> unsigned int;
 		auto get_game() -> std::optional<GameEntry>;
+		auto insert_character(int game_id, std::string name, std::string data) -> unsigned int;
 
 		// Public Members
 		bool connected;
