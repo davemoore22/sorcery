@@ -985,10 +985,11 @@ auto Sorcery::Create::_set_info_panel_contents(std::vector<Sorcery::MenuEntry>::
 auto Sorcery::Create::_draw() -> void {
 
 	// Display Base Components
+	_display->display_components("create");
 	_display->display_components("create", _candidate.get_stage());
 
 	// Custom Layering
-	_window->draw(_bg);
+	//_window->draw(_bg);
 
 	// And draw the current state of the character!
 	double lerp{_graphics->animation->colour_lerp};

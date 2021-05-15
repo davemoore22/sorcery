@@ -30,7 +30,13 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 	// Attempt to load a game from the Database
 	valid = _system->database->has_game();
 	if (valid) {
-		auto [_id, _key, _status, _start_time, _last_time] = _system->database->get_game().value();
+		auto [id, key, status, start_time, last_time] = _system->database->get_game().value();
+
+		_id = id;
+		_key = key;
+		_status = status;
+		_start_time = start_time;
+		_last_time = last_time;
 	};
 }
 

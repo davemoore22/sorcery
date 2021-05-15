@@ -123,8 +123,8 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 
 	switch (_type) {
 	case WindowDialogType::OK: {
-		const unsigned int ok_x{(centre_x - (_display->window->get_cell_width() * 2))};
-		ok_x += (_display->window->get_cell_width() * 2);
+		const unsigned int ok_x{((centre_x - (_display->window->get_cell_width() * 2))) +
+								(_display->window->get_cell_width() * 2)};
 		sf::Text ok_text;
 		ok_text.setFont(_system->resources->fonts[_buttons_c.font]);
 		ok_text.setCharacterSize(_buttons_c.size);

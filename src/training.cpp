@@ -138,9 +138,6 @@ auto Sorcery::Training::stop() -> void {
 
 auto Sorcery::Training::_draw() -> void {
 
-	// Custom Layering
-	//_window->draw(_bg);
-
 	// Display Components
 	_display->display_components("training_grounds");
 	_window->draw(*_status_bar);

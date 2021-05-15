@@ -153,8 +153,6 @@ auto Sorcery::EdgeOfTown::_draw() -> void {
 	_display->display_components("edge_of_town");
 	_window->draw(*_status_bar);
 
-	//_window->draw(*_frame);
-
 	// And the Menu
 	const double lerp{_graphics->animation->colour_lerp};
 

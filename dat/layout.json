@@ -1138,12 +1138,22 @@
 		{
 			"name": "background",
 			"x": "centre",
-			"y": "centre",
+			"y": "2",
 			"scale": "1.25",
 			"type": "image",
-			"priority": "7",
+			"priority": "2",
 			"texture": "town",
-			"drawmode" : "manual"
+			"drawmode" : "automatic",
+			"data": [
+				{
+					"scale_x": "2.33",
+					"scale_y": "1.6",
+					"source_w": "440",
+					"source_h": "420",
+					"source_index": "6"
+				}
+			]
+
 		}
 		]
 	},
@@ -2097,8 +2107,8 @@
 		{
 			"name": "dialog_saved_ok",
 			"x": "28",
-			"y": "13",
-			"w": "24",
+			"y": "18",
+			"w": "22",
 			"type": "dialog",
 			"drawmode": "manual",
 			"alpha": "200",
