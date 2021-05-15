@@ -46,6 +46,9 @@
 #include "backward.hpp"
 #include "cereal.hpp"
 #include "cereal/archives/json.hpp"
+#include "cereal/types/string.hpp"
+#include "cereal/types/unordered_map.hpp"
+#include "cereal/types/vector.hpp"
 #include "magic_enum.hpp"
 #include "sfeMovie/Movie.hpp"
 #include "sqlite_modern_cpp.h"
@@ -122,7 +125,7 @@ namespace Sorcery {
 		unsigned int, std::string, std::string>;
 	using CharacterRace = Enums::Character::Race;
 	using CharacterStage = Enums::Character::Stage;
-	// using CharacterStatus = Enums::Character::Status;
+	using CharacterStatus = Enums::Character::CStatus;
 	using CharacterView = Enums::Character::View;
 	using ComponentData = std::pair<std::string, std::string>;
 	using ComponentType = Enums::Window::ComponentType;
@@ -132,6 +135,8 @@ namespace Sorcery {
 	using FileType = Enums::File::Type;
 	using FontType = Enums::Internal::FontType;
 	using GameMenuType = Enums::GameMenu::Type;
+	using GameEntry = std::tuple<unsigned int, std::string, std::string,
+		std::chrono::system_clock::time_point, std::chrono::system_clock::time_point>;
 	using GraphicsTexture = Enums::Graphics::Texture;
 	using IconLibrary = std::map<std::string, sf::Sprite>;
 	using Import = Enums::Manage::Import;
@@ -148,8 +153,6 @@ namespace Sorcery {
 	using Range = std::tuple<unsigned int, unsigned int>;
 	using SpellID = Enums::Magic::SpellID;
 	using SpellCategory = Enums::Magic::SpellCategory;
-	using SpellEntry = std::tuple<Enums::Magic::SpellID, Enums::Magic::SpellType, unsigned int,
-		Enums::Magic::SpellCategory, bool>;
 	using SpellPoints = std::map<unsigned int, unsigned int>;
 	using SpellType = Enums::Magic::SpellType;
 	using SpellPointStatus = Enums::Magic::SpellPointStatus;

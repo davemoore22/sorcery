@@ -57,6 +57,38 @@ auto Sorcery::Database::has_game() -> bool {
 	}
 }
 
+auto Sorcery::Database::get_game() -> std::optional<GameEntry> {
+
+	if (has_game()) {
+
+		sqlite::database database(_db_file_path.string());
+		const std::string get_game_SQL{
+			"SELECT g.id, g.key, g.status, g.started, g.last_played FROM game;"};
+
+		int id{};
+		std::string key{};
+		std::string started{};
+		std::string last_played{};
+		std::string status{};
+		database << get_game_SQL >> std::tie(id, key, status, started, last_played);
+
+		std::tm started_tm{};
+		std::stringstream started_ss(started);
+		started_ss >> std::get_time(&started_tm, "%Y-%m-%d %X");
+		auto started_tp{std::chrono::system_clock::from_time_t(std::mktime(&started_tm))};
+
+		std::tm last_played_tm{};
+		std::stringstream last_played_ss(last_played);
+		last_played_ss >> std::get_time(&last_played_tm, "%Y-%m-%d %X");
+		auto last_played_tp{std::chrono::system_clock::from_time_t(std::mktime(&last_played_tm))};
+
+		return std::make_tuple(
+			static_cast<unsigned int>(id), key, status, started_tp, last_played_tp);
+
+	} else
+		return std::nullopt;
+}
+
 auto Sorcery::Database::add_game() -> int {
 	try {
 

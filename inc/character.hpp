@@ -59,7 +59,9 @@ namespace Sorcery {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_name, _race, _class, _alignment);
+			archive(_name, _race, _class, _alignment, _start_attr, _cur_attr, _max_attr, _st_points,
+				_portrait_index, _abilities, _priest_max_sp, _priest_cur_sp, _mage_max_sp,
+				_mage_cur_sp, _status, _spells_known);
 		}
 
 		// Public Methods
@@ -149,9 +151,9 @@ namespace Sorcery {
 		SpellPoints _priest_cur_sp;
 		SpellPoints _mage_max_sp;
 		SpellPoints _mage_cur_sp;
-		// std::vector<SpellEntry> _spells;
 		std::vector<Spell> _spells;
-		// std::vector<CharacterStatus> _status;
+		std::map<SpellID, bool> _spells_known;
+		std::vector<CharacterStatus> _status;
 		CharacterStage _current_stage;
 		std::string _name;
 		CharacterRace _race;

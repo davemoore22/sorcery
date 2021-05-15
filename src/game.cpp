@@ -27,12 +27,16 @@
 Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
-	// Attempt to load a game from the Database - if none is present set a flag
+	// Attempt to load a game from the Database
+	valid = _system->database->has_game();
+	if (valid) {
+		auto [_id, _key, _status, _start_time, _last_time] = _system->database->get_game().value();
+	};
+}
 
-	// _load - private method
-	// new_game - public method
+auto Sorcery::Game::start_new_game() -> void {
 
-	// bool _valid
-	// get_valid()
-	// set_valid()
+	// Create a new game no matter what
+	_system->database->add_game();
+	auto [_id, _key, _status, _start_time, _last_time] = _system->database->get_game().value();
 }

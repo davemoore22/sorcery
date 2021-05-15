@@ -52,5 +52,5 @@
 	},
 	"editor.fontSize": 12,
 	"editor.fontLigatures": true,
-	"C_Cpp.errorSquiggles": "Disabled"
+	"C_Cpp.errorSquiggles": "Enabled"
 }

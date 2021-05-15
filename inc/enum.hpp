@@ -288,16 +288,7 @@ namespace Sorcery {
 
 		enum class Align { NONE, GOOD, NEUTRAL, EVIL };
 
-		/* enum class Status {
-			OK,
-			AFRAID,
-			ASLEEP,
-			PARALYSED,
-			STONED,
-			DEAD,
-			ASHES,
-			LOST
-		}; */
+		enum class CStatus { OK, AFRAID, ASLEEP, PARALYSED, STONED, DEAD, ASHES, LOST };
 
 		enum class Attribute {
 			NONE = 0,

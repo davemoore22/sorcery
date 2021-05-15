@@ -45,7 +45,7 @@ Sorcery::Character::Character(const Character &other)
 	: _system{other._system}, _display{other._display}, _graphics{other._graphics},
 	  _abilities{other._abilities}, _priest_max_sp{other._priest_max_sp},
 	  _priest_cur_sp{other._priest_cur_sp}, _mage_max_sp{other._mage_max_sp},
-	  _mage_cur_sp{other._mage_cur_sp}, _spells{other._spells},
+	  _mage_cur_sp{other._mage_cur_sp}, _spells{other._spells}, _spells_known{other._spells_known},
 	  _current_stage{other._current_stage}, _name{other._name}, _race{other._race},
 	  _class{other._class}, _alignment{other._alignment}, _start_attr{other._start_attr},
 	  _cur_attr{other._cur_attr}, _max_attr{other._max_attr}, _view{other._view},
@@ -77,6 +77,7 @@ auto Sorcery::Character::operator=(const Character &other) -> Character & {
 	_mage_max_sp = other._mage_max_sp;
 	_mage_cur_sp = other._mage_cur_sp;
 	_spells = other._spells;
+	_spells_known = other._spells_known;
 	_current_stage = other._current_stage;
 	_name = other._name;
 	_race = other._race;
@@ -121,6 +122,7 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		_mage_max_sp = other._mage_max_sp;
 		_mage_cur_sp = other._mage_cur_sp;
 		_spells = other._spells;
+		_spells_known = other._spells_known;
 		_current_stage = other._current_stage;
 		_name = other._name;
 		_race = other._race;
@@ -158,6 +160,7 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		other._mage_max_sp.clear();
 		other._mage_cur_sp.clear();
 		other._spells.clear();
+		other._spells_known.clear();
 		other._current_stage = CharacterStage::NONE;
 		other._name.clear();
 		other._race = CharacterRace::NONE;
@@ -198,6 +201,7 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		_mage_max_sp = other._mage_max_sp;
 		_mage_cur_sp = other._mage_cur_sp;
 		_spells = other._spells;
+		_spells_known = other._spells_known;
 		_current_stage = other._current_stage;
 		_name = other._name;
 		_race = other._race;
@@ -235,6 +239,7 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		other._mage_max_sp.clear();
 		other._mage_cur_sp.clear();
 		other._spells.clear();
+		other._spells_known.clear();
 		other._current_stage = CharacterStage::NONE;
 		other._name.clear();
 		other._race = CharacterRace::NONE;
@@ -1260,37 +1265,49 @@ auto Sorcery::Character::_set_starting_spells() -> void {
 		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
 			return item.id == SpellID::KATINO;
 		});
-		if (it != _spells.end())
+		if (it != _spells.end()) {
 			(*it).known = true;
+			_spells_known[(*it).id] = true;
+		}
 		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
 			return item.id == SpellID::HALITO;
 		});
-		if (it != _spells.end())
+		if (it != _spells.end()) {
 			(*it).known = true;
+			_spells_known[(*it).id] = true;
+		}
 		break;
 	case CharacterClass::MAGE:
 		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
 			return item.id == SpellID::DUMAPIC;
 		});
-		if (it != _spells.end())
+		if (it != _spells.end()) {
 			(*it).known = true;
+			_spells_known[(*it).id] = true;
+		}
 		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
 			return item.id == SpellID::MOGREF;
 		});
-		if (it != _spells.end())
+		if (it != _spells.end()) {
 			(*it).known = true;
+			_spells_known[(*it).id] = true;
+		}
 		break;
 	case CharacterClass::PRIEST:
 		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
 			return item.id == SpellID::DIOS;
 		});
-		if (it != _spells.end())
+		if (it != _spells.end()) {
 			(*it).known = true;
+			_spells_known[(*it).id] = true;
+		}
 		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
 			return item.id == SpellID::BADIOS;
 		});
-		if (it != _spells.end())
+		if (it != _spells.end()) {
 			(*it).known = true;
+			_spells_known[(*it).id] = true;
+		}
 		break;
 	default:
 		break;
@@ -1403,12 +1420,16 @@ auto Sorcery::Character::_try_to_learn_spells(SpellType spell_type, unsigned int
 		// Check the Spell Type against the relevant stat (see SPLPERLV//TRYLEARN)
 		if (spell_type == SpellType::PRIEST)
 			if ((*_system->random)[RandomType::ZERO_TO_29] <=
-				static_cast<unsigned int>(_cur_attr[CharacterAttribute::PIETY]))
+				static_cast<unsigned int>(_cur_attr[CharacterAttribute::PIETY])) {
 				(*it).known = true;
+				_spells_known[(*it).id] = true;
+			}
 		if (spell_type == SpellType::MAGE)
 			if ((*_system->random)[RandomType::ZERO_TO_29] <=
-				static_cast<unsigned int>(_cur_attr[CharacterAttribute::IQ]))
+				static_cast<unsigned int>(_cur_attr[CharacterAttribute::IQ])) {
 				(*it).known = true;
+				_spells_known[(*it).id] = true;
+			}
 	}
 }
 
@@ -1722,6 +1743,10 @@ auto Sorcery::Character::_create_spell_lists() -> void {
 		"MALIKTO", "Resurrection", "");
 	_spells.emplace_back(SpellID::KADORTO, SpellType::PRIEST, SpellCategory::HEALING, level, false,
 		"KADORTO", "Death Ward", "");
+
+	for (auto &spell : _spells) {
+		_spells_known[spell.id] = spell.known;
+	}
 }
 
 auto Sorcery::Character::create_quick() -> void {
