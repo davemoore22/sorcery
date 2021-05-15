@@ -124,6 +124,7 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 	switch (_type) {
 	case WindowDialogType::OK: {
 		const unsigned int ok_x{(centre_x - (_display->window->get_cell_width() * 2))};
+		ok_x += (_display->window->get_cell_width() * 2);
 		sf::Text ok_text;
 		ok_text.setFont(_system->resources->fonts[_buttons_c.font]);
 		ok_text.setCharacterSize(_buttons_c.size);
@@ -141,7 +142,9 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 		_buttons_fr[WindowDialogButton::OK] = ok_text_rect;
 
 		sf::RectangleShape ok_text_bg(sf::Vector2(ok_text_rect.width + 6, ok_text_rect.height + 8));
+		ok_text_bg.setPosition(ok_x, y);
 		ok_text_bg.setOrigin(0, 0 - ok_text_hl.getLocalBounds().height + 16);
+
 		_highlights[WindowDialogButton::OK] = ok_text_bg;
 
 	} break;
@@ -351,6 +354,7 @@ auto Sorcery::Dialog::check_if_option_selected(const sf::Vector2f mouse_pos)
 			_selected = WindowDialogButton::OK;
 			return WindowDialogButton::OK;
 		}
+		break;
 	case WindowDialogType::CONFIRM:
 		if (_buttons_fr.at(WindowDialogButton::YES).contains(local_mouse_pos)) {
 			_selected = WindowDialogButton::YES;
@@ -386,12 +390,14 @@ auto Sorcery::Dialog::update() -> void {
 	const double lerp{_graphics->animation->colour_lerp};
 	switch (_type) {
 	case WindowDialogType::OK: {
-		sf::RectangleShape &hl{_highlights.at(WindowDialogButton::OK)};
-		hl.setFillColor(_display->window->change_colour(sf::Color(_buttons_c.background), lerp));
+		if (_selected == WindowDialogButton::OK) {
+			sf::RectangleShape &hl{_highlights.at(WindowDialogButton::OK)};
+			hl.setFillColor(
+				_display->window->change_colour(sf::Color(_buttons_c.background), lerp));
+		}
 	} break;
 	case WindowDialogType::CONFIRM: {
 		if (_selected == WindowDialogButton::YES) {
-
 			sf::RectangleShape &hl{_highlights.at(WindowDialogButton::YES)};
 			hl.setFillColor(
 				_display->window->change_colour(sf::Color(_buttons_c.background), lerp));
@@ -421,7 +427,10 @@ auto Sorcery::Dialog::draw(sf::RenderTarget &target, sf::RenderStates state) con
 
 	switch (_type) {
 	case WindowDialogType::OK:
-		target.draw(_buttons_hl.at(WindowDialogButton::OK), state);
+		if (_selected == WindowDialogButton::OK) {
+			target.draw(_highlights.at(WindowDialogButton::OK), state);
+			target.draw(_buttons_hl.at(WindowDialogButton::OK), state);
+		}
 		break;
 	case WindowDialogType::CONFIRM:
 		if (_selected == WindowDialogButton::YES) {

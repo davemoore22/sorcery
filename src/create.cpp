@@ -1150,8 +1150,10 @@ auto Sorcery::Create::_draw() -> void {
 			_window->draw(*_final_menu_frame);
 			_window->draw(*_final_menu);
 
-			if (_show_saved_ok)
+			if (_show_saved_ok) {
+				_dialog_saved_ok->update();
 				_window->draw(*_dialog_saved_ok);
+			}
 		}
 	}
 
