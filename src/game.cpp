@@ -39,4 +39,5 @@ auto Sorcery::Game::start_new_game() -> void {
 	// Create a new game no matter what
 	_system->database->add_game();
 	auto [_id, _key, _status, _start_time, _last_time] = _system->database->get_game().value();
+	valid = true;
 }

@@ -25,8 +25,8 @@
 #include "mainmenu.hpp"
 
 // Standard Constructor
-Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics)
-	: _system{system}, _display{display}, _graphics{graphics} {
+Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics, Game *game)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
@@ -227,7 +227,7 @@ auto Sorcery::MainMenu::stop() -> void {
 
 auto Sorcery::MainMenu::_set_main_menu() -> void {
 
-	(*_main_menu)[1].enabled = _system->database->has_game();
+	(*_main_menu)[1].enabled = _game->valid;
 }
 
 auto Sorcery::MainMenu::_draw() -> void {

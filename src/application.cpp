@@ -57,7 +57,8 @@ Sorcery::Application::Application(int argc, char **argv) {
 	_game = std::make_shared<Game>(system.get(), display.get(), graphics.get());
 
 	// Generate the necessary modules
-	_mainmenu = std::make_shared<MainMenu>(system.get(), display.get(), graphics.get());
+	_mainmenu =
+		std::make_shared<MainMenu>(system.get(), display.get(), graphics.get(), _game.get());
 	_license = std::make_shared<License>(system.get(), display.get(), graphics.get());
 	_options = std::make_shared<Options>(system.get(), display.get(), graphics.get());
 	_compendium = std::make_shared<Compendium>(system.get(), display.get(), graphics.get());
@@ -85,13 +86,12 @@ auto Sorcery::Application::start() -> int {
 
 			switch (option_chosen.value()) {
 			case MenuItem::MM_NEW_GAME:
-				option_chosen = _castle->start(true);
+				_game->start_new_game();
+				option_chosen = _castle->start();
 				_castle->stop();
 				break;
 			case MenuItem::MM_CONTINUE_GAME:
-				// Need a check that a game exists - perhaps disable the menu in generate if it
-				// doesn't exist?
-				option_chosen = _castle->start(false);
+				option_chosen = _castle->start();
 				_castle->stop();
 				break;
 			case MenuItem::QUIT:

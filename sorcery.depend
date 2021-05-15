@@ -208,7 +208,7 @@
 	"string.hpp"
 	"system.hpp"
 
-1620573575 source:/home/dave/Development/wizardry/sorcery-sfml/src/application.cpp
+1621087463 source:/home/dave/Development/wizardry/sorcery-sfml/src/application.cpp
 	"application.hpp"
 
 1620573553 /home/dave/Development/wizardry/sorcery-sfml/inc/application.hpp
@@ -266,11 +266,12 @@
 	"main.hpp"
 	"system.hpp"
 
-1620581691 /home/dave/Development/wizardry/sorcery-sfml/inc/mainmenu.hpp
+1621086963 /home/dave/Development/wizardry/sorcery-sfml/inc/mainmenu.hpp
 	"attractmode.hpp"
 	"dialog.hpp"
 	"display.hpp"
 	"frame.hpp"
+	"game.hpp"
 	"graphics.hpp"
 	"layout.hpp"
 	"main.hpp"
@@ -314,7 +315,7 @@
 	"layout.hpp"
 	"menu.hpp"
 
-1621086127 source:/home/dave/Development/wizardry/sorcery-sfml/src/database.cpp
+1621087849 source:/home/dave/Development/wizardry/sorcery-sfml/src/database.cpp
 	"database.hpp"
 
 1620578784 source:/home/dave/Development/wizardry/sorcery-sfml/src/display.cpp
@@ -345,7 +346,7 @@
 	"main.hpp"
 	"application.hpp"
 
-1620925587 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
+1621087200 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
 	"mainmenu.hpp"
 
 1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/manage.cpp
@@ -468,7 +469,7 @@
 1620073051 source:/home/dave/Development/wizardry/sorcery-sfml/src/tooltip.cpp
 	"tooltip.hpp"
 
-1619642664 source:/home/dave/Development/wizardry/sorcery-sfml/src/game.cpp
+1621087274 source:/home/dave/Development/wizardry/sorcery-sfml/src/game.cpp
 	"game.hpp"
 
 1621086364 /home/dave/Development/wizardry/sorcery-sfml/inc/game.hpp
@@ -505,7 +506,7 @@
 1620567948 source:/home/dave/Development/wizardry/sorcery-sfml/src/frame.cpp
 	"frame.hpp"
 
-1620574410 /home/dave/Development/wizardry/sorcery-sfml/inc/castle.hpp
+1621087444 /home/dave/Development/wizardry/sorcery-sfml/inc/castle.hpp
 	"dialog.hpp"
 	"display.hpp"
 	"edgeoftown.hpp"
@@ -517,7 +518,7 @@
 	"statusbar.hpp"
 	"system.hpp"
 
-1621085995 source:/home/dave/Development/wizardry/sorcery-sfml/src/castle.cpp
+1621087439 source:/home/dave/Development/wizardry/sorcery-sfml/src/castle.cpp
 	"castle.hpp"
 
 1620073272 /home/dave/Development/wizardry/sorcery-sfml/inc/gamemenu.hpp

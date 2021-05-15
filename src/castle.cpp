@@ -49,10 +49,7 @@ Sorcery::Castle::Castle(System *system, Display *display, Graphics *graphics)
 Sorcery::Castle::~Castle() {}
 
 // Start/Continue a new Game
-auto Sorcery::Castle::start(bool new_game) -> std::optional<MenuItem> {
-
-	if (new_game)
-		_system->database->add_game();
+auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 
 	// Get the Background Display Components and load them into Display module storage (not local -
 	// and note that due to the way both menus are combined in this class, we need to have the
