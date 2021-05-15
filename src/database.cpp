@@ -148,9 +148,9 @@ auto Sorcery::Database::insert_character(int game_id, std::string name, std::str
 
 		std::string status{"OK"};
 		const std::string insert_new_character_SQL{
-			"INSERT INTO game (game_id, crated, name, data) VALUES (?,?,?,?)"};
+			"INSERT INTO character (game_id, created, status, name, data) VALUES (?,?,?,?,?)"};
 
-		database << insert_new_character_SQL << game_id << created << name << data;
+		database << insert_new_character_SQL << game_id << created << status << name << data;
 
 		return database.last_insert_rowid();
 

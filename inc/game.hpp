@@ -43,6 +43,7 @@ namespace Sorcery {
 		bool valid;
 
 		// Public Methods
+		auto get_id() -> unsigned int;
 		auto start_new_game() -> void;
 		auto save_new_character(Character &character) -> unsigned int;
 

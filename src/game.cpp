@@ -38,7 +38,14 @@ auto Sorcery::Game::start_new_game() -> void {
 
 	// Create a new game no matter what
 	_system->database->add_game();
-	auto [_id, _key, _status, _start_time, _last_time] = _system->database->get_game().value();
+	auto [id, key, status, start_time, last_time] = _system->database->get_game().value();
+
+	_id = id;
+	_key = key;
+	_status = status;
+	_start_time = start_time;
+	_last_time = last_time;
+
 	valid = true;
 }
 
@@ -52,4 +59,9 @@ auto Sorcery::Game::save_new_character(Character &character) -> unsigned int {
 	std::string character_data{ss.str()};
 
 	return _system->database->insert_character(_id, character.get_name(), character_data);
+}
+
+auto Sorcery::Game::get_id() -> unsigned int {
+
+	return _id;
 }

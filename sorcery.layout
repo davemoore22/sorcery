@@ -57,7 +57,7 @@
 			<Cursor1 position="1932" topLine="38" />
 		</Cursor>
 	</File>
-	<File name="src/create.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/create.cpp" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="22462" topLine="622" />
 		</Cursor>
@@ -257,7 +257,7 @@
 			<Cursor1 position="1544" topLine="23" />
 		</Cursor>
 	</File>
-	<File name="src/database.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/database.cpp" open="1" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="2812" topLine="62" />
 		</Cursor>
@@ -337,7 +337,7 @@
 			<Cursor1 position="1702" topLine="40" />
 		</Cursor>
 	</File>
-	<File name="src/game.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/game.cpp" open="1" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1876" topLine="26" />
 		</Cursor>
