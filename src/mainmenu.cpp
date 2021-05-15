@@ -228,6 +228,10 @@ auto Sorcery::MainMenu::stop() -> void {
 auto Sorcery::MainMenu::_set_main_menu() -> void {
 
 	(*_main_menu)[1].enabled = _game->valid;
+	if ((*_main_menu)[1].enabled) {
+		auto it = _main_menu->choose(1);
+		_main_menu->selected = it.value();
+	}
 }
 
 auto Sorcery::MainMenu::_draw() -> void {

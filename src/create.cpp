@@ -87,14 +87,6 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 	// Get the Background Display Components and load them into Display module storage (not local)
 	_display->generate_components("create");
 
-	// Get the custom components
-	const Component bg_c{(*_display->layout)["create:background"]};
-	const sf::IntRect bg_rect(1147, 249, 773, 388);
-	_bg.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
-	_bg.setTextureRect(bg_rect);
-	_bg.setScale(bg_c.scale, bg_c.scale);
-	_bg.setPosition(_display->window->get_x(_bg, bg_c.x), _display->window->get_y(_bg, bg_c.y));
-
 	// Don't display the info panel yet
 	_ip->valid = false;
 	_ap->valid = false;
@@ -985,11 +977,7 @@ auto Sorcery::Create::_set_info_panel_contents(std::vector<Sorcery::MenuEntry>::
 auto Sorcery::Create::_draw() -> void {
 
 	// Display Base Components
-	_display->display_components("create");
 	_display->display_components("create", _candidate.get_stage());
-
-	// Custom Layering
-	//_window->draw(_bg);
 
 	// And draw the current state of the character!
 	double lerp{_graphics->animation->colour_lerp};
