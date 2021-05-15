@@ -59,6 +59,10 @@ auto Sorcery::EdgeOfTown::start() -> std::optional<MenuItem> {
 	// Clear the window
 	_window->clear();
 
+	// Play the background movie!
+	_display->fit_background_movie();
+	_display->start_background_movie();
+
 	// Draw the Custom Components
 	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
 	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
@@ -138,6 +142,11 @@ auto Sorcery::EdgeOfTown::start() -> std::optional<MenuItem> {
 
 		_window->clear();
 
+		// Update Background Movie
+		_display->start_background_movie();
+		_display->update_background_movie();
+		_display->draw_background_movie();
+
 		_draw();
 		_window->display();
 	}
@@ -145,7 +154,11 @@ auto Sorcery::EdgeOfTown::start() -> std::optional<MenuItem> {
 	return std::nullopt;
 }
 
-auto Sorcery::EdgeOfTown::stop() -> void {}
+auto Sorcery::EdgeOfTown::stop() -> void {
+
+	// Stop the background movie!
+	_display->stop_background_movie();
+}
 
 auto Sorcery::EdgeOfTown::_draw() -> void {
 
