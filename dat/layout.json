@@ -234,7 +234,7 @@
 		{
 			"name": "attract_creatures",
 			"x": "centre",
-			"y": "15",
+			"y": "16",
 			"scale": "2.2",
 			"alpha": "200",
 			"type": "image",
@@ -265,13 +265,25 @@
 			"background": " 0x000000ff"
 		},
 		{
-			"name": "title",
+			"name": "title_1",
 			"x": "centre",
 			"y": "12",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
-			"string": "MAIN_MENU_TITLE",
+			"string": "MAIN_MENU_TITLE_1",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5"
+		},
+		{
+			"name": "title_2",
+			"x": "centre",
+			"y": "14",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "MAIN_MENU_TITLE_2",
 			"justification": "centre",
 			"type": "text",
 			"priority": "5"
@@ -350,7 +362,7 @@
 			"w": "40",
 			"type": "dialog",
 			"drawmode": "manual",
-			"alpha": "255",
+			"alpha": "200",
 			"background": " 0x000000ff"
 		},
 		{
@@ -371,7 +383,7 @@
 			"w": "40",
 			"type": "dialog",
 			"drawmode": "manual",
-			"alpha": "255",
+			"alpha": "200",
 			"background": " 0x000000ff"
 		},
 		{
@@ -531,7 +543,7 @@
 			"w": "16",
 			"type": "dialog",
 			"drawmode": "manual",
-			"alpha": "255",
+			"alpha": "200",
 			"background": " 0x000000ff"
 		},
 		{
@@ -552,7 +564,7 @@
 			"w": "16",
 			"type": "dialog",
 			"drawmode": "manual",
-			"alpha": "255",
+			"alpha": "200",
 			"background": " 0x000000ff"
 		},
 		{
@@ -573,7 +585,7 @@
 			"w": "40",
 			"type": "dialog",
 			"drawmode": "manual",
-			"alpha": "255",
+			"alpha": "200",
 			"background": " 0x000000ff"
 		},
 		{
@@ -942,7 +954,7 @@
 			"w": "40",
 			"type": "dialog",
 			"drawmode": "manual",
-			"alpha": "255",
+			"alpha": "200",
 			"background": " 0x000000ff"
 		},
 		{
@@ -1060,7 +1072,7 @@
 			"w": "40",
 			"type": "dialog",
 			"drawmode": "manual",
-			"alpha": "255",
+			"alpha": "200",
 			"background": " 0x000000ff"
 		},
 		{
@@ -2081,6 +2093,27 @@
 			"justification": "centre",
 			"type": "menu",
 			"priority": "10"
+		},
+		{
+			"name": "dialog_saved_ok",
+			"x": "28",
+			"y": "13",
+			"w": "24",
+			"type": "dialog",
+			"drawmode": "manual",
+			"alpha": "200",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "dialog_saved_ok_text",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CONFIRM_SAVED",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "text",
+			"drawmode": "manual"
 		}
 		]
 	},

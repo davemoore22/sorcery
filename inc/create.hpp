@@ -32,6 +32,7 @@
 #include "allocatepanel.hpp"
 #include "attributedisplay.hpp"
 #include "character.hpp"
+#include "dialog.hpp"
 #include "frame.hpp"
 #include "infopanel.hpp"
 #include "keyboard.hpp"
@@ -103,5 +104,7 @@ namespace Sorcery {
 		std::map<std::string, std::shared_ptr<Frame>> _frames;
 		std::unique_ptr<Frame> _final_menu_frame;
 		bool _show_final_menu;
+		bool _show_saved_ok;
+		std::shared_ptr<Dialog> _dialog_saved_ok;
 	};
 } // namespace Sorcery

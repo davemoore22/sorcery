@@ -140,7 +140,7 @@
 1620409834 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
-1621077627 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
+1621095672 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
 1620595728 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
@@ -298,10 +298,10 @@
 1620420089 source:/home/dave/Development/wizardry/sorcery-sfml/src/config.cpp
 	"config.hpp"
 
-1621094532 source:/home/dave/Development/wizardry/sorcery-sfml/src/create.cpp
+1621101333 source:/home/dave/Development/wizardry/sorcery-sfml/src/create.cpp
 	"create.hpp"
 
-1621088455 /home/dave/Development/wizardry/sorcery-sfml/inc/create.hpp
+1621100012 /home/dave/Development/wizardry/sorcery-sfml/inc/create.hpp
 	"main.hpp"
 	"system.hpp"
 	"display.hpp"
@@ -309,6 +309,7 @@
 	"allocatepanel.hpp"
 	"attributedisplay.hpp"
 	"character.hpp"
+	"dialog.hpp"
 	"frame.hpp"
 	"infopanel.hpp"
 	"keyboard.hpp"
@@ -709,7 +710,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1620923880 source:/home/dave/Development/wizardry/sorcery-sfml/src/dialog.cpp
+1621101204 source:/home/dave/Development/wizardry/sorcery-sfml/src/dialog.cpp
 	"dialog.hpp"
 
 1619483805 /home/dave/Development/wizardry/sorcery-sfml/inc/backwardcpp/backward.hpp

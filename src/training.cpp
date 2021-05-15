@@ -115,7 +115,7 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 					} else if (option_chosen == MenuItem::TR_CREATE) {
 						_create->start();
 						_create->stop();
-						_display->display_components("training_grounds");
+						_display->generate_components("training_grounds");
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					}
 				}

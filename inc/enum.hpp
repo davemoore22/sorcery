@@ -82,7 +82,8 @@ namespace Sorcery {
 			ALLOCATE_STATS,
 			CHOOSE_METHOD,
 			CHOOSE_PORTRAIT,
-			REVIEW_AND_CONFIRM
+			REVIEW_AND_CONFIRM,
+			SAVED_CHARACTER_OK
 		};
 
 		enum class InputCategory {

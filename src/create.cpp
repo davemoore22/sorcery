@@ -2,24 +2,25 @@
 //
 // This file is part of Sorcery: Dreams of the Mad Overlord.
 //
-// Sorcery: Dreams of the Mad Overlord is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// (at your option) any later version.
+// Sorcery: Dreams of the Mad Overlord is free software: you can redistribute
+// it and/or modify it under the terms of the GNU General Public License as
+// published by the Free Software Foundation, either version 2 of the License,
+// or (at your option) any later version.
 //
-// Sorcery: Dreams of the Mad Overlord is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
+// Sorcery: Dreams of the Mad Overlord is distributed in the hope that it wil
+// be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+// Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Sorcery: Dreams of the Mad Overlord.  If not, see <http://www.gnu.org/licenses/>.
+// along with Sorcery: Dreams of the Mad Overlord.  If not,
+// see <http://www.gnu.org/licenses/>.
 //
-// If you modify this Program, or any covered work, by linking or combining it
-// with the libraries referred to in README (or a modified version of said
-// libraries), containing parts covered by the terms of said libraries, the
-// licensors of this Program grant you additional permission to convey the
-// resulting work.
+// If you modify this program, or any covered work, by linking or combining
+// it with the libraries referred to in README (or a modified version of
+// said libraries), containing parts covered by the terms of said libraries,
+// the licensors of this program grant you additional permission to convey
+// the resulting work.
 
 #include "create.hpp"
 
@@ -68,6 +69,14 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics, Ga
 	_sprites.clear();
 
 	_show_final_menu = false;
+	_show_saved_ok = false;
+
+	// Create the Confirmation Dialogs
+	_dialog_saved_ok = std::make_shared<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["character_create_stage_7:dialog_saved_ok"],
+		(*_display->layout)["character_create_stage_7:dialog_saved_ok_text"], WindowDialogType::OK);
+	_dialog_saved_ok->setPosition((*_display->layout)["character_create_stage_7:dialog_saved_ok"].x,
+		(*_display->layout)["character_create_stage_7:dialog_saved_ok"].y);
 }
 
 // Standard Destructor
@@ -625,41 +634,60 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event)
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_final_menu->selected};
 	if (_show_final_menu) {
-		if (_system->input->check_for_event(WindowInput::BACK, event)) {
-			_show_final_menu = false;
-			_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
-		} else if (_system->input->check_for_event(WindowInput::DELETE, event)) {
-			_show_final_menu = false;
-			_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
-		} else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
-			if (selected) {
 
-				unsigned int id;
+		if (_show_saved_ok) {
 
-				switch ((*selected.value()).item) {
-				case MenuItem::RC_ACCEPT:
-					// do save here
-					 id = _game->save_new_character(_candidate);
-					std::cout << "new: " << id << std::endl;
-					break;
-				case MenuItem::RC_REJECT:
-					return ModuleResult::CLOSE;
-					break;
-				case MenuItem::RC_CANCEL:
+			auto dialog_input{_dialog_saved_ok->handle_input(event)};
+			if (dialog_input) {
+				if (dialog_input.value() == WindowDialogButton::CLOSE) {
 					_show_final_menu = false;
-					_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
-					break;
-				default:
-					break;
+					_show_saved_ok = false;
+					return std::nullopt;
+					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+				} else if (dialog_input.value() == WindowDialogButton::OK) {
+					_show_final_menu = false;
+					_show_saved_ok = false;
+					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					return ModuleResult::CLOSE;
 				}
-			}
-		} else if (_system->input->check_for_event(WindowInput::UP, event))
-			selected = _final_menu->choose_previous();
-		else if (_system->input->check_for_event(WindowInput::DOWN, event))
-			selected = _final_menu->choose_next();
-		else if (_system->input->check_for_event(WindowInput::MOVE, event))
-			selected = _final_menu->set_mouse_selected(
-				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+			};
+		} else {
+
+			if (_system->input->check_for_event(WindowInput::BACK, event)) {
+				_show_final_menu = false;
+				_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
+			} else if (_system->input->check_for_event(WindowInput::DELETE, event)) {
+				_show_final_menu = false;
+				_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
+			} else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+				if (selected) {
+					unsigned int id;
+					switch ((*selected.value()).item) {
+					case MenuItem::RC_ACCEPT:
+						id = _game->save_new_character(_candidate);
+						_show_saved_ok = true;
+						break;
+					case MenuItem::RC_REJECT:
+						_show_final_menu = false;
+						return ModuleResult::CLOSE;
+						break;
+					case MenuItem::RC_CANCEL:
+						_show_final_menu = false;
+						_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
+						break;
+					default:
+						break;
+					}
+				}
+
+			} else if (_system->input->check_for_event(WindowInput::UP, event))
+				selected = _final_menu->choose_previous();
+			else if (_system->input->check_for_event(WindowInput::DOWN, event))
+				selected = _final_menu->choose_next();
+			else if (_system->input->check_for_event(WindowInput::MOVE, event))
+				selected = _final_menu->set_mouse_selected(
+					static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		}
 	} else {
 
 		if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
@@ -1121,6 +1149,9 @@ auto Sorcery::Create::_draw() -> void {
 			_final_menu_frame->setPosition(frame_pos);
 			_window->draw(*_final_menu_frame);
 			_window->draw(*_final_menu);
+
+			if (_show_saved_ok)
+				_window->draw(*_dialog_saved_ok);
 		}
 	}
 

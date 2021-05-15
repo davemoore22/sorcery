@@ -217,7 +217,23 @@ auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WindowDialo
 
 	switch (_type) {
 	case WindowDialogType::OK:
-		// Can't be toggled
+
+		if (_system->input->check_for_event(WindowInput::MOVE, event))
+			check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+			std::optional<WindowDialogButton> button_chosen{check_if_option_selected(
+				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)))};
+			if (button_chosen) {
+				if (button_chosen.value() == WindowDialogButton::OK)
+					return WindowDialogButton::OK;
+			} else {
+
+				if (get_selected() == WindowDialogButton::OK) {
+					return WindowDialogButton::OK;
+				}
+			}
+		}
+
 		break;
 	case WindowDialogType::CONFIRM:
 		if (_system->input->check_for_event(WindowInput::LEFT, event))
