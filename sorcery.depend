@@ -233,12 +233,13 @@
 	"main.hpp"
 	"system.hpp"
 
-1617313751 /home/dave/Development/wizardry/sorcery-sfml/inc/menu.hpp
+1621785603 /home/dave/Development/wizardry/sorcery-sfml/inc/menu.hpp
 	"component.hpp"
 	"display.hpp"
 	"graphics.hpp"
 	"main.hpp"
 	"system.hpp"
+	"game.hpp"
 
 1614555431 /home/dave/Development/wizardry/sorcery-sfml/inc/textfile.hpp
 	"main.hpp"
@@ -298,7 +299,7 @@
 1620420089 source:/home/dave/Development/wizardry/sorcery-sfml/src/config.cpp
 	"config.hpp"
 
-1621112500 source:/home/dave/Development/wizardry/sorcery-sfml/src/create.cpp
+1621785725 source:/home/dave/Development/wizardry/sorcery-sfml/src/create.cpp
 	"create.hpp"
 
 1621100012 /home/dave/Development/wizardry/sorcery-sfml/inc/create.hpp
@@ -348,7 +349,7 @@
 	"main.hpp"
 	"application.hpp"
 
-1621113680 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
+1621785770 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
 	"mainmenu.hpp"
 
 1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/manage.cpp
@@ -360,7 +361,7 @@
 1614621285 source:/home/dave/Development/wizardry/sorcery-sfml/src/map.cpp
 	"map.hpp"
 
-1620414719 source:/home/dave/Development/wizardry/sorcery-sfml/src/menu.cpp
+1621785827 source:/home/dave/Development/wizardry/sorcery-sfml/src/menu.cpp
 	"menu.hpp"
 
 1597513199 source:/home/dave/Development/wizardry/sorcery-sfml/src/menubutton.cpp
@@ -521,7 +522,7 @@
 	"statusbar.hpp"
 	"system.hpp"
 
-1621094505 source:/home/dave/Development/wizardry/sorcery-sfml/src/castle.cpp
+1621785625 source:/home/dave/Development/wizardry/sorcery-sfml/src/castle.cpp
 	"castle.hpp"
 
 1620073272 /home/dave/Development/wizardry/sorcery-sfml/inc/gamemenu.hpp
@@ -587,7 +588,7 @@
 	"statusbar.hpp"
 	"system.hpp"
 
-1621108012 source:/home/dave/Development/wizardry/sorcery-sfml/src/training.cpp
+1621785686 source:/home/dave/Development/wizardry/sorcery-sfml/src/training.cpp
 	"training.hpp"
 
 1618083418 /home/dave/Development/wizardry/sorcery-sfml/inc/statusbar.hpp
@@ -796,7 +797,7 @@
 	"system.hpp"
 	"training.hpp"
 
-1621107672 source:/home/dave/Development/wizardry/sorcery-sfml/src/edgeoftown.cpp
+1621785770 source:/home/dave/Development/wizardry/sorcery-sfml/src/edgeoftown.cpp
 	"edgeoftown.hpp"
 
 1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/cereal.hpp

@@ -44,17 +44,18 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics, Ga
 	_potrait_texture = &system->resources->textures[GraphicsTexture::PORTRAITS];
 
 	// Menus
-	_method_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::CHOOSE_METHOD);
-	_race_menu =
-		std::make_shared<Menu>(_system, _display, _graphics, MenuType::CHOOSE_CHARACTER_RACE);
-	_alignment_menu =
-		std::make_shared<Menu>(_system, _display, _graphics, MenuType::CHOOSE_CHARACTER_ALIGNMENT);
+	_method_menu =
+		std::make_shared<Menu>(_system, _display, _graphics, _game, MenuType::CHOOSE_METHOD);
+	_race_menu = std::make_shared<Menu>(
+		_system, _display, _graphics, _game, MenuType::CHOOSE_CHARACTER_RACE);
+	_alignment_menu = std::make_shared<Menu>(
+		_system, _display, _graphics, _game, MenuType::CHOOSE_CHARACTER_ALIGNMENT);
 	_attribute_menu = std::make_shared<Menu>(
-		_system, _display, _graphics, MenuType::ALLOCATE_CHARACTER_ATTRIBUTES);
-	_class_menu =
-		std::make_shared<Menu>(_system, _display, _graphics, MenuType::CHOOSE_CHARACTER_CLASS);
+		_system, _display, _graphics, _game, MenuType::ALLOCATE_CHARACTER_ATTRIBUTES);
+	_class_menu = std::make_shared<Menu>(
+		_system, _display, _graphics, _game, MenuType::CHOOSE_CHARACTER_CLASS);
 	_final_menu =
-		std::make_shared<Menu>(_system, _display, _graphics, MenuType::REVIEW_AND_CONFIRM);
+		std::make_shared<Menu>(_system, _display, _graphics, _game, MenuType::REVIEW_AND_CONFIRM);
 
 	Component _fmf_c{(*_display->layout)["character_create_stage_7:menu_frame"]};
 	_final_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL,

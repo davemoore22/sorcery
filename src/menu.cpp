@@ -25,8 +25,9 @@
 #include "menu.hpp"
 
 // Standard Constructor
-Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics, const MenuType type)
-	: _system{system}, _display{display}, _graphics{graphics}, _type{type} {
+Sorcery::Menu::Menu(
+	System *system, Display *display, Graphics *graphics, Game *game, const MenuType type)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _type{type} {
 
 	// Clear the Items
 	items.clear();

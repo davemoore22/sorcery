@@ -33,7 +33,7 @@ Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics
 
 	// Create the Main Menu
 	_menu_stage = MainMenuType::ATTRACT_MODE;
-	_main_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::MAIN);
+	_main_menu = std::make_shared<Menu>(_system, _display, _graphics, _game, MenuType::MAIN);
 
 	// Setup Custom Components
 	_press_any_key = sf::Text();

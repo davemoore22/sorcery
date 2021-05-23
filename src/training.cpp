@@ -31,7 +31,7 @@ Sorcery::Training::Training(System *system, Display *display, Graphics *graphics
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
-	_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::TRAINING_GROUNDS);
+	_menu = std::make_shared<Menu>(_system, _display, _graphics, _game, MenuType::TRAINING_GROUNDS);
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics);
 	_create = std::make_unique<Create>(_system, _display, _graphics, _game);
 }

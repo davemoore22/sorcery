@@ -32,7 +32,7 @@ Sorcery::EdgeOfTown::EdgeOfTown(System *system, Display *display, Graphics *grap
 	_window = _display->window->get_window();
 
 	// Setup Custom Components
-	_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::EDGE_OF_TOWN);
+	_menu = std::make_shared<Menu>(_system, _display, _graphics, _game, MenuType::EDGE_OF_TOWN);
 
 	_dialog_leave_game = std::make_shared<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["edge_of_town:dialog_leave_game"],

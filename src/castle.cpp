@@ -32,7 +32,7 @@ Sorcery::Castle::Castle(System *system, Display *display, Graphics *graphics, Ga
 	_window = _display->window->get_window();
 
 	// Setup Custom Components
-	_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::CASTLE);
+	_menu = std::make_shared<Menu>(_system, _display, _graphics, _game, MenuType::CASTLE);
 
 	_dialog_leave_game = std::make_shared<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["castle:dialog_leave_game"],

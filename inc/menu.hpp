@@ -24,11 +24,14 @@
 
 #pragma once
 
+// clang-format off
 #include "component.hpp"
 #include "display.hpp"
 #include "graphics.hpp"
 #include "main.hpp"
 #include "system.hpp"
+#include "game.hpp"
+// clang-format on
 
 namespace Sorcery {
 
@@ -36,7 +39,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Menu(System *system, Display *display, Graphics *graphics, const MenuType type);
+		Menu(System *system, Display *display, Graphics *graphics, Game *game, const MenuType type);
 		Menu() = delete;
 
 		// Overload [] operator
@@ -80,6 +83,7 @@ namespace Sorcery {
 		System *_system;
 		Display *_display;
 		Graphics *_graphics;
+		Game *_game;
 		unsigned int _width;
 		MenuType _type;
 		sf::RenderTexture _rtexture;

@@ -32,7 +32,7 @@ Sorcery::Options::Options(System *system, Display *display, Graphics *graphics)
 	_window = _display->window->get_window();
 
 	// Menu and Options
-	_menu = std::make_shared<Menu>(_system, _display, _graphics, MenuType::OPTIONS);
+	_menu = std::make_shared<Menu>(_system, _display, _graphics, nullptr, MenuType::OPTIONS);
 	_option_on = Component((*_display->layout)["options:on"]);
 	_option_off = Component((*_display->layout)["options:off"]);
 
@@ -309,7 +309,7 @@ auto Sorcery::Options::_draw() -> void {
 	_display->display_cursor();
 }
 
-auto Sorcery::Options::_set_tooltip(sf::Vector2f	 mouse_pos) -> bool {
+auto Sorcery::Options::_set_tooltip(sf::Vector2f mouse_pos) -> bool {
 
 	if (!_display->window->tooltips.empty()) {
 		const sf::Vector2f global_pos{_menu->getPosition()};
