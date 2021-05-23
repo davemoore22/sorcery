@@ -1082,7 +1082,7 @@
 			"name": "dialog_leave_game_text",
 			"font": "monospace",
 			"colour": "0xffffffff",
-			"size": "38",
+			"size": "24",
 			"string": "CONFIRM_LEAVE_GAME",
 			"background": " 0xff0000ff",
 			"justification": "centre",

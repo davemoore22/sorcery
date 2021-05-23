@@ -117,7 +117,7 @@ namespace Sorcery {
 	static const std::string GAME_BATCH_HEALING_AFTER_RETURN_TO_CASTLE = {
 		"batch_healing_after_return_to_castle"};
 	static const std::string GAME_REROLL_ONES_ON_DICE = {"reroll_ones_on_dice"};
-	static const std::string GAME_ALLOW_AMBUSH_HIDE = {"allow_ambush_hide"};
+	static const std::string GAME_PROTECT_TELEPORT = {"protect_teleport_rock"};
 	static const std::string GAME_ALLOW_LOST_LEGATED = {"allow_lost_legated"};
 	static const std::string GAME_ALLOW_CURABLE_DRAIN = {"allow_curable_drained_levels"};
 	static const std::string GAME_ALLOW_SHARED_INVENTORY = {"allow_shared_inventory"};

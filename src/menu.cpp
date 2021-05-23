@@ -216,9 +216,9 @@ Sorcery::Menu::Menu(
 			(*_display->string)["GAME_AGING_CLASS_CHANGE"], true,
 			ConfigOption::AGING_ON_CLASS_CHANGE,
 			(*_display->string)["HINT_GAME_AGING_CLASS_CHANGE"]);
-		_add_item(10, MenuItemType::ENTRY, MenuItem::OP_ALLOW_AMBUSH_HIDE,
-			(*_display->string)["GAME_ALLOW_AMBUSH_HIDE"], true, ConfigOption::ALLOW_AMBUSH_HIDE,
-			(*_display->string)["HINT_GAME_ALLOW_AMBUSH_HIDE"]);
+		_add_item(10, MenuItemType::ENTRY, MenuItem::OP_PROTECT_TELEPORT,
+			(*_display->string)["GAME_PROTECT_TELEPORT"], true, ConfigOption::PROTECT_TELEPORT,
+			(*_display->string)["HINT_GAME_PROTECT_TELEPORT"]);
 		_add_item(11, MenuItemType::ENTRY, MenuItem::OP_ALLOW_RANGED_WEAPONS,
 			(*_display->string)["GAME_ALLOW_RANGED_WEAPONS"], true,
 			ConfigOption::ALLOW_RANGED_WEAPONS,

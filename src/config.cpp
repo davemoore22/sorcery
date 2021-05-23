@@ -93,8 +93,8 @@ auto Sorcery::Config::_load() -> bool {
 	_options[Enums::Options::BATCH_HEALING_AFTER_RETURN_TO_CASTLE] = option.compare(ON) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(GAME_REROLL_ONES_ON_DICE), CSTR(ON));
 	_options[Enums::Options::REROLL_ONES_ON_DICE] = option.compare(ON) == 0;
-	option = _settings->GetValue("Gameplay", CSTR(GAME_ALLOW_AMBUSH_HIDE), CSTR(ON));
-	_options[Enums::Options::ALLOW_AMBUSH_HIDE] = option.compare(ON) == 0;
+	option = _settings->GetValue("Gameplay", CSTR(GAME_PROTECT_TELEPORT), CSTR(ON));
+	_options[Enums::Options::PROTECT_TELEPORT] = option.compare(ON) == 0;
 
 	option = _settings->GetValue("Gameplay", CSTR(GAME_ALLOW_LOST_LEGATED), CSTR(ON));
 	_options[Enums::Options::ALLOW_LOST_LEGATED] = option.compare(ON) == 0;
@@ -159,8 +159,8 @@ bool Sorcery::Config::save() {
 		BOOL2OPTIONCSTR(_options[Enums::Options::STAT_RESET_ON_CLASS_CHANGE]));
 	_settings->SetValue("Gameplay", CSTR(GAME_AGING_ON_CLASS_CHANGE),
 		BOOL2OPTIONCSTR(_options[Enums::Options::AGING_ON_CLASS_CHANGE]));
-	_settings->SetValue("Gameplay", CSTR(GAME_ALLOW_AMBUSH_HIDE),
-		BOOL2OPTIONCSTR(_options[Enums::Options::ALLOW_AMBUSH_HIDE]));
+	_settings->SetValue("Gameplay", CSTR(GAME_PROTECT_TELEPORT),
+		BOOL2OPTIONCSTR(_options[Enums::Options::PROTECT_TELEPORT]));
 	_settings->SetValue("Gameplay", CSTR(GAME_ALLOW_RANGED_WEAPONS),
 		BOOL2OPTIONCSTR(_options[Enums::Options::ALLOW_RANGED_WEAPONS]));
 	_settings->SetValue("Gameplay", CSTR(GAME_SPELLCASTING_IN_SURPRISE_ROUND),
