@@ -24,13 +24,11 @@
 
 #pragma once
 
-
-#include "main.hpp"
 #include "component.hpp"
+#include "main.hpp"
 
 // Class to handles managing screen layouts
 namespace Sorcery {
-
 
 	class Layout {
 
@@ -45,6 +43,7 @@ namespace Sorcery {
 
 		// Public Methods
 		auto set_grid(unsigned int cell_width, unsigned int cell_height) -> void;
+		auto get_error() -> Component &;
 
 	  private:
 		// Private Members

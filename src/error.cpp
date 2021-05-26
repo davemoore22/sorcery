@@ -24,9 +24,8 @@
 
 #include "error.hpp"
 
-Sorcery::Error::Error(
-	Enums::System::Error error_code, std::exception &exception, std::string notes = "")
-	: _error_code{error_code}, _exception{exception} {
+Sorcery::Error::Error(Enums::System::Error error_code, std::exception &exception, std::string notes)
+	: _error_code{error_code}, _exception{exception}, _notes{notes} {
 
 	_gui = std::nullopt;
 
@@ -40,9 +39,9 @@ Sorcery::Error::Error(
 	_details.emplace_back(_notes);
 }
 
-Sorcery::Error::Error(tgui::Gui *gui, Enums::System::Error error_code, std::exception &exception,
-	std::string notes = "")
-	: _gui{gui}, _error_code{error_code}, _exception{exception} {
+Sorcery::Error::Error(
+	tgui::Gui *gui, Enums::System::Error error_code, std::exception &exception, std::string notes)
+	: _gui{gui}, _error_code{error_code}, _exception{exception}, _notes{notes} {
 	_timestamp = std::chrono::system_clock::now();
 
 	_details.clear();
@@ -77,28 +76,104 @@ Sorcery::Error::Error(tgui::Gui *gui, Enums::System::Error error_code, std::exce
 	window->add(body_panel, "BodyPanel");
 
 	auto title_text{tgui::Label::create()};
-	title_text->setText(fmt::format("{:>5}: {} - {}", "Error", _details[0], _details[1]));
+	title_text->setText(fmt::format("{:>5}: #{} - {}", "Error", _details[0], _details[1]));
 	title_text->setPosition(16, 0);
 	title_text->setTextSize(32);
 	title_panel->add(title_text, "TitleText");
 
 	auto what{tgui::Label::create()};
-	what->setText(_details[2]);
-	what->setPosition(16, 48);
+	what->setText(fmt::format("{:>5}: ", "What"));
+	what->setPosition(16, 16);
 	what->setTextSize(16);
 	body_panel->add(what, "What");
 
+	auto what_e{tgui::EditBox::create()};
+	what_e->setText(_details[2]);
+	what_e->setPosition(80, 10);
+	what_e->setSize(528, 32);
+	what_e->setTextSize(16);
+	what_e->setEnabled(false);
+	body_panel->add(what_e, "WhatEdit");
+
 	auto when{tgui::Label::create()};
-	when->setText(_details[3]);
-	when->setPosition(16, 96);
+	when->setText(fmt::format("{:>5}: ", "When"));
+	when->setPosition(16, 48);
 	when->setTextSize(16);
 	body_panel->add(when, "When");
 
+	auto when_e{tgui::EditBox::create()};
+	when_e->setText(_details[3]);
+	when_e->setPosition(80, 42);
+	when_e->setSize(528, 32);
+	when_e->setTextSize(16);
+	when_e->setEnabled(false);
+	body_panel->add(when_e, "WhenEdit");
+
 	auto info{tgui::Label::create()};
-	info->setText(_details[4]);
-	info->setPosition(16, 144);
-	info->setTextSize(12);
+	info->setText(fmt::format("{:>5}: ", "Info"));
+	info->setPosition(16, 80);
+	info->setTextSize(16);
 	body_panel->add(info, "Info");
+
+	auto info_e{tgui::TextBox::create()};
+	info_e->setPosition(80, 74);
+	info_e->setSize(528, 272);
+	info_e->setTextSize(16);
+	info_e->setEnabled(false);
+
+	// Get the Stack Trace
+	if (_details[4].size() == 0) {
+
+		backward::StackTrace st;
+		st.load_here(32);
+
+		backward::Printer p;
+		p.object = false;
+		p.color_mode = backward::ColorMode::never;
+		p.address = false;
+		std::ostringstream out;
+		p.print(st, stderr);
+		std::string wrapped_notes = WORDWRAP(out.str(), 80);
+		const std::regex regex(R"([@]+)");
+		std::sregex_token_iterator it{wrapped_notes.begin(), wrapped_notes.end(), regex, -1};
+		std::vector<std::string> lines{it, {}};
+		lines.erase(std::remove_if(lines.begin(), lines.end(),
+						[](std::string const &s) {
+							return s.size() == 0;
+						}),
+			lines.end());
+		for (auto line_of_text : lines) {
+			info_e->addText(line_of_text);
+		}
+
+		/* backward::TraceResolver tr;
+		tr.load_stacktrace(st);
+
+		for (size_t i = 0; i < st.size(); ++i) {
+			backward::ResolvedTrace trace = tr.resolve(st[i]);
+
+			info_e->addText(fmt::format(
+				"#{} {} {} [{}] ", i, trace.object_filename, trace.object_function, trace.addr));
+		} */
+
+	} else {
+
+		// Split the display lines
+		std::string wrapped_notes = WORDWRAP(_details[4], 80);
+		const std::regex regex(R"([@]+)");
+		std::sregex_token_iterator it{wrapped_notes.begin(), wrapped_notes.end(), regex, -1};
+		std::vector<std::string> lines{it, {}};
+		lines.erase(std::remove_if(lines.begin(), lines.end(),
+						[](std::string const &s) {
+							return s.size() == 0;
+						}),
+			lines.end());
+		for (auto line_of_text : lines) {
+			info_e->addText(line_of_text);
+		}
+	}
+
+	body_panel->add(info_e, "InfoEdit");
 
 	auto close_button{tgui::Button::create()};
 	close_button->setPosition(window->getSize().x - 115.f, window->getSize().y - 50.f);

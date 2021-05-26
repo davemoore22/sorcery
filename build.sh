@@ -75,13 +75,13 @@ cmd_buildrun() {
 	display_styled_symbol 3 "⬤" "Build & Run: $BUILD (target: $NAME)"
 	echo
 	BLD=$BUILD
-	if [[ $BUILD == 'Tests' && $1 != 'main' ]]; then
-		BLD=Release
+	if [[ $BUILD == 'tests' && $1 != 'main' ]]; then
+		BLD=release
 	fi
 	if $MAKE_EXEC BUILD=$BLD; then
 		build_success_launch
-		if [[ $BUILD == 'Tests' ]]; then
-			bin/Release/$NAME $OPTIONS
+		if [[ $BUILD == 'tests' ]]; then
+			bin/release/$NAME $OPTIONS
 		else
 			bin/$BUILD/$NAME $OPTIONS
 		fi
@@ -94,8 +94,8 @@ cmd_build() {
 	display_styled_symbol 3 "⬤" "Build: $BUILD (target: $NAME)"
 	echo
 	BLD=$BUILD
-	if [[ $BUILD == 'Tests' && $1 != 'main' ]]; then
-		BLD=Release
+	if [[ $BUILD == 'tests' && $1 != 'main' ]]; then
+		BLD=release
 	fi
 	if $MAKE_EXEC BUILD=$BLD; then
 		build_success
@@ -108,8 +108,8 @@ cmd_rebuild() {
 	display_styled_symbol 3 "⬤" "Rebuild: $BUILD (target: $NAME)"
 	echo
 	BLD=$BUILD
-	if [[ $BUILD == 'Tests' && $1 != 'main' ]]; then
-		BLD=Release
+	if [[ $BUILD == 'tests' && $1 != 'main' ]]; then
+		BLD=release
 	fi
 	if $MAKE_EXEC BUILD=$BLD rebuild; then
 		build_success
@@ -122,8 +122,8 @@ cmd_run() {
 	display_styled_symbol 3 "⬤" "Run: $BUILD (target: $NAME)"
 	echo
 	launch
-	if [[ $BUILD == 'Tests' ]]; then
-		bin/Release/$NAME $OPTIONS
+	if [[ $BUILD == 'tests' ]]; then
+		bin/release/$NAME $OPTIONS
 	else
 		bin/$BUILD/$NAME $OPTIONS
 	fi
@@ -132,7 +132,7 @@ cmd_run() {
 cmd_buildprod() {
 	display_styled_symbol 3 "⬤" "Production Build: $BUILD (target: $NAME)"
 	echo
-	if [[ $BUILD == 'Release' ]]; then
+	if [[ $BUILD == 'release' ]]; then
 		RECIPE=buildprod
 		if [[ $1 != 'main' ]]; then
 			RECIPE=
@@ -152,13 +152,13 @@ cmd_profile() {
 	echo
 	if [[ $PLATFORM == 'osx' ]]; then
 		profiler_osx
-	elif [[ $BUILD == 'Debug' ]]; then
+	elif [[ $BUILD == 'debug' ]]; then
 		if $MAKE_EXEC BUILD=$BUILD; then
 			build_success_launch
 			tput sgr0
 			bin/$BUILD/$NAME
 			tput setaf 4
-			gprof bin/Debug/$NAME gmon.out > $PROF_ANALYSIS_FILE 2> /dev/null
+			gprof bin/debug/$NAME gmon.out > $PROF_ANALYSIS_FILE 2> /dev/null
 			profiler_done
 		else
 			build_fail
@@ -175,7 +175,7 @@ if [[ $CMD == '' ]]; then
 	CMD=buildprod
 fi
 if [[ $BUILD == '' ]]; then
-	BUILD=Release
+	BUILD=release
 fi
 
 if [[ $OSTYPE == 'linux-gnu'* || $OSTYPE == 'cygwin'* ]]; then
@@ -214,8 +214,8 @@ if [[ $PLATFORM == 'windows' ]]; then
 	fi
 fi
 
-if [[ $BUILD != "Release" && $BUILD != 'Debug' && $BUILD != 'Tests' ]]; then
-	BUILD=Release
+if [[ $BUILD != "release" && $BUILD != 'debug' && $BUILD != 'tests' ]]; then
+	BUILD=release
 fi
 
 PROF_EXEC=gprof
@@ -233,11 +233,11 @@ for target in $BUILD_TARGETS; do
 	if [[ $PLATFORM == 'windows' ]]; then
 		if [[ $target == 'main' ]]; then
 			export NAME=$cwd.exe
-			if [[ $BUILD == 'Tests' ]]; then
+			if [[ $BUILD == 'tests' ]]; then
 				NAME=tests_$NAME
 			fi
 		else
-			if [[ $BUILD == 'Debug' ]]; then
+			if [[ $BUILD == 'debug' ]]; then
 				export NAME=lib$target-d.dll
 			else
 				export NAME=lib$target.dll
@@ -247,11 +247,11 @@ for target in $BUILD_TARGETS; do
 		if [[ $PLATFORM == 'osx' ]]; then
 			if [[ $target == 'main' ]]; then
 				export NAME=$cwd
-				if [[ $BUILD == 'Tests' ]]; then
+				if [[ $BUILD == 'tests' ]]; then
 					NAME=tests_$NAME
 				fi
 			else
-				if [[ $BUILD == 'Debug' ]]; then
+				if [[ $BUILD == 'debug' ]]; then
 					export NAME=lib$target-d.dylib
 				else
 					export NAME=lib$target.dylib
@@ -260,11 +260,11 @@ for target in $BUILD_TARGETS; do
 		else
 			if [[ $target == 'main' ]]; then
 				export NAME=$cwd
-				if [[ $BUILD == 'Tests' ]]; then
+				if [[ $BUILD == 'tests' ]]; then
 					NAME=tests_$NAME
 				fi
 			else
-				if [[ $BUILD == 'Debug' ]]; then
+				if [[ $BUILD == 'debug' ]]; then
 					export NAME=lib$target-d.so
 				else
 					export NAME=lib$target.so

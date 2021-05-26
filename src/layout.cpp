@@ -109,6 +109,11 @@ auto Sorcery::Layout::operator()(const std::string &screen)
 	return std::nullopt;
 }
 
+auto Sorcery::Layout::get_error() -> Component & {
+
+	return _components.at("global:error");
+}
+
 auto Sorcery::Layout::set_grid(unsigned int cell_width, unsigned int cell_height) -> void {
 
 	_cell_width = cell_width;

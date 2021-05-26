@@ -9,9 +9,9 @@ MAKEFLAGS += --no-print-directory
 # Build platform
 PLATFORM?=linux
 # Build description (Primarily uses Debug/Release)
-BUILD?=Release
+BUILD?=release
 _BUILDL := $(shell echo $(BUILD) | tr A-Z a-z)
-ifeq ($(BUILD),Tests)
+ifeq ($(BUILD),tests)
 	_BUILDL := release
 endif
 
@@ -119,8 +119,8 @@ endif
 #==============================================================================
 # Directories & Dependencies
 BLD_DIR := bin/$(BUILD)
-ifeq ($(BUILD),Tests)
-	BLD_DIR := bin/Release
+ifeq ($(BUILD),tests)
+	BLD_DIR := bin/release
 endif
 BLD_DIR := $(BLD_DIR:%/=%)
 TARGET := $(BLD_DIR)/$(NAME)
@@ -152,7 +152,7 @@ _PCH_HFILE := $(_PCH_HFILE:$(SRC_DIR)/%=%)
 _PCH_EXT := $(_PCH_HFILE:$(PRECOMPILED_HEADER).%=%)
 _PCH_COMPILER_EXT := $(if $(filter osx,$(PLATFORM)),p,g)ch
 
-_SYMBOLS := $(if $(filter osx,$(PLATFORM)),,$(if $(filter Release,$(BUILD)),-s,))
+_SYMBOLS := $(if $(filter osx,$(PLATFORM)),,$(if $(filter release,$(BUILD)),-s,))
 
 
 _PCH := $(_PCH_HFILE:%=$(OBJ_DIR)/%)

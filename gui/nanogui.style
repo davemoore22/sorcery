@@ -169,8 +169,9 @@ TextBox {
 	SelectedTextColor = rgba(255, 255, 255, 245);
 	SelectedTextBackgroundColor = rgba(0, 110, 200, 130);
 	CaretColor = rgba(255, 255, 255, 215);
-	Borders = (1, 1, 1, 1);
 	Scrollbar = &Scrollbar;
+	TextureBackground = "nanogui.png" Part(25, 2, 20, 40) Middle(10, 10, 0, 20);
+	Padding = 7;
 }
 
 Tooltip {
