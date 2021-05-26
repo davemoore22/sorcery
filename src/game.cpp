@@ -28,15 +28,21 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Attempt to load a game from the Database
+	_characters.clear();
 	valid = _system->database->has_game();
 	if (valid) {
-		auto [id, key, status, start_time, last_time] = _system->database->get_game().value();
 
+		// Get the Game
+		auto [id, key, status, start_time, last_time] = _system->database->get_game().value();
 		_id = id;
 		_key = key;
 		_status = status;
 		_start_time = start_time;
 		_last_time = last_time;
+
+		// Load the Characters
+		_characters_ids = _system->database->get_character_list(_id);
+		_characters = load_characters();
 	};
 }
 
@@ -55,6 +61,33 @@ auto Sorcery::Game::start_new_game() -> void {
 	valid = true;
 }
 
+auto Sorcery::Game::get_id() -> unsigned int {
+
+	return _id;
+}
+
+auto Sorcery::Game::load_characters() -> std::vector<Character> {
+
+	std::vector<Character> characters;
+	characters.clear();
+
+	for (auto character_id : _characters_ids) {
+
+		std::string data{_system->database->get_character(_id, character_id)};
+		std::stringstream ss;
+		ss.str(data);
+		Character character;
+		{
+			cereal::JSONInputArchive archive(ss);
+			archive(character);
+		}
+
+		characters.emplace_back(character);
+	}
+
+	return characters;
+}
+
 auto Sorcery::Game::save_new_character(Character &character) -> unsigned int {
 
 	std::stringstream ss;
@@ -65,9 +98,4 @@ auto Sorcery::Game::save_new_character(Character &character) -> unsigned int {
 	std::string character_data{ss.str()};
 
 	return _system->database->insert_character(_id, character.get_name(), character_data);
-}
-
-auto Sorcery::Game::get_id() -> unsigned int {
-
-	return _id;
 }

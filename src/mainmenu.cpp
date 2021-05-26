@@ -97,16 +97,6 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	// See if we have a Game to Continue;
 	_set_main_menu();
 
-	/* try {
-
-		throw std::invalid_argument("Sample!");
-
-	} catch (std::exception &e) {
-
-		_error = std::make_unique<Error>(
-			_display->window->get_gui(), SystemError::UNHANDLED_EXCEPTION, e);
-	} */
-
 	// And do the main loop
 	sf::Event event{};
 	while (_window->isOpen()) {

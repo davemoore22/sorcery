@@ -166,38 +166,53 @@ auto Sorcery::Database::insert_character(int game_id, std::string name, std::str
 }
 
 // Get the Character List
-auto Sorcery::Database::get_character_list() -> std::vector<CharacterList> {
+auto Sorcery::Database::get_character_list(int game_id) -> std::vector<unsigned int> {
 
-	std::vector<CharacterList> character_list;
-	sqlite::database database(_db_file_path.string());
+	std::vector<unsigned int> characters;
 
-	const std::string get_character_list_SQL{
-		"SELECT"
-		"	g.id AS game_id, "
-		"	g.name AS game_name, "
-		"	g.status AS game_status, "
-		"	c.id AS character_id, "
-		"	c.status AS character_status, "
-		"	c.created AS character_created, "
-		"	c.name AS character_name ",
-		"	c.current_level AS character_level, "
-		"	c.current_class AS character_class "
-		"FROM "
-		"	character c "
-		"LEFT OUTER JOIN game g ON "
-		"	c.game_id = g.id "
-		"ORDER BY "
-		"	g.id, "
-		"	c.created, "
-		"	c.status;"};
-	database << get_character_list_SQL >>
-		[&](std::string game_id, std::string game_name, unsigned int game_status,
-			unsigned int character_id, unsigned int character_status, std::string character_created,
-			std::string character_name) {
-			character_list.push_back(std::tuple<std::string, std::string, unsigned int,
-				unsigned int, unsigned int, std::string, std::string>(game_id, game_name,
-				game_status, character_id, character_status, character_created, character_name));
+	try {
+
+		sqlite::database database(_db_file_path.string());
+
+		const std::string get_character_list_SQL{
+			"SELECT c.id FROM character c WHERE c.game_id = ? ORDER BY c.id ASC;"};
+
+		database << get_character_list_SQL << game_id >> [&](int id) {
+			characters.emplace_back(id);
 		};
 
-	return character_list;
+	} catch (sqlite::sqlite_exception &e) {
+		Error error{SystemError::SQLLITE_ERROR, e,
+			fmt::format(
+				"{} {} {} {}", e.get_code(), e.what(), e.get_sql(), _db_file_path.string())};
+		std::cout << error;
+		exit(EXIT_FAILURE);
+	}
+
+	return characters;
+}
+
+// Get a character
+auto Sorcery::Database::get_character(int game_id, int character_id) -> std::string {
+
+	std::string character_data{};
+
+	try {
+
+		sqlite::database database(_db_file_path.string());
+
+		const std::string get_character_SQL{
+			"SELECT c.data FROM character c WHERE c.id = ? AND c.game_id = ?;"};
+
+		database << get_character_SQL << character_id << game_id >> character_data;
+
+	} catch (sqlite::sqlite_exception &e) {
+		Error error{SystemError::SQLLITE_ERROR, e,
+			fmt::format(
+				"{} {} {} {}", e.get_code(), e.what(), e.get_sql(), _db_file_path.string())};
+		std::cout << error;
+		exit(EXIT_FAILURE);
+	}
+
+	return character_data;
 }
