@@ -34,6 +34,7 @@ The additional following third-party libraries are also needed:
 - Magic Enum C++ https://github.com/Neargye/magic_enum
 - Backward-cpp https://github.com/bombela/backward-cpp
 - cereal https://github.com/USCiLab/cereal
+- tgui-nanogui-theme https://gitlab.com/rubenwardy/tgui-nanogui-theme
 
 Additional support tools useful for development:
 

@@ -24,11 +24,13 @@
 
 #include "error.hpp"
 
-Sorcery::Error::Error(Enums::System::Error error_code, std::exception &exception)
+Sorcery::Error::Error(
+	Enums::System::Error error_code, std::exception &exception, std::string notes = "")
 	: _error_code{error_code}, _exception{exception} {
 
+	_gui = std::nullopt;
+
 	_timestamp = std::chrono::system_clock::now();
-	_notes = "";
 
 	_details.clear();
 	_details.emplace_back(std::to_string(magic_enum::enum_integer(_error_code)));
@@ -38,9 +40,9 @@ Sorcery::Error::Error(Enums::System::Error error_code, std::exception &exception
 	_details.emplace_back(_notes);
 }
 
-Sorcery::Error::Error(Enums::System::Error error_code, std::exception &exception, std::string notes)
-	: _error_code{error_code}, _exception{exception}, _notes{notes} {
-
+Sorcery::Error::Error(tgui::Gui *gui, Enums::System::Error error_code, std::exception &exception,
+	std::string notes = "")
+	: _gui{gui}, _error_code{error_code}, _exception{exception} {
 	_timestamp = std::chrono::system_clock::now();
 
 	_details.clear();
@@ -49,6 +51,72 @@ Sorcery::Error::Error(Enums::System::Error error_code, std::exception &exception
 	_details.emplace_back(_exception.what());
 	_details.emplace_back(get_when());
 	_details.emplace_back(_notes);
+
+	(*_gui)->removeAllWidgets();
+
+	auto background{tgui::Panel::create({"100%", "100%"})};
+	background->getRenderer()->setBackgroundColor({0, 0, 0, 175});
+	(*_gui)->add(background, "TransparentBackground");
+
+	auto window{tgui::ChildWindow::create()};
+	window->setTitle("Fatal Error!");
+	window->setTitleAlignment(tgui::ChildWindow::TitleAlignment::Center);
+	window->setTitleButtons(0);
+	window->setPosition({"28%", "15%"});
+	window->setSize(640, 480);
+	background->add(window, "Window");
+
+	auto title_panel{tgui::Panel::create()};
+	title_panel->setPosition(16, 16);
+	title_panel->setSize(608, 64);
+	window->add(title_panel, "TitlePanel");
+
+	auto body_panel{tgui::Panel::create()};
+	body_panel->setPosition(16, 82);
+	body_panel->setSize(608, 348);
+	window->add(body_panel, "BodyPanel");
+
+	auto title_text{tgui::Label::create()};
+	title_text->setText(fmt::format("{:>5}: {} - {}", "Error", _details[0], _details[1]));
+	title_text->setPosition(16, 0);
+	title_text->setTextSize(32);
+	title_panel->add(title_text, "TitleText");
+
+	auto what{tgui::Label::create()};
+	what->setText(_details[2]);
+	what->setPosition(16, 48);
+	what->setTextSize(16);
+	body_panel->add(what, "What");
+
+	auto when{tgui::Label::create()};
+	when->setText(_details[3]);
+	when->setPosition(16, 96);
+	when->setTextSize(16);
+	body_panel->add(when, "When");
+
+	auto info{tgui::Label::create()};
+	info->setText(_details[4]);
+	info->setPosition(16, 144);
+	info->setTextSize(12);
+	body_panel->add(info, "Info");
+
+	auto close_button{tgui::Button::create()};
+	close_button->setPosition(window->getSize().x - 115.f, window->getSize().y - 50.f);
+	close_button->setText("Exit");
+	close_button->setSize(100, 40);
+	close_button->connect("pressed", [&]() {
+		exit(-1);
+	});
+	window->add(close_button);
+
+	auto copy_button{tgui::Button::create()};
+	copy_button->setPosition(window->getSize().x - 230.f, window->getSize().y - 50.f);
+	copy_button->setText("Copy");
+	copy_button->setSize(100, 40);
+	copy_button->connect("pressed", [&]() {
+		sf::Clipboard::setString(_details[4]);
+	});
+	window->add(copy_button);
 }
 
 auto Sorcery::Error::get_code() -> Enums::System::Error {

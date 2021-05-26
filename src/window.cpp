@@ -24,8 +24,6 @@
 
 #include "window.hpp"
 
-// also add a TGUI to this
-
 // Standard Constructor
 Sorcery::Window::Window(System *system, String *string, Layout *layout, const std::string &title)
 	: _system{system}, _string{string}, _layout{layout}, _title{title} {
@@ -50,6 +48,9 @@ Sorcery::Window::Window(System *system, String *string, Layout *layout, const st
 	centre.y = _current_size.h / 2;
 	_window.setVerticalSyncEnabled(true);
 	_gui.setTarget(_window);
+	_theme = tgui::Theme((*system->files)[GUI_FILE]);
+	tgui::Theme::setDefault(&_theme);
+
 	view = _window.getView();
 
 	// Change the Mouse Cursor

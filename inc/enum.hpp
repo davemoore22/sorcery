@@ -371,7 +371,8 @@ namespace Sorcery {
 			JSON_PARSE_ERROR = 1,
 			UNKNOWN_STRING_KEY = 2,
 			UNKNOWN_COMPONNENT = 3,
-			SQLLITE_ERROR = 4
+			SQLLITE_ERROR = 4,
+			UNHANDLED_EXCEPTION = 5
 		};
 
 		// Return values

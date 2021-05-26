@@ -45,6 +45,7 @@ namespace Sorcery {
 	inline constexpr auto CONFIG_DIR = "cfg"sv;
 	inline constexpr auto DATA_DIR = "dat"sv;
 	inline constexpr auto DOCUMENTS_DIR = "doc"sv;
+	inline constexpr auto GUI_DIR = "gui"sv;
 	inline constexpr auto GRAPHICS_DIR = "gfx"sv;
 	inline constexpr auto VIDEO_DIR = "vfx"sv;
 
@@ -54,6 +55,7 @@ namespace Sorcery {
 	inline constexpr auto MONO_FONT_FILE = "monospace.ttf"sv;
 	inline constexpr auto PROPORTIONAL_FONT_FILE = "proportional.ttf"sv;
 	inline constexpr auto TEXT_FONT_FILE = "text.ttf"sv;
+	inline constexpr auto GUI_FILE = "nanogui.style"sv;
 	inline constexpr auto HELP_FILE = "HELP"sv;
 	inline constexpr auto ICONS_FILE{"icons.json"sv};
 	inline constexpr auto LAYOUT_FILE = "layout.json"sv;

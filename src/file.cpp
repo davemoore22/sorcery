@@ -42,6 +42,7 @@ Sorcery::File::File() {
 	_add_path(DOCUMENTS_DIR, HELP_FILE);
 	_add_path(DOCUMENTS_DIR, README_FILE);
 	_add_path(DOCUMENTS_DIR, VERSION_FILE);
+	_add_path(GUI_DIR, GUI_FILE);
 	_add_path(GRAPHICS_DIR, BACKGROUND_TEXTURE);
 	_add_path(GRAPHICS_DIR, BANNER_TEXTURE);
 	_add_path(GRAPHICS_DIR, CONTROLS_TEXTURE);

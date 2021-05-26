@@ -32,7 +32,8 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Error(Enums::System::Error error_code, std::exception &exception);
+		Error(tgui::Gui *gui, Enums::System::Error error_code, std::exception &exception,
+			std::string notes);
 		Error(Enums::System::Error error_code, std::exception &exception, std::string notes);
 		Error() = delete;
 
@@ -58,5 +59,6 @@ namespace Sorcery {
 		std::chrono::time_point<std::chrono::system_clock> _timestamp;
 		std::vector<std::string> _details;
 		std::string _notes;
+		std::optional<tgui::Gui *> _gui;
 	};
 } // namespace Sorcery

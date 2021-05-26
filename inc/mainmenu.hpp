@@ -72,5 +72,6 @@ namespace Sorcery {
 		sf::Text _press_any_key;
 		std::shared_ptr<Dialog> _dialog_new_game;
 		std::shared_ptr<Dialog> _dialog_exit;
+		std::optional<std::unique_ptr<Error>> _error;
 	};
 } // namespace Sorcery

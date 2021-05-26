@@ -71,7 +71,6 @@
 			<Add option="-lsfml-network" />
 			<Add option="-lsfml-window" />
 			<Add option="-lsfml-system" />
-			<Add option="-ltgui" />
 			<Add option="-lsqlite3" />
 			<Add option="-lsfeMovie" />
 			<Add option="-ljsoncpp" />
@@ -82,18 +81,21 @@
 			<Add option="-lbfd" />
 			<Add option="-ldl" />
 			<Add option="-lunwind" />
+			<Add option="-ltgui" />
 		</Linker>
 		<ExtraCommands>
 			<Add after='mkdir -p &quot;$(TARGET_OUTPUT_DIR)/cfg&quot;' />
 			<Add after='mkdir -p &quot;$(TARGET_OUTPUT_DIR)/dat&quot;' />
 			<Add after='mkdir -p &quot;$(TARGET_OUTPUT_DIR)/doc&quot;' />
 			<Add after='mkdir -p &quot;$(TARGET_OUTPUT_DIR)/gfx&quot;' />
+			<Add after='mkdir -p &quot;$(TARGET_OUTPUT_DIR)/gui&quot;' />
 			<Add after='mkdir -p &quot;$(TARGET_OUTPUT_DIR)/vfx&quot;' />
-			<Add after='cp &quot;$(PROJECT_DIR)/cfg/&quot;* &quot;$(TARGET_OUTPUT_DIR)/cfg/&quot;' />
-			<Add after='cp &quot;$(PROJECT_DIR)/dat/&quot;* &quot;$(TARGET_OUTPUT_DIR)/dat/&quot;' />
-			<Add after='cp &quot;$(PROJECT_DIR)/doc/&quot;* &quot;$(TARGET_OUTPUT_DIR)/doc/&quot;' />
-			<Add after='cp &quot;$(PROJECT_DIR)/gfx/&quot;* &quot;$(TARGET_OUTPUT_DIR)/gfx/&quot;' />
-			<Add after='cp &quot;$(PROJECT_DIR)/vfx/&quot;* &quot;$(TARGET_OUTPUT_DIR)/vfx/&quot;' />
+			<Add after='cp -r &quot;$(PROJECT_DIR)/cfg/&quot;* &quot;$(TARGET_OUTPUT_DIR)/cfg/&quot;' />
+			<Add after='cp -r &quot;$(PROJECT_DIR)/dat/&quot;* &quot;$(TARGET_OUTPUT_DIR)/dat/&quot;' />
+			<Add after='cp -r &quot;$(PROJECT_DIR)/doc/&quot;* &quot;$(TARGET_OUTPUT_DIR)/doc/&quot;' />
+			<Add after='cp -r &quot;$(PROJECT_DIR)/gfx/&quot;* &quot;$(TARGET_OUTPUT_DIR)/gfx/&quot;' />
+			<Add after='cp -r &quot;$(PROJECT_DIR)/gui/&quot;* &quot;$(TARGET_OUTPUT_DIR)/gui/&quot;' />
+			<Add after='cp -r &quot;$(PROJECT_DIR)/vfx/&quot;* &quot;$(TARGET_OUTPUT_DIR)/vfx/&quot;' />
 			<Mode after="always" />
 		</ExtraCommands>
 		<Unit filename="cfg/config.ini" />

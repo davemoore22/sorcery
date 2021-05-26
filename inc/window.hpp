@@ -110,6 +110,7 @@ namespace Sorcery {
 		std::string _title;
 		sf::RenderWindow _window;
 		tgui::Gui _gui;
+		tgui::Theme _theme;
 		unsigned int _cell_height;
 		unsigned int _cell_width;
 		WindowInputMode _input_mode;
