@@ -61,7 +61,8 @@ PRODUCTION_DEPENDENCIES := \
 	cfg \
 	dat \
 	doc \
-	gfx
+	gfx \
+	gui
 
 post-build:
 	mkdir -p bin/$(BUILD)/cfg
@@ -73,8 +74,8 @@ post-build:
 	cp -r cfg/* bin/$(BUILD)/cfg/
 	cp -r dat/* bin/$(BUILD)/dat/
 	cp -r doc/* bin/$(BUILD)/doc/
-	cp -r gfx/* bin/$(BUILD)/gui/
 	cp -r gfx/* bin/$(BUILD)/gfx/
+	cp -r gui/* bin/$(BUILD)/gui/
 	cp -r vfx/* bin/$(BUILD)/vfx/
 
 

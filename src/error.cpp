@@ -92,7 +92,7 @@ Sorcery::Error::Error(
 	what_e->setPosition(80, 10);
 	what_e->setSize(528, 32);
 	what_e->setTextSize(16);
-	what_e->setEnabled(false);
+	what_e->setReadOnly(true);
 	body_panel->add(what_e, "WhatEdit");
 
 	auto when{tgui::Label::create()};
@@ -106,7 +106,7 @@ Sorcery::Error::Error(
 	when_e->setPosition(80, 42);
 	when_e->setSize(528, 32);
 	when_e->setTextSize(16);
-	when_e->setEnabled(false);
+	when_e->setReadOnly(true);
 	body_panel->add(when_e, "WhenEdit");
 
 	auto info{tgui::Label::create()};
@@ -119,7 +119,8 @@ Sorcery::Error::Error(
 	info_e->setPosition(80, 74);
 	info_e->setSize(528, 272);
 	info_e->setTextSize(16);
-	info_e->setEnabled(false);
+	info_e->setEnabled(true);
+	info_e->setReadOnly(true);
 
 	// Get the Stack Trace
 	if (_details[4].size() == 0) {
@@ -127,34 +128,15 @@ Sorcery::Error::Error(
 		backward::StackTrace st;
 		st.load_here(32);
 
-		backward::Printer p;
-		p.object = false;
-		p.color_mode = backward::ColorMode::never;
-		p.address = false;
-		std::ostringstream out;
-		p.print(st, stderr);
-		std::string wrapped_notes = WORDWRAP(out.str(), 80);
-		const std::regex regex(R"([@]+)");
-		std::sregex_token_iterator it{wrapped_notes.begin(), wrapped_notes.end(), regex, -1};
-		std::vector<std::string> lines{it, {}};
-		lines.erase(std::remove_if(lines.begin(), lines.end(),
-						[](std::string const &s) {
-							return s.size() == 0;
-						}),
-			lines.end());
-		for (auto line_of_text : lines) {
-			info_e->addText(line_of_text);
-		}
-
-		/* backward::TraceResolver tr;
+		backward::TraceResolver tr;
 		tr.load_stacktrace(st);
 
 		for (size_t i = 0; i < st.size(); ++i) {
 			backward::ResolvedTrace trace = tr.resolve(st[i]);
 
 			info_e->addText(fmt::format(
-				"#{} {} {} [{}] ", i, trace.object_filename, trace.object_function, trace.addr));
-		} */
+				"#{} {} {} [{}]\n", i, trace.object_filename, trace.object_function, trace.addr));
+		}
 
 	} else {
 
@@ -182,6 +164,7 @@ Sorcery::Error::Error(
 	close_button->connect("pressed", [&]() {
 		exit(-1);
 	});
+	close_button->setFocused(true);
 	window->add(close_button);
 
 	auto copy_button{tgui::Button::create()};

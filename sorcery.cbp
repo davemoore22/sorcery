@@ -43,6 +43,7 @@
 			<Add option="-Wfatal-errors" />
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
+			<Add option="-g" />
 			<Add option="-pthread" />
 			<Add option="-Wl,-rpath=/usr/local/lib" />
 			<Add option="-fpic" />
@@ -80,8 +81,9 @@
 			<Add option="-luuid" />
 			<Add option="-lbfd" />
 			<Add option="-ldl" />
-			<Add option="-lunwind" />
 			<Add option="-ltgui" />
+			<Add option="-lunwind" />
+			<Add directory="inc/backwardcpp" />
 		</Linker>
 		<ExtraCommands>
 			<Add after='mkdir -p &quot;$(TARGET_OUTPUT_DIR)/cfg&quot;' />
@@ -128,7 +130,7 @@
 		<Unit filename="inc/application.hpp" />
 		<Unit filename="inc/attractmode.hpp" />
 		<Unit filename="inc/attributedisplay.hpp" />
-		<Unit filename="inc/backwardcpp/backward.cpp" />
+		<Unit filename="inc/backwardcpp/backward.hpp" />
 		<Unit filename="inc/banner.hpp" />
 		<Unit filename="inc/camera.hpp" />
 		<Unit filename="inc/castle.hpp" />
