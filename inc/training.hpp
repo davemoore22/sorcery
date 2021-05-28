@@ -31,6 +31,7 @@
 #include "layout.hpp"
 #include "main.hpp"
 #include "menu.hpp"
+#include "roster.hpp"
 #include "statusbar.hpp"
 #include "system.hpp"
 
@@ -68,5 +69,6 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _menu_frame;
 		std::unique_ptr<StatusBar> _status_bar;
 		std::unique_ptr<Create> _create;
+		std::unique_ptr<Roster> _roster;
 	};
 } // namespace Sorcery

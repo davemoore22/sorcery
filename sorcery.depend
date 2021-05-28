@@ -349,7 +349,7 @@
 	"main.hpp"
 	"application.hpp"
 
-1622126040 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
+1622148144 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
 	"mainmenu.hpp"
 
 1614442916 source:/home/dave/Development/wizardry/sorcery-sfml/src/manage.cpp
@@ -576,7 +576,7 @@
 1620422132 source:/home/dave/Development/wizardry/sorcery-sfml/src/attractmode.cpp
 	"attractmode.hpp"
 
-1621088451 /home/dave/Development/wizardry/sorcery-sfml/inc/training.hpp
+1622213525 /home/dave/Development/wizardry/sorcery-sfml/inc/training.hpp
 	"create.hpp"
 	"display.hpp"
 	"frame.hpp"
@@ -585,10 +585,11 @@
 	"layout.hpp"
 	"main.hpp"
 	"menu.hpp"
+	"roster.hpp"
 	"statusbar.hpp"
 	"system.hpp"
 
-1621785686 source:/home/dave/Development/wizardry/sorcery-sfml/src/training.cpp
+1622213577 source:/home/dave/Development/wizardry/sorcery-sfml/src/training.cpp
 	"training.hpp"
 
 1618083418 /home/dave/Development/wizardry/sorcery-sfml/inc/statusbar.hpp
@@ -1072,5 +1073,18 @@
 	"cereal/cereal.hpp"
 	<string>
 
-1621881782 source:/home/dave/Development/wizardry/sorcery-sfml/src/roster.cpp
+1622213646 source:/home/dave/Development/wizardry/sorcery-sfml/src/roster.cpp
+	"roster.hpp"
+
+1622213654 /home/dave/Development/wizardry/sorcery-sfml/inc/roster.hpp
+	"create.hpp"
+	"display.hpp"
+	"frame.hpp"
+	"game.hpp"
+	"graphics.hpp"
+	"layout.hpp"
+	"main.hpp"
+	"menu.hpp"
+	"statusbar.hpp"
+	"system.hpp"
 

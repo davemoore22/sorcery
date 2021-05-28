@@ -34,6 +34,7 @@ Sorcery::Training::Training(System *system, Display *display, Graphics *graphics
 	_menu = std::make_shared<Menu>(_system, _display, _graphics, _game, MenuType::TRAINING_GROUNDS);
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics);
 	_create = std::make_unique<Create>(_system, _display, _graphics, _game);
+	_roster = std::make_unique<Roster>(_system, _display, _graphics, _game);
 }
 
 // Standard Destructor
@@ -119,6 +120,11 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 						_create->start();
 						_create->stop();
 						_display->generate_components("training_grounds");
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} else if (option_chosen == MenuItem::TR_INSPECT) {
+						_roster->start();
+						_roster->stop();
+						_display->generate_components("roster");
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					}
 				}

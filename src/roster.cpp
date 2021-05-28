@@ -21,3 +21,147 @@
 // said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
+
+#include "roster.hpp"
+
+// Standard Constructor
+Sorcery::Roster::Roster(System *system, Display *display, Graphics *graphics, Game *game)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
+
+	// Get the Window and Graphics to Display
+	_window = _display->window->get_window();
+
+	_menu = std::make_shared<Menu>(_system, _display, _graphics, _game, MenuType::CHARACTER_ROSTER);
+}
+
+// Standard Destructor
+Sorcery::Roster::~Roster() {}
+
+auto Sorcery::Roster::start() -> std::optional<MenuItem> {
+
+	// Get the Background Display Components and load them into Display module storage (not local)
+	_display->generate_components("roster");
+
+	// Set up the Custom Components
+	const Component bg_c{(*_display->layout)["roster:background"]};
+	// const sf::IntRect bg_rect(1147, 249, 773, 388);
+	sf::IntRect bg_rect{};
+	bg_rect.width = std::stoi(bg_c["source_w"].value());
+	bg_rect.height = std::stoi(bg_c["source_h"].value());
+	bg_rect.top = 0;
+	bg_rect.left = std::stoi(bg_c["source_w"].value()) * std::stoi(bg_c["source_index"].value());
+
+	_bg.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
+	_bg.setTextureRect(bg_rect);
+	_bg.setScale(std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
+	_bg.setPosition(_display->window->get_x(_bg, bg_c.x), _display->window->get_y(_bg, bg_c.y));
+
+	/* const Component menu_fc{(*_display->layout)["training_grounds:menu_frame"]};
+	_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, menu_fc.w,
+		menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
+	_menu_frame->setPosition(_display->window->get_x(_menu_frame->sprite, menu_fc.x),
+		_display->window->get_y(_menu_frame->sprite, menu_fc.y));
+
+	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
+	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
+		_display->window->get_y(_status_bar->sprite, status_bar_c.y)); */
+
+	// Clear the window
+	_window->clear();
+
+	// Play the background movie!
+	_display->fit_background_movie();
+	_display->start_background_movie();
+
+	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+	std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->items.begin()};
+
+	// And do the main loop
+	sf::Event event{};
+	while (_window->isOpen()) {
+		while (_window->pollEvent(event)) {
+
+			// Check for Window Close
+			if (event.type == sf::Event::Closed)
+				_window->close();
+
+			// Handle enabling help overlay
+			if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
+				_display->show_overlay();
+				continue;
+			} else
+				_display->hide_overlay();
+
+			if (_system->input->check_for_event(WindowInput::CANCEL, event))
+				return std::nullopt;
+
+			if (_system->input->check_for_event(WindowInput::BACK, event))
+				return std::nullopt;
+
+			/* if (_system->input->check_for_event(WindowInput::UP, event))
+				selected = _menu->choose_previous();
+			else if (_system->input->check_for_event(WindowInput::DOWN, event))
+				selected = _menu->choose_next();
+			else if (_system->input->check_for_event(WindowInput::MOVE, event))
+				selected = _menu->set_mouse_selected(
+					static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+			else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+
+				// We have selected something from the menu
+				if (selected) {
+					const MenuItem option_chosen{(*selected.value()).item};
+					if (option_chosen == MenuItem::TR_EDGE_OF_TOWN) {
+						return MenuItem::ET_LEAVE_GAME;
+					} else if (option_chosen == MenuItem::TR_CREATE) {
+						_create->start();
+						_create->stop();
+						_display->generate_components("training_grounds");
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					}
+				}
+			} */
+		}
+
+		_window->clear();
+
+		// Update Background Movie
+		_display->start_background_movie();
+		_display->update_background_movie();
+		_display->draw_background_movie();
+
+		_draw();
+		_window->display();
+	}
+
+	return std::nullopt;
+}
+
+auto Sorcery::Roster::stop() -> void {
+
+	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+
+	// Stop the background movie!
+	_display->stop_background_movie();
+}
+
+auto Sorcery::Roster::_draw() -> void {
+
+	// Display Components
+	_display->display_components("roster");
+	//_window->draw(*_status_bar);
+
+	// Menu Frame
+	//_window->draw(*_menu_frame);
+
+	// And the Menu
+	/* _menu->generate(
+		(*_display->layout)["training_grounds:menu"], _graphics->animation->colour_lerp);
+	const sf::Vector2f menu_pos((*_display->layout)["training_grounds:menu"].x,
+		(*_display->layout)["training_grounds:menu"].y);
+	_menu->setPosition(menu_pos);
+	_window->draw(*_menu); */
+
+	// And finally the Cursor
+	_display->display_overlay();
+	_display->display_cursor();
+}
