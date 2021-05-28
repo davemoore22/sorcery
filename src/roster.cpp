@@ -56,15 +56,11 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 	_bg.setScale(std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
 	_bg.setPosition(_display->window->get_x(_bg, bg_c.x), _display->window->get_y(_bg, bg_c.y));
 
-	/* const Component menu_fc{(*_display->layout)["training_grounds:menu_frame"]};
+	const Component menu_fc{(*_display->layout)["roster:menu_frame"]};
 	_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, menu_fc.w,
 		menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
 	_menu_frame->setPosition(_display->window->get_x(_menu_frame->sprite, menu_fc.x),
 		_display->window->get_y(_menu_frame->sprite, menu_fc.y));
-
-	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
-	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
-		_display->window->get_y(_status_bar->sprite, status_bar_c.y)); */
 
 	// Clear the window
 	_window->clear();
@@ -98,7 +94,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 			if (_system->input->check_for_event(WindowInput::BACK, event))
 				return std::nullopt;
 
-			/* if (_system->input->check_for_event(WindowInput::UP, event))
+			if (_system->input->check_for_event(WindowInput::UP, event))
 				selected = _menu->choose_previous();
 			else if (_system->input->check_for_event(WindowInput::DOWN, event))
 				selected = _menu->choose_next();
@@ -109,7 +105,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 
 				// We have selected something from the menu
 				if (selected) {
-					const MenuItem option_chosen{(*selected.value()).item};
+					/* const MenuItem option_chosen{(*selected.value()).item};
 					if (option_chosen == MenuItem::TR_EDGE_OF_TOWN) {
 						return MenuItem::ET_LEAVE_GAME;
 					} else if (option_chosen == MenuItem::TR_CREATE) {
@@ -117,9 +113,9 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 						_create->stop();
 						_display->generate_components("training_grounds");
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-					}
+					} */
 				}
-			} */
+			}
 		}
 
 		_window->clear();
@@ -148,18 +144,16 @@ auto Sorcery::Roster::_draw() -> void {
 
 	// Display Components
 	_display->display_components("roster");
-	//_window->draw(*_status_bar);
 
 	// Menu Frame
-	//_window->draw(*_menu_frame);
+	_window->draw(*_menu_frame);
 
 	// And the Menu
-	/* _menu->generate(
-		(*_display->layout)["training_grounds:menu"], _graphics->animation->colour_lerp);
-	const sf::Vector2f menu_pos((*_display->layout)["training_grounds:menu"].x,
-		(*_display->layout)["training_grounds:menu"].y);
+	_menu->generate((*_display->layout)["roster:menu"], _graphics->animation->colour_lerp);
+	const sf::Vector2f menu_pos(
+		(*_display->layout)["roster:menu"].x, (*_display->layout)["roster:menu"].y);
 	_menu->setPosition(menu_pos);
-	_window->draw(*_menu); */
+	_window->draw(*_menu);
 
 	// And finally the Cursor
 	_display->display_overlay();

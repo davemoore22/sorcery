@@ -723,7 +723,7 @@
 			"data": [
 				{
 					"scale_x": "2.33",
-					"scale_y": "1.6",
+					"scale_y": "1.9",
 					"source_w": "440",
 					"source_h": "420",
 					"source_index": "6"
@@ -736,7 +736,7 @@
 			"w": "36",
 			"h": "7",
 			"x": "centre",
-			"y": "10",
+			"y": "14",
 			"alpha": "225",
 			"type": "frame",
 			"priority": "6",
@@ -746,7 +746,7 @@
 		{
 			"name": "menu",
 			"x": "22",
-			"y": "10",
+			"y": "14",
 			"w": "36",
 			"h": "4",
 			"font": "monospace",
@@ -804,7 +804,7 @@
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
-			"string": "TRAINING_GROUNDS_TITLE",
+			"string": "ROSTER_TITLE",
 			"justification": "centre",
 			"type": "text",
 			"priority": "4"
@@ -821,7 +821,7 @@
 			"data": [
 				{
 					"scale_x": "2.33",
-					"scale_y": "1.6",
+					"scale_y": "1.9",
 					"source_w": "440",
 					"source_h": "420",
 					"source_index": "6"
@@ -832,9 +832,9 @@
 		{
 			"name": "menu_frame",
 			"w": "36",
-			"h": "7",
+			"h": "30",
 			"x": "centre",
-			"y": "10",
+			"y": "6",
 			"alpha": "225",
 			"type": "frame",
 			"priority": "6",
@@ -1250,7 +1250,7 @@
 				"y": "6",
 				"alpha": "255",
 				"type": "frame",
-				"priority": "2",
+				"priority": "5",
 				"background": " 0x000000ff"
 			},
 			{
@@ -1264,7 +1264,7 @@
 				"string": "NONE",
 				"justification": "left",
 				"type": "text",
-				"priority": "3",
+				"priority": "6",
 				"drawmode": "manual"
 			},
 			{
@@ -1275,7 +1275,7 @@
 				"y": "10",
 				"alpha": "255",
 				"type": "frame",
-				"priority": "2",
+				"priority": "7",
 				"background": " 0x000000ff"
 			},
 			{
@@ -1288,7 +1288,7 @@
 				"string": "CHOOSE_METHOD",
 				"justification": "centre",
 				"type": "text",
-				"priority": "3"
+				"priority": "8"
 			},
 			{
 				"name": "menu_frame",

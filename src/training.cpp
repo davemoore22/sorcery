@@ -32,7 +32,6 @@ Sorcery::Training::Training(System *system, Display *display, Graphics *graphics
 	_window = _display->window->get_window();
 
 	_menu = std::make_shared<Menu>(_system, _display, _graphics, _game, MenuType::TRAINING_GROUNDS);
-	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics);
 	_create = std::make_unique<Create>(_system, _display, _graphics, _game);
 	_roster = std::make_unique<Roster>(_system, _display, _graphics, _game);
 }
@@ -47,7 +46,6 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 
 	// Set up the Custom Components
 	const Component bg_c{(*_display->layout)["training_grounds:background"]};
-	// const sf::IntRect bg_rect(1147, 249, 773, 388);
 	sf::IntRect bg_rect{};
 	bg_rect.width = std::stoi(bg_c["source_w"].value());
 	bg_rect.height = std::stoi(bg_c["source_h"].value());
@@ -57,7 +55,6 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 	_bg.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
 	_bg.setTextureRect(bg_rect);
 	_bg.setScale(std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
-	//_bg.setScale(bg_c.scale, bg_c.scale);
 	_bg.setPosition(_display->window->get_x(_bg, bg_c.x), _display->window->get_y(_bg, bg_c.y));
 
 	const Component menu_fc{(*_display->layout)["training_grounds:menu_frame"]};
@@ -65,10 +62,6 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 		menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
 	_menu_frame->setPosition(_display->window->get_x(_menu_frame->sprite, menu_fc.x),
 		_display->window->get_y(_menu_frame->sprite, menu_fc.y));
-
-	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
-	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
-		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
 
 	// Clear the window
 	_window->clear();
@@ -157,7 +150,6 @@ auto Sorcery::Training::_draw() -> void {
 
 	// Display Components
 	_display->display_components("training_grounds");
-	_window->draw(*_status_bar);
 
 	// Menu Frame
 	_window->draw(*_menu_frame);
