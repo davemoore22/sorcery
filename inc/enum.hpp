@@ -83,7 +83,8 @@ namespace Sorcery {
 			CHOOSE_METHOD,
 			CHOOSE_PORTRAIT,
 			REVIEW_AND_CONFIRM,
-			SAVED_CHARACTER_OK
+			SAVED_CHARACTER_OK,
+			BROWSE_CHARACTER
 		};
 
 		enum class InputCategory {
@@ -549,7 +550,8 @@ namespace Sorcery {
 			RC_CANCEL,
 			CM_FULL,
 			CM_QUICK,
-			CM_RANDOM
+			CM_RANDOM,
+			IC_CHARACTER
 		};
 
 		// Menu Items

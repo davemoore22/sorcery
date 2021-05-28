@@ -1989,6 +1989,12 @@ auto Sorcery::Character::_adjust_ability_colour(int value, CharacterAbilityType 
 	};
 }
 
+auto Sorcery::Character::get_summary() -> std::string {
+	return fmt::format("{:<15} L {:>2} {}-{} {}", _name,
+		_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
+		get_class(_class).substr(0, 3), get_race(_race).substr(0, 3));
+}
+
 auto Sorcery::Character::summary_text() -> std::string {
 
 	// CHOOSE NAME: 			"???             L  1 ?-??? ???"
@@ -2026,6 +2032,7 @@ auto Sorcery::Character::summary_text() -> std::string {
 			get_class(_class).substr(0, 3), get_race(_race));
 		break;
 	case CharacterStage::REVIEW_AND_CONFIRM:
+	case CharacterStage::COMPLETED:
 		return fmt::format("{} L {:>2} {}-{} {}", _name,
 			_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
 			get_class(_class).substr(0, 3), get_race(_race));

@@ -28,7 +28,7 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Attempt to load a game from the Database
-	_characters.clear();
+	characters.clear();
 	valid = _system->database->has_game();
 	if (valid) {
 
@@ -42,7 +42,7 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 
 		// Load the Characters
 		_characters_ids = _system->database->get_character_list(_id);
-		_characters = load_characters();
+		characters = load_characters();
 	};
 }
 
@@ -66,9 +66,9 @@ auto Sorcery::Game::get_id() -> unsigned int {
 	return _id;
 }
 
-auto Sorcery::Game::load_characters() -> std::vector<Character> {
+auto Sorcery::Game::load_characters() -> std::map<unsigned int, Character> {
 
-	std::vector<Character> characters;
+	std::map<unsigned int, Character> characters;
 	characters.clear();
 
 	for (auto character_id : _characters_ids) {
@@ -76,13 +76,16 @@ auto Sorcery::Game::load_characters() -> std::vector<Character> {
 		std::string data{_system->database->get_character(_id, character_id)};
 		std::stringstream ss;
 		ss.str(data);
-		Character character;
+
+		// Remember that the three pointers aren't serialised
+		Character character(_system, _display, _graphics);
 		{
 			cereal::JSONInputArchive archive(ss);
 			archive(character);
 		}
 
-		characters.emplace_back(character);
+		character.set_stage(CharacterStage::COMPLETED);
+		characters[character_id] = character;
 	}
 
 	return characters;

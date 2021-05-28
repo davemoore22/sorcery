@@ -154,6 +154,13 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_CONFIRM_MENU"],
 			_get_control_gfx(WindowInputCategory::CONFIRM)));
 		break;
+	case WindowInputMode::BROWSE_CHARACTER:
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_LEFT_BROWSER_CHARACTER"],
+			_get_control_gfx(WindowInputCategory::LEFT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_RIGHT_BROWSER_CHARACTER"],
+				_get_control_gfx(WindowInputCategory::RIGHT)));
+		break;
 	case WindowInputMode::REVIEW_AND_CONFIRM:
 		_controls.emplace_back(
 			std::make_pair((*_display->string)["CONTROL_LEFT_REVIEW_AND_CONFIRM"],

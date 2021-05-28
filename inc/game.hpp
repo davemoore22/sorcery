@@ -41,12 +41,14 @@ namespace Sorcery {
 
 		// Public Members
 		bool valid;
+		std::map<unsigned int, Character> characters;
 
 		// Public Methods
 		auto get_id() -> unsigned int;
 		auto start_new_game() -> void;
 		auto save_new_character(Character &character) -> unsigned int;
-		auto load_characters() -> std::vector<Character>;
+		auto save_character(unsigned int character_id, Character &character) -> void;
+		auto load_characters() -> std::map<unsigned int, Character>;
 
 	  private:
 		// Private Methods
@@ -61,6 +63,5 @@ namespace Sorcery {
 		unsigned int _id;
 		std::string _status;
 		std::vector<unsigned int> _characters_ids;
-		std::vector<Character> _characters;
 	};
 } // namespace Sorcery

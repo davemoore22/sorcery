@@ -830,6 +830,24 @@
 
 		},
 		{
+			"name": "character",
+			"x": "12",
+			"y": "7",
+			"drawmode": "manual"
+		},
+		{
+			"name": "character_frame",
+			"w": "58",
+			"h": "30",
+			"x": "centre",
+			"y": "6",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "6",
+			"drawmode": "manual",
+			"background": " 0x000000ff"
+		},
+		{
 			"name": "menu_frame",
 			"w": "36",
 			"h": "30",
@@ -844,7 +862,7 @@
 		{
 			"name": "menu",
 			"x": "22",
-			"y": "10",
+			"y": "8",
 			"w": "36",
 			"h": "4",
 			"font": "monospace",
@@ -853,7 +871,7 @@
 			"animated": "true",
 			"width": "36",
 			"background": " 0xff0000ff",
-			"justification": "centre",
+			"justification": "left",
 			"type": "menu",
 			"priority": "8"
 		}

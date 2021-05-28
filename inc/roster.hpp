@@ -66,5 +66,7 @@ namespace Sorcery {
 		std::shared_ptr<Menu> _menu;
 		sf::Sprite _bg;
 		std::unique_ptr<Frame> _menu_frame;
+		std::optional<Character *> _current_character;
+		std::unique_ptr<Frame> _current_character_frame;
 	};
 } // namespace Sorcery

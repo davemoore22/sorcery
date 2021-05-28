@@ -109,6 +109,7 @@ namespace Sorcery {
 		auto summary_text() -> std::string;
 		auto get_method() const -> CreateMethod;
 		auto set_method(const CreateMethod value) -> void;
+		auto get_summary() -> std::string;
 
 		// Public Members
 

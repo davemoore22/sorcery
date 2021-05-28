@@ -819,4 +819,10 @@ auto Sorcery::Menu::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 			target.draw(option, states);
 }
 
-auto Sorcery::Menu::_populate_character_menu() -> void {}
+auto Sorcery::Menu::_populate_character_menu() -> void {
+
+	for (auto &[character_id, character] : _game->characters) {
+		_add_item(
+			character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
+	}
+}

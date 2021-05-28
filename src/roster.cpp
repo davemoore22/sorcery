@@ -30,14 +30,17 @@ Sorcery::Roster::Roster(System *system, Display *display, Graphics *graphics, Ga
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
-
-	_menu = std::make_shared<Menu>(_system, _display, _graphics, _game, MenuType::CHARACTER_ROSTER);
+	_current_character = std::nullopt;
 }
 
 // Standard Destructor
 Sorcery::Roster::~Roster() {}
 
 auto Sorcery::Roster::start() -> std::optional<MenuItem> {
+
+	// Do the Menu here when it has access to the game characters
+	_menu.reset();
+	_menu = std::make_shared<Menu>(_system, _display, _graphics, _game, MenuType::CHARACTER_ROSTER);
 
 	// Get the Background Display Components and load them into Display module storage (not local)
 	_display->generate_components("roster");
@@ -61,6 +64,13 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 		menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
 	_menu_frame->setPosition(_display->window->get_x(_menu_frame->sprite, menu_fc.x),
 		_display->window->get_y(_menu_frame->sprite, menu_fc.y));
+
+	const Component cc_fc{(*_display->layout)["roster:character_frame"]};
+	_current_character_frame = std::make_unique<Frame>(_display->ui_texture,
+		WindowFrameType::NORMAL, cc_fc.w, cc_fc.h, cc_fc.colour, cc_fc.background, cc_fc.alpha);
+	_current_character_frame->setPosition(
+		_display->window->get_x(_current_character_frame->sprite, cc_fc.x),
+		_display->window->get_y(_current_character_frame->sprite, cc_fc.y));
 
 	// Clear the window
 	_window->clear();
@@ -88,32 +98,55 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 			} else
 				_display->hide_overlay();
 
-			if (_system->input->check_for_event(WindowInput::CANCEL, event))
-				return std::nullopt;
+			if (_display->get_input_mode() == WindowInputMode::NAVIGATE_MENU) {
 
-			if (_system->input->check_for_event(WindowInput::BACK, event))
-				return std::nullopt;
+				if (_system->input->check_for_event(WindowInput::CANCEL, event))
+					return std::nullopt;
 
-			if (_system->input->check_for_event(WindowInput::UP, event))
-				selected = _menu->choose_previous();
-			else if (_system->input->check_for_event(WindowInput::DOWN, event))
-				selected = _menu->choose_next();
-			else if (_system->input->check_for_event(WindowInput::MOVE, event))
-				selected = _menu->set_mouse_selected(
-					static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-			else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+				if (_system->input->check_for_event(WindowInput::BACK, event))
+					return std::nullopt;
 
-				// We have selected something from the menu
-				if (selected) {
-					/* const MenuItem option_chosen{(*selected.value()).item};
-					if (option_chosen == MenuItem::TR_EDGE_OF_TOWN) {
-						return MenuItem::ET_LEAVE_GAME;
-					} else if (option_chosen == MenuItem::TR_CREATE) {
-						_create->start();
-						_create->stop();
-						_display->generate_components("training_grounds");
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-					} */
+				if (_system->input->check_for_event(WindowInput::UP, event))
+					selected = _menu->choose_previous();
+				else if (_system->input->check_for_event(WindowInput::DOWN, event))
+					selected = _menu->choose_next();
+				else if (_system->input->check_for_event(WindowInput::MOVE, event))
+					selected = _menu->set_mouse_selected(
+						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+				else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+
+					// We have selected something from the menu
+					if (selected) {
+						const unsigned int character_chosen{(*selected.value()).index};
+						_current_character = &_game->characters.at(character_chosen);
+						if (_current_character) {
+							_display->set_input_mode(WindowInputMode::BROWSE_CHARACTER);
+							_current_character.value()->set_view(CharacterView::STRICT);
+						}
+
+						/* const MenuItem option_chosen{(*selected.value()).item};
+						if (option_chosen == MenuItem::TR_EDGE_OF_TOWN) {
+							return MenuItem::ET_LEAVE_GAME;
+						} else if (option_chosen == MenuItem::TR_CREATE) {
+							_create->start();
+							_create->stop();
+							_display->generate_components("training_grounds");
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						} */
+					}
+				}
+			} else {
+
+				if (_system->input->check_for_event(WindowInput::LEFT, event))
+					_current_character.value()->left_view();
+				else if (_system->input->check_for_event(WindowInput::RIGHT, event))
+					_current_character.value()->right_view();
+				else if (_system->input->check_for_event(WindowInput::CANCEL, event)) {
+					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					_current_character = std::nullopt;
+				} else if (_system->input->check_for_event(WindowInput::BACK, event)) {
+					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					_current_character = std::nullopt;
 				}
 			}
 		}
@@ -145,15 +178,26 @@ auto Sorcery::Roster::_draw() -> void {
 	// Display Components
 	_display->display_components("roster");
 
-	// Menu Frame
-	_window->draw(*_menu_frame);
+	if (_current_character) {
 
-	// And the Menu
-	_menu->generate((*_display->layout)["roster:menu"], _graphics->animation->colour_lerp);
-	const sf::Vector2f menu_pos(
-		(*_display->layout)["roster:menu"].x, (*_display->layout)["roster:menu"].y);
-	_menu->setPosition(menu_pos);
-	_window->draw(*_menu);
+		// If we have a character
+		_window->draw(*_current_character_frame);
+
+		_current_character.value()->setPosition(
+			(*_display->layout)["roster:character"].x, (*_display->layout)["roster:character"].y);
+		_window->draw(*_current_character.value());
+	} else {
+
+		// Menu Frame
+		_window->draw(*_menu_frame);
+
+		// And the Menu
+		_menu->generate((*_display->layout)["roster:menu"], _graphics->animation->colour_lerp);
+		const sf::Vector2f menu_pos(
+			(*_display->layout)["roster:menu"].x, (*_display->layout)["roster:menu"].y);
+		_menu->setPosition(menu_pos);
+		_window->draw(*_menu);
+	}
 
 	// And finally the Cursor
 	_display->display_overlay();
