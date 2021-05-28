@@ -821,8 +821,11 @@ auto Sorcery::Menu::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 
 auto Sorcery::Menu::_populate_character_menu() -> void {
 
-	for (auto &[character_id, character] : _game->characters) {
+	for (auto &[character_id, character] : _game->characters)
 		_add_item(
 			character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
-	}
+
+	unsigned int max_id{_game->characters.rbegin()->first};
+	_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+	_add_item(++max_id, MenuItemType::ENTRY, MenuItem::ET_TRAIN, (*_display->string)["MENU_TRAIN"]);
 }

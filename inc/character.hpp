@@ -110,6 +110,9 @@ namespace Sorcery {
 		auto get_method() const -> CreateMethod;
 		auto set_method(const CreateMethod value) -> void;
 		auto get_summary() -> std::string;
+		auto create_spell_lists() -> void;
+		auto reset_spells() -> void;
+		auto set_spells() -> void;
 
 		// Public Members
 
@@ -133,7 +136,6 @@ namespace Sorcery {
 		auto _set_sp() -> void;
 		auto _get_spells_known(SpellType spell_type, unsigned int spell_level) -> unsigned int;
 		auto _get_xp_for_level(unsigned int level) const -> int;
-		auto _create_spell_lists() -> void;
 		auto _get_character_portrait() -> sf::Sprite;
 		auto _add_text(Component &component, std::string format, std::string value,
 			bool is_view = true) -> sf::Text *;

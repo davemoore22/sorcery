@@ -46,6 +46,13 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 	};
 }
 
+auto Sorcery::Game::reload_characters() -> void {
+
+	// Load the Characters
+	_characters_ids = _system->database->get_character_list(_id);
+	characters = load_characters();
+}
+
 auto Sorcery::Game::start_new_game() -> void {
 
 	// Create a new game no matter what
@@ -79,11 +86,12 @@ auto Sorcery::Game::load_characters() -> std::map<unsigned int, Character> {
 
 		// Remember that the three pointers aren't serialised
 		Character character(_system, _display, _graphics);
+		character.create_spell_lists();
 		{
 			cereal::JSONInputArchive archive(ss);
 			archive(character);
 		}
-
+		character.set_spells();
 		character.set_stage(CharacterStage::COMPLETED);
 		characters[character_id] = character;
 	}

@@ -49,6 +49,7 @@ namespace Sorcery {
 		auto save_new_character(Character &character) -> unsigned int;
 		auto save_character(unsigned int character_id, Character &character) -> void;
 		auto load_characters() -> std::map<unsigned int, Character>;
+		auto reload_characters() -> void;
 
 	  private:
 		// Private Methods

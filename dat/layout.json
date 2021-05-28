@@ -871,7 +871,7 @@
 			"animated": "true",
 			"width": "36",
 			"background": " 0xff0000ff",
-			"justification": "left",
+			"justification": "centre",
 			"type": "menu",
 			"priority": "8"
 		}

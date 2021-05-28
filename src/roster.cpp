@@ -38,6 +38,8 @@ Sorcery::Roster::~Roster() {}
 
 auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 
+	_game->reload_characters();
+
 	// Do the Menu here when it has access to the game characters
 	_menu.reset();
 	_menu = std::make_shared<Menu>(_system, _display, _graphics, _game, MenuType::CHARACTER_ROSTER);
@@ -117,11 +119,19 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 
 					// We have selected something from the menu
 					if (selected) {
-						const unsigned int character_chosen{(*selected.value()).index};
-						_current_character = &_game->characters.at(character_chosen);
-						if (_current_character) {
-							_display->set_input_mode(WindowInputMode::BROWSE_CHARACTER);
-							_current_character.value()->set_view(CharacterView::STRICT);
+						const MenuItem option_chosen{(*selected.value()).item};
+						if (option_chosen == MenuItem::ET_TRAIN) {
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+							_current_character = std::nullopt;
+							return std::nullopt;
+						} else {
+
+							const unsigned int character_chosen{(*selected.value()).index};
+							_current_character = &_game->characters.at(character_chosen);
+							if (_current_character) {
+								_display->set_input_mode(WindowInputMode::BROWSE_CHARACTER);
+								_current_character.value()->set_view(CharacterView::STRICT);
+							}
 						}
 
 						/* const MenuItem option_chosen{(*selected.value()).item};

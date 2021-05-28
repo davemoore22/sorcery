@@ -314,7 +314,8 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 		_mage_max_sp.clear();
 		_mage_cur_sp.clear();
 		_spells.clear();
-		_create_spell_lists();
+		create_spell_lists();
+		reset_spells();
 		_view = CharacterView::NONE;
 		break;
 	case CharacterStage::REVIEW_AND_CONFIRM:
@@ -1255,6 +1256,8 @@ auto Sorcery::Character::_clear_sp() -> void {
 	}
 }
 
+// Spells known aren't set on serialisation restore? are they written?
+
 // Set starting spells
 auto Sorcery::Character::_set_starting_spells() -> void {
 
@@ -1602,8 +1605,23 @@ auto Sorcery::Character::_get_xp_for_level(unsigned int level) const -> int {
 	}
 }
 
+auto Sorcery::Character::set_spells() -> void {
+
+	// Now for each spell known set the appropriate entry in the spells table (TODO: this is
+	// terribly inefficient)
+	for (auto &spell_known : _spells_known) {
+
+		std::vector<Spell>::iterator it;
+		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
+			return item.id == spell_known.first;
+		});
+		if (it != _spells.end())
+			(*it).known = spell_known.second;
+	}
+}
+
 // Note a few extra spells taken from Wizardry V, such as DESTO, CALIFIC, LITOFEIT, and LABADI
-auto Sorcery::Character::_create_spell_lists() -> void {
+auto Sorcery::Character::create_spell_lists() -> void {
 	_spells.clear();
 
 	// Mage Spells (grouped by level)
@@ -1743,7 +1761,9 @@ auto Sorcery::Character::_create_spell_lists() -> void {
 		"MALIKTO", "Resurrection", "");
 	_spells.emplace_back(SpellID::KADORTO, SpellType::PRIEST, SpellCategory::HEALING, level, false,
 		"KADORTO", "Death Ward", "");
+}
 
+auto Sorcery::Character::reset_spells() -> void {
 	for (auto &spell : _spells) {
 		_spells_known[spell.id] = spell.known;
 	}
