@@ -63,8 +63,6 @@ namespace Sorcery {
 		// Private Members
 		System *_system;
 		Display *_display;
-		WindowFrameType _type;
-		Component _layout;
 
 		std::array<sf::IntRect, 8> _frame_parts;
 		std::array<sf::Sprite, 8> _frame_sprites;
@@ -72,6 +70,9 @@ namespace Sorcery {
 		sf::Texture _texture;
 		sf::Texture _frame_texture;
 		sf::Texture _bg_texture;
+
+		WindowFrameType _type;
+		Component _layout;
 
 		unsigned int _width_units;
 		unsigned int _height_units;

@@ -76,6 +76,7 @@ namespace Sorcery {
 			-> void;
 		auto _add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string key)
 			-> void;
+		auto _populate_character_menu() -> void;
 		auto _select_first_enabled() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto _select_last_enabled() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 

@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1621083664 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1622215769 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -16,16 +16,16 @@
 	<TGUI/TGUI.hpp>
 	<Thor/Resources.hpp>
 	<jsoncpp/json/json.h>
-	"SimpleIni.h"
-	"backward.hpp"
-	"cereal.hpp"
+	"backwardcpp/backward.hpp"
+	"simpleini/SimpleIni.h"
+	"cereal/cereal.hpp"
 	"cereal/archives/json.hpp"
 	"cereal/types/string.hpp"
 	"cereal/types/unordered_map.hpp"
 	"cereal/types/vector.hpp"
-	"magic_enum.hpp"
+	"magicenum/magic_enum.hpp"
 	"sfeMovie/Movie.hpp"
-	"sqlite_modern_cpp.h"
+	"sqlitemoderncpp/sqlite_modern_cpp.h"
 	<X11/Xlib.h>
 	<algorithm>
 	<any>
@@ -233,7 +233,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1621785603 /home/dave/Development/wizardry/sorcery-sfml/inc/menu.hpp
+1622215375 /home/dave/Development/wizardry/sorcery-sfml/inc/menu.hpp
 	"component.hpp"
 	"display.hpp"
 	"graphics.hpp"
@@ -361,7 +361,7 @@
 1614621285 source:/home/dave/Development/wizardry/sorcery-sfml/src/map.cpp
 	"map.hpp"
 
-1621786629 source:/home/dave/Development/wizardry/sorcery-sfml/src/menu.cpp
+1622215395 source:/home/dave/Development/wizardry/sorcery-sfml/src/menu.cpp
 	"menu.hpp"
 
 1597513199 source:/home/dave/Development/wizardry/sorcery-sfml/src/menubutton.cpp
@@ -499,7 +499,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1620568378 /home/dave/Development/wizardry/sorcery-sfml/inc/frame.hpp
+1622216126 /home/dave/Development/wizardry/sorcery-sfml/inc/frame.hpp
 	"main.hpp"
 	"system.hpp"
 	"display.hpp"
@@ -782,7 +782,7 @@
 1622147846 source:/home/dave/Development/wizardry/sorcery-sfml/src/error.cpp
 	"error.hpp"
 
-1622062882 /home/dave/Development/wizardry/sorcery-sfml/inc/error.hpp
+1622216091 /home/dave/Development/wizardry/sorcery-sfml/inc/error.hpp
 	"main.hpp"
 
 1621088447 /home/dave/Development/wizardry/sorcery-sfml/inc/edgeoftown.hpp
@@ -1073,7 +1073,7 @@
 	"cereal/cereal.hpp"
 	<string>
 
-1622214674 source:/home/dave/Development/wizardry/sorcery-sfml/src/roster.cpp
+1622215105 source:/home/dave/Development/wizardry/sorcery-sfml/src/roster.cpp
 	"roster.hpp"
 
 1622213654 /home/dave/Development/wizardry/sorcery-sfml/inc/roster.hpp

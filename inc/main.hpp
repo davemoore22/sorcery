@@ -42,16 +42,18 @@
 #pragma GCC diagnostic ignored "-Wignored-qualifiers"
 #pragma GCC diagnostic ignored "-Wreorder"
 #pragma GCC diagnostic ignored "-Wreturn-type"
-#include "SimpleIni.h"
-#include "backward.hpp"
-#include "cereal.hpp"
+#include "backwardcpp/backward.hpp"
+#include "simpleini/SimpleIni.h"
+// clang-format off
+#include "cereal/cereal.hpp"
 #include "cereal/archives/json.hpp"
 #include "cereal/types/string.hpp"
 #include "cereal/types/unordered_map.hpp"
 #include "cereal/types/vector.hpp"
-#include "magic_enum.hpp"
+// clang-format on
+#include "magicenum/magic_enum.hpp"
 #include "sfeMovie/Movie.hpp"
-#include "sqlite_modern_cpp.h"
+#include "sqlitemoderncpp/sqlite_modern_cpp.h"
 #pragma GCC diagnostic pop
 
 // Include this here to avoid Status enums defined within clashing with above

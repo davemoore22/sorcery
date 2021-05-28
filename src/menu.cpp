@@ -38,6 +38,10 @@ Sorcery::Menu::Menu(
 
 	// Now depending on the menu type, add the relevant items
 	switch (_type) {
+	case MenuType::CHARACTER_ROSTER:
+		_populate_character_menu();
+		selected = items.begin();
+		break;
 	case MenuType::MAIN:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::MM_NEW_GAME,
 			(*_display->string)["MAIN_MENU_OPTION_START"]);
@@ -814,3 +818,5 @@ auto Sorcery::Menu::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 		for (auto &option : _options)
 			target.draw(option, states);
 }
+
+auto Sorcery::Menu::_populate_character_menu() -> void {}
