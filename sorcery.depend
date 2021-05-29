@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1622217230 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1622311782 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -140,7 +140,7 @@
 1622051564 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
-1622223043 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
+1622311753 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
 1620595728 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
@@ -282,7 +282,7 @@
 1620165265 source:/home/dave/Development/wizardry/sorcery-sfml/src/banner.cpp
 	"banner.hpp"
 
-1622236663 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
+1622236931 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
 	"character.hpp"
 
 1622236416 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
@@ -472,7 +472,7 @@
 1620073051 source:/home/dave/Development/wizardry/sorcery-sfml/src/tooltip.cpp
 	"tooltip.hpp"
 
-1622236791 source:/home/dave/Development/wizardry/sorcery-sfml/src/game.cpp
+1622237235 source:/home/dave/Development/wizardry/sorcery-sfml/src/game.cpp
 	"game.hpp"
 
 1622237008 /home/dave/Development/wizardry/sorcery-sfml/inc/game.hpp
@@ -576,7 +576,7 @@
 1620422132 source:/home/dave/Development/wizardry/sorcery-sfml/src/attractmode.cpp
 	"attractmode.hpp"
 
-1622214630 /home/dave/Development/wizardry/sorcery-sfml/inc/training.hpp
+1622313135 /home/dave/Development/wizardry/sorcery-sfml/inc/training.hpp
 	"create.hpp"
 	"display.hpp"
 	"frame.hpp"
@@ -1073,10 +1073,10 @@
 	"cereal/cereal.hpp"
 	<string>
 
-1622233684 source:/home/dave/Development/wizardry/sorcery-sfml/src/roster.cpp
+1622237142 source:/home/dave/Development/wizardry/sorcery-sfml/src/roster.cpp
 	"roster.hpp"
 
-1622225763 /home/dave/Development/wizardry/sorcery-sfml/inc/roster.hpp
+1622320418 /home/dave/Development/wizardry/sorcery-sfml/inc/roster.hpp
 	"create.hpp"
 	"display.hpp"
 	"frame.hpp"

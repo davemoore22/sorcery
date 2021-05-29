@@ -25,12 +25,26 @@
 #include "roster.hpp"
 
 // Standard Constructor
-Sorcery::Roster::Roster(System *system, Display *display, Graphics *graphics, Game *game)
-	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
+Sorcery::Roster::Roster(
+	System *system, Display *display, Graphics *graphics, Game *game, RosterMode mode)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _mode{mode} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 	_current_character = std::nullopt;
+
+	// Same object can be used in three different modes
+	switch (_mode) {
+	case RosterMode::INSPECT:
+		_screen_key = "roster_inspect";
+		break;
+	case RosterMode::EDIT:
+		_screen_key = "roster_edit";
+		break;
+	case RosterMode::DELETE:
+		_screen_key = "roster_delete";
+		break;
+	}
 }
 
 // Standard Destructor
@@ -45,11 +59,20 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 	_menu = std::make_shared<Menu>(_system, _display, _graphics, _game, MenuType::CHARACTER_ROSTER);
 
 	// Get the Background Display Components and load them into Display module storage (not local)
-	_display->generate_components("roster");
+	switch (_mode) {
+	case RosterMode::INSPECT:
+		_display->generate_components("roster_inspect");
+		break;
+	case RosterMode::EDIT:
+		_display->generate_components("roster_edit");
+		break;
+	case RosterMode::DELETE:
+		_display->generate_components("roster_delete");
+		break;
+	}
 
 	// Set up the Custom Components
-	const Component bg_c{(*_display->layout)["roster:background"]};
-	// const sf::IntRect bg_rect(1147, 249, 773, 388);
+	const Component bg_c{(*_display->layout)[_screen_key + ":background"]};
 	sf::IntRect bg_rect{};
 	bg_rect.width = std::stoi(bg_c["source_w"].value());
 	bg_rect.height = std::stoi(bg_c["source_h"].value());
@@ -61,13 +84,13 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 	_bg.setScale(std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
 	_bg.setPosition(_display->window->get_x(_bg, bg_c.x), _display->window->get_y(_bg, bg_c.y));
 
-	const Component menu_fc{(*_display->layout)["roster:menu_frame"]};
+	const Component menu_fc{(*_display->layout)[_screen_key + ":menu_frame"]};
 	_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, menu_fc.w,
 		menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
 	_menu_frame->setPosition(_display->window->get_x(_menu_frame->sprite, menu_fc.x),
 		_display->window->get_y(_menu_frame->sprite, menu_fc.y));
 
-	const Component cc_fc{(*_display->layout)["roster:character_frame"]};
+	const Component cc_fc{(*_display->layout)[_screen_key + ":character_frame"]};
 	_current_character_frame = std::make_unique<Frame>(_display->ui_texture,
 		WindowFrameType::NORMAL, cc_fc.w, cc_fc.h, cc_fc.colour, cc_fc.background, cc_fc.alpha);
 	_current_character_frame->setPosition(
@@ -126,11 +149,14 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 							return std::nullopt;
 						} else {
 
-							const unsigned int character_chosen{(*selected.value()).index};
-							_current_character = &_game->characters.at(character_chosen);
-							if (_current_character) {
-								_display->set_input_mode(WindowInputMode::BROWSE_CHARACTER);
-								_current_character.value()->set_view(CharacterView::STRICT);
+							if (_mode == RosterMode::INSPECT) {
+
+								const unsigned int character_chosen{(*selected.value()).index};
+								_current_character = &_game->characters.at(character_chosen);
+								if (_current_character) {
+									_display->set_input_mode(WindowInputMode::BROWSE_CHARACTER);
+									_current_character.value()->set_view(CharacterView::STRICT);
+								}
 							}
 						}
 
@@ -193,8 +219,8 @@ auto Sorcery::Roster::_draw() -> void {
 		// If we have a character
 		_window->draw(*_current_character_frame);
 
-		_current_character.value()->setPosition(
-			(*_display->layout)["roster:character"].x, (*_display->layout)["roster:character"].y);
+		_current_character.value()->setPosition((*_display->layout)[_screen_key + ":character"].x,
+			(*_display->layout)[_screen_key + ":character"].y);
 		_window->draw(*_current_character.value());
 	} else {
 
@@ -202,9 +228,10 @@ auto Sorcery::Roster::_draw() -> void {
 		_window->draw(*_menu_frame);
 
 		// And the Menu
-		_menu->generate((*_display->layout)["roster:menu"], _graphics->animation->colour_lerp);
-		const sf::Vector2f menu_pos(
-			(*_display->layout)["roster:menu"].x, (*_display->layout)["roster:menu"].y);
+		_menu->generate(
+			(*_display->layout)[_screen_key + ":menu"], _graphics->animation->colour_lerp);
+		const sf::Vector2f menu_pos((*_display->layout)[_screen_key + ":menu"].x,
+			(*_display->layout)[_screen_key + ":menu"].y);
 		_menu->setPosition(menu_pos);
 		_window->draw(*_menu);
 	}

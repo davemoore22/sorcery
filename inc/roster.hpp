@@ -41,7 +41,7 @@ namespace Sorcery {
 
 	  public:
 		// Standard Constructor
-		Roster(System *system, Display *display, Graphics *graphics, Game *game);
+		Roster(System *system, Display *display, Graphics *graphics, Game *game, RosterMode mode);
 		Roster() = delete;
 
 		// Standard Destructor
@@ -68,5 +68,7 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _menu_frame;
 		std::optional<Character *> _current_character;
 		std::unique_ptr<Frame> _current_character_frame;
+		RosterMode _mode;
+		std::string _screen_key;
 	};
 } // namespace Sorcery

@@ -33,7 +33,9 @@ Sorcery::Training::Training(System *system, Display *display, Graphics *graphics
 
 	_menu = std::make_shared<Menu>(_system, _display, _graphics, _game, MenuType::TRAINING_GROUNDS);
 	_create = std::make_unique<Create>(_system, _display, _graphics, _game);
-	_roster = std::make_unique<Roster>(_system, _display, _graphics, _game);
+	_inspect = std::make_unique<Roster>(_system, _display, _graphics, _game, RosterMode::INSPECT);
+	_delete = std::make_unique<Roster>(_system, _display, _graphics, _game, RosterMode::DELETE);
+	_edit = std::make_unique<Roster>(_system, _display, _graphics, _game, RosterMode::EDIT);
 }
 
 // Standard Destructor
@@ -115,9 +117,19 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 						_display->generate_components("training_grounds");
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					} else if (option_chosen == MenuItem::TR_INSPECT) {
-						_roster->start();
-						_roster->stop();
-						_display->generate_components("roster");
+						_inspect->start();
+						_inspect->stop();
+						_display->generate_components("roster_inspect");
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} else if (option_chosen == MenuItem::TR_EDIT) {
+						_edit->start();
+						_edit->stop();
+						_display->generate_components("roster_edit");
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} else if (option_chosen == MenuItem::TR_DELETE) {
+						_delete->start();
+						_delete->stop();
+						_display->generate_components("roster_delete");
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					}
 				}

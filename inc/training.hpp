@@ -68,6 +68,8 @@ namespace Sorcery {
 		sf::Sprite _bg;
 		std::unique_ptr<Frame> _menu_frame;
 		std::unique_ptr<Create> _create;
-		std::unique_ptr<Roster> _roster;
+		std::unique_ptr<Roster> _inspect;
+		std::unique_ptr<Roster> _edit;
+		std::unique_ptr<Roster> _delete;
 	};
 } // namespace Sorcery

@@ -237,6 +237,8 @@ namespace Sorcery {
 	// Management Menu
 	namespace Enums::Manage {
 
+		enum class Roster { INSPECT, EDIT, DELETE };
+
 		enum class Category { NONE, MANAGE, CREATE, IMPORT };
 
 		enum Method { FULL = 0, QUICK = 1, RANDOM = 2 };
