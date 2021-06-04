@@ -24,6 +24,16 @@
 			"w": "54"
 		},
 		{
+			"name": "char_panel",
+			"font": "text",
+			"colour": "0xdddddddff",
+			"size": "38",
+			"alpha": "255",
+			"type": "panel",
+			"drawmode": "manual",
+			"w": "54"
+		},
+		{
 			"name": "allocate_panel",
 			"font": "monospace",
 			"size": "38",

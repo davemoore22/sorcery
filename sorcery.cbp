@@ -135,6 +135,7 @@
 		<Unit filename="inc/camera.hpp" />
 		<Unit filename="inc/castle.hpp" />
 		<Unit filename="inc/character.hpp" />
+		<Unit filename="inc/charpanel.hpp" />
 		<Unit filename="inc/compendium.hpp" />
 		<Unit filename="inc/component.hpp" />
 		<Unit filename="inc/config.hpp" />
@@ -194,6 +195,7 @@
 		<Unit filename="src/camera.cpp" />
 		<Unit filename="src/castle.cpp" />
 		<Unit filename="src/character.cpp" />
+		<Unit filename="src/charpanel.cpp" />
 		<Unit filename="src/compendium.cpp" />
 		<Unit filename="src/component.cpp" />
 		<Unit filename="src/config.cpp" />

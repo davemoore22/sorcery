@@ -589,7 +589,7 @@
 	"statusbar.hpp"
 	"system.hpp"
 
-1622214646 source:/home/dave/Development/wizardry/sorcery-sfml/src/training.cpp
+1622320578 source:/home/dave/Development/wizardry/sorcery-sfml/src/training.cpp
 	"training.hpp"
 
 1618083418 /home/dave/Development/wizardry/sorcery-sfml/inc/statusbar.hpp
@@ -620,7 +620,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1619732338 source:/home/dave/Development/wizardry/sorcery-sfml/src/infopanel.cpp
+1622839279 source:/home/dave/Development/wizardry/sorcery-sfml/src/infopanel.cpp
 	"infopanel.hpp"
 
 1617132045 /home/dave/Development/wizardry/sorcery-sfml/inc/allocatepanel.hpp
@@ -1073,7 +1073,7 @@
 	"cereal/cereal.hpp"
 	<string>
 
-1622237142 source:/home/dave/Development/wizardry/sorcery-sfml/src/roster.cpp
+1622320517 source:/home/dave/Development/wizardry/sorcery-sfml/src/roster.cpp
 	"roster.hpp"
 
 1622320418 /home/dave/Development/wizardry/sorcery-sfml/inc/roster.hpp
