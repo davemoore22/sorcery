@@ -41,14 +41,14 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		CharPanel(System *system, Display *display, Graphics *graphics, Character *character);
+		CharPanel(System *system, Display *display, Graphics *graphics);
 		CharPanel() = delete;
 
 		// Public Members
 		bool valid;
 
 		// Public Methods
-		auto set() -> void;
+		auto set(Character *character) -> void;
 
 	  private:
 		// Private Methods

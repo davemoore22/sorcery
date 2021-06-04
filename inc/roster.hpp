@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include "charpanel.hpp"
 #include "create.hpp"
 #include "display.hpp"
 #include "frame.hpp"
@@ -70,5 +71,8 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _current_character_frame;
 		RosterMode _mode;
 		std::string _screen_key;
+		std::unique_ptr<CharPanel> _character_panel;
+		int _current_character_idx;
+		std::unique_ptr<Frame> _preview_frame;
 	};
 } // namespace Sorcery

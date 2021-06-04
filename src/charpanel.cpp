@@ -25,9 +25,8 @@
 #include "charpanel.hpp"
 
 // Standard Constructor
-Sorcery::CharPanel::CharPanel(
-	System *system, Display *display, Graphics *graphics, Character *character)
-	: _system{system}, _display{display}, _graphics{graphics}, _character{character} {
+Sorcery::CharPanel::CharPanel(System *system, Display *display, Graphics *graphics)
+	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the standard layout information
 	_layout = Component((*_display->layout)["global:char_panel"]);
@@ -39,7 +38,14 @@ Sorcery::CharPanel::CharPanel(
 	valid = false;
 }
 
-auto Sorcery::CharPanel::set() -> void {}
+auto Sorcery::CharPanel::set(Character *character) -> void {
+
+	_icons.clear();
+	_texts.clear();
+	_character = character;
+
+	valid = true;
+}
 
 auto Sorcery::CharPanel::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
 

@@ -44,7 +44,11 @@ Sorcery::Roster::Roster(
 	case RosterMode::DELETE:
 		_screen_key = "roster_delete";
 		break;
+	default:
+		break;
 	}
+
+	_character_panel = std::make_unique<CharPanel>(_system, _display, _graphics);
 }
 
 // Standard Destructor
@@ -57,6 +61,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 	// Do the Menu here when it has access to the game characters
 	_menu.reset();
 	_menu = std::make_shared<Menu>(_system, _display, _graphics, _game, MenuType::CHARACTER_ROSTER);
+	_current_character_idx = -1;
 
 	// Get the Background Display Components and load them into Display module storage (not local)
 	switch (_mode) {
@@ -68,6 +73,8 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 		break;
 	case RosterMode::DELETE:
 		_display->generate_components("roster_delete");
+		break;
+	default:
 		break;
 	}
 
@@ -159,16 +166,20 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 								}
 							}
 						}
+					}
+				}
 
-						/* const MenuItem option_chosen{(*selected.value()).item};
-						if (option_chosen == MenuItem::TR_EDGE_OF_TOWN) {
-							return MenuItem::ET_LEAVE_GAME;
-						} else if (option_chosen == MenuItem::TR_CREATE) {
-							_create->start();
-							_create->stop();
-							_display->generate_components("training_grounds");
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-						} */
+				if (selected) {
+					if ((*selected.value()).item != MenuItem::ET_TRAIN) {
+						const auto character_chosen{(*selected.value()).index};
+						if (character_chosen != _current_character_idx) {
+							auto character{&_game->characters.at(character_chosen)};
+							_character_panel->set(character);
+							_current_character_idx = character_chosen;
+						}
+					} else {
+						_character_panel->valid = false;
+						_current_character_idx = -1;
 					}
 				}
 			} else {
@@ -234,6 +245,10 @@ auto Sorcery::Roster::_draw() -> void {
 			(*_display->layout)[_screen_key + ":menu"].y);
 		_menu->setPosition(menu_pos);
 		_window->draw(*_menu);
+
+		// Character Preview
+		if (_character_panel->valid)
+			_window->draw(*_character_panel);
 	}
 
 	// And finally the Cursor

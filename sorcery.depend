@@ -1073,10 +1073,11 @@
 	"cereal/cereal.hpp"
 	<string>
 
-1622320517 source:/home/dave/Development/wizardry/sorcery-sfml/src/roster.cpp
+1622841053 source:/home/dave/Development/wizardry/sorcery-sfml/src/roster.cpp
 	"roster.hpp"
 
-1622320418 /home/dave/Development/wizardry/sorcery-sfml/inc/roster.hpp
+1622841480 /home/dave/Development/wizardry/sorcery-sfml/inc/roster.hpp
+	"charpanel.hpp"
 	"create.hpp"
 	"display.hpp"
 	"frame.hpp"
@@ -1087,4 +1088,15 @@
 	"menu.hpp"
 	"statusbar.hpp"
 	"system.hpp"
+
+1622840246 /home/dave/Development/wizardry/sorcery-sfml/inc/charpanel.hpp
+	"display.hpp"
+	"graphics.hpp"
+	"layout.hpp"
+	"main.hpp"
+	"system.hpp"
+	"character.hpp"
+
+1622840627 source:/home/dave/Development/wizardry/sorcery-sfml/src/charpanel.cpp
+	"charpanel.hpp"
 
