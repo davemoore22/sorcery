@@ -104,6 +104,12 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 		_display->window->get_x(_current_character_frame->sprite, cc_fc.x),
 		_display->window->get_y(_current_character_frame->sprite, cc_fc.y));
 
+	const Component p_fc{(*_display->layout)["roster:preview_frame"]};
+	_preview_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, p_fc.w,
+		p_fc.h, p_fc.colour, p_fc.background, p_fc.alpha);
+	_preview_frame->setPosition(_display->window->get_x(_preview_frame->sprite, p_fc.x),
+		_display->window->get_y(_preview_frame->sprite, p_fc.y));
+
 	// Clear the window
 	_window->clear();
 
@@ -247,8 +253,12 @@ auto Sorcery::Roster::_draw() -> void {
 		_window->draw(*_menu);
 
 		// Character Preview
-		if (_character_panel->valid)
+		if (_character_panel->valid) {
+			_character_panel->setPosition((*_display->layout)["roster:info_panel"].x,
+				(*_display->layout)["roster:info_panel"].y);
+			_window->draw(*_preview_frame);
 			_window->draw(*_character_panel);
+		}
 	}
 
 	// And finally the Cursor

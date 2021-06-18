@@ -349,6 +349,16 @@ auto Sorcery::Character::set_race(const CharacterRace &value) -> void {
 	_race = value;
 }
 
+auto Sorcery::Character::get_level() const -> int {
+
+	return _abilities.at(CharacterAbility::CURRENT_LEVEL);
+}
+
+auto Sorcery::Character::set_level(const int &value) -> void {
+
+	_abilities.at(CharacterAbility::CURRENT_LEVEL) = value;
+}
+
 auto Sorcery::Character::get_alignment() const -> CharacterAlignment {
 
 	return _alignment;

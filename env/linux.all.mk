@@ -35,6 +35,7 @@ INCLUDE_DIRS := \
 	inc/sqlitemoderncpp \
 	inc/backwardcpp \
 	inc/cereal \
+	inc/sfemovie \
 	/usr/local/include
 
 BUILD_FLAGS := \

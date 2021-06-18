@@ -774,13 +774,12 @@
 	{
 		"name": "roster",
 		"component": [
-		
 			{
 				"name": "info_panel",
 				"w": "38",
 				"h": "4",
 				"x": "20",
-				"y": "29",
+				"y": "26",
 				"alpha": "255",
 				"type": "panel",
 				"priority": "8",
@@ -797,7 +796,7 @@
 				"priority": "9",
 				"drawmode": "manual",
 				"background": " 0x000000ff"
-			}	
+			}
 		]
 	},
 	{
@@ -2551,6 +2550,94 @@
 			"drawmode": "manual"
 		}
 		]
+	},
+	{
+		"name": "character_panel",
+		"component": [
+		{
+			"name": "portrait",
+			"x": "0",
+			"y": "0",
+			"scale" : "0.20",
+			"alpha": "255",
+			"type": "image",
+			"priority": "6",
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_x": "6",
+					"offset_y": "6"
+				}
+			]
+		},
+		{
+			"name": "name_text",
+			"x": "7",
+			"y": "0",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "class_icon",
+			"x": "30",
+			"y": "0",
+			"scale": "0.10",
+			"type": "icon",
+			"priority": "4",
+			"drawmode": "manual",
+			"string": ""
+		},
+		{
+			"name": "race_icon",
+			"x": "32",
+			"y": "0",
+			"scale": "0.10",
+			"type": "icon",
+			"priority": "4",
+			"drawmode": "manual",
+			"string": ""
+		},
+		{
+			"name": "alignment_icon",
+			"x": "34",
+			"y": "0",
+			"scale": "0.10",
+			"type": "icon",
+			"priority": "4",
+			"drawmode": "manual",
+			"string": "strength"
+		},
+		{
+			"name": "level_icon",
+			"x": "36",
+			"y": "0",
+			"scale": "0.10",
+			"type": "icon",
+			"priority": "4",
+			"drawmode": "manual",
+			"string": "strength"
+		},
+		{
+			"name": "level_text",
+			"x": "38",
+			"y": "0",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "NONE",
+			"justification": "right",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		}
+		]
+
 	},
 	{
 		"name": "character_main",
