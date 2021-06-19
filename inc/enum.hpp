@@ -84,7 +84,8 @@ namespace Sorcery {
 			CHOOSE_PORTRAIT,
 			REVIEW_AND_CONFIRM,
 			SAVED_CHARACTER_OK,
-			BROWSE_CHARACTER
+			BROWSE_CHARACTER,
+			CONFIRM_DELETE_CHARACTER
 		};
 
 		enum class InputCategory {
@@ -237,7 +238,7 @@ namespace Sorcery {
 	// Management Menu
 	namespace Enums::Manage {
 
-		enum class Roster { INSPECT, EDIT, DELETE };
+		enum class Roster { NONE, INSPECT, EDIT, DELETE };
 
 		enum class Category { NONE, MANAGE, CREATE, IMPORT };
 

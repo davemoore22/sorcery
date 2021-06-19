@@ -49,6 +49,13 @@ Sorcery::Roster::Roster(
 	}
 
 	_character_panel = std::make_unique<CharPanel>(_system, _display, _graphics);
+
+	_dialog_delete = std::make_unique<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["roster_delete:dialog_delete_character"],
+		(*_display->layout)["roster_delete:dialog_delete_character_text"],
+		WindowDialogType::CONFIRM);
+	_dialog_delete->setPosition((*_display->layout)["roster_delete:dialog_delete_character"].x,
+		(*_display->layout)["roster_delete:dialog_delete_character"].y);
 }
 
 // Standard Destructor
@@ -170,6 +177,14 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 									_display->set_input_mode(WindowInputMode::BROWSE_CHARACTER);
 									_current_character.value()->set_view(CharacterView::STRICT);
 								}
+							} else if (_mode == RosterMode::DELETE) {
+
+								const unsigned int character_chosen{(*selected.value()).index};
+								_current_character = &_game->characters.at(character_chosen);
+								if (_current_character) {
+									_display->set_input_mode(
+										WindowInputMode::CONFIRM_DELETE_CHARACTER);
+								}
 							}
 						}
 					}
@@ -188,6 +203,30 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 						_current_character_idx = -1;
 					}
 				}
+			} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_DELETE_CHARACTER) {
+
+				auto dialog_input{_dialog_delete->handle_input(event)};
+				if (dialog_input) {
+					if (dialog_input.value() == WindowDialogButton::CLOSE) {
+						return std::nullopt;
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} else if (dialog_input.value() == WindowDialogButton::YES) {
+
+						// Delete a character!
+						_system->database->delete_character(
+							_game->get_id(), _current_character_idx);
+
+						// Need to reload the menu! //TODO
+
+						// And select the first one in the list after one is deleted
+						_menu->choose_first();
+
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} else if (dialog_input.value() == WindowDialogButton::NO) {
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					}
+				}
+
 			} else {
 
 				if (_system->input->check_for_event(WindowInput::LEFT, event))
@@ -230,15 +269,50 @@ auto Sorcery::Roster::_draw() -> void {
 
 	// Display Components
 	_display->display_components("roster");
+	if (_display->get_input_mode() == WindowInputMode::BROWSE_CHARACTER) {
+		if (_current_character) {
 
-	if (_current_character) {
+			// If we have a character
+			_window->draw(*_current_character_frame);
 
-		// If we have a character
-		_window->draw(*_current_character_frame);
+			// Character Preview
+			if (_character_panel->valid) {
+				_character_panel->setPosition((*_display->layout)["roster:info_panel"].x,
+					(*_display->layout)["roster:info_panel"].y);
+				_window->draw(*_preview_frame);
+				_window->draw(*_character_panel);
+			}
 
-		_current_character.value()->setPosition((*_display->layout)[_screen_key + ":character"].x,
-			(*_display->layout)[_screen_key + ":character"].y);
-		_window->draw(*_current_character.value());
+			_current_character.value()->setPosition(
+				(*_display->layout)[_screen_key + ":character"].x,
+				(*_display->layout)[_screen_key + ":character"].y);
+			_window->draw(*_current_character.value());
+		}
+	} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_DELETE_CHARACTER) {
+
+		// Menu Frame
+		_window->draw(*_menu_frame);
+
+		// And the Menu
+		_menu->generate(
+			(*_display->layout)[_screen_key + ":menu"], _graphics->animation->colour_lerp);
+		const sf::Vector2f menu_pos((*_display->layout)[_screen_key + ":menu"].x,
+			(*_display->layout)[_screen_key + ":menu"].y);
+		_menu->setPosition(menu_pos);
+		_window->draw(*_menu);
+
+		// Character Preview
+		if (_character_panel->valid) {
+			_character_panel->setPosition((*_display->layout)["roster:info_panel"].x,
+				(*_display->layout)["roster:info_panel"].y);
+			_window->draw(*_preview_frame);
+			_window->draw(*_character_panel);
+		}
+
+		if (_current_character) {
+			_dialog_delete->update();
+			_window->draw(*_dialog_delete);
+		}
 	} else {
 
 		// Menu Frame

@@ -140,7 +140,7 @@
 1622051564 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
-1622311753 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
+1624125689 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
 1620595728 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
@@ -177,7 +177,7 @@
 1614621008 /home/dave/Development/wizardry/sorcery-sfml/inc/config.hpp
 	"main.hpp"
 
-1622071062 /home/dave/Development/wizardry/sorcery-sfml/inc/database.hpp
+1624137233 /home/dave/Development/wizardry/sorcery-sfml/inc/database.hpp
 	"main.hpp"
 
 1614555531 /home/dave/Development/wizardry/sorcery-sfml/inc/string.hpp
@@ -318,7 +318,7 @@
 	"menu.hpp"
 	"game.hpp"
 
-1622071222 source:/home/dave/Development/wizardry/sorcery-sfml/src/database.cpp
+1624138881 source:/home/dave/Development/wizardry/sorcery-sfml/src/database.cpp
 	"database.hpp"
 
 1620578784 source:/home/dave/Development/wizardry/sorcery-sfml/src/display.cpp
@@ -691,7 +691,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1619641049 source:/home/dave/Development/wizardry/sorcery-sfml/src/spellsummary.cpp
+1624122093 source:/home/dave/Development/wizardry/sorcery-sfml/src/spellsummary.cpp
 	"spellsummary.hpp"
 
 1620573421 /home/dave/Development/wizardry/sorcery-sfml/inc/controloverlay.hpp
@@ -1073,10 +1073,10 @@
 	"cereal/cereal.hpp"
 	<string>
 
-1624111694 source:/home/dave/Development/wizardry/sorcery-sfml/src/roster.cpp
+1624138825 source:/home/dave/Development/wizardry/sorcery-sfml/src/roster.cpp
 	"roster.hpp"
 
-1622841480 /home/dave/Development/wizardry/sorcery-sfml/inc/roster.hpp
+1624125345 /home/dave/Development/wizardry/sorcery-sfml/inc/roster.hpp
 	"charpanel.hpp"
 	"create.hpp"
 	"display.hpp"

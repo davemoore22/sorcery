@@ -74,5 +74,6 @@ namespace Sorcery {
 		std::unique_ptr<CharPanel> _character_panel;
 		int _current_character_idx;
 		std::unique_ptr<Frame> _preview_frame;
+		std::unique_ptr<Dialog> _dialog_delete;
 	};
 } // namespace Sorcery

@@ -192,6 +192,26 @@ auto Sorcery::Database::get_character_list(int game_id) -> std::vector<unsigned 
 	return characters;
 }
 
+auto Sorcery::Database::delete_character(int game_id, int character_id) -> void {
+
+	try {
+
+		sqlite::database database(_db_file_path.string());
+
+		const std::string delete_character_SQL{
+			"DELETE FROM character WHERE id = ? AND game_id = ?;"};
+
+		database << delete_character_SQL << character_id << game_id;
+
+	} catch (sqlite::sqlite_exception &e) {
+		Error error{SystemError::SQLLITE_ERROR, e,
+			fmt::format(
+				"{} {} {} {}", e.get_code(), e.what(), e.get_sql(), _db_file_path.string())};
+		std::cout << error;
+		exit(EXIT_FAILURE);
+	}
+}
+
 // Get a character
 auto Sorcery::Database::get_character(int game_id, int character_id) -> std::string {
 
