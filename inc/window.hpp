@@ -70,6 +70,7 @@ namespace Sorcery {
 		auto shove_text(sf::Text &shovee, sf::Text &shover, float gap_units) -> void;
 		auto set_input_mode(WindowInputMode value) -> void;
 		auto get_input_mode() const -> WindowInputMode;
+		auto set_position_with_offset(Component *component, sf::Transformable *object) -> void;
 
 		// Public Members
 		std::vector<sf::Sprite> sprites;

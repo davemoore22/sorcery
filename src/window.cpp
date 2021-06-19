@@ -182,6 +182,25 @@ auto Sorcery::Window::shove_text(sf::Text &shovee, sf::Text &shover, unsigned in
 		shovee.getGlobalBounds().top - (shovee.getGlobalBounds().height / 4));
 }
 
+auto Sorcery::Window::set_position_with_offset(Component *component, sf::Transformable *object)
+	-> void {
+
+	const int off_x = [&] {
+		if ((*component)["offset_x"])
+			return std::stoi((*component)["offset_x"].value());
+		else
+			return 0;
+	}();
+	const int off_y = [&] {
+		if ((*component)["offset_y"])
+			return std::stoi((*component)["offset_y"].value());
+		else
+			return 0;
+	}();
+
+	object->setPosition(component->x + off_x, component->y + off_y);
+}
+
 auto Sorcery::Window::shove_text(sf::Text &shovee, sf::Text &shover, float gap_units) -> void {
 	shover.setPosition(
 		shovee.getGlobalBounds().left + shovee.getGlobalBounds().width + (_cell_width * gap_units),

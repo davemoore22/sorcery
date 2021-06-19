@@ -58,47 +58,34 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	portrait.setTextureRect(rect);
 
 	Component p_c{(*_display->layout)["character_panel:portrait"]};
-	const int p_offset_x = [&] {
-		if (p_c["offset_x"])
-			return std::stoi(p_c["offset_x"].value());
-		else
-			return 0;
-	}();
-	const int p_offset_y = [&] {
-		if (p_c["offset_y"])
-			return std::stoi(p_c["offset_y"].value());
-		else
-			return 0;
-	}();
-	portrait.setPosition(p_c.x + p_offset_x, p_c.y + p_offset_y);
+	_display->window->set_position_with_offset(&p_c, &portrait);
 	portrait.setScale(p_c.scale, p_c.scale);
-
 	_portrait = portrait;
 
 	auto class_icon = _character->get_icon(CharacterStage::CHOOSE_CLASS).value();
-	class_icon.setPosition((*_display->layout)["character_panel:class_icon"].x,
-		(*_display->layout)["character_panel:class_icon"].y);
+	_display->window->set_position_with_offset(
+		&((*_display->layout)["character_panel:class_icon"]), &class_icon);
 	class_icon.setScale((*_display->layout)["character_panel:class_icon"].scale,
 		(*_display->layout)["character_panel:class_icon"].scale);
 	_icons.push_back(class_icon);
 
 	auto race_icon = _character->get_icon(CharacterStage::CHOOSE_RACE).value();
-	race_icon.setPosition((*_display->layout)["character_panel:race_icon"].x,
-		(*_display->layout)["character_panel:race_icon"].y);
+	_display->window->set_position_with_offset(
+		&((*_display->layout)["character_panel:race_icon"]), &race_icon);
 	race_icon.setScale((*_display->layout)["character_panel:race_icon"].scale,
 		(*_display->layout)["character_panel:race_icon"].scale);
 	_icons.push_back(race_icon);
 
 	auto alignment_icon = _character->get_icon(CharacterStage::CHOOSE_ALIGNMENT).value();
-	alignment_icon.setPosition((*_display->layout)["character_panel:alignment_icon"].x,
-		(*_display->layout)["character_panel:alignment_icon"].y);
+	_display->window->set_position_with_offset(
+		&((*_display->layout)["character_panel:alignment_icon"]), &alignment_icon);
 	alignment_icon.setScale((*_display->layout)["character_panel:alignment_icon"].scale,
 		(*_display->layout)["character_panel:alignment_icon"].scale);
 	_icons.push_back(alignment_icon);
 
 	auto level_icon = (*_graphics->icons)["level"].value();
-	level_icon.setPosition((*_display->layout)["character_panel:level_icon"].x,
-		(*_display->layout)["character_panel:level_icon"].y);
+	_display->window->set_position_with_offset(
+		&((*_display->layout)["character_panel:level_icon"]), &level_icon);
 	level_icon.setScale((*_display->layout)["character_panel:level_icon"].scale,
 		(*_display->layout)["character_panel:level_icon"].scale);
 	_icons.push_back(level_icon);
@@ -109,19 +96,7 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	name_text.setCharacterSize(name_c.size);
 	name_text.setFillColor(sf::Color(name_c.colour));
 	name_text.setString(_character->get_name());
-	const int offset_x = [&] {
-		if (name_c["offset_x"])
-			return std::stoi(name_c["offset_x"].value());
-		else
-			return 0;
-	}();
-	const int offset_y = [&] {
-		if (name_c["offset_y"])
-			return std::stoi(name_c["offset_y"].value());
-		else
-			return 0;
-	}();
-	name_text.setPosition(name_c.x + offset_x, name_c.y + offset_y);
+	_display->window->set_position_with_offset(&name_c, &name_text);
 	_texts.push_back(name_text);
 
 	Component level_c{(*_display->layout)["character_panel:level_text"]};
@@ -129,20 +104,11 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	level_text.setFont(_system->resources->fonts[level_c.font]);
 	level_text.setCharacterSize(level_c.size);
 	level_text.setFillColor(sf::Color(level_c.colour));
-	const int l_offset_x = [&] {
-		if (level_c["offset_x"])
-			return std::stoi(level_c["offset_x"].value());
-		else
-			return 0;
-	}();
-	const int l_offset_y = [&] {
-		if (level_c["offset_y"])
-			return std::stoi(level_c["offset_y"].value());
-		else
-			return 0;
-	}();
-	level_text.setPosition(level_c.x + l_offset_x, level_c.y + l_offset_y);
+	level_text.setString(std::to_string(_character->get_level()));
+	_display->window->set_position_with_offset(&level_c, &level_text);
 	_texts.push_back(level_text);
+
+	Component status_c{(*_display->layout)["character_panel:status_text"]};
 
 	valid = true;
 }

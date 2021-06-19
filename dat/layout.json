@@ -2565,8 +2565,8 @@
 			"drawmode": "manual",
 			"data": [
 				{
-					"offset_x": "6",
-					"offset_y": "6"
+					"offset_x": "12",
+					"offset_y": "12"
 				}
 			]
 		},
@@ -2581,47 +2581,100 @@
 			"justification": "left",
 			"type": "text",
 			"priority": "3",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_x": "0",
+					"offset_y": "12"
+				}
+			]
+		},
+		{
+			"name": "status_text",
+			"x": "7",
+			"y": "1",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CHARACTER_PANEL_STATUS",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_x": "0",
+					"offset_y": "12"
+				}
+			]
 		},
 		{
 			"name": "class_icon",
-			"x": "30",
+			"x": "27",
 			"y": "0",
 			"scale": "0.10",
 			"type": "icon",
+			"colour": "0xffffffff",
 			"priority": "4",
 			"drawmode": "manual",
-			"string": ""
+			"string": "",
+			"data": [
+				{
+					"offset_x": "0",
+					"offset_y": "12"
+				}
+			]
 		},
 		{
 			"name": "race_icon",
-			"x": "32",
+			"x": "30",
 			"y": "0",
 			"scale": "0.10",
+			"colour": "0xffffffff",
 			"type": "icon",
 			"priority": "4",
 			"drawmode": "manual",
-			"string": ""
+			"string": "",
+			"data": [
+				{
+					"offset_x": "0",
+					"offset_y": "12"
+				}
+			]
 		},
 		{
 			"name": "alignment_icon",
-			"x": "34",
+			"x": "33",
 			"y": "0",
 			"scale": "0.10",
+			"colour": "0xffffffff",
 			"type": "icon",
 			"priority": "4",
 			"drawmode": "manual",
-			"string": "strength"
+			"string": "strength",
+			"data": [
+				{
+					"offset_x": "0",
+					"offset_y": "12"
+				}
+			]
 		},
 		{
 			"name": "level_icon",
 			"x": "36",
 			"y": "0",
 			"scale": "0.10",
+			"colour": "0xffffffff",
 			"type": "icon",
 			"priority": "4",
 			"drawmode": "manual",
-			"string": "strength"
+			"string": "strength",
+			"data": [
+				{
+					"offset_x": "0",
+					"offset_y": "12"
+				}
+			]
 		},
 		{
 			"name": "level_text",
@@ -2634,7 +2687,13 @@
 			"justification": "right",
 			"type": "text",
 			"priority": "3",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_x": "12",
+					"offset_y": "12"
+				}
+			]
 		}
 		]
 

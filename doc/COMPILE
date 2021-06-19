@@ -29,7 +29,7 @@ Download, compile and install the following libraries:
 - sfeMovie https://github.com/Yalir/sfeMovie
 - Thor https://github.com/Bromeon/Thor
 
-Then make sure the following are included and linked:
+Then make sure the following header libraries are included and linked:
 
 - simpleini https://github.com/brofield/simpleini/
 - sqlite modern cpp wrapper https://github.com/SqliteModernCpp/sqlite_modern_cpp
