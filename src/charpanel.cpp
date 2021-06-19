@@ -109,6 +109,26 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	_texts.push_back(level_text);
 
 	Component status_c{(*_display->layout)["character_panel:status_text"]};
+	std::string status{fmt::format(
+		"{}: {}", (*_display->string)["CHARACTER_LEGEND_STATUS"], _character->get_status())};
+	sf::Text status_text;
+	status_text.setFont(_system->resources->fonts[status_c.font]);
+	status_text.setCharacterSize(status_c.size);
+	status_text.setFillColor(sf::Color(status_c.colour));
+	status_text.setString(status);
+	_display->window->set_position_with_offset(&status_c, &status_text);
+	_texts.push_back(status_text);
+
+	Component hp_c{(*_display->layout)["character_panel:hp_text"]};
+	std::string hp{fmt::format(
+		"{}: {}", (*_display->string)["CHARACTER_LEGEND_HP"], _character->get_hp_summary())};
+	sf::Text hp_text;
+	hp_text.setFont(_system->resources->fonts[hp_c.font]);
+	hp_text.setCharacterSize(hp_c.size);
+	hp_text.setFillColor(sf::Color(hp_c.colour));
+	hp_text.setString(hp);
+	_display->window->set_position_with_offset(&hp_c, &hp_text);
+	_texts.push_back(hp_text);
 
 	valid = true;
 }

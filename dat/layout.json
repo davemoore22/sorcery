@@ -2572,7 +2572,7 @@
 		},
 		{
 			"name": "name_text",
-			"x": "7",
+			"x": "8",
 			"y": "0",
 			"font": "monospace",
 			"colour": "0xffffffff",
@@ -2590,9 +2590,28 @@
 			]
 		},
 		{
+			"name": "hp_text",
+			"x": "8",
+			"y": "2",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CHARACTER_PANEL_HP",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_x": "0",
+					"offset_y": "0"
+				}
+			]
+		},
+		{
 			"name": "status_text",
-			"x": "7",
-			"y": "1",
+			"x": "8",
+			"y": "4",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
@@ -2604,7 +2623,7 @@
 			"data": [
 				{
 					"offset_x": "0",
-					"offset_y": "12"
+					"offset_y": "-12"
 				}
 			]
 		},

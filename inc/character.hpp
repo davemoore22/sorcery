@@ -115,6 +115,8 @@ namespace Sorcery {
 		auto create_spell_lists() -> void;
 		auto reset_spells() -> void;
 		auto set_spells() -> void;
+		auto get_status() -> std::string;
+		auto get_hp_summary() -> std::string;
 
 		// Public Members
 

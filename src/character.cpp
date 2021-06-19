@@ -1895,6 +1895,17 @@ auto Sorcery::Character::_get_character_portrait() -> sf::Sprite {
 	return portrait;
 }
 
+auto Sorcery::Character::get_status() -> std::string {
+
+	// TODO: for now just return ok
+	return "OK";
+}
+auto Sorcery::Character::get_hp_summary() -> std::string {
+
+	return fmt::format("{}/{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
+		std::to_string(_abilities.at(CharacterAbility::MAX_HP)));
+}
+
 auto Sorcery::Character::get_spell_points(const SpellType type, const SpellPointStatus status) const
 	-> std::optional<SpellPoints> {
 
