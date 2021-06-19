@@ -216,12 +216,14 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 						_system->database->delete_character(
 							_game->get_id(), _current_character_idx);
 
-						// Need to reload the menu! //TODO
+						// Need to reload the menu!
+						_game->reload_characters();
+						_menu->reload();
 
 						// And select the first one in the list after one is deleted
 						_menu->choose_first();
-
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						continue;
 					} else if (dialog_input.value() == WindowDialogButton::NO) {
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					}

@@ -275,6 +275,27 @@ Sorcery::Menu::Menu(
 	}
 }
 
+// need load method!
+auto Sorcery::Menu::reload() -> void {
+
+	// Clear the Items
+	items.clear();
+	bounds.clear();
+	count = 0;
+	_texts.clear();
+	_options.clear();
+
+	// Now depending on the menu type, add the relevant items
+	switch (_type) {
+	case MenuType::CHARACTER_ROSTER:
+		_populate_character_menu();
+		selected = items.begin();
+		break;
+	default:
+		break;
+	}
+}
+
 // Overload [] Operator
 auto Sorcery::Menu::operator[](const unsigned int index) -> MenuEntry & {
 

@@ -50,6 +50,7 @@ auto Sorcery::Game::reload_characters() -> void {
 
 	// Load the Characters
 	_characters_ids = _system->database->get_character_list(_id);
+	characters.clear();
 	characters = load_characters();
 }
 
