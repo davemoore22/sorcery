@@ -842,6 +842,8 @@ auto Sorcery::Menu::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 
 auto Sorcery::Menu::_populate_character_menu() -> void {
 
+	// TODO: handle no characters!
+
 	for (auto &[character_id, character] : _game->characters)
 		_add_item(
 			character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
