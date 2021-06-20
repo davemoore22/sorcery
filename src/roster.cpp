@@ -175,7 +175,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 								_current_character = &_game->characters.at(character_chosen);
 								if (_current_character) {
 									_display->set_input_mode(WindowInputMode::BROWSE_CHARACTER);
-									_current_character.value()->set_view(CharacterView::STRICT);
+									_current_character.value()->set_view(CharacterView::SUMMARY);
 								}
 							} else if (_mode == RosterMode::DELETE) {
 
