@@ -842,13 +842,18 @@ auto Sorcery::Menu::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 
 auto Sorcery::Menu::_populate_character_menu() -> void {
 
-	// TODO: handle no characters!
+	unsigned int max_id{0};
+	if (_game->characters.size() > 0) {
 
-	for (auto &[character_id, character] : _game->characters)
-		_add_item(
-			character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
+		for (auto &[character_id, character] : _game->characters)
+			_add_item(
+				character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
 
-	unsigned int max_id{_game->characters.rbegin()->first};
+		max_id = _game->characters.rbegin()->first;
+	} else {
+		_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING,
+			(*_display->string)["MENU_NO_CHARACTERS"]);
+	}
 	_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
 	_add_item(++max_id, MenuItemType::ENTRY, MenuItem::ET_TRAIN, (*_display->string)["MENU_TRAIN"]);
 }

@@ -274,9 +274,6 @@ auto Sorcery::Roster::_draw() -> void {
 	if (_display->get_input_mode() == WindowInputMode::BROWSE_CHARACTER) {
 		if (_current_character) {
 
-			// If we have a character
-			_window->draw(*_current_character_frame);
-
 			// Character Preview
 			if (_character_panel->valid) {
 				_character_panel->setPosition((*_display->layout)["roster:info_panel"].x,
@@ -284,6 +281,9 @@ auto Sorcery::Roster::_draw() -> void {
 				_window->draw(*_preview_frame);
 				_window->draw(*_character_panel);
 			}
+
+			// If we have a character
+			_window->draw(*_current_character_frame);
 
 			_current_character.value()->setPosition(
 				(*_display->layout)[_screen_key + ":character"].x,

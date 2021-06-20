@@ -479,6 +479,7 @@ namespace Sorcery {
 			SEPARATOR,
 			TITLE,
 			SPACER,
+			NC_WARNING,
 			OP_AUTO_SAVE,
 			OP_STRICT_MODE,
 			OP_RECOMMENDED_MODE,
