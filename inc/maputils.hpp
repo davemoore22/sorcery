@@ -97,7 +97,7 @@ namespace Sorcery {
 				if (mapArray[x][y] == 1 && (y - 1 >= 0 && mapArray[x][y - 1] != 1) &&
 					(y + 1 < height && mapArray[x][y + 1] != 1)) {
 
-					int chance = rand() % 100;
+					int chance = rand   () % 100;
 
 					if (chance <= DOOR_CHANCE) {
 						mapArray[x][y] = 2;
