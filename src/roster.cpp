@@ -192,7 +192,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 
 				if (selected) {
 					if ((*selected.value()).item != MenuItem::ET_TRAIN) {
-						const auto character_chosen{(*selected.value()).index};
+						const int character_chosen{(*selected.value()).index};
 						if (character_chosen != _current_character_idx) {
 							auto character{&_game->characters.at(character_chosen)};
 							_character_panel->set(character);
@@ -275,10 +275,10 @@ auto Sorcery::Roster::_draw() -> void {
 		if (_current_character) {
 
 			// Character Preview
+			_window->draw(*_preview_frame);
 			if (_character_panel->valid) {
 				_character_panel->setPosition((*_display->layout)["roster:info_panel"].x,
 					(*_display->layout)["roster:info_panel"].y);
-				_window->draw(*_preview_frame);
 				_window->draw(*_character_panel);
 			}
 
@@ -294,6 +294,7 @@ auto Sorcery::Roster::_draw() -> void {
 
 		// Menu Frame
 		_window->draw(*_menu_frame);
+		_window->draw(*_preview_frame);
 
 		// And the Menu
 		_menu->generate(
@@ -307,7 +308,6 @@ auto Sorcery::Roster::_draw() -> void {
 		if (_character_panel->valid) {
 			_character_panel->setPosition((*_display->layout)["roster:info_panel"].x,
 				(*_display->layout)["roster:info_panel"].y);
-			_window->draw(*_preview_frame);
 			_window->draw(*_character_panel);
 		}
 
@@ -319,6 +319,7 @@ auto Sorcery::Roster::_draw() -> void {
 
 		// Menu Frame
 		_window->draw(*_menu_frame);
+		_window->draw(*_preview_frame);
 
 		// And the Menu
 		_menu->generate(
@@ -332,7 +333,6 @@ auto Sorcery::Roster::_draw() -> void {
 		if (_character_panel->valid) {
 			_character_panel->setPosition((*_display->layout)["roster:info_panel"].x,
 				(*_display->layout)["roster:info_panel"].y);
-			_window->draw(*_preview_frame);
 			_window->draw(*_character_panel);
 		}
 	}
