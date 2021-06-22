@@ -1635,6 +1635,8 @@ auto Sorcery::Character::create_spell_lists() -> void {
 	_spells.clear();
 
 	// Mage Spells (grouped by level)
+
+	// Level 1
 	unsigned int level{1};
 	_spells.emplace_back(SpellID::DUMAPIC, SpellType::MAGE, SpellCategory::FIELD, level, false,
 		"DUMAPIC", "Clarity",
@@ -1648,87 +1650,83 @@ auto Sorcery::Character::create_spell_lists() -> void {
 		"MOGREF", "Body Iron",
 		"Grants a -2 bonus to armour class to the caster for the duration of combat.");
 
+	// Level 2
 	++level;
+	_spells.emplace_back(SpellID::BOLATU, SpellType::MAGE, SpellCategory::DISABLE, level, false,
+		"BOLATU", "Heart of Stone", "Attempts to turn one foe to stone.");
 	_spells.emplace_back(SpellID::DESTO, SpellType::MAGE, SpellCategory::FIELD, level, false,
 		"DESTO", "Unlock",
 		"Attempts to magically unlock one door as if the caster were a thief of the same level.");
-	_spells.emplace_back(SpellID::DILTO, SpellType::MAGE, SpellCategory::DISABLE, level, false,
-		"DILTO", "Darkness",
-		"Envelopes one group of foes in magical darkness, increasing their AC, and making them "
-		"easier to hit.");
-	_spells.emplace_back(SpellID::SOPIC, SpellType::MAGE, SpellCategory::SUPPORT, level, false,
-		"SOPIC", "Glass",
-		"Causes the caster to become transparent, granting a -4 bonus to armour class for the "
+	_spells.emplace_back(SpellID::MELITO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
+		"MELITO", "Little Sparks", "Inflicts 1d8 points of electric damage to one group of foes.");
+	_spells.emplace_back(SpellID::MORLIS, SpellType::MAGE, SpellCategory::DISABLE, level, false,
+		"MORLIS", "Fear",
+		"Causes one group of foes to fear the party, making them less effective in combat.");
+	_spells.emplace_back(SpellID::PONTI, SpellType::MAGE, SpellCategory::SUPPORT, level, false,
+		"PONTI", "Speed",
+		"Grants a -1 bonus to armour class to a party member and improves their speed for the "
 		"duration of combat.");
-	// BOLATU - Heart of Stone	- Attempts to turn one foe to stone.
-	// MELITO - Little Sparks - Inflicts 1d8 points of electric damage to one group of foes.
-	// PONTI - "Grants a -1 bonus to armour class to a party member and improves their speed for the
-	// duration of combat.
 
+	// Level 3
 	++level;
 	_spells.emplace_back(SpellID::CALIFIC, SpellType::MAGE, SpellCategory::FIELD, level, false,
 		"CALIFIC", "Reveal", " Reveals nearby secret doors.");
+	_spells.emplace_back(SpellID::CORTU, SpellType::MAGE, SpellCategory::SUPPORT, level, false,
+		"CORTU", "Magic Screen",
+		"Erects a protective barrier around the party giving partial protection from breath "
+		"attacks during combat. Stacks with multiple casts.");
+	_spells.emplace_back(SpellID::KANTIOS, SpellType::MAGE, SpellCategory::DISABLE, level, false,
+		"KANTIOS", "Discrption",
+		"Disrupts the senses of a group of foes, preventing them from casting spells, using breath "
+		"attacks and calling for help.");
 	_spells.emplace_back(SpellID::MAHALITO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
 		"MAHALITO", "Big Fire",
 		"Causes an explosion in a group of foes, inflicting 3d8 points of fire damage.");
-	_spells.emplace_back(SpellID::SOPIC, SpellType::MAGE, SpellCategory::ATTACK, level, false,
-		"MOLITO", "Spark Storm",
-		"Causes sparks to damage a group of foes, inflicting 3d6 points of electrical damage to "
-		"half of them.");
-	// CORTU - Magic Screen - "Erects a protective barrier around the party giving partial
-	// protection from breath attacks during combat. Stacks with multiple casts."
-	// KANTIOS - Discrption - "Disrupts the senses of a group of foes, preventing them from casting
-	// spells, using breath attacks and calling for help."
 
+	// Level 4
 	++level;
-	_spells.emplace_back(SpellID::DALTO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
-		"DALTO", "Blizzard", "Inflicts 6d6 points of cold damage to a group of foes.");
 	_spells.emplace_back(SpellID::LAHALITO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
 		"LAHALITO", "Torch", "Inflicts 6d6 points of fire damage to a group of foes.");
 	_spells.emplace_back(SpellID::LITOFEIT, SpellType::MAGE, SpellCategory::FIELD, level, false,
 		"LITOFEIT", "Levitate",
 		"Causes the party to levitate, preventing the triggering of floor traps and greatly "
 		"reduces the chances of ambushes.");
-	_spells.emplace_back(SpellID::MORLIS, SpellType::MAGE, SpellCategory::DISABLE, level, false,
-		"MORLIS", "Fear",
-		"Causes a group of foes to fear the party, reducing their combat effectiveness.");
-	// ROKDO - Stun - "Stuns one group of foes, rendering them helpless in combat."
-	// TZALIK - Fist of the Gods - "Inflicts 20d3 points of force damage on one foe."
+	_spells.emplace_back(SpellID::ROKDO, SpellType::MAGE, SpellCategory::DISABLE, level, false,
+		"ROKDO", "Stun", "Stuns one group of foes, rendering them helpless in combat.");
+	_spells.emplace_back(SpellID::TZALIK, SpellType::MAGE, SpellCategory::ATTACK, level, false,
+		"TZALIK", "Fist of the Gods", "Inflicts 20d3 points of force damage on one foe.");
 
+	// Level 5
 	++level;
+	_spells.emplace_back(SpellID::BACORTU, SpellType::MAGE, SpellCategory::DISABLE, level, false,
+		"BACORTU", "Fizzle Field", "Erects a spell dampening field around a group of foes.");
 	_spells.emplace_back(SpellID::MADALTO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
 		"MADALTO", "Frost", "Inflicts 8d8 points of cold damage to a group of foes.");
-	_spells.emplace_back(SpellID::MAKANITO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
-		"MAKANITO", "Deadly Air",
-		"Slays all lesser foes. Does not affect undead or high-level foes.");
-	_spells.emplace_back(SpellID::MAMORLIS, SpellType::MAGE, SpellCategory::DISABLE, level, false,
-		"MAMORLIS", "Terror", "Causes all foes to fear the party, making them easier to hit.");
-	// BACORTU - Fizzle Field - "Erects a spell dampening field around a group of foes."
-	// PALIOS - Anti-Magic - "Destroys foe-built spell dampening fields."
-	// SOCORDI - Conjure - "Gates in a powerful extra-dimnensional creature to aid the party during
-	// combat."
-	// VASKYRE - Rainbow Rays - "Causes random damaging effects to a group of foes."
+	_spells.emplace_back(SpellID::PALIOS, SpellType::MAGE, SpellCategory::DISABLE, level, false,
+		"PALIOS", "Anti-Magic", "Destroys spell-dampening fields.");
+	_spells.emplace_back(SpellID::SOCORDI, SpellType::MAGE, SpellCategory::SUPPORT, level, false,
+		"SOCORDI", "Terror",
+		"Gates in a powerful extra-dimnensional creature to aid the party during combat.");
+	_spells.emplace_back(SpellID::VASKYRE, SpellType::MAGE, SpellCategory::DISABLE, level, false,
+		"VASKYRE", "Rainbow Rays", "Causes random damaging effects to a group of foes.");
 
+	// Level 6
 	++level;
 	_spells.emplace_back(SpellID::HAMAN, SpellType::MAGE, SpellCategory::SUPPORT, level, false,
 		"HAMAN", "Change",
 		"Causes random but beneficial effects to the entire party but the caster loses one level "
 		"of experience.");
-	_spells.emplace_back(SpellID::LAKANITO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
-		"LAKANITO", "Suffocation",
-		"Kills one group of foes. Does not affect undead or very high level creatures.");
-	_spells.emplace_back(SpellID::MASOPIC, SpellType::MAGE, SpellCategory::SUPPORT, level, false,
-		"MASOPIC", "Big Glass",
-		"Grants a -4 bonus to armour class to the entire party for the duration of combat.");
+	_spells.emplace_back(SpellID::LADALTO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
+		"LADALTO", "Ice Storm",
+		"Freezes one group of foes, inflicting 10d10 points of cold damage.");
+	_spells.emplace_back(SpellID::LOKARA, SpellType::MAGE, SpellCategory::ATTACK, level, false,
+		"LOKARA", "Big Glass",
+		"Opens the earth underneath all foes, attempting to swallow them whole.");
 	_spells.emplace_back(SpellID::ZILWAN, SpellType::MAGE, SpellCategory::ATTACK, level, false,
 		"ZILWAN", "Dispel",
 		"Inflicts 200d10 points of positive energy damage to one undead creature.");
-	// MAMOGREF - Wall of Force - "Erects a force field around a party member, improving their
-	// armour class to -10 for the duration of combat."
-	// LOKARA - Earth Feast - "Opens the earth underneath all foes, attempting to swallow them
-	// whole".
-	// LADALTO - Ice Storm - "Freezes one group of foes, inflicting 10d10 points of cold damage."
 
+	// Level 7
 	++level;
 	_spells.emplace_back(SpellID::MAHAMAN, SpellType::MAGE, SpellCategory::SUPPORT, level, false,
 		"MAHAMAN", "Great Change",
@@ -1738,11 +1736,14 @@ auto Sorcery::Character::create_spell_lists() -> void {
 		"MALOR", "Apport",
 		"Teleports the party to a random nearby location when cast in combat, but to a specified "
 		"location when cast outside of combat.");
+	_spells.emplace_back(SpellID::MAWXIWTZ, SpellType::MAGE, SpellCategory::DISABLE, level, false,
+		"MAWXIWTZ", "MadHouse", "Causes random major damaging effects to all foes.");
 	_spells.emplace_back(SpellID::TILTOWAIT, SpellType::MAGE, SpellCategory::ATTACK, level, false,
 		"TILTOWAIT", "Explosion", "Inflicts 10d15 points of fire and force damage to all foes.");
-	// MAWXIWTZ - MadHouse - "Causes random major damaging effects to all foes."
 
 	// Priest Spells (grouped by level)
+
+	// Level 1
 	level = 1u;
 	_spells.emplace_back(SpellID::BADIOS, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
 		"BADIOS", "Harm", "Inflicts 1d8 points of negative energy damage to one foe.");
@@ -1759,37 +1760,44 @@ auto Sorcery::Character::create_spell_lists() -> void {
 		"PORFIC", "Shield",
 		"Grants a -4 bonus to armour class to the caster for the duration of combat.");
 
+	// Level 2
 	++level;
 	_spells.emplace_back(SpellID::CALFO, SpellType::PRIEST, SpellCategory::FIELD, level, false,
 		"CALFO", "X-Ray Vision",
 		"Allows the caster to identify the trap on a chest with 95% accuracy.");
-	_spells.emplace_back(SpellID::MANIFO, SpellType::PRIEST, SpellCategory::DISABLE, level, false,
-		"MANIFO", "Statue", "Temporarily paralyses one group of foes.");
-	_spells.emplace_back(SpellID::MATU, SpellType::PRIEST, SpellCategory::SUPPORT, level, false,
-		"MATU", "Blessing",
-		"Grants a -2 bonus to armour class to the entire party for the duration of combat.");
+	_spells.emplace_back(SpellID::KANDI, SpellType::PRIEST, SpellCategory::FIELD, level, false,
+		"KANDI", "Locate Soul",
+		"Gives the direction of the creature the party is attempting to locate; the location is "
+		"relative to the position of the caster.");
+	_spells.emplace_back(SpellID::KATU, SpellType::PRIEST, SpellCategory::FIELD, level, false,
+		"KATU", "Charm",
+		"Attempts to charm one creature or foe, making it more friendly to the party.");
 	_spells.emplace_back(SpellID::MONTINO, SpellType::PRIEST, SpellCategory::DISABLE, level, false,
 		"MONTINO", "Still Air",
 		"Stills the air around a group of foes, making it impossible for them to cast spells.");
-	// KATU - Charm - "Attempts to charm one creature or foe, making it more friendly to the party."
 
+	// Level 3
 	++level;
 	_spells.emplace_back(SpellID::BAMATU, SpellType::PRIEST, SpellCategory::SUPPORT, level, false,
 		"BAMATU", "Prayer",
 		"Grants a -4 bonus to armour class to the entire party for the duration of combat.");
 	_spells.emplace_back(SpellID::DIALKO, SpellType::PRIEST, SpellCategory::HEALING, level, false,
 		"DIALKO", "Softness", "Cures one party member of paralysis, silence, or sleep.");
+	_spells.emplace_back(SpellID::HAKANIDO, SpellType::PRIEST, SpellCategory::DISABLE, level, false,
+		"HAKANIDO", "Magic Drain", "Drains one foe of spell points.");
 	_spells.emplace_back(SpellID::LATUMAPIC, SpellType::PRIEST, SpellCategory::FIELD, level, false,
 		"LATUMAPIC", "Identify", "Full identifies unknown foes.");
 	_spells.emplace_back(SpellID::LOMILWA, SpellType::PRIEST, SpellCategory::FIELD, level, false,
 		"LOMILWA", "More Light",
 		" Extend the party's field of vision and reveals most secret doors. Lasts until leaving "
 		"the maze or entering an area of magical darkness.");
-	// HAKANIDO - Magic Drain - "Drains one foe of spell points."
 
+	// Level 4
 	++level;
 	_spells.emplace_back(SpellID::BADIAL, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
 		"BADIAL", "More Hurt", "Inflicts 2d8 points of negative energy damage to one foe.");
+	_spells.emplace_back(SpellID::BARIKO, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
+		"BARIKO", "Razor Wind", "Inflicts 5d3 points of force damage to a group of foes.");
 	_spells.emplace_back(SpellID::DIAL, SpellType::PRIEST, SpellCategory::HEALING, level, false,
 		"DIAL", "More Heal", "Restores 2d8 hp to a party member.");
 	_spells.emplace_back(SpellID::LATUMOFIS, SpellType::PRIEST, SpellCategory::HEALING, level,
@@ -1798,30 +1806,24 @@ auto Sorcery::Character::create_spell_lists() -> void {
 		"MAPORFIC", "Big Shield",
 		"Grants a -2 bonus to armour class to the entire party. Lasts until leaving the maze or "
 		"dispelled");
-	// BARIKO - Razor Wind - "Inflicts 5d3 points of force damage to a group of foes."
 
+	// Level 5
 	++level;
 	_spells.emplace_back(SpellID::BADI, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
 		"BADI", "Death", "Attempts to slay one foe outright.");
-	_spells.emplace_back(SpellID::BADIALMA, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
-		"BADIALMA", "Great Hurt", "Inflicts 3d8 points of negative energy damage to one foe.");
+	_spells.emplace_back(SpellID::BAMORDI, SpellType::PRIEST, SpellCategory::SUPPORT, level, false,
+		"BAMORDI", "Summoning",
+		"Gates in a group of powerful extra-dimnensional creature to aid the party during combat.");
 	_spells.emplace_back(SpellID::DI, SpellType::PRIEST, SpellCategory::HEALING, level, false, "DI",
 		"Life",
 		"Attempts to resurrect a dead party member. If it succeeds, the party members has 1 hp, "
 		"and loses 1 point of vitality. If it fails, the dead member is turned to ashes.");
 	_spells.emplace_back(SpellID::DIALMA, SpellType::PRIEST, SpellCategory::HEALING, level, false,
 		"DIALMA", "Great Heal", "Restores 3d8 hp to a party member.");
-	_spells.emplace_back(SpellID::KANDI, SpellType::PRIEST, SpellCategory::FIELD, level, false,
-		"KANDI", "Locate Soul",
-		"Gives the direction of the creature the party is attempting to locate; the location is "
-		"relative to the position of the caster.");
-	_spells.emplace_back(SpellID::LITOKAN, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
-		"LITOKAN", "Flame Tower",
-		"A pillar of flame strike a group of foes causing 3d8 points of fire damage.");
-	// MOGATO - "Astral Gate" - "Attempts to banish a devil or demon back to its home plane."
-	// BAMORDI - "Summoning" - ""Gates in a group of powerful extra-dimnensional creature to aid the
-	// party during combat."
+	_spells.emplace_back(SpellID::MOGATO, SpellType::PRIEST, SpellCategory::DISABLE, level, false,
+		"MOGATO", "Astral Gate", "Attempts to banish a devil or demon back to its home plane.");
 
+	// Level 6
 	++level;
 	_spells.emplace_back(SpellID::LABADI, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
 		"LABADI", "Life Steal",
@@ -1832,30 +1834,28 @@ auto Sorcery::Character::create_spell_lists() -> void {
 		"Causes all party members to be transported back to the castle, all of their equipment and "
 		"gold, but the spell is forgotten after casting and must be relearned, and there is a "
 		"chance the spell will not work.");
-	_spells.emplace_back(SpellID::LORTO, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
-		"LORTO", "Blades",
-		"Causes sharp blades to slice through a group of foes, causing 6d6 points of force "
-		"damage.");
-	_spells.emplace_back(SpellID::MABADI, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
-		"MABADI", "Harming", "Causes all but 1d8 hp to be removed from a foe.");
+	_spells.emplace_back(SpellID::KAKAMEN, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
+		"KAKAMEN", "Fire Wind", "Inflicts 18d2 points of fire damage to a group of foes.");
 	_spells.emplace_back(SpellID::MADI, SpellType::PRIEST, SpellCategory::HEALING, level, false,
 		"MADI", "Healing",
 		"Fills a party member with positive energy, causeing all hp to be restored to a party "
 		"member and curing any condition except death.");
-	// KAKAMEN - "Fire Wind" - "Inflicts 18d2 points of fire damage to a group of foes".
 
+	// Level 7
 	++level;
-	_spells.emplace_back(SpellID::MALIKTO, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
-		"MALIKTO", "Word of Death", "Causes 12d6 hp of negative energy damage to all foes.");
+	_spells.emplace_back(SpellID::BAKADI, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
+		"BAKADI", "Death Wind",
+		"Unleashes a massive blast of negative energy at one group of foes, attempting to wipe "
+		"them from existance.");
+	_spells.emplace_back(SpellID::IHALON, SpellType::PRIEST, SpellCategory::SUPPORT, level, false,
+		"IHALON", "Wish",
+		"Grants a special favor to a party member, but is forgotten after being cast");
 	_spells.emplace_back(SpellID::KADORTO, SpellType::PRIEST, SpellCategory::HEALING, level, false,
 		"KADORTO", "Resurrection",
 		"Restores the dead to life, and restores all hp and cures all conditions, even if the "
 		"party member is ashes. If the attempt fails, the character is lost forever.");
-	// IHALON -  "Wish" - "Grants a special favor to a party member, but is forgotten after being
-	// cast."
-	// MABARIKO - "Meteor Winds" - "Inflicts 18d3 points of fire damage to all foes."
-	// BAKADI - "Death Wind" - "Unleashes a blast of negative energy at one group of foes,
-	// attempting to wipe them from existance."
+	_spells.emplace_back(SpellID::MABARIKO, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
+		"MABARIKO", "Meteor Winds", "Inflicts 18d3 points of fire damage to all foes.");
 }
 
 auto Sorcery::Character::reset_spells() -> void {
