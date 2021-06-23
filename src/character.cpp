@@ -2072,47 +2072,82 @@ auto Sorcery::Character::_generate_summary_icons() -> void {
 auto Sorcery::Character::_adjust_ability_colour(int value, CharacterAbilityType ability_type)
 	-> unsigned long long {
 
+	// Colours "borrowed" from
+	// https://github.com/angband/angband/blob/master/src/ui-player.c
+	// https://github.com/angband/angband/blob/master/src/z-color.h
+	std::string colour{};
 	switch (ability_type) {
 	case CharacterAbilityType::NUMBER:
 		if (value < 0)
-			return 0x606060ff;
+			colour = "negative";
 		else if (value == 0)
-			return 0x606060ff;
+			colour = "zero";
 		else
-			return 0x606060ff;
+			colour = "positive";
+		break;
+	case CharacterAbilityType::AC:
+		if (value == 10)
+			colour = "negative";
+		else if (value > 6)
+			colour = "zero";
+		else
+			colour = "positive";
 		break;
 	case CharacterAbilityType::STAT:
-		if (value < 5)
-			return 0x606060ff;
+		if (value < 6)
+			colour = "bad";
+		else if (value < 8)
+			colour = "poor";
 		else if (value < 10)
-			return 0x606060ff;
+			colour = "fair";
+		else if (value < 12)
+			colour = "good";
+		else if (value < 14)
+			colour = "very good";
 		else if (value < 15)
-			return 0x606060ff;
+			colour = "excellent";
+		else if (value < 16)
+			colour = "superb";
+		else if (value < 18)
+			colour = "heroic";
 		else
-			return 0x606060ff;
+			colour = "legendary";
 		break;
 	case CharacterAbilityType::PERCENTAGE:
-		if (value < 25)
-			return 0x606060ff;
+		if (value < 20)
+			colour = "bad";
+		else if (value < 30)
+			colour = "poor";
+		else if (value < 40)
+			colour = "fair";
 		else if (value < 50)
-			return 0x606060ff;
-		else if (value < 75)
-			return 0x606060ff;
+			colour = "good";
+		else if (value < 60)
+			colour = "very good";
+		else if (value < 70)
+			colour = "excellent";
+		else if (value < 80)
+			colour = "superb";
+		else if (value < 90)
+			colour = "heroic";
 		else
-			return 0x606060ff;
+			colour = "legendary";
 		break;
 	case CharacterAbilityType::MODIFIER:
 		if (value < 0)
-			return 0x606060ff;
+			colour = "negative";
 		else if (value == 0)
-			return 0x606060ff;
+			colour = "zero";
 		else
-			return 0x606060ff;
+			colour = "positive";
 		break;
 	default:
-		return 0x606060ff;
+		colour = "label";
 		break;
 	};
+
+	Component colours{(*_display->layout)["character:character_colours"]};
+	return std::stoull(colours[colour].value(), 0, 16);
 }
 
 auto Sorcery::Character::get_summary() -> std::string {
@@ -2207,7 +2242,37 @@ auto Sorcery::Character::_generate_display() -> void {
 		portrait.setScale(portrait_c.scale, portrait_c.scale);
 		_v_sprites.emplace(portrait_c.unique_key, portrait); */
 
-		_add_text((*_display->layout)["character_strict:strength_value"], "{:>2}",
+		Component s_c{(*_display->layout)["character_strict:strength_value"]};
+		s_c.colour = _adjust_ability_colour(
+			_cur_attr.at(CharacterAttribute::STRENGTH), CharacterAbilityType::STAT);
+		_add_text(s_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
+
+		Component i_c{(*_display->layout)["character_strict:iq_value"]};
+		i_c.colour = _adjust_ability_colour(
+			_cur_attr.at(CharacterAttribute::IQ), CharacterAbilityType::STAT);
+		_add_text(i_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::IQ)));
+
+		Component p_c{(*_display->layout)["character_strict:piety_value"]};
+		p_c.colour = _adjust_ability_colour(
+			_cur_attr.at(CharacterAttribute::PIETY), CharacterAbilityType::STAT);
+		_add_text(p_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::PIETY)));
+
+		Component a_c{(*_display->layout)["character_strict:agility_value"]};
+		a_c.colour = _adjust_ability_colour(
+			_cur_attr.at(CharacterAttribute::AGILITY), CharacterAbilityType::STAT);
+		_add_text(a_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::AGILITY)));
+
+		Component v_c{(*_display->layout)["character_strict:vitality_value"]};
+		v_c.colour = _adjust_ability_colour(
+			_cur_attr.at(CharacterAttribute::VITALITY), CharacterAbilityType::STAT);
+		_add_text(v_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::VITALITY)));
+
+		Component l_c{(*_display->layout)["character_strict:luck_value"]};
+		l_c.colour = _adjust_ability_colour(
+			_cur_attr.at(CharacterAttribute::LUCK), CharacterAbilityType::STAT);
+		_add_text(l_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::LUCK)));
+
+		/* _add_text((*_display->layout)["character_strict:strength_value"], "{:>2}",
 			std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
 		_add_text((*_display->layout)["character_strict:iq_value"], "{:>2}",
 			std::to_string(_cur_attr.at(CharacterAttribute::IQ)));
@@ -2218,7 +2283,7 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text((*_display->layout)["character_strict:vitality_value"], "{:>2}",
 			std::to_string(_cur_attr.at(CharacterAttribute::VITALITY)));
 		_add_text((*_display->layout)["character_strict:luck_value"], "{:>2}",
-			std::to_string(_cur_attr.at(CharacterAttribute::LUCK)));
+			std::to_string(_cur_attr.at(CharacterAttribute::LUCK))); */
 
 		_add_text((*_display->layout)["character_strict:hp_value"], "{}",
 			fmt::format("{}/{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
@@ -2310,18 +2375,35 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text(
 			(*_display->layout)["character_detailed:name_and_summary_text"], "{}", summary_text());
 
-		_add_text((*_display->layout)["character_detailed:strength_value"], "{:>2}",
-			std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
-		_add_text((*_display->layout)["character_detailed:iq_value"], "{:>2}",
-			std::to_string(_cur_attr.at(CharacterAttribute::IQ)));
-		_add_text((*_display->layout)["character_detailed:piety_value"], "{:>2}",
-			std::to_string(_cur_attr.at(CharacterAttribute::PIETY)));
-		_add_text((*_display->layout)["character_detailed:agility_value"], "{:>2}",
-			std::to_string(_cur_attr.at(CharacterAttribute::AGILITY)));
-		_add_text((*_display->layout)["character_detailed:vitality_value"], "{:>2}",
-			std::to_string(_cur_attr.at(CharacterAttribute::VITALITY)));
-		_add_text((*_display->layout)["character_detailed:luck_value"], "{:>2}",
-			std::to_string(_cur_attr.at(CharacterAttribute::LUCK)));
+		Component s_c{(*_display->layout)["character_detailed:strength_value"]};
+		s_c.colour = _adjust_ability_colour(
+			_cur_attr.at(CharacterAttribute::STRENGTH), CharacterAbilityType::STAT);
+		_add_text(s_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
+
+		Component i_c{(*_display->layout)["character_detailed:iq_value"]};
+		i_c.colour = _adjust_ability_colour(
+			_cur_attr.at(CharacterAttribute::IQ), CharacterAbilityType::STAT);
+		_add_text(i_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::IQ)));
+
+		Component p_c{(*_display->layout)["character_detailed:piety_value"]};
+		p_c.colour = _adjust_ability_colour(
+			_cur_attr.at(CharacterAttribute::PIETY), CharacterAbilityType::STAT);
+		_add_text(p_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::PIETY)));
+
+		Component a_c{(*_display->layout)["character_detailed:agility_value"]};
+		a_c.colour = _adjust_ability_colour(
+			_cur_attr.at(CharacterAttribute::AGILITY), CharacterAbilityType::STAT);
+		_add_text(a_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::AGILITY)));
+
+		Component v_c{(*_display->layout)["character_detailed:vitality_value"]};
+		v_c.colour = _adjust_ability_colour(
+			_cur_attr.at(CharacterAttribute::VITALITY), CharacterAbilityType::STAT);
+		_add_text(v_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::VITALITY)));
+
+		Component l_c{(*_display->layout)["character_detailed:luck_value"]};
+		l_c.colour = _adjust_ability_colour(
+			_cur_attr.at(CharacterAttribute::LUCK), CharacterAbilityType::STAT);
+		_add_text(l_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::LUCK)));
 
 		Component strength_c((*_display->layout)["character_detailed:strength_detailed_values"]);
 
@@ -2378,7 +2460,7 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		iq_c.y += _display->window->get_cell_height();
 		iq_c.colour = _adjust_ability_colour(
-			_abilities.at(CharacterAbility::IDENTIFY_FOES), CharacterAbilityType::NUMBER);
+			_abilities.at(CharacterAbility::BONUS_MAGE_SPELLS), CharacterAbilityType::NUMBER);
 		_add_text(
 			iq_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_MAGE_SPELLS)));
 
@@ -2439,7 +2521,7 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		Component agility_c((*_display->layout)["character_detailed:agility_detailed_values"]);
 
-		vitality_c.colour = _adjust_ability_colour(
+		agility_c.colour = _adjust_ability_colour(
 			_abilities.at(CharacterAbility::INITIATIVE_MODIFIER), CharacterAbilityType::MODIFIER);
 		_add_text(agility_c, "{:+>2}",
 			std::to_string(_abilities.at(CharacterAbility::INITIATIVE_MODIFIER)));
@@ -2477,7 +2559,7 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		agility_c.y += _display->window->get_cell_height();
 		agility_c.colour = _adjust_ability_colour(
-			_abilities.at(CharacterAbility::BASE_ARMOUR_CLASS), CharacterAbilityType::NUMBER);
+			_abilities.at(CharacterAbility::BASE_ARMOUR_CLASS), CharacterAbilityType::AC);
 		_add_text(
 			agility_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BASE_ARMOUR_CLASS)));
 
