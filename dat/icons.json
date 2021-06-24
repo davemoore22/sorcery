@@ -258,6 +258,146 @@
 			"menu_item": "OP_ALL",
 			"key": "option",
 			"colour": "0xff0000ff"
+		},
+		{
+			"index": "37",
+			"filename": "war-axe",
+			"menu_item": "CR_NONE",
+			"key": "mainhand",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "38",
+			"filename": "attached-shield",
+			"menu_item": "CR_NONE",
+			"key": "offhand",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "39",
+			"filename": "high-shot",
+			"menu_item": "CR_NONE",
+			"key": "ranged",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "40",
+			"filename": "quiver",
+			"menu_item": "CR_NONE",
+			"key": "quiver",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "41",
+			"filename": "barbute",
+			"menu_item": "CR_NONE",
+			"key": "head",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "42",
+			"filename": "chest-armor",
+			"menu_item": "CR_NONE",
+			"key": "torso",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "43",
+			"filename": "gauntlet",
+			"menu_item": "CR_NONE",
+			"key": "hands",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "44",
+			"filename": "armored-pants",
+			"menu_item": "CR_NONE",
+			"key": "legs",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "45",
+			"filename": "leg-armor",
+			"menu_item": "CR_NONE",
+			"key": "feet",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "46",
+			"filename": "necklace",
+			"menu_item": "CR_NONE",
+			"key": "neck",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "47",
+			"filename": "ring",
+			"menu_item": "CR_NONE",
+			"key": "ring1",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "48",
+			"filename": "ring",
+			"menu_item": "CR_NONE",
+			"key": "ring2",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "49",
+			"filename": "backpack",
+			"menu_item": "CR_NONE",
+			"key": "inventory",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "50",
+			"filename": "jeweled-chalice",
+			"menu_item": "CR_NONE",
+			"key": "quest",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "51",
+			"filename": "blaster",
+			"menu_item": "CR_NONE",
+			"key": "attack",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "52",
+			"filename": "sight-disabled",
+			"menu_item": "CR_NONE",
+			"key": "disable",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "53",
+			"filename": "life-buoy",
+			"menu_item": "CR_NONE",
+			"key": "support",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "54",
+			"filename": "campire",
+			"menu_item": "CR_NONE",
+			"key": "field",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "55",
+			"filename": "hospital-cross",
+			"menu_item": "CR_NONE",
+			"key": "healing",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "56",
+			"filename": "spell-book",
+			"menu_item": "CR_NONE",
+			"key": "spell",
+			"colour": "0xffffffff"
 		}
 	]
 }

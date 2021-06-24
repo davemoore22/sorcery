@@ -2591,7 +2591,7 @@
 					"legendary": "0x00ff00ff"
 				}
 			]
-			
+
 		}
 		]
 	},
@@ -5297,7 +5297,7 @@
 
 			{
 				"name": "name_and_summary_text",
-				"x": "0",
+				"x": "3",
 				"y": "0",
 				"font": "monospace",
 				"colour": "0x00ffffff",
@@ -5310,9 +5310,9 @@
 			},
 			{
 				"name": "portrait",
-				"x": "46",
-				"y": "2",
-				"scale": "0.32",
+				"x": "0",
+				"y": "0",
+				"scale": "0.12",
 				"drawmode": "manual",
 				"type": "image"
 			},
@@ -5331,7 +5331,7 @@
 			},
 			{
 				"name": "strength_value",
-				"x": "10",
+				"x": "11",
 				"y": "2",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5362,7 +5362,7 @@
 			},
 			{
 				"name": "iq_value",
-				"x": "10",
+				"x": "11",
 				"y": "3",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5393,7 +5393,7 @@
 			},
 			{
 				"name": "piety_value",
-				"x": "10",
+				"x": "11",
 				"y": "4",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5424,7 +5424,7 @@
 			},
 			{
 				"name": "vitality_value",
-				"x": "10",
+				"x": "11",
 				"y": "5",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5455,7 +5455,7 @@
 			},
 			{
 				"name": "agility_value",
-				"x": "10",
+				"x": "11",
 				"y": "6",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5486,7 +5486,7 @@
 			},
 			{
 				"name": "luck_value",
-				"x": "10",
+				"x": "11",
 				"y": "7",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5503,8 +5503,110 @@
 				]
 			},
 			{
+				"name": "strength_icon",
+				"x": "10",
+				"y": "2",
+				"scale": "0.05",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "strength",
+				"colour": "0xc5b4e3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "iq_icon",
+				"x": "10",
+				"y": "3",
+				"scale": "0.05",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "iq",
+				"colour": "0xc5b4e3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "piety_icon",
+				"x": "10",
+				"y": "4",
+				"scale": "0.05",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "piety",
+				"colour": "0xc5b4e3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "vitality_icon",
+				"x": "10",
+				"y": "5",
+				"scale": "0.05",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "vitality",
+				"colour": "0xc5b4e3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "agility_icon",
+				"x": "10",
+				"y": "6",
+				"scale": "0.05",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "agility",
+				"colour": "0xc5b4e3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "luck_icon",
+				"x": "10",
+				"y": "7",
+				"scale": "0.05",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "luck",
+				"colour": "0xc5b4e3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
 				"name": "hp_label",
-				"x": "35",
+				"x": "37",
 				"y": "7",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5517,7 +5619,7 @@
 			},
 			{
 				"name": "hp_value",
-				"x": "36",
+				"x": "39",
 				"y": "7",
 				"font": "monospace",
 				"colour": "0x00ffffff",
@@ -5530,7 +5632,7 @@
 			},
 			{
 				"name": "ac_label",
-				"x": "35",
+				"x": "37",
 				"y": "5",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5543,7 +5645,7 @@
 			},
 			{
 				"name": "ac_value",
-				"x": "36",
+				"x": "39",
 				"y": "5",
 				"font": "monospace",
 				"colour": "0x00ffffff",
@@ -5556,7 +5658,7 @@
 			},
 			{
 				"name": "status_label",
-				"x": "20",
+				"x": "21",
 				"y": "7",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5569,7 +5671,7 @@
 			},
 			{
 				"name": "status_value",
-				"x": "21",
+				"x": "23",
 				"y": "7",
 				"font": "monospace",
 				"colour": "0x00ff00ff",
@@ -5581,21 +5683,8 @@
 				"drawmode": "manual"
 			},
 			{
-				"name": "lev_label",
-				"x": "20",
-				"y": "2",
-				"font": "monospace",
-				"colour": "0x00ff00ff",
-				"size": "38",
-				"string": "CHARACTER_LV",
-				"justification": "right",
-				"type": "text",
-				"priority": "3",
-				"drawmode": "manual"
-			},
-			{
 				"name": "exp_label",
-				"x": "20",
+				"x": "21",
 				"y": "2",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5608,7 +5697,7 @@
 			},
 			{
 				"name": "next_label",
-				"x": "20",
+				"x": "21",
 				"y": "3",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5621,7 +5710,7 @@
 			},
 			{
 				"name": "gold_label",
-				"x": "20",
+				"x": "21",
 				"y": "5",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5633,21 +5722,8 @@
 				"drawmode": "automatic"
 			},
 			{
-				"name": "lev_value",
-				"x": "20",
-				"y": "2",
-				"font": "monospace",
-				"colour": "0x00ff00ff",
-				"size": "38",
-				"string": "NONE",
-				"justification": "left",
-				"type": "text",
-				"priority": "3",
-				"drawmode": "manual"
-			},
-			{
 				"name": "exp_value",
-				"x": "21",
+				"x": "23",
 				"y": "2",
 				"font": "monospace",
 				"colour": "0x00ff00ff",
@@ -5660,7 +5736,7 @@
 			},
 			{
 				"name": "next_value",
-				"x": "21",
+				"x": "23",
 				"y": "3",
 				"font": "monospace",
 				"colour": "0x00ff00ff",
@@ -5673,7 +5749,7 @@
 			},
 			{
 				"name": "gold_value",
-				"x": "21",
+				"x": "23",
 				"y": "5",
 				"font": "monospace",
 				"colour": "0x00ff00ff",
@@ -5686,7 +5762,7 @@
 			},
 			{
 				"name": "age_label",
-				"x": "35",
+				"x": "37",
 				"y": "2",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5699,7 +5775,7 @@
 			},
 			{
 				"name": "age_value",
-				"x": "36",
+				"x": "39",
 				"y": "2",
 				"font": "monospace",
 				"colour": "0x00ffffff",
@@ -5712,7 +5788,7 @@
 			},
 			{
 				"name": "swim_label",
-				"x": "35",
+				"x": "37",
 				"y": "3",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5725,7 +5801,7 @@
 			},
 			{
 				"name": "swim_value",
-				"x": "36",
+				"x": "39",
 				"y": "3",
 				"font": "monospace",
 				"colour": "0x00ffffff",
@@ -5738,7 +5814,7 @@
 			},
 			{
 				"name": "marks_label",
-				"x": "48",
+				"x": "51",
 				"y": "2",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5751,7 +5827,7 @@
 			},
 			{
 				"name": "deaths_label",
-				"x": "48",
+				"x": "51",
 				"y": "3",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5764,7 +5840,7 @@
 			},
 			{
 				"name": "marks_value",
-				"x": "49",
+				"x": "53",
 				"y": "2",
 				"font": "monospace",
 				"colour": "0x00ffffff",
@@ -5777,7 +5853,7 @@
 			},
 			{
 				"name": "deaths_value",
-				"x": "49",
+				"x": "53",
 				"y": "3",
 				"font": "monospace",
 				"colour": "0x00ffffff",
@@ -5787,6 +5863,176 @@
 				"type": "text",
 				"priority": "3",
 				"drawmode": "manual"
+			},
+			{
+				"name": "hp_icon",
+				"x": "38",
+				"y": "7",
+				"scale": "0.05",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "hp",
+				"colour": "0xc5b4e3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "ac_icon",
+				"x": "38",
+				"y": "5",
+				"scale": "0.05",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "ac",
+				"colour": "0xc5b4e3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "age_icon",
+				"x": "38",
+				"y": "2",
+				"scale": "0.05",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "age",
+				"colour": "0xc5b4e3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "swim_icon",
+				"x": "38",
+				"y": "3",
+				"scale": "0.05",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "swim",
+				"colour": "0xc5b4e3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "exp_icon",
+				"x": "22",
+				"y": "2",
+				"scale": "0.05",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "exp",
+				"colour": "0xc5b4e3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "next_icon",
+				"x": "22",
+				"y": "3",
+				"scale": "0.05",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "next",
+				"colour": "0xc5b4e3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "gold_icon",
+				"x": "22",
+				"y": "5",
+				"scale": "0.05",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "gold",
+				"colour": "0xc5b4e3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "status_icon",
+				"x": "22",
+				"y": "7",
+				"scale": "0.05",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "status",
+				"colour": "0xc5b4e3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "marks_icon",
+				"x": "52",
+				"y": "2",
+				"scale": "0.05",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "marks",
+				"colour": "0xc5b4e3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "deaths_icon",
+				"x": "52",
+				"y": "3",
+				"scale": "0.05",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "deaths",
+				"colour": "0xc5b4e3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
 			},
 			{
 				"name": "mage_spells_label",
@@ -5802,11 +6048,28 @@
 				"drawmode": "automatic"
 			},
 			{
-				"name": "mage_spells",
+				"name": "mage_spells_icon",
 				"x": "10",
 				"y": "9",
+				"scale": "0.05",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "mage",
+				"colour": "0xc5b4e3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "mage_spells",
+				"x": "11",
+				"y": "9",
 				"font": "monospace",
-				"colour": "0x00ff00ff",
+				"colour": "0xffffffff",
 				"size": "38",
 				"string": "NONE",
 				"justification": "left",
@@ -5816,7 +6079,7 @@
 			},
 			{
 				"name": "priest_spells_label",
-				"x": "35",
+				"x": "37",
 				"y": "9",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5828,11 +6091,28 @@
 				"drawmode": "automatic"
 			},
 			{
+				"name": "priest_spells_icon",
+				"x": "38",
+				"y": "9",
+				"scale": "0.05",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "priest",
+				"colour": "0xc5b4e3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
 				"name": "priest_spells",
-				"x": "36",
+				"x": "39",
 				"y": "9",
 				"font": "monospace",
-				"colour": "0x00ff00ff",
+				"colour": "0xffffffff",
 				"size": "38",
 				"string": "NONE",
 				"justification": "left",

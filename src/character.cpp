@@ -1670,7 +1670,7 @@ auto Sorcery::Character::create_spell_lists() -> void {
 	// Level 3
 	++level;
 	_spells.emplace_back(SpellID::CALIFIC, SpellType::MAGE, SpellCategory::FIELD, level, false,
-		"CALIFIC", "Reveal", " Reveals nearby secret doors.");
+		"CALIFIC", "Reveal", "Reveals nearby secret doors.");
 	_spells.emplace_back(SpellID::CORTU, SpellType::MAGE, SpellCategory::SUPPORT, level, false,
 		"CORTU", "Magic Screen",
 		"Erects a protective barrier around the party giving partial protection from breath "
