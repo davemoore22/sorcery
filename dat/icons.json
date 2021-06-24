@@ -398,6 +398,20 @@
 			"menu_item": "CR_NONE",
 			"key": "spell",
 			"colour": "0xffffffff"
+		},
+		{
+			"index": "57",
+			"filename": "entangled-typhoon",
+			"menu_item": "CR_NONE",
+			"key": "resistances",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "58",
+			"filename": "open-book",
+			"menu_item": "CR_NONE",
+			"key": "sheet",
+			"colour": "0xffffffff"
 		}
 	]
 }

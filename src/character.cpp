@@ -2387,6 +2387,24 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text(
 			(*_display->layout)["character_detailed:name_and_summary_text"], "{}", summary_text());
 
+		auto portrait{_get_character_portrait()};
+		Component portrait_c{(*_display->layout)["character_strict:portrait"]};
+		portrait.setScale(portrait_c.scale, portrait_c.scale);
+		const int offset_x = [&] {
+			if (portrait_c["offset_x"])
+				return std::stoi(portrait_c["offset_x"].value());
+			else
+				return 0;
+		}();
+		const int offset_y = [&] {
+			if (portrait_c["offset_y"])
+				return std::stoi(portrait_c["offset_y"].value());
+			else
+				return 0;
+		}();
+		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
+		_v_sprites.emplace(portrait_c.unique_key, portrait);
+
 		Component s_c{(*_display->layout)["character_detailed:strength_value"]};
 		s_c.colour = _adjust_ability_colour(
 			_cur_attr.at(CharacterAttribute::STRENGTH), CharacterAbilityType::STAT);
@@ -2683,6 +2701,24 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text(
 			(*_display->layout)["character_inventory:name_and_summary_text"], "{}", summary_text());
 
+		auto portrait{_get_character_portrait()};
+		Component portrait_c{(*_display->layout)["character_strict:portrait"]};
+		portrait.setScale(portrait_c.scale, portrait_c.scale);
+		const int offset_x = [&] {
+			if (portrait_c["offset_x"])
+				return std::stoi(portrait_c["offset_x"].value());
+			else
+				return 0;
+		}();
+		const int offset_y = [&] {
+			if (portrait_c["offset_y"])
+				return std::stoi(portrait_c["offset_y"].value());
+			else
+				return 0;
+		}();
+		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
+		_v_sprites.emplace(portrait_c.unique_key, portrait);
+
 		Component carried_c((*_display->layout)["character_inventory:carried_blank"]);
 		int slots{std::stoi(carried_c["number_of_slots"].value())};
 		for (int loop = 0; loop < slots; loop++) {
@@ -2696,6 +2732,24 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		_add_text((*_display->layout)["character_mage_spells:name_and_summary_text"], "{}",
 			summary_text());
+
+		auto portrait{_get_character_portrait()};
+		Component portrait_c{(*_display->layout)["character_strict:portrait"]};
+		portrait.setScale(portrait_c.scale, portrait_c.scale);
+		const int offset_x = [&] {
+			if (portrait_c["offset_x"])
+				return std::stoi(portrait_c["offset_x"].value());
+			else
+				return 0;
+		}();
+		const int offset_y = [&] {
+			if (portrait_c["offset_y"])
+				return std::stoi(portrait_c["offset_y"].value());
+			else
+				return 0;
+		}();
+		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
+		_v_sprites.emplace(portrait_c.unique_key, portrait);
 
 		Component level_c{(*_display->layout)["character_mage_spells:level_label"]};
 		Component sp_c{(*_display->layout)["character_mage_spells:spell_points"]};
@@ -2746,6 +2800,24 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		_add_text((*_display->layout)["character_priest_spells:name_and_summary_text"], "{}",
 			summary_text());
+
+		auto portrait{_get_character_portrait()};
+		Component portrait_c{(*_display->layout)["character_strict:portrait"]};
+		portrait.setScale(portrait_c.scale, portrait_c.scale);
+		const int offset_x = [&] {
+			if (portrait_c["offset_x"])
+				return std::stoi(portrait_c["offset_x"].value());
+			else
+				return 0;
+		}();
+		const int offset_y = [&] {
+			if (portrait_c["offset_y"])
+				return std::stoi(portrait_c["offset_y"].value());
+			else
+				return 0;
+		}();
+		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
+		_v_sprites.emplace(portrait_c.unique_key, portrait);
 
 		Component level_c{(*_display->layout)["character_priest_spells:level_label"]};
 		Component sp_c{(*_display->layout)["character_priest_spells:spell_points"]};
