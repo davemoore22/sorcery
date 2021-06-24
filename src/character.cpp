@@ -2236,11 +2236,23 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text(
 			(*_display->layout)["character_strict:name_and_summary_text"], "{}", summary_text());
 
-		/* auto portrait{_get_character_portrait()};
+		auto portrait{_get_character_portrait()};
 		Component portrait_c{(*_display->layout)["character_strict:portrait"]};
-		portrait.setPosition(portrait_c.x, portrait_c.y);
 		portrait.setScale(portrait_c.scale, portrait_c.scale);
-		_v_sprites.emplace(portrait_c.unique_key, portrait); */
+		const int offset_x = [&] {
+			if (portrait_c["offset_x"])
+				return std::stoi(portrait_c["offset_x"].value());
+			else
+				return 0;
+		}();
+		const int offset_y = [&] {
+			if (portrait_c["offset_y"])
+				return std::stoi(portrait_c["offset_y"].value());
+			else
+				return 0;
+		}();
+		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
+		_v_sprites.emplace(portrait_c.unique_key, portrait);
 
 		Component s_c{(*_display->layout)["character_strict:strength_value"]};
 		s_c.colour = _adjust_ability_colour(
@@ -2810,7 +2822,6 @@ auto Sorcery::Character::_add_text(
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
 	text.setString(formatted_value);
-	// text.setStyle(sf::Text::Bold);
 	const int offset_x = [&] {
 		if (component["offset_x"])
 			return std::stoi(component["offset_x"].value());
