@@ -149,6 +149,7 @@ namespace Sorcery {
 		auto _adjust_ability_colour(int value, CharacterAbilityType ability_type)
 			-> unsigned long long;
 		auto _get_spell_icon(SpellCategory category) -> std::optional<sf::Sprite>;
+		auto _get_spell_points_per_level(const SpellType type, int level) -> std::string;
 
 		// Private Members
 		System *_system;

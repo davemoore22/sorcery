@@ -2006,6 +2006,18 @@ auto Sorcery::Character::get_spell_points(const SpellType type, const SpellPoint
 		return std::nullopt;
 }
 
+auto Sorcery::Character::_get_spell_points_per_level(const SpellType type, int level)
+	-> std::string {
+
+	if (type == SpellType::MAGE) {
+		return fmt::format(
+			"{}/{}", std::to_string(_mage_cur_sp[level]), std::to_string(_mage_max_sp[level]));
+	} else {
+		return fmt::format(
+			"{}/{}", std::to_string(_priest_cur_sp[level]), std::to_string(_priest_max_sp[level]));
+	}
+}
+
 auto Sorcery::Character::_get_mage_magic_status(bool current) -> std::string {
 
 	std::string value{};
@@ -2763,8 +2775,10 @@ auto Sorcery::Character::_generate_display() -> void {
 			_add_text(level_c, "{}",
 				fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level));
 
-			sp_c.x = level_c.x;
+			sp_c.x = level_c.x + (std::stoi(sp_c["offset_columns"].value()) *
+									 _display->window->get_cell_width());
 			sp_c.y = level_c.y;
+			_add_text(sp_c, "{}", _get_spell_points_per_level(SpellType::MAGE, level));
 
 			spell_name_c.x = level_c.x;
 			spell_name_c.y = level_c.y + _display->window->get_cell_height();
@@ -2867,8 +2881,10 @@ auto Sorcery::Character::_generate_display() -> void {
 			_add_text(level_c, "{}",
 				fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level));
 
-			sp_c.x = level_c.x;
+			sp_c.x = level_c.x + (std::stoi(sp_c["offset_columns"].value()) *
+									 _display->window->get_cell_width());
 			sp_c.y = level_c.y;
+			_add_text(sp_c, "{}", _get_spell_points_per_level(SpellType::PRIEST, level));
 
 			spell_name_c.x = level_c.x;
 			spell_name_c.y = level_c.y + _display->window->get_cell_height();
