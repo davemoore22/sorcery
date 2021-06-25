@@ -301,9 +301,9 @@ namespace Sorcery {
 			// MAIN = 1,
 			SUMMARY = 1,
 			DETAILED = 2,
-			INVENTORY = 3,
-			MAGE_SPELLS = 4,
-			PRIEST_SPELLS = 5
+			MAGE_SPELLS = 3,
+			PRIEST_SPELLS = 4,
+			INVENTORY = 5,
 			// MESSAGES = 6,
 			// ACHIEVEMENTS = 7,
 			// STRICT = 8

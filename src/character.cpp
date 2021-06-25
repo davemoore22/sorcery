@@ -432,7 +432,7 @@ auto Sorcery::Character::left_view() -> void {
 
 	int view_index = magic_enum::enum_integer<CharacterView>(_view);
 	if (view_index == magic_enum::enum_integer<CharacterView>(CharacterView::SUMMARY))
-		view_index = magic_enum::enum_integer<CharacterView>(CharacterView::PRIEST_SPELLS);
+		view_index = magic_enum::enum_integer<CharacterView>(CharacterView::INVENTORY);
 	else
 		--view_index;
 	_view = magic_enum::enum_cast<CharacterView>(view_index).value();
@@ -443,7 +443,7 @@ auto Sorcery::Character::left_view() -> void {
 auto Sorcery::Character::right_view() -> void {
 
 	int view_index = magic_enum::enum_integer<CharacterView>(_view);
-	if (view_index == magic_enum::enum_integer<CharacterView>(CharacterView::PRIEST_SPELLS))
+	if (view_index == magic_enum::enum_integer<CharacterView>(CharacterView::INVENTORY))
 		view_index = magic_enum::enum_integer<CharacterView>(CharacterView::SUMMARY);
 	else
 		++view_index;
@@ -2719,9 +2719,9 @@ auto Sorcery::Character::_generate_display() -> void {
 		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
 		_v_sprites.emplace(portrait_c.unique_key, portrait);
 
-		Component carried_c((*_display->layout)["character_inventory:carried_blank"]);
-		int slots{std::stoi(carried_c["number_of_slots"].value())};
-		for (int loop = 0; loop < slots; loop++) {
+		Component carried_c((*_display->layout)["character_inventory:inventory_blank"]);
+		int c_slots{std::stoi(carried_c["number_of_slots"].value())};
+		for (int loop = 0; loop < c_slots; loop++) {
 			_add_text(carried_c, "{}", (*_display->string)["INVENTORY_BLANK"]);
 			carried_c.y += _display->window->get_cell_height();
 		}

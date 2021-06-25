@@ -140,7 +140,7 @@
 1622051564 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
-1624478515 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
+1624614822 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
 1620595728 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
@@ -282,7 +282,7 @@
 1620165265 source:/home/dave/Development/wizardry/sorcery-sfml/src/banner.cpp
 	"banner.hpp"
 
-1624564586 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
+1624617607 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
 	"character.hpp"
 
 1624116855 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
