@@ -4878,6 +4878,125 @@
 				]
 			},
 			{
+				"name": "level_icon_1",
+				"scale": "0.05",
+				"type": "icon",
+				"x": "10",
+				"y": "2",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "sheet",
+				"colour": "0xba55d3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "level_icon_2",
+				"scale": "0.05",
+				"type": "icon",
+				"x": "28",
+				"y": "2",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "sheet",
+				"colour": "0xba55d3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "level_icon_3",
+				"scale": "0.05",
+				"type": "icon",
+				"x": "46",
+				"y": "2",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "sheet",
+				"colour": "0xba55d3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "level_icon_4",
+				"scale": "0.05",
+				"type": "icon",
+				"x": "10",
+				"y": "9",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "sheet",
+				"colour": "0xba55d3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "level_icon_5",
+				"scale": "0.05",
+				"type": "icon",
+				"x": "28",
+				"y": "9",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "sheet",
+				"colour": "0xba55d3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "level_icon_6",
+				"scale": "0.05",
+				"type": "icon",
+				"x": "46",
+				"y": "9",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "sheet",
+				"colour": "0xba55d3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "level_icon_7",
+				"scale": "0.05",
+				"type": "icon",
+				"x": "10",
+				"y": "16",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "sheet",
+				"colour": "0xba55d3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
 				"name": "spell_points",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5034,6 +5153,125 @@
 				"data": [
 					{
 						"offset_y": "-8"
+					}
+				]
+			},
+			{
+				"name": "level_icon_1",
+				"scale": "0.05",
+				"type": "icon",
+				"x": "10",
+				"y": "2",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "sheet",
+				"colour": "0xba55d3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "level_icon_2",
+				"scale": "0.05",
+				"type": "icon",
+				"x": "28",
+				"y": "2",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "sheet",
+				"colour": "0xba55d3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "level_icon_3",
+				"scale": "0.05",
+				"type": "icon",
+				"x": "46",
+				"y": "2",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "sheet",
+				"colour": "0xba55d3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "level_icon_4",
+				"scale": "0.05",
+				"type": "icon",
+				"x": "10",
+				"y": "9",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "sheet",
+				"colour": "0xba55d3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "level_icon_5",
+				"scale": "0.05",
+				"type": "icon",
+				"x": "28",
+				"y": "9",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "sheet",
+				"colour": "0xba55d3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "level_icon_6",
+				"scale": "0.05",
+				"type": "icon",
+				"x": "46",
+				"y": "9",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "sheet",
+				"colour": "0xba55d3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "level_icon_7",
+				"scale": "0.05",
+				"type": "icon",
+				"x": "10",
+				"y": "16",
+				"priority": "4",
+				"drawmode": "automatic",
+				"string": "sheet",
+				"colour": "0xba55d3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14"
 					}
 				]
 			},
