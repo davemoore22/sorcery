@@ -4789,6 +4789,22 @@
 				]
 			},
 			{
+				"name": "spell_icon",
+				"scale": "0.05",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "manual",
+				"string": "sheet",
+				"colour": "0xba55d3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14",
+						"offset_columns": "11"
+					}
+				]
+			},
+			{
 				"name": "sheet_text",
 				"x": "54",
 				"y": "0",
@@ -5083,6 +5099,22 @@
 					{
 						"offset_x": "-12",
 						"offset_y": "14"
+					}
+				]
+			},
+			{
+				"name": "spell_icon",
+				"scale": "0.05",
+				"type": "icon",
+				"priority": "4",
+				"drawmode": "manual",
+				"string": "sheet",
+				"colour": "0xba55d3ff",
+				"data": [
+					{
+						"offset_x": "-12",
+						"offset_y": "14",
+						"offset_columns": "11"
 					}
 				]
 			},

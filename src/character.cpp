@@ -2773,6 +2773,8 @@ auto Sorcery::Character::_generate_display() -> void {
 				return (spell.type == SpellType::MAGE) && (spell.level == level);
 			});
 			for (auto spell : spells) {
+
+				// Add the Spell
 				auto spell_name{_add_text(spell_name_c, "{}", spell.name)};
 				if (spell.known)
 					spell_name->setFillColor(
@@ -2780,6 +2782,40 @@ auto Sorcery::Character::_generate_display() -> void {
 				else
 					spell_name->setFillColor(
 						sf::Color(std::stoull(spell_name_c["unknown_colour"].value(), 0, 16)));
+
+				// And the Spell Category Icon
+				Component spell_icon_c{(*_display->layout)["character_mage_spells:spell_icon"]};
+				auto spell_icon{_get_spell_icon(spell.category)};
+				if (spell_icon) {
+					spell_icon.value().setScale(spell_icon_c.scale, spell_icon_c.scale);
+					const int offset_x = [&] {
+						if (spell_icon_c["offset_x"])
+							return std::stoi(spell_icon_c["offset_x"].value());
+						else
+							return 0;
+					}();
+					const int offset_y = [&] {
+						if (spell_icon_c["offset_y"])
+							return std::stoi(spell_icon_c["offset_y"].value());
+						else
+							return 0;
+					}();
+
+					spell_icon.value().setPosition(
+						spell_name_c.x + offset_x +
+							(std::stoi(spell_icon_c["offset_columns"].value()) *
+								_display->window->get_cell_width()),
+						spell_name_c.y + offset_y);
+
+					if (spell.known)
+						spell_icon->setColor(
+							sf::Color(std::stoull(spell_name_c["known_colour"].value(), 0, 16)));
+					else
+						spell_icon->setColor(
+							sf::Color(std::stoull(spell_name_c["unknown_colour"].value(), 0, 16)));
+
+					_v_sprites.emplace(GUID(), spell_icon.value());
+				}
 
 				// spell_name_c.y += spell_name_c.size;
 				spell_name_c.y += _display->window->get_cell_height();
@@ -2849,6 +2885,40 @@ auto Sorcery::Character::_generate_display() -> void {
 				else
 					spell_name->setFillColor(
 						sf::Color(std::stoull(spell_name_c["unknown_colour"].value(), 0, 16)));
+
+				// And the Spell Category Icon
+				Component spell_icon_c{(*_display->layout)["character_mage_spells:spell_icon"]};
+				auto spell_icon{_get_spell_icon(spell.category)};
+				if (spell_icon) {
+					spell_icon.value().setScale(spell_icon_c.scale, spell_icon_c.scale);
+					const int offset_x = [&] {
+						if (spell_icon_c["offset_x"])
+							return std::stoi(spell_icon_c["offset_x"].value());
+						else
+							return 0;
+					}();
+					const int offset_y = [&] {
+						if (spell_icon_c["offset_y"])
+							return std::stoi(spell_icon_c["offset_y"].value());
+						else
+							return 0;
+					}();
+
+					spell_icon.value().setPosition(
+						spell_name_c.x + offset_x +
+							(std::stoi(spell_icon_c["offset_columns"].value()) *
+								_display->window->get_cell_width()),
+						spell_name_c.y + offset_y);
+
+					if (spell.known)
+						spell_icon->setColor(
+							sf::Color(std::stoull(spell_name_c["known_colour"].value(), 0, 16)));
+					else
+						spell_icon->setColor(
+							sf::Color(std::stoull(spell_name_c["unknown_colour"].value(), 0, 16)));
+
+					_v_sprites.emplace(GUID(), spell_icon.value());
+				}
 
 				spell_name_c.y += _display->window->get_cell_height();
 			}
@@ -2922,6 +2992,31 @@ auto Sorcery::Character::_add_text(
 auto Sorcery::Character::get_view() const -> CharacterView {
 
 	return _view;
+}
+
+auto Sorcery::Character::_get_spell_icon(SpellCategory category) -> std::optional<sf::Sprite> {
+
+	switch (category) {
+
+	case SpellCategory::ATTACK:
+		return (*_graphics->icons)["attack"].value();
+		break;
+	case SpellCategory::SUPPORT:
+		return (*_graphics->icons)["support"].value();
+		break;
+	case SpellCategory::DISABLE:
+		return (*_graphics->icons)["disable"].value();
+		break;
+	case SpellCategory::FIELD:
+		return (*_graphics->icons)["field"].value();
+		break;
+	case SpellCategory::HEALING:
+		return (*_graphics->icons)["healing"].value();
+		break;
+	default:
+		return std::nullopt;
+		break;
+	}
 }
 
 // Setting the view will regenerate the display components

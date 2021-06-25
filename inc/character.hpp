@@ -148,6 +148,7 @@ namespace Sorcery {
 		auto _get_priest_magic_status(bool current) -> std::string;
 		auto _adjust_ability_colour(int value, CharacterAbilityType ability_type)
 			-> unsigned long long;
+		auto _get_spell_icon(SpellCategory category) -> std::optional<sf::Sprite>;
 
 		// Private Members
 		System *_system;
