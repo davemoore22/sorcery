@@ -5065,6 +5065,8 @@
 				"type": "text",
 				"priority": "3",
 				"drawmode": "manual",
+				"animated": "true",
+				"background": " 0xff0000ff",
 				"data": [
 					{
 						"known_colour": "0x00ff00ff",
@@ -5392,6 +5394,8 @@
 				"type": "text",
 				"priority": "3",
 				"drawmode": "manual",
+				"animated": "true",
+				"background": " 0xff0000ff",
 				"data": [
 					{
 						"known_colour": "0x00ff00ff",

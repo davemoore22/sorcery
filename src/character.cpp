@@ -38,6 +38,8 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 	_v_sprites.clear();
 	_v_frames.clear();
 	_view = CharacterView::NONE;
+	_hl_mage_spell = SpellID::DUMAPIC;
+	_hl_priest_spell = SpellID::BADIOS;
 }
 
 // Note for the copy constuctors we only copy the character data/PODs within
@@ -51,7 +53,8 @@ Sorcery::Character::Character(const Character &other)
 	  _cur_attr{other._cur_attr}, _max_attr{other._max_attr}, _view{other._view},
 	  _points_left{other._points_left}, _st_points{other._st_points},
 	  _pos_classes{other._pos_classes}, _class_list{other._class_list},
-	  _num_pos_classes{other._num_pos_classes}, _portrait_index{other._portrait_index} {
+	  _num_pos_classes{other._num_pos_classes}, _portrait_index{other._portrait_index},
+	  _hl_mage_spell{other._hl_mage_spell}, _hl_priest_spell{other._hl_priest_spell} {
 
 	_sprites = other._sprites;
 	_texts = other._texts;
@@ -93,6 +96,8 @@ auto Sorcery::Character::operator=(const Character &other) -> Character & {
 	_class_list = other._class_list;
 	_num_pos_classes = other._num_pos_classes;
 	_portrait_index = other._portrait_index;
+	_hl_mage_spell = other._hl_mage_spell;
+	_hl_priest_spell = other._hl_priest_spell;
 
 	_sprites = other._sprites;
 	_texts = other._texts;
@@ -138,6 +143,8 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		_class_list = other._class_list;
 		_num_pos_classes = other._num_pos_classes;
 		_portrait_index = other._portrait_index;
+		_hl_mage_spell = other._hl_mage_spell;
+		_hl_priest_spell = other._hl_priest_spell;
 
 		_sprites = std::move(other._sprites);
 		_texts = std::move(other._texts);
@@ -176,6 +183,8 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		other._class_list.clear();
 		other._num_pos_classes = 0;
 		other._portrait_index = 0;
+		other._hl_mage_spell = SpellID::NONE;
+		other._hl_priest_spell = SpellID::NONE;
 
 		other._sprites.clear();
 		other._texts.clear();
@@ -217,6 +226,8 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		_class_list = other._class_list;
 		_num_pos_classes = other._num_pos_classes;
 		_portrait_index = other._portrait_index;
+		_hl_mage_spell = other._hl_mage_spell;
+		_hl_priest_spell = other._hl_priest_spell;
 
 		_sprites = std::move(other._sprites);
 		_texts = std::move(other._texts);
@@ -264,6 +275,8 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		other._v_frames.clear();
 		other._ad_c = Component();
 		other._ss_c = Component();
+		other._hl_mage_spell = SpellID::NONE;
+		other._hl_priest_spell = SpellID::NONE;
 	}
 	return *this;
 }
@@ -425,6 +438,44 @@ auto Sorcery::Character::get_portrait_index() const -> unsigned int {
 auto Sorcery::Character::set_portrait_index(const unsigned int value) -> void {
 
 	_portrait_index = value;
+}
+
+auto Sorcery::Character::inc_highlighted_spell(SpellType type) -> void {
+
+	if (type == SpellType::MAGE) {
+		int index = magic_enum::enum_integer<SpellID>(_hl_mage_spell);
+		if (index < magic_enum::enum_integer<SpellID>(SpellID::END_OF_MAGE)) {
+			++index;
+			_hl_mage_spell = magic_enum::enum_cast<SpellID>(index).value();
+		}
+	} else {
+		int index = magic_enum::enum_integer<SpellID>(_hl_priest_spell);
+		if (index > magic_enum::enum_integer<SpellID>(SpellID::END_OF_PRIEST)) {
+			++index;
+			_hl_priest_spell = magic_enum::enum_cast<SpellID>(index).value();
+		}
+	}
+
+	_generate_display();
+}
+
+auto Sorcery::Character::dec_highlighted_spell(SpellType type) -> void {
+
+	if (type == SpellType::MAGE) {
+		int index = magic_enum::enum_integer<SpellID>(_hl_mage_spell);
+		if (index > magic_enum::enum_integer<SpellID>(SpellID::DUMAPIC)) {
+			--index;
+			_hl_mage_spell = magic_enum::enum_cast<SpellID>(index).value();
+		}
+	} else {
+		int index = magic_enum::enum_integer<SpellID>(_hl_priest_spell);
+		if (index > magic_enum::enum_integer<SpellID>(SpellID::BADIOS)) {
+			--index;
+			_hl_priest_spell = magic_enum::enum_cast<SpellID>(index).value();
+		}
+	}
+
+	_generate_display();
 }
 
 // Setting the view will regenerate the display components
@@ -2293,19 +2344,6 @@ auto Sorcery::Character::_generate_display() -> void {
 			_cur_attr.at(CharacterAttribute::LUCK), CharacterAbilityType::STAT);
 		_add_text(l_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::LUCK)));
 
-		/* _add_text((*_display->layout)["character_strict:strength_value"], "{:>2}",
-			std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
-		_add_text((*_display->layout)["character_strict:iq_value"], "{:>2}",
-			std::to_string(_cur_attr.at(CharacterAttribute::IQ)));
-		_add_text((*_display->layout)["character_strict:piety_value"], "{:>2}",
-			std::to_string(_cur_attr.at(CharacterAttribute::PIETY)));
-		_add_text((*_display->layout)["character_strict:agility_value"], "{:>2}",
-			std::to_string(_cur_attr.at(CharacterAttribute::AGILITY)));
-		_add_text((*_display->layout)["character_strict:vitality_value"], "{:>2}",
-			std::to_string(_cur_attr.at(CharacterAttribute::VITALITY)));
-		_add_text((*_display->layout)["character_strict:luck_value"], "{:>2}",
-			std::to_string(_cur_attr.at(CharacterAttribute::LUCK))); */
-
 		_add_text((*_display->layout)["character_strict:hp_value"], "{}",
 			fmt::format("{}/{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
 				std::to_string(_abilities.at(CharacterAbility::MAX_HP))));
@@ -2318,8 +2356,6 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text((*_display->layout)["character_strict:status_value"], "{}",
 			"OK"); // TODO
 
-		//_add_text((*_display->layout)["character_strict:lev_value"], "{}",
-		//		std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)));
 		_add_text((*_display->layout)["character_strict:exp_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::CURRENT_XP)));
 		_add_text((*_display->layout)["character_strict:next_value"], "{}",
@@ -2341,54 +2377,6 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text((*_display->layout)["character_strict:mage_spells"], "{}", mage_spells);
 		_add_text((*_display->layout)["character_strict:priest_spells"], "{}", priest_spells);
 
-		/* } else if (_view == CharacterView::MAIN) {
-
-			_display->generate_components("character_main", _v_sprites, _v_texts, _v_frames);
-
-			_generate_summary_icons();
-
-			auto portrait{_get_character_portrait()};
-			Component portrait_c{(*_display->layout)["character_main:portrait"]};
-			portrait.setPosition(portrait_c.x, portrait_c.y);
-			portrait.setScale(portrait_c.scale, portrait_c.scale);
-			_v_sprites.emplace(portrait_c.unique_key, portrait);
-
-			_add_text((*_display->layout)["character_main:name_text"], "{}", _name);
-
-			_ad = std::make_shared<AttributeDisplay>(
-				_system, _display, _graphics, this, Alignment::HORIZONTAL);
-
-			_ss = std::make_shared<SpellSummary>(_system, _display, _graphics, this);
-
-			_ad_c = Component((*_display->layout)["character_main:attribute_display"]);
-			_ad->set();
-			_ad->setPosition(_ad_c.x + std::stoi(_ad_c["offset_x"].value()),
-				_ad_c.y + std::stoi(_ad_c["offset_y"].value()));
-
-			_ss_c = Component((*_display->layout)["character_main:spellsummary"]);
-			_ss->set();
-			_ss->setPosition(_ss_c.x + std::stoi(_ss_c["offset_x"].value()),
-				_ss_c.y + std::stoi(_ss_c["offset_y"].value()));
-
-			_add_text((*_display->layout)["character_main:hp_value"], "{}",
-				fmt::format("{}/{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
-					std::to_string(_abilities.at(CharacterAbility::MAX_HP))));
-			_add_text((*_display->layout)["character_main:ac_value"], "{}",
-				std::to_string(_abilities.at(CharacterAbility::CURRENT_ARMOUR_CLASS)));
-			_add_text((*_display->layout)["character_main:age_value"], "{}",
-				std::to_string(static_cast<int>(_abilities.at(CharacterAbility::AGE) / 52)));
-			_add_text((*_display->layout)["character_main:swim_value"], "{}",
-				std::to_string(_abilities.at(CharacterAbility::SWIM)));
-			_add_text((*_display->layout)["character_main:exp_value"], "{}",
-				std::to_string(_abilities.at(CharacterAbility::CURRENT_XP)));
-			_add_text((*_display->layout)["character_main:next_value"], "{}",
-				std::to_string(_abilities.at(CharacterAbility::NEXT_LEVEL_XP)));
-			_add_text((*_display->layout)["character_main:gold_value"], "{}",
-				std::to_string(_abilities.at(CharacterAbility::GOLD)));
-			_add_text((*_display->layout)["character_main:marks_value"], "{}",
-				std::to_string(_abilities.at(CharacterAbility::MARKS)));
-			_add_text((*_display->layout)["character_main:deaths_value"], "{}",
-				std::to_string(_abilities.at(CharacterAbility::DEATHS))); */
 	} else if (_view == CharacterView::DETAILED) {
 
 		_display->generate_components("character_detailed", _v_sprites, _v_texts, _v_frames);
@@ -2784,14 +2772,29 @@ auto Sorcery::Character::_generate_display() -> void {
 			});
 			for (auto spell : spells) {
 
+				const double lerp{_graphics->animation->colour_lerp};
+
 				// Add the Spell
 				auto spell_name{_add_text(spell_name_c, "{}", spell.name)};
-				if (spell.known)
-					spell_name->setFillColor(
-						sf::Color(std::stoull(spell_name_c["known_colour"].value(), 0, 16)));
-				else
-					spell_name->setFillColor(
-						sf::Color(std::stoull(spell_name_c["unknown_colour"].value(), 0, 16)));
+				auto hl_bounds = spell_name->getGlobalBounds();
+				if (spell.id == _hl_mage_spell) {
+					sf::RectangleShape bg(sf::Vector2f(hl_bounds.width, hl_bounds.height));
+					bg.setPosition(hl_bounds.left, hl_bounds.top);
+					bg.setFillColor(
+						_display->window->change_colour(sf::Color(spell_name_c.background), lerp));
+					spell_name->setFillColor(sf::Color(spell_name_c.colour));
+					spell_name->setOutlineColor(sf::Color(0, 0, 0));
+					spell_name->setOutlineThickness(2);
+
+				} else {
+
+					if (spell.known)
+						spell_name->setFillColor(
+							sf::Color(std::stoull(spell_name_c["known_colour"].value(), 0, 16)));
+					else
+						spell_name->setFillColor(
+							sf::Color(std::stoull(spell_name_c["unknown_colour"].value(), 0, 16)));
+				}
 
 				// And the Spell Category Icon
 				Component spell_icon_c{(*_display->layout)["character_mage_spells:spell_icon"]};
@@ -2827,7 +2830,6 @@ auto Sorcery::Character::_generate_display() -> void {
 					_v_sprites.emplace(GUID(), spell_icon.value());
 				}
 
-				// spell_name_c.y += spell_name_c.size;
 				spell_name_c.y += _display->window->get_cell_height();
 			}
 
@@ -3071,13 +3073,4 @@ auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states)
 
 	for (const auto &[unique_key, v_text] : _v_texts)
 		target.draw(v_text, states);
-
-	/* // Draw the custom components
-	if (_view == CharacterView::MAIN) {
-		if (_ad->valid)
-			target.draw(*_ad, states);
-
-		if (_ss->valid)
-			target.draw(*_ss, states);
-	} */
 }

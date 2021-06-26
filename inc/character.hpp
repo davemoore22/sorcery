@@ -58,6 +58,7 @@ namespace Sorcery {
 		auto operator[](const CharacterAbility &key) -> int &;
 
 		// Serialisation
+		// TODO: add a version number!!! and also the highlighted
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_name, _race, _class, _alignment, _start_attr, _cur_attr, _max_attr, _st_points,
 				_portrait_index, _abilities, _priest_max_sp, _priest_cur_sp, _mage_max_sp,
@@ -117,6 +118,8 @@ namespace Sorcery {
 		auto set_spells() -> void;
 		auto get_status() -> std::string;
 		auto get_hp_summary() -> std::string;
+		auto inc_highlighted_spell(SpellType type) -> void;
+		auto dec_highlighted_spell(SpellType type) -> void;
 
 		// Public Members
 
@@ -189,5 +192,9 @@ namespace Sorcery {
 		Component _ss_c;
 		Component _ad_c;
 		CreateMethod _method;
+		SpellID _hl_mage_spell;
+		SpellID _hl_priest_spell;
+		sf::RectangleShape _hl_mage_spell_bg;
+		sf::RectangleShape _hl_priest_spell_bg;
 	};
 } // namespace Sorcery
