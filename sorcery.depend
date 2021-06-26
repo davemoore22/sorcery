@@ -7,13 +7,14 @@
 	"main.hpp"
 	"system.hpp"
 
-1622311782 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1624729998 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
 	<SFML/System.hpp>
 	<SFML/Window.hpp>
 	<TGUI/TGUI.hpp>
+	<Thor/Graphics.hpp>
 	<Thor/Resources.hpp>
 	<jsoncpp/json/json.h>
 	"backwardcpp/backward.hpp"
@@ -282,7 +283,7 @@
 1620165265 source:/home/dave/Development/wizardry/sorcery-sfml/src/banner.cpp
 	"banner.hpp"
 
-1624631095 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
+1624731956 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
 	"character.hpp"
 
 1624628876 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp

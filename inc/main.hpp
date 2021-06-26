@@ -31,6 +31,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <TGUI/TGUI.hpp>
+#include <Thor/Graphics.hpp>
 #include <Thor/Resources.hpp>
 #include <jsoncpp/json/json.h>
 

@@ -800,6 +800,8 @@ auto Sorcery::Character::_generate_secondary_abilities() -> void {
 		_abilities[CharacterAbility::BASE_NUMBER_OF_ATTACKS] = 1;
 		break;
 	}
+	if (_abilities[CharacterAbility::BASE_NUMBER_OF_ATTACKS] == 0)
+		_abilities[CharacterAbility::BASE_NUMBER_OF_ATTACKS] = 1;
 
 	// Chance of learning new Mage Spells (%)
 	switch (_class) {
@@ -2087,79 +2089,74 @@ auto Sorcery::Character::_adjust_ability_colour(int value, CharacterAbilityType 
 	// Colours "borrowed" from
 	// https://github.com/angband/angband/blob/master/src/ui-player.c
 	// https://github.com/angband/angband/blob/master/src/z-color.h
-	std::string colour{};
+	thor::ColorGradient gradient{};
+	gradient[0.0f] = sf::Color(0xbf0000ff);
+	gradient[0.5f] = sf::Color(0xffff00ff);
+	gradient[1.0f] = sf::Color(0x00ff00ff);
+	float to_scale{value * 1.0f};
 	switch (ability_type) {
-	case CharacterAbilityType::NUMBER:
-		if (value < 0)
-			colour = "negative";
-		else if (value == 0)
-			colour = "zero";
-		else
-			colour = "positive";
-		break;
-	case CharacterAbilityType::AC:
-		if (value == 10)
-			colour = "negative";
-		else if (value > 6)
-			colour = "zero";
-		else
-			colour = "positive";
-		break;
-	case CharacterAbilityType::STAT:
-		if (value < 6)
-			colour = "bad";
-		else if (value < 8)
-			colour = "poor";
-		else if (value < 10)
-			colour = "fair";
-		else if (value < 12)
-			colour = "good";
-		else if (value < 14)
-			colour = "very good";
-		else if (value < 15)
-			colour = "excellent";
-		else if (value < 16)
-			colour = "superb";
-		else if (value < 18)
-			colour = "heroic";
-		else
-			colour = "legendary";
-		break;
-	case CharacterAbilityType::PERCENTAGE:
-		if (value < 20)
-			colour = "bad";
-		else if (value < 30)
-			colour = "poor";
-		else if (value < 40)
-			colour = "fair";
-		else if (value < 50)
-			colour = "good";
-		else if (value < 60)
-			colour = "very good";
-		else if (value < 70)
-			colour = "excellent";
-		else if (value < 80)
-			colour = "superb";
-		else if (value < 90)
-			colour = "heroic";
-		else
-			colour = "legendary";
-		break;
-	case CharacterAbilityType::MODIFIER:
-		if (value < 0)
-			colour = "negative";
-		else if (value == 0)
-			colour = "zero";
-		else
-			colour = "positive";
-		break;
+	case CharacterAbilityType::NUMBER: {
+		to_scale = [&] {
+			to_scale *= 0.5f;
+			if (to_scale > 5.0f)
+				return 5.0f;
+			else if (to_scale < -5.0f)
+				return -5.0f;
+			else
+				return to_scale;
+		}();
+		to_scale += 5.0f;
+		float scaled{to_scale / 10.0f};
+		return (gradient.sampleColor(scaled)).toInteger();
+	} break;
+	case CharacterAbilityType::AC: {
+		to_scale = [&] {
+			if (to_scale < -10.0f)
+				return -10.0f;
+			else if (to_scale > 10.0f)
+				return 10.0f;
+			else
+				return to_scale;
+		}();
+		to_scale = 10.0f - to_scale;
+		float scaled{to_scale / 20.0f};
+		return (gradient.sampleColor(scaled)).toInteger();
+	} break;
+	case CharacterAbilityType::STAT: {
+		to_scale = [&] {
+			to_scale -= 3.0f;
+			if (to_scale < 0.0f)
+				return 0.0f;
+			else if (to_scale > 15.0f)
+				return 15.0f;
+			else
+				return to_scale;
+		}();
+		float scaled{to_scale / 15.0f};
+		return (gradient.sampleColor(scaled)).toInteger();
+	} break;
+	case CharacterAbilityType::PERCENTAGE: {
+		float scaled{to_scale / 100.0f};
+		return (gradient.sampleColor(scaled)).toInteger();
+	} break;
+	case CharacterAbilityType::MODIFIER: {
+		to_scale = [&] {
+			to_scale *= 0.5f;
+			if (to_scale > 5.0f)
+				return 5.0f;
+			if (to_scale < -5.0f)
+				return -5.0f;
+			else
+				return to_scale;
+		}();
+		to_scale += 5.0f;
+		float scaled{to_scale / 10.0f};
+		return (gradient.sampleColor(scaled)).toInteger();
+	} break;
 	default:
-		colour = "label";
+		return 0;
 		break;
-	};
-
-	Component colours{(*_display->layout)["character:character_colours"]};
-	return std::stoull(colours[colour].value(), 0, 16);
+	}
 }
 
 auto Sorcery::Character::get_summary() -> std::string {
@@ -2530,11 +2527,10 @@ auto Sorcery::Character::_generate_display() -> void {
 			piety_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_PRIEST_SPELLS)));
 
 		Component vitality_c((*_display->layout)["character_detailed:vitality_detailed_values"]);
-
-		_add_text(
-			vitality_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::VITALITY_BONUS)));
 		vitality_c.colour = _adjust_ability_colour(
 			_abilities.at(CharacterAbility::VITALITY_BONUS), CharacterAbilityType::MODIFIER);
+		_add_text(
+			vitality_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::VITALITY_BONUS)));
 
 		vitality_c.y += _display->window->get_cell_height();
 		vitality_c.colour = _adjust_ability_colour(
