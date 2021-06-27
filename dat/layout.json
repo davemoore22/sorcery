@@ -5082,7 +5082,8 @@
 				"data": [
 					{
 						"known_colour": "0x00ff00ff",
-						"unknown_colour": "0xbf0000ff"
+						"unknown_colour": "0xbf0000ff",
+						"bar_width": "12"
 					}
 				]
 			},
@@ -5411,7 +5412,8 @@
 				"data": [
 					{
 						"known_colour": "0x00ff00ff",
-						"unknown_colour": "0xbf0000ff"
+						"unknown_colour": "0xbf0000ff",
+						"bar_width": "12"
 					}
 				]
 			},

@@ -299,6 +299,7 @@ auto Sorcery::Roster::_draw() -> void {
 			_current_character.value()->setPosition(
 				(*_display->layout)[_screen_key + ":character"].x,
 				(*_display->layout)[_screen_key + ":character"].y);
+			_current_character.value()->update();
 			_window->draw(*_current_character.value());
 		}
 	} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_DELETE_CHARACTER) {

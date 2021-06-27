@@ -277,6 +277,7 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		other._ss_c = Component();
 		other._hl_mage_spell = SpellID::NONE;
 		other._hl_priest_spell = SpellID::NONE;
+		// laos the bgs
 	}
 	return *this;
 }
@@ -444,13 +445,13 @@ auto Sorcery::Character::inc_highlighted_spell(SpellType type) -> void {
 
 	if (type == SpellType::MAGE) {
 		int index = magic_enum::enum_integer<SpellID>(_hl_mage_spell);
-		if (index < magic_enum::enum_integer<SpellID>(SpellID::END_OF_MAGE)) {
+		if (index < magic_enum::enum_integer<SpellID>(SpellID::TILTOWAIT)) {
 			++index;
 			_hl_mage_spell = magic_enum::enum_cast<SpellID>(index).value();
 		}
 	} else {
 		int index = magic_enum::enum_integer<SpellID>(_hl_priest_spell);
-		if (index > magic_enum::enum_integer<SpellID>(SpellID::END_OF_PRIEST)) {
+		if (index < magic_enum::enum_integer<SpellID>(SpellID::MABARIKO)) {
 			++index;
 			_hl_priest_spell = magic_enum::enum_cast<SpellID>(index).value();
 		}
@@ -2772,21 +2773,20 @@ auto Sorcery::Character::_generate_display() -> void {
 			});
 			for (auto spell : spells) {
 
-				const double lerp{_graphics->animation->colour_lerp};
-
 				// Add the Spell
 				auto spell_name{_add_text(spell_name_c, "{}", spell.name)};
 				auto hl_bounds = spell_name->getGlobalBounds();
 				if (spell.id == _hl_mage_spell) {
-					sf::RectangleShape bg(sf::Vector2f(hl_bounds.width, hl_bounds.height));
+					sf::RectangleShape bg(
+						sf::Vector2f(std::stoi(spell_name_c["bar_width"].value()) *
+										 _display->window->get_cell_width(),
+							hl_bounds.height));
 					bg.setPosition(hl_bounds.left, hl_bounds.top);
-					bg.setFillColor(
-						_display->window->change_colour(sf::Color(spell_name_c.background), lerp));
+					bg.setFillColor(_graphics->animation->selected_colour);
 					spell_name->setFillColor(sf::Color(spell_name_c.colour));
 					spell_name->setOutlineColor(sf::Color(0, 0, 0));
 					spell_name->setOutlineThickness(2);
 					_hl_mage_spell_bg = bg;
-
 				} else {
 
 					if (spell.known)
@@ -2894,12 +2894,27 @@ auto Sorcery::Character::_generate_display() -> void {
 			for (auto spell : spells) {
 				auto spell_name{_add_text(spell_name_c, "{}", spell.name)};
 				spell_name->setPosition(spell_name_c.x, spell_name_c.y);
-				if (spell.known)
-					spell_name->setFillColor(
-						sf::Color(std::stoull(spell_name_c["known_colour"].value(), 0, 16)));
-				else
-					spell_name->setFillColor(
-						sf::Color(std::stoull(spell_name_c["unknown_colour"].value(), 0, 16)));
+				auto hl_bounds = spell_name->getGlobalBounds();
+				if (spell.id == _hl_priest_spell) {
+					sf::RectangleShape bg(
+						sf::Vector2f(std::stoi(spell_name_c["bar_width"].value()) *
+										 _display->window->get_cell_width(),
+							hl_bounds.height));
+					bg.setPosition(hl_bounds.left, hl_bounds.top);
+					bg.setFillColor(_graphics->animation->selected_colour);
+					spell_name->setFillColor(sf::Color(spell_name_c.colour));
+					spell_name->setOutlineColor(sf::Color(0, 0, 0));
+					spell_name->setOutlineThickness(2);
+					_hl_priest_spell_bg = bg;
+				} else {
+
+					if (spell.known)
+						spell_name->setFillColor(
+							sf::Color(std::stoull(spell_name_c["known_colour"].value(), 0, 16)));
+					else
+						spell_name->setFillColor(
+							sf::Color(std::stoull(spell_name_c["unknown_colour"].value(), 0, 16)));
+				}
 
 				// And the Spell Category Icon
 				Component spell_icon_c{(*_display->layout)["character_mage_spells:spell_icon"]};
@@ -3049,6 +3064,12 @@ auto Sorcery::Character::get_method() const -> CreateMethod {
 auto Sorcery::Character::set_method(const CreateMethod value) -> void {
 
 	_method = value;
+}
+
+auto Sorcery::Character::update() -> void {
+
+	_hl_mage_spell_bg.setFillColor(_graphics->animation->selected_colour);
+	_hl_priest_spell_bg.setFillColor(_graphics->animation->selected_colour);
 }
 
 auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {

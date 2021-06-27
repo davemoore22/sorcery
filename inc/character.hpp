@@ -120,6 +120,7 @@ namespace Sorcery {
 		auto get_hp_summary() -> std::string;
 		auto inc_highlighted_spell(SpellType type) -> void;
 		auto dec_highlighted_spell(SpellType type) -> void;
+		auto update() -> void;
 
 		// Public Members
 

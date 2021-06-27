@@ -1139,6 +1139,7 @@ auto Sorcery::Create::_draw() -> void {
 		_candidate.setPosition((*_display->layout)["character_create_stage_7:candidate"].x,
 			(*_display->layout)["character_create_stage_7:candidate"].y);
 
+		_candidate.update();
 		_window->draw(_candidate);
 
 		if (_show_final_menu) {
