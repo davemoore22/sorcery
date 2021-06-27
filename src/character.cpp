@@ -2785,6 +2785,7 @@ auto Sorcery::Character::_generate_display() -> void {
 					spell_name->setFillColor(sf::Color(spell_name_c.colour));
 					spell_name->setOutlineColor(sf::Color(0, 0, 0));
 					spell_name->setOutlineThickness(2);
+					_hl_mage_spell_bg = bg;
 
 				} else {
 
@@ -3063,6 +3064,11 @@ auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states)
 
 	for (const auto &[unique_key, text] : _texts)
 		target.draw(text, states);
+
+	if (_view == CharacterView::MAGE_SPELLS)
+		target.draw(_hl_mage_spell_bg, states);
+	if (_view == CharacterView::PRIEST_SPELLS)
+		target.draw(_hl_priest_spell_bg, states);
 
 	// Draw the section components
 	for (const auto &[unique_key, v_frame] : _v_frames)

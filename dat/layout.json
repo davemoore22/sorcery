@@ -87,7 +87,19 @@
 			"drawmode": "manual",
 			"colour": "0xffffffff",
 			"background": " 0x000000ff"
-		}
+		},
+		{
+			"name": "selected_item",
+			"type": "other",
+			"draw_mode": "manual",
+			"data": [
+				{
+					"maximum_background": "0xbfbfffff",
+					"minimum_background": "0x00003fff",
+					"step": "0.00625"
+				}
+			]
+				}
 		]
 	},
 	{

@@ -1000,7 +1000,7 @@ auto Sorcery::Create::_draw() -> void {
 
 		_display->display_components("choose_method", _sprites, _texts, _frames);
 
-		_method_menu->generate((*_display->layout)["choose_method:menu"], lerp);
+		_method_menu->generate((*_display->layout)["choose_method:menu"]);
 		const sf::Vector2f menu_pos((*_display->layout)["choose_method:menu"].x,
 			(*_display->layout)["choose_method:menu"].y);
 		_method_menu->setPosition(menu_pos);
@@ -1032,7 +1032,7 @@ auto Sorcery::Create::_draw() -> void {
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_RACE) {
 
 		_display->display_components("character_create_stage_2", _sprites, _texts, _frames);
-		_race_menu->generate((*_display->layout)["character_create_stage_2:menu"], lerp);
+		_race_menu->generate((*_display->layout)["character_create_stage_2:menu"]);
 		const sf::Vector2f menu_pos((*_display->layout)["character_create_stage_2:menu"].x,
 			(*_display->layout)["character_create_stage_2:menu"].y);
 		_race_menu->setPosition(menu_pos);
@@ -1051,7 +1051,7 @@ auto Sorcery::Create::_draw() -> void {
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_ALIGNMENT) {
 
 		_display->display_components("character_create_stage_3", _sprites, _texts, _frames);
-		_alignment_menu->generate((*_display->layout)["character_create_stage_3:menu"], lerp);
+		_alignment_menu->generate((*_display->layout)["character_create_stage_3:menu"]);
 		const sf::Vector2f menu_pos((*_display->layout)["character_create_stage_3:menu"].x,
 			(*_display->layout)["character_create_stage_3:menu"].y);
 		_alignment_menu->setPosition(menu_pos);
@@ -1070,7 +1070,7 @@ auto Sorcery::Create::_draw() -> void {
 	} else if (_candidate.get_stage() == CharacterStage::ALLOCATE_STATS) {
 
 		_display->display_components("character_create_stage_4", _sprites, _texts, _frames);
-		_attribute_menu->generate((*_display->layout)["character_create_stage_4:menu"], lerp);
+		_attribute_menu->generate((*_display->layout)["character_create_stage_4:menu"]);
 		const sf::Vector2f menu_pos((*_display->layout)["character_create_stage_4:menu"].x,
 			(*_display->layout)["character_create_stage_4:menu"].y);
 		_attribute_menu->setPosition(menu_pos);
@@ -1094,7 +1094,7 @@ auto Sorcery::Create::_draw() -> void {
 		}
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_CLASS) {
 		_display->display_components("character_create_stage_5", _sprites, _texts, _frames);
-		_class_menu->generate((*_display->layout)["character_create_stage_5:menu"], lerp);
+		_class_menu->generate((*_display->layout)["character_create_stage_5:menu"]);
 		const sf::Vector2f menu_pos((*_display->layout)["character_create_stage_5:menu"].x,
 			(*_display->layout)["character_create_stage_5:menu"].y);
 		_class_menu->setPosition(menu_pos);
@@ -1142,7 +1142,7 @@ auto Sorcery::Create::_draw() -> void {
 		_window->draw(_candidate);
 
 		if (_show_final_menu) {
-			_final_menu->generate((*_display->layout)["character_create_stage_7:menu"], lerp);
+			_final_menu->generate((*_display->layout)["character_create_stage_7:menu"]);
 			const sf::Vector2f menu_pos((*_display->layout)["character_create_stage_7:menu"].x,
 				(*_display->layout)["character_create_stage_7:menu"].y);
 			const sf::Vector2f frame_pos(

@@ -308,8 +308,7 @@ auto Sorcery::Roster::_draw() -> void {
 		_window->draw(*_preview_frame);
 
 		// And the Menu
-		_menu->generate(
-			(*_display->layout)[_screen_key + ":menu"], _graphics->animation->colour_lerp);
+		_menu->generate((*_display->layout)[_screen_key + ":menu"]);
 		const sf::Vector2f menu_pos((*_display->layout)[_screen_key + ":menu"].x,
 			(*_display->layout)[_screen_key + ":menu"].y);
 		_menu->setPosition(menu_pos);
@@ -333,8 +332,7 @@ auto Sorcery::Roster::_draw() -> void {
 		_window->draw(*_preview_frame);
 
 		// And the Menu
-		_menu->generate(
-			(*_display->layout)[_screen_key + ":menu"], _graphics->animation->colour_lerp);
+		_menu->generate((*_display->layout)[_screen_key + ":menu"]);
 		const sf::Vector2f menu_pos((*_display->layout)[_screen_key + ":menu"].x,
 			(*_display->layout)[_screen_key + ":menu"].y);
 		_menu->setPosition(menu_pos);

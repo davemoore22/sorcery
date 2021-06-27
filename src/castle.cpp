@@ -163,8 +163,7 @@ auto Sorcery::Castle::_draw() -> void {
 	_window->draw(*_status_bar);
 
 	// And the Menu
-	const double lerp{_graphics->animation->colour_lerp};
-	_menu->generate((*_display->layout)["castle:menu"], lerp);
+	_menu->generate((*_display->layout)["castle:menu"]);
 	const sf::Vector2f menu_pos(
 		(*_display->layout)["castle:menu"].x, (*_display->layout)["castle:menu"].y);
 	_menu->setPosition(menu_pos);

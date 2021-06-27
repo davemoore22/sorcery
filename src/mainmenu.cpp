@@ -284,7 +284,7 @@ auto Sorcery::MainMenu::_draw() -> void {
 		} else {
 
 			// Draw rhe menu
-			_main_menu->generate((*_display->layout)["main_menu_attract:main_menu"], lerp);
+			_main_menu->generate((*_display->layout)["main_menu_attract:main_menu"]);
 			const sf::Vector2f menu_pos((*_display->layout)["main_menu_attract:main_menu"].x,
 				(*_display->layout)["main_menu_attract:main_menu"].y);
 			_main_menu->setPosition(menu_pos);

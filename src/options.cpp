@@ -273,10 +273,9 @@ auto Sorcery::Options::_set_info_panel_contents(std::vector<Sorcery::MenuEntry>:
 
 auto Sorcery::Options::_draw() -> void {
 
-	const double lerp{_graphics->animation->colour_lerp};
 	_display->display_components("options");
 
-	_menu->generate((*_display->layout)["options:menu"], lerp);
+	_menu->generate((*_display->layout)["options:menu"]);
 	const sf::Vector2f menu_pos(
 		(*_display->layout)["options:menu"].x, (*_display->layout)["options:menu"].y);
 	_menu->setPosition(menu_pos);

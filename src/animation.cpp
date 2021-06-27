@@ -30,8 +30,15 @@ Sorcery::Animation::Animation(System *system, Display *display)
 
 	_finished = false;
 	_attract_mode.clear();
-	_colcyc_dir = false;
 	_attract_mode_fade_in = true;
+
+	// Setup Colour Cycling
+	_colcyc_dir = false;
+	_selected_gradient[0.0f] = sf::Color(std::stoull(
+		(*_display->layout)["global:selected_item"]["minimum_background"].value(), 0, 16));
+	_selected_gradient[1.0f] = sf::Color(std::stoull(
+		(*_display->layout)["global:selected_item"]["maximum_background"].value(), 0, 16));
+	_colour_cycling_step = std::stod((*_display->layout)["global:selected_item"]["step"].value());
 }
 
 // Standard Destructor
@@ -166,27 +173,28 @@ auto Sorcery::Animation::_do_colour_cycling() -> void {
 
 	std::scoped_lock<std::mutex> _scoped_lock(_colour_mutex);
 
-	// Handle menu pulsating
 	if (_colcyc_dir) {
-		if (colour_lerp < 0.5l)
-			colour_lerp += 0.0125l;
+		if (colour_lerp < 1.0l)
+			colour_lerp += _colour_cycling_step;
 		else {
 			_colcyc_dir = !_colcyc_dir;
-			colour_lerp -= 0.0125l;
+			colour_lerp -= _colour_cycling_step;
 		}
 	} else {
-		if (colour_lerp > -0.5l)
-			colour_lerp -= 0.0125l;
+		if (colour_lerp > 0.0l)
+			colour_lerp -= _colour_cycling_step;
 		else {
 			_colcyc_dir = !_colcyc_dir;
-			colour_lerp += 0.0125l;
+			colour_lerp += _colour_cycling_step;
 		}
 	}
 
-	if (colour_lerp < -0.5l)
-		colour_lerp = -0.5l;
-	if (colour_lerp > 0.5l)
-		colour_lerp = 0.5l;
+	if (colour_lerp < 0.0l)
+		colour_lerp = 0.0l;
+	if (colour_lerp > 1.0l)
+		colour_lerp = 1.0l;
+
+	selected_colour = _selected_gradient.sampleColor(colour_lerp);
 
 	// Handle Attract Mode Fade In/Out
 	if (_attract_mode_fade_in == true) {

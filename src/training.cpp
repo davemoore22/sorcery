@@ -167,8 +167,7 @@ auto Sorcery::Training::_draw() -> void {
 	_window->draw(*_menu_frame);
 
 	// And the Menu
-	_menu->generate(
-		(*_display->layout)["training_grounds:menu"], _graphics->animation->colour_lerp);
+	_menu->generate((*_display->layout)["training_grounds:menu"]);
 	const sf::Vector2f menu_pos((*_display->layout)["training_grounds:menu"].x,
 		(*_display->layout)["training_grounds:menu"].y);
 	_menu->setPosition(menu_pos);

@@ -167,9 +167,7 @@ auto Sorcery::EdgeOfTown::_draw() -> void {
 	_window->draw(*_status_bar);
 
 	// And the Menu
-	const double lerp{_graphics->animation->colour_lerp};
-
-	_menu->generate((*_display->layout)["edge_of_town:menu"], lerp);
+	_menu->generate((*_display->layout)["edge_of_town:menu"]);
 	const sf::Vector2f menu_pos(
 		(*_display->layout)["edge_of_town:menu"].x, (*_display->layout)["edge_of_town:menu"].y);
 	_menu->setPosition(menu_pos);

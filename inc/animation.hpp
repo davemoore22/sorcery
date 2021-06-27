@@ -43,6 +43,7 @@ namespace Sorcery {
 		// Public Members
 		double colour_lerp;
 		unsigned int attract_alpha;
+		sf::Color selected_colour;
 
 		// Public Methods
 		auto force_refresh_attract_mode() -> void;
@@ -73,6 +74,8 @@ namespace Sorcery {
 		std::mutex _attract_mutex;
 		std::mutex _colour_mutex;
 		std::vector<unsigned int> _attract_mode;
+		thor::ColorGradient _selected_gradient;
+		double _colour_cycling_step;
 
 		// Private Methods
 		auto _animate_attract_mode(bool force) -> void;

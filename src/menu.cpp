@@ -606,7 +606,7 @@ auto Sorcery::Menu::choose_next() -> std::optional<std::vector<MenuEntry>::const
 }
 
 // TODO: optimise this so that it isn't created on every refresh!
-auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -> void {
+auto Sorcery::Menu::generate(Component &component) -> void {
 
 	if (_texts.size() == 0) {
 
@@ -658,10 +658,10 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 						component.w * _display->window->get_cell_width(), bg_rect.height + 2));
 					bg.setPosition(0, entry_y);
 					if (component.animated)
-						bg.setFillColor(_display->window->change_colour(
-							sf::Color(component.background), selected_lerp));
+						bg.setFillColor(_graphics->animation->selected_colour);
 					else
 						bg.setFillColor(sf::Color(component.background));
+
 					text.setFillColor(sf::Color(component.colour));
 					text.setOutlineColor(sf::Color(0, 0, 0));
 					text.setOutlineThickness(2);
@@ -776,8 +776,7 @@ auto Sorcery::Menu::generate(Component &component, const double selected_lerp) -
 						component.w * _display->window->get_cell_width(), bg_rect.height + 2));
 					bg.setPosition(0, entry_y);
 					if (component.animated)
-						bg.setFillColor(_display->window->change_colour(
-							sf::Color(component.background), selected_lerp));
+						bg.setFillColor(_graphics->animation->selected_colour);
 					else
 						bg.setFillColor(sf::Color(component.background));
 					_texts.at(index).setFillColor(sf::Color(component.colour));
