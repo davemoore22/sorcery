@@ -42,6 +42,8 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 	_hl_priest_spell = SpellID::BADIOS;
 	mage_spell_bounds.clear();
 	priest_spell_bounds.clear();
+	mage_spell_texts.clear();
+	priest_spell_texts.clear();
 }
 
 // Note for the copy constuctors we only copy the character data/PODs within
@@ -115,6 +117,8 @@ auto Sorcery::Character::operator=(const Character &other) -> Character & {
 	_ss_c = other._ss_c;
 	mage_spell_bounds = other.mage_spell_bounds;
 	priest_spell_bounds = other.priest_spell_bounds;
+	mage_spell_texts = other.mage_spell_texts;
+	priest_spell_texts = other.priest_spell_texts;
 
 	return *this;
 }
@@ -164,6 +168,8 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		_ss_c = std::move(other._ss_c);
 		mage_spell_bounds = std::move(other.mage_spell_bounds);
 		priest_spell_bounds = std::move(other.priest_spell_bounds);
+		mage_spell_texts = std::move(other.mage_spell_texts);
+		priest_spell_texts = std::move(other.priest_spell_texts);
 
 		other._system = nullptr;
 		other._display = nullptr;
@@ -204,6 +210,8 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		other._ss_c = Component();
 		other.mage_spell_bounds.clear();
 		other.priest_spell_bounds.clear();
+		other.mage_spell_texts.clear();
+		other.priest_spell_texts.clear();
 	}
 }
 
@@ -251,6 +259,8 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		_ss_c = std::move(other._ss_c);
 		mage_spell_bounds = std::move(other.mage_spell_bounds);
 		priest_spell_bounds = std::move(other.priest_spell_bounds);
+		mage_spell_texts = std::move(other.mage_spell_texts);
+		priest_spell_texts = std::move(other.priest_spell_texts);
 
 		other._system = nullptr;
 		other._display = nullptr;
@@ -291,7 +301,8 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		other._hl_priest_spell = SpellID::NONE;
 		other.mage_spell_bounds.clear();
 		other.priest_spell_bounds.clear();
-		// laos the bgs
+		other.mage_spell_texts.clear();
+		other.priest_spell_texts.clear();
 	}
 	return *this;
 }
@@ -2303,6 +2314,8 @@ auto Sorcery::Character::_generate_display() -> void {
 	_v_frames.clear();
 	mage_spell_bounds.clear();
 	priest_spell_bounds.clear();
+	mage_spell_texts.clear();
+	priest_spell_texts.clear();
 
 	_display->generate_components("character", _sprites, _texts, _frames);
 
@@ -2794,6 +2807,7 @@ auto Sorcery::Character::_generate_display() -> void {
 				auto spell_name{_add_text(spell_name_c, "{}", spell_name_text)};
 				auto hl_bounds = spell_name->getGlobalBounds();
 				mage_spell_bounds[spell.id] = hl_bounds;
+				mage_spell_texts[spell.id] = spell_name;
 
 				if (spell.id == _hl_mage_spell) {
 					sf::RectangleShape bg(
@@ -2917,6 +2931,7 @@ auto Sorcery::Character::_generate_display() -> void {
 				spell_name->setPosition(spell_name_c.x, spell_name_c.y);
 				auto hl_bounds = spell_name->getGlobalBounds();
 				priest_spell_bounds[spell.id] = hl_bounds;
+				priest_spell_texts[spell.id] = spell_name;
 
 				if (spell.id == _hl_priest_spell) {
 					sf::RectangleShape bg(
@@ -3100,10 +3115,14 @@ auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::op
 				return item.second.contains(local_mouse_pos);
 			});
 		if (it != mage_spell_bounds.end()) {
+			Component spell_name_c{(*_display->layout)["character_mage_spells:spell_name_label"]};
 			_hl_mage_spell = (*it).first;
 			sf::RectangleShape bg(sf::Vector2f((*it).second.width, (*it).second.height));
 			bg.setPosition((*it).second.left, (*it).second.top);
 			bg.setFillColor(_graphics->animation->selected_colour);
+			mage_spell_texts.at(_hl_priest_spell)->setFillColor(sf::Color(spell_name_c.colour));
+			mage_spell_texts.at(_hl_priest_spell)->setOutlineColor(sf::Color(0, 0, 0));
+			mage_spell_texts.at(_hl_priest_spell)->setOutlineThickness(2);
 			_hl_mage_spell_bg = bg;
 			return (*it).first;
 		} else
@@ -3115,10 +3134,14 @@ auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::op
 				return item.second.contains(local_mouse_pos);
 			});
 		if (it != priest_spell_bounds.end()) {
+			Component spell_name_c{(*_display->layout)["character_priest_spells:spell_name_label"]};
 			_hl_priest_spell = (*it).first;
 			sf::RectangleShape bg(sf::Vector2f((*it).second.width, (*it).second.height));
 			bg.setPosition((*it).second.left, (*it).second.top);
 			bg.setFillColor(_graphics->animation->selected_colour);
+			priest_spell_texts.at(_hl_priest_spell)->setFillColor(sf::Color(spell_name_c.colour));
+			priest_spell_texts.at(_hl_priest_spell)->setOutlineColor(sf::Color(0, 0, 0));
+			priest_spell_texts.at(_hl_priest_spell)->setOutlineThickness(2);
 			_hl_priest_spell_bg = bg;
 			return (*it).first;
 		} else

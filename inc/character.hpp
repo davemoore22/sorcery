@@ -126,6 +126,8 @@ namespace Sorcery {
 		// Public Members
 		std::map<SpellID, sf::FloatRect> mage_spell_bounds;
 		std::map<SpellID, sf::FloatRect> priest_spell_bounds;
+		std::map<SpellID, sf::Text *> mage_spell_texts;
+		std::map<SpellID, sf::Text *> priest_spell_texts;
 
 	  private:
 		// Private Methods
