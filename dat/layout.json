@@ -24,6 +24,16 @@
 			"w": "54"
 		},
 		{
+			"name": "spell_panel",
+			"font": "text",
+			"colour": "0xdddddddff",
+			"size": "24",
+			"alpha": "255",
+			"type": "panel",
+			"drawmode": "manual",
+			"w": "39"
+		},
+		{
 			"name": "char_panel",
 			"font": "text",
 			"colour": "0xdddddddff",

@@ -241,6 +241,8 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 				} else if (_system->input->check_for_event(WindowInput::BACK, event)) {
 					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					_current_character = std::nullopt;
+				} else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+					_current_character.value()->right_view();
 				} else if (_system->input->check_for_event(WindowInput::UP, event)) {
 					if (_current_character.value()->get_view() == CharacterView::MAGE_SPELLS)
 						_current_character.value()->dec_highlighted_spell(SpellType::MAGE);

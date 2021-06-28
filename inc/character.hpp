@@ -29,12 +29,14 @@
 #include "graphics.hpp"
 #include "main.hpp"
 #include "system.hpp"
-#include "attributedisplay.hpp"
+//#include "attributedisplay.hpp"
+#include "spellpanel.hpp"
 // clang-format on
 
 namespace Sorcery {
 
-	class AttributeDisplay;
+	// class AttributeDisplay;
+	class SpellSummary;
 
 	class Character : public sf::Transformable, public sf::Drawable {
 
@@ -190,10 +192,10 @@ namespace Sorcery {
 		std::map<std::string, sf::Sprite> _v_sprites;
 		std::map<std::string, sf::Text> _v_texts;
 		std::map<std::string, std::shared_ptr<Frame>> _v_frames;
-		std::shared_ptr<AttributeDisplay> _ad;
-		// std::shared_ptr<SpellSummary> _ss;
-		// Component _ss_c;
-		Component _ad_c;
+		// std::shared_ptr<AttributeDisplay> _ad;
+		std::shared_ptr<SpellPanel> _spell_panel;
+		Component _spell_panel_c;
+		// Component _ad_c;
 		CreateMethod _method;
 		SpellID _hl_mage_spell;
 		SpellID _hl_priest_spell;
