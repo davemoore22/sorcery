@@ -192,7 +192,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 
 				if (selected) {
 					if ((*selected.value()).item != MenuItem::ET_TRAIN) {
-						const int character_chosen{(*selected.value()).index};
+						const int character_chosen{static_cast<int>((*selected.value()).index)};
 						if (character_chosen != _current_character_idx) {
 							auto character{&_game->characters.at(character_chosen)};
 							_character_panel->set(character);

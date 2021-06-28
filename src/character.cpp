@@ -67,9 +67,9 @@ Sorcery::Character::Character(const Character &other)
 	_v_texts = other._v_texts;
 	_v_frames = other._v_frames;
 	_ad = other._ad;
-	_ss = other._ss;
+	//_ss = other._ss;
 	_ad_c = other._ad_c;
-	_ss_c = other._ss_c;
+	//_ss_c = other._ss_c;
 	mage_spell_bounds = other.mage_spell_bounds;
 	priest_spell_bounds = other.priest_spell_bounds;
 }
@@ -113,8 +113,8 @@ auto Sorcery::Character::operator=(const Character &other) -> Character & {
 	_v_frames = other._v_frames;
 	_ad = other._ad;
 	_ad_c = other._ad_c;
-	_ss = other._ss;
-	_ss_c = other._ss_c;
+	//_ss = other._ss;
+	//_ss_c = other._ss_c;
 	mage_spell_bounds = other.mage_spell_bounds;
 	priest_spell_bounds = other.priest_spell_bounds;
 	mage_spell_texts = other.mage_spell_texts;
@@ -164,8 +164,8 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		_v_frames = std::move(other._v_frames);
 		_ad = std::move(other._ad);
 		_ad_c = std::move(other._ad_c);
-		_ss = std::move(other._ss);
-		_ss_c = std::move(other._ss_c);
+		//_ss = std::move(other._ss);
+		//_ss_c = std::move(other._ss_c);
 		mage_spell_bounds = std::move(other.mage_spell_bounds);
 		priest_spell_bounds = std::move(other.priest_spell_bounds);
 		mage_spell_texts = std::move(other.mage_spell_texts);
@@ -207,7 +207,7 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		other._v_texts.clear();
 		other._v_frames.clear();
 		other._ad_c = Component();
-		other._ss_c = Component();
+		// other._ss_c = Component();
 		other.mage_spell_bounds.clear();
 		other.priest_spell_bounds.clear();
 		other.mage_spell_texts.clear();
@@ -255,8 +255,8 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		_v_frames = std::move(other._v_frames);
 		_ad = std::move(other._ad);
 		_ad_c = std::move(other._ad_c);
-		_ss = std::move(other._ss);
-		_ss_c = std::move(other._ss_c);
+		//_ss = std::move(other._ss);
+		//_ss_c = std::move(other._ss_c);
 		mage_spell_bounds = std::move(other.mage_spell_bounds);
 		priest_spell_bounds = std::move(other.priest_spell_bounds);
 		mage_spell_texts = std::move(other.mage_spell_texts);
@@ -296,7 +296,7 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		other._v_texts.clear();
 		other._v_frames.clear();
 		other._ad_c = Component();
-		other._ss_c = Component();
+		// other._ss_c = Component();
 		other._hl_mage_spell = SpellID::NONE;
 		other._hl_priest_spell = SpellID::NONE;
 		other.mage_spell_bounds.clear();
