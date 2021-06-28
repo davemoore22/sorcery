@@ -25,11 +25,8 @@
 #pragma once
 
 #include "display.hpp"
-#include "entity.hpp"
 #include "graphics.hpp"
 #include "main.hpp"
-#include "map.hpp"
-#include "raycaster.hpp"
 #include "system.hpp"
 
 namespace Sorcery {
