@@ -121,8 +121,11 @@ namespace Sorcery {
 		auto inc_highlighted_spell(SpellType type) -> void;
 		auto dec_highlighted_spell(SpellType type) -> void;
 		auto update() -> void;
+		auto check_for_mouse_move(sf::Vector2f mouse_pos) -> std::optional<SpellID>;
 
 		// Public Members
+		std::map<SpellID, sf::FloatRect> mage_spell_bounds;
+		std::map<SpellID, sf::FloatRect> priest_spell_bounds;
 
 	  private:
 		// Private Methods

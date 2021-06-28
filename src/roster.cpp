@@ -252,6 +252,10 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 						_current_character.value()->inc_highlighted_spell(SpellType::MAGE);
 					else if (_current_character.value()->get_view() == CharacterView::PRIEST_SPELLS)
 						_current_character.value()->inc_highlighted_spell(SpellType::PRIEST);
+				} else if (_system->input->check_for_event(WindowInput::MOVE, event)) {
+					_current_character.value()->check_for_mouse_move(
+						sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
+							static_cast<float>(sf::Mouse::getPosition(*_window).y)));
 				}
 			}
 		}

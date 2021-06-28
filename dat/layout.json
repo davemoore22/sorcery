@@ -4822,9 +4822,9 @@
 				"colour": "0xba55d3ff",
 				"data": [
 					{
-						"offset_x": "-12",
+						"offset_x": "-2",
 						"offset_y": "14",
-						"offset_columns": "11"
+						"offset_columns": "13"
 					}
 				]
 			},
@@ -5083,7 +5083,7 @@
 					{
 						"known_colour": "0x00ff00ff",
 						"unknown_colour": "0xbf0000ff",
-						"bar_width": "12"
+						"bar_width": "14"
 					}
 				]
 			},
@@ -5164,9 +5164,9 @@
 				"colour": "0xba55d3ff",
 				"data": [
 					{
-						"offset_x": "-12",
+						"offset_x": "-2",
 						"offset_y": "14",
-						"offset_columns": "11"
+						"offset_columns": "13"
 					}
 				]
 			},
@@ -5413,7 +5413,7 @@
 					{
 						"known_colour": "0x00ff00ff",
 						"unknown_colour": "0xbf0000ff",
-						"bar_width": "12"
+						"bar_width": "14"
 					}
 				]
 			},

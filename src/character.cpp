@@ -40,6 +40,8 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 	_view = CharacterView::NONE;
 	_hl_mage_spell = SpellID::DUMAPIC;
 	_hl_priest_spell = SpellID::BADIOS;
+	mage_spell_bounds.clear();
+	priest_spell_bounds.clear();
 }
 
 // Note for the copy constuctors we only copy the character data/PODs within
@@ -66,6 +68,8 @@ Sorcery::Character::Character(const Character &other)
 	_ss = other._ss;
 	_ad_c = other._ad_c;
 	_ss_c = other._ss_c;
+	mage_spell_bounds = other.mage_spell_bounds;
+	priest_spell_bounds = other.priest_spell_bounds;
 }
 
 auto Sorcery::Character::operator=(const Character &other) -> Character & {
@@ -109,6 +113,8 @@ auto Sorcery::Character::operator=(const Character &other) -> Character & {
 	_ad_c = other._ad_c;
 	_ss = other._ss;
 	_ss_c = other._ss_c;
+	mage_spell_bounds = other.mage_spell_bounds;
+	priest_spell_bounds = other.priest_spell_bounds;
 
 	return *this;
 }
@@ -156,6 +162,8 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		_ad_c = std::move(other._ad_c);
 		_ss = std::move(other._ss);
 		_ss_c = std::move(other._ss_c);
+		mage_spell_bounds = std::move(other.mage_spell_bounds);
+		priest_spell_bounds = std::move(other.priest_spell_bounds);
 
 		other._system = nullptr;
 		other._display = nullptr;
@@ -194,6 +202,8 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		other._v_frames.clear();
 		other._ad_c = Component();
 		other._ss_c = Component();
+		other.mage_spell_bounds.clear();
+		other.priest_spell_bounds.clear();
 	}
 }
 
@@ -239,6 +249,8 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		_ad_c = std::move(other._ad_c);
 		_ss = std::move(other._ss);
 		_ss_c = std::move(other._ss_c);
+		mage_spell_bounds = std::move(other.mage_spell_bounds);
+		priest_spell_bounds = std::move(other.priest_spell_bounds);
 
 		other._system = nullptr;
 		other._display = nullptr;
@@ -277,6 +289,8 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		other._ss_c = Component();
 		other._hl_mage_spell = SpellID::NONE;
 		other._hl_priest_spell = SpellID::NONE;
+		other.mage_spell_bounds.clear();
+		other.priest_spell_bounds.clear();
 		// laos the bgs
 	}
 	return *this;
@@ -2287,6 +2301,8 @@ auto Sorcery::Character::_generate_display() -> void {
 	_v_sprites.clear();
 	_v_texts.clear();
 	_v_frames.clear();
+	mage_spell_bounds.clear();
+	priest_spell_bounds.clear();
 
 	_display->generate_components("character", _sprites, _texts, _frames);
 
@@ -2774,8 +2790,11 @@ auto Sorcery::Character::_generate_display() -> void {
 			for (auto spell : spells) {
 
 				// Add the Spell
-				auto spell_name{_add_text(spell_name_c, "{}", spell.name)};
+				std::string spell_name_text{PADSTR(spell.name, 13)};
+				auto spell_name{_add_text(spell_name_c, "{}", spell_name_text)};
 				auto hl_bounds = spell_name->getGlobalBounds();
+				mage_spell_bounds[spell.id] = hl_bounds;
+
 				if (spell.id == _hl_mage_spell) {
 					sf::RectangleShape bg(
 						sf::Vector2f(std::stoi(spell_name_c["bar_width"].value()) *
@@ -2892,9 +2911,13 @@ auto Sorcery::Character::_generate_display() -> void {
 				return (spell.type == SpellType::PRIEST) && (spell.level == level);
 			});
 			for (auto spell : spells) {
-				auto spell_name{_add_text(spell_name_c, "{}", spell.name)};
+
+				std::string spell_name_text{PADSTR(spell.name, 13)};
+				auto spell_name{_add_text(spell_name_c, "{}", spell_name_text)};
 				spell_name->setPosition(spell_name_c.x, spell_name_c.y);
 				auto hl_bounds = spell_name->getGlobalBounds();
+				priest_spell_bounds[spell.id] = hl_bounds;
+
 				if (spell.id == _hl_priest_spell) {
 					sf::RectangleShape bg(
 						sf::Vector2f(std::stoi(spell_name_c["bar_width"].value()) *
@@ -3064,6 +3087,44 @@ auto Sorcery::Character::get_method() const -> CreateMethod {
 auto Sorcery::Character::set_method(const CreateMethod value) -> void {
 
 	_method = value;
+}
+
+auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::optional<SpellID> {
+
+	const sf::Vector2f global_pos{this->getPosition()};
+	const sf::Vector2f local_mouse_pos{mouse_pos - global_pos};
+	if (_view == CharacterView::MAGE_SPELLS) {
+
+		auto it = std::find_if(mage_spell_bounds.begin(), mage_spell_bounds.end(),
+			[&local_mouse_pos](const auto &item) {
+				return item.second.contains(local_mouse_pos);
+			});
+		if (it != mage_spell_bounds.end()) {
+			_hl_mage_spell = (*it).first;
+			sf::RectangleShape bg(sf::Vector2f((*it).second.width, (*it).second.height));
+			bg.setPosition((*it).second.left, (*it).second.top);
+			bg.setFillColor(_graphics->animation->selected_colour);
+			_hl_mage_spell_bg = bg;
+			return (*it).first;
+		} else
+			return std::nullopt;
+
+	} else if (_view == CharacterView::PRIEST_SPELLS) {
+		auto it = std::find_if(priest_spell_bounds.begin(), priest_spell_bounds.end(),
+			[&local_mouse_pos](const auto &item) {
+				return item.second.contains(local_mouse_pos);
+			});
+		if (it != priest_spell_bounds.end()) {
+			_hl_priest_spell = (*it).first;
+			sf::RectangleShape bg(sf::Vector2f((*it).second.width, (*it).second.height));
+			bg.setPosition((*it).second.left, (*it).second.top);
+			bg.setFillColor(_graphics->animation->selected_colour);
+			_hl_priest_spell_bg = bg;
+			return (*it).first;
+		} else
+			return std::nullopt;
+	} else
+		return std::nullopt;
 }
 
 auto Sorcery::Character::update() -> void {
