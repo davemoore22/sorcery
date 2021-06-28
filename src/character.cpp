@@ -3117,13 +3117,13 @@ auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::op
 		if (it != mage_spell_bounds.end()) {
 			Component spell_name_c{(*_display->layout)["character_mage_spells:spell_name_label"]};
 			_hl_mage_spell = (*it).first;
-			sf::RectangleShape bg(sf::Vector2f((*it).second.width, (*it).second.height));
+			/* sf::RectangleShape bg(sf::Vector2f((*it).second.width, (*it).second.height));
 			bg.setPosition((*it).second.left, (*it).second.top);
 			bg.setFillColor(_graphics->animation->selected_colour);
-			mage_spell_texts.at(_hl_priest_spell)->setFillColor(sf::Color(spell_name_c.colour));
-			mage_spell_texts.at(_hl_priest_spell)->setOutlineColor(sf::Color(0, 0, 0));
-			mage_spell_texts.at(_hl_priest_spell)->setOutlineThickness(2);
-			_hl_mage_spell_bg = bg;
+			mage_spell_texts.at(_hl_mage_spell)->setFillColor(sf::Color(spell_name_c.colour));
+			mage_spell_texts.at(_hl_mage_spell)->setOutlineColor(sf::Color(0, 0, 0));
+			mage_spell_texts.at(_hl_mage_spell)->setOutlineThickness(2);
+			_hl_mage_spell_bg = bg; */
 			return (*it).first;
 		} else
 			return std::nullopt;
@@ -3136,13 +3136,13 @@ auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::op
 		if (it != priest_spell_bounds.end()) {
 			Component spell_name_c{(*_display->layout)["character_priest_spells:spell_name_label"]};
 			_hl_priest_spell = (*it).first;
-			sf::RectangleShape bg(sf::Vector2f((*it).second.width, (*it).second.height));
+			/* sf::RectangleShape bg(sf::Vector2f((*it).second.width, (*it).second.height));
 			bg.setPosition((*it).second.left, (*it).second.top);
 			bg.setFillColor(_graphics->animation->selected_colour);
 			priest_spell_texts.at(_hl_priest_spell)->setFillColor(sf::Color(spell_name_c.colour));
 			priest_spell_texts.at(_hl_priest_spell)->setOutlineColor(sf::Color(0, 0, 0));
 			priest_spell_texts.at(_hl_priest_spell)->setOutlineThickness(2);
-			_hl_priest_spell_bg = bg;
+			_hl_priest_spell_bg = bg; */
 			return (*it).first;
 		} else
 			return std::nullopt;
