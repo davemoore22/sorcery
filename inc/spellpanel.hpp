@@ -42,6 +42,7 @@ namespace Sorcery {
 		SpellPanel() = delete;
 
 		// Public Members
+		auto set(Spell spell) -> void;
 		bool valid;
 
 	  private:
@@ -53,5 +54,8 @@ namespace Sorcery {
 		Display *_display;
 		Graphics *_graphics;
 		Component _layout;
+		std::vector<std::string> _strings;
+		std::vector<sf::Text> _texts;
+		sf::Sprite _icon;
 	};
 } // namespace Sorcery

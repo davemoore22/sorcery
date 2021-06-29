@@ -35,12 +35,58 @@ Sorcery::SpellPanel::SpellPanel(System *system, Display *display, Graphics *grap
 	valid = false;
 }
 
+auto Sorcery::SpellPanel::set(Spell spell) -> void {
+
+	_texts.clear();
+
+	Component icon_c{(*_display->layout)["spell_panel:icon"]};
+	std::string spell_category{};
+	switch (spell.category) {
+	case SpellCategory::ATTACK:
+		_icon = (*_graphics->icons)["attack"].value();
+		break;
+	case SpellCategory::SUPPORT:
+		_icon = (*_graphics->icons)["support"].value();
+		break;
+	case SpellCategory::DISABLE:
+		_icon = (*_graphics->icons)["disable"].value();
+		break;
+	case SpellCategory::FIELD:
+		_icon = (*_graphics->icons)["field"].value();
+		break;
+	case SpellCategory::HEALING:
+		_icon = (*_graphics->icons)["healing"].value();
+		break;
+	default:
+		_icon = sf::Sprite();
+		break;
+	}
+
+	_icon.setScale(icon_c.scale, icon_c.scale);
+	_icon.setPosition(icon_c.x, icon_c.y);
+	if (spell.known)
+		_icon.setColor(sf::Color(std::stoull(icon_c["known_colour"].value(), 0, 16)));
+	else
+		_icon.setColor(sf::Color(std::stoull(icon_c["unknown_colour"].value(), 0, 16)));
+
+	Component name_c{(*_display->layout)["spell_panel:name_text"]};
+	std::string name{fmt::format("{} ({})", spell.name, spell.translated_name)};
+	sf::Text name_text;
+	name_text.setFont(_system->resources->fonts[name_c.font]);
+	name_text.setCharacterSize(name_c.size);
+	name_text.setFillColor(sf::Color(name_c.colour));
+	name_text.setString(name);
+	name_text.setPosition(name_c.x, name_c.y);
+	_texts.push_back(name_text);
+
+	valid = true;
+}
+
 auto Sorcery::SpellPanel::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
-	// for (auto each_text : _texts) {
-	//	target.draw(each_text, states);
-	//}
-	//
-	// target.draw(_icon, states);
+	for (auto each_text : _texts) {
+		target.draw(each_text, states);
+	}
+	target.draw(_icon, states);
 }

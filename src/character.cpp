@@ -52,6 +52,8 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 	set_status(CharacterStatus::OK);
 
 	_spell_panel = std::make_shared<SpellPanel>(_system, _display, _graphics);
+	_spell_panel->setPosition(
+		(*_display->layout)["global:spell_panel"].x, (*_display->layout)["global:spell_panel"].y);
 }
 
 // Note for the copy constuctors we only copy the character data/PODs within
@@ -3142,13 +3144,15 @@ auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::op
 		if (it != mage_spell_bounds.end()) {
 			Component spell_name_c{(*_display->layout)["character_mage_spells:spell_name_label"]};
 			_hl_mage_spell = (*it).first;
-			/* sf::RectangleShape bg(sf::Vector2f((*it).second.width, (*it).second.height));
-			bg.setPosition((*it).second.left, (*it).second.top);
-			bg.setFillColor(_graphics->animation->selected_colour);
-			mage_spell_texts.at(_hl_mage_spell)->setFillColor(sf::Color(spell_name_c.colour));
-			mage_spell_texts.at(_hl_mage_spell)->setOutlineColor(sf::Color(0, 0, 0));
-			mage_spell_texts.at(_hl_mage_spell)->setOutlineThickness(2);
-			_hl_mage_spell_bg = bg; */
+
+			std::vector<Spell>::iterator sit;
+			sit = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
+				return item.id == _hl_mage_spell;
+			});
+			if (sit != _spells.end()) {
+				_spell_panel->set((*sit));
+			}
+
 			return (*it).first;
 		} else
 			return std::nullopt;
@@ -3161,13 +3165,15 @@ auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::op
 		if (it != priest_spell_bounds.end()) {
 			Component spell_name_c{(*_display->layout)["character_priest_spells:spell_name_label"]};
 			_hl_priest_spell = (*it).first;
-			/* sf::RectangleShape bg(sf::Vector2f((*it).second.width, (*it).second.height));
-			bg.setPosition((*it).second.left, (*it).second.top);
-			bg.setFillColor(_graphics->animation->selected_colour);
-			priest_spell_texts.at(_hl_priest_spell)->setFillColor(sf::Color(spell_name_c.colour));
-			priest_spell_texts.at(_hl_priest_spell)->setOutlineColor(sf::Color(0, 0, 0));
-			priest_spell_texts.at(_hl_priest_spell)->setOutlineThickness(2);
-			_hl_priest_spell_bg = bg; */
+
+			std::vector<Spell>::iterator sit;
+			sit = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
+				return item.id == _hl_priest_spell;
+			});
+			if (sit != _spells.end()) {
+				_spell_panel->set((*sit));
+			}
+
 			return (*it).first;
 		} else
 			return std::nullopt;
@@ -3209,4 +3215,11 @@ auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states)
 
 	for (const auto &[unique_key, v_text] : _v_texts)
 		target.draw(v_text, states);
+
+	// And the preview panels
+	if (_view == CharacterView::MAGE_SPELLS)
+		target.draw(*_spell_panel, states);
+
+	if (_view == CharacterView::PRIEST_SPELLS)
+		target.draw(*_spell_panel, states);
 }

@@ -31,7 +31,10 @@
 			"alpha": "255",
 			"type": "panel",
 			"drawmode": "manual",
-			"w": "39"
+			"w": "39",
+			"h": "7",
+			"x": "18",
+			"y": "18"
 		},
 		{
 			"name": "char_panel",
@@ -2796,7 +2799,6 @@
 			]
 		}
 		]
-
 	},
 	{
 		"name": "character_detailed",
@@ -4193,6 +4195,17 @@
 				"priority": "9",
 				"drawmode": "automatic",
 				"background": " 0x000000ff"
+			},
+			{
+				"name": "spell_panel",
+				"w": "38",
+				"h": "7",
+				"x": "18",
+				"y": "18",
+				"alpha": "255",
+				"type": "panel",
+				"priority": "6",
+				"drawmode": "manual"
 			},
 			{
 				"name": "level_label",
@@ -6031,6 +6044,69 @@
 					}
 				]
 			}
+		]
+	},
+
+
+	{
+		"name": "spell_panel",
+		"component": [
+		{
+			"name": "icon",
+			"x": "0",
+			"y": "0",
+			"scale" : "0.20",
+			"alpha": "255",
+			"type": "image",
+			"priority": "6",
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_x": "12",
+					"offset_y": "12",
+					"known_colour": "0x00ff00ff",
+					"unknown_colour": "0xbf0000ff"
+				}
+			]
+		},
+		{
+			"name": "name_text",
+			"x": "8",
+			"y": "0",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_x": "0",
+					"offset_y": "12"
+				}
+			]
+		},
+		{
+			"name": "details_text",
+			"x": "8",
+			"y": "1",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_x": "0",
+					"offset_y": "12"
+				}
+			]
+		}
 		]
 	}
 	]
