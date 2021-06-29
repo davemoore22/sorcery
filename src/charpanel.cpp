@@ -110,7 +110,7 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 
 	Component status_c{(*_display->layout)["character_panel:status_text"]};
 	std::string status{fmt::format(
-		"{}: {}", (*_display->string)["CHARACTER_LEGEND_STATUS"], _character->get_status())};
+		"{}: {}", (*_display->string)["CHARACTER_LEGEND_STATUS"], _character->get_status_string())};
 	sf::Text status_text;
 	status_text.setFont(_system->resources->fonts[status_c.font]);
 	status_text.setCharacterSize(status_c.size);

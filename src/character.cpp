@@ -45,6 +45,12 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 	mage_spell_texts.clear();
 	priest_spell_texts.clear();
 
+	// Defaults - not changed in character creation!
+	_poison = 0;
+	_regeneration = 0;
+	_hidden = false;
+	set_status(CharacterStatus::OK);
+
 	_spell_panel = std::make_shared<SpellPanel>(_system, _display, _graphics);
 }
 
@@ -59,7 +65,9 @@ Sorcery::Character::Character(const Character &other)
 	  _cur_attr{other._cur_attr}, _max_attr{other._max_attr}, _view{other._view},
 	  _points_left{other._points_left}, _st_points{other._st_points},
 	  _pos_classes{other._pos_classes}, _class_list{other._class_list},
-	  _num_pos_classes{other._num_pos_classes}, _portrait_index{other._portrait_index},
+	  _num_pos_classes{other._num_pos_classes},
+	  _portrait_index{other._portrait_index}, _status{other._status}, _poison{other._poison},
+	  _regeneration{other._regeneration}, _hidden{other._hidden},
 	  _hl_mage_spell{other._hl_mage_spell}, _hl_priest_spell{other._hl_priest_spell} {
 
 	_sprites = other._sprites;
@@ -106,6 +114,10 @@ auto Sorcery::Character::operator=(const Character &other) -> Character & {
 	_portrait_index = other._portrait_index;
 	_hl_mage_spell = other._hl_mage_spell;
 	_hl_priest_spell = other._hl_priest_spell;
+	_poison = other._poison;
+	_regeneration = other._regeneration;
+	_hidden = other._hidden;
+	_status = other._status;
 
 	_sprites = other._sprites;
 	_texts = other._texts;
@@ -157,6 +169,10 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		_portrait_index = other._portrait_index;
 		_hl_mage_spell = other._hl_mage_spell;
 		_hl_priest_spell = other._hl_priest_spell;
+		_poison = other._poison;
+		_regeneration = other._regeneration;
+		_hidden = other._hidden;
+		_status = other._status;
 
 		_sprites = std::move(other._sprites);
 		_texts = std::move(other._texts);
@@ -201,6 +217,10 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		other._portrait_index = 0;
 		other._hl_mage_spell = SpellID::NONE;
 		other._hl_priest_spell = SpellID::NONE;
+		other._hidden = false;
+		other._poison = 0;
+		other._regeneration = 0;
+		other._status = CharacterStatus::OK;
 
 		other._sprites.clear();
 		other._texts.clear();
@@ -248,6 +268,10 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		_portrait_index = other._portrait_index;
 		_hl_mage_spell = other._hl_mage_spell;
 		_hl_priest_spell = other._hl_priest_spell;
+		_poison = other._poison;
+		_regeneration = other._regeneration;
+		_hidden = other._hidden;
+		_status = other._status;
 
 		_sprites = std::move(other._sprites);
 		_texts = std::move(other._texts);
@@ -290,6 +314,10 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		other._class_list.clear();
 		other._num_pos_classes = 0;
 		other._portrait_index = 0;
+		other._hidden = false;
+		other._poison = 0;
+		other._regeneration = 0;
+		other._status = CharacterStatus::OK;
 
 		other._sprites.clear();
 		other._texts.clear();
@@ -326,11 +354,6 @@ auto Sorcery::Character::get_stage() const -> CharacterStage {
 auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 
 	_current_stage = stage;
-
-	// Also need methods to boost to next stage from start, e.g. random name or race, and going into
-	// create immediately sets that
-
-	// As well as a summary display of character (to be displayed where?)
 	switch (stage) {
 	case CharacterStage::CHOOSE_METHOD:
 		_name.clear();
@@ -339,7 +362,6 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 		_start_attr.clear();
 		_cur_attr.clear();
 		_max_attr.clear();
-		//_status.clear();
 		_abilities.clear();
 
 		// Used in the display from this point onwards
@@ -2061,11 +2083,101 @@ auto Sorcery::Character::_get_character_portrait() -> sf::Sprite {
 	return portrait;
 }
 
-auto Sorcery::Character::get_status() -> std::string {
+auto Sorcery::Character::get_status() const -> CharacterStatus {
 
-	// TODO: for now just return ok
-	return "OK";
+	return _status;
 }
+
+auto Sorcery::Character::get_status_string() const -> std::string {
+
+	if (!_hidden) {
+		if (_poison == 0) {
+			if (_status == CharacterStatus::OK)
+				return (*_display->string)["STATUS_OK"];
+			else {
+				switch (_status) {
+				case CharacterStatus::AFRAID:
+					return (*_display->string)["STATUS_AFRAID"];
+					break;
+				case CharacterStatus::ASHES:
+					return (*_display->string)["STATUS_ASHES"];
+					break;
+				case CharacterStatus::ASLEEP:
+					return (*_display->string)["STATUS_ASLEEP"];
+					break;
+				case CharacterStatus::DEAD:
+					return (*_display->string)["STATUS_DEAD"];
+					break;
+				case CharacterStatus::LOST:
+					return (*_display->string)["STATUS_LOST"];
+					break;
+				case CharacterStatus::PARALYSED:
+					return (*_display->string)["STATUS_PARALYSED"];
+					break;
+				case CharacterStatus::SILENCED:
+					return (*_display->string)["STATUS_SILENCED"];
+					break;
+				case CharacterStatus::STONED:
+					return (*_display->string)["STATUS_STONED"];
+					break;
+				default:
+					return "";
+				};
+			}
+		} else
+			return (*_display->string)["STATUS_POISONED"];
+	} else
+		return (*_display->string)["STATUS_HIDDEN"];
+}
+
+auto Sorcery::Character::set_status(CharacterStatus value) -> void {
+
+	int candidate{magic_enum::enum_integer<CharacterStatus>(value)};
+	int current{magic_enum::enum_integer<CharacterStatus>(_status)};
+	if (candidate > current)
+		_status = value;
+};
+
+auto Sorcery::Character::is_poisoned() const -> bool {
+
+	return _poison > 0;
+}
+
+auto Sorcery::Character::get_poisoned_rate() const -> unsigned int {
+
+	return _poison;
+}
+
+auto Sorcery::Character::set_poisoned_rate(unsigned int value) -> void {
+
+	if (value > _poison)
+		_poison = value;
+}
+
+auto Sorcery::Character::get_poisoned_string() const -> std::string {
+
+	return _poison > 0 ? fmt::format("{:->2}", _poison) : "";
+}
+
+auto Sorcery::Character::is_regenerating() const -> bool {
+
+	return _regeneration > 0;
+}
+auto Sorcery::Character::get_regeneration_rate() const -> unsigned int {
+
+	return _regeneration;
+}
+
+auto Sorcery::Character::set_regeneration_rate(unsigned int value) -> void {
+
+	if (value > _regeneration)
+		_regeneration = value;
+};
+auto Sorcery::Character::get_regeneration_string() const -> std::string {
+
+	return _regeneration > 0 ? fmt::format("{:+>2}", _regeneration) : "";
+};
+
 auto Sorcery::Character::get_hp_summary() -> std::string {
 
 	return fmt::format("{}/{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
@@ -2246,12 +2358,6 @@ auto Sorcery::Character::get_summary() -> std::string {
 
 auto Sorcery::Character::summary_text() -> std::string {
 
-	// CHOOSE NAME: 			"???             L  1 ?-??? ???"
-	// CHOOSE RACE: 			"NAMENAMENAMENAM L  1 ?-??? ???"
-	// CHOOSE ALIGNMENT: 		"NAMENAMENAMENAM L  1 ?-??? RAC"
-	// ALLOCATE STATS:			"NAMENAMENAMENAM L  1 A-??? RAC"
-	// CHOOSE PORTRAIT:			"NAMENAMENAMENAM L  1 A-CLA RAC"
-	// REVIEW AND CONFIRM:		"NAMENAMENAMENAM L  1 A-CLA RAC"
 	switch (_current_stage) {
 	case CharacterStage::CHOOSE_METHOD:
 	case CharacterStage::ENTER_NAME:
@@ -2290,11 +2396,6 @@ auto Sorcery::Character::summary_text() -> std::string {
 		return "";
 		break;
 	}
-
-	// Character Sheet version has no 15 name padding
-	// Roster version/character creation has 15 padding
-
-	// Names 15 characters
 
 	// starting equipment
 
@@ -2385,8 +2486,7 @@ auto Sorcery::Character::_generate_display() -> void {
 			std::to_string(static_cast<int>(_abilities.at(CharacterAbility::AGE) / 52)));
 		_add_text((*_display->layout)["character_summary:swim_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::SWIM)));
-		_add_text((*_display->layout)["character_summary:status_value"], "{}",
-			"OK"); // TODO
+		_add_text((*_display->layout)["character_summary:status_value"], "{}", get_status_string());
 
 		_add_text((*_display->layout)["character_summary:exp_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::CURRENT_XP)));

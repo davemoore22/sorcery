@@ -57,11 +57,11 @@ namespace Sorcery {
 		auto operator[](const CharacterAbility &key) -> int &;
 
 		// Serialisation
-		// TODO: add a version number!!! and also the highlighted
+		// TODO: add a version number!!!
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_name, _race, _class, _alignment, _start_attr, _cur_attr, _max_attr, _st_points,
 				_portrait_index, _abilities, _priest_max_sp, _priest_cur_sp, _mage_max_sp,
-				_mage_cur_sp, _status, _spells_known);
+				_mage_cur_sp, _status, _poison, _regeneration, _hidden, _spells_known);
 		}
 
 		// Public Methods
@@ -115,7 +115,17 @@ namespace Sorcery {
 		auto create_spell_lists() -> void;
 		auto reset_spells() -> void;
 		auto set_spells() -> void;
-		auto get_status() -> std::string;
+		auto get_status() const -> CharacterStatus;
+		auto get_status_string() const -> std::string;
+		auto set_status(CharacterStatus value) -> void;
+		auto is_poisoned() const -> bool;
+		auto get_poisoned_rate() const -> unsigned int;
+		auto set_poisoned_rate(unsigned int value) -> void;
+		auto get_poisoned_string() const -> std::string;
+		auto is_regenerating() const -> bool;
+		auto get_regeneration_rate() const -> unsigned int;
+		auto set_regeneration_rate(unsigned int value) -> void;
+		auto get_regeneration_string() const -> std::string;
 		auto get_hp_summary() -> std::string;
 		auto inc_highlighted_spell(SpellType type) -> void;
 		auto dec_highlighted_spell(SpellType type) -> void;
@@ -170,7 +180,6 @@ namespace Sorcery {
 		SpellPoints _mage_cur_sp;
 		std::vector<Spell> _spells;
 		std::map<SpellID, bool> _spells_known;
-		std::vector<CharacterStatus> _status;
 		CharacterStage _current_stage;
 		std::string _name;
 		CharacterRace _race;
@@ -186,6 +195,10 @@ namespace Sorcery {
 		CharacterClassList _class_list;
 		unsigned int _num_pos_classes;
 		unsigned int _portrait_index;
+		CharacterStatus _status;
+		unsigned int _poison;
+		unsigned int _regeneration;
+		bool _hidden;
 		std::map<std::string, sf::Sprite> _sprites;
 		std::map<std::string, sf::Text> _texts;
 		std::map<std::string, std::shared_ptr<Frame>> _frames;
