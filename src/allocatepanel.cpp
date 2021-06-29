@@ -98,8 +98,7 @@ auto Sorcery::AllocatePanel::set() -> void {
 		sf::Text text;
 		text.setFont(_system->resources->fonts[_layout.font]);
 		text.setCharacterSize(_layout.size);
-		text.setFillColor(
-			sf::Color(_graphics->adjust_colour(value, CharacterAbilityType::STAT)));
+		text.setFillColor(sf::Color(_graphics->adjust_colour(value, CharacterAbilityType::STAT)));
 		text.setString(fmt::format("{:>2}", value));
 		text.setOrigin(0, text.getLocalBounds().height / 2.0f);
 		text.setPosition(x, (y * _display->window->get_cell_height()));

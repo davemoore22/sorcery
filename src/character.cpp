@@ -2274,82 +2274,6 @@ auto Sorcery::Character::_generate_summary_icons() -> void {
 		std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)), true);
 }
 
-auto Sorcery::Character::_adjust_ability_colour(int value, CharacterAbilityType ability_type)
-	-> unsigned long long {
-
-	// Colours "borrowed" from
-	// https://github.com/angband/angband/blob/master/src/ui-player.c
-	// https://github.com/angband/angband/blob/master/src/z-color.h
-	thor::ColorGradient gradient{};
-	gradient[0.0f] = sf::Color(0xbf0000ff);
-	gradient[0.5f] = sf::Color(0xffff00ff);
-	gradient[1.0f] = sf::Color(0x00ff00ff);
-	float to_scale{value * 1.0f};
-	switch (ability_type) {
-	case CharacterAbilityType::NUMBER: {
-		to_scale = [&] {
-			to_scale *= 0.5f;
-			if (to_scale > 5.0f)
-				return 5.0f;
-			else if (to_scale < -5.0f)
-				return -5.0f;
-			else
-				return to_scale;
-		}();
-		to_scale += 5.0f;
-		float scaled{to_scale / 10.0f};
-		return (gradient.sampleColor(scaled)).toInteger();
-	} break;
-	case CharacterAbilityType::AC: {
-		to_scale = [&] {
-			if (to_scale < -10.0f)
-				return -10.0f;
-			else if (to_scale > 10.0f)
-				return 10.0f;
-			else
-				return to_scale;
-		}();
-		to_scale = 10.0f - to_scale;
-		float scaled{to_scale / 20.0f};
-		return (gradient.sampleColor(scaled)).toInteger();
-	} break;
-	case CharacterAbilityType::STAT: {
-		to_scale = [&] {
-			to_scale -= 3.0f;
-			if (to_scale < 0.0f)
-				return 0.0f;
-			else if (to_scale > 15.0f)
-				return 15.0f;
-			else
-				return to_scale;
-		}();
-		float scaled{to_scale / 15.0f};
-		return (gradient.sampleColor(scaled)).toInteger();
-	} break;
-	case CharacterAbilityType::PERCENTAGE: {
-		float scaled{to_scale / 100.0f};
-		return (gradient.sampleColor(scaled)).toInteger();
-	} break;
-	case CharacterAbilityType::MODIFIER: {
-		to_scale = [&] {
-			to_scale *= 0.5f;
-			if (to_scale > 5.0f)
-				return 5.0f;
-			if (to_scale < -5.0f)
-				return -5.0f;
-			else
-				return to_scale;
-		}();
-		to_scale += 5.0f;
-		float scaled{to_scale / 10.0f};
-		return (gradient.sampleColor(scaled)).toInteger();
-	} break;
-	default:
-		return 0;
-		break;
-	}
-}
-
 auto Sorcery::Character::get_summary() -> std::string {
 	return fmt::format("{:<15} L {:>2} {}-{} {}", _name,
 		_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
@@ -2448,32 +2372,32 @@ auto Sorcery::Character::_generate_display() -> void {
 		_v_sprites.emplace(portrait_c.unique_key, portrait);
 
 		Component s_c{(*_display->layout)["character_summary:strength_value"]};
-		s_c.colour = _adjust_ability_colour(
+		s_c.colour = _graphics->adjust_colour(
 			_cur_attr.at(CharacterAttribute::STRENGTH), CharacterAbilityType::STAT);
 		_add_text(s_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
 
 		Component i_c{(*_display->layout)["character_summary:iq_value"]};
-		i_c.colour = _adjust_ability_colour(
+		i_c.colour = _graphics->adjust_colour(
 			_cur_attr.at(CharacterAttribute::IQ), CharacterAbilityType::STAT);
 		_add_text(i_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::IQ)));
 
 		Component p_c{(*_display->layout)["character_summary:piety_value"]};
-		p_c.colour = _adjust_ability_colour(
+		p_c.colour = _graphics->adjust_colour(
 			_cur_attr.at(CharacterAttribute::PIETY), CharacterAbilityType::STAT);
 		_add_text(p_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::PIETY)));
 
 		Component a_c{(*_display->layout)["character_summary:agility_value"]};
-		a_c.colour = _adjust_ability_colour(
+		a_c.colour = _graphics->adjust_colour(
 			_cur_attr.at(CharacterAttribute::AGILITY), CharacterAbilityType::STAT);
 		_add_text(a_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::AGILITY)));
 
 		Component v_c{(*_display->layout)["character_summary:vitality_value"]};
-		v_c.colour = _adjust_ability_colour(
+		v_c.colour = _graphics->adjust_colour(
 			_cur_attr.at(CharacterAttribute::VITALITY), CharacterAbilityType::STAT);
 		_add_text(v_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::VITALITY)));
 
 		Component l_c{(*_display->layout)["character_summary:luck_value"]};
-		l_c.colour = _adjust_ability_colour(
+		l_c.colour = _graphics->adjust_colour(
 			_cur_attr.at(CharacterAttribute::LUCK), CharacterAbilityType::STAT);
 		_add_text(l_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::LUCK)));
 
@@ -2535,202 +2459,202 @@ auto Sorcery::Character::_generate_display() -> void {
 		_v_sprites.emplace(portrait_c.unique_key, portrait);
 
 		Component s_c{(*_display->layout)["character_detailed:strength_value"]};
-		s_c.colour = _adjust_ability_colour(
+		s_c.colour = _graphics->adjust_colour(
 			_cur_attr.at(CharacterAttribute::STRENGTH), CharacterAbilityType::STAT);
 		_add_text(s_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
 
 		Component i_c{(*_display->layout)["character_detailed:iq_value"]};
-		i_c.colour = _adjust_ability_colour(
+		i_c.colour = _graphics->adjust_colour(
 			_cur_attr.at(CharacterAttribute::IQ), CharacterAbilityType::STAT);
 		_add_text(i_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::IQ)));
 
 		Component p_c{(*_display->layout)["character_detailed:piety_value"]};
-		p_c.colour = _adjust_ability_colour(
+		p_c.colour = _graphics->adjust_colour(
 			_cur_attr.at(CharacterAttribute::PIETY), CharacterAbilityType::STAT);
 		_add_text(p_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::PIETY)));
 
 		Component a_c{(*_display->layout)["character_detailed:agility_value"]};
-		a_c.colour = _adjust_ability_colour(
+		a_c.colour = _graphics->adjust_colour(
 			_cur_attr.at(CharacterAttribute::AGILITY), CharacterAbilityType::STAT);
 		_add_text(a_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::AGILITY)));
 
 		Component v_c{(*_display->layout)["character_detailed:vitality_value"]};
-		v_c.colour = _adjust_ability_colour(
+		v_c.colour = _graphics->adjust_colour(
 			_cur_attr.at(CharacterAttribute::VITALITY), CharacterAbilityType::STAT);
 		_add_text(v_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::VITALITY)));
 
 		Component l_c{(*_display->layout)["character_detailed:luck_value"]};
-		l_c.colour = _adjust_ability_colour(
+		l_c.colour = _graphics->adjust_colour(
 			_cur_attr.at(CharacterAttribute::LUCK), CharacterAbilityType::STAT);
 		_add_text(l_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::LUCK)));
 
 		Component strength_c((*_display->layout)["character_detailed:strength_detailed_values"]);
 
-		strength_c.colour = _adjust_ability_colour(
+		strength_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::ATTACK_MODIFIER), CharacterAbilityType::MODIFIER);
 		_add_text(
 			strength_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::ATTACK_MODIFIER)));
 
 		strength_c.y += _display->window->get_cell_height();
-		strength_c.colour = _adjust_ability_colour(
+		strength_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::HIT_PROBABILITY), CharacterAbilityType::MODIFIER);
 		_add_text(
 			strength_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::HIT_PROBABILITY)));
 
 		strength_c.y += _display->window->get_cell_height();
-		strength_c.colour = _adjust_ability_colour(
+		strength_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::BONUS_DAMAGE), CharacterAbilityType::MODIFIER);
 		_add_text(
 			strength_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_DAMAGE)));
 
 		strength_c.y += _display->window->get_cell_height();
-		strength_c.colour = _adjust_ability_colour(
+		strength_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::BASE_NUMBER_OF_ATTACKS), CharacterAbilityType::NUMBER);
 		_add_text(strength_c, "{:>2}",
 			std::to_string(_abilities.at(CharacterAbility::BASE_NUMBER_OF_ATTACKS)));
 
 		strength_c.y += _display->window->get_cell_height();
-		strength_c.colour = _adjust_ability_colour(
+		strength_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::UNARMED_DAMAGE), CharacterAbilityType::NUMBER);
 		_add_text(
 			strength_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::UNARMED_DAMAGE)));
 
 		Component iq_c((*_display->layout)["character_detailed:iq_detailed_values"]);
 
-		iq_c.colour = _adjust_ability_colour(
+		iq_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::MAGE_SPELL_LEARN), CharacterAbilityType::PERCENTAGE);
 		_add_text(
 			iq_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::MAGE_SPELL_LEARN)));
 
 		iq_c.y += _display->window->get_cell_height();
-		iq_c.colour = _adjust_ability_colour(
+		iq_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::IDENTIFY_ITEMS), CharacterAbilityType::PERCENTAGE);
 		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_ITEMS)));
 
 		iq_c.y += _display->window->get_cell_height();
-		iq_c.colour = _adjust_ability_colour(
+		iq_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::IDENTIFY_CURSE), CharacterAbilityType::PERCENTAGE);
 		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_CURSE)));
 
 		iq_c.y += _display->window->get_cell_height();
-		iq_c.colour = _adjust_ability_colour(
+		iq_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::IDENTIFY_FOES), CharacterAbilityType::PERCENTAGE);
 		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_FOES)));
 
 		iq_c.y += _display->window->get_cell_height();
-		iq_c.colour = _adjust_ability_colour(
+		iq_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::BONUS_MAGE_SPELLS), CharacterAbilityType::NUMBER);
 		_add_text(
 			iq_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_MAGE_SPELLS)));
 
 		Component piety_c((*_display->layout)["character_detailed:piety_detailed_values"]);
-		piety_c.colour = _adjust_ability_colour(
+		piety_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::PRIEST_SPELL_LEARN), CharacterAbilityType::PERCENTAGE);
 		_add_text(
 			piety_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::PRIEST_SPELL_LEARN)));
 
 		piety_c.y += _display->window->get_cell_height();
-		piety_c.colour = _adjust_ability_colour(
+		piety_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::LOKTOFELT_SUCCESS), CharacterAbilityType::PERCENTAGE);
 		_add_text(
 			piety_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::LOKTOFELT_SUCCESS)));
 
 		piety_c.y += _display->window->get_cell_height();
-		piety_c.colour = _adjust_ability_colour(
+		piety_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::BASE_DISPELL), CharacterAbilityType::PERCENTAGE);
 		_add_text(piety_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_DISPELL)));
 
 		piety_c.y += _display->window->get_cell_height();
-		piety_c.colour = _adjust_ability_colour(
+		piety_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::BONUS_PRIEST_SPELLS), CharacterAbilityType::NUMBER);
 		_add_text(
 			piety_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_PRIEST_SPELLS)));
 
 		Component vitality_c((*_display->layout)["character_detailed:vitality_detailed_values"]);
-		vitality_c.colour = _adjust_ability_colour(
+		vitality_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::VITALITY_BONUS), CharacterAbilityType::MODIFIER);
 		_add_text(
 			vitality_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::VITALITY_BONUS)));
 
 		vitality_c.y += _display->window->get_cell_height();
-		vitality_c.colour = _adjust_ability_colour(
+		vitality_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::BONUS_HIT_POINTS), CharacterAbilityType::MODIFIER);
 		_add_text(vitality_c, "{:+>2}",
 			std::to_string(_abilities.at(CharacterAbility::BONUS_HIT_POINTS)));
 
 		vitality_c.y += _display->window->get_cell_height();
-		vitality_c.colour = _adjust_ability_colour(
+		vitality_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::DEAD_RESURRECT), CharacterAbilityType::PERCENTAGE);
 		_add_text(
 			vitality_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::DEAD_RESURRECT)));
 
 		vitality_c.y += _display->window->get_cell_height();
-		vitality_c.colour = _adjust_ability_colour(
+		vitality_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::ASHES_RESURRECT), CharacterAbilityType::PERCENTAGE);
 		_add_text(
 			vitality_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::ASHES_RESURRECT)));
 
 		vitality_c.y += _display->window->get_cell_height();
 		vitality_c.colour =
-			_adjust_ability_colour(_abilities.at(CharacterAbility::DI_KADORTO_RESURRECT),
+			_graphics->adjust_colour(_abilities.at(CharacterAbility::DI_KADORTO_RESURRECT),
 				CharacterAbilityType::PERCENTAGE);
 		_add_text(vitality_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::DI_KADORTO_RESURRECT)));
 
 		Component agility_c((*_display->layout)["character_detailed:agility_detailed_values"]);
 
-		agility_c.colour = _adjust_ability_colour(
+		agility_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::INITIATIVE_MODIFIER), CharacterAbilityType::MODIFIER);
 		_add_text(agility_c, "{:+>2}",
 			std::to_string(_abilities.at(CharacterAbility::INITIATIVE_MODIFIER)));
 
 		agility_c.y += _display->window->get_cell_height();
-		agility_c.colour = _adjust_ability_colour(
+		agility_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::BASE_CRITICAL_HIT), CharacterAbilityType::PERCENTAGE);
 		_add_text(agility_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::BASE_CRITICAL_HIT)));
 
 		agility_c.y += _display->window->get_cell_height();
-		agility_c.colour = _adjust_ability_colour(
+		agility_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::IDENTIFY_TRAP), CharacterAbilityType::PERCENTAGE);
 		_add_text(
 			agility_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_TRAP)));
 
 		agility_c.y += _display->window->get_cell_height();
-		agility_c.colour = _adjust_ability_colour(
+		agility_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::BASE_DISARM_TRAP), CharacterAbilityType::PERCENTAGE);
 		_add_text(
 			agility_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_DISARM_TRAP)));
 
 		agility_c.y += _display->window->get_cell_height();
 		agility_c.colour =
-			_adjust_ability_colour((100 - _abilities.at(CharacterAbility::ACTIVATE_TRAP)),
+			_graphics->adjust_colour((100 - _abilities.at(CharacterAbility::ACTIVATE_TRAP)),
 				CharacterAbilityType::PERCENTAGE);
 		_add_text(agility_c, "{:>2}%",
 			std::to_string(100 - _abilities.at(CharacterAbility::ACTIVATE_TRAP)));
 
 		agility_c.y += _display->window->get_cell_height();
-		agility_c.colour = _adjust_ability_colour(
+		agility_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::BASE_AVOID_PIT), CharacterAbilityType::PERCENTAGE);
 		_add_text(
 			agility_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_AVOID_PIT)));
 
 		agility_c.y += _display->window->get_cell_height();
-		agility_c.colour = _adjust_ability_colour(
+		agility_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::BASE_ARMOUR_CLASS), CharacterAbilityType::AC);
 		_add_text(
 			agility_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BASE_ARMOUR_CLASS)));
 
 		Component luck_c((*_display->layout)["character_detailed:luck_detailed_values"]);
 
-		luck_c.colour = _adjust_ability_colour(
+		luck_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::BASE_RESIST_BONUS), CharacterAbilityType::PERCENTAGE);
 		_add_text(
 			luck_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_RESIST_BONUS)));
 
 		luck_c.y += _display->window->get_cell_height();
 		luck_c.colour =
-			_adjust_ability_colour(_abilities.at(CharacterAbility::EQUIPMENT_INTACT_ON_WIPE),
+			_graphics->adjust_colour(_abilities.at(CharacterAbility::EQUIPMENT_INTACT_ON_WIPE),
 				CharacterAbilityType::PERCENTAGE);
 		_add_text(luck_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::EQUIPMENT_INTACT_ON_WIPE)));
@@ -2742,28 +2666,28 @@ auto Sorcery::Character::_generate_display() -> void {
 		int offset_columns{std::stoi(resistances_c["offset_columns"].value())};
 
 		resistances_c.colour =
-			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_CRITICAL_HIT),
+			_graphics->adjust_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_CRITICAL_HIT),
 				CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_CRITICAL_HIT)));
 
 		resistances_c.y += _display->window->get_cell_height();
-		resistances_c.colour =
-			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS),
-				CharacterAbilityType::PERCENTAGE);
+		resistances_c.colour = _graphics->adjust_colour(
+			_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS),
+			CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS)));
 
 		resistances_c.y += _display->window->get_cell_height();
 		resistances_c.colour =
-			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_STONING),
+			_graphics->adjust_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_STONING),
 				CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_STONING)));
 
 		resistances_c.y += _display->window->get_cell_height();
 		resistances_c.colour =
-			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS),
+			_graphics->adjust_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS),
 				CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS)));
@@ -2771,26 +2695,26 @@ auto Sorcery::Character::_generate_display() -> void {
 		resistances_c.y = pos_y;
 		resistances_c.x = pos_x + (offset_columns * _display->window->get_cell_width());
 		resistances_c.colour =
-			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP),
+			_graphics->adjust_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP),
 				CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP)));
 
 		resistances_c.y += _display->window->get_cell_height();
-		resistances_c.colour =
-			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP),
-				CharacterAbilityType::PERCENTAGE);
+		resistances_c.colour = _graphics->adjust_colour(
+			_abilities.at(CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP),
+			CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP)));
 
 		resistances_c.y += _display->window->get_cell_height();
-		resistances_c.colour = _adjust_ability_colour(
+		resistances_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::RECOVER_FROM_SLEEP), CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RECOVER_FROM_SLEEP)));
 
 		resistances_c.y += _display->window->get_cell_height();
-		resistances_c.colour = _adjust_ability_colour(
+		resistances_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::RECOVER_FROM_FEAR), CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RECOVER_FROM_FEAR)));
@@ -2798,27 +2722,27 @@ auto Sorcery::Character::_generate_display() -> void {
 		resistances_c.y = pos_y;
 		resistances_c.x = pos_x + (2 * offset_columns * _display->window->get_cell_width());
 		resistances_c.colour =
-			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_SILENCE),
+			_graphics->adjust_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_SILENCE),
 				CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_SILENCE)));
 
 		resistances_c.y += _display->window->get_cell_height();
 		resistances_c.colour =
-			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_KATINO),
+			_graphics->adjust_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_KATINO),
 				CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_KATINO)));
 
 		resistances_c.y += _display->window->get_cell_height();
-		resistances_c.colour = _adjust_ability_colour(
+		resistances_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::RESISTANCE_VS_BADI), CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_BADI)));
 
 		resistances_c.y += _display->window->get_cell_height();
 		resistances_c.colour =
-			_adjust_ability_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_MANIFO),
+			_graphics->adjust_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_MANIFO),
 				CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_MANIFO)));

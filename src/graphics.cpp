@@ -42,3 +42,79 @@ auto Sorcery::Graphics::operator=(const Graphics &other) -> Graphics & {
 
 	return *this;
 }
+
+auto Sorcery::Graphics::adjust_colour(int value, CharacterAbilityType ability_type)
+	-> unsigned long long {
+
+	// Colours "borrowed" from
+	// https://github.com/angband/angband/blob/master/src/ui-player.c
+	// https://github.com/angband/angband/blob/master/src/z-color.h
+	thor::ColorGradient gradient{};
+	gradient[0.0f] = sf::Color(0xbf0000ff);
+	gradient[0.5f] = sf::Color(0xffff00ff);
+	gradient[1.0f] = sf::Color(0x00ff00ff);
+	float to_scale{value * 1.0f};
+	switch (ability_type) {
+	case CharacterAbilityType::NUMBER: {
+		to_scale = [&] {
+			to_scale *= 0.5f;
+			if (to_scale > 5.0f)
+				return 5.0f;
+			else if (to_scale < -5.0f)
+				return -5.0f;
+			else
+				return to_scale;
+		}();
+		to_scale += 5.0f;
+		float scaled{to_scale / 10.0f};
+		return (gradient.sampleColor(scaled)).toInteger();
+	} break;
+	case CharacterAbilityType::AC: {
+		to_scale = [&] {
+			if (to_scale < -10.0f)
+				return -10.0f;
+			else if (to_scale > 10.0f)
+				return 10.0f;
+			else
+				return to_scale;
+		}();
+		to_scale = 10.0f - to_scale;
+		float scaled{to_scale / 20.0f};
+		return (gradient.sampleColor(scaled)).toInteger();
+	} break;
+	case CharacterAbilityType::STAT: {
+		to_scale = [&] {
+			to_scale -= 3.0f;
+			if (to_scale < 0.0f)
+				return 0.0f;
+			else if (to_scale > 15.0f)
+				return 15.0f;
+			else
+				return to_scale;
+		}();
+		float scaled{to_scale / 15.0f};
+		return (gradient.sampleColor(scaled)).toInteger();
+	} break;
+	case CharacterAbilityType::PERCENTAGE: {
+		float scaled{to_scale / 100.0f};
+		return (gradient.sampleColor(scaled)).toInteger();
+	} break;
+	case CharacterAbilityType::MODIFIER: {
+		to_scale = [&] {
+			to_scale *= 0.5f;
+			if (to_scale > 5.0f)
+				return 5.0f;
+			if (to_scale < -5.0f)
+				return -5.0f;
+			else
+				return to_scale;
+		}();
+		to_scale += 5.0f;
+		float scaled{to_scale / 10.0f};
+		return (gradient.sampleColor(scaled)).toInteger();
+	} break;
+	default:
+		return 0;
+		break;
+	}
+}

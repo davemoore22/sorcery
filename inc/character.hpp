@@ -164,8 +164,6 @@ namespace Sorcery {
 		auto _add_icon(Component &component, std::string icon_key) -> void;
 		auto _get_mage_magic_status(bool current) -> std::string;
 		auto _get_priest_magic_status(bool current) -> std::string;
-		auto _adjust_ability_colour(int value, CharacterAbilityType ability_type)
-			-> unsigned long long;
 		auto _get_spell_icon(SpellCategory category) -> std::optional<sf::Sprite>;
 		auto _get_spell_points_per_level(const SpellType type, int level) -> std::string;
 

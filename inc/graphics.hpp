@@ -48,6 +48,7 @@ namespace Sorcery {
 		auto operator=(const Graphics &other) -> Graphics &;
 
 		// Public Methods
+		auto adjust_colour(int value, CharacterAbilityType ability_type) -> unsigned long long;
 
 		// Public Members
 		std::shared_ptr<Animation> animation;
