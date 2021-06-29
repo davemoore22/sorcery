@@ -57,5 +57,7 @@ namespace Sorcery {
 		std::vector<std::string> _strings;
 		std::vector<sf::Text> _texts;
 		sf::Sprite _icon;
+		unsigned int _width;
+		unsigned int _height;
 	};
 } // namespace Sorcery

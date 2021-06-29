@@ -37,10 +37,12 @@ Sorcery::SpellPanel::SpellPanel(System *system, Display *display, Graphics *grap
 
 auto Sorcery::SpellPanel::set(Spell spell) -> void {
 
+	_strings.clear();
 	_texts.clear();
+	_width = 0;
+	_height = 0;
 
 	Component icon_c{(*_display->layout)["spell_panel:icon"]};
-	std::string spell_category{};
 	switch (spell.category) {
 	case SpellCategory::ATTACK:
 		_icon = (*_graphics->icons)["attack"].value();
@@ -79,6 +81,59 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 	name_text.setPosition(name_c.x, name_c.y);
 	_texts.push_back(name_text);
 
+	std::string spell_type{spell.type == SpellType::MAGE ? "MAGE" : "PRIEST"};
+	std::string spell_category{magic_enum::enum_name<SpellCategory>(spell.category)};
+	std::string summary{
+		fmt::format("LEVEL {} {} {} SPELL", spell.level, spell_type, spell_category)};
+	Component summary_c{(*_display->layout)["spell_panel:summary_text"]};
+	sf::Text summary_text;
+	summary_text.setFont(_system->resources->fonts[summary_c.font]);
+	summary_text.setCharacterSize(summary_c.size);
+	summary_text.setFillColor(sf::Color(summary_c.colour));
+	summary_text.setString(summary);
+	summary_text.setPosition(summary_c.x, summary_c.y);
+	_texts.push_back(summary_text);
+
+	// Wrap the display lines
+	std::string description{spell.details};
+	unsigned int chunk_size{_layout.w};
+	std::string wrapped_text{WORDWRAP(description, chunk_size)};
+
+	// Split the display lines into a vector
+	const std::regex regex(R"([@]+)");
+	std::sregex_token_iterator it{wrapped_text.begin(), wrapped_text.end(), regex, -1};
+	std::vector<std::string> split{it, {}};
+	split.erase(std::remove_if(split.begin(), split.end(),
+					[](std::string const &s) {
+						return s.size() == 0;
+					}),
+		split.end());
+	_strings = split;
+
+	int x{164};
+	int y{2};
+	for (const auto &each_string : _strings) {
+		sf::Text text;
+		text.setFont(_system->resources->fonts[_layout.font]);
+		text.setCharacterSize(_layout.size);
+		text.setFillColor(sf::Color(_layout.colour));
+		text.setString(each_string);
+		text.setPosition(x, 18 + y * 24);
+		++y;
+		_texts.push_back(text);
+	}
+
+	// Workout the size of the panel
+	size_t max_length{0};
+	for (const auto &each_string : _strings) {
+		if (each_string.length() > max_length) {
+			max_length = each_string.length();
+		}
+	}
+	_width = max_length + 4;
+	_height = _strings.size() + 4;
+
+	// We're ok to draw it now
 	valid = true;
 }
 

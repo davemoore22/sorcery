@@ -1894,7 +1894,7 @@ auto Sorcery::Character::create_spell_lists() -> void {
 		"LATUMAPIC", "Identify", "Full identifies unknown foes.");
 	_spells.emplace_back(SpellID::LOMILWA, SpellType::PRIEST, SpellCategory::FIELD, level, false,
 		"LOMILWA", "More Light",
-		" Extend the party's field of vision and reveals most secret doors. Lasts until leaving "
+		"Extends the party's field of vision and reveals most secret doors. Lasts until leaving "
 		"the maze or entering an area of magical darkness.");
 
 	// Level 4

@@ -31,7 +31,7 @@
 			"alpha": "255",
 			"type": "panel",
 			"drawmode": "manual",
-			"w": "39",
+			"w": "52",
 			"h": "7",
 			"x": "18",
 			"y": "18"
@@ -4187,7 +4187,7 @@
 			{
 				"name": "spell_preview_frame",
 				"w": "40",
-				"h": "8",
+				"h": "9",
 				"x": "17",
 				"y": "17",
 				"alpha": "255",
@@ -4405,7 +4405,7 @@
 			{
 				"name": "spell_preview_frame",
 				"w": "40",
-				"h": "8",
+				"h": "9",
 				"x": "17",
 				"y": "17",
 				"alpha": "255",
@@ -6055,7 +6055,7 @@
 			"name": "icon",
 			"x": "0",
 			"y": "0",
-			"scale" : "0.20",
+			"scale" : "0.30",
 			"alpha": "255",
 			"type": "image",
 			"priority": "6",
@@ -6089,11 +6089,11 @@
 			]
 		},
 		{
-			"name": "details_text",
+			"name": "summary_text",
 			"x": "8",
 			"y": "1",
 			"font": "monospace",
-			"colour": "0xffffffff",
+			"colour": "0xa0a0a0ff",
 			"size": "38",
 			"string": "NONE",
 			"justification": "left",
