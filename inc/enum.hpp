@@ -338,7 +338,7 @@ namespace Sorcery {
 			LUCK = 6
 		};
 
-		enum class Ability_Type { NONE, NUMBER, MODIFIER, PERCENTAGE, STAT, AC };
+		enum class Ability_Type { NONE, NUMBER, MODIFIER, PERCENTAGE, STAT, AC, STATUS };
 
 		enum class Ability {
 			NONE,

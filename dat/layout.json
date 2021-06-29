@@ -2633,9 +2633,28 @@
 			]
 		},
 		{
-			"name": "hp_text",
+			"name": "hp_label",
 			"x": "8",
-			"y": "2",
+			"y": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CHARACTER_PANEL_HP",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic",
+			"data": [
+				{
+					"offset_x": "0",
+					"offset_y": "0"
+				}
+			]
+		},
+		{
+			"name": "hp_value",
+			"x": "16",
+			"y": "3",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
@@ -2647,13 +2666,32 @@
 			"data": [
 				{
 					"offset_x": "0",
+					"offset_y": "-12"
+				}
+			]
+		},
+		{
+			"name": "status_label",
+			"x": "8",
+			"y": "4",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CHARACTER_PANEL_STATUS",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic",
+			"data": [
+				{
+					"offset_x": "0",
 					"offset_y": "0"
 				}
 			]
 		},
 		{
-			"name": "status_text",
-			"x": "8",
+			"name": "status_value",
+			"x": "16",
 			"y": "4",
 			"font": "monospace",
 			"colour": "0xffffffff",

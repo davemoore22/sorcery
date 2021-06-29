@@ -176,6 +176,7 @@
 		<Unit filename="inc/raycaster.hpp" />
 		<Unit filename="inc/resourcemanager.hpp" />
 		<Unit filename="inc/roster.hpp" />
+		<Unit filename="inc/spellpanel.hpp" />
 		<Unit filename="inc/spellsummary.hpp" />
 		<Unit filename="inc/splash.hpp" />
 		<Unit filename="inc/statusbar.hpp" />
@@ -192,7 +193,6 @@
 		<Unit filename="src/attractmode.cpp" />
 		<Unit filename="src/attributedisplay.cpp" />
 		<Unit filename="src/banner.cpp" />
-		<Unit filename="src/camera.cpp" />
 		<Unit filename="src/castle.cpp" />
 		<Unit filename="src/character.cpp" />
 		<Unit filename="src/charpanel.cpp" />
@@ -207,7 +207,6 @@
 		<Unit filename="src/display.cpp" />
 		<Unit filename="src/edgeoftown.cpp" />
 		<Unit filename="src/engine.cpp" />
-		<Unit filename="src/entity.cpp" />
 		<Unit filename="src/error.cpp" />
 		<Unit filename="src/file.cpp" />
 		<Unit filename="src/frame.cpp" />
@@ -222,17 +221,14 @@
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/mainmenu.cpp" />
 		<Unit filename="src/manage.cpp" />
-		<Unit filename="src/map.cpp" />
-		<Unit filename="src/maptile.cpp" />
 		<Unit filename="src/menu.cpp" />
 		<Unit filename="src/operator.cpp" />
 		<Unit filename="src/options.cpp" />
 		<Unit filename="src/platform.cpp" />
 		<Unit filename="src/random.cpp" />
-		<Unit filename="src/raycaster.cpp" />
 		<Unit filename="src/resourcemanager.cpp" />
 		<Unit filename="src/roster.cpp" />
-		<Unit filename="src/spellsummary.cpp" />
+		<Unit filename="src/spellpanel.cpp" />
 		<Unit filename="src/splash.cpp" />
 		<Unit filename="src/statusbar.cpp" />
 		<Unit filename="src/string.cpp" />

@@ -46,6 +46,9 @@ namespace Sorcery {
 
 		// Public Members
 		bool valid;
+		std::map<std::string, sf::Sprite> sprites;
+		std::map<std::string, sf::Text> texts;
+		std::map<std::string, std::shared_ptr<Frame>> frames;
 
 		// Public Methods
 		auto set(Character *character) -> void;

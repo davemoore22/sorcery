@@ -43,6 +43,19 @@ auto Sorcery::Graphics::operator=(const Graphics &other) -> Graphics & {
 	return *this;
 }
 
+auto Sorcery::Graphics::adjust_status_colour(Enums::Character::CStatus value)
+	-> unsigned long long {
+	thor::ColorGradient gradient{};
+	gradient[0.0f] = sf::Color(0xbf0000ff);
+	gradient[(1.0f / 8) * 2] = sf::Color(0xffff00ff);
+	gradient[1.0f] = sf::Color(0x00ff00ff);
+
+	float to_scale{magic_enum::enum_integer<Enums::Character::CStatus>(value) * 1.0f};
+	to_scale = 8.0f - to_scale;
+	float scaled{to_scale / 8.0f};
+	return (gradient.sampleColor(scaled)).toInteger();
+};
+
 auto Sorcery::Graphics::adjust_colour(int value, CharacterAbilityType ability_type)
 	-> unsigned long long {
 

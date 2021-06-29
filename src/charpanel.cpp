@@ -34,6 +34,9 @@ Sorcery::CharPanel::CharPanel(System *system, Display *display, Graphics *graphi
 	_icons.clear();
 	_texts.clear();
 
+	// Get the Background Display Components
+	_display->generate_components("character_panel", sprites, texts, frames);
+
 	// Not valid until we call the set command
 	valid = false;
 }
@@ -108,20 +111,18 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	_display->window->set_position_with_offset(&level_c, &level_text);
 	_texts.push_back(level_text);
 
-	Component status_c{(*_display->layout)["character_panel:status_text"]};
-	std::string status{fmt::format(
-		"{}: {}", (*_display->string)["CHARACTER_LEGEND_STATUS"], _character->get_status_string())};
+	Component status_c{(*_display->layout)["character_panel:status_value"]};
+	std::string status{fmt::format("{}", _character->get_status_string())};
 	sf::Text status_text;
 	status_text.setFont(_system->resources->fonts[status_c.font]);
 	status_text.setCharacterSize(status_c.size);
-	status_text.setFillColor(sf::Color(status_c.colour));
+	status_text.setFillColor(sf::Color(_graphics->adjust_status_colour(_character->get_status())));
 	status_text.setString(status);
 	_display->window->set_position_with_offset(&status_c, &status_text);
 	_texts.push_back(status_text);
 
-	Component hp_c{(*_display->layout)["character_panel:hp_text"]};
-	std::string hp{fmt::format(
-		"{}: {}", (*_display->string)["CHARACTER_LEGEND_HP"], _character->get_hp_summary())};
+	Component hp_c{(*_display->layout)["character_panel:hp_value"]};
+	std::string hp{fmt::format("{}", _character->get_hp_summary())};
 	sf::Text hp_text;
 	hp_text.setFont(_system->resources->fonts[hp_c.font]);
 	hp_text.setCharacterSize(hp_c.size);
@@ -137,6 +138,17 @@ auto Sorcery::CharPanel::draw(sf::RenderTarget &target, sf::RenderStates states)
 
 	states.transform *= getTransform();
 
+	// Draw the standard components
+	for (const auto &[unique_key, frame] : frames)
+		target.draw(*frame, states);
+
+	for (const auto &[unique_key, sprite] : sprites)
+		target.draw(sprite, states);
+
+	for (const auto &[unique_key, text] : texts)
+		target.draw(text, states);
+
+	// Draw the custom components
 	for (auto icon : _icons)
 		target.draw(icon, states);
 	for (auto text : _texts)
