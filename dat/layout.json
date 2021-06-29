@@ -2656,7 +2656,7 @@
 			"x": "16",
 			"y": "3",
 			"font": "monospace",
-			"colour": "0xffffffff",
+			"colour": "0x00ffffff",
 			"size": "38",
 			"string": "CHARACTER_PANEL_HP",
 			"justification": "left",

@@ -116,7 +116,8 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	sf::Text status_text;
 	status_text.setFont(_system->resources->fonts[status_c.font]);
 	status_text.setCharacterSize(status_c.size);
-	status_text.setFillColor(sf::Color(_graphics->adjust_status_colour(_character->get_status())));
+	status_text.setFillColor(sf::Color(
+		_graphics->adjust_status_colour(_character->get_status(), _character->is_poisoned())));
 	status_text.setString(status);
 	_display->window->set_position_with_offset(&status_c, &status_text);
 	_texts.push_back(status_text);

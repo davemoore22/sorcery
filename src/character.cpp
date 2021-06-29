@@ -2412,7 +2412,8 @@ auto Sorcery::Character::_generate_display() -> void {
 			std::to_string(_abilities.at(CharacterAbility::SWIM)));
 		auto status_text{_add_text(
 			(*_display->layout)["character_summary:status_value"], "{}", get_status_string())};
-		status_text->setFillColor(sf::Color(_graphics->adjust_status_colour(_status)));
+		status_text->setFillColor(
+			sf::Color(_graphics->adjust_status_colour(_status, is_poisoned())));
 
 		_add_text((*_display->layout)["character_summary:exp_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::CURRENT_XP)));
