@@ -2323,13 +2323,13 @@ auto Sorcery::Character::_generate_display() -> void {
 
 	if (_view == CharacterView::SUMMARY) {
 
-		_display->generate_components("character_strict", _v_sprites, _v_texts, _v_frames);
+		_display->generate_components("character_summary", _v_sprites, _v_texts, _v_frames);
 
 		_add_text(
-			(*_display->layout)["character_strict:name_and_summary_text"], "{}", summary_text());
+			(*_display->layout)["character_summary:name_and_summary_text"], "{}", summary_text());
 
 		auto portrait{_get_character_portrait()};
-		Component portrait_c{(*_display->layout)["character_strict:portrait"]};
+		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
 		portrait.setScale(portrait_c.scale, portrait_c.scale);
 		const int offset_x = [&] {
 			if (portrait_c["offset_x"])
@@ -2346,57 +2346,57 @@ auto Sorcery::Character::_generate_display() -> void {
 		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
 		_v_sprites.emplace(portrait_c.unique_key, portrait);
 
-		Component s_c{(*_display->layout)["character_strict:strength_value"]};
+		Component s_c{(*_display->layout)["character_summary:strength_value"]};
 		s_c.colour = _adjust_ability_colour(
 			_cur_attr.at(CharacterAttribute::STRENGTH), CharacterAbilityType::STAT);
 		_add_text(s_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
 
-		Component i_c{(*_display->layout)["character_strict:iq_value"]};
+		Component i_c{(*_display->layout)["character_summary:iq_value"]};
 		i_c.colour = _adjust_ability_colour(
 			_cur_attr.at(CharacterAttribute::IQ), CharacterAbilityType::STAT);
 		_add_text(i_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::IQ)));
 
-		Component p_c{(*_display->layout)["character_strict:piety_value"]};
+		Component p_c{(*_display->layout)["character_summary:piety_value"]};
 		p_c.colour = _adjust_ability_colour(
 			_cur_attr.at(CharacterAttribute::PIETY), CharacterAbilityType::STAT);
 		_add_text(p_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::PIETY)));
 
-		Component a_c{(*_display->layout)["character_strict:agility_value"]};
+		Component a_c{(*_display->layout)["character_summary:agility_value"]};
 		a_c.colour = _adjust_ability_colour(
 			_cur_attr.at(CharacterAttribute::AGILITY), CharacterAbilityType::STAT);
 		_add_text(a_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::AGILITY)));
 
-		Component v_c{(*_display->layout)["character_strict:vitality_value"]};
+		Component v_c{(*_display->layout)["character_summary:vitality_value"]};
 		v_c.colour = _adjust_ability_colour(
 			_cur_attr.at(CharacterAttribute::VITALITY), CharacterAbilityType::STAT);
 		_add_text(v_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::VITALITY)));
 
-		Component l_c{(*_display->layout)["character_strict:luck_value"]};
+		Component l_c{(*_display->layout)["character_summary:luck_value"]};
 		l_c.colour = _adjust_ability_colour(
 			_cur_attr.at(CharacterAttribute::LUCK), CharacterAbilityType::STAT);
 		_add_text(l_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::LUCK)));
 
-		_add_text((*_display->layout)["character_strict:hp_value"], "{}",
+		_add_text((*_display->layout)["character_summary:hp_value"], "{}",
 			fmt::format("{}/{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
 				std::to_string(_abilities.at(CharacterAbility::MAX_HP))));
-		_add_text((*_display->layout)["character_strict:ac_value"], "{}",
+		_add_text((*_display->layout)["character_summary:ac_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::CURRENT_ARMOUR_CLASS)));
-		_add_text((*_display->layout)["character_strict:age_value"], "{}",
+		_add_text((*_display->layout)["character_summary:age_value"], "{}",
 			std::to_string(static_cast<int>(_abilities.at(CharacterAbility::AGE) / 52)));
-		_add_text((*_display->layout)["character_strict:swim_value"], "{}",
+		_add_text((*_display->layout)["character_summary:swim_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::SWIM)));
-		_add_text((*_display->layout)["character_strict:status_value"], "{}",
+		_add_text((*_display->layout)["character_summary:status_value"], "{}",
 			"OK"); // TODO
 
-		_add_text((*_display->layout)["character_strict:exp_value"], "{}",
+		_add_text((*_display->layout)["character_summary:exp_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::CURRENT_XP)));
-		_add_text((*_display->layout)["character_strict:next_value"], "{}",
+		_add_text((*_display->layout)["character_summary:next_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::NEXT_LEVEL_XP)));
-		_add_text((*_display->layout)["character_strict:gold_value"], "{}",
+		_add_text((*_display->layout)["character_summary:gold_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::GOLD)));
-		_add_text((*_display->layout)["character_strict:marks_value"], "{}",
+		_add_text((*_display->layout)["character_summary:marks_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::MARKS)));
-		_add_text((*_display->layout)["character_strict:deaths_value"], "{}",
+		_add_text((*_display->layout)["character_summary:deaths_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::DEATHS)));
 
 		std::string mage_spells{fmt::format("{}/{}/{}/{}/{}/{}/{}", _mage_cur_sp.at(1),
@@ -2406,8 +2406,8 @@ auto Sorcery::Character::_generate_display() -> void {
 			_priest_cur_sp.at(2), _priest_cur_sp.at(3), _priest_cur_sp.at(4), _priest_cur_sp.at(5),
 			_priest_cur_sp.at(6), _priest_cur_sp.at(7))};
 
-		_add_text((*_display->layout)["character_strict:mage_spells"], "{}", mage_spells);
-		_add_text((*_display->layout)["character_strict:priest_spells"], "{}", priest_spells);
+		_add_text((*_display->layout)["character_summary:mage_spells"], "{}", mage_spells);
+		_add_text((*_display->layout)["character_summary:priest_spells"], "{}", priest_spells);
 
 	} else if (_view == CharacterView::DETAILED) {
 
@@ -2417,7 +2417,7 @@ auto Sorcery::Character::_generate_display() -> void {
 			(*_display->layout)["character_detailed:name_and_summary_text"], "{}", summary_text());
 
 		auto portrait{_get_character_portrait()};
-		Component portrait_c{(*_display->layout)["character_strict:portrait"]};
+		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
 		portrait.setScale(portrait_c.scale, portrait_c.scale);
 		const int offset_x = [&] {
 			if (portrait_c["offset_x"])
@@ -2730,7 +2730,7 @@ auto Sorcery::Character::_generate_display() -> void {
 			(*_display->layout)["character_inventory:name_and_summary_text"], "{}", summary_text());
 
 		auto portrait{_get_character_portrait()};
-		Component portrait_c{(*_display->layout)["character_strict:portrait"]};
+		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
 		portrait.setScale(portrait_c.scale, portrait_c.scale);
 		const int offset_x = [&] {
 			if (portrait_c["offset_x"])
@@ -2762,7 +2762,7 @@ auto Sorcery::Character::_generate_display() -> void {
 			summary_text());
 
 		auto portrait{_get_character_portrait()};
-		Component portrait_c{(*_display->layout)["character_strict:portrait"]};
+		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
 		portrait.setScale(portrait_c.scale, portrait_c.scale);
 		const int offset_x = [&] {
 			if (portrait_c["offset_x"])
@@ -2782,8 +2782,6 @@ auto Sorcery::Character::_generate_display() -> void {
 		Component level_c{(*_display->layout)["character_mage_spells:level_label"]};
 		Component sp_c{(*_display->layout)["character_mage_spells:spell_points"]};
 		Component spell_name_c{(*_display->layout)["character_mage_spells:spell_name_label"]};
-		Component spell_t_name_c{
-			(*_display->layout)["character_mage_spells:spell_translated_name_label"]};
 
 		int level_x{level_c.x};
 		for (unsigned int level = 1; level <= 7; level++) {
@@ -2886,7 +2884,7 @@ auto Sorcery::Character::_generate_display() -> void {
 			summary_text());
 
 		auto portrait{_get_character_portrait()};
-		Component portrait_c{(*_display->layout)["character_strict:portrait"]};
+		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
 		portrait.setScale(portrait_c.scale, portrait_c.scale);
 		const int offset_x = [&] {
 			if (portrait_c["offset_x"])
@@ -2906,8 +2904,6 @@ auto Sorcery::Character::_generate_display() -> void {
 		Component level_c{(*_display->layout)["character_priest_spells:level_label"]};
 		Component sp_c{(*_display->layout)["character_priest_spells:spell_points"]};
 		Component spell_name_c{(*_display->layout)["character_priest_spells:spell_name_label"]};
-		Component spell_t_name_c{
-			(*_display->layout)["character_priest_spells:spell_translated_name_label"]};
 
 		int level_x{level_c.x};
 		for (unsigned int level = 1; level <= 7; level++) {
