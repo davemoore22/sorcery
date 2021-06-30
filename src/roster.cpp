@@ -187,6 +187,12 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 									_display->set_input_mode(
 										WindowInputMode::CONFIRM_DELETE_CHARACTER);
 								}
+							} else if (_mode == RosterMode::EDIT) {
+
+								_edit->start();
+								_edit->stop();
+								_display->generate_components("character_edit");
+								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							}
 						}
 					}
