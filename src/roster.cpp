@@ -189,7 +189,8 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 								}
 							} else if (_mode == RosterMode::EDIT) {
 
-								_edit->start();
+								const unsigned int character_chosen{(*selected.value()).index};
+								_edit->start(character_chosen);
 								_edit->stop();
 								_display->generate_components("character_edit");
 								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);

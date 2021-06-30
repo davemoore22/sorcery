@@ -39,10 +39,14 @@ Sorcery::Edit::Edit(System *system, Display *display, Graphics *graphics, Game *
 // Standard Destructor
 Sorcery::Edit::~Edit() {}
 
-auto Sorcery::Edit::start() -> std::optional<MenuItem> {
+auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> {
 
 	// Get the Background Display Components and load them into Display module storage (not local)
 	_display->generate_components("character_edit");
+
+	// Get the Current Character
+	_current_character = &_game->characters.at(current_character_idx);
+	_character_panel->set(_current_character.value());
 
 	// Set up the Custom Components
 	const Component bg_c{(*_display->layout)["character_edit:background"]};
@@ -62,6 +66,12 @@ auto Sorcery::Edit::start() -> std::optional<MenuItem> {
 		menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
 	_menu_frame->setPosition(_display->window->get_x(_menu_frame->sprite, menu_fc.x),
 		_display->window->get_y(_menu_frame->sprite, menu_fc.y));
+
+	const Component p_fc{(*_display->layout)["roster:preview_frame"]};
+	_preview_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, p_fc.w,
+		p_fc.h, p_fc.colour, p_fc.background, p_fc.alpha);
+	_preview_frame->setPosition(_display->window->get_x(_preview_frame->sprite, p_fc.x),
+		_display->window->get_y(_preview_frame->sprite, p_fc.y));
 
 	// Clear the window
 	_window->clear();
@@ -105,9 +115,11 @@ auto Sorcery::Edit::start() -> std::optional<MenuItem> {
 			else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
 
 				// We have selected something from the menu
-				const MenuItem option_chosen{(*selected.value()).item};
-				if (option_chosen == MenuItem::EC_RETURN_EDIT) {
-					return MenuItem::EC_RETURN_EDIT;
+				if (selected) {
+					const MenuItem option_chosen{(*selected.value()).item};
+					if (option_chosen == MenuItem::EC_RETURN_EDIT) {
+						return MenuItem::EC_RETURN_EDIT;
+					}
 				}
 			}
 		}
@@ -148,6 +160,14 @@ auto Sorcery::Edit::_draw() -> void {
 		(*_display->layout)["character_edit:menu"].x, (*_display->layout)["character_edit:menu"].y);
 	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
+
+	// Character Preview
+	_window->draw(*_preview_frame);
+	if (_character_panel->valid) {
+		_character_panel->setPosition((*_display->layout)["character_edit:info_panel"].x,
+			(*_display->layout)["character_edit:info_panel"].y);
+		_window->draw(*_character_panel);
+	}
 
 	// And finally the Cursor
 	_display->display_overlay();
