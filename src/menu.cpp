@@ -42,6 +42,17 @@ Sorcery::Menu::Menu(
 		_populate_character_menu();
 		selected = items.begin();
 		break;
+	case MenuType::EDIT_CHARACTER:
+		_add_item(0, MenuItemType::ENTRY, MenuItem::EC_CHANGE_CLASS,
+			(*_display->string)["EDIT_CHARACTER_CHANGE_CLASS"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::EC_CHANGE_NAME,
+			(*_display->string)["EDIT_CHARACTER_CHANGE_NAME"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::EC_IMPORT_CHARACTER,
+			(*_display->string)["EDIT_CHARACTER_IMPORT_CHARACTER"]);
+		_add_item(3, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+		_add_item(4, MenuItemType::ENTRY, MenuItem::EC_RETURN_EDIT,
+			(*_display->string)["EDIT_CHARACTER_RETURN_EDIT"]);
+		break;
 	case MenuType::MAIN:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::MM_NEW_GAME,
 			(*_display->string)["MAIN_MENU_OPTION_START"]);

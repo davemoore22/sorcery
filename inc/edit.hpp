@@ -25,29 +25,26 @@
 #pragma once
 
 #include "charpanel.hpp"
-#include "create.hpp"
 #include "display.hpp"
-#include "edit.hpp"
 #include "frame.hpp"
 #include "game.hpp"
 #include "graphics.hpp"
 #include "layout.hpp"
 #include "main.hpp"
 #include "menu.hpp"
-#include "statusbar.hpp"
 #include "system.hpp"
 
 namespace Sorcery {
 
-	class Roster {
+	class Edit {
 
 	  public:
 		// Standard Constructor
-		Roster(System *system, Display *display, Graphics *graphics, Game *game, RosterMode mode);
-		Roster() = delete;
+		Edit(System *system, Display *display, Graphics *graphics, Game *game);
+		Edit() = delete;
 
 		// Standard Destructor
-		~Roster();
+		~Edit();
 
 		// Public Members
 
@@ -70,12 +67,9 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _menu_frame;
 		std::optional<Character *> _current_character;
 		std::unique_ptr<Frame> _current_character_frame;
-		RosterMode _mode;
 		std::string _screen_key;
-		std::unique_ptr<CharPanel> _character_panel;
 		int _current_character_idx;
+		std::unique_ptr<CharPanel> _character_panel;
 		std::unique_ptr<Frame> _preview_frame;
-		std::unique_ptr<Dialog> _dialog_delete;
-		std::unique_ptr<Edit> _edit;
 	};
 } // namespace Sorcery
