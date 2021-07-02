@@ -61,7 +61,7 @@ namespace Sorcery {
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_name, _race, _class, _alignment, _start_attr, _cur_attr, _max_attr, _st_points,
 				_portrait_index, _abilities, _priest_max_sp, _priest_cur_sp, _mage_max_sp,
-				_mage_cur_sp, _status, _poison, _regeneration, _hidden, _spells_known);
+				_mage_cur_sp, _status, _hidden, _spells_known);
 		}
 
 		// Public Methods
@@ -146,7 +146,7 @@ namespace Sorcery {
 		auto _generate_display() -> void;
 		auto _generate_summary_icons() -> void;
 		auto _generate_starting_information() -> void;
-		auto _generate_secondary_abilities() -> void;
+		auto _generate_secondary_abilities(bool initial) -> void;
 		auto _set_starting_sp() -> void;
 		auto _clear_sp() -> void;
 		auto _set_starting_spells() -> void;
@@ -194,8 +194,6 @@ namespace Sorcery {
 		unsigned int _num_pos_classes;
 		unsigned int _portrait_index;
 		CharacterStatus _status;
-		unsigned int _poison;
-		unsigned int _regeneration;
 		bool _hidden;
 		std::map<std::string, sf::Sprite> _sprites;
 		std::map<std::string, sf::Text> _texts;

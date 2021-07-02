@@ -45,9 +45,6 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 	mage_spell_texts.clear();
 	priest_spell_texts.clear();
 
-	// Defaults - not changed in character creation!
-	_poison = 0;
-	_regeneration = 0;
 	_hidden = false;
 	set_status(CharacterStatus::OK);
 
@@ -68,8 +65,7 @@ Sorcery::Character::Character(const Character &other)
 	  _points_left{other._points_left}, _st_points{other._st_points},
 	  _pos_classes{other._pos_classes}, _class_list{other._class_list},
 	  _num_pos_classes{other._num_pos_classes},
-	  _portrait_index{other._portrait_index}, _status{other._status}, _poison{other._poison},
-	  _regeneration{other._regeneration}, _hidden{other._hidden},
+	  _portrait_index{other._portrait_index}, _status{other._status}, _hidden{other._hidden},
 	  _hl_mage_spell{other._hl_mage_spell}, _hl_priest_spell{other._hl_priest_spell} {
 
 	_sprites = other._sprites;
@@ -116,8 +112,6 @@ auto Sorcery::Character::operator=(const Character &other) -> Character & {
 	_portrait_index = other._portrait_index;
 	_hl_mage_spell = other._hl_mage_spell;
 	_hl_priest_spell = other._hl_priest_spell;
-	_poison = other._poison;
-	_regeneration = other._regeneration;
 	_hidden = other._hidden;
 	_status = other._status;
 
@@ -171,8 +165,6 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		_portrait_index = other._portrait_index;
 		_hl_mage_spell = other._hl_mage_spell;
 		_hl_priest_spell = other._hl_priest_spell;
-		_poison = other._poison;
-		_regeneration = other._regeneration;
 		_hidden = other._hidden;
 		_status = other._status;
 
@@ -220,8 +212,6 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		other._hl_mage_spell = SpellID::NONE;
 		other._hl_priest_spell = SpellID::NONE;
 		other._hidden = false;
-		other._poison = 0;
-		other._regeneration = 0;
 		other._status = CharacterStatus::OK;
 
 		other._sprites.clear();
@@ -270,8 +260,6 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		_portrait_index = other._portrait_index;
 		_hl_mage_spell = other._hl_mage_spell;
 		_hl_priest_spell = other._hl_priest_spell;
-		_poison = other._poison;
-		_regeneration = other._regeneration;
 		_hidden = other._hidden;
 		_status = other._status;
 
@@ -317,8 +305,6 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		other._num_pos_classes = 0;
 		other._portrait_index = 0;
 		other._hidden = false;
-		other._poison = 0;
-		other._regeneration = 0;
 		other._status = CharacterStatus::OK;
 
 		other._sprites.clear();
@@ -708,11 +694,12 @@ auto Sorcery::Character::set_possible_classes() -> void {
 	else
 		_pos_classes[CharacterClass::LORD] = false;
 
-	if (_cur_attr[CharacterAttribute::STRENGTH] >= 17 && _cur_attr[CharacterAttribute::IQ] >= 17 &&
-		_cur_attr[CharacterAttribute::PIETY] >= 17 &&
-		_cur_attr[CharacterAttribute::VITALITY] >= 17 &&
-		_cur_attr[CharacterAttribute::AGILITY] >= 17 && _cur_attr[CharacterAttribute::LUCK] >= 17)
-		if (_alignment == CharacterAlignment::GOOD)
+	// Using Wizardry 5 requirements for Ninja (see https://wizardry.fandom.com/wiki/Ninja)
+	if (_cur_attr[CharacterAttribute::STRENGTH] >= 15 && _cur_attr[CharacterAttribute::IQ] >= 17 &&
+		_cur_attr[CharacterAttribute::PIETY] >= 15 &&
+		_cur_attr[CharacterAttribute::VITALITY] >= 16 &&
+		_cur_attr[CharacterAttribute::AGILITY] >= 15 && _cur_attr[CharacterAttribute::LUCK] >= 16)
+		if (_alignment != CharacterAlignment::GOOD)
 			_pos_classes[CharacterClass::NINJA] = true;
 		else
 			_pos_classes[CharacterClass::NINJA] = false;
@@ -819,7 +806,7 @@ auto Sorcery::Character::_load([[maybe_unused]] unsigned int character_id) -> vo
 auto Sorcery::Character::finalise() -> void {
 
 	_generate_starting_information();
-	_generate_secondary_abilities();
+	_generate_secondary_abilities(true);
 	_set_starting_spells();
 	_set_starting_sp();
 }
@@ -846,7 +833,7 @@ auto Sorcery::Character::_generate_starting_information() -> void {
 }
 
 // Given the characters current level, work out all the secondary abilities/stats etc
-auto Sorcery::Character::_generate_secondary_abilities() -> void {
+auto Sorcery::Character::_generate_secondary_abilities(bool initial) -> void {
 
 	// Formulae used are from here http://www.zimlab.com/wizardry/walk/w123calc.htm and also
 	// from
@@ -1002,42 +989,47 @@ auto Sorcery::Character::_generate_secondary_abilities() -> void {
 	// Bonus Hit Points per level (num)
 	_abilities[CharacterAbility::BONUS_HIT_POINTS] = _abilities[CharacterAbility::VITALITY_BONUS];
 
-	// Base Hit Points (num)
-	switch (unsigned int chance{(*_system->random)[RandomType::D100]};
-			_class) { // NOLINT(clang-diagnostic-switch)
-	case CharacterClass::FIGHTER:
-	case CharacterClass::LORD:
-		_abilities[CharacterAbility::MAX_HP] =
-			chance <= 50 ? 10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
-						 : 9 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
-		break;
-	case CharacterClass::PRIEST:
-		_abilities[CharacterAbility::MAX_HP] =
-			chance <= 50 ? 8 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
-						 : 8 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
-		break;
-	case CharacterClass::THIEF:
-	case CharacterClass::BISHOP:
-	case CharacterClass::NINJA:
-		_abilities[CharacterAbility::MAX_HP] =
-			chance <= 50 ? 6 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
-						 : 6 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
-		break;
-	case CharacterClass::MAGE:
-		_abilities[CharacterAbility::MAX_HP] =
-			chance <= 50 ? 4 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
-						 : 4 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
-		break;
-	case CharacterClass::SAMURAI:
-		_abilities[CharacterAbility::MAX_HP] =
-			chance <= 50 ? 16 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
-						 : 16 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
-		break;
-	default:
-		break;
+	// Base Hit Points (num) - note initially all characters get 8 HP as per the PSX versions
+	if (initial)
+		_abilities[CharacterAbility::MAX_HP] = 8;
+	else {
+
+		switch (unsigned int chance{(*_system->random)[RandomType::D100]};
+				_class) { // NOLINT(clang-diagnostic-switch)
+		case CharacterClass::FIGHTER:
+		case CharacterClass::LORD:
+			_abilities[CharacterAbility::MAX_HP] =
+				chance <= 50 ? 10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
+							 : 9 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+			break;
+		case CharacterClass::PRIEST:
+			_abilities[CharacterAbility::MAX_HP] =
+				chance <= 50 ? 8 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
+							 : 8 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+			break;
+		case CharacterClass::THIEF:
+		case CharacterClass::BISHOP:
+		case CharacterClass::NINJA:
+			_abilities[CharacterAbility::MAX_HP] =
+				chance <= 50 ? 6 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
+							 : 6 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+			break;
+		case CharacterClass::MAGE:
+			_abilities[CharacterAbility::MAX_HP] =
+				chance <= 50 ? 4 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
+							 : 4 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+			break;
+		case CharacterClass::SAMURAI:
+			_abilities[CharacterAbility::MAX_HP] =
+				chance <= 50 ? 16 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
+							 : 16 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+			break;
+		default:
+			break;
+		}
+		if (_abilities[CharacterAbility::MAX_HP] < 1)
+			_abilities[CharacterAbility::MAX_HP] = 1;
 	}
-	if (_abilities[CharacterAbility::MAX_HP] < 1)
-		_abilities[CharacterAbility::MAX_HP] = 1;
 	_abilities[CharacterAbility::CURRENT_HP] = _abilities[CharacterAbility::MAX_HP];
 
 	// Chance of resurrecting a Dead Character at the Temple (%)
@@ -1327,6 +1319,10 @@ auto Sorcery::Character::_generate_secondary_abilities() -> void {
 			break;
 		}
 	}
+
+	// And set poison/regeneration to default
+	_abilities[CharacterAbility::HP_POISON_PER_TURN] = 0;
+	_abilities[CharacterAbility::HP_REGENERATION_PER_TURN] = 0;
 }
 
 // Set the starting spellpoints
@@ -2093,7 +2089,7 @@ auto Sorcery::Character::get_status() const -> CharacterStatus {
 auto Sorcery::Character::get_status_string() const -> std::string {
 
 	if (!_hidden) {
-		if (_poison == 0) {
+		if (_abilities.at(CharacterAbility::HP_POISON_PER_TURN) == 0) {
 			if (_status == CharacterStatus::OK)
 				return (*_display->string)["STATUS_OK"];
 			else {
@@ -2142,42 +2138,46 @@ auto Sorcery::Character::set_status(CharacterStatus value) -> void {
 
 auto Sorcery::Character::is_poisoned() const -> bool {
 
-	return _poison > 0;
+	return _abilities.at(CharacterAbility::HP_POISON_PER_TURN) > 0;
 }
 
 auto Sorcery::Character::get_poisoned_rate() const -> unsigned int {
 
-	return _poison;
+	return _abilities.at(CharacterAbility::HP_POISON_PER_TURN);
 }
 
 auto Sorcery::Character::set_poisoned_rate(unsigned int value) -> void {
 
-	if (value > _poison)
-		_poison = value;
+	if (value > _abilities.at(CharacterAbility::HP_POISON_PER_TURN))
+		_abilities.at(CharacterAbility::HP_POISON_PER_TURN) = value;
 }
 
 auto Sorcery::Character::get_poisoned_string() const -> std::string {
 
-	return _poison > 0 ? fmt::format("{:->2}", _poison) : "";
+	return _abilities.at(CharacterAbility::HP_POISON_PER_TURN) > 0
+			   ? fmt::format("{:->2}", _abilities.at(CharacterAbility::HP_POISON_PER_TURN))
+			   : "";
 }
 
 auto Sorcery::Character::is_regenerating() const -> bool {
 
-	return _regeneration > 0;
+	return _abilities.at(CharacterAbility::HP_REGENERATION_PER_TURN) > 0;
 }
 auto Sorcery::Character::get_regeneration_rate() const -> unsigned int {
 
-	return _regeneration;
+	return _abilities.at(CharacterAbility::HP_REGENERATION_PER_TURN);
 }
 
 auto Sorcery::Character::set_regeneration_rate(unsigned int value) -> void {
 
-	if (value > _regeneration)
-		_regeneration = value;
+	if (value > _abilities.at(CharacterAbility::HP_REGENERATION_PER_TURN))
+		_abilities.at(CharacterAbility::HP_REGENERATION_PER_TURN) = value;
 };
 auto Sorcery::Character::get_regeneration_string() const -> std::string {
 
-	return _regeneration > 0 ? fmt::format("{:+>2}", _regeneration) : "";
+	return _abilities.at(CharacterAbility::HP_REGENERATION_PER_TURN) > 0
+			   ? fmt::format("{:+>2}", _abilities.at(CharacterAbility::HP_REGENERATION_PER_TURN))
+			   : "";
 };
 
 auto Sorcery::Character::get_hp_summary() -> std::string {
