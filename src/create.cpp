@@ -707,6 +707,23 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event)
 			_candidate.left_view();
 		else if (_system->input->check_for_event(WindowInput::RIGHT, event))
 			_candidate.right_view();
+		else if (_system->input->check_for_event(WindowInput::UP, event)) {
+			if (_candidate.get_view() == CharacterView::MAGE_SPELLS)
+				_candidate.dec_highlighted_spell(SpellType::MAGE);
+			else if (_candidate.get_view() == CharacterView::PRIEST_SPELLS)
+				_candidate.dec_highlighted_spell(SpellType::PRIEST);
+		} else if (_system->input->check_for_event(WindowInput::DOWN, event)) {
+			if (_candidate.get_view() == CharacterView::MAGE_SPELLS)
+				_candidate.inc_highlighted_spell(SpellType::MAGE);
+			else if (_candidate.get_view() == CharacterView::PRIEST_SPELLS)
+				_candidate.inc_highlighted_spell(SpellType::PRIEST);
+		} else if (_system->input->check_for_event(WindowInput::MOVE, event)) {
+			if (_candidate.check_for_mouse_move(
+					sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
+						static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
+				_candidate.set_view(_candidate.get_view());
+			}
+		}
 	}
 
 	return std::nullopt;

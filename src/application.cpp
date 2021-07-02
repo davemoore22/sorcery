@@ -76,14 +76,14 @@ Sorcery::Application::~Application() {
 
 auto Sorcery::Application::start() -> int {
 
+	if (_check_for_parameter(CONTINUE_GAME)) {
+		_castle->start();
+		_castle->stop();
+	}
+
 	std::optional<MenuItem> option_chosen{MenuItem::NONE};
 	MainMenuType menu_stage{MainMenuType::ATTRACT_MODE};
 	do {
-
-		if (_check_for_parameter(CONTINUE_GAME)) {
-			option_chosen = _castle->start();
-			_castle->stop();
-		}
 
 		option_chosen = _mainmenu->start(menu_stage);
 		_mainmenu->stop();
