@@ -1206,7 +1206,7 @@
 				"justification": "centre",
 				"type": "text",
 				"priority": "3",
-				"animated": "false",
+				"animated": "true",
 				"drawmode": "manual"
 			},
 			{
@@ -1981,7 +1981,7 @@
 			"justification": "centre",
 			"type": "text",
 			"priority": "3",
-			"animated": "false",
+			"animated": "true",
 			"drawmode": "manual"
 		},
 		{

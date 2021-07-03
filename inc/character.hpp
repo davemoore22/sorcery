@@ -119,13 +119,9 @@ namespace Sorcery {
 		auto get_status_string() const -> std::string;
 		auto set_status(CharacterStatus value) -> void;
 		auto is_poisoned() const -> bool;
-		auto get_poisoned_rate() const -> unsigned int;
-		auto set_poisoned_rate(unsigned int value) -> void;
+		auto get_poisoned_rate() const -> int;
+		auto set_poisoned_rate(int value) -> void;
 		auto get_poisoned_string() const -> std::string;
-		auto is_regenerating() const -> bool;
-		auto get_regeneration_rate() const -> unsigned int;
-		auto set_regeneration_rate(unsigned int value) -> void;
-		auto get_regeneration_string() const -> std::string;
 		auto get_hp_summary() -> std::string;
 		auto inc_highlighted_spell(SpellType type) -> void;
 		auto dec_highlighted_spell(SpellType type) -> void;

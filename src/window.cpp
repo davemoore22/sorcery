@@ -392,9 +392,9 @@ auto Sorcery::Window::_adjust_brightness(sf::Color colour, double colour_lerp)
 	-> unsigned long long {
 
 	thor::ColorGradient gradient{};
-	gradient[0.0f] = sf::Color(0xbf0000ff);
+	gradient[0.0f] = sf::Color(0x404040ff);
 	gradient[0.5f] = colour;
-	gradient[1.0f] = sf::Color(0x00ff00ff);
+	gradient[1.0f] = sf::Color(0xbfbfbfff);
 
 	return (gradient.sampleColor(colour_lerp)).toInteger();
 }

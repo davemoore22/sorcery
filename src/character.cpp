@@ -1382,8 +1382,9 @@ auto Sorcery::Character::_generate_secondary_abilities(bool initial, bool change
 
 	// And set poison/regeneration to default
 	if (!change_class) {
-		_abilities[CharacterAbility::HP_POISON_PER_TURN] = 0;
-		_abilities[CharacterAbility::HP_REGENERATION_PER_TURN] = 0;
+		_abilities[CharacterAbility::HP_LOSS_PER_TURN] = 0;
+		_abilities[CharacterAbility::HP_GAIN_PER_TURN] = 0;
+		_abilities[CharacterAbility::POISON_STRENGTH] = 0;
 	}
 }
 
@@ -2189,7 +2190,7 @@ auto Sorcery::Character::get_status() const -> CharacterStatus {
 auto Sorcery::Character::get_status_string() const -> std::string {
 
 	if (!_hidden) {
-		if (_abilities.at(CharacterAbility::HP_POISON_PER_TURN) == 0) {
+		if (_abilities.at(CharacterAbility::POISON_STRENGTH) == 0) {
 			if (_status == CharacterStatus::OK)
 				return (*_display->string)["STATUS_OK"];
 			else {
@@ -2238,47 +2239,26 @@ auto Sorcery::Character::set_status(CharacterStatus value) -> void {
 
 auto Sorcery::Character::is_poisoned() const -> bool {
 
-	return _abilities.at(CharacterAbility::HP_POISON_PER_TURN) > 0;
+	return _abilities.at(CharacterAbility::POISON_STRENGTH) > 0;
 }
 
-auto Sorcery::Character::get_poisoned_rate() const -> unsigned int {
+auto Sorcery::Character::get_poisoned_rate() const -> int {
 
-	return _abilities.at(CharacterAbility::HP_POISON_PER_TURN);
+	return _abilities.at(CharacterAbility::POISON_STRENGTH);
 }
 
-auto Sorcery::Character::set_poisoned_rate(unsigned int value) -> void {
+auto Sorcery::Character::set_poisoned_rate(int value) -> void {
 
-	if (value > _abilities.at(CharacterAbility::HP_POISON_PER_TURN))
-		_abilities.at(CharacterAbility::HP_POISON_PER_TURN) = value;
+	if (value > _abilities.at(CharacterAbility::POISON_STRENGTH))
+		_abilities.at(CharacterAbility::POISON_STRENGTH) = value;
 }
 
 auto Sorcery::Character::get_poisoned_string() const -> std::string {
 
-	return _abilities.at(CharacterAbility::HP_POISON_PER_TURN) > 0
-			   ? fmt::format("{:->2}", _abilities.at(CharacterAbility::HP_POISON_PER_TURN))
+	return _abilities.at(CharacterAbility::POISON_STRENGTH) > 0
+			   ? fmt::format("{:->2}", _abilities.at(CharacterAbility::POISON_STRENGTH))
 			   : "";
 }
-
-auto Sorcery::Character::is_regenerating() const -> bool {
-
-	return _abilities.at(CharacterAbility::HP_REGENERATION_PER_TURN) > 0;
-}
-auto Sorcery::Character::get_regeneration_rate() const -> unsigned int {
-
-	return _abilities.at(CharacterAbility::HP_REGENERATION_PER_TURN);
-}
-
-auto Sorcery::Character::set_regeneration_rate(unsigned int value) -> void {
-
-	if (value > _abilities.at(CharacterAbility::HP_REGENERATION_PER_TURN))
-		_abilities.at(CharacterAbility::HP_REGENERATION_PER_TURN) = value;
-};
-auto Sorcery::Character::get_regeneration_string() const -> std::string {
-
-	return _abilities.at(CharacterAbility::HP_REGENERATION_PER_TURN) > 0
-			   ? fmt::format("{:+>2}", _abilities.at(CharacterAbility::HP_REGENERATION_PER_TURN))
-			   : "";
-};
 
 auto Sorcery::Character::get_hp_summary() -> std::string {
 
