@@ -119,7 +119,18 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 					const MenuItem option_chosen{(*selected.value()).item};
 					if (option_chosen == MenuItem::EC_RETURN_EDIT) {
 						return MenuItem::EC_RETURN_EDIT;
-					}
+					} else if (option_chosen == MenuItem::EC_CHANGE_NAME) {
+
+						auto _change_name = std::make_unique<ChangeName>(
+							_system, _display, _graphics, _current_character.value()->get_name());
+						if (_change_name->start()) {
+
+							// Update Character Name and Resave the character!
+						};
+						_change_name->stop();
+						_display->generate_components("character_edit");
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					};
 				}
 			}
 		}

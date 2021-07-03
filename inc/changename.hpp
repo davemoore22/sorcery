@@ -21,3 +21,49 @@
 // said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
+
+#include "display.hpp"
+#include "frame.hpp"
+#include "graphics.hpp"
+#include "keyboard.hpp"
+#include "layout.hpp"
+#include "main.hpp"
+#include "menu.hpp"
+#include "system.hpp"
+
+namespace Sorcery {
+
+	class ChangeName {
+
+	  public:
+		// Standard Constructor
+		ChangeName(System *system, Display *display, Graphics *graphics, std::string old_name);
+		ChangeName() = delete;
+
+		// Standard Destructor
+		~ChangeName();
+
+		// Public Members
+
+		// Public Methods
+		auto start() -> std::optional<std::string>;
+		auto stop() -> void;
+		auto get_new_name() -> std::string;
+		auto is_changed() -> bool;
+
+	  private:
+		// Private Methods
+		auto _draw() -> void;
+
+		// Private Members
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
+		sf::RenderWindow *_window;
+		sf::Sprite _bg;
+		std::shared_ptr<Keyboard> _keyboard;
+		std::string _old_name;
+		std::string _new_name;
+		bool _valid;
+	};
+} // namespace Sorcery

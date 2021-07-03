@@ -1194,6 +1194,115 @@
 		]
 	},
 	{
+		"name": "change_name",
+		"component": [
+			{
+				"name": "name_candidate",
+				"x": "centre",
+				"y": "15",
+				"font": "monospace",
+				"colour": "0xddddddff",
+				"size": "72",
+				"justification": "centre",
+				"type": "text",
+				"priority": "3",
+				"animated": "false",
+				"drawmode": "manual"
+			},
+			{
+				"name": "keyboard",
+				"x": "17",
+				"y": "21",
+				"alpha": "255",
+				"type": "other",
+				"priority": "4",
+				"animated": "true",
+				"drawmode": "manual"
+			},
+			{
+				"name": "change_name_frame",
+				"w": "25",
+				"h": "2",
+				"x": "centre",
+				"y": "8",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "9",
+				"drawmode": "automatic",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "change_name_prompt_text",
+				"x": "centre",
+				"y": "9",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHANGE_NAME_PROMPT",
+				"justification": "centre",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "candidate_name_frame",
+				"w": "40",
+				"h": "5",
+				"x": "centre",
+				"y": "13",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "8",
+				"background": " 0x000000ff"
+			},
+			{
+
+				"name": "wallpaper",
+				"x": "0",
+				"y": "0",
+				"scale": "1.25",
+				"type": "image",
+				"priority": "1",
+				"texture": "background",
+				"drawmode": "manual"
+			},
+			{
+				"name": "frame",
+				"w": "50",
+				"h": "38",
+				"x": "centre",
+				"y": "2",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "3",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "title_frame",
+				"w": "22",
+				"h": "2",
+				"x": "centre",
+				"y": "1",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "4",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "title_text",
+				"x": "centre",
+				"y": "2",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHANGE_NAME_TITLE",
+				"justification": "centre",
+				"type": "text",
+				"priority": "4"
+			}
+		]
+	},
+	{
 		"name": "character_edit",
 		"component": [
 		{
