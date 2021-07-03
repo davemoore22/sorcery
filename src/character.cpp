@@ -1393,13 +1393,14 @@ auto Sorcery::Character::_reset_starting_sp() -> void {
 	_set_starting_sp();
 
 	// And add in 1 spell point for each known spell NOT of the type
-	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
+	for (auto spell_level = 1u; spell_level <= 7u; spell_level++) {
 
 		// Handle Priest Spells
-		auto priest_known = std::count_if(_spells.begin(), _spells.end(), [=](auto spell) {
-			return (spell.type == SpellType::PRIEST) && (spell.level == spell_level) &&
-				   (spell.known);
-		});
+		auto priest_known = static_cast<unsigned int>(
+			std::count_if(_spells.begin(), _spells.end(), [=](auto spell) {
+				return (spell.type == SpellType::PRIEST) && (spell.level == spell_level) &&
+					   (spell.known);
+			}));
 
 		if (_priest_max_sp[spell_level] < priest_known) {
 			_priest_max_sp[spell_level] = priest_known;
@@ -1407,9 +1408,11 @@ auto Sorcery::Character::_reset_starting_sp() -> void {
 		}
 
 		// Handle Mage Spells
-		auto mage_known = std::count_if(_spells.begin(), _spells.end(), [=](auto spell) {
-			return (spell.type == SpellType::MAGE) && (spell.level == spell_level) && (spell.known);
-		});
+		auto mage_known = static_cast<unsigned int>(
+			std::count_if(_spells.begin(), _spells.end(), [=](auto spell) {
+				return (spell.type == SpellType::MAGE) && (spell.level == spell_level) &&
+					   (spell.known);
+			}));
 		if (_mage_max_sp[spell_level] < mage_known) {
 			_mage_max_sp[spell_level] = mage_known;
 			_mage_cur_sp[spell_level] = _mage_max_sp[spell_level];

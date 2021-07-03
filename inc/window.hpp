@@ -40,9 +40,7 @@ namespace Sorcery {
 		Window() = delete;
 
 		// Public Methods
-		auto change_colour(sf::Color colour, double lerp) const -> sf::Color;
 		auto clear_window() -> void;
-		auto darken_colour(sf::Color colour, double lerp) -> sf::Color;
 		auto display_window() -> void;
 		auto draw_text(sf::Text &text) -> void;
 		auto draw_text(sf::Text &text, const Component &component, const double lerp = -1.0f)
@@ -63,7 +61,6 @@ namespace Sorcery {
 		auto get_y(const sf::Text &text, int y_position) const -> unsigned int;
 		auto get_x(unsigned int width, int x_position) const -> unsigned int;
 		auto get_y(unsigned int width, int y_position) const -> unsigned int;
-		auto lighten_colour(sf::Color colour, double lerp) -> sf::Color;
 		auto highlight_text(sf::Text &text, Component component, double lerp) -> sf::RectangleShape;
 		auto get_text_y_adjustment(sf::Text &text, Component &component) -> int;
 		auto shove_text(sf::Text &shovee, sf::Text &shover, unsigned int gap_units) -> void;
@@ -82,7 +79,7 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
-		auto _change_colour(sf::Color colour, double lerp) const -> sf::Color;
+		auto _adjust_brightness(sf::Color colour, double colour_lerp) -> unsigned long long;
 		auto _draw_text(sf::Text &text, const Component &component, const double lerp) -> void;
 		auto _draw_text(sf::Text &text, const Component &component, const std::string &string,
 			const double lerp) -> void;

@@ -173,6 +173,7 @@ auto Sorcery::Animation::_do_colour_cycling() -> void {
 
 	std::scoped_lock<std::mutex> _scoped_lock(_colour_mutex);
 
+	// Colour Lerp goes back and forth between 0 and 1
 	if (_colcyc_dir) {
 		if (colour_lerp < 1.0l)
 			colour_lerp += _colour_cycling_step;

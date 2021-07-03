@@ -43,8 +43,20 @@ auto Sorcery::Graphics::operator=(const Graphics &other) -> Graphics & {
 	return *this;
 }
 
+auto Sorcery::Graphics::adjust_brightness(sf::Color colour, double colour_lerp)
+	-> unsigned long long {
+
+	thor::ColorGradient gradient{};
+	gradient[0.0f] = sf::Color(0xbf0000ff);
+	gradient[0.5f] = colour;
+	gradient[1.0f] = sf::Color(0x00ff00ff);
+
+	return (gradient.sampleColor(colour_lerp)).toInteger();
+}
+
 auto Sorcery::Graphics::adjust_status_colour(Enums::Character::CStatus value, bool poisoned)
 	-> unsigned long long {
+
 	thor::ColorGradient gradient{};
 	gradient[0.0f] = sf::Color(0xbf0000ff);
 	gradient[(1.0f / 8.0f) * 2.0f] = sf::Color(0xffff00ff);

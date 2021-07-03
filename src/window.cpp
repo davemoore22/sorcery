@@ -112,7 +112,7 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, con
 	text.setFont(_system->resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
 	if (component.animated)
-		text.setFillColor(_change_colour(sf::Color(component.colour), lerp));
+		text.setFillColor(sf::Color(_adjust_brightness(sf::Color(component.colour), lerp)));
 	else
 		text.setFillColor(sf::Color(component.colour));
 	text.setString((*_string)[component.string_key]);
@@ -215,7 +215,7 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component,
 	text.setFont(_system->resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
 	if (component.animated)
-		text.setFillColor(_change_colour(sf::Color(component.colour), lerp));
+		text.setFillColor(sf::Color(_adjust_brightness(sf::Color(component.colour), lerp)));
 	else
 		text.setFillColor(sf::Color(component.colour));
 	text.setString(string);
@@ -361,41 +361,13 @@ auto Sorcery::Window::get_cell_width() const -> unsigned int {
 	return _cell_width;
 }
 
-// Given a colour, change its brightness
-auto Sorcery::Window::change_colour(sf::Color colour, double lerp) const -> sf::Color {
-
-	return _change_colour(colour, lerp);
-}
-
-auto Sorcery::Window::_change_colour(sf::Color colour, double lerp) const -> sf::Color {
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wnarrowing"
-	double red{colour.r};
-	double green{colour.g};
-	double blue{colour.b};
-#pragma GCC diagnostic pop
-	if (lerp < 0) {
-		lerp = 1 + lerp;
-		red *= lerp;
-		green *= lerp;
-		blue *= lerp;
-	} else {
-		red = (255 - red) * lerp + red;
-		green = (255 - green) * lerp + green;
-		blue = (255 - blue) * lerp + blue;
-	}
-
-	return sf::Color(red, green, blue);
-}
-
 auto Sorcery::Window::highlight_text(sf::Text &text, Component component, const double lerp)
 	-> sf::RectangleShape {
 
 	const sf::FloatRect text_rect{text.getGlobalBounds()};
 	sf::RectangleShape text_bg(sf::Vector2(text_rect.width + 6, text_rect.height + 8));
 	text_bg.setOrigin(0, 0 - text.getLocalBounds().height + 16);
-	text_bg.setFillColor(change_colour(sf::Color(component.background), lerp));
+	text_bg.setFillColor(sf::Color(_adjust_brightness(sf::Color(component.background), lerp)));
 	text.setFillColor(sf::Color(component.colour));
 	text.setOutlineColor(sf::Color(0, 0, 0));
 	text.setOutlineThickness(2);
@@ -414,4 +386,15 @@ auto Sorcery::Window::set_input_mode(WindowInputMode value) -> void {
 auto Sorcery::Window::get_input_mode() const -> WindowInputMode {
 
 	return _input_mode;
+}
+
+auto Sorcery::Window::_adjust_brightness(sf::Color colour, double colour_lerp)
+	-> unsigned long long {
+
+	thor::ColorGradient gradient{};
+	gradient[0.0f] = sf::Color(0xbf0000ff);
+	gradient[0.5f] = colour;
+	gradient[1.0f] = sf::Color(0x00ff00ff);
+
+	return (gradient.sampleColor(colour_lerp)).toInteger();
 }

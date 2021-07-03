@@ -387,29 +387,21 @@ auto Sorcery::Dialog::get_selected() -> WindowDialogButton {
 
 auto Sorcery::Dialog::update() -> void {
 
-	// const double lerp{_graphics->animation->colour_lerp};
 	switch (_type) {
 	case WindowDialogType::OK: {
 		if (_selected == WindowDialogButton::OK) {
 			sf::RectangleShape &hl{_highlights.at(WindowDialogButton::OK)};
 			hl.setFillColor(_graphics->animation->selected_colour);
-			// hl.setFillColor(
-			//_display->window->change_colour(sf::Color(_buttons_c.background), lerp));
 		}
 	} break;
 	case WindowDialogType::CONFIRM: {
 		if (_selected == WindowDialogButton::YES) {
 			sf::RectangleShape &hl{_highlights.at(WindowDialogButton::YES)};
 			hl.setFillColor(_graphics->animation->selected_colour);
-			// hl.setFillColor(
-			//	_display->window->change_colour(sf::Color(_buttons_c.background), lerp));
-
 		} else if (_selected == WindowDialogButton::NO) {
 
 			sf::RectangleShape &hl{_highlights.at(WindowDialogButton::NO)};
 			hl.setFillColor(_graphics->animation->selected_colour);
-			// hl.setFillColor(
-			//_display->window->change_colour(sf::Color(_buttons_c.background), lerp));
 		}
 	} break;
 	case WindowDialogType::MENU:
