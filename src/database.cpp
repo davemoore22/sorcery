@@ -101,6 +101,7 @@ auto Sorcery::Database::get_game() -> std::optional<GameEntry> {
 }
 
 auto Sorcery::Database::add_game() -> unsigned int {
+
 	try {
 
 		sqlite::database database(_db_file_path.string());
@@ -134,9 +135,37 @@ auto Sorcery::Database::add_game() -> unsigned int {
 	return 0;
 }
 
+// Update Character Name
+auto Sorcery::Database::update_character_name(
+	int game_id, int character_id, std::string name, std::string data) -> bool {
+
+	try {
+
+		sqlite::database database(_db_file_path.string());
+
+		std::string status{"OK"};
+		const std::string update_character_name_SQL{
+			"UPDATE CHARACTER SET name = ?, data = ? WHERE game_id = ? AND id = ?"};
+
+		database << update_character_name_SQL << name << data << game_id << character_id;
+
+		return true;
+
+	} catch (sqlite::sqlite_exception &e) {
+		Error error{SystemError::SQLLITE_ERROR, e,
+			fmt::format(
+				"{} {} {} {}", e.get_code(), e.what(), e.get_sql(), _db_file_path.string())};
+		std::cout << error;
+		exit(EXIT_FAILURE);
+	}
+
+	return false;
+}
+
 // Insert a character
 auto Sorcery::Database::insert_character(int game_id, std::string name, std::string data)
 	-> unsigned int {
+
 	try {
 
 		sqlite::database database(_db_file_path.string());

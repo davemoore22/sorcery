@@ -46,6 +46,14 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 	};
 }
 
+auto Sorcery::Game::reload_character(unsigned int character_id) -> void {
+
+	std::map<unsigned int, Character> temp_characters;
+	temp_characters.clear();
+	temp_characters = load_characters();
+	characters.at(character_id) = temp_characters.at(character_id);
+}
+
 auto Sorcery::Game::reload_characters() -> void {
 
 	// Load the Characters
@@ -110,4 +118,17 @@ auto Sorcery::Game::save_new_character(Character &character) -> unsigned int {
 	std::string character_data{ss.str()};
 
 	return _system->database->insert_character(_id, character.get_name(), character_data);
+}
+
+auto Sorcery::Game::update_character_name(
+	unsigned int game_id, unsigned int character_id, Character &character) -> bool {
+	std::stringstream ss;
+	{
+		cereal::JSONOutputArchive archive(ss);
+		archive(character);
+	}
+	std::string character_data{ss.str()};
+
+	return _system->database->update_character_name(
+		game_id, character_id, character.get_name(), character_data);
 }
