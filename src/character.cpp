@@ -2277,13 +2277,18 @@ auto Sorcery::Character::_generate_summary_icons() -> void {
 }
 
 auto Sorcery::Character::get_summary() -> std::string {
-	return fmt::format("{:<15} L {:>2} {}-{} {}", _name,
+
+	std::string name{_name};
+	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+	return fmt::format("{:<15} L {:>2} {}-{} {}", name,
 		_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
 		get_class(_class).substr(0, 3), get_race(_race).substr(0, 3));
 }
 
 auto Sorcery::Character::summary_text() -> std::string {
 
+	std::string name{_name};
+	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	switch (_current_stage) {
 	case CharacterStage::CHOOSE_METHOD:
 	case CharacterStage::ENTER_NAME:
@@ -2291,30 +2296,30 @@ auto Sorcery::Character::summary_text() -> std::string {
 		break;
 	case CharacterStage::CHOOSE_RACE:
 		return fmt::format(
-			"{:<15} L {:>2} ?-??? ???", _name, _abilities.at(CharacterAbility::CURRENT_LEVEL));
+			"{:<15} L {:>2} ?-??? ???", name, _abilities.at(CharacterAbility::CURRENT_LEVEL));
 		break;
 	case CharacterStage::CHOOSE_ALIGNMENT:
-		return fmt::format("{:<15} L {:>2} ?-??? {}", _name,
+		return fmt::format("{:<15} L {:>2} ?-??? {}", name,
 			_abilities.at(CharacterAbility::CURRENT_LEVEL), get_race(_race));
 		break;
 	case CharacterStage::ALLOCATE_STATS:
-		return fmt::format("{:<15} L {:>2} {}-??? {}", _name,
+		return fmt::format("{:<15} L {:>2} {}-??? {}", name,
 			_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
 			get_race(_race));
 		break;
 	case CharacterStage::CHOOSE_CLASS:
-		return fmt::format("{:<15} L {:>2} {}-??? {}", _name,
+		return fmt::format("{:<15} L {:>2} {}-??? {}", name,
 			_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
 			get_race(_race));
 		break;
 	case CharacterStage::CHOOSE_PORTRAIT:
-		return fmt::format("{:<15} L {:>2} {}-{} {}", _name,
+		return fmt::format("{:<15} L {:>2} {}-{} {}", name,
 			_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
 			get_class(_class).substr(0, 3), get_race(_race));
 		break;
 	case CharacterStage::REVIEW_AND_CONFIRM:
 	case CharacterStage::COMPLETED:
-		return fmt::format("{} L {:>2} {}-{} {}", _name,
+		return fmt::format("{} L {:>2} {}-{} {}", name,
 			_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
 			get_class(_class).substr(0, 3), get_race(_race));
 		break;

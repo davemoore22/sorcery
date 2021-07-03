@@ -98,7 +98,10 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	name_text.setFont(_system->resources->fonts[name_c.font]);
 	name_text.setCharacterSize(name_c.size);
 	name_text.setFillColor(sf::Color(name_c.colour));
-	name_text.setString(_character->get_name());
+
+	std::string name{_character->get_name()};
+	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+	name_text.setString(name);
 	_display->window->set_position_with_offset(&name_c, &name_text);
 	_texts.push_back(name_text);
 
