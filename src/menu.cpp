@@ -287,7 +287,7 @@ Sorcery::Menu::Menu(
 	}
 }
 
-// need load method!
+// The Character Menu is a special case and needs to be reloaded often when names and classes change
 auto Sorcery::Menu::reload() -> void {
 
 	// Clear the Items
