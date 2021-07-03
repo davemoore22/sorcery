@@ -495,7 +495,7 @@ namespace Sorcery {
 			CHOOSE_METHOD,
 			CHARACTER_ROSTER,
 			EDIT_CHARACTER,
-			CHANGE_CLASS
+			CHANGE_CHARACTER_CLASS
 		};
 
 		// Menu Items

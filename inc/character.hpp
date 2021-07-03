@@ -131,6 +131,7 @@ namespace Sorcery {
 		auto dec_highlighted_spell(SpellType type) -> void;
 		auto update() -> void;
 		auto check_for_mouse_move(sf::Vector2f mouse_pos) -> std::optional<SpellID>;
+		auto change_class(const CharacterClass &value) -> void;
 
 		// Public Members
 		std::map<SpellID, sf::FloatRect> mage_spell_bounds;
@@ -146,10 +147,13 @@ namespace Sorcery {
 		auto _generate_display() -> void;
 		auto _generate_summary_icons() -> void;
 		auto _generate_starting_information() -> void;
-		auto _generate_secondary_abilities(bool initial) -> void;
+		auto _regenerate_starting_information() -> void;
+		auto _generate_secondary_abilities(bool initial, bool change_class) -> void;
 		auto _set_starting_sp() -> void;
+		auto _reset_starting_sp() -> void;
 		auto _clear_sp() -> void;
 		auto _set_starting_spells() -> void;
+		auto _reset_starting_spells() -> void;
 		auto _get_hp_gained_per_level() -> int;
 		auto _update_hp_for_level() -> void;
 		auto _try_to_learn_spells(SpellType spell_type, unsigned int spell_level) -> void;

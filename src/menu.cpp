@@ -138,6 +138,8 @@ Sorcery::Menu::Menu(
 		selected = items.begin();
 		break;
 	case MenuType::CHOOSE_CHARACTER_CLASS:
+	case MenuType::CHANGE_CHARACTER_CLASS:
+
 		_add_item(0, MenuItemType::ENTRY, MenuItem::CC_SAMURAI,
 			(*_display->string)["CHARACTER_CLASS_SAMURAI"], true, ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_SAMURAI"]);

@@ -806,9 +806,66 @@ auto Sorcery::Character::_load([[maybe_unused]] unsigned int character_id) -> vo
 auto Sorcery::Character::finalise() -> void {
 
 	_generate_starting_information();
-	_generate_secondary_abilities(true);
+	_generate_secondary_abilities(true, false);
 	_set_starting_spells();
 	_set_starting_sp();
+}
+
+auto Sorcery::Character::_regenerate_starting_information() -> void {
+	_abilities[CharacterAbility::CURRENT_LEVEL] = 1;
+	_abilities[CharacterAbility::CURRENT_XP] = 0;
+	_abilities[CharacterAbility::NEXT_LEVEL_XP] =
+		_get_xp_for_level(_abilities[CharacterAbility::CURRENT_LEVEL]);
+
+	// https://datadrivengamer.blogspot.com/2019/08/the-not-so-basic-mechanics-of-wizardry.html
+	unsigned int age_increment{(52 * (3 + (*_system->random)[RandomType::D3])) + 44};
+	_abilities[CharacterAbility::AGE] += age_increment;
+
+	// reset attributes to racial minimums
+	CharacterAttributes minimum_attr;
+	switch (_race) {
+	case CharacterRace::HUMAN:
+		minimum_attr = {{CharacterAttribute::STRENGTH, 8}, {CharacterAttribute::IQ, 5},
+			{CharacterAttribute::PIETY, 5}, {CharacterAttribute::VITALITY, 8},
+			{CharacterAttribute::AGILITY, 8}, {CharacterAttribute::LUCK, 9}};
+		break;
+	case CharacterRace::ELF:
+		minimum_attr = {{CharacterAttribute::STRENGTH, 7}, {CharacterAttribute::IQ, 10},
+			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 6},
+			{CharacterAttribute::AGILITY, 9}, {CharacterAttribute::LUCK, 6}};
+		break;
+	case CharacterRace::DWARF:
+		minimum_attr = {{CharacterAttribute::STRENGTH, 10}, {CharacterAttribute::IQ, 7},
+			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 10},
+			{CharacterAttribute::AGILITY, 5}, {CharacterAttribute::LUCK, 6}};
+		break;
+	case CharacterRace::GNOME:
+		minimum_attr = {{CharacterAttribute::STRENGTH, 7}, {CharacterAttribute::IQ, 7},
+			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 8},
+			{CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 7}};
+		break;
+	case CharacterRace::HOBBIT:
+		minimum_attr = {{CharacterAttribute::STRENGTH, 5}, {CharacterAttribute::IQ, 7},
+			{CharacterAttribute::PIETY, 7}, {CharacterAttribute::VITALITY, 6},
+			{CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 12}};
+		break;
+	default:
+		break;
+	};
+	_cur_attr = minimum_attr;
+}
+
+// Change Class
+auto Sorcery::Character::change_class(const CharacterClass &value) -> void {
+
+	if (_class != value) {
+		_class = value;
+
+		_regenerate_starting_information();
+		_generate_secondary_abilities(false, true);
+		_reset_starting_spells();
+		_reset_starting_sp();
+	}
 }
 
 // Work out all the stuff to do with starting a new character
@@ -833,7 +890,7 @@ auto Sorcery::Character::_generate_starting_information() -> void {
 }
 
 // Given the characters current level, work out all the secondary abilities/stats etc
-auto Sorcery::Character::_generate_secondary_abilities(bool initial) -> void {
+auto Sorcery::Character::_generate_secondary_abilities(bool initial, bool change_class) -> void {
 
 	// Formulae used are from here http://www.zimlab.com/wizardry/walk/w123calc.htm and also
 	// from
@@ -989,48 +1046,51 @@ auto Sorcery::Character::_generate_secondary_abilities(bool initial) -> void {
 	// Bonus Hit Points per level (num)
 	_abilities[CharacterAbility::BONUS_HIT_POINTS] = _abilities[CharacterAbility::VITALITY_BONUS];
 
-	// Base Hit Points (num) - note initially all characters get 8 HP as per the PSX versions
-	if (initial)
-		_abilities[CharacterAbility::MAX_HP] = 8;
-	else {
+	// Class Change doesn't reset these
+	if (!change_class) {
 
-		switch (unsigned int chance{(*_system->random)[RandomType::D100]};
-				_class) { // NOLINT(clang-diagnostic-switch)
-		case CharacterClass::FIGHTER:
-		case CharacterClass::LORD:
-			_abilities[CharacterAbility::MAX_HP] =
-				chance <= 50 ? 10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
-							 : 9 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
-			break;
-		case CharacterClass::PRIEST:
-			_abilities[CharacterAbility::MAX_HP] =
-				chance <= 50 ? 8 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
-							 : 8 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
-			break;
-		case CharacterClass::THIEF:
-		case CharacterClass::BISHOP:
-		case CharacterClass::NINJA:
-			_abilities[CharacterAbility::MAX_HP] =
-				chance <= 50 ? 6 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
-							 : 6 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
-			break;
-		case CharacterClass::MAGE:
-			_abilities[CharacterAbility::MAX_HP] =
-				chance <= 50 ? 4 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
-							 : 4 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
-			break;
-		case CharacterClass::SAMURAI:
-			_abilities[CharacterAbility::MAX_HP] =
-				chance <= 50 ? 16 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
-							 : 16 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
-			break;
-		default:
-			break;
+		// Base Hit Points (num) - note initially all characters get 8 HP as per the PSX versions
+		if (initial)
+			_abilities[CharacterAbility::MAX_HP] = 8;
+		else {
+			switch (unsigned int chance{(*_system->random)[RandomType::D100]};
+					_class) { // NOLINT(clang-diagnostic-switch)
+			case CharacterClass::FIGHTER:
+			case CharacterClass::LORD:
+				_abilities[CharacterAbility::MAX_HP] =
+					chance <= 50 ? 10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
+								 : 9 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+				break;
+			case CharacterClass::PRIEST:
+				_abilities[CharacterAbility::MAX_HP] =
+					chance <= 50 ? 8 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
+								 : 8 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+				break;
+			case CharacterClass::THIEF:
+			case CharacterClass::BISHOP:
+			case CharacterClass::NINJA:
+				_abilities[CharacterAbility::MAX_HP] =
+					chance <= 50 ? 6 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
+								 : 6 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+				break;
+			case CharacterClass::MAGE:
+				_abilities[CharacterAbility::MAX_HP] =
+					chance <= 50 ? 4 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
+								 : 4 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+				break;
+			case CharacterClass::SAMURAI:
+				_abilities[CharacterAbility::MAX_HP] =
+					chance <= 50 ? 16 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
+								 : 16 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+				break;
+			default:
+				break;
+			}
+			if (_abilities[CharacterAbility::MAX_HP] < 1)
+				_abilities[CharacterAbility::MAX_HP] = 1;
 		}
-		if (_abilities[CharacterAbility::MAX_HP] < 1)
-			_abilities[CharacterAbility::MAX_HP] = 1;
+		_abilities[CharacterAbility::CURRENT_HP] = _abilities[CharacterAbility::MAX_HP];
 	}
-	_abilities[CharacterAbility::CURRENT_HP] = _abilities[CharacterAbility::MAX_HP];
 
 	// Chance of resurrecting a Dead Character at the Temple (%)
 	_abilities[CharacterAbility::DEAD_RESURRECT] =
@@ -1321,8 +1381,40 @@ auto Sorcery::Character::_generate_secondary_abilities(bool initial) -> void {
 	}
 
 	// And set poison/regeneration to default
-	_abilities[CharacterAbility::HP_POISON_PER_TURN] = 0;
-	_abilities[CharacterAbility::HP_REGENERATION_PER_TURN] = 0;
+	if (!change_class) {
+		_abilities[CharacterAbility::HP_POISON_PER_TURN] = 0;
+		_abilities[CharacterAbility::HP_REGENERATION_PER_TURN] = 0;
+	}
+}
+
+// Now work out spellpoints!
+auto Sorcery::Character::_reset_starting_sp() -> void {
+
+	_set_starting_sp();
+
+	// And add in 1 spell point for each known spell NOT of the type
+	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
+
+		// Handle Priest Spells
+		auto priest_known = std::count_if(_spells.begin(), _spells.end(), [=](auto spell) {
+			return (spell.type == SpellType::PRIEST) && (spell.level == spell_level) &&
+				   (spell.known);
+		});
+
+		if (_priest_max_sp[spell_level] < priest_known) {
+			_priest_max_sp[spell_level] = priest_known;
+			_priest_cur_sp[spell_level] = _priest_max_sp[spell_level];
+		}
+
+		// Handle Mage Spells
+		auto mage_known = std::count_if(_spells.begin(), _spells.end(), [=](auto spell) {
+			return (spell.type == SpellType::MAGE) && (spell.level == spell_level) && (spell.known);
+		});
+		if (_mage_max_sp[spell_level] < mage_known) {
+			_mage_max_sp[spell_level] = mage_known;
+			_mage_cur_sp[spell_level] = _mage_max_sp[spell_level];
+		}
+	}
 }
 
 // Set the starting spellpoints
@@ -1367,7 +1459,12 @@ auto Sorcery::Character::_clear_sp() -> void {
 	}
 }
 
-// Spells known aren't set on serialisation restore? are they written?
+// Reset Starting Spells on Class Change
+auto Sorcery::Character::_reset_starting_spells() -> void {
+
+	// All known spells are kept, and new ones added as per the starting class guildlines
+	_set_starting_spells();
+}
 
 // Set starting spells
 auto Sorcery::Character::_set_starting_spells() -> void {
@@ -1428,7 +1525,7 @@ auto Sorcery::Character::_set_starting_spells() -> void {
 	}
 }
 
-// Level Gain/Loss Functions
+// Level Gain/Loss Functions - TODO
 
 // Get HP gained for all levels apart from the first
 auto Sorcery::Character::_get_hp_gained_per_level() -> int {
