@@ -23,9 +23,6 @@
 
 #include "allocatepanel.hpp"
 
-// create a classbar graphic object as part of this? (get the texture of the relevant section of the
-// icons texture for all the classes, then set parts of the image - will need a component for this)
-
 Sorcery::AllocatePanel::AllocatePanel(
 	System *system, Display *display, Graphics *graphics, Character *character)
 	: _system{system}, _display{display}, _graphics{graphics}, _character{character} {
