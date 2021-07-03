@@ -54,6 +54,7 @@ namespace Sorcery {
 	  private:
 		// Private Methods
 		auto _draw() -> void;
+		auto _handle_change_name(const sf::Event &event) -> std::optional<bool>;
 
 		// Private Members
 		System *_system;

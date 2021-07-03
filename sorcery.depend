@@ -1123,10 +1123,10 @@
 1625336305 source:/home/dave/Development/wizardry/sorcery-sfml/src/edit.cpp
 	"edit.hpp"
 
-1625336567 source:/home/dave/Development/wizardry/sorcery-sfml/src/changename.cpp
+1625337678 source:/home/dave/Development/wizardry/sorcery-sfml/src/changename.cpp
 	"changename.hpp"
 
-1625335993 /home/dave/Development/wizardry/sorcery-sfml/inc/changename.hpp
+1625337405 /home/dave/Development/wizardry/sorcery-sfml/inc/changename.hpp
 	"display.hpp"
 	"frame.hpp"
 	"graphics.hpp"

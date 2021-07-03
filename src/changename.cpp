@@ -79,6 +79,14 @@ auto Sorcery::ChangeName::start() -> std::optional<std::string> {
 
 			if (_system->input->check_for_event(WindowInput::BACK, event))
 				return std::nullopt;
+
+			auto name_changed = _handle_change_name(event);
+			if (name_changed) {
+				if (name_changed.value())
+					return _new_name;
+				else
+					return std::nullopt;
+			}
 		}
 
 		_window->clear();
@@ -111,6 +119,96 @@ auto Sorcery::ChangeName::get_new_name() -> std::string {
 auto Sorcery::ChangeName::is_changed() -> bool {
 
 	return _old_name != _new_name;
+}
+
+auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event) -> std::optional<bool> {
+
+	std::string candidate_name{_new_name};
+	if (_system->input->check_for_event(WindowInput::MOVE, event)) {
+
+		sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
+		std::optional<std::string> mouse_selected{_keyboard->set_mouse_selected(
+			(*_display->layout)["character_create_stage_1:keyboard"], mouse_pos)};
+		if (mouse_selected)
+			_keyboard->selected = mouse_selected.value();
+	} else if ((_system->input->check_for_event(WindowInput::ALPHANUMERIC, event)) ||
+			   (_system->input->check_for_event(WindowInput::SPACE, event))) {
+		if (candidate_name.length() < 16) {
+			candidate_name += static_cast<char>(event.text.unicode);
+			_new_name = candidate_name;
+		}
+		if (static_cast<char>(event.text.unicode) == ' ') {
+			_keyboard->selected = "Spc";
+		} else {
+			std::string key_pressed{};
+			key_pressed.push_back(static_cast<char>(event.text.unicode));
+			_keyboard->selected = key_pressed;
+		}
+	} else if (_system->input->check_for_event(WindowInput::DELETE, event)) {
+		if (candidate_name.length() > 0) {
+			candidate_name.pop_back();
+			_new_name = candidate_name;
+			_keyboard->selected = "Del";
+		}
+	} else if (_system->input->check_for_event(WindowInput::BACK, event)) {
+		if (candidate_name.length() > 0) {
+			candidate_name.pop_back();
+			_new_name = candidate_name;
+			_keyboard->selected = "Del";
+		} else {
+
+			// Return if Back Button is selected and no character name is chosen
+			return false;
+		}
+	} else if (_system->input->check_for_event(WindowInput::SELECT, event)) {
+		if (_keyboard->selected == "End") {
+			if (TRIM_COPY(candidate_name).length() > 0) {
+				_new_name = candidate_name;
+
+				// Return if End Icon is selected on the keyboard
+				return true;
+			}
+		} else if (_keyboard->selected == "Spc") {
+			if (candidate_name.length() < 16) {
+				candidate_name += " ";
+				_new_name = candidate_name;
+			}
+		} else if (_keyboard->selected == "Del") {
+			if (candidate_name.length() > 0) {
+				candidate_name.pop_back();
+				_new_name = candidate_name;
+			}
+		} else {
+			candidate_name += _keyboard->selected;
+			_new_name = candidate_name;
+		}
+	} else if (_system->input->check_for_event(WindowInput::CONFIRM_NO_SPACE, event)) {
+
+		if (_keyboard->selected == "End") {
+			if (TRIM_COPY(candidate_name).length() > 0) {
+				_new_name = candidate_name;
+
+				// Return if End Icon is highlighted and Confirmed
+				return true;
+			}
+		} else {
+			if (TRIM_COPY(candidate_name).length() > 0) {
+				_new_name = candidate_name;
+
+				// Return if Confirmation is selected
+				return true;
+			}
+		}
+	} else if (_system->input->check_for_event(WindowInput::LEFT, event))
+		_keyboard->set_selected(WindowInput::LEFT);
+	else if (_system->input->check_for_event(WindowInput::RIGHT, event))
+		_keyboard->set_selected(WindowInput::RIGHT);
+	else if (_system->input->check_for_event(WindowInput::UP, event))
+		_keyboard->set_selected(WindowInput::UP);
+	else if (_system->input->check_for_event(WindowInput::DOWN, event))
+		_keyboard->set_selected(WindowInput::DOWN);
+
+	return std::nullopt;
 }
 
 auto Sorcery::ChangeName::_draw() -> void {
