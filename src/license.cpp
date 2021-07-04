@@ -61,7 +61,7 @@ auto Sorcery::License::start() -> void {
 	// And do the main loop
 	_display->set_input_mode(WindowInputMode::DISPLAY_TEXT_FILE);
 	sf::Event event{};
-	const unsigned int lines_to_display{38 - 9};
+	const auto lines_to_display{38u - 9u};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
 
@@ -138,11 +138,11 @@ auto Sorcery::License::_draw() -> void {
 auto Sorcery::License::_display_file_contents() -> void {
 
 	Component text_c{(*_display->layout)["license:file_text"]};
-	const unsigned int lines_to_display{text_c.h};
-	const int top_y{text_c.y};
+	const auto lines_to_display{text_c.h};
+	const auto top_y{text_c.y};
 
 	// Check for approaching end of file
-	const unsigned int end_line{[&] {
+	const auto end_line{[&] {
 		if (_current_line < (_textfile->size() - lines_to_display))
 			return static_cast<unsigned int>(_current_line + lines_to_display);
 		else

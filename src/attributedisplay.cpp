@@ -247,13 +247,13 @@ auto Sorcery::AttributeDisplay::_get_attribute_text(CharacterAttribute attribute
 
 	if (_alignment == Alignment::VERTICAL) {
 
-		sf::Text text;
+		sf::Text text{};
 
 		// TODO
 		return text;
 
 	} else {
-		sf::Text text;
+		sf::Text text{};
 		std::string formatted_value{fmt::format("{:>2}", _character->get_attribute(attribute))};
 		text.setFont(_system->resources->fonts[_text_c.font]);
 		text.setCharacterSize(_text_c.size);

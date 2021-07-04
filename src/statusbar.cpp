@@ -80,13 +80,13 @@ auto Sorcery::StatusBar::_generate_components() -> void {
 	if (components) {
 		for (const auto &component : components.value()) {
 			if (component.type == ComponentType::TEXT) {
-				sf::Text text;
+				sf::Text text{};
 				text.setFont(_system->resources->fonts[component.font]);
 				text.setCharacterSize(component.size);
 				text.setFillColor(sf::Color(component.colour));
 				text.setString((*_display->string)[component.string_key]);
-				const unsigned int x{component.x == -1 ? _display->window->centre.x : component.x};
-				const unsigned int y{component.y == -1 ? _display->window->centre.y : component.y};
+				const auto x{component.x == -1 ? _display->window->centre.x : component.x};
+				const auto y{component.y == -1 ? _display->window->centre.y : component.y};
 				if (component.justification == Justification::CENTRE) {
 					text.setPosition(x, y);
 					text.setOrigin(

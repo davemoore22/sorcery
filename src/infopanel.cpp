@@ -71,7 +71,7 @@ auto Sorcery::InfoPanel::set_text(const std::string &string) -> void {
 	std::string wrapped_text{WORDWRAP(string, chunk_size)};
 
 	// Split the display lines into a vector
-	const std::regex regex(R"([@]+)");
+	const std::regex regex{(R"([@]+)")};
 	std::sregex_token_iterator it{wrapped_text.begin(), wrapped_text.end(), regex, -1};
 	std::vector<std::string> split{it, {}};
 	split.erase(std::remove_if(split.begin(), split.end(),
@@ -84,7 +84,7 @@ auto Sorcery::InfoPanel::set_text(const std::string &string) -> void {
 	int x{140};
 	int y{0};
 	for (const auto &each_string : _strings) {
-		sf::Text text;
+		sf::Text text{};
 		text.setFont(_system->resources->fonts[_layout.font]);
 		text.setCharacterSize(_layout.size);
 		text.setFillColor(sf::Color(std::stoull(_layout["text_colour"].value(), 0, 16)));

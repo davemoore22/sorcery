@@ -73,7 +73,7 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 
 	Component name_c{(*_display->layout)["spell_panel:name_text"]};
 	std::string name{fmt::format("{} ({})", spell.name, spell.translated_name)};
-	sf::Text name_text;
+	sf::Text name_text{};
 	name_text.setFont(_system->resources->fonts[name_c.font]);
 	name_text.setCharacterSize(name_c.size);
 	name_text.setFillColor(sf::Color(name_c.colour));
@@ -86,7 +86,7 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 	std::string summary{
 		fmt::format("LEVEL {} {} {} SPELL", spell.level, spell_type, spell_category)};
 	Component summary_c{(*_display->layout)["spell_panel:summary_text"]};
-	sf::Text summary_text;
+	sf::Text summary_text{};
 	summary_text.setFont(_system->resources->fonts[summary_c.font]);
 	summary_text.setCharacterSize(summary_c.size);
 	summary_text.setFillColor(sf::Color(summary_c.colour));
@@ -113,7 +113,7 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 	int x{164};
 	int y{2};
 	for (const auto &each_string : _strings) {
-		sf::Text text;
+		sf::Text text{};
 		text.setFont(_system->resources->fonts[_layout.font]);
 		text.setCharacterSize(_layout.size);
 		text.setFillColor(sf::Color(_layout.colour));

@@ -895,7 +895,7 @@ auto Sorcery::Character::_generate_secondary_abilities(bool initial, bool change
 	// Formulae used are from here http://www.zimlab.com/wizardry/walk/w123calc.htm and also
 	// from
 	// https://mirrors.apple2.org.za/ftp.apple.asimov.net/images/games/rpg/wizardry/wizardry_I/Wizardry_i_SourceCode.zip
-	const int current_level{_abilities[CharacterAbility::CURRENT_LEVEL]};
+	const auto current_level{_abilities[CharacterAbility::CURRENT_LEVEL]};
 
 	// Bonus Melee to Hit per Attack (num)
 	if (_cur_attr[CharacterAttribute::STRENGTH] > 15)
@@ -2447,13 +2447,13 @@ auto Sorcery::Character::_generate_display() -> void {
 		auto portrait{_get_character_portrait()};
 		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
 		portrait.setScale(portrait_c.scale, portrait_c.scale);
-		const int offset_x{[&] {
+		const auto offset_x{[&] {
 			if (portrait_c["offset_x"])
 				return std::stoi(portrait_c["offset_x"].value());
 			else
 				return 0;
 		}()};
-		const int offset_y{[&] {
+		const auto offset_y{[&] {
 			if (portrait_c["offset_y"])
 				return std::stoi(portrait_c["offset_y"].value());
 			else
@@ -2537,13 +2537,13 @@ auto Sorcery::Character::_generate_display() -> void {
 		auto portrait{_get_character_portrait()};
 		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
 		portrait.setScale(portrait_c.scale, portrait_c.scale);
-		const int offset_x{[&] {
+		const auto offset_x{[&] {
 			if (portrait_c["offset_x"])
 				return std::stoi(portrait_c["offset_x"].value());
 			else
 				return 0;
 		}()};
-		const int offset_y{[&] {
+		const auto offset_y{[&] {
 			if (portrait_c["offset_y"])
 				return std::stoi(portrait_c["offset_y"].value());
 			else
@@ -2850,13 +2850,13 @@ auto Sorcery::Character::_generate_display() -> void {
 		auto portrait{_get_character_portrait()};
 		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
 		portrait.setScale(portrait_c.scale, portrait_c.scale);
-		const int offset_x{[&] {
+		const auto offset_x{[&] {
 			if (portrait_c["offset_x"])
 				return std::stoi(portrait_c["offset_x"].value());
 			else
 				return 0;
 		}()};
-		const int offset_y{[&] {
+		const auto offset_y{[&] {
 			if (portrait_c["offset_y"])
 				return std::stoi(portrait_c["offset_y"].value());
 			else
@@ -2882,13 +2882,13 @@ auto Sorcery::Character::_generate_display() -> void {
 		auto portrait{_get_character_portrait()};
 		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
 		portrait.setScale(portrait_c.scale, portrait_c.scale);
-		const int offset_x{[&] {
+		const auto offset_x{[&] {
 			if (portrait_c["offset_x"])
 				return std::stoi(portrait_c["offset_x"].value());
 			else
 				return 0;
 		}()};
-		const int offset_y{[&] {
+		const auto offset_y{[&] {
 			if (portrait_c["offset_y"])
 				return std::stoi(portrait_c["offset_y"].value());
 			else
@@ -2953,13 +2953,13 @@ auto Sorcery::Character::_generate_display() -> void {
 				auto spell_icon{_get_spell_icon(spell.category)};
 				if (spell_icon) {
 					spell_icon.value().setScale(spell_icon_c.scale, spell_icon_c.scale);
-					const int offset_x{[&] {
+					const auto offset_x{[&] {
 						if (spell_icon_c["offset_x"])
 							return std::stoi(spell_icon_c["offset_x"].value());
 						else
 							return 0;
 					}()};
-					const int offset_y{[&] {
+					const auto offset_y{[&] {
 						if (spell_icon_c["offset_y"])
 							return std::stoi(spell_icon_c["offset_y"].value());
 						else
@@ -3004,13 +3004,13 @@ auto Sorcery::Character::_generate_display() -> void {
 		auto portrait{_get_character_portrait()};
 		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
 		portrait.setScale(portrait_c.scale, portrait_c.scale);
-		const int offset_x{[&] {
+		const auto offset_x{[&] {
 			if (portrait_c["offset_x"])
 				return std::stoi(portrait_c["offset_x"].value());
 			else
 				return 0;
 		}()};
-		const int offset_y{[&] {
+		const auto offset_y{[&] {
 			if (portrait_c["offset_y"])
 				return std::stoi(portrait_c["offset_y"].value());
 			else
@@ -3075,13 +3075,13 @@ auto Sorcery::Character::_generate_display() -> void {
 				auto spell_icon{_get_spell_icon(spell.category)};
 				if (spell_icon) {
 					spell_icon.value().setScale(spell_icon_c.scale, spell_icon_c.scale);
-					const int offset_x{[&] {
+					const auto offset_x{[&] {
 						if (spell_icon_c["offset_x"])
 							return std::stoi(spell_icon_c["offset_x"].value());
 						else
 							return 0;
 					}()};
-					const int offset_y{[&] {
+					const auto offset_y{[&] {
 						if (spell_icon_c["offset_y"])
 							return std::stoi(spell_icon_c["offset_y"].value());
 						else
@@ -3122,13 +3122,13 @@ auto Sorcery::Character::_generate_display() -> void {
 auto Sorcery::Character::_add_icon(Component &component, std::string icon_key) -> void {
 
 	auto icon{(*_graphics->icons)[icon_key].value()};
-	const int offset_x{[&] {
+	const auto offset_x{[&] {
 		if (component["offset_x"])
 			return std::stoi(component["offset_x"].value());
 		else
 			return 0;
 	}()};
-	const int offset_y{[&] {
+	const auto offset_y{[&] {
 		if (component["offset_y"])
 			return std::stoi(component["offset_y"].value());
 		else
@@ -3142,19 +3142,19 @@ auto Sorcery::Character::_add_icon(Component &component, std::string icon_key) -
 auto Sorcery::Character::_add_text(
 	Component &component, std::string format, std::string value, bool is_view) -> sf::Text * {
 
-	sf::Text text;
+	sf::Text text{};
 	std::string formatted_value{fmt::format(format, value)};
 	text.setFont(_system->resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
 	text.setString(formatted_value);
-	const int offset_x{[&] {
+	const auto offset_x{[&] {
 		if (component["offset_x"])
 			return std::stoi(component["offset_x"].value());
 		else
 			return 0;
 	}()};
-	const int offset_y{[&] {
+	const auto offset_y{[&] {
 		if (component["offset_y"])
 			return std::stoi(component["offset_y"].value());
 		else

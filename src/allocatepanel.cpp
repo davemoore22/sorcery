@@ -92,7 +92,7 @@ auto Sorcery::AllocatePanel::set() -> void {
 	for (const auto &[attribute, value] : _character->get_current_attributes()) {
 
 		// Get the current stat
-		sf::Text text;
+		sf::Text text{};
 		text.setFont(_system->resources->fonts[_layout.font]);
 		text.setCharacterSize(_layout.size);
 		text.setFillColor(sf::Color(_graphics->adjust_colour(value, CharacterAbilityType::STAT)));
@@ -116,7 +116,7 @@ auto Sorcery::AllocatePanel::set() -> void {
 		++y;
 	}
 
-	sf::Text t_points_left;
+	sf::Text t_points_left{};
 	t_points_left.setFont(_system->resources->fonts[_c_points_left.font]);
 	t_points_left.setCharacterSize(_c_points_left.size);
 	/* 	if (_character->get_bonus_points_to_allocate() == _character->get_starting_bonus_points())

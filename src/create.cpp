@@ -1012,7 +1012,7 @@ auto Sorcery::Create::_draw() -> void {
 
 	// And draw the current state of the character!
 	double lerp{_graphics->animation->colour_lerp};
-	sf::Text summary_text;
+	sf::Text summary_text{};
 	if (_candidate.get_stage() == CharacterStage::CHOOSE_METHOD) {
 
 		_display->display_components("choose_method", _sprites, _texts, _frames);
@@ -1036,7 +1036,7 @@ auto Sorcery::Create::_draw() -> void {
 
 		_display->display_components("character_create_stage_1", _sprites, _texts, _frames);
 		std::string display_name{">" + _candidate.get_name() + "_"};
-		sf::Text name_text;
+		sf::Text name_text{};
 		_display->window->draw_text(name_text,
 			(*_display->layout)["character_create_stage_1:name_candidate"], display_name, lerp);
 		_display->window->draw_text(summary_text,

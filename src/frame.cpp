@@ -243,7 +243,7 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type, const unsigned 
 	_rtexture.create(texture_size.x, texture_size.y);
 
 	// Render the background
-	const unsigned int border{[&] {
+	const auto border{[&] {
 		if (_type == WindowFrameType::NORMAL)
 			return 10u;
 		else if (_type == WindowFrameType::HINT)
@@ -259,7 +259,7 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type, const unsigned 
 	_rtexture.draw(rectangle);
 
 	// Draw the Corners of the Frame
-	const unsigned int offset{[&] {
+	const auto offset{[&] {
 		if (_type == WindowFrameType::NORMAL)
 			return 20u;
 		else if (_type == WindowFrameType::HINT)

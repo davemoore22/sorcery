@@ -217,7 +217,7 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 		std::string caption{control.first};
 		sf::Sprite image{control.second};
 
-		sf::Text text;
+		sf::Text text{};
 		text.setFont(_system->resources->fonts[text_c.font]);
 		text.setCharacterSize(text_c.size);
 		text.setFillColor(sf::Color(text_c.colour));
@@ -240,10 +240,10 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 
 auto Sorcery::ControlOverlay::_get_control_gfx(WindowInputCategory input) -> sf::Sprite {
 
-	constexpr unsigned int row_height{100};
-	const unsigned int row_width{_control_texture.getSize().x};
-	const unsigned int y{static_cast<unsigned int>(input) * row_height};
-	auto const crect{sf::IntRect(0, y, row_width, row_height)};
+	constexpr auto row_height{100u};
+	const auto row_width{_control_texture.getSize().x};
+	const auto y{static_cast<unsigned int>(input) * row_height};
+	const auto crect{sf::IntRect(0, y, row_width, row_height)};
 
 	sf::Sprite control(_control_texture);
 	control.setTextureRect(crect);

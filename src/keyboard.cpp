@@ -44,7 +44,7 @@ Sorcery::Keyboard::Keyboard(System *system, Display *display, Graphics *graphics
 		std::stoi(_text_c["offset_x"].value()), std::stoi(_text_c["offset_y"].value()));
 	const sf::Vector2i spacing{
 		std::stoi(_text_c["spacing_x"].value()), std::stoi(_text_c["spacing_y"].value())};
-	const int max_col{std::stoi(_text_c["columns_per_row"].value())};
+	const auto max_col{std::stoi(_text_c["columns_per_row"].value())};
 
 	sf::Vector2i letter_pos{offset.x, offset.y};
 	int current_col{1};

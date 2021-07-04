@@ -218,7 +218,7 @@ auto Sorcery::ChangeName::_draw() -> void {
 
 	double lerp{_graphics->animation->colour_lerp};
 	std::string display_name{">" + _new_name + "_"};
-	sf::Text name_text;
+	sf::Text name_text{};
 	_display->window->draw_text(
 		name_text, (*_display->layout)["change_name:name_candidate"], display_name, lerp);
 

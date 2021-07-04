@@ -94,7 +94,7 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 	unsigned int y{_display->window->get_cell_height() * 1};
 	int index{0};
 	for (const auto &each_string : _strings) {
-		sf::Text text;
+		sf::Text text{};
 		text.setFont(_system->resources->fonts[_string_c.font]);
 		text.setCharacterSize(_string_c.size);
 		text.setFillColor(sf::Color(_string_c.colour));
@@ -119,13 +119,13 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 
 	// Add the additional option texts/menu
 	y = _display->window->get_cell_height() * (1 + static_cast<unsigned int>(_strings.size()) + 1);
-	const unsigned int centre_x{(_frame_c.w * _display->window->get_cell_width()) / 2};
+	const auto centre_x{(_frame_c.w * _display->window->get_cell_width()) / 2};
 
 	switch (_type) {
 	case WindowDialogType::OK: {
-		const unsigned int ok_x{((centre_x - (_display->window->get_cell_width() * 2))) +
-								(_display->window->get_cell_width() * 2)};
-		sf::Text ok_text;
+		const auto ok_x{((centre_x - (_display->window->get_cell_width() * 2))) +
+						(_display->window->get_cell_width() * 2)};
+		sf::Text ok_text{};
 		ok_text.setFont(_system->resources->fonts[_buttons_c.font]);
 		ok_text.setCharacterSize(_buttons_c.size);
 		ok_text.setFillColor(sf::Color(_buttons_c.colour));
@@ -149,8 +149,8 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 
 	} break;
 	case WindowDialogType::CONFIRM: {
-		const unsigned int yes_x{(centre_x - (_display->window->get_cell_width() * 4))};
-		sf::Text yes_text;
+		const auto yes_x{(centre_x - (_display->window->get_cell_width() * 4))};
+		sf::Text yes_text{};
 		yes_text.setFont(_system->resources->fonts[_buttons_c.font]);
 		yes_text.setCharacterSize(_buttons_c.size);
 		yes_text.setFillColor(sf::Color(_buttons_c.colour));
@@ -174,8 +174,8 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 
 		_highlights[WindowDialogButton::YES] = yes_text_bg;
 
-		const unsigned int no_x{centre_x + (_display->window->get_cell_width() * 2)};
-		sf::Text no_text;
+		const auto no_x{centre_x + (_display->window->get_cell_width() * 2)};
+		sf::Text no_text{};
 		no_text.setFont(_system->resources->fonts[_buttons_c.font]);
 		no_text.setCharacterSize(_buttons_c.size);
 		no_text.setFillColor(sf::Color(_buttons_c.colour));

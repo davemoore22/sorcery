@@ -55,7 +55,7 @@ Sorcery::Confirm::Confirm(
 	unsigned int y{_gui_c.y + _display->window->get_cell_height() * 2};
 	int index{0};
 	for (const auto &each_string : _strings) {
-		sf::Text text;
+		sf::Text text{};
 		text.setFont(_system->resources->fonts[_text_c.font]);
 		text.setCharacterSize(_text_c.size);
 		text.setFillColor(sf::Color(_text_c.colour));
@@ -120,17 +120,15 @@ auto Sorcery::Confirm::draw(const double lerp) -> void {
 	_window->draw(*_frame);
 
 	// Display Confirmation Message
-	// sf::Text text{};
-	//_display->window->draw_text(text, _text_c);
-
 	for (const auto &text : _texts)
 		_window->draw(text);
 
 	// Draw Yes / No (and highlight them depending on which one chosen)
-	const unsigned int yes_no_y{_text_c.y + (_display->window->get_cell_height() * 2)};
-	const unsigned int yes_x{_display->window->centre.x - (_display->window->get_cell_width() * 4)};
-	const unsigned int no_x{_display->window->centre.x + (_display->window->get_cell_width() * 2)};
+	const auto yes_no_y{_text_c.y + (_display->window->get_cell_height() * 2)};
+	const auto yes_x{_display->window->centre.x - (_display->window->get_cell_width() * 4)};
+	const auto no_x{_display->window->centre.x + (_display->window->get_cell_width() * 2)};
 
+	// And the Buttons
 	_yes_text.setFont(_system->resources->fonts[_text_c.font]);
 	_yes_text.setCharacterSize(_text_c.size);
 	_yes_text.setFillColor(sf::Color(_text_c.colour));

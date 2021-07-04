@@ -173,7 +173,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 
 							if (_mode == RosterMode::INSPECT) {
 
-								const unsigned int character_chosen{(*selected.value()).index};
+								const auto character_chosen{(*selected.value()).index};
 								_current_character = &_game->characters.at(character_chosen);
 								if (_current_character) {
 									_display->set_input_mode(WindowInputMode::BROWSE_CHARACTER);
@@ -181,7 +181,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 								}
 							} else if (_mode == RosterMode::DELETE) {
 
-								const unsigned int character_chosen{(*selected.value()).index};
+								const auto character_chosen{(*selected.value()).index};
 								_current_character = &_game->characters.at(character_chosen);
 								if (_current_character) {
 									_display->set_input_mode(
@@ -189,7 +189,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 								}
 							} else if (_mode == RosterMode::EDIT) {
 
-								const unsigned int character_chosen{(*selected.value()).index};
+								const auto character_chosen{(*selected.value()).index};
 								_edit->start(character_chosen);
 								_edit->stop();
 								_menu->reload();

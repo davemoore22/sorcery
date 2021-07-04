@@ -635,8 +635,8 @@ auto Sorcery::Menu::generate(Component &component) -> void {
 		const sf::Vector2f global_pos(component.x, component.y);
 
 		// Work out total size of texture needed
-		const unsigned int texture_w{component.w * _display->window->get_cell_width()};
-		const unsigned int texture_h{component.h * _display->window->get_cell_height()};
+		const auto texture_w{component.w * _display->window->get_cell_width()};
+		const auto texture_h{component.h * _display->window->get_cell_height()};
 		const sf::Vector2f texture_size(texture_w, texture_h);
 		_rtexture.create(texture_size.x, texture_size.y);
 
@@ -651,7 +651,7 @@ auto Sorcery::Menu::generate(Component &component) -> void {
 			if ((item.type == MenuItemType::TEXT) || (item.type == MenuItemType::ENTRY) ||
 				(item.type == MenuItemType::SAVE) || (item.type == MenuItemType::CANCEL)) {
 				const std::string text_string{item.key};
-				sf::Text text;
+				sf::Text text{};
 				text.setFont(_system->resources->fonts[component.font]);
 				text.setCharacterSize(component.size);
 				if (item.enabled)
