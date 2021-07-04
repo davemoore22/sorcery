@@ -89,13 +89,13 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 					auto image{icon.value()};
 
 					// Check for Offsets
-					const int offset_x{[&] {
+					const auto offset_x{[&] {
 						if (component["offset_x"])
 							return std::stoi(component["offset_x"].value());
 						else
 							return 0;
 					}()};
-					const int offset_y{[&] {
+					const auto offset_y{[&] {
 						if (component["offset_y"])
 							return std::stoi(component["offset_y"].value());
 						else
@@ -167,13 +167,13 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 					}
 
 					// Check for Offsets
-					const int offset_x{[&] {
+					const auto offset_x{[&] {
 						if (component["offset_x"])
 							return std::stoi(component["offset_x"].value());
 						else
 							return 0;
 					}()};
-					const int offset_y{[&] {
+					const auto offset_y{[&] {
 						if (component["offset_y"])
 							return std::stoi(component["offset_y"].value());
 						else
@@ -197,13 +197,13 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 						component.background, component.alpha);
 
 				// Check for Offsets
-				const int offset_x{[&] {
+				const auto offset_x{[&] {
 					if (component["offset_x"])
 						return std::stoi(component["offset_x"].value());
 					else
 						return 0;
 				}()};
-				const int offset_y{[&] {
+				const auto offset_y{[&] {
 					if (component["offset_y"])
 						return std::stoi(component["offset_y"].value());
 					else
@@ -215,7 +215,7 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 				frames.emplace(std::make_pair(component.unique_key, std::move(frame)));
 			} else if (component.type == ComponentType::TEXT) {
 
-				sf::Text text;
+				sf::Text text{};
 				int x{0};
 				int y{0};
 
@@ -227,13 +227,13 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 				y = component.y == -1 ? window->centre.y : component.y;
 
 				// Check for Offsets
-				const int offset_x{[&] {
+				const auto offset_x{[&] {
 					if (component["offset_x"])
 						return std::stoi(component["offset_x"].value());
 					else
 						return 0;
 				}()};
-				const int offset_y{[&] {
+				const auto offset_y{[&] {
 					if (component["offset_y"])
 						return std::stoi(component["offset_y"].value());
 					else
