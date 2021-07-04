@@ -65,28 +65,28 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	portrait.setScale(p_c.scale, p_c.scale);
 	_portrait = portrait;
 
-	auto class_icon = _character->get_icon(CharacterStage::CHOOSE_CLASS).value();
+	auto class_icon{_character->get_icon(CharacterStage::CHOOSE_CLASS).value()};
 	_display->window->set_position_with_offset(
 		&((*_display->layout)["character_panel:class_icon"]), &class_icon);
 	class_icon.setScale((*_display->layout)["character_panel:class_icon"].scale,
 		(*_display->layout)["character_panel:class_icon"].scale);
 	_icons.push_back(class_icon);
 
-	auto race_icon = _character->get_icon(CharacterStage::CHOOSE_RACE).value();
+	auto race_icon{_character->get_icon(CharacterStage::CHOOSE_RACE).value()};
 	_display->window->set_position_with_offset(
 		&((*_display->layout)["character_panel:race_icon"]), &race_icon);
 	race_icon.setScale((*_display->layout)["character_panel:race_icon"].scale,
 		(*_display->layout)["character_panel:race_icon"].scale);
 	_icons.push_back(race_icon);
 
-	auto alignment_icon = _character->get_icon(CharacterStage::CHOOSE_ALIGNMENT).value();
+	auto alignment_icon{_character->get_icon(CharacterStage::CHOOSE_ALIGNMENT).value()};
 	_display->window->set_position_with_offset(
 		&((*_display->layout)["character_panel:alignment_icon"]), &alignment_icon);
 	alignment_icon.setScale((*_display->layout)["character_panel:alignment_icon"].scale,
 		(*_display->layout)["character_panel:alignment_icon"].scale);
 	_icons.push_back(alignment_icon);
 
-	auto level_icon = (*_graphics->icons)["level"].value();
+	auto level_icon{(*_graphics->icons)["level"].value()};
 	_display->window->set_position_with_offset(
 		&((*_display->layout)["character_panel:level_icon"]), &level_icon);
 	level_icon.setScale((*_display->layout)["character_panel:level_icon"].scale,

@@ -38,7 +38,7 @@ Sorcery::Confirm::Confirm(
 	// Wrap the display lines
 	unsigned int chunk_size{_gui_c.w};
 	std::string string{(*_display->string)[_text_c.string_key]};
-	std::string wrapped_text = WORDWRAP(string, chunk_size);
+	std::string wrapped_text{WORDWRAP(string, chunk_size)};
 
 	// Split the display lines into a vector
 	const std::regex regex(R"([@]+)");

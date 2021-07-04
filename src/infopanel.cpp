@@ -44,6 +44,7 @@ auto Sorcery::InfoPanel::set_icon(const std::string &string) -> void {
 		_icon = sf::Sprite();
 
 	_icon.setPosition(0, 16);
+	_icon.setColor(sf::Color(std::stoull(_layout["icon_colour"].value(), 0, 16)));
 }
 
 auto Sorcery::InfoPanel::set_icon(const MenuItem menu_item) -> void {
@@ -54,7 +55,7 @@ auto Sorcery::InfoPanel::set_icon(const MenuItem menu_item) -> void {
 		_icon = sf::Sprite();
 
 	_icon.setPosition(0, 16);
-	_icon.setColor(sf::Color(0xffffffff));
+	_icon.setColor(sf::Color(std::stoull(_layout["icon_colour"].value(), 0, 16)));
 }
 
 // Set the Text
@@ -86,7 +87,7 @@ auto Sorcery::InfoPanel::set_text(const std::string &string) -> void {
 		sf::Text text;
 		text.setFont(_system->resources->fonts[_layout.font]);
 		text.setCharacterSize(_layout.size);
-		text.setFillColor(sf::Color(_layout.colour));
+		text.setFillColor(sf::Color(std::stoull(_layout["text_colour"].value(), 0, 16)));
 		text.setString(each_string);
 		text.setPosition(x, 18 + y * 24);
 		++y;

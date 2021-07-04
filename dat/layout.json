@@ -16,12 +16,18 @@
 		{
 			"name": "info_panel",
 			"font": "text",
-			"colour": "0xdddddddff",
+			"colour": "0xddddddff",
 			"size": "24",
 			"alpha": "255",
 			"type": "panel",
 			"drawmode": "manual",
-			"w": "54"
+			"w": "54",
+			"data": [
+				{
+					"icon_colour": "0x60609Fff",
+					"text_colour": "0xddddddff"
+				}
+			]
 		},
 		{
 			"name": "spell_panel",
@@ -92,7 +98,7 @@
 			"size": "128",
 			"type": "icon",
 			"drawmode": "manual",
-			"colour": "0xffffffff"
+			"colour": "0xba55d3ff"
 		},
 		{
 			"name": "frame",
@@ -112,7 +118,7 @@
 					"step": "0.00625"
 				}
 			]
-				}
+		}
 		]
 	},
 	{
