@@ -132,7 +132,7 @@ Sorcery::Error::Error(
 		tr.load_stacktrace(st);
 
 		for (size_t i = 0; i < st.size(); ++i) {
-			backward::ResolvedTrace trace = tr.resolve(st[i]);
+			backward::ResolvedTrace trace{tr.resolve(st[i])};
 
 			info_e->addText(fmt::format(
 				"#{} {} {} [{}]\n", i, trace.object_filename, trace.object_function, trace.addr));
@@ -141,7 +141,7 @@ Sorcery::Error::Error(
 	} else {
 
 		// Split the display lines
-		std::string wrapped_notes = WORDWRAP(_details[4], 80);
+		std::string wrapped_notes{WORDWRAP(_details[4], 80)};
 		const std::regex regex(R"([@]+)");
 		std::sregex_token_iterator it{wrapped_notes.begin(), wrapped_notes.end(), regex, -1};
 		std::vector<std::string> lines{it, {}};

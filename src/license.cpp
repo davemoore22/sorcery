@@ -142,12 +142,12 @@ auto Sorcery::License::_display_file_contents() -> void {
 	const int top_y{text_c.y};
 
 	// Check for approaching end of file
-	const unsigned int end_line = [&] {
+	const unsigned int end_line{[&] {
 		if (_current_line < (_textfile->size() - lines_to_display))
 			return static_cast<unsigned int>(_current_line + lines_to_display);
 		else
 			return static_cast<unsigned int>(_textfile->size());
-	}();
+	}()};
 
 	// File Contents
 	for (auto y = _current_line; y < end_line; ++y) {

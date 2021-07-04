@@ -243,7 +243,7 @@ auto Sorcery::ControlOverlay::_get_control_gfx(WindowInputCategory input) -> sf:
 	constexpr unsigned int row_height{100};
 	const unsigned int row_width{_control_texture.getSize().x};
 	const unsigned int y{static_cast<unsigned int>(input) * row_height};
-	auto const crect = sf::IntRect(0, y, row_width, row_height);
+	auto const crect{sf::IntRect(0, y, row_width, row_height)};
 
 	sf::Sprite control(_control_texture);
 	control.setTextureRect(crect);

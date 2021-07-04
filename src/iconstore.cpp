@@ -48,15 +48,15 @@ Sorcery::IconStore::IconStore(
 // Overload [] Operator
 auto Sorcery::IconStore::operator[](const std::string &key) -> std::optional<sf::Sprite> {
 
-	auto sprite = get(key);
-	auto copy = sprite;
+	auto sprite{get(key)};
+	auto copy{sprite};
 	return copy;
 }
 
 auto Sorcery::IconStore::operator[](const MenuItem key) -> std::optional<sf::Sprite> {
 
-	auto sprite = get(key);
-	auto copy = sprite;
+	auto sprite{get(key)};
+	auto copy{sprite};
 	return copy;
 }
 
@@ -111,17 +111,17 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 				std::string menu_item_s{icons[i]["menu_item"].asString()};
 				std::string key{icons[i]["key"].asString()};
 				std::string colour_hex{icons[i]["colour"].asString()};
-				sf::Color colour = [&] {
+				sf::Color colour{[&] {
 					if (colour_hex.length() == 0)
 						return sf::Color(_layout.colour);
 					else
 						return sf::Color(std::stoul(colour_hex, 0, 16));
-				}();
+				}()};
 				MenuItem menu_item{MenuItem::NONE};
 
 				// Use Magic Enum Library Reflection to convert the string to the type if we have an
 				// associated menu item for the icon (which is used in an info panel beneath a menu)
-				auto item_t = magic_enum::enum_cast<Sorcery::Enums::Menu::Item>(menu_item_s);
+				auto item_t{magic_enum::enum_cast<Sorcery::Enums::Menu::Item>(menu_item_s)};
 				if (item_t.has_value())
 					menu_item = item_t.value();
 
@@ -134,7 +134,7 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 				}
 
 				// Now work out the Corresponding Sprite in all cases and add it
-				sf::IntRect sprite_r = _get_rect(icon.index);
+				sf::IntRect sprite_r{_get_rect(icon.index)};
 				sf::Sprite sprite(_texture);
 				sprite.setTextureRect(sprite_r);
 				sprite.setScale(_scale);

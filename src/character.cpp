@@ -2537,18 +2537,18 @@ auto Sorcery::Character::_generate_display() -> void {
 		auto portrait{_get_character_portrait()};
 		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
 		portrait.setScale(portrait_c.scale, portrait_c.scale);
-		const int offset_x = [&] {
+		const int offset_x{[&] {
 			if (portrait_c["offset_x"])
 				return std::stoi(portrait_c["offset_x"].value());
 			else
 				return 0;
-		}();
-		const int offset_y = [&] {
+		}()};
+		const int offset_y{[&] {
 			if (portrait_c["offset_y"])
 				return std::stoi(portrait_c["offset_y"].value());
 			else
 				return 0;
-		}();
+		}()};
 		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
 		_v_sprites.emplace(portrait_c.unique_key, portrait);
 
@@ -3004,18 +3004,18 @@ auto Sorcery::Character::_generate_display() -> void {
 		auto portrait{_get_character_portrait()};
 		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
 		portrait.setScale(portrait_c.scale, portrait_c.scale);
-		const int offset_x = [&] {
+		const int offset_x{[&] {
 			if (portrait_c["offset_x"])
 				return std::stoi(portrait_c["offset_x"].value());
 			else
 				return 0;
-		}();
-		const int offset_y = [&] {
+		}()};
+		const int offset_y{[&] {
 			if (portrait_c["offset_y"])
 				return std::stoi(portrait_c["offset_y"].value());
 			else
 				return 0;
-		}();
+		}()};
 		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
 		_v_sprites.emplace(portrait_c.unique_key, portrait);
 

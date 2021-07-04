@@ -133,7 +133,7 @@ auto Sorcery::Create::_do_event_loop() -> std::optional<ModuleResult> {
 		while (_window->pollEvent(event)) {
 
 			// See what happens
-			auto const module_result = _handle_input(event);
+			auto const module_result{_handle_input(event)};
 			if (module_result) {
 				if (module_result.value() == ModuleResult::CLOSE)
 					return ModuleResult::CLOSE;
@@ -615,7 +615,7 @@ auto Sorcery::Create::_handle_choose_class(const sf::Event &event) -> std::optio
 auto Sorcery::Create::_handle_choose_potraits(const sf::Event &event)
 	-> std::optional<ModuleResult> {
 
-	unsigned int index = _candidate.get_portrait_index();
+	unsigned int index{_candidate.get_portrait_index()};
 	if (_system->input->check_for_event(WindowInput::BACK, event))
 		return ModuleResult::BACK;
 	else if (_system->input->check_for_event(WindowInput::DELETE, event))
@@ -737,7 +737,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			// Don't do anything special here - handled in the calling function
 			break;
 		case CharacterStage::ENTER_NAME: {
-			auto popped = _stages.back();
+			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::CHOOSE_METHOD);
 			_display->generate_components("choose_method", _sprites, _texts, _frames);
@@ -747,7 +747,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 		} break;
 		case CharacterStage::CHOOSE_RACE: {
-			auto popped = _stages.back();
+			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::ENTER_NAME);
 			_display->generate_components("character_create_stage_1", _sprites, _texts, _frames);
@@ -755,7 +755,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_display->set_input_mode(WindowInputMode::INPUT_NAME);
 		} break;
 		case CharacterStage::CHOOSE_ALIGNMENT: {
-			auto popped = _stages.back();
+			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::CHOOSE_RACE);
 			_display->generate_components("character_create_stage_2", _sprites, _texts, _frames);
@@ -765,7 +765,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 		} break;
 		case CharacterStage::ALLOCATE_STATS: {
-			auto popped = _stages.back();
+			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::CHOOSE_ALIGNMENT);
 			_display->generate_components("character_create_stage_3", _sprites, _texts, _frames);
@@ -776,7 +776,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_ap->valid = false;
 		} break;
 		case CharacterStage::CHOOSE_CLASS: {
-			auto popped = _stages.back();
+			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::ALLOCATE_STATS);
 			_display->generate_components("character_create_stage_4", _sprites, _texts, _frames);
@@ -787,7 +787,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_set_info_panel_contents(_attribute_menu->selected);
 		} break;
 		case CharacterStage::CHOOSE_PORTRAIT: {
-			auto popped = _stages.back();
+			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::CHOOSE_CLASS);
 			_display->generate_components("character_create_stage_5", _sprites, _texts, _frames);
@@ -799,7 +799,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_ap->valid = false;
 		} break;
 		case CharacterStage::REVIEW_AND_CONFIRM: {
-			auto popped = _stages.back();
+			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::CHOOSE_PORTRAIT);
 			_display->generate_components("character_create_stage_6", _sprites, _texts, _frames);
@@ -829,7 +829,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			// Don't do anything special here
 			break;
 		case CharacterStage::ENTER_NAME: {
-			auto popped = _stages.back();
+			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::CHOOSE_METHOD);
 			_display->generate_components("choose_method", _sprites, _texts, _frames);
@@ -839,7 +839,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_set_info_panel_contents(_method_menu->selected);
 		} break;
 		case CharacterStage::CHOOSE_PORTRAIT: {
-			auto popped = _stages.back();
+			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::ENTER_NAME);
 			_display->generate_components("character_create_stage_1", _sprites, _texts, _frames);
@@ -848,7 +848,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_ap->valid = false;
 		} break;
 		case CharacterStage::REVIEW_AND_CONFIRM: {
-			auto popped = _stages.back();
+			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::CHOOSE_PORTRAIT);
 			_display->generate_components("character_create_stage_6", _sprites, _texts, _frames);
@@ -1138,7 +1138,7 @@ auto Sorcery::Create::_draw() -> void {
 
 		_display->display_components("character_create_stage_6", _sprites, _texts, _frames);
 
-		sf::Sprite portrait = _get_character_portrait(_candidate.get_portrait_index()).value();
+		sf::Sprite portrait{_get_character_portrait(_candidate.get_portrait_index()).value()};
 		portrait.setPosition((*_display->layout)["character_create_stage_6:current_portrait"].x,
 			(*_display->layout)["character_create_stage_6:current_portrait"].y);
 		portrait.setScale((*_display->layout)["character_create_stage_6:current_portrait"].scale,
@@ -1191,7 +1191,7 @@ auto Sorcery::Create::_get_character_portrait(const unsigned int index)
 	// Workout the location of the potrait on the texture, noting that the potraits are all
 	// square and are 600x600 pixels in size arranged in a grid of 6 by 5
 	sf::Vector2u top_left{(index % 6) * 600, (index / 6) * 600};
-	sf::IntRect rect = sf::IntRect(top_left.x, top_left.y, 600, 600);
+	sf::IntRect rect{sf::IntRect(top_left.x, top_left.y, 600, 600)};
 
 	// Grab the associated part of the texture and return it
 	sf::Sprite portrait(_system->resources->textures[GraphicsTexture::PORTRAITS]);

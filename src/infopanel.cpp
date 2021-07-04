@@ -68,7 +68,7 @@ auto Sorcery::InfoPanel::set_text(const std::string &string) -> void {
 
 	// Wrap the display lines
 	unsigned int chunk_size{_layout.w};
-	std::string wrapped_text = WORDWRAP(string, chunk_size);
+	std::string wrapped_text{WORDWRAP(string, chunk_size)};
 
 	// Split the display lines into a vector
 	const std::regex regex(R"([@]+)");

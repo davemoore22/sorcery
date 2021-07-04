@@ -352,12 +352,12 @@ auto Sorcery::Menu::_add_item(const int index, const MenuItemType itemtype, cons
 auto Sorcery::Menu::_select_first_enabled()
 	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
-	auto it = std::find_if(items.begin(), items.end(), [&](const auto &menu_item) {
+	auto it{std::find_if(items.begin(), items.end(), [&](const auto &menu_item) {
 		return (
 			((menu_item.type == MenuItemType::ENTRY) || (menu_item.type == MenuItemType::SAVE) ||
 				(menu_item.type == MenuItemType::CANCEL)) &&
 			(menu_item.enabled));
-	});
+	})};
 
 	if (it != items.end()) {
 		selected = it;
@@ -393,9 +393,9 @@ auto Sorcery::Menu::check_menu_mouseover(sf::Vector2f mouse_pos)
 		// index, since both containers track each other
 		const sf::Vector2f global_pos{this->getPosition()};
 		mouse_pos -= global_pos;
-		auto it = std::find_if(bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) {
+		auto it{std::find_if(bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) {
 			return item.contains(mouse_pos);
-		});
+		})};
 		if (it != bounds.end()) {
 			auto dist{std::distance(bounds.begin(), it)};
 			return items.begin() + dist;
@@ -418,9 +418,9 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
 		// with the same index, since both containers track each other
 		const sf::Vector2f global_pos{this->getPosition()};
 		mouse_pos -= global_pos;
-		auto it = std::find_if(bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) {
+		auto it{std::find_if(bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) {
 			return item.contains(mouse_pos);
-		});
+		})};
 		if (it != bounds.end()) {
 			auto dist{std::distance(bounds.begin(), it)};
 			auto candidate{items.begin() + dist};
@@ -530,9 +530,9 @@ auto Sorcery::Menu::choose(std::any option)
 		break;
 	}
 
-	auto it = std::find_if(items.begin(), items.end(), [&](const auto &item) {
+	auto it{std::find_if(items.begin(), items.end(), [&](const auto &item) {
 		return item.item == search_for;
-	});
+	})};
 	if (it != items.end()) {
 		selected = it;
 		return selected;
@@ -545,9 +545,9 @@ auto Sorcery::Menu::choose(const unsigned int index)
 	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	// Iterate through til we have found the item with the associated index
-	auto it = std::find_if(items.begin(), items.end(), [&](const auto &item) {
+	auto it{std::find_if(items.begin(), items.end(), [&](const auto &item) {
 		return item.index == index;
-	});
+	})};
 
 	if (it != items.end())
 		return it;

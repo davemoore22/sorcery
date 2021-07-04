@@ -324,7 +324,7 @@ auto Sorcery::Keyboard::set_mouse_selected(Component &component, sf::Vector2f mo
 
 	// TODO: for all drawables, pass its position in in the constructor
 	for (auto &[key, text] : _texts) {
-		sf::Rect text_area = text.getGlobalBounds();
+		sf::Rect text_area{text.getGlobalBounds()};
 		text_area.left += component.x;
 		text_area.top += component.y;
 		if (text_area.contains(mouse_pos))

@@ -89,18 +89,18 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 					auto image{icon.value()};
 
 					// Check for Offsets
-					const int offset_x = [&] {
+					const int offset_x{[&] {
 						if (component["offset_x"])
 							return std::stoi(component["offset_x"].value());
 						else
 							return 0;
-					}();
-					const int offset_y = [&] {
+					}()};
+					const int offset_y{[&] {
 						if (component["offset_y"])
 							return std::stoi(component["offset_y"].value());
 						else
 							return 0;
-					}();
+					}()};
 					image.setPosition(component.x + offset_x, component.y + offset_y);
 					image.setScale(component.scale, component.scale);
 
@@ -167,18 +167,18 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 					}
 
 					// Check for Offsets
-					const int offset_x = [&] {
+					const int offset_x{[&] {
 						if (component["offset_x"])
 							return std::stoi(component["offset_x"].value());
 						else
 							return 0;
-					}();
-					const int offset_y = [&] {
+					}()};
+					const int offset_y{[&] {
 						if (component["offset_y"])
 							return std::stoi(component["offset_y"].value());
 						else
 							return 0;
-					}();
+					}()};
 
 					// Set the image position
 					const sf::Vector2f image_pos(window->get_x(image, component.x + offset_x),
@@ -197,18 +197,18 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 						component.background, component.alpha);
 
 				// Check for Offsets
-				const int offset_x = [&] {
+				const int offset_x{[&] {
 					if (component["offset_x"])
 						return std::stoi(component["offset_x"].value());
 					else
 						return 0;
-				}();
-				const int offset_y = [&] {
+				}()};
+				const int offset_y{[&] {
 					if (component["offset_y"])
 						return std::stoi(component["offset_y"].value());
 					else
 						return 0;
-				}();
+				}()};
 
 				frame->setPosition(window->get_x(frame->sprite, component.x) + offset_x,
 					window->get_y(frame->sprite, component.y) + offset_y);
@@ -227,18 +227,18 @@ auto Sorcery::Display::generate_components(const std::string &screen,
 				y = component.y == -1 ? window->centre.y : component.y;
 
 				// Check for Offsets
-				const int offset_x = [&] {
+				const int offset_x{[&] {
 					if (component["offset_x"])
 						return std::stoi(component["offset_x"].value());
 					else
 						return 0;
-				}();
-				const int offset_y = [&] {
+				}()};
+				const int offset_y{[&] {
 					if (component["offset_y"])
 						return std::stoi(component["offset_y"].value());
 					else
 						return 0;
-				}();
+				}()};
 
 				if (component.justification == Justification::CENTRE) {
 					text.setPosition(x + offset_x, y + offset_y);
