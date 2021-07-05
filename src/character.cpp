@@ -27,7 +27,8 @@
 Sorcery::Character::Character() {}
 
 // Standard Constructor
-Sorcery::Character::Character(System *system, Display *display, Graphics *graphics)
+Sorcery::Character::Character(
+	System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	set_stage(CharacterStage::CHOOSE_METHOD);
@@ -49,24 +50,27 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 	set_status(CharacterStatus::OK);
 
 	_spell_panel = std::make_shared<SpellPanel>(_system, _display, _graphics);
-	_spell_panel->setPosition(
-		(*_display->layout)["global:spell_panel"].x, (*_display->layout)["global:spell_panel"].y);
+	_spell_panel->setPosition((*_display->layout)["global:spell_panel"].x,
+		(*_display->layout)["global:spell_panel"].y);
 }
 
 // Note for the copy constuctors we only copy the character data/PODs within
 Sorcery::Character::Character(const Character &other)
-	: _system{other._system}, _display{other._display}, _graphics{other._graphics},
-	  _abilities{other._abilities}, _priest_max_sp{other._priest_max_sp},
+	: _system{other._system}, _display{other._display},
+	  _graphics{other._graphics}, _abilities{other._abilities},
+	  _priest_max_sp{other._priest_max_sp},
 	  _priest_cur_sp{other._priest_cur_sp}, _mage_max_sp{other._mage_max_sp},
-	  _mage_cur_sp{other._mage_cur_sp}, _spells{other._spells}, _spells_known{other._spells_known},
-	  _current_stage{other._current_stage}, _name{other._name}, _race{other._race},
-	  _class{other._class}, _alignment{other._alignment}, _start_attr{other._start_attr},
-	  _cur_attr{other._cur_attr}, _max_attr{other._max_attr}, _view{other._view},
-	  _points_left{other._points_left}, _st_points{other._st_points},
-	  _pos_classes{other._pos_classes}, _class_list{other._class_list},
-	  _num_pos_classes{other._num_pos_classes},
-	  _portrait_index{other._portrait_index}, _status{other._status}, _hidden{other._hidden},
-	  _hl_mage_spell{other._hl_mage_spell}, _hl_priest_spell{other._hl_priest_spell} {
+	  _mage_cur_sp{other._mage_cur_sp}, _spells{other._spells},
+	  _spells_known{other._spells_known}, _current_stage{other._current_stage},
+	  _name{other._name}, _race{other._race}, _class{other._class},
+	  _alignment{other._alignment}, _start_attr{other._start_attr},
+	  _cur_attr{other._cur_attr}, _max_attr{other._max_attr},
+	  _view{other._view}, _points_left{other._points_left},
+	  _st_points{other._st_points}, _pos_classes{other._pos_classes},
+	  _class_list{other._class_list}, _num_pos_classes{other._num_pos_classes},
+	  _portrait_index{other._portrait_index}, _status{other._status},
+	  _hidden{other._hidden}, _hl_mage_spell{other._hl_mage_spell},
+	  _hl_priest_spell{other._hl_priest_spell} {
 
 	_sprites = other._sprites;
 	_texts = other._texts;
@@ -365,7 +369,7 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 		_mage_max_sp.clear();
 		_mage_cur_sp.clear();
 		_spells.clear();
-		create_spell_lists();
+		create_spells();
 		reset_spells();
 		_view = CharacterView::NONE;
 		break;
@@ -414,12 +418,13 @@ auto Sorcery::Character::get_alignment() const -> CharacterAlignment {
 
 	return _alignment;
 }
-auto Sorcery::Character::set_alignment(const CharacterAlignment &value) -> void {
+auto Sorcery::Character::set_alignment(const CharacterAlignment &value)
+	-> void {
 
 	_alignment = value;
 }
 
-auto Sorcery::Character::get_number_possible_classes() const -> unsigned int {
+auto Sorcery::Character::get_num_pos_class() const -> unsigned int {
 	return _num_pos_classes;
 }
 
@@ -432,38 +437,39 @@ auto Sorcery::Character::set_class(const CharacterClass &value) -> void {
 	_class = value;
 }
 
-auto Sorcery::Character::get_bonus_points_to_allocate() const -> unsigned int {
+auto Sorcery::Character::get_points_left() const -> unsigned int {
 
 	return _points_left;
 }
 
-auto Sorcery::Character::set_bonus_points_to_allocate(const unsigned int &value) -> void {
+auto Sorcery::Character::set_points_left(const unsigned int &value) -> void {
 
 	_points_left = value;
 }
 
-auto Sorcery::Character::get_starting_bonus_points() const -> unsigned int {
+auto Sorcery::Character::get_start_points() const -> unsigned int {
 
 	return _st_points;
 }
-auto Sorcery::Character::set_starting_bonus_points(const unsigned int &value) -> void {
+auto Sorcery::Character::set_start_points(const unsigned int &value) -> void {
 
 	_st_points = value;
 }
 
-auto Sorcery::Character::get_attribute(const CharacterAttribute attribute) const -> unsigned int {
+auto Sorcery::Character::get_cur_attr(const CharacterAttribute attribute) const
+	-> unsigned int {
 
 	return _cur_attr.at(attribute);
 }
 
-auto Sorcery::Character::get_starting_attribute(const CharacterAttribute attribute) const
-	-> unsigned int {
+auto Sorcery::Character::get_start_attr(
+	const CharacterAttribute attribute) const -> unsigned int {
 
 	return _start_attr.at(attribute);
 }
 
-auto Sorcery::Character::set_attribute(const CharacterAttribute attribute, const int adjustment)
-	-> void {
+auto Sorcery::Character::set_cur_attr(
+	const CharacterAttribute attribute, const int adjustment) -> void {
 
 	_cur_attr.at(attribute) += adjustment;
 }
@@ -478,7 +484,7 @@ auto Sorcery::Character::set_portrait_index(const unsigned int value) -> void {
 	_portrait_index = value;
 }
 
-auto Sorcery::Character::inc_highlighted_spell(SpellType type) -> void {
+auto Sorcery::Character::inc_hl_spell(SpellType type) -> void {
 
 	if (type == SpellType::MAGE) {
 		int index{magic_enum::enum_integer<SpellID>(_hl_mage_spell)};
@@ -497,7 +503,7 @@ auto Sorcery::Character::inc_highlighted_spell(SpellType type) -> void {
 	_generate_display();
 }
 
-auto Sorcery::Character::dec_highlighted_spell(SpellType type) -> void {
+auto Sorcery::Character::dec_hl_spell(SpellType type) -> void {
 
 	if (type == SpellType::MAGE) {
 		int index = magic_enum::enum_integer<SpellID>(_hl_mage_spell);
@@ -520,8 +526,10 @@ auto Sorcery::Character::dec_highlighted_spell(SpellType type) -> void {
 auto Sorcery::Character::left_view() -> void {
 
 	int view_index{magic_enum::enum_integer<CharacterView>(_view)};
-	if (view_index == magic_enum::enum_integer<CharacterView>(CharacterView::SUMMARY))
-		view_index = magic_enum::enum_integer<CharacterView>(CharacterView::INVENTORY);
+	if (view_index ==
+		magic_enum::enum_integer<CharacterView>(CharacterView::SUMMARY))
+		view_index =
+			magic_enum::enum_integer<CharacterView>(CharacterView::INVENTORY);
 	else
 		--view_index;
 	_view = magic_enum::enum_cast<CharacterView>(view_index).value();
@@ -532,8 +540,10 @@ auto Sorcery::Character::left_view() -> void {
 auto Sorcery::Character::right_view() -> void {
 
 	int view_index{magic_enum::enum_integer<CharacterView>(_view)};
-	if (view_index == magic_enum::enum_integer<CharacterView>(CharacterView::INVENTORY))
-		view_index = magic_enum::enum_integer<CharacterView>(CharacterView::SUMMARY);
+	if (view_index ==
+		magic_enum::enum_integer<CharacterView>(CharacterView::INVENTORY))
+		view_index =
+			magic_enum::enum_integer<CharacterView>(CharacterView::SUMMARY);
 	else
 		++view_index;
 	_view = magic_enum::enum_cast<CharacterView>(view_index).value();
@@ -541,34 +551,39 @@ auto Sorcery::Character::right_view() -> void {
 	_generate_display();
 }
 
-auto Sorcery::Character::set_starting_attributes() -> void {
+auto Sorcery::Character::set_start_attr() -> void {
 
 	_start_attr.clear();
 	_cur_attr.clear();
 	switch (_race) {
 	case CharacterRace::HUMAN:
-		_start_attr = {{CharacterAttribute::STRENGTH, 8}, {CharacterAttribute::IQ, 5},
-			{CharacterAttribute::PIETY, 5}, {CharacterAttribute::VITALITY, 8},
-			{CharacterAttribute::AGILITY, 8}, {CharacterAttribute::LUCK, 9}};
+		_start_attr = {{CharacterAttribute::STRENGTH, 8},
+			{CharacterAttribute::IQ, 5}, {CharacterAttribute::PIETY, 5},
+			{CharacterAttribute::VITALITY, 8}, {CharacterAttribute::AGILITY, 8},
+			{CharacterAttribute::LUCK, 9}};
 		break;
 	case CharacterRace::ELF:
-		_start_attr = {{CharacterAttribute::STRENGTH, 7}, {CharacterAttribute::IQ, 10},
-			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 6},
-			{CharacterAttribute::AGILITY, 9}, {CharacterAttribute::LUCK, 6}};
+		_start_attr = {{CharacterAttribute::STRENGTH, 7},
+			{CharacterAttribute::IQ, 10}, {CharacterAttribute::PIETY, 10},
+			{CharacterAttribute::VITALITY, 6}, {CharacterAttribute::AGILITY, 9},
+			{CharacterAttribute::LUCK, 6}};
 		break;
 	case CharacterRace::DWARF:
-		_start_attr = {{CharacterAttribute::STRENGTH, 10}, {CharacterAttribute::IQ, 7},
-			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 10},
+		_start_attr = {{CharacterAttribute::STRENGTH, 10},
+			{CharacterAttribute::IQ, 7}, {CharacterAttribute::PIETY, 10},
+			{CharacterAttribute::VITALITY, 10},
 			{CharacterAttribute::AGILITY, 5}, {CharacterAttribute::LUCK, 6}};
 		break;
 	case CharacterRace::GNOME:
-		_start_attr = {{CharacterAttribute::STRENGTH, 7}, {CharacterAttribute::IQ, 7},
-			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 8},
+		_start_attr = {{CharacterAttribute::STRENGTH, 7},
+			{CharacterAttribute::IQ, 7}, {CharacterAttribute::PIETY, 10},
+			{CharacterAttribute::VITALITY, 8},
 			{CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 7}};
 		break;
 	case CharacterRace::HOBBIT:
-		_start_attr = {{CharacterAttribute::STRENGTH, 5}, {CharacterAttribute::IQ, 7},
-			{CharacterAttribute::PIETY, 7}, {CharacterAttribute::VITALITY, 6},
+		_start_attr = {{CharacterAttribute::STRENGTH, 5},
+			{CharacterAttribute::IQ, 7}, {CharacterAttribute::PIETY, 7},
+			{CharacterAttribute::VITALITY, 6},
 			{CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 12}};
 		break;
 	default:
@@ -590,27 +605,29 @@ auto Sorcery::Character::set_starting_attributes() -> void {
 	_st_points = _points_left;
 }
 
-auto Sorcery::Character::get_current_attributes() const -> CharacterAttributes {
+auto Sorcery::Character::get_cur_attr() const -> CharacterAttributes {
 
 	return _cur_attr;
 }
 
-auto Sorcery::Character::get_starting_attributes() const -> CharacterAttributes {
+auto Sorcery::Character::get_start_attr() const -> CharacterAttributes {
 
 	return _start_attr;
 }
 
-auto Sorcery::Character::get_possible_classes() const -> CharacterClassQualified {
+auto Sorcery::Character::get_pos_class() const -> CharacterClassQualified {
 
 	return _pos_classes;
 }
 
-auto Sorcery::Character::get_icon(CharacterStage type) -> std::optional<sf::Sprite> {
+auto Sorcery::Character::get_icon(CharacterStage type)
+	-> std::optional<sf::Sprite> {
 
 	switch (type) {
 	case CharacterStage::CHOOSE_ALIGNMENT: {
 		std::string alignment{get_alignment(_alignment)};
-		std::transform(alignment.begin(), alignment.end(), alignment.begin(), ::tolower);
+		std::transform(
+			alignment.begin(), alignment.end(), alignment.begin(), ::tolower);
 		return (*_graphics->icons)[alignment].value();
 	} break;
 	case CharacterStage::CHOOSE_RACE: {
@@ -630,12 +647,14 @@ auto Sorcery::Character::get_icon(CharacterStage type) -> std::optional<sf::Spri
 	return std::nullopt;
 }
 
-// Given a character's current stats and alignment, work out what classes are available
-auto Sorcery::Character::set_possible_classes() -> void {
+// Given a character's current stats and alignment, work out what classes are
+// available
+auto Sorcery::Character::set_pos_class() -> void {
 
 	_pos_classes.clear();
 
-	// Do the basic classes first (this also sets _num_possible_character_classes); data is from
+	// Do the basic classes first (this also sets
+	// _num_possible_character_classes); data is from
 	// https://strategywiki.org/wiki/Wizardry:_Proving_Grounds_of_the_Mad_Overlord/Trebor%27s_castle#Classes
 	if (_cur_attr[CharacterAttribute::STRENGTH] >= 11)
 		_pos_classes[CharacterClass::FIGHTER] = true;
@@ -648,7 +667,8 @@ auto Sorcery::Character::set_possible_classes() -> void {
 		_pos_classes[CharacterClass::MAGE] = false;
 
 	if (_cur_attr[CharacterAttribute::PIETY] >= 11)
-		if (_alignment == CharacterAlignment::GOOD || _alignment == CharacterAlignment::EVIL)
+		if (_alignment == CharacterAlignment::GOOD ||
+			_alignment == CharacterAlignment::EVIL)
 			_pos_classes[CharacterClass::PRIEST] = true;
 		else
 			_pos_classes[CharacterClass::PRIEST] = false;
@@ -656,7 +676,8 @@ auto Sorcery::Character::set_possible_classes() -> void {
 		_pos_classes[CharacterClass::PRIEST] = false;
 
 	if (_cur_attr[CharacterAttribute::AGILITY] >= 11)
-		if (_alignment == CharacterAlignment::NEUTRAL || _alignment == CharacterAlignment::EVIL)
+		if (_alignment == CharacterAlignment::NEUTRAL ||
+			_alignment == CharacterAlignment::EVIL)
 			_pos_classes[CharacterClass::THIEF] = true;
 		else
 			_pos_classes[CharacterClass::THIEF] = false;
@@ -664,29 +685,35 @@ auto Sorcery::Character::set_possible_classes() -> void {
 		_pos_classes[CharacterClass::THIEF] = false;
 
 	// Now the elite classes
-	if (_cur_attr[CharacterAttribute::IQ] >= 12 && _cur_attr[CharacterAttribute::PIETY] >= 12)
-		if (_alignment == CharacterAlignment::GOOD || _alignment == CharacterAlignment::EVIL)
+	if (_cur_attr[CharacterAttribute::IQ] >= 12 &&
+		_cur_attr[CharacterAttribute::PIETY] >= 12)
+		if (_alignment == CharacterAlignment::GOOD ||
+			_alignment == CharacterAlignment::EVIL)
 			_pos_classes[CharacterClass::BISHOP] = true;
 		else
 			_pos_classes[CharacterClass::BISHOP] = false;
 	else
 		_pos_classes[CharacterClass::BISHOP] = false;
 
-	if (_cur_attr[CharacterAttribute::STRENGTH] >= 15 && _cur_attr[CharacterAttribute::IQ] >= 11 &&
+	if (_cur_attr[CharacterAttribute::STRENGTH] >= 15 &&
+		_cur_attr[CharacterAttribute::IQ] >= 11 &&
 		_cur_attr[CharacterAttribute::PIETY] >= 10 &&
 		_cur_attr[CharacterAttribute::VITALITY] >= 10 &&
 		_cur_attr[CharacterAttribute::AGILITY] >= 10)
-		if (_alignment == CharacterAlignment::GOOD || _alignment == CharacterAlignment::NEUTRAL)
+		if (_alignment == CharacterAlignment::GOOD ||
+			_alignment == CharacterAlignment::NEUTRAL)
 			_pos_classes[CharacterClass::SAMURAI] = true;
 		else
 			_pos_classes[CharacterClass::SAMURAI] = false;
 	else
 		_pos_classes[CharacterClass::SAMURAI] = false;
 
-	if (_cur_attr[CharacterAttribute::STRENGTH] >= 15 && _cur_attr[CharacterAttribute::IQ] >= 12 &&
+	if (_cur_attr[CharacterAttribute::STRENGTH] >= 15 &&
+		_cur_attr[CharacterAttribute::IQ] >= 12 &&
 		_cur_attr[CharacterAttribute::PIETY] >= 12 &&
 		_cur_attr[CharacterAttribute::VITALITY] >= 15 &&
-		_cur_attr[CharacterAttribute::AGILITY] >= 14 && _cur_attr[CharacterAttribute::LUCK] >= 15)
+		_cur_attr[CharacterAttribute::AGILITY] >= 14 &&
+		_cur_attr[CharacterAttribute::LUCK] >= 15)
 		if (_alignment == CharacterAlignment::GOOD)
 			_pos_classes[CharacterClass::LORD] = true;
 		else
@@ -694,11 +721,14 @@ auto Sorcery::Character::set_possible_classes() -> void {
 	else
 		_pos_classes[CharacterClass::LORD] = false;
 
-	// Using Wizardry 5 requirements for Ninja (see https://wizardry.fandom.com/wiki/Ninja)
-	if (_cur_attr[CharacterAttribute::STRENGTH] >= 15 && _cur_attr[CharacterAttribute::IQ] >= 17 &&
+	// Using Wizardry 5 requirements for Ninja (see
+	// https://wizardry.fandom.com/wiki/Ninja)
+	if (_cur_attr[CharacterAttribute::STRENGTH] >= 15 &&
+		_cur_attr[CharacterAttribute::IQ] >= 17 &&
 		_cur_attr[CharacterAttribute::PIETY] >= 15 &&
 		_cur_attr[CharacterAttribute::VITALITY] >= 16 &&
-		_cur_attr[CharacterAttribute::AGILITY] >= 15 && _cur_attr[CharacterAttribute::LUCK] >= 16)
+		_cur_attr[CharacterAttribute::AGILITY] >= 15 &&
+		_cur_attr[CharacterAttribute::LUCK] >= 16)
 		if (_alignment != CharacterAlignment::GOOD)
 			_pos_classes[CharacterClass::NINJA] = true;
 		else
@@ -707,14 +737,15 @@ auto Sorcery::Character::set_possible_classes() -> void {
 		_pos_classes[CharacterClass::NINJA] = false;
 
 	// And workout the number of classes
-	_num_pos_classes = std::count_if(_pos_classes.begin(), _pos_classes.end(), [](auto element) {
-		return element.second;
-	});
+	_num_pos_classes = std::count_if(
+		_pos_classes.begin(), _pos_classes.end(), [](auto element) {
+			return element.second;
+		});
 }
 
 // Enum to String functions
-auto Sorcery::Character::get_alignment(CharacterAlignment character_alignment) const
-	-> std::string {
+auto Sorcery::Character::get_alignment(
+	CharacterAlignment character_alignment) const -> std::string {
 
 	switch (character_alignment) {
 	case CharacterAlignment::GOOD:
@@ -732,7 +763,8 @@ auto Sorcery::Character::get_alignment(CharacterAlignment character_alignment) c
 	}
 }
 
-auto Sorcery::Character::get_race(CharacterRace character_race) const -> std::string {
+auto Sorcery::Character::get_race(CharacterRace character_race) const
+	-> std::string {
 
 	switch (character_race) {
 	case CharacterRace::HUMAN:
@@ -756,7 +788,8 @@ auto Sorcery::Character::get_race(CharacterRace character_race) const -> std::st
 	}
 }
 
-auto Sorcery::Character::get_class(CharacterClass character_class) const -> std::string {
+auto Sorcery::Character::get_class(CharacterClass character_class) const
+	-> std::string {
 
 	switch (character_class) {
 	case CharacterClass::FIGHTER:
@@ -797,7 +830,8 @@ auto Sorcery::Character::_save() -> unsigned int {
 }
 
 // Load from DB
-auto Sorcery::Character::_load([[maybe_unused]] unsigned int character_id) -> void {
+auto Sorcery::Character::_load([[maybe_unused]] unsigned int character_id)
+	-> void {
 
 	// TODO:
 }
@@ -805,48 +839,54 @@ auto Sorcery::Character::_load([[maybe_unused]] unsigned int character_id) -> vo
 // Last step of creating new a character
 auto Sorcery::Character::finalise() -> void {
 
-	_generate_starting_information();
-	_generate_secondary_abilities(true, false);
-	_set_starting_spells();
+	_generate_start_info();
+	_generate_secondary_abil(true, false);
+	_set_start_spells();
 	_set_starting_sp();
 }
 
-auto Sorcery::Character::_regenerate_starting_information() -> void {
+auto Sorcery::Character::_regenerate_start_info() -> void {
 	_abilities[CharacterAbility::CURRENT_LEVEL] = 1;
 	_abilities[CharacterAbility::CURRENT_XP] = 0;
 	_abilities[CharacterAbility::NEXT_LEVEL_XP] =
 		_get_xp_for_level(_abilities[CharacterAbility::CURRENT_LEVEL]);
 
 	// https://datadrivengamer.blogspot.com/2019/08/the-not-so-basic-mechanics-of-wizardry.html
-	unsigned int age_increment{(52 * (3 + (*_system->random)[RandomType::D3])) + 44};
+	unsigned int age_increment{
+		(52 * (3 + (*_system->random)[RandomType::D3])) + 44};
 	_abilities[CharacterAbility::AGE] += age_increment;
 
 	// reset attributes to racial minimums
 	CharacterAttributes minimum_attr;
 	switch (_race) {
 	case CharacterRace::HUMAN:
-		minimum_attr = {{CharacterAttribute::STRENGTH, 8}, {CharacterAttribute::IQ, 5},
-			{CharacterAttribute::PIETY, 5}, {CharacterAttribute::VITALITY, 8},
-			{CharacterAttribute::AGILITY, 8}, {CharacterAttribute::LUCK, 9}};
+		minimum_attr = {{CharacterAttribute::STRENGTH, 8},
+			{CharacterAttribute::IQ, 5}, {CharacterAttribute::PIETY, 5},
+			{CharacterAttribute::VITALITY, 8}, {CharacterAttribute::AGILITY, 8},
+			{CharacterAttribute::LUCK, 9}};
 		break;
 	case CharacterRace::ELF:
-		minimum_attr = {{CharacterAttribute::STRENGTH, 7}, {CharacterAttribute::IQ, 10},
-			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 6},
-			{CharacterAttribute::AGILITY, 9}, {CharacterAttribute::LUCK, 6}};
+		minimum_attr = {{CharacterAttribute::STRENGTH, 7},
+			{CharacterAttribute::IQ, 10}, {CharacterAttribute::PIETY, 10},
+			{CharacterAttribute::VITALITY, 6}, {CharacterAttribute::AGILITY, 9},
+			{CharacterAttribute::LUCK, 6}};
 		break;
 	case CharacterRace::DWARF:
-		minimum_attr = {{CharacterAttribute::STRENGTH, 10}, {CharacterAttribute::IQ, 7},
-			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 10},
+		minimum_attr = {{CharacterAttribute::STRENGTH, 10},
+			{CharacterAttribute::IQ, 7}, {CharacterAttribute::PIETY, 10},
+			{CharacterAttribute::VITALITY, 10},
 			{CharacterAttribute::AGILITY, 5}, {CharacterAttribute::LUCK, 6}};
 		break;
 	case CharacterRace::GNOME:
-		minimum_attr = {{CharacterAttribute::STRENGTH, 7}, {CharacterAttribute::IQ, 7},
-			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 8},
+		minimum_attr = {{CharacterAttribute::STRENGTH, 7},
+			{CharacterAttribute::IQ, 7}, {CharacterAttribute::PIETY, 10},
+			{CharacterAttribute::VITALITY, 8},
 			{CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 7}};
 		break;
 	case CharacterRace::HOBBIT:
-		minimum_attr = {{CharacterAttribute::STRENGTH, 5}, {CharacterAttribute::IQ, 7},
-			{CharacterAttribute::PIETY, 7}, {CharacterAttribute::VITALITY, 6},
+		minimum_attr = {{CharacterAttribute::STRENGTH, 5},
+			{CharacterAttribute::IQ, 7}, {CharacterAttribute::PIETY, 7},
+			{CharacterAttribute::VITALITY, 6},
 			{CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 12}};
 		break;
 	default:
@@ -861,22 +901,24 @@ auto Sorcery::Character::change_class(const CharacterClass &value) -> void {
 	if (_class != value) {
 		_class = value;
 
-		_regenerate_starting_information();
-		_generate_secondary_abilities(false, true);
-		_reset_starting_spells();
+		_regenerate_start_info();
+		_generate_secondary_abil(false, true);
+		_reset_start_spells();
 		_reset_starting_sp();
 	}
 }
 
 // Work out all the stuff to do with starting a new character
-auto Sorcery::Character::_generate_starting_information() -> void {
+auto Sorcery::Character::_generate_start_info() -> void {
 
 	// _abilities[CharacterAbility::CURRENT_LEVEL] = 1;
 	_abilities[CharacterAbility::MAX_LEVEL] = 1;
 	_abilities[CharacterAbility::NEGATIVE_LEVEL] = 0;
 	_abilities[CharacterAbility::HIT_DICE] = 1;
-	_abilities[CharacterAbility::GOLD] = (*_system->random)[RandomType::ZERO_TO_99] + 90;
-	_abilities[CharacterAbility::AGE] = (18 * 52) + (*_system->random)[RandomType::ZERO_TO_299];
+	_abilities[CharacterAbility::GOLD] =
+		(*_system->random)[RandomType::ZERO_TO_99] + 90;
+	_abilities[CharacterAbility::AGE] =
+		(18 * 52) + (*_system->random)[RandomType::ZERO_TO_299];
 	_abilities[CharacterAbility::SWIM] = 1;
 	_abilities[CharacterAbility::MARKS] = 0;
 	_abilities[CharacterAbility::DEATHS] = 0;
@@ -889,11 +931,13 @@ auto Sorcery::Character::_generate_starting_information() -> void {
 		_get_xp_for_level(_abilities[CharacterAbility::CURRENT_LEVEL]);
 }
 
-// Given the characters current level, work out all the secondary abilities/stats etc
-auto Sorcery::Character::_generate_secondary_abilities(bool initial, bool change_class) -> void {
+// Given the characters current level, work out all the secondary
+// abilities/stats etc
+auto Sorcery::Character::_generate_secondary_abil(
+	bool initial, bool change_class) -> void {
 
-	// Formulae used are from here http://www.zimlab.com/wizardry/walk/w123calc.htm and also
-	// from
+	// Formulae used are from here
+	// http://www.zimlab.com/wizardry/walk/w123calc.htm and also from
 	// https://mirrors.apple2.org.za/ftp.apple.asimov.net/images/games/rpg/wizardry/wizardry_I/Wizardry_i_SourceCode.zip
 	const auto current_level{_abilities[CharacterAbility::CURRENT_LEVEL]};
 
@@ -902,7 +946,8 @@ auto Sorcery::Character::_generate_secondary_abilities(bool initial, bool change
 		_abilities[CharacterAbility::ATTACK_MODIFIER] =
 			_cur_attr[CharacterAttribute::STRENGTH] - 15;
 	else if (_cur_attr[CharacterAttribute::STRENGTH] < 6)
-		_abilities[CharacterAbility::ATTACK_MODIFIER] = _cur_attr[CharacterAttribute::STRENGTH] - 6;
+		_abilities[CharacterAbility::ATTACK_MODIFIER] =
+			_cur_attr[CharacterAttribute::STRENGTH] - 6;
 	else
 		_abilities[CharacterAbility::ATTACK_MODIFIER] = 0;
 
@@ -922,26 +967,31 @@ auto Sorcery::Character::_generate_secondary_abilities(bool initial, bool change
 
 	// Bonus Melee Damage per Attack (num)
 	if (_cur_attr[CharacterAttribute::STRENGTH] > 15)
-		_abilities[CharacterAbility::BONUS_DAMAGE] = _cur_attr[CharacterAttribute::STRENGTH] - 15;
+		_abilities[CharacterAbility::BONUS_DAMAGE] =
+			_cur_attr[CharacterAttribute::STRENGTH] - 15;
 	else if (_cur_attr[CharacterAttribute::STRENGTH] < 6)
-		_abilities[CharacterAbility::BONUS_DAMAGE] = _cur_attr[CharacterAttribute::STRENGTH] - 6;
+		_abilities[CharacterAbility::BONUS_DAMAGE] =
+			_cur_attr[CharacterAttribute::STRENGTH] - 6;
 	else
 		_abilities[CharacterAbility::BONUS_DAMAGE] = 0;
 
 	// Unarmed Attack Damage (num)
 	_abilities[CharacterAbility::UNARMED_DAMAGE] =
-		_class == CharacterClass::NINJA ? 8 + _abilities[CharacterAbility::BONUS_DAMAGE]
-										: 4 + _abilities[CharacterAbility::BONUS_DAMAGE];
+		_class == CharacterClass::NINJA
+			? 8 + _abilities[CharacterAbility::BONUS_DAMAGE]
+			: 4 + _abilities[CharacterAbility::BONUS_DAMAGE];
 
 	// Number of Melee Attacks (num)
 	switch (_class) {
 	case CharacterClass::FIGHTER:
 	case CharacterClass::SAMURAI:
 	case CharacterClass::LORD:
-		_abilities[CharacterAbility::BASE_NUMBER_OF_ATTACKS] = current_level / 5;
+		_abilities[CharacterAbility::BASE_NUMBER_OF_ATTACKS] =
+			current_level / 5;
 		break;
 	case CharacterClass::NINJA:
-		_abilities[CharacterAbility::BASE_NUMBER_OF_ATTACKS] = (current_level / 5) + 1;
+		_abilities[CharacterAbility::BASE_NUMBER_OF_ATTACKS] =
+			(current_level / 5) + 1;
 		break;
 	default:
 		_abilities[CharacterAbility::BASE_NUMBER_OF_ATTACKS] = 1;
@@ -977,7 +1027,8 @@ auto Sorcery::Character::_generate_secondary_abilities(bool initial, bool change
 
 	// Chance of identifying unknown Foes per round (%)
 	_abilities[CharacterAbility::IDENTIFY_FOES] =
-		current_level + _cur_attr[CharacterAttribute::IQ] + _cur_attr[CharacterAttribute::PIETY];
+		current_level + _cur_attr[CharacterAttribute::IQ] +
+		_cur_attr[CharacterAttribute::PIETY];
 	if (_abilities[CharacterAbility::IDENTIFY_FOES] > 100)
 		_abilities[CharacterAbility::IDENTIFY_FOES] = 100;
 
@@ -1044,12 +1095,14 @@ auto Sorcery::Character::_generate_secondary_abilities(bool initial, bool change
 	}
 
 	// Bonus Hit Points per level (num)
-	_abilities[CharacterAbility::BONUS_HIT_POINTS] = _abilities[CharacterAbility::VITALITY_BONUS];
+	_abilities[CharacterAbility::BONUS_HIT_POINTS] =
+		_abilities[CharacterAbility::VITALITY_BONUS];
 
 	// Class Change doesn't reset these
 	if (!change_class) {
 
-		// Base Hit Points (num) - note initially all characters get 8 HP as per the PSX versions
+		// Base Hit Points (num) - note initially all characters get 8 HP as per
+		// the PSX versions
 		if (initial)
 			_abilities[CharacterAbility::MAX_HP] = 8;
 		else {
@@ -1058,30 +1111,50 @@ auto Sorcery::Character::_generate_secondary_abilities(bool initial, bool change
 			case CharacterClass::FIGHTER:
 			case CharacterClass::LORD:
 				_abilities[CharacterAbility::MAX_HP] =
-					chance <= 50 ? 10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
-								 : 9 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+					chance <= 50
+						? 10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
+						: 9 *
+							  (10 + _abilities
+										[CharacterAbility::BONUS_HIT_POINTS]) /
+							  10;
 				break;
 			case CharacterClass::PRIEST:
 				_abilities[CharacterAbility::MAX_HP] =
-					chance <= 50 ? 8 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
-								 : 8 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+					chance <= 50
+						? 8 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
+						: 8 *
+							  (10 + _abilities
+										[CharacterAbility::BONUS_HIT_POINTS]) /
+							  10;
 				break;
 			case CharacterClass::THIEF:
 			case CharacterClass::BISHOP:
 			case CharacterClass::NINJA:
 				_abilities[CharacterAbility::MAX_HP] =
-					chance <= 50 ? 6 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
-								 : 6 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+					chance <= 50
+						? 6 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
+						: 6 *
+							  (10 + _abilities
+										[CharacterAbility::BONUS_HIT_POINTS]) /
+							  10;
 				break;
 			case CharacterClass::MAGE:
 				_abilities[CharacterAbility::MAX_HP] =
-					chance <= 50 ? 4 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
-								 : 4 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+					chance <= 50
+						? 4 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
+						: 4 *
+							  (10 + _abilities
+										[CharacterAbility::BONUS_HIT_POINTS]) /
+							  10;
 				break;
 			case CharacterClass::SAMURAI:
 				_abilities[CharacterAbility::MAX_HP] =
-					chance <= 50 ? 16 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
-								 : 16 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+					chance <= 50
+						? 16 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
+						: 16 *
+							  (10 + _abilities
+										[CharacterAbility::BONUS_HIT_POINTS]) /
+							  10;
 				break;
 			default:
 				break;
@@ -1089,7 +1162,8 @@ auto Sorcery::Character::_generate_secondary_abilities(bool initial, bool change
 			if (_abilities[CharacterAbility::MAX_HP] < 1)
 				_abilities[CharacterAbility::MAX_HP] = 1;
 		}
-		_abilities[CharacterAbility::CURRENT_HP] = _abilities[CharacterAbility::MAX_HP];
+		_abilities[CharacterAbility::CURRENT_HP] =
+			_abilities[CharacterAbility::MAX_HP];
 	}
 
 	// Chance of resurrecting a Dead Character at the Temple (%)
@@ -1104,7 +1178,8 @@ auto Sorcery::Character::_generate_secondary_abilities(bool initial, bool change
 	if (_abilities[CharacterAbility::ASHES_RESURRECT] > 100)
 		_abilities[CharacterAbility::ASHES_RESURRECT] = 100;
 
-	// Chance of resurrecting by a DI or KADORTO spell cast by another Character (%)
+	// Chance of resurrecting by a DI or KADORTO spell cast by another Character
+	// (%)
 	_abilities[CharacterAbility::DI_KADORTO_RESURRECT] =
 		4 * _cur_attr[CharacterAttribute::VITALITY];
 
@@ -1154,9 +1229,11 @@ auto Sorcery::Character::_generate_secondary_abilities(bool initial, bool change
 
 	// Chance to identify a Trap (%)
 	if (_class == CharacterClass::THIEF)
-		_abilities[CharacterAbility::IDENTIFY_TRAP] = 6 * _cur_attr[CharacterAttribute::AGILITY];
+		_abilities[CharacterAbility::IDENTIFY_TRAP] =
+			6 * _cur_attr[CharacterAttribute::AGILITY];
 	else if (_class == CharacterClass::NINJA)
-		_abilities[CharacterAbility::IDENTIFY_TRAP] = 4 * _cur_attr[CharacterAttribute::AGILITY];
+		_abilities[CharacterAbility::IDENTIFY_TRAP] =
+			4 * _cur_attr[CharacterAttribute::AGILITY];
 	else
 		_abilities[CharacterAbility::IDENTIFY_TRAP] = 0;
 	if (_abilities[CharacterAbility::IDENTIFY_TRAP] > 95)
@@ -1328,15 +1405,16 @@ auto Sorcery::Character::_generate_secondary_abilities(bool initial, bool change
 	_abilities[CharacterAbility::RESISTANCE_VS_BADI] = current_level * 10;
 	if (_abilities[CharacterAbility::RESISTANCE_VS_BADI] > 100)
 		_abilities[CharacterAbility::RESISTANCE_VS_BADI] = 100;
-	_abilities[CharacterAbility::RESISTANCE_VS_MANIFO] = 50 + (current_level * 10);
+	_abilities[CharacterAbility::RESISTANCE_VS_MANIFO] =
+		50 + (current_level * 10);
 	if (_abilities[CharacterAbility::RESISTANCE_VS_MANIFO] > 100)
 		_abilities[CharacterAbility::RESISTANCE_VS_MANIFO] = 100;
 
 	_abilities[CharacterAbility::RECOVER_FROM_SLEEP] = current_level * 10;
 	_abilities[CharacterAbility::RECOVER_FROM_FEAR] = current_level * 5;
 
-	// If we are not in strict mode, add some bonus spellpoints to first level priests/,ages
-	// depending on their associated stats
+	// If we are not in strict mode, add some bonus spellpoints to first level
+	// priests/,ages depending on their associated stats
 	_abilities[CharacterAbility::BONUS_MAGE_SPELLS] = 0;
 	_abilities[CharacterAbility::BONUS_PRIEST_SPELLS] = 0;
 	if (!(*_system->config)[ConfigOption::STRICT_MODE]) {
@@ -1399,8 +1477,8 @@ auto Sorcery::Character::_reset_starting_sp() -> void {
 		// Handle Priest Spells
 		auto priest_known{static_cast<unsigned int>(
 			std::count_if(_spells.begin(), _spells.end(), [=](auto spell) {
-				return (spell.type == SpellType::PRIEST) && (spell.level == spell_level) &&
-					   (spell.known);
+				return (spell.type == SpellType::PRIEST) &&
+					   (spell.level == spell_level) && (spell.known);
 			}))};
 
 		if (_priest_max_sp[spell_level] < priest_known) {
@@ -1411,8 +1489,8 @@ auto Sorcery::Character::_reset_starting_sp() -> void {
 		// Handle Mage Spells
 		auto mage_known{static_cast<unsigned int>(
 			std::count_if(_spells.begin(), _spells.end(), [=](auto spell) {
-				return (spell.type == SpellType::MAGE) && (spell.level == spell_level) &&
-					   (spell.known);
+				return (spell.type == SpellType::MAGE) &&
+					   (spell.level == spell_level) && (spell.known);
 			}))};
 		if (_mage_max_sp[spell_level] < mage_known) {
 			_mage_max_sp[spell_level] = mage_known;
@@ -1427,22 +1505,25 @@ auto Sorcery::Character::_set_starting_sp() -> void {
 	// By default clear all spells
 	_clear_sp();
 
-	// In the original code this is handled in "SETSPELS"/"SPLPERLV"/"NWMAGE"/"NWPRIEST" - but
-	// we are just setting them straight for now but adding in extra slots for casters to make
-	// things easier if we're not in strict mode
+	// In the original code this is handled in
+	// "SETSPELS"/"SPLPERLV"/"NWMAGE"/"NWPRIEST" - but we are just setting them
+	// straight for now but adding in extra slots for casters to make things
+	// easier if we're not in strict mode
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::PRIEST:
-		_priest_max_sp[1] = (*_system->config)[ConfigOption::STRICT_MODE]
-								? 2
-								: 2 + _abilities[CharacterAbility::BONUS_PRIEST_SPELLS];
+		_priest_max_sp[1] =
+			(*_system->config)[ConfigOption::STRICT_MODE]
+				? 2
+				: 2 + _abilities[CharacterAbility::BONUS_PRIEST_SPELLS];
 		break;
 	case CharacterClass::BISHOP:
 		_mage_max_sp[1] = 2;
 		break;
 	case CharacterClass::MAGE:
-		_mage_max_sp[1] = (*_system->config)[ConfigOption::STRICT_MODE]
-							  ? 2
-							  : 2 + _abilities[CharacterAbility::BONUS_MAGE_SPELLS];
+		_mage_max_sp[1] =
+			(*_system->config)[ConfigOption::STRICT_MODE]
+				? 2
+				: 2 + _abilities[CharacterAbility::BONUS_MAGE_SPELLS];
 		break;
 	default:
 		break;
@@ -1464,16 +1545,18 @@ auto Sorcery::Character::_clear_sp() -> void {
 }
 
 // Reset Starting Spells on Class Change
-auto Sorcery::Character::_reset_starting_spells() -> void {
+auto Sorcery::Character::_reset_start_spells() -> void {
 
-	// All known spells are kept, and new ones added as per the starting class guildlines
-	_set_starting_spells();
+	// All known spells are kept, and new ones added as per the starting class
+	// guildlines
+	_set_start_spells();
 }
 
 // Set starting spells
-auto Sorcery::Character::_set_starting_spells() -> void {
+auto Sorcery::Character::_set_start_spells() -> void {
 
-	// This is taken from "KEEPCHYN" which hard codes the spells known to beginning characters!
+	// This is taken from "KEEPCHYN" which hard codes the spells known to
+	// beginning characters!
 	std::vector<Spell>::iterator it;
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::BISHOP:
@@ -1532,7 +1615,7 @@ auto Sorcery::Character::_set_starting_spells() -> void {
 // Level Gain/Loss Functions - TODO
 
 // Get HP gained for all levels apart from the first
-auto Sorcery::Character::_get_hp_gained_per_level() -> int {
+auto Sorcery::Character::_get_hp_per_level() -> int {
 
 	// In the original code ("MOREHP"), Samurai get 2d8
 	int extra_hp{0};
@@ -1564,31 +1647,34 @@ auto Sorcery::Character::_get_hp_gained_per_level() -> int {
 	if (extra_hp < 0)
 		extra_hp = 1;
 
-	// Though this could be an unsigned int as it will always be greater than 0, just return int
-	// as everything else is
+	// Though this could be an unsigned int as it will always be greater than 0,
+	// just return int as everything else is
 	return extra_hp;
 }
 
-// Add hit points on level gain (but note the strict mode limitation mentioned below)
+// Add hit points on level gain (but note the strict mode limitation mentioned
+// below)
 auto Sorcery::Character::_update_hp_for_level() -> void {
 
-	// Note the annoying thing in the original Wizardry ("MADELEV") and reproduced here in
-	// strict mode where it recalculates all HP and thus often you end up with gaining only one
-	// HP - this also reproduces the equally annoying thing where if you have changed class it
-	// uses your *current* class level for recalculation, hence until you get back to where you
-	// were before changing class you will probably only ever gain 1 hp each time unless the
-	// random dice rolls are really in your favour!
+	// Note the annoying thing in the original Wizardry ("MADELEV") and
+	// reproduced here in strict mode where it recalculates all HP and thus
+	// often you end up with gaining only one HP - this also reproduces the
+	// equally annoying thing where if you have changed class it uses your
+	// *current* class level for recalculation, hence until you get back to
+	// where you were before changing class you will probably only ever gain 1
+	// hp each time unless the random dice rolls are really in your favour!
 	if ((*_system->config)[ConfigOption::REROLL_HIT_POINTS_ON_LEVEL_GAIN]) {
 		int hp_total{0};
-		for (auto level = 1; level < _abilities[CharacterAbility::CURRENT_LEVEL]; level++)
-			hp_total += _get_hp_gained_per_level();
+		for (auto level = 1;
+			 level < _abilities[CharacterAbility::CURRENT_LEVEL]; level++)
+			hp_total += _get_hp_per_level();
 		if (hp_total < _abilities[CharacterAbility::MAX_HP])
 			hp_total = _abilities[CharacterAbility::MAX_HP] + 1;
 		int hp_gained{hp_total - _abilities[CharacterAbility::MAX_HP]};
 		_abilities[CharacterAbility::MAX_HP] += hp_gained;
 		_abilities[CharacterAbility::CURRENT_HP] += hp_gained;
 	} else {
-		int hp_gained{_get_hp_gained_per_level()};
+		int hp_gained{_get_hp_per_level()};
 		_abilities[CharacterAbility::MAX_HP] += hp_gained;
 		_abilities[CharacterAbility::CURRENT_HP] += hp_gained;
 	}
@@ -1607,8 +1693,8 @@ auto Sorcery::Character::level_down() -> void {
 }
 
 // For each spell level, try to learn spells - called before set_spellpoints
-auto Sorcery::Character::_try_to_learn_spells(SpellType spell_type, unsigned int spell_level)
-	-> void {
+auto Sorcery::Character::_try_learn_spell(
+	SpellType spell_type, unsigned int spell_level) -> void {
 
 	// Only do spells if a character can learn them
 	if (spell_type == SpellType::PRIEST)
@@ -1632,10 +1718,12 @@ auto Sorcery::Character::_try_to_learn_spells(SpellType spell_type, unsigned int
 		if ((*it).known)
 			continue;
 
-		// Check the Spell Type against the relevant stat (see SPLPERLV//TRYLEARN)
+		// Check the Spell Type against the relevant stat (see
+		// SPLPERLV//TRYLEARN)
 		if (spell_type == SpellType::PRIEST)
 			if ((*_system->random)[RandomType::ZERO_TO_29] <=
-				static_cast<unsigned int>(_cur_attr[CharacterAttribute::PIETY])) {
+				static_cast<unsigned int>(
+					_cur_attr[CharacterAttribute::PIETY])) {
 				(*it).known = true;
 				_spells_known[(*it).id] = true;
 			}
@@ -1649,13 +1737,15 @@ auto Sorcery::Character::_try_to_learn_spells(SpellType spell_type, unsigned int
 }
 
 // Reimplementation of SPLPERLV
-auto Sorcery::Character::_calculate_sp(
-	SpellType spell_type, unsigned int level_mod, unsigned int level_offset) -> void {
+auto Sorcery::Character::_calculate_sp(SpellType spell_type,
+	unsigned int level_mod, unsigned int level_offset) -> void {
 
 	// No ownership granted by use of raw pointer here
-	SpellPoints *spells{spell_type == SpellType::PRIEST ? &_priest_max_sp : &_mage_max_sp};
+	SpellPoints *spells{
+		spell_type == SpellType::PRIEST ? &_priest_max_sp : &_mage_max_sp};
 
-	int spell_count{static_cast<int>(_abilities[CharacterAbility::CURRENT_LEVEL] - level_mod)};
+	int spell_count{static_cast<int>(
+		_abilities[CharacterAbility::CURRENT_LEVEL] - level_mod)};
 	if (spell_count <= 0)
 		return;
 
@@ -1671,15 +1761,18 @@ auto Sorcery::Character::_calculate_sp(
 			(*spells)[spell_level] = 9;
 }
 
-// Copied and rewritten from the original code from MINMAG/MINPRI/NWPRIEST/NWMAGE
+// Copied and rewritten from the original code from
+// MINMAG/MINPRI/NWPRIEST/NWMAGE
 auto Sorcery::Character::_set_sp() -> void {
 
-	// First work out the number of spells known at each level (not this deliberately does not
-	// alter spells learned in a previous class to allow those to remain the same (see
-	// MINMAG/MINPRI in the code)
+	// First work out the number of spells known at each level (not this
+	// deliberately does not alter spells learned in a previous class to allow
+	// those to remain the same (see MINMAG/MINPRI in the code)
 	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
-		_priest_max_sp[spell_level] = _get_spells_known(SpellType::PRIEST, spell_level);
-		_mage_max_sp[spell_level] = _get_spells_known(SpellType::MAGE, spell_level);
+		_priest_max_sp[spell_level] =
+			_get_spells_known(SpellType::PRIEST, spell_level);
+		_mage_max_sp[spell_level] =
+			_get_spells_known(SpellType::MAGE, spell_level);
 	}
 
 	// Then bump up spells according to level
@@ -1711,8 +1804,8 @@ auto Sorcery::Character::_set_sp() -> void {
 }
 
 // In the original code this is from SPLPERLV
-auto Sorcery::Character::_get_spells_known(SpellType spell_type, unsigned int spell_level)
-	-> unsigned int {
+auto Sorcery::Character::_get_spells_known(
+	SpellType spell_type, unsigned int spell_level) -> unsigned int {
 
 	unsigned int spells_known{0};
 	std::vector<Spell>::iterator it;
@@ -1734,7 +1827,8 @@ auto Sorcery::Character::_get_spells_known(SpellType spell_type, unsigned int sp
 // Given a level, get the XP needed for it
 auto Sorcery::Character::_get_xp_for_level(unsigned int level) const -> int {
 
-	// Values obtained from http://www.the-spoiler.com/RPG/Sir-Tech/wizardry.1.2.html
+	// Values obtained from
+	// http://www.the-spoiler.com/RPG/Sir-Tech/wizardry.1.2.html
 	float base{};
 	float coefficient_2_to_3{};
 	float coefficient_3_to_13{};
@@ -1810,17 +1904,19 @@ auto Sorcery::Character::_get_xp_for_level(unsigned int level) const -> int {
 	case 11:
 	case 12:
 	case 13:
-		return std::floor((base * coefficient_2_to_3) * std::pow(coefficient_3_to_13, level - 2));
+		return std::floor((base * coefficient_2_to_3) *
+						  std::pow(coefficient_3_to_13, level - 2));
 	default:
-		return std::floor(((base * coefficient_2_to_3) * std::pow(coefficient_3_to_13, level - 2)) *
+		return std::floor(((base * coefficient_2_to_3) *
+							  std::pow(coefficient_3_to_13, level - 2)) *
 						  std::pow(coefficient_13_plus, level - 13));
 	}
 }
 
 auto Sorcery::Character::set_spells() -> void {
 
-	// Now for each spell known set the appropriate entry in the spells table (TODO: this is
-	// terribly inefficient)
+	// Now for each spell known set the appropriate entry in the spells table
+	// (TODO: this is terribly inefficient)
 	for (auto &spell_known : _spells_known) {
 
 		std::vector<Spell>::iterator it;
@@ -1832,232 +1928,296 @@ auto Sorcery::Character::set_spells() -> void {
 	}
 }
 
-// Note a few extra spells taken from Wizardry V, such as DESTO, CALIFIC, LITOFEIT, and LABADI
-auto Sorcery::Character::create_spell_lists() -> void {
+// Note a few extra spells taken from Wizardry V, such as DESTO, CALIFIC,
+// LITOFEIT, and LABADI
+auto Sorcery::Character::create_spells() -> void {
 	_spells.clear();
 
 	// Mage Spells (grouped by level)
 
 	// Level 1
 	unsigned int level{1};
-	_spells.emplace_back(SpellID::DUMAPIC, SpellType::MAGE, SpellCategory::FIELD, level, false,
-		"DUMAPIC", "Clarity",
-		"Restablishes the party's bearings and shows their location in the maze.");
-	_spells.emplace_back(SpellID::HALITO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
-		"HALITO", "Little Fire",
-		"Flings a a ball of fire at one foe inflicting 1d8 points of fire damage.");
-	_spells.emplace_back(SpellID::KATINO, SpellType::MAGE, SpellCategory::DISABLE, level, false,
-		"KATINO", "Bad Air", "Temporarily puts to sleep one group of foes.");
-	_spells.emplace_back(SpellID::MOGREF, SpellType::MAGE, SpellCategory::SUPPORT, level, false,
-		"MOGREF", "Body Iron",
-		"Grants a -2 bonus to armour class to the caster for the duration of combat.");
+	_spells.emplace_back(SpellID::DUMAPIC, SpellType::MAGE,
+		SpellCategory::FIELD, level, false, "DUMAPIC", "Clarity",
+		"Restablishes the party's bearings and shows their location in the "
+		"maze.");
+	_spells.emplace_back(SpellID::HALITO, SpellType::MAGE,
+		SpellCategory::ATTACK, level, false, "HALITO", "Little Fire",
+		"Flings a a ball of fire at one foe inflicting 1d8 points of fire "
+		"damage.");
+	_spells.emplace_back(SpellID::KATINO, SpellType::MAGE,
+		SpellCategory::DISABLE, level, false, "KATINO", "Bad Air",
+		"Temporarily puts to sleep one group of foes.");
+	_spells.emplace_back(SpellID::MOGREF, SpellType::MAGE,
+		SpellCategory::SUPPORT, level, false, "MOGREF", "Body Iron",
+		"Grants a -2 bonus to armour class to the caster for the duration of "
+		"combat.");
 
 	// Level 2
 	++level;
-	_spells.emplace_back(SpellID::BOLATU, SpellType::MAGE, SpellCategory::DISABLE, level, false,
-		"BOLATU", "Heart of Stone", "Attempts to turn one foe to stone.");
-	_spells.emplace_back(SpellID::DESTO, SpellType::MAGE, SpellCategory::FIELD, level, false,
-		"DESTO", "Unlock",
-		"Attempts to magically unlock one door as if the caster were a thief of the same level.");
-	_spells.emplace_back(SpellID::MELITO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
-		"MELITO", "Little Sparks", "Inflicts 1d8 points of electric damage to one group of foes.");
-	_spells.emplace_back(SpellID::MORLIS, SpellType::MAGE, SpellCategory::DISABLE, level, false,
-		"MORLIS", "Fear",
-		"Causes one group of foes to fear the party, making them less effective in combat.");
-	_spells.emplace_back(SpellID::PONTI, SpellType::MAGE, SpellCategory::SUPPORT, level, false,
-		"PONTI", "Speed",
-		"Grants a -1 bonus to armour class to a party member and improves their speed for the "
+	_spells.emplace_back(SpellID::BOLATU, SpellType::MAGE,
+		SpellCategory::DISABLE, level, false, "BOLATU", "Heart of Stone",
+		"Attempts to turn one foe to stone.");
+	_spells.emplace_back(SpellID::DESTO, SpellType::MAGE, SpellCategory::FIELD,
+		level, false, "DESTO", "Unlock",
+		"Attempts to magically unlock one door as if the caster were a thief "
+		"of the same level.");
+	_spells.emplace_back(SpellID::MELITO, SpellType::MAGE,
+		SpellCategory::ATTACK, level, false, "MELITO", "Little Sparks",
+		"Inflicts 1d8 points of electric damage to one group of foes.");
+	_spells.emplace_back(SpellID::MORLIS, SpellType::MAGE,
+		SpellCategory::DISABLE, level, false, "MORLIS", "Fear",
+		"Causes one group of foes to fear the party, making them less "
+		"effective in combat.");
+	_spells.emplace_back(SpellID::PONTI, SpellType::MAGE,
+		SpellCategory::SUPPORT, level, false, "PONTI", "Speed",
+		"Grants a -1 bonus to armour class to a party member and improves "
+		"their speed for the "
 		"duration of combat.");
 
 	// Level 3
 	++level;
-	_spells.emplace_back(SpellID::CALIFIC, SpellType::MAGE, SpellCategory::FIELD, level, false,
-		"CALIFIC", "Reveal", "Reveals nearby secret doors.");
-	_spells.emplace_back(SpellID::CORTU, SpellType::MAGE, SpellCategory::SUPPORT, level, false,
-		"CORTU", "Magic Screen",
-		"Erects a protective barrier around the party giving partial protection from breath "
+	_spells.emplace_back(SpellID::CALIFIC, SpellType::MAGE,
+		SpellCategory::FIELD, level, false, "CALIFIC", "Reveal",
+		"Reveals nearby secret doors.");
+	_spells.emplace_back(SpellID::CORTU, SpellType::MAGE,
+		SpellCategory::SUPPORT, level, false, "CORTU", "Magic Screen",
+		"Erects a protective barrier around the party giving partial "
+		"protection from breath "
 		"attacks during combat. Stacks with multiple casts.");
-	_spells.emplace_back(SpellID::KANTIOS, SpellType::MAGE, SpellCategory::DISABLE, level, false,
-		"KANTIOS", "Discrption",
-		"Disrupts the senses of a group of foes, preventing them from casting spells, using breath "
+	_spells.emplace_back(SpellID::KANTIOS, SpellType::MAGE,
+		SpellCategory::DISABLE, level, false, "KANTIOS", "Discrption",
+		"Disrupts the senses of a group of foes, preventing them from casting "
+		"spells, using breath "
 		"attacks and calling for help.");
-	_spells.emplace_back(SpellID::MAHALITO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
-		"MAHALITO", "Big Fire",
-		"Causes an explosion in a group of foes, inflicting 3d8 points of fire damage.");
+	_spells.emplace_back(SpellID::MAHALITO, SpellType::MAGE,
+		SpellCategory::ATTACK, level, false, "MAHALITO", "Big Fire",
+		"Causes an explosion in a group of foes, inflicting 3d8 points of fire "
+		"damage.");
 
 	// Level 4
 	++level;
-	_spells.emplace_back(SpellID::LAHALITO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
-		"LAHALITO", "Torch", "Inflicts 6d6 points of fire damage to a group of foes.");
-	_spells.emplace_back(SpellID::LITOFEIT, SpellType::MAGE, SpellCategory::FIELD, level, false,
-		"LITOFEIT", "Levitate",
-		"Causes the party to levitate, preventing the triggering of floor traps and greatly "
+	_spells.emplace_back(SpellID::LAHALITO, SpellType::MAGE,
+		SpellCategory::ATTACK, level, false, "LAHALITO", "Torch",
+		"Inflicts 6d6 points of fire damage to a group of foes.");
+	_spells.emplace_back(SpellID::LITOFEIT, SpellType::MAGE,
+		SpellCategory::FIELD, level, false, "LITOFEIT", "Levitate",
+		"Causes the party to levitate, preventing the triggering of floor "
+		"traps and greatly "
 		"reduces the chances of ambushes.");
-	_spells.emplace_back(SpellID::ROKDO, SpellType::MAGE, SpellCategory::DISABLE, level, false,
-		"ROKDO", "Stun", "Stuns one group of foes, rendering them helpless in combat.");
-	_spells.emplace_back(SpellID::TZALIK, SpellType::MAGE, SpellCategory::ATTACK, level, false,
-		"TZALIK", "Fist of the Gods", "Inflicts 20d3 points of force damage on one foe.");
+	_spells.emplace_back(SpellID::ROKDO, SpellType::MAGE,
+		SpellCategory::DISABLE, level, false, "ROKDO", "Stun",
+		"Stuns one group of foes, rendering them helpless in combat.");
+	_spells.emplace_back(SpellID::TZALIK, SpellType::MAGE,
+		SpellCategory::ATTACK, level, false, "TZALIK", "Fist of the Gods",
+		"Inflicts 20d3 points of force damage on one foe.");
 
 	// Level 5
 	++level;
-	_spells.emplace_back(SpellID::BACORTU, SpellType::MAGE, SpellCategory::DISABLE, level, false,
-		"BACORTU", "Fizzle Field", "Erects a spell dampening field around a group of foes.");
-	_spells.emplace_back(SpellID::MADALTO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
-		"MADALTO", "Frost", "Inflicts 8d8 points of cold damage to a group of foes.");
-	_spells.emplace_back(SpellID::PALIOS, SpellType::MAGE, SpellCategory::DISABLE, level, false,
-		"PALIOS", "Anti-Magic", "Destroys spell-dampening fields.");
-	_spells.emplace_back(SpellID::SOCORDI, SpellType::MAGE, SpellCategory::SUPPORT, level, false,
-		"SOCORDI", "Terror",
-		"Gates in a powerful extra-dimnensional creature to aid the party during combat.");
-	_spells.emplace_back(SpellID::VASKYRE, SpellType::MAGE, SpellCategory::DISABLE, level, false,
-		"VASKYRE", "Rainbow Rays", "Causes random damaging effects to a group of foes.");
+	_spells.emplace_back(SpellID::BACORTU, SpellType::MAGE,
+		SpellCategory::DISABLE, level, false, "BACORTU", "Fizzle Field",
+		"Erects a spell dampening field around a group of foes.");
+	_spells.emplace_back(SpellID::MADALTO, SpellType::MAGE,
+		SpellCategory::ATTACK, level, false, "MADALTO", "Frost",
+		"Inflicts 8d8 points of cold damage to a group of foes.");
+	_spells.emplace_back(SpellID::PALIOS, SpellType::MAGE,
+		SpellCategory::DISABLE, level, false, "PALIOS", "Anti-Magic",
+		"Destroys spell-dampening fields.");
+	_spells.emplace_back(SpellID::SOCORDI, SpellType::MAGE,
+		SpellCategory::SUPPORT, level, false, "SOCORDI", "Terror",
+		"Gates in a powerful extra-dimnensional creature to aid the party "
+		"during combat.");
+	_spells.emplace_back(SpellID::VASKYRE, SpellType::MAGE,
+		SpellCategory::DISABLE, level, false, "VASKYRE", "Rainbow Rays",
+		"Causes random damaging effects to a group of foes.");
 
 	// Level 6
 	++level;
-	_spells.emplace_back(SpellID::HAMAN, SpellType::MAGE, SpellCategory::SUPPORT, level, false,
-		"HAMAN", "Change",
-		"Causes random but beneficial effects to the entire party but the caster loses one level "
+	_spells.emplace_back(SpellID::HAMAN, SpellType::MAGE,
+		SpellCategory::SUPPORT, level, false, "HAMAN", "Change",
+		"Causes random but beneficial effects to the entire party but the "
+		"caster loses one level "
 		"of experience.");
-	_spells.emplace_back(SpellID::LADALTO, SpellType::MAGE, SpellCategory::ATTACK, level, false,
-		"LADALTO", "Ice Storm",
+	_spells.emplace_back(SpellID::LADALTO, SpellType::MAGE,
+		SpellCategory::ATTACK, level, false, "LADALTO", "Ice Storm",
 		"Freezes one group of foes, inflicting 10d10 points of cold damage.");
-	_spells.emplace_back(SpellID::LOKARA, SpellType::MAGE, SpellCategory::ATTACK, level, false,
-		"LOKARA", "Big Glass",
-		"Opens the earth underneath all foes, attempting to swallow them whole.");
-	_spells.emplace_back(SpellID::ZILWAN, SpellType::MAGE, SpellCategory::ATTACK, level, false,
-		"ZILWAN", "Dispel",
-		"Inflicts 200d10 points of positive energy damage to one undead creature.");
+	_spells.emplace_back(SpellID::LOKARA, SpellType::MAGE,
+		SpellCategory::ATTACK, level, false, "LOKARA", "Big Glass",
+		"Opens the earth underneath all foes, attempting to swallow them "
+		"whole.");
+	_spells.emplace_back(SpellID::ZILWAN, SpellType::MAGE,
+		SpellCategory::ATTACK, level, false, "ZILWAN", "Dispel",
+		"Inflicts 200d10 points of positive energy damage to one undead "
+		"creature.");
 
 	// Level 7
 	++level;
-	_spells.emplace_back(SpellID::MAHAMAN, SpellType::MAGE, SpellCategory::SUPPORT, level, false,
-		"MAHAMAN", "Great Change",
-		"Causes random but beneficial major effects to the entire party but the caster loses one "
+	_spells.emplace_back(SpellID::MAHAMAN, SpellType::MAGE,
+		SpellCategory::SUPPORT, level, false, "MAHAMAN", "Great Change",
+		"Causes random but beneficial major effects to the entire party but "
+		"the caster loses one "
 		"level and the spell is forgotten.");
-	_spells.emplace_back(SpellID::MALOR, SpellType::MAGE, SpellCategory::FIELD, level, false,
-		"MALOR", "Apport",
-		"Teleports the party to a random nearby location when cast in combat, but to a specified "
+	_spells.emplace_back(SpellID::MALOR, SpellType::MAGE, SpellCategory::FIELD,
+		level, false, "MALOR", "Apport",
+		"Teleports the party to a random nearby location when cast in combat, "
+		"but to a specified "
 		"location when cast outside of combat.");
-	_spells.emplace_back(SpellID::MAWXIWTZ, SpellType::MAGE, SpellCategory::DISABLE, level, false,
-		"MAWXIWTZ", "MadHouse", "Causes random major damaging effects to all foes.");
-	_spells.emplace_back(SpellID::TILTOWAIT, SpellType::MAGE, SpellCategory::ATTACK, level, false,
-		"TILTOWAIT", "Explosion", "Inflicts 10d15 points of fire and force damage to all foes.");
+	_spells.emplace_back(SpellID::MAWXIWTZ, SpellType::MAGE,
+		SpellCategory::DISABLE, level, false, "MAWXIWTZ", "MadHouse",
+		"Causes random major damaging effects to all foes.");
+	_spells.emplace_back(SpellID::TILTOWAIT, SpellType::MAGE,
+		SpellCategory::ATTACK, level, false, "TILTOWAIT", "Explosion",
+		"Inflicts 10d15 points of fire and force damage to all foes.");
 
 	// Priest Spells (grouped by level)
 
 	// Level 1
 	level = 1u;
-	_spells.emplace_back(SpellID::BADIOS, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
-		"BADIOS", "Harm", "Inflicts 1d8 points of negative energy damage to one foe.");
-	_spells.emplace_back(SpellID::DIOS, SpellType::PRIEST, SpellCategory::HEALING, level, false,
-		"DIOS", "Heal", "Restores 1d8 hp to a party member.");
-	_spells.emplace_back(SpellID::KALKI, SpellType::PRIEST, SpellCategory::SUPPORT, level, false,
-		"KALKI", "Blessings",
-		"Grants a -1 bonus to armour class to the entire party for the duration of combat.");
-	_spells.emplace_back(SpellID::MILWA, SpellType::PRIEST, SpellCategory::FIELD, level, false,
-		"MILWA", "Light",
-		"Causes a softly glowing light to follow the party, increasing vision and revealing some "
+	_spells.emplace_back(SpellID::BADIOS, SpellType::PRIEST,
+		SpellCategory::ATTACK, level, false, "BADIOS", "Harm",
+		"Inflicts 1d8 points of negative energy damage to one foe.");
+	_spells.emplace_back(SpellID::DIOS, SpellType::PRIEST,
+		SpellCategory::HEALING, level, false, "DIOS", "Heal",
+		"Restores 1d8 hp to a party member.");
+	_spells.emplace_back(SpellID::KALKI, SpellType::PRIEST,
+		SpellCategory::SUPPORT, level, false, "KALKI", "Blessings",
+		"Grants a -1 bonus to armour class to the entire party for the "
+		"duration of combat.");
+	_spells.emplace_back(SpellID::MILWA, SpellType::PRIEST,
+		SpellCategory::FIELD, level, false, "MILWA", "Light",
+		"Causes a softly glowing light to follow the party, increasing vision "
+		"and revealing some "
 		"secret doors for 15d2 turns.");
-	_spells.emplace_back(SpellID::PORFIC, SpellType::PRIEST, SpellCategory::SUPPORT, level, false,
-		"PORFIC", "Shield",
-		"Grants a -4 bonus to armour class to the caster for the duration of combat.");
+	_spells.emplace_back(SpellID::PORFIC, SpellType::PRIEST,
+		SpellCategory::SUPPORT, level, false, "PORFIC", "Shield",
+		"Grants a -4 bonus to armour class to the caster for the duration of "
+		"combat.");
 
 	// Level 2
 	++level;
-	_spells.emplace_back(SpellID::CALFO, SpellType::PRIEST, SpellCategory::FIELD, level, false,
-		"CALFO", "X-Ray Vision",
+	_spells.emplace_back(SpellID::CALFO, SpellType::PRIEST,
+		SpellCategory::FIELD, level, false, "CALFO", "X-Ray Vision",
 		"Allows the caster to identify the trap on a chest with 95% accuracy.");
-	_spells.emplace_back(SpellID::KANDI, SpellType::PRIEST, SpellCategory::FIELD, level, false,
-		"KANDI", "Locate Soul",
-		"Gives the direction of the creature the party is attempting to locate; the location is "
+	_spells.emplace_back(SpellID::KANDI, SpellType::PRIEST,
+		SpellCategory::FIELD, level, false, "KANDI", "Locate Soul",
+		"Gives the direction of the creature the party is attempting to "
+		"locate; the location is "
 		"relative to the position of the caster.");
-	_spells.emplace_back(SpellID::KATU, SpellType::PRIEST, SpellCategory::FIELD, level, false,
-		"KATU", "Charm",
-		"Attempts to charm one creature or foe, making it more friendly to the party.");
-	_spells.emplace_back(SpellID::MONTINO, SpellType::PRIEST, SpellCategory::DISABLE, level, false,
-		"MONTINO", "Still Air",
-		"Stills the air around a group of foes, making it impossible for them to cast spells.");
+	_spells.emplace_back(SpellID::KATU, SpellType::PRIEST, SpellCategory::FIELD,
+		level, false, "KATU", "Charm",
+		"Attempts to charm one creature or foe, making it more friendly to the "
+		"party.");
+	_spells.emplace_back(SpellID::MONTINO, SpellType::PRIEST,
+		SpellCategory::DISABLE, level, false, "MONTINO", "Still Air",
+		"Stills the air around a group of foes, making it impossible for them "
+		"to cast spells.");
 
 	// Level 3
 	++level;
-	_spells.emplace_back(SpellID::BAMATU, SpellType::PRIEST, SpellCategory::SUPPORT, level, false,
-		"BAMATU", "Prayer",
-		"Grants a -4 bonus to armour class to the entire party for the duration of combat.");
-	_spells.emplace_back(SpellID::DIALKO, SpellType::PRIEST, SpellCategory::HEALING, level, false,
-		"DIALKO", "Softness", "Cures one party member of paralysis, silence, or sleep.");
-	_spells.emplace_back(SpellID::HAKANIDO, SpellType::PRIEST, SpellCategory::DISABLE, level, false,
-		"HAKANIDO", "Magic Drain", "Drains one foe of spell points.");
-	_spells.emplace_back(SpellID::LATUMAPIC, SpellType::PRIEST, SpellCategory::FIELD, level, false,
-		"LATUMAPIC", "Identify", "Full identifies unknown foes.");
-	_spells.emplace_back(SpellID::LOMILWA, SpellType::PRIEST, SpellCategory::FIELD, level, false,
-		"LOMILWA", "More Light",
-		"Extends the party's field of vision and reveals most secret doors. Lasts until leaving "
+	_spells.emplace_back(SpellID::BAMATU, SpellType::PRIEST,
+		SpellCategory::SUPPORT, level, false, "BAMATU", "Prayer",
+		"Grants a -4 bonus to armour class to the entire party for the "
+		"duration of combat.");
+	_spells.emplace_back(SpellID::DIALKO, SpellType::PRIEST,
+		SpellCategory::HEALING, level, false, "DIALKO", "Softness",
+		"Cures one party member of paralysis, silence, or sleep.");
+	_spells.emplace_back(SpellID::HAKANIDO, SpellType::PRIEST,
+		SpellCategory::DISABLE, level, false, "HAKANIDO", "Magic Drain",
+		"Drains one foe of spell points.");
+	_spells.emplace_back(SpellID::LATUMAPIC, SpellType::PRIEST,
+		SpellCategory::FIELD, level, false, "LATUMAPIC", "Identify",
+		"Full identifies unknown foes.");
+	_spells.emplace_back(SpellID::LOMILWA, SpellType::PRIEST,
+		SpellCategory::FIELD, level, false, "LOMILWA", "More Light",
+		"Extends the party's field of vision and reveals most secret doors. "
+		"Lasts until leaving "
 		"the maze or entering an area of magical darkness.");
 
 	// Level 4
 	++level;
-	_spells.emplace_back(SpellID::BADIAL, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
-		"BADIAL", "More Hurt", "Inflicts 2d8 points of negative energy damage to one foe.");
-	_spells.emplace_back(SpellID::BARIKO, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
-		"BARIKO", "Razor Wind", "Inflicts 5d3 points of force damage to a group of foes.");
-	_spells.emplace_back(SpellID::DIAL, SpellType::PRIEST, SpellCategory::HEALING, level, false,
-		"DIAL", "More Heal", "Restores 2d8 hp to a party member.");
-	_spells.emplace_back(SpellID::LATUMOFIS, SpellType::PRIEST, SpellCategory::HEALING, level,
-		false, "LATUMOFIS", "Cure Poison", "Cures a party member of poisoning.");
-	_spells.emplace_back(SpellID::MAPORFIC, SpellType::PRIEST, SpellCategory::FIELD, level, false,
-		"MAPORFIC", "Big Shield",
-		"Grants a -2 bonus to armour class to the entire party. Lasts until leaving the maze or "
+	_spells.emplace_back(SpellID::BADIAL, SpellType::PRIEST,
+		SpellCategory::ATTACK, level, false, "BADIAL", "More Hurt",
+		"Inflicts 2d8 points of negative energy damage to one foe.");
+	_spells.emplace_back(SpellID::BARIKO, SpellType::PRIEST,
+		SpellCategory::ATTACK, level, false, "BARIKO", "Razor Wind",
+		"Inflicts 5d3 points of force damage to a group of foes.");
+	_spells.emplace_back(SpellID::DIAL, SpellType::PRIEST,
+		SpellCategory::HEALING, level, false, "DIAL", "More Heal",
+		"Restores 2d8 hp to a party member.");
+	_spells.emplace_back(SpellID::LATUMOFIS, SpellType::PRIEST,
+		SpellCategory::HEALING, level, false, "LATUMOFIS", "Cure Poison",
+		"Cures a party member of poisoning.");
+	_spells.emplace_back(SpellID::MAPORFIC, SpellType::PRIEST,
+		SpellCategory::FIELD, level, false, "MAPORFIC", "Big Shield",
+		"Grants a -2 bonus to armour class to the entire party. Lasts until "
+		"leaving the maze or "
 		"dispelled");
 
 	// Level 5
 	++level;
-	_spells.emplace_back(SpellID::BADI, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
-		"BADI", "Death", "Attempts to slay one foe outright.");
-	_spells.emplace_back(SpellID::BAMORDI, SpellType::PRIEST, SpellCategory::SUPPORT, level, false,
-		"BAMORDI", "Summoning",
-		"Gates in a group of powerful extra-dimnensional creature to aid the party during combat.");
-	_spells.emplace_back(SpellID::DI, SpellType::PRIEST, SpellCategory::HEALING, level, false, "DI",
-		"Life",
-		"Attempts to resurrect a dead party member. If it succeeds, the party members has 1 hp, "
-		"and loses 1 point of vitality. If it fails, the dead member is turned to ashes.");
-	_spells.emplace_back(SpellID::DIALMA, SpellType::PRIEST, SpellCategory::HEALING, level, false,
-		"DIALMA", "Great Heal", "Restores 3d8 hp to a party member.");
-	_spells.emplace_back(SpellID::MOGATO, SpellType::PRIEST, SpellCategory::DISABLE, level, false,
-		"MOGATO", "Astral Gate", "Attempts to banish a devil or demon back to its home plane.");
+	_spells.emplace_back(SpellID::BADI, SpellType::PRIEST,
+		SpellCategory::ATTACK, level, false, "BADI", "Death",
+		"Attempts to slay one foe outright.");
+	_spells.emplace_back(SpellID::BAMORDI, SpellType::PRIEST,
+		SpellCategory::SUPPORT, level, false, "BAMORDI", "Summoning",
+		"Gates in a group of powerful extra-dimnensional creature to aid the "
+		"party during combat.");
+	_spells.emplace_back(SpellID::DI, SpellType::PRIEST, SpellCategory::HEALING,
+		level, false, "DI", "Life",
+		"Attempts to resurrect a dead party member. If it succeeds, the party "
+		"members has 1 hp, "
+		"and loses 1 point of vitality. If it fails, the dead member is turned "
+		"to ashes.");
+	_spells.emplace_back(SpellID::DIALMA, SpellType::PRIEST,
+		SpellCategory::HEALING, level, false, "DIALMA", "Great Heal",
+		"Restores 3d8 hp to a party member.");
+	_spells.emplace_back(SpellID::MOGATO, SpellType::PRIEST,
+		SpellCategory::DISABLE, level, false, "MOGATO", "Astral Gate",
+		"Attempts to banish a devil or demon back to its home plane.");
 
 	// Level 6
 	++level;
-	_spells.emplace_back(SpellID::LABADI, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
-		"LABADI", "Life Steal",
-		"Attempts to drain all but 1d8 hp from a foe, and transfers the lifeforce to heal the "
+	_spells.emplace_back(SpellID::LABADI, SpellType::PRIEST,
+		SpellCategory::ATTACK, level, false, "LABADI", "Life Steal",
+		"Attempts to drain all but 1d8 hp from a foe, and transfers the "
+		"lifeforce to heal the "
 		"caster.");
-	_spells.emplace_back(SpellID::LOKTOFEIT, SpellType::PRIEST, SpellCategory::FIELD, level, false,
-		"LOKTOFEIT", "Recall",
-		"Causes all party members to be transported back to the castle, all of their equipment and "
-		"gold, but the spell is forgotten after casting and must be relearned, and there is a "
+	_spells.emplace_back(SpellID::LOKTOFEIT, SpellType::PRIEST,
+		SpellCategory::FIELD, level, false, "LOKTOFEIT", "Recall",
+		"Causes all party members to be transported back to the castle, all of "
+		"their equipment and "
+		"gold, but the spell is forgotten after casting and must be relearned, "
+		"and there is a "
 		"chance the spell will not work.");
-	_spells.emplace_back(SpellID::KAKAMEN, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
-		"KAKAMEN", "Fire Wind", "Inflicts 18d2 points of fire damage to a group of foes.");
-	_spells.emplace_back(SpellID::MADI, SpellType::PRIEST, SpellCategory::HEALING, level, false,
-		"MADI", "Healing",
-		"Fills a party member with positive energy, causeing all hp to be restored to a party "
+	_spells.emplace_back(SpellID::KAKAMEN, SpellType::PRIEST,
+		SpellCategory::ATTACK, level, false, "KAKAMEN", "Fire Wind",
+		"Inflicts 18d2 points of fire damage to a group of foes.");
+	_spells.emplace_back(SpellID::MADI, SpellType::PRIEST,
+		SpellCategory::HEALING, level, false, "MADI", "Healing",
+		"Fills a party member with positive energy, causeing all hp to be "
+		"restored to a party "
 		"member and curing any condition except death.");
 
 	// Level 7
 	++level;
-	_spells.emplace_back(SpellID::BAKADI, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
-		"BAKADI", "Death Wind",
-		"Unleashes a massive blast of negative energy at one group of foes, attempting to wipe "
+	_spells.emplace_back(SpellID::BAKADI, SpellType::PRIEST,
+		SpellCategory::ATTACK, level, false, "BAKADI", "Death Wind",
+		"Unleashes a massive blast of negative energy at one group of foes, "
+		"attempting to wipe "
 		"them from existance.");
-	_spells.emplace_back(SpellID::IHALON, SpellType::PRIEST, SpellCategory::SUPPORT, level, false,
-		"IHALON", "Wish",
-		"Grants a special favor to a party member, but is forgotten after being cast");
-	_spells.emplace_back(SpellID::KADORTO, SpellType::PRIEST, SpellCategory::HEALING, level, false,
-		"KADORTO", "Resurrection",
-		"Restores the dead to life, and restores all hp and cures all conditions, even if the "
-		"party member is ashes. If the attempt fails, the character is lost forever.");
-	_spells.emplace_back(SpellID::MABARIKO, SpellType::PRIEST, SpellCategory::ATTACK, level, false,
-		"MABARIKO", "Meteor Winds", "Inflicts 18d3 points of fire damage to all foes.");
+	_spells.emplace_back(SpellID::IHALON, SpellType::PRIEST,
+		SpellCategory::SUPPORT, level, false, "IHALON", "Wish",
+		"Grants a special favor to a party member, but is forgotten after "
+		"being cast");
+	_spells.emplace_back(SpellID::KADORTO, SpellType::PRIEST,
+		SpellCategory::HEALING, level, false, "KADORTO", "Resurrection",
+		"Restores the dead to life, and restores all hp and cures all "
+		"conditions, even if the "
+		"party member is ashes. If the attempt fails, the character is lost "
+		"forever.");
+	_spells.emplace_back(SpellID::MABARIKO, SpellType::PRIEST,
+		SpellCategory::ATTACK, level, false, "MABARIKO", "Meteor Winds",
+		"Inflicts 18d3 points of fire damage to all foes.");
 }
 
 auto Sorcery::Character::reset_spells() -> void {
@@ -2075,58 +2235,67 @@ auto Sorcery::Character::create_quick() -> void {
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::FIGHTER:
 	case CharacterClass::MAGE:
-		_alignment = {static_cast<CharacterAlignment>((*_system->random)[RandomType::D3])};
+		_alignment = {static_cast<CharacterAlignment>(
+			(*_system->random)[RandomType::D3])};
 		break;
 	case CharacterClass::PRIEST:
-		_alignment = (*_system->random)[RandomType::D2] == 1 ? CharacterAlignment::GOOD
-															 : CharacterAlignment::EVIL;
+		_alignment = (*_system->random)[RandomType::D2] == 1
+						 ? CharacterAlignment::GOOD
+						 : CharacterAlignment::EVIL;
 		break;
 	case CharacterClass::THIEF:
-		_alignment = (*_system->random)[RandomType::D2] == 1 ? CharacterAlignment::NEUTRAL
-															 : CharacterAlignment::EVIL;
+		_alignment = (*_system->random)[RandomType::D2] == 1
+						 ? CharacterAlignment::NEUTRAL
+						 : CharacterAlignment::EVIL;
 		break;
 	default:
 		break;
 	}
 
-	// Now get minimum attributes for race/class combo (note as we are only allowing creation of
-	// some classes, it will be as if we had a maximum of 10 bonus points to spend - in order to
-	// incentivise full blown character creation! see table IV (A) at
-	// https://gamefaqs.gamespot.com/pc/946844-the-ultimate-wizardry-archives/faqs/45726 for
-	// info
+	// Now get minimum attributes for race/class combo (note as we are only
+	// allowing creation of some classes, it will be as if we had a maximum of
+	// 10 bonus points to spend - in order to incentivise full blown character
+	// creation! see table IV (A) at
+	// https://gamefaqs.gamespot.com/pc/946844-the-ultimate-wizardry-archives/faqs/45726
+	// for info
 	switch (_race) { // NOLINT(clang-diagnostic-switch)
 	case CharacterRace::HUMAN:
-		_start_attr = {{CharacterAttribute::STRENGTH, 8}, {CharacterAttribute::IQ, 5},
-			{CharacterAttribute::PIETY, 5}, {CharacterAttribute::VITALITY, 8},
-			{CharacterAttribute::AGILITY, 8}, {CharacterAttribute::LUCK, 9}};
+		_start_attr = {{CharacterAttribute::STRENGTH, 8},
+			{CharacterAttribute::IQ, 5}, {CharacterAttribute::PIETY, 5},
+			{CharacterAttribute::VITALITY, 8}, {CharacterAttribute::AGILITY, 8},
+			{CharacterAttribute::LUCK, 9}};
 		break;
 	case CharacterRace::ELF:
-		_start_attr = {{CharacterAttribute::STRENGTH, 7}, {CharacterAttribute::IQ, 10},
-			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 6},
-			{CharacterAttribute::AGILITY, 9}, {CharacterAttribute::LUCK, 6}};
+		_start_attr = {{CharacterAttribute::STRENGTH, 7},
+			{CharacterAttribute::IQ, 10}, {CharacterAttribute::PIETY, 10},
+			{CharacterAttribute::VITALITY, 6}, {CharacterAttribute::AGILITY, 9},
+			{CharacterAttribute::LUCK, 6}};
 		break;
 	case CharacterRace::DWARF:
-		_start_attr = {{CharacterAttribute::STRENGTH, 10}, {CharacterAttribute::IQ, 7},
-			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 10},
+		_start_attr = {{CharacterAttribute::STRENGTH, 10},
+			{CharacterAttribute::IQ, 7}, {CharacterAttribute::PIETY, 10},
+			{CharacterAttribute::VITALITY, 10},
 			{CharacterAttribute::AGILITY, 5}, {CharacterAttribute::LUCK, 6}};
 		break;
 	case CharacterRace::GNOME:
-		_start_attr = {{CharacterAttribute::STRENGTH, 7}, {CharacterAttribute::IQ, 7},
-			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 8},
+		_start_attr = {{CharacterAttribute::STRENGTH, 7},
+			{CharacterAttribute::IQ, 7}, {CharacterAttribute::PIETY, 10},
+			{CharacterAttribute::VITALITY, 8},
 			{CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 7}};
 		break;
 	case CharacterRace::HOBBIT:
-		_start_attr = {{CharacterAttribute::STRENGTH, 5}, {CharacterAttribute::IQ, 7},
-			{CharacterAttribute::PIETY, 7}, {CharacterAttribute::VITALITY, 6},
+		_start_attr = {{CharacterAttribute::STRENGTH, 5},
+			{CharacterAttribute::IQ, 7}, {CharacterAttribute::PIETY, 7},
+			{CharacterAttribute::VITALITY, 6},
 			{CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 12}};
 		break;
 	default:
 		break;
 	};
 
-	// Put most of the points into the main attribute (note that 10 points means a Human Priest
-	// and Dwarf Thief have allocated all points to their main attribute with no points left
-	// over)
+	// Put most of the points into the main attribute (note that 10 points means
+	// a Human Priest and Dwarf Thief have allocated all points to their main
+	// attribute with no points left over)
 	_points_left = 10;
 	_st_points = _points_left;
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
@@ -2168,15 +2337,18 @@ auto Sorcery::Character::create_random() -> void {
 
 auto Sorcery::Character::_get_character_portrait() -> sf::Sprite {
 
-	// Workout the location of the potrait on the texture, noting that the potraits are all
-	// square and are 600x600 pixels in size arranged in a grid of 6 by 5
+	// Workout the location of the potrait on the texture, noting that the
+	// potraits are all square and are 600x600 pixels in size arranged in a grid
+	// of 6 by 5
 	constexpr int portrait_size{600};
-	sf::Vector2u top_left{
-		(_portrait_index % 6) * portrait_size, (_portrait_index / 6) * portrait_size};
-	sf::IntRect rect{sf::IntRect(top_left.x, top_left.y, portrait_size, portrait_size)};
+	sf::Vector2u top_left{(_portrait_index % 6) * portrait_size,
+		(_portrait_index / 6) * portrait_size};
+	sf::IntRect rect{
+		sf::IntRect(top_left.x, top_left.y, portrait_size, portrait_size)};
 
 	// Grab the associated part of the texture and return it
-	sf::Sprite portrait(_system->resources->textures[GraphicsTexture::PORTRAITS]);
+	sf::Sprite portrait(
+		_system->resources->textures[GraphicsTexture::PORTRAITS]);
 	portrait.setTextureRect(rect);
 
 	return portrait;
@@ -2260,44 +2432,48 @@ auto Sorcery::Character::set_poisoned_rate(int value) -> void {
 auto Sorcery::Character::get_poisoned_string() const -> std::string {
 
 	return _abilities.at(CharacterAbility::POISON_STRENGTH) > 0
-			   ? fmt::format("{:->2}", _abilities.at(CharacterAbility::POISON_STRENGTH))
+			   ? fmt::format(
+					 "{:->2}", _abilities.at(CharacterAbility::POISON_STRENGTH))
 			   : "";
 }
 
 auto Sorcery::Character::get_hp_summary() -> std::string {
 
-	return fmt::format("{}/{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
+	return fmt::format("{}/{}",
+		std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
 		std::to_string(_abilities.at(CharacterAbility::MAX_HP)));
 }
 
-auto Sorcery::Character::get_spell_points(const SpellType type, const SpellPointStatus status) const
-	-> std::optional<SpellPoints> {
+auto Sorcery::Character::get_spell_points(const SpellType type,
+	const SpellPointStatus status) const -> std::optional<SpellPoints> {
 
 	if ((type == SpellType::MAGE) && (status == SpellPointStatus::CURRENT))
 		return _mage_cur_sp;
 	else if ((type == SpellType::MAGE) && (status == SpellPointStatus::MAXIMUM))
 		return _mage_max_sp;
-	else if ((type == SpellType::PRIEST) && (status == SpellPointStatus::CURRENT))
+	else if ((type == SpellType::PRIEST) &&
+			 (status == SpellPointStatus::CURRENT))
 		return _priest_cur_sp;
-	else if ((type == SpellType::PRIEST) && (status == SpellPointStatus::MAXIMUM))
+	else if ((type == SpellType::PRIEST) &&
+			 (status == SpellPointStatus::MAXIMUM))
 		return _priest_max_sp;
 	else
 		return std::nullopt;
 }
 
-auto Sorcery::Character::_get_spell_points_per_level(const SpellType type, int level)
+auto Sorcery::Character::_get_sp_per_level(const SpellType type, int level)
 	-> std::string {
 
 	if (type == SpellType::MAGE) {
-		return fmt::format(
-			"{}/{}", std::to_string(_mage_cur_sp[level]), std::to_string(_mage_max_sp[level]));
+		return fmt::format("{}/{}", std::to_string(_mage_cur_sp[level]),
+			std::to_string(_mage_max_sp[level]));
 	} else {
-		return fmt::format(
-			"{}/{}", std::to_string(_priest_cur_sp[level]), std::to_string(_priest_max_sp[level]));
+		return fmt::format("{}/{}", std::to_string(_priest_cur_sp[level]),
+			std::to_string(_priest_max_sp[level]));
 	}
 }
 
-auto Sorcery::Character::_get_mage_magic_status(bool current) -> std::string {
+auto Sorcery::Character::_get_mage_status(bool current) -> std::string {
 
 	std::string value{};
 	for (auto level = 1; level <= 7; level++)
@@ -2310,7 +2486,7 @@ auto Sorcery::Character::_get_mage_magic_status(bool current) -> std::string {
 	return value;
 }
 
-auto Sorcery::Character::_get_priest_magic_status(bool current) -> std::string {
+auto Sorcery::Character::_get_priest_status(bool current) -> std::string {
 
 	std::string value{};
 	for (auto level = 1; level <= 7; level++)
@@ -2323,7 +2499,8 @@ auto Sorcery::Character::_get_priest_magic_status(bool current) -> std::string {
 	return value;
 }
 
-// For level draining, optionally keep a track of negative levels unless in strict mode
+// For level draining, optionally keep a track of negative levels unless in
+// strict mode
 
 // Need to also handle character class switching
 
@@ -2333,28 +2510,35 @@ auto Sorcery::Character::_generate_summary_icons() -> void {
 		(*_display->layout)["character:class_icon"].y);
 	class_icon.setScale((*_display->layout)["character:class_icon"].scale,
 		(*_display->layout)["character:class_icon"].scale);
-	_v_sprites.emplace((*_display->layout)["character:class_icon"].unique_key, class_icon);
+	_v_sprites.emplace(
+		(*_display->layout)["character:class_icon"].unique_key, class_icon);
 
 	auto race_icon{get_icon(CharacterStage::CHOOSE_RACE).value()};
-	race_icon.setPosition(
-		(*_display->layout)["character:race_icon"].x, (*_display->layout)["character:race_icon"].y);
+	race_icon.setPosition((*_display->layout)["character:race_icon"].x,
+		(*_display->layout)["character:race_icon"].y);
 	race_icon.setScale((*_display->layout)["character:race_icon"].scale,
 		(*_display->layout)["character:race_icon"].scale);
-	_v_sprites.emplace((*_display->layout)["character:race_icon"].unique_key, race_icon);
+	_v_sprites.emplace(
+		(*_display->layout)["character:race_icon"].unique_key, race_icon);
 
 	auto alignment_icon{get_icon(CharacterStage::CHOOSE_ALIGNMENT).value()};
-	alignment_icon.setPosition((*_display->layout)["character:alignment_icon"].x,
+	alignment_icon.setPosition(
+		(*_display->layout)["character:alignment_icon"].x,
 		(*_display->layout)["character:alignment_icon"].y);
-	alignment_icon.setScale((*_display->layout)["character:alignment_icon"].scale,
+	alignment_icon.setScale(
+		(*_display->layout)["character:alignment_icon"].scale,
 		(*_display->layout)["character:alignment_icon"].scale);
-	_v_sprites.emplace((*_display->layout)["character:alignment_icon"].unique_key, alignment_icon);
+	_v_sprites.emplace(
+		(*_display->layout)["character:alignment_icon"].unique_key,
+		alignment_icon);
 
 	auto level_icon{(*_graphics->icons)["level"].value()};
 	level_icon.setPosition((*_display->layout)["character:level_icon"].x,
 		(*_display->layout)["character:level_icon"].y);
 	level_icon.setScale((*_display->layout)["character:level_icon"].scale,
 		(*_display->layout)["character:level_icon"].scale);
-	_v_sprites.emplace((*_display->layout)["character:level_icon"].unique_key, level_icon);
+	_v_sprites.emplace(
+		(*_display->layout)["character:level_icon"].unique_key, level_icon);
 
 	_add_text((*_display->layout)["character:level_text"], "{}",
 		std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)), true);
@@ -2365,8 +2549,9 @@ auto Sorcery::Character::get_summary() -> std::string {
 	std::string name{_name};
 	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	return fmt::format("{:<15} L {:>2} {}-{} {}", name,
-		_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
-		get_class(_class).substr(0, 3), get_race(_race).substr(0, 3));
+		_abilities.at(CharacterAbility::CURRENT_LEVEL),
+		get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3),
+		get_race(_race).substr(0, 3));
 }
 
 auto Sorcery::Character::summary_text() -> std::string {
@@ -2379,8 +2564,8 @@ auto Sorcery::Character::summary_text() -> std::string {
 		return fmt::format("{:<15} L ?? ?-??? ???", "???");
 		break;
 	case CharacterStage::CHOOSE_RACE:
-		return fmt::format(
-			"{:<15} L {:>2} ?-??? ???", name, _abilities.at(CharacterAbility::CURRENT_LEVEL));
+		return fmt::format("{:<15} L {:>2} ?-??? ???", name,
+			_abilities.at(CharacterAbility::CURRENT_LEVEL));
 		break;
 	case CharacterStage::CHOOSE_ALIGNMENT:
 		return fmt::format("{:<15} L {:>2} ?-??? {}", name,
@@ -2388,23 +2573,25 @@ auto Sorcery::Character::summary_text() -> std::string {
 		break;
 	case CharacterStage::ALLOCATE_STATS:
 		return fmt::format("{:<15} L {:>2} {}-??? {}", name,
-			_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
-			get_race(_race));
+			_abilities.at(CharacterAbility::CURRENT_LEVEL),
+			get_alignment(_alignment).substr(0, 1), get_race(_race));
 		break;
 	case CharacterStage::CHOOSE_CLASS:
 		return fmt::format("{:<15} L {:>2} {}-??? {}", name,
-			_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
-			get_race(_race));
+			_abilities.at(CharacterAbility::CURRENT_LEVEL),
+			get_alignment(_alignment).substr(0, 1), get_race(_race));
 		break;
 	case CharacterStage::CHOOSE_PORTRAIT:
 		return fmt::format("{:<15} L {:>2} {}-{} {}", name,
-			_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
+			_abilities.at(CharacterAbility::CURRENT_LEVEL),
+			get_alignment(_alignment).substr(0, 1),
 			get_class(_class).substr(0, 3), get_race(_race));
 		break;
 	case CharacterStage::REVIEW_AND_CONFIRM:
 	case CharacterStage::COMPLETED:
 		return fmt::format("{} L {:>2} {}-{} {}", name,
-			_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
+			_abilities.at(CharacterAbility::CURRENT_LEVEL),
+			get_alignment(_alignment).substr(0, 1),
 			get_class(_class).substr(0, 3), get_race(_race));
 		break;
 	default:
@@ -2439,10 +2626,12 @@ auto Sorcery::Character::_generate_display() -> void {
 
 	if (_view == CharacterView::SUMMARY) {
 
-		_display->generate_components("character_summary", _v_sprites, _v_texts, _v_frames);
+		_display->generate_components(
+			"character_summary", _v_sprites, _v_texts, _v_frames);
 
 		_add_text(
-			(*_display->layout)["character_summary:name_and_summary_text"], "{}", summary_text());
+			(*_display->layout)["character_summary:name_and_summary_text"],
+			"{}", summary_text());
 
 		auto portrait{_get_character_portrait()};
 		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
@@ -2463,46 +2652,60 @@ auto Sorcery::Character::_generate_display() -> void {
 		_v_sprites.emplace(portrait_c.unique_key, portrait);
 
 		Component s_c{(*_display->layout)["character_summary:strength_value"]};
-		s_c.colour = _graphics->adjust_colour(
-			_cur_attr.at(CharacterAttribute::STRENGTH), CharacterAbilityType::STAT);
-		_add_text(s_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
+		s_c.colour =
+			_graphics->adjust_colour(_cur_attr.at(CharacterAttribute::STRENGTH),
+				CharacterAbilityType::STAT);
+		_add_text(s_c, "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
 
 		Component i_c{(*_display->layout)["character_summary:iq_value"]};
 		i_c.colour = _graphics->adjust_colour(
 			_cur_attr.at(CharacterAttribute::IQ), CharacterAbilityType::STAT);
-		_add_text(i_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::IQ)));
+		_add_text(
+			i_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::IQ)));
 
 		Component p_c{(*_display->layout)["character_summary:piety_value"]};
-		p_c.colour = _graphics->adjust_colour(
-			_cur_attr.at(CharacterAttribute::PIETY), CharacterAbilityType::STAT);
-		_add_text(p_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::PIETY)));
+		p_c.colour =
+			_graphics->adjust_colour(_cur_attr.at(CharacterAttribute::PIETY),
+				CharacterAbilityType::STAT);
+		_add_text(p_c, "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::PIETY)));
 
 		Component a_c{(*_display->layout)["character_summary:agility_value"]};
-		a_c.colour = _graphics->adjust_colour(
-			_cur_attr.at(CharacterAttribute::AGILITY), CharacterAbilityType::STAT);
-		_add_text(a_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::AGILITY)));
+		a_c.colour =
+			_graphics->adjust_colour(_cur_attr.at(CharacterAttribute::AGILITY),
+				CharacterAbilityType::STAT);
+		_add_text(a_c, "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::AGILITY)));
 
 		Component v_c{(*_display->layout)["character_summary:vitality_value"]};
-		v_c.colour = _graphics->adjust_colour(
-			_cur_attr.at(CharacterAttribute::VITALITY), CharacterAbilityType::STAT);
-		_add_text(v_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::VITALITY)));
+		v_c.colour =
+			_graphics->adjust_colour(_cur_attr.at(CharacterAttribute::VITALITY),
+				CharacterAbilityType::STAT);
+		_add_text(v_c, "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::VITALITY)));
 
 		Component l_c{(*_display->layout)["character_summary:luck_value"]};
 		l_c.colour = _graphics->adjust_colour(
 			_cur_attr.at(CharacterAttribute::LUCK), CharacterAbilityType::STAT);
-		_add_text(l_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::LUCK)));
+		_add_text(l_c, "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::LUCK)));
 
 		_add_text((*_display->layout)["character_summary:hp_value"], "{}",
-			fmt::format("{}/{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
+			fmt::format("{}/{}",
+				std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
 				std::to_string(_abilities.at(CharacterAbility::MAX_HP))));
 		_add_text((*_display->layout)["character_summary:ac_value"], "{}",
-			std::to_string(_abilities.at(CharacterAbility::CURRENT_ARMOUR_CLASS)));
+			std::to_string(
+				_abilities.at(CharacterAbility::CURRENT_ARMOUR_CLASS)));
 		_add_text((*_display->layout)["character_summary:age_value"], "{}",
-			std::to_string(static_cast<int>(_abilities.at(CharacterAbility::AGE) / 52)));
+			std::to_string(
+				static_cast<int>(_abilities.at(CharacterAbility::AGE) / 52)));
 		_add_text((*_display->layout)["character_summary:swim_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::SWIM)));
-		auto status_text{_add_text(
-			(*_display->layout)["character_summary:status_value"], "{}", get_status_string())};
+		auto status_text{
+			_add_text((*_display->layout)["character_summary:status_value"],
+				"{}", get_status_string())};
 		status_text->setFillColor(
 			sf::Color(_graphics->adjust_status_colour(_status, is_poisoned())));
 
@@ -2517,22 +2720,28 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text((*_display->layout)["character_summary:deaths_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::DEATHS)));
 
-		std::string mage_spells{fmt::format("{}/{}/{}/{}/{}/{}/{}", _mage_cur_sp.at(1),
-			_mage_cur_sp.at(2), _mage_cur_sp.at(3), _mage_cur_sp.at(4), _mage_cur_sp.at(5),
-			_mage_cur_sp.at(6), _mage_cur_sp.at(7))};
-		std::string priest_spells{fmt::format("{}/{}/{}/{}/{}/{}/{}", _priest_cur_sp.at(1),
-			_priest_cur_sp.at(2), _priest_cur_sp.at(3), _priest_cur_sp.at(4), _priest_cur_sp.at(5),
-			_priest_cur_sp.at(6), _priest_cur_sp.at(7))};
+		std::string mage_spells{
+			fmt::format("{}/{}/{}/{}/{}/{}/{}", _mage_cur_sp.at(1),
+				_mage_cur_sp.at(2), _mage_cur_sp.at(3), _mage_cur_sp.at(4),
+				_mage_cur_sp.at(5), _mage_cur_sp.at(6), _mage_cur_sp.at(7))};
+		std::string priest_spells{fmt::format("{}/{}/{}/{}/{}/{}/{}",
+			_priest_cur_sp.at(1), _priest_cur_sp.at(2), _priest_cur_sp.at(3),
+			_priest_cur_sp.at(4), _priest_cur_sp.at(5), _priest_cur_sp.at(6),
+			_priest_cur_sp.at(7))};
 
-		_add_text((*_display->layout)["character_summary:mage_spells"], "{}", mage_spells);
-		_add_text((*_display->layout)["character_summary:priest_spells"], "{}", priest_spells);
+		_add_text((*_display->layout)["character_summary:mage_spells"], "{}",
+			mage_spells);
+		_add_text((*_display->layout)["character_summary:priest_spells"], "{}",
+			priest_spells);
 
 	} else if (_view == CharacterView::DETAILED) {
 
-		_display->generate_components("character_detailed", _v_sprites, _v_texts, _v_frames);
+		_display->generate_components(
+			"character_detailed", _v_sprites, _v_texts, _v_frames);
 
 		_add_text(
-			(*_display->layout)["character_detailed:name_and_summary_text"], "{}", summary_text());
+			(*_display->layout)["character_detailed:name_and_summary_text"],
+			"{}", summary_text());
 
 		auto portrait{_get_character_portrait()};
 		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
@@ -2553,299 +2762,370 @@ auto Sorcery::Character::_generate_display() -> void {
 		_v_sprites.emplace(portrait_c.unique_key, portrait);
 
 		Component s_c{(*_display->layout)["character_detailed:strength_value"]};
-		s_c.colour = _graphics->adjust_colour(
-			_cur_attr.at(CharacterAttribute::STRENGTH), CharacterAbilityType::STAT);
-		_add_text(s_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
+		s_c.colour =
+			_graphics->adjust_colour(_cur_attr.at(CharacterAttribute::STRENGTH),
+				CharacterAbilityType::STAT);
+		_add_text(s_c, "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
 
 		Component i_c{(*_display->layout)["character_detailed:iq_value"]};
 		i_c.colour = _graphics->adjust_colour(
 			_cur_attr.at(CharacterAttribute::IQ), CharacterAbilityType::STAT);
-		_add_text(i_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::IQ)));
+		_add_text(
+			i_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::IQ)));
 
 		Component p_c{(*_display->layout)["character_detailed:piety_value"]};
-		p_c.colour = _graphics->adjust_colour(
-			_cur_attr.at(CharacterAttribute::PIETY), CharacterAbilityType::STAT);
-		_add_text(p_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::PIETY)));
+		p_c.colour =
+			_graphics->adjust_colour(_cur_attr.at(CharacterAttribute::PIETY),
+				CharacterAbilityType::STAT);
+		_add_text(p_c, "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::PIETY)));
 
 		Component a_c{(*_display->layout)["character_detailed:agility_value"]};
-		a_c.colour = _graphics->adjust_colour(
-			_cur_attr.at(CharacterAttribute::AGILITY), CharacterAbilityType::STAT);
-		_add_text(a_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::AGILITY)));
+		a_c.colour =
+			_graphics->adjust_colour(_cur_attr.at(CharacterAttribute::AGILITY),
+				CharacterAbilityType::STAT);
+		_add_text(a_c, "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::AGILITY)));
 
 		Component v_c{(*_display->layout)["character_detailed:vitality_value"]};
-		v_c.colour = _graphics->adjust_colour(
-			_cur_attr.at(CharacterAttribute::VITALITY), CharacterAbilityType::STAT);
-		_add_text(v_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::VITALITY)));
+		v_c.colour =
+			_graphics->adjust_colour(_cur_attr.at(CharacterAttribute::VITALITY),
+				CharacterAbilityType::STAT);
+		_add_text(v_c, "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::VITALITY)));
 
 		Component l_c{(*_display->layout)["character_detailed:luck_value"]};
 		l_c.colour = _graphics->adjust_colour(
 			_cur_attr.at(CharacterAttribute::LUCK), CharacterAbilityType::STAT);
-		_add_text(l_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::LUCK)));
+		_add_text(l_c, "{:>2}",
+			std::to_string(_cur_attr.at(CharacterAttribute::LUCK)));
 
-		Component strength_c((*_display->layout)["character_detailed:strength_detailed_values"]);
+		Component strength_c(
+			(*_display->layout)["character_detailed:strength_detailed_values"]);
 
 		strength_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::ATTACK_MODIFIER), CharacterAbilityType::MODIFIER);
-		_add_text(
-			strength_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::ATTACK_MODIFIER)));
+			_abilities.at(CharacterAbility::ATTACK_MODIFIER),
+			CharacterAbilityType::MODIFIER);
+		_add_text(strength_c, "{:+>2}",
+			std::to_string(_abilities.at(CharacterAbility::ATTACK_MODIFIER)));
 
 		strength_c.y += _display->window->get_cell_height();
 		strength_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::HIT_PROBABILITY), CharacterAbilityType::MODIFIER);
-		_add_text(
-			strength_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::HIT_PROBABILITY)));
+			_abilities.at(CharacterAbility::HIT_PROBABILITY),
+			CharacterAbilityType::MODIFIER);
+		_add_text(strength_c, "{:+>2}",
+			std::to_string(_abilities.at(CharacterAbility::HIT_PROBABILITY)));
 
 		strength_c.y += _display->window->get_cell_height();
 		strength_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::BONUS_DAMAGE), CharacterAbilityType::MODIFIER);
-		_add_text(
-			strength_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_DAMAGE)));
+			_abilities.at(CharacterAbility::BONUS_DAMAGE),
+			CharacterAbilityType::MODIFIER);
+		_add_text(strength_c, "{:+>2}",
+			std::to_string(_abilities.at(CharacterAbility::BONUS_DAMAGE)));
 
 		strength_c.y += _display->window->get_cell_height();
 		strength_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::BASE_NUMBER_OF_ATTACKS), CharacterAbilityType::NUMBER);
+			_abilities.at(CharacterAbility::BASE_NUMBER_OF_ATTACKS),
+			CharacterAbilityType::NUMBER);
 		_add_text(strength_c, "{:>2}",
-			std::to_string(_abilities.at(CharacterAbility::BASE_NUMBER_OF_ATTACKS)));
+			std::to_string(
+				_abilities.at(CharacterAbility::BASE_NUMBER_OF_ATTACKS)));
 
 		strength_c.y += _display->window->get_cell_height();
 		strength_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::UNARMED_DAMAGE), CharacterAbilityType::NUMBER);
-		_add_text(
-			strength_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::UNARMED_DAMAGE)));
+			_abilities.at(CharacterAbility::UNARMED_DAMAGE),
+			CharacterAbilityType::NUMBER);
+		_add_text(strength_c, "{:>2}",
+			std::to_string(_abilities.at(CharacterAbility::UNARMED_DAMAGE)));
 
-		Component iq_c((*_display->layout)["character_detailed:iq_detailed_values"]);
+		Component iq_c(
+			(*_display->layout)["character_detailed:iq_detailed_values"]);
 
 		iq_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::MAGE_SPELL_LEARN), CharacterAbilityType::PERCENTAGE);
-		_add_text(
-			iq_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::MAGE_SPELL_LEARN)));
+			_abilities.at(CharacterAbility::MAGE_SPELL_LEARN),
+			CharacterAbilityType::PERCENTAGE);
+		_add_text(iq_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::MAGE_SPELL_LEARN)));
 
 		iq_c.y += _display->window->get_cell_height();
 		iq_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::IDENTIFY_ITEMS), CharacterAbilityType::PERCENTAGE);
-		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_ITEMS)));
+			_abilities.at(CharacterAbility::IDENTIFY_ITEMS),
+			CharacterAbilityType::PERCENTAGE);
+		_add_text(iq_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::IDENTIFY_ITEMS)));
 
 		iq_c.y += _display->window->get_cell_height();
 		iq_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::IDENTIFY_CURSE), CharacterAbilityType::PERCENTAGE);
-		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_CURSE)));
+			_abilities.at(CharacterAbility::IDENTIFY_CURSE),
+			CharacterAbilityType::PERCENTAGE);
+		_add_text(iq_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::IDENTIFY_CURSE)));
 
 		iq_c.y += _display->window->get_cell_height();
 		iq_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::IDENTIFY_FOES), CharacterAbilityType::PERCENTAGE);
-		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_FOES)));
+			_abilities.at(CharacterAbility::IDENTIFY_FOES),
+			CharacterAbilityType::PERCENTAGE);
+		_add_text(iq_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::IDENTIFY_FOES)));
 
 		iq_c.y += _display->window->get_cell_height();
 		iq_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::BONUS_MAGE_SPELLS), CharacterAbilityType::NUMBER);
-		_add_text(
-			iq_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_MAGE_SPELLS)));
+			_abilities.at(CharacterAbility::BONUS_MAGE_SPELLS),
+			CharacterAbilityType::NUMBER);
+		_add_text(iq_c, "{:>2}",
+			std::to_string(_abilities.at(CharacterAbility::BONUS_MAGE_SPELLS)));
 
-		Component piety_c((*_display->layout)["character_detailed:piety_detailed_values"]);
+		Component piety_c(
+			(*_display->layout)["character_detailed:piety_detailed_values"]);
 		piety_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::PRIEST_SPELL_LEARN), CharacterAbilityType::PERCENTAGE);
-		_add_text(
-			piety_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::PRIEST_SPELL_LEARN)));
+			_abilities.at(CharacterAbility::PRIEST_SPELL_LEARN),
+			CharacterAbilityType::PERCENTAGE);
+		_add_text(piety_c, "{:>2}%",
+			std::to_string(
+				_abilities.at(CharacterAbility::PRIEST_SPELL_LEARN)));
 
 		piety_c.y += _display->window->get_cell_height();
 		piety_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::LOKTOFELT_SUCCESS), CharacterAbilityType::PERCENTAGE);
-		_add_text(
-			piety_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::LOKTOFELT_SUCCESS)));
+			_abilities.at(CharacterAbility::LOKTOFELT_SUCCESS),
+			CharacterAbilityType::PERCENTAGE);
+		_add_text(piety_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::LOKTOFELT_SUCCESS)));
 
 		piety_c.y += _display->window->get_cell_height();
 		piety_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::BASE_DISPELL), CharacterAbilityType::PERCENTAGE);
-		_add_text(piety_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_DISPELL)));
+			_abilities.at(CharacterAbility::BASE_DISPELL),
+			CharacterAbilityType::PERCENTAGE);
+		_add_text(piety_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::BASE_DISPELL)));
 
 		piety_c.y += _display->window->get_cell_height();
 		piety_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::BONUS_PRIEST_SPELLS), CharacterAbilityType::NUMBER);
-		_add_text(
-			piety_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_PRIEST_SPELLS)));
+			_abilities.at(CharacterAbility::BONUS_PRIEST_SPELLS),
+			CharacterAbilityType::NUMBER);
+		_add_text(piety_c, "{:>2}",
+			std::to_string(
+				_abilities.at(CharacterAbility::BONUS_PRIEST_SPELLS)));
 
-		Component vitality_c((*_display->layout)["character_detailed:vitality_detailed_values"]);
+		Component vitality_c(
+			(*_display->layout)["character_detailed:vitality_detailed_values"]);
 		vitality_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::VITALITY_BONUS), CharacterAbilityType::MODIFIER);
-		_add_text(
-			vitality_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::VITALITY_BONUS)));
+			_abilities.at(CharacterAbility::VITALITY_BONUS),
+			CharacterAbilityType::MODIFIER);
+		_add_text(vitality_c, "{:+>2}",
+			std::to_string(_abilities.at(CharacterAbility::VITALITY_BONUS)));
 
 		vitality_c.y += _display->window->get_cell_height();
 		vitality_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::BONUS_HIT_POINTS), CharacterAbilityType::MODIFIER);
+			_abilities.at(CharacterAbility::BONUS_HIT_POINTS),
+			CharacterAbilityType::MODIFIER);
 		_add_text(vitality_c, "{:+>2}",
 			std::to_string(_abilities.at(CharacterAbility::BONUS_HIT_POINTS)));
 
 		vitality_c.y += _display->window->get_cell_height();
 		vitality_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::DEAD_RESURRECT), CharacterAbilityType::PERCENTAGE);
-		_add_text(
-			vitality_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::DEAD_RESURRECT)));
+			_abilities.at(CharacterAbility::DEAD_RESURRECT),
+			CharacterAbilityType::PERCENTAGE);
+		_add_text(vitality_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::DEAD_RESURRECT)));
 
 		vitality_c.y += _display->window->get_cell_height();
 		vitality_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::ASHES_RESURRECT), CharacterAbilityType::PERCENTAGE);
-		_add_text(
-			vitality_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::ASHES_RESURRECT)));
+			_abilities.at(CharacterAbility::ASHES_RESURRECT),
+			CharacterAbilityType::PERCENTAGE);
+		_add_text(vitality_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::ASHES_RESURRECT)));
 
 		vitality_c.y += _display->window->get_cell_height();
-		vitality_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::DI_KADORTO_RESURRECT),
-				CharacterAbilityType::PERCENTAGE);
+		vitality_c.colour = _graphics->adjust_colour(
+			_abilities.at(CharacterAbility::DI_KADORTO_RESURRECT),
+			CharacterAbilityType::PERCENTAGE);
 		_add_text(vitality_c, "{:>2}%",
-			std::to_string(_abilities.at(CharacterAbility::DI_KADORTO_RESURRECT)));
+			std::to_string(
+				_abilities.at(CharacterAbility::DI_KADORTO_RESURRECT)));
 
-		Component agility_c((*_display->layout)["character_detailed:agility_detailed_values"]);
+		Component agility_c(
+			(*_display->layout)["character_detailed:agility_detailed_values"]);
 
 		agility_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::INITIATIVE_MODIFIER), CharacterAbilityType::MODIFIER);
+			_abilities.at(CharacterAbility::INITIATIVE_MODIFIER),
+			CharacterAbilityType::MODIFIER);
 		_add_text(agility_c, "{:+>2}",
-			std::to_string(_abilities.at(CharacterAbility::INITIATIVE_MODIFIER)));
+			std::to_string(
+				_abilities.at(CharacterAbility::INITIATIVE_MODIFIER)));
 
 		agility_c.y += _display->window->get_cell_height();
 		agility_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::BASE_CRITICAL_HIT), CharacterAbilityType::PERCENTAGE);
+			_abilities.at(CharacterAbility::BASE_CRITICAL_HIT),
+			CharacterAbilityType::PERCENTAGE);
 		_add_text(agility_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::BASE_CRITICAL_HIT)));
 
 		agility_c.y += _display->window->get_cell_height();
 		agility_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::IDENTIFY_TRAP), CharacterAbilityType::PERCENTAGE);
-		_add_text(
-			agility_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_TRAP)));
-
-		agility_c.y += _display->window->get_cell_height();
-		agility_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::BASE_DISARM_TRAP), CharacterAbilityType::PERCENTAGE);
-		_add_text(
-			agility_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_DISARM_TRAP)));
-
-		agility_c.y += _display->window->get_cell_height();
-		agility_c.colour =
-			_graphics->adjust_colour((100 - _abilities.at(CharacterAbility::ACTIVATE_TRAP)),
-				CharacterAbilityType::PERCENTAGE);
+			_abilities.at(CharacterAbility::IDENTIFY_TRAP),
+			CharacterAbilityType::PERCENTAGE);
 		_add_text(agility_c, "{:>2}%",
-			std::to_string(100 - _abilities.at(CharacterAbility::ACTIVATE_TRAP)));
+			std::to_string(_abilities.at(CharacterAbility::IDENTIFY_TRAP)));
 
 		agility_c.y += _display->window->get_cell_height();
 		agility_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::BASE_AVOID_PIT), CharacterAbilityType::PERCENTAGE);
-		_add_text(
-			agility_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_AVOID_PIT)));
+			_abilities.at(CharacterAbility::BASE_DISARM_TRAP),
+			CharacterAbilityType::PERCENTAGE);
+		_add_text(agility_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::BASE_DISARM_TRAP)));
 
 		agility_c.y += _display->window->get_cell_height();
 		agility_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::BASE_ARMOUR_CLASS), CharacterAbilityType::AC);
-		_add_text(
-			agility_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BASE_ARMOUR_CLASS)));
+			(100 - _abilities.at(CharacterAbility::ACTIVATE_TRAP)),
+			CharacterAbilityType::PERCENTAGE);
+		_add_text(agility_c, "{:>2}%",
+			std::to_string(
+				100 - _abilities.at(CharacterAbility::ACTIVATE_TRAP)));
 
-		Component luck_c((*_display->layout)["character_detailed:luck_detailed_values"]);
+		agility_c.y += _display->window->get_cell_height();
+		agility_c.colour = _graphics->adjust_colour(
+			_abilities.at(CharacterAbility::BASE_AVOID_PIT),
+			CharacterAbilityType::PERCENTAGE);
+		_add_text(agility_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::BASE_AVOID_PIT)));
+
+		agility_c.y += _display->window->get_cell_height();
+		agility_c.colour = _graphics->adjust_colour(
+			_abilities.at(CharacterAbility::BASE_ARMOUR_CLASS),
+			CharacterAbilityType::AC);
+		_add_text(agility_c, "{:>2}",
+			std::to_string(_abilities.at(CharacterAbility::BASE_ARMOUR_CLASS)));
+
+		Component luck_c(
+			(*_display->layout)["character_detailed:luck_detailed_values"]);
 
 		luck_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::BASE_RESIST_BONUS), CharacterAbilityType::PERCENTAGE);
-		_add_text(
-			luck_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_RESIST_BONUS)));
+			_abilities.at(CharacterAbility::BASE_RESIST_BONUS),
+			CharacterAbilityType::PERCENTAGE);
+		_add_text(luck_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::BASE_RESIST_BONUS)));
 
 		luck_c.y += _display->window->get_cell_height();
-		luck_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::EQUIPMENT_INTACT_ON_WIPE),
-				CharacterAbilityType::PERCENTAGE);
+		luck_c.colour = _graphics->adjust_colour(
+			_abilities.at(CharacterAbility::EQUIPMENT_INTACT_ON_WIPE),
+			CharacterAbilityType::PERCENTAGE);
 		_add_text(luck_c, "{:>2}%",
-			std::to_string(_abilities.at(CharacterAbility::EQUIPMENT_INTACT_ON_WIPE)));
+			std::to_string(
+				_abilities.at(CharacterAbility::EQUIPMENT_INTACT_ON_WIPE)));
 
-		Component resistances_c(
-			(*_display->layout)["character_detailed:resistances_detailed_values"]);
+		Component resistances_c((
+			*_display
+				 ->layout)["character_detailed:resistances_detailed_values"]);
 		int pos_x{resistances_c.x};
 		int pos_y{resistances_c.y};
 		int offset_columns{std::stoi(resistances_c["offset_columns"].value())};
 
-		resistances_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_CRITICAL_HIT),
-				CharacterAbilityType::PERCENTAGE);
+		resistances_c.colour = _graphics->adjust_colour(
+			_abilities.at(CharacterAbility::RESISTANCE_VS_CRITICAL_HIT),
+			CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
-			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_CRITICAL_HIT)));
+			std::to_string(
+				_abilities.at(CharacterAbility::RESISTANCE_VS_CRITICAL_HIT)));
 
 		resistances_c.y += _display->window->get_cell_height();
 		resistances_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS),
 			CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
-			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS)));
+			std::to_string(_abilities.at(
+				CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS)));
 
 		resistances_c.y += _display->window->get_cell_height();
-		resistances_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_STONING),
-				CharacterAbilityType::PERCENTAGE);
+		resistances_c.colour = _graphics->adjust_colour(
+			_abilities.at(CharacterAbility::RESISTANCE_VS_STONING),
+			CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
-			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_STONING)));
+			std::to_string(
+				_abilities.at(CharacterAbility::RESISTANCE_VS_STONING)));
 
 		resistances_c.y += _display->window->get_cell_height();
-		resistances_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS),
-				CharacterAbilityType::PERCENTAGE);
+		resistances_c.colour = _graphics->adjust_colour(
+			_abilities.at(CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS),
+			CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
-			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS)));
+			std::to_string(
+				_abilities.at(CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS)));
 
 		resistances_c.y = pos_y;
-		resistances_c.x = pos_x + (offset_columns * _display->window->get_cell_width());
-		resistances_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP),
-				CharacterAbilityType::PERCENTAGE);
+		resistances_c.x =
+			pos_x + (offset_columns * _display->window->get_cell_width());
+		resistances_c.colour = _graphics->adjust_colour(
+			_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP),
+			CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
-			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP)));
+			std::to_string(_abilities.at(
+				CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP)));
 
 		resistances_c.y += _display->window->get_cell_height();
 		resistances_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP),
 			CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
-			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP)));
+			std::to_string(_abilities.at(
+				CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP)));
 
 		resistances_c.y += _display->window->get_cell_height();
 		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RECOVER_FROM_SLEEP), CharacterAbilityType::PERCENTAGE);
+			_abilities.at(CharacterAbility::RECOVER_FROM_SLEEP),
+			CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
-			std::to_string(_abilities.at(CharacterAbility::RECOVER_FROM_SLEEP)));
+			std::to_string(
+				_abilities.at(CharacterAbility::RECOVER_FROM_SLEEP)));
 
 		resistances_c.y += _display->window->get_cell_height();
 		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RECOVER_FROM_FEAR), CharacterAbilityType::PERCENTAGE);
+			_abilities.at(CharacterAbility::RECOVER_FROM_FEAR),
+			CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
 			std::to_string(_abilities.at(CharacterAbility::RECOVER_FROM_FEAR)));
 
 		resistances_c.y = pos_y;
-		resistances_c.x = pos_x + (2 * offset_columns * _display->window->get_cell_width());
-		resistances_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_SILENCE),
-				CharacterAbilityType::PERCENTAGE);
+		resistances_c.x =
+			pos_x + (2 * offset_columns * _display->window->get_cell_width());
+		resistances_c.colour = _graphics->adjust_colour(
+			_abilities.at(CharacterAbility::RESISTANCE_VS_SILENCE),
+			CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
-			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_SILENCE)));
-
-		resistances_c.y += _display->window->get_cell_height();
-		resistances_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_KATINO),
-				CharacterAbilityType::PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%",
-			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_KATINO)));
+			std::to_string(
+				_abilities.at(CharacterAbility::RESISTANCE_VS_SILENCE)));
 
 		resistances_c.y += _display->window->get_cell_height();
 		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RESISTANCE_VS_BADI), CharacterAbilityType::PERCENTAGE);
+			_abilities.at(CharacterAbility::RESISTANCE_VS_KATINO),
+			CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
-			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_BADI)));
+			std::to_string(
+				_abilities.at(CharacterAbility::RESISTANCE_VS_KATINO)));
 
 		resistances_c.y += _display->window->get_cell_height();
-		resistances_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::RESISTANCE_VS_MANIFO),
-				CharacterAbilityType::PERCENTAGE);
+		resistances_c.colour = _graphics->adjust_colour(
+			_abilities.at(CharacterAbility::RESISTANCE_VS_BADI),
+			CharacterAbilityType::PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%",
-			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_MANIFO)));
+			std::to_string(
+				_abilities.at(CharacterAbility::RESISTANCE_VS_BADI)));
+
+		resistances_c.y += _display->window->get_cell_height();
+		resistances_c.colour = _graphics->adjust_colour(
+			_abilities.at(CharacterAbility::RESISTANCE_VS_MANIFO),
+			CharacterAbilityType::PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%",
+			std::to_string(
+				_abilities.at(CharacterAbility::RESISTANCE_VS_MANIFO)));
 	} else if (_view == CharacterView::INVENTORY) {
 
-		_display->generate_components("character_inventory", _v_sprites, _v_texts, _v_frames);
+		_display->generate_components(
+			"character_inventory", _v_sprites, _v_texts, _v_frames);
 
 		_add_text(
-			(*_display->layout)["character_inventory:name_and_summary_text"], "{}", summary_text());
+			(*_display->layout)["character_inventory:name_and_summary_text"],
+			"{}", summary_text());
 
 		auto portrait{_get_character_portrait()};
 		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
@@ -2865,7 +3145,8 @@ auto Sorcery::Character::_generate_display() -> void {
 		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
 		_v_sprites.emplace(portrait_c.unique_key, portrait);
 
-		Component carried_c((*_display->layout)["character_inventory:inventory_blank"]);
+		Component carried_c(
+			(*_display->layout)["character_inventory:inventory_blank"]);
 		int c_slots{std::stoi(carried_c["number_of_slots"].value())};
 		for (int loop = 0; loop < c_slots; loop++) {
 			_add_text(carried_c, "{}", (*_display->string)["INVENTORY_BLANK"]);
@@ -2874,10 +3155,12 @@ auto Sorcery::Character::_generate_display() -> void {
 
 	} else if (_view == CharacterView::MAGE_SPELLS) {
 
-		_display->generate_components("character_mage_spells", _v_sprites, _v_texts, _v_frames);
+		_display->generate_components(
+			"character_mage_spells", _v_sprites, _v_texts, _v_frames);
 
-		_add_text((*_display->layout)["character_mage_spells:name_and_summary_text"], "{}",
-			summary_text());
+		_add_text(
+			(*_display->layout)["character_mage_spells:name_and_summary_text"],
+			"{}", summary_text());
 
 		auto portrait{_get_character_portrait()};
 		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
@@ -2897,26 +3180,31 @@ auto Sorcery::Character::_generate_display() -> void {
 		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
 		_v_sprites.emplace(portrait_c.unique_key, portrait);
 
-		Component level_c{(*_display->layout)["character_mage_spells:level_label"]};
-		Component sp_c{(*_display->layout)["character_mage_spells:spell_points"]};
-		Component spell_name_c{(*_display->layout)["character_mage_spells:spell_name_label"]};
+		Component level_c{
+			(*_display->layout)["character_mage_spells:level_label"]};
+		Component sp_c{
+			(*_display->layout)["character_mage_spells:spell_points"]};
+		Component spell_name_c{
+			(*_display->layout)["character_mage_spells:spell_name_label"]};
 
 		int level_x{level_c.x};
 		for (unsigned int level = 1; level <= 7; level++) {
 
 			_add_text(level_c, "{}",
-				fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level));
+				fmt::format("{} {}",
+					(*_display->string)["CHARACTER_SPELL_LEVEL"], level));
 
 			sp_c.x = level_c.x + (std::stoi(sp_c["offset_columns"].value()) *
 									 _display->window->get_cell_width());
 			sp_c.y = level_c.y;
-			_add_text(sp_c, "{}", _get_spell_points_per_level(SpellType::MAGE, level));
+			_add_text(sp_c, "{}", _get_sp_per_level(SpellType::MAGE, level));
 
 			spell_name_c.x = level_c.x;
 			spell_name_c.y = level_c.y + _display->window->get_cell_height();
 
 			auto spells{_spells | std::views::filter([&](Spell spell) {
-				return (spell.type == SpellType::MAGE) && (spell.level == level);
+				return (spell.type == SpellType::MAGE) &&
+					   (spell.level == level);
 			})};
 			for (auto spell : spells) {
 
@@ -2928,10 +3216,10 @@ auto Sorcery::Character::_generate_display() -> void {
 				mage_spell_texts[spell.id] = spell_name;
 
 				if (spell.id == _hl_mage_spell) {
-					sf::RectangleShape bg(
-						sf::Vector2f(std::stoi(spell_name_c["bar_width"].value()) *
-										 _display->window->get_cell_width(),
-							hl_bounds.height));
+					sf::RectangleShape bg(sf::Vector2f(
+						std::stoi(spell_name_c["bar_width"].value()) *
+							_display->window->get_cell_width(),
+						hl_bounds.height));
 					bg.setPosition(hl_bounds.left, hl_bounds.top);
 					bg.setFillColor(_graphics->animation->selected_colour);
 					spell_name->setFillColor(sf::Color(spell_name_c.colour));
@@ -2941,18 +3229,20 @@ auto Sorcery::Character::_generate_display() -> void {
 				} else {
 
 					if (spell.known)
-						spell_name->setFillColor(
-							sf::Color(std::stoull(spell_name_c["known_colour"].value(), 0, 16)));
+						spell_name->setFillColor(sf::Color(std::stoull(
+							spell_name_c["known_colour"].value(), 0, 16)));
 					else
-						spell_name->setFillColor(
-							sf::Color(std::stoull(spell_name_c["unknown_colour"].value(), 0, 16)));
+						spell_name->setFillColor(sf::Color(std::stoull(
+							spell_name_c["unknown_colour"].value(), 0, 16)));
 				}
 
 				// And the Spell Category Icon
-				Component spell_icon_c{(*_display->layout)["character_mage_spells:spell_icon"]};
+				Component spell_icon_c{
+					(*_display->layout)["character_mage_spells:spell_icon"]};
 				auto spell_icon{_get_spell_icon(spell.category)};
 				if (spell_icon) {
-					spell_icon.value().setScale(spell_icon_c.scale, spell_icon_c.scale);
+					spell_icon.value().setScale(
+						spell_icon_c.scale, spell_icon_c.scale);
 					const auto offset_x{[&] {
 						if (spell_icon_c["offset_x"])
 							return std::stoi(spell_icon_c["offset_x"].value());
@@ -2973,11 +3263,11 @@ auto Sorcery::Character::_generate_display() -> void {
 						spell_name_c.y + offset_y);
 
 					if (spell.known)
-						spell_icon->setColor(
-							sf::Color(std::stoull(spell_name_c["known_colour"].value(), 0, 16)));
+						spell_icon->setColor(sf::Color(std::stoull(
+							spell_name_c["known_colour"].value(), 0, 16)));
 					else
-						spell_icon->setColor(
-							sf::Color(std::stoull(spell_name_c["unknown_colour"].value(), 0, 16)));
+						spell_icon->setColor(sf::Color(std::stoull(
+							spell_name_c["unknown_colour"].value(), 0, 16)));
 
 					_v_sprites.emplace(GUID(), spell_icon.value());
 				}
@@ -2996,10 +3286,13 @@ auto Sorcery::Character::_generate_display() -> void {
 		}
 	} else if (_view == CharacterView::PRIEST_SPELLS) {
 
-		_display->generate_components("character_priest_spells", _v_sprites, _v_texts, _v_frames);
+		_display->generate_components(
+			"character_priest_spells", _v_sprites, _v_texts, _v_frames);
 
-		_add_text((*_display->layout)["character_priest_spells:name_and_summary_text"], "{}",
-			summary_text());
+		_add_text(
+			(*_display
+					->layout)["character_priest_spells:name_and_summary_text"],
+			"{}", summary_text());
 
 		auto portrait{_get_character_portrait()};
 		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
@@ -3019,26 +3312,31 @@ auto Sorcery::Character::_generate_display() -> void {
 		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
 		_v_sprites.emplace(portrait_c.unique_key, portrait);
 
-		Component level_c{(*_display->layout)["character_priest_spells:level_label"]};
-		Component sp_c{(*_display->layout)["character_priest_spells:spell_points"]};
-		Component spell_name_c{(*_display->layout)["character_priest_spells:spell_name_label"]};
+		Component level_c{
+			(*_display->layout)["character_priest_spells:level_label"]};
+		Component sp_c{
+			(*_display->layout)["character_priest_spells:spell_points"]};
+		Component spell_name_c{
+			(*_display->layout)["character_priest_spells:spell_name_label"]};
 
 		int level_x{level_c.x};
 		for (unsigned int level = 1; level <= 7; level++) {
 
 			_add_text(level_c, "{}",
-				fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level));
+				fmt::format("{} {}",
+					(*_display->string)["CHARACTER_SPELL_LEVEL"], level));
 
 			sp_c.x = level_c.x + (std::stoi(sp_c["offset_columns"].value()) *
 									 _display->window->get_cell_width());
 			sp_c.y = level_c.y;
-			_add_text(sp_c, "{}", _get_spell_points_per_level(SpellType::PRIEST, level));
+			_add_text(sp_c, "{}", _get_sp_per_level(SpellType::PRIEST, level));
 
 			spell_name_c.x = level_c.x;
 			spell_name_c.y = level_c.y + _display->window->get_cell_height();
 
 			auto spells{_spells | std::views::filter([&](Spell spell) {
-				return (spell.type == SpellType::PRIEST) && (spell.level == level);
+				return (spell.type == SpellType::PRIEST) &&
+					   (spell.level == level);
 			})};
 			for (auto spell : spells) {
 
@@ -3050,10 +3348,10 @@ auto Sorcery::Character::_generate_display() -> void {
 				priest_spell_texts[spell.id] = spell_name;
 
 				if (spell.id == _hl_priest_spell) {
-					sf::RectangleShape bg(
-						sf::Vector2f(std::stoi(spell_name_c["bar_width"].value()) *
-										 _display->window->get_cell_width(),
-							hl_bounds.height));
+					sf::RectangleShape bg(sf::Vector2f(
+						std::stoi(spell_name_c["bar_width"].value()) *
+							_display->window->get_cell_width(),
+						hl_bounds.height));
 					bg.setPosition(hl_bounds.left, hl_bounds.top);
 					bg.setFillColor(_graphics->animation->selected_colour);
 					spell_name->setFillColor(sf::Color(spell_name_c.colour));
@@ -3063,18 +3361,20 @@ auto Sorcery::Character::_generate_display() -> void {
 				} else {
 
 					if (spell.known)
-						spell_name->setFillColor(
-							sf::Color(std::stoull(spell_name_c["known_colour"].value(), 0, 16)));
+						spell_name->setFillColor(sf::Color(std::stoull(
+							spell_name_c["known_colour"].value(), 0, 16)));
 					else
-						spell_name->setFillColor(
-							sf::Color(std::stoull(spell_name_c["unknown_colour"].value(), 0, 16)));
+						spell_name->setFillColor(sf::Color(std::stoull(
+							spell_name_c["unknown_colour"].value(), 0, 16)));
 				}
 
 				// And the Spell Category Icon
-				Component spell_icon_c{(*_display->layout)["character_mage_spells:spell_icon"]};
+				Component spell_icon_c{
+					(*_display->layout)["character_mage_spells:spell_icon"]};
 				auto spell_icon{_get_spell_icon(spell.category)};
 				if (spell_icon) {
-					spell_icon.value().setScale(spell_icon_c.scale, spell_icon_c.scale);
+					spell_icon.value().setScale(
+						spell_icon_c.scale, spell_icon_c.scale);
 					const auto offset_x{[&] {
 						if (spell_icon_c["offset_x"])
 							return std::stoi(spell_icon_c["offset_x"].value());
@@ -3095,11 +3395,11 @@ auto Sorcery::Character::_generate_display() -> void {
 						spell_name_c.y + offset_y);
 
 					if (spell.known)
-						spell_icon->setColor(
-							sf::Color(std::stoull(spell_name_c["known_colour"].value(), 0, 16)));
+						spell_icon->setColor(sf::Color(std::stoull(
+							spell_name_c["known_colour"].value(), 0, 16)));
 					else
-						spell_icon->setColor(
-							sf::Color(std::stoull(spell_name_c["unknown_colour"].value(), 0, 16)));
+						spell_icon->setColor(sf::Color(std::stoull(
+							spell_name_c["unknown_colour"].value(), 0, 16)));
 
 					_v_sprites.emplace(GUID(), spell_icon.value());
 				}
@@ -3119,7 +3419,8 @@ auto Sorcery::Character::_generate_display() -> void {
 	}
 }
 
-auto Sorcery::Character::_add_icon(Component &component, std::string icon_key) -> void {
+auto Sorcery::Character::_add_icon(Component &component, std::string icon_key)
+	-> void {
 
 	auto icon{(*_graphics->icons)[icon_key].value()};
 	const auto offset_x{[&] {
@@ -3139,8 +3440,8 @@ auto Sorcery::Character::_add_icon(Component &component, std::string icon_key) -
 	_v_sprites.emplace(component.unique_key, icon);
 }
 
-auto Sorcery::Character::_add_text(
-	Component &component, std::string format, std::string value, bool is_view) -> sf::Text * {
+auto Sorcery::Character::_add_text(Component &component, std::string format,
+	std::string value, bool is_view) -> sf::Text * {
 
 	sf::Text text{};
 	std::string formatted_value{fmt::format(format, value)};
@@ -3162,7 +3463,8 @@ auto Sorcery::Character::_add_text(
 	}()};
 	text.setPosition(component.x + offset_x, component.y + offset_y);
 
-	// Generate a new key as this is a map, and we might call this with the same base component
+	// Generate a new key as this is a map, and we might call this with the same
+	// base component
 	std::string new_unique_key{GUID()};
 	if (is_view) {
 		_v_texts.emplace(new_unique_key, text);
@@ -3178,7 +3480,8 @@ auto Sorcery::Character::get_view() const -> CharacterView {
 	return _view;
 }
 
-auto Sorcery::Character::_get_spell_icon(SpellCategory category) -> std::optional<sf::Sprite> {
+auto Sorcery::Character::_get_spell_icon(SpellCategory category)
+	-> std::optional<sf::Sprite> {
 
 	switch (category) {
 
@@ -3220,7 +3523,8 @@ auto Sorcery::Character::set_method(const CreateMethod value) -> void {
 	_method = value;
 }
 
-auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::optional<SpellID> {
+auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos)
+	-> std::optional<SpellID> {
 
 	const sf::Vector2f global_pos{this->getPosition()};
 	const sf::Vector2f local_mouse_pos{mouse_pos - global_pos};
@@ -3231,7 +3535,8 @@ auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::op
 				return item.second.contains(local_mouse_pos);
 			})};
 		if (it != mage_spell_bounds.end()) {
-			Component spell_name_c{(*_display->layout)["character_mage_spells:spell_name_label"]};
+			Component spell_name_c{
+				(*_display->layout)["character_mage_spells:spell_name_label"]};
 			_hl_mage_spell = (*it).first;
 
 			std::vector<Spell>::iterator sit;
@@ -3247,12 +3552,13 @@ auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::op
 			return std::nullopt;
 
 	} else if (_view == CharacterView::PRIEST_SPELLS) {
-		auto it{std::find_if(priest_spell_bounds.begin(), priest_spell_bounds.end(),
-			[&local_mouse_pos](const auto &item) {
+		auto it{std::find_if(priest_spell_bounds.begin(),
+			priest_spell_bounds.end(), [&local_mouse_pos](const auto &item) {
 				return item.second.contains(local_mouse_pos);
 			})};
 		if (it != priest_spell_bounds.end()) {
-			Component spell_name_c{(*_display->layout)["character_priest_spells:spell_name_label"]};
+			Component spell_name_c{(
+				*_display->layout)["character_priest_spells:spell_name_label"]};
 			_hl_priest_spell = (*it).first;
 
 			std::vector<Spell>::iterator sit;
@@ -3276,7 +3582,8 @@ auto Sorcery::Character::update() -> void {
 	_hl_priest_spell_bg.setFillColor(_graphics->animation->selected_colour);
 }
 
-auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::Character::draw(
+	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 

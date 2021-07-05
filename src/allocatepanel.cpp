@@ -96,8 +96,7 @@ auto Sorcery::AllocatePanel::set() -> void {
 	int x{14};
 	int y{0};
 
-	for (const auto &[attribute, value] :
-		_character->get_current_attributes()) {
+	for (const auto &[attribute, value] : _character->get_cur_attr()) {
 
 		// Get the current stat
 		sf::Text text{};
@@ -140,7 +139,7 @@ auto Sorcery::AllocatePanel::set() -> void {
 		else */
 	t_points_left.setFillColor(sf::Color(_c_points_left.colour));
 	t_points_left.setString(
-		fmt::format("{:>2}", _character->get_bonus_points_to_allocate()));
+		fmt::format("{:>2}", _character->get_points_left()));
 	t_points_left.setPosition(_c_points_left.x - 4, _c_points_left.y);
 	// t_points_left.setPosition(
 	//	_c_points_left.x, _c_points_left.y +
@@ -166,13 +165,13 @@ auto Sorcery::AllocatePanel::_get_bar(CharacterAttribute attribute)
 	-> std::tuple<sf::RectangleShape, sf::RectangleShape, sf::RectangleShape> {
 
 	// Generate three bars which will simply be put on top of each other
-	sf::RectangleShape base(sf::Vector2f(
-		(_stat_bar.w * _character->get_starting_attribute(attribute) / 2),
-		_stat_bar.h / 2));
+	sf::RectangleShape base(
+		sf::Vector2f((_stat_bar.w * _character->get_start_attr(attribute) / 2),
+			_stat_bar.h / 2));
 	base.setFillColor(_base);
 	base.setOutlineThickness(1);
 	sf::RectangleShape allocated(
-		sf::Vector2f((_stat_bar.w * _character->get_attribute(attribute)) / 2,
+		sf::Vector2f((_stat_bar.w * _character->get_cur_attr(attribute)) / 2,
 			_stat_bar.h / 2));
 	allocated.setFillColor(_green);
 	allocated.setOutlineThickness(1);
@@ -189,7 +188,7 @@ auto Sorcery::AllocatePanel::_set_icons() -> void {
 	for (auto &icon : _class_icons)
 		icon.setColor(_red);
 
-	auto possible_classes = _character->get_possible_classes();
+	auto possible_classes = _character->get_pos_class();
 	if (possible_classes[CharacterClass::SAMURAI])
 		_class_icons[0].setColor(_green);
 	if (possible_classes[CharacterClass::FIGHTER])

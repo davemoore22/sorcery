@@ -27,7 +27,8 @@
 // Standard Constructor
 Sorcery::ChangeName::ChangeName(
 	System *system, Display *display, Graphics *graphics, std::string old_name)
-	: _system{system}, _display{display}, _graphics{graphics}, _old_name{old_name} {
+	: _system{system}, _display{display}, _graphics{graphics}, _old_name{
+																   old_name} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
@@ -68,7 +69,8 @@ auto Sorcery::ChangeName::start() -> std::optional<std::string> {
 				_window->close();
 
 			// Handle enabling help overlay
-			if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
+			if (_system->input->check_for_event(
+					WindowInput::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
@@ -121,17 +123,21 @@ auto Sorcery::ChangeName::is_changed() -> bool {
 	return _old_name != _new_name;
 }
 
-auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event) -> std::optional<bool> {
+auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event)
+	-> std::optional<bool> {
 
 	std::string candidate_name{_new_name};
 	if (_system->input->check_for_event(WindowInput::MOVE, event)) {
 
-		sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
+		sf::Vector2f mouse_pos{
+			static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
 		std::optional<std::string> mouse_selected{_keyboard->set_mouse_selected(
-			(*_display->layout)["character_create_stage_1:keyboard"], mouse_pos)};
+			(*_display->layout)["character_create_stage_1:keyboard"],
+			mouse_pos)};
 		if (mouse_selected)
 			_keyboard->selected = mouse_selected.value();
-	} else if ((_system->input->check_for_event(WindowInput::ALPHANUMERIC, event)) ||
+	} else if ((_system->input->check_for_event(
+				   WindowInput::ALPHANUMERIC, event)) ||
 			   (_system->input->check_for_event(WindowInput::SPACE, event))) {
 		if (candidate_name.length() < 16) {
 			candidate_name += static_cast<char>(event.text.unicode);
@@ -182,7 +188,8 @@ auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event) -> std::op
 			candidate_name += _keyboard->selected;
 			_new_name = candidate_name;
 		}
-	} else if (_system->input->check_for_event(WindowInput::CONFIRM_NO_SPACE, event)) {
+	} else if (_system->input->check_for_event(
+				   WindowInput::CONFIRM_NO_SPACE, event)) {
 
 		if (_keyboard->selected == "End") {
 			if (TRIM_COPY(candidate_name).length() > 0) {
@@ -219,8 +226,8 @@ auto Sorcery::ChangeName::_draw() -> void {
 	double lerp{_graphics->animation->colour_lerp};
 	std::string display_name{">" + _new_name + "_"};
 	sf::Text name_text{};
-	_display->window->draw_text(
-		name_text, (*_display->layout)["change_name:name_candidate"], display_name, lerp);
+	_display->window->draw_text(name_text,
+		(*_display->layout)["change_name:name_candidate"], display_name, lerp);
 
 	// Draw the On Screen Keyboard
 	_keyboard->set_selected_background();

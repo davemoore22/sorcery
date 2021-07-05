@@ -33,7 +33,8 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 	if (valid) {
 
 		// Get the Game
-		auto [id, key, status, start_time, last_time] = _system->database->get_game().value();
+		auto [id, key, status, start_time, last_time] =
+			_system->database->get_game().value();
 		_id = id;
 		_key = key;
 		_status = status;
@@ -66,7 +67,8 @@ auto Sorcery::Game::start_new_game() -> void {
 
 	// Create a new game no matter what
 	_system->database->add_game();
-	auto [id, key, status, start_time, last_time] = _system->database->get_game().value();
+	auto [id, key, status, start_time, last_time] =
+		_system->database->get_game().value();
 
 	_id = id;
 	_key = key;
@@ -95,7 +97,7 @@ auto Sorcery::Game::load_characters() -> std::map<unsigned int, Character> {
 
 		// Remember that the three pointers aren't serialised
 		Character character(_system, _display, _graphics);
-		character.create_spell_lists();
+		character.create_spells();
 		{
 			cereal::JSONInputArchive archive(ss);
 			archive(character);
@@ -117,11 +119,12 @@ auto Sorcery::Game::save_new_character(Character &character) -> unsigned int {
 	}
 	std::string character_data{ss.str()};
 
-	return _system->database->insert_character(_id, character.get_name(), character_data);
+	return _system->database->insert_character(
+		_id, character.get_name(), character_data);
 }
 
-auto Sorcery::Game::update_character_name(
-	unsigned int game_id, unsigned int character_id, Character &character) -> bool {
+auto Sorcery::Game::update_character_name(unsigned int game_id,
+	unsigned int character_id, Character &character) -> bool {
 	std::stringstream ss;
 	{
 		cereal::JSONOutputArchive archive(ss);

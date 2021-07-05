@@ -67,15 +67,14 @@ namespace Sorcery {
 		// Private Methods
 		auto virtual draw(
 			sf::RenderTarget &target, sf::RenderStates states) const -> void;
-		auto _get_attribute_bar(CharacterAttribute attribute)
-			-> sf::RectangleShape;
-		auto _get_attribute_text(CharacterAttribute attribute) -> sf::Text;
+		auto _get_bar(CharacterAttribute attribute) -> sf::RectangleShape;
+		auto _get_text(CharacterAttribute attribute) -> sf::Text;
 
 		// Private Members
 		System *_system;
 		Display *_display;
 		Graphics *_graphics;
-		Character *_character; // Non-owning Pointer
+		Character *_character;
 
 		Component _bar_c;
 		Component _icons_c;

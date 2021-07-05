@@ -33,8 +33,10 @@ Sorcery::AttractMode::AttractMode(sf::Texture ctexture, Component component)
 	_cs_spacing = 8;
 }
 
-// We generate the attract mode graphic in the main thread, though we generate the IDs in the
-// animation threads https://en.sfml-dev.org/forums/index.php?topic=18672.0
+// We generate the attract mode graphic in the main thread, though we generate
+// the IDs in the animation threads - see
+// https://en.sfml-dev.org/forums/index.php?topic=18672.0 for why it is done
+// this way
 auto Sorcery::AttractMode::generate() -> void {
 
 	// Only regenerate if we have a change
@@ -42,14 +44,16 @@ auto Sorcery::AttractMode::generate() -> void {
 		data = data_temp;
 
 		// Work out the new size
-		const auto number_to_display{static_cast<unsigned int>(data_temp.size())};
+		const auto number_to_display{
+			static_cast<unsigned int>(data_temp.size())};
 		const sf::Vector2f texture_size(
-			_cs_width * number_to_display + (_cs_spacing * (number_to_display - 1)), _cs_height);
+			_cs_width * number_to_display +
+				(_cs_spacing * (number_to_display - 1)),
+			_cs_height);
 
 		// Don't worry about previous contents of this
 		_rtexture.create(texture_size.x, texture_size.y);
 		_rtexture.setSmooth(true);
-		//_rtexture.clear();
 
 		// Get the Required Sprites
 		unsigned int sprite_x{0};
@@ -64,14 +68,13 @@ auto Sorcery::AttractMode::generate() -> void {
 		_rtexture.display();
 		_texture = _rtexture.getTexture();
 		_sprite = sf::Sprite(_texture);
-		//_sprite.setColor(sf::Color(0, 0, 0, 175));
 		sprite = _sprite;
 	}
 }
 
 // Get the Sprite from the Creatures Texture
-auto Sorcery::AttractMode::_get_creature_gfx(const int creature_id, const bool known)
-	-> sf::Sprite {
+auto Sorcery::AttractMode::_get_creature_gfx(
+	const int creature_id, const bool known) -> sf::Sprite {
 
 	sf::IntRect crect{};
 	sf::Sprite creature(_ctexture);
@@ -90,7 +93,8 @@ auto Sorcery::AttractMode::set_alpha(unsigned int alpha) -> void {
 		_sprite.setColor(sf::Color(255, 255, 255, alpha));
 }
 
-auto Sorcery::AttractMode::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::AttractMode::draw(
+	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	if (data_temp.size() > 0) {
 		states.transform *= getTransform();
