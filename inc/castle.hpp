@@ -68,7 +68,7 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _frame;
 		std::shared_ptr<Menu> _menu;
 		sf::Sprite _bg;
-		std::shared_ptr<Dialog> _dlg_leave;
+		std::shared_ptr<Dialog> _leave_game;
 		WindowConfirm _yes_or_no;
 		std::shared_ptr<EdgeOfTown> _edge_of_town;
 		std::unique_ptr<StatusBar> _status_bar;

@@ -36,11 +36,11 @@ Sorcery::Castle::Castle(
 	_menu = std::make_shared<Menu>(
 		_system, _display, _graphics, _game, MenuType::CASTLE);
 
-	_dlg_leave = std::make_shared<Dialog>(_system, _display, _graphics,
+	_leave_game = std::make_shared<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["castle:dialog_leave_game"],
 		(*_display->layout)["castle:dialog_leave_game_text"],
 		WindowDialogType::CONFIRM);
-	_dlg_leave->setPosition((*_display->layout)["castle:dialog_leave_game"].x,
+	_leave_game->setPosition((*_display->layout)["castle:dialog_leave_game"].x,
 		(*_display->layout)["castle:dialog_leave_game"].y);
 
 	// Modules
@@ -140,7 +140,7 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 			} else if (_display->get_input_mode() ==
 					   WindowInputMode::CONFIRM_LEAVE_GAME) {
 
-				auto dialog_input{_dlg_leave->handle_input(event)};
+				auto dialog_input{_leave_game->handle_input(event)};
 				if (dialog_input) {
 					if (dialog_input.value() == WindowDialogButton::CLOSE) {
 						return std::nullopt;
@@ -163,8 +163,8 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 
 		// Update Background Movie
 		_display->start_bg_movie();
-		_display->update_background_movie();
-		_display->draw_background_movie();
+		_display->update_bg_movie();
+		_display->draw_bg_movie();
 
 		_draw();
 		_window->display();
@@ -176,7 +176,7 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 auto Sorcery::Castle::stop() -> void {
 
 	// Stop the background movie!
-	_display->stop_background_movie();
+	_display->stop_bg_movie();
 }
 
 auto Sorcery::Castle::_draw() -> void {
@@ -192,8 +192,8 @@ auto Sorcery::Castle::_draw() -> void {
 	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 	if (_display->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME) {
-		_dlg_leave->update();
-		_window->draw(*_dlg_leave);
+		_leave_game->update();
+		_window->draw(*_leave_game);
 	}
 
 	// Always draw the following

@@ -31,10 +31,9 @@ Sorcery::Edit::Edit(
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
-	_current_character = std::nullopt;
+	_cur_char = std::nullopt;
 
-	_character_panel =
-		std::make_unique<CharPanel>(_system, _display, _graphics);
+	_char_panel = std::make_unique<CharPanel>(_system, _display, _graphics);
 	_menu = std::make_shared<Menu>(
 		_system, _display, _graphics, _game, MenuType::EDIT_CHARACTER);
 }
@@ -50,8 +49,8 @@ auto Sorcery::Edit::start(int current_character_idx)
 	_display->generate("character_edit");
 
 	// Get the Current Character
-	_current_character = &_game->characters.at(current_character_idx);
-	_character_panel->set(_current_character.value());
+	_cur_char = &_game->characters.at(current_character_idx);
+	_char_panel->set(_cur_char.value());
 
 	// Set up the Custom Components
 	const Component bg_c{(*_display->layout)["character_edit:background"]};
@@ -136,19 +135,19 @@ auto Sorcery::Edit::start(int current_character_idx)
 						return MenuItem::EC_RETURN_EDIT;
 					} else if (option_chosen == MenuItem::EC_CHANGE_NAME) {
 
-						auto change_name{std::make_unique<ChangeName>(_system,
-							_display, _graphics,
-							_current_character.value()->get_name())};
+						auto change_name{
+							std::make_unique<ChangeName>(_system, _display,
+								_graphics, _cur_char.value()->get_name())};
 						auto new_name{change_name->start()};
 						if (new_name) {
 
 							// Update character name and resave the character!
 							std::string changed_name{new_name.value()};
-							_current_character.value()->set_name(changed_name);
-							auto character{*_current_character.value()};
-							_game->update_character_name(_game->get_id(),
+							_cur_char.value()->set_name(changed_name);
+							auto character{*_cur_char.value()};
+							_game->update_char(_game->get_id(),
 								current_character_idx, character);
-							_game->reload_character(current_character_idx);
+							_game->reload_char(current_character_idx);
 						};
 						change_name->stop();
 					};
@@ -163,8 +162,8 @@ auto Sorcery::Edit::start(int current_character_idx)
 
 		// Update Background Movie
 		_display->start_bg_movie();
-		_display->update_background_movie();
-		_display->draw_background_movie();
+		_display->update_bg_movie();
+		_display->draw_bg_movie();
 
 		_draw();
 		_window->display();
@@ -178,7 +177,7 @@ auto Sorcery::Edit::stop() -> void {
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 
 	// Stop the background movie!
-	_display->stop_background_movie();
+	_display->stop_bg_movie();
 }
 
 auto Sorcery::Edit::_draw() -> void {
@@ -198,11 +197,11 @@ auto Sorcery::Edit::_draw() -> void {
 
 	// Character Preview
 	_window->draw(*_preview_frame);
-	if (_character_panel->valid) {
-		_character_panel->setPosition(
+	if (_char_panel->valid) {
+		_char_panel->setPosition(
 			(*_display->layout)["character_edit:info_panel"].x,
 			(*_display->layout)["character_edit:info_panel"].y);
-		_window->draw(*_character_panel);
+		_window->draw(*_char_panel);
 	}
 
 	// And finally the Cursor

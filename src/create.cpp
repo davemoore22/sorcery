@@ -131,7 +131,7 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 auto Sorcery::Create::stop() -> void {
 
 	// Stop the background movie!
-	_display->stop_background_movie();
+	_display->stop_bg_movie();
 }
 
 auto Sorcery::Create::_do_event_loop() -> std::optional<ModuleResult> {
@@ -167,8 +167,8 @@ auto Sorcery::Create::_do_event_loop() -> std::optional<ModuleResult> {
 
 			// Update Background Movie
 			_display->start_bg_movie();
-			_display->update_background_movie();
-			_display->draw_background_movie();
+			_display->update_bg_movie();
+			_display->draw_bg_movie();
 
 			_draw();
 			_window->display();
@@ -699,7 +699,7 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event)
 				if (selected) {
 					switch ((*selected.value()).item) {
 					case MenuItem::RC_ACCEPT:
-						_game->save_new_character(_candidate);
+						_game->add_char(_candidate);
 						_show_saved_ok = true;
 						break;
 					case MenuItem::RC_REJECT:

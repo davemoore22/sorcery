@@ -36,7 +36,7 @@ Sorcery::Compendium::Compendium(
 // Standard Destructor
 Sorcery::Compendium::~Compendium() {
 
-	_display->stop_background_movie();
+	_display->stop_bg_movie();
 }
 
 auto Sorcery::Compendium::start() -> void {
@@ -61,7 +61,7 @@ auto Sorcery::Compendium::start() -> void {
 
 auto Sorcery::Compendium::stop() -> void {
 
-	_display->stop_background_movie();
+	_display->stop_bg_movie();
 }
 
 auto Sorcery::Compendium::_draw() -> void {
@@ -91,8 +91,8 @@ auto Sorcery::Compendium::_do_event_loop() -> std::optional<ModuleResult> {
 		_window->clear();
 
 		_display->start_bg_movie();
-		_display->update_background_movie();
-		_display->draw_background_movie();
+		_display->update_bg_movie();
+		_display->draw_bg_movie();
 
 		_draw();
 		_window->display();

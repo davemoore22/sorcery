@@ -69,7 +69,7 @@ Sorcery::MainMenu::MainMenu(
 Sorcery::MainMenu::~MainMenu() {
 
 	_graphics->animation->stop_attract_threads();
-	_display->stop_background_movie();
+	_display->stop_bg_movie();
 }
 
 auto Sorcery::MainMenu::start(MainMenuType menu_stage)
@@ -275,8 +275,8 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage)
 
 		_window->clear();
 		_display->start_bg_movie();
-		_display->update_background_movie();
-		_display->draw_background_movie();
+		_display->update_bg_movie();
+		_display->draw_bg_movie();
 
 		_draw();
 		_display->display_overlay();
@@ -291,7 +291,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage)
 auto Sorcery::MainMenu::stop() -> void {
 
 	// Stop the background movie!
-	_display->stop_background_movie();
+	_display->stop_bg_movie();
 }
 
 auto Sorcery::MainMenu::_set_main_menu() -> void {

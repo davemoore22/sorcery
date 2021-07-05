@@ -68,7 +68,7 @@ Sorcery::Roster::~Roster() {}
 
 auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 
-	_game->reload_characters();
+	_game->reload_all_char();
 
 	// Do the Menu here when it has access to the game characters
 	_menu.reset();
@@ -261,11 +261,11 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 							   WindowDialogButton::YES) {
 
 						// Delete a character!
-						_system->database->delete_character(
+						_system->database->delete_char(
 							_game->get_id(), _current_character_idx);
 
 						// Need to reload the menu!
-						_game->reload_characters();
+						_game->reload_all_char();
 						_menu->reload();
 
 						// And select the first one in the list after one is
@@ -338,8 +338,8 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 
 		// Update Background Movie
 		_display->start_bg_movie();
-		_display->update_background_movie();
-		_display->draw_background_movie();
+		_display->update_bg_movie();
+		_display->draw_bg_movie();
 
 		_draw();
 		_window->display();
@@ -353,7 +353,7 @@ auto Sorcery::Roster::stop() -> void {
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 
 	// Stop the background movie!
-	_display->stop_background_movie();
+	_display->stop_bg_movie();
 }
 
 auto Sorcery::Roster::_draw() -> void {

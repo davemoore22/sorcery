@@ -42,25 +42,25 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 		_last_time = last_time;
 
 		// Load the Characters
-		_characters_ids = _system->database->get_character_list(_id);
-		characters = load_characters();
+		_characters_ids = _system->database->get_chars(_id);
+		characters = load_all_char();
 	};
 }
 
-auto Sorcery::Game::reload_character(unsigned int character_id) -> void {
+auto Sorcery::Game::reload_char(unsigned int character_id) -> void {
 
 	std::map<unsigned int, Character> temp_characters;
 	temp_characters.clear();
-	temp_characters = load_characters();
+	temp_characters = load_all_char();
 	characters.at(character_id) = temp_characters.at(character_id);
 }
 
-auto Sorcery::Game::reload_characters() -> void {
+auto Sorcery::Game::reload_all_char() -> void {
 
 	// Load the Characters
-	_characters_ids = _system->database->get_character_list(_id);
+	_characters_ids = _system->database->get_chars(_id);
 	characters.clear();
-	characters = load_characters();
+	characters = load_all_char();
 }
 
 auto Sorcery::Game::start_new_game() -> void {
@@ -84,14 +84,14 @@ auto Sorcery::Game::get_id() -> unsigned int {
 	return _id;
 }
 
-auto Sorcery::Game::load_characters() -> std::map<unsigned int, Character> {
+auto Sorcery::Game::load_all_char() -> std::map<unsigned int, Character> {
 
 	std::map<unsigned int, Character> characters;
 	characters.clear();
 
 	for (auto character_id : _characters_ids) {
 
-		std::string data{_system->database->get_character(_id, character_id)};
+		std::string data{_system->database->get_char(_id, character_id)};
 		std::stringstream ss;
 		ss.str(data);
 
@@ -110,7 +110,7 @@ auto Sorcery::Game::load_characters() -> std::map<unsigned int, Character> {
 	return characters;
 }
 
-auto Sorcery::Game::save_new_character(Character &character) -> unsigned int {
+auto Sorcery::Game::add_char(Character &character) -> unsigned int {
 
 	std::stringstream ss;
 	{
@@ -119,12 +119,12 @@ auto Sorcery::Game::save_new_character(Character &character) -> unsigned int {
 	}
 	std::string character_data{ss.str()};
 
-	return _system->database->insert_character(
+	return _system->database->add_char(
 		_id, character.get_name(), character_data);
 }
 
-auto Sorcery::Game::update_character_name(unsigned int game_id,
-	unsigned int character_id, Character &character) -> bool {
+auto Sorcery::Game::update_char(unsigned int game_id, unsigned int character_id,
+	Character &character) -> bool {
 	std::stringstream ss;
 	{
 		cereal::JSONOutputArchive archive(ss);
@@ -132,6 +132,6 @@ auto Sorcery::Game::update_character_name(unsigned int game_id,
 	}
 	std::string character_data{ss.str()};
 
-	return _system->database->update_character_name(
+	return _system->database->update_char(
 		game_id, character_id, character.get_name(), character_data);
 }

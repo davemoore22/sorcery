@@ -95,8 +95,8 @@ auto Sorcery::ChangeName::start() -> std::optional<std::string> {
 
 		// Update Background Movie
 		_display->start_bg_movie();
-		_display->update_background_movie();
-		_display->draw_background_movie();
+		_display->update_bg_movie();
+		_display->draw_bg_movie();
 
 		_draw();
 		_window->display();
@@ -110,7 +110,7 @@ auto Sorcery::ChangeName::stop() -> void {
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 
 	// Stop the background movie!
-	_display->stop_background_movie();
+	_display->stop_bg_movie();
 }
 
 auto Sorcery::ChangeName::get_new_name() -> std::string {

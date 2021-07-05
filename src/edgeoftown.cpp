@@ -36,11 +36,11 @@ Sorcery::EdgeOfTown::EdgeOfTown(
 	_menu = std::make_shared<Menu>(
 		_system, _display, _graphics, _game, MenuType::EDGE_OF_TOWN);
 
-	_dialog_leave_game = std::make_shared<Dialog>(_system, _display, _graphics,
+	_leave_game = std::make_shared<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["edge_of_town:dialog_leave_game"],
 		(*_display->layout)["edge_of_town:dialog_leave_game_text"],
 		WindowDialogType::CONFIRM);
-	_dialog_leave_game->setPosition(
+	_leave_game->setPosition(
 		(*_display->layout)["edge_of_town:dialog_leave_game"].x,
 		(*_display->layout)["edge_of_town:dialog_leave_game"].y);
 
@@ -144,7 +144,7 @@ auto Sorcery::EdgeOfTown::start() -> std::optional<MenuItem> {
 			} else if (_display->get_input_mode() ==
 					   WindowInputMode::CONFIRM_LEAVE_GAME) {
 
-				auto dialog_input{_dialog_leave_game->handle_input(event)};
+				auto dialog_input{_leave_game->handle_input(event)};
 				if (dialog_input) {
 					if (dialog_input.value() == WindowDialogButton::CLOSE) {
 						return std::nullopt;
@@ -167,8 +167,8 @@ auto Sorcery::EdgeOfTown::start() -> std::optional<MenuItem> {
 
 		// Update Background Movie
 		_display->start_bg_movie();
-		_display->update_background_movie();
-		_display->draw_background_movie();
+		_display->update_bg_movie();
+		_display->draw_bg_movie();
 
 		_draw();
 		_window->display();
@@ -180,7 +180,7 @@ auto Sorcery::EdgeOfTown::start() -> std::optional<MenuItem> {
 auto Sorcery::EdgeOfTown::stop() -> void {
 
 	// Stop the background movie!
-	_display->stop_background_movie();
+	_display->stop_bg_movie();
 }
 
 auto Sorcery::EdgeOfTown::_draw() -> void {
@@ -196,8 +196,8 @@ auto Sorcery::EdgeOfTown::_draw() -> void {
 	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 	if (_display->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME) {
-		_dialog_leave_game->update();
-		_window->draw(*_dialog_leave_game);
+		_leave_game->update();
+		_window->draw(*_leave_game);
 	}
 
 	// Always draw the following

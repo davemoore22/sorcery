@@ -70,7 +70,7 @@ Sorcery::Options::Options(System *system, Display *display, Graphics *graphics)
 // Standard Destructor
 Sorcery::Options::~Options() {
 
-	_display->stop_background_movie();
+	_display->stop_bg_movie();
 }
 
 auto Sorcery::Options::start() -> bool {
@@ -293,8 +293,8 @@ auto Sorcery::Options::start() -> bool {
 		_window->clear();
 
 		_display->start_bg_movie();
-		_display->update_background_movie();
-		_display->draw_background_movie();
+		_display->update_bg_movie();
+		_display->draw_bg_movie();
 
 		_draw();
 		_window->display();
@@ -305,7 +305,7 @@ auto Sorcery::Options::start() -> bool {
 
 auto Sorcery::Options::stop() -> void {
 
-	_display->stop_background_movie();
+	_display->stop_bg_movie();
 }
 
 auto Sorcery::Options::_set_info_panel_contents(

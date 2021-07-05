@@ -43,7 +43,7 @@ Sorcery::License::License(System *system, Display *display, Graphics *graphics)
 // Standard Destructor
 Sorcery::License::~License() {
 
-	_display->stop_background_movie();
+	_display->stop_bg_movie();
 }
 
 auto Sorcery::License::start() -> void {
@@ -118,8 +118,8 @@ auto Sorcery::License::start() -> void {
 		_window->clear();
 
 		_display->start_bg_movie();
-		_display->update_background_movie();
-		_display->draw_background_movie();
+		_display->update_bg_movie();
+		_display->draw_bg_movie();
 
 		_draw();
 		_window->display();
@@ -128,7 +128,7 @@ auto Sorcery::License::start() -> void {
 
 auto Sorcery::License::stop() -> void {
 
-	_display->stop_background_movie();
+	_display->stop_bg_movie();
 }
 
 auto Sorcery::License::_draw() -> void {

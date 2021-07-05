@@ -44,14 +44,15 @@ auto Sorcery::Database::has_game() -> bool {
 
 	try {
 		sqlite::database database(_db_file_path.string());
-		const std::string check_has_game_SQL{"SELECT count(g.id) AS count FROM game g;"};
+		const std::string check_has_game_SQL{
+			"SELECT count(g.id) AS count FROM game g;"};
 		int count{};
 		database << check_has_game_SQL >> count;
 		return count > 0;
 	} catch (sqlite::sqlite_exception &e) {
 		Error error{SystemError::SQLLITE_ERROR, e,
-			fmt::format(
-				"{} {} {} {}", e.get_code(), e.what(), e.get_sql(), _db_file_path.string())};
+			fmt::format("{} {} {} {}", e.get_code(), e.what(), e.get_sql(),
+				_db_file_path.string())};
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}
@@ -65,36 +66,39 @@ auto Sorcery::Database::get_game() -> std::optional<GameEntry> {
 
 			sqlite::database database(_db_file_path.string());
 			const std::string get_game_SQL{
-				"SELECT g.id, g.key, g.status, g.started, g.last_played FROM game g;"};
+				"SELECT g.id, g.key, g.status, g.started, g.last_played FROM "
+				"game g;"};
 
 			int id{};
 			std::string key{};
 			std::string started{};
 			std::string last_played{};
 			std::string status{};
-			database << get_game_SQL >> std::tie(id, key, status, started, last_played);
+			database << get_game_SQL >>
+				std::tie(id, key, status, started, last_played);
 
 			std::tm started_tm{};
 			std::stringstream started_ss(started);
 			started_ss >> std::get_time(&started_tm, "%Y-%m-%d %X");
-			auto started_tp{std::chrono::system_clock::from_time_t(std::mktime(&started_tm))};
+			auto started_tp{std::chrono::system_clock::from_time_t(
+				std::mktime(&started_tm))};
 
 			std::tm last_played_tm{};
 			std::stringstream last_played_ss(last_played);
 			last_played_ss >> std::get_time(&last_played_tm, "%Y-%m-%d %X");
-			auto last_played_tp{
-				std::chrono::system_clock::from_time_t(std::mktime(&last_played_tm))};
+			auto last_played_tp{std::chrono::system_clock::from_time_t(
+				std::mktime(&last_played_tm))};
 
-			return std::make_tuple(
-				static_cast<unsigned int>(id), key, status, started_tp, last_played_tp);
+			return std::make_tuple(static_cast<unsigned int>(id), key, status,
+				started_tp, last_played_tp);
 
 		} else
 			return std::nullopt;
 
 	} catch (sqlite::sqlite_exception &e) {
 		Error error{SystemError::SQLLITE_ERROR, e,
-			fmt::format(
-				"{} {} {} {}", e.get_code(), e.what(), e.get_sql(), _db_file_path.string())};
+			fmt::format("{} {} {} {}", e.get_code(), e.what(), e.get_sql(),
+				_db_file_path.string())};
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}
@@ -112,22 +116,25 @@ auto Sorcery::Database::add_game() -> unsigned int {
 		}
 
 		std::string new_unique_key{GUID()};
-		auto now_t{std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())};
+		auto now_t{std::chrono::system_clock::to_time_t(
+			std::chrono::system_clock::now())};
 		std::stringstream ss{};
 		ss << std::put_time(std::localtime(&now_t), "%Y-%m-%d %X");
 		auto stated{ss.str()};
 		auto last_played{ss.str()};
 		std::string status{"OK"};
 		const std::string insert_new_game_SQL{
-			"INSERT INTO game (key, status, started, last_played) VALUES (?,?,?,?)"};
-		database << insert_new_game_SQL << new_unique_key << status << stated << last_played;
+			"INSERT INTO game (key, status, started, last_played) VALUES "
+			"(?,?,?,?)"};
+		database << insert_new_game_SQL << new_unique_key << status << stated
+				 << last_played;
 
 		return database.last_insert_rowid();
 
 	} catch (sqlite::sqlite_exception &e) {
 		Error error{SystemError::SQLLITE_ERROR, e,
-			fmt::format(
-				"{} {} {} {}", e.get_code(), e.what(), e.get_sql(), _db_file_path.string())};
+			fmt::format("{} {} {} {}", e.get_code(), e.what(), e.get_sql(),
+				_db_file_path.string())};
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}
@@ -136,7 +143,7 @@ auto Sorcery::Database::add_game() -> unsigned int {
 }
 
 // Update Character Name
-auto Sorcery::Database::update_character_name(
+auto Sorcery::Database::update_char(
 	int game_id, int character_id, std::string name, std::string data) -> bool {
 
 	try {
@@ -145,16 +152,18 @@ auto Sorcery::Database::update_character_name(
 
 		std::string status{"OK"};
 		const std::string update_character_name_SQL{
-			"UPDATE CHARACTER SET name = ?, data = ? WHERE game_id = ? AND id = ?"};
+			"UPDATE CHARACTER SET name = ?, data = ? WHERE game_id = ? AND id "
+			"= ?"};
 
-		database << update_character_name_SQL << name << data << game_id << character_id;
+		database << update_character_name_SQL << name << data << game_id
+				 << character_id;
 
 		return true;
 
 	} catch (sqlite::sqlite_exception &e) {
 		Error error{SystemError::SQLLITE_ERROR, e,
-			fmt::format(
-				"{} {} {} {}", e.get_code(), e.what(), e.get_sql(), _db_file_path.string())};
+			fmt::format("{} {} {} {}", e.get_code(), e.what(), e.get_sql(),
+				_db_file_path.string())};
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}
@@ -163,30 +172,33 @@ auto Sorcery::Database::update_character_name(
 }
 
 // Insert a character
-auto Sorcery::Database::insert_character(int game_id, std::string name, std::string data)
-	-> unsigned int {
+auto Sorcery::Database::add_char(
+	int game_id, std::string name, std::string data) -> unsigned int {
 
 	try {
 
 		sqlite::database database(_db_file_path.string());
 
-		auto now_t{std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())};
+		auto now_t{std::chrono::system_clock::to_time_t(
+			std::chrono::system_clock::now())};
 		std::stringstream cs{};
 		cs << std::put_time(std::localtime(&now_t), "%Y-%m-%d %X");
 		auto created{cs.str()};
 
 		std::string status{"OK"};
 		const std::string insert_new_character_SQL{
-			"INSERT INTO character (game_id, created, status, name, data) VALUES (?,?,?,?,?)"};
+			"INSERT INTO character (game_id, created, status, name, data) "
+			"VALUES (?,?,?,?,?)"};
 
-		database << insert_new_character_SQL << game_id << created << status << name << data;
+		database << insert_new_character_SQL << game_id << created << status
+				 << name << data;
 
 		return database.last_insert_rowid();
 
 	} catch (sqlite::sqlite_exception &e) {
 		Error error{SystemError::SQLLITE_ERROR, e,
-			fmt::format(
-				"{} {} {} {}", e.get_code(), e.what(), e.get_sql(), _db_file_path.string())};
+			fmt::format("{} {} {} {}", e.get_code(), e.what(), e.get_sql(),
+				_db_file_path.string())};
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}
@@ -195,7 +207,7 @@ auto Sorcery::Database::insert_character(int game_id, std::string name, std::str
 }
 
 // Get the Character List
-auto Sorcery::Database::get_character_list(int game_id) -> std::vector<unsigned int> {
+auto Sorcery::Database::get_chars(int game_id) -> std::vector<unsigned int> {
 
 	std::vector<unsigned int> characters;
 
@@ -204,7 +216,8 @@ auto Sorcery::Database::get_character_list(int game_id) -> std::vector<unsigned 
 		sqlite::database database(_db_file_path.string());
 
 		const std::string get_character_list_SQL{
-			"SELECT c.id FROM character c WHERE c.game_id = ? ORDER BY c.id ASC;"};
+			"SELECT c.id FROM character c WHERE c.game_id = ? ORDER BY c.id "
+			"ASC;"};
 
 		database << get_character_list_SQL << game_id >> [&](int id) {
 			characters.emplace_back(id);
@@ -212,8 +225,8 @@ auto Sorcery::Database::get_character_list(int game_id) -> std::vector<unsigned 
 
 	} catch (sqlite::sqlite_exception &e) {
 		Error error{SystemError::SQLLITE_ERROR, e,
-			fmt::format(
-				"{} {} {} {}", e.get_code(), e.what(), e.get_sql(), _db_file_path.string())};
+			fmt::format("{} {} {} {}", e.get_code(), e.what(), e.get_sql(),
+				_db_file_path.string())};
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}
@@ -221,7 +234,7 @@ auto Sorcery::Database::get_character_list(int game_id) -> std::vector<unsigned 
 	return characters;
 }
 
-auto Sorcery::Database::delete_character(int game_id, int character_id) -> void {
+auto Sorcery::Database::delete_char(int game_id, int character_id) -> void {
 
 	try {
 
@@ -234,15 +247,15 @@ auto Sorcery::Database::delete_character(int game_id, int character_id) -> void 
 
 	} catch (sqlite::sqlite_exception &e) {
 		Error error{SystemError::SQLLITE_ERROR, e,
-			fmt::format(
-				"{} {} {} {}", e.get_code(), e.what(), e.get_sql(), _db_file_path.string())};
+			fmt::format("{} {} {} {}", e.get_code(), e.what(), e.get_sql(),
+				_db_file_path.string())};
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}
 }
 
 // Get a character
-auto Sorcery::Database::get_character(int game_id, int character_id) -> std::string {
+auto Sorcery::Database::get_char(int game_id, int character_id) -> std::string {
 
 	std::string character_data{};
 
@@ -253,12 +266,13 @@ auto Sorcery::Database::get_character(int game_id, int character_id) -> std::str
 		const std::string get_character_SQL{
 			"SELECT c.data FROM character c WHERE c.id = ? AND c.game_id = ?;"};
 
-		database << get_character_SQL << character_id << game_id >> character_data;
+		database << get_character_SQL << character_id << game_id >>
+			character_data;
 
 	} catch (sqlite::sqlite_exception &e) {
 		Error error{SystemError::SQLLITE_ERROR, e,
-			fmt::format(
-				"{} {} {} {}", e.get_code(), e.what(), e.get_sql(), _db_file_path.string())};
+			fmt::format("{} {} {} {}", e.get_code(), e.what(), e.get_sql(),
+				_db_file_path.string())};
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}

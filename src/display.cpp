@@ -35,8 +35,7 @@ Sorcery::Display::Display(System *system) : _system{system} {
 	overlay = std::make_shared<ControlOverlay>(
 		_system, this, (*layout)["global:control_overlay"]);
 	ui_texture = (*_system->resources).textures[GraphicsTexture::UI];
-	_background_movie.openFromFile(
-		_system->files->get_path_as_string(MENU_VIDEO));
+	_background_movie.openFromFile(_system->files->get_path(MENU_VIDEO));
 	auto icon_layout{(*layout)["global:icon"]};
 	_icons = std::make_unique<IconStore>(
 		_system, icon_layout, (*_system->files)[ICONS_FILE]);
@@ -426,18 +425,18 @@ auto Sorcery::Display::start_bg_movie() -> void {
 		_background_movie.play();
 }
 
-auto Sorcery::Display::stop_background_movie() -> void {
+auto Sorcery::Display::stop_bg_movie() -> void {
 
 	if (_background_movie.getStatus() == sfe::Playing)
 		_background_movie.stop();
 }
 
-auto Sorcery::Display::update_background_movie() -> void {
+auto Sorcery::Display::update_bg_movie() -> void {
 
 	_background_movie.update();
 }
 
-auto Sorcery::Display::draw_background_movie() -> void {
+auto Sorcery::Display::draw_bg_movie() -> void {
 
 	window->get_window()->draw(_background_movie);
 }

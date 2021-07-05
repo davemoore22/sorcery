@@ -75,9 +75,9 @@ namespace Sorcery {
 		auto display_cursor() -> void;
 		auto fit_bg_movie() -> void;
 		auto start_bg_movie() -> void;
-		auto stop_background_movie() -> void;
-		auto update_background_movie() -> void;
-		auto draw_background_movie() -> void;
+		auto stop_bg_movie() -> void;
+		auto update_bg_movie() -> void;
+		auto draw_bg_movie() -> void;
 		auto set_input_mode(WindowInputMode input_mode) -> void;
 		auto get_input_mode() const -> WindowInputMode;
 		auto show_overlay() -> void;

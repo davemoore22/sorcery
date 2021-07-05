@@ -42,7 +42,7 @@ namespace Sorcery {
 		auto operator[](std::string_view key) const -> std::filesystem::path;
 
 		// Public Methods
-		auto get_path_as_string(std::string_view key) const -> std::string;
+		auto get_path(std::string_view key) const -> std::string;
 
 		// Public Members
 		auto get_base_path() const -> std::filesystem::path;
