@@ -35,8 +35,7 @@ Sorcery::Engine::Engine(System *system, Display *display, Graphics *graphics)
 // Standard Destructor
 Sorcery::Engine::~Engine() {}
 
-auto Sorcery::Engine::start() -> void {
-}
+auto Sorcery::Engine::start() -> void {}
 
 auto Sorcery::Engine::stop() -> void {}
 

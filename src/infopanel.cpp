@@ -25,7 +25,8 @@
 #include "infopanel.hpp"
 
 // Standard Constructor
-Sorcery::InfoPanel::InfoPanel(System *system, Display *display, Graphics *graphics)
+Sorcery::InfoPanel::InfoPanel(
+	System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the standard layout information
@@ -44,7 +45,8 @@ auto Sorcery::InfoPanel::set_icon(const std::string &string) -> void {
 		_icon = sf::Sprite();
 
 	_icon.setPosition(0, 16);
-	_icon.setColor(sf::Color(std::stoull(_layout["icon_colour"].value(), 0, 16)));
+	_icon.setColor(
+		sf::Color(std::stoull(_layout["icon_colour"].value(), 0, 16)));
 }
 
 auto Sorcery::InfoPanel::set_icon(const MenuItem menu_item) -> void {
@@ -55,7 +57,8 @@ auto Sorcery::InfoPanel::set_icon(const MenuItem menu_item) -> void {
 		_icon = sf::Sprite();
 
 	_icon.setPosition(0, 16);
-	_icon.setColor(sf::Color(std::stoull(_layout["icon_colour"].value(), 0, 16)));
+	_icon.setColor(
+		sf::Color(std::stoull(_layout["icon_colour"].value(), 0, 16)));
 }
 
 // Set the Text
@@ -72,7 +75,8 @@ auto Sorcery::InfoPanel::set_text(const std::string &string) -> void {
 
 	// Split the display lines into a vector
 	const std::regex regex{(R"([@]+)")};
-	std::sregex_token_iterator it{wrapped_text.begin(), wrapped_text.end(), regex, -1};
+	std::sregex_token_iterator it{
+		wrapped_text.begin(), wrapped_text.end(), regex, -1};
 	std::vector<std::string> split{it, {}};
 	split.erase(std::remove_if(split.begin(), split.end(),
 					[](std::string const &s) {
@@ -87,7 +91,8 @@ auto Sorcery::InfoPanel::set_text(const std::string &string) -> void {
 		sf::Text text{};
 		text.setFont(_system->resources->fonts[_layout.font]);
 		text.setCharacterSize(_layout.size);
-		text.setFillColor(sf::Color(std::stoull(_layout["text_colour"].value(), 0, 16)));
+		text.setFillColor(
+			sf::Color(std::stoull(_layout["text_colour"].value(), 0, 16)));
 		text.setString(each_string);
 		text.setPosition(x, 18 + y * 24);
 		++y;
@@ -108,7 +113,8 @@ auto Sorcery::InfoPanel::set_text(const std::string &string) -> void {
 	valid = true;
 }
 
-auto Sorcery::InfoPanel::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::InfoPanel::draw(
+	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 	for (auto each_text : _texts) {

@@ -61,20 +61,23 @@ Sorcery::Random::Random() {
 	_range[RandomType::ZERO_TO_299] = std::make_tuple(0, 299);
 
 	// Set up the Random Syllables
-	_sy1 = {"Ab", "Ac", "Ad", "Af", "Agr", "Ast", "As", "Al", "Adw", "Adr", "Ar", "B", "Br", "C",
-		"Cr", "Ch", "Cad", "D", "Dr", "Dw", "Ed", "Eth", "Et", "Er", "El", "Eow", "F", "Fr", "G",
-		"Gr", "Gw", "Gal", "Gl", "H", "Ha", "Ib", "Jer", "K", "Ka", "Ked", "L", "Loth", "Lar",
-		"Leg", "M", "Mir", "N", "Nyd", "Ol", "Oc", "On", "P", "Pr", "R", "Rh", "S", "Sev", "T",
-		"Tr", "Th", "V", "Y", "Z", "W", "Wic"};
-	_sy2 = {"a", "ae", "au", "ao", "are", "ale", "ali", "ay", "ardo", "e", "ei", "ea", "eri", "era",
-		"ela", "eli", "enda", "erra", "i", "ia", "ie", "ire", "ira", "ila", "ili", "ira", "igo",
-		"o", "oa", "oi", "oe", "ore", "u", "y"};
-	_sy3 = {"a", "and", "b", "bwyn", "baen", "bard", "c", "ctred", "cred", "ch", "can", "d", "dan",
-		"don", "der", "dric", "dfrid", "dus", "f", "g", "gord", "gan", "l", "li", "lgrin", "lin",
-		"lith", "lath", "loth", "ld", "ldric", "ldan", "m", "mas", "mos", "mar", "mond", "n",
-		"nydd", "nidd", "nnon", "nwan", "nyth", "nad", "nn", "nnor", "nd", "p", "r", "ron", "rd",
-		"s", "sh", "seth", "sean", "t", "th", "tha", "tlan", "trem", "tram", "v", "vudd", "w",
-		"wan", "win", "wyn", "wyr", "wyr", "wyth"};
+	_sy1 = {"Ab", "Ac", "Ad", "Af", "Agr", "Ast", "As", "Al", "Adw", "Adr",
+		"Ar", "B", "Br", "C", "Cr", "Ch", "Cad", "D", "Dr", "Dw", "Ed", "Eth",
+		"Et", "Er", "El", "Eow", "F", "Fr", "G", "Gr", "Gw", "Gal", "Gl", "H",
+		"Ha", "Ib", "Jer", "K", "Ka", "Ked", "L", "Loth", "Lar", "Leg", "M",
+		"Mir", "N", "Nyd", "Ol", "Oc", "On", "P", "Pr", "R", "Rh", "S", "Sev",
+		"T", "Tr", "Th", "V", "Y", "Z", "W", "Wic"};
+	_sy2 = {"a", "ae", "au", "ao", "are", "ale", "ali", "ay", "ardo", "e", "ei",
+		"ea", "eri", "era", "ela", "eli", "enda", "erra", "i", "ia", "ie",
+		"ire", "ira", "ila", "ili", "ira", "igo", "o", "oa", "oi", "oe", "ore",
+		"u", "y"};
+	_sy3 = {"a", "and", "b", "bwyn", "baen", "bard", "c", "ctred", "cred", "ch",
+		"can", "d", "dan", "don", "der", "dric", "dfrid", "dus", "f", "g",
+		"gord", "gan", "l", "li", "lgrin", "lin", "lith", "lath", "loth", "ld",
+		"ldric", "ldan", "m", "mas", "mos", "mar", "mond", "n", "nydd", "nidd",
+		"nnon", "nwan", "nyth", "nad", "nn", "nnor", "nd", "p", "r", "ron",
+		"rd", "s", "sh", "seth", "sean", "t", "th", "tha", "tlan", "trem",
+		"tram", "v", "vudd", "w", "wan", "win", "wyn", "wyr", "wyr", "wyth"};
 }
 
 // Overload [] operator
@@ -85,13 +88,16 @@ auto Sorcery::Random::operator[](const RandomType random_type) -> unsigned int {
 
 auto Sorcery::Random::get_random_name() -> std::string {
 
-	auto sy1_dist{std::uniform_int_distribution<unsigned int>(0, _sy1.size() - 1)};
-	auto sy2_dist{std::uniform_int_distribution<unsigned int>(0, _sy2.size() - 1)};
-	auto sy3_dist{std::uniform_int_distribution<unsigned int>(0, _sy3.size() - 1)};
+	auto sy1_dist{
+		std::uniform_int_distribution<unsigned int>(0, _sy1.size() - 1)};
+	auto sy2_dist{
+		std::uniform_int_distribution<unsigned int>(0, _sy2.size() - 1)};
+	auto sy3_dist{
+		std::uniform_int_distribution<unsigned int>(0, _sy3.size() - 1)};
 
 	std::string name{};
-	name = fmt::format("{}{}{}", _sy1.at(sy1_dist(_random)), _sy2.at(sy2_dist(_random)),
-		_sy3.at(sy3_dist(_random)));
+	name = fmt::format("{}{}{}", _sy1.at(sy1_dist(_random)),
+		_sy2.at(sy2_dist(_random)), _sy3.at(sy3_dist(_random)));
 
 	return name;
 }

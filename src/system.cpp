@@ -25,7 +25,8 @@
 #include "system.hpp"
 
 // Standard Constructor
-Sorcery::System::System(int argc __attribute__((unused)), char **argv __attribute__((unused))) {
+Sorcery::System::System(
+	int argc __attribute__((unused)), char **argv __attribute__((unused))) {
 
 	// Files Module
 	files = std::make_shared<File>();
@@ -52,8 +53,9 @@ Sorcery::System::System(int argc __attribute__((unused)), char **argv __attribut
 }
 
 Sorcery::System::System(const System &other)
-	: files{other.files}, settings{other.settings}, config{other.config}, random{other.random},
-	  database{other.database}, resources{other.resources}, input{other.input} {}
+	: files{other.files}, settings{other.settings}, config{other.config},
+	  random{other.random}, database{other.database},
+	  resources{other.resources}, input{other.input} {}
 
 auto Sorcery::System::operator=(const System &other) -> System & {
 
