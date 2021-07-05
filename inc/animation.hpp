@@ -46,41 +46,41 @@ namespace Sorcery {
 		sf::Color selected_colour;
 
 		// Public Methods
-		auto force_refresh_attract_mode() -> void;
-		auto force_refresh_colour_cycling() -> void;
-		auto start_attract_mode_animation() -> void;
-		auto start_attract_mode_animation_threads() -> void;
-		auto start_colour_cycling() -> void;
-		auto start_colour_cycling_threads() -> void;
-		auto stop_attract_mode_animation() -> void;
-		auto stop_attract_mode_animation_threads() -> void;
-		auto stop_colour_cycling() -> void;
-		auto stop_colour_cycling_threads() -> void;
-		auto get_attract_mode_data() -> std::vector<unsigned int>;
+		auto refresh_attract() -> void;
+		auto refresh_colcyc() -> void;
+		auto start_attract() -> void;
+		auto start_attract_ani_threads() -> void;
+		auto start_colcyc() -> void;
+		auto start_colcycl_threads() -> void;
+		auto stop_attract() -> void;
+		auto stop_attract_threads() -> void;
+		auto stop_colcyc() -> void;
+		auto stop_colcyc_threads() -> void;
+		auto get_attract_data() -> std::vector<unsigned int>;
 
 	  private:
 		// Private Members
 		System *_system;
 		Display *_display;
-		std::jthread _attract_thrd;
-		std::jthread _colcyc_thrd;
-		std::atomic<bool> _allow_attract_ani;
+		std::jthread _attract_thread;
+		std::jthread _colcyc_thread;
+		std::atomic<bool> _allow_attract;
 		std::atomic<bool> _allow_colcyc;
 		std::atomic<bool> _colcyc_dir;
 		std::atomic<bool> _finished;
-		std::atomic<bool> _attract_mode_fade_in;
-		std::chrono::time_point<std::chrono::system_clock> _last_attract_ani;
+		std::atomic<bool> _attract_fade;
+		std::chrono::time_point<std::chrono::system_clock> _last_attract;
 		std::chrono::time_point<std::chrono::system_clock> _current_time;
 		std::mutex _attract_mutex;
 		std::mutex _colour_mutex;
 		std::vector<unsigned int> _attract_mode;
 		thor::ColorGradient _selected_gradient;
-		double _colour_cycling_step;
+		double _colcyc_step;
 
 		// Private Methods
-		auto _animate_attract_mode(bool force) -> void;
-		auto _colour_cycling(bool force) -> void;
-		auto _do_attract_mode_animation() -> void;
-		auto _do_colour_cycling() -> void;
+		auto _animate_attract(bool force) -> void;
+		auto _colcyc(bool force) -> void;
+		auto _do_attract() -> void;
+		auto _do_colcyc() -> void;
 	};
 } // namespace Sorcery

@@ -54,10 +54,10 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
-		auto _get_attribute_bar(CharacterAttribute attribute)
+		auto _get_bar(CharacterAttribute attribute)
 			-> std::tuple<sf::RectangleShape, sf::RectangleShape,
 				sf::RectangleShape>;
-		auto _set_allowed_class_icons() -> void;
+		auto _set_icons() -> void;
 		auto virtual draw(
 			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 

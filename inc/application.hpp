@@ -72,7 +72,7 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
-		auto _check_for_parameter(std::string_view parameter) const -> bool;
+		auto _check_param(std::string_view parameter) const -> bool;
 
 		// Private Members
 		std::shared_ptr<Banner> _banner;

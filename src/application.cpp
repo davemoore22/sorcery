@@ -40,43 +40,48 @@ Sorcery::Application::Application(int argc, char **argv) {
 	display = std::make_unique<Display>(system.get());
 	graphics = std::make_unique<Graphics>(system.get(), display.get());
 
-	if (!_check_for_parameter(SKIP_INTRO)) {
+	if (!_check_param(SKIP_INTRO)) {
 
 		// Show the Splash Screen and the Banner before starting the Main Menu
-		_splash = std::make_shared<Splash>(system.get(), display.get(), graphics.get());
+		_splash = std::make_shared<Splash>(
+			system.get(), display.get(), graphics.get());
 		_splash->start();
-		_banner = std::make_shared<Banner>(system.get(), display.get(), graphics.get());
+		_banner = std::make_shared<Banner>(
+			system.get(), display.get(), graphics.get());
 		_banner->start();
 	}
 
 	// Start relevant animation worker threads
-	graphics->animation->force_refresh_colour_cycling();
-	graphics->animation->start_colour_cycling_threads();
+	graphics->animation->refresh_colcyc();
+	graphics->animation->start_colcycl_threads();
 
 	// Create a Game (load the existing one if possible)
 	_game = std::make_shared<Game>(system.get(), display.get(), graphics.get());
 
 	// Generate the necessary modules
-	_mainmenu =
-		std::make_shared<MainMenu>(system.get(), display.get(), graphics.get(), _game.get());
-	_license = std::make_shared<License>(system.get(), display.get(), graphics.get());
-	_options = std::make_shared<Options>(system.get(), display.get(), graphics.get());
-	_compendium = std::make_shared<Compendium>(system.get(), display.get(), graphics.get());
-
-	// TODO need to pass in game object into these two
-	_castle = std::make_shared<Castle>(system.get(), display.get(), graphics.get(), _game.get());
-	_engine = std::make_shared<Engine>(system.get(), display.get(), graphics.get());
+	_mainmenu = std::make_shared<MainMenu>(
+		system.get(), display.get(), graphics.get(), _game.get());
+	_license =
+		std::make_shared<License>(system.get(), display.get(), graphics.get());
+	_options =
+		std::make_shared<Options>(system.get(), display.get(), graphics.get());
+	_compendium = std::make_shared<Compendium>(
+		system.get(), display.get(), graphics.get());
+	_castle = std::make_shared<Castle>(
+		system.get(), display.get(), graphics.get(), _game.get());
+	_engine =
+		std::make_shared<Engine>(system.get(), display.get(), graphics.get());
 }
 
 // Standard Destructor
 Sorcery::Application::~Application() {
 
-	graphics->animation->stop_colour_cycling_threads();
+	graphics->animation->stop_colcyc_threads();
 }
 
 auto Sorcery::Application::start() -> int {
 
-	if (_check_for_parameter(CONTINUE_GAME)) {
+	if (_check_param(CONTINUE_GAME)) {
 		_castle->start();
 		_castle->stop();
 	}
@@ -130,9 +135,12 @@ auto Sorcery::Application::start() -> int {
 }
 
 // Check for a command line parameter
-auto Sorcery::Application::_check_for_parameter(std::string_view parameter) const -> bool {
+auto Sorcery::Application::_check_param(std::string_view parameter) const
+	-> bool {
+
 	for (auto arg : _arguments)
-		if (const auto match_found{arg.find(parameter)}; match_found != std::string::npos)
+		if (const auto match_found{arg.find(parameter)};
+			match_found != std::string::npos)
 			return true;
 
 	return false;
