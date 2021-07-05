@@ -25,19 +25,23 @@
 #include "edgeoftown.hpp"
 
 // Standard Constructor
-Sorcery::EdgeOfTown::EdgeOfTown(System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::EdgeOfTown::EdgeOfTown(
+	System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
 	// Setup Custom Components
-	_menu = std::make_shared<Menu>(_system, _display, _graphics, _game, MenuType::EDGE_OF_TOWN);
+	_menu = std::make_shared<Menu>(
+		_system, _display, _graphics, _game, MenuType::EDGE_OF_TOWN);
 
 	_dialog_leave_game = std::make_shared<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["edge_of_town:dialog_leave_game"],
-		(*_display->layout)["edge_of_town:dialog_leave_game_text"], WindowDialogType::CONFIRM);
-	_dialog_leave_game->setPosition((*_display->layout)["edge_of_town:dialog_leave_game"].x,
+		(*_display->layout)["edge_of_town:dialog_leave_game_text"],
+		WindowDialogType::CONFIRM);
+	_dialog_leave_game->setPosition(
+		(*_display->layout)["edge_of_town:dialog_leave_game"].x,
 		(*_display->layout)["edge_of_town:dialog_leave_game"].y);
 
 	// Modules
@@ -51,26 +55,29 @@ Sorcery::EdgeOfTown::~EdgeOfTown() {}
 // Start/Continue a new Game
 auto Sorcery::EdgeOfTown::start() -> std::optional<MenuItem> {
 
-	// Get the Background Display Components and load them into Display module storage (not local -
-	// and note that due to the way both menus are combined in this class, we need to have the
-	// menustage set first in this case and this case only)
-	_display->generate_components("edge_of_town");
+	// Get the Background Display Components and load them into Display module
+	// storage (not local - and note that due to the way both menus are combined
+	// in this class, we need to have the menustage set first in this case and
+	// this case only)
+	_display->generate("edge_of_town");
 
 	// Clear the window
 	_window->clear();
 
 	// Play the background movie!
-	_display->fit_background_movie();
-	_display->start_background_movie();
+	_display->fit_bg_movie();
+	_display->start_bg_movie();
 
 	// Draw the Custom Components
 	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
-	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
+	_status_bar->setPosition(
+		_display->window->get_x(_status_bar->sprite, status_bar_c.x),
 		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
 
 	// And do the main loop
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> option{
+		_menu->items.begin()};
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
@@ -83,7 +90,8 @@ auto Sorcery::EdgeOfTown::start() -> std::optional<MenuItem> {
 					_window->close();
 
 				// Handle enabling help overlay
-				if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
+				if (_system->input->check_for_event(
+						WindowInput::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
 					continue;
 				} else
@@ -93,48 +101,63 @@ auto Sorcery::EdgeOfTown::start() -> std::optional<MenuItem> {
 
 				if (_system->input->check_for_event(WindowInput::UP, event))
 					option = _menu->choose_previous();
-				else if (_system->input->check_for_event(WindowInput::DOWN, event))
+				else if (_system->input->check_for_event(
+							 WindowInput::DOWN, event))
 					option = _menu->choose_next();
-				else if (_system->input->check_for_event(WindowInput::MOVE, event))
-					option = _menu->set_mouse_selected(
-						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+				else if (_system->input->check_for_event(
+							 WindowInput::MOVE, event))
+					option =
+						_menu->set_mouse_selected(static_cast<sf::Vector2f>(
+							sf::Mouse::getPosition(*_window)));
+				else if (_system->input->check_for_event(
+							 WindowInput::CONFIRM, event)) {
 
 					// We have selected something from the menu
 					if (option) {
-						if (const MenuItem option_chosen{(*option.value()).item};
+						if (const MenuItem option_chosen{
+								(*option.value()).item};
 							option_chosen == MenuItem::ET_CASTLE) {
 							return MenuItem::ET_CASTLE;
 						} else if (option_chosen == MenuItem::ET_LEAVE_GAME) {
-							_display->set_input_mode(WindowInputMode::CONFIRM_LEAVE_GAME);
+							_display->set_input_mode(
+								WindowInputMode::CONFIRM_LEAVE_GAME);
 							_yes_or_no = WindowConfirm::NO;
 						} else if (option_chosen == MenuItem::ET_MAZE) {
 							return MenuItem::ET_MAZE;
 						} else if (option_chosen == MenuItem::ET_TRAIN) {
 							_training->start();
 							_training->stop();
-							_display->generate_components("edge_of_town");
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+							_display->generate("edge_of_town");
+							_display->set_input_mode(
+								WindowInputMode::NAVIGATE_MENU);
 						}
 					}
-				} else if ((_system->input->check_for_event(WindowInput::CANCEL, event)) ||
-						   ((_system->input->check_for_event(WindowInput::BACK, event)))) {
-					_display->set_input_mode(WindowInputMode::CONFIRM_LEAVE_GAME);
+				} else if ((_system->input->check_for_event(
+							   WindowInput::CANCEL, event)) ||
+						   ((_system->input->check_for_event(
+							   WindowInput::BACK, event)))) {
+					_display->set_input_mode(
+						WindowInputMode::CONFIRM_LEAVE_GAME);
 					_yes_or_no = WindowConfirm::NO;
 				}
 
-			} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME) {
+			} else if (_display->get_input_mode() ==
+					   WindowInputMode::CONFIRM_LEAVE_GAME) {
 
 				auto dialog_input{_dialog_leave_game->handle_input(event)};
 				if (dialog_input) {
 					if (dialog_input.value() == WindowDialogButton::CLOSE) {
 						return std::nullopt;
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-					} else if (dialog_input.value() == WindowDialogButton::YES) {
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
+					} else if (dialog_input.value() ==
+							   WindowDialogButton::YES) {
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
 						return MenuItem::ET_LEAVE_GAME;
 					} else if (dialog_input.value() == WindowDialogButton::NO) {
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
 					}
 				}
 			}
@@ -143,7 +166,7 @@ auto Sorcery::EdgeOfTown::start() -> std::optional<MenuItem> {
 		_window->clear();
 
 		// Update Background Movie
-		_display->start_background_movie();
+		_display->start_bg_movie();
 		_display->update_background_movie();
 		_display->draw_background_movie();
 
@@ -163,13 +186,13 @@ auto Sorcery::EdgeOfTown::stop() -> void {
 auto Sorcery::EdgeOfTown::_draw() -> void {
 
 	// Custom Components
-	_display->display_components("edge_of_town");
+	_display->display("edge_of_town");
 	_window->draw(*_status_bar);
 
 	// And the Menu
 	_menu->generate((*_display->layout)["edge_of_town:menu"]);
-	const sf::Vector2f menu_pos(
-		(*_display->layout)["edge_of_town:menu"].x, (*_display->layout)["edge_of_town:menu"].y);
+	const sf::Vector2f menu_pos((*_display->layout)["edge_of_town:menu"].x,
+		(*_display->layout)["edge_of_town:menu"].y);
 	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 	if (_display->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME) {

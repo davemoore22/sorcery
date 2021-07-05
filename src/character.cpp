@@ -2622,11 +2622,11 @@ auto Sorcery::Character::_generate_display() -> void {
 	mage_spell_texts.clear();
 	priest_spell_texts.clear();
 
-	_display->generate_components("character", _sprites, _texts, _frames);
+	_display->generate("character", _sprites, _texts, _frames);
 
 	if (_view == CharacterView::SUMMARY) {
 
-		_display->generate_components(
+		_display->generate(
 			"character_summary", _v_sprites, _v_texts, _v_frames);
 
 		_add_text(
@@ -2736,7 +2736,7 @@ auto Sorcery::Character::_generate_display() -> void {
 
 	} else if (_view == CharacterView::DETAILED) {
 
-		_display->generate_components(
+		_display->generate(
 			"character_detailed", _v_sprites, _v_texts, _v_frames);
 
 		_add_text(
@@ -3120,7 +3120,7 @@ auto Sorcery::Character::_generate_display() -> void {
 				_abilities.at(CharacterAbility::RESISTANCE_VS_MANIFO)));
 	} else if (_view == CharacterView::INVENTORY) {
 
-		_display->generate_components(
+		_display->generate(
 			"character_inventory", _v_sprites, _v_texts, _v_frames);
 
 		_add_text(
@@ -3155,7 +3155,7 @@ auto Sorcery::Character::_generate_display() -> void {
 
 	} else if (_view == CharacterView::MAGE_SPELLS) {
 
-		_display->generate_components(
+		_display->generate(
 			"character_mage_spells", _v_sprites, _v_texts, _v_frames);
 
 		_add_text(
@@ -3286,7 +3286,7 @@ auto Sorcery::Character::_generate_display() -> void {
 		}
 	} else if (_view == CharacterView::PRIEST_SPELLS) {
 
-		_display->generate_components(
+		_display->generate(
 			"character_priest_spells", _v_sprites, _v_texts, _v_frames);
 
 		_add_text(

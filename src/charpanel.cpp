@@ -25,7 +25,8 @@
 #include "charpanel.hpp"
 
 // Standard Constructor
-Sorcery::CharPanel::CharPanel(System *system, Display *display, Graphics *graphics)
+Sorcery::CharPanel::CharPanel(
+	System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the standard layout information
@@ -35,7 +36,7 @@ Sorcery::CharPanel::CharPanel(System *system, Display *display, Graphics *graphi
 	_texts.clear();
 
 	// Get the Background Display Components
-	_display->generate_components("character_panel", sprites, texts, frames);
+	_display->generate("character_panel", sprites, texts, frames);
 
 	// Not valid until we call the set command
 	valid = false;
@@ -49,15 +50,18 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 
 	// Get the Portrait
 
-	// Workout the location of the potrait on the texture, noting that the potraits are all
-	// square and are 600x600 pixels in size arranged in a grid of 6 by 5
+	// Workout the location of the potrait on the texture, noting that the
+	// potraits are all square and are 600x600 pixels in size arranged in a grid
+	// of 6 by 5
 	constexpr int portrait_size{600};
 	unsigned int p_i{_character->get_portrait_index()};
 	sf::Vector2u top_left{(p_i % 6) * portrait_size, (p_i / 6) * portrait_size};
-	sf::IntRect rect{sf::IntRect(top_left.x, top_left.y, portrait_size, portrait_size)};
+	sf::IntRect rect{
+		sf::IntRect(top_left.x, top_left.y, portrait_size, portrait_size)};
 
 	// Grab the associated part of the texture and return it
-	sf::Sprite portrait(_system->resources->textures[GraphicsTexture::PORTRAITS]);
+	sf::Sprite portrait(
+		_system->resources->textures[GraphicsTexture::PORTRAITS]);
 	portrait.setTextureRect(rect);
 
 	Component p_c{(*_display->layout)["character_panel:portrait"]};
@@ -79,10 +83,13 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 		(*_display->layout)["character_panel:race_icon"].scale);
 	_icons.push_back(race_icon);
 
-	auto alignment_icon{_character->get_icon(CharacterStage::CHOOSE_ALIGNMENT).value()};
+	auto alignment_icon{
+		_character->get_icon(CharacterStage::CHOOSE_ALIGNMENT).value()};
 	_display->window->set_position_with_offset(
-		&((*_display->layout)["character_panel:alignment_icon"]), &alignment_icon);
-	alignment_icon.setScale((*_display->layout)["character_panel:alignment_icon"].scale,
+		&((*_display->layout)["character_panel:alignment_icon"]),
+		&alignment_icon);
+	alignment_icon.setScale(
+		(*_display->layout)["character_panel:alignment_icon"].scale,
 		(*_display->layout)["character_panel:alignment_icon"].scale);
 	_icons.push_back(alignment_icon);
 
@@ -119,8 +126,8 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	sf::Text status_text{};
 	status_text.setFont(_system->resources->fonts[status_c.font]);
 	status_text.setCharacterSize(status_c.size);
-	status_text.setFillColor(sf::Color(
-		_graphics->adjust_status_colour(_character->get_status(), _character->is_poisoned())));
+	status_text.setFillColor(sf::Color(_graphics->adjust_status_colour(
+		_character->get_status(), _character->is_poisoned())));
 	status_text.setString(status);
 	_display->window->set_position_with_offset(&status_c, &status_text);
 	_texts.push_back(status_text);
@@ -138,7 +145,8 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	valid = true;
 }
 
-auto Sorcery::CharPanel::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::CharPanel::draw(
+	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 

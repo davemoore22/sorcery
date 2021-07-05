@@ -77,7 +77,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage)
 
 	// Get the Background Display Components and load them into Display module
 	// storage (not local)
-	_display->generate_components("main_menu_attract");
+	_display->generate("main_menu_attract");
 
 	// Clear the window
 	_window->clear();
@@ -92,8 +92,8 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage)
 	_graphics->animation->start_attract_ani_threads();
 
 	// Play the background movie!
-	_display->fit_background_movie();
-	_display->start_background_movie();
+	_display->fit_bg_movie();
+	_display->start_bg_movie();
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected_option{
 		_main_menu->items.begin()};
@@ -274,7 +274,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage)
 		}
 
 		_window->clear();
-		_display->start_background_movie();
+		_display->start_bg_movie();
 		_display->update_background_movie();
 		_display->draw_background_movie();
 
@@ -310,7 +310,7 @@ auto Sorcery::MainMenu::_draw() -> void {
 	if (_attract_mode->data_temp.size() > 0) {
 
 		const double lerp{_graphics->animation->colour_lerp};
-		_display->display_components("main_menu_attract", _menu_stage);
+		_display->display("main_menu_attract", _menu_stage);
 
 		// Generate and draw the Attract Mode Graphics
 		Component attract_creatures_c{

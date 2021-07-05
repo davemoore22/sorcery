@@ -59,7 +59,7 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 	// storage (not local - and note that due to the way both menus are combined
 	// in this class, we need to have the menu stage set first in this case and
 	// this case only)
-	_display->generate_components("castle");
+	_display->generate("castle");
 
 	// Clear the window
 	_window->clear();
@@ -71,8 +71,8 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
 
 	// Play the background movie!
-	_display->fit_background_movie();
-	_display->start_background_movie();
+	_display->fit_bg_movie();
+	_display->start_bg_movie();
 
 	// And do the main loop
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
@@ -123,7 +123,7 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 									MenuItem::ET_LEAVE_GAME)
 									return MenuItem::ET_LEAVE_GAME;
 							}
-							_display->generate_components("castle");
+							_display->generate("castle");
 							_display->set_input_mode(
 								WindowInputMode::NAVIGATE_MENU);
 							continue;
@@ -162,7 +162,7 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 		_window->clear();
 
 		// Update Background Movie
-		_display->start_background_movie();
+		_display->start_bg_movie();
 		_display->update_background_movie();
 		_display->draw_background_movie();
 
@@ -182,7 +182,7 @@ auto Sorcery::Castle::stop() -> void {
 auto Sorcery::Castle::_draw() -> void {
 
 	// Custom Components
-	_display->display_components("castle");
+	_display->display("castle");
 	_window->draw(*_status_bar);
 
 	// And the Menu

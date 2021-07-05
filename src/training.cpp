@@ -25,17 +25,22 @@
 #include "training.hpp"
 
 // Standard Constructor
-Sorcery::Training::Training(System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::Training::Training(
+	System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
-	_menu = std::make_shared<Menu>(_system, _display, _graphics, _game, MenuType::TRAINING_GROUNDS);
+	_menu = std::make_shared<Menu>(
+		_system, _display, _graphics, _game, MenuType::TRAINING_GROUNDS);
 	_create = std::make_unique<Create>(_system, _display, _graphics, _game);
-	_inspect = std::make_unique<Roster>(_system, _display, _graphics, _game, RosterMode::INSPECT);
-	_delete = std::make_unique<Roster>(_system, _display, _graphics, _game, RosterMode::DELETE);
-	_edit = std::make_unique<Roster>(_system, _display, _graphics, _game, RosterMode::EDIT);
+	_inspect = std::make_unique<Roster>(
+		_system, _display, _graphics, _game, RosterMode::INSPECT);
+	_delete = std::make_unique<Roster>(
+		_system, _display, _graphics, _game, RosterMode::DELETE);
+	_edit = std::make_unique<Roster>(
+		_system, _display, _graphics, _game, RosterMode::EDIT);
 }
 
 // Standard Destructor
@@ -43,8 +48,9 @@ Sorcery::Training::~Training() {}
 
 auto Sorcery::Training::start() -> std::optional<MenuItem> {
 
-	// Get the Background Display Components and load them into Display module storage (not local)
-	_display->generate_components("training_grounds");
+	// Get the Background Display Components and load them into Display module
+	// storage (not local)
+	_display->generate("training_grounds");
 
 	// Set up the Custom Components
 	const Component bg_c{(*_display->layout)["training_grounds:background"]};
@@ -52,28 +58,34 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 	bg_rect.width = std::stoi(bg_c["source_w"].value());
 	bg_rect.height = std::stoi(bg_c["source_h"].value());
 	bg_rect.top = 0;
-	bg_rect.left = std::stoi(bg_c["source_w"].value()) * std::stoi(bg_c["source_index"].value());
+	bg_rect.left = std::stoi(bg_c["source_w"].value()) *
+				   std::stoi(bg_c["source_index"].value());
 
 	_bg.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
 	_bg.setTextureRect(bg_rect);
-	_bg.setScale(std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
-	_bg.setPosition(_display->window->get_x(_bg, bg_c.x), _display->window->get_y(_bg, bg_c.y));
+	_bg.setScale(
+		std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
+	_bg.setPosition(_display->window->get_x(_bg, bg_c.x),
+		_display->window->get_y(_bg, bg_c.y));
 
 	const Component menu_fc{(*_display->layout)["training_grounds:menu_frame"]};
-	_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, menu_fc.w,
-		menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
-	_menu_frame->setPosition(_display->window->get_x(_menu_frame->sprite, menu_fc.x),
+	_menu_frame = std::make_unique<Frame>(_display->ui_texture,
+		WindowFrameType::NORMAL, menu_fc.w, menu_fc.h, menu_fc.colour,
+		menu_fc.background, menu_fc.alpha);
+	_menu_frame->setPosition(
+		_display->window->get_x(_menu_frame->sprite, menu_fc.x),
 		_display->window->get_y(_menu_frame->sprite, menu_fc.y));
 
 	// Clear the window
 	_window->clear();
 
 	// Play the background movie!
-	_display->fit_background_movie();
-	_display->start_background_movie();
+	_display->fit_bg_movie();
+	_display->start_bg_movie();
 
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> selected{
+		_menu->items.begin()};
 
 	// And do the main loop
 	sf::Event event{};
@@ -85,7 +97,8 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 				_window->close();
 
 			// Handle enabling help overlay
-			if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
+			if (_system->input->check_for_event(
+					WindowInput::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
@@ -102,9 +115,10 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 			else if (_system->input->check_for_event(WindowInput::DOWN, event))
 				selected = _menu->choose_next();
 			else if (_system->input->check_for_event(WindowInput::MOVE, event))
-				selected = _menu->set_mouse_selected(
-					static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-			else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+				selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(
+					sf::Mouse::getPosition(*_window)));
+			else if (_system->input->check_for_event(
+						 WindowInput::CONFIRM, event)) {
 
 				// We have selected something from the menu
 				if (selected) {
@@ -114,23 +128,27 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 					} else if (option_chosen == MenuItem::TR_CREATE) {
 						_create->start();
 						_create->stop();
-						_display->generate_components("training_grounds");
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						_display->generate("training_grounds");
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
 					} else if (option_chosen == MenuItem::TR_INSPECT) {
 						_inspect->start();
 						_inspect->stop();
-						_display->generate_components("roster_inspect");
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						_display->generate("roster_inspect");
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
 					} else if (option_chosen == MenuItem::TR_EDIT) {
 						_edit->start();
 						_edit->stop();
-						_display->generate_components("roster_edit");
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						_display->generate("roster_edit");
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
 					} else if (option_chosen == MenuItem::TR_DELETE) {
 						_delete->start();
 						_delete->stop();
-						_display->generate_components("roster_delete");
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						_display->generate("roster_delete");
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
 					}
 				}
 			}
@@ -139,7 +157,7 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 		_window->clear();
 
 		// Update Background Movie
-		_display->start_background_movie();
+		_display->start_bg_movie();
 		_display->update_background_movie();
 		_display->draw_background_movie();
 
@@ -161,7 +179,7 @@ auto Sorcery::Training::stop() -> void {
 auto Sorcery::Training::_draw() -> void {
 
 	// Display Components
-	_display->display_components("training_grounds");
+	_display->display("training_grounds");
 
 	// Menu Frame
 	_window->draw(*_menu_frame);

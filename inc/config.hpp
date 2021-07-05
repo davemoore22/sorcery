@@ -46,11 +46,11 @@ namespace Sorcery {
 		auto has_changed() -> bool;
 		auto load() -> bool;
 		auto save() -> bool;
-		auto set_recommended_mode() -> void;
+		auto set_rec_mode() -> void;
 		auto set_strict_mode() -> void;
-		auto store_current_settings() -> void;
+		auto store() -> void;
 		auto is_strict_mode() -> bool;
-		auto is_recommended_mode() -> bool;
+		auto is_rec_mode() -> bool;
 
 	  private:
 		// Private Members

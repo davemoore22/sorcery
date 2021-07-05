@@ -50,15 +50,15 @@ auto Sorcery::ChangeName::start() -> std::optional<std::string> {
 
 	const Component name_c{(*_display->layout)["change_name:name_candidate"]};
 
-	_display->generate_components("change_name");
+	_display->generate("change_name");
 	_display->set_input_mode(WindowInputMode::INPUT_NAME);
 
 	// Clear the window
 	_window->clear();
 
 	// Play the background movie!
-	_display->fit_background_movie();
-	_display->start_background_movie();
+	_display->fit_bg_movie();
+	_display->start_bg_movie();
 
 	while (_window->isOpen()) {
 		sf::Event event{};
@@ -94,7 +94,7 @@ auto Sorcery::ChangeName::start() -> std::optional<std::string> {
 		_window->clear();
 
 		// Update Background Movie
-		_display->start_background_movie();
+		_display->start_bg_movie();
 		_display->update_background_movie();
 		_display->draw_background_movie();
 
@@ -221,7 +221,7 @@ auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event)
 auto Sorcery::ChangeName::_draw() -> void {
 
 	// Display Components
-	_display->display_components("change_name");
+	_display->display("change_name");
 
 	double lerp{_graphics->animation->colour_lerp};
 	std::string display_name{">" + _new_name + "_"};

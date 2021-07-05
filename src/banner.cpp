@@ -42,7 +42,7 @@ auto Sorcery::Banner::start() -> void {
 
 	// Get the Background Display Components and load them into Display module
 	// storage (not local)
-	_display->generate_components("banner");
+	_display->generate("banner");
 
 	sf::Event input_event{};
 	while (!_finished) {
@@ -60,7 +60,7 @@ auto Sorcery::Banner::start() -> void {
 
 auto Sorcery::Banner::_draw() -> void {
 
-	_display->display_components("banner", _alpha);
+	_display->display("banner", _alpha);
 }
 
 auto Sorcery::Banner::_update() -> void {

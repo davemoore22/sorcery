@@ -40,7 +40,7 @@ Sorcery::AllocatePanel::AllocatePanel(
 		Component((*_display->layout)["allocate_panel:allowed_classes_panel"]);
 
 	// Get the Background Display Components
-	_display->generate_components("allocate_panel", sprites, texts, frames);
+	_display->generate("allocate_panel", sprites, texts, frames);
 
 	// Colors used
 	_green = sf::Color(0x169016ff);

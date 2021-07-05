@@ -40,8 +40,9 @@ Sorcery::Splash::Splash(System *system, Display *display, Graphics *graphics)
 
 auto Sorcery::Splash::start() -> void {
 
-	// Get the Background Display Components and load them into Display module storage (not local)
-	_display->generate_components("splash");
+	// Get the Background Display Components and load them into Display module
+	// storage (not local)
+	_display->generate("splash");
 
 	sf::Event event{};
 	while (!_finished) {
@@ -51,14 +52,15 @@ auto Sorcery::Splash::start() -> void {
 		_draw();
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 		_window->display();
-		if ((event.type == sf::Event::KeyPressed) || (event.type == sf::Event::MouseButtonPressed))
+		if ((event.type == sf::Event::KeyPressed) ||
+			(event.type == sf::Event::MouseButtonPressed))
 			_finished = true;
 	}
 }
 
 auto Sorcery::Splash::_draw() -> void {
 
-	_display->display_components("splash", _alpha);
+	_display->display("splash", _alpha);
 }
 
 auto Sorcery::Splash::_update() -> void {

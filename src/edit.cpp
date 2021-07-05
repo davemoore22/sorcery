@@ -25,24 +25,29 @@
 #include "edit.hpp"
 
 // Standard Constructor
-Sorcery::Edit::Edit(System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::Edit::Edit(
+	System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 	_current_character = std::nullopt;
 
-	_character_panel = std::make_unique<CharPanel>(_system, _display, _graphics);
-	_menu = std::make_shared<Menu>(_system, _display, _graphics, _game, MenuType::EDIT_CHARACTER);
+	_character_panel =
+		std::make_unique<CharPanel>(_system, _display, _graphics);
+	_menu = std::make_shared<Menu>(
+		_system, _display, _graphics, _game, MenuType::EDIT_CHARACTER);
 }
 
 // Standard Destructor
 Sorcery::Edit::~Edit() {}
 
-auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> {
+auto Sorcery::Edit::start(int current_character_idx)
+	-> std::optional<MenuItem> {
 
-	// Get the Background Display Components and load them into Display module storage (not local)
-	_display->generate_components("character_edit");
+	// Get the Background Display Components and load them into Display module
+	// storage (not local)
+	_display->generate("character_edit");
 
 	// Get the Current Character
 	_current_character = &_game->characters.at(current_character_idx);
@@ -54,34 +59,42 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 	bg_rect.width = std::stoi(bg_c["source_w"].value());
 	bg_rect.height = std::stoi(bg_c["source_h"].value());
 	bg_rect.top = 0;
-	bg_rect.left = std::stoi(bg_c["source_w"].value()) * std::stoi(bg_c["source_index"].value());
+	bg_rect.left = std::stoi(bg_c["source_w"].value()) *
+				   std::stoi(bg_c["source_index"].value());
 
 	_bg.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
 	_bg.setTextureRect(bg_rect);
-	_bg.setScale(std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
-	_bg.setPosition(_display->window->get_x(_bg, bg_c.x), _display->window->get_y(_bg, bg_c.y));
+	_bg.setScale(
+		std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
+	_bg.setPosition(_display->window->get_x(_bg, bg_c.x),
+		_display->window->get_y(_bg, bg_c.y));
 
 	const Component menu_fc{(*_display->layout)["character_edit:menu_frame"]};
-	_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, menu_fc.w,
-		menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
-	_menu_frame->setPosition(_display->window->get_x(_menu_frame->sprite, menu_fc.x),
+	_menu_frame = std::make_unique<Frame>(_display->ui_texture,
+		WindowFrameType::NORMAL, menu_fc.w, menu_fc.h, menu_fc.colour,
+		menu_fc.background, menu_fc.alpha);
+	_menu_frame->setPosition(
+		_display->window->get_x(_menu_frame->sprite, menu_fc.x),
 		_display->window->get_y(_menu_frame->sprite, menu_fc.y));
 
 	const Component p_fc{(*_display->layout)["roster:preview_frame"]};
-	_preview_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, p_fc.w,
-		p_fc.h, p_fc.colour, p_fc.background, p_fc.alpha);
-	_preview_frame->setPosition(_display->window->get_x(_preview_frame->sprite, p_fc.x),
+	_preview_frame =
+		std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL,
+			p_fc.w, p_fc.h, p_fc.colour, p_fc.background, p_fc.alpha);
+	_preview_frame->setPosition(
+		_display->window->get_x(_preview_frame->sprite, p_fc.x),
 		_display->window->get_y(_preview_frame->sprite, p_fc.y));
 
 	// Clear the window
 	_window->clear();
 
 	// Play the background movie!
-	_display->fit_background_movie();
-	_display->start_background_movie();
+	_display->fit_bg_movie();
+	_display->start_bg_movie();
 
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> selected{
+		_menu->items.begin()};
 
 	// And do the main loop
 	sf::Event event{};
@@ -93,7 +106,8 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 				_window->close();
 
 			// Handle enabling help overlay
-			if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
+			if (_system->input->check_for_event(
+					WindowInput::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
@@ -110,9 +124,10 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 			else if (_system->input->check_for_event(WindowInput::DOWN, event))
 				selected = _menu->choose_next();
 			else if (_system->input->check_for_event(WindowInput::MOVE, event))
-				selected = _menu->set_mouse_selected(
-					static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-			else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+				selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(
+					sf::Mouse::getPosition(*_window)));
+			else if (_system->input->check_for_event(
+						 WindowInput::CONFIRM, event)) {
 
 				// We have selected something from the menu
 				if (selected) {
@@ -121,8 +136,9 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 						return MenuItem::EC_RETURN_EDIT;
 					} else if (option_chosen == MenuItem::EC_CHANGE_NAME) {
 
-						auto change_name{std::make_unique<ChangeName>(
-							_system, _display, _graphics, _current_character.value()->get_name())};
+						auto change_name{std::make_unique<ChangeName>(_system,
+							_display, _graphics,
+							_current_character.value()->get_name())};
 						auto new_name{change_name->start()};
 						if (new_name) {
 
@@ -130,14 +146,14 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 							std::string changed_name{new_name.value()};
 							_current_character.value()->set_name(changed_name);
 							auto character{*_current_character.value()};
-							_game->update_character_name(
-								_game->get_id(), current_character_idx, character);
+							_game->update_character_name(_game->get_id(),
+								current_character_idx, character);
 							_game->reload_character(current_character_idx);
 						};
 						change_name->stop();
 					};
 
-					_display->generate_components("character_edit");
+					_display->generate("character_edit");
 					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 				};
 			}
@@ -146,7 +162,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 		_window->clear();
 
 		// Update Background Movie
-		_display->start_background_movie();
+		_display->start_bg_movie();
 		_display->update_background_movie();
 		_display->draw_background_movie();
 
@@ -168,22 +184,23 @@ auto Sorcery::Edit::stop() -> void {
 auto Sorcery::Edit::_draw() -> void {
 
 	// Display Components
-	_display->display_components("character_edit");
+	_display->display("character_edit");
 
 	// Menu Frame
 	_window->draw(*_menu_frame);
 
 	// And the Menu
 	_menu->generate((*_display->layout)["character_edit:menu"]);
-	const sf::Vector2f menu_pos(
-		(*_display->layout)["character_edit:menu"].x, (*_display->layout)["character_edit:menu"].y);
+	const sf::Vector2f menu_pos((*_display->layout)["character_edit:menu"].x,
+		(*_display->layout)["character_edit:menu"].y);
 	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 
 	// Character Preview
 	_window->draw(*_preview_frame);
 	if (_character_panel->valid) {
-		_character_panel->setPosition((*_display->layout)["character_edit:info_panel"].x,
+		_character_panel->setPosition(
+			(*_display->layout)["character_edit:info_panel"].x,
 			(*_display->layout)["character_edit:info_panel"].y);
 		_window->draw(*_character_panel);
 	}
