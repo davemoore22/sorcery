@@ -93,7 +93,7 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 
 	// Get the Background Display Components and load them into Display module
 	// storage (not local)
-	_display->generate_components("create");
+	_display->generate("create");
 
 	// Don't display the info panel yet
 	_ip->valid = false;
@@ -109,7 +109,7 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 
 	// Set to the beginning stage
 	_candidate.set_stage(CharacterStage::CHOOSE_METHOD);
-	_display->generate_components("choose_method", _sprites, _texts, _frames);
+	_display->generate("choose_method", _sprites, _texts, _frames);
 	_display->set_input_mode(WindowInputMode::CHOOSE_METHOD);
 	_set_info_panel_contents(_method_menu->selected);
 
@@ -118,8 +118,8 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 	_method = CreateMethod::FULL;
 
 	// Play the background movie!
-	_display->fit_background_movie();
-	_display->start_background_movie();
+	_display->fit_bg_movie();
+	_display->start_bg_movie();
 
 	auto module_result{_do_event_loop()};
 	if (module_result == ModuleResult::EXIT)
@@ -166,7 +166,7 @@ auto Sorcery::Create::_do_event_loop() -> std::optional<ModuleResult> {
 			_window->clear();
 
 			// Update Background Movie
-			_display->start_background_movie();
+			_display->start_bg_movie();
 			_display->update_background_movie();
 			_display->draw_background_movie();
 
@@ -771,8 +771,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::CHOOSE_METHOD);
-			_display->generate_components(
-				"choose_method", _sprites, _texts, _frames);
+			_display->generate("choose_method", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_method_menu->choose(_candidate.get_method());
 			_set_info_panel_contents(_method_menu->selected);
@@ -782,7 +781,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::ENTER_NAME);
-			_display->generate_components(
+			_display->generate(
 				"character_create_stage_1", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_display->set_input_mode(WindowInputMode::INPUT_NAME);
@@ -791,7 +790,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::CHOOSE_RACE);
-			_display->generate_components(
+			_display->generate(
 				"character_create_stage_2", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_race_menu->choose(_candidate.get_race());
@@ -802,7 +801,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::CHOOSE_ALIGNMENT);
-			_display->generate_components(
+			_display->generate(
 				"character_create_stage_3", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_alignment_menu->choose(_candidate.get_alignment());
@@ -814,7 +813,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::ALLOCATE_STATS);
-			_display->generate_components(
+			_display->generate(
 				"character_create_stage_4", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_display->set_input_mode(WindowInputMode::ALLOCATE_STATS);
@@ -826,7 +825,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::CHOOSE_CLASS);
-			_display->generate_components(
+			_display->generate(
 				"character_create_stage_5", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_set_classes_menu();
@@ -839,7 +838,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::CHOOSE_PORTRAIT);
-			_display->generate_components(
+			_display->generate(
 				"character_create_stage_6", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::CHOOSE_PORTRAIT);
 			_stages.pop_back();
@@ -856,8 +855,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 				   CharacterStage::REVIEW_AND_CONFIRM) {
 			_candidate.set_stage(CharacterStage::CHOOSE_METHOD);
 			_method_menu->choose(_candidate.get_method());
-			_display->generate_components(
-				"choose_method", _sprites, _texts, _frames);
+			_display->generate("choose_method", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 			_show_final_menu = false;
 			_set_info_panel_contents(_method_menu->selected);
@@ -872,8 +870,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::CHOOSE_METHOD);
-			_display->generate_components(
-				"choose_method", _sprites, _texts, _frames);
+			_display->generate("choose_method", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_method_menu->choose(_candidate.get_method());
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
@@ -883,7 +880,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::ENTER_NAME);
-			_display->generate_components(
+			_display->generate(
 				"character_create_stage_1", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_display->set_input_mode(WindowInputMode::INPUT_NAME);
@@ -893,7 +890,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::CHOOSE_PORTRAIT);
-			_display->generate_components(
+			_display->generate(
 				"character_create_stage_6", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_ap->valid = false;
@@ -915,7 +912,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			auto to_push(_candidate);
 			_stages.emplace_back(to_push);
 			_candidate.set_stage(CharacterStage::ENTER_NAME);
-			_display->generate_components(
+			_display->generate(
 				"character_create_stage_1", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::INPUT_NAME);
 		} break;
@@ -923,7 +920,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			auto to_push(_candidate);
 			_stages.emplace_back(to_push);
 			_candidate.set_stage(CharacterStage::CHOOSE_RACE);
-			_display->generate_components(
+			_display->generate(
 				"character_create_stage_2", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 			_race_menu->choose_first();
@@ -934,7 +931,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			auto to_push(_candidate);
 			_stages.emplace_back(to_push);
 			_candidate.set_stage(CharacterStage::CHOOSE_ALIGNMENT);
-			_display->generate_components(
+			_display->generate(
 				"character_create_stage_3", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 			_alignment_menu->choose_first();
@@ -943,7 +940,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			auto to_push(_candidate);
 			_stages.emplace_back(to_push);
 			_candidate.set_stage(CharacterStage::ALLOCATE_STATS);
-			_display->generate_components(
+			_display->generate(
 				"character_create_stage_4", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::ALLOCATE_STATS);
 			_attribute_menu->choose_first();
@@ -954,7 +951,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			auto to_push(_candidate);
 			_stages.emplace_back(to_push);
 			_candidate.set_stage(CharacterStage::CHOOSE_CLASS);
-			_display->generate_components(
+			_display->generate(
 				"character_create_stage_5", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 			_ap->valid = false;
@@ -968,7 +965,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			auto to_push(_candidate);
 			_stages.emplace_back(to_push);
 			_candidate.set_stage(CharacterStage::CHOOSE_PORTRAIT);
-			_display->generate_components(
+			_display->generate(
 				"character_create_stage_6", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::CHOOSE_PORTRAIT);
 			_candidate.set_portrait_index(0);
@@ -978,7 +975,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_stages.emplace_back(to_push);
 			_candidate.finalise();
 			_candidate.set_stage(CharacterStage::REVIEW_AND_CONFIRM);
-			_display->generate_components(
+			_display->generate(
 				"character_create_stage_7", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
 			_show_final_menu = false;
@@ -990,7 +987,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		_candidate.create_random();
 		_candidate.finalise();
 		_candidate.set_stage(CharacterStage::REVIEW_AND_CONFIRM);
-		_display->generate_components(
+		_display->generate(
 			"character_create_stage_7", _sprites, _texts, _frames);
 		_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
 	} else if (_method == CreateMethod::QUICK) {
@@ -999,7 +996,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			auto to_push(_candidate);
 			_stages.emplace_back(to_push);
 			_candidate.set_stage(CharacterStage::ENTER_NAME);
-			_display->generate_components(
+			_display->generate(
 				"character_create_stage_1", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::INPUT_NAME);
 		} break;
@@ -1008,7 +1005,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_stages.emplace_back(to_push);
 			_candidate.create_quick();
 			_candidate.set_stage(CharacterStage::CHOOSE_PORTRAIT);
-			_display->generate_components(
+			_display->generate(
 				"character_create_stage_6", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::CHOOSE_PORTRAIT);
 			_candidate.set_portrait_index(0);
@@ -1019,7 +1016,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_stages.emplace_back(to_push);
 			_candidate.finalise();
 			_candidate.set_stage(CharacterStage::REVIEW_AND_CONFIRM);
-			_display->generate_components(
+			_display->generate(
 				"character_create_stage_7", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
 			_show_final_menu = false;
@@ -1062,15 +1059,14 @@ auto Sorcery::Create::_set_info_panel_contents(
 auto Sorcery::Create::_draw() -> void {
 
 	// Display Base Components
-	_display->display_components("create", _candidate.get_stage());
+	_display->display("create", _candidate.get_stage());
 
 	// And draw the current state of the character!
 	double lerp{_graphics->animation->colour_lerp};
 	sf::Text summary_text{};
 	if (_candidate.get_stage() == CharacterStage::CHOOSE_METHOD) {
 
-		_display->display_components(
-			"choose_method", _sprites, _texts, _frames);
+		_display->display("choose_method", _sprites, _texts, _frames);
 
 		_method_menu->generate((*_display->layout)["choose_method:menu"]);
 		const sf::Vector2f menu_pos((*_display->layout)["choose_method:menu"].x,
@@ -1090,7 +1086,7 @@ auto Sorcery::Create::_draw() -> void {
 
 	} else if (_candidate.get_stage() == CharacterStage::ENTER_NAME) {
 
-		_display->display_components(
+		_display->display(
 			"character_create_stage_1", _sprites, _texts, _frames);
 		std::string display_name{">" + _candidate.get_name() + "_"};
 		sf::Text name_text{};
@@ -1106,7 +1102,7 @@ auto Sorcery::Create::_draw() -> void {
 		_window->draw(*_keyboard);
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_RACE) {
 
-		_display->display_components(
+		_display->display(
 			"character_create_stage_2", _sprites, _texts, _frames);
 		_race_menu->generate(
 			(*_display->layout)["character_create_stage_2:menu"]);
@@ -1129,7 +1125,7 @@ auto Sorcery::Create::_draw() -> void {
 		}
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_ALIGNMENT) {
 
-		_display->display_components(
+		_display->display(
 			"character_create_stage_3", _sprites, _texts, _frames);
 		_alignment_menu->generate(
 			(*_display->layout)["character_create_stage_3:menu"]);
@@ -1152,7 +1148,7 @@ auto Sorcery::Create::_draw() -> void {
 		}
 	} else if (_candidate.get_stage() == CharacterStage::ALLOCATE_STATS) {
 
-		_display->display_components(
+		_display->display(
 			"character_create_stage_4", _sprites, _texts, _frames);
 		_attribute_menu->generate(
 			(*_display->layout)["character_create_stage_4:menu"]);
@@ -1183,7 +1179,7 @@ auto Sorcery::Create::_draw() -> void {
 			_window->draw(*_ip);
 		}
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_CLASS) {
-		_display->display_components(
+		_display->display(
 			"character_create_stage_5", _sprites, _texts, _frames);
 		_class_menu->generate(
 			(*_display->layout)["character_create_stage_5:menu"]);
@@ -1216,7 +1212,7 @@ auto Sorcery::Create::_draw() -> void {
 
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_PORTRAIT) {
 
-		_display->display_components(
+		_display->display(
 			"character_create_stage_6", _sprites, _texts, _frames);
 
 		sf::Sprite portrait{
@@ -1238,7 +1234,7 @@ auto Sorcery::Create::_draw() -> void {
 
 	} else if (_candidate.get_stage() == CharacterStage::REVIEW_AND_CONFIRM) {
 
-		_display->display_components(
+		_display->display(
 			"character_create_stage_7", _sprites, _texts, _frames);
 		_candidate.setPosition(
 			(*_display->layout)["character_create_stage_7:candidate"].x,

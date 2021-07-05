@@ -80,13 +80,13 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 	// storage (not local)
 	switch (_mode) {
 	case RosterMode::INSPECT:
-		_display->generate_components("roster_inspect");
+		_display->generate("roster_inspect");
 		break;
 	case RosterMode::EDIT:
-		_display->generate_components("roster_edit");
+		_display->generate("roster_edit");
 		break;
 	case RosterMode::DELETE:
-		_display->generate_components("roster_delete");
+		_display->generate("roster_delete");
 		break;
 	default:
 		break;
@@ -137,8 +137,8 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 	_window->clear();
 
 	// Play the background movie!
-	_display->fit_background_movie();
-	_display->start_background_movie();
+	_display->fit_bg_movie();
+	_display->start_bg_movie();
 
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{
@@ -225,7 +225,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 									&_game->characters.at(character_chosen);
 								_character_panel->set(
 									_current_character.value());
-								_display->generate_components("character_edit");
+								_display->generate("character_edit");
 								_display->set_input_mode(
 									WindowInputMode::NAVIGATE_MENU);
 							}
@@ -337,7 +337,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 		_window->clear();
 
 		// Update Background Movie
-		_display->start_background_movie();
+		_display->start_bg_movie();
 		_display->update_background_movie();
 		_display->draw_background_movie();
 
@@ -359,7 +359,7 @@ auto Sorcery::Roster::stop() -> void {
 auto Sorcery::Roster::_draw() -> void {
 
 	// Display Components
-	_display->display_components("roster");
+	_display->display("roster");
 	if (_display->get_input_mode() == WindowInputMode::BROWSE_CHARACTER) {
 		if (_current_character) {
 

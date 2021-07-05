@@ -48,15 +48,16 @@ Sorcery::License::~License() {
 
 auto Sorcery::License::start() -> void {
 
-	// Get the Background Display Components and load them into Display module storage (not local)
-	_display->generate_components("license");
+	// Get the Background Display Components and load them into Display module
+	// storage (not local)
+	_display->generate("license");
 
 	// Clear the window
 	_window->clear();
 
 	// Play the background movie!
-	_display->fit_background_movie();
-	_display->start_background_movie();
+	_display->fit_bg_movie();
+	_display->start_bg_movie();
 
 	// And do the main loop
 	_display->set_input_mode(WindowInputMode::DISPLAY_TEXT_FILE);
@@ -70,7 +71,8 @@ auto Sorcery::License::start() -> void {
 				return;
 
 			// Handle enabling help overlay
-			if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
+			if (_system->input->check_for_event(
+					WindowInput::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
@@ -79,36 +81,43 @@ auto Sorcery::License::start() -> void {
 			if ((_system->input->check_for_event(WindowInput::CANCEL, event)) ||
 				(_system->input->check_for_event(WindowInput::BACK, event))) {
 				return;
-			} else if (_system->input->check_for_event(WindowInput::DOWN, event)) {
+			} else if (_system->input->check_for_event(
+						   WindowInput::DOWN, event)) {
 				if (_current_line < _textfile->size())
 					++_current_line;
-			} else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+			} else if (_system->input->check_for_event(
+						   WindowInput::CONFIRM, event)) {
 				if (_current_line < _textfile->size())
 					++_current_line;
-			} else if (_system->input->check_for_event(WindowInput::UP, event)) {
+			} else if (_system->input->check_for_event(
+						   WindowInput::UP, event)) {
 				if (_current_line > 1)
 					_current_line--;
-			} else if (_system->input->check_for_event(WindowInput::PAGE_DOWN, event)) {
+			} else if (_system->input->check_for_event(
+						   WindowInput::PAGE_DOWN, event)) {
 				if (_current_line < (_textfile->size() - lines_to_display))
 					_current_line += lines_to_display;
 				else
 					_current_line = _textfile->size();
-			} else if (_system->input->check_for_event(WindowInput::PAGE_UP, event)) {
+			} else if (_system->input->check_for_event(
+						   WindowInput::PAGE_UP, event)) {
 				if (_current_line >= lines_to_display)
 					_current_line -= lines_to_display;
 				else
 					_current_line = 1;
 				break;
-			} else if (_system->input->check_for_event(WindowInput::HOME, event)) {
+			} else if (_system->input->check_for_event(
+						   WindowInput::HOME, event)) {
 				_current_line = 1;
-			} else if (_system->input->check_for_event(WindowInput::END, event)) {
+			} else if (_system->input->check_for_event(
+						   WindowInput::END, event)) {
 				_current_line = _textfile->size() - 1;
 			}
 		}
 
 		_window->clear();
 
-		_display->start_background_movie();
+		_display->start_bg_movie();
 		_display->update_background_movie();
 		_display->draw_background_movie();
 
@@ -124,10 +133,11 @@ auto Sorcery::License::stop() -> void {
 
 auto Sorcery::License::_draw() -> void {
 
-	_display->display_components("license");
+	_display->display("license");
 
 	const std::string progress{_textfile->get_reading_progress(_current_line)};
-	_display->window->draw_text(_progress_text, (*_display->layout)["license:progress"], progress);
+	_display->window->draw_text(
+		_progress_text, (*_display->layout)["license:progress"], progress);
 	_display_file_contents();
 
 	// Always draw the following
@@ -153,7 +163,8 @@ auto Sorcery::License::_display_file_contents() -> void {
 	for (auto y = _current_line; y < end_line; ++y) {
 		const std::string line_contents{(*_textfile)[y]};
 		_line_text.setString(line_contents);
-		text_c.y = top_y + ((y - _current_line) * _display->window->get_cell_height());
+		text_c.y =
+			top_y + ((y - _current_line) * _display->window->get_cell_height());
 		_display->window->draw_text(_line_text, text_c, line_contents);
 	}
 }
