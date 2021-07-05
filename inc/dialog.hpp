@@ -37,8 +37,8 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Dialog(System *system, Display *display, Graphics *graphics, Component &_frame_c,
-			Component &string_c, WindowDialogType type);
+		Dialog(System *system, Display *display, Graphics *graphics,
+			Component &_frame_c, Component &string_c, WindowDialogType type);
 		Dialog() = delete;
 
 		// Public Members
@@ -56,7 +56,8 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
 		System *_system;

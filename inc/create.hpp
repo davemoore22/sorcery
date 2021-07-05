@@ -47,7 +47,8 @@ namespace Sorcery {
 
 	  public:
 		// Constructor
-		Create(System *system, Display *display, Graphics *graphics, Game *game);
+		Create(
+			System *system, Display *display, Graphics *graphics, Game *game);
 		Create() = delete;
 
 		// Destructor
@@ -63,21 +64,33 @@ namespace Sorcery {
 		// Private Methods
 		auto _draw() -> void;
 		auto _do_event_loop() -> std::optional<ModuleResult>;
-		auto _get_character_portrait(const unsigned int index) -> std::optional<sf::Sprite>;
+		auto _get_character_portrait(const unsigned int index)
+			-> std::optional<sf::Sprite>;
 		auto _go_to_next_stage() -> void;
 		auto _go_to_previous_stage() -> void;
-		auto _handle_allocate_attributes(const sf::Event &event) -> std::optional<ModuleResult>;
-		auto _handle_choose_create_method(const sf::Event &event) -> std::optional<ModuleResult>;
-		auto _handle_choose_name(const sf::Event &event) -> std::optional<ModuleResult>;
-		auto _handle_choose_race(const sf::Event &event) -> std::optional<ModuleResult>;
-		auto _handle_choose_alignment(const sf::Event &event) -> std::optional<ModuleResult>;
-		auto _handle_choose_class(const sf::Event &event) -> std::optional<ModuleResult>;
-		auto _handle_choose_potraits(const sf::Event &event) -> std::optional<ModuleResult>;
-		auto _handle_input(const sf::Event &event) -> std::optional<ModuleResult>;
-		auto _handle_review_and_confirm(const sf::Event &event) -> std::optional<ModuleResult>;
+		auto _handle_allocate_attributes(const sf::Event &event)
+			-> std::optional<ModuleResult>;
+		auto _handle_choose_create_method(const sf::Event &event)
+			-> std::optional<ModuleResult>;
+		auto _handle_choose_name(const sf::Event &event)
+			-> std::optional<ModuleResult>;
+		auto _handle_choose_race(const sf::Event &event)
+			-> std::optional<ModuleResult>;
+		auto _handle_choose_alignment(const sf::Event &event)
+			-> std::optional<ModuleResult>;
+		auto _handle_choose_class(const sf::Event &event)
+			-> std::optional<ModuleResult>;
+		auto _handle_choose_potraits(const sf::Event &event)
+			-> std::optional<ModuleResult>;
+		auto _handle_input(const sf::Event &event)
+			-> std::optional<ModuleResult>;
+		auto _handle_review_and_confirm(const sf::Event &event)
+			-> std::optional<ModuleResult>;
 		auto _set_classes_menu() -> void;
-		auto _set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void;
-		auto _update_character(const sf::Event &event) -> std::optional<ModuleResult>;
+		auto _set_info_panel_contents(
+			std::vector<Sorcery::MenuEntry>::const_iterator it) -> void;
+		auto _update_character(const sf::Event &event)
+			-> std::optional<ModuleResult>;
 
 		// Private Members
 		System *_system;

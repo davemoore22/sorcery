@@ -57,7 +57,8 @@ namespace Sorcery {
 		// Private Methods
 		auto _draw() -> void;
 		auto _set_tooltip(sf::Vector2f mouse_pos) -> bool;
-		auto _set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void;
+		auto _set_info_panel_contents(
+			std::vector<Sorcery::MenuEntry>::const_iterator it) -> void;
 
 		// Private Members
 		System *_system;

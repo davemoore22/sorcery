@@ -111,7 +111,17 @@ namespace Sorcery {
 
 		enum class DialogButton { NONE, OK, YES, NO, CLOSE };
 
-		enum class ComponentType { NONE, IMAGE, TEXT, TOOLTIP, MENU, FRAME, ICON, DIALOG, UNKNOWN };
+		enum class ComponentType {
+			NONE,
+			IMAGE,
+			TEXT,
+			TOOLTIP,
+			MENU,
+			FRAME,
+			ICON,
+			DIALOG,
+			UNKNOWN
+		};
 
 		enum class DialogType { NONE, TIMED, OK, CONFIRM, MENU };
 
@@ -136,7 +146,16 @@ namespace Sorcery {
 
 	namespace Enums::Graphics {
 
-		enum class Background { NONE, CASTLE, TAVERN, INN, SHOP, TEMPLE, EDGE_OF_TOWN, TRAIN };
+		enum class Background {
+			NONE,
+			CASTLE,
+			TAVERN,
+			INN,
+			SHOP,
+			TEMPLE,
+			EDGE_OF_TOWN,
+			TRAIN
+		};
 
 		enum class Texture {
 			NONE,
@@ -174,7 +193,14 @@ namespace Sorcery {
 
 		enum class SpellPointStatus { NONE, CURRENT, MAXIMUM };
 
-		enum class SpellCategory { NONE, HEALING, FIELD, SUPPORT, DISABLE, ATTACK };
+		enum class SpellCategory {
+			NONE,
+			HEALING,
+			FIELD,
+			SUPPORT,
+			DISABLE,
+			ATTACK
+		};
 
 		enum class SpellID {
 			NONE = -1,
@@ -312,7 +338,17 @@ namespace Sorcery {
 		// Character Classes
 		enum class Race { NONE, HUMAN, ELF, DWARF, GNOME, HOBBIT };
 
-		enum class Class { NONE, FIGHTER, MAGE, PRIEST, THIEF, BISHOP, SAMURAI, LORD, NINJA };
+		enum class Class {
+			NONE,
+			FIGHTER,
+			MAGE,
+			PRIEST,
+			THIEF,
+			BISHOP,
+			SAMURAI,
+			LORD,
+			NINJA
+		};
 
 		enum class Align { NONE, GOOD, NEUTRAL, EVIL };
 
@@ -338,7 +374,15 @@ namespace Sorcery {
 			LUCK = 6
 		};
 
-		enum class Ability_Type { NONE, NUMBER, MODIFIER, PERCENTAGE, STAT, AC, STATUS };
+		enum class Ability_Type {
+			NONE,
+			NUMBER,
+			MODIFIER,
+			PERCENTAGE,
+			STAT,
+			AC,
+			STATUS
+		};
 
 		enum class Ability {
 			NONE,
@@ -416,7 +460,15 @@ namespace Sorcery {
 		};
 
 		// Return values
-		enum class ModuleResult { NONE, CLOSE, BACK, EXIT, NEXT, CANCEL, DELETE };
+		enum class ModuleResult {
+			NONE,
+			CLOSE,
+			BACK,
+			EXIT,
+			NEXT,
+			CANCEL,
+			DELETE
+		};
 
 		// Random (Dice) Types
 		enum class Random {
@@ -602,7 +654,16 @@ namespace Sorcery {
 		};
 
 		// Menu Items
-		enum class ItemType { NONE, ENTRY, TITLE, SEPARATOR, SPACER, TEXT, SAVE, CANCEL };
+		enum class ItemType {
+			NONE,
+			ENTRY,
+			TITLE,
+			SEPARATOR,
+			SPACER,
+			TEXT,
+			SAVE,
+			CANCEL
+		};
 	} // namespace Enums::Menu
 
 	// Display

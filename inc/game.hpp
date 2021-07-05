@@ -47,12 +47,13 @@ namespace Sorcery {
 		auto get_id() -> unsigned int;
 		auto start_new_game() -> void;
 		auto save_new_character(Character &character) -> unsigned int;
-		auto save_character(unsigned int character_id, Character &character) -> void;
+		auto save_character(unsigned int character_id, Character &character)
+			-> void;
 		auto load_characters() -> std::map<unsigned int, Character>;
 		auto reload_characters() -> void;
 		auto reload_character(unsigned int character_id) -> void;
-		auto update_character_name(unsigned game_id, unsigned character_id, Character &character)
-			-> bool;
+		auto update_character_name(unsigned game_id, unsigned character_id,
+			Character &character) -> bool;
 
 	  private:
 		// Private Methods

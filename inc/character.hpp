@@ -59,9 +59,10 @@ namespace Sorcery {
 		// Serialisation
 		// TODO: add a version number!!!
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_name, _race, _class, _alignment, _start_attr, _cur_attr, _max_attr, _st_points,
-				_portrait_index, _abilities, _priest_max_sp, _priest_cur_sp, _mage_max_sp,
-				_mage_cur_sp, _status, _hidden, _spells_known);
+			archive(_name, _race, _class, _alignment, _start_attr, _cur_attr,
+				_max_attr, _st_points, _portrait_index, _abilities,
+				_priest_max_sp, _priest_cur_sp, _mage_max_sp, _mage_cur_sp,
+				_status, _hidden, _spells_known);
 		}
 
 		// Public Methods
@@ -72,7 +73,8 @@ namespace Sorcery {
 		auto finalise() -> void;
 		auto level_up() -> void;
 		auto level_down() -> void;
-		auto get_alignment(const CharacterAlignment alignment) const -> std::string;
+		auto get_alignment(const CharacterAlignment alignment) const
+			-> std::string;
 		auto get_race(const CharacterRace race) const -> std::string;
 		auto get_class(const CharacterClass cclass) const -> std::string;
 		auto create_random() -> void;
@@ -96,14 +98,17 @@ namespace Sorcery {
 		auto get_starting_bonus_points() const -> unsigned int;
 		auto get_number_possible_classes() const -> unsigned int;
 		auto set_starting_bonus_points(const unsigned int &value) -> void;
-		auto get_attribute(const CharacterAttribute attribute) const -> unsigned int;
-		auto get_starting_attribute(const CharacterAttribute attribute) const -> unsigned int;
-		auto set_attribute(const CharacterAttribute attribute, const int adjustment) -> void;
+		auto get_attribute(const CharacterAttribute attribute) const
+			-> unsigned int;
+		auto get_starting_attribute(const CharacterAttribute attribute) const
+			-> unsigned int;
+		auto set_attribute(
+			const CharacterAttribute attribute, const int adjustment) -> void;
 		auto get_icon(CharacterStage type) -> std::optional<sf::Sprite>;
 		auto get_portrait_index() const -> unsigned int;
 		auto set_portrait_index(const unsigned int value) -> void;
-		auto get_spell_points(const SpellType type, const SpellPointStatus status) const
-			-> std::optional<SpellPoints>;
+		auto get_spell_points(const SpellType type,
+			const SpellPointStatus status) const -> std::optional<SpellPoints>;
 		auto get_view() const -> CharacterView;
 		auto set_view(const CharacterView value) -> void;
 		auto left_view() -> void;
@@ -126,7 +131,8 @@ namespace Sorcery {
 		auto inc_highlighted_spell(SpellType type) -> void;
 		auto dec_highlighted_spell(SpellType type) -> void;
 		auto update() -> void;
-		auto check_for_mouse_move(sf::Vector2f mouse_pos) -> std::optional<SpellID>;
+		auto check_for_mouse_move(sf::Vector2f mouse_pos)
+			-> std::optional<SpellID>;
 		auto change_class(const CharacterClass &value) -> void;
 
 		// Public Members
@@ -137,14 +143,16 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _save() -> unsigned int;
 		auto _load(unsigned int character_id) -> void;
 		auto _generate_display() -> void;
 		auto _generate_summary_icons() -> void;
 		auto _generate_starting_information() -> void;
 		auto _regenerate_starting_information() -> void;
-		auto _generate_secondary_abilities(bool initial, bool change_class) -> void;
+		auto _generate_secondary_abilities(bool initial, bool change_class)
+			-> void;
 		auto _set_starting_sp() -> void;
 		auto _reset_starting_sp() -> void;
 		auto _clear_sp() -> void;
@@ -152,20 +160,24 @@ namespace Sorcery {
 		auto _reset_starting_spells() -> void;
 		auto _get_hp_gained_per_level() -> int;
 		auto _update_hp_for_level() -> void;
-		auto _try_to_learn_spells(SpellType spell_type, unsigned int spell_level) -> void;
-		auto _calculate_sp(SpellType spell_type, unsigned int level_mod, unsigned int level_offset)
-			-> void;
+		auto _try_to_learn_spells(
+			SpellType spell_type, unsigned int spell_level) -> void;
+		auto _calculate_sp(SpellType spell_type, unsigned int level_mod,
+			unsigned int level_offset) -> void;
 		auto _set_sp() -> void;
-		auto _get_spells_known(SpellType spell_type, unsigned int spell_level) -> unsigned int;
+		auto _get_spells_known(SpellType spell_type, unsigned int spell_level)
+			-> unsigned int;
 		auto _get_xp_for_level(unsigned int level) const -> int;
 		auto _get_character_portrait() -> sf::Sprite;
-		auto _add_text(Component &component, std::string format, std::string value,
-			bool is_view = true) -> sf::Text *;
+		auto _add_text(Component &component, std::string format,
+			std::string value, bool is_view = true) -> sf::Text *;
 		auto _add_icon(Component &component, std::string icon_key) -> void;
 		auto _get_mage_magic_status(bool current) -> std::string;
 		auto _get_priest_magic_status(bool current) -> std::string;
-		auto _get_spell_icon(SpellCategory category) -> std::optional<sf::Sprite>;
-		auto _get_spell_points_per_level(const SpellType type, int level) -> std::string;
+		auto _get_spell_icon(SpellCategory category)
+			-> std::optional<sf::Sprite>;
+		auto _get_spell_points_per_level(const SpellType type, int level)
+			-> std::string;
 
 		// Private Members
 		System *_system;

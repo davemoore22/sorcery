@@ -177,20 +177,20 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 					unsigned int w{[&] {
 						if (components[j].isMember("w")) {
 							if (components[j]["w"].asString().length() > 0)
-								return std::stoi(components[j]["w"].asString());
+								return static_cast<unsigned int>(std::stoi(components[j]["w"].asString()));
 							else
-								return 0;
+								return 0u;
 						} else
-							return 0;
+							return 0u;
 					}()};
 					unsigned int h{[&] {
 						if (components[j].isMember("h")) {
 							if (components[j]["h"].asString().length() > 0)
-								return std::stoi(components[j]["h"].asString());
+								return static_cast<unsigned int>(std::stoi(components[j]["h"].asString()));
 							else
-								return 0;
+								return 0u;
 						} else
-							return 0;
+							return 0u;
 					}()};
 					float scale{[&] {
 						if (components[j].isMember("scale")) {
@@ -220,11 +220,11 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 					unsigned int size{[&] {
 						if (components[j].isMember("size")) {
 							if (components[j]["size"].asString().length() > 0)
-								return std::stoi(components[j]["size"].asString());
+								return static_cast<unsigned int>(std::stoi(components[j]["size"].asString()));
 							else
-								return 0;
+								return 0u;
 						} else
-							return 0;
+							return 0u;
 					}()};
 					unsigned long long colour{[&] {
 						if (components[j].isMember("colour")) {
@@ -253,20 +253,20 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 					unsigned int alpha{[&] {
 						if (components[j].isMember("alpha")) {
 							if (components[j]["alpha"].asString().length() > 0)
-								return std::stoi(components[j]["alpha"].asString());
+								return static_cast<unsigned int>(std::stoi(components[j]["alpha"].asString()));
 							else
-								return 0;
+								return 0u;
 						} else
-							return 0;
+							return 0u;
 					}()};
 					unsigned int width{[&] {
 						if (components[j].isMember("width")) {
 							if (components[j]["width"].asString().length() > 0)
-								return std::stoi(components[j]["width"].asString());
+								return static_cast<unsigned int>(std::stoi(components[j]["width"].asString()));
 							else
-								return 0;
+								return 0u;
 						} else
-							return 0;
+							return 0u;
 					}()};
 					unsigned long long background{[&] {
 						if (components[j].isMember("background")) {
@@ -320,11 +320,11 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 					unsigned int priority{[&] {
 						if (components[j].isMember("priority")) {
 							if (components[j]["priority"].asString().length() > 0)
-								return std::stoi(components[j]["priority"].asString());
+								return static_cast<unsigned int>(std::stoi(components[j]["priority"].asString()));
 							else
-								return 999;
+								return 999u;
 						} else
-							return 999;
+							return 999u;
 					}()};
 					WindowDrawMode drawmode{[&] {
 						if (components[j].isMember("drawmode")) {

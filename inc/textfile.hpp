@@ -26,8 +26,8 @@
 
 #include "main.hpp"
 
-// Class to handles loading and displaying on the console the contents of text files (such as
-// COPYING and README)
+// Class to handles loading and displaying on the console the contents of text
+// files (such as COPYING and README)
 namespace Sorcery {
 
 	class TextFile {
@@ -37,12 +37,14 @@ namespace Sorcery {
 		TextFile(std::filesystem::path text_file_path);
 		TextFile() = delete;
 
-		// Overloaded [] operator to get access to each line of the contained file
+		// Overloaded [] operator to get access to each line of the contained
+		// file
 		auto operator[](const unsigned int index) -> std::string &;
 
 		// Public Methods
 		auto size() const -> unsigned int; // Size (in lines)
-		auto valid() const -> bool;		   // Valid flag, indicates if there are contents
+		auto valid() const
+			-> bool; // Valid flag, indicates if there are contents
 		auto get_reading_progress(const int current_line) const -> std::string;
 
 		// Public Members

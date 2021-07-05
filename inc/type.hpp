@@ -28,21 +28,25 @@
 
 namespace Sorcery {
 
-	// Note that we need to use full details in here as aliases haven't yet been set up in main.hpp
-	// when we include enums.hpp
+	// Note that we need to use full details in here as aliases haven't yet been
+	// set up in main.hpp when we include enums.hpp
 
 	// Struct to represent a menu entry
 	struct MenuEntry {
 		MenuEntry()
-			: index{0}, type{Enums::Menu::ItemType::NONE}, item{Enums::Menu::Item::NONE}, key{},
-			  enabled{false}, config{Enums::Options::NONE}, hint{} {};
-		MenuEntry(unsigned int index_, Enums::Menu::ItemType type_, Enums::Menu::Item item_,
-			std::string key_, bool enabled_, Enums::Options config_, std::string hint_)
-			: index{index_}, type{type_}, item{item_}, key{key_}, enabled{enabled_},
-			  config{config_}, hint{hint_} {};
+			: index{0}, type{Enums::Menu::ItemType::NONE},
+			  item{Enums::Menu::Item::NONE}, key{}, enabled{false},
+			  config{Enums::Options::NONE}, hint{} {};
+		MenuEntry(unsigned int index_, Enums::Menu::ItemType type_,
+			Enums::Menu::Item item_, std::string key_, bool enabled_,
+			Enums::Options config_, std::string hint_)
+			: index{index_}, type{type_}, item{item_}, key{key_},
+			  enabled{enabled_}, config{config_}, hint{hint_} {};
 		auto operator==(const MenuEntry &a) const -> bool {
-			return ((index == a.index) && (type == a.type) && (item == a.item) && (key == a.key) &&
-					(enabled == a.enabled) && (config == a.config) && (hint == a.hint));
+			return ((index == a.index) && (type == a.type) &&
+					(item == a.item) && (key == a.key) &&
+					(enabled == a.enabled) && (config == a.config) &&
+					(hint == a.hint));
 		}
 
 		unsigned int index;
@@ -56,10 +60,13 @@ namespace Sorcery {
 
 	// Struct to represent an icon
 	struct Icon {
-		Icon() : index{0}, item{Enums::Menu::Item::NONE}, key{}, filename{}, colour{} {};
-		Icon(unsigned int index_, Enums::Menu::Item item_, std::string key_, std::string filename_,
-			sf::Color colour_)
-			: index{index_}, item{item_}, key{key_}, filename{filename_}, colour{colour_} {};
+		Icon()
+			: index{0}, item{Enums::Menu::Item::NONE}, key{}, filename{},
+			  colour{} {};
+		Icon(unsigned int index_, Enums::Menu::Item item_, std::string key_,
+			std::string filename_, sf::Color colour_)
+			: index{index_}, item{item_}, key{key_}, filename{filename_},
+			  colour{colour_} {};
 		auto operator==(const Icon &a) const -> bool {
 			return ((index == a.index) && (item == a.item) && (key == a.key) &&
 					(filename == a.filename) && (colour == a.colour));
@@ -110,11 +117,12 @@ namespace Sorcery {
 		Rect() : x{0}, y{0}, w{0}, h{0} {};
 		Rect(unsigned int x_, unsigned int y_, unsigned int w_, unsigned int h_)
 			: x{x_}, y{y_}, w{w_}, h{h_} {};
-		Rect(const Rect &other) : x{other.x}, y{other.y}, w{other.w}, h{other.h} {};
+		Rect(const Rect &other)
+			: x{other.x}, y{other.y}, w{other.w}, h{other.h} {};
 
 		auto menu_contains(unsigned int i, unsigned int j) -> bool {
-			// Note the >= etc here - menu rects start at y - if not = then first item in menu would
-			// fail this test
+			// Note the >= etc here - menu rects start at y - if not = then
+			// first item in menu would fail this test
 			return ((i >= x) && (j >= y) && (i < (x + w - 1)) && (j < (y + h)));
 		}
 
@@ -143,17 +151,20 @@ namespace Sorcery {
 	struct Spell {
 
 		Spell()
-			: id{Enums::Magic::SpellID::NONE}, type{Enums::Magic::SpellType::NONE},
-			  category{Enums::Magic::SpellCategory::NONE}, level{0}, known{false}, name{""},
-			  translated_name{""}, details{""} {};
+			: id{Enums::Magic::SpellID::NONE},
+			  type{Enums::Magic::SpellType::NONE},
+			  category{Enums::Magic::SpellCategory::NONE}, level{0},
+			  known{false}, name{""}, translated_name{""}, details{""} {};
 		Spell(Enums::Magic::SpellID id_, Enums::Magic::SpellType type_,
-			Enums::Magic::SpellCategory category_, unsigned int level_, bool known_,
-			std::string name_, std::string translated_name_, std::string details_)
-			: id{id_}, type{type_}, category{category_}, level{level_}, known{known_}, name{name_},
+			Enums::Magic::SpellCategory category_, unsigned int level_,
+			bool known_, std::string name_, std::string translated_name_,
+			std::string details_)
+			: id{id_}, type{type_}, category{category_}, level{level_},
+			  known{known_}, name{name_},
 			  translated_name{translated_name_}, details{details_} {};
 		Spell(const Spell &other)
-			: id{other.id}, type{other.type}, category{other.category}, level{other.level},
-			  known{other.known}, name{other.name},
+			: id{other.id}, type{other.type}, category{other.category},
+			  level{other.level}, known{other.known}, name{other.name},
 			  translated_name{other.translated_name}, details{other.details} {};
 		auto operator=(const Spell &other) -> Spell & {
 

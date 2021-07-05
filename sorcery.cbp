@@ -11,7 +11,7 @@
 				<Option object_output="obj/debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="--skip_intro" />
+				<Option parameters="--skip_intro --continue_game" />
 				<Compiler>
 					<Add option="-pg" />
 					<Add option="-g" />
@@ -134,6 +134,7 @@
 		<Unit filename="inc/banner.hpp" />
 		<Unit filename="inc/camera.hpp" />
 		<Unit filename="inc/castle.hpp" />
+		<Unit filename="inc/changename.hpp" />
 		<Unit filename="inc/character.hpp" />
 		<Unit filename="inc/charpanel.hpp" />
 		<Unit filename="inc/compendium.hpp" />
@@ -149,7 +150,6 @@
 		<Unit filename="inc/edgeoftown.hpp" />
 		<Unit filename="inc/edit.hpp" />
 		<Unit filename="inc/engine.hpp" />
-		<Unit filename="inc/entity.hpp" />
 		<Unit filename="inc/enum.hpp" />
 		<Unit filename="inc/error.hpp" />
 		<Unit filename="inc/file.hpp" />
@@ -184,7 +184,6 @@
 		<Unit filename="inc/string.hpp" />
 		<Unit filename="inc/system.hpp" />
 		<Unit filename="inc/textfile.hpp" />
-		<Unit filename="inc/tile.hpp" />
 		<Unit filename="inc/tooltip.hpp" />
 		<Unit filename="inc/type.hpp" />
 		<Unit filename="inc/window.hpp" />
@@ -195,6 +194,7 @@
 		<Unit filename="src/attributedisplay.cpp" />
 		<Unit filename="src/banner.cpp" />
 		<Unit filename="src/castle.cpp" />
+		<Unit filename="src/changename.cpp" />
 		<Unit filename="src/character.cpp" />
 		<Unit filename="src/charpanel.cpp" />
 		<Unit filename="src/compendium.cpp" />

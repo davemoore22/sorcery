@@ -39,12 +39,13 @@ namespace Sorcery {
 		auto has_game() -> bool;
 		auto add_game() -> unsigned int;
 		auto get_game() -> std::optional<GameEntry>;
-		auto insert_character(int game_id, std::string name, std::string data) -> unsigned int;
+		auto insert_character(int game_id, std::string name, std::string data)
+			-> unsigned int;
 		auto get_character_list(int game_id) -> std::vector<unsigned int>;
 		auto get_character(int game_id, int character_id) -> std::string;
 		auto delete_character(int game_id, int character_id) -> void;
-		auto update_character_name(
-			int game_id, int character_id, std::string name, std::string data) -> bool;
+		auto update_character_name(int game_id, int character_id,
+			std::string name, std::string data) -> bool;
 
 		// Public Members
 		bool connected;

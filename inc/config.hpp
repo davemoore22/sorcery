@@ -33,14 +33,16 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Config(CSimpleIniA *settings, const std::filesystem::path config_file_path);
+		Config(CSimpleIniA *settings,
+			const std::filesystem::path config_file_path);
 		Config() = delete;
 
 		// Overload [] operator
 		auto operator[](const unsigned int i) -> bool &;
 
 		// Public Methods
-		auto get(const std::string &section, const std::string &value) const -> std::string;
+		auto get(const std::string &section, const std::string &value) const
+			-> std::string;
 		auto has_changed() -> bool;
 		auto load() -> bool;
 		auto save() -> bool;
@@ -52,8 +54,8 @@ namespace Sorcery {
 
 	  private:
 		// Private Members
-		CSimpleIniA *_settings;								 // Dependency-injected
-		std::array<bool, NUM_GAME_SETTINGS> _options;		 // Game Settings
+		CSimpleIniA *_settings;						  // Dependency-injected
+		std::array<bool, NUM_GAME_SETTINGS> _options; // Game Settings
 		std::array<bool, NUM_GAME_SETTINGS> _options_backup; // To handle cancel
 		std::filesystem::path _config_fp;
 

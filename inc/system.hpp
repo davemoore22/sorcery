@@ -33,8 +33,8 @@
 #include "resourcemanager.hpp"
 #include "string.hpp"
 
-// Superclass to handle all system level requirements such as Random Number Generation, File and
-// Database Access, etc
+// Superclass to handle all system level requirements such as Random Number
+// Generation, File and Database Access, etc
 namespace Sorcery {
 
 	class System {
@@ -58,8 +58,9 @@ namespace Sorcery {
 		std::shared_ptr<ResourceManager> resources;
 		std::shared_ptr<Input> input;
 
-		// also need for each class to contain a list of mouse-sensitive area based upon component,
-		// so that you can check if a mouse cursor is in a component
+		// also need for each class to contain a list of mouse-sensitive area
+		// based upon component, so that you can check if a mouse cursor is in a
+		// component
 
 	  private:
 		// Private Members

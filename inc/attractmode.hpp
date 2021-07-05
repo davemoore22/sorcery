@@ -49,8 +49,10 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
-		auto _get_creature_gfx(const int creature_id, const bool known) -> sf::Sprite;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto _get_creature_gfx(const int creature_id, const bool known)
+			-> sf::Sprite;
 
 		// Private Members
 		sf::Texture _ctexture;

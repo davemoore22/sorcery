@@ -43,7 +43,8 @@ namespace Sorcery {
 		Tooltip() = delete;
 
 		// Public Members
-		std::optional<std::chrono::time_point<std::chrono::steady_clock>> entry_time;
+		std::optional<std::chrono::time_point<std::chrono::steady_clock>>
+			entry_time;
 		sf::FloatRect bound_rect;
 		bool valid;
 
@@ -52,7 +53,8 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
 		System *_system;

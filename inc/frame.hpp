@@ -42,11 +42,13 @@ namespace Sorcery {
 	  public:
 		// Constructors
 		Frame(System *system, WindowFrameType type);
-		Frame(System *system, Display *display, WindowFrameType type, const Component layout);
+		Frame(System *system, Display *display, WindowFrameType type,
+			const Component layout);
 
-		Frame(sf::Texture texture, WindowFrameType _type, const unsigned int width_units,
-			const unsigned int height_units, const unsigned long long colour,
-			const unsigned long long bg_colour, const unsigned int alpha);
+		Frame(sf::Texture texture, WindowFrameType _type,
+			const unsigned int width_units, const unsigned int height_units,
+			const unsigned long long colour, const unsigned long long bg_colour,
+			const unsigned int alpha);
 		Frame() = delete;
 
 		// Public Members
@@ -58,7 +60,8 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
 		System *_system;

@@ -43,7 +43,8 @@ namespace Sorcery {
 
 	  public:
 		// Standard Constructor
-		Roster(System *system, Display *display, Graphics *graphics, Game *game, RosterMode mode);
+		Roster(System *system, Display *display, Graphics *graphics, Game *game,
+			RosterMode mode);
 		Roster() = delete;
 
 		// Standard Destructor

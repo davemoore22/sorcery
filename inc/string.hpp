@@ -48,7 +48,7 @@ namespace Sorcery {
 
 		// Private Methods
 		auto _load(const std::string &filename) -> bool;
-		auto _replace(std::string &subject, const std::string &search, const std::string &replace)
-			-> void;
+		auto _replace(std::string &subject, const std::string &search,
+			const std::string &replace) -> void;
 	};
 } // namespace Sorcery

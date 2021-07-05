@@ -42,7 +42,8 @@ namespace Sorcery {
 
 	  public:
 		// Standard Constructor
-		Castle(System *system, Display *display, Graphics *graphics, Game *game);
+		Castle(
+			System *system, Display *display, Graphics *graphics, Game *game);
 		Castle() = delete;
 
 		// Standard Destructor

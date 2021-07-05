@@ -53,11 +53,12 @@ namespace Sorcery {
 	}
 
 	// Pad a string to the desired length
-	inline auto PADSTR(std::string &string, unsigned int width, bool pad_both = false)
-		-> std::string {
+	inline auto PADSTR(std::string &string, unsigned int width,
+		bool pad_both = false) -> std::string {
 		if (static_cast<unsigned int>(string.size()) < width) {
 			const std::string::size_type padding{
-				pad_both ? (width - string.size()) / 2 : (width - string.size())};
+				pad_both ? (width - string.size()) / 2
+						 : (width - string.size())};
 			std::string string_copy{string};
 			if (pad_both)
 				string_copy.insert(0, padding, ' ');
@@ -72,9 +73,10 @@ namespace Sorcery {
 
 	// Trim a string
 	inline auto LTRIM(std::string &s) -> void {
-		s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
-			return !std::isspace(ch);
-		}));
+		s.erase(
+			s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+				return !std::isspace(ch);
+			}));
 	}
 
 	// trim from end (in place)
@@ -120,7 +122,8 @@ namespace Sorcery {
 		unsigned line_begin{0};
 		while (line_begin < text.size()) {
 			const unsigned int ideal_end{line_begin + per_line};
-			unsigned int line_end = ideal_end <= text.size() ? ideal_end : text.size() - 1;
+			unsigned int line_end =
+				ideal_end <= text.size() ? ideal_end : text.size() - 1;
 
 			if (line_end == text.size() - 1)
 				++line_end;

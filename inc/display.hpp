@@ -46,7 +46,8 @@ namespace Sorcery {
 	class IconStore;
 	class ControlOverlay;
 
-	// Superclass to handle basic display requirements such as Windopw Access, Game Text and so on
+	// Superclass to handle basic display requirements such as Windopw Access,
+	// Game Text and so on
 	class Display {
 
 	  public:
@@ -60,14 +61,16 @@ namespace Sorcery {
 
 		// Public Methods
 		auto generate_components(const std::string &screen) -> void;
-		auto display_components(
-			const std::string &screen, std::optional<std::any> parameter = std::nullopt) -> void;
 		auto display_components(const std::string &screen,
-			std::map<std::string, sf::Sprite> &sprites, std::map<std::string, sf::Text> &texts,
+			std::optional<std::any> parameter = std::nullopt) -> void;
+		auto display_components(const std::string &screen,
+			std::map<std::string, sf::Sprite> &sprites,
+			std::map<std::string, sf::Text> &texts,
 			std::map<std::string, std::shared_ptr<Frame>> &frames,
 			std::optional<std::any> parameter = std::nullopt) -> void;
 		auto generate_components(const std::string &screen,
-			std::map<std::string, sf::Sprite> &sprites, std::map<std::string, sf::Text> &texts,
+			std::map<std::string, sf::Sprite> &sprites,
+			std::map<std::string, sf::Text> &texts,
 			std::map<std::string, std::shared_ptr<Frame>> &frames) -> void;
 		auto display_cursor() -> void;
 		auto fit_background_movie() -> void;
@@ -95,7 +98,9 @@ namespace Sorcery {
 		std::map<std::string, std::shared_ptr<Frame>> _frames;
 		System *_system;
 		sfe::Movie _background_movie;
-		std::map<Component, std::variant<sf::Sprite, sf::Text, std::shared_ptr<Frame>>> _components;
+		std::map<Component,
+			std::variant<sf::Sprite, sf::Text, std::shared_ptr<Frame>>>
+			_components;
 		std::unique_ptr<IconStore> _icons;
 		bool _show_overlay;
 
