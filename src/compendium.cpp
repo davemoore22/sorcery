@@ -108,14 +108,14 @@ auto Sorcery::Compendium::_handle_input(const sf::Event &event)
 	if (event.type == sf::Event::Closed)
 		return ModuleResult::EXIT;
 
-	if (_system->input->check_for_event(WindowInput::CANCEL, event))
+	if (_system->input->check(WindowInput::CANCEL, event))
 		return ModuleResult::CLOSE;
 
-	if (_system->input->check_for_event(WindowInput::BACK, event))
+	if (_system->input->check(WindowInput::BACK, event))
 		return ModuleResult::BACK;
 
 	// Handle enabling help overlay
-	if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
+	if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
 		_display->show_overlay();
 		return std::nullopt;
 	} else

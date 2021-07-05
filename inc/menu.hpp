@@ -84,10 +84,10 @@ namespace Sorcery {
 			const ConfigOption option, const std::string hint) -> void;
 		auto _add_item(int index, const MenuItemType itemtype,
 			const MenuItem code, std::string key) -> void;
-		auto _populate_character_menu() -> void;
-		auto _select_first_enabled()
+		auto _populate_chars() -> void;
+		auto _select_first()
 			-> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto _select_last_enabled()
+		auto _select_last()
 			-> std::optional<std::vector<MenuEntry>::const_iterator>;
 
 		// Private Members

@@ -25,9 +25,10 @@
 #include "menu.hpp"
 
 // Standard Constructor
-Sorcery::Menu::Menu(
-	System *system, Display *display, Graphics *graphics, Game *game, const MenuType type)
-	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _type{type} {
+Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics,
+	Game *game, const MenuType type)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game},
+	  _type{type} {
 
 	// Clear the Items
 	items.clear();
@@ -39,7 +40,7 @@ Sorcery::Menu::Menu(
 	// Now depending on the menu type, add the relevant items
 	switch (_type) {
 	case MenuType::CHARACTER_ROSTER:
-		_populate_character_menu();
+		_populate_chars();
 		selected = items.begin();
 		break;
 	case MenuType::EDIT_CHARACTER:
@@ -49,7 +50,8 @@ Sorcery::Menu::Menu(
 			(*_display->string)["EDIT_CHARACTER_CHANGE_NAME"]);
 		_add_item(2, MenuItemType::ENTRY, MenuItem::EC_LEGATE_CHARACTER,
 			(*_display->string)["EDIT_CHARACTER_LEGATE_CHARACTER"]);
-		_add_item(3, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+		_add_item(3, MenuItemType::SPACER, MenuItem::SPACER,
+			(*_display->string)["MENU_SPACER"]);
 		_add_item(4, MenuItemType::ENTRY, MenuItem::EC_RETURN_EDIT,
 			(*_display->string)["EDIT_CHARACTER_RETURN_EDIT"]);
 		selected = items.begin();
@@ -65,28 +67,37 @@ Sorcery::Menu::Menu(
 			(*_display->string)["MAIN_MENU_OPTION_COMPENDIUM"]);
 		_add_item(4, MenuItemType::ENTRY, MenuItem::MM_LICENSE,
 			(*_display->string)["MAIN_MENU_OPTION_LICENSE"]);
-		_add_item(
-			5, MenuItemType::ENTRY, MenuItem::QUIT, (*_display->string)["MAIN_MENU_OPTION_EXIT"]);
+		_add_item(5, MenuItemType::ENTRY, MenuItem::QUIT,
+			(*_display->string)["MAIN_MENU_OPTION_EXIT"]);
 		selected = items.begin();
 		break;
 	case MenuType::REVIEW_AND_CONFIRM:
-		_add_item(0, MenuItemType::ENTRY, MenuItem::RC_ACCEPT, (*_display->string)["RC_ACCEPT"]);
-		_add_item(1, MenuItemType::ENTRY, MenuItem::RC_REJECT, (*_display->string)["RC_REJECT"]);
+		_add_item(0, MenuItemType::ENTRY, MenuItem::RC_ACCEPT,
+			(*_display->string)["RC_ACCEPT"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::RC_REJECT,
+			(*_display->string)["RC_REJECT"]);
 		selected = items.begin();
 		break;
 	case MenuType::CASTLE:
-		_add_item(0, MenuItemType::ENTRY, MenuItem::CA_TAVERN, (*_display->string)["MENU_TAVERN"]);
-		_add_item(1, MenuItemType::ENTRY, MenuItem::CA_INN, (*_display->string)["MENU_INN"]);
-		_add_item(2, MenuItemType::ENTRY, MenuItem::CA_SHOP, (*_display->string)["MENU_SHOP"]);
-		_add_item(3, MenuItemType::ENTRY, MenuItem::CA_TEMPLE, (*_display->string)["MENU_TEMPLE"]);
+		_add_item(0, MenuItemType::ENTRY, MenuItem::CA_TAVERN,
+			(*_display->string)["MENU_TAVERN"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::CA_INN,
+			(*_display->string)["MENU_INN"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::CA_SHOP,
+			(*_display->string)["MENU_SHOP"]);
+		_add_item(3, MenuItemType::ENTRY, MenuItem::CA_TEMPLE,
+			(*_display->string)["MENU_TEMPLE"]);
 		_add_item(4, MenuItemType::ENTRY, MenuItem::CA_EDGE_OF_TOWN,
 			(*_display->string)["MENU_EDGE_OF_TOWN"]);
 		selected = items.begin();
 		break;
 	case MenuType::EDGE_OF_TOWN:
-		_add_item(0, MenuItemType::ENTRY, MenuItem::ET_CASTLE, (*_display->string)["MENU_CASTLE"]);
-		_add_item(1, MenuItemType::ENTRY, MenuItem::ET_TRAIN, (*_display->string)["MENU_TRAIN"]);
-		_add_item(2, MenuItemType::ENTRY, MenuItem::ET_MAZE, (*_display->string)["MENU_MAZE"]);
+		_add_item(0, MenuItemType::ENTRY, MenuItem::ET_CASTLE,
+			(*_display->string)["MENU_CASTLE"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::ET_TRAIN,
+			(*_display->string)["MENU_TRAIN"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::ET_MAZE,
+			(*_display->string)["MENU_MAZE"]);
 		_add_item(3, MenuItemType::ENTRY, MenuItem::ET_LEAVE_GAME,
 			(*_display->string)["MENU_LEAVE_GAME"]);
 		selected = items.begin();
@@ -106,34 +117,43 @@ Sorcery::Menu::Menu(
 		break;
 	case MenuType::ALLOCATE_CHARACTER_ATTRIBUTES:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::CS_STRENGTH,
-			(*_display->string)["CHARACTER_STAT_STRENGTH"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_STAT_STRENGTH"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_STAT_STRENGTH"]);
 		_add_item(1, MenuItemType::ENTRY, MenuItem::CS_IQ,
-			(*_display->string)["CHARACTER_STAT_INTELLIGENCE"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_STAT_INTELLIGENCE"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_STAT_INTELLIGENCE"]);
 		_add_item(2, MenuItemType::ENTRY, MenuItem::CS_PIETY,
-			(*_display->string)["CHARACTER_STAT_PIETY"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_STAT_PIETY"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_STAT_PIETY"]);
 		_add_item(3, MenuItemType::ENTRY, MenuItem::CS_VITALITY,
-			(*_display->string)["CHARACTER_STAT_VITALITY"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_STAT_VITALITY"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_STAT_VITALITY"]);
 		_add_item(4, MenuItemType::ENTRY, MenuItem::CS_AGILITY,
-			(*_display->string)["CHARACTER_STAT_AGILITY"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_STAT_AGILITY"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_STAT_AGILITY"]);
 		_add_item(5, MenuItemType::ENTRY, MenuItem::CS_LUCK,
-			(*_display->string)["CHARACTER_STAT_LUCK"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_STAT_LUCK"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_STAT_LUCK"]);
 		selected = items.begin();
 		break;
 	case MenuType::CHOOSE_CHARACTER_ALIGNMENT:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::CA_GOOD,
-			(*_display->string)["CHARACTER_ALIGNMENT_GOOD"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_ALIGNMENT_GOOD"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_ALIGNMENT_GOOD"]);
 		_add_item(1, MenuItemType::ENTRY, MenuItem::CA_NEUTRAL,
-			(*_display->string)["CHARACTER_ALIGNMENT_NEUTRAL"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_ALIGNMENT_NEUTRAL"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_ALIGNMENT_NEUTRAL"]);
 		_add_item(2, MenuItemType::ENTRY, MenuItem::CA_EVIL,
-			(*_display->string)["CHARACTER_ALIGNMENT_EVIL"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_ALIGNMENT_EVIL"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_ALIGNMENT_EVIL"]);
 		selected = items.begin();
 		break;
@@ -141,28 +161,36 @@ Sorcery::Menu::Menu(
 	case MenuType::CHANGE_CHARACTER_CLASS:
 
 		_add_item(0, MenuItemType::ENTRY, MenuItem::CC_SAMURAI,
-			(*_display->string)["CHARACTER_CLASS_SAMURAI"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_CLASS_SAMURAI"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_SAMURAI"]);
 		_add_item(1, MenuItemType::ENTRY, MenuItem::CC_FIGHTER,
-			(*_display->string)["CHARACTER_CLASS_FIGHTER"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_CLASS_FIGHTER"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_FIGHTER"]);
 		_add_item(2, MenuItemType::ENTRY, MenuItem::CC_LORD,
-			(*_display->string)["CHARACTER_CLASS_LORD"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_CLASS_LORD"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_LORD"]);
 		_add_item(3, MenuItemType::ENTRY, MenuItem::CC_THIEF,
-			(*_display->string)["CHARACTER_CLASS_THIEF"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_CLASS_THIEF"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_THIEF"]);
 		_add_item(4, MenuItemType::ENTRY, MenuItem::CC_NINJA,
-			(*_display->string)["CHARACTER_CLASS_NINJA"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_CLASS_NINJA"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_NINJA"]);
 		_add_item(5, MenuItemType::ENTRY, MenuItem::CC_PRIEST,
-			(*_display->string)["CHARACTER_CLASS_PRIEST"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_CLASS_PRIEST"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_PRIEST"]);
 		_add_item(6, MenuItemType::ENTRY, MenuItem::CC_BISHOP,
-			(*_display->string)["CHARACTER_CLASS_BISHOP"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_CLASS_BISHOP"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_BISHOP"]);
 		_add_item(7, MenuItemType::ENTRY, MenuItem::CC_MAGE,
-			(*_display->string)["CHARACTER_CLASS_MAGE"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_CLASS_MAGE"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_MAGE"]);
 		selected = items.begin();
 		break;
@@ -170,51 +198,64 @@ Sorcery::Menu::Menu(
 		break;
 	case MenuType::CHOOSE_CHARACTER_RACE:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::CR_HUMAN,
-			(*_display->string)["CHARACTER_RACE_HUMAN"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_RACE_HUMAN"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_RACE_HUMAN"]);
 		_add_item(1, MenuItemType::ENTRY, MenuItem::CR_ELF,
 			(*_display->string)["CHARACTER_RACE_ELF"], true, ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_RACE_ELF"]);
 		_add_item(2, MenuItemType::ENTRY, MenuItem::CR_DWARF,
-			(*_display->string)["CHARACTER_RACE_DWARF"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_RACE_DWARF"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_RACE_DWARF"]);
 		_add_item(3, MenuItemType::ENTRY, MenuItem::CR_GNOME,
-			(*_display->string)["CHARACTER_RACE_GNOME"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_RACE_GNOME"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_RACE_GNOME"]);
 		_add_item(4, MenuItemType::ENTRY, MenuItem::CR_HOBBIT,
-			(*_display->string)["CHARACTER_RACE_HOBBIT"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_RACE_HOBBIT"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_RACE_HOBBIT"]);
 		selected = items.begin();
 		break;
 	case MenuType::CHOOSE_METHOD:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::CM_FULL,
-			(*_display->string)["CHARACTER_CREATION_METHOD_FULL"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_CREATION_METHOD_FULL"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_CREATION_METHOD_FULL"]);
 		_add_item(1, MenuItemType::ENTRY, MenuItem::CM_QUICK,
-			(*_display->string)["CHARACTER_CREATION_METHOD_QUICK"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_CREATION_METHOD_QUICK"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_CREATION_METHOD_QUICK"]);
 		_add_item(2, MenuItemType::ENTRY, MenuItem::CM_RANDOM,
-			(*_display->string)["CHARACTER_CREATION_METHOD_RANDOM"], true, ConfigOption::NONE,
+			(*_display->string)["CHARACTER_CREATION_METHOD_RANDOM"], true,
+			ConfigOption::NONE,
 			(*_display->string)["HINT_CHARACTER_CREATION_METHOD_RANDOM"]);
 		selected = items.begin();
 		break;
 	case MenuType::OPTIONS:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::OP_RECOMMENDED_MODE,
-			(*_display->string)["CONFIG_RECOMMENDED_MODE"], true, ConfigOption::RECOMMENDED_MODE,
+			(*_display->string)["CONFIG_RECOMMENDED_MODE"], true,
+			ConfigOption::RECOMMENDED_MODE,
 			(*_display->string)["HINT_CONFIG_RECOMMENDED_MODE"]);
 		_add_item(1, MenuItemType::ENTRY, MenuItem::OP_STRICT_MODE,
-			(*_display->string)["CONFIG_STRICT_MODE"], true, ConfigOption::STRICT_MODE,
+			(*_display->string)["CONFIG_STRICT_MODE"], true,
+			ConfigOption::STRICT_MODE,
 			(*_display->string)["HINT_CONFIG_STRICT_MODE"]);
 		_add_item(2, MenuItemType::ENTRY, MenuItem::OP_CHEAT_MODE,
-			(*_display->string)["CONFIG_CHEAT_MODE"], true, ConfigOption::CHEAT_MODE,
+			(*_display->string)["CONFIG_CHEAT_MODE"], true,
+			ConfigOption::CHEAT_MODE,
 			(*_display->string)["HINT_CONFIG_CHEAT_MODE"]);
 		_add_item(3, MenuItemType::ENTRY, MenuItem::OP_AUTO_SAVE,
-			(*_display->string)["CONFIG_AUTO_SAVE"], true, ConfigOption::AUTO_SAVE,
+			(*_display->string)["CONFIG_AUTO_SAVE"], true,
+			ConfigOption::AUTO_SAVE,
 			(*_display->string)["HINT_CONFIG_AUTO_SAVE"]);
 		_add_item(4, MenuItemType::ENTRY, MenuItem::OP_DICE_ROLLS,
-			(*_display->string)["CONFIG_DICE_ROLLS"], true, ConfigOption::DICE_ROLLS,
+			(*_display->string)["CONFIG_DICE_ROLLS"], true,
+			ConfigOption::DICE_ROLLS,
 			(*_display->string)["HINT_CONFIG_DICE_ROLLS"]);
-		_add_item(5, MenuItemType::ENTRY, MenuItem::OP_ALLOW_MIXED_ALIGNMENT_PARTY,
+		_add_item(5, MenuItemType::ENTRY,
+			MenuItem::OP_ALLOW_MIXED_ALIGNMENT_PARTY,
 			(*_display->string)["GAME_ALLOW_MIXED_ALIGNMENT"], true,
 			ConfigOption::ALLOW_MIXED_ALIGNMENT_PARTY,
 			(*_display->string)["HINT_GAME_ALLOW_MIXED_ALIGNMENT"]);
@@ -222,11 +263,13 @@ Sorcery::Menu::Menu(
 			(*_display->string)["GAME_STAT_LOSS_LEVEL_GAIN"], true,
 			ConfigOption::STAT_LOSS_ON_LEVEL_UP,
 			(*_display->string)["HINT_GAME_STAT_LOSS_LEVEL_GAIN"]);
-		_add_item(7, MenuItemType::ENTRY, MenuItem::OP_REROLL_HIT_POINTS_ON_LEVEL_GAIN,
+		_add_item(7, MenuItemType::ENTRY,
+			MenuItem::OP_REROLL_HIT_POINTS_ON_LEVEL_GAIN,
 			(*_display->string)["GAME_REROLL_HIT_POINTS"], true,
 			ConfigOption::REROLL_HIT_POINTS_ON_LEVEL_GAIN,
 			(*_display->string)["HINT_GAME_REROLL_HIT_POINTS"]);
-		_add_item(8, MenuItemType::ENTRY, MenuItem::OP_STAT_RESET_ON_CLASS_CHANGE,
+		_add_item(8, MenuItemType::ENTRY,
+			MenuItem::OP_STAT_RESET_ON_CLASS_CHANGE,
 			(*_display->string)["GAME_STAT_RESET_CLASS_CHANGE"], true,
 			ConfigOption::STAT_RESET_ON_CLASS_CHANGE,
 			(*_display->string)["HINT_GAME_STAT_RESET_CLASS_CHANGE"]);
@@ -235,26 +278,31 @@ Sorcery::Menu::Menu(
 			ConfigOption::AGING_ON_CLASS_CHANGE,
 			(*_display->string)["HINT_GAME_AGING_CLASS_CHANGE"]);
 		_add_item(10, MenuItemType::ENTRY, MenuItem::OP_PROTECT_TELEPORT,
-			(*_display->string)["GAME_PROTECT_TELEPORT"], true, ConfigOption::PROTECT_TELEPORT,
+			(*_display->string)["GAME_PROTECT_TELEPORT"], true,
+			ConfigOption::PROTECT_TELEPORT,
 			(*_display->string)["HINT_GAME_PROTECT_TELEPORT"]);
 		_add_item(11, MenuItemType::ENTRY, MenuItem::OP_ALLOW_RANGED_WEAPONS,
 			(*_display->string)["GAME_ALLOW_RANGED_WEAPONS"], true,
 			ConfigOption::ALLOW_RANGED_WEAPONS,
 			(*_display->string)["HINT_GAME_ALLOW_RANGED_WEAPONS"]);
-		_add_item(12, MenuItemType::ENTRY, MenuItem::OP_SPELLCASTING_IN_SURPRISE_ROUND,
+		_add_item(12, MenuItemType::ENTRY,
+			MenuItem::OP_SPELLCASTING_IN_SURPRISE_ROUND,
 			(*_display->string)["GAME_SPELL_CASTING_SURPRISE_ROUND"], true,
 			ConfigOption::SPELLCASTING_IN_SURPRISE_ROUND,
 			(*_display->string)["HINT_GAME_SPELL_CASTING_SURPRISE_ROUND"]);
-		_add_item(13, MenuItemType::ENTRY, MenuItem::OP_BATCH_HEALING_AFTER_RETURN_TO_CASTLE,
+		_add_item(13, MenuItemType::ENTRY,
+			MenuItem::OP_BATCH_HEALING_AFTER_RETURN_TO_CASTLE,
 			(*_display->string)["GAME_BATCH_HEALING_AFTER_RETURN"], true,
 			ConfigOption::BATCH_HEALING_AFTER_RETURN_TO_CASTLE,
 			(*_display->string)["HINT_GAME_BATCH_HEALING_AFTER_RETURN"]);
 		_add_item(14, MenuItemType::ENTRY, MenuItem::OP_REROLL_ONES_ON_DICE,
-			(*_display->string)["GAME_REROLL_ONES"], true, ConfigOption::REROLL_ONES_ON_DICE,
+			(*_display->string)["GAME_REROLL_ONES"], true,
+			ConfigOption::REROLL_ONES_ON_DICE,
 			(*_display->string)["HINT_GAME_REROLL_ONES"]);
 
 		_add_item(15, MenuItemType::ENTRY, MenuItem::OP_ALLOW_LOST_LEGATED,
-			(*_display->string)["GAME_ALLOW_LOST_LEGATED"], true, ConfigOption::ALLOW_LOST_LEGATED,
+			(*_display->string)["GAME_ALLOW_LOST_LEGATED"], true,
+			ConfigOption::ALLOW_LOST_LEGATED,
 			(*_display->string)["HINT_GAME_ALLOW_LOST_LEGATED"]);
 
 		_add_item(16, MenuItemType::ENTRY, MenuItem::OP_ALLOW_CURABLE_DRAIN,
@@ -267,19 +315,23 @@ Sorcery::Menu::Menu(
 			ConfigOption::ALLOW_SHARED_INVENTORY,
 			(*_display->string)["HINT_GAME_ALLOW_SHARED_INVENTORY"]);
 
-		_add_item(18, MenuItemType::ENTRY, MenuItem::OP_CAMPING_RESTORE_SPELL_POINTS,
+		_add_item(18, MenuItemType::ENTRY,
+			MenuItem::OP_CAMPING_RESTORE_SPELL_POINTS,
 			(*_display->string)["GAME_CAMPING_SPELL_POINTS"], true,
 			ConfigOption::CAMPING_RESTORE_SPELL_POINTS,
 			(*_display->string)["HINT_GAME_CAMPING_SPELL_POINTS"]);
 
 		_add_item(19, MenuItemType::ENTRY, MenuItem::OP_CHARGED_ITEMS,
-			(*_display->string)["GAME_CHARGED_ITEMS"], true, ConfigOption::CHARGED_ITEMS,
+			(*_display->string)["GAME_CHARGED_ITEMS"], true,
+			ConfigOption::CHARGED_ITEMS,
 			(*_display->string)["HINT_GAME_CHARGED_ITEMS"]);
 
-		_add_item(20, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
-		_add_item(21, MenuItemType::SAVE, MenuItem::SAVE, (*_display->string)["MENU_OPTIONS_SAVE"]);
-		_add_item(
-			22, MenuItemType::CANCEL, MenuItem::CANCEL, (*_display->string)["MENU_OPTIONS_CANCEL"]);
+		_add_item(20, MenuItemType::SPACER, MenuItem::SPACER,
+			(*_display->string)["MENU_SPACER"]);
+		_add_item(21, MenuItemType::SAVE, MenuItem::SAVE,
+			(*_display->string)["MENU_OPTIONS_SAVE"]);
+		_add_item(22, MenuItemType::CANCEL, MenuItem::CANCEL,
+			(*_display->string)["MENU_OPTIONS_CANCEL"]);
 		selected = items.begin();
 		break;
 	case MenuType::PAUSE:
@@ -289,7 +341,8 @@ Sorcery::Menu::Menu(
 	}
 }
 
-// The Character Menu is a special case and needs to be reloaded often when names and classes change
+// The Character Menu is a special case and needs to be reloaded often when
+// names and classes change
 auto Sorcery::Menu::reload() -> void {
 
 	// Clear the Items
@@ -302,7 +355,7 @@ auto Sorcery::Menu::reload() -> void {
 	// Now depending on the menu type, add the relevant items
 	switch (_type) {
 	case MenuType::CHARACTER_ROSTER:
-		_populate_character_menu();
+		_populate_chars();
 		selected = items.begin();
 		break;
 	default:
@@ -322,42 +375,44 @@ auto Sorcery::Menu::get_type() -> MenuType {
 }
 
 // Add an item to the Menu
-auto Sorcery::Menu::_add_item(
-	int index, const MenuItemType itemtype, const MenuItem code, std::string key) -> void {
+auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype,
+	const MenuItem code, std::string key) -> void {
 
 	// Note passing key by value as we are modifying the key here
 	if (key.length() % 2 == 0)
 		key.resize(key.length() + 1, 32);
 
 	std::string hint{};
-	items.push_back(
-		{static_cast<unsigned int>(index), itemtype, code, key, true, ConfigOption::NONE, hint});
+	items.push_back({static_cast<unsigned int>(index), itemtype, code, key,
+		true, ConfigOption::NONE, hint});
 	++count;
 }
 
 // Add an item to the Menu
-auto Sorcery::Menu::_add_item(const int index, const MenuItemType itemtype, const MenuItem code,
-	std::string key, const bool enabled, const ConfigOption option, const std::string hint)
-	-> void {
+auto Sorcery::Menu::_add_item(const int index, const MenuItemType itemtype,
+	const MenuItem code, std::string key, const bool enabled,
+	const ConfigOption option, const std::string hint) -> void {
 
 	// Note passing key by value as we are modifying the key here
 	if (key.length() % 2 == 0)
 		key.resize(key.length() + 1, 32);
 
-	items.push_back({static_cast<unsigned int>(index), itemtype, code, key, enabled, option, hint});
+	items.push_back({static_cast<unsigned int>(index), itemtype, code, key,
+		enabled, option, hint});
 	++count;
 }
 
 // Select the first enabled menu item
-auto Sorcery::Menu::_select_first_enabled()
+auto Sorcery::Menu::_select_first()
 	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
-	auto it{std::find_if(items.begin(), items.end(), [&](const auto &menu_item) {
-		return (
-			((menu_item.type == MenuItemType::ENTRY) || (menu_item.type == MenuItemType::SAVE) ||
-				(menu_item.type == MenuItemType::CANCEL)) &&
-			(menu_item.enabled));
-	})};
+	auto it{
+		std::find_if(items.begin(), items.end(), [&](const auto &menu_item) {
+			return (((menu_item.type == MenuItemType::ENTRY) ||
+						(menu_item.type == MenuItemType::SAVE) ||
+						(menu_item.type == MenuItemType::CANCEL)) &&
+					(menu_item.enabled));
+		})};
 
 	if (it != items.end()) {
 		selected = it;
@@ -367,13 +422,16 @@ auto Sorcery::Menu::_select_first_enabled()
 }
 
 // Select the last enabled menu item
-auto Sorcery::Menu::_select_last_enabled()
+auto Sorcery::Menu::_select_last()
 	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
-	// Would be nice to use a ranges reverse view to handle this, or a std::find_last_if, instead we
-	// have to do a forward iterator backwards since we can't use a backwards iterator either!
-	for (std::vector<MenuEntry>::const_iterator it = items.end() - 1; it != items.begin(); --it)
-		if ((((*it).type == MenuItemType::ENTRY) || ((*it).type == MenuItemType::SAVE) ||
+	// Would be nice to use a ranges reverse view to handle this, or a
+	// std::find_last_if, instead we have to do a forward iterator backwards
+	// since we can't use a backwards iterator either!
+	for (std::vector<MenuEntry>::const_iterator it = items.end() - 1;
+		 it != items.begin(); --it)
+		if ((((*it).type == MenuItemType::ENTRY) ||
+				((*it).type == MenuItemType::SAVE) ||
 				((*it).type == MenuItemType::CANCEL)) &&
 			((*it).enabled)) {
 			selected = it;
@@ -389,13 +447,14 @@ auto Sorcery::Menu::check_menu_mouseover(sf::Vector2f mouse_pos)
 
 	if (bounds.size() > 0) {
 
-		// Look for the bounds the mouse cursor is in, but return the associated item with the same
-		// index, since both containers track each other
+		// Look for the bounds the mouse cursor is in, but return the associated
+		// item with the same index, since both containers track each other
 		const sf::Vector2f global_pos{this->getPosition()};
 		mouse_pos -= global_pos;
-		auto it{std::find_if(bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) {
-			return item.contains(mouse_pos);
-		})};
+		auto it{std::find_if(
+			bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) {
+				return item.contains(mouse_pos);
+			})};
 		if (it != bounds.end()) {
 			auto dist{std::distance(bounds.begin(), it)};
 			return items.begin() + dist;
@@ -403,8 +462,8 @@ auto Sorcery::Menu::check_menu_mouseover(sf::Vector2f mouse_pos)
 			return std::nullopt;
 	}
 
-	// If we reach here it means that bounds (which requites a draw to take place, hasn't been
-	// populated yet)
+	// If we reach here it means that bounds (which requites a draw to take
+	// place, hasn't been populated yet)
 	return std::nullopt;
 }
 
@@ -414,13 +473,15 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
 
 	if (bounds.size() > 0) {
 
-		// Look for the bounds the mouse cursor is in, but select and return the associated item
-		// with the same index, since both containers track each other
+		// Look for the bounds the mouse cursor is in, but select and return the
+		// associated item with the same index, since both containers track each
+		// other
 		const sf::Vector2f global_pos{this->getPosition()};
 		mouse_pos -= global_pos;
-		auto it{std::find_if(bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) {
-			return item.contains(mouse_pos);
-		})};
+		auto it{std::find_if(
+			bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) {
+				return item.contains(mouse_pos);
+			})};
 		if (it != bounds.end()) {
 			auto dist{std::distance(bounds.begin(), it)};
 			auto candidate{items.begin() + dist};
@@ -433,8 +494,8 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
 			return std::nullopt;
 	}
 
-	// If we reach here it means that bounds (which requites a draw to take place, hasn't been
-	// populated yet)
+	// If we reach here it means that bounds (which requites a draw to take
+	// place, hasn't been populated yet)
 	return std::nullopt;
 }
 
@@ -554,36 +615,43 @@ auto Sorcery::Menu::choose(const unsigned int index)
 	else
 		return std::nullopt;
 
-	// If we reach here the mouse cursor is outside the items so we don't do anything
+	// If we reach here the mouse cursor is outside the items so we don't do
+	// anything
 	return std::nullopt;
 }
 
-auto Sorcery::Menu::choose_first() -> std::optional<std::vector<MenuEntry>::const_iterator> {
+auto Sorcery::Menu::choose_first()
+	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
-	return _select_first_enabled();
+	return _select_first();
 }
-auto Sorcery::Menu::choose_last() -> std::optional<std::vector<MenuEntry>::const_iterator> {
+auto Sorcery::Menu::choose_last()
+	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
-	return _select_last_enabled();
+	return _select_last();
 }
 
 // Choose the previous selected item
-auto Sorcery::Menu::choose_previous() -> std::optional<std::vector<MenuEntry>::const_iterator> {
+auto Sorcery::Menu::choose_previous()
+	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	if (selected > items.begin()) {
 
-		// Repeat the comment from above, that it would be nice to use a ranges reverse view to
-		// handle this, or a std::find_last_if, instead we have to do a forward iterator backwards
-		// since we can't use a backwards iterator either!
+		// Repeat the comment from above, that it would be nice to use a ranges
+		// reverse view to handle this, or a std::find_last_if, instead we have
+		// to do a forward iterator backwards since we can't use a backwards
+		// iterator either!
 
-		// Iterate backwards until we find the first previous enabled menu if we can
+		// Iterate backwards until we find the first previous enabled menu if we
+		// can
 		bool found{false};
 		std::vector<MenuEntry>::const_iterator working{selected};
 		do {
 			--working;
-			found = ((*working).enabled) && (((*working).type == MenuItemType::ENTRY) ||
-												((*working).type == MenuItemType::SAVE) ||
-												((*working).type == MenuItemType::CANCEL));
+			found = ((*working).enabled) &&
+					(((*working).type == MenuItemType::ENTRY) ||
+						((*working).type == MenuItemType::SAVE) ||
+						((*working).type == MenuItemType::CANCEL));
 		} while ((working >= items.begin()) && (!found));
 		if (found) {
 			selected = working;
@@ -596,7 +664,8 @@ auto Sorcery::Menu::choose_previous() -> std::optional<std::vector<MenuEntry>::c
 }
 
 // Choose the next selected item
-auto Sorcery::Menu::choose_next() -> std::optional<std::vector<MenuEntry>::const_iterator> {
+auto Sorcery::Menu::choose_next()
+	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	if (selected < (items.end() - 1)) {
 
@@ -605,9 +674,10 @@ auto Sorcery::Menu::choose_next() -> std::optional<std::vector<MenuEntry>::const
 		std::vector<MenuEntry>::const_iterator working{selected};
 		do {
 			++working;
-			found = ((*working).enabled) && (((*working).type == MenuItemType::ENTRY) ||
-												((*working).type == MenuItemType::SAVE) ||
-												((*working).type == MenuItemType::CANCEL));
+			found = ((*working).enabled) &&
+					(((*working).type == MenuItemType::ENTRY) ||
+						((*working).type == MenuItemType::SAVE) ||
+						((*working).type == MenuItemType::CANCEL));
 		} while ((working <= items.end() - 1) && (!found));
 		if (found) {
 			selected = working;
@@ -635,8 +705,8 @@ auto Sorcery::Menu::generate(Component &component) -> void {
 		const sf::Vector2f global_pos(component.x, component.y);
 
 		// Work out total size of texture needed
-		const auto texture_w{component.w * _display->window->get_cell_width()};
-		const auto texture_h{component.h * _display->window->get_cell_height()};
+		const auto texture_w{component.w * _display->window->get_cw()};
+		const auto texture_h{component.h * _display->window->get_ch()};
 		const sf::Vector2f texture_size(texture_w, texture_h);
 		_rtexture.create(texture_size.x, texture_size.y);
 
@@ -648,8 +718,10 @@ auto Sorcery::Menu::generate(Component &component) -> void {
 		for (const auto &item : items) {
 
 			auto current{items.begin() + index};
-			if ((item.type == MenuItemType::TEXT) || (item.type == MenuItemType::ENTRY) ||
-				(item.type == MenuItemType::SAVE) || (item.type == MenuItemType::CANCEL)) {
+			if ((item.type == MenuItemType::TEXT) ||
+				(item.type == MenuItemType::ENTRY) ||
+				(item.type == MenuItemType::SAVE) ||
+				(item.type == MenuItemType::CANCEL)) {
 				const std::string text_string{item.key};
 				sf::Text text{};
 				text.setFont(_system->resources->fonts[component.font]);
@@ -661,15 +733,18 @@ auto Sorcery::Menu::generate(Component &component) -> void {
 				text.setString(text_string);
 
 				// Check for alignment and set location appropriately
-				entry_x = (component.justification == Justification::CENTRE) ? texture_w / 2 : 0;
-				entry_y += _display->window->get_cell_height();
+				entry_x = (component.justification == Justification::CENTRE)
+							  ? texture_w / 2
+							  : 0;
+				entry_y += _display->window->get_ch();
 				text.setPosition(entry_x, entry_y);
 
 				// If we have a selected entry, change the background colour
 				if (selected == current) {
 					const sf::FloatRect bg_rect{text.getLocalBounds()};
-					sf::RectangleShape bg(sf::Vector2f(
-						component.w * _display->window->get_cell_width(), bg_rect.height + 2));
+					sf::RectangleShape bg(
+						sf::Vector2f(component.w * _display->window->get_cw(),
+							bg_rect.height + 2));
 					bg.setPosition(0, entry_y);
 					if (component.animated)
 						bg.setFillColor(_graphics->animation->selected_colour);
@@ -691,10 +766,12 @@ auto Sorcery::Menu::generate(Component &component) -> void {
 							text.setOrigin(text.getLocalBounds().width / 2.0f,
 								text.getLocalBounds().height / 2.0f);
 						else
-							text.setOrigin(0, text.getLocalBounds().height / 2.0f);
+							text.setOrigin(
+								0, text.getLocalBounds().height / 2.0f);
 					} else if ((item.type == MenuItemType::SAVE) ||
 							   (item.type == MenuItemType::CANCEL)) {
-						entry_x = (component.width * _display->window->get_cell_width()) / 2;
+						entry_x =
+							(component.width * _display->window->get_cw()) / 2;
 						text.setPosition(entry_x, entry_y);
 						text.setOrigin(text.getLocalBounds().width / 2.0f,
 							text.getLocalBounds().height / 2.0f);
@@ -710,47 +787,60 @@ auto Sorcery::Menu::generate(Component &component) -> void {
 				_texts.emplace_back(text);
 
 				// Now handle the mouse move/select (and tooltip generation)!
-				if ((item.type == MenuItemType::ENTRY) || (item.type == MenuItemType::SAVE) ||
+				if ((item.type == MenuItemType::ENTRY) ||
+					(item.type == MenuItemType::SAVE) ||
 					(item.type == MenuItemType::CANCEL)) {
 					const sf::FloatRect actual_rect{text.getGlobalBounds()};
 					bounds.push_back(actual_rect);
-					WindowTooltipList::iterator tt_it{_display->window->tooltips.find(item.hint)};
+					WindowTooltipList::iterator tt_it{
+						_display->window->tooltips.find(item.hint)};
 					if (tt_it == _display->window->tooltips.end())
 						_display->window->tooltips[item.hint] = actual_rect;
 				} else {
 					const sf::FloatRect actual_rect;
 					bounds.push_back(actual_rect);
-					WindowTooltipList::iterator tt_it{_display->window->tooltips.find(item.hint)};
+					WindowTooltipList::iterator tt_it{
+						_display->window->tooltips.find(item.hint)};
 					if (tt_it == _display->window->tooltips.end())
 						_display->window->tooltips[item.hint] = actual_rect;
 				}
 
 				// Add options in case of the Options Menu
-				if ((_type == MenuType::OPTIONS) && (item.type == MenuItemType::ENTRY)) {
+				if ((_type == MenuType::OPTIONS) &&
+					(item.type == MenuItemType::ENTRY)) {
 					option_y = entry_y;
-					option_x = component.w * _display->window->get_cell_width();
-					const bool option_value{(*_system->config)[item.config] ? true : false};
+					option_x = component.w * _display->window->get_cw();
+					const bool option_value{
+						(*_system->config)[item.config] ? true : false};
 					sf::Text option_text{};
 					if (option_value) {
 
 						// On
-						option_text.setFont(_system->resources->fonts[on_c.font]);
+						option_text.setFont(
+							_system->resources->fonts[on_c.font]);
 						option_text.setCharacterSize(on_c.size);
 						option_text.setFillColor(sf::Color(on_c.colour));
-						option_text.setString((*_display->string)[on_c.string_key]);
+						option_text.setString(
+							(*_display->string)[on_c.string_key]);
 						sf::FloatRect bounds{option_text.getLocalBounds()};
-						option_text.setPosition(option_x - bounds.width, option_y);
-						option_text.setOrigin(0, option_text.getLocalBounds().height / 2.0f);
+						option_text.setPosition(
+							option_x - bounds.width, option_y);
+						option_text.setOrigin(
+							0, option_text.getLocalBounds().height / 2.0f);
 					} else {
 
 						// Off
-						option_text.setFont(_system->resources->fonts[off_c.font]);
+						option_text.setFont(
+							_system->resources->fonts[off_c.font]);
 						option_text.setCharacterSize(off_c.size);
 						option_text.setFillColor(sf::Color(off_c.colour));
-						option_text.setString((*_display->string)[off_c.string_key]);
+						option_text.setString(
+							(*_display->string)[off_c.string_key]);
 						sf::FloatRect bounds{option_text.getLocalBounds()};
-						option_text.setPosition(option_x - bounds.width, option_y);
-						option_text.setOrigin(0, option_text.getLocalBounds().height / 2.0f);
+						option_text.setPosition(
+							option_x - bounds.width, option_y);
+						option_text.setOrigin(
+							0, option_text.getLocalBounds().height / 2.0f);
 					}
 
 					if (selected == current) {
@@ -765,7 +855,7 @@ auto Sorcery::Menu::generate(Component &component) -> void {
 				const sf::FloatRect actual_rect{};
 				bounds.push_back(actual_rect);
 				_texts.emplace_back(empty_text);
-				entry_y += _display->window->get_cell_height();
+				entry_y += _display->window->get_ch();
 			}
 			++index;
 		}
@@ -781,13 +871,17 @@ auto Sorcery::Menu::generate(Component &component) -> void {
 		const Component off_c{(*_display->layout)["options:off"]};
 		for (const auto &item : items) {
 			auto current{items.begin() + index};
-			entry_y += _display->window->get_cell_height();
-			if ((item.type == MenuItemType::TEXT) || (item.type == MenuItemType::ENTRY) ||
-				(item.type == MenuItemType::SAVE) || (item.type == MenuItemType::CANCEL)) {
+			entry_y += _display->window->get_ch();
+			if ((item.type == MenuItemType::TEXT) ||
+				(item.type == MenuItemType::ENTRY) ||
+				(item.type == MenuItemType::SAVE) ||
+				(item.type == MenuItemType::CANCEL)) {
 				if (selected == current) {
-					const sf::FloatRect bg_rect{_texts.at(index).getLocalBounds()};
-					sf::RectangleShape bg(sf::Vector2f(
-						component.w * _display->window->get_cell_width(), bg_rect.height + 2));
+					const sf::FloatRect bg_rect{
+						_texts.at(index).getLocalBounds()};
+					sf::RectangleShape bg(
+						sf::Vector2f(component.w * _display->window->get_cw(),
+							bg_rect.height + 2));
 					bg.setPosition(0, entry_y);
 					if (component.animated)
 						bg.setFillColor(_graphics->animation->selected_colour);
@@ -800,36 +894,51 @@ auto Sorcery::Menu::generate(Component &component) -> void {
 					_selected_bg = bg;
 				}
 
-				if ((_type == MenuType::OPTIONS) && (item.type == MenuItemType::ENTRY)) {
+				if ((_type == MenuType::OPTIONS) &&
+					(item.type == MenuItemType::ENTRY)) {
 
 					option_y = entry_y;
-					option_x = component.w * _display->window->get_cell_width();
-					const bool option_value{(*_system->config)[item.config] ? true : false};
+					option_x = component.w * _display->window->get_cw();
+					const bool option_value{
+						(*_system->config)[item.config] ? true : false};
 					if (option_value) {
 
 						// On
-						_options.at(options_index).setString((*_display->string)[on_c.string_key]);
-						sf::FloatRect bounds{_options.at(options_index).getLocalBounds()};
-						_options.at(options_index).setPosition(option_x - bounds.width, option_y);
 						_options.at(options_index)
-							.setOrigin(
-								0, _options.at(options_index).getLocalBounds().height / 2.0f);
-						_options.at(options_index).setFillColor(sf::Color(on_c.colour));
+							.setString((*_display->string)[on_c.string_key]);
+						sf::FloatRect bounds{
+							_options.at(options_index).getLocalBounds()};
+						_options.at(options_index)
+							.setPosition(option_x - bounds.width, option_y);
+						_options.at(options_index)
+							.setOrigin(0, _options.at(options_index)
+												  .getLocalBounds()
+												  .height /
+											  2.0f);
+						_options.at(options_index)
+							.setFillColor(sf::Color(on_c.colour));
 					} else {
 
 						// Off
-						_options.at(options_index).setString((*_display->string)[off_c.string_key]);
-						sf::FloatRect bounds{_options.at(options_index).getLocalBounds()};
-						_options.at(options_index).setPosition(option_x - bounds.width, option_y);
 						_options.at(options_index)
-							.setOrigin(
-								0, _options.at(options_index).getLocalBounds().height / 2.0f);
+							.setString((*_display->string)[off_c.string_key]);
+						sf::FloatRect bounds{
+							_options.at(options_index).getLocalBounds()};
+						_options.at(options_index)
+							.setPosition(option_x - bounds.width, option_y);
+						_options.at(options_index)
+							.setOrigin(0, _options.at(options_index)
+												  .getLocalBounds()
+												  .height /
+											  2.0f);
 
-						_options.at(options_index).setFillColor(sf::Color(off_c.colour));
+						_options.at(options_index)
+							.setFillColor(sf::Color(off_c.colour));
 					}
 
 					if (selected == current) {
-						_options.at(options_index).setOutlineColor(sf::Color(0, 0, 0));
+						_options.at(options_index)
+							.setOutlineColor(sf::Color(0, 0, 0));
 						_options.at(options_index).setOutlineThickness(2);
 					}
 					++options_index;
@@ -840,7 +949,8 @@ auto Sorcery::Menu::generate(Component &component) -> void {
 	}
 }
 
-auto Sorcery::Menu::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::Menu::draw(
+	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 
@@ -853,20 +963,22 @@ auto Sorcery::Menu::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 			target.draw(option, states);
 }
 
-auto Sorcery::Menu::_populate_character_menu() -> void {
+auto Sorcery::Menu::_populate_chars() -> void {
 
 	unsigned int max_id{0};
 	if (_game->characters.size() > 0) {
 
 		for (auto &[character_id, character] : _game->characters)
-			_add_item(
-				character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
+			_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER,
+				character.get_summary());
 
 		max_id = _game->characters.rbegin()->first;
 	} else {
 		_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING,
 			(*_display->string)["MENU_NO_CHARACTERS"]);
 	}
-	_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
-	_add_item(++max_id, MenuItemType::ENTRY, MenuItem::ET_TRAIN, (*_display->string)["MENU_TRAIN"]);
+	_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER,
+		(*_display->string)["MENU_SPACER"]);
+	_add_item(++max_id, MenuItemType::ENTRY, MenuItem::ET_TRAIN,
+		(*_display->string)["MENU_TRAIN"]);
 }

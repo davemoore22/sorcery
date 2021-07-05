@@ -231,9 +231,8 @@ auto Sorcery::AttributeDisplay::set() -> void {
 
 		auto bar{_get_bar(attribute)};
 		if (_alignment == Alignment::VERTICAL) {
-			bar.setPosition(
-				(_bar_c.w / 3) + _bar_c.x +
-					(x * _display->window->get_cell_width() * _bar_c.scale),
+			bar.setPosition((_bar_c.w / 3) + _bar_c.x +
+								(x * _display->window->get_cw() * _bar_c.scale),
 				_bar_c.y + _bar_c.size * 2);
 			bar.scale(1.0f, -1.0f);
 		} else {
@@ -242,7 +241,7 @@ auto Sorcery::AttributeDisplay::set() -> void {
 				_text_c.y + (y * _text_c.size));
 			bar.setPosition((_bar_c.x + std::stoi(_bar_c["offset_x"].value())),
 				(_bar_c.h / 3) + _bar_c.y +
-					(y * _display->window->get_cell_height() * _bar_c.scale));
+					(y * _display->window->get_ch() * _bar_c.scale));
 			_texts.push_back(text);
 		};
 

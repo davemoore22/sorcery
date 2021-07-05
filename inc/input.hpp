@@ -37,7 +37,7 @@ namespace Sorcery {
 		// Public Members
 
 		// Public Methods
-		auto check_for_event(WindowInput input, sf::Event event) -> bool;
+		auto check(WindowInput input, sf::Event event) -> bool;
 
 	  private:
 		// Private Methods

@@ -51,8 +51,8 @@ namespace Sorcery {
 		auto draw_text(sf::Text &text, const Component &component,
 			const std::string &string, const double lerp) -> void;
 		auto draw_gui() -> void;
-		auto get_cell_height() const -> unsigned int;
-		auto get_cell_width() const -> unsigned int;
+		auto get_ch() const -> unsigned int;
+		auto get_cw() const -> unsigned int;
 		auto get_cursor() const -> sf::Sprite;
 		auto get_gui() -> tgui::Gui *;
 		auto get_window() -> sf::RenderWindow *;
@@ -64,17 +64,15 @@ namespace Sorcery {
 		auto get_y(const sf::Text &text, int y_position) const -> unsigned int;
 		auto get_x(unsigned int width, int x_position) const -> unsigned int;
 		auto get_y(unsigned int width, int y_position) const -> unsigned int;
-		auto highlight_text(sf::Text &text, Component component, double lerp)
+		auto hl_text(sf::Text &text, Component component, double lerp)
 			-> sf::RectangleShape;
-		auto get_text_y_adjustment(sf::Text &text, Component &component) -> int;
 		auto shove_text(
 			sf::Text &shovee, sf::Text &shover, unsigned int gap_units) -> void;
 		auto shove_text(sf::Text &shovee, sf::Text &shover, float gap_units)
 			-> void;
 		auto set_input_mode(WindowInputMode value) -> void;
 		auto get_input_mode() const -> WindowInputMode;
-		auto set_position_with_offset(
-			Component *component, sf::Transformable *object) -> void;
+		auto set_pos(Component *component, sf::Transformable *object) -> void;
 
 		// Public Members
 		std::vector<sf::Sprite> sprites;

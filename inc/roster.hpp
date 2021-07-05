@@ -69,14 +69,14 @@ namespace Sorcery {
 		std::shared_ptr<Menu> _menu;
 		sf::Sprite _bg;
 		std::unique_ptr<Frame> _menu_frame;
-		std::optional<Character *> _current_character;
-		std::unique_ptr<Frame> _current_character_frame;
+		std::optional<Character *> _cur_char;
+		std::unique_ptr<Frame> _cur_char_frame;
 		RosterMode _mode;
 		std::string _screen_key;
-		std::unique_ptr<CharPanel> _character_panel;
-		int _current_character_idx;
+		std::unique_ptr<CharPanel> _char_panel;
+		int _cur_char_id;
 		std::unique_ptr<Frame> _preview_frame;
-		std::unique_ptr<Dialog> _dialog_delete;
+		std::unique_ptr<Dialog> _delete;
 		std::unique_ptr<Edit> _edit;
 	};
 } // namespace Sorcery

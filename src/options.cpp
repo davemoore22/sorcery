@@ -44,25 +44,25 @@ Sorcery::Options::Options(System *system, Display *display, Graphics *graphics)
 	//_tt = std::make_shared<Tooltip>(_system, _display, _graphics);
 
 	// Create the Confirmation Dialog Boxes
-	_dialog_confirm_save = std::make_shared<Dialog>(_system, _display,
-		_graphics, (*_display->layout)["options:dialog_confirm_save"],
+	_confirm_save = std::make_shared<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["options:dialog_confirm_save"],
 		(*_display->layout)["options:dialog_confirm_save_text"],
 		WindowDialogType::CONFIRM);
-	_dialog_confirm_save->setPosition(
+	_confirm_save->setPosition(
 		(*_display->layout)["options:dialog_confirm_save"].x,
 		(*_display->layout)["options:dialog_confirm_save"].y);
-	_dialog_confirm_cancel = std::make_shared<Dialog>(_system, _display,
-		_graphics, (*_display->layout)["options:dialog_confirm_cancel"],
+	_confirm_cancel = std::make_shared<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["options:dialog_confirm_cancel"],
 		(*_display->layout)["options:dialog_confirm_cancel_text"],
 		WindowDialogType::CONFIRM);
-	_dialog_confirm_cancel->setPosition(
+	_confirm_cancel->setPosition(
 		(*_display->layout)["options:dialog_confirm_cancel"].x,
 		(*_display->layout)["options:dialog_confirm_cancel"].y);
-	_dialog_confirm_strict_on = std::make_shared<Dialog>(_system, _display,
-		_graphics, (*_display->layout)["options:dialog_confirm_strict_on"],
+	_confirm_strict = std::make_shared<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["options:dialog_confirm_strict_on"],
 		(*_display->layout)["options:dialog_confirm_strict_on_text"],
 		WindowDialogType::CONFIRM);
-	_dialog_confirm_strict_on->setPosition(
+	_confirm_strict->setPosition(
 		(*_display->layout)["options:dialog_confirm_strict_on"].x,
 		(*_display->layout)["options:dialog_confirm_strict_on"].y);
 }
@@ -97,7 +97,7 @@ auto Sorcery::Options::start() -> bool {
 	_menu->choose_first();
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{
 		_menu->items.begin()};
-	_set_info_panel_contents(_menu->selected);
+	_set_infopanel(_menu->selected);
 
 	// And do the main loop
 	sf::Event event{};
@@ -111,25 +111,22 @@ auto Sorcery::Options::start() -> bool {
 				if (event.type == sf::Event::Closed)
 					return false;
 
-				if (_system->input->check_for_event(WindowInput::CANCEL, event))
+				if (_system->input->check(WindowInput::CANCEL, event))
 					return false;
 
 				// Handle enabling help overlay
-				if (_system->input->check_for_event(
-						WindowInput::SHOW_CONTROLS, event)) {
+				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
 					continue;
 				} else
 					_display->hide_overlay();
 
 				// And handle input on the main menu
-				if (_system->input->check_for_event(WindowInput::UP, event)) {
+				if (_system->input->check(WindowInput::UP, event)) {
 					selected = _menu->choose_previous();
-				} else if (_system->input->check_for_event(
-							   WindowInput::DOWN, event)) {
+				} else if (_system->input->check(WindowInput::DOWN, event)) {
 					selected = _menu->choose_next();
-				} else if (_system->input->check_for_event(
-							   WindowInput::MOVE, event)) {
+				} else if (_system->input->check(WindowInput::MOVE, event)) {
 					selected =
 						_menu->set_mouse_selected(static_cast<sf::Vector2f>(
 							sf::Mouse::getPosition(*_window)));
@@ -141,8 +138,7 @@ auto Sorcery::Options::start() -> bool {
 						//_display_tt = false;
 					}
 
-				} else if (_system->input->check_for_event(
-							   WindowInput::CONFIRM, event)) {
+				} else if (_system->input->check(WindowInput::CONFIRM, event)) {
 					if (selected) {
 						if ((*_menu->selected).type == MenuItemType::ENTRY) {
 							const ConfigOption config_to_toggle{
@@ -200,7 +196,7 @@ auto Sorcery::Options::start() -> bool {
 					}
 				}
 
-				_set_info_panel_contents(_menu->selected);
+				_set_infopanel(_menu->selected);
 
 			} else if ((_display->get_input_mode() ==
 						   WindowInputMode::CONFIRM_STRICT_MODE) ||
@@ -213,8 +209,7 @@ auto Sorcery::Options::start() -> bool {
 				if (event.type == sf::Event::Closed)
 					return false;
 
-				if (_system->input->check_for_event(
-						WindowInput::SHOW_CONTROLS, event)) {
+				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
 					continue;
 				} else
@@ -223,8 +218,7 @@ auto Sorcery::Options::start() -> bool {
 				// All we can do is select Y or N
 				if (_display->get_input_mode() ==
 					WindowInputMode::CONFIRM_STRICT_MODE) {
-					auto dialog_input{
-						_dialog_confirm_strict_on->handle_input(event)};
+					auto dialog_input{_confirm_strict->handle_input(event)};
 					if (dialog_input) {
 						if (dialog_input.value() == WindowDialogButton::CLOSE) {
 							_display->set_input_mode(
@@ -245,8 +239,7 @@ auto Sorcery::Options::start() -> bool {
 					}
 				} else if (_display->get_input_mode() ==
 						   WindowInputMode::SAVE_CHANGES) {
-					auto dialog_input{
-						_dialog_confirm_save->handle_input(event)};
+					auto dialog_input{_confirm_save->handle_input(event)};
 					if (dialog_input) {
 						if (dialog_input.value() == WindowDialogButton::CLOSE) {
 							_display->set_input_mode(
@@ -267,8 +260,7 @@ auto Sorcery::Options::start() -> bool {
 				} else if (_display->get_input_mode() ==
 						   WindowInputMode::CANCEL_CHANGES) {
 
-					auto dialog_input{
-						_dialog_confirm_cancel->handle_input(event)};
+					auto dialog_input{_confirm_cancel->handle_input(event)};
 					if (dialog_input) {
 						if (dialog_input.value() == WindowDialogButton::CLOSE) {
 							_display->set_input_mode(
@@ -308,7 +300,7 @@ auto Sorcery::Options::stop() -> void {
 	_display->stop_bg_movie();
 }
 
-auto Sorcery::Options::_set_info_panel_contents(
+auto Sorcery::Options::_set_infopanel(
 	std::vector<Sorcery::MenuEntry>::const_iterator it) -> void {
 
 	// Set the Text
@@ -334,14 +326,14 @@ auto Sorcery::Options::_draw() -> void {
 	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 	if (_display->get_input_mode() == WindowInputMode::CONFIRM_STRICT_MODE) {
-		_dialog_confirm_strict_on->update();
-		_window->draw(*_dialog_confirm_strict_on);
+		_confirm_strict->update();
+		_window->draw(*_confirm_strict);
 	} else if (_display->get_input_mode() == WindowInputMode::SAVE_CHANGES) {
-		_dialog_confirm_save->update();
-		_window->draw(*_dialog_confirm_save);
+		_confirm_save->update();
+		_window->draw(*_confirm_save);
 	} else if (_display->get_input_mode() == WindowInputMode::CANCEL_CHANGES) {
-		_dialog_confirm_cancel->update();
-		_window->draw(*_dialog_confirm_cancel);
+		_confirm_cancel->update();
+		_window->draw(*_confirm_cancel);
 	} /* else if (_display_tt) {
 		sf::Vector2i tooltip_position{sf::Mouse::getPosition(*_window)};
 		tooltip_position.x += 10;

@@ -32,7 +32,7 @@ Sorcery::Roster::Roster(System *system, Display *display, Graphics *graphics,
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
-	_current_character = std::nullopt;
+	_cur_char = std::nullopt;
 
 	// Same object can be used in three different modes
 	switch (_mode) {
@@ -49,16 +49,15 @@ Sorcery::Roster::Roster(System *system, Display *display, Graphics *graphics,
 		break;
 	}
 
-	_character_panel =
-		std::make_unique<CharPanel>(_system, _display, _graphics);
+	_char_panel = std::make_unique<CharPanel>(_system, _display, _graphics);
 
 	_edit = std::make_unique<Edit>(_system, _display, _graphics, _game);
 
-	_dialog_delete = std::make_unique<Dialog>(_system, _display, _graphics,
+	_delete = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["roster_delete:dialog_delete_character"],
 		(*_display->layout)["roster_delete:dialog_delete_character_text"],
 		WindowDialogType::CONFIRM);
-	_dialog_delete->setPosition(
+	_delete->setPosition(
 		(*_display->layout)["roster_delete:dialog_delete_character"].x,
 		(*_display->layout)["roster_delete:dialog_delete_character"].y);
 }
@@ -74,7 +73,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 	_menu.reset();
 	_menu = std::make_shared<Menu>(
 		_system, _display, _graphics, _game, MenuType::CHARACTER_ROSTER);
-	_current_character_idx = -1;
+	_cur_char_id = -1;
 
 	// Get the Background Display Components and load them into Display module
 	// storage (not local)
@@ -118,12 +117,12 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 
 	const Component cc_fc{
 		(*_display->layout)[_screen_key + ":character_frame"]};
-	_current_character_frame =
+	_cur_char_frame =
 		std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL,
 			cc_fc.w, cc_fc.h, cc_fc.colour, cc_fc.background, cc_fc.alpha);
-	_current_character_frame->setPosition(
-		_display->window->get_x(_current_character_frame->sprite, cc_fc.x),
-		_display->window->get_y(_current_character_frame->sprite, cc_fc.y));
+	_cur_char_frame->setPosition(
+		_display->window->get_x(_cur_char_frame->sprite, cc_fc.x),
+		_display->window->get_y(_cur_char_frame->sprite, cc_fc.y));
 
 	const Component p_fc{(*_display->layout)["roster:preview_frame"]};
 	_preview_frame =
@@ -154,8 +153,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 				_window->close();
 
 			// Handle enabling help overlay
-			if (_system->input->check_for_event(
-					WindowInput::SHOW_CONTROLS, event)) {
+			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
@@ -163,24 +161,21 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 
 			if (_display->get_input_mode() == WindowInputMode::NAVIGATE_MENU) {
 
-				if (_system->input->check_for_event(WindowInput::CANCEL, event))
+				if (_system->input->check(WindowInput::CANCEL, event))
 					return std::nullopt;
 
-				if (_system->input->check_for_event(WindowInput::BACK, event))
+				if (_system->input->check(WindowInput::BACK, event))
 					return std::nullopt;
 
-				if (_system->input->check_for_event(WindowInput::UP, event))
+				if (_system->input->check(WindowInput::UP, event))
 					selected = _menu->choose_previous();
-				else if (_system->input->check_for_event(
-							 WindowInput::DOWN, event))
+				else if (_system->input->check(WindowInput::DOWN, event))
 					selected = _menu->choose_next();
-				else if (_system->input->check_for_event(
-							 WindowInput::MOVE, event))
+				else if (_system->input->check(WindowInput::MOVE, event))
 					selected =
 						_menu->set_mouse_selected(static_cast<sf::Vector2f>(
 							sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check_for_event(
-							 WindowInput::CONFIRM, event)) {
+				else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
 					// We have selected something from the menu
 					if (selected) {
@@ -188,7 +183,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 						if (option_chosen == MenuItem::ET_TRAIN) {
 							_display->set_input_mode(
 								WindowInputMode::NAVIGATE_MENU);
-							_current_character = std::nullopt;
+							_cur_char = std::nullopt;
 							return std::nullopt;
 						} else {
 
@@ -196,21 +191,21 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 
 								const auto character_chosen{
 									(*selected.value()).index};
-								_current_character =
+								_cur_char =
 									&_game->characters.at(character_chosen);
-								if (_current_character) {
+								if (_cur_char) {
 									_display->set_input_mode(
 										WindowInputMode::BROWSE_CHARACTER);
-									_current_character.value()->set_view(
+									_cur_char.value()->set_view(
 										CharacterView::SUMMARY);
 								}
 							} else if (_mode == RosterMode::DELETE) {
 
 								const auto character_chosen{
 									(*selected.value()).index};
-								_current_character =
+								_cur_char =
 									&_game->characters.at(character_chosen);
-								if (_current_character) {
+								if (_cur_char) {
 									_display->set_input_mode(WindowInputMode::
 											CONFIRM_DELETE_CHARACTER);
 								}
@@ -221,10 +216,9 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 								_edit->start(character_chosen);
 								_edit->stop();
 								_menu->reload();
-								_current_character =
+								_cur_char =
 									&_game->characters.at(character_chosen);
-								_character_panel->set(
-									_current_character.value());
+								_char_panel->set(_cur_char.value());
 								_display->generate("character_edit");
 								_display->set_input_mode(
 									WindowInputMode::NAVIGATE_MENU);
@@ -237,21 +231,21 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 					if ((*selected.value()).item != MenuItem::ET_TRAIN) {
 						const int character_chosen{
 							static_cast<int>((*selected.value()).index)};
-						if (character_chosen != _current_character_idx) {
+						if (character_chosen != _cur_char_id) {
 							auto character{
 								&_game->characters.at(character_chosen)};
-							_character_panel->set(character);
-							_current_character_idx = character_chosen;
+							_char_panel->set(character);
+							_cur_char_id = character_chosen;
 						}
 					} else {
-						_character_panel->valid = false;
-						_current_character_idx = -1;
+						_char_panel->valid = false;
+						_cur_char_id = -1;
 					}
 				}
 			} else if (_display->get_input_mode() ==
 					   WindowInputMode::CONFIRM_DELETE_CHARACTER) {
 
-				auto dialog_input{_dialog_delete->handle_input(event)};
+				auto dialog_input{_delete->handle_input(event)};
 				if (dialog_input) {
 					if (dialog_input.value() == WindowDialogButton::CLOSE) {
 						return std::nullopt;
@@ -262,7 +256,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 
 						// Delete a character!
 						_system->database->delete_char(
-							_game->get_id(), _current_character_idx);
+							_game->get_id(), _cur_char_id);
 
 						// Need to reload the menu!
 						_game->reload_all_char();
@@ -282,53 +276,41 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 
 			} else {
 
-				if (_system->input->check_for_event(WindowInput::LEFT, event))
-					_current_character.value()->left_view();
-				else if (_system->input->check_for_event(
-							 WindowInput::RIGHT, event))
-					_current_character.value()->right_view();
-				else if (_system->input->check_for_event(
-							 WindowInput::CANCEL, event)) {
+				if (_system->input->check(WindowInput::LEFT, event))
+					_cur_char.value()->left_view();
+				else if (_system->input->check(WindowInput::RIGHT, event))
+					_cur_char.value()->right_view();
+				else if (_system->input->check(WindowInput::CANCEL, event)) {
 					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-					_current_character = std::nullopt;
-				} else if (_system->input->check_for_event(
-							   WindowInput::BACK, event)) {
+					_cur_char = std::nullopt;
+				} else if (_system->input->check(WindowInput::BACK, event)) {
 					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-					_current_character = std::nullopt;
-				} else if (_system->input->check_for_event(
-							   WindowInput::CONFIRM, event)) {
-					_current_character.value()->right_view();
-				} else if (_system->input->check_for_event(
-							   WindowInput::UP, event)) {
-					if (_current_character.value()->get_view() ==
+					_cur_char = std::nullopt;
+				} else if (_system->input->check(WindowInput::CONFIRM, event)) {
+					_cur_char.value()->right_view();
+				} else if (_system->input->check(WindowInput::UP, event)) {
+					if (_cur_char.value()->get_view() ==
 						CharacterView::MAGE_SPELLS)
-						_current_character.value()->dec_hl_spell(
-							SpellType::MAGE);
-					else if (_current_character.value()->get_view() ==
+						_cur_char.value()->dec_hl_spell(SpellType::MAGE);
+					else if (_cur_char.value()->get_view() ==
 							 CharacterView::PRIEST_SPELLS)
-						_current_character.value()->dec_hl_spell(
-							SpellType::PRIEST);
+						_cur_char.value()->dec_hl_spell(SpellType::PRIEST);
 
-				} else if (_system->input->check_for_event(
-							   WindowInput::DOWN, event)) {
-					if (_current_character.value()->get_view() ==
+				} else if (_system->input->check(WindowInput::DOWN, event)) {
+					if (_cur_char.value()->get_view() ==
 						CharacterView::MAGE_SPELLS)
-						_current_character.value()->inc_hl_spell(
-							SpellType::MAGE);
-					else if (_current_character.value()->get_view() ==
+						_cur_char.value()->inc_hl_spell(SpellType::MAGE);
+					else if (_cur_char.value()->get_view() ==
 							 CharacterView::PRIEST_SPELLS)
-						_current_character.value()->inc_hl_spell(
-							SpellType::PRIEST);
-				} else if (_system->input->check_for_event(
-							   WindowInput::MOVE, event)) {
-					if (_current_character.value()->check_for_mouse_move(
-							sf::Vector2f(
-								static_cast<float>(
-									sf::Mouse::getPosition(*_window).x),
-								static_cast<float>(
-									sf::Mouse::getPosition(*_window).y)))) {
-						_current_character.value()->set_view(
-							_current_character.value()->get_view());
+						_cur_char.value()->inc_hl_spell(SpellType::PRIEST);
+				} else if (_system->input->check(WindowInput::MOVE, event)) {
+					if (_cur_char.value()->check_for_mouse_move(sf::Vector2f(
+							static_cast<float>(
+								sf::Mouse::getPosition(*_window).x),
+							static_cast<float>(
+								sf::Mouse::getPosition(*_window).y)))) {
+						_cur_char.value()->set_view(
+							_cur_char.value()->get_view());
 					}
 				}
 			}
@@ -361,25 +343,25 @@ auto Sorcery::Roster::_draw() -> void {
 	// Display Components
 	_display->display("roster");
 	if (_display->get_input_mode() == WindowInputMode::BROWSE_CHARACTER) {
-		if (_current_character) {
+		if (_cur_char) {
 
 			// Character Preview
 			_window->draw(*_preview_frame);
-			if (_character_panel->valid) {
-				_character_panel->setPosition(
+			if (_char_panel->valid) {
+				_char_panel->setPosition(
 					(*_display->layout)["roster:info_panel"].x,
 					(*_display->layout)["roster:info_panel"].y);
-				_window->draw(*_character_panel);
+				_window->draw(*_char_panel);
 			}
 
 			// If we have a character
-			_window->draw(*_current_character_frame);
+			_window->draw(*_cur_char_frame);
 
-			_current_character.value()->setPosition(
+			_cur_char.value()->setPosition(
 				(*_display->layout)[_screen_key + ":character"].x,
 				(*_display->layout)[_screen_key + ":character"].y);
-			_current_character.value()->update();
-			_window->draw(*_current_character.value());
+			_cur_char.value()->update();
+			_window->draw(*_cur_char.value());
 		}
 	} else if (_display->get_input_mode() ==
 			   WindowInputMode::CONFIRM_DELETE_CHARACTER) {
@@ -397,16 +379,15 @@ auto Sorcery::Roster::_draw() -> void {
 		_window->draw(*_menu);
 
 		// Character Preview
-		if (_character_panel->valid) {
-			_character_panel->setPosition(
-				(*_display->layout)["roster:info_panel"].x,
+		if (_char_panel->valid) {
+			_char_panel->setPosition((*_display->layout)["roster:info_panel"].x,
 				(*_display->layout)["roster:info_panel"].y);
-			_window->draw(*_character_panel);
+			_window->draw(*_char_panel);
 		}
 
-		if (_current_character) {
-			_dialog_delete->update();
-			_window->draw(*_dialog_delete);
+		if (_cur_char) {
+			_delete->update();
+			_window->draw(*_delete);
 		}
 	} else {
 
@@ -423,11 +404,10 @@ auto Sorcery::Roster::_draw() -> void {
 		_window->draw(*_menu);
 
 		// Character Preview
-		if (_character_panel->valid) {
-			_character_panel->setPosition(
-				(*_display->layout)["roster:info_panel"].x,
+		if (_char_panel->valid) {
+			_char_panel->setPosition((*_display->layout)["roster:info_panel"].x,
 				(*_display->layout)["roster:info_panel"].y);
-			_window->draw(*_character_panel);
+			_window->draw(*_char_panel);
 		}
 	}
 

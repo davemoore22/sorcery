@@ -69,17 +69,16 @@ auto Sorcery::ChangeName::start() -> std::optional<std::string> {
 				_window->close();
 
 			// Handle enabling help overlay
-			if (_system->input->check_for_event(
-					WindowInput::SHOW_CONTROLS, event)) {
+			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
 				_display->hide_overlay();
 
-			if (_system->input->check_for_event(WindowInput::CANCEL, event))
+			if (_system->input->check(WindowInput::CANCEL, event))
 				return std::nullopt;
 
-			if (_system->input->check_for_event(WindowInput::BACK, event))
+			if (_system->input->check(WindowInput::BACK, event))
 				return std::nullopt;
 
 			auto name_changed = _handle_change_name(event);
@@ -127,7 +126,7 @@ auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event)
 	-> std::optional<bool> {
 
 	std::string candidate_name{_new_name};
-	if (_system->input->check_for_event(WindowInput::MOVE, event)) {
+	if (_system->input->check(WindowInput::MOVE, event)) {
 
 		sf::Vector2f mouse_pos{
 			static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
@@ -136,9 +135,8 @@ auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event)
 			mouse_pos)};
 		if (mouse_selected)
 			_keyboard->selected = mouse_selected.value();
-	} else if ((_system->input->check_for_event(
-				   WindowInput::ALPHANUMERIC, event)) ||
-			   (_system->input->check_for_event(WindowInput::SPACE, event))) {
+	} else if ((_system->input->check(WindowInput::ALPHANUMERIC, event)) ||
+			   (_system->input->check(WindowInput::SPACE, event))) {
 		if (candidate_name.length() < 16) {
 			candidate_name += static_cast<char>(event.text.unicode);
 			_new_name = candidate_name;
@@ -150,13 +148,13 @@ auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event)
 			key_pressed.push_back(static_cast<char>(event.text.unicode));
 			_keyboard->selected = key_pressed;
 		}
-	} else if (_system->input->check_for_event(WindowInput::DELETE, event)) {
+	} else if (_system->input->check(WindowInput::DELETE, event)) {
 		if (candidate_name.length() > 0) {
 			candidate_name.pop_back();
 			_new_name = candidate_name;
 			_keyboard->selected = "Del";
 		}
-	} else if (_system->input->check_for_event(WindowInput::BACK, event)) {
+	} else if (_system->input->check(WindowInput::BACK, event)) {
 		if (candidate_name.length() > 0) {
 			candidate_name.pop_back();
 			_new_name = candidate_name;
@@ -166,7 +164,7 @@ auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event)
 			// Return if Back Button is selected and no character name is chosen
 			return false;
 		}
-	} else if (_system->input->check_for_event(WindowInput::SELECT, event)) {
+	} else if (_system->input->check(WindowInput::SELECT, event)) {
 		if (_keyboard->selected == "End") {
 			if (TRIM_COPY(candidate_name).length() > 0) {
 				_new_name = candidate_name;
@@ -188,8 +186,7 @@ auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event)
 			candidate_name += _keyboard->selected;
 			_new_name = candidate_name;
 		}
-	} else if (_system->input->check_for_event(
-				   WindowInput::CONFIRM_NO_SPACE, event)) {
+	} else if (_system->input->check(WindowInput::CONFIRM_NO_SPACE, event)) {
 
 		if (_keyboard->selected == "End") {
 			if (TRIM_COPY(candidate_name).length() > 0) {
@@ -206,13 +203,13 @@ auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event)
 				return true;
 			}
 		}
-	} else if (_system->input->check_for_event(WindowInput::LEFT, event))
+	} else if (_system->input->check(WindowInput::LEFT, event))
 		_keyboard->set_selected(WindowInput::LEFT);
-	else if (_system->input->check_for_event(WindowInput::RIGHT, event))
+	else if (_system->input->check(WindowInput::RIGHT, event))
 		_keyboard->set_selected(WindowInput::RIGHT);
-	else if (_system->input->check_for_event(WindowInput::UP, event))
+	else if (_system->input->check(WindowInput::UP, event))
 		_keyboard->set_selected(WindowInput::UP);
-	else if (_system->input->check_for_event(WindowInput::DOWN, event))
+	else if (_system->input->check(WindowInput::DOWN, event))
 		_keyboard->set_selected(WindowInput::DOWN);
 
 	return std::nullopt;

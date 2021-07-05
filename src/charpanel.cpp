@@ -65,19 +65,19 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	portrait.setTextureRect(rect);
 
 	Component p_c{(*_display->layout)["character_panel:portrait"]};
-	_display->window->set_position_with_offset(&p_c, &portrait);
+	_display->window->set_pos(&p_c, &portrait);
 	portrait.setScale(p_c.scale, p_c.scale);
 	_portrait = portrait;
 
 	auto class_icon{_character->get_icon(CharacterStage::CHOOSE_CLASS).value()};
-	_display->window->set_position_with_offset(
+	_display->window->set_pos(
 		&((*_display->layout)["character_panel:class_icon"]), &class_icon);
 	class_icon.setScale((*_display->layout)["character_panel:class_icon"].scale,
 		(*_display->layout)["character_panel:class_icon"].scale);
 	_icons.push_back(class_icon);
 
 	auto race_icon{_character->get_icon(CharacterStage::CHOOSE_RACE).value()};
-	_display->window->set_position_with_offset(
+	_display->window->set_pos(
 		&((*_display->layout)["character_panel:race_icon"]), &race_icon);
 	race_icon.setScale((*_display->layout)["character_panel:race_icon"].scale,
 		(*_display->layout)["character_panel:race_icon"].scale);
@@ -85,7 +85,7 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 
 	auto alignment_icon{
 		_character->get_icon(CharacterStage::CHOOSE_ALIGNMENT).value()};
-	_display->window->set_position_with_offset(
+	_display->window->set_pos(
 		&((*_display->layout)["character_panel:alignment_icon"]),
 		&alignment_icon);
 	alignment_icon.setScale(
@@ -94,7 +94,7 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	_icons.push_back(alignment_icon);
 
 	auto level_icon{(*_graphics->icons)["level"].value()};
-	_display->window->set_position_with_offset(
+	_display->window->set_pos(
 		&((*_display->layout)["character_panel:level_icon"]), &level_icon);
 	level_icon.setScale((*_display->layout)["character_panel:level_icon"].scale,
 		(*_display->layout)["character_panel:level_icon"].scale);
@@ -109,7 +109,7 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	std::string name{_character->get_name()};
 	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	name_text.setString(name);
-	_display->window->set_position_with_offset(&name_c, &name_text);
+	_display->window->set_pos(&name_c, &name_text);
 	_texts.push_back(name_text);
 
 	Component level_c{(*_display->layout)["character_panel:level_text"]};
@@ -118,7 +118,7 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	level_text.setCharacterSize(level_c.size);
 	level_text.setFillColor(sf::Color(level_c.colour));
 	level_text.setString(std::to_string(_character->get_level()));
-	_display->window->set_position_with_offset(&level_c, &level_text);
+	_display->window->set_pos(&level_c, &level_text);
 	_texts.push_back(level_text);
 
 	Component status_c{(*_display->layout)["character_panel:status_value"]};
@@ -129,7 +129,7 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	status_text.setFillColor(sf::Color(_graphics->adjust_status_colour(
 		_character->get_status(), _character->is_poisoned())));
 	status_text.setString(status);
-	_display->window->set_position_with_offset(&status_c, &status_text);
+	_display->window->set_pos(&status_c, &status_text);
 	_texts.push_back(status_text);
 
 	Component hp_c{(*_display->layout)["character_panel:hp_value"]};
@@ -139,7 +139,7 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	hp_text.setCharacterSize(hp_c.size);
 	hp_text.setFillColor(sf::Color(hp_c.colour));
 	hp_text.setString(hp);
-	_display->window->set_position_with_offset(&hp_c, &hp_text);
+	_display->window->set_pos(&hp_c, &hp_text);
 	_texts.push_back(hp_text);
 
 	valid = true;

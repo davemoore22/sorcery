@@ -106,20 +106,20 @@ auto Sorcery::AllocatePanel::set() -> void {
 			_graphics->adjust_colour(value, CharacterAbilityType::STAT)));
 		text.setString(fmt::format("{:>2}", value));
 		text.setOrigin(0, text.getLocalBounds().height / 2.0f);
-		text.setPosition(x, (y * _display->window->get_cell_height()));
+		text.setPosition(x, (y * _display->window->get_ch()));
 		_texts.push_back(text);
 
 		// Get the bars (note drawing order!)
 		auto [max_bar, allocated_bar, base_bar] = _get_bar(attribute);
 		max_bar.setPosition(
-			x + _layout.size * 2, y * _display->window->get_cell_height());
+			x + _layout.size * 2, y * _display->window->get_ch());
 		max_bar.setOrigin(0, 0 - max_bar.getLocalBounds().height / 2.0f);
 		allocated_bar.setPosition(
-			x + _layout.size * 2, y * _display->window->get_cell_height());
+			x + _layout.size * 2, y * _display->window->get_ch());
 		allocated_bar.setOrigin(
 			0, 0 - allocated_bar.getLocalBounds().height / 2.0f);
 		base_bar.setPosition(
-			x + _layout.size * 2, y * _display->window->get_cell_height());
+			x + _layout.size * 2, y * _display->window->get_ch());
 		base_bar.setOrigin(0, 0 - base_bar.getLocalBounds().height / 2.0f);
 		_bars.push_back(max_bar);
 		_bars.push_back(allocated_bar);

@@ -51,7 +51,7 @@ namespace Sorcery {
 	  private:
 		// Private Methods
 		auto _draw() -> void;
-		auto _display_file_contents() -> void;
+		auto _display_file() -> void;
 
 		// Private Members
 		System *_system;

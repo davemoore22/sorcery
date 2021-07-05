@@ -25,10 +25,10 @@
 #include "dialog.hpp"
 
 // Standard Constructor
-Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Component &frame_c,
-	Component &string_c, WindowDialogType type)
-	: _system{system}, _display{display}, _graphics{graphics}, _frame_c{frame_c},
-	  _string_c{string_c}, _type{type} {
+Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics,
+	Component &frame_c, Component &string_c, WindowDialogType type)
+	: _system{system}, _display{display}, _graphics{graphics},
+	  _frame_c{frame_c}, _string_c{string_c}, _type{type} {
 
 	_strings.clear();
 	_texts.clear();
@@ -53,7 +53,8 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 
 	// Split the Text into lines
 	const std::regex regex(R"([@]+)");
-	std::sregex_token_iterator it{wrapped_text.begin(), wrapped_text.end(), regex, -1};
+	std::sregex_token_iterator it{
+		wrapped_text.begin(), wrapped_text.end(), regex, -1};
 	std::vector<std::string> split{it, {}};
 	split.erase(std::remove_if(split.begin(), split.end(),
 					[](std::string const &s) {
@@ -85,13 +86,14 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 	}
 
 	// Add the standard components - first the frame
-	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _frame_c.w,
-		frame_h, _frame_c.colour, _frame_c.background, _frame_c.alpha);
+	_frame = std::make_unique<Frame>(_display->ui_texture,
+		WindowFrameType::NORMAL, _frame_c.w, frame_h, _frame_c.colour,
+		_frame_c.background, _frame_c.alpha);
 	_frame->setPosition(0, 0);
 
 	// Then the strings
-	unsigned int x{_display->window->get_cell_width() * 1};
-	unsigned int y{_display->window->get_cell_height() * 1};
+	unsigned int x{_display->window->get_cw() * 1};
+	unsigned int y{_display->window->get_ch() * 1};
 	int index{0};
 	for (const auto &each_string : _strings) {
 		sf::Text text{};
@@ -101,15 +103,17 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 		text.setString(each_string);
 
 		if (_string_c.justification == Justification::CENTRE) {
-			text.setPosition((x + (_frame_c.w * _display->window->get_cell_width())) / 2,
-				y + (index * _display->window->get_cell_height()));
-			text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+			text.setPosition(
+				(x + (_frame_c.w * _display->window->get_cw())) / 2,
+				y + (index * _display->window->get_ch()));
+			text.setOrigin(text.getLocalBounds().width / 2.0f,
+				text.getLocalBounds().height / 2.0f);
 		} else if (_string_c.justification == Justification::RIGHT) {
-			text.setPosition(x, y + (index * _display->window->get_cell_height()));
+			text.setPosition(x, y + (index * _display->window->get_ch()));
 			const sf::FloatRect bounds{text.getLocalBounds()};
 			text.setPosition(_string_c.x - bounds.width, _string_c.y);
 		} else {
-			text.setPosition(x, y + (index * _display->window->get_cell_height()));
+			text.setPosition(x, y + (index * _display->window->get_ch()));
 			text.setOrigin(0, text.getLocalBounds().height / 2.0f);
 		}
 
@@ -118,13 +122,14 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 	}
 
 	// Add the additional option texts/menu
-	y = _display->window->get_cell_height() * (1 + static_cast<unsigned int>(_strings.size()) + 1);
-	const auto centre_x{(_frame_c.w * _display->window->get_cell_width()) / 2};
+	y = _display->window->get_ch() *
+		(1 + static_cast<unsigned int>(_strings.size()) + 1);
+	const auto centre_x{(_frame_c.w * _display->window->get_cw()) / 2};
 
 	switch (_type) {
 	case WindowDialogType::OK: {
-		const auto ok_x{((centre_x - (_display->window->get_cell_width() * 2))) +
-						(_display->window->get_cell_width() * 2)};
+		const auto ok_x{((centre_x - (_display->window->get_cw() * 2))) +
+						(_display->window->get_cw() * 2)};
 		sf::Text ok_text{};
 		ok_text.setFont(_system->resources->fonts[_buttons_c.font]);
 		ok_text.setCharacterSize(_buttons_c.size);
@@ -141,7 +146,8 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 		const sf::FloatRect ok_text_rect{ok_text_hl.getGlobalBounds()};
 		_buttons_fr[WindowDialogButton::OK] = ok_text_rect;
 
-		sf::RectangleShape ok_text_bg(sf::Vector2(ok_text_rect.width + 6, ok_text_rect.height + 8));
+		sf::RectangleShape ok_text_bg(
+			sf::Vector2(ok_text_rect.width + 6, ok_text_rect.height + 8));
 		ok_text_bg.setPosition(ok_x, y);
 		ok_text_bg.setOrigin(0, 0 - ok_text_hl.getLocalBounds().height + 16);
 
@@ -149,7 +155,7 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 
 	} break;
 	case WindowDialogType::CONFIRM: {
-		const auto yes_x{(centre_x - (_display->window->get_cell_width() * 4))};
+		const auto yes_x{(centre_x - (_display->window->get_cw() * 4))};
 		sf::Text yes_text{};
 		yes_text.setFont(_system->resources->fonts[_buttons_c.font]);
 		yes_text.setCharacterSize(_buttons_c.size);
@@ -174,7 +180,7 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 
 		_highlights[WindowDialogButton::YES] = yes_text_bg;
 
-		const auto no_x{centre_x + (_display->window->get_cell_width() * 2)};
+		const auto no_x{centre_x + (_display->window->get_cw() * 2)};
 		sf::Text no_text{};
 		no_text.setFont(_system->resources->fonts[_buttons_c.font]);
 		no_text.setCharacterSize(_buttons_c.size);
@@ -192,7 +198,8 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 		const sf::FloatRect no_text_rect{no_text_hl.getGlobalBounds()};
 		_buttons_fr[WindowDialogButton::NO] = no_text_rect;
 
-		sf::RectangleShape no_text_bg(sf::Vector2(no_text_rect.width + 6, no_text_rect.height + 8));
+		sf::RectangleShape no_text_bg(
+			sf::Vector2(no_text_rect.width + 6, no_text_rect.height + 8));
 		no_text_bg.setPosition(no_x, y);
 		no_text_bg.setOrigin(0, 0 - no_text_hl.getLocalBounds().height + 16);
 		_highlights[WindowDialogButton::NO] = no_text_bg;
@@ -207,12 +214,13 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 	}
 }
 
-auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WindowDialogButton> {
+auto Sorcery::Dialog::handle_input(sf::Event event)
+	-> std::optional<WindowDialogButton> {
 
 	if (event.type == sf::Event::Closed)
 		return WindowDialogButton::CLOSE;
 
-	if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
+	if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
 		_display->show_overlay();
 		return std::nullopt;
 	} else
@@ -221,11 +229,13 @@ auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WindowDialo
 	switch (_type) {
 	case WindowDialogType::OK:
 
-		if (_system->input->check_for_event(WindowInput::MOVE, event))
-			check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-		else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
-			std::optional<WindowDialogButton> button_chosen{check_if_option_selected(
-				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)))};
+		if (_system->input->check(WindowInput::MOVE, event))
+			check_for_mouse_move(
+				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		else if (_system->input->check(WindowInput::CONFIRM, event)) {
+			std::optional<WindowDialogButton> button_chosen{
+				check_if_option_selected(static_cast<sf::Vector2f>(
+					sf::Mouse::getPosition(*_window)))};
 			if (button_chosen) {
 				if (button_chosen.value() == WindowDialogButton::OK)
 					return WindowDialogButton::OK;
@@ -239,23 +249,25 @@ auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WindowDialo
 
 		break;
 	case WindowDialogType::CONFIRM:
-		if (_system->input->check_for_event(WindowInput::LEFT, event))
+		if (_system->input->check(WindowInput::LEFT, event))
 			toggle_highlighted();
-		else if (_system->input->check_for_event(WindowInput::RIGHT, event))
+		else if (_system->input->check(WindowInput::RIGHT, event))
 			toggle_highlighted();
-		else if (_system->input->check_for_event(WindowInput::YES, event))
+		else if (_system->input->check(WindowInput::YES, event))
 			set_selected(WindowDialogButton::YES);
-		else if (_system->input->check_for_event(WindowInput::NO, event))
+		else if (_system->input->check(WindowInput::NO, event))
 			set_selected(WindowDialogButton::NO);
-		else if (_system->input->check_for_event(WindowInput::CANCEL, event))
+		else if (_system->input->check(WindowInput::CANCEL, event))
 			return WindowDialogButton::NO;
-		else if (_system->input->check_for_event(WindowInput::BACK, event))
+		else if (_system->input->check(WindowInput::BACK, event))
 			return WindowDialogButton::NO;
-		else if (_system->input->check_for_event(WindowInput::MOVE, event))
-			check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-		else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
-			std::optional<WindowDialogButton> button_chosen{check_if_option_selected(
-				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)))};
+		else if (_system->input->check(WindowInput::MOVE, event))
+			check_for_mouse_move(
+				static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		else if (_system->input->check(WindowInput::CONFIRM, event)) {
+			std::optional<WindowDialogButton> button_chosen{
+				check_if_option_selected(static_cast<sf::Vector2f>(
+					sf::Mouse::getPosition(*_window)))};
 
 			// Mouse click only
 			if (button_chosen) {
@@ -325,7 +337,8 @@ auto Sorcery::Dialog::check_for_mouse_move(const sf::Vector2f mouse_pos)
 		if (_buttons_fr.at(WindowDialogButton::YES).contains(local_mouse_pos)) {
 			_selected = WindowDialogButton::YES;
 			return WindowDialogButton::YES;
-		} else if (_buttons_fr.at(WindowDialogButton::NO).contains(local_mouse_pos)) {
+		} else if (_buttons_fr.at(WindowDialogButton::NO)
+					   .contains(local_mouse_pos)) {
 			_selected = WindowDialogButton::NO;
 			return WindowDialogButton::NO;
 		}
@@ -359,7 +372,8 @@ auto Sorcery::Dialog::check_if_option_selected(const sf::Vector2f mouse_pos)
 		if (_buttons_fr.at(WindowDialogButton::YES).contains(local_mouse_pos)) {
 			_selected = WindowDialogButton::YES;
 			return WindowDialogButton::YES;
-		} else if (_buttons_fr.at(WindowDialogButton::NO).contains(local_mouse_pos)) {
+		} else if (_buttons_fr.at(WindowDialogButton::NO)
+					   .contains(local_mouse_pos)) {
 			_selected = WindowDialogButton::NO;
 			return WindowDialogButton::NO;
 		}
@@ -413,7 +427,8 @@ auto Sorcery::Dialog::update() -> void {
 	}
 }
 
-auto Sorcery::Dialog::draw(sf::RenderTarget &target, sf::RenderStates state) const -> void {
+auto Sorcery::Dialog::draw(
+	sf::RenderTarget &target, sf::RenderStates state) const -> void {
 
 	state.transform *= getTransform();
 	target.draw(*_frame, state);

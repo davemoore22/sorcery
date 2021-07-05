@@ -103,7 +103,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage)
 		_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 
 	// See if we have a Game to Continue;
-	_set_main_menu();
+	_set();
 
 	// And do the main loop
 	sf::Event event{};
@@ -139,7 +139,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage)
 
 							// Check for any key being pressed to move onto the
 							// main menu
-							if (_system->input->check_for_event(
+							if (_system->input->check(
 									WindowInput::ANYTHING, event)) {
 
 								_menu_stage = MainMenuType::ATTRACT_MENU;
@@ -155,7 +155,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage)
 							return std::nullopt;
 
 						// Handle enabling help overlay
-						if (_system->input->check_for_event(
+						if (_system->input->check(
 								WindowInput::SHOW_CONTROLS, event)) {
 							_display->show_overlay();
 							continue;
@@ -163,18 +163,17 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage)
 							_display->hide_overlay();
 
 						// And handle input on the main menu
-						if (_system->input->check_for_event(
-								WindowInput::UP, event))
+						if (_system->input->check(WindowInput::UP, event))
 							selected_option = _main_menu->choose_previous();
-						else if (_system->input->check_for_event(
+						else if (_system->input->check(
 									 WindowInput::DOWN, event))
 							selected_option = _main_menu->choose_next();
-						else if (_system->input->check_for_event(
+						else if (_system->input->check(
 									 WindowInput::MOVE, event))
 							selected_option = _main_menu->set_mouse_selected(
 								static_cast<sf::Vector2f>(
 									sf::Mouse::getPosition(*_window)));
-						else if (_system->input->check_for_event(
+						else if (_system->input->check(
 									 WindowInput::CONFIRM, event)) {
 							if (selected_option) {
 
@@ -211,9 +210,9 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage)
 									_yes_or_no = WindowConfirm::NO;
 								}
 							}
-						} else if ((_system->input->check_for_event(
+						} else if ((_system->input->check(
 									   WindowInput::CANCEL, event)) ||
-								   ((_system->input->check_for_event(
+								   ((_system->input->check(
 									   WindowInput::BACK, event)))) {
 							_display->set_input_mode(
 								WindowInputMode::CONFIRM_QUIT_GAME);
@@ -294,7 +293,7 @@ auto Sorcery::MainMenu::stop() -> void {
 	_display->stop_bg_movie();
 }
 
-auto Sorcery::MainMenu::_set_main_menu() -> void {
+auto Sorcery::MainMenu::_set() -> void {
 
 	(*_main_menu)[1].enabled = _game->valid;
 	if ((*_main_menu)[1].enabled) {

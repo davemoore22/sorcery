@@ -45,7 +45,7 @@ namespace Sorcery {
 		auto size() const -> unsigned int; // Size (in lines)
 		auto valid() const
 			-> bool; // Valid flag, indicates if there are contents
-		auto get_reading_progress(const int current_line) const -> std::string;
+		auto get_progress(const int current_line) const -> std::string;
 
 		// Public Members
 		unsigned int width; // Column Size of max

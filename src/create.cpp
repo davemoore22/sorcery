@@ -182,7 +182,7 @@ auto Sorcery::Create::_handle_input(const sf::Event &event)
 	-> std::optional<ModuleResult> {
 
 	// Handle enabling help overlay
-	if (_system->input->check_for_event(WindowInput::SHOW_CONTROLS, event)) {
+	if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
 		_display->show_overlay();
 		return std::nullopt;
 	} else
@@ -191,7 +191,7 @@ auto Sorcery::Create::_handle_input(const sf::Event &event)
 	// Now look for other events to respond to
 	if (event.type == sf::Event::Closed)
 		return ModuleResult::EXIT;
-	else if (_system->input->check_for_event(WindowInput::CANCEL, event))
+	else if (_system->input->check(WindowInput::CANCEL, event))
 		return ModuleResult::CANCEL;
 	if (_candidate.get_stage() == CharacterStage::CHOOSE_METHOD)
 		return _handle_choose_create_method(event);
@@ -218,18 +218,18 @@ auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event)
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{
 		_method_menu->selected};
-	if (_system->input->check_for_event(WindowInput::UP, event))
+	if (_system->input->check(WindowInput::UP, event))
 		selected = _method_menu->choose_previous();
-	else if (_system->input->check_for_event(WindowInput::DOWN, event))
+	else if (_system->input->check(WindowInput::DOWN, event))
 		selected = _method_menu->choose_next();
-	else if (_system->input->check_for_event(WindowInput::MOVE, event))
+	else if (_system->input->check(WindowInput::MOVE, event))
 		selected = _method_menu->set_mouse_selected(
 			static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	else if (_system->input->check_for_event(WindowInput::BACK, event))
+	else if (_system->input->check(WindowInput::BACK, event))
 		return ModuleResult::BACK;
-	else if (_system->input->check_for_event(WindowInput::DELETE, event))
+	else if (_system->input->check(WindowInput::DELETE, event))
 		return ModuleResult::BACK;
-	else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+	else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
 		// We have selected something from the menu
 		if (selected) {
@@ -265,7 +265,7 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event)
 	-> std::optional<ModuleResult> {
 
 	std::string candidate_name{_candidate.get_name()};
-	if (_system->input->check_for_event(WindowInput::MOVE, event)) {
+	if (_system->input->check(WindowInput::MOVE, event)) {
 
 		sf::Vector2f mouse_pos{
 			static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
@@ -274,9 +274,8 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event)
 			mouse_pos)};
 		if (mouse_selected)
 			_keyboard->selected = mouse_selected.value();
-	} else if ((_system->input->check_for_event(
-				   WindowInput::ALPHANUMERIC, event)) ||
-			   (_system->input->check_for_event(WindowInput::SPACE, event))) {
+	} else if ((_system->input->check(WindowInput::ALPHANUMERIC, event)) ||
+			   (_system->input->check(WindowInput::SPACE, event))) {
 		if (candidate_name.length() < 16) {
 			candidate_name += static_cast<char>(event.text.unicode);
 			_candidate.set_name(candidate_name);
@@ -288,13 +287,13 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event)
 			key_pressed.push_back(static_cast<char>(event.text.unicode));
 			_keyboard->selected = key_pressed;
 		}
-	} else if (_system->input->check_for_event(WindowInput::DELETE, event)) {
+	} else if (_system->input->check(WindowInput::DELETE, event)) {
 		if (candidate_name.length() > 0) {
 			candidate_name.pop_back();
 			_candidate.set_name(candidate_name);
 			_keyboard->selected = "Del";
 		}
-	} else if (_system->input->check_for_event(WindowInput::BACK, event)) {
+	} else if (_system->input->check(WindowInput::BACK, event)) {
 		if (candidate_name.length() > 0) {
 			candidate_name.pop_back();
 			_candidate.set_name(candidate_name);
@@ -304,7 +303,7 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event)
 			// Return if Back Button is selected and no character name is chosen
 			return ModuleResult::BACK;
 		}
-	} else if (_system->input->check_for_event(WindowInput::SELECT, event)) {
+	} else if (_system->input->check(WindowInput::SELECT, event)) {
 		if (_keyboard->selected == "End") {
 			if (TRIM_COPY(candidate_name).length() > 0) {
 				_candidate.set_name(candidate_name);
@@ -326,8 +325,7 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event)
 			candidate_name += _keyboard->selected;
 			_candidate.set_name(candidate_name);
 		}
-	} else if (_system->input->check_for_event(
-				   WindowInput::CONFIRM_NO_SPACE, event)) {
+	} else if (_system->input->check(WindowInput::CONFIRM_NO_SPACE, event)) {
 
 		if (_keyboard->selected == "End") {
 			if (TRIM_COPY(candidate_name).length() > 0) {
@@ -344,13 +342,13 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event)
 				return ModuleResult::NEXT;
 			}
 		}
-	} else if (_system->input->check_for_event(WindowInput::LEFT, event))
+	} else if (_system->input->check(WindowInput::LEFT, event))
 		_keyboard->set_selected(WindowInput::LEFT);
-	else if (_system->input->check_for_event(WindowInput::RIGHT, event))
+	else if (_system->input->check(WindowInput::RIGHT, event))
 		_keyboard->set_selected(WindowInput::RIGHT);
-	else if (_system->input->check_for_event(WindowInput::UP, event))
+	else if (_system->input->check(WindowInput::UP, event))
 		_keyboard->set_selected(WindowInput::UP);
-	else if (_system->input->check_for_event(WindowInput::DOWN, event))
+	else if (_system->input->check(WindowInput::DOWN, event))
 		_keyboard->set_selected(WindowInput::DOWN);
 
 	return std::nullopt;
@@ -361,18 +359,18 @@ auto Sorcery::Create::_handle_choose_race(const sf::Event &event)
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{
 		_race_menu->selected};
-	if (_system->input->check_for_event(WindowInput::UP, event))
+	if (_system->input->check(WindowInput::UP, event))
 		selected = _race_menu->choose_previous();
-	else if (_system->input->check_for_event(WindowInput::DOWN, event))
+	else if (_system->input->check(WindowInput::DOWN, event))
 		selected = _race_menu->choose_next();
-	else if (_system->input->check_for_event(WindowInput::MOVE, event))
+	else if (_system->input->check(WindowInput::MOVE, event))
 		selected = _race_menu->set_mouse_selected(
 			static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	else if (_system->input->check_for_event(WindowInput::BACK, event))
+	else if (_system->input->check(WindowInput::BACK, event))
 		return ModuleResult::BACK;
-	else if (_system->input->check_for_event(WindowInput::DELETE, event))
+	else if (_system->input->check(WindowInput::DELETE, event))
 		return ModuleResult::BACK;
-	else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+	else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
 		// We have selected something from the menu
 		if (selected) {
@@ -415,18 +413,18 @@ auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event)
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{
 		_alignment_menu->selected};
-	if (_system->input->check_for_event(WindowInput::UP, event))
+	if (_system->input->check(WindowInput::UP, event))
 		selected = _alignment_menu->choose_previous();
-	else if (_system->input->check_for_event(WindowInput::DOWN, event))
+	else if (_system->input->check(WindowInput::DOWN, event))
 		selected = _alignment_menu->choose_next();
-	else if (_system->input->check_for_event(WindowInput::MOVE, event))
+	else if (_system->input->check(WindowInput::MOVE, event))
 		selected = _alignment_menu->set_mouse_selected(
 			static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	else if (_system->input->check_for_event(WindowInput::BACK, event))
+	else if (_system->input->check(WindowInput::BACK, event))
 		return ModuleResult::BACK;
-	else if (_system->input->check_for_event(WindowInput::DELETE, event))
+	else if (_system->input->check(WindowInput::DELETE, event))
 		return ModuleResult::BACK;
-	else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+	else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
 		// We have selected something from the menu
 		if (selected) {
@@ -467,16 +465,16 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event)
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{
 		_attribute_menu->selected};
-	if (_system->input->check_for_event(WindowInput::UP, event))
+	if (_system->input->check(WindowInput::UP, event))
 		selected = _attribute_menu->choose_previous();
-	else if (_system->input->check_for_event(WindowInput::DOWN, event))
+	else if (_system->input->check(WindowInput::DOWN, event))
 		selected = _attribute_menu->choose_next();
-	else if (_system->input->check_for_event(WindowInput::MOVE, event))
+	else if (_system->input->check(WindowInput::MOVE, event))
 		selected = _attribute_menu->set_mouse_selected(
 			static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	else if ((_system->input->check_for_event(WindowInput::LEFT, event)) ||
-			 (_system->input->check_for_event(WindowInput::BACK, event)) ||
-			 (_system->input->check_for_event(WindowInput::DELETE, event))) {
+	else if ((_system->input->check(WindowInput::LEFT, event)) ||
+			 (_system->input->check(WindowInput::BACK, event)) ||
+			 (_system->input->check(WindowInput::DELETE, event))) {
 		if (selected) {
 			std::optional<CharacterAttribute> stat_to_adjust{};
 			switch (selected.value()->item) {
@@ -515,16 +513,16 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event)
 			_candidate.set_pos_class();
 
 			// Handle going back if we have no assigned points
-			if (_system->input->check_for_event(WindowInput::BACK, event)) {
+			if (_system->input->check(WindowInput::BACK, event)) {
 				if (_candidate.get_points_left() ==
 					_candidate.get_start_points())
 					return ModuleResult::BACK;
 			}
 		}
-	} else if ((_system->input->check_for_event(WindowInput::RIGHT, event)) ||
-			   (_system->input->check_for_event(WindowInput::CONFIRM, event))) {
+	} else if ((_system->input->check(WindowInput::RIGHT, event)) ||
+			   (_system->input->check(WindowInput::CONFIRM, event))) {
 
-		if ((_system->input->check_for_event(WindowInput::CONFIRM, event)) &&
+		if ((_system->input->check(WindowInput::CONFIRM, event)) &&
 			(_candidate.get_points_left() == 0) &&
 			(_candidate.get_num_pos_class() > 0)) {
 
@@ -583,18 +581,18 @@ auto Sorcery::Create::_handle_choose_class(const sf::Event &event)
 
 	std::optional<std::vector<MenuEntry>::const_iterator> class_selected{
 		_class_menu->selected};
-	if (_system->input->check_for_event(WindowInput::UP, event))
+	if (_system->input->check(WindowInput::UP, event))
 		class_selected = _class_menu->choose_previous();
-	else if (_system->input->check_for_event(WindowInput::DOWN, event))
+	else if (_system->input->check(WindowInput::DOWN, event))
 		class_selected = _class_menu->choose_next();
-	else if (_system->input->check_for_event(WindowInput::MOVE, event))
+	else if (_system->input->check(WindowInput::MOVE, event))
 		class_selected = _class_menu->set_mouse_selected(
 			static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	else if (_system->input->check_for_event(WindowInput::BACK, event))
+	else if (_system->input->check(WindowInput::BACK, event))
 		return ModuleResult::BACK;
-	else if (_system->input->check_for_event(WindowInput::DELETE, event))
+	else if (_system->input->check(WindowInput::DELETE, event))
 		return ModuleResult::BACK;
-	else if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+	else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
 		// We have selected something from the menu
 		if (class_selected) {
@@ -642,21 +640,21 @@ auto Sorcery::Create::_handle_choose_potraits(const sf::Event &event)
 	-> std::optional<ModuleResult> {
 
 	unsigned int index{_candidate.get_portrait_index()};
-	if (_system->input->check_for_event(WindowInput::BACK, event))
+	if (_system->input->check(WindowInput::BACK, event))
 		return ModuleResult::BACK;
-	else if (_system->input->check_for_event(WindowInput::DELETE, event))
+	else if (_system->input->check(WindowInput::DELETE, event))
 		return ModuleResult::BACK;
-	else if (_system->input->check_for_event(WindowInput::LEFT, event)) {
+	else if (_system->input->check(WindowInput::LEFT, event)) {
 		if (index > 0)
 			_candidate.set_portrait_index(--index);
 		else
 			_candidate.set_portrait_index(MAX_PORTRAIT_INDEX);
-	} else if (_system->input->check_for_event(WindowInput::RIGHT, event)) {
+	} else if (_system->input->check(WindowInput::RIGHT, event)) {
 		if (index < MAX_PORTRAIT_INDEX)
 			_candidate.set_portrait_index(++index);
 		else
 			_candidate.set_portrait_index(0);
-	} else if (_system->input->check_for_event(WindowInput::CONFIRM, event))
+	} else if (_system->input->check(WindowInput::CONFIRM, event))
 		return ModuleResult::NEXT;
 
 	return std::nullopt;
@@ -687,15 +685,13 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event)
 			};
 		} else {
 
-			if (_system->input->check_for_event(WindowInput::BACK, event)) {
+			if (_system->input->check(WindowInput::BACK, event)) {
 				_show_final_menu = false;
 				_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
-			} else if (_system->input->check_for_event(
-						   WindowInput::DELETE, event)) {
+			} else if (_system->input->check(WindowInput::DELETE, event)) {
 				_show_final_menu = false;
 				_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
-			} else if (_system->input->check_for_event(
-						   WindowInput::CONFIRM, event)) {
+			} else if (_system->input->check(WindowInput::CONFIRM, event)) {
 				if (selected) {
 					switch ((*selected.value()).item) {
 					case MenuItem::RC_ACCEPT:
@@ -716,39 +712,39 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event)
 					}
 				}
 
-			} else if (_system->input->check_for_event(WindowInput::UP, event))
+			} else if (_system->input->check(WindowInput::UP, event))
 				selected = _final_menu->choose_previous();
-			else if (_system->input->check_for_event(WindowInput::DOWN, event))
+			else if (_system->input->check(WindowInput::DOWN, event))
 				selected = _final_menu->choose_next();
-			else if (_system->input->check_for_event(WindowInput::MOVE, event))
+			else if (_system->input->check(WindowInput::MOVE, event))
 				selected =
 					_final_menu->set_mouse_selected(static_cast<sf::Vector2f>(
 						sf::Mouse::getPosition(*_window)));
 		}
 	} else {
 
-		if (_system->input->check_for_event(WindowInput::CONFIRM, event)) {
+		if (_system->input->check(WindowInput::CONFIRM, event)) {
 			_show_final_menu = true;
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-		} else if (_system->input->check_for_event(WindowInput::BACK, event))
+		} else if (_system->input->check(WindowInput::BACK, event))
 			return ModuleResult::BACK;
-		else if (_system->input->check_for_event(WindowInput::DELETE, event))
+		else if (_system->input->check(WindowInput::DELETE, event))
 			return ModuleResult::BACK;
-		else if (_system->input->check_for_event(WindowInput::LEFT, event))
+		else if (_system->input->check(WindowInput::LEFT, event))
 			_candidate.left_view();
-		else if (_system->input->check_for_event(WindowInput::RIGHT, event))
+		else if (_system->input->check(WindowInput::RIGHT, event))
 			_candidate.right_view();
-		else if (_system->input->check_for_event(WindowInput::UP, event)) {
+		else if (_system->input->check(WindowInput::UP, event)) {
 			if (_candidate.get_view() == CharacterView::MAGE_SPELLS)
 				_candidate.dec_hl_spell(SpellType::MAGE);
 			else if (_candidate.get_view() == CharacterView::PRIEST_SPELLS)
 				_candidate.dec_hl_spell(SpellType::PRIEST);
-		} else if (_system->input->check_for_event(WindowInput::DOWN, event)) {
+		} else if (_system->input->check(WindowInput::DOWN, event)) {
 			if (_candidate.get_view() == CharacterView::MAGE_SPELLS)
 				_candidate.inc_hl_spell(SpellType::MAGE);
 			else if (_candidate.get_view() == CharacterView::PRIEST_SPELLS)
 				_candidate.inc_hl_spell(SpellType::PRIEST);
-		} else if (_system->input->check_for_event(WindowInput::MOVE, event)) {
+		} else if (_system->input->check(WindowInput::MOVE, event)) {
 			if (_candidate.check_for_mouse_move(sf::Vector2f(
 					static_cast<float>(sf::Mouse::getPosition(*_window).x),
 					static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {

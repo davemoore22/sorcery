@@ -90,26 +90,22 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 					_window->close();
 
 				// Handle enabling help overlay
-				if (_system->input->check_for_event(
-						WindowInput::SHOW_CONTROLS, event)) {
+				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
 					continue;
 				} else
 					_display->hide_overlay();
 
 				// And handle input on the main menu
-				if (_system->input->check_for_event(WindowInput::UP, event))
+				if (_system->input->check(WindowInput::UP, event))
 					option = _menu->choose_previous();
-				else if (_system->input->check_for_event(
-							 WindowInput::DOWN, event))
+				else if (_system->input->check(WindowInput::DOWN, event))
 					option = _menu->choose_next();
-				else if (_system->input->check_for_event(
-							 WindowInput::MOVE, event))
+				else if (_system->input->check(WindowInput::MOVE, event))
 					option =
 						_menu->set_mouse_selected(static_cast<sf::Vector2f>(
 							sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check_for_event(
-							 WindowInput::CONFIRM, event)) {
+				else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
 					// We have selected something from the menu
 					if (option) {
@@ -129,9 +125,9 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 							continue;
 						}
 					}
-				} else if ((_system->input->check_for_event(
+				} else if ((_system->input->check(
 							   WindowInput::CANCEL, event)) ||
-						   ((_system->input->check_for_event(
+						   ((_system->input->check(
 							   WindowInput::BACK, event)))) {
 					_display->set_input_mode(
 						WindowInputMode::CONFIRM_LEAVE_GAME);

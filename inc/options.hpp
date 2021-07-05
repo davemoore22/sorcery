@@ -57,8 +57,8 @@ namespace Sorcery {
 		// Private Methods
 		auto _draw() -> void;
 		auto _set_tooltip(sf::Vector2f mouse_pos) -> bool;
-		auto _set_info_panel_contents(
-			std::vector<Sorcery::MenuEntry>::const_iterator it) -> void;
+		auto _set_infopanel(std::vector<Sorcery::MenuEntry>::const_iterator it)
+			-> void;
 
 		// Private Members
 		System *_system;
@@ -73,9 +73,9 @@ namespace Sorcery {
 		std::shared_ptr<Menu> _menu;
 		// std::shared_ptr<Tooltip> _tt;
 		bool _display_tt;
-		std::shared_ptr<Dialog> _dialog_confirm_save;
-		std::shared_ptr<Dialog> _dialog_confirm_cancel;
-		std::shared_ptr<Dialog> _dialog_confirm_strict_on;
+		std::shared_ptr<Dialog> _confirm_save;
+		std::shared_ptr<Dialog> _confirm_cancel;
+		std::shared_ptr<Dialog> _confirm_strict;
 		WindowConfirm _yes_or_no;
 		std::shared_ptr<InfoPanel> _ip;
 	};

@@ -25,7 +25,8 @@
 #include "statusbar.hpp"
 
 // Standard Constructor
-Sorcery::StatusBar::StatusBar(System *system, Display *display, Graphics *graphics)
+Sorcery::StatusBar::StatusBar(
+	System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	_texts.clear();
@@ -34,18 +35,20 @@ Sorcery::StatusBar::StatusBar(System *system, Display *display, Graphics *graphi
 	_layout = Component((*_display->layout)["status_bar:status_bar"]);
 	_frame_c = Component((*_display->layout)["status_bar:outer_frame"]);
 
-	_rtexture.create(_layout.w * _display->window->get_cell_width(),
-		_layout.h * _display->window->get_cell_height());
+	_rtexture.create(_layout.w * _display->window->get_cw(),
+		_layout.h * _display->window->get_ch());
 	_rtexture.setSmooth(true);
 	_rtexture.clear();
 
 	// Create the Outside Fram
-	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _frame_c.w,
-		_frame_c.h, _frame_c.colour, _frame_c.background, _frame_c.alpha);
+	_frame = std::make_unique<Frame>(_display->ui_texture,
+		WindowFrameType::NORMAL, _frame_c.w, _frame_c.h, _frame_c.colour,
+		_frame_c.background, _frame_c.alpha);
 
 	// Render the background (inset by the frame)
-	sf::RectangleShape rect(sf::Vector2f((_display->window->get_cell_width() * (_layout.w)) - 20,
-		(_display->window->get_cell_height() * (_layout.h)) - 20));
+	sf::RectangleShape rect(
+		sf::Vector2f((_display->window->get_cw() * (_layout.w)) - 20,
+			(_display->window->get_ch() * (_layout.h)) - 20));
 	rect.setFillColor(sf::Color(0, 0, 0, _layout.alpha));
 	rect.setPosition(10, 10);
 	_rtexture.draw(rect);
@@ -54,11 +57,11 @@ Sorcery::StatusBar::StatusBar(System *system, Display *display, Graphics *graphi
 	_fsprite.setPosition(0, 0);
 	_rtexture.draw(_fsprite);
 
-	_generate_components();
-	_draw_components();
+	_generate();
+	_draw();
 
-	// Normally we'd be passed in a vector of character shared ptrs, and draw each one (in a
-	// seperate update method?) but for now, just do this
+	// Normally we'd be passed in a vector of character shared ptrs, and draw
+	// each one (in a seperate update method?) but for now, just do this
 	_rtexture.display();
 	_texture = _rtexture.getTexture();
 	sprite = sf::Sprite(_texture);
@@ -67,13 +70,14 @@ Sorcery::StatusBar::StatusBar(System *system, Display *display, Graphics *graphi
 	height = sprite.getLocalBounds().height;
 }
 
-auto Sorcery::StatusBar::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::StatusBar::draw(
+	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 	target.draw(sprite, states);
 }
 
-auto Sorcery::StatusBar::_generate_components() -> void {
+auto Sorcery::StatusBar::_generate() -> void {
 
 	// For now - this is copied from display.cpp
 	auto components{(*_display->layout)("status_bar")};
@@ -85,12 +89,14 @@ auto Sorcery::StatusBar::_generate_components() -> void {
 				text.setCharacterSize(component.size);
 				text.setFillColor(sf::Color(component.colour));
 				text.setString((*_display->string)[component.string_key]);
-				const auto x{component.x == -1 ? _display->window->centre.x : component.x};
-				const auto y{component.y == -1 ? _display->window->centre.y : component.y};
+				const auto x{component.x == -1 ? _display->window->centre.x
+											   : component.x};
+				const auto y{component.y == -1 ? _display->window->centre.y
+											   : component.y};
 				if (component.justification == Justification::CENTRE) {
 					text.setPosition(x, y);
-					text.setOrigin(
-						text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+					text.setOrigin(text.getLocalBounds().width / 2.0f,
+						text.getLocalBounds().height / 2.0f);
 				} else if (component.justification == Justification::RIGHT) {
 					text.setPosition(x, y);
 					const sf::FloatRect bounds{text.getLocalBounds()};
@@ -106,7 +112,7 @@ auto Sorcery::StatusBar::_generate_components() -> void {
 	}
 }
 
-auto Sorcery::StatusBar::_draw_components() -> void {
+auto Sorcery::StatusBar::_draw() -> void {
 
 	for (auto &[unique_key, text] : _texts) {
 		_rtexture.draw(text);
