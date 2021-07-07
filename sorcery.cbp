@@ -34,16 +34,18 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Winit-self" />
 			<Add option="-Wredundant-decls" />
 			<Add option="-Wcast-align" />
 			<Add option="-Wunreachable-code" />
 			<Add option="-Wmissing-declarations" />
-			<Add option="-Wmissing-include-dirs" />
 			<Add option="-Wswitch-default" />
+			<Add option="-pedantic" />
 			<Add option="-Wfatal-errors" />
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
 			<Add option="-g" />
+			<Add option="-Wmissing-include-dirs" />
 			<Add option="-pthread" />
 			<Add option="-Wl,-rpath=/usr/local/lib" />
 			<Add option="-fpic" />
@@ -170,7 +172,6 @@
 		<Unit filename="inc/maptile.hpp" />
 		<Unit filename="inc/maputils.hpp" />
 		<Unit filename="inc/menu.hpp" />
-		<Unit filename="inc/operator.hpp" />
 		<Unit filename="inc/options.hpp" />
 		<Unit filename="inc/platform.hpp" />
 		<Unit filename="inc/random.hpp" />
@@ -224,7 +225,6 @@
 		<Unit filename="src/mainmenu.cpp" />
 		<Unit filename="src/manage.cpp" />
 		<Unit filename="src/menu.cpp" />
-		<Unit filename="src/operator.cpp" />
 		<Unit filename="src/options.cpp" />
 		<Unit filename="src/platform.cpp" />
 		<Unit filename="src/random.cpp" />
@@ -236,7 +236,6 @@
 		<Unit filename="src/string.cpp" />
 		<Unit filename="src/system.cpp" />
 		<Unit filename="src/textfile.cpp" />
-		<Unit filename="src/tile.cpp" />
 		<Unit filename="src/tooltip.cpp" />
 		<Unit filename="src/training.cpp" />
 		<Unit filename="src/window.cpp" />

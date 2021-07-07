@@ -24,6 +24,11 @@
 
 #pragma once
 
-#include "main.hpp"
+#ifdef _WIN32
+#endif
 
-namespace Sorcery {}
+// In Linux, we need to include this to stop Status enums defined within
+// clashing with above
+#ifdef linux
+#include <X11/Xlib.h>
+#endif

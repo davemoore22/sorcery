@@ -35,7 +35,7 @@
 namespace Sorcery {
 
 	class Frame;
-	class Frame;
+	class Display;
 
 	class ControlOverlay : public sf::Transformable, public sf::Drawable {
 

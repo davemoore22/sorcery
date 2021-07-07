@@ -44,6 +44,9 @@
 #pragma GCC diagnostic ignored "-Wignored-qualifiers"
 #pragma GCC diagnostic ignored "-Wreorder"
 #pragma GCC diagnostic ignored "-Wreturn-type"
+#pragma GCC diagnostic ignored "-Weffc++"
+#pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
+#pragma GCC diagnostic ignored "-Wshadow"
 #include "backwardcpp/backward.hpp"
 #include "simpleini/SimpleIni.h"
 // clang-format off
@@ -57,9 +60,6 @@
 #include "sfeMovie/Movie.hpp"
 #include "sqlitemoderncpp/sqlite_modern_cpp.h"
 #pragma GCC diagnostic pop
-
-// Include this here to avoid Status enums defined within clashing with above
-#include <X11/Xlib.h>
 
 // Standard Includes
 #include <algorithm>
@@ -98,12 +98,12 @@
 #include <vector>
 
 // Internal Includes
+#include "platform.hpp"
 
 // clang-format off
 #include "define.hpp"
 #include "enum.hpp"
 #include "macro.hpp"
-#include "operator.hpp"
 #include "type.hpp"
 #include "component.hpp"
 #include "error.hpp"

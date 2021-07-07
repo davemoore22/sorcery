@@ -3147,7 +3147,7 @@ auto Sorcery::Character::_generate_display() -> void {
 		Component carried_c(
 			(*_display->layout)["character_inventory:inventory_blank"]);
 		int c_slots{std::stoi(carried_c["number_of_slots"].value())};
-		for (int loop = 0; loop < c_slots; loop++) {
+		for (auto loop = 0; loop < c_slots; loop++) {
 			_add_text(carried_c, "{}", (*_display->string)["INVENTORY_BLANK"]);
 			carried_c.y += _display->window->get_ch();
 		}
@@ -3187,7 +3187,7 @@ auto Sorcery::Character::_generate_display() -> void {
 			(*_display->layout)["character_mage_spells:spell_name_label"]};
 
 		int level_x{level_c.x};
-		for (unsigned int level = 1; level <= 7; level++) {
+		for (int level = 1; level <= 7; level++) {
 
 			_add_text(level_c, "{}",
 				fmt::format("{} {}",
@@ -3203,7 +3203,7 @@ auto Sorcery::Character::_generate_display() -> void {
 
 			auto spells{_spells | std::views::filter([&](Spell spell) {
 				return (spell.type == SpellType::MAGE) &&
-					   (spell.level == level);
+					   (static_cast<int>(spell.level) == level);
 			})};
 			for (auto spell : spells) {
 
@@ -3319,7 +3319,7 @@ auto Sorcery::Character::_generate_display() -> void {
 			(*_display->layout)["character_priest_spells:spell_name_label"]};
 
 		int level_x{level_c.x};
-		for (unsigned int level = 1; level <= 7; level++) {
+		for (auto level = 1; level <= 7; level++) {
 
 			_add_text(level_c, "{}",
 				fmt::format("{} {}",
@@ -3335,7 +3335,7 @@ auto Sorcery::Character::_generate_display() -> void {
 
 			auto spells{_spells | std::views::filter([&](Spell spell) {
 				return (spell.type == SpellType::PRIEST) &&
-					   (spell.level == level);
+					   (static_cast<int>(spell.level) == level);
 			})};
 			for (auto spell : spells) {
 

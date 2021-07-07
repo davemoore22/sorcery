@@ -13,3 +13,4 @@ ConstructorInitializerIndentWidth: 4
 AlignAfterOpenBracket: DontAlign
 AllowShortLambdasOnASingleLine: None
 AlwaysBreakBeforeMultilineStrings: true
+#AllowShortEnumsOnASingleLine: False

@@ -45,7 +45,10 @@ Sorcery::Window::Window(
 	_layout->set_grid(_cell_width, _cell_height);
 
 	// Then create the SFML Window and the Main GUI
+	#ifdef linux
 	XInitThreads();
+	#endif
+
 	_window.create(sf::VideoMode(_current_size.w, _current_size.h), _title,
 		sf::Style::Titlebar | sf::Style::Resize | sf::Style::Close);
 	_window.setFramerateLimit(FRAMERATE);
