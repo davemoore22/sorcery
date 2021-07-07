@@ -51,6 +51,8 @@ Sorcery::ResourceManager::ResourceManager(File &files) : _files{files} {
 		textures.acquire(Enums::Graphics::Texture::UI,
 			thor::Resources::fromFile<sf::Texture>(_files[UI_TEXTURE]));
 
+		fonts.acquire(FontType::INPUT,
+			thor::Resources::fromFile<sf::Font>(_files[INPUT_FONT_FILE]));
 		fonts.acquire(FontType::MONOSPACE,
 			thor::Resources::fromFile<sf::Font>(_files[MONO_FONT_FILE]));
 		fonts.acquire(

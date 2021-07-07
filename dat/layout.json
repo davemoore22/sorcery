@@ -1206,9 +1206,9 @@
 				"name": "name_candidate",
 				"x": "centre",
 				"y": "15",
-				"font": "monospace",
+				"font": "input",
 				"colour": "0xddddddff",
-				"size": "72",
+				"size": "48",
 				"justification": "centre",
 				"type": "text",
 				"priority": "3",
@@ -1981,9 +1981,9 @@
 			"name": "name_candidate",
 			"x": "centre",
 			"y": "16",
-			"font": "monospace",
+			"font": "input",
 			"colour": "0xddddddff",
-			"size": "72",
+			"size": "48",
 			"justification": "centre",
 			"type": "text",
 			"priority": "3",
@@ -4284,9 +4284,9 @@
 			},
 			{
 				"name": "item_preview_frame",
-				"w": "16",
+				"w": "23",
 				"h": "13",
-				"x": "41",
+				"x": "34",
 				"y": "14",
 				"alpha": "255",
 				"type": "frame",
@@ -4908,9 +4908,9 @@
 			},
 			{
 				"name": "item_preview_frame",
-				"w": "16",
+				"w": "23",
 				"h": "13",
-				"x": "41",
+				"x": "34",
 				"y": "14",
 				"alpha": "255",
 				"type": "frame",
@@ -5754,7 +5754,7 @@
 			},
 			{
 				"name": "mh_label",
-				"x": "10",
+				"x": "3",
 				"y": "11",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5767,7 +5767,7 @@
 			},
 			{
 				"name": "mh_icon",
-				"x": "11",
+				"x": "4",
 				"y": "11",
 				"scale": "0.05",
 				"type": "icon",
@@ -5784,7 +5784,7 @@
 			},
 			{
 				"name": "mh_blank",
-				"x": "13",
+				"x": "6",
 				"y": "11",
 				"font": "monospace",
 				"colour": "0x606060ff",
@@ -5802,7 +5802,7 @@
 			},
 			{
 				"name": "oh_label",
-				"x": "10",
+				"x": "3",
 				"y": "12",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5815,7 +5815,7 @@
 			},
 			{
 				"name": "oh_icon",
-				"x": "11",
+				"x": "4",
 				"y": "12",
 				"scale": "0.05",
 				"type": "icon",
@@ -5832,7 +5832,7 @@
 			},
 			{
 				"name": "oh_blank",
-				"x": "13",
+				"x": "6",
 				"y": "12",
 				"font": "monospace",
 				"colour": "0x606060ff",
@@ -5850,7 +5850,7 @@
 			},
 			{
 				"name": "ra_label",
-				"x": "10",
+				"x": "3",
 				"y": "13",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5863,7 +5863,7 @@
 			},
 			{
 				"name": "ra_icon",
-				"x": "11",
+				"x": "4",
 				"y": "13",
 				"scale": "0.05",
 				"type": "icon",
@@ -5880,7 +5880,7 @@
 			},
 			{
 				"name": "ra_blank",
-				"x": "13",
+				"x": "6",
 				"y": "13",
 				"font": "monospace",
 				"colour": "0x606060ff",
@@ -5898,7 +5898,7 @@
 			},
 			{
 				"name": "he_label",
-				"x": "10",
+				"x": "3",
 				"y": "14",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5911,7 +5911,7 @@
 			},
 			{
 				"name": "he_icon",
-				"x": "11",
+				"x": "4",
 				"y": "14",
 				"scale": "0.05",
 				"type": "icon",
@@ -5928,7 +5928,7 @@
 			},
 			{
 				"name": "he_blank",
-				"x": "13",
+				"x": "6",
 				"y": "14",
 				"font": "monospace",
 				"colour": "0x606060ff",
@@ -5946,7 +5946,7 @@
 			},
 			{
 				"name": "to_label",
-				"x": "10",
+				"x": "3",
 				"y": "15",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -5959,7 +5959,7 @@
 			},
 			{
 				"name": "to_icon",
-				"x": "11",
+				"x": "4",
 				"y": "15",
 				"scale": "0.05",
 				"type": "icon",
@@ -5976,7 +5976,7 @@
 			},
 			{
 				"name": "to_blank",
-				"x": "13",
+				"x": "6",
 				"y": "15",
 				"font": "monospace",
 				"colour": "0x606060ff",
@@ -5994,7 +5994,7 @@
 			},
 			{
 				"name": "ha_label",
-				"x": "10",
+				"x": "3",
 				"y": "16",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -6007,7 +6007,7 @@
 			},
 			{
 				"name": "ha_icon",
-				"x": "11",
+				"x": "4",
 				"y": "16",
 				"scale": "0.05",
 				"type": "icon",
@@ -6024,7 +6024,7 @@
 			},
 			{
 				"name": "ha_blank",
-				"x": "13",
+				"x": "6",
 				"y": "16",
 				"font": "monospace",
 				"colour": "0x606060ff",
@@ -6042,7 +6042,7 @@
 			},
 			{
 				"name": "le_label",
-				"x": "10",
+				"x": "3",
 				"y": "17",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -6055,7 +6055,7 @@
 			},
 			{
 				"name": "le_icon",
-				"x": "11",
+				"x": "4",
 				"y": "17",
 				"scale": "0.05",
 				"type": "icon",
@@ -6072,7 +6072,7 @@
 			},
 			{
 				"name": "le_blank",
-				"x": "13",
+				"x": "6",
 				"y": "17",
 				"font": "monospace",
 				"colour": "0x606060ff",
@@ -6090,7 +6090,7 @@
 			},
 			{
 				"name": "fe_label",
-				"x": "10",
+				"x": "3",
 				"y": "18",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -6103,7 +6103,7 @@
 			},
 			{
 				"name": "fe_icon",
-				"x": "11",
+				"x": "4",
 				"y": "18",
 				"scale": "0.05",
 				"type": "icon",
@@ -6120,7 +6120,7 @@
 			},
 			{
 				"name": "fe_blank",
-				"x": "13",
+				"x": "6",
 				"y": "18",
 				"font": "monospace",
 				"colour": "0x606060ff",
@@ -6138,7 +6138,7 @@
 			},
 			{
 				"name": "ne_label",
-				"x": "10",
+				"x": "3",
 				"y": "19",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -6151,7 +6151,7 @@
 			},
 			{
 				"name": "ne_icon",
-				"x": "11",
+				"x": "4",
 				"y": "19",
 				"scale": "0.05",
 				"type": "icon",
@@ -6168,7 +6168,7 @@
 			},
 			{
 				"name": "ne_blank",
-				"x": "13",
+				"x": "6",
 				"y": "19",
 				"font": "monospace",
 				"colour": "0x606060ff",
@@ -6186,7 +6186,7 @@
 			},
 			{
 				"name": "lf_label",
-				"x": "10",
+				"x": "3",
 				"y": "20",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -6199,7 +6199,7 @@
 			},
 			{
 				"name": "lf_icon",
-				"x": "11",
+				"x": "4",
 				"y": "20",
 				"scale": "0.05",
 				"type": "icon",
@@ -6216,7 +6216,7 @@
 			},
 			{
 				"name": "lf_blank",
-				"x": "13",
+				"x": "6",
 				"y": "20",
 				"font": "monospace",
 				"colour": "0x606060ff",
@@ -6234,7 +6234,7 @@
 			},
 			{
 				"name": "rf_label",
-				"x": "10",
+				"x": "3",
 				"y": "21",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -6247,7 +6247,7 @@
 			},
 			{
 				"name": "rf_icon",
-				"x": "11",
+				"x": "4",
 				"y": "21",
 				"scale": "0.05",
 				"type": "icon",
@@ -6264,7 +6264,7 @@
 			},
 			{
 				"name": "rf_blank",
-				"x": "13",
+				"x": "6",
 				"y": "21",
 				"font": "monospace",
 				"colour": "0x606060ff",

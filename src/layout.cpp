@@ -227,6 +227,9 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 								else if (components[j]["font"].asString() ==
 										 "proportional")
 									return FontType::PROPORTIONAL;
+								else if (components[j]["font"].asString() ==
+										 "input")
+									return FontType::INPUT;
 								else
 									return FontType::NONE;
 							} else

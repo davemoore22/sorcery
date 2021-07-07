@@ -34,6 +34,7 @@ Sorcery::File::File() {
 	_add_path(DATA_DIR, DATABASE_FILE);
 	_add_path(DATA_DIR, ICONS_FILE);
 	_add_path(DATA_DIR, LAYOUT_FILE);
+	_add_path(DATA_DIR, INPUT_FONT_FILE);
 	_add_path(DATA_DIR, MONO_FONT_FILE);
 	_add_path(DATA_DIR, PROPORTIONAL_FONT_FILE);
 	_add_path(DATA_DIR, TEXT_FONT_FILE);

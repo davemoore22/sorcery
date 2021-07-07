@@ -181,7 +181,7 @@ namespace Sorcery {
 
 	namespace Enums::Internal {
 
-		enum class FontType { NONE, MONOSPACE, PROPORTIONAL, TEXT };
+		enum class FontType { NONE, MONOSPACE, PROPORTIONAL, TEXT, INPUT };
 
 		enum class StringType { NONE, NORMAL, EXPLAIN };
 
