@@ -32,7 +32,8 @@
 		"*.json": "jsonc",
 		"*.stats": "cpp",
 		"*.desktop": "properties",
-		".clang-format": "yaml"
+		".clang-format": "yaml",
+		"functional": "cpp"
 	},
 	"terminal.integrated.env.linux": {
 		"PATH": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"

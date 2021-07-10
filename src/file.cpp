@@ -28,7 +28,11 @@
 Sorcery::File::File() {
 
 	// Generate and add the file paths
+
+#ifdef linux
 	_base_path = _get_exe_path();
+#endif
+
 	_file_paths.clear();
 	_add_path(CONFIG_DIR, CONFIG_FILE);
 	_add_path(DATA_DIR, DATABASE_FILE);
@@ -88,10 +92,9 @@ auto Sorcery::File::_add_path(
 auto Sorcery::File::_get_exe_path() -> std::string_view {
 
 	char result[PATH_MAX];
-	const char *path;
 	if (const ssize_t count{readlink("/proc/self/exe", result, PATH_MAX)};
 		count != -1) {
-		path = dirname(result);
+		const char *path{dirname(result)};
 		std::string_view base_path{path};
 		return base_path;
 	} else

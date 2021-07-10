@@ -130,3 +130,4 @@ inc/cereal/types/variant.hpp
 inc/cereal/types/vector.hpp
 inc/cereal/types/concepts/pair_associative_container.hpp
 .debris
+CppDependOut

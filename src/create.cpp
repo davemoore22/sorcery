@@ -674,8 +674,8 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event)
 				if (dialog_input.value() == WindowDialogButton::CLOSE) {
 					_show_final_menu = false;
 					_show_saved_ok = false;
-					return std::nullopt;
 					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					return std::nullopt;
 				} else if (dialog_input.value() == WindowDialogButton::OK) {
 					_show_final_menu = false;
 					_show_saved_ok = false;

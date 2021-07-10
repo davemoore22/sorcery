@@ -227,9 +227,9 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage)
 						if (dialog_input) {
 							if (dialog_input.value() ==
 								WindowDialogButton::CLOSE) {
-								return std::nullopt;
 								_display->set_input_mode(
 									WindowInputMode::NAVIGATE_MENU);
+								return std::nullopt;
 							} else if (dialog_input.value() ==
 									   WindowDialogButton::YES) {
 								_display->set_input_mode(
@@ -248,9 +248,9 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage)
 						if (dialog_input) {
 							if (dialog_input.value() ==
 								WindowDialogButton::CLOSE) {
-								return std::nullopt;
 								_display->set_input_mode(
 									WindowInputMode::NAVIGATE_MENU);
+								return std::nullopt;
 							} else if (dialog_input.value() ==
 									   WindowDialogButton::YES) {
 								_display->set_input_mode(
