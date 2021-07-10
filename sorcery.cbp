@@ -136,6 +136,7 @@
 		<Unit filename="inc/banner.hpp" />
 		<Unit filename="inc/camera.hpp" />
 		<Unit filename="inc/castle.hpp" />
+		<Unit filename="inc/changeclass.hpp" />
 		<Unit filename="inc/changename.hpp" />
 		<Unit filename="inc/character.hpp" />
 		<Unit filename="inc/charpanel.hpp" />
@@ -195,6 +196,7 @@
 		<Unit filename="src/attributedisplay.cpp" />
 		<Unit filename="src/banner.cpp" />
 		<Unit filename="src/castle.cpp" />
+		<Unit filename="src/changeclass.cpp" />
 		<Unit filename="src/changename.cpp" />
 		<Unit filename="src/character.cpp" />
 		<Unit filename="src/charpanel.cpp" />
