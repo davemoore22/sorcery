@@ -148,7 +148,15 @@ auto Sorcery::Edit::start(int current_character_idx)
 							_game->reload_char(current_character_idx);
 						};
 						change_name->stop();
-					};
+					} else if (option_chosen == MenuItem::EC_CHANGE_CLASS) {
+						auto character{*_cur_char.value()};
+						auto change_class{std::make_unique<ChangeClass>(
+							_system, _display, _graphics, &character)};
+						auto new_class{change_class->start()};
+						if (new_class) {
+						}
+						change_class->stop();
+					}
 
 					_display->generate("character_edit");
 					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);

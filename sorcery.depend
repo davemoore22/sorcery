@@ -781,7 +781,7 @@
 1625474959 /home/dave/Development/wizardry/sorcery-sfml/inc/error.hpp
 	"main.hpp"
 
-1625490401 /home/dave/Development/wizardry/sorcery-sfml/inc/edgeoftown.hpp
+1626007071 /home/dave/Development/wizardry/sorcery-sfml/inc/edgeoftown.hpp
 	"dialog.hpp"
 	"display.hpp"
 	"frame.hpp"
@@ -1107,7 +1107,8 @@
 1625492694 source:/home/dave/Development/wizardry/sorcery-sfml/src/spellpanel.cpp
 	"spellpanel.hpp"
 
-1625490503 /home/dave/Development/wizardry/sorcery-sfml/inc/edit.hpp
+1626180094 /home/dave/Development/wizardry/sorcery-sfml/inc/edit.hpp
+	"changeclass.hpp"
 	"changename.hpp"
 	"charpanel.hpp"
 	"display.hpp"
@@ -1119,7 +1120,7 @@
 	"menu.hpp"
 	"system.hpp"
 
-1625492868 source:/home/dave/Development/wizardry/sorcery-sfml/src/edit.cpp
+1626180526 source:/home/dave/Development/wizardry/sorcery-sfml/src/edit.cpp
 	"edit.hpp"
 
 1625492951 source:/home/dave/Development/wizardry/sorcery-sfml/src/changename.cpp
@@ -1135,10 +1136,12 @@
 	"menu.hpp"
 	"system.hpp"
 
-1625940659 source:/home/dave/Development/wizardry/sorcery-sfml/src/changeclass.cpp
+1626180737 source:/home/dave/Development/wizardry/sorcery-sfml/src/changeclass.cpp
 	"changeclass.hpp"
 
-1625940695 /home/dave/Development/wizardry/sorcery-sfml/inc/changeclass.hpp
+1626180304 /home/dave/Development/wizardry/sorcery-sfml/inc/changeclass.hpp
+	"character.hpp"
+	"dialog.hpp"
 	"display.hpp"
 	"frame.hpp"
 	"graphics.hpp"

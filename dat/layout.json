@@ -1200,6 +1200,70 @@
 		]
 	},
 	{
+		"name": "change_class",
+		"component": [
+			{
+				"name": "change_class_frame",
+				"w": "25",
+				"h": "2",
+				"x": "centre",
+				"y": "8",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "9",
+				"drawmode": "automatic",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "change_class_prompt_text",
+				"x": "centre",
+				"y": "9",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHANGE_CLASS_PROMPT",
+				"justification": "centre",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "frame",
+				"w": "50",
+				"h": "38",
+				"x": "centre",
+				"y": "2",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "3",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "title_frame",
+				"w": "22",
+				"h": "2",
+				"x": "centre",
+				"y": "1",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "4",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "title_text",
+				"x": "centre",
+				"y": "2",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CHANGE_CLASS_TITLE",
+				"justification": "centre",
+				"type": "text",
+				"priority": "4"
+			}
+		]
+	},
+	{
 		"name": "change_name",
 		"component": [
 			{

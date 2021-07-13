@@ -24,6 +24,8 @@
 
 #pragma once
 
+#include "character.hpp"
+#include "dialog.hpp"
 #include "display.hpp"
 #include "frame.hpp"
 #include "graphics.hpp"
@@ -32,3 +34,41 @@
 #include "main.hpp"
 #include "menu.hpp"
 #include "system.hpp"
+
+namespace Sorcery {
+
+	class ChangeClass {
+
+	  public:
+		// Standard Constructor
+		ChangeClass(System *system, Display *display, Graphics *graphics,
+			Character *character);
+		ChangeClass() = delete;
+
+		// Standard Destructor
+		~ChangeClass();
+
+		// Public Members
+
+		// Public Methods
+		auto start() -> std::optional<CharacterClass>;
+		auto stop() -> void;
+
+	  private:
+		// Private Methods
+		auto _draw() -> void;
+
+		// Private Members
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
+		sf::RenderWindow *_window;
+		Character *_character;
+		sf::Sprite _bg;
+		std::unique_ptr<Frame> _frame;
+		std::shared_ptr<Menu> _menu;
+		std::shared_ptr<Dialog> _change_class;
+		WindowConfirm _yes_or_no;
+		bool _valid;
+	};
+} // namespace Sorcery

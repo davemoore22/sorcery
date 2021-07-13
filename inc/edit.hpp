@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include "changeclass.hpp"
 #include "changename.hpp"
 #include "charpanel.hpp"
 #include "display.hpp"
