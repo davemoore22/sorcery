@@ -298,7 +298,7 @@
 1625492915 source:/home/dave/Development/wizardry/sorcery-sfml/src/config.cpp
 	"config.hpp"
 
-1625924062 source:/home/dave/Development/wizardry/sorcery-sfml/src/create.cpp
+1626294039 source:/home/dave/Development/wizardry/sorcery-sfml/src/create.cpp
 	"create.hpp"
 
 1625474877 /home/dave/Development/wizardry/sorcery-sfml/inc/create.hpp
@@ -1136,10 +1136,10 @@
 	"menu.hpp"
 	"system.hpp"
 
-1626291607 source:/home/dave/Development/wizardry/sorcery-sfml/src/changeclass.cpp
+1626294811 source:/home/dave/Development/wizardry/sorcery-sfml/src/changeclass.cpp
 	"changeclass.hpp"
 
-1626291329 /home/dave/Development/wizardry/sorcery-sfml/inc/changeclass.hpp
+1626291873 /home/dave/Development/wizardry/sorcery-sfml/inc/changeclass.hpp
 	"character.hpp"
 	"dialog.hpp"
 	"display.hpp"

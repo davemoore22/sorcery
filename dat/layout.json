@@ -1356,8 +1356,8 @@
 			},
 			{
 				"name": "dialog_confirm_change_class",
-				"x": "19",
-				"y": "13",
+				"x": "28",
+				"y": "18",
 				"w": "40",
 				"type": "dialog",
 				"drawmode": "manual",

@@ -75,6 +75,10 @@ Sorcery::ChangeClass::~ChangeClass() {}
 
 auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 
+	_show_changed = false;
+	_show_confirm = false;
+	_show_not_changed = false;
+
 	_display->generate("change_class");
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 
@@ -100,6 +104,24 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 			} else
 				_display->hide_overlay();
 
+			if (_show_not_changed) {
+
+				auto dialog_input{_not_changed->handle_input(event)};
+				if (dialog_input) {
+					if (dialog_input.value() == WindowDialogButton::CLOSE) {
+						_show_not_changed = false;
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
+						return std::nullopt;
+					} else if (dialog_input.value() == WindowDialogButton::OK) {
+						_show_not_changed = false;
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
+						return std::nullopt;
+					}
+				};
+			}
+
 			if (_system->input->check(WindowInput::CANCEL, event))
 				return std::nullopt;
 
@@ -124,30 +146,54 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 				// We have selected something from the menu
 				if (selected) {
 
-					switch ((*selected.value()).item) {
+					switch (auto chosen_class{(*selected.value()).item}) {
 					case MenuItem::CC_SAMURAI:
-						return CharacterClass::SAMURAI;
+						if (_character->get_class() == CharacterClass::SAMURAI)
+							_show_not_changed = true;
+						else
+							return CharacterClass::SAMURAI;
 						break;
 					case MenuItem::CC_FIGHTER:
-						return CharacterClass::FIGHTER;
+						if (_character->get_class() == CharacterClass::FIGHTER)
+							_show_not_changed = true;
+						else
+							return CharacterClass::FIGHTER;
 						break;
 					case MenuItem::CC_LORD:
-						return CharacterClass::LORD;
+						if (_character->get_class() == CharacterClass::LORD)
+							_show_not_changed = true;
+						else
+							return CharacterClass::LORD;
 						break;
 					case MenuItem::CC_THIEF:
-						return CharacterClass::THIEF;
+						if (_character->get_class() == CharacterClass::THIEF)
+							_show_not_changed = true;
+						else
+							return CharacterClass::THIEF;
 						break;
 					case MenuItem::CC_NINJA:
-						return CharacterClass::NINJA;
+						if (_character->get_class() == CharacterClass::NINJA)
+							_show_not_changed = true;
+						else
+							return CharacterClass::NINJA;
 						break;
 					case MenuItem::CC_PRIEST:
-						return CharacterClass::PRIEST;
+						if (_character->get_class() == CharacterClass::PRIEST)
+							_show_not_changed = true;
+						else
+							return CharacterClass::PRIEST;
 						break;
 					case MenuItem::CC_BISHOP:
-						return CharacterClass::BISHOP;
+						if (_character->get_class() == CharacterClass::BISHOP)
+							_show_not_changed = true;
+						else
+							return CharacterClass::BISHOP;
 						break;
 					case MenuItem::CC_MAGE:
-						return CharacterClass::MAGE;
+						if (_character->get_class() == CharacterClass::MAGE)
+							_show_not_changed = true;
+						else
+							return CharacterClass::MAGE;
 						break;
 					default:
 						return std::nullopt;
@@ -197,6 +243,21 @@ auto Sorcery::ChangeClass::_draw() -> void {
 		_ip->setPosition((*_display->layout)["change_class:info_panel"].x,
 			(*_display->layout)["change_class:info_panel"].y);
 		_window->draw(*_ip);
+	}
+
+	if (_show_not_changed) {
+		_not_changed->update();
+		_window->draw(*_not_changed);
+	}
+
+	if (_show_changed) {
+		_changed->update();
+		_window->draw(*_changed);
+	}
+
+	if (_show_confirm) {
+		_confirm->update();
+		_window->draw(*_confirm);
 	}
 
 	// And finally the Cursor
