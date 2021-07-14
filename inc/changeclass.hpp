@@ -80,5 +80,6 @@ namespace Sorcery {
 		bool _show_confirm;
 		bool _show_changed;
 		bool _show_not_changed;
+		std::optional<CharacterClass> _new_class;
 	};
 } // namespace Sorcery

@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1625587524 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1626296506 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -140,7 +140,7 @@
 1625672421 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
-1625672441 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
+1626296223 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
 1625491484 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
@@ -345,7 +345,7 @@
 	"main.hpp"
 	"application.hpp"
 
-1625923774 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
+1626296781 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
 	"mainmenu.hpp"
 
 1625492767 source:/home/dave/Development/wizardry/sorcery-sfml/src/manage.cpp
@@ -1136,10 +1136,10 @@
 	"menu.hpp"
 	"system.hpp"
 
-1626294811 source:/home/dave/Development/wizardry/sorcery-sfml/src/changeclass.cpp
+1626296814 source:/home/dave/Development/wizardry/sorcery-sfml/src/changeclass.cpp
 	"changeclass.hpp"
 
-1626291873 /home/dave/Development/wizardry/sorcery-sfml/inc/changeclass.hpp
+1626296004 /home/dave/Development/wizardry/sorcery-sfml/inc/changeclass.hpp
 	"character.hpp"
 	"dialog.hpp"
 	"display.hpp"

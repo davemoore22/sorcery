@@ -64,10 +64,12 @@ Sorcery::ChangeClass::ChangeClass(
 	_confirm = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["change_class:dialog_confirm_change_class"],
 		(*_display->layout)["change_class:dialog_confirm_change_class_text"],
-		WindowDialogType::OK);
-	_not_changed->setPosition(
+		WindowDialogType::CONFIRM);
+	_confirm->setPosition(
 		(*_display->layout)["change_class:dialog_confirm_change_class"].x,
 		(*_display->layout)["change_class:dialog_confirm_change_class"].y);
+
+	_new_class = std::nullopt;
 }
 
 // Standard Destructor
@@ -120,84 +122,152 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 						return std::nullopt;
 					}
 				};
-			}
+			} else if (_show_confirm) {
 
-			if (_system->input->check(WindowInput::CANCEL, event))
-				return std::nullopt;
+				auto dialog_input{_confirm->handle_input(event)};
+				if (dialog_input) {
+					if (dialog_input.value() == WindowDialogButton::CLOSE) {
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
+						_show_confirm = false;
+					} else if (dialog_input.value() ==
+							   WindowDialogButton::YES) {
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
+						return _new_class;
+					} else if (dialog_input.value() == WindowDialogButton::NO) {
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
+						_show_confirm = false;
+					}
+				}
 
-			if (_system->input->check(WindowInput::BACK, event))
-				return std::nullopt;
+			} else {
 
-			std::optional<std::vector<MenuEntry>::const_iterator> selected{
-				_menu->selected};
-			if (_system->input->check(WindowInput::UP, event))
-				selected = _menu->choose_previous();
-			else if (_system->input->check(WindowInput::DOWN, event))
-				selected = _menu->choose_next();
-			else if (_system->input->check(WindowInput::MOVE, event))
-				selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(
-					sf::Mouse::getPosition(*_window)));
-			else if (_system->input->check(WindowInput::BACK, event))
-				return std::nullopt;
-			else if (_system->input->check(WindowInput::DELETE, event))
-				return std::nullopt;
-			else if (_system->input->check(WindowInput::CONFIRM, event)) {
+				if (_system->input->check(WindowInput::CANCEL, event))
+					return std::nullopt;
 
-				// We have selected something from the menu
-				if (selected) {
+				if (_system->input->check(WindowInput::BACK, event))
+					return std::nullopt;
 
-					switch (auto chosen_class{(*selected.value()).item}) {
-					case MenuItem::CC_SAMURAI:
-						if (_character->get_class() == CharacterClass::SAMURAI)
-							_show_not_changed = true;
-						else
-							return CharacterClass::SAMURAI;
-						break;
-					case MenuItem::CC_FIGHTER:
-						if (_character->get_class() == CharacterClass::FIGHTER)
-							_show_not_changed = true;
-						else
-							return CharacterClass::FIGHTER;
-						break;
-					case MenuItem::CC_LORD:
-						if (_character->get_class() == CharacterClass::LORD)
-							_show_not_changed = true;
-						else
-							return CharacterClass::LORD;
-						break;
-					case MenuItem::CC_THIEF:
-						if (_character->get_class() == CharacterClass::THIEF)
-							_show_not_changed = true;
-						else
-							return CharacterClass::THIEF;
-						break;
-					case MenuItem::CC_NINJA:
-						if (_character->get_class() == CharacterClass::NINJA)
-							_show_not_changed = true;
-						else
-							return CharacterClass::NINJA;
-						break;
-					case MenuItem::CC_PRIEST:
-						if (_character->get_class() == CharacterClass::PRIEST)
-							_show_not_changed = true;
-						else
-							return CharacterClass::PRIEST;
-						break;
-					case MenuItem::CC_BISHOP:
-						if (_character->get_class() == CharacterClass::BISHOP)
-							_show_not_changed = true;
-						else
-							return CharacterClass::BISHOP;
-						break;
-					case MenuItem::CC_MAGE:
-						if (_character->get_class() == CharacterClass::MAGE)
-							_show_not_changed = true;
-						else
-							return CharacterClass::MAGE;
-						break;
-					default:
-						return std::nullopt;
-						break;
+				std::optional<std::vector<MenuEntry>::const_iterator> selected{
+					_menu->selected};
+				if (_system->input->check(WindowInput::UP, event))
+					selected = _menu->choose_previous();
+				else if (_system->input->check(WindowInput::DOWN, event))
+					selected = _menu->choose_next();
+				else if (_system->input->check(WindowInput::MOVE, event))
+					selected =
+						_menu->set_mouse_selected(static_cast<sf::Vector2f>(
+							sf::Mouse::getPosition(*_window)));
+				else if (_system->input->check(WindowInput::BACK, event))
+					return std::nullopt;
+				else if (_system->input->check(WindowInput::DELETE, event))
+					return std::nullopt;
+				else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+					// We have selected something from the menu
+					if (selected) {
+
+						switch (auto chosen_class{(*selected.value()).item}) {
+						case MenuItem::CC_SAMURAI:
+							if (_character->get_class() ==
+								CharacterClass::SAMURAI)
+								_show_not_changed = true;
+							else {
+								_show_confirm = true;
+								_new_class = CharacterClass::SAMURAI;
+								_display->set_input_mode(WindowInputMode::
+										CONFIRM_CHANGE_CHARACTER_CLASS);
+								_yes_or_no = WindowConfirm::NO;
+							}
+							break;
+						case MenuItem::CC_FIGHTER:
+							if (_character->get_class() ==
+								CharacterClass::FIGHTER)
+								_show_not_changed = true;
+							else {
+								_show_confirm = true;
+								_new_class = CharacterClass::FIGHTER;
+								_display->set_input_mode(WindowInputMode::
+										CONFIRM_CHANGE_CHARACTER_CLASS);
+								_yes_or_no = WindowConfirm::NO;
+							}
+							break;
+						case MenuItem::CC_LORD:
+							if (_character->get_class() == CharacterClass::LORD)
+								_show_not_changed = true;
+							else {
+								_show_confirm = true;
+								_new_class = CharacterClass::LORD;
+								_display->set_input_mode(WindowInputMode::
+										CONFIRM_CHANGE_CHARACTER_CLASS);
+								_yes_or_no = WindowConfirm::NO;
+							}
+							break;
+						case MenuItem::CC_THIEF:
+							if (_character->get_class() ==
+								CharacterClass::THIEF)
+								_show_not_changed = true;
+							else {
+								_show_confirm = true;
+								_new_class = CharacterClass::THIEF;
+								_display->set_input_mode(WindowInputMode::
+										CONFIRM_CHANGE_CHARACTER_CLASS);
+								_yes_or_no = WindowConfirm::NO;
+							}
+							break;
+						case MenuItem::CC_NINJA:
+							if (_character->get_class() ==
+								CharacterClass::NINJA)
+								_show_not_changed = true;
+							else {
+								_show_confirm = true;
+								_new_class = CharacterClass::NINJA;
+								_display->set_input_mode(WindowInputMode::
+										CONFIRM_CHANGE_CHARACTER_CLASS);
+								_yes_or_no = WindowConfirm::NO;
+							}
+							break;
+						case MenuItem::CC_PRIEST:
+							if (_character->get_class() ==
+								CharacterClass::PRIEST)
+								_show_not_changed = true;
+							else {
+								_show_confirm = true;
+								_new_class = CharacterClass::PRIEST;
+								_display->set_input_mode(WindowInputMode::
+										CONFIRM_CHANGE_CHARACTER_CLASS);
+								_yes_or_no = WindowConfirm::NO;
+							}
+							break;
+						case MenuItem::CC_BISHOP:
+							if (_character->get_class() ==
+								CharacterClass::BISHOP)
+								_show_not_changed = true;
+							else {
+								_show_confirm = true;
+								_new_class = CharacterClass::BISHOP;
+								_display->set_input_mode(WindowInputMode::
+										CONFIRM_CHANGE_CHARACTER_CLASS);
+								_yes_or_no = WindowConfirm::NO;
+							}
+							break;
+						case MenuItem::CC_MAGE:
+							if (_character->get_class() == CharacterClass::MAGE)
+								_show_not_changed = true;
+							else {
+								_show_confirm = true;
+								_new_class = CharacterClass::MAGE;
+								_display->set_input_mode(WindowInputMode::
+										CONFIRM_CHANGE_CHARACTER_CLASS);
+								_yes_or_no = WindowConfirm::NO;
+							}
+							break;
+						default:
+							return std::nullopt;
+							break;
+						}
 					}
 				}
 			}
