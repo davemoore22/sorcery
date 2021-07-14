@@ -59,6 +59,8 @@ namespace Sorcery {
 		// Private Methods
 		auto _draw() -> void;
 		auto _set_classes_menu() -> void;
+		auto _set_info_panel_contents(
+			std::vector<Sorcery::MenuEntry>::const_iterator it) -> void;
 
 		// Private Members
 		System *_system;
@@ -70,6 +72,8 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _frame;
 		std::unique_ptr<Menu> _menu;
 		std::unique_ptr<Dialog> _confirm;
+		std::unique_ptr<Dialog> _changed;
+		std::unique_ptr<Dialog> _not_changed;
 		std::unique_ptr<InfoPanel> _ip;
 		WindowConfirm _yes_or_no;
 		bool _valid;

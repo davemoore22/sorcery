@@ -556,6 +556,7 @@ auto Sorcery::Menu::choose(std::any option)
 			break;
 		}
 		break;
+	case MenuType::CHANGE_CHARACTER_CLASS:
 	case MenuType::CHOOSE_CHARACTER_CLASS:
 		switch (std::any_cast<CharacterClass>(option)) {
 		case CharacterClass::SAMURAI:

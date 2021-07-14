@@ -1311,6 +1311,69 @@
 				"type": "panel",
 				"priority": "6",
 				"drawmode": "manual"
+			},
+			{
+				"name": "dialog_class_changed",
+				"x": "28",
+				"y": "18",
+				"w": "22",
+				"type": "dialog",
+				"drawmode": "manual",
+				"alpha": "200",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "dialog_class_changed_text",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CONFIRM_CLASS_CHANGED",
+				"background": " 0xff0000ff",
+				"justification": "centre",
+				"type": "text",
+				"drawmode": "manual"
+			},
+			{
+				"name": "dialog_class_not_changed",
+				"x": "28",
+				"y": "18",
+				"w": "22",
+				"type": "dialog",
+				"drawmode": "manual",
+				"alpha": "200",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "dialog_class_not_changed_text",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CONFIRM_CLASS_NOT_CHANGED",
+				"background": " 0xff0000ff",
+				"justification": "centre",
+				"type": "text",
+				"drawmode": "manual"
+			},
+			{
+				"name": "dialog_confirm_change_class",
+				"x": "19",
+				"y": "13",
+				"w": "40",
+				"type": "dialog",
+				"drawmode": "manual",
+				"alpha": "200",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "dialog_confirm_change_class_text",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "CONFIRM_CHANGE_CLASS",
+				"background": " 0xff0000ff",
+				"justification": "centre",
+				"type": "text",
+				"drawmode": "manual"
 			}
 		]
 	},

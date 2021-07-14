@@ -40,6 +40,34 @@ Sorcery::ChangeClass::ChangeClass(
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr,
 		MenuType::CHANGE_CHARACTER_CLASS);
 	_set_classes_menu();
+
+	// Info Panel
+	_ip->valid = false;
+	_set_info_panel_contents(_menu->selected);
+
+	// And the Dialogs
+	_changed = std::make_unique<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["change_class:dialog_class_changed"],
+		(*_display->layout)["change_class:dialog_class_changed_text"],
+		WindowDialogType::OK);
+	_changed->setPosition(
+		(*_display->layout)["change_class:dialog_class_changed"].x,
+		(*_display->layout)["change_class:dialog_class_changed"].y);
+	_not_changed = std::make_unique<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["change_class:dialog_class_not_changed"],
+		(*_display->layout)["change_class:dialog_class_not_changed_text"],
+		WindowDialogType::OK);
+	_not_changed->setPosition(
+		(*_display->layout)["change_class:dialog_class_not_changed"].x,
+		(*_display->layout)["change_class:dialog_class_not_changed"].y);
+
+	_confirm = std::make_unique<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["change_class:dialog_confirm_change_class"],
+		(*_display->layout)["change_class:dialog_confirm_change_class_text"],
+		WindowDialogType::OK);
+	_not_changed->setPosition(
+		(*_display->layout)["change_class:dialog_confirm_change_class"].x,
+		(*_display->layout)["change_class:dialog_confirm_change_class"].y);
 }
 
 // Standard Destructor
@@ -77,6 +105,58 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 
 			if (_system->input->check(WindowInput::BACK, event))
 				return std::nullopt;
+
+			std::optional<std::vector<MenuEntry>::const_iterator> selected{
+				_menu->selected};
+			if (_system->input->check(WindowInput::UP, event))
+				selected = _menu->choose_previous();
+			else if (_system->input->check(WindowInput::DOWN, event))
+				selected = _menu->choose_next();
+			else if (_system->input->check(WindowInput::MOVE, event))
+				selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(
+					sf::Mouse::getPosition(*_window)));
+			else if (_system->input->check(WindowInput::BACK, event))
+				return std::nullopt;
+			else if (_system->input->check(WindowInput::DELETE, event))
+				return std::nullopt;
+			else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+				// We have selected something from the menu
+				if (selected) {
+
+					switch ((*selected.value()).item) {
+					case MenuItem::CC_SAMURAI:
+						return CharacterClass::SAMURAI;
+						break;
+					case MenuItem::CC_FIGHTER:
+						return CharacterClass::FIGHTER;
+						break;
+					case MenuItem::CC_LORD:
+						return CharacterClass::LORD;
+						break;
+					case MenuItem::CC_THIEF:
+						return CharacterClass::THIEF;
+						break;
+					case MenuItem::CC_NINJA:
+						return CharacterClass::NINJA;
+						break;
+					case MenuItem::CC_PRIEST:
+						return CharacterClass::PRIEST;
+						break;
+					case MenuItem::CC_BISHOP:
+						return CharacterClass::BISHOP;
+						break;
+					case MenuItem::CC_MAGE:
+						return CharacterClass::MAGE;
+						break;
+					default:
+						return std::nullopt;
+						break;
+					}
+				}
+			}
+
+			_set_info_panel_contents(_menu->selected);
 		}
 
 		_window->clear();
@@ -113,6 +193,12 @@ auto Sorcery::ChangeClass::_draw() -> void {
 	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 
+	if (_ip->valid) {
+		_ip->setPosition((*_display->layout)["change_class:info_panel"].x,
+			(*_display->layout)["change_class:info_panel"].y);
+		_window->draw(*_ip);
+	}
+
 	// And finally the Cursor
 	_display->display_overlay();
 	_display->display_cursor();
@@ -133,4 +219,20 @@ auto Sorcery::ChangeClass::_set_classes_menu() -> void {
 
 	// And select the current class
 	_menu->choose(_character->get_class());
+}
+
+auto Sorcery::ChangeClass::_set_info_panel_contents(
+	std::vector<Sorcery::MenuEntry>::const_iterator it) -> void {
+
+	// Set the Text
+	if ((*it).type == MenuItemType::ENTRY) {
+		std::string ip_contents{(*it).hint};
+		_ip->set_text(ip_contents);
+		_ip->valid = true;
+	} else
+		_ip->valid = false;
+
+	// Set the Icon
+	if ((*it).type == MenuItemType::ENTRY)
+		_ip->set_icon((*it).item);
 }
