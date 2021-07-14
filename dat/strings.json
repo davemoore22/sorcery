@@ -342,53 +342,5 @@
 	"HINT_GRAPHICS_TRAPS":						"Show nearby traps in the Dungeon",
 	"HINT_GRAPHICS_TELEPORTERS":				"Show nearby teleporters in the Dungeon",
 	"HINT_GRAPHICS_ENCOUNTERS":					"Show incoming encounters in the Dungeon",
-	"HINT_GRAPHICS_PROGRESS":					"Show explored tiles in the Map",
-
-
-"CONFIRM_TITLE": "Confirmation Needed!",
-"MAIN_MENU_CHARACTER": "Create and Manage Characters",
-"MAIN_MENU_CONFIG": "Change Gameplay and Graphics Settings",
-"MAIN_MENU_HELP": "View Help/User Manual",
-"MAIN_MENU_LICENSE": "Display License Information",
-"MAIN_MENU_LOAD_GAME": "Continue an existing game",
-"MAIN_MENU_NEW_GAME": "Start a new game",
-"MAIN_MENU_QUIT": "Quit",
-"MAIN_MENU_SCORES": "Hall of Fame",
-"MAIN_MENU_VERSION": "Display Version Information",
-"WARRANTY_INFO": "This program comes with ABSOLUTELY NO WARRANTY; for details choose 'Display License Information' and refer to Section  15. This is free software, and you are welcome to redistribute it under certain conditions; choose 'Display License Information' and refer to Sections  4 to  6 for details.",
-
-"CONFIG_INSTRUCTIONS": "[\\x18][\\x19] to select a setting, [\\x1b][\\x1a] to toggle the setting, [\\x17] to save changes and return to the Main Menu, or [\\x16] to return to the Main Menu without saving any changes",
-"HELP_INFO": "Supported Command Line Parameters:\\n\\nOptions that don't start the game:\\n\\n    --help          Display list of command line parameters (this info)\\n    --info          Important legal information about this program\\n    --version       Display Version Number\\n    --license       Display License Information\\n\\nOptions that can be applied to start and modify the game:\\n\\n    --silent        Don't write any information to the console\\n    --fullscreen    Start the game in full screen mode (the default mode is windowed)\\n\\nPlease report bugs, comments, and suggestions to the author.\\n\\n",
-"MAIN_MENU_COPYRIGHT": "Copyright \\x12 2019 Dave Moore (davemoore22@gmail.com)",
-"MAIN_MENU_INSTRUCTIONS": "[\\x18][\\x19] to choose an option, [\\x17] to select it, or [\\x16] to exit",
-"TEXT_FILE_INSTRUCTIONS": "[\\x18][\\x0c][\\x0e][\\x19][\\x0d][\\x0f] to move through the file, [\\x16][\\x17] to return to the Main Menu",
-"CHARACTER_CREATION_TITLE": "Create a new Character",
-"CHARACTER_CREATION_RANDOM": "Choose Random!",
-"CHARACTER_CREATION_INSTRUCTIONS": "[\\x18][\\x19] to choose an option, [\\x17] to confirm, or [\\x16] to go back to the previous step or quit",
-"CHARACTER_CREATION_NOT_ALLOCATED": "Not all bonus points are allocated!",
-
-"CHARACTER_RACE_STATS_BLURB": "Starting Characteristics:",
-"CHARACTER_STATS_INSTRUCTIONS": "[\\x18][\\x19] to choose an attribute, [\\x1b][\\x1a] to increase/decrease the attribute, [\\x17] to confirm and move to the next step, or [\\x16] to go back to the previous step",
-
-"CHARACTER_CREATION_QUIT": "Return to Main Menu",
-"CHARACTER_CREATION_GO_BACK": "Return to Previous Step",
-"CHARACTER_CREATION_GO_NEXT": "Continue to Next Step",
-"CHARACTER_CREATION_FINISH_AND_SAVE": "Finish and Save Character",
-
-
-"CHARACTER_PORTRAIT_PREVIOUS" : "Previous Portrait",
-"CHARACTER_PORTRAIT_NEXT" : "Next Portrait",
-"MANAGE_SUBTITLE_LIST": "Character List",
-"MANAGE_SUBTITLE_CHARACTER": "Create New Character",
-"MANAGE_SUBTITLE_IMPORT": "Import Existing Character",
-"MANAGE_INSTRUCTIONS": "[\\x15] to select a category, [\\x18][\\x19] to choose an opt1ion/character, [\\x17] to select an option/character, or [\\x16] to return to the Main Menu",
-"CHARACTER_NAME_INSTRUCTIONS": "[\\x17] to continue, or [\\x16] to return to the Main Menu",
-"CHARACTER_REVIEW_INSTRUCTIONS": "[\\x1b][\\x1a] to view character information, [\\x18][\\x19] to choose an option, [\\x17] to confirm, or [\\x16] to go back to the previous step",
-"WIZARDRY_IMPORT" : "Wizardry I, II, or III",
-"BARDS_TALE_IMPORT" : "Bard's Tale Trilogy",
-"ULTIMA_IMPORT" : "Ultima III or IV",
-"MENU_SEPARATOR" : "--------------",
-"MENU_OPTIONS_PREVIOUS" : "Return to Previous",
-"POINTS_TO_ALLOCATE" : "Points to allocate:",
-"POSSIBLE_CLASSES" : "Possible Classes"
+	"HINT_GRAPHICS_PROGRESS":					"Show explored tiles in the Map"
 }

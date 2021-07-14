@@ -29,6 +29,7 @@
 #include "display.hpp"
 #include "frame.hpp"
 #include "graphics.hpp"
+#include "infopanel.hpp"
 #include "keyboard.hpp"
 #include "layout.hpp"
 #include "main.hpp"
@@ -57,6 +58,7 @@ namespace Sorcery {
 	  private:
 		// Private Methods
 		auto _draw() -> void;
+		auto _set_classes_menu() -> void;
 
 		// Private Members
 		System *_system;
@@ -66,8 +68,9 @@ namespace Sorcery {
 		Character *_character;
 		sf::Sprite _bg;
 		std::unique_ptr<Frame> _frame;
-		std::shared_ptr<Menu> _menu;
-		std::shared_ptr<Dialog> _change_class;
+		std::unique_ptr<Menu> _menu;
+		std::unique_ptr<Dialog> _confirm;
+		std::unique_ptr<InfoPanel> _ip;
 		WindowConfirm _yes_or_no;
 		bool _valid;
 	};

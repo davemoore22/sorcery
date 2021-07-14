@@ -1260,6 +1260,57 @@
 				"justification": "centre",
 				"type": "text",
 				"priority": "4"
+			},
+			{
+				"name": "menu_frame",
+				"w": "21",
+				"h": "11",
+				"x": "centre",
+				"y": "14",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "menu",
+				"x": "30",
+				"y": "14",
+				"w": "20",
+				"h": "9",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"animated": "true",
+				"width": "25",
+				"background": " 0xff0000ff",
+				"justification": "centre",
+				"type": "menu",
+				"priority": "10"
+			},
+			{
+				"name": "explanation_frame",
+				"w": "40",
+				"h": "11",
+				"x": "centre",
+				"y": "25",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "info_panel",
+				"w": "38",
+				"h": "11",
+				"x": "20",
+				"y": "25",
+				"alpha": "255",
+				"type": "panel",
+				"priority": "6",
+				"drawmode": "manual"
 			}
 		]
 	},

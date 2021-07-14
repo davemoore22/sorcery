@@ -1136,15 +1136,16 @@
 	"menu.hpp"
 	"system.hpp"
 
-1626180737 source:/home/dave/Development/wizardry/sorcery-sfml/src/changeclass.cpp
+1626289646 source:/home/dave/Development/wizardry/sorcery-sfml/src/changeclass.cpp
 	"changeclass.hpp"
 
-1626180304 /home/dave/Development/wizardry/sorcery-sfml/inc/changeclass.hpp
+1626289182 /home/dave/Development/wizardry/sorcery-sfml/inc/changeclass.hpp
 	"character.hpp"
 	"dialog.hpp"
 	"display.hpp"
 	"frame.hpp"
 	"graphics.hpp"
+	"infopanel.hpp"
 	"keyboard.hpp"
 	"layout.hpp"
 	"main.hpp"

@@ -32,6 +32,14 @@ Sorcery::ChangeClass::ChangeClass(
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
+
+	// Get the Infopanel
+	_ip = std::make_unique<InfoPanel>(_system, _display, _graphics);
+
+	// Main Menu
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr,
+		MenuType::CHANGE_CHARACTER_CLASS);
+	_set_classes_menu();
 }
 
 // Standard Destructor
@@ -98,7 +106,31 @@ auto Sorcery::ChangeClass::_draw() -> void {
 	// Display Components
 	_display->display("change_class");
 
+	// And the Menu
+	_menu->generate((*_display->layout)["change_class:menu"]);
+	const sf::Vector2f menu_pos((*_display->layout)["change_class:menu"].x,
+		(*_display->layout)["change_class:menu"].y);
+	_menu->setPosition(menu_pos);
+	_window->draw(*_menu);
+
 	// And finally the Cursor
 	_display->display_overlay();
 	_display->display_cursor();
+}
+
+auto Sorcery::ChangeClass::_set_classes_menu() -> void {
+
+	_character->set_pos_class();
+	auto possible_classes{_character->get_pos_class()};
+	(*_menu)[0].enabled = possible_classes[CharacterClass::SAMURAI];
+	(*_menu)[1].enabled = possible_classes[CharacterClass::FIGHTER];
+	(*_menu)[2].enabled = possible_classes[CharacterClass::LORD];
+	(*_menu)[3].enabled = possible_classes[CharacterClass::THIEF];
+	(*_menu)[4].enabled = possible_classes[CharacterClass::NINJA];
+	(*_menu)[5].enabled = possible_classes[CharacterClass::PRIEST];
+	(*_menu)[6].enabled = possible_classes[CharacterClass::BISHOP];
+	(*_menu)[7].enabled = possible_classes[CharacterClass::MAGE];
+
+	// And select the current class
+	_menu->choose(_character->get_class());
 }
