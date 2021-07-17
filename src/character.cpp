@@ -846,6 +846,8 @@ auto Sorcery::Character::finalise() -> void {
 }
 
 auto Sorcery::Character::_regenerate_start_info() -> void {
+	_abilities[CharacterAbility::MAX_LEVEL] =
+		_abilities[CharacterAbility::CURRENT_LEVEL];
 	_abilities[CharacterAbility::CURRENT_LEVEL] = 1;
 	_abilities[CharacterAbility::CURRENT_XP] = 0;
 	_abilities[CharacterAbility::NEXT_LEVEL_XP] =
@@ -856,7 +858,7 @@ auto Sorcery::Character::_regenerate_start_info() -> void {
 		(52 * (3 + (*_system->random)[RandomType::D3])) + 44};
 	_abilities[CharacterAbility::AGE] += age_increment;
 
-	// reset attributes to racial minimums
+	// Reset attributes to racial minimums
 	CharacterAttributes minimum_attr;
 	switch (_race) {
 	case CharacterRace::HUMAN:
@@ -905,6 +907,8 @@ auto Sorcery::Character::change_class(const CharacterClass &value) -> void {
 		_generate_secondary_abil(false, true);
 		_reset_start_spells();
 		_reset_starting_sp();
+
+		// Also need to deequip all items!
 	}
 }
 

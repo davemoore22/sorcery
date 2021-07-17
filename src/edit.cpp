@@ -183,6 +183,14 @@ auto Sorcery::Edit::start(int current_character_idx)
 								_system, _display, _graphics, &character)};
 							auto new_class{change_class->start()};
 							if (new_class) {
+
+								// Can't select same class in the change_class
+								// module - it returns nullopt if you do
+								character.change_class(new_class.value());
+								_game->update_char(_game->get_id(),
+									current_character_idx, character);
+								_game->reload_char(current_character_idx);
+
 								_show_changed = true;
 								_display->set_input_mode(
 									WindowInputMode::NAVIGATE_MENU);
