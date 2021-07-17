@@ -46,13 +46,6 @@ Sorcery::ChangeClass::ChangeClass(
 	_set_info_panel_contents(_menu->selected);
 
 	// And the Dialogs
-	_changed = std::make_unique<Dialog>(_system, _display, _graphics,
-		(*_display->layout)["change_class:dialog_class_changed"],
-		(*_display->layout)["change_class:dialog_class_changed_text"],
-		WindowDialogType::OK);
-	_changed->setPosition(
-		(*_display->layout)["change_class:dialog_class_changed"].x,
-		(*_display->layout)["change_class:dialog_class_changed"].y);
 	_not_changed = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["change_class:dialog_class_not_changed"],
 		(*_display->layout)["change_class:dialog_class_not_changed_text"],
@@ -77,7 +70,6 @@ Sorcery::ChangeClass::~ChangeClass() {}
 
 auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 
-	_show_changed = false;
 	_show_confirm = false;
 	_show_not_changed = false;
 
@@ -318,11 +310,6 @@ auto Sorcery::ChangeClass::_draw() -> void {
 	if (_show_not_changed) {
 		_not_changed->update();
 		_window->draw(*_not_changed);
-	}
-
-	if (_show_changed) {
-		_changed->update();
-		_window->draw(*_changed);
 	}
 
 	if (_show_confirm) {

@@ -72,13 +72,11 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _frame;
 		std::unique_ptr<Menu> _menu;
 		std::unique_ptr<Dialog> _confirm;
-		std::unique_ptr<Dialog> _changed;
 		std::unique_ptr<Dialog> _not_changed;
 		std::unique_ptr<InfoPanel> _ip;
 		WindowConfirm _yes_or_no;
 		bool _valid;
 		bool _show_confirm;
-		bool _show_changed;
 		bool _show_not_changed;
 		std::optional<CharacterClass> _new_class;
 	};

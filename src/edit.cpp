@@ -36,6 +36,14 @@ Sorcery::Edit::Edit(
 	_char_panel = std::make_unique<CharPanel>(_system, _display, _graphics);
 	_menu = std::make_shared<Menu>(
 		_system, _display, _graphics, _game, MenuType::EDIT_CHARACTER);
+
+	_changed = std::make_unique<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["character_edit:dialog_class_changed"],
+		(*_display->layout)["character_edit:dialog_class_changed_text"],
+		WindowDialogType::OK);
+	_changed->setPosition(
+		(*_display->layout)["character_edit:dialog_class_changed"].x,
+		(*_display->layout)["character_edit:dialog_class_changed"].y);
 }
 
 // Standard Destructor
@@ -47,6 +55,8 @@ auto Sorcery::Edit::start(int current_character_idx)
 	// Get the Background Display Components and load them into Display module
 	// storage (not local)
 	_display->generate("character_edit");
+
+	_show_changed = false;
 
 	// Get the Current Character
 	_cur_char = &_game->characters.at(current_character_idx);
@@ -111,56 +121,80 @@ auto Sorcery::Edit::start(int current_character_idx)
 			} else
 				_display->hide_overlay();
 
-			if (_system->input->check(WindowInput::CANCEL, event))
-				return std::nullopt;
-
-			if (_system->input->check(WindowInput::BACK, event))
-				return std::nullopt;
-
-			if (_system->input->check(WindowInput::UP, event))
-				selected = _menu->choose_previous();
-			else if (_system->input->check(WindowInput::DOWN, event))
-				selected = _menu->choose_next();
-			else if (_system->input->check(WindowInput::MOVE, event))
-				selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(
-					sf::Mouse::getPosition(*_window)));
-			else if (_system->input->check(WindowInput::CONFIRM, event)) {
-
-				// We have selected something from the menu
-				if (selected) {
-					const MenuItem option_chosen{(*selected.value()).item};
-					if (option_chosen == MenuItem::EC_RETURN_EDIT) {
-						return MenuItem::EC_RETURN_EDIT;
-					} else if (option_chosen == MenuItem::EC_CHANGE_NAME) {
-
-						auto change_name{
-							std::make_unique<ChangeName>(_system, _display,
-								_graphics, _cur_char.value()->get_name())};
-						auto new_name{change_name->start()};
-						if (new_name) {
-
-							// Update character name and resave the character!
-							std::string changed_name{new_name.value()};
-							_cur_char.value()->set_name(changed_name);
-							auto character{*_cur_char.value()};
-							_game->update_char(_game->get_id(),
-								current_character_idx, character);
-							_game->reload_char(current_character_idx);
-						};
-						change_name->stop();
-					} else if (option_chosen == MenuItem::EC_CHANGE_CLASS) {
-						auto character{*_cur_char.value()};
-						auto change_class{std::make_unique<ChangeClass>(
-							_system, _display, _graphics, &character)};
-						auto new_class{change_class->start()};
-						if (new_class) {
-						}
-						change_class->stop();
+			if (_show_changed) {
+				auto dialog_input{_changed->handle_input(event)};
+				if (dialog_input) {
+					if (dialog_input.value() == WindowDialogButton::CLOSE) {
+						_show_changed = false;
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
+						return std::nullopt;
+					} else if (dialog_input.value() == WindowDialogButton::OK) {
+						_show_changed = false;
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
+						return std::nullopt;
 					}
-
-					_display->generate("character_edit");
-					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 				};
+			} else {
+
+				if (_system->input->check(WindowInput::CANCEL, event))
+					return std::nullopt;
+
+				if (_system->input->check(WindowInput::BACK, event))
+					return std::nullopt;
+
+				if (_system->input->check(WindowInput::UP, event))
+					selected = _menu->choose_previous();
+				else if (_system->input->check(WindowInput::DOWN, event))
+					selected = _menu->choose_next();
+				else if (_system->input->check(WindowInput::MOVE, event))
+					selected =
+						_menu->set_mouse_selected(static_cast<sf::Vector2f>(
+							sf::Mouse::getPosition(*_window)));
+				else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+					// We have selected something from the menu
+					if (selected) {
+						const MenuItem option_chosen{(*selected.value()).item};
+						if (option_chosen == MenuItem::EC_RETURN_EDIT) {
+							return MenuItem::EC_RETURN_EDIT;
+						} else if (option_chosen == MenuItem::EC_CHANGE_NAME) {
+
+							auto change_name{
+								std::make_unique<ChangeName>(_system, _display,
+									_graphics, _cur_char.value()->get_name())};
+							auto new_name{change_name->start()};
+							if (new_name) {
+
+								// Update character name and resave the
+								// character!
+								std::string changed_name{new_name.value()};
+								_cur_char.value()->set_name(changed_name);
+								auto character{*_cur_char.value()};
+								_game->update_char(_game->get_id(),
+									current_character_idx, character);
+								_game->reload_char(current_character_idx);
+							};
+							change_name->stop();
+						} else if (option_chosen == MenuItem::EC_CHANGE_CLASS) {
+							auto character{*_cur_char.value()};
+							auto change_class{std::make_unique<ChangeClass>(
+								_system, _display, _graphics, &character)};
+							auto new_class{change_class->start()};
+							if (new_class) {
+								_show_changed = true;
+								_display->set_input_mode(
+									WindowInputMode::NAVIGATE_MENU);
+							}
+							change_class->stop();
+						}
+
+						_display->generate("character_edit");
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
+					};
+				}
 			}
 		}
 
@@ -208,6 +242,11 @@ auto Sorcery::Edit::_draw() -> void {
 			(*_display->layout)["character_edit:info_panel"].x,
 			(*_display->layout)["character_edit:info_panel"].y);
 		_window->draw(*_char_panel);
+	}
+
+	if (_show_changed) {
+		_changed->update();
+		_window->draw(*_changed);
 	}
 
 	// And finally the Cursor
