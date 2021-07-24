@@ -1,6 +1,8 @@
 Sorcery: Dreams of the Mad Overlord
 Copyright (C) 2021 Dave Moore
 
+Linux Instructions:
+
 Make sure the following packages/third-party libraries from the Standard and
 Universe Repositories are installed:
 
@@ -24,7 +26,7 @@ And then install the following additional package:
 
 libtgui-dev
 
-Download, compile and install the following libraries:
+Download, compile and install the following libraries (cmake needed):
 
 - sfeMovie https://github.com/Yalir/sfeMovie
 - Thor https://github.com/Bromeon/Thor
@@ -44,3 +46,5 @@ Additional support tools useful for development:
 
 Note that to compile Sorcery: Dreams of the Mad Overlord requires a compiler
 with C++20 support such as g++11.
+
+Windows Instructions:
