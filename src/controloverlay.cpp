@@ -1,19 +1,19 @@
 // Copyright (C) 2021 Dave Moore
 //
-// This file is part of Sorcery: Dreams of the Mad Overlord.
+// This file is part of Sorcery: Shadows under Llylgamyn.
 //
-// Sorcery: Dreams of the Mad Overlord is free software: you can redistribute it
+// Sorcery: Shadows under Llylgamyn is free software: you can redistribute it
 // and/or modify it under the terms of the GNU General Public License as
 // published by the Free Software Foundation, either version 2 of the License,
 // or (at your option) any later version.
 //
-// Sorcery: Dreams of the Mad Overlord is distributed in the hope that it will
+// Sorcery: Shadows under Llylgamyn is distributed in the hope that it will
 // be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Sorcery: Dreams of the Mad Overlord.  If not, see
+// along with Sorcery: Shadows under Llylgamyn.  If not, see
 // <http://www.gnu.org/licenses/>.
 //
 // If you modify this Program, or any covered work, by linking or combining it

@@ -1,19 +1,19 @@
 // Copyright (C) 2021 Dave Moore
 //
-// This file is part of Sorcery: Dreams of the Mad Overlord.
+// This file is part of Sorcery: Shadows under Llylgamyn.
 //
-// Sorcery: Dreams of the Mad Overlord is free software: you can redistribute
+// Sorcery: Shadows under Llylgamyn is free software: you can redistribute
 // it and/or modify it under the terms of the GNU General Public License as
 // published by the Free Software Foundation, either version 2 of the License,
 // or (at your option) any later version.
 //
-// Sorcery: Dreams of the Mad Overlord is distributed in the hope that it wil
+// Sorcery: Shadows under Llylgamyn is distributed in the hope that it wil
 // be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
 // Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Sorcery: Dreams of the Mad Overlord.  If not,
+// along with Sorcery: Shadows under Llylgamyn.  If not,
 // see <http://www.gnu.org/licenses/>.
 //
 // If you modify this program, or any covered work, by linking or combining
@@ -53,6 +53,7 @@ Sorcery::System::System(
 
 	// Pause Clock
 	_pause_clock_start = std::nullopt;
+	_clock_duration = std::nullopt;
 }
 
 Sorcery::System::System(const System &other)
@@ -83,13 +84,13 @@ auto Sorcery::System::set_pause(unsigned int milliseconds) -> void {
 
 auto Sorcery::System::is_paused() -> bool {
 
-	if (_pause_clock_start) {
+	if (_pause_clock_start && _clock_duration) {
 		auto elapsed{std::chrono::duration_cast<std::chrono::milliseconds>(
-			_pause_clock_start.value() - std::chrono::steady_clock::now())
+			std::chrono::steady_clock::now() - _pause_clock_start.value())
 						 .count()};
-		if (elapsed > _clock_duration) {
+		if (elapsed > _clock_duration.value()) {
 			_pause_clock_start = std::nullopt;
-			_clock_duration = 0;
+			_clock_duration = std::nullopt;
 			return false;
 		} else
 			return true;
@@ -100,5 +101,5 @@ auto Sorcery::System::is_paused() -> bool {
 auto Sorcery::System::stop_pause() -> void {
 
 	_pause_clock_start = std::nullopt;
-	_clock_duration = 0;
+	_clock_duration = std::nullopt;
 }
