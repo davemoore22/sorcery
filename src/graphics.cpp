@@ -69,7 +69,7 @@ auto Sorcery::Graphics::adjust_status_colour(
 		to_scale = (1.0f / 8.0f) * 2.0f;
 	float scaled{to_scale / 8.0f};
 	return (gradient.sampleColor(scaled)).toInteger();
-};
+}
 
 auto Sorcery::Graphics::adjust_colour(
 	int value, CharacterAbilityType ability_type) -> unsigned long long {

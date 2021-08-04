@@ -2415,7 +2415,7 @@ auto Sorcery::Character::set_status(CharacterStatus value) -> void {
 		if (candidate > current)
 			_status = value;
 	}
-};
+}
 
 auto Sorcery::Character::is_poisoned() const -> bool {
 

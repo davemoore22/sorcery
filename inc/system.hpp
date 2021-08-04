@@ -48,6 +48,9 @@ namespace Sorcery {
 		auto operator=(const System &other) -> System &;
 
 		// Public Methods
+		auto set_pause(unsigned int milliseconds) -> void;
+		auto is_paused() -> bool;
+		auto stop_pause() -> void;
 
 		// Public Members
 		std::shared_ptr<File> files;
@@ -64,6 +67,8 @@ namespace Sorcery {
 
 	  private:
 		// Private Members
+		std::optional<std::chrono::steady_clock::time_point> _pause_clock_start;
+		unsigned int _clock_duration;
 
 		// Private Methods
 	};

@@ -50,6 +50,9 @@ Sorcery::System::System(
 
 	// Input Module
 	input = std::make_shared<Input>();
+
+	// Pause Clock
+	_pause_clock_start = std::nullopt;
 }
 
 Sorcery::System::System(const System &other)
@@ -68,4 +71,34 @@ auto Sorcery::System::operator=(const System &other) -> System & {
 	input = other.input;
 
 	return *this;
+}
+
+auto Sorcery::System::set_pause(unsigned int milliseconds) -> void {
+
+	if (!_pause_clock_start) {
+		_clock_duration = milliseconds;
+		_pause_clock_start = std::chrono::steady_clock::now();
+	}
+}
+
+auto Sorcery::System::is_paused() -> bool {
+
+	if (_pause_clock_start) {
+		auto elapsed{std::chrono::duration_cast<std::chrono::milliseconds>(
+			_pause_clock_start.value() - std::chrono::steady_clock::now())
+						 .count()};
+		if (elapsed > _clock_duration) {
+			_pause_clock_start = std::nullopt;
+			_clock_duration = 0;
+			return false;
+		} else
+			return true;
+	} else
+		return false;
+}
+
+auto Sorcery::System::stop_pause() -> void {
+
+	_pause_clock_start = std::nullopt;
+	_clock_duration = 0;
 }
