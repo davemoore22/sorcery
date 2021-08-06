@@ -1693,6 +1693,27 @@
 			"drawmode": "manual"
 		},
 		{
+			"name": "dialog_legated",
+			"x": "28",
+			"y": "15",
+			"w": "22",
+			"type": "dialog",
+			"drawmode": "manual",
+			"alpha": "200",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "dialog_legated_text",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CONFIRM_LEGATED",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "text",
+			"drawmode": "manual"
+		},
+		{
 			"name": "title_frame",
 			"w": "22",
 			"h": "2",

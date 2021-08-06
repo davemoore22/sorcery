@@ -40,12 +40,6 @@ Sorcery::Legate::Legate(
 		WindowDialogType::CONFIRM);
 	_proceed->setPosition((*_display->layout)["legate:dialog_confirm_legate"].x,
 		(*_display->layout)["legate:dialog_confirm_legate"].y);
-	_success = std::make_unique<Dialog>(_system, _display, _graphics,
-		(*_display->layout)["legate:dialog_legate_success"],
-		(*_display->layout)["legate:dialog_legate_success_text"],
-		WindowDialogType::OK);
-	_success->setPosition((*_display->layout)["legate:dialog_legate_success"].x,
-		(*_display->layout)["legate:dialog_legate_success"].y);
 
 	// Menu
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr,
@@ -89,7 +83,7 @@ Sorcery::Legate::Legate(
 // Standard Destructor
 Sorcery::Legate::~Legate() {}
 
-auto Sorcery::Legate::start() -> bool {
+auto Sorcery::Legate::start() -> std::optional<CharacterAlignment> {
 
 	_stage = LegateStage::CONFIRM;
 	_display->generate("legate");
@@ -118,10 +112,10 @@ auto Sorcery::Legate::start() -> bool {
 				_display->hide_overlay();
 
 			if (_system->input->check(WindowInput::CANCEL, event))
-				return false;
+				return std::nullopt;
 
 			if (_system->input->check(WindowInput::BACK, event))
-				return false;
+				return std::nullopt;
 
 			if (_stage == LegateStage::CONFIRM) {
 
@@ -130,7 +124,7 @@ auto Sorcery::Legate::start() -> bool {
 					if (dialog_input.value() == WindowDialogButton::CLOSE) {
 						_display->set_input_mode(
 							WindowInputMode::NAVIGATE_MENU);
-						return false;
+						return std::nullopt;
 					} else if (dialog_input.value() ==
 							   WindowDialogButton::YES) {
 						_display->set_input_mode(
@@ -140,7 +134,7 @@ auto Sorcery::Legate::start() -> bool {
 					} else if (dialog_input.value() == WindowDialogButton::NO) {
 						_display->set_input_mode(
 							WindowInputMode::NAVIGATE_MENU);
-						return false;
+						return std::nullopt;
 					}
 				}
 
@@ -168,36 +162,19 @@ auto Sorcery::Legate::start() -> bool {
 
 					switch (auto chosen_alignment{(*selected.value()).item}) {
 					case MenuItem::CA_GOOD:
-						//_character->legate(CharacterAlignment::GOOD);
-						_stage = LegateStage::LEGATED;
+						return CharacterAlignment::GOOD;
 						break;
 					case MenuItem::CA_NEUTRAL:
-						//_character->legate(CharacterAlignment::NEUTRAL);
-						_stage = LegateStage::LEGATED;
+						return CharacterAlignment::NEUTRAL;
 						break;
 					case MenuItem::CA_EVIL:
-						//_character->legate(CharacterAlignment::EVIL);
-						_stage = LegateStage::LEGATED;
+						return CharacterAlignment::EVIL;
 						break;
 					default:
-						return false;
+						return std::nullopt;
 					}
 
 					continue;
-				}
-
-			} else if (_stage == LegateStage::LEGATED) {
-				auto dialog_input{_success->handle_input(event)};
-				if (dialog_input) {
-					if (dialog_input.value() == WindowDialogButton::CLOSE) {
-						_display->set_input_mode(
-							WindowInputMode::NAVIGATE_MENU);
-						return true;
-					} else if (dialog_input.value() == WindowDialogButton::OK) {
-						_display->set_input_mode(
-							WindowInputMode::NAVIGATE_MENU);
-						return true;
-					}
 				}
 			}
 		}
@@ -213,7 +190,7 @@ auto Sorcery::Legate::start() -> bool {
 		_window->display();
 	}
 
-	return false;
+	return std::nullopt;
 }
 
 auto Sorcery::Legate::stop() -> void {
@@ -295,11 +272,6 @@ auto Sorcery::Legate::_draw() -> void {
 		_menu->setPosition(menu_pos);
 		_window->draw(*_menu);
 		_window->draw(_choose_alignment);
-
-	} else if (_stage == LegateStage::LEGATED) {
-
-		_success->update();
-		_window->draw(*_success);
 	}
 
 	// And finally the Cursor

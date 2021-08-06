@@ -48,7 +48,7 @@ namespace Sorcery {
 		// Public Members
 
 		// Public Methods
-		auto start() -> bool;
+		auto start() -> std::optional<CharacterAlignment>;
 		auto stop() -> void;
 
 	  private:
@@ -68,6 +68,5 @@ namespace Sorcery {
 		std::unique_ptr<Menu> _menu;
 		std::unique_ptr<Frame> _frame;
 		sf::Text _choose_alignment;
-		std::unique_ptr<Dialog> _success;
 	};
 } // namespace Sorcery

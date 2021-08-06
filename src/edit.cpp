@@ -44,6 +44,13 @@ Sorcery::Edit::Edit(
 	_changed->setPosition(
 		(*_display->layout)["character_edit:dialog_class_changed"].x,
 		(*_display->layout)["character_edit:dialog_class_changed"].y);
+	_legated = std::make_unique<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["character_edit:dialog_legated"],
+		(*_display->layout)["character_edit:dialog_legated_text"],
+		WindowDialogType::OK);
+	_legated->setPosition(
+		(*_display->layout)["character_edit:dialog_legated"].x,
+		(*_display->layout)["character_edit:dialog_legated"].y);
 }
 
 // Standard Destructor
@@ -57,6 +64,7 @@ auto Sorcery::Edit::start(int current_character_idx)
 	_display->generate("character_edit");
 
 	_show_changed = false;
+	_show_legated = false;
 
 	// Get the Current Character
 	_cur_char = &_game->characters.at(current_character_idx);
@@ -136,6 +144,21 @@ auto Sorcery::Edit::start(int current_character_idx)
 						return std::nullopt;
 					}
 				};
+			} else if (_show_legated) {
+				auto dialog_input{_legated->handle_input(event)};
+				if (dialog_input) {
+					if (dialog_input.value() == WindowDialogButton::CLOSE) {
+						_show_legated = false;
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
+						return std::nullopt;
+					} else if (dialog_input.value() == WindowDialogButton::OK) {
+						_show_legated = false;
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
+						return std::nullopt;
+					}
+				};
 			} else {
 
 				if (_system->input->check(WindowInput::CANCEL, event))
@@ -203,9 +226,13 @@ auto Sorcery::Edit::start(int current_character_idx)
 								_system, _display, _graphics, &character)};
 							auto legated{legate->start()};
 							if (legated) {
+
+								character.legate(legated.value());
 								_game->update_char(_game->get_id(),
 									current_character_idx, character);
 								_game->reload_char(current_character_idx);
+
+								_show_legated = true;
 								_display->set_input_mode(
 									WindowInputMode::NAVIGATE_MENU);
 							}
@@ -269,6 +296,11 @@ auto Sorcery::Edit::_draw() -> void {
 	if (_show_changed) {
 		_changed->update();
 		_window->draw(*_changed);
+	}
+
+	if (_show_legated) {
+		_legated->update();
+		_window->draw(*_legated);
 	}
 
 	// And finally the Cursor

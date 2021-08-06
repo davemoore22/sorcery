@@ -76,5 +76,7 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _preview_frame;
 		std::unique_ptr<Dialog> _changed;
 		bool _show_changed;
+		std::unique_ptr<Dialog> _legated;
+		bool _show_legated;
 	};
 } // namespace Sorcery
