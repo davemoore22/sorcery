@@ -86,7 +86,8 @@ namespace Sorcery {
 			SAVED_CHARACTER_OK,
 			BROWSE_CHARACTER,
 			CONFIRM_DELETE_CHARACTER,
-			CONFIRM_CHANGE_CHARACTER_CLASS
+			CONFIRM_CHANGE_CHARACTER_CLASS,
+			CONFIRM_LEGATE
 		};
 
 		enum class InputCategory {
@@ -323,6 +324,8 @@ namespace Sorcery {
 			FINISH_AND_SAVE,
 			COMPLETED
 		};
+
+		enum class Legate { NONE, CONFIRM, CHANGE_ALIGNMENT, LEGATED };
 
 		// View Sections
 		enum class View {

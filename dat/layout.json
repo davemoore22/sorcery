@@ -1512,6 +1512,75 @@
 				"justification": "centre",
 				"type": "text",
 				"priority": "4"
+			},
+			{
+				"name": "blurb_1",
+				"x": "centre",
+				"y": "8",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "LEGATE_CHARACTER_DESCRIPTION_1",
+				"justification": "centre",
+				"type": "text",
+				"priority": "4"
+			},
+			{
+				"name": "blurb_2",
+				"x": "centre",
+				"y": "9",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "LEGATE_CHARACTER_DESCRIPTION_2",
+				"justification": "centre",
+				"type": "text",
+				"priority": "4"
+			},
+			{
+				"name": "blurb_3",
+				"x": "centre",
+				"y": "11",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "LEGATE_CHARACTER_DESCRIPTION_3",
+				"justification": "centre",
+				"type": "text",
+				"priority": "4"
+			},
+			{
+				"name": "blurb_4",
+				"x": "centre",
+				"y": "12",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "LEGATE_CHARACTER_DESCRIPTION_1",
+				"justification": "centre",
+				"type": "text",
+				"priority": "4"
+			},
+			{
+				"name": "dialog_confirm_legate",
+				"x": "20",
+				"y": "15",
+				"w": "40",
+				"type": "dialog",
+				"drawmode": "manual",
+				"alpha": "200",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "dialog_confirm_legate_text",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "LEGATE_CHARACTER_PROCEED",
+				"background": " 0xff0000ff",
+				"justification": "centre",
+				"type": "text",
+				"drawmode": "manual"
 			}
 		]
 	},

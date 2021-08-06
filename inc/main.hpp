@@ -144,6 +144,7 @@ namespace Sorcery {
 	using IconLibrary = std::map<std::string, sf::Sprite>;
 	using Import = Enums::Manage::Import;
 	using Justification = Enums::Window::Justification;
+	using LegateStage = Enums::Character::Legate;
 	using MainMenuType = Enums::MainMenu::Type;
 	using MenuItem = Enums::Menu::Item;
 	using MenuType = Enums::Menu::Type;

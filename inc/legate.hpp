@@ -22,6 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
+#include "dialog.hpp"
 #include "display.hpp"
 #include "frame.hpp"
 #include "graphics.hpp"
@@ -61,5 +62,8 @@ namespace Sorcery {
 		Character *_character;
 		sf::RenderWindow *_window;
 		sf::Sprite _bg;
+		std::unique_ptr<Dialog> _proceed;
+		WindowConfirm _yes_or_no;
+		LegateStage _stage;
 	};
 } // namespace Sorcery

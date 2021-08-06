@@ -32,6 +32,15 @@ Sorcery::Legate::Legate(
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
+
+	_proceed = std::make_unique<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["legate:dialog_confirm_legate"],
+		(*_display->layout)["legate:dialog_confirm_legate_text"],
+		WindowDialogType::CONFIRM);
+	_proceed->setPosition((*_display->layout)["legate:dialog_confirm_legate"].x,
+		(*_display->layout)["legate:dialog_confirm_legate"].y);
+
+	_stage = LegateStage::NONE;
 }
 
 // Standard Destructor
@@ -39,8 +48,9 @@ Sorcery::Legate::~Legate() {}
 
 auto Sorcery::Legate::start() -> bool {
 
+	_stage = LegateStage::CONFIRM;
 	_display->generate("legate");
-	//_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+	_display->set_input_mode(WindowInputMode::CONFIRM_LEGATE);
 
 	// Clear the window
 	_window->clear();
@@ -69,6 +79,13 @@ auto Sorcery::Legate::start() -> bool {
 
 			if (_system->input->check(WindowInput::BACK, event))
 				return false;
+
+			if (_stage == LegateStage::CONFIRM) {
+
+			} else if (_stage == LegateStage::CHANGE_ALIGNMENT) {
+
+			} else if (_stage == LegateStage::LEGATED) {
+			}
 		}
 
 		_window->clear();
@@ -97,6 +114,16 @@ auto Sorcery::Legate::_draw() -> void {
 
 	// Display Components
 	_display->display("legate");
+
+	if (_stage == LegateStage::CONFIRM) {
+
+		_proceed->update();
+		_window->draw(*_proceed);
+
+	} else if (_stage == LegateStage::CHANGE_ALIGNMENT) {
+
+	} else if (_stage == LegateStage::LEGATED) {
+	}
 
 	/* // And the Menu
 	_menu->generate((*_display->layout)["change_class:menu"]);
