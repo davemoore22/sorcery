@@ -822,20 +822,6 @@ auto Sorcery::Character::get_class(CharacterClass character_class) const
 	}
 }
 
-// Save from DB
-auto Sorcery::Character::_save() -> unsigned int {
-
-	// TODO:
-	return 1;
-}
-
-// Load from DB
-auto Sorcery::Character::_load([[maybe_unused]] unsigned int character_id)
-	-> void {
-
-	// TODO:
-}
-
 // Last step of creating new a character
 auto Sorcery::Character::finalise() -> void {
 
@@ -843,6 +829,45 @@ auto Sorcery::Character::finalise() -> void {
 	_generate_secondary_abil(true, false);
 	_set_start_spells();
 	_set_starting_sp();
+}
+
+auto Sorcery::Character::_legate_start_info() -> void {
+
+	_abilities[CharacterAbility::CURRENT_LEVEL] = 1;
+	_abilities[CharacterAbility::CURRENT_XP] = 0;
+	_abilities[CharacterAbility::NEXT_LEVEL_XP] =
+		_get_xp_for_level(_abilities[CharacterAbility::CURRENT_LEVEL]);
+	_abilities[CharacterAbility::MAX_LEVEL] =
+		_abilities[CharacterAbility::CURRENT_LEVEL];
+	_abilities[CharacterAbility::NEGATIVE_LEVEL] = 0;
+	_abilities[CharacterAbility::HIT_DICE] = 1;
+	if (_abilities[CharacterAbility::GOLD] > 500)
+		_abilities[CharacterAbility::GOLD] = 500;
+	_abilities[CharacterAbility::AGE] =
+		(18 * 52) + (*_system->random)[RandomType::ZERO_TO_299];
+	_abilities[CharacterAbility::SWIM] = 1;
+	_abilities[CharacterAbility::MARKS] = 0;
+	_abilities[CharacterAbility::DEATHS] = 0;
+
+	_start_attr[CharacterAttribute::STRENGTH] =
+		std::min(_start_attr[CharacterAttribute::STRENGTH], 15);
+	_start_attr[CharacterAttribute::IQ] =
+		std::min(_start_attr[CharacterAttribute::IQ], 15);
+	_start_attr[CharacterAttribute::PIETY] =
+		std::min(_start_attr[CharacterAttribute::PIETY], 15);
+	_start_attr[CharacterAttribute::VITALITY] =
+		std::min(_start_attr[CharacterAttribute::VITALITY], 15);
+	_start_attr[CharacterAttribute::AGILITY] =
+		std::min(_start_attr[CharacterAttribute::AGILITY], 15);
+	_start_attr[CharacterAttribute::LUCK] =
+		std::min(_start_attr[CharacterAttribute::LUCK], 15);
+
+	_cur_attr = _start_attr;
+	_max_attr = _cur_attr;
+
+	_abilities[CharacterAbility::CURRENT_XP] = 0;
+	_abilities[CharacterAbility::NEXT_LEVEL_XP] =
+		_get_xp_for_level(_abilities[CharacterAbility::CURRENT_LEVEL]);
 }
 
 auto Sorcery::Character::_regenerate_start_info() -> void {
@@ -895,6 +920,15 @@ auto Sorcery::Character::_regenerate_start_info() -> void {
 		break;
 	};
 	_cur_attr = minimum_attr;
+}
+
+// Legate
+auto Sorcery::Character::legate() -> void {
+
+	_legate_start_info();
+	_generate_secondary_abil(true, false);
+	_set_start_spells();
+	_set_starting_sp();
 }
 
 // Change Class

@@ -57,7 +57,12 @@ namespace Sorcery {
 		auto operator[](const CharacterAbility &key) -> int &;
 
 		// Serialisation
-		// TODO: add a version number!!!
+		/* TODO: add:
+			a version number!!!
+			legated flag
+
+
+		*/
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_name, _race, _class, _alignment, _start_attr, _cur_attr,
 				_max_attr, _st_points, _portrait_index, _abilities,
@@ -134,6 +139,7 @@ namespace Sorcery {
 		auto check_for_mouse_move(sf::Vector2f mouse_pos)
 			-> std::optional<SpellID>;
 		auto change_class(const CharacterClass &value) -> void;
+		auto legate() -> void;
 
 		// Public Members
 		std::map<SpellID, sf::FloatRect> mage_spell_bounds;
@@ -145,12 +151,11 @@ namespace Sorcery {
 		// Private Methods
 		auto virtual draw(
 			sf::RenderTarget &target, sf::RenderStates states) const -> void;
-		auto _save() -> unsigned int;
-		auto _load(unsigned int character_id) -> void;
 		auto _generate_display() -> void;
 		auto _generate_summary_icons() -> void;
 		auto _generate_start_info() -> void;
 		auto _regenerate_start_info() -> void;
+		auto _legate_start_info() -> void;
 		auto _generate_secondary_abil(bool initial, bool change_class) -> void;
 		auto _set_starting_sp() -> void;
 		auto _reset_starting_sp() -> void;
