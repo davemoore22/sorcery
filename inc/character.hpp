@@ -139,7 +139,7 @@ namespace Sorcery {
 		auto check_for_mouse_move(sf::Vector2f mouse_pos)
 			-> std::optional<SpellID>;
 		auto change_class(const CharacterClass &value) -> void;
-		auto legate() -> void;
+		auto legate(const CharacterAlignment &value) -> void;
 
 		// Public Members
 		std::map<SpellID, sf::FloatRect> mage_spell_bounds;

@@ -1583,6 +1583,27 @@
 				"drawmode": "manual"
 			},
 			{
+				"name": "dialog_legate_success",
+				"x": "20",
+				"y": "23",
+				"w": "40",
+				"type": "dialog",
+				"drawmode": "manual",
+				"alpha": "200",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "dialog_legate_success_text",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "LEGATE_CHARACTER_SUCCESS",
+				"background": " 0xff0000ff",
+				"justification": "centre",
+				"type": "text",
+				"drawmode": "manual"
+			},
+			{
 				"name": "menu_frame",
 				"w": "21",
 				"h": "5",
@@ -1613,7 +1634,7 @@
 			{
 				"name": "choose_alignment_text",
 				"x": "20",
-				"y": "20",
+				"y": "19",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",

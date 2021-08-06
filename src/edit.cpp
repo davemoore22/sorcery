@@ -206,7 +206,6 @@ auto Sorcery::Edit::start(int current_character_idx)
 								_game->update_char(_game->get_id(),
 									current_character_idx, character);
 								_game->reload_char(current_character_idx);
-								_show_changed = true;
 								_display->set_input_mode(
 									WindowInputMode::NAVIGATE_MENU);
 							}

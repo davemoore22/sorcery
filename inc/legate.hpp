@@ -68,5 +68,6 @@ namespace Sorcery {
 		std::unique_ptr<Menu> _menu;
 		std::unique_ptr<Frame> _frame;
 		sf::Text _choose_alignment;
+		std::unique_ptr<Dialog> _success;
 	};
 } // namespace Sorcery

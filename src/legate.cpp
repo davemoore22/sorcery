@@ -40,6 +40,12 @@ Sorcery::Legate::Legate(
 		WindowDialogType::CONFIRM);
 	_proceed->setPosition((*_display->layout)["legate:dialog_confirm_legate"].x,
 		(*_display->layout)["legate:dialog_confirm_legate"].y);
+	_success = std::make_unique<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["legate:dialog_legate_success"],
+		(*_display->layout)["legate:dialog_legate_success_text"],
+		WindowDialogType::OK);
+	_success->setPosition((*_display->layout)["legate:dialog_legate_success"].x,
+		(*_display->layout)["legate:dialog_legate_success"].y);
 
 	// Menu
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr,
@@ -151,17 +157,48 @@ auto Sorcery::Legate::start() -> bool {
 						_menu->set_mouse_selected(static_cast<sf::Vector2f>(
 							sf::Mouse::getPosition(*_window)));
 				else if (_system->input->check(WindowInput::BACK, event)) {
-					_stage = LegateStage::CHANGE_ALIGNMENT;
+					_stage = LegateStage::CONFIRM;
 					_display->set_input_mode(WindowInputMode::CONFIRM_LEGATE);
 					continue;
 				} else if (_system->input->check(WindowInput::DELETE, event)) {
-					_stage = LegateStage::CHANGE_ALIGNMENT;
+					_stage = LegateStage::CONFIRM;
 					_display->set_input_mode(WindowInputMode::CONFIRM_LEGATE);
 					continue;
 				} else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+					switch (auto chosen_alignment{(*selected.value()).item}) {
+					case MenuItem::CA_GOOD:
+						//_character->legate(CharacterAlignment::GOOD);
+						_stage = LegateStage::LEGATED;
+						break;
+					case MenuItem::CA_NEUTRAL:
+						//_character->legate(CharacterAlignment::NEUTRAL);
+						_stage = LegateStage::LEGATED;
+						break;
+					case MenuItem::CA_EVIL:
+						//_character->legate(CharacterAlignment::EVIL);
+						_stage = LegateStage::LEGATED;
+						break;
+					default:
+						return false;
+					}
+
+					continue;
 				}
 
 			} else if (_stage == LegateStage::LEGATED) {
+				auto dialog_input{_success->handle_input(event)};
+				if (dialog_input) {
+					if (dialog_input.value() == WindowDialogButton::CLOSE) {
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
+						return true;
+					} else if (dialog_input.value() == WindowDialogButton::OK) {
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
+						return true;
+					}
+				}
 			}
 		}
 
@@ -260,6 +297,9 @@ auto Sorcery::Legate::_draw() -> void {
 		_window->draw(_choose_alignment);
 
 	} else if (_stage == LegateStage::LEGATED) {
+
+		_success->update();
+		_window->draw(*_success);
 	}
 
 	// And finally the Cursor

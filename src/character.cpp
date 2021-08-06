@@ -923,7 +923,10 @@ auto Sorcery::Character::_regenerate_start_info() -> void {
 }
 
 // Legate
-auto Sorcery::Character::legate() -> void {
+auto Sorcery::Character::legate(const CharacterAlignment &value) -> void {
+
+	if (_alignment != value)
+		_alignment = value;
 
 	_legate_start_info();
 	_generate_secondary_abil(true, false);
