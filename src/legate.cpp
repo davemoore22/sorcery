@@ -33,6 +33,7 @@ Sorcery::Legate::Legate(
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
+	// Dialog
 	_proceed = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["legate:dialog_confirm_legate"],
 		(*_display->layout)["legate:dialog_confirm_legate_text"],
@@ -40,6 +41,42 @@ Sorcery::Legate::Legate(
 	_proceed->setPosition((*_display->layout)["legate:dialog_confirm_legate"].x,
 		(*_display->layout)["legate:dialog_confirm_legate"].y);
 
+	// Menu
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr,
+		MenuType::CHOOSE_CHARACTER_ALIGNMENT);
+	_set_alignment_menu();
+
+	// Frame
+	const Component menu_fc{(*_display->layout)["legate:menu_frame"]};
+	_frame = std::make_unique<Frame>(_display->ui_texture,
+		WindowFrameType::NORMAL, menu_fc.w, menu_fc.h, menu_fc.colour,
+		menu_fc.background, menu_fc.alpha);
+	_frame->setPosition(_display->window->get_x(_frame->sprite, menu_fc.x),
+		_display->window->get_y(_frame->sprite, menu_fc.y));
+
+	// Text
+	const Component text_c{(*_display->layout)["legate:choose_alignment_text"]};
+	_choose_alignment = sf::Text();
+	_choose_alignment.setFont(_system->resources->fonts[text_c.font]);
+	_choose_alignment.setCharacterSize(text_c.size);
+	_choose_alignment.setFillColor(sf::Color(text_c.colour));
+	_choose_alignment.setString(
+		(*_display->string)["LEGATE_CHARACTER_ALIGNMENT"]);
+	const auto offset_x{[&] {
+		if (text_c["offset_x"])
+			return std::stoi(text_c["offset_x"].value());
+		else
+			return 0;
+	}()};
+	const auto offset_y{[&] {
+		if (text_c["offset_y"])
+			return std::stoi(text_c["offset_y"].value());
+		else
+			return 0;
+	}()};
+	_choose_alignment.setPosition(text_c.x + offset_x, text_c.y + offset_y);
+
+	// Initial Stage
 	_stage = LegateStage::NONE;
 }
 
@@ -82,7 +119,47 @@ auto Sorcery::Legate::start() -> bool {
 
 			if (_stage == LegateStage::CONFIRM) {
 
+				auto dialog_input{_proceed->handle_input(event)};
+				if (dialog_input) {
+					if (dialog_input.value() == WindowDialogButton::CLOSE) {
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
+						return false;
+					} else if (dialog_input.value() ==
+							   WindowDialogButton::YES) {
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
+						_stage = LegateStage::CHANGE_ALIGNMENT;
+						continue;
+					} else if (dialog_input.value() == WindowDialogButton::NO) {
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
+						return false;
+					}
+				}
+
 			} else if (_stage == LegateStage::CHANGE_ALIGNMENT) {
+
+				std::optional<std::vector<MenuEntry>::const_iterator> selected{
+					_menu->selected};
+				if (_system->input->check(WindowInput::UP, event))
+					selected = _menu->choose_previous();
+				else if (_system->input->check(WindowInput::DOWN, event))
+					selected = _menu->choose_next();
+				else if (_system->input->check(WindowInput::MOVE, event))
+					selected =
+						_menu->set_mouse_selected(static_cast<sf::Vector2f>(
+							sf::Mouse::getPosition(*_window)));
+				else if (_system->input->check(WindowInput::BACK, event)) {
+					_stage = LegateStage::CHANGE_ALIGNMENT;
+					_display->set_input_mode(WindowInputMode::CONFIRM_LEGATE);
+					continue;
+				} else if (_system->input->check(WindowInput::DELETE, event)) {
+					_stage = LegateStage::CHANGE_ALIGNMENT;
+					_display->set_input_mode(WindowInputMode::CONFIRM_LEGATE);
+					continue;
+				} else if (_system->input->check(WindowInput::CONFIRM, event)) {
+				}
 
 			} else if (_stage == LegateStage::LEGATED) {
 			}
@@ -110,6 +187,57 @@ auto Sorcery::Legate::stop() -> void {
 	_display->stop_bg_movie();
 }
 
+auto Sorcery::Legate::_set_alignment_menu() -> void {
+
+	switch (_character->get_class()) {
+	case CharacterClass::FIGHTER:
+		(*_menu)[0].enabled = true;
+		(*_menu)[1].enabled = true;
+		(*_menu)[2].enabled = true;
+		break;
+	case CharacterClass::MAGE:
+		(*_menu)[0].enabled = true;
+		(*_menu)[1].enabled = true;
+		(*_menu)[2].enabled = true;
+		break;
+	case CharacterClass::PRIEST:
+		(*_menu)[0].enabled = true;
+		(*_menu)[1].enabled = false;
+		(*_menu)[2].enabled = true;
+		break;
+	case CharacterClass::THIEF:
+		(*_menu)[0].enabled = false;
+		(*_menu)[1].enabled = true;
+		(*_menu)[2].enabled = true;
+		break;
+	case CharacterClass::BISHOP:
+		(*_menu)[0].enabled = true;
+		(*_menu)[1].enabled = false;
+		(*_menu)[2].enabled = true;
+		break;
+	case CharacterClass::SAMURAI:
+		(*_menu)[0].enabled = true;
+		(*_menu)[1].enabled = true;
+		(*_menu)[2].enabled = false;
+		break;
+	case CharacterClass::LORD:
+		(*_menu)[0].enabled = true;
+		(*_menu)[1].enabled = false;
+		(*_menu)[2].enabled = false;
+		break;
+	case CharacterClass::NINJA:
+		(*_menu)[0].enabled = false;
+		(*_menu)[1].enabled = false;
+		(*_menu)[2].enabled = true;
+		break;
+	default:
+		break;
+	}
+
+	// And select the first enabled
+	_menu->choose_first();
+}
+
 auto Sorcery::Legate::_draw() -> void {
 
 	// Display Components
@@ -122,31 +250,17 @@ auto Sorcery::Legate::_draw() -> void {
 
 	} else if (_stage == LegateStage::CHANGE_ALIGNMENT) {
 
+		// And the Menu
+		_window->draw(*_frame);
+		_menu->generate((*_display->layout)["legate:menu"]);
+		const sf::Vector2f menu_pos((*_display->layout)["legate:menu"].x,
+			(*_display->layout)["legate:menu"].y);
+		_menu->setPosition(menu_pos);
+		_window->draw(*_menu);
+		_window->draw(_choose_alignment);
+
 	} else if (_stage == LegateStage::LEGATED) {
 	}
-
-	/* // And the Menu
-	_menu->generate((*_display->layout)["change_class:menu"]);
-	const sf::Vector2f menu_pos((*_display->layout)["change_class:menu"].x,
-		(*_display->layout)["change_class:menu"].y);
-	_menu->setPosition(menu_pos);
-	_window->draw(*_menu);
-
-	if (_ip->valid) {
-		_ip->setPosition((*_display->layout)["change_class:info_panel"].x,
-			(*_display->layout)["change_class:info_panel"].y);
-		_window->draw(*_ip);
-	}
-
-	if (_show_not_changed) {
-		_not_changed->update();
-		_window->draw(*_not_changed);
-	}
-
-	if (_show_confirm) {
-		_confirm->update();
-		_window->draw(*_confirm);
-	} */
 
 	// And finally the Cursor
 	_display->display_overlay();

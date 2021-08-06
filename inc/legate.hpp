@@ -54,6 +54,7 @@ namespace Sorcery {
 	  private:
 		// Private Methods
 		auto _draw() -> void;
+		auto _set_alignment_menu() -> void;
 
 		// Private Members
 		System *_system;
@@ -63,7 +64,9 @@ namespace Sorcery {
 		sf::RenderWindow *_window;
 		sf::Sprite _bg;
 		std::unique_ptr<Dialog> _proceed;
-		WindowConfirm _yes_or_no;
 		LegateStage _stage;
+		std::unique_ptr<Menu> _menu;
+		std::unique_ptr<Frame> _frame;
+		sf::Text _choose_alignment;
 	};
 } // namespace Sorcery

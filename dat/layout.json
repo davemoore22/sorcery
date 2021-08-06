@@ -1516,7 +1516,7 @@
 			{
 				"name": "blurb_1",
 				"x": "centre",
-				"y": "8",
+				"y": "10",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -1528,7 +1528,7 @@
 			{
 				"name": "blurb_2",
 				"x": "centre",
-				"y": "9",
+				"y": "11",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -1540,7 +1540,7 @@
 			{
 				"name": "blurb_3",
 				"x": "centre",
-				"y": "11",
+				"y": "13",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -1552,11 +1552,11 @@
 			{
 				"name": "blurb_4",
 				"x": "centre",
-				"y": "12",
+				"y": "14",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
-				"string": "LEGATE_CHARACTER_DESCRIPTION_1",
+				"string": "LEGATE_CHARACTER_DESCRIPTION_4",
 				"justification": "centre",
 				"type": "text",
 				"priority": "4"
@@ -1564,7 +1564,7 @@
 			{
 				"name": "dialog_confirm_legate",
 				"x": "20",
-				"y": "15",
+				"y": "23",
 				"w": "40",
 				"type": "dialog",
 				"drawmode": "manual",
@@ -1580,6 +1580,47 @@
 				"background": " 0xff0000ff",
 				"justification": "centre",
 				"type": "text",
+				"drawmode": "manual"
+			},
+			{
+				"name": "menu_frame",
+				"w": "21",
+				"h": "5",
+				"x": "centre",
+				"y": "22",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "manual",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "menu",
+				"x": "30",
+				"y": "22",
+				"w": "20",
+				"h": "3",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"animated": "true",
+				"width": "25",
+				"background": " 0xff0000ff",
+				"justification": "centre",
+				"type": "menu",
+				"priority": "10"
+			},
+			{
+				"name": "choose_alignment_text",
+				"x": "20",
+				"y": "20",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "LEGATE_CHARACTER_ALIGNMENT",
+				"justification": "centre",
+				"type": "text",
+				"priority": "4",
 				"drawmode": "manual"
 			}
 		]
