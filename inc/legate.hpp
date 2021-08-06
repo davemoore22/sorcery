@@ -21,3 +21,45 @@
 // said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
+
+#include "display.hpp"
+#include "frame.hpp"
+#include "graphics.hpp"
+#include "keyboard.hpp"
+#include "layout.hpp"
+#include "main.hpp"
+#include "menu.hpp"
+#include "system.hpp"
+
+namespace Sorcery {
+
+	class Legate {
+
+	  public:
+		// Standard Constructor
+		Legate(System *system, Display *display, Graphics *graphics,
+			Character *character);
+		Legate() = delete;
+
+		// Standard Destructor
+		~Legate();
+
+		// Public Members
+
+		// Public Methods
+		auto start() -> bool;
+		auto stop() -> void;
+
+	  private:
+		// Private Methods
+		auto _draw() -> void;
+
+		// Private Members
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
+		Character *_character;
+		sf::RenderWindow *_window;
+		sf::Sprite _bg;
+	};
+} // namespace Sorcery

@@ -1107,7 +1107,7 @@
 1628106617 source:/home/dave/Development/wizardry/sorcery-sfml/src/spellpanel.cpp
 	"spellpanel.hpp"
 
-1628106617 /home/dave/Development/wizardry/sorcery-sfml/inc/edit.hpp
+1628254324 /home/dave/Development/wizardry/sorcery-sfml/inc/edit.hpp
 	"changeclass.hpp"
 	"changename.hpp"
 	"charpanel.hpp"
@@ -1116,11 +1116,12 @@
 	"game.hpp"
 	"graphics.hpp"
 	"layout.hpp"
+	"legate.hpp"
 	"main.hpp"
 	"menu.hpp"
 	"system.hpp"
 
-1628106617 source:/home/dave/Development/wizardry/sorcery-sfml/src/edit.cpp
+1628254733 source:/home/dave/Development/wizardry/sorcery-sfml/src/edit.cpp
 	"edit.hpp"
 
 1628106617 source:/home/dave/Development/wizardry/sorcery-sfml/src/changename.cpp
@@ -1151,4 +1152,17 @@
 	"main.hpp"
 	"menu.hpp"
 	"system.hpp"
+
+1628254861 /home/dave/Development/wizardry/sorcery-sfml/inc/legate.hpp
+	"display.hpp"
+	"frame.hpp"
+	"graphics.hpp"
+	"keyboard.hpp"
+	"layout.hpp"
+	"main.hpp"
+	"menu.hpp"
+	"system.hpp"
+
+1628255252 source:/home/dave/Development/wizardry/sorcery-sfml/src/legate.cpp
+	"legate.hpp"
 

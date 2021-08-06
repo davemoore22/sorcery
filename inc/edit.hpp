@@ -32,6 +32,7 @@
 #include "game.hpp"
 #include "graphics.hpp"
 #include "layout.hpp"
+#include "legate.hpp"
 #include "main.hpp"
 #include "menu.hpp"
 #include "system.hpp"

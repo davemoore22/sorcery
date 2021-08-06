@@ -196,6 +196,21 @@ auto Sorcery::Edit::start(int current_character_idx)
 									WindowInputMode::NAVIGATE_MENU);
 							}
 							change_class->stop();
+						} else if (option_chosen ==
+								   MenuItem::EC_LEGATE_CHARACTER) {
+							auto character{*_cur_char.value()};
+							auto legate{std::make_unique<Legate>(
+								_system, _display, _graphics, &character)};
+							auto legated{legate->start()};
+							if (legated) {
+								_game->update_char(_game->get_id(),
+									current_character_idx, character);
+								_game->reload_char(current_character_idx);
+								_show_changed = true;
+								_display->set_input_mode(
+									WindowInputMode::NAVIGATE_MENU);
+							}
+							legate->stop();
 						}
 
 						_display->generate("character_edit");
