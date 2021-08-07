@@ -54,6 +54,8 @@ Sorcery::Character::Character(
 		(*_display->layout)["global:spell_panel"].y);
 
 	_version = SAVE_VERSION;
+
+	_legated = false;
 }
 
 // Note for the copy constuctors we only copy the character data/PODs within
@@ -2617,6 +2619,7 @@ auto Sorcery::Character::summary_text() -> std::string {
 
 	std::string name{_name};
 	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+	std::string legacy{_legated ? " (D)" : ""};
 	switch (_current_stage) {
 	case CharacterStage::CHOOSE_METHOD:
 	case CharacterStage::ENTER_NAME:
@@ -2648,10 +2651,10 @@ auto Sorcery::Character::summary_text() -> std::string {
 		break;
 	case CharacterStage::REVIEW_AND_CONFIRM:
 	case CharacterStage::COMPLETED:
-		return fmt::format("{} L {:>2} {}-{} {}", name,
+		return fmt::format("{} L {:>2} {}-{} {}{}", name,
 			_abilities.at(CharacterAbility::CURRENT_LEVEL),
 			get_alignment(_alignment).substr(0, 1),
-			get_class(_class).substr(0, 3), get_race(_race));
+			get_class(_class).substr(0, 3), get_race(_race), legacy);
 		break;
 	default:
 		return "";
