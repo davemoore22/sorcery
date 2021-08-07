@@ -1978,7 +1978,6 @@ auto Sorcery::Character::_get_xp_for_level(unsigned int level) const -> int {
 auto Sorcery::Character::set_spells() -> void {
 
 	// Now for each spell known set the appropriate entry in the spells table
-	// (TODO: this is terribly inefficient)
 	for (auto &spell_known : _spells_known) {
 
 		std::vector<Spell>::iterator it;
@@ -2283,9 +2282,8 @@ auto Sorcery::Character::create_spells() -> void {
 }
 
 auto Sorcery::Character::reset_spells() -> void {
-	for (auto &spell : _spells) {
+	for (auto &spell : _spells)
 		_spells_known[spell.id] = spell.known;
-	}
 }
 
 auto Sorcery::Character::create_quick() -> void {
@@ -2526,13 +2524,12 @@ auto Sorcery::Character::get_spell_points(const SpellType type,
 auto Sorcery::Character::_get_sp_per_level(const SpellType type, int level)
 	-> std::string {
 
-	if (type == SpellType::MAGE) {
+	if (type == SpellType::MAGE)
 		return fmt::format("{}/{}", std::to_string(_mage_cur_sp[level]),
 			std::to_string(_mage_max_sp[level]));
-	} else {
+	else
 		return fmt::format("{}/{}", std::to_string(_priest_cur_sp[level]),
 			std::to_string(_priest_max_sp[level]));
-	}
 }
 
 auto Sorcery::Character::_get_mage_status(bool current) -> std::string {
@@ -3336,10 +3333,10 @@ auto Sorcery::Character::_generate_display() -> void {
 				spell_name_c.y += _display->window->get_ch();
 			}
 
-			if ((level % 3 == 1) || (level % 3 == 2)) {
+			if ((level % 3 == 1) || (level % 3 == 2))
 				level_c.x += (std::stoi(level_c["offset_columns"].value()) *
 							  _display->window->get_cw());
-			} else if (level % 3 == 0) {
+			else if (level % 3 == 0) {
 				level_c.x = level_x;
 				level_c.y += (std::stoi(level_c["offset_rows"].value()) *
 							  _display->window->get_ch());
@@ -3420,7 +3417,6 @@ auto Sorcery::Character::_generate_display() -> void {
 					spell_name->setOutlineThickness(2);
 					_hl_priest_spell_bg = bg;
 				} else {
-
 					if (spell.known)
 						spell_name->setFillColor(sf::Color(std::stoull(
 							spell_name_c["known_colour"].value(), 0, 16)));
@@ -3468,10 +3464,10 @@ auto Sorcery::Character::_generate_display() -> void {
 				spell_name_c.y += _display->window->get_ch();
 			}
 
-			if ((level % 3 == 1) || (level % 3 == 2)) {
+			if ((level % 3 == 1) || (level % 3 == 2))
 				level_c.x += (std::stoi(level_c["offset_columns"].value()) *
 							  _display->window->get_cw());
-			} else if (level % 3 == 0) {
+			else if (level % 3 == 0) {
 				level_c.x = level_x;
 				level_c.y += (std::stoi(level_c["offset_rows"].value()) *
 							  _display->window->get_ch());
@@ -3604,9 +3600,8 @@ auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos)
 			sit = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
 				return item.id == _hl_mage_spell;
 			});
-			if (sit != _spells.end()) {
+			if (sit != _spells.end())
 				_spell_panel->set((*sit));
-			}
 
 			return (*it).first;
 		} else
@@ -3626,9 +3621,8 @@ auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos)
 			sit = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
 				return item.id == _hl_priest_spell;
 			});
-			if (sit != _spells.end()) {
+			if (sit != _spells.end())
 				_spell_panel->set((*sit));
-			}
 
 			return (*it).first;
 		} else
