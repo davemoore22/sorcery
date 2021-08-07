@@ -538,6 +538,9 @@ namespace Sorcery {
 			CASTLE,
 			EDGE_OF_TOWN,
 			TAVERN,
+			INN,
+			SHOP,
+			TEMPLE,
 			TRAINING_GROUNDS,
 			CHOOSE_CHARACTER_RACE,
 			CHOOSE_CHARACTER_ALIGNMENT,
@@ -655,7 +658,19 @@ namespace Sorcery {
 			TA_REMOVE_FROM_PARTY,
 			TA_INSPECT,
 			TA_DIVVY_GOLD,
-			TA_CASTLE
+			TA_CASTLE,
+			IN_STAY,
+			IN_INSPECT,
+			IN_CASTLE,
+			SH_BUY_AND_SELL,
+			SH_UNCURSE,
+			SH_IDENTIFY,
+			SH_INSPECT,
+			SH_CASTLE,
+			TE_HELP,
+			TE_TITHE,
+			TE_INSPECT,
+			TE_CASTLE
 		};
 
 		// Menu Items

@@ -115,6 +115,39 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics,
 			(*_display->string)["TAVERN_CASTLE"]);
 		selected = items.begin();
 		break;
+	case MenuType::INN:
+		_add_item(0, MenuItemType::ENTRY, MenuItem::IN_STAY,
+			(*_display->string)["INN_STAY"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::IN_INSPECT,
+			(*_display->string)["INN_INSPECT"]);
+		_add_item(4, MenuItemType::ENTRY, MenuItem::IN_CASTLE,
+			(*_display->string)["INN_CASTLE"]);
+		selected = items.begin();
+		break;
+	case MenuType::SHOP:
+		_add_item(0, MenuItemType::ENTRY, MenuItem::SH_BUY_AND_SELL,
+			(*_display->string)["SHOP_BUY_AND_SELL"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::SH_UNCURSE,
+			(*_display->string)["SHOP_UNCURSE"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::SH_IDENTIFY,
+			(*_display->string)["SHOP_IDENTIFY"]);
+		_add_item(3, MenuItemType::ENTRY, MenuItem::SH_INSPECT,
+			(*_display->string)["SHOP_INSPECT"]);
+		_add_item(4, MenuItemType::ENTRY, MenuItem::SH_CASTLE,
+			(*_display->string)["SHOP_CASTLE"]);
+		selected = items.begin();
+		break;
+	case MenuType::TEMPLE:
+		_add_item(0, MenuItemType::ENTRY, MenuItem::TE_HELP,
+			(*_display->string)["TEMPLE_HELP"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::TE_TITHE,
+			(*_display->string)["TEMPLE_TITHE"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::TE_INSPECT,
+			(*_display->string)["TEMPLE_INSPECT"]);
+		_add_item(4, MenuItemType::ENTRY, MenuItem::TE_CASTLE,
+			(*_display->string)["TEMPLE_CASTLE"]);
+		selected = items.begin();
+		break;
 	case MenuType::TRAINING_GROUNDS:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::TR_CREATE,
 			(*_display->string)["TRAINING_GROUNDS_MENU_OPTION_CREATE"]);
