@@ -102,6 +102,19 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics,
 			(*_display->string)["MENU_LEAVE_GAME"]);
 		selected = items.begin();
 		break;
+	case MenuType::TAVERN:
+		_add_item(0, MenuItemType::ENTRY, MenuItem::TA_ADD_TO_PARTY,
+			(*_display->string)["TAVERN_ADD_TO_PARTY"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::TA_REMOVE_FROM_PARTY,
+			(*_display->string)["TAVERN_REMOVE_FROM_PARTY"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::TA_INSPECT,
+			(*_display->string)["TAVERN_INSPECT"]);
+		_add_item(3, MenuItemType::ENTRY, MenuItem::TA_DIVVY_GOLD,
+			(*_display->string)["TAVERN_DIVVY_GOLD"]);
+		_add_item(4, MenuItemType::ENTRY, MenuItem::TA_CASTLE,
+			(*_display->string)["TAVERN_CASTLE"]);
+		selected = items.begin();
+		break;
 	case MenuType::TRAINING_GROUNDS:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::TR_CREATE,
 			(*_display->string)["TRAINING_GROUNDS_MENU_OPTION_CREATE"]);

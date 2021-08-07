@@ -136,7 +136,6 @@ namespace Sorcery {
 	using CreateMethod = Enums::Manage::Method;
 	using FileType = Enums::File::Type;
 	using FontType = Enums::Internal::FontType;
-	using GameMenuType = Enums::GameMenu::Type;
 	using GameEntry = std::tuple<unsigned int, std::string, std::string,
 		std::chrono::system_clock::time_point,
 		std::chrono::system_clock::time_point>;

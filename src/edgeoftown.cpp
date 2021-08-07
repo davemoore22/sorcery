@@ -97,7 +97,6 @@ auto Sorcery::EdgeOfTown::start() -> std::optional<MenuItem> {
 					_display->hide_overlay();
 
 				// And handle input on the main menu
-
 				if (_system->input->check(WindowInput::UP, event))
 					option = _menu->choose_previous();
 				else if (_system->input->check(WindowInput::DOWN, event))

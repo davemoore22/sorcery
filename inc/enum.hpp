@@ -512,11 +512,6 @@ namespace Sorcery {
 		enum class Type { NONE, ATTRACT_MODE, ATTRACT_MENU };
 	}
 
-	namespace Enums::GameMenu {
-
-		enum class Type { NONE, CASTLE, EDGE_OF_TOWN };
-	}
-
 	// Menu
 	namespace Enums::Menu {
 
@@ -542,6 +537,7 @@ namespace Sorcery {
 			PAUSE,
 			CASTLE,
 			EDGE_OF_TOWN,
+			TAVERN,
 			TRAINING_GROUNDS,
 			CHOOSE_CHARACTER_RACE,
 			CHOOSE_CHARACTER_ALIGNMENT,
@@ -654,7 +650,12 @@ namespace Sorcery {
 			EC_CHANGE_NAME,
 			EC_IMPORT_CHARACTER,
 			EC_LEGATE_CHARACTER,
-			EC_RETURN_EDIT
+			EC_RETURN_EDIT,
+			TA_ADD_TO_PARTY,
+			TA_REMOVE_FROM_PARTY,
+			TA_INSPECT,
+			TA_DIVVY_GOLD,
+			TA_CASTLE
 		};
 
 		// Menu Items

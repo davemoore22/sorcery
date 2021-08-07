@@ -22,10 +22,10 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "castle.hpp"
+#include "tavern.hpp"
 
 // Standard Constructor
-Sorcery::Castle::Castle(
+Sorcery::Tavern::Tavern(
 	System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
@@ -33,34 +33,26 @@ Sorcery::Castle::Castle(
 	_window = _display->window->get_window();
 
 	// Setup Custom Components
-	_menu = std::make_unique<Menu>(
-		_system, _display, _graphics, _game, MenuType::CASTLE);
-
-	_leave_game = std::make_unique<Dialog>(_system, _display, _graphics,
-		(*_display->layout)["castle:dialog_leave_game"],
-		(*_display->layout)["castle:dialog_leave_game_text"],
-		WindowDialogType::CONFIRM);
-	_leave_game->setPosition((*_display->layout)["castle:dialog_leave_game"].x,
-		(*_display->layout)["castle:dialog_leave_game"].y);
+	_menu = std::make_shared<Menu>(
+		_system, _display, _graphics, _game, MenuType::TAVERN);
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics);
-	_edge_of_town =
-		std::make_unique<EdgeOfTown>(_system, _display, _graphics, _game);
-	_tavern = std::make_unique<Tavern>(_system, _display, _graphics, _game);
 }
 
 // Standard Destructor
-Sorcery::Castle::~Castle() {}
+Sorcery::Tavern::~Tavern() {}
 
-// Start/Continue a new Game
-auto Sorcery::Castle::start() -> std::optional<MenuItem> {
+// Visit the Tavern
+auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
+
+	_system->set_pause(10000);
 
 	// Get the Background Display Components and load them into Display module
 	// storage (not local - and note that due to the way both menus are combined
 	// in this class, we need to have the menu stage set first in this case and
 	// this case only)
-	_display->generate("castle");
+	_display->generate("tavern");
 
 	// Clear the window
 	_window->clear();
@@ -97,6 +89,12 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 				} else
 					_display->hide_overlay();
 
+				if (_system->input->check(WindowInput::CANCEL, event))
+					return std::nullopt;
+
+				if (_system->input->check(WindowInput::BACK, event))
+					return std::nullopt;
+
 				// And handle input on the main menu
 				if (_system->input->check(WindowInput::UP, event))
 					option = _menu->choose_previous();
@@ -110,53 +108,23 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 
 					// We have selected something from the menu
 					if (option) {
-						const MenuItem option_chosen{(*option.value()).item};
-						if (option_chosen == MenuItem::CA_EDGE_OF_TOWN) {
-							auto edge_option{_edge_of_town->start()};
-							_edge_of_town->stop();
-							if (edge_option) {
-								if (edge_option.value() ==
-									MenuItem::ET_LEAVE_GAME)
-									return MenuItem::ET_LEAVE_GAME;
-							}
-							_display->generate("castle");
+						if (const MenuItem option_chosen{
+								(*option.value()).item};
+							option_chosen == MenuItem::TA_CASTLE) {
+							return MenuItem::TA_CASTLE;
+						} /* else if (option_chosen == MenuItem::ET_LEAVE_GAME)
+						{ _display->set_input_mode(
+								WindowInputMode::CONFIRM_LEAVE_GAME);
+							_yes_or_no = WindowConfirm::NO;
+						} else if (option_chosen == MenuItem::ET_MAZE) {
+							return MenuItem::ET_MAZE;
+						} else if (option_chosen == MenuItem::ET_TRAIN) {
+							_training->start();
+							_training->stop();
+							_display->generate("edge_of_town");
 							_display->set_input_mode(
 								WindowInputMode::NAVIGATE_MENU);
-							continue;
-						} else if (option_chosen == MenuItem::CA_TAVERN) {
-							auto tavern_option{_tavern->start()};
-							_tavern->stop();
-							_display->generate("castle");
-							_display->set_input_mode(
-								WindowInputMode::NAVIGATE_MENU);
-							continue;
-						}
-					}
-				} else if ((_system->input->check(
-							   WindowInput::CANCEL, event)) ||
-						   ((_system->input->check(
-							   WindowInput::BACK, event)))) {
-					_display->set_input_mode(
-						WindowInputMode::CONFIRM_LEAVE_GAME);
-					_yes_or_no = WindowConfirm::NO;
-				}
-			} else if (_display->get_input_mode() ==
-					   WindowInputMode::CONFIRM_LEAVE_GAME) {
-
-				auto dialog_input{_leave_game->handle_input(event)};
-				if (dialog_input) {
-					if (dialog_input.value() == WindowDialogButton::CLOSE) {
-						_display->set_input_mode(
-							WindowInputMode::NAVIGATE_MENU);
-						return std::nullopt;
-					} else if (dialog_input.value() ==
-							   WindowDialogButton::YES) {
-						_display->set_input_mode(
-							WindowInputMode::NAVIGATE_MENU);
-						return MenuItem::ET_LEAVE_GAME;
-					} else if (dialog_input.value() == WindowDialogButton::NO) {
-						_display->set_input_mode(
-							WindowInputMode::NAVIGATE_MENU);
+						} */
 					}
 				}
 			}
@@ -176,28 +144,24 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 	return std::nullopt;
 }
 
-auto Sorcery::Castle::stop() -> void {
+auto Sorcery::Tavern::stop() -> void {
 
 	// Stop the background movie!
 	_display->stop_bg_movie();
 }
 
-auto Sorcery::Castle::_draw() -> void {
+auto Sorcery::Tavern::_draw() -> void {
 
 	// Custom Components
-	_display->display("castle");
+	_display->display("tavern");
 	_window->draw(*_status_bar);
 
 	// And the Menu
-	_menu->generate((*_display->layout)["castle:menu"]);
-	const sf::Vector2f menu_pos((*_display->layout)["castle:menu"].x,
-		(*_display->layout)["castle:menu"].y);
+	_menu->generate((*_display->layout)["tavern:menu"]);
+	const sf::Vector2f menu_pos((*_display->layout)["tavern:menu"].x,
+		(*_display->layout)["tavern:menu"].y);
 	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
-	if (_display->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME) {
-		_leave_game->update();
-		_window->draw(*_leave_game);
-	}
 
 	// Always draw the following
 	_display->display_overlay();

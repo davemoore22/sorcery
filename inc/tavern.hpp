@@ -24,9 +24,7 @@
 
 #pragma once
 
-#include "dialog.hpp"
 #include "display.hpp"
-#include "edgeoftown.hpp"
 #include "frame.hpp"
 #include "game.hpp"
 #include "graphics.hpp"
@@ -35,20 +33,19 @@
 #include "menu.hpp"
 #include "statusbar.hpp"
 #include "system.hpp"
-#include "tavern.hpp"
 
 namespace Sorcery {
 
-	class Castle {
+	class Tavern {
 
 	  public:
 		// Standard Constructor
-		Castle(
+		Tavern(
 			System *system, Display *display, Graphics *graphics, Game *game);
-		Castle() = delete;
+		Tavern() = delete;
 
 		// Standard Destructor
-		~Castle();
+		~Tavern();
 
 		// Public Members
 
@@ -67,12 +64,9 @@ namespace Sorcery {
 		Game *_game;
 		sf::RenderWindow *_window;
 		std::unique_ptr<Frame> _frame;
-		std::unique_ptr<Menu> _menu;
+		std::shared_ptr<Menu> _menu;
 		sf::Sprite _bg;
-		std::unique_ptr<Dialog> _leave_game;
 		WindowConfirm _yes_or_no;
-		std::unique_ptr<EdgeOfTown> _edge_of_town;
-		std::unique_ptr<Tavern> _tavern;
 		std::unique_ptr<StatusBar> _status_bar;
 	};
 } // namespace Sorcery

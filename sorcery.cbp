@@ -164,6 +164,7 @@
 		<Unit filename="inc/input.hpp" />
 		<Unit filename="inc/keyboard.hpp" />
 		<Unit filename="inc/layout.hpp" />
+		<Unit filename="inc/legate.hpp" />
 		<Unit filename="inc/license.hpp" />
 		<Unit filename="inc/macro.hpp" />
 		<Unit filename="inc/main.hpp" />
@@ -185,6 +186,7 @@
 		<Unit filename="inc/statusbar.hpp" />
 		<Unit filename="inc/string.hpp" />
 		<Unit filename="inc/system.hpp" />
+		<Unit filename="inc/tavern.hpp" />
 		<Unit filename="inc/textfile.hpp" />
 		<Unit filename="inc/tooltip.hpp" />
 		<Unit filename="inc/type.hpp" />
@@ -222,6 +224,7 @@
 		<Unit filename="src/input.cpp" />
 		<Unit filename="src/keyboard.cpp" />
 		<Unit filename="src/layout.cpp" />
+		<Unit filename="src/legate.cpp" />
 		<Unit filename="src/license.cpp" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/mainmenu.cpp" />
@@ -237,6 +240,7 @@
 		<Unit filename="src/statusbar.cpp" />
 		<Unit filename="src/string.cpp" />
 		<Unit filename="src/system.cpp" />
+		<Unit filename="src/tavern.cpp" />
 		<Unit filename="src/textfile.cpp" />
 		<Unit filename="src/tooltip.cpp" />
 		<Unit filename="src/training.cpp" />
