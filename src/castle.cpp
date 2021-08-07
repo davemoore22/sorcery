@@ -48,6 +48,9 @@ Sorcery::Castle::Castle(
 	_edge_of_town =
 		std::make_unique<EdgeOfTown>(_system, _display, _graphics, _game);
 	_tavern = std::make_unique<Tavern>(_system, _display, _graphics, _game);
+	_inn = std::make_unique<Inn>(_system, _display, _graphics, _game);
+	_shop = std::make_unique<Shop>(_system, _display, _graphics, _game);
+	_temple = std::make_unique<Temple>(_system, _display, _graphics, _game);
 }
 
 // Standard Destructor
@@ -126,6 +129,27 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 						} else if (option_chosen == MenuItem::CA_TAVERN) {
 							auto tavern_option{_tavern->start()};
 							_tavern->stop();
+							_display->generate("castle");
+							_display->set_input_mode(
+								WindowInputMode::NAVIGATE_MENU);
+							continue;
+						} else if (option_chosen == MenuItem::CA_INN) {
+							auto inn_option{_inn->start()};
+							_inn->stop();
+							_display->generate("castle");
+							_display->set_input_mode(
+								WindowInputMode::NAVIGATE_MENU);
+							continue;
+						} else if (option_chosen == MenuItem::CA_SHOP) {
+							auto shop_option{_shop->start()};
+							_shop->stop();
+							_display->generate("castle");
+							_display->set_input_mode(
+								WindowInputMode::NAVIGATE_MENU);
+							continue;
+						} else if (option_chosen == MenuItem::CA_TEMPLE) {
+							auto temple_option{_temple->start()};
+							_temple->stop();
 							_display->generate("castle");
 							_display->set_input_mode(
 								WindowInputMode::NAVIGATE_MENU);

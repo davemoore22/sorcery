@@ -2051,9 +2051,9 @@
 			{
 				"name": "menu_frame",
 				"w": "36",
-				"h": "7",
+				"h": "5",
 				"x": "centre",
-				"y": "10",
+				"y": "11",
 				"alpha": "225",
 				"type": "frame",
 				"priority": "3",
@@ -2063,9 +2063,9 @@
 			{
 				"name": "menu",
 				"x": "22",
-				"y": "10",
+				"y": "11",
 				"w": "36",
-				"h": "5",
+				"h": "3",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -2196,7 +2196,7 @@
 		]
 	},
 	{
-		"name": "shop",
+		"name": "temple",
 		"component": [
 			{
 
@@ -2247,7 +2247,7 @@
 			{
 				"name": "menu_frame",
 				"w": "36",
-				"h": "7",
+				"h": "6",
 				"x": "centre",
 				"y": "10",
 				"alpha": "225",

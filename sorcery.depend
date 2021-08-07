@@ -505,21 +505,24 @@
 1628106617 source:/home/dave/Development/wizardry/sorcery-sfml/src/frame.cpp
 	"frame.hpp"
 
-1628358700 /home/dave/Development/wizardry/sorcery-sfml/inc/castle.hpp
+1628361158 /home/dave/Development/wizardry/sorcery-sfml/inc/castle.hpp
 	"dialog.hpp"
 	"display.hpp"
 	"edgeoftown.hpp"
 	"frame.hpp"
 	"game.hpp"
 	"graphics.hpp"
+	"inn.hpp"
 	"layout.hpp"
 	"main.hpp"
 	"menu.hpp"
+	"shop.hpp"
 	"statusbar.hpp"
 	"system.hpp"
 	"tavern.hpp"
+	"temple.hpp"
 
-1628358871 source:/home/dave/Development/wizardry/sorcery-sfml/src/castle.cpp
+1628361274 source:/home/dave/Development/wizardry/sorcery-sfml/src/castle.cpp
 	"castle.hpp"
 
 1620073272 /home/dave/Development/wizardry/sorcery-sfml/inc/gamemenu.hpp
@@ -1179,6 +1182,48 @@
 	"statusbar.hpp"
 	"system.hpp"
 
-1628358491 source:/home/dave/Development/wizardry/sorcery-sfml/src/tavern.cpp
+1628360910 source:/home/dave/Development/wizardry/sorcery-sfml/src/tavern.cpp
 	"tavern.hpp"
+
+1628360838 /home/dave/Development/wizardry/sorcery-sfml/inc/inn.hpp
+	"display.hpp"
+	"frame.hpp"
+	"game.hpp"
+	"graphics.hpp"
+	"layout.hpp"
+	"main.hpp"
+	"menu.hpp"
+	"statusbar.hpp"
+	"system.hpp"
+
+1628360829 /home/dave/Development/wizardry/sorcery-sfml/inc/shop.hpp
+	"display.hpp"
+	"frame.hpp"
+	"game.hpp"
+	"graphics.hpp"
+	"layout.hpp"
+	"main.hpp"
+	"menu.hpp"
+	"statusbar.hpp"
+	"system.hpp"
+
+1628360854 /home/dave/Development/wizardry/sorcery-sfml/inc/temple.hpp
+	"display.hpp"
+	"frame.hpp"
+	"game.hpp"
+	"graphics.hpp"
+	"layout.hpp"
+	"main.hpp"
+	"menu.hpp"
+	"statusbar.hpp"
+	"system.hpp"
+
+1628361199 source:/home/dave/Development/wizardry/sorcery-sfml/src/inn.cpp
+	"inn.hpp"
+
+1628361636 source:/home/dave/Development/wizardry/sorcery-sfml/src/shop.cpp
+	"shop.hpp"
+
+1628361708 source:/home/dave/Development/wizardry/sorcery-sfml/src/temple.cpp
+	"temple.hpp"
 

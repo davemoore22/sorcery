@@ -21,3 +21,51 @@
 // said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
+
+#pragma once
+
+#include "display.hpp"
+#include "frame.hpp"
+#include "game.hpp"
+#include "graphics.hpp"
+#include "layout.hpp"
+#include "main.hpp"
+#include "menu.hpp"
+#include "statusbar.hpp"
+#include "system.hpp"
+
+namespace Sorcery {
+
+	class Inn {
+
+	  public:
+		// Standard Constructor
+		Inn(System *system, Display *display, Graphics *graphics, Game *game);
+		Inn() = delete;
+
+		// Standard Destructor
+		~Inn();
+
+		// Public Members
+
+		// Public Methods
+		auto start() -> std::optional<MenuItem>;
+		auto stop() -> void;
+
+	  private:
+		// Private Methods
+		auto _draw() -> void;
+
+		// Private Members
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
+		Game *_game;
+		sf::RenderWindow *_window;
+		std::unique_ptr<Frame> _frame;
+		std::shared_ptr<Menu> _menu;
+		sf::Sprite _bg;
+		WindowConfirm _yes_or_no;
+		std::unique_ptr<StatusBar> _status_bar;
+	};
+} // namespace Sorcery

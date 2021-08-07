@@ -46,8 +46,6 @@ Sorcery::Tavern::~Tavern() {}
 // Visit the Tavern
 auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 
-	_system->set_pause(10000);
-
 	// Get the Background Display Components and load them into Display module
 	// storage (not local - and note that due to the way both menus are combined
 	// in this class, we need to have the menu stage set first in this case and
