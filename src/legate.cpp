@@ -160,7 +160,7 @@ auto Sorcery::Legate::start() -> std::optional<CharacterAlignment> {
 					continue;
 				} else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
-					switch (auto chosen_alignment{(*selected.value()).item}) {
+					switch ((*selected.value()).item) {
 					case MenuItem::CA_GOOD:
 						return CharacterAlignment::GOOD;
 						break;

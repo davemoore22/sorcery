@@ -137,7 +137,7 @@
 
 1591211577 /home/dave/Development/wizardry/sorcery-sfml/inc/simpleini/ConvertUTF.h
 
-1628106617 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
+1628338853 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
 1628273915 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
@@ -282,10 +282,10 @@
 1628106617 source:/home/dave/Development/wizardry/sorcery-sfml/src/banner.cpp
 	"banner.hpp"
 
-1628278159 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
+1628339990 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
 	"character.hpp"
 
-1628278108 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
+1628339924 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
 	"display.hpp"
 	"graphics.hpp"
 	"main.hpp"
@@ -1137,7 +1137,7 @@
 	"menu.hpp"
 	"system.hpp"
 
-1628276208 source:/home/dave/Development/wizardry/sorcery-sfml/src/changeclass.cpp
+1628340148 source:/home/dave/Development/wizardry/sorcery-sfml/src/changeclass.cpp
 	"changeclass.hpp"
 
 1628106617 /home/dave/Development/wizardry/sorcery-sfml/inc/changeclass.hpp
@@ -1164,6 +1164,6 @@
 	"menu.hpp"
 	"system.hpp"
 
-1628282048 source:/home/dave/Development/wizardry/sorcery-sfml/src/legate.cpp
+1628340143 source:/home/dave/Development/wizardry/sorcery-sfml/src/legate.cpp
 	"legate.hpp"
 

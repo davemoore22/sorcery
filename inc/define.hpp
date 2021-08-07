@@ -38,6 +38,9 @@ namespace Sorcery {
 	// Exit Codes
 	inline constexpr auto EXIT_OK = 0;
 
+	// Save Version
+	inline constexpr auto SAVE_VERSION = 1;
+
 	// Command Line Arguments
 	inline constexpr auto SKIP_INTRO = "skip_intro"sv;
 	inline constexpr auto CONTINUE_GAME = "continue_game"sv;

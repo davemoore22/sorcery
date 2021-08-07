@@ -161,7 +161,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 					// We have selected something from the menu
 					if (selected) {
 
-						switch (auto chosen_class{(*selected.value()).item}) {
+						switch ((*selected.value()).item) {
 						case MenuItem::CC_SAMURAI:
 							if (_character->get_class() ==
 								CharacterClass::SAMURAI)

@@ -29,13 +29,11 @@
 #include "graphics.hpp"
 #include "main.hpp"
 #include "system.hpp"
-//#include "attributedisplay.hpp"
 #include "spellpanel.hpp"
 // clang-format on
 
 namespace Sorcery {
 
-	// class AttributeDisplay;
 	class SpellSummary;
 
 	class Character : public sf::Transformable, public sf::Drawable {
@@ -57,17 +55,11 @@ namespace Sorcery {
 		auto operator[](const CharacterAbility &key) -> int &;
 
 		// Serialisation
-		/* TODO: add:
-			a version number!!!
-			legated flag
-
-
-		*/
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_name, _race, _class, _alignment, _start_attr, _cur_attr,
-				_max_attr, _st_points, _portrait_index, _abilities,
+			archive(_version, _name, _race, _class, _alignment, _start_attr,
+				_cur_attr, _max_attr, _st_points, _portrait_index, _abilities,
 				_priest_max_sp, _priest_cur_sp, _mage_max_sp, _mage_cur_sp,
-				_status, _hidden, _spells_known);
+				_status, _hidden, _spells_known, _legated);
 		}
 
 		// Public Methods
@@ -140,6 +132,8 @@ namespace Sorcery {
 			-> std::optional<SpellID>;
 		auto change_class(const CharacterClass &value) -> void;
 		auto legate(const CharacterAlignment &value) -> void;
+		auto is_legated() const -> bool;
+		auto get_version() const -> int;
 
 		// Public Members
 		std::map<SpellID, sf::FloatRect> mage_spell_bounds;
@@ -183,6 +177,7 @@ namespace Sorcery {
 		auto _get_sp_per_level(const SpellType type, int level) -> std::string;
 
 		// Private Members
+		int _version;
 		System *_system;
 		Display *_display;
 		Graphics *_graphics;
@@ -216,14 +211,13 @@ namespace Sorcery {
 		std::map<std::string, sf::Sprite> _v_sprites;
 		std::map<std::string, sf::Text> _v_texts;
 		std::map<std::string, std::shared_ptr<Frame>> _v_frames;
-		// std::shared_ptr<AttributeDisplay> _ad;
 		std::shared_ptr<SpellPanel> _spell_panel;
 		Component _spell_panel_c;
-		// Component _ad_c;
 		CreateMethod _method;
 		SpellID _hl_mage_spell;
 		SpellID _hl_priest_spell;
 		sf::RectangleShape _hl_mage_spell_bg;
 		sf::RectangleShape _hl_priest_spell_bg;
+		bool _legated;
 	};
 } // namespace Sorcery

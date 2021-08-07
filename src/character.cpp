@@ -52,13 +52,15 @@ Sorcery::Character::Character(
 	_spell_panel = std::make_shared<SpellPanel>(_system, _display, _graphics);
 	_spell_panel->setPosition((*_display->layout)["global:spell_panel"].x,
 		(*_display->layout)["global:spell_panel"].y);
+
+	_version = SAVE_VERSION;
 }
 
 // Note for the copy constuctors we only copy the character data/PODs within
 Sorcery::Character::Character(const Character &other)
-	: _system{other._system}, _display{other._display},
-	  _graphics{other._graphics}, _abilities{other._abilities},
-	  _priest_max_sp{other._priest_max_sp},
+	: _version{other._version}, _system{other._system},
+	  _display{other._display}, _graphics{other._graphics},
+	  _abilities{other._abilities}, _priest_max_sp{other._priest_max_sp},
 	  _priest_cur_sp{other._priest_cur_sp}, _mage_max_sp{other._mage_max_sp},
 	  _mage_cur_sp{other._mage_cur_sp}, _spells{other._spells},
 	  _spells_known{other._spells_known}, _current_stage{other._current_stage},
@@ -70,7 +72,7 @@ Sorcery::Character::Character(const Character &other)
 	  _class_list{other._class_list}, _num_pos_classes{other._num_pos_classes},
 	  _portrait_index{other._portrait_index}, _status{other._status},
 	  _hidden{other._hidden}, _hl_mage_spell{other._hl_mage_spell},
-	  _hl_priest_spell{other._hl_priest_spell} {
+	  _hl_priest_spell{other._hl_priest_spell}, _legated{other._legated} {
 
 	_sprites = other._sprites;
 	_texts = other._texts;
@@ -78,15 +80,15 @@ Sorcery::Character::Character(const Character &other)
 	_v_sprites = other._v_sprites;
 	_v_texts = other._v_texts;
 	_v_frames = other._v_frames;
-	//_ad = other._ad;
 	_spell_panel = other._spell_panel;
-	//_ad_c = other._ad_c;
 	_spell_panel_c = other._spell_panel_c;
 	mage_spell_bounds = other.mage_spell_bounds;
 	priest_spell_bounds = other.priest_spell_bounds;
 }
 
 auto Sorcery::Character::operator=(const Character &other) -> Character & {
+
+	_version = other._version;
 
 	_system = other._system;
 	_display = other._display;
@@ -118,6 +120,7 @@ auto Sorcery::Character::operator=(const Character &other) -> Character & {
 	_hl_priest_spell = other._hl_priest_spell;
 	_hidden = other._hidden;
 	_status = other._status;
+	_legated = other._legated;
 
 	_sprites = other._sprites;
 	_texts = other._texts;
@@ -125,8 +128,6 @@ auto Sorcery::Character::operator=(const Character &other) -> Character & {
 	_v_sprites = other._v_sprites;
 	_v_texts = other._v_texts;
 	_v_frames = other._v_frames;
-	//_ad = other._ad;
-	//_ad_c = other._ad_c;
 	_spell_panel = other._spell_panel;
 	_spell_panel_c = other._spell_panel_c;
 	mage_spell_bounds = other.mage_spell_bounds;
@@ -141,6 +142,9 @@ auto Sorcery::Character::operator=(const Character &other) -> Character & {
 Sorcery::Character::Character(Character &&other) noexcept {
 
 	if (this != &other) {
+
+		_version = other._version;
+
 		_system = other._system;
 		_display = other._display;
 		_graphics = other._graphics;
@@ -171,6 +175,7 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		_hl_priest_spell = other._hl_priest_spell;
 		_hidden = other._hidden;
 		_status = other._status;
+		_legated = other._legated;
 
 		_sprites = std::move(other._sprites);
 		_texts = std::move(other._texts);
@@ -178,14 +183,14 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		_v_sprites = std::move(other._v_sprites);
 		_v_texts = std::move(other._v_texts);
 		_v_frames = std::move(other._v_frames);
-		//_ad = std::move(other._ad);
-		//_ad_c = std::move(other._ad_c);
 		_spell_panel = std::move(other._spell_panel);
 		_spell_panel_c = std::move(other._spell_panel_c);
 		mage_spell_bounds = std::move(other.mage_spell_bounds);
 		priest_spell_bounds = std::move(other.priest_spell_bounds);
 		mage_spell_texts = std::move(other.mage_spell_texts);
 		priest_spell_texts = std::move(other.priest_spell_texts);
+
+		other._version = 0;
 
 		other._system = nullptr;
 		other._display = nullptr;
@@ -217,6 +222,7 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		other._hl_priest_spell = SpellID::NONE;
 		other._hidden = false;
 		other._status = CharacterStatus::OK;
+		other._legated = false;
 
 		other._sprites.clear();
 		other._texts.clear();
@@ -224,7 +230,6 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		other._v_sprites.clear();
 		other._v_texts.clear();
 		other._v_frames.clear();
-		// other._ad_c = Component();
 		other._spell_panel_c = Component();
 		other.mage_spell_bounds.clear();
 		other.priest_spell_bounds.clear();
@@ -236,6 +241,9 @@ Sorcery::Character::Character(Character &&other) noexcept {
 auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 
 	if (this != &other) {
+
+		_version = other._version;
+
 		_system = other._system;
 		_display = other._display;
 		_graphics = other._graphics;
@@ -266,6 +274,7 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		_hl_priest_spell = other._hl_priest_spell;
 		_hidden = other._hidden;
 		_status = other._status;
+		_legated = other._legated;
 
 		_sprites = std::move(other._sprites);
 		_texts = std::move(other._texts);
@@ -273,14 +282,14 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		_v_sprites = std::move(other._v_sprites);
 		_v_texts = std::move(other._v_texts);
 		_v_frames = std::move(other._v_frames);
-		//_ad = std::move(other._ad);
-		//_ad_c = std::move(other._ad_c);
 		_spell_panel = std::move(other._spell_panel);
 		_spell_panel_c = std::move(other._spell_panel_c);
 		mage_spell_bounds = std::move(other.mage_spell_bounds);
 		priest_spell_bounds = std::move(other.priest_spell_bounds);
 		mage_spell_texts = std::move(other.mage_spell_texts);
 		priest_spell_texts = std::move(other.priest_spell_texts);
+
+		other._version = 0;
 
 		other._system = nullptr;
 		other._display = nullptr;
@@ -310,6 +319,7 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		other._portrait_index = 0;
 		other._hidden = false;
 		other._status = CharacterStatus::OK;
+		other._legated = false;
 
 		other._sprites.clear();
 		other._texts.clear();
@@ -317,7 +327,6 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		other._v_sprites.clear();
 		other._v_texts.clear();
 		other._v_frames.clear();
-		// other._ad_c = Component();
 		other._spell_panel_c = Component();
 		other._hl_mage_spell = SpellID::NONE;
 		other._hl_priest_spell = SpellID::NONE;
@@ -932,6 +941,8 @@ auto Sorcery::Character::legate(const CharacterAlignment &value) -> void {
 	_generate_secondary_abil(true, false);
 	_set_start_spells();
 	_set_starting_sp();
+	set_status(CharacterStatus::OK);
+	_legated = true;
 }
 
 // Change Class
@@ -947,6 +958,16 @@ auto Sorcery::Character::change_class(const CharacterClass &value) -> void {
 
 		// Also need to deequip all items!
 	}
+}
+
+auto Sorcery::Character::is_legated() const -> bool {
+
+	return _legated;
+}
+
+auto Sorcery::Character::get_version() const -> int {
+
+	return _version;
 }
 
 // Work out all the stuff to do with starting a new character
@@ -3639,7 +3660,7 @@ auto Sorcery::Character::draw(
 
 	if (_view == CharacterView::MAGE_SPELLS)
 		target.draw(_hl_mage_spell_bg, states);
-	if (_view == CharacterView::PRIEST_SPELLS)
+	else if (_view == CharacterView::PRIEST_SPELLS)
 		target.draw(_hl_priest_spell_bg, states);
 
 	// Draw the section components
