@@ -161,6 +161,7 @@
 		<Unit filename="inc/graphics.hpp" />
 		<Unit filename="inc/iconstore.hpp" />
 		<Unit filename="inc/infopanel.hpp" />
+		<Unit filename="inc/inn.hpp" />
 		<Unit filename="inc/input.hpp" />
 		<Unit filename="inc/keyboard.hpp" />
 		<Unit filename="inc/layout.hpp" />
@@ -180,6 +181,7 @@
 		<Unit filename="inc/raycaster.hpp" />
 		<Unit filename="inc/resourcemanager.hpp" />
 		<Unit filename="inc/roster.hpp" />
+		<Unit filename="inc/shop.hpp" />
 		<Unit filename="inc/spellpanel.hpp" />
 		<Unit filename="inc/spellsummary.hpp" />
 		<Unit filename="inc/splash.hpp" />
@@ -187,6 +189,7 @@
 		<Unit filename="inc/string.hpp" />
 		<Unit filename="inc/system.hpp" />
 		<Unit filename="inc/tavern.hpp" />
+		<Unit filename="inc/temple.hpp" />
 		<Unit filename="inc/textfile.hpp" />
 		<Unit filename="inc/tooltip.hpp" />
 		<Unit filename="inc/type.hpp" />
@@ -221,6 +224,7 @@
 		<Unit filename="src/graphics.cpp" />
 		<Unit filename="src/iconstore.cpp" />
 		<Unit filename="src/infopanel.cpp" />
+		<Unit filename="src/inn.cpp" />
 		<Unit filename="src/input.cpp" />
 		<Unit filename="src/keyboard.cpp" />
 		<Unit filename="src/layout.cpp" />
@@ -235,12 +239,14 @@
 		<Unit filename="src/random.cpp" />
 		<Unit filename="src/resourcemanager.cpp" />
 		<Unit filename="src/roster.cpp" />
+		<Unit filename="src/shop.cpp" />
 		<Unit filename="src/spellpanel.cpp" />
 		<Unit filename="src/splash.cpp" />
 		<Unit filename="src/statusbar.cpp" />
 		<Unit filename="src/string.cpp" />
 		<Unit filename="src/system.cpp" />
 		<Unit filename="src/tavern.cpp" />
+		<Unit filename="src/temple.cpp" />
 		<Unit filename="src/textfile.cpp" />
 		<Unit filename="src/tooltip.cpp" />
 		<Unit filename="src/training.cpp" />
