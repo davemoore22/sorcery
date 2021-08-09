@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1628358517 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1628520073 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -592,9 +592,10 @@
 1628106617 source:/home/dave/Development/wizardry/sorcery-sfml/src/training.cpp
 	"training.hpp"
 
-1628106617 /home/dave/Development/wizardry/sorcery-sfml/inc/statusbar.hpp
+1628521057 /home/dave/Development/wizardry/sorcery-sfml/inc/statusbar.hpp
 	"display.hpp"
 	"frame.hpp"
+	"game.hpp"
 	"graphics.hpp"
 	"layout.hpp"
 	"main.hpp"

@@ -44,7 +44,8 @@ Sorcery::Castle::Castle(
 		(*_display->layout)["castle:dialog_leave_game"].y);
 
 	// Modules
-	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics);
+	_status_bar =
+		std::make_unique<StatusBar>(_system, _display, _graphics, _game);
 	_edge_of_town =
 		std::make_unique<EdgeOfTown>(_system, _display, _graphics, _game);
 	_tavern = std::make_unique<Tavern>(_system, _display, _graphics, _game);

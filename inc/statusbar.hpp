@@ -26,6 +26,7 @@
 
 #include "display.hpp"
 #include "frame.hpp"
+#include "game.hpp"
 #include "graphics.hpp"
 #include "layout.hpp"
 #include "main.hpp"
@@ -39,7 +40,8 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		StatusBar(System *system, Display *display, Graphics *graphics);
+		StatusBar(
+			System *system, Display *display, Graphics *graphics, Game *game);
 		StatusBar() = delete;
 
 		// Public Members
@@ -60,6 +62,7 @@ namespace Sorcery {
 		System *_system;
 		Display *_display;
 		Graphics *_graphics;
+		Game *_game;
 		Component _layout;
 		Component _frame_c;
 		std::unique_ptr<Frame> _frame;

@@ -37,7 +37,8 @@ Sorcery::Tavern::Tavern(
 		_system, _display, _graphics, _game, MenuType::TAVERN);
 
 	// Modules
-	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics);
+	_status_bar =
+		std::make_unique<StatusBar>(_system, _display, _graphics, _game);
 }
 
 // Standard Destructor

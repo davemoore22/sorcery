@@ -26,8 +26,8 @@
 
 // Standard Constructor
 Sorcery::StatusBar::StatusBar(
-	System *system, Display *display, Graphics *graphics)
-	: _system{system}, _display{display}, _graphics{graphics} {
+	System *system, Display *display, Graphics *graphics, Game *game)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	_texts.clear();
 

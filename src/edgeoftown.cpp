@@ -45,7 +45,8 @@ Sorcery::EdgeOfTown::EdgeOfTown(
 		(*_display->layout)["edge_of_town:dialog_leave_game"].y);
 
 	// Modules
-	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics);
+	_status_bar =
+		std::make_unique<StatusBar>(_system, _display, _graphics, _game);
 	_training = std::make_shared<Training>(_system, _display, _graphics, _game);
 }
 
