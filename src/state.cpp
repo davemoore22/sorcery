@@ -21,3 +21,20 @@
 // said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
+
+#include "state.hpp"
+
+Sorcery::State::State(System *system) : _system{system} {
+
+	_party.fill(NO_CHAR);
+}
+
+Sorcery::State::State() {
+
+	_party.fill(NO_CHAR);
+}
+
+auto Sorcery::State::set(System *system) -> void {
+
+	_system = system;
+}

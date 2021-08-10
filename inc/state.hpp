@@ -33,6 +33,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructor
+		State();
 		State(System *system);
 
 		// Serialisation
@@ -44,11 +45,15 @@ namespace Sorcery {
 		bool valid;
 
 		// Public Methods
+		auto set(System *system) -> void;
+		auto add_character(unsigned int char_id) -> void;
+		auto remove_character(unsigned int char_id) -> void;
 
 	  private:
-		// Private Method
+		// Private Methods
 
 		// Private Members
+		System *_system;
 		std::array<unsigned int, 6> _party;
 	};
 } // namespace Sorcery

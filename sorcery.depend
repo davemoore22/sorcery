@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1628533079 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1628602536 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -21,6 +21,8 @@
 	"simpleini/SimpleIni.h"
 	"cereal/cereal.hpp"
 	"cereal/archives/json.hpp"
+	"cereal/types/array.hpp"
+	"cereal/types/memory.hpp"
 	"cereal/types/string.hpp"
 	"cereal/types/unordered_map.hpp"
 	"cereal/types/vector.hpp"
@@ -317,7 +319,7 @@
 	"menu.hpp"
 	"game.hpp"
 
-1628106617 source:/home/dave/Development/wizardry/sorcery-sfml/src/database.cpp
+1628533183 source:/home/dave/Development/wizardry/sorcery-sfml/src/database.cpp
 	"database.hpp"
 
 1628106617 source:/home/dave/Development/wizardry/sorcery-sfml/src/display.cpp
@@ -468,14 +470,15 @@
 1628106617 source:/home/dave/Development/wizardry/sorcery-sfml/src/tooltip.cpp
 	"tooltip.hpp"
 
-1628106617 source:/home/dave/Development/wizardry/sorcery-sfml/src/game.cpp
+1628602663 source:/home/dave/Development/wizardry/sorcery-sfml/src/game.cpp
 	"game.hpp"
 
-1628534234 /home/dave/Development/wizardry/sorcery-sfml/inc/game.hpp
+1628601295 /home/dave/Development/wizardry/sorcery-sfml/inc/game.hpp
 	"character.hpp"
 	"display.hpp"
 	"graphics.hpp"
 	"main.hpp"
+	"state.hpp"
 	"system.hpp"
 
 1603552924 source:/home/dave/Development/wizardry/sorcery-sfml/src/town.cpp
@@ -1227,4 +1230,42 @@
 
 1628521172 source:/home/dave/Development/wizardry/sorcery-sfml/src/temple.cpp
 	"temple.hpp"
+
+1628602761 /home/dave/Development/wizardry/sorcery-sfml/inc/state.hpp
+	"character.hpp"
+	"main.hpp"
+	"system.hpp"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/types/array.hpp
+	"cereal/cereal.hpp"
+	<array>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/types/memory.hpp
+	"cereal/cereal.hpp"
+	<memory>
+	<cstring>
+	"cereal/types/polymorphic.hpp"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/types/polymorphic.hpp
+	"cereal/cereal.hpp"
+	"cereal/types/memory.hpp"
+	"cereal/details/util.hpp"
+	"cereal/details/helpers.hpp"
+	"cereal/details/traits.hpp"
+	"cereal/details/polymorphic_impl.hpp"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/details/polymorphic_impl.hpp
+	"cereal/details/polymorphic_impl_fwd.hpp"
+	"cereal/details/static_object.hpp"
+	"cereal/types/memory.hpp"
+	"cereal/types/string.hpp"
+	<functional>
+	<typeindex>
+	<map>
+	<limits>
+	<set>
+	<stack>
+
+1628602812 source:/home/dave/Development/wizardry/sorcery-sfml/src/state.cpp
+	"state.hpp"
 

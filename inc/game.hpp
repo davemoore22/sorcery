@@ -28,6 +28,7 @@
 #include "display.hpp"
 #include "graphics.hpp"
 #include "main.hpp"
+#include "state.hpp"
 #include "system.hpp"
 
 namespace Sorcery {
@@ -38,11 +39,6 @@ namespace Sorcery {
 	  public:
 		// Constructor
 		Game(System *system, Display *display, Graphics *graphics);
-
-		// Serialisation
-		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_party);
-		}
 
 		// Public Members
 		bool valid;
@@ -66,6 +62,7 @@ namespace Sorcery {
 		System *_system;
 		Display *_display;
 		Graphics *_graphics;
+		std::unique_ptr<State> _state;
 		std::chrono::system_clock::time_point _start_time;
 		std::chrono::system_clock::time_point _last_time;
 		std::string _key;
