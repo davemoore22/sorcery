@@ -30,31 +30,57 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 	// Attempt to load a game from the Database
 	characters.clear();
 	valid = _system->database->has_game();
-	if (valid) {
+	if (valid)
+		_load_game();
+}
 
-		// Get the Game
-		auto [id, key, status, start_time, last_time, data] =
-			_system->database->get_game().value();
-		_id = id;
-		_key = key;
-		_status = status;
-		_start_time = start_time;
-		_last_time = last_time;
+auto Sorcery::Game::_load_game() -> void {
 
-		_state = std::make_unique<State>(_system);
-		if (data.length() > 0) {
-			std::stringstream ss;
-			ss.str(data);
-			{
-				cereal::JSONInputArchive archive(ss);
-				archive(_state);
-			}
+	auto [id, key, status, start_time, last_time, data] =
+		_system->database->get_game().value();
+	_id = id;
+	_key = key;
+	_status = status;
+	_start_time = start_time;
+	_last_time = last_time;
+
+	_state = std::make_unique<State>(_system);
+	if (data.length() > 0) {
+		std::stringstream ss;
+		ss.str(data);
+		{
+			cereal::JSONInputArchive archive(ss);
+			archive(_state);
 		}
+	}
 
-		// Load the Characters
-		_characters_ids = _system->database->get_chars(_id);
-		characters = load_all_char();
-	};
+	// Load the Characters
+	_characters_ids = _system->database->get_chars(_id);
+	characters = load_all_char();
+}
+
+auto Sorcery::Game::_save_game() -> void {
+
+	_state = std::make_unique<State>(_system);
+	std::stringstream ss;
+	{
+		cereal::JSONOutputArchive archive(ss);
+		archive(_state);
+	}
+	std::string character_data{ss.str()};
+
+	// Create a new game no matter what
+	_system->database->add_game(character_data);
+	auto [id, key, status, start_time, last_time, data] =
+		_system->database->get_game().value();
+
+	_id = id;
+	_key = key;
+	_status = status;
+	_start_time = start_time;
+	_last_time = last_time;
+
+	valid = true;
 }
 
 auto Sorcery::Game::reload_char(unsigned int character_id) -> void {
@@ -79,26 +105,8 @@ auto Sorcery::Game::start_new_game() -> void {
 		_state.release();
 		_state.reset();
 	}
-	_state = std::make_unique<State>(_system);
-	std::stringstream ss;
-	{
-		cereal::JSONOutputArchive archive(ss);
-		archive(_state);
-	}
-	std::string character_data{ss.str()};
 
-	// Create a new game no matter what
-	_system->database->add_game(character_data);
-	auto [id, key, status, start_time, last_time, data] =
-		_system->database->get_game().value();
-
-	_id = id;
-	_key = key;
-	_status = status;
-	_start_time = start_time;
-	_last_time = last_time;
-
-	valid = true;
+	_save_game();
 }
 
 auto Sorcery::Game::get_id() -> unsigned int {

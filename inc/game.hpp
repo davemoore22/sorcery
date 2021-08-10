@@ -56,7 +56,9 @@ namespace Sorcery {
 			Character &character) -> bool;
 
 	  private:
-		// Private Method
+		// Private Methods
+		auto _save_game() -> void;
+		auto _load_game() -> void;
 
 		// Private Members
 		System *_system;
