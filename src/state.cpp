@@ -21,39 +21,3 @@
 // said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
-
-#pragma once
-
-#include "main.hpp"
-
-namespace Sorcery {
-
-	class Database {
-
-	  public:
-		// Constructors
-		Database(const std::filesystem::path &db_file_path);
-		Database() = delete;
-
-		// Public Methods
-		auto has_game() -> bool;
-		auto add_game(std::string data) -> unsigned int;
-		auto get_game() -> std::optional<GameEntry>;
-		auto add_char(int game_id, std::string name, std::string data)
-			-> unsigned int;
-		auto get_chars(int game_id) -> std::vector<unsigned int>;
-		auto get_char(int game_id, int character_id) -> std::string;
-		auto delete_char(int game_id, int character_id) -> void;
-		auto update_char(int game_id, int character_id, std::string name,
-			std::string data) -> bool;
-
-		// Public Members
-		bool connected;
-
-	  private:
-		// Private Members
-		std::filesystem::path _db_file_path;
-
-		// Private Methods
-	};
-} // namespace Sorcery

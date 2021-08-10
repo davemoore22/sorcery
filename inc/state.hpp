@@ -22,22 +22,18 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#pragma once
-
 #include "character.hpp"
-#include "display.hpp"
-#include "graphics.hpp"
 #include "main.hpp"
 #include "system.hpp"
 
 namespace Sorcery {
 
-	// Game holds the current active game in progress
-	class Game {
+	// State holds the changable game data
+	class State {
 
 	  public:
 		// Constructor
-		Game(System *system, Display *display, Graphics *graphics);
+		State(System *system);
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
@@ -46,32 +42,13 @@ namespace Sorcery {
 
 		// Public Members
 		bool valid;
-		std::map<unsigned int, Character> characters;
 
 		// Public Methods
-		auto get_id() -> unsigned int;
-		auto start_new_game() -> void;
-		auto add_char(Character &character) -> unsigned int;
-		auto save_char(unsigned int character_id, Character &character) -> void;
-		auto load_all_char() -> std::map<unsigned int, Character>;
-		auto reload_all_char() -> void;
-		auto reload_char(unsigned int character_id) -> void;
-		auto update_char(unsigned game_id, unsigned character_id,
-			Character &character) -> bool;
 
 	  private:
 		// Private Method
 
 		// Private Members
-		System *_system;
-		Display *_display;
-		Graphics *_graphics;
-		std::chrono::system_clock::time_point _start_time;
-		std::chrono::system_clock::time_point _last_time;
-		std::string _key;
-		unsigned int _id;
-		std::string _status;
-		std::vector<unsigned int> _characters_ids;
 		std::array<unsigned int, 6> _party;
 	};
 } // namespace Sorcery

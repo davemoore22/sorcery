@@ -29,11 +29,12 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 
 	// Attempt to load a game from the Database
 	characters.clear();
+	_party.fill(NO_CHAR);
 	valid = _system->database->has_game();
 	if (valid) {
 
 		// Get the Game
-		auto [id, key, status, start_time, last_time] =
+		auto [id, key, status, start_time, last_time, data] =
 			_system->database->get_game().value();
 		_id = id;
 		_key = key;
@@ -66,8 +67,8 @@ auto Sorcery::Game::reload_all_char() -> void {
 auto Sorcery::Game::start_new_game() -> void {
 
 	// Create a new game no matter what
-	_system->database->add_game();
-	auto [id, key, status, start_time, last_time] =
+	_system->database->add_game("");
+	auto [id, key, status, start_time, last_time, data] =
 		_system->database->get_game().value();
 
 	_id = id;

@@ -41,6 +41,9 @@ namespace Sorcery {
 	// Save Version
 	inline constexpr auto SAVE_VERSION = 1;
 
+	// Empty Character Slot
+	inline constexpr auto NO_CHAR = 0;
+
 	// Command Line Arguments
 	inline constexpr auto SKIP_INTRO = "skip_intro"sv;
 	inline constexpr auto CONTINUE_GAME = "continue_game"sv;

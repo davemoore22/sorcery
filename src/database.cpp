@@ -66,7 +66,8 @@ auto Sorcery::Database::get_game() -> std::optional<GameEntry> {
 
 			sqlite::database database(_db_file_path.string());
 			const std::string get_game_SQL{
-				"SELECT g.id, g.key, g.status, g.started, g.last_played FROM "
+				"SELECT g.id, g.key, g.status, g.started, g.last_played, g. "
+				"data FROM "
 				"game g;"};
 
 			int id{};
@@ -74,8 +75,9 @@ auto Sorcery::Database::get_game() -> std::optional<GameEntry> {
 			std::string started{};
 			std::string last_played{};
 			std::string status{};
+			std::string data{};
 			database << get_game_SQL >>
-				std::tie(id, key, status, started, last_played);
+				std::tie(id, key, status, started, last_played, data);
 
 			std::tm started_tm{};
 			std::stringstream started_ss(started);
@@ -90,7 +92,7 @@ auto Sorcery::Database::get_game() -> std::optional<GameEntry> {
 				std::mktime(&last_played_tm))};
 
 			return std::make_tuple(static_cast<unsigned int>(id), key, status,
-				started_tp, last_played_tp);
+				started_tp, last_played_tp, data);
 
 		} else
 			return std::nullopt;
@@ -104,7 +106,7 @@ auto Sorcery::Database::get_game() -> std::optional<GameEntry> {
 	}
 }
 
-auto Sorcery::Database::add_game() -> unsigned int {
+auto Sorcery::Database::add_game(std::string data) -> unsigned int {
 
 	try {
 
@@ -124,10 +126,10 @@ auto Sorcery::Database::add_game() -> unsigned int {
 		auto last_played{ss.str()};
 		std::string status{"OK"};
 		const std::string insert_new_game_SQL{
-			"INSERT INTO game (key, status, started, last_played) VALUES "
-			"(?,?,?,?)"};
+			"INSERT INTO game (key, status, started, last_played, data) VALUES "
+			"(?,?,?,?, ?)"};
 		database << insert_new_game_SQL << new_unique_key << status << stated
-				 << last_played;
+				 << last_played << data;
 
 		return database.last_insert_rowid();
 
