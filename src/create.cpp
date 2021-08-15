@@ -695,7 +695,7 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event)
 				if (selected) {
 					switch ((*selected.value()).item) {
 					case MenuItem::RC_ACCEPT:
-						_game->add_char(_candidate);
+						_game->add_character(_candidate);
 						_show_saved_ok = true;
 						break;
 					case MenuItem::RC_REJECT:

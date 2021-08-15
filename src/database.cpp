@@ -44,10 +44,13 @@ auto Sorcery::Database::has_game() -> bool {
 
 	try {
 		sqlite::database database(_db_file_path.string());
+
 		const std::string check_has_game_SQL{
 			"SELECT count(g.id) AS count FROM game g;"};
+
 		int count{};
 		database << check_has_game_SQL >> count;
+
 		return count > 0;
 	} catch (sqlite::sqlite_exception &e) {
 		Error error{SystemError::SQLLITE_ERROR, e,
@@ -58,17 +61,17 @@ auto Sorcery::Database::has_game() -> bool {
 	}
 }
 
-auto Sorcery::Database::get_game() -> std::optional<GameEntry> {
+auto Sorcery::Database::load_game_state() -> std::optional<GameEntry> {
 
 	try {
 
 		if (has_game()) {
 
 			sqlite::database database(_db_file_path.string());
+
 			const std::string get_game_SQL{
-				"SELECT g.id, g.key, g.status, g.started, g.last_played, g. "
-				"data FROM "
-				"game g;"};
+				"SELECT g.id, g.key, g.status, g.started, g.last_played, "
+				"g.data FROM game g;"};
 
 			int id{};
 			std::string key{};
@@ -76,6 +79,7 @@ auto Sorcery::Database::get_game() -> std::optional<GameEntry> {
 			std::string last_played{};
 			std::string status{};
 			std::string data{};
+
 			database << get_game_SQL >>
 				std::tie(id, key, status, started, last_played, data);
 
@@ -93,7 +97,6 @@ auto Sorcery::Database::get_game() -> std::optional<GameEntry> {
 
 			return std::make_tuple(static_cast<unsigned int>(id), key, status,
 				started_tp, last_played_tp, data);
-
 		} else
 			return std::nullopt;
 
@@ -106,7 +109,34 @@ auto Sorcery::Database::get_game() -> std::optional<GameEntry> {
 	}
 }
 
-auto Sorcery::Database::add_game(std::string data) -> unsigned int {
+auto Sorcery::Database::save_game_state(
+	int game_id, std::string key, std::string data) -> void {
+	try {
+		sqlite::database database(_db_file_path.string());
+
+		auto now_t{std::chrono::system_clock::to_time_t(
+			std::chrono::system_clock::now())};
+		std::stringstream ss{};
+		ss << std::put_time(std::localtime(&now_t), "%Y-%m-%d %X");
+		auto last_played{ss.str()};
+		std::string status{"OK"};
+
+		const std::string update_game_SQL{
+			"UPDATE game SET status = ?, last_played = ?, data = ? WHERE id = "
+			"? AND key = ?;"};
+		database << update_game_SQL << status << last_played << data << game_id
+				 << key;
+
+	} catch (sqlite::sqlite_exception &e) {
+		Error error{SystemError::SQLLITE_ERROR, e,
+			fmt::format("{} {} {} {}", e.get_code(), e.what(), e.get_sql(),
+				_db_file_path.string())};
+		std::cout << error;
+		exit(EXIT_FAILURE);
+	}
+}
+
+auto Sorcery::Database::create_game_state(std::string data) -> unsigned int {
 
 	try {
 
@@ -127,7 +157,7 @@ auto Sorcery::Database::add_game(std::string data) -> unsigned int {
 		std::string status{"OK"};
 		const std::string insert_new_game_SQL{
 			"INSERT INTO game (key, status, started, last_played, data) VALUES "
-			"(?,?,?,?, ?)"};
+			"(?, ?, ?, ?, ?)"};
 		database << insert_new_game_SQL << new_unique_key << status << stated
 				 << last_played << data;
 
@@ -144,8 +174,7 @@ auto Sorcery::Database::add_game(std::string data) -> unsigned int {
 	return 0;
 }
 
-// Update Character Name
-auto Sorcery::Database::update_char(
+auto Sorcery::Database::update_character(
 	int game_id, int character_id, std::string name, std::string data) -> bool {
 
 	try {
@@ -173,8 +202,7 @@ auto Sorcery::Database::update_char(
 	return false;
 }
 
-// Insert a character
-auto Sorcery::Database::add_char(
+auto Sorcery::Database::add_character(
 	int game_id, std::string name, std::string data) -> unsigned int {
 
 	try {
@@ -208,8 +236,8 @@ auto Sorcery::Database::add_char(
 	return 0;
 }
 
-// Get the Character List
-auto Sorcery::Database::get_chars(int game_id) -> std::vector<unsigned int> {
+auto Sorcery::Database::get_character_ids(int game_id)
+	-> std::vector<unsigned int> {
 
 	std::vector<unsigned int> characters;
 
@@ -236,7 +264,8 @@ auto Sorcery::Database::get_chars(int game_id) -> std::vector<unsigned int> {
 	return characters;
 }
 
-auto Sorcery::Database::delete_char(int game_id, int character_id) -> void {
+auto Sorcery::Database::delete_character(int game_id, int character_id)
+	-> void {
 
 	try {
 
@@ -256,7 +285,6 @@ auto Sorcery::Database::delete_char(int game_id, int character_id) -> void {
 	}
 }
 
-// Get a character
 auto Sorcery::Database::get_char(int game_id, int character_id) -> std::string {
 
 	std::string character_data{};

@@ -195,9 +195,10 @@ auto Sorcery::Edit::start(int current_character_idx)
 								std::string changed_name{new_name.value()};
 								_cur_char.value()->set_name(changed_name);
 								auto character{*_cur_char.value()};
-								_game->update_char(_game->get_id(),
+								_game->update_character(_game->get_id(),
 									current_character_idx, character);
-								_game->reload_char(current_character_idx);
+								_game->save_game();
+								_game->load_game();
 							};
 							change_name->stop();
 						} else if (option_chosen == MenuItem::EC_CHANGE_CLASS) {
@@ -210,9 +211,10 @@ auto Sorcery::Edit::start(int current_character_idx)
 								// Can't select same class in the change_class
 								// module - it returns nullopt if you do
 								character.change_class(new_class.value());
-								_game->update_char(_game->get_id(),
+								_game->update_character(_game->get_id(),
 									current_character_idx, character);
-								_game->reload_char(current_character_idx);
+								_game->save_game();
+								_game->load_game();
 
 								_show_changed = true;
 								_display->set_input_mode(
@@ -228,9 +230,10 @@ auto Sorcery::Edit::start(int current_character_idx)
 							if (legated) {
 
 								character.legate(legated.value());
-								_game->update_char(_game->get_id(),
+								_game->update_character(_game->get_id(),
 									current_character_idx, character);
-								_game->reload_char(current_character_idx);
+								_game->save_game();
+								_game->load_game();
 
 								_show_legated = true;
 								_display->set_input_mode(

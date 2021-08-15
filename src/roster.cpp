@@ -67,7 +67,7 @@ Sorcery::Roster::~Roster() {}
 
 auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 
-	_game->reload_all_char();
+	_game->load_game();
 
 	// Do the Menu here when it has access to the game characters
 	_menu.reset();
@@ -255,11 +255,10 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 							   WindowDialogButton::YES) {
 
 						// Delete a character!
-						_system->database->delete_char(
-							_game->get_id(), _cur_char_id);
+						_game->delete_character(_cur_char_id);
+						_game->save_game();
 
 						// Need to reload the menu!
-						_game->reload_all_char();
 						_menu->reload();
 
 						// And select the first one in the list after one is

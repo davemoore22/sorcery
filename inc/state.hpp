@@ -55,5 +55,6 @@ namespace Sorcery {
 		// Private Members
 		System *_system;
 		std::array<unsigned int, 6> _party;
+		std::map<unsigned int, Character> _characters;
 	};
 } // namespace Sorcery

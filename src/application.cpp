@@ -96,7 +96,7 @@ auto Sorcery::Application::start() -> int {
 
 			switch (option_chosen.value()) {
 			case MenuItem::MM_NEW_GAME:
-				_game->start_new_game();
+				_game->create_game();
 				option_chosen = _castle->start();
 				_castle->stop();
 				break;

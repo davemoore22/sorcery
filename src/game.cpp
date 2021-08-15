@@ -27,23 +27,75 @@
 Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
-	// Attempt to load a game from the Database
-	characters.clear();
 	valid = _system->database->has_game();
-	if (valid)
+	if (valid) {
+		_clear();
 		_load_game();
+	} else {
+		_create_game();
+		_load_game();
+	}
+}
+
+auto Sorcery::Game::get_id() -> unsigned int {
+
+	return _id;
+}
+
+auto Sorcery::Game::create_game() -> void {
+
+	_create_game();
+}
+
+auto Sorcery::Game::load_game() -> void {
+
+	_load_game();
+}
+auto Sorcery::Game::save_game() -> void {
+
+	_save_game();
+}
+
+auto Sorcery::Game::delete_character(unsigned int character_id) -> void {
+
+	_system->database->delete_character(_id, character_id);
+}
+
+auto Sorcery::Game::_clear() -> void {
+
+	// Clear existing data!
+	if (_state.get()) {
+		_state.release();
+		_state.reset();
+	}
+
+	characters.clear();
+	_characters_ids.clear();
+	_state = std::make_unique<State>(_system);
+}
+
+auto Sorcery::Game::_create_game() -> void {
+
+	_clear();
+	std::stringstream ss;
+	{
+		cereal::JSONOutputArchive archive(ss);
+		archive(_state);
+	}
+	std::string data{ss.str()};
+	_system->database->create_game_state(data);
 }
 
 auto Sorcery::Game::_load_game() -> void {
 
+	// Get Game and State Data
 	auto [id, key, status, start_time, last_time, data] =
-		_system->database->get_game().value();
+		_system->database->load_game_state().value();
 	_id = id;
 	_key = key;
 	_status = status;
 	_start_time = start_time;
 	_last_time = last_time;
-
 	_state = std::make_unique<State>(_system);
 	if (data.length() > 0) {
 		std::stringstream ss;
@@ -54,67 +106,40 @@ auto Sorcery::Game::_load_game() -> void {
 		}
 	}
 
-	// Load the Characters
-	_characters_ids = _system->database->get_chars(_id);
-	characters = load_all_char();
+	// And load the associated characters
+	_load_characters();
 }
 
 auto Sorcery::Game::_save_game() -> void {
 
-	_state = std::make_unique<State>(_system);
 	std::stringstream ss;
 	{
 		cereal::JSONOutputArchive archive(ss);
 		archive(_state);
 	}
-	std::string character_data{ss.str()};
+	std::string data{ss.str()};
 
-	// Create a new game no matter what
-	_system->database->add_game(character_data);
-	auto [id, key, status, start_time, last_time, data] =
-		_system->database->get_game().value();
-
-	_id = id;
-	_key = key;
-	_status = status;
-	_start_time = start_time;
-	_last_time = last_time;
-
-	valid = true;
+	_system->database->save_game_state(_id, _key, data);
+	_save_characters();
 }
 
-auto Sorcery::Game::reload_char(unsigned int character_id) -> void {
+auto Sorcery::Game::_save_characters() -> void {
 
-	std::map<unsigned int, Character> temp_characters;
-	temp_characters.clear();
-	temp_characters = load_all_char();
-	characters.at(character_id) = temp_characters.at(character_id);
-}
+	for (const auto &[character_id, character] : characters) {
 
-auto Sorcery::Game::reload_all_char() -> void {
+		std::stringstream ss;
+		{
+			cereal::JSONOutputArchive archive(ss);
+			archive(character);
+		}
+		std::string character_data{ss.str()};
 
-	// Load the Characters
-	_characters_ids = _system->database->get_chars(_id);
-	characters.clear();
-	characters = load_all_char();
-}
-
-auto Sorcery::Game::start_new_game() -> void {
-
-	if (_state.get()) {
-		_state.release();
-		_state.reset();
+		_system->database->update_character(
+			_id, character_id, character.get_name(), character_data);
 	}
-
-	_save_game();
 }
 
-auto Sorcery::Game::get_id() -> unsigned int {
-
-	return _id;
-}
-
-auto Sorcery::Game::load_all_char() -> std::map<unsigned int, Character> {
+auto Sorcery::Game::_get_characters() -> std::map<unsigned int, Character> {
 
 	std::map<unsigned int, Character> characters;
 	characters.clear();
@@ -140,7 +165,7 @@ auto Sorcery::Game::load_all_char() -> std::map<unsigned int, Character> {
 	return characters;
 }
 
-auto Sorcery::Game::add_char(Character &character) -> unsigned int {
+auto Sorcery::Game::add_character(Character &character) -> unsigned int {
 
 	std::stringstream ss;
 	{
@@ -149,12 +174,12 @@ auto Sorcery::Game::add_char(Character &character) -> unsigned int {
 	}
 	std::string character_data{ss.str()};
 
-	return _system->database->add_char(
+	return _system->database->add_character(
 		_id, character.get_name(), character_data);
 }
 
-auto Sorcery::Game::update_char(unsigned int game_id, unsigned int character_id,
-	Character &character) -> bool {
+auto Sorcery::Game::update_character(unsigned int game_id,
+	unsigned int character_id, Character &character) -> bool {
 	std::stringstream ss;
 	{
 		cereal::JSONOutputArchive archive(ss);
@@ -162,6 +187,14 @@ auto Sorcery::Game::update_char(unsigned int game_id, unsigned int character_id,
 	}
 	std::string character_data{ss.str()};
 
-	return _system->database->update_char(
+	return _system->database->update_character(
 		game_id, character_id, character.get_name(), character_data);
+}
+
+auto Sorcery::Game::_load_characters() -> void {
+
+	_characters_ids.clear();
+	_characters_ids = _system->database->get_character_ids(_id);
+	characters.clear();
+	characters = _get_characters();
 }

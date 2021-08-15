@@ -46,19 +46,23 @@ namespace Sorcery {
 
 		// Public Methods
 		auto get_id() -> unsigned int;
-		auto start_new_game() -> void;
-		auto add_char(Character &character) -> unsigned int;
-		auto save_char(unsigned int character_id, Character &character) -> void;
-		auto load_all_char() -> std::map<unsigned int, Character>;
-		auto reload_all_char() -> void;
-		auto reload_char(unsigned int character_id) -> void;
-		auto update_char(unsigned game_id, unsigned character_id,
+		auto create_game() -> void;
+		auto load_game() -> void;
+		auto save_game() -> void;
+		auto add_character(Character &character) -> unsigned int;
+		auto delete_character(unsigned int character_id) -> void;
+		auto update_character(unsigned game_id, unsigned character_id,
 			Character &character) -> bool;
 
 	  private:
 		// Private Methods
+		auto _clear() -> void;
+		auto _create_game() -> void;
 		auto _save_game() -> void;
 		auto _load_game() -> void;
+		auto _load_characters() -> void;
+		auto _get_characters() -> std::map<unsigned int, Character>;
+		auto _save_characters() -> void;
 
 		// Private Members
 		System *_system;
