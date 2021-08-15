@@ -257,6 +257,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 						// Delete a character!
 						_game->delete_character(_cur_char_id);
 						_game->save_game();
+						_game->load_game();
 
 						// Need to reload the menu!
 						_menu->reload();
@@ -325,6 +326,8 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 		_draw();
 		_window->display();
 	}
+
+	_game->save_game();
 
 	return std::nullopt;
 }
