@@ -34,7 +34,7 @@ Sorcery::Edit::Edit(
 	_cur_char = std::nullopt;
 
 	_char_panel = std::make_unique<CharPanel>(_system, _display, _graphics);
-	_menu = std::make_shared<Menu>(
+	_menu = std::make_unique<Menu>(
 		_system, _display, _graphics, _game, MenuType::EDIT_CHARACTER);
 
 	_changed = std::make_unique<Dialog>(_system, _display, _graphics,

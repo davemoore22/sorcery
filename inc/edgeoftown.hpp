@@ -66,11 +66,11 @@ namespace Sorcery {
 		Game *_game;
 		sf::RenderWindow *_window;
 		std::unique_ptr<Frame> _frame;
-		std::shared_ptr<Menu> _menu;
+		std::unique_ptr<Menu> _menu;
 		sf::Sprite _bg;
-		std::shared_ptr<Dialog> _leave_game;
+		std::unique_ptr<Dialog> _leave_game;
 		WindowConfirm _yes_or_no;
-		std::shared_ptr<Training> _training;
+		std::unique_ptr<Training> _training;
 		std::unique_ptr<StatusBar> _status_bar;
 	};
 } // namespace Sorcery

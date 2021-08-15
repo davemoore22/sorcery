@@ -34,7 +34,7 @@ Sorcery::ChangeName::ChangeName(
 	_window = _display->window->get_window();
 
 	// Create the On-Screen Keyboard
-	_keyboard = std::make_shared<Keyboard>(system, display, graphics);
+	_keyboard = std::make_unique<Keyboard>(system, display, graphics);
 
 	// Setup the Name
 	_new_name = _old_name;

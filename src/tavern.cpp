@@ -33,7 +33,7 @@ Sorcery::Tavern::Tavern(
 	_window = _display->window->get_window();
 
 	// Setup Custom Components
-	_menu = std::make_shared<Menu>(
+	_menu = std::make_unique<Menu>(
 		_system, _display, _graphics, _game, MenuType::TAVERN);
 
 	// Modules

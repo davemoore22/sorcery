@@ -71,7 +71,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 
 	// Do the Menu here when it has access to the game characters
 	_menu.reset();
-	_menu = std::make_shared<Menu>(
+	_menu = std::make_unique<Menu>(
 		_system, _display, _graphics, _game, MenuType::CHARACTER_ROSTER);
 	_cur_char_id = -1;
 

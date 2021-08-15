@@ -34,27 +34,27 @@ Sorcery::MainMenu::MainMenu(
 
 	// Create the Main Menu
 	_menu_stage = MainMenuType::ATTRACT_MODE;
-	_main_menu = std::make_shared<Menu>(
+	_main_menu = std::make_unique<Menu>(
 		_system, _display, _graphics, _game, MenuType::MAIN);
 
 	// Setup Custom Components
 	_press_any_key = sf::Text();
 
 	// Now set up attract mode data
-	_attract_mode = std::make_shared<AttractMode>(
+	_attract_mode = std::make_unique<AttractMode>(
 		_system->resources->textures[GraphicsTexture::CREATURES],
 		(*_display->layout)["main_menu_attract:attract_creatures"]);
 	_attract_mode->data.clear();
 
 	// Create the Confirmation Dialogs
-	_dialog_exit = std::make_shared<Dialog>(_system, _display, _graphics,
+	_dialog_exit = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["main_menu_attract:dialog_exit"],
 		(*_display->layout)["main_menu_attract:dialog_exit_text"],
 		WindowDialogType::CONFIRM);
 	_dialog_exit->setPosition(
 		(*_display->layout)["main_menu_attract:dialog_exit"].x,
 		(*_display->layout)["main_menu_attract:dialog_exit"].y);
-	_dialog_new_game = std::make_shared<Dialog>(_system, _display, _graphics,
+	_dialog_new_game = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["main_menu_attract:dialog_new_game"],
 		(*_display->layout)["main_menu_attract:dialog_new_game_text"],
 		WindowDialogType::CONFIRM);

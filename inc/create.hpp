@@ -118,6 +118,6 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _final_menu_frame;
 		bool _show_final_menu;
 		bool _show_saved_ok;
-		std::shared_ptr<Dialog> _dialog_saved_ok;
+		std::unique_ptr<Dialog> _dialog_saved_ok;
 	};
 } // namespace Sorcery

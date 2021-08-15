@@ -66,7 +66,7 @@ namespace Sorcery {
 		Game *_game;
 		sf::RenderWindow *_window;
 		MainMenuType _menu_stage;
-		std::shared_ptr<Menu> _menu;
+		std::unique_ptr<Menu> _menu;
 		sf::Sprite _bg;
 		std::unique_ptr<Frame> _menu_frame;
 		std::unique_ptr<Create> _create;

@@ -33,10 +33,10 @@ Sorcery::EdgeOfTown::EdgeOfTown(
 	_window = _display->window->get_window();
 
 	// Setup Custom Components
-	_menu = std::make_shared<Menu>(
+	_menu = std::make_unique<Menu>(
 		_system, _display, _graphics, _game, MenuType::EDGE_OF_TOWN);
 
-	_leave_game = std::make_shared<Dialog>(_system, _display, _graphics,
+	_leave_game = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["edge_of_town:dialog_leave_game"],
 		(*_display->layout)["edge_of_town:dialog_leave_game_text"],
 		WindowDialogType::CONFIRM);
@@ -47,7 +47,7 @@ Sorcery::EdgeOfTown::EdgeOfTown(
 	// Modules
 	_status_bar =
 		std::make_unique<StatusBar>(_system, _display, _graphics, _game);
-	_training = std::make_shared<Training>(_system, _display, _graphics, _game);
+	_training = std::make_unique<Training>(_system, _display, _graphics, _game);
 }
 
 // Standard Destructor

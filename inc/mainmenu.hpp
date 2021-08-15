@@ -66,13 +66,13 @@ namespace Sorcery {
 		Game *_game;
 		sf::RenderWindow *_window;
 		MainMenuType _menu_stage;
-		std::shared_ptr<Menu> _main_menu;
-		std::shared_ptr<AttractMode> _attract_mode;
+		std::unique_ptr<Menu> _main_menu;
+		std::unique_ptr<AttractMode> _attract_mode;
 		WindowConfirm _yes_or_no;
 		Component _attract_creatures_c;
 		sf::Text _press_any_key;
-		std::shared_ptr<Dialog> _dialog_new_game;
-		std::shared_ptr<Dialog> _dialog_exit;
+		std::unique_ptr<Dialog> _dialog_new_game;
+		std::unique_ptr<Dialog> _dialog_exit;
 		std::optional<std::unique_ptr<Error>> _error;
 	};
 } // namespace Sorcery

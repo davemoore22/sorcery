@@ -63,7 +63,7 @@ namespace Sorcery {
 		Graphics *_graphics;
 		sf::RenderWindow *_window;
 		sf::Sprite _bg;
-		std::shared_ptr<Keyboard> _keyboard;
+		std::unique_ptr<Keyboard> _keyboard;
 		std::string _old_name;
 		std::string _new_name;
 		bool _valid;

@@ -43,10 +43,6 @@ namespace Sorcery {
 		Graphics(System *system, Display *display);
 		Graphics() = default;
 
-		// Copy Constructors
-		Graphics(const Graphics &other);
-		auto operator=(const Graphics &other) -> Graphics &;
-
 		// Public Methods
 		auto adjust_colour(int value, CharacterAbilityType ability_type)
 			-> unsigned long long;
@@ -56,8 +52,8 @@ namespace Sorcery {
 			-> unsigned long long;
 
 		// Public Members
-		std::shared_ptr<Animation> animation;
-		std::shared_ptr<IconStore> icons;
+		std::unique_ptr<Animation> animation;
+		std::unique_ptr<IconStore> icons;
 
 	  private:
 		// Private Members

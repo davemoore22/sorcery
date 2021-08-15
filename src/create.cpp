@@ -77,7 +77,7 @@ Sorcery::Create::Create(
 	_show_saved_ok = false;
 
 	// Create the Confirmation Dialogs
-	_dialog_saved_ok = std::make_shared<Dialog>(_system, _display, _graphics,
+	_dialog_saved_ok = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["character_create_stage_7:dialog_saved_ok"],
 		(*_display->layout)["character_create_stage_7:dialog_saved_ok_text"],
 		WindowDialogType::OK);
