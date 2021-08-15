@@ -43,23 +43,19 @@ namespace Sorcery {
 		// Constructors
 		System(int argc, char **argv);
 
-		// Copy Constructors
-		System(const System &other);
-		auto operator=(const System &other) -> System &;
-
 		// Public Methods
 		auto set_pause(unsigned int milliseconds) -> void;
 		auto is_paused() -> bool;
 		auto stop_pause() -> void;
 
 		// Public Members
-		std::shared_ptr<File> files;
-		std::shared_ptr<CSimpleIniA> settings;
-		std::shared_ptr<Config> config;
-		std::shared_ptr<Random> random;
-		std::shared_ptr<Database> database;
-		std::shared_ptr<ResourceManager> resources;
-		std::shared_ptr<Input> input;
+		std::unique_ptr<File> files;
+		std::unique_ptr<CSimpleIniA> settings;
+		std::unique_ptr<Config> config;
+		std::unique_ptr<Random> random;
+		std::unique_ptr<Database> database;
+		std::unique_ptr<ResourceManager> resources;
+		std::unique_ptr<Input> input;
 
 		// also need for each class to contain a list of mouse-sensitive area
 		// based upon component, so that you can check if a mouse cursor is in a

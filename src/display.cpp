@@ -28,42 +28,17 @@
 Sorcery::Display::Display(System *system) : _system{system} {
 
 	//_system = system;
-	string = std::make_shared<String>((*_system->files)[STRINGS_FILE]);
-	layout = std::make_shared<Layout>((*_system->files)[LAYOUT_FILE]);
-	window = std::make_shared<Window>(_system, string.get(), layout.get(),
+	string = std::make_unique<String>((*_system->files)[STRINGS_FILE]);
+	layout = std::make_unique<Layout>((*_system->files)[LAYOUT_FILE]);
+	window = std::make_unique<Window>(_system, string.get(), layout.get(),
 		(*string)["TITLE_AND_VERSION_INFO"]);
-	overlay = std::make_shared<ControlOverlay>(
+	overlay = std::make_unique<ControlOverlay>(
 		_system, this, (*layout)["global:control_overlay"]);
 	ui_texture = (*_system->resources).textures[GraphicsTexture::UI];
 	_background_movie.openFromFile(_system->files->get_path(MENU_VIDEO));
 	auto icon_layout{(*layout)["global:icon"]};
 	_icons = std::make_unique<IconStore>(
 		_system, icon_layout, (*_system->files)[ICONS_FILE]);
-}
-
-Sorcery::Display::Display(const Display &other)
-	: string{other.string}, window{other.window}, layout{other.layout},
-	  ui_texture{other.ui_texture}, _sprites{other._sprites},
-	  _texts{other._texts}, _frames{other._frames}, _system{other._system},
-	  _background_movie{other._background_movie}, _components{
-													  other._components} {}
-
-auto Sorcery::Display::operator=(const Display &other) -> Display & {
-
-	string = other.string;
-	window = other.window;
-	layout = other.layout;
-	ui_texture = other.ui_texture;
-
-	_sprites = other._sprites;
-	_texts = other._texts;
-	_frames = other._frames;
-	_system = other._system;
-
-	_background_movie = other._background_movie;
-	_components = other._components;
-
-	return *this;
 }
 
 auto Sorcery::Display::generate(const std::string &screen) -> void {

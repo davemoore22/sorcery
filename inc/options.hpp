@@ -33,7 +33,6 @@
 #include "main.hpp"
 #include "menu.hpp"
 #include "system.hpp"
-//#include "tooltip.hpp"
 
 namespace Sorcery {
 
@@ -70,12 +69,10 @@ namespace Sorcery {
 		sf::Text _reset_text;
 		Component _option_on;
 		Component _option_off;
-		std::shared_ptr<Menu> _menu;
-		// std::shared_ptr<Tooltip> _tt;
-		bool _display_tt;
-		std::shared_ptr<Dialog> _confirm_save;
-		std::shared_ptr<Dialog> _confirm_cancel;
-		std::shared_ptr<Dialog> _confirm_strict;
+		std::unique_ptr<Menu> _menu;
+		std::unique_ptr<Dialog> _confirm_save;
+		std::unique_ptr<Dialog> _confirm_cancel;
+		std::unique_ptr<Dialog> _confirm_strict;
 		WindowConfirm _yes_or_no;
 		std::shared_ptr<InfoPanel> _ip;
 	};

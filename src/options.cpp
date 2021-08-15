@@ -32,33 +32,30 @@ Sorcery::Options::Options(System *system, Display *display, Graphics *graphics)
 	_window = _display->window->get_window();
 
 	// Menu and Options
-	_menu = std::make_shared<Menu>(
+	_menu = std::make_unique<Menu>(
 		_system, _display, _graphics, nullptr, MenuType::OPTIONS);
 	_option_on = Component((*_display->layout)["options:on"]);
 	_option_off = Component((*_display->layout)["options:off"]);
 
 	// Get the Infopanel
-	_ip = std::make_shared<InfoPanel>(_system, _display, _graphics);
-
-	// Get the Tooltip
-	//_tt = std::make_shared<Tooltip>(_system, _display, _graphics);
+	_ip = std::make_unique<InfoPanel>(_system, _display, _graphics);
 
 	// Create the Confirmation Dialog Boxes
-	_confirm_save = std::make_shared<Dialog>(_system, _display, _graphics,
+	_confirm_save = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["options:dialog_confirm_save"],
 		(*_display->layout)["options:dialog_confirm_save_text"],
 		WindowDialogType::CONFIRM);
 	_confirm_save->setPosition(
 		(*_display->layout)["options:dialog_confirm_save"].x,
 		(*_display->layout)["options:dialog_confirm_save"].y);
-	_confirm_cancel = std::make_shared<Dialog>(_system, _display, _graphics,
+	_confirm_cancel = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["options:dialog_confirm_cancel"],
 		(*_display->layout)["options:dialog_confirm_cancel_text"],
 		WindowDialogType::CONFIRM);
 	_confirm_cancel->setPosition(
 		(*_display->layout)["options:dialog_confirm_cancel"].x,
 		(*_display->layout)["options:dialog_confirm_cancel"].y);
-	_confirm_strict = std::make_shared<Dialog>(_system, _display, _graphics,
+	_confirm_strict = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["options:dialog_confirm_strict_on"],
 		(*_display->layout)["options:dialog_confirm_strict_on_text"],
 		WindowDialogType::CONFIRM);
@@ -85,7 +82,6 @@ auto Sorcery::Options::start() -> bool {
 	// Clear the window
 	_window->clear();
 	_display->window->tooltips.clear();
-	//_display_tt = false;
 	_ip->valid = false;
 
 	// Play the background movie!
@@ -131,11 +127,7 @@ auto Sorcery::Options::start() -> bool {
 						_menu->set_mouse_selected(static_cast<sf::Vector2f>(
 							sf::Mouse::getPosition(*_window)));
 					if (selected) {
-						/* if ((*_menu->selected).type == MenuItemType::ENTRY)
-							_display_tt = _set_tooltip(
-								static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-						else */
-						//_display_tt = false;
+						// No Tooltip anymore
 					}
 
 				} else if (_system->input->check(WindowInput::CONFIRM, event)) {
@@ -334,13 +326,7 @@ auto Sorcery::Options::_draw() -> void {
 	} else if (_display->get_input_mode() == WindowInputMode::CANCEL_CHANGES) {
 		_confirm_cancel->update();
 		_window->draw(*_confirm_cancel);
-	} /* else if (_display_tt) {
-		sf::Vector2i tooltip_position{sf::Mouse::getPosition(*_window)};
-		tooltip_position.x += 10;
-		tooltip_position.y += 10;
-		_tt->setPosition(tooltip_position.x, tooltip_position.y);
-		_window->draw(*_tt);
-	} */
+	}
 
 	if (_ip->valid) {
 		_ip->setPosition((*_display->layout)["options:info_panel"].x,
@@ -366,7 +352,6 @@ auto Sorcery::Options::_set_tooltip(sf::Vector2f mouse_pos) -> bool {
 			})};
 		if (contain != _display->window->tooltips.end()) {
 			const std::string hint{(*contain).first};
-			//_tt->set(hint);
 			return true;
 		} else
 			return false;

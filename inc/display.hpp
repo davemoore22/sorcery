@@ -55,10 +55,6 @@ namespace Sorcery {
 		Display(System *system);
 		Display() = delete;
 
-		// Copy Constructors
-		Display(const Display &other);
-		auto operator=(const Display &other) -> Display &;
-
 		// Public Methods
 		auto generate(const std::string &screen) -> void;
 		auto display(const std::string &screen,
@@ -85,10 +81,10 @@ namespace Sorcery {
 		auto display_overlay() -> void;
 
 		// Public Members
-		std::shared_ptr<String> string;
-		std::shared_ptr<Window> window;
-		std::shared_ptr<Layout> layout;
-		std::shared_ptr<ControlOverlay> overlay;
+		std::unique_ptr<String> string;
+		std::unique_ptr<Window> window;
+		std::unique_ptr<Layout> layout;
+		std::unique_ptr<ControlOverlay> overlay;
 		sf::Texture ui_texture;
 
 	  private:

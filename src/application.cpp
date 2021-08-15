@@ -43,10 +43,10 @@ Sorcery::Application::Application(int argc, char **argv) {
 	if (!_check_param(SKIP_INTRO)) {
 
 		// Show the Splash Screen and the Banner before starting the Main Menu
-		_splash = std::make_shared<Splash>(
+		_splash = std::make_unique<Splash>(
 			system.get(), display.get(), graphics.get());
 		_splash->start();
-		_banner = std::make_shared<Banner>(
+		_banner = std::make_unique<Banner>(
 			system.get(), display.get(), graphics.get());
 		_banner->start();
 	}
@@ -56,21 +56,21 @@ Sorcery::Application::Application(int argc, char **argv) {
 	graphics->animation->start_colcycl_threads();
 
 	// Create a Game (load the existing one if possible)
-	_game = std::make_shared<Game>(system.get(), display.get(), graphics.get());
+	_game = std::make_unique<Game>(system.get(), display.get(), graphics.get());
 
 	// Generate the necessary modules
-	_mainmenu = std::make_shared<MainMenu>(
+	_mainmenu = std::make_unique<MainMenu>(
 		system.get(), display.get(), graphics.get(), _game.get());
 	_license =
-		std::make_shared<License>(system.get(), display.get(), graphics.get());
+		std::make_unique<License>(system.get(), display.get(), graphics.get());
 	_options =
-		std::make_shared<Options>(system.get(), display.get(), graphics.get());
-	_compendium = std::make_shared<Compendium>(
+		std::make_unique<Options>(system.get(), display.get(), graphics.get());
+	_compendium = std::make_unique<Compendium>(
 		system.get(), display.get(), graphics.get());
-	_castle = std::make_shared<Castle>(
+	_castle = std::make_unique<Castle>(
 		system.get(), display.get(), graphics.get(), _game.get());
 	_engine =
-		std::make_shared<Engine>(system.get(), display.get(), graphics.get());
+		std::make_unique<Engine>(system.get(), display.get(), graphics.get());
 }
 
 // Standard Destructor

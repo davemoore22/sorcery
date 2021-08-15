@@ -29,49 +29,31 @@ Sorcery::System::System(
 	int argc __attribute__((unused)), char **argv __attribute__((unused))) {
 
 	// Files Module
-	files = std::make_shared<File>();
+	files = std::make_unique<File>();
 
 	// Settings File/Config Module
-	settings = std::make_shared<CSimpleIniA>();
+	settings = std::make_unique<CSimpleIniA>();
 	settings->SetUnicode();
 	const std::string settings_fp{(*files)[CONFIG_FILE]};
 	settings->LoadFile(CSTR(settings_fp));
-	config = std::make_shared<Config>(settings.get(), (*files)[CONFIG_FILE]);
+	config = std::make_unique<Config>(settings.get(), (*files)[CONFIG_FILE]);
 
 	// Random Module
-	random = std::make_shared<Random>();
+	random = std::make_unique<Random>();
 
 	// Game Database
-	database = std::make_shared<Database>((*files)[DATABASE_FILE]);
+	database = std::make_unique<Database>((*files)[DATABASE_FILE]);
 
 	// Resource Manager
-	resources = std::make_shared<ResourceManager>(*files);
+	resources = std::make_unique<ResourceManager>(*files);
 	resources->textures[Enums::Graphics::Texture::BACKGROUND].setRepeated(true);
 
 	// Input Module
-	input = std::make_shared<Input>();
+	input = std::make_unique<Input>();
 
 	// Pause Clock
 	_pause_clock_start = std::nullopt;
 	_clock_duration = std::nullopt;
-}
-
-Sorcery::System::System(const System &other)
-	: files{other.files}, settings{other.settings}, config{other.config},
-	  random{other.random}, database{other.database},
-	  resources{other.resources}, input{other.input} {}
-
-auto Sorcery::System::operator=(const System &other) -> System & {
-
-	files = other.files;
-	settings = other.settings;
-	config = other.config;
-	random = other.random;
-	database = other.database;
-	resources = other.resources;
-	input = other.input;
-
-	return *this;
 }
 
 auto Sorcery::System::set_pause(unsigned int milliseconds) -> void {

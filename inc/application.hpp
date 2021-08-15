@@ -75,15 +75,15 @@ namespace Sorcery {
 		auto _check_param(std::string_view parameter) const -> bool;
 
 		// Private Members
-		std::shared_ptr<Banner> _banner;
-		std::shared_ptr<Splash> _splash;
-		std::shared_ptr<MainMenu> _mainmenu;
-		std::shared_ptr<License> _license;
-		std::shared_ptr<Options> _options;
-		std::shared_ptr<Compendium> _compendium;
-		std::shared_ptr<Castle> _castle;
-		std::shared_ptr<Engine> _engine;
-		std::shared_ptr<Game> _game;
+		std::unique_ptr<Banner> _banner;
+		std::unique_ptr<Splash> _splash;
+		std::unique_ptr<MainMenu> _mainmenu;
+		std::unique_ptr<License> _license;
+		std::unique_ptr<Options> _options;
+		std::unique_ptr<Compendium> _compendium;
+		std::unique_ptr<Castle> _castle;
+		std::unique_ptr<Engine> _engine;
+		std::unique_ptr<Game> _game;
 		std::vector<std::string> _arguments;
 	};
 } // namespace Sorcery

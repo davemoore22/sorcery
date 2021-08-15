@@ -33,30 +33,30 @@ Sorcery::Create::Create(
 	_window = _display->window->get_window();
 
 	// Create the On-Screen Keyboard
-	_keyboard = std::make_shared<Keyboard>(system, display, graphics);
+	_keyboard = std::make_unique<Keyboard>(system, display, graphics);
 
 	// Get the Infopanel
-	_ip = std::make_shared<InfoPanel>(_system, _display, _graphics);
+	_ip = std::make_unique<InfoPanel>(_system, _display, _graphics);
 
 	// Get the Allocate Stat Panel
-	_ap = std::make_shared<AllocatePanel>(
+	_ap = std::make_unique<AllocatePanel>(
 		_system, _display, _graphics, &_candidate);
 
 	// Get the Texture for the Potraits
 	_potrait_texture = &system->resources->textures[GraphicsTexture::PORTRAITS];
 
 	// Menus
-	_method_menu = std::make_shared<Menu>(
+	_method_menu = std::make_unique<Menu>(
 		_system, _display, _graphics, _game, MenuType::CHOOSE_METHOD);
-	_race_menu = std::make_shared<Menu>(
+	_race_menu = std::make_unique<Menu>(
 		_system, _display, _graphics, _game, MenuType::CHOOSE_CHARACTER_RACE);
-	_alignment_menu = std::make_shared<Menu>(_system, _display, _graphics,
+	_alignment_menu = std::make_unique<Menu>(_system, _display, _graphics,
 		_game, MenuType::CHOOSE_CHARACTER_ALIGNMENT);
-	_attribute_menu = std::make_shared<Menu>(_system, _display, _graphics,
+	_attribute_menu = std::make_unique<Menu>(_system, _display, _graphics,
 		_game, MenuType::ALLOCATE_CHARACTER_ATTRIBUTES);
-	_class_menu = std::make_shared<Menu>(
+	_class_menu = std::make_unique<Menu>(
 		_system, _display, _graphics, _game, MenuType::CHOOSE_CHARACTER_CLASS);
-	_final_menu = std::make_shared<Menu>(
+	_final_menu = std::make_unique<Menu>(
 		_system, _display, _graphics, _game, MenuType::REVIEW_AND_CONFIRM);
 
 	Component _fmf_c{
