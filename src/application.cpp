@@ -84,6 +84,7 @@ auto Sorcery::Application::start() -> int {
 	if (_check_param(CONTINUE_GAME)) {
 		_castle->start();
 		_castle->stop();
+		_game->save_game();
 	}
 
 	std::optional<MenuItem> option_chosen{MenuItem::NONE};
@@ -99,12 +100,15 @@ auto Sorcery::Application::start() -> int {
 				_game->create_game();
 				option_chosen = _castle->start();
 				_castle->stop();
+				_game->save_game();
 				break;
 			case MenuItem::MM_CONTINUE_GAME:
 				option_chosen = _castle->start();
 				_castle->stop();
+				_game->save_game();
 				break;
 			case MenuItem::QUIT:
+				_game->save_game();
 				return EXIT_OK;
 				break;
 			case MenuItem::MM_OPTIONS:
@@ -119,9 +123,6 @@ auto Sorcery::Application::start() -> int {
 				_compendium->start();
 				_compendium->stop();
 				break;
-			case MenuItem::ET_MAZE:
-				_engine->start();
-				_engine->stop();
 			default:
 				break;
 			}
