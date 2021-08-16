@@ -153,9 +153,10 @@ auto Sorcery::License::_display_file() -> void {
 
 	// File Contents
 	for (auto y = _current_line; y < end_line; ++y) {
-		const std::string line_contents{(*_textfile)[y]};
-		_line_text.setString(line_contents);
+		std::string_view line_contents{(*_textfile)[y]};
+		_line_text.setString(std::string{line_contents});
 		text_c.y = top_y + ((y - _current_line) * _display->window->get_ch());
-		_display->window->draw_text(_line_text, text_c, line_contents);
+		_display->window->draw_text(
+			_line_text, text_c, std::string{line_contents});
 	}
 }
