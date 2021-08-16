@@ -188,6 +188,7 @@
 		<Unit filename="inc/state.hpp" />
 		<Unit filename="inc/statusbar.hpp" />
 		<Unit filename="inc/string.hpp" />
+		<Unit filename="inc/summary.hpp" />
 		<Unit filename="inc/system.hpp" />
 		<Unit filename="inc/tavern.hpp" />
 		<Unit filename="inc/temple.hpp" />
@@ -245,6 +246,7 @@
 		<Unit filename="src/state.cpp" />
 		<Unit filename="src/statusbar.cpp" />
 		<Unit filename="src/string.cpp" />
+		<Unit filename="src/summary.cpp" />
 		<Unit filename="src/system.cpp" />
 		<Unit filename="src/tavern.cpp" />
 		<Unit filename="src/temple.cpp" />
