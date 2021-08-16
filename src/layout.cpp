@@ -339,9 +339,6 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 										 "image")
 									return ComponentType::IMAGE;
 								else if (components[j]["type"].asString() ==
-										 "tooltip")
-									return ComponentType::TOOLTIP;
-								else if (components[j]["type"].asString() ==
 										 "icon")
 									return ComponentType::ICON;
 								else if (components[j]["type"].asString() ==

@@ -117,7 +117,6 @@ namespace Sorcery {
 			NONE,
 			IMAGE,
 			TEXT,
-			TOOLTIP,
 			MENU,
 			FRAME,
 			ICON,

@@ -833,23 +833,15 @@ auto Sorcery::Menu::generate(Component &component) -> void {
 
 				_texts.emplace_back(text);
 
-				// Now handle the mouse move/select (and tooltip generation)!
+				// Now handle the mouse move/select!
 				if ((item.type == MenuItemType::ENTRY) ||
 					(item.type == MenuItemType::SAVE) ||
 					(item.type == MenuItemType::CANCEL)) {
 					const sf::FloatRect actual_rect{text.getGlobalBounds()};
 					bounds.push_back(actual_rect);
-					WindowTooltipList::iterator tt_it{
-						_display->window->tooltips.find(item.hint)};
-					if (tt_it == _display->window->tooltips.end())
-						_display->window->tooltips[item.hint] = actual_rect;
 				} else {
 					const sf::FloatRect actual_rect;
 					bounds.push_back(actual_rect);
-					WindowTooltipList::iterator tt_it{
-						_display->window->tooltips.find(item.hint)};
-					if (tt_it == _display->window->tooltips.end())
-						_display->window->tooltips[item.hint] = actual_rect;
 				}
 
 				// Add options in case of the Options Menu

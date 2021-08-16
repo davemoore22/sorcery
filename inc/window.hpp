@@ -79,7 +79,6 @@ namespace Sorcery {
 		std::vector<sf::Texture> textures;
 		sf::View view;
 		Point centre;
-		WindowTooltipList tooltips;
 		sf::IntRect size;
 
 	  private:

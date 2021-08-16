@@ -81,7 +81,6 @@ auto Sorcery::Options::start() -> bool {
 
 	// Clear the window
 	_window->clear();
-	_display->window->tooltips.clear();
 	_ip->valid = false;
 
 	// Play the background movie!
@@ -127,7 +126,7 @@ auto Sorcery::Options::start() -> bool {
 						_menu->set_mouse_selected(static_cast<sf::Vector2f>(
 							sf::Mouse::getPosition(*_window)));
 					if (selected) {
-						// No Tooltip anymore
+						// No Tooltips anymore
 					}
 
 				} else if (_system->input->check(WindowInput::CONFIRM, event)) {
@@ -337,24 +336,4 @@ auto Sorcery::Options::_draw() -> void {
 	// Always draw the following
 	_display->display_overlay();
 	_display->display_cursor();
-}
-
-auto Sorcery::Options::_set_tooltip(sf::Vector2f mouse_pos) -> bool {
-
-	if (!_display->window->tooltips.empty()) {
-		const sf::Vector2f global_pos{_menu->getPosition()};
-		mouse_pos -= global_pos;
-
-		auto contain{std::find_if(_display->window->tooltips.begin(),
-			_display->window->tooltips.end(), [&mouse_pos](const auto &entry) {
-				const sf::FloatRect candidate{entry.second};
-				return candidate.contains(mouse_pos);
-			})};
-		if (contain != _display->window->tooltips.end()) {
-			const std::string hint{(*contain).first};
-			return true;
-		} else
-			return false;
-	} else
-		return false;
 }
