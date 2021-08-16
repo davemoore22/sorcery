@@ -54,12 +54,12 @@ namespace Sorcery {
 		auto operator=(Component &&other) noexcept -> Component &;
 
 		// Overload [] operator
-		auto operator[](const std::string &key) -> std::optional<std::string>;
-		auto operator[](const std::string &key) const
+		auto operator[](std::string_view key) -> std::optional<std::string>;
+		auto operator[](std::string_view key) const
 			-> std::optional<std::string>;
 
 		// Public Methods
-		auto set(const std::string &key, const std::string &value) -> void;
+		auto set(std::string_view key, std::string_view value) -> void;
 		auto set_enabled(bool value) -> void;
 		auto get_enabled() -> bool;
 		auto set_visible(bool value) -> void;

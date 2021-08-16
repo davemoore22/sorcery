@@ -38,8 +38,8 @@ namespace Sorcery {
 		Layout() = delete;
 
 		// Overload [] operator
-		auto operator[](const std::string &combined_key) -> Component &;
-		auto operator()(const std::string &screen)
+		auto operator[](std::string_view combined_key) -> Component &;
+		auto operator()(std::string_view screen)
 			-> std::optional<std::vector<Component>>;
 
 		// Public Methods

@@ -47,8 +47,7 @@ Sorcery::Layout::Layout(const std::filesystem::path filename) {
 }
 
 // Overload [] Operator
-auto Sorcery::Layout::operator[](const std::string &combined_key)
-	-> Component & {
+auto Sorcery::Layout::operator[](std::string_view combined_key) -> Component & {
 
 	// swap into _load instead and check if refresh needed is called unnecessary
 	try {
@@ -68,8 +67,8 @@ auto Sorcery::Layout::operator[](const std::string &combined_key)
 
 		// Else return the requested component
 		if (_loaded)
-			if (_components.contains(combined_key))
-				return _components.at(combined_key);
+			if (_components.contains(std::string{combined_key}))
+				return _components.at(std::string{combined_key});
 			else
 				return _components[0];
 		else
@@ -85,7 +84,7 @@ auto Sorcery::Layout::operator[](const std::string &combined_key)
 }
 
 // Overload () Operator
-auto Sorcery::Layout::operator()(const std::string &screen)
+auto Sorcery::Layout::operator()(std::string_view screen)
 	-> std::optional<std::vector<Component>> {
 
 	// First check if we need to reload if anything has changed!

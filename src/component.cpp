@@ -218,26 +218,26 @@ auto Sorcery::Component::operator=(Component &&other) noexcept -> Component & {
 }
 
 // Overload [] operator
-auto Sorcery::Component::operator[](const std::string &key)
+auto Sorcery::Component::operator[](std::string_view key)
 	-> std::optional<std::string> {
 
-	return _get(key);
+	return _get(std::string{key});
 }
 
-auto Sorcery::Component::operator[](const std::string &key) const
+auto Sorcery::Component::operator[](std::string_view key) const
 	-> std::optional<std::string> {
 
-	return _get(key);
+	return _get(std::string{key});
 }
 
-auto Sorcery::Component::set(const std::string &key, const std::string &value)
+auto Sorcery::Component::set(std::string_view key, std::string_view value)
 	-> void {
 
 	auto it{std::find_if(_data.begin(), _data.end(), [&key](auto item) {
 		return item.first == key;
 	})};
 	if (it == _data.end())
-		_data.push_back(std::make_pair(key, value));
+		_data.push_back(std::make_pair(std::string{key}, std::string{value}));
 }
 
 auto Sorcery::Component::set_enabled(bool value) -> void {
