@@ -52,7 +52,7 @@ Sorcery::TextFile::TextFile(std::filesystem::path text_file_path)
 
 // Overload the array operator [] to allow direct access to the contents
 auto Sorcery::TextFile::operator[](const unsigned int index) const
-	-> std::string_view {
+	-> std::string {
 
 	try {
 		return _contents.at(index);
@@ -68,7 +68,7 @@ auto Sorcery::TextFile::TextFile::size() const -> unsigned int {
 }
 
 auto Sorcery::TextFile::get_progress(const int current_line) const
-	-> std::string_view {
+	-> std::string {
 
 	// Work out progress through file
 	const float percent{(static_cast<float>(current_line) /
@@ -76,7 +76,6 @@ auto Sorcery::TextFile::get_progress(const int current_line) const
 						100};
 
 	// Build status line
-	const std::string status{fmt::format(
-		"{}/{} ({}%)", current_line, _contents.size(), std::lround(percent))};
-	return std::string_view(status);
+	return fmt::format(
+		"{}/{} ({}%)", current_line, _contents.size(), std::lround(percent));
 }

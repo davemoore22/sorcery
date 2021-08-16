@@ -400,7 +400,7 @@ auto Sorcery::Character::get_name() const -> std::string {
 	return _name;
 }
 
-auto Sorcery::Character::set_name(const std::string &value) -> void {
+auto Sorcery::Character::set_name(std::string_view value) -> void {
 
 	_name = value;
 }

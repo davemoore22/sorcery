@@ -39,12 +39,12 @@ namespace Sorcery {
 
 		// Overloaded [] operator to get access to each line of the contained
 		// file
-		auto operator[](const unsigned int index) const -> std::string_view;
+		auto operator[](const unsigned int index) const -> std::string;
 
 		// Public Methods
 		auto size() const -> unsigned int;
 		auto valid() const -> bool;
-		auto get_progress(const int current_line) const -> std::string_view;
+		auto get_progress(const int current_line) const -> std::string;
 
 		// Public Members
 		unsigned int width; // Column Size of max
