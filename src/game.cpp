@@ -146,7 +146,7 @@ auto Sorcery::Game::_get_characters() -> std::map<unsigned int, Character> {
 
 	for (auto character_id : _characters_ids) {
 
-		std::string data{_system->database->get_char(_id, character_id)};
+		std::string data{_system->database->get_character(_id, character_id)};
 		std::stringstream ss;
 		ss.str(data);
 

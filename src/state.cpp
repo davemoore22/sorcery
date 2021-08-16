@@ -38,3 +38,6 @@ auto Sorcery::State::set(System *system) -> void {
 
 	_system = system;
 }
+
+auto Sorcery::State::add_character(unsigned int char_id) -> void {}
+auto Sorcery::State::remove_character(unsigned int char_id) -> void {}

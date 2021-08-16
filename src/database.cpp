@@ -285,7 +285,8 @@ auto Sorcery::Database::delete_character(int game_id, int character_id)
 	}
 }
 
-auto Sorcery::Database::get_char(int game_id, int character_id) -> std::string {
+auto Sorcery::Database::get_character(int game_id, int character_id)
+	-> std::string {
 
 	std::string character_data{};
 

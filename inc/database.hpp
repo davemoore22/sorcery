@@ -44,13 +44,10 @@ namespace Sorcery {
 		auto delete_character(int game_id, int character_id) -> void;
 		auto update_character(int game_id, int character_id, std::string name,
 			std::string data) -> bool;
-
 		auto get_character_ids(int game_id) -> std::vector<unsigned int>;
-
 		auto add_character(int game_id, std::string name, std::string data)
 			-> unsigned int;
-
-		auto get_char(int game_id, int character_id) -> std::string;
+		auto get_character(int game_id, int character_id) -> std::string;
 
 		// Public Members
 		bool connected;
