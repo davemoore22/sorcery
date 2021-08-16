@@ -36,10 +36,10 @@ namespace Sorcery {
 		String() = delete;
 
 		// Overload [] operator
-		auto operator[](const std::string &key) -> std::string &;
+		auto operator[](std::string_view key) -> std::string &;
 
 		// Public Methods
-		auto get(const std::string &key) -> std::string;
+		auto get(std::string_view key) -> std::string;
 
 	  private:
 		// Private Members
@@ -47,8 +47,6 @@ namespace Sorcery {
 		bool _loaded;
 
 		// Private Methods
-		auto _load(const std::string &filename) -> bool;
-		auto _replace(std::string &subject, const std::string &search,
-			const std::string &replace) -> void;
+		auto _load(std::string_view filename) -> bool;
 	};
 } // namespace Sorcery

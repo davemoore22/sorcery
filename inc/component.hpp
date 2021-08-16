@@ -90,7 +90,7 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
-		auto _get(const std::string &key) const -> std::optional<std::string>;
+		auto _get(std::string_view key) const -> std::optional<std::string>;
 
 		// Private Members
 		bool _enabled;

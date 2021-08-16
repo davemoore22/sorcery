@@ -41,9 +41,10 @@ auto Sorcery::Config::operator[](const unsigned int i) -> bool & {
 
 // Get a value from the config file
 auto Sorcery::Config::get(
-	const std::string &section, const std::string &value) const -> std::string {
+	std::string_view section, std::string_view value) const -> std::string {
 
-	return _settings->GetValue(CSTR(section), CSTR(value));
+	return _settings->GetValue(
+		CSTR(std::string{section}), CSTR(std::string{value}));
 }
 
 // Check if the options have changed

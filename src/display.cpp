@@ -41,7 +41,7 @@ Sorcery::Display::Display(System *system) : _system{system} {
 		_system, icon_layout, (*_system->files)[ICONS_FILE]);
 }
 
-auto Sorcery::Display::generate(const std::string &screen) -> void {
+auto Sorcery::Display::generate(std::string_view screen) -> void {
 
 	_sprites.clear();
 	_texts.clear();
@@ -49,7 +49,7 @@ auto Sorcery::Display::generate(const std::string &screen) -> void {
 	generate(screen, _sprites, _texts, _frames);
 }
 
-auto Sorcery::Display::generate(const std::string &screen,
+auto Sorcery::Display::generate(std::string_view screen,
 	std::map<std::string, sf::Sprite> &sprites,
 	std::map<std::string, sf::Text> &texts,
 	std::map<std::string, std::shared_ptr<Frame>> &frames) -> void {
@@ -265,7 +265,7 @@ auto Sorcery::Display::hide_overlay() -> void {
 }
 
 auto Sorcery::Display::display(
-	const std::string &screen, std::optional<std::any> parameter) -> void {
+	std::string_view screen, std::optional<std::any> parameter) -> void {
 
 	display(screen, _sprites, _texts, _frames, parameter);
 }
@@ -282,7 +282,7 @@ auto Sorcery::Display::display_overlay() -> void {
 	}
 }
 
-auto Sorcery::Display::display(const std::string &screen,
+auto Sorcery::Display::display(std::string_view screen,
 	std::map<std::string, sf::Sprite> &sprites,
 	std::map<std::string, sf::Text> &texts,
 	std::map<std::string, std::shared_ptr<Frame>> &frames,

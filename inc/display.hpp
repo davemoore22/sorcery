@@ -56,15 +56,15 @@ namespace Sorcery {
 		Display() = delete;
 
 		// Public Methods
-		auto generate(const std::string &screen) -> void;
-		auto display(const std::string &screen,
+		auto generate(std::string_view screen) -> void;
+		auto display(std::string_view screen,
 			std::optional<std::any> parameter = std::nullopt) -> void;
-		auto display(const std::string &screen,
+		auto display(std::string_view screen,
 			std::map<std::string, sf::Sprite> &sprites,
 			std::map<std::string, sf::Text> &texts,
 			std::map<std::string, std::shared_ptr<Frame>> &frames,
 			std::optional<std::any> parameter = std::nullopt) -> void;
-		auto generate(const std::string &screen,
+		auto generate(std::string_view screen,
 			std::map<std::string, sf::Sprite> &sprites,
 			std::map<std::string, sf::Text> &texts,
 			std::map<std::string, std::shared_ptr<Frame>> &frames) -> void;

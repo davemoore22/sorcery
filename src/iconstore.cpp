@@ -46,7 +46,7 @@ Sorcery::IconStore::IconStore(
 }
 
 // Overload [] Operator
-auto Sorcery::IconStore::operator[](const std::string &key)
+auto Sorcery::IconStore::operator[](std::string_view key)
 	-> std::optional<sf::Sprite> {
 
 	auto sprite{get(key)};
@@ -63,11 +63,11 @@ auto Sorcery::IconStore::operator[](const MenuItem key)
 }
 
 // Find the corresponding item in the map by String
-auto Sorcery::IconStore::get(const std::string &key)
+auto Sorcery::IconStore::get(std::string_view key)
 	-> std::optional<sf::Sprite> {
 
 	if (_loaded)
-		return _icon_store.at(key);
+		return _icon_store.at(std::string{key});
 	else
 		return std::nullopt;
 }

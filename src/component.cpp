@@ -260,13 +260,13 @@ auto Sorcery::Component::get_visible() -> bool {
 	return _visible;
 }
 
-auto Sorcery::Component::_get(const std::string &key) const
+auto Sorcery::Component::_get(std::string_view key) const
 	-> std::optional<std::string> {
 
 	if (_data.capacity() == 0)
 		return std::nullopt;
 	auto it{std::find_if(_data.begin(), _data.end(), [&key](auto item) {
-		return item.first == key;
+		return item.first == std::string{key};
 	})};
 	if (it != _data.end())
 		return it->second;

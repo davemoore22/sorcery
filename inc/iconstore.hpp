@@ -38,11 +38,11 @@ namespace Sorcery {
 		IconStore() = delete;
 
 		// Overload [] operator
-		auto operator[](const std::string &key) -> std::optional<sf::Sprite>;
+		auto operator[](std::string_view key) -> std::optional<sf::Sprite>;
 		auto operator[](const MenuItem key) -> std::optional<sf::Sprite>;
 
 		// Public Methods
-		auto get(const std::string &key) -> std::optional<sf::Sprite>;
+		auto get(std::string_view key) -> std::optional<sf::Sprite>;
 		auto get(const MenuItem key) -> std::optional<sf::Sprite>;
 
 	  private:

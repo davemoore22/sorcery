@@ -30,17 +30,17 @@
 Sorcery::String::String(const std::string &filename) {
 
 	// Load strings from file
-	_loaded = _load(filename);
+	_loaded = _load(std::string_view{filename});
 }
 
 // Overload [] Operator
-auto Sorcery::String::operator[](const std::string &key) -> std::string & {
+auto Sorcery::String::operator[](std::string_view key) -> std::string & {
 
-	return _loaded ? _strings[key] : _strings["NONE"];
+	return _loaded ? _strings[std::string{key}] : _strings["NONE"];
 }
 
 // Load File into Game Strings
-auto Sorcery::String::_load(const std::string &filename) -> bool {
+auto Sorcery::String::_load(std::string_view filename) -> bool {
 
 	// Work out the destination, but load an empty string anyway in case of
 	// error
@@ -48,7 +48,8 @@ auto Sorcery::String::_load(const std::string &filename) -> bool {
 	_strings["NONE"] = STRINGS_NOT_LOADED;
 
 	// Attempt to load Strings File
-	if (std::ifstream file{filename, std::ifstream::binary}; file.good()) {
+	if (std::ifstream file{std::string{filename}, std::ifstream::binary};
+		file.good()) {
 
 		// Iterate through the file
 		Json::Value root{};
@@ -89,22 +90,12 @@ auto Sorcery::String::_load(const std::string &filename) -> bool {
 }
 
 // Get Text
-auto Sorcery::String::get(const std::string &key) -> std::string {
+auto Sorcery::String::get(std::string_view key) -> std::string {
 
 	if (_loaded)
-		return (_strings.contains(key) ? _strings.at(key) : KEY_NOT_FOUND);
+		return (_strings.contains(std::string{key})
+					? _strings.at(std::string{key})
+					: KEY_NOT_FOUND);
 	else
 		return STRINGS_NOT_LOADED;
-}
-
-// TODO: not used?
-// Utility function due to lack of std::string::replace_with_substring
-auto Sorcery::String::_replace(std::string &subject, const std::string &search,
-	const std::string &replace) -> void {
-
-	size_t pos{0};
-	while ((pos = subject.find(search, pos)) != std::string::npos) {
-		subject.replace(pos, search.length(), replace);
-		pos += replace.length();
-	}
 }

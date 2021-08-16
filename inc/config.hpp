@@ -41,7 +41,7 @@ namespace Sorcery {
 		auto operator[](const unsigned int i) -> bool &;
 
 		// Public Methods
-		auto get(const std::string &section, const std::string &value) const
+		auto get(std::string_view section, std::string_view value) const
 			-> std::string;
 		auto has_changed() -> bool;
 		auto load() -> bool;
