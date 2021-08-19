@@ -113,8 +113,6 @@ auto Sorcery::Window::_draw_text(sf::Text &text) -> void {
 auto Sorcery::Window::_draw_text(
 	sf::Text &text, const Component &component, const double lerp) -> void {
 
-	int x{0};
-	int y{0};
 	text.setFont(_system->resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
 	if (component.animated)
@@ -123,8 +121,8 @@ auto Sorcery::Window::_draw_text(
 	else
 		text.setFillColor(sf::Color(component.colour));
 	text.setString((*_string)[component.string_key]);
-	x = component.x == -1 ? centre.x : component.x;
-	y = component.y == -1 ? centre.y : component.y;
+	auto x{component.x == -1 ? centre.x : component.x};
+	auto y{component.y == -1 ? centre.y : component.y};
 	if (component.justification == Justification::CENTRE) {
 		text.setPosition(x, y);
 		text.setOrigin(text.getLocalBounds().width / 2.0f,
@@ -152,14 +150,12 @@ auto Sorcery::Window::_draw_text(
 auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component,
 	const std::string &string) -> void {
 
-	int x{0};
-	int y{0};
 	text.setFont(_system->resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
 	text.setString(string);
-	x = component.x == -1 ? centre.x : component.x;
-	y = component.y == -1 ? centre.y : component.y;
+	auto x{component.x == -1 ? centre.x : component.x};
+	auto y{component.y == -1 ? centre.y : component.y};
 	if (component.justification == Justification::CENTRE) {
 		text.setPosition(x, y);
 		text.setOrigin(text.getLocalBounds().width / 2.0f,
@@ -225,8 +221,6 @@ auto Sorcery::Window::shove_text(
 auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component,
 	const std::string &string, const double lerp) -> void {
 
-	int x{0};
-	int y{0};
 	text.setFont(_system->resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
 	if (component.animated)
@@ -235,8 +229,8 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component,
 	else
 		text.setFillColor(sf::Color(component.colour));
 	text.setString(string);
-	x = component.x == -1 ? centre.x : component.x;
-	y = component.y == -1 ? centre.y : component.y;
+	auto x{component.x == -1 ? centre.x : component.x};
+	auto y{component.y == -1 ? centre.y : component.y};
 	if (component.justification == Justification::CENTRE) {
 		text.setPosition(x, y);
 		text.setOrigin(text.getLocalBounds().width / 2.0f,

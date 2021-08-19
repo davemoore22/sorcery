@@ -56,7 +56,7 @@ auto Sorcery::AttractMode::generate() -> void {
 		_rtexture.setSmooth(true);
 
 		// Get the Required Sprites
-		unsigned int sprite_x{0};
+		auto sprite_x{0u};
 		for (auto i : data) {
 			sf::Sprite sprite{_get_creature_gfx(i, true)};
 			sprite.setPosition(sprite_x, 0);

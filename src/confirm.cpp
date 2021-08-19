@@ -37,9 +37,9 @@ Sorcery::Confirm::Confirm(System *system, Display *display, Graphics *graphics,
 	_texts.clear();
 
 	// Wrap the display lines
-	unsigned int chunk_size{_gui_c.w};
-	std::string string{(*_display->string)[_text_c.string_key]};
-	std::string wrapped_text{WORDWRAP(string, chunk_size)};
+	auto chunk_size{_gui_c.w};
+	auto string{(*_display->string)[_text_c.string_key]};
+	auto wrapped_text{WORDWRAP(string, chunk_size)};
 
 	// Split the display lines into a vector
 	const std::regex regex(R"([@]+)");
@@ -53,9 +53,9 @@ Sorcery::Confirm::Confirm(System *system, Display *display, Graphics *graphics,
 		split.end());
 	_strings = split;
 
-	unsigned int x{_gui_c.x + _display->window->get_cw() * 2};
-	unsigned int y{_gui_c.y + _display->window->get_ch() * 2};
-	int index{0};
+	auto x{_gui_c.x + _display->window->get_cw() * 2};
+	auto y{_gui_c.y + _display->window->get_ch() * 2};
+	auto index{0};
 	for (const auto &each_string : _strings) {
 		sf::Text text{};
 		text.setFont(_system->resources->fonts[_text_c.font]);

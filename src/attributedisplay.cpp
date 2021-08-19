@@ -60,7 +60,7 @@ Sorcery::AttributeDisplay::AttributeDisplay(System *system, Display *display,
 	constexpr float texture_size{511};
 	sf::Vector2f scale{icon_size.x / texture_size, icon_size.y / texture_size};
 
-	int index{0};
+	auto index{0};
 	for (auto &icon : _attribute_icons) {
 		icon.setScale(scale);
 		if (_alignment == Alignment::VERTICAL)
@@ -225,8 +225,8 @@ auto Sorcery::AttributeDisplay::set() -> void {
 
 	_bars.clear();
 
-	int x{0};
-	int y{0};
+	auto x{0};
+	auto y{0};
 	for (const auto &[attribute, value] : _character->get_cur_attr()) {
 
 		auto bar{_get_bar(attribute)};

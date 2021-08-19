@@ -48,7 +48,7 @@ auto Sorcery::Database::has_game() -> bool {
 		const std::string check_has_game_SQL{
 			"SELECT count(g.id) AS count FROM game g;"};
 
-		int count{};
+		auto count{0};
 		database << check_has_game_SQL >> count;
 
 		return count > 0;

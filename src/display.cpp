@@ -209,15 +209,12 @@ auto Sorcery::Display::generate(std::string_view screen,
 			} else if (component.type == ComponentType::TEXT) {
 
 				sf::Text text{};
-				int x{0};
-				int y{0};
-
 				text.setFont(_system->resources->fonts[component.font]);
 				text.setCharacterSize(component.size);
 				text.setFillColor(sf::Color(component.colour));
 				text.setString((*string)[component.string_key]);
-				x = component.x == -1 ? window->centre.x : component.x;
-				y = component.y == -1 ? window->centre.y : component.y;
+				auto x{component.x == -1 ? window->centre.x : component.x};
+				auto y{component.y == -1 ? window->centre.y : component.y};
 
 				// Check for Offsets
 				const auto offset_x{[&] {

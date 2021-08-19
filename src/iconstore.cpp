@@ -105,17 +105,17 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 			Json::Value &icons{layout["icon"]};
 
 			// Iterate through icon file one icon at a time
-			for (unsigned int i = 0; i < icons.size(); i++) {
+			for (auto i = 0u; i < icons.size(); i++) {
 
 				// Get the mappings for each icon (note that all parameters
 				// should always be present for each icon entry in the mapping
 				// file or else this will error)
-				unsigned int index{static_cast<unsigned int>(
+				auto index{static_cast<unsigned int>(
 					std::stoul(icons[i]["index"].asString()))};
-				std::string filename{icons[i]["filename"].asString()};
-				std::string menu_item_s{icons[i]["menu_item"].asString()};
-				std::string key{icons[i]["key"].asString()};
-				std::string colour_hex{icons[i]["colour"].asString()};
+				auto filename{icons[i]["filename"].asString()};
+				auto menu_item_s{icons[i]["menu_item"].asString()};
+				auto key{icons[i]["key"].asString()};
+				auto colour_hex{icons[i]["colour"].asString()};
 				sf::Color colour{[&] {
 					if (colour_hex.length() == 0)
 						return sf::Color(_layout.colour);
@@ -160,7 +160,7 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 // is 511x511 pixels
 auto Sorcery::IconStore::_get_rect(unsigned int index) const -> sf::IntRect {
 
-	constexpr int icon_size{511};
+	constexpr auto icon_size{511};
 	return sf::IntRect(icon_size * (index % 15), icon_size * (index / 15),
 		icon_size, icon_size);
 }

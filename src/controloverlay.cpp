@@ -256,12 +256,12 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode)
 	Component sprite_c{(*_display->layout)["control_overlay:graphics"]};
 	Component text_c{(*_display->layout)["control_overlay:text"]};
 
-	int sprite_x{std::stoi(sprite_c["offset_x"].value())};
-	int sprite_y{std::stoi(sprite_c["offset_y"].value())};
-	int sprite_spacing_y{std::stoi(sprite_c["spacing_y"].value())};
-	int text_x{std::stoi(text_c["offset_x"].value())};
-	int text_y{std::stoi(text_c["offset_y"].value())};
-	int text_spacing_y{std::stoi(text_c["spacing_y"].value())};
+	auto sprite_x{std::stoi(sprite_c["offset_x"].value())};
+	auto sprite_y{std::stoi(sprite_c["offset_y"].value())};
+	auto sprite_spacing_y{std::stoi(sprite_c["spacing_y"].value())};
+	auto text_x{std::stoi(text_c["offset_x"].value())};
+	auto text_y{std::stoi(text_c["offset_y"].value())};
+	auto text_spacing_y{std::stoi(text_c["spacing_y"].value())};
 
 	for (auto &control : _controls) {
 		std::string caption{control.first};

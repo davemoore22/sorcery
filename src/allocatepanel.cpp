@@ -63,9 +63,9 @@ Sorcery::AllocatePanel::AllocatePanel(
 	constexpr float texture_size{511};
 	sf::Vector2f scale{icon_size.x / texture_size, icon_size.y / texture_size};
 
-	int index{0};
-	int pos_x{_c_allowed_classes.x};
-	int pos_y{_c_allowed_classes.y + 8};
+	auto index{0};
+	auto pos_x{_c_allowed_classes.x};
+	auto pos_y{_c_allowed_classes.y + 8};
 	for (auto &icon : _class_icons) {
 		icon.setScale(scale);
 		icon.setPosition(pos_x, pos_y);
@@ -93,8 +93,8 @@ auto Sorcery::AllocatePanel::set() -> void {
 	_texts.clear();
 	_bars.clear();
 
-	int x{14};
-	int y{0};
+	auto x{14};
+	auto y{0};
 
 	for (const auto &[attribute, value] : _character->get_cur_attr()) {
 

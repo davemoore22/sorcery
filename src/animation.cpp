@@ -154,7 +154,7 @@ auto Sorcery::Animation::_colcyc(bool force) -> void {
 auto Sorcery::Animation::_do_attract() -> void {
 
 	std::scoped_lock<std::mutex> _scoped_lock(_attract_mutex);
-	unsigned int sprite_index{};
+	auto sprite_index{0u};
 	const auto num{(*_system->random)[RandomType::D4]};
 	_attract_mode.clear();
 	for (auto i = 0u; i < num; i++) {

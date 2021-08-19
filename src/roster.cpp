@@ -229,7 +229,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 
 				if (selected) {
 					if ((*selected.value()).item != MenuItem::ET_TRAIN) {
-						const int character_chosen{
+						const auto character_chosen{
 							static_cast<int>((*selected.value()).index)};
 						if (character_chosen != _cur_char_id) {
 							auto character{

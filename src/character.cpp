@@ -498,13 +498,13 @@ auto Sorcery::Character::set_portrait_index(const unsigned int value) -> void {
 auto Sorcery::Character::inc_hl_spell(SpellType type) -> void {
 
 	if (type == SpellType::MAGE) {
-		int index{magic_enum::enum_integer<SpellID>(_hl_mage_spell)};
+		auto index{magic_enum::enum_integer<SpellID>(_hl_mage_spell)};
 		if (index < magic_enum::enum_integer<SpellID>(SpellID::TILTOWAIT)) {
 			++index;
 			_hl_mage_spell = magic_enum::enum_cast<SpellID>(index).value();
 		}
 	} else {
-		int index{magic_enum::enum_integer<SpellID>(_hl_priest_spell)};
+		auto index{magic_enum::enum_integer<SpellID>(_hl_priest_spell)};
 		if (index < magic_enum::enum_integer<SpellID>(SpellID::MABARIKO)) {
 			++index;
 			_hl_priest_spell = magic_enum::enum_cast<SpellID>(index).value();
@@ -517,13 +517,13 @@ auto Sorcery::Character::inc_hl_spell(SpellType type) -> void {
 auto Sorcery::Character::dec_hl_spell(SpellType type) -> void {
 
 	if (type == SpellType::MAGE) {
-		int index = magic_enum::enum_integer<SpellID>(_hl_mage_spell);
+		auto index{magic_enum::enum_integer<SpellID>(_hl_mage_spell)};
 		if (index > magic_enum::enum_integer<SpellID>(SpellID::DUMAPIC)) {
 			--index;
 			_hl_mage_spell = magic_enum::enum_cast<SpellID>(index).value();
 		}
 	} else {
-		int index = magic_enum::enum_integer<SpellID>(_hl_priest_spell);
+		auto index{magic_enum::enum_integer<SpellID>(_hl_priest_spell)};
 		if (index > magic_enum::enum_integer<SpellID>(SpellID::BADIOS)) {
 			--index;
 			_hl_priest_spell = magic_enum::enum_cast<SpellID>(index).value();
@@ -536,7 +536,7 @@ auto Sorcery::Character::dec_hl_spell(SpellType type) -> void {
 // Setting the view will regenerate the display components
 auto Sorcery::Character::left_view() -> void {
 
-	int view_index{magic_enum::enum_integer<CharacterView>(_view)};
+	auto view_index{magic_enum::enum_integer<CharacterView>(_view)};
 	if (view_index ==
 		magic_enum::enum_integer<CharacterView>(CharacterView::SUMMARY))
 		view_index =
@@ -550,7 +550,7 @@ auto Sorcery::Character::left_view() -> void {
 // Setting the view will regenerate the display components
 auto Sorcery::Character::right_view() -> void {
 
-	int view_index{magic_enum::enum_integer<CharacterView>(_view)};
+	auto view_index{magic_enum::enum_integer<CharacterView>(_view)};
 	if (view_index ==
 		magic_enum::enum_integer<CharacterView>(CharacterView::INVENTORY))
 		view_index =
@@ -890,8 +890,7 @@ auto Sorcery::Character::_regenerate_start_info() -> void {
 		_get_xp_for_level(_abilities[CharacterAbility::CURRENT_LEVEL]);
 
 	// https://datadrivengamer.blogspot.com/2019/08/the-not-so-basic-mechanics-of-wizardry.html
-	unsigned int age_increment{
-		(52 * (3 + (*_system->random)[RandomType::D3])) + 44};
+	auto age_increment{(52 * (3 + (*_system->random)[RandomType::D3])) + 44};
 	_abilities[CharacterAbility::AGE] += age_increment;
 
 	// Reset attributes to racial minimums
@@ -1170,7 +1169,7 @@ auto Sorcery::Character::_generate_secondary_abil(
 		if (initial)
 			_abilities[CharacterAbility::MAX_HP] = 8;
 		else {
-			switch (unsigned int chance{(*_system->random)[RandomType::D100]};
+			switch (auto chance{(*_system->random)[RandomType::D100]};
 					_class) { // NOLINT(clang-diagnostic-switch)
 			case CharacterClass::FIGHTER:
 			case CharacterClass::LORD:
@@ -1682,7 +1681,7 @@ auto Sorcery::Character::_set_start_spells() -> void {
 auto Sorcery::Character::_get_hp_per_level() -> int {
 
 	// In the original code ("MOREHP"), Samurai get 2d8
-	int extra_hp{0};
+	auto extra_hp{0};
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::FIGHTER:
 	case CharacterClass::LORD:
@@ -1728,17 +1727,17 @@ auto Sorcery::Character::_update_hp_for_level() -> void {
 	// where you were before changing class you will probably only ever gain 1
 	// hp each time unless the random dice rolls are really in your favour!
 	if ((*_system->config)[ConfigOption::REROLL_HIT_POINTS_ON_LEVEL_GAIN]) {
-		int hp_total{0};
+		auto hp_total{0};
 		for (auto level = 1;
 			 level < _abilities[CharacterAbility::CURRENT_LEVEL]; level++)
 			hp_total += _get_hp_per_level();
 		if (hp_total < _abilities[CharacterAbility::MAX_HP])
 			hp_total = _abilities[CharacterAbility::MAX_HP] + 1;
-		int hp_gained{hp_total - _abilities[CharacterAbility::MAX_HP]};
+		auto hp_gained{hp_total - _abilities[CharacterAbility::MAX_HP]};
 		_abilities[CharacterAbility::MAX_HP] += hp_gained;
 		_abilities[CharacterAbility::CURRENT_HP] += hp_gained;
 	} else {
-		int hp_gained{_get_hp_per_level()};
+		auto hp_gained{_get_hp_per_level()};
 		_abilities[CharacterAbility::MAX_HP] += hp_gained;
 		_abilities[CharacterAbility::CURRENT_HP] += hp_gained;
 	}
@@ -1808,12 +1807,12 @@ auto Sorcery::Character::_calculate_sp(SpellType spell_type,
 	SpellPoints *spells{
 		spell_type == SpellType::PRIEST ? &_priest_max_sp : &_mage_max_sp};
 
-	int spell_count{static_cast<int>(
+	auto spell_count{static_cast<int>(
 		_abilities[CharacterAbility::CURRENT_LEVEL] - level_mod)};
 	if (spell_count <= 0)
 		return;
 
-	unsigned int spell_level{1};
+	auto spell_level{1u};
 	while (spell_level >= 1 && spell_level <= 7 && spell_count > 0) {
 		if (static_cast<unsigned int>(spell_count) > (*spells)[spell_level])
 			(*spells)[spell_level] = spell_count;
@@ -1871,7 +1870,7 @@ auto Sorcery::Character::_set_sp() -> void {
 auto Sorcery::Character::_get_spells_known(
 	SpellType spell_type, unsigned int spell_level) -> unsigned int {
 
-	unsigned int spells_known{0};
+	auto spells_known{0};
 	std::vector<Spell>::iterator it;
 	it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
 		return item.type == spell_type && item.level == spell_level;
@@ -1999,7 +1998,7 @@ auto Sorcery::Character::create_spells() -> void {
 	// Mage Spells (grouped by level)
 
 	// Level 1
-	unsigned int level{1};
+	auto level{1};
 	_spells.emplace_back(SpellID::DUMAPIC, SpellType::MAGE,
 		SpellCategory::FIELD, level, false, "DUMAPIC", "Clarity",
 		"Restablishes the party's bearings and shows their location in the "
@@ -2402,7 +2401,7 @@ auto Sorcery::Character::_get_character_portrait() -> sf::Sprite {
 	// Workout the location of the potrait on the texture, noting that the
 	// potraits are all square and are 600x600 pixels in size arranged in a grid
 	// of 6 by 5
-	constexpr int portrait_size{600};
+	constexpr auto portrait_size{600};
 	sf::Vector2u top_left{(_portrait_index % 6) * portrait_size,
 		(_portrait_index / 6) * portrait_size};
 	sf::IntRect rect{
@@ -2468,8 +2467,8 @@ auto Sorcery::Character::set_status(CharacterStatus value) -> void {
 	if (value == CharacterStatus::OK)
 		_status = value;
 	else {
-		int candidate{magic_enum::enum_integer<CharacterStatus>(value)};
-		int current{magic_enum::enum_integer<CharacterStatus>(_status)};
+		auto candidate{magic_enum::enum_integer<CharacterStatus>(value)};
+		auto current{magic_enum::enum_integer<CharacterStatus>(_status)};
 		if (candidate > current)
 			_status = value;
 	}
@@ -3079,9 +3078,9 @@ auto Sorcery::Character::_generate_display() -> void {
 		Component resistances_c((
 			*_display
 				 ->layout)["character_detailed:resistances_detailed_values"]);
-		int pos_x{resistances_c.x};
-		int pos_y{resistances_c.y};
-		int offset_columns{std::stoi(resistances_c["offset_columns"].value())};
+		auto pos_x{resistances_c.x};
+		auto pos_y{resistances_c.y};
+		auto offset_columns{std::stoi(resistances_c["offset_columns"].value())};
 
 		resistances_c.colour = _graphics->adjust_colour(
 			_abilities.at(CharacterAbility::RESISTANCE_VS_CRITICAL_HIT),
@@ -3208,7 +3207,7 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		Component carried_c(
 			(*_display->layout)["character_inventory:inventory_blank"]);
-		int c_slots{std::stoi(carried_c["number_of_slots"].value())};
+		auto c_slots{std::stoi(carried_c["number_of_slots"].value())};
 		for (auto loop = 0; loop < c_slots; loop++) {
 			_add_text(carried_c, "{}", (*_display->string)["INVENTORY_BLANK"]);
 			carried_c.y += _display->window->get_ch();
@@ -3248,8 +3247,8 @@ auto Sorcery::Character::_generate_display() -> void {
 		Component spell_name_c{
 			(*_display->layout)["character_mage_spells:spell_name_label"]};
 
-		int level_x{level_c.x};
-		for (int level = 1; level <= 7; level++) {
+		auto level_x{level_c.x};
+		for (auto level = 1; level <= 7; level++) {
 
 			_add_text(level_c, "{}",
 				fmt::format("{} {}",
@@ -3380,7 +3379,7 @@ auto Sorcery::Character::_generate_display() -> void {
 		Component spell_name_c{
 			(*_display->layout)["character_priest_spells:spell_name_label"]};
 
-		int level_x{level_c.x};
+		auto level_x{level_c.x};
 		for (auto level = 1; level <= 7; level++) {
 
 			_add_text(level_c, "{}",

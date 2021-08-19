@@ -68,7 +68,7 @@ Sorcery::Frame::Frame(System *system, Display *display, WindowFrameType type,
 	}
 
 	// Get the Frame Components
-	unsigned int loop{0};
+	auto loop{0};
 	for (auto &frame_sprite : _frame_sprites) {
 		frame_sprite = sf::Sprite(_display->ui_texture);
 		frame_sprite.setTextureRect(_frame_parts[loop]);
@@ -137,8 +137,8 @@ Sorcery::Frame::Frame(System *system, Display *display, WindowFrameType type,
 		WindowFrameParts::BOTTOM_RIGHT)]);
 
 	// Draw the Sides of the Frame
-	for (unsigned int x = 0; x < _layout.w; x++) {
-		unsigned int x_pos{[&] {
+	for (auto x = 0u; x < _layout.w; x++) {
+		auto x_pos{[&] {
 			if (_type == WindowFrameType::NORMAL)
 				return 20 + (20 * x);
 			else if (_type == WindowFrameType::HINT)
@@ -153,8 +153,8 @@ Sorcery::Frame::Frame(System *system, Display *display, WindowFrameType type,
 		_rtexture.draw(_frame_sprites[static_cast<unsigned int>(
 			WindowFrameParts::BOTTOM)]);
 	}
-	for (unsigned int y = 0; y < _layout.h; y++) {
-		unsigned int y_pos{[&] {
+	for (auto y = 0u; y < _layout.h; y++) {
+		auto y_pos{[&] {
 			if (_type == WindowFrameType::NORMAL)
 				return 20 + (20 * y);
 			else if (_type == WindowFrameType::HINT)
@@ -229,7 +229,7 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type,
 	}
 
 	// Get the Frame Components
-	unsigned int loop{0};
+	auto loop{0};
 	for (auto &frame_sprite : _frame_sprites) {
 		frame_sprite = sf::Sprite(_texture);
 		frame_sprite.setTextureRect(_frame_parts[loop]);
@@ -298,8 +298,8 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type,
 		WindowFrameParts::BOTTOM_RIGHT)]);
 
 	// Draw the Sides of the Frame
-	for (unsigned int x = 0; x < width_units; x++) {
-		unsigned int x_pos{[&] {
+	for (auto x = 0u; x < width_units; x++) {
+		auto x_pos{[&] {
 			if (_type == WindowFrameType::NORMAL)
 				return 20 + (20 * x);
 			else if (_type == WindowFrameType::HINT)
@@ -314,8 +314,8 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type,
 		_rtexture.draw(_frame_sprites[static_cast<unsigned int>(
 			WindowFrameParts::BOTTOM)]);
 	}
-	for (unsigned int y = 0; y < height_units; y++) {
-		unsigned int y_pos{[&] {
+	for (auto y = 0u; y < height_units; y++) {
+		auto y_pos{[&] {
 			if (_type == WindowFrameType::NORMAL)
 				return 20 + (20 * y);
 			else if (_type == WindowFrameType::HINT)

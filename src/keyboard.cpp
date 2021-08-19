@@ -48,7 +48,7 @@ Sorcery::Keyboard::Keyboard(
 	const auto max_col{std::stoi(_text_c["columns_per_row"].value())};
 
 	sf::Vector2i letter_pos{offset.x, offset.y};
-	int current_col{1};
+	auto current_col{1};
 
 	// Letters A to Z uppercase
 	for (char ascii = 'A'; ascii <= 'Z'; ascii++) {

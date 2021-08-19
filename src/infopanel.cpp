@@ -70,8 +70,8 @@ auto Sorcery::InfoPanel::set_text(const std::string &string) -> void {
 	_height = 0;
 
 	// Wrap the display lines
-	unsigned int chunk_size{_layout.w};
-	std::string wrapped_text{WORDWRAP(string, chunk_size)};
+	auto chunk_size{_layout.w};
+	auto wrapped_text{WORDWRAP(string, chunk_size)};
 
 	// Split the display lines into a vector
 	const std::regex regex{(R"([@]+)")};
@@ -85,8 +85,8 @@ auto Sorcery::InfoPanel::set_text(const std::string &string) -> void {
 		split.end());
 	_strings = split;
 
-	int x{140};
-	int y{0};
+	auto x{140};
+	auto y{0};
 	for (const auto &each_string : _strings) {
 		sf::Text text{};
 		text.setFont(_system->resources->fonts[_layout.font]);

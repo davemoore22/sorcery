@@ -47,9 +47,9 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics,
 	_buttons_c = Component((*_display->layout)["dialog:buttons"]);
 
 	// Get the Text
-	unsigned int text_width{_frame_c.w - 4};
-	std::string string{(*_display->string)[string_c.string_key]};
-	std::string wrapped_text = WORDWRAP(string, text_width);
+	auto text_width{_frame_c.w - 4};
+	auto string{(*_display->string)[string_c.string_key]};
+	auto wrapped_text = WORDWRAP(string, text_width);
 
 	// Split the Text into lines
 	const std::regex regex(R"([@]+)");
@@ -64,7 +64,7 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics,
 	_strings = split;
 
 	// Now work out the vertical size of the Frame
-	unsigned int frame_h{static_cast<unsigned int>(_strings.size())};
+	auto frame_h{static_cast<unsigned int>(_strings.size())};
 	switch (_type) {
 	case WindowDialogType::OK:
 		frame_h += 5;
@@ -92,9 +92,9 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics,
 	_frame->setPosition(0, 0);
 
 	// Then the strings
-	unsigned int x{_display->window->get_cw() * 1};
-	unsigned int y{_display->window->get_ch() * 1};
-	int index{0};
+	auto x{_display->window->get_cw() * 1};
+	auto y{_display->window->get_ch() * 1};
+	auto index{0};
 	for (const auto &each_string : _strings) {
 		sf::Text text{};
 		text.setFont(_system->resources->fonts[_string_c.font]);

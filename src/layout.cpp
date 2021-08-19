@@ -144,7 +144,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 			Json::Value &screens{layout["screen"]};
 
 			// Iterate through layout file one screen at a time
-			for (unsigned int i = 0; i < screens.size(); i++) {
+			for (auto i = 0u; i < screens.size(); i++) {
 
 				// Each screen will always have a name and one or more
 				// components
@@ -152,13 +152,13 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 				Json::Value &components{screens[i]["component"]};
 
 				// For every component on that screen read in their properties
-				for (unsigned int j = 0; j < components.size(); j++) {
+				for (auto j = 0u; j < components.size(); j++) {
 
 					// Always Present
 					std::string name{components[j]["name"].asString()};
 
 					// Not always present
-					int x{[&] {
+					auto x{[&] {
 						if (components[j].isMember("x")) {
 							if (components[j]["x"].asString() == "centre")
 								return -1;
@@ -171,7 +171,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 						} else
 							return 0;
 					}()};
-					int y{[&] {
+					auto y{[&] {
 						if (components[j].isMember("y")) {
 							if (components[j]["y"].asString() == "centre")
 								return -1;
@@ -184,7 +184,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 						} else
 							return 0;
 					}()};
-					unsigned int w{[&] {
+					auto w{[&] {
 						if (components[j].isMember("w")) {
 							if (components[j]["w"].asString().length() > 0)
 								return static_cast<unsigned int>(
@@ -194,7 +194,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 						} else
 							return 0u;
 					}()};
-					unsigned int h{[&] {
+					auto h{[&] {
 						if (components[j].isMember("h")) {
 							if (components[j]["h"].asString().length() > 0)
 								return static_cast<unsigned int>(
@@ -204,7 +204,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 						} else
 							return 0u;
 					}()};
-					float scale{[&] {
+					auto scale{[&] {
 						if (components[j].isMember("scale")) {
 							if (components[j]["scale"].asString().length() > 0)
 								return std::stof(
@@ -236,7 +236,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 						} else
 							return FontType::NONE;
 					}()};
-					unsigned int size{[&] {
+					auto size{[&] {
 						if (components[j].isMember("size")) {
 							if (components[j]["size"].asString().length() > 0)
 								return static_cast<unsigned int>(std::stoi(
@@ -246,7 +246,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 						} else
 							return 0u;
 					}()};
-					unsigned long long colour{[&] {
+					auto colour{[&] {
 						if (components[j].isMember("colour")) {
 							if (components[j]["colour"].asString().length() > 0)
 								return std::stoull(
@@ -256,7 +256,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 						} else
 							return static_cast<unsigned long long>(0ull);
 					}()};
-					bool animated{[&] {
+					auto animated{[&] {
 						if (components[j].isMember("animated")) {
 							if (components[j]["animated"].asString().length() >
 								0)
@@ -267,13 +267,13 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 						} else
 							return false;
 					}()};
-					std::string string_key{[&] {
+					auto string_key{[&] {
 						if (components[j].isMember("string"))
 							return components[j]["string"].asString();
 						else
-							return std::string();
+							return std::string{};
 					}()};
-					unsigned int alpha{[&] {
+					auto alpha{[&] {
 						if (components[j].isMember("alpha")) {
 							if (components[j]["alpha"].asString().length() > 0)
 								return static_cast<unsigned int>(std::stoi(
@@ -283,7 +283,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 						} else
 							return 0u;
 					}()};
-					unsigned int width{[&] {
+					auto width{[&] {
 						if (components[j].isMember("width")) {
 							if (components[j]["width"].asString().length() > 0)
 								return static_cast<unsigned int>(std::stoi(
@@ -293,7 +293,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 						} else
 							return 0u;
 					}()};
-					unsigned long long background{[&] {
+					auto background{[&] {
 						if (components[j].isMember("background")) {
 							if (components[j]["background"]
 									.asString()
@@ -354,7 +354,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 						} else
 							return ComponentType::UNKNOWN;
 					}()};
-					unsigned int priority{[&] {
+					auto priority{[&] {
 						if (components[j].isMember("priority")) {
 							if (components[j]["priority"].asString().length() >
 								0)
@@ -419,8 +419,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 					}()};
 
 					// Add the Component
-					const std::string key{
-						fmt::format("{}:{}", screen_name, name)};
+					const auto key{fmt::format("{}:{}", screen_name, name)};
 					Component component(screen_name, name, x, y, w, h, scale,
 						font_type, size, colour, animated, string_key, alpha,
 						width, background, justification, component_type,
@@ -428,7 +427,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 
 					// Now look for any extra data
 					if (components[j].isMember("data")) {
-						Json::Value &extra_data{components[j]["data"][0]};
+						auto &extra_data{components[j]["data"][0]};
 						auto data_keys{extra_data.getMemberNames()};
 						for (auto &data_key : data_keys) {
 							auto data_value{extra_data[data_key].asString()};

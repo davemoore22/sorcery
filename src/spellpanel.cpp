@@ -84,10 +84,9 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 	name_text.setPosition(name_c.x, name_c.y);
 	_texts.push_back(name_text);
 
-	std::string spell_type{spell.type == SpellType::MAGE ? "MAGE" : "PRIEST"};
-	std::string spell_category{
-		magic_enum::enum_name<SpellCategory>(spell.category)};
-	std::string summary{fmt::format(
+	auto spell_type{spell.type == SpellType::MAGE ? "MAGE" : "PRIEST"};
+	auto spell_category{magic_enum::enum_name<SpellCategory>(spell.category)};
+	auto summary{fmt::format(
 		"LEVEL {} {} {} SPELL", spell.level, spell_type, spell_category)};
 	Component summary_c{(*_display->layout)["spell_panel:summary_text"]};
 	sf::Text summary_text{};
@@ -99,9 +98,9 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 	_texts.push_back(summary_text);
 
 	// Wrap the display lines
-	std::string description{spell.details};
-	unsigned int chunk_size{_layout.w};
-	std::string wrapped_text{WORDWRAP(description, chunk_size)};
+	auto description{spell.details};
+	auto chunk_size{_layout.w};
+	auto wrapped_text{WORDWRAP(description, chunk_size)};
 
 	// Split the display lines into a vector
 	const std::regex regex(R"([@]+)");
@@ -115,8 +114,8 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 		split.end());
 	_strings = split;
 
-	int x{164};
-	int y{2};
+	auto x{164};
+	auto y{2};
 	for (const auto &each_string : _strings) {
 		sf::Text text{};
 		text.setFont(_system->resources->fonts[_layout.font]);

@@ -639,7 +639,7 @@ auto Sorcery::Create::_handle_choose_class(const sf::Event &event)
 auto Sorcery::Create::_handle_choose_potraits(const sf::Event &event)
 	-> std::optional<ModuleResult> {
 
-	unsigned int index{_candidate.get_portrait_index()};
+	auto index{_candidate.get_portrait_index()};
 	if (_system->input->check(WindowInput::BACK, event))
 		return ModuleResult::BACK;
 	else if (_system->input->check(WindowInput::DELETE, event))

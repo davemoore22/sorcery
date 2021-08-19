@@ -53,8 +53,8 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	// Workout the location of the potrait on the texture, noting that the
 	// potraits are all square and are 600x600 pixels in size arranged in a grid
 	// of 6 by 5
-	constexpr int portrait_size{600};
-	unsigned int p_i{_character->get_portrait_index()};
+	constexpr auto portrait_size{600};
+	auto p_i{_character->get_portrait_index()};
 	sf::Vector2u top_left{(p_i % 6) * portrait_size, (p_i / 6) * portrait_size};
 	sf::IntRect rect{
 		sf::IntRect(top_left.x, top_left.y, portrait_size, portrait_size)};

@@ -741,11 +741,6 @@ auto Sorcery::Menu::generate(Component &component) -> void {
 
 	if (_texts.size() == 0) {
 
-		int entry_x{0};
-		int entry_y{0};
-		int option_x{0};
-		int option_y{0};
-
 		// In case we are generating the Options Menu
 		const Component on_c{(*_display->layout)["options:on"]};
 		const Component off_c{(*_display->layout)["options:off"]};
@@ -761,7 +756,8 @@ auto Sorcery::Menu::generate(Component &component) -> void {
 		_texts.clear();
 		_options.clear();
 		bounds.clear();
-		int index{0};
+		auto index{0};
+		auto entry_y{0};
 		for (const auto &item : items) {
 
 			auto current{items.begin() + index};
@@ -780,9 +776,9 @@ auto Sorcery::Menu::generate(Component &component) -> void {
 				text.setString(text_string);
 
 				// Check for alignment and set location appropriately
-				entry_x = (component.justification == Justification::CENTRE)
-							  ? texture_w / 2
-							  : 0;
+				auto entry_x{(component.justification == Justification::CENTRE)
+								 ? texture_w / 2
+								 : 0};
 				entry_y += _display->window->get_ch();
 				text.setPosition(entry_x, entry_y);
 
@@ -847,9 +843,9 @@ auto Sorcery::Menu::generate(Component &component) -> void {
 				// Add options in case of the Options Menu
 				if ((_type == MenuType::OPTIONS) &&
 					(item.type == MenuItemType::ENTRY)) {
-					option_y = entry_y;
-					option_x = component.w * _display->window->get_cw();
-					const bool option_value{
+					auto option_y{entry_y};
+					auto option_x{component.w * _display->window->get_cw()};
+					const auto option_value{
 						(*_system->config)[item.config] ? true : false};
 					sf::Text option_text{};
 					if (option_value) {
@@ -901,11 +897,11 @@ auto Sorcery::Menu::generate(Component &component) -> void {
 	} else {
 
 		// Only change what needs to be changed
-		int entry_y{0};
-		int index{0};
-		int options_index{0};
-		int option_x{0};
-		int option_y{0};
+		auto entry_y{0};
+		auto index{0};
+		auto options_index{0};
+		auto option_x{0};
+		auto option_y{0};
 		const Component on_c{(*_display->layout)["options:on"]};
 		const Component off_c{(*_display->layout)["options:off"]};
 		for (const auto &item : items) {
@@ -1004,7 +1000,7 @@ auto Sorcery::Menu::draw(
 
 auto Sorcery::Menu::_populate_chars() -> void {
 
-	unsigned int max_id{0};
+	auto max_id{0};
 	if (_game->characters.size() > 0) {
 
 		for (auto &[character_id, character] : _game->characters)
