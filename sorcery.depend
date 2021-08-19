@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1629138769 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1629375670 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -148,7 +148,7 @@
 1628106617 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
 	"main.hpp"
 
-1628106617 /home/dave/Development/wizardry/sorcery-sfml/inc/type.hpp
+1629375661 /home/dave/Development/wizardry/sorcery-sfml/inc/type.hpp
 	"main.hpp"
 
 1625475027 /home/dave/Development/wizardry/sorcery-sfml/inc/operator.hpp
@@ -319,7 +319,7 @@
 	"menu.hpp"
 	"game.hpp"
 
-1629055046 source:/home/dave/Development/wizardry/sorcery-sfml/src/database.cpp
+1629375818 source:/home/dave/Development/wizardry/sorcery-sfml/src/database.cpp
 	"database.hpp"
 
 1629139942 source:/home/dave/Development/wizardry/sorcery-sfml/src/display.cpp
@@ -627,7 +627,7 @@
 1628106617 source:/home/dave/Development/wizardry/sorcery-sfml/src/infopanel.cpp
 	"infopanel.hpp"
 
-1628106549 /home/dave/Development/wizardry/sorcery-sfml/inc/allocatepanel.hpp
+1629376445 /home/dave/Development/wizardry/sorcery-sfml/inc/allocatepanel.hpp
 	"character.hpp"
 	"display.hpp"
 	"graphics.hpp"
@@ -1268,4 +1268,6 @@
 
 1629055130 source:/home/dave/Development/wizardry/sorcery-sfml/src/state.cpp
 	"state.hpp"
+
+1629143452 source:/home/dave/Development/wizardry/sorcery-sfml/src/summary.cpp
 

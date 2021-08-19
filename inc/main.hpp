@@ -138,9 +138,6 @@ namespace Sorcery {
 	using CreateMethod = Enums::Manage::Method;
 	using FileType = Enums::File::Type;
 	using FontType = Enums::Internal::FontType;
-	using GameEntry = std::tuple<unsigned int, std::string, std::string,
-		std::chrono::system_clock::time_point,
-		std::chrono::system_clock::time_point, std::string>;
 	using GraphicsTexture = Enums::Graphics::Texture;
 	using IconLibrary = std::map<std::string, sf::Sprite>;
 	using Import = Enums::Manage::Import;

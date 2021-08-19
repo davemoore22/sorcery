@@ -58,6 +58,25 @@ namespace Sorcery {
 		std::string hint;
 	};
 
+	// Struct to represent a game
+	struct GameEntry {
+		GameEntry()
+			: id{0}, key{}, status{}, start_time{}, time_point{}, data{} {};
+		GameEntry(unsigned int id_, std::string key_, std::string status_,
+			std::chrono::system_clock::time_point start_time_,
+			std::chrono::system_clock::time_point time_point_,
+			std::string data_)
+			: id{id_}, key{key_}, status{status_}, start_time{start_time_},
+			  time_point{time_point_}, data{data_} {};
+
+		unsigned int id;
+		std::string key;
+		std::string status;
+		std::chrono::system_clock::time_point start_time;
+		std::chrono::system_clock::time_point time_point;
+		std::string data;
+	};
+
 	// Struct to represent an icon
 	struct Icon {
 		Icon()

@@ -95,8 +95,9 @@ auto Sorcery::Database::load_game_state() -> std::optional<GameEntry> {
 			auto last_played_tp{std::chrono::system_clock::from_time_t(
 				std::mktime(&last_played_tm))};
 
-			return std::make_tuple(static_cast<unsigned int>(id), key, status,
-				started_tp, last_played_tp, data);
+			return GameEntry{static_cast<unsigned int>(id), key, status,
+				started_tp, last_played_tp, data};
+
 		} else
 			return std::nullopt;
 
