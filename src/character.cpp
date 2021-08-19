@@ -2535,7 +2535,7 @@ auto Sorcery::Character::_get_sp_per_level(const SpellType type, int level)
 
 auto Sorcery::Character::_get_mage_status(bool current) -> std::string {
 
-	std::string value{};
+	auto value{""s};
 	for (auto level = 1; level <= 7; level++)
 		if (current)
 			value.append(fmt::format(" {} ", _mage_cur_sp[level]));
@@ -2548,7 +2548,7 @@ auto Sorcery::Character::_get_mage_status(bool current) -> std::string {
 
 auto Sorcery::Character::_get_priest_status(bool current) -> std::string {
 
-	std::string value{};
+	auto value{""s};
 	for (auto level = 1; level <= 7; level++)
 		if (current)
 			value.append(fmt::format(" {} ", _priest_cur_sp[level]));

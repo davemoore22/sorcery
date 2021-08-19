@@ -283,7 +283,7 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event)
 		if (static_cast<char>(event.text.unicode) == ' ') {
 			_keyboard->selected = "Spc";
 		} else {
-			std::string key_pressed{};
+			auto key_pressed{""s};
 			key_pressed.push_back(static_cast<char>(event.text.unicode));
 			_keyboard->selected = key_pressed;
 		}

@@ -34,7 +34,7 @@ Sorcery::TextFile::TextFile(std::filesystem::path text_file_path)
 		file.good()) {
 		_contents.clear();
 		_contents.push_back(EMPTY);
-		std::string line{};
+		auto line{""s};
 		while (std::getline(file, line)) {
 
 			// Get rid of trailing spaces and add to the buffer

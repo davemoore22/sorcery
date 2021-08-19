@@ -64,8 +64,8 @@ auto Sorcery::String::_load(std::string_view filename) -> bool {
 				 ++it) {
 				Json::Value key{it.key()};
 				Json::Value value{(*it)};
-				std::string string_key{Json::writeString(builder, key)};
-				std::string string_value{Json::writeString(builder, value)};
+				auto string_key{Json::writeString(builder, key)};
+				auto string_value{Json::writeString(builder, value)};
 
 				// Remove Special Characters from file
 				string_key.erase(

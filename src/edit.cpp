@@ -192,7 +192,7 @@ auto Sorcery::Edit::start(int current_character_idx)
 
 								// Update character name and resave the
 								// character!
-								std::string changed_name{new_name.value()};
+								auto changed_name{new_name.value()};
 								_cur_char.value()->set_name(changed_name);
 								auto character{*_cur_char.value()};
 								_game->update_character(_game->get_id(),

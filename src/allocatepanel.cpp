@@ -131,30 +131,12 @@ auto Sorcery::AllocatePanel::set() -> void {
 	sf::Text t_points_left{};
 	t_points_left.setFont(_system->resources->fonts[_c_points_left.font]);
 	t_points_left.setCharacterSize(_c_points_left.size);
-	/* 	if (_character->get_bonus_points_to_allocate() ==
-	   _character->get_starting_bonus_points())
-			t_points_left.setFillColor(_green);
-		else if (_character->get_bonus_points_to_allocate() == 0)
-			t_points_left.setFillColor(_red);
-		else */
 	t_points_left.setFillColor(sf::Color(_c_points_left.colour));
 	t_points_left.setString(
 		fmt::format("{:>2}", _character->get_points_left()));
 	t_points_left.setPosition(_c_points_left.x - 4, _c_points_left.y);
-	// t_points_left.setPosition(
-	//	_c_points_left.x, _c_points_left.y +
-	//_display->window->get_cell_height());
 
 	_texts.push_back(t_points_left);
-
-	/* sf::Text t_points_started;
-	t_points_started.setFont(_system->resources->fonts[_c_points_started.font]);
-	t_points_started.setCharacterSize(_c_points_started.size);
-	t_points_started.setFillColor(sf::Color(_c_points_started.colour));
-	t_points_started.setString(fmt::format("{:>2}",
-	_character->get_starting_bonus_points())); t_points_started.setPosition(
-		_c_points_started.x, _c_points_started.y +
-	_display->window->get_cell_height()); _texts.push_back(t_points_started); */
 
 	valid = true;
 

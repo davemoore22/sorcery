@@ -52,7 +52,7 @@ Sorcery::Keyboard::Keyboard(
 
 	// Letters A to Z uppercase
 	for (char ascii = 'A'; ascii <= 'Z'; ascii++) {
-		std::string key{};
+		auto key{""s};
 		key.push_back(ascii);
 		_texts[key] = sf::Text();
 		_texts[key].setString(key);
@@ -77,7 +77,7 @@ Sorcery::Keyboard::Keyboard(
 	}
 
 	// Space
-	auto space{"Spc"};
+	auto space{"Spc"s};
 	_texts[space] = sf::Text();
 	_texts[space].setString(space);
 	_texts[space].setFont(_system->resources->fonts[_text_c.font]);
@@ -102,7 +102,7 @@ Sorcery::Keyboard::Keyboard(
 
 	// Letters a to z lowercase
 	for (char ascii = 'a'; ascii <= 'z'; ascii++) {
-		std::string key{};
+		auto key{""s};
 		key.push_back(ascii);
 		_texts[key] = sf::Text();
 		_texts[key].setString(key);
@@ -127,7 +127,7 @@ Sorcery::Keyboard::Keyboard(
 	}
 
 	// Del, End
-	auto del{"Del"};
+	auto del{"Del"s};
 	_texts[del] = sf::Text();
 	_texts[del].setString(del);
 	_texts[del].setFont(_system->resources->fonts[_text_c.font]);
@@ -149,7 +149,7 @@ Sorcery::Keyboard::Keyboard(
 			_texts[del].getPosition().y -
 				((_text_c.size - _texts[del].getLocalBounds().height) / 2));
 
-	auto end{"End"};
+	auto end{"End"s};
 	_texts[end] = sf::Text();
 	_texts[end].setString(end);
 	_texts[end].setFont(_system->resources->fonts[_text_c.font]);

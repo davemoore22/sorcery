@@ -145,7 +145,7 @@ Sorcery::Error::Error(tgui::Gui *gui, Enums::System::Error error_code,
 	} else {
 
 		// Split the display lines
-		std::string wrapped_notes{WORDWRAP(_details[4], 80)};
+		auto wrapped_notes{WORDWRAP(_details[4], 80)};
 		const std::regex regex(R"([@]+)");
 		std::sregex_token_iterator it{
 			wrapped_notes.begin(), wrapped_notes.end(), regex, -1};

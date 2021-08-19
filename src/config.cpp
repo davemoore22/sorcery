@@ -65,7 +65,7 @@ auto Sorcery::Config::_load() -> bool {
 	_options.fill(false);
 
 	// Gameplay Settings
-	std::string option{};
+	auto option{""s};
 	option =
 		_settings->GetValue("Options", CSTR(OPT_RECOMMENDED_MODE), CSTR(OFF));
 	_options[Enums::Options::RECOMMENDED_MODE] = option.compare(ON) == 0;

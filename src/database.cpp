@@ -75,12 +75,12 @@ auto Sorcery::Database::load_game_state() -> std::optional<GameEntry> {
 				"SELECT g.id, g.key, g.status, g.started, g.last_played, "
 				"g.data FROM game g;"};
 
-			int id{};
-			std::string key{};
-			std::string started{};
-			std::string last_played{};
-			std::string status{};
-			std::string data{};
+			auto id{0};
+			auto key{""s};
+			auto started{""s};
+			auto last_played{""s};
+			auto status{""s};
+			auto data{""s};
 
 			database << get_game_SQL >>
 				std::tie(id, key, status, started, last_played, data);
@@ -122,7 +122,7 @@ auto Sorcery::Database::save_game_state(
 		std::stringstream ss{};
 		ss << std::put_time(std::localtime(&now_t), "%Y-%m-%d %X");
 		auto last_played{ss.str()};
-		auto status{"OK"};
+		const auto status{"OK"s};
 
 		const std::string update_game_SQL{
 			"UPDATE game SET status = ?, last_played = ?, data = ? WHERE id = "
@@ -157,7 +157,7 @@ auto Sorcery::Database::create_game_state(std::string data) -> unsigned int {
 		ss << std::put_time(std::localtime(&now_t), "%Y-%m-%d %X");
 		auto stated{ss.str()};
 		auto last_played{ss.str()};
-		auto status{"OK"};
+		const auto status{"OK"s};
 		const std::string insert_new_game_SQL{
 			"INSERT INTO game (key, status, started, last_played, data) VALUES "
 			"(?, ?, ?, ?, ?)"};
@@ -215,7 +215,7 @@ auto Sorcery::Database::add_character(
 		cs << std::put_time(std::localtime(&now_t), "%Y-%m-%d %X");
 		auto created{cs.str()};
 
-		const auto status{"OK"};
+		const auto status{"OK"s};
 		const auto insert_new_character_SQL{
 			"INSERT INTO character (game_id, created, status, name, data) "
 			"VALUES (?,?,?,?,?)"};
@@ -289,7 +289,7 @@ auto Sorcery::Database::get_character(int game_id, int character_id)
 
 		sqlite::database database(_db_file_path.string());
 
-		std::string character_data{};
+		auto character_data{""s};
 		const auto get_character_SQL{
 			"SELECT c.data FROM character c WHERE c.id = ? AND c.game_id = ?;"};
 

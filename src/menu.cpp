@@ -428,7 +428,7 @@ auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype,
 	if (key.length() % 2 == 0)
 		key.resize(key.length() + 1, 32);
 
-	std::string hint{};
+	auto hint{""s};
 	items.push_back({static_cast<unsigned int>(index), itemtype, code, key,
 		true, ConfigOption::NONE, hint});
 	++count;

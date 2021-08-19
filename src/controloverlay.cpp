@@ -264,7 +264,7 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode)
 	auto text_spacing_y{std::stoi(text_c["spacing_y"].value())};
 
 	for (auto &control : _controls) {
-		std::string caption{control.first};
+		auto caption{control.first};
 		sf::Sprite image{control.second};
 
 		sf::Text text{};
