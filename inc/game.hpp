@@ -43,6 +43,7 @@ namespace Sorcery {
 		// Public Members
 		bool valid;
 		std::map<unsigned int, Character> characters;
+		std::unique_ptr<State> state;
 
 		// Public Methods
 		auto get_id() -> unsigned int;
@@ -68,13 +69,11 @@ namespace Sorcery {
 		System *_system;
 		Display *_display;
 		Graphics *_graphics;
-		std::unique_ptr<State> _state;
 		std::chrono::system_clock::time_point _start_time;
 		std::chrono::system_clock::time_point _last_time;
 		std::string _key;
 		unsigned int _id;
 		std::string _status;
 		std::vector<unsigned int> _characters_ids;
-		std::array<unsigned int, 6> _party;
 	};
 } // namespace Sorcery

@@ -50,6 +50,7 @@ namespace Sorcery {
 		sf::Sprite sprite;
 
 		// Public Methods
+		auto refresh() -> void;
 
 	  private:
 		// Private Methods

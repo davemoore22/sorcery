@@ -70,6 +70,8 @@ Sorcery::StatusBar::StatusBar(
 	height = sprite.getLocalBounds().height;
 }
 
+auto Sorcery::StatusBar::refresh() -> void {}
+
 auto Sorcery::StatusBar::draw(
 	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 

@@ -64,14 +64,14 @@ auto Sorcery::Game::delete_character(unsigned int character_id) -> void {
 auto Sorcery::Game::_clear() -> void {
 
 	// Clear existing data!
-	if (_state.get()) {
-		_state.release();
-		_state.reset();
+	if (state.get()) {
+		state.release();
+		state.reset();
 	}
 
 	characters.clear();
 	_characters_ids.clear();
-	_state = std::make_unique<State>(_system);
+	state = std::make_unique<State>(_system);
 }
 
 auto Sorcery::Game::_create_game() -> void {
@@ -80,7 +80,7 @@ auto Sorcery::Game::_create_game() -> void {
 	std::stringstream ss;
 	{
 		cereal::JSONOutputArchive archive(ss);
-		archive(_state);
+		archive(state);
 	}
 	const auto data{ss.str()};
 	_system->database->create_game_state(data);
@@ -96,14 +96,14 @@ auto Sorcery::Game::_load_game() -> void {
 	_status = status;
 	_start_time = start_time;
 	_last_time = last_time;
-	_state = std::make_unique<State>(_system);
+	state = std::make_unique<State>(_system);
 	if (data.length() > 0) {
 		std::stringstream ss;
 		ss.str(data);
 		{
 			cereal::JSONInputArchive archive(ss);
-			archive(_state);
-			_state->set(_system);
+			archive(state);
+			state->set(_system);
 		}
 	}
 
@@ -116,7 +116,7 @@ auto Sorcery::Game::_save_game() -> void {
 	std::stringstream ss;
 	{
 		cereal::JSONOutputArchive archive(ss);
-		archive(_state);
+		archive(state);
 	}
 	const auto data{ss.str()};
 
