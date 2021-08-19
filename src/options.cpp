@@ -296,7 +296,7 @@ auto Sorcery::Options::_set_infopanel(
 
 	// Set the Text
 	if ((*it).type == MenuItemType::ENTRY) {
-		std::string ip_contents{(*it).hint};
+		auto ip_contents{(*it).hint};
 		_ip->set_text(ip_contents);
 		_ip->valid = true;
 	} else

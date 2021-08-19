@@ -60,7 +60,7 @@ Sorcery::AllocatePanel::AllocatePanel(
 	_class_icons[7] = (*_graphics->icons)[MenuItem::CC_MAGE].value();
 	const sf::Vector2u icon_size{
 		_c_allowed_classes.size, _c_allowed_classes.size};
-	constexpr float texture_size{511};
+	constexpr auto texture_size{511.f};
 	sf::Vector2f scale{icon_size.x / texture_size, icon_size.y / texture_size};
 
 	auto index{0};

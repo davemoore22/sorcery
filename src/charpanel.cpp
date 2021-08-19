@@ -106,7 +106,7 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	name_text.setCharacterSize(name_c.size);
 	name_text.setFillColor(sf::Color(name_c.colour));
 
-	std::string name{_character->get_name()};
+	auto name{_character->get_name()};
 	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	name_text.setString(name);
 	_display->window->set_pos(&name_c, &name_text);
@@ -122,7 +122,7 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	_texts.push_back(level_text);
 
 	Component status_c{(*_display->layout)["character_panel:status_value"]};
-	std::string status{fmt::format("{}", _character->get_status_string())};
+	auto status{fmt::format("{}", _character->get_status_string())};
 	sf::Text status_text{};
 	status_text.setFont(_system->resources->fonts[status_c.font]);
 	status_text.setCharacterSize(status_c.size);
@@ -133,7 +133,7 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	_texts.push_back(status_text);
 
 	Component hp_c{(*_display->layout)["character_panel:hp_value"]};
-	std::string hp{fmt::format("{}", _character->get_hp_summary())};
+	auto hp{fmt::format("{}", _character->get_hp_summary())};
 	sf::Text hp_text{};
 	hp_text.setFont(_system->resources->fonts[hp_c.font]);
 	hp_text.setCharacterSize(hp_c.size);

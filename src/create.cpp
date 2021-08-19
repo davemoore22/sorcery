@@ -264,7 +264,7 @@ auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event)
 auto Sorcery::Create::_handle_choose_name(const sf::Event &event)
 	-> std::optional<ModuleResult> {
 
-	std::string candidate_name{_candidate.get_name()};
+	auto candidate_name{_candidate.get_name()};
 	if (_system->input->check(WindowInput::MOVE, event)) {
 
 		sf::Vector2f mouse_pos{
@@ -1043,7 +1043,7 @@ auto Sorcery::Create::_set_info_panel_contents(
 
 	// Set the Text
 	if ((*it).type == MenuItemType::ENTRY) {
-		std::string ip_contents{(*it).hint};
+		const auto ip_contents{(*it).hint};
 		_ip->set_text(ip_contents);
 		_ip->valid = true;
 	} else
@@ -1060,7 +1060,7 @@ auto Sorcery::Create::_draw() -> void {
 	_display->display("create", _candidate.get_stage());
 
 	// And draw the current state of the character!
-	double lerp{_graphics->animation->colour_lerp};
+	const auto lerp{_graphics->animation->colour_lerp};
 	sf::Text summary_text{};
 	if (_candidate.get_stage() == CharacterStage::CHOOSE_METHOD) {
 
@@ -1086,7 +1086,7 @@ auto Sorcery::Create::_draw() -> void {
 
 		_display->display(
 			"character_create_stage_1", _sprites, _texts, _frames);
-		std::string display_name{">" + _candidate.get_name() + "_"};
+		auto display_name{">" + _candidate.get_name() + "_"};
 		sf::Text name_text{};
 		_display->window->draw_text(name_text,
 			(*_display->layout)["character_create_stage_1:name_candidate"],

@@ -71,9 +71,9 @@ auto Sorcery::TextFile::get_progress(const int current_line) const
 	-> std::string {
 
 	// Work out progress through file
-	const float percent{(static_cast<float>(current_line) /
-							static_cast<float>(_contents.size())) *
-						100};
+	const auto percent{(static_cast<float>(current_line) /
+						   static_cast<float>(_contents.size())) *
+					   100};
 
 	// Build status line
 	return fmt::format(

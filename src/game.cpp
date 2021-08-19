@@ -82,7 +82,7 @@ auto Sorcery::Game::_create_game() -> void {
 		cereal::JSONOutputArchive archive(ss);
 		archive(_state);
 	}
-	std::string data{ss.str()};
+	const auto data{ss.str()};
 	_system->database->create_game_state(data);
 }
 
@@ -117,7 +117,7 @@ auto Sorcery::Game::_save_game() -> void {
 		cereal::JSONOutputArchive archive(ss);
 		archive(_state);
 	}
-	std::string data{ss.str()};
+	const auto data{ss.str()};
 
 	_system->database->save_game_state(_id, _key, data);
 	_save_characters();
@@ -132,7 +132,7 @@ auto Sorcery::Game::_save_characters() -> void {
 			cereal::JSONOutputArchive archive(ss);
 			archive(character);
 		}
-		std::string character_data{ss.str()};
+		const auto character_data{ss.str()};
 
 		_system->database->update_character(
 			_id, character_id, character.get_name(), character_data);
@@ -146,7 +146,7 @@ auto Sorcery::Game::_get_characters() -> std::map<unsigned int, Character> {
 
 	for (auto character_id : _characters_ids) {
 
-		std::string data{_system->database->get_character(_id, character_id)};
+		const auto data{_system->database->get_character(_id, character_id)};
 		std::stringstream ss;
 		ss.str(data);
 
@@ -172,7 +172,7 @@ auto Sorcery::Game::add_character(Character &character) -> unsigned int {
 		cereal::JSONOutputArchive archive(ss);
 		archive(character);
 	}
-	std::string character_data{ss.str()};
+	const auto character_data{ss.str()};
 
 	return _system->database->add_character(
 		_id, character.get_name(), character_data);
@@ -185,7 +185,7 @@ auto Sorcery::Game::update_character(unsigned int game_id,
 		cereal::JSONOutputArchive archive(ss);
 		archive(character);
 	}
-	std::string character_data{ss.str()};
+	const auto character_data{ss.str()};
 
 	return _system->database->update_character(
 		game_id, character_id, character.get_name(), character_data);

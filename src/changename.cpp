@@ -125,7 +125,7 @@ auto Sorcery::ChangeName::is_changed() -> bool {
 auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event)
 	-> std::optional<bool> {
 
-	std::string candidate_name{_new_name};
+	auto candidate_name{_new_name};
 	if (_system->input->check(WindowInput::MOVE, event)) {
 
 		sf::Vector2f mouse_pos{
@@ -220,8 +220,8 @@ auto Sorcery::ChangeName::_draw() -> void {
 	// Display Components
 	_display->display("change_name");
 
-	double lerp{_graphics->animation->colour_lerp};
-	std::string display_name{">" + _new_name + "_"};
+	auto lerp{_graphics->animation->colour_lerp};
+	auto display_name{">" + _new_name + "_"};
 	sf::Text name_text{};
 	_display->window->draw_text(name_text,
 		(*_display->layout)["change_name:name_candidate"], display_name, lerp);

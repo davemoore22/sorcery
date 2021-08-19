@@ -308,7 +308,7 @@ auto Sorcery::MainMenu::_draw() -> void {
 	// issues)
 	if (_attract_mode->data_temp.size() > 0) {
 
-		const double lerp{_graphics->animation->colour_lerp};
+		const auto lerp{_graphics->animation->colour_lerp};
 		_display->display("main_menu_attract", _menu_stage);
 
 		// Generate and draw the Attract Mode Graphics

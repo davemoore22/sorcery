@@ -344,7 +344,7 @@ auto Sorcery::ChangeClass::_set_info_panel_contents(
 
 	// Set the Text
 	if ((*it).type == MenuItemType::ENTRY) {
-		std::string ip_contents{(*it).hint};
+		const auto ip_contents{(*it).hint};
 		_ip->set_text(ip_contents);
 		_ip->valid = true;
 	} else

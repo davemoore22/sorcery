@@ -765,7 +765,7 @@ auto Sorcery::Menu::generate(Component &component) -> void {
 				(item.type == MenuItemType::ENTRY) ||
 				(item.type == MenuItemType::SAVE) ||
 				(item.type == MenuItemType::CANCEL)) {
-				const std::string text_string{item.key};
+				const auto text_string{item.key};
 				sf::Text text{};
 				text.setFont(_system->resources->fonts[component.font]);
 				text.setCharacterSize(component.size);

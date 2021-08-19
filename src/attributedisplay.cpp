@@ -57,7 +57,7 @@ Sorcery::AttributeDisplay::AttributeDisplay(System *system, Display *display,
 	_attribute_icons[5] = (*_graphics->icons)[MenuItem::CS_LUCK].value();
 
 	const sf::Vector2u icon_size{_icons_c.size, _icons_c.size};
-	constexpr float texture_size{511};
+	constexpr auto texture_size{511.f};
 	sf::Vector2f scale{icon_size.x / texture_size, icon_size.y / texture_size};
 
 	auto index{0};
@@ -266,7 +266,7 @@ auto Sorcery::AttributeDisplay::_get_text(CharacterAttribute attribute)
 
 	} else {
 		sf::Text text{};
-		std::string formatted_value{
+		const auto formatted_value{
 			fmt::format("{:>2}", _character->get_cur_attr(attribute))};
 		text.setFont(_system->resources->fonts[_text_c.font]);
 		text.setCharacterSize(_text_c.size);

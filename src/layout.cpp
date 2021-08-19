@@ -148,14 +148,14 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 
 				// Each screen will always have a name and one or more
 				// components
-				std::string screen_name{screens[i]["name"].asString()};
+				auto screen_name{screens[i]["name"].asString()};
 				Json::Value &components{screens[i]["component"]};
 
 				// For every component on that screen read in their properties
 				for (auto j = 0u; j < components.size(); j++) {
 
 					// Always Present
-					std::string name{components[j]["name"].asString()};
+					auto name{components[j]["name"].asString()};
 
 					// Not always present
 					auto x{[&] {

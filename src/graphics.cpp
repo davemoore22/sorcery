@@ -51,12 +51,12 @@ auto Sorcery::Graphics::adjust_status_colour(
 	gradient[(1.0f / 8.0f) * 2.0f] = sf::Color(0xffff00ff);
 	gradient[1.0f] = sf::Color(0x00ff00ff);
 
-	float to_scale{
+	auto to_scale{
 		magic_enum::enum_integer<Enums::Character::CStatus>(value) * 1.0f};
 	to_scale = 8.0f - to_scale;
 	if (poisoned)
 		to_scale = (1.0f / 8.0f) * 2.0f;
-	float scaled{to_scale / 8.0f};
+	auto scaled{to_scale / 8.0f};
 	return (gradient.sampleColor(scaled)).toInteger();
 }
 
@@ -70,7 +70,7 @@ auto Sorcery::Graphics::adjust_colour(
 	gradient[0.0f] = sf::Color(0xbf0000ff);
 	gradient[0.5f] = sf::Color(0xffff00ff);
 	gradient[1.0f] = sf::Color(0x00ff00ff);
-	float to_scale{value * 1.0f};
+	auto to_scale{value * 1.0f};
 	switch (ability_type) {
 	case CharacterAbilityType::NUMBER: {
 		to_scale = [&] {
@@ -83,7 +83,7 @@ auto Sorcery::Graphics::adjust_colour(
 				return to_scale;
 		}();
 		to_scale += 5.0f;
-		float scaled{to_scale / 10.0f};
+		auto scaled{to_scale / 10.0f};
 		return (gradient.sampleColor(scaled)).toInteger();
 	} break;
 	case CharacterAbilityType::AC: {
@@ -96,7 +96,7 @@ auto Sorcery::Graphics::adjust_colour(
 				return to_scale;
 		}();
 		to_scale = 10.0f - to_scale;
-		float scaled{to_scale / 20.0f};
+		auto scaled{to_scale / 20.0f};
 		return (gradient.sampleColor(scaled)).toInteger();
 	} break;
 	case CharacterAbilityType::STAT: {
@@ -109,11 +109,11 @@ auto Sorcery::Graphics::adjust_colour(
 			else
 				return to_scale;
 		}();
-		float scaled{to_scale / 15.0f};
+		auto scaled{to_scale / 15.0f};
 		return (gradient.sampleColor(scaled)).toInteger();
 	} break;
 	case CharacterAbilityType::PERCENTAGE: {
-		float scaled{to_scale / 100.0f};
+		auto scaled{to_scale / 100.0f};
 		return (gradient.sampleColor(scaled)).toInteger();
 	} break;
 	case CharacterAbilityType::MODIFIER: {
@@ -127,7 +127,7 @@ auto Sorcery::Graphics::adjust_colour(
 				return to_scale;
 		}();
 		to_scale += 5.0f;
-		float scaled{to_scale / 10.0f};
+		auto scaled{to_scale / 10.0f};
 		return (gradient.sampleColor(scaled)).toInteger();
 	} break;
 	default:

@@ -636,18 +636,18 @@ auto Sorcery::Character::get_icon(CharacterStage type)
 
 	switch (type) {
 	case CharacterStage::CHOOSE_ALIGNMENT: {
-		std::string alignment{get_alignment(_alignment)};
+		auto alignment{get_alignment(_alignment)};
 		std::transform(
 			alignment.begin(), alignment.end(), alignment.begin(), ::tolower);
 		return (*_graphics->icons)[alignment].value();
 	} break;
 	case CharacterStage::CHOOSE_RACE: {
-		std::string race{get_race(_race)};
+		auto race{get_race(_race)};
 		std::transform(race.begin(), race.end(), race.begin(), ::tolower);
 		return (*_graphics->icons)[race].value();
 	} break;
 	case CharacterStage::CHOOSE_CLASS: {
-		std::string cclass{get_class(_class)};
+		auto cclass{get_class(_class)};
 		std::transform(cclass.begin(), cclass.end(), cclass.begin(), ::tolower);
 		return (*_graphics->icons)[cclass].value();
 	} break;
@@ -1892,10 +1892,10 @@ auto Sorcery::Character::_get_xp_for_level(unsigned int level) const -> int {
 
 	// Values obtained from
 	// http://www.the-spoiler.com/RPG/Sir-Tech/wizardry.1.2.html
-	float base{};
-	float coefficient_2_to_3{};
-	float coefficient_3_to_13{};
-	float coefficient_13_plus{};
+	auto base{0.f};
+	auto coefficient_2_to_3{0.f};
+	auto coefficient_3_to_13{0.f};
+	auto coefficient_13_plus{0.f};
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::FIGHTER:
 		base = 1000;
@@ -2606,7 +2606,7 @@ auto Sorcery::Character::_generate_summary_icons() -> void {
 
 auto Sorcery::Character::get_summary() -> std::string {
 
-	std::string name{_name};
+	auto name{_name};
 	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	return fmt::format("{:<15} L {:>2} {}-{} {}", name,
 		_abilities.at(CharacterAbility::CURRENT_LEVEL),
@@ -2616,9 +2616,9 @@ auto Sorcery::Character::get_summary() -> std::string {
 
 auto Sorcery::Character::summary_text() -> std::string {
 
-	std::string name{_name};
+	auto name{_name};
 	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
-	std::string legacy{_legated ? " (D)" : ""};
+	auto legacy{_legated ? " (D)" : ""};
 	switch (_current_stage) {
 	case CharacterStage::CHOOSE_METHOD:
 	case CharacterStage::ENTER_NAME:
@@ -2781,11 +2781,10 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text((*_display->layout)["character_summary:deaths_value"], "{}",
 			std::to_string(_abilities.at(CharacterAbility::DEATHS)));
 
-		std::string mage_spells{
-			fmt::format("{}/{}/{}/{}/{}/{}/{}", _mage_cur_sp.at(1),
-				_mage_cur_sp.at(2), _mage_cur_sp.at(3), _mage_cur_sp.at(4),
-				_mage_cur_sp.at(5), _mage_cur_sp.at(6), _mage_cur_sp.at(7))};
-		std::string priest_spells{fmt::format("{}/{}/{}/{}/{}/{}/{}",
+		auto mage_spells{fmt::format("{}/{}/{}/{}/{}/{}/{}", _mage_cur_sp.at(1),
+			_mage_cur_sp.at(2), _mage_cur_sp.at(3), _mage_cur_sp.at(4),
+			_mage_cur_sp.at(5), _mage_cur_sp.at(6), _mage_cur_sp.at(7))};
+		auto priest_spells{fmt::format("{}/{}/{}/{}/{}/{}/{}",
 			_priest_cur_sp.at(1), _priest_cur_sp.at(2), _priest_cur_sp.at(3),
 			_priest_cur_sp.at(4), _priest_cur_sp.at(5), _priest_cur_sp.at(6),
 			_priest_cur_sp.at(7))};
@@ -3269,7 +3268,7 @@ auto Sorcery::Character::_generate_display() -> void {
 			for (auto spell : spells) {
 
 				// Add the Spell
-				std::string spell_name_text{PADSTR(spell.name, 13)};
+				auto spell_name_text{PADSTR(spell.name, 13)};
 				auto spell_name{_add_text(spell_name_c, "{}", spell_name_text)};
 				auto hl_bounds{spell_name->getGlobalBounds()};
 				mage_spell_bounds[spell.id] = hl_bounds;
@@ -3400,7 +3399,7 @@ auto Sorcery::Character::_generate_display() -> void {
 			})};
 			for (auto spell : spells) {
 
-				std::string spell_name_text{PADSTR(spell.name, 13)};
+				auto spell_name_text{PADSTR(spell.name, 13)};
 				auto spell_name{_add_text(spell_name_c, "{}", spell_name_text)};
 				spell_name->setPosition(spell_name_c.x, spell_name_c.y);
 				auto hl_bounds{spell_name->getGlobalBounds()};
@@ -3503,7 +3502,7 @@ auto Sorcery::Character::_add_text(Component &component, std::string format,
 	std::string value, bool is_view) -> sf::Text * {
 
 	sf::Text text{};
-	std::string formatted_value{fmt::format(format, value)};
+	auto formatted_value{fmt::format(format, value)};
 	text.setFont(_system->resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
@@ -3524,7 +3523,7 @@ auto Sorcery::Character::_add_text(Component &component, std::string format,
 
 	// Generate a new key as this is a map, and we might call this with the same
 	// base component
-	std::string new_unique_key{GUID()};
+	auto new_unique_key{GUID()};
 	if (is_view) {
 		_v_texts.emplace(new_unique_key, text);
 		return &_v_texts.at(new_unique_key);

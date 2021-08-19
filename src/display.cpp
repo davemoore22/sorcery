@@ -137,13 +137,13 @@ auto Sorcery::Display::generate(std::string_view screen,
 						const ImageSize window_size{
 							window->get_window()->getSize().x,
 							window->get_window()->getSize().y};
-						float scale_ratio_needed{1.0f};
+						auto scale_ratio_needed{1.0f};
 						if ((size.w > window_size.w) ||
 							(size.h > window_size.h)) {
-							float shrink_width_needed{
+							auto shrink_width_needed{
 								static_cast<float>(window_size.w) /
 								static_cast<float>(size.w)};
-							float shrink_height_needed{
+							auto shrink_height_needed{
 								static_cast<float>(window_size.h) /
 								static_cast<float>(size.h)};
 							scale_ratio_needed = std::min(

@@ -34,7 +34,7 @@ Sorcery::System::System(
 	// Settings File/Config Module
 	settings = std::make_unique<CSimpleIniA>();
 	settings->SetUnicode();
-	const std::string settings_fp{(*files)[CONFIG_FILE]};
+	const auto settings_fp{(*files)[CONFIG_FILE]};
 	settings->LoadFile(CSTR(settings_fp));
 	config = std::make_unique<Config>(settings.get(), (*files)[CONFIG_FILE]);
 

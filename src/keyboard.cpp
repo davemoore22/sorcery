@@ -77,7 +77,7 @@ Sorcery::Keyboard::Keyboard(
 	}
 
 	// Space
-	std::string space{"Spc"};
+	auto space{"Spc"};
 	_texts[space] = sf::Text();
 	_texts[space].setString(space);
 	_texts[space].setFont(_system->resources->fonts[_text_c.font]);
@@ -127,7 +127,7 @@ Sorcery::Keyboard::Keyboard(
 	}
 
 	// Del, End
-	std::string del{"Del"};
+	auto del{"Del"};
 	_texts[del] = sf::Text();
 	_texts[del].setString(del);
 	_texts[del].setFont(_system->resources->fonts[_text_c.font]);
@@ -149,7 +149,7 @@ Sorcery::Keyboard::Keyboard(
 			_texts[del].getPosition().y -
 				((_text_c.size - _texts[del].getLocalBounds().height) / 2));
 
-	std::string end{"End"};
+	auto end{"End"};
 	_texts[end] = sf::Text();
 	_texts[end].setString(end);
 	_texts[end].setFont(_system->resources->fonts[_text_c.font]);
