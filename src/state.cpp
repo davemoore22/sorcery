@@ -24,20 +24,86 @@
 
 #include "state.hpp"
 
+// Constructor used by Cereal to serialise this item
+Sorcery::State::State() {
+	_party.clear();
+	_party.reserve(MAX_PARTY_SIZE);
+}
+
+// Normal Constructor
 Sorcery::State::State(System *system) : _system{system} {
 
-	_party.fill(NO_CHAR);
+	_party.clear();
+	_party.reserve(MAX_PARTY_SIZE);
 }
 
-Sorcery::State::State() {
-
-	_party.fill(NO_CHAR);
-}
-
+// Method called to simulate Normal Constructor with Cereal Constructor
 auto Sorcery::State::set(System *system) -> void {
 
 	_system = system;
 }
 
-auto Sorcery::State::add_character(unsigned int char_id) -> void {}
-auto Sorcery::State::remove_character(unsigned int char_id) -> void {}
+auto Sorcery::State::get_party_characters() -> std::vector<unsigned int> {
+
+	return _party;
+}
+
+auto Sorcery::State::add_character_by_id(unsigned int char_id) -> bool {
+
+	if (_party.size() < MAX_PARTY_SIZE) {
+		_party.push_back(char_id);
+		return true;
+	} else
+		return false;
+}
+
+auto Sorcery::State::check_character_in_party(unsigned int char_id) -> bool {
+
+	if (_party.size() > 0) {
+		auto found{
+			std::find_if(_party.begin(), _party.end(), [&](unsigned int id) {
+				return id = char_id;
+			})};
+		return found != std::end(_party);
+	} else
+		return false;
+}
+
+auto Sorcery::State::get_character_index(unsigned int char_id)
+	-> std::optional<unsigned int> {
+
+	if (_party.size() > 0) {
+
+		auto distance{
+			std::find_if(_party.begin(), _party.end(), [&](unsigned int id) {
+				return id == char_id;
+			})};
+		if (distance != _party.end())
+			return std::distance(_party.begin(), distance);
+		else
+			return std::nullopt;
+	} else
+		return std::nullopt;
+}
+
+auto Sorcery::State::remove_character_by_id(unsigned int char_id) -> bool {
+
+	if (_party.size() > 0) {
+		_party.erase(std::remove_if(_party.begin(), _party.end(),
+						 [&](unsigned int id) {
+							 return id == char_id;
+						 }),
+			_party.end());
+		return true;
+	} else
+		return false;
+}
+
+auto Sorcery::State::remove_character_by_position(unsigned int index) -> bool {
+
+	if (_party.size() > index) {
+		_party.erase(_party.begin() + index);
+		return true;
+	} else
+		return false;
+}

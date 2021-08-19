@@ -45,16 +45,21 @@ namespace Sorcery {
 		bool valid;
 
 		// Public Methods
+		auto add_character_by_id(unsigned int char_id) -> bool;
+		auto check_character_in_party(unsigned int char_id) -> bool;
+		auto get_character_index(unsigned int char_id)
+			-> std::optional<unsigned int>;
+		auto get_party_characters() -> std::vector<unsigned int>;
+		auto remove_character_by_id(unsigned int char_id) -> bool;
+		auto remove_character_by_position(unsigned int index) -> bool;
 		auto set(System *system) -> void;
-		auto add_character(unsigned int char_id) -> void;
-		auto remove_character(unsigned int char_id) -> void;
 
 	  private:
 		// Private Methods
 
 		// Private Members
 		System *_system;
-		std::array<unsigned int, 6> _party;
+		std::vector<unsigned int> _party;
 		std::map<unsigned int, Character> _characters;
 	};
 } // namespace Sorcery

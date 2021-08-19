@@ -103,6 +103,7 @@ auto Sorcery::Game::_load_game() -> void {
 		{
 			cereal::JSONInputArchive archive(ss);
 			archive(_state);
+			_state->set(_system);
 		}
 	}
 

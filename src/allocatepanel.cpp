@@ -75,11 +75,6 @@ Sorcery::AllocatePanel::AllocatePanel(
 		} else
 			pos_y += _c_allowed_classes.size;
 		++index;
-
-		// icon.setPosition(
-		//	_c_allowed_classes.x + (index * _c_allowed_classes.size),
-		//_c_allowed_classes.x);
-		//++index;
 	}
 
 	// Not valid until we call the set command
