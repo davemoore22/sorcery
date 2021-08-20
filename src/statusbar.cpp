@@ -70,7 +70,14 @@ Sorcery::StatusBar::StatusBar(
 	height = sprite.getLocalBounds().height;
 }
 
-auto Sorcery::StatusBar::refresh() -> void {}
+auto Sorcery::StatusBar::refresh() -> void {
+
+	auto party{_game->state->get_party_characters()};
+	for (auto _id : party) {
+
+		std::cout << _game->characters[_id].get_name() << std::endl;
+	}
+}
 
 auto Sorcery::StatusBar::draw(
 	sf::RenderTarget &target, sf::RenderStates states) const -> void {

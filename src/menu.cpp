@@ -40,6 +40,9 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics,
 	// Now depending on the menu type, add the relevant items
 	switch (_type) {
 	case MenuType::CHARACTER_ROSTER:
+	case MenuType::PARTY_CHARACTERS:
+	case MenuType::AVAILABLE_CHARACTERS:
+	case MenuType::INVALID_CHARACTERS:
 		_populate_chars();
 		selected = items.begin();
 		break;
@@ -401,6 +404,9 @@ auto Sorcery::Menu::reload() -> void {
 	// Now depending on the menu type, add the relevant items
 	switch (_type) {
 	case MenuType::CHARACTER_ROSTER:
+	case MenuType::PARTY_CHARACTERS:
+	case MenuType::AVAILABLE_CHARACTERS:
+	case MenuType::INVALID_CHARACTERS:
 		_populate_chars();
 		selected = items.begin();
 		break;
@@ -1000,20 +1006,53 @@ auto Sorcery::Menu::draw(
 
 auto Sorcery::Menu::_populate_chars() -> void {
 
-	auto max_id{0};
-	if (_game->characters.size() > 0) {
+	switch (_type) {
+	case MenuType::CHARACTER_ROSTER: {
+		auto max_id{0};
+		if (_game->characters.size() > 0) {
+			for (auto &[character_id, character] : _game->characters)
+				_add_item(character_id, MenuItemType::ENTRY,
+					MenuItem::IC_CHARACTER, character.get_summary());
 
-		for (auto &[character_id, character] : _game->characters)
+			max_id = _game->characters.rbegin()->first;
+		} else {
+			_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING,
+				(*_display->string)["MENU_NO_CHARACTERS"]);
+		}
+		_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER,
+			(*_display->string)["MENU_SPACER"]);
+		_add_item(++max_id, MenuItemType::ENTRY, MenuItem::ET_TRAIN,
+			(*_display->string)["MENU_TRAIN"]);
+	} break;
+	case MenuType::PARTY_CHARACTERS: {
+		auto party{_game->state->get_party_characters()};
+		for (auto character_id : party)
 			_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER,
-				character.get_summary());
-
-		max_id = _game->characters.rbegin()->first;
-	} else {
-		_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING,
-			(*_display->string)["MENU_NO_CHARACTERS"]);
-	}
-	_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER,
-		(*_display->string)["MENU_SPACER"]);
-	_add_item(++max_id, MenuItemType::ENTRY, MenuItem::ET_TRAIN,
-		(*_display->string)["MENU_TRAIN"]);
+				_game->characters[character_id].get_summary());
+	} break;
+	case MenuType::AVAILABLE_CHARACTERS: {
+		auto party{_game->state->get_party_characters()};
+		for (auto &[character_id, character] : _game->characters) {
+			if (std::find(party.begin(), party.end(), character_id) ==
+				party.end()) {
+				_add_item(character_id, MenuItemType::ENTRY,
+					MenuItem::IC_CHARACTER, character.get_summary());
+			}
+		}
+	} break;
+	case MenuType::INVALID_CHARACTERS: {
+		if (_game->characters.size() > 0) {
+			for (auto &[character_id, character] : _game->characters) {
+				if (character.get_status() != CharacterStatus::OK) {
+					auto status{fmt::format("{} {}", character.get_summary(),
+						character.get_status_string())};
+					_add_item(character_id, MenuItemType::ENTRY,
+						MenuItem::IC_CHARACTER, status);
+				}
+			}
+		}
+	} break;
+	default:
+		break;
+	};
 }
