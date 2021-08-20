@@ -68,5 +68,6 @@ namespace Sorcery {
 		sf::Sprite _bg;
 		WindowConfirm _yes_or_no;
 		std::unique_ptr<StatusBar> _status_bar;
+		TavernStage _stage;
 	};
 } // namespace Sorcery

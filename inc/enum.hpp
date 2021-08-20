@@ -299,6 +299,17 @@ namespace Sorcery {
 		enum class Import { NONE, WIZARDRY, BARDS_TALE, ULTIMA };
 	} // namespace Enums::Manage
 
+	namespace Enums::Castle {
+
+		enum class Tavern { NONE, ADD, REMOVE, INSPECT };
+
+		enum class Inn { NONE, STAY, INPECT };
+
+		enum class Shop { TRADE, UNCURSE, IDENTIFY, INSPECT };
+
+		enum class Temple { CURE, TITHE, INSPECT };
+	} // namespace Enums::Castle
+
 	// Text Files
 	namespace Enums::File {
 

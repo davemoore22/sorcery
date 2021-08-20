@@ -141,6 +141,7 @@ namespace Sorcery {
 	using GraphicsTexture = Enums::Graphics::Texture;
 	using IconLibrary = std::map<std::string, sf::Sprite>;
 	using Import = Enums::Manage::Import;
+	using InnStage = Enums::Castle::Inn;
 	using Justification = Enums::Window::Justification;
 	using LegateStage = Enums::Character::Legate;
 	using MainMenuType = Enums::MainMenu::Type;
@@ -154,6 +155,7 @@ namespace Sorcery {
 	using RandomType = Enums::System::Random;
 	using Range = std::tuple<unsigned int, unsigned int>;
 	using RosterMode = Enums::Manage::Roster;
+	using ShopStage = Enums::Castle::Shop;
 	using SpellID = Enums::Magic::SpellID;
 	using SpellCategory = Enums::Magic::SpellCategory;
 	using SpellPoints = std::map<unsigned int, unsigned int>;
@@ -163,10 +165,11 @@ namespace Sorcery {
 	using StringType = Enums::Internal::StringType;
 	using StringMap = std::map<std::string, std::string>;
 	using SystemError = Enums::System::Error;
+	using TavernStage = Enums::Castle::Tavern;
+	using TempleStage = Enums::Castle::Temple;
 	using WindowInputMode = Enums::Window::InputMode;
 	using WindowInputCategory = Enums::Window::InputCategory;
 	using WindowInput = Enums::Controls::Input;
-
 	using WindowConfirm = Enums::Window::Confirm;
 	using WindowDialogButton = Enums::Window::DialogButton;
 	using WindowDialogType = Enums::Window::DialogType;
