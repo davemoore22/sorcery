@@ -301,13 +301,13 @@ namespace Sorcery {
 
 	namespace Enums::Castle {
 
-		enum class Tavern { NONE, ADD, REMOVE, INSPECT };
+		enum class Tavern { NONE, MENU, ADD, REMOVE, INSPECT };
 
-		enum class Inn { NONE, STAY, INPECT };
+		enum class Inn { NONE, MENU, STAY, INPECT };
 
-		enum class Shop { TRADE, UNCURSE, IDENTIFY, INSPECT };
+		enum class Shop { NONE, MENU, TRADE, UNCURSE, IDENTIFY, INSPECT };
 
-		enum class Temple { CURE, TITHE, INSPECT };
+		enum class Temple { NONE, MENU, CURE, TITHE, INSPECT };
 	} // namespace Enums::Castle
 
 	// Text Files

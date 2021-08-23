@@ -1006,15 +1006,15 @@ auto Sorcery::Menu::draw(
 
 auto Sorcery::Menu::_populate_chars() -> void {
 
+	auto max_id{0};
 	switch (_type) {
 	case MenuType::CHARACTER_ROSTER: {
-		auto max_id{0};
 		if (_game->characters.size() > 0) {
-			for (auto &[character_id, character] : _game->characters)
+			for (auto &[character_id, character] : _game->characters) {
 				_add_item(character_id, MenuItemType::ENTRY,
 					MenuItem::IC_CHARACTER, character.get_summary());
-
-			max_id = _game->characters.rbegin()->first;
+				++max_id;
+			}
 		} else {
 			_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING,
 				(*_display->string)["MENU_NO_CHARACTERS"]);
@@ -1026,9 +1026,11 @@ auto Sorcery::Menu::_populate_chars() -> void {
 	} break;
 	case MenuType::PARTY_CHARACTERS: {
 		auto party{_game->state->get_party_characters()};
-		for (auto character_id : party)
+		for (auto character_id : party) {
 			_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER,
 				_game->characters[character_id].get_summary());
+			++max_id;
+		}
 	} break;
 	case MenuType::AVAILABLE_CHARACTERS: {
 		auto party{_game->state->get_party_characters()};
@@ -1037,8 +1039,14 @@ auto Sorcery::Menu::_populate_chars() -> void {
 				party.end()) {
 				_add_item(character_id, MenuItemType::ENTRY,
 					MenuItem::IC_CHARACTER, character.get_summary());
+				++max_id;
 			}
 		}
+		_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER,
+			(*_display->string)["MENU_SPACER"]);
+		_add_item(++max_id, MenuItemType::ENTRY, MenuItem::CA_TAVERN,
+			(*_display->string)["MENU_TAVERN"]);
+
 	} break;
 	case MenuType::INVALID_CHARACTERS: {
 		if (_game->characters.size() > 0) {

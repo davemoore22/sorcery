@@ -56,6 +56,7 @@ namespace Sorcery {
 	  private:
 		// Private Methods
 		auto _draw() -> void;
+		auto _update_menus() -> void;
 
 		// Private Members
 		System *_system;
@@ -63,11 +64,15 @@ namespace Sorcery {
 		Graphics *_graphics;
 		Game *_game;
 		sf::RenderWindow *_window;
+		std::string _screen_key;
 		std::unique_ptr<Frame> _frame;
 		std::unique_ptr<Menu> _menu;
 		sf::Sprite _bg;
 		WindowConfirm _yes_or_no;
 		std::unique_ptr<StatusBar> _status_bar;
 		TavernStage _stage;
+		std::unique_ptr<Menu> _add;
+		std::unique_ptr<Menu> _remove;
+		std::unique_ptr<Menu> _inspect;
 	};
 } // namespace Sorcery
