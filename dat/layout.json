@@ -43,6 +43,17 @@
 			"y": "18"
 		},
 		{
+			"name": "summary",
+			"font": "text",
+			"colour": "0xdddddddff",
+			"size": "16",
+			"alpha": "255",
+			"type": "panel",
+			"drawmode": "manual",
+			"w": "52",
+			"h": "7"
+		},
+		{
 			"name": "char_panel",
 			"font": "text",
 			"colour": "0xdddddddff",

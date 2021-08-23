@@ -68,14 +68,20 @@ Sorcery::StatusBar::StatusBar(
 
 	width = sprite.getLocalBounds().width;
 	height = sprite.getLocalBounds().height;
+
+	_summaries.clear();
 }
 
 auto Sorcery::StatusBar::refresh() -> void {
 
+	_summaries.clear();
 	auto party{_game->state->get_party_characters()};
 	for (auto _id : party) {
 
-		std::cout << _game->characters[_id].get_name() << std::endl;
+		auto character{_game->characters[_id]};
+		auto summary =
+			std::make_shared<Summary>(_system, _display, _graphics, &character);
+		_summaries.push_back(std::move(summary));
 	}
 }
 
@@ -84,6 +90,10 @@ auto Sorcery::StatusBar::draw(
 
 	states.transform *= getTransform();
 	target.draw(sprite, states);
+
+	for (auto summary : _summaries) {
+		target.draw(*summary, states);
+	}
 }
 
 auto Sorcery::StatusBar::_generate() -> void {

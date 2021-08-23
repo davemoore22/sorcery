@@ -206,6 +206,16 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 							_screen_key = "tavern";
 							_display->generate(_screen_key);
 							continue;
+						} else {
+
+							// Add a character
+							const auto character_chosen{
+								(*option.value()).index};
+							_game->state->add_character_by_id(character_chosen);
+							_status_bar->refresh();
+							_stage = TavernStage::MENU;
+							_screen_key = "tavern";
+							_display->generate(_screen_key);
 						}
 					}
 				}

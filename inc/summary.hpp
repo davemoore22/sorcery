@@ -21,3 +21,44 @@
 // said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
+
+#pragma once
+
+#include "character.hpp"
+#include "display.hpp"
+#include "graphics.hpp"
+#include "layout.hpp"
+#include "main.hpp"
+#include "system.hpp"
+
+namespace Sorcery {
+
+	class Summary : public sf::Transformable, public sf::Drawable {
+
+	  public:
+		// Constructors
+		Summary(System *system, Display *display, Graphics *graphics,
+			Character *character);
+		Summary() = delete;
+
+		// Public Members
+		auto refresh() -> void;
+		bool valid;
+
+	  private:
+		// Private Methods
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+
+		// Private Members
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
+		Character *_character;
+		Component _layout;
+		std::vector<sf::Text> _texts;
+		std::vector<sf::Sprite> _sprites;
+		unsigned int _width;
+		unsigned int _height;
+	};
+} // namespace Sorcery

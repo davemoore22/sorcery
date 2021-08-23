@@ -30,6 +30,7 @@
 #include "graphics.hpp"
 #include "layout.hpp"
 #include "main.hpp"
+#include "summary.hpp"
 #include "system.hpp"
 
 namespace Sorcery {
@@ -70,7 +71,7 @@ namespace Sorcery {
 		sf::RenderTexture _rtexture;
 		sf::Sprite _fsprite;
 		sf::Texture _texture;
-
 		std::map<std::string, sf::Text> _texts;
+		std::vector<std::shared_ptr<Summary>> _summaries;
 	};
 } // namespace Sorcery

@@ -21,3 +21,40 @@
 // said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
+
+#include "summary.hpp"
+
+// Standard Constructor
+Sorcery::Summary::Summary(
+	System *system, Display *display, Graphics *graphics, Character *character)
+	: _system{system}, _display{display}, _graphics{graphics}, _character{
+																   character} {
+
+	// Get the standard layout information
+	_layout = Component((*_display->layout)["global:summary"]);
+
+	// Not valid until we call the set command
+	valid = false;
+}
+
+auto Sorcery::Summary::refresh() -> void {
+
+	_sprites.clear();
+	_texts.clear();
+	_width = 0;
+	_height = 0;
+
+	valid = true;
+}
+
+auto Sorcery::Summary::draw(
+	sf::RenderTarget &target, sf::RenderStates states) const -> void {
+
+	states.transform *= getTransform();
+	for (auto each_text : _texts) {
+		target.draw(each_text, states);
+	}
+	for (auto each_sprite : _sprites) {
+		target.draw(each_sprite, states);
+	}
+}
