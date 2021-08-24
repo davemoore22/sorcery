@@ -72,19 +72,24 @@ auto Sorcery::StatusBar::refresh() -> void {
 
 	auto x{std::stoi(_layout["summary_x"].value())};
 	auto y{std::stoi(_layout["summary_y"].value())};
+	auto offset_x{std::stoi(_layout["summary_offset_x"].value())};
 	auto offset_y{std::stoi(_layout["summary_offset_y"].value())};
 
 	_summaries.clear();
+	auto count{0};
 	auto party{_game->state->get_party_characters()};
 	for (auto _id : party) {
-
 		auto character{_game->characters[_id]};
 		auto summary =
 			std::make_unique<Summary>(_system, _display, _graphics, &character);
 		summary->setPosition(x, y);
-		summary->setScale(_layout.scale, _layout.scale);
 		y += offset_y;
 		_summaries.push_back(std::move(summary));
+		++count;
+		if (count == 3) {
+			x += offset_x;
+			y = std::stoi(_layout["summary_y"].value());
+		}
 	}
 }
 

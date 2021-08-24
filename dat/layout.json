@@ -51,7 +51,7 @@
 			"size": "16",
 			"alpha": "255",
 			"type": "panel",
-			"scale": "0.5",
+			"scale": "1.0",
 			"drawmode": "manual",
 			"data": [
 				{
@@ -1842,8 +1842,10 @@
 				"data": [
 					{
 						"summary_x": "6",
-						"summary_y": "6",
-						"summary_offset_y": "12"
+						"summary_y": "8",
+						"summary_offset_x": "512",
+						"summary_offset_y": "54"
+						
 					}
 				]
 			},
@@ -1857,72 +1859,6 @@
 				"type": "frame",
 				"priority": "5",
 				"background": " 0x000000ff"
-			},
-			{
-				"name": "character_legend_name",
-				"x": "2",
-				"y": "1",
-				"font": "monospace",
-				"colour": "0xffffffff",
-				"size": "28",
-				"string": "CHARACTER_LEGEND_NAME",
-				"justification": "left",
-				"type": "text"
-			},
-			{
-				"name": "character_legend_class",
-				"x": "19",
-				"y": "1",
-				"font": "monospace",
-				"colour": "0xffffffff",
-				"size": "28",
-				"string": "CHARACTER_LEGEND_CLASS",
-				"justification": "left",
-				"type": "text"
-			},
-			{
-				"name": "character_legend_alignment",
-				"x": "29",
-				"y": "1",
-				"font": "monospace",
-				"colour": "0xffffffff",
-				"size": "28",
-				"string": "CHARACTER_LEGEND_ALIGNMENT",
-				"justification": "left",
-				"type": "text"
-			},
-			{
-				"name": "character_legend_ac",
-				"x": "39",
-				"y": "1",
-				"font": "monospace",
-				"colour": "0xffffffff",
-				"size": "28",
-				"string": "CHARACTER_LEGEND_AC",
-				"justification": "left",
-				"type": "text"
-			},
-			{
-				"name": "character_legend_hp",
-				"x": "43",
-				"y": "1",
-				"font": "monospace",
-				"colour": "0xffffffff",
-				"size": "28",
-				"string": "CHARACTER_LEGEND_HP",
-				"justification": "left",
-				"type": "text"
-			},
-			{
-				"name": "character_legend_status",
-				"x": "47",
-				"y": "1",
-				"font": "monospace",
-				"colour": "0xffffffff",
-				"size": "28",
-				"string": "CHARACTER_LEGEND_STATUS",
-				"justification": "left",
-				"type": "text"
 			}
 		]
 	},
@@ -3742,18 +3678,18 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"offset_x": "6",
-						"offset_y": "6"
+						"offset_x": "8",
+						"offset_y": "8"
 					}
 				]
 			},
 			{
 				"name": "name_text",
-				"x": "4",
+				"x": "3",
 				"y": "0",
 				"font": "monospace",
 				"colour": "0xffffffff",
-				"size": "16",
+				"size": "32",
 				"string": "NONE",
 				"justification": "left",
 				"type": "text",
@@ -3761,16 +3697,16 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"offset_x": "0",
-						"offset_y": "2"
+						"offset_x": "8",
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "class_icon",
-				"x": "12",
-				"y": "0",
-				"scale": "0.10",
+				"x": "3",
+				"y": "1",
+				"scale": "0.04",
 				"type": "icon",
 				"colour": "0xffffffff",
 				"priority": "4",
@@ -3778,16 +3714,16 @@
 				"string": "",
 				"data": [
 					{
-						"offset_x": "0",
-						"offset_y": "2"
+						"offset_x": "8",
+						"offset_y": "12"
 					}
 				]
 			},
 			{
 				"name": "race_icon",
-				"x": "14",
-				"y": "0",
-				"scale": "0.10",
+				"x": "4",
+				"y": "1",
+				"scale": "0.04",
 				"colour": "0xffffffff",
 				"type": "icon",
 				"priority": "4",
@@ -3795,16 +3731,16 @@
 				"string": "",
 				"data": [
 					{
-						"offset_x": "0",
-						"offset_y": "2"
+						"offset_x": "8",
+						"offset_y": "12"
 					}
 				]
 			},
 			{
 				"name": "alignment_icon",
-				"x": "16",
-				"y": "0",
-				"scale": "0.10",
+				"x": "5",
+				"y": "1",
+				"scale": "0.04",
 				"colour": "0xffffffff",
 				"type": "icon",
 				"priority": "4",
@@ -3812,16 +3748,16 @@
 				"string": "strength",
 				"data": [
 					{
-						"offset_x": "0",
-						"offset_y": "2"
+						"offset_x": "8",
+						"offset_y": "12"
 					}
 				]
 			},
 			{
 				"name": "level_icon",
-				"x": "18",
-				"y": "0",
-				"scale": "0.10",
+				"x": "7",
+				"y": "1",
+				"scale": "0.04",
 				"colour": "0xffffffff",
 				"type": "icon",
 				"priority": "4",
@@ -3829,18 +3765,18 @@
 				"string": "strength",
 				"data": [
 					{
-						"offset_x": "0",
-						"offset_y": "2"
+						"offset_x": "8",
+						"offset_y": "12"
 					}
 				]
 			},
 			{
 				"name": "level_text",
-				"x": "20",
-				"y": "0",
+				"x": "8",
+				"y": "1",
 				"font": "monospace",
-				"colour": "0xffffffff",
-				"size": "16",
+				"colour": "0xddddddff",
+				"size": "32",
 				"string": "NONE",
 				"justification": "right",
 				"type": "text",
@@ -3848,8 +3784,8 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"offset_x": "12",
-						"offset_y": "2"
+						"offset_x": "8",
+						"offset_y": "0"
 					}
 				]
 			}

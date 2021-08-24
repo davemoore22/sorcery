@@ -82,6 +82,9 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 	// Clear the window
 	_window->clear();
 
+	// Refresh the Party characters
+	_status_bar->refresh();
+
 	// Generate the Custom Components
 	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
 	_status_bar->setPosition(
