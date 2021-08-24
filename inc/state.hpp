@@ -47,6 +47,7 @@ namespace Sorcery {
 		// Public Methods
 		auto add_character_by_id(unsigned int char_id) -> bool;
 		auto check_character_in_party(unsigned int char_id) -> bool;
+		auto clear_party() -> void;
 		auto get_character_index(unsigned int char_id)
 			-> std::optional<unsigned int>;
 		auto get_party_characters() -> std::vector<unsigned int>;

@@ -48,6 +48,11 @@ auto Sorcery::State::get_party_characters() -> std::vector<unsigned int> {
 	return _party;
 }
 
+auto Sorcery::State::clear_party() -> void {
+
+	_party.clear();
+}
+
 auto Sorcery::State::add_character_by_id(unsigned int char_id) -> bool {
 
 	if (_party.size() < MAX_PARTY_SIZE) {

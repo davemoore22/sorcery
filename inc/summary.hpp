@@ -60,5 +60,6 @@ namespace Sorcery {
 		std::vector<sf::Sprite> _sprites;
 		unsigned int _width;
 		unsigned int _height;
+		sf::Sprite _portrait;
 	};
 } // namespace Sorcery

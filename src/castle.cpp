@@ -75,6 +75,8 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 		_display->window->get_x(_status_bar->sprite, status_bar_c.x),
 		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
 
+	// Refresh the Party characters
+	_status_bar->refresh();
 	// Play the background movie!
 	_display->fit_bg_movie();
 	_display->start_bg_movie();

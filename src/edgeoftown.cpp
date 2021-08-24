@@ -65,6 +65,9 @@ auto Sorcery::EdgeOfTown::start() -> std::optional<MenuItem> {
 	// Clear the window
 	_window->clear();
 
+	// Refresh the Party characters
+	_status_bar->refresh();
+
 	// Play the background movie!
 	_display->fit_bg_movie();
 	_display->start_bg_movie();
@@ -121,6 +124,11 @@ auto Sorcery::EdgeOfTown::start() -> std::optional<MenuItem> {
 						} else if (option_chosen == MenuItem::ET_MAZE) {
 							return MenuItem::ET_MAZE;
 						} else if (option_chosen == MenuItem::ET_TRAIN) {
+
+							// Remove everyone from the Party
+							_game->state->clear_party();
+							_game->save_game();
+							_status_bar->refresh();
 							_training->start();
 							_training->stop();
 							_display->generate("edge_of_town");
