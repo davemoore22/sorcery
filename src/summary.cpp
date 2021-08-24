@@ -35,9 +35,6 @@ Sorcery::Summary::Summary(
 
 	// Not valid until we call the set command
 	valid = false;
-}
-
-auto Sorcery::Summary::refresh() -> void {
 
 	_sprites.clear();
 	_texts.clear();
@@ -120,8 +117,9 @@ auto Sorcery::Summary::draw(
 
 	states.transform *= getTransform();
 
-	for (auto each_text : _texts)
+	for (auto each_text : _texts) {
 		target.draw(each_text, states);
+	}
 	for (auto each_sprite : _sprites)
 		target.draw(each_sprite, states);
 }

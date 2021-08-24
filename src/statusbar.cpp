@@ -58,8 +58,6 @@ Sorcery::StatusBar::StatusBar(
 	_rtexture.draw(_fsprite);
 
 	_generate();
-	_draw();
-
 	_rtexture.display();
 	_texture = _rtexture.getTexture();
 	sprite = sf::Sprite(_texture);
@@ -82,8 +80,7 @@ auto Sorcery::StatusBar::refresh() -> void {
 
 		auto character{_game->characters[_id]};
 		auto summary =
-			std::make_shared<Summary>(_system, _display, _graphics, &character);
-		summary->refresh();
+			std::make_unique<Summary>(_system, _display, _graphics, &character);
 		summary->setPosition(x, y);
 		summary->setScale(_layout.scale, _layout.scale);
 		y += offset_y;
@@ -97,7 +94,9 @@ auto Sorcery::StatusBar::draw(
 	states.transform *= getTransform();
 	target.draw(sprite, states);
 
-	for (auto summary : _summaries)
+	for (auto &[unique_key, text] : _texts)
+		target.draw(text, states);
+	for (auto &summary : _summaries)
 		target.draw(*summary, states);
 }
 
@@ -133,12 +132,5 @@ auto Sorcery::StatusBar::_generate() -> void {
 				_texts[component.unique_key] = text;
 			}
 		}
-	}
-}
-
-auto Sorcery::StatusBar::_draw() -> void {
-
-	for (auto &[unique_key, text] : _texts) {
-		_rtexture.draw(text);
 	}
 }

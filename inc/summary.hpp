@@ -42,7 +42,6 @@ namespace Sorcery {
 		Summary() = delete;
 
 		// Public Members
-		auto refresh() -> void;
 		bool valid;
 
 	  private:

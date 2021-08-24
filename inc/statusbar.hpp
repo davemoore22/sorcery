@@ -58,7 +58,6 @@ namespace Sorcery {
 		auto virtual draw(
 			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _generate() -> void;
-		auto _draw() -> void;
 
 		// Private Members
 		System *_system;
@@ -72,6 +71,6 @@ namespace Sorcery {
 		sf::Sprite _fsprite;
 		sf::Texture _texture;
 		std::map<std::string, sf::Text> _texts;
-		std::vector<std::shared_ptr<Summary>> _summaries;
+		std::vector<std::unique_ptr<Summary>> _summaries;
 	};
 } // namespace Sorcery

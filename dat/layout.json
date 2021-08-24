@@ -3762,7 +3762,7 @@
 				"data": [
 					{
 						"offset_x": "0",
-						"offset_y": "12"
+						"offset_y": "2"
 					}
 				]
 			},
@@ -3779,7 +3779,7 @@
 				"data": [
 					{
 						"offset_x": "0",
-						"offset_y": "12"
+						"offset_y": "2"
 					}
 				]
 			},
@@ -3796,7 +3796,7 @@
 				"data": [
 					{
 						"offset_x": "0",
-						"offset_y": "12"
+						"offset_y": "2"
 					}
 				]
 			},
@@ -3813,7 +3813,7 @@
 				"data": [
 					{
 						"offset_x": "0",
-						"offset_y": "12"
+						"offset_y": "2"
 					}
 				]
 			},
@@ -3830,7 +3830,7 @@
 				"data": [
 					{
 						"offset_x": "0",
-						"offset_y": "12"
+						"offset_y": "2"
 					}
 				]
 			},
@@ -3840,7 +3840,7 @@
 				"y": "0",
 				"font": "monospace",
 				"colour": "0xffffffff",
-				"size": "38",
+				"size": "16",
 				"string": "NONE",
 				"justification": "right",
 				"type": "text",
@@ -3849,7 +3849,7 @@
 				"data": [
 					{
 						"offset_x": "12",
-						"offset_y": "12"
+						"offset_y": "2"
 					}
 				]
 			}
