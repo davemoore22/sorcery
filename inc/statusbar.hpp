@@ -24,13 +24,13 @@
 
 #pragma once
 
+#include "charactersummary.hpp"
 #include "display.hpp"
 #include "frame.hpp"
 #include "game.hpp"
 #include "graphics.hpp"
 #include "layout.hpp"
 #include "main.hpp"
-#include "summary.hpp"
 #include "system.hpp"
 
 namespace Sorcery {

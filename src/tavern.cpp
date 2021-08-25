@@ -103,8 +103,6 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
 
-			_update_menus();
-
 			// Check for Window Close
 			if (event.type == sf::Event::Closed)
 				_window->close();
@@ -153,6 +151,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 								_stage = TavernStage::ADD;
 								_screen_key = "tavern_add";
 								_display->generate(_screen_key);
+								_update_menus();
 								continue;
 							}
 
@@ -179,6 +178,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 					_stage = TavernStage::MENU;
 					_screen_key = "tavern";
 					_display->generate(_screen_key);
+					_update_menus();
 					continue;
 				}
 
@@ -186,6 +186,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 					_stage = TavernStage::MENU;
 					_screen_key = "tavern";
 					_display->generate(_screen_key);
+					_update_menus();
 					continue;
 				}
 
@@ -208,6 +209,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 							_stage = TavernStage::MENU;
 							_screen_key = "tavern";
 							_display->generate(_screen_key);
+							_update_menus();
 							continue;
 						} else {
 
@@ -220,6 +222,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 							_stage = TavernStage::MENU;
 							_screen_key = "tavern";
 							_display->generate(_screen_key);
+							_update_menus();
 						}
 					}
 				}

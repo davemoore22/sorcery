@@ -26,7 +26,7 @@
 
 #include "changeclass.hpp"
 #include "changename.hpp"
-#include "charpanel.hpp"
+#include "characterpanel.hpp"
 #include "display.hpp"
 #include "frame.hpp"
 #include "game.hpp"

@@ -24,7 +24,7 @@
 
 #pragma once
 
-#include "charpanel.hpp"
+#include "characterpanel.hpp"
 #include "create.hpp"
 #include "display.hpp"
 #include "edit.hpp"

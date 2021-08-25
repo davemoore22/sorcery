@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "charpanel.hpp"
+#include "characterpanel.hpp"
 
 // Standard Constructor
 Sorcery::CharPanel::CharPanel(

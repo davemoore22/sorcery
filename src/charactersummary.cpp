@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "summary.hpp"
+#include "charactersummary.hpp"
 
 // Standard Constructor
 Sorcery::Summary::Summary(
