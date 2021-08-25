@@ -37,12 +37,12 @@ namespace Sorcery {
 
 	class Display;
 
-	class CharPanel : public sf::Transformable, public sf::Drawable {
+	class CharacterPanel : public sf::Transformable, public sf::Drawable {
 
 	  public:
 		// Constructors
-		CharPanel(System *system, Display *display, Graphics *graphics);
-		CharPanel() = delete;
+		CharacterPanel(System *system, Display *display, Graphics *graphics);
+		CharacterPanel() = delete;
 
 		// Public Members
 		bool valid;

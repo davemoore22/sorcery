@@ -80,8 +80,8 @@ auto Sorcery::StatusBar::refresh() -> void {
 	auto party{_game->state->get_party_characters()};
 	for (auto _id : party) {
 		auto character{_game->characters[_id]};
-		auto summary =
-			std::make_unique<Summary>(_system, _display, _graphics, &character);
+		auto summary = std::make_unique<CharacterSummary>(
+			_system, _display, _graphics, &character);
 		summary->setPosition(x, y);
 		y += offset_y;
 		_summaries.push_back(std::move(summary));

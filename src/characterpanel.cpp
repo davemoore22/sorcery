@@ -25,7 +25,7 @@
 #include "characterpanel.hpp"
 
 // Standard Constructor
-Sorcery::CharPanel::CharPanel(
+Sorcery::CharacterPanel::CharacterPanel(
 	System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
@@ -42,7 +42,7 @@ Sorcery::CharPanel::CharPanel(
 	valid = false;
 }
 
-auto Sorcery::CharPanel::set(Character *character) -> void {
+auto Sorcery::CharacterPanel::set(Character *character) -> void {
 
 	_icons.clear();
 	_texts.clear();
@@ -145,7 +145,7 @@ auto Sorcery::CharPanel::set(Character *character) -> void {
 	valid = true;
 }
 
-auto Sorcery::CharPanel::draw(
+auto Sorcery::CharacterPanel::draw(
 	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();

@@ -33,13 +33,13 @@
 
 namespace Sorcery {
 
-	class Summary : public sf::Transformable, public sf::Drawable {
+	class CharacterSummary : public sf::Transformable, public sf::Drawable {
 
 	  public:
 		// Constructors
-		Summary(System *system, Display *display, Graphics *graphics,
+		CharacterSummary(System *system, Display *display, Graphics *graphics,
 			Character *character);
-		Summary() = delete;
+		CharacterSummary() = delete;
 
 		// Public Members
 		bool valid;

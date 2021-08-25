@@ -25,7 +25,7 @@
 #include "charactersummary.hpp"
 
 // Standard Constructor
-Sorcery::Summary::Summary(
+Sorcery::CharacterSummary::CharacterSummary(
 	System *system, Display *display, Graphics *graphics, Character *character)
 	: _system{system}, _display{display}, _graphics{graphics}, _character{
 																   character} {
@@ -112,7 +112,7 @@ Sorcery::Summary::Summary(
 	valid = true;
 }
 
-auto Sorcery::Summary::draw(
+auto Sorcery::CharacterSummary::draw(
 	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();

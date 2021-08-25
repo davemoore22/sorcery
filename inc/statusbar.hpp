@@ -71,6 +71,6 @@ namespace Sorcery {
 		sf::Sprite _fsprite;
 		sf::Texture _texture;
 		std::map<std::string, sf::Text> _texts;
-		std::vector<std::unique_ptr<Summary>> _summaries;
+		std::vector<std::unique_ptr<CharacterSummary>> _summaries;
 	};
 } // namespace Sorcery

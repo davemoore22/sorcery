@@ -72,7 +72,7 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _cur_char_frame;
 		std::string _screen_key;
 		int _cur_char_id;
-		std::unique_ptr<CharPanel> _char_panel;
+		std::unique_ptr<CharacterPanel> _char_panel;
 		std::unique_ptr<Frame> _preview_frame;
 		std::unique_ptr<Dialog> _changed;
 		bool _show_changed;

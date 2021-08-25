@@ -49,7 +49,8 @@ Sorcery::Roster::Roster(System *system, Display *display, Graphics *graphics,
 		break;
 	}
 
-	_char_panel = std::make_unique<CharPanel>(_system, _display, _graphics);
+	_char_panel =
+		std::make_unique<CharacterPanel>(_system, _display, _graphics);
 
 	_edit = std::make_unique<Edit>(_system, _display, _graphics, _game);
 
