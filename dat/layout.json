@@ -1843,7 +1843,7 @@
 					{
 						"summary_x": "6",
 						"summary_y": "8",
-						"summary_offset_x": "512",
+						"summary_offset_x": "548",
 						"summary_offset_y": "54"
 						
 					}
@@ -3680,6 +3680,25 @@
 					{
 						"offset_x": "8",
 						"offset_y": "8"
+					}
+				]
+			},
+			{
+				"name": "stat_bar",
+				"w": "5",
+				"h": "32",
+				"x": "18",
+				"y": "0",
+				"type": "stat_bar",
+				"drawmode": "manual",
+				"data": [
+					{
+						"health": "0x169016ff",
+						"wounds": "0xff1a1aff",
+						"max_size": "10",
+						"offset_x": "0",
+						"offset_y": "16"
+
 					}
 				]
 			},

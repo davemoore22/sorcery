@@ -32,6 +32,7 @@ Sorcery::CharacterSummary::CharacterSummary(
 
 	// Get the standard layout information
 	_layout = Component((*_display->layout)["global:summary"]);
+	_health = Component((*_display->layout)["character_row:stat_bar"]);
 
 	// Not valid until we call the set command
 	valid = false;
@@ -109,6 +110,29 @@ Sorcery::CharacterSummary::CharacterSummary(
 	_display->window->set_pos(&level_c, &level_text);
 	_texts.push_back(level_text);
 
+	auto wounds_w{(_health.w * _display->window->get_cw() / 2)};
+	sf::RectangleShape wounds(sf::Vector2f(wounds_w, _health.h / 2));
+	wounds.setFillColor(
+		sf::Color(std::stoull(_health["wounds"].value(), 0, 16)));
+	wounds.setOutlineThickness(1);
+	wounds.setPosition(_health.x + std::stoi(_health["offset_x"].value()),
+		_health.y + +std::stoi(_health["offset_y"].value()));
+
+	auto fraction_hp{((*_character)[CharacterAbility::CURRENT_HP] * 1.0f) /
+					 ((*_character)[CharacterAbility::MAX_HP] * 1.0f)};
+	auto health_w{static_cast<int>(fraction_hp * wounds_w)};
+
+	sf::RectangleShape health(
+		sf::Vector2f(_health.w * health_w / 2, _health.h / 2));
+	health.setFillColor(
+		sf::Color(std::stoull(_health["health"].value(), 0, 16)));
+	health.setOutlineThickness(1);
+	health.setPosition(_health.x + std::stoi(_health["offset_x"].value()),
+		_health.y + std::stoi(_health["offset_y"].value()));
+
+	_bars.push_back(wounds);
+	_bars.push_back(health);
+
 	valid = true;
 }
 
@@ -117,9 +141,12 @@ auto Sorcery::CharacterSummary::draw(
 
 	states.transform *= getTransform();
 
-	for (auto each_text : _texts) {
-		target.draw(each_text, states);
-	}
-	for (auto each_sprite : _sprites)
-		target.draw(each_sprite, states);
+	for (auto text : _texts)
+		target.draw(text, states);
+
+	for (auto sprite : _sprites)
+		target.draw(sprite, states);
+
+	for (auto bar : _bars)
+		target.draw(bar, states);
 }

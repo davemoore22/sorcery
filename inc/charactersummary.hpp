@@ -55,10 +55,12 @@ namespace Sorcery {
 		Graphics *_graphics;
 		Character *_character;
 		Component _layout;
+		Component _health;
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Sprite> _sprites;
 		unsigned int _width;
 		unsigned int _height;
 		sf::Sprite _portrait;
+		std::vector<sf::RectangleShape> _bars;
 	};
 } // namespace Sorcery
