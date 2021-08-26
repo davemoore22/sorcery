@@ -2420,44 +2420,49 @@ auto Sorcery::Character::get_status() const -> CharacterStatus {
 	return _status;
 }
 
+auto Sorcery::Character::_get_condition() const -> std::string {
+
+	if (_abilities.at(CharacterAbility::POISON_STRENGTH) == 0) {
+		if (_status == CharacterStatus::OK)
+			return (*_display->string)["STATUS_OK"];
+		else {
+			switch (_status) {
+			case CharacterStatus::AFRAID:
+				return (*_display->string)["STATUS_AFRAID"];
+				break;
+			case CharacterStatus::ASHES:
+				return (*_display->string)["STATUS_ASHES"];
+				break;
+			case CharacterStatus::ASLEEP:
+				return (*_display->string)["STATUS_ASLEEP"];
+				break;
+			case CharacterStatus::DEAD:
+				return (*_display->string)["STATUS_DEAD"];
+				break;
+			case CharacterStatus::LOST:
+				return (*_display->string)["STATUS_LOST"];
+				break;
+			case CharacterStatus::PARALYSED:
+				return (*_display->string)["STATUS_PARALYSED"];
+				break;
+			case CharacterStatus::SILENCED:
+				return (*_display->string)["STATUS_SILENCED"];
+				break;
+			case CharacterStatus::STONED:
+				return (*_display->string)["STATUS_STONED"];
+				break;
+			default:
+				return "";
+			};
+		}
+	} else
+		return (*_display->string)["STATUS_POISONED"];
+}
+
 auto Sorcery::Character::get_status_string() const -> std::string {
 
 	if (!_hidden) {
-		if (_abilities.at(CharacterAbility::POISON_STRENGTH) == 0) {
-			if (_status == CharacterStatus::OK)
-				return (*_display->string)["STATUS_OK"];
-			else {
-				switch (_status) {
-				case CharacterStatus::AFRAID:
-					return (*_display->string)["STATUS_AFRAID"];
-					break;
-				case CharacterStatus::ASHES:
-					return (*_display->string)["STATUS_ASHES"];
-					break;
-				case CharacterStatus::ASLEEP:
-					return (*_display->string)["STATUS_ASLEEP"];
-					break;
-				case CharacterStatus::DEAD:
-					return (*_display->string)["STATUS_DEAD"];
-					break;
-				case CharacterStatus::LOST:
-					return (*_display->string)["STATUS_LOST"];
-					break;
-				case CharacterStatus::PARALYSED:
-					return (*_display->string)["STATUS_PARALYSED"];
-					break;
-				case CharacterStatus::SILENCED:
-					return (*_display->string)["STATUS_SILENCED"];
-					break;
-				case CharacterStatus::STONED:
-					return (*_display->string)["STATUS_STONED"];
-					break;
-				default:
-					return "";
-				};
-			}
-		} else
-			return (*_display->string)["STATUS_POISONED"];
+		return _get_condition();
 	} else
 		return (*_display->string)["STATUS_HIDDEN"];
 }
@@ -2612,6 +2617,17 @@ auto Sorcery::Character::get_summary() -> std::string {
 		_abilities.at(CharacterAbility::CURRENT_LEVEL),
 		get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3),
 		get_race(_race).substr(0, 3));
+}
+
+auto Sorcery::Character::get_sb_text(const int position) -> std::string {
+
+	auto name{_name};
+	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+	return fmt::format("{} {:<15} {:>2} {}-{} {:>3} {:>6} {:^10}", position,
+		name, _abilities.at(CharacterAbility::CURRENT_LEVEL),
+		get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3),
+		_abilities.at(CharacterAbility::CURRENT_ARMOUR_CLASS), get_hp_summary(),
+		_get_condition());
 }
 
 auto Sorcery::Character::summary_text() -> std::string {

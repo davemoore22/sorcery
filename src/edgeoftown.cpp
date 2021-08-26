@@ -153,11 +153,13 @@ auto Sorcery::EdgeOfTown::start() -> std::optional<MenuItem> {
 					if (dialog_input.value() == WindowDialogButton::CLOSE) {
 						_display->set_input_mode(
 							WindowInputMode::NAVIGATE_MENU);
+						_game->save_game();
 						return std::nullopt;
 					} else if (dialog_input.value() ==
 							   WindowDialogButton::YES) {
 						_display->set_input_mode(
 							WindowInputMode::NAVIGATE_MENU);
+						_game->save_game();
 						return MenuItem::ET_LEAVE_GAME;
 					} else if (dialog_input.value() == WindowDialogButton::NO) {
 						_display->set_input_mode(

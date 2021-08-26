@@ -284,10 +284,10 @@
 1628106617 source:/home/dave/Development/wizardry/sorcery-sfml/src/banner.cpp
 	"banner.hpp"
 
-1629381812 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
+1629989983 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
 	"character.hpp"
 
-1629122476 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
+1629986852 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
 	"display.hpp"
 	"graphics.hpp"
 	"main.hpp"
@@ -605,7 +605,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1629903360 source:/home/dave/Development/wizardry/sorcery-sfml/src/statusbar.cpp
+1629987850 source:/home/dave/Development/wizardry/sorcery-sfml/src/statusbar.cpp
 	"statusbar.hpp"
 
 1628106617 /home/dave/Development/wizardry/sorcery-sfml/inc/keyboard.hpp
@@ -803,7 +803,7 @@
 	"system.hpp"
 	"training.hpp"
 
-1629821831 source:/home/dave/Development/wizardry/sorcery-sfml/src/edgeoftown.cpp
+1629985198 source:/home/dave/Development/wizardry/sorcery-sfml/src/edgeoftown.cpp
 	"edgeoftown.hpp"
 
 1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/cereal.hpp
@@ -1281,7 +1281,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1629904956 /home/dave/Development/wizardry/sorcery-sfml/inc/charactersummary.hpp
+1629987463 /home/dave/Development/wizardry/sorcery-sfml/inc/charactersummary.hpp
 	"character.hpp"
 	"display.hpp"
 	"graphics.hpp"
@@ -1300,6 +1300,6 @@
 1629903332 source:/home/dave/Development/wizardry/sorcery-sfml/src/characterpanel.cpp
 	"characterpanel.hpp"
 
-1629914736 source:/home/dave/Development/wizardry/sorcery-sfml/src/charactersummary.cpp
+1629987516 source:/home/dave/Development/wizardry/sorcery-sfml/src/charactersummary.cpp
 	"charactersummary.hpp"
 

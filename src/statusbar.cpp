@@ -70,10 +70,22 @@ Sorcery::StatusBar::StatusBar(
 
 auto Sorcery::StatusBar::refresh() -> void {
 
-	auto x{std::stoi(_layout["summary_x"].value())};
-	auto y{std::stoi(_layout["summary_y"].value())};
-	auto offset_x{std::stoi(_layout["summary_offset_x"].value())};
-	auto offset_y{std::stoi(_layout["summary_offset_y"].value())};
+	const auto offset_x{[&] {
+		if (_layout["offset_x"])
+			return std::stoi(_layout["offset_x"].value());
+		else
+			return 0;
+	}()};
+	const auto offset_y{[&] {
+		if (_layout["offset_y"])
+			return std::stoi(_layout["offset_y"].value());
+		else
+			return 0;
+	}()};
+	auto x{std::stoi(_layout["summary_x"].value()) + offset_x};
+	auto y{std::stoi(_layout["summary_y"].value()) + offset_y};
+	auto summary_offset_x{std::stoi(_layout["summary_offset_x"].value())};
+	auto summary_offset_y{std::stoi(_layout["summary_offset_y"].value())};
 
 	_summaries.clear();
 	auto count{0};
@@ -81,15 +93,11 @@ auto Sorcery::StatusBar::refresh() -> void {
 	for (auto _id : party) {
 		auto character{_game->characters[_id]};
 		auto summary = std::make_unique<CharacterSummary>(
-			_system, _display, _graphics, &character);
-		summary->setPosition(x, y);
-		y += offset_y;
+			_system, _display, _graphics, &character, count + 1);
+		summary->setPosition(x + summary_offset_x, y);
+		y += summary_offset_y;
 		_summaries.push_back(std::move(summary));
 		++count;
-		if (count == 3) {
-			x += offset_x;
-			y = std::stoi(_layout["summary_y"].value());
-		}
 	}
 }
 
@@ -121,16 +129,28 @@ auto Sorcery::StatusBar::_generate() -> void {
 											   : component.x};
 				const auto y{component.y == -1 ? _display->window->centre.y
 											   : component.y};
+				const auto offset_x{[&] {
+					if (component["offset_x"])
+						return std::stoi(component["offset_x"].value());
+					else
+						return 0;
+				}()};
+				const auto offset_y{[&] {
+					if (component["offset_y"])
+						return std::stoi(component["offset_y"].value());
+					else
+						return 0;
+				}()};
 				if (component.justification == Justification::CENTRE) {
-					text.setPosition(x, y);
+					text.setPosition(x + offset_x, y + offset_y);
 					text.setOrigin(text.getLocalBounds().width / 2.0f,
 						text.getLocalBounds().height / 2.0f);
 				} else if (component.justification == Justification::RIGHT) {
-					text.setPosition(x, y);
+					text.setPosition(x + offset_x, y + offset_y);
 					const sf::FloatRect bounds{text.getLocalBounds()};
 					text.setPosition(component.x - bounds.width, component.y);
 				} else {
-					text.setPosition(x, y);
+					text.setPosition(x + offset_x, y + offset_y);
 					text.setOrigin(0, text.getLocalBounds().height / 2.0f);
 				}
 

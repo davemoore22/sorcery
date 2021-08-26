@@ -38,7 +38,7 @@ namespace Sorcery {
 	  public:
 		// Constructors
 		CharacterSummary(System *system, Display *display, Graphics *graphics,
-			Character *character);
+			Character *character, unsigned int num);
 		CharacterSummary() = delete;
 
 		// Public Members
@@ -54,6 +54,7 @@ namespace Sorcery {
 		Display *_display;
 		Graphics *_graphics;
 		Character *_character;
+		unsigned int _num;
 		Component _layout;
 		Component _health;
 		std::vector<sf::Text> _texts;

@@ -25,10 +25,10 @@
 #include "charactersummary.hpp"
 
 // Standard Constructor
-Sorcery::CharacterSummary::CharacterSummary(
-	System *system, Display *display, Graphics *graphics, Character *character)
-	: _system{system}, _display{display}, _graphics{graphics}, _character{
-																   character} {
+Sorcery::CharacterSummary::CharacterSummary(System *system, Display *display,
+	Graphics *graphics, Character *character, unsigned int num)
+	: _system{system}, _display{display}, _graphics{graphics},
+	  _character{character}, _num{num} {
 
 	// Get the standard layout information
 	_layout = Component((*_display->layout)["global:summary"]);
@@ -42,7 +42,16 @@ Sorcery::CharacterSummary::CharacterSummary(
 	_width = 0;
 	_height = 0;
 
-	constexpr auto portrait_size{600};
+	Component text{(*_display->layout)["character_row:text"]};
+	sf::Text name_text{};
+	name_text.setFont(_system->resources->fonts[text.font]);
+	name_text.setCharacterSize(text.size);
+	name_text.setFillColor(sf::Color(text.colour));
+	name_text.setString(character->get_sb_text(_num));
+	_display->window->set_pos(&text, &name_text);
+	_texts.push_back(name_text);
+
+	/* constexpr auto portrait_size{600};
 	auto p_i{_character->get_portrait_index()};
 	sf::Vector2u top_left{(p_i % 6) * portrait_size, (p_i / 6) * portrait_size};
 	sf::IntRect rect{
@@ -132,6 +141,8 @@ Sorcery::CharacterSummary::CharacterSummary(
 
 	_bars.push_back(wounds);
 	_bars.push_back(health);
+
+	*/
 
 	valid = true;
 }

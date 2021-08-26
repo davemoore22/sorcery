@@ -1833,32 +1833,153 @@
 			{
 				"name": "status_bar",
 				"w": "56",
-				"h": "8",
+				"h": "9",
 				"x": "centre",
-				"y": "26",
+				"y": "25",
 				"alpha": "255",
 				"type": "other",
 				"drawmode": "manual",
 				"data": [
 					{
+						"offset_x": "0",
+						"offset_y": "-8",
 						"summary_x": "6",
 						"summary_y": "8",
-						"summary_offset_x": "548",
-						"summary_offset_y": "54"
-						
+						"summary_offset_x": "0",
+						"summary_offset_y": "28"
+
 					}
 				]
 			},
 			{
 				"name": "outer_frame",
 				"w": "54",
-				"h": "8",
+				"h": "9",
 				"x": "1",
 				"y": "0",
 				"alpha": "255",
 				"type": "frame",
 				"priority": "5",
 				"background": " 0x000000ff"
+			},
+			{
+				"name": "character_legend_number",
+				"x": "2",
+				"y": "1",
+				"font": "monospace",
+				"colour": "0xddddddff",
+				"size": "28",
+				"string": "CHARACTER_LEGEND_NUMBER",
+				"justification": "left",
+				"type": "text",
+				"data": [
+					{
+						"offset_x": "-4",
+						"offset_y": "-12"
+					}
+				]
+			},
+			{
+				"name": "character_legend_name",
+				"x": "4",
+				"y": "1",
+				"font": "monospace",
+				"colour": "0xddddddff",
+				"size": "24",
+				"string": "CHARACTER_LEGEND_NAME",
+				"justification": "left",
+				"type": "text",
+				"data": [
+					{
+						"offset_x": "0",
+						"offset_y": "-12"
+					}
+				]
+			},
+			{
+				"name": "character_legend_class",
+				"x": "26",
+				"y": "1",
+				"font": "monospace",
+				"colour": "0xddddddff",
+				"size": "24",
+				"string": "CHARACTER_LEGEND_CLASS",
+				"justification": "left",
+				"type": "text",
+				"data": [
+					{
+						"offset_x": "-8",
+						"offset_y": "-12"
+					}
+				]
+			},
+			{
+				"name": "character_legend_level",
+				"x": "22",
+				"y": "1",
+				"font": "monospace",
+				"colour": "0xddddddff",
+				"size": "24",
+				"string": "CHARACTER_LEGEND_LEVEL",
+				"justification": "left",
+				"type": "text",
+				"data": [
+					{
+						"offset_x": "0",
+						"offset_y": "-12"
+					}
+				]
+			},
+			{
+				"name": "character_legend_ac",
+				"x": "33",
+				"y": "1",
+				"font": "monospace",
+				"colour": "0xddddddff",
+				"size": "24",
+				"string": "CHARACTER_LEGEND_AC",
+				"justification": "left",
+				"type": "text",
+				"data": [
+					{
+						"offset_x": "-0",
+						"offset_y": "-12"
+					}
+				]
+			},
+			{
+				"name": "character_legend_hp",
+				"x": "40",
+				"y": "1",
+				"font": "monospace",
+				"colour": "0xddddddff",
+				"size": "24",
+				"string": "CHARACTER_LEGEND_HP",
+				"justification": "left",
+				"type": "text",
+				"data": [
+					{
+						"offset_x": "0",
+						"offset_y": "-12"
+					}
+				]
+			},
+			{
+				"name": "character_legend_status",
+				"x": "47",
+				"y": "1",
+				"font": "monospace",
+				"colour": "0xddddddff",
+				"size": "24",
+				"string": "CHARACTER_LEGEND_STATUS",
+				"justification": "left",
+				"type": "text",
+				"data": [
+					{
+						"offset_x": "0",
+						"offset_y": "-12"
+					}
+				]
 			}
 		]
 	},
@@ -3667,6 +3788,25 @@
 	{
 		"name": "character_row",
 		"component": [
+			{
+				"name": "text",
+				"x": "1",
+				"y": "1",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x": "8",
+						"offset_y": "0"
+					}
+				]
+			},
 			{
 				"name": "portrait",
 				"x": "0",

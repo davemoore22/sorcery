@@ -134,6 +134,7 @@ namespace Sorcery {
 		auto legate(const CharacterAlignment &value) -> void;
 		auto is_legated() const -> bool;
 		auto get_version() const -> int;
+		auto get_sb_text(const int position) -> std::string;
 
 		// Public Members
 		std::map<SpellID, sf::FloatRect> mage_spell_bounds;
@@ -175,6 +176,7 @@ namespace Sorcery {
 		auto _get_spell_icon(SpellCategory category)
 			-> std::optional<sf::Sprite>;
 		auto _get_sp_per_level(const SpellType type, int level) -> std::string;
+		auto _get_condition() const -> std::string;
 
 		// Private Members
 		int _version;
