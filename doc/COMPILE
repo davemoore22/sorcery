@@ -1,4 +1,4 @@
-Sorcery: Dreams of the Mad Overlord
+Sorcery: Shadows under Llylgamyn
 Copyright (C) 2021 Dave Moore
 
 Linux Instructions:
@@ -44,7 +44,7 @@ Additional support tools useful for development:
 
 - Build EAR https://github.com/rizsotto/Bear
 
-Note that to compile Sorcery: Dreams of the Mad Overlord requires a compiler
-with C++20 support such as g++11.
+Note that to compile Sorcery: Shadows under Llylgamyn requires a compiler
+with C++17/20 support such as g++10.
 
 Windows Instructions:

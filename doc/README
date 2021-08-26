@@ -1,4 +1,4 @@
-Sorcery: Dreams of the Mad Overlord
+Sorcery: Shadows under Llylgamyn
 Copyright (C) 2021 Dave Moore
 
 This is free software. This program comes with ABSOLUTELY NO WARRANTY; for
@@ -23,7 +23,7 @@ This software also uses the following libraries:
 - {fmt} https://fmt.dev/latest/index.html
 - Backward-cpp https://github.com/bombela/backward-cpp
 
-Please note the author of Sorcery: Dreams of the Mad Overlord, gives additional
+Please note the author of Sorcery: Shadows under Llylgamyn, gives additional
 permission under the GNU GPL version 3 section 7 to link all source code released
 as part of Sorcery, to these libraries (as per the declaration in each source file.
 
