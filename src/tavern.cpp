@@ -146,10 +146,17 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 								return MenuItem::TA_CASTLE;
 							} else if (option_chosen ==
 									   MenuItem::TA_ADD_TO_PARTY) {
-
 								_add->reload();
 								_stage = TavernStage::ADD;
 								_screen_key = "tavern_add";
+								_display->generate(_screen_key);
+								_update_menus();
+								continue;
+							} else if (option_chosen ==
+									   MenuItem::TA_REMOVE_FROM_PARTY) {
+								_remove->reload();
+								_stage = TavernStage::REMOVE;
+								_screen_key = "tavern_remove";
 								_display->generate(_screen_key);
 								_update_menus();
 								continue;
@@ -226,6 +233,62 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 						}
 					}
 				}
+			} else if (_stage == TavernStage::REMOVE) {
+
+				if (_system->input->check(WindowInput::CANCEL, event)) {
+					_stage = TavernStage::MENU;
+					_screen_key = "tavern";
+					_display->generate(_screen_key);
+					_update_menus();
+					continue;
+				}
+
+				if (_system->input->check(WindowInput::BACK, event)) {
+					_stage = TavernStage::MENU;
+					_screen_key = "tavern";
+					_display->generate(_screen_key);
+					_update_menus();
+					continue;
+				}
+
+				// And handle input on the main menu
+				if (_system->input->check(WindowInput::UP, event))
+					option = _remove->choose_previous();
+				else if (_system->input->check(WindowInput::DOWN, event))
+					option = _remove->choose_next();
+				else if (_system->input->check(WindowInput::MOVE, event))
+					option =
+						_remove->set_mouse_selected(static_cast<sf::Vector2f>(
+							sf::Mouse::getPosition(*_window)));
+				else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+					// We have selected something from the menu
+					if (option) {
+						if (const MenuItem option_chosen{
+								(*option.value()).item};
+							option_chosen == MenuItem::CA_TAVERN) {
+
+							_stage = TavernStage::MENU;
+							_screen_key = "tavern";
+							_display->generate(_screen_key);
+							_update_menus();
+							continue;
+						} else {
+
+							// Remove a character
+							const auto character_chosen{
+								(*option.value()).index};
+							_game->state->remove_character_by_id(
+								character_chosen);
+							_game->save_game();
+							_status_bar->refresh();
+							_stage = TavernStage::MENU;
+							_screen_key = "tavern";
+							_display->generate(_screen_key);
+							_update_menus();
+						}
+					}
+				}
 			}
 		}
 
@@ -284,6 +347,12 @@ auto Sorcery::Tavern::_draw() -> void {
 			(*_display->layout)["tavern_add:menu"].y);
 		_add->setPosition(menu_pos);
 		_window->draw(*_add);
+	} else if (_stage == TavernStage::REMOVE) {
+		_remove->generate((*_display->layout)["tavern_remove:menu"]);
+		const sf::Vector2f menu_pos((*_display->layout)["tavern_remove:menu"].x,
+			(*_display->layout)["tavern_add:menu"].y);
+		_remove->setPosition(menu_pos);
+		_window->draw(*_remove);
 	}
 
 	// Always draw the following

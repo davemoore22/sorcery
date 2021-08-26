@@ -132,6 +132,8 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 						} else if (option_chosen == MenuItem::CA_TAVERN) {
 							auto tavern_option{_tavern->start()};
 							_tavern->stop();
+							_game->save_game();
+							_status_bar->refresh();
 							_display->generate("castle");
 							_display->set_input_mode(
 								WindowInputMode::NAVIGATE_MENU);
@@ -139,6 +141,8 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 						} else if (option_chosen == MenuItem::CA_INN) {
 							auto inn_option{_inn->start()};
 							_inn->stop();
+							_game->save_game();
+							_status_bar->refresh();
 							_display->generate("castle");
 							_display->set_input_mode(
 								WindowInputMode::NAVIGATE_MENU);
@@ -146,6 +150,8 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 						} else if (option_chosen == MenuItem::CA_SHOP) {
 							auto shop_option{_shop->start()};
 							_shop->stop();
+							_game->save_game();
+							_status_bar->refresh();
 							_display->generate("castle");
 							_display->set_input_mode(
 								WindowInputMode::NAVIGATE_MENU);
@@ -153,6 +159,8 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 						} else if (option_chosen == MenuItem::CA_TEMPLE) {
 							auto temple_option{_temple->start()};
 							_temple->stop();
+							_game->save_game();
+							_status_bar->refresh();
 							_display->generate("castle");
 							_display->set_input_mode(
 								WindowInputMode::NAVIGATE_MENU);

@@ -112,9 +112,11 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics,
 			(*_display->string)["TAVERN_REMOVE_FROM_PARTY"]);
 		_add_item(2, MenuItemType::ENTRY, MenuItem::TA_INSPECT,
 			(*_display->string)["TAVERN_INSPECT"]);
-		_add_item(3, MenuItemType::ENTRY, MenuItem::TA_DIVVY_GOLD,
+		_add_item(3, MenuItemType::ENTRY, MenuItem::TA_INSPECT,
+			(*_display->string)["TAVERN_REORDER_PARTY"]);
+		_add_item(4, MenuItemType::ENTRY, MenuItem::REORDER_PARTY,
 			(*_display->string)["TAVERN_DIVVY_GOLD"]);
-		_add_item(4, MenuItemType::ENTRY, MenuItem::TA_CASTLE,
+		_add_item(5, MenuItemType::ENTRY, MenuItem::TA_CASTLE,
 			(*_display->string)["TAVERN_CASTLE"]);
 		selected = items.begin();
 		break;
@@ -1006,6 +1008,11 @@ auto Sorcery::Menu::draw(
 
 auto Sorcery::Menu::_populate_chars() -> void {
 
+	items.clear();
+	bounds.clear();
+	count = 0;
+	_texts.clear();
+	_options.clear();
 	auto max_id{0};
 	switch (_type) {
 	case MenuType::CHARACTER_ROSTER: {

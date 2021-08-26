@@ -301,7 +301,7 @@ namespace Sorcery {
 
 	namespace Enums::Castle {
 
-		enum class Tavern { NONE, MENU, ADD, REMOVE, INSPECT };
+		enum class Tavern { NONE, MENU, ADD, REMOVE, REORDER, INSPECT };
 
 		enum class Inn { NONE, MENU, STAY, INPECT };
 
@@ -669,6 +669,7 @@ namespace Sorcery {
 			EC_RETURN_EDIT,
 			TA_ADD_TO_PARTY,
 			TA_REMOVE_FROM_PARTY,
+			REORDER_PARTY,
 			TA_INSPECT,
 			TA_DIVVY_GOLD,
 			TA_CASTLE,
