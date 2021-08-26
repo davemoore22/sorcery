@@ -26,9 +26,9 @@
 
 // Standard Constructor
 Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics,
-	Game *game, const MenuType type)
+	Game *game, const MenuType type, std::optional<MenuMode> mode)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game},
-	  _type{type} {
+	  _type{type}, _mode{mode} {
 
 	// Clear the Items
 	items.clear();
@@ -930,7 +930,13 @@ auto Sorcery::Menu::generate(Component &component) -> void {
 						bg.setFillColor(_graphics->animation->selected_colour);
 					else
 						bg.setFillColor(sf::Color(component.background));
-					_texts.at(index).setFillColor(sf::Color(component.colour));
+
+					if (item.enabled)
+						_texts.at(index).setFillColor(
+							sf::Color(component.colour));
+					else
+						_texts.at(index).setFillColor(sf::Color(0x606060ff));
+					//_texts.at(index).setFillColor(sf::Color(component.colour));
 					_texts.at(index).setOutlineColor(sf::Color(0, 0, 0));
 					_texts.at(index).setOutlineThickness(2);
 
@@ -1026,10 +1032,16 @@ auto Sorcery::Menu::_populate_chars() -> void {
 			_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING,
 				(*_display->string)["MENU_NO_CHARACTERS"]);
 		}
-		_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER,
-			(*_display->string)["MENU_SPACER"]);
-		_add_item(++max_id, MenuItemType::ENTRY, MenuItem::ET_TRAIN,
-			(*_display->string)["MENU_TRAIN"]);
+
+		if (_mode) {
+			if (_mode.value() == MenuMode::TRAINING) {
+				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER,
+					(*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::ET_TRAIN,
+					(*_display->string)["MENU_TRAIN"]);
+			}
+		}
+
 	} break;
 	case MenuType::PARTY_CHARACTERS: {
 		auto party{_game->state->get_party_characters()};
@@ -1037,6 +1049,15 @@ auto Sorcery::Menu::_populate_chars() -> void {
 			_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER,
 				_game->characters[character_id].get_summary());
 			++max_id;
+		}
+
+		if (_mode) {
+			if (_mode.value() == MenuMode::TAVERN) {
+				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER,
+					(*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::CA_TAVERN,
+					(*_display->string)["MENU_TAVERN"]);
+			}
 		}
 	} break;
 	case MenuType::AVAILABLE_CHARACTERS: {
@@ -1049,10 +1070,15 @@ auto Sorcery::Menu::_populate_chars() -> void {
 				++max_id;
 			}
 		}
-		_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER,
-			(*_display->string)["MENU_SPACER"]);
-		_add_item(++max_id, MenuItemType::ENTRY, MenuItem::CA_TAVERN,
-			(*_display->string)["MENU_TAVERN"]);
+
+		if (_mode) {
+			if (_mode.value() == MenuMode::TAVERN) {
+				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER,
+					(*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::CA_TAVERN,
+					(*_display->string)["MENU_TAVERN"]);
+			}
+		}
 
 	} break;
 	case MenuType::INVALID_CHARACTERS: {

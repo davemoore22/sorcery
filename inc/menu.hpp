@@ -40,7 +40,7 @@ namespace Sorcery {
 	  public:
 		// Constructors
 		Menu(System *system, Display *display, Graphics *graphics, Game *game,
-			const MenuType type);
+			const MenuType type, std::optional<MenuMode> _mode = std::nullopt);
 		Menu() = delete;
 
 		// Overload [] operator
@@ -102,5 +102,6 @@ namespace Sorcery {
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Text> _options;
 		sf::RectangleShape _selected_bg;
+		std::optional<MenuMode> _mode;
 	};
 } // namespace Sorcery

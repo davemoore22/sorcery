@@ -53,12 +53,12 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 	_add.reset();
 	_remove.reset();
 	_inspect.reset();
-	_add = std::make_unique<Menu>(
-		_system, _display, _graphics, _game, MenuType::AVAILABLE_CHARACTERS);
-	_inspect = std::make_unique<Menu>(
-		_system, _display, _graphics, _game, MenuType::CHARACTER_ROSTER);
-	_remove = std::make_unique<Menu>(
-		_system, _display, _graphics, _game, MenuType::PARTY_CHARACTERS);
+	_add = std::make_unique<Menu>(_system, _display, _graphics, _game,
+		MenuType::AVAILABLE_CHARACTERS, MenuMode::TAVERN);
+	_inspect = std::make_unique<Menu>(_system, _display, _graphics, _game,
+		MenuType::CHARACTER_ROSTER, MenuMode::TAVERN);
+	_remove = std::make_unique<Menu>(_system, _display, _graphics, _game,
+		MenuType::PARTY_CHARACTERS, MenuMode::TAVERN);
 
 	switch (_stage) {
 	case TavernStage::MENU:
@@ -84,6 +84,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 
 	// Refresh the Party characters
 	_status_bar->refresh();
+	_update_menus();
 
 	// Generate the Custom Components
 	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
@@ -315,16 +316,24 @@ auto Sorcery::Tavern::stop() -> void {
 auto Sorcery::Tavern::_update_menus() -> void {
 
 	if (_game->state->get_party_characters().size() == MAX_PARTY_SIZE) {
-		if ((*_menu)[0].enabled)
+		if ((*_menu)[0].enabled) {
 			(*_menu)[0].enabled = false;
+			_menu->generate((*_display->layout)["tavern:menu"]);
+		}
 	} else if (_game->state->get_party_characters().size() == 0) {
-		if ((*_menu)[1].enabled)
+		if ((*_menu)[1].enabled) {
 			(*_menu)[1].enabled = false;
+			_menu->generate((*_display->layout)["tavern:menu"]);
+		}
 	} else {
-		if (!(*_menu)[0].enabled)
+		if (!(*_menu)[0].enabled) {
 			(*_menu)[0].enabled = true;
-		if (!(*_menu)[1].enabled)
+			_menu->generate((*_display->layout)["tavern:menu"]);
+		}
+		if (!(*_menu)[1].enabled) {
 			(*_menu)[1].enabled = true;
+			_menu->generate((*_display->layout)["tavern:menu"]);
+		}
 	}
 }
 

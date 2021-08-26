@@ -567,6 +567,8 @@ namespace Sorcery {
 			INVALID_CHARACTERS
 		};
 
+		enum class Mode { NONE, TAVERN, TEMPLE, INN, SHOP, TRAINING };
+
 		// Menu Items
 		enum class Item {
 			NONE,

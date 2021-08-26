@@ -70,10 +70,10 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 
 	_game->load_game();
 
-	// Do the Menu here when it has access to the game characters
+	// Do the menu here when it has access to the game characters
 	_menu.reset();
-	_menu = std::make_unique<Menu>(
-		_system, _display, _graphics, _game, MenuType::CHARACTER_ROSTER);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game,
+		MenuType::CHARACTER_ROSTER, MenuMode::TRAINING);
 	_cur_char_id = -1;
 
 	// Get the Background Display Components and load them into Display module
