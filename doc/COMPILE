@@ -1,22 +1,22 @@
 Sorcery: Shadows under Llylgamyn
 Copyright (C) 2021 Dave Moore
 
-Linux Instructions:
+Linux Instructions (Ubuntu 20:04 LTS):
 
 Make sure the following packages/third-party libraries from the Standard and
 Universe Repositories are installed:
 
-- libsfml-dev
-- libsfml-doc
-- libsqlite3-0
-- libsqlite3-dev
-- libjsoncpp-dev
-- doxygen
-- libfmt-dev
-- uuid-dev
-- binutils-dev
-- libunwind-dev
-- yasm
+- libsfml-dev (2.5.1+dfsg-1build1)
+- libsfml-doc (2.5.1+dfsg-1build1)
+- libsqlite3-0 (3.31.1-4)
+- libsqlite3-dev (3.31.1-4)
+- libjsoncpp-dev (1.7.4-3.1ubuntu2)
+- doxygen (1.8.17-0ubuntu2)
+- libfmt-dev (6.1.2+ds-2)
+- uuid-dev (2.34-0.1ubuntu9.1)
+- binutils-dev (2.34-6ubuntu1.1)
+- libunwind-dev (1.2.1-9build1)
+- yasm (1.3.0-2ubuntu1)
 
 Add the following repository:
 
@@ -24,12 +24,12 @@ ppa:texus/tgui-0.8
 
 And then install the following additional package:
 
-libtgui-dev
+libtgui-dev (0.8.9+focal)
 
 Download, compile and install the following libraries (cmake needed):
 
-- sfeMovie https://github.com/Yalir/sfeMovie
-- Thor https://github.com/Bromeon/Thor
+- sfeMovie https://github.com/Yalir/sfeMovie (commit 698ccf2)
+- Thor https://github.com/Bromeon/Thor (commit f9b7890)
 
 Then make sure the following header libraries are included and linked (default
 location to install them - as specified in the env/.mk files - are in
@@ -49,7 +49,7 @@ Additional support tools useful for development:
 - Build EAR https://github.com/rizsotto/Bear
 
 Note that to compile Sorcery: Shadows under Llylgamyn requires a compiler
-with C++20 support such as g++10.
+with C++20 support such as g++10.3.
 
 Windows Instructions:
 
