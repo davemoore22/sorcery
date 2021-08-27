@@ -359,7 +359,7 @@
 1614621285 source:/home/dave/Development/wizardry/sorcery-sfml/src/map.cpp
 	"map.hpp"
 
-1630003057 source:/home/dave/Development/wizardry/sorcery-sfml/src/menu.cpp
+1630087363 source:/home/dave/Development/wizardry/sorcery-sfml/src/menu.cpp
 	"menu.hpp"
 
 1597513199 source:/home/dave/Development/wizardry/sorcery-sfml/src/menubutton.cpp
@@ -1176,18 +1176,19 @@
 1628340143 source:/home/dave/Development/wizardry/sorcery-sfml/src/legate.cpp
 	"legate.hpp"
 
-1629902910 /home/dave/Development/wizardry/sorcery-sfml/inc/tavern.hpp
+1630087930 /home/dave/Development/wizardry/sorcery-sfml/inc/tavern.hpp
 	"display.hpp"
 	"frame.hpp"
 	"game.hpp"
 	"graphics.hpp"
+	"inspect.hpp"
 	"layout.hpp"
 	"main.hpp"
 	"menu.hpp"
 	"statusbar.hpp"
 	"system.hpp"
 
-1630003183 source:/home/dave/Development/wizardry/sorcery-sfml/src/tavern.cpp
+1630088084 source:/home/dave/Development/wizardry/sorcery-sfml/src/tavern.cpp
 	"tavern.hpp"
 
 1629040496 /home/dave/Development/wizardry/sorcery-sfml/inc/inn.hpp
@@ -1302,4 +1303,19 @@
 
 1629987516 source:/home/dave/Development/wizardry/sorcery-sfml/src/charactersummary.cpp
 	"charactersummary.hpp"
+
+1630087537 /home/dave/Development/wizardry/sorcery-sfml/inc/inspect.hpp
+	"characterpanel.hpp"
+	"display.hpp"
+	"frame.hpp"
+	"game.hpp"
+	"graphics.hpp"
+	"layout.hpp"
+	"main.hpp"
+	"menu.hpp"
+	"statusbar.hpp"
+	"system.hpp"
+
+1630088289 source:/home/dave/Development/wizardry/sorcery-sfml/src/inspect.cpp
+	"inspect.hpp"
 

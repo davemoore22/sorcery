@@ -52,20 +52,18 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 	// Do the Menus here when we has access to the game characters
 	_add.reset();
 	_remove.reset();
-	_inspect.reset();
+
 	_add = std::make_unique<Menu>(_system, _display, _graphics, _game,
 		MenuType::AVAILABLE_CHARACTERS, MenuMode::TAVERN);
-	_inspect = std::make_unique<Menu>(_system, _display, _graphics, _game,
-		MenuType::CHARACTER_ROSTER, MenuMode::TAVERN);
 	_remove = std::make_unique<Menu>(_system, _display, _graphics, _game,
 		MenuType::PARTY_CHARACTERS, MenuMode::TAVERN);
+	_inspect = std::make_unique<Inspect>(
+		_system, _display, _graphics, _game, MenuMode::TAVERN);
 
+	// Note Inspect is handled in a generic Inspect Module
 	switch (_stage) {
 	case TavernStage::MENU:
 		_screen_key = "tavern";
-		break;
-	case TavernStage::INSPECT:
-		_screen_key = "tavern_inspect";
 		break;
 	case TavernStage::ADD:
 		_screen_key = "tavern_add";
@@ -161,21 +159,15 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 								_display->generate(_screen_key);
 								_update_menus();
 								continue;
-							}
-
-							/* else if (option_chosen ==
-							MenuItem::ET_LEAVE_GAME) { _display->set_input_mode(
-									WindowInputMode::CONFIRM_LEAVE_GAME);
-								_yes_or_no = WindowConfirm::NO;
-							} else if (option_chosen == MenuItem::ET_MAZE) {
-								return MenuItem::ET_MAZE;
-							} else if (option_chosen == MenuItem::ET_TRAIN) {
-								_training->start();
-								_training->stop();
-								_display->generate("edge_of_town");
+							} else if (option_chosen == MenuItem::TA_INSPECT) {
+								_inspect->start();
+								_inspect->stop();
+								_display->generate("tavern");
 								_display->set_input_mode(
 									WindowInputMode::NAVIGATE_MENU);
-							} */
+								_update_menus();
+								continue;
+							}
 						}
 					}
 				}

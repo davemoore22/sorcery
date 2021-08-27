@@ -24,11 +24,11 @@
 
 #pragma once
 
+#include "characterpanel.hpp"
 #include "display.hpp"
 #include "frame.hpp"
 #include "game.hpp"
 #include "graphics.hpp"
-#include "inspect.hpp"
 #include "layout.hpp"
 #include "main.hpp"
 #include "menu.hpp"
@@ -37,16 +37,16 @@
 
 namespace Sorcery {
 
-	class Tavern {
+	class Inspect {
 
 	  public:
 		// Standard Constructor
-		Tavern(
-			System *system, Display *display, Graphics *graphics, Game *game);
-		Tavern() = delete;
+		Inspect(System *system, Display *display, Graphics *graphics,
+			Game *game, MenuMode mode);
+		Inspect() = delete;
 
 		// Standard Destructor
-		~Tavern();
+		~Inspect();
 
 		// Public Members
 
@@ -57,7 +57,6 @@ namespace Sorcery {
 	  private:
 		// Private Methods
 		auto _draw() -> void;
-		auto _update_menus() -> void;
 
 		// Private Members
 		System *_system;
@@ -65,15 +64,16 @@ namespace Sorcery {
 		Graphics *_graphics;
 		Game *_game;
 		sf::RenderWindow *_window;
-		std::string _screen_key;
-		std::unique_ptr<Frame> _frame;
 		std::unique_ptr<Menu> _menu;
 		sf::Sprite _bg;
-		WindowConfirm _yes_or_no;
-		std::unique_ptr<StatusBar> _status_bar;
-		TavernStage _stage;
-		std::unique_ptr<Menu> _add;
-		std::unique_ptr<Menu> _remove;
-		std::unique_ptr<Inspect> _inspect;
+		std::unique_ptr<Frame> _menu_frame;
+		std::optional<Character *> _cur_char;
+		std::unique_ptr<Frame> _cur_char_frame;
+		MenuMode _mode;
+		std::string _screen;
+		std::string _screen_key;
+		std::unique_ptr<CharacterPanel> _char_panel;
+		int _cur_char_id;
+		std::unique_ptr<Frame> _preview_frame;
 	};
 } // namespace Sorcery

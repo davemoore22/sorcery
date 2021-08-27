@@ -1039,6 +1039,11 @@ auto Sorcery::Menu::_populate_chars() -> void {
 					(*_display->string)["MENU_SPACER"]);
 				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::ET_TRAIN,
 					(*_display->string)["MENU_TRAIN"]);
+			} else if (_mode.value() == MenuMode::TAVERN) {
+				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER,
+					(*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::CA_TAVERN,
+					(*_display->string)["MENU_TRAIN"]);
 			}
 		}
 
