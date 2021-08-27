@@ -837,12 +837,15 @@ auto Sorcery::Character::get_class(CharacterClass character_class) const
 auto Sorcery::Character::finalise() -> void {
 
 	_generate_start_info();
-	_generate_secondary_abil(true, false);
+	_generate_secondary_abil(true, false, false);
 	_set_start_spells();
 	_set_starting_sp();
 }
 
 auto Sorcery::Character::_legate_start_info() -> void {
+
+	// From here:
+	// https://datadrivengamer.blogspot.com/2021/08/the-new-mechanics-of-wizardry-iii.html
 
 	_abilities[CharacterAbility::CURRENT_LEVEL] = 1;
 	_abilities[CharacterAbility::CURRENT_XP] = 0;
@@ -854,24 +857,80 @@ auto Sorcery::Character::_legate_start_info() -> void {
 	_abilities[CharacterAbility::HIT_DICE] = 1;
 	if (_abilities[CharacterAbility::GOLD] > 500)
 		_abilities[CharacterAbility::GOLD] = 500;
-	_abilities[CharacterAbility::AGE] =
-		(18 * 52) + (*_system->random)[RandomType::ZERO_TO_299];
+	_abilities[CharacterAbility::AGE] = (20 * 52);
 	_abilities[CharacterAbility::SWIM] = 1;
 	_abilities[CharacterAbility::MARKS] = 0;
 	_abilities[CharacterAbility::DEATHS] = 0;
 
+	// (D7 - 4) is -3 to +3
+	_start_attr[CharacterAttribute::STRENGTH] +=
+		((*_system->random)[RandomType::D7] - 4);
+	_start_attr[CharacterAttribute::IQ] +=
+		((*_system->random)[RandomType::D7] - 4);
+	_start_attr[CharacterAttribute::PIETY] +=
+		((*_system->random)[RandomType::D7] - 4);
+	_start_attr[CharacterAttribute::VITALITY] +=
+		((*_system->random)[RandomType::D7] - 4);
+	_start_attr[CharacterAttribute::AGILITY] +=
+		((*_system->random)[RandomType::D7] - 4);
+	_start_attr[CharacterAttribute::LUCK] +=
+		((*_system->random)[RandomType::D7] - 4);
+
+	auto mage_sp_total{0};
+	for (auto level = 1; level <= 7; level++)
+		mage_sp_total += _mage_max_sp[level];
+	_start_attr[CharacterAttribute::IQ] += (mage_sp_total / 7);
+
+	auto priest_sp_total{1};
+	for (auto level = 1; level <= 7; level++)
+		priest_sp_total += _priest_max_sp[level];
+	_start_attr[CharacterAttribute::PIETY] += (priest_sp_total / 10);
+
+	switch (_class) { // NOLINT(clang-diagnostic-switch)
+	case CharacterClass::FIGHTER:
+	case CharacterClass::LORD:
+	case CharacterClass::SAMURAI:
+		_start_attr[CharacterAttribute::STRENGTH] += 2;
+		break;
+	case CharacterClass::MAGE:
+		_start_attr[CharacterAttribute::IQ] += 2;
+		break;
+	case CharacterClass::PRIEST:
+	case CharacterClass::BISHOP:
+		_start_attr[CharacterAttribute::PIETY] += 2;
+		break;
+	case CharacterClass::THIEF:
+	case CharacterClass::NINJA:
+		_start_attr[CharacterAttribute::AGILITY] += 2;
+	default:
+		break;
+	}
+
+	// Clamp Values
 	_start_attr[CharacterAttribute::STRENGTH] =
-		std::min(_start_attr[CharacterAttribute::STRENGTH], 15);
+		std::min(_start_attr[CharacterAttribute::STRENGTH], 18);
 	_start_attr[CharacterAttribute::IQ] =
-		std::min(_start_attr[CharacterAttribute::IQ], 15);
+		std::min(_start_attr[CharacterAttribute::IQ], 18);
 	_start_attr[CharacterAttribute::PIETY] =
-		std::min(_start_attr[CharacterAttribute::PIETY], 15);
+		std::min(_start_attr[CharacterAttribute::PIETY], 18);
 	_start_attr[CharacterAttribute::VITALITY] =
-		std::min(_start_attr[CharacterAttribute::VITALITY], 15);
+		std::min(_start_attr[CharacterAttribute::VITALITY], 18);
 	_start_attr[CharacterAttribute::AGILITY] =
-		std::min(_start_attr[CharacterAttribute::AGILITY], 15);
+		std::min(_start_attr[CharacterAttribute::AGILITY], 18);
 	_start_attr[CharacterAttribute::LUCK] =
-		std::min(_start_attr[CharacterAttribute::LUCK], 15);
+		std::min(_start_attr[CharacterAttribute::LUCK], 18);
+	_start_attr[CharacterAttribute::STRENGTH] =
+		std::max(_start_attr[CharacterAttribute::STRENGTH], 3);
+	_start_attr[CharacterAttribute::IQ] =
+		std::max(_start_attr[CharacterAttribute::IQ], 3);
+	_start_attr[CharacterAttribute::PIETY] =
+		std::max(_start_attr[CharacterAttribute::PIETY], 3);
+	_start_attr[CharacterAttribute::VITALITY] =
+		std::max(_start_attr[CharacterAttribute::VITALITY], 3);
+	_start_attr[CharacterAttribute::AGILITY] =
+		std::max(_start_attr[CharacterAttribute::AGILITY], 3);
+	_start_attr[CharacterAttribute::LUCK] =
+		std::max(_start_attr[CharacterAttribute::LUCK], 3);
 
 	_cur_attr = _start_attr;
 	_max_attr = _cur_attr;
@@ -939,7 +998,7 @@ auto Sorcery::Character::legate(const CharacterAlignment &value) -> void {
 		_alignment = value;
 
 	_legate_start_info();
-	_generate_secondary_abil(true, false);
+	_generate_secondary_abil(true, false, true);
 	_set_start_spells();
 	_set_starting_sp();
 	set_status(CharacterStatus::OK);
@@ -953,7 +1012,7 @@ auto Sorcery::Character::change_class(const CharacterClass &value) -> void {
 		_class = value;
 
 		_regenerate_start_info();
-		_generate_secondary_abil(false, true);
+		_generate_secondary_abil(false, true, false);
 		_reset_start_spells();
 		_reset_starting_sp();
 
@@ -997,7 +1056,7 @@ auto Sorcery::Character::_generate_start_info() -> void {
 // Given the characters current level, work out all the secondary
 // abilities/stats etc
 auto Sorcery::Character::_generate_secondary_abil(
-	bool initial, bool change_class) -> void {
+	bool initial, bool change_class, bool legate) -> void {
 
 	// Formulae used are from here
 	// http://www.zimlab.com/wizardry/walk/w123calc.htm and also from
@@ -1164,11 +1223,38 @@ auto Sorcery::Character::_generate_secondary_abil(
 	// Class Change doesn't reset these
 	if (!change_class) {
 
-		// Base Hit Points (num) - note initially all characters get 8 HP as per
-		// the PSX versions
+		// Base Hit Points (num) - note initially all non-legated characters get
+		// 8 HP as per the PSX versions
 		if (initial)
-			_abilities[CharacterAbility::MAX_HP] = 8;
+			if (legate) {
+				switch (_class) {
+				case CharacterClass::FIGHTER:
+					_abilities[CharacterAbility::MAX_HP] = 10;
+					break;
+				case CharacterClass::SAMURAI:
+				case CharacterClass::LORD:
+					_abilities[CharacterAbility::MAX_HP] = 12;
+					break;
+				case CharacterClass::PRIEST:
+					_abilities[CharacterAbility::MAX_HP] = 8;
+					break;
+				case CharacterClass::NINJA:
+					_abilities[CharacterAbility::MAX_HP] = 7;
+					break;
+				case CharacterClass::THIEF:
+					_abilities[CharacterAbility::MAX_HP] = 6;
+					break;
+				case CharacterClass::MAGE:
+					_abilities[CharacterAbility::MAX_HP] = 4;
+					break;
+				default:
+					break;
+				}
+
+			} else
+				_abilities[CharacterAbility::MAX_HP] = 8;
 		else {
+
 			switch (auto chance{(*_system->random)[RandomType::D100]};
 					_class) { // NOLINT(clang-diagnostic-switch)
 			case CharacterClass::FIGHTER:

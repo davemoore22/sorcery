@@ -151,7 +151,8 @@ namespace Sorcery {
 		auto _generate_start_info() -> void;
 		auto _regenerate_start_info() -> void;
 		auto _legate_start_info() -> void;
-		auto _generate_secondary_abil(bool initial, bool change_class) -> void;
+		auto _generate_secondary_abil(
+			bool initial, bool change_class, bool legate) -> void;
 		auto _set_starting_sp() -> void;
 		auto _reset_starting_sp() -> void;
 		auto _clear_sp() -> void;
