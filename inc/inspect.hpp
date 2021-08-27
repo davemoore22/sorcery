@@ -70,7 +70,6 @@ namespace Sorcery {
 		std::optional<Character *> _cur_char;
 		std::unique_ptr<Frame> _cur_char_frame;
 		MenuMode _mode;
-		std::string _screen;
 		std::string _screen_key;
 		std::unique_ptr<CharacterPanel> _char_panel;
 		int _cur_char_id;

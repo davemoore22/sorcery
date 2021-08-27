@@ -38,7 +38,15 @@ Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics,
 	switch (_mode) {
 	case MenuMode::TAVERN:
 		_screen_key = "tavern_inspect";
-		_screen = "tavern";
+		break;
+	case MenuMode::INN:
+		_screen_key = "inn_inspect";
+		break;
+	case MenuMode::SHOP:
+		_screen_key = "shop_inspect";
+		break;
+	case MenuMode::TEMPLE:
+		_screen_key = "temple_inspect";
 		break;
 	default:
 		break;
@@ -57,8 +65,10 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 
 	// Do the menu here when it has access to the game characters
 	_menu.reset();
+	auto menu_type{_mode == MenuMode::TAVERN ? MenuType::CHARACTER_ROSTER
+											 : MenuType::PARTY_CHARACTERS};
 	_menu = std::make_unique<Menu>(
-		_system, _display, _graphics, _game, MenuType::CHARACTER_ROSTER, _mode);
+		_system, _display, _graphics, _game, menu_type, _mode);
 	_cur_char_id = -1;
 
 	// Get the Background Display Components and load them into Display module
@@ -66,6 +76,15 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 	switch (_mode) {
 	case MenuMode::TAVERN:
 		_display->generate("tavern_inspect");
+		break;
+	case MenuMode::INN:
+		_display->generate("inn_inspect");
+		break;
+	case MenuMode::SHOP:
+		_display->generate("shop_inspect");
+		break;
+	case MenuMode::TEMPLE:
+		_display->generate("temple_inspect");
 		break;
 	default:
 		break;
@@ -161,7 +180,10 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 					if (selected) {
 						const MenuItem option_chosen{(*selected.value()).item};
 						if ((option_chosen == MenuItem::ET_TRAIN) ||
-							(option_chosen == MenuItem::CA_TAVERN)) {
+							(option_chosen == MenuItem::CA_TAVERN) ||
+							(option_chosen == MenuItem::CA_TEMPLE) ||
+							(option_chosen == MenuItem::CA_INN) ||
+							(option_chosen == MenuItem::CA_SHOP)) {
 							_display->set_input_mode(
 								WindowInputMode::NAVIGATE_MENU);
 							_cur_char = std::nullopt;
@@ -183,7 +205,10 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 
 				if (selected) {
 					if (((*selected.value()).item != MenuItem::ET_TRAIN) &&
-						((*selected.value()).item != MenuItem::CA_TAVERN)) {
+						((*selected.value()).item != MenuItem::CA_TAVERN) &&
+						((*selected.value()).item != MenuItem::CA_SHOP) &&
+						((*selected.value()).item != MenuItem::CA_TEMPLE) &&
+						((*selected.value()).item != MenuItem::CA_INN)) {
 						const auto character_chosen{
 							static_cast<int>((*selected.value()).index)};
 						if (character_chosen != _cur_char_id) {

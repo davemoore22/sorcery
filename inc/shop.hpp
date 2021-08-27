@@ -28,6 +28,7 @@
 #include "frame.hpp"
 #include "game.hpp"
 #include "graphics.hpp"
+#include "inspect.hpp"
 #include "layout.hpp"
 #include "main.hpp"
 #include "menu.hpp"
@@ -67,5 +68,6 @@ namespace Sorcery {
 		sf::Sprite _bg;
 		WindowConfirm _yes_or_no;
 		std::unique_ptr<StatusBar> _status_bar;
+		std::unique_ptr<Inspect> _inspect;
 	};
 } // namespace Sorcery

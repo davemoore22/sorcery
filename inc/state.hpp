@@ -51,6 +51,7 @@ namespace Sorcery {
 		auto get_character_index(unsigned int char_id)
 			-> std::optional<unsigned int>;
 		auto get_party_characters() -> std::vector<unsigned int>;
+		auto party_has_members() -> bool;
 		auto remove_character_by_id(unsigned int char_id) -> bool;
 		auto remove_character_by_position(unsigned int index) -> bool;
 		auto set(System *system) -> void;

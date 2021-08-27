@@ -39,6 +39,8 @@ Sorcery::Inn::Inn(
 	// Modules
 	_status_bar =
 		std::make_unique<StatusBar>(_system, _display, _graphics, _game);
+	_inspect = std::make_unique<Inspect>(
+		_system, _display, _graphics, _game, MenuMode::INN);
 }
 
 // Standard Destructor
@@ -114,19 +116,14 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 								(*option.value()).item};
 							option_chosen == MenuItem::IN_CASTLE) {
 							return MenuItem::IN_CASTLE;
-						} /* else if (option_chosen == MenuItem::ET_LEAVE_GAME)
-						{ _display->set_input_mode(
-								WindowInputMode::CONFIRM_LEAVE_GAME);
-							_yes_or_no = WindowConfirm::NO;
-						} else if (option_chosen == MenuItem::ET_MAZE) {
-							return MenuItem::ET_MAZE;
-						} else if (option_chosen == MenuItem::ET_TRAIN) {
-							_training->start();
-							_training->stop();
-							_display->generate("edge_of_town");
+						} else if (option_chosen == MenuItem::IN_INSPECT) {
+							_inspect->start();
+							_inspect->stop();
+							_display->generate("inn");
 							_display->set_input_mode(
 								WindowInputMode::NAVIGATE_MENU);
-						} */
+							continue;
+						}
 					}
 				}
 			}
