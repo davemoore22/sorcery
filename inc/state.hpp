@@ -55,6 +55,7 @@ namespace Sorcery {
 		auto remove_character_by_id(unsigned int char_id) -> bool;
 		auto remove_character_by_position(unsigned int index) -> bool;
 		auto set(System *system) -> void;
+		auto set_party(std::vector<unsigned int> candidate_party) -> void;
 
 	  private:
 		// Private Methods

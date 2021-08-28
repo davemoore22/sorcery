@@ -110,9 +110,11 @@ auto Sorcery::Reorder::start() -> std::optional<std::vector<unsigned int>> {
 					_candidate_party.emplace_back(character_chosen);
 					_populate_candidate();
 					auto added{_menu->get_by_index((*option.value()).index)};
-					if (added)
+					if (added) {
 						(*added)->enabled = false;
-
+						if (_menu->num_enabled() == 0)
+							return _candidate_party;
+					}
 					continue;
 				}
 			}
@@ -145,16 +147,10 @@ auto Sorcery::Reorder::_populate_candidate() -> void {
 		text.setFont(_system->resources->fonts[_candidate_c.font]);
 		text.setCharacterSize(_candidate_c.size);
 		text.setFillColor(sf::Color(_candidate_c.colour));
-		text.setString(_game->characters[character_id].get_name());
-		text.setPosition(
-			(x + (_candidate_c.w * _display->window->get_cw())) / 2,
-			y + (index * _display->window->get_ch()));
-		text.setOrigin(text.getLocalBounds().width / 2.0f,
-			text.getLocalBounds().height / 2.0f);
-
-		std::cout <<
-
-			++index;
+		text.setString(fmt::format(
+			"{}. {}", index + 1, _game->characters[character_id].get_name()));
+		text.setPosition(x, y + (index * _display->window->get_ch()));
+		++index;
 		_texts.push_back(text);
 	}
 }

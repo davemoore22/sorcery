@@ -76,6 +76,8 @@ namespace Sorcery {
 		auto reload() -> void;
 		auto get_by_index(unsigned int index)
 			-> std::optional<std::vector<MenuEntry>::iterator>;
+		auto num_enabled() -> unsigned int;
+		auto num_disabled() -> unsigned int;
 
 	  private:
 		// Private Methods

@@ -43,6 +43,12 @@ auto Sorcery::State::set(System *system) -> void {
 	_system = system;
 }
 
+auto Sorcery::State::set_party(std::vector<unsigned int> candidate_party)
+	-> void {
+
+	_party = candidate_party;
+}
+
 auto Sorcery::State::party_has_members() -> bool {
 
 	return _party.size() > 0;

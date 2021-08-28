@@ -1161,3 +1161,17 @@ auto Sorcery::Menu::get_by_index(unsigned int index)
 	} else
 		return std::nullopt;
 }
+
+auto Sorcery::Menu::num_enabled() -> unsigned int {
+
+	return std::count_if(items.begin(), items.end(), [](const auto &menu_item) {
+		return menu_item.enabled;
+	});
+}
+
+auto Sorcery::Menu::num_disabled() -> unsigned int {
+
+	return std::count_if(items.begin(), items.end(), [](const auto &menu_item) {
+		return menu_item.enabled == false;
+	});
+}

@@ -2183,13 +2183,13 @@
 			},
 			{
 				"name": "candidate_party",
-				"x": "centre",
+				"x": "32",
 				"y": "17",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
 				"string": "",
-				"justification": "centre",
+				"justification": "left",
 				"type": "text",
 				"priority": "4"
 			},

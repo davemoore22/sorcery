@@ -172,7 +172,10 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 									_system, _display, _graphics, _game)};
 								auto new_party{reorder->start()};
 								if (new_party) {
-									// TODO
+									_game->state->set_party(new_party.value());
+									_game->save_game();
+									_game->load_game();
+									_status_bar->refresh();
 								}
 								reorder->stop();
 								_display->generate("tavern");
