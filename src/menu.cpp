@@ -43,6 +43,7 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics,
 	case MenuType::PARTY_CHARACTERS:
 	case MenuType::AVAILABLE_CHARACTERS:
 	case MenuType::INVALID_CHARACTERS:
+	case MenuType::PARTY_CHARACTER_NAMES:
 		_populate_chars();
 		selected = items.begin();
 		break;
@@ -112,7 +113,7 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics,
 			(*_display->string)["TAVERN_REMOVE_FROM_PARTY"]);
 		_add_item(2, MenuItemType::ENTRY, MenuItem::TA_INSPECT,
 			(*_display->string)["TAVERN_INSPECT"]);
-		_add_item(3, MenuItemType::ENTRY, MenuItem::TA_INSPECT,
+		_add_item(3, MenuItemType::ENTRY, MenuItem::TA_REORDER,
 			(*_display->string)["TAVERN_REORDER_PARTY"]);
 		_add_item(4, MenuItemType::ENTRY, MenuItem::REORDER_PARTY,
 			(*_display->string)["TAVERN_DIVVY_GOLD"]);
@@ -1047,6 +1048,20 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		}
 
 	} break;
+	case MenuType::PARTY_CHARACTER_NAMES: {
+
+		if (_game->state->party_has_members()) {
+			auto party{_game->state->get_party_characters()};
+			for (auto character_id : party) {
+				_add_item(character_id, MenuItemType::ENTRY,
+					MenuItem::IC_CHARACTER,
+					_game->characters[character_id].get_name());
+				++max_id;
+			}
+		} else
+			_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING,
+				(*_display->string)["MENU_NO_CHARACTERS"]);
+	} break;
 	case MenuType::PARTY_CHARACTERS: {
 
 		if (_game->state->party_has_members()) {
@@ -1128,4 +1143,21 @@ auto Sorcery::Menu::_populate_chars() -> void {
 	default:
 		break;
 	};
+}
+
+auto Sorcery::Menu::get_by_index(unsigned int index)
+	-> std::optional<std::vector<MenuEntry>::iterator> {
+	auto it{std::find_if(
+		items.begin(), items.end(), [index](const auto &menu_item) {
+			return (((menu_item.type == MenuItemType::ENTRY) ||
+						(menu_item.type == MenuItemType::SAVE) ||
+						(menu_item.type == MenuItemType::CANCEL)) &&
+					(menu_item.index == index));
+		})};
+
+	if (it != items.end()) {
+		selected = it;
+		return it;
+	} else
+		return std::nullopt;
 }

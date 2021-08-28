@@ -167,6 +167,18 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 									WindowInputMode::NAVIGATE_MENU);
 								_update_menus();
 								continue;
+							} else if (option_chosen == MenuItem::TA_REORDER) {
+								auto reorder{std::make_unique<Reorder>(
+									_system, _display, _graphics, _game)};
+								auto new_party{reorder->start()};
+								if (new_party) {
+									// TODO
+								}
+								reorder->stop();
+								_display->generate("tavern");
+								_display->set_input_mode(
+									WindowInputMode::NAVIGATE_MENU);
+								continue;
 							}
 						}
 					}

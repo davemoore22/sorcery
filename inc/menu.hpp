@@ -74,6 +74,8 @@ namespace Sorcery {
 		auto get_type() -> MenuType;
 		auto generate(Component &component) -> void;
 		auto reload() -> void;
+		auto get_by_index(unsigned int index)
+			-> std::optional<std::vector<MenuEntry>::iterator>;
 
 	  private:
 		// Private Methods

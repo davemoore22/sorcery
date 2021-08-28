@@ -176,6 +176,7 @@
 		<Unit filename="inc/options.hpp" />
 		<Unit filename="inc/platform.hpp" />
 		<Unit filename="inc/random.hpp" />
+		<Unit filename="inc/reorder.hpp" />
 		<Unit filename="inc/resourcemanager.hpp" />
 		<Unit filename="inc/roster.hpp" />
 		<Unit filename="inc/shop.hpp" />
@@ -235,6 +236,7 @@
 		<Unit filename="src/options.cpp" />
 		<Unit filename="src/platform.cpp" />
 		<Unit filename="src/random.cpp" />
+		<Unit filename="src/reorder.cpp" />
 		<Unit filename="src/resourcemanager.cpp" />
 		<Unit filename="src/roster.cpp" />
 		<Unit filename="src/shop.cpp" />

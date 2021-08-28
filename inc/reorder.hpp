@@ -24,41 +24,42 @@
 
 #pragma once
 
+#include "characterpanel.hpp"
+#include "create.hpp"
 #include "display.hpp"
+#include "edit.hpp"
 #include "frame.hpp"
 #include "game.hpp"
 #include "graphics.hpp"
-#include "inspect.hpp"
 #include "layout.hpp"
 #include "main.hpp"
 #include "menu.hpp"
-#include "reorder.hpp"
 #include "statusbar.hpp"
 #include "system.hpp"
 
 namespace Sorcery {
 
-	class Tavern {
+	class Reorder {
 
 	  public:
 		// Standard Constructor
-		Tavern(
+		Reorder(
 			System *system, Display *display, Graphics *graphics, Game *game);
-		Tavern() = delete;
+		Reorder() = delete;
 
 		// Standard Destructor
-		~Tavern();
+		~Reorder();
 
 		// Public Members
 
 		// Public Methods
-		auto start() -> std::optional<MenuItem>;
+		auto start() -> std::optional<std::vector<unsigned int>>;
 		auto stop() -> void;
 
 	  private:
 		// Private Methods
 		auto _draw() -> void;
-		auto _update_menus() -> void;
+		auto _populate_candidate() -> void;
 
 		// Private Members
 		System *_system;
@@ -66,15 +67,15 @@ namespace Sorcery {
 		Graphics *_graphics;
 		Game *_game;
 		sf::RenderWindow *_window;
-		std::string _screen_key;
-		std::unique_ptr<Frame> _frame;
 		std::unique_ptr<Menu> _menu;
 		sf::Sprite _bg;
-		WindowConfirm _yes_or_no;
 		std::unique_ptr<StatusBar> _status_bar;
-		TavernStage _stage;
-		std::unique_ptr<Menu> _add;
-		std::unique_ptr<Menu> _remove;
-		std::unique_ptr<Inspect> _inspect;
+		std::unique_ptr<Frame> _menu_frame;
+		RosterMode _mode;
+		std::string _screen_key;
+		int _cur_char_id;
+		std::vector<unsigned int> _candidate_party;
+		Component _candidate_c;
+		std::vector<sf::Text> _texts;
 	};
 } // namespace Sorcery
