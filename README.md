@@ -11,29 +11,29 @@ Nowhere near complete or even playable yet! Visit back regularily for updates.
 ## What can you do?
 
 * Visit the Town and the Castle
- * Inn
- * Tavern
- * Shop
- * Temple
- * Training Grounds
+  * Inn
+  * Tavern
+  * Shop
+  * Temple
+  * Training Grounds
 * Create Characters
- * Random/Quick/Full Methods
+  * Random/Quick/Full Methods
 * Edit Characters
- * Change Class
- * Change Name
- * Legate Character
+  * Change Class
+  * Change Name
+  * Legate Character
 * Delete Characters
 * Inspect Characters
- * Base Statistics
- * Full Statistics
- * Learned Mage Spells
- * Learned Cleric Spells
+  * Base Statistics
+  * Full Statistics
+  * Learned Mage Spells
+  * Learned Cleric Spells
 * Tavern
- * Add Character to Party
- * Remove Character from Party
- * Reorder Party Characters
- * Inspect Characters
- * Divvy Gold
+  * Add Character to Party
+  * Remove Character from Party
+  * Reorder Party Characters
+  * Inspect Characters
+  * Divvy Gold
 * Save and Load Game
 * Create New Game
 * Change Game Options
