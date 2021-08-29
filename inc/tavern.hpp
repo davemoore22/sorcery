@@ -59,6 +59,7 @@ namespace Sorcery {
 		// Private Methods
 		auto _draw() -> void;
 		auto _update_menus() -> void;
+		auto _divvy_party_gold() -> void;
 
 		// Private Members
 		System *_system;
@@ -76,5 +77,7 @@ namespace Sorcery {
 		std::unique_ptr<Menu> _add;
 		std::unique_ptr<Menu> _remove;
 		std::unique_ptr<Inspect> _inspect;
+		std::unique_ptr<Dialog> _divvy;
+		bool _show_divvy;
 	};
 } // namespace Sorcery

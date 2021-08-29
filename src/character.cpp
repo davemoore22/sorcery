@@ -842,6 +842,16 @@ auto Sorcery::Character::finalise() -> void {
 	_set_starting_sp();
 }
 
+auto Sorcery::Character::get_gold() const -> unsigned int {
+
+	return _abilities.at(CharacterAbility::GOLD);
+}
+
+auto Sorcery::Character::set_gold(const unsigned int value) -> void {
+
+	_abilities[CharacterAbility::GOLD] = value;
+}
+
 auto Sorcery::Character::_legate_start_info() -> void {
 
 	// From here:

@@ -110,6 +110,8 @@ namespace Sorcery {
 		auto set_view(const CharacterView value) -> void;
 		auto left_view() -> void;
 		auto right_view() -> void;
+		auto get_gold() const -> unsigned int;
+		auto set_gold(const unsigned int value) -> void;
 		auto summary_text() -> std::string;
 		auto get_method() const -> CreateMethod;
 		auto set_method(const CreateMethod value) -> void;

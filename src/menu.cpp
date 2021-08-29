@@ -115,7 +115,7 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics,
 			(*_display->string)["TAVERN_INSPECT"]);
 		_add_item(3, MenuItemType::ENTRY, MenuItem::TA_REORDER,
 			(*_display->string)["TAVERN_REORDER_PARTY"]);
-		_add_item(4, MenuItemType::ENTRY, MenuItem::REORDER_PARTY,
+		_add_item(4, MenuItemType::ENTRY, MenuItem::TA_DIVVY_GOLD,
 			(*_display->string)["TAVERN_DIVVY_GOLD"]);
 		_add_item(5, MenuItemType::ENTRY, MenuItem::TA_CASTLE,
 			(*_display->string)["TAVERN_CASTLE"]);
