@@ -219,11 +219,11 @@ auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event)
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{
 		_method_menu->selected};
 	if (_system->input->check(WindowInput::UP, event))
-		selected = _method_menu->choose_previous();
+		_method_menu->choose_previous();
 	else if (_system->input->check(WindowInput::DOWN, event))
-		selected = _method_menu->choose_next();
+		_method_menu->choose_next();
 	else if (_system->input->check(WindowInput::MOVE, event))
-		selected = _method_menu->set_mouse_selected(
+		_method_menu->set_mouse_selected(
 			static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 	else if (_system->input->check(WindowInput::BACK, event))
 		return ModuleResult::BACK;
@@ -360,11 +360,11 @@ auto Sorcery::Create::_handle_choose_race(const sf::Event &event)
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{
 		_race_menu->selected};
 	if (_system->input->check(WindowInput::UP, event))
-		selected = _race_menu->choose_previous();
+		_race_menu->choose_previous();
 	else if (_system->input->check(WindowInput::DOWN, event))
-		selected = _race_menu->choose_next();
+		_race_menu->choose_next();
 	else if (_system->input->check(WindowInput::MOVE, event))
-		selected = _race_menu->set_mouse_selected(
+		_race_menu->set_mouse_selected(
 			static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 	else if (_system->input->check(WindowInput::BACK, event))
 		return ModuleResult::BACK;
@@ -414,11 +414,11 @@ auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event)
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{
 		_alignment_menu->selected};
 	if (_system->input->check(WindowInput::UP, event))
-		selected = _alignment_menu->choose_previous();
+		_alignment_menu->choose_previous();
 	else if (_system->input->check(WindowInput::DOWN, event))
-		selected = _alignment_menu->choose_next();
+		_alignment_menu->choose_next();
 	else if (_system->input->check(WindowInput::MOVE, event))
-		selected = _alignment_menu->set_mouse_selected(
+		_alignment_menu->set_mouse_selected(
 			static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 	else if (_system->input->check(WindowInput::BACK, event))
 		return ModuleResult::BACK;
@@ -466,11 +466,11 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event)
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{
 		_attribute_menu->selected};
 	if (_system->input->check(WindowInput::UP, event))
-		selected = _attribute_menu->choose_previous();
+		_attribute_menu->choose_previous();
 	else if (_system->input->check(WindowInput::DOWN, event))
-		selected = _attribute_menu->choose_next();
+		_attribute_menu->choose_next();
 	else if (_system->input->check(WindowInput::MOVE, event))
-		selected = _attribute_menu->set_mouse_selected(
+		_attribute_menu->set_mouse_selected(
 			static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 	else if ((_system->input->check(WindowInput::LEFT, event)) ||
 			 (_system->input->check(WindowInput::BACK, event)) ||
@@ -582,11 +582,11 @@ auto Sorcery::Create::_handle_choose_class(const sf::Event &event)
 	std::optional<std::vector<MenuEntry>::const_iterator> class_selected{
 		_class_menu->selected};
 	if (_system->input->check(WindowInput::UP, event))
-		class_selected = _class_menu->choose_previous();
+		_class_menu->choose_previous();
 	else if (_system->input->check(WindowInput::DOWN, event))
-		class_selected = _class_menu->choose_next();
+		_class_menu->choose_next();
 	else if (_system->input->check(WindowInput::MOVE, event))
-		class_selected = _class_menu->set_mouse_selected(
+		_class_menu->set_mouse_selected(
 			static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 	else if (_system->input->check(WindowInput::BACK, event))
 		return ModuleResult::BACK;
@@ -715,13 +715,12 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event)
 				}
 
 			} else if (_system->input->check(WindowInput::UP, event))
-				selected = _final_menu->choose_previous();
+				_final_menu->choose_previous();
 			else if (_system->input->check(WindowInput::DOWN, event))
-				selected = _final_menu->choose_next();
+				_final_menu->choose_next();
 			else if (_system->input->check(WindowInput::MOVE, event))
-				selected =
-					_final_menu->set_mouse_selected(static_cast<sf::Vector2f>(
-						sf::Mouse::getPosition(*_window)));
+				_final_menu->set_mouse_selected(static_cast<sf::Vector2f>(
+					sf::Mouse::getPosition(*_window)));
 		}
 	} else {
 
