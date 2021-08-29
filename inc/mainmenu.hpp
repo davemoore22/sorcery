@@ -68,7 +68,6 @@ namespace Sorcery {
 		MainMenuType _menu_stage;
 		std::unique_ptr<Menu> _main_menu;
 		std::unique_ptr<AttractMode> _attract_mode;
-		WindowConfirm _yes_or_no;
 		Component _attract_creatures_c;
 		sf::Text _press_any_key;
 		std::unique_ptr<Dialog> _dialog_new_game;

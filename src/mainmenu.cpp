@@ -183,7 +183,6 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage)
 									option_chosen == MenuItem::MM_NEW_GAME) {
 									_display->set_input_mode(
 										WindowInputMode::CONFIRM_NEW_GAME);
-									_yes_or_no = WindowConfirm::NO;
 								} else if (option_chosen ==
 										   MenuItem::MM_CONTINUE_GAME) {
 									_display->set_input_mode(
@@ -207,7 +206,6 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage)
 								} else if (option_chosen == MenuItem::QUIT) {
 									_display->set_input_mode(
 										WindowInputMode::CONFIRM_QUIT_GAME);
-									_yes_or_no = WindowConfirm::NO;
 								}
 							}
 						} else if ((_system->input->check(
@@ -216,7 +214,6 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage)
 									   WindowInput::BACK, event)))) {
 							_display->set_input_mode(
 								WindowInputMode::CONFIRM_QUIT_GAME);
-							_yes_or_no = WindowConfirm::NO;
 						}
 
 					} else if (_display->get_input_mode() ==

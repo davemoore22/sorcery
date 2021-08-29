@@ -142,7 +142,6 @@ auto Sorcery::Options::start() -> bool {
 								// Ask for confirmation of Strict Mode
 								_display->set_input_mode(
 									WindowInputMode::CONFIRM_STRICT_MODE);
-								_yes_or_no = WindowConfirm::NO;
 
 							} else if ((config_to_toggle ==
 										   ConfigOption::RECOMMENDED_MODE) &&
@@ -175,14 +174,12 @@ auto Sorcery::Options::start() -> bool {
 							// Ask for confirmation of Save
 							_display->set_input_mode(
 								WindowInputMode::SAVE_CHANGES);
-							_yes_or_no = WindowConfirm::NO;
 						} else if ((*_menu->selected).type ==
 								   MenuItemType::CANCEL) {
 
 							// Ask for confirmation of Cancel
 							_display->set_input_mode(
 								WindowInputMode::CANCEL_CHANGES);
-							_yes_or_no = WindowConfirm::NO;
 						}
 					}
 				}

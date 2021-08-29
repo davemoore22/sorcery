@@ -171,7 +171,6 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_new_class = CharacterClass::SAMURAI;
 								_display->set_input_mode(WindowInputMode::
 										CONFIRM_CHANGE_CHARACTER_CLASS);
-								_yes_or_no = WindowConfirm::NO;
 							}
 							break;
 						case MenuItem::CC_FIGHTER:
@@ -183,7 +182,6 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_new_class = CharacterClass::FIGHTER;
 								_display->set_input_mode(WindowInputMode::
 										CONFIRM_CHANGE_CHARACTER_CLASS);
-								_yes_or_no = WindowConfirm::NO;
 							}
 							break;
 						case MenuItem::CC_LORD:
@@ -194,7 +192,6 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_new_class = CharacterClass::LORD;
 								_display->set_input_mode(WindowInputMode::
 										CONFIRM_CHANGE_CHARACTER_CLASS);
-								_yes_or_no = WindowConfirm::NO;
 							}
 							break;
 						case MenuItem::CC_THIEF:
@@ -206,7 +203,6 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_new_class = CharacterClass::THIEF;
 								_display->set_input_mode(WindowInputMode::
 										CONFIRM_CHANGE_CHARACTER_CLASS);
-								_yes_or_no = WindowConfirm::NO;
 							}
 							break;
 						case MenuItem::CC_NINJA:
@@ -218,7 +214,6 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_new_class = CharacterClass::NINJA;
 								_display->set_input_mode(WindowInputMode::
 										CONFIRM_CHANGE_CHARACTER_CLASS);
-								_yes_or_no = WindowConfirm::NO;
 							}
 							break;
 						case MenuItem::CC_PRIEST:
@@ -230,7 +225,6 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_new_class = CharacterClass::PRIEST;
 								_display->set_input_mode(WindowInputMode::
 										CONFIRM_CHANGE_CHARACTER_CLASS);
-								_yes_or_no = WindowConfirm::NO;
 							}
 							break;
 						case MenuItem::CC_BISHOP:
@@ -242,7 +236,6 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_new_class = CharacterClass::BISHOP;
 								_display->set_input_mode(WindowInputMode::
 										CONFIRM_CHANGE_CHARACTER_CLASS);
-								_yes_or_no = WindowConfirm::NO;
 							}
 							break;
 						case MenuItem::CC_MAGE:
@@ -253,7 +246,6 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_new_class = CharacterClass::MAGE;
 								_display->set_input_mode(WindowInputMode::
 										CONFIRM_CHANGE_CHARACTER_CLASS);
-								_yes_or_no = WindowConfirm::NO;
 							}
 							break;
 						default:

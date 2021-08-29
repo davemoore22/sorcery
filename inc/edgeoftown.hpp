@@ -69,7 +69,6 @@ namespace Sorcery {
 		std::unique_ptr<Menu> _menu;
 		sf::Sprite _bg;
 		std::unique_ptr<Dialog> _leave_game;
-		WindowConfirm _yes_or_no;
 		std::unique_ptr<Training> _training;
 		std::unique_ptr<StatusBar> _status_bar;
 	};

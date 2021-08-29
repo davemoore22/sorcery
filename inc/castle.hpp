@@ -73,7 +73,6 @@ namespace Sorcery {
 		std::unique_ptr<Menu> _menu;
 		sf::Sprite _bg;
 		std::unique_ptr<Dialog> _leave_game;
-		WindowConfirm _yes_or_no;
 		std::unique_ptr<EdgeOfTown> _edge_of_town;
 		std::unique_ptr<Tavern> _tavern;
 		std::unique_ptr<Inn> _inn;

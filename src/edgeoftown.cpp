@@ -117,13 +117,12 @@ auto Sorcery::EdgeOfTown::start() -> std::optional<MenuItem> {
 								(*option.value()).item};
 							option_chosen == MenuItem::ET_CASTLE) {
 							return MenuItem::ET_CASTLE;
-						} else if (option_chosen == MenuItem::ET_LEAVE_GAME) {
+						} else if (option_chosen == MenuItem::ET_LEAVE_GAME)
 							_display->set_input_mode(
 								WindowInputMode::CONFIRM_LEAVE_GAME);
-							_yes_or_no = WindowConfirm::NO;
-						} else if (option_chosen == MenuItem::ET_MAZE) {
+						else if (option_chosen == MenuItem::ET_MAZE)
 							return MenuItem::ET_MAZE;
-						} else if (option_chosen == MenuItem::ET_TRAIN) {
+						else if (option_chosen == MenuItem::ET_TRAIN) {
 
 							// Remove everyone from the Party
 							_game->state->clear_party();
@@ -142,7 +141,6 @@ auto Sorcery::EdgeOfTown::start() -> std::optional<MenuItem> {
 							   WindowInput::BACK, event)))) {
 					_display->set_input_mode(
 						WindowInputMode::CONFIRM_LEAVE_GAME);
-					_yes_or_no = WindowConfirm::NO;
 				}
 
 			} else if (_display->get_input_mode() ==

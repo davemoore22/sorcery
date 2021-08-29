@@ -173,7 +173,6 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 							   WindowInput::BACK, event)))) {
 					_display->set_input_mode(
 						WindowInputMode::CONFIRM_LEAVE_GAME);
-					_yes_or_no = WindowConfirm::NO;
 				}
 			} else if (_display->get_input_mode() ==
 					   WindowInputMode::CONFIRM_LEAVE_GAME) {

@@ -72,7 +72,6 @@ namespace Sorcery {
 		std::unique_ptr<Dialog> _confirm_save;
 		std::unique_ptr<Dialog> _confirm_cancel;
 		std::unique_ptr<Dialog> _confirm_strict;
-		WindowConfirm _yes_or_no;
 		std::unique_ptr<InfoPanel> _ip;
 	};
 } // namespace Sorcery
