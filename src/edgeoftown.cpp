@@ -54,7 +54,15 @@ Sorcery::EdgeOfTown::EdgeOfTown(
 Sorcery::EdgeOfTown::~EdgeOfTown() {}
 
 // Start/Continue a new Game
-auto Sorcery::EdgeOfTown::start() -> std::optional<MenuItem> {
+auto Sorcery::EdgeOfTown::start(bool go_directly_to_maze)
+	-> std::optional<MenuItem> {
+
+	if (go_directly_to_maze) {
+		auto _engine{
+			std::make_unique<Engine>(_system, _display, _graphics, _game)};
+		_engine->start();
+		_engine->stop();
+	}
 
 	// Get the Background Display Components and load them into Display module
 	// storage (not local - and note that due to the way both menus are combined

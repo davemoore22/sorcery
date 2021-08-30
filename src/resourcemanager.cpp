@@ -32,6 +32,7 @@ Sorcery::ResourceManager::ResourceManager(File &files) : _files{files} {
 
 		textures.acquire(Enums::Graphics::Texture::BACKGROUND,
 			thor::Resources::fromFile<sf::Texture>(_files[BACKGROUND_TEXTURE]));
+		textures[Enums::Graphics::Texture::BACKGROUND].setRepeated(true);
 		textures.acquire(Enums::Graphics::Texture::BANNER,
 			thor::Resources::fromFile<sf::Texture>(_files[BANNER_TEXTURE]));
 		textures.acquire(Enums::Graphics::Texture::CONTROLS,

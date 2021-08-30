@@ -28,6 +28,8 @@
 #include "game.hpp"
 #include "graphics.hpp"
 #include "main.hpp"
+#include "menu.hpp"
+#include "statusbar.hpp"
 #include "system.hpp"
 
 namespace Sorcery {
@@ -59,5 +61,9 @@ namespace Sorcery {
 		Graphics *_graphics;
 		Game *_game;
 		sf::RenderWindow *_window;
+		std::unique_ptr<Menu> _camp_menu;
+		std::unique_ptr<StatusBar> _status_bar;
+
+		bool _in_camp;
 	};
 } // namespace Sorcery

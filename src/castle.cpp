@@ -58,7 +58,14 @@ Sorcery::Castle::Castle(
 Sorcery::Castle::~Castle() {}
 
 // Start/Continue a new Game
-auto Sorcery::Castle::start() -> std::optional<MenuItem> {
+auto Sorcery::Castle::start(bool go_directly_to_maze)
+	-> std::optional<MenuItem> {
+
+	if (go_directly_to_maze) {
+
+		auto edge_option{_edge_of_town->start(true)};
+		_edge_of_town->stop();
+	}
 
 	// Get the Background Display Components and load them into Display module
 	// storage (not local - and note that due to the way both menus are combined

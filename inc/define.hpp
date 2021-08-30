@@ -47,6 +47,7 @@ namespace Sorcery {
 	// Command Line Arguments
 	inline constexpr auto SKIP_INTRO = "skip_intro"sv;
 	inline constexpr auto CONTINUE_GAME = "continue_game"sv;
+	inline constexpr auto GO_TO_MAZE = "go_to_maze"sv;
 
 	// Directories
 	inline constexpr auto CONFIG_DIR = "cfg"sv;

@@ -85,6 +85,12 @@ auto Sorcery::Application::start() -> int {
 		_game->save_game();
 	}
 
+	if (_check_param(GO_TO_MAZE)) {
+		_castle->start(true);
+		_castle->stop();
+		_game->save_game();
+	}
+
 	std::optional<MenuItem> option_chosen{MenuItem::NONE};
 	MainMenuType menu_stage{MainMenuType::ATTRACT_MODE};
 	do {

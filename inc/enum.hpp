@@ -69,6 +69,7 @@ namespace Sorcery {
 			NONE,
 			ATTRACT_MODE,
 			NAVIGATE_MENU,
+			IN_GAME,
 			DISPLAY_TEXT_FILE,
 			GAME_OPTIONS,
 			COMPENDIUM,

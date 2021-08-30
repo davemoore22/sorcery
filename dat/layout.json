@@ -8208,8 +8208,6 @@
 			}
 		]
 	},
-
-
 	{
 		"name": "spell_panel",
 		"component": [
@@ -8270,6 +8268,104 @@
 			]
 		}
 		]
+	},
+	{
+		"name": "engine_base_ui",
+		"component": [
+		{
+
+			"name": "wallpaper",
+			"x": "0",
+			"y": "0",
+			"scale": "1.25",
+			"type": "image",
+			"priority": "1",
+			"texture": "background",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "status_bar",
+			"w": "55",
+			"h": "9",
+			"x": "1",
+			"y": "26",
+			"alpha": "255",
+			"type": "other",
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_x": "0",
+					"offset_y": "0",
+					"summary_x": "6",
+					"summary_y": "8",
+					"summary_offset_x": "0",
+					"summary_offset_y": "28"
+
+				}
+			]
+		},
+		{
+			"name": "view_frame",
+			"w": "53",
+			"h": "28",
+			"x": "1",
+			"y": "1",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "5",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "automap_frame",
+			"w": "19",
+			"h": "18",
+			"x": "57",
+			"y": "1",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "5",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "button_frame",
+			"w": "19",
+			"h": "19",
+			"x": "57",
+			"y": "18",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "5",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "menu_frame",
+			"w": "36",
+			"h": "8",
+			"x": "centre",
+			"y": "10",
+			"alpha": "225",
+			"type": "frame",
+			"priority": "3",
+			"drawmode": "manual",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "menu",
+			"x": "22",
+			"y": "10",
+			"w": "36",
+			"h": "5",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"animated": "true",
+			"width": "36",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "menu",
+			"priority": "4"
+		}
+		]
 	}
 	]
-  }
+}

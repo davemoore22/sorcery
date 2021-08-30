@@ -53,7 +53,7 @@ namespace Sorcery {
 		// Public Members
 
 		// Public Methods
-		auto start() -> std::optional<MenuItem>;
+		auto start(bool go_directly_to_maze = false) -> std::optional<MenuItem>;
 		auto stop() -> void;
 
 	  private:

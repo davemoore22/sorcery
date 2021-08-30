@@ -11,7 +11,7 @@
 				<Option object_output="obj/debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="--skip_intro --continue_game" />
+				<Option parameters="--skip_intro --go_to_maze" />
 				<Compiler>
 					<Add option="-pg" />
 					<Add option="-g" />
