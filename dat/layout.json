@@ -8277,7 +8277,6 @@
 			"name": "wallpaper",
 			"x": "0",
 			"y": "0",
-			"scale": "1.25",
 			"type": "image",
 			"priority": "1",
 			"texture": "background",
@@ -8299,8 +8298,25 @@
 					"summary_x": "6",
 					"summary_y": "8",
 					"summary_offset_x": "0",
-					"summary_offset_y": "28"
-
+					"summary_offset_y": "28",
+					"adjustment_w": "-16"
+				}
+			]
+		},
+		{
+			"name": "status_bar_outer_frame",
+			"w": "53",
+			"h": "9",
+			"x": "1",
+			"y": "0",
+			"drawmode": "manual",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "5",
+			"background": " 0x000000ff",
+			"data": [
+				{
+				"adjustment_w": "-16"
 				}
 			]
 		},
@@ -8338,7 +8354,7 @@
 			"background": " 0x000000ff"
 		},
 		{
-			"name": "menu_frame",
+			"name": "camp_menu_frame",
 			"w": "36",
 			"h": "8",
 			"x": "centre",
@@ -8350,7 +8366,7 @@
 			"background": " 0x000000ff"
 		},
 		{
-			"name": "menu",
+			"name": "camp_menu",
 			"x": "22",
 			"y": "10",
 			"w": "36",

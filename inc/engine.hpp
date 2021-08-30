@@ -62,6 +62,7 @@ namespace Sorcery {
 		Game *_game;
 		sf::RenderWindow *_window;
 		std::unique_ptr<Menu> _camp_menu;
+		std::unique_ptr<Frame> _camp_menu_frame;
 		std::unique_ptr<StatusBar> _status_bar;
 
 		bool _in_camp;

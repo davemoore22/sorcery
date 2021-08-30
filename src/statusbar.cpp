@@ -25,15 +25,22 @@
 #include "statusbar.hpp"
 
 // Standard Constructor
-Sorcery::StatusBar::StatusBar(
-	System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::StatusBar::StatusBar(System *system, Display *display,
+	Graphics *graphics, Game *game, std::optional<Component> layout,
+	std::optional<Component> frame)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	_texts.clear();
 
 	// Get any Layout Information
-	_layout = Component((*_display->layout)["status_bar:status_bar"]);
-	_frame_c = Component((*_display->layout)["status_bar:outer_frame"]);
+	if (layout)
+		_layout = layout.value();
+	else
+		_layout = Component((*_display->layout)["status_bar:status_bar"]);
+	if (frame)
+		_frame_c = frame.value();
+	else
+		_frame_c = Component((*_display->layout)["status_bar:outer_frame"]);
 
 	_rtexture.create(_layout.w * _display->window->get_cw(),
 		_layout.h * _display->window->get_ch());

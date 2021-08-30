@@ -35,10 +35,19 @@ Sorcery::Engine::Engine(
 	// Setup Custom Components
 	_camp_menu = std::make_unique<Menu>(
 		_system, _display, _graphics, _game, MenuType::CAMP);
+	const Component menu_fc{
+		(*_display->layout)["engine_base_ui:camp_menu_frame"]};
+	_camp_menu_frame = std::make_unique<Frame>(_display->ui_texture,
+		WindowFrameType::NORMAL, menu_fc.w, menu_fc.h, menu_fc.colour,
+		menu_fc.background, menu_fc.alpha);
+	_camp_menu_frame->setPosition(
+		_display->window->get_x(_camp_menu_frame->sprite, menu_fc.x),
+		_display->window->get_y(_camp_menu_frame->sprite, menu_fc.y));
 
 	// Modules
-	_status_bar =
-		std::make_unique<StatusBar>(_system, _display, _graphics, _game);
+	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics,
+		_game, (*_display->layout)["engine_base_ui:status_bar"],
+		(*_display->layout)["engine_base_ui:status_bar_outer_frame"]);
 }
 
 // Standard Destructor
@@ -149,10 +158,11 @@ auto Sorcery::Engine::_draw() -> void {
 
 	// And the Menu
 	if (_in_camp) {
-		_camp_menu->generate((*_display->layout)["engine_base_ui:menu"]);
+		_window->draw(*_camp_menu_frame);
+		_camp_menu->generate((*_display->layout)["engine_base_ui:camp_menu"]);
 		const sf::Vector2f menu_pos(
-			(*_display->layout)["engine_base_ui:menu"].x,
-			(*_display->layout)["engine_base_ui:menu"].y);
+			(*_display->layout)["engine_base_ui:camp_menu"].x,
+			(*_display->layout)["engine_base_ui:camp_menu"].y);
 		_camp_menu->setPosition(menu_pos);
 		_window->draw(*_camp_menu);
 	}

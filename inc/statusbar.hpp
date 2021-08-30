@@ -41,8 +41,9 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		StatusBar(
-			System *system, Display *display, Graphics *graphics, Game *game);
+		StatusBar(System *system, Display *display, Graphics *graphics,
+			Game *game, std::optional<Component> layout = std::nullopt,
+			std::optional<Component> frame = std::nullopt);
 		StatusBar() = delete;
 
 		// Public Members
