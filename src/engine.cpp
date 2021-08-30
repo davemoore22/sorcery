@@ -125,7 +125,8 @@ auto Sorcery::Engine::start() -> void {
 						} else if (option_chosen == MenuItem::CP_SAVE) {
 							_game->save_game();
 							return;
-						}
+						} else if (option_chosen == MenuItem::QUIT)
+							_window->close();
 					}
 				}
 			} else {
@@ -141,7 +142,6 @@ auto Sorcery::Engine::start() -> void {
 			}
 
 			_window->clear();
-
 			_draw();
 			_window->display();
 		}

@@ -396,7 +396,9 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics,
 			(*_display->string)["CAMP_SAVE"]);
 		_add_item(3, MenuItemType::ENTRY, MenuItem::CP_OPTIONS,
 			(*_display->string)["CAMP_OPTIONS"]);
-		_add_item(4, MenuItemType::ENTRY, MenuItem::CP_LEAVE,
+		_add_item(4, MenuItemType::ENTRY, MenuItem::QUIT,
+			(*_display->string)["CAMP_QUIT"]);
+		_add_item(5, MenuItemType::ENTRY, MenuItem::CP_LEAVE,
 			(*_display->string)["CAMP_LEAVE"]);
 		selected = items.begin();
 		break;

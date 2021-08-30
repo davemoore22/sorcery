@@ -8345,9 +8345,20 @@
 		{
 			"name": "button_frame",
 			"w": "19",
-			"h": "19",
+			"h": "7",
 			"x": "57",
 			"y": "18",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "5",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "action_frame",
+			"w": "19",
+			"h": "9",
+			"x": "57",
+			"y": "26",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "5",
