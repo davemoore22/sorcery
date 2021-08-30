@@ -60,6 +60,7 @@ auto Sorcery::EdgeOfTown::start() -> std::optional<MenuItem> {
 	// storage (not local - and note that due to the way both menus are combined
 	// in this class, we need to have the menustage set first in this case and
 	// this case only)
+	_update_menus();
 	_display->generate("edge_of_town");
 
 	// Clear the window
@@ -185,6 +186,16 @@ auto Sorcery::EdgeOfTown::stop() -> void {
 
 	// Stop the background movie!
 	_display->stop_bg_movie();
+}
+
+auto Sorcery::EdgeOfTown::_update_menus() -> void {
+
+	Component component{(*_display->layout)["edge_of_town:menu"]};
+	if (_game->state->get_party_characters().size() == 0) {
+		_menu->disable_entry(component, 2);
+	} else {
+		_menu->enable_entry(component, 2);
+	}
 }
 
 auto Sorcery::EdgeOfTown::_draw() -> void {

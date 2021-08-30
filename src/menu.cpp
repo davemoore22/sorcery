@@ -1195,7 +1195,8 @@ auto Sorcery::Menu::enable_entry(Component &component, unsigned int index)
 	auto current{(*entry).enabled};
 	if (current == false) {
 		(*entry).enabled = true;
-		_texts.at(index).setFillColor(sf::Color(component.colour));
+		if (_texts.size() >= index)
+			_texts.at(index).setFillColor(sf::Color(component.colour));
 	}
 }
 
@@ -1206,6 +1207,7 @@ auto Sorcery::Menu::disable_entry(Component &component, unsigned int index)
 	auto current{(*entry).enabled};
 	if (current) {
 		(*entry).enabled = false;
-		_texts.at(index).setFillColor(sf::Color(0x606060ff));
+		if (_texts.size() >= index)
+			_texts.at(index).setFillColor(sf::Color(0x606060ff));
 	}
 }
