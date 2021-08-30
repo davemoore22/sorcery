@@ -121,9 +121,20 @@ auto Sorcery::EdgeOfTown::start() -> std::optional<MenuItem> {
 						} else if (option_chosen == MenuItem::ET_LEAVE_GAME)
 							_display->set_input_mode(
 								WindowInputMode::CONFIRM_LEAVE_GAME);
-						else if (option_chosen == MenuItem::ET_MAZE)
+						else if (option_chosen == MenuItem::ET_MAZE) {
+
+							auto _engine{std::make_unique<Engine>(
+								_system, _display, _graphics, _game)};
+							_engine->start();
+							_engine->stop();
+							_game->save_game();
+							_status_bar->refresh();
+							_display->generate("edge_of_town");
+							_display->set_input_mode(
+								WindowInputMode::NAVIGATE_MENU);
+
 							return MenuItem::ET_MAZE;
-						else if (option_chosen == MenuItem::ET_TRAIN) {
+						} else if (option_chosen == MenuItem::ET_TRAIN) {
 
 							// Remove everyone from the Party
 							_game->state->clear_party();

@@ -82,7 +82,6 @@ namespace Sorcery {
 		std::unique_ptr<Options> _options;
 		std::unique_ptr<Compendium> _compendium;
 		std::unique_ptr<Castle> _castle;
-		std::unique_ptr<Engine> _engine;
 		std::unique_ptr<Game> _game;
 		std::vector<std::string> _arguments;
 	};

@@ -25,8 +25,9 @@
 #include "engine.hpp"
 
 // Standard Constructor
-Sorcery::Engine::Engine(System *system, Display *display, Graphics *graphics)
-	: _system{system}, _display{display}, _graphics{graphics} {
+Sorcery::Engine::Engine(
+	System *system, Display *display, Graphics *graphics, Game *game)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();

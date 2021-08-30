@@ -69,8 +69,6 @@ Sorcery::Application::Application(int argc, char **argv) {
 		system.get(), display.get(), graphics.get());
 	_castle = std::make_unique<Castle>(
 		system.get(), display.get(), graphics.get(), _game.get());
-	_engine =
-		std::make_unique<Engine>(system.get(), display.get(), graphics.get());
 }
 
 // Standard Destructor
