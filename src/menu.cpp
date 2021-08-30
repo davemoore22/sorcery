@@ -150,7 +150,7 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics,
 			(*_display->string)["TEMPLE_TITHE"]);
 		_add_item(2, MenuItemType::ENTRY, MenuItem::TE_INSPECT,
 			(*_display->string)["TEMPLE_INSPECT"]);
-		_add_item(4, MenuItemType::ENTRY, MenuItem::TE_CASTLE,
+		_add_item(3, MenuItemType::ENTRY, MenuItem::TE_CASTLE,
 			(*_display->string)["TEMPLE_CASTLE"]);
 		selected = items.begin();
 		break;
@@ -387,6 +387,18 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics,
 		selected = items.begin();
 		break;
 	case MenuType::PAUSE:
+	case MenuType::CAMP:
+		_add_item(0, MenuItemType::ENTRY, MenuItem::CP_INSPECT,
+			(*_display->string)["CAMP_INSPECT"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::CP_REORDER,
+			(*_display->string)["CAMP_REORDER"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::CP_SAVE,
+			(*_display->string)["CAMP_SAVE"]);
+		_add_item(3, MenuItemType::ENTRY, MenuItem::CP_OPTIONS,
+			(*_display->string)["CAMP_OPTIONS"]);
+		_add_item(4, MenuItemType::ENTRY, MenuItem::CP_LEAVE,
+			(*_display->string)["CAMP_LEAVE"]);
+		selected = items.begin();
 		break;
 	default:
 		break;

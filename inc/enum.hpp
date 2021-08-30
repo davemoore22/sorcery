@@ -565,7 +565,8 @@ namespace Sorcery {
 			PARTY_CHARACTERS,
 			AVAILABLE_CHARACTERS,
 			INVALID_CHARACTERS,
-			PARTY_CHARACTER_NAMES
+			PARTY_CHARACTER_NAMES,
+			CAMP
 		};
 
 		enum class Mode { NONE, TAVERN, TEMPLE, INN, SHOP, TRAINING };
@@ -688,7 +689,12 @@ namespace Sorcery {
 			TE_HELP,
 			TE_TITHE,
 			TE_INSPECT,
-			TE_CASTLE
+			TE_CASTLE,
+			CP_INSPECT,
+			CP_REORDER,
+			CP_SAVE,
+			CP_OPTIONS,
+			CP_LEAVE
 		};
 
 		// Menu Items
