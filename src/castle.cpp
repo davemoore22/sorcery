@@ -64,6 +64,7 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 	// storage (not local - and note that due to the way both menus are combined
 	// in this class, we need to have the menu stage set first in this case and
 	// this case only)
+	_update_menus();
 	_display->generate("castle");
 
 	// Clear the window
@@ -77,6 +78,7 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 
 	// Refresh the Party characters
 	_status_bar->refresh();
+
 	// Play the background movie!
 	_display->fit_bg_movie();
 	_display->start_bg_movie();
@@ -134,6 +136,7 @@ auto Sorcery::Castle::start() -> std::optional<MenuItem> {
 							_tavern->stop();
 							_game->save_game();
 							_status_bar->refresh();
+							_update_menus();
 							_display->generate("castle");
 							_display->set_input_mode(
 								WindowInputMode::NAVIGATE_MENU);
@@ -214,6 +217,20 @@ auto Sorcery::Castle::stop() -> void {
 
 	// Stop the background movie!
 	_display->stop_bg_movie();
+}
+
+auto Sorcery::Castle::_update_menus() -> void {
+
+	Component component{(*_display->layout)["castle:menu"]};
+	if (_game->state->get_party_characters().size() == 0) {
+		_menu->disable_entry(component, 1);
+		_menu->disable_entry(component, 2);
+		_menu->disable_entry(component, 3);
+	} else {
+		_menu->enable_entry(component, 1);
+		_menu->enable_entry(component, 2);
+		_menu->enable_entry(component, 3);
+	}
 }
 
 auto Sorcery::Castle::_draw() -> void {

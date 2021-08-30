@@ -72,12 +72,14 @@ namespace Sorcery {
 		auto get_mouse_clicked(const sf::Event::MouseButtonEvent mb_event)
 			-> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto get_type() -> MenuType;
-		auto generate(Component &component) -> void;
+		auto generate(Component &component, bool force_refresh = false) -> void;
 		auto reload() -> void;
 		auto get_by_index(unsigned int index)
 			-> std::optional<std::vector<MenuEntry>::iterator>;
 		auto num_enabled() -> unsigned int;
 		auto num_disabled() -> unsigned int;
+		auto enable_entry(Component &component, unsigned int index) -> void;
+		auto disable_entry(Component &component, unsigned int index) -> void;
 
 	  private:
 		// Private Methods

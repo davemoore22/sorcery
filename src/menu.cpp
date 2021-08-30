@@ -758,9 +758,10 @@ auto Sorcery::Menu::choose_next()
 }
 
 // TODO: optimise this so that it isn't created on every refresh!
-auto Sorcery::Menu::generate(Component &component) -> void {
+auto Sorcery::Menu::generate(Component &component, bool force_refresh) -> void {
 
-	if (_texts.size() == 0) {
+	auto do_refresh{force_refresh || _texts.size() == 0};
+	if (do_refresh) {
 
 		// In case we are generating the Options Menu
 		const Component on_c{(*_display->layout)["options:on"]};
@@ -949,7 +950,6 @@ auto Sorcery::Menu::generate(Component &component) -> void {
 							sf::Color(component.colour));
 					else
 						_texts.at(index).setFillColor(sf::Color(0x606060ff));
-					//_texts.at(index).setFillColor(sf::Color(component.colour));
 					_texts.at(index).setOutlineColor(sf::Color(0, 0, 0));
 					_texts.at(index).setOutlineThickness(2);
 
@@ -1186,4 +1186,26 @@ auto Sorcery::Menu::num_disabled() -> unsigned int {
 	return std::count_if(items.begin(), items.end(), [](const auto &menu_item) {
 		return menu_item.enabled == false;
 	});
+}
+
+auto Sorcery::Menu::enable_entry(Component &component, unsigned int index)
+	-> void {
+
+	auto entry{items.begin() + index};
+	auto current{(*entry).enabled};
+	if (current == false) {
+		(*entry).enabled = true;
+		_texts.at(index).setFillColor(sf::Color(component.colour));
+	}
+}
+
+auto Sorcery::Menu::disable_entry(Component &component, unsigned int index)
+	-> void {
+
+	auto entry{items.begin() + index};
+	auto current{(*entry).enabled};
+	if (current) {
+		(*entry).enabled = false;
+		_texts.at(index).setFillColor(sf::Color(0x606060ff));
+	}
 }

@@ -84,6 +84,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 		break;
 	}
 
+	_update_menus();
 	_display->generate(_screen_key);
 
 	// Clear the window
@@ -91,7 +92,6 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 
 	// Refresh the Party characters
 	_status_bar->refresh();
-	_update_menus();
 
 	// Generate the Custom Components
 	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
@@ -178,25 +178,25 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 									_add->reload();
 									_stage = TavernStage::ADD;
 									_screen_key = "tavern_add";
-									_display->generate(_screen_key);
 									_update_menus();
+									_display->generate(_screen_key);
 									continue;
 								} else if (option_chosen ==
 										   MenuItem::TA_REMOVE_FROM_PARTY) {
 									_remove->reload();
 									_stage = TavernStage::REMOVE;
 									_screen_key = "tavern_remove";
-									_display->generate(_screen_key);
 									_update_menus();
+									_display->generate(_screen_key);
 									continue;
 								} else if (option_chosen ==
 										   MenuItem::TA_INSPECT) {
 									_inspect->start();
 									_inspect->stop();
+									_update_menus();
 									_display->generate("tavern");
 									_display->set_input_mode(
 										WindowInputMode::NAVIGATE_MENU);
-									_update_menus();
 									continue;
 								} else if (option_chosen ==
 										   MenuItem::TA_REORDER) {
@@ -211,6 +211,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 										_status_bar->refresh();
 									}
 									reorder->stop();
+									_update_menus();
 									_display->generate("tavern");
 									_display->set_input_mode(
 										WindowInputMode::NAVIGATE_MENU);
@@ -235,16 +236,16 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 				if (_system->input->check(WindowInput::CANCEL, event)) {
 					_stage = TavernStage::MENU;
 					_screen_key = "tavern";
-					_display->generate(_screen_key);
 					_update_menus();
+					_display->generate(_screen_key);
 					continue;
 				}
 
 				if (_system->input->check(WindowInput::BACK, event)) {
 					_stage = TavernStage::MENU;
 					_screen_key = "tavern";
-					_display->generate(_screen_key);
 					_update_menus();
+					_display->generate(_screen_key);
 					continue;
 				}
 
@@ -266,8 +267,8 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 
 							_stage = TavernStage::MENU;
 							_screen_key = "tavern";
-							_display->generate(_screen_key);
 							_update_menus();
+							_display->generate(_screen_key);
 							continue;
 						} else {
 
@@ -279,8 +280,8 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 							_status_bar->refresh();
 							_stage = TavernStage::MENU;
 							_screen_key = "tavern";
-							_display->generate(_screen_key);
 							_update_menus();
+							_display->generate(_screen_key);
 						}
 					}
 				}
@@ -289,16 +290,16 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 				if (_system->input->check(WindowInput::CANCEL, event)) {
 					_stage = TavernStage::MENU;
 					_screen_key = "tavern";
-					_display->generate(_screen_key);
 					_update_menus();
+					_display->generate(_screen_key);
 					continue;
 				}
 
 				if (_system->input->check(WindowInput::BACK, event)) {
 					_stage = TavernStage::MENU;
 					_screen_key = "tavern";
-					_display->generate(_screen_key);
 					_update_menus();
+					_display->generate(_screen_key);
 					continue;
 				}
 
@@ -321,8 +322,8 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 
 							_stage = TavernStage::MENU;
 							_screen_key = "tavern";
-							_display->generate(_screen_key);
 							_update_menus();
+							_display->generate(_screen_key);
 							continue;
 						} else {
 
@@ -335,8 +336,8 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 							_status_bar->refresh();
 							_stage = TavernStage::MENU;
 							_screen_key = "tavern";
-							_display->generate(_screen_key);
 							_update_menus();
+							_display->generate(_screen_key);
 						}
 					}
 				}
@@ -365,25 +366,21 @@ auto Sorcery::Tavern::stop() -> void {
 
 auto Sorcery::Tavern::_update_menus() -> void {
 
+	Component component{(*_display->layout)["tavern:menu"]};
 	if (_game->state->get_party_characters().size() == MAX_PARTY_SIZE) {
-		if ((*_menu)[0].enabled) {
-			(*_menu)[0].enabled = false;
-			_menu->generate((*_display->layout)["tavern:menu"]);
-		}
+		_menu->disable_entry(component, 0);
 	} else if (_game->state->get_party_characters().size() == 0) {
-		if ((*_menu)[1].enabled) {
-			(*_menu)[1].enabled = false;
-			_menu->generate((*_display->layout)["tavern:menu"]);
-		}
+		_menu->enable_entry(component, 0);
+		_menu->disable_entry(component, 1);
+		_menu->disable_entry(component, 2);
+		_menu->disable_entry(component, 3);
+		_menu->disable_entry(component, 4);
 	} else {
-		if (!(*_menu)[0].enabled) {
-			(*_menu)[0].enabled = true;
-			_menu->generate((*_display->layout)["tavern:menu"]);
-		}
-		if (!(*_menu)[1].enabled) {
-			(*_menu)[1].enabled = true;
-			_menu->generate((*_display->layout)["tavern:menu"]);
-		}
+		_menu->enable_entry(component, 0);
+		_menu->enable_entry(component, 1);
+		_menu->enable_entry(component, 2);
+		_menu->enable_entry(component, 3);
+		_menu->enable_entry(component, 4);
 	}
 }
 
