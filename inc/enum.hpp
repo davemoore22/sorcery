@@ -571,7 +571,7 @@ namespace Sorcery {
 			CAMP
 		};
 
-		enum class Mode { NONE, TAVERN, TEMPLE, INN, SHOP, TRAINING };
+		enum class Mode { NONE, TAVERN, TEMPLE, INN, SHOP, TRAINING, CAMP };
 
 		// Menu Items
 		enum class Item {
@@ -652,6 +652,7 @@ namespace Sorcery {
 			CA_SHOP,
 			CA_TEMPLE,
 			CA_EDGE_OF_TOWN,
+			CAMP,
 			ET_CASTLE,
 			ET_TRAIN,
 			ET_MAZE,

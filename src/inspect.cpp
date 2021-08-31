@@ -48,6 +48,9 @@ Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics,
 	case MenuMode::TEMPLE:
 		_screen_key = "temple_inspect";
 		break;
+	case MenuMode::CAMP:
+		_screen_key = "engine_base_ui";
+		break;
 	default:
 		break;
 	}
@@ -86,25 +89,30 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 	case MenuMode::TEMPLE:
 		_display->generate("temple_inspect");
 		break;
+	case MenuMode::CAMP:
+		_display->generate("engine_base_ui");
+		break;
 	default:
 		break;
 	}
 
 	// Set up the Custom Components
-	const Component bg_c{(*_display->layout)[_screen_key + ":background"]};
-	sf::IntRect bg_rect{};
-	bg_rect.width = std::stoi(bg_c["source_w"].value());
-	bg_rect.height = std::stoi(bg_c["source_h"].value());
-	bg_rect.top = 0;
-	bg_rect.left = std::stoi(bg_c["source_w"].value()) *
-				   std::stoi(bg_c["source_index"].value());
+	if (_screen_key != "engine_base_ui") {
+		const Component bg_c{(*_display->layout)[_screen_key + ":background"]};
+		sf::IntRect bg_rect{};
+		bg_rect.width = std::stoi(bg_c["source_w"].value());
+		bg_rect.height = std::stoi(bg_c["source_h"].value());
+		bg_rect.top = 0;
+		bg_rect.left = std::stoi(bg_c["source_w"].value()) *
+					   std::stoi(bg_c["source_index"].value());
 
-	_bg.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
-	_bg.setTextureRect(bg_rect);
-	_bg.setScale(
-		std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
-	_bg.setPosition(_display->window->get_x(_bg, bg_c.x),
-		_display->window->get_y(_bg, bg_c.y));
+		_bg.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
+		_bg.setTextureRect(bg_rect);
+		_bg.setScale(std::stof(bg_c["scale_x"].value()),
+			std::stof(bg_c["scale_y"].value()));
+		_bg.setPosition(_display->window->get_x(_bg, bg_c.x),
+			_display->window->get_y(_bg, bg_c.y));
+	}
 
 	const Component menu_fc{(*_display->layout)[_screen_key + ":menu_frame"]};
 	_menu_frame = std::make_unique<Frame>(_display->ui_texture,
@@ -135,8 +143,10 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 	_window->clear();
 
 	// Play the background movie!
-	_display->fit_bg_movie();
-	_display->start_bg_movie();
+	if (_screen_key != "engine_base_ui") {
+		_display->fit_bg_movie();
+		_display->start_bg_movie();
+	}
 
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{
@@ -183,6 +193,7 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 							(option_chosen == MenuItem::CA_TAVERN) ||
 							(option_chosen == MenuItem::CA_TEMPLE) ||
 							(option_chosen == MenuItem::CA_INN) ||
+							(option_chosen == MenuItem::CAMP) ||
 							(option_chosen == MenuItem::CA_SHOP)) {
 							_display->set_input_mode(
 								WindowInputMode::NAVIGATE_MENU);
@@ -208,7 +219,8 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 						((*selected.value()).item != MenuItem::CA_TAVERN) &&
 						((*selected.value()).item != MenuItem::CA_SHOP) &&
 						((*selected.value()).item != MenuItem::CA_TEMPLE) &&
-						((*selected.value()).item != MenuItem::CA_INN)) {
+						((*selected.value()).item != MenuItem::CA_INN) &&
+						((*selected.value()).item != MenuItem::CAMP)) {
 						const auto character_chosen{
 							static_cast<int>((*selected.value()).index)};
 						if (character_chosen != _cur_char_id) {
@@ -267,9 +279,11 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 		_window->clear();
 
 		// Update Background Movie
-		_display->start_bg_movie();
-		_display->update_bg_movie();
-		_display->draw_bg_movie();
+		if (_screen_key != "engine_base_ui") {
+			_display->start_bg_movie();
+			_display->update_bg_movie();
+			_display->draw_bg_movie();
+		}
 
 		_draw();
 		_window->display();
@@ -285,13 +299,33 @@ auto Sorcery::Inspect::stop() -> void {
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 
 	// Stop the background movie!
-	_display->stop_bg_movie();
+	if (_screen_key != "engine_base_ui")
+		_display->stop_bg_movie();
 }
 
 auto Sorcery::Inspect::_draw() -> void {
 
 	// Display Components
-	_display->display("tavern");
+	switch (_mode) {
+	case MenuMode::TAVERN:
+		_display->display("tavern");
+		break;
+	case MenuMode::INN:
+		_display->display("inn");
+		break;
+	case MenuMode::SHOP:
+		_display->display("shop");
+		break;
+	case MenuMode::TEMPLE:
+		_display->display("temple");
+		break;
+	case MenuMode::CAMP:
+		_display->display("engine_base_ui");
+		break;
+	default:
+		break;
+	}
+
 	if (_display->get_input_mode() == WindowInputMode::BROWSE_CHARACTER) {
 		if (_cur_char) {
 

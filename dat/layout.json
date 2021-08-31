@@ -8283,6 +8283,36 @@
 			"drawmode": "automatic"
 		},
 		{
+			"name": "character",
+			"x": "12",
+			"y": "7",
+			"drawmode": "manual"
+		},
+		{
+			"name": "character_frame",
+			"w": "58",
+			"h": "30",
+			"x": "centre",
+			"y": "6",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "6",
+			"drawmode": "manual",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "menu_frame",
+			"w": "36",
+			"h": "30",
+			"x": "centre",
+			"y": "6",
+			"alpha": "225",
+			"type": "frame",
+			"priority": "6",
+			"drawmode": "manual",
+			"background": " 0x000000ff"
+		},
+		{
 			"name": "status_bar",
 			"w": "55",
 			"h": "9",
@@ -8302,6 +8332,45 @@
 					"adjustment_w": "-16"
 				}
 			]
+		},
+		{
+			"name": "menu",
+			"x": "22",
+			"y": "8",
+			"w": "36",
+			"h": "4",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"animated": "true",
+			"width": "36",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "menu",
+			"priority": "8"
+		},
+		{
+			"name": "info_panel",
+			"w": "38",
+			"h": "4",
+			"x": "20",
+			"y": "26",
+			"alpha": "255",
+			"type": "panel",
+			"priority": "8",
+			"drawmode": "manual"
+		},
+		{
+			"name": "preview_frame",
+			"w": "40",
+			"h": "6",
+			"x": "centre",
+			"y": "26",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "9",
+			"drawmode": "manual",
+			"background": " 0x000000ff"
 		},
 		{
 			"name": "dialog_exit",

@@ -28,9 +28,11 @@
 #include "display.hpp"
 #include "game.hpp"
 #include "graphics.hpp"
+#include "inspect.hpp"
 #include "main.hpp"
 #include "menu.hpp"
 #include "options.hpp"
+#include "reorder.hpp"
 #include "statusbar.hpp"
 #include "system.hpp"
 

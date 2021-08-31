@@ -166,6 +166,18 @@ auto Sorcery::Engine::start() -> int {
 							options->stop();
 							_status_bar->refresh();
 							_display->generate("engine_base_ui");
+						} else if (option_chosen == MenuItem::CP_INSPECT) {
+							auto inspect{std::make_unique<Inspect>(_system,
+								_display, _graphics, _game, MenuMode::CAMP)};
+							_status_bar->refresh();
+							auto result{inspect->start()};
+							if (result == MenuItem::ABORT) {
+								inspect->stop();
+								return EXIT_ALL;
+							}
+							inspect->stop();
+							_status_bar->refresh();
+							_display->generate("engine_base_ui");
 						}
 					}
 				}

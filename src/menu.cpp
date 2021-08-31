@@ -1111,6 +1111,11 @@ auto Sorcery::Menu::_populate_chars() -> void {
 					(*_display->string)["MENU_SPACER"]);
 				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::CA_TEMPLE,
 					(*_display->string)["MENU_TEMPLE"]);
+			} else if (_mode.value() == MenuMode::CAMP) {
+				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER,
+					(*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::CAMP,
+					(*_display->string)["MENU_CAMP"]);
 			}
 		}
 	} break;
@@ -1202,8 +1207,8 @@ auto Sorcery::Menu::enable_entry(Component &component, unsigned int index)
 	}
 }
 
-auto Sorcery::Menu::disable_entry(__attribute__((unused)) Component &component, unsigned int index)
-	-> void {
+auto Sorcery::Menu::disable_entry(
+	__attribute__((unused)) Component &component, unsigned int index) -> void {
 
 	auto entry{items.begin() + index};
 	auto current{(*entry).enabled};
