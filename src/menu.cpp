@@ -1202,7 +1202,7 @@ auto Sorcery::Menu::enable_entry(Component &component, unsigned int index)
 	}
 }
 
-auto Sorcery::Menu::disable_entry(Component &component, unsigned int index)
+auto Sorcery::Menu::disable_entry(__attribute__((unused)) Component &component, unsigned int index)
 	-> void {
 
 	auto entry{items.begin() + index};

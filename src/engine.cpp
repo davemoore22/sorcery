@@ -154,6 +154,18 @@ auto Sorcery::Engine::start() -> int {
 						} else if (option_chosen == MenuItem::QUIT) {
 							_show_confirm_exit = true;
 							continue;
+						} else if (option_chosen == MenuItem::CP_OPTIONS) {
+
+							auto options{std::make_unique<Options>(
+								_system, _display, _graphics)};
+							auto result{options->start()};
+							if (result == EXIT_ALL) {
+								options->stop();
+								return EXIT_ALL;
+							}
+							options->stop();
+							_status_bar->refresh();
+							_display->generate("engine_base_ui");
 						}
 					}
 				}

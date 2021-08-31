@@ -30,6 +30,7 @@
 #include "graphics.hpp"
 #include "main.hpp"
 #include "menu.hpp"
+#include "options.hpp"
 #include "statusbar.hpp"
 #include "system.hpp"
 
