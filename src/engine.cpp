@@ -44,6 +44,14 @@ Sorcery::Engine::Engine(
 		_display->window->get_x(_camp_menu_frame->sprite, menu_fc.x),
 		_display->window->get_y(_camp_menu_frame->sprite, menu_fc.y));
 
+	_confirm_exit = std::make_unique<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["engine_base_ui:dialog_exit"],
+		(*_display->layout)["engine_base_ui:dialog_exit_text"],
+		WindowDialogType::CONFIRM);
+	_confirm_exit->setPosition(
+		(*_display->layout)["engine_base_ui:dialog_exit"].x,
+		(*_display->layout)["engine_base_ui:dialog_exit"].y);
+
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics,
 		_game, (*_display->layout)["engine_base_ui:status_bar"],
@@ -72,6 +80,7 @@ auto Sorcery::Engine::start() -> void {
 
 	// Start in camp as is tradition
 	_in_camp = true;
+	_show_confirm_exit = false;
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> camp_option{
 		_camp_menu->items.begin()};
@@ -91,7 +100,24 @@ auto Sorcery::Engine::start() -> void {
 			} else
 				_display->hide_overlay();
 
-			if (_in_camp) {
+			if (_show_confirm_exit) {
+
+				auto dialog_input{_confirm_exit->handle_input(event)};
+				if (dialog_input) {
+					if (dialog_input.value() == WindowDialogButton::CLOSE) {
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
+						_show_confirm_exit = false;
+					} else if (dialog_input.value() ==
+							   WindowDialogButton::YES) {
+						_window->close();
+					} else if (dialog_input.value() == WindowDialogButton::NO) {
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
+						_show_confirm_exit = false;
+					}
+				}
+			} else if (_in_camp) {
 
 				if (_system->input->check(WindowInput::CANCEL, event))
 					_in_camp = false;
@@ -125,8 +151,10 @@ auto Sorcery::Engine::start() -> void {
 						} else if (option_chosen == MenuItem::CP_SAVE) {
 							_game->save_game();
 							return;
-						} else if (option_chosen == MenuItem::QUIT)
-							_window->close();
+						} else if (option_chosen == MenuItem::QUIT) {
+							_show_confirm_exit = true;
+							continue;
+						}
 					}
 				}
 			} else {
@@ -165,6 +193,11 @@ auto Sorcery::Engine::_draw() -> void {
 			(*_display->layout)["engine_base_ui:camp_menu"].y);
 		_camp_menu->setPosition(menu_pos);
 		_window->draw(*_camp_menu);
+	}
+
+	if (_show_confirm_exit) {
+		_confirm_exit->update();
+		_window->draw(*_confirm_exit);
 	}
 
 	// Always draw the following
