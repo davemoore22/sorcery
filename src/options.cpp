@@ -70,7 +70,7 @@ Sorcery::Options::~Options() {
 	_display->stop_bg_movie();
 }
 
-auto Sorcery::Options::start() -> bool {
+auto Sorcery::Options::start() -> int {
 
 	// Get the Background Display Components and load them into Display module
 	// storage (not local)
@@ -104,10 +104,10 @@ auto Sorcery::Options::start() -> bool {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return false;
+					return EXIT_ALL;
 
 				if (_system->input->check(WindowInput::CANCEL, event))
-					return false;
+					return EXIT_MODULE;
 
 				// Handle enabling help overlay
 				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
@@ -195,7 +195,7 @@ auto Sorcery::Options::start() -> bool {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return false;
+					return EXIT_ALL;
 
 				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
@@ -211,7 +211,7 @@ auto Sorcery::Options::start() -> bool {
 						if (dialog_input.value() == WindowDialogButton::CLOSE) {
 							_display->set_input_mode(
 								WindowInputMode::NAVIGATE_MENU);
-							return false;
+							return EXIT_MODULE;
 						} else if (dialog_input.value() ==
 								   WindowDialogButton::YES) {
 							_system->config->set_strict_mode();
@@ -232,7 +232,7 @@ auto Sorcery::Options::start() -> bool {
 						if (dialog_input.value() == WindowDialogButton::CLOSE) {
 							_display->set_input_mode(
 								WindowInputMode::NAVIGATE_MENU);
-							return false;
+							return EXIT_MODULE;
 						} else if (dialog_input.value() ==
 								   WindowDialogButton::YES) {
 							_display->set_input_mode(

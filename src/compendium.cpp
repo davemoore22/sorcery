@@ -39,7 +39,7 @@ Sorcery::Compendium::~Compendium() {
 	_display->stop_bg_movie();
 }
 
-auto Sorcery::Compendium::start() -> void {
+auto Sorcery::Compendium::start() -> int {
 
 	// Get the Background Display Components and load them into Display module
 	// storage (not local)
@@ -55,8 +55,14 @@ auto Sorcery::Compendium::start() -> void {
 	_display->set_input_mode(WindowInputMode::COMPENDIUM);
 
 	auto module_result{_do_event_loop()};
-	if (module_result == ModuleResult::EXIT)
-		_window->close();
+	if (module_result == ModuleResult::EXIT) {
+
+		// Shutdown
+		_display->shutdown_SFML();
+		return EXIT_ALL;
+	}
+
+	return EXIT_MODULE;
 }
 
 auto Sorcery::Compendium::stop() -> void {

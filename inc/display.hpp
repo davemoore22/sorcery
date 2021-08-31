@@ -79,6 +79,7 @@ namespace Sorcery {
 		auto show_overlay() -> void;
 		auto hide_overlay() -> void;
 		auto display_overlay() -> void;
+		auto shutdown_SFML() -> void;
 
 		// Public Members
 		std::unique_ptr<String> string;

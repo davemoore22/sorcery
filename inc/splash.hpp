@@ -42,7 +42,7 @@ namespace Sorcery {
 		// Public Members
 
 		// Public Methods
-		auto start() -> void;
+		auto start() -> int;
 
 	  private:
 		// Private Methods

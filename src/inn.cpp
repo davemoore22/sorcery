@@ -84,7 +84,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					_window->close();
+					return MenuItem::ABORT;
 
 				// Handle enabling help overlay
 				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
@@ -117,7 +117,13 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 							option_chosen == MenuItem::IN_CASTLE) {
 							return MenuItem::IN_CASTLE;
 						} else if (option_chosen == MenuItem::IN_INSPECT) {
-							_inspect->start();
+							auto result{_inspect->start()};
+							if (result && result.value() == MenuItem::ABORT) {
+								_inspect->stop();
+								_game->save_game();
+								_display->shutdown_SFML();
+								return MenuItem::ABORT;
+							}
 							_inspect->stop();
 							_display->generate("inn");
 							_display->set_input_mode(

@@ -113,21 +113,18 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage)
 
 			_attract_mode->data_temp = _graphics->animation->get_attract_data();
 			while (_window->pollEvent(event)) {
-
-				if (_error) {
-
+				if (_error)
 					_display->window->get_gui()->handleEvent(event);
 
-				} else {
+				else {
 
 					// If we are in normal input mode
-
 					if (_display->get_input_mode() ==
 						WindowInputMode::ATTRACT_MODE) {
 
 						// Check for Window Close
 						if (event.type == sf::Event::Closed)
-							return std::nullopt;
+							return MenuItem::ABORT;
 
 						// Check for any key being pressed to move onto the main
 						// menu

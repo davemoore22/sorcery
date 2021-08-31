@@ -38,7 +38,7 @@ Sorcery::Splash::Splash(System *system, Display *display, Graphics *graphics)
 	_finished = false;
 }
 
-auto Sorcery::Splash::start() -> void {
+auto Sorcery::Splash::start() -> int {
 
 	// Get the Background Display Components and load them into Display module
 	// storage (not local)
@@ -56,6 +56,8 @@ auto Sorcery::Splash::start() -> void {
 			(event.type == sf::Event::MouseButtonPressed))
 			_finished = true;
 	}
+
+	return EXIT_MODULE;
 }
 
 auto Sorcery::Splash::_draw() -> void {

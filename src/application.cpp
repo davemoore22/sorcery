@@ -80,13 +80,22 @@ Sorcery::Application::~Application() {
 auto Sorcery::Application::start() -> int {
 
 	if (_check_param(CONTINUE_GAME)) {
-		_castle->start();
+		auto result{_castle->start()};
+		if (result && result == MenuItem::ABORT) {
+			_game->save_game();
+			display->shutdown_SFML();
+			return EXIT_ALL;
+		}
 		_castle->stop();
 		_game->save_game();
 	}
 
 	if (_check_param(GO_TO_MAZE)) {
-		_castle->start(true);
+		if (_castle->start(true) == MenuItem::ABORT) {
+			_game->save_game();
+			display->shutdown_SFML();
+			return EXIT_ALL;
+		}
 		_castle->stop();
 		_game->save_game();
 	}
@@ -103,6 +112,11 @@ auto Sorcery::Application::start() -> int {
 			case MenuItem::MM_NEW_GAME:
 				_game->create_game();
 				option_chosen = _castle->start();
+				if (option_chosen == MenuItem::ABORT) {
+					_game->save_game();
+					display->shutdown_SFML();
+					return EXIT_ALL;
+				}
 				_castle->stop();
 				_game->save_game();
 				break;
@@ -113,18 +127,28 @@ auto Sorcery::Application::start() -> int {
 				break;
 			case MenuItem::QUIT:
 				_game->save_game();
-				return EXIT_OK;
+				display->shutdown_SFML();
+				return EXIT_ALL;
 				break;
 			case MenuItem::MM_OPTIONS:
-				_options->start();
+				if (_options->start() == EXIT_ALL) {
+					display->shutdown_SFML();
+					return EXIT_ALL;
+				}
 				_options->stop();
 				break;
 			case MenuItem::MM_LICENSE:
-				_license->start();
+				if (_license->start() == EXIT_ALL) {
+					display->shutdown_SFML();
+					return EXIT_ALL;
+				}
 				_license->stop();
 				break;
 			case MenuItem::MM_COMPENDIUM:
-				_compendium->start();
+				if (_compendium->start() == EXIT_ALL) {
+					display->shutdown_SFML();
+					return EXIT_ALL;
+				}
 				_compendium->stop();
 				break;
 			default:
@@ -136,7 +160,8 @@ auto Sorcery::Application::start() -> int {
 
 	} while (option_chosen);
 
-	return EXIT_OK;
+	display->shutdown_SFML();
+	return EXIT_ALL;
 }
 
 // Check for a command line parameter

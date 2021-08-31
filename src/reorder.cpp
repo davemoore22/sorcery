@@ -77,9 +77,12 @@ auto Sorcery::Reorder::start() -> std::optional<std::vector<unsigned int>> {
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
 
+			// not idea, need to figure out how to return something else to
+			// abort everything
+
 			// Check for Window Close
 			if (event.type == sf::Event::Closed)
-				_window->close();
+				return std::nullopt;
 
 			// Handle enabling help overlay
 			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {

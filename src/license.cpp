@@ -46,7 +46,7 @@ Sorcery::License::~License() {
 	_display->stop_bg_movie();
 }
 
-auto Sorcery::License::start() -> void {
+auto Sorcery::License::start() -> int {
 
 	// Get the Background Display Components and load them into Display module
 	// storage (not local)
@@ -68,7 +68,7 @@ auto Sorcery::License::start() -> void {
 
 			// Check for Window Close
 			if (event.type == sf::Event::Closed)
-				return;
+				return EXIT_ALL;
 
 			// Handle enabling help overlay
 			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
@@ -79,7 +79,7 @@ auto Sorcery::License::start() -> void {
 
 			if ((_system->input->check(WindowInput::CANCEL, event)) ||
 				(_system->input->check(WindowInput::BACK, event))) {
-				return;
+				return EXIT_MODULE;
 			} else if (_system->input->check(WindowInput::DOWN, event)) {
 				if (_current_line < _textfile->size())
 					++_current_line;
@@ -116,6 +116,8 @@ auto Sorcery::License::start() -> void {
 		_draw();
 		_window->display();
 	}
+
+	return EXIT_MODULE;
 }
 
 auto Sorcery::License::stop() -> void {

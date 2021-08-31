@@ -49,7 +49,7 @@ namespace Sorcery {
 		// Public Members
 
 		// Public Methods
-		auto start() -> void;
+		auto start() -> int;
 		auto stop() -> void;
 
 	  private:

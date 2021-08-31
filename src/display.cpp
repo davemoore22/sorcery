@@ -49,6 +49,11 @@ auto Sorcery::Display::generate(std::string_view screen) -> void {
 	generate(screen, _sprites, _texts, _frames);
 }
 
+auto Sorcery::Display::shutdown_SFML() -> void {
+
+	window->get_window()->close();
+}
+
 auto Sorcery::Display::generate(std::string_view screen,
 	std::map<std::string, sf::Sprite> &sprites,
 	std::map<std::string, sf::Text> &texts,

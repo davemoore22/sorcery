@@ -60,7 +60,15 @@ auto Sorcery::EdgeOfTown::start(bool go_directly_to_maze)
 	if (go_directly_to_maze) {
 		auto _engine{
 			std::make_unique<Engine>(_system, _display, _graphics, _game)};
-		_engine->start();
+
+		auto result{_engine->start()};
+		if (result == EXIT_ALL) {
+			_game->save_game();
+			_engine->stop();
+			_display->shutdown_SFML();
+			return MenuItem::ABORT;
+		}
+		_game->save_game();
 		_engine->stop();
 	}
 

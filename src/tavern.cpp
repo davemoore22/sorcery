@@ -113,7 +113,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 
 			// Check for Window Close
 			if (event.type == sf::Event::Closed)
-				_window->close();
+				return MenuItem::ABORT;
 
 			// Handle enabling help overlay
 			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
@@ -191,7 +191,13 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 									continue;
 								} else if (option_chosen ==
 										   MenuItem::TA_INSPECT) {
-									_inspect->start();
+									auto result{_inspect->start()};
+									if (result &&
+										result.value() == MenuItem::ABORT) {
+										_game->save_game();
+										_inspect->stop();
+										return MenuItem::ABORT;
+									}
 									_inspect->stop();
 									_update_menus();
 									_display->generate("tavern");
@@ -204,6 +210,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 										_system, _display, _graphics, _game)};
 									auto new_party{reorder->start()};
 									if (new_party) {
+										// TODO: handle aborts here
 										_game->state->set_party(
 											new_party.value());
 										_game->save_game();

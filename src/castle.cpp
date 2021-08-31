@@ -62,8 +62,12 @@ auto Sorcery::Castle::start(bool go_directly_to_maze)
 	-> std::optional<MenuItem> {
 
 	if (go_directly_to_maze) {
-
 		auto edge_option{_edge_of_town->start(true)};
+		if (edge_option && edge_option.value() == MenuItem::ABORT) {
+			_game->save_game();
+			_display->shutdown_SFML();
+			return MenuItem::ABORT;
+		}
 		_edge_of_town->stop();
 	}
 
@@ -103,7 +107,7 @@ auto Sorcery::Castle::start(bool go_directly_to_maze)
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					_window->close();
+					return MenuItem::ABORT;
 
 				// Handle enabling help overlay
 				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
@@ -133,6 +137,12 @@ auto Sorcery::Castle::start(bool go_directly_to_maze)
 								if (edge_option.value() ==
 									MenuItem::ET_LEAVE_GAME)
 									return MenuItem::ET_LEAVE_GAME;
+								else if (edge_option.value() ==
+										 MenuItem::ABORT) {
+									_game->save_game();
+									_display->shutdown_SFML();
+									return MenuItem::ABORT;
+								}
 							}
 							_display->generate("castle");
 							_display->set_input_mode(
@@ -140,6 +150,12 @@ auto Sorcery::Castle::start(bool go_directly_to_maze)
 							continue;
 						} else if (option_chosen == MenuItem::CA_TAVERN) {
 							auto tavern_option{_tavern->start()};
+							if (tavern_option &&
+								tavern_option.value() == MenuItem::ABORT) {
+								_game->save_game();
+								_display->shutdown_SFML();
+								return MenuItem::ABORT;
+							}
 							_tavern->stop();
 							_game->save_game();
 							_status_bar->refresh();
@@ -150,6 +166,12 @@ auto Sorcery::Castle::start(bool go_directly_to_maze)
 							continue;
 						} else if (option_chosen == MenuItem::CA_INN) {
 							auto inn_option{_inn->start()};
+							if (inn_option &&
+								inn_option.value() == MenuItem::ABORT) {
+								_game->save_game();
+								_display->shutdown_SFML();
+								return MenuItem::ABORT;
+							}
 							_inn->stop();
 							_game->save_game();
 							_status_bar->refresh();
@@ -159,6 +181,12 @@ auto Sorcery::Castle::start(bool go_directly_to_maze)
 							continue;
 						} else if (option_chosen == MenuItem::CA_SHOP) {
 							auto shop_option{_shop->start()};
+							if (shop_option &&
+								shop_option.value() == MenuItem::ABORT) {
+								_game->save_game();
+								_display->shutdown_SFML();
+								return MenuItem::ABORT;
+							}
 							_shop->stop();
 							_game->save_game();
 							_status_bar->refresh();
@@ -168,6 +196,12 @@ auto Sorcery::Castle::start(bool go_directly_to_maze)
 							continue;
 						} else if (option_chosen == MenuItem::CA_TEMPLE) {
 							auto temple_option{_temple->start()};
+							if (temple_option &&
+								temple_option.value() == MenuItem::ABORT) {
+								_game->save_game();
+								_display->shutdown_SFML();
+								return MenuItem::ABORT;
+							}
 							_temple->stop();
 							_game->save_game();
 							_status_bar->refresh();

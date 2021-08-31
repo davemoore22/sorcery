@@ -38,12 +38,13 @@ Sorcery::Banner::Banner(System *system, Display *display, Graphics *graphics)
 	_finished = false;
 }
 
-auto Sorcery::Banner::start() -> void {
+auto Sorcery::Banner::start() -> int {
 
 	// Get the Background Display Components and load them into Display module
 	// storage (not local)
 	_display->generate("banner");
 
+	// Display the banner but interrupt on a keypress;
 	sf::Event input_event{};
 	while (!_finished) {
 		_window->pollEvent(input_event);
@@ -56,6 +57,8 @@ auto Sorcery::Banner::start() -> void {
 			(input_event.type == sf::Event::MouseButtonPressed))
 			_finished = true;
 	}
+
+	return EXIT_MODULE;
 }
 
 auto Sorcery::Banner::_draw() -> void {

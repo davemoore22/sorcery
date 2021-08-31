@@ -102,7 +102,7 @@ auto Sorcery::Legate::start() -> std::optional<CharacterAlignment> {
 
 			// Check for Window Close
 			if (event.type == sf::Event::Closed)
-				_window->close();
+				return CharacterAlignment::ABORT;
 
 			// Handle enabling help overlay
 			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {

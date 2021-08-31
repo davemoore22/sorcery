@@ -353,6 +353,7 @@ namespace Sorcery {
 		enum class Race { NONE, HUMAN, ELF, DWARF, GNOME, HOBBIT };
 
 		enum class Class {
+			ABORT,
 			NONE,
 			FIGHTER,
 			MAGE,
@@ -364,7 +365,7 @@ namespace Sorcery {
 			NINJA
 		};
 
-		enum class Align { NONE, GOOD, NEUTRAL, EVIL };
+		enum class Align { NONE, ABORT, GOOD, NEUTRAL, EVIL };
 
 		enum class CStatus {
 			OK = 0,

@@ -66,7 +66,7 @@ auto Sorcery::ChangeName::start() -> std::optional<std::string> {
 
 			// Check for Window Close
 			if (event.type == sf::Event::Closed)
-				_window->close();
+				return EXIT_STRING;
 
 			// Handle enabling help overlay
 			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {

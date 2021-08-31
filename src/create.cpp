@@ -123,7 +123,7 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 
 	auto module_result{_do_event_loop()};
 	if (module_result == ModuleResult::EXIT)
-		_window->close();
+		return MenuItem::ABORT;
 
 	return std::nullopt;
 }

@@ -61,7 +61,7 @@ Sorcery::Engine::Engine(
 // Standard Destructor
 Sorcery::Engine::~Engine() {}
 
-auto Sorcery::Engine::start() -> void {
+auto Sorcery::Engine::start() -> int {
 
 	_display->generate("engine_base_ui");
 
@@ -91,7 +91,7 @@ auto Sorcery::Engine::start() -> void {
 
 			// Check for Window Close
 			if (event.type == sf::Event::Closed)
-				_window->close();
+				return EXIT_ALL;
 
 			// Handle enabling help overlay
 			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
@@ -150,7 +150,7 @@ auto Sorcery::Engine::start() -> void {
 							continue;
 						} else if (option_chosen == MenuItem::CP_SAVE) {
 							_game->save_game();
-							return;
+							return EXIT_MODULE;
 						} else if (option_chosen == MenuItem::QUIT) {
 							_show_confirm_exit = true;
 							continue;
@@ -174,6 +174,8 @@ auto Sorcery::Engine::start() -> void {
 			_window->display();
 		}
 	}
+
+	return EXIT_MODULE;
 }
 
 auto Sorcery::Engine::stop() -> void {}

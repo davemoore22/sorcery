@@ -121,7 +121,7 @@ auto Sorcery::Edit::start(int current_character_idx)
 
 			// Check for Window Close
 			if (event.type == sf::Event::Closed)
-				_window->close();
+				return MenuItem::ABORT;
 
 			// Handle enabling help overlay
 			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
@@ -191,6 +191,9 @@ auto Sorcery::Edit::start(int current_character_idx)
 							auto new_name{change_name->start()};
 							if (new_name) {
 
+								if (new_name.value() == EXIT_STRING)
+									return MenuItem::ABORT;
+
 								// Update character name and resave the
 								// character!
 								auto changed_name{new_name.value()};
@@ -208,6 +211,9 @@ auto Sorcery::Edit::start(int current_character_idx)
 								_system, _display, _graphics, &character)};
 							auto new_class{change_class->start()};
 							if (new_class) {
+
+								if (new_class.value() == CharacterClass::ABORT)
+									return MenuItem::ABORT;
 
 								// Can't select same class in the change_class
 								// module - it returns nullopt if you do
@@ -229,6 +235,10 @@ auto Sorcery::Edit::start(int current_character_idx)
 								_system, _display, _graphics, &character)};
 							auto legated{legate->start()};
 							if (legated) {
+
+								if (legated.value() ==
+									CharacterAlignment::ABORT)
+									return MenuItem::ABORT;
 
 								character.legate(legated.value());
 								_game->update_character(_game->get_id(),
