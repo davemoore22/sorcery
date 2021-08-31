@@ -37,6 +37,9 @@ Nowhere near complete or even playable yet! Visit back regularily for updates.
 * Save and Load Game
 * Create New Game
 * Change Game Options
+* Enter the Maze and leave the Maze
+  * Access to the Camp Menu
+
 
 ## What can't you do?
 
