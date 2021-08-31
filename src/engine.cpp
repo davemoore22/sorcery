@@ -178,6 +178,23 @@ auto Sorcery::Engine::start() -> int {
 							inspect->stop();
 							_status_bar->refresh();
 							_display->generate("engine_base_ui");
+						} else if (option_chosen == MenuItem::CP_REORDER) {
+
+							auto reorder{std::make_unique<Reorder>(
+								_system, _display, _graphics, _game)};
+							_status_bar->refresh();
+							auto new_party{reorder->start()};
+							if (new_party) {
+
+								// TODO: handle aborts here too
+								_game->state->set_party(new_party.value());
+								_game->save_game();
+								_game->load_game();
+								_status_bar->refresh();
+							}
+							reorder->stop();
+							_status_bar->refresh();
+							_display->generate("engine_base_ui");
 						}
 					}
 				}
