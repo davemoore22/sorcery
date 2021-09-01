@@ -43,8 +43,8 @@ namespace Sorcery {
 
 	  public:
 		// Standard Constructor
-		Reorder(
-			System *system, Display *display, Graphics *graphics, Game *game);
+		Reorder(System *system, Display *display, Graphics *graphics,
+			Game *game, MenuMode mode = MenuMode::NONE);
 		Reorder() = delete;
 
 		// Standard Destructor
@@ -71,11 +71,11 @@ namespace Sorcery {
 		sf::Sprite _bg;
 		std::unique_ptr<StatusBar> _status_bar;
 		std::unique_ptr<Frame> _menu_frame;
-		RosterMode _mode;
 		std::string _screen_key;
 		int _cur_char_id;
 		std::vector<unsigned int> _candidate_party;
 		Component _candidate_c;
 		std::vector<sf::Text> _texts;
+		MenuMode _mode;
 	};
 } // namespace Sorcery

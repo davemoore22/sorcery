@@ -25,9 +25,10 @@
 #include "reorder.hpp"
 
 // Standard Constructor
-Sorcery::Reorder::Reorder(
-	System *system, Display *display, Graphics *graphics, Game *game)
-	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
+Sorcery::Reorder::Reorder(System *system, Display *display, Graphics *graphics,
+	Game *game, MenuMode mode)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game},
+	  _mode{mode} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
@@ -51,7 +52,11 @@ auto Sorcery::Reorder::start() -> std::optional<std::vector<unsigned int>> {
 	_candidate_party.clear();
 	_texts.clear();
 
-	_display->generate("reorder");
+	if (_mode == MenuMode::CAMP) {
+		_display->window->save_screen();
+		_display->generate("reorder_camp");
+	} else
+		_display->generate("reorder");
 
 	// Clear the window
 	_window->clear();
@@ -66,8 +71,10 @@ auto Sorcery::Reorder::start() -> std::optional<std::vector<unsigned int>> {
 		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
 
 	// Play the background movie!
-	_display->fit_bg_movie();
-	_display->start_bg_movie();
+	if (_mode != MenuMode::CAMP) {
+		_display->fit_bg_movie();
+		_display->start_bg_movie();
+	}
 
 	// And do the main loop
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
@@ -126,9 +133,11 @@ auto Sorcery::Reorder::start() -> std::optional<std::vector<unsigned int>> {
 		_window->clear();
 
 		// Update Background Movie
-		_display->start_bg_movie();
-		_display->update_bg_movie();
-		_display->draw_bg_movie();
+		if (_mode != MenuMode::CAMP) {
+			_display->start_bg_movie();
+			_display->update_bg_movie();
+			_display->draw_bg_movie();
+		}
 
 		_draw();
 		_window->display();
@@ -161,7 +170,11 @@ auto Sorcery::Reorder::_populate_candidate() -> void {
 auto Sorcery::Reorder::_draw() -> void {
 
 	// Custom Components
-	_display->display("reorder");
+	if (_mode == MenuMode::CAMP) {
+		_display->window->restore_screen();
+		_display->display("reorder_camp");
+	} else
+		_display->display("reorder");
 	_window->draw(*_status_bar);
 
 	_menu->generate((*_display->layout)["reorder:menu"]);
@@ -182,5 +195,6 @@ auto Sorcery::Reorder::_draw() -> void {
 auto Sorcery::Reorder::stop() -> void {
 
 	// Stop the background movie!
-	_display->stop_bg_movie();
+	if (_mode != MenuMode::CAMP)
+		_display->stop_bg_movie();
 }

@@ -179,9 +179,8 @@ auto Sorcery::Engine::start() -> int {
 							_status_bar->refresh();
 							_display->generate("engine_base_ui");
 						} else if (option_chosen == MenuItem::CP_REORDER) {
-
-							auto reorder{std::make_unique<Reorder>(
-								_system, _display, _graphics, _game)};
+							auto reorder{std::make_unique<Reorder>(_system,
+								_display, _graphics, _game, MenuMode::CAMP)};
 							_status_bar->refresh();
 							auto new_party{reorder->start()};
 							if (new_party) {

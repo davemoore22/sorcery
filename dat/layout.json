@@ -2237,6 +2237,75 @@
 		]
 	},
 	{
+		"name": "reorder_camp",
+		"component": [
+			{
+				"name": "menu_frame",
+				"w": "36",
+				"h": "22",
+				"x": "centre",
+				"y": "5",
+				"alpha": "225",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "menu",
+				"x": "22",
+				"y": "7",
+				"w": "36",
+				"h": "6",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"animated": "true",
+				"width": "36",
+				"background": " 0xff0000ff",
+				"justification": "centre",
+				"type": "menu",
+				"priority": "8"
+			},
+			{
+				"name": "reordering_text",
+				"x": "centre",
+				"y": "6",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "REORDER_SUBTITLE",
+				"justification": "centre",
+				"type": "text",
+				"priority": "4"
+			},
+			{
+				"name": "reordering_to",
+				"x": "centre",
+				"y": "15",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "REORDER_TO",
+				"justification": "centre",
+				"type": "text",
+				"priority": "4"
+			},
+			{
+				"name": "candidate_party",
+				"x": "32",
+				"y": "17",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "",
+				"justification": "left",
+				"type": "text",
+				"priority": "4"
+			}
+		]
+	},
+	{
 		"name": "tavern_inspect",
 		"component": [
 		{
