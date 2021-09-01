@@ -40,6 +40,12 @@ namespace Sorcery {
 		return !string.empty() ? (char *)string.c_str() : (char *)"";
 	}
 
+	// Print
+	inline auto PRINT(const std::string &string) -> void {
+
+		std::cout << string << std::endl;
+	}
+
 	// Macro to create a GUID (Linux Only!)
 	inline auto GUID() -> std::string {
 
