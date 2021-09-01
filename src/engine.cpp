@@ -56,6 +56,10 @@ Sorcery::Engine::Engine(
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics,
 		_game, (*_display->layout)["engine_base_ui:status_bar"],
 		(*_display->layout)["engine_base_ui:status_bar_outer_frame"]);
+	_reorder = std::make_unique<Reorder>(
+		_system, _display, _graphics, _game, MenuMode::CAMP);
+	_inspect = std::make_unique<Inspect>(
+		_system, _display, _graphics, _game, MenuMode::CAMP);
 }
 
 // Standard Destructor
@@ -66,7 +70,7 @@ auto Sorcery::Engine::start() -> int {
 	_display->generate("engine_base_ui");
 
 	// Clear the window
-	_window->clear();
+	//_window->clear();
 
 	// Refresh the Party characters
 	_status_bar->refresh();
@@ -167,22 +171,18 @@ auto Sorcery::Engine::start() -> int {
 							_status_bar->refresh();
 							_display->generate("engine_base_ui");
 						} else if (option_chosen == MenuItem::CP_INSPECT) {
-							auto inspect{std::make_unique<Inspect>(_system,
-								_display, _graphics, _game, MenuMode::CAMP)};
 							_status_bar->refresh();
-							auto result{inspect->start()};
+							auto result{_inspect->start()};
 							if (result == MenuItem::ABORT) {
-								inspect->stop();
+								_inspect->stop();
 								return EXIT_ALL;
 							}
-							inspect->stop();
+							_inspect->stop();
 							_status_bar->refresh();
 							_display->generate("engine_base_ui");
 						} else if (option_chosen == MenuItem::CP_REORDER) {
-							auto reorder{std::make_unique<Reorder>(_system,
-								_display, _graphics, _game, MenuMode::CAMP)};
 							_status_bar->refresh();
-							auto new_party{reorder->start()};
+							auto new_party{_reorder->start()};
 							if (new_party) {
 
 								// TODO: handle aborts here too
@@ -191,7 +191,7 @@ auto Sorcery::Engine::start() -> int {
 								_game->load_game();
 								_status_bar->refresh();
 							}
-							reorder->stop();
+							_reorder->stop();
 							_status_bar->refresh();
 							_display->generate("engine_base_ui");
 						}

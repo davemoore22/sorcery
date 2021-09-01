@@ -173,9 +173,10 @@ auto Sorcery::Reorder::_draw() -> void {
 	if (_mode == MenuMode::CAMP) {
 		_display->window->restore_screen();
 		_display->display("reorder_camp");
-	} else
+	} else {
 		_display->display("reorder");
-	_window->draw(*_status_bar);
+		_window->draw(*_status_bar);
+	}
 
 	_menu->generate((*_display->layout)["reorder:menu"]);
 	const sf::Vector2f menu_pos((*_display->layout)["reorder:menu"].x,

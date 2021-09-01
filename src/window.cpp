@@ -64,6 +64,11 @@ Sorcery::Window::Window(
 	// Change the Mouse Cursor
 	_window.setMouseCursorVisible(false);
 	size = sf::IntRect(0, 0, _current_size.w, _current_size.h);
+
+	// Screenshot Capture Buffer
+	_capture.create(
+		_window.getSize().x, _window.getSize().y, sf::Color(0x000000ff));
+	_texture.create(_window.getSize().x, _window.getSize().y);
 }
 
 auto Sorcery::Window::clear_window() -> void {
@@ -78,8 +83,6 @@ auto Sorcery::Window::display_window() -> void {
 
 auto Sorcery::Window::save_screen() -> void {
 
-	sf::Vector2u window_size{_window.getSize()};
-	_texture.create(window_size.x, window_size.y);
 	_texture.update(_window);
 	_capture = _texture.copyToImage();
 }

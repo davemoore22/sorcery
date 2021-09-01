@@ -69,6 +69,8 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _camp_menu_frame;
 		std::unique_ptr<StatusBar> _status_bar;
 		std::unique_ptr<Dialog> _confirm_exit;
+		std::unique_ptr<Reorder> _reorder;
+		std::unique_ptr<Inspect> _inspect;
 		bool _in_camp;
 		bool _show_confirm_exit;
 	};
