@@ -89,7 +89,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 
 			// Check for Window Close
 			if (event.type == sf::Event::Closed)
-				return CharacterClass::ABORT;
+				return std::nullopt; // TODO: how to differ from cancel?
 
 			// Handle enabling help overlay
 			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {

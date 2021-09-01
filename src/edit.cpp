@@ -212,9 +212,6 @@ auto Sorcery::Edit::start(int current_character_idx)
 							auto new_class{change_class->start()};
 							if (new_class) {
 
-								if (new_class.value() == CharacterClass::ABORT)
-									return MenuItem::ABORT;
-
 								// Can't select same class in the change_class
 								// module - it returns nullopt if you do
 								character.change_class(new_class.value());
@@ -236,10 +233,7 @@ auto Sorcery::Edit::start(int current_character_idx)
 							auto legated{legate->start()};
 							if (legated) {
 
-								if (legated.value() ==
-									CharacterAlignment::ABORT)
-									return MenuItem::ABORT;
-
+								// How to exit from legated module?
 								character.legate(legated.value());
 								_game->update_character(_game->get_id(),
 									current_character_idx, character);
