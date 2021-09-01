@@ -73,6 +73,8 @@ namespace Sorcery {
 		auto set_input_mode(WindowInputMode value) -> void;
 		auto get_input_mode() const -> WindowInputMode;
 		auto set_pos(Component *component, sf::Transformable *object) -> void;
+		auto save_screen() -> void;
+		auto restore_screen() -> void;
 
 		// Public Members
 		std::vector<sf::Sprite> sprites;
@@ -124,5 +126,7 @@ namespace Sorcery {
 		unsigned int _cell_height;
 		unsigned int _cell_width;
 		WindowInputMode _input_mode;
+		sf::Image _capture;
+		sf::Texture _texture;
 	};
 } // namespace Sorcery

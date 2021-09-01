@@ -76,6 +76,23 @@ auto Sorcery::Window::display_window() -> void {
 	_window.display();
 }
 
+auto Sorcery::Window::save_screen() -> void {
+
+	sf::Vector2u window_size{_window.getSize()};
+	_texture.create(window_size.x, window_size.y);
+	_texture.update(_window);
+	_capture = _texture.copyToImage();
+}
+
+auto Sorcery::Window::restore_screen() -> void {
+
+	_texture.loadFromImage(_capture);
+	sf::Sprite sprite{};
+	sprite.setPosition(0, 0);
+	sprite.setTexture(_texture, true);
+	_window.draw(sprite);
+}
+
 auto Sorcery::Window::draw_gui() -> void {
 
 	_gui.draw();

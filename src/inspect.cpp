@@ -75,7 +75,7 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 	_cur_char_id = -1;
 
 	// Get the Background Display Components and load them into Display module
-	// storage (not local)
+	// storage (not local) unless its camp in which case we save the screen
 	switch (_mode) {
 	case MenuMode::TAVERN:
 		_display->generate("tavern_inspect");
@@ -90,7 +90,7 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 		_display->generate("temple_inspect");
 		break;
 	case MenuMode::CAMP:
-		_display->generate("engine_base_ui");
+		_display->window->save_screen();
 		break;
 	default:
 		break;
@@ -320,7 +320,7 @@ auto Sorcery::Inspect::_draw() -> void {
 		_display->display("temple");
 		break;
 	case MenuMode::CAMP:
-		_display->display("engine_base_ui");
+		_display->window->restore_screen();
 		break;
 	default:
 		break;
