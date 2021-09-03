@@ -776,6 +776,7 @@ namespace Sorcery {
 
 			enum class Wall {
 
+				NONE = -1,
 				NORTH = 0,
 				EAST = 1,
 				SOUTH = 2,

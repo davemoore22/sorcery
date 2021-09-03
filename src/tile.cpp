@@ -23,3 +23,121 @@
 // the resulting work.
 
 #include "tile.hpp"
+
+// Standard Constructor
+Sorcery::Tile::Tile(sf::Vector2u location_, std::array<Wall, 4> walls_)
+	: location{location_}, walls{walls_} {
+
+	features.clear();
+	properties.clear();
+	description = std::nullopt;
+	items = std::nullopt;
+	events = std::nullopt;
+	room_id = std::nullopt;
+	treasure_id = std::nullopt;
+	effect_id = std::nullopt;
+	characters = std::nullopt;
+}
+
+// Copy Constructors
+Sorcery::Tile::Tile(const Tile &other)
+	: location{other.location}, walls{other.walls}, features{other.features},
+	  properties{other.properties}, description{other.description},
+	  items{other.items}, events{other.events}, room_id{other.room_id},
+	  treasure_id{other.treasure_id}, effect_id{other.effect_id},
+	  characters{other.characters} {}
+
+auto Sorcery::Tile::operator=(const Tile &other) -> Tile & {
+
+	location = other.location;
+	walls = other.walls;
+	features = std::move(other.features);
+	properties = std::move(other.properties);
+	description = other.description;
+	items = std::move(other.items);
+	events = std::move(other.events);
+	room_id = other.room_id;
+	treasure_id = other.treasure_id;
+	effect_id = other.effect_id;
+	characters = std::move(other.characters);
+
+	return *this;
+}
+
+// Move Constructors
+Sorcery::Tile::Tile(Tile &&other) noexcept {
+
+	if (this != &other) {
+
+		location = other.location;
+		walls = other.walls;
+		features = other.features;
+		properties = other.properties;
+		description = other.description;
+		items = other.items;
+		events = other.events;
+		room_id = other.room_id;
+		treasure_id = other.treasure_id;
+		effect_id = other.effect_id;
+		characters = other.characters;
+
+		other.location = sf::Vector2u(0, 0);
+		other.walls = {};
+		other.features.clear();
+		other.properties.clear();
+		other.description = std::nullopt;
+		other.items = std::nullopt;
+		other.events = std::nullopt;
+		other.room_id = std::nullopt;
+		other.treasure_id = std::nullopt;
+		other.effect_id = std::nullopt;
+		other.characters = std::nullopt;
+	}
+}
+
+auto Sorcery::Tile::operator=(Tile &&other) noexcept -> Tile & {
+
+	if (this != &other) {
+
+		location = other.location;
+		walls = other.walls;
+		features = other.features;
+		properties = other.properties;
+		description = other.description;
+		items = other.items;
+		events = other.events;
+		room_id = other.room_id;
+		treasure_id = other.treasure_id;
+		effect_id = other.effect_id;
+		characters = other.characters;
+
+		other.location = sf::Vector2u(0, 0);
+		other.walls = {};
+		other.features.clear();
+		other.properties.clear();
+		other.description = std::nullopt;
+		other.items = std::nullopt;
+		other.events = std::nullopt;
+		other.room_id = std::nullopt;
+		other.treasure_id = std::nullopt;
+		other.effect_id = std::nullopt;
+		other.characters = std::nullopt;
+	}
+
+	return *this;
+}
+
+auto Sorcery::Tile::set_explored() -> void {
+
+	properties.at(TileProperty::EXPLORED) = true;
+}
+
+auto Sorcery::Tile::check_feature(const TileFeature value) const -> bool {
+
+	return features.at(value);
+}
+
+auto Sorcery::Tile::check_property(const TileProperty value) const -> bool {
+
+	return properties.at(value);
+}

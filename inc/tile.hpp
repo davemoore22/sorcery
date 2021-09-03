@@ -47,7 +47,7 @@ namespace Sorcery {
 	class Tile {
 
 		// Standard Constructor
-		Tile(sf::Vector2u location, std::array<Wall, 4> walls);
+		Tile(sf::Vector2u location_, std::array<Wall, 4> walls_);
 		Tile() = delete;
 
 		// Standard Destructor
@@ -63,13 +63,12 @@ namespace Sorcery {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(tile_id, location, walls, features, properties, description,
-				items, events, room_id, treasure_id, effect_id, characters);
+			archive(location, walls, features, properties, description, items,
+				events, room_id, treasure_id, effect_id, characters);
 		}
 
 	  public:
 		// Public Members
-		unsigned int tile_id;
 		sf::Vector2u location;
 		std::array<Wall, 4> walls;
 		std::map<TileFeature, bool> features;
