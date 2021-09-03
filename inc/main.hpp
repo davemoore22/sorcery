@@ -178,4 +178,10 @@ namespace Sorcery {
 	using WindowInputOption = Enums::Window::Option;
 	using WindowFrameType = Enums::Window::FrameType;
 	using WindowFrameParts = Enums::Window::FrameParts;
+
+	using DoorType = Enums::Tile::DoorType;
+	using MapDirection = Enums::Map::Direction;
+	using TileFeature = Enums::Tile::Features;
+	using TileProperty = Enums::Tile::Properties;
+	using TileWall = Enums::Tile::Wall;
 } // namespace Sorcery

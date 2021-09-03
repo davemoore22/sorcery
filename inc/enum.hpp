@@ -757,4 +757,60 @@ namespace Sorcery {
 			// LABADI - drain hp from enemy and add to caster
 		};
 	} // namespace Enums
+
+	namespace Enums {
+
+		namespace Map {
+
+			enum class Direction {
+
+				NORTH = 0,
+				EAST = 1,
+				SOUTH = 2,
+				WEST = 3
+			};
+
+		}
+
+		namespace Tile {
+
+			enum class Wall {
+
+				NORTH = 0,
+				EAST = 1,
+				SOUTH = 2,
+				WEST = 3
+			};
+
+			enum class DoorType {
+
+				NONE = 0,
+				NORMAL = 1,
+				LOCKED = 2
+			};
+
+			enum class Properties {
+
+				WALKABLE = 0,
+				ROCK = 1,
+				EXPLORED = 2,
+				OPAQUE = 3,
+			};
+
+			enum class Features {
+				NONE = 0,
+				SPINNER = 1,
+				PIT = 2,
+				TELEPORT = 3,
+				POOL = 4,
+				FOUNTAIN = 5,
+				MESSAGE = 6,
+				MOVEMENT = 7
+
+				// TODO: all the others from Wiz6 because why not?
+			};
+
+		} // namespace Tile
+
+	} // namespace Enums
 } // namespace Sorcery

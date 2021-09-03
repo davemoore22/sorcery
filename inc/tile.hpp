@@ -23,3 +23,72 @@
 // the resulting work.
 
 #pragma once
+
+#include "main.hpp"
+
+namespace Sorcery {
+
+	struct Door {
+
+		DoorType type;
+		bool secret;
+		std::optional<unsigned int> gfx;
+	};
+
+	struct Wall {
+
+		bool visible;
+		bool walkable;
+		MapDirection direction;
+		std::optional<unsigned int> gfx;
+		std::optional<Door> door;
+	};
+
+	class Tile {
+
+		// Standard Constructor
+		Tile(sf::Vector2u location, std::array<Wall, 4> walls);
+		Tile() = delete;
+
+		// Standard Destructor
+		~Tile();
+
+		// Copy Constructors
+		Tile(const Tile &other);
+		auto operator=(const Tile &other) -> Tile &;
+
+		// Move Constructors
+		Tile(Tile &&other) noexcept;
+		auto operator=(Tile &&other) noexcept -> Tile &;
+
+		// Serialisation
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(tile_id, location, walls, features, properties, description,
+				items, events, room_id, treasure_id, effect_id, characters);
+		}
+
+	  public:
+		// Public Members
+		unsigned int tile_id;
+		sf::Vector2u location;
+		std::array<Wall, 4> walls;
+		std::map<TileFeature, bool> features;
+		std::map<TileProperty, bool> properties;
+		std::optional<std::string> description;
+		std::optional<std::vector<unsigned int>> items;
+		std::optional<std::vector<unsigned int>> events;
+		std::optional<unsigned int> room_id;
+		std::optional<unsigned int> treasure_id;
+		std::optional<unsigned int> effect_id;
+		std::optional<std::vector<unsigned int>> characters;
+
+		// Public Methods
+		auto set_explored() -> void;
+		auto check_feature(const TileFeature value) const -> bool;
+		auto check_property(const TileProperty value) const -> bool;
+
+	  private:
+		// Private Methods
+		// Private Members
+	};
+} // namespace Sorcery
