@@ -64,6 +64,7 @@ namespace Sorcery {
 		auto get_enabled() -> bool;
 		auto set_visible(bool value) -> void;
 		auto get_visible() -> bool;
+		auto id() const -> long;
 
 		// Public Members
 		std::string screen;
@@ -96,5 +97,7 @@ namespace Sorcery {
 		bool _enabled;
 		bool _visible;
 		std::vector<std::pair<std::string, std::string>> _data;
+		long _id;
+		static inline long s_id{0};
 	};
 } // namespace Sorcery

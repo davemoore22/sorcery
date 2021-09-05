@@ -85,9 +85,12 @@ namespace Sorcery {
 		auto set_explored() -> void;
 		auto check_feature(const TileFeature value) const -> bool;
 		auto check_property(const TileProperty value) const -> bool;
+		auto id() const -> long;
 
 	  private:
 		// Private Methods
 		// Private Members
+		long _id;
+		static inline long s_id{0};
 	};
 } // namespace Sorcery

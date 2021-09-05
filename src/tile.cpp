@@ -26,7 +26,7 @@
 
 // Standard Constructor
 Sorcery::Tile::Tile(sf::Vector2u location_, std::array<Wall, 4> walls_)
-	: location{location_}, walls{walls_} {
+	: location{location_}, walls{walls_}, _id{s_id++} {
 
 	features.clear();
 	properties.clear();
@@ -45,7 +45,7 @@ Sorcery::Tile::Tile(const Tile &other)
 	  properties{other.properties}, description{other.description},
 	  items{other.items}, events{other.events}, room_id{other.room_id},
 	  treasure_id{other.treasure_id}, effect_id{other.effect_id},
-	  characters{other.characters} {}
+	  characters{other.characters}, _id{other._id} {}
 
 auto Sorcery::Tile::operator=(const Tile &other) -> Tile & {
 
@@ -61,6 +61,8 @@ auto Sorcery::Tile::operator=(const Tile &other) -> Tile & {
 	effect_id = other.effect_id;
 	characters = std::move(other.characters);
 
+	_id = other._id;
+
 	return *this;
 }
 
@@ -68,7 +70,6 @@ auto Sorcery::Tile::operator=(const Tile &other) -> Tile & {
 Sorcery::Tile::Tile(Tile &&other) noexcept {
 
 	if (this != &other) {
-
 		location = other.location;
 		walls = other.walls;
 		features = other.features;
@@ -81,6 +82,8 @@ Sorcery::Tile::Tile(Tile &&other) noexcept {
 		effect_id = other.effect_id;
 		characters = other.characters;
 
+		_id = other._id;
+
 		other.location = sf::Vector2u(0, 0);
 		other.walls = {};
 		other.features.clear();
@@ -92,6 +95,8 @@ Sorcery::Tile::Tile(Tile &&other) noexcept {
 		other.treasure_id = std::nullopt;
 		other.effect_id = std::nullopt;
 		other.characters = std::nullopt;
+
+		other._id = 0;
 	}
 }
 
@@ -111,6 +116,8 @@ auto Sorcery::Tile::operator=(Tile &&other) noexcept -> Tile & {
 		effect_id = other.effect_id;
 		characters = other.characters;
 
+		_id = other._id;
+
 		other.location = sf::Vector2u(0, 0);
 		other.walls = {};
 		other.features.clear();
@@ -122,6 +129,8 @@ auto Sorcery::Tile::operator=(Tile &&other) noexcept -> Tile & {
 		other.treasure_id = std::nullopt;
 		other.effect_id = std::nullopt;
 		other.characters = std::nullopt;
+
+		other._id = 0;
 	}
 
 	return *this;
@@ -140,4 +149,9 @@ auto Sorcery::Tile::check_feature(const TileFeature value) const -> bool {
 auto Sorcery::Tile::check_property(const TileProperty value) const -> bool {
 
 	return properties.at(value);
+}
+
+auto Sorcery::Tile::id() const -> long {
+
+	return _id;
 }

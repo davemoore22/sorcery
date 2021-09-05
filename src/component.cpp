@@ -27,8 +27,8 @@
 Sorcery::Component::Component()
 	: screen{""}, name{""}, x{0}, y{0}, w{0}, h{0}, scale{0.0f}, font{0},
 	  size{0}, colour{0}, animated{false}, string_key{""}, alpha{255},
-	  background{0},
-	  justification{}, type{}, priority{999}, drawmode{}, texture{} {
+	  background{0}, justification{}, type{}, priority{999}, drawmode{},
+	  texture{}, _id{s_id++} {
 
 	unique_key.clear();
 	_data.clear();
@@ -48,7 +48,7 @@ Sorcery::Component::Component(std::string screen_, std::string name_, int x_,
 	  font{font_}, size{size_}, colour{colour_}, animated{animated_},
 	  string_key{string_key_}, alpha{alpha_}, width{width_},
 	  background{background_}, justification{justification_}, type{type_},
-	  priority{priority_}, drawmode{drawmode_}, texture{texture_} {
+	  priority{priority_}, drawmode{drawmode_}, texture{texture_}, _id{s_id++} {
 
 	// Unique Key is like this because it is used for runtime component-sorting
 	// (std::map is sorted by key) (also needs to be replaced with std::format
@@ -68,7 +68,7 @@ Sorcery::Component::Component(const Component &other)
 	  string_key{other.string_key}, alpha{other.alpha}, width{other.width},
 	  background{other.background}, justification{other.justification},
 	  type{other.type}, priority{other.priority}, drawmode{other.drawmode},
-	  texture{other.texture} {
+	  texture{other.texture}, _id{other._id} {
 
 	// Not sure why I'm doing this here and not in the initialiser list?
 	unique_key = other.unique_key;
@@ -103,6 +103,7 @@ auto Sorcery::Component::operator=(const Component &other) -> Component & {
 	_data = other._data;
 	_enabled = other._enabled;
 	_visible = other._visible;
+	_id = other._id;
 
 	return *this;
 }
@@ -134,6 +135,7 @@ Sorcery::Component::Component(Component &&other) noexcept {
 	_data = std::move(other._data);
 	_enabled = other._enabled;
 	_visible = other._visible;
+	_id = other._id;
 
 	other.screen.clear();
 	other.name.clear();
@@ -159,6 +161,7 @@ Sorcery::Component::Component(Component &&other) noexcept {
 	other._data.clear();
 	other._enabled = false;
 	other._visible = false;
+	other._id = 0;
 }
 
 auto Sorcery::Component::operator=(Component &&other) noexcept -> Component & {
@@ -188,6 +191,7 @@ auto Sorcery::Component::operator=(Component &&other) noexcept -> Component & {
 		_data = std::move(other._data);
 		_enabled = other._enabled;
 		_visible = other._visible;
+		_id = other._id;
 
 		other.screen.clear();
 		other.name.clear();
@@ -213,6 +217,7 @@ auto Sorcery::Component::operator=(Component &&other) noexcept -> Component & {
 		other._data.clear();
 		other._enabled = false;
 		other._visible = false;
+		other._id = 0;
 	}
 	return *this;
 }
@@ -272,4 +277,9 @@ auto Sorcery::Component::_get(std::string_view key) const
 		return it->second;
 	else
 		return std::nullopt;
+}
+
+auto Sorcery::Component::id() const -> long {
+
+	return _id;
 }
