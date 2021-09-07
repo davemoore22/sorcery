@@ -81,13 +81,16 @@ namespace Sorcery {
 	inline constexpr auto BANNER_TEXTURE = "banner.png"sv;
 	inline constexpr auto CONTROLS_TEXTURE = "controls.png"sv;
 	inline constexpr auto CREATURES_TEXTURE = "creatures.png"sv;
+	inline constexpr auto DOORS_TEXTURE = "doors.png"sv;
+	inline constexpr auto FLOORS_TEXTURE = "floors.png"sv;
 	inline constexpr auto ICONS_TEXTURE = "icons.png"sv;
 	inline constexpr auto LOGO_TEXTURE = "logo.png"sv;
 	inline constexpr auto NINEPATCH_TEXTURE = "ninepatch.png"sv;
-	inline constexpr auto POTRAITS_TEXTURE = "potraits.png"sv;
+	inline constexpr auto PORTRAITS_TEXTURE = "potraits.png"sv;
 	inline constexpr auto SPLASH_TEXTURE = "splash.png"sv;
 	inline constexpr auto TOWN_TEXTURE = "town.png"sv;
 	inline constexpr auto UI_TEXTURE = "ui.png"sv;
+	inline constexpr auto WALLS_TEXTURE = "walls.png"sv;
 
 	// Videos
 	inline constexpr auto MENU_VIDEO = "menu.mp4"sv;

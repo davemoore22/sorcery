@@ -164,13 +164,16 @@ namespace Sorcery {
 			BANNER,
 			CONTROLS,
 			CREATURES,
+			DOORS,
+			FLOORS,
 			ICONS,
 			LOGO,
 			NINEPATCH,
 			PORTRAITS,
 			SPLASH,
 			TOWN,
-			UI
+			UI,
+			WALLS
 		};
 	} // namespace Enums::Graphics
 

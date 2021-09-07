@@ -39,18 +39,24 @@ Sorcery::ResourceManager::ResourceManager(File &files) : _files{files} {
 			thor::Resources::fromFile<sf::Texture>(_files[CONTROLS_TEXTURE]));
 		textures.acquire(Enums::Graphics::Texture::CREATURES,
 			thor::Resources::fromFile<sf::Texture>(_files[CREATURES_TEXTURE]));
+		textures.acquire(Enums::Graphics::Texture::DOORS,
+			thor::Resources::fromFile<sf::Texture>(_files[DOORS_TEXTURE]));
+		textures.acquire(Enums::Graphics::Texture::FLOORS,
+			thor::Resources::fromFile<sf::Texture>(_files[FLOORS_TEXTURE]));
 		textures.acquire(Enums::Graphics::Texture::LOGO,
 			thor::Resources::fromFile<sf::Texture>(_files[LOGO_TEXTURE]));
 		textures.acquire(Enums::Graphics::Texture::ICONS,
 			thor::Resources::fromFile<sf::Texture>(_files[ICONS_TEXTURE]));
 		textures.acquire(Enums::Graphics::Texture::PORTRAITS,
-			thor::Resources::fromFile<sf::Texture>(_files[POTRAITS_TEXTURE]));
+			thor::Resources::fromFile<sf::Texture>(_files[PORTRAITS_TEXTURE]));
 		textures.acquire(Enums::Graphics::Texture::SPLASH,
 			thor::Resources::fromFile<sf::Texture>(_files[SPLASH_TEXTURE]));
 		textures.acquire(Enums::Graphics::Texture::TOWN,
 			thor::Resources::fromFile<sf::Texture>(_files[TOWN_TEXTURE]));
 		textures.acquire(Enums::Graphics::Texture::UI,
 			thor::Resources::fromFile<sf::Texture>(_files[UI_TEXTURE]));
+		textures.acquire(Enums::Graphics::Texture::WALLS,
+			thor::Resources::fromFile<sf::Texture>(_files[WALLS_TEXTURE]));
 
 		fonts.acquire(FontType::INPUT,
 			thor::Resources::fromFile<sf::Font>(_files[INPUT_FONT_FILE]));
