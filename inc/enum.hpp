@@ -163,7 +163,8 @@ namespace Sorcery {
 			BACKGROUND,
 			BANNER,
 			CONTROLS,
-			CREATURES,
+			CREATURES_KNOWN,
+			CREATURES_UNKNOWN,
 			DOORS,
 			FLOORS,
 			ICONS,
@@ -517,7 +518,8 @@ namespace Sorcery {
 			ZERO_TO_100,
 			ZERO_TO_101,
 			ZERO_TO_129,
-			ZERO_TO_299
+			ZERO_TO_299,
+			ZERO_TO_437
 		};
 	} // namespace Enums::System
 

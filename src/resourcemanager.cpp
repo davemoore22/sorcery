@@ -37,8 +37,12 @@ Sorcery::ResourceManager::ResourceManager(File &files) : _files{files} {
 			thor::Resources::fromFile<sf::Texture>(_files[BANNER_TEXTURE]));
 		textures.acquire(Enums::Graphics::Texture::CONTROLS,
 			thor::Resources::fromFile<sf::Texture>(_files[CONTROLS_TEXTURE]));
-		textures.acquire(Enums::Graphics::Texture::CREATURES,
-			thor::Resources::fromFile<sf::Texture>(_files[CREATURES_TEXTURE]));
+		textures.acquire(Enums::Graphics::Texture::CREATURES_KNOWN,
+			thor::Resources::fromFile<sf::Texture>(
+				_files[CREATURES_KNOWN_TEXTURE]));
+		textures.acquire(Enums::Graphics::Texture::CREATURES_UNKNOWN,
+			thor::Resources::fromFile<sf::Texture>(
+				_files[CREATURES_UNKNOWN_TEXTURE]));
 		textures.acquire(Enums::Graphics::Texture::DOORS,
 			thor::Resources::fromFile<sf::Texture>(_files[DOORS_TEXTURE]));
 		textures.acquire(Enums::Graphics::Texture::FLOORS,

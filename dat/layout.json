@@ -294,7 +294,7 @@
 			"name": "attract_creatures",
 			"x": "centre",
 			"y": "16",
-			"scale": "2.2",
+			"scale": "0.6",
 			"alpha": "200",
 			"type": "image",
 			"priority": "3",

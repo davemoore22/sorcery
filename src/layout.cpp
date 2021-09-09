@@ -394,7 +394,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 									return GraphicsTexture::BANNER;
 								else if (components[j]["texture"].asString() ==
 										 "creature")
-									return GraphicsTexture::CREATURES;
+									return GraphicsTexture::CREATURES_KNOWN;
 								else if (components[j]["texture"].asString() ==
 										 "logo")
 									return GraphicsTexture::LOGO;

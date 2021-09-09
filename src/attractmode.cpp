@@ -28,9 +28,9 @@
 Sorcery::AttractMode::AttractMode(sf::Texture ctexture, Component component)
 	: _ctexture{ctexture}, _component{component} {
 
-	_cs_width = 108;
-	_cs_height = 108;
-	_cs_spacing = 8;
+	_cs_width = 400;
+	_cs_height = 400;
+	_cs_spacing = 0;
 }
 
 // We generate the attract mode graphic in the main thread, though we generate
@@ -78,9 +78,11 @@ auto Sorcery::AttractMode::_get_creature_gfx(
 
 	sf::IntRect crect{};
 	sf::Sprite creature(_ctexture);
-	crect.left = (creature_id - 1) * _cs_width;
+
+	crect.left = (creature_id % 15) * _cs_width;
 	crect.width = _cs_width;
-	crect.top = known ? 0 : _cs_height;
+	crect.top = (creature_id / 15) * _cs_width;
+	;
 	crect.height = _cs_height;
 	creature.setTextureRect(crect);
 	return creature;
