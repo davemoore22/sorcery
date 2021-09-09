@@ -73,6 +73,9 @@ namespace Sorcery {
 	  private:
 		// Private Methods
 		auto _check_param(std::string_view parameter) const -> bool;
+		auto _display_loading_window() -> void;
+		auto _hide_loading_window() -> void;
+		auto _get_exe_path() -> std::string_view;
 
 		// Private Members
 		std::unique_ptr<Banner> _banner;
@@ -84,5 +87,7 @@ namespace Sorcery {
 		std::unique_ptr<Castle> _castle;
 		std::unique_ptr<Game> _game;
 		std::vector<std::string> _arguments;
+		tgui::Gui _load_gui;
+		sf::RenderWindow _load_window;
 	};
 } // namespace Sorcery

@@ -36,9 +36,11 @@ Sorcery::Application::Application(int argc, char **argv) {
 	}
 
 	// First set up System modules
+	_display_loading_window();
 	system = std::make_unique<System>(argc, argv);
 	display = std::make_unique<Display>(system.get());
 	graphics = std::make_unique<Graphics>(system.get(), display.get());
+	_hide_loading_window();
 
 	if (!_check_param(SKIP_INTRO)) {
 
@@ -174,4 +176,61 @@ auto Sorcery::Application::_check_param(std::string_view parameter) const
 			return true;
 
 	return false;
+}
+
+auto Sorcery::Application::_display_loading_window() -> void {
+
+	// Hard Coded Numbers since we don't have access to any file resources at
+	// this point! Yes, I know this is dreadful, I don't care.
+	const sf::VideoMode desktop{sf::VideoMode::getDesktopMode()};
+	const sf::Vector2u size{340, 60};
+	sf::Vector2i mouse_pos{sf::Mouse::getPosition()};
+	mouse_pos.x += 16;
+	mouse_pos.y += 16;
+	_load_window.create(sf::VideoMode(size.x, size.y), "", sf::Style::None);
+	_load_window.setVerticalSyncEnabled(true);
+	_load_window.setPosition(mouse_pos);
+	_load_window.clear({0, 0, 0, 175});
+
+	sf::RectangleShape rectangle{};
+	rectangle.setSize(sf::Vector2f(size.x - 4, size.y - 4));
+	rectangle.setOutlineColor(sf::Color(80, 80, 80, 255));
+	rectangle.setOutlineThickness(10);
+	rectangle.setPosition(2, 2);
+	rectangle.setFillColor({0, 0, 0, 175});
+	_load_window.draw(rectangle);
+
+	sf::Font font{};
+	const std::filesystem::path base_path{_get_exe_path()};
+	const std::filesystem::path font_path{
+		base_path / DATA_DIR / TEXT_FONT_FILE};
+	font.loadFromFile(font_path.string());
+
+	sf::Text text{};
+	text.setFont(font);
+	text.setCharacterSize(32);
+	text.setFillColor(sf::Color::White);
+	text.setPosition(12, 8);
+	text.setString("Loading Resources...");
+	_load_window.draw(text);
+
+	_load_window.display();
+}
+
+auto Sorcery::Application::_hide_loading_window() -> void {
+
+	_load_window.close();
+}
+
+// This is linux only
+auto Sorcery::Application::_get_exe_path() -> std::string_view {
+
+	char result[PATH_MAX];
+	if (const ssize_t count{readlink("/proc/self/exe", result, PATH_MAX)};
+		count != -1) {
+		const char *path{dirname(result)};
+		std::string_view base_path{path};
+		return base_path;
+	} else
+		return "";
 }
