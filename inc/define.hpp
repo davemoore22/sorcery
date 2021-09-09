@@ -93,6 +93,9 @@ namespace Sorcery {
 	inline constexpr auto UI_TEXTURE = "ui.png"sv;
 	inline constexpr auto WALLS_TEXTURE = "walls.png"sv;
 
+	// Other Images
+	inline constexpr auto LOADING_IMAGE = "loading.png"sv;
+
 	// Videos
 	inline constexpr auto MENU_VIDEO = "menu.mp4"sv;
 

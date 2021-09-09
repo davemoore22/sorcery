@@ -180,39 +180,35 @@ auto Sorcery::Application::_check_param(std::string_view parameter) const
 
 auto Sorcery::Application::_display_loading_window() -> void {
 
-	// Hard Coded Numbers since we don't have access to any file resources at
-	// this point! Yes, I know this is dreadful, I don't care.
-	const sf::VideoMode desktop{sf::VideoMode::getDesktopMode()};
-	const sf::Vector2u size{340, 60};
-	sf::Vector2i mouse_pos{sf::Mouse::getPosition()};
-	mouse_pos.x += 16;
-	mouse_pos.y += 16;
-	_load_window.create(sf::VideoMode(size.x, size.y), "", sf::Style::None);
+	// Just use the 2nd highest screen resolution to handle multimonitor modes
+	std::vector<sf::VideoMode> video_modes{sf::VideoMode::getFullscreenModes()};
+	sf::Vector2i screen_size{video_modes[1].width, video_modes[1].height};
+
+	// Hard Coded since we don't have access to any file resources at this point
+	const std::filesystem::path base_path{_get_exe_path()};
+	const std::filesystem::path image_path{
+		base_path / GRAPHICS_DIR / LOADING_IMAGE};
+	auto scale{0.5f};
+
+	sf::Image loading{};
+	loading.loadFromFile(image_path.string());
+
+	const sf::Vector2u splash_size{
+		loading.getSize().x * scale, loading.getSize().y * scale};
+	_load_window.create(sf::VideoMode(splash_size.x, splash_size.y),
+		"Sorcery: Shadows under Llylgamyn", sf::Style::None);
 	_load_window.setVerticalSyncEnabled(true);
-	_load_window.setPosition(mouse_pos);
+	_load_window.setPosition(sf::Vector2i((screen_size.x - splash_size.x) / 2,
+		(screen_size.y - splash_size.y) / 2));
 	_load_window.clear({0, 0, 0, 175});
 
-	sf::RectangleShape rectangle{};
-	rectangle.setSize(sf::Vector2f(size.x - 4, size.y - 4));
-	rectangle.setOutlineColor(sf::Color(80, 80, 80, 255));
-	rectangle.setOutlineThickness(10);
-	rectangle.setPosition(2, 2);
-	rectangle.setFillColor({0, 0, 0, 175});
-	_load_window.draw(rectangle);
-
-	sf::Font font{};
-	const std::filesystem::path base_path{_get_exe_path()};
-	const std::filesystem::path font_path{
-		base_path / DATA_DIR / TEXT_FONT_FILE};
-	font.loadFromFile(font_path.string());
-
-	sf::Text text{};
-	text.setFont(font);
-	text.setCharacterSize(32);
-	text.setFillColor(sf::Color::White);
-	text.setPosition(12, 8);
-	text.setString("Loading Resources...");
-	_load_window.draw(text);
+	sf::Texture texture{};
+	texture.loadFromImage(loading);
+	sf::Sprite sprite{};
+	sprite.setTexture(texture, true);
+	sprite.setPosition(0, 0);
+	sprite.setScale(scale, scale);
+	_load_window.draw(sprite);
 
 	_load_window.display();
 }
