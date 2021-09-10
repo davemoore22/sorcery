@@ -87,7 +87,6 @@ namespace Sorcery {
 		std::unique_ptr<Castle> _castle;
 		std::unique_ptr<Game> _game;
 		std::vector<std::string> _arguments;
-		tgui::Gui _load_gui;
 		sf::RenderWindow _load_window;
 	};
 } // namespace Sorcery
