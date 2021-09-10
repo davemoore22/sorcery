@@ -8342,16 +8342,6 @@
 		"name": "engine_base_ui",
 		"component": [
 		{
-
-			"name": "wallpaper",
-			"x": "0",
-			"y": "0",
-			"type": "image",
-			"priority": "1",
-			"texture": "background",
-			"drawmode": "automatic"
-		},
-		{
 			"name": "character",
 			"x": "12",
 			"y": "7",
@@ -8385,7 +8375,7 @@
 			"name": "status_bar",
 			"w": "55",
 			"h": "9",
-			"x": "1",
+			"x": "centre",
 			"y": "26",
 			"alpha": "255",
 			"type": "other",
@@ -8466,7 +8456,7 @@
 			"name": "status_bar_outer_frame",
 			"w": "53",
 			"h": "9",
-			"x": "1",
+			"x": "centre",
 			"y": "0",
 			"drawmode": "manual",
 			"alpha": "255",
@@ -8478,50 +8468,6 @@
 				"adjustment_w": "-16"
 				}
 			]
-		},
-		{
-			"name": "view_frame",
-			"w": "53",
-			"h": "28",
-			"x": "1",
-			"y": "1",
-			"alpha": "255",
-			"type": "frame",
-			"priority": "5",
-			"background": " 0x000000ff"
-		},
-		{
-			"name": "automap_frame",
-			"w": "19",
-			"h": "18",
-			"x": "57",
-			"y": "1",
-			"alpha": "255",
-			"type": "frame",
-			"priority": "5",
-			"background": " 0x000000ff"
-		},
-		{
-			"name": "button_frame",
-			"w": "19",
-			"h": "7",
-			"x": "57",
-			"y": "18",
-			"alpha": "255",
-			"type": "frame",
-			"priority": "5",
-			"background": " 0x000000ff"
-		},
-		{
-			"name": "action_frame",
-			"w": "19",
-			"h": "9",
-			"x": "57",
-			"y": "26",
-			"alpha": "255",
-			"type": "frame",
-			"priority": "5",
-			"background": " 0x000000ff"
 		},
 		{
 			"name": "camp_menu_frame",

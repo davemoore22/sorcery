@@ -58,7 +58,6 @@
 			<Add option="-Winvalid-pch" />
 			<Add option="-Wmissing-format-attribute" />
 			<Add option="-Wodr" />
-			<Add option="-Wall" />
 			<Add directory="inc" />
 			<Add directory="inc/simpleini" />
 			<Add directory="inc/sqlitemoderncpp" />
@@ -66,6 +65,7 @@
 			<Add directory="inc/backwardcpp" />
 			<Add directory="inc/cereal" />
 			<Add directory="inc/cereal/archives" />
+			<Add directory="/usr/include/X11" />
 		</Compiler>
 		<Linker>
 			<Add option="-lstdc++fs" />
