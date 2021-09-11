@@ -104,13 +104,13 @@ namespace Sorcery {
 			: index{0}, wall{0}, floor{0}, ceiling{0}, door{std::nullopt},
 			  source{""}, comment{""} {};
 		Texture(unsigned int index_, unsigned int wall_, unsigned int floor_,
-			unsigned int ceiling_, unsigned int door_, std::string source_,
-			std::string comment_ = "")
+			unsigned int ceiling_, std::optional<unsigned int> door_,
+			std::string source_, std::string comment_ = "")
 			: index{index_}, wall{wall_}, floor{floor_}, ceiling{ceiling_},
 			  door{door_}, source{source_}, comment{comment_} {};
 		auto operator==(const Texture &a) const -> bool {
 			return (index == a.index && wall == a.wall && floor == a.floor &&
-					ceiling == a.ceiling && door == a.door &&
+					ceiling == a.ceiling && door.value() == a.door.value() &&
 					source == a.source);
 		}
 

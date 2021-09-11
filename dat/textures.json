@@ -6,8 +6,17 @@
 			"ceiling": "0",
 			"floor": "0",
 			"door": "0",
-			"source": "00.jpg",
+			"source": "00/00/00/00",
 			"comment": "wireframe"
+		},
+		{
+			"index": "1",
+			"wall": "1",
+			"ceiling": "5",
+			"floor": "5",
+			"door": "1",
+			"source": "01-a/01-a/05-a/05-a/01-a",
+			"comment": "brownbrick"
 		}
 	]
 }

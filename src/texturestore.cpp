@@ -59,30 +59,39 @@ auto Sorcery::TextureStore::get(const unsigned int index)
 	else
 		return std::nullopt;
 }
+// Get the indexed texture as an appropriate sprite
 auto Sorcery::TextureStore::get(const unsigned int index,
 	GraphicsTextureType texture_type) -> std::optional<sf::Sprite> {
 
 	auto texture{get(index)};
+	auto idx{0u};
 	if (texture) {
 		sf::Texture *source{nullptr};
 		switch (texture_type) {
 		case GraphicsTextureType::FLOOR:
 			source = _floor_t;
+			idx = texture.value().floor;
 			break;
 		case GraphicsTextureType::CEILING:
 			source = _floor_t;
+			idx = texture.value().ceiling;
 			break;
 		case GraphicsTextureType::WALL:
+			idx = texture.value().wall;
 			source = _wall_t;
 			break;
 		case GraphicsTextureType::DOOR:
-			source = _door_t;
+			if (texture.value().door) {
+				idx = texture.value().wall;
+				source = _door_t;
+			} else {
+			}
 			break;
 		default:
 			return std::nullopt;
 		}
 
-		sf::IntRect tile_r{_get_rect(index)};
+		sf::IntRect tile_r{_get_rect(idx)};
 		sf::Sprite tile(*source);
 		tile.setTextureRect(tile_r);
 		return tile;
@@ -114,9 +123,10 @@ auto Sorcery::TextureStore::_load(const std::filesystem::path filename)
 			// Iterate through texture file one texture at a time
 			for (auto i = 0u; i < textures.size(); i++) {
 
-				// Get the mappings for each texture (note that all parameters
-				// should always be present for each texture entry in the
-				// mapping file or else this will error)
+				// Get the mappings for each texture (note that all
+				// parameters (apart from the door) should always be present for
+				// each texture entry in the mapping file or else this will
+				// error)
 				auto index{static_cast<unsigned int>(
 					std::stoul(textures[i]["index"].asString()))};
 				auto wall{static_cast<unsigned int>(
@@ -125,11 +135,20 @@ auto Sorcery::TextureStore::_load(const std::filesystem::path filename)
 					std::stoul(textures[i]["ceiling"].asString()))};
 				auto floor{static_cast<unsigned int>(
 					std::stoul(textures[i]["floor"].asString()))};
-				auto door{static_cast<unsigned int>(
-					std::stoul(textures[i]["door"].asString()))};
+				int t_door{[&] {
+					if (textures[i].isMember("door")) {
+						if (textures[i]["door"].asString().length() > 0)
+							return std::stoi(textures[i]["door"].asString());
+						else
+							return -1;
+					} else
+                        return -1;
+				}()};
+				std::optional<unsigned int> door{std::nullopt};
+				if (t_door >= 0)
+					door = static_cast<unsigned int>(t_door);
 				auto source{textures[i]["source"].asString()};
 				auto comment{textures[i]["comment"].asString()};
-
 				const Texture texture{
 					index, wall, floor, ceiling, door, source, comment};
 
