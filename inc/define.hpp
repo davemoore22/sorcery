@@ -74,6 +74,7 @@ namespace Sorcery {
 	inline constexpr auto LICENSE_FILE = "LICENSE"sv;
 	inline constexpr auto README_FILE = "README"sv;
 	inline constexpr auto STRINGS_FILE = "strings.json"sv;
+	inline constexpr auto TEXTURES_FILE = "textures.json"sv;
 	inline constexpr auto VERSION_FILE = "VERSION"sv;
 
 	// Graphics

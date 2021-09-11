@@ -42,6 +42,7 @@ Sorcery::File::File() {
 	_add_path(DATA_DIR, MONO_FONT_FILE);
 	_add_path(DATA_DIR, PROPORTIONAL_FONT_FILE);
 	_add_path(DATA_DIR, TEXT_FONT_FILE);
+	_add_path(DATA_DIR, TEXTURES_FILE);
 	_add_path(DATA_DIR, STRINGS_FILE);
 	_add_path(DOCUMENTS_DIR, LICENSE_FILE);
 	_add_path(DOCUMENTS_DIR, HELP_FILE);

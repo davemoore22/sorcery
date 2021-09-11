@@ -58,7 +58,7 @@ auto Sorcery::AttractMode::generate() -> void {
 		// Get the Required Sprites
 		auto sprite_x{0u};
 		for (auto i : data) {
-			sf::Sprite sprite{_get_creature_gfx(i, true)};
+			sf::Sprite sprite{_get_creature_gfx(i)};
 			sprite.setPosition(sprite_x, 0);
 			_rtexture.draw(sprite, sf::BlendAlpha);
 			sprite_x += (_cs_width + _cs_spacing);
@@ -73,8 +73,8 @@ auto Sorcery::AttractMode::generate() -> void {
 }
 
 // Get the Sprite from the Creatures Texture
-auto Sorcery::AttractMode::_get_creature_gfx(
-	const int creature_id, const bool known) -> sf::Sprite {
+auto Sorcery::AttractMode::_get_creature_gfx(const int creature_id)
+	-> sf::Sprite {
 
 	sf::IntRect crect{};
 	sf::Sprite creature(_ctexture);

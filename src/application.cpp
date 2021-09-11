@@ -182,7 +182,8 @@ auto Sorcery::Application::_display_loading_window() -> void {
 
 	// Just use the 2nd highest screen resolution to handle multimonitor modes
 	std::vector<sf::VideoMode> video_modes{sf::VideoMode::getFullscreenModes()};
-	sf::Vector2i screen_size{video_modes[1].width, video_modes[1].height};
+	sf::Vector2i screen_size{static_cast<int>(video_modes[1].width),
+		static_cast<int>(video_modes[1].height)};
 
 	// Hard Coded since we don't have access to any file resources at this point
 	const std::filesystem::path base_path{_get_exe_path()};
@@ -194,7 +195,8 @@ auto Sorcery::Application::_display_loading_window() -> void {
 	loading.loadFromFile(image_path.string());
 
 	const sf::Vector2u splash_size{
-		loading.getSize().x * scale, loading.getSize().y * scale};
+		static_cast<unsigned int>(loading.getSize().x * scale),
+		static_cast<unsigned int>(loading.getSize().y * scale)};
 	_load_window.create(sf::VideoMode(splash_size.x, splash_size.y),
 		"Sorcery: Shadows under Llylgamyn", sf::Style::None);
 	_load_window.setVerticalSyncEnabled(true);

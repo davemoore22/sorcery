@@ -1,0 +1,13 @@
+{
+	"texture": [
+		{
+			"index": "0",
+			"wall": "0",
+			"ceiling": "0",
+			"floor": "0",
+			"door": "0",
+			"source": "00.jpg",
+			"comment": "wireframe"
+		}
+	]
+}

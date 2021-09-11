@@ -125,5 +125,6 @@
 	},
 	"editor.fontSize": 12,
 	"editor.fontLigatures": true,
-	"C_Cpp.errorSquiggles": "Enabled"
+	"C_Cpp.errorSquiggles": "Enabled",
+	"csharp.suppressDotnetInstallWarning": true
 }

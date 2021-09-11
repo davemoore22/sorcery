@@ -98,6 +98,31 @@ namespace Sorcery {
 		sf::Color colour;
 	};
 
+	// Dungeon Graphics
+	struct TileTexture {
+		TileTexture()
+			: index{0}, wall{0}, floor{0}, ceiling{0}, door{std::nullopt},
+			  source{""}, comment{""} {};
+		TileTexture(unsigned int index_, unsigned int wall_,
+			unsigned int floor_, unsigned int ceiling_, unsigned int door_,
+			std::string source_, std::string comment_ = "")
+			: index{index_}, wall{wall_}, floor{floor_}, ceiling{ceiling_},
+			  door{door_}, source{source_}, comment{comment_} {};
+		auto operator==(const TileTexture &a) const -> bool {
+			return (index == a.index && wall == a.wall && floor == a.floor &&
+					ceiling == a.ceiling && door == a.door &&
+					source == a.source);
+		}
+
+		unsigned int index;
+		unsigned int wall;
+		unsigned int floor;
+		unsigned int ceiling;
+		std::optional<unsigned int> door;
+		std::string source;
+		std::string comment;
+	};
+
 	// Struct to represent a point on the screen (x, y)
 	struct Point {
 		Point() : x{0}, y{0} {};
