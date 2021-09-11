@@ -29,12 +29,14 @@
 #include "iconstore.hpp"
 #include "main.hpp"
 #include "system.hpp"
+#include "texturestore.hpp"
 
 namespace Sorcery {
 
 	// Forward Declarations
-	class Animation;
-	class IconStore;
+	// class Animation;
+	// class IconStore;
+	// class TextureStore;
 
 	// Superclass to handle graphics specific functionality such as animation
 	class Graphics {
@@ -54,6 +56,7 @@ namespace Sorcery {
 		// Public Members
 		std::unique_ptr<Animation> animation;
 		std::unique_ptr<IconStore> icons;
+		std::unique_ptr<TextureStore> textures;
 
 	  private:
 		// Private Members

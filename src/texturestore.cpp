@@ -21,3 +21,123 @@
 // said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
+
+#include "texturestore.hpp"
+
+// Standard Constructor
+Sorcery::TextureStore::TextureStore(
+	System *system, const std::filesystem::path filename)
+	: _system{system} {
+
+	// Prepare the icon stores
+	//_texture_store.clear();
+	_texture_map.clear();
+
+	// Get the Textures
+	_wall_t = &_system->resources->textures[GraphicsTexture::WALLS];
+	_ceiling_t = &_system->resources->textures[GraphicsTexture::FLOORS];
+	_floor_t = &_system->resources->textures[GraphicsTexture::FLOORS];
+	_door_t = &_system->resources->textures[GraphicsTexture::DOORS];
+
+	// Load the Mapping
+	_loaded = _load(filename);
+}
+
+// Overload [] Operator(const) -> std::optional<Texture>
+auto Sorcery::TextureStore::operator[](unsigned int index)
+	-> std::optional<Texture> {
+
+	auto texture{get(index)};
+	return texture;
+}
+
+auto Sorcery::TextureStore::get(const unsigned int index)
+	-> std::optional<Texture> {
+
+	if (_loaded)
+		return _texture_map.at(index);
+	else
+		return std::nullopt;
+}
+auto Sorcery::TextureStore::get(const unsigned int index,
+	GraphicsTextureType texture_type) -> std::optional<sf::Sprite> {
+
+	auto texture{get(index)};
+	if (texture) {
+		sf::Texture *source{nullptr};
+		switch (texture_type) {
+		case GraphicsTextureType::FLOOR:
+			source = _floor_t;
+			break;
+		case GraphicsTextureType::CEILING:
+			source = _floor_t;
+			break;
+		case GraphicsTextureType::WALL:
+			source = _wall_t;
+			break;
+		case GraphicsTextureType::DOOR:
+			source = _door_t;
+			break;
+		default:
+			return std::nullopt;
+		}
+
+		sf::IntRect tile_r{_get_rect(index)};
+		sf::Sprite tile(*source);
+		tile.setTextureRect(tile_r);
+		return tile;
+	} else
+		return std::nullopt;
+}
+
+auto Sorcery::TextureStore::_get_rect(unsigned int index) const -> sf::IntRect {
+
+	constexpr auto tile_size{400};
+	return sf::IntRect(tile_size * (index % 15), tile_size * (index / 15),
+		tile_size, tile_size);
+}
+auto Sorcery::TextureStore::_load(const std::filesystem::path filename)
+	-> bool {
+
+	if (std::ifstream file{filename.string(), std::ifstream::binary};
+		file.good()) {
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+		Json::Reader reader{};
+#pragma GCC diagnostic pop
+		Json::StreamWriterBuilder builder{};
+		builder.settings_["indentation"] = "";
+		if (Json::Value layout; reader.parse(file, layout)) {
+			Json::Value &textures{layout["texture"]};
+
+			// Iterate through texture file one texture at a time
+			for (auto i = 0u; i < textures.size(); i++) {
+
+				// Get the mappings for each texture (note that all parameters
+				// should always be present for each texture entry in the
+				// mapping file or else this will error)
+				auto index{static_cast<unsigned int>(
+					std::stoul(textures[i]["index"].asString()))};
+				auto wall{static_cast<unsigned int>(
+					std::stoul(textures[i]["wall"].asString()))};
+				auto ceiling{static_cast<unsigned int>(
+					std::stoul(textures[i]["ceiling"].asString()))};
+				auto floor{static_cast<unsigned int>(
+					std::stoul(textures[i]["floor"].asString()))};
+				auto door{static_cast<unsigned int>(
+					std::stoul(textures[i]["door"].asString()))};
+				auto source{textures[i]["source"].asString()};
+				auto comment{textures[i]["comment"].asString()};
+
+				const Texture texture{
+					index, wall, floor, ceiling, door, source, comment};
+
+				_texture_map[index] = texture;
+			}
+		}
+	} else
+		return false;
+
+	return true;
+}

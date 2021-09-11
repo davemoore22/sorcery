@@ -30,6 +30,8 @@ Sorcery::Graphics::Graphics(System *system, Display *display) {
 	animation = std::make_unique<Animation>(system, display);
 	icons = std::make_unique<IconStore>(system,
 		(*display->layout)["global:icon"], (*system->files)[ICONS_FILE]);
+	textures =
+		std::make_unique<TextureStore>(system, (*system->files)[TEXTURES_FILE]);
 }
 
 auto Sorcery::Graphics::adjust_brightness(sf::Color colour, double colour_lerp)
