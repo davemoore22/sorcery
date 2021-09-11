@@ -176,6 +176,8 @@ namespace Sorcery {
 			UI,
 			WALLS
 		};
+
+		enum class TextureType { NONE, WALL, FLOOR, CEILING, DOOR };
 	} // namespace Enums::Graphics
 
 	namespace Enums::Settings {

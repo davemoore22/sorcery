@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1630675396 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1631369424 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -142,13 +142,13 @@
 1631365237 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
-1631184434 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
+1631369399 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
 1630525062 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
 	"main.hpp"
 
-1631365163 /home/dave/Development/wizardry/sorcery-sfml/inc/type.hpp
+1631369096 /home/dave/Development/wizardry/sorcery-sfml/inc/type.hpp
 	"main.hpp"
 
 1625475027 /home/dave/Development/wizardry/sorcery-sfml/inc/operator.hpp
@@ -210,7 +210,7 @@
 	"string.hpp"
 	"system.hpp"
 
-1631202536 source:/home/dave/Development/wizardry/sorcery-sfml/src/application.cpp
+1631365748 source:/home/dave/Development/wizardry/sorcery-sfml/src/application.cpp
 	"application.hpp"
 
 1631277854 /home/dave/Development/wizardry/sorcery-sfml/inc/application.hpp
@@ -583,7 +583,7 @@
 	"component.hpp"
 	"main.hpp"
 
-1631365651 source:/home/dave/Development/wizardry/sorcery-sfml/src/attractmode.cpp
+1631365722 source:/home/dave/Development/wizardry/sorcery-sfml/src/attractmode.cpp
 	"attractmode.hpp"
 
 1629040472 /home/dave/Development/wizardry/sorcery-sfml/inc/training.hpp
