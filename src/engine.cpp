@@ -242,6 +242,11 @@ auto Sorcery::Engine::_draw() -> void {
 		_window->draw(*_confirm_exit);
 	}
 
+	/* sf::Sprite wibble =
+		_graphics->textures->get(1, GraphicsTextureType::WALL).value();
+	wibble.setPosition(1, 1);
+	_window->draw(wibble); */
+
 	// Always draw the following
 	_display->display_overlay();
 	_display->display_cursor();

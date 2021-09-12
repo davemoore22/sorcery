@@ -30,7 +30,6 @@ Sorcery::TextureStore::TextureStore(
 	: _system{system} {
 
 	// Prepare the icon stores
-	//_texture_store.clear();
 	_texture_map.clear();
 
 	// Get the Textures
@@ -38,6 +37,10 @@ Sorcery::TextureStore::TextureStore(
 	_ceiling_t = &_system->resources->textures[GraphicsTexture::FLOORS];
 	_floor_t = &_system->resources->textures[GraphicsTexture::FLOORS];
 	_door_t = &_system->resources->textures[GraphicsTexture::DOORS];
+	_creatures_known_t =
+		&_system->resources->textures[GraphicsTexture::CREATURES_KNOWN];
+	_creatures_unknown_t =
+		&_system->resources->textures[GraphicsTexture::CREATURES_UNKNOWN];
 
 	// Load the Mapping
 	_loaded = _load(filename);
@@ -50,7 +53,6 @@ auto Sorcery::TextureStore::operator[](unsigned int index)
 	auto texture{get(index)};
 	return texture;
 }
-
 auto Sorcery::TextureStore::get(const unsigned int index)
 	-> std::optional<Texture> {
 
@@ -59,51 +61,75 @@ auto Sorcery::TextureStore::get(const unsigned int index)
 	else
 		return std::nullopt;
 }
-// Get the indexed texture as an appropriate sprite
+// Get the indexed texture as an appropriate sprite - note that for
+// WALLS/CEILINGS/FLOORS/DOORS, the index refers to the entry in textures.json;
+// whereas for all other spritesheets it refers to the actual sprite position
 auto Sorcery::TextureStore::get(const unsigned int index,
 	GraphicsTextureType texture_type) -> std::optional<sf::Sprite> {
 
-	auto texture{get(index)};
+	std::optional<Sorcery::Texture> texture{std::nullopt};
 	auto idx{0u};
-	if (texture) {
-		sf::Texture *source{nullptr};
-		switch (texture_type) {
-		case GraphicsTextureType::FLOOR:
-			source = _floor_t;
-			idx = texture.value().floor;
-			break;
-		case GraphicsTextureType::CEILING:
-			source = _floor_t;
-			idx = texture.value().ceiling;
-			break;
-		case GraphicsTextureType::WALL:
+	sf::Texture *source{nullptr};
+	switch (texture_type) {
+	case GraphicsTextureType::FLOOR:
+		texture = get(index);
+		source = _floor_t;
+		idx = texture.value().floor;
+		break;
+	case GraphicsTextureType::CEILING:
+		texture = get(index);
+		source = _floor_t;
+		idx = texture.value().ceiling;
+		break;
+	case GraphicsTextureType::WALL:
+		texture = get(index);
+		idx = texture.value().wall;
+		source = _wall_t;
+		break;
+	case GraphicsTextureType::DOOR:
+		if (texture.value().door) {
+			texture = get(index);
 			idx = texture.value().wall;
-			source = _wall_t;
-			break;
-		case GraphicsTextureType::DOOR:
-			if (texture.value().door) {
-				idx = texture.value().wall;
-				source = _door_t;
-			} else {
-			}
-			break;
-		default:
-			return std::nullopt;
+			source = _door_t;
+		} else {
 		}
-
-		sf::IntRect tile_r{_get_rect(idx)};
-		sf::Sprite tile(*source);
-		tile.setTextureRect(tile_r);
-		return tile;
-	} else
+		break;
+	case GraphicsTextureType::KNOWN_CREATURE:
+		idx = index;
+		source = _creatures_known_t;
+		break;
+	case GraphicsTextureType::UNKNOWN_CREATURE:
+		source = _creatures_unknown_t;
+		idx = index;
+		break;
+	default:
 		return std::nullopt;
+	}
+
+	sf::IntRect tile_r{_get_rect(idx, texture_type)};
+	sf::Sprite tile(*source);
+	tile.setTextureRect(tile_r);
+	return tile;
 }
 
-auto Sorcery::TextureStore::_get_rect(unsigned int index) const -> sf::IntRect {
+auto Sorcery::TextureStore::_get_rect(
+	unsigned int index, GraphicsTextureType texture_type) const -> sf::IntRect {
 
-	constexpr auto tile_size{400};
-	return sf::IntRect(tile_size * (index % 15), tile_size * (index / 15),
-		tile_size, tile_size);
+	int tile_size{[&] {
+		return (texture_type == GraphicsTextureType::KNOWN_CREATURE ||
+				   texture_type == GraphicsTextureType::UNKNOWN_CREATURE)
+				   ? CREATURE_TILE_SIZE
+				   : DUNGEON_TILE_SIZE;
+	}()};
+	int tile_row_count{[&] {
+		return (texture_type == GraphicsTextureType::KNOWN_CREATURE ||
+				   texture_type == GraphicsTextureType::UNKNOWN_CREATURE)
+				   ? CREATURE_TILE_ROW_COUNT
+				   : DUNGEON_TILE_ROW_COUNT;
+	}()};
+
+	return sf::IntRect(tile_size * (index % tile_row_count),
+		tile_size * (index / tile_row_count), tile_size, tile_size);
 }
 auto Sorcery::TextureStore::_load(const std::filesystem::path filename)
 	-> bool {
@@ -142,7 +168,7 @@ auto Sorcery::TextureStore::_load(const std::filesystem::path filename)
 						else
 							return -1;
 					} else
-                        return -1;
+						return -1;
 				}()};
 				std::optional<unsigned int> door{std::nullopt};
 				if (t_door >= 0)

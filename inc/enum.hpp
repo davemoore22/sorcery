@@ -177,7 +177,15 @@ namespace Sorcery {
 			WALLS
 		};
 
-		enum class TextureType { NONE, WALL, FLOOR, CEILING, DOOR };
+		enum class TextureType {
+			NONE,
+			WALL,
+			FLOOR,
+			CEILING,
+			DOOR,
+			KNOWN_CREATURE,
+			UNKNOWN_CREATURE
+		};
 	} // namespace Enums::Graphics
 
 	namespace Enums::Settings {

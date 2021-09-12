@@ -105,6 +105,14 @@ namespace Sorcery {
 
 	// Miscellaneous Settings
 	inline constexpr auto MAX_PORTRAIT_INDEX = 29u;
+	inline constexpr auto CREATURE_TILE_SIZE = 400;
+	inline constexpr auto DUNGEON_TILE_SIZE = 400;
+	inline constexpr auto PORTRAIT_TILE_SIZE = 600;
+	inline constexpr auto ICON_TILE_SIZE = 511.f;
+	inline constexpr auto CREATURE_TILE_ROW_COUNT = 20;
+	inline constexpr auto DUNGEON_TILE_ROW_COUNT = 15;
+	inline constexpr auto PORTRAIT_TILE_ROW_COUNT = 6;
+	inline constexpr auto ICON__TILE_ROW_COUNT = 15;
 
 	// Game config settings
 	static const std::string DEFAULT_SCREEN_HEIGHT = {"default_height"};

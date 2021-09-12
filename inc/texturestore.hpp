@@ -52,11 +52,13 @@ namespace Sorcery {
 		sf::Texture *_ceiling_t;
 		sf::Texture *_floor_t;
 		sf::Texture *_door_t;
+		sf::Texture *_creatures_known_t;
+		sf::Texture *_creatures_unknown_t;
 		std::map<unsigned int, Texture> _texture_map;
-		// std::map<unsigned int, std::array<sf::Sprite, 5>> _texture_store;
 
 		// Private Methods
-		auto _get_rect(unsigned int index) const -> sf::IntRect;
+		auto _get_rect(unsigned int index,
+			GraphicsTextureType texture_type) const -> sf::IntRect;
 		auto _load(const std::filesystem::path filename) -> bool;
 	};
 } // namespace Sorcery
