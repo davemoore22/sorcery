@@ -159,7 +159,7 @@ auto Sorcery::Animation::_do_attract() -> void {
 	_attract_mode.clear();
 	for (auto i = 0u; i < num; i++) {
 		do {
-			sprite_index = (*_system->random)[RandomType::ZERO_TO_101];
+			sprite_index = (*_system->random)[RandomType::ZERO_TO_437];
 		} while (std::find(_attract_mode.begin(), _attract_mode.end(),
 					 sprite_index) != _attract_mode.end());
 		_attract_mode.push_back(sprite_index);

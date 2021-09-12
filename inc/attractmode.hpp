@@ -25,17 +25,16 @@
 #pragma once
 
 #include "component.hpp"
+#include "graphics.hpp"
 #include "main.hpp"
 
 namespace Sorcery {
-
-	class Display;
 
 	class AttractMode : public sf::Transformable, public sf::Drawable {
 
 	  public:
 		// Constructors
-		AttractMode(sf::Texture ctexture, Component component);
+		AttractMode(Graphics *graphics, Component component);
 		AttractMode() = delete;
 
 		// Public Members
@@ -51,16 +50,12 @@ namespace Sorcery {
 		// Private Methods
 		auto virtual draw(
 			sf::RenderTarget &target, sf::RenderStates states) const -> void;
-		auto _get_creature_gfx(const int creature_id) -> sf::Sprite;
 
 		// Private Members
-		sf::Texture _ctexture;
+		Graphics *_graphics;
 		sf::RenderTexture _rtexture;
 		sf::Texture _texture;
 		sf::Sprite _sprite;
 		Component _component;
-		unsigned int _cs_width;
-		unsigned int _cs_height;
-		unsigned int _cs_spacing;
 	};
 } // namespace Sorcery

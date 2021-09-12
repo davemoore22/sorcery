@@ -112,7 +112,8 @@ namespace Sorcery {
 	inline constexpr auto CREATURE_TILE_ROW_COUNT = 20;
 	inline constexpr auto DUNGEON_TILE_ROW_COUNT = 15;
 	inline constexpr auto PORTRAIT_TILE_ROW_COUNT = 6;
-	inline constexpr auto ICON__TILE_ROW_COUNT = 15;
+	inline constexpr auto ICON_TILE_ROW_COUNT = 15;
+	inline constexpr auto ATTRACT_MODE_TILE_SPACING = 8;
 
 	// Game config settings
 	static const std::string DEFAULT_SCREEN_HEIGHT = {"default_height"};

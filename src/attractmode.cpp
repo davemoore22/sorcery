@@ -25,13 +25,8 @@
 #include "attractmode.hpp"
 
 // Standard Constructor
-Sorcery::AttractMode::AttractMode(sf::Texture ctexture, Component component)
-	: _ctexture{ctexture}, _component{component} {
-
-	_cs_width = 400;
-	_cs_height = 400;
-	_cs_spacing = 0;
-}
+Sorcery::AttractMode::AttractMode(Graphics *graphics, Component component)
+	: _graphics{graphics}, _component{component} {}
 
 // We generate the attract mode graphic in the main thread, though we generate
 // the IDs in the animation threads - see
@@ -47,9 +42,9 @@ auto Sorcery::AttractMode::generate() -> void {
 		const auto number_to_display{
 			static_cast<unsigned int>(data_temp.size())};
 		const sf::Vector2f texture_size(
-			_cs_width * number_to_display +
-				(_cs_spacing * (number_to_display - 1)),
-			_cs_height);
+			CREATURE_TILE_SIZE * number_to_display +
+				(ATTRACT_MODE_TILE_SPACING * (number_to_display - 1)),
+			CREATURE_TILE_SIZE);
 
 		// Don't worry about previous contents of this
 		_rtexture.create(texture_size.x, texture_size.y);
@@ -58,10 +53,12 @@ auto Sorcery::AttractMode::generate() -> void {
 		// Get the Required Sprites
 		auto sprite_x{0u};
 		for (auto i : data) {
-			sf::Sprite sprite{_get_creature_gfx(i)};
+			sf::Sprite sprite{
+				_graphics->textures->get(i, GraphicsTextureType::KNOWN_CREATURE)
+					.value()};
 			sprite.setPosition(sprite_x, 0);
 			_rtexture.draw(sprite, sf::BlendAlpha);
-			sprite_x += (_cs_width + _cs_spacing);
+			sprite_x += (CREATURE_TILE_SIZE + ATTRACT_MODE_TILE_SPACING);
 		}
 
 		// Draw them to the Texture
@@ -70,22 +67,6 @@ auto Sorcery::AttractMode::generate() -> void {
 		_sprite = sf::Sprite(_texture);
 		sprite = _sprite;
 	}
-}
-
-// Get the Sprite from the Creatures Texture
-auto Sorcery::AttractMode::_get_creature_gfx(const int creature_id)
-	-> sf::Sprite {
-
-	sf::IntRect crect{};
-	sf::Sprite creature(_ctexture);
-
-	crect.left = (creature_id % 15) * _cs_width;
-	crect.width = _cs_width;
-	crect.top = (creature_id / 15) * _cs_width;
-	;
-	crect.height = _cs_height;
-	creature.setTextureRect(crect);
-	return creature;
 }
 
 // Adjust the Alpha

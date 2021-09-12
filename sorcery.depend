@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1629377916 source:/home/dave/Development/wizardry/sorcery-sfml/src/animation.cpp
+1631477961 source:/home/dave/Development/wizardry/sorcery-sfml/src/animation.cpp
 	"animation.hpp"
 
 1628106617 /home/dave/Development/wizardry/sorcery-sfml/inc/animation.hpp
@@ -139,7 +139,7 @@
 
 1591211577 /home/dave/Development/wizardry/sorcery-sfml/inc/simpleini/ConvertUTF.h
 
-1631475645 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
+1631477647 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
 1631473690 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
@@ -355,7 +355,7 @@
 	"main.hpp"
 	"application.hpp"
 
-1631184301 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
+1631478855 source:/home/dave/Development/wizardry/sorcery-sfml/src/mainmenu.cpp
 	"mainmenu.hpp"
 
 1628106617 source:/home/dave/Development/wizardry/sorcery-sfml/src/manage.cpp
@@ -580,11 +580,12 @@
 	"main.hpp"
 	"map.hpp"
 
-1631365642 /home/dave/Development/wizardry/sorcery-sfml/inc/attractmode.hpp
+1631477682 /home/dave/Development/wizardry/sorcery-sfml/inc/attractmode.hpp
 	"component.hpp"
+	"graphics.hpp"
 	"main.hpp"
 
-1631365722 source:/home/dave/Development/wizardry/sorcery-sfml/src/attractmode.cpp
+1631477721 source:/home/dave/Development/wizardry/sorcery-sfml/src/attractmode.cpp
 	"attractmode.hpp"
 
 1629040472 /home/dave/Development/wizardry/sorcery-sfml/inc/training.hpp
@@ -1353,6 +1354,6 @@
 	"main.hpp"
 	"system.hpp"
 
-1631475299 source:/home/dave/Development/wizardry/sorcery-sfml/src/texturestore.cpp
+1631476773 source:/home/dave/Development/wizardry/sorcery-sfml/src/texturestore.cpp
 	"texturestore.hpp"
 
