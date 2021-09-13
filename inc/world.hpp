@@ -22,15 +22,28 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "render.hpp"
+#pragma once
 
-// Standard Constructor
-Sorcery::Render::Render(
-	System *system, Display *display, Graphics *graphics, Game *game)
-	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {}
+#include "game.hpp"
+#include "main.hpp"
+#include "system.hpp"
 
-auto Sorcery::Render::draw(
-	sf::RenderTarget &target, sf::RenderStates states) const -> void {
+namespace Sorcery {
 
-	states.transform *= getTransform();
-}
+	class World {
+
+	  public:
+		// Constructors
+		World(System *system, Game *game);
+		World() = delete;
+
+		// Public Methods
+
+	  private:
+		// Private Members
+		System *_system;
+		Game *_game;
+
+		// Private Methods
+	};
+} // namespace Sorcery

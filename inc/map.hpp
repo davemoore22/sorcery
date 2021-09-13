@@ -24,5 +24,26 @@
 
 #pragma once
 
+#include "game.hpp"
 #include "main.hpp"
 #include "system.hpp"
+
+namespace Sorcery {
+
+	class Map {
+
+	  public:
+		// Constructors
+		Map(System *system, Game *game);
+		Map() = delete;
+
+		// Public Methods
+
+	  private:
+		// Private Members
+		System *_system;
+		Game *_game;
+
+		// Private Methods
+	};
+} // namespace Sorcery

@@ -25,6 +25,32 @@
 #pragma once
 
 #include "display.hpp"
+#include "game.hpp"
 #include "graphics.hpp"
 #include "main.hpp"
 #include "system.hpp"
+
+namespace Sorcery {
+
+	class Render : public sf::Transformable, public sf::Drawable {
+
+	  public:
+		// Constructors
+		Render(
+			System *system, Display *display, Graphics *graphics, Game *game);
+		Render() = delete;
+
+		// Public Methods
+
+	  private:
+		// Private Members
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
+		Game *_game;
+
+		// Private Methods
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+	};
+} // namespace Sorcery

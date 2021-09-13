@@ -37,6 +37,50 @@
             "-g",
             "-fpic",
             "-o",
+            "bin/release/obj/map.cpp.o",
+            "src/map.cpp"
+        ],
+        "directory": "/home/dave/Development/wizardry/sorcery-sfml",
+        "file": "src/map.cpp"
+    },
+    {
+        "arguments": [
+            "g++",
+            "-c",
+            "-Isrc/",
+            "-Ilib/",
+            "-Iinc",
+            "-Iinc/simpleini",
+            "-Iinc/magicenum",
+            "-Iinc/sqlitemoderncpp",
+            "-Iinc/backwardcpp",
+            "-Iinc/cereal",
+            "-Iinc/sfemovie",
+            "-I/usr/local/include",
+            "-O2",
+            "-std=c++20",
+            "-Wall",
+            "-Wextra",
+            "-Wpedantic",
+            "-Wunreachable-code",
+            "-Wunused",
+            "-Wignored-qualifiers",
+            "-Wcast-align",
+            "-Wformat-nonliteral",
+            "-Wformat=2",
+            "-Winvalid-pch",
+            "-Wmissing-declarations",
+            "-Wmissing-format-attribute",
+            "-Wmissing-include-dirs",
+            "-Wredundant-decls",
+            "-Wswitch-default",
+            "-Wodr",
+            "-Wfatal-errors",
+            "-fdiagnostics-color=always",
+            "-pthread",
+            "-g",
+            "-fpic",
+            "-o",
             "bin/release/obj/render.cpp.o",
             "src/render.cpp"
         ],
@@ -81,10 +125,10 @@
             "-g",
             "-fpic",
             "-o",
-            "bin/release/obj/map.cpp.o",
-            "src/map.cpp"
+            "bin/release/obj/world.cpp.o",
+            "src/world.cpp"
         ],
         "directory": "/home/dave/Development/wizardry/sorcery-sfml",
-        "file": "src/map.cpp"
+        "file": "src/world.cpp"
     }
 ]
