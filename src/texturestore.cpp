@@ -41,6 +41,7 @@ Sorcery::TextureStore::TextureStore(
 		&_system->resources->textures[GraphicsTexture::CREATURES_KNOWN];
 	_creatures_unknown_t =
 		&_system->resources->textures[GraphicsTexture::CREATURES_UNKNOWN];
+	_portrait_t = &_system->resources->textures[GraphicsTexture::PORTRAITS];
 
 	// Load the Mapping
 	_loaded = _load(filename);
@@ -102,6 +103,10 @@ auto Sorcery::TextureStore::get(const unsigned int index,
 		source = _creatures_unknown_t;
 		idx = index;
 		break;
+	case GraphicsTextureType::PORTRAIT:
+		source = _portrait_t;
+		idx = index;
+		break;
 	default:
 		return std::nullopt;
 	}
@@ -116,16 +121,32 @@ auto Sorcery::TextureStore::_get_rect(
 	unsigned int index, GraphicsTextureType texture_type) const -> sf::IntRect {
 
 	int tile_size{[&] {
-		return (texture_type == GraphicsTextureType::KNOWN_CREATURE ||
-				   texture_type == GraphicsTextureType::UNKNOWN_CREATURE)
-				   ? CREATURE_TILE_SIZE
-				   : DUNGEON_TILE_SIZE;
+		switch (texture_type) {
+		case GraphicsTextureType::KNOWN_CREATURE:
+		case GraphicsTextureType::UNKNOWN_CREATURE:
+			return CREATURE_TILE_SIZE;
+			break;
+		case GraphicsTextureType::PORTRAIT:
+			return PORTRAIT_TILE_SIZE;
+			break;
+		default:
+			return DUNGEON_TILE_SIZE;
+			break;
+		};
 	}()};
 	int tile_row_count{[&] {
-		return (texture_type == GraphicsTextureType::KNOWN_CREATURE ||
-				   texture_type == GraphicsTextureType::UNKNOWN_CREATURE)
-				   ? CREATURE_TILE_ROW_COUNT
-				   : DUNGEON_TILE_ROW_COUNT;
+		switch (texture_type) {
+		case GraphicsTextureType::KNOWN_CREATURE:
+		case GraphicsTextureType::UNKNOWN_CREATURE:
+			return CREATURE_TILE_ROW_COUNT;
+			break;
+		case GraphicsTextureType::PORTRAIT:
+			return PORTRAIT_TILE_ROW_COUNT;
+			break;
+		default:
+			return DUNGEON_TILE_ROW_COUNT;
+			break;
+		};
 	}()};
 
 	return sf::IntRect(tile_size * (index % tile_row_count),

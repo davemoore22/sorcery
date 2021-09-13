@@ -184,7 +184,8 @@ namespace Sorcery {
 			CEILING,
 			DOOR,
 			KNOWN_CREATURE,
-			UNKNOWN_CREATURE
+			UNKNOWN_CREATURE,
+			PORTRAIT
 		};
 	} // namespace Enums::Graphics
 

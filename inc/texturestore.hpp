@@ -54,6 +54,7 @@ namespace Sorcery {
 		sf::Texture *_door_t;
 		sf::Texture *_creatures_known_t;
 		sf::Texture *_creatures_unknown_t;
+		sf::Texture *_portrait_t;
 		std::map<unsigned int, Texture> _texture_map;
 
 		// Private Methods
