@@ -27,5 +27,5 @@
 // Standard Constructor
 Sorcery::Map::Map() {
 
-	//_version = SAVE_VERSION;
+	_version = SAVE_VERSION;
 }

@@ -27,6 +27,6 @@
 // Standard Constructor
 Sorcery::World::World() {
 
-	//_current_level = std::make_unique<Map>();
-	//_version = SAVE_VERSION;
+	_current_level = std::make_unique<Map>();
+	_version = SAVE_VERSION;
 }

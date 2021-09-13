@@ -28,6 +28,7 @@
 Sorcery::State::State() {
 	_party.clear();
 	_party.reserve(MAX_PARTY_SIZE);
+	world = std::make_unique<World>();
 }
 
 // Normal Constructor
@@ -35,6 +36,7 @@ Sorcery::State::State(System *system) : _system{system} {
 
 	_party.clear();
 	_party.reserve(MAX_PARTY_SIZE);
+	world = std::make_unique<World>();
 }
 
 // Method called to simulate Normal Constructor with Cereal Constructor
