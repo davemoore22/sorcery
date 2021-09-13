@@ -25,4 +25,7 @@
 #include "map.hpp"
 
 // Standard Constructor
-Sorcery::Map::Map(System *system, Game *game) : _system{system}, _game{game} {}
+Sorcery::Map::Map() {
+
+	//_version = SAVE_VERSION;
+}

@@ -25,5 +25,8 @@
 #include "world.hpp"
 
 // Standard Constructor
-Sorcery::World::World(System *system, Game *game)
-	: _system{system}, _game{game} {}
+Sorcery::World::World() {
+
+	//_current_level = std::make_unique<Map>();
+	//_version = SAVE_VERSION;
+}

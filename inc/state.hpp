@@ -25,6 +25,7 @@
 #include "character.hpp"
 #include "main.hpp"
 #include "system.hpp"
+#include "world.hpp"
 
 namespace Sorcery {
 
@@ -38,11 +39,12 @@ namespace Sorcery {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_party);
+			archive(_party, world);
 		}
 
 		// Public Members
 		bool valid;
+		std::unique_ptr<World> world;
 
 		// Public Methods
 		auto add_character_by_id(unsigned int char_id) -> bool;

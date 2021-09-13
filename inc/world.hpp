@@ -24,9 +24,8 @@
 
 #pragma once
 
-#include "game.hpp"
 #include "main.hpp"
-#include "system.hpp"
+#include "map.hpp"
 
 namespace Sorcery {
 
@@ -34,15 +33,18 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		World(System *system, Game *game);
-		World() = delete;
+		World();
+
+		// Serialisation
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(_version, _current_level);
+		}
 
 		// Public Methods
-
 	  private:
 		// Private Members
-		System *_system;
-		Game *_game;
+		int _version;
+		std::unique_ptr<Map> _current_level;
 
 		// Private Methods
 	};

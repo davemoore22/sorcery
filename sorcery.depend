@@ -247,11 +247,8 @@
 1629123183 /home/dave/Development/wizardry/sorcery-sfml/inc/textfile.hpp
 	"main.hpp"
 
-1614377195 /home/dave/Development/wizardry/sorcery-sfml/inc/map.hpp
-	"entity.hpp"
+1631554459 /home/dave/Development/wizardry/sorcery-sfml/inc/map.hpp
 	"main.hpp"
-	"maptile.hpp"
-	"maputils.hpp"
 
 1591451988 /home/dave/Development/wizardry/sorcery-sfml/inc/option.hpp
 	"main.hpp"
@@ -364,7 +361,7 @@
 1628106617 /home/dave/Development/wizardry/sorcery-sfml/inc/manage.hpp
 	"main.hpp"
 
-1614621285 source:/home/dave/Development/wizardry/sorcery-sfml/src/map.cpp
+1631554465 source:/home/dave/Development/wizardry/sorcery-sfml/src/map.cpp
 	"map.hpp"
 
 1630426555 source:/home/dave/Development/wizardry/sorcery-sfml/src/menu.cpp
@@ -478,7 +475,7 @@
 1628106617 source:/home/dave/Development/wizardry/sorcery-sfml/src/tooltip.cpp
 	"tooltip.hpp"
 
-1630256659 source:/home/dave/Development/wizardry/sorcery-sfml/src/game.cpp
+1631552421 source:/home/dave/Development/wizardry/sorcery-sfml/src/game.cpp
 	"game.hpp"
 
 1630256660 /home/dave/Development/wizardry/sorcery-sfml/inc/game.hpp
@@ -1247,10 +1244,11 @@
 1630420071 source:/home/dave/Development/wizardry/sorcery-sfml/src/temple.cpp
 	"temple.hpp"
 
-1630257200 /home/dave/Development/wizardry/sorcery-sfml/inc/state.hpp
+1631551904 /home/dave/Development/wizardry/sorcery-sfml/inc/state.hpp
 	"character.hpp"
 	"main.hpp"
 	"system.hpp"
+	"world.hpp"
 
 1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/types/array.hpp
 	"cereal/cereal.hpp"
@@ -1282,7 +1280,7 @@
 	<set>
 	<stack>
 
-1630256475 source:/home/dave/Development/wizardry/sorcery-sfml/src/state.cpp
+1631553390 source:/home/dave/Development/wizardry/sorcery-sfml/src/state.cpp
 	"state.hpp"
 
 1629823675 source:/home/dave/Development/wizardry/sorcery-sfml/src/summary.cpp
@@ -1356,4 +1354,21 @@
 
 1631548633 source:/home/dave/Development/wizardry/sorcery-sfml/src/texturestore.cpp
 	"texturestore.hpp"
+
+1631550824 source:/home/dave/Development/wizardry/sorcery-sfml/src/render.cpp
+	"render.hpp"
+
+1631550782 /home/dave/Development/wizardry/sorcery-sfml/inc/render.hpp
+	"display.hpp"
+	"game.hpp"
+	"graphics.hpp"
+	"main.hpp"
+	"system.hpp"
+
+1631554512 /home/dave/Development/wizardry/sorcery-sfml/inc/world.hpp
+	"main.hpp"
+	"map.hpp"
+
+1631554477 source:/home/dave/Development/wizardry/sorcery-sfml/src/world.cpp
+	"world.hpp"
 
