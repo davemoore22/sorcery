@@ -60,6 +60,7 @@ Sorcery::Engine::Engine(
 		_system, _display, _graphics, _game, MenuMode::CAMP);
 	_inspect = std::make_unique<Inspect>(
 		_system, _display, _graphics, _game, MenuMode::CAMP);
+	_render = std::make_unique<Render>(_system, _display, _graphics, _game);
 }
 
 // Standard Destructor
@@ -209,6 +210,7 @@ auto Sorcery::Engine::start() -> int {
 				}
 			}
 
+			_render->update();
 			_window->clear();
 			_draw();
 			_window->display();
@@ -221,6 +223,10 @@ auto Sorcery::Engine::start() -> int {
 auto Sorcery::Engine::stop() -> void {}
 
 auto Sorcery::Engine::_draw() -> void {
+
+	// Draw the Render
+	_render->setPosition(0, 0);
+	_window->draw(*_render);
 
 	// Custom Components
 	_display->display("engine_base_ui");

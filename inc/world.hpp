@@ -45,6 +45,7 @@ namespace Sorcery {
 		// Private Members
 		int _version;
 		std::unique_ptr<Map> _current_level;
+		sf::Vector2f player_pos;
 
 		// Private Methods
 	};

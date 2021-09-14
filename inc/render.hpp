@@ -41,6 +41,7 @@ namespace Sorcery {
 		Render() = delete;
 
 		// Public Methods
+		auto update() -> void;
 
 	  private:
 		// Private Members
@@ -48,6 +49,28 @@ namespace Sorcery {
 		Display *_display;
 		Graphics *_graphics;
 		Game *_game;
+
+		double theta;
+
+		double scr_pts[MINIMUM_SCREEN_WIDTH];
+		double distortion[MINIMUM_SCREEN_WIDTH];
+
+		const double FOV{1.30899694}; // rad (75 deg)
+		const double MIN_DIST{0.3};	  // square sides / s
+		const double DARKEST_DIST{
+			6.0};					  // any greater distance will not be darker
+		const int DARKNESS_ALPHA{40}; // minimal lighting
+
+		const double DEFAULT_SPEED = 3; // sqsides/s
+		const double TURN_SPEED = M_PI * 8;
+		double tan_FOV;
+
+		double speed; // sqsides/s
+		double turn;  // rad/s
+
+		sf::RenderTexture _rtexture;
+		sf::Sprite _sprite;
+		sf::Texture _texture;
 
 		// Private Methods
 		auto virtual draw(

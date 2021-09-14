@@ -32,6 +32,7 @@
 #include "main.hpp"
 #include "menu.hpp"
 #include "options.hpp"
+#include "render.hpp"
 #include "reorder.hpp"
 #include "statusbar.hpp"
 #include "system.hpp"
@@ -71,6 +72,7 @@ namespace Sorcery {
 		std::unique_ptr<Dialog> _confirm_exit;
 		std::unique_ptr<Reorder> _reorder;
 		std::unique_ptr<Inspect> _inspect;
+		std::unique_ptr<Render> _render;
 		bool _in_camp;
 		bool _show_confirm_exit;
 	};
