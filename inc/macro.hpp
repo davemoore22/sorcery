@@ -155,4 +155,9 @@ namespace Sorcery {
 		return text;
 	}
 
+	// Template for sgn function from C
+	template <typename T> int sgn(T val) {
+		return (T(0) < val) - (val < T(0));
+	}
+
 } // namespace Sorcery

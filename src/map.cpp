@@ -29,3 +29,11 @@ Sorcery::Map::Map() {
 
 	_version = SAVE_VERSION;
 }
+
+auto Sorcery::Map::is_colliding(double x, double y) -> bool {
+
+	int arr_x = (int)x;
+	int arr_y = 10 - 1 - (int)y;
+
+	return grid[arr_y][arr_x] != 0;
+}

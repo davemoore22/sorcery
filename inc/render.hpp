@@ -41,6 +41,7 @@ namespace Sorcery {
 		Render() = delete;
 
 		// Public Methods
+		auto render() -> void;
 		auto update() -> void;
 
 	  private:

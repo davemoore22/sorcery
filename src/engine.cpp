@@ -211,6 +211,7 @@ auto Sorcery::Engine::start() -> int {
 			}
 
 			_render->update();
+			_render->render();
 			_window->clear();
 			_draw();
 			_window->display();

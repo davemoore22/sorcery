@@ -37,15 +37,16 @@ namespace Sorcery {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_version, _current_level);
+			archive(_version, current_level);
 		}
 
-		// Public Methods
+		// Public Members
+		sf::Vector2f player_pos;
+		std::unique_ptr<Map> current_level;
+
 	  private:
 		// Private Members
 		int _version;
-		std::unique_ptr<Map> _current_level;
-		sf::Vector2f player_pos;
 
 		// Private Methods
 	};

@@ -27,7 +27,7 @@
 // Standard Constructor
 Sorcery::World::World() {
 
-	_current_level = std::make_unique<Map>();
+	current_level = std::make_unique<Map>();
 	_version = SAVE_VERSION;
 	player_pos = sf::Vector2f(1.5, 1.5);
 }

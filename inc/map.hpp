@@ -39,12 +39,8 @@ namespace Sorcery {
 			archive(_version);
 		}
 
-		// Public Methods
-
-	  private:
-		// Private Members
-		int _version;
-		const int world[10][18] = {
+		// Public Members
+		const int grid[10][18] = {
 			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 			{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1},
 			{1, 0, 2, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1},
@@ -56,6 +52,13 @@ namespace Sorcery {
 			{1, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 		};
+
+		// Public Methods
+		auto is_colliding(double x, double y) -> bool;
+
+	  private:
+		// Private Members
+		int _version;
 
 		// Private Methods
 	};
