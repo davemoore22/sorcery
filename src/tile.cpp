@@ -37,6 +37,7 @@ Sorcery::Tile::Tile(sf::Vector2u location_, std::array<Wall, 4> walls_)
 	treasure_id = std::nullopt;
 	effect_id = std::nullopt;
 	characters = std::nullopt;
+	lighting = 0;
 }
 
 // Copy Constructors
@@ -45,7 +46,7 @@ Sorcery::Tile::Tile(const Tile &other)
 	  properties{other.properties}, description{other.description},
 	  items{other.items}, events{other.events}, room_id{other.room_id},
 	  treasure_id{other.treasure_id}, effect_id{other.effect_id},
-	  characters{other.characters}, _id{other._id} {}
+	  characters{other.characters}, lighting{other.lighting}, _id{other._id} {}
 
 auto Sorcery::Tile::operator=(const Tile &other) -> Tile & {
 
@@ -60,6 +61,7 @@ auto Sorcery::Tile::operator=(const Tile &other) -> Tile & {
 	treasure_id = other.treasure_id;
 	effect_id = other.effect_id;
 	characters = std::move(other.characters);
+	lighting = other.lighting;
 
 	_id = other._id;
 
@@ -81,6 +83,7 @@ Sorcery::Tile::Tile(Tile &&other) noexcept {
 		treasure_id = other.treasure_id;
 		effect_id = other.effect_id;
 		characters = other.characters;
+		lighting = other.lighting;
 
 		_id = other._id;
 
@@ -95,6 +98,7 @@ Sorcery::Tile::Tile(Tile &&other) noexcept {
 		other.treasure_id = std::nullopt;
 		other.effect_id = std::nullopt;
 		other.characters = std::nullopt;
+		other.lighting = 0;
 
 		other._id = 0;
 	}
@@ -115,6 +119,7 @@ auto Sorcery::Tile::operator=(Tile &&other) noexcept -> Tile & {
 		treasure_id = other.treasure_id;
 		effect_id = other.effect_id;
 		characters = other.characters;
+		lighting = other.lighting;
 
 		_id = other._id;
 
@@ -129,6 +134,7 @@ auto Sorcery::Tile::operator=(Tile &&other) noexcept -> Tile & {
 		other.treasure_id = std::nullopt;
 		other.effect_id = std::nullopt;
 		other.characters = std::nullopt;
+		other.lighting = 0;
 
 		other._id = 0;
 	}

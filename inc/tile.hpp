@@ -80,6 +80,7 @@ namespace Sorcery {
 		std::optional<unsigned int> treasure_id;
 		std::optional<unsigned int> effect_id;
 		std::optional<std::vector<unsigned int>> characters;
+		unsigned int lighting;
 
 		// Public Methods
 		auto set_explored() -> void;
