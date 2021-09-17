@@ -47,6 +47,9 @@ namespace Sorcery {
 	// Party Size
 	inline constexpr auto MAX_PARTY_SIZE = 6;
 
+	// Map Size
+	inline constexpr auto MAP_SIZE = 20;
+
 	// Command Line Arguments
 	inline constexpr auto SKIP_INTRO = "skip_intro"sv;
 	inline constexpr auto CONTINUE_GAME = "continue_game"sv;

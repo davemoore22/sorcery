@@ -33,6 +33,14 @@ namespace Sorcery {
 		DoorType type;
 		bool secret;
 		std::optional<unsigned int> gfx;
+
+		// Default Constructor
+		Door() : type{DoorType::NONE}, secret{false}, gfx{std::nullopt} {};
+
+		// Serialisation
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(type, secret, gfx);
+		}
 	};
 
 	struct Wall {
@@ -42,13 +50,27 @@ namespace Sorcery {
 		MapDirection direction;
 		std::optional<unsigned int> gfx;
 		std::optional<Door> door;
+
+		// Default Constructor
+		Wall()
+			: visible{false}, walkable{false}, direction(MapDirection::NONE),
+			  gfx{std::nullopt}, door{std::nullopt} {};
+
+		// Serialisation
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(visible, walkable, direction, gfx, door);
+		}
 	};
 
 	class Tile {
 
-		// Standard Constructor
-		Tile(sf::Vector2u location_, std::array<Wall, 4> walls_);
-		Tile() = delete;
+	  public:
+		// Default Constructor
+		Tile();
+
+		// Standard Constructors
+		Tile(sf::Vector2u location_);
+		Tile(sf::Vector2u location_, std::map<TileWall, Wall> walls_);
 
 		// Standard Destructor
 		~Tile();
@@ -64,13 +86,12 @@ namespace Sorcery {
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(location, walls, features, properties, description, items,
-				events, room_id, treasure_id, effect_id, characters);
+				events, room_id, treasure_id, effect_id, characters, lighting, _id);
 		}
 
-	  public:
 		// Public Members
 		sf::Vector2u location;
-		std::array<Wall, 4> walls;
+		std::map<TileWall, Wall> walls;
 		std::map<TileFeature, bool> features;
 		std::map<TileProperty, bool> properties;
 		std::optional<std::string> description;
@@ -90,6 +111,11 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
+		auto _reset_features() -> void;
+		auto _reset_metadata() -> void;
+		auto _reset_properties() -> void;
+		auto _reset_walls() -> void;
+
 		// Private Members
 		long _id;
 		static inline long s_id{0};

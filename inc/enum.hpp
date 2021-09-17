@@ -780,6 +780,7 @@ namespace Sorcery {
 
 			enum class Direction {
 
+				NONE = -1,
 				NORTH = 0,
 				EAST = 1,
 				SOUTH = 2,

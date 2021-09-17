@@ -25,6 +25,7 @@
 #pragma once
 
 #include "main.hpp"
+#include "tile.hpp"
 
 namespace Sorcery {
 
@@ -36,30 +37,21 @@ namespace Sorcery {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_version);
+			archive(_version, _tiles);
 		}
 
 		// Public Members
-		const int grid[10][18] = {
-			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-			{1, 0, 2, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1},
-			{1, 0, 2, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1},
-			{1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-			{1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1},
-			{1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-			{1, 0, 1, 1, 0, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-			{1, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		};
 
 		// Public Methods
-		auto is_colliding(double x, double y) -> bool;
+		auto at(unsigned int x, unsigned int y) const -> Tile &;
+		auto tiles() const -> std::vector<Tile>;
 
 	  private:
 		// Private Members
 		int _version;
+		std::vector<Tile> _tiles;
 
 		// Private Methods
+		auto _reset_level() -> void;
 	};
 } // namespace Sorcery

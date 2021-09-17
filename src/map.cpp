@@ -28,12 +28,16 @@
 Sorcery::Map::Map() {
 
 	_version = SAVE_VERSION;
+
+	_reset_level();
 }
 
-auto Sorcery::Map::is_colliding(double x, double y) -> bool {
+auto Sorcery::Map::at(unsigned int x, unsigned int y) const -> Tile & {}
+auto Sorcery::Map::tiles() const -> std::vector<Tile> {}
 
-	int arr_x = (int)x;
-	int arr_y = 10 - 1 - (int)y;
+// Create an empty level
+auto Sorcery::Map::_reset_level() -> void {
 
-	return grid[arr_y][arr_x] != 0;
+	_tiles.clear();
+	_tiles.reserve(MAP_SIZE * MAP_SIZE);
 }

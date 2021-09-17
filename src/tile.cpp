@@ -24,20 +24,31 @@
 
 #include "tile.hpp"
 
-// Standard Constructor
-Sorcery::Tile::Tile(sf::Vector2u location_, std::array<Wall, 4> walls_)
+// Default Constructor
+Sorcery::Tile::Tile() {
+
+	location = sf::Vector2u(0, 0);
+	_reset_features();
+	_reset_properties();
+	_reset_metadata();
+	_reset_walls();
+}
+
+// Standard Constructors
+Sorcery::Tile::Tile(sf::Vector2u location_) : location{location_}, _id{s_id++} {
+
+	_reset_features();
+	_reset_properties();
+	_reset_metadata();
+	_reset_walls();
+}
+
+Sorcery::Tile::Tile(sf::Vector2u location_, std::map<TileWall, Wall> walls_)
 	: location{location_}, walls{walls_}, _id{s_id++} {
 
-	features.clear();
-	properties.clear();
-	description = std::nullopt;
-	items = std::nullopt;
-	events = std::nullopt;
-	room_id = std::nullopt;
-	treasure_id = std::nullopt;
-	effect_id = std::nullopt;
-	characters = std::nullopt;
-	lighting = 0;
+	_reset_features();
+	_reset_properties();
+	_reset_metadata();
 }
 
 // Copy Constructors
@@ -160,4 +171,46 @@ auto Sorcery::Tile::check_property(const TileProperty value) const -> bool {
 auto Sorcery::Tile::id() const -> long {
 
 	return _id;
+}
+
+auto Sorcery::Tile::_reset_features() -> void {
+
+	features.clear();
+	features[TileFeature::FOUNTAIN] = false;
+	features[TileFeature::MESSAGE] = false;
+	features[TileFeature::MOVEMENT] = false;
+	features[TileFeature::PIT] = false;
+	features[TileFeature::POOL] = false;
+	features[TileFeature::SPINNER] = false;
+	features[TileFeature::TELEPORT] = false;
+}
+
+auto Sorcery::Tile::_reset_properties() -> void {
+
+	properties.clear();
+	properties[TileProperty::EXPLORED] = false;
+	properties[TileProperty::OPAQUE] = false;
+	properties[TileProperty::ROCK] = false;
+	properties[TileProperty::WALKABLE] = false;
+}
+
+auto Sorcery::Tile::_reset_metadata() -> void {
+
+	description = std::nullopt;
+	items = std::nullopt;
+	events = std::nullopt;
+	room_id = std::nullopt;
+	treasure_id = std::nullopt;
+	effect_id = std::nullopt;
+	characters = std::nullopt;
+	lighting = 255;
+}
+
+auto Sorcery::Tile::_reset_walls() -> void {
+
+	walls.clear();
+	walls[TileWall::NORTH] = Wall();
+	walls[TileWall::SOUTH] = Wall();
+	walls[TileWall::EAST] = Wall();
+	walls[TileWall::WEST] = Wall();
 }
