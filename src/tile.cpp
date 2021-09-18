@@ -158,6 +158,11 @@ auto Sorcery::Tile::set_explored() -> void {
 	properties.at(TileProperty::EXPLORED) = true;
 }
 
+auto Sorcery::Tile::set_walkable() -> void {
+
+	properties.at(TileProperty::WALKABLE) = true;
+}
+
 auto Sorcery::Tile::check_feature(const TileFeature value) const -> bool {
 
 	return features.at(value);
@@ -213,4 +218,26 @@ auto Sorcery::Tile::_reset_walls() -> void {
 	walls[TileWall::SOUTH] = Wall();
 	walls[TileWall::EAST] = Wall();
 	walls[TileWall::WEST] = Wall();
+}
+
+auto Sorcery::Tile::set_walls(bool north, bool south, bool east, bool west)
+	-> void {
+
+	walls.clear();
+	if (north)
+		walls[TileWall::NORTH] = Wall(MapDirection::NORTH);
+	else
+		walls[TileWall::NORTH] = Wall();
+	if (south)
+		walls[TileWall::SOUTH] = Wall(MapDirection::SOUTH);
+	else
+		walls[TileWall::SOUTH] = Wall();
+	if (east)
+		walls[TileWall::EAST] = Wall(MapDirection::EAST);
+	else
+		walls[TileWall::EAST] = Wall();
+	if (west)
+		walls[TileWall::WEST] = Wall(MapDirection::WEST);
+	else
+		walls[TileWall::WEST] = Wall();
 }

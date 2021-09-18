@@ -30,14 +30,73 @@ Sorcery::Map::Map() {
 	_version = SAVE_VERSION;
 
 	_reset_level();
+	_type = MapType::NONE;
 }
 
-auto Sorcery::Map::at(unsigned int x, unsigned int y) const -> Tile & {}
-auto Sorcery::Map::tiles() const -> std::vector<Tile> {}
+auto Sorcery::Map::at(Point loc) -> Tile & {
 
-// Create an empty level
+	return _tiles.at(loc.x * MAP_SIZE + loc.y);
+}
+
+auto Sorcery::Map::at(unsigned int x, unsigned int y) -> Tile & {
+
+	return _tiles.at(x * MAP_SIZE + y);
+}
+auto Sorcery::Map::tiles() const -> std::vector<Tile> {
+
+	return _tiles;
+}
+
+// Reset the level
 auto Sorcery::Map::_reset_level() -> void {
 
+	_type = MapType::NONE;
 	_tiles.clear();
 	_tiles.reserve(MAP_SIZE * MAP_SIZE);
+	for (auto x = 0u; x < 20u; x++) {
+		for (auto y = 0u; y < 20u; y++) {
+			Tile tile(Point{x, y});
+			_tiles.emplace_back(tile);
+		}
+	}
+}
+
+// Reset the level
+auto Sorcery::Map::_create_level(MapType type) -> void {
+
+	_type = type;
+	switch (_type) {
+	case MapType::EMPTY:
+
+		// A simple enclosed blank level
+		_tiles.clear();
+		_tiles.reserve(MAP_SIZE * MAP_SIZE);
+		for (auto x = 0u; x < 20u; x++) {
+			for (auto y = 0u; y < 20u; y++) {
+				Tile tile(Point{x, y});
+				tile.set_walkable();
+				_tiles.emplace_back(tile);
+			}
+		}
+		for (auto x = 0u; x < 20u; x++) {
+			auto tile_left{_tiles.at(x * MAP_SIZE + 0)};
+			tile_left.set_walls(false, false, false, true);
+
+			auto tile_right{_tiles.at(x * MAP_SIZE + 20)};
+			tile_right.set_walls(false, false, true, false);
+		}
+
+		for (auto y = 0u; y < 20u; y++) {
+			auto tile_top{_tiles.at(y)};
+			tile_top.set_walls(true, false, false, false);
+
+			auto tile_bottom{_tiles.at(y + MAP_SIZE * 20)};
+			tile_bottom.set_walls(false, true, false, false);
+		}
+
+		break;
+	default:
+		_reset_level();
+		break;
+	}
 }

@@ -267,6 +267,9 @@ namespace Sorcery {
 			: visible{false}, walkable{false},
 			  direction(Enums::Map::Direction::NONE), gfx{-1},
 			  door{std::nullopt} {};
+		Wall(Enums::Map::Direction direction_)
+			: visible{true}, walkable{true}, direction{direction_}, gfx{-1},
+			  door{std::nullopt} {};
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {

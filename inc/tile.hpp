@@ -68,9 +68,11 @@ namespace Sorcery {
 
 		// Public Methods
 		auto set_explored() -> void;
+		auto set_walkable() -> void;
 		auto check_feature(const TileFeature value) const -> bool;
 		auto check_property(const TileProperty value) const -> bool;
 		auto id() const -> long;
+		auto set_walls(bool north, bool south, bool east, bool west) -> void;
 
 	  private:
 		// Private Methods

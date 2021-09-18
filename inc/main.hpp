@@ -150,6 +150,7 @@ namespace Sorcery {
 	using LegateStage = Enums::Character::Legate;
 	using MainMenuType = Enums::MainMenu::Type;
 	using MapDirection = Enums::Map::Direction;
+	using MapType = Enums::Map::Type;
 	using MenuItem = Enums::Menu::Item;
 	using MenuMode = Enums::Menu::Mode;
 	using MenuType = Enums::Menu::Type;

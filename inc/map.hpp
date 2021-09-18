@@ -43,15 +43,18 @@ namespace Sorcery {
 		// Public Members
 
 		// Public Methods
-		auto at(unsigned int x, unsigned int y) const -> Tile &;
+		auto at(Point loc) -> Tile &;
+		auto at(unsigned int x, unsigned int y) -> Tile &;
 		auto tiles() const -> std::vector<Tile>;
 
 	  private:
 		// Private Members
 		int _version;
 		std::vector<Tile> _tiles;
+		MapType _type;
 
 		// Private Methods
 		auto _reset_level() -> void;
+		auto _create_level(MapType type) -> void;
 	};
 } // namespace Sorcery
