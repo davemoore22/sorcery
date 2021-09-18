@@ -27,41 +27,6 @@
 #include "main.hpp"
 
 namespace Sorcery {
-
-	struct Door {
-
-		DoorType type;
-		bool secret;
-		std::optional<unsigned int> gfx;
-
-		// Default Constructor
-		Door() : type{DoorType::NONE}, secret{false}, gfx{std::nullopt} {};
-
-		// Serialisation
-		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(type, secret, gfx);
-		}
-	};
-
-	struct Wall {
-
-		bool visible;
-		bool walkable;
-		MapDirection direction;
-		std::optional<unsigned int> gfx;
-		std::optional<Door> door;
-
-		// Default Constructor
-		Wall()
-			: visible{false}, walkable{false}, direction(MapDirection::NONE),
-			  gfx{std::nullopt}, door{std::nullopt} {};
-
-		// Serialisation
-		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(visible, walkable, direction, gfx, door);
-		}
-	};
-
 	class Tile {
 
 	  public:
@@ -69,11 +34,8 @@ namespace Sorcery {
 		Tile();
 
 		// Standard Constructors
-		Tile(sf::Vector2u location_);
-		Tile(sf::Vector2u location_, std::map<TileWall, Wall> walls_);
-
-		// Standard Destructor
-		~Tile();
+		Tile(Point location_);
+		Tile(Point location_, std::map<TileWall, Wall> walls_);
 
 		// Copy Constructors
 		Tile(const Tile &other);
@@ -86,21 +48,22 @@ namespace Sorcery {
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(location, walls, features, properties, description, items,
-				events, room_id, treasure_id, effect_id, characters, lighting, _id);
+				events, room_id, treasure_id, effect_id, characters, lighting,
+				_id, s_id);
 		}
 
 		// Public Members
-		sf::Vector2u location;
+		Point location;
 		std::map<TileWall, Wall> walls;
 		std::map<TileFeature, bool> features;
 		std::map<TileProperty, bool> properties;
-		std::optional<std::string> description;
-		std::optional<std::vector<unsigned int>> items;
-		std::optional<std::vector<unsigned int>> events;
-		std::optional<unsigned int> room_id;
-		std::optional<unsigned int> treasure_id;
-		std::optional<unsigned int> effect_id;
-		std::optional<std::vector<unsigned int>> characters;
+		std::string description;
+		std::vector<unsigned int> items;
+		std::vector<unsigned int> events;
+		unsigned int room_id;
+		unsigned int treasure_id;
+		unsigned int effect_id;
+		std::vector<unsigned int> characters;
 		unsigned int lighting;
 
 		// Public Methods

@@ -27,7 +27,7 @@
 // Default Constructor
 Sorcery::Tile::Tile() {
 
-	location = sf::Vector2u(0, 0);
+	location = Point(0, 0);
 	_reset_features();
 	_reset_properties();
 	_reset_metadata();
@@ -35,7 +35,7 @@ Sorcery::Tile::Tile() {
 }
 
 // Standard Constructors
-Sorcery::Tile::Tile(sf::Vector2u location_) : location{location_}, _id{s_id++} {
+Sorcery::Tile::Tile(Point location_) : location{location_}, _id{s_id++} {
 
 	_reset_features();
 	_reset_properties();
@@ -43,7 +43,7 @@ Sorcery::Tile::Tile(sf::Vector2u location_) : location{location_}, _id{s_id++} {
 	_reset_walls();
 }
 
-Sorcery::Tile::Tile(sf::Vector2u location_, std::map<TileWall, Wall> walls_)
+Sorcery::Tile::Tile(Point location_, std::map<TileWall, Wall> walls_)
 	: location{location_}, walls{walls_}, _id{s_id++} {
 
 	_reset_features();
@@ -98,17 +98,17 @@ Sorcery::Tile::Tile(Tile &&other) noexcept {
 
 		_id = other._id;
 
-		other.location = sf::Vector2u(0, 0);
+		other.location = Point(0, 0);
 		other.walls = {};
 		other.features.clear();
 		other.properties.clear();
-		other.description = std::nullopt;
-		other.items = std::nullopt;
-		other.events = std::nullopt;
-		other.room_id = std::nullopt;
-		other.treasure_id = std::nullopt;
-		other.effect_id = std::nullopt;
-		other.characters = std::nullopt;
+		other.description = "";
+		other.items.clear();
+		other.events.clear();
+		other.room_id = 0;
+		other.treasure_id = 0;
+		other.effect_id = 0;
+		other.characters.clear();
 		other.lighting = 0;
 
 		other._id = 0;
@@ -134,17 +134,17 @@ auto Sorcery::Tile::operator=(Tile &&other) noexcept -> Tile & {
 
 		_id = other._id;
 
-		other.location = sf::Vector2u(0, 0);
+		other.location = Point(0, 0);
 		other.walls = {};
 		other.features.clear();
 		other.properties.clear();
-		other.description = std::nullopt;
-		other.items = std::nullopt;
-		other.events = std::nullopt;
-		other.room_id = std::nullopt;
-		other.treasure_id = std::nullopt;
-		other.effect_id = std::nullopt;
-		other.characters = std::nullopt;
+		other.description = "";
+		other.items.clear();
+		other.events.clear();
+		other.room_id = 0;
+		other.treasure_id = 0;
+		other.effect_id = 0;
+		other.characters.clear();
 		other.lighting = 0;
 
 		other._id = 0;
@@ -196,13 +196,13 @@ auto Sorcery::Tile::_reset_properties() -> void {
 
 auto Sorcery::Tile::_reset_metadata() -> void {
 
-	description = std::nullopt;
-	items = std::nullopt;
-	events = std::nullopt;
-	room_id = std::nullopt;
-	treasure_id = std::nullopt;
-	effect_id = std::nullopt;
-	characters = std::nullopt;
+	description = "";
+	items.clear();
+	events.clear();
+	room_id = 0;
+	treasure_id = 0;
+	effect_id = 0;
+	characters.clear();
 	lighting = 255;
 }
 

@@ -29,5 +29,5 @@ Sorcery::World::World() {
 
 	current_level = std::make_unique<Map>();
 	_version = SAVE_VERSION;
-	player_pos = sf::Vector2f(1.5, 1.5);
+	player_pos = Point(0,0);
 }

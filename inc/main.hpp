@@ -53,7 +53,9 @@
 #include "cereal/cereal.hpp"
 #include "cereal/archives/json.hpp"
 #include "cereal/types/array.hpp"
+#include "cereal/types/map.hpp"
 #include "cereal/types/memory.hpp"
+#include "cereal/types/optional.hpp"
 #include "cereal/types/string.hpp"
 #include "cereal/types/unordered_map.hpp"
 #include "cereal/types/vector.hpp"
@@ -136,6 +138,7 @@ namespace Sorcery {
 	using ComponentType = Enums::Window::ComponentType;
 	using ConfigOption = Enums::Options;
 	using CreateMethod = Enums::Manage::Method;
+	using DoorType = Enums::Tile::DoorType;
 	using FileType = Enums::File::Type;
 	using FontType = Enums::Internal::FontType;
 	using GraphicsTexture = Enums::Graphics::Texture;
@@ -146,6 +149,7 @@ namespace Sorcery {
 	using Justification = Enums::Window::Justification;
 	using LegateStage = Enums::Character::Legate;
 	using MainMenuType = Enums::MainMenu::Type;
+	using MapDirection = Enums::Map::Direction;
 	using MenuItem = Enums::Menu::Item;
 	using MenuMode = Enums::Menu::Mode;
 	using MenuType = Enums::Menu::Type;
@@ -169,6 +173,9 @@ namespace Sorcery {
 	using SystemError = Enums::System::Error;
 	using TavernStage = Enums::Castle::Tavern;
 	using TempleStage = Enums::Castle::Temple;
+	using TileFeature = Enums::Tile::Features;
+	using TileProperty = Enums::Tile::Properties;
+	using TileWall = Enums::Tile::Wall;
 	using WindowInputMode = Enums::Window::InputMode;
 	using WindowInputCategory = Enums::Window::InputCategory;
 	using WindowInput = Enums::Controls::Input;
@@ -179,10 +186,4 @@ namespace Sorcery {
 	using WindowInputOption = Enums::Window::Option;
 	using WindowFrameType = Enums::Window::FrameType;
 	using WindowFrameParts = Enums::Window::FrameParts;
-
-	using DoorType = Enums::Tile::DoorType;
-	using MapDirection = Enums::Map::Direction;
-	using TileFeature = Enums::Tile::Features;
-	using TileProperty = Enums::Tile::Properties;
-	using TileWall = Enums::Tile::Wall;
 } // namespace Sorcery

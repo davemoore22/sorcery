@@ -123,13 +123,16 @@ namespace Sorcery {
 		std::string comment;
 	};
 
-	// Struct to represent a point on the screen (x, y)
+	// Struct to represent a coordinate
 	struct Point {
 		Point() : x{0}, y{0} {};
 		Point(unsigned int x_, unsigned int y_) : x{x_}, y{y_} {};
-		Point(const Point &other) : x{other.x}, y{other.y} {};
 		auto operator==(const Point &a) const -> bool {
 			return (x == a.x && y == a.y);
+		}
+
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(x, y);
 		}
 
 		unsigned int x;
@@ -234,6 +237,41 @@ namespace Sorcery {
 		std::string name;
 		std::string translated_name;
 		std::string details;
+	};
+
+	struct Door {
+
+		Enums::Tile::DoorType type;
+		bool secret;
+		int gfx;
+
+		// Default Constructor
+		Door() : type{Enums::Tile::DoorType::NONE}, secret{false}, gfx{-1} {};
+
+		// Serialisation
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(type, secret, gfx);
+		}
+	};
+
+	struct Wall {
+
+		bool visible;
+		bool walkable;
+		Enums::Map::Direction direction;
+		int gfx;
+		std::optional<Door> door;
+
+		// Default Constructor
+		Wall()
+			: visible{false}, walkable{false},
+			  direction(Enums::Map::Direction::NONE), gfx{-1},
+			  door{std::nullopt} {};
+
+		// Serialisation
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(visible, walkable, direction, gfx, door);
+		}
 	};
 
 	struct SpellDetails {};
