@@ -44,6 +44,9 @@ namespace Sorcery {
 		Point player_pos;
 		std::unique_ptr<Map> current_level;
 
+		// Punlic Methods
+		auto create() -> void;
+
 	  private:
 		// Private Members
 		int _version;

@@ -787,7 +787,7 @@ namespace Sorcery {
 				WEST = 3
 			};
 
-			enum class Type { NONE = -1, EMPTY = 0 };
+			enum class Type { NONE = -1, EMPTY = 0, START = 1, TUTORIAL = 2 };
 
 		} // namespace Map
 

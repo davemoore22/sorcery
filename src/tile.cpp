@@ -27,7 +27,7 @@
 // Default Constructor
 Sorcery::Tile::Tile() {
 
-	location = Point(0, 0);
+	location = Point{0, 0};
 	_reset_features();
 	_reset_properties();
 	_reset_metadata();
@@ -53,7 +53,8 @@ Sorcery::Tile::Tile(Point location_, std::map<TileWall, Wall> walls_)
 
 // Copy Constructors
 Sorcery::Tile::Tile(const Tile &other)
-	: location{other.location}, walls{other.walls}, features{other.features},
+	: location{other.location}, walls{other.walls}, floor{other.floor},
+	  ceiling{other.ceiling}, features{other.features},
 	  properties{other.properties}, description{other.description},
 	  items{other.items}, events{other.events}, room_id{other.room_id},
 	  treasure_id{other.treasure_id}, effect_id{other.effect_id},
@@ -63,6 +64,8 @@ auto Sorcery::Tile::operator=(const Tile &other) -> Tile & {
 
 	location = other.location;
 	walls = other.walls;
+	floor = other.floor;
+	ceiling = other.ceiling;
 	features = std::move(other.features);
 	properties = std::move(other.properties);
 	description = other.description;
@@ -85,6 +88,8 @@ Sorcery::Tile::Tile(Tile &&other) noexcept {
 	if (this != &other) {
 		location = other.location;
 		walls = other.walls;
+		floor = other.floor;
+		ceiling = other.ceiling;
 		features = other.features;
 		properties = other.properties;
 		description = other.description;
@@ -98,8 +103,10 @@ Sorcery::Tile::Tile(Tile &&other) noexcept {
 
 		_id = other._id;
 
-		other.location = Point(0, 0);
+		other.location = Point{0, 0};
 		other.walls = {};
+		other.floor = {};
+		other.ceiling = {};
 		other.features.clear();
 		other.properties.clear();
 		other.description = "";
@@ -121,6 +128,8 @@ auto Sorcery::Tile::operator=(Tile &&other) noexcept -> Tile & {
 
 		location = other.location;
 		walls = other.walls;
+		floor = other.floor;
+		ceiling = other.ceiling;
 		features = other.features;
 		properties = other.properties;
 		description = other.description;
@@ -134,8 +143,10 @@ auto Sorcery::Tile::operator=(Tile &&other) noexcept -> Tile & {
 
 		_id = other._id;
 
-		other.location = Point(0, 0);
+		other.location = Point{0, 0};
 		other.walls = {};
+		other.floor = {};
+		other.ceiling = {};
 		other.features.clear();
 		other.properties.clear();
 		other.description = "";
@@ -218,6 +229,8 @@ auto Sorcery::Tile::_reset_walls() -> void {
 	walls[TileWall::SOUTH] = Wall();
 	walls[TileWall::EAST] = Wall();
 	walls[TileWall::WEST] = Wall();
+	floor = FloorCeiling{};
+	ceiling = FloorCeiling{};
 }
 
 auto Sorcery::Tile::set_walls(bool north, bool south, bool east, bool west)
@@ -240,4 +253,16 @@ auto Sorcery::Tile::set_walls(bool north, bool south, bool east, bool west)
 		walls[TileWall::WEST] = Wall(MapDirection::WEST);
 	else
 		walls[TileWall::WEST] = Wall();
+}
+
+auto Sorcery::Tile::set_gfx(int value) -> void {
+
+	walls.at(TileWall::NORTH).gfx = value;
+	walls.at(TileWall::SOUTH).gfx = value;
+	walls.at(TileWall::EAST).gfx = value;
+	walls.at(TileWall::WEST).gfx = value;
+	floor.gfx = value;
+	floor.visible = true;
+	ceiling.gfx = value;
+	ceiling.visible = true;
 }

@@ -34,6 +34,7 @@ namespace Sorcery {
 	  public:
 		// Constructors
 		Map();
+		Map(MapType type);
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
@@ -46,6 +47,7 @@ namespace Sorcery {
 		auto at(Point loc) -> Tile &;
 		auto at(unsigned int x, unsigned int y) -> Tile &;
 		auto tiles() const -> std::vector<Tile>;
+		auto get_type() const -> MapType;
 
 	  private:
 		// Private Members

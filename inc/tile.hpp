@@ -47,14 +47,16 @@ namespace Sorcery {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(location, walls, features, properties, description, items,
-				events, room_id, treasure_id, effect_id, characters, lighting,
-				_id, s_id);
+			archive(location, walls, floor, ceiling, features, properties,
+				description, items, events, room_id, treasure_id, effect_id,
+				characters, lighting, _id, s_id);
 		}
 
 		// Public Members
 		Point location;
 		std::map<TileWall, Wall> walls;
+		FloorCeiling floor;
+		FloorCeiling ceiling;
 		std::map<TileFeature, bool> features;
 		std::map<TileProperty, bool> properties;
 		std::string description;
@@ -73,6 +75,7 @@ namespace Sorcery {
 		auto check_property(const TileProperty value) const -> bool;
 		auto id() const -> long;
 		auto set_walls(bool north, bool south, bool east, bool west) -> void;
+		auto set_gfx(int value) -> void;
 
 	  private:
 		// Private Methods

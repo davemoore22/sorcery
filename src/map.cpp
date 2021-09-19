@@ -33,6 +33,18 @@ Sorcery::Map::Map() {
 	_type = MapType::NONE;
 }
 
+Sorcery::Map::Map(MapType type) {
+
+	_type = type;
+	_version = SAVE_VERSION;
+	_create_level(type);
+}
+
+auto Sorcery::Map::get_type() const -> MapType {
+
+	return _type;
+}
+
 auto Sorcery::Map::at(Point loc) -> Tile & {
 
 	return _tiles.at(loc.x * MAP_SIZE + loc.y);
@@ -67,6 +79,7 @@ auto Sorcery::Map::_create_level(MapType type) -> void {
 	_type = type;
 	switch (_type) {
 	case MapType::EMPTY:
+	case MapType::START:
 
 		// A simple enclosed blank level
 		_tiles.clear();
@@ -82,7 +95,7 @@ auto Sorcery::Map::_create_level(MapType type) -> void {
 			auto tile_left{_tiles.at(x * MAP_SIZE + 0)};
 			tile_left.set_walls(false, false, false, true);
 
-			auto tile_right{_tiles.at(x * MAP_SIZE + 20)};
+			auto tile_right{_tiles.at(x * MAP_SIZE + 19)};
 			tile_right.set_walls(false, false, true, false);
 		}
 
@@ -90,7 +103,7 @@ auto Sorcery::Map::_create_level(MapType type) -> void {
 			auto tile_top{_tiles.at(y)};
 			tile_top.set_walls(true, false, false, false);
 
-			auto tile_bottom{_tiles.at(y + MAP_SIZE * 20)};
+			auto tile_bottom{_tiles.at(y + MAP_SIZE * 19)};
 			tile_bottom.set_walls(false, true, false, false);
 		}
 
@@ -98,5 +111,14 @@ auto Sorcery::Map::_create_level(MapType type) -> void {
 	default:
 		_reset_level();
 		break;
+	}
+
+	if (_type == MapType::START) {
+		for (auto x = 0u; x < 20u; x++) {
+			for (auto y = 0u; y < 20u; y++) {
+				auto tile{_tiles.at(x * MAP_SIZE + y)};
+				tile.set_gfx(1);
+			}
+		}
 	}
 }

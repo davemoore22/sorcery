@@ -245,12 +245,25 @@ namespace Sorcery {
 		bool secret;
 		int gfx;
 
-		// Default Constructor
 		Door() : type{Enums::Tile::DoorType::NONE}, secret{false}, gfx{-1} {};
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(type, secret, gfx);
+		}
+	};
+
+	struct FloorCeiling {
+
+		bool visible;
+		int gfx;
+
+		FloorCeiling() : visible{false}, gfx{-1} {};
+		FloorCeiling(int gfx_) : visible{true}, gfx{gfx_} {};
+
+		// Serialisation
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(visible, gfx);
 		}
 	};
 
@@ -262,13 +275,13 @@ namespace Sorcery {
 		int gfx;
 		std::optional<Door> door;
 
-		// Default Constructor
 		Wall()
 			: visible{false}, walkable{false},
 			  direction(Enums::Map::Direction::NONE), gfx{-1},
 			  door{std::nullopt} {};
+
 		Wall(Enums::Map::Direction direction_)
-			: visible{true}, walkable{true}, direction{direction_}, gfx{-1},
+			: visible{true}, walkable{true}, direction{direction_}, gfx{0},
 			  door{std::nullopt} {};
 
 		// Serialisation

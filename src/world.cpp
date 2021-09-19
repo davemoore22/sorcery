@@ -29,5 +29,11 @@ Sorcery::World::World() {
 
 	current_level = std::make_unique<Map>();
 	_version = SAVE_VERSION;
-	player_pos = Point(0,0);
+	player_pos = Point{0, 0};
+}
+
+auto Sorcery::World::create() -> void {
+
+	current_level = std::make_unique<Map>(MapType::START);
+	player_pos = Point{0, 0};
 }
