@@ -61,6 +61,8 @@ Sorcery::Engine::Engine(
 	_inspect = std::make_unique<Inspect>(
 		_system, _display, _graphics, _game, MenuMode::CAMP);
 	_render = std::make_unique<Render>(_system, _display, _graphics, _game);
+	_automap = std::make_unique<AutoMap>(_system, _display, _graphics, _game,
+		(*_display->layout)["global:automap"]);
 }
 
 // Standard Destructor
@@ -69,9 +71,6 @@ Sorcery::Engine::~Engine() {}
 auto Sorcery::Engine::start() -> int {
 
 	_display->generate("engine_base_ui");
-
-	// Clear the window
-	//_window->clear();
 
 	// Refresh the Party characters
 	_status_bar->refresh();
@@ -82,6 +81,9 @@ auto Sorcery::Engine::start() -> int {
 	_status_bar->setPosition(
 		_display->window->get_x(_status_bar->sprite, status_bar_c.x),
 		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
+
+	const Component automap_c{(*_display->layout)["global:automap"]};
+	_automap->setPosition(automap_c.x, automap_c.y);
 
 	// Start in camp as is tradition
 	_in_camp = true;
@@ -232,6 +234,7 @@ auto Sorcery::Engine::_draw() -> void {
 	// Custom Components
 	_display->display("engine_base_ui");
 	_window->draw(*_status_bar);
+	_window->draw(*_automap);
 
 	// And the Menu
 	if (_in_camp) {

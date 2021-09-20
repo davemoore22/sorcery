@@ -24,9 +24,44 @@
 
 #pragma once
 
-#include "character.hpp"
 #include "display.hpp"
+#include "game.hpp"
 #include "graphics.hpp"
-#include "layout.hpp"
 #include "main.hpp"
 #include "system.hpp"
+
+namespace Sorcery {
+
+	class Display;
+
+	class AutoMap : public sf::Transformable, public sf::Drawable {
+
+	  public:
+		// Constructors
+		AutoMap(System *system, Display *display, Graphics *graphics,
+			Game *game, Component layout);
+		AutoMap() = delete;
+
+		// Public Members
+
+		// Public Methods
+		auto update() -> void;
+
+	  private:
+		// Private Methods
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+
+		// Private Members
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
+		Game *_game;
+		Component _layout;
+		unsigned int _width;
+		unsigned int _height;
+		std::unique_ptr<Frame> _frame;
+		std::vector<sf::Text> _texts;
+		std::vector<sf::Sprite> _sprites;
+	};
+} // namespace Sorcery

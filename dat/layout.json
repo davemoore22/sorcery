@@ -14,6 +14,30 @@
 			"w": "30"
 		},
 		{
+			"name": "automap",
+			"font": "text",
+			"size": "24",
+			"alpha": "220",
+			"colour": "0xffffffff",
+			"type": "panel",
+			"drawmode": "manual",
+			"background": " 0x000000ff",
+			"w": "10",
+			"h": "10",
+			"x": "67",
+			"y": "1",
+			"data": [
+				{
+					"tile_count": "7",
+					"tile_spacing": "1",
+					"tile_width": "21",
+					"tile_height": "21",
+					"tile_offset_x": "10",
+					"tile_offset_y": "10"
+				}
+			]
+		},
+		{
 			"name": "info_panel",
 			"font": "text",
 			"colour": "0xddddddff",

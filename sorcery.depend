@@ -326,10 +326,11 @@
 1630415029 source:/home/dave/Development/wizardry/sorcery-sfml/src/display.cpp
 	"display.hpp"
 
-1631905927 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine.cpp
+1632162862 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine.cpp
 	"engine.hpp"
 
-1631644169 /home/dave/Development/wizardry/sorcery-sfml/inc/engine.hpp
+1632162671 /home/dave/Development/wizardry/sorcery-sfml/inc/engine.hpp
+	"automap.hpp"
 	"dialog.hpp"
 	"display.hpp"
 	"game.hpp"
@@ -638,7 +639,7 @@
 1629378865 source:/home/dave/Development/wizardry/sorcery-sfml/src/infopanel.cpp
 	"infopanel.hpp"
 
-1629376445 /home/dave/Development/wizardry/sorcery-sfml/inc/allocatepanel.hpp
+1632160224 /home/dave/Development/wizardry/sorcery-sfml/inc/allocatepanel.hpp
 	"character.hpp"
 	"display.hpp"
 	"graphics.hpp"
@@ -1383,4 +1384,14 @@
 1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/types/optional.hpp
 	"cereal/cereal.hpp"
 	<optional>
+
+1632161072 /home/dave/Development/wizardry/sorcery-sfml/inc/automap.hpp
+	"display.hpp"
+	"game.hpp"
+	"graphics.hpp"
+	"main.hpp"
+	"system.hpp"
+
+1632161315 source:/home/dave/Development/wizardry/sorcery-sfml/src/automap.cpp
+	"automap.hpp"
 

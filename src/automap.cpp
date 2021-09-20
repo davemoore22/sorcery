@@ -23,3 +23,41 @@
 // resulting work.
 
 #include "automap.hpp"
+
+Sorcery::AutoMap::AutoMap(System *system, Display *display, Graphics *graphics,
+	Game *game, Component layout)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game},
+	  _layout{layout} {
+
+	_sprites.clear();
+	_texts.clear();
+
+	if (_frame.get()) {
+		_frame.release();
+		_frame.reset();
+	}
+	_frame = std::make_unique<Frame>(_display->ui_texture,
+		WindowFrameType::NORMAL, _layout.w, _layout.h, _layout.colour,
+		_layout.background, _layout.alpha);
+	auto fsprite{_frame->sprite};
+	fsprite.setPosition(0, 0);
+	_sprites.emplace_back(fsprite);
+}
+
+auto Sorcery::AutoMap::update() -> void {
+
+	_sprites.resize(1);
+}
+
+auto Sorcery::AutoMap::draw(
+	sf::RenderTarget &target, sf::RenderStates states) const -> void {
+
+	states.transform *= getTransform();
+
+	// Draw the standard components
+	for (const auto &sprite : _sprites)
+		target.draw(sprite, states);
+
+	for (const auto &text : _texts)
+		target.draw(text, states);
+}

@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include "automap.hpp"
 #include "dialog.hpp"
 #include "display.hpp"
 #include "game.hpp"
@@ -73,6 +74,7 @@ namespace Sorcery {
 		std::unique_ptr<Reorder> _reorder;
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Render> _render;
+		std::unique_ptr<AutoMap> _automap;
 		bool _in_camp;
 		bool _show_confirm_exit;
 	};
