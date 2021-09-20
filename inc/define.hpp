@@ -81,6 +81,7 @@ namespace Sorcery {
 	inline constexpr auto VERSION_FILE = "VERSION"sv;
 
 	// Graphics
+	inline constexpr auto AUTOMAP_TEXTURE = "automap.png"sv;
 	inline constexpr auto BACKGROUND_TEXTURE = "background.png"sv;
 	inline constexpr auto BANNER_TEXTURE = "banner.png"sv;
 	inline constexpr auto CONTROLS_TEXTURE = "controls.png"sv;
@@ -117,6 +118,8 @@ namespace Sorcery {
 	inline constexpr auto PORTRAIT_TILE_ROW_COUNT = 6;
 	inline constexpr auto ICON_TILE_ROW_COUNT = 15;
 	inline constexpr auto ATTRACT_MODE_TILE_SPACING = 8;
+	inline constexpr auto AUTOMAP_TILE_SIZE = 21;
+	inline constexpr auto AUTOMAP_TILE_ROW_COUNT = 10;
 
 	// Game config settings
 	static const std::string DEFAULT_SCREEN_HEIGHT = {"default_height"};

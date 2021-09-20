@@ -33,6 +33,7 @@ Sorcery::TextureStore::TextureStore(
 	_texture_map.clear();
 
 	// Get the Textures
+	_automap_t = &_system->resources->textures[GraphicsTexture::AUTOMAP];
 	_wall_t = &_system->resources->textures[GraphicsTexture::WALLS];
 	_ceiling_t = &_system->resources->textures[GraphicsTexture::FLOORS];
 	_floor_t = &_system->resources->textures[GraphicsTexture::FLOORS];
@@ -95,6 +96,10 @@ auto Sorcery::TextureStore::get(const unsigned int index,
 		} else {
 		}
 		break;
+	case GraphicsTextureType::AUTOMAP:
+		idx = index;
+		source = _automap_t;
+		break;
 	case GraphicsTextureType::KNOWN_CREATURE:
 		idx = index;
 		source = _creatures_known_t;
@@ -122,6 +127,9 @@ auto Sorcery::TextureStore::_get_rect(
 
 	int tile_size{[&] {
 		switch (texture_type) {
+		case GraphicsTextureType::AUTOMAP:
+			return AUTOMAP_TILE_SIZE;
+			break;
 		case GraphicsTextureType::KNOWN_CREATURE:
 		case GraphicsTextureType::UNKNOWN_CREATURE:
 			return CREATURE_TILE_SIZE;
@@ -136,6 +144,9 @@ auto Sorcery::TextureStore::_get_rect(
 	}()};
 	int tile_row_count{[&] {
 		switch (texture_type) {
+		case GraphicsTextureType::AUTOMAP:
+			return AUTOMAP_TILE_ROW_COUNT;
+			break;
 		case GraphicsTextureType::KNOWN_CREATURE:
 		case GraphicsTextureType::UNKNOWN_CREATURE:
 			return CREATURE_TILE_ROW_COUNT;

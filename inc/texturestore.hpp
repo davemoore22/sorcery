@@ -48,6 +48,7 @@ namespace Sorcery {
 		// Private Members
 		System *_system;
 		bool _loaded;
+		sf::Texture *_automap_t;
 		sf::Texture *_wall_t;
 		sf::Texture *_ceiling_t;
 		sf::Texture *_floor_t;

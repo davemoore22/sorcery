@@ -30,6 +30,8 @@ Sorcery::ResourceManager::ResourceManager(File &files) : _files{files} {
 	// Load all the Fixed Resources
 	try {
 
+		textures.acquire(Enums::Graphics::Texture::AUTOMAP,
+			thor::Resources::fromFile<sf::Texture>(_files[AUTOMAP_TEXTURE]));
 		textures.acquire(Enums::Graphics::Texture::BACKGROUND,
 			thor::Resources::fromFile<sf::Texture>(_files[BACKGROUND_TEXTURE]));
 		textures[Enums::Graphics::Texture::BACKGROUND].setRepeated(true);

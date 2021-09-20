@@ -160,6 +160,7 @@ namespace Sorcery {
 
 		enum class Texture {
 			NONE,
+			AUTOMAP,
 			BACKGROUND,
 			BANNER,
 			CONTROLS,
@@ -179,6 +180,7 @@ namespace Sorcery {
 
 		enum class TextureType {
 			NONE,
+			AUTOMAP,
 			WALL,
 			FLOOR,
 			CEILING,
@@ -832,5 +834,50 @@ namespace Sorcery {
 
 		} // namespace Tile
 
-	} // namespace Enums
+		namespace Automap {
+
+			enum class Feature {
+
+				FLOOR = 0,
+				NORTH_WALL = 1,
+				SOUTH_WALL = 2,
+				EAST_WALL = 3,
+				WEST_WALL = 4,
+				NORTH_DOOR = 5,
+				SOUTH_DOOR = 6,
+				EAST_DOOR = 7,
+				WEST_DOOR = 8,
+				NORTH_SECRET = 9,
+				SOUTH_SECRET = 10,
+				EAST_SECRET = 11,
+				WEST_SECRET = 12,
+				DARKNESS = 13,
+				STAIRS_DOWN = 14,
+				STAIRS_UP = 15,
+				CHUTE = 16,
+				ROCK = 17,
+				ELEVATOR = 18,
+				PIT = 19,
+				SPINNER = 20,
+				TELEPORT = 21,
+				ENCOUNTER = 22,
+				ANTI_MAGIC = 23,
+				LAIR = 24,
+				FOUNTAIN = 25,
+				POOL = 26,
+				LETTER_C = 27,
+				LETTER_T = 28,
+				EXCLAMATION = 29,
+				QUESTION_MARK = 30,
+				NORTH_FORCED = 31,
+				SOUTH_FORCED = 32,
+				EAST_FORCED = 33,
+				WEST_FORCED = 34,
+				STAR = 35,
+				MINUS_HP = 36,
+				PLUS_HP = 37
+			};
+
+		} // namespace Automap
+	}	  // namespace Enums
 } // namespace Sorcery
