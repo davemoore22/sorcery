@@ -63,6 +63,8 @@ Sorcery::Engine::Engine(
 	_render = std::make_unique<Render>(_system, _display, _graphics, _game);
 	_automap = std::make_unique<AutoMap>(_system, _display, _graphics, _game,
 		(*_display->layout)["global:automap"]);
+
+	_update_automap = false;
 }
 
 // Standard Destructor
@@ -74,6 +76,7 @@ auto Sorcery::Engine::start() -> int {
 
 	// Refresh the Party characters
 	_status_bar->refresh();
+	_automap->refresh();
 
 	// Generate the Custom Components
 	const Component status_bar_c{
@@ -214,6 +217,8 @@ auto Sorcery::Engine::start() -> int {
 
 			_render->update();
 			_render->render();
+			if (_update_automap)
+				_automap->refresh();
 			_window->clear();
 			_draw();
 			_window->display();

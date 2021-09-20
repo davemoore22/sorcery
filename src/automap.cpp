@@ -32,6 +32,8 @@ Sorcery::AutoMap::AutoMap(System *system, Display *display, Graphics *graphics,
 	_sprites.clear();
 	_texts.clear();
 
+	_map_radius = std::stoi(_layout["tile_count"].value()) / 2;
+
 	if (_frame.get()) {
 		_frame.release();
 		_frame.reset();
@@ -44,9 +46,33 @@ Sorcery::AutoMap::AutoMap(System *system, Display *display, Graphics *graphics,
 	_sprites.emplace_back(fsprite);
 }
 
-auto Sorcery::AutoMap::update() -> void {
+auto Sorcery::AutoMap::refresh() -> void {
 
 	_sprites.resize(1);
+
+	auto tx{std::stoi(_layout["tile_offset_x"].value())};
+	auto ty{std::stoi(_layout["tile_offset_y"].value())};
+	auto tcx{0};
+	auto tcy{0};
+	auto player_pos(_game->state->world->player_pos);
+	for (auto x = static_cast<int>(player_pos.x - _map_radius);
+		 x <= static_cast<int>(player_pos.x) + _map_radius; x++) {
+		for (auto y = static_cast<int>(player_pos.y - _map_radius);
+			 y <= static_cast<int>(player_pos.y + _map_radius); y++) {
+
+			auto lx{x < 0 ? x + 19 : x};
+			auto ly{y < 0 ? y + 19 : y};
+			auto tile{_game->state->world->current_level->at(lx, ly)};
+			auto tile_x{tx + (tcx * std::stoi(_layout["tile_width"].value())) +
+						(tcx * std::stoi(_layout["tile_spacing"].value()))};
+			auto tile_y{ty + (tcy * std::stoi(_layout["tile_height"].value())) +
+						(tcy * std::stoi(_layout["tile_spacing"].value()))};
+
+			++tcx;
+		}
+		++tcy;
+		tcx = 0;
+	}
 }
 
 auto Sorcery::AutoMap::draw(

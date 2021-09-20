@@ -54,10 +54,10 @@ Sorcery::StatusBar::StatusBar(System *system, Display *display,
 
 	// Render the background (inset by the frame)
 	sf::RectangleShape rect(
-		sf::Vector2f((_display->window->get_cw() * (_layout.w)) - 20,
-			(_display->window->get_ch() * (_layout.h)) - 20));
+		sf::Vector2f((_display->window->get_cw() * (_layout.w)) - 32,
+			(_display->window->get_ch() * (_layout.h)) - 32));
 	rect.setFillColor(sf::Color(0, 0, 0, _layout.alpha));
-	rect.setPosition(10, 10);
+	rect.setPosition(16, 16);
 	_rtexture.draw(rect);
 
 	_fsprite = _frame->sprite;

@@ -45,7 +45,7 @@ namespace Sorcery {
 		// Public Members
 
 		// Public Methods
-		auto update() -> void;
+		auto refresh() -> void;
 
 	  private:
 		// Private Methods
@@ -63,5 +63,6 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _frame;
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Sprite> _sprites;
+		int _map_radius;
 	};
 } // namespace Sorcery

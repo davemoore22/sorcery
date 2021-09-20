@@ -77,5 +77,6 @@ namespace Sorcery {
 		std::unique_ptr<AutoMap> _automap;
 		bool _in_camp;
 		bool _show_confirm_exit;
+		bool _update_automap;
 	};
 } // namespace Sorcery
