@@ -82,24 +82,28 @@ Sorcery::Application::~Application() {
 auto Sorcery::Application::start() -> int {
 
 	if (_check_param(CONTINUE_GAME)) {
-		auto result{_castle->start()};
-		if (result && result == MenuItem::ABORT) {
+		if (_game->valid) {
+			auto result{_castle->start()};
+			if (result && result == MenuItem::ABORT) {
+				_game->save_game();
+				display->shutdown_SFML();
+				return EXIT_ALL;
+			}
+			_castle->stop();
 			_game->save_game();
-			display->shutdown_SFML();
-			return EXIT_ALL;
 		}
-		_castle->stop();
-		_game->save_game();
-	}
-
-	if (_check_param(GO_TO_MAZE)) {
-		if (_castle->start(true) == MenuItem::ABORT) {
-			_game->save_game();
-			display->shutdown_SFML();
-			return EXIT_ALL;
+	} else if (_check_param(GO_TO_MAZE)) {
+		if (_game->valid) {
+			if (_game->state->party_has_members()) {
+				if (_castle->start(true) == MenuItem::ABORT) {
+					_game->save_game();
+					display->shutdown_SFML();
+					return EXIT_ALL;
+				}
+				_castle->stop();
+				_game->save_game();
+			}
 		}
-		_castle->stop();
-		_game->save_game();
 	}
 
 	std::optional<MenuItem> option_chosen{MenuItem::NONE};
