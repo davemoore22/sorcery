@@ -133,6 +133,7 @@
 		<Unit filename="inc/application.hpp" />
 		<Unit filename="inc/attractmode.hpp" />
 		<Unit filename="inc/attributedisplay.hpp" />
+		<Unit filename="inc/automap.hpp" />
 		<Unit filename="inc/backwardcpp/backward.hpp" />
 		<Unit filename="inc/banner.hpp" />
 		<Unit filename="inc/castle.hpp" />
@@ -202,6 +203,7 @@
 		<Unit filename="src/application.cpp" />
 		<Unit filename="src/attractmode.cpp" />
 		<Unit filename="src/attributedisplay.cpp" />
+		<Unit filename="src/automap.cpp" />
 		<Unit filename="src/banner.cpp" />
 		<Unit filename="src/castle.cpp" />
 		<Unit filename="src/changeclass.cpp" />
