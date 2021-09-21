@@ -51,6 +51,7 @@ namespace Sorcery {
 		// Private Methods
 		auto virtual draw(
 			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto _draw_tile(Tile &tile, int x, int y, float scaling) -> void;
 
 		// Private Members
 		System *_system;

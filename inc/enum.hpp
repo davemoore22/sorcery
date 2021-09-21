@@ -827,7 +827,9 @@ namespace Sorcery {
 				POOL = 4,
 				FOUNTAIN = 5,
 				MESSAGE = 6,
-				MOVEMENT = 7
+				MOVEMENT = 7,
+				STAIRS_UP = 8,
+				STAIRS_DOWN = 9
 
 				// TODO: all the others from Wiz6 because why not?
 			};

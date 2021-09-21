@@ -72,6 +72,7 @@ auto Sorcery::Game::_clear() -> void {
 	characters.clear();
 	_characters_ids.clear();
 	state = std::make_unique<State>(_system);
+	state->world->create();
 }
 
 auto Sorcery::Game::_create_game() -> void {

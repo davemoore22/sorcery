@@ -199,6 +199,8 @@ auto Sorcery::Tile::_reset_features() -> void {
 	features[TileFeature::POOL] = false;
 	features[TileFeature::SPINNER] = false;
 	features[TileFeature::TELEPORT] = false;
+	features[TileFeature::STAIRS_DOWN] = false;
+	features[TileFeature::STAIRS_UP] = false;
 }
 
 auto Sorcery::Tile::_reset_properties() -> void {

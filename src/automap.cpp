@@ -50,8 +50,17 @@ auto Sorcery::AutoMap::refresh() -> void {
 
 	_sprites.resize(1);
 
+	// need to take into account explored etc
+
+	auto scaling{std::stof(_layout["tile_scaling"].value())};
 	auto tx{std::stoi(_layout["tile_offset_x"].value())};
 	auto ty{std::stoi(_layout["tile_offset_y"].value())};
+	auto tw{std::stoi(_layout["tile_width"].value())};
+	auto th{std::stoi(_layout["tile_height"].value())};
+	auto spacing{std::stoi(_layout["tile_spacing"].value())};
+	tw *= scaling;
+	th *= scaling;
+
 	auto tcx{0};
 	auto tcy{0};
 	auto player_pos(_game->state->world->player_pos);
@@ -60,18 +69,85 @@ auto Sorcery::AutoMap::refresh() -> void {
 		for (auto y = static_cast<int>(player_pos.y - _map_radius);
 			 y <= static_cast<int>(player_pos.y + _map_radius); y++) {
 
-			auto lx{x < 0 ? x + 19 : x};
-			auto ly{y < 0 ? y + 19 : y};
+			auto lx{x < 0 ? x + MAP_SIZE : x};
+			auto ly{y < 0 ? y + MAP_SIZE : y};
+
 			auto tile{_game->state->world->current_level->at(lx, ly)};
-			auto tile_x{tx + (tcx * std::stoi(_layout["tile_width"].value())) +
-						(tcx * std::stoi(_layout["tile_spacing"].value()))};
-			auto tile_y{ty + (tcy * std::stoi(_layout["tile_height"].value())) +
-						(tcy * std::stoi(_layout["tile_spacing"].value()))};
+			auto tile_x{tx + (tcx * tw) + (tcx * spacing)};
+			auto tile_y{ty + (tcy * th) + (tcy * spacing)};
+			_draw_tile(tile, tile_x, tile_y, scaling);
 
 			++tcx;
 		}
 		++tcy;
 		tcx = 0;
+	}
+}
+
+auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling)
+	-> void {
+
+	{
+		sf::Sprite bg{_graphics->textures
+						  ->get(magic_enum::enum_integer<AutoMapFeature>(
+									AutoMapFeature::FLOOR),
+							  GraphicsTextureType::AUTOMAP)
+						  .value()};
+		bg.setPosition(x, y);
+		bg.setScale(scaling, scaling);
+		_sprites.emplace_back(bg);
+	}
+
+	if (tile.walls.at(TileWall::NORTH).visible) {
+		sf::Sprite wall{_graphics->textures
+							->get(magic_enum::enum_integer<AutoMapFeature>(
+									  AutoMapFeature::NORTH_WALL),
+								GraphicsTextureType::AUTOMAP)
+							.value()};
+		wall.setPosition(x, y);
+		wall.setScale(scaling, scaling);
+		_sprites.emplace_back(wall);
+	}
+	if (tile.walls.at(TileWall::SOUTH).visible) {
+		sf::Sprite wall{_graphics->textures
+							->get(magic_enum::enum_integer<AutoMapFeature>(
+									  AutoMapFeature::SOUTH_WALL),
+								GraphicsTextureType::AUTOMAP)
+							.value()};
+		wall.setPosition(x, y);
+		wall.setScale(scaling, scaling);
+		_sprites.emplace_back(wall);
+	}
+	if (tile.walls.at(TileWall::EAST).visible) {
+		sf::Sprite wall{_graphics->textures
+							->get(magic_enum::enum_integer<AutoMapFeature>(
+									  AutoMapFeature::EAST_WALL),
+								GraphicsTextureType::AUTOMAP)
+							.value()};
+		wall.setPosition(x, y);
+		wall.setScale(scaling, scaling);
+		_sprites.emplace_back(wall);
+	}
+	if (tile.walls.at(TileWall::WEST).visible) {
+		sf::Sprite wall{_graphics->textures
+							->get(magic_enum::enum_integer<AutoMapFeature>(
+									  AutoMapFeature::WEST_WALL),
+								GraphicsTextureType::AUTOMAP)
+							.value()};
+		wall.setPosition(x, y);
+		wall.setScale(scaling, scaling);
+		_sprites.emplace_back(wall);
+	}
+
+	if (tile.features.at(TileFeature::STAIRS_UP)) {
+		sf::Sprite stairs{_graphics->textures
+							  ->get(magic_enum::enum_integer<AutoMapFeature>(
+										AutoMapFeature::STAIRS_UP),
+								  GraphicsTextureType::AUTOMAP)
+							  .value()};
+		stairs.setPosition(x, y);
+		stairs.setScale(scaling, scaling);
+		_sprites.emplace_back(stairs);
 	}
 }
 

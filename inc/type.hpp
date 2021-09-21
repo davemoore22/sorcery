@@ -281,7 +281,7 @@ namespace Sorcery {
 			  door{std::nullopt} {};
 
 		Wall(Enums::Map::Direction direction_)
-			: visible{true}, walkable{true}, direction{direction_}, gfx{0},
+			: visible{true}, walkable{false}, direction{direction_}, gfx{0},
 			  door{std::nullopt} {};
 
 		// Serialisation
