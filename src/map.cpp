@@ -103,35 +103,35 @@ auto Sorcery::Map::_create_level(MapType type) -> void {
 			}
 		}
 
-		auto top_left{_tiles.at(0)};
+		auto &top_left{_tiles.at(0)};
 		top_left.set_walls(true, false, false, true);
-		auto top_right{_tiles.at(MAP_SIZE - 1)};
-		top_left.set_walls(true, false, true, false);
-		auto bottom_left{_tiles.at(0 + (MAP_SIZE - 1) * (MAP_SIZE - 1))};
+		auto &top_right{_tiles.at(MAP_SIZE - 1)};
+		top_right.set_walls(true, false, true, false);
+		auto &bottom_left{_tiles.at(0 + (MAP_SIZE - 1) * (MAP_SIZE - 1))};
 		bottom_left.set_walls(false, true, false, true);
-		auto bottom_right{
+		auto &bottom_right{
 			_tiles.at((MAP_SIZE - 1) + (MAP_SIZE - 1) * (MAP_SIZE - 1))};
 		bottom_right.set_walls(false, true, true, false);
 
 		for (auto x = 1u; x < 19u; x++) {
-			auto tile_left{_tiles.at((x * MAP_SIZE) + 0)};
+			auto &tile_left{_tiles.at((x * MAP_SIZE) + 0)};
 			tile_left.set_walls(false, false, false, true);
 
-			auto tile_right{_tiles.at((x * MAP_SIZE) + 19)};
+			auto &tile_right{_tiles.at((x * MAP_SIZE) + 19)};
 			tile_right.set_walls(false, false, true, false);
 		}
 
 		for (auto y = 1u; y < 19u; y++) {
-			auto tile_top{_tiles.at(y)};
+			auto &tile_top{_tiles.at(y)};
 			tile_top.set_walls(true, false, false, false);
 
-			auto tile_bottom{_tiles.at(y + (MAP_SIZE * 19))};
+			auto &tile_bottom{_tiles.at(y + (MAP_SIZE * 19))};
 			tile_bottom.set_walls(false, true, false, false);
 		}
 
 		for (auto x = 0u; x < 20u; x++) {
 			for (auto y = 0u; y < 20u; y++) {
-				auto tile{_tiles.at((x * MAP_SIZE) + y)};
+				auto &tile{_tiles.at((x * MAP_SIZE) + y)};
 				tile.set_gfx(1);
 			}
 		}

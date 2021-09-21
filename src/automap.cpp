@@ -98,7 +98,7 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling)
 		_sprites.emplace_back(bg);
 	}
 
-	if (tile.walls.at(TileWall::NORTH).visible) {
+	if (tile.check_wall(TileWall::NORTH)) {
 		sf::Sprite wall{_graphics->textures
 							->get(magic_enum::enum_integer<AutoMapFeature>(
 									  AutoMapFeature::NORTH_WALL),
@@ -108,7 +108,7 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling)
 		wall.setScale(scaling, scaling);
 		_sprites.emplace_back(wall);
 	}
-	if (tile.walls.at(TileWall::SOUTH).visible) {
+	if (tile.check_wall(TileWall::SOUTH)) {
 		sf::Sprite wall{_graphics->textures
 							->get(magic_enum::enum_integer<AutoMapFeature>(
 									  AutoMapFeature::SOUTH_WALL),
@@ -118,7 +118,7 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling)
 		wall.setScale(scaling, scaling);
 		_sprites.emplace_back(wall);
 	}
-	if (tile.walls.at(TileWall::EAST).visible) {
+	if (tile.check_wall(TileWall::EAST)) {
 		sf::Sprite wall{_graphics->textures
 							->get(magic_enum::enum_integer<AutoMapFeature>(
 									  AutoMapFeature::EAST_WALL),
@@ -128,7 +128,7 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling)
 		wall.setScale(scaling, scaling);
 		_sprites.emplace_back(wall);
 	}
-	if (tile.walls.at(TileWall::WEST).visible) {
+	if (tile.check_wall(TileWall::WEST)) {
 		sf::Sprite wall{_graphics->textures
 							->get(magic_enum::enum_integer<AutoMapFeature>(
 									  AutoMapFeature::WEST_WALL),

@@ -235,6 +235,11 @@ auto Sorcery::Tile::_reset_walls() -> void {
 	ceiling = FloorCeiling{};
 }
 
+auto Sorcery::Tile::check_wall(TileWall wall) -> bool {
+
+	return walls.at(wall).visible;
+}
+
 auto Sorcery::Tile::set_walls(bool north, bool south, bool east, bool west)
 	-> void {
 
