@@ -194,7 +194,10 @@ auto Sorcery::Tile::_reset_features() -> void {
 	features.clear();
 	features[TileFeature::FOUNTAIN] = false;
 	features[TileFeature::MESSAGE] = false;
-	features[TileFeature::MOVEMENT] = false;
+	features[TileFeature::MOVEMENT_NORTH] = false;
+	features[TileFeature::MOVEMENT_SOUTH] = false;
+	features[TileFeature::MOVEMENT_EAST] = false;
+	features[TileFeature::MOVEMENT_WEST] = false;
 	features[TileFeature::PIT] = false;
 	features[TileFeature::POOL] = false;
 	features[TileFeature::SPINNER] = false;
@@ -207,7 +210,7 @@ auto Sorcery::Tile::_reset_properties() -> void {
 
 	properties.clear();
 	properties[TileProperty::EXPLORED] = false;
-	properties[TileProperty::OPAQUE] = false;
+	properties[TileProperty::DARKNESS] = false;
 	properties[TileProperty::ROCK] = false;
 	properties[TileProperty::WALKABLE] = false;
 }
@@ -272,4 +275,26 @@ auto Sorcery::Tile::set_gfx(int value) -> void {
 	floor.visible = true;
 	ceiling.gfx = value;
 	ceiling.visible = true;
+}
+
+auto Sorcery::Tile::count_feature() const -> unsigned int {
+
+	return std::count_if(
+		std::begin(features), std::end(features), [=](auto value) {
+			return value.second;
+		});
+}
+
+auto Sorcery::Tile::count_property() const -> unsigned int {
+
+	return std::count_if(
+		std::begin(properties), std::end(properties), [=](auto &value) {
+			return value.second;
+		});
+}
+auto Sorcery::Tile::count_wall() const -> unsigned int {
+
+	return std::count_if(std::begin(walls), std::end(walls), [=](auto &value) {
+		return value.second.visible;
+	});
 }

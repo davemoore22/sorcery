@@ -137,6 +137,61 @@ auto Sorcery::Map::_create_level(MapType type) -> void {
 		_tiles.at(0).set_explored();
 		_tiles.at(0).features.at(TileFeature::STAIRS_UP) = true;
 
+		// Now do some random features purely for testing
+		for (auto count = 0; count < 20; count++) {
+
+			auto i = rand() % 400;
+			_tiles.at(i).set_explored();
+			_tiles.at(i).features.at(TileFeature::SPINNER) = true;
+
+			i = rand() % 400;
+			_tiles.at(i).features.at(TileFeature::PIT) = true;
+
+			i = rand() % 400;
+			_tiles.at(i).features.at(TileFeature::TELEPORT) = true;
+
+			i = rand() % 400;
+			_tiles.at(i).features.at(TileFeature::POOL) = true;
+
+			i = rand() % 400;
+			_tiles.at(i).features.at(TileFeature::FOUNTAIN) = true;
+
+			i = rand() % 400;
+			_tiles.at(i).features.at(TileFeature::MESSAGE) = true;
+
+			i = rand() % 400;
+			_tiles.at(i).features.at(TileFeature::MOVEMENT_NORTH) = true;
+
+			i = rand() % 400;
+			_tiles.at(i).features.at(TileFeature::MOVEMENT_SOUTH) = true;
+
+			i = rand() % 400;
+			_tiles.at(i).features.at(TileFeature::MOVEMENT_EAST) = true;
+
+			i = rand() % 400;
+			_tiles.at(i).features.at(TileFeature::MOVEMENT_WEST) = true;
+		}
+
+		for (auto count = 0; count < 5; count++) {
+			auto i = rand() % 400;
+			_tiles.at(i).features.at(TileFeature::STAIRS_UP) = true;
+
+			i = rand() % 400;
+			_tiles.at(i).features.at(TileFeature::STAIRS_DOWN) = true;
+		}
+
+		for (auto count = 0; count < 50; count++) {
+			auto i = rand() % 400;
+			if ((_tiles.at(i).count_feature() == 0) &&
+				(_tiles.at(i).count_property() == 0))
+				_tiles.at(i).properties.at(TileProperty::ROCK) = true;
+
+			i = rand() % 400;
+			if ((_tiles.at(i).count_feature() == 0) &&
+				(_tiles.at(i).count_property() == 0))
+				_tiles.at(i).properties.at(TileProperty::DARKNESS) = true;
+		}
+
 	} break;
 	default:
 		_reset_level();

@@ -74,6 +74,9 @@ namespace Sorcery {
 		auto check_feature(const TileFeature value) const -> bool;
 		auto check_property(const TileProperty value) const -> bool;
 		auto check_wall(TileWall wall) -> bool;
+		auto count_feature() const -> unsigned int;
+		auto count_property() const -> unsigned int;
+		auto count_wall() const -> unsigned int;
 		auto id() const -> long;
 		auto set_walls(bool north, bool south, bool east, bool west) -> void;
 		auto set_gfx(int value) -> void;

@@ -60,6 +60,7 @@ Sorcery::Random::Random() {
 	_range[RandomType::ZERO_TO_101] = std::make_tuple(0, 101);
 	_range[RandomType::ZERO_TO_129] = std::make_tuple(0, 129);
 	_range[RandomType::ZERO_TO_299] = std::make_tuple(0, 299);
+	_range[RandomType::ZERO_TO_399] = std::make_tuple(0, 399);
 	_range[RandomType::ZERO_TO_437] = std::make_tuple(0, 437);
 
 	// Set up the Random Syllables

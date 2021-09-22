@@ -37,11 +37,12 @@ namespace Sorcery {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_version, player_pos, current_level);
+			archive(_version, player_pos, playing_facing, current_level);
 		}
 
 		// Public Members
 		Point player_pos;
+		MapDirection playing_facing;
 		std::unique_ptr<Map> current_level;
 
 		// Punlic Methods

@@ -532,6 +532,7 @@ namespace Sorcery {
 			ZERO_TO_101,
 			ZERO_TO_129,
 			ZERO_TO_299,
+			ZERO_TO_399,
 			ZERO_TO_437
 		};
 	} // namespace Enums::System
@@ -816,7 +817,7 @@ namespace Sorcery {
 				WALKABLE = 0,
 				ROCK = 1,
 				EXPLORED = 2,
-				OPAQUE = 3,
+				DARKNESS = 3,
 			};
 
 			enum class Features {
@@ -827,9 +828,12 @@ namespace Sorcery {
 				POOL = 4,
 				FOUNTAIN = 5,
 				MESSAGE = 6,
-				MOVEMENT = 7,
-				STAIRS_UP = 8,
-				STAIRS_DOWN = 9
+				MOVEMENT_NORTH = 7,
+				MOVEMENT_SOUTH = 8,
+				MOVEMENT_EAST = 9,
+				MOVEMENT_WEST = 10,
+				STAIRS_UP = 11,
+				STAIRS_DOWN = 12
 
 				// TODO: all the others from Wiz6 because why not?
 			};
@@ -877,7 +881,8 @@ namespace Sorcery {
 				WEST_FORCED = 34,
 				STAR = 35,
 				MINUS_HP = 36,
-				PLUS_HP = 37
+				PLUS_HP = 37,
+				PLAYER = 38
 			};
 
 		} // namespace Automap

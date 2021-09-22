@@ -29,11 +29,13 @@ Sorcery::World::World() {
 
 	current_level = std::make_unique<Map>();
 	_version = SAVE_VERSION;
+	playing_facing = MapDirection::NORTH;
 	player_pos = Point{0, 0};
 }
 
 auto Sorcery::World::create() -> void {
 
 	current_level = std::make_unique<Map>(MapType::START);
+	playing_facing = MapDirection::NORTH;
 	player_pos = Point{0, 0};
 }
