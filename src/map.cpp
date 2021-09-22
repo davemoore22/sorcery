@@ -103,15 +103,13 @@ auto Sorcery::Map::_create_level(MapType type) -> void {
 			}
 		}
 
-		auto &top_left{_tiles.at(0)};
-		top_left.set_walls(true, false, false, true);
-		auto &top_right{_tiles.at(MAP_SIZE - 1)};
-		top_right.set_walls(true, false, true, false);
-		auto &bottom_left{_tiles.at(0 + (MAP_SIZE - 1) * (MAP_SIZE - 1))};
-		bottom_left.set_walls(false, true, false, true);
-		auto &bottom_right{
-			_tiles.at((MAP_SIZE - 1) + (MAP_SIZE - 1) * (MAP_SIZE - 1))};
-		bottom_right.set_walls(false, true, true, false);
+		// Set Corner Tiles
+		_tiles.at(0).set_walls(true, false, false, true);
+		_tiles.at(MAP_SIZE - 1).set_walls(true, false, true, false);
+		_tiles.at((MAP_SIZE * MAP_SIZE) - MAP_SIZE)
+			.set_walls(false, true, false, true);
+		_tiles.at((MAP_SIZE * MAP_SIZE) - 1)
+			.set_walls(false, true, true, false);
 
 		for (auto x = 1u; x < 19u; x++) {
 			auto &tile_left{_tiles.at((x * MAP_SIZE) + 0)};
