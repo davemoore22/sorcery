@@ -34,7 +34,8 @@
 					"tile_height": "21",
 					"tile_offset_x": "16",
 					"tile_offset_y": "16",
-					"tile_scaling": "1.40"
+					"tile_scaling": "1.40",
+					"tile_reverse_y": "212"
 				}
 			]
 		},

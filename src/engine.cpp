@@ -207,6 +207,11 @@ auto Sorcery::Engine::start() -> int {
 
 				if (_display->get_input_mode() == WindowInputMode::IN_GAME) {
 
+					if (_system->input->check(WindowInput::SPACE, event)) {
+						_game->state->world->create();
+						_update_automap = true;
+					}
+
 					if (_system->input->check(WindowInput::CANCEL, event))
 						_in_camp = true;
 
@@ -217,8 +222,10 @@ auto Sorcery::Engine::start() -> int {
 
 			_render->update();
 			_render->render();
-			if (_update_automap)
+			if (_update_automap) {
 				_automap->refresh();
+				_update_automap = false;
+			}
 			_window->clear();
 			_draw();
 			_window->display();

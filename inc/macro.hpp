@@ -155,6 +155,11 @@ namespace Sorcery {
 		return text;
 	}
 
+	// Convert x/y to map vector position
+	inline auto COORD2VECPOS(int x, int y) {
+		return (x + (MAP_SIZE * y));
+	}
+
 	// Template for sgn function from C
 	template <typename T> int sgn(T val) {
 		return (T(0) < val) - (val < T(0));

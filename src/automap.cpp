@@ -51,7 +51,7 @@ auto Sorcery::AutoMap::refresh() -> void {
 	_sprites.resize(1);
 
 	// need to take into account explored etc
-
+	auto tc{std::stoi(_layout["tile_count"].value())};
 	auto scaling{std::stof(_layout["tile_scaling"].value())};
 	auto tx{std::stoi(_layout["tile_offset_x"].value())};
 	auto ty{std::stoi(_layout["tile_offset_y"].value())};
@@ -60,14 +60,15 @@ auto Sorcery::AutoMap::refresh() -> void {
 	auto spacing{std::stoi(_layout["tile_spacing"].value())};
 	tw *= scaling;
 	th *= scaling;
+	auto reverse_y{(th * tc) + ((tc - 1) * spacing) + 2};
 
 	auto tcx{0};
 	auto tcy{0};
 	auto player_pos(_game->state->world->player_pos);
-	for (auto x = static_cast<int>(player_pos.x - _map_radius);
-		 x <= static_cast<int>(player_pos.x) + _map_radius; x++) {
-		for (auto y = static_cast<int>(player_pos.y - _map_radius);
-			 y <= static_cast<int>(player_pos.y + _map_radius); y++) {
+	for (auto y = static_cast<int>(player_pos.y - _map_radius);
+		 y <= static_cast<int>(player_pos.y + _map_radius); y++) {
+		for (auto x = static_cast<int>(player_pos.x - _map_radius);
+			 x <= static_cast<int>(player_pos.x) + _map_radius; x++) {
 
 			auto lx{x < 0 ? x + MAP_SIZE : x};
 			auto ly{y < 0 ? y + MAP_SIZE : y};
@@ -75,11 +76,19 @@ auto Sorcery::AutoMap::refresh() -> void {
 			auto tile{_game->state->world->current_level->at(lx, ly)};
 			auto tile_x{tx + (tcx * tw) + (tcx * spacing)};
 			auto tile_y{ty + (tcy * th) + (tcy * spacing)};
-			_draw_tile(tile, tile_x, tile_y, scaling);
-
+			_draw_tile(tile, tile_x, reverse_y - tile_y, scaling);
 			if ((x == player_pos.x) && (y == player_pos.y))
 				_draw_player(_game->state->world->playing_facing, tile_x,
-					tile_y, scaling);
+					reverse_y - tile_y, scaling);
+
+			/* sf::Text text{};
+			const auto coord{fmt::format("{}/{}", lx, ly)};
+			text.setFont(_system->resources->fonts[FontType::TEXT]);
+			text.setCharacterSize(8);
+			text.setFillColor(sf::Color(255, 255, 255));
+			text.setString(coord);
+			text.setPosition(tile_x, reverse_y - tile_y);
+			_texts.emplace_back(text); */
 
 			++tcx;
 		}
@@ -96,20 +105,24 @@ auto Sorcery::AutoMap::_draw_player(
 									AutoMapFeature::PLAYER),
 							  GraphicsTextureType::AUTOMAP)
 						  .value()};
-	player.setPosition(x, y);
+
 	player.setScale(scaling, scaling);
 	switch (direction) {
 	case MapDirection::NORTH:
-		player.rotate(0);
+		// player.rotate(270);
+		player.setPosition(x, y);
 		break;
 	case MapDirection::SOUTH:
-		player.rotate(180);
+		// player.rotate(90);
+		player.setPosition(x, y);
 		break;
 	case MapDirection::EAST:
-		player.rotate(90);
+		// player.rotate(0);
+		player.setPosition(x, y);
 		break;
 	case MapDirection::WEST:
-		player.rotate(270);
+		// player.rotate(180);
+		player.setPosition(x, y);
 		break;
 
 	default:

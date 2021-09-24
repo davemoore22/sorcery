@@ -105,7 +105,15 @@
 		"typeindex": "cpp",
 		"typeinfo": "cpp",
 		"valarray": "cpp",
-		"variant": "cpp"
+		"variant": "cpp",
+		"cassert": "cpp",
+		"cerrno": "cpp",
+		"climits": "cpp",
+		"filesystem": "cpp",
+		"ios": "cpp",
+		"locale": "cpp",
+		"queue": "cpp",
+		"stack": "cpp"
 	},
 	"terminal.integrated.env.linux": {
 		"PATH": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"

@@ -47,12 +47,12 @@ auto Sorcery::Map::get_type() const -> MapType {
 
 auto Sorcery::Map::at(Point loc) -> Tile & {
 
-	return _tiles.at(loc.x * MAP_SIZE + loc.y);
+	return _tiles.at(COORD2VECPOS(loc.x, loc.y));
 }
 
 auto Sorcery::Map::at(unsigned int x, unsigned int y) -> Tile & {
 
-	return _tiles.at(x * MAP_SIZE + y);
+	return _tiles.at(COORD2VECPOS(x, y));
 }
 auto Sorcery::Map::tiles() const -> std::vector<Tile> {
 
@@ -83,8 +83,8 @@ auto Sorcery::Map::_create_level(MapType type) -> void {
 		// A blank level
 		_tiles.clear();
 		_tiles.reserve(MAP_SIZE * MAP_SIZE);
-		for (auto x = 0u; x < 20u; x++) {
-			for (auto y = 0u; y < 20u; y++) {
+		for (auto x = 0u; x < MAP_SIZE; x++) {
+			for (auto y = 0u; y < MAP_SIZE; y++) {
 				Tile tile(Point{x, y});
 				tile.set_walkable();
 				_tiles.emplace_back(tile);
@@ -95,8 +95,8 @@ auto Sorcery::Map::_create_level(MapType type) -> void {
 	case MapType::START: {
 		_tiles.clear();
 		_tiles.reserve(MAP_SIZE * MAP_SIZE);
-		for (auto x = 0u; x < 20u; x++) {
-			for (auto y = 0u; y < 20u; y++) {
+		for (auto x = 0u; x < MAP_SIZE; x++) {
+			for (auto y = 0u; y < MAP_SIZE; y++) {
 				Tile tile(Point{x, y});
 				tile.set_walkable();
 				_tiles.emplace_back(tile);
@@ -104,31 +104,33 @@ auto Sorcery::Map::_create_level(MapType type) -> void {
 		}
 
 		// Set Corner Tiles
-		_tiles.at(0).set_walls(true, false, false, true);
-		_tiles.at(MAP_SIZE - 1).set_walls(true, false, true, false);
-		_tiles.at((MAP_SIZE * MAP_SIZE) - MAP_SIZE)
-			.set_walls(false, true, false, true);
-		_tiles.at((MAP_SIZE * MAP_SIZE) - 1)
+		_tiles.at(COORD2VECPOS(0, 0)).set_walls(false, true, false, true);
+		_tiles.at(COORD2VECPOS(0, MAP_SIZE - 1))
+			.set_walls(true, false, false, true);
+		_tiles.at(COORD2VECPOS(MAP_SIZE - 1, 0))
 			.set_walls(false, true, true, false);
+		_tiles.at(COORD2VECPOS(MAP_SIZE - 1, MAP_SIZE - 1))
+			.set_walls(true, false, true, false);
 
-		for (auto x = 1u; x < 19u; x++) {
-			auto &tile_left{_tiles.at((x * MAP_SIZE) + 0)};
+		// Set Outside Walls
+		for (auto y = 1u; y < MAP_SIZE - 1; y++) {
+			auto &tile_left{_tiles.at(COORD2VECPOS(0, y))};
 			tile_left.set_walls(false, false, false, true);
 
-			auto &tile_right{_tiles.at((x * MAP_SIZE) + 19)};
+			auto &tile_right{_tiles.at(COORD2VECPOS(MAP_SIZE - 1, y))};
 			tile_right.set_walls(false, false, true, false);
 		}
 
-		for (auto y = 1u; y < 19u; y++) {
-			auto &tile_top{_tiles.at(y)};
-			tile_top.set_walls(true, false, false, false);
+		for (auto x = 1u; x < MAP_SIZE - 1; x++) {
+			auto &tile_top{_tiles.at(COORD2VECPOS(x, 0))};
+			tile_top.set_walls(false, true, false, false);
 
-			auto &tile_bottom{_tiles.at(y + (MAP_SIZE * 19))};
-			tile_bottom.set_walls(false, true, false, false);
+			auto &tile_bottom{_tiles.at(COORD2VECPOS(x, MAP_SIZE - 1))};
+			tile_bottom.set_walls(true, false, false, false);
 		}
 
-		for (auto x = 0u; x < 20u; x++) {
-			for (auto y = 0u; y < 20u; y++) {
+		for (auto y = 0u; y < 20u; y++) {
+			for (auto x = 0u; x < 20u; x++) {
 				auto &tile{_tiles.at((x * MAP_SIZE) + y)};
 				tile.set_gfx(1);
 			}
