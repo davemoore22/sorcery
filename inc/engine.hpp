@@ -29,6 +29,7 @@
 #include "display.hpp"
 #include "game.hpp"
 #include "graphics.hpp"
+#include "iconpanel.hpp"
 #include "inspect.hpp"
 #include "main.hpp"
 #include "menu.hpp"
@@ -75,8 +76,10 @@ namespace Sorcery {
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Render> _render;
 		std::unique_ptr<AutoMap> _automap;
+		std::unique_ptr<IconPanel> _icon_panel;
 		bool _in_camp;
 		bool _show_confirm_exit;
 		bool _update_automap;
+		bool _update_icon_panel;
 	};
 } // namespace Sorcery

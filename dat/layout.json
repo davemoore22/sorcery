@@ -8398,6 +8398,20 @@
 			"background": " 0x000000ff"
 		},
 		{
+			"name": "icon_panel",
+			"font": "text",
+			"size": "24",
+			"alpha": "220",
+			"colour": "0xffffffff",
+			"type": "panel",
+			"drawmode": "manual",
+			"background": " 0x000000ff",
+			"w": "9",
+			"h": "9",
+			"x": "68",
+			"y": "26"
+		},
+		{
 			"name": "status_bar",
 			"w": "55",
 			"h": "9",

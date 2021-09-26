@@ -161,6 +161,7 @@
 		<Unit filename="inc/frame.hpp" />
 		<Unit filename="inc/game.hpp" />
 		<Unit filename="inc/graphics.hpp" />
+		<Unit filename="inc/iconpanel.hpp" />
 		<Unit filename="inc/iconstore.hpp" />
 		<Unit filename="inc/infopanel.hpp" />
 		<Unit filename="inc/inn.hpp" />
@@ -228,6 +229,7 @@
 		<Unit filename="src/frame.cpp" />
 		<Unit filename="src/game.cpp" />
 		<Unit filename="src/graphics.cpp" />
+		<Unit filename="src/iconpanel.cpp" />
 		<Unit filename="src/iconstore.cpp" />
 		<Unit filename="src/infopanel.cpp" />
 		<Unit filename="src/inn.cpp" />
