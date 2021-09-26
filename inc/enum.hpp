@@ -844,6 +844,7 @@ namespace Sorcery {
 
 			enum class Feature {
 
+				NONE = -1,
 				FLOOR = 0,
 				NORTH_WALL = 1,
 				SOUTH_WALL = 2,
@@ -882,7 +883,10 @@ namespace Sorcery {
 				STAR = 35,
 				MINUS_HP = 36,
 				PLUS_HP = 37,
-				PLAYER = 38
+				PLAYER_NORTH = 38,
+				PLAYER_SOUTH = 39,
+				PLAYER_EAST = 40,
+				PLAYER_WEST = 41
 			};
 
 		} // namespace Automap

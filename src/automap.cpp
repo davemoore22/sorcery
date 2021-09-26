@@ -77,7 +77,8 @@ auto Sorcery::AutoMap::refresh() -> void {
 			auto tile_x{tx + (tcx * tw) + (tcx * spacing)};
 			auto tile_y{ty + (tcy * th) + (tcy * spacing)};
 			_draw_tile(tile, tile_x, reverse_y - tile_y, scaling);
-			if ((x == player_pos.x) && (y == player_pos.y))
+			if ((x == static_cast<int>(player_pos.x)) &&
+				(y == static_cast<int>(player_pos.y)))
 				_draw_player(_game->state->world->playing_facing, tile_x,
 					reverse_y - tile_y, scaling);
 
@@ -100,34 +101,30 @@ auto Sorcery::AutoMap::refresh() -> void {
 auto Sorcery::AutoMap::_draw_player(
 	MapDirection direction, int x, int y, float scaling) -> void {
 
-	sf::Sprite player{_graphics->textures
-						  ->get(magic_enum::enum_integer<AutoMapFeature>(
-									AutoMapFeature::PLAYER),
-							  GraphicsTextureType::AUTOMAP)
-						  .value()};
-
-	player.setScale(scaling, scaling);
+	auto icon{AutoMapFeature::NONE};
 	switch (direction) {
 	case MapDirection::NORTH:
-		// player.rotate(270);
-		player.setPosition(x, y);
+		icon = AutoMapFeature::PLAYER_NORTH;
 		break;
 	case MapDirection::SOUTH:
-		// player.rotate(90);
-		player.setPosition(x, y);
+		icon = AutoMapFeature::PLAYER_SOUTH;
 		break;
 	case MapDirection::EAST:
-		// player.rotate(0);
-		player.setPosition(x, y);
+		icon = AutoMapFeature::PLAYER_EAST;
 		break;
 	case MapDirection::WEST:
-		// player.rotate(180);
-		player.setPosition(x, y);
+		icon = AutoMapFeature::PLAYER_WEST;
 		break;
-
 	default:
 		break;
 	}
+
+	sf::Sprite player{_graphics->textures
+						  ->get(magic_enum::enum_integer<AutoMapFeature>(icon),
+							  GraphicsTextureType::AUTOMAP)
+						  .value()};
+	player.setPosition(x, y);
+	player.setScale(scaling, scaling);
 	_sprites.emplace_back(player);
 }
 
