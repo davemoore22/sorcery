@@ -412,6 +412,13 @@
 			"menu_item": "CR_NONE",
 			"key": "sheet",
 			"colour": "0xffffffff"
+		},
+		{
+			"index": "59",
+			"filename": "plain-arrow",
+			"menu_item": "CR_NONE",
+			"key": "direction",
+			"colour": "0xffffffff"
 		}
 	]
 }
