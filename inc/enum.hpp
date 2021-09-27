@@ -840,24 +840,6 @@ namespace Sorcery {
 
 		} // namespace Tile
 
-		namespace IconPanel {
-
-			enum class Button {
-
-				NONE = 0,
-				FORWARD = 1,
-				TURN_LEFT = 2,
-				TURN_RIGHT = 3,
-				CAMP = 4,
-				BACKWARDS = 5,
-				PARTY = 6,
-				MAGIC = 7,
-				ACHIEVEMENTS = 8,
-				EXAMINE = 9
-			};
-
-		}
-
 		namespace Automap {
 
 			enum class Feature {

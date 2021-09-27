@@ -25,12 +25,13 @@
 #include "iconpanel.hpp"
 
 Sorcery::IconPanel::IconPanel(System *system, Display *display,
-	Graphics *graphics, Game *game, Component layout)
+	Graphics *graphics, Game *game, Component layout, bool is_left)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game},
-	  _layout{layout} {
+	  _layout{layout}, _is_left{is_left} {
 
 	_sprites.clear();
 	_texts.clear();
+	_icons.clear();
 
 	// Frame sprite is always sprite 0
 	if (_frame.get()) {
@@ -44,54 +45,32 @@ Sorcery::IconPanel::IconPanel(System *system, Display *display,
 	fsprite.setPosition(0, 0);
 	_sprites.emplace_back(fsprite);
 
+	if (_is_left) {
+
+	} else {
+		_add_icon("direction", "right_icon_panel:forward");
+		_add_icon("direction", "right_icon_panel:turn_left");
+		_add_icon("field", "right_icon_panel:camp");
+		_add_icon("direction", "right_icon_panel:turn_right");
+		_add_icon("direction", "right_icon_panel:backward");
+
+		_add_icon("human", "right_icon_panel:party");
+		_add_icon("exp", "right_icon_panel:magic");
+		_add_icon("marks", "right_icon_panel:achievements");
+		_add_icon("disable", "right_icon_panel:examine");
+	}
+}
+
+auto Sorcery::IconPanel::_add_icon(
+	std::string_view icon_key, std::string_view component_key) -> void {
+
 	auto offset_x{std::stoi(_layout["offset_x"].value())};
 	auto offset_y{std::stoi(_layout["offset_y"].value())};
 
-	// Order here is done by the value of the IconPanelButton enum
-	auto forward{(*_graphics->icons)["direction"].value()};
-	Component icon{(*_display->layout)["icon_panel:forward"]};
-	_set_icon(forward, icon, offset_x, offset_y);
-	_sprites.emplace_back(forward);
-
-	auto turn_left{(*_graphics->icons)["direction"].value()};
-	icon = Component{(*_display->layout)["icon_panel:turn_left"]};
-	_set_icon(turn_left, icon, offset_x, offset_y);
-	_sprites.emplace_back(turn_left);
-
-	auto camp{(*_graphics->icons)["field"].value()};
-	icon = Component{(*_display->layout)["icon_panel:camp"]};
-	_set_icon(camp, icon, offset_x, offset_y);
-	_sprites.emplace_back(camp);
-
-	auto turn_right{(*_graphics->icons)["direction"].value()};
-	icon = Component{(*_display->layout)["icon_panel:turn_right"]};
-	_set_icon(turn_right, icon, offset_x, offset_y);
-	_sprites.emplace_back(turn_right);
-
-	auto backward{(*_graphics->icons)["direction"].value()};
-	icon = Component{(*_display->layout)["icon_panel:backward"]};
-	_set_icon(backward, icon, offset_x, offset_y);
-	_sprites.emplace_back(backward);
-
-	auto party{(*_graphics->icons)["human"].value()};
-	icon = Component{(*_display->layout)["icon_panel:party"]};
-	_set_icon(party, icon, offset_x, offset_y);
-	_sprites.emplace_back(party);
-
-	auto magic{(*_graphics->icons)["exp"].value()};
-	icon = Component{(*_display->layout)["icon_panel:magic"]};
-	_set_icon(magic, icon, offset_x, offset_y);
-	_sprites.emplace_back(magic);
-
-	auto achievements{(*_graphics->icons)["marks"].value()};
-	icon = Component{(*_display->layout)["icon_panel:achivements"]};
-	_set_icon(achievements, icon, offset_x, offset_y);
-	_sprites.emplace_back(achievements);
-
-	auto examine{(*_graphics->icons)["disable"].value()};
-	icon = Component{(*_display->layout)["icon_panel:examine"]};
-	_set_icon(examine, icon, offset_x, offset_y);
-	_sprites.emplace_back(examine);
+	auto icon{(*_graphics->icons)[icon_key].value()};
+	auto component{(*_display->layout)[component_key]};
+	_set_icon(icon, component, offset_x, offset_y);
+	_icons.emplace_back(std::make_pair(component_key, icon));
 }
 
 auto Sorcery::IconPanel::_set_icon(
@@ -121,13 +100,6 @@ auto Sorcery::IconPanel::_set_icon(
 
 auto Sorcery::IconPanel::refresh(bool in_camp) -> void {
 
-	// This only changes the colour and enables/disables them as appropriate
-	Component forward{(*_display->layout)["icon_panel:forward"]};
-	Component turn_left{(*_display->layout)["icon_panel:turn_left"]};
-	Component turn_right{(*_display->layout)["icon_panel:turn_right"]};
-	Component backward{(*_display->layout)["icon_panel:backward"]};
-	Component camp{(*_display->layout)["icon_panel:camp"]};
-
 	if (in_camp) {
 
 	} else {
@@ -142,6 +114,9 @@ auto Sorcery::IconPanel::draw(
 	// Draw the standard components
 	for (const auto &sprite : _sprites)
 		target.draw(sprite, states);
+
+	for (const auto &[key, icon] : _icons)
+		target.draw(icon, states);
 
 	for (const auto &text : _texts)
 		target.draw(text, states);

@@ -8365,7 +8365,12 @@
 		]
 	},
 	{
-		"name": "icon_panel",
+		"name": "left_icon_panel",
+		"component": [
+		]
+	},
+	{
+		"name": "right_icon_panel",
 		"component": [
 		{
 			"name": "forward",
@@ -8504,7 +8509,7 @@
 			]
 		},
 		{
-			"name": "achivements",
+			"name": "achievements",
 			"x": "6",
 			"y": "6",
 			"drawmode": "manual",
@@ -8556,7 +8561,7 @@
 			"background": " 0x000000ff"
 		},
 		{
-			"name": "icon_panel",
+			"name": "right_icon_panel",
 			"font": "text",
 			"size": "24",
 			"alpha": "220",
@@ -8567,6 +8572,26 @@
 			"w": "9",
 			"h": "9",
 			"x": "68",
+			"y": "26",
+			"data": [
+				{
+					"offset_x": "48",
+					"offset_y": "32"
+				}
+			]
+		},
+		{
+			"name": "left_icon_panel",
+			"font": "text",
+			"size": "24",
+			"alpha": "220",
+			"colour": "0xffffffff",
+			"type": "panel",
+			"drawmode": "manual",
+			"background": " 0x000000ff",
+			"w": "9",
+			"h": "9",
+			"x": "1",
 			"y": "26",
 			"data": [
 				{

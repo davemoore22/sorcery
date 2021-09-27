@@ -35,7 +35,7 @@ namespace Sorcery {
 	  public:
 		// Constructors
 		IconPanel(System *system, Display *display, Graphics *graphics,
-			Game *game, Component layout);
+			Game *game, Component layout, bool is_left);
 		IconPanel() = delete;
 
 		// Public Members
@@ -49,6 +49,8 @@ namespace Sorcery {
 			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _set_icon(sf::Sprite &sprite, Component layout, int offset_x,
 			int offset_y) -> void;
+		auto _add_icon(
+			std::string_view icon_key, std::string_view component_key) -> void;
 
 		// Private Members
 		System *_system;
@@ -61,5 +63,7 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _frame;
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Sprite> _sprites;
+		std::vector<std::pair<std::string, sf::Sprite>> _icons;
+		bool _is_left;
 	};
 } // namespace Sorcery

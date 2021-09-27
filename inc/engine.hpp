@@ -76,10 +76,11 @@ namespace Sorcery {
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Render> _render;
 		std::unique_ptr<AutoMap> _automap;
-		std::unique_ptr<IconPanel> _icon_panel;
+		std::unique_ptr<IconPanel> _left_icon_panel;
+		std::unique_ptr<IconPanel> _right_icon_panel;
 		bool _in_camp;
 		bool _show_confirm_exit;
 		bool _update_automap;
-		bool _update_icon_panel;
+		bool _update_icon_panels;
 	};
 } // namespace Sorcery

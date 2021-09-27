@@ -63,11 +63,14 @@ Sorcery::Engine::Engine(
 	_render = std::make_unique<Render>(_system, _display, _graphics, _game);
 	_automap = std::make_unique<AutoMap>(_system, _display, _graphics, _game,
 		(*_display->layout)["global:automap"]);
-	_icon_panel = std::make_unique<IconPanel>(_system, _display, _graphics,
-		_game, (*_display->layout)["engine_base_ui:icon_panel"]);
+	_left_icon_panel = std::make_unique<IconPanel>(_system, _display, _graphics,
+		_game, (*_display->layout)["engine_base_ui:left_icon_panel"], true);
+	_right_icon_panel =
+		std::make_unique<IconPanel>(_system, _display, _graphics, _game,
+			(*_display->layout)["engine_base_ui:right_icon_panel"], false);
 
 	_update_automap = false;
-	_update_icon_panel = false;
+	_update_icon_panels = false;
 }
 
 // Standard Destructor
@@ -80,7 +83,8 @@ auto Sorcery::Engine::start() -> int {
 	// Refresh the Party characters
 	_status_bar->refresh();
 	_automap->refresh();
-	_icon_panel->refresh(true);
+	_left_icon_panel->refresh(true);
+	_right_icon_panel->refresh(true);
 
 	// Generate the Custom Components
 	const Component status_bar_c{
@@ -92,9 +96,12 @@ auto Sorcery::Engine::start() -> int {
 	const Component automap_c{(*_display->layout)["global:automap"]};
 	_automap->setPosition(automap_c.x, automap_c.y);
 
-	const Component icon_panel_c{
-		(*_display->layout)["engine_base_ui:icon_panel"]};
-	_icon_panel->setPosition(icon_panel_c.x, icon_panel_c.y);
+	const Component l_icon_panel_c{
+		(*_display->layout)["engine_base_ui:left_icon_panel"]};
+	_left_icon_panel->setPosition(l_icon_panel_c.x, l_icon_panel_c.y);
+	const Component r_icon_panel_c{
+		(*_display->layout)["engine_base_ui:right_icon_panel"]};
+	_right_icon_panel->setPosition(r_icon_panel_c.x, r_icon_panel_c.y);
 
 	// Start in camp as is tradition
 	_in_camp = true;
@@ -234,9 +241,10 @@ auto Sorcery::Engine::start() -> int {
 				_automap->refresh();
 				_update_automap = false;
 			}
-			if (_update_icon_panel) {
-				_icon_panel->refresh(_in_camp);
-				_update_icon_panel = false;
+			if (_update_icon_panels) {
+				_left_icon_panel->refresh(_in_camp);
+				_right_icon_panel->refresh(_in_camp);
+				_update_icon_panels = false;
 			}
 			_window->clear();
 			_draw();
@@ -259,7 +267,8 @@ auto Sorcery::Engine::_draw() -> void {
 	_display->display("engine_base_ui");
 	_window->draw(*_status_bar);
 	_window->draw(*_automap);
-	_window->draw(*_icon_panel);
+	_window->draw(*_left_icon_panel);
+	_window->draw(*_right_icon_panel);
 
 	// And the Menu
 	if (_in_camp) {
