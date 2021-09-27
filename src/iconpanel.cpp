@@ -46,18 +46,25 @@ Sorcery::IconPanel::IconPanel(System *system, Display *display,
 	_sprites.emplace_back(fsprite);
 
 	if (_is_left) {
-
+		_add_icon("achievements", "left_icon_panel:achievements");
+		_add_icon("items", "left_icon_panel:items");
+		_add_icon("talk", "left_icon_panel:talk");
+		_add_icon("kick", "left_icon_panel:kick");
+		_add_icon("reorder", "left_icon_panel:reorder");
+		_add_icon("controls", "left_icon_panel:controls");
+		_add_icon("options", "left_icon_panel:options");
+		_add_icon("save", "left_icon_panel:save");
+		_add_icon("exit", "left_icon_panel:exit");
 	} else {
 		_add_icon("direction", "right_icon_panel:forward");
 		_add_icon("direction", "right_icon_panel:turn_left");
 		_add_icon("field", "right_icon_panel:camp");
 		_add_icon("direction", "right_icon_panel:turn_right");
 		_add_icon("direction", "right_icon_panel:backward");
-
-		_add_icon("human", "right_icon_panel:party");
-		_add_icon("exp", "right_icon_panel:magic");
-		_add_icon("marks", "right_icon_panel:achievements");
-		_add_icon("disable", "right_icon_panel:examine");
+		_add_icon("party", "right_icon_panel:party");
+		_add_icon("magic", "right_icon_panel:magic");
+		_add_icon("use", "right_icon_panel:use");
+		_add_icon("examine", "right_icon_panel:examine");
 	}
 }
 

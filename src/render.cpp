@@ -32,14 +32,14 @@ Sorcery::Render::Render(
 	// Setup the Draw Surface
 	_rtexture.create(MINIMUM_SCREEN_WIDTH, MINIMUM_SCREEN_HEIGHT);
 	_rtexture.setSmooth(true);
-	_rtexture.clear(sf::Color(255, 0, 0, 255));
+	_rtexture.clear(sf::Color(0, 0, 0, 255));
 }
 
 auto Sorcery::Render::update() -> void {}
 
 auto Sorcery::Render::render() -> void {
 
-	_rtexture.clear(sf::Color(255, 0, 0, 255));
+	_rtexture.clear(sf::Color(40, 40, 40, 255));
 	_rtexture.display();
 	_texture = _rtexture.getTexture();
 	_sprite = sf::Sprite(_texture);

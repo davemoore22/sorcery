@@ -419,6 +419,98 @@
 			"menu_item": "CR_NONE",
 			"key": "direction",
 			"colour": "0xffffffff"
+		},
+		{
+			"index": "60",
+			"filename": "look-at",
+			"menu_item": "CR_NONE",
+			"key": "examine",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "61",
+			"filename": "achievement",
+			"menu_item": "CR_NONE",
+			"key": "achievements",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "62",
+			"filename": "three-friends",
+			"menu_item": "CR_NONE",
+			"key": "party",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "63",
+			"filename": "spell-book",
+			"menu_item": "CR_NONE",
+			"key": "magic",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "64",
+			"filename": "button-finger",
+			"menu_item": "CR_NONE",
+			"key": "use",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "65",
+			"filename": "boot-kick",
+			"menu_item": "CR_NONE",
+			"key": "kick",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "66",
+			"filename": "knapsack",
+			"menu_item": "CR_NONE",
+			"key": "items",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "67",
+			"filename": "settings-knobs",
+			"menu_item": "CR_NONE",
+			"key": "options",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "68",
+			"filename": "talk",
+			"menu_item": "CR_NONE",
+			"key": "talk",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "69",
+			"filename": "save",
+			"menu_item": "CR_NONE",
+			"key": "save",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "70",
+			"filename": "exit-door",
+			"menu_item": "CR_NONE",
+			"key": "exit",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "71",
+			"filename": "footsteps",
+			"menu_item": "CR_NONE",
+			"key": "reorder",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "72",
+			"filename": "console-controller",
+			"menu_item": "CR_NONE",
+			"key": "controls",
+			"colour": "0xffffffff"
 		}
+
 	]
 }
