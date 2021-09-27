@@ -8365,6 +8365,96 @@
 		]
 	},
 	{
+		"name": "icon_panel",
+		"component": [
+		{
+			"name": "forward",
+			"x": "3",
+			"y": "0",
+			"drawmode": "manual",
+			"colour": "0x00ff00ff",
+			"type": "icon",
+			"background": " 0x404040ff",
+			"scale": "0.10",
+			"data": [
+				{
+					"rotation": "180",
+					"offset_x": "0",
+					"offset_y": "0"
+				}
+			]
+		},
+		{
+			"name": "turn_left",
+			"x": "0",
+			"y": "3",
+			"drawmode": "manual",
+			"colour": "0x00ff00ff",
+			"type": "icon",
+			"background": " 0x404040ff",
+			"scale": "0.10",
+			"data": [
+				{
+					"rotation": "90",
+					"offset_x": "0",
+					"offset_y": "0"
+				}
+			]
+		},
+		{
+			"name": "camp",
+			"x": "3",
+			"y": "3",
+			"drawmode": "manual",
+			"colour": "0x00ff00ff",
+			"type": "icon",
+			"background": " 0x404040ff",
+			"scale": "0.15",
+			"data": [
+				{
+					"rotation": "0",
+					"offset_x": "0",
+					"offset_y": "0"
+				}
+			]
+		},
+		{
+			"name": "turn_right",
+			"x": "6",
+			"y": "3",
+			"drawmode": "manual",
+			"colour": "0x00ff00ff",
+			"type": "icon",
+			"background": " 0x404040ff",
+			"scale": "0.10",
+			"data": [
+				{
+					"rotation": "270",
+					"offset_x": "0",
+					"offset_y": "0"
+				}
+			]
+		},
+		{
+			"name": "backward",
+			"x": "3",
+			"y": "6",
+			"drawmode": "manual",
+			"colour": "0x00ff00ff",
+			"type": "icon",
+			"background": " 0x404040ff",
+			"scale": "0.10",
+			"data": [
+				{
+					"rotation": "0",
+					"offset_x": "0",
+					"offset_y": "0"
+				}
+			]
+		}
+		]
+	},
+	{
 		"name": "engine_base_ui",
 		"component": [
 		{
@@ -8409,7 +8499,13 @@
 			"w": "9",
 			"h": "9",
 			"x": "68",
-			"y": "26"
+			"y": "26",
+			"data": [
+				{
+					"offset_x": "48",
+					"offset_y": "32"
+				}
+			]
 		},
 		{
 			"name": "status_bar",

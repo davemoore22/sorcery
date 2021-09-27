@@ -144,6 +144,7 @@ namespace Sorcery {
 	using FontType = Enums::Internal::FontType;
 	using GraphicsTexture = Enums::Graphics::Texture;
 	using GraphicsTextureType = Enums::Graphics::TextureType;
+	using IconPanelButton = Enums::IconPanel::Button;
 	using IconLibrary = std::map<std::string, sf::Sprite>;
 	using Import = Enums::Manage::Import;
 	using InnStage = Enums::Castle::Inn;

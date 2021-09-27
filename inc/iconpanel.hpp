@@ -41,7 +41,7 @@ namespace Sorcery {
 		// Public Members
 
 		// Public Methods
-		auto refresh() -> void;
+		auto refresh(bool in_camp) -> void;
 
 	  private:
 		// Private Methods

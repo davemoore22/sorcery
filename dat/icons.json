@@ -380,7 +380,7 @@
 		},
 		{
 			"index": "54",
-			"filename": "campire",
+			"filename": "campfire",
 			"menu_item": "CR_NONE",
 			"key": "field",
 			"colour": "0xffffffff"

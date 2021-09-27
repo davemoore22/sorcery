@@ -80,7 +80,7 @@ auto Sorcery::Engine::start() -> int {
 	// Refresh the Party characters
 	_status_bar->refresh();
 	_automap->refresh();
-	_icon_panel->refresh();
+	_icon_panel->refresh(true);
 
 	// Generate the Custom Components
 	const Component status_bar_c{
@@ -235,7 +235,7 @@ auto Sorcery::Engine::start() -> int {
 				_update_automap = false;
 			}
 			if (_update_icon_panel) {
-				_icon_panel->refresh();
+				_icon_panel->refresh(_in_camp);
 				_update_icon_panel = false;
 			}
 			_window->clear();

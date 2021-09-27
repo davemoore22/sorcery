@@ -32,6 +32,7 @@ Sorcery::IconPanel::IconPanel(System *system, Display *display,
 	_sprites.clear();
 	_texts.clear();
 
+	// Frame sprite is always sprite 0
 	if (_frame.get()) {
 		_frame.release();
 		_frame.reset();
@@ -42,11 +43,75 @@ Sorcery::IconPanel::IconPanel(System *system, Display *display,
 	auto fsprite{_frame->sprite};
 	fsprite.setPosition(0, 0);
 	_sprites.emplace_back(fsprite);
+
+	auto offset_x{std::stoi(_layout["offset_x"].value())};
+	auto offset_y{std::stoi(_layout["offset_y"].value())};
+
+	// Order here is done by the value of the IconPanelButton enum
+	auto forward{(*_graphics->icons)["direction"].value()};
+	Component icon{(*_display->layout)["icon_panel:forward"]};
+	forward.setOrigin(forward.getLocalBounds().width / 2,
+		forward.getLocalBounds().height / 2);
+	forward.rotate(std::stof(icon["rotation"].value()));
+	forward.setScale(icon.scale, icon.scale);
+	forward.setColor(sf::Color(icon.colour));
+	forward.setPosition(icon.x + offset_x, icon.y + offset_y);
+	_sprites.emplace_back(forward);
+
+	auto turn_left{(*_graphics->icons)["direction"].value()};
+	icon = Component{(*_display->layout)["icon_panel:turn_left"]};
+	turn_left.setOrigin(turn_left.getLocalBounds().width / 2,
+		turn_left.getLocalBounds().height / 2);
+	turn_left.rotate(std::stof(icon["rotation"].value()));
+	turn_left.setScale(icon.scale, icon.scale);
+	turn_left.setColor(sf::Color(icon.colour));
+	turn_left.setPosition(icon.x + offset_x, icon.y + offset_y);
+	_sprites.emplace_back(turn_left);
+
+	auto camp{(*_graphics->icons)["field"].value()};
+	icon = Component{(*_display->layout)["icon_panel:camp"]};
+	camp.setOrigin(
+		camp.getLocalBounds().width / 2, camp.getLocalBounds().height / 2);
+	camp.rotate(std::stof(icon["rotation"].value()));
+	camp.setScale(icon.scale, icon.scale);
+	camp.setColor(sf::Color(icon.colour));
+	camp.setPosition(icon.x + offset_x, icon.y + offset_y);
+	_sprites.emplace_back(camp);
+
+	auto turn_right{(*_graphics->icons)["direction"].value()};
+	icon = Component{(*_display->layout)["icon_panel:turn_right"]};
+	turn_right.setOrigin(turn_right.getLocalBounds().width / 2,
+		turn_right.getLocalBounds().height / 2);
+	turn_right.rotate(std::stof(icon["rotation"].value()));
+	turn_right.setScale(icon.scale, icon.scale);
+	turn_right.setColor(sf::Color(icon.colour));
+	turn_right.setPosition(icon.x + offset_x, icon.y + offset_y);
+	_sprites.emplace_back(turn_right);
+
+	auto backward{(*_graphics->icons)["direction"].value()};
+	icon = Component{(*_display->layout)["icon_panel:backward"]};
+	backward.setOrigin(backward.getLocalBounds().width / 2,
+		backward.getLocalBounds().height / 2);
+	backward.rotate(std::stof(icon["rotation"].value()));
+	backward.setScale(icon.scale, icon.scale);
+	backward.setColor(sf::Color(icon.colour));
+	backward.setPosition(icon.x + offset_x, icon.y + offset_y);
+	_sprites.emplace_back(backward);
 }
 
-auto Sorcery::IconPanel::refresh() -> void {
+auto Sorcery::IconPanel::refresh(bool in_camp) -> void {
 
-	_sprites.resize(1);
+	// This only changes the colour and enables/disables them as appropriate
+	Component forward{(*_display->layout)["icon_panel:forward"]};
+	Component turn_left{(*_display->layout)["icon_panel:turn_left"]};
+	Component turn_right{(*_display->layout)["icon_panel:turn_right"]};
+	Component backward{(*_display->layout)["icon_panel:backward"]};
+	Component camp{(*_display->layout)["icon_panel:camp"]};
+
+	if (in_camp) {
+
+	} else {
+	}
 }
 
 auto Sorcery::IconPanel::draw(
