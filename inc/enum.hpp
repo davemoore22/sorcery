@@ -850,7 +850,10 @@ namespace Sorcery {
 				TURN_RIGHT = 3,
 				CAMP = 4,
 				BACKWARDS = 5,
-
+				PARTY = 6,
+				MAGIC = 7,
+				ACHIEVEMENTS = 8,
+				EXAMINE = 9
 			};
 
 		}

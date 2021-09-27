@@ -50,53 +50,73 @@ Sorcery::IconPanel::IconPanel(System *system, Display *display,
 	// Order here is done by the value of the IconPanelButton enum
 	auto forward{(*_graphics->icons)["direction"].value()};
 	Component icon{(*_display->layout)["icon_panel:forward"]};
-	forward.setOrigin(forward.getLocalBounds().width / 2,
-		forward.getLocalBounds().height / 2);
-	forward.rotate(std::stof(icon["rotation"].value()));
-	forward.setScale(icon.scale, icon.scale);
-	forward.setColor(sf::Color(icon.colour));
-	forward.setPosition(icon.x + offset_x, icon.y + offset_y);
+	_set_icon(forward, icon, offset_x, offset_y);
 	_sprites.emplace_back(forward);
 
 	auto turn_left{(*_graphics->icons)["direction"].value()};
 	icon = Component{(*_display->layout)["icon_panel:turn_left"]};
-	turn_left.setOrigin(turn_left.getLocalBounds().width / 2,
-		turn_left.getLocalBounds().height / 2);
-	turn_left.rotate(std::stof(icon["rotation"].value()));
-	turn_left.setScale(icon.scale, icon.scale);
-	turn_left.setColor(sf::Color(icon.colour));
-	turn_left.setPosition(icon.x + offset_x, icon.y + offset_y);
+	_set_icon(turn_left, icon, offset_x, offset_y);
 	_sprites.emplace_back(turn_left);
 
 	auto camp{(*_graphics->icons)["field"].value()};
 	icon = Component{(*_display->layout)["icon_panel:camp"]};
-	camp.setOrigin(
-		camp.getLocalBounds().width / 2, camp.getLocalBounds().height / 2);
-	camp.rotate(std::stof(icon["rotation"].value()));
-	camp.setScale(icon.scale, icon.scale);
-	camp.setColor(sf::Color(icon.colour));
-	camp.setPosition(icon.x + offset_x, icon.y + offset_y);
+	_set_icon(camp, icon, offset_x, offset_y);
 	_sprites.emplace_back(camp);
 
 	auto turn_right{(*_graphics->icons)["direction"].value()};
 	icon = Component{(*_display->layout)["icon_panel:turn_right"]};
-	turn_right.setOrigin(turn_right.getLocalBounds().width / 2,
-		turn_right.getLocalBounds().height / 2);
-	turn_right.rotate(std::stof(icon["rotation"].value()));
-	turn_right.setScale(icon.scale, icon.scale);
-	turn_right.setColor(sf::Color(icon.colour));
-	turn_right.setPosition(icon.x + offset_x, icon.y + offset_y);
+	_set_icon(turn_right, icon, offset_x, offset_y);
 	_sprites.emplace_back(turn_right);
 
 	auto backward{(*_graphics->icons)["direction"].value()};
 	icon = Component{(*_display->layout)["icon_panel:backward"]};
-	backward.setOrigin(backward.getLocalBounds().width / 2,
-		backward.getLocalBounds().height / 2);
-	backward.rotate(std::stof(icon["rotation"].value()));
-	backward.setScale(icon.scale, icon.scale);
-	backward.setColor(sf::Color(icon.colour));
-	backward.setPosition(icon.x + offset_x, icon.y + offset_y);
+	_set_icon(backward, icon, offset_x, offset_y);
 	_sprites.emplace_back(backward);
+
+	auto party{(*_graphics->icons)["human"].value()};
+	icon = Component{(*_display->layout)["icon_panel:party"]};
+	_set_icon(party, icon, offset_x, offset_y);
+	_sprites.emplace_back(party);
+
+	auto magic{(*_graphics->icons)["exp"].value()};
+	icon = Component{(*_display->layout)["icon_panel:magic"]};
+	_set_icon(magic, icon, offset_x, offset_y);
+	_sprites.emplace_back(magic);
+
+	auto achievements{(*_graphics->icons)["marks"].value()};
+	icon = Component{(*_display->layout)["icon_panel:achivements"]};
+	_set_icon(achievements, icon, offset_x, offset_y);
+	_sprites.emplace_back(achievements);
+
+	auto examine{(*_graphics->icons)["disable"].value()};
+	icon = Component{(*_display->layout)["icon_panel:examine"]};
+	_set_icon(examine, icon, offset_x, offset_y);
+	_sprites.emplace_back(examine);
+}
+
+auto Sorcery::IconPanel::_set_icon(
+	sf::Sprite &sprite, Component layout, int offset_x, int offset_y) -> void {
+
+	sprite.setOrigin(
+		sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
+	sprite.rotate(std::stof(layout["rotation"].value()));
+	sprite.setScale(layout.scale, layout.scale);
+	sprite.setColor(sf::Color(layout.colour));
+	const auto comp_offset_x{[&] {
+		if (layout["offset_x"])
+			return std::stoi(layout["offset_x"].value());
+		else
+			return 0;
+	}()};
+	const auto comp_offset_y{[&] {
+		if (layout["offset_y"])
+			return std::stoi(layout["offset_y"].value());
+		else
+			return 0;
+	}()};
+
+	sprite.setPosition(layout.x + offset_x + comp_offset_x,
+		layout.y + offset_y + comp_offset_y);
 }
 
 auto Sorcery::IconPanel::refresh(bool in_camp) -> void {

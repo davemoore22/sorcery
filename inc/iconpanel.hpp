@@ -47,6 +47,8 @@ namespace Sorcery {
 		// Private Methods
 		auto virtual draw(
 			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto _set_icon(sf::Sprite &sprite, Component layout, int offset_x,
+			int offset_y) -> void;
 
 		// Private Members
 		System *_system;
