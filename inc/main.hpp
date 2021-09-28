@@ -145,6 +145,7 @@ namespace Sorcery {
 	using GraphicsTexture = Enums::Graphics::Texture;
 	using GraphicsTextureType = Enums::Graphics::TextureType;
 	using IconLibrary = std::map<std::string, sf::Sprite>;
+	using IconStorage = std::vector<std::pair<std::string, sf::Sprite>>;
 	using Import = Enums::Manage::Import;
 	using InnStage = Enums::Castle::Inn;
 	using Justification = Enums::Window::Justification;

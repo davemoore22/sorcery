@@ -39,9 +39,13 @@ namespace Sorcery {
 		IconPanel() = delete;
 
 		// Public Members
+		std::optional<std::string> selected;
 
 		// Public Methods
 		auto refresh(bool in_camp) -> void;
+		auto set_mouse_selected(Component &component, sf::Vector2f mouse_pos)
+			-> std::optional<std::string>;
+		auto set_selected_background() -> void;
 
 	  private:
 		// Private Methods
@@ -63,7 +67,8 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _frame;
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Sprite> _sprites;
-		std::vector<std::pair<std::string, sf::Sprite>> _icons;
+		IconStorage _icons;
 		bool _is_left;
+		sf::RectangleShape _selected_bg;
 	};
 } // namespace Sorcery

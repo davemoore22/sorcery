@@ -127,6 +127,11 @@ auto Sorcery::Engine::start() -> int {
 
 			if (_show_confirm_exit) {
 
+				if (_left_icon_panel->selected)
+					_left_icon_panel->selected = std::nullopt;
+				if (_right_icon_panel->selected)
+					_right_icon_panel->selected = std::nullopt;
+
 				auto dialog_input{_confirm_exit->handle_input(event)};
 				if (dialog_input) {
 					if (dialog_input.value() == WindowDialogButton::CLOSE) {
@@ -143,6 +148,11 @@ auto Sorcery::Engine::start() -> int {
 					}
 				}
 			} else if (_in_camp) {
+
+				if (_left_icon_panel->selected)
+					_left_icon_panel->selected = std::nullopt;
+				if (_right_icon_panel->selected)
+					_right_icon_panel->selected = std::nullopt;
 
 				if (_system->input->check(WindowInput::CANCEL, event))
 					_in_camp = false;
@@ -232,6 +242,32 @@ auto Sorcery::Engine::start() -> int {
 
 					if (_system->input->check(WindowInput::BACK, event))
 						_in_camp = true;
+
+					if (_system->input->check(WindowInput::MOVE, event)) {
+						sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(
+							sf::Mouse::getPosition(*_window))};
+						std::optional<std::string> left_selected{
+							_left_icon_panel->set_mouse_selected(
+								(*_display->layout)
+									["engine_base_ui:left_icon_panel"],
+								mouse_pos)};
+						if (left_selected) {
+							_left_icon_panel->selected = left_selected.value();
+							if (_right_icon_panel->selected)
+								_right_icon_panel->selected = std::nullopt;
+						}
+						std::optional<std::string> right_selected{
+							_right_icon_panel->set_mouse_selected(
+								(*_display->layout)
+									["engine_base_ui:right_icon_panel"],
+								mouse_pos)};
+						if (right_selected) {
+							_right_icon_panel->selected =
+								right_selected.value();
+							if (_left_icon_panel->selected)
+								_left_icon_panel->selected = std::nullopt;
+						}
+					};
 				}
 			}
 
@@ -267,6 +303,10 @@ auto Sorcery::Engine::_draw() -> void {
 	_display->display("engine_base_ui");
 	_window->draw(*_status_bar);
 	_window->draw(*_automap);
+
+	_left_icon_panel->set_selected_background();
+	_right_icon_panel->set_selected_background();
+
 	_window->draw(*_left_icon_panel);
 	_window->draw(*_right_icon_panel);
 

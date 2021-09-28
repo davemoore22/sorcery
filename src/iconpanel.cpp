@@ -113,6 +113,46 @@ auto Sorcery::IconPanel::refresh(bool in_camp) -> void {
 	}
 }
 
+auto Sorcery::IconPanel::set_mouse_selected(Component &component,
+	sf::Vector2f mouse_pos) -> std::optional<std::string> {
+
+	// Now look through the global positions of each icon and see if it matches
+	// the mouse position (remembering that we need to add in the position of
+	// the this keyboard object)
+	for (auto &[key, sprite] : _icons) {
+		sf::Rect sprite_area{sprite.getGlobalBounds()};
+		sprite_area.left += component.x;
+		sprite_area.top += component.y;
+		if (sprite_area.contains(mouse_pos))
+			return key;
+	}
+
+	return std::nullopt;
+}
+
+auto Sorcery::IconPanel::set_selected_background() -> void {
+
+	if (selected) {
+
+		// Find the text that is highlighted
+		IconStorage::const_iterator it{
+			std::find_if(_icons.begin(), _icons.end(), [&](auto value) {
+				return value.first == selected.value();
+			})};
+		if (it != _icons.end()) {
+			auto &sprite{it->second};
+
+			_selected_bg =
+				sf::RectangleShape(sf::Vector2(sprite.getGlobalBounds().width,
+					sprite.getGlobalBounds().height));
+			_selected_bg.setFillColor(_graphics->animation->selected_colour);
+			_selected_bg.setPosition(
+				sprite.getPosition().x - (sprite.getGlobalBounds().width / 2),
+				sprite.getPosition().y - (sprite.getGlobalBounds().height / 2));
+		}
+	}
+}
+
 auto Sorcery::IconPanel::draw(
 	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
@@ -121,6 +161,9 @@ auto Sorcery::IconPanel::draw(
 	// Draw the standard components
 	for (const auto &sprite : _sprites)
 		target.draw(sprite, states);
+
+	if (selected)
+		target.draw(_selected_bg, states);
 
 	for (const auto &[key, icon] : _icons)
 		target.draw(icon, states);
