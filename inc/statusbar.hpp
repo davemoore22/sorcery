@@ -50,9 +50,13 @@ namespace Sorcery {
 		unsigned int width;
 		unsigned int height;
 		sf::Sprite sprite;
+		std::optional<unsigned int> selected;
 
 		// Public Methods
 		auto refresh() -> void;
+		auto set_mouse_selected(Component &component, sf::Vector2f mouse_pos)
+			-> std::optional<unsigned int>;
+		auto set_selected_background() -> void;
 
 	  private:
 		// Private Methods
@@ -73,5 +77,6 @@ namespace Sorcery {
 		sf::Texture _texture;
 		std::map<std::string, sf::Text> _texts;
 		std::vector<std::unique_ptr<CharacterSummary>> _summaries;
+		sf::RectangleShape _selected_bg;
 	};
 } // namespace Sorcery

@@ -71,6 +71,7 @@ Sorcery::Engine::Engine(
 
 	_update_automap = false;
 	_update_icon_panels = false;
+	_update_status_bar = false;
 }
 
 // Standard Destructor
@@ -244,6 +245,8 @@ auto Sorcery::Engine::start() -> int {
 						_in_camp = true;
 
 					if (_system->input->check(WindowInput::MOVE, event)) {
+
+						// Check for Mouse Overs
 						sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(
 							sf::Mouse::getPosition(*_window))};
 						std::optional<std::string> left_selected{
@@ -255,7 +258,10 @@ auto Sorcery::Engine::start() -> int {
 							_left_icon_panel->selected = left_selected.value();
 							if (_right_icon_panel->selected)
 								_right_icon_panel->selected = std::nullopt;
+							if (_status_bar->selected)
+								_status_bar->selected = std::nullopt;
 						}
+
 						std::optional<std::string> right_selected{
 							_right_icon_panel->set_mouse_selected(
 								(*_display->layout)
@@ -264,6 +270,21 @@ auto Sorcery::Engine::start() -> int {
 						if (right_selected) {
 							_right_icon_panel->selected =
 								right_selected.value();
+							if (_left_icon_panel->selected)
+								_left_icon_panel->selected = std::nullopt;
+							if (_status_bar->selected)
+								_status_bar->selected = std::nullopt;
+						}
+
+						std::optional<unsigned int> status_bar_selected{
+							_status_bar->set_mouse_selected(
+								(*_display
+										->layout)["engine_base_ui:status_bar"],
+								mouse_pos)};
+						if (status_bar_selected) {
+							_status_bar->selected = status_bar_selected.value();
+							if (_right_icon_panel->selected)
+								_right_icon_panel->selected = std::nullopt;
 							if (_left_icon_panel->selected)
 								_left_icon_panel->selected = std::nullopt;
 						}
@@ -281,6 +302,10 @@ auto Sorcery::Engine::start() -> int {
 				_left_icon_panel->refresh(_in_camp);
 				_right_icon_panel->refresh(_in_camp);
 				_update_icon_panels = false;
+			}
+			if (_update_status_bar) {
+				_status_bar->refresh();
+				_update_status_bar = false;
 			}
 			_window->clear();
 			_draw();
@@ -301,7 +326,10 @@ auto Sorcery::Engine::_draw() -> void {
 
 	// Custom Components
 	_display->display("engine_base_ui");
+
+	_status_bar->set_selected_background();
 	_window->draw(*_status_bar);
+
 	_window->draw(*_automap);
 
 	_left_icon_panel->set_selected_background();

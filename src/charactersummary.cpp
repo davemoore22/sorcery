@@ -54,6 +54,17 @@ Sorcery::CharacterSummary::CharacterSummary(System *system, Display *display,
 	valid = true;
 }
 
+auto Sorcery::CharacterSummary::get_global_bounds() const -> sf::FloatRect {
+
+	// Works since we only have a text for now displayed
+	return _texts.at(0).getGlobalBounds();
+}
+
+auto Sorcery::CharacterSummary::get_position() const -> unsigned int {
+
+	return _num;
+}
+
 auto Sorcery::CharacterSummary::draw(
 	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 

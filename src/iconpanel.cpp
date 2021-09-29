@@ -117,8 +117,7 @@ auto Sorcery::IconPanel::set_mouse_selected(Component &component,
 	sf::Vector2f mouse_pos) -> std::optional<std::string> {
 
 	// Now look through the global positions of each icon and see if it matches
-	// the mouse position (remembering that we need to add in the position of
-	// the this keyboard object)
+	// the mouse position
 	for (auto &[key, sprite] : _icons) {
 		sf::Rect sprite_area{sprite.getGlobalBounds()};
 		sprite_area.left += component.x;

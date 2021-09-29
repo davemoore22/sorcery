@@ -108,11 +108,53 @@ auto Sorcery::StatusBar::refresh() -> void {
 	}
 }
 
+auto Sorcery::StatusBar::set_selected_background() -> void {
+
+	if (selected) {
+
+		// Find the text that is highlighted
+		auto it{std::find_if(
+			_summaries.begin(), _summaries.end(), [&](auto &summary) {
+				return summary->get_position() == selected.value();
+			})};
+		if (it != _summaries.end()) {
+			auto &summary{*it};
+
+			_selected_bg = sf::RectangleShape(
+				sf::Vector2f(summary->get_global_bounds().width,
+					summary->get_global_bounds().height));
+			_selected_bg.setFillColor(_graphics->animation->selected_colour);
+			_selected_bg.setPosition(
+				sprite.getPosition().x - (sprite.getGlobalBounds().width / 2),
+				sprite.getPosition().y - (sprite.getGlobalBounds().height / 2));
+		}
+	}
+}
+
+auto Sorcery::StatusBar::set_mouse_selected(Component &component,
+	sf::Vector2f mouse_pos) -> std::optional<unsigned int> {
+
+	// Now look through the global positions of each character summary and see
+	// if it matches the mouse position
+	for (auto &summary : _summaries) {
+		sf::Rect area{summary->get_global_bounds()};
+		area.left += component.x;
+		area.top += component.y;
+		if (area.contains(mouse_pos))
+			return summary->get_position();
+	}
+
+	return std::nullopt;
+}
+
 auto Sorcery::StatusBar::draw(
 	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 	target.draw(sprite, states);
+
+	if (selected)
+		target.draw(_selected_bg, states);
 
 	for (auto &[unique_key, text] : _texts)
 		target.draw(text, states);

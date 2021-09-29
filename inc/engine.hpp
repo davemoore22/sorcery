@@ -82,5 +82,6 @@ namespace Sorcery {
 		bool _show_confirm_exit;
 		bool _update_automap;
 		bool _update_icon_panels;
+		bool _update_status_bar;
 	};
 } // namespace Sorcery

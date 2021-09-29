@@ -44,6 +44,10 @@ namespace Sorcery {
 		// Public Members
 		bool valid;
 
+		// Public Methods
+		auto get_global_bounds() const -> sf::FloatRect;
+		auto get_position() const -> unsigned int;
+
 	  private:
 		// Private Methods
 		auto virtual draw(
