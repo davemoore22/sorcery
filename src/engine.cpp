@@ -106,6 +106,7 @@ auto Sorcery::Engine::start() -> int {
 
 	// Start in camp as is tradition
 	_in_camp = true;
+	_in_character = false;
 	_show_confirm_exit = false;
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> camp_option{
@@ -150,6 +151,16 @@ auto Sorcery::Engine::start() -> int {
 						_show_confirm_exit = false;
 					}
 				}
+			} else if (_in_character) {
+
+				// get character and display it
+
+				//_game->save_game();
+				//_status_bar->refresh();
+				_in_character = false;
+				//_display->generate("engine_base_ui");
+				_display->set_input_mode(WindowInputMode::IN_GAME);
+
 			} else if (_in_camp) {
 
 				if (_left_icon_panel->selected)
@@ -240,15 +251,19 @@ auto Sorcery::Engine::start() -> int {
 					if (_system->input->check(WindowInput::SPACE, event)) {
 						_game->state->world->create();
 						_update_automap = true;
-					}
-
-					if (_system->input->check(WindowInput::CANCEL, event))
+					} else if (_system->input->check(
+								   WindowInput::CANCEL, event))
 						_in_camp = true;
-
-					if (_system->input->check(WindowInput::BACK, event))
+					else if (_system->input->check(WindowInput::BACK, event))
 						_in_camp = true;
-
-					if (_system->input->check(WindowInput::MOVE, event)) {
+					else if (_system->input->check(
+								 WindowInput::CONFIRM, event)) {
+						if (_status_bar->selected) {
+							_in_character = true;
+							continue;
+						}
+					} else if (_system->input->check(
+								   WindowInput::MOVE, event)) {
 
 						// Check for Mouse Overs
 						sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(

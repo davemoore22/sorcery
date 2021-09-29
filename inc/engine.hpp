@@ -79,6 +79,7 @@ namespace Sorcery {
 		std::unique_ptr<IconPanel> _left_icon_panel;
 		std::unique_ptr<IconPanel> _right_icon_panel;
 		bool _in_camp;
+		bool _in_character;
 		bool _show_confirm_exit;
 		bool _update_automap;
 		bool _update_icon_panels;
