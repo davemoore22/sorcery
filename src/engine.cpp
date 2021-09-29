@@ -132,6 +132,8 @@ auto Sorcery::Engine::start() -> int {
 					_left_icon_panel->selected = std::nullopt;
 				if (_right_icon_panel->selected)
 					_right_icon_panel->selected = std::nullopt;
+				if (_status_bar->selected)
+					_status_bar->selected = std::nullopt;
 
 				auto dialog_input{_confirm_exit->handle_input(event)};
 				if (dialog_input) {
@@ -154,6 +156,8 @@ auto Sorcery::Engine::start() -> int {
 					_left_icon_panel->selected = std::nullopt;
 				if (_right_icon_panel->selected)
 					_right_icon_panel->selected = std::nullopt;
+				if (_status_bar->selected)
+					_status_bar->selected = std::nullopt;
 
 				if (_system->input->check(WindowInput::CANCEL, event))
 					_in_camp = false;
@@ -327,13 +331,16 @@ auto Sorcery::Engine::_draw() -> void {
 	// Custom Components
 	_display->display("engine_base_ui");
 
-	_status_bar->set_selected_background();
+	if (_status_bar->selected)
+		_status_bar->set_selected_background();
 	_window->draw(*_status_bar);
 
 	_window->draw(*_automap);
 
-	_left_icon_panel->set_selected_background();
-	_right_icon_panel->set_selected_background();
+	if (_left_icon_panel->selected)
+		_left_icon_panel->set_selected_background();
+	if (_right_icon_panel->selected)
+		_right_icon_panel->set_selected_background();
 
 	_window->draw(*_left_icon_panel);
 	_window->draw(*_right_icon_panel);

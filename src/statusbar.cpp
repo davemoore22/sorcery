@@ -124,9 +124,8 @@ auto Sorcery::StatusBar::set_selected_background() -> void {
 				sf::Vector2f(summary->get_global_bounds().width,
 					summary->get_global_bounds().height));
 			_selected_bg.setFillColor(_graphics->animation->selected_colour);
-			_selected_bg.setPosition(
-				sprite.getPosition().x - (sprite.getGlobalBounds().width / 2),
-				sprite.getPosition().y - (sprite.getGlobalBounds().height / 2));
+			_selected_bg.setPosition(summary->get_global_bounds().left,
+				summary->get_global_bounds().top + 8);
 		}
 	}
 }
