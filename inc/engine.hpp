@@ -84,5 +84,7 @@ namespace Sorcery {
 		bool _update_automap;
 		bool _update_icon_panels;
 		bool _update_status_bar;
+		std::optional<Character *> _cur_char;
+		std::unique_ptr<Frame> _cur_char_frame;
 	};
 } // namespace Sorcery

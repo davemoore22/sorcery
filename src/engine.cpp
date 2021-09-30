@@ -104,6 +104,15 @@ auto Sorcery::Engine::start() -> int {
 		(*_display->layout)["engine_base_ui:right_icon_panel"]};
 	_right_icon_panel->setPosition(r_icon_panel_c.x, r_icon_panel_c.y);
 
+	const Component cc_fc{
+		(*_display->layout)["engine_base_ui:character_frame"]};
+	_cur_char_frame =
+		std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL,
+			cc_fc.w, cc_fc.h, cc_fc.colour, cc_fc.background, cc_fc.alpha);
+	_cur_char_frame->setPosition(
+		_display->window->get_x(_cur_char_frame->sprite, cc_fc.x),
+		_display->window->get_y(_cur_char_frame->sprite, cc_fc.y));
+
 	// Start in camp as is tradition
 	_in_camp = true;
 	_in_character = false;
@@ -153,14 +162,47 @@ auto Sorcery::Engine::start() -> int {
 				}
 			} else if (_in_character) {
 
-				// get character and display it
+				if (_system->input->check(WindowInput::LEFT, event))
+					_cur_char.value()->left_view();
+				else if (_system->input->check(WindowInput::RIGHT, event))
+					_cur_char.value()->right_view();
+				else if (_system->input->check(WindowInput::CANCEL, event)) {
+					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					_cur_char = std::nullopt;
+				} else if (_system->input->check(WindowInput::BACK, event)) {
+					_display->set_input_mode(WindowInputMode::IN_GAME);
+					_cur_char = std::nullopt;
+					_game->save_game();
+					_status_bar->refresh();
+					_in_character = false;
+					_display->generate("engine_base_ui");
+				} else if (_system->input->check(WindowInput::CONFIRM, event)) {
+					_cur_char.value()->right_view();
+				} else if (_system->input->check(WindowInput::UP, event)) {
+					if (_cur_char.value()->get_view() ==
+						CharacterView::MAGE_SPELLS)
+						_cur_char.value()->dec_hl_spell(SpellType::MAGE);
+					else if (_cur_char.value()->get_view() ==
+							 CharacterView::PRIEST_SPELLS)
+						_cur_char.value()->dec_hl_spell(SpellType::PRIEST);
 
-				//_game->save_game();
-				//_status_bar->refresh();
-				_in_character = false;
-				//_display->generate("engine_base_ui");
-				_display->set_input_mode(WindowInputMode::IN_GAME);
-
+				} else if (_system->input->check(WindowInput::DOWN, event)) {
+					if (_cur_char.value()->get_view() ==
+						CharacterView::MAGE_SPELLS)
+						_cur_char.value()->inc_hl_spell(SpellType::MAGE);
+					else if (_cur_char.value()->get_view() ==
+							 CharacterView::PRIEST_SPELLS)
+						_cur_char.value()->inc_hl_spell(SpellType::PRIEST);
+				} else if (_system->input->check(WindowInput::MOVE, event)) {
+					if (_cur_char.value()->check_for_mouse_move(sf::Vector2f(
+							static_cast<float>(
+								sf::Mouse::getPosition(*_window).x),
+							static_cast<float>(
+								sf::Mouse::getPosition(*_window).y)))) {
+						_cur_char.value()->set_view(
+							_cur_char.value()->get_view());
+					}
+				}
 			} else if (_in_camp) {
 
 				if (_left_icon_panel->selected)
@@ -260,7 +302,15 @@ auto Sorcery::Engine::start() -> int {
 								 WindowInput::CONFIRM, event)) {
 						if (_status_bar->selected) {
 							_in_character = true;
-							continue;
+							const auto character_chosen{
+								(_status_bar->selected.value())};
+							_cur_char = &_game->characters.at(character_chosen);
+							if (_cur_char) {
+								_display->set_input_mode(
+									WindowInputMode::BROWSE_CHARACTER);
+								_cur_char.value()->set_view(
+									CharacterView::SUMMARY);
+							}
 						}
 					} else if (_system->input->check(
 								   WindowInput::MOVE, event)) {
@@ -369,6 +419,19 @@ auto Sorcery::Engine::_draw() -> void {
 			(*_display->layout)["engine_base_ui:camp_menu"].y);
 		_camp_menu->setPosition(menu_pos);
 		_window->draw(*_camp_menu);
+	} else if (_display->get_input_mode() ==
+			   WindowInputMode::BROWSE_CHARACTER) {
+		if (_cur_char) {
+
+			// If we have a character
+			_window->draw(*_cur_char_frame);
+
+			_cur_char.value()->setPosition(
+				(*_display->layout)["engine_base_ui:character"].x,
+				(*_display->layout)["engine_base_ui:character"].y);
+			_cur_char.value()->update();
+			_window->draw(*_cur_char.value());
+		}
 	}
 
 	if (_show_confirm_exit) {
