@@ -62,6 +62,7 @@ auto Sorcery::CharacterSummary::get_global_bounds() const -> sf::FloatRect {
 
 auto Sorcery::CharacterSummary::get_position() const -> unsigned int {
 
+	// Position is 1-indexed, not 0-indexed
 	return _num;
 }
 

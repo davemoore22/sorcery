@@ -94,6 +94,7 @@ auto Sorcery::StatusBar::refresh() -> void {
 	auto summary_offset_x{std::stoi(_layout["summary_offset_x"].value())};
 	auto summary_offset_y{std::stoi(_layout["summary_offset_y"].value())};
 
+	// Remember here position is 1-indexed, not 0-index
 	_summaries.clear();
 	auto count{0};
 	auto party{_game->state->get_party_characters()};

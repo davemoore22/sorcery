@@ -301,15 +301,21 @@ auto Sorcery::Engine::start() -> int {
 					else if (_system->input->check(
 								 WindowInput::CONFIRM, event)) {
 						if (_status_bar->selected) {
-							_in_character = true;
+
+							// Remember here status-bar selected is 1-indexed,
+							// not 0-index so we need to take away 1
 							const auto character_chosen{
 								(_status_bar->selected.value())};
-							_cur_char = &_game->characters.at(character_chosen);
+							_cur_char = &_game->characters.at(
+								_game->state->get_party_characters().at(
+									character_chosen - 1));
 							if (_cur_char) {
 								_display->set_input_mode(
 									WindowInputMode::BROWSE_CHARACTER);
 								_cur_char.value()->set_view(
 									CharacterView::SUMMARY);
+								_in_character = true;
+								continue;
 							}
 						}
 					} else if (_system->input->check(
