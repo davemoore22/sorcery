@@ -36,6 +36,7 @@ INCLUDE_DIRS := \
 	inc/backwardcpp \
 	inc/cereal \
 	inc/sfemovie \
+	inc/selbaward \
 	/usr/local/include
 
 BUILD_FLAGS := \

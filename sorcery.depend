@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1632857691 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1633093918 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -31,6 +31,8 @@
 	"magicenum/magic_enum.hpp"
 	"sfeMovie/Movie.hpp"
 	"sqlitemoderncpp/sqlite_modern_cpp.h"
+	"selbaward/Common.hpp"
+	"selbaward/Sprite3d.hpp"
 	<algorithm>
 	<any>
 	<array>
@@ -326,7 +328,7 @@
 1630415029 source:/home/dave/Development/wizardry/sorcery-sfml/src/display.cpp
 	"display.hpp"
 
-1633087708 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine.cpp
+1633088031 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine.cpp
 	"engine.hpp"
 
 1633024142 /home/dave/Development/wizardry/sorcery-sfml/inc/engine.hpp
@@ -617,7 +619,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1632941455 source:/home/dave/Development/wizardry/sorcery-sfml/src/statusbar.cpp
+1633087977 source:/home/dave/Development/wizardry/sorcery-sfml/src/statusbar.cpp
 	"statusbar.hpp"
 
 1628106617 /home/dave/Development/wizardry/sorcery-sfml/inc/keyboard.hpp
@@ -1319,7 +1321,7 @@
 1631549201 source:/home/dave/Development/wizardry/sorcery-sfml/src/characterpanel.cpp
 	"characterpanel.hpp"
 
-1632924597 source:/home/dave/Development/wizardry/sorcery-sfml/src/charactersummary.cpp
+1633088044 source:/home/dave/Development/wizardry/sorcery-sfml/src/charactersummary.cpp
 	"charactersummary.hpp"
 
 1630089040 /home/dave/Development/wizardry/sorcery-sfml/inc/inspect.hpp
@@ -1405,4 +1407,24 @@
 
 1632925281 source:/home/dave/Development/wizardry/sorcery-sfml/src/iconpanel.cpp
 	"iconpanel.hpp"
+
+1602023279 /home/dave/Development/wizardry/sorcery-sfml/inc/selbaward/Common.hpp
+	<exception>
+	<string>
+	<vector>
+	<SFML/Graphics/Drawable.hpp>
+	<SFML/Graphics/Transformable.hpp>
+	<SFML/Graphics/Vertex.hpp>
+	<SFML/Graphics/Color.hpp>
+	<SFML/Graphics/RenderTarget.hpp>
+	<SFML/Graphics/RenderStates.hpp>
+
+1602023279 /home/dave/Development/wizardry/sorcery-sfml/inc/selbaward/Sprite3d.hpp
+	"Common.hpp"
+	<SFML/Graphics/PrimitiveType.hpp>
+	<SFML/System/Vector2.hpp>
+	<SFML/System/Vector3.hpp>
+	<SFML/Graphics/Texture.hpp>
+	<SFML/Graphics/Rect.hpp>
+	<SFML/Graphics/Sprite.hpp>
 

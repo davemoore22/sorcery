@@ -41,6 +41,7 @@ subdirectories in the inc folder):
 - Backward-cpp https://github.com/bombela/backward-cpp
 - cereal https://github.com/USCiLab/cereal
 - tgui-nanogui-theme https://gitlab.com/rubenwardy/tgui-nanogui-theme
+- SelbaWard/Sprite3d https://github.com/Hapaxia/SelbaWard/
 
 Both make and Code::Blocks are supported.
 
