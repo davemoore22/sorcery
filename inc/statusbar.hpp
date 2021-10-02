@@ -51,10 +51,11 @@ namespace Sorcery {
 		unsigned int height;
 		sf::Sprite sprite;
 		std::optional<unsigned int> selected;
+		std::vector<sf::FloatRect> bounds;
 
 		// Public Methods
 		auto refresh() -> void;
-		auto set_mouse_selected(Component &component, sf::Vector2f mouse_pos)
+		auto set_mouse_selected(sf::Vector2f mouse_pos)
 			-> std::optional<unsigned int>;
 		auto set_selected_background() -> void;
 
@@ -76,7 +77,7 @@ namespace Sorcery {
 		sf::Sprite _fsprite;
 		sf::Texture _texture;
 		std::map<std::string, sf::Text> _texts;
-		std::vector<std::unique_ptr<CharacterSummary>> _summaries;
+		std::vector<std::shared_ptr<CharacterSummary>> _summaries;
 		sf::RectangleShape _selected_bg;
 	};
 } // namespace Sorcery

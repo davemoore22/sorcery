@@ -47,6 +47,8 @@ namespace Sorcery {
 		// Public Methods
 		auto get_global_bounds() const -> sf::FloatRect;
 		auto get_position() const -> unsigned int;
+		auto get_local_bounds() const -> sf::FloatRect;
+		auto set_local_bounds(int x, int y) -> void;
 
 	  private:
 		// Private Methods
@@ -67,5 +69,7 @@ namespace Sorcery {
 		unsigned int _height;
 		sf::Sprite _portrait;
 		std::vector<sf::RectangleShape> _bars;
+		int _x;
+		int _y;
 	};
 } // namespace Sorcery

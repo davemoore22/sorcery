@@ -352,10 +352,7 @@ auto Sorcery::Engine::start() -> int {
 						}
 
 						std::optional<unsigned int> status_bar_selected{
-							_status_bar->set_mouse_selected(
-								(*_display
-										->layout)["engine_base_ui:status_bar"],
-								mouse_pos)};
+							_status_bar->set_mouse_selected(mouse_pos)};
 						if (status_bar_selected) {
 							_status_bar->selected = status_bar_selected.value();
 							if (_right_icon_panel->selected)

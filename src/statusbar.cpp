@@ -31,6 +31,7 @@ Sorcery::StatusBar::StatusBar(System *system, Display *display,
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	_texts.clear();
+	bounds.clear();
 
 	// Get any Layout Information
 	if (layout)
@@ -94,17 +95,22 @@ auto Sorcery::StatusBar::refresh() -> void {
 	auto summary_offset_x{std::stoi(_layout["summary_offset_x"].value())};
 	auto summary_offset_y{std::stoi(_layout["summary_offset_y"].value())};
 
+	Component text{(*_display->layout)["character_row:text"]};
+
 	// Remember here position is 1-indexed, not 0-index
 	_summaries.clear();
+	bounds.clear();
 	auto count{0};
 	auto party{_game->state->get_party_characters()};
 	for (auto _id : party) {
 		auto character{_game->characters[_id]};
-		auto summary = std::make_unique<CharacterSummary>(
-			_system, _display, _graphics, &character, count + 1);
+		auto summary{std::make_shared<CharacterSummary>(
+			_system, _display, _graphics, &character, count + 1)};
 		summary->setPosition(x + summary_offset_x, y);
+		summary->set_local_bounds(x + summary_offset_x, y + 12);
 		y += summary_offset_y;
-		_summaries.push_back(std::move(summary));
+		bounds.emplace_back(summary->get_local_bounds());
+		_summaries.emplace_back(std::move(summary));
 		++count;
 	}
 }
@@ -113,7 +119,7 @@ auto Sorcery::StatusBar::set_selected_background() -> void {
 
 	if (selected) {
 
-		// Find the text that is highlighted
+		// Find the text that is highlighted (note we are 1-indexed here)
 		auto it{std::find_if(
 			_summaries.begin(), _summaries.end(), [&](auto &summary) {
 				return summary->get_position() == selected.value();
@@ -125,31 +131,34 @@ auto Sorcery::StatusBar::set_selected_background() -> void {
 				sf::Vector2f(summary->get_global_bounds().width,
 					summary->get_global_bounds().height));
 			_selected_bg.setFillColor(_graphics->animation->selected_colour);
-			_selected_bg.setPosition(summary->get_global_bounds().left,
-				summary->get_global_bounds().top + 8);
+
+			// Bounds is 0-indexed
+			_selected_bg.setPosition(bounds.at(selected.value() - 1).left,
+				bounds.at(selected.value() - 1).top);
 		}
 	}
 }
 
-auto Sorcery::StatusBar::set_mouse_selected(Component &component,
-	sf::Vector2f mouse_pos) -> std::optional<unsigned int> {
+auto Sorcery::StatusBar::set_mouse_selected(sf::Vector2f mouse_pos)
+	-> std::optional<unsigned int> {
+	if (bounds.size() > 0) {
 
-	// Now look through the global positions of each character summary and see
-	// if it matches the mouse position
-	for (auto &summary : _summaries) {
-		sf::Rect area{summary->get_global_bounds()};
-		area.left += component.x;
-		area.top += component.y;
-		if (area.contains(mouse_pos))
-			return summary->get_position();
-	}
-
-	return std::nullopt;
+		const sf::Vector2f global_pos{this->getPosition()};
+		mouse_pos -= global_pos;
+		auto it{std::find_if(
+			bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) {
+				return item.contains(mouse_pos);
+			})};
+		if (it != bounds.end())
+			return std::distance(bounds.begin(), it) + 1;
+		else
+			return std::nullopt;
+	} else
+		return std::nullopt;
 }
 
 auto Sorcery::StatusBar::draw(
 	sf::RenderTarget &target, sf::RenderStates states) const -> void {
-
 	states.transform *= getTransform();
 	target.draw(sprite, states);
 

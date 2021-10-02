@@ -4694,8 +4694,8 @@
 		"component": [
 			{
 				"name": "text",
-				"x": "1",
-				"y": "1",
+				"x": "0",
+				"y": "0",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -4706,7 +4706,7 @@
 				"drawmode": "manual",
 				"data": [
 					{
-						"offset_x": "8",
+						"offset_x": "0",
 						"offset_y": "0"
 					}
 				]
@@ -8766,8 +8766,8 @@
 				{
 					"offset_x": "0",
 					"offset_y": "0",
-					"summary_x": "6",
-					"summary_y": "8",
+					"summary_x": "38",
+					"summary_y": "28",
 					"summary_offset_x": "0",
 					"summary_offset_y": "28",
 					"adjustment_w": "-16"

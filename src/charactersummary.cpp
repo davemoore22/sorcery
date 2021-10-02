@@ -50,8 +50,23 @@ Sorcery::CharacterSummary::CharacterSummary(System *system, Display *display,
 	name_text.setString(character->get_sb_text(_num));
 	_display->window->set_pos(&text, &name_text);
 	_texts.push_back(name_text);
+	_width = name_text.getLocalBounds().width;
+	_height = name_text.getLocalBounds().height;
+	_x = name_text.getLocalBounds().top;
+	_y = name_text.getLocalBounds().left;
 
 	valid = true;
+}
+
+auto Sorcery::CharacterSummary::get_local_bounds() const -> sf::FloatRect {
+
+	return sf::FloatRect(_x, _y, _width, _height);
+}
+
+auto Sorcery::CharacterSummary::set_local_bounds(int x, int y) -> void {
+
+	_x = x;
+	_y = y;
 }
 
 auto Sorcery::CharacterSummary::get_global_bounds() const -> sf::FloatRect {
