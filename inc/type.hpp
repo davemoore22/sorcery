@@ -290,5 +290,19 @@ namespace Sorcery {
 		}
 	};
 
+	struct ViewNode {
+
+		int id;
+		int x;
+		int y;
+		int z;
+		bool flipped;
+		Enums::View::Cell::Layer layer;
+		Enums::View::Cell::Type type;
+		unsigned int dest_width;
+		unsigned int dest_x;
+		unsigned int dest_y;
+	};
+
 	struct SpellDetails {};
 } // namespace Sorcery

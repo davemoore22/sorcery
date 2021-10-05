@@ -193,4 +193,6 @@ namespace Sorcery {
 	using WindowInputOption = Enums::Window::Option;
 	using WindowFrameType = Enums::Window::FrameType;
 	using WindowFrameParts = Enums::Window::FrameParts;
+	using ViewNodeLayer = Enums::View::Cell::Layer;
+	using ViewNodeType = Enums::View::Cell::Type;
 } // namespace Sorcery

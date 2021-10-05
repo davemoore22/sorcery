@@ -794,6 +794,31 @@ namespace Sorcery {
 
 		} // namespace Map
 
+		namespace View {
+
+			namespace Cell {
+
+				enum class Layer {
+
+					NONE = -1,
+					FLOOR = 0,
+					CEILING = 1,
+					WALLS = 2,
+					OBJECT = 3,
+					DECAL = 4
+				};
+
+				enum class Type {
+
+					NONE = -1,
+					FLOOR = 0,
+					CEILING = 1,
+					FRONT = 2,
+					SIDE = 3
+				};
+			} // namespace Cell
+		}	   // namespace View
+
 		namespace Tile {
 
 			enum class Wall {
