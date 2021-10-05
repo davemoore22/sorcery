@@ -40,11 +40,12 @@ namespace Sorcery {
 		auto get(int x, int y) -> void;
 
 		// Operator Overloading
-		auto operator[](std::pair<int, int>) -> ViewNode &;
+		auto operator[](std::tuple<int, int, int>) -> ViewNode &;
+		auto operator[](int z) -> std::vector<ViewNode *>;
 
 	  private:
 		// Private Members
-		std::map<std::pair<int, int>, ViewNode> _view_nodes;
+		std::map<std::tuple<int, int, int>, ViewNode> _view_nodes;
 		bool _loaded;
 		std::filesystem::path _filename;
 
