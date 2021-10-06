@@ -40,7 +40,7 @@ Sorcery::View::View(const std::filesystem::path filename) {
 }
 
 // Overload [] Operator
-auto Sorcery::View::operator[](std::tuple<int, int, int>) -> ViewNode & {
+auto Sorcery::View::operator[](Point3) -> ViewNode & {
 	try {
 	} catch (std::exception &e) {
 		Error error{
@@ -61,10 +61,7 @@ auto Sorcery::View::operator[](int z) -> std::vector<ViewNode *> {
 
 auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 
-	/*
-	_components.clear();
-
-	// Attempt to load Layout File
+	_nodes.clear();
 	if (std::ifstream file{filename.string(), std::ifstream::binary};
 		file.good()) {
 
@@ -75,285 +72,26 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 		Json::StreamWriterBuilder builder{};
 		builder.settings_["indentation"] = "";
 		if (Json::Value layout; reader.parse(file, layout)) {
-			Json::Value &screens{layout["screen"]};
+			Json::Value &layers{layout["layers"]};
 
-			// Iterate through layout file one screen at a time
-			for (auto i = 0u; i < screens.size(); i++) {
+			// Iterate through view file one layer at a time
+			for (auto i = 0u; i < layers.size(); i++) {
 
-				// Each screen will always have a name and one or more
-				// components
-				auto screen_name{screens[i]["name"].asString()};
-				Json::Value &components{screens[i]["component"]};
+				auto layer_type{layers[i]["type"].asString()};
+				Json::Value &tiles{layers[i]["tiles"]};
 
 				// For every component on that screen read in their
 				// properties
-				for (auto j = 0u; j < components.size(); j++) {
+				for (auto j = 0u; j < tiles.size(); j++) {
 
-					// Always Present
-					auto name{components[j]["name"].asString()};
+					// Type
+					// Flipped
+					// Tile
+					// Screen
+					// coords/fullwidth
+					std::cout << layer_type << " " << tiles << std::endl;
 
-					// Not always present
-					auto x{[&] {
-						if (components[j].isMember("x")) {
-							if (components[j]["x"].asString() == "centre")
-								return -1;
-							else if (components[j]["x"].asString().length() > 0)
-								return (
-									std::stoi(components[j]["x"].asString()) *
-									static_cast<int>(_cell_width));
-							else
-								return 0;
-						} else
-							return 0;
-					}()};
-					auto y{[&] {
-						if (components[j].isMember("y")) {
-							if (components[j]["y"].asString() == "centre")
-								return -1;
-							else if (components[j]["y"].asString().length() > 0)
-								return (
-									std::stoi(components[j]["y"].asString()) *
-									static_cast<int>(_cell_height));
-							else
-								return 0;
-						} else
-							return 0;
-					}()};
-					auto w{[&] {
-						if (components[j].isMember("w")) {
-							if (components[j]["w"].asString().length() > 0)
-								return static_cast<unsigned int>(
-									std::stoi(components[j]["w"].asString()));
-							else
-								return 0u;
-						} else
-							return 0u;
-					}()};
-					auto h{[&] {
-						if (components[j].isMember("h")) {
-							if (components[j]["h"].asString().length() > 0)
-								return static_cast<unsigned int>(
-									std::stoi(components[j]["h"].asString()));
-							else
-								return 0u;
-						} else
-							return 0u;
-					}()};
-					auto scale{[&] {
-						if (components[j].isMember("scale")) {
-							if (components[j]["scale"].asString().length() > 0)
-								return std::stof(
-									components[j]["scale"].asString());
-							else
-								return 0.0f;
-						} else
-							return 0.0f;
-					}()};
-					FontType font_type{[&] {
-						if (components[j].isMember("font")) {
-							if (components[j]["font"].asString().length() > 0) {
-								if (components[j]["font"].asString() ==
-									"monospace")
-									return FontType::MONOSPACE;
-								else if (components[j]["font"].asString() ==
-										 "text")
-									return FontType::TEXT;
-								else if (components[j]["font"].asString() ==
-										 "proportional")
-									return FontType::PROPORTIONAL;
-								else if (components[j]["font"].asString() ==
-										 "input")
-									return FontType::INPUT;
-								else
-									return FontType::NONE;
-							} else
-								return FontType::NONE;
-						} else
-							return FontType::NONE;
-					}()};
-					auto size{[&] {
-						if (components[j].isMember("size")) {
-							if (components[j]["size"].asString().length() > 0)
-								return static_cast<unsigned int>(std::stoi(
-									components[j]["size"].asString()));
-							else
-								return 0u;
-						} else
-							return 0u;
-					}()};
-					auto colour{[&] {
-						if (components[j].isMember("colour")) {
-							if (components[j]["colour"].asString().length() > 0)
-								return std::stoull(
-									components[j]["colour"].asString(), 0, 16);
-							else
-								return static_cast<unsigned long long>(0ull);
-						} else
-							return static_cast<unsigned long long>(0ull);
-					}()};
-					auto animated{[&] {
-						if (components[j].isMember("animated")) {
-							if (components[j]["animated"].asString().length() >
-								0)
-								return components[j]["animated"].asString() ==
-									   "true";
-							else
-								return false;
-						} else
-							return false;
-					}()};
-					auto string_key{[&] {
-						if (components[j].isMember("string"))
-							return components[j]["string"].asString();
-						else
-							return std::string{};
-					}()};
-					auto alpha{[&] {
-						if (components[j].isMember("alpha")) {
-							if (components[j]["alpha"].asString().length() > 0)
-								return static_cast<unsigned int>(std::stoi(
-									components[j]["alpha"].asString()));
-							else
-								return 0u;
-						} else
-							return 0u;
-					}()};
-					auto width{[&] {
-						if (components[j].isMember("width")) {
-							if (components[j]["width"].asString().length() > 0)
-								return static_cast<unsigned int>(std::stoi(
-									components[j]["width"].asString()));
-							else
-								return 0u;
-						} else
-							return 0u;
-					}()};
-					auto background{[&] {
-						if (components[j].isMember("background")) {
-							if (components[j]["background"]
-									.asString()
-									.length() > 0)
-								return std::stoull(
-									components[j]["background"].asString(), 0,
-									16);
-							else
-								return static_cast<unsigned long long>(0ull);
-						} else
-							return static_cast<unsigned long long>(0ull);
-					}()};
-					Justification justification{[&] {
-						if (components[j].isMember("justification")) {
-							if (components[j]["justification"]
-									.asString()
-									.length() > 0) {
-								if (components[j]["justification"].asString() ==
-									"left")
-									return Justification::LEFT;
-								else if (components[j]["justification"]
-											 .asString() == "centre")
-									return Justification::CENTRE;
-								else if (components[j]["justification"]
-											 .asString() == "right")
-									return Justification::RIGHT;
-								else
-									return Justification::LEFT;
-							} else
-								return Justification::LEFT;
-						} else
-							return Justification::LEFT;
-					}()};
-					ComponentType component_type{[&] {
-						if (components[j].isMember("type")) {
-							if (components[j]["type"].asString().length() > 0) {
-								if (components[j]["type"].asString() == "frame")
-									return ComponentType::FRAME;
-								else if (components[j]["type"].asString() ==
-										 "text")
-									return ComponentType::TEXT;
-								else if (components[j]["type"].asString() ==
-										 "image")
-									return ComponentType::IMAGE;
-								else if (components[j]["type"].asString() ==
-										 "icon")
-									return ComponentType::ICON;
-								else if (components[j]["type"].asString() ==
-										 "menu")
-									return ComponentType::MENU;
-								else if (components[j]["type"].asString() ==
-										 "dialog")
-									return ComponentType::DIALOG;
-								else
-									return ComponentType::UNKNOWN;
-							} else
-								return ComponentType::UNKNOWN;
-						} else
-							return ComponentType::UNKNOWN;
-					}()};
-					auto priority{[&] {
-						if (components[j].isMember("priority")) {
-							if (components[j]["priority"].asString().length() >
-								0)
-								return static_cast<unsigned int>(std::stoi(
-									components[j]["priority"].asString()));
-							else
-								return 999u;
-						} else
-							return 999u;
-					}()};
-					WindowDrawMode drawmode{[&] {
-						if (components[j].isMember("drawmode")) {
-							if (components[j]["drawmode"].asString().length() >
-								0) {
-								if (components[j]["drawmode"].asString() ==
-									"manual")
-									return WindowDrawMode::MANUAL;
-								else if (components[j]["drawmode"].asString() ==
-										 "automatic")
-									return WindowDrawMode::AUTOMATIC;
-								else
-									return WindowDrawMode::AUTOMATIC;
-							} else
-								return WindowDrawMode::AUTOMATIC;
-						} else
-							return WindowDrawMode::AUTOMATIC;
-					}()};
-					GraphicsTexture texture{[&] {
-						if (components[j].isMember("texture")) {
-							if (components[j]["texture"].asString().length() >
-								0) {
-								if (components[j]["texture"].asString() ==
-									"background")
-									return GraphicsTexture::BACKGROUND;
-								else if (components[j]["texture"].asString() ==
-										 "banner")
-									return GraphicsTexture::BANNER;
-								else if (components[j]["texture"].asString() ==
-										 "creature")
-									return GraphicsTexture::CREATURES_KNOWN;
-								else if (components[j]["texture"].asString() ==
-										 "logo")
-									return GraphicsTexture::LOGO;
-								else if (components[j]["texture"].asString() ==
-										 "ninepatch")
-									return GraphicsTexture::NINEPATCH;
-								else if (components[j]["texture"].asString() ==
-										 "splash")
-									return GraphicsTexture::SPLASH;
-								else if (components[j]["texture"].asString() ==
-										 "town")
-									return GraphicsTexture::TOWN;
-								else if (components[j]["texture"].asString() ==
-										 "ui")
-									return GraphicsTexture::UI;
-								else
-									return GraphicsTexture::NONE;
-							} else
-								return GraphicsTexture::NONE;
-						} else
-							return GraphicsTexture::NONE;
-					}()};
-
-					// Add the Component
+					/* // Add the Component
 					const auto key{fmt::format("{}:{}", screen_name, name)};
 					Component component(screen_name, name, x, y, w, h, scale,
 						font_type, size, colour, animated, string_key, alpha,
@@ -368,15 +106,16 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 							auto data_value{extra_data[data_key].asString()};
 							component.set(data_key, data_value);
 						}
-					}
+					} */
 
-					_components[key] = component;
+					// _components[key] = component;
 				}
 			}
 		} else
 			return false;
+
 	} else
 		return false;
 
-	return true;*/
+	return true;
 }

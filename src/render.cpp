@@ -33,6 +33,9 @@ Sorcery::Render::Render(
 	_rtexture.create(MINIMUM_SCREEN_WIDTH, MINIMUM_SCREEN_HEIGHT);
 	_rtexture.setSmooth(true);
 	_rtexture.clear(sf::Color(0, 0, 0, 255));
+
+	// Load the Tile Config
+	_view = std::make_unique<View>((*_system->files)[VIEW_FILE]);
 }
 
 auto Sorcery::Render::update() -> void {}

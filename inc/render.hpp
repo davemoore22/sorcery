@@ -29,6 +29,7 @@
 #include "graphics.hpp"
 #include "main.hpp"
 #include "system.hpp"
+#include "view.hpp"
 
 namespace Sorcery {
 
@@ -50,6 +51,7 @@ namespace Sorcery {
 		Display *_display;
 		Graphics *_graphics;
 		Game *_game;
+		std::unique_ptr<View> _view;
 
 		sf::RenderTexture _rtexture;
 		sf::Sprite _sprite;

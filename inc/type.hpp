@@ -139,6 +139,22 @@ namespace Sorcery {
 		unsigned int y;
 	};
 
+	struct Point3 {
+		Point3() : x{0}, y{0}, z{0} {};
+		Point3(int x_, int y_, int z_) : x{x_}, y{y_}, z{z_} {};
+		auto operator==(const Point3 &a) const -> bool {
+			return (x == a.x && y == a.y && z == a.z);
+		}
+
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(x, y, z);
+		}
+
+		int x;
+		int y;
+		int z;
+	};
+
 	// Struct to represent an area of the screen (w, h)
 	struct ScreenSize {
 		ScreenSize() : w{0}, h{0} {};
