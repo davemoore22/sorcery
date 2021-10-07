@@ -321,6 +321,8 @@ namespace Sorcery {
 		long int id;
 		static inline long s_id{0};
 
+		ViewNode() : id{s_id++} {};
+
 		ViewNode(Enums::View::Cell::Layer layer_, Enums::View::Cell::Type type_,
 			bool flipped_, Point3 coords_, Point dest_,
 			unsigned int dest_width_)

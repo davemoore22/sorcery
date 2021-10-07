@@ -145,8 +145,8 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 					Json::Value &coords{tiles[j]["coords"]};
 					unsigned int d_fw{coords["fullWidth"].asUInt()};
 
-					ViewNode view_node{layer_type, tile_type, tile_flipped,
-						t_coords, d_coords, d_fw};
+					ViewNode view_node(layer_type, tile_type, tile_flipped,
+						t_coords, d_coords, d_fw);
 
 					_nodes[t_coords] = view_node;
 				}
