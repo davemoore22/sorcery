@@ -37,7 +37,7 @@ namespace Sorcery {
 		View() = delete;
 
 		// Public Methods
-		auto get(int x, int y) -> void;
+		auto get(int x, int z) -> void;
 
 		// Operator Overloading
 		auto operator[](Point3) -> ViewNode &;

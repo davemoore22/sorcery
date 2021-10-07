@@ -76,46 +76,85 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 
 			// Iterate through view file one layer at a time
 			for (auto i = 0u; i < layers.size(); i++) {
-
-				auto layer_type{layers[i]["type"].asString()};
+				auto layer_type{[&] {
+					if (layers[i].isMember("type")) {
+						if (auto lt{layers[i]["type"].asString()};
+							lt.length() > 0) {
+							if (lt == "Floor")
+								return ViewNodeLayer::FLOOR;
+							else if (lt == "Ceiling")
+								return ViewNodeLayer::CEILING;
+							else if (lt == "Walls")
+								return ViewNodeLayer::WALLS;
+							else if (lt == "Object")
+								return ViewNodeLayer::OBJECT;
+							else if (lt == "Decal")
+								return ViewNodeLayer::DECAL;
+							else
+								return ViewNodeLayer::NONE;
+						} else
+							return ViewNodeLayer::NONE;
+					} else
+						return ViewNodeLayer::NONE;
+				}()};
 				Json::Value &tiles{layers[i]["tiles"]};
-
-				// For every component on that screen read in their
-				// properties
 				for (auto j = 0u; j < tiles.size(); j++) {
 
-					// Type
-					// Flipped
 					// Tile
 					// Screen
 					// coords/fullwidth
-					std::cout << layer_type << " " << tiles << std::endl;
+					auto tile_type{[&] {
+						if (tiles[j].isMember("type")) {
+							if (auto tt{layers[i]["type"].asString()};
+								tt.length() > 0) {
+								if (tt == "floor")
+									return ViewNodeType::FLOOR;
+								else if (tt == "ceiling")
+									return ViewNodeType::CEILING;
+								else if (tt == "front")
+									return ViewNodeType::FRONT;
+								else if (tt == "side")
+									return ViewNodeType::SIDE;
+								else if (tt == "object")
+									return ViewNodeType::OBJECT;
+								else
+									return ViewNodeType::NONE;
 
-					/* // Add the Component
-					const auto key{fmt::format("{}:{}", screen_name, name)};
-					Component component(screen_name, name, x, y, w, h, scale,
-						font_type, size, colour, animated, string_key, alpha,
-						width, background, justification, component_type,
-						priority, drawmode, texture);
+							} else
+								return ViewNodeType::NONE;
+						} else
+							return ViewNodeType::NONE;
+					}()};
+					auto tile_flipped{[&] {
+						if (tiles[j].isMember("flipped"))
+							return tiles[j]["flipped"].asBool();
+						else
+							return false;
+					}()};
+					Json::Value &tile_v{tiles[j]["tile"]};
+					int t_x{tile_v["x"].asInt()};
+					int t_z{tile_v["z"].asInt()};
+					int t_y{0}; // Not used as there's only one layer of tile
+					Point3 t_coords{t_x, t_y, t_z};
 
-					// Now look for any extra data
-					if (components[j].isMember("data")) {
-						auto &extra_data{components[j]["data"][0]};
-						auto data_keys{extra_data.getMemberNames()};
-						for (auto &data_key : data_keys) {
-							auto data_value{extra_data[data_key].asString()};
-							component.set(data_key, data_value);
-						}
-					} */
+					Json::Value &screen_v{tiles[j]["screen"]};
+					unsigned int d_x{screen_v["x"].asUInt()};
+					unsigned int d_y{screen_v["y"].asUInt()};
+					Point d_coords{d_x, d_y};
 
-					// _components[key] = component;
+					Json::Value &coords{tiles[j]["coords"]};
+					unsigned int d_fw{coords["fullWidth"].asUInt()};
+
+					ViewNode view_node{layer_type, tile_type, tile_flipped,
+						t_coords, d_coords, d_fw};
+
+					_nodes[t_coords] = view_node;
 				}
 			}
 		} else
 			return false;
-
 	} else
-		return false;
-
-	return true;
+		return true;
 }
+
+auto Sorcery::View::get(int x, int z) -> void {}

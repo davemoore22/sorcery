@@ -142,9 +142,13 @@ namespace Sorcery {
 	struct Point3 {
 		Point3() : x{0}, y{0}, z{0} {};
 		Point3(int x_, int y_, int z_) : x{x_}, y{y_}, z{z_} {};
+		Point3(int x_, int z_) : x{x_}, y{0}, z{z_} {};
 		auto operator==(const Point3 &a) const -> bool {
 			return (x == a.x && y == a.y && z == a.z);
 		}
+		auto operator<(const Point3 &a) const -> bool {
+			return (x < a.x || y < a.y || y < a.z);
+		};
 
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(x, y, z);
@@ -153,7 +157,7 @@ namespace Sorcery {
 		int x;
 		int y;
 		int z;
-	};
+	}; // namespace Sorcery
 
 	// Struct to represent an area of the screen (w, h)
 	struct ScreenSize {
@@ -308,16 +312,20 @@ namespace Sorcery {
 
 	struct ViewNode {
 
-		int id;
-		int x;
-		int y;
-		int z;
-		bool flipped;
 		Enums::View::Cell::Layer layer;
 		Enums::View::Cell::Type type;
+		bool flipped;
+		Point3 coords;
+		Point dest;
 		unsigned int dest_width;
-		unsigned int dest_x;
-		unsigned int dest_y;
+		long int id;
+		static inline long s_id{0};
+
+		ViewNode(Enums::View::Cell::Layer layer_, Enums::View::Cell::Type type_,
+			bool flipped_, Point3 coords_, Point dest_,
+			unsigned int dest_width_)
+			: layer{layer_}, type{type_}, flipped{flipped_}, coords{coords_},
+			  dest{dest_}, dest_width{dest_width_}, id{s_id++} {};
 	};
 
 	struct SpellDetails {};

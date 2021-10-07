@@ -814,10 +814,11 @@ namespace Sorcery {
 					FLOOR = 0,
 					CEILING = 1,
 					FRONT = 2,
-					SIDE = 3
+					SIDE = 3,
+					OBJECT = 4
 				};
 			} // namespace Cell
-		}	   // namespace View
+		}	  // namespace View
 
 		namespace Tile {
 
