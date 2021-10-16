@@ -155,6 +155,8 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 			return false;
 	} else
 		return true;
+
+    return true;
 }
 
 auto Sorcery::View::get(int x, int z) -> void {}
