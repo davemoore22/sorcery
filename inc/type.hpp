@@ -147,7 +147,7 @@ namespace Sorcery {
 			return (x == a.x && y == a.y && z == a.z);
 		}
 		auto operator<(const Point3 &a) const -> bool {
-			return !(x == a.x && y == a.y && z == a.z);
+			return (x < a.x) || ((y < a.y) || (z < a.z));
 		};
 
 		template <class Archive> auto serialize(Archive &archive) -> void {
