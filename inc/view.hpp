@@ -37,10 +37,10 @@ namespace Sorcery {
 		View() = delete;
 
 		// Public Methods
-		auto get(int x, int z) -> void;
+		auto get(int x, int z) -> ViewNode &;
 
 		// Operator Overloading
-		auto operator[](Point3) -> ViewNode &;
+		auto operator[](Point3 point) -> ViewNode &;
 		auto operator[](int z) -> std::vector<ViewNode *>;
 
 	  private:
@@ -50,6 +50,7 @@ namespace Sorcery {
 		std::filesystem::path _filename;
 
 		// Private Methods
+		auto _get(int x, int z) -> ViewNode &;
 		auto _load(const std::filesystem::path filename) -> bool;
 	};
 } // namespace Sorcery
