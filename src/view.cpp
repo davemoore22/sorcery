@@ -62,10 +62,8 @@ auto Sorcery::View::operator[](int z) -> std::vector<ViewNode *> {
 		})};
 		std::vector<ViewNode *> results;
 		results.clear();
-		for (auto &node : matches) {
-
-			results.emplace_back(&node);
-		}
+		for (auto &node : matches)
+			results.emplace_back(&node.second);
 
 		return results;
 
