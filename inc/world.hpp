@@ -53,5 +53,6 @@ namespace Sorcery {
 		int _version;
 
 		// Private Methods
+		auto _get_visible_tiles() -> std::vector<Tile*>;
 	};
 } // namespace Sorcery

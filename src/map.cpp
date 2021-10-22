@@ -50,6 +50,30 @@ auto Sorcery::Map::at(Point loc) -> Tile & {
 	return _tiles.at(COORD2VECPOS(loc.x, loc.y));
 }
 
+auto Sorcery::Map::at_relative(Point player_pos, int x, int y) -> Tile & {
+
+	const auto n_x{static_cast<int>(player_pos.x) + x};
+	const auto n_y{static_cast<int>(player_pos.y) + y};
+	const auto new_x{[&] {
+		if (n_x > MAP_SIZE)
+			return n_x - MAP_SIZE;
+		else if (n_x < 0)
+			return n_x + MAP_SIZE;
+		else
+			return n_x;
+	}()};
+	const auto new_y{[&] {
+		if (n_y > MAP_SIZE)
+			return n_y - MAP_SIZE;
+		else if (player_pos.y + y < 0)
+			return n_y + MAP_SIZE;
+		else
+			return n_y;
+	}()};
+
+	return _tiles.at(COORD2VECPOS(new_x, new_y));
+}
+
 auto Sorcery::Map::at(unsigned int x, unsigned int y) -> Tile & {
 
 	return _tiles.at(COORD2VECPOS(x, y));

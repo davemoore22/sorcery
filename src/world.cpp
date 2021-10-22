@@ -39,3 +39,31 @@ auto Sorcery::World::create() -> void {
 	playing_facing = MapDirection::NORTH;
 	player_pos = Point{0, 0};
 }
+
+auto Sorcery::World::_get_visible_tiles() -> std::vector<Tile*> {
+	//
+
+	/*
+
+	Player view (0,0 is P):
+
+	x/z
+
+	   0 -1 -2 -3 -4 -5 -6
+
+	-6                   O
+	-5                O  O
+	-4             O  O  O
+	-3       O  O  O  O  O
+	-2    O  O  O  O  O  O
+	-1 O  O  O  O  O  O  O
+	 0 P  O  O  O  O  O  O
+	+1 O  O  O  O  O  O  O
+	+2    O  O  O  O  O  O
+	+3       O  O  O  O  O
+	+4             O  O  O
+	+5                O  O
+	+6                   O
+
+	*/
+}

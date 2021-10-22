@@ -45,6 +45,7 @@ namespace Sorcery {
 
 		// Public Methods
 		auto at(Point loc) -> Tile &;
+		auto at_relative(Point player_pos, int x, int y) -> Tile &;
 		auto at(unsigned int x, unsigned int y) -> Tile &;
 		auto tiles() const -> std::vector<Tile>;
 		auto get_type() const -> MapType;
