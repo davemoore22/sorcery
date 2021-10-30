@@ -65,7 +65,6 @@
 			<Add directory="inc/backwardcpp" />
 			<Add directory="inc/cereal" />
 			<Add directory="inc/cereal/archives" />
-			<Add directory="inc/selbaward" />
 			<Add directory="/usr/include/X11" />
 		</Compiler>
 		<Linker>

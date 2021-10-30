@@ -65,7 +65,7 @@ auto Sorcery::Map::at_relative(Point player_pos, int x, int y) -> Tile & {
 	const auto new_y{[&] {
 		if (n_y > MAP_SIZE)
 			return n_y - MAP_SIZE;
-		else if (player_pos.y + y < 0)
+		else if (n_y < 0)
 			return n_y + MAP_SIZE;
 		else
 			return n_y;

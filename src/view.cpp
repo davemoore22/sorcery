@@ -143,7 +143,8 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 								return ViewNodeType::NONE;
 						}()};
 						auto tile_flipped{[&] {
-							if (tiles[j].isMember("flipped"))
+							if (
+							tiles[j].isMember("flipped"))
 								return tiles[j]["flipped"].asBool();
 							else
 								return false;

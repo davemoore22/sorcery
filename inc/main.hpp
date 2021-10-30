@@ -63,10 +63,6 @@
 #include "magicenum/magic_enum.hpp"
 #include "sfeMovie/Movie.hpp"
 #include "sqlitemoderncpp/sqlite_modern_cpp.h"
-// clang-format off
-#include "selbaward/Common.hpp"
-#include "selbaward/Sprite3d.hpp"
-// clang-format on
 #pragma GCC diagnostic pop
 
 // Standard Includes

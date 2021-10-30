@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1633457202 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1635621152 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -31,8 +31,6 @@
 	"magicenum/magic_enum.hpp"
 	"sfeMovie/Movie.hpp"
 	"sqlitemoderncpp/sqlite_modern_cpp.h"
-	"selbaward/Common.hpp"
-	"selbaward/Sprite3d.hpp"
 	<algorithm>
 	<any>
 	<array>
@@ -1363,10 +1361,10 @@
 1632156421 source:/home/dave/Development/wizardry/sorcery-sfml/src/texturestore.cpp
 	"texturestore.hpp"
 
-1633546985 source:/home/dave/Development/wizardry/sorcery-sfml/src/render.cpp
+1635344839 source:/home/dave/Development/wizardry/sorcery-sfml/src/render.cpp
 	"render.hpp"
 
-1634500123 /home/dave/Development/wizardry/sorcery-sfml/inc/render.hpp
+1635342902 /home/dave/Development/wizardry/sorcery-sfml/inc/render.hpp
 	"display.hpp"
 	"game.hpp"
 	"graphics.hpp"
@@ -1434,4 +1432,8 @@
 
 1634491879 /home/dave/Development/wizardry/sorcery-sfml/inc/view.hpp
 	"main.hpp"
+
+1602023279 source:/home/dave/Development/wizardry/sorcery-sfml/inc/selbaward/Sprite3d.cpp
+	"Sprite3d.hpp"
+	<cmath>
 
