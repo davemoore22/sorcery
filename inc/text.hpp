@@ -25,3 +25,26 @@
 #pragma once
 
 #include "main.hpp"
+
+namespace Sorcery {
+
+	class Text : public sf::Transformable, public sf::Drawable {
+
+	  public:
+	  public:
+		// Constructors
+		Text();
+
+		// Public Members
+
+		// Public Methods
+
+	  private:
+		// Private Methods
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+
+		// Private Members
+		sf::Text _text;
+	};
+} // namespace Sorcery

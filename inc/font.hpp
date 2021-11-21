@@ -22,12 +22,26 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "text.hpp"
+#pragma once
 
-Sorcery::Text::Text(){};
+#include "main.hpp"
 
-auto Sorcery::Text::draw(
-	sf::RenderTarget &target, sf::RenderStates states) const -> void {
+namespace Sorcery {
 
-	states.transform *= getTransform();
-}
+	class Font {
+
+	  public:
+		// Constructors
+		Font();
+
+		// Public Members
+
+		// Public Methods
+
+	  private:
+		// Private Methods
+
+		// Private Members
+		sf::Font _font;
+	};
+} // namespace Sorcery

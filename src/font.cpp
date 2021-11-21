@@ -22,12 +22,6 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "text.hpp"
+#include "font.hpp"
 
-Sorcery::Text::Text(){};
-
-auto Sorcery::Text::draw(
-	sf::RenderTarget &target, sf::RenderStates states) const -> void {
-
-	states.transform *= getTransform();
-}
+Sorcery::Font::Font(){};
