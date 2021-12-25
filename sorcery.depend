@@ -1437,3 +1437,9 @@
 	"Sprite3d.hpp"
 	<cmath>
 
+1637514389 source:/home/dave/Development/wizardry/sorcery-sfml/src/font.cpp
+	"font.hpp"
+
+1637514410 /home/dave/Development/wizardry/sorcery-sfml/inc/font.hpp
+	"main.hpp"
+

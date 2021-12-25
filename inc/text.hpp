@@ -34,10 +34,22 @@ namespace Sorcery {
 	  public:
 		// Constructors
 		Text();
+		Text(std::string value);
 
 		// Public Members
 
 		// Public Methods
+		auto get_global_bounds() const -> sf::FloatRect;
+		auto get_local_bounds() const -> sf::FloatRect;
+		auto get_position() const -> sf::Vector2f;
+		auto set_character_size(const unsigned int size) -> void;
+		auto set_fill_colour(const sf::Color &colour) -> void;
+		auto set_font(sf::Font font) -> void;
+		auto set_origin(const float x, const float y) -> void;
+		auto set_outline_colour(const sf::Color &colour) -> void;
+		auto set_outline_thickness(const unsigned int size) -> void;
+		auto set_position(const float x, const float y) -> void;
+		auto set_string(const std::string value) -> void;
 
 	  private:
 		// Private Methods

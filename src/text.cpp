@@ -24,7 +24,65 @@
 
 #include "text.hpp"
 
-Sorcery::Text::Text(){};
+Sorcery::Text::Text() {
+
+	_text = sf::Text();
+}
+
+auto Sorcery::Text::get_global_bounds() const -> sf::FloatRect {
+
+	return _text.getGlobalBounds();
+}
+
+auto Sorcery::Text::get_local_bounds() const -> sf::FloatRect {
+
+	return _text.getLocalBounds();
+}
+
+auto Sorcery::Text::get_position() const -> sf::Vector2f {
+
+	return _text.getPosition();
+}
+
+auto Sorcery::Text::set_character_size(const unsigned int size) -> void {
+
+	_text.setCharacterSize(size);
+}
+
+auto Sorcery::Text::set_fill_colour(const sf::Color &colour) -> void {
+
+	_text.setFillColor(colour);
+}
+
+auto Sorcery::Text::set_font(sf::Font font) -> void {
+
+	_text.setFont(font);
+}
+
+auto Sorcery::Text::set_origin(const float x, const float y) -> void {
+
+	_text.setOrigin(x, y);
+}
+
+auto Sorcery::Text::set_outline_colour(const sf::Color &colour) -> void {
+
+	_text.setOutlineColor(colour);
+}
+
+auto Sorcery::Text::set_outline_thickness(const unsigned int size) -> void {
+
+	_text.setOutlineThickness(size);
+}
+
+auto Sorcery::Text::set_position(const float x, const float y) -> void {
+
+	_text.setPosition(x, y);
+}
+
+auto Sorcery::Text::set_string(const std::string value) -> void {
+
+	_text.setString(value);
+}
 
 auto Sorcery::Text::draw(
 	sf::RenderTarget &target, sf::RenderStates states) const -> void {

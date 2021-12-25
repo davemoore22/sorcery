@@ -47,10 +47,11 @@ Nowhere near complete or even playable yet! Visit back regularily for updates.
 
 ## What next?
 
-Next stop is to add the dungeon and get the party walking about it. Then items,
-creatures, and combat. Then there might be something playable here! Although the
-main focus is random dungeons much like Diablo, I want to eventually remake
-Wizardrys 1,2,3 and 5 as sub-modules.
+Next stop is to add the dungeon and get the party walking about it. As I've got
+to sit down and work out how to do a raycaster, I'll do it top-down for now.
+Then items, creatures, and combat. Then there might be something playable here!
+Although the main focus is random dungeons much like Diablo, I want to
+eventually remake the original games as optional sub-modules.
 
 If you really want to try and compile the code, compilation instructions are in
 the doc/COMPILE text file. It works on my machine anyway. Currently I use VSCode
