@@ -42,7 +42,7 @@ subdirectories in the inc folder):
 - cereal https://github.com/USCiLab/cereal
 - tgui-nanogui-theme https://gitlab.com/rubenwardy/tgui-nanogui-theme
 
-Both make and Code::Blocks are supported.
+Both CMake (via VSCode/CMakeTools) and Code::Blocks are supported.
 
 Additional support tools useful for development:
 

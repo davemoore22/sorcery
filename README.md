@@ -4,9 +4,11 @@
 
 An open source remake of Wizardry 1,2,3 (and 5) with infinite Dungeon
 Adventures, and (optional) modern CRPG conveniences! I'm aiming to release it by
-the end of the year. Its coded using C++17/20(ish) and SFML.
+the end of the year. Its coded using C++20 and SFML. Whilst eventually
+it will be fully 3D, I need to learn OpenGL in the meantime, and thus initially
+the dungeons will be in 2D view.
 
-Nowhere near complete or even playable yet! Visit back regularily for updates.
+Its nowhere near complete or even playable yet! Visit back regularily for updates.
 
 ## What can you do?
 

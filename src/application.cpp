@@ -202,7 +202,7 @@ auto Sorcery::Application::_display_loading_window() -> void {
 		static_cast<unsigned int>(loading.getSize().x * scale),
 		static_cast<unsigned int>(loading.getSize().y * scale)};
 	_load_window.create(sf::VideoMode(splash_size.x, splash_size.y),
-		"Sorcery: Shadows under Llylgamyn", sf::Style::None);
+		"Sorcery: Shadows under Llylgamyn", sf::Style::Default);
 	_load_window.setVerticalSyncEnabled(true);
 	_load_window.setPosition(sf::Vector2i((screen_size.x - splash_size.x) / 2,
 		(screen_size.y - splash_size.y) / 2));

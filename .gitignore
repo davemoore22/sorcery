@@ -35,6 +35,7 @@ collateral
 
 # Binaries
 bin/*
+build/*
 
 bin/Debug/sorcery-sfml
 bin/Debug/dat/strings.json
@@ -131,3 +132,8 @@ inc/cereal/types/vector.hpp
 inc/cereal/types/concepts/pair_associative_container.hpp
 .debris
 CppDependOut
+CMakeFiles
+CMakeCache.txt
+cmake_install.cmake
+CPackConfig.cmake
+CPackSourceConfig.cmake
