@@ -36,6 +36,8 @@ collateral
 # Binaries
 bin/*
 build/*
+obj/*
+.debris/*
 
 bin/Debug/sorcery-sfml
 bin/Debug/dat/strings.json
@@ -137,3 +139,4 @@ CMakeCache.txt
 cmake_install.cmake
 CPackConfig.cmake
 CPackSourceConfig.cmake
+.debris/tmp/lock
