@@ -44,8 +44,8 @@
 			<Add option="-Wfatal-errors" />
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
-			<Add option="-std=c++20" />
 			<Add option="-g" />
+			<Add option="-std=c++20" />
 			<Add option="-Wmissing-include-dirs" />
 			<Add option="-pthread" />
 			<Add option="-Wl,-rpath=/usr/local/lib" />

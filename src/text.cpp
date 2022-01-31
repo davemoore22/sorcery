@@ -44,6 +44,11 @@ auto Sorcery::Text::get_position() const -> sf::Vector2f {
 	return _text.getPosition();
 }
 
+auto Sorcery::Text::set(Component component) -> void {
+
+	//
+}
+
 auto Sorcery::Text::set_character_size(const unsigned int size) -> void {
 
 	_text.setCharacterSize(size);
