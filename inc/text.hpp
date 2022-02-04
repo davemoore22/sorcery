@@ -24,7 +24,9 @@
 
 #pragma once
 
+#include "display.hpp"
 #include "main.hpp"
+#include "system.hpp"
 
 namespace Sorcery {
 
@@ -33,7 +35,9 @@ namespace Sorcery {
 	  public:
 		// Constructors
 		Text();
-		Text(std::string value);
+		Text(System *system, Display *display);
+		Text(System *system, Display *display,
+			const std::optional<Component> component, const int bits);
 
 		// Public Members
 
@@ -41,7 +45,6 @@ namespace Sorcery {
 		auto get_global_bounds() const -> sf::FloatRect;
 		auto get_local_bounds() const -> sf::FloatRect;
 		auto get_position() const -> sf::Vector2f;
-		auto set(Component component) -> void;
 		auto set_character_size(const unsigned int size) -> void;
 		auto set_fill_colour(const sf::Color &colour) -> void;
 		auto set_font(sf::Font font) -> void;
@@ -57,6 +60,8 @@ namespace Sorcery {
 			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
+		System *_system;
+		Display *_display;
 		sf::Text _text;
 	};
 } // namespace Sorcery

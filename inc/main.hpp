@@ -136,6 +136,7 @@ namespace Sorcery {
 	using CharacterStatus = Enums::Character::CStatus;
 	using CharacterView = Enums::Character::View;
 	using ComponentData = std::pair<std::string, std::string>;
+	using ComponentElement = Enums::Window::ComponentElement;
 	using ComponentType = Enums::Window::ComponentType;
 	using ConfigOption = Enums::Options;
 	using CreateMethod = Enums::Manage::Method;

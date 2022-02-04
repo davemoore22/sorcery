@@ -124,6 +124,18 @@ namespace Sorcery {
 			UNKNOWN
 		};
 
+		enum class ComponentElement {
+			NONE = -1,
+			FONT = 1,
+			SIZE = 2,
+			COLOUR = 4,
+			STRING = 8,
+			OFFSET = 16,
+			ORIGIN = 32,
+			O_COLOUR = 64,
+			O_THICKNESS = 128
+		};
+
 		enum class DialogType { NONE, TIMED, OK, CONFIRM, MENU };
 
 		enum class Option { SAVE, CANCEL, RESET, NONE };

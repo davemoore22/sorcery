@@ -26,7 +26,91 @@
 
 Sorcery::Text::Text() {
 
+	_system = nullptr;
+	_display = nullptr;
 	_text = sf::Text();
+}
+
+Sorcery::Text::Text(System *system, Display *display)
+	: _system{system}, _display{display} {
+
+	_text = sf::Text();
+}
+
+Sorcery::Text::Text(System *system, Display *display,
+	const std::optional<Component> component = std::nullopt,
+	const int bits = -1) {
+
+	_text = sf::Text();
+	if (component) {
+
+		Component layout{component.value()};
+
+		if (bits |
+			magic_enum::enum_integer<ComponentElement>(ComponentElement::FONT))
+			_text.setFont(_system->resources->fonts[layout.font]);
+		if (bits |
+			magic_enum::enum_integer<ComponentElement>(ComponentElement::SIZE))
+			_text.setCharacterSize(layout.size);
+		if (bits | magic_enum::enum_integer<ComponentElement>(
+					   ComponentElement::COLOUR))
+			_text.setFillColor(sf::Color(layout.colour));
+		if (bits | magic_enum::enum_integer<ComponentElement>(
+					   ComponentElement::STRING))
+			_text.setString((*_display->string)[layout.string_key]);
+		if (bits | magic_enum::enum_integer<ComponentElement>(
+					   ComponentElement::OFFSET)) {
+			const auto offset_x{[&] {
+				if (layout["offset_x"])
+					return std::stoi(layout["offset_x"].value());
+				else
+					return 0;
+			}()};
+			const auto offset_y{[&] {
+				if (layout["offset_y"])
+					return std::stoi(layout["offset_y"].value());
+				else
+					return 0;
+			}()};
+			_text.setPosition(offset_x, offset_y);
+		}
+		if (bits | magic_enum::enum_integer<ComponentElement>(
+					   ComponentElement::ORIGIN)) {
+			const auto origin_x{[&] {
+				if (layout["origin_x"])
+					return std::stoi(layout["origin_x"].value());
+				else
+					return 0;
+			}()};
+			const auto origin_y{[&] {
+				if (layout["origin_y"])
+					return std::stoi(layout["origin_y"].value());
+				else
+					return 0;
+			}()};
+			_text.setPosition(origin_x, origin_y);
+		}
+		if (bits | magic_enum::enum_integer<ComponentElement>(
+					   ComponentElement::O_COLOUR)) {
+			const auto outline_colour{[&] {
+				if (layout["outline_colour"])
+					return sf::Color(
+						std::stoull(layout["outline_colour"].value(), 0, 16));
+				else
+					return sf::Color(sf::Color::Black);
+			}()};
+		}
+		if (bits | magic_enum::enum_integer<ComponentElement>(
+					   ComponentElement::O_THICKNESS)) {
+			const auto outline_thickness{[&] {
+				if (layout["origin_y"])
+					return std::stoi(layout["outline_thickness"].value());
+				else
+					return 0;
+			}()};
+			_text.setOutlineThickness(outline_thickness);
+		}
+	}
 }
 
 auto Sorcery::Text::get_global_bounds() const -> sf::FloatRect {
@@ -42,11 +126,6 @@ auto Sorcery::Text::get_local_bounds() const -> sf::FloatRect {
 auto Sorcery::Text::get_position() const -> sf::Vector2f {
 
 	return _text.getPosition();
-}
-
-auto Sorcery::Text::set(Component component) -> void {
-
-	//
 }
 
 auto Sorcery::Text::set_character_size(const unsigned int size) -> void {
