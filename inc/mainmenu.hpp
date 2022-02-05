@@ -34,6 +34,7 @@
 #include "main.hpp"
 #include "menu.hpp"
 #include "system.hpp"
+#include "text.hpp"
 
 namespace Sorcery {
 
@@ -69,7 +70,7 @@ namespace Sorcery {
 		std::unique_ptr<Menu> _main_menu;
 		std::unique_ptr<AttractMode> _attract_mode;
 		Component _attract_creatures_c;
-		sf::Text _press_any_key;
+		std::unique_ptr<Text> _press_any_key;
 		std::unique_ptr<Dialog> _dialog_new_game;
 		std::unique_ptr<Dialog> _dialog_exit;
 		std::optional<std::unique_ptr<Error>> _error;

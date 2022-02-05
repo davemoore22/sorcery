@@ -133,7 +133,8 @@ namespace Sorcery {
 			OFFSET = 16,
 			ORIGIN = 32,
 			O_COLOUR = 64,
-			O_THICKNESS = 128
+			O_THICKNESS = 128,
+			JUSTIFICATION = 256
 		};
 
 		enum class DialogType { NONE, TIMED, OK, CONFIRM, MENU };

@@ -39,7 +39,8 @@ Sorcery::Text::Text(System *system, Display *display)
 
 Sorcery::Text::Text(System *system, Display *display,
 	const std::optional<Component> component = std::nullopt,
-	const int bits = -1) {
+	const int bits = -1)
+	: _system{system}, _display{display} {
 
 	_text = sf::Text();
 	if (component) {
@@ -110,6 +111,28 @@ Sorcery::Text::Text(System *system, Display *display,
 			}()};
 			_text.setOutlineThickness(outline_thickness);
 		}
+		if (bits | magic_enum::enum_integer<ComponentElement>(
+					   ComponentElement::JUSTIFICATION)) {
+
+			if (layout.justification == Justification::CENTRE) {
+				_text.setPosition(0, 0);
+				_text.setOrigin(_text.getLocalBounds().width / 2.0f,
+					_text.getLocalBounds().height / 2.0f);
+			} else if (layout.justification == Justification::RIGHT) {
+				_text.setPosition(0, 0);
+				const sf::FloatRect bounds{_text.getLocalBounds()};
+				_text.setPosition(layout.x - bounds.width, layout.y);
+			} else {
+				_text.setPosition(0, 0);
+				_text.setOrigin(0, _text.getLocalBounds().height / 2.0f);
+			}
+
+			// Handle varying height of proportional fonts
+			if (layout.font == FontType::PROPORTIONAL)
+				_text.setPosition(_text.getPosition().x,
+					_text.getPosition().y -
+						((layout.size - _text.getLocalBounds().height) / 2));
+		}
 	}
 }
 
@@ -172,4 +195,5 @@ auto Sorcery::Text::draw(
 	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
+	target.draw(_text, states);
 }

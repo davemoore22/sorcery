@@ -38,11 +38,22 @@ Sorcery::MainMenu::MainMenu(
 		_system, _display, _graphics, _game, MenuType::MAIN);
 
 	// Setup Custom Components
-	_press_any_key = sf::Text();
+	Component any_key_c{(*_display->layout)["main_menu_attract:press_any_key"]};
+	_press_any_key = std::make_unique<Text>(_system, _display, any_key_c,
+		magic_enum::enum_integer<ComponentElement>(ComponentElement::COLOUR) |
+			magic_enum::enum_integer<ComponentElement>(ComponentElement::FONT) |
+			magic_enum::enum_integer<ComponentElement>(
+				ComponentElement::STRING) |
+			magic_enum::enum_integer<ComponentElement>(ComponentElement::SIZE) |
+			magic_enum::enum_integer<ComponentElement>(
+				ComponentElement::JUSTIFICATION));
+	auto x{any_key_c.x == -1 ? _display->window->centre.x : any_key_c.x};
+	auto y{any_key_c.y == -1 ? _display->window->centre.y : any_key_c.y};
+	_press_any_key->setPosition(x, y);
 
 	// Now set up attract mode data
-	_attract_mode = std::make_unique<AttractMode>(_graphics,
-		(*_display->layout)["main_menu_attract:attract_creatures"]);
+	_attract_mode = std::make_unique<AttractMode>(
+		_graphics, (*_display->layout)["main_menu_attract:attract_creatures"]);
 	_attract_mode->data.clear();
 
 	// Create the Confirmation Dialogs
@@ -328,8 +339,12 @@ auto Sorcery::MainMenu::_draw() -> void {
 
 		// And either the blurb or the main menu
 		if (_menu_stage == MainMenuType::ATTRACT_MODE) {
-			_display->window->draw_text(_press_any_key,
-				(*_display->layout)["main_menu_attract:press_any_key"], lerp);
+			sf::Color adjusted{_graphics->adjust_brightness(
+				sf::Color((*_display->layout)["main_menu_attract:press_any_key"]
+							  .colour),
+				lerp)};
+			_press_any_key->set_fill_colour(adjusted);
+			_window->draw(*_press_any_key);
 		} else {
 
 			// Draw the menu
