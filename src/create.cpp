@@ -1085,7 +1085,7 @@ auto Sorcery::Create::_draw() -> void {
 
 		_display->display(
 			"character_create_stage_1", _sprites, _texts, _frames);
-		auto display_name{">" + _candidate.get_name() + "_"};
+		auto display_name{_candidate.get_name() + "_"};
 		sf::Text name_text{};
 		_display->window->draw_text(name_text,
 			(*_display->layout)["character_create_stage_1:name_candidate"],

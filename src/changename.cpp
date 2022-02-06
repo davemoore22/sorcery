@@ -38,6 +38,23 @@ Sorcery::ChangeName::ChangeName(
 
 	// Setup the Name
 	_new_name = _old_name;
+
+	Component name_candidate_c{
+		(*_display->layout)["change_name:name_candidate"]};
+	_name_candidate = std::make_unique<Text>(_system, _display,
+		name_candidate_c,
+		magic_enum::enum_integer<ComponentElement>(ComponentElement::COLOUR) |
+			magic_enum::enum_integer<ComponentElement>(ComponentElement::FONT) |
+			magic_enum::enum_integer<ComponentElement>(ComponentElement::SIZE) |
+			magic_enum::enum_integer<ComponentElement>(
+				ComponentElement::JUSTIFICATION));
+	auto x{(*_display->layout)["change_name:name_candidate"].x == -1
+			   ? _display->window->centre.x
+			   : (*_display->layout)["change_name:name_candidate"].x};
+	auto y{(*_display->layout)["change_name:name_candidate"].y == -1
+			   ? _display->window->centre.y
+			   : (*_display->layout)["change_name:name_candidate"].y};
+	_name_candidate->setPosition(x, y);
 }
 
 // Standard Destructor
@@ -220,11 +237,16 @@ auto Sorcery::ChangeName::_draw() -> void {
 	// Display Components
 	_display->display("change_name");
 
+	// Handle Custom Components
 	auto lerp{_graphics->animation->colour_lerp};
-	auto display_name{">" + _new_name + "_"};
-	sf::Text name_text{};
-	_display->window->draw_text(name_text,
-		(*_display->layout)["change_name:name_candidate"], display_name, lerp);
+	sf::Color adjusted{_graphics->adjust_brightness(
+		sf::Color((*_display->layout)["change_name:name_candidate"].colour),
+		lerp)};
+	_name_candidate->set_fill_colour(adjusted);
+
+	auto display_name{_new_name + "_"};
+	_name_candidate->set_string(display_name);
+	_window->draw(*_name_candidate);
 
 	// Draw the On Screen Keyboard
 	_keyboard->set_selected_background();

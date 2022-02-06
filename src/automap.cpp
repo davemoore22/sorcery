@@ -82,15 +82,6 @@ auto Sorcery::AutoMap::refresh() -> void {
 				_draw_player(_game->state->world->playing_facing, tile_x,
 					reverse_y - tile_y, scaling);
 
-			/* sf::Text text{};
-			const auto coord{fmt::format("{}/{}", lx, ly)};
-			text.setFont(_system->resources->fonts[FontType::TEXT]);
-			text.setCharacterSize(8);
-			text.setFillColor(sf::Color(255, 255, 255));
-			text.setString(coord);
-			text.setPosition(tile_x, reverse_y - tile_y);
-			_texts.emplace_back(text); */
-
 			++tcx;
 		}
 		++tcy;

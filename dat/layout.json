@@ -1405,8 +1405,8 @@
 		"component": [
 			{
 				"name": "name_candidate",
-				"x": "centre",
-				"y": "15",
+				"x": "21",
+				"y": "14",
 				"font": "input",
 				"colour": "0xddddddff",
 				"size": "48",
@@ -1414,7 +1414,11 @@
 				"type": "text",
 				"priority": "3",
 				"animated": "true",
-				"drawmode": "manual"
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_y": "-16"
+					}]
 			},
 			{
 				"name": "keyboard",

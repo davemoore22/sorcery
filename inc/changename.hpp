@@ -30,6 +30,7 @@
 #include "main.hpp"
 #include "menu.hpp"
 #include "system.hpp"
+#include "text.hpp"
 
 namespace Sorcery {
 
@@ -66,6 +67,7 @@ namespace Sorcery {
 		std::unique_ptr<Keyboard> _keyboard;
 		std::string _old_name;
 		std::string _new_name;
+		std::unique_ptr<Text> _name_candidate;
 		bool _valid;
 	};
 } // namespace Sorcery
