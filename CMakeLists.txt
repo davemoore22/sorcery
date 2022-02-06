@@ -39,6 +39,7 @@ add_executable(sorcery
 	src/character.cpp
 	src/characterpanel.cpp
 	src/charactersummary.cpp
+	src/compass.cpp
 	src/compendium.cpp
 	src/component.cpp
 	src/config.cpp

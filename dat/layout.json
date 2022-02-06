@@ -40,6 +40,28 @@
 			]
 		},
 		{
+			"name": "compass",
+			"font": "text",
+			"size": "24",
+			"alpha": "220",
+			"colour": "0xffffffff",
+			"type": "panel",
+			"drawmode": "manual",
+			"background": "0x000000ff",
+			"w": "4",
+			"h": "4",
+			"x": "1",
+			"y": "1",
+			"data": [
+				{
+					"direction_colour": "0xffffff",
+					"direction_offset_x": "32",
+					"direction_offset_y": "32",
+					"direction_scaling": "0.10"
+				}
+			]
+		},
+		{
 			"name": "info_panel",
 			"font": "text",
 			"colour": "0xddddddff",

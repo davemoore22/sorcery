@@ -11,7 +11,7 @@
 				<Option object_output="obj/debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="--skip-intro" />
+				<Option parameters="--skip-intro --go-to-maze" />
 				<Compiler>
 					<Add option="-pg" />
 					<Add option="-g" />
@@ -142,6 +142,7 @@
 		<Unit filename="inc/character.hpp" />
 		<Unit filename="inc/characterpanel.hpp" />
 		<Unit filename="inc/charactersummary.hpp" />
+		<Unit filename="inc/compass.hpp" />
 		<Unit filename="inc/compendium.hpp" />
 		<Unit filename="inc/component.hpp" />
 		<Unit filename="inc/config.hpp" />
@@ -215,6 +216,7 @@
 		<Unit filename="src/character.cpp" />
 		<Unit filename="src/characterpanel.cpp" />
 		<Unit filename="src/charactersummary.cpp" />
+		<Unit filename="src/compass.cpp" />
 		<Unit filename="src/compendium.cpp" />
 		<Unit filename="src/component.cpp" />
 		<Unit filename="src/config.cpp" />

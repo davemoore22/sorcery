@@ -510,6 +510,13 @@
 			"menu_item": "CR_NONE",
 			"key": "controls",
 			"colour": "0xffffffff"
+		},
+		{
+			"index": "73",
+			"filename": "wireframe-globe",
+			"menu_item": "CR_NONE",
+			"key": "compass",
+			"colour": "0x80808080"
 		}
 
 	]

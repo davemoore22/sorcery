@@ -63,6 +63,8 @@ Sorcery::Engine::Engine(
 	_render = std::make_unique<Render>(_system, _display, _graphics, _game);
 	_automap = std::make_unique<AutoMap>(_system, _display, _graphics, _game,
 		(*_display->layout)["global:automap"]);
+	_compass = std::make_unique<Compass>(_system, _display, _graphics, _game,
+		(*_display->layout)["global:compass"]);
 	_left_icon_panel = std::make_unique<IconPanel>(_system, _display, _graphics,
 		_game, (*_display->layout)["engine_base_ui:left_icon_panel"], true);
 	_right_icon_panel =
@@ -70,6 +72,7 @@ Sorcery::Engine::Engine(
 			(*_display->layout)["engine_base_ui:right_icon_panel"], false);
 
 	_update_automap = false;
+	_update_compass = false;
 	_update_icon_panels = false;
 	_update_status_bar = false;
 }
@@ -84,6 +87,7 @@ auto Sorcery::Engine::start() -> int {
 	// Refresh the Party characters
 	_status_bar->refresh();
 	_automap->refresh();
+	_compass->refresh();
 	_left_icon_panel->refresh(true);
 	_right_icon_panel->refresh(true);
 
@@ -96,6 +100,8 @@ auto Sorcery::Engine::start() -> int {
 
 	const Component automap_c{(*_display->layout)["global:automap"]};
 	_automap->setPosition(automap_c.x, automap_c.y);
+	const Component compass_c{(*_display->layout)["global:compass"]};
+	_compass->setPosition(compass_c.x, compass_c.y);
 
 	const Component l_icon_panel_c{
 		(*_display->layout)["engine_base_ui:left_icon_panel"]};
@@ -293,6 +299,7 @@ auto Sorcery::Engine::start() -> int {
 					if (_system->input->check(WindowInput::SPACE, event)) {
 						_game->state->world->create();
 						_update_automap = true;
+						_update_compass = true;
 					} else if (_system->input->check(
 								   WindowInput::CANCEL, event))
 						_in_camp = true;
@@ -370,6 +377,10 @@ auto Sorcery::Engine::start() -> int {
 				_automap->refresh();
 				_update_automap = false;
 			}
+			if (_update_compass) {
+				_compass->refresh();
+				_update_compass = false;
+			}
 			if (_update_icon_panels) {
 				_left_icon_panel->refresh(_in_camp);
 				_right_icon_panel->refresh(_in_camp);
@@ -404,6 +415,7 @@ auto Sorcery::Engine::_draw() -> void {
 	_window->draw(*_status_bar);
 
 	_window->draw(*_automap);
+	_window->draw(*_compass);
 
 	if (_left_icon_panel->selected)
 		_left_icon_panel->set_selected_background();
