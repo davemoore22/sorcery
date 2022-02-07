@@ -49,24 +49,34 @@ auto Sorcery::Compass::refresh() -> void {
 
 	_sprites.resize(1);
 
-	// Get the correct icon to display
-	/* auto compass_icon{""};
+	auto compass{(*_graphics->icons)["direction"].value()};
+	compass.setScale(std::stof(_layout["direction_scaling"].value()),
+		std::stof(_layout["direction_scaling"].value()));
+	auto offset_x{0};
+	auto offset_y{0};
 	switch (_game->state->world->playing_facing) {
 	case MapDirection::NORTH:
-		compass_icon = MapDirection::NORTH;
+		compass.setRotation(180.0f);
+		offset_y += std::stof(_layout["rotation_offset_y"].value());
 		break;
 	case MapDirection::SOUTH:
-		compass_icon = MapDirection::PLAYER_SOUTH;
+		compass.setRotation(0.0f);
+		offset_y -= std::stof(_layout["rotation_offset_y"].value());
 		break;
 	case MapDirection::EAST:
-		compass_icon = MapDirection::PLAYER_EAST;
+		compass.setRotation(270.0f);
 		break;
 	case MapDirection::WEST:
-		compass_icon = AutoMapFeature::PLAYER_WEST;
+		compass.setRotation(90.0f);
 		break;
 	default:
 		break;
-	} */
+	}
+	compass.setPosition(
+		std::stoi(_layout["direction_offset_x"].value()) + offset_x,
+		std::stoi(_layout["direction_offset_y"].value()) + offset_y);
+
+	_sprites.emplace_back(compass);
 }
 
 auto Sorcery::Compass::draw(

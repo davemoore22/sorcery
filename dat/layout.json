@@ -55,9 +55,11 @@
 			"data": [
 				{
 					"direction_colour": "0xffffff",
-					"direction_offset_x": "32",
-					"direction_offset_y": "32",
-					"direction_scaling": "0.10"
+					"direction_offset_x": "96",
+					"direction_offset_y": "64",
+					"direction_scaling": "0.15",
+					"rotation_offset_x": "32",
+					"rotation_offset_y": "32"
 				}
 			]
 		},
