@@ -4,28 +4,19 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_BUILD_PARALLEL_LEVEL 4)
 project(sorcery VERSION 0.1.0)
 
+# Prerequisites
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 find_package(Threads REQUIRED)
-
-# Prerequisites
 find_package(SFML 2.5.1 COMPONENTS system graphics audio network REQUIRED)
-find_package(Threads REQUIRED)
 find_package(X11 REQUIRED)
 find_package(TGUI 0.8 REQUIRED)
-#find_package(sqlite3 REQUIRED)
-#find_package(sfeMovie REQUIRED)
+find_package(SQLite3 REQUIRED)
 find_package(jsoncpp REQUIRED)
-#find_package(thor REQUIRED)
 find_package(fmt REQUIRED)
-#find_package(uuid REQUIRED)
-#find_package(bfd REQUIRED)
-#find_package(dl REQUIRED)
-#find_package(unwind REQUIRED)
-#find_package(stdc++fs REQUIRED)
 
 # Source Files
-add_executable(sorcery
+add_executable(${PROJECT_NAME}
 	src/allocatepanel.cpp
 	src/animation.cpp
 	src/application.cpp
@@ -99,7 +90,7 @@ add_executable(sorcery
 	src/world.cpp)
 
 # Include Directories
-target_include_directories(sorcery PRIVATE
+target_include_directories(${PROJECT_NAME} PRIVATE
 	${CMAKE_SOURCE_DIR}/inc
 	${CMAKE_SOURCE_DIR}/inc/simpleini
 	${CMAKE_SOURCE_DIR}/inc/magicenum
@@ -111,7 +102,7 @@ target_include_directories(sorcery PRIVATE
 	/usr/include/X11)
 
 # Compiler Options
-target_compile_options(sorcery PRIVATE
+target_compile_options(${PROJECT_NAME} PRIVATE
 	-Wall
 	-Wextra
 	-Wpedantic
@@ -135,11 +126,11 @@ target_compile_options(sorcery PRIVATE
 	-g)
 
 # Link Libraries (Linux Hacks)
-target_link_libraries(sorcery PRIVATE Threads::Threads)
-target_link_libraries(sorcery PRIVATE -lX11)
+target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads)
+target_link_libraries(${PROJECT_NAME} PRIVATE -lX11)
 
 # Standard Link Libraries
-target_link_libraries(sorcery PRIVATE
+target_link_libraries(${PROJECT_NAME} PRIVATE
 	sfml-audio
 	sfml-graphics
 	sfml-network
@@ -158,25 +149,31 @@ target_link_libraries(sorcery PRIVATE
 	)
 
 # Post Build Directories
-add_custom_command(TARGET sorcery POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory cfg)
-add_custom_command(TARGET sorcery POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory dat)
-add_custom_command(TARGET sorcery POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory doc)
-add_custom_command(TARGET sorcery POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory gui)
-add_custom_command(TARGET sorcery POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory gfx)
-add_custom_command(TARGET sorcery POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory vfx)
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory
+	cfg)
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory
+	dat)
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory
+	doc)
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory
+	gui)
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory
+	gfx)
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory
+	vfx)
 
 # Post Build Copying
-add_custom_command(TARGET sorcery POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
 	${CMAKE_SOURCE_DIR}/cfg/ $<TARGET_FILE_DIR:${PROJECT_NAME}>/cfg)
-add_custom_command(TARGET sorcery POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
 	${CMAKE_SOURCE_DIR}/dat/ $<TARGET_FILE_DIR:${PROJECT_NAME}>/dat)
-add_custom_command(TARGET sorcery POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
 	${CMAKE_SOURCE_DIR}/doc/ $<TARGET_FILE_DIR:${PROJECT_NAME}>/doc)
-add_custom_command(TARGET sorcery POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
 	${CMAKE_SOURCE_DIR}/gfx/ $<TARGET_FILE_DIR:${PROJECT_NAME}>/gfx)
-add_custom_command(TARGET sorcery POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
 	${CMAKE_SOURCE_DIR}/gui/ $<TARGET_FILE_DIR:${PROJECT_NAME}>/gui)
-add_custom_command(TARGET sorcery POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
 	${CMAKE_SOURCE_DIR}/vfx/ $<TARGET_FILE_DIR:${PROJECT_NAME}>/vfx)
 
 # Packaging
