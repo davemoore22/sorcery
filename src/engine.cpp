@@ -301,7 +301,65 @@ auto Sorcery::Engine::start() -> int {
 						_update_automap = true;
 						_update_compass = true;
 					} else if (_system->input->check(
-								   WindowInput::CANCEL, event))
+								   WindowInput::LEFT, event)) {
+						switch (_game->state->world->playing_facing) {
+						case MapDirection::NORTH:
+							_game->state->world->playing_facing =
+								MapDirection::WEST;
+							break;
+						case MapDirection::SOUTH:
+							_game->state->world->playing_facing =
+								MapDirection::EAST;
+							break;
+						case MapDirection::EAST:
+							_game->state->world->playing_facing =
+								MapDirection::NORTH;
+							break;
+						case MapDirection::WEST:
+							_game->state->world->playing_facing =
+								MapDirection::SOUTH;
+							break;
+						default:
+							break;
+						}
+						_update_automap = true;
+						_update_compass = true;
+					} else if (_system->input->check(
+								   WindowInput::RIGHT, event)) {
+						switch (_game->state->world->playing_facing) {
+						case MapDirection::NORTH:
+							_game->state->world->playing_facing =
+								MapDirection::EAST;
+							break;
+						case MapDirection::SOUTH:
+							_game->state->world->playing_facing =
+								MapDirection::WEST;
+							break;
+						case MapDirection::EAST:
+							_game->state->world->playing_facing =
+								MapDirection::SOUTH;
+							break;
+						case MapDirection::WEST:
+							_game->state->world->playing_facing =
+								MapDirection::NORTH;
+							break;
+						default:
+							break;
+						}
+						_update_automap = true;
+						_update_compass = true;
+
+					} /* else if (_system->input->check(WindowInput::UP,
+					event)) { _update_automap = true; _update_compass =
+					true;
+
+					} else if (_system->input->check(
+								   WindowInput::DOWN, event)) {
+						_update_automap = true;
+						_update_compass = true;
+
+					} */
+					else if (_system->input->check(WindowInput::CANCEL, event))
 						_in_camp = true;
 					else if (_system->input->check(WindowInput::BACK, event))
 						_in_camp = true;
@@ -309,8 +367,9 @@ auto Sorcery::Engine::start() -> int {
 								 WindowInput::CONFIRM, event)) {
 						if (_status_bar->selected) {
 
-							// Remember here status-bar selected is 1-indexed,
-							// not 0-index so we need to take away 1
+							// Remember here status-bar selected is
+							// 1-indexed, not 0-index so we need to take
+							// away 1
 							const auto character_chosen{
 								(_status_bar->selected.value())};
 							_cur_char = &_game->characters.at(
