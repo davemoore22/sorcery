@@ -1954,6 +1954,33 @@ src/tile.cpp.s:
 	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/tile.cpp.s
 .PHONY : src/tile.cpp.s
 
+src/tilemap.o: src/tilemap.cpp.o
+
+.PHONY : src/tilemap.o
+
+# target to build an object file
+src/tilemap.cpp.o:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/tilemap.cpp.o
+.PHONY : src/tilemap.cpp.o
+
+src/tilemap.i: src/tilemap.cpp.i
+
+.PHONY : src/tilemap.i
+
+# target to preprocess a source file
+src/tilemap.cpp.i:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/tilemap.cpp.i
+.PHONY : src/tilemap.cpp.i
+
+src/tilemap.s: src/tilemap.cpp.s
+
+.PHONY : src/tilemap.s
+
+# target to generate assembly for a file
+src/tilemap.cpp.s:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/tilemap.cpp.s
+.PHONY : src/tilemap.cpp.s
+
 src/training.o: src/training.cpp.o
 
 .PHONY : src/training.o
@@ -2274,6 +2301,9 @@ help:
 	@echo "... src/tile.o"
 	@echo "... src/tile.i"
 	@echo "... src/tile.s"
+	@echo "... src/tilemap.o"
+	@echo "... src/tilemap.i"
+	@echo "... src/tilemap.s"
 	@echo "... src/training.o"
 	@echo "... src/training.i"
 	@echo "... src/training.s"
