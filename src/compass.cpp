@@ -57,16 +57,26 @@ auto Sorcery::Compass::refresh() -> void {
 	switch (_game->state->world->playing_facing) {
 	case MapDirection::NORTH:
 		compass.setRotation(180.0f);
+		offset_x += std::stof(_layout["rotation_offset_x"].value());
 		offset_y += std::stof(_layout["rotation_offset_y"].value());
 		break;
 	case MapDirection::SOUTH:
 		compass.setRotation(0.0f);
+		offset_x -= std::stof(_layout["rotation_offset_x"].value());
 		offset_y -= std::stof(_layout["rotation_offset_y"].value());
+		offset_x -= std::stof(_layout["rotation_adjustment_x"].value());
+		offset_y -= std::stof(_layout["rotation_adjustment_y"].value());
 		break;
 	case MapDirection::EAST:
 		compass.setRotation(270.0f);
+		offset_x -= std::stof(_layout["rotation_offset_x"].value());
+		offset_y += std::stof(_layout["rotation_offset_y"].value());
+		offset_x -= std::stof(_layout["rotation_adjustment_x"].value());
 		break;
 	case MapDirection::WEST:
+		offset_x += std::stof(_layout["rotation_offset_x"].value());
+		offset_y -= std::stof(_layout["rotation_offset_y"].value());
+		offset_y -= std::stof(_layout["rotation_adjustment_y"].value());
 		compass.setRotation(90.0f);
 		break;
 	default:
