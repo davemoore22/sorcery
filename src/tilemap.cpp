@@ -62,6 +62,8 @@ auto Sorcery::TileMap::refresh() -> void {
 			auto tile{_game->state->world->current_level->at(lx, ly)};
 			auto texture_id{tile.floor.gfx};
 
+			// Display the background
+
 			// Find the appropriate quad
 			sf::Vertex *quad{&_vertices[(i + j * view_width) * 4]};
 
@@ -75,15 +77,24 @@ auto Sorcery::TileMap::refresh() -> void {
 			// Find the origin texture for the Quad from the Floor Tileset
 			auto tile_rect{_get_rect(texture_id)};
 			quad[0].texCoords = sf::Vector2f(tile_rect.left, tile_rect.top);
-			quad[1].texCoords = sf::Vector2f(tile_rect.left + tile_rect.width,
-				tile_rect.left + tile_rect.width);
+			quad[1].texCoords =
+				sf::Vector2f(tile_rect.left + tile_rect.width, tile_rect.top);
 			quad[2].texCoords = sf::Vector2f(tile_rect.left + tile_rect.width,
-				tile_rect.left + tile_rect.width + tile_rect.height);
-			quad[3].texCoords = sf::Vector2f(tile_rect.left,
-				tile_rect.left + tile_rect.width + tile_rect.height);
+				tile_rect.top + tile_rect.height);
+			quad[3].texCoords =
+				sf::Vector2f(tile_rect.left, tile_rect.top + tile_rect.height);
+
+            // now do the Walls
+
+            // And the Doors
+
+            // And any decorations
+
+            // The Party
 
 			++i;
 		}
+		i = 0;
 		++j;
 	}
 }
@@ -97,12 +108,10 @@ auto Sorcery::TileMap::draw(
 	states.transform *= getTransform();
 }
 
-// Fortunately we are using square icons so we can easily find the appropriate
-// icon from the spritesheet - note that we have 15 icons per row, and each icon
-// is 511x511 pixels
+// Texture Tiles are 400 pixels in size
 auto Sorcery::TileMap::_get_rect(unsigned int index) const -> sf::IntRect {
 
-	constexpr auto tile_size{511};
+	constexpr auto tile_size{400};
 	return sf::IntRect(tile_size * (index % 15), tile_size * (index / 15),
 		tile_size, tile_size);
 }

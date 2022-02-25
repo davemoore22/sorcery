@@ -8918,7 +8918,7 @@
 			"drawmode": "manual",
 			"data": [
 				{
-				"tile_size": "128",
+				"tile_size": "148",
 				"view_width_radius": "7",
 				"view_height_radius": "5"
 				}
