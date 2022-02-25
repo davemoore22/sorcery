@@ -70,11 +70,14 @@ Sorcery::Engine::Engine(
 	_right_icon_panel =
 		std::make_unique<IconPanel>(_system, _display, _graphics, _game,
 			(*_display->layout)["engine_base_ui:right_icon_panel"], false);
+	_overhead_view = std::make_unique<TileMap>(_system, _display, _graphics,
+		_game, (*_display->layout)["engine_base_ui:overhead_view"]);
 
 	_update_automap = false;
 	_update_compass = false;
 	_update_icon_panels = false;
 	_update_status_bar = false;
+	_update_overhead_view = false;
 }
 
 // Standard Destructor
@@ -90,6 +93,7 @@ auto Sorcery::Engine::start() -> int {
 	_compass->refresh();
 	_left_icon_panel->refresh(true);
 	_right_icon_panel->refresh(true);
+	_overhead_view->refresh();
 
 	// Generate the Custom Components
 	const Component status_bar_c{
@@ -324,6 +328,7 @@ auto Sorcery::Engine::start() -> int {
 						}
 						_update_automap = true;
 						_update_compass = true;
+						_update_overhead_view = true;
 					} else if (_system->input->check(
 								   WindowInput::RIGHT, event)) {
 						switch (_game->state->world->playing_facing) {
@@ -348,6 +353,7 @@ auto Sorcery::Engine::start() -> int {
 						}
 						_update_automap = true;
 						_update_compass = true;
+						_update_overhead_view = true;
 
 					} /* else if (_system->input->check(WindowInput::UP,
 					event)) { _update_automap = true; _update_compass =
@@ -449,6 +455,10 @@ auto Sorcery::Engine::start() -> int {
 				_status_bar->refresh();
 				_update_status_bar = false;
 			}
+			if (_update_overhead_view) {
+				_overhead_view->refresh();
+				_update_overhead_view = false;
+			}
 			_window->clear();
 			_draw();
 			_window->display();
@@ -468,6 +478,9 @@ auto Sorcery::Engine::_draw() -> void {
 
 	// Custom Components
 	_display->display("engine_base_ui");
+
+	_overhead_view->setPosition(1, 1);
+	_window->draw(*_overhead_view);
 
 	if (_status_bar->selected)
 		_status_bar->set_selected_background();

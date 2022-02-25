@@ -8908,6 +8908,21 @@
 			"justification": "centre",
 			"type": "menu",
 			"priority": "4"
+		},
+		{
+			"name": "overhead_view",
+			"x": "0",
+			"y": "0",
+			"type": "other",
+			"priority": "4",
+			"drawmode": "manual",
+			"data": [
+				{
+				"tile_size": "128",
+				"view_width_radius": "7",
+				"view_height_radius": "5"
+				}
+			]
 		}
 		]
 	}

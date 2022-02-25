@@ -327,10 +327,10 @@
 1630415029 source:/home/dave/Development/wizardry/sorcery-sfml/src/display.cpp
 	"display.hpp"
 
-1645394196 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine.cpp
+1645823783 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine.cpp
 	"engine.hpp"
 
-1644167998 /home/dave/Development/wizardry/sorcery-sfml/inc/engine.hpp
+1645823096 /home/dave/Development/wizardry/sorcery-sfml/inc/engine.hpp
 	"automap.hpp"
 	"compass.hpp"
 	"dialog.hpp"
@@ -346,6 +346,7 @@
 	"reorder.hpp"
 	"statusbar.hpp"
 	"system.hpp"
+	"tilemap.hpp"
 
 1633461394 source:/home/dave/Development/wizardry/sorcery-sfml/src/file.cpp
 	"file.hpp"
@@ -1463,4 +1464,14 @@
 
 1645472248 source:/home/dave/Development/wizardry/sorcery-sfml/src/compass.cpp
 	"compass.hpp"
+
+1645824234 /home/dave/Development/wizardry/sorcery-sfml/inc/tilemap.hpp
+	"display.hpp"
+	"game.hpp"
+	"graphics.hpp"
+	"main.hpp"
+	"system.hpp"
+
+1645822683 source:/home/dave/Development/wizardry/sorcery-sfml/src/tilemap.cpp
+	"tilemap.hpp"
 

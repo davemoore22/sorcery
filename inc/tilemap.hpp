@@ -24,4 +24,42 @@
 
 #pragma once
 
+#include "display.hpp"
+#include "game.hpp"
+#include "graphics.hpp"
 #include "main.hpp"
+#include "system.hpp"
+
+namespace Sorcery {
+
+	class TileMap : public sf::Transformable, public sf::Drawable {
+
+	  public:
+		// Constructors
+		TileMap(System *system, Display *display, Graphics *graphics,
+			Game *game, Component layout);
+		TileMap() = delete;
+
+		// Public Members
+
+		// Public Methods
+		auto refresh() -> void;
+
+	  private:
+		// Private Methods
+		auto _get_rect(unsigned int index) const -> sf::IntRect;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+
+		// Private Members
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
+		Game *_game;
+		Component _layout;
+		unsigned int _height;
+		unsigned int _width;
+		sf::VertexArray _vertices;
+		sf::Texture *_tilemap_texture;
+	};
+} // namespace Sorcery
