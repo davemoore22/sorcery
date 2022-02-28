@@ -48,6 +48,8 @@ namespace Sorcery {
 	  private:
 		// Private Methods
 		auto _get_rect(unsigned int index) const -> sf::IntRect;
+		auto _refresh_floor() -> void;
+		auto _refresh_walls() -> void;
 		auto virtual draw(
 			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
@@ -59,7 +61,9 @@ namespace Sorcery {
 		Component _layout;
 		unsigned int _height;
 		unsigned int _width;
-		sf::VertexArray _vertices;
+		sf::VertexArray _floor_vertices;
+		sf::VertexArray _wall_vertices;
 		sf::Texture *_tilemap_texture;
+		sf::Texture *_wall_texture;
 	};
 } // namespace Sorcery

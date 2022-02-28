@@ -33,21 +33,28 @@ Sorcery::TileMap::TileMap(System *system, Display *display, Graphics *graphics,
 	_width = MAP_SIZE;
 
 	_tilemap_texture = &_system->resources->textures[GraphicsTexture::FLOORS];
+	_wall_texture = &_system->resources->textures[GraphicsTexture::WALLS];
 }
 
 auto Sorcery::TileMap::refresh() -> void {
 
-	_vertices.setPrimitiveType(sf::Quads);
-	_vertices.resize(_width * _height * 4);
+	_refresh_floor();
+	_refresh_walls();
+}
 
-	const int view_width_radius{
+auto Sorcery::TileMap::_refresh_floor() -> void {
+
+	_floor_vertices.setPrimitiveType(sf::Quads);
+	_floor_vertices.resize(_width * _height * 4);
+
+	const auto view_width_radius{
 		std::stoi(_layout["view_width_radius"].value())};
-	const int view_height_radius{
+	const auto view_height_radius{
 		std::stoi(_layout["view_height_radius"].value())};
-	const int tile_size{std::stoi(_layout["tile_size"].value())};
-	int i{0};
-	int j{0};
-	const int view_width{view_width_radius * 2 + 1};
+	const auto tile_size{std::stoi(_layout["tile_size"].value())};
+	auto i{0};
+	auto j{0};
+	const auto view_width{view_width_radius * 2 + 1};
 
 	// For each square in the viewport
 	auto player_pos(_game->state->world->player_pos);
@@ -60,50 +67,222 @@ auto Sorcery::TileMap::refresh() -> void {
 			auto lx{x < 0 ? x + MAP_SIZE : x};
 			auto ly{y < 0 ? y + MAP_SIZE : y};
 			auto tile{_game->state->world->current_level->at(lx, ly)};
-			auto texture_id{tile.floor.gfx};
+			auto texture_id{tile.floor.gfx + 4}; // TODO: Hack to remove
 
 			// Display the background
 
 			// Find the appropriate quad
-			sf::Vertex *quad{&_vertices[(i + j * view_width) * 4]};
+			sf::Vertex *floor_quad{&_floor_vertices[(i + j * view_width) * 4]};
 
 			// Define its corners
-			quad[0].position = sf::Vector2f(i * tile_size, j * tile_size);
-			quad[1].position = sf::Vector2f((i + 1) * tile_size, j * tile_size);
-			quad[2].position =
+			floor_quad[0].position = sf::Vector2f(i * tile_size, j * tile_size);
+			floor_quad[1].position =
+				sf::Vector2f((i + 1) * tile_size, j * tile_size);
+			floor_quad[2].position =
 				sf::Vector2f((i + 1) * tile_size, (j + 1) * tile_size);
-			quad[3].position = sf::Vector2f(i * tile_size, (j + 1) * tile_size);
+			floor_quad[3].position =
+				sf::Vector2f(i * tile_size, (j + 1) * tile_size);
 
 			// Find the origin texture for the Quad from the Floor Tileset
 			auto tile_rect{_get_rect(texture_id)};
-			quad[0].texCoords = sf::Vector2f(tile_rect.left, tile_rect.top);
-			quad[1].texCoords =
+			floor_quad[0].texCoords =
+				sf::Vector2f(tile_rect.left, tile_rect.top);
+			floor_quad[1].texCoords =
 				sf::Vector2f(tile_rect.left + tile_rect.width, tile_rect.top);
-			quad[2].texCoords = sf::Vector2f(tile_rect.left + tile_rect.width,
-				tile_rect.top + tile_rect.height);
-			quad[3].texCoords =
+			floor_quad[2].texCoords =
+				sf::Vector2f(tile_rect.left + tile_rect.width,
+					tile_rect.top + tile_rect.height);
+			floor_quad[3].texCoords =
 				sf::Vector2f(tile_rect.left, tile_rect.top + tile_rect.height);
-
-            // now do the Walls
-
-            // And the Doors
-
-            // And any decorations
-
-            // The Party
 
 			++i;
 		}
 		i = 0;
 		++j;
 	}
-}
+};
+
+auto Sorcery::TileMap::_refresh_walls() -> void {
+
+	_wall_vertices.setPrimitiveType(sf::Quads);
+	_wall_vertices.resize(_width * _height * 4 * 4);
+
+	const auto view_width_radius{
+		std::stoi(_layout["view_width_radius"].value())};
+	const auto view_height_radius{
+		std::stoi(_layout["view_height_radius"].value())};
+	const auto tile_size{std::stoi(_layout["tile_size"].value())};
+	auto i{0};
+	auto j{0};
+	const auto view_width{view_width_radius * 2 + 1};
+
+	// For each square in the viewport
+	auto player_pos(_game->state->world->player_pos);
+	for (auto y = static_cast<int>(player_pos.y - view_width_radius);
+		 y <= static_cast<int>(player_pos.y + view_width_radius); y++) {
+		for (auto x = static_cast<int>(player_pos.x - view_height_radius);
+			 x <= static_cast<int>(player_pos.x) + view_height_radius; x++) {
+
+			// Get the Tile
+			auto lx{x < 0 ? x + MAP_SIZE : x};
+			auto ly{y < 0 ? y + MAP_SIZE : y};
+			auto tile{_game->state->world->current_level->at(lx, ly)};
+
+			// Get the Walls (note texture 0 is the white square only)
+			auto n_id{tile.check_wall(TileWall::NORTH)
+						  ? tile.walls.at(TileWall::NORTH).gfx
+						  : 1}; // TODO: hack
+			auto s_id{tile.check_wall(TileWall::SOUTH)
+						  ? tile.walls.at(TileWall::SOUTH).gfx
+						  : 1};
+			auto e_id{tile.check_wall(TileWall::EAST)
+						  ? tile.walls.at(TileWall::EAST).gfx
+						  : 1};
+			auto w_id{tile.check_wall(TileWall::WEST)
+						  ? tile.walls.at(TileWall::WEST).gfx
+						  : 1};
+
+			// Find the appropriate quad
+			sf::Vertex *wall_quad{
+				&_wall_vertices[(i + j * view_width) * 4 * 4]};
+
+			// Work out the tile corners for sake of convenience
+			auto top_left{sf::Vector2f(i * tile_size, j * tile_size)};
+			auto top_right{sf::Vector2f((i + 1) * tile_size, j * tile_size)};
+			auto bottom_right{
+				sf::Vector2f((i + 1) * tile_size, (j + 1) * tile_size)};
+			auto bottom_left{sf::Vector2f(i * tile_size, (j + 1) * tile_size)};
+
+			// North Wall - clockwise from top-left
+			auto n_wall_thickness{
+				n_id != 0
+					? std::stoi(_layout["wall_thickness_destination"].value())
+					: std::stoi(
+						  _layout["no_wall_thickness_destination"].value())};
+			wall_quad[0].position = sf::Vector2f(top_left.x, top_left.y);
+			wall_quad[1].position = sf::Vector2f(top_right.x, top_right.y);
+			wall_quad[2].position =
+				sf::Vector2f(top_right.x, top_right.y + n_wall_thickness);
+			wall_quad[3].position =
+				sf::Vector2f(top_left.x, top_right.y + n_wall_thickness);
+			auto n_tile_rect{_get_rect(n_id)};
+			auto n_texture_wall_thickness{
+				n_id != 0
+					? std::stoi(_layout["wall_thickness_source"].value())
+					: std::stoi(_layout["no_wall_thickness_source"].value())};
+			wall_quad[0].texCoords =
+				sf::Vector2f(n_tile_rect.left, n_tile_rect.top);
+			wall_quad[1].texCoords = sf::Vector2f(
+				n_tile_rect.left + n_tile_rect.width, n_tile_rect.top);
+			wall_quad[2].texCoords =
+				sf::Vector2f(n_tile_rect.left + n_tile_rect.width,
+					n_tile_rect.top + n_texture_wall_thickness);
+			wall_quad[3].texCoords = sf::Vector2f(
+				n_tile_rect.left, n_tile_rect.top + n_texture_wall_thickness);
+
+			// South Wall - anti-clockwise from bottom-left
+			auto s_wall_thickness{
+				s_id != 0
+					? std::stoi(_layout["wall_thickness_destination"].value())
+					: std::stoi(
+						  _layout["no_wall_thickness_destination"].value())};
+			wall_quad[4].position = sf::Vector2f(bottom_left.x, bottom_left.y);
+			wall_quad[5].position =
+				sf::Vector2f(bottom_right.x, bottom_right.y);
+			wall_quad[6].position =
+				sf::Vector2f(bottom_right.x, bottom_right.y - s_wall_thickness);
+			wall_quad[7].position =
+				sf::Vector2f(bottom_left.x, bottom_right.y - s_wall_thickness);
+			auto s_tile_rect{_get_rect(s_id)};
+			auto s_texture_wall_thickness{
+				s_id != 0
+					? std::stoi(_layout["wall_thickness_source"].value())
+					: std::stoi(_layout["no_wall_thickness_source"].value())};
+			wall_quad[4].texCoords = sf::Vector2f(
+				s_tile_rect.left, s_tile_rect.top + s_tile_rect.height);
+			wall_quad[5].texCoords =
+				sf::Vector2f(s_tile_rect.left + s_tile_rect.width,
+					s_tile_rect.top + s_tile_rect.height);
+			wall_quad[6].texCoords =
+				sf::Vector2f(s_tile_rect.left + s_tile_rect.width,
+					s_tile_rect.top + s_tile_rect.height -
+						s_texture_wall_thickness);
+			wall_quad[7].texCoords = sf::Vector2f(
+				s_tile_rect.left, s_tile_rect.top + s_tile_rect.height -
+									  s_texture_wall_thickness);
+
+			// East Wall - clockwise from top-right
+			auto e_wall_thickness{
+				e_id != 0
+					? std::stoi(_layout["wall_thickness_destination"].value())
+					: std::stoi(
+						  _layout["no_wall_thickness_destination"].value())};
+			wall_quad[8].position = sf::Vector2f(top_right.x, top_right.y);
+			wall_quad[9].position =
+				sf::Vector2f(bottom_right.x, bottom_right.y);
+			wall_quad[10].position =
+				sf::Vector2f(bottom_right.x - e_wall_thickness, bottom_right.y);
+			wall_quad[11].position =
+				sf::Vector2f(top_right.x - e_wall_thickness, top_right.y);
+			auto e_tile_rect{_get_rect(e_id)};
+			auto e_texture_wall_thickness{
+				e_id != 0
+					? std::stoi(_layout["wall_thickness_source"].value())
+					: std::stoi(_layout["no_wall_thickness_source"].value())};
+			wall_quad[8].texCoords = sf::Vector2f(
+				e_tile_rect.left + e_tile_rect.width, e_tile_rect.top);
+			wall_quad[9].texCoords =
+				sf::Vector2f(e_tile_rect.left + e_tile_rect.width,
+					e_tile_rect.top + e_tile_rect.height);
+			wall_quad[10].texCoords = sf::Vector2f(
+				e_tile_rect.left + e_tile_rect.width - e_texture_wall_thickness,
+				e_tile_rect.top + e_tile_rect.height);
+			wall_quad[11].texCoords = sf::Vector2f(
+				e_tile_rect.left + e_tile_rect.width - e_texture_wall_thickness,
+				e_tile_rect.top);
+
+			// West Wall - anti-clockwise from top-left
+			auto w_wall_thickness{
+				w_id != 0
+					? std::stoi(_layout["wall_thickness_destination"].value())
+					: std::stoi(
+						  _layout["no_wall_thickness_destination"].value())};
+			wall_quad[12].position = sf::Vector2f(top_left.x, top_left.y);
+			wall_quad[13].position = sf::Vector2f(top_left.x, bottom_left.y);
+			wall_quad[14].position =
+				sf::Vector2f(bottom_left.x + w_wall_thickness, bottom_left.y);
+			wall_quad[15].position =
+				sf::Vector2f(bottom_left.x + w_wall_thickness, top_left.y);
+			auto w_tile_rect{_get_rect(w_id)};
+			auto w_texture_wall_thickness{
+				w_id != 0
+					? std::stoi(_layout["wall_thickness_source"].value())
+					: std::stoi(_layout["no_wall_thickness_source"].value())};
+
+			wall_quad[12].texCoords =
+				sf::Vector2f(w_tile_rect.left, w_tile_rect.top);
+			wall_quad[13].texCoords = sf::Vector2f(
+				w_tile_rect.left, w_tile_rect.top + w_tile_rect.height);
+			wall_quad[14].texCoords =
+				sf::Vector2f(e_tile_rect.left + w_texture_wall_thickness,
+					w_tile_rect.top + w_tile_rect.height);
+			wall_quad[15].texCoords = sf::Vector2f(
+				w_tile_rect.left + w_texture_wall_thickness, w_tile_rect.top);
+
+			++i;
+		}
+		i = 0;
+		++j;
+	}
+};
 
 auto Sorcery::TileMap::draw(
 	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.texture = _tilemap_texture;
-	target.draw(_vertices, states);
+	target.draw(_floor_vertices, states);
+	states.texture = _wall_texture;
+	target.draw(_wall_vertices, states);
 
 	states.transform *= getTransform();
 }
