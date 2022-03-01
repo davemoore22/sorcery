@@ -240,6 +240,7 @@ auto Sorcery::Tile::_reset_walls() -> void {
 
 auto Sorcery::Tile::check_wall(TileWall wall) -> bool {
 
+	// TODO: Not entirely happy with this way of handling things
 	return walls.at(wall).visible;
 }
 
@@ -265,12 +266,21 @@ auto Sorcery::Tile::set_walls(bool north, bool south, bool east, bool west)
 		walls[TileWall::WEST] = Wall();
 }
 
-auto Sorcery::Tile::set_gfx(int value) -> void {
+auto Sorcery::Tile::set_wall_gfx(int value) -> void {
 
-	walls.at(TileWall::NORTH).gfx = value;
-	walls.at(TileWall::SOUTH).gfx = value;
-	walls.at(TileWall::EAST).gfx = value;
-	walls.at(TileWall::WEST).gfx = value;
+	if (walls.at(TileWall::NORTH).visible)
+		walls.at(TileWall::NORTH).gfx = value;
+	if (walls.at(TileWall::SOUTH).visible)
+		walls.at(TileWall::SOUTH).gfx = value;
+	if (walls.at(TileWall::EAST).visible)
+		walls.at(TileWall::EAST).gfx = value;
+	if (walls.at(TileWall::WEST).visible)
+		walls.at(TileWall::WEST).gfx = value;
+}
+
+auto Sorcery::Tile::set_floor_gfx(int value) -> void {
+
+	// For now, set them to the same
 	floor.gfx = value;
 	floor.visible = true;
 	ceiling.gfx = value;

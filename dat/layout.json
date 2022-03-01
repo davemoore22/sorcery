@@ -8918,13 +8918,13 @@
 			"drawmode": "manual",
 			"data": [
 				{
-				"tile_size": "148",
-				"view_width_radius": "7",
+				"tile_size": "100",
+				"view_width_radius": "9",
 				"view_height_radius": "5",
-				"wall_thickness_source": "12",
-				"wall_thickness_destination": "12",
-				"no_wall_thickness_source": "3",
-				"no_wall_thickness_destination": "3"
+				"wall_thickness_source": "6",
+				"wall_thickness_destination": "6",
+				"no_wall_thickness_source": "2",
+				"no_wall_thickness_destination": "2"
 				}
 			]
 		}

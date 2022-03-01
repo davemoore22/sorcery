@@ -49,6 +49,7 @@ namespace Sorcery {
 		auto at(unsigned int x, unsigned int y) -> Tile &;
 		auto tiles() const -> std::vector<Tile>;
 		auto get_type() const -> MapType;
+		auto recreate_level() -> void;
 
 	  private:
 		// Private Members

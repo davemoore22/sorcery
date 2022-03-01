@@ -54,6 +54,8 @@ auto Sorcery::TileMap::_refresh_floor() -> void {
 	const auto tile_size{std::stoi(_layout["tile_size"].value())};
 	auto i{0};
 	auto j{0};
+
+	// Note that width is always greater than height so we can do this
 	const auto view_width{view_width_radius * 2 + 1};
 
 	// For each square in the viewport
@@ -115,6 +117,7 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 	auto i{0};
 	auto j{0};
 	const auto view_width{view_width_radius * 2 + 1};
+	const auto view_height{view_height_radius * 2 + 1};
 
 	// For each square in the viewport
 	auto player_pos(_game->state->world->player_pos);
@@ -131,16 +134,16 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 			// Get the Walls (note texture 0 is the white square only)
 			auto n_id{tile.check_wall(TileWall::NORTH)
 						  ? tile.walls.at(TileWall::NORTH).gfx
-						  : 1}; // TODO: hack
+						  : 0}; // TODO: hack
 			auto s_id{tile.check_wall(TileWall::SOUTH)
 						  ? tile.walls.at(TileWall::SOUTH).gfx
-						  : 1};
+						  : 0};
 			auto e_id{tile.check_wall(TileWall::EAST)
 						  ? tile.walls.at(TileWall::EAST).gfx
-						  : 1};
+						  : 0};
 			auto w_id{tile.check_wall(TileWall::WEST)
 						  ? tile.walls.at(TileWall::WEST).gfx
-						  : 1};
+						  : 0};
 
 			// Find the appropriate quad
 			sf::Vertex *wall_quad{

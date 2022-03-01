@@ -78,9 +78,15 @@ auto Sorcery::Map::at(unsigned int x, unsigned int y) -> Tile & {
 
 	return _tiles.at(COORD2VECPOS(x, y));
 }
+
 auto Sorcery::Map::tiles() const -> std::vector<Tile> {
 
 	return _tiles;
+}
+
+auto Sorcery::Map::recreate_level() -> void {
+
+	_create_level(MapType::START);
 }
 
 // Reset the level
@@ -153,10 +159,12 @@ auto Sorcery::Map::_create_level(MapType type) -> void {
 			tile_bottom.set_walls(true, false, false, false);
 		}
 
-		for (auto y = 0u; y < 20u; y++) {
-			for (auto x = 0u; x < 20u; x++) {
-				auto &tile{_tiles.at((x * MAP_SIZE) + y)};
-				tile.set_gfx(1);
+		for (auto x = 1u; x < MAP_SIZE - 1; x++) {
+			for (auto y = 1u; y < MAP_SIZE - 1; y++) {
+
+				auto &tile{_tiles.at(COORD2VECPOS(x, y))};
+				tile.set_floor_gfx(1);
+				tile.set_wall_gfx(5); // TODO: temporqry values
 			}
 		}
 
