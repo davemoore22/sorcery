@@ -241,9 +241,11 @@ auto Sorcery::Tile::_reset_walls() -> void {
 auto Sorcery::Tile::check_wall(TileWall wall) -> bool {
 
 	// TODO: Not entirely happy with this way of handling things
+	// need a different flag than visible to indicate the presence of a wall
 	return walls.at(wall).visible;
 }
 
+// Set Walls
 auto Sorcery::Tile::set_walls(bool north, bool south, bool east, bool west)
 	-> void {
 
@@ -264,6 +266,20 @@ auto Sorcery::Tile::set_walls(bool north, bool south, bool east, bool west)
 		walls[TileWall::WEST] = Wall(MapDirection::WEST);
 	else
 		walls[TileWall::WEST] = Wall();
+}
+
+// Different from above in that it only sets true regardless of current state
+auto Sorcery::Tile::set_walls_mask(bool north, bool south, bool east, bool west)
+	-> void {
+
+	if (north)
+		walls[TileWall::NORTH] = Wall(MapDirection::NORTH);
+	if (south)
+		walls[TileWall::SOUTH] = Wall(MapDirection::SOUTH);
+	if (east)
+		walls[TileWall::EAST] = Wall(MapDirection::EAST);
+	if (west)
+		walls[TileWall::WEST] = Wall(MapDirection::WEST);
 }
 
 auto Sorcery::Tile::set_wall_gfx(int value) -> void {

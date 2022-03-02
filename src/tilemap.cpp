@@ -34,17 +34,20 @@ Sorcery::TileMap::TileMap(System *system, Display *display, Graphics *graphics,
 
 	_tilemap_texture = &_system->resources->textures[GraphicsTexture::FLOORS];
 	_wall_texture = &_system->resources->textures[GraphicsTexture::WALLS];
+
+	_wall_vertices.setPrimitiveType(sf::Quads);
+	_floor_vertices.setPrimitiveType(sf::Quads);
 }
 
 auto Sorcery::TileMap::refresh() -> void {
 
 	_refresh_floor();
-	_refresh_walls();
+	//_refresh_walls();
 }
 
 auto Sorcery::TileMap::_refresh_floor() -> void {
 
-	_floor_vertices.setPrimitiveType(sf::Quads);
+	_floor_vertices.clear();
 	_floor_vertices.resize(_width * _height * 4);
 
 	const auto view_width_radius{
@@ -69,7 +72,7 @@ auto Sorcery::TileMap::_refresh_floor() -> void {
 			auto lx{x < 0 ? x + MAP_SIZE : x};
 			auto ly{y < 0 ? y + MAP_SIZE : y};
 			auto tile{_game->state->world->current_level->at(lx, ly)};
-			auto texture_id{tile.floor.gfx + 4}; // TODO: Hack to remove
+			auto texture_id{tile.floor.gfx};
 
 			// Display the background
 
@@ -106,7 +109,7 @@ auto Sorcery::TileMap::_refresh_floor() -> void {
 
 auto Sorcery::TileMap::_refresh_walls() -> void {
 
-	_wall_vertices.setPrimitiveType(sf::Quads);
+	_wall_vertices.clear();
 	_wall_vertices.resize(_width * _height * 4 * 4);
 
 	const auto view_width_radius{
@@ -134,16 +137,16 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 			// Get the Walls (note texture 0 is the white square only)
 			auto n_id{tile.check_wall(TileWall::NORTH)
 						  ? tile.walls.at(TileWall::NORTH).gfx
-						  : 0}; // TODO: hack
+						  : -1}; // TODO: hack
 			auto s_id{tile.check_wall(TileWall::SOUTH)
 						  ? tile.walls.at(TileWall::SOUTH).gfx
-						  : 0};
+						  : -1};
 			auto e_id{tile.check_wall(TileWall::EAST)
 						  ? tile.walls.at(TileWall::EAST).gfx
-						  : 0};
+						  : -1};
 			auto w_id{tile.check_wall(TileWall::WEST)
 						  ? tile.walls.at(TileWall::WEST).gfx
-						  : 0};
+						  : -1};
 
 			// Find the appropriate quad
 			sf::Vertex *wall_quad{
@@ -158,7 +161,7 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 
 			// North Wall - clockwise from top-left
 			auto n_wall_thickness{
-				n_id != 0
+				n_id != -1
 					? std::stoi(_layout["wall_thickness_destination"].value())
 					: std::stoi(
 						  _layout["no_wall_thickness_destination"].value())};
@@ -170,7 +173,7 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 				sf::Vector2f(top_left.x, top_right.y + n_wall_thickness);
 			auto n_tile_rect{_get_rect(n_id)};
 			auto n_texture_wall_thickness{
-				n_id != 0
+				n_id != -1
 					? std::stoi(_layout["wall_thickness_source"].value())
 					: std::stoi(_layout["no_wall_thickness_source"].value())};
 			wall_quad[0].texCoords =
@@ -185,7 +188,7 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 
 			// South Wall - anti-clockwise from bottom-left
 			auto s_wall_thickness{
-				s_id != 0
+				s_id != -1
 					? std::stoi(_layout["wall_thickness_destination"].value())
 					: std::stoi(
 						  _layout["no_wall_thickness_destination"].value())};
@@ -198,7 +201,7 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 				sf::Vector2f(bottom_left.x, bottom_right.y - s_wall_thickness);
 			auto s_tile_rect{_get_rect(s_id)};
 			auto s_texture_wall_thickness{
-				s_id != 0
+				s_id != -1
 					? std::stoi(_layout["wall_thickness_source"].value())
 					: std::stoi(_layout["no_wall_thickness_source"].value())};
 			wall_quad[4].texCoords = sf::Vector2f(
@@ -216,7 +219,7 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 
 			// East Wall - clockwise from top-right
 			auto e_wall_thickness{
-				e_id != 0
+				e_id != -1
 					? std::stoi(_layout["wall_thickness_destination"].value())
 					: std::stoi(
 						  _layout["no_wall_thickness_destination"].value())};
@@ -229,7 +232,7 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 				sf::Vector2f(top_right.x - e_wall_thickness, top_right.y);
 			auto e_tile_rect{_get_rect(e_id)};
 			auto e_texture_wall_thickness{
-				e_id != 0
+				e_id != -1
 					? std::stoi(_layout["wall_thickness_source"].value())
 					: std::stoi(_layout["no_wall_thickness_source"].value())};
 			wall_quad[8].texCoords = sf::Vector2f(
@@ -246,7 +249,7 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 
 			// West Wall - anti-clockwise from top-left
 			auto w_wall_thickness{
-				w_id != 0
+				w_id != -1
 					? std::stoi(_layout["wall_thickness_destination"].value())
 					: std::stoi(
 						  _layout["no_wall_thickness_destination"].value())};
@@ -258,7 +261,7 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 				sf::Vector2f(bottom_left.x + w_wall_thickness, top_left.y);
 			auto w_tile_rect{_get_rect(w_id)};
 			auto w_texture_wall_thickness{
-				w_id != 0
+				w_id != -1
 					? std::stoi(_layout["wall_thickness_source"].value())
 					: std::stoi(_layout["no_wall_thickness_source"].value())};
 

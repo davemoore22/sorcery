@@ -79,6 +79,8 @@ namespace Sorcery {
 		auto count_wall() const -> unsigned int;
 		auto id() const -> long;
 		auto set_walls(bool north, bool south, bool east, bool west) -> void;
+		auto set_walls_mask(bool north, bool south, bool east, bool west)
+			-> void;
 		auto set_wall_gfx(int value) -> void;
 		auto set_floor_gfx(int value) -> void;
 

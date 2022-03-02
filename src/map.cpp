@@ -133,17 +133,8 @@ auto Sorcery::Map::_create_level(MapType type) -> void {
 			}
 		}
 
-		// Set Corner Tiles
-		_tiles.at(COORD2VECPOS(0, 0)).set_walls(false, true, false, true);
-		_tiles.at(COORD2VECPOS(0, MAP_SIZE - 1))
-			.set_walls(true, false, false, true);
-		_tiles.at(COORD2VECPOS(MAP_SIZE - 1, 0))
-			.set_walls(false, true, true, false);
-		_tiles.at(COORD2VECPOS(MAP_SIZE - 1, MAP_SIZE - 1))
-			.set_walls(true, false, true, false);
-
 		// Set Outside Walls
-		for (auto y = 1u; y < MAP_SIZE - 1; y++) {
+		for (auto y = 0u; y < MAP_SIZE; y++) {
 			auto &tile_left{_tiles.at(COORD2VECPOS(0, y))};
 			tile_left.set_walls(false, false, false, true);
 
@@ -151,7 +142,7 @@ auto Sorcery::Map::_create_level(MapType type) -> void {
 			tile_right.set_walls(false, false, true, false);
 		}
 
-		for (auto x = 1u; x < MAP_SIZE - 1; x++) {
+		for (auto x = 0u; x < MAP_SIZE; x++) {
 			auto &tile_top{_tiles.at(COORD2VECPOS(x, 0))};
 			tile_top.set_walls(false, true, false, false);
 
@@ -159,12 +150,21 @@ auto Sorcery::Map::_create_level(MapType type) -> void {
 			tile_bottom.set_walls(true, false, false, false);
 		}
 
-		for (auto x = 1u; x < MAP_SIZE - 1; x++) {
-			for (auto y = 1u; y < MAP_SIZE - 1; y++) {
+		// Set Corner Tiles
+		_tiles.at(COORD2VECPOS(0, 0)).set_walls_mask(false, true, false, true);
+		_tiles.at(COORD2VECPOS(0, MAP_SIZE - 1))
+			.set_walls_mask(true, false, false, true);
+		_tiles.at(COORD2VECPOS(MAP_SIZE - 1, 0))
+			.set_walls_mask(false, true, true, false);
+		_tiles.at(COORD2VECPOS(MAP_SIZE - 1, MAP_SIZE - 1))
+			.set_walls_mask(true, false, true, false);
+
+		for (auto x = 0u; x < MAP_SIZE; x++) {
+			for (auto y = 0u; y < MAP_SIZE; y++) {
 
 				auto &tile{_tiles.at(COORD2VECPOS(x, y))};
-				tile.set_floor_gfx(1);
-				tile.set_wall_gfx(5); // TODO: temporqry values
+				tile.set_floor_gfx(17);
+				// tile.set_wall_gfx(5); // TODO: temporqry values
 			}
 		}
 
