@@ -106,6 +106,9 @@ auto Sorcery::Engine::start() -> int {
 	_automap->setPosition(automap_c.x, automap_c.y);
 	const Component compass_c{(*_display->layout)["global:compass"]};
 	_compass->setPosition(compass_c.x, compass_c.y);
+	const Component overhead_c{
+		(*_display->layout)["engine_base_ui:overhead_view"]};
+	_overhead_view->setPosition(overhead_c.x, overhead_c.y);
 
 	const Component l_icon_panel_c{
 		(*_display->layout)["engine_base_ui:left_icon_panel"]};
@@ -486,10 +489,10 @@ auto Sorcery::Engine::_draw() -> void {
 	_render->setPosition(0, 0);
 	_window->draw(*_render);
 
-	// Custom Components
+	// Standard Components
 	_display->display("engine_base_ui");
 
-	_overhead_view->setPosition(1, 1);
+	// Custom Components
 	_window->draw(*_overhead_view);
 
 	if (_status_bar->selected)

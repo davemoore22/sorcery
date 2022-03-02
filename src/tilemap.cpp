@@ -42,7 +42,7 @@ Sorcery::TileMap::TileMap(System *system, Display *display, Graphics *graphics,
 auto Sorcery::TileMap::refresh() -> void {
 
 	_refresh_floor();
-	//_refresh_walls();
+	_refresh_walls();
 }
 
 auto Sorcery::TileMap::_refresh_floor() -> void {
@@ -63,10 +63,10 @@ auto Sorcery::TileMap::_refresh_floor() -> void {
 
 	// For each square in the viewport
 	auto player_pos(_game->state->world->player_pos);
-	for (auto y = static_cast<int>(player_pos.y - view_width_radius);
-		 y <= static_cast<int>(player_pos.y + view_width_radius); y++) {
-		for (auto x = static_cast<int>(player_pos.x - view_height_radius);
-			 x <= static_cast<int>(player_pos.x) + view_height_radius; x++) {
+	for (auto y = static_cast<int>(player_pos.y - view_height_radius);
+		 y <= static_cast<int>(player_pos.y + view_height_radius); y++) {
+		for (auto x = static_cast<int>(player_pos.x - view_width_radius);
+			 x <= static_cast<int>(player_pos.x) + view_width_radius; x++) {
 
 			// Get the tile
 			auto lx{x < 0 ? x + MAP_SIZE : x};
@@ -124,10 +124,10 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 
 	// For each square in the viewport
 	auto player_pos(_game->state->world->player_pos);
-	for (auto y = static_cast<int>(player_pos.y - view_width_radius);
-		 y <= static_cast<int>(player_pos.y + view_width_radius); y++) {
-		for (auto x = static_cast<int>(player_pos.x - view_height_radius);
-			 x <= static_cast<int>(player_pos.x) + view_height_radius; x++) {
+	for (auto y = static_cast<int>(player_pos.y - view_height_radius);
+		 y <= static_cast<int>(player_pos.y + view_height_radius); y++) {
+		for (auto x = static_cast<int>(player_pos.x - view_width_radius);
+			 x <= static_cast<int>(player_pos.x) + view_width_radius; x++) {
 
 			// Get the Tile
 			auto lx{x < 0 ? x + MAP_SIZE : x};

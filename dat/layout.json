@@ -8911,16 +8911,16 @@
 		},
 		{
 			"name": "overhead_view",
-			"x": "0",
+			"x": "centre",
 			"y": "0",
 			"type": "other",
 			"priority": "4",
 			"drawmode": "manual",
 			"data": [
 				{
-				"tile_size": "100",
-				"view_width_radius": "9",
-				"view_height_radius": "5",
+				"tile_size": "128",
+				"view_width_radius": "4",
+				"view_height_radius": "3",
 				"wall_thickness_source": "6",
 				"wall_thickness_destination": "6",
 				"no_wall_thickness_source": "2",
