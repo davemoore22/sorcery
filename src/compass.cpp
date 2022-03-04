@@ -50,42 +50,28 @@ auto Sorcery::Compass::refresh() -> void {
 	_sprites.resize(1);
 
 	auto compass{(*_graphics->icons)["direction"].value()};
-	compass.setScale(std::stof(_layout["direction_scaling"].value()),
-		std::stof(_layout["direction_scaling"].value()));
-	auto offset_x{0};
-	auto offset_y{0};
+	compass.setOrigin(compass.getLocalBounds().width / 2,
+		compass.getLocalBounds().height / 2);
 	switch (_game->state->world->playing_facing) {
 	case MapDirection::NORTH:
 		compass.setRotation(180.0f);
-		offset_x += std::stof(_layout["rotation_offset_x"].value());
-		offset_y += std::stof(_layout["rotation_offset_y"].value());
 		break;
 	case MapDirection::SOUTH:
 		compass.setRotation(0.0f);
-		offset_x -= std::stof(_layout["rotation_offset_x"].value());
-		offset_y -= std::stof(_layout["rotation_offset_y"].value());
-		offset_x -= std::stof(_layout["rotation_adjustment_x"].value());
-		offset_y -= std::stof(_layout["rotation_adjustment_y"].value());
 		break;
 	case MapDirection::EAST:
 		compass.setRotation(270.0f);
-		offset_x -= std::stof(_layout["rotation_offset_x"].value());
-		offset_y += std::stof(_layout["rotation_offset_y"].value());
-		offset_x -= std::stof(_layout["rotation_adjustment_x"].value());
 		break;
 	case MapDirection::WEST:
-		offset_x += std::stof(_layout["rotation_offset_x"].value());
-		offset_y -= std::stof(_layout["rotation_offset_y"].value());
-		offset_y -= std::stof(_layout["rotation_adjustment_y"].value());
 		compass.setRotation(90.0f);
 		break;
 	default:
 		break;
 	}
-	compass.setPosition(
-		std::stoi(_layout["direction_offset_x"].value()) + offset_x,
-		std::stoi(_layout["direction_offset_y"].value()) + offset_y);
-
+	compass.setPosition(compass.getGlobalBounds().width / 2,
+		compass.getGlobalBounds().height / 2);
+	compass.setScale(std::stof(_layout["direction_scaling"].value()),
+		std::stof(_layout["direction_scaling"].value()));
 	_sprites.emplace_back(compass);
 }
 

@@ -450,44 +450,76 @@ auto Sorcery::Engine::start() -> int {
 auto Sorcery::Engine::_move_forward() -> void {
 
 	// TODO: check for walls/doors etc
+	auto x_d{static_cast<int>(_game->state->world->player_pos.x)};
+	auto y_d{static_cast<int>(_game->state->world->player_pos.y)};
 
 	switch (_game->state->world->playing_facing) {
 	case MapDirection::NORTH:
-		_game->state->world->player_pos.y++;
+		++y_d;
 		break;
 	case MapDirection::SOUTH:
-		_game->state->world->player_pos.y--;
+		--y_d;
 		break;
 	case MapDirection::EAST:
+		++x_d;
 		_game->state->world->player_pos.x++;
 		break;
 	case MapDirection::WEST:
+		--x_d;
 		_game->state->world->player_pos.x--;
 		break;
 	default:
 		break;
 	}
+
+	if (x_d < 0)
+		x_d = MAP_SIZE - 1;
+	else if (x_d > MAP_SIZE - 1)
+		x_d = 0;
+	if (y_d < 0)
+		y_d = MAP_SIZE - 1;
+	else if (y_d > MAP_SIZE - 1)
+		y_d = 0;
+
+	_game->state->world->player_pos.x = x_d;
+	_game->state->world->player_pos.y = y_d;
 }
 auto Sorcery::Engine::_move_backward() -> void {
 
-	// TODO: check for wrapping
+	// TODO: check for walls/doors etc
+	auto x_d{static_cast<int>(_game->state->world->player_pos.x)};
+	auto y_d{static_cast<int>(_game->state->world->player_pos.y)};
+
 	switch (_game->state->world->playing_facing) {
 	case MapDirection::NORTH:
-		_game->state->world->player_pos.y--;
+		--y_d;
 		break;
 	case MapDirection::SOUTH:
-		_game->state->world->player_pos.y++;
+		++y_d;
 		break;
 	case MapDirection::EAST:
-		_game->state->world->player_pos.x--;
+		--x_d;
 		break;
 	case MapDirection::WEST:
-		_game->state->world->player_pos.x++;
+		++x_d;
 		break;
 	default:
 		break;
 	}
+
+	if (x_d < 0)
+		x_d = MAP_SIZE - 1;
+	else if (x_d > MAP_SIZE - 1)
+		x_d = 0;
+	if (y_d < 0)
+		y_d = MAP_SIZE - 1;
+	else if (y_d > MAP_SIZE - 1)
+		y_d = 0;
+
+	_game->state->world->player_pos.x = x_d;
+	_game->state->world->player_pos.y = y_d;
 }
+
 auto Sorcery::Engine::_turn_left() -> void {
 
 	switch (_game->state->world->playing_facing) {

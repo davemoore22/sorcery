@@ -70,8 +70,20 @@ auto Sorcery::AutoMap::refresh() -> void {
 		for (auto x = static_cast<int>(player_pos.x - _map_radius);
 			 x <= static_cast<int>(player_pos.x) + _map_radius; x++) {
 
-			auto lx{x < 0 ? x + MAP_SIZE : x};
-			auto ly{y < 0 ? y + MAP_SIZE : y};
+			auto lx{[&] {
+				if (x < 0)
+					return x + MAP_SIZE;
+				else if (x > MAP_SIZE - 1)
+					return x - MAP_SIZE;
+				return x;
+			}()};
+			auto ly{[&] {
+				if (y < 0)
+					return y + MAP_SIZE;
+				else if (y > MAP_SIZE - 1)
+					return y - MAP_SIZE;
+				return y;
+			}()};
 
 			auto tile{_game->state->world->current_level->at(lx, ly)};
 			auto tile_x{tx + (tcx * tw) + (tcx * spacing)};

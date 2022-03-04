@@ -73,8 +73,20 @@ auto Sorcery::TileMap::_refresh_floor() -> void {
 			 x <= static_cast<int>(player_pos.x) + view_width_radius; x++) {
 
 			// Get the tile
-			auto lx{x < 0 ? x + MAP_SIZE : x};
-			auto ly{y < 0 ? y + MAP_SIZE : y};
+			auto lx{[&] {
+				if (x < 0)
+					return x + MAP_SIZE;
+				else if (x > MAP_SIZE - 1)
+					return x - MAP_SIZE;
+				return x;
+			}()};
+			auto ly{[&] {
+				if (y < 0)
+					return y + MAP_SIZE;
+				else if (y > MAP_SIZE - 1)
+					return y - MAP_SIZE;
+				return y;
+			}()};
 			auto tile{_game->state->world->current_level->at(lx, ly)};
 
 			auto tile_x{tcx * tile_size};
@@ -107,7 +119,26 @@ auto Sorcery::TileMap::_draw_party(
 	MapDirection direction, int x, int y, float scaling) -> void {
 
 	auto party{(*_graphics->icons)["party"].value()};
-	party.setPosition(x, y);
+	party.setOrigin(
+		party.getLocalBounds().width / 2, party.getLocalBounds().height / 2);
+	switch (_game->state->world->playing_facing) {
+	case MapDirection::NORTH:
+		party.setRotation(0.0f);
+		break;
+	case MapDirection::SOUTH:
+		party.setRotation(180.0f);
+		break;
+	case MapDirection::EAST:
+		party.setRotation(90.0f);
+		break;
+	case MapDirection::WEST:
+		party.setRotation(270.0f);
+		break;
+	default:
+		break;
+	}
+	party.setPosition(x + (party.getGlobalBounds().width / 2),
+		y + (party.getGlobalBounds().height / 2));
 	party.setScale(scaling, scaling);
 	_sprites.emplace_back(party);
 }
@@ -138,8 +169,20 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 			 x <= static_cast<int>(player_pos.x) + view_width_radius; x++) {
 
 			// Get the Tile
-			auto lx{x < 0 ? x + MAP_SIZE : x};
-			auto ly{y < 0 ? y + MAP_SIZE : y};
+			auto lx{[&] {
+				if (x < 0)
+					return x + MAP_SIZE;
+				else if (x > MAP_SIZE - 1)
+					return x - MAP_SIZE;
+				return x;
+			}()};
+			auto ly{[&] {
+				if (y < 0)
+					return y + MAP_SIZE;
+				else if (y > MAP_SIZE - 1)
+					return y - MAP_SIZE;
+				return y;
+			}()};
 			auto tile{_game->state->world->current_level->at(lx, ly)};
 
 			// Get the Walls (note texture 0 is the white square only)
