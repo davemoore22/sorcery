@@ -128,7 +128,7 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 	const auto view_height{view_height_radius * 2 + 1};
 
 	// We need to reverse stuff in the y-direction
-	auto reverse_y{((view_height - 1) * tile_size)};
+	auto reverse_y{(view_height * tile_size)};
 
 	// For each square in the viewport
 	auto player_pos(_game->state->world->player_pos);
@@ -172,18 +172,30 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 			bottom_left.y = reverse_y - bottom_left.y;
 			bottom_right.y = reverse_y - bottom_right.y;
 
-			// North Wall - clockwise from top-left
+			// North Wall - clockwise from top-left - note north and south are
+			// reversed due to origin of map being bottom-left whereas sfml
+			// works with origin top-left, which is a right pain
 			auto n_wall_thickness{
 				n_id != -1
 					? std::stoi(_layout["wall_thickness_destination"].value())
 					: std::stoi(
 						  _layout["no_wall_thickness_destination"].value())};
-			wall_quad[0].position = sf::Vector2f(top_left.x, top_left.y);
+
+			/* wall_quad[0].position = sf::Vector2f(top_left.x, top_left.y);
 			wall_quad[1].position = sf::Vector2f(top_right.x, top_right.y);
 			wall_quad[2].position =
 				sf::Vector2f(top_right.x, top_right.y + n_wall_thickness);
 			wall_quad[3].position =
-				sf::Vector2f(top_left.x, top_right.y + n_wall_thickness);
+				sf::Vector2f(top_left.x, top_right.y + n_wall_thickness); */
+
+			wall_quad[0].position = sf::Vector2f(bottom_left.x, bottom_left.y);
+			wall_quad[1].position =
+				sf::Vector2f(bottom_right.x, bottom_right.y);
+			wall_quad[2].position =
+				sf::Vector2f(bottom_right.x, bottom_right.y - n_wall_thickness);
+			wall_quad[3].position =
+				sf::Vector2f(bottom_left.x, bottom_right.y - n_wall_thickness);
+
 			auto n_tile_rect{_get_rect(n_id)};
 			auto n_texture_wall_thickness{
 				n_id != -1
@@ -205,13 +217,21 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 					? std::stoi(_layout["wall_thickness_destination"].value())
 					: std::stoi(
 						  _layout["no_wall_thickness_destination"].value())};
-			wall_quad[4].position = sf::Vector2f(bottom_left.x, bottom_left.y);
-			wall_quad[5].position =
-				sf::Vector2f(bottom_right.x, bottom_right.y);
-			wall_quad[6].position =
+
+			/* wall_quad[4].position = sf::Vector2f(bottom_left.x,
+			bottom_left.y); wall_quad[5].position = sf::Vector2f(bottom_right.x,
+			bottom_right.y); wall_quad[6].position =
 				sf::Vector2f(bottom_right.x, bottom_right.y - s_wall_thickness);
 			wall_quad[7].position =
 				sf::Vector2f(bottom_left.x, bottom_right.y - s_wall_thickness);
+		  */
+
+			wall_quad[4].position = sf::Vector2f(top_left.x, top_left.y);
+			wall_quad[5].position = sf::Vector2f(top_right.x, top_right.y);
+			wall_quad[6].position =
+				sf::Vector2f(top_right.x, top_right.y + s_wall_thickness);
+			wall_quad[7].position =
+				sf::Vector2f(top_left.x, top_right.y + s_wall_thickness);
 			auto s_tile_rect{_get_rect(s_id)};
 			auto s_texture_wall_thickness{
 				s_id != -1

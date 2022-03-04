@@ -319,66 +319,31 @@ auto Sorcery::Engine::start() -> int {
 						_update_compass = true;
 					} else if (_system->input->check(
 								   WindowInput::LEFT, event)) {
-						switch (_game->state->world->playing_facing) {
-						case MapDirection::NORTH:
-							_game->state->world->playing_facing =
-								MapDirection::WEST;
-							break;
-						case MapDirection::SOUTH:
-							_game->state->world->playing_facing =
-								MapDirection::EAST;
-							break;
-						case MapDirection::EAST:
-							_game->state->world->playing_facing =
-								MapDirection::NORTH;
-							break;
-						case MapDirection::WEST:
-							_game->state->world->playing_facing =
-								MapDirection::SOUTH;
-							break;
-						default:
-							break;
-						}
+						_turn_left();
 						_update_automap = true;
 						_update_compass = true;
 						_update_overhead_view = true;
 					} else if (_system->input->check(
 								   WindowInput::RIGHT, event)) {
-						switch (_game->state->world->playing_facing) {
-						case MapDirection::NORTH:
-							_game->state->world->playing_facing =
-								MapDirection::EAST;
-							break;
-						case MapDirection::SOUTH:
-							_game->state->world->playing_facing =
-								MapDirection::WEST;
-							break;
-						case MapDirection::EAST:
-							_game->state->world->playing_facing =
-								MapDirection::SOUTH;
-							break;
-						case MapDirection::WEST:
-							_game->state->world->playing_facing =
-								MapDirection::NORTH;
-							break;
-						default:
-							break;
-						}
+						_turn_right();
 						_update_automap = true;
 						_update_compass = true;
 						_update_overhead_view = true;
 
-					} /* else if (_system->input->check(WindowInput::UP,
-					event)) { _update_automap = true; _update_compass =
-					true;
+					} else if (_system->input->check(WindowInput::UP, event)) {
+						_move_forward();
+						_update_automap = true;
+						_update_compass = true;
+						_update_overhead_view = true;
 
 					} else if (_system->input->check(
 								   WindowInput::DOWN, event)) {
+						_move_backward();
 						_update_automap = true;
 						_update_compass = true;
-
-					} */
-					else if (_system->input->check(WindowInput::CANCEL, event))
+						_update_overhead_view = true;
+					} else if (_system->input->check(
+								   WindowInput::CANCEL, event))
 						_in_camp = true;
 					else if (_system->input->check(WindowInput::BACK, event))
 						_in_camp = true;
@@ -479,6 +444,87 @@ auto Sorcery::Engine::start() -> int {
 	}
 
 	return EXIT_MODULE;
+}
+
+// Remember Y is reversed
+auto Sorcery::Engine::_move_forward() -> void {
+
+	// TODO: check for walls/doors etc
+
+	switch (_game->state->world->playing_facing) {
+	case MapDirection::NORTH:
+		_game->state->world->player_pos.y++;
+		break;
+	case MapDirection::SOUTH:
+		_game->state->world->player_pos.y--;
+		break;
+	case MapDirection::EAST:
+		_game->state->world->player_pos.x++;
+		break;
+	case MapDirection::WEST:
+		_game->state->world->player_pos.x--;
+		break;
+	default:
+		break;
+	}
+}
+auto Sorcery::Engine::_move_backward() -> void {
+
+	// TODO: check for wrapping
+	switch (_game->state->world->playing_facing) {
+	case MapDirection::NORTH:
+		_game->state->world->player_pos.y--;
+		break;
+	case MapDirection::SOUTH:
+		_game->state->world->player_pos.y++;
+		break;
+	case MapDirection::EAST:
+		_game->state->world->player_pos.x--;
+		break;
+	case MapDirection::WEST:
+		_game->state->world->player_pos.x++;
+		break;
+	default:
+		break;
+	}
+}
+auto Sorcery::Engine::_turn_left() -> void {
+
+	switch (_game->state->world->playing_facing) {
+	case MapDirection::NORTH:
+		_game->state->world->playing_facing = MapDirection::WEST;
+		break;
+	case MapDirection::SOUTH:
+		_game->state->world->playing_facing = MapDirection::EAST;
+		break;
+	case MapDirection::EAST:
+		_game->state->world->playing_facing = MapDirection::NORTH;
+		break;
+	case MapDirection::WEST:
+		_game->state->world->playing_facing = MapDirection::SOUTH;
+		break;
+	default:
+		break;
+	}
+}
+auto Sorcery::Engine::_turn_right() -> void {
+
+	switch (_game->state->world->playing_facing) {
+	case MapDirection::NORTH:
+		_game->state->world->playing_facing = MapDirection::EAST;
+		break;
+	case MapDirection::SOUTH:
+		_game->state->world->playing_facing = MapDirection::WEST;
+		break;
+	case MapDirection::EAST:
+		_game->state->world->playing_facing = MapDirection::SOUTH;
+		break;
+	case MapDirection::WEST:
+		_game->state->world->playing_facing = MapDirection::NORTH;
+		break;
+	default:
+		break;
+	}
 }
 
 auto Sorcery::Engine::stop() -> void {}

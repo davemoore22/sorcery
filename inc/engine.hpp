@@ -63,6 +63,10 @@ namespace Sorcery {
 	  private:
 		// Private Methods
 		auto _draw() -> void;
+		auto _move_forward() -> void;
+		auto _move_backward() -> void;
+		auto _turn_left() -> void;
+		auto _turn_right() -> void;
 
 		// Private Members
 		System *_system;
