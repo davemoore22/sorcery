@@ -8911,7 +8911,7 @@
 		},
 		{
 			"name": "overhead_view",
-			"x": "centre",
+			"x": "10",
 			"y": "0",
 			"type": "other",
 			"priority": "4",
@@ -8923,8 +8923,8 @@
 				"view_height_radius": "3",
 				"wall_thickness_source": "6",
 				"wall_thickness_destination": "6",
-				"no_wall_thickness_source": "2",
-				"no_wall_thickness_destination": "2"
+				"no_wall_thickness_source": "1",
+				"no_wall_thickness_destination": "1"
 				}
 			]
 		}

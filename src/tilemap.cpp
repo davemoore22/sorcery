@@ -32,36 +32,40 @@ Sorcery::TileMap::TileMap(System *system, Display *display, Graphics *graphics,
 	_height = MAP_SIZE;
 	_width = MAP_SIZE;
 
-	_tilemap_texture = &_system->resources->textures[GraphicsTexture::FLOORS];
-	_wall_texture = &_system->resources->textures[GraphicsTexture::WALLS];
+	_floor_sprites.clear();
+	_sprites.clear();
 
+	_wall_texture = &_system->resources->textures[GraphicsTexture::WALLS];
 	_wall_vertices.setPrimitiveType(sf::Quads);
-	_floor_vertices.setPrimitiveType(sf::Quads);
 }
 
 auto Sorcery::TileMap::refresh() -> void {
 
+	_floor_sprites.clear();
+	_sprites.clear();
 	_refresh_floor();
 	_refresh_walls();
 }
 
 auto Sorcery::TileMap::_refresh_floor() -> void {
 
-	_floor_vertices.clear();
-	_floor_vertices.resize(_width * _height * 4);
-
 	const auto view_width_radius{
 		std::stoi(_layout["view_width_radius"].value())};
 	const auto view_height_radius{
 		std::stoi(_layout["view_height_radius"].value())};
 	const auto tile_size{std::stoi(_layout["tile_size"].value())};
-	auto i{0};
-	auto j{0};
+	const auto tile_scaling{tile_size / 400.0f};
+	const auto party_scaling{tile_size / 511.0f};
 
 	// Note that width is always greater than height so we can do this
-	const auto view_width{view_width_radius * 2 + 1};
+	const auto view_height{view_height_radius * 2 + 1};
 
-	// For each square in the viewport
+	// We need to reverse stuff in the y-direction
+	auto reverse_y{((view_height - 1) * tile_size)};
+
+	auto tcx{0};
+	auto tcy{0};
+
 	auto player_pos(_game->state->world->player_pos);
 	for (auto y = static_cast<int>(player_pos.y - view_height_radius);
 		 y <= static_cast<int>(player_pos.y + view_height_radius); y++) {
@@ -72,40 +76,41 @@ auto Sorcery::TileMap::_refresh_floor() -> void {
 			auto lx{x < 0 ? x + MAP_SIZE : x};
 			auto ly{y < 0 ? y + MAP_SIZE : y};
 			auto tile{_game->state->world->current_level->at(lx, ly)};
-			auto texture_id{tile.floor.gfx};
 
-			// Display the background
+			auto tile_x{tcx * tile_size};
+			auto tile_y{tcy * tile_size};
+			_draw_tile(tile, tile_x, reverse_y - tile_y, tile_scaling);
 
-			// Find the appropriate quad
-			sf::Vertex *floor_quad{&_floor_vertices[(i + j * view_width) * 4]};
-
-			// Define its corners
-			floor_quad[0].position = sf::Vector2f(i * tile_size, j * tile_size);
-			floor_quad[1].position =
-				sf::Vector2f((i + 1) * tile_size, j * tile_size);
-			floor_quad[2].position =
-				sf::Vector2f((i + 1) * tile_size, (j + 1) * tile_size);
-			floor_quad[3].position =
-				sf::Vector2f(i * tile_size, (j + 1) * tile_size);
-
-			// Find the origin texture for the Quad from the Floor Tileset
-			auto tile_rect{_get_rect(texture_id)};
-			floor_quad[0].texCoords =
-				sf::Vector2f(tile_rect.left, tile_rect.top);
-			floor_quad[1].texCoords =
-				sf::Vector2f(tile_rect.left + tile_rect.width, tile_rect.top);
-			floor_quad[2].texCoords =
-				sf::Vector2f(tile_rect.left + tile_rect.width,
-					tile_rect.top + tile_rect.height);
-			floor_quad[3].texCoords =
-				sf::Vector2f(tile_rect.left, tile_rect.top + tile_rect.height);
-
-			++i;
+			if ((x == static_cast<int>(player_pos.x)) &&
+				(y == static_cast<int>(player_pos.y)))
+				_draw_party(_game->state->world->playing_facing, tile_x,
+					reverse_y - tile_y, party_scaling);
+			++tcx;
 		}
-		i = 0;
-		++j;
+		++tcy;
+		tcx = 0;
 	}
 };
+
+auto Sorcery::TileMap::_draw_tile(const Tile &tile, const int x, const int y,
+	const float tile_scaling) -> void {
+
+	sf::Sprite bg{_graphics->textures
+					  ->get(1, /*tile.floor.gfx,*/ GraphicsTextureType::FLOOR)
+					  .value()};
+	bg.setPosition(x, y);
+	bg.setScale(tile_scaling, tile_scaling);
+	_floor_sprites.emplace_back(bg);
+};
+
+auto Sorcery::TileMap::_draw_party(
+	MapDirection direction, int x, int y, float scaling) -> void {
+
+	auto party{(*_graphics->icons)["party"].value()};
+	party.setPosition(x, y);
+	party.setScale(scaling, scaling);
+	_sprites.emplace_back(party);
+}
 
 auto Sorcery::TileMap::_refresh_walls() -> void {
 
@@ -121,6 +126,9 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 	auto j{0};
 	const auto view_width{view_width_radius * 2 + 1};
 	const auto view_height{view_height_radius * 2 + 1};
+
+	// We need to reverse stuff in the y-direction
+	auto reverse_y{((view_height - 1) * tile_size)};
 
 	// For each square in the viewport
 	auto player_pos(_game->state->world->player_pos);
@@ -158,6 +166,11 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 			auto bottom_right{
 				sf::Vector2f((i + 1) * tile_size, (j + 1) * tile_size)};
 			auto bottom_left{sf::Vector2f(i * tile_size, (j + 1) * tile_size)};
+
+			top_left.y = reverse_y - top_left.y;
+			top_right.y = reverse_y - top_right.y;
+			bottom_left.y = reverse_y - bottom_left.y;
+			bottom_right.y = reverse_y - bottom_right.y;
 
 			// North Wall - clockwise from top-left
 			auto n_wall_thickness{
@@ -270,7 +283,7 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 			wall_quad[13].texCoords = sf::Vector2f(
 				w_tile_rect.left, w_tile_rect.top + w_tile_rect.height);
 			wall_quad[14].texCoords =
-				sf::Vector2f(e_tile_rect.left + w_texture_wall_thickness,
+				sf::Vector2f(w_tile_rect.left + w_texture_wall_thickness,
 					w_tile_rect.top + w_tile_rect.height);
 			wall_quad[15].texCoords = sf::Vector2f(
 				w_tile_rect.left + w_texture_wall_thickness, w_tile_rect.top);
@@ -285,12 +298,14 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 auto Sorcery::TileMap::draw(
 	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
-	states.texture = _tilemap_texture;
-	target.draw(_floor_vertices, states);
+	states.transform *= getTransform();
+	for (const auto &fs : _floor_sprites)
+		target.draw(fs, states);
+	for (const auto &s : _sprites)
+		target.draw(s, states);
+
 	states.texture = _wall_texture;
 	target.draw(_wall_vertices, states);
-
-	states.transform *= getTransform();
 }
 
 // Texture Tiles are 400 pixels in size

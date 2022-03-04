@@ -163,7 +163,7 @@ auto Sorcery::Map::_create_level(MapType type) -> void {
 			for (auto y = 0u; y < MAP_SIZE; y++) {
 
 				auto &tile{_tiles.at(COORD2VECPOS(x, y))};
-				tile.set_floor_gfx(17);
+				tile.set_floor_gfx(1);
 				tile.set_wall_gfx(11); // TODO: temporqry values
 			}
 		}
