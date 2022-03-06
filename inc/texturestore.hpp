@@ -37,11 +37,16 @@ namespace Sorcery {
 		TextureStore() = delete;
 
 		// Overload [] operator
-		auto operator[](const unsigned int index) -> std::optional<Texture>;
+		auto operator[](const unsigned int index) const
+			-> std::optional<Texture>;
 
 		// Public Methods
-		auto get(const unsigned int index) -> std::optional<Texture>;
-		auto get(const unsigned int index, GraphicsTextureType texture_type)
+		auto get(const unsigned int index) const -> std::optional<Texture>;
+		auto get(const unsigned int index,
+			const GraphicsTextureType texture_type) const
+			-> std::optional<sf::Sprite>;
+		auto get(const std::string name,
+			const GraphicsTextureType texture_type) const
 			-> std::optional<sf::Sprite>;
 
 	  private:

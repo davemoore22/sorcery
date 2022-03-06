@@ -150,7 +150,7 @@
 1632505413 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
 	"main.hpp"
 
-1646169373 /home/dave/Development/wizardry/sorcery-sfml/inc/type.hpp
+1646581092 /home/dave/Development/wizardry/sorcery-sfml/inc/type.hpp
 	"main.hpp"
 
 1625475027 /home/dave/Development/wizardry/sorcery-sfml/inc/operator.hpp
@@ -1358,7 +1358,7 @@
 1630529405 source:/home/dave/Development/wizardry/sorcery-sfml/src/reorder.cpp
 	"reorder.hpp"
 
-1632156300 /home/dave/Development/wizardry/sorcery-sfml/inc/texturestore.hpp
+1646581657 /home/dave/Development/wizardry/sorcery-sfml/inc/texturestore.hpp
 	"main.hpp"
 	"system.hpp"
 
@@ -1462,7 +1462,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1645472248 source:/home/dave/Development/wizardry/sorcery-sfml/src/compass.cpp
+1646429207 source:/home/dave/Development/wizardry/sorcery-sfml/src/compass.cpp
 	"compass.hpp"
 
 1646422334 /home/dave/Development/wizardry/sorcery-sfml/inc/tilemap.hpp

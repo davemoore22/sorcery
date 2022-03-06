@@ -49,13 +49,13 @@ Sorcery::TextureStore::TextureStore(
 }
 
 // Overload [] Operator(const) -> std::optional<Texture>
-auto Sorcery::TextureStore::operator[](unsigned int index)
+auto Sorcery::TextureStore::operator[](unsigned int index) const
 	-> std::optional<Texture> {
 
 	auto texture{get(index)};
 	return texture;
 }
-auto Sorcery::TextureStore::get(const unsigned int index)
+auto Sorcery::TextureStore::get(const unsigned int index) const
 	-> std::optional<Texture> {
 
 	if (_loaded)
@@ -63,11 +63,16 @@ auto Sorcery::TextureStore::get(const unsigned int index)
 	else
 		return std::nullopt;
 }
+
+auto Sorcery::TextureStore::get(const std::string name,
+	GraphicsTextureType texture_type) const -> std::optional<sf::Sprite> {}
+
 // Get the indexed texture as an appropriate sprite - note that for
-// WALLS/CEILINGS/FLOORS/DOORS, the index refers to the entry in textures.json;
-// whereas for all other spritesheets it refers to the actual sprite position
+// WALLS/CEILINGS/FLOORS/DOORS, the index refers to the entry in
+// textures.json; whereas for all other spritesheets it refers to the actual
+// sprite position
 auto Sorcery::TextureStore::get(const unsigned int index,
-	GraphicsTextureType texture_type) -> std::optional<sf::Sprite> {
+	GraphicsTextureType texture_type) const -> std::optional<sf::Sprite> {
 
 	std::optional<Sorcery::Texture> texture{std::nullopt};
 	auto idx{0u};
@@ -89,12 +94,9 @@ auto Sorcery::TextureStore::get(const unsigned int index,
 		source = _wall_t;
 		break;
 	case GraphicsTextureType::DOOR:
-		if (texture.value().door) {
-			texture = get(index);
-			idx = texture.value().wall;
-			source = _door_t;
-		} else {
-		}
+		texture = get(index);
+		idx = texture.value().door;
+		source = _door_t;
 		break;
 	case GraphicsTextureType::AUTOMAP:
 		idx = index;
@@ -182,9 +184,8 @@ auto Sorcery::TextureStore::_load(const std::filesystem::path filename)
 			for (auto i = 0u; i < textures.size(); i++) {
 
 				// Get the mappings for each texture (note that all
-				// parameters (apart from the door) should always be present for
-				// each texture entry in the mapping file or else this will
-				// error)
+				// parameters should always be present for each texture
+				// entry in the mapping file or else this will error)
 				auto index{static_cast<unsigned int>(
 					std::stoul(textures[i]["index"].asString()))};
 				auto wall{static_cast<unsigned int>(
@@ -193,22 +194,13 @@ auto Sorcery::TextureStore::_load(const std::filesystem::path filename)
 					std::stoul(textures[i]["ceiling"].asString()))};
 				auto floor{static_cast<unsigned int>(
 					std::stoul(textures[i]["floor"].asString()))};
-				int t_door{[&] {
-					if (textures[i].isMember("door")) {
-						if (textures[i]["door"].asString().length() > 0)
-							return std::stoi(textures[i]["door"].asString());
-						else
-							return -1;
-					} else
-						return -1;
-				}()};
-				std::optional<unsigned int> door{std::nullopt};
-				if (t_door >= 0)
-					door = static_cast<unsigned int>(t_door);
+				auto door{static_cast<unsigned int>(
+					std::stoul(textures[i]["door"].asString()))};
 				auto source{textures[i]["source"].asString()};
 				auto comment{textures[i]["comment"].asString()};
+				auto name{textures[i]["name"].asString()};
 				const Texture texture{
-					index, wall, floor, ceiling, door, source, comment};
+					name, index, wall, floor, ceiling, door, source, comment};
 
 				_texture_map[index] = texture;
 			}

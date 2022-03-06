@@ -1,6 +1,7 @@
 {
 	"texture": [
 		{
+			"name": "wireframe",
 			"index": "0",
 			"wall": "0",
 			"ceiling": "0",
@@ -9,7 +10,7 @@
 			"source": "00/00/00/00",
 			"comment": "wireframe"
 		},
-		{
+		{	"name": "brownbrick",
 			"index": "1",
 			"wall": "1",
 			"ceiling": "5",
