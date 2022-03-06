@@ -41,7 +41,6 @@ namespace Sorcery {
 			-> std::optional<Texture>;
 
 		// Public Methods
-		auto get(const unsigned int index) const -> std::optional<Texture>;
 		auto get(const unsigned int index,
 			const GraphicsTextureType texture_type) const
 			-> std::optional<sf::Sprite>;
@@ -64,6 +63,8 @@ namespace Sorcery {
 		std::map<unsigned int, Texture> _texture_map;
 
 		// Private Methods
+		auto _get(const unsigned int index) const -> std::optional<Texture>;
+		auto _get(const std::string name) const -> std::optional<Texture>;
 		auto _get_rect(unsigned int index,
 			GraphicsTextureType texture_type) const -> sf::IntRect;
 		auto _load(const std::filesystem::path filename) -> bool;

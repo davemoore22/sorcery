@@ -52,20 +52,9 @@ Sorcery::TextureStore::TextureStore(
 auto Sorcery::TextureStore::operator[](unsigned int index) const
 	-> std::optional<Texture> {
 
-	auto texture{get(index)};
+	auto texture{_get(index)};
 	return texture;
 }
-auto Sorcery::TextureStore::get(const unsigned int index) const
-	-> std::optional<Texture> {
-
-	if (_loaded)
-		return _texture_map.at(index);
-	else
-		return std::nullopt;
-}
-
-auto Sorcery::TextureStore::get(const std::string name,
-	GraphicsTextureType texture_type) const -> std::optional<sf::Sprite> {}
 
 // Get the indexed texture as an appropriate sprite - note that for
 // WALLS/CEILINGS/FLOORS/DOORS, the index refers to the entry in
@@ -75,26 +64,26 @@ auto Sorcery::TextureStore::get(const unsigned int index,
 	GraphicsTextureType texture_type) const -> std::optional<sf::Sprite> {
 
 	std::optional<Sorcery::Texture> texture{std::nullopt};
-	auto idx{0u};
 	sf::Texture *source{nullptr};
+	auto idx{0u};
 	switch (texture_type) {
 	case GraphicsTextureType::FLOOR:
-		texture = get(index);
+		texture = _get(index);
 		source = _floor_t;
 		idx = texture.value().floor;
 		break;
 	case GraphicsTextureType::CEILING:
-		texture = get(index);
+		texture = _get(index);
 		source = _floor_t;
 		idx = texture.value().ceiling;
 		break;
 	case GraphicsTextureType::WALL:
-		texture = get(index);
+		texture = _get(index);
 		idx = texture.value().wall;
 		source = _wall_t;
 		break;
 	case GraphicsTextureType::DOOR:
-		texture = get(index);
+		texture = _get(index);
 		idx = texture.value().door;
 		source = _door_t;
 		break;
@@ -122,6 +111,72 @@ auto Sorcery::TextureStore::get(const unsigned int index,
 	sf::Sprite tile(*source);
 	tile.setTextureRect(tile_r);
 	return tile;
+}
+
+// Get the named texture as an appropriate sprite - WALLS/CEILINGS/FLOORS/DOORS
+// only since those are only texture ids stored in the Texture class
+auto Sorcery::TextureStore::get(const std::string name,
+	GraphicsTextureType texture_type) const -> std::optional<sf::Sprite> {
+
+	std::optional<Sorcery::Texture> texture{std::nullopt};
+	sf::Texture *source{nullptr};
+	auto idx{0u};
+	switch (texture_type) {
+	case GraphicsTextureType::FLOOR:
+		texture = _get(name);
+		source = _floor_t;
+		idx = texture.value().floor;
+		break;
+	case GraphicsTextureType::CEILING:
+		texture = _get(name);
+		source = _floor_t;
+		idx = texture.value().ceiling;
+		break;
+	case GraphicsTextureType::WALL:
+		texture = _get(name);
+		idx = texture.value().wall;
+		source = _wall_t;
+		break;
+	case GraphicsTextureType::DOOR:
+		texture = _get(name);
+		idx = texture.value().door;
+		source = _door_t;
+		break;
+	default:
+		return std::nullopt;
+	}
+
+	sf::IntRect tile_r{_get_rect(idx, texture_type)};
+	sf::Sprite tile(*source);
+	tile.setTextureRect(tile_r);
+	return tile;
+}
+
+auto Sorcery::TextureStore::_get(const std::string name) const
+	-> std::optional<Texture> {
+
+	if (_loaded) {
+
+		auto it = std::find_if(
+			_texture_map.begin(), _texture_map.end(), [&](const auto &item) {
+				return item.second.name == name;
+			});
+
+		if (it != _texture_map.end())
+			return _texture_map.at((*it).first);
+		else
+			return std::nullopt;
+	} else
+		return std::nullopt;
+}
+
+auto Sorcery::TextureStore::_get(const unsigned int index) const
+	-> std::optional<Texture> {
+
+	if (_loaded)
+		return _texture_map.at(index);
+	else
+		return std::nullopt;
 }
 
 auto Sorcery::TextureStore::_get_rect(
