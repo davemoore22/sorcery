@@ -27,6 +27,7 @@
 #include "character.hpp"
 #include "display.hpp"
 #include "graphics.hpp"
+#include "levelstore.hpp"
 #include "main.hpp"
 #include "state.hpp"
 #include "system.hpp"
@@ -62,6 +63,7 @@ namespace Sorcery {
 		auto _save_game() -> void;
 		auto _load_game() -> void;
 		auto _load_characters() -> void;
+		auto _load_level_definitions() -> void;
 		auto _get_characters() -> std::map<unsigned int, Character>;
 		auto _save_characters() -> void;
 
@@ -75,5 +77,6 @@ namespace Sorcery {
 		unsigned int _id;
 		std::string _status;
 		std::vector<unsigned int> _characters_ids;
+		std::unique_ptr<LevelStore> _levels;
 	};
 } // namespace Sorcery

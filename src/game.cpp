@@ -35,6 +35,7 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 		_create_game();
 		_load_game();
 	}
+	_load_level_definitions();
 }
 
 auto Sorcery::Game::get_id() -> unsigned int {
@@ -45,6 +46,12 @@ auto Sorcery::Game::get_id() -> unsigned int {
 auto Sorcery::Game::create_game() -> void {
 
 	_create_game();
+}
+
+auto Sorcery::Game::_load_level_definitions() -> void {
+
+	_levels =
+		std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
 }
 
 auto Sorcery::Game::load_game() -> void {
