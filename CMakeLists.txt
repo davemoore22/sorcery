@@ -58,6 +58,8 @@ add_executable(${PROJECT_NAME}
 	src/keyboard.cpp
 	src/layout.cpp
 	src/legate.cpp
+	src/level.cpp
+	src/levelstore.cpp
 	src/license.cpp
 	src/main.cpp
 	src/mainmenu.cpp

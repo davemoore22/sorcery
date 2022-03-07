@@ -220,6 +220,7 @@ auto Sorcery::TextureStore::_get_rect(
 	return sf::IntRect(tile_size * (index % tile_row_count),
 		tile_size * (index / tile_row_count), tile_size, tile_size);
 }
+
 auto Sorcery::TextureStore::_load(const std::filesystem::path filename)
 	-> bool {
 
