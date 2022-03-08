@@ -63,7 +63,7 @@ namespace Sorcery {
 		auto _save_game() -> void;
 		auto _load_game() -> void;
 		auto _load_characters() -> void;
-		auto _load_level_definitions() -> void;
+		auto _load_levels() -> void;
 		auto _get_characters() -> std::map<unsigned int, Character>;
 		auto _save_characters() -> void;
 

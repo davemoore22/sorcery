@@ -53,6 +53,7 @@
 #include "cereal/cereal.hpp"
 #include "cereal/archives/json.hpp"
 #include "cereal/types/array.hpp"
+#include "cereal/types/bitset.hpp"
 #include "cereal/types/map.hpp"
 #include "cereal/types/memory.hpp"
 #include "cereal/types/optional.hpp"
@@ -70,6 +71,7 @@
 #include <any>
 #include <array>
 #include <atomic>
+#include <bitset>
 #include <chrono>
 #include <cstdarg>
 #include <cstdio>
@@ -151,6 +153,7 @@ namespace Sorcery {
 	using InnStage = Enums::Castle::Inn;
 	using Justification = Enums::Window::Justification;
 	using LegateStage = Enums::Character::Legate;
+	using LevelID = std::pair<std::string, int>;
 	using MainMenuType = Enums::MainMenu::Type;
 	using MapDirection = Enums::Map::Direction;
 	using MapType = Enums::Map::Type;

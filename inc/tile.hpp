@@ -27,6 +27,81 @@
 #include "main.hpp"
 
 namespace Sorcery {
+
+	class Tile_ {
+
+	  public:
+		// Constructors
+		Tile_();
+		Tile_(Point location_);
+		Tile_(Point location_, unsigned int north_, unsigned int south_,
+			unsigned int east_, unsigned int west_);
+
+		// Copy Constructors
+		Tile_(const Tile_ &other);
+		auto operator=(const Tile_ &other) -> Tile_ &;
+
+		// Move Constructors
+		Tile_(Tile_ &&other) noexcept;
+		auto operator=(Tile_ &&other) noexcept -> Tile_ &;
+
+		// Serialisation
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(location, north, south, east, west, texture_id, properties,
+				features, items, events, room_id, treasure_id, effect_id,
+				description_id, characters, lighting, _id, s_id);
+		}
+
+		// Public Members
+		Point location;
+
+		// Walls (based upon https://docs.gridcartographer.com/ref/table/edge)
+		unsigned int north;
+		unsigned int south;
+		unsigned int east;
+		unsigned int west;
+
+		// Texture
+		unsigned int texture_id;
+
+		// Properties
+		std::bitset<4> properties;
+
+		// Features
+		std::bitset<13> features;
+
+		// Items and Events
+		std::vector<unsigned int> items;
+		std::vector<unsigned int> events;
+
+		// Various IDs
+		unsigned int room_id;
+		unsigned int treasure_id;
+		unsigned int effect_id;
+		unsigned int description_id;
+
+		// Characters here (not the current party)
+		std::vector<unsigned int> characters;
+
+		// Graphics Effects
+		unsigned int lighting;
+
+		// Public Methods
+		auto id() const -> long;
+		auto reset() -> void;
+		auto set_walls(bool north, bool south, bool east, bool west) -> void;
+		auto set_walls_mask(bool north, bool south, bool east, bool west)
+			-> void;
+
+	  private:
+		// Private Methods
+		auto _reset() -> void;
+
+		// Private Members
+		long _id;
+		static inline long s_id{0};
+	};
+
 	class Tile {
 
 	  public:

@@ -333,4 +333,5 @@ namespace Sorcery {
 	};
 
 	struct SpellDetails {};
+
 } // namespace Sorcery
