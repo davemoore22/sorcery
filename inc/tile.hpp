@@ -33,71 +33,80 @@ namespace Sorcery {
 	  public:
 		// Constructors
 		Tile_();
-		Tile_(Point location_);
-		Tile_(Point location_, unsigned int north_, unsigned int south_,
-			unsigned int east_, unsigned int west_);
-
-		// Copy Constructors
-		Tile_(const Tile_ &other);
-		auto operator=(const Tile_ &other) -> Tile_ &;
-
-		// Move Constructors
-		Tile_(Tile_ &&other) noexcept;
-		auto operator=(Tile_ &&other) noexcept -> Tile_ &;
+		Tile_(Point location);
+		Tile_(Point location, std::optional<unsigned int> north,
+			std::optional<unsigned int> south, std::optional<unsigned int> east,
+			std::optional<unsigned int> west);
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(location, north, south, east, west, texture_id, properties,
-				features, items, events, room_id, treasure_id, effect_id,
-				description_id, characters, lighting, _id, s_id);
+			archive(_location, _north, _south, _east, _west, _texture_id,
+				_properties, _features, _items, _events, _room_id, _treasure_id,
+				_effect_id, _description_id, _characters, _lighting, _id, s_id);
 		}
 
+		// No resources so no move/copy constructors needed
+		// https://stackoverflow.com/questions/3510662/vectors-within-classes-handling-copy-constructor-and-destructor-c
+
 		// Public Members
-		Point location;
 
-		// Walls (based upon https://docs.gridcartographer.com/ref/table/edge)
-		unsigned int north;
-		unsigned int south;
-		unsigned int east;
-		unsigned int west;
-
-		// Texture
-		unsigned int texture_id;
-
-		// Properties
-		std::bitset<4> properties;
-
-		// Features
-		std::bitset<13> features;
-
-		// Items and Events
-		std::vector<unsigned int> items;
-		std::vector<unsigned int> events;
-
-		// Various IDs
-		unsigned int room_id;
-		unsigned int treasure_id;
-		unsigned int effect_id;
-		unsigned int description_id;
-
-		// Characters here (not the current party)
-		std::vector<unsigned int> characters;
-
-		// Graphics Effects
-		unsigned int lighting;
-
-		// Public Methods
+		// Public Method
+		auto get() const -> Point;
+		auto has(MapDirection direction) const -> bool;
+		auto has(TileFeature feature) const -> bool;
+		auto is(TileProperty property) const -> bool;
 		auto id() const -> long;
 		auto reset() -> void;
-		auto set_walls(bool north, bool south, bool east, bool west) -> void;
-		auto set_walls_mask(bool north, bool south, bool east, bool west)
-			-> void;
+		auto reset(TileFeature feature) -> void;
+		auto reset(TileProperty property) -> void;
+		auto set(TileFeature feature) -> void;
+		auto set(TileProperty property) -> void;
+		auto set(MapDirection direction, int new_wall) -> void;
+		auto set(int north, int south, int east, int west) -> void;
+		auto set(Point point);
+		auto x() const -> int;
+		auto y() const -> int;
+
+		// need methods for items, events etc
 
 	  private:
 		// Private Methods
 		auto _reset() -> void;
 
 		// Private Members
+		std::optional<Point> _location;
+
+		// Walls (based upon https://docs.gridcartographer.com/ref/table/edge)
+		std::optional<unsigned int> _north;
+		std::optional<unsigned int> _south;
+		std::optional<unsigned int> _east;
+		std::optional<unsigned int> _west;
+
+		// Texture
+		std::optional<unsigned int> _texture_id;
+
+		// Properties
+		std::bitset<4> _properties;
+
+		// Features
+		std::bitset<13> _features;
+
+		// Items and Events
+		std::vector<unsigned int> _items;
+		std::vector<unsigned int> _events;
+
+		// Various IDs
+		std::optional<unsigned int> _room_id;
+		std::optional<unsigned int> _treasure_id;
+		std::optional<unsigned int> _effect_id;
+		std::optional<unsigned int> _description_id;
+
+		// Characters here (not the current party)
+		std::vector<unsigned int> _characters;
+
+		// Graphics Effects
+		std::optional<unsigned int> _lighting;
+
 		long _id;
 		static inline long s_id{0};
 	};

@@ -25,6 +25,168 @@
 #include "tile.hpp"
 
 // Default Constructor
+Sorcery::Tile_::Tile_() {
+
+	_location = std::nullopt;
+
+	_north = std::nullopt;
+	_south = std::nullopt;
+	_east = std::nullopt;
+	_west = std::nullopt;
+
+	_reset();
+
+	s_id++;
+}
+
+// Other Constructors
+Sorcery::Tile_::Tile_(Point location) : _location{location} {
+
+	_north = std::nullopt;
+	_south = std::nullopt;
+	_east = std::nullopt;
+	_west = std::nullopt;
+
+	_reset();
+
+	s_id++;
+}
+
+Sorcery::Tile_::Tile_(Point location, std::optional<unsigned int> north,
+	std::optional<unsigned int> south, std::optional<unsigned int> east,
+	std::optional<unsigned int> west)
+	: _location{location}, _north{north}, _south{south}, _east{east},
+	  _west{west} {
+
+	_reset();
+
+	s_id++;
+}
+
+// Will error on optionals
+auto Sorcery::Tile_::get() const -> Point {
+
+	return _location.value();
+}
+
+auto Sorcery::Tile_::has(MapDirection direction) const -> bool {
+
+	switch (direction) {
+	case MapDirection::NORTH:
+		return _north.has_value() ? (_north > 0) : false;
+		break;
+	case MapDirection::SOUTH:
+		return _south.has_value() ? (_south > 0) : false;
+		break;
+	case MapDirection::EAST:
+		return _east.has_value() ? (_east > 0) : false;
+		break;
+	case MapDirection::WEST:
+		return _west.has_value() ? (_west > 0) : false;
+		break;
+	default:
+		return false;
+		break;
+	}
+}
+
+auto Sorcery::Tile_::has(TileFeature feature) const -> bool {
+
+	return _features[magic_enum::enum_integer<TileFeature>(feature)];
+}
+
+auto Sorcery::Tile_::is(TileProperty property) const -> bool {
+
+	return _properties[magic_enum::enum_integer<TileProperty>(property)];
+}
+
+auto Sorcery::Tile_::id() const -> long {
+
+	return _id;
+}
+
+auto Sorcery::Tile_::reset() -> void {
+
+	_location = std::nullopt;
+
+	_north = std::nullopt;
+	_south = std::nullopt;
+	_east = std::nullopt;
+	_west = std::nullopt;
+
+	_reset();
+}
+
+auto Sorcery::Tile_::reset(TileFeature feature) -> void {
+
+	_features[magic_enum::enum_integer<TileFeature>(feature)] = false;
+}
+
+auto Sorcery::Tile_::reset(TileProperty property) -> void {
+
+	_properties[magic_enum::enum_integer<TileProperty>(property)] = false;
+}
+
+auto Sorcery::Tile_::set(TileFeature feature) -> void {
+
+	_features[magic_enum::enum_integer<TileFeature>(feature)] = true;
+}
+
+auto Sorcery::Tile_::set(TileProperty property) -> void {
+
+	_properties[magic_enum::enum_integer<TileProperty>(property)] = true;
+}
+
+auto Sorcery::Tile_::set(MapDirection direction, int new_wall) -> void {
+
+	/* switch (direction) {
+	case MapDirection::NORTH:
+		return _north.has_value() ? (_north > 0) : false;
+		break;
+	case MapDirection::SOUTH:
+		return _south.has_value() ? (_south > 0) : false;
+		break;
+	case MapDirection::EAST:
+		return _east.has_value() ? (_east > 0) : false;
+		break;
+	case MapDirection::WEST:
+		return _west.has_value() ? (_west > 0) : false;
+		break;
+	default:
+		return false;
+		break;
+	} */
+}
+
+auto Sorcery::Tile_::set(int north, int south, int east, int west) -> void {}
+
+auto Sorcery::Tile_::set(Point point) {}
+
+auto Sorcery::Tile_::x() const -> int {}
+
+auto Sorcery::Tile_::y() const -> int {}
+
+auto Sorcery::Tile_::_reset() -> void {
+
+	_texture_id = std::nullopt;
+
+	_properties.reset();
+	_features.reset();
+
+	_items.clear();
+	_events.clear();
+
+	_room_id = std::nullopt;
+	_treasure_id = std::nullopt;
+	_effect_id = std::nullopt;
+	_description_id = std::nullopt;
+
+	_characters.clear();
+
+	_lighting = std::nullopt;
+}
+
+// Default Constructor
 Sorcery::Tile::Tile() {
 
 	location = Point{0, 0};

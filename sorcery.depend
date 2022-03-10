@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1644007763 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1646776115 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -22,6 +22,7 @@
 	"cereal/cereal.hpp"
 	"cereal/archives/json.hpp"
 	"cereal/types/array.hpp"
+	"cereal/types/bitset.hpp"
 	"cereal/types/map.hpp"
 	"cereal/types/memory.hpp"
 	"cereal/types/optional.hpp"
@@ -35,6 +36,7 @@
 	<any>
 	<array>
 	<atomic>
+	<bitset>
 	<chrono>
 	<cstdarg>
 	<cstdio>
@@ -150,7 +152,7 @@
 1632505413 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
 	"main.hpp"
 
-1646581092 /home/dave/Development/wizardry/sorcery-sfml/inc/type.hpp
+1646773184 /home/dave/Development/wizardry/sorcery-sfml/inc/type.hpp
 	"main.hpp"
 
 1625475027 /home/dave/Development/wizardry/sorcery-sfml/inc/operator.hpp
@@ -415,7 +417,7 @@
 1646253606 source:/home/dave/Development/wizardry/sorcery-sfml/src/tile.cpp
 	"tile.hpp"
 
-1646253531 /home/dave/Development/wizardry/sorcery-sfml/inc/tile.hpp
+1646945402 /home/dave/Development/wizardry/sorcery-sfml/inc/tile.hpp
 	"main.hpp"
 
 1630528926 source:/home/dave/Development/wizardry/sorcery-sfml/src/window.cpp
@@ -487,7 +489,7 @@
 1646686984 source:/home/dave/Development/wizardry/sorcery-sfml/src/game.cpp
 	"game.hpp"
 
-1646686895 /home/dave/Development/wizardry/sorcery-sfml/inc/game.hpp
+1646773140 /home/dave/Development/wizardry/sorcery-sfml/inc/game.hpp
 	"character.hpp"
 	"display.hpp"
 	"graphics.hpp"
@@ -1479,15 +1481,20 @@
 1646684440 source:/home/dave/Development/wizardry/sorcery-sfml/src/level.cpp
 	"level.hpp"
 
-1646684432 /home/dave/Development/wizardry/sorcery-sfml/inc/level.hpp
+1646773907 /home/dave/Development/wizardry/sorcery-sfml/inc/level.hpp
 	"main.hpp"
 	"tile.hpp"
 
-1646686094 /home/dave/Development/wizardry/sorcery-sfml/inc/levelstore.hpp
+1646773080 /home/dave/Development/wizardry/sorcery-sfml/inc/levelstore.hpp
 	"level.hpp"
 	"main.hpp"
 	"system.hpp"
 
 1646686204 source:/home/dave/Development/wizardry/sorcery-sfml/src/levelstore.cpp
 	"levelstore.hpp"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/types/bitset.hpp
+	"cereal/cereal.hpp"
+	"cereal/types/string.hpp"
+	<bitset>
 
