@@ -40,7 +40,8 @@ Sorcery::Tile_::Tile_() {
 }
 
 // Other Constructors
-Sorcery::Tile_::Tile_(Point location) : _location{location} {
+Sorcery::Tile_::Tile_(const std::optional<Point> location)
+	: _location{location} {
 
 	_north = std::nullopt;
 	_south = std::nullopt;
@@ -52,9 +53,9 @@ Sorcery::Tile_::Tile_(Point location) : _location{location} {
 	s_id++;
 }
 
-Sorcery::Tile_::Tile_(Point location, std::optional<unsigned int> north,
-	std::optional<unsigned int> south, std::optional<unsigned int> east,
-	std::optional<unsigned int> west)
+Sorcery::Tile_::Tile_(std::optional<Point> location,
+	std::optional<unsigned int> north, std::optional<unsigned int> south,
+	std::optional<unsigned int> east, std::optional<unsigned int> west)
 	: _location{location}, _north{north}, _south{south}, _east{east},
 	  _west{west} {
 
@@ -63,13 +64,20 @@ Sorcery::Tile_::Tile_(Point location, std::optional<unsigned int> north,
 	s_id++;
 }
 
-// Will error on optionals
-auto Sorcery::Tile_::get() const -> Point {
+auto Sorcery::Tile_::loc() const -> Point {
 
-	return _location.value();
+	try {
+		return _location.value();
+
+	} catch (std::exception &e) {
+		Error error{
+			SystemError::OPTIONAL_RETURNED, e, "tile.location has no value!"};
+		std::cout << error;
+		exit(EXIT_FAILURE);
+	}
 }
 
-auto Sorcery::Tile_::has(MapDirection direction) const -> bool {
+auto Sorcery::Tile_::has(const MapDirection direction) const -> bool {
 
 	switch (direction) {
 	case MapDirection::NORTH:
@@ -90,12 +98,12 @@ auto Sorcery::Tile_::has(MapDirection direction) const -> bool {
 	}
 }
 
-auto Sorcery::Tile_::has(TileFeature feature) const -> bool {
+auto Sorcery::Tile_::has(const TileFeature feature) const -> bool {
 
 	return _features[magic_enum::enum_integer<TileFeature>(feature)];
 }
 
-auto Sorcery::Tile_::is(TileProperty property) const -> bool {
+auto Sorcery::Tile_::is(const TileProperty property) const -> bool {
 
 	return _properties[magic_enum::enum_integer<TileProperty>(property)];
 }
@@ -117,54 +125,101 @@ auto Sorcery::Tile_::reset() -> void {
 	_reset();
 }
 
-auto Sorcery::Tile_::reset(TileFeature feature) -> void {
+auto Sorcery::Tile_::reset(const TileFeature feature) -> void {
 
 	_features[magic_enum::enum_integer<TileFeature>(feature)] = false;
 }
 
-auto Sorcery::Tile_::reset(TileProperty property) -> void {
+auto Sorcery::Tile_::reset(const TileProperty property) -> void {
 
 	_properties[magic_enum::enum_integer<TileProperty>(property)] = false;
 }
 
-auto Sorcery::Tile_::set(TileFeature feature) -> void {
+auto Sorcery::Tile_::reset(const MapDirection direction) -> void {
+	switch (direction) {
+
+	case MapDirection::NORTH:
+		_north = std::nullopt;
+		break;
+	case MapDirection::SOUTH:
+		_south = std::nullopt;
+		break;
+	case MapDirection::EAST:
+		_east = std::nullopt;
+		break;
+	case MapDirection::WEST:
+		_west = std::nullopt;
+		break;
+	default:
+		break;
+	}
+}
+
+auto Sorcery::Tile_::set(const TileFeature feature) -> void {
 
 	_features[magic_enum::enum_integer<TileFeature>(feature)] = true;
 }
 
-auto Sorcery::Tile_::set(TileProperty property) -> void {
+auto Sorcery::Tile_::set(const TileProperty property) -> void {
 
 	_properties[magic_enum::enum_integer<TileProperty>(property)] = true;
 }
 
-auto Sorcery::Tile_::set(MapDirection direction, int new_wall) -> void {
+auto Sorcery::Tile_::set(const MapDirection direction, const int new_wall)
+	-> void {
 
-	/* switch (direction) {
+	switch (direction) {
 	case MapDirection::NORTH:
-		return _north.has_value() ? (_north > 0) : false;
+		_north = new_wall;
 		break;
 	case MapDirection::SOUTH:
-		return _south.has_value() ? (_south > 0) : false;
+		_south = new_wall;
 		break;
 	case MapDirection::EAST:
-		return _east.has_value() ? (_east > 0) : false;
+		_east = new_wall;
 		break;
 	case MapDirection::WEST:
-		return _west.has_value() ? (_west > 0) : false;
+		_west = new_wall;
 		break;
 	default:
-		return false;
 		break;
-	} */
+	}
 }
 
-auto Sorcery::Tile_::set(int north, int south, int east, int west) -> void {}
+auto Sorcery::Tile_::set(const std::optional<int> north,
+	const std::optional<int> south, const std::optional<int> east,
+	const std::optional<int> west) -> void {}
 
-auto Sorcery::Tile_::set(Point point) {}
+auto Sorcery::Tile_::set(const std::optional<Point> location) {
 
-auto Sorcery::Tile_::x() const -> int {}
+	_location = location;
+}
 
-auto Sorcery::Tile_::y() const -> int {}
+auto Sorcery::Tile_::x() const -> int {
+
+	try {
+		return _location.value().x;
+
+	} catch (std::exception &e) {
+		Error error{
+			SystemError::OPTIONAL_RETURNED, e, "tile.location.x has no value!"};
+		std::cout << error;
+		exit(EXIT_FAILURE);
+	}
+}
+
+auto Sorcery::Tile_::y() const -> int {
+
+	try {
+		return _location.value().y;
+
+	} catch (std::exception &e) {
+		Error error{
+			SystemError::OPTIONAL_RETURNED, e, "tile.location.y has no value!"};
+		std::cout << error;
+		exit(EXIT_FAILURE);
+	}
+}
 
 auto Sorcery::Tile_::_reset() -> void {
 

@@ -75,7 +75,7 @@ auto Sorcery::Layout::operator[](std::string_view combined_key) -> Component & {
 			return _components[0];
 
 	} catch (std::exception &e) {
-		Error error{SystemError::UNKNOWN_COMPONNENT, e,
+		Error error{SystemError::UNKNOWN_COMPONENT, e,
 			fmt::format(
 				"Unable to find Component '{}' in layout.json!", combined_key)};
 		std::cout << error;

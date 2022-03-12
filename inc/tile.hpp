@@ -33,8 +33,8 @@ namespace Sorcery {
 	  public:
 		// Constructors
 		Tile_();
-		Tile_(Point location);
-		Tile_(Point location, std::optional<unsigned int> north,
+		Tile_(std::optional<Point> location);
+		Tile_(std::optional<Point> location, std::optional<unsigned int> north,
 			std::optional<unsigned int> south, std::optional<unsigned int> east,
 			std::optional<unsigned int> west);
 
@@ -51,19 +51,22 @@ namespace Sorcery {
 		// Public Members
 
 		// Public Method
-		auto get() const -> Point;
-		auto has(MapDirection direction) const -> bool;
-		auto has(TileFeature feature) const -> bool;
-		auto is(TileProperty property) const -> bool;
+		auto loc() const -> Point;
+		auto has(const MapDirection direction) const -> bool;
+		auto has(const TileFeature feature) const -> bool;
+		auto is(const TileProperty property) const -> bool;
 		auto id() const -> long;
 		auto reset() -> void;
-		auto reset(TileFeature feature) -> void;
-		auto reset(TileProperty property) -> void;
-		auto set(TileFeature feature) -> void;
-		auto set(TileProperty property) -> void;
-		auto set(MapDirection direction, int new_wall) -> void;
-		auto set(int north, int south, int east, int west) -> void;
-		auto set(Point point);
+		auto reset(const TileFeature feature) -> void;
+		auto reset(const TileProperty property) -> void;
+		auto reset(const MapDirection direction) -> void;
+		auto set(const TileFeature feature) -> void;
+		auto set(const TileProperty property) -> void;
+		auto set(const MapDirection direction, int new_wall) -> void;
+		auto set(const std::optional<int> north, const std::optional<int> south,
+			const std::optional<int> east, const std::optional<int> west)
+			-> void;
+		auto set(const std::optional<Point> location);
 		auto x() const -> int;
 		auto y() const -> int;
 
