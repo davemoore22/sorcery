@@ -34,20 +34,31 @@ namespace Sorcery {
 	  public:
 		// Constructors
 		Level();
-		Level(const std::string data);
+		Level(const MapType type, const std::string dungeon, const int depth,
+			const Coordinate bottom_left, const Size size);
+
+		// Copy Constructors
+		Level(const Level &other);
+		auto operator=(const Level &other) -> Level &;
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_name);
+			archive(_type, _dungeon, _depth, _bottom_left, _size);
 		}
 
 		// Public Members
+		auto name() const -> std::string;
 
 		// Public Methods
+		auto load(const Json::Value row_data) -> bool;
 
 	  private:
 		// Private Members
-		int _name;
+		MapType _type;
+		std::string _dungeon;
+		int _depth;
+		Coordinate _bottom_left;
+		Size _size;
 
 		// Private Methods
 		auto _create() -> void;

@@ -141,6 +141,21 @@ namespace Sorcery {
 		unsigned int y;
 	};
 
+	struct Coordinate {
+		Coordinate() : x{0}, y{0} {};
+		Coordinate(int x_, int y_) : x{x_}, y{y_} {};
+		auto operator==(const Coordinate &a) const -> bool {
+			return (x == a.x && y == a.y);
+		}
+
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(x, y);
+		}
+
+		int x;
+		int y;
+	};
+
 	struct Point3 {
 		Point3() : x{0}, y{0}, z{0} {};
 		Point3(int x_, int y_, int z_) : x{x_}, y{y_}, z{z_} {};
@@ -176,6 +191,20 @@ namespace Sorcery {
 		ImageSize() : w{0}, h{0} {};
 		ImageSize(unsigned int w_, unsigned int h_) : w{w_}, h{h_} {};
 		ImageSize(const ImageSize &other) : w{other.w}, h{other.h} {};
+
+		unsigned int w;
+		unsigned int h;
+	};
+
+	// Struct to represent the size of a map level
+	struct Size {
+		Size() : w{0}, h{0} {};
+		Size(unsigned int w_, unsigned int h_) : w{w_}, h{h_} {};
+		Size(const Size &other) : w{other.w}, h{other.h} {};
+
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(w, h);
+		}
 
 		unsigned int w;
 		unsigned int h;

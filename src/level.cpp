@@ -23,3 +23,39 @@
 // the resulting work.
 
 #include "level.hpp"
+
+// Default Constructor
+Sorcery::Level::Level() {}
+
+// Standard Constructor
+Sorcery::Level::Level(const MapType type, const std::string dungeon,
+	const int depth, const Coordinate bottom_left, const Size size)
+	: _type{type}, _dungeon{dungeon}, _depth{depth},
+	  _bottom_left{bottom_left}, _size{size} {}
+
+// Copy Constructors
+Sorcery::Level::Level(const Level &other)
+	: _type{other._type}, _dungeon{other._dungeon}, _depth{_depth},
+	  _bottom_left{_bottom_left}, _size{other._size} {}
+
+auto Sorcery::Level::operator=(const Level &other) -> Level & {
+
+	_type = other._type;
+	_dungeon = other._dungeon;
+	_depth = other._depth;
+	_bottom_left = other._bottom_left;
+	_size = other._size;
+
+	return *this;
+}
+
+auto Sorcery::Level::load(const Json::Value row_data) -> bool {
+
+	return true;
+}
+
+auto Sorcery::Level::name() const -> std::string {
+
+	return _depth < 0 ? fmt::format("{} B{}F", _dungeon, std::abs(_depth))
+					  : fmt::format("{} {}F", _dungeon, std::abs(_depth));
+}

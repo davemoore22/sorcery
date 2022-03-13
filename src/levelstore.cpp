@@ -37,18 +37,17 @@ Sorcery::LevelStore::LevelStore(
 }
 
 // Overload [] Operator(const)
-auto Sorcery::LevelStore::operator[](const std::string name) const
+auto Sorcery::LevelStore::operator[](const int depth) const
 	-> std::optional<Level> {
 
-	auto level{_get(name)};
+	auto level{_get(depth)};
 	return level;
 }
 
-auto Sorcery::LevelStore::_get(const std::string name) const
-	-> std::optional<Level> {
+auto Sorcery::LevelStore::_get(const int depth) const -> std::optional<Level> {
 
 	if (_loaded) {
-		auto it{_levels.find(name)};
+		auto it{_levels.find(depth)};
 		if (it != _levels.end())
 			return it->second;
 		else
@@ -66,6 +65,37 @@ auto Sorcery::LevelStore::_load(const std::filesystem::path filename) -> bool {
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 		Json::Reader reader{};
 #pragma GCC diagnostic pop
+		if (Json::Value layout; reader.parse(file, layout)) {
+			Json::Value &regions{layout["regions"]};
+			std::string dungeon{regions[0]["name"].asString()};
+			Json::Value &layers{regions[0]["floors"]};
+			for (auto j = 0u; j < layers.size(); j++) {
+
+				// Top Level Data items
+				auto depth{layers[j]["index"].asInt()};
+				auto tiles{layers[j]["tiles"]};
+				auto notes{layers[j]["notes"]};
+
+				// Second Level Data Items
+				auto bounds{layers[j]["tiles"]["bounds"]};
+				auto rows{layers[j]["tiles"]["rows"]};
+
+				// Workout Level Metadata
+				auto x_origin{bounds["x0"].asInt()};
+				auto y_origin{bounds["y0"].asInt()};
+				auto width{bounds["width"].asInt()};
+				auto height{bounds["height"].asInt()};
+
+				// Create the Level
+				Level level{MapType::MAZE, dungeon, depth,
+					Coordinate(x_origin, y_origin), Size(width, height)};
+				level.load(rows);
+
+				// Store it
+				_levels[depth] = level;
+			}
+		} else
+			return false;
 	} else
 		return false;
 

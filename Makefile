@@ -1252,6 +1252,60 @@ src/legate.cpp.s:
 	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/legate.cpp.s
 .PHONY : src/legate.cpp.s
 
+src/level.o: src/level.cpp.o
+
+.PHONY : src/level.o
+
+# target to build an object file
+src/level.cpp.o:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/level.cpp.o
+.PHONY : src/level.cpp.o
+
+src/level.i: src/level.cpp.i
+
+.PHONY : src/level.i
+
+# target to preprocess a source file
+src/level.cpp.i:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/level.cpp.i
+.PHONY : src/level.cpp.i
+
+src/level.s: src/level.cpp.s
+
+.PHONY : src/level.s
+
+# target to generate assembly for a file
+src/level.cpp.s:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/level.cpp.s
+.PHONY : src/level.cpp.s
+
+src/levelstore.o: src/levelstore.cpp.o
+
+.PHONY : src/levelstore.o
+
+# target to build an object file
+src/levelstore.cpp.o:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/levelstore.cpp.o
+.PHONY : src/levelstore.cpp.o
+
+src/levelstore.i: src/levelstore.cpp.i
+
+.PHONY : src/levelstore.i
+
+# target to preprocess a source file
+src/levelstore.cpp.i:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/levelstore.cpp.i
+.PHONY : src/levelstore.cpp.i
+
+src/levelstore.s: src/levelstore.cpp.s
+
+.PHONY : src/levelstore.s
+
+# target to generate assembly for a file
+src/levelstore.cpp.s:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/levelstore.cpp.s
+.PHONY : src/levelstore.cpp.s
+
 src/license.o: src/license.cpp.o
 
 .PHONY : src/license.o
@@ -2223,6 +2277,12 @@ help:
 	@echo "... src/legate.o"
 	@echo "... src/legate.i"
 	@echo "... src/legate.s"
+	@echo "... src/level.o"
+	@echo "... src/level.i"
+	@echo "... src/level.s"
+	@echo "... src/levelstore.o"
+	@echo "... src/levelstore.i"
+	@echo "... src/levelstore.s"
 	@echo "... src/license.o"
 	@echo "... src/license.i"
 	@echo "... src/license.s"

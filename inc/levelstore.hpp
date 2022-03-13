@@ -38,7 +38,7 @@ namespace Sorcery {
 		LevelStore() = delete;
 
 		// Overload [] operator
-		auto operator[](const std::string name) const -> std::optional<Level>;
+		auto operator[](const int depth) const -> std::optional<Level>;
 
 		// Public Methods
 
@@ -47,10 +47,10 @@ namespace Sorcery {
 		System *_system;
 		bool _loaded;
 
-		std::map<std::string, Level> _levels;
+		std::map<int, Level> _levels;
 
 		// Private Methods
-		auto _get(const std::string name) const -> std::optional<Level>;
+		auto _get(const int depth) const -> std::optional<Level>;
 		auto _load(const std::filesystem::path filename) -> bool;
 	};
 } // namespace Sorcery
