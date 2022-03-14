@@ -58,46 +58,56 @@ auto Sorcery::LevelStore::_get(const int depth) const -> std::optional<Level> {
 
 auto Sorcery::LevelStore::_load(const std::filesystem::path filename) -> bool {
 
-	if (std::ifstream file{filename.string(), std::ifstream::binary};
-		file.good()) {
+	try {
+
+		if (std::ifstream file{filename.string(), std::ifstream::binary};
+			file.good()) {
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-		Json::Reader reader{};
+			Json::Reader reader{};
 #pragma GCC diagnostic pop
-		if (Json::Value layout; reader.parse(file, layout)) {
-			Json::Value &regions{layout["regions"]};
-			std::string dungeon{regions[0]["name"].asString()};
-			Json::Value &layers{regions[0]["floors"]};
-			for (auto j = 0u; j < layers.size(); j++) {
+			if (Json::Value layout; reader.parse(file, layout)) {
+				Json::Value &regions{layout["regions"]};
+				std::string dungeon{regions[0]["name"].asString()};
+				Json::Value &layers{regions[0]["floors"]};
+				for (auto j = 0u; j < layers.size(); j++) {
 
-				// Top Level Data items
-				auto depth{layers[j]["index"].asInt()};
-				auto tiles{layers[j]["tiles"]};
-				auto notes{layers[j]["notes"]};
+					// Top Level Data items
+					auto depth{layers[j]["index"].asInt()};
+					auto tiles{layers[j]["tiles"]};
+					auto notes{layers[j]["notes"]};
 
-				// Second Level Data Items
-				auto bounds{layers[j]["tiles"]["bounds"]};
-				auto rows{layers[j]["tiles"]["rows"]};
+					// Second Level Data Items
+					auto bounds{layers[j]["tiles"]["bounds"]};
+					auto rows{layers[j]["tiles"]["rows"]};
 
-				// Workout Level Metadata
-				auto x_origin{bounds["x0"].asInt()};
-				auto y_origin{bounds["y0"].asInt()};
-				auto width{bounds["width"].asInt()};
-				auto height{bounds["height"].asInt()};
+					// Workout Level Metadata
+					auto x_origin{bounds["x0"].asInt()};
+					auto y_origin{bounds["y0"].asInt()};
+					auto width{bounds["width"].asInt()};
+					auto height{bounds["height"].asInt()};
 
-				// Create the Level
-				Level level{MapType::MAZE, dungeon, depth,
-					Coordinate(x_origin, y_origin), Size(width, height)};
-				level.load(rows);
+					// Create the Level
+					Level level{MapType::MAZE, dungeon, depth,
+						Coordinate(x_origin, y_origin), Size(width, height)};
+					level.load(rows);
 
-				// Store it
-				_levels[depth] = level;
-			}
+					// Store it
+					_levels[depth] = level;
+				}
+			} else
+				return false;
 		} else
 			return false;
-	} else
-		return false;
 
-	return true;
+		return true;
+	}
+
+	catch (std::exception &e) {
+		Error error{
+			SystemError::JSON_PARSE_ERROR, e, "error loading levels.json!"};
+		std::cout << error;
+		exit(EXIT_FAILURE);
+	}
 }

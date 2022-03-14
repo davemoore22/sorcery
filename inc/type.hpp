@@ -201,6 +201,13 @@ namespace Sorcery {
 		Size() : w{0}, h{0} {};
 		Size(unsigned int w_, unsigned int h_) : w{w_}, h{h_} {};
 		Size(const Size &other) : w{other.w}, h{other.h} {};
+		auto operator=(const Size &other) -> Size & {
+
+			w = other.w;
+			h = other.h;
+
+			return *this;
+		};
 
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(w, h);

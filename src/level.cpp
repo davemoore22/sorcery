@@ -51,6 +51,55 @@ auto Sorcery::Level::operator=(const Level &other) -> Level & {
 
 auto Sorcery::Level::load(const Json::Value row_data) -> bool {
 
+	for (auto j = 0u; j < row_data.size(); j++) {
+
+		// Top Level Data items
+		auto y{row_data[j]["y"].asInt()};
+		auto start{row_data[j]["start"].asInt()};
+		auto absolute_x{_bottom_left.x + start};
+		auto tile_data{row_data[j]["tdata"]};
+		auto x{0};
+		for (auto i = 0u; i < tile_data.size(); i++) {
+
+			// For each cell
+			x = absolute_x + i;
+			auto tile{tile_data[i]};
+
+			// Get the bottom and right walls
+			auto south_wall{[&] {
+				if (tile.isMember("b"))
+					return static_cast<unsigned int>(tile["b"].asUInt());
+				else
+					return 0u;
+			}()};
+			auto darkness{[&] {
+				if (tile.isMember("d"))
+					return static_cast<std::string>(tile["d"].asString()) ==
+						   "1";
+				else
+					return false;
+			}()};
+			auto marker{[&] {
+				if (tile.isMember("m"))
+					return static_cast<unsigned int>(tile["m"].asUInt());
+				else
+					return 0u;
+			}()};
+			auto east_wall{[&] {
+				if (tile.isMember("r"))
+					return static_cast<unsigned int>(tile["r"].asUInt());
+				else
+					return 0u;
+			}()};
+			auto terrain{[&] {
+				if (tile.isMember("t"))
+					return static_cast<unsigned int>(tile["t"].asUInt());
+				else
+					return 0u;
+			}()};
+		}
+	}
+
 	return true;
 }
 
