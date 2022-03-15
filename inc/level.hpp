@@ -43,7 +43,7 @@ namespace Sorcery {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_type, _dungeon, _depth, _bottom_left, _size);
+			archive(_type, _dungeon, _depth, _bottom_left, _size, _tiles);
 		}
 
 		// Public Members
@@ -59,8 +59,16 @@ namespace Sorcery {
 		int _depth;
 		Coordinate _bottom_left;
 		Size _size;
+		std::map<Point, Tile_> _tiles;
 
 		// Private Methods
 		auto _create() -> void;
+		auto _add_tile(const Coordinate location, const unsigned int south_wall,
+			const unsigned int east_wall, const bool darkness,
+			const unsigned int marker, const unsigned int terrain) -> void;
+		auto _convert_edge(const unsigned int wall) const
+			-> std::optional<TileEdge>;
+		auto _convert_edge_se(const unsigned int wall) const -> TileEdge;
+		auto _convert_edge_nw(const unsigned int wall) const -> TileEdge;
 	};
 } // namespace Sorcery

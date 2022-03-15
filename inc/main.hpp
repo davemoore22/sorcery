@@ -182,6 +182,7 @@ namespace Sorcery {
 	using TempleStage = Enums::Castle::Temple;
 	using TileFeature = Enums::Tile::Features;
 	using TileProperty = Enums::Tile::Properties;
+	using TileEdge = Enums::Tile::Edge;
 	using TileWall = Enums::Tile::Wall;
 	using WindowInputMode = Enums::Window::InputMode;
 	using WindowInputCategory = Enums::Window::InputCategory;

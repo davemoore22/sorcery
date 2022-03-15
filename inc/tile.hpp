@@ -33,10 +33,10 @@ namespace Sorcery {
 	  public:
 		// Constructors
 		Tile_();
-		Tile_(std::optional<Point> location);
-		Tile_(std::optional<Point> location, std::optional<unsigned int> north,
-			std::optional<unsigned int> south, std::optional<unsigned int> east,
-			std::optional<unsigned int> west);
+		Tile_(std::optional<Coordinate> location);
+		Tile_(std::optional<Coordinate> location, std::optional<TileEdge> north,
+			std::optional<TileEdge> south, std::optional<TileEdge> east,
+			std::optional<TileEdge> west);
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
@@ -51,7 +51,7 @@ namespace Sorcery {
 		// Public Members
 
 		// Public Method
-		auto loc() const -> Point;
+		auto loc() const -> Coordinate;
 		auto has(const MapDirection direction) const -> bool;
 		auto has(const TileFeature feature) const -> bool;
 		auto is(const TileProperty property) const -> bool;
@@ -62,11 +62,12 @@ namespace Sorcery {
 		auto reset(const MapDirection direction) -> void;
 		auto set(const TileFeature feature) -> void;
 		auto set(const TileProperty property) -> void;
-		auto set(const MapDirection direction, int new_wall) -> void;
-		auto set(const std::optional<int> north, const std::optional<int> south,
-			const std::optional<int> east, const std::optional<int> west)
-			-> void;
-		auto set(const std::optional<Point> location);
+		auto set(const MapDirection direction, TileEdge new_wall) -> void;
+		auto set(const std::optional<TileEdge> north,
+			const std::optional<TileEdge> south,
+			const std::optional<TileEdge> east,
+			const std::optional<TileEdge> west) -> void;
+		auto set(const std::optional<Coordinate> location);
 		auto x() const -> int;
 		auto y() const -> int;
 
@@ -77,13 +78,13 @@ namespace Sorcery {
 		auto _reset() -> void;
 
 		// Private Members
-		std::optional<Point> _location;
+		std::optional<Coordinate> _location;
 
 		// Walls (based upon https://docs.gridcartographer.com/ref/table/edge)
-		std::optional<unsigned int> _north;
-		std::optional<unsigned int> _south;
-		std::optional<unsigned int> _east;
-		std::optional<unsigned int> _west;
+		std::optional<TileEdge> _north;
+		std::optional<TileEdge> _south;
+		std::optional<TileEdge> _east;
+		std::optional<TileEdge> _west;
 
 		// Texture
 		std::optional<unsigned int> _texture_id;

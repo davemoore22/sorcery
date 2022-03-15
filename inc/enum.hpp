@@ -842,6 +842,20 @@ namespace Sorcery {
 
 		namespace Tile {
 
+			enum class Edge {
+
+				NONE = 0,
+				WALL = 1,
+				UNLOCKED_DOOR = 2,
+				LOCKED_DOOR = 3,
+				HIDDEN_DOOR = 4,
+				ONE_WAY_DOOR = 5,
+				ONE_WAY_HIDDEN_DOOR = 6,
+				ONE_WAY_WALL = 7,
+				SECRET_DOOR = 8,
+				SECRET_WALL = 9
+			};
+
 			enum class Wall {
 
 				NONE = -1,

@@ -40,7 +40,7 @@ Sorcery::Tile_::Tile_() {
 }
 
 // Other Constructors
-Sorcery::Tile_::Tile_(const std::optional<Point> location)
+Sorcery::Tile_::Tile_(const std::optional<Coordinate> location)
 	: _location{location} {
 
 	_north = std::nullopt;
@@ -53,9 +53,9 @@ Sorcery::Tile_::Tile_(const std::optional<Point> location)
 	s_id++;
 }
 
-Sorcery::Tile_::Tile_(std::optional<Point> location,
-	std::optional<unsigned int> north, std::optional<unsigned int> south,
-	std::optional<unsigned int> east, std::optional<unsigned int> west)
+Sorcery::Tile_::Tile_(std::optional<Coordinate> location,
+	std::optional<TileEdge> north, std::optional<TileEdge> south,
+	std::optional<TileEdge> east, std::optional<TileEdge> west)
 	: _location{location}, _north{north}, _south{south}, _east{east},
 	  _west{west} {
 
@@ -64,7 +64,7 @@ Sorcery::Tile_::Tile_(std::optional<Point> location,
 	s_id++;
 }
 
-auto Sorcery::Tile_::loc() const -> Point {
+auto Sorcery::Tile_::loc() const -> Coordinate {
 
 	try {
 		return _location.value();
@@ -81,16 +81,16 @@ auto Sorcery::Tile_::has(const MapDirection direction) const -> bool {
 
 	switch (direction) {
 	case MapDirection::NORTH:
-		return _north.has_value() ? (_north > 0) : false;
+		return _north.has_value() ? (_north != TileEdge::NONE) : false;
 		break;
 	case MapDirection::SOUTH:
-		return _south.has_value() ? (_south > 0) : false;
+		return _south.has_value() ? (_south != TileEdge::NONE) : false;
 		break;
 	case MapDirection::EAST:
-		return _east.has_value() ? (_east > 0) : false;
+		return _east.has_value() ? (_east != TileEdge::NONE) : false;
 		break;
 	case MapDirection::WEST:
-		return _west.has_value() ? (_west > 0) : false;
+		return _west.has_value() ? (_west != TileEdge::NONE) : false;
 		break;
 	default:
 		return false;
@@ -165,7 +165,7 @@ auto Sorcery::Tile_::set(const TileProperty property) -> void {
 	_properties[magic_enum::enum_integer<TileProperty>(property)] = true;
 }
 
-auto Sorcery::Tile_::set(const MapDirection direction, const int new_wall)
+auto Sorcery::Tile_::set(const MapDirection direction, const TileEdge new_wall)
 	-> void {
 
 	switch (direction) {
@@ -186,11 +186,11 @@ auto Sorcery::Tile_::set(const MapDirection direction, const int new_wall)
 	}
 }
 
-auto Sorcery::Tile_::set(const std::optional<int> north,
-	const std::optional<int> south, const std::optional<int> east,
-	const std::optional<int> west) -> void {}
+auto Sorcery::Tile_::set(const std::optional<TileEdge> north,
+	const std::optional<TileEdge> south, const std::optional<TileEdge> east,
+	const std::optional<TileEdge> west) -> void {}
 
-auto Sorcery::Tile_::set(const std::optional<Point> location) {
+auto Sorcery::Tile_::set(const std::optional<Coordinate> location) {
 
 	_location = location;
 }

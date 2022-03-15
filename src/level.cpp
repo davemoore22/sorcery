@@ -31,12 +31,18 @@ Sorcery::Level::Level() {}
 Sorcery::Level::Level(const MapType type, const std::string dungeon,
 	const int depth, const Coordinate bottom_left, const Size size)
 	: _type{type}, _dungeon{dungeon}, _depth{depth},
-	  _bottom_left{bottom_left}, _size{size} {}
+	  _bottom_left{bottom_left}, _size{size} {
+
+	_tiles.clear();
+}
 
 // Copy Constructors
 Sorcery::Level::Level(const Level &other)
 	: _type{other._type}, _dungeon{other._dungeon}, _depth{_depth},
-	  _bottom_left{_bottom_left}, _size{other._size} {}
+	  _bottom_left{_bottom_left}, _size{other._size} {
+
+	_tiles = other._tiles;
+}
 
 auto Sorcery::Level::operator=(const Level &other) -> Level & {
 
@@ -45,6 +51,7 @@ auto Sorcery::Level::operator=(const Level &other) -> Level & {
 	_depth = other._depth;
 	_bottom_left = other._bottom_left;
 	_size = other._size;
+	_tiles = other._tiles;
 
 	return *this;
 }
@@ -53,12 +60,14 @@ auto Sorcery::Level::load(const Json::Value row_data) -> bool {
 
 	for (auto j = 0u; j < row_data.size(); j++) {
 
-		// Top Level Data items
+		// Get the top level data items
 		auto y{row_data[j]["y"].asInt()};
 		auto start{row_data[j]["start"].asInt()};
 		auto absolute_x{_bottom_left.x + start};
 		auto tile_data{row_data[j]["tdata"]};
 		auto x{0};
+
+		// First pass through - build the tiles needed
 		for (auto i = 0u; i < tile_data.size(); i++) {
 
 			// For each cell
@@ -107,4 +116,100 @@ auto Sorcery::Level::name() const -> std::string {
 
 	return _depth < 0 ? fmt::format("{} B{}F", _dungeon, std::abs(_depth))
 					  : fmt::format("{} {}F", _dungeon, std::abs(_depth));
+}
+
+auto Sorcery::Level::_add_tile(const Coordinate location,
+	const unsigned int south_wall, const unsigned int east_wall,
+	const bool darkness, const unsigned int marker, const unsigned int terrain)
+	-> void {}
+
+// Due to the way GC defines levels, we need to handle different edges
+// differently
+auto Sorcery::Level::_convert_edge(const unsigned int wall) const
+	-> std::optional<TileEdge> {
+
+	std::optional<TileEdge> edge{std::nullopt};
+	switch (wall) { // NOLINT(clang-diagnostic-switch)
+	case 0:
+		edge = TileEdge::NONE;
+		break;
+	case 1:
+		edge = TileEdge::WALL;
+		break;
+	case 2:
+	[[fallthrough]];
+	case 12:
+	[[fallthrough]];
+	case 33:
+		edge = TileEdge::UNLOCKED_DOOR;
+		break;
+	case 3:
+		edge = TileEdge::LOCKED_DOOR;
+		break;
+	case 4:
+		edge = TileEdge::HIDDEN_DOOR;
+		break;
+	case 13:
+		edge = TileEdge::SECRET_WALL;
+		break;
+	case 29:
+		edge = TileEdge::SECRET_DOOR;
+		break;
+	default:
+        break;
+	}
+
+	return edge;
+}
+
+auto Sorcery::Level::_convert_edge_se(const unsigned int wall) const
+	-> TileEdge {
+
+	std::optional<TileEdge> standard_edge{_convert_edge(wall)};
+	if (standard_edge.has_value()) {
+		return standard_edge.value();
+	} else {
+		TileEdge edge{TileEdge::NONE};
+		switch (wall) { // NOLINT(clang-diagnostic-switch)
+		case 8:
+			edge = TileEdge::ONE_WAY_DOOR;
+			break;
+		case 9:
+			edge = TileEdge::HIDDEN_DOOR;
+			break;
+		case 10:
+			edge = TileEdge::ONE_WAY_WALL;
+			break;
+		default:
+			break;
+		}
+
+		return edge;
+	}
+}
+
+auto Sorcery::Level::_convert_edge_nw(const unsigned int wall) const
+	-> TileEdge {
+
+	std::optional<TileEdge> standard_edge{_convert_edge(wall)};
+	if (standard_edge.has_value()) {
+		return standard_edge.value();
+	} else {
+		TileEdge edge{TileEdge::NONE};
+		switch (wall) { // NOLINT(clang-diagnostic-switch)
+		case 5:
+			edge = TileEdge::ONE_WAY_DOOR;
+			break;
+		case 6:
+			edge = TileEdge::HIDDEN_DOOR;
+			break;
+		case 7:
+			edge = TileEdge::ONE_WAY_WALL;
+			break;
+		default:
+			break;
+		}
+
+		return edge;
+	}
 }
