@@ -70,5 +70,9 @@ namespace Sorcery {
 			-> std::optional<TileEdge>;
 		auto _convert_edge_se(const unsigned int wall) const -> TileEdge;
 		auto _convert_edge_nw(const unsigned int wall) const -> TileEdge;
+		auto _update_tile(const Coordinate location,
+			const unsigned int north_wall, const unsigned int west_wall)
+			-> void;
 	};
+
 } // namespace Sorcery

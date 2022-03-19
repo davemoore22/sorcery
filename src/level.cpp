@@ -61,11 +61,12 @@ auto Sorcery::Level::load(const Json::Value row_data) -> bool {
 	for (auto j = 0u; j < row_data.size(); j++) {
 
 		// Get the top level data items
-		auto y{row_data[j]["y"].asInt()};
-		auto start{row_data[j]["start"].asInt()};
-		auto absolute_x{_bottom_left.x + start};
 		auto tile_data{row_data[j]["tdata"]};
+		const auto start{static_cast<int>(row_data[j]["start"].asInt())};
+		const auto current_y{static_cast<int>(row_data[j]["y"].asInt())};
+		const auto absolute_x{static_cast<int>(_bottom_left.x + start)};
 		auto x{0};
+		auto y{current_y};
 
 		// First pass through - build the tiles needed
 		for (auto i = 0u; i < tile_data.size(); i++) {
@@ -74,7 +75,7 @@ auto Sorcery::Level::load(const Json::Value row_data) -> bool {
 			x = absolute_x + i;
 			auto tile{tile_data[i]};
 
-			// Get the bottom and right walls
+			// Get the bottom and right walls and cell properties
 			auto south_wall{[&] {
 				if (tile.isMember("b"))
 					return static_cast<unsigned int>(tile["b"].asUInt());
@@ -112,6 +113,46 @@ auto Sorcery::Level::load(const Json::Value row_data) -> bool {
 		}
 	}
 
+	for (auto j = 0u; j < row_data.size(); j++) {
+
+		// Get the top level data items
+		const auto start{static_cast<int>(row_data[j]["start"].asInt())};
+		const auto absolute_x{static_cast<int>(_bottom_left.x + start)};
+		const auto current_y{static_cast<int>(row_data[j]["y"].asInt())};
+		auto tile_data{row_data[j]["tdata"]};
+		auto x{0};
+		auto y{current_y};
+
+		// Second pass through - build the other edges of the tiles
+		for (auto i = 0u; i < tile_data.size(); i++) {
+
+			// For each cell
+			x = absolute_x + i;
+			auto tile{tile_data[i]};
+
+			// Get the bottom and right walls but remembering these are the
+			// top and left walls of adjacent tiles - see
+			// https://docs.gridcartographer.com/ref/tile_data_models for
+			// details
+			auto north_wall{[&] {
+				if (tile.isMember("b"))
+					return static_cast<unsigned int>(tile["b"].asUInt());
+				else
+					return 0u;
+			}()};
+			auto west_wall{[&] {
+				if (tile.isMember("r"))
+					return static_cast<unsigned int>(tile["r"].asUInt());
+				else
+					return 0u;
+			}()};
+			auto new_x{x - 1};
+			auto new_y{y - 1};
+
+			_update_tile(Coordinate{new_x, new_y}, north_wall, west_wall);
+		}
+	}
+
 	return true;
 }
 
@@ -136,6 +177,18 @@ auto Sorcery::Level::_add_tile(const Coordinate location,
 		tile.set(TileProperty::DARKNESS);
 
 	_tiles[location] = tile;
+}
+
+auto Sorcery::Level::_update_tile(const Coordinate location,
+	const unsigned int north_wall, const unsigned int west_wall) -> void {
+
+	auto north_edge{_convert_edge_nw(north_wall)};
+	auto west_edge{_convert_edge_nw(west_wall)};
+
+	auto &tile{_tiles.at(location)};
+
+	tile.set(MapDirection::NORTH, north_edge);
+	tile.set(MapDirection::WEST, west_edge);
 }
 
 // Due to the way GC defines levels, we need to handle different edges
