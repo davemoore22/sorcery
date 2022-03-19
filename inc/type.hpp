@@ -147,6 +147,9 @@ namespace Sorcery {
 		auto operator==(const Coordinate &a) const -> bool {
 			return (x == a.x && y == a.y);
 		}
+		auto operator<(const Coordinate &a) const -> bool {
+			return std::tie(x, y) < std::tie(a.x, a.y);
+		}
 
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(x, y);

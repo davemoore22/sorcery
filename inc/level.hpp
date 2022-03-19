@@ -59,7 +59,7 @@ namespace Sorcery {
 		int _depth;
 		Coordinate _bottom_left;
 		Size _size;
-		std::map<Point, Tile_> _tiles;
+		std::map<Coordinate, Tile_> _tiles;
 
 		// Private Methods
 		auto _create() -> void;

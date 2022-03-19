@@ -106,6 +106,9 @@ auto Sorcery::Level::load(const Json::Value row_data) -> bool {
 				else
 					return 0u;
 			}()};
+
+			_add_tile(Coordinate{x, y}, south_wall, east_wall, darkness, marker,
+				terrain);
 		}
 	}
 
@@ -118,13 +121,25 @@ auto Sorcery::Level::name() const -> std::string {
 					  : fmt::format("{} {}F", _dungeon, std::abs(_depth));
 }
 
+// Since Grid Cartographer only defines s/e walls in our format, we do
+// an add and then an update from the adjacent tiles on another pass
 auto Sorcery::Level::_add_tile(const Coordinate location,
 	const unsigned int south_wall, const unsigned int east_wall,
 	const bool darkness, const unsigned int marker, const unsigned int terrain)
-	-> void {}
+	-> void {
+
+	auto south_edge{_convert_edge_se(south_wall)};
+	auto east_edge{_convert_edge_se(east_wall)};
+
+	Tile_ tile{location, std::nullopt, south_edge, east_edge, std::nullopt};
+	if (darkness)
+		tile.set(TileProperty::DARKNESS);
+
+	_tiles[location] = tile;
+}
 
 // Due to the way GC defines levels, we need to handle different edges
-// differently
+// differently so this is the inner function
 auto Sorcery::Level::_convert_edge(const unsigned int wall) const
 	-> std::optional<TileEdge> {
 
@@ -137,9 +152,9 @@ auto Sorcery::Level::_convert_edge(const unsigned int wall) const
 		edge = TileEdge::WALL;
 		break;
 	case 2:
-	[[fallthrough]];
+		[[fallthrough]];
 	case 12:
-	[[fallthrough]];
+		[[fallthrough]];
 	case 33:
 		edge = TileEdge::UNLOCKED_DOOR;
 		break;
@@ -156,12 +171,13 @@ auto Sorcery::Level::_convert_edge(const unsigned int wall) const
 		edge = TileEdge::SECRET_DOOR;
 		break;
 	default:
-        break;
+		break;
 	}
 
 	return edge;
 }
 
+// From the S/E perspectives, the one way doors etc are walls
 auto Sorcery::Level::_convert_edge_se(const unsigned int wall) const
 	-> TileEdge {
 
@@ -171,6 +187,15 @@ auto Sorcery::Level::_convert_edge_se(const unsigned int wall) const
 	} else {
 		TileEdge edge{TileEdge::NONE};
 		switch (wall) { // NOLINT(clang-diagnostic-switch)
+		case 5:
+			edge = TileEdge::WALL;
+			break;
+		case 6:
+			edge = TileEdge::WALL;
+			break;
+		case 7:
+			edge = TileEdge::WALL;
+			break;
 		case 8:
 			edge = TileEdge::ONE_WAY_DOOR;
 			break;
@@ -188,6 +213,7 @@ auto Sorcery::Level::_convert_edge_se(const unsigned int wall) const
 	}
 }
 
+// From the N/W perspectives, the one way doors etc are walls
 auto Sorcery::Level::_convert_edge_nw(const unsigned int wall) const
 	-> TileEdge {
 
@@ -205,6 +231,15 @@ auto Sorcery::Level::_convert_edge_nw(const unsigned int wall) const
 			break;
 		case 7:
 			edge = TileEdge::ONE_WAY_WALL;
+			break;
+		case 8:
+			edge = TileEdge::WALL;
+			break;
+		case 9:
+			edge = TileEdge::WALL;
+			break;
+		case 10:
+			edge = TileEdge::WALL;
 			break;
 		default:
 			break;
