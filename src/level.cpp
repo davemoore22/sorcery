@@ -25,7 +25,10 @@
 #include "level.hpp"
 
 // Default Constructor
-Sorcery::Level::Level() {}
+Sorcery::Level::Level() {
+
+	_create();
+}
 
 // Standard Constructor
 Sorcery::Level::Level(const MapType type, const std::string dungeon,
@@ -33,7 +36,7 @@ Sorcery::Level::Level(const MapType type, const std::string dungeon,
 	: _type{type}, _dungeon{dungeon}, _depth{depth},
 	  _bottom_left{bottom_left}, _size{size} {
 
-	_tiles.clear();
+	_create();
 }
 
 // Copy Constructors
@@ -56,7 +59,30 @@ auto Sorcery::Level::operator=(const Level &other) -> Level & {
 	return *this;
 }
 
+auto Sorcery::Level::_create() -> void {
+
+	_tiles.clear();
+
+	// Create the blank tiles because GC export data doesn't always include
+	// empty tiles to save space in the export
+	for (auto y = _bottom_left.y;
+		 y <= _bottom_left.y + static_cast<int>(_size.h); y++) {
+		for (auto x = _bottom_left.x;
+			 x <= _bottom_left.x + static_cast<int>(_size.w); x++) {
+			_add_tile(Coordinate{x, y});
+		}
+	}
+}
+
 auto Sorcery::Level::load(const Json::Value row_data) -> bool {
+
+	_load_first_pass(row_data);
+	_load_second_pass(row_data);
+
+	return true;
+}
+
+auto Sorcery::Level::_load_first_pass(const Json::Value row_data) -> bool {
 
 	for (auto j = 0u; j < row_data.size(); j++) {
 
@@ -108,10 +134,15 @@ auto Sorcery::Level::load(const Json::Value row_data) -> bool {
 					return 0u;
 			}()};
 
-			_add_tile(Coordinate{x, y}, south_wall, east_wall, darkness, marker,
-				terrain);
+			_update_tile(Coordinate{x, y}, south_wall, east_wall, darkness,
+				marker, terrain);
 		}
 	}
+
+	return true;
+}
+
+auto Sorcery::Level::_load_second_pass(const Json::Value row_data) -> bool {
 
 	for (auto j = 0u; j < row_data.size(); j++) {
 
@@ -146,8 +177,8 @@ auto Sorcery::Level::load(const Json::Value row_data) -> bool {
 				else
 					return 0u;
 			}()};
-			auto new_x{x - 1};
-			auto new_y{y - 1};
+			auto new_x{x + 1};
+			auto new_y{y + 1};
 
 			_update_tile(Coordinate{new_x, new_y}, north_wall, west_wall);
 		}
@@ -162,9 +193,16 @@ auto Sorcery::Level::name() const -> std::string {
 					  : fmt::format("{} {}F", _dungeon, std::abs(_depth));
 }
 
+auto Sorcery::Level::_add_tile(const Coordinate location) -> void {
+
+	Tile_ tile{location};
+	_tiles[location] = tile;
+}
+
 // Since Grid Cartographer only defines s/e walls in our format, we do
-// an add and then an update from the adjacent tiles on another pass
-auto Sorcery::Level::_add_tile(const Coordinate location,
+// two updates, first with the tile in question, and then from the adjacent tile
+// on another pass
+auto Sorcery::Level::_update_tile(const Coordinate location,
 	const unsigned int south_wall, const unsigned int east_wall,
 	const bool darkness, const unsigned int marker, const unsigned int terrain)
 	-> void {
@@ -172,10 +210,13 @@ auto Sorcery::Level::_add_tile(const Coordinate location,
 	auto south_edge{_convert_edge_se(south_wall)};
 	auto east_edge{_convert_edge_se(east_wall)};
 
-	Tile_ tile{location, std::nullopt, south_edge, east_edge, std::nullopt};
+	auto &tile{_tiles.at(location)};
+	tile.set(MapDirection::SOUTH, south_edge);
+	tile.set(MapDirection::EAST, east_edge);
 	if (darkness)
 		tile.set(TileProperty::DARKNESS);
 
+	// TODO: also handle markers and terrain etc
 	_tiles[location] = tile;
 }
 
