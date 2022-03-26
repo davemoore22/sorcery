@@ -40,7 +40,7 @@ auto Sorcery::World::create() -> void {
 	player_pos = Point{0, 0};
 }
 
-auto Sorcery::World::_get_visible_tiles() -> std::vector<Tile*> {
+auto Sorcery::World::_get_visible_tiles() -> std::vector<Tile *> {
 	//
 
 	/*

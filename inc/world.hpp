@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include "levelstore.hpp"
 #include "main.hpp"
 #include "map.hpp"
 
@@ -44,6 +45,7 @@ namespace Sorcery {
 		Point player_pos;
 		MapDirection playing_facing;
 		std::unique_ptr<Map> current_level;
+		LevelStore *levelstore;
 
 		// Punlic Methods
 		auto create() -> void;
@@ -53,6 +55,6 @@ namespace Sorcery {
 		int _version;
 
 		// Private Methods
-		auto _get_visible_tiles() -> std::vector<Tile*>;
+		auto _get_visible_tiles() -> std::vector<Tile *>;
 	};
 } // namespace Sorcery

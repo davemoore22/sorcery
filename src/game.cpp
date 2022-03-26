@@ -24,6 +24,8 @@
 
 #include "game.hpp"
 
+// need to load level stores into this
+
 Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
@@ -35,7 +37,9 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 		_create_game();
 		_load_game();
 	}
-	_load_levels();
+
+	_levels =
+		std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
 }
 
 auto Sorcery::Game::get_id() -> unsigned int {
@@ -46,13 +50,6 @@ auto Sorcery::Game::get_id() -> unsigned int {
 auto Sorcery::Game::create_game() -> void {
 
 	_create_game();
-}
-
-// Note that the definitions are fixed!
-auto Sorcery::Game::_load_levels() -> void {
-
-	_levels =
-		std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
 }
 
 auto Sorcery::Game::load_game() -> void {
@@ -94,6 +91,8 @@ auto Sorcery::Game::_create_game() -> void {
 	}
 	const auto data{ss.str()};
 	_system->database->create_game_state(data);
+
+	_load_levelstore();
 }
 
 auto Sorcery::Game::_load_game() -> void {
@@ -119,6 +118,14 @@ auto Sorcery::Game::_load_game() -> void {
 
 	// And load the associated characters
 	_load_characters();
+
+	// Load the Fixed Levels
+	_load_levelstore();
+}
+
+auto Sorcery::Game::_load_levelstore() -> void {
+
+	state->world->levelstore = _levels.get();
 }
 
 auto Sorcery::Game::_save_game() -> void {
