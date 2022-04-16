@@ -24,6 +24,16 @@
 
 #include "levelstore.hpp"
 
+Sorcery::LevelStore::LevelStore() {
+	_levels.clear();
+}
+
+Sorcery::LevelStore::LevelStore(System *system) : _system{system} {
+
+	// Prepare the level store
+	_levels.clear();
+}
+
 // Standard Constructor
 Sorcery::LevelStore::LevelStore(
 	System *system, const std::filesystem::path filename)
@@ -42,6 +52,12 @@ auto Sorcery::LevelStore::operator[](const int depth) const
 
 	auto level{_get(depth)};
 	return level;
+}
+
+// Method called to simulate Normal Constructor with Cereal Constructor
+auto Sorcery::LevelStore::set(System *system) -> void {
+
+	_system = system;
 }
 
 auto Sorcery::LevelStore::_get(const int depth) const -> std::optional<Level> {

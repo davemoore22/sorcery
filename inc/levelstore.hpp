@@ -34,13 +34,20 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
+		LevelStore();
+		LevelStore(System *system);
 		LevelStore(System *system, const std::filesystem::path filename);
-		LevelStore() = delete;
+
+		// Serialisation
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(_loaded, _levels);
+		}
 
 		// Overload [] operator
 		auto operator[](const int depth) const -> std::optional<Level>;
 
 		// Public Methods
+		auto set(System *system) -> void;
 
 	  private:
 		// Private Members

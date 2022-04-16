@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include "level.hpp"
 #include "levelstore.hpp"
 #include "main.hpp"
 #include "map.hpp"
@@ -38,7 +39,7 @@ namespace Sorcery {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_version, player_pos, playing_facing, current_level);
+			archive(_version, player_pos, playing_facing, current_level, level);
 		}
 
 		// Public Members
@@ -46,9 +47,11 @@ namespace Sorcery {
 		MapDirection playing_facing;
 		std::unique_ptr<Map> current_level;
 		LevelStore *levelstore;
+		Level level;
 
 		// Punlic Methods
 		auto create() -> void;
+		auto set_starting_level() -> void;
 
 	  private:
 		// Private Members

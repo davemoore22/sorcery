@@ -486,10 +486,10 @@
 1628106617 source:/home/dave/Development/wizardry/sorcery-sfml/src/tooltip.cpp
 	"tooltip.hpp"
 
-1646773138 source:/home/dave/Development/wizardry/sorcery-sfml/src/game.cpp
+1650128094 source:/home/dave/Development/wizardry/sorcery-sfml/src/game.cpp
 	"game.hpp"
 
-1648331633 /home/dave/Development/wizardry/sorcery-sfml/inc/game.hpp
+1650118691 /home/dave/Development/wizardry/sorcery-sfml/inc/game.hpp
 	"character.hpp"
 	"display.hpp"
 	"graphics.hpp"
@@ -622,7 +622,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1633195087 source:/home/dave/Development/wizardry/sorcery-sfml/src/statusbar.cpp
+1649712017 source:/home/dave/Development/wizardry/sorcery-sfml/src/statusbar.cpp
 	"statusbar.hpp"
 
 1628106617 /home/dave/Development/wizardry/sorcery-sfml/inc/keyboard.hpp
@@ -821,7 +821,7 @@
 	"system.hpp"
 	"training.hpp"
 
-1630416799 source:/home/dave/Development/wizardry/sorcery-sfml/src/edgeoftown.cpp
+1649705389 source:/home/dave/Development/wizardry/sorcery-sfml/src/edgeoftown.cpp
 	"edgeoftown.hpp"
 
 1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/cereal.hpp
@@ -1378,12 +1378,13 @@
 	"system.hpp"
 	"view.hpp"
 
-1648321725 /home/dave/Development/wizardry/sorcery-sfml/inc/world.hpp
+1649705237 /home/dave/Development/wizardry/sorcery-sfml/inc/world.hpp
+	"level.hpp"
 	"levelstore.hpp"
 	"main.hpp"
 	"map.hpp"
 
-1647809710 source:/home/dave/Development/wizardry/sorcery-sfml/src/world.cpp
+1649709937 source:/home/dave/Development/wizardry/sorcery-sfml/src/world.cpp
 	"world.hpp"
 
 1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/types/map.hpp
@@ -1485,12 +1486,12 @@
 	"main.hpp"
 	"tile.hpp"
 
-1647189489 /home/dave/Development/wizardry/sorcery-sfml/inc/levelstore.hpp
+1650126555 /home/dave/Development/wizardry/sorcery-sfml/inc/levelstore.hpp
 	"level.hpp"
 	"main.hpp"
 	"system.hpp"
 
-1647285569 source:/home/dave/Development/wizardry/sorcery-sfml/src/levelstore.cpp
+1650126419 source:/home/dave/Development/wizardry/sorcery-sfml/src/levelstore.cpp
 	"levelstore.hpp"
 
 1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/types/bitset.hpp

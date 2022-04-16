@@ -31,6 +31,7 @@ Sorcery::World::World() {
 	_version = SAVE_VERSION;
 	playing_facing = MapDirection::NORTH;
 	player_pos = Point{0, 0};
+	level = Level();
 }
 
 auto Sorcery::World::create() -> void {
@@ -38,6 +39,12 @@ auto Sorcery::World::create() -> void {
 	current_level = std::make_unique<Map>(MapType::START);
 	playing_facing = MapDirection::NORTH;
 	player_pos = Point{0, 0};
+	level = Level();
+}
+
+auto Sorcery::World::set_starting_level() -> void {
+
+	level = (*levelstore)[-1].value();
 }
 
 auto Sorcery::World::_get_visible_tiles() -> std::vector<Tile *> {

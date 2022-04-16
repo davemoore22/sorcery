@@ -38,7 +38,7 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 		_load_game();
 	}
 
-	_levels =
+	levelstore =
 		std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
 }
 
@@ -74,10 +74,17 @@ auto Sorcery::Game::_clear() -> void {
 		state.release();
 		state.reset();
 	}
+	if (levelstore.get()) {
+		levelstore.release();
+		levelstore.reset();
+	}
 
 	characters.clear();
 	_characters_ids.clear();
 	state = std::make_unique<State>(_system);
+	levelstore =
+		std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
+
 	state->world->create();
 }
 
@@ -90,9 +97,7 @@ auto Sorcery::Game::_create_game() -> void {
 		archive(state);
 	}
 	const auto data{ss.str()};
-	_system->database->create_game_state(data);
-
-	_load_levelstore();
+	_id = _system->database->create_game_state(data);
 }
 
 auto Sorcery::Game::_load_game() -> void {
@@ -106,6 +111,8 @@ auto Sorcery::Game::_load_game() -> void {
 	_start_time = start_time;
 	_last_time = last_time;
 	state = std::make_unique<State>(_system);
+	levelstore =
+		std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
 	if (data.length() > 0) {
 		std::stringstream ss;
 		ss.str(data);
@@ -118,14 +125,6 @@ auto Sorcery::Game::_load_game() -> void {
 
 	// And load the associated characters
 	_load_characters();
-
-	// Load the Fixed Levels
-	_load_levelstore();
-}
-
-auto Sorcery::Game::_load_levelstore() -> void {
-
-	state->world->levelstore = _levels.get();
 }
 
 auto Sorcery::Game::_save_game() -> void {
