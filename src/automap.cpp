@@ -50,6 +50,8 @@ auto Sorcery::AutoMap::refresh() -> void {
 
 	_sprites.resize(1);
 
+	// std::cout << _game->state->level->_bottom_left.x << std::endl;
+
 	// need to take into account explored etc
 	auto tc{std::stoi(_layout["tile_count"].value())};
 	auto scaling{std::stof(_layout["tile_scaling"].value())};

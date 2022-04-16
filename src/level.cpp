@@ -41,8 +41,8 @@ Sorcery::Level::Level(const MapType type, const std::string dungeon,
 
 // Copy Constructors
 Sorcery::Level::Level(const Level &other)
-	: _type{other._type}, _dungeon{other._dungeon}, _depth{_depth},
-	  _bottom_left{_bottom_left}, _size{other._size} {
+	: _type{other._type}, _dungeon{other._dungeon}, _depth{other._depth},
+	  _bottom_left{other._bottom_left}, _size{other._size} {
 
 	_tiles = other._tiles;
 }
@@ -80,6 +80,26 @@ auto Sorcery::Level::load(const Json::Value row_data) -> bool {
 	_load_second_pass(row_data);
 
 	return true;
+}
+
+auto Sorcery::Level::set(const Level *other) -> void {
+
+	_type = other->_type;
+	_dungeon = other->_dungeon;
+	_depth = other->_depth;
+	_bottom_left = other->_bottom_left;
+	_size = other->_size;
+	_tiles = other->_tiles;
+}
+
+auto Sorcery::Level::at(Coordinate loc) -> Tile_ & {
+
+	return _tiles.at(loc);
+}
+
+auto Sorcery::Level::at(unsigned int x, unsigned int y) -> Tile_ & {
+
+	return _tiles.at(Coordinate{x, y});
 }
 
 auto Sorcery::Level::_load_first_pass(const Json::Value row_data) -> bool {

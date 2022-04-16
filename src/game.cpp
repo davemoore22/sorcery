@@ -62,6 +62,12 @@ auto Sorcery::Game::save_game() -> void {
 	_save_game();
 }
 
+auto Sorcery::Game::set_starting_level() -> void {
+
+	Level level{((*levelstore)[-1]).value()};
+	state->set_current_level(&level);
+}
+
 auto Sorcery::Game::delete_character(unsigned int character_id) -> void {
 
 	_system->database->delete_character(_id, character_id);

@@ -47,9 +47,13 @@ namespace Sorcery {
 		}
 
 		// Public Members
-		auto name() const -> std::string;
 
 		// Public Methods
+
+		auto at(Coordinate loc) -> Tile_ &;
+		auto at(unsigned int x, unsigned int y) -> Tile_ &;
+		auto name() const -> std::string;
+		auto set(const Level *other) -> void;
 		auto load(const Json::Value row_data) -> bool;
 
 	  private:

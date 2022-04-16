@@ -28,6 +28,11 @@
 Sorcery::State::State() {
 	_party.clear();
 	_party.reserve(MAX_PARTY_SIZE);
+	level = std::make_unique<Level>();
+	_version = SAVE_VERSION;
+	_playing_facing = MapDirection::NORTH;
+	_player_pos = Point{0, 0};
+
 	world = std::make_unique<World>();
 }
 
@@ -36,6 +41,11 @@ Sorcery::State::State(System *system) : _system{system} {
 
 	_party.clear();
 	_party.reserve(MAX_PARTY_SIZE);
+	level = std::make_unique<Level>();
+	_version = SAVE_VERSION;
+	_playing_facing = MapDirection::NORTH;
+	_player_pos = Point{0, 0};
+
 	world = std::make_unique<World>();
 }
 
@@ -85,6 +95,11 @@ auto Sorcery::State::check_character_in_party(unsigned int char_id) -> bool {
 		return found != std::end(_party);
 	} else
 		return false;
+}
+
+auto Sorcery::State::set_current_level(Level *other) -> void {
+
+	level->set(other);
 }
 
 auto Sorcery::State::get_character_index(unsigned int char_id)

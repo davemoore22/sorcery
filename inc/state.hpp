@@ -39,12 +39,14 @@ namespace Sorcery {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_party, world);
+			archive(
+				_version, _party, level, _player_pos, _playing_facing, world);
 		}
 
 		// Public Members
 		bool valid;
 		std::unique_ptr<World> world;
+		std::unique_ptr<Level> level;
 
 		// Public Methods
 		auto add_character_by_id(unsigned int char_id) -> bool;
@@ -58,6 +60,7 @@ namespace Sorcery {
 		auto remove_character_by_position(unsigned int index) -> bool;
 		auto set(System *system) -> void;
 		auto set_party(std::vector<unsigned int> candidate_party) -> void;
+		auto set_current_level(Level *other) -> void;
 
 	  private:
 		// Private Methods
@@ -65,6 +68,8 @@ namespace Sorcery {
 		// Private Members
 		System *_system;
 		std::vector<unsigned int> _party;
-		std::map<unsigned int, Character> _characters;
+		Point _player_pos;
+		MapDirection _playing_facing;
+		int _version;
 	};
 } // namespace Sorcery
