@@ -52,14 +52,16 @@ namespace Sorcery {
 		// Public Members
 
 		// Public Methods
-		auto at(Coordinate loc) -> Tile_ &;
-		auto at(unsigned int x, unsigned int y) -> Tile_ &;
-		auto depth() const -> int;
+		auto at(const Coordinate loc) -> Tile_ &;
+		auto at(const int x, const int y) -> Tile_ &;
 		auto bottom_left() const -> Coordinate;
+		auto depth() const -> int;
+		auto in(const Coordinate loc) const -> bool;
 		auto load(const Json::Value row_data) -> bool;
 		auto name() const -> std::string;
 		auto set(const Level *other) -> void;
 		auto size() const -> Size;
+		auto top_right() const -> Coordinate;
 		auto type() const -> MapType;
 
 	  private:

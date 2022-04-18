@@ -75,6 +75,12 @@ auto Sorcery::Level::bottom_left() const -> Coordinate {
 	return _bottom_left;
 }
 
+auto Sorcery::Level::top_right() const -> Coordinate {
+
+	return Coordinate{_bottom_left.x + static_cast<int>(_size.w),
+		_bottom_left.y + static_cast<int>(_size.h)};
+}
+
 auto Sorcery::Level::size() const -> Size {
 
 	return _size;
@@ -85,19 +91,12 @@ auto Sorcery::Level::type() const -> MapType {
 	return _type;
 }
 
-auto Sorcery::Level::_create() -> void {
+auto Sorcery::Level::in(const Coordinate loc) const -> bool {
 
-	_tiles.clear();
-
-	// Create the blank tiles because GC export data doesn't always include
-	// empty tiles to save space in the export
-	for (auto y = _bottom_left.y;
-		 y <= _bottom_left.y + static_cast<int>(_size.h); y++) {
-		for (auto x = _bottom_left.x;
-			 x <= _bottom_left.x + static_cast<int>(_size.w); x++) {
-			_add_tile(Coordinate{x, y});
-		}
-	}
+	return (loc.x >= _bottom_left.x) &&
+		   (loc.x <= _bottom_left.x + static_cast<int>(_size.w)) &&
+		   (loc.y >= _bottom_left.y) &&
+		   (loc.y <= _bottom_left.y + static_cast<int>(_size.h));
 }
 
 auto Sorcery::Level::load(const Json::Value row_data) -> bool {
@@ -118,14 +117,29 @@ auto Sorcery::Level::set(const Level *other) -> void {
 	_tiles = other->_tiles;
 }
 
-auto Sorcery::Level::at(Coordinate loc) -> Tile_ & {
+auto Sorcery::Level::at(const Coordinate loc) -> Tile_ & {
 
 	return _tiles.at(loc);
 }
 
-auto Sorcery::Level::at(unsigned int x, unsigned int y) -> Tile_ & {
+auto Sorcery::Level::at(const int x, const int y) -> Tile_ & {
 
 	return _tiles.at(Coordinate{x, y});
+}
+
+auto Sorcery::Level::_create() -> void {
+
+	_tiles.clear();
+
+	// Create the blank tiles because GC export data doesn't always include
+	// empty tiles to save space in the export
+	for (auto y = _bottom_left.y;
+		 y <= _bottom_left.y + static_cast<int>(_size.h); y++) {
+		for (auto x = _bottom_left.x;
+			 x <= _bottom_left.x + static_cast<int>(_size.w); x++) {
+			_add_tile(Coordinate{x, y});
+		}
+	}
 }
 
 auto Sorcery::Level::_load_first_pass(const Json::Value row_data) -> bool {
