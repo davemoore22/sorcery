@@ -59,6 +59,32 @@ auto Sorcery::Level::operator=(const Level &other) -> Level & {
 	return *this;
 }
 
+// Overload [] operator
+auto Sorcery::Level::operator[](Coordinate loc) -> Tile_ & {
+
+	return _tiles.at(loc);
+}
+
+auto Sorcery::Level::depth() const -> int {
+
+	return _depth;
+}
+
+auto Sorcery::Level::bottom_left() const -> Coordinate {
+
+	return _bottom_left;
+}
+
+auto Sorcery::Level::size() const -> Size {
+
+	return _size;
+}
+
+auto Sorcery::Level::type() const -> MapType {
+
+	return _type;
+}
+
 auto Sorcery::Level::_create() -> void {
 
 	_tiles.clear();

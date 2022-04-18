@@ -41,6 +41,9 @@ namespace Sorcery {
 		Level(const Level &other);
 		auto operator=(const Level &other) -> Level &;
 
+		// Overload [] operator
+		auto operator[](Coordinate loc) -> Tile_ &;
+
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_type, _dungeon, _depth, _bottom_left, _size, _tiles);
@@ -49,15 +52,18 @@ namespace Sorcery {
 		// Public Members
 
 		// Public Methods
-
 		auto at(Coordinate loc) -> Tile_ &;
 		auto at(unsigned int x, unsigned int y) -> Tile_ &;
+		auto depth() const -> int;
+		auto bottom_left() const -> Coordinate;
+		auto load(const Json::Value row_data) -> bool;
 		auto name() const -> std::string;
 		auto set(const Level *other) -> void;
-		auto load(const Json::Value row_data) -> bool;
+		auto size() const -> Size;
+		auto type() const -> MapType;
 
 	  private:
-		// Private Members
+		// Private Members - need getters for these (bot not setters)
 		MapType _type;
 		std::string _dungeon;
 		int _depth;
