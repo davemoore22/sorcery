@@ -450,10 +450,10 @@ auto Sorcery::Engine::start() -> int {
 auto Sorcery::Engine::_move_forward() -> void {
 
 	// TODO: check for walls/doors etc
-	auto x_d{static_cast<int>(_game->state->world->player_pos.x)};
-	auto y_d{static_cast<int>(_game->state->world->player_pos.y)};
+	auto x_d{static_cast<int>(_game->state->get_player_pos().x)};
+	auto y_d{static_cast<int>(_game->state->get_player_pos().y)};
 
-	switch (_game->state->world->playing_facing) {
+	switch (_game->state->get_player_facing()) {
 	case MapDirection::NORTH:
 		++y_d;
 		break;
@@ -462,11 +462,9 @@ auto Sorcery::Engine::_move_forward() -> void {
 		break;
 	case MapDirection::EAST:
 		++x_d;
-		_game->state->world->player_pos.x++;
 		break;
 	case MapDirection::WEST:
 		--x_d;
-		_game->state->world->player_pos.x--;
 		break;
 	default:
 		break;
@@ -481,16 +479,15 @@ auto Sorcery::Engine::_move_forward() -> void {
 	else if (y_d > MAP_SIZE - 1)
 		y_d = 0;
 
-	_game->state->world->player_pos.x = x_d;
-	_game->state->world->player_pos.y = y_d;
+	_game->state->set_player_pos(Coordinate{x_d, y_d});
 }
 auto Sorcery::Engine::_move_backward() -> void {
 
 	// TODO: check for walls/doors etc
-	auto x_d{static_cast<int>(_game->state->world->player_pos.x)};
-	auto y_d{static_cast<int>(_game->state->world->player_pos.y)};
+	auto x_d{static_cast<int>(_game->state->get_player_pos().x)};
+	auto y_d{static_cast<int>(_game->state->get_player_pos().y)};
 
-	switch (_game->state->world->playing_facing) {
+	switch (_game->state->get_player_facing()) {
 	case MapDirection::NORTH:
 		--y_d;
 		break;
@@ -516,24 +513,23 @@ auto Sorcery::Engine::_move_backward() -> void {
 	else if (y_d > MAP_SIZE - 1)
 		y_d = 0;
 
-	_game->state->world->player_pos.x = x_d;
-	_game->state->world->player_pos.y = y_d;
+	_game->state->set_player_pos(Coordinate{x_d, y_d});
 }
 
 auto Sorcery::Engine::_turn_left() -> void {
 
-	switch (_game->state->world->playing_facing) {
+	switch (_game->state->get_player_facing()) {
 	case MapDirection::NORTH:
-		_game->state->world->playing_facing = MapDirection::WEST;
+		_game->state->set_player_facing(MapDirection::WEST);
 		break;
 	case MapDirection::SOUTH:
-		_game->state->world->playing_facing = MapDirection::EAST;
+		_game->state->set_player_facing(MapDirection::EAST);
 		break;
 	case MapDirection::EAST:
-		_game->state->world->playing_facing = MapDirection::NORTH;
+		_game->state->set_player_facing(MapDirection::NORTH);
 		break;
 	case MapDirection::WEST:
-		_game->state->world->playing_facing = MapDirection::SOUTH;
+		_game->state->set_player_facing(MapDirection::SOUTH);
 		break;
 	default:
 		break;
@@ -541,18 +537,18 @@ auto Sorcery::Engine::_turn_left() -> void {
 }
 auto Sorcery::Engine::_turn_right() -> void {
 
-	switch (_game->state->world->playing_facing) {
+	switch (_game->state->get_player_facing()) {
 	case MapDirection::NORTH:
-		_game->state->world->playing_facing = MapDirection::EAST;
+		_game->state->set_player_facing(MapDirection::EAST);
 		break;
 	case MapDirection::SOUTH:
-		_game->state->world->playing_facing = MapDirection::WEST;
+		_game->state->set_player_facing(MapDirection::WEST);
 		break;
 	case MapDirection::EAST:
-		_game->state->world->playing_facing = MapDirection::SOUTH;
+		_game->state->set_player_facing(MapDirection::SOUTH);
 		break;
 	case MapDirection::WEST:
-		_game->state->world->playing_facing = MapDirection::NORTH;
+		_game->state->set_player_facing(MapDirection::NORTH);
 		break;
 	default:
 		break;

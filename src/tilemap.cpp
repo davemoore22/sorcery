@@ -95,7 +95,7 @@ auto Sorcery::TileMap::_refresh_floor() -> void {
 
 			if ((x == static_cast<int>(player_pos.x)) &&
 				(y == static_cast<int>(player_pos.y)))
-				_draw_party(_game->state->world->playing_facing, tile_x,
+				_draw_party(_game->state->get_player_facing(), tile_x,
 					reverse_y - tile_y, party_scaling);
 			++tcx;
 		}
@@ -121,7 +121,7 @@ auto Sorcery::TileMap::_draw_party(
 	auto party{(*_graphics->icons)["party"].value()};
 	party.setOrigin(
 		party.getLocalBounds().width / 2, party.getLocalBounds().height / 2);
-	switch (_game->state->world->playing_facing) {
+	switch (_game->state->get_player_facing()) {
 	case MapDirection::NORTH:
 		party.setRotation(0.0f);
 		break;

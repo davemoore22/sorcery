@@ -31,7 +31,7 @@ Sorcery::State::State() {
 	level = std::make_unique<Level>();
 	_version = SAVE_VERSION;
 	_playing_facing = MapDirection::NORTH;
-	_player_pos = Point{0, 0};
+	_player_pos = Coordinate{0, 0};
 
 	world = std::make_unique<World>();
 }
@@ -44,7 +44,7 @@ Sorcery::State::State(System *system) : _system{system} {
 	level = std::make_unique<Level>();
 	_version = SAVE_VERSION;
 	_playing_facing = MapDirection::NORTH;
-	_player_pos = Point{0, 0};
+	_player_pos = Coordinate{0, 0};
 
 	world = std::make_unique<World>();
 }
@@ -117,6 +117,26 @@ auto Sorcery::State::get_character_index(unsigned int char_id)
 			return std::nullopt;
 	} else
 		return std::nullopt;
+}
+
+auto Sorcery::State::get_player_facing() const -> MapDirection {
+
+	return _playing_facing;
+}
+
+auto Sorcery::State::get_player_pos() const -> Coordinate {
+
+	return _player_pos;
+}
+
+auto Sorcery::State::set_player_facing(const MapDirection direction) -> void {
+
+	_playing_facing = direction;
+}
+
+auto Sorcery::State::set_player_pos(const Coordinate position) -> void {
+
+	_player_pos = position;
 }
 
 auto Sorcery::State::remove_character_by_id(unsigned int char_id) -> bool {

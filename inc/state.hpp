@@ -55,12 +55,16 @@ namespace Sorcery {
 		auto get_character_index(unsigned int char_id)
 			-> std::optional<unsigned int>;
 		auto get_party_characters() -> std::vector<unsigned int>;
+		auto get_player_facing() const -> MapDirection;
+		auto get_player_pos() const -> Coordinate;
 		auto party_has_members() -> bool;
 		auto remove_character_by_id(unsigned int char_id) -> bool;
 		auto remove_character_by_position(unsigned int index) -> bool;
 		auto set(System *system) -> void;
 		auto set_party(std::vector<unsigned int> candidate_party) -> void;
 		auto set_current_level(Level *other) -> void;
+		auto set_player_facing(const MapDirection direction) -> void;
+		auto set_player_pos(const Coordinate position) -> void;
 
 	  private:
 		// Private Methods
@@ -68,7 +72,7 @@ namespace Sorcery {
 		// Private Members
 		System *_system;
 		std::vector<unsigned int> _party;
-		Point _player_pos;
+		Coordinate _player_pos;
 		MapDirection _playing_facing;
 		int _version;
 	};

@@ -141,6 +141,7 @@ namespace Sorcery {
 		unsigned int y;
 	};
 
+	// Could also hold an optional bounds for maximum and minimum values?
 	struct Coordinate {
 		Coordinate() : x{0}, y{0} {};
 		Coordinate(int x_, int y_) : x{x_}, y{y_} {};
@@ -154,6 +155,22 @@ namespace Sorcery {
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(x, y);
 		}
+
+		auto inc_x() -> void {
+			++x;
+		};
+
+		auto dec_x() -> void {
+			--x;
+		};
+
+		auto inc_y() -> void {
+			++y;
+		};
+
+		auto dec_y() -> void {
+			--y;
+		};
 
 		int x;
 		int y;
