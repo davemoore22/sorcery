@@ -87,6 +87,7 @@ auto Sorcery::TileMap::_refresh_floor() -> void {
 					return y - static_cast<int>(_game->state->level->size().h);
 				return y;
 			}()};
+
 			auto tile{_game->state->level->at(lx, ly)};
 
 			auto tile_x{tcx * tile_size};
@@ -197,10 +198,18 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 			auto tile{_game->state->level->at(lx, ly)};
 
 			// Get the Walls (note texture 0 is the white square only)
-			auto n_id{tile.has(MapDirection::NORTH) ? tile.gfx().value() : -1};
-			auto s_id{tile.has(MapDirection::SOUTH) ? tile.gfx().value() : -1};
-			auto e_id{tile.has(MapDirection::EAST) ? tile.gfx().value() : -1};
-			auto w_id{tile.has(MapDirection::WEST) ? tile.gfx().value() : -1};
+			auto n_id{tile.has(MapDirection::NORTH)
+						  ? static_cast<int>(tile.gfx().value())
+						  : -1};
+			auto s_id{tile.has(MapDirection::SOUTH)
+						  ? static_cast<int>(tile.gfx().value())
+						  : -1};
+			auto e_id{tile.has(MapDirection::EAST)
+						  ? static_cast<int>(tile.gfx().value())
+						  : -1};
+			auto w_id{tile.has(MapDirection::WEST)
+						  ? static_cast<int>(tile.gfx().value())
+						  : -1};
 
 			// Find the appropriate quad
 			sf::Vertex *wall_quad{
