@@ -89,8 +89,7 @@ add_executable(${PROJECT_NAME}
 	src/tilemap.cpp
 	src/training.cpp
 	src/view.cpp
-	src/window.cpp
-	src/world.cpp)
+	src/window.cpp)
 
 # Include Directories
 target_include_directories(${PROJECT_NAME} PRIVATE

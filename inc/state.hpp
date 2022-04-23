@@ -25,7 +25,7 @@
 #include "character.hpp"
 #include "main.hpp"
 #include "system.hpp"
-#include "world.hpp"
+#include "level.hpp"
 
 namespace Sorcery {
 

@@ -28,6 +28,7 @@
 #include "display.hpp"
 #include "graphics.hpp"
 #include "main.hpp"
+#include "levelstore.hpp"
 #include "state.hpp"
 #include "system.hpp"
 
