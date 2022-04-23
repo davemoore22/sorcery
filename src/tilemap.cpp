@@ -105,17 +105,6 @@ auto Sorcery::TileMap::_refresh_floor() -> void {
 	}
 };
 
-auto Sorcery::TileMap::_draw_tile(const Tile_ &tile, const int x, const int y,
-	const float tile_scaling) -> void {
-
-	sf::Sprite bg{
-		_graphics->textures->get("brownbrick", GraphicsTextureType::FLOOR)
-			.value()};
-	bg.setPosition(x, y);
-	bg.setScale(tile_scaling, tile_scaling);
-	_floor_sprites.emplace_back(bg);
-};
-
 auto Sorcery::TileMap::_draw_tile(const Tile &tile, const int x, const int y,
 	const float tile_scaling) -> void {
 

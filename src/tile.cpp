@@ -25,7 +25,7 @@
 #include "tile.hpp"
 
 // Default Constructor
-Sorcery::Tile_::Tile_() {
+Sorcery::Tile::Tile() {
 
 	_location = std::nullopt;
 
@@ -43,7 +43,7 @@ Sorcery::Tile_::Tile_() {
 }
 
 // Other Constructors
-Sorcery::Tile_::Tile_(const std::optional<Coordinate> location)
+Sorcery::Tile::Tile(const std::optional<Coordinate> location)
 	: _location{location} {
 
 	_north = std::nullopt;
@@ -59,7 +59,7 @@ Sorcery::Tile_::Tile_(const std::optional<Coordinate> location)
 	s_id++;
 }
 
-Sorcery::Tile_::Tile_(std::optional<Coordinate> location,
+Sorcery::Tile::Tile(std::optional<Coordinate> location,
 	std::optional<TileEdge> north, std::optional<TileEdge> south,
 	std::optional<TileEdge> east, std::optional<TileEdge> west)
 	: _location{location}, _north{north}, _south{south}, _east{east},
@@ -73,7 +73,7 @@ Sorcery::Tile_::Tile_(std::optional<Coordinate> location,
 	s_id++;
 }
 
-auto Sorcery::Tile_::loc() const -> Coordinate {
+auto Sorcery::Tile::loc() const -> Coordinate {
 
 	try {
 		return _location.value();
@@ -86,7 +86,7 @@ auto Sorcery::Tile_::loc() const -> Coordinate {
 	}
 }
 
-auto Sorcery::Tile_::has(const MapDirection direction) const -> bool {
+auto Sorcery::Tile::has(const MapDirection direction) const -> bool {
 
 	switch (direction) {
 	case MapDirection::NORTH:
@@ -107,22 +107,22 @@ auto Sorcery::Tile_::has(const MapDirection direction) const -> bool {
 	}
 }
 
-auto Sorcery::Tile_::has(const TileFeature feature) const -> bool {
+auto Sorcery::Tile::has(const TileFeature feature) const -> bool {
 
 	return _features[magic_enum::enum_integer<TileFeature>(feature)];
 }
 
-auto Sorcery::Tile_::is(const TileProperty property) const -> bool {
+auto Sorcery::Tile::is(const TileProperty property) const -> bool {
 
 	return _properties[magic_enum::enum_integer<TileProperty>(property)];
 }
 
-auto Sorcery::Tile_::id() const -> long {
+auto Sorcery::Tile::id() const -> long {
 
 	return _id;
 }
 
-auto Sorcery::Tile_::reset() -> void {
+auto Sorcery::Tile::reset() -> void {
 
 	_location = std::nullopt;
 
@@ -134,17 +134,17 @@ auto Sorcery::Tile_::reset() -> void {
 	_reset();
 }
 
-auto Sorcery::Tile_::reset(const TileFeature feature) -> void {
+auto Sorcery::Tile::reset(const TileFeature feature) -> void {
 
 	_features[magic_enum::enum_integer<TileFeature>(feature)] = false;
 }
 
-auto Sorcery::Tile_::reset(const TileProperty property) -> void {
+auto Sorcery::Tile::reset(const TileProperty property) -> void {
 
 	_properties[magic_enum::enum_integer<TileProperty>(property)] = false;
 }
 
-auto Sorcery::Tile_::reset(const MapDirection direction) -> void {
+auto Sorcery::Tile::reset(const MapDirection direction) -> void {
 	switch (direction) {
 
 	case MapDirection::NORTH:
@@ -164,27 +164,27 @@ auto Sorcery::Tile_::reset(const MapDirection direction) -> void {
 	}
 }
 
-auto Sorcery::Tile_::gfx(const unsigned int texture) -> void {
+auto Sorcery::Tile::gfx(const unsigned int texture) -> void {
 
 	_texture_id = texture;
 }
 
-auto Sorcery::Tile_::gfx() -> std::optional<unsigned int> {
+auto Sorcery::Tile::gfx() -> std::optional<unsigned int> {
 
 	return _texture_id;
 }
 
-auto Sorcery::Tile_::set(const TileFeature feature) -> void {
+auto Sorcery::Tile::set(const TileFeature feature) -> void {
 
 	_features[magic_enum::enum_integer<TileFeature>(feature)] = true;
 }
 
-auto Sorcery::Tile_::set(const TileProperty property) -> void {
+auto Sorcery::Tile::set(const TileProperty property) -> void {
 
 	_properties[magic_enum::enum_integer<TileProperty>(property)] = true;
 }
 
-auto Sorcery::Tile_::set(const MapDirection direction, const TileEdge new_wall)
+auto Sorcery::Tile::set(const MapDirection direction, const TileEdge new_wall)
 	-> void {
 
 	switch (direction) {
@@ -205,16 +205,16 @@ auto Sorcery::Tile_::set(const MapDirection direction, const TileEdge new_wall)
 	}
 }
 
-auto Sorcery::Tile_::set(const std::optional<TileEdge> north,
+auto Sorcery::Tile::set(const std::optional<TileEdge> north,
 	const std::optional<TileEdge> south, const std::optional<TileEdge> east,
 	const std::optional<TileEdge> west) -> void {}
 
-auto Sorcery::Tile_::set(const std::optional<Coordinate> location) {
+auto Sorcery::Tile::set(const std::optional<Coordinate> location) {
 
 	_location = location;
 }
 
-auto Sorcery::Tile_::x() const -> int {
+auto Sorcery::Tile::x() const -> int {
 
 	try {
 		return _location.value().x;
@@ -227,7 +227,7 @@ auto Sorcery::Tile_::x() const -> int {
 	}
 }
 
-auto Sorcery::Tile_::y() const -> int {
+auto Sorcery::Tile::y() const -> int {
 
 	try {
 		return _location.value().y;
@@ -240,7 +240,7 @@ auto Sorcery::Tile_::y() const -> int {
 	}
 }
 
-auto Sorcery::Tile_::_reset() -> void {
+auto Sorcery::Tile::_reset() -> void {
 
 	_texture_id = std::nullopt;
 
@@ -260,6 +260,7 @@ auto Sorcery::Tile_::_reset() -> void {
 	_lighting = std::nullopt;
 }
 
+/*
 // Default Constructor
 Sorcery::Tile::Tile() {
 
@@ -560,3 +561,5 @@ auto Sorcery::Tile::count_wall() const -> unsigned int {
 		return value.second.visible;
 	});
 }
+
+*/

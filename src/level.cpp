@@ -60,7 +60,7 @@ auto Sorcery::Level::operator=(const Level &other) -> Level & {
 }
 
 // Overload [] operator
-auto Sorcery::Level::operator[](Coordinate loc) -> Tile_ & {
+auto Sorcery::Level::operator[](Coordinate loc) -> Tile & {
 
 	return _tiles.at(loc);
 }
@@ -122,12 +122,12 @@ auto Sorcery::Level::set(const Level *other) -> void {
 	_tiles = other->_tiles;
 }
 
-auto Sorcery::Level::at(const Coordinate loc) -> Tile_ & {
+auto Sorcery::Level::at(const Coordinate loc) -> Tile & {
 
 	return _tiles.at(loc);
 }
 
-auto Sorcery::Level::at(const int x, const int y) -> Tile_ & {
+auto Sorcery::Level::at(const int x, const int y) -> Tile & {
 
 	return _tiles.at(Coordinate{x, y});
 }
@@ -260,13 +260,13 @@ auto Sorcery::Level::name() const -> std::string {
 
 auto Sorcery::Level::_add_tile(const Coordinate location) -> void {
 
-	Tile_ tile{location};
+	Tile tile{location};
 	_tiles[location] = tile;
 }
 
-// Since Grid Cartographer only defines s/e walls in our format, we do
-// two updates, first with the tile in question, and then from the adjacent tile
-// on another pass
+// Since Grid Cartographer only defines s/e walls in our format, we do two
+// updates, first with the tile in question, and then from the adjacent tile on
+// another pass
 auto Sorcery::Level::_update_tile(const Coordinate location,
 	const unsigned int south_wall, const unsigned int east_wall,
 	const bool darkness, const unsigned int marker, const unsigned int terrain)

@@ -42,7 +42,7 @@ namespace Sorcery {
 		auto operator=(const Level &other) -> Level &;
 
 		// Overload [] operator
-		auto operator[](Coordinate loc) -> Tile_ &;
+		auto operator[](Coordinate loc) -> Tile &;
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
@@ -52,8 +52,8 @@ namespace Sorcery {
 		// Public Members
 
 		// Public Methods
-		auto at(const Coordinate loc) -> Tile_ &;
-		auto at(const int x, const int y) -> Tile_ &;
+		auto at(const Coordinate loc) -> Tile &;
+		auto at(const int x, const int y) -> Tile &;
 		auto bottom_left() const -> Coordinate;
 		auto depth() const -> int;
 		auto in(const Coordinate loc) const -> bool;
@@ -72,7 +72,7 @@ namespace Sorcery {
 		int _depth;
 		Coordinate _bottom_left;
 		Size _size;
-		std::map<Coordinate, Tile_> _tiles;
+		std::map<Coordinate, Tile> _tiles;
 
 		// Private Methods
 		auto _add_tile(const Coordinate location) -> void;

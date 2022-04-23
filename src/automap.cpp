@@ -134,7 +134,7 @@ auto Sorcery::AutoMap::_draw_player(
 }
 
 // TODO
-auto Sorcery::AutoMap::_draw_tile(Tile_ &tile, int x, int y, float scaling)
+auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling)
 	-> void {
 
 	{
