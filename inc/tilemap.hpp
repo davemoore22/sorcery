@@ -51,6 +51,8 @@ namespace Sorcery {
 			-> void;
 		auto _draw_tile(const Tile &tile, const int x, const int y,
 			const float tile_scaling) -> void;
+		auto _draw_tile(const Tile_ &tile, const int x, const int y,
+			const float tile_scaling) -> void;
 		auto _get_rect(unsigned int index) const -> sf::IntRect;
 		auto _refresh_floor() -> void;
 		auto _refresh_walls() -> void;

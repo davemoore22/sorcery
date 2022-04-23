@@ -93,7 +93,7 @@ auto Sorcery::AutoMap::refresh() -> void {
 			_draw_tile(tile, tile_x, reverse_y - tile_y, scaling);
 			if ((x == static_cast<int>(player_pos.x)) &&
 				(y == static_cast<int>(player_pos.y)))
-				_draw_player(_game->state->world->playing_facing, tile_x,
+				_draw_player(_game->state->get_player_facing(), tile_x,
 					reverse_y - tile_y, scaling);
 
 			++tcx;

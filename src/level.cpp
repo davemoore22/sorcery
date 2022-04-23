@@ -65,6 +65,11 @@ auto Sorcery::Level::operator[](Coordinate loc) -> Tile_ & {
 	return _tiles.at(loc);
 }
 
+auto Sorcery::Level::reset() -> void {
+
+	_create();
+}
+
 auto Sorcery::Level::depth() const -> int {
 
 	return _depth;

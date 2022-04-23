@@ -39,13 +39,11 @@ namespace Sorcery {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(
-				_version, _party, level, _player_pos, _playing_facing, world);
+			archive(_version, _party, level, _player_pos, _playing_facing);
 		}
 
 		// Public Members
 		bool valid;
-		std::unique_ptr<World> world;
 		std::unique_ptr<Level> level;
 
 		// Public Methods

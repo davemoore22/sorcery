@@ -51,11 +51,14 @@ namespace Sorcery {
 		// Public Members
 
 		// Public Method
-		auto loc() const -> Coordinate;
+
+		auto gfx(const unsigned int texture) -> void;
+		auto gfx() -> std::optional<unsigned int>;
 		auto has(const MapDirection direction) const -> bool;
 		auto has(const TileFeature feature) const -> bool;
-		auto is(const TileProperty property) const -> bool;
 		auto id() const -> long;
+		auto is(const TileProperty property) const -> bool;
+		auto loc() const -> Coordinate;
 		auto reset() -> void;
 		auto reset(const TileFeature feature) -> void;
 		auto reset(const TileProperty property) -> void;

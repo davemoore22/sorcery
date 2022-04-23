@@ -59,6 +59,7 @@ namespace Sorcery {
 		auto in(const Coordinate loc) const -> bool;
 		auto load(const Json::Value row_data) -> bool;
 		auto name() const -> std::string;
+		auto reset() -> void;
 		auto set(const Level *other) -> void;
 		auto size() const -> Size;
 		auto top_right() const -> Coordinate;

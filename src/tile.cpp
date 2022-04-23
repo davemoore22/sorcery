@@ -36,6 +36,9 @@ Sorcery::Tile_::Tile_() {
 
 	_reset();
 
+	// TODO
+	_texture_id = 5;
+
 	s_id++;
 }
 
@@ -50,6 +53,9 @@ Sorcery::Tile_::Tile_(const std::optional<Coordinate> location)
 
 	_reset();
 
+	// TODO
+	_texture_id = 5;
+
 	s_id++;
 }
 
@@ -60,6 +66,9 @@ Sorcery::Tile_::Tile_(std::optional<Coordinate> location,
 	  _west{west} {
 
 	_reset();
+
+	// TODO
+	_texture_id = 5;
 
 	s_id++;
 }
@@ -153,6 +162,16 @@ auto Sorcery::Tile_::reset(const MapDirection direction) -> void {
 	default:
 		break;
 	}
+}
+
+auto Sorcery::Tile_::gfx(const unsigned int texture) -> void {
+
+	_texture_id = texture;
+}
+
+auto Sorcery::Tile_::gfx() -> std::optional<unsigned int> {
+
+	return _texture_id;
 }
 
 auto Sorcery::Tile_::set(const TileFeature feature) -> void {

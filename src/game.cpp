@@ -91,7 +91,7 @@ auto Sorcery::Game::_clear() -> void {
 	levelstore =
 		std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
 
-	state->world->create();
+	state->level->reset();
 }
 
 auto Sorcery::Game::_create_game() -> void {

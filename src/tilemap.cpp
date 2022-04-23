@@ -66,7 +66,7 @@ auto Sorcery::TileMap::_refresh_floor() -> void {
 	auto tcx{0};
 	auto tcy{0};
 
-	auto player_pos(_game->state->world->player_pos);
+	auto player_pos(_game->state->get_player_pos());
 	for (auto y = static_cast<int>(player_pos.y - view_height_radius);
 		 y <= static_cast<int>(player_pos.y + view_height_radius); y++) {
 		for (auto x = static_cast<int>(player_pos.x - view_width_radius);
@@ -74,20 +74,20 @@ auto Sorcery::TileMap::_refresh_floor() -> void {
 
 			// Get the tile
 			auto lx{[&] {
-				if (x < 0)
-					return x + MAP_SIZE;
-				else if (x > MAP_SIZE - 1)
-					return x - MAP_SIZE;
+				if (x < _game->state->level->bottom_left().x)
+					return x + static_cast<int>(_game->state->level->size().w);
+				else if (x > _game->state->level->top_right().x)
+					return x - static_cast<int>(_game->state->level->size().w);
 				return x;
 			}()};
 			auto ly{[&] {
-				if (y < 0)
-					return y + MAP_SIZE;
-				else if (y > MAP_SIZE - 1)
-					return y - MAP_SIZE;
+				if (y < _game->state->level->bottom_left().y)
+					return y + static_cast<int>(_game->state->level->size().h);
+				else if (y > _game->state->level->top_right().y)
+					return y - static_cast<int>(_game->state->level->size().h);
 				return y;
 			}()};
-			auto tile{_game->state->world->current_level->at(lx, ly)};
+			auto tile{_game->state->level->at(lx, ly)};
 
 			auto tile_x{tcx * tile_size};
 			auto tile_y{tcy * tile_size};
@@ -102,6 +102,17 @@ auto Sorcery::TileMap::_refresh_floor() -> void {
 		++tcy;
 		tcx = 0;
 	}
+};
+
+auto Sorcery::TileMap::_draw_tile(const Tile_ &tile, const int x, const int y,
+	const float tile_scaling) -> void {
+
+	sf::Sprite bg{
+		_graphics->textures->get("brownbrick", GraphicsTextureType::FLOOR)
+			.value()};
+	bg.setPosition(x, y);
+	bg.setScale(tile_scaling, tile_scaling);
+	_floor_sprites.emplace_back(bg);
 };
 
 auto Sorcery::TileMap::_draw_tile(const Tile &tile, const int x, const int y,
@@ -162,7 +173,7 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 	auto reverse_y{(view_height * tile_size)};
 
 	// For each square in the viewport
-	auto player_pos(_game->state->world->player_pos);
+	auto player_pos(_game->state->get_player_pos());
 	for (auto y = static_cast<int>(player_pos.y - view_height_radius);
 		 y <= static_cast<int>(player_pos.y + view_height_radius); y++) {
 		for (auto x = static_cast<int>(player_pos.x - view_width_radius);
@@ -183,21 +194,13 @@ auto Sorcery::TileMap::_refresh_walls() -> void {
 					return y - MAP_SIZE;
 				return y;
 			}()};
-			auto tile{_game->state->world->current_level->at(lx, ly)};
+			auto tile{_game->state->level->at(lx, ly)};
 
 			// Get the Walls (note texture 0 is the white square only)
-			auto n_id{tile.check_wall(TileWall::NORTH)
-						  ? tile.walls.at(TileWall::NORTH).gfx
-						  : -1}; // TODO: hack
-			auto s_id{tile.check_wall(TileWall::SOUTH)
-						  ? tile.walls.at(TileWall::SOUTH).gfx
-						  : -1};
-			auto e_id{tile.check_wall(TileWall::EAST)
-						  ? tile.walls.at(TileWall::EAST).gfx
-						  : -1};
-			auto w_id{tile.check_wall(TileWall::WEST)
-						  ? tile.walls.at(TileWall::WEST).gfx
-						  : -1};
+			auto n_id{tile.has(MapDirection::NORTH) ? tile.gfx().value() : -1};
+			auto s_id{tile.has(MapDirection::SOUTH) ? tile.gfx().value() : -1};
+			auto e_id{tile.has(MapDirection::EAST) ? tile.gfx().value() : -1};
+			auto w_id{tile.has(MapDirection::WEST) ? tile.gfx().value() : -1};
 
 			// Find the appropriate quad
 			sf::Vertex *wall_quad{

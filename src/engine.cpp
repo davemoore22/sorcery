@@ -305,18 +305,13 @@ auto Sorcery::Engine::start() -> int {
 
 					// Hack for recreating levels
 					if (_system->input->check(WindowInput::DELETE, event)) {
-						_game->state->world->current_level->recreate_level();
+						_game->state->level->reset();
 						_update_automap = true;
 						_update_compass = true;
 						_update_overhead_view = true;
 						_game->save_game();
 						_game->load_game();
 						_status_bar->refresh();
-					} else if (_system->input->check(
-								   WindowInput::SPACE, event)) {
-						_game->state->world->create();
-						_update_automap = true;
-						_update_compass = true;
 					} else if (_system->input->check(
 								   WindowInput::LEFT, event)) {
 						_turn_left();

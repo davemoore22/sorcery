@@ -32,8 +32,6 @@ Sorcery::State::State() {
 	_version = SAVE_VERSION;
 	_playing_facing = MapDirection::NORTH;
 	_player_pos = Coordinate{0, 0};
-
-	world = std::make_unique<World>();
 }
 
 // Normal Constructor
@@ -45,8 +43,6 @@ Sorcery::State::State(System *system) : _system{system} {
 	_version = SAVE_VERSION;
 	_playing_facing = MapDirection::NORTH;
 	_player_pos = Coordinate{0, 0};
-
-	world = std::make_unique<World>();
 }
 
 // Method called to simulate Normal Constructor with Cereal Constructor
