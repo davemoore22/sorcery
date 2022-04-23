@@ -35,7 +35,6 @@ Sorcery::Level::Level(const MapType type, const std::string dungeon,
 	const int depth, const Coordinate bottom_left, const Size size)
 	: _type{type}, _dungeon{dungeon}, _depth{depth},
 	  _bottom_left{bottom_left}, _size{size} {
-
 	_create();
 }
 
@@ -84,6 +83,21 @@ auto Sorcery::Level::top_right() const -> Coordinate {
 
 	return Coordinate{_bottom_left.x + static_cast<int>(_size.w),
 		_bottom_left.y + static_cast<int>(_size.h)};
+}
+
+auto Sorcery::Level::wrap_bottom_left() const -> Coordinate {
+
+	return Coordinate{_bottom_left.x + 1, _bottom_left.y};
+}
+
+auto Sorcery::Level::wrap_size() const -> Size {
+
+	return Size{_size.w - 1, _size.h - 1};
+}
+
+auto Sorcery::Level::wrap_top_right() const -> Coordinate {
+
+	return Coordinate{_bottom_left.x + _size.w, _bottom_left.y + _size.h - 1};
 }
 
 auto Sorcery::Level::size() const -> Size {

@@ -50,8 +50,6 @@ auto Sorcery::AutoMap::refresh() -> void {
 
 	_sprites.resize(1);
 
-	// std::cout << _game->state->level->_bottom_left.x << std::endl;
-
 	// need to take into account explored etc
 	auto tc{std::stoi(_layout["tile_count"].value())};
 	auto scaling{std::stof(_layout["tile_scaling"].value())};
@@ -73,17 +71,21 @@ auto Sorcery::AutoMap::refresh() -> void {
 			 x <= static_cast<int>(player_pos.x) + _map_radius; x++) {
 
 			auto lx{[&] {
-				if (x < _game->state->level->bottom_left().x)
-					return x + static_cast<int>(_game->state->level->size().w);
-				else if (x > _game->state->level->top_right().x)
-					return x - static_cast<int>(_game->state->level->size().w);
+				if (x < _game->state->level->wrap_bottom_left().x)
+					return x +
+						   static_cast<int>(_game->state->level->wrap_size().w);
+				else if (x > _game->state->level->wrap_top_right().x)
+					return x -
+						   static_cast<int>(_game->state->level->wrap_size().w);
 				return x;
 			}()};
 			auto ly{[&] {
-				if (y < _game->state->level->bottom_left().y)
-					return y + static_cast<int>(_game->state->level->size().h);
-				else if (y > _game->state->level->top_right().y)
-					return y - static_cast<int>(_game->state->level->size().h);
+				if (y < _game->state->level->wrap_bottom_left().y)
+					return y +
+						   static_cast<int>(_game->state->level->wrap_size().h);
+				else if (y > _game->state->level->wrap_top_right().y)
+					return y -
+						   static_cast<int>(_game->state->level->wrap_size().h);
 				return y;
 			}()};
 

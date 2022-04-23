@@ -11,7 +11,7 @@
 				<Option object_output="obj/debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="--skip-intro" />
+				<Option parameters="--skip-intro -goto_maze" />
 				<Compiler>
 					<Add option="-pg" />
 					<Add option="-g" />
@@ -179,7 +179,6 @@
 		<Unit filename="inc/main.hpp" />
 		<Unit filename="inc/mainmenu.hpp" />
 		<Unit filename="inc/manage.hpp" />
-		<Unit filename="inc/map.hpp" />
 		<Unit filename="inc/menu.hpp" />
 		<Unit filename="inc/options.hpp" />
 		<Unit filename="inc/platform.hpp" />
@@ -252,7 +251,6 @@
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/mainmenu.cpp" />
 		<Unit filename="src/manage.cpp" />
-		<Unit filename="src/map.cpp" />
 		<Unit filename="src/menu.cpp" />
 		<Unit filename="src/options.cpp" />
 		<Unit filename="src/platform.cpp" />

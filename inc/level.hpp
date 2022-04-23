@@ -64,6 +64,9 @@ namespace Sorcery {
 		auto size() const -> Size;
 		auto top_right() const -> Coordinate;
 		auto type() const -> MapType;
+		auto wrap_bottom_left() const -> Coordinate;
+		auto wrap_size() const -> Size;
+		auto wrap_top_right() const -> Coordinate;
 
 	  private:
 		// Private Members - need getters for these (bot not setters)

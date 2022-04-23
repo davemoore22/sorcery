@@ -74,17 +74,21 @@ auto Sorcery::TileMap::_refresh_floor() -> void {
 
 			// Get the tile
 			auto lx{[&] {
-				if (x < _game->state->level->bottom_left().x)
-					return x + static_cast<int>(_game->state->level->size().w);
-				else if (x > _game->state->level->top_right().x)
-					return x - static_cast<int>(_game->state->level->size().w);
+				if (x < _game->state->level->wrap_bottom_left().x)
+					return x +
+						   static_cast<int>(_game->state->level->wrap_size().w);
+				else if (x > _game->state->level->wrap_top_right().x)
+					return x -
+						   static_cast<int>(_game->state->level->wrap_size().w);
 				return x;
 			}()};
 			auto ly{[&] {
-				if (y < _game->state->level->bottom_left().y)
-					return y + static_cast<int>(_game->state->level->size().h);
-				else if (y > _game->state->level->top_right().y)
-					return y - static_cast<int>(_game->state->level->size().h);
+				if (y < _game->state->level->wrap_bottom_left().y)
+					return y +
+						   static_cast<int>(_game->state->level->wrap_size().h);
+				else if (y > _game->state->level->wrap_top_right().y)
+					return y -
+						   static_cast<int>(_game->state->level->wrap_size().h);
 				return y;
 			}()};
 
