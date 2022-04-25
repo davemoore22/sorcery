@@ -35,7 +35,8 @@ Sorcery::Level::Level(const MapType type, const std::string dungeon,
 	const int depth, const Coordinate bottom_left, const Size size)
 	: _type{type}, _dungeon{dungeon}, _depth{depth},
 	  _bottom_left{bottom_left}, _size{size} {
-	_create();
+
+	//_create();
 }
 
 // Copy Constructors
@@ -120,6 +121,7 @@ auto Sorcery::Level::in(const Coordinate loc) const -> bool {
 
 auto Sorcery::Level::load(const Json::Value row_data) -> bool {
 
+	_create();
 	_load_first_pass(row_data);
 	_load_second_pass(row_data);
 
@@ -257,7 +259,7 @@ auto Sorcery::Level::_load_second_pass(const Json::Value row_data) -> bool {
 					return 0u;
 			}()};
 			auto new_x{x + 1};
-			auto new_y{y + 1};
+			auto new_y{y};
 
 			_update_tile(Coordinate{new_x, new_y}, north_wall, west_wall);
 		}

@@ -35,7 +35,13 @@
 					"tile_offset_x": "16",
 					"tile_offset_y": "16",
 					"tile_scaling": "1.40",
-					"tile_reverse_y": "212"
+					"tile_reverse_y": "212",
+					"coordinates_frame_h": "1",
+					"coordinates_frame_y": "248",
+					"coordinates_text_size": "38",
+					"coordinates_text_colour": "0xffffffff",
+					"coordinates_text_x": "16",
+					"coordinates_text_y": "6"
 				}
 			]
 		},

@@ -63,7 +63,8 @@ namespace Sorcery {
 		Component _layout;
 		unsigned int _width;
 		unsigned int _height;
-		std::unique_ptr<Frame> _frame;
+		std::unique_ptr<Frame> _top_frame;
+		std::unique_ptr<Frame> _bottom_frame;
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Sprite> _sprites;
 		int _map_radius;

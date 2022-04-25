@@ -34,21 +34,36 @@ Sorcery::AutoMap::AutoMap(System *system, Display *display, Graphics *graphics,
 
 	_map_radius = std::stoi(_layout["tile_count"].value()) / 2;
 
-	if (_frame.get()) {
-		_frame.release();
-		_frame.reset();
+	if (_top_frame.get()) {
+		_top_frame.release();
+		_top_frame.reset();
 	}
-	_frame = std::make_unique<Frame>(_display->ui_texture,
+
+	if (_bottom_frame.get()) {
+		_bottom_frame.release();
+		_bottom_frame.reset();
+	}
+	_top_frame = std::make_unique<Frame>(_display->ui_texture,
 		WindowFrameType::NORMAL, _layout.w, _layout.h, _layout.colour,
 		_layout.background, _layout.alpha);
-	auto fsprite{_frame->sprite};
-	fsprite.setPosition(0, 0);
-	_sprites.emplace_back(fsprite);
+	auto cfh{std::stoi(_layout["coordinates_frame_h"].value())};
+	auto cfy{std::stoi(_layout["coordinates_frame_y"].value())};
+
+	_bottom_frame =
+		std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL,
+			_layout.w, cfh, _layout.colour, _layout.background, _layout.alpha);
+	auto t_sprite{_top_frame->sprite};
+	auto b_sprite{_bottom_frame->sprite};
+	t_sprite.setPosition(0, 0);
+	b_sprite.setPosition(0, cfy);
+	_sprites.emplace_back(t_sprite);
+	_sprites.emplace_back(b_sprite);
 }
 
 auto Sorcery::AutoMap::refresh() -> void {
 
-	_sprites.resize(1);
+	_sprites.resize(2);
+	_texts.clear();
 
 	// need to take into account explored etc
 	auto tc{std::stoi(_layout["tile_count"].value())};
@@ -103,6 +118,33 @@ auto Sorcery::AutoMap::refresh() -> void {
 		++tcy;
 		tcx = 0;
 	}
+
+	// And coordinates
+	const auto cts{std::stoi(_layout["coordinates_text_size"].value())};
+	const auto ctc{
+		std::stoull(_layout["coordinates_text_colour"].value(), 0, 16)};
+	const auto ctx{std::stoi(_layout["coordinates_text_x"].value())};
+	const auto cty{std::stoi(_layout["coordinates_text_y"].value())};
+	const auto cfy{std::stoi(_layout["coordinates_frame_y"].value())};
+
+	const auto player_depth{_game->state->level->depth()};
+
+	const auto coord{[&] {
+		if (player_depth < 0)
+			return fmt::format("B{}F {:>2}N/{:>2}E", std::abs(player_depth),
+				player_pos.y, player_pos.x);
+		else
+			return fmt::format("{}F {:>2}/{:>2}E", std::abs(player_depth),
+				player_pos.y, player_pos.x);
+	}()};
+
+	sf::Text coord_text{};
+	coord_text.setFont(_system->resources->fonts[_layout.font]);
+	coord_text.setCharacterSize(cts);
+	coord_text.setFillColor(sf::Color(ctc));
+	coord_text.setString(coord);
+	coord_text.setPosition(ctx, cfy + cty);
+	_texts.push_back(coord_text);
 }
 
 auto Sorcery::AutoMap::_draw_player(
