@@ -86,6 +86,7 @@ namespace Sorcery {
 		auto _convert_edge_nw(const unsigned int wall) const -> TileEdge;
 		auto _load_first_pass(const Json::Value row_data) -> bool;
 		auto _load_second_pass(const Json::Value row_data) -> bool;
+		auto _load_third_pass() -> bool;
 		auto _update_tile(const Coordinate location,
 			const unsigned int north_wall, const unsigned int west_wall)
 			-> void;

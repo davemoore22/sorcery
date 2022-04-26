@@ -268,6 +268,20 @@ auto Sorcery::Level::_load_second_pass(const Json::Value row_data) -> bool {
 	return true;
 }
 
+// Check for single normal walls and double them as we are using dual walls so
+// for each side, check if its a normal wall/door and if the other side is empty
+// then give the other side the same wall/door
+auto Sorcery::Level::_load_third_pass() -> bool {
+
+	// Use the Wrapping "View" to guarantee tiles
+	for (auto y = wrap_bottom_left().y; y <= wrap_top_right().y; y++) {
+		for (auto x = wrap_bottom_left().x; x <= wrap_top_right().x; x++) {
+
+			auto &Tile{_tiles.at(Coordinate{x, y})};
+		}
+	}
+}
+
 auto Sorcery::Level::name() const -> std::string {
 
 	return _depth < 0 ? fmt::format("{} B{}F", _dungeon, std::abs(_depth))
@@ -381,6 +395,7 @@ auto Sorcery::Level::_convert_edge_se(const unsigned int wall) const
 			edge = TileEdge::ONE_WAY_WALL;
 			break;
 		default:
+			std::cout << "unhandled" << wall << std::endl;
 			break;
 		}
 
@@ -417,6 +432,7 @@ auto Sorcery::Level::_convert_edge_nw(const unsigned int wall) const
 			edge = TileEdge::WALL;
 			break;
 		default:
+			std::cout << "unhandled" << wall << std::endl;
 			break;
 		}
 
