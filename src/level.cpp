@@ -415,7 +415,6 @@ auto Sorcery::Level::_convert_edge_se(const unsigned int wall) const
 			edge = TileEdge::ONE_WAY_WALL;
 			break;
 		default:
-			std::cout << "unhandled" << wall << std::endl;
 			break;
 		}
 
@@ -452,7 +451,6 @@ auto Sorcery::Level::_convert_edge_nw(const unsigned int wall) const
 			edge = TileEdge::WALL;
 			break;
 		default:
-			std::cout << "unhandled" << wall << std::endl;
 			break;
 		}
 
@@ -476,10 +474,14 @@ auto Sorcery::Level::_set_other_edges(const Coordinate location) -> void {
 			[[fallthrough]];
 		case TileEdge::WALL:
 			[[fallthrough]];
+		case TileEdge::SECRET_DOOR:
+			[[fallthrough]];
 		case TileEdge::LOCKED_DOOR:
 			tile.set(MapDirection::NORTH, adj_north_edge);
 			break;
 		default:
+			std::cout << (int)adj_north_edge << "N" << location.x << " "
+					  << location.y << std::endl;
 			break;
 		}
 	}
@@ -497,10 +499,14 @@ auto Sorcery::Level::_set_other_edges(const Coordinate location) -> void {
 			[[fallthrough]];
 		case TileEdge::WALL:
 			[[fallthrough]];
+		case TileEdge::SECRET_DOOR:
+			[[fallthrough]];
 		case TileEdge::LOCKED_DOOR:
 			tile.set(MapDirection::SOUTH, adj_south_edge);
 			break;
 		default:
+			std::cout << (int)adj_south_edge << "S" << location.x << " "
+					  << location.y << std::endl;
 			break;
 		}
 	}
