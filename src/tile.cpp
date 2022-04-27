@@ -117,6 +117,27 @@ auto Sorcery::Tile::is(const TileProperty property) const -> bool {
 	return _properties[magic_enum::enum_integer<TileProperty>(property)];
 }
 
+auto Sorcery::Tile::wall(const MapDirection direction) const -> TileEdge {
+
+	switch (direction) {
+	case MapDirection::NORTH:
+		return _north.has_value() ? _north.value() : TileEdge::NONE;
+		break;
+	case MapDirection::SOUTH:
+		return _south.has_value() ? _south.value() : TileEdge::NONE;
+		break;
+	case MapDirection::EAST:
+		return _east.has_value() ? _east.value() : TileEdge::NONE;
+		break;
+	case MapDirection::WEST:
+		return _west.has_value() ? _west.value() : TileEdge::NONE;
+		break;
+	default:
+		return TileEdge::NONE;
+		break;
+	}
+}
+
 auto Sorcery::Tile::id() const -> long {
 
 	return _id;

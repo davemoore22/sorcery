@@ -71,6 +71,7 @@ namespace Sorcery {
 			const std::optional<TileEdge> east,
 			const std::optional<TileEdge> west) -> void;
 		auto set(const std::optional<Coordinate> location);
+		auto wall(const MapDirection direction) const -> TileEdge;
 		auto x() const -> int;
 		auto y() const -> int;
 

@@ -124,6 +124,7 @@ auto Sorcery::Level::load(const Json::Value row_data) -> bool {
 	_create();
 	_load_first_pass(row_data);
 	_load_second_pass(row_data);
+	_load_third_pass();
 
 	return true;
 }
@@ -146,6 +147,28 @@ auto Sorcery::Level::at(const Coordinate loc) -> Tile & {
 auto Sorcery::Level::at(const int x, const int y) -> Tile & {
 
 	return _tiles.at(Coordinate{x, y});
+}
+
+auto Sorcery::Level::get_delta_x(const int x, const int delta) const -> int {
+
+	auto new_x{x + delta};
+	if (new_x < wrap_bottom_left().x)
+		return new_x + static_cast<int>(wrap_size().w);
+	else if (new_x > wrap_top_right().x)
+		return new_x - static_cast<int>(wrap_size().w);
+	else
+		return new_x;
+}
+
+auto Sorcery::Level::get_delta_y(const int y, const int delta) const -> int {
+
+	auto new_y{y + delta};
+	if (new_y < wrap_bottom_left().y)
+		return new_y + static_cast<int>(wrap_size().h);
+	else if (new_y > wrap_top_right().y)
+		return new_y - static_cast<int>(wrap_size().h);
+	else
+		return new_y;
 }
 
 auto Sorcery::Level::_create() -> void {
@@ -273,13 +296,10 @@ auto Sorcery::Level::_load_second_pass(const Json::Value row_data) -> bool {
 // then give the other side the same wall/door
 auto Sorcery::Level::_load_third_pass() -> bool {
 
-	// Use the Wrapping "View" to guarantee tiles
-	for (auto y = wrap_bottom_left().y; y <= wrap_top_right().y; y++) {
-		for (auto x = wrap_bottom_left().x; x <= wrap_top_right().x; x++) {
-
-			auto &Tile{_tiles.at(Coordinate{x, y})};
-		}
-	}
+	// Use the Wrapping "View" to guarantee tiles exist
+	for (auto y = wrap_bottom_left().y; y <= wrap_top_right().y; y++)
+		for (auto x = wrap_bottom_left().x; x <= wrap_top_right().x; x++)
+			_set_other_edges(Coordinate{x, y});
 }
 
 auto Sorcery::Level::name() const -> std::string {
@@ -437,5 +457,51 @@ auto Sorcery::Level::_convert_edge_nw(const unsigned int wall) const
 		}
 
 		return edge;
+	}
+}
+
+auto Sorcery::Level::_set_other_edges(const Coordinate location) -> void {
+
+	auto &tile{_tiles.at(location)};
+	auto north_edge{tile.wall(MapDirection::NORTH)};
+	if (north_edge == TileEdge::NONE) {
+
+		// Check north adjacent wall
+		auto adj_north{
+			_tiles.at(Coordinate{location.x, get_delta_y(location.y, 1)})};
+		auto adj_north_edge{adj_north.wall(MapDirection::SOUTH)};
+
+		switch (adj_north_edge) {
+		case TileEdge::UNLOCKED_DOOR:
+			[[fallthrough]];
+		case TileEdge::WALL:
+			[[fallthrough]];
+		case TileEdge::LOCKED_DOOR:
+			tile.set(MapDirection::NORTH, adj_north_edge);
+			break;
+		default:
+			break;
+		}
+	}
+
+	auto south_edge{tile.wall(MapDirection::SOUTH)};
+	if (south_edge == TileEdge::NONE) {
+
+		// Check south adjacent wall
+		auto adj_south{
+			_tiles.at(Coordinate{location.x, get_delta_y(location.y, -1)})};
+		auto adj_south_edge{adj_south.wall(MapDirection::NORTH)};
+
+		switch (adj_south_edge) {
+		case TileEdge::UNLOCKED_DOOR:
+			[[fallthrough]];
+		case TileEdge::WALL:
+			[[fallthrough]];
+		case TileEdge::LOCKED_DOOR:
+			tile.set(MapDirection::SOUTH, adj_south_edge);
+			break;
+		default:
+			break;
+		}
 	}
 }

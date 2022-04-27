@@ -56,6 +56,8 @@ namespace Sorcery {
 		auto at(const int x, const int y) -> Tile &;
 		auto bottom_left() const -> Coordinate;
 		auto depth() const -> int;
+		auto get_delta_x(const int x, const int delta) const -> int;
+		auto get_delta_y(const int y, const int delta) const -> int;
 		auto in(const Coordinate loc) const -> bool;
 		auto load(const Json::Value row_data) -> bool;
 		auto name() const -> std::string;
@@ -84,6 +86,7 @@ namespace Sorcery {
 		auto _convert_edge_se(const unsigned int wall) const -> TileEdge;
 		auto _create() -> void;
 		auto _convert_edge_nw(const unsigned int wall) const -> TileEdge;
+		auto _set_other_edges(const Coordinate location) -> void;
 		auto _load_first_pass(const Json::Value row_data) -> bool;
 		auto _load_second_pass(const Json::Value row_data) -> bool;
 		auto _load_third_pass() -> bool;
