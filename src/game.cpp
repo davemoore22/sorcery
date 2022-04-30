@@ -66,6 +66,7 @@ auto Sorcery::Game::set_starting_level() -> void {
 
 	Level level{((*levelstore)[-1]).value()};
 	state->set_current_level(&level);
+	state->set_player_pos(Coordinate{0, 0});
 }
 
 auto Sorcery::Game::delete_character(unsigned int character_id) -> void {

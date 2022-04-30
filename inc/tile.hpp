@@ -55,6 +55,8 @@ namespace Sorcery {
 		auto gfx(const unsigned int texture) -> void;
 		auto gfx() -> std::optional<unsigned int>;
 		auto has(const MapDirection direction) const -> bool;
+		auto has(const MapDirection direction, const TileEdge wall_type) const
+			-> bool;
 		auto has(const TileFeature feature) const -> bool;
 		auto id() const -> long;
 		auto is(const TileProperty property) const -> bool;

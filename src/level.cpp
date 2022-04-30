@@ -337,7 +337,16 @@ auto Sorcery::Level::_update_tile(const Coordinate location,
 	if (darkness)
 		tile.set(TileProperty::DARKNESS);
 
-	// TODO: also handle markers and terrain etc
+	// https://docs.gridcartographer.com/ref/table/marker
+	if (marker == 1)
+		tile.set(TileFeature::STAIRS_UP);
+	else if (marker == 2)
+		tile.set(TileFeature::STAIRS_DOWN);
+	else if (marker == 26)
+		tile.set(TileFeature::STAIRS_UP);
+	else if (marker == 27)
+		tile.set(TileFeature::STAIRS_DOWN);
+
 	_tiles[location] = tile;
 }
 
