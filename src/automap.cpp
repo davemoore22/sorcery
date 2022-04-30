@@ -193,6 +193,17 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling)
 		_sprites.emplace_back(bg);
 	}
 
+	if (tile.is(TileProperty::DARKNESS)) {
+		sf::Sprite property{_graphics->textures
+								->get(magic_enum::enum_integer<AutoMapFeature>(
+										  AutoMapFeature::DARKNESS),
+									GraphicsTextureType::AUTOMAP)
+								.value()};
+		property.setPosition(x, y);
+		property.setScale(scaling, scaling);
+		_sprites.emplace_back(property);
+	}
+
 	if (tile.has(MapDirection::NORTH)) {
 		sf::Sprite wall{_graphics->textures
 							->get(magic_enum::enum_integer<AutoMapFeature>(
