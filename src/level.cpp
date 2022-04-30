@@ -36,7 +36,7 @@ Sorcery::Level::Level(const MapType type, const std::string dungeon,
 	: _type{type}, _dungeon{dungeon}, _depth{depth},
 	  _bottom_left{bottom_left}, _size{size} {
 
-	//_create();
+	_create();
 }
 
 // Copy Constructors
@@ -98,7 +98,8 @@ auto Sorcery::Level::wrap_size() const -> Size {
 
 auto Sorcery::Level::wrap_top_right() const -> Coordinate {
 
-	return Coordinate{_bottom_left.x + _size.w, _bottom_left.y + _size.h - 1};
+	return Coordinate{
+		_bottom_left.x + _size.w - 1, _bottom_left.y + _size.h - 1};
 }
 
 auto Sorcery::Level::size() const -> Size {
@@ -193,10 +194,11 @@ auto Sorcery::Level::_load_first_pass(const Json::Value row_data) -> bool {
 		// Get the top level data items
 		auto tile_data{row_data[j]["tdata"]};
 		const auto start{static_cast<int>(row_data[j]["start"].asInt())};
-		const auto current_y{static_cast<int>(row_data[j]["y"].asInt())};
 		const auto absolute_x{static_cast<int>(_bottom_left.x + start)};
+		const auto absolute_y{static_cast<int>(_bottom_left.y)};
+		const auto current_y{static_cast<int>(row_data[j]["y"].asInt())};
 		auto x{0};
-		auto y{current_y};
+		auto y{current_y + absolute_y};
 
 		// First pass through - build the tiles needed
 		for (auto i = 0u; i < tile_data.size(); i++) {
@@ -248,15 +250,18 @@ auto Sorcery::Level::_load_first_pass(const Json::Value row_data) -> bool {
 
 auto Sorcery::Level::_load_second_pass(const Json::Value row_data) -> bool {
 
+	return true;
+
 	for (auto j = 0u; j < row_data.size(); j++) {
 
 		// Get the top level data items
 		const auto start{static_cast<int>(row_data[j]["start"].asInt())};
 		const auto absolute_x{static_cast<int>(_bottom_left.x + start)};
+		const auto absolute_y{static_cast<int>(_bottom_left.y)};
 		const auto current_y{static_cast<int>(row_data[j]["y"].asInt())};
 		auto tile_data{row_data[j]["tdata"]};
 		auto x{0};
-		auto y{current_y};
+		auto y{current_y + absolute_y};
 
 		// Second pass through - build the other edges of the tiles
 		for (auto i = 0u; i < tile_data.size(); i++) {
@@ -281,10 +286,11 @@ auto Sorcery::Level::_load_second_pass(const Json::Value row_data) -> bool {
 				else
 					return 0u;
 			}()};
-			auto new_x{x + 1};
+			auto new_x{x};
 			auto new_y{y};
 
-			_update_tile(Coordinate{new_x, new_y}, north_wall, west_wall);
+			_update_tile(
+				Coordinate{new_x + 1, new_y + 1}, north_wall, west_wall);
 		}
 	}
 
@@ -343,8 +349,10 @@ auto Sorcery::Level::_update_tile(const Coordinate location,
 
 	auto &tile{_tiles.at(location)};
 
-	tile.set(MapDirection::NORTH, north_edge);
-	tile.set(MapDirection::WEST, west_edge);
+	if (!tile.has(MapDirection::NORTH))
+		tile.set(MapDirection::NORTH, north_edge);
+	if (!tile.has(MapDirection::WEST))
+		tile.set(MapDirection::WEST, west_edge);
 }
 
 // Due to the way GC defines levels, we need to handle different edges
@@ -464,7 +472,7 @@ auto Sorcery::Level::_set_other_edges(const Coordinate location) -> void {
 	auto north_edge{tile.wall(MapDirection::NORTH)};
 	if (north_edge == TileEdge::NONE) {
 
-		// Check north adjacent wall
+		// Check north adjacent wall (i.e. south wall of above tile)
 		auto adj_north{
 			_tiles.at(Coordinate{location.x, get_delta_y(location.y, 1)})};
 		auto adj_north_edge{adj_north.wall(MapDirection::SOUTH)};
@@ -480,8 +488,6 @@ auto Sorcery::Level::_set_other_edges(const Coordinate location) -> void {
 			tile.set(MapDirection::NORTH, adj_north_edge);
 			break;
 		default:
-			std::cout << (int)adj_north_edge << "N" << location.x << " "
-					  << location.y << std::endl;
 			break;
 		}
 	}
@@ -489,7 +495,7 @@ auto Sorcery::Level::_set_other_edges(const Coordinate location) -> void {
 	auto south_edge{tile.wall(MapDirection::SOUTH)};
 	if (south_edge == TileEdge::NONE) {
 
-		// Check south adjacent wall
+		// Check south adjacent wall (i.e. borth wall of below tile)
 		auto adj_south{
 			_tiles.at(Coordinate{location.x, get_delta_y(location.y, -1)})};
 		auto adj_south_edge{adj_south.wall(MapDirection::NORTH)};
@@ -505,8 +511,52 @@ auto Sorcery::Level::_set_other_edges(const Coordinate location) -> void {
 			tile.set(MapDirection::SOUTH, adj_south_edge);
 			break;
 		default:
-			std::cout << (int)adj_south_edge << "S" << location.x << " "
-					  << location.y << std::endl;
+			break;
+		}
+	}
+
+	auto west_edge{tile.wall(MapDirection::WEST)};
+	if (west_edge == TileEdge::NONE) {
+
+		// Check west adjacent wall (i.e. east wall of left tile)
+		auto adj_west{
+			_tiles.at(Coordinate{get_delta_x(location.x, -1), location.y})};
+		auto adj_west_edge{adj_west.wall(MapDirection::EAST)};
+
+		switch (adj_west_edge) {
+		case TileEdge::UNLOCKED_DOOR:
+			[[fallthrough]];
+		case TileEdge::WALL:
+			[[fallthrough]];
+		case TileEdge::SECRET_DOOR:
+			[[fallthrough]];
+		case TileEdge::LOCKED_DOOR:
+			tile.set(MapDirection::WEST, adj_west_edge);
+			break;
+		default:
+			break;
+		}
+	}
+
+	auto east_edge{tile.wall(MapDirection::EAST)};
+	if (east_edge == TileEdge::NONE) {
+
+		// Check west adjacent wall (i.e. east wall of left tile)
+		auto adj_east{
+			_tiles.at(Coordinate{get_delta_x(location.x, 1), location.y})};
+		auto adj_east_edge{adj_east.wall(MapDirection::WEST)};
+
+		switch (adj_east_edge) {
+		case TileEdge::UNLOCKED_DOOR:
+			[[fallthrough]];
+		case TileEdge::WALL:
+			[[fallthrough]];
+		case TileEdge::SECRET_DOOR:
+			[[fallthrough]];
+		case TileEdge::LOCKED_DOOR:
+			tile.set(MapDirection::EAST, adj_east_edge);
+			break;
+		default:
 			break;
 		}
 	}

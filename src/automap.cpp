@@ -94,6 +94,7 @@ auto Sorcery::AutoMap::refresh() -> void {
 						   static_cast<int>(_game->state->level->wrap_size().w);
 				return x;
 			}()};
+			// std::cout << x << " to " << lx << std::endl;
 			auto ly{[&] {
 				if (y < _game->state->level->wrap_bottom_left().y)
 					return y +
