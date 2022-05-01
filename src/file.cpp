@@ -66,6 +66,7 @@ Sorcery::File::File() {
 	_add_path(GRAPHICS_DIR, SPLASH_TEXTURE);
 	_add_path(GRAPHICS_DIR, TOWN_TEXTURE);
 	_add_path(GRAPHICS_DIR, UI_TEXTURE);
+	_add_path(GRAPHICS_DIR, VIEW_TEXTURE);
 	_add_path(GRAPHICS_DIR, WALLS_TEXTURE);
 	_add_path(VIDEO_DIR, MENU_VIDEO);
 }

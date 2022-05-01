@@ -128,6 +128,7 @@
 		<Unit filename="gfx/splash.png" />
 		<Unit filename="gfx/town.png" />
 		<Unit filename="gfx/ui.png" />
+		<Unit filename="gfx/view.png" />
 		<Unit filename="inc/allocatepanel.hpp" />
 		<Unit filename="inc/animation.hpp" />
 		<Unit filename="inc/application.hpp" />

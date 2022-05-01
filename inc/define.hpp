@@ -98,6 +98,7 @@ namespace Sorcery {
 	inline constexpr auto SPLASH_TEXTURE{"splash.png"sv};
 	inline constexpr auto TOWN_TEXTURE{"town.png"sv};
 	inline constexpr auto UI_TEXTURE{"ui.png"sv};
+	inline constexpr auto VIEW_TEXTURE{"view.png"sv};
 	inline constexpr auto WALLS_TEXTURE{"walls.png"sv};
 
 	// Other Images

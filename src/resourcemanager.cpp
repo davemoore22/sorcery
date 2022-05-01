@@ -61,6 +61,8 @@ Sorcery::ResourceManager::ResourceManager(File &files) : _files{files} {
 			thor::Resources::fromFile<sf::Texture>(_files[TOWN_TEXTURE]));
 		textures.acquire(Enums::Graphics::Texture::UI,
 			thor::Resources::fromFile<sf::Texture>(_files[UI_TEXTURE]));
+		textures.acquire(Enums::Graphics::Texture::VIEW,
+			thor::Resources::fromFile<sf::Texture>(_files[VIEW_TEXTURE]));
 		textures.acquire(Enums::Graphics::Texture::WALLS,
 			thor::Resources::fromFile<sf::Texture>(_files[WALLS_TEXTURE]));
 

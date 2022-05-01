@@ -188,6 +188,7 @@ namespace Sorcery {
 			SPLASH,
 			TOWN,
 			UI,
+			VIEW,
 			WALLS
 		};
 
