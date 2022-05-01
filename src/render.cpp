@@ -38,9 +38,7 @@ Sorcery::Render::Render(
 	_view = std::make_unique<View>((*_system->files)[VIEW_FILE]);
 }
 
-auto Sorcery::Render::update() -> void {}
-
-auto Sorcery::Render::render() -> void {
+auto Sorcery::Render::refresh() -> void {
 
 	_rtexture.clear(sf::Color(40, 40, 40, 255));
 	_rtexture.display();

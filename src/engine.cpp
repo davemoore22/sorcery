@@ -70,14 +70,12 @@ Sorcery::Engine::Engine(
 	_right_icon_panel =
 		std::make_unique<IconPanel>(_system, _display, _graphics, _game,
 			(*_display->layout)["engine_base_ui:right_icon_panel"], false);
-	_overhead_view = std::make_unique<TileMap>(_system, _display, _graphics,
-		_game, (*_display->layout)["engine_base_ui:overhead_view"]);
 
 	_update_automap = false;
 	_update_compass = false;
 	_update_icon_panels = false;
 	_update_status_bar = false;
-	_update_overhead_view = false;
+	_update_render = false;
 }
 
 // Standard Destructor
@@ -87,13 +85,12 @@ auto Sorcery::Engine::start() -> int {
 
 	_display->generate("engine_base_ui");
 
-	// Refresh the Party characters
+	_render->refresh();
 	_status_bar->refresh();
 	_automap->refresh();
 	_compass->refresh();
 	_left_icon_panel->refresh(true);
 	_right_icon_panel->refresh(true);
-	_overhead_view->refresh();
 
 	// Generate the Custom Components
 	const Component status_bar_c{
@@ -106,9 +103,6 @@ auto Sorcery::Engine::start() -> int {
 	_automap->setPosition(automap_c.x, automap_c.y);
 	const Component compass_c{(*_display->layout)["global:compass"]};
 	_compass->setPosition(compass_c.x, compass_c.y);
-	const Component overhead_c{
-		(*_display->layout)["engine_base_ui:overhead_view"]};
-	_overhead_view->setPosition(overhead_c.x, overhead_c.y);
 
 	const Component l_icon_panel_c{
 		(*_display->layout)["engine_base_ui:left_icon_panel"]};
@@ -308,7 +302,7 @@ auto Sorcery::Engine::start() -> int {
 						_game->state->level->reset();
 						_update_automap = true;
 						_update_compass = true;
-						_update_overhead_view = true;
+						_update_render = true;
 						_game->save_game();
 						_game->load_game();
 						_status_bar->refresh();
@@ -317,26 +311,24 @@ auto Sorcery::Engine::start() -> int {
 						_turn_left();
 						_update_automap = true;
 						_update_compass = true;
-						_update_overhead_view = true;
+						_update_render = true;
 					} else if (_system->input->check(
 								   WindowInput::RIGHT, event)) {
 						_turn_right();
 						_update_automap = true;
 						_update_compass = true;
-						_update_overhead_view = true;
-
+						_update_render = true;
 					} else if (_system->input->check(WindowInput::UP, event)) {
 						_move_forward();
 						_update_automap = true;
 						_update_compass = true;
-						_update_overhead_view = true;
-
+						_update_render = true;
 					} else if (_system->input->check(
 								   WindowInput::DOWN, event)) {
 						_move_backward();
 						_update_automap = true;
 						_update_compass = true;
-						_update_overhead_view = true;
+						_update_render = true;
 					} else if (_system->input->check(
 								   WindowInput::CANCEL, event))
 						_in_camp = true;
@@ -409,8 +401,10 @@ auto Sorcery::Engine::start() -> int {
 				}
 			}
 
-			_render->update();
-			_render->render();
+			if (_update_render) {
+				_render->refresh();
+				_update_render = false;
+			}
 			if (_update_automap) {
 				_automap->refresh();
 				_update_automap = false;
@@ -427,10 +421,6 @@ auto Sorcery::Engine::start() -> int {
 			if (_update_status_bar) {
 				_status_bar->refresh();
 				_update_status_bar = false;
-			}
-			if (_update_overhead_view) {
-				_overhead_view->refresh();
-				_update_overhead_view = false;
 			}
 			_window->clear();
 			_draw();
@@ -560,9 +550,6 @@ auto Sorcery::Engine::_draw() -> void {
 
 	// Standard Components
 	_display->display("engine_base_ui");
-
-	// Custom Components
-	_window->draw(*_overhead_view);
 
 	if (_status_bar->selected)
 		_status_bar->set_selected_background();

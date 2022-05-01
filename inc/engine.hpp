@@ -39,7 +39,6 @@
 #include "reorder.hpp"
 #include "statusbar.hpp"
 #include "system.hpp"
-#include "tilemap.hpp"
 
 namespace Sorcery {
 
@@ -85,7 +84,6 @@ namespace Sorcery {
 		std::unique_ptr<Compass> _compass;
 		std::unique_ptr<IconPanel> _left_icon_panel;
 		std::unique_ptr<IconPanel> _right_icon_panel;
-		std::unique_ptr<TileMap> _overhead_view;
 		bool _in_camp;
 		bool _in_character;
 		bool _show_confirm_exit;
@@ -93,7 +91,7 @@ namespace Sorcery {
 		bool _update_compass;
 		bool _update_icon_panels;
 		bool _update_status_bar;
-		bool _update_overhead_view;
+		bool _update_render;
 		std::optional<Character *> _cur_char;
 		std::unique_ptr<Frame> _cur_char_frame;
 	};

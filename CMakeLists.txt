@@ -85,7 +85,6 @@ add_executable(${PROJECT_NAME}
 	src/textfile.cpp
 	src/texturestore.cpp
 	src/tile.cpp
-	src/tilemap.cpp
 	src/training.cpp
 	src/view.cpp
 	src/window.cpp)
