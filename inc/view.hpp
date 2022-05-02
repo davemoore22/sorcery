@@ -61,5 +61,6 @@ namespace Sorcery {
 		// Private Methods
 		auto _get(int x, int z) -> ViewNode &;
 		auto _load(const std::filesystem::path filename) -> bool;
+		auto _preload(const int depth, const int width) -> void;
 	};
 } // namespace Sorcery

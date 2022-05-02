@@ -377,15 +377,22 @@ namespace Sorcery {
 		Point dest;
 		unsigned int dest_width;
 		long int id;
+		bool used;
 		static inline long s_id{0};
 
-		ViewNode() : id{s_id++} {};
+		ViewNode() : id{s_id++} {
+
+			used = false;
+		};
 
 		ViewNode(Enums::View::Cell::Layer layer_, Enums::View::Cell::Type type_,
 			bool flipped_, Coordinate3 coords_, Point dest_,
 			unsigned int dest_width_)
 			: layer{layer_}, type{type_}, flipped{flipped_}, coords{coords_},
-			  dest{dest_}, dest_width{dest_width_}, id{s_id++} {};
+			  dest{dest_}, dest_width{dest_width_}, id{s_id++} {
+
+			used = true;
+		};
 	};
 
 	struct SpellDetails {};

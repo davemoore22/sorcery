@@ -69,9 +69,21 @@ auto Sorcery::View::operator[](int z) -> std::vector<ViewNode *> {
 	}
 }
 
-auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
+auto Sorcery::View::_preload(const int depth, const int width) -> void {
 
 	_nodes.clear();
+	for (auto x = 0 - width; x <= width; x++) {
+		for (auto z = 0; z <= depth; z++) {
+
+			ViewNode empty_node{};
+			Coordinate3 coords{x, 0, z};
+			_nodes[coords] = empty_node;
+		}
+	}
+}
+
+auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
+
 	try {
 		if (std::ifstream file{filename.string(), std::ifstream::binary};
 			file.good()) {
@@ -86,6 +98,9 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 
 				const auto depth{static_cast<int>(layout["depth"].asInt())};
 				const auto width{static_cast<int>(layout["width"].asInt())};
+
+				_preload(depth, width);
+
 				Json::Value &layers{layout["layers"]};
 
 				// Iterate through view file one layer at a time
@@ -160,8 +175,8 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 						Json::Value &coords{tiles[j]["coords"]};
 						unsigned int d_fw{coords["fullWidth"].asUInt()};
 
-						ViewNode view_node(layer_type, tile_type, tile_flipped,
-							t_coords, d_coords, d_fw);
+						ViewNode view_node{layer_type, tile_type, tile_flipped,
+							t_coords, d_coords, d_fw};
 
 						_nodes[t_coords] = view_node;
 					}
