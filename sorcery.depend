@@ -151,7 +151,7 @@
 1632505413 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
 	"main.hpp"
 
-1650481606 /home/dave/Development/wizardry/sorcery-sfml/inc/type.hpp
+1651504977 /home/dave/Development/wizardry/sorcery-sfml/inc/type.hpp
 	"main.hpp"
 
 1625475027 /home/dave/Development/wizardry/sorcery-sfml/inc/operator.hpp
@@ -328,7 +328,7 @@
 1630415029 source:/home/dave/Development/wizardry/sorcery-sfml/src/display.cpp
 	"display.hpp"
 
-1651440061 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine.cpp
+1651440874 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine.cpp
 	"engine.hpp"
 
 1651439963 /home/dave/Development/wizardry/sorcery-sfml/inc/engine.hpp
@@ -1366,7 +1366,7 @@
 1646686056 source:/home/dave/Development/wizardry/sorcery-sfml/src/texturestore.cpp
 	"texturestore.hpp"
 
-1635621125 source:/home/dave/Development/wizardry/sorcery-sfml/src/render.cpp
+1651505373 source:/home/dave/Development/wizardry/sorcery-sfml/src/render.cpp
 	"render.hpp"
 
 1651440181 /home/dave/Development/wizardry/sorcery-sfml/inc/render.hpp
@@ -1434,11 +1434,14 @@
 	<SFML/Graphics/Rect.hpp>
 	<SFML/Graphics/Sprite.hpp>
 
-1645046652 source:/home/dave/Development/wizardry/sorcery-sfml/src/view.cpp
+1651505190 source:/home/dave/Development/wizardry/sorcery-sfml/src/view.cpp
 	"view.hpp"
 
-1634491879 /home/dave/Development/wizardry/sorcery-sfml/inc/view.hpp
+1651505197 /home/dave/Development/wizardry/sorcery-sfml/inc/view.hpp
+	"display.hpp"
+	"graphics.hpp"
 	"main.hpp"
+	"system.hpp"
 
 1602023279 source:/home/dave/Development/wizardry/sorcery-sfml/inc/selbaward/Sprite3d.cpp
 	"Sprite3d.hpp"
@@ -1465,7 +1468,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1650481119 source:/home/dave/Development/wizardry/sorcery-sfml/src/compass.cpp
+1651506034 source:/home/dave/Development/wizardry/sorcery-sfml/src/compass.cpp
 	"compass.hpp"
 
 1650744588 /home/dave/Development/wizardry/sorcery-sfml/inc/tilemap.hpp

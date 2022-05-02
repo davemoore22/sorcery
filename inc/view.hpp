@@ -24,7 +24,10 @@
 
 #pragma once
 
+#include "display.hpp"
+#include "graphics.hpp"
 #include "main.hpp"
+#include "system.hpp"
 
 // Class to handles managing screen layouts
 namespace Sorcery {
@@ -33,21 +36,23 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		View(const std::filesystem::path filename);
+		View(System *system, Display *display, Graphics *graphics);
 		View() = delete;
 
 		// Public Methods
 		auto get(int x, int z) -> ViewNode &;
 
 		// Operator Overloading
-		auto operator[](Point3 point) -> ViewNode &;
+		auto operator[](Coordinate3 point) -> ViewNode &;
 		auto operator[](int z) -> std::vector<ViewNode *>;
 
 	  private:
 		// Private Members
-		std::map<Point3, ViewNode> _nodes;
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
+		std::map<Coordinate3, ViewNode> _nodes;
 		bool _loaded;
-		std::filesystem::path _filename;
 
 		// Private Methods
 		auto _get(int x, int z) -> ViewNode &;

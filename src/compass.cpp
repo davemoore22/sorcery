@@ -68,8 +68,10 @@ auto Sorcery::Compass::refresh() -> void {
 	default:
 		break;
 	}
-	compass.setPosition(compass.getGlobalBounds().width / 2,
-		compass.getGlobalBounds().height / 2);
+	compass.setPosition((compass.getGlobalBounds().width / 2) +
+							std::stoi(_layout["rotation_offset_x"].value()),
+		(compass.getGlobalBounds().height / 2) +
+			std::stoi(_layout["rotation_offset_y"].value()));
 	compass.setScale(std::stof(_layout["direction_scaling"].value()),
 		std::stof(_layout["direction_scaling"].value()));
 	_sprites.emplace_back(compass);

@@ -176,15 +176,15 @@ namespace Sorcery {
 		int y;
 	};
 
-	struct Point3 {
-		Point3() : x{0}, y{0}, z{0} {};
-		Point3(int x_, int y_, int z_) : x{x_}, y{y_}, z{z_} {};
-		Point3(int x_, int z_) : x{x_}, y{0}, z{z_} {};
-		auto operator==(const Point3 &a) const -> bool {
+	struct Coordinate3 {
+		Coordinate3() : x{0}, y{0}, z{0} {};
+		Coordinate3(int x_, int y_, int z_) : x{x_}, y{y_}, z{z_} {};
+		Coordinate3(int x_, int z_) : x{x_}, y{0}, z{z_} {};
+		auto operator==(const Coordinate3 &a) const -> bool {
 			return (x == a.x && y == a.y && z == a.z);
 		}
-		auto operator<(const Point3 &a) const -> bool {
-			return (x < a.x) || ((y < a.y) || (z < a.z));
+		auto operator<(const Coordinate3 &a) const -> bool {
+			return std::tie(x, y, z) < std::tie(a.x, a.y, a.z);
 		};
 
 		template <class Archive> auto serialize(Archive &archive) -> void {
@@ -373,7 +373,7 @@ namespace Sorcery {
 		Enums::View::Cell::Layer layer;
 		Enums::View::Cell::Type type;
 		bool flipped;
-		Point3 coords;
+		Coordinate3 coords;
 		Point dest;
 		unsigned int dest_width;
 		long int id;
@@ -382,7 +382,7 @@ namespace Sorcery {
 		ViewNode() : id{s_id++} {};
 
 		ViewNode(Enums::View::Cell::Layer layer_, Enums::View::Cell::Type type_,
-			bool flipped_, Point3 coords_, Point dest_,
+			bool flipped_, Coordinate3 coords_, Point dest_,
 			unsigned int dest_width_)
 			: layer{layer_}, type{type_}, flipped{flipped_}, coords{coords_},
 			  dest{dest_}, dest_width{dest_width_}, id{s_id++} {};

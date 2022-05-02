@@ -64,8 +64,8 @@
 					"direction_offset_x": "64",
 					"direction_offset_y": "64",
 					"direction_scaling": "0.15",
-					"rotation_offset_x": "32",
-					"rotation_offset_y": "32",
+					"rotation_offset_x": "-4",
+					"rotation_offset_y": "-4",
 					"rotation_adjustment_x": "8",
 					"rotation_adjustment_y": "8"
 				}

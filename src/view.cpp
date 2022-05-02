@@ -25,22 +25,15 @@
 #include "view.hpp"
 
 // Standard Constructor
-Sorcery::View::View(const std::filesystem::path filename) {
-
-	// Defaults for now as _load is called on the constructor here and layout is
-	// created before window object retrieves the cell height and width from the
-	// config file alas! Solution is to pass the system object into this and get
-	// both the layout file name, and the config settings from the system object
-	// as we can do
+Sorcery::View::View(System *system, Display *display, Graphics *graphics)
+	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Load the layout from file
-	_loaded = _load(filename);
-	if (_loaded)
-		_filename = filename;
+	_loaded = _load((*_system->files)[VIEW_FILE]);
 }
 
 // Overload [] Operator
-auto Sorcery::View::operator[](Point3 point) -> ViewNode & {
+auto Sorcery::View::operator[](Coordinate3 point) -> ViewNode & {
 
 	try {
 
@@ -153,7 +146,7 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 						int t_z{tile_v["z"].asInt()};
 						int t_y{
 							0}; // Not used as there's only one layer of tile
-						Point3 t_coords{t_x, t_y, t_z};
+						Coordinate3 t_coords{t_x, t_y, t_z};
 
 						Json::Value &screen_v{tiles[j]["screen"]};
 						unsigned int d_x{screen_v["x"].asUInt()};
@@ -191,7 +184,7 @@ auto Sorcery::View::get(int x, int z) -> ViewNode & {
 
 auto Sorcery::View::_get(int x, int z) -> ViewNode & {
 
-	return _nodes.at(Point3{x, 0, z});
+	return _nodes.at(Coordinate3{x, 0, z});
 }
 
 /*
