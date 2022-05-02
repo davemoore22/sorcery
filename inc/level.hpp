@@ -54,6 +54,8 @@ namespace Sorcery {
 		// Public Methods
 		auto at(const Coordinate loc) -> Tile &;
 		auto at(const int x, const int y) -> Tile &;
+		auto at(const Coordinate loc, const MapDirection direction, const int x,
+			const int z) -> Tile &;
 		auto bottom_left() const -> Coordinate;
 		auto depth() const -> int;
 		auto get_delta_x(const int x, const int delta) const -> int;

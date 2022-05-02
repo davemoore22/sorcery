@@ -1366,7 +1366,7 @@
 1646686056 source:/home/dave/Development/wizardry/sorcery-sfml/src/texturestore.cpp
 	"texturestore.hpp"
 
-1651505373 source:/home/dave/Development/wizardry/sorcery-sfml/src/render.cpp
+1651506767 source:/home/dave/Development/wizardry/sorcery-sfml/src/render.cpp
 	"render.hpp"
 
 1651440181 /home/dave/Development/wizardry/sorcery-sfml/inc/render.hpp
@@ -1401,7 +1401,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1651350585 source:/home/dave/Development/wizardry/sorcery-sfml/src/automap.cpp
+1651512750 source:/home/dave/Development/wizardry/sorcery-sfml/src/automap.cpp
 	"automap.hpp"
 
 1632858205 /home/dave/Development/wizardry/sorcery-sfml/inc/iconpanel.hpp
@@ -1434,11 +1434,12 @@
 	<SFML/Graphics/Rect.hpp>
 	<SFML/Graphics/Sprite.hpp>
 
-1651505190 source:/home/dave/Development/wizardry/sorcery-sfml/src/view.cpp
+1651507510 source:/home/dave/Development/wizardry/sorcery-sfml/src/view.cpp
 	"view.hpp"
 
-1651505197 /home/dave/Development/wizardry/sorcery-sfml/inc/view.hpp
+1651507254 /home/dave/Development/wizardry/sorcery-sfml/inc/view.hpp
 	"display.hpp"
+	"game.hpp"
 	"graphics.hpp"
 	"main.hpp"
 	"system.hpp"
@@ -1481,10 +1482,10 @@
 1650748008 source:/home/dave/Development/wizardry/sorcery-sfml/src/tilemap.cpp
 	"tilemap.hpp"
 
-1651347800 source:/home/dave/Development/wizardry/sorcery-sfml/src/level.cpp
+1651513395 source:/home/dave/Development/wizardry/sorcery-sfml/src/level.cpp
 	"level.hpp"
 
-1651084082 /home/dave/Development/wizardry/sorcery-sfml/inc/level.hpp
+1651513791 /home/dave/Development/wizardry/sorcery-sfml/inc/level.hpp
 	"main.hpp"
 	"tile.hpp"
 

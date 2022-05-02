@@ -35,7 +35,7 @@ Sorcery::Render::Render(
 	_rtexture.clear(sf::Color(0, 0, 0, 255));
 
 	// Load the Tile Config
-	_view = std::make_unique<View>(_system, _display, _graphics);
+	_view = std::make_unique<View>(_system, _display, _graphics, _game);
 }
 
 auto Sorcery::Render::refresh() -> void {

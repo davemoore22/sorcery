@@ -25,8 +25,9 @@
 #include "view.hpp"
 
 // Standard Constructor
-Sorcery::View::View(System *system, Display *display, Graphics *graphics)
-	: _system{system}, _display{display}, _graphics{graphics} {
+Sorcery::View::View(
+	System *system, Display *display, Graphics *graphics, Game *game)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Load the layout from file
 	_loaded = _load((*_system->files)[VIEW_FILE]);
@@ -82,6 +83,9 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 			Json::StreamWriterBuilder builder{};
 			builder.settings_["indentation"] = "";
 			if (Json::Value layout; reader.parse(file, layout)) {
+
+				const auto depth{static_cast<int>(layout["depth"].asInt())};
+				const auto width{static_cast<int>(layout["width"].asInt())};
 				Json::Value &layers{layout["layers"]};
 
 				// Iterate through view file one layer at a time
@@ -162,6 +166,9 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 						_nodes[t_coords] = view_node;
 					}
 				}
+
+				_depth = depth;
+				_width = width;
 			} else
 				return false;
 		} else

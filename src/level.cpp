@@ -145,6 +145,49 @@ auto Sorcery::Level::at(const Coordinate loc) -> Tile & {
 	return _tiles.at(loc);
 }
 
+auto Sorcery::Level::at(const Coordinate loc, const MapDirection direction,
+	const int x, const int z) -> Tile & {
+
+	Coordinate dest{loc};
+	switch (direction) {
+	case MapDirection::NORTH:
+		dest.x = loc.x + x;
+		dest.y = loc.y + z;
+		break;
+	case MapDirection::SOUTH:
+		dest.x = loc.x - x;
+		dest.y = loc.y - z;
+		break;
+	case MapDirection::EAST:
+		dest.x = loc.x - x;
+		dest.y = loc.y + z;
+		break;
+	case MapDirection::WEST:
+		dest.x = loc.x + x;
+		dest.y = loc.y - z;
+		break;
+	default:
+		break;
+	}
+
+	auto wrapped_x{[&] {
+		if (dest.x < wrap_bottom_left().x)
+			return dest.x + static_cast<int>(wrap_size().w);
+		else if (dest.x > wrap_top_right().x)
+			return dest.x - static_cast<int>(wrap_size().w);
+		return dest.x;
+	}()};
+	auto wrapped_y{[&] {
+		if (dest.y < wrap_bottom_left().y)
+			return dest.y + static_cast<int>(wrap_size().h);
+		else if (dest.y > wrap_top_right().y)
+			return dest.y - static_cast<int>(wrap_size().h);
+		return dest.y;
+	}()};
+
+	return _tiles.at(Coordinate{wrapped_x, wrapped_y});
+}
+
 auto Sorcery::Level::at(const int x, const int y) -> Tile & {
 
 	return _tiles.at(Coordinate{x, y});

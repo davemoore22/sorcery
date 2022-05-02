@@ -25,6 +25,7 @@
 #pragma once
 
 #include "display.hpp"
+#include "game.hpp"
 #include "graphics.hpp"
 #include "main.hpp"
 #include "system.hpp"
@@ -36,7 +37,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		View(System *system, Display *display, Graphics *graphics);
+		View(System *system, Display *display, Graphics *graphics, Game *game);
 		View() = delete;
 
 		// Public Methods
@@ -51,8 +52,11 @@ namespace Sorcery {
 		System *_system;
 		Display *_display;
 		Graphics *_graphics;
+		Game *_game;
 		std::map<Coordinate3, ViewNode> _nodes;
 		bool _loaded;
+		unsigned int _depth;
+		unsigned int _width;
 
 		// Private Methods
 		auto _get(int x, int z) -> ViewNode &;
