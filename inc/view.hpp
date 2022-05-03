@@ -41,7 +41,8 @@ namespace Sorcery {
 		View() = delete;
 
 		// Public Methods
-		auto get(int x, int z) -> ViewNode &;
+		auto get(const int x, const int z) -> ViewNode &;
+		auto get_to_depth(bool lit = true) -> std::vector<ViewNode *>;
 
 		// Operator Overloading
 		auto operator[](Coordinate3 point) -> ViewNode &;

@@ -108,7 +108,11 @@ namespace Sorcery {
 	inline constexpr auto MENU_VIDEO{"menu.mp4"sv};
 
 	// Frame Limit
-	inline constexpr auto FRAMERATE{60};
+	inline constexpr auto FRAMERATE{60u};
+
+	// View Depth
+	inline constexpr auto DARK_VIEW_DEPTH{3u};
+	inline constexpr auto LIGHT_VIEW_DEPTH{6u};
 
 	// Miscellaneous Settings
 	inline constexpr auto MAX_PORTRAIT_INDEX{29u};

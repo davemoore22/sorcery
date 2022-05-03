@@ -51,6 +51,7 @@ namespace Sorcery {
 		Graphics *_graphics;
 		Game *_game;
 		std::unique_ptr<View> _view;
+		std::vector<ViewNode *> _visible;
 
 		sf::RenderTexture _rtexture;
 		sf::Sprite _sprite;

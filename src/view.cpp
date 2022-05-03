@@ -47,12 +47,14 @@ auto Sorcery::View::operator[](Coordinate3 point) -> ViewNode & {
 		exit(EXIT_FAILURE);
 	}
 }
+
+// Get all used nodes for a depth
 auto Sorcery::View::operator[](int z) -> std::vector<ViewNode *> {
 
 	try {
 
 		auto matches{_nodes | std::views::filter([&](auto &item) {
-			return item.second.coords.z == z;
+			return item.second.coords.z == z && item.second.used;
 		})};
 		std::vector<ViewNode *> results;
 		results.clear();
@@ -199,30 +201,29 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 	}
 }
 
-auto Sorcery::View::get(int x, int z) -> ViewNode & {
+auto Sorcery::View::get(const int x, const int z) -> ViewNode & {
 
 	return _get(x, z);
 }
 
-auto Sorcery::View::_get(int x, int z) -> ViewNode & {
+auto Sorcery::View::_get(const int x, const int z) -> ViewNode & {
 
 	return _nodes.at(Coordinate3{x, 0, z});
 }
 
-/*
+auto Sorcery::View::get_to_depth(bool lit) -> std::vector<ViewNode *> {
 
-Without Torch
+	auto depth{lit ? LIGHT_VIEW_DEPTH : DARK_VIEW_DEPTH};
+	std::vector<ViewNode *> results;
+	results.clear();
 
-OOO
-XOO
-OOO
+	for (auto z = 0; z <= depth; z++) {
+		auto matches{_nodes | std::views::filter([&](auto &item) {
+			return item.second.coords.z == z && item.second.used;
+		})};
+		for (auto &node : matches)
+			results.emplace_back(&node.second);
+	}
 
-
-With Torch
-
-OOOOO
-XOOOO
-OOOOO
-
-
-*/
+	return results;
+}
