@@ -133,6 +133,10 @@ namespace Sorcery {
 			return (x == a.x && y == a.y);
 		}
 
+		friend std::ostream &operator<<(std::ostream &os, Point const &a) {
+			return os << fmt::format("[{}/{}]", a.x, a.y) << std::endl;
+		}
+
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(x, y);
 		}
@@ -150,6 +154,10 @@ namespace Sorcery {
 		}
 		auto operator<(const Coordinate &a) const -> bool {
 			return std::tie(x, y) < std::tie(a.x, a.y);
+		}
+
+		friend std::ostream &operator<<(std::ostream &os, Coordinate const &a) {
+			return os << fmt::format("[{}/{}]", a.x, a.y) << std::endl;
 		}
 
 		template <class Archive> auto serialize(Archive &archive) -> void {
@@ -186,6 +194,11 @@ namespace Sorcery {
 		auto operator<(const Coordinate3 &a) const -> bool {
 			return std::tie(x, y, z) < std::tie(a.x, a.y, a.z);
 		};
+
+		friend std::ostream &operator<<(
+			std::ostream &os, Coordinate3 const &a) {
+			return os << fmt::format("[{}/{}/{}]", a.x, a.y, a.z) << std::endl;
+		}
 
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(x, y, z);
@@ -228,6 +241,10 @@ namespace Sorcery {
 
 			return *this;
 		};
+
+		friend std::ostream &operator<<(std::ostream &os, Size const &a) {
+			return os << fmt::format("[{}/{}]", a.w, a.h) << std::endl;
+		}
 
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(w, h);

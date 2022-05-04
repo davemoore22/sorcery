@@ -164,9 +164,16 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 						}()};
 						Json::Value &tile_v{tiles[j]["tile"]};
 						int t_x{tile_v["x"].asInt()};
+
+						// Note that in the Atlas Export, z is from 0 to -6 for
+						// 6 tiles in depth, but we reverse that for ease of use
+						// and to ensure that z is positibe
 						int t_z{tile_v["z"].asInt()};
-						int t_y{
-							0}; // Not used as there's only one layer of tile
+						t_z = 0 - t_z;
+
+						// Y is not used as there's only one layer of tile (and
+						// floors and ceilings are seperate)
+						int t_y{0};
 						Coordinate3 t_coords{t_x, t_y, t_z};
 
 						Json::Value &screen_v{tiles[j]["screen"]};
@@ -219,7 +226,7 @@ auto Sorcery::View::get_to_depth(bool lit) -> std::vector<ViewNode *> {
 
 	for (auto z = 0; z <= depth; z++) {
 		auto matches{_nodes | std::views::filter([&](auto &item) {
-			return item.second.coords.z == z && item.second.used;
+			return (item.second.coords.z == z) && item.second.used;
 		})};
 		for (auto &node : matches)
 			results.emplace_back(&node.second);

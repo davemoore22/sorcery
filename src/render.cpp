@@ -42,7 +42,7 @@ auto Sorcery::Render::refresh() -> void {
 
 	// Get the source graphics for the visible tiles
 	_visible.clear();
-	_visible = _view->get_to_depth();
+	_visible = _view->get_to_depth(false);
 
 	// For each visible tile, get the level cell
 
