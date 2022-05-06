@@ -20,11 +20,11 @@ Universe Repositories are installed:
 
 Add the following repository:
 
-ppa:texus/tgui-0.8
+ppa:texus/tgui
 
 And then install the following additional package:
 
-libtgui-dev (0.8.9+focal)
+libtgui-0.9-dev (0.9.3+focal)
 
 Download, compile and install the following libraries (cmake needed):
 

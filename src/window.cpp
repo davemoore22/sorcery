@@ -56,8 +56,8 @@ Sorcery::Window::Window(
 	centre.y = _current_size.h / 2;
 	_window.setVerticalSyncEnabled(true);
 	_gui.setTarget(_window);
-	_theme = tgui::Theme((*system->files)[GUI_FILE]);
-	tgui::Theme::setDefault(&_theme);
+	_theme = tgui::Theme((*system->files)[GUI_FILE].string());
+	tgui::Theme::setDefault((*system->files)[GUI_FILE].string());
 
 	view = _window.getView();
 

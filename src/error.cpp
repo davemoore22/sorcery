@@ -119,7 +119,7 @@ Sorcery::Error::Error(tgui::Gui *gui, Enums::System::Error error_code,
 	info->setTextSize(16);
 	body_panel->add(info, "Info");
 
-	auto info_e{tgui::TextBox::create()};
+	auto info_e{tgui::TextArea::create()};
 	info_e->setPosition(80, 74);
 	info_e->setSize(528, 272);
 	info_e->setTextSize(16);
@@ -167,7 +167,7 @@ Sorcery::Error::Error(tgui::Gui *gui, Enums::System::Error error_code,
 		window->getSize().x - 115.f, window->getSize().y - 50.f);
 	close_button->setText("Exit");
 	close_button->setSize(100, 40);
-	close_button->connect("pressed", [&]() {
+	close_button->onPress([&]() {
 		exit(-1);
 	});
 	close_button->setFocused(true);
@@ -178,7 +178,7 @@ Sorcery::Error::Error(tgui::Gui *gui, Enums::System::Error error_code,
 		window->getSize().x - 230.f, window->getSize().y - 50.f);
 	copy_button->setText("Copy");
 	copy_button->setSize(100, 40);
-	copy_button->connect("pressed", [&]() {
+	copy_button->onPress([&]() {
 		sf::Clipboard::setString(_details[4]);
 	});
 	window->add(copy_button);
