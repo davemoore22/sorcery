@@ -131,9 +131,6 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 					Json::Value &tiles{layers[i]["tiles"]};
 					for (auto j = 0u; j < tiles.size(); j++) {
 
-						// Tile
-						// Screen
-						// coords/fullwidth
 						auto tile_type{[&] {
 							if (tiles[j].isMember("type")) {
 								if (auto tt{layers[i]["type"].asString()};
@@ -176,16 +173,23 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 						int t_y{0};
 						Coordinate3 t_coords{t_x, t_y, t_z};
 
+						// Destination Location
 						Json::Value &screen_v{tiles[j]["screen"]};
 						unsigned int d_x{screen_v["x"].asUInt()};
 						unsigned int d_y{screen_v["y"].asUInt()};
 						Point d_coords{d_x, d_y};
 
-						Json::Value &coords{tiles[j]["coords"]};
-						unsigned int d_fw{coords["fullWidth"].asUInt()};
+						// Source Graphic
+						Json::Value &source{tiles[j]["coords"]};
+						unsigned int d_fw{source["fullWidth"].asUInt()};
+						unsigned int d_rx{source["x"].asUInt()};
+						unsigned int d_ry{source["y"].asUInt()};
+						unsigned int d_rw{source["w"].asUInt()};
+						unsigned int d_rh{source["h"].asUInt()};
+						Rect d_r{d_rx, d_ry, d_rw, d_rh};
 
 						ViewNode view_node{layer_type, tile_type, tile_flipped,
-							t_coords, d_coords, d_fw};
+							t_coords, d_coords, d_fw, d_r};
 						ViewNodeKey key{
 							layer_type, t_coords.x, t_coords.y, t_coords.z};
 

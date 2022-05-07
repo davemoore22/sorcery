@@ -264,6 +264,16 @@ namespace Sorcery {
 		Rect(const Rect &other)
 			: x{other.x}, y{other.y}, w{other.w}, h{other.h} {};
 
+		auto operator=(const Rect &other) -> Rect & {
+
+			x = other.x;
+			y = other.y;
+			w = other.w;
+			h = other.h;
+
+			return *this;
+		};
+
 		auto menu_contains(unsigned int i, unsigned int j) -> bool {
 			// Note the >= etc here - menu rects start at y - if not = then
 			// first item in menu would fail this test
@@ -426,6 +436,7 @@ namespace Sorcery {
 		Coordinate3 coords;
 		Point dest;
 		unsigned int dest_width;
+		Rect source_rect;
 		long int id;
 		bool used;
 		static inline long s_id{0};
@@ -437,9 +448,10 @@ namespace Sorcery {
 
 		ViewNode(Enums::View::Cell::Layer layer_, Enums::View::Cell::Type type_,
 			bool flipped_, Coordinate3 coords_, Point dest_,
-			unsigned int dest_width_)
+			unsigned int dest_width_, Rect source_rect_)
 			: layer{layer_}, type{type_}, flipped{flipped_}, coords{coords_},
-			  dest{dest_}, dest_width{dest_width_}, id{s_id++} {
+			  dest{dest_}, dest_width{dest_width_},
+			  source_rect{source_rect_}, id{s_id++} {
 
 			used = true;
 		};
@@ -447,7 +459,8 @@ namespace Sorcery {
 		ViewNode(const ViewNode &other)
 			: layer{other.layer}, type{other.type}, flipped{other.flipped},
 			  coords{other.coords}, dest{other.dest},
-			  dest_width{other.dest_width}, id{other.id}, used{other.used} {};
+			  dest_width{other.dest_width},
+			  source_rect{other.source_rect}, id{other.id}, used{other.used} {};
 
 		auto operator=(const ViewNode &other) -> ViewNode & {
 
@@ -457,19 +470,20 @@ namespace Sorcery {
 			coords = other.coords;
 			dest = other.dest;
 			dest_width = other.dest_width;
+			source_rect = other.source_rect;
 			id = other.id;
 			used = other.used;
 
 			return *this;
 		};
 		friend std::ostream &operator<<(std::ostream &os, ViewNode &a) {
-			return os << fmt::format(
-							 "[{}/{}/{}]", a.coords.x, a.coords.y, a.coords.z)
+			return os << fmt::format("[{}: {}/{}/{}]", a.layer, a.coords.x,
+							 a.coords.y, a.coords.z)
 					  << std::endl;
 		}
 		auto operator<(const ViewNode &a) const -> bool {
-			return std::tie(coords.z, coords.y, coords.x) <
-				   std::tie(a.coords.z, a.coords.y, a.coords.x);
+			return std::tie(layer, coords.z, coords.y, coords.x) <
+				   std::tie(layer, a.coords.z, a.coords.y, a.coords.x);
 		}
 	};
 
