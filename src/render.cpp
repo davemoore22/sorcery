@@ -40,11 +40,14 @@ Sorcery::Render::Render(
 
 auto Sorcery::Render::refresh() -> void {
 
-	// Get the source graphics for the visible tiles
+	// Get the source graphics for the visible tiles - floor first
 	_visible.clear();
-	_visible = _view->get_to_depth(false);
+	_visible = _view->get_to_depth(ViewNodeLayer::FLOOR, false);
 
 	// For each visible tile, get the level cell
+	for (auto node : _visible) {
+		//
+	}
 
 	_rtexture.clear(sf::Color(40, 40, 40, 255));
 	_rtexture.display();

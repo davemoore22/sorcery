@@ -388,6 +388,36 @@ namespace Sorcery {
 		}
 	};
 
+	struct ViewNodeKey {
+		ViewNodeKey()
+			: layer{Enums::View::Cell::Layer::NONE}, x{0}, y{0}, z{0} {};
+		ViewNodeKey(Enums::View::Cell::Layer layer_, int x_, int y_, int z_)
+			: layer{layer_}, x{x_}, y{y_}, z{z_} {};
+		ViewNodeKey(Enums::View::Cell::Layer layer_, int x_, int z_)
+			: layer{layer_}, x{x_}, y{0}, z{z_} {};
+
+		auto operator==(const ViewNodeKey &a) const -> bool {
+			return (layer == a.layer && x == a.x && y == a.y && z == a.z);
+		}
+		auto operator<(const ViewNodeKey &a) const -> bool {
+			return std::tie(layer, z, y, x) < std::tie(layer, a.z, a.y, a.y);
+		};
+		friend std::ostream &operator<<(
+			std::ostream &os, ViewNodeKey const &a) {
+			return os << fmt::format("[{}:{}/{}/{}]", a.layer, a.x, a.y, a.z)
+					  << std::endl;
+		}
+
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(layer, x, y, z);
+		}
+
+		Enums::View::Cell::Layer layer;
+		int x;
+		int y;
+		int z;
+	}; // namespace Sorcery
+
 	struct ViewNode {
 
 		Enums::View::Cell::Layer layer;

@@ -34,11 +34,11 @@ Sorcery::View::View(
 }
 
 // Overload [] Operator
-auto Sorcery::View::operator[](Coordinate3 point) -> ViewNode {
+auto Sorcery::View::operator[](ViewNodeKey key) -> ViewNode {
 
 	try {
 
-		return _nodes.at(point);
+		return _nodes.at(key);
 
 	} catch (std::exception &e) {
 		Error error{
@@ -78,7 +78,7 @@ auto Sorcery::View::_preload(const int depth, const int width) -> void {
 		for (auto z = 0; z <= depth; z++) {
 
 			ViewNode empty_node{};
-			Coordinate3 coords{x, 0, z};
+			ViewNodeKey coords{ViewNodeLayer::NONE, x, 0, z};
 			_nodes[coords] = empty_node;
 		}
 	}
@@ -186,8 +186,10 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 
 						ViewNode view_node{layer_type, tile_type, tile_flipped,
 							t_coords, d_coords, d_fw};
+						ViewNodeKey key{
+							layer_type, t_coords.x, t_coords.y, t_coords.z};
 
-						_nodes[t_coords] = view_node;
+						_nodes[key] = view_node;
 					}
 				}
 
@@ -208,17 +210,20 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 	}
 }
 
-auto Sorcery::View::get(const int x, const int z) -> ViewNode {
+auto Sorcery::View::get(const ViewNodeLayer layer, const int x, const int z)
+	-> ViewNode {
 
-	return _get(x, z);
+	return _get(layer, x, z);
 }
 
-auto Sorcery::View::_get(const int x, const int z) -> ViewNode {
+auto Sorcery::View::_get(const ViewNodeLayer layer, const int x, const int z)
+	-> ViewNode {
 
-	return _nodes.at(Coordinate3{x, 0, z});
+	return _nodes.at(ViewNodeKey{layer, x, 0, z});
 }
 
-auto Sorcery::View::get_to_depth(bool lit) -> std::vector<ViewNode> {
+auto Sorcery::View::get_to_depth(const ViewNodeLayer layer, bool lit)
+	-> std::vector<ViewNode> {
 
 	auto depth{lit ? LIGHT_VIEW_DEPTH : DARK_VIEW_DEPTH};
 	std::vector<ViewNode> results;
@@ -226,15 +231,14 @@ auto Sorcery::View::get_to_depth(bool lit) -> std::vector<ViewNode> {
 
 	for (auto z = 0; z <= depth; z++) {
 		auto matches{_nodes | std::views::filter([&](auto &item) {
-			return (item.second.coords.z == z) && item.second.used;
+			return (item.second.layer == layer) &&
+				   (item.second.coords.z == z) && item.second.used;
 		})};
 		for (auto &node : matches)
 			results.push_back(node.second);
 	}
 
 	std::sort(results.begin(), results.end());
-	for (auto node : results)
-		std::cout << node << std::endl;
 
 	return results;
 }
