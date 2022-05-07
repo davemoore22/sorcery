@@ -41,12 +41,12 @@ namespace Sorcery {
 		View() = delete;
 
 		// Public Methods
-		auto get(const int x, const int z) -> ViewNode &;
-		auto get_to_depth(bool lit = true) -> std::vector<ViewNode *>;
+		auto get(const int x, const int z) -> ViewNode;
+		auto get_to_depth(bool lit = true) -> std::vector<ViewNode>;
 
 		// Operator Overloading
-		auto operator[](Coordinate3 point) -> ViewNode &;
-		auto operator[](int z) -> std::vector<ViewNode *>;
+		auto operator[](Coordinate3 point) -> ViewNode;
+		auto operator[](int z) -> std::vector<ViewNode>;
 
 	  private:
 		// Private Members
@@ -60,7 +60,7 @@ namespace Sorcery {
 		unsigned int _width;
 
 		// Private Methods
-		auto _get(int x, int z) -> ViewNode &;
+		auto _get(int x, int z) -> ViewNode;
 		auto _load(const std::filesystem::path filename) -> bool;
 		auto _preload(const int depth, const int width) -> void;
 	};

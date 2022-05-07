@@ -34,7 +34,7 @@ Sorcery::View::View(
 }
 
 // Overload [] Operator
-auto Sorcery::View::operator[](Coordinate3 point) -> ViewNode & {
+auto Sorcery::View::operator[](Coordinate3 point) -> ViewNode {
 
 	try {
 
@@ -49,17 +49,17 @@ auto Sorcery::View::operator[](Coordinate3 point) -> ViewNode & {
 }
 
 // Get all used nodes for a depth
-auto Sorcery::View::operator[](int z) -> std::vector<ViewNode *> {
+auto Sorcery::View::operator[](int z) -> std::vector<ViewNode> {
 
 	try {
 
 		auto matches{_nodes | std::views::filter([&](auto &item) {
 			return item.second.coords.z == z && item.second.used;
 		})};
-		std::vector<ViewNode *> results;
+		std::vector<ViewNode> results;
 		results.clear();
 		for (auto &node : matches)
-			results.emplace_back(&node.second);
+			results.push_back(node.second);
 
 		return results;
 
@@ -167,12 +167,12 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 
 						// Note that in the Atlas Export, z is from 0 to -6 for
 						// 6 tiles in depth, but we reverse that for ease of use
-						// and to ensure that z is positibe
+						// and to ensure that z is positive
 						int t_z{tile_v["z"].asInt()};
 						t_z = 0 - t_z;
 
-						// Y is not used as there's only one layer of tile (and
-						// floors and ceilings are seperate)
+						// y is not used as there's only one layer of tile (and
+						// floors and ceilings are rendered seperate)
 						int t_y{0};
 						Coordinate3 t_coords{t_x, t_y, t_z};
 
@@ -208,20 +208,20 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 	}
 }
 
-auto Sorcery::View::get(const int x, const int z) -> ViewNode & {
+auto Sorcery::View::get(const int x, const int z) -> ViewNode {
 
 	return _get(x, z);
 }
 
-auto Sorcery::View::_get(const int x, const int z) -> ViewNode & {
+auto Sorcery::View::_get(const int x, const int z) -> ViewNode {
 
 	return _nodes.at(Coordinate3{x, 0, z});
 }
 
-auto Sorcery::View::get_to_depth(bool lit) -> std::vector<ViewNode *> {
+auto Sorcery::View::get_to_depth(bool lit) -> std::vector<ViewNode> {
 
 	auto depth{lit ? LIGHT_VIEW_DEPTH : DARK_VIEW_DEPTH};
-	std::vector<ViewNode *> results;
+	std::vector<ViewNode> results;
 	results.clear();
 
 	for (auto z = 0; z <= depth; z++) {
@@ -229,8 +229,12 @@ auto Sorcery::View::get_to_depth(bool lit) -> std::vector<ViewNode *> {
 			return (item.second.coords.z == z) && item.second.used;
 		})};
 		for (auto &node : matches)
-			results.emplace_back(&node.second);
+			results.push_back(node.second);
 	}
+
+	std::sort(results.begin(), results.end());
+	for (auto node : results)
+		std::cout << node << std::endl;
 
 	return results;
 }

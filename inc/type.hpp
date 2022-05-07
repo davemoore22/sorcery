@@ -42,6 +42,7 @@ namespace Sorcery {
 			Enums::Options config_, std::string hint_)
 			: index{index_}, type{type_}, item{item_}, key{key_},
 			  enabled{enabled_}, config{config_}, hint{hint_} {};
+
 		auto operator==(const MenuEntry &a) const -> bool {
 			return ((index == a.index) && (type == a.type) &&
 					(item == a.item) && (key == a.key) &&
@@ -86,6 +87,7 @@ namespace Sorcery {
 			std::string filename_, sf::Color colour_)
 			: index{index_}, item{item_}, key{key_}, filename{filename_},
 			  colour{colour_} {};
+
 		auto operator==(const Icon &a) const -> bool {
 			return ((index == a.index) && (item == a.item) && (key == a.key) &&
 					(filename == a.filename) && (colour == a.colour));
@@ -129,10 +131,10 @@ namespace Sorcery {
 	struct Point {
 		Point() : x{0}, y{0} {};
 		Point(unsigned int x_, unsigned int y_) : x{x_}, y{y_} {};
+
 		auto operator==(const Point &a) const -> bool {
 			return (x == a.x && y == a.y);
 		}
-
 		friend std::ostream &operator<<(std::ostream &os, Point const &a) {
 			return os << fmt::format("[{}/{}]", a.x, a.y) << std::endl;
 		}
@@ -149,13 +151,13 @@ namespace Sorcery {
 	struct Coordinate {
 		Coordinate() : x{0}, y{0} {};
 		Coordinate(int x_, int y_) : x{x_}, y{y_} {};
+
 		auto operator==(const Coordinate &a) const -> bool {
 			return (x == a.x && y == a.y);
 		}
 		auto operator<(const Coordinate &a) const -> bool {
 			return std::tie(x, y) < std::tie(a.x, a.y);
 		}
-
 		friend std::ostream &operator<<(std::ostream &os, Coordinate const &a) {
 			return os << fmt::format("[{}/{}]", a.x, a.y) << std::endl;
 		}
@@ -188,13 +190,13 @@ namespace Sorcery {
 		Coordinate3() : x{0}, y{0}, z{0} {};
 		Coordinate3(int x_, int y_, int z_) : x{x_}, y{y_}, z{z_} {};
 		Coordinate3(int x_, int z_) : x{x_}, y{0}, z{z_} {};
+
 		auto operator==(const Coordinate3 &a) const -> bool {
 			return (x == a.x && y == a.y && z == a.z);
 		}
 		auto operator<(const Coordinate3 &a) const -> bool {
 			return std::tie(x, y, z) < std::tie(a.x, a.y, a.z);
 		};
-
 		friend std::ostream &operator<<(
 			std::ostream &os, Coordinate3 const &a) {
 			return os << fmt::format("[{}/{}/{}]", a.x, a.y, a.z) << std::endl;
@@ -234,6 +236,7 @@ namespace Sorcery {
 		Size() : w{0}, h{0} {};
 		Size(unsigned int w_, unsigned int h_) : w{w_}, h{h_} {};
 		Size(const Size &other) : w{other.w}, h{other.h} {};
+
 		auto operator=(const Size &other) -> Size & {
 
 			w = other.w;
@@ -241,7 +244,6 @@ namespace Sorcery {
 
 			return *this;
 		};
-
 		friend std::ostream &operator<<(std::ostream &os, Size const &a) {
 			return os << fmt::format("[{}/{}]", a.w, a.h) << std::endl;
 		}
@@ -308,6 +310,7 @@ namespace Sorcery {
 			: id{other.id}, type{other.type}, category{other.category},
 			  level{other.level}, known{other.known}, name{other.name},
 			  translated_name{other.translated_name}, details{other.details} {};
+
 		auto operator=(const Spell &other) -> Spell & {
 
 			id = other.id;
@@ -410,6 +413,34 @@ namespace Sorcery {
 
 			used = true;
 		};
+
+		ViewNode(const ViewNode &other)
+			: layer{other.layer}, type{other.type}, flipped{other.flipped},
+			  coords{other.coords}, dest{other.dest},
+			  dest_width{other.dest_width}, id{other.id}, used{other.used} {};
+
+		auto operator=(const ViewNode &other) -> ViewNode & {
+
+			layer = other.layer;
+			type = other.type;
+			flipped = other.flipped;
+			coords = other.coords;
+			dest = other.dest;
+			dest_width = other.dest_width;
+			id = other.id;
+			used = other.used;
+
+			return *this;
+		};
+		friend std::ostream &operator<<(std::ostream &os, ViewNode &a) {
+			return os << fmt::format(
+							 "[{}/{}/{}]", a.coords.x, a.coords.y, a.coords.z)
+					  << std::endl;
+		}
+		auto operator<(const ViewNode &a) const -> bool {
+			return std::tie(coords.z, coords.y, coords.x) <
+				   std::tie(a.coords.z, a.coords.y, a.coords.x);
+		}
 	};
 
 	struct SpellDetails {};
