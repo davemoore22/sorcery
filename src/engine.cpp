@@ -554,8 +554,8 @@ auto Sorcery::Engine::_draw() -> void {
 
 	// Scale the Render
 	const auto current_size{_display->window->size};
-	const auto scale_x{(current_size.width * 1.0f) / vIEW_WIDTH * 1.0f};
-	const auto scale_y{(current_size.height * 1.0f) / vIEW_HEIGHT * 1.0f};
+	const auto scale_x{(current_size.width * 1.0f) / VIEW_WIDTH * 1.0f};
+	const auto scale_y{(current_size.height * 1.0f) / VIEW_HEIGHT * 1.0f};
 	_render->setScale(scale_x, scale_y);
 
 	// Draw the Render
