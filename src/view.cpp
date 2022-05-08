@@ -133,7 +133,7 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 
 						auto tile_type{[&] {
 							if (tiles[j].isMember("type")) {
-								if (auto tt{layers[i]["type"].asString()};
+								if (auto tt{tiles[j]["type"].asString()};
 									tt.length() > 0) {
 									if (tt == "floor")
 										return ViewNodeType::FLOOR;

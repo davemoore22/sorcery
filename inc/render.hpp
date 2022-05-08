@@ -54,8 +54,8 @@ namespace Sorcery {
 		std::vector<ViewNode> _visible;
 
 		sf::RenderTexture _rtexture;
-		sf::Sprite _sprite;
 		sf::Texture _texture;
+		std::vector<sf::Sprite> _sprites;
 
 		// Private Methods
 		auto virtual draw(

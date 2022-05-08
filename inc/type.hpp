@@ -410,7 +410,7 @@ namespace Sorcery {
 			return (layer == a.layer && x == a.x && y == a.y && z == a.z);
 		}
 		auto operator<(const ViewNodeKey &a) const -> bool {
-			return std::tie(layer, z, y, x) < std::tie(layer, a.z, a.y, a.y);
+			return std::tie(layer, z, y, x) < std::tie(a.layer, a.z, a.y, a.x);
 		};
 		friend std::ostream &operator<<(
 			std::ostream &os, ViewNodeKey const &a) {

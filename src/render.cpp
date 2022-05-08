@@ -36,11 +36,18 @@ Sorcery::Render::Render(
 
 	// Load the Tile Config
 	_view = std::make_unique<View>(_system, _display, _graphics, _game);
+
+	_sprites.clear();
 }
 
 auto Sorcery::Render::refresh() -> void {
 
 	_rtexture.clear(sf::Color(40, 40, 40, 255));
+	_rtexture.display();
+	_texture = _rtexture.getTexture();
+	auto bg = sf::Sprite{_texture};
+	bg.setPosition(0, 0);
+	_sprites.emplace_back(bg);
 
 	// Get the source graphics for the visible tiles - floor first
 	_visible.clear();
@@ -58,20 +65,16 @@ auto Sorcery::Render::refresh() -> void {
 		sf::Sprite floor_sprite{
 			_graphics->textures->get_atlas(node.source_rect, false)};
 		floor_sprite.setPosition(sf::Vector2f{node.dest.x, node.dest.y});
-		_rtexture.draw(floor_sprite);
+		_sprites.emplace_back(floor_sprite);
 	}
 
-	_rtexture.display();
-	_texture = _rtexture.getTexture();
-	_sprite = sf::Sprite(_texture);
-
-	// scale the sprite
+	/* // scale the sprite
 	const auto current_size{_display->window->size};
 	const auto scale_x{
 		(current_size.width * 1.0f) / _sprite.getLocalBounds().width};
 	const auto scale_y{
 		(current_size.height * 1.0f) / _sprite.getLocalBounds().height};
-	_sprite.setScale(scale_x, scale_y);
+	_sprite.setScale(scale_x, scale_y); */
 }
 
 auto Sorcery::Render::draw(
@@ -79,5 +82,6 @@ auto Sorcery::Render::draw(
 
 	states.transform *= getTransform();
 
-	target.draw(_sprite, states);
+	for (const auto &sprite : _sprites)
+		target.draw(sprite, states);
 }
