@@ -47,6 +47,7 @@ namespace Sorcery {
 		auto get(const std::string name,
 			const GraphicsTextureType texture_type) const
 			-> std::optional<sf::Sprite>;
+		auto get_atlas(const Rect rect, bool feature) const -> sf::Sprite;
 
 	  private:
 		// Private Members
@@ -60,6 +61,7 @@ namespace Sorcery {
 		sf::Texture *_creatures_known_t;
 		sf::Texture *_creatures_unknown_t;
 		sf::Texture *_portrait_t;
+		sf::Texture *_view_t;
 		std::map<unsigned int, Texture> _texture_map;
 
 		// Private Methods

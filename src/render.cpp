@@ -40,24 +40,36 @@ Sorcery::Render::Render(
 
 auto Sorcery::Render::refresh() -> void {
 
+	_rtexture.clear(sf::Color(40, 40, 40, 255));
+
 	// Get the source graphics for the visible tiles - floor first
 	_visible.clear();
 	_visible = _view->get_to_depth(ViewNodeLayer::FLOOR, false);
 
 	// For each visible tile, get the level cell
+	const auto player_pos{_game->state->get_player_pos()};
+	const auto player_facing{_game->state->get_player_facing()};
 	for (auto node : _visible) {
-		//
+
+		const auto x{node.coords.x};
+		const auto z{node.coords.z};
+		const auto tile{
+			_game->state->level->at(player_pos, player_facing, x, z)};
+		sf::Sprite floor_sprite{
+			_graphics->textures->get_atlas(node.source_rect, false)};
+		floor_sprite.setPosition(sf::Vector2f{node.dest.x, node.dest.y});
+		_rtexture.draw(floor_sprite);
 	}
 
-	_rtexture.clear(sf::Color(40, 40, 40, 255));
 	_rtexture.display();
 	_texture = _rtexture.getTexture();
 	_sprite = sf::Sprite(_texture);
 
 	// scale the sprite
-	auto current_size{_display->window->size};
-	float scale_x{(current_size.width * 1.0f) / _sprite.getLocalBounds().width};
-	float scale_y{
+	const auto current_size{_display->window->size};
+	const auto scale_x{
+		(current_size.width * 1.0f) / _sprite.getLocalBounds().width};
+	const auto scale_y{
 		(current_size.height * 1.0f) / _sprite.getLocalBounds().height};
 	_sprite.setScale(scale_x, scale_y);
 }

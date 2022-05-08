@@ -43,6 +43,7 @@ Sorcery::TextureStore::TextureStore(
 	_creatures_unknown_t =
 		&_system->resources->textures[GraphicsTexture::CREATURES_UNKNOWN];
 	_portrait_t = &_system->resources->textures[GraphicsTexture::PORTRAITS];
+	_view_t = &_system->resources->textures[GraphicsTexture::VIEW];
 
 	// Load the Mapping
 	_loaded = _load(filename);
@@ -104,6 +105,7 @@ auto Sorcery::TextureStore::get(const unsigned int index,
 		idx = index;
 		break;
 	default:
+		// Doesn't work for View, as we need the exact coordinates for the atlas
 		return std::nullopt;
 	}
 
@@ -149,7 +151,20 @@ auto Sorcery::TextureStore::get(const std::string name,
 	sf::IntRect tile_r{_get_rect(idx, texture_type)};
 	sf::Sprite tile(*source);
 	tile.setTextureRect(tile_r);
+
 	return tile;
+}
+
+auto Sorcery::TextureStore::get_atlas(
+	const Rect rect, bool feature = false) const -> sf::Sprite {
+
+	sf::Sprite view(*_view_t);
+	sf::IntRect tile_r{rect.x, rect.y, rect.w, rect.h};
+	if (feature)
+		tile_r.left += VIEW_OFFSET_SIZE;
+	view.setTextureRect(tile_r);
+
+	return view;
 }
 
 auto Sorcery::TextureStore::_get(const std::string name) const

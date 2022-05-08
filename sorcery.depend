@@ -142,7 +142,7 @@
 
 1591211577 /home/dave/Development/wizardry/sorcery-sfml/inc/simpleini/ConvertUTF.h
 
-1651607609 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
+1652019489 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
 1651413882 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
@@ -1359,17 +1359,17 @@
 1630529405 source:/home/dave/Development/wizardry/sorcery-sfml/src/reorder.cpp
 	"reorder.hpp"
 
-1646583098 /home/dave/Development/wizardry/sorcery-sfml/inc/texturestore.hpp
+1652019341 /home/dave/Development/wizardry/sorcery-sfml/inc/texturestore.hpp
 	"main.hpp"
 	"system.hpp"
 
-1646686056 source:/home/dave/Development/wizardry/sorcery-sfml/src/texturestore.cpp
+1652020628 source:/home/dave/Development/wizardry/sorcery-sfml/src/texturestore.cpp
 	"texturestore.hpp"
 
-1651956262 source:/home/dave/Development/wizardry/sorcery-sfml/src/render.cpp
+1652018742 source:/home/dave/Development/wizardry/sorcery-sfml/src/render.cpp
 	"render.hpp"
 
-1651929790 /home/dave/Development/wizardry/sorcery-sfml/inc/render.hpp
+1652021098 /home/dave/Development/wizardry/sorcery-sfml/inc/render.hpp
 	"display.hpp"
 	"game.hpp"
 	"graphics.hpp"
@@ -1434,7 +1434,7 @@
 	<SFML/Graphics/Rect.hpp>
 	<SFML/Graphics/Sprite.hpp>
 
-1651959864 source:/home/dave/Development/wizardry/sorcery-sfml/src/view.cpp
+1651960498 source:/home/dave/Development/wizardry/sorcery-sfml/src/view.cpp
 	"view.hpp"
 
 1651956128 /home/dave/Development/wizardry/sorcery-sfml/inc/view.hpp
