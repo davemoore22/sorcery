@@ -128,6 +128,8 @@ namespace Sorcery {
 	inline constexpr auto ATTRACT_MODE_TILE_SPACING{8};
 	inline constexpr auto AUTOMAP_TILE_SIZE{21};
 	inline constexpr auto AUTOMAP_TILE_ROW_COUNT{10};
+	inline constexpr auto vIEW_WIDTH{640};
+	inline constexpr auto vIEW_HEIGHT{360};
 
 	// Game config settings
 	static const std::string DEFAULT_SCREEN_HEIGHT{"default_height"};

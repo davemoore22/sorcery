@@ -30,7 +30,7 @@ Sorcery::Render::Render(
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Setup the Draw Surface
-	_rtexture.create(MINIMUM_SCREEN_WIDTH, MINIMUM_SCREEN_HEIGHT);
+	_rtexture.create(vIEW_WIDTH, vIEW_HEIGHT);
 	_rtexture.setSmooth(true);
 	_rtexture.clear(sf::Color(0, 0, 0, 255));
 
@@ -65,16 +65,28 @@ auto Sorcery::Render::refresh() -> void {
 		sf::Sprite floor_sprite{
 			_graphics->textures->get_atlas(node.source_rect, false)};
 		floor_sprite.setPosition(sf::Vector2f{node.dest.x, node.dest.y});
+		if (node.flipped)
+			floor_sprite.setScale(-1.0f, 1.0);
+
 		_sprites.emplace_back(floor_sprite);
 	}
 
-	/* // scale the sprite
-	const auto current_size{_display->window->size};
-	const auto scale_x{
-		(current_size.width * 1.0f) / _sprite.getLocalBounds().width};
-	const auto scale_y{
-		(current_size.height * 1.0f) / _sprite.getLocalBounds().height};
-	_sprite.setScale(scale_x, scale_y); */
+	_visible.clear();
+	_visible = _view->get_to_depth(ViewNodeLayer::CEILING, false);
+	for (auto node : _visible) {
+
+		const auto x{node.coords.x};
+		const auto z{node.coords.z};
+		const auto tile{
+			_game->state->level->at(player_pos, player_facing, x, z)};
+		sf::Sprite ceiling_sprite{
+			_graphics->textures->get_atlas(node.source_rect, false)};
+		ceiling_sprite.setPosition(sf::Vector2f{node.dest.x, node.dest.y});
+		if (node.flipped)
+			ceiling_sprite.setScale(-1.0f, 1.0);
+
+		_sprites.emplace_back(ceiling_sprite);
+	}
 }
 
 auto Sorcery::Render::draw(
