@@ -92,6 +92,81 @@ auto Sorcery::Render::refresh() -> void {
 			ceiling_sprite.setScale(-1.0f, 1.0);
 		_sprites.emplace_back(ceiling_sprite);
 	}
+
+	_visible.clear();
+	_visible = _view->get_to_depth(ViewNodeLayer::WALLS, false);
+	std::sort(_visible.begin(), _visible.end(),
+		[](const ViewNode &a, const ViewNode &b) -> bool {
+			if (a.coords.z != b.coords.z)
+				return a.coords.z > b.coords.z;
+			else
+				return a.coords.x < b.coords.x;
+		});
+
+	for (auto node : _visible) {
+		if (node.type == ViewNodeType::FRONT) {
+
+			const auto x{node.coords.x};
+			const auto z{node.coords.z};
+			const auto tile{
+				_game->state->level->at(player_pos, player_facing, x, z)};
+
+			std::cout << node.coords << " " << tile.loc() << std::endl;
+
+			if (player_facing == MapDirection::NORTH) {
+				if (tile.wall(MapDirection::NORTH) != TileEdge::WALL)
+					continue;
+			} else if (player_facing == MapDirection::SOUTH) {
+				if (tile.wall(MapDirection::SOUTH) != TileEdge::WALL)
+					continue;
+			} else if (player_facing == MapDirection::EAST) {
+				if (tile.wall(MapDirection::EAST) != TileEdge::WALL)
+					continue;
+			} else if (player_facing == MapDirection::WEST) {
+				if (tile.wall(MapDirection::WEST) != TileEdge::WALL)
+					continue;
+			}
+			auto offset{false};
+			sf::Sprite front_sprite{
+				_graphics->textures->get_atlas(node.source_rect, offset)};
+			front_sprite.setPosition(sf::Vector2f{node.dest.x, node.dest.y});
+			if (node.flipped)
+				front_sprite.setScale(-1.0f, 1.0);
+			_sprites.emplace_back(front_sprite);
+		}
+	}
+	for (auto node : _visible) {
+		if (node.type == ViewNodeType::SIDE) {
+
+			const auto x{node.coords.x};
+			const auto z{node.coords.z};
+			const auto tile{
+				_game->state->level->at(player_pos, player_facing, x, z)};
+
+			std::cout << node.coords << " " << tile.loc() << std::endl;
+
+			if (player_facing == MapDirection::NORTH) {
+				if (tile.wall(MapDirection::WEST) != TileEdge::WALL)
+					continue;
+			} else if (player_facing == MapDirection::SOUTH) {
+				if (tile.wall(MapDirection::EAST) != TileEdge::WALL)
+					continue;
+			} else if (player_facing == MapDirection::EAST) {
+				if (tile.wall(MapDirection::NORTH) != TileEdge::WALL)
+					continue;
+			} else if (player_facing == MapDirection::WEST) {
+				if (tile.wall(MapDirection::SOUTH) != TileEdge::WALL)
+					continue;
+			}
+			auto offset{false};
+			sf::Sprite front_sprite{
+				_graphics->textures->get_atlas(node.source_rect, offset)};
+			front_sprite.setPosition(sf::Vector2f{node.dest.x, node.dest.y});
+			if (node.flipped)
+				front_sprite.setScale(-1.0f, 1.0);
+			_sprites.emplace_back(front_sprite);
+		}
+	}
 }
 
 auto Sorcery::Render::draw(
