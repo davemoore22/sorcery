@@ -30,7 +30,7 @@ Sorcery::Render::Render(
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Setup the Draw Surface
-	_rtexture.create(vIEW_WIDTH, vIEW_HEIGHT);
+	_rtexture.create(VIEW_WIDTH, VIEW_HEIGHT);
 	_rtexture.setSmooth(true);
 	_rtexture.clear(sf::Color(0, 0, 0, 255));
 
@@ -42,7 +42,7 @@ Sorcery::Render::Render(
 
 auto Sorcery::Render::refresh() -> void {
 
-	_rtexture.clear(sf::Color(40, 40, 40, 255));
+	_rtexture.clear(sf::Color(0, 0, 0, 255));
 	_rtexture.display();
 	_texture = _rtexture.getTexture();
 	auto bg = sf::Sprite{_texture};
@@ -62,8 +62,11 @@ auto Sorcery::Render::refresh() -> void {
 		const auto z{node.coords.z};
 		const auto tile{
 			_game->state->level->at(player_pos, player_facing, x, z)};
+		auto offset{false};
+		if (tile.has(TileFeature::STAIRS_DOWN))
+			offset = true;
 		sf::Sprite floor_sprite{
-			_graphics->textures->get_atlas(node.source_rect, false)};
+			_graphics->textures->get_atlas(node.source_rect, offset)};
 		floor_sprite.setPosition(sf::Vector2f{node.dest.x, node.dest.y});
 		if (node.flipped)
 			floor_sprite.setScale(-1.0f, 1.0);
@@ -79,12 +82,14 @@ auto Sorcery::Render::refresh() -> void {
 		const auto z{node.coords.z};
 		const auto tile{
 			_game->state->level->at(player_pos, player_facing, x, z)};
+		auto offset{false};
+		if (tile.has(TileFeature::STAIRS_UP))
+			offset = true;
 		sf::Sprite ceiling_sprite{
-			_graphics->textures->get_atlas(node.source_rect, false)};
+			_graphics->textures->get_atlas(node.source_rect, offset)};
 		ceiling_sprite.setPosition(sf::Vector2f{node.dest.x, node.dest.y});
 		if (node.flipped)
 			ceiling_sprite.setScale(-1.0f, 1.0);
-
 		_sprites.emplace_back(ceiling_sprite);
 	}
 }
