@@ -1,6 +1,7 @@
 # Sorcery: Shadows under Llylgamyn.
 
 ![Logo](/promo/screen1.png)
+![Logo](/promo/screen6.png)
 
 An open source remake of Wizardry 1,2,3 (and 5) with infinite Dungeon
 Adventures, and (optional) modern CRPG conveniences! I'm aiming to release it by
@@ -41,7 +42,8 @@ Its nowhere near complete or even playable yet! Visit back regularily for update
 * Change Game Options
 * Enter the Maze and leave the Maze
   * Access to the Camp Menu
-
+  * Walk about the Maze
+  * Automap
 
 ## What can't you do?
 
@@ -49,9 +51,12 @@ Its nowhere near complete or even playable yet! Visit back regularily for update
 
 ## What next?
 
-Next stop is to add the dungeon and get the party walking about it. As I've got
-to sit down and work out how to do a raycaster, I'll do it top-down for now.
-Then items, creatures, and combat. Then there might be something playable here!
+Next stop is to get the party walking about properly. Eventually I'll do a
+proper 3D render via OpenGL but for now I'm rendering the view via the Painter's
+Algorithm, just like the old school dungeon crawlers did. Once that is fully
+working, then its time items, creatures, and combat. Then there might be
+something playable here!
+
 Although the main focus is random dungeons much like Diablo, I want to
 eventually remake the original games as optional sub-modules.
 
@@ -72,6 +77,7 @@ Discord Servers, or my email address is on the Splash Screen of the Game.
 
 ## Random Screenshots
 
+![Logo](/promo/screen6.png)
 ![Logo](/promo/screen2.png)
 ![Logo](/promo/screen3.png)
 ![Logo](/promo/screen4.png)
