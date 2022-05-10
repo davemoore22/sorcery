@@ -41,9 +41,17 @@ namespace Sorcery {
 		View() = delete;
 
 		// Public Methods
-		auto get(const ViewNodeLayer layer, const int x, const int z)
+		auto get(const ViewNodeLayer layer, const int x, const int z) const
 			-> ViewNode;
-		auto get_to_depth(const ViewNodeLayer layer, bool lit = true)
+		auto get_lit_nodes(const ViewNodeLayer layer, bool lit = true) const
+			-> std::vector<ViewNode>;
+		auto get_nodes_at_depth(const ViewNodeLayer layer, const int z) const
+			-> std::vector<ViewNode>;
+		auto get_nodes_at_depth(const ViewNodeLayer layer,
+			const ViewNodeType type, const int z) const
+			-> std::vector<ViewNode>;
+		auto get_nodes_at_depth(const ViewNodeLayer layer,
+			const ViewNodeType type, const int x_sgn, const int z) const
 			-> std::vector<ViewNode>;
 
 		// Operator Overloading
@@ -62,7 +70,7 @@ namespace Sorcery {
 		unsigned int _width;
 
 		// Private Methods
-		auto _get(ViewNodeLayer layer, int x, int z) -> ViewNode;
+		auto _get(ViewNodeLayer layer, int x, int z) const -> ViewNode;
 		auto _load(const std::filesystem::path filename) -> bool;
 		auto _preload(const int depth, const int width) -> void;
 	};

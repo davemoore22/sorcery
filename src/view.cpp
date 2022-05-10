@@ -214,19 +214,76 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 	}
 }
 
-auto Sorcery::View::get(const ViewNodeLayer layer, const int x, const int z)
-	-> ViewNode {
+auto Sorcery::View::get(
+	const ViewNodeLayer layer, const int x, const int z) const -> ViewNode {
 
 	return _get(layer, x, z);
 }
 
-auto Sorcery::View::_get(const ViewNodeLayer layer, const int x, const int z)
-	-> ViewNode {
+auto Sorcery::View::_get(
+	const ViewNodeLayer layer, const int x, const int z) const -> ViewNode {
 
 	return _nodes.at(ViewNodeKey{layer, x, 0, z});
 }
 
-auto Sorcery::View::get_to_depth(const ViewNodeLayer layer, bool lit)
+auto Sorcery::View::get_nodes_at_depth(
+	const ViewNodeLayer layer, const int z) const -> std::vector<ViewNode> {
+
+	std::vector<ViewNode> results;
+	results.clear();
+
+	auto matches{_nodes | std::views::filter([&](auto &item) {
+		return (item.second.layer == layer) && (item.second.coords.z == z) &&
+			   item.second.used;
+	})};
+	for (auto &node : matches)
+		results.push_back(node.second);
+
+	std::sort(results.begin(), results.end());
+
+	return results;
+}
+
+auto Sorcery::View::get_nodes_at_depth(const ViewNodeLayer layer,
+	const ViewNodeType type, const int x_sgn, const int z) const
+	-> std::vector<ViewNode> {
+
+	std::vector<ViewNode> results;
+	results.clear();
+
+	auto matches{_nodes | std::views::filter([&](auto &item) {
+		return (item.second.layer == layer) && (item.second.coords.z == z) &&
+			   (item.second.type == type) &&
+			   (Sorcery::sgn(x_sgn) == Sorcery::sgn(item.second.coords.x)) &&
+			   item.second.used;
+	})};
+	for (auto &node : matches)
+		results.push_back(node.second);
+
+	std::sort(results.begin(), results.end());
+
+	return results;
+}
+
+auto Sorcery::View::get_nodes_at_depth(const ViewNodeLayer layer,
+	const ViewNodeType type, const int z) const -> std::vector<ViewNode> {
+
+	std::vector<ViewNode> results;
+	results.clear();
+
+	auto matches{_nodes | std::views::filter([&](auto &item) {
+		return (item.second.layer == layer) && (item.second.coords.z == z) &&
+			   (item.second.type == type) && item.second.used;
+	})};
+	for (auto &node : matches)
+		results.push_back(node.second);
+
+	std::sort(results.begin(), results.end());
+
+	return results;
+}
+
+auto Sorcery::View::get_lit_nodes(const ViewNodeLayer layer, bool lit) const
 	-> std::vector<ViewNode> {
 
 	auto depth{lit ? LIGHT_VIEW_DEPTH : DARK_VIEW_DEPTH};
