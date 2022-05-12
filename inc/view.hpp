@@ -53,6 +53,8 @@ namespace Sorcery {
 		auto get_nodes_at_depth(const ViewNodeLayer layer,
 			const ViewNodeType type, const int x_sgn, const int z) const
 			-> std::vector<ViewNode>;
+		auto width() -> unsigned int;
+		auto depth() -> unsigned int;
 
 		// Operator Overloading
 		auto operator[](ViewNodeKey key) -> ViewNode;

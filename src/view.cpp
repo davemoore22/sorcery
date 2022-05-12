@@ -239,8 +239,6 @@ auto Sorcery::View::get_nodes_at_depth(
 	for (auto &node : matches)
 		results.push_back(node.second);
 
-	std::sort(results.begin(), results.end());
-
 	return results;
 }
 
@@ -260,8 +258,6 @@ auto Sorcery::View::get_nodes_at_depth(const ViewNodeLayer layer,
 	for (auto &node : matches)
 		results.push_back(node.second);
 
-	std::sort(results.begin(), results.end());
-
 	return results;
 }
 
@@ -278,9 +274,17 @@ auto Sorcery::View::get_nodes_at_depth(const ViewNodeLayer layer,
 	for (auto &node : matches)
 		results.push_back(node.second);
 
-	std::sort(results.begin(), results.end());
-
 	return results;
+}
+
+auto Sorcery::View::width() -> unsigned int {
+
+	return _width;
+}
+
+auto Sorcery::View::depth() -> unsigned int {
+
+	return _depth;
 }
 
 auto Sorcery::View::get_lit_nodes(const ViewNodeLayer layer, bool lit) const

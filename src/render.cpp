@@ -40,22 +40,14 @@ Sorcery::Render::Render(
 	_sprites.clear();
 }
 
-auto Sorcery::Render::refresh() -> void {
+auto Sorcery::Render::_render_floor(bool lit = true) -> void {
 
-	_rtexture.clear(sf::Color(0, 0, 0, 255));
-	_rtexture.display();
-	_texture = _rtexture.getTexture();
-	auto bg = sf::Sprite{_texture};
-	bg.setPosition(0, 0);
-	_sprites.emplace_back(bg);
-
-	// Get the source graphics for the visible tiles - floor first
-	_visible.clear();
-	_visible = _view->get_lit_nodes(ViewNodeLayer::FLOOR, false);
-
-	// For each visible tile, get the level cell
 	const auto player_pos{_game->state->get_player_pos()};
 	const auto player_facing{_game->state->get_player_facing()};
+
+	_visible.clear();
+	_visible = _view->get_lit_nodes(ViewNodeLayer::FLOOR, lit);
+
 	for (auto node : _visible) {
 
 		const auto x{node.coords.x};
@@ -74,9 +66,124 @@ auto Sorcery::Render::refresh() -> void {
 
 		_sprites.emplace_back(floor_sprite);
 	}
+}
+
+auto Sorcery::Render::_render_walls(bool lit = true) -> void {
+
+	const auto player_pos{_game->state->get_player_pos()};
+	const auto player_facing{_game->state->get_player_facing()};
+	const auto depth{lit ? LIGHT_VIEW_DEPTH : DARK_VIEW_DEPTH};
+
+	for (int z = depth; z >= 0; --z) {
+
+		_visible.clear();
+		_visible = _view->get_nodes_at_depth(
+			ViewNodeLayer::WALLS, ViewNodeType::FRONT, z);
+		std::sort(_visible.begin(), _visible.end(),
+			[](const ViewNode &a, const ViewNode &b) -> bool {
+				return a.coords.x < b.coords.x;
+			});
+
+		for (auto node : _visible) {
+
+			const auto x{node.coords.x};
+			const auto z{node.coords.z};
+			const auto tile{
+				_game->state->level->at(player_pos, player_facing, x, z)};
+
+			if (player_facing == MapDirection::NORTH) {
+				if (tile.wall(MapDirection::NORTH) != TileEdge::WALL)
+					continue;
+			} else if (player_facing == MapDirection::SOUTH) {
+				if (tile.wall(MapDirection::SOUTH) != TileEdge::WALL)
+					continue;
+			} else if (player_facing == MapDirection::EAST) {
+				if (tile.wall(MapDirection::EAST) != TileEdge::WALL)
+					continue;
+			} else if (player_facing == MapDirection::WEST) {
+				if (tile.wall(MapDirection::WEST) != TileEdge::WALL)
+					continue;
+			}
+			auto offset{false};
+			sf::Sprite front_sprite{
+				_graphics->textures->get_atlas(node.source_rect, offset)};
+			front_sprite.setPosition(
+				sf::Vector2f{static_cast<float>(node.dest.x),
+					static_cast<float>(node.dest.y)});
+			if (node.flipped)
+				front_sprite.setScale(-1.0f, 1.0);
+			_sprites.emplace_back(front_sprite);
+
+			// Now we need to extend on each side if necessary (remember that in
+			// our view -x is to the left but on our map +x is to the right, as
+			// seen from the player's perspective)
+			auto offset_x{0};
+			for (int left_x = 1; left_x <= depth; left_x++) {
+				// for (int left_x = (0 - depth); left_x < 0; left_x++) {
+
+				const auto tile_left{_game->state->level->at(
+					player_pos, player_facing, left_x, z)};
+				if (player_facing == MapDirection::NORTH) {
+					if (tile_left.wall(MapDirection::NORTH) != TileEdge::WALL)
+						continue;
+				} else if (player_facing == MapDirection::SOUTH) {
+					if (tile_left.wall(MapDirection::SOUTH) != TileEdge::WALL)
+						continue;
+				} else if (player_facing == MapDirection::EAST) {
+					if (tile_left.wall(MapDirection::EAST) != TileEdge::WALL)
+						continue;
+				} else if (player_facing == MapDirection::WEST) {
+					if (tile_left.wall(MapDirection::WEST) != TileEdge::WALL)
+						continue;
+				}
+				auto offset{false};
+				sf::Sprite left_front_sprite{
+					_graphics->textures->get_atlas(node.source_rect, offset)};
+				offset_x += left_front_sprite.getLocalBounds().width;
+				left_front_sprite.setPosition(
+					sf::Vector2f{static_cast<float>(node.dest.x - offset_x),
+						static_cast<float>(node.dest.y)});
+				_sprites.emplace_back(left_front_sprite);
+			}
+
+			offset_x = 0;
+			// for (int right_x = 1; right_x <= depth; right_x++) {
+			for (int right_x = (0 - depth); right_x < 0; right_x++) {
+				const auto tile_right{_game->state->level->at(
+					player_pos, player_facing, right_x, z)};
+				if (player_facing == MapDirection::NORTH) {
+					if (tile_right.wall(MapDirection::NORTH) != TileEdge::WALL)
+						continue;
+				} else if (player_facing == MapDirection::SOUTH) {
+					if (tile_right.wall(MapDirection::SOUTH) != TileEdge::WALL)
+						continue;
+				} else if (player_facing == MapDirection::EAST) {
+					if (tile_right.wall(MapDirection::EAST) != TileEdge::WALL)
+						continue;
+				} else if (player_facing == MapDirection::WEST) {
+					if (tile_right.wall(MapDirection::WEST) != TileEdge::WALL)
+						continue;
+				}
+				auto offset{false};
+				sf::Sprite left_front_sprite{
+					_graphics->textures->get_atlas(node.source_rect, offset)};
+				offset_x += left_front_sprite.getLocalBounds().width;
+				left_front_sprite.setPosition(
+					sf::Vector2f{static_cast<float>(node.dest.x + offset_x),
+						static_cast<float>(node.dest.y)});
+				_sprites.emplace_back(left_front_sprite);
+			}
+		}
+	}
+}
+
+auto Sorcery::Render::_render_ceiling(bool lit = true) -> void {
+
+	const auto player_pos{_game->state->get_player_pos()};
+	const auto player_facing{_game->state->get_player_facing()};
 
 	_visible.clear();
-	_visible = _view->get_lit_nodes(ViewNodeLayer::CEILING, false);
+	_visible = _view->get_lit_nodes(ViewNodeLayer::CEILING, lit);
 	for (auto node : _visible) {
 
 		const auto x{node.coords.x};
@@ -94,8 +201,26 @@ auto Sorcery::Render::refresh() -> void {
 			ceiling_sprite.setScale(-1.0f, 1.0);
 		_sprites.emplace_back(ceiling_sprite);
 	}
+}
 
-	_visible.clear();
+auto Sorcery::Render::refresh() -> void {
+
+	// Clear the View
+	_rtexture.clear(sf::Color(0, 0, 0, 255));
+	_rtexture.display();
+	_texture = _rtexture.getTexture();
+	auto bg{sf::Sprite{_texture}};
+	bg.setPosition(0, 0);
+	_sprites.emplace_back(bg);
+
+	// Render the View Components
+	_render_floor(false);
+	_render_ceiling(false);
+	_render_walls(false);
+
+	// Ceiling
+
+	/* _visible.clear();
 	_visible = _view->get_lit_nodes(ViewNodeLayer::WALLS, false);
 	std::sort(_visible.begin(), _visible.end(),
 		[](const ViewNode &a, const ViewNode &b) -> bool {
@@ -170,7 +295,7 @@ auto Sorcery::Render::refresh() -> void {
 				front_sprite.setScale(-1.0f, 1.0);
 			_sprites.emplace_back(front_sprite);
 		}
-	}
+	} */
 }
 
 auto Sorcery::Render::draw(

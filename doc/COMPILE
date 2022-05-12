@@ -31,9 +31,8 @@ Download, compile and install the following libraries (cmake needed):
 - sfeMovie https://github.com/Yalir/sfeMovie (commit 698ccf2)
 - Thor https://github.com/Bromeon/Thor (commit f9b7890)
 
-Then make sure the following header libraries are included and linked (default
-location to install them - as specified in the env/.mk files - are in
-subdirectories in the inc folder):
+Then make sure the following header libraries are included and linked (the
+default location to install them are in subdirectories in the inc folder):
 
 - simpleini https://github.com/brofield/simpleini/
 - sqlite modern cpp wrapper https://github.com/SqliteModernCpp/sqlite_modern_cpp
@@ -49,7 +48,7 @@ Additional support tools useful for development:
 - Build EAR https://github.com/rizsotto/Bear
 
 Note that to compile Sorcery: Shadows under Llylgamyn requires a compiler
-with C++20 support such as g++10.3.
+with C++20 support such as gcc 10.3.
 
 Windows Instructions:
 

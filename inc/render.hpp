@@ -58,6 +58,9 @@ namespace Sorcery {
 		std::vector<sf::Sprite> _sprites;
 
 		// Private Methods
+		auto _render_floor(bool lit) -> void;
+		auto _render_ceiling(bool lit) -> void;
+		auto _render_walls(bool lit) -> void;
 		auto virtual draw(
 			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 	};
