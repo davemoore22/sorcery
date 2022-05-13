@@ -98,8 +98,10 @@ auto Sorcery::Level::wrap_size() const -> Size {
 
 auto Sorcery::Level::wrap_top_right() const -> Coordinate {
 
+	// 2 here instead of 1 to fix issue with GC data starting at -1,0 and thus
+	// having an extra square on top (its 21x21 squares)
 	return Coordinate{
-		_bottom_left.x + _size.w - 1, _bottom_left.y + _size.h - 1};
+		_bottom_left.x + _size.w - 1, _bottom_left.y + _size.h - 2};
 }
 
 auto Sorcery::Level::size() const -> Size {
