@@ -545,7 +545,7 @@ auto Sorcery::Character::set_start_attr() -> void {
 	_cur_attr = _start_attr;
 
 	// Formula soured from http://www.zimlab.com/wizardry/walk/w123calc.htm
-	_points_left = {(*_system->random)[RandomType::ZERO_TO_3]};
+	_points_left = (*_system->random)[RandomType::ZERO_TO_3];
 	const bool chance_of_more{(*_system->random)[RandomType::D10] == 1};
 	const bool chance_of_more_again{(*_system->random)[RandomType::D10] == 1};
 	_points_left += 7;
@@ -2329,13 +2329,13 @@ auto Sorcery::Character::create_quick() -> void {
 
 	// Enter Name and Portrait, rest is random
 	// Exclude Samurai/Lord/Ninja/Bishop from this method of character creation
-	_class = {static_cast<CharacterClass>((*_system->random)[RandomType::D4])};
-	_race = {static_cast<CharacterRace>((*_system->random)[RandomType::D5])};
+	_class = static_cast<CharacterClass>((*_system->random)[RandomType::D4]);
+	_race = static_cast<CharacterRace>((*_system->random)[RandomType::D5]);
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::FIGHTER:
 	case CharacterClass::MAGE:
-		_alignment = {static_cast<CharacterAlignment>(
-			(*_system->random)[RandomType::D3])};
+		_alignment =
+			static_cast<CharacterAlignment>((*_system->random)[RandomType::D3]);
 		break;
 	case CharacterClass::PRIEST:
 		_alignment = (*_system->random)[RandomType::D2] == 1

@@ -135,8 +135,11 @@ namespace Sorcery {
 		auto operator==(const Point &a) const -> bool {
 			return (x == a.x && y == a.y);
 		}
+
+		// Remember that we are used to coordinates that are N and E, i.e. y and
+		// x, not x and y!
 		friend std::ostream &operator<<(std::ostream &os, Point const &a) {
-			return os << fmt::format("[{}/{}]", a.x, a.y) << std::endl;
+			return os << fmt::format("[{}/{}]", a.y, a.x) << std::endl;
 		}
 
 		template <class Archive> auto serialize(Archive &archive) -> void {
@@ -158,8 +161,11 @@ namespace Sorcery {
 		auto operator<(const Coordinate &a) const -> bool {
 			return std::tie(x, y) < std::tie(a.x, a.y);
 		}
+
+		// Remember that we are used to coordinates that are N and E, i.e. y and
+		// x, not x and y!
 		friend std::ostream &operator<<(std::ostream &os, Coordinate const &a) {
-			return os << fmt::format("[{}/{}]", a.x, a.y) << std::endl;
+			return os << fmt::format("({}/{})", a.y, a.x) << std::endl;
 		}
 
 		template <class Archive> auto serialize(Archive &archive) -> void {

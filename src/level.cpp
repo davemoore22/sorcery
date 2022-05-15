@@ -150,25 +150,28 @@ auto Sorcery::Level::at(const Coordinate loc) -> Tile & {
 auto Sorcery::Level::at(const Coordinate loc, const MapDirection direction,
 	const int x, const int z) -> Tile & {
 
+	// Needs to be done seperately since levels have an extra row/column, and we
+	// must also remember that N/E is actually y/x
 	Coordinate dest{loc};
 	switch (direction) {
-	case MapDirection::NORTH:
+	case MapDirection::NORTH: {
 		dest.x = loc.x + x;
 		dest.y = loc.y + z;
-		break;
-	case MapDirection::SOUTH:
+	} break;
+	case MapDirection::SOUTH: {
 		dest.x = loc.x - x;
 		dest.y = loc.y - z;
-		break;
-	case MapDirection::EAST:
-		dest.x = loc.x - x;
-		dest.y = loc.y + z;
-		break;
-	case MapDirection::WEST:
-		dest.x = loc.x + x;
-		dest.y = loc.y - z;
-		break;
+	} break;
+	case MapDirection::EAST: {
+		dest.x = loc.x + z;
+		dest.y = loc.y - x;
+	} break;
+	case MapDirection::WEST: {
+		dest.x = loc.x - z;
+		dest.y = loc.y + x;
+	} break;
 	default:
+		return _tiles.at(loc);
 		break;
 	}
 
@@ -186,7 +189,6 @@ auto Sorcery::Level::at(const Coordinate loc, const MapDirection direction,
 			return dest.y - static_cast<int>(wrap_size().h);
 		return dest.y;
 	}()};
-
 	return _tiles.at(Coordinate{wrapped_x, wrapped_y});
 }
 
@@ -342,9 +344,9 @@ auto Sorcery::Level::_load_second_pass(const Json::Value row_data) -> bool {
 	return true;
 }
 
-// Check for single normal walls and double them as we are using dual walls so
-// for each side, check if its a normal wall/door and if the other side is empty
-// then give the other side the same wall/door
+// Check for single normal walls and double them as we are using dual walls
+// so for each side, check if its a normal wall/door and if the other side
+// is empty then give the other side the same wall/door
 auto Sorcery::Level::_load_third_pass() -> bool {
 
 	// Use the Wrapping "View" to guarantee tiles exist
@@ -366,8 +368,8 @@ auto Sorcery::Level::_add_tile(const Coordinate location) -> void {
 }
 
 // Since Grid Cartographer only defines s/e walls in our format, we do two
-// updates, first with the tile in question, and then from the adjacent tile on
-// another pass
+// updates, first with the tile in question, and then from the adjacent tile
+// on another pass
 auto Sorcery::Level::_update_tile(const Coordinate location,
 	const unsigned int south_wall, const unsigned int east_wall,
 	const bool darkness, const unsigned int marker, const unsigned int terrain)
