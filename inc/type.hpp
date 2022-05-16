@@ -495,4 +495,25 @@ namespace Sorcery {
 
 	struct SpellDetails {};
 
+	struct ConsoleMessage {
+
+		long int id;
+		Enums::Internal::MessageType type;
+		std::chrono::time_point<std::chrono::system_clock> datetime;
+		std::string text;
+		static inline long s_id{0};
+
+		ConsoleMessage(Enums::Internal::MessageType message_type_,
+			std::chrono::time_point<std::chrono::system_clock> datetine_,
+			std::string text_)
+			: type{message_type_}, datetime{datetime}, text{text_},
+			  id{s_id++} {};
+
+		friend std::ostream &operator<<(std::ostream &os, ConsoleMessage &a) {
+
+			return os << fmt::format("[{}: {}]", TP2STR(a.datetime), a.text);
+		}
+
+	}; // namespace Sorcery
+
 } // namespace Sorcery

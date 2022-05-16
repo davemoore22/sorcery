@@ -217,6 +217,8 @@ namespace Sorcery {
 
 		enum class StringType { NONE, NORMAL, EXPLAIN };
 
+		enum class MessageType { NONE, STANDARD, ALERT, WARNING, ERROR };
+
 	} // namespace Enums::Internal
 
 	namespace Enums::Magic {

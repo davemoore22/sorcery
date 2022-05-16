@@ -134,5 +134,6 @@
 	"editor.fontSize": 12,
 	"editor.fontLigatures": true,
 	"C_Cpp.errorSquiggles": "Enabled",
-	"csharp.suppressDotnetInstallWarning": true
+	"csharp.suppressDotnetInstallWarning": true,
+	"sonarlint.pathToCompileCommands": "/home/dave/Development/wizardry/sorcery-sfml/compile_commands.json"
 }

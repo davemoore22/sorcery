@@ -46,6 +46,17 @@ namespace Sorcery {
 		std::cout << string << std::endl;
 	}
 
+	// Timepoint to String
+	inline auto TP2STR(
+		const std::chrono::time_point<std::chrono::system_clock> tp)
+		-> std::string {
+
+		auto t{std::chrono::system_clock::to_time_t(tp)};
+		std::string ts{std::ctime(&t)};
+		ts.resize(ts.size() - 1);
+		return ts;
+	}
+
 	// Macro to create a GUID (Linux Only!)
 	inline auto GUID() -> std::string {
 
