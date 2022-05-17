@@ -65,6 +65,8 @@ Sorcery::Engine::Engine(
 		(*_display->layout)["global:automap"]);
 	_compass = std::make_unique<Compass>(_system, _display, _graphics, _game,
 		(*_display->layout)["global:compass"]);
+	_console = std::make_unique<Console>(
+		_display->window->get_gui(), _system, _display, _graphics, _game);
 	_left_icon_panel = std::make_unique<IconPanel>(_system, _display, _graphics,
 		_game, (*_display->layout)["engine_base_ui:left_icon_panel"], true);
 	_right_icon_panel =
@@ -76,6 +78,7 @@ Sorcery::Engine::Engine(
 	_update_icon_panels = false;
 	_update_status_bar = false;
 	_update_render = false;
+	game->hide_console();
 }
 
 // Standard Destructor
@@ -124,6 +127,7 @@ auto Sorcery::Engine::start() -> int {
 	_in_camp = true;
 	_in_character = false;
 	_show_confirm_exit = false;
+	_game->hide_console();
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> camp_option{
 		_camp_menu->items.begin()};
@@ -168,8 +172,10 @@ auto Sorcery::Engine::start() -> int {
 					}
 				}
 			} else if (_in_character) {
-
-				if (_system->input->check(WindowInput::LEFT, event))
+				if (_system->input->check(
+						WindowInput::SHOW_HIDE_CONSOLE, event))
+					_game->toggle_console();
+				else if (_system->input->check(WindowInput::LEFT, event))
 					_cur_char.value()->left_view();
 				else if (_system->input->check(WindowInput::RIGHT, event))
 					_cur_char.value()->right_view();
@@ -225,7 +231,10 @@ auto Sorcery::Engine::start() -> int {
 				if (_system->input->check(WindowInput::BACK, event))
 					_in_camp = false;
 
-				if (_system->input->check(WindowInput::UP, event))
+				if (_system->input->check(
+						WindowInput::SHOW_HIDE_CONSOLE, event))
+					_game->toggle_console();
+				else if (_system->input->check(WindowInput::UP, event))
 					camp_option = _camp_menu->choose_previous();
 				else if (_system->input->check(WindowInput::DOWN, event))
 					camp_option = _camp_menu->choose_next();
@@ -356,7 +365,9 @@ auto Sorcery::Engine::start() -> int {
 							}
 						}
 					} else if (_system->input->check(
-								   WindowInput::MOVE, event)) {
+								   WindowInput::SHOW_HIDE_CONSOLE, event))
+						_game->toggle_console();
+					else if (_system->input->check(WindowInput::MOVE, event)) {
 
 						// Check for Mouse Overs
 						sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(
@@ -612,4 +623,9 @@ auto Sorcery::Engine::_draw() -> void {
 	// Always draw the following
 	_display->display_overlay();
 	_display->display_cursor();
+
+	if (_game->get_console_status()) {
+		_console->refresh();
+		_display->window->get_gui()->draw();
+	}
 }

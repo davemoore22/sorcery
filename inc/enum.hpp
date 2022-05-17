@@ -53,7 +53,8 @@ namespace Sorcery {
 			SPACE,
 			BACK,
 			SELECT,
-			SHOW_CONTROLS
+			SHOW_CONTROLS,
+			SHOW_HIDE_CONSOLE
 		};
 	}
 

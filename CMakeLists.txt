@@ -35,6 +35,7 @@ add_executable(${PROJECT_NAME}
 	src/component.cpp
 	src/config.cpp
 	src/confirm.cpp
+	src/console.cpp
 	src/controloverlay.cpp
 	src/create.cpp
 	src/database.cpp

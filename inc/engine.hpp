@@ -26,6 +26,7 @@
 
 #include "automap.hpp"
 #include "compass.hpp"
+#include "console.hpp"
 #include "dialog.hpp"
 #include "display.hpp"
 #include "game.hpp"
@@ -39,7 +40,6 @@
 #include "reorder.hpp"
 #include "statusbar.hpp"
 #include "system.hpp"
-
 namespace Sorcery {
 
 	class Engine {
@@ -82,11 +82,13 @@ namespace Sorcery {
 		std::unique_ptr<Render> _render;
 		std::unique_ptr<AutoMap> _automap;
 		std::unique_ptr<Compass> _compass;
+		std::unique_ptr<Console> _console;
 		std::unique_ptr<IconPanel> _left_icon_panel;
 		std::unique_ptr<IconPanel> _right_icon_panel;
 		bool _in_camp;
 		bool _in_character;
 		bool _show_confirm_exit;
+		bool _show_console;
 		bool _update_automap;
 		bool _update_compass;
 		bool _update_icon_panels;

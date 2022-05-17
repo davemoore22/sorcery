@@ -35,6 +35,10 @@ Sorcery::Input::Input() {
 auto Sorcery::Input::check(WindowInput input, sf::Event event) -> bool {
 
 	switch (input) {
+	case WindowInput::SHOW_HIDE_CONSOLE:
+		return ((event.type == sf::Event::KeyPressed) &&
+				(event.key.code == sf::Keyboard::F12));
+		break;
 	case WindowInput::SHOW_CONTROLS:
 		return (((event.type == sf::Event::KeyPressed) &&
 					(event.key.code == sf::Keyboard::F1)) ||

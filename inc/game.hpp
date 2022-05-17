@@ -27,8 +27,8 @@
 #include "character.hpp"
 #include "display.hpp"
 #include "graphics.hpp"
-#include "main.hpp"
 #include "levelstore.hpp"
+#include "main.hpp"
 #include "state.hpp"
 #include "system.hpp"
 
@@ -46,8 +46,11 @@ namespace Sorcery {
 		std::map<unsigned int, Character> characters;
 		std::unique_ptr<State> state;
 		std::unique_ptr<LevelStore> levelstore;
+		std::vector<ConsoleMessage> console_log;
 
 		// Public Methods
+		auto add_console_message(std::string text, MessageType type) -> void;
+		auto clear_console_messages() -> void;
 		auto get_id() -> unsigned int;
 		auto create_game() -> void;
 		auto load_game() -> void;
@@ -57,6 +60,10 @@ namespace Sorcery {
 		auto update_character(unsigned game_id, unsigned character_id,
 			Character &character) -> bool;
 		auto set_starting_level() -> void;
+		auto show_console() -> void;
+		auto hide_console() -> void;
+		auto toggle_console() -> void;
+		auto get_console_status() const -> bool;
 
 	  private:
 		// Private Methods
@@ -79,5 +86,6 @@ namespace Sorcery {
 		unsigned int _id;
 		std::string _status;
 		std::vector<unsigned int> _characters_ids;
+		bool _show_console;
 	};
 } // namespace Sorcery
