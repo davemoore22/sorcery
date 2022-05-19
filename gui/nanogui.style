@@ -25,7 +25,7 @@ CheckBox {
 
 ChildWindow {
 	TitleColor = rgba(255, 255, 255, 215);
-	TextureTitlebar = "nanogui.png" Part(25, 64, 26, 55) Middle(3, 3, 20, 49);
+	TextureTitleBar = "nanogui.png" Part(25, 64, 26, 55) Middle(3, 3, 20, 49);
 	TextureBackground = "nanogui.png" Part(69, 40, 10, 10) Middle(4, 4, 2, 2);
 	TitleBarHeight = 32;
 	DistanceToSide = 15;
@@ -90,7 +90,7 @@ MenuBar {
 
 MessageBox {
 	TitleColor = rgba(255, 255, 255, 215);
-	TextureTitlebar = "nanogui.png" Part(25, 64, 26, 55) Middle(5, 5, 16, 45);
+	TextureTitleBar = "nanogui.png" Part(25, 64, 26, 55) Middle(5, 5, 16, 45);
 	BackgroundColor = #2e2e2f;
 	DistanceToSide = 5;
 	PaddingBetweenButtons = 20;

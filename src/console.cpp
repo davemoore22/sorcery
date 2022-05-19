@@ -33,7 +33,7 @@ auto Sorcery::Console::refresh() -> void {
 
 	_gui->removeAllWidgets();
 
-	auto background{tgui::Panel::create({"100%", "100%"})};
+	auto background{tgui::Panel::create({"640", "480"})};
 	background->getRenderer()->setBackgroundColor({0, 0, 0, 175});
 	_gui->add(background, "TransparentBackground");
 
