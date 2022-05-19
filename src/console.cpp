@@ -31,9 +31,12 @@ Sorcery::Console::Console(tgui::Gui *gui, System *system, Display *display,
 
 auto Sorcery::Console::refresh() -> void {
 
+	static int a;
+	a++;
+
 	_gui->removeAllWidgets();
 
-	auto background{tgui::Panel::create({"640", "480"})};
+	auto background{tgui::Panel::create({"1024", "768"})};
 	background->getRenderer()->setBackgroundColor({0, 0, 0, 175});
 	_gui->add(background, "TransparentBackground");
 
@@ -41,18 +44,18 @@ auto Sorcery::Console::refresh() -> void {
 	window->setTitle("Console");
 	window->setTitleAlignment(tgui::ChildWindow::TitleAlignment::Center);
 	window->setTitleButtons(0);
-	window->setPosition({"28%", "15%"});
-	window->setSize(640, 480);
+	window->setPosition({"0%", "0%"});
+	window->setSize(1024, 768);
 	background->add(window, "Window");
 
 	auto body_panel{tgui::Panel::create()};
 	body_panel->setPosition(16, 16);
-	body_panel->setSize(608, 448);
+	body_panel->setSize(1024 - 32, 786 - 64);
 	window->add(body_panel, "BodyPanel");
 
 	auto logs{tgui::TextArea::create()};
 	logs->setPosition(32, 32);
-	logs->setSize(576, 416);
+	logs->setSize(1024 - 64, 786 - 64);
 	logs->setTextSize(16);
 	logs->setEnabled(true);
 	logs->setReadOnly(true);
@@ -61,15 +64,4 @@ auto Sorcery::Console::refresh() -> void {
 		logs->addText(fmt::format("#{:06} {} {}\n", log_item.id,
 			TP2STR(log_item.datetime), log_item.text));
 	body_panel->add(logs, "InfoEdit");
-
-	auto close_button{tgui::Button::create()};
-	close_button->setPosition(
-		window->getSize().x - 115.f, window->getSize().y - 50.f);
-	close_button->setText("Exit");
-	close_button->setSize(100, 40);
-	close_button->onPress([&]() {
-		_game->hide_console();
-	});
-	close_button->setFocused(true);
-	window->add(close_button);
 }
