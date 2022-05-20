@@ -151,6 +151,31 @@ auto Sorcery::Tile::is(const TileProperty property) const -> bool {
 	return _properties[magic_enum::enum_integer<TileProperty>(property)];
 }
 
+auto Sorcery::Tile::walkable(const MapDirection direction) const -> bool {
+
+	auto edge{TileEdge::NONE};
+	switch (direction) {
+	case MapDirection::NORTH:
+		edge = _north.value_or(TileEdge::NONE);
+		break;
+	case MapDirection::SOUTH:
+		edge = _south.value_or(TileEdge::NONE);
+		break;
+	case MapDirection::EAST:
+		edge = _east.value_or(TileEdge::NONE);
+		break;
+	case MapDirection::WEST:
+		edge = _west.value_or(TileEdge::NONE);
+		break;
+	default:
+		return false;
+		break;
+	}
+
+	return (edge == TileEdge::SECRET_DOOR) || (edge == TileEdge::NONE) ||
+		   (edge == TileEdge::UNLOCKED_DOOR);
+}
+
 auto Sorcery::Tile::wall(const MapDirection direction) const -> TileEdge {
 
 	switch (direction) {

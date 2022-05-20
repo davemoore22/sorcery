@@ -39,6 +39,11 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics,
 	_highlights.clear();
 	_buttons_fr.clear();
 
+	// For timed dialogs
+	_start = std::nullopt;
+	_current_time = std::nullopt;
+	_valid = true;
+
 	// Get the Window
 	_window = _display->window->get_window();
 
@@ -57,7 +62,7 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics,
 		wrapped_text.begin(), wrapped_text.end(), regex, -1};
 	std::vector<std::string> split{it, {}};
 	split.erase(std::remove_if(split.begin(), split.end(),
-					[](std::string const &s) {
+					[](std::string_view s) {
 						return s.size() == 0;
 					}),
 		split.end());
@@ -79,7 +84,7 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics,
 		break;
 	case WindowDialogType::TIMED:
 		_selected = WindowDialogButton::NONE;
-		frame_h += 4;
+		frame_h += 2;
 		break;
 	default:
 		break;
@@ -289,6 +294,14 @@ auto Sorcery::Dialog::handle_input(sf::Event event)
 	case WindowDialogType::MENU:
 		break;
 	case WindowDialogType::TIMED:
+		if (_valid) {
+			if (_system->input->check(WindowInput::CANCEL, event))
+				return WindowDialogButton::OK;
+			else if (_system->input->check(WindowInput::BACK, event))
+				return WindowDialogButton::OK;
+			else if (_system->input->check(WindowInput::CONFIRM, event))
+				return WindowDialogButton::OK;
+		}
 		break;
 	default:
 		break;
@@ -394,9 +407,16 @@ auto Sorcery::Dialog::set_selected(WindowDialogButton value) -> void {
 	_selected = value;
 }
 
-auto Sorcery::Dialog::get_selected() -> WindowDialogButton {
+auto Sorcery::Dialog::get_selected() const -> WindowDialogButton {
 
 	return _selected;
+}
+
+auto Sorcery::Dialog::reset_timed() -> void {
+
+	_valid = true;
+	_start = std::nullopt;
+	_current_time = std::nullopt;
 }
 
 auto Sorcery::Dialog::update() -> void {
@@ -421,43 +441,70 @@ auto Sorcery::Dialog::update() -> void {
 	case WindowDialogType::MENU:
 		break;
 	case WindowDialogType::TIMED:
+
+		// Handle timing
+		if (_valid) {
+			if (!_start)
+				_start = std::chrono::system_clock::now();
+
+			_current_time = std::chrono::system_clock::now();
+
+			const auto time_elapsed{_current_time.value() - _start.value()};
+			const auto time_elapsed_sec{
+				std::chrono::duration_cast<std::chrono::seconds>(time_elapsed)};
+			if (time_elapsed_sec.count() > 3)
+				_valid = false;
+		}
+
 		break;
 	default:
 		break;
 	}
 }
 
+auto Sorcery::Dialog::set_valid(const bool valid) -> void {
+
+	_valid = valid;
+}
+
+auto Sorcery::Dialog::get_valid() const -> bool {
+
+	return _valid;
+}
+
 auto Sorcery::Dialog::draw(
 	sf::RenderTarget &target, sf::RenderStates state) const -> void {
 
-	state.transform *= getTransform();
-	target.draw(*_frame, state);
-	for (auto text : _texts)
-		target.draw(text, state);
+	if (_valid) {
+		state.transform *= getTransform();
+		target.draw(*_frame, state);
+		for (auto text : _texts)
+			target.draw(text, state);
 
-	switch (_type) {
-	case WindowDialogType::OK:
-		if (_selected == WindowDialogButton::OK) {
-			target.draw(_highlights.at(WindowDialogButton::OK), state);
-			target.draw(_buttons_hl.at(WindowDialogButton::OK), state);
+		switch (_type) {
+		case WindowDialogType::OK:
+			if (_selected == WindowDialogButton::OK) {
+				target.draw(_highlights.at(WindowDialogButton::OK), state);
+				target.draw(_buttons_hl.at(WindowDialogButton::OK), state);
+			}
+			break;
+		case WindowDialogType::CONFIRM:
+			if (_selected == WindowDialogButton::YES) {
+				target.draw(_buttons.at(WindowDialogButton::NO), state);
+				target.draw(_highlights.at(WindowDialogButton::YES), state);
+				target.draw(_buttons_hl.at(WindowDialogButton::YES), state);
+			} else if (_selected == WindowDialogButton::NO) {
+				target.draw(_buttons.at(WindowDialogButton::YES), state);
+				target.draw(_highlights.at(WindowDialogButton::NO), state);
+				target.draw(_buttons_hl.at(WindowDialogButton::NO), state);
+			}
+			break;
+		case WindowDialogType::MENU:
+			break;
+		case WindowDialogType::TIMED:
+			break;
+		default:
+			break;
 		}
-		break;
-	case WindowDialogType::CONFIRM:
-		if (_selected == WindowDialogButton::YES) {
-			target.draw(_buttons.at(WindowDialogButton::NO), state);
-			target.draw(_highlights.at(WindowDialogButton::YES), state);
-			target.draw(_buttons_hl.at(WindowDialogButton::YES), state);
-		} else if (_selected == WindowDialogButton::NO) {
-			target.draw(_buttons.at(WindowDialogButton::YES), state);
-			target.draw(_highlights.at(WindowDialogButton::NO), state);
-			target.draw(_buttons_hl.at(WindowDialogButton::NO), state);
-		}
-		break;
-	case WindowDialogType::MENU:
-		break;
-	case WindowDialogType::TIMED:
-		break;
-	default:
-		break;
 	}
 }

@@ -52,6 +52,13 @@ Sorcery::Engine::Engine(
 		(*_display->layout)["engine_base_ui:dialog_exit"].x,
 		(*_display->layout)["engine_base_ui:dialog_exit"].y);
 
+	_ouch = std::make_unique<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["engine_base_ui:ouch"],
+		(*_display->layout)["engine_base_ui:ouch_text"],
+		WindowDialogType::TIMED);
+	_ouch->setPosition((*_display->layout)["engine_base_ui:ouch"].x,
+		(*_display->layout)["engine_base_ui:ouch"].y);
+
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics,
 		_game, (*_display->layout)["engine_base_ui:status_bar"],
@@ -127,6 +134,7 @@ auto Sorcery::Engine::start() -> int {
 	_in_camp = true;
 	_in_character = false;
 	_show_confirm_exit = false;
+	_show_ouch = false;
 	_game->hide_console();
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> camp_option{
@@ -147,7 +155,19 @@ auto Sorcery::Engine::start() -> int {
 			} else
 				_display->hide_overlay();
 
-			if (_show_confirm_exit) {
+			if (_show_ouch) {
+
+				auto dialog_input{_ouch->handle_input(event)};
+				if (dialog_input) {
+					if (dialog_input.value() == WindowDialogButton::OK) {
+
+						_display->set_input_mode(WindowInputMode::IN_GAME);
+						_show_ouch = false;
+						_ouch->set_valid(false);
+					}
+				}
+
+			} else if (_show_confirm_exit) {
 
 				if (_left_icon_panel->selected)
 					_left_icon_panel->selected = std::nullopt;
@@ -328,13 +348,21 @@ auto Sorcery::Engine::start() -> int {
 						_update_compass = true;
 						_update_render = true;
 					} else if (_system->input->check(WindowInput::UP, event)) {
-						_move_forward();
+						auto has_moved{_move_forward()};
+						if (!has_moved) {
+							_show_ouch = true;
+							_ouch->reset_timed();
+						}
 						_update_automap = true;
 						_update_compass = true;
 						_update_render = true;
 					} else if (_system->input->check(
 								   WindowInput::DOWN, event)) {
-						_move_backward();
+						auto has_moved{_move_backward()};
+						if (!has_moved) {
+							_show_ouch = true;
+							_ouch->reset_timed();
+						}
 						_update_automap = true;
 						_update_compass = true;
 						_update_render = true;
@@ -443,11 +471,11 @@ auto Sorcery::Engine::start() -> int {
 }
 
 // Remember Y is reversed
-auto Sorcery::Engine::_move_forward() -> void {
+auto Sorcery::Engine::_move_forward() -> bool {
 
-	// TODO: check for walls/doors etc
-	auto x_d{static_cast<int>(_game->state->get_player_pos().x)};
-	auto y_d{static_cast<int>(_game->state->get_player_pos().y)};
+	auto current_loc{_game->state->get_player_pos()};
+	auto x_d{current_loc.x};
+	auto y_d{current_loc.y};
 
 	switch (_game->state->get_player_facing()) {
 	case MapDirection::NORTH:
@@ -475,13 +503,45 @@ auto Sorcery::Engine::_move_forward() -> void {
 	else if (y_d > MAP_SIZE - 1)
 		y_d = 0;
 
-	_game->state->set_player_pos(Coordinate{x_d, y_d});
+	const auto next_loc{Coordinate{x_d, y_d}};
+
+	auto this_tile{_game->state->level->at(current_loc)};
+	auto next_tile{_game->state->level->at(next_loc)};
+
+	auto this_wall_to_check{_game->state->get_player_facing()};
+	auto next_wall_to_check{MapDirection::NONE};
+	switch (_game->state->get_player_facing()) {
+	case MapDirection::NORTH:
+		next_wall_to_check = MapDirection::SOUTH;
+		break;
+	case MapDirection::SOUTH:
+		next_wall_to_check = MapDirection::NORTH;
+		break;
+	case MapDirection::EAST:
+		next_wall_to_check = MapDirection::WEST;
+		break;
+	case MapDirection::WEST:
+		next_wall_to_check = MapDirection::EAST;
+		break;
+	default:
+		break;
+	}
+
+	if ((this_tile.walkable(this_wall_to_check)) &&
+		(next_tile.walkable(next_wall_to_check))) {
+
+		_game->state->set_player_pos(next_loc);
+		return true;
+	} else
+		return false;
 }
-auto Sorcery::Engine::_move_backward() -> void {
 
-	// TODO: check for walls/doors etc
-	auto x_d{static_cast<int>(_game->state->get_player_pos().x)};
-	auto y_d{static_cast<int>(_game->state->get_player_pos().y)};
+auto Sorcery::Engine::_move_backward() -> bool {
+
+	// Work out our new position
+	auto current_loc{_game->state->get_player_pos()};
+	auto x_d{current_loc.x};
+	auto y_d{current_loc.y};
 
 	switch (_game->state->get_player_facing()) {
 	case MapDirection::NORTH:
@@ -509,7 +569,38 @@ auto Sorcery::Engine::_move_backward() -> void {
 	else if (y_d > MAP_SIZE - 1)
 		y_d = 0;
 
-	_game->state->set_player_pos(Coordinate{x_d, y_d});
+	const auto next_loc{Coordinate{x_d, y_d}};
+
+	// Check for walls etc between current square and new square
+	auto this_tile{_game->state->level->at(current_loc)};
+	auto next_tile{_game->state->level->at(next_loc)};
+
+	auto this_wall_to_check{MapDirection::NONE};
+	switch (_game->state->get_player_facing()) {
+	case MapDirection::NORTH:
+		this_wall_to_check = MapDirection::SOUTH;
+		break;
+	case MapDirection::SOUTH:
+		this_wall_to_check = MapDirection::NORTH;
+		break;
+	case MapDirection::EAST:
+		this_wall_to_check = MapDirection::WEST;
+		break;
+	case MapDirection::WEST:
+		this_wall_to_check = MapDirection::EAST;
+		break;
+	default:
+		break;
+	}
+	auto next_wall_to_check{_game->state->get_player_facing()};
+
+	if ((this_tile.walkable(this_wall_to_check)) &&
+		(next_tile.walkable(next_wall_to_check))) {
+
+		_game->state->set_player_pos(next_loc);
+		return true;
+	} else
+		return false;
 }
 
 auto Sorcery::Engine::_turn_left() -> void {
@@ -554,14 +645,6 @@ auto Sorcery::Engine::_turn_right() -> void {
 auto Sorcery::Engine::stop() -> void {}
 
 auto Sorcery::Engine::_draw() -> void {
-
-	/* // scale the sprite
-	const auto current_size{_display->window->size};
-	const auto scale_x{
-		(current_size.width * 1.0f) / _sprite.getLocalBounds().width};
-	const auto scale_y{
-		(current_size.height * 1.0f) / _sprite.getLocalBounds().height};
-	_sprite.setScale(scale_x, scale_y); */
 
 	// Scale the Render
 	const auto current_size{_display->window->size};
@@ -618,6 +701,16 @@ auto Sorcery::Engine::_draw() -> void {
 	if (_show_confirm_exit) {
 		_confirm_exit->update();
 		_window->draw(*_confirm_exit);
+	}
+
+	if (_show_ouch) {
+		_ouch->update();
+		if (_ouch->get_valid())
+			_window->draw(*_ouch);
+		else {
+			_show_ouch = false;
+			_ouch->set_valid(false);
+		}
 	}
 
 	// Always draw the following

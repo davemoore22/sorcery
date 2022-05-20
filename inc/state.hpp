@@ -23,9 +23,9 @@
 // the resulting work.
 
 #include "character.hpp"
+#include "level.hpp"
 #include "main.hpp"
 #include "system.hpp"
-#include "level.hpp"
 
 namespace Sorcery {
 
@@ -44,7 +44,7 @@ namespace Sorcery {
 
 		// Public Members
 		bool valid;
-		std::unique_ptr<Level> level;
+		std::unique_ptr<Level> level; // current level
 
 		// Public Methods
 		auto add_character_by_id(unsigned int char_id) -> bool;

@@ -48,11 +48,14 @@ namespace Sorcery {
 			-> std::optional<WindowDialogButton>;
 		auto check_if_option_selected(const sf::Vector2f mouse_pos)
 			-> std::optional<WindowDialogButton>;
-		auto get_selected() -> WindowDialogButton;
+		auto get_selected() const -> WindowDialogButton;
 		auto set_selected(WindowDialogButton value) -> void;
 		auto toggle_highlighted() -> WindowDialogButton;
 		auto update() -> void;
 		auto handle_input(sf::Event event) -> std::optional<WindowDialogButton>;
+		auto get_valid() const -> bool;
+		auto set_valid(const bool valid) -> void;
+		auto reset_timed() -> void;
 
 	  private:
 		// Private Methods
@@ -89,7 +92,10 @@ namespace Sorcery {
 
 		std::unique_ptr<Frame> _frame;
 
-		std::chrono::time_point<std::chrono::system_clock> _start;
-		std::chrono::time_point<std::chrono::system_clock> _current_time;
+		std::optional<std::chrono::time_point<std::chrono::system_clock>>
+			_start;
+		std::optional<std::chrono::time_point<std::chrono::system_clock>>
+			_current_time;
+		bool _valid;
 	};
 } // namespace Sorcery

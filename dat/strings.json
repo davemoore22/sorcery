@@ -339,6 +339,7 @@
 	"STATUS_DEAD": "DEAD",
 	"STATUS_ASHES": "ASHES",
 	"STATUS_LOST": "LOST",
+	"DIALOG_OUCH": "OUCH!",
 	"HINT_CHARACTER_CREATION_METHOD_FULL": 		"Create a character using same method as the original games, and also specifying both name and portrait also.",
 	"HINT_CHARACTER_CREATION_METHOD_QUICK": 	"Create a semi-random character of a basic class, with decent (but not completely optimised) starting stats. Both name and portrait must also be specified",
 	"HINT_CHARACTER_CREATION_METHOD_RANDOM": 	"Create a completely random character of a basic class, with decent (but not completely optimised) starting stats, a random name, and a random portrait.",

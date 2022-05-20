@@ -8933,6 +8933,27 @@
 				"no_wall_thickness_destination": "1"
 				}
 			]
+		},
+		{
+			"name": "ouch",
+			"x": "35",
+			"y": "10",
+			"w": "9",
+			"type": "dialog",
+			"drawmode": "manual",
+			"alpha": "200",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "ouch_text",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "DIALOG_OUCH",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "text",
+			"drawmode": "manual"
 		}
 		]
 	}

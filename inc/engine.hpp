@@ -62,8 +62,8 @@ namespace Sorcery {
 	  private:
 		// Private Methods
 		auto _draw() -> void;
-		auto _move_forward() -> void;
-		auto _move_backward() -> void;
+		auto _move_forward() -> bool;
+		auto _move_backward() -> bool;
 		auto _turn_left() -> void;
 		auto _turn_right() -> void;
 
@@ -77,6 +77,7 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _camp_menu_frame;
 		std::unique_ptr<StatusBar> _status_bar;
 		std::unique_ptr<Dialog> _confirm_exit;
+		std::unique_ptr<Dialog> _ouch;
 		std::unique_ptr<Reorder> _reorder;
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Render> _render;
@@ -89,6 +90,7 @@ namespace Sorcery {
 		bool _in_character;
 		bool _show_confirm_exit;
 		bool _show_console;
+		bool _show_ouch;
 		bool _update_automap;
 		bool _update_compass;
 		bool _update_icon_panels;
