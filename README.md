@@ -1,7 +1,7 @@
 # Sorcery: Shadows under Llylgamyn
 
 ![Logo](/promo/screen1.png)
-![Logo](/promo/screen6.png)
+![Logo](/promo/screen7.png)
 
 An open source remake of Wizardry 1,2,3 (and 5) with infinite Dungeon
 Adventures, and (optional) modern CRPG conveniences! I'm aiming to release it by
@@ -54,7 +54,7 @@ updates.
 ## What next? (as of May 2020)
 
 Next stop will be items, creatures, magic and combat. Then there might be
-something playable here!
+something playable here! Then, a proper 3D renderer will be implemented.
 
 Although the main focus is random dungeons much like Diablo, I want to
 eventually remake the original games as optional sub-modules.
@@ -62,7 +62,8 @@ eventually remake the original games as optional sub-modules.
 If you really want to try and compile the code, compilation instructions are in
 the doc/COMPILE text file. It works on my machine anyway. Currently I use VSCode
 (make in the base directory should work) and CodeBlocks on Linux (Ubuntu 20) to
-do development on.
+do development on. No idea how to compile on Windows currently, but be assured
+there will be a windows release.
 
 Code is released under the GPLv2.
 
@@ -78,6 +79,7 @@ Discord Servers, or my email address is on the Splash Screen of the Game.
 
 Most Recent Screenshots are first
 
+![Logo](/promo/screen7.png)
 ![Logo](/promo/screen6.png)
 ![Logo](/promo/screen2.png)
 ![Logo](/promo/screen3.png)
