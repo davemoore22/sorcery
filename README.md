@@ -1,4 +1,4 @@
-# Sorcery: Shadows under Llylgamyn.
+# Sorcery: Shadows under Llylgamyn
 
 ![Logo](/promo/screen1.png)
 ![Logo](/promo/screen6.png)
@@ -7,7 +7,8 @@ An open source remake of Wizardry 1,2,3 (and 5) with infinite Dungeon
 Adventures, and (optional) modern CRPG conveniences! I'm aiming to release it by
 the end of the year. Its coded using C++20 and SFML. Whilst eventually
 it will be fully 3D, I need to learn OpenGL in the meantime, and thus initially
-the dungeons will be in 2D view.
+the dungeons will be implemeted using the old-school Painters Algorithm method
+used in classics such as Eye of the Beholder and Wizardry.
 
 Its nowhere near complete or even playable yet! Visit back regularily for updates.
 
@@ -43,6 +44,7 @@ Its nowhere near complete or even playable yet! Visit back regularily for update
 * Enter the Maze and leave the Maze
   * Access to the Camp Menu
   * Walk about the Maze
+  * Bump into Walls
   * Automap
 
 ## What can't you do?
@@ -82,5 +84,3 @@ Discord Servers, or my email address is on the Splash Screen of the Game.
 ![Logo](/promo/screen3.png)
 ![Logo](/promo/screen4.png)
 ![Logo](/promo/screen5.png)
-
-

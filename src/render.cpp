@@ -70,12 +70,14 @@ auto Sorcery::Render::_render_floor(bool lit = true) -> void {
 
 auto Sorcery::Render::_render_walls(bool lit = true) -> void {
 
+	// OK for every "z" row
 	const auto player_pos{_game->state->get_player_pos()};
 	const auto player_facing{_game->state->get_player_facing()};
 	const auto depth{lit ? LIGHT_VIEW_DEPTH : DARK_VIEW_DEPTH};
 
 	for (int z = depth; z >= 0; --z) {
 
+		// Get back walls
 		_visible.clear();
 		_visible = _view->get_nodes_at_depth(
 			ViewNodeLayer::WALLS, ViewNodeType::FRONT, z);
@@ -85,6 +87,8 @@ auto Sorcery::Render::_render_walls(bool lit = true) -> void {
 			});
 
 		for (const auto &node : _visible) {
+
+			// Front Walls directly in front
 			auto render{true};
 			const auto l_x{node.coords.x};
 			const auto l_z{node.coords.z - 1};
@@ -178,6 +182,97 @@ auto Sorcery::Render::_render_walls(bool lit = true) -> void {
 						static_cast<float>(node.dest.y)});
 					_sprites.emplace_back(left_front_sprite);
 				}
+			}
+		}
+
+		// Now we do side walls to the left at this depth (unlike the front
+		// walls, the view atlas returns the correct depth for side walls)
+
+		_visible.clear();
+		_visible = _view->get_nodes_at_depth(
+			ViewNodeLayer::WALLS, ViewNodeType::SIDE, -1, z);
+		std::sort(_visible.begin(), _visible.end(),
+			[](const ViewNode &a, const ViewNode &b) -> bool {
+				return a.coords.x < b.coords.x;
+			});
+
+		for (const auto &node : _visible) {
+
+			auto render{true};
+
+			// another hack here due to outside walls
+			const auto l_x{node.coords.x + 1};
+			const auto l_z{node.coords.z};
+			const auto tile{
+				_game->state->level->at(player_pos, player_facing, l_x, l_z)};
+			auto offset{false};
+			sf::Sprite side_sprite{
+				_graphics->textures->get_atlas(node.source_rect, offset)};
+
+			if (player_facing == MapDirection::NORTH) {
+				if (tile.wall(MapDirection::WEST) != TileEdge::WALL)
+					render = false;
+			} else if (player_facing == MapDirection::SOUTH) {
+				if (tile.wall(MapDirection::EAST) != TileEdge::WALL)
+					render = false;
+			} else if (player_facing == MapDirection::EAST) {
+				if (tile.wall(MapDirection::NORTH) != TileEdge::WALL)
+					render = false;
+			} else if (player_facing == MapDirection::WEST) {
+				if (tile.wall(MapDirection::SOUTH) != TileEdge::WALL)
+					render = false;
+			}
+			if (render) {
+				side_sprite.setPosition(
+					sf::Vector2f{static_cast<float>(node.dest.x),
+						static_cast<float>(node.dest.y)});
+				if (node.flipped)
+					_sprites.emplace_back(side_sprite);
+			}
+		}
+
+		// Now we do side walls to the right at this depth (unlike the front
+		// walls, the view atlas returns the correct depth for side walls); but
+		// we also have to mirror them
+		_visible.clear();
+		_visible = _view->get_nodes_at_depth(
+			ViewNodeLayer::WALLS, ViewNodeType::SIDE, 1, z);
+		std::sort(_visible.begin(), _visible.end(),
+			[](const ViewNode &a, const ViewNode &b) -> bool {
+				return a.coords.x > b.coords.x;
+			});
+
+		for (const auto &node : _visible) {
+
+			auto render{true};
+			const auto l_x{node.coords.x - 1};
+			const auto l_z{node.coords.z};
+			const auto tile{
+				_game->state->level->at(player_pos, player_facing, l_x, l_z)};
+			auto offset{false};
+			sf::Sprite side_sprite{
+				_graphics->textures->get_atlas(node.source_rect, offset)};
+
+			if (player_facing == MapDirection::NORTH) {
+				if (tile.wall(MapDirection::EAST) != TileEdge::WALL)
+					render = false;
+			} else if (player_facing == MapDirection::SOUTH) {
+				if (tile.wall(MapDirection::WEST) != TileEdge::WALL)
+					render = false;
+			} else if (player_facing == MapDirection::EAST) {
+				if (tile.wall(MapDirection::SOUTH) != TileEdge::WALL)
+					render = false;
+			} else if (player_facing == MapDirection::WEST) {
+				if (tile.wall(MapDirection::WEST) != TileEdge::WALL)
+					render = false;
+			}
+			if (render) {
+				side_sprite.setPosition(
+					sf::Vector2f{static_cast<float>(node.dest.x),
+						static_cast<float>(node.dest.y)});
+				if (node.flipped)
+					side_sprite.setScale(-1.0f, 1.0);
+				_sprites.emplace_back(side_sprite);
 			}
 		}
 	}

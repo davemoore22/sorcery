@@ -249,8 +249,8 @@ auto Sorcery::View::get_nodes_at_depth(const ViewNodeLayer layer,
 	std::vector<ViewNode> results;
 	results.clear();
 
-	// Hack here since View Generator does outside walls, whereas we want
-	// interior walls
+	// Hack here since View Generator does outside font walls, whereas we want
+	// interior walls (side walls are correct())
 	auto depth{type == ViewNodeType::FRONT ? z + 1 : z};
 
 	auto matches{_nodes | std::views::filter([&](auto &item) {
@@ -271,8 +271,8 @@ auto Sorcery::View::get_nodes_at_depth(const ViewNodeLayer layer,
 	std::vector<ViewNode> results;
 	results.clear();
 
-	// Hack here since View Generator does outside walls, whereas we want
-	// interior walls
+	// Hack here since View Generator does outside font walls, whereas we want
+	// interior walls (side walls are correct())
 	auto depth{type == ViewNodeType::FRONT ? z + 1 : z};
 
 	auto matches{_nodes | std::views::filter([&](auto &item) {
