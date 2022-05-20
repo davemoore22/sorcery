@@ -48,7 +48,7 @@ auto Sorcery::Render::_render_floor(bool lit = true) -> void {
 	_visible.clear();
 	_visible = _view->get_lit_nodes(ViewNodeLayer::FLOOR, lit);
 
-	for (auto node : _visible) {
+	for (const auto &node : _visible) {
 
 		const auto x{node.coords.x};
 		const auto z{node.coords.z};
@@ -84,12 +84,12 @@ auto Sorcery::Render::_render_walls(bool lit = true) -> void {
 				return a.coords.x < b.coords.x;
 			});
 
-		for (auto node : _visible) {
+		for (const auto &node : _visible) {
 			auto render{true};
-			const auto x{node.coords.x};
-			const auto z{node.coords.z};
+			const auto l_x{node.coords.x};
+			const auto l_z{node.coords.z - 1};
 			const auto tile{
-				_game->state->level->at(player_pos, player_facing, x, z)};
+				_game->state->level->at(player_pos, player_facing, l_x, l_z)};
 			auto offset{false};
 			sf::Sprite front_sprite{
 				_graphics->textures->get_atlas(node.source_rect, offset)};
@@ -117,68 +117,65 @@ auto Sorcery::Render::_render_walls(bool lit = true) -> void {
 				_sprites.emplace_back(front_sprite);
 			}
 
-			continue;
-
 			// Now we need to extend on each side if necessary (remember that in
 			// our view -x is to the left but on our map +x is to the right, as
 			// seen from the player's perspective)
-			for (int left_x = -1; left_x <= (0 - depth); left_x--) {
-				auto render{true};
-				const auto offset_x{std::abs(left_x * offset_width)};
+			for (int left_x = 1; left_x <= depth; left_x++) {
+				auto shall_render{true};
+				const auto dest_offset_x{std::abs(left_x * offset_width)};
+				const auto n_x{l_x - left_x};
 				const auto tile_right{_game->state->level->at(
-					player_pos, player_facing, left_x, z)};
+					player_pos, player_facing, n_x, l_z)};
 				if (player_facing == MapDirection::NORTH) {
 					if (tile_right.wall(MapDirection::NORTH) != TileEdge::WALL)
-						render = false;
-					;
+						shall_render = false;
 				} else if (player_facing == MapDirection::SOUTH) {
 					if (tile_right.wall(MapDirection::SOUTH) != TileEdge::WALL)
-						render = false;
-					;
+						shall_render = false;
 				} else if (player_facing == MapDirection::EAST) {
 					if (tile_right.wall(MapDirection::EAST) != TileEdge::WALL)
-						render = false;
-					;
+						shall_render = false;
 				} else if (player_facing == MapDirection::WEST) {
 					if (tile_right.wall(MapDirection::WEST) != TileEdge::WALL)
-						render = false;
-					;
+						shall_render = false;
 				}
-				if (render) {
+				if (shall_render) {
+					auto offset_texture{false};
 					sf::Sprite left_front_sprite{_graphics->textures->get_atlas(
-						node.source_rect, offset)};
-					left_front_sprite.setPosition(
-						sf::Vector2f{static_cast<float>(node.dest.x - offset_x),
-							static_cast<float>(node.dest.y)});
+						node.source_rect, offset_texture)};
+					left_front_sprite.setPosition(sf::Vector2f{
+						static_cast<float>(node.dest.x - dest_offset_x),
+						static_cast<float>(node.dest.y)});
 					_sprites.emplace_back(left_front_sprite);
 				}
 			}
 
 			for (int right_x = 1; right_x <= depth; right_x++) {
-				auto render{true};
-				const auto offset_x{right_x * offset_width};
+				auto shall_render{true};
+				const auto dest_offset_x{right_x * offset_width};
+				const auto n_x{l_x + right_x};
 				const auto tile_left{_game->state->level->at(
-					player_pos, player_facing, right_x, z)};
+					player_pos, player_facing, n_x, l_z)};
 				if (player_facing == MapDirection::NORTH) {
 					if (tile_left.wall(MapDirection::NORTH) != TileEdge::WALL)
-						render = false;
+						shall_render = false;
 				} else if (player_facing == MapDirection::SOUTH) {
 					if (tile_left.wall(MapDirection::SOUTH) != TileEdge::WALL)
-						render = false;
+						shall_render = false;
 				} else if (player_facing == MapDirection::EAST) {
 					if (tile_left.wall(MapDirection::EAST) != TileEdge::WALL)
-						render = false;
+						shall_render = false;
 				} else if (player_facing == MapDirection::WEST) {
 					if (tile_left.wall(MapDirection::WEST) != TileEdge::WALL)
-						render = false;
+						shall_render = false;
 				}
-				if (render) {
-					auto offset{false};
+				if (shall_render) {
+					auto offset_texture{false};
 					sf::Sprite left_front_sprite{_graphics->textures->get_atlas(
-						node.source_rect, offset)};
-					left_front_sprite.setPosition(
-						sf::Vector2f{static_cast<float>(node.dest.x + offset_x),
-							static_cast<float>(node.dest.y)});
+						node.source_rect, offset_texture)};
+					left_front_sprite.setPosition(sf::Vector2f{
+						static_cast<float>(node.dest.x + dest_offset_x),
+						static_cast<float>(node.dest.y)});
 					_sprites.emplace_back(left_front_sprite);
 				}
 			}
@@ -193,7 +190,7 @@ auto Sorcery::Render::_render_ceiling(bool lit = true) -> void {
 
 	_visible.clear();
 	_visible = _view->get_lit_nodes(ViewNodeLayer::CEILING, lit);
-	for (auto node : _visible) {
+	for (const auto &node : _visible) {
 
 		const auto x{node.coords.x};
 		const auto z{node.coords.z};
@@ -225,86 +222,7 @@ auto Sorcery::Render::refresh() -> void {
 	// Render the View Components
 	_render_floor(false);
 	_render_ceiling(false);
-	//_render_walls(false);
-
-	// Ceiling
-
-	/* _visible.clear();
-	_visible = _view->get_lit_nodes(ViewNodeLayer::WALLS, false);
-	std::sort(_visible.begin(), _visible.end(),
-		[](const ViewNode &a, const ViewNode &b) -> bool {
-			if (a.coords.z != b.coords.z)
-				return a.coords.z > b.coords.z;
-			else
-				return a.coords.x < b.coords.x;
-		});
-
-	for (auto node : _visible) {
-		if (node.type == ViewNodeType::FRONT) {
-
-			const auto x{node.coords.x};
-			const auto z{node.coords.z};
-			const auto tile{
-				_game->state->level->at(player_pos, player_facing, x, z)};
-
-			if (player_facing == MapDirection::NORTH) {
-				if (tile.wall(MapDirection::NORTH) != TileEdge::WALL)
-					continue;
-			} else if (player_facing == MapDirection::SOUTH) {
-				if (tile.wall(MapDirection::SOUTH) != TileEdge::WALL)
-					continue;
-			} else if (player_facing == MapDirection::EAST) {
-				if (tile.wall(MapDirection::EAST) != TileEdge::WALL)
-					continue;
-			} else if (player_facing == MapDirection::WEST) {
-				if (tile.wall(MapDirection::WEST) != TileEdge::WALL)
-					continue;
-			}
-			auto offset{false};
-			sf::Sprite front_sprite{
-				_graphics->textures->get_atlas(node.source_rect, offset)};
-			front_sprite.setPosition(
-				sf::Vector2f{static_cast<float>(node.dest.x),
-					static_cast<float>(node.dest.y)});
-			if (node.flipped)
-				front_sprite.setScale(-1.0f, 1.0);
-			_sprites.emplace_back(front_sprite);
-		}
-	}
-	for (auto node : _visible) {
-		if (node.type == ViewNodeType::SIDE) {
-
-			const auto x{node.coords.x};
-			const auto z{node.coords.z};
-			const auto tile{
-				_game->state->level->at(player_pos, player_facing, x, z)};
-
-			std::cout << node.coords << " " << tile.loc() << std::endl;
-
-			if (player_facing == MapDirection::NORTH) {
-				if (tile.wall(MapDirection::WEST) != TileEdge::WALL)
-					continue;
-			} else if (player_facing == MapDirection::SOUTH) {
-				if (tile.wall(MapDirection::EAST) != TileEdge::WALL)
-					continue;
-			} else if (player_facing == MapDirection::EAST) {
-				if (tile.wall(MapDirection::NORTH) != TileEdge::WALL)
-					continue;
-			} else if (player_facing == MapDirection::WEST) {
-				if (tile.wall(MapDirection::SOUTH) != TileEdge::WALL)
-					continue;
-			}
-			auto offset{false};
-			sf::Sprite front_sprite{
-				_graphics->textures->get_atlas(node.source_rect, offset)};
-			front_sprite.setPosition(
-				sf::Vector2f{static_cast<float>(node.dest.x),
-					static_cast<float>(node.dest.y)});
-			if (node.flipped)
-				front_sprite.setScale(-1.0f, 1.0);
-			_sprites.emplace_back(front_sprite);
-		}
-	} */
+	_render_walls(false);
 }
 
 auto Sorcery::Render::draw(

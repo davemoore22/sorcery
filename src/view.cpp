@@ -249,9 +249,13 @@ auto Sorcery::View::get_nodes_at_depth(const ViewNodeLayer layer,
 	std::vector<ViewNode> results;
 	results.clear();
 
+	// Hack here since View Generator does outside walls, whereas we want
+	// interior walls
+	auto depth{type == ViewNodeType::FRONT ? z + 1 : z};
+
 	auto matches{_nodes | std::views::filter([&](auto &item) {
-		return (item.second.layer == layer) && (item.second.coords.z == z) &&
-			   (item.second.type == type) &&
+		return (item.second.layer == layer) &&
+			   (item.second.coords.z == depth) && (item.second.type == type) &&
 			   (Sorcery::sgn(x_sgn) == Sorcery::sgn(item.second.coords.x)) &&
 			   item.second.used;
 	})};
@@ -267,9 +271,14 @@ auto Sorcery::View::get_nodes_at_depth(const ViewNodeLayer layer,
 	std::vector<ViewNode> results;
 	results.clear();
 
+	// Hack here since View Generator does outside walls, whereas we want
+	// interior walls
+	auto depth{type == ViewNodeType::FRONT ? z + 1 : z};
+
 	auto matches{_nodes | std::views::filter([&](auto &item) {
-		return (item.second.layer == layer) && (item.second.coords.z == z) &&
-			   (item.second.type == type) && item.second.used;
+		return (item.second.layer == layer) &&
+			   (item.second.coords.z == depth) && (item.second.type == type) &&
+			   item.second.used;
 	})};
 	for (auto &node : matches)
 		results.push_back(node.second);

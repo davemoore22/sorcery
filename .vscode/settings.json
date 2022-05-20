@@ -7,7 +7,6 @@
 	"C_Cpp.workspaceParsingPriority": "highest",
 	"C_Cpp.enhancedColorization": "Disabled",
 	"debug.toolBarLocation": "docked",
-	"editor.fontFamily": "'Fira Code Medium','Monaco','Ubuntu Mono', 'Courier Prime Code', 'Courier', 'Courier New', Consolas, monospace",
 	"editor.tabSize": 4,
 	"editor.insertSpaces": false,
 	"files.encoding": "utf8",
@@ -136,5 +135,6 @@
 	"editor.fontLigatures": true,
 	"C_Cpp.errorSquiggles": "Enabled",
 	"csharp.suppressDotnetInstallWarning": true,
-	"sonarlint.pathToCompileCommands": "/home/dave/Development/wizardry/sorcery-sfml/compile_commands.json"
+	"sonarlint.pathToCompileCommands": "/home/dave/Development/wizardry/sorcery-sfml/compile_commands.json",
+	"editor.fontFamily": "'ProggyVector', 'Droid Sans Mono', 'monospace', monospace"
 }
