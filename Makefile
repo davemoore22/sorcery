@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/dave/Development/wizardry/sorcery-sfml
+CMAKE_SOURCE_DIR = /home/dave/sorcery
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/dave/Development/wizardry/sorcery-sfml
+CMAKE_BINARY_DIR = /home/dave/sorcery
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -70,7 +70,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target package_source
 package_source:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
-	/usr/bin/cpack --config ./CPackSourceConfig.cmake /home/dave/Development/wizardry/sorcery-sfml/CPackSourceConfig.cmake
+	/usr/bin/cpack --config ./CPackSourceConfig.cmake /home/dave/sorcery/CPackSourceConfig.cmake
 .PHONY : package_source
 
 # Special rule for the target package_source
@@ -102,9 +102,9 @@ package/fast: package
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/dave/Development/wizardry/sorcery-sfml/CMakeFiles /home/dave/Development/wizardry/sorcery-sfml/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dave/sorcery/CMakeFiles /home/dave/sorcery/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/dave/Development/wizardry/sorcery-sfml/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dave/sorcery/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -630,6 +630,33 @@ src/confirm.s: src/confirm.cpp.s
 src/confirm.cpp.s:
 	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/confirm.cpp.s
 .PHONY : src/confirm.cpp.s
+
+src/console.o: src/console.cpp.o
+
+.PHONY : src/console.o
+
+# target to build an object file
+src/console.cpp.o:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/console.cpp.o
+.PHONY : src/console.cpp.o
+
+src/console.i: src/console.cpp.i
+
+.PHONY : src/console.i
+
+# target to preprocess a source file
+src/console.cpp.i:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/console.cpp.i
+.PHONY : src/console.cpp.i
+
+src/console.s: src/console.cpp.s
+
+.PHONY : src/console.s
+
+# target to generate assembly for a file
+src/console.cpp.s:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/console.cpp.s
+.PHONY : src/console.cpp.s
 
 src/controloverlay.o: src/controloverlay.cpp.o
 
@@ -1414,33 +1441,6 @@ src/manage.cpp.s:
 	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/manage.cpp.s
 .PHONY : src/manage.cpp.s
 
-src/map.o: src/map.cpp.o
-
-.PHONY : src/map.o
-
-# target to build an object file
-src/map.cpp.o:
-	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/map.cpp.o
-.PHONY : src/map.cpp.o
-
-src/map.i: src/map.cpp.i
-
-.PHONY : src/map.i
-
-# target to preprocess a source file
-src/map.cpp.i:
-	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/map.cpp.i
-.PHONY : src/map.cpp.i
-
-src/map.s: src/map.cpp.s
-
-.PHONY : src/map.s
-
-# target to generate assembly for a file
-src/map.cpp.s:
-	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/map.cpp.s
-.PHONY : src/map.cpp.s
-
 src/menu.o: src/menu.cpp.o
 
 .PHONY : src/menu.o
@@ -2008,33 +2008,6 @@ src/tile.cpp.s:
 	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/tile.cpp.s
 .PHONY : src/tile.cpp.s
 
-src/tilemap.o: src/tilemap.cpp.o
-
-.PHONY : src/tilemap.o
-
-# target to build an object file
-src/tilemap.cpp.o:
-	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/tilemap.cpp.o
-.PHONY : src/tilemap.cpp.o
-
-src/tilemap.i: src/tilemap.cpp.i
-
-.PHONY : src/tilemap.i
-
-# target to preprocess a source file
-src/tilemap.cpp.i:
-	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/tilemap.cpp.i
-.PHONY : src/tilemap.cpp.i
-
-src/tilemap.s: src/tilemap.cpp.s
-
-.PHONY : src/tilemap.s
-
-# target to generate assembly for a file
-src/tilemap.cpp.s:
-	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/tilemap.cpp.s
-.PHONY : src/tilemap.cpp.s
-
 src/training.o: src/training.cpp.o
 
 .PHONY : src/training.o
@@ -2116,33 +2089,6 @@ src/window.cpp.s:
 	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/window.cpp.s
 .PHONY : src/window.cpp.s
 
-src/world.o: src/world.cpp.o
-
-.PHONY : src/world.o
-
-# target to build an object file
-src/world.cpp.o:
-	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/world.cpp.o
-.PHONY : src/world.cpp.o
-
-src/world.i: src/world.cpp.i
-
-.PHONY : src/world.i
-
-# target to preprocess a source file
-src/world.cpp.i:
-	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/world.cpp.i
-.PHONY : src/world.cpp.i
-
-src/world.s: src/world.cpp.s
-
-.PHONY : src/world.s
-
-# target to generate assembly for a file
-src/world.cpp.s:
-	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/world.cpp.s
-.PHONY : src/world.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -2208,6 +2154,9 @@ help:
 	@echo "... src/confirm.o"
 	@echo "... src/confirm.i"
 	@echo "... src/confirm.s"
+	@echo "... src/console.o"
+	@echo "... src/console.i"
+	@echo "... src/console.s"
 	@echo "... src/controloverlay.o"
 	@echo "... src/controloverlay.i"
 	@echo "... src/controloverlay.s"
@@ -2295,9 +2244,6 @@ help:
 	@echo "... src/manage.o"
 	@echo "... src/manage.i"
 	@echo "... src/manage.s"
-	@echo "... src/map.o"
-	@echo "... src/map.i"
-	@echo "... src/map.s"
 	@echo "... src/menu.o"
 	@echo "... src/menu.i"
 	@echo "... src/menu.s"
@@ -2361,9 +2307,6 @@ help:
 	@echo "... src/tile.o"
 	@echo "... src/tile.i"
 	@echo "... src/tile.s"
-	@echo "... src/tilemap.o"
-	@echo "... src/tilemap.i"
-	@echo "... src/tilemap.s"
 	@echo "... src/training.o"
 	@echo "... src/training.i"
 	@echo "... src/training.s"
@@ -2373,9 +2316,6 @@ help:
 	@echo "... src/window.o"
 	@echo "... src/window.i"
 	@echo "... src/window.s"
-	@echo "... src/world.o"
-	@echo "... src/world.i"
-	@echo "... src/world.s"
 .PHONY : help
 
 
