@@ -80,11 +80,17 @@ Sorcery::Engine::Engine(
 		std::make_unique<IconPanel>(_system, _display, _graphics, _game,
 			(*_display->layout)["engine_base_ui:right_icon_panel"], false);
 
+	_tile_note = std::make_unique<Message>(_system, _display, _graphics,
+		(*_display->layout)["engine_base_ui:message_panel"],
+		(*_display->layout)["engine_base_ui:message_text"]);
+
 	_update_automap = false;
 	_update_compass = false;
 	_update_icon_panels = false;
 	_update_status_bar = false;
 	_update_render = false;
+	_update_tile_note = false;
+
 	game->hide_console();
 }
 
@@ -121,6 +127,9 @@ auto Sorcery::Engine::start() -> int {
 		(*_display->layout)["engine_base_ui:right_icon_panel"]};
 	_right_icon_panel->setPosition(r_icon_panel_c.x, r_icon_panel_c.y);
 
+	const Component t_n_c{(*_display->layout)["engine_base_ui:message"]};
+	_tile_note->setPosition(t_n_c.x, t_n_c.y);
+
 	const Component cc_fc{
 		(*_display->layout)["engine_base_ui:character_frame"]};
 	_cur_char_frame =
@@ -135,6 +144,7 @@ auto Sorcery::Engine::start() -> int {
 	_in_character = false;
 	_show_confirm_exit = false;
 	_show_ouch = false;
+	_show_tile_note = false;
 	_game->hide_console();
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> camp_option{
@@ -437,6 +447,17 @@ auto Sorcery::Engine::start() -> int {
 								_left_icon_panel->selected = std::nullopt;
 						}
 					};
+
+					// If we are in-game, and are on a tile with note
+					auto current_loc{_game->state->get_player_pos()};
+					auto note{(*_game->state->level)(current_loc)};
+					if ((note.text.length() > 0) && (note.visible)) {
+
+						_show_tile_note = true;
+						_tile_note->update(note);
+					} else
+						_show_tile_note = false;
+					_update_tile_note = false;
 				}
 			}
 
@@ -711,6 +732,10 @@ auto Sorcery::Engine::_draw() -> void {
 			_show_ouch = false;
 			_ouch->set_valid(false);
 		}
+	}
+
+	if (_show_tile_note) {
+		_window->draw(*_tile_note);
 	}
 
 	// Always draw the following

@@ -8738,13 +8738,13 @@
 			"background": " 0x000000ff"
 		},
 		{
-			"name": "menu_frame",
+			"name": "message_panel",
 			"w": "36",
-			"h": "30",
+			"h": "2",
 			"x": "centre",
-			"y": "6",
+			"y": "24",
 			"alpha": "225",
-			"type": "frame",
+			"type": "panel",
 			"priority": "6",
 			"drawmode": "manual",
 			"background": " 0x000000ff"
@@ -8825,6 +8825,17 @@
 			"justification": "centre",
 			"type": "menu",
 			"priority": "8"
+		},
+		{
+			"name": "message_text",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CONFIRM_EXIT_GAME",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "text",
+			"drawmode": "manual"
 		},
 		{
 			"name": "info_panel",
@@ -8940,6 +8951,16 @@
 			"y": "10",
 			"w": "9",
 			"type": "dialog",
+			"drawmode": "manual",
+			"alpha": "200",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "message",
+			"x": "1",
+			"y": "18",
+			"w": "45",
+			"type": "panel",
 			"drawmode": "manual",
 			"alpha": "200",
 			"background": " 0x000000ff"

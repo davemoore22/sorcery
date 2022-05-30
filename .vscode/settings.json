@@ -137,5 +137,5 @@
 	"C_Cpp.errorSquiggles": "Enabled",
 	"csharp.suppressDotnetInstallWarning": true,
 	"sonarlint.pathToCompileCommands": "/home/dave/Development/wizardry/sorcery-sfml/compile_commands.json",
-	"editor.fontFamily": "'ProggyVector', 'Droid Sans Mono', 'monospace', monospace"
+	"editor.fontFamily": "Monaco,'ProggyVector', 'Droid Sans Mono', 'monospace', monospace"
 }

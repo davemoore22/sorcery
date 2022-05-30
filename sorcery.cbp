@@ -182,6 +182,7 @@
 		<Unit filename="inc/mainmenu.hpp" />
 		<Unit filename="inc/manage.hpp" />
 		<Unit filename="inc/menu.hpp" />
+		<Unit filename="inc/message.hpp" />
 		<Unit filename="inc/options.hpp" />
 		<Unit filename="inc/platform.hpp" />
 		<Unit filename="inc/random.hpp" />
@@ -254,6 +255,7 @@
 		<Unit filename="src/mainmenu.cpp" />
 		<Unit filename="src/manage.cpp" />
 		<Unit filename="src/menu.cpp" />
+		<Unit filename="src/message.cpp" />
 		<Unit filename="src/options.cpp" />
 		<Unit filename="src/platform.cpp" />
 		<Unit filename="src/random.cpp" />

@@ -54,7 +54,7 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics,
 	// Get the Text
 	auto text_width{_frame_c.w - 4};
 	auto string{(*_display->string)[string_c.string_key]};
-	auto wrapped_text = WORDWRAP(string, text_width);
+	auto wrapped_text{WORDWRAP(string, text_width)};
 
 	// Split the Text into lines
 	const std::regex regex(R"([@]+)");

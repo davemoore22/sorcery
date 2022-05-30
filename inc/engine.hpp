@@ -35,11 +35,13 @@
 #include "inspect.hpp"
 #include "main.hpp"
 #include "menu.hpp"
+#include "message.hpp"
 #include "options.hpp"
 #include "render.hpp"
 #include "reorder.hpp"
 #include "statusbar.hpp"
 #include "system.hpp"
+
 namespace Sorcery {
 
 	class Engine {
@@ -86,16 +88,19 @@ namespace Sorcery {
 		std::unique_ptr<Console> _console;
 		std::unique_ptr<IconPanel> _left_icon_panel;
 		std::unique_ptr<IconPanel> _right_icon_panel;
+		std::unique_ptr<Message> _tile_note;
 		bool _in_camp;
 		bool _in_character;
 		bool _show_confirm_exit;
 		bool _show_console;
 		bool _show_ouch;
+		bool _show_tile_note;
 		bool _update_automap;
 		bool _update_compass;
 		bool _update_icon_panels;
 		bool _update_status_bar;
 		bool _update_render;
+		bool _update_tile_note;
 		std::optional<Character *> _cur_char;
 		std::unique_ptr<Frame> _cur_char_frame;
 	};
