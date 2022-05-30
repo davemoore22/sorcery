@@ -113,7 +113,8 @@
 		"locale": "cpp",
 		"queue": "cpp",
 		"stack": "cpp",
-		"*.ipp": "cpp"
+		"*.ipp": "cpp",
+		"future": "cpp"
 	},
 	"terminal.integrated.env.linux": {
 		"PATH": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"

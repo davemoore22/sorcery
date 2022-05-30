@@ -107,7 +107,7 @@ auto Sorcery::LevelStore::_load(const std::filesystem::path filename) -> bool {
 					// Create the Level
 					Level level{MapType::MAZE, dungeon, depth,
 						Coordinate(x_origin, y_origin), Size(width, height)};
-					level.load(rows);
+					level.load(rows, notes);
 
 					// Store it
 					_levels[depth] = level;

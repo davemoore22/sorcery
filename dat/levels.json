@@ -14270,6 +14270,12 @@
 					},
 					"notes": [
 						{
+							"x":0,
+							"y": 0,
+							"monospaced": false,
+							"__data": "Centuries have passed since adventurers last trode these ancient halls, and the dust-laden floors show no signs of any recent distrubance."
+						},
+						{
 							"x": 9,
 							"y": 12,
 							"monospaced": false,

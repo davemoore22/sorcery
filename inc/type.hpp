@@ -404,6 +404,28 @@ namespace Sorcery {
 		}
 	};
 
+	struct TileNote {
+		Coordinate loc;
+		std::string text;
+		bool visible;
+
+		TileNote() : loc{Coordinate{-1, -1}}, text{""}, visible{true} {};
+
+		TileNote(int x_, int y_, std::string text_) {
+			loc = Coordinate{x_, y_};
+			text = text_;
+			visible = true;
+		}
+
+		TileNote(Coordinate loc_, std::string text_, bool visible_)
+			: loc{loc_}, text{text_}, visible{visible_} {};
+
+		// Serialisation
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(loc, text, visible);
+		}
+	};
+
 	struct ViewNodeKey {
 		ViewNodeKey()
 			: layer{Enums::View::Cell::Layer::NONE}, x{0}, y{0}, z{0} {};

@@ -41,12 +41,14 @@ namespace Sorcery {
 		Level(const Level &other);
 		auto operator=(const Level &other) -> Level &;
 
-		// Overload [] operator
+		// Overload operators
 		auto operator[](Coordinate loc) -> Tile &;
+		auto operator()(Coordinate loc) -> TileNote;
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_type, _dungeon, _depth, _bottom_left, _size, _tiles);
+			archive(
+				_type, _dungeon, _depth, _bottom_left, _size, _tiles, _notes);
 		}
 
 		// Public Members
@@ -56,12 +58,15 @@ namespace Sorcery {
 		auto at(const int x, const int y) -> Tile &;
 		auto at(const Coordinate loc, const MapDirection direction, const int x,
 			const int z) -> Tile &;
+		auto note_at(const Coordinate loc) -> TileNote;
+		auto note_at(const int x, const int y) -> TileNote;
 		auto bottom_left() const -> Coordinate;
 		auto depth() const -> int;
 		auto get_delta_x(const int x, const int delta) const -> int;
 		auto get_delta_y(const int y, const int delta) const -> int;
 		auto in(const Coordinate loc) const -> bool;
-		auto load(const Json::Value row_data) -> bool;
+		auto load(const Json::Value row_data, const Json::Value note_data)
+			-> bool;
 		auto name() const -> std::string;
 		auto reset() -> void;
 		auto set(const Level *other) -> void;
@@ -80,6 +85,7 @@ namespace Sorcery {
 		Coordinate _bottom_left;
 		Size _size;
 		std::map<Coordinate, Tile> _tiles;
+		std::map<Coordinate, TileNote> _notes;
 
 		// Private Methods
 		auto _add_tile(const Coordinate location) -> void;
@@ -92,6 +98,7 @@ namespace Sorcery {
 		auto _load_first_pass(const Json::Value row_data) -> bool;
 		auto _load_second_pass(const Json::Value row_data) -> bool;
 		auto _load_third_pass() -> bool;
+		auto _load_notes(const Json::Value note_data) -> bool;
 		auto _update_tile(const Coordinate location,
 			const unsigned int north_wall, const unsigned int west_wall)
 			-> void;

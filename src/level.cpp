@@ -45,6 +45,7 @@ Sorcery::Level::Level(const Level &other)
 	  _bottom_left{other._bottom_left}, _size{other._size} {
 
 	_tiles = other._tiles;
+	_notes = other._notes;
 }
 
 auto Sorcery::Level::operator=(const Level &other) -> Level & {
@@ -55,14 +56,22 @@ auto Sorcery::Level::operator=(const Level &other) -> Level & {
 	_bottom_left = other._bottom_left;
 	_size = other._size;
 	_tiles = other._tiles;
+	_notes = other._notes;
 
 	return *this;
 }
 
-// Overload [] operator
 auto Sorcery::Level::operator[](Coordinate loc) -> Tile & {
 
 	return _tiles.at(loc);
+}
+
+auto Sorcery::Level::operator()(Coordinate loc) -> TileNote {
+
+	if (_notes.contains(loc))
+		return _notes.at(loc);
+	else
+		return TileNote{};
 }
 
 auto Sorcery::Level::reset() -> void {
@@ -122,12 +131,14 @@ auto Sorcery::Level::in(const Coordinate loc) const -> bool {
 		   (loc.y <= _bottom_left.y + static_cast<int>(_size.h));
 }
 
-auto Sorcery::Level::load(const Json::Value row_data) -> bool {
+auto Sorcery::Level::load(
+	const Json::Value row_data, const Json::Value note_data) -> bool {
 
 	_create();
 	_load_first_pass(row_data);
 	_load_second_pass(row_data);
 	_load_third_pass();
+	_load_notes(note_data);
 
 	return true;
 }
@@ -140,6 +151,24 @@ auto Sorcery::Level::set(const Level *other) -> void {
 	_bottom_left = other->_bottom_left;
 	_size = other->_size;
 	_tiles = other->_tiles;
+	_notes = other->_notes;
+}
+
+auto Sorcery::Level::note_at(const Coordinate loc) -> TileNote {
+
+	if (_notes.contains(loc))
+		return _notes.at(loc);
+	else {
+		return TileNote{};
+	}
+}
+auto Sorcery::Level::note_at(const int x, const int y) -> TileNote {
+
+	if (_notes.contains(Coordinate{x, y}))
+		return _notes.at(Coordinate{x, y});
+	else {
+		return TileNote{};
+	}
 }
 
 auto Sorcery::Level::at(const Coordinate loc) -> Tile & {
@@ -231,6 +260,19 @@ auto Sorcery::Level::_create() -> void {
 			 x <= _bottom_left.x + static_cast<int>(_size.w); x++) {
 			_add_tile(Coordinate{x, y});
 		}
+	}
+}
+
+auto Sorcery::Level::_load_notes(const Json::Value note_data) -> bool {
+
+	for (auto j = 0u; j < note_data.size(); j++) {
+
+		const auto x{static_cast<int>(note_data[j]["x"].asInt())};
+		const auto y{static_cast<int>(note_data[j]["y"].asInt())};
+		const auto text{note_data[j]["__data"].asString()};
+
+		TileNote note{x, y, text};
+		_notes[Coordinate{x, y}] = note;
 	}
 }
 
