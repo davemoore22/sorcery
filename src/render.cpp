@@ -144,26 +144,35 @@ auto Sorcery::Render::_render_wireframe(
 				target.draw(vr4.darkness, states);
 
 			// Row 3
-			if (tl3.is(TileProperty::DARKNESS))
+			if (tl3.is(TileProperty::DARKNESS)) {
 				target.draw(vl3.darkness, states);
+				target.draw(vl3.side_darkness, states);
+			}
 			if (tm3.is(TileProperty::DARKNESS))
 				target.draw(vm3.darkness, states);
-			if (tr3.is(TileProperty::DARKNESS))
+			if (tr3.is(TileProperty::DARKNESS)) {
 				target.draw(vr3.darkness, states);
+				target.draw(vr3.side_darkness, states);
+			}
 
 			// Row 2
-			if (tl2.is(TileProperty::DARKNESS))
+			if (tl2.is(TileProperty::DARKNESS)) {
 				target.draw(vl2.darkness, states);
+				target.draw(vl2.side_darkness, states);
+			}
 			if (tm2.is(TileProperty::DARKNESS))
 				target.draw(vm2.darkness, states);
-			if (tr2.is(TileProperty::DARKNESS))
+			if (tr2.is(TileProperty::DARKNESS)) {
 				target.draw(vr2.darkness, states);
+				target.draw(vr2.side_darkness, states);
+			}
 		}
 
 		// Row 1
-		if (tl1.is(TileProperty::DARKNESS))
-			target.draw(vl1.darkness, states);
-		else {
+		if (tl1.is(TileProperty::DARKNESS)) {
+			target.draw(vl0.darkness, states);
+			target.draw(vl1.side_darkness, states);
+		} else {
 			if (tl1.has(TileFeature::MESSAGE))
 				target.draw(vl1.floor, states);
 			if (tl1.has(TileFeature::STAIRS_DOWN))
@@ -181,9 +190,10 @@ auto Sorcery::Render::_render_wireframe(
 			if (tm1.has(TileFeature::STAIRS_UP))
 				target.draw(vm1.ceiling, states);
 		}
-		if (tr1.is(TileProperty::DARKNESS))
-			target.draw(vr1.darkness, states);
-		else {
+		if (tr1.is(TileProperty::DARKNESS)) {
+			target.draw(vr0.darkness, states);
+			target.draw(vl1.side_darkness, states);
+		} else {
 			if (tr1.has(TileFeature::MESSAGE))
 				target.draw(vr1.floor, states);
 			if (tr1.has(TileFeature::STAIRS_DOWN))
@@ -196,6 +206,7 @@ auto Sorcery::Render::_render_wireframe(
 	// Row 0
 	if (tl0.is(TileProperty::DARKNESS)) {
 		target.draw(vl0.darkness, states);
+		target.draw(vl0.side_darkness, states);
 	} else {
 		if (tl0.has(TileFeature::MESSAGE))
 			target.draw(vl0.floor, states);
@@ -214,6 +225,7 @@ auto Sorcery::Render::_render_wireframe(
 
 	if (tr0.is(TileProperty::DARKNESS)) {
 		target.draw(vr0.darkness, states);
+		target.draw(vr0.side_darkness, states);
 	} else {
 		if (tr0.has(TileFeature::MESSAGE))
 			target.draw(vr0.floor, states);

@@ -319,6 +319,48 @@ auto Sorcery::View::get_lit_nodes(const ViewNodeLayer layer, bool lit) const
 	return results;
 }
 
+auto Sorcery::View::_set_texture_coordinates(TileView &tileview) -> void {
+
+	constexpr auto size_panel_x{304u};
+	constexpr auto size_panel_y{176u};
+	for (auto i = 0; i <= 3; i++) {
+		tileview.floor[i].texCoords = tileview.floor[i].position;
+		tileview.ceiling[i].texCoords = tileview.ceiling[i].position;
+		tileview.darkness[i].texCoords.x =
+			tileview.darkness[i].position.x + (0 * size_panel_x);
+		tileview.darkness[i].texCoords.y =
+			tileview.darkness[i].position.y + (1 * size_panel_y);
+		tileview.side_darkness[i].texCoords.x =
+			tileview.side_darkness[i].position.x + (1 * size_panel_x);
+		tileview.side_darkness[i].texCoords.y =
+			tileview.side_darkness[i].position.y + (0 * size_panel_y);
+		tileview.left_side_wall[i].texCoords.x =
+			tileview.left_side_wall[i].position.x + (1 * size_panel_x);
+		tileview.left_side_wall[i].texCoords.y =
+			tileview.left_side_wall[i].position.y + (1 * size_panel_y);
+		tileview.right_side_wall[i].texCoords.x =
+			tileview.right_side_wall[i].position.x + (1 * size_panel_x);
+		tileview.right_side_wall[i].texCoords.y =
+			tileview.right_side_wall[i].position.y + (1 * size_panel_y);
+		tileview.left_side_door[i].texCoords.x =
+			tileview.left_side_door[i].position.x + (2 * size_panel_x);
+		tileview.left_side_door[i].texCoords.y =
+			tileview.left_side_door[i].position.y + (0 * size_panel_y);
+		tileview.right_side_door[i].texCoords.x =
+			tileview.right_side_door[i].position.x + (2 * size_panel_x);
+		tileview.right_side_door[i].texCoords.y =
+			tileview.right_side_door[i].position.y + (0 * size_panel_y);
+		tileview.back_wall[i].texCoords.x =
+			tileview.back_wall[i].position.x + (0 * size_panel_x);
+		tileview.back_wall[i].texCoords.y =
+			tileview.back_wall[i].position.y + (3 * size_panel_y);
+		tileview.back_door[i].texCoords.x =
+			tileview.back_door[i].position.x + (2 * size_panel_x);
+		tileview.back_door[i].texCoords.y =
+			tileview.back_door[i].position.y + (1 * size_panel_y);
+	}
+}
+
 auto Sorcery::View::_load_tile_views() -> void {
 
 	tileviews.clear();
@@ -330,23 +372,13 @@ auto Sorcery::View::_load_tile_views() -> void {
 	}
 
 	//  FLOORS/CEILINGS				SIDE DARKNESS			SIDE DOORS
-	//	FRONT DARKNESS				SIDE WALLS				FRONT DOORS z = 0
-	//  FRONT DOORS z = -1			FRONT DOORS z = -2		FRONT DOORS z = -3
-	//  FRONT WALLS z = 0			FRONT WALLS z = -1		FRONT WALLS z = -2
-	//  FRONT WALLS z = -3
+	//	FRONT DARKNESS				SIDE WALLS				FRONT DOORS z =
+	// 0
+	//  FRONT DOORS z = -1			FRONT DOORS z = -2		FRONT DOORS z =
+	//  -3
+	//  FRONT WALLS z = 0			FRONT WALLS z = -1		FRONT WALLS z =
+	//  -2 FRONT WALLS z = -3
 
-	auto direction_n{static_cast<unsigned int>(MapDirection::NORTH)};
-	auto direction_s{static_cast<unsigned int>(MapDirection::SOUTH)};
-	auto direction_e{static_cast<unsigned int>(MapDirection::EAST)};
-	auto direction_w{static_cast<unsigned int>(MapDirection::WEST)};
-
-	auto panel_x{0u};
-	auto panel_y{0u};
-	constexpr auto size_panel_x{304u};
-	constexpr auto size_panel_y{176u};
-
-	auto offset_x{panel_x * size_panel_x};
-	auto offset_y{panel_y * size_panel_y};
 	// https://www.sfml-dev.org/tutorials/2.5/graphics-vertex-array.php
 
 	// Tile the player is standing on
@@ -402,39 +434,7 @@ auto Sorcery::View::_load_tile_views() -> void {
 		tileview.back_door[2].position = sf::Vector2f(216, 23);
 		tileview.back_door[3].position = sf::Vector2f(216, 152);
 
-		for (auto i = 0; i <= 3; i++) {
-			tileview.floor[i].texCoords = tileview.floor[i].position;
-			tileview.ceiling[i].texCoords = tileview.ceiling[i].position;
-			tileview.darkness[i].texCoords.x =
-				tileview.darkness[i].position.x + (0 * size_panel_x);
-			tileview.darkness[i].texCoords.y =
-				tileview.darkness[i].position.y + (1 * size_panel_y);
-			tileview.left_side_wall[i].texCoords.x =
-				tileview.left_side_wall[i].position.x + (1 * size_panel_x);
-			tileview.left_side_wall[i].texCoords.y =
-				tileview.left_side_wall[i].position.y + (1 * size_panel_y);
-			tileview.right_side_wall[i].texCoords.x =
-				tileview.right_side_wall[i].position.x + (1 * size_panel_x);
-			tileview.right_side_wall[i].texCoords.y =
-				tileview.right_side_wall[i].position.y + (1 * size_panel_y);
-			tileview.left_side_door[i].texCoords.x =
-				tileview.left_side_door[i].position.x + (2 * size_panel_x);
-			tileview.left_side_door[i].texCoords.y =
-				tileview.left_side_door[i].position.y + (0 * size_panel_y);
-			tileview.right_side_door[i].texCoords.x =
-				tileview.right_side_door[i].position.x + (2 * size_panel_x);
-			tileview.right_side_door[i].texCoords.y =
-				tileview.right_side_door[i].position.y + (0 * size_panel_y);
-
-			tileview.back_wall[i].texCoords.x =
-				tileview.back_wall[i].position.x + (0 * size_panel_x);
-			tileview.back_wall[i].texCoords.y =
-				tileview.back_wall[i].position.y + (3 * size_panel_y);
-			tileview.back_door[i].texCoords.x =
-				tileview.back_door[i].position.x + (2 * size_panel_x);
-			tileview.back_door[i].texCoords.y =
-				tileview.back_door[i].position.y + (1 * size_panel_y);
-		}
+		_set_texture_coordinates(tileview);
 	}
 
 	// Tile in Front of the Player
@@ -490,39 +490,7 @@ auto Sorcery::View::_load_tile_views() -> void {
 		tileview.back_door[2].position = sf::Vector2f(184, 55);
 		tileview.back_door[3].position = sf::Vector2f(184, 120);
 
-		for (auto i = 0; i <= 3; i++) {
-			tileview.floor[i].texCoords = tileview.floor[i].position;
-			tileview.ceiling[i].texCoords = tileview.ceiling[i].position;
-			tileview.darkness[i].texCoords.x =
-				tileview.darkness[i].position.x + (0 * size_panel_x);
-			tileview.darkness[i].texCoords.y =
-				tileview.darkness[i].position.y + (1 * size_panel_y);
-			tileview.left_side_wall[i].texCoords.x =
-				tileview.left_side_wall[i].position.x + (1 * size_panel_x);
-			tileview.left_side_wall[i].texCoords.y =
-				tileview.left_side_wall[i].position.y + (1 * size_panel_y);
-			tileview.right_side_wall[i].texCoords.x =
-				tileview.right_side_wall[i].position.x + (1 * size_panel_x);
-			tileview.right_side_wall[i].texCoords.y =
-				tileview.right_side_wall[i].position.y + (1 * size_panel_y);
-			tileview.left_side_door[i].texCoords.x =
-				tileview.left_side_door[i].position.x + (2 * size_panel_x);
-			tileview.left_side_door[i].texCoords.y =
-				tileview.left_side_door[i].position.y + (0 * size_panel_y);
-			tileview.right_side_door[i].texCoords.x =
-				tileview.right_side_door[i].position.x + (2 * size_panel_x);
-			tileview.right_side_door[i].texCoords.y =
-				tileview.right_side_door[i].position.y + (0 * size_panel_y);
-
-			tileview.back_wall[i].texCoords.x =
-				tileview.back_wall[i].position.x + (1 * size_panel_x);
-			tileview.back_wall[i].texCoords.y =
-				tileview.back_wall[i].position.y + (3 * size_panel_y);
-			tileview.back_door[i].texCoords.x =
-				tileview.back_door[i].position.x + (0 * size_panel_x);
-			tileview.back_door[i].texCoords.y =
-				tileview.back_door[i].position.y + (2 * size_panel_y);
-		}
+		_set_texture_coordinates(tileview);
 	}
 
 	// Tile 2 in Front of the Player
@@ -569,39 +537,7 @@ auto Sorcery::View::_load_tile_views() -> void {
 		tileview.back_door[2].position = sf::Vector2f(168, 71);
 		tileview.back_door[3].position = sf::Vector2f(168, 104);
 
-		for (auto i = 0; i <= 3; i++) {
-			tileview.floor[i].texCoords = tileview.floor[i].position;
-			tileview.ceiling[i].texCoords = tileview.ceiling[i].position;
-			tileview.darkness[i].texCoords.x =
-				tileview.darkness[i].position.x + (0 * size_panel_x);
-			tileview.darkness[i].texCoords.y =
-				tileview.darkness[i].position.y + (1 * size_panel_y);
-			tileview.left_side_wall[i].texCoords.x =
-				tileview.left_side_wall[i].position.x + (1 * size_panel_x);
-			tileview.left_side_wall[i].texCoords.y =
-				tileview.left_side_wall[i].position.y + (1 * size_panel_y);
-			tileview.right_side_wall[i].texCoords.x =
-				tileview.right_side_wall[i].position.x + (1 * size_panel_x);
-			tileview.right_side_wall[i].texCoords.y =
-				tileview.right_side_wall[i].position.y + (1 * size_panel_y);
-			tileview.left_side_door[i].texCoords.x =
-				tileview.left_side_door[i].position.x + (2 * size_panel_x);
-			tileview.left_side_door[i].texCoords.y =
-				tileview.left_side_door[i].position.y + (0 * size_panel_y);
-			tileview.right_side_door[i].texCoords.x =
-				tileview.right_side_door[i].position.x + (2 * size_panel_x);
-			tileview.right_side_door[i].texCoords.y =
-				tileview.right_side_door[i].position.y + (0 * size_panel_y);
-
-			tileview.back_wall[i].texCoords.x =
-				tileview.back_wall[i].position.x + (2 * size_panel_x);
-			tileview.back_wall[i].texCoords.y =
-				tileview.back_wall[i].position.y + (3 * size_panel_y);
-			tileview.back_door[i].texCoords.x =
-				tileview.back_door[i].position.x + (1 * size_panel_x);
-			tileview.back_door[i].texCoords.y =
-				tileview.back_door[i].position.y + (2 * size_panel_y);
-		}
+		_set_texture_coordinates(tileview);
 	}
 
 	// Tile 3 in Front of the Player
@@ -648,41 +584,7 @@ auto Sorcery::View::_load_tile_views() -> void {
 		tileview.back_door[2].position = sf::Vector2f(160, 79);
 		tileview.back_door[3].position = sf::Vector2f(160, 96);
 
-		for (auto i = 0; i <= 3; i++) {
-			tileview.floor[i].texCoords = tileview.floor[i].position;
-			tileview.ceiling[i].texCoords = tileview.ceiling[i].position;
-			tileview.floor[i].texCoords = tileview.floor[i].position;
-			tileview.ceiling[i].texCoords = tileview.ceiling[i].position;
-			tileview.darkness[i].texCoords.x =
-				tileview.darkness[i].position.x + (0 * size_panel_x);
-			tileview.darkness[i].texCoords.y =
-				tileview.darkness[i].position.y + (1 * size_panel_y);
-			tileview.left_side_wall[i].texCoords.x =
-				tileview.left_side_wall[i].position.x + (1 * size_panel_x);
-			tileview.left_side_wall[i].texCoords.y =
-				tileview.left_side_wall[i].position.y + (1 * size_panel_y);
-			tileview.right_side_wall[i].texCoords.x =
-				tileview.right_side_wall[i].position.x + (1 * size_panel_x);
-			tileview.right_side_wall[i].texCoords.y =
-				tileview.right_side_wall[i].position.y + (1 * size_panel_y);
-			tileview.left_side_door[i].texCoords.x =
-				tileview.left_side_door[i].position.x + (2 * size_panel_x);
-			tileview.left_side_door[i].texCoords.y =
-				tileview.left_side_door[i].position.y + (0 * size_panel_y);
-			tileview.right_side_door[i].texCoords.x =
-				tileview.right_side_door[i].position.x + (2 * size_panel_x);
-			tileview.right_side_door[i].texCoords.y =
-				tileview.right_side_door[i].position.y + (0 * size_panel_y);
-
-			tileview.back_wall[i].texCoords.x =
-				tileview.back_wall[i].position.x + (2 * size_panel_x);
-			tileview.back_wall[i].texCoords.y =
-				tileview.back_wall[i].position.y + (2 * size_panel_y);
-			tileview.back_door[i].texCoords.x =
-				tileview.back_door[i].position.x + (0 * size_panel_x);
-			tileview.back_door[i].texCoords.y =
-				tileview.back_door[i].position.y + (4 * size_panel_y);
-		}
+		_set_texture_coordinates(tileview);
 	}
 
 	// Tile 4 in Front of the Player
@@ -701,12 +603,7 @@ auto Sorcery::View::_load_tile_views() -> void {
 		// No Right Wall/Door
 		// No Back Wall/Door
 
-		for (auto i = 0; i <= 3; i++) {
-			tileview.darkness[i].texCoords.x =
-				tileview.darkness[i].position.x + (0 * size_panel_x);
-			tileview.darkness[i].texCoords.y =
-				tileview.darkness[i].position.y + (1 * size_panel_y);
-		}
+		_set_texture_coordinates(tileview);
 	}
 
 	// Tile to the Immediate Left of the Player
@@ -723,15 +620,17 @@ auto Sorcery::View::_load_tile_views() -> void {
 		tileview.ceiling[2].position = sf::Vector2f(56, 8);
 		tileview.ceiling[3].position = sf::Vector2f(63, 15);
 
-		/* tileview.side_darkness[0].position = sf::Vector2f(8, 167);
+		tileview.darkness[0].position = sf::Vector2f(8, 152);
+		tileview.darkness[1].position = sf::Vector2f(8, 24);
+		tileview.darkness[2].position = sf::Vector2f(87, 24);
+		tileview.darkness[3].position = sf::Vector2f(87, 152);
+
+		tileview.side_darkness[0].position = sf::Vector2f(8, 167);
 		tileview.side_darkness[1].position = sf::Vector2f(8, 8);
 		tileview.side_darkness[2].position = sf::Vector2f(87, 8);
-		tileview.side_darkness[3].position = sf::Vector2f(87, 167); */
+		tileview.side_darkness[3].position = sf::Vector2f(87, 167);
 
-		for (auto i = 0; i <= 3; i++) {
-			tileview.floor[i].texCoords = tileview.floor[i].position;
-			tileview.ceiling[i].texCoords = tileview.ceiling[i].position;
-		}
+		_set_texture_coordinates(tileview);
 	}
 
 	// Tile to the Immediate Right of the Player
@@ -748,10 +647,17 @@ auto Sorcery::View::_load_tile_views() -> void {
 		tileview.ceiling[2].position = sf::Vector2f(295, 8);
 		tileview.ceiling[3].position = sf::Vector2f(295, 15);
 
-		/* tileview.side_darkness[0].position = sf::Vector2f(216, 167);
+		tileview.darkness[0].position = sf::Vector2f(216, 152);
+		tileview.darkness[1].position = sf::Vector2f(216, 24);
+		tileview.darkness[2].position = sf::Vector2f(295, 24);
+		tileview.darkness[3].position = sf::Vector2f(295, 152);
+
+		tileview.side_darkness[0].position = sf::Vector2f(216, 167);
 		tileview.side_darkness[1].position = sf::Vector2f(216, 8);
 		tileview.side_darkness[2].position = sf::Vector2f(295, 8);
 		tileview.side_darkness[3].position = sf::Vector2f(296, 167);
+
+		/*
 
 		tileview.left_side_wall[0].position = sf::Vector2f(216, 167);
 		tileview.left_side_wall[1].position = sf::Vector2f(216, 8);
@@ -773,11 +679,10 @@ auto Sorcery::View::_load_tile_views() -> void {
 		tileview.right_side_door[2].position = sf::Vector2f(295, 8);
 		tileview.right_side_door[3].position = sf::Vector2f(296, 167); */
 
-		for (auto i = 0; i <= 3; i++) {
-			tileview.floor[i].texCoords = tileview.floor[i].position;
-			tileview.ceiling[i].texCoords = tileview.ceiling[i].position;
-		}
+		_set_texture_coordinates(tileview);
 	}
+
+	// Tile to the right and one in front
 
 	{
 		Coordinate3 tile{-1, 0, -1};
@@ -792,12 +697,20 @@ auto Sorcery::View::_load_tile_views() -> void {
 		tileview.ceiling[2].position = sf::Vector2f(80, 32);
 		tileview.ceiling[3].position = sf::Vector2f(95, 47);
 
-		for (auto i = 0; i <= 3; i++) {
-			tileview.floor[i].texCoords = tileview.floor[i].position;
-			tileview.ceiling[i].texCoords = tileview.ceiling[i].position;
-		}
+		tileview.darkness[0].position = sf::Vector2f(184, 119);
+		tileview.darkness[1].position = sf::Vector2f(184, 56);
+		tileview.darkness[2].position = sf::Vector2f(247, 56);
+		tileview.darkness[3].position = sf::Vector2f(247, 119);
+
+		tileview.side_darkness[0].position = sf::Vector2f(120, 119);
+		tileview.side_darkness[1].position = sf::Vector2f(120, 56);
+		tileview.side_darkness[2].position = sf::Vector2f(135, 56);
+		tileview.side_darkness[3].position = sf::Vector2f(135, 119);
+
+		_set_texture_coordinates(tileview);
 	}
 
+	// Tile to the right and one in front
 	{
 		Coordinate3 tile{1, 0, -1};
 		auto &tileview{tileviews.at(tile)};
@@ -811,9 +724,16 @@ auto Sorcery::View::_load_tile_views() -> void {
 		tileview.ceiling[2].position = sf::Vector2f(287, 32);
 		tileview.ceiling[3].position = sf::Vector2f(257, 47);
 
-		for (auto i = 0; i <= 3; i++) {
-			tileview.floor[i].texCoords = tileview.floor[i].position;
-			tileview.ceiling[i].texCoords = tileview.ceiling[i].position;
-		}
+		tileview.darkness[0].position = sf::Vector2f(184, 119);
+		tileview.darkness[1].position = sf::Vector2f(184, 56);
+		tileview.darkness[2].position = sf::Vector2f(247, 56);
+		tileview.darkness[3].position = sf::Vector2f(247, 119);
+
+		tileview.side_darkness[0].position = sf::Vector2f(168, 119);
+		tileview.side_darkness[1].position = sf::Vector2f(168, 56);
+		tileview.side_darkness[2].position = sf::Vector2f(183, 56);
+		tileview.side_darkness[3].position = sf::Vector2f(183, 119);
+
+		_set_texture_coordinates(tileview);
 	}
 }

@@ -79,5 +79,6 @@ namespace Sorcery {
 		auto _preload(const int depth, const int width) -> void;
 
 		auto _load_tile_views() -> void;
+		auto _set_texture_coordinates(TileView &tileview) -> void;
 	};
 } // namespace Sorcery
