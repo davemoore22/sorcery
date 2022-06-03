@@ -8934,18 +8934,24 @@
 			"priority": "4"
 		},
 		{
+			"name": "view_frame",
+			"w": "74",
+			"h": "30",
+			"x": "2",
+			"y": "2",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "6",
+			"drawmode": "automatic",
+			"background": " 0x000000ff"
+		},
+		{
 			"name": "wireframe_view",
 			"type": "other",
 			"priority": "4",
-			"drawmode": "manual",
-			"data": [
-				{
-					"offset_x": "-40",
-					"offset_y": "-32",
-					"extra_scale_x": "0.29",
-					"extra_scale_y": "-0.96"
-				}
-			]
+			"x": "14",
+			"y": "2",
+			"drawmode": "manual"
 		},
 		{
 			"name": "ouch",

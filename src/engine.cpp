@@ -667,23 +667,24 @@ auto Sorcery::Engine::stop() -> void {}
 
 auto Sorcery::Engine::_draw() -> void {
 
-	// Scale the Render
-	const auto current_size{_display->window->size};
-	const auto wfr_c{((*_display->layout)["engine_base_ui:wireframe_view"])};
-	auto scale_x{(current_size.width * 1.0f) / VIEW_WIDTH * 1.0f};
-	auto scale_y{(current_size.height * 1.0f) / VIEW_HEIGHT * 1.0f};
-	scale_x += std::stof(wfr_c["extra_scale_x"].value_or("0.0"));
-	scale_y += std::stof(wfr_c["extra_scale_y"].value_or("0.0"));
-	_render->setScale(scale_x, scale_y);
+	// Scale the Render to fill the View Frame
+	const auto vf_c{(*_display->layout)["engine_base_ui:view_frame"]};
+	auto width{vf_c.w * 20};
+	auto height{vf_c.h * 20};
 
-	// Draw the Render
+	/// auto scale_x{(width * 1.0f) / VIEW_WIDTH * 1.0f};
+	auto scale_y{(height * 1.0f) / VIEW_HEIGHT * 1.0f};
 
-	_render->setPosition(0 + std::stoi(wfr_c["offset_x"].value_or("0")),
-		std::stoi(wfr_c["offset_y"].value_or("0")));
-	_window->draw(*_render);
+	const auto wfr_c{(*_display->layout)["engine_base_ui:wireframe_view"]};
+
+	_render->setScale(scale_y, scale_y);
 
 	// Standard Components
 	_display->display("engine_base_ui");
+
+	// Draw the Render
+	_render->setPosition(wfr_c.x, wfr_c.y);
+	_window->draw(*_render);
 
 	if (_status_bar->selected)
 		_status_bar->set_selected_background();
@@ -699,6 +700,10 @@ auto Sorcery::Engine::_draw() -> void {
 
 	_window->draw(*_left_icon_panel);
 	_window->draw(*_right_icon_panel);
+
+	if (_show_tile_note) {
+		_window->draw(*_tile_note);
+	}
 
 	// And the Menu
 	if (_in_camp) {
@@ -737,10 +742,6 @@ auto Sorcery::Engine::_draw() -> void {
 			_show_ouch = false;
 			_ouch->set_valid(false);
 		}
-	}
-
-	if (_show_tile_note) {
-		_window->draw(*_tile_note);
 	}
 
 	// Always draw the following
