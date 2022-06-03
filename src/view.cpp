@@ -400,6 +400,19 @@ auto Sorcery::View::_set_vertex_array(sf::VertexArray &array, sf::Vector2f p1,
 	array[3].position = p4;
 }
 
+auto Sorcery::View::_set_vertex_array(sf::VertexArray &array, sf::Vector2f p1,
+	sf::Vector2f p2, sf::Vector2f p3, sf::Vector2f p4, const sf::Color colour)
+	-> void {
+	array[0].position = p1;
+	array[1].position = p2;
+	array[2].position = p3;
+	array[3].position = p4;
+	array[0].color = colour;
+	array[1].color = colour;
+	array[2].color = colour;
+	array[3].color = colour;
+}
+
 auto Sorcery::View::_load_tile_views() -> void {
 
 	tileviews.clear();
@@ -409,6 +422,14 @@ auto Sorcery::View::_load_tile_views() -> void {
 			tileviews[loc] = TileView{loc};
 		}
 	}
+
+	const auto floor_c{(*_display->layout)["engine_base_ui:wireframe_view"]};
+	const auto floor_colour{
+		sf::Color{std::stoull(floor_c["floor_colour"].value(), 0, 16)}};
+	const auto ceiling_colour{
+		sf::Color{std::stoull(floor_c["ceiling_colour"].value(), 0, 16)}};
+	const auto darkness_colour{
+		sf::Color{std::stoull(floor_c["darkness_colour"].value(), 0, 16)}};
 
 	//  FLOORS/CEILINGS				SIDE DARKNESS			SIDE DOORS
 	//	FRONT DARKNESS				SIDE WALLS				FRONT DOORS z =
@@ -428,11 +449,13 @@ auto Sorcery::View::_load_tile_views() -> void {
 		// Set Vertex Arrays
 		_set_vertex_array(tileview.floor, sf::Vector2f{88, 167},
 			sf::Vector2f{95, 160}, sf::Vector2f{208, 160},
-			sf::Vector2f{215, 167});
+			sf::Vector2f{215, 167}, floor_colour);
 		_set_vertex_array(tileview.ceiling, sf::Vector2f{95, 15},
-			sf::Vector2f{88, 8}, sf::Vector2f{215, 8}, sf::Vector2f{208, 15});
+			sf::Vector2f{88, 8}, sf::Vector2f{215, 8}, sf::Vector2f{208, 15},
+			ceiling_colour);
 		_set_vertex_array(tileview.darkness, sf::Vector2f{8, 167},
-			sf::Vector2f{8, 8}, sf::Vector2f{296, 8}, sf::Vector2f{296, 167});
+			sf::Vector2f{8, 8}, sf::Vector2f{296, 8}, sf::Vector2f{296, 167},
+			darkness_colour);
 		_set_vertex_array(tileview.back_wall, sf::Vector2f{87, 153},
 			sf::Vector2f{87, 23}, sf::Vector2f{217, 23},
 			sf::Vector2f{217, 153});
@@ -459,13 +482,13 @@ auto Sorcery::View::_load_tile_views() -> void {
 		// Set Vertex Arrays
 		_set_vertex_array(tileview.floor, sf::Vector2f{112, 143},
 			sf::Vector2f{127, 128}, sf::Vector2f{176, 128},
-			sf::Vector2f{191, 143});
+			sf::Vector2f{191, 143}, floor_colour);
 		_set_vertex_array(tileview.ceiling, sf::Vector2f{127, 47},
-			sf::Vector2f{112, 32}, sf::Vector2f{191, 32},
-			sf::Vector2f{176, 47});
+			sf::Vector2f{112, 32}, sf::Vector2f{191, 32}, sf::Vector2f{176, 47},
+			ceiling_colour);
 		_set_vertex_array(tileview.darkness, sf::Vector2f{87, 152},
-			sf::Vector2f{87, 23}, sf::Vector2f{216, 23},
-			sf::Vector2f{216, 152});
+			sf::Vector2f{87, 23}, sf::Vector2f{216, 23}, sf::Vector2f{216, 152},
+			darkness_colour);
 		_set_vertex_array(tileview.back_wall, sf::Vector2f{119, 121},
 			sf::Vector2f{119, 55}, sf::Vector2f{185, 55},
 			sf::Vector2f{185, 121});
@@ -497,7 +520,7 @@ auto Sorcery::View::_load_tile_views() -> void {
 		// Set Vertex Arrays
 		_set_vertex_array(tileview.darkness, sf::Vector2f{120, 119},
 			sf::Vector2f{120, 56}, sf::Vector2f{183, 56},
-			sf::Vector2f{183, 119});
+			sf::Vector2f{183, 119}, darkness_colour);
 		_set_vertex_array(tileview.back_wall, sf::Vector2f{135, 105},
 			sf::Vector2f{135, 71}, sf::Vector2f{169, 71},
 			sf::Vector2f{169, 105});
@@ -528,7 +551,7 @@ auto Sorcery::View::_load_tile_views() -> void {
 		// Set Vertex Arrays
 		_set_vertex_array(tileview.darkness, sf::Vector2f{135, 104},
 			sf::Vector2f{135, 71}, sf::Vector2f{168, 71},
-			sf::Vector2f{168, 104});
+			sf::Vector2f{168, 104}, darkness_colour);
 		_set_vertex_array(tileview.back_wall, sf::Vector2f{143, 97},
 			sf::Vector2f{143, 79}, sf::Vector2f{161, 79},
 			sf::Vector2f{161, 97});
@@ -558,12 +581,8 @@ auto Sorcery::View::_load_tile_views() -> void {
 
 		// Set Vertex Arrays
 		_set_vertex_array(tileview.darkness, sf::Vector2f{143, 96},
-			sf::Vector2f{143, 79}, sf::Vector2f{160, 79},
-			sf::Vector2f{160, 96});
-
-		// No Left Wall/Door
-		// No Right Wall/Door
-		// No Back Wall/Door
+			sf::Vector2f{143, 79}, sf::Vector2f{160, 79}, sf::Vector2f{160, 96},
+			darkness_colour);
 
 		_set_texture_coordinates(tileview);
 	}
@@ -575,11 +594,14 @@ auto Sorcery::View::_load_tile_views() -> void {
 
 		// Set Vertex Arrays
 		_set_vertex_array(tileview.floor, sf::Vector2f{8, 167},
-			sf::Vector2f{8, 160}, sf::Vector2f{63, 160}, sf::Vector2f{56, 167});
+			sf::Vector2f{8, 160}, sf::Vector2f{63, 160}, sf::Vector2f{56, 167},
+			floor_colour);
 		_set_vertex_array(tileview.ceiling, sf::Vector2f{8, 15},
-			sf::Vector2f{8, 8}, sf::Vector2f{56, 8}, sf::Vector2f{63, 15});
+			sf::Vector2f{8, 8}, sf::Vector2f{56, 8}, sf::Vector2f{63, 15},
+			ceiling_colour);
 		_set_vertex_array(tileview.darkness, sf::Vector2f{8, 152},
-			sf::Vector2f{8, 24}, sf::Vector2f{87, 24}, sf::Vector2f{87, 152});
+			sf::Vector2f{8, 24}, sf::Vector2f{87, 24}, sf::Vector2f{87, 152},
+			darkness_colour);
 		_set_vertex_array(tileview.side_darkness, sf::Vector2f{8, 167},
 			sf::Vector2f{8, 8}, sf::Vector2f{87, 8}, sf::Vector2f{87, 167});
 		_set_vertex_array(tileview.back_wall, sf::Vector2f{8, 153},
@@ -598,14 +620,16 @@ auto Sorcery::View::_load_tile_views() -> void {
 		// Set Vertex Arrays
 		_set_vertex_array(tileview.floor, sf::Vector2f{239, 167},
 			sf::Vector2f{232, 160}, sf::Vector2f{295, 160},
-			sf::Vector2f{295, 167});
+			sf::Vector2f{295, 167}, floor_colour);
 		_set_vertex_array(tileview.ceiling, sf::Vector2f{232, 15},
-			sf::Vector2f{239, 8}, sf::Vector2f{295, 8}, sf::Vector2f{295, 15});
+			sf::Vector2f{239, 8}, sf::Vector2f{295, 8}, sf::Vector2f{295, 15},
+			ceiling_colour);
 		_set_vertex_array(tileview.darkness, sf::Vector2f{216, 152},
 			sf::Vector2f{216, 24}, sf::Vector2f{295, 24},
-			sf::Vector2f{295, 152});
+			sf::Vector2f{295, 152}, darkness_colour);
 		_set_vertex_array(tileview.side_darkness, sf::Vector2f{216, 167},
-			sf::Vector2f{216, 8}, sf::Vector2f{295, 8}, sf::Vector2f{296, 167});
+			sf::Vector2f{216, 8}, sf::Vector2f{295, 8}, sf::Vector2f{296, 167},
+			darkness_colour);
 		_set_vertex_array(tileview.back_wall, sf::Vector2f{216, 153},
 			sf::Vector2f{216, 23}, sf::Vector2f{296, 23},
 			sf::Vector2f{296, 153});
@@ -623,16 +647,17 @@ auto Sorcery::View::_load_tile_views() -> void {
 
 		// Set Vertex Arrays
 		_set_vertex_array(tileview.floor, sf::Vector2f{16, 143},
-			sf::Vector2f{46, 128}, sf::Vector2f{95, 128},
-			sf::Vector2f{80, 143});
+			sf::Vector2f{46, 128}, sf::Vector2f{95, 128}, sf::Vector2f{80, 143},
+			floor_colour);
 		_set_vertex_array(tileview.ceiling, sf::Vector2f{46, 47},
-			sf::Vector2f{16, 32}, sf::Vector2f{80, 32}, sf::Vector2f{95, 47});
+			sf::Vector2f{16, 32}, sf::Vector2f{80, 32}, sf::Vector2f{95, 47},
+			ceiling_colour);
 		_set_vertex_array(tileview.darkness, sf::Vector2f{56, 119},
-			sf::Vector2f{56, 56}, sf::Vector2f{119, 56},
-			sf::Vector2f{120, 119});
+			sf::Vector2f{56, 56}, sf::Vector2f{119, 56}, sf::Vector2f{120, 119},
+			darkness_colour);
 		_set_vertex_array(tileview.side_darkness, sf::Vector2f{88, 151},
-			sf::Vector2f{88, 24}, sf::Vector2f{119, 55},
-			sf::Vector2f{119, 120});
+			sf::Vector2f{88, 24}, sf::Vector2f{119, 55}, sf::Vector2f{119, 120},
+			darkness_colour);
 		_set_vertex_array(tileview.back_wall, sf::Vector2f{55, 121},
 			sf::Vector2f{55, 55}, sf::Vector2f{120, 55},
 			sf::Vector2f{120, 121});
@@ -651,10 +676,10 @@ auto Sorcery::View::_load_tile_views() -> void {
 		// Set Vertex Arrays
 		_set_vertex_array(tileview.darkness, sf::Vector2f{105, 104},
 			sf::Vector2f{104, 72}, sf::Vector2f{135, 72},
-			sf::Vector2f{136, 103});
+			sf::Vector2f{136, 103}, darkness_colour);
 		_set_vertex_array(tileview.side_darkness, sf::Vector2f{120, 119},
 			sf::Vector2f{120, 56}, sf::Vector2f{135, 71},
-			sf::Vector2f{135, 104});
+			sf::Vector2f{135, 104}, darkness_colour);
 		_set_vertex_array(tileview.back_wall, sf::Vector2f{103, 105},
 			sf::Vector2f{103, 71}, sf::Vector2f{136, 71},
 			sf::Vector2f{136, 105});
@@ -673,10 +698,10 @@ auto Sorcery::View::_load_tile_views() -> void {
 		// Set Vertex Arrays
 		_set_vertex_array(tileview.darkness, sf::Vector2f{103, 103},
 			sf::Vector2f{104, 72}, sf::Vector2f{136, 72},
-			sf::Vector2f{136, 103});
+			sf::Vector2f{136, 103}, darkness_colour);
 		_set_vertex_array(tileview.side_darkness, sf::Vector2f{136, 103},
-			sf::Vector2f{136, 72}, sf::Vector2f{144, 79},
-			sf::Vector2f{144, 96});
+			sf::Vector2f{136, 72}, sf::Vector2f{144, 79}, sf::Vector2f{144, 96},
+			darkness_colour);
 
 		_set_vertex_array(tileview.back_wall, sf::Vector2f{127, 97},
 			sf::Vector2f{127, 79}, sf::Vector2f{144, 79},
@@ -695,8 +720,8 @@ auto Sorcery::View::_load_tile_views() -> void {
 
 		// Set Vertex Arrays
 		_set_vertex_array(tileview.darkness, sf::Vector2f{126, 95},
-			sf::Vector2f{126, 80}, sf::Vector2f{143, 80},
-			sf::Vector2f{144, 95});
+			sf::Vector2f{126, 80}, sf::Vector2f{143, 80}, sf::Vector2f{144, 95},
+			darkness_colour);
 
 		_set_texture_coordinates(tileview);
 	}
@@ -709,16 +734,16 @@ auto Sorcery::View::_load_tile_views() -> void {
 		// Set Vertex Arrays
 		_set_vertex_array(tileview.floor, sf::Vector2f{215, 143},
 			sf::Vector2f{200, 128}, sf::Vector2f{257, 128},
-			sf::Vector2f{287, 143});
+			sf::Vector2f{287, 143}, floor_colour);
 		_set_vertex_array(tileview.ceiling, sf::Vector2f{200, 47},
-			sf::Vector2f{215, 32}, sf::Vector2f{287, 32},
-			sf::Vector2f{257, 47});
+			sf::Vector2f{215, 32}, sf::Vector2f{287, 32}, sf::Vector2f{257, 47},
+			ceiling_colour);
 		_set_vertex_array(tileview.darkness, sf::Vector2f{184, 119},
 			sf::Vector2f{184, 56}, sf::Vector2f{247, 56},
-			sf::Vector2f{247, 119});
+			sf::Vector2f{247, 119}, darkness_colour);
 		_set_vertex_array(tileview.side_darkness, sf::Vector2f{185, 120},
 			sf::Vector2f{185, 55}, sf::Vector2f{217, 24},
-			sf::Vector2f{217, 151});
+			sf::Vector2f{217, 151}, darkness_colour);
 		_set_vertex_array(tileview.back_wall, sf::Vector2f{184, 121},
 			sf::Vector2f{184, 55}, sf::Vector2f{249, 55},
 			sf::Vector2f{249, 121});
@@ -737,10 +762,10 @@ auto Sorcery::View::_load_tile_views() -> void {
 		// Set Vertex Arrays
 		_set_vertex_array(tileview.darkness, sf::Vector2f{168, 103},
 			sf::Vector2f{168, 72}, sf::Vector2f{199, 72},
-			sf::Vector2f{199, 103});
+			sf::Vector2f{199, 103}, darkness_colour);
 		_set_vertex_array(tileview.side_darkness, sf::Vector2f{168, 104},
 			sf::Vector2f{168, 71}, sf::Vector2f{184, 56},
-			sf::Vector2f{184, 119});
+			sf::Vector2f{184, 119}, darkness_colour);
 		_set_vertex_array(tileview.back_wall, sf::Vector2f{168, 105},
 			sf::Vector2f{168, 71}, sf::Vector2f{201, 71},
 			sf::Vector2f{201, 105});
@@ -759,10 +784,10 @@ auto Sorcery::View::_load_tile_views() -> void {
 		// Set Vertex Arrays
 		_set_vertex_array(tileview.darkness, sf::Vector2f{168, 103},
 			sf::Vector2f{168, 72}, sf::Vector2f{199, 72},
-			sf::Vector2f{199, 103});
+			sf::Vector2f{199, 103}, darkness_colour);
 		_set_vertex_array(tileview.side_darkness, sf::Vector2f{160, 96},
 			sf::Vector2f{160, 79}, sf::Vector2f{167, 73},
-			sf::Vector2f{167, 103});
+			sf::Vector2f{167, 103}, darkness_colour);
 
 		_set_vertex_array(tileview.back_wall, sf::Vector2f{160, 97},
 			sf::Vector2f{160, 79}, sf::Vector2f{177, 79},
@@ -781,8 +806,8 @@ auto Sorcery::View::_load_tile_views() -> void {
 
 		// Set Vertex Arrays
 		_set_vertex_array(tileview.darkness, sf::Vector2f{160, 95},
-			sf::Vector2f{160, 80}, sf::Vector2f{176, 80},
-			sf::Vector2f{176, 95});
+			sf::Vector2f{160, 80}, sf::Vector2f{176, 80}, sf::Vector2f{176, 95},
+			darkness_colour);
 
 		_set_texture_coordinates(tileview);
 	}

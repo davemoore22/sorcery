@@ -6,13 +6,15 @@
 An open source remake of Wizardry 1,2,3 (and 5) with infinite Dungeon
 Adventures, and (optional) modern CRPG conveniences! I'm aiming to release it by
 the end of the year. Its coded using C++20 and SFML. Whilst eventually the game
-engine will be fully 3D, I need to spend time learning OpenGL properly, and thus
-initially the dungeons will be rendered (poorly!) using the old-school Painters
-Algorithm method used in classics such as Eye of the Beholder and The Vard's
-Tale. Its nowhere near complete or even playable yet! Visit back regularily for
+engine will be fully 3D, I need to spend time learning OpenGL properly, and for
+the moment the dungeon is rendered using the old-school Painters
+Algorithm method (used in classics such as Eye of the Beholder and The Bard's
+Tale) to faithfully reproduce the original wireframe graphiics.
+
+Hopefully soon, there will be a playable game! Visit back regularily for
 updates.
 
-## What can you do? (as of May 2020)
+## What can you do? (as of June 2020)
 
 * Visit the Town and the Castle
   * Inn
@@ -47,11 +49,11 @@ updates.
   * Bump into Walls
   * Automap
 
-## What can't you do? (as of May 2020)
+## What can't you do? (as of June 2020)
 
 * All the rest of it, but I'm working on it.
 
-## What next? (as of May 2020)
+## What next? (as of June 2020)
 
 Next stop will be items, creatures, magic and combat. Then there might be
 something playable here! Then, a proper 3D renderer will be implemented.

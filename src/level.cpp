@@ -433,6 +433,8 @@ auto Sorcery::Level::_update_tile(const Coordinate location,
 		tile.set(TileFeature::STAIRS_DOWN);
 	else if (marker == 25)
 		tile.set(TileFeature::MESSAGE);
+	else if (marker == 108)
+		tile.set(TileFeature::MESSAGE);
 	else if (marker == 26)
 		tile.set(TileFeature::STAIRS_UP);
 	else if (marker == 27)
