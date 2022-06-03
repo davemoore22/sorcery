@@ -716,9 +716,9 @@ auto Sorcery::View::_load_tile_views() -> void {
 		_set_vertex_array(tileview.darkness, sf::Vector2f{184, 119},
 			sf::Vector2f{184, 56}, sf::Vector2f{247, 56},
 			sf::Vector2f{247, 119});
-		_set_vertex_array(tileview.side_darkness, sf::Vector2f{184, 120},
-			sf::Vector2f{184, 55}, sf::Vector2f{215, 24},
-			sf::Vector2f{215, 151});
+		_set_vertex_array(tileview.side_darkness, sf::Vector2f{185, 120},
+			sf::Vector2f{185, 55}, sf::Vector2f{217, 24},
+			sf::Vector2f{217, 151});
 		_set_vertex_array(tileview.back_wall, sf::Vector2f{184, 121},
 			sf::Vector2f{184, 55}, sf::Vector2f{249, 55},
 			sf::Vector2f{249, 121});
