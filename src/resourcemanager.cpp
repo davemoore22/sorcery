@@ -65,6 +65,8 @@ Sorcery::ResourceManager::ResourceManager(File &files) : _files{files} {
 			thor::Resources::fromFile<sf::Texture>(_files[VIEW_TEXTURE]));
 		textures.acquire(Enums::Graphics::Texture::WALLS,
 			thor::Resources::fromFile<sf::Texture>(_files[WALLS_TEXTURE]));
+		textures.acquire(Enums::Graphics::Texture::WIREFRAME,
+			thor::Resources::fromFile<sf::Texture>(_files[WIREFRAME_TEXTURE]));
 
 		fonts.acquire(FontType::INPUT,
 			thor::Resources::fromFile<sf::Font>(_files[INPUT_FONT_FILE]));

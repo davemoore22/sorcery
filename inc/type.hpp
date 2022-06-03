@@ -408,21 +408,90 @@ namespace Sorcery {
 		Coordinate loc;
 		std::string text;
 		bool visible;
+		Enums::View::Message::Position position;
 
-		TileNote() : loc{Coordinate{-1, -1}}, text{""}, visible{true} {};
+		TileNote()
+			: loc{Coordinate{-1, -1}}, text{""}, visible{true},
+			  position{Enums::View::Message::Position::NONE} {}
 
 		TileNote(int x_, int y_, std::string text_) {
 			loc = Coordinate{x_, y_};
 			text = text_;
 			visible = true;
+			position = Enums::View::Message::Position::MIDDLE;
 		}
 
 		TileNote(Coordinate loc_, std::string text_, bool visible_)
-			: loc{loc_}, text{text_}, visible{visible_} {};
+			: loc{loc_}, text{text_}, visible{visible_},
+			  position{Enums::View::Message::Position::MIDDLE} {};
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(loc, text, visible);
+		}
+	};
+
+	struct TileView {
+
+		Coordinate3 offset;
+		sf::VertexArray floor;
+		sf::VertexArray ceiling;
+		sf::VertexArray darkness;
+		sf::VertexArray side_darkness;
+		sf::VertexArray back_wall;
+		sf::VertexArray back_door;
+		sf::VertexArray left_side_wall;
+		sf::VertexArray left_side_door;
+		sf::VertexArray right_side_wall;
+		sf::VertexArray right_side_door;
+
+		TileView() {
+
+			offset = Coordinate3{0, 0, 0};
+			floor.setPrimitiveType(sf::Quads);
+			floor.resize(4);
+			ceiling.setPrimitiveType(sf::Quads);
+			ceiling.resize(4);
+			darkness.setPrimitiveType(sf::Quads);
+			darkness.resize(4);
+			side_darkness.setPrimitiveType(sf::Quads);
+			side_darkness.resize(4);
+			back_door.setPrimitiveType(sf::Quads);
+			back_door.resize(4);
+			back_wall.setPrimitiveType(sf::Quads);
+			back_wall.resize(4);
+			left_side_wall.setPrimitiveType(sf::Quads);
+			left_side_wall.resize(4);
+			left_side_door.setPrimitiveType(sf::Quads);
+			left_side_door.resize(4);
+			right_side_wall.setPrimitiveType(sf::Quads);
+			right_side_wall.resize(4);
+			right_side_door.setPrimitiveType(sf::Quads);
+			right_side_door.resize(4);
+		};
+
+		TileView(Coordinate3 offset_) : offset{offset_} {
+
+			floor.setPrimitiveType(sf::Quads);
+			floor.resize(4);
+			ceiling.setPrimitiveType(sf::Quads);
+			ceiling.resize(4);
+			darkness.setPrimitiveType(sf::Quads);
+			darkness.resize(4);
+			side_darkness.setPrimitiveType(sf::Quads);
+			side_darkness.resize(4);
+			back_door.setPrimitiveType(sf::Quads);
+			back_door.resize(4);
+			back_wall.setPrimitiveType(sf::Quads);
+			back_wall.resize(4);
+			left_side_wall.setPrimitiveType(sf::Quads);
+			left_side_wall.resize(4);
+			left_side_door.setPrimitiveType(sf::Quads);
+			left_side_door.resize(4);
+			right_side_wall.setPrimitiveType(sf::Quads);
+			right_side_wall.resize(4);
+			right_side_door.setPrimitiveType(sf::Quads);
+			right_side_door.resize(4);
 		}
 	};
 

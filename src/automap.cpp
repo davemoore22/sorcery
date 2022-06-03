@@ -308,6 +308,17 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling)
 		stairs.setScale(scaling, scaling);
 		_sprites.emplace_back(stairs);
 	}
+
+	if (tile.has(TileFeature::MESSAGE)) {
+		sf::Sprite message{_graphics->textures
+							   ->get(magic_enum::enum_integer<AutoMapFeature>(
+										 AutoMapFeature::EXCLAMATION),
+								   GraphicsTextureType::AUTOMAP)
+							   .value()};
+		message.setPosition(x, y);
+		message.setScale(scaling, scaling);
+		_sprites.emplace_back(message);
+	}
 }
 
 /*

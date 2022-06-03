@@ -32,7 +32,6 @@
 #include "view.hpp"
 
 namespace Sorcery {
-
 	class Render : public sf::Transformable, public sf::Drawable {
 
 	  public:
@@ -63,7 +62,10 @@ namespace Sorcery {
 		auto _render_floor(bool lit) -> void;
 		auto _render_ceiling(bool lit) -> void;
 		auto _render_walls(bool lit) -> void;
+
 		auto virtual draw(
 			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto _render_wireframe(sf::RenderTarget &target,
+			sf::RenderStates states, bool lit) const -> void;
 	};
 } // namespace Sorcery

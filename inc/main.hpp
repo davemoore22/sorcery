@@ -162,6 +162,7 @@ namespace Sorcery {
 	using MenuField = Enums::Menu::Field;
 	using MenuButtonState = Enums::Menu::ButtonState;
 	using MenuItemType = Enums::Menu::ItemType;
+	using MessagePosition = Enums::View::Message::Position;
 	using MessageType = Enums::Internal::MessageType;
 	using Method = Enums::Manage::Method;
 	using ModuleResult = Enums::System::ModuleResult;

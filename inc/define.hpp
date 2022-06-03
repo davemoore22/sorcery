@@ -100,6 +100,7 @@ namespace Sorcery {
 	inline constexpr auto UI_TEXTURE{"ui.png"sv};
 	inline constexpr auto VIEW_TEXTURE{"view.png"sv};
 	inline constexpr auto WALLS_TEXTURE{"walls.png"sv};
+	inline constexpr auto WIREFRAME_TEXTURE{"wireframe.png"sv};
 
 	// Other Images
 	inline constexpr auto LOADING_IMAGE{"loading.png"sv};
@@ -129,8 +130,10 @@ namespace Sorcery {
 	inline constexpr auto ATTRACT_MODE_TILE_SPACING{8};
 	inline constexpr auto AUTOMAP_TILE_SIZE{21};
 	inline constexpr auto AUTOMAP_TILE_ROW_COUNT{10};
-	inline constexpr auto VIEW_WIDTH{800};
-	inline constexpr auto VIEW_HEIGHT{450};
+	// inline constexpr auto VIEW_WIDTH{800};
+	// inline constexpr auto VIEW_HEIGHT{450};
+	inline constexpr auto VIEW_WIDTH{304};
+	inline constexpr auto VIEW_HEIGHT{176};
 
 	// Game config settings
 	static const std::string DEFAULT_SCREEN_HEIGHT{"default_height"};

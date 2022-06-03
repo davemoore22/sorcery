@@ -31,6 +31,8 @@ Sorcery::View::View(
 
 	// Load the layout from file
 	_loaded = _load((*_system->files)[VIEW_FILE]);
+
+	_load_tile_views();
 }
 
 // Overload [] Operator
@@ -315,4 +317,503 @@ auto Sorcery::View::get_lit_nodes(const ViewNodeLayer layer, bool lit) const
 	std::sort(results.begin(), results.end());
 
 	return results;
+}
+
+auto Sorcery::View::_load_tile_views() -> void {
+
+	tileviews.clear();
+	for (auto x = -1; x <= 1; x++) {
+		for (auto z = 0; z >= -5; z--) {
+			Coordinate3 loc{x, 0, z};
+			tileviews[loc] = TileView{loc};
+		}
+	}
+
+	//  FLOORS/CEILINGS				SIDE DARKNESS			SIDE DOORS
+	//	FRONT DARKNESS				SIDE WALLS				FRONT DOORS z = 0
+	//  FRONT DOORS z = -1			FRONT DOORS z = -2		FRONT DOORS z = -3
+	//  FRONT WALLS z = 0			FRONT WALLS z = -1		FRONT WALLS z = -2
+	//  FRONT WALLS z = -3
+
+	auto direction_n{static_cast<unsigned int>(MapDirection::NORTH)};
+	auto direction_s{static_cast<unsigned int>(MapDirection::SOUTH)};
+	auto direction_e{static_cast<unsigned int>(MapDirection::EAST)};
+	auto direction_w{static_cast<unsigned int>(MapDirection::WEST)};
+
+	auto panel_x{0u};
+	auto panel_y{0u};
+	constexpr auto size_panel_x{304u};
+	constexpr auto size_panel_y{176u};
+
+	auto offset_x{panel_x * size_panel_x};
+	auto offset_y{panel_y * size_panel_y};
+	// https://www.sfml-dev.org/tutorials/2.5/graphics-vertex-array.php
+
+	// Tile the player is standing on
+	{
+		Coordinate3 tile{0, 0, 0};
+		auto &tileview{tileviews.at(tile)};
+
+		// Floor
+		tileview.floor[0].position = sf::Vector2f(88, 167);
+		tileview.floor[1].position = sf::Vector2f(95, 160);
+		tileview.floor[2].position = sf::Vector2f(208, 160);
+		tileview.floor[3].position = sf::Vector2f(215, 167);
+
+		// Ceiling
+		tileview.ceiling[0].position = sf::Vector2f(95, 15);
+		tileview.ceiling[1].position = sf::Vector2f(88, 8);
+		tileview.ceiling[2].position = sf::Vector2f(215, 8);
+		tileview.ceiling[3].position = sf::Vector2f(208, 15);
+
+		// If tile is in Darkness
+		tileview.darkness[0].position = sf::Vector2f(8, 167);
+		tileview.darkness[1].position = sf::Vector2f(8, 8);
+		tileview.darkness[2].position = sf::Vector2f(295, 8);
+		tileview.darkness[3].position = sf::Vector2f(295, 167);
+
+		// Left Wall/Door
+		tileview.left_side_wall[0].position = sf::Vector2f(8, 167);
+		tileview.left_side_wall[1].position = sf::Vector2f(8, 8);
+		tileview.left_side_wall[2].position = sf::Vector2f(87, 8);
+		tileview.left_side_wall[3].position = sf::Vector2f(87, 167);
+		tileview.left_side_door[0].position = sf::Vector2f(8, 167);
+		tileview.left_side_door[1].position = sf::Vector2f(8, 8);
+		tileview.left_side_door[2].position = sf::Vector2f(87, 8);
+		tileview.left_side_door[3].position = sf::Vector2f(87, 167);
+
+		// Right Wall/Door
+		tileview.right_side_wall[0].position = sf::Vector2f(216, 167);
+		tileview.right_side_wall[1].position = sf::Vector2f(216, 8);
+		tileview.right_side_wall[2].position = sf::Vector2f(295, 8);
+		tileview.right_side_wall[3].position = sf::Vector2f(295, 167);
+		tileview.right_side_door[0].position = sf::Vector2f(216, 167);
+		tileview.right_side_door[1].position = sf::Vector2f(216, 8);
+		tileview.right_side_door[2].position = sf::Vector2f(295, 8);
+		tileview.right_side_door[3].position = sf::Vector2f(296, 167);
+
+		// Back Wall/Door
+		tileview.back_wall[0].position = sf::Vector2f(87, 152);
+		tileview.back_wall[1].position = sf::Vector2f(87, 23);
+		tileview.back_wall[2].position = sf::Vector2f(216, 23);
+		tileview.back_wall[3].position = sf::Vector2f(216, 152);
+		tileview.back_door[0].position = sf::Vector2f(87, 152);
+		tileview.back_door[1].position = sf::Vector2f(87, 23);
+		tileview.back_door[2].position = sf::Vector2f(216, 23);
+		tileview.back_door[3].position = sf::Vector2f(216, 152);
+
+		for (auto i = 0; i <= 3; i++) {
+			tileview.floor[i].texCoords = tileview.floor[i].position;
+			tileview.ceiling[i].texCoords = tileview.ceiling[i].position;
+			tileview.darkness[i].texCoords.x =
+				tileview.darkness[i].position.x + (0 * size_panel_x);
+			tileview.darkness[i].texCoords.y =
+				tileview.darkness[i].position.y + (1 * size_panel_y);
+			tileview.left_side_wall[i].texCoords.x =
+				tileview.left_side_wall[i].position.x + (1 * size_panel_x);
+			tileview.left_side_wall[i].texCoords.y =
+				tileview.left_side_wall[i].position.y + (1 * size_panel_y);
+			tileview.right_side_wall[i].texCoords.x =
+				tileview.right_side_wall[i].position.x + (1 * size_panel_x);
+			tileview.right_side_wall[i].texCoords.y =
+				tileview.right_side_wall[i].position.y + (1 * size_panel_y);
+			tileview.left_side_door[i].texCoords.x =
+				tileview.left_side_door[i].position.x + (2 * size_panel_x);
+			tileview.left_side_door[i].texCoords.y =
+				tileview.left_side_door[i].position.y + (0 * size_panel_y);
+			tileview.right_side_door[i].texCoords.x =
+				tileview.right_side_door[i].position.x + (2 * size_panel_x);
+			tileview.right_side_door[i].texCoords.y =
+				tileview.right_side_door[i].position.y + (0 * size_panel_y);
+
+			tileview.back_wall[i].texCoords.x =
+				tileview.back_wall[i].position.x + (0 * size_panel_x);
+			tileview.back_wall[i].texCoords.y =
+				tileview.back_wall[i].position.y + (3 * size_panel_y);
+			tileview.back_door[i].texCoords.x =
+				tileview.back_door[i].position.x + (2 * size_panel_x);
+			tileview.back_door[i].texCoords.y =
+				tileview.back_door[i].position.y + (1 * size_panel_y);
+		}
+	}
+
+	// Tile in Front of the Player
+	{
+		Coordinate3 tile{0, 0, -1};
+		auto &tileview{tileviews.at(tile)};
+
+		// Floor
+		tileview.floor[0].position = sf::Vector2f(112, 143);
+		tileview.floor[1].position = sf::Vector2f(127, 128);
+		tileview.floor[2].position = sf::Vector2f(176, 128);
+		tileview.floor[3].position = sf::Vector2f(191, 143);
+
+		// Ceiling
+		tileview.ceiling[0].position = sf::Vector2f(127, 47);
+		tileview.ceiling[1].position = sf::Vector2f(112, 32);
+		tileview.ceiling[2].position = sf::Vector2f(191, 32);
+		tileview.ceiling[3].position = sf::Vector2f(176, 47);
+
+		// If tile is in Darkness
+		tileview.darkness[0].position = sf::Vector2f(87, 152);
+		tileview.darkness[1].position = sf::Vector2f(87, 23);
+		tileview.darkness[2].position = sf::Vector2f(216, 23);
+		tileview.darkness[3].position = sf::Vector2f(216, 152);
+
+		// Left Wall/Door
+		tileview.left_side_wall[0].position = sf::Vector2f(87, 152);
+		tileview.left_side_wall[1].position = sf::Vector2f(87, 23);
+		tileview.left_side_wall[2].position = sf::Vector2f(119, 23);
+		tileview.left_side_wall[3].position = sf::Vector2f(119, 152);
+		tileview.left_side_door[0].position = sf::Vector2f(87, 152);
+		tileview.left_side_door[1].position = sf::Vector2f(87, 23);
+		tileview.left_side_door[2].position = sf::Vector2f(119, 23);
+		tileview.left_side_door[3].position = sf::Vector2f(119, 152);
+
+		// Right Wall/Door
+		tileview.right_side_wall[0].position = sf::Vector2f(188, 152);
+		tileview.right_side_wall[1].position = sf::Vector2f(188, 23);
+		tileview.right_side_wall[2].position = sf::Vector2f(216, 23);
+		tileview.right_side_wall[3].position = sf::Vector2f(216, 152);
+		tileview.right_side_door[0].position = sf::Vector2f(188, 152);
+		tileview.right_side_door[1].position = sf::Vector2f(188, 23);
+		tileview.right_side_door[2].position = sf::Vector2f(216, 23);
+		tileview.right_side_door[3].position = sf::Vector2f(216, 152);
+
+		// Back Wall/Door
+		tileview.back_wall[0].position = sf::Vector2f(119, 120);
+		tileview.back_wall[1].position = sf::Vector2f(119, 55);
+		tileview.back_wall[2].position = sf::Vector2f(184, 55);
+		tileview.back_wall[3].position = sf::Vector2f(184, 120);
+		tileview.back_door[0].position = sf::Vector2f(119, 120);
+		tileview.back_door[1].position = sf::Vector2f(119, 55);
+		tileview.back_door[2].position = sf::Vector2f(184, 55);
+		tileview.back_door[3].position = sf::Vector2f(184, 120);
+
+		for (auto i = 0; i <= 3; i++) {
+			tileview.floor[i].texCoords = tileview.floor[i].position;
+			tileview.ceiling[i].texCoords = tileview.ceiling[i].position;
+			tileview.darkness[i].texCoords.x =
+				tileview.darkness[i].position.x + (0 * size_panel_x);
+			tileview.darkness[i].texCoords.y =
+				tileview.darkness[i].position.y + (1 * size_panel_y);
+			tileview.left_side_wall[i].texCoords.x =
+				tileview.left_side_wall[i].position.x + (1 * size_panel_x);
+			tileview.left_side_wall[i].texCoords.y =
+				tileview.left_side_wall[i].position.y + (1 * size_panel_y);
+			tileview.right_side_wall[i].texCoords.x =
+				tileview.right_side_wall[i].position.x + (1 * size_panel_x);
+			tileview.right_side_wall[i].texCoords.y =
+				tileview.right_side_wall[i].position.y + (1 * size_panel_y);
+			tileview.left_side_door[i].texCoords.x =
+				tileview.left_side_door[i].position.x + (2 * size_panel_x);
+			tileview.left_side_door[i].texCoords.y =
+				tileview.left_side_door[i].position.y + (0 * size_panel_y);
+			tileview.right_side_door[i].texCoords.x =
+				tileview.right_side_door[i].position.x + (2 * size_panel_x);
+			tileview.right_side_door[i].texCoords.y =
+				tileview.right_side_door[i].position.y + (0 * size_panel_y);
+
+			tileview.back_wall[i].texCoords.x =
+				tileview.back_wall[i].position.x + (1 * size_panel_x);
+			tileview.back_wall[i].texCoords.y =
+				tileview.back_wall[i].position.y + (3 * size_panel_y);
+			tileview.back_door[i].texCoords.x =
+				tileview.back_door[i].position.x + (0 * size_panel_x);
+			tileview.back_door[i].texCoords.y =
+				tileview.back_door[i].position.y + (2 * size_panel_y);
+		}
+	}
+
+	// Tile 2 in Front of the Player
+	{
+		Coordinate3 tile{0, 0, -2};
+		auto &tileview{tileviews.at(tile)};
+
+		// No Floor
+		// No Ceiling
+
+		// If tile is in Darkness
+		tileview.darkness[0].position = sf::Vector2f(120, 119);
+		tileview.darkness[1].position = sf::Vector2f(120, 56);
+		tileview.darkness[2].position = sf::Vector2f(183, 56);
+		tileview.darkness[3].position = sf::Vector2f(183, 119);
+
+		// Left Wall/Door
+		tileview.left_side_wall[0].position = sf::Vector2f(120, 119);
+		tileview.left_side_wall[1].position = sf::Vector2f(120, 56);
+		tileview.left_side_wall[2].position = sf::Vector2f(135, 56);
+		tileview.left_side_wall[3].position = sf::Vector2f(135, 119);
+		tileview.left_side_door[0].position = sf::Vector2f(120, 119);
+		tileview.left_side_door[1].position = sf::Vector2f(120, 56);
+		tileview.left_side_door[2].position = sf::Vector2f(135, 56);
+		tileview.left_side_door[3].position = sf::Vector2f(135, 119);
+
+		// Right Wall/Door
+		tileview.right_side_wall[0].position = sf::Vector2f(168, 119);
+		tileview.right_side_wall[1].position = sf::Vector2f(168, 56);
+		tileview.right_side_wall[2].position = sf::Vector2f(184, 56);
+		tileview.right_side_wall[3].position = sf::Vector2f(184, 119);
+		tileview.right_side_door[0].position = sf::Vector2f(168, 119);
+		tileview.right_side_door[1].position = sf::Vector2f(168, 56);
+		tileview.right_side_door[2].position = sf::Vector2f(184, 56);
+		tileview.right_side_door[3].position = sf::Vector2f(184, 119);
+
+		// Back Wall/Door
+		tileview.back_wall[0].position = sf::Vector2f(135, 104);
+		tileview.back_wall[1].position = sf::Vector2f(135, 71);
+		tileview.back_wall[2].position = sf::Vector2f(168, 71);
+		tileview.back_wall[3].position = sf::Vector2f(168, 104);
+		tileview.back_door[0].position = sf::Vector2f(135, 104);
+		tileview.back_door[1].position = sf::Vector2f(135, 71);
+		tileview.back_door[2].position = sf::Vector2f(168, 71);
+		tileview.back_door[3].position = sf::Vector2f(168, 104);
+
+		for (auto i = 0; i <= 3; i++) {
+			tileview.floor[i].texCoords = tileview.floor[i].position;
+			tileview.ceiling[i].texCoords = tileview.ceiling[i].position;
+			tileview.darkness[i].texCoords.x =
+				tileview.darkness[i].position.x + (0 * size_panel_x);
+			tileview.darkness[i].texCoords.y =
+				tileview.darkness[i].position.y + (1 * size_panel_y);
+			tileview.left_side_wall[i].texCoords.x =
+				tileview.left_side_wall[i].position.x + (1 * size_panel_x);
+			tileview.left_side_wall[i].texCoords.y =
+				tileview.left_side_wall[i].position.y + (1 * size_panel_y);
+			tileview.right_side_wall[i].texCoords.x =
+				tileview.right_side_wall[i].position.x + (1 * size_panel_x);
+			tileview.right_side_wall[i].texCoords.y =
+				tileview.right_side_wall[i].position.y + (1 * size_panel_y);
+			tileview.left_side_door[i].texCoords.x =
+				tileview.left_side_door[i].position.x + (2 * size_panel_x);
+			tileview.left_side_door[i].texCoords.y =
+				tileview.left_side_door[i].position.y + (0 * size_panel_y);
+			tileview.right_side_door[i].texCoords.x =
+				tileview.right_side_door[i].position.x + (2 * size_panel_x);
+			tileview.right_side_door[i].texCoords.y =
+				tileview.right_side_door[i].position.y + (0 * size_panel_y);
+
+			tileview.back_wall[i].texCoords.x =
+				tileview.back_wall[i].position.x + (2 * size_panel_x);
+			tileview.back_wall[i].texCoords.y =
+				tileview.back_wall[i].position.y + (3 * size_panel_y);
+			tileview.back_door[i].texCoords.x =
+				tileview.back_door[i].position.x + (1 * size_panel_x);
+			tileview.back_door[i].texCoords.y =
+				tileview.back_door[i].position.y + (2 * size_panel_y);
+		}
+	}
+
+	// Tile 3 in Front of the Player
+	{
+		Coordinate3 tile{0, 0, -3};
+		auto &tileview{tileviews.at(tile)};
+
+		// No Floor
+		// No Ceiling
+
+		// If tile is in Darkness
+		tileview.darkness[0].position = sf::Vector2f(135, 104);
+		tileview.darkness[1].position = sf::Vector2f(135, 71);
+		tileview.darkness[2].position = sf::Vector2f(168, 71);
+		tileview.darkness[3].position = sf::Vector2f(168, 104);
+
+		// Left Wall/Door
+		tileview.left_side_wall[0].position = sf::Vector2f(120, 119);
+		tileview.left_side_wall[1].position = sf::Vector2f(120, 56);
+		tileview.left_side_wall[2].position = sf::Vector2f(135, 56);
+		tileview.left_side_wall[3].position = sf::Vector2f(135, 119);
+		tileview.left_side_door[0].position = sf::Vector2f(120, 119);
+		tileview.left_side_door[1].position = sf::Vector2f(120, 56);
+		tileview.left_side_door[2].position = sf::Vector2f(135, 56);
+		tileview.left_side_door[3].position = sf::Vector2f(135, 119);
+
+		// Right Wall/Door
+		tileview.right_side_wall[0].position = sf::Vector2f(168, 119);
+		tileview.right_side_wall[1].position = sf::Vector2f(168, 56);
+		tileview.right_side_wall[2].position = sf::Vector2f(184, 56);
+		tileview.right_side_wall[3].position = sf::Vector2f(184, 119);
+		tileview.right_side_door[0].position = sf::Vector2f(168, 119);
+		tileview.right_side_door[1].position = sf::Vector2f(168, 56);
+		tileview.right_side_door[2].position = sf::Vector2f(184, 56);
+		tileview.right_side_door[3].position = sf::Vector2f(184, 119);
+
+		// Back Wall/Door
+		tileview.back_wall[0].position = sf::Vector2f(143, 96);
+		tileview.back_wall[1].position = sf::Vector2f(143, 79);
+		tileview.back_wall[2].position = sf::Vector2f(160, 79);
+		tileview.back_wall[3].position = sf::Vector2f(160, 96);
+		tileview.back_door[0].position = sf::Vector2f(143, 96);
+		tileview.back_door[1].position = sf::Vector2f(143, 79);
+		tileview.back_door[2].position = sf::Vector2f(160, 79);
+		tileview.back_door[3].position = sf::Vector2f(160, 96);
+
+		for (auto i = 0; i <= 3; i++) {
+			tileview.floor[i].texCoords = tileview.floor[i].position;
+			tileview.ceiling[i].texCoords = tileview.ceiling[i].position;
+			tileview.floor[i].texCoords = tileview.floor[i].position;
+			tileview.ceiling[i].texCoords = tileview.ceiling[i].position;
+			tileview.darkness[i].texCoords.x =
+				tileview.darkness[i].position.x + (0 * size_panel_x);
+			tileview.darkness[i].texCoords.y =
+				tileview.darkness[i].position.y + (1 * size_panel_y);
+			tileview.left_side_wall[i].texCoords.x =
+				tileview.left_side_wall[i].position.x + (1 * size_panel_x);
+			tileview.left_side_wall[i].texCoords.y =
+				tileview.left_side_wall[i].position.y + (1 * size_panel_y);
+			tileview.right_side_wall[i].texCoords.x =
+				tileview.right_side_wall[i].position.x + (1 * size_panel_x);
+			tileview.right_side_wall[i].texCoords.y =
+				tileview.right_side_wall[i].position.y + (1 * size_panel_y);
+			tileview.left_side_door[i].texCoords.x =
+				tileview.left_side_door[i].position.x + (2 * size_panel_x);
+			tileview.left_side_door[i].texCoords.y =
+				tileview.left_side_door[i].position.y + (0 * size_panel_y);
+			tileview.right_side_door[i].texCoords.x =
+				tileview.right_side_door[i].position.x + (2 * size_panel_x);
+			tileview.right_side_door[i].texCoords.y =
+				tileview.right_side_door[i].position.y + (0 * size_panel_y);
+
+			tileview.back_wall[i].texCoords.x =
+				tileview.back_wall[i].position.x + (2 * size_panel_x);
+			tileview.back_wall[i].texCoords.y =
+				tileview.back_wall[i].position.y + (2 * size_panel_y);
+			tileview.back_door[i].texCoords.x =
+				tileview.back_door[i].position.x + (0 * size_panel_x);
+			tileview.back_door[i].texCoords.y =
+				tileview.back_door[i].position.y + (4 * size_panel_y);
+		}
+	}
+
+	// Tile 4 in Front of the Player
+	{
+		Coordinate3 tile{0, 0, -4};
+		auto &tileview{tileviews.at(tile)};
+
+		// No Floor
+		// No Ceiling
+		// If tile is in Darkness
+		tileview.darkness[0].position = sf::Vector2f(143, 96);
+		tileview.darkness[1].position = sf::Vector2f(143, 79);
+		tileview.darkness[2].position = sf::Vector2f(160, 79);
+		tileview.darkness[3].position = sf::Vector2f(160, 96);
+		// No Left Wall/Door
+		// No Right Wall/Door
+		// No Back Wall/Door
+
+		for (auto i = 0; i <= 3; i++) {
+			tileview.darkness[i].texCoords.x =
+				tileview.darkness[i].position.x + (0 * size_panel_x);
+			tileview.darkness[i].texCoords.y =
+				tileview.darkness[i].position.y + (1 * size_panel_y);
+		}
+	}
+
+	// Tile to the Immediate Left of the Player
+	{
+		Coordinate3 tile{-1, 0, 0};
+		auto &tileview{tileviews.at(tile)};
+		tileview.floor[0].position = sf::Vector2f(8, 167);
+		tileview.floor[1].position = sf::Vector2f(8, 160);
+		tileview.floor[2].position = sf::Vector2f(63, 160);
+		tileview.floor[3].position = sf::Vector2f(56, 167);
+
+		tileview.ceiling[0].position = sf::Vector2f(8, 15);
+		tileview.ceiling[1].position = sf::Vector2f(8, 8);
+		tileview.ceiling[2].position = sf::Vector2f(56, 8);
+		tileview.ceiling[3].position = sf::Vector2f(63, 15);
+
+		/* tileview.side_darkness[0].position = sf::Vector2f(8, 167);
+		tileview.side_darkness[1].position = sf::Vector2f(8, 8);
+		tileview.side_darkness[2].position = sf::Vector2f(87, 8);
+		tileview.side_darkness[3].position = sf::Vector2f(87, 167); */
+
+		for (auto i = 0; i <= 3; i++) {
+			tileview.floor[i].texCoords = tileview.floor[i].position;
+			tileview.ceiling[i].texCoords = tileview.ceiling[i].position;
+		}
+	}
+
+	// Tile to the Immediate Right of the Player
+	{
+		Coordinate3 tile{1, 0, 0};
+		auto &tileview{tileviews.at(tile)};
+		tileview.floor[0].position = sf::Vector2f(239, 167);
+		tileview.floor[1].position = sf::Vector2f(232, 160);
+		tileview.floor[2].position = sf::Vector2f(295, 160);
+		tileview.floor[3].position = sf::Vector2f(295, 167);
+
+		tileview.ceiling[0].position = sf::Vector2f(232, 15);
+		tileview.ceiling[1].position = sf::Vector2f(239, 8);
+		tileview.ceiling[2].position = sf::Vector2f(295, 8);
+		tileview.ceiling[3].position = sf::Vector2f(295, 15);
+
+		/* tileview.side_darkness[0].position = sf::Vector2f(216, 167);
+		tileview.side_darkness[1].position = sf::Vector2f(216, 8);
+		tileview.side_darkness[2].position = sf::Vector2f(295, 8);
+		tileview.side_darkness[3].position = sf::Vector2f(296, 167);
+
+		tileview.left_side_wall[0].position = sf::Vector2f(216, 167);
+		tileview.left_side_wall[1].position = sf::Vector2f(216, 8);
+		tileview.left_side_wall[2].position = sf::Vector2f(295, 8);
+		tileview.left_side_wall[3].position = sf::Vector2f(296, 167);
+
+		tileview.left_side_door[0].position = sf::Vector2f(216, 167);
+		tileview.left_side_door[1].position = sf::Vector2f(216, 8);
+		tileview.left_side_door[2].position = sf::Vector2f(295, 8);
+		tileview.left_side_door[3].position = sf::Vector2f(296, 167);
+
+		tileview.right_side_wall[0].position = sf::Vector2f(216, 167);
+		tileview.right_side_wall[1].position = sf::Vector2f(216, 8);
+		tileview.right_side_wall[2].position = sf::Vector2f(295, 8);
+		tileview.right_side_wall[3].position = sf::Vector2f(296, 167);
+
+		tileview.right_side_door[0].position = sf::Vector2f(216, 167);
+		tileview.right_side_door[1].position = sf::Vector2f(216, 8);
+		tileview.right_side_door[2].position = sf::Vector2f(295, 8);
+		tileview.right_side_door[3].position = sf::Vector2f(296, 167); */
+
+		for (auto i = 0; i <= 3; i++) {
+			tileview.floor[i].texCoords = tileview.floor[i].position;
+			tileview.ceiling[i].texCoords = tileview.ceiling[i].position;
+		}
+	}
+
+	{
+		Coordinate3 tile{-1, 0, -1};
+		auto &tileview{tileviews.at(tile)};
+		tileview.floor[0].position = sf::Vector2f(16, 143);
+		tileview.floor[1].position = sf::Vector2f(46, 128);
+		tileview.floor[2].position = sf::Vector2f(95, 128);
+		tileview.floor[3].position = sf::Vector2f(80, 143);
+
+		tileview.ceiling[0].position = sf::Vector2f(46, 47);
+		tileview.ceiling[1].position = sf::Vector2f(16, 32);
+		tileview.ceiling[2].position = sf::Vector2f(80, 32);
+		tileview.ceiling[3].position = sf::Vector2f(95, 47);
+
+		for (auto i = 0; i <= 3; i++) {
+			tileview.floor[i].texCoords = tileview.floor[i].position;
+			tileview.ceiling[i].texCoords = tileview.ceiling[i].position;
+		}
+	}
+
+	{
+		Coordinate3 tile{1, 0, -1};
+		auto &tileview{tileviews.at(tile)};
+		tileview.floor[0].position = sf::Vector2f(215, 143);
+		tileview.floor[1].position = sf::Vector2f(200, 128);
+		tileview.floor[2].position = sf::Vector2f(257, 128);
+		tileview.floor[3].position = sf::Vector2f(287, 143);
+
+		tileview.ceiling[0].position = sf::Vector2f(200, 47);
+		tileview.ceiling[1].position = sf::Vector2f(215, 32);
+		tileview.ceiling[2].position = sf::Vector2f(287, 32);
+		tileview.ceiling[3].position = sf::Vector2f(257, 47);
+
+		for (auto i = 0; i <= 3; i++) {
+			tileview.floor[i].texCoords = tileview.floor[i].position;
+			tileview.ceiling[i].texCoords = tileview.ceiling[i].position;
+		}
+	}
 }

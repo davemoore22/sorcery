@@ -60,6 +60,8 @@ namespace Sorcery {
 		auto operator[](ViewNodeKey key) -> ViewNode;
 		auto operator[](int z) -> std::vector<ViewNode>;
 
+		std::map<Coordinate3, TileView> tileviews;
+
 	  private:
 		// Private Members
 		System *_system;
@@ -75,5 +77,7 @@ namespace Sorcery {
 		auto _get(ViewNodeLayer layer, int x, int z) const -> ViewNode;
 		auto _load(const std::filesystem::path filename) -> bool;
 		auto _preload(const int depth, const int width) -> void;
+
+		auto _load_tile_views() -> void;
 	};
 } // namespace Sorcery

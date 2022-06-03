@@ -191,7 +191,8 @@ namespace Sorcery {
 			TOWN,
 			UI,
 			VIEW,
-			WALLS
+			WALLS,
+			WIREFRAME
 		};
 
 		enum class TextureType {
@@ -820,6 +821,17 @@ namespace Sorcery {
 		} // namespace Map
 
 		namespace View {
+
+			namespace Message {
+
+				enum class Position {
+
+					NONE = -1,
+					MIDDLE = 0,
+					TOP = 1,
+					BOTTOM = 2
+				};
+			}
 
 			namespace Cell {
 

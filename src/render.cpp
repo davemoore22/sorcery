@@ -40,6 +40,179 @@ Sorcery::Render::Render(
 	_sprites.clear();
 }
 
+auto Sorcery::Render::refresh() -> void {
+
+	// Clear the View
+	_rtexture.clear(sf::Color(0, 0, 0, 255));
+	_rtexture.display();
+	/* _texture = _rtexture.getTexture();
+	auto bg{sf::Sprite{_texture}};
+	bg.setPosition(0, 0);
+	_sprites.emplace_back(bg);
+
+	// Render the View Components
+	_render_floor(false);
+	_render_ceiling(false);
+	_render_walls(false); */
+}
+
+auto Sorcery::Render::_darken_sprite(
+	const unsigned int depth, bool lit = true) const -> sf::Color {
+
+	const auto max_depth{lit ? LIGHT_VIEW_DEPTH : DARK_VIEW_DEPTH};
+	const auto step{255 / max_depth};
+
+	const auto darkened{sf::Color{
+		255 - (depth * step), 255 - (depth * step), 255 - (depth * step)}};
+
+	return darkened;
+}
+
+auto Sorcery::Render::draw(
+	sf::RenderTarget &target, sf::RenderStates states) const -> void {
+
+	states.transform *= getTransform();
+
+	bool lit = true;
+
+	_render_wireframe(target, states, lit);
+
+	for (const auto &sprite : _sprites)
+		target.draw(sprite, states);
+}
+
+auto Sorcery::Render::_render_wireframe(
+	sf::RenderTarget &target, sf::RenderStates states, bool lit) const -> void {
+
+	sf::Texture wireframe_t{
+		_system->resources->textures[GraphicsTexture::WIREFRAME]};
+
+	states.texture = &wireframe_t;
+
+	const auto player_pos{_game->state->get_player_pos()};
+	const auto player_facing{_game->state->get_player_facing()};
+
+	// todo - change level at to use z- into the screen
+	const auto tl0{_game->state->level->at(player_pos, player_facing, -1, 0)};
+	auto vl0{_view->tileviews.at(Coordinate3{-1, 0, 0})};
+	const auto tm0{_game->state->level->at(player_pos, player_facing, 0, 0)};
+	auto vm0{_view->tileviews.at(Coordinate3{0, 0, 0})};
+	const auto tr0{_game->state->level->at(player_pos, player_facing, 1, 0)};
+	auto vr0{_view->tileviews.at(Coordinate3{1, 0, 0})};
+
+	const auto tl1{_game->state->level->at(player_pos, player_facing, -1, 1)};
+	auto vl1{_view->tileviews.at(Coordinate3{-1, 0, -1})};
+	const auto tm1{_game->state->level->at(player_pos, player_facing, 0, 1)};
+	auto vm1{_view->tileviews.at(Coordinate3{0, 0, -1})};
+	const auto tr1{_game->state->level->at(player_pos, player_facing, 1, 1)};
+	auto vr1{_view->tileviews.at(Coordinate3{1, 0, -1})};
+
+	const auto tl2{_game->state->level->at(player_pos, player_facing, -1, 2)};
+	auto vl2{_view->tileviews.at(Coordinate3{-1, 0, -2})};
+	const auto tm2{_game->state->level->at(player_pos, player_facing, 0, 2)};
+	auto vm2{_view->tileviews.at(Coordinate3{0, 0, -2})};
+	const auto tr2{_game->state->level->at(player_pos, player_facing, 1, 2)};
+	auto vr2{_view->tileviews.at(Coordinate3{1, 0, -2})};
+
+	const auto tl3{_game->state->level->at(player_pos, player_facing, -1, 3)};
+	auto vl3{_view->tileviews.at(Coordinate3{-1, 0, -3})};
+	const auto tm3{_game->state->level->at(player_pos, player_facing, 0, 3)};
+	auto vm3{_view->tileviews.at(Coordinate3{0, 0, -3})};
+	const auto tr3{_game->state->level->at(player_pos, player_facing, 1, 3)};
+	auto vr3{_view->tileviews.at(Coordinate3{1, 0, -3})};
+
+	const auto tl4{_game->state->level->at(player_pos, player_facing, -1, 4)};
+	auto vl4{_view->tileviews.at(Coordinate3{-1, 0, -4})};
+	const auto tm4{_game->state->level->at(player_pos, player_facing, 0, 4)};
+	auto vm4{_view->tileviews.at(Coordinate3{0, 0, -4})};
+	const auto tr4{_game->state->level->at(player_pos, player_facing, 1, 4)};
+	auto vr4{_view->tileviews.at(Coordinate3{1, 0, -4})};
+
+	// If we are in darkness, only draw that!
+	if (tm0.is(TileProperty::DARKNESS)) {
+		target.draw(vm0.darkness, states);
+	} else {
+
+		if (lit) {
+
+			// Row 4
+			if (tl4.is(TileProperty::DARKNESS))
+				target.draw(vl4.darkness, states);
+			if (tm4.is(TileProperty::DARKNESS))
+				target.draw(vm4.darkness, states);
+			if (tr4.is(TileProperty::DARKNESS))
+				target.draw(vr4.darkness, states);
+
+			// Row 3
+			if (tl3.is(TileProperty::DARKNESS))
+				target.draw(vl3.darkness, states);
+			if (tm3.is(TileProperty::DARKNESS))
+				target.draw(vm3.darkness, states);
+			if (tr3.is(TileProperty::DARKNESS))
+				target.draw(vr3.darkness, states);
+
+			// Row 2
+			if (tl2.is(TileProperty::DARKNESS))
+				target.draw(vl2.darkness, states);
+			if (tm2.is(TileProperty::DARKNESS))
+				target.draw(vm2.darkness, states);
+			if (tr2.is(TileProperty::DARKNESS))
+				target.draw(vr2.darkness, states);
+		}
+
+		// Row 1
+		if (tl1.is(TileProperty::DARKNESS))
+			target.draw(vl1.darkness, states);
+		else {
+			if (tl1.has(TileFeature::STAIRS_DOWN))
+				target.draw(vl1.floor, states);
+			if (tl1.has(TileFeature::STAIRS_UP))
+				target.draw(vl1.ceiling, states);
+		}
+		if (tm1.is(TileProperty::DARKNESS))
+			target.draw(vm1.darkness, states);
+		else {
+			if (tm1.has(TileFeature::STAIRS_DOWN))
+				target.draw(vm1.floor, states);
+			if (tm1.has(TileFeature::STAIRS_UP))
+				target.draw(vm1.ceiling, states);
+		}
+		if (tr1.is(TileProperty::DARKNESS))
+			target.draw(vr1.darkness, states);
+		else {
+			if (tr1.has(TileFeature::STAIRS_DOWN))
+				target.draw(vr1.floor, states);
+			if (tr1.has(TileFeature::STAIRS_UP))
+				target.draw(vr1.ceiling, states);
+		}
+	}
+
+	// Row 0
+	if (tl0.is(TileProperty::DARKNESS)) {
+		target.draw(vl0.darkness, states);
+	} else {
+		if (tl0.has(TileFeature::STAIRS_DOWN))
+			target.draw(vl0.floor, states);
+		if (tl0.has(TileFeature::STAIRS_UP))
+			target.draw(vl0.ceiling, states);
+	}
+
+	if (tm0.has(TileFeature::STAIRS_DOWN))
+		target.draw(vm0.floor, states);
+	if (tm0.has(TileFeature::STAIRS_UP))
+		target.draw(vm0.ceiling, states);
+
+	if (tr0.is(TileProperty::DARKNESS)) {
+		target.draw(vr0.darkness, states);
+	} else {
+		if (tr0.has(TileFeature::STAIRS_DOWN))
+			target.draw(vr0.floor, states);
+		if (tr0.has(TileFeature::STAIRS_UP))
+			target.draw(vr0.ceiling, states);
+	}
+}
+
+/*
 auto Sorcery::Render::_render_floor(bool lit = true) -> void {
 
 	const auto player_pos{_game->state->get_player_pos()};
@@ -61,8 +234,8 @@ auto Sorcery::Render::_render_floor(bool lit = true) -> void {
 			_graphics->textures->get_atlas(node.source_rect, offset)};
 		floor_sprite.setColor(_darken_sprite(z, lit));
 		floor_sprite.setPosition(sf::Vector2f{
-			static_cast<float>(node.dest.x), static_cast<float>(node.dest.y)});
-		if (node.flipped)
+			static_cast<float>(node.dest.x),
+static_cast<float>(node.dest.y)}); if (node.flipped)
 			floor_sprite.setScale(-1.0f, 1.0);
 
 		_sprites.emplace_back(floor_sprite);
@@ -94,9 +267,8 @@ auto Sorcery::Render::_render_walls(bool lit = true) -> void {
 			const auto l_x{node.coords.x};
 			const auto l_z{node.coords.z - 1};
 			const auto tile{
-				_game->state->level->at(player_pos, player_facing, l_x, l_z)};
-			auto offset{false};
-			sf::Sprite front_sprite{
+				_game->state->level->at(player_pos, player_facing, l_x,
+l_z)}; auto offset{false}; sf::Sprite front_sprite{
 				_graphics->textures->get_atlas(node.source_rect, offset)};
 			front_sprite.setColor(_darken_sprite(z - 1, lit));
 			const auto offset_width{front_sprite.getLocalBounds().width};
@@ -123,8 +295,10 @@ auto Sorcery::Render::_render_walls(bool lit = true) -> void {
 				_sprites.emplace_back(front_sprite);
 			}
 
-			// Now we need to extend on each side if necessary (remember that in
-			// our view -x is to the left but on our map +x is to the right, as
+			// Now we need to extend on each side if necessary (remember
+that in
+			// our view -x is to the left but on our map +x is to the right,
+as
 			// seen from the player's perspective)
 			for (int left_x = 1; left_x <= depth; left_x++) {
 				auto shall_render{true};
@@ -133,23 +307,20 @@ auto Sorcery::Render::_render_walls(bool lit = true) -> void {
 				const auto tile_right{_game->state->level->at(
 					player_pos, player_facing, n_x, l_z)};
 				if (player_facing == MapDirection::NORTH) {
-					if (tile_right.wall(MapDirection::NORTH) != TileEdge::WALL)
-						shall_render = false;
-				} else if (player_facing == MapDirection::SOUTH) {
-					if (tile_right.wall(MapDirection::SOUTH) != TileEdge::WALL)
-						shall_render = false;
-				} else if (player_facing == MapDirection::EAST) {
-					if (tile_right.wall(MapDirection::EAST) != TileEdge::WALL)
-						shall_render = false;
-				} else if (player_facing == MapDirection::WEST) {
-					if (tile_right.wall(MapDirection::WEST) != TileEdge::WALL)
-						shall_render = false;
+					if (tile_right.wall(MapDirection::NORTH) !=
+TileEdge::WALL) shall_render = false; } else if (player_facing ==
+MapDirection::SOUTH) { if (tile_right.wall(MapDirection::SOUTH) !=
+TileEdge::WALL) shall_render = false; } else if (player_facing ==
+MapDirection::EAST) { if (tile_right.wall(MapDirection::EAST) !=
+TileEdge::WALL) shall_render = false; } else if (player_facing ==
+MapDirection::WEST) { if (tile_right.wall(MapDirection::WEST) !=
+TileEdge::WALL) shall_render = false;
 				}
 				if (shall_render) {
 					auto offset_texture{false};
-					sf::Sprite left_front_sprite{_graphics->textures->get_atlas(
-						node.source_rect, offset_texture)};
-					left_front_sprite.setColor(_darken_sprite(z - 1, lit));
+					sf::Sprite
+left_front_sprite{_graphics->textures->get_atlas( node.source_rect,
+offset_texture)}; left_front_sprite.setColor(_darken_sprite(z - 1, lit));
 					left_front_sprite.setPosition(sf::Vector2f{
 						static_cast<float>(node.dest.x - dest_offset_x),
 						static_cast<float>(node.dest.y)});
@@ -164,17 +335,14 @@ auto Sorcery::Render::_render_walls(bool lit = true) -> void {
 				const auto tile_left{_game->state->level->at(
 					player_pos, player_facing, n_x, l_z)};
 				if (player_facing == MapDirection::NORTH) {
-					if (tile_left.wall(MapDirection::NORTH) != TileEdge::WALL)
-						shall_render = false;
-				} else if (player_facing == MapDirection::SOUTH) {
-					if (tile_left.wall(MapDirection::SOUTH) != TileEdge::WALL)
-						shall_render = false;
-				} else if (player_facing == MapDirection::EAST) {
-					if (tile_left.wall(MapDirection::EAST) != TileEdge::WALL)
-						shall_render = false;
-				} else if (player_facing == MapDirection::WEST) {
-					if (tile_left.wall(MapDirection::WEST) != TileEdge::WALL)
-						shall_render = false;
+					if (tile_left.wall(MapDirection::NORTH) !=
+TileEdge::WALL) shall_render = false; } else if (player_facing ==
+MapDirection::SOUTH) { if (tile_left.wall(MapDirection::SOUTH) !=
+TileEdge::WALL) shall_render = false; } else if (player_facing ==
+MapDirection::EAST) { if (tile_left.wall(MapDirection::EAST) !=
+TileEdge::WALL) shall_render = false; } else if (player_facing ==
+MapDirection::WEST) { if (tile_left.wall(MapDirection::WEST) !=
+TileEdge::WALL) shall_render = false;
 				}
 				if (shall_render) {
 					auto offset_texture{false};
@@ -191,7 +359,8 @@ auto Sorcery::Render::_render_walls(bool lit = true) -> void {
 		}
 
 		// Now we do side walls to the right at this depth (unlike the front
-		// walls, the view atlas returns the correct depth for side walls); but
+		// walls, the view atlas returns the correct depth for side walls);
+but
 		// we also have to mirror them
 		_visible.clear();
 		_visible = _view->get_nodes_at_depth(
@@ -207,9 +376,8 @@ auto Sorcery::Render::_render_walls(bool lit = true) -> void {
 			const auto l_x{node.coords.x - 1};
 			const auto l_z{node.coords.z};
 			const auto tile{
-				_game->state->level->at(player_pos, player_facing, l_x, l_z)};
-			auto offset{false};
-			sf::Sprite right_side_sprite{
+				_game->state->level->at(player_pos, player_facing, l_x,
+l_z)}; auto offset{false}; sf::Sprite right_side_sprite{
 				_graphics->textures->get_atlas(node.source_rect, offset)};
 
 			if (player_facing == MapDirection::NORTH) {
@@ -254,9 +422,8 @@ auto Sorcery::Render::_render_walls(bool lit = true) -> void {
 			const auto l_x{node.coords.x + 1};
 			const auto l_z{node.coords.z};
 			const auto tile{
-				_game->state->level->at(player_pos, player_facing, l_x, l_z)};
-			auto offset{false};
-			sf::Sprite left_side_sprite{
+				_game->state->level->at(player_pos, player_facing, l_x,
+l_z)}; auto offset{false}; sf::Sprite left_side_sprite{
 				_graphics->textures->get_atlas(node.source_rect, offset)};
 
 			if (player_facing == MapDirection::NORTH) {
@@ -305,46 +472,11 @@ auto Sorcery::Render::_render_ceiling(bool lit = true) -> void {
 			_graphics->textures->get_atlas(node.source_rect, offset)};
 		ceiling_sprite.setColor(_darken_sprite(z, lit));
 		ceiling_sprite.setPosition(sf::Vector2f{
-			static_cast<float>(node.dest.x), static_cast<float>(node.dest.y)});
-		if (node.flipped)
+			static_cast<float>(node.dest.x),
+static_cast<float>(node.dest.y)}); if (node.flipped)
 			ceiling_sprite.setScale(-1.0f, 1.0);
 		_sprites.emplace_back(ceiling_sprite);
 	}
 }
 
-auto Sorcery::Render::refresh() -> void {
-
-	// Clear the View
-	_rtexture.clear(sf::Color(0, 0, 0, 255));
-	_rtexture.display();
-	_texture = _rtexture.getTexture();
-	auto bg{sf::Sprite{_texture}};
-	bg.setPosition(0, 0);
-	_sprites.emplace_back(bg);
-
-	// Render the View Components
-	_render_floor(false);
-	_render_ceiling(false);
-	_render_walls(false);
-}
-
-auto Sorcery::Render::_darken_sprite(
-	const unsigned int depth, bool lit = true) const -> sf::Color {
-
-	const auto max_depth{lit ? LIGHT_VIEW_DEPTH : DARK_VIEW_DEPTH};
-	const auto step{255 / max_depth};
-
-	const auto darkened{sf::Color{
-		255 - (depth * step), 255 - (depth * step), 255 - (depth * step)}};
-
-	return darkened;
-}
-
-auto Sorcery::Render::draw(
-	sf::RenderTarget &target, sf::RenderStates states) const -> void {
-
-	states.transform *= getTransform();
-
-	for (const auto &sprite : _sprites)
-		target.draw(sprite, states);
-}
+*/
