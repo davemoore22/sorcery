@@ -145,25 +145,25 @@ auto Sorcery::Render::_render_wireframe(
 
 			// Row 3
 			if (tl3.is(TileProperty::DARKNESS)) {
-				target.draw(vl3.darkness, states);
+				target.draw(vl2.darkness, states);
 				target.draw(vl3.side_darkness, states);
 			}
 			if (tm3.is(TileProperty::DARKNESS))
 				target.draw(vm3.darkness, states);
 			if (tr3.is(TileProperty::DARKNESS)) {
-				target.draw(vr3.darkness, states);
+				target.draw(vr2.darkness, states);
 				target.draw(vr3.side_darkness, states);
 			}
 
 			// Row 2
 			if (tl2.is(TileProperty::DARKNESS)) {
-				target.draw(vl2.darkness, states);
+				target.draw(vl1.darkness, states);
 				target.draw(vl2.side_darkness, states);
 			}
 			if (tm2.is(TileProperty::DARKNESS))
 				target.draw(vm2.darkness, states);
 			if (tr2.is(TileProperty::DARKNESS)) {
-				target.draw(vr2.darkness, states);
+				target.draw(vr1.darkness, states);
 				target.draw(vr2.side_darkness, states);
 			}
 		}
