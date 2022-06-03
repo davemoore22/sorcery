@@ -432,35 +432,21 @@ auto Sorcery::View::_load_tile_views() -> void {
 		_set_vertex_array(tileview.ceiling, sf::Vector2f{95, 15},
 			sf::Vector2f{88, 8}, sf::Vector2f{215, 8}, sf::Vector2f{208, 15});
 		_set_vertex_array(tileview.darkness, sf::Vector2f{8, 167},
-			sf::Vector2f{8, 8}, sf::Vector2f{295, 8}, sf::Vector2f{295, 167});
-
+			sf::Vector2f{8, 8}, sf::Vector2f{296, 8}, sf::Vector2f{296, 167});
 		_set_vertex_array(tileview.back_wall, sf::Vector2f{87, 153},
 			sf::Vector2f{87, 23}, sf::Vector2f{217, 23},
 			sf::Vector2f{217, 153});
 		_set_vertex_array(tileview.back_door, sf::Vector2f{87, 153},
 			sf::Vector2f{87, 23}, sf::Vector2f{217, 23},
 			sf::Vector2f{217, 153});
-
-		/* // Left Wall/Door
-		tileview.left_side_wall[0].position = sf::Vector2f(8, 167);
-		tileview.left_side_wall[1].position = sf::Vector2f(8, 8);
-		tileview.left_side_wall[2].position = sf::Vector2f(87, 8);
-		tileview.left_side_wall[3].position = sf::Vector2f(87, 167);
-		tileview.left_side_door[0].position = sf::Vector2f(8, 167);
-		tileview.left_side_door[1].position = sf::Vector2f(8, 8);
-		tileview.left_side_door[2].position = sf::Vector2f(87, 8);
-		tileview.left_side_door[3].position = sf::Vector2f(87, 167);
-
-		// Right Wall/Door
-		tileview.right_side_wall[0].position = sf::Vector2f(216, 167);
-		tileview.right_side_wall[1].position = sf::Vector2f(216, 8);
-		tileview.right_side_wall[2].position = sf::Vector2f(295, 8);
-		tileview.right_side_wall[3].position = sf::Vector2f(295, 167);
-		tileview.right_side_door[0].position = sf::Vector2f(216, 167);
-		tileview.right_side_door[1].position = sf::Vector2f(216, 8);
-		tileview.right_side_door[2].position = sf::Vector2f(295, 8);
-		tileview.right_side_door[3].position = sf::Vector2f(296, 167);
- */
+		_set_vertex_array(tileview.left_side_wall, sf::Vector2f{8, 167},
+			sf::Vector2f{8, 8}, sf::Vector2f{87, 8}, sf::Vector2f{87, 167});
+		_set_vertex_array(tileview.left_side_door, sf::Vector2f{8, 167},
+			sf::Vector2f{8, 8}, sf::Vector2f{87, 8}, sf::Vector2f{87, 167});
+		_set_vertex_array(tileview.right_side_wall, sf::Vector2f{216, 167},
+			sf::Vector2f{216, 8}, sf::Vector2f{296, 8}, sf::Vector2f{296, 167});
+		_set_vertex_array(tileview.right_side_door, sf::Vector2f{216, 167},
+			sf::Vector2f{216, 8}, sf::Vector2f{296, 8}, sf::Vector2f{296, 167});
 
 		_set_texture_coordinates(tileview);
 	}
@@ -487,25 +473,18 @@ auto Sorcery::View::_load_tile_views() -> void {
 			sf::Vector2f{119, 55}, sf::Vector2f{185, 55},
 			sf::Vector2f{185, 121});
 
-		// Left Wall/Door
-		tileview.left_side_wall[0].position = sf::Vector2f(87, 152);
-		tileview.left_side_wall[1].position = sf::Vector2f(87, 23);
-		tileview.left_side_wall[2].position = sf::Vector2f(119, 23);
-		tileview.left_side_wall[3].position = sf::Vector2f(119, 152);
-		tileview.left_side_door[0].position = sf::Vector2f(87, 152);
-		tileview.left_side_door[1].position = sf::Vector2f(87, 23);
-		tileview.left_side_door[2].position = sf::Vector2f(119, 23);
-		tileview.left_side_door[3].position = sf::Vector2f(119, 152);
-
-		// Right Wall/Door
-		tileview.right_side_wall[0].position = sf::Vector2f(188, 152);
-		tileview.right_side_wall[1].position = sf::Vector2f(188, 23);
-		tileview.right_side_wall[2].position = sf::Vector2f(216, 23);
-		tileview.right_side_wall[3].position = sf::Vector2f(216, 152);
-		tileview.right_side_door[0].position = sf::Vector2f(188, 152);
-		tileview.right_side_door[1].position = sf::Vector2f(188, 23);
-		tileview.right_side_door[2].position = sf::Vector2f(216, 23);
-		tileview.right_side_door[3].position = sf::Vector2f(216, 152);
+		_set_vertex_array(tileview.left_side_wall, sf::Vector2f{87, 152},
+			sf::Vector2f{87, 23}, sf::Vector2f{120, 23},
+			sf::Vector2f{120, 152});
+		_set_vertex_array(tileview.left_side_door, sf::Vector2f{87, 152},
+			sf::Vector2f{87, 23}, sf::Vector2f{120, 23},
+			sf::Vector2f{120, 152});
+		_set_vertex_array(tileview.right_side_wall, sf::Vector2f{184, 121},
+			sf::Vector2f{184, 55}, sf::Vector2f{216, 23},
+			sf::Vector2f{216, 152});
+		_set_vertex_array(tileview.right_side_door, sf::Vector2f{184, 121},
+			sf::Vector2f{184, 55}, sf::Vector2f{216, 23},
+			sf::Vector2f{216, 152});
 
 		_set_texture_coordinates(tileview);
 	}
@@ -525,26 +504,18 @@ auto Sorcery::View::_load_tile_views() -> void {
 		_set_vertex_array(tileview.back_door, sf::Vector2f{135, 105},
 			sf::Vector2f{139, 71}, sf::Vector2f{169, 71},
 			sf::Vector2f{168, 105});
-
-		// Left Wall/Door
-		tileview.left_side_wall[0].position = sf::Vector2f(120, 119);
-		tileview.left_side_wall[1].position = sf::Vector2f(120, 56);
-		tileview.left_side_wall[2].position = sf::Vector2f(135, 56);
-		tileview.left_side_wall[3].position = sf::Vector2f(135, 119);
-		tileview.left_side_door[0].position = sf::Vector2f(120, 119);
-		tileview.left_side_door[1].position = sf::Vector2f(120, 56);
-		tileview.left_side_door[2].position = sf::Vector2f(135, 56);
-		tileview.left_side_door[3].position = sf::Vector2f(135, 119);
-
-		// Right Wall/Door
-		tileview.right_side_wall[0].position = sf::Vector2f(168, 119);
-		tileview.right_side_wall[1].position = sf::Vector2f(168, 56);
-		tileview.right_side_wall[2].position = sf::Vector2f(184, 56);
-		tileview.right_side_wall[3].position = sf::Vector2f(184, 119);
-		tileview.right_side_door[0].position = sf::Vector2f(168, 119);
-		tileview.right_side_door[1].position = sf::Vector2f(168, 56);
-		tileview.right_side_door[2].position = sf::Vector2f(184, 56);
-		tileview.right_side_door[3].position = sf::Vector2f(184, 119);
+		_set_vertex_array(tileview.left_side_wall, sf::Vector2f{120, 121},
+			sf::Vector2f{120, 55}, sf::Vector2f{136, 71},
+			sf::Vector2f{136, 121});
+		_set_vertex_array(tileview.left_side_door, sf::Vector2f{120, 121},
+			sf::Vector2f{120, 55}, sf::Vector2f{136, 71},
+			sf::Vector2f{136, 121});
+		_set_vertex_array(tileview.right_side_wall, sf::Vector2f{168, 105},
+			sf::Vector2f{168, 71}, sf::Vector2f{185, 55},
+			sf::Vector2f{185, 121});
+		_set_vertex_array(tileview.right_side_door, sf::Vector2f{168, 105},
+			sf::Vector2f{168, 71}, sf::Vector2f{185, 55},
+			sf::Vector2f{185, 121});
 
 		_set_texture_coordinates(tileview);
 	}
@@ -571,11 +542,11 @@ auto Sorcery::View::_load_tile_views() -> void {
 			sf::Vector2f{136, 71}, sf::Vector2f{144, 79},
 			sf::Vector2f{144, 105});
 		_set_vertex_array(tileview.right_side_wall, sf::Vector2f{160, 97},
-			sf::Vector2f{160, 79}, sf::Vector2f{169, 71},
-			sf::Vector2f{169, 105});
+			sf::Vector2f{160, 79}, sf::Vector2f{168, 71},
+			sf::Vector2f{168, 105});
 		_set_vertex_array(tileview.right_side_door, sf::Vector2f{160, 97},
-			sf::Vector2f{160, 79}, sf::Vector2f{169, 71},
-			sf::Vector2f{169, 105});
+			sf::Vector2f{160, 79}, sf::Vector2f{168, 71},
+			sf::Vector2f{168, 105});
 
 		_set_texture_coordinates(tileview);
 	}
