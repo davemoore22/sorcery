@@ -669,12 +669,17 @@ auto Sorcery::Engine::_draw() -> void {
 
 	// Scale the Render
 	const auto current_size{_display->window->size};
-	const auto scale_x{(current_size.width * 1.0f) / VIEW_WIDTH * 1.0f};
-	const auto scale_y{(current_size.height * 1.0f) / VIEW_HEIGHT * 1.0f};
+	const auto wfr_c{((*_display->layout)["engine_base_ui:wireframe_view"])};
+	auto scale_x{(current_size.width * 1.0f) / VIEW_WIDTH * 1.0f};
+	auto scale_y{(current_size.height * 1.0f) / VIEW_HEIGHT * 1.0f};
+	scale_x += std::stof(wfr_c["extra_scale_x"].value_or("0.0"));
+	scale_y += std::stof(wfr_c["extra_scale_y"].value_or("0.0"));
 	_render->setScale(scale_x, scale_y);
 
 	// Draw the Render
-	_render->setPosition(0, 0);
+
+	_render->setPosition(0 + std::stoi(wfr_c["offset_x"].value_or("0")),
+		std::stoi(wfr_c["offset_y"].value_or("0")));
 	_window->draw(*_render);
 
 	// Standard Components

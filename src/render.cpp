@@ -164,6 +164,8 @@ auto Sorcery::Render::_render_wireframe(
 		if (tl1.is(TileProperty::DARKNESS))
 			target.draw(vl1.darkness, states);
 		else {
+			if (tl1.has(TileFeature::MESSAGE))
+				target.draw(vl1.floor, states);
 			if (tl1.has(TileFeature::STAIRS_DOWN))
 				target.draw(vl1.floor, states);
 			if (tl1.has(TileFeature::STAIRS_UP))
@@ -172,6 +174,8 @@ auto Sorcery::Render::_render_wireframe(
 		if (tm1.is(TileProperty::DARKNESS))
 			target.draw(vm1.darkness, states);
 		else {
+			if (tm1.has(TileFeature::MESSAGE))
+				target.draw(vm1.floor, states);
 			if (tm1.has(TileFeature::STAIRS_DOWN))
 				target.draw(vm1.floor, states);
 			if (tm1.has(TileFeature::STAIRS_UP))
@@ -180,6 +184,8 @@ auto Sorcery::Render::_render_wireframe(
 		if (tr1.is(TileProperty::DARKNESS))
 			target.draw(vr1.darkness, states);
 		else {
+			if (tr1.has(TileFeature::MESSAGE))
+				target.draw(vr1.floor, states);
 			if (tr1.has(TileFeature::STAIRS_DOWN))
 				target.draw(vr1.floor, states);
 			if (tr1.has(TileFeature::STAIRS_UP))
@@ -191,12 +197,16 @@ auto Sorcery::Render::_render_wireframe(
 	if (tl0.is(TileProperty::DARKNESS)) {
 		target.draw(vl0.darkness, states);
 	} else {
+		if (tl0.has(TileFeature::MESSAGE))
+			target.draw(vl0.floor, states);
 		if (tl0.has(TileFeature::STAIRS_DOWN))
 			target.draw(vl0.floor, states);
 		if (tl0.has(TileFeature::STAIRS_UP))
 			target.draw(vl0.ceiling, states);
 	}
 
+	if (tm0.has(TileFeature::MESSAGE))
+		target.draw(vm0.floor, states);
 	if (tm0.has(TileFeature::STAIRS_DOWN))
 		target.draw(vm0.floor, states);
 	if (tm0.has(TileFeature::STAIRS_UP))
@@ -205,6 +215,8 @@ auto Sorcery::Render::_render_wireframe(
 	if (tr0.is(TileProperty::DARKNESS)) {
 		target.draw(vr0.darkness, states);
 	} else {
+		if (tr0.has(TileFeature::MESSAGE))
+			target.draw(vr0.floor, states);
 		if (tr0.has(TileFeature::STAIRS_DOWN))
 			target.draw(vr0.floor, states);
 		if (tr0.has(TileFeature::STAIRS_UP))

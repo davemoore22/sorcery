@@ -8934,21 +8934,16 @@
 			"priority": "4"
 		},
 		{
-			"name": "overhead_view",
-			"x": "10",
-			"y": "0",
+			"name": "wireframe_view",
 			"type": "other",
 			"priority": "4",
 			"drawmode": "manual",
 			"data": [
 				{
-				"tile_size": "128",
-				"view_width_radius": "4",
-				"view_height_radius": "3",
-				"wall_thickness_source": "6",
-				"wall_thickness_destination": "6",
-				"no_wall_thickness_source": "1",
-				"no_wall_thickness_destination": "1"
+					"offset_x": "-40",
+					"offset_y": "-32",
+					"extra_scale_x": "0.29",
+					"extra_scale_y": "-0.96"
 				}
 			]
 		},
