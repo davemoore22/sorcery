@@ -8949,9 +8949,16 @@
 			"name": "wireframe_view",
 			"type": "other",
 			"priority": "4",
-			"x": "14",
+			"x": "13",
 			"y": "2",
-			"drawmode": "manual"
+			"drawmode": "manual",
+			"data":
+				[
+					{
+					"scale_x": "3.5",
+					"scale_y": "3.5"
+					}
+				]
 		},
 		{
 			"name": "ouch",

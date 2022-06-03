@@ -667,17 +667,11 @@ auto Sorcery::Engine::stop() -> void {}
 
 auto Sorcery::Engine::_draw() -> void {
 
-	// Scale the Render to fill the View Frame
+	// Scale the Render appropriately
 	const auto vf_c{(*_display->layout)["engine_base_ui:view_frame"]};
-	auto width{vf_c.w * 20};
-	auto height{vf_c.h * 20};
-
-	/// auto scale_x{(width * 1.0f) / VIEW_WIDTH * 1.0f};
-	auto scale_y{(height * 1.0f) / VIEW_HEIGHT * 1.0f};
-
 	const auto wfr_c{(*_display->layout)["engine_base_ui:wireframe_view"]};
-
-	_render->setScale(scale_y, scale_y);
+	_render->setScale(std::stof(wfr_c["scale_x"].value()),
+		std::stof(wfr_c["scale_y"].value()));
 
 	// Standard Components
 	_display->display("engine_base_ui");

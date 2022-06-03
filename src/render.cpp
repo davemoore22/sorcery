@@ -148,8 +148,13 @@ auto Sorcery::Render::_render_wireframe(
 				target.draw(vl2.darkness, states);
 				target.draw(vl3.side_darkness, states);
 			}
-			if (tm3.is(TileProperty::DARKNESS))
+			target.draw(vm3.back_wall, states);
+			if (tm3.is(TileProperty::DARKNESS)) {
 				target.draw(vm3.darkness, states);
+			} else if (tm3.has(player_facing)) {
+				target.draw(vm3.back_door, states);
+			}
+
 			if (tr3.is(TileProperty::DARKNESS)) {
 				target.draw(vr2.darkness, states);
 				target.draw(vr3.side_darkness, states);
@@ -201,38 +206,58 @@ auto Sorcery::Render::_render_wireframe(
 			if (tr1.has(TileFeature::STAIRS_UP))
 				target.draw(vr1.ceiling, states);
 		}
-	}
 
-	// Row 0
-	if (tl0.is(TileProperty::DARKNESS)) {
-		target.draw(vl0.darkness, states);
-		target.draw(vl0.side_darkness, states);
-	} else {
-		if (tl0.has(TileFeature::MESSAGE))
-			target.draw(vl0.floor, states);
-		if (tl0.has(TileFeature::STAIRS_DOWN))
-			target.draw(vl0.floor, states);
-		if (tl0.has(TileFeature::STAIRS_UP))
-			target.draw(vl0.ceiling, states);
-	}
+		// Row 0
+		if (tl0.has(player_facing, TileEdge::WALL))
+			target.draw(vl0.back_wall, states);
+		if (tl0.is(TileProperty::DARKNESS)) {
+			target.draw(vl0.darkness, states);
+			target.draw(vl0.side_darkness, states);
+		} else {
+			if (tl0.has(player_facing, TileEdge::UNLOCKED_DOOR)) {
+				target.draw(vl0.back_wall, states);
+				target.draw(vl0.back_door, states);
+			}
+			if (tl0.has(TileFeature::MESSAGE))
+				target.draw(vl0.floor, states);
+			if (tl0.has(TileFeature::STAIRS_DOWN))
+				target.draw(vl0.floor, states);
+			if (tl0.has(TileFeature::STAIRS_UP))
+				target.draw(vl0.ceiling, states);
+		}
 
-	if (tm0.has(TileFeature::MESSAGE))
-		target.draw(vm0.floor, states);
-	if (tm0.has(TileFeature::STAIRS_DOWN))
-		target.draw(vm0.floor, states);
-	if (tm0.has(TileFeature::STAIRS_UP))
-		target.draw(vm0.ceiling, states);
+		// If we have reached here, we aren't standing in darkness
+		if (tm0.has(player_facing, TileEdge::WALL))
+			target.draw(vm0.back_wall, states);
+		if (tm0.has(player_facing, TileEdge::UNLOCKED_DOOR)) {
+			target.draw(vm0.back_wall, states);
+			target.draw(vm0.back_door, states);
+		}
 
-	if (tr0.is(TileProperty::DARKNESS)) {
-		target.draw(vr0.darkness, states);
-		target.draw(vr0.side_darkness, states);
-	} else {
-		if (tr0.has(TileFeature::MESSAGE))
-			target.draw(vr0.floor, states);
-		if (tr0.has(TileFeature::STAIRS_DOWN))
-			target.draw(vr0.floor, states);
-		if (tr0.has(TileFeature::STAIRS_UP))
-			target.draw(vr0.ceiling, states);
+		if (tm0.has(TileFeature::MESSAGE))
+			target.draw(vm0.floor, states);
+		if (tm0.has(TileFeature::STAIRS_DOWN))
+			target.draw(vm0.floor, states);
+		if (tm0.has(TileFeature::STAIRS_UP))
+			target.draw(vm0.ceiling, states);
+
+		if (tr0.has(player_facing, TileEdge::WALL))
+			target.draw(vr0.back_wall, states);
+		if (tr0.is(TileProperty::DARKNESS)) {
+			target.draw(vr0.darkness, states);
+			target.draw(vr0.side_darkness, states);
+		} else {
+			if (tr0.has(player_facing, TileEdge::UNLOCKED_DOOR)) {
+				target.draw(vr0.back_wall, states);
+				target.draw(vr0.back_door, states);
+			}
+			if (tr0.has(TileFeature::MESSAGE))
+				target.draw(vr0.floor, states);
+			if (tr0.has(TileFeature::STAIRS_DOWN))
+				target.draw(vr0.floor, states);
+			if (tr0.has(TileFeature::STAIRS_UP))
+				target.draw(vr0.ceiling, states);
+		}
 	}
 }
 
