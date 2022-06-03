@@ -67,5 +67,7 @@ namespace Sorcery {
 			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _render_wireframe(sf::RenderTarget &target,
 			sf::RenderStates states, bool lit) const -> void;
+		auto _get_left_side(MapDirection facing) const -> MapDirection;
+		auto _get_right_side(MapDirection facing) const -> MapDirection;
 	};
 } // namespace Sorcery

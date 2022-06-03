@@ -81,6 +81,49 @@ auto Sorcery::Render::draw(
 		target.draw(sprite, states);
 }
 
+auto Sorcery::Render::_get_left_side(MapDirection facing) const
+	-> MapDirection {
+
+	switch (facing) {
+	case MapDirection::NORTH:
+		return MapDirection::WEST;
+		break;
+	case MapDirection::SOUTH:
+		return MapDirection::EAST;
+		break;
+	case MapDirection::EAST:
+		return MapDirection::NORTH;
+		break;
+	case MapDirection::WEST:
+		return MapDirection::SOUTH;
+		break;
+	default:
+		return facing;
+		break;
+	}
+}
+auto Sorcery::Render::_get_right_side(MapDirection facing) const
+	-> MapDirection {
+
+	switch (facing) {
+	case MapDirection::NORTH:
+		return MapDirection::EAST;
+		break;
+	case MapDirection::SOUTH:
+		return MapDirection::WEST;
+		break;
+	case MapDirection::EAST:
+		return MapDirection::SOUTH;
+		break;
+	case MapDirection::WEST:
+		return MapDirection::NORTH;
+		break;
+	default:
+		return facing;
+		break;
+	}
+}
+
 auto Sorcery::Render::_render_wireframe(
 	sf::RenderTarget &target, sf::RenderStates states, bool lit) const -> void {
 
@@ -174,6 +217,23 @@ auto Sorcery::Render::_render_wireframe(
 				if (tr3.has(player_facing, TileEdge::UNLOCKED_DOOR)) {
 					target.draw(vr3.back_wall, states);
 					target.draw(vr3.back_door, states);
+				}
+			}
+
+			if (!tm3.is(TileProperty::DARKNESS)) {
+				if (tm3.has(_get_left_side(player_facing), TileEdge::WALL))
+					target.draw(vm3.left_side_wall, states);
+				if (tm3.has(_get_left_side(player_facing),
+						TileEdge::UNLOCKED_DOOR)) {
+					target.draw(vm3.left_side_wall, states);
+					target.draw(vm3.left_side_door, states);
+				}
+				if (tm3.has(_get_right_side(player_facing), TileEdge::WALL))
+					target.draw(vm3.right_side_wall, states);
+				if (tm3.has(_get_right_side(player_facing),
+						TileEdge::UNLOCKED_DOOR)) {
+					target.draw(vm3.right_side_wall, states);
+					target.draw(vm3.right_side_door, states);
 				}
 			}
 
