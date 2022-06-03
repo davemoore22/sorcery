@@ -192,7 +192,7 @@ auto Sorcery::Render::_render_wireframe(
 		}
 		if (tr1.is(TileProperty::DARKNESS)) {
 			target.draw(vr0.darkness, states);
-			target.draw(vl1.side_darkness, states);
+			target.draw(vr1.side_darkness, states);
 		} else {
 			if (tr1.has(TileFeature::MESSAGE))
 				target.draw(vr1.floor, states);
