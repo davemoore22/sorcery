@@ -453,24 +453,6 @@ auto Sorcery::View::_load_tile_views() -> void {
 			sf::Vector2f{87, 23}, sf::Vector2f{216, 23},
 			sf::Vector2f{216, 152});
 
-		/* // Floor
-		tileview.floor[0].position = sf::Vector2f(112, 143);
-		tileview.floor[1].position = sf::Vector2f(127, 128);
-		tileview.floor[2].position = sf::Vector2f(176, 128);
-		tileview.floor[3].position = sf::Vector2f(191, 143);
-
-		// Ceiling
-		tileview.ceiling[0].position = sf::Vector2f(127, 47);
-		tileview.ceiling[1].position = sf::Vector2f(112, 32);
-		tileview.ceiling[2].position = sf::Vector2f(191, 32);
-		tileview.ceiling[3].position = sf::Vector2f(176, 47);
-
-		// If tile is in Darkness
-		tileview.darkness[0].position = sf::Vector2f(87, 152);
-		tileview.darkness[1].position = sf::Vector2f(87, 23);
-		tileview.darkness[2].position = sf::Vector2f(216, 23);
-		tileview.darkness[3].position = sf::Vector2f(216, 152); */
-
 		// Left Wall/Door
 		tileview.left_side_wall[0].position = sf::Vector2f(87, 152);
 		tileview.left_side_wall[1].position = sf::Vector2f(87, 23);
@@ -509,6 +491,7 @@ auto Sorcery::View::_load_tile_views() -> void {
 		Coordinate3 tile{0, 0, -2};
 		auto &tileview{tileviews.at(tile)};
 
+		// Set Vertex Arrays
 		_set_vertex_array(tileview.darkness, sf::Vector2f{120, 119},
 			sf::Vector2f{120, 56}, sf::Vector2f{183, 56},
 			sf::Vector2f{183, 119});
@@ -551,18 +534,13 @@ auto Sorcery::View::_load_tile_views() -> void {
 		Coordinate3 tile{0, 0, -3};
 		auto &tileview{tileviews.at(tile)};
 
+		// Set Vertex Arrays
 		_set_vertex_array(tileview.darkness, sf::Vector2f{135, 104},
 			sf::Vector2f{135, 71}, sf::Vector2f{168, 71},
 			sf::Vector2f{168, 104});
 
 		// No Floor
 		// No Ceiling
-
-		// If tile is in Darkness
-		/* tileview.darkness[0].position = sf::Vector2f(135, 104);
-		tileview.darkness[1].position = sf::Vector2f(135, 71);
-		tileview.darkness[2].position = sf::Vector2f(168, 71);
-		tileview.darkness[3].position = sf::Vector2f(168, 104); */
 
 		// Left Wall/Door
 		tileview.left_side_wall[0].position = sf::Vector2f(120, 119);
@@ -605,15 +583,11 @@ auto Sorcery::View::_load_tile_views() -> void {
 		// No Floor
 		// No Ceiling
 
+		// Set Vertex Arrays
 		_set_vertex_array(tileview.darkness, sf::Vector2f{143, 96},
 			sf::Vector2f{143, 79}, sf::Vector2f{160, 79},
-			sf::Vector2f{1160, 96});
+			sf::Vector2f{160, 96});
 
-		// If tile is in Darkness
-		/* tileview.darkness[0].position = sf::Vector2f(143, 96);
-		tileview.darkness[1].position = sf::Vector2f(143, 79);
-		tileview.darkness[2].position = sf::Vector2f(160, 79);
-		tileview.darkness[3].position = sf::Vector2f(160, 96); */
 		// No Left Wall/Door
 		// No Right Wall/Door
 		// No Back Wall/Door
@@ -625,25 +599,16 @@ auto Sorcery::View::_load_tile_views() -> void {
 	{
 		Coordinate3 tile{-1, 0, 0};
 		auto &tileview{tileviews.at(tile)};
-		tileview.floor[0].position = sf::Vector2f(8, 167);
-		tileview.floor[1].position = sf::Vector2f(8, 160);
-		tileview.floor[2].position = sf::Vector2f(63, 160);
-		tileview.floor[3].position = sf::Vector2f(56, 167);
 
-		tileview.ceiling[0].position = sf::Vector2f(8, 15);
-		tileview.ceiling[1].position = sf::Vector2f(8, 8);
-		tileview.ceiling[2].position = sf::Vector2f(56, 8);
-		tileview.ceiling[3].position = sf::Vector2f(63, 15);
-
-		tileview.darkness[0].position = sf::Vector2f(8, 152);
-		tileview.darkness[1].position = sf::Vector2f(8, 24);
-		tileview.darkness[2].position = sf::Vector2f(87, 24);
-		tileview.darkness[3].position = sf::Vector2f(87, 152);
-
-		tileview.side_darkness[0].position = sf::Vector2f(8, 167);
-		tileview.side_darkness[1].position = sf::Vector2f(8, 8);
-		tileview.side_darkness[2].position = sf::Vector2f(87, 8);
-		tileview.side_darkness[3].position = sf::Vector2f(87, 167);
+		// Set Vertex Arrays
+		_set_vertex_array(tileview.floor, sf::Vector2f{8, 167},
+			sf::Vector2f{8, 160}, sf::Vector2f{63, 160}, sf::Vector2f{56, 167});
+		_set_vertex_array(tileview.ceiling, sf::Vector2f{8, 15},
+			sf::Vector2f{8, 8}, sf::Vector2f{56, 8}, sf::Vector2f{63, 15});
+		_set_vertex_array(tileview.darkness, sf::Vector2f{8, 152},
+			sf::Vector2f{8, 24}, sf::Vector2f{87, 24}, sf::Vector2f{87, 152});
+		_set_vertex_array(tileview.side_darkness, sf::Vector2f{8, 167},
+			sf::Vector2f{8, 8}, sf::Vector2f{87, 8}, sf::Vector2f{87, 167});
 
 		_set_texture_coordinates(tileview);
 	}
@@ -652,80 +617,39 @@ auto Sorcery::View::_load_tile_views() -> void {
 	{
 		Coordinate3 tile{1, 0, 0};
 		auto &tileview{tileviews.at(tile)};
-		tileview.floor[0].position = sf::Vector2f(239, 167);
-		tileview.floor[1].position = sf::Vector2f(232, 160);
-		tileview.floor[2].position = sf::Vector2f(295, 160);
-		tileview.floor[3].position = sf::Vector2f(295, 167);
 
-		tileview.ceiling[0].position = sf::Vector2f(232, 15);
-		tileview.ceiling[1].position = sf::Vector2f(239, 8);
-		tileview.ceiling[2].position = sf::Vector2f(295, 8);
-		tileview.ceiling[3].position = sf::Vector2f(295, 15);
-
-		tileview.darkness[0].position = sf::Vector2f(216, 152);
-		tileview.darkness[1].position = sf::Vector2f(216, 24);
-		tileview.darkness[2].position = sf::Vector2f(295, 24);
-		tileview.darkness[3].position = sf::Vector2f(295, 152);
-
-		tileview.side_darkness[0].position = sf::Vector2f(216, 167);
-		tileview.side_darkness[1].position = sf::Vector2f(216, 8);
-		tileview.side_darkness[2].position = sf::Vector2f(295, 8);
-		tileview.side_darkness[3].position = sf::Vector2f(296, 167);
-
-		/*
-
-		tileview.left_side_wall[0].position = sf::Vector2f(216, 167);
-		tileview.left_side_wall[1].position = sf::Vector2f(216, 8);
-		tileview.left_side_wall[2].position = sf::Vector2f(295, 8);
-		tileview.left_side_wall[3].position = sf::Vector2f(296, 167);
-
-		tileview.left_side_door[0].position = sf::Vector2f(216, 167);
-		tileview.left_side_door[1].position = sf::Vector2f(216, 8);
-		tileview.left_side_door[2].position = sf::Vector2f(295, 8);
-		tileview.left_side_door[3].position = sf::Vector2f(296, 167);
-
-		tileview.right_side_wall[0].position = sf::Vector2f(216, 167);
-		tileview.right_side_wall[1].position = sf::Vector2f(216, 8);
-		tileview.right_side_wall[2].position = sf::Vector2f(295, 8);
-		tileview.right_side_wall[3].position = sf::Vector2f(296, 167);
-
-		tileview.right_side_door[0].position = sf::Vector2f(216, 167);
-		tileview.right_side_door[1].position = sf::Vector2f(216, 8);
-		tileview.right_side_door[2].position = sf::Vector2f(295, 8);
-		tileview.right_side_door[3].position = sf::Vector2f(296, 167); */
+		// Set Vertex Arrays
+		_set_vertex_array(tileview.floor, sf::Vector2f{239, 167},
+			sf::Vector2f{232, 160}, sf::Vector2f{295, 160},
+			sf::Vector2f{295, 167});
+		_set_vertex_array(tileview.ceiling, sf::Vector2f{232, 15},
+			sf::Vector2f{239, 8}, sf::Vector2f{295, 8}, sf::Vector2f{295, 15});
+		_set_vertex_array(tileview.darkness, sf::Vector2f{216, 152},
+			sf::Vector2f{216, 24}, sf::Vector2f{295, 24},
+			sf::Vector2f{295, 152});
+		_set_vertex_array(tileview.side_darkness, sf::Vector2f{216, 167},
+			sf::Vector2f{216, 8}, sf::Vector2f{295, 8}, sf::Vector2f{296, 167});
 
 		_set_texture_coordinates(tileview);
 	}
 
 	// Tile to the left and one in front
-
 	{
 		Coordinate3 tile{-1, 0, -1};
 		auto &tileview{tileviews.at(tile)};
-		tileview.floor[0].position = sf::Vector2f(16, 143);
-		tileview.floor[1].position = sf::Vector2f(46, 128);
-		tileview.floor[2].position = sf::Vector2f(95, 128);
-		tileview.floor[3].position = sf::Vector2f(80, 143);
 
-		tileview.ceiling[0].position = sf::Vector2f(46, 47);
-		tileview.ceiling[1].position = sf::Vector2f(16, 32);
-		tileview.ceiling[2].position = sf::Vector2f(80, 32);
-		tileview.ceiling[3].position = sf::Vector2f(95, 47);
-
-		tileview.darkness[0].position = sf::Vector2f(184, 119);
-		tileview.darkness[1].position = sf::Vector2f(184, 56);
-		tileview.darkness[2].position = sf::Vector2f(247, 56);
-		tileview.darkness[3].position = sf::Vector2f(247, 119);
-
-		tileview.side_darkness[0].position = sf::Vector2f(88, 151);
-		tileview.side_darkness[1].position = sf::Vector2f(88, 24);
-		tileview.side_darkness[2].position = sf::Vector2f(119, 55);
-		tileview.side_darkness[3].position = sf::Vector2f(119, 120);
-
-		/* tileview.side_darkness[0].position = sf::Vector2f(120, 119);
-		tileview.side_darkness[1].position = sf::Vector2f(120, 56);
-		tileview.side_darkness[2].position = sf::Vector2f(135, 56);
-		tileview.side_darkness[3].position = sf::Vector2f(135, 119); */
+		// Set Vertex Arrays
+		_set_vertex_array(tileview.floor, sf::Vector2f{16, 143},
+			sf::Vector2f{46, 128}, sf::Vector2f{95, 128},
+			sf::Vector2f{80, 143});
+		_set_vertex_array(tileview.ceiling, sf::Vector2f{46, 47},
+			sf::Vector2f{16, 32}, sf::Vector2f{80, 32}, sf::Vector2f{95, 47});
+		_set_vertex_array(tileview.darkness, sf::Vector2f{184, 119},
+			sf::Vector2f{184, 56}, sf::Vector2f{247, 56},
+			sf::Vector2f{247, 119});
+		_set_vertex_array(tileview.side_darkness, sf::Vector2f{88, 151},
+			sf::Vector2f{88, 24}, sf::Vector2f{119, 55},
+			sf::Vector2f{119, 120});
 
 		_set_texture_coordinates(tileview);
 	}
@@ -734,29 +658,20 @@ auto Sorcery::View::_load_tile_views() -> void {
 	{
 		Coordinate3 tile{1, 0, -1};
 		auto &tileview{tileviews.at(tile)};
-		tileview.floor[0].position = sf::Vector2f(215, 143);
-		tileview.floor[1].position = sf::Vector2f(200, 128);
-		tileview.floor[2].position = sf::Vector2f(257, 128);
-		tileview.floor[3].position = sf::Vector2f(287, 143);
 
-		tileview.ceiling[0].position = sf::Vector2f(200, 47);
-		tileview.ceiling[1].position = sf::Vector2f(215, 32);
-		tileview.ceiling[2].position = sf::Vector2f(287, 32);
-		tileview.ceiling[3].position = sf::Vector2f(257, 47);
-
-		tileview.darkness[0].position = sf::Vector2f(184, 119);
-		tileview.darkness[1].position = sf::Vector2f(184, 56);
-		tileview.darkness[2].position = sf::Vector2f(247, 56);
-		tileview.darkness[3].position = sf::Vector2f(247, 119);
-
-		/* tileview.side_darkness[0].position = sf::Vector2f(168, 119);
-		tileview.side_darkness[1].position = sf::Vector2f(168, 56);
-		tileview.side_darkness[2].position = sf::Vector2f(183, 56);
-		tileview.side_darkness[3].position = sf::Vector2f(183, 119); */
-		tileview.side_darkness[0].position = sf::Vector2f(184, 120);
-		tileview.side_darkness[1].position = sf::Vector2f(184, 55);
-		tileview.side_darkness[2].position = sf::Vector2f(215, 24);
-		tileview.side_darkness[3].position = sf::Vector2f(215, 151);
+		// Set Vertex Arrays
+		_set_vertex_array(tileview.floor, sf::Vector2f{215, 143},
+			sf::Vector2f{200, 128}, sf::Vector2f{257, 128},
+			sf::Vector2f{287, 143});
+		_set_vertex_array(tileview.ceiling, sf::Vector2f{200, 47},
+			sf::Vector2f{215, 32}, sf::Vector2f{287, 32},
+			sf::Vector2f{257, 47});
+		_set_vertex_array(tileview.darkness, sf::Vector2f{184, 119},
+			sf::Vector2f{184, 56}, sf::Vector2f{247, 56},
+			sf::Vector2f{247, 119});
+		_set_vertex_array(tileview.side_darkness, sf::Vector2f{184, 120},
+			sf::Vector2f{184, 55}, sf::Vector2f{215, 24},
+			sf::Vector2f{215, 151});
 
 		_set_texture_coordinates(tileview);
 	}
