@@ -301,7 +301,8 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling)
 			_sprites.emplace_back(wall);
 		}
 
-		if (tile.has(TileFeature::STAIRS_UP)) {
+		if ((tile.has(TileFeature::STAIRS_UP)) ||
+			(tile.has(TileFeature::LADDER_UP))) {
 			sf::Sprite stairs{
 				_graphics->textures
 					->get(magic_enum::enum_integer<AutoMapFeature>(
@@ -313,7 +314,8 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling)
 			_sprites.emplace_back(stairs);
 		}
 
-		if (tile.has(TileFeature::STAIRS_DOWN)) {
+		if ((tile.has(TileFeature::STAIRS_DOWN)) ||
+			(tile.has(TileFeature::LADDER_DOWN))) {
 			sf::Sprite stairs{
 				_graphics->textures
 					->get(magic_enum::enum_integer<AutoMapFeature>(
@@ -325,7 +327,8 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling)
 			_sprites.emplace_back(stairs);
 		}
 
-		if (tile.has(TileFeature::MESSAGE)) {
+		if ((tile.has(TileFeature::MESSAGE)) ||
+			(tile.has(TileFeature::NOTICE))) {
 			sf::Sprite message{
 				_graphics->textures
 					->get(magic_enum::enum_integer<AutoMapFeature>(

@@ -101,7 +101,7 @@ namespace Sorcery {
 		std::bitset<4> _properties;
 
 		// Features
-		std::bitset<13> _features;
+		std::bitset<32> _features;
 
 		// Items and Events
 		std::vector<unsigned int> _items;

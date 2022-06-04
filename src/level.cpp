@@ -429,18 +429,47 @@ auto Sorcery::Level::_update_tile(const Coordinate location,
 		tile.set(TileProperty::DARKNESS);
 
 	// https://docs.gridcartographer.com/ref/table/marker
-	if (marker == 1)
+	switch (marker) {
+	case 1:
 		tile.set(TileFeature::STAIRS_UP);
-	else if (marker == 2)
+		break;
+	case 2:
 		tile.set(TileFeature::STAIRS_DOWN);
-	else if (marker == 25)
+		break;
+	case 4:
+		tile.set(TileFeature::TELEPORT_IN);
+		break;
+	case 5:
+		tile.set(TileFeature::TELEPORT_OUT);
+		break;
+	case 7:
+		tile.set(TileFeature::PIT);
+		break;
+	case 10:
+		tile.set(TileFeature::PORTAL);
+		break;
+	case 11:
+		tile.set(TileFeature::SPINNER);
+		break;
+	case 21:
+		tile.set(TileFeature::ELEVATOR);
+		break;
+	case 25:
 		tile.set(TileFeature::MESSAGE);
-	else if (marker == 108)
-		tile.set(TileFeature::MESSAGE);
-	else if (marker == 26)
-		tile.set(TileFeature::STAIRS_UP);
-	else if (marker == 27)
-		tile.set(TileFeature::STAIRS_DOWN);
+		break;
+	case 26:
+		tile.set(TileFeature::LADDER_UP);
+		break;
+	case 27:
+		tile.set(TileFeature::LADDER_DOWN);
+		break;
+	case 108:
+		tile.set(TileFeature::NOTICE);
+		break;
+
+	default:
+		break;
+	}
 
 	_tiles[location] = tile;
 }

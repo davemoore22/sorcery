@@ -150,6 +150,11 @@ auto Sorcery::Engine::start() -> int {
 	std::optional<std::vector<MenuEntry>::const_iterator> camp_option{
 		_camp_menu->items.begin()};
 
+	const auto current_loc{_game->state->get_player_pos()};
+	auto &this_tile{_game->state->level->at(current_loc)};
+	if (!this_tile.is(TileProperty::EXPLORED))
+		this_tile.set(TileProperty::EXPLORED);
+
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {

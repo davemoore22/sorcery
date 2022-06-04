@@ -901,7 +901,7 @@ namespace Sorcery {
 				NONE = 0,
 				SPINNER = 1,
 				PIT = 2,
-				TELEPORT = 3,
+				TELEPORT_IN = 3,
 				POOL = 4,
 				FOUNTAIN = 5,
 				MESSAGE = 6,
@@ -910,7 +910,13 @@ namespace Sorcery {
 				MOVEMENT_EAST = 9,
 				MOVEMENT_WEST = 10,
 				STAIRS_UP = 11,
-				STAIRS_DOWN = 12
+				STAIRS_DOWN = 12,
+				LADDER_UP = 13,
+				LADDER_DOWN = 14,
+				TELEPORT_OUT = 15,
+				PORTAL = 16,
+				ELEVATOR = 17,
+				NOTICE = 18,
 
 				// TODO: all the others from Wiz6 because why not?
 			};
