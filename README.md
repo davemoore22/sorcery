@@ -3,6 +3,10 @@
 ![Logo](/promo/screen1.png)
 ![Logo](/promo/screen7.png)
 
+Watch some early gameplay here:
+
+[![Entering the Dungeon](https://img.youtube.com/vi/AQ9LhK0ta8A/maxresdefault.jpg)](https://youtu.be/AQ9LhK0ta8A)
+
 An open source remake of Wizardry 1,2,3 (and 5) with infinite Dungeon
 Adventures, and (optional) modern CRPG conveniences! I'm aiming to release it by
 the end of the year. Its coded using C++20 and SFML. Whilst eventually the game
