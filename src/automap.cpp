@@ -192,132 +192,150 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling)
 		_sprites.emplace_back(bg);
 	}
 
-	if (tile.is(TileProperty::DARKNESS)) {
-		sf::Sprite property{_graphics->textures
+	if (tile.is(TileProperty::EXPLORED)) {
+
+		sf::Sprite bg_explored{
+			_graphics->textures
+				->get(magic_enum::enum_integer<AutoMapFeature>(
+						  AutoMapFeature::FLOOR),
+					GraphicsTextureType::AUTOMAP)
+				.value()};
+		bg_explored.setPosition(x, y);
+		bg_explored.setScale(scaling, scaling);
+		bg_explored.setColor(sf::Color(0x000000ff));
+		_sprites.emplace_back(bg_explored);
+
+		if (tile.is(TileProperty::DARKNESS)) {
+			sf::Sprite property{
+				_graphics->textures
+					->get(magic_enum::enum_integer<AutoMapFeature>(
+							  AutoMapFeature::DARKNESS),
+						GraphicsTextureType::AUTOMAP)
+					.value()};
+			property.setPosition(x, y);
+			property.setScale(scaling, scaling);
+			_sprites.emplace_back(property);
+		}
+
+		if (tile.has(MapDirection::NORTH, TileEdge::UNLOCKED_DOOR)) {
+
+			sf::Sprite wall{_graphics->textures
 								->get(magic_enum::enum_integer<AutoMapFeature>(
-										  AutoMapFeature::DARKNESS),
+										  AutoMapFeature::NORTH_DOOR),
 									GraphicsTextureType::AUTOMAP)
 								.value()};
-		property.setPosition(x, y);
-		property.setScale(scaling, scaling);
-		_sprites.emplace_back(property);
-	}
+			wall.setPosition(x, y);
+			wall.setScale(scaling, scaling);
+			_sprites.emplace_back(wall);
+		} else if (tile.has(MapDirection::NORTH)) {
+			sf::Sprite wall{_graphics->textures
+								->get(magic_enum::enum_integer<AutoMapFeature>(
+										  AutoMapFeature::NORTH_WALL),
+									GraphicsTextureType::AUTOMAP)
+								.value()};
+			wall.setPosition(x, y);
+			wall.setScale(scaling, scaling);
+			_sprites.emplace_back(wall);
+		}
 
-	if (tile.has(MapDirection::NORTH, TileEdge::UNLOCKED_DOOR)) {
+		if (tile.has(MapDirection::SOUTH, TileEdge::UNLOCKED_DOOR)) {
 
-		sf::Sprite wall{_graphics->textures
-							->get(magic_enum::enum_integer<AutoMapFeature>(
-									  AutoMapFeature::NORTH_DOOR),
-								GraphicsTextureType::AUTOMAP)
-							.value()};
-		wall.setPosition(x, y);
-		wall.setScale(scaling, scaling);
-		_sprites.emplace_back(wall);
-	} else if (tile.has(MapDirection::NORTH)) {
-		sf::Sprite wall{_graphics->textures
-							->get(magic_enum::enum_integer<AutoMapFeature>(
-									  AutoMapFeature::NORTH_WALL),
-								GraphicsTextureType::AUTOMAP)
-							.value()};
-		wall.setPosition(x, y);
-		wall.setScale(scaling, scaling);
-		_sprites.emplace_back(wall);
-	}
+			sf::Sprite wall{_graphics->textures
+								->get(magic_enum::enum_integer<AutoMapFeature>(
+										  AutoMapFeature::SOUTH_DOOR),
+									GraphicsTextureType::AUTOMAP)
+								.value()};
+			wall.setPosition(x, y);
+			wall.setScale(scaling, scaling);
+			_sprites.emplace_back(wall);
+		} else if (tile.has(MapDirection::SOUTH)) {
+			sf::Sprite wall{_graphics->textures
+								->get(magic_enum::enum_integer<AutoMapFeature>(
+										  AutoMapFeature::SOUTH_WALL),
+									GraphicsTextureType::AUTOMAP)
+								.value()};
+			wall.setPosition(x, y);
+			wall.setScale(scaling, scaling);
+			_sprites.emplace_back(wall);
+		}
 
-	if (tile.has(MapDirection::SOUTH, TileEdge::UNLOCKED_DOOR)) {
+		if (tile.has(MapDirection::EAST, TileEdge::UNLOCKED_DOOR)) {
 
-		sf::Sprite wall{_graphics->textures
-							->get(magic_enum::enum_integer<AutoMapFeature>(
-									  AutoMapFeature::SOUTH_DOOR),
-								GraphicsTextureType::AUTOMAP)
-							.value()};
-		wall.setPosition(x, y);
-		wall.setScale(scaling, scaling);
-		_sprites.emplace_back(wall);
-	} else if (tile.has(MapDirection::SOUTH)) {
-		sf::Sprite wall{_graphics->textures
-							->get(magic_enum::enum_integer<AutoMapFeature>(
-									  AutoMapFeature::SOUTH_WALL),
-								GraphicsTextureType::AUTOMAP)
-							.value()};
-		wall.setPosition(x, y);
-		wall.setScale(scaling, scaling);
-		_sprites.emplace_back(wall);
-	}
+			sf::Sprite wall{_graphics->textures
+								->get(magic_enum::enum_integer<AutoMapFeature>(
+										  AutoMapFeature::EAST_DOOR),
+									GraphicsTextureType::AUTOMAP)
+								.value()};
+			wall.setPosition(x, y);
+			wall.setScale(scaling, scaling);
+			_sprites.emplace_back(wall);
+		} else if (tile.has(MapDirection::EAST)) {
+			sf::Sprite wall{_graphics->textures
+								->get(magic_enum::enum_integer<AutoMapFeature>(
+										  AutoMapFeature::EAST_WALL),
+									GraphicsTextureType::AUTOMAP)
+								.value()};
+			wall.setPosition(x, y);
+			wall.setScale(scaling, scaling);
+			_sprites.emplace_back(wall);
+		}
 
-	if (tile.has(MapDirection::EAST, TileEdge::UNLOCKED_DOOR)) {
+		if (tile.has(MapDirection::WEST)) {
+			sf::Sprite wall{_graphics->textures
+								->get(magic_enum::enum_integer<AutoMapFeature>(
+										  AutoMapFeature::WEST_WALL),
+									GraphicsTextureType::AUTOMAP)
+								.value()};
+			wall.setPosition(x, y);
+			wall.setScale(scaling, scaling);
+			_sprites.emplace_back(wall);
+		} else if (tile.has(MapDirection::WEST, TileEdge::UNLOCKED_DOOR)) {
 
-		sf::Sprite wall{_graphics->textures
-							->get(magic_enum::enum_integer<AutoMapFeature>(
-									  AutoMapFeature::EAST_DOOR),
-								GraphicsTextureType::AUTOMAP)
-							.value()};
-		wall.setPosition(x, y);
-		wall.setScale(scaling, scaling);
-		_sprites.emplace_back(wall);
-	} else if (tile.has(MapDirection::EAST)) {
-		sf::Sprite wall{_graphics->textures
-							->get(magic_enum::enum_integer<AutoMapFeature>(
-									  AutoMapFeature::EAST_WALL),
-								GraphicsTextureType::AUTOMAP)
-							.value()};
-		wall.setPosition(x, y);
-		wall.setScale(scaling, scaling);
-		_sprites.emplace_back(wall);
-	}
+			sf::Sprite wall{_graphics->textures
+								->get(magic_enum::enum_integer<AutoMapFeature>(
+										  AutoMapFeature::WEST_DOOR),
+									GraphicsTextureType::AUTOMAP)
+								.value()};
+			wall.setPosition(x, y);
+			wall.setScale(scaling, scaling);
+			_sprites.emplace_back(wall);
+		}
 
-	if (tile.has(MapDirection::WEST)) {
-		sf::Sprite wall{_graphics->textures
-							->get(magic_enum::enum_integer<AutoMapFeature>(
-									  AutoMapFeature::WEST_WALL),
-								GraphicsTextureType::AUTOMAP)
-							.value()};
-		wall.setPosition(x, y);
-		wall.setScale(scaling, scaling);
-		_sprites.emplace_back(wall);
-	} else if (tile.has(MapDirection::WEST, TileEdge::UNLOCKED_DOOR)) {
+		if (tile.has(TileFeature::STAIRS_UP)) {
+			sf::Sprite stairs{
+				_graphics->textures
+					->get(magic_enum::enum_integer<AutoMapFeature>(
+							  AutoMapFeature::STAIRS_UP),
+						GraphicsTextureType::AUTOMAP)
+					.value()};
+			stairs.setPosition(x, y);
+			stairs.setScale(scaling, scaling);
+			_sprites.emplace_back(stairs);
+		}
 
-		sf::Sprite wall{_graphics->textures
-							->get(magic_enum::enum_integer<AutoMapFeature>(
-									  AutoMapFeature::WEST_DOOR),
-								GraphicsTextureType::AUTOMAP)
-							.value()};
-		wall.setPosition(x, y);
-		wall.setScale(scaling, scaling);
-		_sprites.emplace_back(wall);
-	}
+		if (tile.has(TileFeature::STAIRS_DOWN)) {
+			sf::Sprite stairs{
+				_graphics->textures
+					->get(magic_enum::enum_integer<AutoMapFeature>(
+							  AutoMapFeature::STAIRS_DOWN),
+						GraphicsTextureType::AUTOMAP)
+					.value()};
+			stairs.setPosition(x, y);
+			stairs.setScale(scaling, scaling);
+			_sprites.emplace_back(stairs);
+		}
 
-	if (tile.has(TileFeature::STAIRS_UP)) {
-		sf::Sprite stairs{_graphics->textures
-							  ->get(magic_enum::enum_integer<AutoMapFeature>(
-										AutoMapFeature::STAIRS_UP),
-								  GraphicsTextureType::AUTOMAP)
-							  .value()};
-		stairs.setPosition(x, y);
-		stairs.setScale(scaling, scaling);
-		_sprites.emplace_back(stairs);
-	}
-
-	if (tile.has(TileFeature::STAIRS_DOWN)) {
-		sf::Sprite stairs{_graphics->textures
-							  ->get(magic_enum::enum_integer<AutoMapFeature>(
-										AutoMapFeature::STAIRS_DOWN),
-								  GraphicsTextureType::AUTOMAP)
-							  .value()};
-		stairs.setPosition(x, y);
-		stairs.setScale(scaling, scaling);
-		_sprites.emplace_back(stairs);
-	}
-
-	if (tile.has(TileFeature::MESSAGE)) {
-		sf::Sprite message{_graphics->textures
-							   ->get(magic_enum::enum_integer<AutoMapFeature>(
-										 AutoMapFeature::EXCLAMATION),
-								   GraphicsTextureType::AUTOMAP)
-							   .value()};
-		message.setPosition(x, y);
-		message.setScale(scaling, scaling);
-		_sprites.emplace_back(message);
+		if (tile.has(TileFeature::MESSAGE)) {
+			sf::Sprite message{
+				_graphics->textures
+					->get(magic_enum::enum_integer<AutoMapFeature>(
+							  AutoMapFeature::EXCLAMATION),
+						GraphicsTextureType::AUTOMAP)
+					.value()};
+			message.setPosition(x, y);
+			message.setScale(scaling, scaling);
+			_sprites.emplace_back(message);
+		}
 	}
 }
 

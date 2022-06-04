@@ -527,7 +527,7 @@ auto Sorcery::Engine::_move_forward() -> bool {
 	const auto next_loc{Coordinate{x_d, y_d}};
 
 	auto this_tile{_game->state->level->at(current_loc)};
-	auto next_tile{_game->state->level->at(next_loc)};
+	auto &next_tile{_game->state->level->at(next_loc)};
 
 	auto this_wall_to_check{_game->state->get_player_facing()};
 	auto next_wall_to_check{MapDirection::NONE};
@@ -552,6 +552,8 @@ auto Sorcery::Engine::_move_forward() -> bool {
 		(next_tile.walkable(next_wall_to_check))) {
 
 		_game->state->set_player_pos(next_loc);
+		if (!next_tile.is(TileProperty::EXPLORED))
+			next_tile.set_explored();
 		return true;
 	} else
 		return false;
@@ -594,7 +596,7 @@ auto Sorcery::Engine::_move_backward() -> bool {
 
 	// Check for walls etc between current square and new square
 	auto this_tile{_game->state->level->at(current_loc)};
-	auto next_tile{_game->state->level->at(next_loc)};
+	auto &next_tile{_game->state->level->at(next_loc)};
 
 	auto this_wall_to_check{MapDirection::NONE};
 	switch (_game->state->get_player_facing()) {
@@ -619,6 +621,8 @@ auto Sorcery::Engine::_move_backward() -> bool {
 		(next_tile.walkable(next_wall_to_check))) {
 
 		_game->state->set_player_pos(next_loc);
+		if (!next_tile.is(TileProperty::EXPLORED))
+			next_tile.set_explored();
 		return true;
 	} else
 		return false;

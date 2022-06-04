@@ -132,7 +132,7 @@
 	"[applescript]": {
 		"files.encoding": "utf8"
 	},
-	"editor.fontSize": 12,
+	"editor.fontSize": 16,
 	"editor.fontLigatures": true,
 	"C_Cpp.errorSquiggles": "Enabled",
 	"csharp.suppressDotnetInstallWarning": true,

@@ -273,6 +273,8 @@ auto Sorcery::Level::_load_notes(const Json::Value note_data) -> bool {
 
 		TileNote note{x, y, text};
 		_notes[Coordinate{x, y}] = note;
+		if (!_tiles.at(Coordinate{x, y}).has(TileFeature::MESSAGE))
+			_tiles.at(Coordinate{x, y}).set(TileFeature::MESSAGE);
 	}
 }
 

@@ -141,6 +141,12 @@ auto Sorcery::Tile::has(
 	}
 }
 
+auto Sorcery::Tile::set_explored() -> void {
+
+	_properties[magic_enum::enum_integer<TileProperty>(
+		TileProperty::EXPLORED)] = true;
+}
+
 auto Sorcery::Tile::has(const TileFeature feature) const -> bool {
 
 	return _features[magic_enum::enum_integer<TileFeature>(feature)];
