@@ -304,12 +304,10 @@ auto Sorcery::Dialog::handle_input(sf::Event event)
 		break;
 	case WindowDialogType::TIMED:
 		if (_valid) {
-			if (_system->input->check(WindowInput::CANCEL, event))
+			if (_system->input->check(WindowInput::ANYTHING, event)) {
 				return WindowDialogButton::OK;
-			else if (_system->input->check(WindowInput::BACK, event))
-				return WindowDialogButton::OK;
-			else if (_system->input->check(WindowInput::CONFIRM, event))
-				return WindowDialogButton::OK;
+				_valid = false;
+			}
 		}
 		break;
 	default:

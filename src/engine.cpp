@@ -157,6 +157,18 @@ auto Sorcery::Engine::start() -> int {
 	_show_confirm_stairs =
 		(_game->state->get_player_pos() == Coordinate{0, 0}) &&
 		(_game->state->level->depth() == -1);
+
+	if ((_game->state->get_player_pos() == Coordinate{0, 0}) &&
+		(_game->state->level->depth() == -1)) {
+		_show_confirm_stairs = true;
+		auto &this_tile{
+			_game->state->level->at(_game->state->get_player_pos())};
+		if (!this_tile.is(TileProperty::EXPLORED))
+			this_tile.set(TileProperty::EXPLORED);
+
+	} else
+		_show_confirm_stairs = false;
+
 	_game->hide_console();
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> camp_option{

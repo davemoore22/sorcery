@@ -14284,6 +14284,48 @@
 							"__data": "Centuries must have passed since adventurers last trode these ancient halls and the dust-laden floors show no signs of any recent distrubance."
 						},
 						{
+							"x": 0,
+							"y": 8,
+							"monospaced": false,
+							"__data": "The dust on the floor is disturbed here. There seems to be the tracks of a small animal leading off eastwards!"
+						},
+						{
+							"x": 6,
+							"y": 7,
+							"monospaced": false,
+							"__data": "The stone walls here are covered in unusual quarry marks. They look very old."
+						},
+						{
+							"x": 8,
+							"y": 8,
+							"monospaced": false,
+							"__data": "The dust in front of you has been disturbed recently by something other than a small animal!"
+						},
+						{
+							"x": 10,
+							"y": 9,
+							"monospaced": false,
+							"__data": "You feel a faint breeze coming from down the corridor to the East!"
+						},
+						{
+							"x": 9,
+							"y": 13,
+							"monospaced": false,
+							"__data": "You are enveloped in an unnatural darkness here!"
+						},
+						{
+							"x": 3,
+							"y": 4,
+							"monospaced": false,
+							"__data": "The door here has at some time in the past been knocked off its hinges..."
+						},
+						{
+							"x": 4,
+							"y": 2,
+							"monospaced": false,
+							"__data": "A few rotten scraps of cloth lie here. Scribbed on the wall above them is some graffiti. Most of it is unintellignle but you can make out the words \"Kadorto is a Lie!\""
+						},
+						{
 							"x": 9,
 							"y": 12,
 							"monospaced": false,
