@@ -58,6 +58,7 @@ namespace Sorcery {
 		auto at(const int x, const int y) -> Tile &;
 		auto at(const Coordinate loc, const MapDirection direction, const int x,
 			const int z) -> Tile &;
+		auto stairs_at(const Coordinate loc) -> bool;
 		auto note_at(const Coordinate loc) -> TileNote;
 		auto note_at(const int x, const int y) -> TileNote;
 		auto bottom_left() const -> Coordinate;

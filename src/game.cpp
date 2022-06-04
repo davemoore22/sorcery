@@ -62,6 +62,8 @@ auto Sorcery::Game::save_game() -> void {
 	_save_game();
 }
 
+// TODO handle going up and down levels
+
 auto Sorcery::Game::set_starting_level() -> void {
 
 	Level level{((*levelstore)[-1]).value()};

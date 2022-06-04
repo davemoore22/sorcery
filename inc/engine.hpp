@@ -89,9 +89,11 @@ namespace Sorcery {
 		std::unique_ptr<IconPanel> _left_icon_panel;
 		std::unique_ptr<IconPanel> _right_icon_panel;
 		std::unique_ptr<Message> _tile_note;
+		std::unique_ptr<Dialog> _confirm_stairs;
 		bool _in_camp;
 		bool _in_character;
 		bool _show_confirm_exit;
+		bool _show_confirm_stairs;
 		bool _show_console;
 		bool _show_ouch;
 		bool _show_tile_note;

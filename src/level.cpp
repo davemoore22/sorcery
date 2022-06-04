@@ -474,6 +474,15 @@ auto Sorcery::Level::_update_tile(const Coordinate location,
 	_tiles[location] = tile;
 }
 
+auto Sorcery::Level::stairs_at(const Coordinate loc) -> bool {
+
+	const auto &tile{_tiles.at(loc)};
+	return ((tile.has(TileFeature::LADDER_UP)) ||
+			(tile.has(TileFeature::LADDER_DOWN)) ||
+			(tile.has(TileFeature::STAIRS_UP)) ||
+			(tile.has(TileFeature::STAIRS_DOWN)));
+}
+
 auto Sorcery::Level::_update_tile(const Coordinate location,
 	const unsigned int north_wall, const unsigned int west_wall) -> void {
 

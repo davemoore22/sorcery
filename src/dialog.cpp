@@ -30,6 +30,15 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics,
 	: _system{system}, _display{display}, _graphics{graphics},
 	  _frame_c{frame_c}, _string_c{string_c}, _type{type} {
 
+	_refresh(string_c);
+}
+
+auto Sorcery::Dialog::set(Component &string_c) -> void {
+
+	_refresh(string_c);
+}
+
+auto Sorcery::Dialog::_refresh(Component &string_c) -> void {
 	_strings.clear();
 	_texts.clear();
 	_sprites.clear();

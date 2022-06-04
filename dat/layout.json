@@ -8733,12 +8733,78 @@
 
 		},
 		{
+			"name": "dialog_stairs",
+			"x": "19",
+			"y": "13",
+			"w": "40",
+			"type": "dialog",
+			"drawmode": "manual",
+			"alpha": "200",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "dialog_stairs_up_text",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "STAIRS_UP",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "text",
+			"drawmode": "manual"
+		},
+		{
+			"name": "dialog_ladder_up_text",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "LADDER_UP",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "text",
+			"drawmode": "manual"
+		},
+		{
+			"name": "dialog_stairs_down_text",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "STAIRS_DOWN",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "text",
+			"drawmode": "manual"
+		},
+		{
+			"name": "dialog_ladder_down_text",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "LADDER_DOWN",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "text",
+			"drawmode": "manual"
+		},
+		{
 			"name": "character_frame",
 			"w": "58",
 			"h": "30",
 			"x": "centre",
 			"y": "6",
 			"alpha": "255",
+			"type": "frame",
+			"priority": "6",
+			"drawmode": "manual",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "menu_frame",
+			"w": "36",
+			"h": "30",
+			"x": "centre",
+			"y": "6",
+			"alpha": "225",
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "manual",
