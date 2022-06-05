@@ -404,6 +404,14 @@ namespace Sorcery {
 		}
 	};
 
+	struct Teleport {
+		int to_level;
+		Coordinate to_loc;
+
+		Teleport(int to_level_, Coordinate to_loc_)
+			: to_level{to_level_}, to_loc{to_loc_} {}
+	};
+
 	struct TileNote {
 		Coordinate loc;
 		std::string text;

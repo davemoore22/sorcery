@@ -50,14 +50,15 @@ namespace Sorcery {
 
 		// Public Members
 
-		// Public Method
-
+		// Public Methods
+		auto clear_teleport() -> void;
 		auto gfx(const unsigned int texture) -> void;
 		auto gfx() -> std::optional<unsigned int>;
 		auto has(const MapDirection direction) const -> bool;
 		auto has(const MapDirection direction, const TileEdge wall_type) const
 			-> bool;
 		auto has(const TileFeature feature) const -> bool;
+		auto has_teleport() const -> std::optional<Teleport>;
 		auto id() const -> long;
 		auto is(const TileProperty property) const -> bool;
 		auto loc() const -> Coordinate;
@@ -74,6 +75,7 @@ namespace Sorcery {
 			const std::optional<TileEdge> west) -> void;
 		auto set(const std::optional<Coordinate> location);
 		auto set_explored() -> void;
+		auto set_teleport(Teleport teleport) -> void;
 		auto wall(const MapDirection direction) const -> TileEdge;
 		auto walkable(const MapDirection direction) const -> bool;
 		auto x() const -> int;
@@ -112,6 +114,9 @@ namespace Sorcery {
 		std::optional<unsigned int> _treasure_id;
 		std::optional<unsigned int> _effect_id;
 		std::optional<unsigned int> _description_id;
+
+		// Teleport
+		std::optional<Teleport> _teleport;
 
 		// Characters here (not the current party)
 		std::vector<unsigned int> _characters;

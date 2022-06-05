@@ -139,8 +139,7 @@ auto Sorcery::Level::load(
 	_load_second_pass(row_data);
 	_load_third_pass();
 	_load_notes(note_data);
-
-	// load metadata
+	_load_metadata(note_data);
 
 	return true;
 }
@@ -280,6 +279,8 @@ auto Sorcery::Level::_load_notes(const Json::Value note_data) -> bool {
 				_tiles.at(Coordinate{x, y}).set(TileFeature::MESSAGE);
 		}
 	}
+
+	return true;
 }
 
 auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {
@@ -291,13 +292,16 @@ auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {
 		const auto text{note_data[j]["__data"].asString()};
 		if (text.starts_with("METADATA")) {
 
-			/*
-			TileNote note{x, y, text};
-			_notes[Coordinate{x, y}] = note;
-			if (!_tiles.at(Coordinate{x, y}).has(TileFeature::MESSAGE))
-				_tiles.at(Coordinate{x, y}).set(TileFeature::MESSAGE); */
+			auto data{SPLIT(text)};
+			if ((data.at(1) == "TELEPORT") && (data.at(2) == "TO")) {
+				Teleport teleport{std::stoi(data.at(3)),
+					Coordinate{std::stoi(data.at(4)), std::stoi(data.at(5))}};
+				_tiles.at(Coordinate{x, y}).set_teleport(teleport);
+			}
 		}
 	}
+
+	return true;
 }
 
 auto Sorcery::Level::_load_first_pass(const Json::Value row_data) -> bool {
@@ -419,6 +423,8 @@ auto Sorcery::Level::_load_third_pass() -> bool {
 	for (auto y = wrap_bottom_left().y; y <= wrap_top_right().y; y++)
 		for (auto x = wrap_bottom_left().x; x <= wrap_top_right().x; x++)
 			_set_other_edges(Coordinate{x, y});
+
+    return true;
 }
 
 auto Sorcery::Level::name() const -> std::string {

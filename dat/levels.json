@@ -2,7 +2,7 @@
 	"export": {
 		"from": "2022.5",
 		"date": "2022-06-05",
-		"time": "18:32:30"
+		"time": "23:56:00"
 	},
 	"regions": [
 		{
@@ -12828,7 +12828,7 @@
 									},
 									{
 										"b": 1,
-										"m": 3
+										"m": 108
 									},
 									{
 										"r": 1,
@@ -14276,12 +14276,6 @@
 							"__data": "A large sign on the wall reads:\nArea out of bounds!!!"
 						},
 						{
-							"x": 9,
-							"y": 19,
-							"monospaced": false,
-							"__data": "A strange glow seems to emanate from this room. In the center, a smallish man in a long robe\nturns towards the party and shouts \"Begone, strangers!\"\nHe slowly waves his hands, and chants \"mapiro mahama diromat!!\"\nteleported back to castle"
-						},
-						{
 							"x": 13,
 							"y": 18,
 							"monospaced": false,
@@ -14309,19 +14303,25 @@
 							"x": 5,
 							"y": 9,
 							"monospaced": false,
-							"__data": "METADATA TELEPORT TO 4,15"
+							"__data": "METADATA TELEPORT TO -1 15 4"
 						},
 						{
 							"x": 13,
 							"y": 4,
 							"monospaced": false,
-							"__data": "METADATA TELEPORT TO 4,15"
+							"__data": "METADATA TELEPORT TO -1 15 4"
 						},
 						{
 							"x": 15,
 							"y": 4,
 							"monospaced": false,
 							"__data": "METADATA TELEPORT FROM"
+						},
+						{
+							"x": 9,
+							"y": 19,
+							"monospaced": false,
+							"__data": "A strange glow seems to emanate from this room. In the center, a smallish man in a long robe\nturns towards the party and shouts \"Begone, strangers!\"\nHe slowly waves his hands, and chants \"mapiro mahama diromat!!\"\nteleported back to castle."
 						}
 					]
 				}

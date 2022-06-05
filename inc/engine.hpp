@@ -68,6 +68,7 @@ namespace Sorcery {
 		auto _move_backward() -> bool;
 		auto _turn_left() -> void;
 		auto _turn_right() -> void;
+		auto _teleport_if() -> bool;
 
 		// Private Members
 		System *_system;
@@ -103,6 +104,7 @@ namespace Sorcery {
 		bool _update_status_bar;
 		bool _update_render;
 		bool _update_tile_note;
+		bool _exit_maze_now;
 		std::optional<Character *> _cur_char;
 		std::unique_ptr<Frame> _cur_char_frame;
 	};

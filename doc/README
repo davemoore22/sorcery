@@ -1,5 +1,5 @@
 Sorcery: Shadows under Llylgamyn
-Copyright (C) 2021 Dave Moore
+Copyright (C) 2022 Dave Moore
 
 This is free software. This program comes with ABSOLUTELY NO WARRANTY; for
 details see the file LICENSE. You are welcome to redistribute it under certain
@@ -13,29 +13,28 @@ instructions and a key reference guide.
 
 This software also uses the following libraries:
 
-- SFML https://www.sfml-dev.org/
-- jsoncpp https://github.com/open-source-parsers/jsoncpp
-- TGUI https://tgui.eu/
-- sfeMovie https://github.com/Yalir/sfeMovie
-- simpleini https://github.com/brofield/simpleini
-- sqlite_modern_cpp https://github.com/SqliteModernCpp/sqlite_modern_cpp
-- Thor https://github.com/Bromeon/Thor
-- {fmt} https://fmt.dev/latest/index.html
-- Backward-cpp https://github.com/bombela/backward-cpp
+- SFML <https://www.sfml-dev.org/>
+- jsoncpp <https://github.com/open-source-parsers/jsoncpp>
+- TGUI <https://tgui.eu/>
+- sfeMovie <https://github.com/Yalir/sfeMovie>
+- simpleini <https://github.com/brofield/simpleini>
+- sqlite_modern_cpp <https://github.com/SqliteModernCpp/sqlite_modern_cpp>
+- Thor <https://github.com/Bromeon/Thor>
+- {fmt} <https://fmt.dev/latest/index.html>
+- Backward-cpp <https://github.com/bombela/backward-cpp>
 
 Please note the author of Sorcery: Shadows under Llylgamyn, gives additional
 permission under the GNU GPL version 3 section 7 to link all source code released
 as part of Sorcery, to these libraries (as per the declaration in each source file.
 
-Graphics used were from the following:
+Graphics used are from the following:
 
-- Banner - http://retro.land/wizardry-proving-grounds-of-the-mad-overlord/
-- Creatures - http://www.pekori.jp/~emonoya/index.htm ( Ripped from Windows Wizardry)
-- Town Backgrounds - Ripped from SNES Wizardry Trilogy
-- Classes - https://game-icons.net/
-- Alignment - https://game-icons.net/
-- Character Potraits - https://opengameart.org/users/justin-nichol
-- GUI Elements - https://opengameart.org/content/rpg-gui-contstruction-kit-vmoon
-- Background Movie - https://www.youtube.com/watch?v=NoOqrAfm_Es
-- Background Texture - https://pxhere.com/en/photo/1457103
-- Controller/Keyboard Prompts - https://thoseawesomeguys.com/prompts/
+- Banner - <http://retro.land/wizardry-proving-grounds-of-the-mad-overlord/>
+- Creatures - <https://www.pixiv.net/en/users/5887541>
+- Town Backgrounds - <https://www.pixiv.net/en/users/5887541>
+- Classes - <https://game-icons.net/>
+- Alignment - <https://game-icons.net/>
+- Character Potraits - <https://opengameart.org/users/justin-nichol>
+- Background Movie - <https://www.youtube.com/watch?v=NoOqrAfm_Es>
+- Background Texture - <https://pxhere.com/en/photo/1457103>
+- Controller/Keyboard Prompts - <https://thoseawesomeguys.com/prompts/>

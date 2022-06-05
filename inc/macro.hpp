@@ -176,4 +176,15 @@ namespace Sorcery {
 		return (T(0) < val) - (val < T(0));
 	}
 
+	// https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/
+	inline auto SPLIT(const std::string &text) -> std::vector<std::string> {
+
+		std::istringstream iss(text);
+		std::vector<std::string> results(
+			(std::istream_iterator<std::string>(iss)),
+			std::istream_iterator<std::string>());
+
+		return results;
+	}
+
 } // namespace Sorcery

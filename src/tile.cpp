@@ -292,6 +292,22 @@ auto Sorcery::Tile::set(const MapDirection direction, const TileEdge new_wall)
 	}
 }
 
+auto Sorcery::Tile::clear_teleport() -> void {
+
+	_teleport = std::nullopt;
+}
+
+auto Sorcery::Tile::has_teleport() const -> std::optional<Teleport> {
+
+	if (_teleport)
+		return _teleport.value();
+}
+
+auto Sorcery::Tile::set_teleport(Teleport teleport) -> void {
+
+	_teleport = teleport;
+}
+
 auto Sorcery::Tile::set(const std::optional<TileEdge> north,
 	const std::optional<TileEdge> south, const std::optional<TileEdge> east,
 	const std::optional<TileEdge> west) -> void {}
@@ -341,6 +357,8 @@ auto Sorcery::Tile::_reset() -> void {
 	_treasure_id = std::nullopt;
 	_effect_id = std::nullopt;
 	_description_id = std::nullopt;
+
+	_teleport = std::nullopt;
 
 	_characters.clear();
 

@@ -98,6 +98,7 @@ Sorcery::Engine::Engine(
 	_update_status_bar = false;
 	_update_render = false;
 	_update_tile_note = false;
+	_exit_maze_now = false;
 
 	game->hide_console();
 }
@@ -153,6 +154,8 @@ auto Sorcery::Engine::start() -> int {
 	_show_confirm_exit = false;
 	_show_ouch = false;
 	_show_tile_note = false;
+	_exit_maze_now = false;
+	_automap->refresh();
 
 	_show_confirm_stairs =
 		(_game->state->get_player_pos() == Coordinate{0, 0}) &&
@@ -406,17 +409,7 @@ auto Sorcery::Engine::start() -> int {
 						}
 					} else {
 
-						// Hack for recreating levels
-						if (_system->input->check(WindowInput::DELETE, event)) {
-							_game->state->level->reset();
-							_update_automap = true;
-							_update_compass = true;
-							_update_render = true;
-							_game->save_game();
-							_game->load_game();
-							_status_bar->refresh();
-						} else if (_system->input->check(
-									   WindowInput::LEFT, event)) {
+						if (_system->input->check(WindowInput::LEFT, event)) {
 							_turn_left();
 							_update_automap = true;
 							_update_compass = true;
@@ -433,6 +426,14 @@ auto Sorcery::Engine::start() -> int {
 							if (!has_moved) {
 								_show_ouch = true;
 								_ouch->reset_timed();
+							} else {
+								_teleport_if();
+								_update_automap = true;
+							}
+							if (_exit_maze_now) {
+								_game->save_game();
+								_exit_maze_now = false;
+								return EXIT_MODULE;
 							}
 							_update_automap = true;
 							_update_compass = true;
@@ -443,6 +444,14 @@ auto Sorcery::Engine::start() -> int {
 							if (!has_moved) {
 								_show_ouch = true;
 								_ouch->reset_timed();
+							} else {
+								_teleport_if();
+								_update_automap = true;
+							}
+							if (_exit_maze_now) {
+								_game->save_game();
+								_exit_maze_now = false;
+								return EXIT_MODULE;
 							}
 							_update_automap = true;
 							_update_compass = true;
@@ -631,6 +640,7 @@ auto Sorcery::Engine::_move_forward() -> bool {
 		_game->state->set_player_pos(next_loc);
 		if (!next_tile.is(TileProperty::EXPLORED))
 			next_tile.set_explored();
+
 		if (_game->state->level->stairs_at(next_loc)) {
 			const auto current_loc{_game->state->get_player_pos()};
 			const auto &this_tile{_game->state->level->at(current_loc)};
@@ -784,6 +794,56 @@ auto Sorcery::Engine::_turn_right() -> void {
 	default:
 		break;
 	}
+}
+
+auto Sorcery::Engine::_teleport_if() -> bool {
+
+	const auto tile{_game->state->level->at(_game->state->get_player_pos())};
+
+	// TODO: handle anti-teleport here in the future
+	if (tile.has_teleport()) {
+
+		auto destination{tile.has_teleport().value()};
+		if (destination.to_level == 0) {
+
+			// Special case of teleporting Back to castle
+			_exit_maze_now = true;
+			return true;
+		} else if (destination.to_level == _game->state->level->depth()) {
+
+			auto next_tile{_game->state->level->at(destination.to_loc)};
+			_game->state->set_player_pos(destination.to_loc);
+
+			if (!next_tile.is(TileProperty::EXPLORED))
+				next_tile.set_explored();
+			if (_game->state->level->stairs_at(
+					_game->state->get_player_pos())) {
+				const auto current_loc{_game->state->get_player_pos()};
+				const auto &this_tile{_game->state->level->at(current_loc)};
+				if (this_tile.has(TileFeature::LADDER_UP))
+					_confirm_stairs->set((
+						*_display
+							 ->layout)["engine_base_ui:dialog_ladder_up_text"]);
+				else if (this_tile.has(TileFeature::LADDER_DOWN))
+					_confirm_stairs->set((*_display->layout)
+							["engine_base_ui:dialog_ladder_down_text"]);
+				else if (this_tile.has(TileFeature::STAIRS_UP))
+					_confirm_stairs->set((
+						*_display
+							 ->layout)["engine_base_ui:dialog_stairs_up_text"]);
+				else if (this_tile.has(TileFeature::STAIRS_DOWN))
+					_confirm_stairs->set((*_display->layout)
+							["engine_base_ui:dialog_stairs_down_text"]);
+				_show_confirm_stairs = true;
+			} else
+				_show_confirm_stairs = false;
+		} else {
+
+			// TODO: different level teleport
+		}
+	}
+
+	return true;
 }
 
 auto Sorcery::Engine::stop() -> void {}
