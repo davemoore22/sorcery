@@ -140,6 +140,8 @@ auto Sorcery::Level::load(
 	_load_third_pass();
 	_load_notes(note_data);
 
+	// load metadata
+
 	return true;
 }
 
@@ -271,10 +273,30 @@ auto Sorcery::Level::_load_notes(const Json::Value note_data) -> bool {
 		const auto y{static_cast<int>(note_data[j]["y"].asInt())};
 		const auto text{note_data[j]["__data"].asString()};
 
-		TileNote note{x, y, text};
-		_notes[Coordinate{x, y}] = note;
-		if (!_tiles.at(Coordinate{x, y}).has(TileFeature::MESSAGE))
-			_tiles.at(Coordinate{x, y}).set(TileFeature::MESSAGE);
+		if (!text.starts_with("METADATA")) {
+			TileNote note{x, y, text};
+			_notes[Coordinate{x, y}] = note;
+			if (!_tiles.at(Coordinate{x, y}).has(TileFeature::MESSAGE))
+				_tiles.at(Coordinate{x, y}).set(TileFeature::MESSAGE);
+		}
+	}
+}
+
+auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {
+
+	for (auto j = 0u; j < note_data.size(); j++) {
+
+		const auto x{static_cast<int>(note_data[j]["x"].asInt())};
+		const auto y{static_cast<int>(note_data[j]["y"].asInt())};
+		const auto text{note_data[j]["__data"].asString()};
+		if (text.starts_with("METADATA")) {
+
+			/*
+			TileNote note{x, y, text};
+			_notes[Coordinate{x, y}] = note;
+			if (!_tiles.at(Coordinate{x, y}).has(TileFeature::MESSAGE))
+				_tiles.at(Coordinate{x, y}).set(TileFeature::MESSAGE); */
+		}
 	}
 }
 
@@ -437,10 +459,10 @@ auto Sorcery::Level::_update_tile(const Coordinate location,
 		tile.set(TileFeature::STAIRS_DOWN);
 		break;
 	case 4:
-		tile.set(TileFeature::TELEPORT_IN);
+		tile.set(TileFeature::TELEPORT_FROM);
 		break;
 	case 5:
-		tile.set(TileFeature::TELEPORT_OUT);
+		tile.set(TileFeature::TELEPORT_TO);
 		break;
 	case 7:
 		tile.set(TileFeature::PIT);

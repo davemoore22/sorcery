@@ -2,7 +2,7 @@
 	"export": {
 		"from": "2022.5",
 		"date": "2022-06-05",
-		"time": "16:44:13"
+		"time": "18:32:30"
 	},
 	"regions": [
 		{
@@ -14304,6 +14304,24 @@
 							"y": 8,
 							"monospaced": false,
 							"__data": "There are buttons here marked A through D."
+						},
+						{
+							"x": 5,
+							"y": 9,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO 4,15"
+						},
+						{
+							"x": 13,
+							"y": 4,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO 4,15"
+						},
+						{
+							"x": 15,
+							"y": 4,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT FROM"
 						}
 					]
 				}

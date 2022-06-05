@@ -421,168 +421,31 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling)
 			message.setScale(scaling, scaling);
 			_sprites.emplace_back(message);
 		}
+
+		if (tile.has(TileFeature::TELEPORT_FROM)) {
+			sf::Sprite stairs{
+				_graphics->textures
+					->get(magic_enum::enum_integer<AutoMapFeature>(
+							  AutoMapFeature::TELEPORT_FROM),
+						GraphicsTextureType::AUTOMAP)
+					.value()};
+			stairs.setPosition(x, y);
+			stairs.setScale(scaling, scaling);
+			_sprites.emplace_back(stairs);
+		} else if (tile.has(TileFeature::TELEPORT_TO)) {
+
+			sf::Sprite stairs{
+				_graphics->textures
+					->get(magic_enum::enum_integer<AutoMapFeature>(
+							  AutoMapFeature::TELEPORT_TO),
+						GraphicsTextureType::AUTOMAP)
+					.value()};
+			stairs.setPosition(x, y);
+			stairs.setScale(scaling, scaling);
+			_sprites.emplace_back(stairs);
+		}
 	}
 }
-
-/*
-auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling)
-	-> void {
-
-	{
-		sf::Sprite bg{_graphics->textures
-						  ->get(magic_enum::enum_integer<AutoMapFeature>(
-									AutoMapFeature::FLOOR),
-							  GraphicsTextureType::AUTOMAP)
-						  .value()};
-		bg.setPosition(x, y);
-		bg.setScale(scaling, scaling);
-		_sprites.emplace_back(bg);
-	}
-
-	if (tile.properties.at(TileProperty::ROCK)) {
-		sf::Sprite property{_graphics->textures
-								->get(magic_enum::enum_integer<AutoMapFeature>(
-										  AutoMapFeature::ROCK),
-									GraphicsTextureType::AUTOMAP)
-								.value()};
-		property.setPosition(x, y);
-		property.setScale(scaling, scaling);
-		_sprites.emplace_back(property);
-	}
-	if (tile.properties.at(TileProperty::DARKNESS)) {
-		sf::Sprite property{_graphics->textures
-								->get(magic_enum::enum_integer<AutoMapFeature>(
-										  AutoMapFeature::DARKNESS),
-									GraphicsTextureType::AUTOMAP)
-								.value()};
-		property.setPosition(x, y);
-		property.setScale(scaling, scaling);
-		_sprites.emplace_back(property);
-	}
-
-	if (tile.check_wall(TileWall::NORTH)) {
-		sf::Sprite wall{_graphics->textures
-							->get(magic_enum::enum_integer<AutoMapFeature>(
-									  AutoMapFeature::NORTH_WALL),
-								GraphicsTextureType::AUTOMAP)
-							.value()};
-		wall.setPosition(x, y);
-		wall.setScale(scaling, scaling);
-		_sprites.emplace_back(wall);
-	}
-	if (tile.check_wall(TileWall::SOUTH)) {
-		sf::Sprite wall{_graphics->textures
-							->get(magic_enum::enum_integer<AutoMapFeature>(
-									  AutoMapFeature::SOUTH_WALL),
-								GraphicsTextureType::AUTOMAP)
-							.value()};
-		wall.setPosition(x, y);
-		wall.setScale(scaling, scaling);
-		_sprites.emplace_back(wall);
-	}
-	if (tile.check_wall(TileWall::EAST)) {
-		sf::Sprite wall{_graphics->textures
-							->get(magic_enum::enum_integer<AutoMapFeature>(
-									  AutoMapFeature::EAST_WALL),
-								GraphicsTextureType::AUTOMAP)
-							.value()};
-		wall.setPosition(x, y);
-		wall.setScale(scaling, scaling);
-		_sprites.emplace_back(wall);
-	}
-	if (tile.check_wall(TileWall::WEST)) {
-		sf::Sprite wall{_graphics->textures
-							->get(magic_enum::enum_integer<AutoMapFeature>(
-									  AutoMapFeature::WEST_WALL),
-								GraphicsTextureType::AUTOMAP)
-							.value()};
-		wall.setPosition(x, y);
-		wall.setScale(scaling, scaling);
-		_sprites.emplace_back(wall);
-	}
-
-	if (tile.features.at(TileFeature::STAIRS_UP)) {
-		sf::Sprite stairs{_graphics->textures
-							  ->get(magic_enum::enum_integer<AutoMapFeature>(
-										AutoMapFeature::STAIRS_UP),
-								  GraphicsTextureType::AUTOMAP)
-							  .value()};
-		stairs.setPosition(x, y);
-		stairs.setScale(scaling, scaling);
-		_sprites.emplace_back(stairs);
-	}
-
-	if (tile.features.at(TileFeature::STAIRS_DOWN)) {
-		sf::Sprite stairs{_graphics->textures
-							  ->get(magic_enum::enum_integer<AutoMapFeature>(
-										AutoMapFeature::STAIRS_DOWN),
-								  GraphicsTextureType::AUTOMAP)
-							  .value()};
-		stairs.setPosition(x, y);
-		stairs.setScale(scaling, scaling);
-		_sprites.emplace_back(stairs);
-	}
-	if (tile.features.at(TileFeature::STAIRS_UP)) {
-		sf::Sprite stairs{_graphics->textures
-							  ->get(magic_enum::enum_integer<AutoMapFeature>(
-										AutoMapFeature::STAIRS_UP),
-								  GraphicsTextureType::AUTOMAP)
-							  .value()};
-		stairs.setPosition(x, y);
-		stairs.setScale(scaling, scaling);
-		_sprites.emplace_back(stairs);
-	}
-	if (tile.features.at(TileFeature::POOL)) {
-		sf::Sprite feature{_graphics->textures
-							   ->get(magic_enum::enum_integer<AutoMapFeature>(
-										 AutoMapFeature::POOL),
-								   GraphicsTextureType::AUTOMAP)
-							   .value()};
-		feature.setPosition(x, y);
-		feature.setScale(scaling, scaling);
-		_sprites.emplace_back(feature);
-	}
-	if (tile.features.at(TileFeature::FOUNTAIN)) {
-		sf::Sprite feature{_graphics->textures
-							   ->get(magic_enum::enum_integer<AutoMapFeature>(
-										 AutoMapFeature::POOL),
-								   GraphicsTextureType::AUTOMAP)
-							   .value()};
-		feature.setPosition(x, y);
-		feature.setScale(scaling, scaling);
-		_sprites.emplace_back(feature);
-	}
-	if (tile.features.at(TileFeature::SPINNER)) {
-		sf::Sprite feature{_graphics->textures
-							   ->get(magic_enum::enum_integer<AutoMapFeature>(
-										 AutoMapFeature::SPINNER),
-								   GraphicsTextureType::AUTOMAP)
-							   .value()};
-		feature.setPosition(x, y);
-		feature.setScale(scaling, scaling);
-		_sprites.emplace_back(feature);
-	}
-	if (tile.features.at(TileFeature::PIT)) {
-		sf::Sprite feature{_graphics->textures
-							   ->get(magic_enum::enum_integer<AutoMapFeature>(
-										 AutoMapFeature::PIT),
-								   GraphicsTextureType::AUTOMAP)
-							   .value()};
-		feature.setPosition(x, y);
-		feature.setScale(scaling, scaling);
-		_sprites.emplace_back(feature);
-	}
-	if (tile.features.at(TileFeature::MESSAGE)) {
-		sf::Sprite feature{_graphics->textures
-							   ->get(magic_enum::enum_integer<AutoMapFeature>(
-										 AutoMapFeature::EXCLAMATION),
-								   GraphicsTextureType::AUTOMAP)
-							   .value()};
-		feature.setPosition(x, y);
-		feature.setScale(scaling, scaling);
-		_sprites.emplace_back(feature);
-	}
-} */
 
 auto Sorcery::AutoMap::draw(
 	sf::RenderTarget &target, sf::RenderStates states) const -> void {

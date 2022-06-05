@@ -100,6 +100,7 @@ namespace Sorcery {
 		auto _load_second_pass(const Json::Value row_data) -> bool;
 		auto _load_third_pass() -> bool;
 		auto _load_notes(const Json::Value note_data) -> bool;
+		auto _load_metadata(const Json::Value note_data) -> bool;
 		auto _update_tile(const Coordinate location,
 			const unsigned int north_wall, const unsigned int west_wall)
 			-> void;

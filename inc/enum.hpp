@@ -901,7 +901,7 @@ namespace Sorcery {
 				NONE = 0,
 				SPINNER = 1,
 				PIT = 2,
-				TELEPORT_IN = 3,
+				TELEPORT_FROM = 3,
 				POOL = 4,
 				FOUNTAIN = 5,
 				MESSAGE = 6,
@@ -913,7 +913,7 @@ namespace Sorcery {
 				STAIRS_DOWN = 12,
 				LADDER_UP = 13,
 				LADDER_DOWN = 14,
-				TELEPORT_OUT = 15,
+				TELEPORT_TO = 15,
 				PORTAL = 16,
 				ELEVATOR = 17,
 				NOTICE = 18,
@@ -949,7 +949,7 @@ namespace Sorcery {
 				ROCK = 18,
 				PIT = 19,
 				SPINNER = 20,
-				TELEPORT = 21,
+				TELEPORT_FROM = 21,
 				ENCOUNTER = 22,
 				ANTI_MAGIC = 23,
 				LAIR = 24,
@@ -973,7 +973,8 @@ namespace Sorcery {
 				NORTH_ONE_WAY_WALL = 42,
 				SOUTH_ONE_WAY_WALL = 43,
 				EAST_ONE_WAY_WALL = 44,
-				WEST_ONE_WAY_WALL = 45
+				WEST_ONE_WAY_WALL = 45,
+				TELEPORT_TO = 46
 			};
 
 		} // namespace Automap
