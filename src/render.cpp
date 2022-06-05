@@ -191,9 +191,11 @@ auto Sorcery::Render::_render_wireframe(
 				target.draw(vl2.darkness, states);
 				target.draw(vl3.side_darkness, states);
 			} else {
-				if (tl3.has(player_facing, TileEdge::WALL))
+				if ((tl3.has(player_facing, TileEdge::WALL)) ||
+					(tl3.has(player_facing, TileEdge::ONE_WAY_WALL)))
 					target.draw(vl3.back_wall, states);
-				if (tl3.has(player_facing, TileEdge::UNLOCKED_DOOR)) {
+				if ((tl3.has(player_facing, TileEdge::UNLOCKED_DOOR)) ||
+					(tl3.has(player_facing, TileEdge::SECRET_DOOR))) {
 					target.draw(vl3.back_wall, states);
 					target.draw(vl3.back_door, states);
 				}
@@ -201,9 +203,11 @@ auto Sorcery::Render::_render_wireframe(
 			if (tm3.is(TileProperty::DARKNESS))
 				target.draw(vm3.darkness, states);
 			else {
-				if (tm3.has(player_facing, TileEdge::WALL))
+				if ((tm3.has(player_facing, TileEdge::WALL)) ||
+					(tm3.has(player_facing, TileEdge::ONE_WAY_WALL)))
 					target.draw(vm3.back_wall, states);
-				if (tm3.has(player_facing, TileEdge::UNLOCKED_DOOR)) {
+				if ((tm3.has(player_facing, TileEdge::UNLOCKED_DOOR)) ||
+					(tm3.has(player_facing, TileEdge::SECRET_DOOR))) {
 					target.draw(vm3.back_wall, states);
 					target.draw(vm3.back_door, states);
 				}
@@ -212,26 +216,36 @@ auto Sorcery::Render::_render_wireframe(
 				target.draw(vr2.darkness, states);
 				target.draw(vr3.side_darkness, states);
 			} else {
-				if (tr3.has(player_facing, TileEdge::WALL))
+				if ((tr3.has(player_facing, TileEdge::WALL)) ||
+					(tr3.has(player_facing, TileEdge::ONE_WAY_WALL)))
 					target.draw(vr3.back_wall, states);
-				if (tr3.has(player_facing, TileEdge::UNLOCKED_DOOR)) {
+				if ((tr3.has(player_facing, TileEdge::UNLOCKED_DOOR)) ||
+					(tr3.has(player_facing, TileEdge::SECRET_DOOR))) {
 					target.draw(vr3.back_wall, states);
 					target.draw(vr3.back_door, states);
 				}
 			}
 
 			if (!tm3.is(TileProperty::DARKNESS)) {
-				if (tm3.has(_get_left_side(player_facing), TileEdge::WALL))
+				if ((tm3.has(_get_left_side(player_facing), TileEdge::WALL)) ||
+					(tm3.has(
+						_get_left_side(player_facing), TileEdge::ONE_WAY_WALL)))
 					target.draw(vm3.left_side_wall, states);
-				if (tm3.has(_get_left_side(player_facing),
-						TileEdge::UNLOCKED_DOOR)) {
+				if ((tm3.has(_get_left_side(player_facing),
+						TileEdge::UNLOCKED_DOOR)) ||
+					(tm3.has(_get_left_side(player_facing),
+						TileEdge::SECRET_DOOR))) {
 					target.draw(vm3.left_side_wall, states);
 					target.draw(vm3.left_side_door, states);
 				}
-				if (tm3.has(_get_right_side(player_facing), TileEdge::WALL))
+				if ((tm3.has(_get_right_side(player_facing), TileEdge::WALL)) ||
+					(tm3.has(_get_right_side(player_facing),
+						TileEdge::ONE_WAY_WALL)))
 					target.draw(vm3.right_side_wall, states);
-				if (tm3.has(_get_right_side(player_facing),
-						TileEdge::UNLOCKED_DOOR)) {
+				if ((tm3.has(_get_right_side(player_facing),
+						TileEdge::UNLOCKED_DOOR)) ||
+					(tm3.has(_get_right_side(player_facing),
+						TileEdge::SECRET_DOOR))) {
 					target.draw(vm3.right_side_wall, states);
 					target.draw(vm3.right_side_door, states);
 				}
@@ -242,9 +256,11 @@ auto Sorcery::Render::_render_wireframe(
 				target.draw(vl1.darkness, states);
 				target.draw(vl2.side_darkness, states);
 			} else {
-				if (tl2.has(player_facing, TileEdge::WALL))
+				if ((tl2.has(player_facing, TileEdge::WALL)) ||
+					(tl2.has(player_facing, TileEdge::ONE_WAY_WALL)))
 					target.draw(vl2.back_wall, states);
-				if (tl2.has(player_facing, TileEdge::UNLOCKED_DOOR)) {
+				if ((tl2.has(player_facing, TileEdge::UNLOCKED_DOOR)) ||
+					(tl2.has(player_facing, TileEdge::SECRET_DOOR))) {
 					target.draw(vl2.back_wall, states);
 					target.draw(vl2.back_door, states);
 				}
@@ -252,9 +268,11 @@ auto Sorcery::Render::_render_wireframe(
 			if (tm2.is(TileProperty::DARKNESS))
 				target.draw(vm2.darkness, states);
 			else {
-				if (tm2.has(player_facing, TileEdge::WALL))
+				if ((tm2.has(player_facing, TileEdge::WALL)) ||
+					(tm2.has(player_facing, TileEdge::ONE_WAY_WALL)))
 					target.draw(vm2.back_wall, states);
-				if (tm2.has(player_facing, TileEdge::UNLOCKED_DOOR)) {
+				if ((tm2.has(player_facing, TileEdge::UNLOCKED_DOOR)) ||
+					(tm2.has(player_facing, TileEdge::SECRET_DOOR))) {
 					target.draw(vm2.back_wall, states);
 					target.draw(vm2.back_door, states);
 				}
@@ -263,26 +281,36 @@ auto Sorcery::Render::_render_wireframe(
 				target.draw(vr1.darkness, states);
 				target.draw(vr2.side_darkness, states);
 			} else {
-				if (tr2.has(player_facing, TileEdge::WALL))
+				if ((tr2.has(player_facing, TileEdge::WALL)) ||
+					(tr2.has(player_facing, TileEdge::ONE_WAY_WALL)))
 					target.draw(vr2.back_wall, states);
-				if (tr2.has(player_facing, TileEdge::UNLOCKED_DOOR)) {
+				if ((tr2.has(player_facing, TileEdge::UNLOCKED_DOOR)) ||
+					(tr2.has(player_facing, TileEdge::SECRET_DOOR))) {
 					target.draw(vr2.back_wall, states);
 					target.draw(vr2.back_door, states);
 				}
 			}
 
 			if (!tm2.is(TileProperty::DARKNESS)) {
-				if (tm2.has(_get_left_side(player_facing), TileEdge::WALL))
+				if ((tm2.has(_get_left_side(player_facing), TileEdge::WALL)) ||
+					(tm2.has(
+						_get_left_side(player_facing), TileEdge::ONE_WAY_WALL)))
 					target.draw(vm2.left_side_wall, states);
-				if (tm2.has(_get_left_side(player_facing),
-						TileEdge::UNLOCKED_DOOR)) {
+				if ((tm2.has(_get_left_side(player_facing),
+						TileEdge::UNLOCKED_DOOR)) ||
+					(tm2.has(_get_left_side(player_facing),
+						TileEdge::SECRET_DOOR))) {
 					target.draw(vm2.left_side_wall, states);
 					target.draw(vm2.left_side_door, states);
 				}
-				if (tm2.has(_get_right_side(player_facing), TileEdge::WALL))
+				if ((tm2.has(_get_right_side(player_facing), TileEdge::WALL)) ||
+					(tm2.has(_get_right_side(player_facing),
+						TileEdge::ONE_WAY_WALL)))
 					target.draw(vm2.right_side_wall, states);
-				if (tm2.has(_get_right_side(player_facing),
-						TileEdge::UNLOCKED_DOOR)) {
+				if ((tm2.has(_get_right_side(player_facing),
+						TileEdge::UNLOCKED_DOOR)) ||
+					(tm2.has(_get_right_side(player_facing),
+						TileEdge::SECRET_DOOR))) {
 					target.draw(vm2.right_side_wall, states);
 					target.draw(vm2.right_side_door, states);
 				}
@@ -294,9 +322,11 @@ auto Sorcery::Render::_render_wireframe(
 			target.draw(vl0.darkness, states);
 			target.draw(vl1.side_darkness, states);
 		} else {
-			if (tl1.has(player_facing, TileEdge::WALL))
+			if ((tl1.has(player_facing, TileEdge::WALL)) ||
+				(tl1.has(player_facing, TileEdge::ONE_WAY_WALL)))
 				target.draw(vl1.back_wall, states);
-			if (tl1.has(player_facing, TileEdge::UNLOCKED_DOOR)) {
+			if ((tl1.has(player_facing, TileEdge::UNLOCKED_DOOR)) ||
+				(tl1.has(player_facing, TileEdge::SECRET_DOOR))) {
 				target.draw(vl1.back_wall, states);
 				target.draw(vl1.back_door, states);
 			}
@@ -313,9 +343,11 @@ auto Sorcery::Render::_render_wireframe(
 		if (tm1.is(TileProperty::DARKNESS))
 			target.draw(vm1.darkness, states);
 		else {
-			if (tm1.has(player_facing, TileEdge::WALL))
+			if ((tm1.has(player_facing, TileEdge::WALL)) ||
+				(tm1.has(player_facing, TileEdge::ONE_WAY_WALL)))
 				target.draw(vm1.back_wall, states);
-			if (tm1.has(player_facing, TileEdge::UNLOCKED_DOOR)) {
+			if ((tm1.has(player_facing, TileEdge::UNLOCKED_DOOR)) ||
+				(tm1.has(player_facing, TileEdge::SECRET_DOOR))) {
 				target.draw(vm1.back_wall, states);
 				target.draw(vm1.back_door, states);
 			}
@@ -333,9 +365,11 @@ auto Sorcery::Render::_render_wireframe(
 			target.draw(vr0.darkness, states);
 			target.draw(vr1.side_darkness, states);
 		} else {
-			if (tr1.has(player_facing, TileEdge::WALL))
+			if ((tr1.has(player_facing, TileEdge::WALL)) ||
+				(tr1.has(player_facing, TileEdge::ONE_WAY_WALL)))
 				target.draw(vr1.back_wall, states);
-			if (tr1.has(player_facing, TileEdge::UNLOCKED_DOOR)) {
+			if ((tr1.has(player_facing, TileEdge::UNLOCKED_DOOR)) ||
+				(tr1.has(player_facing, TileEdge::SECRET_DOOR))) {
 				target.draw(vr1.back_wall, states);
 				target.draw(vr1.back_door, states);
 			}
@@ -351,30 +385,40 @@ auto Sorcery::Render::_render_wireframe(
 		}
 
 		if (!tm1.is(TileProperty::DARKNESS)) {
-			if (tm1.has(_get_left_side(player_facing), TileEdge::WALL))
+			if ((tm1.has(_get_left_side(player_facing), TileEdge::WALL)) ||
+				(tm1.has(
+					_get_left_side(player_facing), TileEdge::ONE_WAY_WALL)))
 				target.draw(vm1.left_side_wall, states);
-			if (tm1.has(
-					_get_left_side(player_facing), TileEdge::UNLOCKED_DOOR)) {
+			if ((tm1.has(
+					_get_left_side(player_facing), TileEdge::UNLOCKED_DOOR)) ||
+				(tm1.has(
+					_get_left_side(player_facing), TileEdge::SECRET_DOOR))) {
 				target.draw(vm1.left_side_wall, states);
 				target.draw(vm1.left_side_door, states);
 			}
-			if (tm1.has(_get_right_side(player_facing), TileEdge::WALL))
+			if ((tm1.has(_get_right_side(player_facing), TileEdge::WALL)) ||
+				(tm1.has(
+					_get_right_side(player_facing), TileEdge::ONE_WAY_WALL)))
 				target.draw(vm1.right_side_wall, states);
-			if (tm1.has(
-					_get_right_side(player_facing), TileEdge::UNLOCKED_DOOR)) {
+			if ((tm1.has(
+					_get_right_side(player_facing), TileEdge::UNLOCKED_DOOR)) ||
+				(tm1.has(
+					_get_right_side(player_facing), TileEdge::SECRET_DOOR))) {
 				target.draw(vm1.right_side_wall, states);
 				target.draw(vm1.right_side_door, states);
 			}
 		}
 
 		// Row 0
-		if (tl0.has(player_facing, TileEdge::WALL))
+		if ((tl0.has(player_facing, TileEdge::WALL)) ||
+			(tl0.has(player_facing, TileEdge::ONE_WAY_WALL)))
 			target.draw(vl0.back_wall, states);
 		if (tl0.is(TileProperty::DARKNESS)) {
 			target.draw(vl0.darkness, states);
 			target.draw(vl0.side_darkness, states);
 		} else {
-			if (tl0.has(player_facing, TileEdge::UNLOCKED_DOOR)) {
+			if ((tl0.has(player_facing, TileEdge::UNLOCKED_DOOR)) ||
+				(tl0.has(player_facing, TileEdge::SECRET_DOOR))) {
 				target.draw(vl0.back_wall, states);
 				target.draw(vl0.back_door, states);
 			}
@@ -390,9 +434,11 @@ auto Sorcery::Render::_render_wireframe(
 		}
 
 		// If we have reached here, we aren't standing in darkness
-		if (tm0.has(player_facing, TileEdge::WALL))
+		if ((tm0.has(player_facing, TileEdge::WALL)) ||
+			(tm0.has(player_facing, TileEdge::ONE_WAY_WALL)))
 			target.draw(vm0.back_wall, states);
-		if (tm0.has(player_facing, TileEdge::UNLOCKED_DOOR)) {
+		if ((tm0.has(player_facing, TileEdge::UNLOCKED_DOOR)) ||
+			(tm0.has(player_facing, TileEdge::SECRET_DOOR))) {
 			target.draw(vm0.back_wall, states);
 			target.draw(vm0.back_door, states);
 		}
@@ -405,13 +451,15 @@ auto Sorcery::Render::_render_wireframe(
 			(tm0.has(TileFeature::LADDER_UP)))
 			target.draw(vm0.ceiling, states);
 
-		if (tr0.has(player_facing, TileEdge::WALL))
+		if ((tr0.has(player_facing, TileEdge::WALL)) ||
+			(tr0.has(player_facing, TileEdge::ONE_WAY_WALL)))
 			target.draw(vr0.back_wall, states);
 		if (tr0.is(TileProperty::DARKNESS)) {
 			target.draw(vr0.darkness, states);
 			target.draw(vr0.side_darkness, states);
 		} else {
-			if (tr0.has(player_facing, TileEdge::UNLOCKED_DOOR)) {
+			if ((tr0.has(player_facing, TileEdge::UNLOCKED_DOOR)) ||
+				(tr0.has(player_facing, TileEdge::SECRET_DOOR))) {
 				target.draw(vr0.back_wall, states);
 				target.draw(vr0.back_door, states);
 			}
@@ -427,17 +475,25 @@ auto Sorcery::Render::_render_wireframe(
 		}
 
 		if (!tm0.is(TileProperty::DARKNESS)) {
-			if (tm0.has(_get_left_side(player_facing), TileEdge::WALL))
+			if ((tm0.has(_get_left_side(player_facing), TileEdge::WALL)) ||
+				(tm0.has(
+					_get_left_side(player_facing), TileEdge::ONE_WAY_WALL)))
 				target.draw(vm0.left_side_wall, states);
-			if (tm0.has(
-					_get_left_side(player_facing), TileEdge::UNLOCKED_DOOR)) {
+			if ((tm0.has(
+					_get_left_side(player_facing), TileEdge::UNLOCKED_DOOR)) ||
+				(tm0.has(
+					_get_left_side(player_facing), TileEdge::SECRET_DOOR))) {
 				target.draw(vm0.left_side_wall, states);
 				target.draw(vm0.left_side_door, states);
 			}
-			if (tm0.has(_get_right_side(player_facing), TileEdge::WALL))
+			if ((tm0.has(_get_right_side(player_facing), TileEdge::WALL)) ||
+				(tm0.has(
+					_get_right_side(player_facing), TileEdge::ONE_WAY_WALL)))
 				target.draw(vm0.right_side_wall, states);
-			if (tm0.has(
-					_get_right_side(player_facing), TileEdge::UNLOCKED_DOOR)) {
+			if ((tm0.has(
+					_get_right_side(player_facing), TileEdge::UNLOCKED_DOOR)) ||
+				(tm0.has(
+					_get_right_side(player_facing), TileEdge::SECRET_DOOR))) {
 				target.draw(vm0.right_side_wall, states);
 				target.draw(vm0.right_side_door, states);
 			}

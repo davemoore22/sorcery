@@ -624,8 +624,9 @@ auto Sorcery::Engine::_move_forward() -> bool {
 		break;
 	}
 
-	if ((this_tile.walkable(this_wall_to_check)) &&
-		(next_tile.walkable(next_wall_to_check))) {
+	if (this_tile.walkable(this_wall_to_check)) {
+		// if ((this_tile.walkable(this_wall_to_check)) &&
+		//		(next_tile.walkable(next_wall_to_check))) {
 
 		_game->state->set_player_pos(next_loc);
 		if (!next_tile.is(TileProperty::EXPLORED))
@@ -714,8 +715,9 @@ auto Sorcery::Engine::_move_backward() -> bool {
 	}
 	auto next_wall_to_check{_game->state->get_player_facing()};
 
-	if ((this_tile.walkable(this_wall_to_check)) &&
-		(next_tile.walkable(next_wall_to_check))) {
+	if (this_tile.walkable(this_wall_to_check)) {
+		// if ((this_tile.walkable(this_wall_to_check)) &&
+		//	(next_tile.walkable(next_wall_to_check))) {
 
 		_game->state->set_player_pos(next_loc);
 		if (!next_tile.is(TileProperty::EXPLORED))

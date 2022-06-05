@@ -179,7 +179,8 @@ auto Sorcery::Tile::walkable(const MapDirection direction) const -> bool {
 	}
 
 	return (edge == TileEdge::SECRET_DOOR) || (edge == TileEdge::NONE) ||
-		   (edge == TileEdge::UNLOCKED_DOOR);
+		   (edge == TileEdge::UNLOCKED_DOOR) ||
+		   (edge == TileEdge::ONE_WAY_WALL);
 }
 
 auto Sorcery::Tile::wall(const MapDirection direction) const -> TileEdge {

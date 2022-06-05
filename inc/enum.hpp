@@ -945,8 +945,8 @@ namespace Sorcery {
 				STAIRS_DOWN = 14,
 				STAIRS_UP = 15,
 				CHUTE = 16,
-				ROCK = 17,
-				ELEVATOR = 18,
+				ELEVATOR = 17,
+				ROCK = 18,
 				PIT = 19,
 				SPINNER = 20,
 				TELEPORT = 21,
@@ -969,7 +969,11 @@ namespace Sorcery {
 				PLAYER_NORTH = 38,
 				PLAYER_SOUTH = 39,
 				PLAYER_EAST = 40,
-				PLAYER_WEST = 41
+				PLAYER_WEST = 41,
+				NORTH_ONE_WAY_WALL = 42,
+				SOUTH_ONE_WAY_WALL = 43,
+				EAST_ONE_WAY_WALL = 44,
+				WEST_ONE_WAY_WALL = 45
 			};
 
 		} // namespace Automap

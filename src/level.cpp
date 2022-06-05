@@ -583,21 +583,19 @@ auto Sorcery::Level::_convert_edge_nw(const unsigned int wall) const
 		TileEdge edge{TileEdge::NONE};
 		switch (wall) { // NOLINT(clang-diagnostic-switch)
 		case 5:
+			[[fallthrough]];
+		case 8:
 			edge = TileEdge::ONE_WAY_DOOR;
 			break;
 		case 6:
 			edge = TileEdge::HIDDEN_DOOR;
 			break;
 		case 7:
+			[[fallthrough]];
+		case 10:
 			edge = TileEdge::ONE_WAY_WALL;
 			break;
-		case 8:
-			edge = TileEdge::WALL;
-			break;
 		case 9:
-			edge = TileEdge::WALL;
-			break;
-		case 10:
 			edge = TileEdge::WALL;
 			break;
 		default:
@@ -629,6 +627,9 @@ auto Sorcery::Level::_set_other_edges(const Coordinate location) -> void {
 		case TileEdge::LOCKED_DOOR:
 			tile.set(MapDirection::NORTH, adj_north_edge);
 			break;
+		case TileEdge::ONE_WAY_WALL:
+			tile.set(MapDirection::NORTH, TileEdge::WALL);
+			break;
 		default:
 			break;
 		}
@@ -651,6 +652,9 @@ auto Sorcery::Level::_set_other_edges(const Coordinate location) -> void {
 			[[fallthrough]];
 		case TileEdge::LOCKED_DOOR:
 			tile.set(MapDirection::SOUTH, adj_south_edge);
+			break;
+		case TileEdge::ONE_WAY_WALL:
+			tile.set(MapDirection::SOUTH, TileEdge::WALL);
 			break;
 		default:
 			break;
@@ -675,6 +679,9 @@ auto Sorcery::Level::_set_other_edges(const Coordinate location) -> void {
 		case TileEdge::LOCKED_DOOR:
 			tile.set(MapDirection::WEST, adj_west_edge);
 			break;
+		case TileEdge::ONE_WAY_WALL:
+			tile.set(MapDirection::WEST, TileEdge::WALL);
+			break;
 		default:
 			break;
 		}
@@ -697,6 +704,9 @@ auto Sorcery::Level::_set_other_edges(const Coordinate location) -> void {
 			[[fallthrough]];
 		case TileEdge::LOCKED_DOOR:
 			tile.set(MapDirection::EAST, adj_east_edge);
+			break;
+		case TileEdge::ONE_WAY_WALL:
+			tile.set(MapDirection::EAST, TileEdge::WALL);
 			break;
 		default:
 			break;
