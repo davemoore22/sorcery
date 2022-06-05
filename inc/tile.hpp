@@ -42,7 +42,8 @@ namespace Sorcery {
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_location, _north, _south, _east, _west, _texture_id,
 				_properties, _features, _items, _events, _room_id, _treasure_id,
-				_effect_id, _description_id, _characters, _lighting, _id, s_id);
+				_effect_id, _description_id, _characters, _lighting, _teleport,
+				_id, s_id);
 		}
 
 		// No resources so no move/copy constructors needed

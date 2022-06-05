@@ -156,6 +156,9 @@ auto Sorcery::Engine::start() -> int {
 	_show_tile_note = false;
 	_exit_maze_now = false;
 	_automap->refresh();
+	auto &to_tile{_game->state->level->at(_game->state->get_player_pos())};
+	if (!to_tile.is(TileProperty::EXPLORED))
+		to_tile.set_explored();
 
 	_show_confirm_stairs =
 		(_game->state->get_player_pos() == Coordinate{0, 0}) &&
@@ -428,6 +431,10 @@ auto Sorcery::Engine::start() -> int {
 								_ouch->reset_timed();
 							} else {
 								_teleport_if();
+								auto &to_tile{_game->state->level->at(
+									_game->state->get_player_pos())};
+								if (!to_tile.is(TileProperty::EXPLORED))
+									to_tile.set_explored();
 								_update_automap = true;
 							}
 							if (_exit_maze_now) {
@@ -446,6 +453,10 @@ auto Sorcery::Engine::start() -> int {
 								_ouch->reset_timed();
 							} else {
 								_teleport_if();
+								auto &to_tile{_game->state->level->at(
+									_game->state->get_player_pos())};
+								if (!to_tile.is(TileProperty::EXPLORED))
+									to_tile.set_explored();
 								_update_automap = true;
 							}
 							if (_exit_maze_now) {
@@ -643,18 +654,18 @@ auto Sorcery::Engine::_move_forward() -> bool {
 
 		if (_game->state->level->stairs_at(next_loc)) {
 			const auto current_loc{_game->state->get_player_pos()};
-			const auto &this_tile{_game->state->level->at(current_loc)};
-			if (this_tile.has(TileFeature::LADDER_UP))
+			const auto &to_tile{_game->state->level->at(current_loc)};
+			if (to_tile.has(TileFeature::LADDER_UP))
 				_confirm_stairs->set((
 					*_display->layout)["engine_base_ui:dialog_ladder_up_text"]);
-			else if (this_tile.has(TileFeature::LADDER_DOWN))
+			else if (to_tile.has(TileFeature::LADDER_DOWN))
 				_confirm_stairs->set((
 					*_display
 						 ->layout)["engine_base_ui:dialog_ladder_down_text"]);
-			else if (this_tile.has(TileFeature::STAIRS_UP))
+			else if (to_tile.has(TileFeature::STAIRS_UP))
 				_confirm_stairs->set((
 					*_display->layout)["engine_base_ui:dialog_stairs_up_text"]);
-			else if (this_tile.has(TileFeature::STAIRS_DOWN))
+			else if (to_tile.has(TileFeature::STAIRS_DOWN))
 				_confirm_stairs->set((
 					*_display
 						 ->layout)["engine_base_ui:dialog_stairs_down_text"]);
@@ -811,7 +822,7 @@ auto Sorcery::Engine::_teleport_if() -> bool {
 			return true;
 		} else if (destination.to_level == _game->state->level->depth()) {
 
-			auto next_tile{_game->state->level->at(destination.to_loc)};
+			auto &next_tile{_game->state->level->at(destination.to_loc)};
 			_game->state->set_player_pos(destination.to_loc);
 
 			if (!next_tile.is(TileProperty::EXPLORED))

@@ -408,8 +408,14 @@ namespace Sorcery {
 		int to_level;
 		Coordinate to_loc;
 
+		Teleport() : to_level{1}, to_loc{Coordinate{0, 0}} {};
 		Teleport(int to_level_, Coordinate to_loc_)
 			: to_level{to_level_}, to_loc{to_loc_} {}
+
+		// Serialisation
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(to_level, to_loc);
+		}
 	};
 
 	struct TileNote {
