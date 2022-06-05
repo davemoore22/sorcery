@@ -1,8 +1,8 @@
 {
 	"export": {
-		"from": "2022.4",
-		"date": "2022-04-30",
-		"time": "17:30:30"
+		"from": "2022.5",
+		"date": "2022-06-05",
+		"time": "16:02:03"
 	},
 	"regions": [
 		{
@@ -1601,7 +1601,7 @@
 							"x": 0,
 							"y": 0,
 							"monospaced": false,
-							"__data": "Inscribed on an ornate gold plaque is a message. The script is ornate, and blinks in various colours: \"You are trespassing on the domain of **Werdna**. There is no possibility that you can get past my guardians! So sure am I of my defenses that I give you this clue: \"Contra-Dextra Avenue\" PS - Trebor sux!\""
+							"__data": "Inscribed on an ornate gold plaque is a message. The script is ornate, and blinks in various colours:\n\"You are trespassing on the domain of **Werdna**. There is no possibility that you can get past my guardians!\nSo sure am I of my defenses that I give you this clue:\n\"Contra-Dextra Avenue\"\nPS - Trebor sux!\""
 						},
 						{
 							"x": 1,
@@ -1613,7 +1613,7 @@
 							"x": 3,
 							"y": 14,
 							"monospaced": false,
-							"__data": "One group of guardians have been defeated, but there are many more. Turn back while you can, fools!"
+							"__data": "One group of guardians have been defeated, but there are many more.\nTurn back while you can, fools!"
 						},
 						{
 							"x": 1,
@@ -1649,7 +1649,7 @@
 							"x": 17,
 							"y": 4,
 							"monospaced": false,
-							"__data": "A discreet sign on the wall reads: Lair of the evil wizard werdna! Office hours 9am to 3pm by appointment only The wizard is *in*!"
+							"__data": "A discreet sign on the wall reads:\nLair of the evil wizard werdna! \nOffice hours 9am to 3pm by appointment only\nThe wizard is *in*!"
 						},
 						{
 							"x": 17,
@@ -1661,7 +1661,7 @@
 							"x": 2,
 							"y": 8,
 							"monospaced": false,
-							"__data": "Inscribed on an ornate gold plaque is a message. The script is ornate, and blinks in various colours: \"You are trespassing on the domain of **Werdna**. There is no possibility that you can get past my guardians! So sure am I of my defenses that I give you this clue: \"Contra-Dextra Avenue\" PS - Trebor sux!\"  Teleport to town"
+							"__data": "Inscribed on an ornate gold plaque is a message. The script is ornate, and blinks in various colours:\n\"You are trespassing on the domain of **Werdna**. There is no possibility that you can get past my guardians!\nSo sure am I of my defenses that I give you this clue:\n\"Contra-Dextra Avenue\"\nPS - Trebor sux!\"\n\nTeleport to town"
 						}
 					]
 				},
@@ -4279,7 +4279,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 									},
@@ -4409,7 +4409,7 @@
 									},
 									{
 										"r": 1,
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1
@@ -4475,7 +4475,7 @@
 									{
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1
@@ -4518,37 +4518,37 @@
 										"b": 1
 									},
 									{
-										"r": 29,
-										"b": 29
+										"r": 13,
+										"b": 13
 									},
 									{
-										"r": 29
+										"r": 13
 									},
 									{
-										"b": 29
-									},
-									{
-										"b": 1
+										"b": 13
 									},
 									{
 										"b": 1
 									},
 									{
-										"r": 29,
 										"b": 1
 									},
 									{
-										"r": 29
+										"r": 13,
+										"b": 1
 									},
 									{
-										"r": 29,
-										"b": 29
+										"r": 13
 									},
 									{
-										"r": 29
+										"r": 13,
+										"b": 13
 									},
 									{
-										"b": 29
+										"r": 13
+									},
+									{
+										"b": 13
 									},
 									{
 										"b": 1
@@ -4587,14 +4587,14 @@
 									{
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"m": 4,
 										"mc": 24
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"b": 1
@@ -4609,13 +4609,13 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"m": 7
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"b": 1
@@ -4655,21 +4655,14 @@
 										"b": 1
 									},
 									{
-										"r": 29
+										"r": 13
 									},
 									{
-										"r": 29,
-										"b": 29
+										"r": 13,
+										"b": 13
 									},
 									{
-										"r": 29
-									},
-									{
-									},
-									{
-										"b": 2
-									},
-									{
+										"r": 13
 									},
 									{
 									},
@@ -4677,10 +4670,17 @@
 										"b": 2
 									},
 									{
-										"r": 29
 									},
 									{
-										"r": 29
+									},
+									{
+										"b": 2
+									},
+									{
+										"r": 13
+									},
+									{
+										"r": 13
 									},
 									{
 										"r": 2
@@ -4731,7 +4731,7 @@
 										"b": 2
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1
@@ -4867,7 +4867,7 @@
 										"r": 1
 									},
 									{
-										"r": 29,
+										"r": 13,
 										"b": 2
 									},
 									{
@@ -4909,7 +4909,7 @@
 									},
 									{
 										"r": 1,
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 2,
@@ -4989,7 +4989,7 @@
 									{
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 2
@@ -5036,18 +5036,15 @@
 										"b": 1
 									},
 									{
-										"r": 29,
-										"b": 29,
+										"r": 13,
+										"b": 13,
 										"m": 25
 									},
 									{
-										"r": 29
+										"r": 13
 									},
 									{
-										"b": 29
-									},
-									{
-										"b": 1
+										"b": 13
 									},
 									{
 										"b": 1
@@ -5059,18 +5056,21 @@
 										"b": 1
 									},
 									{
-										"r": 29,
 										"b": 1
 									},
 									{
-										"r": 29
+										"r": 13,
+										"b": 1
 									},
 									{
-										"r": 29,
-										"b": 29
+										"r": 13
 									},
 									{
-										"r": 29
+										"r": 13,
+										"b": 13
+									},
+									{
+										"r": 13
 									},
 									{
 										"b": 1
@@ -5107,12 +5107,12 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 									},
@@ -5126,14 +5126,14 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"m": 5,
 										"mc": 24
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"b": 1
@@ -5170,18 +5170,18 @@
 									{
 									},
 									{
-										"r": 29
+										"r": 13
 									},
 									{
-										"r": 29
+										"r": 13
 									},
 									{
-										"r": 29,
-										"b": 29,
+										"r": 13,
+										"b": 13,
 										"m": 14
 									},
 									{
-										"r": 29
+										"r": 13
 									},
 									{
 										"b": 1
@@ -5193,11 +5193,11 @@
 										"b": 1
 									},
 									{
-										"r": 29,
+										"r": 13,
 										"b": 2
 									},
 									{
-										"r": 29
+										"r": 13
 									},
 									{
 									},
@@ -5239,7 +5239,7 @@
 									{
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 2,
@@ -5413,7 +5413,7 @@
 										"r": 1
 									},
 									{
-										"r": 29,
+										"r": 13,
 										"b": 1
 									},
 									{
@@ -5688,7 +5688,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"b": 1
@@ -5724,7 +5724,7 @@
 								"start": 0,
 								"tdata": [
 									{
-										"r": 29
+										"r": 13
 									},
 									{
 										"r": 2
@@ -5758,7 +5758,7 @@
 									},
 									{
 										"r": 1,
-										"b": 29,
+										"b": 13,
 										"m": 2
 									},
 									{
@@ -5789,10 +5789,10 @@
 										"b": 1
 									},
 									{
-										"r": 29
+										"r": 13
 									},
 									{
-										"r": 29
+										"r": 13
 									}
 								]
 							},
@@ -5924,12 +5924,12 @@
 										"r": 7
 									},
 									{
-										"r": 29,
+										"r": 13,
 										"b": 1
 									},
 									{
 										"r": 1,
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1
@@ -6145,7 +6145,7 @@
 										"b": 1
 									},
 									{
-										"r": 29,
+										"r": 13,
 										"b": 1
 									},
 									{
@@ -6218,7 +6218,7 @@
 										"b": 2
 									},
 									{
-										"r": 29,
+										"r": 13,
 										"b": 1
 									},
 									{
@@ -6362,7 +6362,7 @@
 									},
 									{
 										"r": 1,
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1
@@ -6434,7 +6434,7 @@
 										"r": 7
 									},
 									{
-										"r": 29,
+										"r": 13,
 										"b": 1
 									},
 									{
@@ -6501,7 +6501,7 @@
 									{
 									},
 									{
-										"r": 29
+										"r": 13
 									},
 									{
 										"b": 1
@@ -6572,12 +6572,12 @@
 										"b": 2
 									},
 									{
-										"r": 29,
+										"r": 13,
 										"b": 1
 									},
 									{
 										"r": 1,
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1
@@ -6610,7 +6610,7 @@
 										"b": 1
 									},
 									{
-										"r": 29
+										"r": 13
 									},
 									{
 										"r": 1
@@ -6752,7 +6752,7 @@
 										"b": 1
 									},
 									{
-										"r": 29,
+										"r": 13,
 										"b": 1
 									},
 									{
@@ -6792,7 +6792,7 @@
 										"b": 1
 									},
 									{
-										"r": 29,
+										"r": 13,
 										"b": 1
 									},
 									{
@@ -7546,7 +7546,7 @@
 										"b": 1
 									},
 									{
-										"r": 29,
+										"r": 13,
 										"b": 1
 									},
 									{
@@ -7698,14 +7698,14 @@
 									},
 									{
 										"r": 1,
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1,
 										"d": "1"
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 									},
@@ -7778,7 +7778,7 @@
 									{
 									},
 									{
-										"r": 29
+										"r": 13
 									},
 									{
 									},
@@ -8089,7 +8089,7 @@
 									},
 									{
 										"r": 1,
-										"b": 29,
+										"b": 13,
 										"m": 14
 									}
 								]
@@ -8113,7 +8113,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1,
@@ -8126,7 +8126,7 @@
 										"b": 1
 									},
 									{
-										"r": 29,
+										"r": 13,
 										"b": 1
 									},
 									{
@@ -8135,7 +8135,7 @@
 									},
 									{
 										"r": 1,
-										"b": 29
+										"b": 13
 									},
 									{
 										"b": 1
@@ -8184,7 +8184,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"b": 1
@@ -8259,7 +8259,7 @@
 									},
 									{
 										"r": 2,
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1
@@ -8370,7 +8370,7 @@
 									},
 									{
 										"r": 1,
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 2,
@@ -8411,14 +8411,14 @@
 										"r": 1
 									},
 									{
-										"r": 29,
+										"r": 13,
 										"b": 1
 									},
 									{
 										"b": 1
 									},
 									{
-										"r": 29,
+										"r": 13,
 										"b": 1,
 										"m": 14
 									},
@@ -8545,7 +8545,7 @@
 										"r": 1
 									},
 									{
-										"r": 29,
+										"r": 13,
 										"b": 1,
 										"m": 1
 									},
@@ -9399,7 +9399,7 @@
 										"r": 1
 									},
 									{
-										"r": 29,
+										"r": 13,
 										"b": 2
 									},
 									{
@@ -9421,7 +9421,7 @@
 										"b": 1
 									},
 									{
-										"r": 29,
+										"r": 13,
 										"b": 1
 									},
 									{
@@ -9598,13 +9598,13 @@
 							"x": 10,
 							"y": 14,
 							"monospaced": false,
-							"__data": "A sign on the door reads: *** Testing grounds control center *** Authorized personnel only! << Do not enter >>"
+							"__data": "A sign on the door reads:\n*** Testing grounds control center ***\nAuthorized personnel only!\n<< Do not enter >>"
 						},
 						{
 							"x": 10,
 							"y": 2,
 							"monospaced": false,
-							"__data": "A sign on the door reads: Private express service elevator! Authorized users only!"
+							"__data": "A sign on the door reads:\nPrivate express service elevator!\nAuthorized users only!"
 						},
 						{
 							"x": 17,
@@ -9616,31 +9616,31 @@
 							"x": 10,
 							"y": 15,
 							"monospaced": false,
-							"__data": "Suddenly, a loud alarm bell can be heard. Then the bells stop, and are replaced by the sounds of guardian monsters!"
+							"__data": "Suddenly, a loud alarm bell can be heard.\nThen the bells stop, and are replaced by the sounds of guardian monsters!"
 						},
 						{
 							"x": 12,
 							"y": 15,
 							"monospaced": false,
-							"__data": "A sign on the door reads: \"Monster Allocation Center\""
+							"__data": "A sign on the door reads:\n\"Monster Allocation Center\""
 						},
 						{
 							"x": 11,
 							"y": 11,
 							"monospaced": false,
-							"__data": "In this room, there is a large desk. On it are the remains of crystal balls and other magical artifacts; all now broken. As you entered the room, a panel on the door slammed shut. Then it glowed a pale blue. No one can pry it open.  Next, the door on the other side of the room glow bright orange, inviting the party to use it"
+							"__data": "In this room, there is a large desk.\nOn it are the remains of crystal balls and other magical artifacts; all now broken.\nAs you entered the room, a panel on the door slammed shut. Then it glowed a pale blue.\nNo one can pry it open. \nNext, the door on the other side of the room glow bright orange, inviting the party to use it"
 						},
 						{
 							"x": 11,
 							"y": 10,
 							"monospaced": false,
-							"__data": "As the party enters the room, the door slams shut, glows orange and vanishes! A door appears to the right. A voice, coming from the ceiling addresses you: \"Congratulations, brave adventurers! Today you have proved yourself to me and are now ready to start your quest! Years ago, my amulet was stolen by the evil wizard Werdnat.  Werdna hides in the maze somewhere below us. Find him; slay him; and return to me the amulet! (...)  To aid you in your quest, I will give you a blue ribbon, which may be used to enter the elevator on this floor. Go now -- And may the gods guide you!\""
+							"__data": "As the party enters the room, the door slams shut, glows orange and vanishes!\nA door appears to the right. A voice, coming from the ceiling addresses you:\n\"Congratulations, brave adventurers!\nToday you have proved yourself to me and are now ready to start your quest!\nYears ago, my amulet was stolen by the evil wizard Werdnat. \nWerdna hides in the maze somewhere below us. Find him; slay him; and return to me the amulet!\n(...)\n\nTo aid you in your quest, I will give you a blue ribbon, which may be used to enter the elevator on this floor.\nGo now -- And may the gods guide you!\""
 						},
 						{
 							"x": 8,
 							"y": 15,
 							"monospaced": false,
-							"__data": "A sign on the door reads: \"Treasure repository.\""
+							"__data": "A sign on the door reads:\n\"Treasure repository.\""
 						},
 						{
 							"x": 10,
@@ -9685,7 +9685,7 @@
 									{
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"b": 1
@@ -9699,7 +9699,7 @@
 									{
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"b": 1
@@ -9713,7 +9713,7 @@
 									{
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"b": 1
@@ -9743,7 +9743,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"m": 7
@@ -9758,7 +9758,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"m": 11
@@ -9773,7 +9773,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"m": 7
@@ -9788,7 +9788,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									}
 								]
 							},
@@ -9926,7 +9926,7 @@
 										"r": 1
 									},
 									{
-										"b": 29,
+										"b": 13,
 										"m": 14
 									},
 									{
@@ -9944,7 +9944,7 @@
 										"r": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1,
@@ -9961,7 +9961,7 @@
 										"r": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1,
@@ -9979,7 +9979,7 @@
 										"m": 14
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1,
@@ -10011,7 +10011,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"m": 25
@@ -10057,7 +10057,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									}
 								]
 							},
@@ -10200,7 +10200,7 @@
 										"r": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1,
@@ -10220,7 +10220,7 @@
 										"r": 1
 									},
 									{
-										"r": 29,
+										"r": 13,
 										"b": 1
 									},
 									{
@@ -10234,7 +10234,7 @@
 										"r": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1,
@@ -10251,7 +10251,7 @@
 										"r": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1,
@@ -10283,7 +10283,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1,
@@ -10317,7 +10317,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"m": 1
@@ -10332,7 +10332,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									}
 								]
 							},
@@ -10481,7 +10481,7 @@
 									},
 									{
 										"r": 1,
-										"b": 29,
+										"b": 13,
 										"m": 2
 									},
 									{
@@ -10534,7 +10534,7 @@
 										"r": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1,
@@ -10566,7 +10566,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"m": 25
@@ -10581,7 +10581,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"m": 25
@@ -10596,7 +10596,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"m": 25
@@ -10611,7 +10611,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									}
 								]
 							},
@@ -10752,7 +10752,7 @@
 										"r": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1,
@@ -10769,7 +10769,7 @@
 										"r": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1,
@@ -10786,7 +10786,7 @@
 										"r": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1,
@@ -10803,7 +10803,7 @@
 										"r": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1,
@@ -10835,7 +10835,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"m": 25
@@ -10850,7 +10850,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"m": 25
@@ -10865,7 +10865,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"m": 11
@@ -10880,7 +10880,7 @@
 										"b": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									}
 								]
 							},
@@ -11022,7 +11022,7 @@
 										"r": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1,
@@ -11039,7 +11039,7 @@
 										"r": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1,
@@ -11056,7 +11056,7 @@
 										"r": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1,
@@ -11073,7 +11073,7 @@
 										"r": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1,
@@ -12650,7 +12650,7 @@
 							"x": 9,
 							"y": 18,
 							"monospaced": false,
-							"__data": "You see a statue of a bear on a pedestal. On the wall is a sign reading \"I've got a million of 'em.\" statue of bear"
+							"__data": "You see a statue of a bear on a pedestal. On the wall is a sign reading \"I've got a million of 'em.\"\nstatue of bear"
 						},
 						{
 							"x": 4,
@@ -12668,43 +12668,43 @@
 							"x": 12,
 							"y": 4,
 							"monospaced": false,
-							"__data": "On a silvery disk stands a statue of a frog wearing a red and blue cape. The statue animates and shakes its legs while it yells \"Yeah.... Yeah...\" frog statue"
+							"__data": "On a silvery disk stands a statue of a frog wearing a red and blue cape.\nThe statue animates and shakes its legs while it yells \"Yeah.... Yeah...\"\nfrog statue"
 						},
 						{
 							"x": 4,
 							"y": 16,
 							"monospaced": false,
-							"__data": "In this room is a statue of a monster with the body of a chicken and the head of a cat. The statue is made of bronze, and lies on an onyx pedestal.  There are unusual runes on a plaque thereon. Gold key"
+							"__data": "In this room is a statue of a monster with the body of a chicken and the head of a cat.\nThe statue is made of bronze, and lies on an onyx pedestal. \nThere are unusual runes on a plaque thereon.\nGold key"
 						},
 						{
 							"x": 8,
 							"y": 7,
 							"monospaced": false,
-							"__data": "As you enter this room, a bronze smoke fills it. You feel compelled to leave immdediately! Need bronze key"
+							"__data": "As you enter this room, a bronze smoke fills it. You feel compelled to leave immdediately!\nNeed bronze key"
 						},
 						{
 							"x": 8,
 							"y": 12,
 							"monospaced": false,
-							"__data": "As you enter this room, a silvery fog evelops you. Terrible demons form all around you. In terror, you flee from the room! Need silver key"
+							"__data": "As you enter this room, a silvery fog evelops you.\nTerrible demons form all around you. In terror, you flee from the room!\nNeed silver key"
 						},
 						{
 							"x": 15,
 							"y": 11,
 							"monospaced": false,
-							"__data": "A placard near the ground reads: \"A dungeon's dark...\""
+							"__data": "A placard near the ground reads:\n\"A dungeon's dark...\""
 						},
 						{
 							"x": 14,
 							"y": 11,
 							"monospaced": false,
-							"__data": "A placard near the ground reads: \"When it's not lit...\""
+							"__data": "A placard near the ground reads:\n\"When it's not lit...\""
 						},
 						{
 							"x": 13,
 							"y": 11,
 							"monospaced": false,
-							"__data": "A placard near the ground reads: \"Watch out, or you'll...\""
+							"__data": "A placard near the ground reads:\n\"Watch out, or you'll...\""
 						},
 						{
 							"x": 10,
@@ -12759,6 +12759,7 @@
 										"b": 1
 									},
 									{
+										"b": 13
 									},
 									{
 										"b": 1
@@ -12838,11 +12839,11 @@
 										"r": 2
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 2,
-										"b": 29
+										"b": 13
 									},
 									{
 										"b": 1
@@ -12858,11 +12859,11 @@
 									},
 									{
 										"r": 1,
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1,
-										"b": 29
+										"b": 13
 									}
 								]
 							},
@@ -12874,10 +12875,10 @@
 										"r": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
-										"r": 29,
+										"r": 13,
 										"b": 1
 									},
 									{
@@ -12923,7 +12924,7 @@
 									},
 									{
 										"r": 1,
-										"b": 29
+										"b": 13
 									},
 									{
 										"b": 1
@@ -12977,7 +12978,7 @@
 									},
 									{
 										"r": 1,
-										"b": 29
+										"b": 13
 									},
 									{
 										"d": "1"
@@ -13151,12 +13152,12 @@
 										"b": 1
 									},
 									{
-										"b": 29,
+										"b": 13,
 										"m": 14
 									},
 									{
 										"r": 1,
-										"b": 29
+										"b": 13
 									}
 								]
 							},
@@ -13374,11 +13375,11 @@
 										"r": 1
 									},
 									{
-										"b": 29
+										"b": 13
 									},
 									{
 										"r": 1,
-										"b": 29
+										"b": 13
 									}
 								]
 							},
@@ -14117,8 +14118,7 @@
 										"r": 1
 									},
 									{
-										"r": 1,
-										"m": 25
+										"r": 1
 									},
 									{
 										"b": 1
@@ -14196,8 +14196,7 @@
 										"m": 26
 									},
 									{
-										"b": 1,
-										"m": 25
+										"b": 1
 									},
 									{
 										"b": 1
@@ -14227,6 +14226,7 @@
 									},
 									{
 										"r": 7,
+										"b": 13,
 										"d": "1"
 									},
 									{
@@ -14272,88 +14272,34 @@
 					},
 					"notes": [
 						{
-							"x": 1,
-							"y": 0,
-							"monospaced": false,
-							"__data": "Centuries must have passed since adventurers last trode these ancient halls and the dust-laden floors show no signs of any recent distrubance."
-						},
-						{
-							"x": 0,
-							"y": 1,
-							"monospaced": false,
-							"__data": "Centuries must have passed since adventurers last trode these ancient halls and the dust-laden floors show no signs of any recent distrubance."
-						},
-						{
-							"x": 0,
-							"y": 8,
-							"monospaced": false,
-							"__data": "The dust on the floor is disturbed here. There seems to be the tracks of a small animal leading off eastwards!"
-						},
-						{
-							"x": 6,
-							"y": 7,
-							"monospaced": false,
-							"__data": "The stone walls here are covered in unusual quarry marks. They look very old."
-						},
-						{
-							"x": 8,
-							"y": 8,
-							"monospaced": false,
-							"__data": "The dust in front of you has been disturbed recently by something other than a small animal!"
-						},
-						{
-							"x": 10,
-							"y": 9,
-							"monospaced": false,
-							"__data": "You feel a faint breeze coming from down the corridor to the East!"
-						},
-						{
-							"x": 9,
-							"y": 13,
-							"monospaced": false,
-							"__data": "You are enveloped in an unnatural darkness here!"
-						},
-						{
-							"x": 3,
-							"y": 4,
-							"monospaced": false,
-							"__data": "The door here has at some time in the past been knocked off its hinges..."
-						},
-						{
-							"x": 4,
-							"y": 2,
-							"monospaced": false,
-							"__data": "A few rotten scraps of cloth lie here. Scribbed on the wall above them is some graffiti. Most of it is unintellignle but you can make out the words \"Kadorto is a Lie!\""
-						},
-						{
 							"x": 9,
 							"y": 12,
 							"monospaced": false,
-							"__data": "The remains of a large wooden sign hang from the wall. At one time it said \"Area out of bounds!!!\" but it has been heavily defaced over the long passage of time."
+							"__data": "A large sign on the wall reads:\nArea out of bounds!!!"
 						},
 						{
 							"x": 9,
 							"y": 19,
 							"monospaced": false,
-							"__data": "A strange glow seems to emanate from this room. In the center, a smallish man in a long robe turns towards the party and shouts \"Begone, strangers!\" He slowly waves his hands, and chants \"mapiro mahama diromat!!\" teleported back to castle"
+							"__data": "A strange glow seems to emanate from this room. In the center, a smallish man in a long robe\nturns towards the party and shouts \"Begone, strangers!\"\nHe slowly waves his hands, and chants \"mapiro mahama diromat!!\"\nteleported back to castle"
 						},
 						{
 							"x": 13,
 							"y": 18,
 							"monospaced": false,
-							"__data": "In this room is a silver statue of a boar with horns and long fangs. On the wall by the statue is a message (partially obscured) that appeard to have been left by passing elves. It is hardly legible. But some comments warning bout ghosts and demons can still be made out Silver key"
+							"__data": "In this room is a silver statue of a boar with horns and long fangs.\nOn the wall by the statue is a message (partially obscured) that appeard to have been left by\npassing elves. It is hardly legible. But some comments warning bout ghosts and demons can still\nbe made out\nSilver key"
 						},
 						{
 							"x": 13,
 							"y": 5,
 							"monospaced": false,
-							"__data": "There is a gem encrusted statue of a hooded man here. A golden light emanates from the hood. In front of the statue is an altar, in which pungent incense is burning Murphy's Ghost"
+							"__data": "There is a gem encrusted statue of a hooded man here. A golden light emanates from the hood.\nIn front of the statue is an altar, in which pungent incense is burning\nMurphy's Ghost"
 						},
 						{
 							"x": 13,
 							"y": 3,
 							"monospaced": false,
-							"__data": "In this room is a statue of a monster with the body of a chicken and the head of a cat. The statue is made of bronze, and lies on an onyx pedestal. There are unusual runes on a plaque thereon key"
+							"__data": "In this room is a statue of a monster with the body of a chicken and the head of a cat.\nThe statue is made of bronze, and lies on an onyx pedestal.\nThere are unusual runes on a plaque thereon\nkey"
 						},
 						{
 							"x": 10,

@@ -114,7 +114,9 @@
 		"queue": "cpp",
 		"stack": "cpp",
 		"*.ipp": "cpp",
-		"future": "cpp"
+		"future": "cpp",
+		"strstream": "cpp",
+		"cfenv": "cpp"
 	},
 	"terminal.integrated.env.linux": {
 		"PATH": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"

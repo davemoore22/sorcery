@@ -41,9 +41,12 @@ auto Sorcery::Message::update(TileNote tile_note) -> void {
 	// Get the Window
 	_window = _display->window->get_window();
 
-	// Get the Text
+	// Get the Text (strip out carriage returns)
 	auto text_width{_frame_c.w - 4};
-	auto wrapped_text{WORDWRAP(_tile_note.text, text_width)};
+	std::string message_text{};
+	message_text = std::regex_replace(_tile_note.text, std::regex("(\n)"), "@");
+
+	auto wrapped_text{WORDWRAP(message_text, text_width)};
 	std::transform(wrapped_text.begin(), wrapped_text.end(),
 		wrapped_text.begin(), ::toupper);
 
