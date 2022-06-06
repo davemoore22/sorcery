@@ -156,9 +156,11 @@ auto Sorcery::Engine::start() -> int {
 	_show_tile_note = false;
 	_exit_maze_now = false;
 	_automap->refresh();
-	auto &to_tile{_game->state->level->at(_game->state->get_player_pos())};
-	if (!to_tile.is(TileProperty::EXPLORED))
-		to_tile.set_explored();
+	auto &starting_tile{
+		_game->state->level->at(_game->state->get_player_pos())};
+	if (!starting_tile.is(TileProperty::EXPLORED))
+		starting_tile.set_explored();
+	_game->state->set_player_facing(MapDirection::NORTH);
 
 	_show_confirm_stairs =
 		(_game->state->get_player_pos() == Coordinate{0, 0}) &&

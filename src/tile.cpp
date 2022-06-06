@@ -178,8 +178,6 @@ auto Sorcery::Tile::walkable(const MapDirection direction) const -> bool {
 		break;
 	}
 
-	std::cout << "Wall: " << (int)direction << " is " << (int)edge << std::endl;
-
 	return (edge == TileEdge::SECRET_DOOR) || (edge == TileEdge::NONE) ||
 		   (edge == TileEdge::UNLOCKED_DOOR) ||
 		   (edge == TileEdge::ONE_WAY_DOOR) ||

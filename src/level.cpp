@@ -136,9 +136,9 @@ auto Sorcery::Level::load(
 
 	_create();
 	_load_simple_walls(row_data);
-	_set_other_simple_walls();
-	//_load_tile_nw(row_data);
-
+	_fill_in_simple_walls();
+	_set_complicated_walls(row_data);
+	_load_markers(row_data);
 	_load_notes(note_data);
 	_load_metadata(note_data);
 
@@ -344,8 +344,52 @@ auto Sorcery::Level::_load_markers(const Json::Value row_data) -> bool {
 				else
 					return 0u;
 			}()};
+
+			_update_tile_markers(Coordinate{x, y}, darkness, marker, terrain);
 		}
 	}
+}
+
+auto Sorcery::Level::_set_complicated_walls(const Json::Value row_data)
+	-> bool {
+
+	for (auto j = 0u; j < row_data.size(); j++) {
+
+		// Get the top level data items
+		auto tile_data{row_data[j]["tdata"]};
+		const auto start{static_cast<int>(row_data[j]["start"].asInt())};
+		const auto absolute_x{static_cast<int>(_bottom_left.x + start)};
+		const auto absolute_y{static_cast<int>(_bottom_left.y)};
+		const auto current_y{static_cast<int>(row_data[j]["y"].asInt())};
+		auto x{0};
+		auto y{current_y + absolute_y};
+
+		// First pass through - build the tiles needed
+		for (auto i = 0u; i < tile_data.size(); i++) {
+
+			// For each cell
+			x = absolute_x + i;
+			auto tile{tile_data[i]};
+
+			// Get the bottom and right walls and cell properties
+			auto south_wall{[&] {
+				if (tile.isMember("b"))
+					return static_cast<unsigned int>(tile["b"].asUInt());
+				else
+					return 0u;
+			}()};
+			auto east_wall{[&] {
+				if (tile.isMember("r"))
+					return static_cast<unsigned int>(tile["r"].asUInt());
+				else
+					return 0u;
+			}()};
+
+			_fill_in_complicated_walls(Coordinate{x, y}, south_wall, east_wall);
+		}
+	}
+
+	return true;
 }
 
 auto Sorcery::Level::_load_simple_walls(const Json::Value row_data) -> bool {
@@ -382,7 +426,7 @@ auto Sorcery::Level::_load_simple_walls(const Json::Value row_data) -> bool {
 					return 0u;
 			}()};
 
-			_update_tile_walls_se(Coordinate{x, y}, south_wall, east_wall);
+			_update_tile_walls_simple(Coordinate{x, y}, south_wall, east_wall);
 		}
 	}
 
@@ -392,7 +436,7 @@ auto Sorcery::Level::_load_simple_walls(const Json::Value row_data) -> bool {
 // Since Grid Cartographer only defines s/e walls in our format, we do two
 // updates, first with the tile in question, and then from the adjacent tile on
 // another pass - but for now only update simple walls
-auto Sorcery::Level::_update_tile_walls_se(const Coordinate location,
+auto Sorcery::Level::_update_tile_walls_simple(const Coordinate location,
 	const unsigned int south_wall, const unsigned int east_wall) -> void {
 
 	auto south_edge{_convert_edge_se(south_wall)};
@@ -406,7 +450,7 @@ auto Sorcery::Level::_update_tile_walls_se(const Coordinate location,
 // Check for single normal walls and double them as we are using dual
 // walls so for each side, check if its a normal wall/door and if the
 // other side is empty then give the other side the same wall/door
-auto Sorcery::Level::_set_other_simple_walls() -> bool {
+auto Sorcery::Level::_fill_in_simple_walls() -> bool {
 
 	// Use the Wrapping "View" to guarantee tiles exist
 	for (auto y = wrap_bottom_left().y; y <= wrap_top_right().y; y++)
@@ -513,55 +557,6 @@ auto Sorcery::Level::_set_other_simple_edges(const Coordinate location)
 	}
 }
 
-auto Sorcery::Level::_load_tile_nw(const Json::Value row_data) -> bool {
-
-	return true;
-
-	for (auto j = 0u; j < row_data.size(); j++) {
-
-		// Get the top level data items
-		const auto start{static_cast<int>(row_data[j]["start"].asInt())};
-		const auto absolute_x{static_cast<int>(_bottom_left.x + start)};
-		const auto absolute_y{static_cast<int>(_bottom_left.y)};
-		const auto current_y{static_cast<int>(row_data[j]["y"].asInt())};
-		auto tile_data{row_data[j]["tdata"]};
-		auto x{0};
-		auto y{current_y + absolute_y};
-
-		// Second pass through - build the other edges of the tiles
-		for (auto i = 0u; i < tile_data.size(); i++) {
-
-			// For each cell
-			x = absolute_x + i;
-			auto tile{tile_data[i]};
-
-			// Get the bottom and right walls but remembering these are
-			// the top and left walls of adjacent tiles - see
-			// https://docs.gridcartographer.com/ref/tile_data_models
-			// for details
-			auto north_wall{[&] {
-				if (tile.isMember("b"))
-					return static_cast<unsigned int>(tile["b"].asUInt());
-				else
-					return 0u;
-			}()};
-			auto west_wall{[&] {
-				if (tile.isMember("r"))
-					return static_cast<unsigned int>(tile["r"].asUInt());
-				else
-					return 0u;
-			}()};
-			auto new_x{x};
-			auto new_y{y};
-
-			_update_tile_walls_nw(
-				Coordinate{new_x, new_y}, north_wall, west_wall);
-		}
-	}
-
-	return true;
-}
-
 auto Sorcery::Level::name() const -> std::string {
 
 	return _depth < 0 ? fmt::format("{} B{}F", _dungeon, std::abs(_depth))
@@ -635,25 +630,137 @@ auto Sorcery::Level::stairs_at(const Coordinate loc) -> bool {
 			(tile.has(TileFeature::STAIRS_DOWN)));
 }
 
-auto Sorcery::Level::_update_tile_walls_nw(const Coordinate location,
-	const unsigned int north_wall, const unsigned int west_wall) -> void {
+auto Sorcery::Level::_fill_in_complicated_walls(const Coordinate location,
+	const unsigned int south_wall, const unsigned int east_wall) -> void {
 
-	auto north_edge{_convert_edge_nw(north_wall)};
-	auto west_edge{_convert_edge_nw(west_wall)};
+	// OK, so this is a bit complicated due to GC only storing one set of walls
+	// per tile - we have to back fill in complicated walls (walls that differ
+	// on each side)
 
+	// Fortunately, the only walls that we need to worry about are:
+	//
+	// ONE_WAY_DOOR, HIDDEN_DOOR, ONE_WAY_WALL - in both direction
+	//
+	// We need to not only handle the walls in question but set the
+	// correspinding walls on adjacent tiles as needed
+
+	// https: // docs.gridcartographer.com/ref/table/edge
 	auto &tile{_tiles.at(location)};
 
-	// if (!tile.has(MapDirection::NORTH))
-	if (north_edge) {
-		std::cout << location << ": setting North to "
-				  << int(north_edge.value()) << std::endl;
-		tile.set(MapDirection::NORTH, north_edge.value());
+	// Do South/North Walls
+	auto &adj_south{
+		_tiles.at(Coordinate{location.x, get_delta_y(location.y, -1)})};
+
+	switch (south_wall) {
+	case 5:
+		// One-way door (exiting left or up)
+
+		// Set south wall of current tile to wall
+		// Set north wall of adjacent tile to One-way door
+		tile.set(MapDirection::SOUTH, TileEdge::WALL);
+		adj_south.set(MapDirection::NORTH, TileEdge::ONE_WAY_DOOR);
+		break;
+	case 6:
+		// One-way hidden door (exiting left or up)
+
+		// Set south wall of current tile to wall
+		// Set north wall of adjacent tile to One-way hidden door
+		tile.set(MapDirection::SOUTH, TileEdge::WALL);
+		adj_south.set(MapDirection::NORTH, TileEdge::ONE_WAY_HIDDEN_DOOR);
+		break;
+	case 7:
+		// One-way wall (exiting left or up)
+
+		// Set south wall of current tile to wall
+		// Set north wall of adjacent tile to One-way wall
+		tile.set(MapDirection::SOUTH, TileEdge::WALL);
+		adj_south.set(MapDirection::NORTH, TileEdge::ONE_WAY_WALL);
+		break;
+
+	case 8:
+		// One-way door (exiting right or down)
+
+		// Set south wall of current tile to One-way door
+		// Set north wall of adjacent tile to wall
+		tile.set(MapDirection::SOUTH, TileEdge::ONE_WAY_DOOR);
+		adj_south.set(MapDirection::NORTH, TileEdge::WALL);
+		break;
+	case 9:
+		// One-way hidden door (exiting right or down)
+
+		// Set south wall of current tile to One-way hidden door
+		// Set north wall of adjacent tile to wall
+		tile.set(MapDirection::SOUTH, TileEdge::ONE_WAY_HIDDEN_DOOR);
+		adj_south.set(MapDirection::NORTH, TileEdge::WALL);
+		break;
+	case 10:
+		// One-way wall (exiting right or down)
+
+		// Set south wall of current tile to One-way wall
+		// Set north wall of adjacent tile to wall
+		tile.set(MapDirection::SOUTH, TileEdge::ONE_WAY_WALL);
+		adj_south.set(MapDirection::NORTH, TileEdge::WALL);
+		break;
+	default:
+		break;
 	}
-	// if (!tile.has(MapDirection::WEST))
-	if (west_edge) {
-		std::cout << location << ": setting West to " << int(west_edge.value())
-				  << std::endl;
-		tile.set(MapDirection::WEST, west_edge.value());
+
+	// Do East/West Walls
+	auto &adj_east{
+		_tiles.at(Coordinate{location.x, get_delta_y(location.y, -1)})};
+
+	switch (east_wall) {
+	case 5:
+		// One-way door (exiting left or up)
+
+		// Set east wall of current tile to wall
+		// Set west wall of adjacent tile to One-way door
+		tile.set(MapDirection::EAST, TileEdge::WALL);
+		adj_east.set(MapDirection::WEST, TileEdge::ONE_WAY_DOOR);
+		break;
+	case 6:
+		// One-way hidden door (exiting left or up)
+
+		// Set east wall of current tile to wall
+		// Set west wall of adjacent tile to One-way hidden door
+		tile.set(MapDirection::EAST, TileEdge::WALL);
+		adj_east.set(MapDirection::WEST, TileEdge::ONE_WAY_HIDDEN_DOOR);
+		break;
+	case 7:
+		// One-way wall (exiting left or up)
+
+		// Set east wall of current tile to wall
+		// Set west wall of adjacent tile to One-way wall
+		tile.set(MapDirection::EAST, TileEdge::WALL);
+		adj_east.set(MapDirection::WEST, TileEdge::ONE_WAY_WALL);
+		break;
+
+	case 8:
+		// One-way door (exiting right or down)
+
+		// Set east wall of current tile to One-way door
+		// Set west wall of adjacent tile to wall
+		tile.set(MapDirection::EAST, TileEdge::ONE_WAY_DOOR);
+		adj_east.set(MapDirection::WEST, TileEdge::WALL);
+		break;
+	case 9:
+		// One-way hidden door (exiting right or down)
+
+		// Set east wall of current tile to One-way hidden door
+		// Set west wall of adjacent tile to wall
+		tile.set(MapDirection::EAST, TileEdge::ONE_WAY_HIDDEN_DOOR);
+		adj_east.set(MapDirection::WEST, TileEdge::WALL);
+		break;
+	case 10:
+		// One-way wall (exiting right or down)
+
+		// Set east wall of current tile to One-way wall
+		// Set west wall of adjacent tile to wall
+		tile.set(MapDirection::EAST, TileEdge::ONE_WAY_WALL);
+		adj_east.set(MapDirection::WEST, TileEdge::WALL);
+		break;
+	default:
+		break;
 	}
 }
 
