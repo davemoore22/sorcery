@@ -90,24 +90,32 @@ namespace Sorcery {
 
 		// Private Methods
 		auto _add_tile(const Coordinate location) -> void;
-		auto _convert_edge(const unsigned int wall) const
+		auto _convert_edge_simple(const unsigned int wall) const
 			-> std::optional<TileEdge>;
-		auto _convert_edge_se(const unsigned int wall) const -> TileEdge;
+		auto _convert_edge_se(const unsigned int wall) const
+			-> std::optional<TileEdge>;
 		auto _create() -> void;
-		auto _convert_edge_nw(const unsigned int wall) const -> TileEdge;
-		auto _set_other_edges(const Coordinate location) -> void;
-		auto _load_first_pass(const Json::Value row_data) -> bool;
-		auto _load_second_pass(const Json::Value row_data) -> bool;
-		auto _load_third_pass() -> bool;
+		auto _convert_edge_nw(const unsigned int wall) const
+			-> std::optional<TileEdge>;
+
+		auto _load_simple_walls(const Json::Value row_data) -> bool;
+		auto _update_tile_walls_se(const Coordinate location,
+			const unsigned int south_wall, const unsigned int east_wall)
+			-> void;
+		auto _set_other_simple_edges(const Coordinate location) -> void;
+		auto _load_markers(const Json::Value row_data) -> bool;
+
+		auto _load_tile_nw(const Json::Value row_data) -> bool;
+		auto _set_other_simple_walls() -> bool;
 		auto _load_notes(const Json::Value note_data) -> bool;
 		auto _load_metadata(const Json::Value note_data) -> bool;
-		auto _update_tile(const Coordinate location,
-			const unsigned int north_wall, const unsigned int west_wall)
-			-> void;
-		auto _update_tile(const Coordinate location,
-			const unsigned int south_wall, const unsigned int east_wall,
+		auto _update_tile_markers(const Coordinate location,
 			const bool darkness, const unsigned int marker,
 			const unsigned int terrain) -> void;
+
+		auto _update_tile_walls_nw(const Coordinate location,
+			const unsigned int north_wall, const unsigned int west_wall)
+			-> void;
 	};
 
 } // namespace Sorcery
