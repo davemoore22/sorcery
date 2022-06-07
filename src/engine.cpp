@@ -415,6 +415,7 @@ auto Sorcery::Engine::start() -> int {
 										to_tile.set_explored();
 									_update_automap = true;
 									_show_confirm_stairs = true;
+									_game->save_game();
 								}
 							}
 						}
@@ -829,7 +830,23 @@ auto Sorcery::Engine::_stairs_if() -> bool {
 		auto &next_tile{_game->state->level->at(destination.to_loc)};
 		_game->state->set_player_pos(destination.to_loc);
 		next_tile.set_explored();
+		if (next_tile.has(TileFeature::LADDER_UP))
+			_confirm_stairs->set(
+				(*_display->layout)["engine_base_ui:dialog_ladder_up_text"]);
+		else if (next_tile.has(TileFeature::LADDER_DOWN))
+			_confirm_stairs->set(
+				(*_display->layout)["engine_base_ui:dialog_ladder_down_text"]);
+		else if (next_tile.has(TileFeature::STAIRS_UP))
+			_confirm_stairs->set(
+				(*_display->layout)["engine_base_ui:dialog_stairs_up_text"]);
+		else if (next_tile.has(TileFeature::STAIRS_DOWN))
+			_confirm_stairs->set(
+				(*_display->layout)["engine_base_ui:dialog_stairs_down_text"]);
+
+		return true;
 	}
+
+	return false;
 }
 
 auto Sorcery::Engine::_teleport_if() -> bool {

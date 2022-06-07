@@ -13,13 +13,20 @@ the end of the year. Its coded using C++20 and SFML. Whilst eventually the game
 engine will be fully 3D, I need to spend time learning OpenGL properly, and for
 the moment the dungeon is rendered using the old-school Painters
 Algorithm method (used in classics such as Eye of the Beholder and The Bard's
-Tale) to faithfully reproduce the original wireframe graphiics.
+Tale) to faithfully reproduce the original wireframe graphics.
 
 Hopefully soon, there will be a playable game! Visit back regularily for
-updates.
+updates. Initially the focus will be on emulating Wizardry 1 fully.
 
-## What can you do? (as of June 2020)
+## What can you do? (as of June 2020 - most recent changes first)
 
+* Enter the Maze and leave the Maze
+  * Access to the Camp Menu
+  * Walk about the first four levels of the Maze
+  * Bump into Walls
+  * One-way Doors/Walls
+  * Teleports
+  * Automap
 * Visit the Town and the Castle
   * Inn
   * Tavern
@@ -47,11 +54,6 @@ updates.
 * Save and Load Game
 * Create New Game
 * Change Game Options
-* Enter the Maze and leave the Maze
-  * Access to the Camp Menu
-  * Walk about the Maze
-  * Bump into Walls
-  * Automap
 
 ## What can't you do? (as of June 2020)
 
@@ -94,4 +96,4 @@ Most Recent Screenshots are first
 
 ## Important Postscript
 
-TREBOX SUX!
+TREBOR SUX!
