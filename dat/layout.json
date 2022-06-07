@@ -8815,7 +8815,7 @@
 			"w": "55",
 			"h": "2",
 			"x": "12",
-			"y": "24",
+			"y": "3",
 			"alpha": "225",
 			"type": "panel",
 			"priority": "6",
@@ -9042,7 +9042,7 @@
 		{
 			"name": "message",
 			"x": "12",
-			"y": "18",
+			"y": "3",
 			"w": "55",
 			"type": "panel",
 			"drawmode": "manual",

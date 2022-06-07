@@ -69,6 +69,7 @@ namespace Sorcery {
 		auto _turn_left() -> void;
 		auto _turn_right() -> void;
 		auto _teleport_if() -> bool;
+		auto _stairs_if() -> bool;
 
 		// Private Members
 		System *_system;

@@ -291,13 +291,24 @@ auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {
 		const auto x{static_cast<int>(note_data[j]["x"].asInt())};
 		const auto y{static_cast<int>(note_data[j]["y"].asInt())};
 		const auto text{note_data[j]["__data"].asString()};
-		if (text.starts_with("METADATA")) {
+		const auto found_pos{text.find("METADATA")};
+		if (found_pos != std::string::npos) {
 
-			auto data{SPLIT(text)};
-			if ((data.at(1) == "TELEPORT") && (data.at(2) == "TO")) {
-				Teleport teleport{std::stoi(data.at(3)),
-					Coordinate{std::stoi(data.at(4)), std::stoi(data.at(5))}};
-				_tiles.at(Coordinate{x, y}).set_teleport(teleport);
+			const auto metadata{text.substr(found_pos)};
+			if (metadata.starts_with("METADATA")) {
+
+				auto data{SPLIT(text)};
+				if ((data.at(1) == "TELEPORT") && (data.at(2) == "TO")) {
+					Teleport teleport{
+						std::stoi(data.at(3)), Coordinate{std::stoi(data.at(4)),
+												   std::stoi(data.at(5))}};
+					_tiles.at(Coordinate{x, y}).set_teleport(teleport);
+				} else if ((data.at(1) == "STAIRS") && (data.at(2) == "TO")) {
+					Teleport stairs{
+						std::stoi(data.at(3)), Coordinate{std::stoi(data.at(4)),
+												   std::stoi(data.at(5))}};
+					_tiles.at(Coordinate{x, y}).set_stairs(stairs);
+				}
 			}
 		}
 	}
@@ -707,7 +718,7 @@ auto Sorcery::Level::_fill_in_complicated_walls(const Coordinate location,
 
 	// Do East/West Walls
 	auto &adj_east{
-		_tiles.at(Coordinate{location.x, get_delta_y(location.y, -1)})};
+		_tiles.at(Coordinate{get_delta_x(location.x, 1), location.y})};
 
 	switch (east_wall) {
 	case 5:

@@ -43,7 +43,7 @@ namespace Sorcery {
 			archive(_location, _north, _south, _east, _west, _texture_id,
 				_properties, _features, _items, _events, _room_id, _treasure_id,
 				_effect_id, _description_id, _characters, _lighting, _teleport,
-				_id, s_id);
+				_stairs, _id, s_id);
 		}
 
 		// No resources so no move/copy constructors needed
@@ -53,12 +53,14 @@ namespace Sorcery {
 
 		// Public Methods
 		auto clear_teleport() -> void;
+		auto clear_stairs() -> void;
 		auto gfx(const unsigned int texture) -> void;
 		auto gfx() -> std::optional<unsigned int>;
 		auto has(const MapDirection direction) const -> bool;
 		auto has(const MapDirection direction, const TileEdge wall_type) const
 			-> bool;
 		auto has(const TileFeature feature) const -> bool;
+		auto has_stairs() const -> std::optional<Teleport>;
 		auto has_teleport() const -> std::optional<Teleport>;
 		auto id() const -> long;
 		auto is(const TileProperty property) const -> bool;
@@ -77,6 +79,7 @@ namespace Sorcery {
 		auto set(const std::optional<Coordinate> location);
 		auto set_explored() -> void;
 		auto set_teleport(Teleport teleport) -> void;
+		auto set_stairs(Teleport stairs) -> void;
 		auto wall(const MapDirection direction) const -> TileEdge;
 		auto walkable(const MapDirection direction) const -> bool;
 		auto x() const -> int;
@@ -118,6 +121,9 @@ namespace Sorcery {
 
 		// Teleport
 		std::optional<Teleport> _teleport;
+
+		// Stairs
+		std::optional<Teleport> _stairs;
 
 		// Characters here (not the current party)
 		std::vector<unsigned int> _characters;

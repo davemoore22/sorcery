@@ -1,8 +1,8 @@
 {
 	"export": {
 		"from": "2022.5",
-		"date": "2022-06-06",
-		"time": "19:59:37"
+		"date": "2022-06-07",
+		"time": "22:05:03"
 	},
 	"regions": [
 		{
@@ -9566,8 +9566,7 @@
 									},
 									{
 										"r": 1,
-										"b": 2,
-										"m": 25
+										"b": 2
 									}
 								]
 							},
@@ -9592,19 +9591,19 @@
 							"x": 10,
 							"y": 8,
 							"monospaced": false,
-							"__data": "There are buttons here marked A through D."
+							"__data": "There are buttons here marked A through D. METADATA ELEVATOR TO -1 -4"
 						},
 						{
 							"x": 10,
 							"y": 14,
 							"monospaced": false,
-							"__data": "A sign on the door reads:\n*** Testing grounds control center ***\nAuthorized personnel only!\n<< Do not enter >>"
+							"__data": "A sign on the door reads: *** Testing grounds control center *** Authorized personnel only! << Do not enter >>"
 						},
 						{
 							"x": 10,
 							"y": 2,
 							"monospaced": false,
-							"__data": "A sign on the door reads:\nPrivate express service elevator!\nAuthorized users only!"
+							"__data": "A sign on the door reads: Private express service elevator! Authorized users only!"
 						},
 						{
 							"x": 17,
@@ -9616,43 +9615,49 @@
 							"x": 10,
 							"y": 15,
 							"monospaced": false,
-							"__data": "Suddenly, a loud alarm bell can be heard.\nThen the bells stop, and are replaced by the sounds of guardian monsters!"
+							"__data": "Suddenly, a loud alarm bell can be heard. Then the bells stop, and are replaced by the sounds of guardian monsters!"
 						},
 						{
 							"x": 12,
 							"y": 15,
 							"monospaced": false,
-							"__data": "A sign on the door reads:\n\"Monster Allocation Center\""
+							"__data": "A sign on the door reads: \"Monster Allocation Center\""
 						},
 						{
 							"x": 11,
 							"y": 11,
 							"monospaced": false,
-							"__data": "In this room, there is a large desk.\nOn it are the remains of crystal balls and other magical artifacts; all now broken.\nAs you entered the room, a panel on the door slammed shut. Then it glowed a pale blue.\nNo one can pry it open. \nNext, the door on the other side of the room glow bright orange, inviting the party to use it"
+							"__data": "In this room, there is a large desk. On it are the remains of crystal balls and other magical artifacts; all now broken.\nAs you entered the room, a panel on the door slammed shut. Then it glowed a pale blue. No one can pry it open. Next, the door on the other side of the room glow bright orange, inviting the party to use it"
 						},
 						{
 							"x": 11,
 							"y": 10,
 							"monospaced": false,
-							"__data": "As the party enters the room, the door slams shut, glows orange and vanishes!\nA door appears to the right. A voice, coming from the ceiling addresses you:\n\"Congratulations, brave adventurers!\nToday you have proved yourself to me and are now ready to start your quest!\nYears ago, my amulet was stolen by the evil wizard Werdnat. \nWerdna hides in the maze somewhere below us. Find him; slay him; and return to me the amulet!\n(...)\n\nTo aid you in your quest, I will give you a blue ribbon, which may be used to enter the elevator on this floor.\nGo now -- And may the gods guide you!\""
+							"__data": "As the party enters the room, the door slams shut, glows orange and vanishes! A door appears to the right. A voice, coming from the ceiling addresses you: \"Congratulations, brave adventurers! Today you have proved yourself to me and are now ready to start your quest! Years ago, my amulet was stolen by the evil wizard Werdnat.  Werdna hides in the maze somewhere below us. Find him; slay him; and return to me the amulet!\n\nTo aid you in your quest, I will give you a blue ribbon, which may be used to enter the elevator on this floor. Go now -- And may the gods guide you!\""
 						},
 						{
 							"x": 8,
 							"y": 15,
 							"monospaced": false,
-							"__data": "A sign on the door reads:\n\"Treasure repository.\""
-						},
-						{
-							"x": 10,
-							"y": 1,
-							"monospaced": false,
-							"__data": "Need blue ribbon"
+							"__data": "A sign on the door reads: \"Treasure repository.\""
 						},
 						{
 							"x": 10,
 							"y": 0,
 							"monospaced": false,
-							"__data": "There are buttons here marked A through F."
+							"__data": "There are buttons here marked A through F. METADATA ELEVATOR TO -4 -9"
+						},
+						{
+							"x": 10,
+							"y": 18,
+							"monospaced": false,
+							"__data": "METADATA STAIRS TO -3 1 8"
+						},
+						{
+							"x": 17,
+							"y": 7,
+							"monospaced": false,
+							"__data": "METADATA STAIRS TO 0 0 0"
 						}
 					]
 				},
@@ -11174,6 +11179,18 @@
 							"y": 3,
 							"monospaced": false,
 							"__data": "The floor has a mosaic reading: \"Turn around.\""
+						},
+						{
+							"x": 15,
+							"y": 11,
+							"monospaced": false,
+							"__data": "METADATA STAIRS TO 2 16 15"
+						},
+						{
+							"x": 1,
+							"y": 8,
+							"monospaced": false,
+							"__data": "METADATA STAIRS TO -4 10 18"
 						}
 					]
 				},
@@ -11848,8 +11865,7 @@
 									},
 									{
 										"r": 1,
-										"b": 2,
-										"m": 25
+										"b": 2
 									},
 									{
 										"b": 1
@@ -12650,7 +12666,7 @@
 							"x": 9,
 							"y": 18,
 							"monospaced": false,
-							"__data": "You see a statue of a bear on a pedestal. On the wall is a sign reading \"I've got a million of 'em.\"\nstatue of bear"
+							"__data": "You see a statue of a bear on a pedestal. On the wall is a sign reading \"I've got a million of 'em.\""
 						},
 						{
 							"x": 4,
@@ -12659,58 +12675,64 @@
 							"__data": "Nobody in the party can break the door down"
 						},
 						{
-							"x": 4,
-							"y": 11,
-							"monospaced": false,
-							"__data": "Need key"
-						},
-						{
 							"x": 12,
 							"y": 4,
 							"monospaced": false,
-							"__data": "On a silvery disk stands a statue of a frog wearing a red and blue cape.\nThe statue animates and shakes its legs while it yells \"Yeah.... Yeah...\"\nfrog statue"
+							"__data": "On a silvery disk stands a statue of a frog wearing a red and blue cape. The statue animates and shakes its legs while it yells \"Yeah.... Yeah..."
 						},
 						{
 							"x": 4,
 							"y": 16,
 							"monospaced": false,
-							"__data": "In this room is a statue of a monster with the body of a chicken and the head of a cat.\nThe statue is made of bronze, and lies on an onyx pedestal. \nThere are unusual runes on a plaque thereon.\nGold key"
+							"__data": "In this room is a statue of a monster with the body of a chicken and the head of a cat. The statue is made of bronze, and lies on an onyx pedestal.  There are unusual runes on a plaque thereon."
 						},
 						{
 							"x": 8,
 							"y": 7,
 							"monospaced": false,
-							"__data": "As you enter this room, a bronze smoke fills it. You feel compelled to leave immdediately!\nNeed bronze key"
+							"__data": "As you enter this room, a bronze smoke fills it. You feel compelled to leave immdediately!"
 						},
 						{
 							"x": 8,
 							"y": 12,
 							"monospaced": false,
-							"__data": "As you enter this room, a silvery fog evelops you.\nTerrible demons form all around you. In terror, you flee from the room!\nNeed silver key"
+							"__data": "As you enter this room, a silvery fog evelops you. Terrible demons form all around you. In terror, you flee from the room!"
 						},
 						{
 							"x": 15,
 							"y": 11,
 							"monospaced": false,
-							"__data": "A placard near the ground reads:\n\"A dungeon's dark...\""
+							"__data": "A placard near the ground reads: \"A dungeon's dark...\""
 						},
 						{
 							"x": 14,
 							"y": 11,
 							"monospaced": false,
-							"__data": "A placard near the ground reads:\n\"When it's not lit...\""
+							"__data": "A placard near the ground reads: \"When it's not lit...\""
 						},
 						{
 							"x": 13,
 							"y": 11,
 							"monospaced": false,
-							"__data": "A placard near the ground reads:\n\"Watch out, or you'll...\""
+							"__data": "A placard near the ground reads: \"Watch out, or you'll...\""
 						},
 						{
 							"x": 10,
 							"y": 8,
 							"monospaced": false,
 							"__data": "There are buttons here marked A through D."
+						},
+						{
+							"x": 12,
+							"y": 7,
+							"monospaced": false,
+							"__data": "METADATA STAIRS TO -1 0 10"
+						},
+						{
+							"x": 16,
+							"y": 15,
+							"monospaced": false,
+							"__data": "METADATA STAIRS TO -3 15 11"
 						}
 					]
 				},
@@ -14322,6 +14344,12 @@
 							"y": 19,
 							"monospaced": false,
 							"__data": "A strange glow seems to emanate from this room. In the center, a smallish man in a long robe turns towards the party and shouts \"Begone, strangers!\" He slowly waves his hands, and chants \"mapiro mahama diromat!!!\""
+						},
+						{
+							"x": 0,
+							"y": 10,
+							"monospaced": false,
+							"__data": "METADATA STAIRS TO -2 12 7"
 						}
 					]
 				}

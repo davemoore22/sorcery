@@ -408,7 +408,13 @@ auto Sorcery::Engine::start() -> int {
 									return EXIT_MODULE;
 								} else {
 
-									// TODO: handle other stairs
+									_stairs_if();
+									auto &to_tile{_game->state->level->at(
+										_game->state->get_player_pos())};
+									if (!to_tile.is(TileProperty::EXPLORED))
+										to_tile.set_explored();
+									_update_automap = true;
+									_show_confirm_stairs = true;
 								}
 							}
 						}
@@ -806,6 +812,23 @@ auto Sorcery::Engine::_turn_right() -> void {
 		break;
 	default:
 		break;
+	}
+}
+
+auto Sorcery::Engine::_stairs_if() -> bool {
+
+	const auto tile{_game->state->level->at(_game->state->get_player_pos())};
+
+	if (tile.has_stairs()) {
+
+		auto destination{tile.has_stairs().value()};
+		auto to_level{destination.to_level};
+
+		Level level{((*_game->levelstore)[to_level]).value()};
+		_game->state->set_current_level(&level);
+		auto &next_tile{_game->state->level->at(destination.to_loc)};
+		_game->state->set_player_pos(destination.to_loc);
+		next_tile.set_explored();
 	}
 }
 

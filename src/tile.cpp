@@ -298,15 +298,31 @@ auto Sorcery::Tile::clear_teleport() -> void {
 	_teleport = std::nullopt;
 }
 
+auto Sorcery::Tile::clear_stairs() -> void {
+
+	_stairs = std::nullopt;
+}
+
 auto Sorcery::Tile::has_teleport() const -> std::optional<Teleport> {
 
 	if (_teleport)
 		return _teleport.value();
 }
 
+auto Sorcery::Tile::has_stairs() const -> std::optional<Teleport> {
+
+	if (_stairs)
+		return _stairs.value();
+}
+
 auto Sorcery::Tile::set_teleport(Teleport teleport) -> void {
 
 	_teleport = teleport;
+}
+
+auto Sorcery::Tile::set_stairs(Teleport stairs) -> void {
+
+	_stairs = stairs;
 }
 
 auto Sorcery::Tile::set(const std::optional<TileEdge> north,
@@ -360,6 +376,7 @@ auto Sorcery::Tile::_reset() -> void {
 	_description_id = std::nullopt;
 
 	_teleport = std::nullopt;
+	_stairs = std::nullopt;
 
 	_characters.clear();
 

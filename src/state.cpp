@@ -43,6 +43,8 @@ Sorcery::State::State(System *system) : _system{system} {
 	_version = SAVE_VERSION;
 	_playing_facing = MapDirection::NORTH;
 	_player_pos = Coordinate{0, 0};
+
+	// TODO: reloading
 }
 
 // Method called to simulate Normal Constructor with Cereal Constructor

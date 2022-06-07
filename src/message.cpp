@@ -42,9 +42,14 @@ auto Sorcery::Message::update(TileNote tile_note) -> void {
 	_window = _display->window->get_window();
 
 	// Get the Text (strip out carriage returns)
+	const auto metadata_pos{_tile_note.text.find(" METADATA")};
+	auto stripped_text{_tile_note.text};
+	if (metadata_pos != std::string::npos)
+		stripped_text.erase(metadata_pos);
+
 	auto text_width{_frame_c.w - 4};
 	std::string message_text{};
-	message_text = std::regex_replace(_tile_note.text, std::regex("(\n)"), "@");
+	message_text = std::regex_replace(stripped_text, std::regex("(\n)"), "@");
 
 	auto wrapped_text{WORDWRAP(message_text, text_width)};
 	std::transform(wrapped_text.begin(), wrapped_text.end(),
