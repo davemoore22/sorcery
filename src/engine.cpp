@@ -816,6 +816,8 @@ auto Sorcery::Engine::_turn_right() -> void {
 	}
 }
 
+// TODO: rock/walkable for all levels/tiles!
+
 auto Sorcery::Engine::_stairs_if() -> bool {
 
 	const auto tile{_game->state->level->at(_game->state->get_player_pos())};

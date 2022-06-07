@@ -1,8 +1,8 @@
 {
 	"export": {
 		"from": "2022.5",
-		"date": "2022-06-07",
-		"time": "23:00:34"
+		"date": "2022-06-08",
+		"time": "00:36:58"
 	},
 	"regions": [
 		{
@@ -71,12 +71,11 @@
 										"r": 1
 									},
 									{
-										"m": 4,
-										"mc": 240
+										"m": 4
 									},
 									{
 										"r": 1,
-										"m": 10
+										"m": 5
 									},
 									{
 										"b": 1,
@@ -88,8 +87,7 @@
 									},
 									{
 										"b": 1,
-										"m": 5,
-										"mc": 240
+										"m": 5
 									},
 									{
 										"b": 1
@@ -107,8 +105,7 @@
 									{
 									},
 									{
-										"m": 4,
-										"mc": 166
+										"m": 4
 									},
 									{
 										"r": 1
@@ -152,8 +149,7 @@
 									{
 									},
 									{
-										"r": 2,
-										"m": 14
+										"r": 2
 									},
 									{
 										"r": 1
@@ -185,13 +181,12 @@
 										"b": 1
 									},
 									{
-										"b": 2,
-										"m": 14
+										"b": 2
 									},
 									{
 										"r": 1,
 										"b": 1,
-										"m": 10
+										"m": 5
 									},
 									{
 										"r": 1,
@@ -274,8 +269,7 @@
 									{
 										"r": 1,
 										"b": 1,
-										"m": 5,
-										"mc": 166
+										"m": 4
 									},
 									{
 										"r": 1,
@@ -469,8 +463,7 @@
 									},
 									{
 										"b": 1,
-										"m": 5,
-										"mc": 24
+										"m": 5
 									},
 									{
 										"b": 1,
@@ -605,12 +598,10 @@
 										"b": 1
 									},
 									{
-										"m": 14
 									},
 									{
 										"r": 1,
-										"m": 4,
-										"mc": 1
+										"m": 4
 									}
 								]
 							},
@@ -646,10 +637,9 @@
 									},
 									{
 										"b": 1,
-										"m": 10
+										"m": 5
 									},
 									{
-										"m": 14
 									},
 									{
 									},
@@ -682,7 +672,7 @@
 									},
 									{
 										"b": 1,
-										"m": 10
+										"m": 5
 									},
 									{
 										"r": 1,
@@ -726,8 +716,7 @@
 									{
 									},
 									{
-										"m": 4,
-										"mc": 134
+										"m": 4
 									},
 									{
 										"r": 1
@@ -743,8 +732,7 @@
 										"r": 1
 									},
 									{
-										"m": 4,
-										"mc": 88
+										"m": 4
 									},
 									{
 									},
@@ -771,8 +759,7 @@
 										"r": 1
 									},
 									{
-										"m": 4,
-										"mc": 24
+										"m": 4
 									},
 									{
 									},
@@ -788,8 +775,7 @@
 									},
 									{
 										"r": 1,
-										"m": 5,
-										"mc": 134
+										"m": 5
 									},
 									{
 										"t": 39
@@ -825,13 +811,12 @@
 										"b": 1
 									},
 									{
-										"b": 2,
-										"m": 14
+										"b": 2
 									},
 									{
 										"r": 1,
 										"b": 1,
-										"m": 10
+										"m": 5
 									},
 									{
 										"b": 1,
@@ -913,8 +898,7 @@
 									},
 									{
 										"r": 1,
-										"m": 5,
-										"mc": 1
+										"m": 5
 									},
 									{
 										"t": 39
@@ -932,13 +916,12 @@
 										"b": 1
 									},
 									{
-										"b": 2,
-										"m": 14
+										"b": 2
 									},
 									{
 										"r": 1,
 										"b": 1,
-										"m": 10
+										"m": 5
 									},
 									{
 										"t": 39
@@ -1189,8 +1172,7 @@
 									},
 									{
 										"r": 1,
-										"m": 5,
-										"mc": 88
+										"m": 4
 									},
 									{
 										"t": 39
@@ -1360,7 +1342,6 @@
 										"t": 39
 									},
 									{
-										"m": 14
 									},
 									{
 										"r": 1
@@ -1536,7 +1517,7 @@
 									{
 										"r": 1,
 										"b": 1,
-										"m": 10
+										"m": 4
 									},
 									{
 										"t": 39
@@ -1601,55 +1582,55 @@
 							"x": 0,
 							"y": 0,
 							"monospaced": false,
-							"__data": "Inscribed on an ornate gold plaque is a message. The script is ornate, and blinks in various colours:\n\"You are trespassing on the domain of **Werdna**. There is no possibility that you can get past my guardians!\nSo sure am I of my defenses that I give you this clue:\n\"Contra-Dextra Avenue\"\nPS - Trebor sux!\""
+							"__data": "Inscribed on an ornate gold plaque is a message. The script is ornate, and blinks in various colours: \"You are trespassing on the domain of **Werdna**. There is no possibility that you can get past my guardians! So sure am I of my defenses that I give you this clue:  \"Contra-Dextra Avenue\" PS - Trebor sux!\""
 						},
 						{
 							"x": 1,
 							"y": 0,
 							"monospaced": false,
-							"__data": "Teleport to town"
+							"__data": "METADATA TELEPORT 0 0 0"
 						},
 						{
 							"x": 3,
 							"y": 14,
 							"monospaced": false,
-							"__data": "One group of guardians have been defeated, but there are many more.\nTurn back while you can, fools!"
+							"__data": "One group of guardians have been defeated, but there are many more. Turn back while you can, fools!"
 						},
 						{
 							"x": 1,
 							"y": 19,
 							"monospaced": false,
-							"__data": "Teleport to town"
+							"__data": "METADATA TELEPORT TO -10 0 0"
 						},
 						{
 							"x": 11,
 							"y": 18,
 							"monospaced": false,
-							"__data": "Teleport to town"
+							"__data": "METADATA TELEPORT TO -10 0 0"
 						},
 						{
 							"x": 7,
 							"y": 12,
 							"monospaced": false,
-							"__data": "Teleport to town"
+							"__data": "METADATA TELEPORT TO -10 0 0"
 						},
 						{
 							"x": 18,
 							"y": 12,
 							"monospaced": false,
-							"__data": "Teleport to town"
+							"__data": "METADATA TELEPORT TO -10 0 0"
 						},
 						{
 							"x": 17,
 							"y": 10,
 							"monospaced": false,
-							"__data": "Teleport to town"
+							"__data": "METADATA TELEPORT TO -10 0 0"
 						},
 						{
 							"x": 17,
 							"y": 4,
 							"monospaced": false,
-							"__data": "A discreet sign on the wall reads:\nLair of the evil wizard werdna! \nOffice hours 9am to 3pm by appointment only\nThe wizard is *in*!"
+							"__data": "A discreet sign on the wall reads: Lair of the evil wizard Werdna! Office hours 9am to 3pm by appointment onl \nThe wizard is *in*!"
 						},
 						{
 							"x": 17,
@@ -1661,7 +1642,79 @@
 							"x": 2,
 							"y": 8,
 							"monospaced": false,
-							"__data": "Inscribed on an ornate gold plaque is a message. The script is ornate, and blinks in various colours:\n\"You are trespassing on the domain of **Werdna**. There is no possibility that you can get past my guardians!\nSo sure am I of my defenses that I give you this clue:\n\"Contra-Dextra Avenue\"\nPS - Trebor sux!\"\n\nTeleport to town"
+							"__data": "METADATA TELEPORT TO -10 0 0"
+						},
+						{
+							"x": 0,
+							"y": 10,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -10 2 14"
+						},
+						{
+							"x": 0,
+							"y": 19,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -10 4 19"
+						},
+						{
+							"x": 4,
+							"y": 19,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT FROM"
+						},
+						{
+							"x": 2,
+							"y": 14,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT FROM"
+						},
+						{
+							"x": 13,
+							"y": 17,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT FROM"
+						},
+						{
+							"x": 18,
+							"y": 9,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT FROM"
+						},
+						{
+							"x": 12,
+							"y": 5,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT FROM"
+						},
+						{
+							"x": 5,
+							"y": 10,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT FROM"
+						},
+						{
+							"x": 10,
+							"y": 19,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -10 13 17"
+						},
+						{
+							"x": 9,
+							"y": 11,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -10 5 10"
+						},
+						{
+							"x": 19,
+							"y": 13,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -10 18 9"
+						},
+						{
+							"x": 14,
+							"y": 11,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -10 12 5"
 						}
 					]
 				},
@@ -1677,20 +1730,30 @@
 						"rows": [
 							{
 								"y": 19,
-								"start": 2,
+								"start": 0,
 								"tdata": [
 									{
-										"b": 1
+										"m": 5
 									},
 									{
-										"b": 1
+										"m": 5
 									},
 									{
-										"b": 1
+										"b": 1,
+										"m": 5
+									},
+									{
+										"b": 1,
+										"m": 5
+									},
+									{
+										"b": 1,
+										"m": 5
 									},
 									{
 										"r": 1,
-										"b": 1
+										"b": 1,
+										"m": 5
 									},
 									{
 										"r": 1,
@@ -1714,31 +1777,47 @@
 										"r": 1
 									},
 									{
-										"b": 1
+										"b": 1,
+										"m": 5
 									},
 									{
-										"b": 1
+										"b": 1,
+										"m": 5
 									},
 									{
-										"b": 1
+										"b": 1,
+										"m": 5
 									},
 									{
-										"b": 1
+										"b": 1,
+										"m": 5
 									},
 									{
-										"b": 1
+										"b": 1,
+										"m": 5
 									},
 									{
-										"b": 1
+										"b": 1,
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
 									}
 								]
 							},
 							{
 								"y": 18,
-								"start": 1,
+								"start": 0,
 								"tdata": [
 									{
-										"r": 1
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
 									},
 									{
 									},
@@ -1782,19 +1861,28 @@
 									},
 									{
 										"r": 1
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
 									}
 								]
 							},
 							{
 								"y": 17,
-								"start": 1,
+								"start": 0,
 								"tdata": [
 									{
-										"r": 1
+										"m": 5
 									},
 									{
-										"b": 2,
-										"m": 14
+										"r": 1,
+										"m": 5
+									},
+									{
+										"b": 2
 									},
 									{
 										"r": 2,
@@ -1834,8 +1922,7 @@
 										"b": 1
 									},
 									{
-										"b": 2,
-										"m": 14
+										"b": 2
 									},
 									{
 									},
@@ -1843,44 +1930,68 @@
 									},
 									{
 										"r": 1
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
 									}
 								]
 							},
 							{
 								"y": 16,
-								"start": 1,
+								"start": 0,
 								"tdata": [
 									{
-										"r": 1
-									},
-									{
-									},
-									{
-										"r": 1
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
-										"b": 1
-									},
-									{
-										"b": 1
+										"m": 5
 									},
 									{
 										"r": 1,
-										"b": 1
+										"m": 5
+									},
+									{
+									},
+									{
+										"r": 1
+									},
+									{
+										"m": 5
+									},
+									{
+										"b": 1,
+										"m": 5
+									},
+									{
+										"b": 1,
+										"m": 5
+									},
+									{
+										"b": 1,
+										"m": 5
+									},
+									{
+										"b": 1,
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"b": 1,
+										"m": 5
+									},
+									{
+										"b": 1,
+										"m": 5
+									},
+									{
+										"r": 1,
+										"b": 1,
+										"m": 5
 									},
 									{
 										"r": 1,
@@ -1895,38 +2006,54 @@
 									{
 										"r": 1,
 										"b": 1
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
 									}
 								]
 							},
 							{
 								"y": 15,
-								"start": 1,
+								"start": 0,
 								"tdata": [
 									{
-										"r": 1
+										"m": 5
 									},
 									{
-										"b": 2,
-										"m": 14
+										"r": 1,
+										"m": 5
+									},
+									{
+										"b": 2
 									},
 									{
 										"r": 1,
 										"b": 1
 									},
 									{
+										"r": 1,
+										"m": 5
 									},
 									{
 									},
 									{
+										"b": 1
 									},
 									{
-									},
-									{
-									},
-									{
+										"b": 1
 									},
 									{
 										"r": 1
+									},
+									{
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
 									},
 									{
 									},
@@ -1939,66 +2066,35 @@
 									{
 										"r": 1,
 										"b": 1
+									},
+									{
+										"m": 5
+									},
+									{
+										"b": 1,
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
 									}
 								]
 							},
 							{
 								"y": 14,
-								"start": 1,
+								"start": 0,
 								"tdata": [
 									{
-										"r": 1
-									},
-									{
-									},
-									{
-										"r": 1
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
-										"r": 1
-									},
-									{
-										"r": 1
-									}
-								]
-							},
-							{
-								"y": 13,
-								"start": 1,
-								"tdata": [
-									{
-										"r": 1
-									},
-									{
-										"b": 2,
-										"m": 14
+										"m": 5
 									},
 									{
 										"r": 1,
-										"b": 1
-									},
-									{
-										"b": 1
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
+										"m": 5
 									},
 									{
 									},
@@ -2006,14 +2102,9 @@
 										"r": 1
 									},
 									{
-										"r": 1
-									}
-								]
-							},
-							{
-								"y": 12,
-								"start": 1,
-								"tdata": [
+										"r": 1,
+										"m": 5
+									},
 									{
 										"r": 1
 									},
@@ -2023,77 +2114,268 @@
 										"r": 2
 									},
 									{
+										"r": 1
+									},
+									{
+										"m": 5
+									},
+									{
 										"r": 1,
+										"m": 5
+									},
+									{
+										"r": 1
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									}
+								]
+							},
+							{
+								"y": 13,
+								"start": 0,
+								"tdata": [
+									{
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
+									},
+									{
+										"b": 2
+									},
+									{
+										"r": 1,
+										"b": 1
+									},
+									{
+										"r": 1,
+										"b": 1,
+										"m": 5
+									},
+									{
+										"r": 1
+									},
+									{
+										"b": 1
+									},
+									{
+										"r": 1,
+										"b": 1
+									},
+									{
+										"r": 1
+									},
+									{
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
+									},
+									{
+										"r": 1
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									}
+								]
+							},
+							{
+								"y": 12,
+								"start": 0,
+								"tdata": [
+									{
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
+									},
+									{
+									},
+									{
+										"r": 2
+									},
+									{
+										"r": 6,
 										"b": 1
 									},
 									{
 									},
 									{
+										"b": 1
 									},
 									{
+										"b": 1
 									},
 									{
+										"r": 1
 									},
 									{
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
 									},
 									{
 										"r": 1
 									},
 									{
-										"r": 1
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
 									}
 								]
 							},
 							{
 								"y": 11,
-								"start": 1,
+								"start": 0,
 								"tdata": [
 									{
-										"r": 1
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
 									},
 									{
 										"b": 1
 									},
 									{
 										"r": 1,
-										"b": 2,
-										"m": 14
+										"b": 2
 									},
 									{
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
+										"r": 1,
+										"m": 5
 									},
 									{
 										"r": 1
 									},
 									{
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
+									},
+									{
 										"r": 1
 									},
 									{
-										"b": 1
+										"m": 5
 									},
 									{
-										"b": 1
+										"r": 1,
+										"m": 5
 									},
 									{
-										"b": 1
+										"r": 1
+									},
+									{
+										"b": 1,
+										"m": 5
+									},
+									{
+										"b": 1,
+										"m": 5
+									},
+									{
+										"b": 1,
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
 									}
 								]
 							},
 							{
 								"y": 10,
-								"start": 1,
+								"start": 0,
 								"tdata": [
 									{
-										"r": 1
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
 									},
 									{
 									},
@@ -2101,19 +2383,30 @@
 										"r": 1
 									},
 									{
+										"r": 1,
+										"m": 5
 									},
 									{
+										"r": 1,
+										"b": 1
 									},
 									{
+										"m": 5
 									},
 									{
+										"r": 1,
+										"m": 5
 									},
 									{
+										"r": 1,
+										"b": 1
 									},
 									{
+										"m": 5
 									},
 									{
-										"r": 1
+										"r": 1,
+										"m": 5
 									},
 									{
 										"b": 1
@@ -2127,48 +2420,36 @@
 									{
 										"r": 1,
 										"b": 2
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
 									}
 								]
 							},
 							{
 								"y": 9,
-								"start": 1,
+								"start": 0,
 								"tdata": [
 									{
-										"r": 1
-									},
-									{
-										"b": 1
+										"m": 5
 									},
 									{
 										"r": 1,
-										"b": 2,
-										"m": 14
+										"m": 5
 									},
 									{
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
-										"b": 1
-									},
-									{
-										"b": 1
-									},
-									{
-										"b": 1
-									},
-									{
-										"b": 1
-									},
-									{
-										"r": 1,
 										"b": 1
 									},
 									{
@@ -2176,13 +2457,62 @@
 										"b": 2
 									},
 									{
-										"b": 1
+										"m": 5
 									},
 									{
-										"b": 1
+										"m": 5
 									},
 									{
-										"b": 1
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"b": 1,
+										"m": 5
+									},
+									{
+										"b": 1,
+										"m": 5
+									},
+									{
+										"b": 1,
+										"m": 5
+									},
+									{
+										"b": 1,
+										"m": 5
+									},
+									{
+										"r": 1,
+										"b": 1,
+										"m": 5
+									},
+									{
+										"r": 1,
+										"b": 2
+									},
+									{
+										"b": 1,
+										"m": 5
+									},
+									{
+										"b": 1,
+										"m": 5
+									},
+									{
+										"b": 1,
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
 									}
 								]
 							},
@@ -2191,11 +2521,13 @@
 								"start": 0,
 								"tdata": [
 									{
-										"b": 1
+										"b": 1,
+										"m": 5
 									},
 									{
 										"r": 1,
-										"b": 1
+										"b": 1,
+										"m": 5
 									},
 									{
 										"b": 1
@@ -2204,10 +2536,30 @@
 										"r": 1
 									},
 									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
 									},
 									{
 									},
 									{
+										"r": 2
+									},
+									{
+									},
+									{
+										"r": 1
 									},
 									{
 									},
@@ -2217,31 +2569,17 @@
 									{
 									},
 									{
-										"r": 2,
-										"m": 14
-									},
-									{
 									},
 									{
 										"r": 1
 									},
 									{
+										"b": 1,
+										"m": 5
 									},
 									{
-										"r": 1
-									},
-									{
-									},
-									{
-									},
-									{
-										"r": 1
-									},
-									{
-										"b": 1
-									},
-									{
-										"b": 1
+										"b": 1,
+										"m": 5
 									}
 								]
 							},
@@ -2263,15 +2601,20 @@
 										"r": 1
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
 									},
 									{
-										"r": 1
+										"r": 1,
+										"m": 5
 									},
 									{
 										"b": 1
@@ -2285,8 +2628,7 @@
 									},
 									{
 										"r": 2,
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"b": 1
@@ -2312,10 +2654,14 @@
 							},
 							{
 								"y": 6,
-								"start": 1,
+								"start": 0,
 								"tdata": [
 									{
-										"r": 1
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
 									},
 									{
 										"b": 1
@@ -2325,24 +2671,41 @@
 										"b": 1
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
 									},
 									{
 									},
@@ -2350,67 +2713,92 @@
 										"r": 1
 									},
 									{
+										"m": 5
 									},
 									{
-										"r": 1
+										"m": 5
 									}
 								]
 							},
 							{
 								"y": 5,
-								"start": 1,
+								"start": 0,
 								"tdata": [
 									{
-										"r": 1
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
 									},
 									{
 										"r": 2
 									},
 									{
-										"r": 1,
-										"m": 14
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
-									},
-									{
 										"r": 1
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
 									},
 									{
 										"b": 1
 									},
 									{
 										"r": 1,
-										"b": 2,
-										"m": 14
+										"b": 2
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
 									}
 								]
 							},
 							{
 								"y": 4,
-								"start": 1,
+								"start": 0,
 								"tdata": [
 									{
-										"r": 1
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
 									},
 									{
 										"r": 1
@@ -2419,24 +2807,41 @@
 										"r": 1
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
 									},
 									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
 									},
 									{
 									},
@@ -2444,18 +2849,23 @@
 										"r": 1
 									},
 									{
+										"m": 5
 									},
 									{
-										"r": 1
+										"m": 5
 									}
 								]
 							},
 							{
 								"y": 3,
-								"start": 1,
+								"start": 0,
 								"tdata": [
 									{
-										"r": 1
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
 									},
 									{
 										"r": 1,
@@ -2465,58 +2875,79 @@
 										"r": 1
 									},
 									{
-										"b": 1
+										"b": 1,
+										"m": 5
 									},
 									{
-										"b": 1
+										"b": 1,
+										"m": 5
 									},
 									{
-										"b": 1
+										"b": 1,
+										"m": 5
 									},
 									{
-										"b": 1
+										"b": 1,
+										"m": 5
 									},
 									{
-										"b": 1
+										"b": 1,
+										"m": 5
 									},
 									{
-										"b": 1
+										"b": 1,
+										"m": 5
 									},
 									{
-										"b": 1
+										"b": 1,
+										"m": 5
 									},
 									{
-										"b": 1
+										"b": 1,
+										"m": 5
 									},
 									{
-										"b": 1
+										"b": 1,
+										"m": 5
 									},
 									{
-										"b": 1
+										"b": 1,
+										"m": 5
 									},
 									{
-										"b": 1
+										"b": 1,
+										"m": 5
+									},
+									{
+										"r": 1,
+										"b": 1,
+										"m": 5
+									},
+									{
+										"b": 2
 									},
 									{
 										"r": 1,
 										"b": 1
 									},
 									{
-										"b": 2,
-										"m": 14
+										"m": 5
 									},
 									{
-										"r": 1,
-										"b": 1
+										"m": 5
 									}
 								]
 							},
 							{
 								"y": 2,
-								"start": 1,
+								"start": 0,
 								"tdata": [
 									{
-										"r": 1
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
 									},
 									{
 										"r": 1
@@ -2561,15 +2992,25 @@
 									},
 									{
 										"r": 1
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
 									}
 								]
 							},
 							{
 								"y": 1,
-								"start": 1,
+								"start": 0,
 								"tdata": [
 									{
-										"r": 1
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
 									},
 									{
 										"b": 1
@@ -2592,8 +3033,7 @@
 										"b": 1
 									},
 									{
-										"b": 2,
-										"m": 14
+										"b": 2
 									},
 									{
 										"r": 2,
@@ -2626,15 +3066,37 @@
 									{
 										"r": 1,
 										"b": 1
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
 									}
 								]
 							},
 							{
 								"y": 0,
-								"start": 5,
+								"start": 0,
 								"tdata": [
 									{
-										"r": 1
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"r": 1,
+										"m": 5
 									},
 									{
 										"r": 1
@@ -2655,6 +3117,30 @@
 									},
 									{
 										"r": 1
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
+									},
+									{
+										"m": 5
 									}
 								]
 							}
@@ -2671,7 +3157,1375 @@
 							"x": 8,
 							"y": 2,
 							"monospaced": false,
-							"__data": "Chute down to floor 10"
+							"__data": "METADATA TELEPORT TO -10 0 0"
+						},
+						{
+							"x": 12,
+							"y": 19,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 13,
+							"y": 19,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 14,
+							"y": 19,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 15,
+							"y": 19,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 16,
+							"y": 19,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 17,
+							"y": 19,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 18,
+							"y": 19,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 19,
+							"y": 19,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 18,
+							"y": 18,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 19,
+							"y": 18,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 18,
+							"y": 17,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 19,
+							"y": 17,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 18,
+							"y": 16,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 19,
+							"y": 16,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 15,
+							"y": 15,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 16,
+							"y": 15,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 17,
+							"y": 15,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 18,
+							"y": 15,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 19,
+							"y": 15,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 15,
+							"y": 14,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 17,
+							"y": 14,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 18,
+							"y": 14,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 19,
+							"y": 14,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 14,
+							"y": 14,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 13,
+							"y": 14,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 12,
+							"y": 14,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 12,
+							"y": 13,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 13,
+							"y": 13,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 14,
+							"y": 13,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 15,
+							"y": 13,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 16,
+							"y": 13,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 17,
+							"y": 13,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 18,
+							"y": 13,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 19,
+							"y": 13,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 19,
+							"y": 12,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 18,
+							"y": 12,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 17,
+							"y": 12,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 16,
+							"y": 12,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 15,
+							"y": 12,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 14,
+							"y": 12,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 13,
+							"y": 12,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 12,
+							"y": 12,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 12,
+							"y": 11,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 13,
+							"y": 11,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 14,
+							"y": 11,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 15,
+							"y": 11,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 16,
+							"y": 11,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 17,
+							"y": 11,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 18,
+							"y": 11,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 19,
+							"y": 11,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 19,
+							"y": 10,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 18,
+							"y": 10,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 17,
+							"y": 10,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 16,
+							"y": 10,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 15,
+							"y": 10,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 15,
+							"y": 9,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 16,
+							"y": 9,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 17,
+							"y": 9,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 18,
+							"y": 9,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 19,
+							"y": 9,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 19,
+							"y": 8,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 18,
+							"y": 8,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 18,
+							"y": 6,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 19,
+							"y": 6,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 18,
+							"y": 5,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 19,
+							"y": 5,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 18,
+							"y": 4,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 19,
+							"y": 4,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 19,
+							"y": 3,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 18,
+							"y": 3,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 18,
+							"y": 2,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 19,
+							"y": 2,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 19,
+							"y": 1,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 18,
+							"y": 1,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 19,
+							"y": 0,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 18,
+							"y": 0,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 17,
+							"y": 0,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 16,
+							"y": 0,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 15,
+							"y": 0,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 14,
+							"y": 0,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 13,
+							"y": 0,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 12,
+							"y": 0,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 5,
+							"y": 0,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 4,
+							"y": 0,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 3,
+							"y": 0,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 2,
+							"y": 0,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 1,
+							"y": 0,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 0,
+							"y": 0,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 1,
+							"y": 1,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 0,
+							"y": 1,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 1,
+							"y": 2,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 0,
+							"y": 2,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 1,
+							"y": 3,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 0,
+							"y": 3,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 1,
+							"y": 4,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 0,
+							"y": 4,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 1,
+							"y": 5,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 0,
+							"y": 5,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 1,
+							"y": 6,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 0,
+							"y": 6,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 1,
+							"y": 8,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 0,
+							"y": 8,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 1,
+							"y": 9,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 0,
+							"y": 9,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 1,
+							"y": 10,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 0,
+							"y": 10,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 1,
+							"y": 11,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 0,
+							"y": 11,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 1,
+							"y": 12,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 0,
+							"y": 12,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 1,
+							"y": 13,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 0,
+							"y": 13,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 1,
+							"y": 14,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 0,
+							"y": 14,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 0,
+							"y": 15,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 1,
+							"y": 15,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 1,
+							"y": 16,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 0,
+							"y": 16,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 1,
+							"y": 17,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 0,
+							"y": 17,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 0,
+							"y": 18,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 1,
+							"y": 18,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 5,
+							"y": 19,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 4,
+							"y": 19,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 3,
+							"y": 19,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 2,
+							"y": 19,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 1,
+							"y": 19,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 0,
+							"y": 19,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 4,
+							"y": 16,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 5,
+							"y": 16,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 6,
+							"y": 16,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 7,
+							"y": 16,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 8,
+							"y": 16,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 9,
+							"y": 16,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 10,
+							"y": 16,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 11,
+							"y": 16,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 12,
+							"y": 16,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 13,
+							"y": 16,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 10,
+							"y": 15,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 9,
+							"y": 15,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 9,
+							"y": 14,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 10,
+							"y": 14,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 10,
+							"y": 13,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 9,
+							"y": 13,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 9,
+							"y": 12,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 10,
+							"y": 12,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 10,
+							"y": 11,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 9,
+							"y": 11,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 9,
+							"y": 10,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 10,
+							"y": 10,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 13,
+							"y": 9,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 12,
+							"y": 9,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 11,
+							"y": 9,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 10,
+							"y": 9,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 9,
+							"y": 9,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 8,
+							"y": 9,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 7,
+							"y": 9,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 6,
+							"y": 9,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 5,
+							"y": 9,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 4,
+							"y": 9,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 6,
+							"y": 11,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 7,
+							"y": 11,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 7,
+							"y": 10,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 6,
+							"y": 10,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 4,
+							"y": 10,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 4,
+							"y": 13,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 4,
+							"y": 14,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 4,
+							"y": 15,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 4,
+							"y": 11,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 4,
+							"y": 8,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 5,
+							"y": 8,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 6,
+							"y": 8,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 7,
+							"y": 8,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 8,
+							"y": 8,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 4,
+							"y": 7,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 16,
+							"y": 14,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 5,
+							"y": 7,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 6,
+							"y": 7,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 7,
+							"y": 7,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 8,
+							"y": 7,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 4,
+							"y": 6,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 5,
+							"y": 6,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 6,
+							"y": 6,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 7,
+							"y": 6,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 8,
+							"y": 6,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 9,
+							"y": 6,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 10,
+							"y": 6,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 11,
+							"y": 6,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 12,
+							"y": 6,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 13,
+							"y": 6,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 14,
+							"y": 6,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 15,
+							"y": 6,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 15,
+							"y": 5,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 14,
+							"y": 5,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 13,
+							"y": 5,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 12,
+							"y": 5,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 11,
+							"y": 5,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 10,
+							"y": 5,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 9,
+							"y": 5,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 8,
+							"y": 5,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 7,
+							"y": 5,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 6,
+							"y": 5,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 5,
+							"y": 5,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 4,
+							"y": 5,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 4,
+							"y": 4,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 4,
+							"y": 3,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 5,
+							"y": 3,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 5,
+							"y": 4,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 6,
+							"y": 4,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 6,
+							"y": 3,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 7,
+							"y": 3,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 7,
+							"y": 4,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 8,
+							"y": 4,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 8,
+							"y": 3,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 9,
+							"y": 3,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 9,
+							"y": 4,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 10,
+							"y": 4,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 10,
+							"y": 3,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 11,
+							"y": 4,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 11,
+							"y": 3,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 12,
+							"y": 3,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 12,
+							"y": 4,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 13,
+							"y": 4,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 14,
+							"y": 4,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 15,
+							"y": 4,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 15,
+							"y": 3,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 14,
+							"y": 3,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
+						},
+						{
+							"x": 13,
+							"y": 3,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -1 0 5"
 						}
 					]
 				},
@@ -3038,7 +4892,7 @@
 										"d": "1"
 									},
 									{
-										"b": 10,
+										"b": 9,
 										"d": "1"
 									},
 									{
@@ -3206,11 +5060,9 @@
 										"r": 1
 									},
 									{
-										"m": 14
 									},
 									{
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"b": 1
@@ -3232,8 +5084,7 @@
 										"r": 1
 									},
 									{
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"r": 1
@@ -3279,13 +5130,11 @@
 									},
 									{
 										"r": 2,
-										"b": 2,
-										"m": 14
+										"b": 2
 									},
 									{
 										"r": 1,
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"r": 1
@@ -3682,6 +5531,7 @@
 									{
 									},
 									{
+										"m": 5
 									},
 									{
 									},
@@ -3759,8 +5609,7 @@
 										"b": 2
 									},
 									{
-										"r": 2,
-										"m": 14
+										"r": 2
 									},
 									{
 										"r": 1,
@@ -3830,7 +5679,7 @@
 									},
 									{
 										"r": 1,
-										"b": 7
+										"b": 6
 									},
 									{
 										"b": 1
@@ -3895,7 +5744,7 @@
 										"b": 1
 									},
 									{
-										"b": 5
+										"b": 6
 									},
 									{
 										"b": 1
@@ -4033,7 +5882,7 @@
 										"m": 11
 									},
 									{
-										"m": 11
+										"m": 4
 									},
 									{
 										"r": 1,
@@ -4087,6 +5936,30 @@
 							"y": 0,
 							"monospaced": false,
 							"__data": "There are buttons here marked A through F."
+						},
+						{
+							"x": 11,
+							"y": 15,
+							"monospaced": false,
+							"__data": "METADATA TELRPORT TO -8 14 19"
+						},
+						{
+							"x": 14,
+							"y": 19,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT FROM"
+						},
+						{
+							"x": 6,
+							"y": 0,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -8 5 5"
+						},
+						{
+							"x": 5,
+							"y": 5,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT FROM"
 						}
 					]
 				},
@@ -4183,8 +6056,7 @@
 									},
 									{
 										"r": 2,
-										"m": 4,
-										"mc": 1
+										"m": 4
 									},
 									{
 										"b": 1
@@ -4217,7 +6089,7 @@
 										"r": 1
 									},
 									{
-										"b": 7
+										"b": 6
 									}
 								]
 							},
@@ -4590,8 +6462,7 @@
 										"b": 29
 									},
 									{
-										"m": 4,
-										"mc": 24
+										"m": 4
 									},
 									{
 										"b": 29
@@ -4700,8 +6571,7 @@
 									{
 										"r": 1,
 										"b": 2,
-										"m": 5,
-										"mc": 1
+										"m": 5
 									}
 								]
 							},
@@ -4742,8 +6612,7 @@
 									{
 										"r": 2,
 										"b": 2,
-										"m": 4,
-										"mc": 133
+										"m": 4
 									},
 									{
 									},
@@ -4872,8 +6741,7 @@
 									},
 									{
 										"r": 1,
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"r": 2,
@@ -5036,9 +6904,9 @@
 										"b": 1
 									},
 									{
-										"r": 13,
-										"b": 13,
-										"m": 25
+										"r": 29,
+										"b": 29,
+										"fx": "b"
 									},
 									{
 										"r": 29
@@ -5129,8 +6997,7 @@
 										"b": 29
 									},
 									{
-										"m": 5,
-										"mc": 24
+										"m": 5
 									},
 									{
 										"b": 29
@@ -5177,8 +7044,7 @@
 									},
 									{
 										"r": 29,
-										"b": 29,
-										"m": 14
+										"b": 29
 									},
 									{
 										"r": 29
@@ -5226,7 +7092,7 @@
 									{
 									},
 									{
-										"b": 7
+										"b": 6
 									},
 									{
 										"b": 1
@@ -5258,8 +7124,7 @@
 										"b": 2
 									},
 									{
-										"r": 1,
-										"m": 14
+										"r": 1
 									},
 									{
 										"r": 1
@@ -5294,12 +7159,12 @@
 										"r": 1
 									},
 									{
-										"r": 2,
-										"b": 10
+										"r": 5,
+										"b": 9
 									},
 									{
 										"r": 1,
-										"b": 2
+										"b": 5
 									},
 									{
 									},
@@ -5366,9 +7231,8 @@
 										"r": 2
 									},
 									{
-										"r": 2,
-										"b": 1,
-										"m": 14
+										"r": 8,
+										"b": 1
 									},
 									{
 										"r": 1,
@@ -5497,7 +7361,7 @@
 								"start": 1,
 								"tdata": [
 									{
-										"r": 10
+										"r": 8
 									},
 									{
 										"b": 1
@@ -5520,8 +7384,7 @@
 									},
 									{
 										"r": 2,
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"b": 1
@@ -5535,8 +7398,7 @@
 									},
 									{
 										"r": 2,
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"r": 1,
@@ -5562,8 +7424,7 @@
 										"b": 1
 									},
 									{
-										"m": 5,
-										"mc": 133
+										"m": 5
 									}
 								]
 							}
@@ -5577,10 +7438,64 @@
 							"__data": "There are buttons here marked A through F."
 						},
 						{
-							"x": 5,
-							"y": 7,
+							"x": 0,
+							"y": 19,
 							"monospaced": false,
-							"__data": "Anti magic"
+							"__data": "METADATA STAIRS TO -7 11 8"
+						},
+						{
+							"x": 19,
+							"y": 0,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT FROM"
+						},
+						{
+							"x": 13,
+							"y": 6,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT FROM"
+						},
+						{
+							"x": 19,
+							"y": 12,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT FROM"
+						},
+						{
+							"x": 7,
+							"y": 19,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -7 19 12"
+						},
+						{
+							"x": 6,
+							"y": 13,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -7 13 6"
+						},
+						{
+							"x": 8,
+							"y": 11,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT TO -7 19 0"
+						},
+						{
+							"x": 4,
+							"y": 10,
+							"monospaced": false,
+							"__data": "ITS GETTING WARM AROUND HERE!"
+						},
+						{
+							"x": 3,
+							"y": 8,
+							"monospaced": false,
+							"__data": "ITS GETTING REALLY HOT!"
+						},
+						{
+							"x": 1,
+							"y": 9,
+							"monospaced": false,
+							"__data": "ITS ALMOST TOO HOT TO BEAR!"
 						}
 					]
 				},
@@ -5688,7 +7603,7 @@
 										"b": 1
 									},
 									{
-										"b": 13
+										"b": 29
 									},
 									{
 										"b": 1
@@ -5724,7 +7639,7 @@
 								"start": 0,
 								"tdata": [
 									{
-										"r": 13
+										"r": 29
 									},
 									{
 										"r": 2
@@ -5758,7 +7673,7 @@
 									},
 									{
 										"r": 1,
-										"b": 13,
+										"b": 29,
 										"m": 2
 									},
 									{
@@ -5895,7 +7810,6 @@
 										"b": 1
 									},
 									{
-										"m": 14
 									},
 									{
 									},
@@ -5921,7 +7835,7 @@
 										"b": 1
 									},
 									{
-										"r": 7
+										"r": 6
 									},
 									{
 										"r": 29,
@@ -6288,7 +8202,6 @@
 										"r": 1
 									},
 									{
-										"m": 14
 									},
 									{
 										"r": 1
@@ -6383,8 +8296,7 @@
 									},
 									{
 										"r": 2,
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"b": 1
@@ -6431,7 +8343,7 @@
 									{
 									},
 									{
-										"r": 7
+										"r": 6
 									},
 									{
 										"r": 29,
@@ -6522,8 +8434,7 @@
 										"r": 1
 									},
 									{
-										"b": 2,
-										"m": 14
+										"b": 2
 									},
 									{
 										"r": 1,
@@ -6541,7 +8452,7 @@
 										"b": 1
 									},
 									{
-										"b": 1
+										"b": 29
 									},
 									{
 										"r": 1
@@ -6568,7 +8479,7 @@
 										"b": 2
 									},
 									{
-										"r": 7,
+										"r": 6,
 										"b": 2
 									},
 									{
@@ -6666,8 +8577,7 @@
 									{
 									},
 									{
-										"r": 2,
-										"m": 14
+										"r": 2
 									},
 									{
 										"r": 1
@@ -6677,8 +8587,7 @@
 									},
 									{
 										"r": 1,
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"r": 1
@@ -6716,8 +8625,7 @@
 										"r": 1
 									},
 									{
-										"b": 2,
-										"m": 14
+										"b": 2
 									},
 									{
 										"r": 1,
@@ -6966,8 +8874,7 @@
 									},
 									{
 										"r": 2,
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"r": 1,
@@ -6980,10 +8887,9 @@
 									{
 									},
 									{
-										"m": 14
 									},
 									{
-										"r": 2
+										"r": 5
 									},
 									{
 										"r": 1,
@@ -7079,10 +8985,11 @@
 										"b": 1
 									},
 									{
-										"r": 1,
+										"r": 6,
 										"b": 1
 									},
 									{
+										"r": 29,
 										"b": 1
 									},
 									{
@@ -7102,6 +9009,24 @@
 							"y": 0,
 							"monospaced": false,
 							"__data": "There are buttons here marked A through F."
+						},
+						{
+							"x": 8,
+							"y": 8,
+							"monospaced": false,
+							"__data": "METADATA STAIRS TO -5 8 8"
+						},
+						{
+							"x": 9,
+							"y": 18,
+							"monospaced": false,
+							"__data": "METADATA STAIRS TO -7 0 19"
+						},
+						{
+							"x": 19,
+							"y": 7,
+							"monospaced": false,
+							"__data": "SUDDENDLY YOU SEE A GROUP OF 3 HUMANOIDS.  ONE IS A BARBARIAN WITH A SWORD THAT GLOWS, ONE IS A SEXY FEMALE MAGE, AND THE THIRD LOOKS LIKE A HUGE OGRE!\nTHE BARBARIAN POINTS TO THE END OF THE CORRIDOR AND YELLS \"ARIEL.. OOKLA.. THIS WAY!!\" AND THEY ALL RUN OFF!"
 						}
 					]
 				},
@@ -7513,7 +9438,7 @@
 										"b": 8
 									},
 									{
-										"b": 7
+										"b": 6
 									},
 									{
 										"r": 1
@@ -7715,21 +9640,28 @@
 										"r": 1
 									},
 									{
+										"fx": "b"
 									},
 									{
+										"fx": "b"
 									},
 									{
-										"b": 1
+										"b": 1,
+										"fx": "b"
 									},
 									{
-										"b": 1
+										"b": 1,
+										"fx": "b"
 									},
 									{
+										"fx": "b"
 									},
 									{
+										"fx": "b"
 									},
 									{
-										"r": 1
+										"r": 1,
+										"fx": "b"
 									},
 									{
 										"r": 1
@@ -7781,23 +9713,28 @@
 										"r": 29
 									},
 									{
+										"fx": "b"
 									},
 									{
-										"r": 1
-									},
-									{
-										"b": 1
-									},
-									{
-										"r": 1
+										"r": 1,
+										"fx": "b"
 									},
 									{
 										"b": 1
 									},
 									{
+										"r": 1
 									},
 									{
-										"r": 1
+										"b": 1,
+										"fx": "b"
+									},
+									{
+										"fx": "b"
+									},
+									{
+										"r": 1,
+										"fx": "b"
 									},
 									{
 										"r": 2
@@ -7852,11 +9789,14 @@
 										"b": 1
 									},
 									{
+										"fx": "b"
 									},
 									{
+										"fx": "b"
 									},
 									{
-										"r": 1
+										"r": 1,
+										"fx": "b"
 									},
 									{
 									},
@@ -7865,9 +9805,11 @@
 										"b": 1
 									},
 									{
+										"fx": "b"
 									},
 									{
-										"r": 1
+										"r": 1,
+										"fx": "b"
 									},
 									{
 										"r": 1
@@ -7919,24 +9861,30 @@
 										"r": 1
 									},
 									{
+										"fx": "b"
 									},
 									{
-										"b": 1
-									},
-									{
-										"r": 1
+										"b": 1,
+										"fx": "b"
 									},
 									{
 										"r": 1,
-										"b": 1
+										"fx": "b"
 									},
 									{
+										"r": 1,
+										"b": 9
 									},
 									{
-										"b": 1
+										"fx": "b"
 									},
 									{
-										"r": 1
+										"b": 1,
+										"fx": "b"
+									},
+									{
+										"r": 1,
+										"fx": "b"
 									},
 									{
 										"r": 2
@@ -7989,26 +9937,30 @@
 										"r": 1
 									},
 									{
-										"r": 1
+										"r": 1,
+										"fx": "b"
+									},
+									{
+										"r": 9,
+										"b": 1
+									},
+									{
+										"fx": "b"
+									},
+									{
+										"fx": "b"
+									},
+									{
+										"r": 6,
+										"fx": "b"
 									},
 									{
 										"r": 1,
 										"b": 1
 									},
 									{
-									},
-									{
-										"m": 25
-									},
-									{
-										"r": 1
-									},
-									{
 										"r": 1,
-										"b": 1
-									},
-									{
-										"r": 1
+										"fx": "b"
 									},
 									{
 										"r": 1
@@ -8059,27 +10011,34 @@
 										"r": 1
 									},
 									{
-										"b": 1
+										"b": 1,
+										"fx": "b"
 									},
 									{
-										"b": 1
+										"b": 1,
+										"fx": "b"
 									},
 									{
-										"b": 1
+										"b": 1,
+										"fx": "b"
 									},
 									{
 										"b": 2,
-										"m": 14
+										"m": 14,
+										"fx": "b"
 									},
 									{
-										"b": 1
+										"b": 1,
+										"fx": "b"
 									},
 									{
-										"b": 1
+										"b": 1,
+										"fx": "b"
 									},
 									{
 										"r": 1,
-										"b": 1
+										"b": 1,
+										"fx": "b"
 									},
 									{
 										"r": 2
@@ -8089,8 +10048,7 @@
 									},
 									{
 										"r": 1,
-										"b": 29,
-										"m": 14
+										"b": 29
 									}
 								]
 							},
@@ -8268,8 +10226,7 @@
 										"r": 29
 									},
 									{
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"r": 1,
@@ -8289,7 +10246,6 @@
 										"r": 2
 									},
 									{
-										"m": 14
 									},
 									{
 									},
@@ -8335,7 +10291,7 @@
 										"r": 1
 									},
 									{
-										"r": 1
+										"r": 5
 									},
 									{
 										"b": 1
@@ -8355,8 +10311,7 @@
 										"b": 1
 									},
 									{
-										"b": 2,
-										"m": 14
+										"b": 2
 									},
 									{
 										"r": 1,
@@ -8419,8 +10374,7 @@
 									},
 									{
 										"r": 29,
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"r": 1
@@ -8514,8 +10468,7 @@
 									},
 									{
 										"r": 1,
-										"b": 2,
-										"m": 14
+										"b": 2
 									},
 									{
 									},
@@ -8625,10 +10578,16 @@
 							"__data": "There are buttons here marked A through F."
 						},
 						{
-							"x": 13,
+							"x": 0,
+							"y": 0,
+							"monospaced": false,
+							"__data": "METADATA STAIRS TO -4 17 7"
+						},
+						{
+							"x": 8,
 							"y": 8,
 							"monospaced": false,
-							"__data": "Anti magic zone"
+							"__data": "METADATA STAIRS TO -6 8 8"
 						}
 					]
 				},
@@ -8787,7 +10746,7 @@
 									},
 									{
 										"r": 2,
-										"b": 1
+										"b": 6
 									},
 									{
 										"r": 1,
@@ -8844,17 +10803,15 @@
 									},
 									{
 										"r": 1,
-										"b": 2,
-										"m": 14
+										"b": 2
 									},
 									{
 										"r": 1,
-										"b": 1
+										"b": 9
 									},
 									{
 										"r": 1,
-										"b": 2,
-										"m": 14
+										"b": 2
 									},
 									{
 										"b": 1
@@ -8904,16 +10861,14 @@
 										"m": 25
 									},
 									{
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"b": 2,
 										"m": 25
 									},
 									{
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"r": 1,
@@ -8971,8 +10926,7 @@
 									{
 									},
 									{
-										"r": 1,
-										"m": 14
+										"r": 1
 									},
 									{
 										"b": 1
@@ -9009,7 +10963,7 @@
 									},
 									{
 										"r": 1,
-										"b": 1
+										"b": 5
 									},
 									{
 									},
@@ -9026,8 +10980,7 @@
 									},
 									{
 										"r": 1,
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 									},
@@ -9069,7 +11022,7 @@
 										"r": 1
 									},
 									{
-										"b": 10
+										"b": 8
 									},
 									{
 										"r": 1,
@@ -9085,8 +11038,7 @@
 										"r": 1
 									},
 									{
-										"r": 1,
-										"m": 25
+										"r": 1
 									}
 								]
 							},
@@ -9119,7 +11071,7 @@
 									},
 									{
 										"r": 1,
-										"b": 10,
+										"b": 8,
 										"m": 25
 									},
 									{
@@ -9162,13 +11114,13 @@
 										"r": 1
 									},
 									{
-										"r": 2,
+										"r": 5,
 										"b": 2
 									},
 									{
 										"r": 1,
 										"b": 1,
-										"m": 25
+										"m": 13
 									},
 									{
 									},
@@ -9292,7 +11244,7 @@
 									},
 									{
 										"r": 2,
-										"b": 1
+										"b": 5
 									},
 									{
 										"r": 2,
@@ -9310,18 +11262,24 @@
 							},
 							{
 								"y": 7,
-								"start": 3,
+								"start": 2,
 								"tdata": [
 									{
-										"r": 1
+										"b": 1
 									},
 									{
 										"r": 1,
 										"b": 1
 									},
 									{
+										"r": 1,
+										"b": 1
 									},
 									{
+										"b": 1
+									},
+									{
+										"b": 1
 									},
 									{
 									},
@@ -9356,7 +11314,7 @@
 										"m": 2
 									},
 									{
-										"r": 1
+										"r": 8
 									},
 									{
 										"r": 1,
@@ -9366,8 +11324,37 @@
 							},
 							{
 								"y": 6,
-								"start": 10,
+								"start": 1,
 								"tdata": [
+									{
+										"r": 1
+									},
+									{
+										"r": 2,
+										"b": 2
+									},
+									{
+										"r": 2,
+										"b": 1
+									},
+									{
+										"r": 2,
+										"b": 1
+									},
+									{
+										"r": 2,
+										"b": 1
+									},
+									{
+										"r": 1,
+										"b": 2
+									},
+									{
+									},
+									{
+									},
+									{
+									},
 									{
 										"r": 1
 									},
@@ -9410,8 +11397,32 @@
 							},
 							{
 								"y": 5,
-								"start": 10,
+								"start": 1,
 								"tdata": [
+									{
+										"r": 1
+									},
+									{
+										"r": 1,
+										"b": 2
+									},
+									{
+									},
+									{
+									},
+									{
+										"r": 1
+									},
+									{
+										"r": 1,
+										"b": 2
+									},
+									{
+									},
+									{
+									},
+									{
+									},
 									{
 										"r": 1
 									},
@@ -9452,8 +11463,32 @@
 							},
 							{
 								"y": 4,
-								"start": 10,
+								"start": 1,
 								"tdata": [
+									{
+										"r": 1
+									},
+									{
+										"r": 1,
+										"b": 2
+									},
+									{
+									},
+									{
+									},
+									{
+										"r": 1
+									},
+									{
+										"r": 1,
+										"b": 2
+									},
+									{
+									},
+									{
+									},
+									{
+									},
 									{
 										"r": 1
 									},
@@ -9487,8 +11522,35 @@
 							},
 							{
 								"y": 3,
-								"start": 10,
+								"start": 1,
 								"tdata": [
+									{
+										"r": 1
+									},
+									{
+										"r": 1,
+										"b": 2
+									},
+									{
+										"b": 1
+									},
+									{
+										"b": 8
+									},
+									{
+										"r": 1,
+										"b": 1
+									},
+									{
+										"r": 1,
+										"b": 2
+									},
+									{
+									},
+									{
+									},
+									{
+									},
 									{
 										"r": 1
 									},
@@ -9512,7 +11574,7 @@
 										"b": 1
 									},
 									{
-										"b": 1
+										"b": 8
 									},
 									{
 										"b": 1
@@ -9529,8 +11591,37 @@
 							},
 							{
 								"y": 2,
-								"start": 10,
+								"start": 1,
 								"tdata": [
+									{
+										"r": 1
+									},
+									{
+										"r": 2,
+										"b": 1
+									},
+									{
+										"r": 2,
+										"b": 1
+									},
+									{
+										"r": 2,
+										"b": 1
+									},
+									{
+										"r": 2,
+										"b": 1
+									},
+									{
+										"r": 1,
+										"b": 1
+									},
+									{
+									},
+									{
+									},
+									{
+									},
 									{
 										"r": 1
 									},
@@ -9626,12 +11717,6 @@
 							"__data": "A sign on the door reads: Private express service elevator! Authorized users only!"
 						},
 						{
-							"x": 17,
-							"y": 12,
-							"monospaced": false,
-							"__data": "Need key"
-						},
-						{
 							"x": 10,
 							"y": 15,
 							"monospaced": false,
@@ -9647,7 +11732,7 @@
 							"x": 11,
 							"y": 11,
 							"monospaced": false,
-							"__data": "In this room, there is a large desk. On it are the remains of crystal balls and other magical artifacts; all now broken.\nAs you entered the room, a panel on the door slammed shut. Then it glowed a pale blue. No one can pry it open. Next, the door on the other side of the room glow bright orange, inviting the party to use it"
+							"__data": "In this room, there is a large desk. On it are the remains of crystal balls and other magical artifacts; all now broken. As you entered the room, a panel on the door slammed shut. Then it glowed a pale blue. No one can pry it open. Next, the door on the other side of the room glow bright orange, inviting the party to use it."
 						},
 						{
 							"x": 11,
@@ -9677,7 +11762,7 @@
 							"x": 17,
 							"y": 7,
 							"monospaced": false,
-							"__data": "METADATA STAIRS TO 0 0 0"
+							"__data": "METADATA STAIRS TO -5 0 0"
 						},
 						{
 							"x": 0,
@@ -9926,7 +12011,6 @@
 										"r": 2
 									},
 									{
-										"m": 14
 									},
 									{
 										"r": 1
@@ -9957,24 +12041,6 @@
 										"r": 1
 									},
 									{
-										"b": 29,
-										"m": 14
-									},
-									{
-										"r": 1,
-										"b": 1
-									},
-									{
-										"b": 1
-									},
-									{
-										"r": 1,
-										"b": 1
-									},
-									{
-										"r": 1
-									},
-									{
 										"b": 29
 									},
 									{
@@ -10006,8 +12072,24 @@
 										"b": 1
 									},
 									{
+										"r": 1
+									},
+									{
+										"b": 29
+									},
+									{
 										"r": 1,
-										"m": 14
+										"b": 1
+									},
+									{
+										"b": 1
+									},
+									{
+										"r": 1,
+										"b": 1
+									},
+									{
+										"r": 1
 									},
 									{
 										"b": 29
@@ -10122,7 +12204,7 @@
 										"b": 1
 									},
 									{
-										"b": 1
+										"b": 8
 									},
 									{
 										"b": 1
@@ -10169,8 +12251,7 @@
 									{
 									},
 									{
-										"r": 2,
-										"m": 14
+										"r": 2
 									},
 									{
 									},
@@ -10539,7 +12620,7 @@
 										"b": 1
 									},
 									{
-										"r": 1,
+										"r": 9,
 										"b": 1
 									},
 									{
@@ -10690,8 +12771,7 @@
 									{
 									},
 									{
-										"r": 1,
-										"m": 14
+										"r": 1
 									},
 									{
 										"r": 1
@@ -10704,8 +12784,7 @@
 									{
 									},
 									{
-										"r": 1,
-										"m": 14
+										"r": 1
 									}
 								]
 							},
@@ -10748,8 +12827,7 @@
 									{
 									},
 									{
-										"r": 2,
-										"m": 14
+										"r": 2
 									},
 									{
 									},
@@ -10762,8 +12840,7 @@
 									{
 									},
 									{
-										"r": 2,
-										"m": 14
+										"r": 2
 									},
 									{
 									},
@@ -10933,8 +13010,7 @@
 									{
 									},
 									{
-										"r": 1,
-										"m": 14
+										"r": 1
 									},
 									{
 										"r": 1
@@ -10947,8 +13023,7 @@
 									{
 									},
 									{
-										"r": 1,
-										"m": 14
+										"r": 1
 									},
 									{
 										"r": 1
@@ -10991,22 +13066,7 @@
 									{
 									},
 									{
-										"r": 2,
-										"m": 14
-									},
-									{
-									},
-									{
-										"r": 1
-									},
-									{
-										"r": 1
-									},
-									{
-									},
-									{
-										"r": 2,
-										"m": 14
+										"r": 2
 									},
 									{
 									},
@@ -11032,8 +13092,20 @@
 									{
 									},
 									{
-										"r": 2,
-										"m": 14
+										"r": 2
+									},
+									{
+									},
+									{
+										"r": 1
+									},
+									{
+										"r": 1
+									},
+									{
+									},
+									{
+										"r": 2
 									},
 									{
 									},
@@ -11283,7 +13355,7 @@
 										"b": 1
 									},
 									{
-										"b": 10
+										"b": 8
 									},
 									{
 										"b": 1
@@ -11390,12 +13462,11 @@
 									{
 										"r": 1,
 										"b": 2,
-										"m": 23
+										"m": 13
 									},
 									{
 										"r": 1,
-										"b": 2,
-										"m": 14
+										"b": 2
 									},
 									{
 										"r": 1,
@@ -11460,8 +13531,7 @@
 										"r": 1
 									},
 									{
-										"b": 2,
-										"m": 14
+										"b": 2
 									},
 									{
 										"r": 1,
@@ -11469,8 +13539,7 @@
 									},
 									{
 										"r": 1,
-										"b": 2,
-										"m": 14
+										"b": 2
 									},
 									{
 										"b": 1
@@ -11562,7 +13631,7 @@
 										"r": 1
 									},
 									{
-										"r": 1,
+										"r": 9,
 										"b": 1
 									},
 									{
@@ -11699,8 +13768,7 @@
 									},
 									{
 										"r": 2,
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"r": 1
@@ -11733,7 +13801,7 @@
 									{
 									},
 									{
-										"r": 1
+										"r": 9
 									},
 									{
 										"b": 1,
@@ -11897,7 +13965,7 @@
 										"b": 1
 									},
 									{
-										"b": 1
+										"b": 8
 									},
 									{
 										"r": 1,
@@ -11936,7 +14004,7 @@
 										"b": 1
 									},
 									{
-										"b": 1
+										"b": 6
 									},
 									{
 										"r": 1,
@@ -11966,7 +14034,7 @@
 										"b": 1
 									},
 									{
-										"b": 1
+										"b": 5
 									},
 									{
 										"r": 2,
@@ -11977,8 +14045,7 @@
 									},
 									{
 										"r": 2,
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"r": 1
@@ -11993,7 +14060,7 @@
 									{
 									},
 									{
-										"r": 1
+										"r": 9
 									},
 									{
 										"r": 1
@@ -12040,8 +14107,7 @@
 									},
 									{
 										"r": 2,
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"r": 1,
@@ -12087,8 +14153,7 @@
 										"r": 2
 									},
 									{
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"r": 1,
@@ -12132,8 +14197,7 @@
 										"r": 2
 									},
 									{
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"r": 1,
@@ -12185,7 +14249,7 @@
 										"b": 2
 									},
 									{
-										"b": 1
+										"b": 5
 									},
 									{
 										"r": 1,
@@ -12205,8 +14269,7 @@
 									{
 									},
 									{
-										"r": 2,
-										"m": 14
+										"r": 2
 									},
 									{
 										"r": 1
@@ -12250,8 +14313,7 @@
 										"b": 1
 									},
 									{
-										"r": 1,
-										"m": 14
+										"r": 1
 									},
 									{
 										"b": 1
@@ -12290,7 +14352,7 @@
 										"r": 1
 									},
 									{
-										"r": 1
+										"r": 8
 									},
 									{
 										"r": 1
@@ -12368,7 +14430,6 @@
 										"r": 1
 									},
 									{
-										"m": 14
 									},
 									{
 										"r": 1
@@ -12393,7 +14454,7 @@
 									{
 										"r": 1,
 										"b": 1,
-										"m": 23
+										"m": 13
 									},
 									{
 										"r": 1
@@ -12407,8 +14468,7 @@
 										"r": 2
 									},
 									{
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"r": 1,
@@ -12440,7 +14500,8 @@
 										"b": 1
 									},
 									{
-										"r": 1
+										"r": 1,
+										"b": 2
 									},
 									{
 									},
@@ -12475,8 +14536,7 @@
 									{
 									},
 									{
-										"r": 2,
-										"m": 14
+										"r": 2
 									}
 								]
 							},
@@ -12492,7 +14552,7 @@
 										"b": 1
 									},
 									{
-										"r": 1
+										"r": 5
 									},
 									{
 									},
@@ -12602,8 +14662,7 @@
 									{
 									},
 									{
-										"r": 29,
-										"m": 14
+										"r": 29
 									},
 									{
 										"r": 1
@@ -12670,7 +14729,7 @@
 									},
 									{
 										"r": 29,
-										"b": 10
+										"b": 8
 									},
 									{
 										"b": 1
@@ -12780,7 +14839,7 @@
 										"b": 1
 									},
 									{
-										"b": 1
+										"b": 6
 									},
 									{
 										"b": 1
@@ -12856,7 +14915,7 @@
 										"b": 2
 									},
 									{
-										"r": 1,
+										"r": 9,
 										"b": 1
 									},
 									{
@@ -12864,7 +14923,7 @@
 										"b": 2
 									},
 									{
-										"r": 1,
+										"r": 9,
 										"b": 1
 									},
 									{
@@ -12995,12 +15054,7 @@
 										"r": 1
 									},
 									{
-										"r": 1,
-										"b": 1,
-										"m": 14
-									},
-									{
-										"r": 1,
+										"r": 6,
 										"b": 1
 									},
 									{
@@ -13008,7 +15062,11 @@
 										"b": 1
 									},
 									{
-										"r": 1
+										"r": 1,
+										"b": 1
+									},
+									{
+										"r": 6
 									},
 									{
 										"b": 1
@@ -13035,7 +15093,7 @@
 										"d": "1"
 									},
 									{
-										"r": 1
+										"r": 6
 									},
 									{
 										"r": 1
@@ -13089,7 +15147,7 @@
 									{
 									},
 									{
-										"r": 1
+										"r": 6
 									},
 									{
 										"r": 1
@@ -13113,7 +15171,7 @@
 										"r": 1
 									},
 									{
-										"r": 1
+										"r": 6
 									},
 									{
 									},
@@ -13147,15 +15205,13 @@
 									{
 									},
 									{
-										"r": 2,
-										"m": 14
+										"r": 2
 									},
 									{
 										"r": 2,
 										"b": 2
 									},
 									{
-										"m": 14
 									},
 									{
 									},
@@ -13191,16 +15247,14 @@
 										"r": 2
 									},
 									{
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 										"r": 2,
 										"b": 1
 									},
 									{
-										"b": 29,
-										"m": 14
+										"b": 29
 									},
 									{
 										"r": 1,
@@ -13229,7 +15283,7 @@
 										"r": 1
 									},
 									{
-										"b": 1
+										"b": 6
 									},
 									{
 										"b": 1
@@ -13264,7 +15318,7 @@
 										"r": 1
 									},
 									{
-										"r": 1
+										"r": 6
 									},
 									{
 										"b": 1
@@ -13274,13 +15328,12 @@
 										"b": 1
 									},
 									{
-										"b": 1,
-										"m": 14
+										"r": 1,
+										"b": 1
 									},
 									{
 										"r": 1,
-										"b": 1,
-										"m": 14
+										"b": 1
 									}
 								]
 							},
@@ -13292,7 +15345,7 @@
 										"r": 1
 									},
 									{
-										"r": 1,
+										"r": 9,
 										"b": 1
 									},
 									{
@@ -13349,11 +15402,9 @@
 									},
 									{
 										"r": 2,
-										"b": 2,
-										"m": 14
+										"b": 2
 									},
 									{
-										"m": 14
 									},
 									{
 										"r": 1
@@ -13370,7 +15421,6 @@
 									{
 									},
 									{
-										"m": 14
 									},
 									{
 										"r": 1
@@ -13384,7 +15434,6 @@
 										"r": 2
 									},
 									{
-										"m": 14
 									},
 									{
 										"r": 1
@@ -13415,8 +15464,7 @@
 										"r": 1
 									},
 									{
-										"r": 1,
-										"m": 14
+										"r": 1
 									},
 									{
 										"r": 1
@@ -13497,13 +15545,12 @@
 										"r": 1
 									},
 									{
-										"b": 1,
-										"m": 14
+										"r": 1,
+										"b": 1
 									},
 									{
 										"r": 1,
-										"b": 1,
-										"m": 14
+										"b": 6
 									}
 								]
 							},
@@ -13568,7 +15615,7 @@
 										"b": 2
 									},
 									{
-										"r": 1,
+										"r": 9,
 										"b": 1
 									},
 									{
@@ -13589,7 +15636,7 @@
 								"start": 0,
 								"tdata": [
 									{
-										"r": 10
+										"r": 9
 									},
 									{
 										"b": 1
@@ -13650,7 +15697,7 @@
 										"b": 1
 									},
 									{
-										"r": 10,
+										"r": 9,
 										"b": 1
 									}
 								]
@@ -13770,7 +15817,7 @@
 									},
 									{
 										"r": 8,
-										"b": 5
+										"b": 6
 									},
 									{
 										"r": 5,
@@ -13819,7 +15866,6 @@
 									{
 									},
 									{
-										"m": 14
 									},
 									{
 										"r": 1
@@ -13839,7 +15885,7 @@
 									},
 									{
 										"r": 1,
-										"b": 5
+										"b": 6
 									},
 									{
 										"r": 8,
@@ -13874,7 +15920,8 @@
 										"r": 1
 									},
 									{
-										"r": 1
+										"r": 1,
+										"m": 4
 									},
 									{
 									},
@@ -13912,12 +15959,11 @@
 									},
 									{
 										"r": 1,
-										"b": 5
+										"b": 6
 									},
 									{
 										"r": 2,
-										"b": 1,
-										"m": 14
+										"b": 1
 									},
 									{
 									},
@@ -13982,7 +16028,7 @@
 									},
 									{
 										"r": 1,
-										"b": 5
+										"b": 6
 									},
 									{
 										"r": 2,
@@ -13992,7 +16038,7 @@
 									{
 									},
 									{
-										"r": 1,
+										"r": 6,
 										"m": 5
 									},
 									{
@@ -14025,7 +16071,6 @@
 									{
 									},
 									{
-										"m": 14
 									},
 									{
 										"r": 1
@@ -14054,7 +16099,7 @@
 									},
 									{
 										"r": 1,
-										"b": 5
+										"b": 6
 									},
 									{
 										"r": 2,
@@ -14062,7 +16107,7 @@
 										"m": 13
 									},
 									{
-										"b": 8
+										"b": 2
 									},
 									{
 										"r": 1,
@@ -14127,15 +16172,15 @@
 										"r": 1
 									},
 									{
-										"r": 5,
+										"r": 6,
 										"b": 1
 									},
 									{
-										"r": 5,
+										"r": 6,
 										"b": 1
 									},
 									{
-										"r": 5,
+										"r": 6,
 										"b": 1
 									},
 									{
@@ -14187,8 +16232,7 @@
 										"b": 1
 									},
 									{
-										"b": 2,
-										"m": 14
+										"b": 2
 									},
 									{
 										"r": 1,
@@ -14243,7 +16287,7 @@
 										"m": 26
 									},
 									{
-										"b": 1
+										"b": 6
 									},
 									{
 										"b": 1
@@ -14272,7 +16316,7 @@
 										"d": "1"
 									},
 									{
-										"r": 7,
+										"r": 5,
 										"d": "1"
 									},
 									{
@@ -14376,6 +16420,12 @@
 							"y": 10,
 							"monospaced": false,
 							"__data": "METADATA STAIRS TO -2 12 7"
+						},
+						{
+							"x": 0,
+							"y": 5,
+							"monospaced": false,
+							"__data": "METADATA TELEPORT FROM"
 						}
 					]
 				}
