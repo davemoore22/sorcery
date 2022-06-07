@@ -825,25 +825,30 @@ auto Sorcery::Engine::_stairs_if() -> bool {
 		auto destination{tile.has_stairs().value()};
 		auto to_level{destination.to_level};
 
-		Level level{((*_game->levelstore)[to_level]).value()};
-		_game->state->set_current_level(&level);
-		auto &next_tile{_game->state->level->at(destination.to_loc)};
-		_game->state->set_player_pos(destination.to_loc);
-		next_tile.set_explored();
-		if (next_tile.has(TileFeature::LADDER_UP))
-			_confirm_stairs->set(
-				(*_display->layout)["engine_base_ui:dialog_ladder_up_text"]);
-		else if (next_tile.has(TileFeature::LADDER_DOWN))
-			_confirm_stairs->set(
-				(*_display->layout)["engine_base_ui:dialog_ladder_down_text"]);
-		else if (next_tile.has(TileFeature::STAIRS_UP))
-			_confirm_stairs->set(
-				(*_display->layout)["engine_base_ui:dialog_stairs_up_text"]);
-		else if (next_tile.has(TileFeature::STAIRS_DOWN))
-			_confirm_stairs->set(
-				(*_display->layout)["engine_base_ui:dialog_stairs_down_text"]);
+		// Floors are negative
+		if (to_level < 0) {
+			Level level{((*_game->levelstore)[to_level]).value()};
+			_game->state->set_current_level(&level);
+			auto &next_tile{_game->state->level->at(destination.to_loc)};
+			_game->state->set_player_pos(destination.to_loc);
+			next_tile.set_explored();
+			if (next_tile.has(TileFeature::LADDER_UP))
+				_confirm_stairs->set((
+					*_display->layout)["engine_base_ui:dialog_ladder_up_text"]);
+			else if (next_tile.has(TileFeature::LADDER_DOWN))
+				_confirm_stairs->set((
+					*_display
+						 ->layout)["engine_base_ui:dialog_ladder_down_text"]);
+			else if (next_tile.has(TileFeature::STAIRS_UP))
+				_confirm_stairs->set((
+					*_display->layout)["engine_base_ui:dialog_stairs_up_text"]);
+			else if (next_tile.has(TileFeature::STAIRS_DOWN))
+				_confirm_stairs->set((
+					*_display
+						 ->layout)["engine_base_ui:dialog_stairs_down_text"]);
 
-		return true;
+			return true;
+		}
 	}
 
 	return false;
