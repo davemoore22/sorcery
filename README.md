@@ -21,10 +21,6 @@ Watch a video of exploring Level 1 here:
 
 [![Entering the Dungeon](https://img.youtube.com/vi/AQ9LhK0ta8A/maxresdefault.jpg)](https://youtu.be/AQ9LhK0ta8A)
 
-Watch some early gameplay here:
-
-[![Entering the Dungeon](https://img.youtube.com/vi/AQ9LhK0ta8A/maxresdefault.jpg)](https://youtu.be/AQ9LhK0ta8A)
-
 ## What can you do? (as of June 2020 - most recent changes first)
 
 * Enter the Maze and leave the Maze
