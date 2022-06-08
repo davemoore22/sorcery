@@ -406,15 +406,24 @@ namespace Sorcery {
 
 	struct Elevator {
 		bool up;
+		Coordinate up_loc;
 		bool down;
+		Coordinate down_loc;
+		int top_depth;
+		int bottom_depth;
 
-		Elevator() : up{false}, down{false} {};
+		Elevator()
+			: up{false}, up_loc{Coordinate{0, 0}}, down{false},
+			  down_loc{Coordinate{0, 0}}, top_depth{0}, bottom_depth{0} {};
 
-		Elevator(bool up_, bool down_) : up{up_}, down{down_} {};
+		Elevator(bool up_, Coordinate up_loc_, bool down_, Coordinate down_loc_,
+			int top_depth_, int bottom_depth_)
+			: up{up_}, up_loc{up_loc_}, down{down_}, down_loc{down_loc_},
+			  top_depth{top_depth_}, bottom_depth{bottom_depth_} {};
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(up, down);
+			archive(up, up_loc, down_loc, top_depth, bottom_depth);
 		}
 	};
 

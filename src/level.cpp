@@ -297,7 +297,7 @@ auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {
 			const auto metadata{text.substr(found_pos)};
 			if (metadata.starts_with("METADATA")) {
 
-				auto data{SPLIT(text)};
+				auto data{SPLIT(metadata)};
 				if ((data.at(1) == "TELEPORT") && (data.at(2) == "TO")) {
 					Teleport teleport{
 						std::stoi(data.at(3)), Coordinate{std::stoi(data.at(4)),
@@ -308,6 +308,21 @@ auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {
 						std::stoi(data.at(3)), Coordinate{std::stoi(data.at(4)),
 												   std::stoi(data.at(5))}};
 					_tiles.at(Coordinate{x, y}).set_stairs(stairs);
+				} else if (data.at(1) == "ELEVATOR") {
+					const auto up{data.at(2) == "UP"};
+					const auto down{data.at(3) == "DOWN"};
+					const auto up_loc{up ? Coordinate{x, y} : Coordinate{0, 0}};
+					const auto down_loc{
+						down ? Coordinate{x, y} : Coordinate{0, 0}};
+					Elevator elevator{up, up_loc, down, down_loc,
+						std::stoi(data.at(4)), std::stoi(data.at(5))};
+					_tiles.at(Coordinate{x, y}).set_elevator(elevator);
+					if (up)
+						_tiles.at(Coordinate{x, y})
+							.set(TileFeature::ELEVATOR_UP);
+					if (down)
+						_tiles.at(Coordinate{x, y})
+							.set(TileFeature::ELEVATOR_DOWN);
 				}
 			}
 		}

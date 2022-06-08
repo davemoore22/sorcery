@@ -917,6 +917,8 @@ namespace Sorcery {
 				PORTAL = 16,
 				ELEVATOR = 17,
 				NOTICE = 18,
+				ELEVATOR_UP = 19,
+				ELEVATOR_DOWN = 20
 
 				// TODO: all the others from Wiz6 because why not?
 			};

@@ -342,10 +342,12 @@ auto Sorcery::Render::_render_wireframe(
 				(tl1.has(TileFeature::NOTICE)))
 				target.draw(vl1.floor, states);
 			if ((tl1.has(TileFeature::STAIRS_DOWN)) ||
-				(tl1.has(TileFeature::LADDER_DOWN)))
+				(tl1.has(TileFeature::LADDER_DOWN)) ||
+				(tl1.has(TileFeature::ELEVATOR_DOWN)))
 				target.draw(vl1.down, states);
 			if ((tl1.has(TileFeature::STAIRS_UP)) ||
-				(tl1.has(TileFeature::LADDER_UP)))
+				(tl1.has(TileFeature::LADDER_UP)) ||
+				(tl1.has(TileFeature::ELEVATOR_UP)))
 				target.draw(vl1.up, states);
 		}
 		if (tm1.is(TileProperty::DARKNESS))
@@ -364,10 +366,12 @@ auto Sorcery::Render::_render_wireframe(
 				(tm1.has(TileFeature::NOTICE)))
 				target.draw(vm1.floor, states);
 			if ((tm1.has(TileFeature::STAIRS_DOWN)) ||
-				(tm1.has(TileFeature::LADDER_DOWN)))
+				(tm1.has(TileFeature::LADDER_DOWN)) ||
+				(tm1.has(TileFeature::ELEVATOR_DOWN)))
 				target.draw(vm1.down, states);
 			if ((tm1.has(TileFeature::STAIRS_UP)) ||
-				(tm1.has(TileFeature::LADDER_UP)))
+				(tm1.has(TileFeature::LADDER_UP)) ||
+				(tm1.has(TileFeature::ELEVATOR_UP)))
 				target.draw(vm1.up, states);
 		}
 		if (tr1.is(TileProperty::DARKNESS)) {
@@ -387,10 +391,12 @@ auto Sorcery::Render::_render_wireframe(
 				(tr1.has(TileFeature::NOTICE)))
 				target.draw(vr1.floor, states);
 			if ((tr1.has(TileFeature::STAIRS_DOWN)) ||
-				(tr1.has(TileFeature::LADDER_DOWN)))
+				(tr1.has(TileFeature::LADDER_DOWN)) ||
+				(tr1.has(TileFeature::ELEVATOR_DOWN)))
 				target.draw(vr1.down, states);
 			if ((tr1.has(TileFeature::STAIRS_UP)) ||
-				(tr1.has(TileFeature::LADDER_UP)))
+				(tr1.has(TileFeature::LADDER_UP)) ||
+				(tr1.has(TileFeature::ELEVATOR_UP)))
 				target.draw(vr1.up, states);
 		}
 
@@ -441,10 +447,12 @@ auto Sorcery::Render::_render_wireframe(
 				(tl0.has(TileFeature::NOTICE)))
 				target.draw(vl0.floor, states);
 			if ((tl0.has(TileFeature::STAIRS_DOWN)) ||
-				(tl0.has(TileFeature::LADDER_DOWN)))
+				(tl0.has(TileFeature::LADDER_DOWN)) ||
+				(tl0.has(TileFeature::ELEVATOR_DOWN)))
 				target.draw(vl0.down, states);
 			if ((tl0.has(TileFeature::STAIRS_UP)) ||
-				(tl0.has(TileFeature::LADDER_UP)))
+				(tl0.has(TileFeature::LADDER_UP)) ||
+				(tl0.has(TileFeature::ELEVATOR_UP)))
 				target.draw(vl0.up, states);
 		}
 
@@ -461,10 +469,12 @@ auto Sorcery::Render::_render_wireframe(
 		if ((tm0.has(TileFeature::MESSAGE)) || (tm0.has(TileFeature::NOTICE)))
 			target.draw(vm0.floor, states);
 		if ((tm0.has(TileFeature::STAIRS_DOWN)) ||
-			(tm0.has(TileFeature::LADDER_DOWN)))
+			(tm0.has(TileFeature::LADDER_DOWN)) ||
+			(tm0.has(TileFeature::ELEVATOR_DOWN)))
 			target.draw(vm0.down, states);
 		if ((tm0.has(TileFeature::STAIRS_UP)) ||
-			(tm0.has(TileFeature::LADDER_UP)))
+			(tm0.has(TileFeature::LADDER_UP)) ||
+			(tm0.has(TileFeature::ELEVATOR_UP)))
 			target.draw(vm0.up, states);
 
 		if ((tr0.has(player_facing, TileEdge::WALL)) ||
@@ -484,10 +494,12 @@ auto Sorcery::Render::_render_wireframe(
 				(tr0.has(TileFeature::NOTICE)))
 				target.draw(vr0.floor, states);
 			if ((tr0.has(TileFeature::STAIRS_DOWN)) ||
-				(tr0.has(TileFeature::LADDER_DOWN)))
+				(tr0.has(TileFeature::LADDER_DOWN)) ||
+				(tr0.has(TileFeature::ELEVATOR_DOWN)))
 				target.draw(vr0.down, states);
 			if ((tr0.has(TileFeature::STAIRS_UP)) ||
-				(tr0.has(TileFeature::LADDER_UP)))
+				(tr0.has(TileFeature::LADDER_UP)) ||
+				(tr0.has(TileFeature::ELEVATOR_UP)))
 				target.draw(vr0.up, states);
 		}
 
