@@ -29,64 +29,12 @@ Sorcery::View::View(
 	System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
-	// Load the layout from file
-	_loaded = _load((*_system->files)[VIEW_FILE]);
+	// _loaded = _load((*_system->files)[VIEW_FILE]);
 
 	_load_tile_views();
 }
 
-// Overload [] Operator
-auto Sorcery::View::operator[](ViewNodeKey key) -> ViewNode {
-
-	try {
-
-		return _nodes.at(key);
-
-	} catch (std::exception &e) {
-		Error error{
-			SystemError::JSON_PARSE_ERROR, e, "view.json is not valid JSON!"};
-		std::cout << error;
-		exit(EXIT_FAILURE);
-	}
-}
-
-// Get all used nodes for a depth
-auto Sorcery::View::operator[](int z) -> std::vector<ViewNode> {
-
-	try {
-
-		auto matches{_nodes | std::views::filter([&](auto &item) {
-			return item.second.coords.z == z && item.second.used;
-		})};
-		std::vector<ViewNode> results;
-		results.clear();
-		for (auto &node : matches)
-			results.push_back(node.second);
-
-		return results;
-
-	} catch (std::exception &e) {
-		Error error{
-			SystemError::JSON_PARSE_ERROR, e, "view.json is not valid JSON!"};
-		std::cout << error;
-		exit(EXIT_FAILURE);
-	}
-}
-
-auto Sorcery::View::_preload(const int depth, const int width) -> void {
-
-	_nodes.clear();
-	for (auto x = 0 - width; x <= width; x++) {
-		for (auto z = 0; z <= depth; z++) {
-
-			ViewNode empty_node{};
-			ViewNodeKey coords{ViewNodeLayer::NONE, x, 0, z};
-			_nodes[coords] = empty_node;
-		}
-	}
-}
-
-auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
+/* auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 
 	try {
 		if (std::ifstream file{filename.string(), std::ifstream::binary};
@@ -214,110 +162,7 @@ auto Sorcery::View::_load(const std::filesystem::path filename) -> bool {
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}
-}
-
-auto Sorcery::View::get(
-	const ViewNodeLayer layer, const int x, const int z) const -> ViewNode {
-
-	return _get(layer, x, z);
-}
-
-auto Sorcery::View::_get(
-	const ViewNodeLayer layer, const int x, const int z) const -> ViewNode {
-
-	return _nodes.at(ViewNodeKey{layer, x, 0, z});
-}
-
-auto Sorcery::View::get_nodes_at_depth(
-	const ViewNodeLayer layer, const int z) const -> std::vector<ViewNode> {
-
-	std::vector<ViewNode> results;
-	results.clear();
-
-	auto matches{_nodes | std::views::filter([&](auto &item) {
-		return (item.second.layer == layer) && (item.second.coords.z == z) &&
-			   item.second.used;
-	})};
-	for (auto &node : matches)
-		results.push_back(node.second);
-
-	return results;
-}
-
-auto Sorcery::View::get_nodes_at_depth(const ViewNodeLayer layer,
-	const ViewNodeType type, const int x_sgn, const int z) const
-	-> std::vector<ViewNode> {
-
-	std::vector<ViewNode> results;
-	results.clear();
-
-	// Hack here since View Generator does outside font walls, whereas we want
-	// interior walls (side walls are correct())
-	auto depth{type == ViewNodeType::FRONT ? z + 1 : z};
-
-	auto matches{_nodes | std::views::filter([&](auto &item) {
-		return (item.second.layer == layer) &&
-			   (item.second.coords.z == depth) && (item.second.type == type) &&
-			   (Sorcery::sgn(x_sgn) == Sorcery::sgn(item.second.coords.x)) &&
-			   item.second.used;
-	})};
-	for (auto &node : matches)
-		results.push_back(node.second);
-
-	return results;
-}
-
-auto Sorcery::View::get_nodes_at_depth(const ViewNodeLayer layer,
-	const ViewNodeType type, const int z) const -> std::vector<ViewNode> {
-
-	std::vector<ViewNode> results;
-	results.clear();
-
-	// Hack here since View Generator does outside font walls, whereas we want
-	// interior walls (side walls are correct())
-	auto depth{type == ViewNodeType::FRONT ? z + 1 : z};
-
-	auto matches{_nodes | std::views::filter([&](auto &item) {
-		return (item.second.layer == layer) &&
-			   (item.second.coords.z == depth) && (item.second.type == type) &&
-			   item.second.used;
-	})};
-	for (auto &node : matches)
-		results.push_back(node.second);
-
-	return results;
-}
-
-auto Sorcery::View::width() -> unsigned int {
-
-	return _width;
-}
-
-auto Sorcery::View::depth() -> unsigned int {
-
-	return _depth;
-}
-
-auto Sorcery::View::get_lit_nodes(const ViewNodeLayer layer, bool lit) const
-	-> std::vector<ViewNode> {
-
-	auto depth{lit ? LIGHT_VIEW_DEPTH : DARK_VIEW_DEPTH};
-	std::vector<ViewNode> results;
-	results.clear();
-
-	for (auto z = 0; z <= depth; z++) {
-		auto matches{_nodes | std::views::filter([&](auto &item) {
-			return (item.second.layer == layer) &&
-				   (item.second.coords.z == z) && item.second.used;
-		})};
-		for (auto &node : matches)
-			results.push_back(node.second);
-	}
-
-	std::sort(results.begin(), results.end());
-
-	return results;
-}
+} */
 
 auto Sorcery::View::_set_texture_coordinates(TileView &tileview) -> void {
 

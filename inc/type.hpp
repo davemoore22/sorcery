@@ -404,11 +404,25 @@ namespace Sorcery {
 		}
 	};
 
+	struct Elevator {
+		bool up;
+		bool down;
+
+		Elevator() : up{false}, down{false} {};
+
+		Elevator(bool up_, bool down_) : up{up_}, down{down_} {};
+
+		// Serialisation
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(up, down);
+		}
+	};
+
 	struct Teleport {
 		int to_level;
 		Coordinate to_loc;
 
-		Teleport() : to_level{1}, to_loc{Coordinate{0, 0}} {};
+		Teleport() : to_level{0}, to_loc{Coordinate{0, 0}} {};
 		Teleport(int to_level_, Coordinate to_loc_)
 			: to_level{to_level_}, to_loc{to_loc_} {}
 
@@ -518,97 +532,6 @@ namespace Sorcery {
 			right_side_door.resize(4);
 		}
 	};
-
-	struct ViewNodeKey {
-		ViewNodeKey()
-			: layer{Enums::View::Cell::Layer::NONE}, x{0}, y{0}, z{0} {};
-		ViewNodeKey(Enums::View::Cell::Layer layer_, int x_, int y_, int z_)
-			: layer{layer_}, x{x_}, y{y_}, z{z_} {};
-		ViewNodeKey(Enums::View::Cell::Layer layer_, int x_, int z_)
-			: layer{layer_}, x{x_}, y{0}, z{z_} {};
-
-		auto operator==(const ViewNodeKey &a) const -> bool {
-			return (layer == a.layer && x == a.x && y == a.y && z == a.z);
-		}
-		auto operator<(const ViewNodeKey &a) const -> bool {
-			return std::tie(layer, z, y, x) < std::tie(a.layer, a.z, a.y, a.x);
-		};
-		friend std::ostream &operator<<(
-			std::ostream &os, ViewNodeKey const &a) {
-			return os << fmt::format("[{}:{}/{}/{}]", a.layer, a.x, a.y, a.z)
-					  << std::endl;
-		}
-
-		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(layer, x, y, z);
-		}
-
-		Enums::View::Cell::Layer layer;
-		int x;
-		int y;
-		int z;
-	}; // namespace Sorcery
-
-	struct ViewNode {
-
-		Enums::View::Cell::Layer layer;
-		Enums::View::Cell::Type type;
-		bool flipped;
-		Coordinate3 coords;
-		Point dest;
-		unsigned int dest_width;
-		Rect source_rect;
-		long int id;
-		bool used;
-		static inline long s_id{0};
-
-		ViewNode() : id{s_id++} {
-
-			used = false;
-		};
-
-		ViewNode(Enums::View::Cell::Layer layer_, Enums::View::Cell::Type type_,
-			bool flipped_, Coordinate3 coords_, Point dest_,
-			unsigned int dest_width_, Rect source_rect_)
-			: layer{layer_}, type{type_}, flipped{flipped_}, coords{coords_},
-			  dest{dest_}, dest_width{dest_width_},
-			  source_rect{source_rect_}, id{s_id++} {
-
-			used = true;
-		};
-
-		ViewNode(const ViewNode &other)
-			: layer{other.layer}, type{other.type}, flipped{other.flipped},
-			  coords{other.coords}, dest{other.dest},
-			  dest_width{other.dest_width},
-			  source_rect{other.source_rect}, id{other.id}, used{other.used} {};
-
-		auto operator=(const ViewNode &other) -> ViewNode & {
-
-			layer = other.layer;
-			type = other.type;
-			flipped = other.flipped;
-			coords = other.coords;
-			dest = other.dest;
-			dest_width = other.dest_width;
-			source_rect = other.source_rect;
-			id = other.id;
-			used = other.used;
-
-			return *this;
-		};
-		friend std::ostream &operator<<(std::ostream &os, ViewNode &a) {
-			return os << fmt::format("[{}: {}/{}/{}]", a.layer, a.coords.x,
-							 a.coords.y, a.coords.z)
-					  << std::endl;
-		}
-		auto operator<(const ViewNode &a) const -> bool {
-			return std::tie(layer, coords.z, coords.y, coords.x) <
-				   std::tie(layer, a.coords.z, a.coords.y, a.coords.x);
-		}
-	};
-
-	struct SpellDetails {};
 
 	struct ConsoleMessage {
 

@@ -41,24 +41,10 @@ namespace Sorcery {
 		View() = delete;
 
 		// Public Methods
-		auto get(const ViewNodeLayer layer, const int x, const int z) const
-			-> ViewNode;
-		auto get_lit_nodes(const ViewNodeLayer layer, bool lit = true) const
-			-> std::vector<ViewNode>;
-		auto get_nodes_at_depth(const ViewNodeLayer layer, const int z) const
-			-> std::vector<ViewNode>;
-		auto get_nodes_at_depth(const ViewNodeLayer layer,
-			const ViewNodeType type, const int z) const
-			-> std::vector<ViewNode>;
-		auto get_nodes_at_depth(const ViewNodeLayer layer,
-			const ViewNodeType type, const int x_sgn, const int z) const
-			-> std::vector<ViewNode>;
-		auto width() -> unsigned int;
-		auto depth() -> unsigned int;
 
 		// Operator Overloading
-		auto operator[](ViewNodeKey key) -> ViewNode;
-		auto operator[](int z) -> std::vector<ViewNode>;
+		// auto operator[](ViewNodeKey key) -> ViewNode;
+		// auto operator[](int z) -> std::vector<ViewNode>;
 
 		std::map<Coordinate3, TileView> tileviews;
 
@@ -68,16 +54,11 @@ namespace Sorcery {
 		Display *_display;
 		Graphics *_graphics;
 		Game *_game;
-		std::map<ViewNodeKey, ViewNode> _nodes;
 		bool _loaded;
 		unsigned int _depth;
 		unsigned int _width;
 
 		// Private Methods
-		auto _get(ViewNodeLayer layer, int x, int z) const -> ViewNode;
-		auto _load(const std::filesystem::path filename) -> bool;
-		auto _preload(const int depth, const int width) -> void;
-
 		auto _load_tile_views() -> void;
 		auto _set_texture_coordinates(TileView &tileview) -> void;
 		auto _set_vertex_array(sf::VertexArray &array, sf::Vector2f p1,

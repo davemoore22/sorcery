@@ -62,6 +62,7 @@ namespace Sorcery {
 		auto has(const TileFeature feature) const -> bool;
 		auto has_stairs() const -> std::optional<Teleport>;
 		auto has_teleport() const -> std::optional<Teleport>;
+		auto has_elevator() const -> std::optional<Elevator>;
 		auto id() const -> long;
 		auto is(const TileProperty property) const -> bool;
 		auto loc() const -> Coordinate;
@@ -80,6 +81,7 @@ namespace Sorcery {
 		auto set_explored() -> void;
 		auto set_teleport(Teleport teleport) -> void;
 		auto set_stairs(Teleport stairs) -> void;
+		auto set_elevator(Elevator elevator) -> void;
 		auto wall(const MapDirection direction) const -> TileEdge;
 		auto walkable(const MapDirection direction) const -> bool;
 		auto x() const -> int;
@@ -124,6 +126,9 @@ namespace Sorcery {
 
 		// Stairs
 		std::optional<Teleport> _stairs;
+
+		// Elevator
+		std::optional<Elevator> _elevator;
 
 		// Characters here (not the current party)
 		std::vector<unsigned int> _characters;

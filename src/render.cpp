@@ -45,15 +45,6 @@ auto Sorcery::Render::refresh() -> void {
 	// Clear the View
 	_rtexture.clear(sf::Color(0, 0, 0, 255));
 	_rtexture.display();
-	/* _texture = _rtexture.getTexture();
-	auto bg{sf::Sprite{_texture}};
-	bg.setPosition(0, 0);
-	_sprites.emplace_back(bg);
-
-	// Render the View Components
-	_render_floor(false);
-	_render_ceiling(false);
-	_render_walls(false); */
 }
 
 auto Sorcery::Render::_darken_sprite(
