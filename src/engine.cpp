@@ -361,8 +361,34 @@ auto Sorcery::Engine::start() -> int {
 
 				if (_display->get_input_mode() == WindowInputMode::IN_GAME) {
 
-					if (_show_ouch) {
+					if ((event.type == sf::Event::KeyPressed) &&
+						(event.key.code == sf::Keyboard::F6)) {
 
+						auto dest_level{_game->state->get_depth() - 1};
+						Level level{((*_game->levelstore)[dest_level]).value()};
+						_game->state->set_current_level(&level);
+						auto &next_tile{_game->state->level->at(
+							_game->state->get_player_pos())};
+						_game->state->set_depth(dest_level);
+						next_tile.set_explored();
+						_update_automap = true;
+						_update_compass = true;
+						_update_render = true;
+					} else if ((event.type == sf::Event::KeyPressed) &&
+							   (event.key.code == sf::Keyboard::F5)) {
+						auto dest_level{_game->state->get_depth() + 1};
+						Level level{((*_game->levelstore)[dest_level]).value()};
+						_game->state->set_current_level(&level);
+						auto &next_tile{_game->state->level->at(
+							_game->state->get_player_pos())};
+						_game->state->set_depth(dest_level);
+						next_tile.set_explored();
+						_update_automap = true;
+						_update_compass = true;
+						_update_render = true;
+					}
+
+					if (_show_ouch) {
 						auto dialog_input{_ouch->handle_input(event)};
 						if (dialog_input) {
 							if (dialog_input.value() ==
@@ -375,7 +401,6 @@ auto Sorcery::Engine::start() -> int {
 							}
 						}
 					} else if (_show_confirm_stairs) {
-
 						if (_left_icon_panel->selected)
 							_left_icon_panel->selected = std::nullopt;
 						if (_right_icon_panel->selected)
@@ -420,7 +445,6 @@ auto Sorcery::Engine::start() -> int {
 							}
 						}
 					} else {
-
 						if (_system->input->check(WindowInput::LEFT, event)) {
 							_turn_left();
 							_spinner_if();

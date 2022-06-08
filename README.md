@@ -1,22 +1,29 @@
 # Sorcery: Shadows under Llylgamyn
 
+An open source remake of Wizardry 1,2,3 (and 5) with infinite (proc-genned)
+Dungeon Adventures, and (optional) modern CRPG conveniences! I'm aiming to
+release it by the end of the year. Its coded using C++20 and SFML. Whilst
+eventually the game engine will be (optionall) fully 3D, I need to spend time
+learning OpenGL properly, and for the moment the dungeon is rendered using the
+old-school Painters Algorithm method (used in classics such as Eye of the
+Beholder and The Bard's Tale) to faithfully reproduce the wireframe graphics of
+the originals.
+
+Hopefully soon, there will be a playable game! Visit back regularily for
+updates. Initially the focus will be on emulating Wizardry 1 fully, then 2, 3, 5
+and maybe even 4 some day.
+
 ![Logo](/promo/screen1.png)
 ![Logo](/promo/screen7.png)
+![Logo](/promo/screen8.png)
+
+Watch a video of exploring Level 1 here:
+
+[![Entering the Dungeon](https://img.youtube.com/vi/AQ9LhK0ta8A/maxresdefault.jpg)](https://youtu.be/AQ9LhK0ta8A)
 
 Watch some early gameplay here:
 
 [![Entering the Dungeon](https://img.youtube.com/vi/AQ9LhK0ta8A/maxresdefault.jpg)](https://youtu.be/AQ9LhK0ta8A)
-
-An open source remake of Wizardry 1,2,3 (and 5) with infinite Dungeon
-Adventures, and (optional) modern CRPG conveniences! I'm aiming to release it by
-the end of the year. Its coded using C++20 and SFML. Whilst eventually the game
-engine will be fully 3D, I need to spend time learning OpenGL properly, and for
-the moment the dungeon is rendered using the old-school Painters
-Algorithm method (used in classics such as Eye of the Beholder and The Bard's
-Tale) to faithfully reproduce the original wireframe graphics.
-
-Hopefully soon, there will be a playable game! Visit back regularily for
-updates. Initially the focus will be on emulating Wizardry 1 fully.
 
 ## What can you do? (as of June 2020 - most recent changes first)
 
@@ -27,6 +34,7 @@ updates. Initially the focus will be on emulating Wizardry 1 fully.
   * One-way Doors/Walls
   * Teleports
   * Automap
+  * Stairs
 * Visit the Town and the Castle
   * Inn
   * Tavern
@@ -62,7 +70,8 @@ updates. Initially the focus will be on emulating Wizardry 1 fully.
 ## What next? (as of June 2020)
 
 Next stop will be items, creatures, magic and combat. Then there might be
-something playable here! Then, a proper 3D renderer will be implemented.
+something playable here! Then, as mentioned above, a proper 3D renderer will be
+implemented.
 
 Although the main focus is random dungeons much like Diablo, I want to
 eventually remake the original games as optional sub-modules.
@@ -82,6 +91,15 @@ job these days is PHP/JS) but I'm really enjoying working with modern CPP.
 
 You can find me as *Typhon* on the C++ Help, SFML, and DungeonCrawlers.org
 Discord Servers, or my email address is on the Splash Screen of the Game.
+
+## Credits
+
+Graphics used are by:
+
+とり夫 - <https://www.pixiv.net/en/users/5887541>
+Nicolae Berbece - <https://thoseawesomeguys.com/prompts/>
+Justin Nichol - <https://opengameart.org/users/justin-nichol>
+Various - <https://game-icons.net/>
 
 ## Random Screenshots
 

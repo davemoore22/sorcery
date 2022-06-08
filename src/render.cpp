@@ -429,6 +429,10 @@ auto Sorcery::Render::_render_wireframe(
 			}
 		}
 
+		// note that darkness directly in front square needs to stop -1 and +1
+		// front walls from being drawn - likewise 2 in front need sto stop -1
+		// +1 from 2 in front
+
 		// Row 0
 		if ((tl0.has(player_facing, TileEdge::WALL)) ||
 			(tl0.has(player_facing, TileEdge::ONE_WAY_WALL)))

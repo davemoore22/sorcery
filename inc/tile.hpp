@@ -106,7 +106,7 @@ namespace Sorcery {
 		std::optional<unsigned int> _texture_id;
 
 		// Properties
-		std::bitset<4> _properties;
+		std::bitset<10> _properties;
 
 		// Features
 		std::bitset<32> _features;

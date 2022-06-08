@@ -645,6 +645,18 @@ auto Sorcery::Level::_update_tile_markers(const Coordinate location,
 	default:
 		break;
 	}
+
+	switch (terrain) {
+	case 34:
+		tile.set(TileProperty::ANTIMAGIC);
+		break;
+	case 35:
+		tile.set(TileProperty::ROCK);
+		tile.reset(TileProperty::WALKABLE);
+		break;
+	default:
+		break;
+	}
 }
 
 auto Sorcery::Level::stairs_at(const Coordinate loc) -> bool {

@@ -895,6 +895,7 @@ namespace Sorcery {
 				ROCK = 1,
 				EXPLORED = 2,
 				DARKNESS = 3,
+				ANTIMAGIC = 4
 			};
 
 			enum class Features {
