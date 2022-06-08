@@ -352,10 +352,10 @@ auto Sorcery::Render::_render_wireframe(
 				target.draw(vl1.floor, states);
 			if ((tl1.has(TileFeature::STAIRS_DOWN)) ||
 				(tl1.has(TileFeature::LADDER_DOWN)))
-				target.draw(vl1.floor, states);
+				target.draw(vl1.down, states);
 			if ((tl1.has(TileFeature::STAIRS_UP)) ||
 				(tl1.has(TileFeature::LADDER_UP)))
-				target.draw(vl1.ceiling, states);
+				target.draw(vl1.up, states);
 		}
 		if (tm1.is(TileProperty::DARKNESS))
 			target.draw(vm1.darkness, states);
@@ -374,10 +374,10 @@ auto Sorcery::Render::_render_wireframe(
 				target.draw(vm1.floor, states);
 			if ((tm1.has(TileFeature::STAIRS_DOWN)) ||
 				(tm1.has(TileFeature::LADDER_DOWN)))
-				target.draw(vm1.floor, states);
+				target.draw(vm1.down, states);
 			if ((tm1.has(TileFeature::STAIRS_UP)) ||
 				(tm1.has(TileFeature::LADDER_UP)))
-				target.draw(vm1.ceiling, states);
+				target.draw(vm1.up, states);
 		}
 		if (tr1.is(TileProperty::DARKNESS)) {
 			target.draw(vr0.darkness, states);
@@ -397,10 +397,10 @@ auto Sorcery::Render::_render_wireframe(
 				target.draw(vr1.floor, states);
 			if ((tr1.has(TileFeature::STAIRS_DOWN)) ||
 				(tr1.has(TileFeature::LADDER_DOWN)))
-				target.draw(vr1.floor, states);
+				target.draw(vr1.down, states);
 			if ((tr1.has(TileFeature::STAIRS_UP)) ||
 				(tr1.has(TileFeature::LADDER_UP)))
-				target.draw(vr1.ceiling, states);
+				target.draw(vr1.up, states);
 		}
 
 		if (!tm1.is(TileProperty::DARKNESS)) {
@@ -451,10 +451,10 @@ auto Sorcery::Render::_render_wireframe(
 				target.draw(vl0.floor, states);
 			if ((tl0.has(TileFeature::STAIRS_DOWN)) ||
 				(tl0.has(TileFeature::LADDER_DOWN)))
-				target.draw(vl0.floor, states);
+				target.draw(vl0.down, states);
 			if ((tl0.has(TileFeature::STAIRS_UP)) ||
 				(tl0.has(TileFeature::LADDER_UP)))
-				target.draw(vl0.ceiling, states);
+				target.draw(vl0.up, states);
 		}
 
 		// If we have reached here, we aren't standing in darkness
@@ -471,10 +471,10 @@ auto Sorcery::Render::_render_wireframe(
 			target.draw(vm0.floor, states);
 		if ((tm0.has(TileFeature::STAIRS_DOWN)) ||
 			(tm0.has(TileFeature::LADDER_DOWN)))
-			target.draw(vm0.floor, states);
+			target.draw(vm0.down, states);
 		if ((tm0.has(TileFeature::STAIRS_UP)) ||
 			(tm0.has(TileFeature::LADDER_UP)))
-			target.draw(vm0.ceiling, states);
+			target.draw(vm0.up, states);
 
 		if ((tr0.has(player_facing, TileEdge::WALL)) ||
 			(tr0.has(player_facing, TileEdge::ONE_WAY_WALL)))
@@ -494,10 +494,10 @@ auto Sorcery::Render::_render_wireframe(
 				target.draw(vr0.floor, states);
 			if ((tr0.has(TileFeature::STAIRS_DOWN)) ||
 				(tr0.has(TileFeature::LADDER_DOWN)))
-				target.draw(vr0.floor, states);
+				target.draw(vr0.down, states);
 			if ((tr0.has(TileFeature::STAIRS_UP)) ||
 				(tr0.has(TileFeature::LADDER_UP)))
-				target.draw(vr0.ceiling, states);
+				target.draw(vr0.up, states);
 		}
 
 		if (!tm0.is(TileProperty::DARKNESS)) {

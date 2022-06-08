@@ -151,7 +151,7 @@
 1654467806 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
 	"main.hpp"
 
-1654471214 /home/dave/Development/wizardry/sorcery-sfml/inc/type.hpp
+1654717270 /home/dave/Development/wizardry/sorcery-sfml/inc/type.hpp
 	"main.hpp"
 
 1625475027 /home/dave/Development/wizardry/sorcery-sfml/inc/operator.hpp
@@ -1368,7 +1368,7 @@
 1652020628 source:/home/dave/Development/wizardry/sorcery-sfml/src/texturestore.cpp
 	"texturestore.hpp"
 
-1654539885 source:/home/dave/Development/wizardry/sorcery-sfml/src/render.cpp
+1654720104 source:/home/dave/Development/wizardry/sorcery-sfml/src/render.cpp
 	"render.hpp"
 
 1654281243 /home/dave/Development/wizardry/sorcery-sfml/inc/render.hpp
@@ -1436,7 +1436,7 @@
 	<SFML/Graphics/Rect.hpp>
 	<SFML/Graphics/Sprite.hpp>
 
-1654714709 source:/home/dave/Development/wizardry/sorcery-sfml/src/view.cpp
+1654720290 source:/home/dave/Development/wizardry/sorcery-sfml/src/view.cpp
 	"view.hpp"
 
 1654287196 /home/dave/Development/wizardry/sorcery-sfml/inc/view.hpp

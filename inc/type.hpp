@@ -450,6 +450,8 @@ namespace Sorcery {
 		Coordinate3 offset;
 		sf::VertexArray floor;
 		sf::VertexArray ceiling;
+		sf::VertexArray up;
+		sf::VertexArray down;
 		sf::VertexArray darkness;
 		sf::VertexArray side_darkness;
 		sf::VertexArray back_wall;
@@ -466,6 +468,10 @@ namespace Sorcery {
 			floor.resize(4);
 			ceiling.setPrimitiveType(sf::Quads);
 			ceiling.resize(4);
+			up.setPrimitiveType(sf::Quads);
+			up.resize(4);
+			down.setPrimitiveType(sf::Quads);
+			down.resize(4);
 			darkness.setPrimitiveType(sf::Quads);
 			darkness.resize(4);
 			side_darkness.setPrimitiveType(sf::Quads);
@@ -490,6 +496,10 @@ namespace Sorcery {
 			floor.resize(4);
 			ceiling.setPrimitiveType(sf::Quads);
 			ceiling.resize(4);
+			up.setPrimitiveType(sf::Quads);
+			up.resize(4);
+			down.setPrimitiveType(sf::Quads);
+			down.resize(4);
 			darkness.setPrimitiveType(sf::Quads);
 			darkness.resize(4);
 			side_darkness.setPrimitiveType(sf::Quads);

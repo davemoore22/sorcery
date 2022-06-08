@@ -9025,7 +9025,9 @@
 					"scale_y": "3.5",
 					"floor_colour": "0x55ffffff",
 					"ceiling_colour": "0xff5555ff",
-					"darkness_colour": "0x55ffffff"
+					"darkness_colour": "0x55ffffff",
+					"stairs_colour": "0xff5555ff",
+					"elevator_colour": "0xff5555ff"
 					}
 				]
 		},
