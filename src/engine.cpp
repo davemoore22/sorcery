@@ -423,12 +423,14 @@ auto Sorcery::Engine::start() -> int {
 
 						if (_system->input->check(WindowInput::LEFT, event)) {
 							_turn_left();
+							_spinner_if();
 							_update_automap = true;
 							_update_compass = true;
 							_update_render = true;
 						} else if (_system->input->check(
 									   WindowInput::RIGHT, event)) {
 							_turn_right();
+							_spinner_if();
 							_update_automap = true;
 							_update_compass = true;
 							_update_render = true;
@@ -440,6 +442,7 @@ auto Sorcery::Engine::start() -> int {
 								_ouch->reset_timed();
 							} else {
 								_teleport_if();
+								_spinner_if();
 								auto &to_tile{_game->state->level->at(
 									_game->state->get_player_pos())};
 								if (!to_tile.is(TileProperty::EXPLORED))
@@ -461,6 +464,7 @@ auto Sorcery::Engine::start() -> int {
 								_show_ouch = true;
 								_ouch->reset_timed();
 							} else {
+								_spinner_if();
 								_teleport_if();
 								auto &to_tile{_game->state->level->at(
 									_game->state->get_player_pos())};
@@ -817,6 +821,23 @@ auto Sorcery::Engine::_turn_right() -> void {
 }
 
 // TODO: rock/walkable for all levels/tiles!
+
+auto Sorcery::Engine::_spinner_if() -> bool {
+
+	const auto tile{_game->state->level->at(_game->state->get_player_pos())};
+
+	if (tile.has(TileFeature::SPINNER)) {
+
+		// Random Direction Change
+		auto new_facing{static_cast<MapDirection>(
+			(*_system->random)[RandomType::ZERO_TO_3])};
+		_game->state->set_player_facing(new_facing);
+
+		return true;
+
+		return false;
+	}
+}
 
 auto Sorcery::Engine::_stairs_if() -> bool {
 

@@ -60,7 +60,7 @@ auto Sorcery::State::set_depth(int depth) -> void {
 	_player_depth = depth;
 }
 
-auto Sorcery::State::get_depth() const -> unsigned int {
+auto Sorcery::State::get_depth() const -> int {
 
 	return _player_depth;
 }

@@ -66,7 +66,7 @@ namespace Sorcery {
 		auto set_player_pos(const Coordinate position) -> void;
 		auto restart_expedition() -> void;
 		auto set_depth(int depth) -> void;
-		auto get_depth() const -> unsigned int;
+		auto get_depth() const -> int;
 
 	  private:
 		// Private Methods
