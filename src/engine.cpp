@@ -160,15 +160,15 @@ auto Sorcery::Engine::start() -> int {
 		_game->state->level->at(_game->state->get_player_pos())};
 	if (!starting_tile.is(TileProperty::EXPLORED))
 		starting_tile.set_explored();
-	_game->state->set_player_facing(MapDirection::NORTH);
 
 	_show_confirm_stairs =
 		(_game->state->get_player_pos() == Coordinate{0, 0}) &&
-		(_game->state->level->depth() == -1);
+		(_game->state->get_depth() == -1);
 
 	if ((_game->state->get_player_pos() == Coordinate{0, 0}) &&
-		(_game->state->level->depth() == -1)) {
+		(_game->state->get_depth() == -1)) {
 		_show_confirm_stairs = true;
+		_game->state->set_player_facing(MapDirection::NORTH);
 		auto &this_tile{
 			_game->state->level->at(_game->state->get_player_pos())};
 		if (!this_tile.is(TileProperty::EXPLORED))
@@ -402,7 +402,7 @@ auto Sorcery::Engine::start() -> int {
 								const auto current_loc{
 									_game->state->get_player_pos()};
 								if ((current_loc == Coordinate{0, 0}) &&
-									(_game->state->level->depth() == -1)) {
+									(_game->state->get_depth() == -1)) {
 
 									_game->save_game();
 									return EXIT_MODULE;
@@ -833,6 +833,7 @@ auto Sorcery::Engine::_stairs_if() -> bool {
 			_game->state->set_current_level(&level);
 			auto &next_tile{_game->state->level->at(destination.to_loc)};
 			_game->state->set_player_pos(destination.to_loc);
+			_game->state->set_depth(to_level);
 			next_tile.set_explored();
 			if (next_tile.has(TileFeature::LADDER_UP))
 				_confirm_stairs->set((
@@ -869,7 +870,7 @@ auto Sorcery::Engine::_teleport_if() -> bool {
 			// Special case of teleporting Back to castle
 			_exit_maze_now = true;
 			return true;
-		} else if (destination.to_level == _game->state->level->depth()) {
+		} else if (destination.to_level == _game->state->get_depth()) {
 
 			auto &next_tile{_game->state->level->at(destination.to_loc)};
 			_game->state->set_player_pos(destination.to_loc);

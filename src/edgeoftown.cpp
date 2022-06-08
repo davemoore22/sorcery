@@ -72,10 +72,6 @@ auto Sorcery::EdgeOfTown::start(bool go_directly_to_maze)
 		_engine->stop();
 	}
 
-	// Get the Background Display Components and load them into Display module
-	// storage (not local - and note that due to the way both menus are combined
-	// in this class, we need to have the menustage set first in this case and
-	// this case only)
 	_update_menus();
 	_display->generate("edge_of_town");
 
