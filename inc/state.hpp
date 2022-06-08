@@ -39,7 +39,8 @@ namespace Sorcery {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_version, _party, level, _player_pos, _playing_facing);
+			archive(_version, _party, level, _player_depth, _player_pos,
+				_playing_facing);
 		}
 
 		// Public Members
@@ -52,10 +53,10 @@ namespace Sorcery {
 		auto clear_party() -> void;
 		auto get_character_index(unsigned int char_id)
 			-> std::optional<unsigned int>;
-		auto get_party_characters() -> std::vector<unsigned int>;
+		auto get_party_characters() const -> std::vector<unsigned int>;
 		auto get_player_facing() const -> MapDirection;
 		auto get_player_pos() const -> Coordinate;
-		auto party_has_members() -> bool;
+		auto party_has_members() const -> bool;
 		auto remove_character_by_id(unsigned int char_id) -> bool;
 		auto remove_character_by_position(unsigned int index) -> bool;
 		auto set(System *system) -> void;
@@ -63,15 +64,21 @@ namespace Sorcery {
 		auto set_current_level(Level *other) -> void;
 		auto set_player_facing(const MapDirection direction) -> void;
 		auto set_player_pos(const Coordinate position) -> void;
+		auto restart_expedition() -> void;
+		auto set_depth(int depth) -> void;
+		auto get_depth() const -> unsigned int;
 
 	  private:
 		// Private Methods
+		auto _clear() -> void;
+		auto _restart_expedition() -> void;
 
 		// Private Members
 		System *_system;
 		std::vector<unsigned int> _party;
 		Coordinate _player_pos;
 		MapDirection _playing_facing;
+		int _player_depth;
 		int _version;
 	};
 } // namespace Sorcery

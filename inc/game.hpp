@@ -59,7 +59,7 @@ namespace Sorcery {
 		auto delete_character(unsigned int character_id) -> void;
 		auto update_character(unsigned game_id, unsigned character_id,
 			Character &character) -> bool;
-		auto set_starting_level() -> void;
+		auto enter_maze() -> void;
 		auto show_console() -> void;
 		auto hide_console() -> void;
 		auto toggle_console() -> void;

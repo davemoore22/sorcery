@@ -141,7 +141,7 @@ auto Sorcery::EdgeOfTown::start(bool go_directly_to_maze)
 
 							auto _engine{std::make_unique<Engine>(
 								_system, _display, _graphics, _game)};
-							_game->set_starting_level();
+							_game->enter_maze();
 							_engine->start();
 							_engine->stop();
 							_game->save_game();

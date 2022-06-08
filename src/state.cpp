@@ -26,25 +26,50 @@
 
 // Constructor used by Cereal to serialise this item
 Sorcery::State::State() {
-	_party.clear();
-	_party.reserve(MAX_PARTY_SIZE);
-	level = std::make_unique<Level>();
-	_version = SAVE_VERSION;
-	_playing_facing = MapDirection::NORTH;
-	_player_pos = Coordinate{0, 0};
+
+	_clear();
+	_restart_expedition();
 }
 
 // Normal Constructor
 Sorcery::State::State(System *system) : _system{system} {
 
+	_clear();
+	_restart_expedition();
+}
+
+auto Sorcery::State::_clear() -> void {
+
 	_party.clear();
 	_party.reserve(MAX_PARTY_SIZE);
+	if (level.get()) {
+		level.release();
+		level.reset();
+	}
 	level = std::make_unique<Level>();
 	_version = SAVE_VERSION;
+}
+
+auto Sorcery::State::restart_expedition() -> void {
+
+	_restart_expedition();
+}
+
+auto Sorcery::State::set_depth(int depth) -> void {
+
+	_player_depth = depth;
+}
+
+auto Sorcery::State::get_depth() const -> unsigned int {
+
+	return _player_depth;
+}
+
+auto Sorcery::State::_restart_expedition() -> void {
+
 	_playing_facing = MapDirection::NORTH;
 	_player_pos = Coordinate{0, 0};
-
-	// TODO: reloading
+	_player_depth = -1;
 }
 
 // Method called to simulate Normal Constructor with Cereal Constructor
@@ -59,12 +84,12 @@ auto Sorcery::State::set_party(std::vector<unsigned int> candidate_party)
 	_party = candidate_party;
 }
 
-auto Sorcery::State::party_has_members() -> bool {
+auto Sorcery::State::party_has_members() const -> bool {
 
 	return _party.size() > 0;
 }
 
-auto Sorcery::State::get_party_characters() -> std::vector<unsigned int> {
+auto Sorcery::State::get_party_characters() const -> std::vector<unsigned int> {
 
 	return _party;
 }

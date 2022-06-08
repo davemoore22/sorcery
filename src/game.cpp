@@ -62,13 +62,11 @@ auto Sorcery::Game::save_game() -> void {
 	_save_game();
 }
 
-// TODO handle going up and down levels
-
-auto Sorcery::Game::set_starting_level() -> void {
+auto Sorcery::Game::enter_maze() -> void {
 
 	Level level{((*levelstore)[-1]).value()};
 	state->set_current_level(&level);
-	state->set_player_pos(Coordinate{0, 0});
+	state->restart_expedition();
 }
 
 auto Sorcery::Game::delete_character(unsigned int character_id) -> void {
