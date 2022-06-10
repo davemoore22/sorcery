@@ -72,6 +72,9 @@ namespace Sorcery {
 		auto _stairs_if() -> bool;
 		auto _spinner_if() -> bool;
 
+		auto _reset_direction_indicatior() -> bool;
+		auto _update_direction_indicatior_timer() -> void;
+
 		// Private Members
 		System *_system;
 		Display *_display;
@@ -109,5 +112,12 @@ namespace Sorcery {
 		bool _exit_maze_now;
 		std::optional<Character *> _cur_char;
 		std::unique_ptr<Frame> _cur_char_frame;
+		MapDirection _last_movement;
+
+		std::optional<std::chrono::time_point<std::chrono::system_clock>>
+			_direction_start;
+		std::optional<std::chrono::time_point<std::chrono::system_clock>>
+			_direction_current_time;
+		bool _show_direction_indicatior;
 	};
 } // namespace Sorcery

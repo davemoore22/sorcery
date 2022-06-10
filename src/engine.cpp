@@ -106,6 +106,33 @@ Sorcery::Engine::Engine(
 // Standard Destructor
 Sorcery::Engine::~Engine() {}
 
+auto Sorcery::Engine::_update_direction_indicatior_timer() -> void {
+
+	if (_show_direction_indicatior) {
+		if (!_direction_start)
+			_direction_start = std::chrono::system_clock::now();
+
+		_direction_current_time = std::chrono::system_clock::now();
+
+		const auto time_elapsed{
+			_direction_current_time.value() - _direction_start.value()};
+		const auto time_elapsed_sec{
+			std::chrono::duration_cast<std::chrono::milliseconds>(
+				time_elapsed)};
+		if (time_elapsed_sec.count() > 150) {
+			_show_direction_indicatior = false;
+			_direction_start = std::nullopt;
+		}
+	}
+}
+
+auto Sorcery::Engine::_reset_direction_indicatior() -> bool {
+
+	_show_direction_indicatior = true;
+	_direction_start = std::nullopt;
+	_direction_current_time = std::nullopt;
+}
+
 auto Sorcery::Engine::start() -> int {
 
 	_display->generate("engine_base_ui");
@@ -156,6 +183,7 @@ auto Sorcery::Engine::start() -> int {
 	_show_tile_note = false;
 	_exit_maze_now = false;
 	_automap->refresh();
+	_last_movement = MapDirection::NONE;
 	auto &starting_tile{
 		_game->state->level->at(_game->state->get_player_pos())};
 	if (!starting_tile.is(TileProperty::EXPLORED))
@@ -201,6 +229,9 @@ auto Sorcery::Engine::start() -> int {
 				continue;
 			} else
 				_display->hide_overlay();
+
+			// Handle various timers
+			_update_direction_indicatior_timer();
 
 			if (_show_confirm_exit) {
 
@@ -446,6 +477,8 @@ auto Sorcery::Engine::start() -> int {
 						}
 					} else {
 						if (_system->input->check(WindowInput::LEFT, event)) {
+							_show_direction_indicatior = true;
+							_reset_direction_indicatior();
 							_turn_left();
 							_spinner_if();
 							_update_automap = true;
@@ -453,6 +486,8 @@ auto Sorcery::Engine::start() -> int {
 							_update_render = true;
 						} else if (_system->input->check(
 									   WindowInput::RIGHT, event)) {
+							_show_direction_indicatior = true;
+							_reset_direction_indicatior();
 							_turn_right();
 							_spinner_if();
 							_update_automap = true;
@@ -461,6 +496,8 @@ auto Sorcery::Engine::start() -> int {
 						} else if (_system->input->check(
 									   WindowInput::UP, event)) {
 							auto has_moved{_move_forward()};
+							_show_direction_indicatior = true;
+							_reset_direction_indicatior();
 							if (!has_moved) {
 								_show_ouch = true;
 								_ouch->reset_timed();
@@ -484,6 +521,8 @@ auto Sorcery::Engine::start() -> int {
 						} else if (_system->input->check(
 									   WindowInput::DOWN, event)) {
 							auto has_moved{_move_backward()};
+							_show_direction_indicatior = true;
+							_reset_direction_indicatior();
 							if (!has_moved) {
 								_show_ouch = true;
 								_ouch->reset_timed();
@@ -710,6 +749,8 @@ auto Sorcery::Engine::_move_forward() -> bool {
 		} else
 			_show_confirm_stairs = false;
 
+		_last_movement = MapDirection::NORTH;
+
 		return true;
 	} else
 		return false;
@@ -800,6 +841,9 @@ auto Sorcery::Engine::_move_backward() -> bool {
 			_show_confirm_stairs = true;
 		} else
 			_show_confirm_stairs = false;
+
+		_last_movement = MapDirection::SOUTH;
+
 		return true;
 	} else
 		return false;
@@ -823,6 +867,8 @@ auto Sorcery::Engine::_turn_left() -> void {
 	default:
 		break;
 	}
+
+	_last_movement = MapDirection::WEST;
 }
 auto Sorcery::Engine::_turn_right() -> void {
 
@@ -842,6 +888,8 @@ auto Sorcery::Engine::_turn_right() -> void {
 	default:
 		break;
 	}
+
+	_last_movement = MapDirection::EAST;
 }
 
 // TODO: rock/walkable for all levels/tiles!
@@ -1026,6 +1074,10 @@ auto Sorcery::Engine::_draw() -> void {
 					_ouch->set_valid(false);
 				}
 			}
+		}
+
+		if (_show_direction_indicatior) {
+			_display->display_direction_indicator(_last_movement);
 		}
 	}
 

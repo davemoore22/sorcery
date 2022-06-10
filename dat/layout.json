@@ -8787,6 +8787,59 @@
 			"drawmode": "manual"
 		},
 		{
+			"name": "dialog_elevator_a_to_d",
+			"x": "19",
+			"y": "13",
+			"w": "40",
+			"type": "dialog",
+			"drawmode": "manual",
+			"alpha": "200",
+			"background": " 0x000000ff",
+			"data": [
+				{
+					"button_count": "4",
+					"top_floor": "-1",
+					"bottom_floor": "-4"
+				}
+			]
+		},
+		{
+			"name": "dialog_elevator_a_to_d",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "BUTTONS_A_TO_D",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "text",
+			"drawmode": "manual",
+			"data": [
+				{
+					"button_count": "4",
+					"top_floor": "-1",
+					"bottom_floor": "-4"
+				}
+			]
+		},
+		{
+			"name": "direction_indicator",
+			"x": "36",
+			"y": "11",
+			"alpha": "255",
+			"type": "other",
+			"priority": "6",
+			"drawmode": "manual",
+			"scale": "0.09",
+			"string": "direction-indicator",
+			"data": [
+				{
+
+					"offset_x": "8",
+					"offset_y": "19"
+				}
+			]
+		},
+		{
 			"name": "character_frame",
 			"w": "58",
 			"h": "30",

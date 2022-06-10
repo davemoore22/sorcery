@@ -517,6 +517,13 @@
 			"menu_item": "CR_NONE",
 			"key": "compass",
 			"colour": "0x80808080"
+		},
+		{
+			"index": "74",
+			"filename": "directions",
+			"menu_item": "CR_NONE",
+			"key": "direction-indicator",
+			"colour": "0xffffffff"
 		}
 
 	]

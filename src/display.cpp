@@ -214,6 +214,7 @@ auto Sorcery::Display::generate(std::string_view screen,
 			} else if (component.type == ComponentType::TEXT) {
 
 				sf::Text text{};
+
 				text.setFont(_system->resources->fonts[component.font]);
 				text.setCharacterSize(component.size);
 				text.setFillColor(sf::Color(component.colour));
@@ -381,6 +382,54 @@ auto Sorcery::Display::set_input_mode(WindowInputMode input_mode) -> void {
 auto Sorcery::Display::get_input_mode() const -> WindowInputMode {
 
 	return window->get_input_mode();
+}
+
+auto Sorcery::Display::display_direction_indicator(MapDirection direction)
+	-> void {
+
+	auto di_layout{(*layout)["engine_base_ui:direction_indicator"]};
+	auto di_icon{(*_icons)[di_layout.string_key]};
+	if (di_icon) {
+		auto indicator{di_icon.value()};
+
+		indicator.setOrigin(indicator.getLocalBounds().width / 2,
+			indicator.getLocalBounds().height / 2);
+		switch (direction) {
+		case MapDirection::NORTH:
+			indicator.setRotation(180.0f);
+			break;
+		case MapDirection::SOUTH:
+			indicator.setRotation(0.0f);
+			break;
+		case MapDirection::EAST:
+			indicator.setRotation(270.0f);
+			break;
+		case MapDirection::WEST:
+			indicator.setRotation(90.0f);
+			break;
+		default:
+			break;
+		}
+
+		const auto offset_x{[&] {
+			if (di_layout["offset_x"])
+				return std::stoi(di_layout["offset_x"].value());
+			else
+				return 0;
+		}()};
+		const auto offset_y{[&] {
+			if (di_layout["offset_y"])
+				return std::stoi(di_layout["offset_y"].value());
+			else
+				return 0;
+		}()};
+
+		indicator.setPosition(
+			(indicator.getGlobalBounds().width / 2) + di_layout.x + offset_x,
+			(indicator.getGlobalBounds().height / 2) + di_layout.y + offset_y);
+		indicator.setScale(di_layout.scale, di_layout.scale);
+		window->get_window()->draw(indicator);
+	}
 }
 
 auto Sorcery::Display::display_cursor() -> void {

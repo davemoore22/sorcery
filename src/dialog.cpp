@@ -95,6 +95,10 @@ auto Sorcery::Dialog::_refresh(Component &string_c) -> void {
 		_selected = WindowDialogButton::NONE;
 		frame_h += 2;
 		break;
+	case WindowDialogType::ELEVATOR:
+		frame_h += 5;
+		_selected = WindowDialogButton::LEAVE;
+		break;
 	default:
 		break;
 	}
@@ -166,6 +170,14 @@ auto Sorcery::Dialog::_refresh(Component &string_c) -> void {
 		ok_text_bg.setOrigin(0, 0 - ok_text_hl.getLocalBounds().height + 16);
 
 		_highlights[WindowDialogButton::OK] = ok_text_bg;
+
+	} break;
+	case WindowDialogType::ELEVATOR: {
+		const auto button_text{(*_display->string)["ELEVATOR_BUTTONS"]};
+		const auto leave_text{(*_display->string)["ELEVATOR_LEAVE"]};
+		const auto button_count{std::stoi(string_c["button_count"].value())};
+		const auto top_floor{std::stoi(string_c["top_floor"].value())};
+		const auto bottom_flor{std::stoi(string_c["bottom_floor"].value())};
 
 	} break;
 	case WindowDialogType::CONFIRM: {

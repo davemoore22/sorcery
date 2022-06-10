@@ -80,6 +80,7 @@ namespace Sorcery {
 		auto hide_overlay() -> void;
 		auto display_overlay() -> void;
 		auto shutdown_SFML() -> void;
+		auto display_direction_indicator(MapDirection direction) -> void;
 
 		// Public Members
 		std::unique_ptr<String> string;

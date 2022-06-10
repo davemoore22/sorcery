@@ -113,7 +113,20 @@ namespace Sorcery {
 
 		enum class Confirm { NONE, YES, NO };
 
-		enum class DialogButton { NONE, OK, YES, NO, CLOSE };
+		enum class DialogButton {
+			NONE,
+			OK,
+			YES,
+			NO,
+			CLOSE,
+			A,
+			B,
+			C,
+			D,
+			E,
+			F,
+			LEAVE
+		};
 
 		enum class ComponentType {
 			NONE,
@@ -139,7 +152,7 @@ namespace Sorcery {
 			JUSTIFICATION = 256
 		};
 
-		enum class DialogType { NONE, TIMED, OK, CONFIRM, MENU };
+		enum class DialogType { NONE, TIMED, OK, CONFIRM, MENU, ELEVATOR };
 
 		enum class Option { SAVE, CANCEL, RESET, NONE };
 
