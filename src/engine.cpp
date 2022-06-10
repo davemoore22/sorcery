@@ -217,6 +217,10 @@ auto Sorcery::Engine::start() -> int {
 
 	sf::Event event{};
 	while (_window->isOpen()) {
+
+		// Handle various timers
+		_update_direction_indicatior_timer();
+
 		while (_window->pollEvent(event)) {
 
 			// Check for Window Close
@@ -229,9 +233,6 @@ auto Sorcery::Engine::start() -> int {
 				continue;
 			} else
 				_display->hide_overlay();
-
-			// Handle various timers
-			_update_direction_indicatior_timer();
 
 			if (_show_confirm_exit) {
 
@@ -654,10 +655,11 @@ auto Sorcery::Engine::start() -> int {
 				_status_bar->refresh();
 				_update_status_bar = false;
 			}
-			_window->clear();
-			_draw();
-			_window->display();
 		}
+
+		_window->clear();
+		_draw();
+		_window->display();
 	}
 
 	return EXIT_MODULE;
