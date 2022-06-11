@@ -390,18 +390,18 @@ auto Sorcery::View::_load_tile_views() -> void {
 		_set_vertex_array(tileview.back_door, sf::Vector2f{135, 105},
 			sf::Vector2f{139, 71}, sf::Vector2f{169, 71},
 			sf::Vector2f{168, 105});
-		_set_vertex_array(tileview.left_side_wall, sf::Vector2f{119, 121},
-			sf::Vector2f{119, 55}, sf::Vector2f{135, 71},
-			sf::Vector2f{135, 121});
-		_set_vertex_array(tileview.left_side_door, sf::Vector2f{119, 121},
-			sf::Vector2f{119, 55}, sf::Vector2f{135, 71},
-			sf::Vector2f{135, 121});
+		_set_vertex_array(tileview.left_side_wall, sf::Vector2f{119, 120},
+			sf::Vector2f{119, 54}, sf::Vector2f{135, 71},
+			sf::Vector2f{135, 120});
+		_set_vertex_array(tileview.left_side_door, sf::Vector2f{119, 120},
+			sf::Vector2f{119, 54}, sf::Vector2f{135, 71},
+			sf::Vector2f{135, 120});
 		_set_vertex_array(tileview.right_side_wall, sf::Vector2f{168, 105},
-			sf::Vector2f{168, 71}, sf::Vector2f{184, 55},
-			sf::Vector2f{184, 121});
+			sf::Vector2f{168, 71}, sf::Vector2f{184, 54},
+			sf::Vector2f{184, 120});
 		_set_vertex_array(tileview.right_side_door, sf::Vector2f{168, 105},
-			sf::Vector2f{168, 71}, sf::Vector2f{184, 55},
-			sf::Vector2f{184, 121});
+			sf::Vector2f{168, 71}, sf::Vector2f{184, 54},
+			sf::Vector2f{184, 120});
 
 		_set_texture_coordinates(tileview);
 	}
@@ -646,10 +646,10 @@ auto Sorcery::View::_load_tile_views() -> void {
 		auto &tileview{tileviews.at(tile)};
 
 		// Set Vertex Arrays
-		_set_vertex_array(tileview.darkness, sf::Vector2f{168, 103},
+		_set_vertex_array(tileview.darkness, sf::Vector2f{168, 105},
 			sf::Vector2f{168, 72}, sf::Vector2f{199, 72},
-			sf::Vector2f{199, 103}, darkness_colour);
-		_set_vertex_array(tileview.side_darkness, sf::Vector2f{168, 104},
+			sf::Vector2f{199, 105}, darkness_colour);
+		_set_vertex_array(tileview.side_darkness, sf::Vector2f{168, 105},
 			sf::Vector2f{168, 71}, sf::Vector2f{184, 56},
 			sf::Vector2f{184, 119}, darkness_colour);
 		_set_vertex_array(tileview.back_wall, sf::Vector2f{168, 105},
@@ -668,12 +668,12 @@ auto Sorcery::View::_load_tile_views() -> void {
 		auto &tileview{tileviews.at(tile)};
 
 		// Set Vertex Arrays
-		_set_vertex_array(tileview.darkness, sf::Vector2f{168, 103},
+		_set_vertex_array(tileview.darkness, sf::Vector2f{168, 105},
 			sf::Vector2f{168, 72}, sf::Vector2f{199, 72},
-			sf::Vector2f{199, 103}, darkness_colour);
-		_set_vertex_array(tileview.side_darkness, sf::Vector2f{160, 96},
-			sf::Vector2f{160, 79}, sf::Vector2f{167, 73},
-			sf::Vector2f{167, 103}, darkness_colour);
+			sf::Vector2f{199, 105}, darkness_colour);
+		_set_vertex_array(tileview.side_darkness, sf::Vector2f{161, 98},
+			sf::Vector2f{161, 79}, sf::Vector2f{168, 72},
+			sf::Vector2f{168, 105}, darkness_colour);
 		_set_vertex_array(tileview.back_wall, sf::Vector2f{160, 97},
 			sf::Vector2f{160, 79}, sf::Vector2f{177, 79},
 			sf::Vector2f{177, 97});

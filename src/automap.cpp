@@ -400,9 +400,7 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling)
 			stairs.setPosition(x, y);
 			stairs.setScale(scaling, scaling);
 			_sprites.emplace_back(stairs);
-		}
-
-		if (tile.has(TileFeature::ELEVATOR)) {
+		} else if (tile.has(TileFeature::ELEVATOR)) {
 			sf::Sprite stairs{
 				_graphics->textures
 					->get(magic_enum::enum_integer<AutoMapFeature>(
@@ -412,22 +410,7 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling)
 			stairs.setPosition(x, y);
 			stairs.setScale(scaling, scaling);
 			_sprites.emplace_back(stairs);
-		}
-
-		if ((tile.has(TileFeature::MESSAGE)) ||
-			(tile.has(TileFeature::NOTICE))) {
-			sf::Sprite message{
-				_graphics->textures
-					->get(magic_enum::enum_integer<AutoMapFeature>(
-							  AutoMapFeature::EXCLAMATION),
-						GraphicsTextureType::AUTOMAP)
-					.value()};
-			message.setPosition(x, y);
-			message.setScale(scaling, scaling);
-			_sprites.emplace_back(message);
-		}
-
-		if (tile.has(TileFeature::SPINNER)) {
+		} else if (tile.has(TileFeature::SPINNER)) {
 			sf::Sprite message{
 				_graphics->textures
 					->get(magic_enum::enum_integer<AutoMapFeature>(
@@ -437,9 +420,7 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling)
 			message.setPosition(x, y);
 			message.setScale(scaling, scaling);
 			_sprites.emplace_back(message);
-		}
-
-		if (tile.has(TileFeature::TELEPORT_FROM)) {
+		} else if (tile.has(TileFeature::TELEPORT_FROM)) {
 			sf::Sprite stairs{
 				_graphics->textures
 					->get(magic_enum::enum_integer<AutoMapFeature>(
@@ -449,17 +430,20 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling)
 			stairs.setPosition(x, y);
 			stairs.setScale(scaling, scaling);
 			_sprites.emplace_back(stairs);
-		} /* else if (tile.has(TileFeature::TELEPORT_TO)) {
-			sf::Sprite stairs{
-				_graphics->textures
-					->get(magic_enum::enum_integer<AutoMapFeature>(
-							  AutoMapFeature::TELEPORT_TO),
-						GraphicsTextureType::AUTOMAP)
-					.value()};
-			stairs.setPosition(x, y);
-			stairs.setScale(scaling, scaling);
-			_sprites.emplace_back(stairs);
-		} */
+		} else {
+			if ((tile.has(TileFeature::MESSAGE)) ||
+				(tile.has(TileFeature::NOTICE))) {
+				sf::Sprite message{
+					_graphics->textures
+						->get(magic_enum::enum_integer<AutoMapFeature>(
+								  AutoMapFeature::EXCLAMATION),
+							GraphicsTextureType::AUTOMAP)
+						.value()};
+				message.setPosition(x, y);
+				message.setScale(scaling, scaling);
+				_sprites.emplace_back(message);
+			}
+		}
 	}
 }
 

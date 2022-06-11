@@ -220,6 +220,7 @@ auto Sorcery::Engine::start() -> int {
 
 		// Handle various timers
 		_update_direction_indicatior_timer();
+		_ouch->update();
 
 		while (_window->pollEvent(event)) {
 
@@ -421,6 +422,7 @@ auto Sorcery::Engine::start() -> int {
 					}
 
 					if (_show_ouch) {
+						_show_direction_indicatior = false;
 						auto dialog_input{_ouch->handle_input(event)};
 						if (dialog_input) {
 							if (dialog_input.value() ==
@@ -497,12 +499,13 @@ auto Sorcery::Engine::start() -> int {
 						} else if (_system->input->check(
 									   WindowInput::UP, event)) {
 							auto has_moved{_move_forward()};
-							_show_direction_indicatior = true;
-							_reset_direction_indicatior();
 							if (!has_moved) {
+								_show_direction_indicatior = false;
 								_show_ouch = true;
 								_ouch->reset_timed();
 							} else {
+								_show_direction_indicatior = true;
+								_reset_direction_indicatior();
 								_teleport_if();
 								_spinner_if();
 								auto &to_tile{_game->state->level->at(
@@ -522,12 +525,13 @@ auto Sorcery::Engine::start() -> int {
 						} else if (_system->input->check(
 									   WindowInput::DOWN, event)) {
 							auto has_moved{_move_backward()};
-							_show_direction_indicatior = true;
-							_reset_direction_indicatior();
 							if (!has_moved) {
+								_show_direction_indicatior = false;
 								_show_ouch = true;
 								_ouch->reset_timed();
 							} else {
+								_show_direction_indicatior = true;
+								_reset_direction_indicatior();
 								_spinner_if();
 								_teleport_if();
 								auto &to_tile{_game->state->level->at(
@@ -1068,7 +1072,6 @@ auto Sorcery::Engine::_draw() -> void {
 			}
 
 			if (_show_ouch) {
-				_ouch->update();
 				if (_ouch->get_valid())
 					_window->draw(*_ouch);
 				else {
