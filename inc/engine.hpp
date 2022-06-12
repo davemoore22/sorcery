@@ -116,6 +116,7 @@ namespace Sorcery {
 		bool _update_render;
 		bool _update_tile_note;
 		bool _exit_maze_now;
+		bool _pending_chute;
 		std::optional<Character *> _cur_char;
 		std::unique_ptr<Frame> _cur_char_frame;
 		MapDirection _last_movement;

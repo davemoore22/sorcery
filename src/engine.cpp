@@ -114,6 +114,7 @@ Sorcery::Engine::Engine(
 	_update_render = false;
 	_update_tile_note = false;
 	_exit_maze_now = false;
+	_pending_chute = false;
 
 	game->hide_console();
 }
@@ -200,6 +201,7 @@ auto Sorcery::Engine::start() -> int {
 	_show_tile_note = false;
 	_exit_maze_now = false;
 	_automap->refresh();
+	_system->stop_pause();
 	_last_movement = MapDirection::NONE;
 	auto &starting_tile{
 		_game->state->level->at(_game->state->get_player_pos())};
@@ -240,474 +242,539 @@ auto Sorcery::Engine::start() -> int {
 		_ouch->update();
 		_pit->update();
 		_chute->update();
+		if (auto pending{_system->update_pause()}; pending) {
+			if (_pending_chute) {
 
-		while (_window->pollEvent(event)) {
+				const auto tile{
+					_game->state->level->at(_game->state->get_player_pos())};
+				if (tile.has(TileFeature::CHUTE)) {
 
-			// Check for Window Close
-			if (event.type == sf::Event::Closed)
-				return EXIT_ALL;
+					auto destination{tile.has_teleport().value()};
+					auto dest_level{destination.to_level};
+					Level level{((*_game->levelstore)[dest_level]).value()};
+					_game->state->set_current_level(&level);
+					_game->state->set_player_pos(destination.to_loc);
+					_game->state->set_depth(dest_level);
+					auto &next_tile{
+						_game->state->level->at(destination.to_loc)};
+					next_tile.set_explored();
+					_update_automap = true;
+					_update_compass = true;
+					_update_render = true;
+					_pending_chute = false;
 
-			// Handle enabling help overlay
-			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
-				_display->show_overlay();
-				continue;
-			} else
-				_display->hide_overlay();
-
-			if (_show_confirm_exit) {
-
-				if (_left_icon_panel->selected)
-					_left_icon_panel->selected = std::nullopt;
-				if (_right_icon_panel->selected)
-					_right_icon_panel->selected = std::nullopt;
-				if (_status_bar->selected)
-					_status_bar->selected = std::nullopt;
-
-				auto dialog_input{_confirm_exit->handle_input(event)};
-				if (dialog_input) {
-					if (dialog_input.value() == WindowDialogButton::CLOSE) {
-						_display->set_input_mode(
-							WindowInputMode::NAVIGATE_MENU);
-						_show_confirm_exit = false;
-					} else if (dialog_input.value() ==
-							   WindowDialogButton::YES) {
-						_window->close();
-					} else if (dialog_input.value() == WindowDialogButton::NO) {
-						_display->set_input_mode(
-							WindowInputMode::NAVIGATE_MENU);
-						_show_confirm_exit = false;
-					}
-				}
-			} else if (_in_character) {
-				if (_system->input->check(
-						WindowInput::SHOW_HIDE_CONSOLE, event))
-					_game->toggle_console();
-				else if (_system->input->check(WindowInput::LEFT, event))
-					_cur_char.value()->left_view();
-				else if (_system->input->check(WindowInput::RIGHT, event))
-					_cur_char.value()->right_view();
-				else if (_system->input->check(WindowInput::CANCEL, event)) {
-					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-					_cur_char = std::nullopt;
-				} else if (_system->input->check(WindowInput::BACK, event)) {
-					_display->set_input_mode(WindowInputMode::IN_GAME);
-					_cur_char = std::nullopt;
 					_game->save_game();
-					_status_bar->refresh();
-					_in_character = false;
-					_display->generate("engine_base_ui");
-				} else if (_system->input->check(WindowInput::CONFIRM, event)) {
-					_cur_char.value()->right_view();
-				} else if (_system->input->check(WindowInput::UP, event)) {
-					if (_cur_char.value()->get_view() ==
-						CharacterView::MAGE_SPELLS)
-						_cur_char.value()->dec_hl_spell(SpellType::MAGE);
-					else if (_cur_char.value()->get_view() ==
-							 CharacterView::PRIEST_SPELLS)
-						_cur_char.value()->dec_hl_spell(SpellType::PRIEST);
-
-				} else if (_system->input->check(WindowInput::DOWN, event)) {
-					if (_cur_char.value()->get_view() ==
-						CharacterView::MAGE_SPELLS)
-						_cur_char.value()->inc_hl_spell(SpellType::MAGE);
-					else if (_cur_char.value()->get_view() ==
-							 CharacterView::PRIEST_SPELLS)
-						_cur_char.value()->inc_hl_spell(SpellType::PRIEST);
-				} else if (_system->input->check(WindowInput::MOVE, event)) {
-					if (_cur_char.value()->check_for_mouse_move(sf::Vector2f(
-							static_cast<float>(
-								sf::Mouse::getPosition(*_window).x),
-							static_cast<float>(
-								sf::Mouse::getPosition(*_window).y)))) {
-						_cur_char.value()->set_view(
-							_cur_char.value()->get_view());
-					}
 				}
-			} else if (_in_camp) {
+			}
+		}
 
-				if (_left_icon_panel->selected)
-					_left_icon_panel->selected = std::nullopt;
-				if (_right_icon_panel->selected)
-					_right_icon_panel->selected = std::nullopt;
-				if (_status_bar->selected)
-					_status_bar->selected = std::nullopt;
+		if (_system->get_pause()) {
 
-				if (_system->input->check(WindowInput::CANCEL, event))
-					_in_camp = false;
+			_window->clear();
+			_draw();
+			_window->display();
 
-				if (_system->input->check(WindowInput::BACK, event))
-					_in_camp = false;
+			auto any_event{_window->pollEvent(event)};
+			if (any_event) {
+				if (_system->input->check(WindowInput::ANYTHING, event))
+					_system->stop_pause();
+			}
+		} else {
 
-				if (_system->input->check(
-						WindowInput::SHOW_HIDE_CONSOLE, event))
-					_game->toggle_console();
-				else if (_system->input->check(WindowInput::UP, event))
-					camp_option = _camp_menu->choose_previous();
-				else if (_system->input->check(WindowInput::DOWN, event))
-					camp_option = _camp_menu->choose_next();
-				else if (_system->input->check(WindowInput::MOVE, event))
-					camp_option = _camp_menu->set_mouse_selected(
-						static_cast<sf::Vector2f>(
-							sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check(WindowInput::CONFIRM, event)) {
+			_pending_chute = false;
 
-					// We have selected something from the menu
-					if (camp_option) {
+			while (_window->pollEvent(event)) {
 
-						if (const MenuItem option_chosen{
-								(*camp_option.value()).item};
-							option_chosen == MenuItem::CP_LEAVE) {
+				// Check for Window Close
+				if (event.type == sf::Event::Closed)
+					return EXIT_ALL;
 
-							_game->save_game();
-							_status_bar->refresh();
-							_in_camp = false;
-							_display->generate("engine_base_ui");
-							_display->set_input_mode(WindowInputMode::IN_GAME);
-							continue;
-						} else if (option_chosen == MenuItem::CP_SAVE) {
-							_game->save_game();
-							return EXIT_MODULE;
-						} else if (option_chosen == MenuItem::QUIT) {
-							_show_confirm_exit = true;
-							continue;
-						} else if (option_chosen == MenuItem::CP_OPTIONS) {
+				// Handle enabling help overlay
+				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+					_display->show_overlay();
+					continue;
+				} else
+					_display->hide_overlay();
 
-							auto options{std::make_unique<Options>(
-								_system, _display, _graphics)};
-							auto result{options->start()};
-							if (result == EXIT_ALL) {
-								options->stop();
-								return EXIT_ALL;
-							}
-							options->stop();
-							_status_bar->refresh();
-							_display->generate("engine_base_ui");
-						} else if (option_chosen == MenuItem::CP_INSPECT) {
-							_status_bar->refresh();
-							auto result{_inspect->start()};
-							if (result == MenuItem::ABORT) {
-								_inspect->stop();
-								return EXIT_ALL;
-							}
-							_inspect->stop();
-							_status_bar->refresh();
-							_display->generate("engine_base_ui");
-						} else if (option_chosen == MenuItem::CP_REORDER) {
-							_status_bar->refresh();
-							auto new_party{_reorder->start()};
-							if (new_party) {
+				if (_show_confirm_exit) {
 
-								// TODO: handle aborts here too
-								_game->state->set_party(new_party.value());
+					if (_left_icon_panel->selected)
+						_left_icon_panel->selected = std::nullopt;
+					if (_right_icon_panel->selected)
+						_right_icon_panel->selected = std::nullopt;
+					if (_status_bar->selected)
+						_status_bar->selected = std::nullopt;
+
+					auto dialog_input{_confirm_exit->handle_input(event)};
+					if (dialog_input) {
+						if (dialog_input.value() == WindowDialogButton::CLOSE) {
+							_display->set_input_mode(
+								WindowInputMode::NAVIGATE_MENU);
+							_show_confirm_exit = false;
+						} else if (dialog_input.value() ==
+								   WindowDialogButton::YES) {
+							_window->close();
+						} else if (dialog_input.value() ==
+								   WindowDialogButton::NO) {
+							_display->set_input_mode(
+								WindowInputMode::NAVIGATE_MENU);
+							_show_confirm_exit = false;
+						}
+					}
+				} else if (_in_character) {
+					if (_system->input->check(
+							WindowInput::SHOW_HIDE_CONSOLE, event))
+						_game->toggle_console();
+					else if (_system->input->check(WindowInput::LEFT, event))
+						_cur_char.value()->left_view();
+					else if (_system->input->check(WindowInput::RIGHT, event))
+						_cur_char.value()->right_view();
+					else if (_system->input->check(
+								 WindowInput::CANCEL, event)) {
+						_display->set_input_mode(
+							WindowInputMode::NAVIGATE_MENU);
+						_cur_char = std::nullopt;
+					} else if (_system->input->check(
+								   WindowInput::BACK, event)) {
+						_display->set_input_mode(WindowInputMode::IN_GAME);
+						_cur_char = std::nullopt;
+						_game->save_game();
+						_status_bar->refresh();
+						_in_character = false;
+						_display->generate("engine_base_ui");
+					} else if (_system->input->check(
+								   WindowInput::CONFIRM, event)) {
+						_cur_char.value()->right_view();
+					} else if (_system->input->check(WindowInput::UP, event)) {
+						if (_cur_char.value()->get_view() ==
+							CharacterView::MAGE_SPELLS)
+							_cur_char.value()->dec_hl_spell(SpellType::MAGE);
+						else if (_cur_char.value()->get_view() ==
+								 CharacterView::PRIEST_SPELLS)
+							_cur_char.value()->dec_hl_spell(SpellType::PRIEST);
+
+					} else if (_system->input->check(
+								   WindowInput::DOWN, event)) {
+						if (_cur_char.value()->get_view() ==
+							CharacterView::MAGE_SPELLS)
+							_cur_char.value()->inc_hl_spell(SpellType::MAGE);
+						else if (_cur_char.value()->get_view() ==
+								 CharacterView::PRIEST_SPELLS)
+							_cur_char.value()->inc_hl_spell(SpellType::PRIEST);
+					} else if (_system->input->check(
+								   WindowInput::MOVE, event)) {
+						if (_cur_char.value()->check_for_mouse_move(
+								sf::Vector2f(
+									static_cast<float>(
+										sf::Mouse::getPosition(*_window).x),
+									static_cast<float>(
+										sf::Mouse::getPosition(*_window).y)))) {
+							_cur_char.value()->set_view(
+								_cur_char.value()->get_view());
+						}
+					}
+				} else if (_in_camp) {
+
+					if (_left_icon_panel->selected)
+						_left_icon_panel->selected = std::nullopt;
+					if (_right_icon_panel->selected)
+						_right_icon_panel->selected = std::nullopt;
+					if (_status_bar->selected)
+						_status_bar->selected = std::nullopt;
+
+					if (_system->input->check(WindowInput::CANCEL, event))
+						_in_camp = false;
+
+					if (_system->input->check(WindowInput::BACK, event))
+						_in_camp = false;
+
+					if (_system->input->check(
+							WindowInput::SHOW_HIDE_CONSOLE, event))
+						_game->toggle_console();
+					else if (_system->input->check(WindowInput::UP, event))
+						camp_option = _camp_menu->choose_previous();
+					else if (_system->input->check(WindowInput::DOWN, event))
+						camp_option = _camp_menu->choose_next();
+					else if (_system->input->check(WindowInput::MOVE, event))
+						camp_option = _camp_menu->set_mouse_selected(
+							static_cast<sf::Vector2f>(
+								sf::Mouse::getPosition(*_window)));
+					else if (_system->input->check(
+								 WindowInput::CONFIRM, event)) {
+
+						// We have selected something from the menu
+						if (camp_option) {
+
+							if (const MenuItem option_chosen{
+									(*camp_option.value()).item};
+								option_chosen == MenuItem::CP_LEAVE) {
+
 								_game->save_game();
-								_game->load_game();
 								_status_bar->refresh();
-							}
-							_reorder->stop();
-							_status_bar->refresh();
-							_display->generate("engine_base_ui");
-						}
-					}
-				}
-			} else {
-
-				if (_display->get_input_mode() == WindowInputMode::IN_GAME) {
-
-					if ((event.type == sf::Event::KeyPressed) &&
-						(event.key.code == sf::Keyboard::F6)) {
-
-						auto dest_level{_game->state->get_depth() - 1};
-						Level level{((*_game->levelstore)[dest_level]).value()};
-						_game->state->set_current_level(&level);
-						auto &next_tile{_game->state->level->at(
-							_game->state->get_player_pos())};
-						_game->state->set_depth(dest_level);
-						next_tile.set_explored();
-						_update_automap = true;
-						_update_compass = true;
-						_update_render = true;
-					} else if ((event.type == sf::Event::KeyPressed) &&
-							   (event.key.code == sf::Keyboard::F5)) {
-						auto dest_level{_game->state->get_depth() + 1};
-						Level level{((*_game->levelstore)[dest_level]).value()};
-						_game->state->set_current_level(&level);
-						auto &next_tile{_game->state->level->at(
-							_game->state->get_player_pos())};
-						_game->state->set_depth(dest_level);
-						next_tile.set_explored();
-						_update_automap = true;
-						_update_compass = true;
-						_update_render = true;
-					}
-
-					if (_show_ouch) {
-						_show_direction_indicatior = false;
-						auto dialog_input{_ouch->handle_input(event)};
-						if (dialog_input) {
-							if (dialog_input.value() ==
-								WindowDialogButton::OK) {
-
+								_in_camp = false;
+								_display->generate("engine_base_ui");
 								_display->set_input_mode(
 									WindowInputMode::IN_GAME);
-								_show_ouch = false;
-								_ouch->set_valid(false);
-							}
-						}
-					} else if (_show_pit) {
-						auto dialog_input{_pit->handle_input(event)};
-						if (dialog_input) {
-							if (dialog_input.value() ==
-								WindowDialogButton::OK) {
+								continue;
+							} else if (option_chosen == MenuItem::CP_SAVE) {
+								_game->save_game();
+								return EXIT_MODULE;
+							} else if (option_chosen == MenuItem::QUIT) {
+								_show_confirm_exit = true;
+								continue;
+							} else if (option_chosen == MenuItem::CP_OPTIONS) {
 
-								_display->set_input_mode(
-									WindowInputMode::IN_GAME);
-								_show_pit = false;
-								_pit->set_valid(false);
-							}
-						}
-					} else if (_show_chute) {
-						auto dialog_input{_chute->handle_input(event)};
-						if (dialog_input) {
-							if (dialog_input.value() ==
-								WindowDialogButton::OK) {
+								auto options{std::make_unique<Options>(
+									_system, _display, _graphics)};
+								auto result{options->start()};
+								if (result == EXIT_ALL) {
+									options->stop();
+									return EXIT_ALL;
+								}
+								options->stop();
+								_status_bar->refresh();
+								_display->generate("engine_base_ui");
+							} else if (option_chosen == MenuItem::CP_INSPECT) {
+								_status_bar->refresh();
+								auto result{_inspect->start()};
+								if (result == MenuItem::ABORT) {
+									_inspect->stop();
+									return EXIT_ALL;
+								}
+								_inspect->stop();
+								_status_bar->refresh();
+								_display->generate("engine_base_ui");
+							} else if (option_chosen == MenuItem::CP_REORDER) {
+								_status_bar->refresh();
+								auto new_party{_reorder->start()};
+								if (new_party) {
 
-								_display->set_input_mode(
-									WindowInputMode::IN_GAME);
-								_show_chute = false;
-								_chute->set_valid(false);
-							}
-						}
-					} else if (_show_confirm_stairs) {
-						if (_left_icon_panel->selected)
-							_left_icon_panel->selected = std::nullopt;
-						if (_right_icon_panel->selected)
-							_right_icon_panel->selected = std::nullopt;
-						if (_status_bar->selected)
-							_status_bar->selected = std::nullopt;
-
-						auto dialog_input{_confirm_stairs->handle_input(event)};
-						if (dialog_input) {
-							if (dialog_input.value() ==
-								WindowDialogButton::CLOSE) {
-								_display->set_input_mode(
-									WindowInputMode::IN_GAME);
-								_show_confirm_stairs = false;
-							} else if (dialog_input.value() ==
-									   WindowDialogButton::NO) {
-								_display->set_input_mode(
-									WindowInputMode::IN_GAME);
-								_show_confirm_stairs = false;
-							} else if (dialog_input.value() ==
-									   WindowDialogButton::YES) {
-								_show_confirm_stairs = false;
-
-								const auto current_loc{
-									_game->state->get_player_pos()};
-								if ((current_loc == Coordinate{0, 0}) &&
-									(_game->state->get_depth() == -1)) {
-
+									// TODO: handle aborts here too
+									_game->state->set_party(new_party.value());
 									_game->save_game();
-									return EXIT_MODULE;
-								} else {
+									_game->load_game();
+									_status_bar->refresh();
+								}
+								_reorder->stop();
+								_status_bar->refresh();
+								_display->generate("engine_base_ui");
+							}
+						}
+					}
+				} else {
 
-									_stairs_if();
+					if (_display->get_input_mode() ==
+						WindowInputMode::IN_GAME) {
+
+						if ((event.type == sf::Event::KeyPressed) &&
+							(event.key.code == sf::Keyboard::F6)) {
+
+							auto dest_level{_game->state->get_depth() - 1};
+							Level level{
+								((*_game->levelstore)[dest_level]).value()};
+							_game->state->set_current_level(&level);
+							auto &next_tile{_game->state->level->at(
+								_game->state->get_player_pos())};
+							_game->state->set_depth(dest_level);
+							next_tile.set_explored();
+							_update_automap = true;
+							_update_compass = true;
+							_update_render = true;
+						} else if ((event.type == sf::Event::KeyPressed) &&
+								   (event.key.code == sf::Keyboard::F5)) {
+							auto dest_level{_game->state->get_depth() + 1};
+							Level level{
+								((*_game->levelstore)[dest_level]).value()};
+							_game->state->set_current_level(&level);
+							auto &next_tile{_game->state->level->at(
+								_game->state->get_player_pos())};
+							_game->state->set_depth(dest_level);
+							next_tile.set_explored();
+							_update_automap = true;
+							_update_compass = true;
+							_update_render = true;
+						}
+
+						if (_show_ouch) {
+							_show_direction_indicatior = false;
+							auto dialog_input{_ouch->handle_input(event)};
+							if (dialog_input) {
+								if (dialog_input.value() ==
+									WindowDialogButton::OK) {
+
+									_display->set_input_mode(
+										WindowInputMode::IN_GAME);
+									_show_ouch = false;
+									_ouch->set_valid(false);
+								}
+							}
+						} else if (_show_pit) {
+							auto dialog_input{_pit->handle_input(event)};
+							if (dialog_input) {
+								if (dialog_input.value() ==
+									WindowDialogButton::OK) {
+
+									_display->set_input_mode(
+										WindowInputMode::IN_GAME);
+									_show_pit = false;
+									_pit->set_valid(false);
+								}
+							}
+						} else if (_show_chute) {
+							auto dialog_input{_chute->handle_input(event)};
+							if (dialog_input) {
+								if (dialog_input.value() ==
+									WindowDialogButton::OK) {
+
+									_display->set_input_mode(
+										WindowInputMode::IN_GAME);
+									_show_chute = false;
+									_chute->set_valid(false);
+								}
+							}
+						} else if (_show_confirm_stairs) {
+							if (_left_icon_panel->selected)
+								_left_icon_panel->selected = std::nullopt;
+							if (_right_icon_panel->selected)
+								_right_icon_panel->selected = std::nullopt;
+							if (_status_bar->selected)
+								_status_bar->selected = std::nullopt;
+
+							auto dialog_input{
+								_confirm_stairs->handle_input(event)};
+							if (dialog_input) {
+								if (dialog_input.value() ==
+									WindowDialogButton::CLOSE) {
+									_display->set_input_mode(
+										WindowInputMode::IN_GAME);
+									_show_confirm_stairs = false;
+								} else if (dialog_input.value() ==
+										   WindowDialogButton::NO) {
+									_display->set_input_mode(
+										WindowInputMode::IN_GAME);
+									_show_confirm_stairs = false;
+								} else if (dialog_input.value() ==
+										   WindowDialogButton::YES) {
+									_show_confirm_stairs = false;
+
+									const auto current_loc{
+										_game->state->get_player_pos()};
+									if ((current_loc == Coordinate{0, 0}) &&
+										(_game->state->get_depth() == -1)) {
+
+										_game->save_game();
+										return EXIT_MODULE;
+									} else {
+
+										_stairs_if();
+										auto &to_tile{_game->state->level->at(
+											_game->state->get_player_pos())};
+										if (!to_tile.is(TileProperty::EXPLORED))
+											to_tile.set_explored();
+										_update_automap = true;
+										_show_confirm_stairs = true;
+										_game->save_game();
+									}
+								}
+							}
+						} else {
+							if (_system->input->check(
+									WindowInput::LEFT, event)) {
+								_show_direction_indicatior = true;
+								_reset_direction_indicatior();
+								_turn_left();
+								_spinner_if();
+								_update_automap = true;
+								_update_compass = true;
+								_update_render = true;
+							} else if (_system->input->check(
+										   WindowInput::RIGHT, event)) {
+								_show_direction_indicatior = true;
+								_reset_direction_indicatior();
+								_turn_right();
+								_spinner_if();
+								_update_automap = true;
+								_update_compass = true;
+								_update_render = true;
+							} else if (_system->input->check(
+										   WindowInput::UP, event)) {
+								auto has_moved{_move_forward()};
+								if (!has_moved) {
+									_show_direction_indicatior = false;
+									_show_ouch = true;
+									_ouch->reset_timed();
+								} else {
+									_show_direction_indicatior = true;
+									_reset_direction_indicatior();
+									_teleport_if();
+									_spinner_if();
+									_pit_if();
+									_chute_if();
+
 									auto &to_tile{_game->state->level->at(
 										_game->state->get_player_pos())};
 									if (!to_tile.is(TileProperty::EXPLORED))
 										to_tile.set_explored();
 									_update_automap = true;
-									_show_confirm_stairs = true;
+								}
+								if (_exit_maze_now) {
 									_game->save_game();
+									_exit_maze_now = false;
+									return EXIT_MODULE;
 								}
-							}
+								_update_automap = true;
+								_update_compass = true;
+								_update_render = true;
+							} else if (_system->input->check(
+										   WindowInput::DOWN, event)) {
+								auto has_moved{_move_backward()};
+								if (!has_moved) {
+									_show_direction_indicatior = false;
+									_show_ouch = true;
+									_ouch->reset_timed();
+								} else {
+									_show_direction_indicatior = true;
+									_reset_direction_indicatior();
+									_spinner_if();
+									_teleport_if();
+									_pit_if();
+									_chute_if();
+
+									auto &to_tile{_game->state->level->at(
+										_game->state->get_player_pos())};
+									if (!to_tile.is(TileProperty::EXPLORED))
+										to_tile.set_explored();
+									_update_automap = true;
+								}
+								if (_exit_maze_now) {
+									_game->save_game();
+									_exit_maze_now = false;
+									return EXIT_MODULE;
+								}
+								_update_automap = true;
+								_update_compass = true;
+								_update_render = true;
+							} else if (_system->input->check(
+										   WindowInput::CANCEL, event))
+								_in_camp = true;
+							else if (_system->input->check(
+										 WindowInput::BACK, event))
+								_in_camp = true;
+							else if (_system->input->check(
+										 WindowInput::CONFIRM, event)) {
+								if (_status_bar->selected) {
+
+									// Remember here status-bar selected is
+									// 1-indexed, not 0-index so we need to
+									// take away 1
+									const auto character_chosen{
+										(_status_bar->selected.value())};
+									_cur_char = &_game->characters.at(
+										_game->state->get_party_characters().at(
+											character_chosen - 1));
+									if (_cur_char) {
+										_display->set_input_mode(
+											WindowInputMode::BROWSE_CHARACTER);
+										_cur_char.value()->set_view(
+											CharacterView::SUMMARY);
+										_in_character = true;
+										continue;
+									}
+								}
+							} else if (_system->input->check(
+										   WindowInput::SHOW_HIDE_CONSOLE,
+										   event))
+								_game->toggle_console();
+							else if (_system->input->check(
+										 WindowInput::MOVE, event)) {
+
+								// Check for Mouse Overs
+								sf::Vector2f mouse_pos{
+									static_cast<sf::Vector2f>(
+										sf::Mouse::getPosition(*_window))};
+								std::optional<std::string> left_selected{
+									_left_icon_panel->set_mouse_selected(
+										(*_display->layout)
+											["engine_base_ui:left_icon_"
+											 "panel"],
+										mouse_pos)};
+								if (left_selected) {
+									_left_icon_panel->selected =
+										left_selected.value();
+									if (_right_icon_panel->selected)
+										_right_icon_panel->selected =
+											std::nullopt;
+									if (_status_bar->selected)
+										_status_bar->selected = std::nullopt;
+								}
+
+								std::optional<std::string> right_selected{
+									_right_icon_panel->set_mouse_selected(
+										(*_display->layout)
+											["engine_base_ui:right_icon_"
+											 "panel"],
+										mouse_pos)};
+								if (right_selected) {
+									_right_icon_panel->selected =
+										right_selected.value();
+									if (_left_icon_panel->selected)
+										_left_icon_panel->selected =
+											std::nullopt;
+									if (_status_bar->selected)
+										_status_bar->selected = std::nullopt;
+								}
+
+								std::optional<unsigned int> status_bar_selected{
+									_status_bar->set_mouse_selected(mouse_pos)};
+								if (status_bar_selected) {
+									_status_bar->selected =
+										status_bar_selected.value();
+									if (_right_icon_panel->selected)
+										_right_icon_panel->selected =
+											std::nullopt;
+									if (_left_icon_panel->selected)
+										_left_icon_panel->selected =
+											std::nullopt;
+								}
+							};
+
+							// If we are in-game, and are on a tile with
+							// note
+							auto current_loc{_game->state->get_player_pos()};
+							auto note{(*_game->state->level)(current_loc)};
+							if ((note.text.length() > 0) && (note.visible)) {
+
+								_show_tile_note = true;
+								_tile_note->update(note);
+							} else
+								_show_tile_note = false;
+							_update_tile_note = false;
 						}
-					} else {
-						if (_system->input->check(WindowInput::LEFT, event)) {
-							_show_direction_indicatior = true;
-							_reset_direction_indicatior();
-							_turn_left();
-							_spinner_if();
-							_update_automap = true;
-							_update_compass = true;
-							_update_render = true;
-						} else if (_system->input->check(
-									   WindowInput::RIGHT, event)) {
-							_show_direction_indicatior = true;
-							_reset_direction_indicatior();
-							_turn_right();
-							_spinner_if();
-							_update_automap = true;
-							_update_compass = true;
-							_update_render = true;
-						} else if (_system->input->check(
-									   WindowInput::UP, event)) {
-							auto has_moved{_move_forward()};
-							if (!has_moved) {
-								_show_direction_indicatior = false;
-								_show_ouch = true;
-								_ouch->reset_timed();
-							} else {
-								_show_direction_indicatior = true;
-								_reset_direction_indicatior();
-								_teleport_if();
-								_spinner_if();
-								_pit_if();
-								_chute_if();
-
-								auto &to_tile{_game->state->level->at(
-									_game->state->get_player_pos())};
-								if (!to_tile.is(TileProperty::EXPLORED))
-									to_tile.set_explored();
-								_update_automap = true;
-							}
-							if (_exit_maze_now) {
-								_game->save_game();
-								_exit_maze_now = false;
-								return EXIT_MODULE;
-							}
-							_update_automap = true;
-							_update_compass = true;
-							_update_render = true;
-						} else if (_system->input->check(
-									   WindowInput::DOWN, event)) {
-							auto has_moved{_move_backward()};
-							if (!has_moved) {
-								_show_direction_indicatior = false;
-								_show_ouch = true;
-								_ouch->reset_timed();
-							} else {
-								_show_direction_indicatior = true;
-								_reset_direction_indicatior();
-								_spinner_if();
-								_teleport_if();
-								_pit_if();
-								_chute_if();
-
-								auto &to_tile{_game->state->level->at(
-									_game->state->get_player_pos())};
-								if (!to_tile.is(TileProperty::EXPLORED))
-									to_tile.set_explored();
-								_update_automap = true;
-							}
-							if (_exit_maze_now) {
-								_game->save_game();
-								_exit_maze_now = false;
-								return EXIT_MODULE;
-							}
-							_update_automap = true;
-							_update_compass = true;
-							_update_render = true;
-						} else if (_system->input->check(
-									   WindowInput::CANCEL, event))
-							_in_camp = true;
-						else if (_system->input->check(
-									 WindowInput::BACK, event))
-							_in_camp = true;
-						else if (_system->input->check(
-									 WindowInput::CONFIRM, event)) {
-							if (_status_bar->selected) {
-
-								// Remember here status-bar selected is
-								// 1-indexed, not 0-index so we need to take
-								// away 1
-								const auto character_chosen{
-									(_status_bar->selected.value())};
-								_cur_char = &_game->characters.at(
-									_game->state->get_party_characters().at(
-										character_chosen - 1));
-								if (_cur_char) {
-									_display->set_input_mode(
-										WindowInputMode::BROWSE_CHARACTER);
-									_cur_char.value()->set_view(
-										CharacterView::SUMMARY);
-									_in_character = true;
-									continue;
-								}
-							}
-						} else if (_system->input->check(
-									   WindowInput::SHOW_HIDE_CONSOLE, event))
-							_game->toggle_console();
-						else if (_system->input->check(
-									 WindowInput::MOVE, event)) {
-
-							// Check for Mouse Overs
-							sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(
-								sf::Mouse::getPosition(*_window))};
-							std::optional<std::string> left_selected{
-								_left_icon_panel->set_mouse_selected(
-									(*_display->layout)
-										["engine_base_ui:left_icon_panel"],
-									mouse_pos)};
-							if (left_selected) {
-								_left_icon_panel->selected =
-									left_selected.value();
-								if (_right_icon_panel->selected)
-									_right_icon_panel->selected = std::nullopt;
-								if (_status_bar->selected)
-									_status_bar->selected = std::nullopt;
-							}
-
-							std::optional<std::string> right_selected{
-								_right_icon_panel->set_mouse_selected(
-									(*_display->layout)
-										["engine_base_ui:right_icon_panel"],
-									mouse_pos)};
-							if (right_selected) {
-								_right_icon_panel->selected =
-									right_selected.value();
-								if (_left_icon_panel->selected)
-									_left_icon_panel->selected = std::nullopt;
-								if (_status_bar->selected)
-									_status_bar->selected = std::nullopt;
-							}
-
-							std::optional<unsigned int> status_bar_selected{
-								_status_bar->set_mouse_selected(mouse_pos)};
-							if (status_bar_selected) {
-								_status_bar->selected =
-									status_bar_selected.value();
-								if (_right_icon_panel->selected)
-									_right_icon_panel->selected = std::nullopt;
-								if (_left_icon_panel->selected)
-									_left_icon_panel->selected = std::nullopt;
-							}
-						};
-
-						// If we are in-game, and are on a tile with note
-						auto current_loc{_game->state->get_player_pos()};
-						auto note{(*_game->state->level)(current_loc)};
-						if ((note.text.length() > 0) && (note.visible)) {
-
-							_show_tile_note = true;
-							_tile_note->update(note);
-						} else
-							_show_tile_note = false;
-						_update_tile_note = false;
 					}
 				}
 			}
+		}
 
-			if (_update_render) {
-				_render->refresh();
-				_update_render = false;
-			}
-			if (_update_automap) {
-				_automap->refresh();
-				_update_automap = false;
-			}
-			if (_update_compass) {
-				_compass->refresh();
-				_update_compass = false;
-			}
-			if (_update_icon_panels) {
-				_left_icon_panel->refresh(_in_camp);
-				_right_icon_panel->refresh(_in_camp);
-				_update_icon_panels = false;
-			}
-			if (_update_status_bar) {
-				_status_bar->refresh();
-				_update_status_bar = false;
-			}
+		if (_update_render) {
+			_render->refresh();
+			_update_render = false;
+		}
+		if (_update_automap) {
+			_automap->refresh();
+			_update_automap = false;
+		}
+		if (_update_compass) {
+			_compass->refresh();
+			_update_compass = false;
+		}
+		if (_update_icon_panels) {
+			_left_icon_panel->refresh(_in_camp);
+			_right_icon_panel->refresh(_in_camp);
+			_update_icon_panels = false;
+		}
+		if (_update_status_bar) {
+			_status_bar->refresh();
+			_update_status_bar = false;
 		}
 
 		_window->clear();
@@ -966,26 +1033,16 @@ auto Sorcery::Engine::_pit_if() -> bool {
 auto Sorcery::Engine::_chute_if() -> bool {
 
 	const auto tile{_game->state->level->at(_game->state->get_player_pos())};
-
 	if (tile.has(TileFeature::CHUTE)) {
 
 		_show_chute = true;
 		_chute->set_valid(true);
 		_chute->reset_timed();
 
-		auto destination{tile.has_teleport().value()};
-		auto dest_level{destination.to_level};
-		Level level{((*_game->levelstore)[dest_level]).value()};
-		_game->state->set_current_level(&level);
-		_game->state->set_player_pos(destination.to_loc);
-		_game->state->set_depth(dest_level);
-		auto &next_tile{_game->state->level->at(destination.to_loc)};
-		next_tile.set_explored();
-		_update_automap = true;
-		_update_compass = true;
-		_update_render = true;
+		_system->set_pause(2000);
+		_pending_chute = true;
 
-		_game->save_game();
+		// Wait for the timer to run out before telporting
 	}
 }
 

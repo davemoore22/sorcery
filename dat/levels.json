@@ -2,7 +2,7 @@
 	"export": {
 		"from": "2022.5",
 		"date": "2022-06-12",
-		"time": "01:02:36"
+		"time": "17:01:41"
 	},
 	"regions": [
 		{
@@ -16255,7 +16255,8 @@
 										"r": 1
 									},
 									{
-										"r": 1
+										"r": 1,
+										"m": 50
 									},
 									{
 										"r": 1
@@ -16545,6 +16546,12 @@
 							"y": 5,
 							"monospaced": false,
 							"__data": "METADATA TELEPORT FROM"
+						},
+						{
+							"x": 0,
+							"y": 2,
+							"monospaced": false,
+							"__data": "METADATA CHUTE TO -10 0 0"
 						}
 					]
 				}

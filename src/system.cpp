@@ -64,7 +64,20 @@ auto Sorcery::System::set_pause(unsigned int milliseconds) -> void {
 	}
 }
 
-auto Sorcery::System::is_paused() -> bool {
+auto Sorcery::System::get_pause() -> bool {
+
+	if (_pause_clock_start && _clock_duration) {
+		auto elapsed{std::chrono::duration_cast<std::chrono::milliseconds>(
+			std::chrono::steady_clock::now() - _pause_clock_start.value())
+						 .count()};
+
+		return (elapsed < _clock_duration.value());
+	} else
+		return false;
+}
+
+// Only returns true when the tiner has expired
+auto Sorcery::System::update_pause() -> bool {
 
 	if (_pause_clock_start && _clock_duration) {
 		auto elapsed{std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -73,9 +86,9 @@ auto Sorcery::System::is_paused() -> bool {
 		if (elapsed > _clock_duration.value()) {
 			_pause_clock_start = std::nullopt;
 			_clock_duration = std::nullopt;
-			return false;
-		} else
 			return true;
+		} else
+			return false;
 	} else
 		return false;
 }

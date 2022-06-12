@@ -45,8 +45,9 @@ namespace Sorcery {
 
 		// Public Methods
 		auto set_pause(unsigned int milliseconds) -> void;
-		auto is_paused() -> bool;
+		auto update_pause() -> bool;
 		auto stop_pause() -> void;
+		auto get_pause() -> bool;
 
 		// Public Members
 		std::unique_ptr<File> files;
@@ -56,10 +57,6 @@ namespace Sorcery {
 		std::unique_ptr<Database> database;
 		std::unique_ptr<ResourceManager> resources;
 		std::unique_ptr<Input> input;
-
-		// also need for each class to contain a list of mouse-sensitive area
-		// based upon component, so that you can check if a mouse cursor is in a
-		// component
 
 	  private:
 		// Private Members
