@@ -25,10 +25,8 @@
 #include "inspect.hpp"
 
 // Standard Constructor
-Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics,
-	Game *game, MenuMode mode)
-	: _system{system}, _display{display}, _graphics{graphics}, _game{game},
-	  _mode{mode} {
+Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, Game *game, MenuMode mode)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _mode{mode} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
@@ -55,8 +53,7 @@ Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics,
 		break;
 	}
 
-	_char_panel =
-		std::make_unique<CharacterPanel>(_system, _display, _graphics);
+	_char_panel = std::make_unique<CharacterPanel>(_system, _display, _graphics);
 }
 
 // Standard Destructor
@@ -68,10 +65,8 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 
 	// Do the menu here when it has access to the game characters
 	_menu.reset();
-	auto menu_type{_mode == MenuMode::TAVERN ? MenuType::CHARACTER_ROSTER
-											 : MenuType::PARTY_CHARACTERS};
-	_menu = std::make_unique<Menu>(
-		_system, _display, _graphics, _game, menu_type, _mode);
+	auto menu_type{_mode == MenuMode::TAVERN ? MenuType::CHARACTER_ROSTER : MenuType::PARTY_CHARACTERS};
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, menu_type, _mode);
 	_cur_char_id = -1;
 
 	// Get the Background Display Components and load them into Display module
@@ -103,40 +98,30 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 		bg_rect.width = std::stoi(bg_c["source_w"].value());
 		bg_rect.height = std::stoi(bg_c["source_h"].value());
 		bg_rect.top = 0;
-		bg_rect.left = std::stoi(bg_c["source_w"].value()) *
-					   std::stoi(bg_c["source_index"].value());
+		bg_rect.left = std::stoi(bg_c["source_w"].value()) * std::stoi(bg_c["source_index"].value());
 
 		_bg.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
 		_bg.setTextureRect(bg_rect);
-		_bg.setScale(std::stof(bg_c["scale_x"].value()),
-			std::stof(bg_c["scale_y"].value()));
-		_bg.setPosition(_display->window->get_x(_bg, bg_c.x),
-			_display->window->get_y(_bg, bg_c.y));
+		_bg.setScale(std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
+		_bg.setPosition(_display->window->get_x(_bg, bg_c.x), _display->window->get_y(_bg, bg_c.y));
 	}
 
 	const Component menu_fc{(*_display->layout)[_screen_key + ":menu_frame"]};
-	_menu_frame = std::make_unique<Frame>(_display->ui_texture,
-		WindowFrameType::NORMAL, menu_fc.w, menu_fc.h, menu_fc.colour,
-		menu_fc.background, menu_fc.alpha);
-	_menu_frame->setPosition(
-		_display->window->get_x(_menu_frame->sprite, menu_fc.x),
+	_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, menu_fc.w, menu_fc.h,
+		menu_fc.colour, menu_fc.background, menu_fc.alpha);
+	_menu_frame->setPosition(_display->window->get_x(_menu_frame->sprite, menu_fc.x),
 		_display->window->get_y(_menu_frame->sprite, menu_fc.y));
 
-	const Component cc_fc{
-		(*_display->layout)[_screen_key + ":character_frame"]};
-	_cur_char_frame =
-		std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL,
-			cc_fc.w, cc_fc.h, cc_fc.colour, cc_fc.background, cc_fc.alpha);
-	_cur_char_frame->setPosition(
-		_display->window->get_x(_cur_char_frame->sprite, cc_fc.x),
+	const Component cc_fc{(*_display->layout)[_screen_key + ":character_frame"]};
+	_cur_char_frame = std::make_unique<Frame>(
+		_display->ui_texture, WindowFrameType::NORMAL, cc_fc.w, cc_fc.h, cc_fc.colour, cc_fc.background, cc_fc.alpha);
+	_cur_char_frame->setPosition(_display->window->get_x(_cur_char_frame->sprite, cc_fc.x),
 		_display->window->get_y(_cur_char_frame->sprite, cc_fc.y));
 
 	const Component p_fc{(*_display->layout)["roster:preview_frame"]};
-	_preview_frame =
-		std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL,
-			p_fc.w, p_fc.h, p_fc.colour, p_fc.background, p_fc.alpha);
-	_preview_frame->setPosition(
-		_display->window->get_x(_preview_frame->sprite, p_fc.x),
+	_preview_frame = std::make_unique<Frame>(
+		_display->ui_texture, WindowFrameType::NORMAL, p_fc.w, p_fc.h, p_fc.colour, p_fc.background, p_fc.alpha);
+	_preview_frame->setPosition(_display->window->get_x(_preview_frame->sprite, p_fc.x),
 		_display->window->get_y(_preview_frame->sprite, p_fc.y));
 
 	// Clear the window
@@ -149,8 +134,7 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 	}
 
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> selected{
-		_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->items.begin()};
 
 	// And do the main loop
 	sf::Event event{};
@@ -181,34 +165,25 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 				else if (_system->input->check(WindowInput::DOWN, event))
 					selected = _menu->choose_next();
 				else if (_system->input->check(WindowInput::MOVE, event))
-					selected =
-						_menu->set_mouse_selected(static_cast<sf::Vector2f>(
-							sf::Mouse::getPosition(*_window)));
+					selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 				else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
 					// We have selected something from the menu
 					if (selected) {
 						const MenuItem option_chosen{(*selected.value()).item};
-						if ((option_chosen == MenuItem::ET_TRAIN) ||
-							(option_chosen == MenuItem::CA_TAVERN) ||
-							(option_chosen == MenuItem::CA_TEMPLE) ||
-							(option_chosen == MenuItem::CA_INN) ||
-							(option_chosen == MenuItem::CAMP) ||
-							(option_chosen == MenuItem::CA_SHOP)) {
-							_display->set_input_mode(
-								WindowInputMode::NAVIGATE_MENU);
+						if ((option_chosen == MenuItem::ET_TRAIN) || (option_chosen == MenuItem::CA_TAVERN) ||
+							(option_chosen == MenuItem::CA_TEMPLE) || (option_chosen == MenuItem::CA_INN) ||
+							(option_chosen == MenuItem::CAMP) || (option_chosen == MenuItem::CA_SHOP)) {
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							_cur_char = std::nullopt;
 							return std::nullopt;
 						} else {
 
-							const auto character_chosen{
-								(*selected.value()).index};
+							const auto character_chosen{(*selected.value()).index};
 							_cur_char = &_game->characters.at(character_chosen);
 							if (_cur_char) {
-								_display->set_input_mode(
-									WindowInputMode::BROWSE_CHARACTER);
-								_cur_char.value()->set_view(
-									CharacterView::SUMMARY);
+								_display->set_input_mode(WindowInputMode::BROWSE_CHARACTER);
+								_cur_char.value()->set_view(CharacterView::SUMMARY);
 							}
 						}
 					}
@@ -221,11 +196,9 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 						((*selected.value()).item != MenuItem::CA_TEMPLE) &&
 						((*selected.value()).item != MenuItem::CA_INN) &&
 						((*selected.value()).item != MenuItem::CAMP)) {
-						const auto character_chosen{
-							static_cast<int>((*selected.value()).index)};
+						const auto character_chosen{static_cast<int>((*selected.value()).index)};
 						if (character_chosen != _cur_char_id) {
-							auto character{
-								&_game->characters.at(character_chosen)};
+							auto character{&_game->characters.at(character_chosen)};
 							_char_panel->set(character);
 							_cur_char_id = character_chosen;
 						}
@@ -249,28 +222,21 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 				} else if (_system->input->check(WindowInput::CONFIRM, event)) {
 					_cur_char.value()->right_view();
 				} else if (_system->input->check(WindowInput::UP, event)) {
-					if (_cur_char.value()->get_view() ==
-						CharacterView::MAGE_SPELLS)
+					if (_cur_char.value()->get_view() == CharacterView::MAGE_SPELLS)
 						_cur_char.value()->dec_hl_spell(SpellType::MAGE);
-					else if (_cur_char.value()->get_view() ==
-							 CharacterView::PRIEST_SPELLS)
+					else if (_cur_char.value()->get_view() == CharacterView::PRIEST_SPELLS)
 						_cur_char.value()->dec_hl_spell(SpellType::PRIEST);
 
 				} else if (_system->input->check(WindowInput::DOWN, event)) {
-					if (_cur_char.value()->get_view() ==
-						CharacterView::MAGE_SPELLS)
+					if (_cur_char.value()->get_view() == CharacterView::MAGE_SPELLS)
 						_cur_char.value()->inc_hl_spell(SpellType::MAGE);
-					else if (_cur_char.value()->get_view() ==
-							 CharacterView::PRIEST_SPELLS)
+					else if (_cur_char.value()->get_view() == CharacterView::PRIEST_SPELLS)
 						_cur_char.value()->inc_hl_spell(SpellType::PRIEST);
 				} else if (_system->input->check(WindowInput::MOVE, event)) {
-					if (_cur_char.value()->check_for_mouse_move(sf::Vector2f(
-							static_cast<float>(
-								sf::Mouse::getPosition(*_window).x),
-							static_cast<float>(
-								sf::Mouse::getPosition(*_window).y)))) {
-						_cur_char.value()->set_view(
-							_cur_char.value()->get_view());
+					if (_cur_char.value()->check_for_mouse_move(
+							sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
+								static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
+						_cur_char.value()->set_view(_cur_char.value()->get_view());
 					}
 				}
 			}
@@ -332,8 +298,7 @@ auto Sorcery::Inspect::_draw() -> void {
 			// Character Preview
 			_window->draw(*_preview_frame);
 			if (_char_panel->valid) {
-				_char_panel->setPosition(
-					(*_display->layout)[_screen_key + ":info_panel"].x,
+				_char_panel->setPosition((*_display->layout)[_screen_key + ":info_panel"].x,
 					(*_display->layout)[_screen_key + ":info_panel"].y);
 				_window->draw(*_char_panel);
 			}
@@ -342,13 +307,11 @@ auto Sorcery::Inspect::_draw() -> void {
 			_window->draw(*_cur_char_frame);
 
 			_cur_char.value()->setPosition(
-				(*_display->layout)[_screen_key + ":character"].x,
-				(*_display->layout)[_screen_key + ":character"].y);
+				(*_display->layout)[_screen_key + ":character"].x, (*_display->layout)[_screen_key + ":character"].y);
 			_cur_char.value()->update();
 			_window->draw(*_cur_char.value());
 		}
-	} else if (_display->get_input_mode() ==
-			   WindowInputMode::CONFIRM_DELETE_CHARACTER) {
+	} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_DELETE_CHARACTER) {
 
 		// Menu Frame
 		_window->draw(*_menu_frame);
@@ -357,16 +320,14 @@ auto Sorcery::Inspect::_draw() -> void {
 		// And the Menu
 		_menu->generate((*_display->layout)[_screen_key + ":menu"]);
 		const sf::Vector2f menu_pos(
-			(*_display->layout)[_screen_key + ":menu"].x,
-			(*_display->layout)[_screen_key + ":menu"].y);
+			(*_display->layout)[_screen_key + ":menu"].x, (*_display->layout)[_screen_key + ":menu"].y);
 		_menu->setPosition(menu_pos);
 		_window->draw(*_menu);
 
 		// Character Preview
 		if (_char_panel->valid) {
 			_char_panel->setPosition(
-				(*_display->layout)[_screen_key + ":info_panel"].x,
-				(*_display->layout)[_screen_key + ":info_panel"].y);
+				(*_display->layout)[_screen_key + ":info_panel"].x, (*_display->layout)[_screen_key + ":info_panel"].y);
 			_window->draw(*_char_panel);
 		}
 	} else {
@@ -378,16 +339,14 @@ auto Sorcery::Inspect::_draw() -> void {
 		// And the Menu
 		_menu->generate((*_display->layout)[_screen_key + ":menu"]);
 		const sf::Vector2f menu_pos(
-			(*_display->layout)[_screen_key + ":menu"].x,
-			(*_display->layout)[_screen_key + ":menu"].y);
+			(*_display->layout)[_screen_key + ":menu"].x, (*_display->layout)[_screen_key + ":menu"].y);
 		_menu->setPosition(menu_pos);
 		_window->draw(*_menu);
 
 		// Character Preview
 		if (_char_panel->valid) {
 			_char_panel->setPosition(
-				(*_display->layout)[_screen_key + ":info_panel"].x,
-				(*_display->layout)[_screen_key + ":info_panel"].y);
+				(*_display->layout)[_screen_key + ":info_panel"].x, (*_display->layout)[_screen_key + ":info_panel"].y);
 			_window->draw(*_char_panel);
 		}
 	}

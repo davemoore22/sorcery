@@ -7,7 +7,7 @@ IndentWidth: 4
 UseTab: Always
 TabWidth: 4
 ReflowComments: true
-ColumnLimit: 80
+ColumnLimit: 120
 AllowShortFunctionsOnASingleLine: Empty
 ConstructorInitializerIndentWidth: 4
 AlignAfterOpenBracket: DontAlign

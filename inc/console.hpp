@@ -38,8 +38,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Console(tgui::Gui *gui, System *system, Display *display,
-			Graphics *graphics, Game *game);
+		Console(tgui::Gui *gui, System *system, Display *display, Graphics *graphics, Game *game);
 		Console() = delete;
 
 		// Public Members

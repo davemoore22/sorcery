@@ -41,8 +41,7 @@ namespace Sorcery {
 
 	  public:
 		// Standard Constructor
-		Temple(
-			System *system, Display *display, Graphics *graphics, Game *game);
+		Temple(System *system, Display *display, Graphics *graphics, Game *game);
 		Temple() = delete;
 
 		// Standard Destructor

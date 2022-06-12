@@ -37,16 +37,11 @@ namespace Sorcery {
 		TextureStore() = delete;
 
 		// Overload [] operator
-		auto operator[](const unsigned int index) const
-			-> std::optional<Texture>;
+		auto operator[](const unsigned int index) const -> std::optional<Texture>;
 
 		// Public Methods
-		auto get(const unsigned int index,
-			const GraphicsTextureType texture_type) const
-			-> std::optional<sf::Sprite>;
-		auto get(const std::string name,
-			const GraphicsTextureType texture_type) const
-			-> std::optional<sf::Sprite>;
+		auto get(const unsigned int index, const GraphicsTextureType texture_type) const -> std::optional<sf::Sprite>;
+		auto get(const std::string name, const GraphicsTextureType texture_type) const -> std::optional<sf::Sprite>;
 		auto get_atlas(const Rect rect, bool feature) const -> sf::Sprite;
 
 	  private:
@@ -67,8 +62,7 @@ namespace Sorcery {
 		// Private Methods
 		auto _get(const unsigned int index) const -> std::optional<Texture>;
 		auto _get(const std::string name) const -> std::optional<Texture>;
-		auto _get_rect(unsigned int index,
-			GraphicsTextureType texture_type) const -> sf::IntRect;
+		auto _get_rect(unsigned int index, GraphicsTextureType texture_type) const -> sf::IntRect;
 		auto _load(const std::filesystem::path filename) -> bool;
 	};
 } // namespace Sorcery

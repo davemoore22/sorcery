@@ -9088,7 +9088,7 @@
 			"name": "ouch",
 			"x": "35",
 			"y": "10",
-			"w": "9",
+			"w": "30",
 			"type": "dialog",
 			"drawmode": "manual",
 			"alpha": "200",

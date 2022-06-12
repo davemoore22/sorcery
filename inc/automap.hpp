@@ -38,8 +38,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		AutoMap(System *system, Display *display, Graphics *graphics,
-			Game *game, Component layout);
+		AutoMap(System *system, Display *display, Graphics *graphics, Game *game, Component layout);
 		AutoMap() = delete;
 
 		// Public Members
@@ -49,10 +48,8 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
-		auto virtual draw(
-			sf::RenderTarget &target, sf::RenderStates states) const -> void;
-		auto _draw_player(MapDirection direction, int x, int y, float scaling)
-			-> void;
+		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto _draw_player(MapDirection direction, int x, int y, float scaling) -> void;
 		auto _draw_tile(Tile &tile, int x, int y, float scaling) -> void;
 
 		// Private Members

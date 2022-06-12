@@ -25,9 +25,8 @@
 #include "statusbar.hpp"
 
 // Standard Constructor
-Sorcery::StatusBar::StatusBar(System *system, Display *display,
-	Graphics *graphics, Game *game, std::optional<Component> layout,
-	std::optional<Component> frame)
+Sorcery::StatusBar::StatusBar(System *system, Display *display, Graphics *graphics, Game *game,
+	std::optional<Component> layout, std::optional<Component> frame)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	_texts.clear();
@@ -43,20 +42,17 @@ Sorcery::StatusBar::StatusBar(System *system, Display *display,
 	else
 		_frame_c = Component((*_display->layout)["status_bar:outer_frame"]);
 
-	_rtexture.create(_layout.w * _display->window->get_cw(),
-		_layout.h * _display->window->get_ch());
+	_rtexture.create(_layout.w * _display->window->get_cw(), _layout.h * _display->window->get_ch());
 	_rtexture.setSmooth(true);
 	_rtexture.clear();
 
 	// Create the Outside Fram
-	_frame = std::make_unique<Frame>(_display->ui_texture,
-		WindowFrameType::NORMAL, _frame_c.w, _frame_c.h, _frame_c.colour,
-		_frame_c.background, _frame_c.alpha);
+	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _frame_c.w, _frame_c.h,
+		_frame_c.colour, _frame_c.background, _frame_c.alpha);
 
 	// Render the background (inset by the frame)
 	sf::RectangleShape rect(
-		sf::Vector2f((_display->window->get_cw() * (_layout.w)) - 32,
-			(_display->window->get_ch() * (_layout.h)) - 32));
+		sf::Vector2f((_display->window->get_cw() * (_layout.w)) - 32, (_display->window->get_ch() * (_layout.h)) - 32));
 	rect.setFillColor(sf::Color(0, 0, 0, _layout.alpha));
 	rect.setPosition(16, 16);
 	_rtexture.draw(rect);
@@ -104,8 +100,7 @@ auto Sorcery::StatusBar::refresh() -> void {
 	auto party{_game->state->get_party_characters()};
 	for (auto _id : party) {
 		auto character{_game->characters[_id]};
-		auto summary{std::make_shared<CharacterSummary>(
-			_system, _display, _graphics, &character, count + 1)};
+		auto summary{std::make_shared<CharacterSummary>(_system, _display, _graphics, &character, count + 1)};
 		summary->setPosition(x + summary_offset_x, y);
 		summary->set_local_bounds(x + summary_offset_x, y + 12);
 		y += summary_offset_y;
@@ -120,35 +115,30 @@ auto Sorcery::StatusBar::set_selected_background() -> void {
 	if (selected) {
 
 		// Find the text that is highlighted (note we are 1-indexed here)
-		auto it{std::find_if(
-			_summaries.begin(), _summaries.end(), [&](auto &summary) {
-				return summary->get_position() == selected.value();
-			})};
+		auto it{std::find_if(_summaries.begin(), _summaries.end(), [&](auto &summary) {
+			return summary->get_position() == selected.value();
+		})};
 		if (it != _summaries.end()) {
 			auto &summary{*it};
 
 			_selected_bg = sf::RectangleShape(
-				sf::Vector2f(summary->get_global_bounds().width,
-					summary->get_global_bounds().height));
+				sf::Vector2f(summary->get_global_bounds().width, summary->get_global_bounds().height));
 			_selected_bg.setFillColor(_graphics->animation->selected_colour);
 
 			// Bounds is 0-indexed
-			_selected_bg.setPosition(bounds.at(selected.value() - 1).left,
-				bounds.at(selected.value() - 1).top);
+			_selected_bg.setPosition(bounds.at(selected.value() - 1).left, bounds.at(selected.value() - 1).top);
 		}
 	}
 }
 
-auto Sorcery::StatusBar::set_mouse_selected(sf::Vector2f mouse_pos)
-	-> std::optional<unsigned int> {
+auto Sorcery::StatusBar::set_mouse_selected(sf::Vector2f mouse_pos) -> std::optional<unsigned int> {
 	if (bounds.size() > 0) {
 
 		const sf::Vector2f global_pos{this->getPosition()};
 		mouse_pos -= global_pos;
-		auto it{std::find_if(
-			bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) {
-				return item.contains(mouse_pos);
-			})};
+		auto it{std::find_if(bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) {
+			return item.contains(mouse_pos);
+		})};
 		if (it != bounds.end())
 			return std::distance(bounds.begin(), it) + 1;
 		else
@@ -157,8 +147,7 @@ auto Sorcery::StatusBar::set_mouse_selected(sf::Vector2f mouse_pos)
 		return std::nullopt;
 }
 
-auto Sorcery::StatusBar::draw(
-	sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::StatusBar::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
 	states.transform *= getTransform();
 	target.draw(sprite, states);
 
@@ -183,10 +172,8 @@ auto Sorcery::StatusBar::_generate() -> void {
 				text.setCharacterSize(component.size);
 				text.setFillColor(sf::Color(component.colour));
 				text.setString((*_display->string)[component.string_key]);
-				const auto x{component.x == -1 ? _display->window->centre.x
-											   : component.x};
-				const auto y{component.y == -1 ? _display->window->centre.y
-											   : component.y};
+				const auto x{component.x == -1 ? _display->window->centre.x : component.x};
+				const auto y{component.y == -1 ? _display->window->centre.y : component.y};
 				const auto offset_x{[&] {
 					if (component["offset_x"])
 						return std::stoi(component["offset_x"].value());
@@ -201,8 +188,7 @@ auto Sorcery::StatusBar::_generate() -> void {
 				}()};
 				if (component.justification == Justification::CENTRE) {
 					text.setPosition(x + offset_x, y + offset_y);
-					text.setOrigin(text.getLocalBounds().width / 2.0f,
-						text.getLocalBounds().height / 2.0f);
+					text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 				} else if (component.justification == Justification::RIGHT) {
 					text.setPosition(x + offset_x, y + offset_y);
 					const sf::FloatRect bounds{text.getLocalBounds()};

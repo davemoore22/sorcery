@@ -39,11 +39,9 @@ auto Sorcery::AttractMode::generate() -> void {
 		data = data_temp;
 
 		// Work out the new size
-		const auto number_to_display{
-			static_cast<unsigned int>(data_temp.size())};
+		const auto number_to_display{static_cast<unsigned int>(data_temp.size())};
 		const sf::Vector2f texture_size(
-			CREATURE_TILE_SIZE * number_to_display +
-				(ATTRACT_MODE_TILE_SPACING * (number_to_display - 1)),
+			CREATURE_TILE_SIZE * number_to_display + (ATTRACT_MODE_TILE_SPACING * (number_to_display - 1)),
 			CREATURE_TILE_SIZE);
 
 		// Don't worry about previous contents of this
@@ -53,9 +51,7 @@ auto Sorcery::AttractMode::generate() -> void {
 		// Get the Required Sprites
 		auto sprite_x{0u};
 		for (auto i : data) {
-			sf::Sprite sprite{
-				_graphics->textures->get(i, GraphicsTextureType::KNOWN_CREATURE)
-					.value()};
+			sf::Sprite sprite{_graphics->textures->get(i, GraphicsTextureType::KNOWN_CREATURE).value()};
 			sprite.setPosition(sprite_x, 0);
 			_rtexture.draw(sprite, sf::BlendAlpha);
 			sprite_x += (CREATURE_TILE_SIZE + ATTRACT_MODE_TILE_SPACING);
@@ -76,8 +72,7 @@ auto Sorcery::AttractMode::set_alpha(unsigned int alpha) -> void {
 		_sprite.setColor(sf::Color(255, 255, 255, alpha));
 }
 
-auto Sorcery::AttractMode::draw(
-	sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::AttractMode::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	if (data_temp.size() > 0) {
 		states.transform *= getTransform();

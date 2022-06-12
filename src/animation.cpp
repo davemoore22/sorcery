@@ -25,8 +25,7 @@
 #include "animation.hpp"
 
 // Standard Constructor
-Sorcery::Animation::Animation(System *system, Display *display)
-	: _system{system}, _display{display} {
+Sorcery::Animation::Animation(System *system, Display *display) : _system{system}, _display{display} {
 
 	_finished = false;
 	_attract_mode.clear();
@@ -34,16 +33,11 @@ Sorcery::Animation::Animation(System *system, Display *display)
 
 	// Setup Colour Cycling
 	_colcyc_dir = false;
-	_selected_gradient[0.0f] = sf::Color(std::stoull(
-		(*_display->layout)["global:selected_item"]["minimum_background"]
-			.value(),
-		0, 16));
-	_selected_gradient[1.0f] = sf::Color(std::stoull(
-		(*_display->layout)["global:selected_item"]["maximum_background"]
-			.value(),
-		0, 16));
-	_colcyc_step =
-		std::stod((*_display->layout)["global:selected_item"]["step"].value());
+	_selected_gradient[0.0f] =
+		sf::Color(std::stoull((*_display->layout)["global:selected_item"]["minimum_background"].value(), 0, 16));
+	_selected_gradient[1.0f] =
+		sf::Color(std::stoull((*_display->layout)["global:selected_item"]["maximum_background"].value(), 0, 16));
+	_colcyc_step = std::stod((*_display->layout)["global:selected_item"]["step"].value());
 }
 
 // Standard Destructor
@@ -77,8 +71,7 @@ auto Sorcery::Animation::start_attract_ani_threads() -> void {
 
 	start_attract();
 	if (!_attract_thread.joinable())
-		_attract_thread =
-			std::jthread(&Animation::_animate_attract, this, false);
+		_attract_thread = std::jthread(&Animation::_animate_attract, this, false);
 }
 
 auto Sorcery::Animation::start_colcycl_threads() -> void {
@@ -123,8 +116,7 @@ auto Sorcery::Animation::_animate_attract(bool force) -> void {
 		do {
 			_current_time = std::chrono::system_clock::now();
 			const auto time_elapsed{_current_time - _last_attract};
-			const auto time_elapsed_sec{
-				std::chrono::duration_cast<std::chrono::seconds>(time_elapsed)};
+			const auto time_elapsed_sec{std::chrono::duration_cast<std::chrono::seconds>(time_elapsed)};
 			if (time_elapsed_sec.count() > 5)
 				if (_allow_attract)
 					_do_attract();
@@ -160,8 +152,7 @@ auto Sorcery::Animation::_do_attract() -> void {
 	for (auto i = 0u; i < num; i++) {
 		do {
 			sprite_index = (*_system->random)[RandomType::ZERO_TO_437];
-		} while (std::find(_attract_mode.begin(), _attract_mode.end(),
-					 sprite_index) != _attract_mode.end());
+		} while (std::find(_attract_mode.begin(), _attract_mode.end(), sprite_index) != _attract_mode.end());
 		_attract_mode.push_back(sprite_index);
 	}
 	attract_alpha = 0;

@@ -31,15 +31,13 @@ Sorcery::Text::Text() {
 	_text = sf::Text();
 }
 
-Sorcery::Text::Text(System *system, Display *display)
-	: _system{system}, _display{display} {
+Sorcery::Text::Text(System *system, Display *display) : _system{system}, _display{display} {
 
 	_text = sf::Text();
 }
 
-Sorcery::Text::Text(System *system, Display *display,
-	const std::optional<Component> component = std::nullopt,
-	const int bits = -1)
+Sorcery::Text::Text(
+	System *system, Display *display, const std::optional<Component> component = std::nullopt, const int bits = -1)
 	: _system{system}, _display{display} {
 
 	_text = sf::Text();
@@ -47,20 +45,15 @@ Sorcery::Text::Text(System *system, Display *display,
 
 		Component layout{component.value()};
 
-		if (bits |
-			magic_enum::enum_integer<ComponentElement>(ComponentElement::FONT))
+		if (bits | magic_enum::enum_integer<ComponentElement>(ComponentElement::FONT))
 			_text.setFont(_system->resources->fonts[layout.font]);
-		if (bits |
-			magic_enum::enum_integer<ComponentElement>(ComponentElement::SIZE))
+		if (bits | magic_enum::enum_integer<ComponentElement>(ComponentElement::SIZE))
 			_text.setCharacterSize(layout.size);
-		if (bits | magic_enum::enum_integer<ComponentElement>(
-					   ComponentElement::COLOUR))
+		if (bits | magic_enum::enum_integer<ComponentElement>(ComponentElement::COLOUR))
 			_text.setFillColor(sf::Color(layout.colour));
-		if (bits | magic_enum::enum_integer<ComponentElement>(
-					   ComponentElement::STRING))
+		if (bits | magic_enum::enum_integer<ComponentElement>(ComponentElement::STRING))
 			_text.setString((*_display->string)[layout.string_key]);
-		if (bits | magic_enum::enum_integer<ComponentElement>(
-					   ComponentElement::OFFSET)) {
+		if (bits | magic_enum::enum_integer<ComponentElement>(ComponentElement::OFFSET)) {
 			const auto offset_x{[&] {
 				if (layout["offset_x"])
 					return std::stoi(layout["offset_x"].value());
@@ -75,8 +68,7 @@ Sorcery::Text::Text(System *system, Display *display,
 			}()};
 			_text.setPosition(offset_x, offset_y);
 		}
-		if (bits | magic_enum::enum_integer<ComponentElement>(
-					   ComponentElement::ORIGIN)) {
+		if (bits | magic_enum::enum_integer<ComponentElement>(ComponentElement::ORIGIN)) {
 			const auto origin_x{[&] {
 				if (layout["origin_x"])
 					return std::stoi(layout["origin_x"].value());
@@ -91,18 +83,15 @@ Sorcery::Text::Text(System *system, Display *display,
 			}()};
 			_text.setPosition(origin_x, origin_y);
 		}
-		if (bits | magic_enum::enum_integer<ComponentElement>(
-					   ComponentElement::O_COLOUR)) {
+		if (bits | magic_enum::enum_integer<ComponentElement>(ComponentElement::O_COLOUR)) {
 			const auto outline_colour{[&] {
 				if (layout["outline_colour"])
-					return sf::Color(
-						std::stoull(layout["outline_colour"].value(), 0, 16));
+					return sf::Color(std::stoull(layout["outline_colour"].value(), 0, 16));
 				else
 					return sf::Color(sf::Color::Black);
 			}()};
 		}
-		if (bits | magic_enum::enum_integer<ComponentElement>(
-					   ComponentElement::O_THICKNESS)) {
+		if (bits | magic_enum::enum_integer<ComponentElement>(ComponentElement::O_THICKNESS)) {
 			const auto outline_thickness{[&] {
 				if (layout["origin_y"])
 					return std::stoi(layout["outline_thickness"].value());
@@ -111,13 +100,11 @@ Sorcery::Text::Text(System *system, Display *display,
 			}()};
 			_text.setOutlineThickness(outline_thickness);
 		}
-		if (bits | magic_enum::enum_integer<ComponentElement>(
-					   ComponentElement::JUSTIFICATION)) {
+		if (bits | magic_enum::enum_integer<ComponentElement>(ComponentElement::JUSTIFICATION)) {
 
 			if (layout.justification == Justification::CENTRE) {
 				_text.setPosition(0, 0);
-				_text.setOrigin(_text.getLocalBounds().width / 2.0f,
-					_text.getLocalBounds().height / 2.0f);
+				_text.setOrigin(_text.getLocalBounds().width / 2.0f, _text.getLocalBounds().height / 2.0f);
 			} else if (layout.justification == Justification::RIGHT) {
 				_text.setPosition(0, 0);
 				const sf::FloatRect bounds{_text.getLocalBounds()};
@@ -129,9 +116,8 @@ Sorcery::Text::Text(System *system, Display *display,
 
 			// Handle varying height of proportional fonts
 			if (layout.font == FontType::PROPORTIONAL)
-				_text.setPosition(_text.getPosition().x,
-					_text.getPosition().y -
-						((layout.size - _text.getLocalBounds().height) / 2));
+				_text.setPosition(
+					_text.getPosition().x, _text.getPosition().y - ((layout.size - _text.getLocalBounds().height) / 2));
 		}
 	}
 }
@@ -191,8 +177,7 @@ auto Sorcery::Text::set_string(const std::string value) -> void {
 	_text.setString(value);
 }
 
-auto Sorcery::Text::draw(
-	sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::Text::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 	target.draw(_text, states);

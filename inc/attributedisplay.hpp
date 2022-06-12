@@ -42,8 +42,8 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		AttributeDisplay(System *system, Display *display, Graphics *graphics,
-			Character *character, Alignment alignment);
+		AttributeDisplay(
+			System *system, Display *display, Graphics *graphics, Character *character, Alignment alignment);
 		AttributeDisplay() = default;
 
 		// Copy Constructors
@@ -65,8 +65,7 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
-		auto virtual draw(
-			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _get_bar(CharacterAttribute attribute) -> sf::RectangleShape;
 		auto _get_text(CharacterAttribute attribute) -> sf::Text;
 

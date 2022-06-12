@@ -38,8 +38,7 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 		_load_game();
 	}
 
-	levelstore =
-		std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
+	levelstore = std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
 }
 
 auto Sorcery::Game::get_id() -> unsigned int {
@@ -74,8 +73,7 @@ auto Sorcery::Game::delete_character(unsigned int character_id) -> void {
 	_system->database->delete_character(_id, character_id);
 }
 
-auto Sorcery::Game::add_console_message(
-	std::string text, MessageType type = MessageType::STANDARD) -> void {
+auto Sorcery::Game::add_console_message(std::string text, MessageType type = MessageType::STANDARD) -> void {
 
 	console_log.emplace_back(ConsoleMessage{type, text});
 }
@@ -100,8 +98,7 @@ auto Sorcery::Game::_clear() -> void {
 	characters.clear();
 	_characters_ids.clear();
 	state = std::make_unique<State>(_system);
-	levelstore =
-		std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
+	levelstore = std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
 
 	console_log.clear();
 
@@ -124,16 +121,14 @@ auto Sorcery::Game::_load_game() -> void {
 
 	// Get Game and State Data
 	console_log.clear();
-	auto [id, key, status, start_time, last_time, data] =
-		_system->database->load_game_state().value();
+	auto [id, key, status, start_time, last_time, data] = _system->database->load_game_state().value();
 	_id = id;
 	_key = key;
 	_status = status;
 	_start_time = start_time;
 	_last_time = last_time;
 	state = std::make_unique<State>(_system);
-	levelstore =
-		std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
+	levelstore = std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
 	if (data.length() > 0) {
 		std::stringstream ss;
 		ss.str(data);
@@ -192,8 +187,7 @@ auto Sorcery::Game::_save_characters() -> void {
 		}
 		const auto character_data{ss.str()};
 
-		_system->database->update_character(
-			_id, character_id, character.get_name(), character_data);
+		_system->database->update_character(_id, character_id, character.get_name(), character_data);
 	}
 }
 
@@ -232,12 +226,10 @@ auto Sorcery::Game::add_character(Character &character) -> unsigned int {
 	}
 	const auto character_data{ss.str()};
 
-	return _system->database->add_character(
-		_id, character.get_name(), character_data);
+	return _system->database->add_character(_id, character.get_name(), character_data);
 }
 
-auto Sorcery::Game::update_character(unsigned int game_id,
-	unsigned int character_id, Character &character) -> bool {
+auto Sorcery::Game::update_character(unsigned int game_id, unsigned int character_id, Character &character) -> bool {
 	std::stringstream ss;
 	{
 		cereal::JSONOutputArchive archive(ss);
@@ -245,8 +237,7 @@ auto Sorcery::Game::update_character(unsigned int game_id,
 	}
 	const auto character_data{ss.str()};
 
-	return _system->database->update_character(
-		game_id, character_id, character.get_name(), character_data);
+	return _system->database->update_character(game_id, character_id, character.get_name(), character_data);
 }
 
 auto Sorcery::Game::_load_characters() -> void {

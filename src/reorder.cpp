@@ -25,22 +25,18 @@
 #include "reorder.hpp"
 
 // Standard Constructor
-Sorcery::Reorder::Reorder(System *system, Display *display, Graphics *graphics,
-	Game *game, MenuMode mode)
-	: _system{system}, _display{display}, _graphics{graphics}, _game{game},
-	  _mode{mode} {
+Sorcery::Reorder::Reorder(System *system, Display *display, Graphics *graphics, Game *game, MenuMode mode)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _mode{mode} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
 	// Setup Custom Components
-	_menu = std::make_unique<Menu>(
-		_system, _display, _graphics, _game, MenuType::PARTY_CHARACTER_NAMES);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::PARTY_CHARACTER_NAMES);
 	_candidate_c = Component{(*_display->layout)["reorder:candidate_party"]};
 
 	// Modules
-	_status_bar =
-		std::make_unique<StatusBar>(_system, _display, _graphics, _game);
+	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
 }
 
 // Standard Destructor
@@ -66,8 +62,7 @@ auto Sorcery::Reorder::start() -> std::optional<std::vector<unsigned int>> {
 
 	// Generate the Custom Components
 	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
-	_status_bar->setPosition(
-		_display->window->get_x(_status_bar->sprite, status_bar_c.x),
+	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
 		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
 
 	// Play the background movie!
@@ -78,8 +73,7 @@ auto Sorcery::Reorder::start() -> std::optional<std::vector<unsigned int>> {
 
 	// And do the main loop
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> option{
-		_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
@@ -110,8 +104,7 @@ auto Sorcery::Reorder::start() -> std::optional<std::vector<unsigned int>> {
 			else if (_system->input->check(WindowInput::DOWN, event))
 				option = _menu->choose_next();
 			else if (_system->input->check(WindowInput::MOVE, event))
-				option = _menu->set_mouse_selected(static_cast<sf::Vector2f>(
-					sf::Mouse::getPosition(*_window)));
+				option = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 			else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
 				if (option) {
@@ -180,8 +173,7 @@ auto Sorcery::Reorder::_draw() -> void {
 	}
 
 	_menu->generate((*_display->layout)["reorder:menu"]);
-	const sf::Vector2f menu_pos((*_display->layout)["reorder:menu"].x,
-		(*_display->layout)["reorder:menu"].y);
+	const sf::Vector2f menu_pos((*_display->layout)["reorder:menu"].x, (*_display->layout)["reorder:menu"].y);
 	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 

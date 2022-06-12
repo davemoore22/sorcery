@@ -35,9 +35,7 @@ Sorcery::LevelStore::LevelStore(System *system) : _system{system} {
 }
 
 // Standard Constructor
-Sorcery::LevelStore::LevelStore(
-	System *system, const std::filesystem::path filename)
-	: _system{system} {
+Sorcery::LevelStore::LevelStore(System *system, const std::filesystem::path filename) : _system{system} {
 
 	// Prepare the level store
 	_levels.clear();
@@ -47,8 +45,7 @@ Sorcery::LevelStore::LevelStore(
 }
 
 // Overload [] Operator(const)
-auto Sorcery::LevelStore::operator[](const int depth) const
-	-> std::optional<Level> {
+auto Sorcery::LevelStore::operator[](const int depth) const -> std::optional<Level> {
 
 	auto level{_get(depth)};
 	return level;
@@ -76,8 +73,7 @@ auto Sorcery::LevelStore::_load(const std::filesystem::path filename) -> bool {
 
 	try {
 
-		if (std::ifstream file{filename.string(), std::ifstream::binary};
-			file.good()) {
+		if (std::ifstream file{filename.string(), std::ifstream::binary}; file.good()) {
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
@@ -105,8 +101,7 @@ auto Sorcery::LevelStore::_load(const std::filesystem::path filename) -> bool {
 					auto height{bounds["height"].asInt()};
 
 					// Create the Level
-					Level level{MapType::MAZE, dungeon, depth,
-						Coordinate(x_origin, y_origin), Size(width, height)};
+					Level level{MapType::MAZE, dungeon, depth, Coordinate(x_origin, y_origin), Size(width, height)};
 					level.load(rows, notes);
 
 					// Store it
@@ -121,8 +116,7 @@ auto Sorcery::LevelStore::_load(const std::filesystem::path filename) -> bool {
 	}
 
 	catch (std::exception &e) {
-		Error error{
-			SystemError::JSON_PARSE_ERROR, e, "error loading levels.json!"};
+		Error error{SystemError::JSON_PARSE_ERROR, e, "error loading levels.json!"};
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}

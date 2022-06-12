@@ -33,8 +33,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		IconStore(System *system, Component layout,
-			const std::filesystem::path filename);
+		IconStore(System *system, Component layout, const std::filesystem::path filename);
 		IconStore() = delete;
 
 		// Overload [] operator

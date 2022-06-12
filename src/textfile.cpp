@@ -25,13 +25,11 @@
 #include "textfile.hpp"
 
 // Standard Constructor
-Sorcery::TextFile::TextFile(std::filesystem::path text_file_path)
-	: _text_fp{text_file_path} {
+Sorcery::TextFile::TextFile(std::filesystem::path text_file_path) : _text_fp{text_file_path} {
 
 	// Attempt to load the text file specified
 	width = 0;
-	if (std::ifstream file{CSTR(text_file_path.string()), std::ifstream::in};
-		file.good()) {
+	if (std::ifstream file{CSTR(text_file_path.string()), std::ifstream::in}; file.good()) {
 		_contents.clear();
 		_contents.push_back(EMPTY);
 		auto line{""s};
@@ -51,8 +49,7 @@ Sorcery::TextFile::TextFile(std::filesystem::path text_file_path)
 }
 
 // Overload the array operator [] to allow direct access to the contents
-auto Sorcery::TextFile::operator[](const unsigned int index) const
-	-> std::string {
+auto Sorcery::TextFile::operator[](const unsigned int index) const -> std::string {
 
 	try {
 		return _contents.at(index);
@@ -67,15 +64,11 @@ auto Sorcery::TextFile::TextFile::size() const -> unsigned int {
 	return _contents.size();
 }
 
-auto Sorcery::TextFile::get_progress(const int current_line) const
-	-> std::string {
+auto Sorcery::TextFile::get_progress(const int current_line) const -> std::string {
 
 	// Work out progress through file
-	const auto percent{(static_cast<float>(current_line) /
-						   static_cast<float>(_contents.size())) *
-					   100};
+	const auto percent{(static_cast<float>(current_line) / static_cast<float>(_contents.size())) * 100};
 
 	// Build status line
-	return fmt::format(
-		"{}/{} ({}%)", current_line, _contents.size(), std::lround(percent));
+	return fmt::format("{}/{} ({}%)", current_line, _contents.size(), std::lround(percent));
 }

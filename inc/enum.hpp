@@ -113,31 +113,9 @@ namespace Sorcery {
 
 		enum class Confirm { NONE, YES, NO };
 
-		enum class DialogButton {
-			NONE,
-			OK,
-			YES,
-			NO,
-			CLOSE,
-			A,
-			B,
-			C,
-			D,
-			E,
-			F,
-			LEAVE
-		};
+		enum class DialogButton { NONE, OK, YES, NO, CLOSE, A, B, C, D, E, F, LEAVE };
 
-		enum class ComponentType {
-			NONE,
-			IMAGE,
-			TEXT,
-			MENU,
-			FRAME,
-			ICON,
-			DIALOG,
-			UNKNOWN
-		};
+		enum class ComponentType { NONE, IMAGE, TEXT, MENU, FRAME, ICON, DIALOG, UNKNOWN };
 
 		enum class ComponentElement {
 			NONE = -1,
@@ -175,16 +153,7 @@ namespace Sorcery {
 
 	namespace Enums::Graphics {
 
-		enum class Background {
-			NONE,
-			CASTLE,
-			TAVERN,
-			INN,
-			SHOP,
-			TEMPLE,
-			EDGE_OF_TOWN,
-			TRAIN
-		};
+		enum class Background { NONE, CASTLE, TAVERN, INN, SHOP, TEMPLE, EDGE_OF_TOWN, TRAIN };
 
 		enum class Texture {
 			NONE,
@@ -243,14 +212,7 @@ namespace Sorcery {
 
 		enum class SpellPointStatus { NONE, CURRENT, MAXIMUM };
 
-		enum class SpellCategory {
-			NONE,
-			HEALING,
-			FIELD,
-			SUPPORT,
-			DISABLE,
-			ATTACK
-		};
+		enum class SpellCategory { NONE, HEALING, FIELD, SUPPORT, DISABLE, ATTACK };
 
 		enum class SpellID {
 			NONE = -1,
@@ -401,17 +363,7 @@ namespace Sorcery {
 		// Character Classes
 		enum class Race { NONE, HUMAN, ELF, DWARF, GNOME, HOBBIT };
 
-		enum class Class {
-			NONE,
-			FIGHTER,
-			MAGE,
-			PRIEST,
-			THIEF,
-			BISHOP,
-			SAMURAI,
-			LORD,
-			NINJA
-		};
+		enum class Class { NONE, FIGHTER, MAGE, PRIEST, THIEF, BISHOP, SAMURAI, LORD, NINJA };
 
 		enum class Align { NONE, GOOD, NEUTRAL, EVIL };
 
@@ -427,25 +379,9 @@ namespace Sorcery {
 			LOST = 8
 		};
 
-		enum class Attribute {
-			NONE = 0,
-			STRENGTH = 1,
-			IQ = 2,
-			PIETY = 3,
-			VITALITY = 4,
-			AGILITY = 5,
-			LUCK = 6
-		};
+		enum class Attribute { NONE = 0, STRENGTH = 1, IQ = 2, PIETY = 3, VITALITY = 4, AGILITY = 5, LUCK = 6 };
 
-		enum class Ability_Type {
-			NONE,
-			NUMBER,
-			MODIFIER,
-			PERCENTAGE,
-			STAT,
-			AC,
-			STATUS
-		};
+		enum class Ability_Type { NONE, NUMBER, MODIFIER, PERCENTAGE, STAT, AC, STATUS };
 
 		enum class Ability {
 			NONE,
@@ -524,15 +460,7 @@ namespace Sorcery {
 		};
 
 		// Return values
-		enum class ModuleResult {
-			NONE,
-			CLOSE,
-			BACK,
-			EXIT,
-			NEXT,
-			CANCEL,
-			DELETE
-		};
+		enum class ModuleResult { NONE, CLOSE, BACK, EXIT, NEXT, CANCEL, DELETE };
 
 		// Random (Dice) Types
 		enum class Random {
@@ -582,15 +510,7 @@ namespace Sorcery {
 		enum class ButtonState { NONE, DISABLED, ENABLED, HOVERED, SELECTED };
 
 		// Menu Type Tuple Fields
-		enum class Field {
-			NONE = -1,
-			INDEX = 0,
-			TYPE = 1,
-			ITEM = 2,
-			TEXT = 3,
-			ENABLED = 4,
-			CONFIG_OPTION = 5
-		};
+		enum class Field { NONE = -1, INDEX = 0, TYPE = 1, ITEM = 2, TEXT = 3, ENABLED = 4, CONFIG_OPTION = 5 };
 
 		// Menu Types
 		enum class Type {
@@ -752,16 +672,7 @@ namespace Sorcery {
 		};
 
 		// Menu Items
-		enum class ItemType {
-			NONE,
-			ENTRY,
-			TITLE,
-			SEPARATOR,
-			SPACER,
-			TEXT,
-			SAVE,
-			CANCEL
-		};
+		enum class ItemType { NONE, ENTRY, TITLE, SEPARATOR, SPACER, TEXT, SAVE, CANCEL };
 	} // namespace Enums::Menu
 
 	namespace Enums {
@@ -823,13 +734,7 @@ namespace Sorcery {
 				WEST = 3
 			};
 
-			enum class Type {
-				NONE = -1,
-				EMPTY = 0,
-				START = 1,
-				TUTORIAL = 2,
-				MAZE = 3
-			};
+			enum class Type { NONE = -1, EMPTY = 0, START = 1, TUTORIAL = 2, MAZE = 3 };
 
 		} // namespace Map
 

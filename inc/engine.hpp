@@ -48,8 +48,7 @@ namespace Sorcery {
 
 	  public:
 		// Standard Constructor - need to pass in game object to this to
-		Engine(
-			System *system, Display *display, Graphics *graphics, Game *game);
+		Engine(System *system, Display *display, Graphics *graphics, Game *game);
 		Engine() = delete;
 
 		// Standard Destructor
@@ -121,10 +120,8 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _cur_char_frame;
 		MapDirection _last_movement;
 
-		std::optional<std::chrono::time_point<std::chrono::system_clock>>
-			_direction_start;
-		std::optional<std::chrono::time_point<std::chrono::system_clock>>
-			_direction_current_time;
+		std::optional<std::chrono::time_point<std::chrono::system_clock>> _direction_start;
+		std::optional<std::chrono::time_point<std::chrono::system_clock>> _direction_current_time;
 		bool _show_direction_indicatior;
 	};
 } // namespace Sorcery

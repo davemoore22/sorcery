@@ -41,9 +41,8 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		StatusBar(System *system, Display *display, Graphics *graphics,
-			Game *game, std::optional<Component> layout = std::nullopt,
-			std::optional<Component> frame = std::nullopt);
+		StatusBar(System *system, Display *display, Graphics *graphics, Game *game,
+			std::optional<Component> layout = std::nullopt, std::optional<Component> frame = std::nullopt);
 		StatusBar() = delete;
 
 		// Public Members
@@ -55,14 +54,12 @@ namespace Sorcery {
 
 		// Public Methods
 		auto refresh() -> void;
-		auto set_mouse_selected(sf::Vector2f mouse_pos)
-			-> std::optional<unsigned int>;
+		auto set_mouse_selected(sf::Vector2f mouse_pos) -> std::optional<unsigned int>;
 		auto set_selected_background() -> void;
 
 	  private:
 		// Private Methods
-		auto virtual draw(
-			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _generate() -> void;
 
 		// Private Members

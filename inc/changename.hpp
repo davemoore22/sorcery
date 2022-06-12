@@ -38,8 +38,7 @@ namespace Sorcery {
 
 	  public:
 		// Standard Constructor
-		ChangeName(System *system, Display *display, Graphics *graphics,
-			std::string old_name);
+		ChangeName(System *system, Display *display, Graphics *graphics, std::string old_name);
 		ChangeName() = delete;
 
 		// Standard Destructor

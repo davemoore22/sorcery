@@ -25,28 +25,21 @@
 #include "attributedisplay.hpp"
 
 // Standard Constructor
-Sorcery::AttributeDisplay::AttributeDisplay(System *system, Display *display,
-	Graphics *graphics, Character *character, Alignment alignment)
-	: _system{system}, _display{display}, _graphics{graphics},
-	  _character{character}, _alignment{alignment} {
+Sorcery::AttributeDisplay::AttributeDisplay(
+	System *system, Display *display, Graphics *graphics, Character *character, Alignment alignment)
+	: _system{system}, _display{display}, _graphics{graphics}, _character{character}, _alignment{alignment} {
 
 	_bars.clear();
 
 	// Get the standard layout information
 	if (alignment == Alignment::VERTICAL) {
-		_bar_c = Component(
-			(*_display->layout)["attribute_display:stat_bar_vertical"]);
-		_icons_c = Component(
-			(*_display->layout)["attribute_display:attribute_icons_vertical"]);
-		_text_c = Component(
-			(*_display->layout)["attribute_display:stat_text_vertical"]);
+		_bar_c = Component((*_display->layout)["attribute_display:stat_bar_vertical"]);
+		_icons_c = Component((*_display->layout)["attribute_display:attribute_icons_vertical"]);
+		_text_c = Component((*_display->layout)["attribute_display:stat_text_vertical"]);
 	} else {
-		_bar_c = Component(
-			(*_display->layout)["attribute_display:stat_bar_horizontal"]);
-		_icons_c = Component((
-			*_display->layout)["attribute_display:attribute_icons_horizontal"]);
-		_text_c = Component(
-			(*_display->layout)["attribute_display:stat_text_horizontal"]);
+		_bar_c = Component((*_display->layout)["attribute_display:stat_bar_horizontal"]);
+		_icons_c = Component((*_display->layout)["attribute_display:attribute_icons_horizontal"]);
+		_text_c = Component((*_display->layout)["attribute_display:stat_text_horizontal"]);
 	}
 
 	_attribute_icons[0] = (*_graphics->icons)[MenuItem::CS_STRENGTH].value();
@@ -64,11 +57,9 @@ Sorcery::AttributeDisplay::AttributeDisplay(System *system, Display *display,
 	for (auto &icon : _attribute_icons) {
 		icon.setScale(scale);
 		if (_alignment == Alignment::VERTICAL)
-			icon.setPosition(
-				8 + _icons_c.x + (index * _icons_c.size), _icons_c.y);
+			icon.setPosition(8 + _icons_c.x + (index * _icons_c.size), _icons_c.y);
 		else
-			icon.setPosition(
-				_icons_c.x, 8 + _icons_c.y + (index * _icons_c.size));
+			icon.setPosition(_icons_c.x, 8 + _icons_c.y + (index * _icons_c.size));
 		++index;
 	}
 
@@ -100,8 +91,7 @@ Sorcery::AttributeDisplay::AttributeDisplay(const AttributeDisplay &other) {
 	texts = other.texts;
 	frames = other.frames;
 }
-auto Sorcery::AttributeDisplay::operator=(const AttributeDisplay &other)
-	-> AttributeDisplay & {
+auto Sorcery::AttributeDisplay::operator=(const AttributeDisplay &other) -> AttributeDisplay & {
 
 	_system = other._system;
 	_display = other._display;
@@ -171,8 +161,7 @@ Sorcery::AttributeDisplay::AttributeDisplay(AttributeDisplay &&other) noexcept {
 	other.texts.clear();
 	other.frames.clear();
 }
-auto Sorcery::AttributeDisplay::operator=(AttributeDisplay &&other) noexcept
-	-> AttributeDisplay & {
+auto Sorcery::AttributeDisplay::operator=(AttributeDisplay &&other) noexcept -> AttributeDisplay & {
 
 	if (this != &other) {
 
@@ -231,17 +220,14 @@ auto Sorcery::AttributeDisplay::set() -> void {
 
 		auto bar{_get_bar(attribute)};
 		if (_alignment == Alignment::VERTICAL) {
-			bar.setPosition((_bar_c.w / 3) + _bar_c.x +
-								(x * _display->window->get_cw() * _bar_c.scale),
+			bar.setPosition((_bar_c.w / 3) + _bar_c.x + (x * _display->window->get_cw() * _bar_c.scale),
 				_bar_c.y + _bar_c.size * 2);
 			bar.scale(1.0f, -1.0f);
 		} else {
 			auto text{_get_text(attribute)};
-			text.setPosition(_text_c.x + std::stoi(_text_c["offset_x"].value()),
-				_text_c.y + (y * _text_c.size));
+			text.setPosition(_text_c.x + std::stoi(_text_c["offset_x"].value()), _text_c.y + (y * _text_c.size));
 			bar.setPosition((_bar_c.x + std::stoi(_bar_c["offset_x"].value())),
-				(_bar_c.h / 3) + _bar_c.y +
-					(y * _display->window->get_ch() * _bar_c.scale));
+				(_bar_c.h / 3) + _bar_c.y + (y * _display->window->get_ch() * _bar_c.scale));
 			_texts.push_back(text);
 		};
 
@@ -254,8 +240,7 @@ auto Sorcery::AttributeDisplay::set() -> void {
 	valid = true;
 }
 
-auto Sorcery::AttributeDisplay::_get_text(CharacterAttribute attribute)
-	-> sf::Text {
+auto Sorcery::AttributeDisplay::_get_text(CharacterAttribute attribute) -> sf::Text {
 
 	if (_alignment == Alignment::VERTICAL) {
 
@@ -266,8 +251,7 @@ auto Sorcery::AttributeDisplay::_get_text(CharacterAttribute attribute)
 
 	} else {
 		sf::Text text{};
-		const auto formatted_value{
-			fmt::format("{:>2}", _character->get_cur_attr(attribute))};
+		const auto formatted_value{fmt::format("{:>2}", _character->get_cur_attr(attribute))};
 		text.setFont(_system->resources->fonts[_text_c.font]);
 		text.setCharacterSize(_text_c.size);
 		text.setFillColor(sf::Color(_text_c.colour));
@@ -277,27 +261,23 @@ auto Sorcery::AttributeDisplay::_get_text(CharacterAttribute attribute)
 	}
 }
 
-auto Sorcery::AttributeDisplay::_get_bar(CharacterAttribute attribute)
-	-> sf::RectangleShape {
+auto Sorcery::AttributeDisplay::_get_bar(CharacterAttribute attribute) -> sf::RectangleShape {
 
 	// Generate three bars which will simply be put on top of each other
 	if (_alignment == Alignment::VERTICAL) {
-		sf::RectangleShape attr(sf::Vector2f(_bar_c.w / 2,
-			(_bar_c.h * _character->get_cur_attr(attribute) / 2)));
+		sf::RectangleShape attr(sf::Vector2f(_bar_c.w / 2, (_bar_c.h * _character->get_cur_attr(attribute) / 2)));
 		attr.setFillColor(sf::Color(_bar_c.colour));
 		attr.setOutlineThickness(1);
 		return attr;
 	} else {
-		sf::RectangleShape attr(sf::Vector2f(
-			_bar_c.w * _character->get_cur_attr(attribute) / 2, _bar_c.h / 2));
+		sf::RectangleShape attr(sf::Vector2f(_bar_c.w * _character->get_cur_attr(attribute) / 2, _bar_c.h / 2));
 		attr.setFillColor(sf::Color(_bar_c.colour));
 		attr.setOutlineThickness(1);
 		return attr;
 	}
 }
 
-auto Sorcery::AttributeDisplay::draw(
-	sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::AttributeDisplay::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 

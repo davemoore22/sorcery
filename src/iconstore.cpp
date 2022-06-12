@@ -25,8 +25,7 @@
 #include "iconstore.hpp"
 
 // Standard Constructor
-Sorcery::IconStore::IconStore(
-	System *system, Component layout, const std::filesystem::path filename)
+Sorcery::IconStore::IconStore(System *system, Component layout, const std::filesystem::path filename)
 	: _system{system}, _layout{layout} {
 
 	// Prepare the icon stores
@@ -46,16 +45,14 @@ Sorcery::IconStore::IconStore(
 }
 
 // Overload [] Operator
-auto Sorcery::IconStore::operator[](std::string_view key)
-	-> std::optional<sf::Sprite> {
+auto Sorcery::IconStore::operator[](std::string_view key) -> std::optional<sf::Sprite> {
 
 	auto sprite{get(key)};
 	auto copy{sprite};
 	return copy;
 }
 
-auto Sorcery::IconStore::operator[](const MenuItem key)
-	-> std::optional<sf::Sprite> {
+auto Sorcery::IconStore::operator[](const MenuItem key) -> std::optional<sf::Sprite> {
 
 	auto sprite{get(key)};
 	auto copy{sprite};
@@ -63,8 +60,7 @@ auto Sorcery::IconStore::operator[](const MenuItem key)
 }
 
 // Find the corresponding item in the map by String
-auto Sorcery::IconStore::get(std::string_view key)
-	-> std::optional<sf::Sprite> {
+auto Sorcery::IconStore::get(std::string_view key) -> std::optional<sf::Sprite> {
 
 	if (_loaded)
 		return _icon_store.at(std::string{key});
@@ -76,10 +72,9 @@ auto Sorcery::IconStore::get(std::string_view key)
 auto Sorcery::IconStore::get(const MenuItem key) -> std::optional<sf::Sprite> {
 
 	if (_loaded) {
-		auto it = std::find_if(_menu_icon_map.begin(), _menu_icon_map.end(),
-			[&key](const auto &item) {
-				return item.second.item == key;
-			});
+		auto it = std::find_if(_menu_icon_map.begin(), _menu_icon_map.end(), [&key](const auto &item) {
+			return item.second.item == key;
+		});
 
 		if (it != _menu_icon_map.end())
 			return _icon_store.at((*it).second.key);
@@ -92,8 +87,7 @@ auto Sorcery::IconStore::get(const MenuItem key) -> std::optional<sf::Sprite> {
 // Attempt to load Icons from Layout File
 auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 
-	if (std::ifstream file{filename.string(), std::ifstream::binary};
-		file.good()) {
+	if (std::ifstream file{filename.string(), std::ifstream::binary}; file.good()) {
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
@@ -110,8 +104,7 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 				// Get the mappings for each icon (note that all parameters
 				// should always be present for each icon entry in the mapping
 				// file or else this will error)
-				auto index{static_cast<unsigned int>(
-					std::stoul(icons[i]["index"].asString()))};
+				auto index{static_cast<unsigned int>(std::stoul(icons[i]["index"].asString()))};
 				auto filename{icons[i]["filename"].asString()};
 				auto menu_item_s{icons[i]["menu_item"].asString()};
 				auto key{icons[i]["key"].asString()};
@@ -127,8 +120,7 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 				// Use Magic Enum Library Reflection to convert the string to
 				// the type if we have an associated menu item for the icon
 				// (which is used in an info panel beneath a menu)
-				auto item_t{magic_enum::enum_cast<Sorcery::Enums::Menu::Item>(
-					menu_item_s)};
+				auto item_t{magic_enum::enum_cast<Sorcery::Enums::Menu::Item>(menu_item_s)};
 				if (item_t.has_value())
 					menu_item = item_t.value();
 
@@ -161,6 +153,5 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 auto Sorcery::IconStore::_get_rect(unsigned int index) const -> sf::IntRect {
 
 	constexpr auto icon_size{511};
-	return sf::IntRect(icon_size * (index % 15), icon_size * (index / 15),
-		icon_size, icon_size);
+	return sf::IntRect(icon_size * (index % 15), icon_size * (index / 15), icon_size, icon_size);
 }

@@ -53,8 +53,7 @@ auto Sorcery::Banner::start() -> int {
 		_draw();
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 		_window->display();
-		if ((input_event.type == sf::Event::KeyPressed) ||
-			(input_event.type == sf::Event::MouseButtonPressed))
+		if ((input_event.type == sf::Event::KeyPressed) || (input_event.type == sf::Event::MouseButtonPressed))
 			_finished = true;
 	}
 

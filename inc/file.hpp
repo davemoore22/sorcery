@@ -53,8 +53,7 @@ namespace Sorcery {
 		std::filesystem::path _base_path;
 
 		// Private Methods
-		auto _add_path(const std::string_view dir, const std::string_view file)
-			-> void;
+		auto _add_path(const std::string_view dir, const std::string_view file) -> void;
 		auto _get_exe_path() -> std::string_view;
 	};
 } // namespace Sorcery

@@ -43,8 +43,7 @@ namespace Sorcery {
 
 	  public:
 		// Standard Constructor
-		Reorder(System *system, Display *display, Graphics *graphics,
-			Game *game, MenuMode mode = MenuMode::NONE);
+		Reorder(System *system, Display *display, Graphics *graphics, Game *game, MenuMode mode = MenuMode::NONE);
 		Reorder() = delete;
 
 		// Standard Destructor

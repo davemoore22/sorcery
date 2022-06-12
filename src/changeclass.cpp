@@ -25,10 +25,8 @@
 #include "changeclass.hpp"
 
 // Standard Constructor
-Sorcery::ChangeClass::ChangeClass(
-	System *system, Display *display, Graphics *graphics, Character *character)
-	: _system{system}, _display{display}, _graphics{graphics}, _character{
-																   character} {
+Sorcery::ChangeClass::ChangeClass(System *system, Display *display, Graphics *graphics, Character *character)
+	: _system{system}, _display{display}, _graphics{graphics}, _character{character} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
@@ -37,8 +35,7 @@ Sorcery::ChangeClass::ChangeClass(
 	_ip = std::make_unique<InfoPanel>(_system, _display, _graphics);
 
 	// Main Menu
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr,
-		MenuType::CHANGE_CHARACTER_CLASS);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr, MenuType::CHANGE_CHARACTER_CLASS);
 	_set_classes_menu();
 
 	// Info Panel
@@ -48,18 +45,14 @@ Sorcery::ChangeClass::ChangeClass(
 	// And the Dialogs
 	_not_changed = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["change_class:dialog_class_not_changed"],
-		(*_display->layout)["change_class:dialog_class_not_changed_text"],
-		WindowDialogType::OK);
-	_not_changed->setPosition(
-		(*_display->layout)["change_class:dialog_class_not_changed"].x,
+		(*_display->layout)["change_class:dialog_class_not_changed_text"], WindowDialogType::OK);
+	_not_changed->setPosition((*_display->layout)["change_class:dialog_class_not_changed"].x,
 		(*_display->layout)["change_class:dialog_class_not_changed"].y);
 
 	_confirm = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["change_class:dialog_confirm_change_class"],
-		(*_display->layout)["change_class:dialog_confirm_change_class_text"],
-		WindowDialogType::CONFIRM);
-	_confirm->setPosition(
-		(*_display->layout)["change_class:dialog_confirm_change_class"].x,
+		(*_display->layout)["change_class:dialog_confirm_change_class_text"], WindowDialogType::CONFIRM);
+	_confirm->setPosition((*_display->layout)["change_class:dialog_confirm_change_class"].x,
 		(*_display->layout)["change_class:dialog_confirm_change_class"].y);
 
 	_new_class = std::nullopt;
@@ -104,13 +97,11 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 				if (dialog_input) {
 					if (dialog_input.value() == WindowDialogButton::CLOSE) {
 						_show_not_changed = false;
-						_display->set_input_mode(
-							WindowInputMode::NAVIGATE_MENU);
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 						return std::nullopt;
 					} else if (dialog_input.value() == WindowDialogButton::OK) {
 						_show_not_changed = false;
-						_display->set_input_mode(
-							WindowInputMode::NAVIGATE_MENU);
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 						return std::nullopt;
 					}
 				};
@@ -119,17 +110,13 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 				auto dialog_input{_confirm->handle_input(event)};
 				if (dialog_input) {
 					if (dialog_input.value() == WindowDialogButton::CLOSE) {
-						_display->set_input_mode(
-							WindowInputMode::NAVIGATE_MENU);
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 						_show_confirm = false;
-					} else if (dialog_input.value() ==
-							   WindowDialogButton::YES) {
-						_display->set_input_mode(
-							WindowInputMode::NAVIGATE_MENU);
+					} else if (dialog_input.value() == WindowDialogButton::YES) {
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 						return _new_class;
 					} else if (dialog_input.value() == WindowDialogButton::NO) {
-						_display->set_input_mode(
-							WindowInputMode::NAVIGATE_MENU);
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 						_show_confirm = false;
 					}
 				}
@@ -142,16 +129,13 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 				if (_system->input->check(WindowInput::BACK, event))
 					return std::nullopt;
 
-				std::optional<std::vector<MenuEntry>::const_iterator> selected{
-					_menu->selected};
+				std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->selected};
 				if (_system->input->check(WindowInput::UP, event))
 					selected = _menu->choose_previous();
 				else if (_system->input->check(WindowInput::DOWN, event))
 					selected = _menu->choose_next();
 				else if (_system->input->check(WindowInput::MOVE, event))
-					selected =
-						_menu->set_mouse_selected(static_cast<sf::Vector2f>(
-							sf::Mouse::getPosition(*_window)));
+					selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 				else if (_system->input->check(WindowInput::BACK, event))
 					return std::nullopt;
 				else if (_system->input->check(WindowInput::DELETE, event))
@@ -163,25 +147,21 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 
 						switch ((*selected.value()).item) {
 						case MenuItem::CC_SAMURAI:
-							if (_character->get_class() ==
-								CharacterClass::SAMURAI)
+							if (_character->get_class() == CharacterClass::SAMURAI)
 								_show_not_changed = true;
 							else {
 								_show_confirm = true;
 								_new_class = CharacterClass::SAMURAI;
-								_display->set_input_mode(WindowInputMode::
-										CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(WindowInputMode::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MenuItem::CC_FIGHTER:
-							if (_character->get_class() ==
-								CharacterClass::FIGHTER)
+							if (_character->get_class() == CharacterClass::FIGHTER)
 								_show_not_changed = true;
 							else {
 								_show_confirm = true;
 								_new_class = CharacterClass::FIGHTER;
-								_display->set_input_mode(WindowInputMode::
-										CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(WindowInputMode::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MenuItem::CC_LORD:
@@ -190,52 +170,43 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 							else {
 								_show_confirm = true;
 								_new_class = CharacterClass::LORD;
-								_display->set_input_mode(WindowInputMode::
-										CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(WindowInputMode::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MenuItem::CC_THIEF:
-							if (_character->get_class() ==
-								CharacterClass::THIEF)
+							if (_character->get_class() == CharacterClass::THIEF)
 								_show_not_changed = true;
 							else {
 								_show_confirm = true;
 								_new_class = CharacterClass::THIEF;
-								_display->set_input_mode(WindowInputMode::
-										CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(WindowInputMode::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MenuItem::CC_NINJA:
-							if (_character->get_class() ==
-								CharacterClass::NINJA)
+							if (_character->get_class() == CharacterClass::NINJA)
 								_show_not_changed = true;
 							else {
 								_show_confirm = true;
 								_new_class = CharacterClass::NINJA;
-								_display->set_input_mode(WindowInputMode::
-										CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(WindowInputMode::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MenuItem::CC_PRIEST:
-							if (_character->get_class() ==
-								CharacterClass::PRIEST)
+							if (_character->get_class() == CharacterClass::PRIEST)
 								_show_not_changed = true;
 							else {
 								_show_confirm = true;
 								_new_class = CharacterClass::PRIEST;
-								_display->set_input_mode(WindowInputMode::
-										CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(WindowInputMode::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MenuItem::CC_BISHOP:
-							if (_character->get_class() ==
-								CharacterClass::BISHOP)
+							if (_character->get_class() == CharacterClass::BISHOP)
 								_show_not_changed = true;
 							else {
 								_show_confirm = true;
 								_new_class = CharacterClass::BISHOP;
-								_display->set_input_mode(WindowInputMode::
-										CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(WindowInputMode::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MenuItem::CC_MAGE:
@@ -244,8 +215,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 							else {
 								_show_confirm = true;
 								_new_class = CharacterClass::MAGE;
-								_display->set_input_mode(WindowInputMode::
-										CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(WindowInputMode::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						default:
@@ -288,14 +258,13 @@ auto Sorcery::ChangeClass::_draw() -> void {
 
 	// And the Menu
 	_menu->generate((*_display->layout)["change_class:menu"]);
-	const sf::Vector2f menu_pos((*_display->layout)["change_class:menu"].x,
-		(*_display->layout)["change_class:menu"].y);
+	const sf::Vector2f menu_pos((*_display->layout)["change_class:menu"].x, (*_display->layout)["change_class:menu"].y);
 	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 
 	if (_ip->valid) {
-		_ip->setPosition((*_display->layout)["change_class:info_panel"].x,
-			(*_display->layout)["change_class:info_panel"].y);
+		_ip->setPosition(
+			(*_display->layout)["change_class:info_panel"].x, (*_display->layout)["change_class:info_panel"].y);
 		_window->draw(*_ip);
 	}
 
@@ -331,8 +300,7 @@ auto Sorcery::ChangeClass::_set_classes_menu() -> void {
 	_menu->choose(_character->get_class());
 }
 
-auto Sorcery::ChangeClass::_set_info_panel_contents(
-	std::vector<Sorcery::MenuEntry>::const_iterator it) -> void {
+auto Sorcery::ChangeClass::_set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void {
 
 	// Set the Text
 	if ((*it).type == MenuItemType::ENTRY) {

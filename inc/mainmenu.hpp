@@ -42,8 +42,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		MainMenu(
-			System *system, Display *display, Graphics *graphics, Game *game);
+		MainMenu(System *system, Display *display, Graphics *graphics, Game *game);
 		MainMenu() = delete;
 
 		// Standard Destructor

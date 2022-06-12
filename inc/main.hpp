@@ -39,8 +39,7 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wswitch-default"
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#pragma GCC diagnostic ignored                                                 \
-	"-Wvolatile" // NOLINT(clang-diagnostic-unknown-warning-option)
+#pragma GCC diagnostic ignored "-Wvolatile" // NOLINT(clang-diagnostic-unknown-warning-option)
 #pragma GCC diagnostic ignored "-Wignored-qualifiers"
 #pragma GCC diagnostic ignored "-Wreorder"
 #pragma GCC diagnostic ignored "-Wreturn-type"
@@ -129,8 +128,7 @@ namespace Sorcery {
 	using CharacterAttributes = std::map<Enums::Character::Attribute, int>;
 	using CharacterClass = Enums::Character::Class;
 	using CharacterClassList = std::map<Enums::Character::Class, std::string>;
-	using CharacterClassMenu =
-		std::pair<Enums::Character::Class, Enums::Menu::Item>;
+	using CharacterClassMenu = std::pair<Enums::Character::Class, Enums::Menu::Item>;
 	using CharacterClassQualified = std::map<Enums::Character::Class, bool>;
 	using CharacterRace = Enums::Character::Race;
 	using CharacterStage = Enums::Character::Stage;

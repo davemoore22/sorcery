@@ -32,8 +32,7 @@ Sorcery::Options::Options(System *system, Display *display, Graphics *graphics)
 	_window = _display->window->get_window();
 
 	// Menu and Options
-	_menu = std::make_unique<Menu>(
-		_system, _display, _graphics, nullptr, MenuType::OPTIONS);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr, MenuType::OPTIONS);
 	_option_on = Component((*_display->layout)["options:on"]);
 	_option_off = Component((*_display->layout)["options:off"]);
 
@@ -41,26 +40,20 @@ Sorcery::Options::Options(System *system, Display *display, Graphics *graphics)
 	_ip = std::make_unique<InfoPanel>(_system, _display, _graphics);
 
 	// Create the Confirmation Dialog Boxes
-	_confirm_save = std::make_unique<Dialog>(_system, _display, _graphics,
-		(*_display->layout)["options:dialog_confirm_save"],
-		(*_display->layout)["options:dialog_confirm_save_text"],
-		WindowDialogType::CONFIRM);
+	_confirm_save =
+		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["options:dialog_confirm_save"],
+			(*_display->layout)["options:dialog_confirm_save_text"], WindowDialogType::CONFIRM);
 	_confirm_save->setPosition(
-		(*_display->layout)["options:dialog_confirm_save"].x,
-		(*_display->layout)["options:dialog_confirm_save"].y);
-	_confirm_cancel = std::make_unique<Dialog>(_system, _display, _graphics,
-		(*_display->layout)["options:dialog_confirm_cancel"],
-		(*_display->layout)["options:dialog_confirm_cancel_text"],
-		WindowDialogType::CONFIRM);
+		(*_display->layout)["options:dialog_confirm_save"].x, (*_display->layout)["options:dialog_confirm_save"].y);
+	_confirm_cancel =
+		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["options:dialog_confirm_cancel"],
+			(*_display->layout)["options:dialog_confirm_cancel_text"], WindowDialogType::CONFIRM);
 	_confirm_cancel->setPosition(
-		(*_display->layout)["options:dialog_confirm_cancel"].x,
-		(*_display->layout)["options:dialog_confirm_cancel"].y);
-	_confirm_strict = std::make_unique<Dialog>(_system, _display, _graphics,
-		(*_display->layout)["options:dialog_confirm_strict_on"],
-		(*_display->layout)["options:dialog_confirm_strict_on_text"],
-		WindowDialogType::CONFIRM);
-	_confirm_strict->setPosition(
-		(*_display->layout)["options:dialog_confirm_strict_on"].x,
+		(*_display->layout)["options:dialog_confirm_cancel"].x, (*_display->layout)["options:dialog_confirm_cancel"].y);
+	_confirm_strict =
+		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["options:dialog_confirm_strict_on"],
+			(*_display->layout)["options:dialog_confirm_strict_on_text"], WindowDialogType::CONFIRM);
+	_confirm_strict->setPosition((*_display->layout)["options:dialog_confirm_strict_on"].x,
 		(*_display->layout)["options:dialog_confirm_strict_on"].y);
 }
 
@@ -90,8 +83,7 @@ auto Sorcery::Options::start() -> int {
 	// And select the first option by default;
 	_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
 	_menu->choose_first();
-	std::optional<std::vector<MenuEntry>::const_iterator> selected{
-		_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->items.begin()};
 	_set_infopanel(_menu->selected);
 
 	// And do the main loop
@@ -122,9 +114,7 @@ auto Sorcery::Options::start() -> int {
 				} else if (_system->input->check(WindowInput::DOWN, event)) {
 					selected = _menu->choose_next();
 				} else if (_system->input->check(WindowInput::MOVE, event)) {
-					selected =
-						_menu->set_mouse_selected(static_cast<sf::Vector2f>(
-							sf::Mouse::getPosition(*_window)));
+					selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					if (selected) {
 						// No Tooltips anymore
 					}
@@ -132,66 +122,48 @@ auto Sorcery::Options::start() -> int {
 				} else if (_system->input->check(WindowInput::CONFIRM, event)) {
 					if (selected) {
 						if ((*_menu->selected).type == MenuItemType::ENTRY) {
-							const ConfigOption config_to_toggle{
-								(*_menu->selected).config};
-							if ((config_to_toggle ==
-									ConfigOption::STRICT_MODE) &&
-								(!(*_system
-										->config)[ConfigOption::STRICT_MODE])) {
+							const ConfigOption config_to_toggle{(*_menu->selected).config};
+							if ((config_to_toggle == ConfigOption::STRICT_MODE) &&
+								(!(*_system->config)[ConfigOption::STRICT_MODE])) {
 
 								// Ask for confirmation of Strict Mode
-								_display->set_input_mode(
-									WindowInputMode::CONFIRM_STRICT_MODE);
+								_display->set_input_mode(WindowInputMode::CONFIRM_STRICT_MODE);
 
-							} else if ((config_to_toggle ==
-										   ConfigOption::RECOMMENDED_MODE) &&
-									   (!(*_system->config)[ConfigOption::
-											   RECOMMENDED_MODE])) {
+							} else if ((config_to_toggle == ConfigOption::RECOMMENDED_MODE) &&
+									   (!(*_system->config)[ConfigOption::RECOMMENDED_MODE])) {
 
 								// Handle Recommended Toggling
 								_system->config->set_rec_mode();
-								(*_system->config)
-									[ConfigOption::RECOMMENDED_MODE] = true;
+								(*_system->config)[ConfigOption::RECOMMENDED_MODE] = true;
 
 							} else {
 
-								(*_system->config)[config_to_toggle] =
-									!(*_system->config)[config_to_toggle];
+								(*_system->config)[config_to_toggle] = !(*_system->config)[config_to_toggle];
 
 								// And toggling off strict mode
 								if (!_system->config->is_strict_mode())
-									(*_system->config)
-										[ConfigOption::STRICT_MODE] = false;
+									(*_system->config)[ConfigOption::STRICT_MODE] = false;
 
 								if (!_system->config->is_rec_mode())
-									(*_system->config)
-										[ConfigOption::RECOMMENDED_MODE] =
-											false;
+									(*_system->config)[ConfigOption::RECOMMENDED_MODE] = false;
 							}
-						} else if ((*_menu->selected).type ==
-								   MenuItemType::SAVE) {
+						} else if ((*_menu->selected).type == MenuItemType::SAVE) {
 
 							// Ask for confirmation of Save
-							_display->set_input_mode(
-								WindowInputMode::SAVE_CHANGES);
-						} else if ((*_menu->selected).type ==
-								   MenuItemType::CANCEL) {
+							_display->set_input_mode(WindowInputMode::SAVE_CHANGES);
+						} else if ((*_menu->selected).type == MenuItemType::CANCEL) {
 
 							// Ask for confirmation of Cancel
-							_display->set_input_mode(
-								WindowInputMode::CANCEL_CHANGES);
+							_display->set_input_mode(WindowInputMode::CANCEL_CHANGES);
 						}
 					}
 				}
 
 				_set_infopanel(_menu->selected);
 
-			} else if ((_display->get_input_mode() ==
-						   WindowInputMode::CONFIRM_STRICT_MODE) ||
-					   (_display->get_input_mode() ==
-						   WindowInputMode::SAVE_CHANGES) ||
-					   (_display->get_input_mode() ==
-						   WindowInputMode::CANCEL_CHANGES)) {
+			} else if ((_display->get_input_mode() == WindowInputMode::CONFIRM_STRICT_MODE) ||
+					   (_display->get_input_mode() == WindowInputMode::SAVE_CHANGES) ||
+					   (_display->get_input_mode() == WindowInputMode::CANCEL_CHANGES)) {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
@@ -204,66 +176,47 @@ auto Sorcery::Options::start() -> int {
 					_display->hide_overlay();
 
 				// All we can do is select Y or N
-				if (_display->get_input_mode() ==
-					WindowInputMode::CONFIRM_STRICT_MODE) {
+				if (_display->get_input_mode() == WindowInputMode::CONFIRM_STRICT_MODE) {
 					auto dialog_input{_confirm_strict->handle_input(event)};
 					if (dialog_input) {
 						if (dialog_input.value() == WindowDialogButton::CLOSE) {
-							_display->set_input_mode(
-								WindowInputMode::NAVIGATE_MENU);
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							return EXIT_MODULE;
-						} else if (dialog_input.value() ==
-								   WindowDialogButton::YES) {
+						} else if (dialog_input.value() == WindowDialogButton::YES) {
 							_system->config->set_strict_mode();
-							(*_system->config)[ConfigOption::STRICT_MODE] =
-								true;
-							_display->set_input_mode(
-								WindowInputMode::GAME_OPTIONS);
-						} else if (dialog_input.value() ==
-								   WindowDialogButton::NO) {
-							_display->set_input_mode(
-								WindowInputMode::GAME_OPTIONS);
+							(*_system->config)[ConfigOption::STRICT_MODE] = true;
+							_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
+						} else if (dialog_input.value() == WindowDialogButton::NO) {
+							_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
 						}
 					}
-				} else if (_display->get_input_mode() ==
-						   WindowInputMode::SAVE_CHANGES) {
+				} else if (_display->get_input_mode() == WindowInputMode::SAVE_CHANGES) {
 					auto dialog_input{_confirm_save->handle_input(event)};
 					if (dialog_input) {
 						if (dialog_input.value() == WindowDialogButton::CLOSE) {
-							_display->set_input_mode(
-								WindowInputMode::NAVIGATE_MENU);
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							return EXIT_MODULE;
-						} else if (dialog_input.value() ==
-								   WindowDialogButton::YES) {
-							_display->set_input_mode(
-								WindowInputMode::NAVIGATE_MENU);
+						} else if (dialog_input.value() == WindowDialogButton::YES) {
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							_system->config->save();
 							return true;
-						} else if (dialog_input.value() ==
-								   WindowDialogButton::NO) {
-							_display->set_input_mode(
-								WindowInputMode::GAME_OPTIONS);
+						} else if (dialog_input.value() == WindowDialogButton::NO) {
+							_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
 						}
 					}
-				} else if (_display->get_input_mode() ==
-						   WindowInputMode::CANCEL_CHANGES) {
+				} else if (_display->get_input_mode() == WindowInputMode::CANCEL_CHANGES) {
 
 					auto dialog_input{_confirm_cancel->handle_input(event)};
 					if (dialog_input) {
 						if (dialog_input.value() == WindowDialogButton::CLOSE) {
-							_display->set_input_mode(
-								WindowInputMode::NAVIGATE_MENU);
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							return false;
-						} else if (dialog_input.value() ==
-								   WindowDialogButton::YES) {
-							_display->set_input_mode(
-								WindowInputMode::NAVIGATE_MENU);
+						} else if (dialog_input.value() == WindowDialogButton::YES) {
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							_system->config->load();
 							return true;
-						} else if (dialog_input.value() ==
-								   WindowDialogButton::NO) {
-							_display->set_input_mode(
-								WindowInputMode::GAME_OPTIONS);
+						} else if (dialog_input.value() == WindowDialogButton::NO) {
+							_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
 						}
 					}
 				}
@@ -288,8 +241,7 @@ auto Sorcery::Options::stop() -> void {
 	_display->stop_bg_movie();
 }
 
-auto Sorcery::Options::_set_infopanel(
-	std::vector<Sorcery::MenuEntry>::const_iterator it) -> void {
+auto Sorcery::Options::_set_infopanel(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void {
 
 	// Set the Text
 	if ((*it).type == MenuItemType::ENTRY) {
@@ -309,8 +261,7 @@ auto Sorcery::Options::_draw() -> void {
 	_display->display("options");
 
 	_menu->generate((*_display->layout)["options:menu"]);
-	const sf::Vector2f menu_pos((*_display->layout)["options:menu"].x,
-		(*_display->layout)["options:menu"].y);
+	const sf::Vector2f menu_pos((*_display->layout)["options:menu"].x, (*_display->layout)["options:menu"].y);
 	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 	if (_display->get_input_mode() == WindowInputMode::CONFIRM_STRICT_MODE) {
@@ -325,8 +276,7 @@ auto Sorcery::Options::_draw() -> void {
 	}
 
 	if (_ip->valid) {
-		_ip->setPosition((*_display->layout)["options:info_panel"].x,
-			(*_display->layout)["options:info_panel"].y);
+		_ip->setPosition((*_display->layout)["options:info_panel"].x, (*_display->layout)["options:info_panel"].y);
 		_window->draw(*_ip);
 	}
 

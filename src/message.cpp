@@ -25,10 +25,8 @@
 #include "message.hpp"
 
 // Standard Constructor
-Sorcery::Message::Message(System *system, Display *display, Graphics *graphics,
-	Component &frame_c, Component &text_c)
-	: _system{system}, _display{display}, _graphics{graphics},
-	  _frame_c{frame_c}, _text_c{text_c} {}
+Sorcery::Message::Message(System *system, Display *display, Graphics *graphics, Component &frame_c, Component &text_c)
+	: _system{system}, _display{display}, _graphics{graphics}, _frame_c{frame_c}, _text_c{text_c} {}
 
 auto Sorcery::Message::update(TileNote tile_note) -> void {
 
@@ -52,13 +50,11 @@ auto Sorcery::Message::update(TileNote tile_note) -> void {
 	message_text = std::regex_replace(stripped_text, std::regex("(\n)"), "@");
 
 	auto wrapped_text{WORDWRAP(message_text, text_width)};
-	std::transform(wrapped_text.begin(), wrapped_text.end(),
-		wrapped_text.begin(), ::toupper);
+	std::transform(wrapped_text.begin(), wrapped_text.end(), wrapped_text.begin(), ::toupper);
 
 	// Split the Text into lines
 	const std::regex regex(R"([@]+)");
-	std::sregex_token_iterator it{
-		wrapped_text.begin(), wrapped_text.end(), regex, -1};
+	std::sregex_token_iterator it{wrapped_text.begin(), wrapped_text.end(), regex, -1};
 	std::vector<std::string> split{it, {}};
 	split.erase(std::remove_if(split.begin(), split.end(),
 					[](std::string_view s) {
@@ -72,9 +68,8 @@ auto Sorcery::Message::update(TileNote tile_note) -> void {
 	frame_h += 2;
 
 	// Add the standard components - first the frame
-	_frame = std::make_unique<Frame>(_display->ui_texture,
-		WindowFrameType::NORMAL, _frame_c.w, frame_h, _frame_c.colour,
-		_frame_c.background, _frame_c.alpha);
+	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _frame_c.w, frame_h,
+		_frame_c.colour, _frame_c.background, _frame_c.alpha);
 	_frame->setPosition(0, 0);
 
 	// Then the strings
@@ -90,10 +85,8 @@ auto Sorcery::Message::update(TileNote tile_note) -> void {
 
 		if (_text_c.justification == Justification::CENTRE) {
 			text.setPosition(
-				(x + (_frame_c.w * _display->window->get_cw())) / 2,
-				y + (index * _display->window->get_ch()));
-			text.setOrigin(text.getLocalBounds().width / 2.0f,
-				text.getLocalBounds().height / 2.0f);
+				(x + (_frame_c.w * _display->window->get_cw())) / 2, y + (index * _display->window->get_ch()));
+			text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 		} else if (_text_c.justification == Justification::RIGHT) {
 			text.setPosition(x, y + (index * _display->window->get_ch()));
 			const sf::FloatRect bounds{text.getLocalBounds()};
@@ -108,8 +101,7 @@ auto Sorcery::Message::update(TileNote tile_note) -> void {
 	}
 }
 
-auto Sorcery::Message::draw(
-	sf::RenderTarget &target, sf::RenderStates state) const -> void {
+auto Sorcery::Message::draw(sf::RenderTarget &target, sf::RenderStates state) const -> void {
 
 	state.transform *= getTransform();
 	target.draw(*_frame, state);

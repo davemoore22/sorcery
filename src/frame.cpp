@@ -25,46 +25,29 @@
 #include "frame.hpp"
 
 // Standard Constructor
-Sorcery::Frame::Frame(System *system, Display *display, WindowFrameType type,
-	const Component layout)
+Sorcery::Frame::Frame(System *system, Display *display, WindowFrameType type, const Component layout)
 	: _system{system}, _display{display}, _type{type}, _layout{layout} {
 
 	// Define the 8 parts of the Frame based upon the location in the GUI
 	// Texture
 	if (_type == WindowFrameType::NORMAL) {
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)] =
-			sf::IntRect(0, 550, 20, 20);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP)] =
-			sf::IntRect(20, 550, 20, 20);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)] =
-			sf::IntRect(40, 550, 20, 20);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::LEFT)] =
-			sf::IntRect(0, 570, 20, 20);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)] =
-			sf::IntRect(0, 590, 20, 20);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM)] =
-			sf::IntRect(20, 590, 20, 20);
-		_frame_parts[static_cast<unsigned int>(
-			WindowFrameParts::BOTTOM_RIGHT)] = sf::IntRect(40, 590, 20, 20);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::RIGHT)] =
-			sf::IntRect(40, 570, 20, 20);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)] = sf::IntRect(0, 550, 20, 20);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP)] = sf::IntRect(20, 550, 20, 20);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)] = sf::IntRect(40, 550, 20, 20);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::LEFT)] = sf::IntRect(0, 570, 20, 20);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)] = sf::IntRect(0, 590, 20, 20);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM)] = sf::IntRect(20, 590, 20, 20);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)] = sf::IntRect(40, 590, 20, 20);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::RIGHT)] = sf::IntRect(40, 570, 20, 20);
 	} else if (_type == WindowFrameType::HINT) {
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)] =
-			sf::IntRect(865, 399, 18, 18);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP)] =
-			sf::IntRect(899, 399, 24, 10);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)] =
-			sf::IntRect(982, 399, 18, 18);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::LEFT)] =
-			sf::IntRect(865, 428, 10, 24);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)] =
-			sf::IntRect(865, 498, 18, 18);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM)] =
-			sf::IntRect(899, 506, 24, 10);
-		_frame_parts[static_cast<unsigned int>(
-			WindowFrameParts::BOTTOM_RIGHT)] = sf::IntRect(982, 498, 18, 18);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::RIGHT)] =
-			sf::IntRect(989, 428, 10, 24);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)] = sf::IntRect(865, 399, 18, 18);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP)] = sf::IntRect(899, 399, 24, 10);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)] = sf::IntRect(982, 399, 18, 18);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::LEFT)] = sf::IntRect(865, 428, 10, 24);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)] = sf::IntRect(865, 498, 18, 18);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM)] = sf::IntRect(899, 506, 24, 10);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)] = sf::IntRect(982, 498, 18, 18);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::RIGHT)] = sf::IntRect(989, 428, 10, 24);
 	}
 
 	// Get the Frame Components
@@ -103,8 +86,7 @@ Sorcery::Frame::Frame(System *system, Display *display, WindowFrameType type,
 		else if (_type == WindowFrameType::HINT)
 			return 5u;
 	}()};
-	sf::RectangleShape rectangle(sf::Vector2f(
-		texture_size.x - (border * 2), texture_size.y - (border * 2)));
+	sf::RectangleShape rectangle(sf::Vector2f(texture_size.x - (border * 2), texture_size.y - (border * 2)));
 	sf::Color fill{sf::Color(_layout.background)};
 	rectangle.setFillColor(sf::Color(fill.r, fill.g, fill.b, _layout.alpha));
 
@@ -119,22 +101,15 @@ Sorcery::Frame::Frame(System *system, Display *display, WindowFrameType type,
 		else if (_type == WindowFrameType::HINT)
 			return 18u;
 	}()};
-	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)]
-		.setPosition(0, 0);
-	_rtexture.draw(
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)]);
-	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)]
-		.setPosition(texture_size.x - offset, 0);
-	_rtexture.draw(
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)]);
-	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)]
-		.setPosition(0, texture_size.y - offset);
-	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(
-		WindowFrameParts::BOTTOM_LEFT)]);
-	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)]
-		.setPosition(texture_size.x - offset, texture_size.y - offset);
-	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(
-		WindowFrameParts::BOTTOM_RIGHT)]);
+	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)].setPosition(0, 0);
+	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)]);
+	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)].setPosition(texture_size.x - offset, 0);
+	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)]);
+	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)].setPosition(0, texture_size.y - offset);
+	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)]);
+	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)].setPosition(
+		texture_size.x - offset, texture_size.y - offset);
+	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)]);
 
 	// Draw the Sides of the Frame
 	for (auto x = 0u; x < _layout.w; x++) {
@@ -144,14 +119,11 @@ Sorcery::Frame::Frame(System *system, Display *display, WindowFrameType type,
 			else if (_type == WindowFrameType::HINT)
 				return 18 + (24 * x);
 		}()};
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)]
-			.setPosition(x_pos, 0);
-		_rtexture.draw(
-			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)]);
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)]
-			.setPosition(x_pos, texture_size.y - (border * 2));
-		_rtexture.draw(_frame_sprites[static_cast<unsigned int>(
-			WindowFrameParts::BOTTOM)]);
+		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)].setPosition(x_pos, 0);
+		_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)]);
+		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)].setPosition(
+			x_pos, texture_size.y - (border * 2));
+		_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)]);
 	}
 	for (auto y = 0u; y < _layout.h; y++) {
 		auto y_pos{[&] {
@@ -160,14 +132,11 @@ Sorcery::Frame::Frame(System *system, Display *display, WindowFrameType type,
 			else if (_type == WindowFrameType::HINT)
 				return 18 + (24 * y);
 		}()};
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)]
-			.setPosition(0, y_pos);
-		_rtexture.draw(
-			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)]);
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)]
-			.setPosition(texture_size.x - (border * 2) - 1, y_pos);
-		_rtexture.draw(
-			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)]);
+		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)].setPosition(0, y_pos);
+		_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)]);
+		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)].setPosition(
+			texture_size.x - (border * 2) - 1, y_pos);
+		_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)]);
 	}
 
 #pragma GCC diagnostic pop
@@ -182,50 +151,32 @@ Sorcery::Frame::Frame(System *system, Display *display, WindowFrameType type,
 	sprite = _frame;
 }
 
-Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type,
-	const unsigned int width_units, const unsigned int height_units,
-	const unsigned long long colour, const unsigned long long bg_colour,
+Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type, const unsigned int width_units,
+	const unsigned int height_units, const unsigned long long colour, const unsigned long long bg_colour,
 	const unsigned int alpha)
-	: _texture{texture}, _type{type}, _width_units{width_units},
-	  _height_units{height_units}, _colour{colour},
+	: _texture{texture}, _type{type}, _width_units{width_units}, _height_units{height_units}, _colour{colour},
 	  _bg_colour(bg_colour), _alpha{alpha} {
 
 	// Define the 8 parts of the Frame based upon the location in the GUI
 	// Texture
 	if (_type == WindowFrameType::NORMAL) {
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)] =
-			sf::IntRect(0, 550, 20, 20);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP)] =
-			sf::IntRect(20, 550, 20, 20);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)] =
-			sf::IntRect(40, 550, 20, 20);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::LEFT)] =
-			sf::IntRect(0, 570, 20, 20);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)] =
-			sf::IntRect(0, 590, 20, 20);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM)] =
-			sf::IntRect(20, 590, 20, 20);
-		_frame_parts[static_cast<unsigned int>(
-			WindowFrameParts::BOTTOM_RIGHT)] = sf::IntRect(40, 590, 20, 20);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::RIGHT)] =
-			sf::IntRect(40, 570, 20, 20);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)] = sf::IntRect(0, 550, 20, 20);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP)] = sf::IntRect(20, 550, 20, 20);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)] = sf::IntRect(40, 550, 20, 20);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::LEFT)] = sf::IntRect(0, 570, 20, 20);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)] = sf::IntRect(0, 590, 20, 20);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM)] = sf::IntRect(20, 590, 20, 20);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)] = sf::IntRect(40, 590, 20, 20);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::RIGHT)] = sf::IntRect(40, 570, 20, 20);
 	} else if (_type == WindowFrameType::HINT) {
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)] =
-			sf::IntRect(865, 399, 18, 18);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP)] =
-			sf::IntRect(899, 399, 24, 10);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)] =
-			sf::IntRect(982, 399, 18, 18);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::LEFT)] =
-			sf::IntRect(865, 428, 10, 24);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)] =
-			sf::IntRect(865, 498, 18, 18);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM)] =
-			sf::IntRect(899, 506, 24, 10);
-		_frame_parts[static_cast<unsigned int>(
-			WindowFrameParts::BOTTOM_RIGHT)] = sf::IntRect(982, 498, 18, 18);
-		_frame_parts[static_cast<unsigned int>(WindowFrameParts::RIGHT)] =
-			sf::IntRect(989, 428, 10, 24);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)] = sf::IntRect(865, 399, 18, 18);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP)] = sf::IntRect(899, 399, 24, 10);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)] = sf::IntRect(982, 399, 18, 18);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::LEFT)] = sf::IntRect(865, 428, 10, 24);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)] = sf::IntRect(865, 498, 18, 18);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM)] = sf::IntRect(899, 506, 24, 10);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)] = sf::IntRect(982, 498, 18, 18);
+		_frame_parts[static_cast<unsigned int>(WindowFrameParts::RIGHT)] = sf::IntRect(989, 428, 10, 24);
 	}
 
 	// Get the Frame Components
@@ -264,8 +215,7 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type,
 		else if (_type == WindowFrameType::HINT)
 			return 5u;
 	}()};
-	sf::RectangleShape rectangle(sf::Vector2f(
-		texture_size.x - (border * 2), texture_size.y - (border * 2)));
+	sf::RectangleShape rectangle(sf::Vector2f(texture_size.x - (border * 2), texture_size.y - (border * 2)));
 	sf::Color fill{sf::Color(bg_colour)};
 	rectangle.setFillColor(sf::Color(fill.r, fill.g, fill.b, _alpha));
 
@@ -280,22 +230,15 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type,
 		else if (_type == WindowFrameType::HINT)
 			return 18u;
 	}()};
-	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)]
-		.setPosition(0, 0);
-	_rtexture.draw(
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)]);
-	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)]
-		.setPosition(texture_size.x - offset, 0);
-	_rtexture.draw(
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)]);
-	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)]
-		.setPosition(0, texture_size.y - offset);
-	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(
-		WindowFrameParts::BOTTOM_LEFT)]);
-	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)]
-		.setPosition(texture_size.x - offset, texture_size.y - offset);
-	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(
-		WindowFrameParts::BOTTOM_RIGHT)]);
+	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)].setPosition(0, 0);
+	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)]);
+	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)].setPosition(texture_size.x - offset, 0);
+	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)]);
+	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)].setPosition(0, texture_size.y - offset);
+	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)]);
+	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)].setPosition(
+		texture_size.x - offset, texture_size.y - offset);
+	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)]);
 
 	// Draw the Sides of the Frame
 	for (auto x = 0u; x < width_units; x++) {
@@ -305,14 +248,11 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type,
 			else if (_type == WindowFrameType::HINT)
 				return 18 + (24 * x);
 		}()};
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)]
-			.setPosition(x_pos, 0);
-		_rtexture.draw(
-			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)]);
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)]
-			.setPosition(x_pos, texture_size.y - (border * 2));
-		_rtexture.draw(_frame_sprites[static_cast<unsigned int>(
-			WindowFrameParts::BOTTOM)]);
+		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)].setPosition(x_pos, 0);
+		_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)]);
+		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)].setPosition(
+			x_pos, texture_size.y - (border * 2));
+		_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)]);
 	}
 	for (auto y = 0u; y < height_units; y++) {
 		auto y_pos{[&] {
@@ -321,14 +261,11 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type,
 			else if (_type == WindowFrameType::HINT)
 				return 18 + (24 * y);
 		}()};
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)]
-			.setPosition(0, y_pos);
-		_rtexture.draw(
-			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)]);
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)]
-			.setPosition(texture_size.x - (border * 2) - 1, y_pos);
-		_rtexture.draw(
-			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)]);
+		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)].setPosition(0, y_pos);
+		_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)]);
+		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)].setPosition(
+			texture_size.x - (border * 2) - 1, y_pos);
+		_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)]);
 	}
 
 #pragma GCC diagnostic pop
@@ -343,8 +280,7 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type,
 	sprite = _frame;
 }
 
-auto Sorcery::Frame::draw(
-	sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::Frame::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 	target.draw(_frame, states);

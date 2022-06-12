@@ -39,8 +39,7 @@ namespace Sorcery {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_version, _party, level, _player_depth, _player_pos,
-				_playing_facing);
+			archive(_version, _party, level, _player_depth, _player_pos, _playing_facing);
 		}
 
 		// Public Members
@@ -51,8 +50,7 @@ namespace Sorcery {
 		auto add_character_by_id(unsigned int char_id) -> bool;
 		auto check_character_in_party(unsigned int char_id) -> bool;
 		auto clear_party() -> void;
-		auto get_character_index(unsigned int char_id)
-			-> std::optional<unsigned int>;
+		auto get_character_index(unsigned int char_id) -> std::optional<unsigned int>;
 		auto get_party_characters() const -> std::vector<unsigned int>;
 		auto get_player_facing() const -> MapDirection;
 		auto get_player_pos() const -> Coordinate;

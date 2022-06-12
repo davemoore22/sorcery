@@ -39,8 +39,8 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Menu(System *system, Display *display, Graphics *graphics, Game *game,
-			const MenuType type, std::optional<MenuMode> _mode = std::nullopt);
+		Menu(System *system, Display *display, Graphics *graphics, Game *game, const MenuType type,
+			std::optional<MenuMode> _mode = std::nullopt);
 		Menu() = delete;
 
 		// Overload [] operator
@@ -53,29 +53,20 @@ namespace Sorcery {
 		unsigned int count;
 
 		// Public Methods
-		auto choose_next()
-			-> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto choose_previous()
-			-> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto choose_first()
-			-> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto choose_last()
-			-> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto choose(const unsigned int index)
-			-> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto choose(std::any option)
-			-> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto set_mouse_selected(sf::Vector2f mouse_pos)
-			-> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto check_menu_mouseover(sf::Vector2f mouse_pos)
-			-> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto choose_next() -> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto choose_previous() -> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto choose_first() -> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto choose_last() -> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto choose(const unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto choose(std::any option) -> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto set_mouse_selected(sf::Vector2f mouse_pos) -> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto check_menu_mouseover(sf::Vector2f mouse_pos) -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto get_mouse_clicked(const sf::Event::MouseButtonEvent mb_event)
 			-> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto get_type() -> MenuType;
 		auto generate(Component &component, bool force_refresh = false) -> void;
 		auto reload() -> void;
-		auto get_by_index(unsigned int index)
-			-> std::optional<std::vector<MenuEntry>::iterator>;
+		auto get_by_index(unsigned int index) -> std::optional<std::vector<MenuEntry>::iterator>;
 		auto num_enabled() -> unsigned int;
 		auto num_disabled() -> unsigned int;
 		auto enable_entry(Component &component, unsigned int index) -> void;
@@ -83,18 +74,13 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
-		auto virtual draw(
-			sf::RenderTarget &target, sf::RenderStates states) const -> void;
-		auto _add_item(const int index, const MenuItemType itemtype,
-			const MenuItem code, std::string key, const bool enabled,
-			const ConfigOption option, const std::string hint) -> void;
-		auto _add_item(int index, const MenuItemType itemtype,
-			const MenuItem code, std::string key) -> void;
+		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto _add_item(const int index, const MenuItemType itemtype, const MenuItem code, std::string key,
+			const bool enabled, const ConfigOption option, const std::string hint) -> void;
+		auto _add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string key) -> void;
 		auto _populate_chars() -> void;
-		auto _select_first()
-			-> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto _select_last()
-			-> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto _select_first() -> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto _select_last() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 
 		// Private Members
 		System *_system;

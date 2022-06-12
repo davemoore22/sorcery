@@ -43,8 +43,7 @@ Sorcery::Tile::Tile() {
 }
 
 // Other Constructors
-Sorcery::Tile::Tile(const std::optional<Coordinate> location)
-	: _location{location} {
+Sorcery::Tile::Tile(const std::optional<Coordinate> location) : _location{location} {
 
 	_north = std::nullopt;
 	_south = std::nullopt;
@@ -59,11 +58,9 @@ Sorcery::Tile::Tile(const std::optional<Coordinate> location)
 	s_id++;
 }
 
-Sorcery::Tile::Tile(std::optional<Coordinate> location,
-	std::optional<TileEdge> north, std::optional<TileEdge> south,
+Sorcery::Tile::Tile(std::optional<Coordinate> location, std::optional<TileEdge> north, std::optional<TileEdge> south,
 	std::optional<TileEdge> east, std::optional<TileEdge> west)
-	: _location{location}, _north{north}, _south{south}, _east{east},
-	  _west{west} {
+	: _location{location}, _north{north}, _south{south}, _east{east}, _west{west} {
 
 	_reset();
 
@@ -79,8 +76,7 @@ auto Sorcery::Tile::loc() const -> Coordinate {
 		return _location.value();
 
 	} catch (std::exception &e) {
-		Error error{
-			SystemError::OPTIONAL_RETURNED, e, "tile.location has no value!"};
+		Error error{SystemError::OPTIONAL_RETURNED, e, "tile.location has no value!"};
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}
@@ -107,8 +103,7 @@ auto Sorcery::Tile::has(const MapDirection direction) const -> bool {
 	}
 }
 
-auto Sorcery::Tile::has(
-	const MapDirection direction, const TileEdge wall_type) const -> bool {
+auto Sorcery::Tile::has(const MapDirection direction, const TileEdge wall_type) const -> bool {
 
 	switch (direction) {
 	case MapDirection::NORTH:
@@ -143,8 +138,7 @@ auto Sorcery::Tile::has(
 
 auto Sorcery::Tile::set_explored() -> void {
 
-	_properties[magic_enum::enum_integer<TileProperty>(
-		TileProperty::EXPLORED)] = true;
+	_properties[magic_enum::enum_integer<TileProperty>(TileProperty::EXPLORED)] = true;
 }
 
 auto Sorcery::Tile::has(const TileFeature feature) const -> bool {
@@ -178,10 +172,8 @@ auto Sorcery::Tile::walkable(const MapDirection direction) const -> bool {
 		break;
 	}
 
-	return (edge == TileEdge::SECRET_DOOR) || (edge == TileEdge::NONE) ||
-		   (edge == TileEdge::UNLOCKED_DOOR) ||
-		   (edge == TileEdge::ONE_WAY_DOOR) ||
-		   (edge == TileEdge::ONE_WAY_HIDDEN_DOOR) ||
+	return (edge == TileEdge::SECRET_DOOR) || (edge == TileEdge::NONE) || (edge == TileEdge::UNLOCKED_DOOR) ||
+		   (edge == TileEdge::ONE_WAY_DOOR) || (edge == TileEdge::ONE_WAY_HIDDEN_DOOR) ||
 		   (edge == TileEdge::HIDDEN_DOOR) || (edge == TileEdge::ONE_WAY_WALL);
 }
 
@@ -273,8 +265,7 @@ auto Sorcery::Tile::set(const TileProperty property) -> void {
 	_properties[magic_enum::enum_integer<TileProperty>(property)] = true;
 }
 
-auto Sorcery::Tile::set(const MapDirection direction, const TileEdge new_wall)
-	-> void {
+auto Sorcery::Tile::set(const MapDirection direction, const TileEdge new_wall) -> void {
 
 	switch (direction) {
 	case MapDirection::NORTH:
@@ -337,9 +328,8 @@ auto Sorcery::Tile::set_elevator(Elevator elevator) -> void {
 	_elevator = elevator;
 }
 
-auto Sorcery::Tile::set(const std::optional<TileEdge> north,
-	const std::optional<TileEdge> south, const std::optional<TileEdge> east,
-	const std::optional<TileEdge> west) -> void {}
+auto Sorcery::Tile::set(const std::optional<TileEdge> north, const std::optional<TileEdge> south,
+	const std::optional<TileEdge> east, const std::optional<TileEdge> west) -> void {}
 
 auto Sorcery::Tile::set(const std::optional<Coordinate> location) {
 
@@ -352,8 +342,7 @@ auto Sorcery::Tile::x() const -> int {
 		return _location.value().x;
 
 	} catch (std::exception &e) {
-		Error error{
-			SystemError::OPTIONAL_RETURNED, e, "tile.location.x has no value!"};
+		Error error{SystemError::OPTIONAL_RETURNED, e, "tile.location.x has no value!"};
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}
@@ -365,8 +354,7 @@ auto Sorcery::Tile::y() const -> int {
 		return _location.value().y;
 
 	} catch (std::exception &e) {
-		Error error{
-			SystemError::OPTIONAL_RETURNED, e, "tile.location.y has no value!"};
+		Error error{SystemError::OPTIONAL_RETURNED, e, "tile.location.y has no value!"};
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}

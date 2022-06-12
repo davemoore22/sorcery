@@ -25,8 +25,7 @@
 #include "compendium.hpp"
 
 // Standard Constructor
-Sorcery::Compendium::Compendium(
-	System *system, Display *display, Graphics *graphics)
+Sorcery::Compendium::Compendium(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the Window and Graphics to Display
@@ -107,8 +106,7 @@ auto Sorcery::Compendium::_do_event_loop() -> std::optional<ModuleResult> {
 	return std::nullopt;
 }
 
-auto Sorcery::Compendium::_handle_input(const sf::Event &event)
-	-> std::optional<ModuleResult> {
+auto Sorcery::Compendium::_handle_input(const sf::Event &event) -> std::optional<ModuleResult> {
 
 	// Check for Window Close
 	if (event.type == sf::Event::Closed)

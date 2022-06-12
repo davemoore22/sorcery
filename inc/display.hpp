@@ -57,17 +57,12 @@ namespace Sorcery {
 
 		// Public Methods
 		auto generate(std::string_view screen) -> void;
-		auto display(std::string_view screen,
+		auto display(std::string_view screen, std::optional<std::any> parameter = std::nullopt) -> void;
+		auto display(std::string_view screen, std::map<std::string, sf::Sprite> &sprites,
+			std::map<std::string, sf::Text> &texts, std::map<std::string, std::shared_ptr<Frame>> &frames,
 			std::optional<std::any> parameter = std::nullopt) -> void;
-		auto display(std::string_view screen,
-			std::map<std::string, sf::Sprite> &sprites,
-			std::map<std::string, sf::Text> &texts,
-			std::map<std::string, std::shared_ptr<Frame>> &frames,
-			std::optional<std::any> parameter = std::nullopt) -> void;
-		auto generate(std::string_view screen,
-			std::map<std::string, sf::Sprite> &sprites,
-			std::map<std::string, sf::Text> &texts,
-			std::map<std::string, std::shared_ptr<Frame>> &frames) -> void;
+		auto generate(std::string_view screen, std::map<std::string, sf::Sprite> &sprites,
+			std::map<std::string, sf::Text> &texts, std::map<std::string, std::shared_ptr<Frame>> &frames) -> void;
 		auto display_cursor() -> void;
 		auto fit_bg_movie() -> void;
 		auto start_bg_movie() -> void;
@@ -96,9 +91,7 @@ namespace Sorcery {
 		std::map<std::string, std::shared_ptr<Frame>> _frames;
 		System *_system;
 		sfe::Movie _background_movie;
-		std::map<Component,
-			std::variant<sf::Sprite, sf::Text, std::shared_ptr<Frame>>>
-			_components;
+		std::map<Component, std::variant<sf::Sprite, sf::Text, std::shared_ptr<Frame>>> _components;
 		std::unique_ptr<IconStore> _icons;
 		bool _show_overlay;
 

@@ -38,8 +38,7 @@ namespace Sorcery {
 
 	  public:
 		// Standard Constructor
-		Legate(System *system, Display *display, Graphics *graphics,
-			Character *character);
+		Legate(System *system, Display *display, Graphics *graphics, Character *character);
 		Legate() = delete;
 
 		// Standard Destructor

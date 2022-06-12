@@ -25,22 +25,18 @@
 #include "temple.hpp"
 
 // Standard Constructor
-Sorcery::Temple::Temple(
-	System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::Temple::Temple(System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
 	// Setup Custom Components
-	_menu = std::make_unique<Menu>(
-		_system, _display, _graphics, _game, MenuType::TEMPLE);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::TEMPLE);
 
 	// Modules
-	_status_bar =
-		std::make_unique<StatusBar>(_system, _display, _graphics, _game);
-	_inspect = std::make_unique<Inspect>(
-		_system, _display, _graphics, _game, MenuMode::TEMPLE);
+	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
+	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MenuMode::TEMPLE);
 }
 
 // Standard Destructor
@@ -63,8 +59,7 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 
 	// Generate the Components
 	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
-	_status_bar->setPosition(
-		_display->window->get_x(_status_bar->sprite, status_bar_c.x),
+	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
 		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
 
 	// Play the background movie!
@@ -73,8 +68,7 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 
 	// And do the main loop
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> option{
-		_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
@@ -105,15 +99,12 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 				else if (_system->input->check(WindowInput::DOWN, event))
 					option = _menu->choose_next();
 				else if (_system->input->check(WindowInput::MOVE, event))
-					option =
-						_menu->set_mouse_selected(static_cast<sf::Vector2f>(
-							sf::Mouse::getPosition(*_window)));
+					option = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 				else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
 					// We have selected something from the menu
 					if (option) {
-						if (const MenuItem option_chosen{
-								(*option.value()).item};
+						if (const MenuItem option_chosen{(*option.value()).item};
 							option_chosen == MenuItem::TE_CASTLE) {
 							return MenuItem::TE_CASTLE;
 						} else if (option_chosen == MenuItem::TE_INSPECT) {
@@ -124,8 +115,7 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 							}
 							_inspect->stop();
 							_display->generate("temple");
-							_display->set_input_mode(
-								WindowInputMode::NAVIGATE_MENU);
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							continue;
 						}
 					}
@@ -161,8 +151,7 @@ auto Sorcery::Temple::_draw() -> void {
 
 	// And the Menu
 	_menu->generate((*_display->layout)["temple:menu"]);
-	const sf::Vector2f menu_pos((*_display->layout)["temple:menu"].x,
-		(*_display->layout)["temple:menu"].y);
+	const sf::Vector2f menu_pos((*_display->layout)["temple:menu"].x, (*_display->layout)["temple:menu"].y);
 	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 

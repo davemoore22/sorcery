@@ -39,12 +39,10 @@ namespace Sorcery {
 
 		// Overload [] operator
 		auto operator[](std::string_view combined_key) -> Component &;
-		auto operator()(std::string_view screen)
-			-> std::optional<std::vector<Component>>;
+		auto operator()(std::string_view screen) -> std::optional<std::vector<Component>>;
 
 		// Public Methods
-		auto set_grid(unsigned int cell_width, unsigned int cell_height)
-			-> void;
+		auto set_grid(unsigned int cell_width, unsigned int cell_height) -> void;
 		auto get_error() -> Component &;
 
 	  private:

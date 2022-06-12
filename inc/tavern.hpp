@@ -42,8 +42,7 @@ namespace Sorcery {
 
 	  public:
 		// Standard Constructor
-		Tavern(
-			System *system, Display *display, Graphics *graphics, Game *game);
+		Tavern(System *system, Display *display, Graphics *graphics, Game *game);
 		Tavern() = delete;
 
 		// Standard Destructor

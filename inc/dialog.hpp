@@ -37,17 +37,15 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Dialog(System *system, Display *display, Graphics *graphics,
-			Component &_frame_c, Component &string_c, WindowDialogType type);
+		Dialog(System *system, Display *display, Graphics *graphics, Component &_frame_c, Component &string_c,
+			WindowDialogType type);
 		Dialog() = delete;
 
 		// Public Members
 
 		// Public Methods
-		auto check_for_mouse_move(const sf::Vector2f mouse_pos)
-			-> std::optional<WindowDialogButton>;
-		auto check_if_option_selected(const sf::Vector2f mouse_pos)
-			-> std::optional<WindowDialogButton>;
+		auto check_for_mouse_move(const sf::Vector2f mouse_pos) -> std::optional<WindowDialogButton>;
+		auto check_if_option_selected(const sf::Vector2f mouse_pos) -> std::optional<WindowDialogButton>;
 		auto get_selected() const -> WindowDialogButton;
 		auto set_selected(WindowDialogButton value) -> void;
 		auto toggle_highlighted() -> WindowDialogButton;
@@ -61,8 +59,7 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
-		auto virtual draw(
-			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _refresh(Component &string_c) -> void;
 
 		// Private Members
@@ -95,10 +92,8 @@ namespace Sorcery {
 
 		std::unique_ptr<Frame> _frame;
 
-		std::optional<std::chrono::time_point<std::chrono::system_clock>>
-			_start;
-		std::optional<std::chrono::time_point<std::chrono::system_clock>>
-			_current_time;
+		std::optional<std::chrono::time_point<std::chrono::system_clock>> _start;
+		std::optional<std::chrono::time_point<std::chrono::system_clock>> _current_time;
 		bool _valid;
 		unsigned int _duration;
 	};

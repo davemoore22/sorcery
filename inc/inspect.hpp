@@ -41,8 +41,7 @@ namespace Sorcery {
 
 	  public:
 		// Standard Constructor
-		Inspect(System *system, Display *display, Graphics *graphics,
-			Game *game, MenuMode mode);
+		Inspect(System *system, Display *display, Graphics *graphics, Game *game, MenuMode mode);
 		Inspect() = delete;
 
 		// Standard Destructor

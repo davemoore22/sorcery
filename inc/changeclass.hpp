@@ -42,8 +42,7 @@ namespace Sorcery {
 
 	  public:
 		// Standard Constructor
-		ChangeClass(System *system, Display *display, Graphics *graphics,
-			Character *character);
+		ChangeClass(System *system, Display *display, Graphics *graphics, Character *character);
 		ChangeClass() = delete;
 
 		// Standard Destructor
@@ -59,8 +58,7 @@ namespace Sorcery {
 		// Private Methods
 		auto _draw() -> void;
 		auto _set_classes_menu() -> void;
-		auto _set_info_panel_contents(
-			std::vector<Sorcery::MenuEntry>::const_iterator it) -> void;
+		auto _set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void;
 
 		// Private Members
 		System *_system;

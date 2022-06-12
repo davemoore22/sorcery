@@ -55,8 +55,7 @@ namespace Sorcery {
 	  private:
 		// Private Methods
 		auto _get_control_gfx(WindowInputCategory input) -> sf::Sprite;
-		auto virtual draw(
-			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
 		System *_system;

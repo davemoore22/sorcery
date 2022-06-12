@@ -43,8 +43,7 @@ namespace Sorcery {
 
 	  public:
 		// Standard Constructor
-		EdgeOfTown(
-			System *system, Display *display, Graphics *graphics, Game *game);
+		EdgeOfTown(System *system, Display *display, Graphics *graphics, Game *game);
 		EdgeOfTown() = delete;
 
 		// Standard Destructor

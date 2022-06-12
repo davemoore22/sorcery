@@ -45,11 +45,9 @@ Sorcery::Application::Application(int argc, char **argv) {
 	if (!_check_param(SKIP_INTRO)) {
 
 		// Show the Splash Screen and the Banner before starting the Main Menu
-		_splash = std::make_unique<Splash>(
-			system.get(), display.get(), graphics.get());
+		_splash = std::make_unique<Splash>(system.get(), display.get(), graphics.get());
 		_splash->start();
-		_banner = std::make_unique<Banner>(
-			system.get(), display.get(), graphics.get());
+		_banner = std::make_unique<Banner>(system.get(), display.get(), graphics.get());
 		_banner->start();
 	}
 
@@ -61,16 +59,11 @@ Sorcery::Application::Application(int argc, char **argv) {
 	_game = std::make_unique<Game>(system.get(), display.get(), graphics.get());
 
 	// Generate the necessary modules
-	_mainmenu = std::make_unique<MainMenu>(
-		system.get(), display.get(), graphics.get(), _game.get());
-	_license =
-		std::make_unique<License>(system.get(), display.get(), graphics.get());
-	_options =
-		std::make_unique<Options>(system.get(), display.get(), graphics.get());
-	_compendium = std::make_unique<Compendium>(
-		system.get(), display.get(), graphics.get());
-	_castle = std::make_unique<Castle>(
-		system.get(), display.get(), graphics.get(), _game.get());
+	_mainmenu = std::make_unique<MainMenu>(system.get(), display.get(), graphics.get(), _game.get());
+	_license = std::make_unique<License>(system.get(), display.get(), graphics.get());
+	_options = std::make_unique<Options>(system.get(), display.get(), graphics.get());
+	_compendium = std::make_unique<Compendium>(system.get(), display.get(), graphics.get());
+	_castle = std::make_unique<Castle>(system.get(), display.get(), graphics.get(), _game.get());
 }
 
 // Standard Destructor
@@ -171,12 +164,10 @@ auto Sorcery::Application::start() -> int {
 }
 
 // Check for a command line parameter
-auto Sorcery::Application::_check_param(std::string_view parameter) const
-	-> bool {
+auto Sorcery::Application::_check_param(std::string_view parameter) const -> bool {
 
 	for (auto arg : _arguments)
-		if (const auto match_found{arg.find(parameter)};
-			match_found != std::string::npos)
+		if (const auto match_found{arg.find(parameter)}; match_found != std::string::npos)
 			return true;
 
 	return false;
@@ -186,26 +177,22 @@ auto Sorcery::Application::_display_loading_window() -> void {
 
 	// Just use the 2nd highest screen resolution to handle multimonitor modes
 	std::vector<sf::VideoMode> video_modes{sf::VideoMode::getFullscreenModes()};
-	sf::Vector2i screen_size{static_cast<int>(video_modes[1].width),
-		static_cast<int>(video_modes[1].height)};
+	sf::Vector2i screen_size{static_cast<int>(video_modes[1].width), static_cast<int>(video_modes[1].height)};
 
 	// Hard Coded since we don't have access to any file resources at this point
 	const std::filesystem::path base_path{_get_exe_path()};
-	const std::filesystem::path image_path{
-		base_path / GRAPHICS_DIR / LOADING_IMAGE};
+	const std::filesystem::path image_path{base_path / GRAPHICS_DIR / LOADING_IMAGE};
 	auto scale{0.5f};
 
 	sf::Image loading{};
 	loading.loadFromFile(image_path.string());
 
 	const sf::Vector2u splash_size{
-		static_cast<unsigned int>(loading.getSize().x * scale),
-		static_cast<unsigned int>(loading.getSize().y * scale)};
-	_load_window.create(sf::VideoMode(splash_size.x, splash_size.y),
-		"Sorcery: Shadows under Llylgamyn", sf::Style::Default);
+		static_cast<unsigned int>(loading.getSize().x * scale), static_cast<unsigned int>(loading.getSize().y * scale)};
+	_load_window.create(
+		sf::VideoMode(splash_size.x, splash_size.y), "Sorcery: Shadows under Llylgamyn", sf::Style::Default);
 	_load_window.setVerticalSyncEnabled(true);
-	_load_window.setPosition(sf::Vector2i((screen_size.x - splash_size.x) / 2,
-		(screen_size.y - splash_size.y) / 2));
+	_load_window.setPosition(sf::Vector2i((screen_size.x - splash_size.x) / 2, (screen_size.y - splash_size.y) / 2));
 	_load_window.clear({0, 0, 0, 175});
 
 	sf::Texture texture{};
@@ -228,8 +215,7 @@ auto Sorcery::Application::_hide_loading_window() -> void {
 auto Sorcery::Application::_get_exe_path() -> std::string_view {
 
 	char result[PATH_MAX];
-	if (const ssize_t count{readlink("/proc/self/exe", result, PATH_MAX)};
-		count != -1) {
+	if (const ssize_t count{readlink("/proc/self/exe", result, PATH_MAX)}; count != -1) {
 		const char *path{dirname(result)};
 		std::string_view base_path{path};
 		return base_path;

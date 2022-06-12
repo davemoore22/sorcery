@@ -36,40 +36,32 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Window(System *system, String *string, Layout *layout,
-			const std::string &title);
+		Window(System *system, String *string, Layout *layout, const std::string &title);
 		Window() = delete;
 
 		// Public Methods
 		auto clear_window() -> void;
 		auto display_window() -> void;
 		auto draw_text(sf::Text &text) -> void;
-		auto draw_text(sf::Text &text, const Component &component,
-			const double lerp = -1.0f) -> void;
-		auto draw_text(sf::Text &text, const Component &component,
-			const std::string &string) -> void;
-		auto draw_text(sf::Text &text, const Component &component,
-			const std::string &string, const double lerp) -> void;
+		auto draw_text(sf::Text &text, const Component &component, const double lerp = -1.0f) -> void;
+		auto draw_text(sf::Text &text, const Component &component, const std::string &string) -> void;
+		auto draw_text(sf::Text &text, const Component &component, const std::string &string, const double lerp)
+			-> void;
 		auto draw_gui() -> void;
 		auto get_ch() const -> unsigned int;
 		auto get_cw() const -> unsigned int;
 		auto get_cursor() const -> sf::Sprite;
 		auto get_gui() -> tgui::Gui *;
 		auto get_window() -> sf::RenderWindow *;
-		auto get_x(const sf::Sprite &sprite, int x_position) const
-			-> unsigned int;
-		auto get_y(const sf::Sprite &sprite, int y_position) const
-			-> unsigned int;
+		auto get_x(const sf::Sprite &sprite, int x_position) const -> unsigned int;
+		auto get_y(const sf::Sprite &sprite, int y_position) const -> unsigned int;
 		auto get_x(const sf::Text &text, int x_position) const -> unsigned int;
 		auto get_y(const sf::Text &text, int y_position) const -> unsigned int;
 		auto get_x(unsigned int width, int x_position) const -> unsigned int;
 		auto get_y(unsigned int width, int y_position) const -> unsigned int;
-		auto hl_text(sf::Text &text, Component component, double lerp)
-			-> sf::RectangleShape;
-		auto shove_text(
-			sf::Text &shovee, sf::Text &shover, unsigned int gap_units) -> void;
-		auto shove_text(sf::Text &shovee, sf::Text &shover, float gap_units)
-			-> void;
+		auto hl_text(sf::Text &text, Component component, double lerp) -> sf::RectangleShape;
+		auto shove_text(sf::Text &shovee, sf::Text &shover, unsigned int gap_units) -> void;
+		auto shove_text(sf::Text &shovee, sf::Text &shover, float gap_units) -> void;
 		auto set_input_mode(WindowInputMode value) -> void;
 		auto get_input_mode() const -> WindowInputMode;
 		auto set_pos(Component *component, sf::Transformable *object) -> void;
@@ -85,14 +77,11 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
-		auto _adjust_brightness(sf::Color colour, double colour_lerp)
-			-> unsigned long long;
-		auto _draw_text(sf::Text &text, const Component &component,
-			const double lerp) -> void;
-		auto _draw_text(sf::Text &text, const Component &component,
-			const std::string &string, const double lerp) -> void;
-		auto _draw_text(sf::Text &text, const Component &component,
-			const std::string &string) -> void;
+		auto _adjust_brightness(sf::Color colour, double colour_lerp) -> unsigned long long;
+		auto _draw_text(sf::Text &text, const Component &component, const double lerp) -> void;
+		auto _draw_text(sf::Text &text, const Component &component, const std::string &string, const double lerp)
+			-> void;
+		auto _draw_text(sf::Text &text, const Component &component, const std::string &string) -> void;
 		auto _draw_text(sf::Text &text) -> void;
 		auto _get_centre_x(const sf::Sprite &sprite) const -> unsigned int;
 		auto _get_centre_x(const sf::Text &text) const -> unsigned int;
@@ -100,18 +89,12 @@ namespace Sorcery {
 		auto _get_centre_y(const sf::Sprite &sprite) const -> unsigned int;
 		auto _get_centre_y(const sf::Text &text) const -> unsigned int;
 		auto _get_centre_y(unsigned int width) const -> unsigned int;
-		auto _get_x(const sf::Sprite &sprite, const int x_position) const
-			-> unsigned int;
-		auto _get_x(const sf::Text &text, const int x_position) const
-			-> unsigned int;
-		auto _get_x(unsigned int width, const int x_position) const
-			-> unsigned int;
-		auto _get_y(const sf::Sprite &sprite, const int y_position) const
-			-> unsigned int;
-		auto _get_y(const sf::Text &text, const int y_position) const
-			-> unsigned int;
-		auto _get_y(unsigned int width, const int y_position) const
-			-> unsigned int;
+		auto _get_x(const sf::Sprite &sprite, const int x_position) const -> unsigned int;
+		auto _get_x(const sf::Text &text, const int x_position) const -> unsigned int;
+		auto _get_x(unsigned int width, const int x_position) const -> unsigned int;
+		auto _get_y(const sf::Sprite &sprite, const int y_position) const -> unsigned int;
+		auto _get_y(const sf::Text &text, const int y_position) const -> unsigned int;
+		auto _get_y(unsigned int width, const int y_position) const -> unsigned int;
 
 		// Private Members
 		ScreenSize _default_size;

@@ -25,10 +25,8 @@
 #include "changename.hpp"
 
 // Standard Constructor
-Sorcery::ChangeName::ChangeName(
-	System *system, Display *display, Graphics *graphics, std::string old_name)
-	: _system{system}, _display{display}, _graphics{graphics}, _old_name{
-																   old_name} {
+Sorcery::ChangeName::ChangeName(System *system, Display *display, Graphics *graphics, std::string old_name)
+	: _system{system}, _display{display}, _graphics{graphics}, _old_name{old_name} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
@@ -39,15 +37,12 @@ Sorcery::ChangeName::ChangeName(
 	// Setup the Name
 	_new_name = _old_name;
 
-	Component name_candidate_c{
-		(*_display->layout)["change_name:name_candidate"]};
-	_name_candidate = std::make_unique<Text>(_system, _display,
-		name_candidate_c,
+	Component name_candidate_c{(*_display->layout)["change_name:name_candidate"]};
+	_name_candidate = std::make_unique<Text>(_system, _display, name_candidate_c,
 		magic_enum::enum_integer<ComponentElement>(ComponentElement::COLOUR) |
 			magic_enum::enum_integer<ComponentElement>(ComponentElement::FONT) |
 			magic_enum::enum_integer<ComponentElement>(ComponentElement::SIZE) |
-			magic_enum::enum_integer<ComponentElement>(
-				ComponentElement::JUSTIFICATION));
+			magic_enum::enum_integer<ComponentElement>(ComponentElement::JUSTIFICATION));
 	auto x{(*_display->layout)["change_name:name_candidate"].x == -1
 			   ? _display->window->centre.x
 			   : (*_display->layout)["change_name:name_candidate"].x};
@@ -62,8 +57,8 @@ Sorcery::ChangeName::~ChangeName() {}
 
 auto Sorcery::ChangeName::start() -> std::optional<std::string> {
 
-	_keyboard->setPosition((*_display->layout)["change_name:keyboard"].x,
-		(*_display->layout)["change_name:keyboard"].y);
+	_keyboard->setPosition(
+		(*_display->layout)["change_name:keyboard"].x, (*_display->layout)["change_name:keyboard"].y);
 
 	const Component name_c{(*_display->layout)["change_name:name_candidate"]};
 
@@ -139,17 +134,14 @@ auto Sorcery::ChangeName::is_changed() -> bool {
 	return _old_name != _new_name;
 }
 
-auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event)
-	-> std::optional<bool> {
+auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event) -> std::optional<bool> {
 
 	auto candidate_name{_new_name};
 	if (_system->input->check(WindowInput::MOVE, event)) {
 
-		sf::Vector2f mouse_pos{
-			static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
-		std::optional<std::string> mouse_selected{_keyboard->set_mouse_selected(
-			(*_display->layout)["character_create_stage_1:keyboard"],
-			mouse_pos)};
+		sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
+		std::optional<std::string> mouse_selected{
+			_keyboard->set_mouse_selected((*_display->layout)["character_create_stage_1:keyboard"], mouse_pos)};
 		if (mouse_selected)
 			_keyboard->selected = mouse_selected.value();
 	} else if ((_system->input->check(WindowInput::ALPHANUMERIC, event)) ||
@@ -239,9 +231,8 @@ auto Sorcery::ChangeName::_draw() -> void {
 
 	// Handle Custom Components
 	auto lerp{_graphics->animation->colour_lerp};
-	sf::Color adjusted{static_cast<sf::Color>(_graphics->adjust_brightness(
-		sf::Color((*_display->layout)["change_name:name_candidate"].colour),
-		lerp))};
+	sf::Color adjusted{static_cast<sf::Color>(
+		_graphics->adjust_brightness(sf::Color((*_display->layout)["change_name:name_candidate"].colour), lerp))};
 	_name_candidate->set_fill_colour(adjusted);
 
 	auto display_name{_new_name + "_"};

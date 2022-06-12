@@ -42,8 +42,7 @@ namespace Sorcery {
 
 	  public:
 		// Standard Constructor
-		Training(
-			System *system, Display *display, Graphics *graphics, Game *game);
+		Training(System *system, Display *display, Graphics *graphics, Game *game);
 		Training() = delete;
 
 		// Standard Destructor

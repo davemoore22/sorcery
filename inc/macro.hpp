@@ -47,9 +47,7 @@ namespace Sorcery {
 	}
 
 	// Timepoint to String
-	inline auto TP2STR(
-		const std::chrono::time_point<std::chrono::system_clock> tp)
-		-> std::string {
+	inline auto TP2STR(const std::chrono::time_point<std::chrono::system_clock> tp) -> std::string {
 
 		auto t{std::chrono::system_clock::to_time_t(tp)};
 		std::string ts{std::ctime(&t)};
@@ -70,12 +68,9 @@ namespace Sorcery {
 	}
 
 	// Pad a string to the desired length
-	inline auto PADSTR(std::string &string, unsigned int width,
-		bool pad_both = false) -> std::string {
+	inline auto PADSTR(std::string &string, unsigned int width, bool pad_both = false) -> std::string {
 		if (static_cast<unsigned int>(string.size()) < width) {
-			const std::string::size_type padding{
-				pad_both ? (width - string.size()) / 2
-						 : (width - string.size())};
+			const std::string::size_type padding{pad_both ? (width - string.size()) / 2 : (width - string.size())};
 			std::string string_copy{string};
 			if (pad_both)
 				string_copy.insert(0, padding, ' ');
@@ -90,10 +85,9 @@ namespace Sorcery {
 
 	// Trim a string
 	inline auto LTRIM(std::string &s) -> void {
-		s.erase(
-			s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
-				return !std::isspace(ch);
-			}));
+		s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+			return !std::isspace(ch);
+		}));
 	}
 
 	// trim from end (in place)
@@ -113,22 +107,19 @@ namespace Sorcery {
 	}
 
 	// trim from start (copying)
-	inline auto LTRIM_COPY(std::string s)
-		-> std::string { // NOLINT(clang-diagnostic-unused-function)
+	inline auto LTRIM_COPY(std::string s) -> std::string { // NOLINT(clang-diagnostic-unused-function)
 		LTRIM(s);
 		return s;
 	}
 
 	// trim from end (copying)
-	inline auto RTRIM_COPY(std::string s)
-		-> std::string { // NOLINT(clang-diagnostic-unused-function)
+	inline auto RTRIM_COPY(std::string s) -> std::string { // NOLINT(clang-diagnostic-unused-function)
 		RTRIM(s);
 		return s;
 	}
 
 	// trim from both ends (copying)
-	inline auto TRIM_COPY(std::string s)
-		-> std::string { // NOLINT(clang-diagnostic-unused-function)
+	inline auto TRIM_COPY(std::string s) -> std::string { // NOLINT(clang-diagnostic-unused-function)
 		TRIM(s);
 		return s;
 	}
@@ -139,8 +130,7 @@ namespace Sorcery {
 		unsigned line_begin{0};
 		while (line_begin < text.size()) {
 			const unsigned int ideal_end{line_begin + per_line};
-			unsigned int line_end =
-				ideal_end <= text.size() ? ideal_end : text.size() - 1;
+			unsigned int line_end = ideal_end <= text.size() ? ideal_end : text.size() - 1;
 
 			if (line_end == text.size() - 1)
 				++line_end;
@@ -181,8 +171,7 @@ namespace Sorcery {
 
 		std::istringstream iss(text);
 		std::vector<std::string> results(
-			(std::istream_iterator<std::string>(iss)),
-			std::istream_iterator<std::string>());
+			(std::istream_iterator<std::string>(iss)), std::istream_iterator<std::string>());
 
 		return results;
 	}

@@ -48,8 +48,7 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
-		auto virtual draw(
-			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
 		Graphics *_graphics;

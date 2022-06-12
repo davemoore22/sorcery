@@ -24,10 +24,8 @@
 
 #include "console.hpp"
 
-Sorcery::Console::Console(tgui::Gui *gui, System *system, Display *display,
-	Graphics *graphics, Game *game)
-	: _gui{gui}, _system{system}, _display{display}, _graphics{graphics},
-	  _game{game} {}
+Sorcery::Console::Console(tgui::Gui *gui, System *system, Display *display, Graphics *graphics, Game *game)
+	: _gui{gui}, _system{system}, _display{display}, _graphics{graphics}, _game{game} {}
 
 auto Sorcery::Console::refresh() -> void {
 
@@ -61,7 +59,6 @@ auto Sorcery::Console::refresh() -> void {
 	logs->setReadOnly(true);
 
 	for (const auto &log_item : _game->console_log)
-		logs->addText(fmt::format("#{:06} {} {}\n", log_item.id,
-			TP2STR(log_item.datetime), log_item.text));
+		logs->addText(fmt::format("#{:06} {} {}\n", log_item.id, TP2STR(log_item.datetime), log_item.text));
 	body_panel->add(logs, "InfoEdit");
 }

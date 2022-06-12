@@ -34,16 +34,14 @@ namespace Sorcery {
 		// Constructors
 		Tile();
 		Tile(std::optional<Coordinate> location);
-		Tile(std::optional<Coordinate> location, std::optional<TileEdge> north,
-			std::optional<TileEdge> south, std::optional<TileEdge> east,
-			std::optional<TileEdge> west);
+		Tile(std::optional<Coordinate> location, std::optional<TileEdge> north, std::optional<TileEdge> south,
+			std::optional<TileEdge> east, std::optional<TileEdge> west);
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_location, _north, _south, _east, _west, _texture_id,
-				_properties, _features, _items, _events, _room_id, _treasure_id,
-				_effect_id, _description_id, _characters, _lighting, _teleport,
-				_stairs, _elevator, _id, s_id);
+			archive(_location, _north, _south, _east, _west, _texture_id, _properties, _features, _items, _events,
+				_room_id, _treasure_id, _effect_id, _description_id, _characters, _lighting, _teleport, _stairs,
+				_elevator, _id, s_id);
 		}
 
 		// No resources so no move/copy constructors needed
@@ -57,8 +55,7 @@ namespace Sorcery {
 		auto gfx(const unsigned int texture) -> void;
 		auto gfx() -> std::optional<unsigned int>;
 		auto has(const MapDirection direction) const -> bool;
-		auto has(const MapDirection direction, const TileEdge wall_type) const
-			-> bool;
+		auto has(const MapDirection direction, const TileEdge wall_type) const -> bool;
 		auto has(const TileFeature feature) const -> bool;
 		auto has_stairs() const -> std::optional<Teleport>;
 		auto has_teleport() const -> std::optional<Teleport>;
@@ -73,10 +70,8 @@ namespace Sorcery {
 		auto set(const TileFeature feature) -> void;
 		auto set(const TileProperty property) -> void;
 		auto set(const MapDirection direction, TileEdge new_wall) -> void;
-		auto set(const std::optional<TileEdge> north,
-			const std::optional<TileEdge> south,
-			const std::optional<TileEdge> east,
-			const std::optional<TileEdge> west) -> void;
+		auto set(const std::optional<TileEdge> north, const std::optional<TileEdge> south,
+			const std::optional<TileEdge> east, const std::optional<TileEdge> west) -> void;
 		auto set(const std::optional<Coordinate> location);
 		auto set_explored() -> void;
 		auto set_teleport(Teleport teleport) -> void;

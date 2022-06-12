@@ -25,29 +25,24 @@
 #include "castle.hpp"
 
 // Standard Constructor
-Sorcery::Castle::Castle(
-	System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::Castle::Castle(System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
 	// Setup Custom Components
-	_menu = std::make_unique<Menu>(
-		_system, _display, _graphics, _game, MenuType::CASTLE);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CASTLE);
 
-	_leave_game = std::make_unique<Dialog>(_system, _display, _graphics,
-		(*_display->layout)["castle:dialog_leave_game"],
-		(*_display->layout)["castle:dialog_leave_game_text"],
-		WindowDialogType::CONFIRM);
-	_leave_game->setPosition((*_display->layout)["castle:dialog_leave_game"].x,
-		(*_display->layout)["castle:dialog_leave_game"].y);
+	_leave_game =
+		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["castle:dialog_leave_game"],
+			(*_display->layout)["castle:dialog_leave_game_text"], WindowDialogType::CONFIRM);
+	_leave_game->setPosition(
+		(*_display->layout)["castle:dialog_leave_game"].x, (*_display->layout)["castle:dialog_leave_game"].y);
 
 	// Modules
-	_status_bar =
-		std::make_unique<StatusBar>(_system, _display, _graphics, _game);
-	_edge_of_town =
-		std::make_unique<EdgeOfTown>(_system, _display, _graphics, _game);
+	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
+	_edge_of_town = std::make_unique<EdgeOfTown>(_system, _display, _graphics, _game);
 	_tavern = std::make_unique<Tavern>(_system, _display, _graphics, _game);
 	_inn = std::make_unique<Inn>(_system, _display, _graphics, _game);
 	_shop = std::make_unique<Shop>(_system, _display, _graphics, _game);
@@ -58,8 +53,7 @@ Sorcery::Castle::Castle(
 Sorcery::Castle::~Castle() {}
 
 // Start/Continue a new Game
-auto Sorcery::Castle::start(bool go_directly_to_maze)
-	-> std::optional<MenuItem> {
+auto Sorcery::Castle::start(bool go_directly_to_maze) -> std::optional<MenuItem> {
 
 	if (go_directly_to_maze) {
 		auto edge_option{_edge_of_town->start(true)};
@@ -83,8 +77,7 @@ auto Sorcery::Castle::start(bool go_directly_to_maze)
 
 	// Generate the Components
 	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
-	_status_bar->setPosition(
-		_display->window->get_x(_status_bar->sprite, status_bar_c.x),
+	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
 		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
 
 	// Refresh the Party characters
@@ -96,8 +89,7 @@ auto Sorcery::Castle::start(bool go_directly_to_maze)
 
 	// And do the main loop
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> option{
-		_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
@@ -122,9 +114,7 @@ auto Sorcery::Castle::start(bool go_directly_to_maze)
 				else if (_system->input->check(WindowInput::DOWN, event))
 					option = _menu->choose_next();
 				else if (_system->input->check(WindowInput::MOVE, event))
-					option =
-						_menu->set_mouse_selected(static_cast<sf::Vector2f>(
-							sf::Mouse::getPosition(*_window)));
+					option = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 				else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
 					// We have selected something from the menu
@@ -134,24 +124,20 @@ auto Sorcery::Castle::start(bool go_directly_to_maze)
 							auto edge_option{_edge_of_town->start()};
 							_edge_of_town->stop();
 							if (edge_option) {
-								if (edge_option.value() ==
-									MenuItem::ET_LEAVE_GAME)
+								if (edge_option.value() == MenuItem::ET_LEAVE_GAME)
 									return MenuItem::ET_LEAVE_GAME;
-								else if (edge_option.value() ==
-										 MenuItem::ABORT) {
+								else if (edge_option.value() == MenuItem::ABORT) {
 									_game->save_game();
 									_display->shutdown_SFML();
 									return MenuItem::ABORT;
 								}
 							}
 							_display->generate("castle");
-							_display->set_input_mode(
-								WindowInputMode::NAVIGATE_MENU);
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							continue;
 						} else if (option_chosen == MenuItem::CA_TAVERN) {
 							auto tavern_option{_tavern->start()};
-							if (tavern_option &&
-								tavern_option.value() == MenuItem::ABORT) {
+							if (tavern_option && tavern_option.value() == MenuItem::ABORT) {
 								_game->save_game();
 								_display->shutdown_SFML();
 								return MenuItem::ABORT;
@@ -161,13 +147,11 @@ auto Sorcery::Castle::start(bool go_directly_to_maze)
 							_status_bar->refresh();
 							_update_menus();
 							_display->generate("castle");
-							_display->set_input_mode(
-								WindowInputMode::NAVIGATE_MENU);
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							continue;
 						} else if (option_chosen == MenuItem::CA_INN) {
 							auto inn_option{_inn->start()};
-							if (inn_option &&
-								inn_option.value() == MenuItem::ABORT) {
+							if (inn_option && inn_option.value() == MenuItem::ABORT) {
 								_game->save_game();
 								_display->shutdown_SFML();
 								return MenuItem::ABORT;
@@ -176,13 +160,11 @@ auto Sorcery::Castle::start(bool go_directly_to_maze)
 							_game->save_game();
 							_status_bar->refresh();
 							_display->generate("castle");
-							_display->set_input_mode(
-								WindowInputMode::NAVIGATE_MENU);
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							continue;
 						} else if (option_chosen == MenuItem::CA_SHOP) {
 							auto shop_option{_shop->start()};
-							if (shop_option &&
-								shop_option.value() == MenuItem::ABORT) {
+							if (shop_option && shop_option.value() == MenuItem::ABORT) {
 								_game->save_game();
 								_display->shutdown_SFML();
 								return MenuItem::ABORT;
@@ -191,13 +173,11 @@ auto Sorcery::Castle::start(bool go_directly_to_maze)
 							_game->save_game();
 							_status_bar->refresh();
 							_display->generate("castle");
-							_display->set_input_mode(
-								WindowInputMode::NAVIGATE_MENU);
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							continue;
 						} else if (option_chosen == MenuItem::CA_TEMPLE) {
 							auto temple_option{_temple->start()};
-							if (temple_option &&
-								temple_option.value() == MenuItem::ABORT) {
+							if (temple_option && temple_option.value() == MenuItem::ABORT) {
 								_game->save_game();
 								_display->shutdown_SFML();
 								return MenuItem::ABORT;
@@ -206,35 +186,26 @@ auto Sorcery::Castle::start(bool go_directly_to_maze)
 							_game->save_game();
 							_status_bar->refresh();
 							_display->generate("castle");
-							_display->set_input_mode(
-								WindowInputMode::NAVIGATE_MENU);
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							continue;
 						}
 					}
-				} else if ((_system->input->check(
-							   WindowInput::CANCEL, event)) ||
-						   ((_system->input->check(
-							   WindowInput::BACK, event)))) {
-					_display->set_input_mode(
-						WindowInputMode::CONFIRM_LEAVE_GAME);
+				} else if ((_system->input->check(WindowInput::CANCEL, event)) ||
+						   ((_system->input->check(WindowInput::BACK, event)))) {
+					_display->set_input_mode(WindowInputMode::CONFIRM_LEAVE_GAME);
 				}
-			} else if (_display->get_input_mode() ==
-					   WindowInputMode::CONFIRM_LEAVE_GAME) {
+			} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME) {
 
 				auto dialog_input{_leave_game->handle_input(event)};
 				if (dialog_input) {
 					if (dialog_input.value() == WindowDialogButton::CLOSE) {
-						_display->set_input_mode(
-							WindowInputMode::NAVIGATE_MENU);
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 						return std::nullopt;
-					} else if (dialog_input.value() ==
-							   WindowDialogButton::YES) {
-						_display->set_input_mode(
-							WindowInputMode::NAVIGATE_MENU);
+					} else if (dialog_input.value() == WindowDialogButton::YES) {
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 						return MenuItem::ET_LEAVE_GAME;
 					} else if (dialog_input.value() == WindowDialogButton::NO) {
-						_display->set_input_mode(
-							WindowInputMode::NAVIGATE_MENU);
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					}
 				}
 			}
@@ -282,8 +253,7 @@ auto Sorcery::Castle::_draw() -> void {
 
 	// And the Menu
 	_menu->generate((*_display->layout)["castle:menu"]);
-	const sf::Vector2f menu_pos((*_display->layout)["castle:menu"].x,
-		(*_display->layout)["castle:menu"].y);
+	const sf::Vector2f menu_pos((*_display->layout)["castle:menu"].x, (*_display->layout)["castle:menu"].y);
 	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 	if (_display->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME) {

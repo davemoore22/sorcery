@@ -28,14 +28,11 @@
 Sorcery::Graphics::Graphics(System *system, Display *display) {
 
 	animation = std::make_unique<Animation>(system, display);
-	icons = std::make_unique<IconStore>(system,
-		(*display->layout)["global:icon"], (*system->files)[ICONS_FILE]);
-	textures =
-		std::make_unique<TextureStore>(system, (*system->files)[TEXTURES_FILE]);
+	icons = std::make_unique<IconStore>(system, (*display->layout)["global:icon"], (*system->files)[ICONS_FILE]);
+	textures = std::make_unique<TextureStore>(system, (*system->files)[TEXTURES_FILE]);
 }
 
-auto Sorcery::Graphics::adjust_brightness(sf::Color colour, double colour_lerp)
-	-> unsigned long long {
+auto Sorcery::Graphics::adjust_brightness(sf::Color colour, double colour_lerp) -> unsigned long long {
 
 	thor::ColorGradient gradient{};
 	gradient[0.0f] = sf::Color(0x404040ff);
@@ -45,16 +42,14 @@ auto Sorcery::Graphics::adjust_brightness(sf::Color colour, double colour_lerp)
 	return (gradient.sampleColor(colour_lerp)).toInteger();
 }
 
-auto Sorcery::Graphics::adjust_status_colour(
-	Enums::Character::CStatus value, bool poisoned) -> unsigned long long {
+auto Sorcery::Graphics::adjust_status_colour(Enums::Character::CStatus value, bool poisoned) -> unsigned long long {
 
 	thor::ColorGradient gradient{};
 	gradient[0.0f] = sf::Color(0xbf0000ff);
 	gradient[(1.0f / 8.0f) * 2.0f] = sf::Color(0xffff00ff);
 	gradient[1.0f] = sf::Color(0x00ff00ff);
 
-	auto to_scale{
-		magic_enum::enum_integer<Enums::Character::CStatus>(value) * 1.0f};
+	auto to_scale{magic_enum::enum_integer<Enums::Character::CStatus>(value) * 1.0f};
 	to_scale = 8.0f - to_scale;
 	if (poisoned)
 		to_scale = (1.0f / 8.0f) * 2.0f;
@@ -62,8 +57,7 @@ auto Sorcery::Graphics::adjust_status_colour(
 	return (gradient.sampleColor(scaled)).toInteger();
 }
 
-auto Sorcery::Graphics::adjust_colour(
-	int value, CharacterAbilityType ability_type) -> unsigned long long {
+auto Sorcery::Graphics::adjust_colour(int value, CharacterAbilityType ability_type) -> unsigned long long {
 
 	// Colours "borrowed" from
 	// https://github.com/angband/angband/blob/master/src/ui-player.c

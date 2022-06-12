@@ -34,20 +34,15 @@ namespace Sorcery {
 	// Struct to represent a menu entry
 	struct MenuEntry {
 		MenuEntry()
-			: index{0}, type{Enums::Menu::ItemType::NONE},
-			  item{Enums::Menu::Item::NONE}, key{}, enabled{false},
+			: index{0}, type{Enums::Menu::ItemType::NONE}, item{Enums::Menu::Item::NONE}, key{}, enabled{false},
 			  config{Enums::Options::NONE}, hint{} {};
-		MenuEntry(unsigned int index_, Enums::Menu::ItemType type_,
-			Enums::Menu::Item item_, std::string key_, bool enabled_,
-			Enums::Options config_, std::string hint_)
-			: index{index_}, type{type_}, item{item_}, key{key_},
-			  enabled{enabled_}, config{config_}, hint{hint_} {};
+		MenuEntry(unsigned int index_, Enums::Menu::ItemType type_, Enums::Menu::Item item_, std::string key_,
+			bool enabled_, Enums::Options config_, std::string hint_)
+			: index{index_}, type{type_}, item{item_}, key{key_}, enabled{enabled_}, config{config_}, hint{hint_} {};
 
 		auto operator==(const MenuEntry &a) const -> bool {
-			return ((index == a.index) && (type == a.type) &&
-					(item == a.item) && (key == a.key) &&
-					(enabled == a.enabled) && (config == a.config) &&
-					(hint == a.hint));
+			return ((index == a.index) && (type == a.type) && (item == a.item) && (key == a.key) &&
+					(enabled == a.enabled) && (config == a.config) && (hint == a.hint));
 		}
 
 		unsigned int index;
@@ -61,14 +56,11 @@ namespace Sorcery {
 
 	// Struct to represent a game
 	struct GameEntry {
-		GameEntry()
-			: id{0}, key{}, status{}, start_time{}, time_point{}, data{} {};
+		GameEntry() : id{0}, key{}, status{}, start_time{}, time_point{}, data{} {};
 		GameEntry(unsigned int id_, std::string key_, std::string status_,
-			std::chrono::system_clock::time_point start_time_,
-			std::chrono::system_clock::time_point time_point_,
+			std::chrono::system_clock::time_point start_time_, std::chrono::system_clock::time_point time_point_,
 			std::string data_)
-			: id{id_}, key{key_}, status{status_}, start_time{start_time_},
-			  time_point{time_point_}, data{data_} {};
+			: id{id_}, key{key_}, status{status_}, start_time{start_time_}, time_point{time_point_}, data{data_} {};
 
 		unsigned int id;
 		std::string key;
@@ -80,17 +72,13 @@ namespace Sorcery {
 
 	// Struct to represent an icon
 	struct Icon {
-		Icon()
-			: index{0}, item{Enums::Menu::Item::NONE}, key{}, filename{},
-			  colour{} {};
-		Icon(unsigned int index_, Enums::Menu::Item item_, std::string key_,
-			std::string filename_, sf::Color colour_)
-			: index{index_}, item{item_}, key{key_}, filename{filename_},
-			  colour{colour_} {};
+		Icon() : index{0}, item{Enums::Menu::Item::NONE}, key{}, filename{}, colour{} {};
+		Icon(unsigned int index_, Enums::Menu::Item item_, std::string key_, std::string filename_, sf::Color colour_)
+			: index{index_}, item{item_}, key{key_}, filename{filename_}, colour{colour_} {};
 
 		auto operator==(const Icon &a) const -> bool {
-			return ((index == a.index) && (item == a.item) && (key == a.key) &&
-					(filename == a.filename) && (colour == a.colour));
+			return ((index == a.index) && (item == a.item) && (key == a.key) && (filename == a.filename) &&
+					(colour == a.colour));
 		}
 
 		unsigned int index;
@@ -102,18 +90,13 @@ namespace Sorcery {
 
 	// Dungeon Graphics
 	struct Texture {
-		Texture()
-			: name{0}, index{0}, wall{0}, floor{0}, ceiling{0}, door{0},
-			  source{""}, comment{""} {};
-		Texture(std::string name, unsigned int index_, unsigned int wall_,
-			unsigned int floor_, unsigned int ceiling_, unsigned int door_,
-			std::string source_, std::string comment_ = "")
-			: name{name}, index{index_}, wall{wall_}, floor{floor_},
-			  ceiling{ceiling_}, door{door_}, source{source_}, comment{
-																   comment_} {};
+		Texture() : name{0}, index{0}, wall{0}, floor{0}, ceiling{0}, door{0}, source{""}, comment{""} {};
+		Texture(std::string name, unsigned int index_, unsigned int wall_, unsigned int floor_, unsigned int ceiling_,
+			unsigned int door_, std::string source_, std::string comment_ = "")
+			: name{name}, index{index_}, wall{wall_}, floor{floor_}, ceiling{ceiling_}, door{door_}, source{source_},
+			  comment{comment_} {};
 		auto operator==(const Texture &a) const -> bool {
-			return (name == a.name && index == a.index && wall == a.wall &&
-					floor == a.floor && ceiling == a.ceiling &&
+			return (name == a.name && index == a.index && wall == a.wall && floor == a.floor && ceiling == a.ceiling &&
 					door == a.door && source == a.source);
 		}
 
@@ -203,8 +186,7 @@ namespace Sorcery {
 		auto operator<(const Coordinate3 &a) const -> bool {
 			return std::tie(x, y, z) < std::tie(a.x, a.y, a.z);
 		};
-		friend std::ostream &operator<<(
-			std::ostream &os, Coordinate3 const &a) {
+		friend std::ostream &operator<<(std::ostream &os, Coordinate3 const &a) {
 			return os << fmt::format("[{}/{}/{}]", a.x, a.y, a.z) << std::endl;
 		}
 
@@ -265,10 +247,8 @@ namespace Sorcery {
 	// Struct to represent a rect on the screen
 	struct Rect {
 		Rect() : x{0}, y{0}, w{0}, h{0} {};
-		Rect(unsigned int x_, unsigned int y_, unsigned int w_, unsigned int h_)
-			: x{x_}, y{y_}, w{w_}, h{h_} {};
-		Rect(const Rect &other)
-			: x{other.x}, y{other.y}, w{other.w}, h{other.h} {};
+		Rect(unsigned int x_, unsigned int y_, unsigned int w_, unsigned int h_) : x{x_}, y{y_}, w{w_}, h{h_} {};
+		Rect(const Rect &other) : x{other.x}, y{other.y}, w{other.w}, h{other.h} {};
 
 		auto operator=(const Rect &other) -> Rect & {
 
@@ -311,21 +291,16 @@ namespace Sorcery {
 	struct Spell {
 
 		Spell()
-			: id{Enums::Magic::SpellID::NONE},
-			  type{Enums::Magic::SpellType::NONE},
-			  category{Enums::Magic::SpellCategory::NONE}, level{0},
-			  known{false}, name{""}, translated_name{""}, details{""} {};
-		Spell(Enums::Magic::SpellID id_, Enums::Magic::SpellType type_,
-			Enums::Magic::SpellCategory category_, unsigned int level_,
-			bool known_, std::string name_, std::string translated_name_,
-			std::string details_)
-			: id{id_}, type{type_}, category{category_}, level{level_},
-			  known{known_}, name{name_},
+			: id{Enums::Magic::SpellID::NONE}, type{Enums::Magic::SpellType::NONE},
+			  category{Enums::Magic::SpellCategory::NONE}, level{0}, known{false}, name{""},
+			  translated_name{""}, details{""} {};
+		Spell(Enums::Magic::SpellID id_, Enums::Magic::SpellType type_, Enums::Magic::SpellCategory category_,
+			unsigned int level_, bool known_, std::string name_, std::string translated_name_, std::string details_)
+			: id{id_}, type{type_}, category{category_}, level{level_}, known{known_}, name{name_},
 			  translated_name{translated_name_}, details{details_} {};
 		Spell(const Spell &other)
-			: id{other.id}, type{other.type}, category{other.category},
-			  level{other.level}, known{other.known}, name{other.name},
-			  translated_name{other.translated_name}, details{other.details} {};
+			: id{other.id}, type{other.type}, category{other.category}, level{other.level}, known{other.known},
+			  name{other.name}, translated_name{other.translated_name}, details{other.details} {};
 
 		auto operator=(const Spell &other) -> Spell & {
 
@@ -390,13 +365,10 @@ namespace Sorcery {
 		std::optional<Door> door;
 
 		Wall()
-			: visible{false}, walkable{false},
-			  direction(Enums::Map::Direction::NONE), gfx{-1},
-			  door{std::nullopt} {};
+			: visible{false}, walkable{false}, direction(Enums::Map::Direction::NONE), gfx{-1}, door{std::nullopt} {};
 
 		Wall(Enums::Map::Direction direction_)
-			: visible{true}, walkable{false}, direction{direction_}, gfx{-1},
-			  door{std::nullopt} {};
+			: visible{true}, walkable{false}, direction{direction_}, gfx{-1}, door{std::nullopt} {};
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
@@ -413,13 +385,12 @@ namespace Sorcery {
 		int bottom_depth;
 
 		Elevator()
-			: up{false}, up_loc{Coordinate{0, 0}}, down{false},
-			  down_loc{Coordinate{0, 0}}, top_depth{0}, bottom_depth{0} {};
+			: up{false}, up_loc{Coordinate{0, 0}}, down{false}, down_loc{Coordinate{0, 0}}, top_depth{0}, bottom_depth{
+																											  0} {};
 
-		Elevator(bool up_, Coordinate up_loc_, bool down_, Coordinate down_loc_,
-			int top_depth_, int bottom_depth_)
-			: up{up_}, up_loc{up_loc_}, down{down_}, down_loc{down_loc_},
-			  top_depth{top_depth_}, bottom_depth{bottom_depth_} {};
+		Elevator(bool up_, Coordinate up_loc_, bool down_, Coordinate down_loc_, int top_depth_, int bottom_depth_)
+			: up{up_}, up_loc{up_loc_}, down{down_}, down_loc{down_loc_}, top_depth{top_depth_}, bottom_depth{
+																									 bottom_depth_} {};
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
@@ -432,8 +403,7 @@ namespace Sorcery {
 		Coordinate to_loc;
 
 		Teleport() : to_level{0}, to_loc{Coordinate{0, 0}} {};
-		Teleport(int to_level_, Coordinate to_loc_)
-			: to_level{to_level_}, to_loc{to_loc_} {}
+		Teleport(int to_level_, Coordinate to_loc_) : to_level{to_level_}, to_loc{to_loc_} {}
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
@@ -447,9 +417,7 @@ namespace Sorcery {
 		bool visible;
 		Enums::View::Message::Position position;
 
-		TileNote()
-			: loc{Coordinate{-1, -1}}, text{""}, visible{true},
-			  position{Enums::View::Message::Position::NONE} {}
+		TileNote() : loc{Coordinate{-1, -1}}, text{""}, visible{true}, position{Enums::View::Message::Position::NONE} {}
 
 		TileNote(int x_, int y_, std::string text_) {
 			loc = Coordinate{x_, y_};
@@ -459,8 +427,7 @@ namespace Sorcery {
 		}
 
 		TileNote(Coordinate loc_, std::string text_, bool visible_)
-			: loc{loc_}, text{text_}, visible{visible_},
-			  position{Enums::View::Message::Position::MIDDLE} {};
+			: loc{loc_}, text{text_}, visible{visible_}, position{Enums::View::Message::Position::MIDDLE} {};
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
@@ -550,16 +517,14 @@ namespace Sorcery {
 		std::string text;
 		static inline long s_id{0};
 
-		ConsoleMessage(
-			Enums::Internal::MessageType message_type_, std::string text_)
+		ConsoleMessage(Enums::Internal::MessageType message_type_, std::string text_)
 			: type{message_type_}, text{text_} {
 			datetime = std::chrono::system_clock::now();
 			id = s_id++;
 		}
 
 		ConsoleMessage(Enums::Internal::MessageType message_type_,
-			std::chrono::time_point<std::chrono::system_clock> datetime_,
-			std::string text_)
+			std::chrono::time_point<std::chrono::system_clock> datetime_, std::string text_)
 			: type{message_type_}, datetime{datetime_}, text{text_} {
 
 			id = s_id++;

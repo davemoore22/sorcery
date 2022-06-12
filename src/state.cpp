@@ -78,8 +78,7 @@ auto Sorcery::State::set(System *system) -> void {
 	_system = system;
 }
 
-auto Sorcery::State::set_party(std::vector<unsigned int> candidate_party)
-	-> void {
+auto Sorcery::State::set_party(std::vector<unsigned int> candidate_party) -> void {
 
 	_party = candidate_party;
 }
@@ -111,10 +110,9 @@ auto Sorcery::State::add_character_by_id(unsigned int char_id) -> bool {
 auto Sorcery::State::check_character_in_party(unsigned int char_id) -> bool {
 
 	if (_party.size() > 0) {
-		auto found{
-			std::find_if(_party.begin(), _party.end(), [&](unsigned int id) {
-				return id = char_id;
-			})};
+		auto found{std::find_if(_party.begin(), _party.end(), [&](unsigned int id) {
+			return id = char_id;
+		})};
 		return found != std::end(_party);
 	} else
 		return false;
@@ -125,15 +123,13 @@ auto Sorcery::State::set_current_level(Level *other) -> void {
 	level->set(other);
 }
 
-auto Sorcery::State::get_character_index(unsigned int char_id)
-	-> std::optional<unsigned int> {
+auto Sorcery::State::get_character_index(unsigned int char_id) -> std::optional<unsigned int> {
 
 	if (_party.size() > 0) {
 
-		auto distance{
-			std::find_if(_party.begin(), _party.end(), [&](unsigned int id) {
-				return id == char_id;
-			})};
+		auto distance{std::find_if(_party.begin(), _party.end(), [&](unsigned int id) {
+			return id == char_id;
+		})};
 		if (distance != _party.end())
 			return std::distance(_party.begin(), distance);
 		else

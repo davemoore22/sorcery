@@ -36,8 +36,7 @@ namespace Sorcery {
 		// Constructors
 		Text();
 		Text(System *system, Display *display);
-		Text(System *system, Display *display,
-			const std::optional<Component> component, const int bits);
+		Text(System *system, Display *display, const std::optional<Component> component, const int bits);
 
 		// Public Members
 
@@ -56,8 +55,7 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
-		auto virtual draw(
-			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
 		System *_system;

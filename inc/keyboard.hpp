@@ -50,13 +50,11 @@ namespace Sorcery {
 		// Public Methods
 		auto set_selected_background() -> void;
 		auto set_selected(WindowInput input) -> void;
-		auto set_mouse_selected(Component &component, sf::Vector2f mouse_pos)
-			-> std::optional<std::string>;
+		auto set_mouse_selected(Component &component, sf::Vector2f mouse_pos) -> std::optional<std::string>;
 
 	  private:
 		// Private Methods
-		auto virtual draw(
-			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
 		System *_system;

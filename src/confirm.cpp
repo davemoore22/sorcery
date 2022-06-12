@@ -25,10 +25,8 @@
 #include "confirm.hpp"
 
 // Standard Constructor
-Sorcery::Confirm::Confirm(System *system, Display *display, Graphics *graphics,
-	Component &gui_c, Component &text_c)
-	: _system{system}, _display{display}, _graphics{graphics}, _gui_c{gui_c},
-	  _text_c{text_c} {
+Sorcery::Confirm::Confirm(System *system, Display *display, Graphics *graphics, Component &gui_c, Component &text_c)
+	: _system{system}, _display{display}, _graphics{graphics}, _gui_c{gui_c}, _text_c{text_c} {
 
 	_window = _display->window->get_window();
 	highlighted = WindowConfirm::NO;
@@ -43,8 +41,7 @@ Sorcery::Confirm::Confirm(System *system, Display *display, Graphics *graphics,
 
 	// Split the display lines into a vector
 	const std::regex regex(R"([@]+)");
-	std::sregex_token_iterator it{
-		wrapped_text.begin(), wrapped_text.end(), regex, -1};
+	std::sregex_token_iterator it{wrapped_text.begin(), wrapped_text.end(), regex, -1};
 	std::vector<std::string> split{it, {}};
 	split.erase(std::remove_if(split.begin(), split.end(),
 					[](std::string const &s) {
@@ -64,8 +61,7 @@ Sorcery::Confirm::Confirm(System *system, Display *display, Graphics *graphics,
 		text.setString(each_string);
 		text.setPosition(x, y + (index * _display->window->get_ch()));
 		if (_text_c.justification == Justification::CENTRE)
-			text.setOrigin(text.getLocalBounds().width / 2.0f,
-				text.getLocalBounds().height / 2.0f);
+			text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 		else if (_text_c.justification == Justification::RIGHT) {
 			const sf::FloatRect bounds{text.getLocalBounds()};
 			text.setPosition(_text_c.x - bounds.width, _text_c.y);
@@ -77,8 +73,7 @@ Sorcery::Confirm::Confirm(System *system, Display *display, Graphics *graphics,
 	}
 }
 
-auto Sorcery::Confirm::check_for_mouse_move(const sf::Vector2f mouse_pos)
-	-> std::optional<WindowConfirm> {
+auto Sorcery::Confirm::check_for_mouse_move(const sf::Vector2f mouse_pos) -> std::optional<WindowConfirm> {
 
 	if (_yes_bg_rect.contains(mouse_pos)) {
 		highlighted = WindowConfirm::YES;
@@ -91,8 +86,7 @@ auto Sorcery::Confirm::check_for_mouse_move(const sf::Vector2f mouse_pos)
 }
 
 // Only works for the Mouse
-auto Sorcery::Confirm::check_if_option_selected(const sf::Vector2f mouse_pos)
-	-> std::optional<WindowConfirm> {
+auto Sorcery::Confirm::check_if_option_selected(const sf::Vector2f mouse_pos) -> std::optional<WindowConfirm> {
 
 	if (_yes_bg_rect.contains(mouse_pos)) {
 		highlighted = WindowConfirm::YES;
@@ -116,11 +110,10 @@ auto Sorcery::Confirm::toggle_highlighted() -> WindowConfirm {
 auto Sorcery::Confirm::draw(const double lerp) -> void {
 
 	// Generate back frame
-	_frame = std::make_unique<Frame>(_display->ui_texture,
-		WindowFrameType::NORMAL, _gui_c.w, _strings.size() + 5, _gui_c.colour,
-		_gui_c.background, _gui_c.alpha);
-	_frame->setPosition(_display->window->get_x(_frame->sprite, _gui_c.x),
-		_display->window->get_y(_frame->sprite, _gui_c.y));
+	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _gui_c.w, _strings.size() + 5,
+		_gui_c.colour, _gui_c.background, _gui_c.alpha);
+	_frame->setPosition(
+		_display->window->get_x(_frame->sprite, _gui_c.x), _display->window->get_y(_frame->sprite, _gui_c.y));
 	_window->draw(*_frame);
 
 	// Display Confirmation Message
@@ -129,10 +122,8 @@ auto Sorcery::Confirm::draw(const double lerp) -> void {
 
 	// Draw Yes / No (and highlight them depending on which one chosen)
 	const auto yes_no_y{_text_c.y + (_display->window->get_ch() * 2)};
-	const auto yes_x{
-		_display->window->centre.x - (_display->window->get_cw() * 4)};
-	const auto no_x{
-		_display->window->centre.x + (_display->window->get_cw() * 2)};
+	const auto yes_x{_display->window->centre.x - (_display->window->get_cw() * 4)};
+	const auto no_x{_display->window->centre.x + (_display->window->get_cw() * 2)};
 
 	// And the Buttons
 	_yes_text.setFont(_system->resources->fonts[_text_c.font]);
@@ -149,12 +140,10 @@ auto Sorcery::Confirm::draw(const double lerp) -> void {
 
 	// Draw backgrounds
 	if (highlighted == WindowConfirm::YES) {
-		const sf::RectangleShape yes_bg{
-			_display->window->hl_text(_yes_text, _text_c, lerp)};
+		const sf::RectangleShape yes_bg{_display->window->hl_text(_yes_text, _text_c, lerp)};
 		_window->draw(yes_bg, _yes_text.getTransform());
 	} else if (highlighted == WindowConfirm::NO) {
-		const sf::RectangleShape no_bg{
-			_display->window->hl_text(_no_text, _text_c, lerp)};
+		const sf::RectangleShape no_bg{_display->window->hl_text(_no_text, _text_c, lerp)};
 		_window->draw(no_bg, _no_text.getTransform());
 	}
 

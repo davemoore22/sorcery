@@ -25,34 +25,29 @@
 #include "legate.hpp"
 
 // Standard Constructor
-Sorcery::Legate::Legate(
-	System *system, Display *display, Graphics *graphics, Character *character)
-	: _system{system}, _display{display}, _graphics{graphics}, _character{
-																   character} {
+Sorcery::Legate::Legate(System *system, Display *display, Graphics *graphics, Character *character)
+	: _system{system}, _display{display}, _graphics{graphics}, _character{character} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
 	// Dialog
-	_proceed = std::make_unique<Dialog>(_system, _display, _graphics,
-		(*_display->layout)["legate:dialog_confirm_legate"],
-		(*_display->layout)["legate:dialog_confirm_legate_text"],
-		WindowDialogType::CONFIRM);
-	_proceed->setPosition((*_display->layout)["legate:dialog_confirm_legate"].x,
-		(*_display->layout)["legate:dialog_confirm_legate"].y);
+	_proceed =
+		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["legate:dialog_confirm_legate"],
+			(*_display->layout)["legate:dialog_confirm_legate_text"], WindowDialogType::CONFIRM);
+	_proceed->setPosition(
+		(*_display->layout)["legate:dialog_confirm_legate"].x, (*_display->layout)["legate:dialog_confirm_legate"].y);
 
 	// Menu
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr,
-		MenuType::CHOOSE_CHARACTER_ALIGNMENT);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr, MenuType::CHOOSE_CHARACTER_ALIGNMENT);
 	_set_alignment_menu();
 
 	// Frame
 	const Component menu_fc{(*_display->layout)["legate:menu_frame"]};
-	_frame = std::make_unique<Frame>(_display->ui_texture,
-		WindowFrameType::NORMAL, menu_fc.w, menu_fc.h, menu_fc.colour,
-		menu_fc.background, menu_fc.alpha);
-	_frame->setPosition(_display->window->get_x(_frame->sprite, menu_fc.x),
-		_display->window->get_y(_frame->sprite, menu_fc.y));
+	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, menu_fc.w, menu_fc.h,
+		menu_fc.colour, menu_fc.background, menu_fc.alpha);
+	_frame->setPosition(
+		_display->window->get_x(_frame->sprite, menu_fc.x), _display->window->get_y(_frame->sprite, menu_fc.y));
 
 	// Text
 	const Component text_c{(*_display->layout)["legate:choose_alignment_text"]};
@@ -60,8 +55,7 @@ Sorcery::Legate::Legate(
 	_choose_alignment.setFont(_system->resources->fonts[text_c.font]);
 	_choose_alignment.setCharacterSize(text_c.size);
 	_choose_alignment.setFillColor(sf::Color(text_c.colour));
-	_choose_alignment.setString(
-		(*_display->string)["LEGATE_CHARACTER_ALIGNMENT"]);
+	_choose_alignment.setString((*_display->string)["LEGATE_CHARACTER_ALIGNMENT"]);
 	const auto offset_x{[&] {
 		if (text_c["offset_x"])
 			return std::stoi(text_c["offset_x"].value());
@@ -122,34 +116,27 @@ auto Sorcery::Legate::start() -> std::optional<CharacterAlignment> {
 				auto dialog_input{_proceed->handle_input(event)};
 				if (dialog_input) {
 					if (dialog_input.value() == WindowDialogButton::CLOSE) {
-						_display->set_input_mode(
-							WindowInputMode::NAVIGATE_MENU);
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 						return std::nullopt;
-					} else if (dialog_input.value() ==
-							   WindowDialogButton::YES) {
-						_display->set_input_mode(
-							WindowInputMode::NAVIGATE_MENU);
+					} else if (dialog_input.value() == WindowDialogButton::YES) {
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 						_stage = LegateStage::CHANGE_ALIGNMENT;
 						continue;
 					} else if (dialog_input.value() == WindowDialogButton::NO) {
-						_display->set_input_mode(
-							WindowInputMode::NAVIGATE_MENU);
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 						return std::nullopt;
 					}
 				}
 
 			} else if (_stage == LegateStage::CHANGE_ALIGNMENT) {
 
-				std::optional<std::vector<MenuEntry>::const_iterator> selected{
-					_menu->selected};
+				std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->selected};
 				if (_system->input->check(WindowInput::UP, event))
 					selected = _menu->choose_previous();
 				else if (_system->input->check(WindowInput::DOWN, event))
 					selected = _menu->choose_next();
 				else if (_system->input->check(WindowInput::MOVE, event))
-					selected =
-						_menu->set_mouse_selected(static_cast<sf::Vector2f>(
-							sf::Mouse::getPosition(*_window)));
+					selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 				else if (_system->input->check(WindowInput::BACK, event)) {
 					_stage = LegateStage::CONFIRM;
 					_display->set_input_mode(WindowInputMode::CONFIRM_LEGATE);
@@ -267,8 +254,7 @@ auto Sorcery::Legate::_draw() -> void {
 		// And the Menu
 		_window->draw(*_frame);
 		_menu->generate((*_display->layout)["legate:menu"]);
-		const sf::Vector2f menu_pos((*_display->layout)["legate:menu"].x,
-			(*_display->layout)["legate:menu"].y);
+		const sf::Vector2f menu_pos((*_display->layout)["legate:menu"].x, (*_display->layout)["legate:menu"].y);
 		_menu->setPosition(menu_pos);
 		_window->draw(*_menu);
 		_window->draw(_choose_alignment);

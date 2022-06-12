@@ -33,15 +33,11 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		Component(std::string screen_, std::string name_, int x_, int y_,
-			unsigned int w_, unsigned int h_, float scale_,
-			Enums::Internal::FontType font_, unsigned int size_,
-			unsigned long long colour_, bool animated_, std::string string_key_,
-			unsigned int alpha_, unsigned int width_,
-			unsigned long long background_,
-			Enums::Window::Justification justification_,
-			Enums::Window::ComponentType type_, unsigned int priority_,
-			Enums::Window::DrawMode drawmode_,
+		Component(std::string screen_, std::string name_, int x_, int y_, unsigned int w_, unsigned int h_,
+			float scale_, Enums::Internal::FontType font_, unsigned int size_, unsigned long long colour_,
+			bool animated_, std::string string_key_, unsigned int alpha_, unsigned int width_,
+			unsigned long long background_, Enums::Window::Justification justification_,
+			Enums::Window::ComponentType type_, unsigned int priority_, Enums::Window::DrawMode drawmode_,
 			Enums::Graphics::Texture texture_);
 		Component();
 
@@ -55,8 +51,7 @@ namespace Sorcery {
 
 		// Overload [] operator
 		auto operator[](std::string_view key) -> std::optional<std::string>;
-		auto operator[](std::string_view key) const
-			-> std::optional<std::string>;
+		auto operator[](std::string_view key) const -> std::optional<std::string>;
 
 		// Public Methods
 		auto set(std::string_view key, std::string_view value) -> void;

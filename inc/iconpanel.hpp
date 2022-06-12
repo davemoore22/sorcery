@@ -34,8 +34,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		IconPanel(System *system, Display *display, Graphics *graphics,
-			Game *game, Component layout, bool is_left);
+		IconPanel(System *system, Display *display, Graphics *graphics, Game *game, Component layout, bool is_left);
 		IconPanel() = delete;
 
 		// Public Members
@@ -43,18 +42,14 @@ namespace Sorcery {
 
 		// Public Methods
 		auto refresh(bool in_camp) -> void;
-		auto set_mouse_selected(Component &component, sf::Vector2f mouse_pos)
-			-> std::optional<std::string>;
+		auto set_mouse_selected(Component &component, sf::Vector2f mouse_pos) -> std::optional<std::string>;
 		auto set_selected_background() -> void;
 
 	  private:
 		// Private Methods
-		auto virtual draw(
-			sf::RenderTarget &target, sf::RenderStates states) const -> void;
-		auto _set_icon(sf::Sprite &sprite, Component layout, int offset_x,
-			int offset_y) -> void;
-		auto _add_icon(
-			std::string_view icon_key, std::string_view component_key) -> void;
+		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto _set_icon(sf::Sprite &sprite, Component layout, int offset_x, int offset_y) -> void;
+		auto _add_icon(std::string_view icon_key, std::string_view component_key) -> void;
 
 		// Private Members
 		System *_system;

@@ -30,15 +30,12 @@ Sorcery::Display::Display(System *system) : _system{system} {
 	//_system = system;
 	string = std::make_unique<String>((*_system->files)[STRINGS_FILE]);
 	layout = std::make_unique<Layout>((*_system->files)[LAYOUT_FILE]);
-	window = std::make_unique<Window>(_system, string.get(), layout.get(),
-		(*string)["TITLE_AND_VERSION_INFO"]);
-	overlay = std::make_unique<ControlOverlay>(
-		_system, this, (*layout)["global:control_overlay"]);
+	window = std::make_unique<Window>(_system, string.get(), layout.get(), (*string)["TITLE_AND_VERSION_INFO"]);
+	overlay = std::make_unique<ControlOverlay>(_system, this, (*layout)["global:control_overlay"]);
 	ui_texture = (*_system->resources).textures[GraphicsTexture::UI];
 	_background_movie.openFromFile(_system->files->get_path(MENU_VIDEO));
 	auto icon_layout{(*layout)["global:icon"]};
-	_icons = std::make_unique<IconStore>(
-		_system, icon_layout, (*_system->files)[ICONS_FILE]);
+	_icons = std::make_unique<IconStore>(_system, icon_layout, (*_system->files)[ICONS_FILE]);
 }
 
 auto Sorcery::Display::generate(std::string_view screen) -> void {
@@ -54,10 +51,8 @@ auto Sorcery::Display::shutdown_SFML() -> void {
 	window->get_window()->close();
 }
 
-auto Sorcery::Display::generate(std::string_view screen,
-	std::map<std::string, sf::Sprite> &sprites,
-	std::map<std::string, sf::Text> &texts,
-	std::map<std::string, std::shared_ptr<Frame>> &frames) -> void {
+auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, sf::Sprite> &sprites,
+	std::map<std::string, sf::Text> &texts, std::map<std::string, std::shared_ptr<Frame>> &frames) -> void {
 
 	sprites.clear();
 	texts.clear();
@@ -85,8 +80,7 @@ auto Sorcery::Display::generate(std::string_view screen,
 						else
 							return 0;
 					}()};
-					image.setPosition(
-						component.x + offset_x, component.y + offset_y);
+					image.setPosition(component.x + offset_x, component.y + offset_y);
 					image.setScale(component.scale, component.scale);
 
 					if (component.colour != 0ull)
@@ -108,16 +102,13 @@ auto Sorcery::Display::generate(std::string_view screen,
 					bg_rect.width = std::stoi(component["source_w"].value());
 					bg_rect.height = std::stoi(component["source_h"].value());
 					bg_rect.top = 0;
-					bg_rect.left = std::stoi(component["source_w"].value()) *
-								   std::stoi(component["source_index"].value());
+					bg_rect.left =
+						std::stoi(component["source_w"].value()) * std::stoi(component["source_index"].value());
 					sf::Sprite image{};
-					image.setTexture(
-						_system->resources->textures[GraphicsTexture::TOWN]);
+					image.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
 					image.setTextureRect(bg_rect);
-					image.setScale(std::stof(component["scale_x"].value()),
-						std::stof(component["scale_y"].value()));
-					image.setPosition(window->get_x(image, component.x),
-						window->get_y(image, component.y));
+					image.setScale(std::stof(component["scale_x"].value()), std::stof(component["scale_y"].value()));
+					image.setPosition(window->get_x(image, component.x), window->get_y(image, component.y));
 
 					// Add the image to the components ready to draw
 					sprites[component.unique_key] = image;
@@ -125,34 +116,21 @@ auto Sorcery::Display::generate(std::string_view screen,
 
 					// Get the texture
 					sf::Sprite image;
-					image.setTexture(
-						_system->resources->textures[component.texture]);
+					image.setTexture(_system->resources->textures[component.texture]);
 
 					// Scale to less than the window size if needed
-					if ((component.unique_key.ends_with(
-							"banner:banner_image")) ||
-						(component.unique_key.ends_with(
-							"splash:splash_image")) ||
-						(component.unique_key.ends_with(
-							"main_menu_attract:logo_image"))) {
-						const ImageSize size{static_cast<unsigned int>(
-												 image.getLocalBounds().width),
-							static_cast<unsigned int>(
-								image.getLocalBounds().height)};
+					if ((component.unique_key.ends_with("banner:banner_image")) ||
+						(component.unique_key.ends_with("splash:splash_image")) ||
+						(component.unique_key.ends_with("main_menu_attract:logo_image"))) {
+						const ImageSize size{static_cast<unsigned int>(image.getLocalBounds().width),
+							static_cast<unsigned int>(image.getLocalBounds().height)};
 						const ImageSize window_size{
-							window->get_window()->getSize().x,
-							window->get_window()->getSize().y};
+							window->get_window()->getSize().x, window->get_window()->getSize().y};
 						auto scale_ratio_needed{1.0f};
-						if ((size.w > window_size.w) ||
-							(size.h > window_size.h)) {
-							auto shrink_width_needed{
-								static_cast<float>(window_size.w) /
-								static_cast<float>(size.w)};
-							auto shrink_height_needed{
-								static_cast<float>(window_size.h) /
-								static_cast<float>(size.h)};
-							scale_ratio_needed = std::min(
-								shrink_width_needed, shrink_height_needed);
+						if ((size.w > window_size.w) || (size.h > window_size.h)) {
+							auto shrink_width_needed{static_cast<float>(window_size.w) / static_cast<float>(size.w)};
+							auto shrink_height_needed{static_cast<float>(window_size.h) / static_cast<float>(size.h)};
+							scale_ratio_needed = std::min(shrink_width_needed, shrink_height_needed);
 						}
 						image.setScale(scale_ratio_needed, scale_ratio_needed);
 					} else if (component.unique_key.ends_with("wallpaper")) {
@@ -177,8 +155,7 @@ auto Sorcery::Display::generate(std::string_view screen,
 
 					// Set the image position
 					const sf::Vector2f image_pos(
-						window->get_x(image, component.x + offset_x),
-						window->get_y(image, component.y + offset_y));
+						window->get_x(image, component.x + offset_x), window->get_y(image, component.y + offset_y));
 					image.setPosition(image_pos);
 
 					// Add the image to the components ready to draw
@@ -187,10 +164,9 @@ auto Sorcery::Display::generate(std::string_view screen,
 
 			} else if (component.type == ComponentType::FRAME) {
 
-				auto frame = std::make_shared<Frame>(
-					_system->resources->textures[GraphicsTexture::UI],
-					WindowFrameType::NORMAL, component.w, component.h,
-					component.colour, component.background, component.alpha);
+				auto frame =
+					std::make_shared<Frame>(_system->resources->textures[GraphicsTexture::UI], WindowFrameType::NORMAL,
+						component.w, component.h, component.colour, component.background, component.alpha);
 
 				// Check for Offsets
 				const auto offset_x{[&] {
@@ -206,11 +182,9 @@ auto Sorcery::Display::generate(std::string_view screen,
 						return 0;
 				}()};
 
-				frame->setPosition(
-					window->get_x(frame->sprite, component.x) + offset_x,
+				frame->setPosition(window->get_x(frame->sprite, component.x) + offset_x,
 					window->get_y(frame->sprite, component.y) + offset_y);
-				frames.emplace(
-					std::make_pair(component.unique_key, std::move(frame)));
+				frames.emplace(std::make_pair(component.unique_key, std::move(frame)));
 			} else if (component.type == ComponentType::TEXT) {
 
 				sf::Text text{};
@@ -238,8 +212,7 @@ auto Sorcery::Display::generate(std::string_view screen,
 
 				if (component.justification == Justification::CENTRE) {
 					text.setPosition(x + offset_x, y + offset_y);
-					text.setOrigin(text.getLocalBounds().width / 2.0f,
-						text.getLocalBounds().height / 2.0f);
+					text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 				} else if (component.justification == Justification::RIGHT) {
 					text.setPosition(x + offset_x, y + offset_y);
 					const sf::FloatRect bounds{text.getLocalBounds()};
@@ -267,16 +240,14 @@ auto Sorcery::Display::hide_overlay() -> void {
 	_show_overlay = false;
 }
 
-auto Sorcery::Display::display(
-	std::string_view screen, std::optional<std::any> parameter) -> void {
+auto Sorcery::Display::display(std::string_view screen, std::optional<std::any> parameter) -> void {
 
 	display(screen, _sprites, _texts, _frames, parameter);
 }
 
 auto Sorcery::Display::display_overlay() -> void {
 
-	const sf::Vector2f pos(
-		window->get_x(overlay->width, (*layout)["global:control_overlay"].x),
+	const sf::Vector2f pos(window->get_x(overlay->width, (*layout)["global:control_overlay"].x),
 		window->get_y(overlay->height, (*layout)["global:control_overlay"].y));
 
 	if ((_show_overlay) && (overlay->valid)) {
@@ -285,10 +256,8 @@ auto Sorcery::Display::display_overlay() -> void {
 	}
 }
 
-auto Sorcery::Display::display(std::string_view screen,
-	std::map<std::string, sf::Sprite> &sprites,
-	std::map<std::string, sf::Text> &texts,
-	std::map<std::string, std::shared_ptr<Frame>> &frames,
+auto Sorcery::Display::display(std::string_view screen, std::map<std::string, sf::Sprite> &sprites,
+	std::map<std::string, sf::Text> &texts, std::map<std::string, std::shared_ptr<Frame>> &frames,
 	std::optional<std::any> parameter) -> void {
 
 	// first draw anything with wallpaper/background
@@ -304,12 +273,10 @@ auto Sorcery::Display::display(std::string_view screen,
 	for (auto &[unique_key, frame] : frames) {
 		if (screen == "create") {
 			if (parameter) {
-				if (const CharacterStage character_stage{
-						std::any_cast<CharacterStage>(parameter.value())};
+				if (const CharacterStage character_stage{std::any_cast<CharacterStage>(parameter.value())};
 					character_stage == CharacterStage::CHOOSE_METHOD ||
 					character_stage == CharacterStage::REVIEW_AND_CONFIRM) {
-					if ((unique_key.ends_with("_frame_progress")) ||
-						(unique_key.ends_with("_summary_progres")))
+					if ((unique_key.ends_with("_frame_progress")) || (unique_key.ends_with("_summary_progres")))
 						continue;
 				}
 			}
@@ -320,11 +287,9 @@ auto Sorcery::Display::display(std::string_view screen,
 
 	// Display all other sprites, but not the background wallpaper
 	for (auto &[unique_key, sprite] : sprites) {
-		if ((unique_key.ends_with("banner:banner_image")) ||
-			(unique_key.ends_with("splash:splash_image"))) {
+		if ((unique_key.ends_with("banner:banner_image")) || (unique_key.ends_with("splash:splash_image"))) {
 			if (parameter) {
-				sprite.setColor(sf::Color(255, 255, 255,
-					std::any_cast<unsigned int>(parameter.value())));
+				sprite.setColor(sf::Color(255, 255, 255, std::any_cast<unsigned int>(parameter.value())));
 			}
 		}
 
@@ -342,15 +307,11 @@ auto Sorcery::Display::display(std::string_view screen,
 			if (parameter) {
 
 				// TODO: replace with IF-INIT?
-				if (const MainMenuType menu_stage{
-						std::any_cast<MainMenuType>(parameter.value())};
+				if (const MainMenuType menu_stage{std::any_cast<MainMenuType>(parameter.value())};
 					menu_stage == MainMenuType::ATTRACT_MENU) {
-					if ((unique_key.ends_with(
-							"main_menu_attract:press_any_key")) ||
-						(unique_key.ends_with(
-							"main_menu_attract:subtitle_1")) ||
-						(unique_key.ends_with(
-							"main_menu_attract:subtitle_2")) ||
+					if ((unique_key.ends_with("main_menu_attract:press_any_key")) ||
+						(unique_key.ends_with("main_menu_attract:subtitle_1")) ||
+						(unique_key.ends_with("main_menu_attract:subtitle_2")) ||
 						(unique_key.ends_with("main_menu_attract:copyright")))
 						continue;
 				} else if (menu_stage == MainMenuType::ATTRACT_MODE) {
@@ -358,12 +319,10 @@ auto Sorcery::Display::display(std::string_view screen,
 			}
 		} else if (screen == "create") {
 			if (parameter) {
-				if (const CharacterStage character_stage{
-						std::any_cast<CharacterStage>(parameter.value())};
+				if (const CharacterStage character_stage{std::any_cast<CharacterStage>(parameter.value())};
 					character_stage == CharacterStage::CHOOSE_METHOD ||
 					character_stage == CharacterStage::REVIEW_AND_CONFIRM) {
-					if ((unique_key.ends_with("_frame_progress")) ||
-						(unique_key.ends_with("_summary_progress")))
+					if ((unique_key.ends_with("_frame_progress")) || (unique_key.ends_with("_summary_progress")))
 						continue;
 				}
 			}
@@ -384,16 +343,14 @@ auto Sorcery::Display::get_input_mode() const -> WindowInputMode {
 	return window->get_input_mode();
 }
 
-auto Sorcery::Display::display_direction_indicator(MapDirection direction)
-	-> void {
+auto Sorcery::Display::display_direction_indicator(MapDirection direction) -> void {
 
 	auto di_layout{(*layout)["engine_base_ui:direction_indicator"]};
 	auto di_icon{(*_icons)[di_layout.string_key]};
 	if (di_icon) {
 		auto indicator{di_icon.value()};
 
-		indicator.setOrigin(indicator.getLocalBounds().width / 2,
-			indicator.getLocalBounds().height / 2);
+		indicator.setOrigin(indicator.getLocalBounds().width / 2, indicator.getLocalBounds().height / 2);
 		switch (direction) {
 		case MapDirection::NORTH:
 			indicator.setRotation(180.0f);
@@ -424,8 +381,7 @@ auto Sorcery::Display::display_direction_indicator(MapDirection direction)
 				return 0;
 		}()};
 
-		indicator.setPosition(
-			(indicator.getGlobalBounds().width / 2) + di_layout.x + offset_x,
+		indicator.setPosition((indicator.getGlobalBounds().width / 2) + di_layout.x + offset_x,
 			(indicator.getGlobalBounds().height / 2) + di_layout.y + offset_y);
 		indicator.setScale(di_layout.scale, di_layout.scale);
 		window->get_window()->draw(indicator);
@@ -435,14 +391,12 @@ auto Sorcery::Display::display_direction_indicator(MapDirection direction)
 auto Sorcery::Display::display_cursor() -> void {
 
 	sf::Sprite cursor{window->get_cursor()};
-	cursor.setPosition(static_cast<sf::Vector2f>(
-		sf::Mouse::getPosition(*window->get_window())));
+	cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window->get_window())));
 	window->get_window()->draw(cursor);
 }
 
 auto Sorcery::Display::fit_bg_movie() -> void {
-	_background_movie.fit(0, 0, window->get_window()->getSize().x,
-		window->get_window()->getSize().y);
+	_background_movie.fit(0, 0, window->get_window()->getSize().x, window->get_window()->getSize().y);
 }
 
 auto Sorcery::Display::start_bg_movie() -> void {

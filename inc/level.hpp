@@ -34,8 +34,8 @@ namespace Sorcery {
 	  public:
 		// Constructors
 		Level();
-		Level(const MapType type, const std::string dungeon, const int depth,
-			const Coordinate bottom_left, const Size size);
+		Level(const MapType type, const std::string dungeon, const int depth, const Coordinate bottom_left,
+			const Size size);
 
 		// Copy Constructors
 		Level(const Level &other);
@@ -47,8 +47,7 @@ namespace Sorcery {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(
-				_type, _dungeon, _depth, _bottom_left, _size, _tiles, _notes);
+			archive(_type, _dungeon, _depth, _bottom_left, _size, _tiles, _notes);
 		}
 
 		// Public Members
@@ -56,8 +55,7 @@ namespace Sorcery {
 		// Public Methods
 		auto at(const Coordinate loc) -> Tile &;
 		auto at(const int x, const int y) -> Tile &;
-		auto at(const Coordinate loc, const MapDirection direction, const int x,
-			const int z) -> Tile &;
+		auto at(const Coordinate loc, const MapDirection direction, const int x, const int z) -> Tile &;
 		auto stairs_at(const Coordinate loc) -> bool;
 		auto note_at(const Coordinate loc) -> TileNote;
 		auto note_at(const int x, const int y) -> TileNote;
@@ -66,8 +64,7 @@ namespace Sorcery {
 		auto get_delta_x(const int x, const int delta) const -> int;
 		auto get_delta_y(const int y, const int delta) const -> int;
 		auto in(const Coordinate loc) const -> bool;
-		auto load(const Json::Value row_data, const Json::Value note_data)
-			-> bool;
+		auto load(const Json::Value row_data, const Json::Value note_data) -> bool;
 		auto name() const -> std::string;
 		auto reset() -> void;
 		auto set(const Level *other) -> void;
@@ -90,32 +87,22 @@ namespace Sorcery {
 
 		// Private Methods
 		auto _add_tile(const Coordinate location) -> void;
-		auto _convert_edge_simple(const unsigned int wall) const
-			-> std::optional<TileEdge>;
-		auto _convert_edge_se(const unsigned int wall) const
-			-> std::optional<TileEdge>;
+		auto _convert_edge_simple(const unsigned int wall) const -> std::optional<TileEdge>;
+		auto _convert_edge_se(const unsigned int wall) const -> std::optional<TileEdge>;
 		auto _create() -> void;
-		auto _convert_edge_nw(const unsigned int wall) const
-			-> std::optional<TileEdge>;
-
+		auto _convert_edge_nw(const unsigned int wall) const -> std::optional<TileEdge>;
 		auto _load_simple_walls(const Json::Value row_data) -> bool;
-		auto _update_tile_walls_simple(const Coordinate location,
-			const unsigned int south_wall, const unsigned int east_wall)
-			-> void;
-
+		auto _update_tile_walls_simple(
+			const Coordinate location, const unsigned int south_wall, const unsigned int east_wall) -> void;
 		auto _set_other_simple_edges(const Coordinate location) -> void;
 		auto _fill_in_simple_walls() -> bool;
-
 		auto _set_complicated_walls(const Json::Value row_data) -> bool;
-		auto _fill_in_complicated_walls(const Coordinate location,
-			const unsigned int south_wall, const unsigned int east_wall)
-			-> void;
-
+		auto _fill_in_complicated_walls(
+			const Coordinate location, const unsigned int south_wall, const unsigned int east_wall) -> void;
 		auto _load_markers(const Json::Value row_data) -> bool;
 		auto _load_notes(const Json::Value note_data) -> bool;
 		auto _load_metadata(const Json::Value note_data) -> bool;
-		auto _update_tile_markers(const Coordinate location,
-			const bool darkness, const unsigned int marker,
+		auto _update_tile_markers(const Coordinate location, const bool darkness, const unsigned int marker,
 			const unsigned int terrain) -> void;
 	};
 

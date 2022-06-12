@@ -24,10 +24,9 @@
 
 #include "iconpanel.hpp"
 
-Sorcery::IconPanel::IconPanel(System *system, Display *display,
-	Graphics *graphics, Game *game, Component layout, bool is_left)
-	: _system{system}, _display{display}, _graphics{graphics}, _game{game},
-	  _layout{layout}, _is_left{is_left} {
+Sorcery::IconPanel::IconPanel(
+	System *system, Display *display, Graphics *graphics, Game *game, Component layout, bool is_left)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _layout{layout}, _is_left{is_left} {
 
 	_sprites.clear();
 	_texts.clear();
@@ -38,9 +37,8 @@ Sorcery::IconPanel::IconPanel(System *system, Display *display,
 		_frame.release();
 		_frame.reset();
 	}
-	_frame = std::make_unique<Frame>(_display->ui_texture,
-		WindowFrameType::NORMAL, _layout.w, _layout.h, _layout.colour,
-		_layout.background, _layout.alpha);
+	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _layout.w, _layout.h,
+		_layout.colour, _layout.background, _layout.alpha);
 	auto fsprite{_frame->sprite};
 	fsprite.setPosition(0, 0);
 	_sprites.emplace_back(fsprite);
@@ -68,8 +66,7 @@ Sorcery::IconPanel::IconPanel(System *system, Display *display,
 	}
 }
 
-auto Sorcery::IconPanel::_add_icon(
-	std::string_view icon_key, std::string_view component_key) -> void {
+auto Sorcery::IconPanel::_add_icon(std::string_view icon_key, std::string_view component_key) -> void {
 
 	auto offset_x{std::stoi(_layout["offset_x"].value())};
 	auto offset_y{std::stoi(_layout["offset_y"].value())};
@@ -80,11 +77,9 @@ auto Sorcery::IconPanel::_add_icon(
 	_icons.emplace_back(std::make_pair(component_key, icon));
 }
 
-auto Sorcery::IconPanel::_set_icon(
-	sf::Sprite &sprite, Component layout, int offset_x, int offset_y) -> void {
+auto Sorcery::IconPanel::_set_icon(sf::Sprite &sprite, Component layout, int offset_x, int offset_y) -> void {
 
-	sprite.setOrigin(
-		sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
+	sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
 	sprite.rotate(std::stof(layout["rotation"].value()));
 	sprite.setScale(layout.scale, layout.scale);
 	sprite.setColor(sf::Color(layout.colour));
@@ -101,8 +96,7 @@ auto Sorcery::IconPanel::_set_icon(
 			return 0;
 	}()};
 
-	sprite.setPosition(layout.x + offset_x + comp_offset_x,
-		layout.y + offset_y + comp_offset_y);
+	sprite.setPosition(layout.x + offset_x + comp_offset_x, layout.y + offset_y + comp_offset_y);
 }
 
 auto Sorcery::IconPanel::refresh(bool in_camp) -> void {
@@ -113,8 +107,8 @@ auto Sorcery::IconPanel::refresh(bool in_camp) -> void {
 	}
 }
 
-auto Sorcery::IconPanel::set_mouse_selected(Component &component,
-	sf::Vector2f mouse_pos) -> std::optional<std::string> {
+auto Sorcery::IconPanel::set_mouse_selected(Component &component, sf::Vector2f mouse_pos)
+	-> std::optional<std::string> {
 
 	// Now look through the global positions of each icon and see if it matches
 	// the mouse position
@@ -134,26 +128,22 @@ auto Sorcery::IconPanel::set_selected_background() -> void {
 	if (selected) {
 
 		// Find the text that is highlighted
-		IconStorage::const_iterator it{
-			std::find_if(_icons.begin(), _icons.end(), [&](auto value) {
-				return value.first == selected.value();
-			})};
+		IconStorage::const_iterator it{std::find_if(_icons.begin(), _icons.end(), [&](auto value) {
+			return value.first == selected.value();
+		})};
 		if (it != _icons.end()) {
 			auto &sprite{it->second};
 
 			_selected_bg =
-				sf::RectangleShape(sf::Vector2(sprite.getGlobalBounds().width,
-					sprite.getGlobalBounds().height));
+				sf::RectangleShape(sf::Vector2(sprite.getGlobalBounds().width, sprite.getGlobalBounds().height));
 			_selected_bg.setFillColor(_graphics->animation->selected_colour);
-			_selected_bg.setPosition(
-				sprite.getPosition().x - (sprite.getGlobalBounds().width / 2),
+			_selected_bg.setPosition(sprite.getPosition().x - (sprite.getGlobalBounds().width / 2),
 				sprite.getPosition().y - (sprite.getGlobalBounds().height / 2));
 		}
 	}
 }
 
-auto Sorcery::IconPanel::draw(
-	sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::IconPanel::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 

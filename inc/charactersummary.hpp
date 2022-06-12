@@ -37,8 +37,7 @@ namespace Sorcery {
 
 	  public:
 		// Constructors
-		CharacterSummary(System *system, Display *display, Graphics *graphics,
-			Character *character, unsigned int num);
+		CharacterSummary(System *system, Display *display, Graphics *graphics, Character *character, unsigned int num);
 		CharacterSummary() = delete;
 
 		// Public Members
@@ -52,8 +51,7 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
-		auto virtual draw(
-			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
 		System *_system;

@@ -48,8 +48,7 @@ auto Sorcery::String::_load(std::string_view filename) -> bool {
 	_strings["NONE"] = STRINGS_NOT_LOADED;
 
 	// Attempt to load Strings File
-	if (std::ifstream file{std::string{filename}, std::ifstream::binary};
-		file.good()) {
+	if (std::ifstream file{std::string{filename}, std::ifstream::binary}; file.good()) {
 
 		// Iterate through the file
 		Json::Value root{};
@@ -60,23 +59,16 @@ auto Sorcery::String::_load(std::string_view filename) -> bool {
 		Json::StreamWriterBuilder builder{};
 		builder.settings_["indentation"] = "";
 		if (reader.parse(file, root, false)) {
-			for (Json::Value::iterator it = root.begin(); it != root.end();
-				 ++it) {
+			for (Json::Value::iterator it = root.begin(); it != root.end(); ++it) {
 				Json::Value key{it.key()};
 				Json::Value value{(*it)};
 				auto string_key{Json::writeString(builder, key)};
 				auto string_value{Json::writeString(builder, value)};
 
 				// Remove Special Characters from file
-				string_key.erase(
-					remove(string_key.begin(), string_key.end(), '\"'),
-					string_key.end());
-				string_value.erase(
-					remove(string_value.begin(), string_value.end(), '\"'),
-					string_value.end());
-				string_key.erase(
-					remove(string_key.begin(), string_key.end(), '\n'),
-					string_key.end());
+				string_key.erase(remove(string_key.begin(), string_key.end(), '\"'), string_key.end());
+				string_value.erase(remove(string_value.begin(), string_value.end(), '\"'), string_value.end());
+				string_key.erase(remove(string_key.begin(), string_key.end(), '\n'), string_key.end());
 
 				// Insert it into the map
 				_strings[string_key] = string_value;
@@ -93,9 +85,7 @@ auto Sorcery::String::_load(std::string_view filename) -> bool {
 auto Sorcery::String::get(std::string_view key) -> std::string {
 
 	if (_loaded)
-		return (_strings.contains(std::string{key})
-					? _strings.at(std::string{key})
-					: KEY_NOT_FOUND);
+		return (_strings.contains(std::string{key}) ? _strings.at(std::string{key}) : KEY_NOT_FOUND);
 	else
 		return STRINGS_NOT_LOADED;
 }

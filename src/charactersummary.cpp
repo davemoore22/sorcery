@@ -25,10 +25,9 @@
 #include "charactersummary.hpp"
 
 // Standard Constructor
-Sorcery::CharacterSummary::CharacterSummary(System *system, Display *display,
-	Graphics *graphics, Character *character, unsigned int num)
-	: _system{system}, _display{display}, _graphics{graphics},
-	  _character{character}, _num{num} {
+Sorcery::CharacterSummary::CharacterSummary(
+	System *system, Display *display, Graphics *graphics, Character *character, unsigned int num)
+	: _system{system}, _display{display}, _graphics{graphics}, _character{character}, _num{num} {
 
 	// Get the standard layout information
 	_layout = Component((*_display->layout)["global:summary"]);
@@ -81,8 +80,7 @@ auto Sorcery::CharacterSummary::get_position() const -> unsigned int {
 	return _num;
 }
 
-auto Sorcery::CharacterSummary::draw(
-	sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::CharacterSummary::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 
