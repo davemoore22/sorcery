@@ -52,6 +52,7 @@ auto Sorcery::Dialog::_refresh(Component &string_c) -> void {
 	_start = std::nullopt;
 	_current_time = std::nullopt;
 	_valid = true;
+	_duration = 1000; // ms
 
 	// Get the Window
 	_window = _display->window->get_window();
@@ -470,8 +471,9 @@ auto Sorcery::Dialog::update() -> void {
 
 			const auto time_elapsed{_current_time.value() - _start.value()};
 			const auto time_elapsed_sec{
-				std::chrono::duration_cast<std::chrono::seconds>(time_elapsed)};
-			if (time_elapsed_sec.count() > 3)
+				std::chrono::duration_cast<std::chrono::milliseconds>(
+					time_elapsed)};
+			if (time_elapsed_sec.count() > _duration)
 				_valid = false;
 		}
 
@@ -479,6 +481,11 @@ auto Sorcery::Dialog::update() -> void {
 	default:
 		break;
 	}
+}
+
+auto Sorcery::Dialog::set_duration(unsigned int duration) -> void {
+
+	_duration = duration;
 }
 
 auto Sorcery::Dialog::set_valid(const bool valid) -> void {

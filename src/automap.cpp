@@ -420,11 +420,31 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling)
 			message.setPosition(x, y);
 			message.setScale(scaling, scaling);
 			_sprites.emplace_back(message);
-		} else if (tile.has(TileFeature::TELEPORT_FROM)) {
+		} else if (tile.has(TileFeature::PIT)) {
+			sf::Sprite message{
+				_graphics->textures
+					->get(magic_enum::enum_integer<AutoMapFeature>(
+							  AutoMapFeature::PIT),
+						GraphicsTextureType::AUTOMAP)
+					.value()};
+			message.setPosition(x, y);
+			message.setScale(scaling, scaling);
+			_sprites.emplace_back(message);
+		} else if (tile.has(TileFeature::CHUTE)) {
+			sf::Sprite message{
+				_graphics->textures
+					->get(magic_enum::enum_integer<AutoMapFeature>(
+							  AutoMapFeature::CHUTE),
+						GraphicsTextureType::AUTOMAP)
+					.value()};
+			message.setPosition(x, y);
+			message.setScale(scaling, scaling);
+			_sprites.emplace_back(message);
+		} else if (tile.has(TileFeature::TELEPORT_TO)) {
 			sf::Sprite stairs{
 				_graphics->textures
 					->get(magic_enum::enum_integer<AutoMapFeature>(
-							  AutoMapFeature::TELEPORT_FROM),
+							  AutoMapFeature::TELEPORT_TO),
 						GraphicsTextureType::AUTOMAP)
 					.value()};
 			stairs.setPosition(x, y);

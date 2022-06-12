@@ -71,6 +71,8 @@ namespace Sorcery {
 		auto _teleport_if() -> bool;
 		auto _stairs_if() -> bool;
 		auto _spinner_if() -> bool;
+		auto _pit_if() -> bool;
+		auto _chute_if() -> bool;
 
 		auto _reset_direction_indicatior() -> bool;
 		auto _update_direction_indicatior_timer() -> void;
@@ -86,6 +88,8 @@ namespace Sorcery {
 		std::unique_ptr<StatusBar> _status_bar;
 		std::unique_ptr<Dialog> _confirm_exit;
 		std::unique_ptr<Dialog> _ouch;
+		std::unique_ptr<Dialog> _pit;
+		std::unique_ptr<Dialog> _chute;
 		std::unique_ptr<Reorder> _reorder;
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Render> _render;
@@ -102,6 +106,8 @@ namespace Sorcery {
 		bool _show_confirm_stairs;
 		bool _show_console;
 		bool _show_ouch;
+		bool _show_pit;
+		bool _show_chute;
 		bool _show_tile_note;
 		bool _update_automap;
 		bool _update_compass;

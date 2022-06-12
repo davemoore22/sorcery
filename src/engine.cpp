@@ -66,6 +66,21 @@ Sorcery::Engine::Engine(
 		WindowDialogType::TIMED);
 	_ouch->setPosition((*_display->layout)["engine_base_ui:ouch"].x,
 		(*_display->layout)["engine_base_ui:ouch"].y);
+	_ouch->set_duration(1000);
+	_pit = std::make_unique<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["engine_base_ui:pit"],
+		(*_display->layout)["engine_base_ui:pit_text"],
+		WindowDialogType::TIMED);
+	_pit->setPosition((*_display->layout)["engine_base_ui:pit"].x,
+		(*_display->layout)["engine_base_ui:pit"].y);
+	_pit->set_duration(2000);
+	_chute = std::make_unique<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["engine_base_ui:chute"],
+		(*_display->layout)["engine_base_ui:chute_text"],
+		WindowDialogType::TIMED);
+	_chute->setPosition((*_display->layout)["engine_base_ui:chute"].x,
+		(*_display->layout)["engine_base_ui:chute"].y);
+	_chute->set_duration(2000);
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics,
@@ -180,6 +195,8 @@ auto Sorcery::Engine::start() -> int {
 	_in_character = false;
 	_show_confirm_exit = false;
 	_show_ouch = false;
+	_show_pit = false;
+	_show_chute = false;
 	_show_tile_note = false;
 	_exit_maze_now = false;
 	_automap->refresh();
@@ -221,6 +238,8 @@ auto Sorcery::Engine::start() -> int {
 		// Handle various timers
 		_update_direction_indicatior_timer();
 		_ouch->update();
+		_pit->update();
+		_chute->update();
 
 		while (_window->pollEvent(event)) {
 
@@ -434,6 +453,30 @@ auto Sorcery::Engine::start() -> int {
 								_ouch->set_valid(false);
 							}
 						}
+					} else if (_show_pit) {
+						auto dialog_input{_pit->handle_input(event)};
+						if (dialog_input) {
+							if (dialog_input.value() ==
+								WindowDialogButton::OK) {
+
+								_display->set_input_mode(
+									WindowInputMode::IN_GAME);
+								_show_pit = false;
+								_pit->set_valid(false);
+							}
+						}
+					} else if (_show_chute) {
+						auto dialog_input{_chute->handle_input(event)};
+						if (dialog_input) {
+							if (dialog_input.value() ==
+								WindowDialogButton::OK) {
+
+								_display->set_input_mode(
+									WindowInputMode::IN_GAME);
+								_show_chute = false;
+								_chute->set_valid(false);
+							}
+						}
 					} else if (_show_confirm_stairs) {
 						if (_left_icon_panel->selected)
 							_left_icon_panel->selected = std::nullopt;
@@ -508,6 +551,9 @@ auto Sorcery::Engine::start() -> int {
 								_reset_direction_indicatior();
 								_teleport_if();
 								_spinner_if();
+								_pit_if();
+								_chute_if();
+
 								auto &to_tile{_game->state->level->at(
 									_game->state->get_player_pos())};
 								if (!to_tile.is(TileProperty::EXPLORED))
@@ -534,6 +580,9 @@ auto Sorcery::Engine::start() -> int {
 								_reset_direction_indicatior();
 								_spinner_if();
 								_teleport_if();
+								_pit_if();
+								_chute_if();
+
 								auto &to_tile{_game->state->level->at(
 									_game->state->get_player_pos())};
 								if (!to_tile.is(TileProperty::EXPLORED))
@@ -900,6 +949,46 @@ auto Sorcery::Engine::_turn_right() -> void {
 
 // TODO: rock/walkable for all levels/tiles!
 
+auto Sorcery::Engine::_pit_if() -> bool {
+
+	const auto tile{_game->state->level->at(_game->state->get_player_pos())};
+
+	if (tile.has(TileFeature::PIT)) {
+
+		_show_pit = true;
+		_pit->set_valid(true);
+		_pit->reset_timed();
+
+		// need to do teleport!
+	}
+}
+
+auto Sorcery::Engine::_chute_if() -> bool {
+
+	const auto tile{_game->state->level->at(_game->state->get_player_pos())};
+
+	if (tile.has(TileFeature::CHUTE)) {
+
+		_show_chute = true;
+		_chute->set_valid(true);
+		_chute->reset_timed();
+
+		auto destination{tile.has_teleport().value()};
+		auto dest_level{destination.to_level};
+		Level level{((*_game->levelstore)[dest_level]).value()};
+		_game->state->set_current_level(&level);
+		_game->state->set_player_pos(destination.to_loc);
+		_game->state->set_depth(dest_level);
+		auto &next_tile{_game->state->level->at(destination.to_loc)};
+		next_tile.set_explored();
+		_update_automap = true;
+		_update_compass = true;
+		_update_render = true;
+
+		_game->save_game();
+	}
+}
+
 auto Sorcery::Engine::_spinner_if() -> bool {
 
 	const auto tile{_game->state->level->at(_game->state->get_player_pos())};
@@ -910,11 +999,10 @@ auto Sorcery::Engine::_spinner_if() -> bool {
 		auto new_facing{static_cast<MapDirection>(
 			(*_system->random)[RandomType::ZERO_TO_3])};
 		_game->state->set_player_facing(new_facing);
-
 		return true;
-
-		return false;
 	}
+
+	return false;
 }
 
 auto Sorcery::Engine::_stairs_if() -> bool {
@@ -999,7 +1087,7 @@ auto Sorcery::Engine::_teleport_if() -> bool {
 				_show_confirm_stairs = false;
 		} else {
 
-			// TODO: different level teleport
+			// cross teleport levels
 		}
 	}
 
@@ -1077,6 +1165,24 @@ auto Sorcery::Engine::_draw() -> void {
 				else {
 					_show_ouch = false;
 					_ouch->set_valid(false);
+				}
+			}
+
+			if (_show_pit) {
+				if (_pit->get_valid())
+					_window->draw(*_pit);
+				else {
+					_show_pit = false;
+					_pit->set_valid(false);
+				}
+			}
+
+			if (_show_chute) {
+				if (_chute->get_valid())
+					_window->draw(*_chute);
+				else {
+					_show_chute = false;
+					_chute->set_valid(false);
 				}
 			}
 		}

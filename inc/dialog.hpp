@@ -57,6 +57,7 @@ namespace Sorcery {
 		auto set_valid(const bool valid) -> void;
 		auto reset_timed() -> void;
 		auto set(Component &string_c) -> void;
+		auto set_duration(unsigned int duration) -> void;
 
 	  private:
 		// Private Methods
@@ -99,5 +100,6 @@ namespace Sorcery {
 		std::optional<std::chrono::time_point<std::chrono::system_clock>>
 			_current_time;
 		bool _valid;
+		unsigned int _duration;
 	};
 } // namespace Sorcery

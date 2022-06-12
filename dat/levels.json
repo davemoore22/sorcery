@@ -1,8 +1,8 @@
 {
 	"export": {
 		"from": "2022.5",
-		"date": "2022-06-08",
-		"time": "23:31:27"
+		"date": "2022-06-12",
+		"time": "01:02:36"
 	},
 	"regions": [
 		{
@@ -1664,7 +1664,7 @@
 							"x": 1,
 							"y": 0,
 							"monospaced": false,
-							"__data": "METADATA TELEPORT 0 0 0"
+							"__data": "METADATA TELEPORT TO 0 0 0"
 						},
 						{
 							"x": 3,
@@ -2147,7 +2147,6 @@
 										"m": 5
 									},
 									{
-										"b": 1,
 										"m": 5
 									},
 									{
@@ -2212,7 +2211,6 @@
 										"m": 5
 									},
 									{
-										"r": 1,
 										"m": 5
 									},
 									{
@@ -3044,7 +3042,7 @@
 										"r": 1
 									},
 									{
-										"m": 7
+										"m": 50
 									},
 									{
 										"r": 1
@@ -3227,13 +3225,13 @@
 							"x": 10,
 							"y": 0,
 							"monospaced": false,
-							"__data": "There are buttons here marked A through F. METADATA ELEVATOR UP NONE -4 -9"
+							"__data": "METADATA ELEVATOR UP NONE -4 -9"
 						},
 						{
 							"x": 8,
 							"y": 2,
 							"monospaced": false,
-							"__data": "METADATA TELEPORT TO -10 0 0"
+							"__data": "METADATA CHUTE TO -10 0 0"
 						},
 						{
 							"x": 12,
@@ -3353,7 +3351,7 @@
 							"x": 15,
 							"y": 14,
 							"monospaced": false,
-							"__data": "METADATA TELEPORT TO -1 0 5METADATA TELEPORT TO -1 0 5"
+							"__data": "METADATA TELEPORT TO -1 0 5"
 						},
 						{
 							"x": 17,
@@ -6049,7 +6047,7 @@
 							"x": 10,
 							"y": 0,
 							"monospaced": false,
-							"__data": "There are buttons here marked A through F. METADATA ELEVATOR UP DOWN -4 -9"
+							"__data": "METADATA ELEVATOR UP DOWN -4 -9"
 						},
 						{
 							"x": 11,
@@ -7021,8 +7019,7 @@
 									{
 										"r": 29,
 										"b": 29,
-										"t": 34,
-										"fx": "b"
+										"t": 34
 									},
 									{
 										"r": 29
@@ -7551,7 +7548,7 @@
 							"x": 10,
 							"y": 0,
 							"monospaced": false,
-							"__data": "There are buttons here marked A through F. METADATA ELEVATOR UP DOWN -4 -9"
+							"__data": "METADATA ELEVATOR UP DOWN -4 -9"
 						},
 						{
 							"x": 0,
@@ -9130,7 +9127,7 @@
 							"x": 10,
 							"y": 0,
 							"monospaced": false,
-							"__data": "There are buttons here marked A through F. METADATA ELEVATOR UP DOWN -4 -9"
+							"__data": "METADATA ELEVATOR UP DOWN -4 -9"
 						},
 						{
 							"x": 8,
@@ -10697,7 +10694,7 @@
 							"x": 10,
 							"y": 0,
 							"monospaced": false,
-							"__data": "There are buttons here marked A through F. METADATA ELEVATOR UP DOWN -4 -9"
+							"__data": "METADATA ELEVATOR UP DOWN -4 -9"
 						},
 						{
 							"x": 0,
@@ -11824,7 +11821,7 @@
 							"x": 10,
 							"y": 8,
 							"monospaced": false,
-							"__data": "There are buttons here marked A through D. METADATA ELEVATOR UP NONE -1 -4"
+							"__data": "METADATA ELEVATOR UP NONE -1 -4"
 						},
 						{
 							"x": 10,
@@ -11872,7 +11869,7 @@
 							"x": 10,
 							"y": 0,
 							"monospaced": false,
-							"__data": "There are buttons here marked A through F. METADATA ELEVATOR NONE DOWN -4 -9"
+							"__data": "METADATA ELEVATOR NONE DOWN -4 -9"
 						},
 						{
 							"x": 10,
@@ -13344,7 +13341,7 @@
 							"x": 10,
 							"y": 8,
 							"monospaced": false,
-							"__data": "There are buttons here marked A through D. METADATA ELEVATOR UP DOWN -1 -4"
+							"__data": "METADATA ELEVATOR UP DOWN -1 -4"
 						},
 						{
 							"x": 10,
@@ -14927,7 +14924,7 @@
 							"x": 10,
 							"y": 8,
 							"monospaced": false,
-							"__data": "There are buttons here marked A through D. METADATA ELEVATOR UP DOWN -1 -4"
+							"__data": "METADATA ELEVATOR UP DOWN -1 -4"
 						},
 						{
 							"x": 12,
@@ -16348,7 +16345,7 @@
 									},
 									{
 										"r": 1,
-										"b": 1
+										"b": 9
 									},
 									{
 										"b": 1
@@ -16511,7 +16508,7 @@
 							"x": 10,
 							"y": 8,
 							"monospaced": false,
-							"__data": "There are buttons here marked A through D. METADATA ELEVATOR NONE DOWN -1 -4"
+							"__data": "METADATA ELEVATOR NONE DOWN -1 -4"
 						},
 						{
 							"x": 5,

@@ -303,6 +303,11 @@ auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {
 						std::stoi(data.at(3)), Coordinate{std::stoi(data.at(4)),
 												   std::stoi(data.at(5))}};
 					_tiles.at(Coordinate{x, y}).set_teleport(teleport);
+				} else if ((data.at(1) == "CHUTE") && (data.at(2) == "TO")) {
+					Teleport teleport{
+						std::stoi(data.at(3)), Coordinate{std::stoi(data.at(4)),
+												   std::stoi(data.at(5))}};
+					_tiles.at(Coordinate{x, y}).set_teleport(teleport);
 				} else if ((data.at(1) == "STAIRS") && (data.at(2) == "TO")) {
 					Teleport stairs{
 						std::stoi(data.at(3)), Coordinate{std::stoi(data.at(4)),
@@ -637,6 +642,9 @@ auto Sorcery::Level::_update_tile_markers(const Coordinate location,
 		break;
 	case 27:
 		tile.set(TileFeature::LADDER_DOWN);
+		break;
+	case 50:
+		tile.set(TileFeature::CHUTE);
 		break;
 	case 108:
 		tile.set(TileFeature::NOTICE);
