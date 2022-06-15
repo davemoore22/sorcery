@@ -170,7 +170,6 @@ auto Sorcery::Engine::start() -> int {
 	_show_chute = false;
 	_show_tile_note = false;
 	_exit_maze_now = false;
-	_show_elevator_a_d = false;
 	_automap->refresh();
 	_system->stop_pause();
 	_last_movement = MapDirection::NONE;
@@ -189,6 +188,8 @@ auto Sorcery::Engine::start() -> int {
 
 	} else
 		_show_confirm_stairs = false;
+
+	_show_elevator_a_d = starting_tile.has(TileFeature::ELEVATOR);
 
 	_game->hide_console();
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);

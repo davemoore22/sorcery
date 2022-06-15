@@ -8789,7 +8789,7 @@
 		{
 			"name": "dialog_elevator_a_to_d",
 			"x": "19",
-			"y": "13",
+			"y": "10",
 			"w": "40",
 			"type": "dialog",
 			"drawmode": "manual",
@@ -8799,7 +8799,8 @@
 				{
 					"button_count": "4",
 					"top_floor": "-1",
-					"bottom_floor": "-4"
+					"bottom_floor": "-4",
+					"floor_seperator_y": "4"
 				}
 			]
 		},
@@ -8817,7 +8818,8 @@
 				{
 					"button_count": "4",
 					"top_floor": "-1",
-					"bottom_floor": "-4"
+					"bottom_floor": "-4",
+					"floor_seperator_y": "4"
 				}
 			]
 		},
