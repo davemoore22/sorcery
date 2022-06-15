@@ -49,6 +49,8 @@ namespace Sorcery {
 		auto get_selected() const -> WindowDialogButton;
 		auto set_selected(WindowDialogButton value) -> void;
 		auto toggle_highlighted() -> WindowDialogButton;
+		auto toggle_next() -> WindowDialogButton;
+		auto toggle_previous() -> WindowDialogButton;
 		auto update() -> void;
 		auto handle_input(sf::Event event) -> std::optional<WindowDialogButton>;
 		auto get_valid() const -> bool;
@@ -78,6 +80,8 @@ namespace Sorcery {
 
 		Component _text_c;
 		Component _buttons_c;
+
+		unsigned int _floor_count;
 
 		WindowDialogType _type;
 

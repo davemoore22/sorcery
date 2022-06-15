@@ -8804,7 +8804,7 @@
 			]
 		},
 		{
-			"name": "dialog_elevator_a_to_d",
+			"name": "dialog_elevator_a_to_d_text",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",

@@ -640,6 +640,12 @@ auto Sorcery::Level::_update_tile_markers(const Coordinate location, const bool 
 	}
 }
 
+auto Sorcery::Level::elevator_at(const Coordinate loc) -> bool {
+
+	const auto &tile{_tiles.at(loc)};
+	return tile.has(TileFeature::ELEVATOR);
+}
+
 auto Sorcery::Level::stairs_at(const Coordinate loc) -> bool {
 
 	const auto &tile{_tiles.at(loc)};

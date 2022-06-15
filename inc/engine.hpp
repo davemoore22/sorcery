@@ -89,6 +89,8 @@ namespace Sorcery {
 		std::unique_ptr<Dialog> _ouch;
 		std::unique_ptr<Dialog> _pit;
 		std::unique_ptr<Dialog> _chute;
+		std::unique_ptr<Dialog> _elevator_a_d;
+		std::unique_ptr<Dialog> _elevator_a_f;
 		std::unique_ptr<Reorder> _reorder;
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Render> _render;
@@ -108,6 +110,8 @@ namespace Sorcery {
 		bool _show_pit;
 		bool _show_chute;
 		bool _show_tile_note;
+		bool _show_elevator_a_d;
+		bool _show_elevator_a_f;
 		bool _update_automap;
 		bool _update_compass;
 		bool _update_icon_panels;
