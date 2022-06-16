@@ -72,9 +72,10 @@ namespace Sorcery {
 		auto _spinner_if() -> bool;
 		auto _pit_if() -> bool;
 		auto _chute_if() -> bool;
+		auto _elevator_if() -> bool;
 
-		auto _reset_direction_indicatior() -> bool;
-		auto _update_direction_indicatior_timer() -> void;
+		auto _reset_direction_indicator() -> bool;
+		auto _update_direction_indicator_timer() -> void;
 
 		// Private Members
 		System *_system;
@@ -93,6 +94,7 @@ namespace Sorcery {
 		std::unique_ptr<Dialog> _ouch;
 		std::unique_ptr<Dialog> _pit;
 		std::unique_ptr<Dialog> _chute;
+		std::unique_ptr<Dialog> _elevator;
 		std::unique_ptr<Reorder> _reorder;
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Render> _render;
@@ -111,6 +113,7 @@ namespace Sorcery {
 		bool _show_ouch;
 		bool _show_pit;
 		bool _show_chute;
+		bool _show_elevator;
 		bool _show_tile_note;
 		bool _in_elevator_a_d;
 		bool _in_elevator_a_f;
@@ -122,9 +125,11 @@ namespace Sorcery {
 		bool _update_tile_note;
 		bool _exit_maze_now;
 		bool _pending_chute;
+		bool _pending_elevator;
 		std::optional<Character *> _cur_char;
 		std::unique_ptr<Frame> _cur_char_frame;
 		MapDirection _last_movement;
+		int _destination_floor;
 
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _direction_start;
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _direction_current_time;

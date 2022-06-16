@@ -30,7 +30,7 @@ Watch a video of exploring Level 1 here:
   * One-way Doors/Walls
   * Teleports
   * Automap
-  * Stairs
+  * Use Stairs and Elevators
 * Visit the Town and the Castle
   * Inn
   * Tavern

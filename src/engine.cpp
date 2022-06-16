@@ -78,11 +78,11 @@ Sorcery::Engine::Engine(System *system, Display *display, Graphics *graphics, Ga
 	_chute->setPosition((*_display->layout)["engine_base_ui:chute"].x, (*_display->layout)["engine_base_ui:chute"].y);
 	_chute->set_duration(2000);
 
-	/* _elevator_a_d = std::make_unique<Dialog>(_system, _display, _graphics,
-		(*_display->layout)["engine_base_ui:dialog_elevator_a_to_d"],
-		(*_display->layout)["engine_base_ui:dialog_elevator_a_to_d_text"], WindowDialogType::ELEVATOR);
-	_elevator_a_d->setPosition((*_display->layout)["engine_base_ui:dialog_elevator_a_to_d"].x,
-		(*_display->layout)["engine_base_ui:dialog_elevator_a_to_d"].y); */
+	_elevator = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:one_moment"],
+		(*_display->layout)["engine_base_ui:one_moment_text"], WindowDialogType::TIMED);
+	_elevator->setPosition(
+		(*_display->layout)["engine_base_ui:one_moment"].x, (*_display->layout)["engine_base_ui:one_moment"].y);
+	_elevator->set_duration(2000);
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game,
@@ -109,6 +109,7 @@ Sorcery::Engine::Engine(System *system, Display *display, Graphics *graphics, Ga
 	_update_tile_note = false;
 	_exit_maze_now = false;
 	_pending_chute = false;
+	_pending_elevator = false;
 
 	game->hide_console();
 }
@@ -116,7 +117,7 @@ Sorcery::Engine::Engine(System *system, Display *display, Graphics *graphics, Ga
 // Standard Destructor
 Sorcery::Engine::~Engine() {}
 
-auto Sorcery::Engine::_update_direction_indicatior_timer() -> void {
+auto Sorcery::Engine::_update_direction_indicator_timer() -> void {
 
 	if (_show_direction_indicatior) {
 		if (!_direction_start)
@@ -133,7 +134,7 @@ auto Sorcery::Engine::_update_direction_indicatior_timer() -> void {
 	}
 }
 
-auto Sorcery::Engine::_reset_direction_indicatior() -> bool {
+auto Sorcery::Engine::_reset_direction_indicator() -> bool {
 
 	_show_direction_indicatior = true;
 	_direction_start = std::nullopt;
@@ -185,6 +186,7 @@ auto Sorcery::Engine::start() -> int {
 	_show_pit = false;
 	_show_chute = false;
 	_show_tile_note = false;
+	_show_elevator = false;
 	_exit_maze_now = false;
 	_automap->refresh();
 	_system->stop_pause();
@@ -204,7 +206,7 @@ auto Sorcery::Engine::start() -> int {
 	} else
 		_show_confirm_stairs = false;
 
-	//_show_elevator_a_d = starting_tile.has(TileFeature::ELEVATOR);
+	_in_elevator_a_d = starting_tile.has(TileFeature::ELEVATOR);
 
 	_game->hide_console();
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
@@ -219,10 +221,11 @@ auto Sorcery::Engine::start() -> int {
 	while (_window->isOpen()) {
 
 		// Handle various timers
-		_update_direction_indicatior_timer();
+		_update_direction_indicator_timer();
 		_ouch->update();
 		_pit->update();
 		_chute->update();
+		_elevator->update();
 		if (auto pending{_system->update_pause()}; pending) {
 			if (_pending_chute) {
 
@@ -244,6 +247,23 @@ auto Sorcery::Engine::start() -> int {
 
 					_game->save_game();
 				}
+			} else if (_pending_elevator) {
+
+				const auto tile{_game->state->level->at(_game->state->get_player_pos())};
+				if (tile.has(TileFeature::ELEVATOR)) {
+
+					Level level{((*_game->levelstore)[_destination_floor]).value()};
+					_game->state->set_current_level(&level);
+					_game->state->set_depth(_destination_floor);
+					auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
+					next_tile.set_explored();
+					_update_automap = true;
+					_update_compass = true;
+					_update_render = true;
+					_pending_elevator = false;
+					_game->save_game();
+					_destination_floor = 0;
+				}
 			}
 		}
 
@@ -261,7 +281,7 @@ auto Sorcery::Engine::start() -> int {
 		} else {
 
 			_pending_chute = false;
-
+			_pending_elevator = false;
 			while (_window->pollEvent(event)) {
 
 				// Check for Window Close
@@ -448,52 +468,35 @@ auto Sorcery::Engine::start() -> int {
 								_in_elevator_a_d = false;
 								_display->generate("engine_base_ui");
 								_display->set_input_mode(WindowInputMode::IN_GAME);
+								_pending_elevator = false;
+								_destination_floor = 0;
+								//_elevator_if();
 								continue;
-							} /* else if (option_chosen == MenuItem::CP_SAVE) {
-								_game->save_game();
-								return EXIT_MODULE;
-							} else if (option_chosen == MenuItem::QUIT) {
-								_show_confirm_exit = true;
-								continue;
-							} else if (option_chosen == MenuItem::CP_OPTIONS) {
-
-								auto options{std::make_unique<Options>(_system, _display, _graphics)};
-								auto result{options->start()};
-								if (result == EXIT_ALL) {
-									options->stop();
-									return EXIT_ALL;
-								}
-								options->stop();
-								_status_bar->refresh();
+							} else if ((option_chosen == MenuItem::EL_A) && (_game->state->get_depth() != -1)) {
+								_destination_floor = -1;
+								_pending_elevator = true;
+								_elevator_if();
+							} else if ((option_chosen == MenuItem::EL_B) && (_game->state->get_depth() != -2)) {
+								_destination_floor = -2;
+								_pending_elevator = true;
+								_elevator_if();
+							} else if ((option_chosen == MenuItem::EL_C) && (_game->state->get_depth() != -3)) {
+								_destination_floor = -3;
+								_pending_elevator = true;
+								_elevator_if();
+							} else if ((option_chosen == MenuItem::EL_D) && (_game->state->get_depth() != -4)) {
+								_destination_floor = -4;
+								_pending_elevator = true;
+								_elevator_if();
+							} else {
+								_in_elevator_a_d = false;
 								_display->generate("engine_base_ui");
-							} else if (option_chosen == MenuItem::CP_INSPECT) {
-								_status_bar->refresh();
-								auto result{_inspect->start()};
-								if (result == MenuItem::ABORT) {
-									_inspect->stop();
-									return EXIT_ALL;
-								}
-								_inspect->stop();
-								_status_bar->refresh();
-								_display->generate("engine_base_ui");
-							} else if (option_chosen == MenuItem::CP_REORDER) {
-								_status_bar->refresh();
-								auto new_party{_reorder->start()};
-								if (new_party) {
-
-									// TODO: handle aborts here too
-									_game->state->set_party(new_party.value());
-									_game->save_game();
-									_game->load_game();
-									_status_bar->refresh();
-								}
-								_reorder->stop();
-								_status_bar->refresh();
-								_display->generate("engine_base_ui");
-							} */
+								_display->set_input_mode(WindowInputMode::IN_GAME);
+								_pending_elevator = false;
+								_destination_floor = 0;
+							}
 						}
 					}
-
 				} else {
 
 					if (_display->get_input_mode() == WindowInputMode::IN_GAME) {
@@ -552,44 +555,17 @@ auto Sorcery::Engine::start() -> int {
 									_chute->set_valid(false);
 								}
 							}
-						} /* else if (_show_elevator_a_d) {
+						} else if (_show_elevator) {
+							auto dialog_one_moment{_elevator->handle_input(event)};
+							if (dialog_one_moment) {
+								if (dialog_one_moment.value() == WindowDialogButton::OK) {
 
-							if (_left_icon_panel->selected)
-								_left_icon_panel->selected = std::nullopt;
-							if (_right_icon_panel->selected)
-								_right_icon_panel->selected = std::nullopt;
-							if (_status_bar->selected)
-								_status_bar->selected = std::nullopt;
-							auto dialog_input{_elevator_a_d->handle_input(event)};
-							if (dialog_input) {
-								if (dialog_input.value() == WindowDialogButton::LEAVE) {
 									_display->set_input_mode(WindowInputMode::IN_GAME);
-									_show_elevator_a_d = false;
-								} else if (dialog_input.value() == WindowDialogButton::NO) {
-									_display->set_input_mode(WindowInputMode::IN_GAME);
-									_show_elevator_a_d = false;
-								} /* else if (dialog_input.value() == WindowDialogButton::YES) {
-									_show_confirm_stairs = false;
-
-									const auto current_loc{_game->state->get_player_pos()};
-									if ((current_loc == Coordinate{0, 0}) && (_game->state->get_depth() == -1)) {
-
-										_game->save_game();
-										return EXIT_MODULE;
-									} else {
-
-										_stairs_if();
-										auto &to_tile{_game->state->level->at(_game->state->get_player_pos())};
-										if (!to_tile.is(TileProperty::EXPLORED))
-											to_tile.set_explored();
-										_update_automap = true;
-										_show_confirm_stairs = true;
-										_game->save_game();
-									}
+									_show_elevator = false;
+									_elevator->set_valid(false);
 								}
 							}
-						} */
-						else if (_show_confirm_stairs) {
+						} else if (_show_confirm_stairs) {
 							if (_left_icon_panel->selected)
 								_left_icon_panel->selected = std::nullopt;
 							if (_right_icon_panel->selected)
@@ -628,7 +604,7 @@ auto Sorcery::Engine::start() -> int {
 						} else {
 							if (_system->input->check(WindowInput::LEFT, event)) {
 								_show_direction_indicatior = true;
-								_reset_direction_indicatior();
+								_reset_direction_indicator();
 								_turn_left();
 								_spinner_if();
 								_update_automap = true;
@@ -636,7 +612,7 @@ auto Sorcery::Engine::start() -> int {
 								_update_render = true;
 							} else if (_system->input->check(WindowInput::RIGHT, event)) {
 								_show_direction_indicatior = true;
-								_reset_direction_indicatior();
+								_reset_direction_indicator();
 								_turn_right();
 								_spinner_if();
 								_update_automap = true;
@@ -650,7 +626,7 @@ auto Sorcery::Engine::start() -> int {
 									_ouch->reset_timed();
 								} else {
 									_show_direction_indicatior = true;
-									_reset_direction_indicatior();
+									_reset_direction_indicator();
 									_teleport_if();
 									_spinner_if();
 									_pit_if();
@@ -677,7 +653,7 @@ auto Sorcery::Engine::start() -> int {
 									_ouch->reset_timed();
 								} else {
 									_show_direction_indicatior = true;
-									_reset_direction_indicatior();
+									_reset_direction_indicator();
 									_spinner_if();
 									_teleport_if();
 									_pit_if();
@@ -862,8 +838,6 @@ auto Sorcery::Engine::_move_forward() -> bool {
 	}
 
 	if (this_tile.walkable(this_wall_to_check)) {
-		// if ((this_tile.walkable(this_wall_to_check)) &&
-		//		(next_tile.walkable(next_wall_to_check))) {
 
 		_game->state->set_player_pos(next_loc);
 		if (!next_tile.is(TileProperty::EXPLORED))
@@ -889,10 +863,8 @@ auto Sorcery::Engine::_move_forward() -> bool {
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 			std::optional<std::vector<MenuEntry>::const_iterator> elevator_option{_elevator_a_d_menu->items.end()};
 			_in_elevator_a_d = true;
-			//_show_elevator_a_d = true;
 		} else {
 			_in_elevator_a_d = false;
-			//_show_elevator_a_d = false;
 		}
 
 		_last_movement = MapDirection::NORTH;
@@ -961,8 +933,6 @@ auto Sorcery::Engine::_move_backward() -> bool {
 	auto next_wall_to_check{_game->state->get_player_facing()};
 
 	if (this_tile.walkable(this_wall_to_check)) {
-		// if ((this_tile.walkable(this_wall_to_check)) &&
-		//	(next_tile.walkable(next_wall_to_check))) {
 
 		_game->state->set_player_pos(next_loc);
 		if (!next_tile.is(TileProperty::EXPLORED))
@@ -983,19 +953,12 @@ auto Sorcery::Engine::_move_backward() -> bool {
 			_show_confirm_stairs = false;
 
 		// TODO: 4 and 6
-		/* if (_game->state->level->elevator_at(next_loc)) {
-			_show_elevator_a_d = true;
-		} else {
-			_show_elevator_a_d = false;
-		} */
 		if (_game->state->level->elevator_at(next_loc)) {
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 			std::optional<std::vector<MenuEntry>::const_iterator> elevator_option{_elevator_a_d_menu->items.end()};
 			_in_elevator_a_d = true;
-			//_show_elevator_a_d = true;
 		} else {
 			_in_elevator_a_d = false;
-			//_show_elevator_a_d = false;
 		}
 
 		_last_movement = MapDirection::SOUTH;
@@ -1059,8 +1022,20 @@ auto Sorcery::Engine::_pit_if() -> bool {
 		_show_pit = true;
 		_pit->set_valid(true);
 		_pit->reset_timed();
+	}
+}
 
-		// need to do teleport!
+auto Sorcery::Engine::_elevator_if() -> bool {
+
+	const auto tile{_game->state->level->at(_game->state->get_player_pos())};
+	if (tile.has(TileFeature::ELEVATOR)) {
+
+		_show_elevator = true;
+		_elevator->set_valid(true);
+		_elevator->reset_timed();
+
+		_system->set_pause(2000);
+		_pending_elevator = true;
 	}
 }
 
@@ -1075,8 +1050,6 @@ auto Sorcery::Engine::_chute_if() -> bool {
 
 		_system->set_pause(2000);
 		_pending_chute = true;
-
-		// Wait for the timer to run out before telporting
 	}
 }
 
@@ -1218,6 +1191,15 @@ auto Sorcery::Engine::_draw() -> void {
 			(*_display->layout)["engine_base_ui:elevator_a_d_menu"].y);
 		_elevator_a_d_menu->setPosition(menu_pos);
 		_window->draw(*_elevator_a_d_menu);
+
+		if (_show_elevator) {
+			if (_elevator->get_valid())
+				_window->draw(*_elevator);
+			else {
+				_show_elevator = false;
+				_elevator->set_valid(false);
+			}
+		}
 	} else if (_display->get_input_mode() == WindowInputMode::BROWSE_CHARACTER) {
 		if (_cur_char) {
 
@@ -1235,11 +1217,6 @@ auto Sorcery::Engine::_draw() -> void {
 			_confirm_stairs->update();
 			_window->draw(*_confirm_stairs);
 		}
-
-		/* if (_show_elevator_a_d) {
-			_elevator_a_d->update();
-			_window->draw(*_elevator_a_d);
-		} */
 
 		if (_show_ouch) {
 			if (_ouch->get_valid())

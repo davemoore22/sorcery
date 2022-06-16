@@ -81,8 +81,6 @@ namespace Sorcery {
 		Component _text_c;
 		Component _buttons_c;
 
-		// unsigned int _floor_count;
-
 		WindowDialogType _type;
 
 		std::vector<std::string> _strings;
