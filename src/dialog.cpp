@@ -52,7 +52,7 @@ auto Sorcery::Dialog::_refresh(Component &string_c) -> void {
 	_current_time = std::nullopt;
 	_valid = true;
 	_duration = 1000; // ms
-	_floor_count = 0;
+	//_floor_count = 0;
 
 	// Get the Window
 	_window = _display->window->get_window();
@@ -95,13 +95,13 @@ auto Sorcery::Dialog::_refresh(Component &string_c) -> void {
 		_selected = WindowDialogButton::NONE;
 		frame_h += 2;
 		break;
-	case WindowDialogType::ELEVATOR:
+	/* case WindowDialogType::ELEVATOR:
 		if (string_c["button_count"])
 			frame_h += (5 + 2 + std::stoi(string_c["button_count"].value()));
 		else
 			frame_h += 5;
 		_selected = WindowDialogButton::LEAVE;
-		break;
+		break; */
 	default:
 		break;
 	}
@@ -169,7 +169,7 @@ auto Sorcery::Dialog::_refresh(Component &string_c) -> void {
 		_highlights[WindowDialogButton::OK] = ok_text_bg;
 
 	} break;
-	case WindowDialogType::ELEVATOR: {
+	/* case WindowDialogType::ELEVATOR: {
 		const auto button_text{(*_display->string)["ELEVATOR_BUTTONS"]};
 		const auto leave_text{(*_display->string)["ELEVATOR_LEAVE"]};
 		const auto button_count{std::stoi(string_c["button_count"].value())};
@@ -309,7 +309,7 @@ auto Sorcery::Dialog::_refresh(Component &string_c) -> void {
 
 		_highlights[WindowDialogButton::LEAVE] = l_text_bg;
 
-	} break;
+	} break; */
 	case WindowDialogType::CONFIRM: {
 		const auto yes_x{(centre_x - (_display->window->get_cw() * 4))};
 		sf::Text yes_text{};
@@ -437,7 +437,7 @@ auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WindowDialo
 		break;
 	case WindowDialogType::MENU:
 		break;
-	case WindowDialogType::ELEVATOR:
+	/* case WindowDialogType::ELEVATOR:
 		if (_system->input->check(WindowInput::MOVE, event))
 			check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 		else if (_system->input->check(WindowInput::CONFIRM, event)) {
@@ -518,7 +518,7 @@ auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WindowDialo
 			}
 		}
 
-		break;
+		break; */
 	case WindowDialogType::TIMED:
 		if (_valid) {
 			if (_system->input->check(WindowInput::ANYTHING, event)) {
@@ -536,7 +536,7 @@ auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WindowDialo
 
 auto Sorcery::Dialog::toggle_next() -> WindowDialogButton {
 
-	if (_type == WindowDialogType::ELEVATOR) {
+	/* if (_type == WindowDialogType::ELEVATOR) {
 		if (_selected == WindowDialogButton::A)
 			_selected = WindowDialogButton::B;
 		else if (_selected == WindowDialogButton::B)
@@ -553,11 +553,11 @@ auto Sorcery::Dialog::toggle_next() -> WindowDialogButton {
 			_selected = WindowDialogButton::LEAVE;
 		else if (_selected == WindowDialogButton::LEAVE)
 			_selected = WindowDialogButton::A;
-	}
+	} */
 }
 auto Sorcery::Dialog::toggle_previous() -> WindowDialogButton {
 
-	if (_type == WindowDialogType::ELEVATOR) {
+	/* if (_type == WindowDialogType::ELEVATOR) {
 		if (_selected == WindowDialogButton::A)
 			_selected = WindowDialogButton::LEAVE;
 		else if (_selected == WindowDialogButton::B)
@@ -574,7 +574,7 @@ auto Sorcery::Dialog::toggle_previous() -> WindowDialogButton {
 			_selected = WindowDialogButton::D;
 		else if (_selected == WindowDialogButton::LEAVE)
 			_selected = WindowDialogButton::F;
-	}
+	} */
 }
 
 auto Sorcery::Dialog::toggle_highlighted() -> WindowDialogButton {
@@ -621,32 +621,32 @@ auto Sorcery::Dialog::check_for_mouse_move(const sf::Vector2f mouse_pos) -> std:
 			return WindowDialogButton::NO;
 		}
 		break;
-	case WindowDialogType::ELEVATOR:
-		if (_floor_count == 4) {
-			if (_buttons_fr.at(WindowDialogButton::A).contains(local_mouse_pos)) {
-				_selected = WindowDialogButton::A;
-				return WindowDialogButton::A;
-			} else if (_buttons_fr.at(WindowDialogButton::B).contains(local_mouse_pos)) {
-				_selected = WindowDialogButton::B;
-				return WindowDialogButton::B;
-			} else if (_buttons_fr.at(WindowDialogButton::C).contains(local_mouse_pos)) {
-				_selected = WindowDialogButton::C;
-				return WindowDialogButton::C;
-			} else if (_buttons_fr.at(WindowDialogButton::D).contains(local_mouse_pos)) {
-				_selected = WindowDialogButton::D;
-				return WindowDialogButton::D;
-			} /* else if (_buttons_fr.at(WindowDialogButton::E).contains(local_mouse_pos)) {
-				_selected = WindowDialogButton::E;
-				return WindowDialogButton::E;
-			} else if (_buttons_fr.at(WindowDialogButton::F).contains(local_mouse_pos)) {
-				_selected = WindowDialogButton::F;
-				return WindowDialogButton::F;
-			} */
-			else if (_buttons_fr.at(WindowDialogButton::LEAVE).contains(local_mouse_pos)) {
-				_selected = WindowDialogButton::LEAVE;
-				return WindowDialogButton::LEAVE;
-			}
+		/* case WindowDialogType::ELEVATOR:
+			if (_floor_count == 4) {
+				if (_buttons_fr.at(WindowDialogButton::A).contains(local_mouse_pos)) {
+					_selected = WindowDialogButton::A;
+					return WindowDialogButton::A;
+				} else if (_buttons_fr.at(WindowDialogButton::B).contains(local_mouse_pos)) {
+					_selected = WindowDialogButton::B;
+					return WindowDialogButton::B;
+				} else if (_buttons_fr.at(WindowDialogButton::C).contains(local_mouse_pos)) {
+					_selected = WindowDialogButton::C;
+					return WindowDialogButton::C;
+				} else if (_buttons_fr.at(WindowDialogButton::D).contains(local_mouse_pos)) {
+					_selected = WindowDialogButton::D;
+					return WindowDialogButton::D;
+				} /* else if (_buttons_fr.at(WindowDialogButton::E).contains(local_mouse_pos)) {
+					_selected = WindowDialogButton::E;
+					return WindowDialogButton::E;
+				} else if (_buttons_fr.at(WindowDialogButton::F).contains(local_mouse_pos)) {
+					_selected = WindowDialogButton::F;
+					return WindowDialogButton::F;
+				}
+		else if (_buttons_fr.at(WindowDialogButton::LEAVE).contains(local_mouse_pos)) {
+			_selected = WindowDialogButton::LEAVE;
+			return WindowDialogButton::LEAVE;
 		}
+	} */
 	case WindowDialogType::MENU:
 		break;
 	case WindowDialogType::TIMED:
@@ -680,7 +680,7 @@ auto Sorcery::Dialog::check_if_option_selected(const sf::Vector2f mouse_pos) -> 
 			return WindowDialogButton::NO;
 		}
 		break;
-	case WindowDialogType::ELEVATOR:
+	/* case WindowDialogType::ELEVATOR:
 		if (_buttons_fr.at(WindowDialogButton::A).contains(local_mouse_pos)) {
 			_selected = WindowDialogButton::A;
 			return WindowDialogButton::A;
@@ -699,12 +699,13 @@ auto Sorcery::Dialog::check_if_option_selected(const sf::Vector2f mouse_pos) -> 
 		} else if (_buttons_fr.at(WindowDialogButton::F).contains(local_mouse_pos)) {
 			_selected = WindowDialogButton::F;
 			return WindowDialogButton::F;
-		} */
-		else if (_buttons_fr.at(WindowDialogButton::LEAVE).contains(local_mouse_pos)) {
-			_selected = WindowDialogButton::LEAVE;
-			return WindowDialogButton::LEAVE;
 		}
-		break;
+	else if (_buttons_fr.at(WindowDialogButton::LEAVE).contains(local_mouse_pos)) {
+		_selected = WindowDialogButton::LEAVE;
+		return WindowDialogButton::LEAVE;
+	}
+	break;
+	*/
 	case WindowDialogType::MENU:
 		break;
 	case WindowDialogType::TIMED:
@@ -751,7 +752,7 @@ auto Sorcery::Dialog::update() -> void {
 			hl.setFillColor(_graphics->animation->selected_colour);
 		}
 	} break;
-	case WindowDialogType::ELEVATOR: {
+	/* case WindowDialogType::ELEVATOR: {
 		if (_selected == WindowDialogButton::A) {
 			sf::RectangleShape &hl{_highlights.at(WindowDialogButton::A)};
 			hl.setFillColor(_graphics->animation->selected_colour);
@@ -775,7 +776,7 @@ auto Sorcery::Dialog::update() -> void {
 			hl.setFillColor(_graphics->animation->selected_colour);
 		}
 
-	} break;
+	} break; */
 	case WindowDialogType::MENU:
 		break;
 	case WindowDialogType::TIMED:
@@ -840,7 +841,7 @@ auto Sorcery::Dialog::draw(sf::RenderTarget &target, sf::RenderStates state) con
 				target.draw(_buttons_hl.at(WindowDialogButton::NO), state);
 			}
 			break;
-		case WindowDialogType::ELEVATOR:
+		/* case WindowDialogType::ELEVATOR:
 			switch (_selected) {
 			case WindowDialogButton::A:
 				target.draw(_highlights.at(WindowDialogButton::A), state);
@@ -892,7 +893,7 @@ auto Sorcery::Dialog::draw(sf::RenderTarget &target, sf::RenderStates state) con
 				break;
 			}
 
-			break;
+			break; */
 		case WindowDialogType::MENU:
 			break;
 		case WindowDialogType::TIMED:

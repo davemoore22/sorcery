@@ -39,6 +39,20 @@ Sorcery::Engine::Engine(System *system, Display *display, Graphics *graphics, Ga
 	_camp_menu_frame->setPosition(_display->window->get_x(_camp_menu_frame->sprite, menu_fc.x),
 		_display->window->get_y(_camp_menu_frame->sprite, menu_fc.y));
 
+	_elevator_a_d_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::ELEVATOR_A_D);
+	const Component elevator_a_d_fc{(*_display->layout)["engine_base_ui:elevator_a_d_menu_frame"]};
+	_elevator_a_d_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, elevator_a_d_fc.w,
+		elevator_a_d_fc.h, elevator_a_d_fc.colour, elevator_a_d_fc.background, elevator_a_d_fc.alpha);
+	_elevator_a_d_menu_frame->setPosition(_display->window->get_x(_elevator_a_d_menu_frame->sprite, elevator_a_d_fc.x),
+		_display->window->get_y(_elevator_a_d_menu_frame->sprite, elevator_a_d_fc.y));
+
+	_elevator_a_f_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::ELEVATOR_A_F);
+	const Component elevator_a_f_fc{(*_display->layout)["engine_base_ui:elevator_a_f_menu_frame"]};
+	_elevator_a_f_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, elevator_a_f_fc.w,
+		elevator_a_f_fc.h, elevator_a_f_fc.colour, elevator_a_f_fc.background, elevator_a_f_fc.alpha);
+	_elevator_a_f_menu_frame->setPosition(_display->window->get_x(_elevator_a_f_menu_frame->sprite, elevator_a_f_fc.x),
+		_display->window->get_y(_elevator_a_f_menu_frame->sprite, elevator_a_f_fc.y));
+
 	_confirm_exit =
 		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:dialog_exit"],
 			(*_display->layout)["engine_base_ui:dialog_exit_text"], WindowDialogType::CONFIRM);
@@ -64,11 +78,11 @@ Sorcery::Engine::Engine(System *system, Display *display, Graphics *graphics, Ga
 	_chute->setPosition((*_display->layout)["engine_base_ui:chute"].x, (*_display->layout)["engine_base_ui:chute"].y);
 	_chute->set_duration(2000);
 
-	_elevator_a_d = std::make_unique<Dialog>(_system, _display, _graphics,
+	/* _elevator_a_d = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["engine_base_ui:dialog_elevator_a_to_d"],
 		(*_display->layout)["engine_base_ui:dialog_elevator_a_to_d_text"], WindowDialogType::ELEVATOR);
 	_elevator_a_d->setPosition((*_display->layout)["engine_base_ui:dialog_elevator_a_to_d"].x,
-		(*_display->layout)["engine_base_ui:dialog_elevator_a_to_d"].y);
+		(*_display->layout)["engine_base_ui:dialog_elevator_a_to_d"].y); */
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game,
@@ -164,6 +178,8 @@ auto Sorcery::Engine::start() -> int {
 	// Start in camp as is tradition
 	_in_camp = true;
 	_in_character = false;
+	_in_elevator_a_d = false;
+	_in_elevator_a_f = false;
 	_show_confirm_exit = false;
 	_show_ouch = false;
 	_show_pit = false;
@@ -178,7 +194,6 @@ auto Sorcery::Engine::start() -> int {
 		starting_tile.set_explored();
 
 	_show_confirm_stairs = (_game->state->get_player_pos() == Coordinate{0, 0}) && (_game->state->get_depth() == -1);
-
 	if ((_game->state->get_player_pos() == Coordinate{0, 0}) && (_game->state->get_depth() == -1)) {
 		_show_confirm_stairs = true;
 		_game->state->set_player_facing(MapDirection::NORTH);
@@ -189,11 +204,12 @@ auto Sorcery::Engine::start() -> int {
 	} else
 		_show_confirm_stairs = false;
 
-	_show_elevator_a_d = starting_tile.has(TileFeature::ELEVATOR);
+	//_show_elevator_a_d = starting_tile.has(TileFeature::ELEVATOR);
 
 	_game->hide_console();
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> camp_option{_camp_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> elevator_a_d_option{_elevator_a_d_menu->items.end()};
 
 	const auto current_loc{_game->state->get_player_pos()};
 	if (auto &this_tile{_game->state->level->at(current_loc)}; !this_tile.is(TileProperty::EXPLORED))
@@ -399,6 +415,85 @@ auto Sorcery::Engine::start() -> int {
 							}
 						}
 					}
+				} else if (_in_elevator_a_d) {
+					if (_left_icon_panel->selected)
+						_left_icon_panel->selected = std::nullopt;
+					if (_right_icon_panel->selected)
+						_right_icon_panel->selected = std::nullopt;
+					if (_status_bar->selected)
+						_status_bar->selected = std::nullopt;
+
+					if (_system->input->check(WindowInput::CANCEL, event))
+						_in_elevator_a_d = false;
+
+					if (_system->input->check(WindowInput::BACK, event))
+						_in_elevator_a_d = false;
+
+					if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
+						_game->toggle_console();
+					else if (_system->input->check(WindowInput::UP, event))
+						elevator_a_d_option = _elevator_a_d_menu->choose_previous();
+					else if (_system->input->check(WindowInput::DOWN, event))
+						elevator_a_d_option = _elevator_a_d_menu->choose_next();
+					else if (_system->input->check(WindowInput::MOVE, event))
+						elevator_a_d_option = _elevator_a_d_menu->set_mouse_selected(
+							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+						// We have selected something from the menu
+						if (elevator_a_d_option) {
+
+							if (const MenuItem option_chosen{(*elevator_a_d_option.value()).item};
+								option_chosen == MenuItem::EL_LEAVE) {
+								_in_elevator_a_d = false;
+								_display->generate("engine_base_ui");
+								_display->set_input_mode(WindowInputMode::IN_GAME);
+								continue;
+							} /* else if (option_chosen == MenuItem::CP_SAVE) {
+								_game->save_game();
+								return EXIT_MODULE;
+							} else if (option_chosen == MenuItem::QUIT) {
+								_show_confirm_exit = true;
+								continue;
+							} else if (option_chosen == MenuItem::CP_OPTIONS) {
+
+								auto options{std::make_unique<Options>(_system, _display, _graphics)};
+								auto result{options->start()};
+								if (result == EXIT_ALL) {
+									options->stop();
+									return EXIT_ALL;
+								}
+								options->stop();
+								_status_bar->refresh();
+								_display->generate("engine_base_ui");
+							} else if (option_chosen == MenuItem::CP_INSPECT) {
+								_status_bar->refresh();
+								auto result{_inspect->start()};
+								if (result == MenuItem::ABORT) {
+									_inspect->stop();
+									return EXIT_ALL;
+								}
+								_inspect->stop();
+								_status_bar->refresh();
+								_display->generate("engine_base_ui");
+							} else if (option_chosen == MenuItem::CP_REORDER) {
+								_status_bar->refresh();
+								auto new_party{_reorder->start()};
+								if (new_party) {
+
+									// TODO: handle aborts here too
+									_game->state->set_party(new_party.value());
+									_game->save_game();
+									_game->load_game();
+									_status_bar->refresh();
+								}
+								_reorder->stop();
+								_status_bar->refresh();
+								_display->generate("engine_base_ui");
+							} */
+						}
+					}
+
 				} else {
 
 					if (_display->get_input_mode() == WindowInputMode::IN_GAME) {
@@ -457,7 +552,7 @@ auto Sorcery::Engine::start() -> int {
 									_chute->set_valid(false);
 								}
 							}
-						} else if (_show_elevator_a_d) {
+						} /* else if (_show_elevator_a_d) {
 
 							if (_left_icon_panel->selected)
 								_left_icon_panel->selected = std::nullopt;
@@ -491,9 +586,10 @@ auto Sorcery::Engine::start() -> int {
 										_show_confirm_stairs = true;
 										_game->save_game();
 									}
-								} */
+								}
 							}
-						} else if (_show_confirm_stairs) {
+						} */
+						else if (_show_confirm_stairs) {
 							if (_left_icon_panel->selected)
 								_left_icon_panel->selected = std::nullopt;
 							if (_right_icon_panel->selected)
@@ -790,9 +886,13 @@ auto Sorcery::Engine::_move_forward() -> bool {
 
 		// TODO: 4 and 6
 		if (_game->state->level->elevator_at(next_loc)) {
-			_show_elevator_a_d = true;
+			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+			std::optional<std::vector<MenuEntry>::const_iterator> elevator_option{_elevator_a_d_menu->items.end()};
+			_in_elevator_a_d = true;
+			//_show_elevator_a_d = true;
 		} else {
-			_show_elevator_a_d = false;
+			_in_elevator_a_d = false;
+			//_show_elevator_a_d = false;
 		}
 
 		_last_movement = MapDirection::NORTH;
@@ -883,10 +983,19 @@ auto Sorcery::Engine::_move_backward() -> bool {
 			_show_confirm_stairs = false;
 
 		// TODO: 4 and 6
-		if (_game->state->level->elevator_at(next_loc)) {
+		/* if (_game->state->level->elevator_at(next_loc)) {
 			_show_elevator_a_d = true;
 		} else {
 			_show_elevator_a_d = false;
+		} */
+		if (_game->state->level->elevator_at(next_loc)) {
+			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+			std::optional<std::vector<MenuEntry>::const_iterator> elevator_option{_elevator_a_d_menu->items.end()};
+			_in_elevator_a_d = true;
+			//_show_elevator_a_d = true;
+		} else {
+			_in_elevator_a_d = false;
+			//_show_elevator_a_d = false;
 		}
 
 		_last_movement = MapDirection::SOUTH;
@@ -1102,61 +1211,66 @@ auto Sorcery::Engine::_draw() -> void {
 			(*_display->layout)["engine_base_ui:camp_menu"].x, (*_display->layout)["engine_base_ui:camp_menu"].y);
 		_camp_menu->setPosition(menu_pos);
 		_window->draw(*_camp_menu);
-	} else {
-		if (_display->get_input_mode() == WindowInputMode::BROWSE_CHARACTER) {
-			if (_cur_char) {
+	} else if (_in_elevator_a_d) {
+		_window->draw(*_elevator_a_d_menu_frame);
+		_elevator_a_d_menu->generate((*_display->layout)["engine_base_ui:elevator_a_d_menu"]);
+		const sf::Vector2f menu_pos((*_display->layout)["engine_base_ui:elevator_a_d_menu"].x,
+			(*_display->layout)["engine_base_ui:elevator_a_d_menu"].y);
+		_elevator_a_d_menu->setPosition(menu_pos);
+		_window->draw(*_elevator_a_d_menu);
+	} else if (_display->get_input_mode() == WindowInputMode::BROWSE_CHARACTER) {
+		if (_cur_char) {
 
-				// If we have a character
-				_window->draw(*_cur_char_frame);
+			// If we have a character
+			_window->draw(*_cur_char_frame);
 
-				_cur_char.value()->setPosition((*_display->layout)["engine_base_ui:character"].x,
-					(*_display->layout)["engine_base_ui:character"].y);
-				_cur_char.value()->update();
-				_window->draw(*_cur_char.value());
-			}
-		} else if (_display->get_input_mode() == WindowInputMode::IN_GAME) {
+			_cur_char.value()->setPosition(
+				(*_display->layout)["engine_base_ui:character"].x, (*_display->layout)["engine_base_ui:character"].y);
+			_cur_char.value()->update();
+			_window->draw(*_cur_char.value());
+		}
+	} else if (_display->get_input_mode() == WindowInputMode::IN_GAME) {
 
-			if (_show_confirm_stairs) {
-				_confirm_stairs->update();
-				_window->draw(*_confirm_stairs);
-			}
+		if (_show_confirm_stairs) {
+			_confirm_stairs->update();
+			_window->draw(*_confirm_stairs);
+		}
 
-			if (_show_elevator_a_d) {
-				_elevator_a_d->update();
-				_window->draw(*_elevator_a_d);
-			}
+		/* if (_show_elevator_a_d) {
+			_elevator_a_d->update();
+			_window->draw(*_elevator_a_d);
+		} */
 
-			if (_show_ouch) {
-				if (_ouch->get_valid())
-					_window->draw(*_ouch);
-				else {
-					_show_ouch = false;
-					_ouch->set_valid(false);
-				}
-			}
-
-			if (_show_pit) {
-				if (_pit->get_valid())
-					_window->draw(*_pit);
-				else {
-					_show_pit = false;
-					_pit->set_valid(false);
-				}
-			}
-
-			if (_show_chute) {
-				if (_chute->get_valid())
-					_window->draw(*_chute);
-				else {
-					_show_chute = false;
-					_chute->set_valid(false);
-				}
+		if (_show_ouch) {
+			if (_ouch->get_valid())
+				_window->draw(*_ouch);
+			else {
+				_show_ouch = false;
+				_ouch->set_valid(false);
 			}
 		}
 
-		if (_show_direction_indicatior) {
-			_display->display_direction_indicator(_last_movement);
+		if (_show_pit) {
+			if (_pit->get_valid())
+				_window->draw(*_pit);
+			else {
+				_show_pit = false;
+				_pit->set_valid(false);
+			}
 		}
+
+		if (_show_chute) {
+			if (_chute->get_valid())
+				_window->draw(*_chute);
+			else {
+				_show_chute = false;
+				_chute->set_valid(false);
+			}
+		}
+	}
+
+	if (_show_direction_indicatior) {
+		_display->display_direction_indicator(_last_movement);
 	}
 
 	if (_show_confirm_exit) {

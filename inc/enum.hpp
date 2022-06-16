@@ -113,7 +113,7 @@ namespace Sorcery {
 
 		enum class Confirm { NONE, YES, NO };
 
-		enum class DialogButton { NONE, OK, YES, NO, CLOSE, A, B, C, D, E, F, LEAVE };
+		enum class DialogButton { NONE, OK, YES, NO, CLOSE };
 
 		enum class ComponentType { NONE, IMAGE, TEXT, MENU, FRAME, ICON, DIALOG, UNKNOWN };
 
@@ -130,7 +130,7 @@ namespace Sorcery {
 			JUSTIFICATION = 256
 		};
 
-		enum class DialogType { NONE, TIMED, OK, CONFIRM, MENU, ELEVATOR };
+		enum class DialogType { NONE, TIMED, OK, CONFIRM, MENU };
 
 		enum class Option { SAVE, CANCEL, RESET, NONE };
 
@@ -539,7 +539,9 @@ namespace Sorcery {
 			AVAILABLE_CHARACTERS,
 			INVALID_CHARACTERS,
 			PARTY_CHARACTER_NAMES,
-			CAMP
+			CAMP,
+			ELEVATOR_A_D,
+			ELEVATOR_A_F
 		};
 
 		enum class Mode { NONE, TAVERN, TEMPLE, INN, SHOP, TRAINING, CAMP };
@@ -668,7 +670,14 @@ namespace Sorcery {
 			CP_REORDER,
 			CP_SAVE,
 			CP_OPTIONS,
-			CP_LEAVE
+			CP_LEAVE,
+			EL_A,
+			EL_B,
+			EL_C,
+			EL_D,
+			EL_E,
+			EL_F,
+			EL_LEAVE
 		};
 
 		// Menu Items
