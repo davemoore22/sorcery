@@ -62,6 +62,14 @@ namespace Sorcery {
 
 	  private:
 		// Private Methods
+		auto _initalise_components() -> void;
+		auto _place_components() -> void;
+		auto _initialise_state() -> void;
+		auto _refresh() -> void;
+		auto _set_maze_entry_start() -> void;
+		auto _update_timers_and_components() -> void;
+		auto _check_for_pending_events() -> void;
+
 		auto _draw() -> void;
 		auto _move_forward() -> bool;
 		auto _move_backward() -> bool;
@@ -134,5 +142,7 @@ namespace Sorcery {
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _direction_start;
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _direction_current_time;
 		bool _show_direction_indicatior;
+		std::optional<std::vector<MenuEntry>::const_iterator> _camp_option;
+		std::optional<std::vector<MenuEntry>::const_iterator> _elevator_a_d_option;
 	};
 } // namespace Sorcery

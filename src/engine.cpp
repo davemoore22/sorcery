@@ -28,6 +28,30 @@
 Sorcery::Engine::Engine(System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
+	_initalise_components();
+	_initialise_state();
+
+	_game->hide_console();
+}
+
+// Standard Destructor
+Sorcery::Engine::~Engine() {}
+
+auto Sorcery::Engine::_initialise_state() -> void {
+
+	_update_automap = false;
+	_update_compass = false;
+	_update_icon_panels = false;
+	_update_status_bar = false;
+	_update_render = false;
+	_update_tile_note = false;
+	_exit_maze_now = false;
+	_pending_chute = false;
+	_pending_elevator = false;
+}
+
+auto Sorcery::Engine::_initalise_components() -> void {
+
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
@@ -100,22 +124,7 @@ Sorcery::Engine::Engine(System *system, Display *display, Graphics *graphics, Ga
 
 	_tile_note = std::make_unique<Message>(_system, _display, _graphics,
 		(*_display->layout)["engine_base_ui:message_panel"], (*_display->layout)["engine_base_ui:message_text"]);
-
-	_update_automap = false;
-	_update_compass = false;
-	_update_icon_panels = false;
-	_update_status_bar = false;
-	_update_render = false;
-	_update_tile_note = false;
-	_exit_maze_now = false;
-	_pending_chute = false;
-	_pending_elevator = false;
-
-	game->hide_console();
 }
-
-// Standard Destructor
-Sorcery::Engine::~Engine() {}
 
 auto Sorcery::Engine::_update_direction_indicator_timer() -> void {
 
@@ -141,16 +150,7 @@ auto Sorcery::Engine::_reset_direction_indicator() -> bool {
 	_direction_current_time = std::nullopt;
 }
 
-auto Sorcery::Engine::start() -> int {
-
-	_display->generate("engine_base_ui");
-
-	_render->refresh();
-	_status_bar->refresh();
-	_automap->refresh();
-	_compass->refresh();
-	_left_icon_panel->refresh(true);
-	_right_icon_panel->refresh(true);
+auto Sorcery::Engine::_place_components() -> void {
 
 	// Generate the Custom Components
 	const Component status_bar_c{(*_display->layout)["engine_base_ui:status_bar"]};
@@ -175,8 +175,20 @@ auto Sorcery::Engine::start() -> int {
 		_display->ui_texture, WindowFrameType::NORMAL, cc_fc.w, cc_fc.h, cc_fc.colour, cc_fc.background, cc_fc.alpha);
 	_cur_char_frame->setPosition(_display->window->get_x(_cur_char_frame->sprite, cc_fc.x),
 		_display->window->get_y(_cur_char_frame->sprite, cc_fc.y));
+}
 
-	// Start in camp as is tradition
+auto Sorcery::Engine::_refresh() -> void {
+
+	_render->refresh();
+	_status_bar->refresh();
+	_automap->refresh();
+	_compass->refresh();
+	_left_icon_panel->refresh(true);
+	_right_icon_panel->refresh(true);
+}
+
+auto Sorcery::Engine::_set_maze_entry_start() -> void {
+
 	_in_camp = true;
 	_in_character = false;
 	_in_elevator_a_d = false;
@@ -195,6 +207,7 @@ auto Sorcery::Engine::start() -> int {
 	if (!starting_tile.is(TileProperty::EXPLORED))
 		starting_tile.set_explored();
 
+	// Now, we can also be on an elevator or a set of stairs too when we begin
 	_show_confirm_stairs = (_game->state->get_player_pos() == Coordinate{0, 0}) && (_game->state->get_depth() == -1);
 	if ((_game->state->get_player_pos() == Coordinate{0, 0}) && (_game->state->get_depth() == -1)) {
 		_show_confirm_stairs = true;
@@ -206,66 +219,86 @@ auto Sorcery::Engine::start() -> int {
 	} else
 		_show_confirm_stairs = false;
 
-	_in_elevator_a_d = starting_tile.has(TileFeature::ELEVATOR);
-
-	_game->hide_console();
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> camp_option{_camp_menu->items.begin()};
-	std::optional<std::vector<MenuEntry>::const_iterator> elevator_a_d_option{_elevator_a_d_menu->items.end()};
+	_camp_option = _camp_menu->items.begin();
+
+	_in_elevator_a_d = starting_tile.has(TileFeature::ELEVATOR);
+	_elevator_a_d_option = _elevator_a_d_menu->items.end();
+}
+
+auto Sorcery::Engine::_update_timers_and_components() -> void {
+
+	_update_direction_indicator_timer();
+	_ouch->update();
+	_pit->update();
+	_chute->update();
+	_elevator->update();
+}
+
+auto Sorcery::Engine::_check_for_pending_events() -> void {
+
+	if (auto pending{_system->update_pause()}; pending) {
+		if (_pending_chute) {
+
+			const auto tile{_game->state->level->at(_game->state->get_player_pos())};
+			if (tile.has(TileFeature::CHUTE)) {
+
+				auto destination{tile.has_teleport().value()};
+				auto dest_level{destination.to_level};
+				Level level{((*_game->levelstore)[dest_level]).value()};
+				_game->state->set_current_level(&level);
+				_game->state->set_player_pos(destination.to_loc);
+				_game->state->set_depth(dest_level);
+				auto &next_tile{_game->state->level->at(destination.to_loc)};
+				next_tile.set_explored();
+				_update_automap = true;
+				_update_compass = true;
+				_update_render = true;
+				_pending_chute = false;
+
+				_game->save_game();
+			}
+		} else if (_pending_elevator) {
+
+			const auto tile{_game->state->level->at(_game->state->get_player_pos())};
+			if (tile.has(TileFeature::ELEVATOR)) {
+
+				Level level{((*_game->levelstore)[_destination_floor]).value()};
+				_game->state->set_current_level(&level);
+				_game->state->set_depth(_destination_floor);
+				auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
+				next_tile.set_explored();
+				_update_automap = true;
+				_update_compass = true;
+				_update_render = true;
+				_pending_elevator = false;
+				_game->save_game();
+				_destination_floor = 0;
+			}
+		}
+	}
+}
+
+// Entering the Maze
+auto Sorcery::Engine::start() -> int {
+
+	_display->generate("engine_base_ui");
+
+	_refresh();
+	_place_components();
+	_set_maze_entry_start();
 
 	const auto current_loc{_game->state->get_player_pos()};
 	if (auto &this_tile{_game->state->level->at(current_loc)}; !this_tile.is(TileProperty::EXPLORED))
 		this_tile.set(TileProperty::EXPLORED);
 
+	// Main Event Loops
 	sf::Event event{};
 	while (_window->isOpen()) {
 
 		// Handle various timers
-		_update_direction_indicator_timer();
-		_ouch->update();
-		_pit->update();
-		_chute->update();
-		_elevator->update();
-		if (auto pending{_system->update_pause()}; pending) {
-			if (_pending_chute) {
-
-				const auto tile{_game->state->level->at(_game->state->get_player_pos())};
-				if (tile.has(TileFeature::CHUTE)) {
-
-					auto destination{tile.has_teleport().value()};
-					auto dest_level{destination.to_level};
-					Level level{((*_game->levelstore)[dest_level]).value()};
-					_game->state->set_current_level(&level);
-					_game->state->set_player_pos(destination.to_loc);
-					_game->state->set_depth(dest_level);
-					auto &next_tile{_game->state->level->at(destination.to_loc)};
-					next_tile.set_explored();
-					_update_automap = true;
-					_update_compass = true;
-					_update_render = true;
-					_pending_chute = false;
-
-					_game->save_game();
-				}
-			} else if (_pending_elevator) {
-
-				const auto tile{_game->state->level->at(_game->state->get_player_pos())};
-				if (tile.has(TileFeature::ELEVATOR)) {
-
-					Level level{((*_game->levelstore)[_destination_floor]).value()};
-					_game->state->set_current_level(&level);
-					_game->state->set_depth(_destination_floor);
-					auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
-					next_tile.set_explored();
-					_update_automap = true;
-					_update_compass = true;
-					_update_render = true;
-					_pending_elevator = false;
-					_game->save_game();
-					_destination_floor = 0;
-				}
-			}
-		}
+		_update_timers_and_components();
+		_check_for_pending_events();
 
 		if (_system->get_pause()) {
 
@@ -371,18 +404,18 @@ auto Sorcery::Engine::start() -> int {
 					if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
 						_game->toggle_console();
 					else if (_system->input->check(WindowInput::UP, event))
-						camp_option = _camp_menu->choose_previous();
+						_camp_option = _camp_menu->choose_previous();
 					else if (_system->input->check(WindowInput::DOWN, event))
-						camp_option = _camp_menu->choose_next();
+						_camp_option = _camp_menu->choose_next();
 					else if (_system->input->check(WindowInput::MOVE, event))
-						camp_option =
+						_camp_option =
 							_camp_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
 						// We have selected something from the menu
-						if (camp_option) {
+						if (_camp_option) {
 
-							if (const MenuItem option_chosen{(*camp_option.value()).item};
+							if (const MenuItem option_chosen{(*_camp_option.value()).item};
 								option_chosen == MenuItem::CP_LEAVE) {
 
 								_game->save_game();
@@ -452,18 +485,18 @@ auto Sorcery::Engine::start() -> int {
 					if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
 						_game->toggle_console();
 					else if (_system->input->check(WindowInput::UP, event))
-						elevator_a_d_option = _elevator_a_d_menu->choose_previous();
+						_elevator_a_d_option = _elevator_a_d_menu->choose_previous();
 					else if (_system->input->check(WindowInput::DOWN, event))
-						elevator_a_d_option = _elevator_a_d_menu->choose_next();
+						_elevator_a_d_option = _elevator_a_d_menu->choose_next();
 					else if (_system->input->check(WindowInput::MOVE, event))
-						elevator_a_d_option = _elevator_a_d_menu->set_mouse_selected(
+						_elevator_a_d_option = _elevator_a_d_menu->set_mouse_selected(
 							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
 						// We have selected something from the menu
-						if (elevator_a_d_option) {
+						if (_elevator_a_d_option) {
 
-							if (const MenuItem option_chosen{(*elevator_a_d_option.value()).item};
+							if (const MenuItem option_chosen{(*_elevator_a_d_option.value()).item};
 								option_chosen == MenuItem::EL_LEAVE) {
 								_in_elevator_a_d = false;
 								_display->generate("engine_base_ui");
