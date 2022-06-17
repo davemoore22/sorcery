@@ -209,6 +209,7 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	if ((_game->state->get_player_pos() == Coordinate{0, 0}) && (_game->state->get_depth() == -1)) {
 		_show_confirm_stairs = true;
 		_game->state->set_player_facing(MapDirection::NORTH);
+		_game->state->set_lit(false);
 		auto &this_tile{_game->state->level->at(_game->state->get_player_pos())};
 		if (!this_tile.is(TileProperty::EXPLORED))
 			this_tile.set(TileProperty::EXPLORED);
@@ -219,8 +220,18 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	_camp_option = _camp_menu->items.begin();
 
-	_in_elevator_a_d = starting_tile.has(TileFeature::ELEVATOR);
-	_elevator_a_d_option = _elevator_a_d_menu->items.end();
+	auto has_elevator{starting_tile.has_elevator()};
+	if (has_elevator) {
+
+		// TODO: clunky need to fix this
+		if (has_elevator.value().bottom_depth == -4) {
+			_in_elevator_a_d = starting_tile.has(TileFeature::ELEVATOR);
+			_elevator_a_d_option = _elevator_a_d_menu->items.end();
+		} else if (has_elevator.value().bottom_depth == -9) {
+			_in_elevator_a_f = starting_tile.has(TileFeature::ELEVATOR);
+			_elevator_a_f_option = _elevator_a_f_menu->items.end();
+		}
+	}
 }
 
 auto Sorcery::Engine::_update_timers_and_components() -> void {
@@ -426,7 +437,81 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 	return std::nullopt;
 }
 
-auto Sorcery::Engine::_handle_elevator(const sf::Event &event) -> std::optional<int> {
+auto Sorcery::Engine::_handle_elevator_a_f(const sf::Event &event) -> std::optional<int> {
+
+	if (_left_icon_panel->selected)
+		_left_icon_panel->selected = std::nullopt;
+	if (_right_icon_panel->selected)
+		_right_icon_panel->selected = std::nullopt;
+	if (_status_bar->selected)
+		_status_bar->selected = std::nullopt;
+
+	if (_system->input->check(WindowInput::CANCEL, event))
+		_in_elevator_a_f = false;
+
+	if (_system->input->check(WindowInput::BACK, event))
+		_in_elevator_a_f = false;
+
+	if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
+		_game->toggle_console();
+	else if (_system->input->check(WindowInput::UP, event))
+		_elevator_a_f_option = _elevator_a_f_menu->choose_previous();
+	else if (_system->input->check(WindowInput::DOWN, event))
+		_elevator_a_f_option = _elevator_a_f_menu->choose_next();
+	else if (_system->input->check(WindowInput::MOVE, event))
+		_elevator_a_f_option =
+			_elevator_a_f_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+	else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+		// We have selected something from the menu
+		if (_elevator_a_f_option) {
+
+			if (const MenuItem option_chosen{(*_elevator_a_f_option.value()).item};
+				option_chosen == MenuItem::EL_LEAVE) {
+				_in_elevator_a_f = false;
+				_display->generate("engine_base_ui");
+				_display->set_input_mode(WindowInputMode::IN_GAME);
+				_pending_elevator = false;
+				_destination_floor = 0;
+				return CONTINUE;
+			} else if ((option_chosen == MenuItem::EL_A) && (_game->state->get_depth() != -4)) {
+				_destination_floor = -4;
+				_pending_elevator = true;
+				_elevator_if();
+			} else if ((option_chosen == MenuItem::EL_B) && (_game->state->get_depth() != -5)) {
+				_destination_floor = -5;
+				_pending_elevator = true;
+				_elevator_if();
+			} else if ((option_chosen == MenuItem::EL_C) && (_game->state->get_depth() != -6)) {
+				_destination_floor = -6;
+				_pending_elevator = true;
+				_elevator_if();
+			} else if ((option_chosen == MenuItem::EL_D) && (_game->state->get_depth() != -7)) {
+				_destination_floor = -7;
+				_pending_elevator = true;
+				_elevator_if();
+			} else if ((option_chosen == MenuItem::EL_E) && (_game->state->get_depth() != -8)) {
+				_destination_floor = -8;
+				_pending_elevator = true;
+				_elevator_if();
+			} else if ((option_chosen == MenuItem::EL_F) && (_game->state->get_depth() != -9)) {
+				_destination_floor = -9;
+				_pending_elevator = true;
+				_elevator_if();
+			}
+		} else {
+			_in_elevator_a_f = false;
+			_display->generate("engine_base_ui");
+			_display->set_input_mode(WindowInputMode::IN_GAME);
+			_pending_elevator = false;
+			_destination_floor = 0;
+		}
+	}
+
+	return std::nullopt;
+}
+
+auto Sorcery::Engine::_handle_elevator_a_d(const sf::Event &event) -> std::optional<int> {
 
 	if (_left_icon_panel->selected)
 		_left_icon_panel->selected = std::nullopt;
@@ -505,6 +590,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_update_automap = true;
 		_update_compass = true;
 		_update_render = true;
+		return CONTINUE;
 	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F5)) {
 		auto dest_level{_game->state->get_depth() + 1};
 		Level level{((*_game->levelstore)[dest_level]).value()};
@@ -515,6 +601,19 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_update_automap = true;
 		_update_compass = true;
 		_update_render = true;
+		return CONTINUE;
+	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F7)) {
+		_game->state->set_lit(true);
+		_update_automap = true;
+		_update_compass = true;
+		_update_render = true;
+		return CONTINUE;
+	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F8)) {
+		_game->state->set_lit(false);
+		_update_automap = true;
+		_update_compass = true;
+		_update_render = true;
+		return CONTINUE;
 	}
 
 	if (_show_ouch) {
@@ -546,6 +645,10 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_display->set_input_mode(WindowInputMode::IN_GAME);
 				_show_chute = false;
 				_chute->set_valid(false);
+
+				if (auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
+					(next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
+					_game->state->set_lit(false);
 			}
 		}
 	} else if (_show_elevator) {
@@ -556,6 +659,10 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_display->set_input_mode(WindowInputMode::IN_GAME);
 				_show_elevator = false;
 				_elevator->set_valid(false);
+
+				if (auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
+					(next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
+					_game->state->set_lit(false);
 			}
 		}
 	} else if (_show_confirm_stairs) {
@@ -798,7 +905,14 @@ auto Sorcery::Engine::start() -> int {
 
 				} else if (_in_elevator_a_d) {
 
-					auto what_to_do{_handle_elevator(event)};
+					auto what_to_do{_handle_elevator_a_d(event)};
+					if (what_to_do) {
+						if (what_to_do.value() == CONTINUE)
+							continue;
+					}
+				} else if (_in_elevator_a_f) {
+
+					auto what_to_do{_handle_elevator_a_f(event)};
 					if (what_to_do) {
 						if (what_to_do.value() == CONTINUE)
 							continue;
@@ -905,6 +1019,8 @@ auto Sorcery::Engine::_move_forward() -> bool {
 		_game->state->set_player_pos(next_loc);
 		if (!next_tile.is(TileProperty::EXPLORED))
 			next_tile.set_explored();
+		if ((next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
+			_game->state->set_lit(false);
 
 		if (_game->state->level->stairs_at(next_loc)) {
 			const auto current_loc{_game->state->get_player_pos()};
@@ -920,13 +1036,21 @@ auto Sorcery::Engine::_move_forward() -> bool {
 		} else
 			_show_confirm_stairs = false;
 
-		// TODO: 4 and 6
+		// TODO:clunky
 		if (_game->state->level->elevator_at(next_loc)) {
-			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-			std::optional<std::vector<MenuEntry>::const_iterator> elevator_option{_elevator_a_d_menu->items.end()};
-			_in_elevator_a_d = true;
+			const auto elevator{_game->state->level->at(next_loc).has_elevator()};
+			if (elevator.value().bottom_depth == -4) {
+				_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+				std::optional<std::vector<MenuEntry>::const_iterator> elevator_option{_elevator_a_d_menu->items.end()};
+				_in_elevator_a_d = true;
+			} else if (elevator.value().bottom_depth == -9) {
+				_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+				std::optional<std::vector<MenuEntry>::const_iterator> elevator_option{_elevator_a_f_menu->items.end()};
+				_in_elevator_a_f = true;
+			}
 		} else {
 			_in_elevator_a_d = false;
+			_in_elevator_a_f = false;
 		}
 
 		_last_movement = MapDirection::NORTH;
@@ -998,6 +1122,9 @@ auto Sorcery::Engine::_move_backward() -> bool {
 		_game->state->set_player_pos(next_loc);
 		if (!next_tile.is(TileProperty::EXPLORED))
 			next_tile.set_explored();
+		if ((next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
+			_game->state->set_lit(false);
+
 		if (_game->state->level->stairs_at(next_loc)) {
 			const auto current_loc{_game->state->get_player_pos()};
 			if (const auto &this_tile{_game->state->level->at(current_loc)}; this_tile.has(TileFeature::LADDER_UP))
@@ -1012,13 +1139,21 @@ auto Sorcery::Engine::_move_backward() -> bool {
 		} else
 			_show_confirm_stairs = false;
 
-		// TODO: 4 and 6
+		// TODO:clunky
 		if (_game->state->level->elevator_at(next_loc)) {
-			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-			std::optional<std::vector<MenuEntry>::const_iterator> elevator_option{_elevator_a_d_menu->items.end()};
-			_in_elevator_a_d = true;
+			const auto elevator{_game->state->level->at(next_loc).has_elevator()};
+			if (elevator.value().bottom_depth == -4) {
+				_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+				std::optional<std::vector<MenuEntry>::const_iterator> elevator_option{_elevator_a_d_menu->items.end()};
+				_in_elevator_a_d = true;
+			} else if (elevator.value().bottom_depth == -9) {
+				_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+				std::optional<std::vector<MenuEntry>::const_iterator> elevator_option{_elevator_a_f_menu->items.end()};
+				_in_elevator_a_f = true;
+			}
 		} else {
 			_in_elevator_a_d = false;
+			_in_elevator_a_f = false;
 		}
 
 		_last_movement = MapDirection::SOUTH;
@@ -1148,6 +1283,10 @@ auto Sorcery::Engine::_stairs_if() const -> bool {
 			_game->state->set_player_pos(destination.to_loc);
 			_game->state->set_depth(to_level);
 			next_tile.set_explored();
+
+			if ((next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
+				_game->state->set_lit(false);
+
 			if (next_tile.has(TileFeature::LADDER_UP))
 				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_up_text"]);
 			else if (next_tile.has(TileFeature::LADDER_DOWN))
@@ -1182,6 +1321,10 @@ auto Sorcery::Engine::_teleport_if() -> bool {
 
 			if (!next_tile.is(TileProperty::EXPLORED))
 				next_tile.set_explored();
+
+			if ((next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
+				_game->state->set_lit(false);
+
 			if (_game->state->level->stairs_at(_game->state->get_player_pos())) {
 				const auto current_loc{_game->state->get_player_pos()};
 				if (const auto &this_tile{_game->state->level->at(current_loc)}; this_tile.has(TileFeature::LADDER_UP))
@@ -1257,6 +1400,22 @@ auto Sorcery::Engine::_draw() -> void {
 			(*_display->layout)["engine_base_ui:elevator_a_d_menu"].y);
 		_elevator_a_d_menu->setPosition(menu_pos);
 		_window->draw(*_elevator_a_d_menu);
+
+		if (_show_elevator) {
+			if (_elevator->get_valid())
+				_window->draw(*_elevator);
+			else {
+				_show_elevator = false;
+				_elevator->set_valid(false);
+			}
+		}
+	} else if (_in_elevator_a_f) {
+		_window->draw(*_elevator_a_f_menu_frame);
+		_elevator_a_f_menu->generate((*_display->layout)["engine_base_ui:elevator_a_f_menu"]);
+		const sf::Vector2f menu_pos((*_display->layout)["engine_base_ui:elevator_a_f_menu"].x,
+			(*_display->layout)["engine_base_ui:elevator_a_f_menu"].y);
+		_elevator_a_f_menu->setPosition(menu_pos);
+		_window->draw(*_elevator_a_f_menu);
 
 		if (_show_elevator) {
 			if (_elevator->get_valid())

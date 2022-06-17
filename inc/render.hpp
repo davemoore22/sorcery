@@ -61,8 +61,12 @@ namespace Sorcery {
 		auto _render_walls(bool lit) -> void;
 
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
-		auto _render_wireframe(sf::RenderTarget &target, sf::RenderStates states, bool lit) const -> void;
+		auto _render_wireframe(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _get_left_side(MapDirection facing) const -> MapDirection;
 		auto _get_right_side(MapDirection facing) const -> MapDirection;
+
+		auto _has_wall(const Tile &tile, const Sorcery::MapDirection direction) const -> bool;
+		auto _has_secret_door(const Tile &tile, const Sorcery::MapDirection direction) const -> bool;
+		auto _has_normal_door(const Tile &tile, const Sorcery::MapDirection direction) const -> bool;
 	};
 } // namespace Sorcery

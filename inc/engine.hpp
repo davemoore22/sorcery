@@ -73,7 +73,8 @@ namespace Sorcery {
 		auto _handle_confirm_exit(const sf::Event &event) -> void;
 		auto _handle_in_character(const sf::Event &event) -> void;
 		auto _handle_in_camp(const sf::Event &event) -> std::optional<int>;
-		auto _handle_elevator(const sf::Event &event) -> std::optional<int>;
+		auto _handle_elevator_a_d(const sf::Event &event) -> std::optional<int>;
+		auto _handle_elevator_a_f(const sf::Event &event) -> std::optional<int>;
 		auto _handle_in_game(const sf::Event &event) -> std::optional<int>;
 		auto _refresh_display() -> void;
 		auto _update_display() -> void;
@@ -151,5 +152,6 @@ namespace Sorcery {
 		bool _show_direction_indicatior;
 		std::optional<std::vector<MenuEntry>::const_iterator> _camp_option;
 		std::optional<std::vector<MenuEntry>::const_iterator> _elevator_a_d_option;
+		std::optional<std::vector<MenuEntry>::const_iterator> _elevator_a_f_option;
 	};
 } // namespace Sorcery

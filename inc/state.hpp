@@ -39,7 +39,7 @@ namespace Sorcery {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_version, _party, level, _player_depth, _player_pos, _playing_facing);
+			archive(_version, _party, level, _player_depth, _player_pos, _playing_facing, _lit);
 		}
 
 		// Public Members
@@ -65,6 +65,8 @@ namespace Sorcery {
 		auto restart_expedition() -> void;
 		auto set_depth(int depth) -> void;
 		auto get_depth() const -> int;
+		auto set_lit(bool lit) -> void;
+		auto get_lit() const -> bool;
 
 	  private:
 		// Private Methods
@@ -77,6 +79,7 @@ namespace Sorcery {
 		Coordinate _player_pos;
 		MapDirection _playing_facing;
 		int _player_depth;
+		bool _lit;
 		int _version;
 	};
 } // namespace Sorcery

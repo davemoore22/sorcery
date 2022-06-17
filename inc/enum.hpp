@@ -847,7 +847,7 @@ namespace Sorcery {
 				NOTICE = 18,
 				ELEVATOR_UP = 19,
 				ELEVATOR_DOWN = 20,
-				CHUTE = 21
+				CHUTE = 21,
 
 				// TODO: all the others from Wiz6 because why not?
 			};

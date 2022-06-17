@@ -55,6 +55,16 @@ auto Sorcery::State::restart_expedition() -> void {
 	_restart_expedition();
 }
 
+auto Sorcery::State::set_lit(bool lit) -> void {
+
+	_lit = lit;
+}
+
+auto Sorcery::State::get_lit() const -> bool {
+
+	return _lit;
+}
+
 auto Sorcery::State::set_depth(int depth) -> void {
 
 	_player_depth = depth;
@@ -70,6 +80,7 @@ auto Sorcery::State::_restart_expedition() -> void {
 	_playing_facing = MapDirection::NORTH;
 	_player_pos = Coordinate{0, 0};
 	_player_depth = -1;
+	_lit = false;
 }
 
 // Method called to simulate Normal Constructor with Cereal Constructor
