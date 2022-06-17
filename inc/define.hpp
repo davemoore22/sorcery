@@ -36,6 +36,7 @@ namespace Sorcery {
 	inline constexpr auto OFF{"off"};
 
 	// Exit Codes
+	inline constexpr auto CONTINUE{-1};
 	inline constexpr auto EXIT_ALL{0};
 	inline constexpr auto EXIT_MODULE{1};
 	inline constexpr auto EXIT_STRING{"exit_game"};

@@ -69,6 +69,10 @@ namespace Sorcery {
 		auto _set_maze_entry_start() -> void;
 		auto _update_timers_and_components() -> void;
 		auto _check_for_pending_events() -> void;
+		auto _do_pause(sf::Event &event) -> void;
+		auto _handle_confirm_exit(sf::Event &event) -> void;
+		auto _handle_in_character(sf::Event &event) -> void;
+		auto _handle_in_camp(sf::Event &event) -> std::optional<int>;
 
 		auto _draw() -> void;
 		auto _move_forward() -> bool;

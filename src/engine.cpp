@@ -279,6 +279,164 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 	}
 }
 
+auto Sorcery::Engine::_do_pause(sf::Event &event) -> void {
+
+	_window->clear();
+	_draw();
+	_window->display();
+
+	if (auto any_event{_window->pollEvent(event)}; any_event) {
+		if (_system->input->check(WindowInput::ANYTHING, event))
+			_system->stop_pause();
+	}
+}
+
+auto Sorcery::Engine::_handle_confirm_exit(sf::Event &event) -> void {
+
+	if (_left_icon_panel->selected)
+		_left_icon_panel->selected = std::nullopt;
+	if (_right_icon_panel->selected)
+		_right_icon_panel->selected = std::nullopt;
+	if (_status_bar->selected)
+		_status_bar->selected = std::nullopt;
+
+	auto dialog_input{_confirm_exit->handle_input(event)};
+	if (dialog_input) {
+		if (dialog_input.value() == WindowDialogButton::CLOSE) {
+			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+			_show_confirm_exit = false;
+		} else if (dialog_input.value() == WindowDialogButton::YES) {
+			_window->close();
+		} else if (dialog_input.value() == WindowDialogButton::NO) {
+			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+			_show_confirm_exit = false;
+		}
+	}
+}
+
+auto Sorcery::Engine::_handle_in_character(sf::Event &event) -> void {
+
+	if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
+		_game->toggle_console();
+	else if (_system->input->check(WindowInput::LEFT, event))
+		_cur_char.value()->left_view();
+	else if (_system->input->check(WindowInput::RIGHT, event))
+		_cur_char.value()->right_view();
+	else if (_system->input->check(WindowInput::CANCEL, event)) {
+		_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+		_cur_char = std::nullopt;
+	} else if (_system->input->check(WindowInput::BACK, event)) {
+		_display->set_input_mode(WindowInputMode::IN_GAME);
+		_cur_char = std::nullopt;
+		_game->save_game();
+		_status_bar->refresh();
+		_in_character = false;
+		_display->generate("engine_base_ui");
+	} else if (_system->input->check(WindowInput::CONFIRM, event)) {
+		_cur_char.value()->right_view();
+	} else if (_system->input->check(WindowInput::UP, event)) {
+		if (_cur_char.value()->get_view() == CharacterView::MAGE_SPELLS)
+			_cur_char.value()->dec_hl_spell(SpellType::MAGE);
+		else if (_cur_char.value()->get_view() == CharacterView::PRIEST_SPELLS)
+			_cur_char.value()->dec_hl_spell(SpellType::PRIEST);
+
+	} else if (_system->input->check(WindowInput::DOWN, event)) {
+		if (_cur_char.value()->get_view() == CharacterView::MAGE_SPELLS)
+			_cur_char.value()->inc_hl_spell(SpellType::MAGE);
+		else if (_cur_char.value()->get_view() == CharacterView::PRIEST_SPELLS)
+			_cur_char.value()->inc_hl_spell(SpellType::PRIEST);
+	} else if (_system->input->check(WindowInput::MOVE, event)) {
+		if (_cur_char.value()->check_for_mouse_move(sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
+				static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
+			_cur_char.value()->set_view(_cur_char.value()->get_view());
+		}
+	}
+}
+
+auto Sorcery::Engine::_handle_in_camp(sf::Event &event) -> std::optional<int> {
+
+	if (_left_icon_panel->selected)
+		_left_icon_panel->selected = std::nullopt;
+	if (_right_icon_panel->selected)
+		_right_icon_panel->selected = std::nullopt;
+	if (_status_bar->selected)
+		_status_bar->selected = std::nullopt;
+
+	if (_system->input->check(WindowInput::CANCEL, event))
+		_in_camp = false;
+
+	if (_system->input->check(WindowInput::BACK, event))
+		_in_camp = false;
+
+	if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
+		_game->toggle_console();
+	else if (_system->input->check(WindowInput::UP, event))
+		_camp_option = _camp_menu->choose_previous();
+	else if (_system->input->check(WindowInput::DOWN, event))
+		_camp_option = _camp_menu->choose_next();
+	else if (_system->input->check(WindowInput::MOVE, event))
+		_camp_option = _camp_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+	else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+		// We have selected something from the menu
+		if (_camp_option) {
+
+			if (const MenuItem option_chosen{(*_camp_option.value()).item}; option_chosen == MenuItem::CP_LEAVE) {
+
+				_game->save_game();
+				_status_bar->refresh();
+				_in_camp = false;
+				_display->generate("engine_base_ui");
+				_display->set_input_mode(WindowInputMode::IN_GAME);
+				return CONTINUE;
+			} else if (option_chosen == MenuItem::CP_SAVE) {
+				_game->save_game();
+				return EXIT_MODULE;
+			} else if (option_chosen == MenuItem::QUIT) {
+				_show_confirm_exit = true;
+				return CONTINUE;
+			} else if (option_chosen == MenuItem::CP_OPTIONS) {
+
+				auto options{std::make_unique<Options>(_system, _display, _graphics)};
+				auto result{options->start()};
+				if (result == EXIT_ALL) {
+					options->stop();
+					return EXIT_ALL;
+				}
+				options->stop();
+				_status_bar->refresh();
+				_display->generate("engine_base_ui");
+			} else if (option_chosen == MenuItem::CP_INSPECT) {
+				_status_bar->refresh();
+				auto result{_inspect->start()};
+				if (result == MenuItem::ABORT) {
+					_inspect->stop();
+					return EXIT_ALL;
+				}
+				_inspect->stop();
+				_status_bar->refresh();
+				_display->generate("engine_base_ui");
+			} else if (option_chosen == MenuItem::CP_REORDER) {
+				_status_bar->refresh();
+				auto new_party{_reorder->start()};
+				if (new_party) {
+
+					// TODO: handle aborts here too
+					_game->state->set_party(new_party.value());
+					_game->save_game();
+					_game->load_game();
+					_status_bar->refresh();
+				}
+				_reorder->stop();
+				_status_bar->refresh();
+				_display->generate("engine_base_ui");
+			}
+		}
+	}
+
+	return std::nullopt;
+}
+
 // Entering the Maze
 auto Sorcery::Engine::start() -> int {
 
@@ -302,15 +460,7 @@ auto Sorcery::Engine::start() -> int {
 
 		if (_system->get_pause()) {
 
-			_window->clear();
-			_draw();
-			_window->display();
-
-			auto any_event{_window->pollEvent(event)};
-			if (any_event) {
-				if (_system->input->check(WindowInput::ANYTHING, event))
-					_system->stop_pause();
-			}
+			_do_pause(event);
 		} else {
 
 			_pending_chute = false;
@@ -329,145 +479,22 @@ auto Sorcery::Engine::start() -> int {
 					_display->hide_overlay();
 
 				if (_show_confirm_exit) {
-
-					if (_left_icon_panel->selected)
-						_left_icon_panel->selected = std::nullopt;
-					if (_right_icon_panel->selected)
-						_right_icon_panel->selected = std::nullopt;
-					if (_status_bar->selected)
-						_status_bar->selected = std::nullopt;
-
-					auto dialog_input{_confirm_exit->handle_input(event)};
-					if (dialog_input) {
-						if (dialog_input.value() == WindowDialogButton::CLOSE) {
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-							_show_confirm_exit = false;
-						} else if (dialog_input.value() == WindowDialogButton::YES) {
-							_window->close();
-						} else if (dialog_input.value() == WindowDialogButton::NO) {
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-							_show_confirm_exit = false;
-						}
-					}
+					_handle_confirm_exit(event);
 				} else if (_in_character) {
-					if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
-						_game->toggle_console();
-					else if (_system->input->check(WindowInput::LEFT, event))
-						_cur_char.value()->left_view();
-					else if (_system->input->check(WindowInput::RIGHT, event))
-						_cur_char.value()->right_view();
-					else if (_system->input->check(WindowInput::CANCEL, event)) {
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-						_cur_char = std::nullopt;
-					} else if (_system->input->check(WindowInput::BACK, event)) {
-						_display->set_input_mode(WindowInputMode::IN_GAME);
-						_cur_char = std::nullopt;
-						_game->save_game();
-						_status_bar->refresh();
-						_in_character = false;
-						_display->generate("engine_base_ui");
-					} else if (_system->input->check(WindowInput::CONFIRM, event)) {
-						_cur_char.value()->right_view();
-					} else if (_system->input->check(WindowInput::UP, event)) {
-						if (_cur_char.value()->get_view() == CharacterView::MAGE_SPELLS)
-							_cur_char.value()->dec_hl_spell(SpellType::MAGE);
-						else if (_cur_char.value()->get_view() == CharacterView::PRIEST_SPELLS)
-							_cur_char.value()->dec_hl_spell(SpellType::PRIEST);
-
-					} else if (_system->input->check(WindowInput::DOWN, event)) {
-						if (_cur_char.value()->get_view() == CharacterView::MAGE_SPELLS)
-							_cur_char.value()->inc_hl_spell(SpellType::MAGE);
-						else if (_cur_char.value()->get_view() == CharacterView::PRIEST_SPELLS)
-							_cur_char.value()->inc_hl_spell(SpellType::PRIEST);
-					} else if (_system->input->check(WindowInput::MOVE, event)) {
-						if (_cur_char.value()->check_for_mouse_move(
-								sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
-									static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
-							_cur_char.value()->set_view(_cur_char.value()->get_view());
-						}
-					}
+					_handle_in_character(event);
 				} else if (_in_camp) {
 
-					if (_left_icon_panel->selected)
-						_left_icon_panel->selected = std::nullopt;
-					if (_right_icon_panel->selected)
-						_right_icon_panel->selected = std::nullopt;
-					if (_status_bar->selected)
-						_status_bar->selected = std::nullopt;
-
-					if (_system->input->check(WindowInput::CANCEL, event))
-						_in_camp = false;
-
-					if (_system->input->check(WindowInput::BACK, event))
-						_in_camp = false;
-
-					if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
-						_game->toggle_console();
-					else if (_system->input->check(WindowInput::UP, event))
-						_camp_option = _camp_menu->choose_previous();
-					else if (_system->input->check(WindowInput::DOWN, event))
-						_camp_option = _camp_menu->choose_next();
-					else if (_system->input->check(WindowInput::MOVE, event))
-						_camp_option =
-							_camp_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					else if (_system->input->check(WindowInput::CONFIRM, event)) {
-
-						// We have selected something from the menu
-						if (_camp_option) {
-
-							if (const MenuItem option_chosen{(*_camp_option.value()).item};
-								option_chosen == MenuItem::CP_LEAVE) {
-
-								_game->save_game();
-								_status_bar->refresh();
-								_in_camp = false;
-								_display->generate("engine_base_ui");
-								_display->set_input_mode(WindowInputMode::IN_GAME);
-								continue;
-							} else if (option_chosen == MenuItem::CP_SAVE) {
-								_game->save_game();
-								return EXIT_MODULE;
-							} else if (option_chosen == MenuItem::QUIT) {
-								_show_confirm_exit = true;
-								continue;
-							} else if (option_chosen == MenuItem::CP_OPTIONS) {
-
-								auto options{std::make_unique<Options>(_system, _display, _graphics)};
-								auto result{options->start()};
-								if (result == EXIT_ALL) {
-									options->stop();
-									return EXIT_ALL;
-								}
-								options->stop();
-								_status_bar->refresh();
-								_display->generate("engine_base_ui");
-							} else if (option_chosen == MenuItem::CP_INSPECT) {
-								_status_bar->refresh();
-								auto result{_inspect->start()};
-								if (result == MenuItem::ABORT) {
-									_inspect->stop();
-									return EXIT_ALL;
-								}
-								_inspect->stop();
-								_status_bar->refresh();
-								_display->generate("engine_base_ui");
-							} else if (option_chosen == MenuItem::CP_REORDER) {
-								_status_bar->refresh();
-								auto new_party{_reorder->start()};
-								if (new_party) {
-
-									// TODO: handle aborts here too
-									_game->state->set_party(new_party.value());
-									_game->save_game();
-									_game->load_game();
-									_status_bar->refresh();
-								}
-								_reorder->stop();
-								_status_bar->refresh();
-								_display->generate("engine_base_ui");
-							}
+					auto what_to_do{_handle_in_camp(event)};
+					if (what_to_do) {
+						if (what_to_do.value() == CONTINUE)
+							continue;
+						else if (what_to_do.value() == EXIT_MODULE)
+							return EXIT_MODULE;
+						else if (what_to_do.value() == EXIT_ALL) {
+							return EXIT_ALL;
 						}
 					}
+
 				} else if (_in_elevator_a_d) {
 					if (_left_icon_panel->selected)
 						_left_icon_panel->selected = std::nullopt;
