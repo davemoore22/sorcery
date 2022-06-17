@@ -73,7 +73,9 @@ namespace Sorcery {
 		auto _handle_confirm_exit(sf::Event &event) -> void;
 		auto _handle_in_character(sf::Event &event) -> void;
 		auto _handle_in_camp(sf::Event &event) -> std::optional<int>;
-
+		auto _handle_elevator(sf::Event &event) -> std::optional<int>;
+		auto _refresh_display() -> void;
+		auto _update_display() -> void;
 		auto _draw() -> void;
 		auto _move_forward() -> bool;
 		auto _move_backward() -> bool;
@@ -86,7 +88,7 @@ namespace Sorcery {
 		auto _chute_if() -> bool;
 		auto _elevator_if() -> bool;
 
-		auto _reset_direction_indicator() -> bool;
+		auto _reset_direction_indicator() -> void;
 		auto _update_direction_indicator_timer() -> void;
 
 		// Private Members
