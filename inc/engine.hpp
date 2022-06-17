@@ -52,28 +52,29 @@ namespace Sorcery {
 		Engine() = delete;
 
 		// Standard Destructor
-		~Engine();
+		~Engine() = default;
 
 		// Public Members
 
 		// Public Methods
 		auto start() -> int;
-		auto stop() -> void;
+		auto stop() const -> void;
 
 	  private:
 		// Private Methods
 		auto _initalise_components() -> void;
 		auto _place_components() -> void;
 		auto _initialise_state() -> void;
-		auto _refresh() -> void;
+		auto _refresh() const -> void;
 		auto _set_maze_entry_start() -> void;
 		auto _update_timers_and_components() -> void;
 		auto _check_for_pending_events() -> void;
 		auto _do_pause(sf::Event &event) -> void;
-		auto _handle_confirm_exit(sf::Event &event) -> void;
-		auto _handle_in_character(sf::Event &event) -> void;
-		auto _handle_in_camp(sf::Event &event) -> std::optional<int>;
-		auto _handle_elevator(sf::Event &event) -> std::optional<int>;
+		auto _handle_confirm_exit(const sf::Event &event) -> void;
+		auto _handle_in_character(const sf::Event &event) -> void;
+		auto _handle_in_camp(const sf::Event &event) -> std::optional<int>;
+		auto _handle_elevator(const sf::Event &event) -> std::optional<int>;
+		auto _handle_in_game(const sf::Event &event) -> std::optional<int>;
 		auto _refresh_display() -> void;
 		auto _update_display() -> void;
 		auto _draw() -> void;
@@ -82,8 +83,8 @@ namespace Sorcery {
 		auto _turn_left() -> void;
 		auto _turn_right() -> void;
 		auto _teleport_if() -> bool;
-		auto _stairs_if() -> bool;
-		auto _spinner_if() -> bool;
+		auto _stairs_if() const -> bool;
+		auto _spinner_if() const -> bool;
 		auto _pit_if() -> bool;
 		auto _chute_if() -> bool;
 		auto _elevator_if() -> bool;

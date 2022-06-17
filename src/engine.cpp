@@ -34,9 +34,6 @@ Sorcery::Engine::Engine(System *system, Display *display, Graphics *graphics, Ga
 	_game->hide_console();
 }
 
-// Standard Destructor
-Sorcery::Engine::~Engine() {}
-
 auto Sorcery::Engine::_initialise_state() -> void {
 
 	_update_automap = false;
@@ -177,7 +174,7 @@ auto Sorcery::Engine::_place_components() -> void {
 		_display->window->get_y(_cur_char_frame->sprite, cc_fc.y));
 }
 
-auto Sorcery::Engine::_refresh() -> void {
+auto Sorcery::Engine::_refresh() const -> void {
 
 	_render->refresh();
 	_status_bar->refresh();
@@ -289,7 +286,7 @@ auto Sorcery::Engine::_do_pause(sf::Event &event) -> void {
 	}
 }
 
-auto Sorcery::Engine::_handle_confirm_exit(sf::Event &event) -> void {
+auto Sorcery::Engine::_handle_confirm_exit(const sf::Event &event) -> void {
 
 	if (_left_icon_panel->selected)
 		_left_icon_panel->selected = std::nullopt;
@@ -300,19 +297,16 @@ auto Sorcery::Engine::_handle_confirm_exit(sf::Event &event) -> void {
 
 	auto dialog_input{_confirm_exit->handle_input(event)};
 	if (dialog_input) {
-		if (dialog_input.value() == WindowDialogButton::CLOSE) {
+		if ((dialog_input.value() == WindowDialogButton::CLOSE) || (dialog_input.value() == WindowDialogButton::NO)) {
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 			_show_confirm_exit = false;
 		} else if (dialog_input.value() == WindowDialogButton::YES) {
 			_window->close();
-		} else if (dialog_input.value() == WindowDialogButton::NO) {
-			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-			_show_confirm_exit = false;
 		}
 	}
 }
 
-auto Sorcery::Engine::_handle_in_character(sf::Event &event) -> void {
+auto Sorcery::Engine::_handle_in_character(const sf::Event &event) -> void {
 
 	if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
 		_game->toggle_console();
@@ -351,7 +345,7 @@ auto Sorcery::Engine::_handle_in_character(sf::Event &event) -> void {
 	}
 }
 
-auto Sorcery::Engine::_handle_in_camp(sf::Event &event) -> std::optional<int> {
+auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<int> {
 
 	if (_left_icon_panel->selected)
 		_left_icon_panel->selected = std::nullopt;
@@ -396,8 +390,7 @@ auto Sorcery::Engine::_handle_in_camp(sf::Event &event) -> std::optional<int> {
 			} else if (option_chosen == MenuItem::CP_OPTIONS) {
 
 				auto options{std::make_unique<Options>(_system, _display, _graphics)};
-				auto result{options->start()};
-				if (result == EXIT_ALL) {
+				if (auto result{options->start()}; result == EXIT_ALL) {
 					options->stop();
 					return EXIT_ALL;
 				}
@@ -406,8 +399,7 @@ auto Sorcery::Engine::_handle_in_camp(sf::Event &event) -> std::optional<int> {
 				_display->generate("engine_base_ui");
 			} else if (option_chosen == MenuItem::CP_INSPECT) {
 				_status_bar->refresh();
-				auto result{_inspect->start()};
-				if (result == MenuItem::ABORT) {
+				if (auto result{_inspect->start()}; result == MenuItem::ABORT) {
 					_inspect->stop();
 					return EXIT_ALL;
 				}
@@ -416,8 +408,7 @@ auto Sorcery::Engine::_handle_in_camp(sf::Event &event) -> std::optional<int> {
 				_display->generate("engine_base_ui");
 			} else if (option_chosen == MenuItem::CP_REORDER) {
 				_status_bar->refresh();
-				auto new_party{_reorder->start()};
-				if (new_party) {
+				if (auto new_party{_reorder->start()}; new_party) {
 
 					// TODO: handle aborts here too
 					_game->state->set_party(new_party.value());
@@ -435,7 +426,7 @@ auto Sorcery::Engine::_handle_in_camp(sf::Event &event) -> std::optional<int> {
 	return std::nullopt;
 }
 
-auto Sorcery::Engine::_handle_elevator(sf::Event &event) -> std::optional<int> {
+auto Sorcery::Engine::_handle_elevator(const sf::Event &event) -> std::optional<int> {
 
 	if (_left_icon_panel->selected)
 		_left_icon_panel->selected = std::nullopt;
@@ -471,7 +462,6 @@ auto Sorcery::Engine::_handle_elevator(sf::Event &event) -> std::optional<int> {
 				_display->set_input_mode(WindowInputMode::IN_GAME);
 				_pending_elevator = false;
 				_destination_floor = 0;
-				//_elevator_if();
 				return CONTINUE;
 			} else if ((option_chosen == MenuItem::EL_A) && (_game->state->get_depth() != -1)) {
 				_destination_floor = -1;
@@ -497,6 +487,252 @@ auto Sorcery::Engine::_handle_elevator(sf::Event &event) -> std::optional<int> {
 				_destination_floor = 0;
 			}
 		}
+	}
+
+	return std::nullopt;
+}
+
+auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<int> {
+
+	if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F6)) {
+
+		auto dest_level{_game->state->get_depth() - 1};
+		Level level{((*_game->levelstore)[dest_level]).value()};
+		_game->state->set_current_level(&level);
+		auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
+		_game->state->set_depth(dest_level);
+		next_tile.set_explored();
+		_update_automap = true;
+		_update_compass = true;
+		_update_render = true;
+	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F5)) {
+		auto dest_level{_game->state->get_depth() + 1};
+		Level level{((*_game->levelstore)[dest_level]).value()};
+		_game->state->set_current_level(&level);
+		auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
+		_game->state->set_depth(dest_level);
+		next_tile.set_explored();
+		_update_automap = true;
+		_update_compass = true;
+		_update_render = true;
+	}
+
+	if (_show_ouch) {
+		_show_direction_indicatior = false;
+		auto dialog_input{_ouch->handle_input(event)};
+		if (dialog_input) {
+			if (dialog_input.value() == WindowDialogButton::OK) {
+
+				_display->set_input_mode(WindowInputMode::IN_GAME);
+				_show_ouch = false;
+				_ouch->set_valid(false);
+			}
+		}
+	} else if (_show_pit) {
+		auto dialog_input{_pit->handle_input(event)};
+		if (dialog_input) {
+			if (dialog_input.value() == WindowDialogButton::OK) {
+
+				_display->set_input_mode(WindowInputMode::IN_GAME);
+				_show_pit = false;
+				_pit->set_valid(false);
+			}
+		}
+	} else if (_show_chute) {
+		auto dialog_input{_chute->handle_input(event)};
+		if (dialog_input) {
+			if (dialog_input.value() == WindowDialogButton::OK) {
+
+				_display->set_input_mode(WindowInputMode::IN_GAME);
+				_show_chute = false;
+				_chute->set_valid(false);
+			}
+		}
+	} else if (_show_elevator) {
+		auto dialog_one_moment{_elevator->handle_input(event)};
+		if (dialog_one_moment) {
+			if (dialog_one_moment.value() == WindowDialogButton::OK) {
+
+				_display->set_input_mode(WindowInputMode::IN_GAME);
+				_show_elevator = false;
+				_elevator->set_valid(false);
+			}
+		}
+	} else if (_show_confirm_stairs) {
+		if (_left_icon_panel->selected)
+			_left_icon_panel->selected = std::nullopt;
+		if (_right_icon_panel->selected)
+			_right_icon_panel->selected = std::nullopt;
+		if (_status_bar->selected)
+			_status_bar->selected = std::nullopt;
+
+		auto dialog_input{_confirm_stairs->handle_input(event)};
+		if (dialog_input) {
+			if ((dialog_input.value() == WindowDialogButton::CLOSE) ||
+				(dialog_input.value() == WindowDialogButton::NO)) {
+				_display->set_input_mode(WindowInputMode::IN_GAME);
+				_show_confirm_stairs = false;
+			} else if (dialog_input.value() == WindowDialogButton::YES) {
+				_show_confirm_stairs = false;
+
+				const auto current_loc{_game->state->get_player_pos()};
+				if ((current_loc == Coordinate{0, 0}) && (_game->state->get_depth() == -1)) {
+
+					_game->save_game();
+					return EXIT_MODULE;
+				} else {
+
+					_stairs_if();
+					if (auto &to_tile{_game->state->level->at(_game->state->get_player_pos())};
+						!to_tile.is(TileProperty::EXPLORED))
+						to_tile.set_explored();
+					_update_automap = true;
+					_show_confirm_stairs = true;
+					_game->save_game();
+				}
+			}
+		}
+	} else {
+		if (_system->input->check(WindowInput::LEFT, event)) {
+			_show_direction_indicatior = true;
+			_reset_direction_indicator();
+			_turn_left();
+			_spinner_if();
+			_update_automap = true;
+			_update_compass = true;
+			_update_render = true;
+		} else if (_system->input->check(WindowInput::RIGHT, event)) {
+			_show_direction_indicatior = true;
+			_reset_direction_indicator();
+			_turn_right();
+			_spinner_if();
+			_update_automap = true;
+			_update_compass = true;
+			_update_render = true;
+		} else if (_system->input->check(WindowInput::UP, event)) {
+
+			if (auto has_moved{_move_forward()}; !has_moved) {
+				_show_direction_indicatior = false;
+				_show_ouch = true;
+				_ouch->reset_timed();
+			} else {
+				_show_direction_indicatior = true;
+				_reset_direction_indicator();
+				_teleport_if();
+				_spinner_if();
+				_pit_if();
+				_chute_if();
+
+				if (auto &to_tile{_game->state->level->at(_game->state->get_player_pos())};
+					!to_tile.is(TileProperty::EXPLORED))
+					to_tile.set_explored();
+				_update_automap = true;
+			}
+			if (_exit_maze_now) {
+				_game->save_game();
+				_exit_maze_now = false;
+				return EXIT_MODULE;
+			}
+			_update_automap = true;
+			_update_compass = true;
+			_update_render = true;
+		} else if (_system->input->check(WindowInput::DOWN, event)) {
+
+			if (auto has_moved{_move_backward()}; !has_moved) {
+				_show_direction_indicatior = false;
+				_show_ouch = true;
+				_ouch->reset_timed();
+			} else {
+				_show_direction_indicatior = true;
+				_reset_direction_indicator();
+				_spinner_if();
+				_teleport_if();
+				_pit_if();
+				_chute_if();
+
+				if (auto &to_tile{_game->state->level->at(_game->state->get_player_pos())};
+					!to_tile.is(TileProperty::EXPLORED))
+					to_tile.set_explored();
+				_update_automap = true;
+			}
+			if (_exit_maze_now) {
+				_game->save_game();
+				_exit_maze_now = false;
+				return EXIT_MODULE;
+			}
+			_update_automap = true;
+			_update_compass = true;
+			_update_render = true;
+		} else if (_system->input->check(WindowInput::CANCEL, event))
+			_in_camp = true;
+		else if (_system->input->check(WindowInput::BACK, event))
+			_in_camp = true;
+		else if (_system->input->check(WindowInput::CONFIRM, event)) {
+			if (_status_bar->selected) {
+
+				// Remember here status-bar selected is
+				// 1-indexed, not 0-index so we need to
+				// take away 1
+				const auto character_chosen{(_status_bar->selected.value())};
+				_cur_char = &_game->characters.at(_game->state->get_party_characters().at(character_chosen - 1));
+				if (_cur_char) {
+					_display->set_input_mode(WindowInputMode::BROWSE_CHARACTER);
+					_cur_char.value()->set_view(CharacterView::SUMMARY);
+					_in_character = true;
+					return CONTINUE;
+				}
+			}
+		} else if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
+			_game->toggle_console();
+		else if (_system->input->check(WindowInput::MOVE, event)) {
+
+			// Check for Mouse Overs
+			sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
+
+			if (std::optional<std::string> left_selected{
+					_left_icon_panel->set_mouse_selected((*_display->layout)["engine_base_ui:left_icon_"
+																			 "panel"],
+						mouse_pos)};
+				left_selected) {
+				_left_icon_panel->selected = left_selected.value();
+				if (_right_icon_panel->selected)
+					_right_icon_panel->selected = std::nullopt;
+				if (_status_bar->selected)
+					_status_bar->selected = std::nullopt;
+			}
+
+			if (std::optional<std::string> right_selected{
+					_right_icon_panel->set_mouse_selected((*_display->layout)["engine_base_ui:right_icon_"
+																			  "panel"],
+						mouse_pos)};
+				right_selected) {
+				_right_icon_panel->selected = right_selected.value();
+				if (_left_icon_panel->selected)
+					_left_icon_panel->selected = std::nullopt;
+				if (_status_bar->selected)
+					_status_bar->selected = std::nullopt;
+			}
+
+			std::optional<unsigned int> status_bar_selected{_status_bar->set_mouse_selected(mouse_pos)};
+			if (status_bar_selected) {
+				_status_bar->selected = status_bar_selected.value();
+				if (_right_icon_panel->selected)
+					_right_icon_panel->selected = std::nullopt;
+				if (_left_icon_panel->selected)
+					_left_icon_panel->selected = std::nullopt;
+			}
+		}
+
+		// If we are in-game, and are on a tile with
+		// note
+		auto current_loc{_game->state->get_player_pos()};
+		if (auto note{(*_game->state->level)(current_loc)}; (note.text.length() > 0) && (note.visible)) {
+
+			_show_tile_note = true;
+			_tile_note->update(note);
+		} else
+			_show_tile_note = false;
+		_update_tile_note = false;
 	}
 
 	return std::nullopt;
@@ -571,249 +807,15 @@ auto Sorcery::Engine::start() -> int {
 
 					if (_display->get_input_mode() == WindowInputMode::IN_GAME) {
 
-						if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F6)) {
-
-							auto dest_level{_game->state->get_depth() - 1};
-							Level level{((*_game->levelstore)[dest_level]).value()};
-							_game->state->set_current_level(&level);
-							auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
-							_game->state->set_depth(dest_level);
-							next_tile.set_explored();
-							_update_automap = true;
-							_update_compass = true;
-							_update_render = true;
-						} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F5)) {
-							auto dest_level{_game->state->get_depth() + 1};
-							Level level{((*_game->levelstore)[dest_level]).value()};
-							_game->state->set_current_level(&level);
-							auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
-							_game->state->set_depth(dest_level);
-							next_tile.set_explored();
-							_update_automap = true;
-							_update_compass = true;
-							_update_render = true;
-						}
-
-						if (_show_ouch) {
-							_show_direction_indicatior = false;
-							auto dialog_input{_ouch->handle_input(event)};
-							if (dialog_input) {
-								if (dialog_input.value() == WindowDialogButton::OK) {
-
-									_display->set_input_mode(WindowInputMode::IN_GAME);
-									_show_ouch = false;
-									_ouch->set_valid(false);
-								}
+						auto what_to_do{_handle_in_game(event)};
+						if (what_to_do) {
+							if (what_to_do.value() == CONTINUE)
+								continue;
+							else if (what_to_do.value() == EXIT_MODULE)
+								return EXIT_MODULE;
+							else if (what_to_do.value() == EXIT_ALL) {
+								return EXIT_ALL;
 							}
-						} else if (_show_pit) {
-							auto dialog_input{_pit->handle_input(event)};
-							if (dialog_input) {
-								if (dialog_input.value() == WindowDialogButton::OK) {
-
-									_display->set_input_mode(WindowInputMode::IN_GAME);
-									_show_pit = false;
-									_pit->set_valid(false);
-								}
-							}
-						} else if (_show_chute) {
-							auto dialog_input{_chute->handle_input(event)};
-							if (dialog_input) {
-								if (dialog_input.value() == WindowDialogButton::OK) {
-
-									_display->set_input_mode(WindowInputMode::IN_GAME);
-									_show_chute = false;
-									_chute->set_valid(false);
-								}
-							}
-						} else if (_show_elevator) {
-							auto dialog_one_moment{_elevator->handle_input(event)};
-							if (dialog_one_moment) {
-								if (dialog_one_moment.value() == WindowDialogButton::OK) {
-
-									_display->set_input_mode(WindowInputMode::IN_GAME);
-									_show_elevator = false;
-									_elevator->set_valid(false);
-								}
-							}
-						} else if (_show_confirm_stairs) {
-							if (_left_icon_panel->selected)
-								_left_icon_panel->selected = std::nullopt;
-							if (_right_icon_panel->selected)
-								_right_icon_panel->selected = std::nullopt;
-							if (_status_bar->selected)
-								_status_bar->selected = std::nullopt;
-
-							auto dialog_input{_confirm_stairs->handle_input(event)};
-							if (dialog_input) {
-								if (dialog_input.value() == WindowDialogButton::CLOSE) {
-									_display->set_input_mode(WindowInputMode::IN_GAME);
-									_show_confirm_stairs = false;
-								} else if (dialog_input.value() == WindowDialogButton::NO) {
-									_display->set_input_mode(WindowInputMode::IN_GAME);
-									_show_confirm_stairs = false;
-								} else if (dialog_input.value() == WindowDialogButton::YES) {
-									_show_confirm_stairs = false;
-
-									const auto current_loc{_game->state->get_player_pos()};
-									if ((current_loc == Coordinate{0, 0}) && (_game->state->get_depth() == -1)) {
-
-										_game->save_game();
-										return EXIT_MODULE;
-									} else {
-
-										_stairs_if();
-										auto &to_tile{_game->state->level->at(_game->state->get_player_pos())};
-										if (!to_tile.is(TileProperty::EXPLORED))
-											to_tile.set_explored();
-										_update_automap = true;
-										_show_confirm_stairs = true;
-										_game->save_game();
-									}
-								}
-							}
-						} else {
-							if (_system->input->check(WindowInput::LEFT, event)) {
-								_show_direction_indicatior = true;
-								_reset_direction_indicator();
-								_turn_left();
-								_spinner_if();
-								_update_automap = true;
-								_update_compass = true;
-								_update_render = true;
-							} else if (_system->input->check(WindowInput::RIGHT, event)) {
-								_show_direction_indicatior = true;
-								_reset_direction_indicator();
-								_turn_right();
-								_spinner_if();
-								_update_automap = true;
-								_update_compass = true;
-								_update_render = true;
-							} else if (_system->input->check(WindowInput::UP, event)) {
-								auto has_moved{_move_forward()};
-								if (!has_moved) {
-									_show_direction_indicatior = false;
-									_show_ouch = true;
-									_ouch->reset_timed();
-								} else {
-									_show_direction_indicatior = true;
-									_reset_direction_indicator();
-									_teleport_if();
-									_spinner_if();
-									_pit_if();
-									_chute_if();
-
-									auto &to_tile{_game->state->level->at(_game->state->get_player_pos())};
-									if (!to_tile.is(TileProperty::EXPLORED))
-										to_tile.set_explored();
-									_update_automap = true;
-								}
-								if (_exit_maze_now) {
-									_game->save_game();
-									_exit_maze_now = false;
-									return EXIT_MODULE;
-								}
-								_update_automap = true;
-								_update_compass = true;
-								_update_render = true;
-							} else if (_system->input->check(WindowInput::DOWN, event)) {
-								auto has_moved{_move_backward()};
-								if (!has_moved) {
-									_show_direction_indicatior = false;
-									_show_ouch = true;
-									_ouch->reset_timed();
-								} else {
-									_show_direction_indicatior = true;
-									_reset_direction_indicator();
-									_spinner_if();
-									_teleport_if();
-									_pit_if();
-									_chute_if();
-
-									auto &to_tile{_game->state->level->at(_game->state->get_player_pos())};
-									if (!to_tile.is(TileProperty::EXPLORED))
-										to_tile.set_explored();
-									_update_automap = true;
-								}
-								if (_exit_maze_now) {
-									_game->save_game();
-									_exit_maze_now = false;
-									return EXIT_MODULE;
-								}
-								_update_automap = true;
-								_update_compass = true;
-								_update_render = true;
-							} else if (_system->input->check(WindowInput::CANCEL, event))
-								_in_camp = true;
-							else if (_system->input->check(WindowInput::BACK, event))
-								_in_camp = true;
-							else if (_system->input->check(WindowInput::CONFIRM, event)) {
-								if (_status_bar->selected) {
-
-									// Remember here status-bar selected is
-									// 1-indexed, not 0-index so we need to
-									// take away 1
-									const auto character_chosen{(_status_bar->selected.value())};
-									_cur_char = &_game->characters.at(
-										_game->state->get_party_characters().at(character_chosen - 1));
-									if (_cur_char) {
-										_display->set_input_mode(WindowInputMode::BROWSE_CHARACTER);
-										_cur_char.value()->set_view(CharacterView::SUMMARY);
-										_in_character = true;
-										continue;
-									}
-								}
-							} else if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
-								_game->toggle_console();
-							else if (_system->input->check(WindowInput::MOVE, event)) {
-
-								// Check for Mouse Overs
-								sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
-								std::optional<std::string> left_selected{
-									_left_icon_panel->set_mouse_selected((*_display->layout)["engine_base_ui:left_icon_"
-																							 "panel"],
-										mouse_pos)};
-								if (left_selected) {
-									_left_icon_panel->selected = left_selected.value();
-									if (_right_icon_panel->selected)
-										_right_icon_panel->selected = std::nullopt;
-									if (_status_bar->selected)
-										_status_bar->selected = std::nullopt;
-								}
-
-								std::optional<std::string> right_selected{_right_icon_panel->set_mouse_selected(
-									(*_display->layout)["engine_base_ui:right_icon_"
-														"panel"],
-									mouse_pos)};
-								if (right_selected) {
-									_right_icon_panel->selected = right_selected.value();
-									if (_left_icon_panel->selected)
-										_left_icon_panel->selected = std::nullopt;
-									if (_status_bar->selected)
-										_status_bar->selected = std::nullopt;
-								}
-
-								std::optional<unsigned int> status_bar_selected{
-									_status_bar->set_mouse_selected(mouse_pos)};
-								if (status_bar_selected) {
-									_status_bar->selected = status_bar_selected.value();
-									if (_right_icon_panel->selected)
-										_right_icon_panel->selected = std::nullopt;
-									if (_left_icon_panel->selected)
-										_left_icon_panel->selected = std::nullopt;
-								}
-							};
-
-							// If we are in-game, and are on a tile with
-							// note
-							auto current_loc{_game->state->get_player_pos()};
-							auto note{(*_game->state->level)(current_loc)};
-							if ((note.text.length() > 0) && (note.visible)) {
-
-								_show_tile_note = true;
-								_tile_note->update(note);
-							} else
-								_show_tile_note = false;
-							_update_tile_note = false;
 						}
 					}
 				}
@@ -906,8 +908,7 @@ auto Sorcery::Engine::_move_forward() -> bool {
 
 		if (_game->state->level->stairs_at(next_loc)) {
 			const auto current_loc{_game->state->get_player_pos()};
-			const auto &to_tile{_game->state->level->at(current_loc)};
-			if (to_tile.has(TileFeature::LADDER_UP))
+			if (const auto &to_tile{_game->state->level->at(current_loc)}; to_tile.has(TileFeature::LADDER_UP))
 				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_up_text"]);
 			else if (to_tile.has(TileFeature::LADDER_DOWN))
 				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_down_text"]);
@@ -999,8 +1000,7 @@ auto Sorcery::Engine::_move_backward() -> bool {
 			next_tile.set_explored();
 		if (_game->state->level->stairs_at(next_loc)) {
 			const auto current_loc{_game->state->get_player_pos()};
-			const auto &this_tile{_game->state->level->at(current_loc)};
-			if (this_tile.has(TileFeature::LADDER_UP))
+			if (const auto &this_tile{_game->state->level->at(current_loc)}; this_tile.has(TileFeature::LADDER_UP))
 				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_up_text"]);
 			else if (this_tile.has(TileFeature::LADDER_DOWN))
 				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_down_text"]);
@@ -1075,8 +1075,7 @@ auto Sorcery::Engine::_turn_right() -> void {
 
 auto Sorcery::Engine::_pit_if() -> bool {
 
-	const auto tile{_game->state->level->at(_game->state->get_player_pos())};
-	if (tile.has(TileFeature::PIT)) {
+	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has(TileFeature::PIT)) {
 
 		_show_pit = true;
 		_pit->set_valid(true);
@@ -1089,8 +1088,7 @@ auto Sorcery::Engine::_pit_if() -> bool {
 
 auto Sorcery::Engine::_elevator_if() -> bool {
 
-	const auto tile{_game->state->level->at(_game->state->get_player_pos())};
-	if (tile.has(TileFeature::ELEVATOR)) {
+	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has(TileFeature::ELEVATOR)) {
 
 		_show_elevator = true;
 		_elevator->set_valid(true);
@@ -1107,8 +1105,7 @@ auto Sorcery::Engine::_elevator_if() -> bool {
 
 auto Sorcery::Engine::_chute_if() -> bool {
 
-	const auto tile{_game->state->level->at(_game->state->get_player_pos())};
-	if (tile.has(TileFeature::CHUTE)) {
+	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has(TileFeature::CHUTE)) {
 
 		_show_chute = true;
 		_chute->set_valid(true);
@@ -1123,11 +1120,9 @@ auto Sorcery::Engine::_chute_if() -> bool {
 	return false;
 }
 
-auto Sorcery::Engine::_spinner_if() -> bool {
+auto Sorcery::Engine::_spinner_if() const -> bool {
 
-	const auto tile{_game->state->level->at(_game->state->get_player_pos())};
-
-	if (tile.has(TileFeature::SPINNER)) {
+	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has(TileFeature::SPINNER)) {
 
 		// Random Direction Change
 		auto new_facing{static_cast<MapDirection>((*_system->random)[RandomType::ZERO_TO_3])};
@@ -1138,11 +1133,9 @@ auto Sorcery::Engine::_spinner_if() -> bool {
 	return false;
 }
 
-auto Sorcery::Engine::_stairs_if() -> bool {
+auto Sorcery::Engine::_stairs_if() const -> bool {
 
-	const auto tile{_game->state->level->at(_game->state->get_player_pos())};
-
-	if (tile.has_stairs()) {
+	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has_stairs()) {
 
 		auto destination{tile.has_stairs().value()};
 		auto to_level{destination.to_level};
@@ -1211,7 +1204,10 @@ auto Sorcery::Engine::_teleport_if() -> bool {
 	return true;
 }
 
-auto Sorcery::Engine::stop() -> void {}
+auto Sorcery::Engine::stop() const -> void {
+
+	// TODO
+}
 
 auto Sorcery::Engine::_draw() -> void {
 
