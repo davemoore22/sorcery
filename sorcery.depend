@@ -328,11 +328,12 @@
 1655071989 source:/home/dave/Development/wizardry/sorcery-sfml/src/display.cpp
 	"display.hpp"
 
-1655508751 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine.cpp
+1655584684 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine.cpp
 	"engine.hpp"
 
-1655496197 /home/dave/Development/wizardry/sorcery-sfml/inc/engine.hpp
+1655584531 /home/dave/Development/wizardry/sorcery-sfml/inc/engine.hpp
 	"automap.hpp"
+	"buffbar.hpp"
 	"compass.hpp"
 	"console.hpp"
 	"dialog.hpp"
@@ -1132,7 +1133,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1655073056 source:/home/dave/Development/wizardry/sorcery-sfml/src/spellpanel.cpp
+1655566417 source:/home/dave/Development/wizardry/sorcery-sfml/src/spellpanel.cpp
 	"spellpanel.hpp"
 
 1655071647 /home/dave/Development/wizardry/sorcery-sfml/inc/edit.hpp
@@ -1413,7 +1414,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1655072629 source:/home/dave/Development/wizardry/sorcery-sfml/src/iconpanel.cpp
+1655566408 source:/home/dave/Development/wizardry/sorcery-sfml/src/iconpanel.cpp
 	"iconpanel.hpp"
 
 1602023279 /home/dave/Development/wizardry/sorcery-sfml/inc/selbaward/Common.hpp
@@ -1524,4 +1525,14 @@
 
 1655073013 source:/home/dave/Development/wizardry/sorcery-sfml/src/message.cpp
 	"message.hpp"
+
+1655583992 /home/dave/Development/wizardry/sorcery-sfml/inc/buffbar.hpp
+	"display.hpp"
+	"game.hpp"
+	"graphics.hpp"
+	"main.hpp"
+	"system.hpp"
+
+1655591975 source:/home/dave/Development/wizardry/sorcery-sfml/src/buffbar.cpp
+	"buffbar.hpp"
 

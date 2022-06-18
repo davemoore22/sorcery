@@ -38,6 +38,7 @@ auto Sorcery::Engine::_initialise_state() -> void {
 
 	_update_automap = false;
 	_update_compass = false;
+	_update_buffbar = false;
 	_update_icon_panels = false;
 	_update_status_bar = false;
 	_update_render = false;
@@ -113,6 +114,7 @@ auto Sorcery::Engine::_initalise_components() -> void {
 	_render = std::make_unique<Render>(_system, _display, _graphics, _game);
 	_automap = std::make_unique<AutoMap>(_system, _display, _graphics, _game, (*_display->layout)["global:automap"]);
 	_compass = std::make_unique<Compass>(_system, _display, _graphics, _game, (*_display->layout)["global:compass"]);
+	_buffbar = std::make_unique<BuffBar>(_system, _display, _graphics, _game, (*_display->layout)["global:buffbar"]);
 	_console = std::make_unique<Console>(_display->window->get_gui(), _system, _display, _graphics, _game);
 	_left_icon_panel = std::make_unique<IconPanel>(
 		_system, _display, _graphics, _game, (*_display->layout)["engine_base_ui:left_icon_panel"], true);
@@ -158,6 +160,8 @@ auto Sorcery::Engine::_place_components() -> void {
 	_automap->setPosition(automap_c.x, automap_c.y);
 	const Component compass_c{(*_display->layout)["global:compass"]};
 	_compass->setPosition(compass_c.x, compass_c.y);
+	const Component buffbar_c{(*_display->layout)["global:buffbar"]};
+	_buffbar->setPosition(buffbar_c.x, buffbar_c.y);
 
 	const Component l_icon_panel_c{(*_display->layout)["engine_base_ui:left_icon_panel"]};
 	_left_icon_panel->setPosition(l_icon_panel_c.x, l_icon_panel_c.y);
@@ -180,6 +184,7 @@ auto Sorcery::Engine::_refresh() const -> void {
 	_status_bar->refresh();
 	_automap->refresh();
 	_compass->refresh();
+	_buffbar->refresh();
 	_left_icon_panel->refresh(true);
 	_right_icon_panel->refresh(true);
 }
@@ -261,6 +266,7 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 				next_tile.set_explored();
 				_update_automap = true;
 				_update_compass = true;
+				_update_buffbar = true;
 				_update_render = true;
 				_pending_chute = false;
 
@@ -278,6 +284,7 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 				next_tile.set_explored();
 				_update_automap = true;
 				_update_compass = true;
+				_update_buffbar = true;
 				_update_render = true;
 				_pending_elevator = false;
 				_game->save_game();
@@ -589,6 +596,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		next_tile.set_explored();
 		_update_automap = true;
 		_update_compass = true;
+		_update_buffbar = true;
 		_update_render = true;
 		return CONTINUE;
 	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F5)) {
@@ -600,18 +608,21 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		next_tile.set_explored();
 		_update_automap = true;
 		_update_compass = true;
+		_update_buffbar = true;
 		_update_render = true;
 		return CONTINUE;
 	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F7)) {
 		_game->state->set_lit(true);
 		_update_automap = true;
 		_update_compass = true;
+		_update_buffbar = true;
 		_update_render = true;
 		return CONTINUE;
 	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F8)) {
 		_game->state->set_lit(false);
 		_update_automap = true;
 		_update_compass = true;
+		_update_buffbar = true;
 		_update_render = true;
 		return CONTINUE;
 	}
@@ -708,6 +719,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_update_automap = true;
 			_update_compass = true;
 			_update_render = true;
+			_update_buffbar = true;
 		} else if (_system->input->check(WindowInput::RIGHT, event)) {
 			_show_direction_indicatior = true;
 			_reset_direction_indicator();
@@ -716,6 +728,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_update_automap = true;
 			_update_compass = true;
 			_update_render = true;
+			_update_buffbar = true;
 		} else if (_system->input->check(WindowInput::UP, event)) {
 
 			if (auto has_moved{_move_forward()}; !has_moved) {
@@ -743,6 +756,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_update_automap = true;
 			_update_compass = true;
 			_update_render = true;
+			_update_buffbar = true;
 		} else if (_system->input->check(WindowInput::DOWN, event)) {
 
 			if (auto has_moved{_move_backward()}; !has_moved) {
@@ -770,6 +784,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_update_automap = true;
 			_update_compass = true;
 			_update_render = true;
+			_update_buffbar = true;
 		} else if (_system->input->check(WindowInput::CANCEL, event))
 			_in_camp = true;
 		else if (_system->input->check(WindowInput::BACK, event))
@@ -956,6 +971,10 @@ auto Sorcery::Engine::_update_display() -> void {
 	if (_update_compass) {
 		_compass->refresh();
 		_update_compass = false;
+	}
+	if (_update_buffbar) {
+		_buffbar->refresh();
+		_update_buffbar = false;
 	}
 	if (_update_icon_panels) {
 		_left_icon_panel->refresh(_in_camp);
@@ -1372,6 +1391,7 @@ auto Sorcery::Engine::_draw() -> void {
 
 	_window->draw(*_automap);
 	_window->draw(*_compass);
+	_window->draw(*_buffbar);
 
 	if (_left_icon_panel->selected)
 		_left_icon_panel->set_selected_background();

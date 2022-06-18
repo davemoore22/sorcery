@@ -524,7 +524,43 @@
 			"menu_item": "CR_NONE",
 			"key": "direction-indicator",
 			"colour": "0xffffffff"
+		},
+		{
+			"index": "75",
+			"filename": "torch",
+			"menu_item": "CR_NONE",
+			"key": "light-buff",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "76",
+			"filename": "bolt-shield",
+			"menu_item": "CR_NONE",
+			"key": "shield-buff",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "77",
+			"filename": "enlightenment",
+			"menu_item": "CR_NONE",
+			"key": "knowledge-buff",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "78",
+			"filename": "primitive-torch",
+			"menu_item": "CR_NONE",
+			"key": "no-light-buff",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "79",
+			"filename": "liberty-wing",
+			"menu_item": "CR_NONE",
+			"key": "levitate-buff",
+			"colour": "0xffffffff"
 		}
+
 
 	]
 }

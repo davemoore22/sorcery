@@ -25,6 +25,7 @@
 #pragma once
 
 #include "automap.hpp"
+#include "buffbar.hpp"
 #include "compass.hpp"
 #include "console.hpp"
 #include "dialog.hpp"
@@ -121,6 +122,7 @@ namespace Sorcery {
 		std::unique_ptr<IconPanel> _right_icon_panel;
 		std::unique_ptr<Message> _tile_note;
 		std::unique_ptr<Dialog> _confirm_stairs;
+		std::unique_ptr<BuffBar> _buffbar;
 		bool _in_camp;
 		bool _in_character;
 		bool _show_confirm_exit;
@@ -135,6 +137,7 @@ namespace Sorcery {
 		bool _in_elevator_a_f;
 		bool _update_automap;
 		bool _update_compass;
+		bool _update_buffbar;
 		bool _update_icon_panels;
 		bool _update_status_bar;
 		bool _update_render;

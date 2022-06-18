@@ -24,6 +24,7 @@ add_executable(${PROJECT_NAME}
 	src/attributedisplay.cpp
 	src/automap.cpp
 	src/banner.cpp
+	src/buffbar.cpp
 	src/castle.cpp
 	src/changeclass.cpp
 	src/changename.cpp
@@ -148,7 +149,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	dl
 	unwind
 	stdc++fs
-	)
+)
 
 # Post Build Directories
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory

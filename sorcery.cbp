@@ -137,6 +137,7 @@
 		<Unit filename="inc/automap.hpp" />
 		<Unit filename="inc/backwardcpp/backward.hpp" />
 		<Unit filename="inc/banner.hpp" />
+		<Unit filename="inc/buffbar.hpp" />
 		<Unit filename="inc/castle.hpp" />
 		<Unit filename="inc/changeclass.hpp" />
 		<Unit filename="inc/changename.hpp" />
@@ -213,6 +214,7 @@
 		<Unit filename="src/attributedisplay.cpp" />
 		<Unit filename="src/automap.cpp" />
 		<Unit filename="src/banner.cpp" />
+		<Unit filename="src/buffbar.cpp" />
 		<Unit filename="src/castle.cpp" />
 		<Unit filename="src/changeclass.cpp" />
 		<Unit filename="src/changename.cpp" />
