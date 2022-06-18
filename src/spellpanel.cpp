@@ -72,7 +72,9 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 		_icon.setColor(sf::Color(std::stoull(icon_c["unknown_colour"].value(), 0, 16)));
 
 	Component name_c{(*_display->layout)["spell_panel:name_text"]};
-	auto name{fmt::format("{} ({})", spell.name, spell.translated_name)};
+	auto translated_name{spell.translated_name};
+	std::transform(translated_name.begin(), translated_name.end(), translated_name.begin(), ::toupper);
+	auto name{fmt::format("{} ({})", spell.name, translated_name)};
 	sf::Text name_text{};
 	name_text.setFont(_system->resources->fonts[name_c.font]);
 	name_text.setCharacterSize(name_c.size);

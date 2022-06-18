@@ -169,6 +169,7 @@ namespace Sorcery {
 	using RosterMode = Enums::Manage::Roster;
 	using ShopStage = Enums::Castle::Shop;
 	using SpellID = Enums::Magic::SpellID;
+	using SpellID_V = Enums::Magic::SpellID_V;
 	using SpellCategory = Enums::Magic::SpellCategory;
 	using SpellPoints = std::map<unsigned int, unsigned int>;
 	using SpellType = Enums::Magic::SpellType;

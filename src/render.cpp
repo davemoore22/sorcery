@@ -268,7 +268,6 @@ auto Sorcery::Render::_render_wireframe(sf::RenderTarget &target, sf::RenderStat
 				target.draw(vl1.darkness, states);
 				target.draw(vl2.side_darkness, states);
 			} else {
-				// if (!tm2.is(TileProperty::DARKNESS)) {
 				if (_has_wall(tl2, player_facing))
 					target.draw(vl2.back_wall, states);
 				if (_has_normal_door(tl2, player_facing)) {
@@ -280,13 +279,11 @@ auto Sorcery::Render::_render_wireframe(sf::RenderTarget &target, sf::RenderStat
 					if (_game->state->get_lit())
 						target.draw(vl2.back_door, states);
 				}
-				//}
 			}
 			if (tr2.is(TileProperty::DARKNESS)) {
 				target.draw(vr1.darkness, states);
 				target.draw(vr2.side_darkness, states);
 			} else {
-				// if (!tm2.is(TileProperty::DARKNESS)) {
 				if (_has_wall(tr2, player_facing))
 					target.draw(vr2.back_wall, states);
 				if (_has_normal_door(tr2, player_facing)) {
@@ -298,7 +295,6 @@ auto Sorcery::Render::_render_wireframe(sf::RenderTarget &target, sf::RenderStat
 					if (_game->state->get_lit())
 						target.draw(vr2.back_door, states);
 				}
-				//}
 			}
 			if (tm2.is(TileProperty::DARKNESS))
 				target.draw(vm2.darkness, states);
@@ -356,7 +352,6 @@ auto Sorcery::Render::_render_wireframe(sf::RenderTarget &target, sf::RenderStat
 			target.draw(vl0.darkness, states);
 			target.draw(vl1.side_darkness, states);
 		} else {
-			// if (!tm1.is(TileProperty::DARKNESS)) {
 			if (_has_wall(tl1, player_facing))
 				target.draw(vl1.back_wall, states);
 			if (_has_normal_door(tl1, player_facing)) {
@@ -384,7 +379,6 @@ auto Sorcery::Render::_render_wireframe(sf::RenderTarget &target, sf::RenderStat
 			target.draw(vr0.darkness, states);
 			target.draw(vr1.side_darkness, states);
 		} else {
-			// if (!tm1.is(TileProperty::DARKNESS)) {
 			if (_has_wall(tr1, player_facing))
 				target.draw(vr1.back_wall, states);
 			if (_has_normal_door(tr1, player_facing)) {

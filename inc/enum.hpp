@@ -214,8 +214,81 @@ namespace Sorcery {
 
 		enum class SpellCategory { NONE, HEALING, FIELD, SUPPORT, DISABLE, ATTACK };
 
+		// Wizardry 1 to 3 Spells
 		enum class SpellID {
 			NONE = -1,
+
+			DUMAPIC = 0,
+			HALITO = 1,
+			KATINO = 2,
+			MOGREF = 3,
+
+			DILTO = 4,
+			SOPIC = 5,
+
+			MAHALITO = 6,
+			MOLITO = 7,
+
+			DALTO = 8,
+			LAHALITO = 9,
+			MORLIS = 10,
+
+			MADALTO = 11,
+			MAKANITO = 12,
+			MAMORLIS = 13,
+
+			HAMAN = 14,
+			LAKANITO = 15,
+			MASOPIC = 16,
+			ZILWAN = 17,
+
+			MAHAMAN = 18,
+			MALOR = 19,
+			TILTOWAIT = 20,
+
+			END_OF_MAGE = 21,
+
+			BADIOS = 22,
+			DIOS = 23,
+			KALKI = 24,
+			MILWA = 25,
+			PORFIC = 26,
+
+			CALFO = 27,
+			MANIFO = 28,
+			MATU = 29,
+			MONTINO = 30,
+
+			BAMATU = 31,
+			DIALKO = 32,
+			LATUMAPIC = 33,
+			LOMILWA = 34,
+
+			BADIAL = 35,
+			DIAL = 36,
+			LATUMOFIS = 37,
+			MAPORFIC = 38,
+
+			BADI = 39,
+			BADIALMA = 40,
+			DI = 41,
+			DIALMA = 42,
+			KANDI = 43,
+			LITOKAN = 44,
+
+			LOKTOFEIT = 45,
+			LORTO = 46,
+			MABADI = 47,
+			MADI = 48,
+
+			KADORTO = 49,
+			MALIKTO = 50,
+
+			END_OF_PRIEST = 51
+
+		};
+
+		enum class SpellID_V {
 
 			DUMAPIC = 0,
 			HALITO = 1,
