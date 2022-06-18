@@ -202,21 +202,6 @@ auto Sorcery::Render::_render_wireframe(sf::RenderTarget &target, sf::RenderStat
 					}
 				}
 			}
-			if (tm3.is(TileProperty::DARKNESS))
-				target.draw(vm3.darkness, states);
-			else {
-				if (_has_wall(tm3, player_facing))
-					target.draw(vm3.back_wall, states);
-				if (_has_normal_door(tm3, player_facing)) {
-					target.draw(vm3.back_wall, states);
-					target.draw(vm3.back_door, states);
-				}
-				if (_has_secret_door(tm3, player_facing)) {
-					target.draw(vm3.back_wall, states);
-					if (_game->state->get_lit())
-						target.draw(vm3.back_door, states);
-				}
-			}
 			if (tr3.is(TileProperty::DARKNESS)) {
 				target.draw(vr2.darkness, states);
 				target.draw(vr3.side_darkness, states);
@@ -233,6 +218,21 @@ auto Sorcery::Render::_render_wireframe(sf::RenderTarget &target, sf::RenderStat
 						if (_game->state->get_lit())
 							target.draw(vr3.back_door, states);
 					}
+				}
+			}
+			if (tm3.is(TileProperty::DARKNESS))
+				target.draw(vm3.darkness, states);
+			else {
+				if (_has_wall(tm3, player_facing))
+					target.draw(vm3.back_wall, states);
+				if (_has_normal_door(tm3, player_facing)) {
+					target.draw(vm3.back_wall, states);
+					target.draw(vm3.back_door, states);
+				}
+				if (_has_secret_door(tm3, player_facing)) {
+					target.draw(vm3.back_wall, states);
+					if (_game->state->get_lit())
+						target.draw(vm3.back_door, states);
 				}
 			}
 
@@ -268,19 +268,37 @@ auto Sorcery::Render::_render_wireframe(sf::RenderTarget &target, sf::RenderStat
 				target.draw(vl1.darkness, states);
 				target.draw(vl2.side_darkness, states);
 			} else {
-				if (!tm2.is(TileProperty::DARKNESS)) {
-					if (_has_wall(tl2, player_facing))
-						target.draw(vl2.back_wall, states);
-					if (_has_normal_door(tl2, player_facing)) {
-						target.draw(vl2.back_wall, states);
-						target.draw(vl2.back_door, states);
-					}
-					if (_has_secret_door(tl2, player_facing)) {
-						target.draw(vl2.back_wall, states);
-						if (_game->state->get_lit())
-							target.draw(vl2.back_door, states);
-					}
+				// if (!tm2.is(TileProperty::DARKNESS)) {
+				if (_has_wall(tl2, player_facing))
+					target.draw(vl2.back_wall, states);
+				if (_has_normal_door(tl2, player_facing)) {
+					target.draw(vl2.back_wall, states);
+					target.draw(vl2.back_door, states);
 				}
+				if (_has_secret_door(tl2, player_facing)) {
+					target.draw(vl2.back_wall, states);
+					if (_game->state->get_lit())
+						target.draw(vl2.back_door, states);
+				}
+				//}
+			}
+			if (tr2.is(TileProperty::DARKNESS)) {
+				target.draw(vr1.darkness, states);
+				target.draw(vr2.side_darkness, states);
+			} else {
+				// if (!tm2.is(TileProperty::DARKNESS)) {
+				if (_has_wall(tr2, player_facing))
+					target.draw(vr2.back_wall, states);
+				if (_has_normal_door(tr2, player_facing)) {
+					target.draw(vr2.back_wall, states);
+					target.draw(vr2.back_door, states);
+				}
+				if (_has_secret_door(tr2, player_facing)) {
+					target.draw(vr2.back_wall, states);
+					if (_game->state->get_lit())
+						target.draw(vr2.back_door, states);
+				}
+				//}
 			}
 			if (tm2.is(TileProperty::DARKNESS))
 				target.draw(vm2.darkness, states);
@@ -295,24 +313,6 @@ auto Sorcery::Render::_render_wireframe(sf::RenderTarget &target, sf::RenderStat
 					target.draw(vm2.back_wall, states);
 					if (_game->state->get_lit())
 						target.draw(vm2.back_door, states);
-				}
-			}
-			if (tr2.is(TileProperty::DARKNESS)) {
-				target.draw(vr1.darkness, states);
-				target.draw(vr2.side_darkness, states);
-			} else {
-				if (!tm2.is(TileProperty::DARKNESS)) {
-					if (_has_wall(tr2, player_facing))
-						target.draw(vr2.back_wall, states);
-					if (_has_normal_door(tr2, player_facing)) {
-						target.draw(vr2.back_wall, states);
-						target.draw(vr2.back_door, states);
-					}
-					if (_has_secret_door(tr2, player_facing)) {
-						target.draw(vr2.back_wall, states);
-						if (_game->state->get_lit())
-							target.draw(vr2.back_door, states);
-					}
 				}
 			}
 
@@ -344,11 +344,11 @@ auto Sorcery::Render::_render_wireframe(sf::RenderTarget &target, sf::RenderStat
 		} else {
 
 			if (tl2.is(TileProperty::DARKNESS))
-				target.draw(vl2.darkness, states);
+				target.draw(vl1.darkness, states);
 			if (tm2.is(TileProperty::DARKNESS))
 				target.draw(vm2.darkness, states);
 			if (tr2.is(TileProperty::DARKNESS))
-				target.draw(vr2.darkness, states);
+				target.draw(vr1.darkness, states);
 		}
 
 		// Row 1
@@ -356,28 +356,55 @@ auto Sorcery::Render::_render_wireframe(sf::RenderTarget &target, sf::RenderStat
 			target.draw(vl0.darkness, states);
 			target.draw(vl1.side_darkness, states);
 		} else {
-			if (!tm1.is(TileProperty::DARKNESS)) {
-				if (_has_wall(tl1, player_facing))
-					target.draw(vl1.back_wall, states);
-				if (_has_normal_door(tl1, player_facing)) {
-					target.draw(vl1.back_wall, states);
-					target.draw(vl1.back_door, states);
-				}
-				if (_has_secret_door(tl1, player_facing)) {
-					target.draw(vl1.back_wall, states);
-					if (_game->state->get_lit())
-						target.draw(vl1.back_door, states);
-				}
-
-				if ((tl1.has(TileFeature::MESSAGE)) || (tl1.has(TileFeature::NOTICE)))
-					target.draw(vl1.floor, states);
-				if ((tl1.has(TileFeature::STAIRS_DOWN)) || (tl1.has(TileFeature::LADDER_DOWN)) ||
-					(tl1.has(TileFeature::ELEVATOR_DOWN)))
-					target.draw(vl1.down, states);
-				if ((tl1.has(TileFeature::STAIRS_UP)) || (tl1.has(TileFeature::LADDER_UP)) ||
-					(tl1.has(TileFeature::ELEVATOR_UP)))
-					target.draw(vl1.up, states);
+			// if (!tm1.is(TileProperty::DARKNESS)) {
+			if (_has_wall(tl1, player_facing))
+				target.draw(vl1.back_wall, states);
+			if (_has_normal_door(tl1, player_facing)) {
+				target.draw(vl1.back_wall, states);
+				target.draw(vl1.back_door, states);
 			}
+			if (_has_secret_door(tl1, player_facing)) {
+				target.draw(vl1.back_wall, states);
+				if (_game->state->get_lit())
+					target.draw(vl1.back_door, states);
+			}
+
+			if ((tl1.has(TileFeature::MESSAGE)) || (tl1.has(TileFeature::NOTICE)))
+				target.draw(vl1.floor, states);
+			if ((tl1.has(TileFeature::STAIRS_DOWN)) || (tl1.has(TileFeature::LADDER_DOWN)) ||
+				(tl1.has(TileFeature::ELEVATOR_DOWN)))
+				target.draw(vl1.down, states);
+			if ((tl1.has(TileFeature::STAIRS_UP)) || (tl1.has(TileFeature::LADDER_UP)) ||
+				(tl1.has(TileFeature::ELEVATOR_UP)))
+				target.draw(vl1.up, states);
+			//}
+		}
+
+		if (tr1.is(TileProperty::DARKNESS)) {
+			target.draw(vr0.darkness, states);
+			target.draw(vr1.side_darkness, states);
+		} else {
+			// if (!tm1.is(TileProperty::DARKNESS)) {
+			if (_has_wall(tr1, player_facing))
+				target.draw(vr1.back_wall, states);
+			if (_has_normal_door(tr1, player_facing)) {
+				target.draw(vr1.back_wall, states);
+				target.draw(vr1.back_door, states);
+			}
+			if (_has_secret_door(tr1, player_facing)) {
+				target.draw(vr1.back_wall, states);
+				if (_game->state->get_lit())
+					target.draw(vr1.back_door, states);
+			}
+			if ((tr1.has(TileFeature::MESSAGE)) || (tr1.has(TileFeature::NOTICE)))
+				target.draw(vr1.floor, states);
+			if ((tr1.has(TileFeature::STAIRS_DOWN)) || (tr1.has(TileFeature::LADDER_DOWN)) ||
+				(tr1.has(TileFeature::ELEVATOR_DOWN)))
+				target.draw(vr1.down, states);
+			if ((tr1.has(TileFeature::STAIRS_UP)) || (tr1.has(TileFeature::LADDER_UP)) ||
+				(tr1.has(TileFeature::ELEVATOR_UP)))
+				target.draw(vr1.up, states);
+			//}
 		}
 		if (tm1.is(TileProperty::DARKNESS))
 			target.draw(vm1.darkness, states);
@@ -402,32 +429,6 @@ auto Sorcery::Render::_render_wireframe(sf::RenderTarget &target, sf::RenderStat
 			if ((tm1.has(TileFeature::STAIRS_UP)) || (tm1.has(TileFeature::LADDER_UP)) ||
 				(tm1.has(TileFeature::ELEVATOR_UP)))
 				target.draw(vm1.up, states);
-		}
-		if (tr1.is(TileProperty::DARKNESS)) {
-			target.draw(vr0.darkness, states);
-			target.draw(vr1.side_darkness, states);
-		} else {
-			if (!tm1.is(TileProperty::DARKNESS)) {
-				if (_has_wall(tr1, player_facing))
-					target.draw(vr1.back_wall, states);
-				if (_has_normal_door(tr1, player_facing)) {
-					target.draw(vr1.back_wall, states);
-					target.draw(vr1.back_door, states);
-				}
-				if (_has_secret_door(tr1, player_facing)) {
-					target.draw(vr1.back_wall, states);
-					if (_game->state->get_lit())
-						target.draw(vr1.back_door, states);
-				}
-				if ((tr1.has(TileFeature::MESSAGE)) || (tr1.has(TileFeature::NOTICE)))
-					target.draw(vr1.floor, states);
-				if ((tr1.has(TileFeature::STAIRS_DOWN)) || (tr1.has(TileFeature::LADDER_DOWN)) ||
-					(tr1.has(TileFeature::ELEVATOR_DOWN)))
-					target.draw(vr1.down, states);
-				if ((tr1.has(TileFeature::STAIRS_UP)) || (tr1.has(TileFeature::LADDER_UP)) ||
-					(tr1.has(TileFeature::ELEVATOR_UP)))
-					target.draw(vr1.up, states);
-			}
 		}
 
 		if (!tm1.is(TileProperty::DARKNESS)) {
