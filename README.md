@@ -17,51 +17,26 @@ and maybe even 4 some day.
 ![Logo](/promo/screen7.png)
 ![Logo](/promo/screen8.png)
 
-Watch a video of exploring Level 1 here:
+Watch a video of Level 1 being explored here:
 
-[![Entering the Dungeon](https://img.youtube.com/vi/AQ9LhK0ta8A/maxresdefault.jpg)](https://youtu.be/AQ9LhK0ta8A)
+[![Entering the Dungeon](https://img.youtube.com/vi/AQ9LhK0ta8A/maxresdefault.jpg)](https://youtu.be/AQ9LhK0ta8A).
 
-## What can you do? (as of June 2020 - most recent changes first)
+See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAHej3Dag>
 
-* Enter the Maze and leave the Maze
-  * Access to the Camp Menu
-  * Walk about the first four levels of the Maze
-  * Bump into Walls
-  * One-way Doors/Walls
-  * Teleports
-  * Automap
-  * Use Stairs and Elevators
-* Visit the Town and the Castle
-  * Inn
-  * Tavern
-  * Shop
-  * Temple
-  * Training Grounds
-* Create Characters
-  * Random/Quick/Full Methods
-* Edit Characters
-  * Change Class
-  * Change Name
-  * Legate Character
-* Delete Characters
-* Inspect Characters
-  * Base Statistics
-  * Full Statistics
-  * Learned Mage Spells
-  * Learned Cleric Spells
-* Tavern
-  * Add Character to Party
-  * Remove Character from Party
-  * Reorder Party Characters
-  * Inspect Characters
-  * Divvy Gold
-* Save and Load Game
-* Create New Game
-* Change Game Options
+## Progress Update
 
-## What can't you do? (as of June 2020)
-
-* All the rest of it, but I'm working on it.
+* Load/Save Game (DONE)
+* Character Creation (DONE)
+* Character Editing (DONE)
+* Town/Castle Menus (DONE)
+* Party Management (DONE)
+* Maze Generation and Navigation (DONE)
+* Dungeon Features (DONE)
+* Automapping (DONE)
+* Items and Inventory (TO DO)
+* Creatures and NPCs (TO DO)
+* Magic and Combat (TO DO)
+* Strict (Legacy) Mode (TO DO)
 
 ## What next? (as of June 2020)
 
@@ -69,33 +44,38 @@ Next stop will be items, creatures, magic and combat. Then there might be
 something playable here! Then, as mentioned above, a proper 3D renderer will be
 implemented.
 
-Although the main focus is random dungeons much like Diablo, I want to
-eventually remake the original games as optional sub-modules.
+Initially I am planning to remake Wizardrys 1, 2, and 3, and subsequently
+providing infinite procedurally-generated content like that of Diablo for exmaple.
 
-If you really want to try and compile the code, compilation instructions are in
-the doc/COMPILE text file. It works on my machine anyway. Currently I use VSCode
-(make in the base directory should work) and CodeBlocks on Linux (Ubuntu 20) to
-do development on. No idea how to compile on Windows currently, but be assured
-there will be a windows release.
+## Complication
 
-Code is released under the GPLv2.
+Note that I'm currently developing solely on Linux (Ubuntu 20) so compilation
+instructions are currently Linux-specific. Windows instructions and releases
+will of course be supported at a latert date.
+
+Full compliation instructions for Linux are in the doc/COMPILE text file, but in
+brief both CMake (via VSCode CMake Tools) and Code::Blocks are supported.
+C++20 compiler support is required.
+
+All code is released under the GPL - see the doc/LICENSE text file for full
+details.
 
 ## Contact and Help
 
 All comments and criticism and help welcome. Spent 20 years away from C++ (day
-job these days is PHP/JS) but I'm really enjoying working with modern CPP.
+job these days is PHP/JS) but I'm really enjoying working with modern C++.
 
 You can find me as *Typhon* on the C++ Help, SFML, and DungeonCrawlers.org
 Discord Servers, or my email address is on the Splash Screen of the Game.
 
 ## Credits
 
-Graphics used are by:
+Graphics used (all free/open source) are by:
 
-とり夫 - <https://www.pixiv.net/en/users/5887541>
-Nicolae Berbece - <https://thoseawesomeguys.com/prompts/>
-Justin Nichol - <https://opengameart.org/users/justin-nichol>
-Various - <https://game-icons.net/>
+* とり夫 - <https://www.pixiv.net/en/users/5887541>
+* Nicolae Berbece - <https://thoseawesomeguys.com/prompts/>
+* Justin Nichol - <https://opengameart.org/users/justin-nichol>
+* Various - <https://game-icons.net/>
 
 ## Random Screenshots
 
