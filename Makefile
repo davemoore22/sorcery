@@ -334,6 +334,33 @@ src/banner.cpp.s:
 	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/banner.cpp.s
 .PHONY : src/banner.cpp.s
 
+src/buffbar.o: src/buffbar.cpp.o
+
+.PHONY : src/buffbar.o
+
+# target to build an object file
+src/buffbar.cpp.o:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/buffbar.cpp.o
+.PHONY : src/buffbar.cpp.o
+
+src/buffbar.i: src/buffbar.cpp.i
+
+.PHONY : src/buffbar.i
+
+# target to preprocess a source file
+src/buffbar.cpp.i:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/buffbar.cpp.i
+.PHONY : src/buffbar.cpp.i
+
+src/buffbar.s: src/buffbar.cpp.s
+
+.PHONY : src/buffbar.s
+
+# target to generate assembly for a file
+src/buffbar.cpp.s:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/buffbar.cpp.s
+.PHONY : src/buffbar.cpp.s
+
 src/castle.o: src/castle.cpp.o
 
 .PHONY : src/castle.o
@@ -901,6 +928,33 @@ src/error.cpp.s:
 	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/error.cpp.s
 .PHONY : src/error.cpp.s
 
+src/explore.o: src/explore.cpp.o
+
+.PHONY : src/explore.o
+
+# target to build an object file
+src/explore.cpp.o:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/explore.cpp.o
+.PHONY : src/explore.cpp.o
+
+src/explore.i: src/explore.cpp.i
+
+.PHONY : src/explore.i
+
+# target to preprocess a source file
+src/explore.cpp.i:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/explore.cpp.i
+.PHONY : src/explore.cpp.i
+
+src/explore.s: src/explore.cpp.s
+
+.PHONY : src/explore.s
+
+# target to generate assembly for a file
+src/explore.cpp.s:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/explore.cpp.s
+.PHONY : src/explore.cpp.s
+
 src/file.o: src/file.cpp.o
 
 .PHONY : src/file.o
@@ -1467,6 +1521,33 @@ src/menu.s: src/menu.cpp.s
 src/menu.cpp.s:
 	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/menu.cpp.s
 .PHONY : src/menu.cpp.s
+
+src/message.o: src/message.cpp.o
+
+.PHONY : src/message.o
+
+# target to build an object file
+src/message.cpp.o:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/message.cpp.o
+.PHONY : src/message.cpp.o
+
+src/message.i: src/message.cpp.i
+
+.PHONY : src/message.i
+
+# target to preprocess a source file
+src/message.cpp.i:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/message.cpp.i
+.PHONY : src/message.cpp.i
+
+src/message.s: src/message.cpp.s
+
+.PHONY : src/message.s
+
+# target to generate assembly for a file
+src/message.cpp.s:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/message.cpp.s
+.PHONY : src/message.cpp.s
 
 src/options.o: src/options.cpp.o
 
@@ -2121,6 +2202,9 @@ help:
 	@echo "... src/banner.o"
 	@echo "... src/banner.i"
 	@echo "... src/banner.s"
+	@echo "... src/buffbar.o"
+	@echo "... src/buffbar.i"
+	@echo "... src/buffbar.s"
 	@echo "... src/castle.o"
 	@echo "... src/castle.i"
 	@echo "... src/castle.s"
@@ -2184,6 +2268,9 @@ help:
 	@echo "... src/error.o"
 	@echo "... src/error.i"
 	@echo "... src/error.s"
+	@echo "... src/explore.o"
+	@echo "... src/explore.i"
+	@echo "... src/explore.s"
 	@echo "... src/file.o"
 	@echo "... src/file.i"
 	@echo "... src/file.s"
@@ -2247,6 +2334,9 @@ help:
 	@echo "... src/menu.o"
 	@echo "... src/menu.i"
 	@echo "... src/menu.s"
+	@echo "... src/message.o"
+	@echo "... src/message.i"
+	@echo "... src/message.s"
 	@echo "... src/options.o"
 	@echo "... src/options.i"
 	@echo "... src/options.s"
