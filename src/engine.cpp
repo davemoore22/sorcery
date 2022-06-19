@@ -189,6 +189,15 @@ auto Sorcery::Engine::_refresh() const -> void {
 	_right_icon_panel->refresh(true);
 }
 
+auto Sorcery::Engine::_tile_explored(const Coordinate loc) const -> bool {
+
+	return _game->state->explored[_game->state->get_depth()].at(loc);
+}
+auto Sorcery::Engine::_set_tile_explored(const Coordinate loc) -> void {
+
+	_game->state->explored[_game->state->get_depth()].set(loc);
+}
+
 auto Sorcery::Engine::_set_maze_entry_start() -> void {
 
 	_in_camp = true;
@@ -206,8 +215,10 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	_system->stop_pause();
 	_last_movement = MapDirection::NONE;
 	auto &starting_tile{_game->state->level->at(_game->state->get_player_pos())};
-	if (!starting_tile.is(TileProperty::EXPLORED))
-		starting_tile.set_explored();
+	// if (!starting_tile.is(TileProperty::EXPLORED))
+	//	starting_tile.set_explored();
+	if (!_tile_explored(_game->state->get_player_pos()))
+		_set_tile_explored(_game->state->get_player_pos());
 
 	// Now, we can also be on an elevator or a set of stairs too when we begin
 	_show_confirm_stairs = (_game->state->get_player_pos() == Coordinate{0, 0}) && (_game->state->get_depth() == -1);
@@ -216,8 +227,11 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 		_game->state->set_player_facing(MapDirection::NORTH);
 		_game->state->set_lit(false);
 		auto &this_tile{_game->state->level->at(_game->state->get_player_pos())};
-		if (!this_tile.is(TileProperty::EXPLORED))
-			this_tile.set(TileProperty::EXPLORED);
+		if (!_tile_explored(_game->state->get_player_pos()))
+			_set_tile_explored(_game->state->get_player_pos());
+
+		// if (!this_tile.is(TileProperty::EXPLORED))
+		//	this_tile.set(TileProperty::EXPLORED);
 
 	} else
 		_show_confirm_stairs = false;
@@ -263,7 +277,8 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 				_game->state->set_player_pos(destination.to_loc);
 				_game->state->set_depth(dest_level);
 				auto &next_tile{_game->state->level->at(destination.to_loc)};
-				next_tile.set_explored();
+				_set_tile_explored(_game->state->get_player_pos());
+				// next_tile.set_explored();
 				_update_automap = true;
 				_update_compass = true;
 				_update_buffbar = true;
@@ -281,7 +296,8 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 				_game->state->set_current_level(&level);
 				_game->state->set_depth(_destination_floor);
 				auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
-				next_tile.set_explored();
+				// next_tile.set_explored();
+				_set_tile_explored(_game->state->get_player_pos());
 				_update_automap = true;
 				_update_compass = true;
 				_update_buffbar = true;
@@ -593,7 +609,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_game->state->set_current_level(&level);
 		auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
 		_game->state->set_depth(dest_level);
-		next_tile.set_explored();
+		_set_tile_explored(_game->state->get_player_pos());
+		// next_tile.set_explored();
 		_update_automap = true;
 		_update_compass = true;
 		_update_buffbar = true;
@@ -605,7 +622,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_game->state->set_current_level(&level);
 		auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
 		_game->state->set_depth(dest_level);
-		next_tile.set_explored();
+		_set_tile_explored(_game->state->get_player_pos());
+		// next_tile.set_explored();
 		_update_automap = true;
 		_update_compass = true;
 		_update_buffbar = true;
@@ -701,9 +719,11 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				} else {
 
 					_stairs_if();
-					if (auto &to_tile{_game->state->level->at(_game->state->get_player_pos())};
-						!to_tile.is(TileProperty::EXPLORED))
-						to_tile.set_explored();
+					// if (auto &to_tile{_game->state->level->at(_game->state->get_player_pos())};
+					//! to_tile.is(TileProperty::EXPLORED))
+					// to_tile.set_explored();
+					if (!_tile_explored(_game->state->get_player_pos()))
+						_set_tile_explored(_game->state->get_player_pos());
 					_update_automap = true;
 					_show_confirm_stairs = true;
 					_game->save_game();
@@ -743,9 +763,11 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_pit_if();
 				_chute_if();
 
-				if (auto &to_tile{_game->state->level->at(_game->state->get_player_pos())};
-					!to_tile.is(TileProperty::EXPLORED))
-					to_tile.set_explored();
+				// if (auto &to_tile{_game->state->level->at(_game->state->get_player_pos())};
+				//	!to_tile.is(TileProperty::EXPLORED))
+				//		to_tile.set_explored();
+				if (!_tile_explored(_game->state->get_player_pos()))
+					_set_tile_explored(_game->state->get_player_pos());
 				_update_automap = true;
 			}
 			if (_exit_maze_now) {
@@ -771,9 +793,11 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_pit_if();
 				_chute_if();
 
-				if (auto &to_tile{_game->state->level->at(_game->state->get_player_pos())};
-					!to_tile.is(TileProperty::EXPLORED))
-					to_tile.set_explored();
+				// if (auto &to_tile{_game->state->level->at(_game->state->get_player_pos())};
+				//	!to_tile.is(TileProperty::EXPLORED))
+				//	to_tile.set_explored();
+				if (!_tile_explored(_game->state->get_player_pos()))
+					_set_tile_explored(_game->state->get_player_pos());
 				_update_automap = true;
 			}
 			if (_exit_maze_now) {
@@ -870,8 +894,10 @@ auto Sorcery::Engine::start() -> int {
 	_set_maze_entry_start();
 
 	const auto current_loc{_game->state->get_player_pos()};
-	if (auto &this_tile{_game->state->level->at(current_loc)}; !this_tile.is(TileProperty::EXPLORED))
-		this_tile.set(TileProperty::EXPLORED);
+	// if (auto &this_tile{_game->state->level->at(current_loc)}; !this_tile.is(TileProperty::EXPLORED))
+	//	this_tile.set(TileProperty::EXPLORED);
+	if (!_tile_explored(_game->state->get_player_pos()))
+		_set_tile_explored(_game->state->get_player_pos());
 
 	// Main Event Loops
 	sf::Event event{};
@@ -1036,8 +1062,10 @@ auto Sorcery::Engine::_move_forward() -> bool {
 	if (this_tile.walkable(this_wall_to_check)) {
 
 		_game->state->set_player_pos(next_loc);
-		if (!next_tile.is(TileProperty::EXPLORED))
-			next_tile.set_explored();
+		// if (!next_tile.is(TileProperty::EXPLORED))
+		//	next_tile.set_explored();
+		if (!_tile_explored(_game->state->get_player_pos()))
+			_set_tile_explored(_game->state->get_player_pos());
 		if ((next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
 			_game->state->set_lit(false);
 
@@ -1139,8 +1167,10 @@ auto Sorcery::Engine::_move_backward() -> bool {
 	if (this_tile.walkable(this_wall_to_check)) {
 
 		_game->state->set_player_pos(next_loc);
-		if (!next_tile.is(TileProperty::EXPLORED))
-			next_tile.set_explored();
+		// if (!next_tile.is(TileProperty::EXPLORED))
+		//	next_tile.set_explored();
+		if (!_tile_explored(_game->state->get_player_pos()))
+			_set_tile_explored(_game->state->get_player_pos());
 		if ((next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
 			_game->state->set_lit(false);
 
@@ -1287,7 +1317,7 @@ auto Sorcery::Engine::_spinner_if() const -> bool {
 	return false;
 }
 
-auto Sorcery::Engine::_stairs_if() const -> bool {
+auto Sorcery::Engine::_stairs_if() -> bool {
 
 	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has_stairs()) {
 
@@ -1301,7 +1331,8 @@ auto Sorcery::Engine::_stairs_if() const -> bool {
 			auto &next_tile{_game->state->level->at(destination.to_loc)};
 			_game->state->set_player_pos(destination.to_loc);
 			_game->state->set_depth(to_level);
-			next_tile.set_explored();
+			_set_tile_explored(_game->state->get_player_pos());
+			// next_tile.set_explored();
 
 			if ((next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
 				_game->state->set_lit(false);
@@ -1338,8 +1369,10 @@ auto Sorcery::Engine::_teleport_if() -> bool {
 			auto &next_tile{_game->state->level->at(destination.to_loc)};
 			_game->state->set_player_pos(destination.to_loc);
 
-			if (!next_tile.is(TileProperty::EXPLORED))
-				next_tile.set_explored();
+			// if (!next_tile.is(TileProperty::EXPLORED))
+			//	next_tile.set_explored();
+			if (!_tile_explored(_game->state->get_player_pos()))
+				_set_tile_explored(_game->state->get_player_pos());
 
 			if ((next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
 				_game->state->set_lit(false);

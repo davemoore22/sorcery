@@ -99,7 +99,7 @@ auto Sorcery::AutoMap::refresh() -> void {
 			auto tile{_game->state->level->at(lx, ly)};
 			auto tile_x{tx + (tcx * tw) + (tcx * spacing)};
 			auto tile_y{ty + (tcy * th) + (tcy * spacing)};
-			_draw_tile(tile, tile_x, reverse_y - tile_y, scaling);
+			_draw_tile(tile, Coordinate{lx, ly}, tile_x, reverse_y - tile_y, scaling);
 			if ((x == static_cast<int>(player_pos.x)) && (y == static_cast<int>(player_pos.y)))
 				_draw_player(_game->state->get_player_facing(), tile_x, reverse_y - tile_y, scaling);
 
@@ -162,7 +162,7 @@ auto Sorcery::AutoMap::_draw_player(MapDirection direction, int x, int y, float 
 }
 
 // TODO
-auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling) -> void {
+auto Sorcery::AutoMap::_draw_tile(Tile &tile, Coordinate loc, int x, int y, float scaling) -> void {
 
 	{
 		sf::Sprite bg{
@@ -174,7 +174,8 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, int x, int y, float scaling) -> vo
 		_sprites.emplace_back(bg);
 	}
 
-	if (tile.is(TileProperty::EXPLORED)) {
+	if (_game->state->explored[_game->state->get_depth()].at(loc)) {
+		// if (tile.is(TileProperty::EXPLORED)) {
 
 		sf::Sprite bg_explored{
 			_graphics->textures

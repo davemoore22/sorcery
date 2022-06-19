@@ -85,12 +85,13 @@ namespace Sorcery {
 		auto _turn_left() -> void;
 		auto _turn_right() -> void;
 		auto _teleport_if() -> bool;
-		auto _stairs_if() const -> bool;
+		auto _stairs_if() -> bool;
 		auto _spinner_if() const -> bool;
 		auto _pit_if() -> bool;
 		auto _chute_if() -> bool;
 		auto _elevator_if() -> bool;
-
+		auto _tile_explored(const Coordinate loc) const -> bool;
+		auto _set_tile_explored(const Coordinate loc) -> void;
 		auto _reset_direction_indicator() -> void;
 		auto _update_direction_indicator_timer() -> void;
 

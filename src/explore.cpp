@@ -49,7 +49,7 @@ auto Sorcery::Explore::reset() -> void {
 }
 auto Sorcery::Explore::set(const Coordinate loc) -> void {
 
-	_tiles.at(loc) = true;
+	_tiles.insert({loc, true});
 }
 auto Sorcery::Explore::unset(const Coordinate loc) -> void {
 
