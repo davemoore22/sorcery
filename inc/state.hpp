@@ -23,6 +23,7 @@
 // the resulting work.
 
 #include "character.hpp"
+#include "explore.hpp"
 #include "level.hpp"
 #include "main.hpp"
 #include "system.hpp"
@@ -39,12 +40,13 @@ namespace Sorcery {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_version, _party, level, _player_depth, _player_pos, _playing_facing, _lit);
+			archive(_version, _party, level, explored, _player_depth, _player_pos, _playing_facing, _lit);
 		}
 
 		// Public Members
 		bool valid;
 		std::unique_ptr<Level> level; // current level
+		std::map<int, Explore> explored;
 
 		// Public Methods
 		auto add_character_by_id(unsigned int char_id) -> bool;
@@ -71,6 +73,7 @@ namespace Sorcery {
 	  private:
 		// Private Methods
 		auto _clear() -> void;
+		auto _clear_explored() -> void;
 		auto _restart_expedition() -> void;
 
 		// Private Members

@@ -53,7 +53,7 @@ namespace Sorcery {
 
 	  private:
 		// Private Members
-		std::map<Coordinate, Bool> _tiles;
+		std::map<Coordinate, bool> _tiles;
 	};
 
 } // namespace Sorcery

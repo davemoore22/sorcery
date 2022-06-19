@@ -47,7 +47,15 @@ auto Sorcery::State::_clear() -> void {
 		level.reset();
 	}
 	level = std::make_unique<Level>();
+	_clear_explored();
 	_version = SAVE_VERSION;
+}
+
+auto Sorcery::State::_clear_explored() -> void {
+
+	// TODO: handle different depths etc
+	for (int depth = -1; depth >= -10; depth--)
+		explored.try_emplace(depth, Explore{});
 }
 
 auto Sorcery::State::restart_expedition() -> void {

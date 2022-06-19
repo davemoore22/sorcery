@@ -1258,8 +1258,9 @@
 1655073085 source:/home/dave/Development/wizardry/sorcery-sfml/src/temple.cpp
 	"temple.hpp"
 
-1655499099 /home/dave/Development/wizardry/sorcery-sfml/inc/state.hpp
+1655654673 /home/dave/Development/wizardry/sorcery-sfml/inc/state.hpp
 	"character.hpp"
+	"explore.hpp"
 	"level.hpp"
 	"main.hpp"
 	"system.hpp"
@@ -1535,4 +1536,7 @@
 
 1655591975 source:/home/dave/Development/wizardry/sorcery-sfml/src/buffbar.cpp
 	"buffbar.hpp"
+
+1655655390 /home/dave/Development/wizardry/sorcery-sfml/inc/explore.hpp
+	"main.hpp"
 
