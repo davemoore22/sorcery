@@ -1,8 +1,8 @@
 {
 	"export": {
 		"from": "2022.5",
-		"date": "2022-06-18",
-		"time": "01:20:56"
+		"date": "2022-06-25",
+		"time": "22:26:43"
 	},
 	"regions": [
 		{
@@ -1658,7 +1658,7 @@
 							"x": 0,
 							"y": 0,
 							"monospaced": false,
-							"__data": "Inscribed on an ornate gold plaque is a message. The script is ornate, and blinks in various colours: \"You are trespassing on the domain of **Werdna**. There is no possibility that you can get past my guardians! So sure am I of my defenses that I give you this clue:  \"Contra-Dextra Avenue\" PS - Trebor sux!\""
+							"__data": "Inscribed on an ornate gold plaque is a message. The script is ornate, and blinks in various colours:@\"You are trespassing on the domain of **Werdna**. There is no possibility that you can get past my guardians! So sure am I of my defenses that I give you this clue: @\"Contra-Dextra Avenue\"@@PS - Trebor sux!\""
 						},
 						{
 							"x": 1,
@@ -1706,7 +1706,7 @@
 							"x": 17,
 							"y": 4,
 							"monospaced": false,
-							"__data": "A discreet sign on the wall reads: Lair of the evil wizard Werdna! Office hours 9am to 3pm by appointment onl \nThe wizard is *in*!"
+							"__data": "A discreet sign on the wall reads:@Lair of the evil wizard Werdna!@Office hours 9am to 3pm by appointment onl@The wizard is *in*!"
 						},
 						{
 							"x": 17,
@@ -11827,13 +11827,13 @@
 							"x": 10,
 							"y": 14,
 							"monospaced": false,
-							"__data": "A sign on the door reads: *** Testing grounds control center *** Authorized personnel only! << Do not enter >>"
+							"__data": "A sign on the door reads:@*** Testing grounds control center ***@Authorized personnel only!@<< Do not enter >>"
 						},
 						{
 							"x": 10,
 							"y": 2,
 							"monospaced": false,
-							"__data": "A sign on the door reads: Private express service elevator! Authorized users only!"
+							"__data": "A sign on the door reads:@Private express service elevator!@Authorized users only!"
 						},
 						{
 							"x": 10,
@@ -11845,7 +11845,7 @@
 							"x": 12,
 							"y": 15,
 							"monospaced": false,
-							"__data": "A sign on the door reads: \"Monster Allocation Center\""
+							"__data": "A sign on the door reads:@\"Monster Allocation Center\""
 						},
 						{
 							"x": 11,
@@ -11857,13 +11857,13 @@
 							"x": 11,
 							"y": 10,
 							"monospaced": false,
-							"__data": "As the party enters the room, the door slams shut, glows orange and vanishes! A door appears to the right. A voice, coming from the ceiling addresses you: \"Congratulations, brave adventurers! Today you have proved yourself to me and are now ready to start your quest! Years ago, my amulet was stolen by the evil wizard Werdnat.  Werdna hides in the maze somewhere below us. Find him; slay him; and return to me the amulet!\n\nTo aid you in your quest, I will give you a blue ribbon, which may be used to enter the elevator on this floor. Go now -- And may the gods guide you!\""
+							"__data": "As the party enters the room, the door slams shut, glows orange and vanishes! A door appears to the right. A voice, coming from the ceiling addresses you: \"Congratulations, brave adventurers! Today you have proved yourself to me and are now ready to start your quest! Years ago, my amulet was stolen by the evil wizard Werdnat.  Werdna hides in the maze somewhere below us. Find him; slay him; and return to me the amulet! To aid you in your quest, I will give you a blue ribbon, which may be used to enter the elevator on this floor. Go now -- And may the gods guide you!\""
 						},
 						{
 							"x": 8,
 							"y": 15,
 							"monospaced": false,
-							"__data": "A sign on the door reads: \"Treasure repository.\""
+							"__data": "A sign on the door reads:@\"Treasure repository.\""
 						},
 						{
 							"x": 10,
@@ -13317,25 +13317,19 @@
 							"x": 15,
 							"y": 15,
 							"monospaced": false,
-							"__data": "The floor has a mosaic reading: \"Turn around.\""
+							"__data": "The floor has a mosaic reading:@\"Turn around.\""
 						},
 						{
 							"x": 0,
 							"y": 15,
 							"monospaced": false,
-							"__data": "The floor has a mosaic reading: \"Turn left.\""
+							"__data": "The floor has a mosaic reading:@\"Turn left.\""
 						},
 						{
 							"x": 15,
 							"y": 7,
 							"monospaced": false,
-							"__data": "The floor has a mosaic reading: \"Turn left.\""
-						},
-						{
-							"x": 0,
-							"y": 3,
-							"monospaced": false,
-							"__data": "Turn around"
+							"__data": "The floor has a mosaic reading:@\"Turn left.\""
 						},
 						{
 							"x": 10,
@@ -13347,55 +13341,37 @@
 							"x": 10,
 							"y": 15,
 							"monospaced": false,
-							"__data": "The floor has a mosaic reading: \"Turn around.\""
+							"__data": "The floor has a mosaic reading:@\"Turn around.\""
 						},
 						{
 							"x": 5,
 							"y": 15,
 							"monospaced": false,
-							"__data": "The floor has a mosaic reading: \"Turn right.\""
-						},
-						{
-							"x": 0,
-							"y": 19,
-							"monospaced": false,
-							"__data": "Turn around"
-						},
-						{
-							"x": 10,
-							"y": 19,
-							"monospaced": false,
-							"__data": "Turn around"
-						},
-						{
-							"x": 15,
-							"y": 3,
-							"monospaced": false,
-							"__data": "Turn around"
+							"__data": "The floor has a mosaic reading:@\"Turn right.\""
 						},
 						{
 							"x": 10,
 							"y": 3,
 							"monospaced": false,
-							"__data": "The floor has a mosaic reading: \"Turn right.\""
+							"__data": "The floor has a mosaic reading:@\"Turn right.\""
 						},
 						{
 							"x": 10,
 							"y": 7,
 							"monospaced": false,
-							"__data": "The floor has a mosaic reading: \"Turn left.\""
+							"__data": "The floor has a mosaic reading:@\"Turn left.\""
 						},
 						{
 							"x": 5,
 							"y": 7,
 							"monospaced": false,
-							"__data": "The floor has a mosaic reading: \"Turn right.\""
+							"__data": "The floor has a mosaic reading:@\"Turn right.\""
 						},
 						{
 							"x": 5,
 							"y": 3,
 							"monospaced": false,
-							"__data": "The floor has a mosaic reading: \"Turn around.\""
+							"__data": "The floor has a mosaic reading:@\"Turn around.\""
 						},
 						{
 							"x": 15,
@@ -14003,8 +13979,7 @@
 									},
 									{
 										"r": 1,
-										"b": 2,
-										"m": 25
+										"b": 2
 									},
 									{
 									},
@@ -14078,7 +14053,8 @@
 									},
 									{
 										"r": 1,
-										"b": 2
+										"b": 2,
+										"m": 25
 									},
 									{
 										"b": 1
@@ -14873,16 +14849,10 @@
 							"__data": "You see a statue of a bear on a pedestal. On the wall is a sign reading \"I've got a million of 'em.\""
 						},
 						{
-							"x": 4,
-							"y": 12,
-							"monospaced": false,
-							"__data": "Nobody in the party can break the door down"
-						},
-						{
 							"x": 12,
 							"y": 4,
 							"monospaced": false,
-							"__data": "On a silvery disk stands a statue of a frog wearing a red and blue cape. The statue animates and shakes its legs while it yells \"Yeah.... Yeah..."
+							"__data": "On a silvery disk stands a statue of a frog wearing a red and blue cape. The statue animates and shakes its legs while it yells \"Yeah.... Yeah...\""
 						},
 						{
 							"x": 4,
@@ -14906,19 +14876,19 @@
 							"x": 15,
 							"y": 11,
 							"monospaced": false,
-							"__data": "A placard near the ground reads: \"A dungeon's dark...\""
+							"__data": "A placard near the ground reads:@\"A dungeon's dark...\""
 						},
 						{
 							"x": 14,
 							"y": 11,
 							"monospaced": false,
-							"__data": "A placard near the ground reads: \"When it's not lit...\""
+							"__data": "A placard near the ground reads:@\"When it's not lit...\""
 						},
 						{
 							"x": 13,
 							"y": 11,
 							"monospaced": false,
-							"__data": "A placard near the ground reads: \"Watch out, or you'll...\""
+							"__data": "A placard near the ground reads:@\"Watch out, or you'll...\""
 						},
 						{
 							"x": 10,
@@ -14937,6 +14907,12 @@
 							"y": 15,
 							"monospaced": false,
 							"__data": "METADATA STAIRS TO -3 15 11"
+						},
+						{
+							"x": 4,
+							"y": 11,
+							"monospaced": false,
+							"__data": "Nobody in the party can break the door down."
 						}
 					]
 				},
@@ -16484,13 +16460,13 @@
 							"x": 9,
 							"y": 12,
 							"monospaced": false,
-							"__data": "A large sign on the wall reads: Area out of bounds!!!"
+							"__data": "A large sign on the wall reads:@**Area out of bounds!**"
 						},
 						{
 							"x": 13,
 							"y": 18,
 							"monospaced": false,
-							"__data": "In this room is a silver statue of a boar with horns and long fangs. On the wall by the statue is a message (partially obscured) that appeard to have been left by\npassing elves. It is hardly legible. But some comments warning bout ghosts and demons can still be made out."
+							"__data": "In this room is a silver statue of a boar with horns and long fangs. On the wall by the statue is a message (partially obscured) that appeard to have been left by\npassing elves. It is hardly legible. But some comments warning about ghosts and demons can still be made out."
 						},
 						{
 							"x": 13,
@@ -16532,7 +16508,7 @@
 							"x": 9,
 							"y": 19,
 							"monospaced": false,
-							"__data": "A strange glow seems to emanate from this room. In the center, a smallish man in a long robe turns towards the party and shouts \"Begone, strangers!\" He slowly waves his hands, and chants \"mapiro mahama diromat!!!\""
+							"__data": "A strange glow seems to emanate from this room. In the center, a smallish man in a long robe turns towards the party and shouts \"Begone, strangers!\" He slowly waves his hands, and chants \"mapiro mahama diromat!!\""
 						},
 						{
 							"x": 0,

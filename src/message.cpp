@@ -36,32 +36,69 @@ auto Sorcery::Message::update(TileNote tile_note) -> void {
 	_texts.clear();
 	_sprites.clear();
 
+	auto text_width{_frame_c.w - 4};
+	std::vector<std::string> output;
+
 	// Get the Window
 	_window = _display->window->get_window();
 
-	// Get the Text (strip out carriage returns)
+	// Get the text to display
 	const auto metadata_pos{_tile_note.text.find(" METADATA")};
 	auto stripped_text{_tile_note.text};
 	if (metadata_pos != std::string::npos)
 		stripped_text.erase(metadata_pos);
 
-	auto text_width{_frame_c.w - 4};
-	std::string message_text{};
-	message_text = std::regex_replace(stripped_text, std::regex("(\n)"), "@");
-
-	auto wrapped_text{WORDWRAP(message_text, text_width)};
-	std::transform(wrapped_text.begin(), wrapped_text.end(), wrapped_text.begin(), ::toupper);
-
-	// Split the Text into lines
 	const std::regex regex(R"([@]+)");
-	std::sregex_token_iterator it{wrapped_text.begin(), wrapped_text.end(), regex, -1};
+
+	// Split into seperate lines if we have any delimiters (the @ character)
+	std::sregex_token_iterator it{stripped_text.begin(), stripped_text.end(), regex, -1};
 	std::vector<std::string> split{it, {}};
 	split.erase(std::remove_if(split.begin(), split.end(),
 					[](std::string_view s) {
 						return s.size() == 0;
 					}),
 		split.end());
-	_strings = split;
+
+	if (split.size() > 1) {
+
+		for (auto &text : split) {
+
+			auto wrapped_text{WORDWRAP(text, text_width)};
+			text = wrapped_text;
+
+			std::sregex_token_iterator it_sub{text.begin(), text.end(), regex, -1};
+
+			std::vector<std::string> sub_split{it_sub, {}};
+			sub_split.erase(std::remove_if(sub_split.begin(), sub_split.end(),
+								[](std::string_view s) {
+									return s.size() == 0;
+								}),
+				sub_split.end());
+
+			for (auto &sub_text : sub_split) {
+				std::transform(sub_text.begin(), sub_text.end(), sub_text.begin(), ::toupper);
+				output.emplace_back(sub_text);
+			}
+		}
+	} else {
+		auto wrapped_text{WORDWRAP(split[0], text_width)};
+
+		std::sregex_token_iterator it_sub{wrapped_text.begin(), wrapped_text.end(), regex, -1};
+
+		std::vector<std::string> sub_split{it_sub, {}};
+		sub_split.erase(std::remove_if(sub_split.begin(), sub_split.end(),
+							[](std::string_view s) {
+								return s.size() == 0;
+							}),
+			sub_split.end());
+
+		for (auto &sub_text : sub_split) {
+			std::transform(sub_text.begin(), sub_text.end(), sub_text.begin(), ::toupper);
+			output.emplace_back(sub_text);
+		}
+	}
+
+	_strings = output;
 
 	// Now work out the vertical size of the Frame
 	auto frame_h{static_cast<unsigned int>(_strings.size())};
