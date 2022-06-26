@@ -70,8 +70,6 @@ namespace Sorcery {
 		auto set(const TileFeature feature) -> void;
 		auto set(const TileProperty property) -> void;
 		auto set(const MapDirection direction, TileEdge new_wall) -> void;
-		auto set(const std::optional<TileEdge> north, const std::optional<TileEdge> south,
-			const std::optional<TileEdge> east, const std::optional<TileEdge> west) -> void;
 		auto set(const std::optional<Coordinate> location);
 		auto set_explored() -> void;
 		auto set_teleport(Teleport teleport) -> void;

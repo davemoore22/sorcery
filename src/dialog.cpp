@@ -303,9 +303,6 @@ auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WindowDialo
 	return std::nullopt;
 }
 
-auto Sorcery::Dialog::toggle_next() -> WindowDialogButton {}
-auto Sorcery::Dialog::toggle_previous() -> WindowDialogButton {}
-
 auto Sorcery::Dialog::toggle_highlighted() -> WindowDialogButton {
 
 	switch (_type) {

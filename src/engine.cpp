@@ -226,13 +226,8 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 		_show_confirm_stairs = true;
 		_game->state->set_player_facing(MapDirection::NORTH);
 		_game->state->set_lit(false);
-		auto &this_tile{_game->state->level->at(_game->state->get_player_pos())};
 		if (!_tile_explored(_game->state->get_player_pos()))
 			_set_tile_explored(_game->state->get_player_pos());
-
-		// if (!this_tile.is(TileProperty::EXPLORED))
-		//	this_tile.set(TileProperty::EXPLORED);
-
 	} else
 		_show_confirm_stairs = false;
 
@@ -276,9 +271,7 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 				_game->state->set_current_level(&level);
 				_game->state->set_player_pos(destination.to_loc);
 				_game->state->set_depth(dest_level);
-				auto &next_tile{_game->state->level->at(destination.to_loc)};
 				_set_tile_explored(_game->state->get_player_pos());
-				// next_tile.set_explored();
 				_update_automap = true;
 				_update_compass = true;
 				_update_buffbar = true;
@@ -295,8 +288,6 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 				Level level{((*_game->levelstore)[_destination_floor]).value()};
 				_game->state->set_current_level(&level);
 				_game->state->set_depth(_destination_floor);
-				auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
-				// next_tile.set_explored();
 				_set_tile_explored(_game->state->get_player_pos());
 				_update_automap = true;
 				_update_compass = true;
@@ -416,6 +407,14 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 				_display->set_input_mode(WindowInputMode::IN_GAME);
 				return CONTINUE;
 			} else if (option_chosen == MenuItem::CP_SAVE) {
+
+				auto party{_game->state->get_party_characters()};
+				for (auto &[character_id, character] : _game->characters) {
+					if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+						character.location = CharacterLocation::MAZE;
+					}
+				}
+				_game->state->clear_party();
 				_game->save_game();
 				return EXIT_MODULE;
 			} else if (option_chosen == MenuItem::QUIT) {
@@ -607,10 +606,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		auto dest_level{_game->state->get_depth() - 1};
 		Level level{((*_game->levelstore)[dest_level]).value()};
 		_game->state->set_current_level(&level);
-		auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
 		_game->state->set_depth(dest_level);
 		_set_tile_explored(_game->state->get_player_pos());
-		// next_tile.set_explored();
 		_update_automap = true;
 		_update_compass = true;
 		_update_buffbar = true;
@@ -620,10 +617,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		auto dest_level{_game->state->get_depth() + 1};
 		Level level{((*_game->levelstore)[dest_level]).value()};
 		_game->state->set_current_level(&level);
-		auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
 		_game->state->set_depth(dest_level);
 		_set_tile_explored(_game->state->get_player_pos());
-		// next_tile.set_explored();
 		_update_automap = true;
 		_update_compass = true;
 		_update_buffbar = true;

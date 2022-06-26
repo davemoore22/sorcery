@@ -54,15 +54,20 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 	_version = SAVE_VERSION;
 
 	_legated = false;
+
+	location = CharacterLocation::INN;
+	coordinate = std::nullopt;
+	depth = -4;
 }
 
 // Note for the copy constuctors we only copy the character data/PODs within
 Sorcery::Character::Character(const Character &other)
-	: _version{other._version}, _system{other._system}, _display{other._display}, _graphics{other._graphics},
-	  _abilities{other._abilities}, _priest_max_sp{other._priest_max_sp}, _priest_cur_sp{other._priest_cur_sp},
-	  _mage_max_sp{other._mage_max_sp}, _mage_cur_sp{other._mage_cur_sp}, _spells{other._spells},
-	  _spells_known{other._spells_known}, _current_stage{other._current_stage}, _name{other._name}, _race{other._race},
-	  _class{other._class}, _alignment{other._alignment}, _start_attr{other._start_attr}, _cur_attr{other._cur_attr},
+	: location{other.location}, coordinate{other.coordinate}, depth{other.depth}, _version{other._version},
+	  _system{other._system}, _display{other._display}, _graphics{other._graphics}, _abilities{other._abilities},
+	  _priest_max_sp{other._priest_max_sp}, _priest_cur_sp{other._priest_cur_sp}, _mage_max_sp{other._mage_max_sp},
+	  _mage_cur_sp{other._mage_cur_sp}, _spells{other._spells}, _spells_known{other._spells_known},
+	  _current_stage{other._current_stage}, _name{other._name}, _race{other._race}, _class{other._class},
+	  _alignment{other._alignment}, _start_attr{other._start_attr}, _cur_attr{other._cur_attr},
 	  _max_attr{other._max_attr}, _view{other._view}, _points_left{other._points_left}, _st_points{other._st_points},
 	  _pos_classes{other._pos_classes}, _class_list{other._class_list}, _num_pos_classes{other._num_pos_classes},
 	  _portrait_index{other._portrait_index}, _status{other._status}, _hidden{other._hidden},
@@ -73,6 +78,10 @@ Sorcery::Character::Character(const Character &other)
 }
 
 auto Sorcery::Character::operator=(const Character &other) -> Character & {
+
+	location = other.location;
+	coordinate = other.coordinate;
+	depth = other.depth;
 
 	_version = other._version;
 
@@ -119,6 +128,10 @@ Sorcery::Character::Character(Character &&other) noexcept {
 
 	if (this != &other) {
 
+		location = other.location;
+		coordinate = other.coordinate;
+		depth = other.depth;
+
 		_version = other._version;
 
 		_system = other._system;
@@ -155,6 +168,10 @@ Sorcery::Character::Character(Character &&other) noexcept {
 
 		_spell_panel = std::move(other._spell_panel);
 		_spell_panel_c = std::move(other._spell_panel_c);
+
+		other.location = CharacterLocation::NONE;
+		other.coordinate = std::nullopt;
+		other.depth = std::nullopt;
 
 		other._version = 0;
 
@@ -199,6 +216,10 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 
 	if (this != &other) {
 
+		location = other.location;
+		coordinate = other.coordinate;
+		depth = other.depth;
+
 		_version = other._version;
 
 		_system = other._system;
@@ -235,6 +256,10 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 
 		_spell_panel = std::move(other._spell_panel);
 		_spell_panel_c = std::move(other._spell_panel_c);
+
+		other.location = CharacterLocation::NONE;
+		other.coordinate = std::nullopt;
+		other.depth = std::nullopt;
 
 		other._version = 0;
 
@@ -879,6 +904,10 @@ auto Sorcery::Character::legate(const CharacterAlignment &value) -> void {
 	_set_starting_sp();
 	set_status(CharacterStatus::OK);
 	_legated = true;
+
+	location = CharacterLocation::INN;
+	coordinate = std::nullopt;
+	depth = std::nullopt;
 }
 
 // Change Class

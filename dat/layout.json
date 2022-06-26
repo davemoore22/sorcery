@@ -3608,7 +3608,7 @@
 		{
 			"name": "menu_frame",
 			"w": "36",
-			"h": "6",
+			"h": "7",
 			"x": "centre",
 			"y": "10",
 			"alpha": "225",
@@ -3622,7 +3622,7 @@
 			"x": "22",
 			"y": "10",
 			"w": "36",
-			"h": "4",
+			"h": "5",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",

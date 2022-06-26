@@ -299,12 +299,16 @@ auto Sorcery::Tile::has_teleport() const -> std::optional<Teleport> {
 
 	if (_teleport)
 		return _teleport.value();
+    else
+        return std::nullopt;
 }
 
 auto Sorcery::Tile::has_stairs() const -> std::optional<Teleport> {
 
 	if (_stairs)
 		return _stairs.value();
+    else
+        return std::nullopt;
 }
 
 auto Sorcery::Tile::set_teleport(Teleport teleport) -> void {
@@ -321,15 +325,14 @@ auto Sorcery::Tile::has_elevator() const -> std::optional<Elevator> {
 
 	if (_elevator)
 		return _elevator.value();
+    else
+        return std::nullopt;
 }
 
 auto Sorcery::Tile::set_elevator(Elevator elevator) -> void {
 
 	_elevator = elevator;
 }
-
-auto Sorcery::Tile::set(const std::optional<TileEdge> north, const std::optional<TileEdge> south,
-	const std::optional<TileEdge> east, const std::optional<TileEdge> west) -> void {}
 
 auto Sorcery::Tile::set(const std::optional<Coordinate> location) {
 

@@ -74,6 +74,7 @@ namespace Sorcery {
 		auto _load_levels() -> void;
 		auto _get_characters() -> std::map<unsigned int, Character>;
 		auto _save_characters() -> void;
+		auto _update_party_location() -> void;
 
 		// Private Members
 		System *_system;

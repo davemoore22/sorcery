@@ -43,6 +43,15 @@ Sorcery::Training::~Training() {}
 
 auto Sorcery::Training::start() -> std::optional<MenuItem> {
 
+	// Remove all characters from party as is tradition
+	for (auto &[character_id, character] : _game->characters) {
+		if (character.location == CharacterLocation::PARTY) {
+			character.location = CharacterLocation::INN;
+			character.coordinate = std::nullopt;
+			character.depth = std::nullopt;
+		}
+	}
+
 	// Get the Background Display Components and load them into Display module
 	// storage (not local)
 	_display->generate("training_grounds");

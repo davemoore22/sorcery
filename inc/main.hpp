@@ -60,6 +60,8 @@
 #include "cereal/types/unordered_map.hpp"
 #include "cereal/types/vector.hpp"
 // clang-format on
+#define MAGIC_ENUM_RANGE_MIN -1 // https://github.com/Neargye/magic_enum/blob/master/doc/limitations.md
+#define MAGIC_ENUM_RANGE_MAX 255
 #include "magicenum/magic_enum.hpp"
 #include "sfeMovie/Movie.hpp"
 #include "sqlitemoderncpp/sqlite_modern_cpp.h"
@@ -134,6 +136,7 @@ namespace Sorcery {
 	using CharacterStage = Enums::Character::Stage;
 	using CharacterStatus = Enums::Character::CStatus;
 	using CharacterView = Enums::Character::View;
+	using CharacterLocation = Enums::Character::Location;
 	using ComponentData = std::pair<std::string, std::string>;
 	using ComponentElement = Enums::Window::ComponentElement;
 	using ComponentType = Enums::Window::ComponentType;

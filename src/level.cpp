@@ -27,6 +27,8 @@
 // Default Constructor
 Sorcery::Level::Level() {
 
+	_size.w = 20;
+	_size.h = 20;
 	_create();
 }
 
@@ -359,6 +361,8 @@ auto Sorcery::Level::_load_markers(const Json::Value row_data) -> bool {
 			_update_tile_markers(Coordinate{x, y}, darkness, marker, terrain);
 		}
 	}
+
+	return true;
 }
 
 auto Sorcery::Level::_set_complicated_walls(const Json::Value row_data) -> bool {

@@ -404,6 +404,15 @@ namespace Sorcery {
 	// Character Stuff
 	namespace Enums::Character {
 
+		enum class Location {
+
+			NONE = -1,
+			PARTY = 0,
+			INN = 1,
+			TEMPLE = 2,
+			MAZE = 3
+		};
+
 		// State of Character Creation
 		enum class Stage {
 			NONE,
@@ -703,6 +712,7 @@ namespace Sorcery {
 			ET_TRAIN,
 			ET_MAZE,
 			ET_LEAVE_GAME,
+			ET_RESTART,
 			TR_CREATE,
 			TR_EDIT,
 			TR_DELETE,

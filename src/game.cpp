@@ -177,9 +177,9 @@ auto Sorcery::Game::_save_game() -> void {
 }
 
 auto Sorcery::Game::_save_characters() -> void {
-
 	for (const auto &[character_id, character] : characters) {
 
+		_update_party_location();
 		std::stringstream ss;
 		{
 			cereal::JSONOutputArchive archive(ss);
@@ -188,6 +188,17 @@ auto Sorcery::Game::_save_characters() -> void {
 		const auto character_data{ss.str()};
 
 		_system->database->update_character(_id, character_id, character.get_name(), character_data);
+	}
+}
+
+auto Sorcery::Game::_update_party_location() -> void {
+
+	auto party{state->get_party_characters()};
+	for (auto &[character_id, character] : characters) {
+		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+			character.depth = state->get_depth();
+			character.coordinate = state->get_player_pos();
+		}
 	}
 }
 

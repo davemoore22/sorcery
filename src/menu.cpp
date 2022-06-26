@@ -106,7 +106,8 @@ Sorcery::Menu::Menu(
 		_add_item(0, MenuItemType::ENTRY, MenuItem::ET_CASTLE, (*_display->string)["MENU_CASTLE"]);
 		_add_item(1, MenuItemType::ENTRY, MenuItem::ET_TRAIN, (*_display->string)["MENU_TRAIN"]);
 		_add_item(2, MenuItemType::ENTRY, MenuItem::ET_MAZE, (*_display->string)["MENU_MAZE"]);
-		_add_item(3, MenuItemType::ENTRY, MenuItem::ET_LEAVE_GAME, (*_display->string)["MENU_LEAVE_GAME"]);
+		_add_item(3, MenuItemType::ENTRY, MenuItem::ET_RESTART, (*_display->string)["MENU_RESTART"]);
+		_add_item(4, MenuItemType::ENTRY, MenuItem::ET_LEAVE_GAME, (*_display->string)["MENU_LEAVE_GAME"]);
 		selected = items.begin();
 		break;
 	case MenuType::TAVERN:
@@ -930,9 +931,12 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		auto party{_game->state->get_party_characters()};
 		for (auto &[character_id, character] : _game->characters) {
 			if (std::find(party.begin(), party.end(), character_id) == party.end()) {
-				_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
-				++max_id;
-				++count;
+				// TODO:: good and evil exclusion if in strict mode
+				if (character.location == CharacterLocation::INN) {
+					_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
+					++max_id;
+					++count;
+				}
 			}
 		}
 
