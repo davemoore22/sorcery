@@ -110,52 +110,35 @@ auto Sorcery::Restart::start() -> std::optional<MenuItem> {
 
 						// Find the location and floor of the character pointed to, and reload the maze, repopulate the
 						// party and restart the game from there
+						const auto character_chosen{(*selected.value()).index};
+						auto character{&_game->characters.at(character_chosen)};
+						auto to_depth{character->depth};
+						auto to_loc{character->coordinate};
+
+						_game->state->clear_party();
+						for (auto &[character_id, character] : _game->characters) {
+							if ((character.depth == to_depth) && (character.coordinate == to_loc) &&
+								(character.location == CharacterLocation::MAZE)) {
+								character.location = CharacterLocation::PARTY;
+								_game->state->add_character_by_id(character_id);
+							}
+
+							auto engine{std::make_unique<Engine>(_system, _display, _graphics, _game)};
+							auto result{engine->start()};
+							if (result == EXIT_ALL) {
+								_game->save_game();
+								_game->state->set_depth(to_depth.value());
+								_game->state->set_player_pos(to_loc.value());
+								engine->stop();
+								_display->shutdown_SFML();
+								return MenuItem::ABORT;
+							}
+
+							_game->save_game();
+							engine->stop();
+						}
 					}
 				}
-
-				// We have selected something from the menu
-				/* if (selected) {
-					const MenuItem option_chosen{(*selected.value()).item};
-					if (option_chosen == MenuItem::TR_EDGE_OF_TOWN) {
-						return MenuItem::ET_LEAVE_GAME;
-					} else if (option_chosen == MenuItem::TR_CREATE) {
-						auto result{_create->start()};
-						if (result && result.value() == MenuItem::ABORT) {
-							_create->stop();
-							return MenuItem::ABORT;
-						}
-						_create->stop();
-						_display->generate("training_grounds");
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-					} else if (option_chosen == MenuItem::TR_INSPECT) {
-						auto result{_inspect->start()};
-						if (result && result.value() == MenuItem::ABORT) {
-							_inspect->stop();
-							return MenuItem::ABORT;
-						}
-						_inspect->stop();
-						_display->generate("roster_inspect");
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-					} else if (option_chosen == MenuItem::TR_EDIT) {
-						auto result{_edit->start()};
-						if (result && result.value() == MenuItem::ABORT) {
-							_edit->stop();
-							return MenuItem::ABORT;
-						}
-						_edit->stop();
-						_display->generate("roster_edit");
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-					} else if (option_chosen == MenuItem::TR_DELETE) {
-						auto result{_delete->start()};
-						if (result && result.value() == MenuItem::ABORT) {
-							_delete->stop();
-							return MenuItem::ABORT;
-						}
-						_delete->stop();
-						_display->generate("roster_delete");
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-					}
-				} */
 			}
 		}
 
