@@ -33,6 +33,7 @@
 #include "layout.hpp"
 #include "main.hpp"
 #include "menu.hpp"
+#include "restart.hpp"
 #include "statusbar.hpp"
 #include "system.hpp"
 #include "training.hpp"
@@ -72,5 +73,6 @@ namespace Sorcery {
 		std::unique_ptr<Dialog> _leave_game;
 		std::unique_ptr<Training> _training;
 		std::unique_ptr<StatusBar> _status_bar;
+		std::unique_ptr<Restart> _restart;
 	};
 } // namespace Sorcery

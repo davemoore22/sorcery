@@ -191,6 +191,7 @@
 		<Unit filename="inc/render.hpp" />
 		<Unit filename="inc/reorder.hpp" />
 		<Unit filename="inc/resourcemanager.hpp" />
+		<Unit filename="inc/restart.hpp" />
 		<Unit filename="inc/roster.hpp" />
 		<Unit filename="inc/shop.hpp" />
 		<Unit filename="inc/spellpanel.hpp" />
@@ -266,6 +267,7 @@
 		<Unit filename="src/render.cpp" />
 		<Unit filename="src/reorder.cpp" />
 		<Unit filename="src/resourcemanager.cpp" />
+		<Unit filename="src/restart.cpp" />
 		<Unit filename="src/roster.cpp" />
 		<Unit filename="src/shop.cpp" />
 		<Unit filename="src/spellpanel.cpp" />

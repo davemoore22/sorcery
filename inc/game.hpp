@@ -63,6 +63,7 @@ namespace Sorcery {
 		auto hide_console() -> void;
 		auto toggle_console() -> void;
 		auto get_console_status() const -> bool;
+		auto has_party_in_maze() const -> bool;
 
 	  private:
 		// Private Methods

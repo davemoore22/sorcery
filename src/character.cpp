@@ -57,7 +57,7 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 
 	location = CharacterLocation::INN;
 	coordinate = std::nullopt;
-	depth = -4;
+	depth = std::nullopt;
 }
 
 // Note for the copy constuctors we only copy the character data/PODs within
@@ -357,6 +357,12 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 auto Sorcery::Character::get_name() const -> std::string {
 
 	return _name;
+}
+
+auto Sorcery::Character::get_name_and_location() const -> std::string {
+
+	return fmt::format(
+		"{:<16} B{}F {:>2}N/{:>2}E", _name, std::abs(depth.value()), coordinate.value().y, coordinate.value().x);
 }
 
 auto Sorcery::Character::set_name(std::string_view value) -> void {

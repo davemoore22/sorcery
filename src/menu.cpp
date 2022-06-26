@@ -43,6 +43,7 @@ Sorcery::Menu::Menu(
 	case MenuType::AVAILABLE_CHARACTERS:
 	case MenuType::INVALID_CHARACTERS:
 	case MenuType::PARTY_CHARACTER_NAMES:
+	case MenuType::RESTART_EXPEDITION:
 		_populate_chars();
 		selected = items.begin();
 		break;
@@ -882,6 +883,21 @@ auto Sorcery::Menu::_populate_chars() -> void {
 			}
 		}
 
+	} break;
+	case MenuType::RESTART_EXPEDITION: {
+
+		_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["RESTART_TEXT_1"]);
+		_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["RESTART_TEXT_2"]);
+		_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+		for (auto [character_id, character] : _game->characters) {
+			if (character.location == CharacterLocation::MAZE)
+				_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER,
+					_game->characters[character_id].get_name_and_location());
+			++max_id;
+		}
+		_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+		_add_item(++max_id, MenuItemType::CANCEL, MenuItem::TR_EDGE_OF_TOWN,
+			(*_display->string)["RESTART_GROUNDS_MENU_OPTION_RETURN"]);
 	} break;
 	case MenuType::PARTY_CHARACTER_NAMES: {
 

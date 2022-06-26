@@ -903,6 +903,104 @@
 		]
 	},
 	{
+		"name": "restart_expedition",
+		"component": [
+		{
+
+			"name": "wallpaper",
+			"x": "0",
+			"y": "0",
+			"scale": "1.25",
+			"type": "image",
+			"priority": "1",
+			"texture": "background",
+			"drawmode": "manual"
+		},
+		{
+			"name": "frame",
+			"w": "50",
+			"h": "38",
+			"x": "centre",
+			"y": "2",
+			"alpha": "0",
+			"type": "frame",
+			"priority": "3",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "title_frame",
+			"w": "32",
+			"h": "2",
+			"x": "centre",
+			"y": "1",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "4",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "title_text",
+			"x": "centre",
+			"y": "2",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "RESTART_TITLE",
+			"justification": "centre",
+			"type": "text",
+			"priority": "4"
+		},
+		{
+			"name": "background",
+			"x": "centre",
+			"y": "2",
+			"scale": "1.25",
+			"type": "image",
+			"priority": "2",
+			"texture": "town",
+			"drawmode" : "automatic",
+			"data": [
+				{
+					"scale_x": "2.33",
+					"scale_y": "1.9",
+					"source_w": "440",
+					"source_h": "420",
+					"source_index": "1"
+				}
+			]
+
+		},
+		{
+			"name": "menu_frame",
+			"w": "36",
+			"h": "27",
+			"x": "centre",
+			"y": "8",
+			"alpha": "225",
+			"type": "frame",
+			"priority": "6",
+			"drawmode": "manual",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "menu",
+			"x": "22",
+			"y": "10",
+			"w": "36",
+			"h": "4",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"animated": "true",
+			"width": "36",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "menu",
+			"priority": "8"
+		}
+		]
+	},
+	{
 		"name": "roster",
 		"component": [
 			{

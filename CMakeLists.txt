@@ -74,6 +74,7 @@ add_executable(${PROJECT_NAME}
 	src/random.cpp
 	src/render.cpp
 	src/reorder.cpp
+	src/restart.cpp
 	src/resourcemanager.cpp
 	src/roster.cpp
 	src/shop.cpp

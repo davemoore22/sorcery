@@ -191,6 +191,17 @@ auto Sorcery::Game::_save_characters() -> void {
 	}
 }
 
+auto Sorcery::Game::has_party_in_maze() const -> bool {
+
+	for (auto &[character_id, character] : characters) {
+
+		if (character.location == CharacterLocation::MAZE)
+			return true;
+	}
+
+	return false;
+}
+
 auto Sorcery::Game::_update_party_location() -> void {
 
 	auto party{state->get_party_characters()};

@@ -623,7 +623,8 @@ namespace Sorcery {
 			PARTY_CHARACTER_NAMES,
 			CAMP,
 			ELEVATOR_A_D,
-			ELEVATOR_A_F
+			ELEVATOR_A_F,
+			RESTART_EXPEDITION
 		};
 
 		enum class Mode { NONE, TAVERN, TEMPLE, INN, SHOP, TRAINING, CAMP };

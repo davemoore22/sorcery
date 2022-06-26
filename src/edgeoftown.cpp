@@ -43,6 +43,7 @@ Sorcery::EdgeOfTown::EdgeOfTown(System *system, Display *display, Graphics *grap
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
 	_training = std::make_unique<Training>(_system, _display, _graphics, _game);
+	_restart = std::make_unique<Restart>(_system, _display, _graphics, _game);
 }
 
 // Standard Destructor
@@ -142,6 +143,12 @@ auto Sorcery::EdgeOfTown::start(bool go_directly_to_maze) -> std::optional<MenuI
 							_training->stop();
 							_display->generate("edge_of_town");
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						} else if (option_chosen == MenuItem::ET_RESTART) {
+
+							_restart->start();
+							_restart->stop();
+							_display->generate("edge_of_town");
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 						}
 					}
 				} else if ((_system->input->check(WindowInput::CANCEL, event)) ||
@@ -195,6 +202,12 @@ auto Sorcery::EdgeOfTown::_update_menus() -> void {
 		_menu->disable_entry(component, 2);
 	} else {
 		_menu->enable_entry(component, 2);
+	}
+
+	if (_game->has_party_in_maze()) {
+		_menu->enable_entry(component, 3);
+	} else {
+		_menu->disable_entry(component, 3);
 	}
 }
 
