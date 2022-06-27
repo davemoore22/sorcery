@@ -117,29 +117,31 @@ auto Sorcery::Restart::start() -> std::optional<MenuItem> {
 						auto to_loc{character->coordinate.value()};
 
 						_game->state->clear_party();
-						for (auto &[character_id, character] : _game->characters) {
-							if (character.location == CharacterLocation::MAZE) {
-								if ((character.depth.value() == to_depth) && (character.coordinate.value() == to_loc)) {
-									character.location = CharacterLocation::PARTY;
+						for (auto &[character_id, charact] : _game->characters) {
+							if (charact.location == CharacterLocation::MAZE) {
+								if ((charact.depth.value() == to_depth) && (charact.coordinate.value() == to_loc)) {
+									charact.location = CharacterLocation::PARTY;
 									_game->state->add_character_by_id(character_id);
 								}
 							}
-
-							auto engine{std::make_unique<Engine>(_system, _display, _graphics, _game)};
-							auto result{engine->start()};
-							if (result == EXIT_ALL) {
-								_game->save_game();
-								_game->state->set_depth(to_depth);
-								_game->state->set_player_pos(to_loc);
-								engine->stop();
-								_display->shutdown_SFML();
-								return MenuItem::ABORT;
-							}
-
-							engine->stop();
-							_update_menus();
-							return MenuItem::CANCEL;
 						}
+
+						_game->state->set_depth(to_depth);
+						_game->state->set_player_pos(to_loc);
+						auto engine{std::make_unique<Engine>(_system, _display, _graphics, _game)};
+						auto result{engine->start()};
+						if (result == EXIT_ALL) {
+							_game->save_game();
+							_game->state->set_depth(to_depth);
+							_game->state->set_player_pos(to_loc);
+							engine->stop();
+							_display->shutdown_SFML();
+							return MenuItem::ABORT;
+						}
+
+						engine->stop();
+						_update_menus();
+						return MenuItem::CANCEL;
 					}
 				}
 			}

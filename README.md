@@ -29,7 +29,7 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 * Character Creation (DONE)
 * Character Editing (DONE)
 * Town/Castle Menus (DONE)
-* Party Management (DONE)
+* Party/Expedition Management (DONE)
 * Maze Generation and Navigation (DONE)
 * Dungeon Features (DONE)
 * Automapping (DONE)
@@ -37,6 +37,7 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 * Creatures and NPCs (TO DO)
 * Magic and Combat (TO DO)
 * Strict (Legacy) Mode (TO DO)
+* 3D Rendering (TO DO)
 
 ## What next? (as of June 2020)
 
