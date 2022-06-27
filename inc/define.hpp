@@ -81,7 +81,6 @@ namespace Sorcery {
 	inline constexpr auto STRINGS_FILE{"strings.json"sv};
 	inline constexpr auto TEXTURES_FILE{"textures.json"sv};
 	inline constexpr auto VERSION_FILE{"VERSION"sv};
-	inline constexpr auto VIEW_FILE{"view.json"sv};
 
 	// Graphics
 	inline constexpr auto AUTOMAP_TEXTURE{"automap.png"sv};

@@ -1711,6 +1711,33 @@ src/resourcemanager.cpp.s:
 	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resourcemanager.cpp.s
 .PHONY : src/resourcemanager.cpp.s
 
+src/restart.o: src/restart.cpp.o
+
+.PHONY : src/restart.o
+
+# target to build an object file
+src/restart.cpp.o:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/restart.cpp.o
+.PHONY : src/restart.cpp.o
+
+src/restart.i: src/restart.cpp.i
+
+.PHONY : src/restart.i
+
+# target to preprocess a source file
+src/restart.cpp.i:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/restart.cpp.i
+.PHONY : src/restart.cpp.i
+
+src/restart.s: src/restart.cpp.s
+
+.PHONY : src/restart.s
+
+# target to generate assembly for a file
+src/restart.cpp.s:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/restart.cpp.s
+.PHONY : src/restart.cpp.s
+
 src/roster.o: src/roster.cpp.o
 
 .PHONY : src/roster.o
@@ -2355,6 +2382,9 @@ help:
 	@echo "... src/resourcemanager.o"
 	@echo "... src/resourcemanager.i"
 	@echo "... src/resourcemanager.s"
+	@echo "... src/restart.o"
+	@echo "... src/restart.i"
+	@echo "... src/restart.s"
 	@echo "... src/roster.o"
 	@echo "... src/roster.i"
 	@echo "... src/roster.s"
