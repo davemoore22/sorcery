@@ -30,8 +30,6 @@ Sorcery::Restart::Restart(System *system, Display *display, Graphics *graphics, 
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
-
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::RESTART_EXPEDITION);
 }
 
 // Standard Destructor
@@ -42,6 +40,9 @@ auto Sorcery::Restart::start() -> std::optional<MenuItem> {
 	// Get the Background Display Components and load them into Display module
 	// storage (not local)
 	_display->generate("restart_expedition");
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::RESTART_EXPEDITION);
+
+	_update_menus();
 
 	// Set up the Custom Components
 	const Component bg_c{(*_display->layout)["restart_expedition:background"]};
@@ -112,30 +113,32 @@ auto Sorcery::Restart::start() -> std::optional<MenuItem> {
 						// party and restart the game from there
 						const auto character_chosen{(*selected.value()).index};
 						auto character{&_game->characters.at(character_chosen)};
-						auto to_depth{character->depth};
-						auto to_loc{character->coordinate};
+						auto to_depth{character->depth.value()};
+						auto to_loc{character->coordinate.value()};
 
 						_game->state->clear_party();
 						for (auto &[character_id, character] : _game->characters) {
-							if ((character.depth == to_depth) && (character.coordinate == to_loc) &&
-								(character.location == CharacterLocation::MAZE)) {
-								character.location = CharacterLocation::PARTY;
-								_game->state->add_character_by_id(character_id);
+							if (character.location == CharacterLocation::MAZE) {
+								if ((character.depth.value() == to_depth) && (character.coordinate.value() == to_loc)) {
+									character.location = CharacterLocation::PARTY;
+									_game->state->add_character_by_id(character_id);
+								}
 							}
 
 							auto engine{std::make_unique<Engine>(_system, _display, _graphics, _game)};
 							auto result{engine->start()};
 							if (result == EXIT_ALL) {
 								_game->save_game();
-								_game->state->set_depth(to_depth.value());
-								_game->state->set_player_pos(to_loc.value());
+								_game->state->set_depth(to_depth);
+								_game->state->set_player_pos(to_loc);
 								engine->stop();
 								_display->shutdown_SFML();
 								return MenuItem::ABORT;
 							}
 
-							_game->save_game();
 							engine->stop();
+							_update_menus();
+							return MenuItem::CANCEL;
 						}
 					}
 				}
@@ -154,6 +157,16 @@ auto Sorcery::Restart::start() -> std::optional<MenuItem> {
 	}
 
 	return std::nullopt;
+}
+
+auto Sorcery::Restart::_update_menus() -> void {
+
+	if (_menu.get()) {
+		_menu.release();
+		_menu.reset();
+	}
+
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::RESTART_EXPEDITION);
 }
 
 auto Sorcery::Restart::stop() -> void {

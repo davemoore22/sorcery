@@ -414,8 +414,8 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 						character.location = CharacterLocation::MAZE;
 					}
 				}
-				_game->state->clear_party();
 				_game->save_game();
+				_game->state->clear_party();
 				return EXIT_MODULE;
 			} else if (option_chosen == MenuItem::QUIT) {
 				_show_confirm_exit = true;

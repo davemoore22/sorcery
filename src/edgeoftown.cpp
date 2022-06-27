@@ -149,6 +149,7 @@ auto Sorcery::EdgeOfTown::start(bool go_directly_to_maze) -> std::optional<MenuI
 							_restart->stop();
 							_display->generate("edge_of_town");
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+							_status_bar->refresh();
 						}
 					}
 				} else if ((_system->input->check(WindowInput::CANCEL, event)) ||
