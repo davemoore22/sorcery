@@ -77,6 +77,7 @@ add_executable(${PROJECT_NAME}
 	src/restart.cpp
 	src/resourcemanager.cpp
 	src/roster.cpp
+	src/search.cpp
 	src/shop.cpp
 	src/spellpanel.cpp
 	src/splash.cpp

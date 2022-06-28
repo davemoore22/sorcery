@@ -40,6 +40,7 @@
 #include "options.hpp"
 #include "render.hpp"
 #include "reorder.hpp"
+#include "search.hpp"
 #include "statusbar.hpp"
 #include "system.hpp"
 
@@ -124,6 +125,7 @@ namespace Sorcery {
 		std::unique_ptr<Message> _tile_note;
 		std::unique_ptr<Dialog> _confirm_stairs;
 		std::unique_ptr<BuffBar> _buffbar;
+		std::unique_ptr<Search> _search;
 		bool _in_camp;
 		bool _in_character;
 		bool _show_confirm_exit;
@@ -142,6 +144,7 @@ namespace Sorcery {
 		bool _update_icon_panels;
 		bool _update_status_bar;
 		bool _update_render;
+		bool _update_search;
 		bool _update_tile_note;
 		bool _exit_maze_now;
 		bool _pending_chute;

@@ -46,6 +46,30 @@
 			]
 		},
 		{
+			"name": "search",
+			"font": "text",
+			"size": "24",
+			"alpha": "220",
+			"colour": "0xffffffff",
+			"type": "panel",
+			"drawmode": "manual",
+			"background": "0x000000ff",
+			"scale": "0.15",
+			"w": "4",
+			"h": "4",
+			"x": "1",
+			"y": "20",
+			"data": [
+				{
+					"icon_colour": "0xffffff",
+					"offset_x": "16",
+					"offset_y": "12",
+					"offset_row": "32",
+					"icon_scaling": "0.15"
+				}
+			]
+		},
+		{
 			"name": "buffbar",
 			"font": "text",
 			"size": "24",
@@ -58,7 +82,7 @@
 			"w": "4",
 			"h": "12",
 			"x": "1",
-			"y": "10",
+			"y": "7",
 			"data": [
 				{
 					"icon_colour": "0xffffff",
