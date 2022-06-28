@@ -62,8 +62,8 @@
 			"data": [
 				{
 					"icon_colour": "0xffffff",
-					"offset_x": "16",
-					"offset_y": "12",
+					"offset_x": "20",
+					"offset_y": "16",
 					"offset_row": "32",
 					"icon_scaling": "0.15"
 				}

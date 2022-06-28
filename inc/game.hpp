@@ -64,6 +64,7 @@ namespace Sorcery {
 		auto toggle_console() -> void;
 		auto get_console_status() const -> bool;
 		auto has_party_in_maze() const -> bool;
+		auto get_characters_at_loc() const -> std::vector<unsigned int>;
 
 	  private:
 		// Private Methods

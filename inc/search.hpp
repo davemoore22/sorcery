@@ -59,5 +59,6 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _frame;
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Sprite> _sprites;
+		IconStorage _icons;
 	};
 } // namespace Sorcery

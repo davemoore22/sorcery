@@ -29,6 +29,7 @@ Sorcery::Search::Search(System *system, Display *display, Graphics *graphics, Ga
 
 	_sprites.clear();
 	_texts.clear();
+	_icons.clear();
 
 	// Set up Frame
 	if (_frame.get()) {
@@ -45,30 +46,33 @@ Sorcery::Search::Search(System *system, Display *display, Graphics *graphics, Ga
 auto Sorcery::Search::refresh() -> void {
 
 	_sprites.resize(1);
+	_icons.clear();
 
-	/*
+	auto other_characters{_game->get_characters_at_loc()};
+	if (other_characters.size() > 0) {
 
-	auto compass{(*_graphics->icons)["direction"].value()};
-	compass.setOrigin(compass.getLocalBounds().width / 2, compass.getLocalBounds().height / 2);
-	switch (_game->state->get_player_facing()) {
-	case MapDirection::NORTH:
-		compass.setRotation(180.0f);
-		break;
-	case MapDirection::SOUTH:
-		compass.setRotation(0.0f);
-		break;
-	case MapDirection::EAST:
-		compass.setRotation(270.0f);
-		break;
-	case MapDirection::WEST:
-		compass.setRotation(90.0f);
-		break;
-	default:
-		break;
+		auto characters_here{(*_graphics->icons)["age"].value()};
+		const auto initial_x{[&] {
+			if (_layout["offset_x"])
+				return std::stoi(_layout["offset_x"].value());
+			else
+				return 0;
+		}()};
+		const auto initial_y{[&] {
+			if (_layout["offset_y"])
+				return std::stoi(_layout["offset_y"].value());
+			else
+				return 0;
+		}()};
+
+		auto x{initial_x};
+		auto y{initial_y};
+
+		characters_here.setScale(_layout.scale, _layout.scale);
+		characters_here.setColor(sf::Color(_layout.colour));
+		characters_here.setPosition(x, y);
+		_icons.emplace_back(std::make_pair("characters_here", characters_here));
 	}
-	compass.setPosition((compass.getGlobalBounds().width / 2) + std::stoi(_layout["rotation_offset_x"].value()),
-		(compass.getGlobalBounds().height / 2) + std::stoi(_layout["rotation_offset_y"].value()));
-	compass.setScale(std::stof(_layout */
 }
 
 auto Sorcery::Search::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
@@ -78,6 +82,9 @@ auto Sorcery::Search::draw(sf::RenderTarget &target, sf::RenderStates states) co
 	// Draw the standard components
 	for (const auto &sprite : _sprites)
 		target.draw(sprite, states);
+
+	for (const auto &[key, icon] : _icons)
+		target.draw(icon, states);
 
 	for (const auto &text : _texts)
 		target.draw(text, states);

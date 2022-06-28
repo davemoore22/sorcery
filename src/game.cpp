@@ -213,6 +213,20 @@ auto Sorcery::Game::_update_party_location() -> void {
 	}
 }
 
+auto Sorcery::Game::get_characters_at_loc() const -> std::vector<unsigned int> {
+
+	std::vector<unsigned int> results;
+	for (auto &[character_id, character] : characters) {
+		if (character.location == CharacterLocation::MAZE) {
+			if (character.coordinate == state->get_player_pos()) {
+				results.emplace_back(character_id);
+			}
+		}
+	}
+
+	return results;
+}
+
 auto Sorcery::Game::_get_characters() -> std::map<unsigned int, Character> {
 
 	std::map<unsigned int, Character> characters;
