@@ -324,7 +324,7 @@
 		"component": [
 		{
 			"name": "frame",
-			"w": "40",
+			"w": "50",
 			"h": "25",
 			"x": "0",
 			"y": "0",
@@ -335,7 +335,7 @@
 			"background": " 0x000000ff",
 			"data": [
 				{
-					"padding_y": "6",
+					"padding_y": "7",
 					"scale_y": "1.20"
 				}
 			]
@@ -351,7 +351,7 @@
 			"background": " 0xff0000ff",
 			"data": [
 				{
-					"offset_x": "216",
+					"offset_x": "266",
 					"offset_y": "24",
 					"spacing_y": "38"
 				}

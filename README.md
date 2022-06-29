@@ -33,6 +33,8 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 * Maze Generation and Navigation (DONE)
 * Dungeon Features (DONE)
 * Automapping (DONE)
+* Keyboard/Mouse/Gamepad Control (DONE)
+* Context-Sensitive-Help (DONE)
 * Items and Inventory (TO DO)
 * Creatures and NPCs (TO DO)
 * Magic and Combat (TO DO)
@@ -82,6 +84,8 @@ Graphics used (all free/open source) are by:
 
 Most Recent Screenshots are first
 
+![Logo](/promo/screen9.png)
+![Logo](/promo/screen10.png)
 ![Logo](/promo/screen7.png)
 ![Logo](/promo/screen6.png)
 ![Logo](/promo/screen2.png)

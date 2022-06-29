@@ -186,6 +186,8 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 			(*_display->string)["CONTROL_CANCEL_IN_GAME"], _get_control_gfx(WindowInputCategory::BACK_DELETE_CANCEL)));
 		_controls.emplace_back(std::make_pair(
 			(*_display->string)["CONTROL_CONFIRM_IN_GAME"], _get_control_gfx(WindowInputCategory::CONFIRM)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_1_TO_6_IN_GAME"], _get_control_gfx(WindowInputCategory::SHOW_CHARACTER)));
 		break;
 	default:
 		break;

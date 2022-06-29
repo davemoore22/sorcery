@@ -108,7 +108,8 @@ namespace Sorcery {
 			END = 11,
 			BACK_DELETE_CANCEL = 12,
 			ESCAPE = 13,
-			HELP = 14
+			HELP = 14,
+			SHOW_CHARACTER = 15
 		};
 
 		enum class Confirm { NONE, YES, NO };
