@@ -44,6 +44,7 @@ Sorcery::Menu::Menu(
 	case MenuType::INVALID_CHARACTERS:
 	case MenuType::PARTY_CHARACTER_NAMES:
 	case MenuType::RESTART_EXPEDITION:
+	case MenuType::CHARACTERS_HERE:
 		_populate_chars();
 		selected = items.begin();
 		break;
@@ -299,6 +300,20 @@ Sorcery::Menu::Menu(
 		_add_item(5, MenuItemType::ENTRY, MenuItem::CP_LEAVE, (*_display->string)["CAMP_LEAVE"]);
 		selected = items.begin();
 		break;
+	case MenuType::SEARCH:
+		// Not Used
+		_add_item(0, MenuItemType::ENTRY, MenuItem::AC_LEAVE, (*_display->string)["ACTION_LEAVE"]);
+		break;
+	case MenuType::ACTION:
+		_add_item(0, MenuItemType::ENTRY, MenuItem::CP_INSPECT, (*_display->string)["ACTION_INSPECT"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::AC_CAST_SPELL, (*_display->string)["ACTION_SPELL"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::AC_USE_ITEM, (*_display->string)["ACTION_USE"]);
+		_add_item(
+			3, MenuItemType::ENTRY, MenuItem::AC_SEARCH_CHARACTERS, (*_display->string)["ACTION_SEARCH_CHARACTERS"]);
+		_add_item(4, MenuItemType::ENTRY, MenuItem::AC_SEARCH_ITEMS, (*_display->string)["ACTION_SEARCH_ITEMS"]);
+		_add_item(5, MenuItemType::ENTRY, MenuItem::AC_SEARCH_SECRET, (*_display->string)["ACTION_SEARCH_SECRET"]);
+		_add_item(6, MenuItemType::ENTRY, MenuItem::AC_LEAVE, (*_display->string)["ACTION_LEAVE"]);
+		break;
 	default:
 		break;
 	}
@@ -321,6 +336,7 @@ auto Sorcery::Menu::reload() -> void {
 	case MenuType::PARTY_CHARACTERS:
 	case MenuType::AVAILABLE_CHARACTERS:
 	case MenuType::INVALID_CHARACTERS:
+	case MenuType::CHARACTERS_HERE:
 		_populate_chars();
 		selected = items.begin();
 		break;
@@ -883,6 +899,20 @@ auto Sorcery::Menu::_populate_chars() -> void {
 			}
 		}
 
+	} break;
+	case MenuType::CHARACTERS_HERE: {
+		_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_1"]);
+		_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_2"]);
+		for (auto [character_id, character] : _game->characters) {
+			if ((character.location == CharacterLocation::MAZE) &&
+				(character.coordinate == _game->state->get_player_pos()) &&
+				(character.depth == _game->state->get_depth()))
+				_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER,
+					_game->characters[character_id].get_name());
+			++max_id;
+		}
+		_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+		_add_item(++max_id, MenuItemType::CANCEL, MenuItem::AC_LEAVE, (*_display->string)["ACTION_LEAVE"]);
 	} break;
 	case MenuType::RESTART_EXPEDITION: {
 

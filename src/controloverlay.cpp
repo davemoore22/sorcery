@@ -173,9 +173,24 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 		_controls.emplace_back(std::make_pair(
 			(*_display->string)["CONTROL_CONFIRM_REVIEW_AND_CONFIRM"], _get_control_gfx(WindowInputCategory::CONFIRM)));
 		break;
+	case WindowInputMode::IN_GAME:
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_LEFT_IN_GAME"], _get_control_gfx(WindowInputCategory::LEFT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_RIGHT_IN_GAME"], _get_control_gfx(WindowInputCategory::RIGHT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_UP_IN_GAME"], _get_control_gfx(WindowInputCategory::UP)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_DOWN_IN_GAME"], _get_control_gfx(WindowInputCategory::DOWN)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_CANCEL_IN_GAME"], _get_control_gfx(WindowInputCategory::BACK_DELETE_CANCEL)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_CONFIRM_IN_GAME"], _get_control_gfx(WindowInputCategory::CONFIRM)));
+		break;
 	default:
 		break;
 	};
+
 	_controls.emplace_back(std::make_pair(
 		(*_display->string)["CONTROL_DELETE_BACK_ALWAYS"], _get_control_gfx(WindowInputCategory::BACK_DELETE_CANCEL)));
 	_controls.emplace_back(

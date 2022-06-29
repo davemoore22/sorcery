@@ -78,6 +78,8 @@ namespace Sorcery {
 		auto _handle_elevator_a_d(const sf::Event &event) -> std::optional<int>;
 		auto _handle_elevator_a_f(const sf::Event &event) -> std::optional<int>;
 		auto _handle_in_game(const sf::Event &event) -> std::optional<int>;
+		auto _handle_in_search(const sf::Event &event) -> std::optional<int>;
+		auto _handle_in_action(const sf::Event &event) -> std::optional<int>;
 		auto _refresh_display() -> void;
 		auto _update_display() -> void;
 		auto _draw() -> void;
@@ -103,9 +105,13 @@ namespace Sorcery {
 		Game *_game;
 		sf::RenderWindow *_window;
 		std::unique_ptr<Menu> _camp_menu;
+		std::unique_ptr<Menu> _search_menu;
+		std::unique_ptr<Menu> _action_menu;
 		std::unique_ptr<Menu> _elevator_a_d_menu;
 		std::unique_ptr<Menu> _elevator_a_f_menu;
 		std::unique_ptr<Frame> _camp_menu_frame;
+		std::unique_ptr<Frame> _search_menu_frame;
+		std::unique_ptr<Frame> _action_menu_frame;
 		std::unique_ptr<Frame> _elevator_a_d_menu_frame;
 		std::unique_ptr<Frame> _elevator_a_f_menu_frame;
 		std::unique_ptr<StatusBar> _status_bar;
@@ -127,6 +133,8 @@ namespace Sorcery {
 		std::unique_ptr<BuffBar> _buffbar;
 		std::unique_ptr<Search> _search;
 		bool _in_camp;
+		bool _in_action;
+		bool _in_search;
 		bool _in_character;
 		bool _show_confirm_exit;
 		bool _show_confirm_stairs;
@@ -158,6 +166,8 @@ namespace Sorcery {
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _direction_current_time;
 		bool _show_direction_indicatior;
 		std::optional<std::vector<MenuEntry>::const_iterator> _camp_option;
+		std::optional<std::vector<MenuEntry>::const_iterator> _action_option;
+		std::optional<std::vector<MenuEntry>::const_iterator> _search_option;
 		std::optional<std::vector<MenuEntry>::const_iterator> _elevator_a_d_option;
 		std::optional<std::vector<MenuEntry>::const_iterator> _elevator_a_f_option;
 	};

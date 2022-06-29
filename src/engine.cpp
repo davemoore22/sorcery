@@ -62,6 +62,20 @@ auto Sorcery::Engine::_initalise_components() -> void {
 	_camp_menu_frame->setPosition(_display->window->get_x(_camp_menu_frame->sprite, menu_fc.x),
 		_display->window->get_y(_camp_menu_frame->sprite, menu_fc.y));
 
+	_search_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::SEARCH);
+	const Component search_fc{(*_display->layout)["engine_base_ui:search_menu_frame"]};
+	_search_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, search_fc.w,
+		search_fc.h, search_fc.colour, search_fc.background, search_fc.alpha);
+	_search_menu_frame->setPosition(_display->window->get_x(_search_menu_frame->sprite, search_fc.x),
+		_display->window->get_y(_search_menu_frame->sprite, search_fc.y));
+
+	_action_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::ACTION);
+	const Component action_fc{(*_display->layout)["engine_base_ui:action_menu_frame"]};
+	_action_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, action_fc.w,
+		action_fc.h, action_fc.colour, action_fc.background, action_fc.alpha);
+	_action_menu_frame->setPosition(_display->window->get_x(_action_menu_frame->sprite, action_fc.x),
+		_display->window->get_y(_action_menu_frame->sprite, action_fc.y));
+
 	_elevator_a_d_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::ELEVATOR_A_D);
 	const Component elevator_a_d_fc{(*_display->layout)["engine_base_ui:elevator_a_d_menu_frame"]};
 	_elevator_a_d_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, elevator_a_d_fc.w,
@@ -206,6 +220,8 @@ auto Sorcery::Engine::_set_tile_explored(const Coordinate loc) -> void {
 auto Sorcery::Engine::_set_maze_entry_start() -> void {
 
 	_in_camp = true;
+	_in_search = false;
+	_in_action = false;
 	_in_character = false;
 	_in_elevator_a_d = false;
 	_in_elevator_a_f = false;
@@ -238,6 +254,8 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	_camp_option = _camp_menu->items.begin();
+	_action_option = _camp_menu->items.begin();
+	_search_option = _camp_menu->items.begin();
 
 	auto has_elevator{starting_tile.has_elevator()};
 	if (has_elevator) {
@@ -375,6 +393,92 @@ auto Sorcery::Engine::_handle_in_character(const sf::Event &event) -> void {
 			_cur_char.value()->set_view(_cur_char.value()->get_view());
 		}
 	}
+}
+
+auto Sorcery::Engine::_handle_in_search(const sf::Event &event) -> std::optional<int> {
+
+	if (_left_icon_panel->selected)
+		_left_icon_panel->selected = std::nullopt;
+	if (_right_icon_panel->selected)
+		_right_icon_panel->selected = std::nullopt;
+	if (_status_bar->selected)
+		_status_bar->selected = std::nullopt;
+
+	if (_system->input->check(WindowInput::CANCEL, event))
+		_in_search = false;
+
+	if (_system->input->check(WindowInput::BACK, event))
+		_in_search = false;
+
+	if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
+		_game->toggle_console();
+	else if (_system->input->check(WindowInput::UP, event))
+		_search_option = _search_menu->choose_previous();
+	else if (_system->input->check(WindowInput::DOWN, event))
+		_search_option = _search_menu->choose_next();
+	else if (_system->input->check(WindowInput::MOVE, event))
+		_search_option = _search_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+	else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+		// We have selected something from the menu
+		if (_search_option) {
+
+			if (const MenuItem option_chosen{(*_search_option.value()).item}; option_chosen == MenuItem::AC_LEAVE) {
+
+				_game->save_game();
+				_status_bar->refresh();
+				_in_search = false;
+				_display->generate("engine_base_ui");
+				_display->set_input_mode(WindowInputMode::IN_GAME);
+				return CONTINUE;
+			}
+		}
+	}
+
+	return std::nullopt;
+}
+
+auto Sorcery::Engine::_handle_in_action(const sf::Event &event) -> std::optional<int> {
+
+	if (_left_icon_panel->selected)
+		_left_icon_panel->selected = std::nullopt;
+	if (_right_icon_panel->selected)
+		_right_icon_panel->selected = std::nullopt;
+	if (_status_bar->selected)
+		_status_bar->selected = std::nullopt;
+
+	if (_system->input->check(WindowInput::CANCEL, event))
+		_in_action = false;
+
+	if (_system->input->check(WindowInput::BACK, event))
+		_in_action = false;
+
+	if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
+		_game->toggle_console();
+	else if (_system->input->check(WindowInput::UP, event))
+		_action_option = _action_menu->choose_previous();
+	else if (_system->input->check(WindowInput::DOWN, event))
+		_action_option = _action_menu->choose_next();
+	else if (_system->input->check(WindowInput::MOVE, event))
+		_action_option = _action_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+	else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+		// We have selected something from the menu
+		if (_action_option) {
+
+			if (const MenuItem option_chosen{(*_action_option.value()).item}; option_chosen == MenuItem::AC_LEAVE) {
+
+				_game->save_game();
+				_status_bar->refresh();
+				_in_action = false;
+				_display->generate("engine_base_ui");
+				_display->set_input_mode(WindowInputMode::IN_GAME);
+				return CONTINUE;
+			}
+		}
+	}
+
+	return std::nullopt;
 }
 
 auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<int> {
@@ -770,10 +874,6 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_spinner_if();
 				_pit_if();
 				_chute_if();
-
-				// if (auto &to_tile{_game->state->level->at(_game->state->get_player_pos())};
-				//	!to_tile.is(TileProperty::EXPLORED))
-				//		to_tile.set_explored();
 				if (!_tile_explored(_game->state->get_player_pos()))
 					_set_tile_explored(_game->state->get_player_pos());
 				_update_automap = true;
@@ -801,10 +901,6 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_teleport_if();
 				_pit_if();
 				_chute_if();
-
-				// if (auto &to_tile{_game->state->level->at(_game->state->get_player_pos())};
-				//	!to_tile.is(TileProperty::EXPLORED))
-				//	to_tile.set_explored();
 				if (!_tile_explored(_game->state->get_player_pos()))
 					_set_tile_explored(_game->state->get_player_pos());
 				_update_automap = true;
@@ -837,6 +933,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 					_in_character = true;
 					return CONTINUE;
 				}
+			} else {
+				_in_action = true;
 			}
 		} else if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
 			_game->toggle_console();
@@ -879,8 +977,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			}
 		}
 
-		// If we are in-game, and are on a tile with
-		// note
+		// If we are in-game, and are on a tile with s note
 		auto current_loc{_game->state->get_player_pos()};
 		if (auto note{(*_game->state->level)(current_loc)}; (note.text.length() > 0) && (note.visible)) {
 
@@ -952,6 +1049,22 @@ auto Sorcery::Engine::start() -> int {
 						else if (what_to_do.value() == EXIT_ALL) {
 							return EXIT_ALL;
 						}
+					}
+
+				} else if (_in_search) {
+
+					auto what_to_do{_handle_in_search(event)};
+					if (what_to_do) {
+						if (what_to_do.value() == CONTINUE)
+							continue;
+					}
+
+				} else if (_in_action) {
+
+					auto what_to_do{_handle_in_action(event)};
+					if (what_to_do) {
+						if (what_to_do.value() == CONTINUE)
+							continue;
 					}
 
 				} else if (_in_elevator_a_d) {
@@ -1461,6 +1574,20 @@ auto Sorcery::Engine::_draw() -> void {
 			(*_display->layout)["engine_base_ui:camp_menu"].x, (*_display->layout)["engine_base_ui:camp_menu"].y);
 		_camp_menu->setPosition(menu_pos);
 		_window->draw(*_camp_menu);
+	} else if (_in_action) {
+		_window->draw(*_action_menu_frame);
+		_action_menu->generate((*_display->layout)["engine_base_ui:action_menu"]);
+		const sf::Vector2f menu_pos(
+			(*_display->layout)["engine_base_ui:action_menu"].x, (*_display->layout)["engine_base_ui:action_menu"].y);
+		_action_menu->setPosition(menu_pos);
+		_window->draw(*_action_menu);
+	} else if (_in_search) {
+		_window->draw(*_search_menu_frame);
+		_search_menu->generate((*_display->layout)["engine_base_ui:search_menu"]);
+		const sf::Vector2f menu_pos(
+			(*_display->layout)["engine_base_ui:search_menu"].x, (*_display->layout)["engine_base_ui:search_menu"].y);
+		_search_menu->setPosition(menu_pos);
+		_window->draw(*_search_menu);
 	} else if (_in_elevator_a_d) {
 		_window->draw(*_elevator_a_d_menu_frame);
 		_elevator_a_d_menu->generate((*_display->layout)["engine_base_ui:elevator_a_d_menu"]);

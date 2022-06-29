@@ -622,12 +622,15 @@ namespace Sorcery {
 			INVALID_CHARACTERS,
 			PARTY_CHARACTER_NAMES,
 			CAMP,
+			SEARCH,
+			ACTION,
 			ELEVATOR_A_D,
 			ELEVATOR_A_F,
-			RESTART_EXPEDITION
+			RESTART_EXPEDITION,
+			CHARACTERS_HERE
 		};
 
-		enum class Mode { NONE, TAVERN, TEMPLE, INN, SHOP, TRAINING, CAMP };
+		enum class Mode { NONE, TAVERN, TEMPLE, INN, SHOP, TRAINING, CAMP, ACTION, SEARCH };
 
 		// Menu Items
 		enum class Item {
@@ -761,7 +764,13 @@ namespace Sorcery {
 			EL_D,
 			EL_E,
 			EL_F,
-			EL_LEAVE
+			EL_LEAVE,
+			AC_SEARCH_CHARACTERS,
+			AC_SEARCH_ITEMS,
+			AC_SEARCH_SECRET,
+			AC_CAST_SPELL,
+			AC_USE_ITEM,
+			AC_LEAVE
 		};
 
 		// Menu Items
