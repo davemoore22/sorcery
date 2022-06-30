@@ -47,6 +47,8 @@ auto Sorcery::Engine::_initialise_state() -> void {
 	_exit_maze_now = false;
 	_pending_chute = false;
 	_pending_elevator = false;
+	_show_status = true;
+	_show_gui = true;
 }
 
 auto Sorcery::Engine::_initalise_components() -> void {
@@ -231,13 +233,14 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	_show_chute = false;
 	_show_tile_note = false;
 	_show_elevator = false;
+	_show_status = true;
+	_show_gui = true;
 	_exit_maze_now = false;
 	_automap->refresh();
 	_system->stop_pause();
 	_last_movement = MapDirection::NONE;
 	auto &starting_tile{_game->state->level->at(_game->state->get_player_pos())};
-	// if (!starting_tile.is(TileProperty::EXPLORED))
-	//	starting_tile.set_explored();
+
 	if (!_tile_explored(_game->state->get_player_pos()))
 		_set_tile_explored(_game->state->get_player_pos());
 
@@ -737,6 +740,27 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_update_search = true;
 		_update_render = true;
 		return CONTINUE;
+	} else if (_system->input->check(WindowInput::MAZE_CAMP, event)) {
+		_in_camp = true;
+		_update_automap = true;
+		_update_compass = true;
+		_update_buffbar = true;
+		_update_search = true;
+		_update_render = true;
+	} else if (_system->input->check(WindowInput::MAZE_STATUSBAR_TOGGLE, event)) {
+		_show_status = !_show_status;
+		_update_automap = true;
+		_update_compass = true;
+		_update_buffbar = true;
+		_update_search = true;
+		_update_render = true;
+	} else if (_system->input->check(WindowInput::MAZE_GUI_TOGGLE, event)) {
+		_show_gui = !_show_gui;
+		_update_automap = true;
+		_update_compass = true;
+		_update_buffbar = true;
+		_update_search = true;
+		_update_render = true;
 	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F7)) {
 		_game->state->set_lit(true);
 		_update_automap = true;
@@ -829,9 +853,6 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				} else {
 
 					_stairs_if();
-					// if (auto &to_tile{_game->state->level->at(_game->state->get_player_pos())};
-					//! to_tile.is(TileProperty::EXPLORED))
-					// to_tile.set_explored();
 					if (!_tile_explored(_game->state->get_player_pos()))
 						_set_tile_explored(_game->state->get_player_pos());
 					_update_automap = true;
@@ -841,7 +862,19 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			}
 		}
 	} else {
-		if (_system->input->check(WindowInput::LEFT, event)) {
+		if (_system->input->check(WindowInput::MAZE_TURN_AROUND, event)) {
+			_show_direction_indicatior = true;
+			_reset_direction_indicator();
+			_turn_around();
+			_spinner_if();
+			_update_automap = true;
+			_update_compass = true;
+			_update_render = true;
+			_update_buffbar = true;
+			_update_search = true;
+		}
+		if ((_system->input->check(WindowInput::LEFT, event)) ||
+			(_system->input->check(WindowInput::MAZE_LEFT, event))) {
 			_show_direction_indicatior = true;
 			_reset_direction_indicator();
 			_turn_left();
@@ -851,7 +884,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_update_render = true;
 			_update_buffbar = true;
 			_update_search = true;
-		} else if (_system->input->check(WindowInput::RIGHT, event)) {
+		} else if ((_system->input->check(WindowInput::RIGHT, event)) ||
+				   (_system->input->check(WindowInput::MAZE_RIGHT, event))) {
 			_show_direction_indicatior = true;
 			_reset_direction_indicator();
 			_turn_right();
@@ -861,8 +895,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_update_render = true;
 			_update_buffbar = true;
 			_update_search = true;
-		} else if (_system->input->check(WindowInput::UP, event)) {
-
+		} else if ((_system->input->check(WindowInput::UP, event)) ||
+				   (_system->input->check(WindowInput::MAZE_FORWARD, event))) {
 			if (auto has_moved{_move_forward()}; !has_moved) {
 				_show_direction_indicatior = false;
 				_show_ouch = true;
@@ -888,8 +922,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_update_render = true;
 			_update_buffbar = true;
 			_update_search = true;
-		} else if (_system->input->check(WindowInput::DOWN, event)) {
-
+		} else if ((_system->input->check(WindowInput::DOWN, event)) ||
+				   (_system->input->check(WindowInput::MAZE_BACKWARD, event))) {
 			if (auto has_moved{_move_backward()}; !has_moved) {
 				_show_direction_indicatior = false;
 				_show_ouch = true;
@@ -939,7 +973,6 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		} else if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
 			_game->toggle_console();
 		else if (_system->input->check(WindowInput::MOVE, event)) {
-
 			// Check for Mouse Overs
 			sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
 
@@ -980,7 +1013,6 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		// If we are in-game, and are on a tile with s note
 		auto current_loc{_game->state->get_player_pos()};
 		if (auto note{(*_game->state->level)(current_loc)}; (note.text.length() > 0) && (note.visible)) {
-
 			_show_tile_note = true;
 			_tile_note->update(note);
 		} else
@@ -1001,8 +1033,7 @@ auto Sorcery::Engine::start() -> int {
 	_set_maze_entry_start();
 
 	const auto current_loc{_game->state->get_player_pos()};
-	// if (auto &this_tile{_game->state->level->at(current_loc)}; !this_tile.is(TileProperty::EXPLORED))
-	//	this_tile.set(TileProperty::EXPLORED);
+
 	if (!_tile_explored(_game->state->get_player_pos()))
 		_set_tile_explored(_game->state->get_player_pos());
 
@@ -1189,8 +1220,7 @@ auto Sorcery::Engine::_move_forward() -> bool {
 	if (this_tile.walkable(this_wall_to_check)) {
 
 		_game->state->set_player_pos(next_loc);
-		// if (!next_tile.is(TileProperty::EXPLORED))
-		//	next_tile.set_explored();
+
 		if (!_tile_explored(_game->state->get_player_pos()))
 			_set_tile_explored(_game->state->get_player_pos());
 		if ((next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
@@ -1294,8 +1324,7 @@ auto Sorcery::Engine::_move_backward() -> bool {
 	if (this_tile.walkable(this_wall_to_check)) {
 
 		_game->state->set_player_pos(next_loc);
-		// if (!next_tile.is(TileProperty::EXPLORED))
-		//	next_tile.set_explored();
+
 		if (!_tile_explored(_game->state->get_player_pos()))
 			_set_tile_explored(_game->state->get_player_pos());
 		if ((next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
@@ -1382,6 +1411,28 @@ auto Sorcery::Engine::_turn_right() -> void {
 	_last_movement = MapDirection::EAST;
 }
 
+auto Sorcery::Engine::_turn_around() -> void {
+
+	switch (_game->state->get_player_facing()) {
+	case MapDirection::NORTH:
+		_game->state->set_player_facing(MapDirection::SOUTH);
+		break;
+	case MapDirection::SOUTH:
+		_game->state->set_player_facing(MapDirection::NORTH);
+		break;
+	case MapDirection::EAST:
+		_game->state->set_player_facing(MapDirection::WEST);
+		break;
+	case MapDirection::WEST:
+		_game->state->set_player_facing(MapDirection::EAST);
+		break;
+	default:
+		break;
+	}
+
+	_last_movement = MapDirection::SOUTH;
+}
+
 // TODO: rock/walkable for all levels/tiles!
 
 auto Sorcery::Engine::_pit_if() -> bool {
@@ -1459,7 +1510,6 @@ auto Sorcery::Engine::_stairs_if() -> bool {
 			_game->state->set_player_pos(destination.to_loc);
 			_game->state->set_depth(to_level);
 			_set_tile_explored(_game->state->get_player_pos());
-			// next_tile.set_explored();
 
 			if ((next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
 				_game->state->set_lit(false);
@@ -1496,8 +1546,6 @@ auto Sorcery::Engine::_teleport_if() -> bool {
 			auto &next_tile{_game->state->level->at(destination.to_loc)};
 			_game->state->set_player_pos(destination.to_loc);
 
-			// if (!next_tile.is(TileProperty::EXPLORED))
-			//	next_tile.set_explored();
 			if (!_tile_explored(_game->state->get_player_pos()))
 				_set_tile_explored(_game->state->get_player_pos());
 
@@ -1545,22 +1593,27 @@ auto Sorcery::Engine::_draw() -> void {
 	_render->setPosition(wfr_c.x, wfr_c.y);
 	_window->draw(*_render);
 
-	if (_status_bar->selected)
-		_status_bar->set_selected_background();
-	_window->draw(*_status_bar);
+	if (_show_gui) {
 
-	_window->draw(*_automap);
-	_window->draw(*_compass);
-	_window->draw(*_buffbar);
-	_window->draw(*_search);
+		_window->draw(*_automap);
+		_window->draw(*_compass);
+		_window->draw(*_buffbar);
+		_window->draw(*_search);
 
-	if (_left_icon_panel->selected)
-		_left_icon_panel->set_selected_background();
-	if (_right_icon_panel->selected)
-		_right_icon_panel->set_selected_background();
+		if (_left_icon_panel->selected)
+			_left_icon_panel->set_selected_background();
+		if (_right_icon_panel->selected)
+			_right_icon_panel->set_selected_background();
 
-	_window->draw(*_left_icon_panel);
-	_window->draw(*_right_icon_panel);
+		_window->draw(*_left_icon_panel);
+		_window->draw(*_right_icon_panel);
+	}
+
+	if (_show_status) {
+		if (_status_bar->selected)
+			_status_bar->set_selected_background();
+		_window->draw(*_status_bar);
+	}
 
 	if (_show_tile_note) {
 		_window->draw(*_tile_note);

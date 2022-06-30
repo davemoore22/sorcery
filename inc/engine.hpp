@@ -87,6 +87,7 @@ namespace Sorcery {
 		auto _move_backward() -> bool;
 		auto _turn_left() -> void;
 		auto _turn_right() -> void;
+		auto _turn_around() -> void;
 		auto _teleport_if() -> bool;
 		auto _stairs_if() -> bool;
 		auto _spinner_if() const -> bool;
@@ -144,6 +145,8 @@ namespace Sorcery {
 		bool _show_chute;
 		bool _show_elevator;
 		bool _show_tile_note;
+		bool _show_status;
+		bool _show_gui;
 		bool _in_elevator_a_d;
 		bool _in_elevator_a_f;
 		bool _update_automap;

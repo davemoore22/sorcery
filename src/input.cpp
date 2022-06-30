@@ -159,6 +159,66 @@ auto Sorcery::Input::check(WindowInput input, sf::Event event) -> bool {
 	case WindowInput::SPACE:
 		return ((event.type == sf::Event::TextEntered) && (event.text.unicode == 32));
 		break;
+	case WindowInput::MAZE_TURN_AROUND:
+		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::X));
+		break;
+	case WindowInput::MAZE_LEFT:
+		return (((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::A)) ||
+				((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::L)) ||
+				((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Left)));
+		break;
+	case WindowInput::MAZE_RIGHT:
+		return (((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::D)) ||
+				((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::R)) ||
+				((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Right)));
+		break;
+	case WindowInput::MAZE_FORWARD:
+		return (((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::W)) ||
+				((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F)) ||
+				((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Up)));
+		break;
+	case WindowInput::MAZE_BACKWARD:
+		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Down));
+		break;
+	case WindowInput::MAZE_CAMP:
+		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::C));
+		break;
+	case WindowInput::MAZE_CHARACTER_1:
+		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Num1));
+		break;
+	case WindowInput::MAZE_CHARACTER_2:
+		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Num2));
+		break;
+	case WindowInput::MAZE_CHARACTER_3:
+		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Num3));
+		break;
+	case WindowInput::MAZE_CHARACTER_4:
+		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Num4));
+		break;
+	case WindowInput::MAZE_CHARACTER_5:
+		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Num5));
+		break;
+	case WindowInput::MAZE_CHARACTER_6:
+		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Num6));
+		break;
+	case WindowInput::MAZE_QUIT:
+		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Q));
+		break;
+	case WindowInput::MAZE_ACTION:
+		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::T));
+		break;
+	case WindowInput::MAZE_SEARCH:
+		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Z));
+		break;
+	case WindowInput::MAZE_INSPECT:
+		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::I));
+		break;
+	case WindowInput::MAZE_GUI_TOGGLE:
+		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::O));
+		break;
+	case WindowInput::MAZE_STATUSBAR_TOGGLE:
+		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::S));
+		break;
 	default:
 		return false;
 	}
