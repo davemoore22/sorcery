@@ -1495,6 +1495,33 @@ src/manage.cpp.s:
 	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/manage.cpp.s
 .PHONY : src/manage.cpp.s
 
+src/map.o: src/map.cpp.o
+
+.PHONY : src/map.o
+
+# target to build an object file
+src/map.cpp.o:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/map.cpp.o
+.PHONY : src/map.cpp.o
+
+src/map.i: src/map.cpp.i
+
+.PHONY : src/map.i
+
+# target to preprocess a source file
+src/map.cpp.i:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/map.cpp.i
+.PHONY : src/map.cpp.i
+
+src/map.s: src/map.cpp.s
+
+.PHONY : src/map.s
+
+# target to generate assembly for a file
+src/map.cpp.s:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/map.cpp.s
+.PHONY : src/map.cpp.s
+
 src/menu.o: src/menu.cpp.o
 
 .PHONY : src/menu.o
@@ -1764,6 +1791,33 @@ src/roster.s: src/roster.cpp.s
 src/roster.cpp.s:
 	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/roster.cpp.s
 .PHONY : src/roster.cpp.s
+
+src/search.o: src/search.cpp.o
+
+.PHONY : src/search.o
+
+# target to build an object file
+src/search.cpp.o:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/search.cpp.o
+.PHONY : src/search.cpp.o
+
+src/search.i: src/search.cpp.i
+
+.PHONY : src/search.i
+
+# target to preprocess a source file
+src/search.cpp.i:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/search.cpp.i
+.PHONY : src/search.cpp.i
+
+src/search.s: src/search.cpp.s
+
+.PHONY : src/search.s
+
+# target to generate assembly for a file
+src/search.cpp.s:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/search.cpp.s
+.PHONY : src/search.cpp.s
 
 src/shop.o: src/shop.cpp.o
 
@@ -2358,6 +2412,9 @@ help:
 	@echo "... src/manage.o"
 	@echo "... src/manage.i"
 	@echo "... src/manage.s"
+	@echo "... src/map.o"
+	@echo "... src/map.i"
+	@echo "... src/map.s"
 	@echo "... src/menu.o"
 	@echo "... src/menu.i"
 	@echo "... src/menu.s"
@@ -2388,6 +2445,9 @@ help:
 	@echo "... src/roster.o"
 	@echo "... src/roster.i"
 	@echo "... src/roster.s"
+	@echo "... src/search.o"
+	@echo "... src/search.i"
+	@echo "... src/search.s"
 	@echo "... src/shop.o"
 	@echo "... src/shop.i"
 	@echo "... src/shop.s"

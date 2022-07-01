@@ -65,6 +65,7 @@ add_executable(${PROJECT_NAME}
 	src/levelstore.cpp
 	src/license.cpp
 	src/main.cpp
+	src/map.cpp
 	src/mainmenu.cpp
 	src/manage.cpp
 	src/message.cpp

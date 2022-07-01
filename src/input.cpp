@@ -40,8 +40,8 @@ auto Sorcery::Input::check(WindowInput input, sf::Event event) -> bool {
 		break;
 	case WindowInput::SHOW_CONTROLS:
 		return (((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F1)) ||
-				(((event.type == sf::Event::MouseButtonPressed) && (event.mouseButton.button == sf::Mouse::Middle))) ||
-				(((event.type == sf::Event::JoystickButtonPressed) && (event.joystickButton.button == 3))));
+				((event.type == sf::Event::MouseButtonPressed) && (event.mouseButton.button == sf::Mouse::Middle)) ||
+				((event.type == sf::Event::JoystickButtonPressed) && (event.joystickButton.button == 3)));
 		break;
 	case WindowInput::ANYTHING:
 		return ((event.type == sf::Event::KeyPressed) || (event.type == sf::Event::MouseButtonPressed) ||
@@ -218,6 +218,9 @@ auto Sorcery::Input::check(WindowInput input, sf::Event event) -> bool {
 		break;
 	case WindowInput::MAZE_STATUSBAR_TOGGLE:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::S));
+		break;
+	case WindowInput::MAZE_SHOW_MAP:
+		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::M));
 		break;
 	default:
 		return false;

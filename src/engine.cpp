@@ -138,7 +138,7 @@ auto Sorcery::Engine::_initalise_components() -> void {
 		_system, _display, _graphics, _game, (*_display->layout)["engine_base_ui:left_icon_panel"], true);
 	_right_icon_panel = std::make_unique<IconPanel>(
 		_system, _display, _graphics, _game, (*_display->layout)["engine_base_ui:right_icon_panel"], false);
-
+	_map = std::make_unique<Map>(_system, _display, _graphics, _game, (*_display->layout)["engine_base_ui:map"]);
 	_tile_note = std::make_unique<Message>(_system, _display, _graphics,
 		(*_display->layout)["engine_base_ui:message_panel"], (*_display->layout)["engine_base_ui:message_text"]);
 }
@@ -188,6 +188,9 @@ auto Sorcery::Engine::_place_components() -> void {
 	const Component r_icon_panel_c{(*_display->layout)["engine_base_ui:right_icon_panel"]};
 	_right_icon_panel->setPosition(r_icon_panel_c.x, r_icon_panel_c.y);
 
+	const Component map_c{(*_display->layout)["engine_base_ui:map"]};
+	_map->setPosition(map_c.x, map_c.y);
+
 	const Component t_n_c{(*_display->layout)["engine_base_ui:message"]};
 	_tile_note->setPosition(t_n_c.x, t_n_c.y);
 
@@ -206,6 +209,7 @@ auto Sorcery::Engine::_refresh() const -> void {
 	_compass->refresh();
 	_buffbar->refresh();
 	_search->refresh();
+	_map->refresh();
 	_left_icon_panel->refresh(true);
 	_right_icon_panel->refresh(true);
 }
@@ -221,6 +225,7 @@ auto Sorcery::Engine::_set_tile_explored(const Coordinate loc) -> void {
 
 auto Sorcery::Engine::_set_maze_entry_start() -> void {
 
+	_in_map = false;
 	_in_camp = true;
 	_in_search = false;
 	_in_action = false;
@@ -237,6 +242,7 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	_show_gui = true;
 	_exit_maze_now = false;
 	_automap->refresh();
+	_map->refresh();
 	_system->stop_pause();
 	_last_movement = MapDirection::NONE;
 	auto &starting_tile{_game->state->level->at(_game->state->get_player_pos())};
@@ -713,6 +719,21 @@ auto Sorcery::Engine::_handle_elevator_a_d(const sf::Event &event) -> std::optio
 	return std::nullopt;
 }
 
+auto Sorcery::Engine::_handle_in_map(const sf::Event &event) -> std::optional<int> {
+
+	if ((_system->input->check(WindowInput::MAZE_SHOW_MAP, event)) ||
+		(_system->input->check(WindowInput::CANCEL, event)) || (_system->input->check(WindowInput::CONFIRM, event))) {
+		_update_automap = true;
+		_update_compass = true;
+		_update_buffbar = true;
+		_update_search = true;
+		_update_render = true;
+		return CONTINUE;
+	}
+
+	return std::nullopt;
+}
+
 auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<int> {
 
 	if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F6)) {
@@ -740,6 +761,13 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_update_search = true;
 		_update_render = true;
 		return CONTINUE;
+	} else if (_system->input->check(WindowInput::MAZE_SHOW_MAP, event)) {
+		_in_map = !_in_map;
+		_update_automap = true;
+		_update_compass = true;
+		_update_buffbar = true;
+		_update_search = true;
+		_update_render = true;
 	} else if (_system->input->check(WindowInput::MAZE_CAMP, event)) {
 		_in_camp = true;
 		_update_automap = true;
@@ -1069,8 +1097,15 @@ auto Sorcery::Engine::start() -> int {
 					_handle_confirm_exit(event);
 				} else if (_in_character) {
 					_handle_in_character(event);
+				} else if (_in_map) {
+					auto what_to_do{_handle_in_map(event)};
+					if (what_to_do) {
+						if (what_to_do.value() == CONTINUE) {
+							_in_map = false;
+							continue;
+						}
+					}
 				} else if (_in_camp) {
-
 					auto what_to_do{_handle_in_camp(event)};
 					if (what_to_do) {
 						if (what_to_do.value() == CONTINUE)
@@ -1146,6 +1181,7 @@ auto Sorcery::Engine::_update_display() -> void {
 	}
 	if (_update_automap) {
 		_automap->refresh();
+		_map->refresh();
 		_update_automap = false;
 	}
 	if (_update_compass) {
@@ -1619,8 +1655,9 @@ auto Sorcery::Engine::_draw() -> void {
 		_window->draw(*_tile_note);
 	}
 
-	// And the Menu
-	if (_in_camp) {
+	if (_in_map) {
+		_window->draw(*_map);
+	} else if (_in_camp) {
 		_window->draw(*_camp_menu_frame);
 		_camp_menu->generate((*_display->layout)["engine_base_ui:camp_menu"]);
 		const sf::Vector2f menu_pos(

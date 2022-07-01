@@ -803,7 +803,8 @@ namespace Sorcery {
 			AC_SEARCH_SECRET,
 			AC_CAST_SPELL,
 			AC_USE_ITEM,
-			AC_LEAVE
+			AC_LEAVE,
+			AC_SHOW_MAP
 		};
 
 		// Menu Items

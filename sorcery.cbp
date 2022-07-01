@@ -183,6 +183,7 @@
 		<Unit filename="inc/main.hpp" />
 		<Unit filename="inc/mainmenu.hpp" />
 		<Unit filename="inc/manage.hpp" />
+		<Unit filename="inc/map.hpp" />
 		<Unit filename="inc/menu.hpp" />
 		<Unit filename="inc/message.hpp" />
 		<Unit filename="inc/options.hpp" />
@@ -260,6 +261,7 @@
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/mainmenu.cpp" />
 		<Unit filename="src/manage.cpp" />
+		<Unit filename="src/map.cpp" />
 		<Unit filename="src/menu.cpp" />
 		<Unit filename="src/message.cpp" />
 		<Unit filename="src/options.cpp" />

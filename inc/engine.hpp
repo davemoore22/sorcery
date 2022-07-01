@@ -35,6 +35,7 @@
 #include "iconpanel.hpp"
 #include "inspect.hpp"
 #include "main.hpp"
+#include "map.hpp"
 #include "menu.hpp"
 #include "message.hpp"
 #include "options.hpp"
@@ -80,6 +81,7 @@ namespace Sorcery {
 		auto _handle_in_game(const sf::Event &event) -> std::optional<int>;
 		auto _handle_in_search(const sf::Event &event) -> std::optional<int>;
 		auto _handle_in_action(const sf::Event &event) -> std::optional<int>;
+		auto _handle_in_map(const sf::Event &event) -> std::optional<int>;
 		auto _refresh_display() -> void;
 		auto _update_display() -> void;
 		auto _draw() -> void;
@@ -133,10 +135,12 @@ namespace Sorcery {
 		std::unique_ptr<Dialog> _confirm_stairs;
 		std::unique_ptr<BuffBar> _buffbar;
 		std::unique_ptr<Search> _search;
+		std::unique_ptr<Map> _map;
 		bool _in_camp;
 		bool _in_action;
 		bool _in_search;
 		bool _in_character;
+		bool _in_map;
 		bool _show_confirm_exit;
 		bool _show_confirm_stairs;
 		bool _show_console;

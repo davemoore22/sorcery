@@ -175,7 +175,6 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, Coordinate loc, int x, int y, floa
 	}
 
 	if (_game->state->explored[_game->state->get_depth()].at(loc)) {
-		// if (tile.is(TileProperty::EXPLORED)) {
 
 		sf::Sprite bg_explored{
 			_graphics->textures

@@ -309,10 +309,11 @@ Sorcery::Menu::Menu(
 		_add_item(1, MenuItemType::ENTRY, MenuItem::AC_CAST_SPELL, (*_display->string)["ACTION_SPELL"]);
 		_add_item(2, MenuItemType::ENTRY, MenuItem::AC_USE_ITEM, (*_display->string)["ACTION_USE"]);
 		_add_item(
-			3, MenuItemType::ENTRY, MenuItem::AC_SEARCH_CHARACTERS, (*_display->string)["ACTION_SEARCH_CHARACTERS"]);
-		_add_item(4, MenuItemType::ENTRY, MenuItem::AC_SEARCH_ITEMS, (*_display->string)["ACTION_SEARCH_ITEMS"]);
-		_add_item(5, MenuItemType::ENTRY, MenuItem::AC_SEARCH_SECRET, (*_display->string)["ACTION_SEARCH_SECRET"]);
-		_add_item(6, MenuItemType::ENTRY, MenuItem::AC_LEAVE, (*_display->string)["ACTION_LEAVE"]);
+			4, MenuItemType::ENTRY, MenuItem::AC_SEARCH_CHARACTERS, (*_display->string)["ACTION_SEARCH_CHARACTERS"]);
+		_add_item(5, MenuItemType::ENTRY, MenuItem::AC_SHOW_MAP, (*_display->string)["ACTION_FLOOR_MAP"]);
+		_add_item(5, MenuItemType::ENTRY, MenuItem::AC_SEARCH_ITEMS, (*_display->string)["ACTION_SEARCH_ITEMS"]);
+		_add_item(6, MenuItemType::ENTRY, MenuItem::AC_SEARCH_SECRET, (*_display->string)["ACTION_SEARCH_SECRET"]);
+		_add_item(7, MenuItemType::ENTRY, MenuItem::AC_LEAVE, (*_display->string)["ACTION_LEAVE"]);
 		break;
 	default:
 		break;
