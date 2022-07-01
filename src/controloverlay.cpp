@@ -174,29 +174,48 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 			(*_display->string)["CONTROL_CONFIRM_REVIEW_AND_CONFIRM"], _get_control_gfx(WindowInputCategory::CONFIRM)));
 		break;
 	case WindowInputMode::IN_GAME:
-		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_LEFT_IN_GAME"], _get_control_gfx(WindowInputCategory::LEFT)));
-		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_RIGHT_IN_GAME"], _get_control_gfx(WindowInputCategory::RIGHT)));
-		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_UP_IN_GAME"], _get_control_gfx(WindowInputCategory::UP)));
-		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_DOWN_IN_GAME"], _get_control_gfx(WindowInputCategory::DOWN)));
 		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_CANCEL_IN_GAME"], _get_control_gfx(WindowInputCategory::BACK_DELETE_CANCEL)));
+			(*_display->string)["CONTROL_LEFT_IN_GAME"], _get_control_gfx(WindowInputCategory::MAZE_LEFT)));
 		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_CONFIRM_IN_GAME"], _get_control_gfx(WindowInputCategory::CONFIRM)));
+			(*_display->string)["CONTROL_RIGHT_IN_GAME"], _get_control_gfx(WindowInputCategory::MAZE_RIGHT)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_UP_IN_GAME"], _get_control_gfx(WindowInputCategory::MAZE_FORWARD)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_DOWN_IN_GAME"], _get_control_gfx(WindowInputCategory::MAZE_BACKWARD)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_TURN_AROUND_IN_GAME"],
+			_get_control_gfx(WindowInputCategory::MAZE_TURN_AROUND)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_CAMP_IN_GAME"], _get_control_gfx(WindowInputCategory::MAZE_CAMP)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_ACTION_IN_GAME"], _get_control_gfx(WindowInputCategory::MAZE_ACTION)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_SEARCH_IN_GAME"], _get_control_gfx(WindowInputCategory::MAZE_SEARCH)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_INSPECT_IN_GAME"], _get_control_gfx(WindowInputCategory::MAZE_INSPECT)));
 		_controls.emplace_back(std::make_pair(
 			(*_display->string)["CONTROL_1_TO_6_IN_GAME"], _get_control_gfx(WindowInputCategory::SHOW_CHARACTER)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_GUI_TOGGLE_IN_GAME"], _get_control_gfx(WindowInputCategory::MAZE_GUI_TOGGLE)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_STATUS_TOGGLE_IN_GAME"],
+			_get_control_gfx(WindowInputCategory::MAZE_STATUSBAR_TOGGLE)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_QUIT_IN_GAME"], _get_control_gfx(WindowInputCategory::MAZE_QUIT)));
 		break;
 	default:
 		break;
 	};
 
-	_controls.emplace_back(std::make_pair(
-		(*_display->string)["CONTROL_DELETE_BACK_ALWAYS"], _get_control_gfx(WindowInputCategory::BACK_DELETE_CANCEL)));
-	_controls.emplace_back(
-		std::make_pair((*_display->string)["CONTROL_ESCAPE_ALWAYS"], _get_control_gfx(WindowInputCategory::ESCAPE)));
+	switch (_input_mode) {
+	case WindowInputMode::IN_GAME:
+		break;
+	default:
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_DELETE_BACK_ALWAYS"],
+			_get_control_gfx(WindowInputCategory::BACK_DELETE_CANCEL)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_ESCAPE_ALWAYS"], _get_control_gfx(WindowInputCategory::ESCAPE)));
+		break;
+	}
+
 	_controls.emplace_back(
 		std::make_pair((*_display->string)["CONTROL_HELP_ALWAYS"], _get_control_gfx(WindowInputCategory::HELP)));
 
