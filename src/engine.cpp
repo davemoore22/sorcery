@@ -500,6 +500,7 @@ auto Sorcery::Engine::_handle_in_action(const sf::Event &event) -> std::optional
 				return CONTINUE;
 			} else if (option_chosen == MenuItem::AC_SEARCH_CHARACTERS) {
 
+				_in_action = false;
 				_in_get = true;
 				_get_menu->reload();
 				return CONTINUE;
@@ -547,6 +548,14 @@ auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<in
 				_display->set_input_mode(WindowInputMode::IN_GAME);
 				return CONTINUE;
 			} else {
+
+				const auto character_chosen{(*_get_option.value()).index};
+				_cur_char = &_game->characters.at(character_chosen);
+				if (_cur_char) {
+					_cur_char.value()->location = CharacterLocation::PARTY;
+					_game->state->add_character_by_id(character_chosen);
+					_game->save_game();
+				}
 
 				_status_bar->refresh();
 				_get_menu->reload();

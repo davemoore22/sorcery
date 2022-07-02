@@ -54,6 +54,7 @@ namespace Sorcery {
 		auto clear_party() -> void;
 		auto get_character_index(unsigned int char_id) -> std::optional<unsigned int>;
 		auto get_party_characters() const -> std::vector<unsigned int>;
+		auto get_party_size() const -> unsigned int;
 		auto get_player_facing() const -> MapDirection;
 		auto get_player_pos() const -> Coordinate;
 		auto party_has_members() const -> bool;

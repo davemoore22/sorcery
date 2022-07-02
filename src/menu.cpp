@@ -903,35 +903,43 @@ auto Sorcery::Menu::_populate_chars() -> void {
 	} break;
 	case MenuType::CHARACTERS_HERE: {
 
-		// Check for any characters in same square
-		bool found{false};
-		for (auto [character_id, character] : _game->characters) {
-			if ((character.location == CharacterLocation::MAZE) &&
-				(character.coordinate == _game->state->get_player_pos()) &&
-				(character.depth == _game->state->get_depth())) {
-				found = true;
-				break;
-			}
-		}
-		if (found) {
+		if (_game->state->get_party_size() < 6) {
 
-			_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_1"]);
-			_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_2"]);
-			_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+			// Check for any characters in same square
+			bool found{false};
 			for (auto [character_id, character] : _game->characters) {
 				if ((character.location == CharacterLocation::MAZE) &&
 					(character.coordinate == _game->state->get_player_pos()) &&
-					(character.depth == _game->state->get_depth()))
-					_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER,
-						_game->characters[character_id].get_name());
-				++max_id;
+					(character.depth == _game->state->get_depth())) {
+					found = true;
+					break;
+				}
+			}
+			if (found) {
+
+				_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_1"]);
+				_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_2"]);
+				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+				for (auto [character_id, character] : _game->characters) {
+					if ((character.location == CharacterLocation::MAZE) &&
+						(character.coordinate == _game->state->get_player_pos()) &&
+						(character.depth == _game->state->get_depth()))
+						_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER,
+							_game->characters[character_id].get_name_and_status());
+					++max_id;
+				}
+			} else {
+				_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_1"]);
+				_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_2"]);
+				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+				_add_item(
+					++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS_HERE"]);
 			}
 		} else {
 			_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_1"]);
 			_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_2"]);
 			_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
-			_add_item(
-				++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS_HERE"]);
+			_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["PARTY_FULL"]);
 		}
 
 		_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);

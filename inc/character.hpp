@@ -77,6 +77,7 @@ namespace Sorcery {
 		auto set_start_attr() -> void;
 		auto get_name() const -> std::string;
 		auto get_name_and_location() const -> std::string;
+		auto get_name_and_status() const -> std::string;
 		auto set_name(std::string_view value) -> void;
 		auto get_race() const -> CharacterRace;
 		auto set_race(const CharacterRace &value) -> void;

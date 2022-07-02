@@ -107,6 +107,11 @@ auto Sorcery::State::party_has_members() const -> bool {
 	return _party.size() > 0;
 }
 
+auto Sorcery::State::get_party_size() const -> unsigned int {
+
+	return _party.size();
+}
+
 auto Sorcery::State::get_party_characters() const -> std::vector<unsigned int> {
 
 	return _party;

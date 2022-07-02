@@ -359,6 +359,11 @@ auto Sorcery::Character::get_name() const -> std::string {
 	return _name;
 }
 
+auto Sorcery::Character::get_name_and_status() const -> std::string {
+
+	return fmt::format("{:<16} {:>12}", _name, get_status_string());
+}
+
 auto Sorcery::Character::get_name_and_location() const -> std::string {
 
 	return fmt::format(

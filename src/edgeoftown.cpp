@@ -167,7 +167,15 @@ auto Sorcery::EdgeOfTown::start(bool go_directly_to_maze) -> std::optional<MenuI
 						return std::nullopt;
 					} else if (dialog_input.value() == WindowDialogButton::YES) {
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+
+						// If we leave the game, move any current party members into the Inn
+						for (auto &[character_id, character] : _game->characters) {
+							if (character.location == CharacterLocation::PARTY)
+								character.location = CharacterLocation::INN;
+						}
+						_game->state->clear_party();
 						_game->save_game();
+
 						return MenuItem::ET_LEAVE_GAME;
 					} else if (dialog_input.value() == WindowDialogButton::NO) {
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
