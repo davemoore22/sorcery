@@ -31,6 +31,7 @@
 #include "dialog.hpp"
 #include "display.hpp"
 #include "game.hpp"
+#include "get.hpp"
 #include "graphics.hpp"
 #include "iconpanel.hpp"
 #include "inspect.hpp"
@@ -82,6 +83,7 @@ namespace Sorcery {
 		auto _handle_in_search(const sf::Event &event) -> std::optional<int>;
 		auto _handle_in_action(const sf::Event &event) -> std::optional<int>;
 		auto _handle_in_map(const sf::Event &event) -> std::optional<int>;
+		auto _handle_in_get(const sf::Event &event) -> std::optional<int>;
 		auto _refresh_display() -> void;
 		auto _update_display() -> void;
 		auto _draw() -> void;
@@ -110,6 +112,7 @@ namespace Sorcery {
 		std::unique_ptr<Menu> _camp_menu;
 		std::unique_ptr<Menu> _search_menu;
 		std::unique_ptr<Menu> _action_menu;
+		std::unique_ptr<Menu> _get_menu;
 		std::unique_ptr<Menu> _elevator_a_d_menu;
 		std::unique_ptr<Menu> _elevator_a_f_menu;
 		std::unique_ptr<Frame> _camp_menu_frame;
@@ -117,6 +120,7 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _action_menu_frame;
 		std::unique_ptr<Frame> _elevator_a_d_menu_frame;
 		std::unique_ptr<Frame> _elevator_a_f_menu_frame;
+		std::unique_ptr<Frame> _get_menu_frame;
 		std::unique_ptr<StatusBar> _status_bar;
 		std::unique_ptr<Dialog> _confirm_exit;
 		std::unique_ptr<Dialog> _ouch;
@@ -141,6 +145,7 @@ namespace Sorcery {
 		bool _in_search;
 		bool _in_character;
 		bool _in_map;
+		bool _in_get;
 		bool _show_confirm_exit;
 		bool _show_confirm_stairs;
 		bool _show_console;
@@ -161,6 +166,7 @@ namespace Sorcery {
 		bool _update_render;
 		bool _update_search;
 		bool _update_tile_note;
+		bool _update_get;
 		bool _exit_maze_now;
 		bool _pending_chute;
 		bool _pending_elevator;
@@ -172,6 +178,7 @@ namespace Sorcery {
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _direction_start;
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _direction_current_time;
 		bool _show_direction_indicatior;
+		std::optional<std::vector<MenuEntry>::const_iterator> _get_option;
 		std::optional<std::vector<MenuEntry>::const_iterator> _camp_option;
 		std::optional<std::vector<MenuEntry>::const_iterator> _action_option;
 		std::optional<std::vector<MenuEntry>::const_iterator> _search_option;

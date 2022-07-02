@@ -1063,6 +1063,33 @@ src/game.cpp.s:
 	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/game.cpp.s
 .PHONY : src/game.cpp.s
 
+src/get.o: src/get.cpp.o
+
+.PHONY : src/get.o
+
+# target to build an object file
+src/get.cpp.o:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/get.cpp.o
+.PHONY : src/get.cpp.o
+
+src/get.i: src/get.cpp.i
+
+.PHONY : src/get.i
+
+# target to preprocess a source file
+src/get.cpp.i:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/get.cpp.i
+.PHONY : src/get.cpp.i
+
+src/get.s: src/get.cpp.s
+
+.PHONY : src/get.s
+
+# target to generate assembly for a file
+src/get.cpp.s:
+	$(MAKE) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/get.cpp.s
+.PHONY : src/get.cpp.s
+
 src/graphics.o: src/graphics.cpp.o
 
 .PHONY : src/graphics.o
@@ -2364,6 +2391,9 @@ help:
 	@echo "... src/game.o"
 	@echo "... src/game.i"
 	@echo "... src/game.s"
+	@echo "... src/get.o"
+	@echo "... src/get.i"
+	@echo "... src/get.s"
 	@echo "... src/graphics.o"
 	@echo "... src/graphics.i"
 	@echo "... src/graphics.s"

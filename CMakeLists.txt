@@ -51,6 +51,7 @@ add_executable(${PROJECT_NAME}
 	src/font.cpp
 	src/frame.cpp
 	src/game.cpp
+	src/get.cpp
 	src/graphics.cpp
 	src/iconpanel.cpp
 	src/iconstore.cpp

@@ -71,6 +71,13 @@ auto Sorcery::Engine::_initalise_components() -> void {
 	_search_menu_frame->setPosition(_display->window->get_x(_search_menu_frame->sprite, search_fc.x),
 		_display->window->get_y(_search_menu_frame->sprite, search_fc.y));
 
+	_get_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CHARACTERS_HERE);
+	const Component get_fc{(*_display->layout)["engine_base_ui:get_menu_frame"]};
+	_get_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, get_fc.w, get_fc.h,
+		get_fc.colour, get_fc.background, get_fc.alpha);
+	_get_menu_frame->setPosition(_display->window->get_x(_get_menu_frame->sprite, get_fc.x),
+		_display->window->get_y(_get_menu_frame->sprite, get_fc.y));
+
 	_action_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::ACTION);
 	const Component action_fc{(*_display->layout)["engine_base_ui:action_menu_frame"]};
 	_action_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, action_fc.w,
@@ -225,6 +232,7 @@ auto Sorcery::Engine::_set_tile_explored(const Coordinate loc) -> void {
 
 auto Sorcery::Engine::_set_maze_entry_start() -> void {
 
+	_in_get = false;
 	_in_map = false;
 	_in_camp = true;
 	_in_search = false;
@@ -440,6 +448,13 @@ auto Sorcery::Engine::_handle_in_search(const sf::Event &event) -> std::optional
 				_display->generate("engine_base_ui");
 				_display->set_input_mode(WindowInputMode::IN_GAME);
 				return CONTINUE;
+			} else if (option_chosen == MenuItem::AC_SEARCH_CHARACTERS) {
+				_in_search = false;
+				_in_get = true;
+				_get_menu->reload();
+				_display->generate("engine_base_ui");
+				_display->set_input_mode(WindowInputMode::IN_GAME);
+				return CONTINUE;
 			}
 		}
 	}
@@ -483,6 +498,59 @@ auto Sorcery::Engine::_handle_in_action(const sf::Event &event) -> std::optional
 				_display->generate("engine_base_ui");
 				_display->set_input_mode(WindowInputMode::IN_GAME);
 				return CONTINUE;
+			} else if (option_chosen == MenuItem::AC_SEARCH_CHARACTERS) {
+
+				_in_get = true;
+				_get_menu->reload();
+				return CONTINUE;
+			}
+		}
+	}
+
+	return std::nullopt;
+}
+
+auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<int> {
+
+	if (_left_icon_panel->selected)
+		_left_icon_panel->selected = std::nullopt;
+	if (_right_icon_panel->selected)
+		_right_icon_panel->selected = std::nullopt;
+	if (_status_bar->selected)
+		_status_bar->selected = std::nullopt;
+
+	if (_system->input->check(WindowInput::CANCEL, event))
+		_in_get = false;
+
+	if (_system->input->check(WindowInput::BACK, event))
+		_in_get = false;
+
+	if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
+		_game->toggle_console();
+	else if (_system->input->check(WindowInput::UP, event))
+		_get_option = _get_menu->choose_previous();
+	else if (_system->input->check(WindowInput::DOWN, event))
+		_get_option = _get_menu->choose_next();
+	else if (_system->input->check(WindowInput::MOVE, event))
+		_get_option = _get_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+	else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+		// We have selected something from the menu
+		if (_get_option) {
+
+			if (const MenuItem option_chosen{(*_get_option.value()).item}; option_chosen == MenuItem::AC_LEAVE) {
+
+				_game->save_game();
+				_status_bar->refresh();
+				_in_get = false;
+				_display->generate("engine_base_ui");
+				_display->set_input_mode(WindowInputMode::IN_GAME);
+				return CONTINUE;
+			} else {
+
+				_status_bar->refresh();
+				_get_menu->reload();
+				_get_option = _get_menu->items.begin();
 			}
 		}
 	}
@@ -763,6 +831,21 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		return CONTINUE;
 	} else if (_system->input->check(WindowInput::MAZE_SHOW_MAP, event)) {
 		_in_map = !_in_map;
+		_update_automap = true;
+		_update_compass = true;
+		_update_buffbar = true;
+		_update_search = true;
+		_update_render = true;
+	} else if (_system->input->check(WindowInput::MAZE_SEARCH, event)) {
+		_in_search = true;
+		_update_automap = true;
+		_update_compass = true;
+		_update_buffbar = true;
+		_update_search = true;
+		_update_render = true;
+	} else if (_system->input->check(WindowInput::MAZE_INSPECT, event)) {
+		_in_get = true;
+		_get_menu->reload();
 		_update_automap = true;
 		_update_compass = true;
 		_update_buffbar = true;
@@ -1060,8 +1143,6 @@ auto Sorcery::Engine::start() -> int {
 	_place_components();
 	_set_maze_entry_start();
 
-	const auto current_loc{_game->state->get_player_pos()};
-
 	if (!_tile_explored(_game->state->get_player_pos()))
 		_set_tile_explored(_game->state->get_player_pos());
 
@@ -1116,7 +1197,6 @@ auto Sorcery::Engine::start() -> int {
 							return EXIT_ALL;
 						}
 					}
-
 				} else if (_in_search) {
 
 					auto what_to_do{_handle_in_search(event)};
@@ -1124,7 +1204,13 @@ auto Sorcery::Engine::start() -> int {
 						if (what_to_do.value() == CONTINUE)
 							continue;
 					}
+				} else if (_in_get) {
 
+					auto what_to_do{_handle_in_get(event)};
+					if (what_to_do) {
+						if (what_to_do.value() == CONTINUE)
+							continue;
+					}
 				} else if (_in_action) {
 
 					auto what_to_do{_handle_in_action(event)};
@@ -1678,6 +1764,13 @@ auto Sorcery::Engine::_draw() -> void {
 			(*_display->layout)["engine_base_ui:search_menu"].x, (*_display->layout)["engine_base_ui:search_menu"].y);
 		_search_menu->setPosition(menu_pos);
 		_window->draw(*_search_menu);
+	} else if (_in_get) {
+		_window->draw(*_get_menu_frame);
+		_get_menu->generate((*_display->layout)["engine_base_ui:get_menu"]);
+		const sf::Vector2f menu_pos(
+			(*_display->layout)["engine_base_ui:get_menu"].x, (*_display->layout)["engine_base_ui:get_menu"].y);
+		_get_menu->setPosition(menu_pos);
+		_window->draw(*_get_menu);
 	} else if (_in_elevator_a_d) {
 		_window->draw(*_elevator_a_d_menu_frame);
 		_elevator_a_d_menu->generate((*_display->layout)["engine_base_ui:elevator_a_d_menu"]);
