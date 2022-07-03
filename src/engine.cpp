@@ -547,7 +547,7 @@ auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<in
 				_display->generate("engine_base_ui");
 				_display->set_input_mode(WindowInputMode::IN_GAME);
 				return CONTINUE;
-			} else {
+			} else if ((*_get_option.value()).type == MenuItemType::ENTRY) {
 
 				const auto character_chosen{(*_get_option.value()).index};
 				_cur_char = &_game->characters.at(character_chosen);
@@ -1074,6 +1074,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		else if (_system->input->check(WindowInput::BACK, event))
 			_in_camp = true;
 		else if (_system->input->check(WindowInput::CONFIRM, event)) {
+			sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
 			if (_status_bar->selected) {
 
 				// Remember here status-bar selected is
@@ -1087,7 +1088,34 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 					_in_character = true;
 					return CONTINUE;
 				}
+			} else if (_left_icon_panel->is_mouse_over(
+						   (*_display->layout)["engine_base_ui:left_icon_panel"], mouse_pos)) {
+
+				if (std::optional<std::string> left_selected{_left_icon_panel->set_mouse_selected(
+						(*_display->layout)["engine_base_ui:left_icon_panel"], mouse_pos)};
+					left_selected) {
+					std::cout << left_selected.value() << std::endl;
+				}
+			} else if (_right_icon_panel->is_mouse_over(
+						   (*_display->layout)["engine_base_ui:right_icon_panel"], mouse_pos)) {
+
+				if (std::optional<std::string> right_selected{_right_icon_panel->set_mouse_selected(
+						(*_display->layout)["engine_base_ui:right_icon_panel"], mouse_pos)};
+					right_selected) {
+					std::cout << right_selected.value() << std::endl;
+				}
+			} else if (_right_icon_panel->is_mouse_over((*_display->layout)["global:automap"], mouse_pos)) {
+
+				_in_map = true;
+				_update_automap = true;
+				_update_compass = true;
+				_update_buffbar = true;
+				_update_search = true;
+				_update_render = true;
+
 			} else {
+
+				// Otherwise the left click menu
 				_in_action = true;
 			}
 		} else if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
@@ -1096,10 +1124,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			// Check for Mouse Overs
 			sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
 
-			if (std::optional<std::string> left_selected{
-					_left_icon_panel->set_mouse_selected((*_display->layout)["engine_base_ui:left_icon_"
-																			 "panel"],
-						mouse_pos)};
+			if (std::optional<std::string> left_selected{_left_icon_panel->set_mouse_selected(
+					(*_display->layout)["engine_base_ui:left_icon_panel"], mouse_pos)};
 				left_selected) {
 				_left_icon_panel->selected = left_selected.value();
 				if (_right_icon_panel->selected)

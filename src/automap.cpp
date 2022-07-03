@@ -56,6 +56,19 @@ Sorcery::AutoMap::AutoMap(System *system, Display *display, Graphics *graphics, 
 	_sprites.emplace_back(b_sprite);
 }
 
+auto Sorcery::AutoMap::is_mouse_over(Component &component, sf::Vector2f mouse_pos) const -> bool {
+
+	for (auto sprite : _sprites) {
+		sf::Rect sprite_area{sprite.getGlobalBounds()};
+		sprite_area.left += component.x;
+		sprite_area.top += component.y;
+		if (sprite_area.contains(mouse_pos))
+			return true;
+	}
+
+	return false;
+}
+
 auto Sorcery::AutoMap::refresh() -> void {
 
 	_sprites.resize(2);

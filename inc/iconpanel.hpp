@@ -44,6 +44,7 @@ namespace Sorcery {
 		auto refresh(bool in_camp) -> void;
 		auto set_mouse_selected(Component &component, sf::Vector2f mouse_pos) -> std::optional<std::string>;
 		auto set_selected_background() -> void;
+		auto is_mouse_over(Component &component, sf::Vector2f mouse_pos) const -> bool;
 
 	  private:
 		// Private Methods

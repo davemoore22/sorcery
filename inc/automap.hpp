@@ -44,6 +44,7 @@ namespace Sorcery {
 		// Public Members
 
 		// Public Methods
+		auto is_mouse_over(Component &component, sf::Vector2f mouse_pos) const -> bool;
 		auto refresh() -> void;
 
 	  private:

@@ -123,6 +123,20 @@ auto Sorcery::IconPanel::set_mouse_selected(Component &component, sf::Vector2f m
 	return std::nullopt;
 }
 
+auto Sorcery::IconPanel::is_mouse_over(Component &component, sf::Vector2f mouse_pos) const -> bool {
+
+	// Now look through the global positions of each icon and see if it matches the mouse position
+	for (auto &[key, sprite] : _icons) {
+		sf::Rect sprite_area{sprite.getGlobalBounds()};
+		sprite_area.left += component.x;
+		sprite_area.top += component.y;
+		if (sprite_area.contains(mouse_pos))
+			return true;
+	}
+
+	return false;
+}
+
 auto Sorcery::IconPanel::set_selected_background() -> void {
 
 	if (selected) {
