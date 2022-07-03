@@ -40,6 +40,9 @@ namespace Sorcery {
 		Search() = delete;
 
 		// Public Members
+		unsigned int width;
+		unsigned int height;
+		bool characters_here;
 
 		// Public Methods
 		auto refresh() -> void;
@@ -54,8 +57,6 @@ namespace Sorcery {
 		Graphics *_graphics;
 		Game *_game;
 		Component _layout;
-		unsigned int _width;
-		unsigned int _height;
 		std::unique_ptr<Frame> _frame;
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Sprite> _sprites;

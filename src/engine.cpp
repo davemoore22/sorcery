@@ -189,6 +189,7 @@ auto Sorcery::Engine::_place_components() -> void {
 	_buffbar->setPosition(buffbar_c.x, buffbar_c.y);
 	const Component search_c{(*_display->layout)["global:search"]};
 	_search->setPosition(search_c.x, search_c.y);
+	_search_bounds = sf::IntRect{search_c.x, search_c.y, _search->width, _search->height};
 
 	const Component l_icon_panel_c{(*_display->layout)["engine_base_ui:left_icon_panel"]};
 	_left_icon_panel->setPosition(l_icon_panel_c.x, l_icon_panel_c.y);
@@ -408,6 +409,8 @@ auto Sorcery::Engine::_handle_in_character(const sf::Event &event) -> void {
 		if (_cur_char.value()->check_for_mouse_move(sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 				static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
 			_cur_char.value()->set_view(_cur_char.value()->get_view());
+		} else {
+			_status_bar->selected = std::nullopt;
 		}
 	}
 }
@@ -1113,6 +1116,15 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_update_search = true;
 				_update_render = true;
 
+			} else if (_is_mouse_over(_search_bounds, mouse_pos) && (_search->characters_here)) {
+
+				_in_get = true;
+				_get_menu->reload();
+				_update_automap = true;
+				_update_compass = true;
+				_update_buffbar = true;
+				_update_search = true;
+				_update_render = true;
 			} else {
 
 				// Otherwise the left click menu
@@ -1167,6 +1179,11 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 	}
 
 	return std::nullopt;
+}
+
+auto Sorcery::Engine::_is_mouse_over(sf::IntRect rect, sf::Vector2f mouse_pos) const -> bool {
+
+	return rect.contains(static_cast<int>(mouse_pos.x), static_cast<int>(mouse_pos.y));
 }
 
 // Entering the Maze

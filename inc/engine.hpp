@@ -102,6 +102,7 @@ namespace Sorcery {
 		auto _set_tile_explored(const Coordinate loc) -> void;
 		auto _reset_direction_indicator() -> void;
 		auto _update_direction_indicator_timer() -> void;
+		auto _is_mouse_over(sf::IntRect rect, sf::Vector2f mouse_pos) const -> bool;
 
 		// Private Members
 		System *_system;
@@ -174,7 +175,7 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _cur_char_frame;
 		MapDirection _last_movement;
 		int _destination_floor;
-
+		sf::IntRect _search_bounds;
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _direction_start;
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _direction_current_time;
 		bool _show_direction_indicatior;

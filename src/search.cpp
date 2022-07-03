@@ -41,6 +41,8 @@ Sorcery::Search::Search(System *system, Display *display, Graphics *graphics, Ga
 	auto fsprite{_frame->sprite};
 	fsprite.setPosition(0, 0);
 	_sprites.emplace_back(fsprite);
+	width = fsprite.getGlobalBounds().width;
+	height = fsprite.getGlobalBounds().height;
 }
 
 auto Sorcery::Search::refresh() -> void {
@@ -73,6 +75,8 @@ auto Sorcery::Search::refresh() -> void {
 		characters_here.setPosition(x, y);
 		_icons.emplace_back(std::make_pair("characters_here", characters_here));
 	}
+
+	characters_here = other_characters.size() > 0;
 }
 
 auto Sorcery::Search::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
