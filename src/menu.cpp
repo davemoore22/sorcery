@@ -999,7 +999,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::CA_TEMPLE, (*_display->string)["MENU_TEMPLE"]);
 			} else if (_mode.value() == MenuMode::CAMP) {
 				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
-				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::CAMP, (*_display->string)["MENU_CAMP"]);
+				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::CAMP, (*_display->string)["MENU_LEAVE"]);
 			}
 		}
 	} break;

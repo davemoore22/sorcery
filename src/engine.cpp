@@ -1097,7 +1097,61 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				if (std::optional<std::string> left_selected{_left_icon_panel->set_mouse_selected(
 						(*_display->layout)["engine_base_ui:left_icon_panel"], mouse_pos)};
 					left_selected) {
-					std::cout << left_selected.value() << std::endl;
+					const auto what(left_selected.value());
+					if (what.ends_with("reorder")) {
+						_status_bar->refresh();
+						if (auto new_party{_reorder->start()}; new_party) {
+
+							// TODO: handle aborts here too
+							_game->state->set_party(new_party.value());
+							_game->save_game();
+							_game->load_game();
+							_status_bar->refresh();
+						}
+						_reorder->stop();
+						_status_bar->refresh();
+						_display->generate("engine_base_ui");
+						_display->set_input_mode(WindowInputMode::IN_GAME);
+
+					} else if (what.ends_with("items")) {
+						// TODO
+					} else if (what.ends_with("achievements")) {
+						// TODO
+					} else if (what.ends_with("talk")) {
+						// TODO
+					} else if (what.ends_with("controls")) {
+						_display->show_overlay();
+						_system->set_pause(10000);
+						_display->hide_overlay();
+
+					} else if (what.ends_with("kick")) {
+						// TODO
+					} else if (what.ends_with("options")) {
+						auto options{std::make_unique<Options>(_system, _display, _graphics)};
+						if (auto result{options->start()}; result == EXIT_ALL) {
+							options->stop();
+							return EXIT_ALL;
+						}
+						options->stop();
+						_status_bar->refresh();
+						_display->generate("engine_base_ui");
+						_display->set_input_mode(WindowInputMode::IN_GAME);
+					} else if (what.ends_with("save")) {
+						auto party{_game->state->get_party_characters()};
+						for (auto &[character_id, character] : _game->characters) {
+							if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+								character.location = CharacterLocation::MAZE;
+							}
+						}
+						_game->save_game();
+						_game->state->clear_party();
+						return EXIT_MODULE;
+
+					} else if (what.ends_with("exit")) {
+						_show_confirm_exit = true;
+						_display->set_input_mode(WindowInputMode::CONFIRM_QUIT_GAME);
+						return CONTINUE;
+					}
 				}
 			} else if (_right_icon_panel->is_mouse_over(
 						   (*_display->layout)["engine_base_ui:right_icon_panel"], mouse_pos)) {
@@ -1105,30 +1159,107 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				if (std::optional<std::string> right_selected{_right_icon_panel->set_mouse_selected(
 						(*_display->layout)["engine_base_ui:right_icon_panel"], mouse_pos)};
 					right_selected) {
-					std::cout << right_selected.value() << std::endl;
+					const auto what{right_selected.value()};
+					if (what.ends_with("left")) {
+						_show_direction_indicatior = true;
+						_reset_direction_indicator();
+						_turn_left();
+						_spinner_if();
+						_update_automap = true;
+						_update_compass = true;
+						_update_render = true;
+						_update_buffbar = true;
+						_update_search = true;
+					} else if (what.ends_with("right")) {
+						_show_direction_indicatior = true;
+						_reset_direction_indicator();
+						_turn_right();
+						_spinner_if();
+						_update_automap = true;
+						_update_compass = true;
+						_update_render = true;
+						_update_buffbar = true;
+						_update_search = true;
+					} else if (what.ends_with("forward")) {
+						if (auto has_moved{_move_forward()}; !has_moved) {
+							_show_direction_indicatior = false;
+							_show_ouch = true;
+							_ouch->reset_timed();
+						} else {
+							_show_direction_indicatior = true;
+							_reset_direction_indicator();
+							_teleport_if();
+							_spinner_if();
+							_pit_if();
+							_chute_if();
+							if (!_tile_explored(_game->state->get_player_pos()))
+								_set_tile_explored(_game->state->get_player_pos());
+							_update_automap = true;
+						}
+					} else if (what.ends_with("backward")) {
+						if (auto has_moved{_move_backward()}; !has_moved) {
+							_show_direction_indicatior = false;
+							_show_ouch = true;
+							_ouch->reset_timed();
+						} else {
+							_show_direction_indicatior = true;
+							_reset_direction_indicator();
+							_spinner_if();
+							_teleport_if();
+							_pit_if();
+							_chute_if();
+							if (!_tile_explored(_game->state->get_player_pos()))
+								_set_tile_explored(_game->state->get_player_pos());
+							_update_automap = true;
+						}
+					} else if (what.ends_with("camp")) {
+						_in_camp = true;
+						_update_automap = true;
+						_update_compass = true;
+						_update_buffbar = true;
+						_update_search = true;
+						_update_render = true;
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} else if (what.ends_with("use")) {
+						// TODO
+					} else if (what.ends_with("magic")) {
+						// TODO
+					} else if (what.ends_with("examine")) {
+						// TODO
+					} else if (what.ends_with("party")) {
+						_status_bar->refresh();
+						if (auto result{_inspect->start()}; result == MenuItem::ABORT) {
+							_inspect->stop();
+							return EXIT_ALL;
+						}
+						_inspect->stop();
+						_status_bar->refresh();
+						_display->generate("engine_base_ui");
+						_display->set_input_mode(WindowInputMode::IN_GAME);
+					}
+				} else if (_right_icon_panel->is_mouse_over((*_display->layout)["global:automap"], mouse_pos)) {
+
+					_in_map = true;
+					_update_automap = true;
+					_update_compass = true;
+					_update_buffbar = true;
+					_update_search = true;
+					_update_render = true;
+
+				} else if (_is_mouse_over(_search_bounds, mouse_pos) && (_search->characters_here)) {
+
+					_in_get = true;
+					_get_menu->reload();
+					_update_automap = true;
+					_update_compass = true;
+					_update_buffbar = true;
+					_update_search = true;
+					_update_render = true;
+				} else {
+
+					// Otherwise the left click menu
+					_in_action = true;
 				}
-			} else if (_right_icon_panel->is_mouse_over((*_display->layout)["global:automap"], mouse_pos)) {
-
-				_in_map = true;
-				_update_automap = true;
-				_update_compass = true;
-				_update_buffbar = true;
-				_update_search = true;
-				_update_render = true;
-
-			} else if (_is_mouse_over(_search_bounds, mouse_pos) && (_search->characters_here)) {
-
-				_in_get = true;
-				_get_menu->reload();
-				_update_automap = true;
-				_update_compass = true;
-				_update_buffbar = true;
-				_update_search = true;
-				_update_render = true;
-			} else {
-
-				// Otherwise the left click menu
-				_in_action = true;
 			}
 		} else if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
 			_game->toggle_console();
