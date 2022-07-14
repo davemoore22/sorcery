@@ -4972,7 +4972,16 @@
 				"data": [
 					{
 						"offset_x": "0",
-						"offset_y": "0"
+						"offset_y": "0",
+						"colour_ok": "0xffffffff",
+						"colour_silenced": "0xffffffff",
+						"colour_held": "0x800080ff",
+						"colour_stoned": "0x808080ff",
+						"colour_dead": "0xff0000ff",
+						"colour_ashes": "0xff0000ff",
+						"colour_lost": "0xff0000ff",
+						"colour_low_health": "0xffff00ff",
+						"colour_poisoned": "0x00ff00ff"
 					}
 				]
 			},
@@ -9175,7 +9184,15 @@
 					"summary_y": "28",
 					"summary_offset_x": "0",
 					"summary_offset_y": "28",
-					"adjustment_w": "-16"
+					"adjustment_w": "-16",
+					"colour_ok": "0xffffffff",
+					"colour_silenced": "0xffffffff",
+					"colour_held": "0xffffffff",
+					"colour_stoned": "0xffffffff",
+					"colour_dead": "0xff0000ff",
+					"colour_ashes": "0xff0000ff",
+					"colour_lost": "0xff0000ff",
+					"colour_low_health": "0xffff00ff"
 				}
 			]
 		},
@@ -9190,7 +9207,7 @@
 			"size": "38",
 			"animated": "true",
 			"width": "36",
-			"background": " 0xff0000ff",
+			"background": "0xff0000ff",
 			"justification": "centre",
 			"type": "menu",
 			"priority": "8"

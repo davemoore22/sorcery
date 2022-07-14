@@ -818,7 +818,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 
 	if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F6)) {
 
-		auto dest_level{_game->state->get_depth() - 1};
+		/*auto dest_level{_game->state->get_depth() - 1};
 		Level level{((*_game->levelstore)[dest_level]).value()};
 		_game->state->set_current_level(&level);
 		_game->state->set_depth(dest_level);
@@ -828,9 +828,26 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_update_buffbar = true;
 		_update_search = true;
 		_update_render = true;
-		return CONTINUE;
+		return CONTINUE; */
 	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F5)) {
-		auto dest_level{_game->state->get_depth() + 1};
+
+		const auto party{_game->state->get_party_characters()};
+		for (auto &[character_id, character] : _game->characters) {
+			if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+				character.set_status(CharacterStatus::OK);
+				character.set_current_hp(character.get_max_hp());
+				character.reset_adjustment_per_turn();
+				character.set_poisoned_rate(0);
+			}
+		}
+		_update_automap = true;
+		_update_compass = true;
+		_update_buffbar = true;
+		_update_search = true;
+		_update_render = true;
+		_update_status_bar = true;
+
+		/* auto dest_level{_game->state->get_depth() + 1};
 		Level level{((*_game->levelstore)[dest_level]).value()};
 		_game->state->set_current_level(&level);
 		_game->state->set_depth(dest_level);
@@ -839,8 +856,72 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_update_compass = true;
 		_update_buffbar = true;
 		_update_search = true;
-		_update_render = true;
+		_update_render = true; */
 		return CONTINUE;
+	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F2)) {
+
+		const auto party{_game->state->get_party_characters()};
+
+		for (auto &[character_id, character] : _game->characters) {
+			if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+				if ((*_system->random)[RandomType::ZERO_TO_8] == 0)
+					character.set_poisoned_rate(1);
+				else if ((*_system->random)[RandomType::ZERO_TO_8] == 1)
+					character.set_hp_gain_per_turn(1);
+				else {
+					character.set_poisoned_rate(0);
+					character.reset_adjustment_per_turn();
+				}
+			}
+		}
+		_update_automap = true;
+		_update_compass = true;
+		_update_buffbar = true;
+		_update_search = true;
+		_update_render = true;
+		_update_status_bar = true;
+
+	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F3)) {
+
+		const auto party{_game->state->get_party_characters()};
+
+		for (auto &[character_id, character] : _game->characters) {
+			if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+				if ((*_system->random)[RandomType::ZERO_TO_2] == 0)
+					character.set_current_hp(1);
+				else
+					character.set_current_hp(character.get_max_hp());
+			}
+		}
+		_update_automap = true;
+		_update_compass = true;
+		_update_buffbar = true;
+		_update_search = true;
+		_update_render = true;
+		_update_status_bar = true;
+
+	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F4)) {
+
+		const auto party{_game->state->get_party_characters()};
+		for (auto &[character_id, character] : _game->characters) {
+			if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+				character.set_status(
+					magic_enum::enum_cast<CharacterStatus>((*_system->random)[RandomType::ZERO_TO_8]).value());
+				if ((character.get_status() == CharacterStatus::DEAD) ||
+					(character.get_status() == CharacterStatus::ASHES) ||
+					(character.get_status() == CharacterStatus::LOST)) {
+					character.set_current_hp(0);
+				} else
+					character.set_current_hp(character.get_max_hp());
+			}
+		}
+		_update_automap = true;
+		_update_compass = true;
+		_update_buffbar = true;
+		_update_search = true;
+		_update_render = true;
+		_update_status_bar = true;
+
 	} else if (_system->input->check(WindowInput::MAZE_SHOW_MAP, event)) {
 		_in_map = !_in_map;
 		_update_automap = true;

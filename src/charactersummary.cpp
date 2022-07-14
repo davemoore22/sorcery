@@ -45,7 +45,44 @@ Sorcery::CharacterSummary::CharacterSummary(
 	sf::Text name_text{};
 	name_text.setFont(_system->resources->fonts[text.font]);
 	name_text.setCharacterSize(text.size);
-	name_text.setFillColor(sf::Color(text.colour));
+
+	switch (character->get_status()) {
+	case CharacterStatus::OK:
+		if (character->get_poisoned_rate() > 0)
+			name_text.setFillColor(sf::Color(std::stoull(text["colour_poisoned"].value(), 0, 16)));
+		else if (character->get_max_hp() / character->get_current_hp() > 5)
+			name_text.setFillColor(sf::Color(std::stoull(text["colour_low_health"].value(), 0, 16)));
+		else
+			name_text.setFillColor(sf::Color(std::stoull(text["colour_ok"].value(), 0, 16)));
+		break;
+	case CharacterStatus::AFRAID:
+		[[fallthrough]];
+	case CharacterStatus::SILENCED:
+		[[fallthrough]];
+	case CharacterStatus::ASLEEP:
+		if (character->get_max_hp() / character->get_current_hp() > 5)
+			name_text.setFillColor(sf::Color(std::stoull(text["colour_low_health"].value(), 0, 16)));
+		else
+			name_text.setFillColor(sf::Color(std::stoull(text["colour_ok"].value(), 0, 16)));
+		break;
+	case CharacterStatus::ASHES:
+		name_text.setFillColor(sf::Color(std::stoull(text["colour_ashes"].value(), 0, 16)));
+		break;
+	case CharacterStatus::DEAD:
+		name_text.setFillColor(sf::Color(std::stoull(text["colour_dead"].value(), 0, 16)));
+		break;
+	case CharacterStatus::HELD:
+		name_text.setFillColor(sf::Color(std::stoull(text["colour_held"].value(), 0, 16)));
+		break;
+	case CharacterStatus::LOST:
+		name_text.setFillColor(sf::Color(std::stoull(text["colour_lost"].value(), 0, 16)));
+		break;
+	case CharacterStatus::STONED:
+		name_text.setFillColor(sf::Color(std::stoull(text["colour_stoned"].value(), 0, 16)));
+		break;
+	default:
+		name_text.setFillColor(sf::Color(text.colour));
+	}
 	name_text.setString(character->get_sb_text(_num));
 	_display->window->set_pos(&text, &name_text);
 	_texts.push_back(name_text);

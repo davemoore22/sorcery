@@ -487,7 +487,7 @@ namespace Sorcery {
 			AFRAID = 1,
 			SILENCED = 2,
 			ASLEEP = 3,
-			PARALYSED = 4,
+			HELD = 4,
 			STONED = 5,
 			DEAD = 6,
 			ASHES = 7,

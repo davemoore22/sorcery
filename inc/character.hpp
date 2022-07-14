@@ -133,6 +133,14 @@ namespace Sorcery {
 		auto is_legated() const -> bool;
 		auto get_version() const -> int;
 		auto get_sb_text(const int position) -> std::string;
+		auto get_current_hp() const -> int;
+		auto get_max_hp() const -> int;
+		auto set_current_hp(const int hp) -> void;
+		auto get_hp_adjustment() const -> int;
+		auto set_hp_gain_per_turn(const int adjustment) -> void;
+		auto set_hp_loss_per_turn(const int adjustment) -> void;
+		auto reset_adjustment_per_turn() -> void;
+		auto get_hp_adjustment_symbol() const -> char;
 
 		// Public Members
 		std::map<SpellID, sf::FloatRect> mage_spell_bounds;

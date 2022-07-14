@@ -1670,6 +1670,16 @@ auto Sorcery::Character::_update_hp_for_level() -> void {
 	}
 }
 
+auto Sorcery::Character::get_current_hp() const -> int {
+
+	return _abilities.at(CharacterAbility::CURRENT_HP);
+}
+
+auto Sorcery::Character::get_max_hp() const -> int {
+
+	return _abilities.at(CharacterAbility::MAX_HP);
+}
+
 // Level a character up
 auto Sorcery::Character::level_up() -> void {
 
@@ -2432,41 +2442,40 @@ auto Sorcery::Character::get_status() const -> CharacterStatus {
 
 auto Sorcery::Character::_get_condition() const -> std::string {
 
-	if (_abilities.at(CharacterAbility::POISON_STRENGTH) == 0) {
-		if (_status == CharacterStatus::OK)
-			return (*_display->string)["STATUS_OK"];
-		else {
-			switch (_status) {
-			case CharacterStatus::AFRAID:
-				return (*_display->string)["STATUS_AFRAID"];
-				break;
-			case CharacterStatus::ASHES:
-				return (*_display->string)["STATUS_ASHES"];
-				break;
-			case CharacterStatus::ASLEEP:
-				return (*_display->string)["STATUS_ASLEEP"];
-				break;
-			case CharacterStatus::DEAD:
-				return (*_display->string)["STATUS_DEAD"];
-				break;
-			case CharacterStatus::LOST:
-				return (*_display->string)["STATUS_LOST"];
-				break;
-			case CharacterStatus::PARALYSED:
-				return (*_display->string)["STATUS_PARALYSED"];
-				break;
-			case CharacterStatus::SILENCED:
-				return (*_display->string)["STATUS_SILENCED"];
-				break;
-			case CharacterStatus::STONED:
-				return (*_display->string)["STATUS_STONED"];
-				break;
-			default:
-				return "";
-			};
-		}
-	} else
+	if (is_poisoned() && (_status == CharacterStatus::OK)) {
 		return (*_display->string)["STATUS_POISONED"];
+	} else if (_status == CharacterStatus::OK)
+		return (*_display->string)["STATUS_OK"];
+	else {
+		switch (_status) {
+		case CharacterStatus::AFRAID:
+			return (*_display->string)["STATUS_AFRAID"];
+			break;
+		case CharacterStatus::ASHES:
+			return (*_display->string)["STATUS_ASHES"];
+			break;
+		case CharacterStatus::ASLEEP:
+			return (*_display->string)["STATUS_ASLEEP"];
+			break;
+		case CharacterStatus::DEAD:
+			return (*_display->string)["STATUS_DEAD"];
+			break;
+		case CharacterStatus::LOST:
+			return (*_display->string)["STATUS_LOST"];
+			break;
+		case CharacterStatus::HELD:
+			return (*_display->string)["STATUS_PARALYSED"];
+			break;
+		case CharacterStatus::SILENCED:
+			return (*_display->string)["STATUS_SILENCED"];
+			break;
+		case CharacterStatus::STONED:
+			return (*_display->string)["STATUS_STONED"];
+			break;
+		default:
+			return "";
+		};
+	}
 }
 
 auto Sorcery::Character::get_status_string() const -> std::string {
@@ -2489,6 +2498,11 @@ auto Sorcery::Character::set_status(CharacterStatus value) -> void {
 	}
 }
 
+auto Sorcery::Character::set_current_hp(const int hp) -> void {
+
+	_abilities[CharacterAbility::CURRENT_HP] = hp;
+}
+
 auto Sorcery::Character::is_poisoned() const -> bool {
 
 	return _abilities.at(CharacterAbility::POISON_STRENGTH) > 0;
@@ -2499,10 +2513,46 @@ auto Sorcery::Character::get_poisoned_rate() const -> int {
 	return _abilities.at(CharacterAbility::POISON_STRENGTH);
 }
 
+auto Sorcery::Character::get_hp_adjustment() const -> int {
+
+	return _abilities.at(CharacterAbility::HP_GAIN_PER_TURN) - _abilities.at(CharacterAbility::HP_LOSS_PER_TURN) -
+		   _abilities.at(CharacterAbility::POISON_STRENGTH);
+}
+
+auto Sorcery::Character::get_hp_adjustment_symbol() const -> char {
+
+	const auto rate{
+		(_abilities.at(CharacterAbility::HP_GAIN_PER_TURN) - _abilities.at(CharacterAbility::HP_LOSS_PER_TURN) -
+			_abilities.at(CharacterAbility::POISON_STRENGTH)) <=> 0};
+	if (rate < 0)
+		return '-';
+	else if (rate > 0)
+		return '+';
+	else
+		return ' ';
+}
+
+auto Sorcery::Character::set_hp_gain_per_turn(const int adjustment) -> void {
+
+	_abilities.at(CharacterAbility::HP_GAIN_PER_TURN) = adjustment;
+}
+auto Sorcery::Character::set_hp_loss_per_turn(const int adjustment) -> void {
+
+	_abilities.at(CharacterAbility::HP_LOSS_PER_TURN) = adjustment;
+}
+auto Sorcery::Character::reset_adjustment_per_turn() -> void {
+
+	_abilities.at(CharacterAbility::HP_GAIN_PER_TURN) = 0;
+	_abilities.at(CharacterAbility::HP_LOSS_PER_TURN) = 0;
+}
+
 auto Sorcery::Character::set_poisoned_rate(int value) -> void {
 
-	if (value > _abilities.at(CharacterAbility::POISON_STRENGTH))
+	if (value > _abilities.at(CharacterAbility::POISON_STRENGTH)) {
 		_abilities.at(CharacterAbility::POISON_STRENGTH) = value;
+	} else if (value == 0) {
+		_abilities.at(CharacterAbility::POISON_STRENGTH) = 0;
+	}
 }
 
 auto Sorcery::Character::get_poisoned_string() const -> std::string {
@@ -2514,8 +2564,8 @@ auto Sorcery::Character::get_poisoned_string() const -> std::string {
 
 auto Sorcery::Character::get_hp_summary() -> std::string {
 
-	return fmt::format("{}/{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
-		std::to_string(_abilities.at(CharacterAbility::MAX_HP)));
+	return fmt::format("{}/{}{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
+		std::to_string(_abilities.at(CharacterAbility::MAX_HP)), get_hp_adjustment_symbol());
 }
 
 auto Sorcery::Character::get_spell_points(const SpellType type, const SpellPointStatus status) const
