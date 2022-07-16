@@ -103,6 +103,8 @@ namespace Sorcery {
 		auto _reset_direction_indicator() -> void;
 		auto _update_direction_indicator_timer() -> void;
 		auto _is_mouse_over(sf::IntRect rect, sf::Vector2f mouse_pos) const -> bool;
+		auto _unpoison_characters_on_return_to_town() -> void;
+		auto _move_characters_to_temple_if_needed() -> void;
 
 		// Private Members
 		System *_system;

@@ -814,6 +814,36 @@ auto Sorcery::Engine::_handle_in_map(const sf::Event &event) -> std::optional<in
 	return std::nullopt;
 }
 
+auto Sorcery::Engine::_unpoison_characters_on_return_to_town() -> void {
+
+	const auto party{_game->state->get_party_characters()};
+	for (auto &[character_id, character] : _game->characters) {
+		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+			if ((character.get_status() == CharacterStatus::AFRAID) ||
+				(character.get_status() == CharacterStatus::SILENCED))
+				character.set_status(CharacterStatus::OK);
+			character.set_poisoned_rate(0);
+		}
+	}
+}
+
+auto Sorcery::Engine::_move_characters_to_temple_if_needed() -> void {
+
+	const auto party{_game->state->get_party_characters()};
+	for (auto &[character_id, character] : _game->characters) {
+		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+			if ((character.get_status() == CharacterStatus::DEAD) ||
+				(character.get_status() == CharacterStatus::ASHES) ||
+				(character.get_status() == CharacterStatus::LOST) ||
+				(character.get_status() == CharacterStatus::STONED) ||
+				(character.get_status() == CharacterStatus::HELD)) {
+				character.location = CharacterLocation::TEMPLE;
+				_game->state->remove_character_by_id(character_id);
+			}
+		}
+	}
+}
+
 auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<int> {
 
 	if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F6)) {
@@ -1052,6 +1082,9 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				const auto current_loc{_game->state->get_player_pos()};
 				if ((current_loc == Coordinate{0, 0}) && (_game->state->get_depth() == -1)) {
 
+					// On return to time - need also to do this on MALOR back as well
+					_unpoison_characters_on_return_to_town();
+					_move_characters_to_temple_if_needed();
 					_game->save_game();
 					return EXIT_MODULE;
 				} else {
