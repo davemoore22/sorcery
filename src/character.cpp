@@ -3354,7 +3354,10 @@ auto Sorcery::Character::_add_text(Component &component, std::string format, std
 	-> sf::Text * {
 
 	sf::Text text{};
-	auto formatted_value{fmt::format(format, value)};
+
+	// Note that Format v8 needs the format string wrapped in fmt::runtime - this isn't available in < v8 - see
+	// https://github.com/fmtlib/fmt/issues/2438 - check FMT_VERSION version in fmt/core.h
+	auto formatted_value{fmt::format(fmt::runtime(format), value)};
 	text.setFont(_system->resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
@@ -3373,8 +3376,7 @@ auto Sorcery::Character::_add_text(Component &component, std::string format, std
 	}()};
 	text.setPosition(component.x + offset_x, component.y + offset_y);
 
-	// Generate a new key as this is a map, and we might call this with the same
-	// base component
+	// Generate a new key as this is a map, and we might call this with the same base component
 	auto new_unique_key{GUID()};
 	if (is_view) {
 		_v_texts.emplace(new_unique_key, text);

@@ -12,7 +12,7 @@ Universe Repositories are installed:
 - libsqlite3-dev (3.31.1-4)
 - libjsoncpp-dev (1.7.4-3.1ubuntu2)
 - doxygen (1.8.17-0ubuntu2)
-- libfmt-dev (6.1.2+ds-2)
+- libfmt-dev (8.1.1+ds1-2)
 - uuid-dev (2.34-0.1ubuntu9.1)
 - binutils-dev (2.34-6ubuntu1.1)
 - libunwind-dev (1.2.1-9build1)
@@ -28,24 +28,24 @@ libtgui-0.9-dev (0.9.3+focal)
 
 Download, compile and install the following libraries (cmake needed):
 
-- sfeMovie https://github.com/Yalir/sfeMovie (commit 698ccf2)
-- Thor https://github.com/Bromeon/Thor (commit f9b7890)
+- sfeMovie <https://github.com/Yalir/sfeMovie> (commit 698ccf2)
+- Thor <https://github.com/Bromeon/Thor> (commit f9b7890)
 
 Then make sure the following header libraries are included and linked (the
 default location to install them are in subdirectories in the inc folder):
 
-- simpleini https://github.com/brofield/simpleini/
-- sqlite modern cpp wrapper https://github.com/SqliteModernCpp/sqlite_modern_cpp
-- Magic Enum C++ https://github.com/Neargye/magic_enum
-- Backward-cpp https://github.com/bombela/backward-cpp
-- cereal https://github.com/USCiLab/cereal
-- tgui-nanogui-theme https://gitlab.com/rubenwardy/tgui-nanogui-theme
+- simpleini <https://github.com/brofield/simpleini/>
+- sqlite modern cpp wrapper <https://github.com/SqliteModernCpp/sqlite_modern_cpp>
+- Magic Enum C++ <https://github.com/Neargye/magic_enum>
+- Backward-cpp <https://github.com/bombela/backward-cpp>
+- cereal <https://github.com/USCiLab/cereal>
+- tgui-nanogui-theme <https://gitlab.com/rubenwardy/tgui-nanogui-theme>
 
 Both CMake (via VSCode/CMakeTools) and Code::Blocks are supported.
 
 Additional support tools useful for development:
 
-- Build EAR https://github.com/rizsotto/Bear
+- Build EAR <https://github.com/rizsotto/Bear>
 
 Note that to compile Sorcery: Shadows under Llylgamyn requires a compiler
 with C++20 support such as gcc 10.3.
