@@ -841,6 +841,9 @@ auto Sorcery::Character::_legate_start_info() -> void {
 		break;
 	}
 
+	set_status(CharacterStatus::OK);
+	_abilities[CharacterAbility::CURRENT_HP] = _abilities[CharacterAbility::MAX_HP];
+
 	// Clamp Values
 	_start_attr[CharacterAttribute::STRENGTH] = std::min(_start_attr[CharacterAttribute::STRENGTH], 18);
 	_start_attr[CharacterAttribute::IQ] = std::min(_start_attr[CharacterAttribute::IQ], 18);
