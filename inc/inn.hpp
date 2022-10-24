@@ -44,9 +44,6 @@ namespace Sorcery {
 		Inn(System *system, Display *display, Graphics *graphics, Game *game);
 		Inn() = delete;
 
-		// Standard Destructor
-		~Inn();
-
 		// Public Members
 
 		// Public Methods

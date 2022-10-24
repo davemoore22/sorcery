@@ -39,9 +39,6 @@ Sorcery::Inn::Inn(System *system, Display *display, Graphics *graphics, Game *ga
 	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MenuMode::INN);
 }
 
-// Standard Destructor
-Sorcery::Inn::~Inn() {}
-
 // Visit the Tavern
 auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 
