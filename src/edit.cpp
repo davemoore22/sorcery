@@ -179,7 +179,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 								_game->update_character(_game->get_id(), current_character_idx, character);
 								_game->save_game();
 								_game->load_game();
-							};
+							}
 							change_name->stop();
 						} else if (option_chosen == MenuItem::EC_CHANGE_CLASS) {
 							auto character{*_cur_char.value()};

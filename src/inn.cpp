@@ -108,8 +108,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 							option_chosen == MenuItem::IN_CASTLE) {
 							return MenuItem::IN_CASTLE;
 						} else if (option_chosen == MenuItem::IN_INSPECT) {
-							auto result{_inspect->start()};
-							if (result && result.value() == MenuItem::ABORT) {
+							if (auto result{_inspect->start()}; result && result.value() == MenuItem::ABORT) {
 								_inspect->stop();
 								_game->save_game();
 								_display->shutdown_SFML();
