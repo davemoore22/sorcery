@@ -123,9 +123,10 @@ Sorcery::Menu::Menu(
 		selected = items.begin();
 		break;
 	case MenuType::INN:
-		_add_item(0, MenuItemType::ENTRY, MenuItem::IN_STAY, (*_display->string)["INN_STAY"]);
-		_add_item(1, MenuItemType::ENTRY, MenuItem::IN_INSPECT, (*_display->string)["INN_INSPECT"]);
-		_add_item(4, MenuItemType::ENTRY, MenuItem::IN_CASTLE, (*_display->string)["INN_CASTLE"]);
+		_add_item(0, MenuItemType::ENTRY, MenuItem::IN_STAY_CHARACTER, (*_display->string)["INN_STAY_ONE"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::IN_STAY_PARTY, (*_display->string)["INN_STAY_ALL"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::IN_INSPECT, (*_display->string)["INN_INSPECT"]);
+		_add_item(3, MenuItemType::ENTRY, MenuItem::IN_CASTLE, (*_display->string)["INN_CASTLE"]);
 		selected = items.begin();
 		break;
 	case MenuType::SHOP:
