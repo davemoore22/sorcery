@@ -284,8 +284,11 @@ auto Sorcery::MainMenu::_draw() -> void {
 
 		// And either the blurb or the main menu
 		if (_menu_stage == MainMenuType::ATTRACT_MODE) {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnarrowing"
 			sf::Color adjusted{_graphics->adjust_brightness(
 				sf::Color((*_display->layout)["main_menu_attract:press_any_key"].colour), lerp)};
+#pragma GCC diagnostic pop
 			_press_any_key->set_fill_colour(adjusted);
 			_window->draw(*_press_any_key);
 		} else {

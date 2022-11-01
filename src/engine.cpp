@@ -189,7 +189,11 @@ auto Sorcery::Engine::_place_components() -> void {
 	_buffbar->setPosition(buffbar_c.x, buffbar_c.y);
 	const Component search_c{(*_display->layout)["global:search"]};
 	_search->setPosition(search_c.x, search_c.y);
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnarrowing"
 	_search_bounds = sf::IntRect{search_c.x, search_c.y, _search->width, _search->height};
+#pragma GCC diagnostic pop
 
 	const Component l_icon_panel_c{(*_display->layout)["engine_base_ui:left_icon_panel"]};
 	_left_icon_panel->setPosition(l_icon_panel_c.x, l_icon_panel_c.y);

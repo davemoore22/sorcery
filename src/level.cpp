@@ -109,7 +109,10 @@ auto Sorcery::Level::wrap_top_right() const -> Coordinate {
 
 	// 2 here instead of 1 to fix issue with GC data starting at -1,0 and thus
 	// having an extra square on top (its 21x21 squares)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnarrowing"
 	return Coordinate{_bottom_left.x + _size.w - 1, _bottom_left.y + _size.h - 2};
+#pragma GCC diagnostic pop
 }
 
 auto Sorcery::Level::size() const -> Size {

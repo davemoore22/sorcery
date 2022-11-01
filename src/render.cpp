@@ -51,7 +51,10 @@ auto Sorcery::Render::_darken_sprite(const unsigned int depth, bool lit = true) 
 	const auto max_depth{lit ? LIGHT_VIEW_DEPTH : DARK_VIEW_DEPTH};
 	const auto step{255 / max_depth};
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnarrowing"
 	const auto darkened{sf::Color{255 - (depth * step), 255 - (depth * step), 255 - (depth * step)}};
+#pragma GCC diagnostic pop
 
 	return darkened;
 }

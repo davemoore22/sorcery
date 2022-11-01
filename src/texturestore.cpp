@@ -153,7 +153,10 @@ auto Sorcery::TextureStore::get(const std::string name, GraphicsTextureType text
 auto Sorcery::TextureStore::get_atlas(const Rect rect, bool feature = false) const -> sf::Sprite {
 
 	sf::Sprite view(*_view_t);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnarrowing"
 	sf::IntRect tile_r{rect.x, rect.y, rect.w, rect.h};
+#pragma GCC diagnostic pop
 	if (feature)
 		tile_r.left += VIEW_OFFSET_SIZE;
 	view.setTextureRect(tile_r);

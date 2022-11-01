@@ -121,11 +121,14 @@ auto Sorcery::View::_load_tile_views() -> void {
 	}
 
 	const auto floor_c{(*_display->layout)["engine_base_ui:wireframe_view"]};
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnarrowing"
 	const auto floor_colour{sf::Color{std::stoull(floor_c["floor_colour"].value(), 0, 16)}};
 	const auto ceiling_colour{sf::Color{std::stoull(floor_c["ceiling_colour"].value(), 0, 16)}};
 	const auto stairs_colour{sf::Color{std::stoull(floor_c["stairs_colour"].value(), 0, 16)}};
 	const auto elevator_colour{sf::Color{std::stoull(floor_c["elevator_colour"].value(), 0, 16)}};
 	const auto darkness_colour{sf::Color{std::stoull(floor_c["darkness_colour"].value(), 0, 16)}};
+#pragma GCC diagnostic pop
 
 	//  FLOORS/CEILINGS				SIDE DARKNESS			SIDE DOORS
 	//	FRONT DARKNESS				SIDE WALLS				FRONT DOORS z =
