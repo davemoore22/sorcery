@@ -75,7 +75,6 @@ namespace Sorcery {
 		sf::Color _red;
 		sf::Color _blue;
 		sf::Color _base;
-		sf::Color _outline;
 		Component _stat_bar;
 		std::array<sf::Sprite, 8> _class_icons;
 	};

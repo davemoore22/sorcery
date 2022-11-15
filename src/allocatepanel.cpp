@@ -42,7 +42,6 @@ Sorcery::AllocatePanel::AllocatePanel(System *system, Display *display, Graphics
 	_red = sf::Color(0xff1a1aff);
 	_base = sf::Color(0x133201ff);
 	_blue = sf::Color(0x4848ffff);
-	_outline = sf::Color(0xffffffff);
 
 	// Get and setup Allowed Class Icons
 	_class_icons[0] = (*_graphics->icons)[MenuItem::CC_SAMURAI].value();
