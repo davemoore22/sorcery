@@ -142,6 +142,7 @@ namespace Sorcery {
 	using ComponentType = Enums::Window::ComponentType;
 	using ConfigOption = Enums::Options;
 	using CreateMethod = Enums::Manage::Method;
+	using Destination = Enums::System::Destination;
 	using DoorType = Enums::Tile::DoorType;
 	using FileType = Enums::File::Type;
 	using FontType = Enums::Internal::FontType;

@@ -50,11 +50,10 @@ Sorcery::EdgeOfTown::EdgeOfTown(System *system, Display *display, Graphics *grap
 Sorcery::EdgeOfTown::~EdgeOfTown() {}
 
 // Start/Continue a new Game
-auto Sorcery::EdgeOfTown::start(bool go_directly_to_maze) -> std::optional<MenuItem> {
+auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuItem> {
 
-	if (go_directly_to_maze) {
+	if (destination == Destination::MAZE) {
 		auto _engine{std::make_unique<Engine>(_system, _display, _graphics, _game)};
-
 		auto result{_engine->start()};
 		if (result == EXIT_ALL) {
 			_game->save_game();
@@ -64,6 +63,13 @@ auto Sorcery::EdgeOfTown::start(bool go_directly_to_maze) -> std::optional<MenuI
 		}
 		_game->save_game();
 		_engine->stop();
+	} else if (destination == Destination::TRAINING) {
+
+		_game->state->clear_party();
+		_game->save_game();
+		_status_bar->refresh();
+		_training->start();
+		_training->stop();
 	}
 
 	_update_menus();

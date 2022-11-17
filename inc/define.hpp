@@ -55,6 +55,8 @@ namespace Sorcery {
 	inline constexpr auto SKIP_INTRO{"skip-intro"sv};
 	inline constexpr auto CONTINUE_GAME{"continue-game"sv};
 	inline constexpr auto GO_TO_MAZE{"go-to-maze"sv};
+	inline constexpr auto GO_TO_TRAINING{"go-to-training"sv};
+	inline constexpr auto GO_TO_TAVERN{"go-to-tavern"sv};
 
 	// Directories
 	inline constexpr auto CONFIG_DIR{"cfg"sv};

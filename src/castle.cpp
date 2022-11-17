@@ -53,16 +53,30 @@ Sorcery::Castle::Castle(System *system, Display *display, Graphics *graphics, Ga
 Sorcery::Castle::~Castle() {}
 
 // Start/Continue a new Game
-auto Sorcery::Castle::start(bool go_directly_to_maze) -> std::optional<MenuItem> {
+auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> {
 
-	if (go_directly_to_maze) {
-		auto edge_option{_edge_of_town->start(true)};
-		if (edge_option && edge_option.value() == MenuItem::ABORT) {
+	if (destination == Destination::MAZE) {
+		if (auto edge_option{_edge_of_town->start(destination)};
+			edge_option && edge_option.value() == MenuItem::ABORT) {
 			_game->save_game();
 			_display->shutdown_SFML();
 			return MenuItem::ABORT;
 		}
 		_edge_of_town->stop();
+	} else if (destination == Destination::TAVERN) {
+		if (auto tavern_option{_tavern->start()}; tavern_option && tavern_option.value() == MenuItem::ABORT) {
+			_game->save_game();
+			_display->shutdown_SFML();
+			return MenuItem::ABORT;
+		}
+		_tavern->stop();
+	} else if (destination == Destination::TRAINING) {
+		if (auto edge_option{_edge_of_town->start(destination)};
+			edge_option && edge_option.value() == MenuItem::ABORT) {
+			_game->save_game();
+			_display->shutdown_SFML();
+			return MenuItem::ABORT;
+		}
 	}
 
 	// Get the Background Display Components and load them into Display module
@@ -136,8 +150,8 @@ auto Sorcery::Castle::start(bool go_directly_to_maze) -> std::optional<MenuItem>
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							continue;
 						} else if (option_chosen == MenuItem::CA_TAVERN) {
-							auto tavern_option{_tavern->start()};
-							if (tavern_option && tavern_option.value() == MenuItem::ABORT) {
+							if (auto tavern_option{_tavern->start()};
+								tavern_option && tavern_option.value() == MenuItem::ABORT) {
 								_game->save_game();
 								_display->shutdown_SFML();
 								return MenuItem::ABORT;
@@ -150,8 +164,7 @@ auto Sorcery::Castle::start(bool go_directly_to_maze) -> std::optional<MenuItem>
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							continue;
 						} else if (option_chosen == MenuItem::CA_INN) {
-							auto inn_option{_inn->start()};
-							if (inn_option && inn_option.value() == MenuItem::ABORT) {
+							if (auto inn_option{_inn->start()}; inn_option && inn_option.value() == MenuItem::ABORT) {
 								_game->save_game();
 								_display->shutdown_SFML();
 								return MenuItem::ABORT;
@@ -163,8 +176,8 @@ auto Sorcery::Castle::start(bool go_directly_to_maze) -> std::optional<MenuItem>
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							continue;
 						} else if (option_chosen == MenuItem::CA_SHOP) {
-							auto shop_option{_shop->start()};
-							if (shop_option && shop_option.value() == MenuItem::ABORT) {
+							if (auto shop_option{_shop->start()};
+								shop_option && shop_option.value() == MenuItem::ABORT) {
 								_game->save_game();
 								_display->shutdown_SFML();
 								return MenuItem::ABORT;
@@ -176,8 +189,8 @@ auto Sorcery::Castle::start(bool go_directly_to_maze) -> std::optional<MenuItem>
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							continue;
 						} else if (option_chosen == MenuItem::CA_TEMPLE) {
-							auto temple_option{_temple->start()};
-							if (temple_option && temple_option.value() == MenuItem::ABORT) {
+							if (auto temple_option{_temple->start()};
+								temple_option && temple_option.value() == MenuItem::ABORT) {
 								_game->save_game();
 								_display->shutdown_SFML();
 								return MenuItem::ABORT;

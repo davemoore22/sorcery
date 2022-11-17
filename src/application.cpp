@@ -74,21 +74,10 @@ Sorcery::Application::~Application() {
 
 auto Sorcery::Application::start() -> int {
 
-	if (_check_param(CONTINUE_GAME)) {
-		if (_game->valid) {
-			auto result{_castle->start()};
-			if (result && result == MenuItem::ABORT) {
-				_game->save_game();
-				display->shutdown_SFML();
-				return EXIT_ALL;
-			}
-			_castle->stop();
-			_game->save_game();
-		}
-	} else if (_check_param(GO_TO_MAZE)) {
+	if (_check_param(GO_TO_MAZE)) {
 		if (_game->valid) {
 			if (_game->state->party_has_members()) {
-				if (_castle->start(true) == MenuItem::ABORT) {
+				if (_castle->start(Destination::MAZE) == MenuItem::ABORT) {
 					_game->save_game();
 					display->shutdown_SFML();
 					return EXIT_ALL;
@@ -96,6 +85,33 @@ auto Sorcery::Application::start() -> int {
 				_castle->stop();
 				_game->save_game();
 			}
+		}
+	} else if (_check_param(GO_TO_TAVERN)) {
+		if (_game->valid) {
+			if (_castle->start(Destination::TAVERN) == MenuItem::ABORT) {
+				_game->save_game();
+				display->shutdown_SFML();
+				return EXIT_ALL;
+			}
+			_castle->stop();
+		}
+	} else if (_check_param(GO_TO_TRAINING)) {
+		if (_castle->start(Destination::TRAINING) == MenuItem::ABORT) {
+			_game->save_game();
+			display->shutdown_SFML();
+			return EXIT_ALL;
+		}
+		_castle->stop();
+		_game->save_game();
+	} else if (_check_param(CONTINUE_GAME)) {
+		if (_game->valid) {
+			if (auto result{_castle->start()}; result && result == MenuItem::ABORT) {
+				_game->save_game();
+				display->shutdown_SFML();
+				return EXIT_ALL;
+			}
+			_castle->stop();
+			_game->save_game();
 		}
 	}
 
