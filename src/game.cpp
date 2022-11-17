@@ -143,6 +143,16 @@ auto Sorcery::Game::_load_game() -> void {
 	_load_characters();
 }
 
+auto Sorcery::Game::pass_turn(unsigned int turns) -> void {
+
+	state->pass_turn(turns);
+}
+
+auto Sorcery::Game::get_turns() const -> unsigned int {
+
+	return state->get_turns();
+}
+
 auto Sorcery::Game::show_console() -> void {
 
 	_show_console = true;

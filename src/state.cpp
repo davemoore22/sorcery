@@ -49,6 +49,17 @@ auto Sorcery::State::_clear() -> void {
 	level = std::make_unique<Level>();
 	_clear_explored();
 	_version = SAVE_VERSION;
+	_turns = 0;
+}
+
+auto Sorcery::State::get_turns() const -> unsigned int {
+
+	return _turns;
+}
+
+auto Sorcery::State::pass_turn(unsigned int turns) -> void {
+
+	_turns += turns;
 }
 
 auto Sorcery::State::_clear_explored() -> void {

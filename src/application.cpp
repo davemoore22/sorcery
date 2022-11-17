@@ -96,12 +96,14 @@ auto Sorcery::Application::start() -> int {
 			_castle->stop();
 		}
 	} else if (_check_param(GO_TO_TRAINING)) {
-		if (_castle->start(Destination::TRAINING) == MenuItem::ABORT) {
-			_game->save_game();
-			display->shutdown_SFML();
-			return EXIT_ALL;
+		if (_game->valid) {
+			if (_castle->start(Destination::TRAINING) == MenuItem::ABORT) {
+				_game->save_game();
+				display->shutdown_SFML();
+				return EXIT_ALL;
+			}
+			_castle->stop();
 		}
-		_castle->stop();
 		_game->save_game();
 	} else if (_check_param(CONTINUE_GAME)) {
 		if (_game->valid) {

@@ -40,7 +40,7 @@ namespace Sorcery {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_version, _party, level, explored, _player_depth, _player_pos, _playing_facing, _lit);
+			archive(_version, _party, level, explored, _player_depth, _player_pos, _playing_facing, _lit, _turns);
 		}
 
 		// Public Members
@@ -70,6 +70,8 @@ namespace Sorcery {
 		auto get_depth() const -> int;
 		auto set_lit(bool lit) -> void;
 		auto get_lit() const -> bool;
+		auto get_turns() const -> unsigned int;
+		auto pass_turn(unsigned int turns = 1) -> void;
 
 	  private:
 		// Private Methods
@@ -85,5 +87,6 @@ namespace Sorcery {
 		int _player_depth;
 		bool _lit;
 		int _version;
+		unsigned int _turns;
 	};
 } // namespace Sorcery
