@@ -1113,6 +1113,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_update_render = true;
 			_update_buffbar = true;
 			_update_search = true;
+			_game->pass_turn();
 		}
 		if ((_system->input->check(WindowInput::LEFT, event)) ||
 			(_system->input->check(WindowInput::MAZE_LEFT, event))) {
@@ -1125,6 +1126,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_update_render = true;
 			_update_buffbar = true;
 			_update_search = true;
+			_game->pass_turn();
 		} else if ((_system->input->check(WindowInput::RIGHT, event)) ||
 				   (_system->input->check(WindowInput::MAZE_RIGHT, event))) {
 			_show_direction_indicatior = true;
@@ -1136,8 +1138,10 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_update_render = true;
 			_update_buffbar = true;
 			_update_search = true;
+			_game->pass_turn();
 		} else if ((_system->input->check(WindowInput::UP, event)) ||
 				   (_system->input->check(WindowInput::MAZE_FORWARD, event))) {
+			_game->pass_turn();
 			if (auto has_moved{_move_forward()}; !has_moved) {
 				_show_direction_indicatior = false;
 				_show_ouch = true;
@@ -1165,6 +1169,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_update_search = true;
 		} else if ((_system->input->check(WindowInput::DOWN, event)) ||
 				   (_system->input->check(WindowInput::MAZE_BACKWARD, event))) {
+			_game->pass_turn();
 			if (auto has_moved{_move_backward()}; !has_moved) {
 				_show_direction_indicatior = false;
 				_show_ouch = true;
