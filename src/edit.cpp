@@ -204,11 +204,19 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 							auto legated{legate->start()};
 							if (legated) {
 
+								std::cout << character << std::endl;
+
 								// How to exit from legated module?
 								character.legate(legated.value());
 								_game->update_character(_game->get_id(), current_character_idx, character);
+
+								std::cout << character << std::endl;
+
 								_game->save_game();
 								_game->load_game();
+
+								auto cur_char{&_game->characters.at(current_character_idx)};
+								_char_panel->set(_cur_char.value());
 
 								_show_legated = true;
 								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);

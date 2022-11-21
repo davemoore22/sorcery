@@ -53,6 +53,7 @@ namespace Sorcery {
 
 		// Overloaded Operators
 		auto operator[](const CharacterAbility &key) -> int &;
+		auto friend operator<<(std::ostream &out_stream, const Character &character) -> std::ostream &;
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
@@ -95,6 +96,7 @@ namespace Sorcery {
 		auto get_start_points() const -> unsigned int;
 		auto get_num_pos_class() const -> unsigned int;
 		auto set_start_points(const unsigned int &value) -> void;
+		auto get_condition() const -> std::string;
 		auto get_cur_attr(const CharacterAttribute attribute) const -> unsigned int;
 		auto get_start_attr(const CharacterAttribute attribute) const -> unsigned int;
 		auto set_cur_attr(const CharacterAttribute attribute, const int adjustment) -> void;
@@ -123,7 +125,7 @@ namespace Sorcery {
 		auto get_poisoned_rate() const -> int;
 		auto set_poisoned_rate(int value) -> void;
 		auto get_poisoned_string() const -> std::string;
-		auto get_hp_summary() -> std::string;
+		auto get_hp_summary() const -> std::string;
 		auto inc_hl_spell(SpellType type) -> void;
 		auto dec_hl_spell(SpellType type) -> void;
 		auto update() -> void;
@@ -141,6 +143,7 @@ namespace Sorcery {
 		auto set_hp_loss_per_turn(const int adjustment) -> void;
 		auto reset_adjustment_per_turn() -> void;
 		auto get_hp_adjustment_symbol() const -> char;
+		auto get_cur_ac() const -> int;
 
 		// Public Members
 		std::map<SpellID, sf::FloatRect> mage_spell_bounds;

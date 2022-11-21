@@ -2443,6 +2443,11 @@ auto Sorcery::Character::get_status() const -> CharacterStatus {
 	return _status;
 }
 
+auto Sorcery::Character::get_condition() const -> std::string {
+
+	return _get_condition();
+}
+
 auto Sorcery::Character::_get_condition() const -> std::string {
 
 	if (is_poisoned() && (_status == CharacterStatus::OK)) {
@@ -2565,7 +2570,7 @@ auto Sorcery::Character::get_poisoned_string() const -> std::string {
 			   : "";
 }
 
-auto Sorcery::Character::get_hp_summary() -> std::string {
+auto Sorcery::Character::get_hp_summary() const -> std::string {
 
 	return fmt::format("{}/{}{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
 		std::to_string(_abilities.at(CharacterAbility::MAX_HP)), get_hp_adjustment_symbol());
@@ -3484,6 +3489,11 @@ auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::op
 		return std::nullopt;
 }
 
+auto Sorcery::Character::get_cur_ac() const -> int {
+
+	return _abilities.at(CharacterAbility::CURRENT_ARMOUR_CLASS);
+}
+
 auto Sorcery::Character::update() -> void {
 
 	_hl_mage_spell_bg.setFillColor(_graphics->animation->selected_colour);
@@ -3526,3 +3536,22 @@ auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states)
 	if (_view == CharacterView::PRIEST_SPELLS)
 		target.draw(*_spell_panel, states);
 }
+
+namespace Sorcery {
+
+	auto operator<<(std::ostream &out_stream, const Sorcery::Character &character) -> std::ostream & {
+
+		auto name{character.get_name()};
+		auto cclass{character.get_class()};
+		auto alignment{character.get_alignment()};
+		auto hp{character.get_hp_summary()};
+
+		std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+
+		auto body{fmt::format("{:<15} {:>2} {}-{} {:>3} {:>6} {:^10}", name, character.get_level(),
+			character.get_alignment(alignment).substr(0, 1), character.get_class(cclass).substr(0, 3),
+			character.get_cur_ac(), character.get_hp_summary(), character.get_condition())};
+
+		return out_stream << body << std::endl;
+	}
+} // namespace Sorcery
