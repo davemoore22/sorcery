@@ -164,13 +164,13 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 								// character!
 								auto changed_name{new_name.value()};
 								_cur_char.value()->set_name(changed_name);
-								auto character{*_cur_char.value()};
+								auto &character{*_cur_char.value()};
 								_game->update_character(_game->get_id(), current_character_idx, character);
 								_game->save_game();
 							}
 							change_name->stop();
 						} else if (option_chosen == MenuItem::EC_CHANGE_CLASS) {
-							auto character{*_cur_char.value()};
+							auto &character{*_cur_char.value()};
 							auto change_class{std::make_unique<ChangeClass>(_system, _display, _graphics, &character)};
 
 							if (auto new_class{change_class->start()}; new_class) {
@@ -186,18 +186,15 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 							}
 							change_class->stop();
 						} else if (option_chosen == MenuItem::EC_LEGATE_CHARACTER) {
-							auto character{*_cur_char.value()};
+							auto &character{*_cur_char.value()};
+							// auto character{*_cur_char.value()};
 							auto legate{std::make_unique<Legate>(_system, _display, _graphics, &character)};
 
 							if (auto legated{legate->start()}; legated) {
 
-								std::cout << character << std::endl;
-
 								// How to exit from legated module?
 								character.legate(legated.value());
 								_game->update_character(_game->get_id(), current_character_idx, character);
-
-								std::cout << character << std::endl;
 
 								_game->save_game();
 								auto cur_char{&_game->characters.at(current_character_idx)};
