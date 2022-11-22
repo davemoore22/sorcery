@@ -47,9 +47,6 @@ Sorcery::Edit::Edit(System *system, Display *display, Graphics *graphics, Game *
 		(*_display->layout)["character_edit:dialog_legated"].x, (*_display->layout)["character_edit:dialog_legated"].y);
 }
 
-// Standard Destructor
-Sorcery::Edit::~Edit() {}
-
 auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> {
 
 	// Get the Background Display Components and load them into Display module
@@ -117,31 +114,24 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 			if (_show_changed) {
 				auto dialog_input{_changed->handle_input(event)};
 				if (dialog_input) {
-					if (dialog_input.value() == WindowDialogButton::CLOSE) {
-						_show_changed = false;
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-						return std::nullopt;
-					} else if (dialog_input.value() == WindowDialogButton::OK) {
+					if ((dialog_input.value() == WindowDialogButton::CLOSE) ||
+						(dialog_input.value() == WindowDialogButton::OK)) {
 						_show_changed = false;
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 						return std::nullopt;
 					}
-				};
+				}
 			} else if (_show_legated) {
 				auto dialog_input{_legated->handle_input(event)};
 				if (dialog_input) {
-					if (dialog_input.value() == WindowDialogButton::CLOSE) {
-						_show_legated = false;
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-						return std::nullopt;
-					} else if (dialog_input.value() == WindowDialogButton::OK) {
+					if ((dialog_input.value() == WindowDialogButton::CLOSE) ||
+						(dialog_input.value() == WindowDialogButton::OK)) {
 						_show_legated = false;
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 						return std::nullopt;
 					}
-				};
+				}
 			} else {
-
 				if (_system->input->check(WindowInput::CANCEL, event))
 					return std::nullopt;
 
@@ -158,15 +148,14 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 
 					// We have selected something from the menu
 					if (selected) {
-						const MenuItem option_chosen{(*selected.value()).item};
-						if (option_chosen == MenuItem::EC_RETURN_EDIT) {
+						if (const MenuItem option_chosen{(*selected.value()).item};
+							option_chosen == MenuItem::EC_RETURN_EDIT) {
 							return MenuItem::EC_RETURN_EDIT;
 						} else if (option_chosen == MenuItem::EC_CHANGE_NAME) {
 
 							auto change_name{std::make_unique<ChangeName>(
 								_system, _display, _graphics, _cur_char.value()->get_name())};
-							auto new_name{change_name->start()};
-							if (new_name) {
+							if (auto new_name{change_name->start()}; new_name) {
 
 								if (new_name.value() == EXIT_STRING)
 									return MenuItem::ABORT;
@@ -178,21 +167,19 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 								auto character{*_cur_char.value()};
 								_game->update_character(_game->get_id(), current_character_idx, character);
 								_game->save_game();
-								_game->load_game();
 							}
 							change_name->stop();
 						} else if (option_chosen == MenuItem::EC_CHANGE_CLASS) {
 							auto character{*_cur_char.value()};
 							auto change_class{std::make_unique<ChangeClass>(_system, _display, _graphics, &character)};
-							auto new_class{change_class->start()};
-							if (new_class) {
+
+							if (auto new_class{change_class->start()}; new_class) {
 
 								// Can't select same class in the change_class
 								// module - it returns nullopt if you do
 								character.change_class(new_class.value());
 								_game->update_character(_game->get_id(), current_character_idx, character);
 								_game->save_game();
-								_game->load_game();
 
 								_show_changed = true;
 								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
@@ -201,8 +188,8 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 						} else if (option_chosen == MenuItem::EC_LEGATE_CHARACTER) {
 							auto character{*_cur_char.value()};
 							auto legate{std::make_unique<Legate>(_system, _display, _graphics, &character)};
-							auto legated{legate->start()};
-							if (legated) {
+
+							if (auto legated{legate->start()}; legated) {
 
 								std::cout << character << std::endl;
 
@@ -213,10 +200,8 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 								std::cout << character << std::endl;
 
 								_game->save_game();
-								_game->load_game();
-
 								auto cur_char{&_game->characters.at(current_character_idx)};
-								_char_panel->set(_cur_char.value());
+								_char_panel->set(cur_char);
 
 								_show_legated = true;
 								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
@@ -226,7 +211,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 
 						_display->generate("character_edit");
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-					};
+					}
 				}
 			}
 		}

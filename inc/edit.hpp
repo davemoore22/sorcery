@@ -46,9 +46,6 @@ namespace Sorcery {
 		Edit(System *system, Display *display, Graphics *graphics, Game *game);
 		Edit() = delete;
 
-		// Standard Destructor
-		~Edit();
-
 		// Public Members
 
 		// Public Methods
