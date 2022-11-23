@@ -564,7 +564,7 @@ namespace Sorcery {
 	namespace Enums::System {
 
 		// Quick Start
-		enum class Destination { NONE = 0, CASTLE = 1, TAVERN = 2, TRAINING = 3, MAZE = 4 };
+		enum class Destination { NONE = 0, CASTLE = 1, TAVERN = 2, TRAINING = 3, INN = 4, MAZE = 5 };
 
 		// Errors
 		enum class Error {

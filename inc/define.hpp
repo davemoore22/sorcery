@@ -57,6 +57,7 @@ namespace Sorcery {
 	inline constexpr auto GO_TO_MAZE{"go-to-maze"sv};
 	inline constexpr auto GO_TO_TRAINING{"go-to-training"sv};
 	inline constexpr auto GO_TO_TAVERN{"go-to-tavern"sv};
+	inline constexpr auto GO_TO_INN{"go-to-inn"sv};
 
 	// Directories
 	inline constexpr auto CONFIG_DIR{"cfg"sv};

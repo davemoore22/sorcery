@@ -55,6 +55,7 @@ Sorcery::Castle::~Castle() {}
 // Start/Continue a new Game
 auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> {
 
+	// TODO: need to incorporare this in main loop so that exiting this goes back
 	if (destination == Destination::MAZE) {
 		if (auto edge_option{_edge_of_town->start(destination)};
 			edge_option && edge_option.value() == MenuItem::ABORT) {
@@ -77,6 +78,14 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 			_display->shutdown_SFML();
 			return MenuItem::ABORT;
 		}
+		_edge_of_town->stop();
+	} else if (destination == Destination::INN) {
+		if (auto inn_option{_inn->start()}; inn_option && inn_option.value() == MenuItem::ABORT) {
+			_game->save_game();
+			_display->shutdown_SFML();
+			return MenuItem::ABORT;
+		}
+		_inn->stop();
 	}
 
 	// Get the Background Display Components and load them into Display module

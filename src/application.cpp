@@ -95,6 +95,17 @@ auto Sorcery::Application::start() -> int {
 			}
 			_castle->stop();
 		}
+	} else if (_check_param(GO_TO_INN)) {
+		if (_game->valid) {
+			if (_game->state->party_has_members()) {
+				if (_castle->start(Destination::INN) == MenuItem::ABORT) {
+					_game->save_game();
+					display->shutdown_SFML();
+					return EXIT_ALL;
+				}
+				_castle->stop();
+			}
+		}
 	} else if (_check_param(GO_TO_TRAINING)) {
 		if (_game->valid) {
 			if (_castle->start(Destination::TRAINING) == MenuItem::ABORT) {
