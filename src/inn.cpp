@@ -37,6 +37,8 @@ Sorcery::Inn::Inn(System *system, Display *display, Graphics *graphics, Game *ga
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
 	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MenuMode::INN);
+
+	_stage = InnStage::NONE;
 }
 
 // Visit the Tavern
@@ -62,6 +64,9 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 	// Play the background movie!
 	_display->fit_bg_movie();
 	_display->start_bg_movie();
+
+	// Start at the Menu Stage
+	_stage = InnStage::MENU;
 
 	// And do the main loop
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
@@ -147,11 +152,14 @@ auto Sorcery::Inn::_draw() -> void {
 	_display->display("inn");
 	_window->draw(*_status_bar);
 
-	// And the Menu
-	_menu->generate((*_display->layout)["inn:menu"]);
-	const sf::Vector2f menu_pos((*_display->layout)["inn:menu"].x, (*_display->layout)["inn:menu"].y);
-	_menu->setPosition(menu_pos);
-	_window->draw(*_menu);
+	if (_stage == InnStage::MENU) {
+
+		// And the Menu
+		_menu->generate((*_display->layout)["inn:menu"]);
+		const sf::Vector2f menu_pos((*_display->layout)["inn:menu"].x, (*_display->layout)["inn:menu"].y);
+		_menu->setPosition(menu_pos);
+		_window->draw(*_menu);
+	}
 
 	// Always draw the following
 	_display->display_overlay();

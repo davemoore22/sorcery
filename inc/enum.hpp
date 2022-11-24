@@ -420,7 +420,7 @@ namespace Sorcery {
 
 		enum class Tavern { NONE, MENU, ADD, REMOVE, REORDER, INSPECT };
 
-		enum class Inn { NONE, MENU, STAY, INPECT };
+		enum class Inn { NONE, MENU, STAY, INPECT, CHOOSE };
 
 		enum class Shop { NONE, MENU, TRADE, UNCURSE, IDENTIFY, INSPECT };
 

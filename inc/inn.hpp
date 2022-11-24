@@ -65,5 +65,6 @@ namespace Sorcery {
 		sf::Sprite _bg;
 		std::unique_ptr<StatusBar> _status_bar;
 		std::unique_ptr<Inspect> _inspect;
+		InnStage _stage;
 	};
 } // namespace Sorcery
