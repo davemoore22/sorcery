@@ -66,5 +66,12 @@ namespace Sorcery {
 		std::unique_ptr<StatusBar> _status_bar;
 		std::unique_ptr<Inspect> _inspect;
 		InnStage _stage;
+		std::unique_ptr<Menu> _roster;
+		std::map<std::string, sf::Sprite> _w_sprites;
+		std::map<std::string, sf::Text> _w_texts;
+		std::map<std::string, std::shared_ptr<Frame>> _w_frames;
+		std::map<std::string, sf::Sprite> _c_sprites;
+		std::map<std::string, sf::Text> _c_texts;
+		std::map<std::string, std::shared_ptr<Frame>> _c_frames;
 	};
 } // namespace Sorcery

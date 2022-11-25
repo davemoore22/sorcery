@@ -895,7 +895,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 			if (_mode.value() == MenuMode::TRAINING) {
 				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
 				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::ET_TRAIN, (*_display->string)["MENU_TRAIN"]);
-			} else if (_mode.value() == MenuMode::TAVERN) {
+			} else if ((_mode.value() == MenuMode::TAVERN) || (_mode.value() == MenuMode::INN)) {
 				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
 				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::CA_TAVERN, (*_display->string)["MENU_TRAIN"]);
 			}
@@ -908,7 +908,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 
 			// Check for any characters in same square
 			bool found{false};
-			for (auto [character_id, character] : _game->characters) {
+			for (const auto &[character_id, character] : _game->characters) {
 				if ((character.location == CharacterLocation::MAZE) &&
 					(character.coordinate == _game->state->get_player_pos()) &&
 					(character.depth == _game->state->get_depth())) {
@@ -921,7 +921,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 				_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_1"]);
 				_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_2"]);
 				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
-				for (auto [character_id, character] : _game->characters) {
+				for (const auto &[character_id, character] : _game->characters) {
 					if ((character.location == CharacterLocation::MAZE) &&
 						(character.coordinate == _game->state->get_player_pos()) &&
 						(character.depth == _game->state->get_depth()))
@@ -951,7 +951,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["RESTART_TEXT_1"]);
 		_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["RESTART_TEXT_2"]);
 		_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
-		for (auto [character_id, character] : _game->characters) {
+		for (const auto &[character_id, character] : _game->characters) {
 			if (character.location == CharacterLocation::MAZE)
 				_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER,
 					_game->characters[character_id].get_name_and_location());

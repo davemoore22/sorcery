@@ -33,6 +33,7 @@ Sorcery::Inn::Inn(System *system, Display *display, Graphics *graphics, Game *ga
 
 	// Setup Custom Components
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::INN);
+	_roster = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::PARTY_CHARACTERS, MenuMode::INN);
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
@@ -49,6 +50,8 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 	// in this class, we need to have the menu stage set first in this case and
 	// this case only)
 	_display->generate("inn");
+	_display->generate("inn_welcome", _w_sprites, _w_texts, _w_frames);
+	_display->generate("inn_choose", _c_sprites, _c_texts, _c_frames);
 
 	// Clear the window
 	_window->clear();
@@ -71,6 +74,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 	// And do the main loop
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> option_choose{_roster->items.begin()};
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
@@ -89,37 +93,92 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 				} else
 					_display->hide_overlay();
 
-				if (_system->input->check(WindowInput::CANCEL, event))
-					return std::nullopt;
-
-				if (_system->input->check(WindowInput::BACK, event))
-					return std::nullopt;
-
 				// And handle input on the main menu
-				if (_system->input->check(WindowInput::UP, event))
-					option = _menu->choose_previous();
-				else if (_system->input->check(WindowInput::DOWN, event))
-					option = _menu->choose_next();
-				else if (_system->input->check(WindowInput::MOVE, event))
-					option = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check(WindowInput::CONFIRM, event)) {
+				if (_stage == InnStage::MENU) {
+					if (_system->input->check(WindowInput::CANCEL, event))
+						return std::nullopt;
+					else if (_system->input->check(WindowInput::BACK, event))
+						return std::nullopt;
+					else if (_system->input->check(WindowInput::UP, event))
+						option = _menu->choose_previous();
+					else if (_system->input->check(WindowInput::DOWN, event))
+						option = _menu->choose_next();
+					else if (_system->input->check(WindowInput::MOVE, event))
+						option = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
-					// We have selected something from the menu
-					if (option) {
-						if (const MenuItem option_chosen{(*option.value()).item};
-							option_chosen == MenuItem::IN_CASTLE) {
-							return MenuItem::IN_CASTLE;
-						} else if (option_chosen == MenuItem::IN_INSPECT) {
-							if (auto result{_inspect->start()}; result && result.value() == MenuItem::ABORT) {
+						// We have selected something from the menu
+						if (option) {
+							if (const MenuItem option_chosen{(*option.value()).item};
+								option_chosen == MenuItem::IN_CASTLE) {
+								return MenuItem::IN_CASTLE;
+							} else if (option_chosen == MenuItem::IN_STAY_CHARACTER) {
+								_stage = InnStage::CHOOSE;
+								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+							} else if (option_chosen == MenuItem::IN_INSPECT) {
+								if (auto result{_inspect->start()}; result && result.value() == MenuItem::ABORT) {
+									_inspect->stop();
+									_game->save_game();
+									_display->shutdown_SFML();
+									return MenuItem::ABORT;
+								}
 								_inspect->stop();
-								_game->save_game();
-								_display->shutdown_SFML();
-								return MenuItem::ABORT;
+								_display->generate("inn");
+								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+								continue;
+								if (_system->input->check(WindowInput::UP, event))
+									option = _menu->choose_previous();
+								else if (_system->input->check(WindowInput::DOWN, event))
+									option = _menu->choose_next();
+								else if (_system->input->check(WindowInput::MOVE, event))
+									option = _menu->set_mouse_selected(
+										static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+								else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+									// We have selected something from the menu
+									if (option) {
+										if (const MenuItem option_chosen{(*option.value()).item};
+											option_chosen == MenuItem::IN_CASTLE) {
+											return MenuItem::IN_CASTLE;
+										} else if (option_chosen == MenuItem::IN_INSPECT) {
+											if (auto result{_inspect->start()};
+												result && result.value() == MenuItem::ABORT) {
+												_inspect->stop();
+												_game->save_game();
+												_display->shutdown_SFML();
+												return MenuItem::ABORT;
+											}
+											_inspect->stop();
+											_display->generate("inn");
+											_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+											continue;
+										}
+									}
+								}
 							}
-							_inspect->stop();
-							_display->generate("inn");
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-							continue;
+						}
+					}
+				} else if (_stage == InnStage::CHOOSE) {
+					if (_system->input->check(WindowInput::CANCEL, event))
+						_stage = InnStage::MENU;
+					else if (_system->input->check(WindowInput::BACK, event))
+						_stage = InnStage::MENU;
+					else if (_system->input->check(WindowInput::UP, event))
+						option_choose = _roster->choose_previous();
+					else if (_system->input->check(WindowInput::DOWN, event))
+						option_choose = _roster->choose_next();
+					else if (_system->input->check(WindowInput::MOVE, event))
+						option_choose =
+							_roster->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+						// We have selected something from the menu
+						if (option_choose) {
+							if (const MenuItem option_chosen{(*option_choose.value()).item};
+								option_chosen == MenuItem::CA_INN) {
+								_stage = InnStage::MENU;
+								continue;
+							}
 						}
 					}
 				}
@@ -158,7 +217,17 @@ auto Sorcery::Inn::_draw() -> void {
 		_menu->generate((*_display->layout)["inn:menu"]);
 		const sf::Vector2f menu_pos((*_display->layout)["inn:menu"].x, (*_display->layout)["inn:menu"].y);
 		_menu->setPosition(menu_pos);
+		_display->display("inn_welcome", _w_sprites, _w_texts, _w_frames);
 		_window->draw(*_menu);
+
+	} else if (_stage == InnStage::CHOOSE) {
+
+		// And the Menu
+		_roster->generate((*_display->layout)["inn_choose:menu"]);
+		const sf::Vector2f menu_pos((*_display->layout)["inn_choose:menu"].x, (*_display->layout)["inn_choose:menu"].y);
+		_roster->setPosition(menu_pos);
+		_display->display("inn_choose", _c_sprites, _c_texts, _c_frames);
+		_window->draw(*_roster);
 	}
 
 	// Always draw the following

@@ -3030,6 +3030,94 @@
 		]
 	},
 	{
+		"name": "inn_begin",
+		"component": [
+			{
+				"name": "menu_frame",
+				"w": "36",
+				"h": "6",
+				"x": "centre",
+				"y": "11",
+				"alpha": "225",
+				"type": "frame",
+				"priority": "3",
+				"drawmode": "automatic",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "menu",
+				"x": "22",
+				"y": "11",
+				"w": "36",
+				"h": "3",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"animated": "true",
+				"width": "36",
+				"background": " 0xff0000ff",
+				"justification": "centre",
+				"type": "menu",
+				"priority": "4"
+			}]
+	},
+	{
+		"name": "inn_choose",
+		"component": [
+			{
+				"name": "welcome_text",
+				"x": "centre",
+				"y": "8",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "INN_WELCOME",
+				"justification": "centre",
+				"type": "text",
+				"priority": "4"
+			},
+			{
+				"name": "who_text",
+				"x": "centre",
+				"y": "10",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "INN_WHO",
+				"justification": "centre",
+				"type": "text",
+				"priority": "4"
+			},
+			{
+				"name": "menu_frame",
+				"w": "36",
+				"h": "20",
+				"x": "centre",
+				"y": "7",
+				"alpha": "225",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "menu",
+				"x": "22",
+				"y": "12",
+				"w": "36",
+				"h": "4",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"animated": "true",
+				"width": "36",
+				"background": " 0xff0000ff",
+				"justification": "centre",
+				"type": "menu",
+				"priority": "8"
+			}]
+	},
+	{
 		"name": "inn_inspect",
 		"component": [
 		{
