@@ -112,6 +112,18 @@ Sorcery::Menu::Menu(
 		_add_item(4, MenuItemType::ENTRY, MenuItem::ET_LEAVE_GAME, (*_display->string)["MENU_LEAVE_GAME"]);
 		selected = items.begin();
 		break;
+	case MenuType::INN_CHOOSE_BED:
+		_add_item(0, MenuItemType::ENTRY, MenuItem::IN_STABLES, (*_display->string)["INN_1"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::IN_COT, (*_display->string)["INN_2"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::IN_ECONOMY, (*_display->string)["INN_3"]);
+		_add_item(3, MenuItemType::ENTRY, MenuItem::IN_MERCHANT, (*_display->string)["INN_4"]);
+		_add_item(4, MenuItemType::ENTRY, MenuItem::IN_ROYAL, (*_display->string)["INN_5"]);
+		_add_item(5, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+		_add_item(6, MenuItemType::ENTRY, MenuItem::IN_POOL_GOLD, (*_display->string)["INN_POOL"]);
+		_add_item(7, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+		_add_item(8, MenuItemType::ENTRY, MenuItem::IN_BACK, (*_display->string)["INN_BACK"]);
+		selected = items.begin();
+		break;
 	case MenuType::TAVERN:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::TA_ADD_TO_PARTY, (*_display->string)["TAVERN_ADD_TO_PARTY"]);
 		_add_item(

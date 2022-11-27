@@ -420,7 +420,7 @@ namespace Sorcery {
 
 		enum class Tavern { NONE, MENU, ADD, REMOVE, REORDER, INSPECT };
 
-		enum class Inn { NONE, MENU, STAY, INPECT, CHOOSE };
+		enum class Inn { NONE, MENU, BED, INPECT, CHOOSE };
 
 		enum class Shop { NONE, MENU, TRADE, UNCURSE, IDENTIFY, INSPECT };
 
@@ -665,7 +665,8 @@ namespace Sorcery {
 			ELEVATOR_A_F,
 			RESTART_EXPEDITION,
 			CHARACTERS_HERE,
-			INN_CHOOSE_CHARACTER
+			INN_CHOOSE_CHARACTER,
+			INN_CHOOSE_BED
 		};
 
 		enum class Mode { NONE, TAVERN, TEMPLE, INN, SHOP, TRAINING, CAMP, ACTION, SEARCH };
@@ -810,7 +811,14 @@ namespace Sorcery {
 			AC_CAST_SPELL,
 			AC_USE_ITEM,
 			AC_LEAVE,
-			AC_SHOW_MAP
+			AC_SHOW_MAP,
+			IN_STABLES,
+			IN_COT,
+			IN_ECONOMY,
+			IN_MERCHANT,
+			IN_ROYAL,
+			IN_POOL_GOLD,
+			IN_BACK
 		};
 
 		// Menu Items
