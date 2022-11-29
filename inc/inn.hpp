@@ -53,6 +53,7 @@ namespace Sorcery {
 	  private:
 		// Private Methods
 		auto _draw() -> void;
+		auto _update_and_draw_bed_screen() -> void;
 
 		// Private Members
 		System *_system;
@@ -70,6 +71,9 @@ namespace Sorcery {
 		std::unique_ptr<Menu> _bed;
 		int _cur_char_id;
 		std::optional<Character *> _cur_char;
+		sf::Text _welcome_text;
+		sf::Text _gold_text;
+		bool _update;
 		std::map<std::string, sf::Sprite> _w_sprites;
 		std::map<std::string, sf::Text> _w_texts;
 		std::map<std::string, std::shared_ptr<Frame>> _w_frames;

@@ -35,12 +35,15 @@ Sorcery::Inn::Inn(System *system, Display *display, Graphics *graphics, Game *ga
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::INN);
 	_roster = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::PARTY_CHARACTERS, MenuMode::INN);
 	_bed = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::INN_CHOOSE_BED);
+	_welcome_text = sf::Text();
+	_gold_text = sf::Text();
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
 	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MenuMode::INN);
 
 	_stage = InnStage::NONE;
+	_update = false;
 }
 
 // Visit the Tavern
@@ -191,11 +194,13 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 								if (_cur_char) {
 									_stage = InnStage::BED;
 									_cur_char_id = character_chosen;
+									_update = true;
 								}
 							}
 						}
 					}
 				} else if (_stage == InnStage::BED) {
+					_update = true;
 					if (_system->input->check(WindowInput::CANCEL, event))
 						_stage = InnStage::CHOOSE;
 					else if (_system->input->check(WindowInput::BACK, event))
@@ -242,6 +247,47 @@ auto Sorcery::Inn::stop() -> void {
 	_display->stop_bg_movie();
 }
 
+auto Sorcery::Inn::_update_and_draw_bed_screen() -> void {
+
+	if (_update) {
+		auto name{_cur_char.value()->get_name()};
+		std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+		const auto welcome{
+			fmt::format("{} {}. {}", (*_display->string)["INN_WELCOME_ONE"], name, (*_display->string)["INN_HAVE"])};
+		const auto gold{fmt::format(
+			"{} {} {}.", (*_display->string)["INN_YOU"], _cur_char.value()->get_gold(), (*_display->string)["INN_GP"])};
+
+		_display->window->draw_text(_gold_text, (*_display->layout)["inn_bed:gold_text"], gold);
+		_display->window->draw_text(_welcome_text, (*_display->layout)["inn_bed:welcome_text"], welcome);
+		_update = false;
+
+		Component component{(*_display->layout)["inn_bed:menu"]};
+		auto cur_gold{_cur_char.value()->get_gold()};
+		_menu->enable_entry(component, 0);
+		if (cur_gold >= 10)
+			_bed->enable_entry(component, 1);
+		else
+			_bed->disable_entry(component, 1);
+		if (cur_gold >= 50)
+			_bed->enable_entry(component, 2);
+		else
+			_bed->disable_entry(component, 2);
+		if (cur_gold >= 200)
+			_bed->enable_entry(component, 3);
+		else
+			_bed->disable_entry(component, 3);
+		if (cur_gold >= 500)
+			_bed->enable_entry(component, 4);
+		else
+			_bed->disable_entry(component, 4);
+
+	} else {
+
+		_window->draw(_gold_text);
+		_window->draw(_welcome_text);
+	}
+}
+
 auto Sorcery::Inn::_draw() -> void {
 
 	// Custom Components
@@ -273,6 +319,8 @@ auto Sorcery::Inn::_draw() -> void {
 		_bed->setPosition(menu_pos);
 		_display->display("inn_bed", _b_sprites, _b_texts, _b_frames);
 		_window->draw(*_bed);
+
+		_update_and_draw_bed_screen();
 	}
 
 	// Always draw the following

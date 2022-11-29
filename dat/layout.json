@@ -3130,19 +3130,8 @@
 				"string": "INN_WELCOME_ONE",
 				"justification": "centre",
 				"type": "text",
-				"priority": "4"
-			},
-			{
-				"name": "who_text",
-				"x": "centre",
-				"y": "10",
-				"font": "monospace",
-				"colour": "0xffffffff",
-				"size": "38",
-				"string": "INN_HAVE",
-				"justification": "centre",
-				"type": "text",
-				"priority": "4"
+				"priority": "4",
+				"drawmode": "manual"
 			},
 			{
 				"name": "menu_frame",
@@ -3159,7 +3148,7 @@
 			{
 				"name": "gold_text",
 				"x": "centre",
-				"y": "10",
+				"y": "21",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
@@ -3172,7 +3161,7 @@
 			{
 				"name": "menu",
 				"x": "22",
-				"y": "12",
+				"y": "9",
 				"w": "36",
 				"h": "9",
 				"font": "monospace",
