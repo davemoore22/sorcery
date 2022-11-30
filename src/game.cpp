@@ -293,3 +293,39 @@ auto Sorcery::Game::_load_characters() -> void {
 	characters.clear();
 	characters = _get_characters();
 }
+
+auto Sorcery::Game::divvy_party_gold() -> void {
+
+	const auto party{state->get_party_characters()};
+	auto gold{0};
+
+	for (auto idx : party) {
+		auto _cur_char{&characters.at(idx)};
+		gold += _cur_char->get_gold();
+	}
+
+	gold = gold / party.size();
+	for (auto idx : party) {
+		auto _cur_char{&characters.at(idx)};
+		_cur_char->set_gold(gold);
+	}
+}
+
+auto Sorcery::Game::pool_party_gold(unsigned int char_id) -> void {
+
+	const auto party{state->get_party_characters()};
+	auto gold{0};
+
+	for (auto idx : party) {
+		auto _cur_char{&characters.at(idx)};
+		gold += _cur_char->get_gold();
+	}
+
+	for (auto idx : party) {
+		auto _cur_char{&characters.at(idx)};
+		if (char_id != idx)
+			_cur_char->set_gold(0);
+		else
+			_cur_char->set_gold(gold);
+	}
+}

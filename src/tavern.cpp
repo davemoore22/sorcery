@@ -197,7 +197,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 									continue;
 								} else if (option_chosen == MenuItem::TA_DIVVY_GOLD) {
 
-									_divvy_party_gold();
+									_game->divvy_party_gold();
 									_game->save_game();
 									_game->load_game();
 
@@ -356,23 +356,6 @@ auto Sorcery::Tavern::_update_menus() -> void {
 		_menu->enable_entry(component, 2);
 		_menu->enable_entry(component, 3);
 		_menu->enable_entry(component, 4);
-	}
-}
-
-auto Sorcery::Tavern::_divvy_party_gold() -> void {
-
-	auto party{_game->state->get_party_characters()};
-	auto gold{0};
-
-	for (auto idx : party) {
-		auto _cur_char{&_game->characters.at(idx)};
-		gold += _cur_char->get_gold();
-	}
-
-	gold = gold / party.size();
-	for (auto idx : party) {
-		auto _cur_char{&_game->characters.at(idx)};
-		_cur_char->set_gold(gold);
 	}
 }
 

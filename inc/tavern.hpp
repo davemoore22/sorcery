@@ -58,7 +58,6 @@ namespace Sorcery {
 		// Private Methods
 		auto _draw() -> void;
 		auto _update_menus() -> void;
-		auto _divvy_party_gold() -> void;
 
 		// Private Members
 		System *_system;

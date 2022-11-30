@@ -67,6 +67,8 @@ namespace Sorcery {
 		auto get_characters_at_loc() const -> std::vector<unsigned int>;
 		auto pass_turn(unsigned int turns = 1) -> void;
 		auto get_turns() const -> unsigned int;
+		auto divvy_party_gold() -> void;
+		auto pool_party_gold(unsigned int char_id) -> void;
 
 	  private:
 		// Private Methods
