@@ -35,17 +35,20 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 * Automapping (DONE)
 * Keyboard/Mouse/Gamepad Control (DONE)
 * Context-Sensitive-Help (DONE)
+* Inn/Temple (IN PROGRESS)
 * Items and Inventory (TO DO)
 * Creatures and NPCs (TO DO)
 * Magic and Combat (TO DO)
 * Strict (Legacy) Mode (TO DO)
 * 3D Rendering (TO DO)
 
-## What next? (as of June 2020)
+## What next? (as of November 2022)
 
-Next stop will be items, creatures, magic and combat. Then there might be
-something playable here! Then, as mentioned above, a proper 3D renderer will be
-implemented.
+I'm currently implementing Inn/Temple functionality.
+
+Next stop after that will be items, creatures, magic and combat. Then there might
+be something playable here! Then, as mentioned above, a proper 3D renderer will
+probably be implemented.
 
 Initially I am planning to remake Wizardrys 1, 2, and 3, and subsequently
 providing infinite procedurally-generated content like that of Diablo for exmaple.
@@ -54,7 +57,7 @@ providing infinite procedurally-generated content like that of Diablo for exmapl
 
 Note that I'm currently developing solely on Linux (Ubuntu 20) so compilation
 instructions are currently Linux-specific. Windows instructions and releases
-will of course be supported at a latert date.
+will of course be supported at a later date.
 
 Full compliation instructions for Linux are in the doc/COMPILE text file, but in
 brief both CMake (via VSCode CMake Tools) and Code::Blocks are supported.
@@ -84,6 +87,7 @@ Graphics used (all free/open source) are by:
 
 Most Recent Screenshots are first
 
+![Logo](/promo/screen11.png)
 ![Logo](/promo/screen9.png)
 ![Logo](/promo/screen10.png)
 ![Logo](/promo/screen7.png)

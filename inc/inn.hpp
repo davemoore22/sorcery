@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include "dialog.hpp"
 #include "display.hpp"
 #include "frame.hpp"
 #include "game.hpp"
@@ -74,6 +75,8 @@ namespace Sorcery {
 		sf::Text _welcome_text;
 		sf::Text _gold_text;
 		bool _update;
+		std::unique_ptr<Dialog> _pool;
+		bool _show_pool;
 		std::map<std::string, sf::Sprite> _w_sprites;
 		std::map<std::string, sf::Text> _w_texts;
 		std::map<std::string, std::shared_ptr<Frame>> _w_frames;

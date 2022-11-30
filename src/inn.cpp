@@ -44,6 +44,13 @@ Sorcery::Inn::Inn(System *system, Display *display, Graphics *graphics, Game *ga
 
 	_stage = InnStage::NONE;
 	_update = false;
+
+	_pool = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["inn:dialog_pool_gold_ok"],
+		(*_display->layout)["inn:dialog_pool_gold_ok_text"], WindowDialogType::OK);
+	_pool->setPosition(
+		(*_display->layout)["inn:dialog_pool_gold_ok"].x, (*_display->layout)["inn:dialog_pool_gold_ok"].y);
+
+	_show_pool = false;
 }
 
 // Visit the Tavern
@@ -105,6 +112,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 
 				// And handle input on the main menu
 				if (_stage == InnStage::MENU) {
+
 					if (_system->input->check(WindowInput::CANCEL, event))
 						return std::nullopt;
 					else if (_system->input->check(WindowInput::BACK, event))
@@ -119,6 +127,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 
 						// We have selected something from the menu
 						if (option) {
+
 							if (const MenuItem option_chosen{(*option.value()).item};
 								option_chosen == MenuItem::IN_CASTLE) {
 								return MenuItem::IN_CASTLE;
@@ -200,26 +209,50 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 						}
 					}
 				} else if (_stage == InnStage::BED) {
-					_update = true;
-					if (_system->input->check(WindowInput::CANCEL, event))
-						_stage = InnStage::CHOOSE;
-					else if (_system->input->check(WindowInput::BACK, event))
-						_stage = InnStage::CHOOSE;
-					else if (_system->input->check(WindowInput::UP, event))
-						option_bed = _bed->choose_previous();
-					else if (_system->input->check(WindowInput::DOWN, event))
-						option_bed = _bed->choose_next();
-					else if (_system->input->check(WindowInput::MOVE, event))
-						option_bed =
-							_bed->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
-						// We have selected something from the menu
-						if (option_bed) {
-							if (const MenuItem option_chosen{(*option_bed.value()).item};
-								option_chosen == MenuItem::IN_BACK) {
-								_stage = InnStage::CHOOSE;
-								continue;
+					if (_show_pool) {
+
+						auto dialog_input{_pool->handle_input(event)};
+						if (dialog_input) {
+							if (dialog_input.value() == WindowDialogButton::CLOSE) {
+								_show_pool = false;
+								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+							} else if (dialog_input.value() == WindowDialogButton::OK) {
+								_show_pool = false;
+								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+							}
+						}
+					} else {
+
+						_update = true;
+						if (_system->input->check(WindowInput::CANCEL, event))
+							_stage = InnStage::CHOOSE;
+						else if (_system->input->check(WindowInput::BACK, event))
+							_stage = InnStage::CHOOSE;
+						else if (_system->input->check(WindowInput::UP, event))
+							option_bed = _bed->choose_previous();
+						else if (_system->input->check(WindowInput::DOWN, event))
+							option_bed = _bed->choose_next();
+						else if (_system->input->check(WindowInput::MOVE, event))
+							option_bed =
+								_bed->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+							// We have selected something from the menu
+							if (option_bed) {
+								if (const MenuItem option_chosen{(*option_bed.value()).item};
+									option_chosen == MenuItem::IN_BACK) {
+									_stage = InnStage::CHOOSE;
+									continue;
+								} else if (option_chosen == MenuItem::IN_POOL_GOLD) {
+
+									_game->pool_party_gold(_cur_char_id);
+									_game->save_game();
+									_game->load_game();
+
+									_show_pool = true;
+									_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+								}
 							}
 						}
 					}
@@ -254,8 +287,9 @@ auto Sorcery::Inn::_update_and_draw_bed_screen() -> void {
 		std::transform(name.begin(), name.end(), name.begin(), ::toupper);
 		const auto welcome{
 			fmt::format("{} {}. {}", (*_display->string)["INN_WELCOME_ONE"], name, (*_display->string)["INN_HAVE"])};
+        const auto gp{_cur_char.value()->get_gold()};
 		const auto gold{fmt::format(
-			"{} {} {}.", (*_display->string)["INN_YOU"], _cur_char.value()->get_gold(), (*_display->string)["INN_GP"])};
+			"{} {} {}.", (*_display->string)["INN_YOU"], gp , (*_display->string)["INN_GP"])};
 
 		_display->window->draw_text(_gold_text, (*_display->layout)["inn_bed:gold_text"], gold);
 		_display->window->draw_text(_welcome_text, (*_display->layout)["inn_bed:welcome_text"], welcome);
@@ -321,6 +355,11 @@ auto Sorcery::Inn::_draw() -> void {
 		_window->draw(*_bed);
 
 		_update_and_draw_bed_screen();
+
+		if (_show_pool) {
+			_pool->update();
+			_window->draw(*_pool);
+		}
 	}
 
 	// Always draw the following
