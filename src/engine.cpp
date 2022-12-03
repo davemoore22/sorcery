@@ -114,21 +114,21 @@ auto Sorcery::Engine::_initalise_components() -> void {
 	_ouch = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:ouch"],
 		(*_display->layout)["engine_base_ui:ouch_text"], WindowDialogType::TIMED);
 	_ouch->setPosition((*_display->layout)["engine_base_ui:ouch"].x, (*_display->layout)["engine_base_ui:ouch"].y);
-	_ouch->set_duration(1000);
+	_ouch->set_duration(DELAY_OUCH);
 	_pit = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:pit"],
 		(*_display->layout)["engine_base_ui:pit_text"], WindowDialogType::TIMED);
 	_pit->setPosition((*_display->layout)["engine_base_ui:pit"].x, (*_display->layout)["engine_base_ui:pit"].y);
-	_pit->set_duration(2000);
+	_pit->set_duration(DELAY_PIT);
 	_chute = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:chute"],
 		(*_display->layout)["engine_base_ui:chute_text"], WindowDialogType::TIMED);
 	_chute->setPosition((*_display->layout)["engine_base_ui:chute"].x, (*_display->layout)["engine_base_ui:chute"].y);
-	_chute->set_duration(2000);
+	_chute->set_duration(DELAY_CHUTE);
 
 	_elevator = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:one_moment"],
 		(*_display->layout)["engine_base_ui:one_moment_text"], WindowDialogType::TIMED);
 	_elevator->setPosition(
 		(*_display->layout)["engine_base_ui:one_moment"].x, (*_display->layout)["engine_base_ui:one_moment"].y);
-	_elevator->set_duration(2000);
+	_elevator->set_duration(DELAY_ELEVATOR);
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game,

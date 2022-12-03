@@ -51,7 +51,7 @@ auto Sorcery::Dialog::_refresh(Component &string_c) -> void {
 	_start = std::nullopt;
 	_current_time = std::nullopt;
 	_valid = true;
-	_duration = 1000; // ms
+	_duration = DELAY_DEFAULT; // ms
 
 	// Get the Window
 	_window = _display->window->get_window();
@@ -480,8 +480,7 @@ auto Sorcery::Dialog::draw(sf::RenderTarget &target, sf::RenderStates state) con
 			}
 			break;
 		case WindowDialogType::CONFIRM:
-			if (_selected == WindowDialogButton::YES
-			) {
+			if (_selected == WindowDialogButton::YES) {
 				target.draw(_buttons.at(WindowDialogButton::NO), state);
 				target.draw(_highlights.at(WindowDialogButton::YES), state);
 				target.draw(_buttons_hl.at(WindowDialogButton::YES), state);

@@ -118,6 +118,14 @@ namespace Sorcery {
 	inline constexpr auto DARK_VIEW_DEPTH{3u};
 	inline constexpr auto LIGHT_VIEW_DEPTH{6u};
 
+	// Timed Settings
+	inline constexpr auto DELAY_OUCH{1000u};
+	inline constexpr auto DELAY_PIT{2000u};
+	inline constexpr auto DELAY_CHUTE{2000u};
+	inline constexpr auto DELAY_ELEVATOR{2000u};
+	inline constexpr auto DELAY_DEFAULT{1000u};
+	inline constexpr auto DELAY_RESTING{2000u};
+
 	// Miscellaneous Settings
 	inline constexpr auto MAX_PORTRAIT_INDEX{29u};
 	inline constexpr auto CREATURE_TILE_SIZE{400};
