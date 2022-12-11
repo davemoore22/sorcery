@@ -170,6 +170,9 @@ namespace Sorcery {
 	using ModuleResult = Enums::System::ModuleResult;
 	using RandomType = Enums::System::Random;
 	using Range = std::tuple<unsigned int, unsigned int>;
+	using RestMode = Enums::Castle::Rest::Mode;
+	using RestStage = Enums::Castle::Rest::Stage;
+	using RestType = Enums::Castle::Rest::Type;
 	using RosterMode = Enums::Manage::Roster;
 	using ShopStage = Enums::Castle::Shop;
 	using SpellID = Enums::Magic::SpellID;

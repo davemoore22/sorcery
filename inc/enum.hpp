@@ -418,6 +418,16 @@ namespace Sorcery {
 
 	namespace Enums::Castle {
 
+		namespace Rest {
+
+			enum class Mode { SINGLE, ALL };
+
+			enum class Stage { REGEN, RESULTS };
+
+			enum class Type { STABLES, COT, ECONOMY, MERCHANT, ROYAL };
+
+		} // namespace Rest
+
 		enum class Tavern { NONE, MENU, ADD, REMOVE, REORDER, INSPECT };
 
 		enum class Inn { NONE, MENU, BED, INPECT, CHOOSE };

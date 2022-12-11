@@ -24,6 +24,22 @@
 
 #pragma once
 
+#include "character.hpp"
+#include "display.hpp"
+#include "graphics.hpp"
 #include "main.hpp"
+#include "system.hpp"
 
-namespace Sorcery {}
+namespace Sorcery {
+
+	class Rest : public sf::Transformable, public sf::Drawable {
+
+	  public:
+		Rest(System *system, Display *display, Graphics *graphics, Character *character, RestMode mode, RestType type);
+
+	  private:
+		// Private Methods
+		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+	};
+
+} // namespace Sorcery
