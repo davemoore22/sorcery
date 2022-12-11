@@ -71,8 +71,6 @@ class Dialog: public sf::Transformable, public sf::Drawable {
 
 		sf::RenderWindow *_window;
 
-		unsigned int _width;
-		unsigned int _height;
 		WindowDialogButton _selected;
 
 		Component _frame_c;

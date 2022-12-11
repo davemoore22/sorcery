@@ -195,7 +195,7 @@ auto Sorcery::Application::start() -> int {
 // Check for a command line parameter
 auto Sorcery::Application::_check_param(std::string_view parameter) const -> bool {
 
-	for (auto arg : _arguments)
+	for (const auto &arg : _arguments)
 		if (const auto match_found{arg.find(parameter)}; match_found != std::string::npos)
 			return true;
 

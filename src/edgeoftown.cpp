@@ -47,15 +47,15 @@ Sorcery::EdgeOfTown::EdgeOfTown(System *system, Display *display, Graphics *grap
 }
 
 // Standard Destructor
-Sorcery::EdgeOfTown::~EdgeOfTown() {}
+Sorcery::EdgeOfTown::~EdgeOfTown() {
+}
 
 // Start/Continue a new Game
 auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuItem> {
 
 	if (destination == Destination::MAZE) {
 		auto _engine{std::make_unique<Engine>(_system, _display, _graphics, _game)};
-		auto result{_engine->start()};
-		if (result == EXIT_ALL) {
+		if (auto result{_engine->start()}; result == EXIT_ALL) {
 			_game->save_game();
 			_engine->stop();
 			_display->shutdown_SFML();
@@ -159,7 +159,7 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 						}
 					}
 				} else if ((_system->input->check(WindowInput::CANCEL, event)) ||
-						   ((_system->input->check(WindowInput::BACK, event)))) {
+						   (_system->input->check(WindowInput::BACK, event))) {
 					_display->set_input_mode(WindowInputMode::CONFIRM_LEAVE_GAME);
 				}
 

@@ -69,11 +69,8 @@ auto Sorcery::Dialog::_refresh(Component &string_c) -> void {
 	const std::regex regex(R"([@]+)");
 	std::sregex_token_iterator it{wrapped_text.begin(), wrapped_text.end(), regex, -1};
 	std::vector<std::string> split{it, {}};
-	split.erase(std::remove_if(split.begin(), split.end(),
-					[](std::string_view s) {
-						return s.size() == 0;
-					}),
-		split.end());
+	split.erase(
+		std::remove_if(split.begin(), split.end(), [](std::string_view s) { return s.size() == 0; }), split.end());
 	_strings = split;
 
 	// Now work out the vertical size of the Frame
@@ -137,7 +134,7 @@ auto Sorcery::Dialog::_refresh(Component &string_c) -> void {
 
 	switch (_type) {
 	case WindowDialogType::OK: {
-		const auto ok_x{((centre_x - (_display->window->get_cw() * 2))) + (_display->window->get_cw() * 2)};
+		const auto ok_x{(centre_x - (_display->window->get_cw() * 2)) + (_display->window->get_cw() * 2)};
 		sf::Text ok_text{};
 		ok_text.setFont(_system->resources->fonts[_buttons_c.font]);
 		ok_text.setCharacterSize(_buttons_c.size);

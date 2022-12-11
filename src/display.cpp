@@ -27,7 +27,6 @@
 // Standard Constructor
 Sorcery::Display::Display(System *system) : _system{system} {
 
-	//_system = system;
 	string = std::make_unique<String>((*_system->files)[STRINGS_FILE]);
 	layout = std::make_unique<Layout>((*_system->files)[LAYOUT_FILE]);
 	window = std::make_unique<Window>(_system, string.get(), layout.get(), (*string)["TITLE_AND_VERSION_INFO"]);
@@ -250,7 +249,7 @@ auto Sorcery::Display::display_overlay() -> void {
 	const sf::Vector2f pos(window->get_x(overlay->width, (*layout)["global:control_overlay"].x),
 		window->get_y(overlay->height, (*layout)["global:control_overlay"].y));
 
-	if ((_show_overlay) && (overlay->valid)) {
+	if (_show_overlay && overlay->valid) {
 		overlay->setPosition(pos);
 		window->get_window()->draw(*overlay);
 	}

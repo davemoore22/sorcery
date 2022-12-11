@@ -39,9 +39,10 @@
 
 namespace Sorcery {
 
-	class Inn {
+class Inn {
 
-	  public:
+	public:
+
 		// Standard Constructor
 		Inn(System *system, Display *display, Graphics *graphics, Game *game);
 		Inn() = delete;
@@ -52,7 +53,8 @@ namespace Sorcery {
 		auto start() -> std::optional<MenuItem>;
 		auto stop() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _draw() -> void;
 		auto _update_and_draw_bed_screen() -> void;
@@ -88,5 +90,5 @@ namespace Sorcery {
 		std::map<std::string, sf::Sprite> _b_sprites;
 		std::map<std::string, sf::Text> _b_texts;
 		std::map<std::string, std::shared_ptr<Frame>> _b_frames;
-	};
+};
 } // namespace Sorcery

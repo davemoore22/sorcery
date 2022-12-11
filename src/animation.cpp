@@ -116,8 +116,8 @@ auto Sorcery::Animation::_animate_attract(bool force) -> void {
 		do {
 			_current_time = std::chrono::system_clock::now();
 			const auto time_elapsed{_current_time - _last_attract};
-			const auto time_elapsed_sec{std::chrono::duration_cast<std::chrono::seconds>(time_elapsed)};
-			if (time_elapsed_sec.count() > 5)
+			if (const auto time_elapsed_sec{std::chrono::duration_cast<std::chrono::seconds>(time_elapsed)};
+				time_elapsed_sec.count() > 5)
 				if (_allow_attract)
 					_do_attract();
 

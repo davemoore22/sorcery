@@ -39,7 +39,8 @@ Sorcery::Training::Training(System *system, Display *display, Graphics *graphics
 }
 
 // Standard Destructor
-Sorcery::Training::~Training() {}
+Sorcery::Training::~Training() {
+}
 
 auto Sorcery::Training::start() -> std::optional<MenuItem> {
 
@@ -121,8 +122,7 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 					if (option_chosen == MenuItem::TR_EDGE_OF_TOWN) {
 						return MenuItem::ET_LEAVE_GAME;
 					} else if (option_chosen == MenuItem::TR_CREATE) {
-						auto result{_create->start()};
-						if (result && result.value() == MenuItem::ABORT) {
+						if (auto result{_create->start()}; result && result.value() == MenuItem::ABORT) {
 							_create->stop();
 							return MenuItem::ABORT;
 						}
@@ -130,8 +130,7 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 						_display->generate("training_grounds");
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					} else if (option_chosen == MenuItem::TR_INSPECT) {
-						auto result{_inspect->start()};
-						if (result && result.value() == MenuItem::ABORT) {
+						if (auto result{_inspect->start()}; result && result.value() == MenuItem::ABORT) {
 							_inspect->stop();
 							return MenuItem::ABORT;
 						}
@@ -139,8 +138,7 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 						_display->generate("roster_inspect");
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					} else if (option_chosen == MenuItem::TR_EDIT) {
-						auto result{_edit->start()};
-						if (result && result.value() == MenuItem::ABORT) {
+						if (auto result{_edit->start()}; result && result.value() == MenuItem::ABORT) {
 							_edit->stop();
 							return MenuItem::ABORT;
 						}
@@ -148,8 +146,7 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 						_display->generate("roster_edit");
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					} else if (option_chosen == MenuItem::TR_DELETE) {
-						auto result{_delete->start()};
-						if (result && result.value() == MenuItem::ABORT) {
+						if (auto result{_delete->start()}; result && result.value() == MenuItem::ABORT) {
 							_delete->stop();
 							return MenuItem::ABORT;
 						}

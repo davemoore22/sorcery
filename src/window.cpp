@@ -383,6 +383,7 @@ auto Sorcery::Window::set_input_mode(WindowInputMode value) -> void {
 
 	_input_mode = value;
 }
+
 auto Sorcery::Window::get_input_mode() const -> WindowInputMode {
 
 	return _input_mode;

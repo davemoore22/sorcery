@@ -39,13 +39,14 @@
 #include "layout.hpp"
 #include "menu.hpp"
 #include "game.hpp"
+
 // clang-format on
 
 namespace Sorcery {
 
-	class Create {
+class Create {
 
-		public:
+	public:
 
 		// Constructor
 		Create(System *system, Display *display, Graphics *graphics, Game *game);
@@ -60,7 +61,7 @@ namespace Sorcery {
 		auto start() -> std::optional<MenuItem>;
 		auto stop() -> void;
 
-		private:
+	private:
 
 		// Private Methods
 		auto _draw() -> void;
@@ -108,5 +109,5 @@ namespace Sorcery {
 		bool _show_final_menu;
 		bool _show_saved_ok;
 		std::unique_ptr<Dialog> _dialog_saved_ok;
-	};
+};
 } // namespace Sorcery
