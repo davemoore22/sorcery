@@ -37,9 +37,10 @@
 // Generation, File and Database Access, etc
 namespace Sorcery {
 
-	class System {
+class System {
 
-	  public:
+	public:
+
 		// Constructors
 		System(int argc, char **argv);
 
@@ -58,11 +59,13 @@ namespace Sorcery {
 		std::unique_ptr<ResourceManager> resources;
 		std::unique_ptr<Input> input;
 
-	  private:
+	private:
+
 		// Private Members
 		std::optional<std::chrono::steady_clock::time_point> _pause_clock_start;
 		std::optional<unsigned int> _clock_duration;
 
 		// Private Methods
-	};
-} // namespace Sorcery
+};
+
+}

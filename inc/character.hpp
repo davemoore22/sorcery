@@ -30,15 +30,17 @@
 #include "main.hpp"
 #include "system.hpp"
 #include "spellpanel.hpp"
+
 // clang-format on
 
 namespace Sorcery {
 
-	class SpellSummary;
+class SpellSummary;
 
-	class Character : public sf::Transformable, public sf::Drawable {
+class Character: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Constructors
 		Character();
 		Character(System *system, Display *display, Graphics *graphics);
@@ -155,7 +157,8 @@ namespace Sorcery {
 		std::optional<Coordinate> coordinate;
 		std::optional<int> depth;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _generate_display() -> void;
@@ -228,5 +231,6 @@ namespace Sorcery {
 		sf::RectangleShape _hl_mage_spell_bg;
 		sf::RectangleShape _hl_priest_spell_bg;
 		bool _legated;
-	};
-} // namespace Sorcery
+};
+
+}

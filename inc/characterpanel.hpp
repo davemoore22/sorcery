@@ -31,15 +31,17 @@
 #include "main.hpp"
 #include "system.hpp"
 #include "character.hpp"
+
 // clang-format on
 
 namespace Sorcery {
 
-	class Display;
+class Display;
 
-	class CharacterPanel : public sf::Transformable, public sf::Drawable {
+class CharacterPanel: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Constructors
 		CharacterPanel(System *system, Display *display, Graphics *graphics);
 		CharacterPanel() = delete;
@@ -53,7 +55,8 @@ namespace Sorcery {
 		// Public Methods
 		auto set(Character *character) -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
@@ -67,5 +70,6 @@ namespace Sorcery {
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Sprite> _icons;
 		sf::Sprite _portrait;
-	};
-} // namespace Sorcery
+};
+
+}

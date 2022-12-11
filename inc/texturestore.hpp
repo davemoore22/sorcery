@@ -29,9 +29,10 @@
 
 namespace Sorcery {
 
-	class TextureStore {
+class TextureStore {
 
-	  public:
+	public:
+
 		// Constructors
 		TextureStore(System *system, const std::filesystem::path filename);
 		TextureStore() = delete;
@@ -44,7 +45,8 @@ namespace Sorcery {
 		auto get(const std::string name, const GraphicsTextureType texture_type) const -> std::optional<sf::Sprite>;
 		auto get_atlas(const Rect rect, bool feature) const -> sf::Sprite;
 
-	  private:
+	private:
+
 		// Private Members
 		System *_system;
 		bool _loaded;
@@ -64,5 +66,6 @@ namespace Sorcery {
 		auto _get(const std::string name) const -> std::optional<Texture>;
 		auto _get_rect(unsigned int index, GraphicsTextureType texture_type) const -> sf::IntRect;
 		auto _load(const std::filesystem::path filename) -> bool;
-	};
-} // namespace Sorcery
+};
+
+}

@@ -32,9 +32,10 @@
 
 namespace Sorcery {
 
-	class Search : public sf::Transformable, public sf::Drawable {
+class Search: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Constructors
 		Search(System *system, Display *display, Graphics *graphics, Game *game, Component layout);
 		Search() = delete;
@@ -47,7 +48,8 @@ namespace Sorcery {
 		// Public Methods
 		auto refresh() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
@@ -61,5 +63,6 @@ namespace Sorcery {
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Sprite> _sprites;
 		IconStorage _icons;
-	};
-} // namespace Sorcery
+};
+
+}

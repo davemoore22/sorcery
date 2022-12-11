@@ -32,11 +32,12 @@
 
 namespace Sorcery {
 
-	class Display;
+class Display;
 
-	class AutoMap : public sf::Transformable, public sf::Drawable {
+class AutoMap: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Constructors
 		AutoMap(System *system, Display *display, Graphics *graphics, Game *game, Component layout);
 		AutoMap() = delete;
@@ -47,7 +48,8 @@ namespace Sorcery {
 		auto is_mouse_over(Component &component, sf::Vector2f mouse_pos) const -> bool;
 		auto refresh() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _draw_player(MapDirection direction, int x, int y, float scaling) -> void;
@@ -66,5 +68,6 @@ namespace Sorcery {
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Sprite> _sprites;
 		int _map_radius;
-	};
-} // namespace Sorcery
+};
+
+}

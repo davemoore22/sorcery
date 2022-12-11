@@ -32,9 +32,10 @@
 
 namespace Sorcery {
 
-	class Map : public sf::Transformable, public sf::Drawable {
+class Map: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Standard Constructor
 		Map(System *system, Display *display, Graphics *graphics, Game *game, Component layout);
 		Map() = delete;
@@ -44,7 +45,8 @@ namespace Sorcery {
 		// Public Methods
 		auto refresh() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _draw_player(MapDirection direction, int x, int y, float scaling) -> void;
@@ -61,5 +63,5 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _outside_frame;
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Sprite> _sprites;
-	};
+};
 } // namespace Sorcery

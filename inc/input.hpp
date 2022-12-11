@@ -28,9 +28,10 @@
 
 namespace Sorcery {
 
-	class Input {
+class Input {
 
-	  public:
+	public:
+
 		// Constructor
 		Input();
 
@@ -39,9 +40,11 @@ namespace Sorcery {
 		// Public Methods
 		auto check(WindowInput input, sf::Event event) -> bool;
 
-	  private:
+	private:
+
 		// Private Methods
 		int _jp_min; // Maximum Joypad Axis Sensitivity
 		int _jp_max; // Minimum Joypad Axis Sensitivity
-	};
-} // namespace Sorcery
+};
+
+}

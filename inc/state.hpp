@@ -30,10 +30,11 @@
 
 namespace Sorcery {
 
-	// State holds the changable game data
-	class State {
+// State holds the changable game data
+class State {
 
-	  public:
+	public:
+
 		// Constructor
 		State();
 		State(System *system);
@@ -73,7 +74,8 @@ namespace Sorcery {
 		auto get_turns() const -> unsigned int;
 		auto pass_turn(unsigned int turns = 1) -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _clear() -> void;
 		auto _clear_explored() -> void;
@@ -88,5 +90,6 @@ namespace Sorcery {
 		bool _lit;
 		int _version;
 		unsigned int _turns;
-	};
-} // namespace Sorcery
+};
+
+}

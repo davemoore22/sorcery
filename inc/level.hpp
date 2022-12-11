@@ -29,9 +29,10 @@
 
 namespace Sorcery {
 
-	class Level {
+class Level {
 
-	  public:
+	public:
+
 		// Constructors
 		Level();
 		Level(const MapType type, const std::string dungeon, const int depth, const Coordinate bottom_left,
@@ -76,7 +77,8 @@ namespace Sorcery {
 		auto wrap_size() const -> Size;
 		auto wrap_top_right() const -> Coordinate;
 
-	  private:
+	private:
+
 		// Private Members - need getters for these (bot not setters)
 		MapType _type;
 		std::string _dungeon;
@@ -105,6 +107,6 @@ namespace Sorcery {
 		auto _load_metadata(const Json::Value note_data) -> bool;
 		auto _update_tile_markers(const Coordinate location, const bool darkness, const unsigned int marker,
 			const unsigned int terrain) -> void;
-	};
+};
 
-} // namespace Sorcery
+}

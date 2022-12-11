@@ -39,7 +39,8 @@ namespace Sorcery {
 
 	class ControlOverlay : public sf::Transformable, public sf::Drawable {
 
-	  public:
+		public:
+
 		// Constructors
 		ControlOverlay(System *system, Display *display, Component layout);
 		ControlOverlay() = delete;
@@ -52,7 +53,8 @@ namespace Sorcery {
 		// Public Methods
 		auto set_input_mode(WindowInputMode input_mode) -> void;
 
-	  private:
+		private:
+
 		// Private Methods
 		auto _get_control_gfx(WindowInputCategory input) -> sf::Sprite;
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;

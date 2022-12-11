@@ -28,11 +28,11 @@
 
 namespace Sorcery {
 
-	// Note that we need to use full details in here as aliases haven't yet been
-	// set up in main.hpp when we include enums.hpp
+// Note that we need to use full details in here as aliases haven't yet been set up in main.hpp when we include
+// enums.hpp
 
-	// Struct to represent a menu entry
-	struct MenuEntry {
+// Struct to represent a menu entry
+struct MenuEntry {
 		MenuEntry()
 			: index{0}, type{Enums::Menu::ItemType::NONE}, item{Enums::Menu::Item::NONE}, key{}, enabled{false},
 			  config{Enums::Options::NONE}, hint{} {};
@@ -52,10 +52,10 @@ namespace Sorcery {
 		bool enabled;
 		Enums::Options config;
 		std::string hint;
-	};
+};
 
-	// Struct to represent a game
-	struct GameEntry {
+// Struct to represent a game
+struct GameEntry {
 		GameEntry() : id{0}, key{}, status{}, start_time{}, time_point{}, data{} {};
 		GameEntry(unsigned int id_, std::string key_, std::string status_,
 			std::chrono::system_clock::time_point start_time_, std::chrono::system_clock::time_point time_point_,
@@ -68,10 +68,10 @@ namespace Sorcery {
 		std::chrono::system_clock::time_point start_time;
 		std::chrono::system_clock::time_point time_point;
 		std::string data;
-	};
+};
 
-	// Struct to represent an icon
-	struct Icon {
+// Struct to represent an icon
+struct Icon {
 		Icon() : index{0}, item{Enums::Menu::Item::NONE}, key{}, filename{}, colour{} {};
 		Icon(unsigned int index_, Enums::Menu::Item item_, std::string key_, std::string filename_, sf::Color colour_)
 			: index{index_}, item{item_}, key{key_}, filename{filename_}, colour{colour_} {};
@@ -86,15 +86,16 @@ namespace Sorcery {
 		std::string key;
 		std::string filename;
 		sf::Color colour;
-	};
+};
 
-	// Dungeon Graphics
-	struct Texture {
+// Dungeon Graphics
+struct Texture {
 		Texture() : name{0}, index{0}, wall{0}, floor{0}, ceiling{0}, door{0}, source{""}, comment{""} {};
 		Texture(std::string name, unsigned int index_, unsigned int wall_, unsigned int floor_, unsigned int ceiling_,
 			unsigned int door_, std::string source_, std::string comment_ = "")
 			: name{name}, index{index_}, wall{wall_}, floor{floor_}, ceiling{ceiling_}, door{door_}, source{source_},
 			  comment{comment_} {};
+
 		auto operator==(const Texture &a) const -> bool {
 			return (name == a.name && index == a.index && wall == a.wall && floor == a.floor && ceiling == a.ceiling &&
 					door == a.door && source == a.source);
@@ -108,10 +109,10 @@ namespace Sorcery {
 		unsigned int door;
 		std::string source;
 		std::string comment;
-	};
+};
 
-	// Struct to represent a coordinate
-	struct Point {
+// Struct to represent a coordinate
+struct Point {
 		Point() : x{0}, y{0} {};
 		Point(unsigned int x_, unsigned int y_) : x{x_}, y{y_} {};
 
@@ -131,16 +132,17 @@ namespace Sorcery {
 
 		unsigned int x;
 		unsigned int y;
-	};
+};
 
-	// Could also hold an optional bounds for maximum and minimum values?
-	struct Coordinate {
+// Could also hold an optional bounds for maximum and minimum values?
+struct Coordinate {
 		Coordinate() : x{0}, y{0} {};
 		Coordinate(int x_, int y_) : x{x_}, y{y_} {};
 
 		auto operator==(const Coordinate &a) const -> bool {
 			return (x == a.x && y == a.y);
 		}
+
 		auto operator<(const Coordinate &a) const -> bool {
 			return std::tie(x, y) < std::tie(a.x, a.y);
 		}
@@ -173,9 +175,9 @@ namespace Sorcery {
 
 		int x;
 		int y;
-	};
+};
 
-	struct Coordinate3 {
+struct Coordinate3 {
 		Coordinate3() : x{0}, y{0}, z{0} {};
 		Coordinate3(int x_, int y_, int z_) : x{x_}, y{y_}, z{z_} {};
 		Coordinate3(int x_, int z_) : x{x_}, y{0}, z{z_} {};
@@ -183,9 +185,11 @@ namespace Sorcery {
 		auto operator==(const Coordinate3 &a) const -> bool {
 			return (x == a.x && y == a.y && z == a.z);
 		}
+
 		auto operator<(const Coordinate3 &a) const -> bool {
 			return std::tie(x, y, z) < std::tie(a.x, a.y, a.z);
 		};
+
 		friend std::ostream &operator<<(std::ostream &os, Coordinate3 const &a) {
 			return os << fmt::format("[{}/{}/{}]", a.x, a.y, a.z) << std::endl;
 		}
@@ -197,30 +201,30 @@ namespace Sorcery {
 		int x;
 		int y;
 		int z;
-	}; // namespace Sorcery
+};
 
-	// Struct to represent an area of the screen (w, h)
-	struct ScreenSize {
+// Struct to represent an area of the screen (w, h)
+struct ScreenSize {
 		ScreenSize() : w{0}, h{0} {};
 		ScreenSize(unsigned int w_, unsigned int h_) : w{w_}, h{h_} {};
 		ScreenSize(const ScreenSize &other) : w{other.w}, h{other.h} {};
 
 		unsigned int w;
 		unsigned int h;
-	};
+};
 
-	// Struct to represent the size of an image
-	struct ImageSize {
+// Struct to represent the size of an image
+struct ImageSize {
 		ImageSize() : w{0}, h{0} {};
 		ImageSize(unsigned int w_, unsigned int h_) : w{w_}, h{h_} {};
 		ImageSize(const ImageSize &other) : w{other.w}, h{other.h} {};
 
 		unsigned int w;
 		unsigned int h;
-	};
+};
 
-	// Struct to represent the size of a map level
-	struct Size {
+// Struct to represent the size of a map level
+struct Size {
 		Size() : w{0}, h{0} {};
 		Size(unsigned int w_, unsigned int h_) : w{w_}, h{h_} {};
 		Size(const Size &other) : w{other.w}, h{other.h} {};
@@ -232,6 +236,7 @@ namespace Sorcery {
 
 			return *this;
 		};
+
 		friend std::ostream &operator<<(std::ostream &os, Size const &a) {
 			return os << fmt::format("[{}/{}]", a.w, a.h) << std::endl;
 		}
@@ -242,10 +247,10 @@ namespace Sorcery {
 
 		unsigned int w;
 		unsigned int h;
-	};
+};
 
-	// Struct to represent a rect on the screen
-	struct Rect {
+// Struct to represent a rect on the screen
+struct Rect {
 		Rect() : x{0}, y{0}, w{0}, h{0} {};
 		Rect(unsigned int x_, unsigned int y_, unsigned int w_, unsigned int h_) : x{x_}, y{y_}, w{w_}, h{h_} {};
 		Rect(const Rect &other) : x{other.x}, y{other.y}, w{other.w}, h{other.h} {};
@@ -285,15 +290,15 @@ namespace Sorcery {
 		unsigned int y;
 		unsigned int w;
 		unsigned int h;
-	};
+};
 
-	// Spells
-	struct Spell {
+// Spells
+struct Spell {
 
 		Spell()
 			: id{Enums::Magic::SpellID::NONE}, type{Enums::Magic::SpellType::NONE},
-			  category{Enums::Magic::SpellCategory::NONE}, level{0}, known{false}, name{""},
-			  translated_name{""}, details{""} {};
+			  category{Enums::Magic::SpellCategory::NONE}, level{0}, known{false}, name{""}, translated_name{""},
+			  details{""} {};
 		Spell(Enums::Magic::SpellID id_, Enums::Magic::SpellType type_, Enums::Magic::SpellCategory category_,
 			unsigned int level_, bool known_, std::string name_, std::string translated_name_, std::string details_)
 			: id{id_}, type{type_}, category{category_}, level{level_}, known{known_}, name{name_},
@@ -326,9 +331,9 @@ namespace Sorcery {
 		std::string name;
 		std::string translated_name;
 		std::string details;
-	};
+};
 
-	struct Door {
+struct Door {
 
 		Enums::Tile::DoorType type;
 		bool secret;
@@ -340,9 +345,9 @@ namespace Sorcery {
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(type, secret, gfx);
 		}
-	};
+};
 
-	struct FloorCeiling {
+struct FloorCeiling {
 
 		bool visible;
 		int gfx;
@@ -354,9 +359,9 @@ namespace Sorcery {
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(visible, gfx);
 		}
-	};
+};
 
-	struct Wall {
+struct Wall {
 
 		bool visible;
 		bool walkable;
@@ -374,9 +379,9 @@ namespace Sorcery {
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(visible, walkable, direction, gfx, door);
 		}
-	};
+};
 
-	struct Elevator {
+struct Elevator {
 		bool up;
 		Coordinate up_loc;
 		bool down;
@@ -385,39 +390,42 @@ namespace Sorcery {
 		int bottom_depth;
 
 		Elevator()
-			: up{false}, up_loc{Coordinate{0, 0}}, down{false}, down_loc{Coordinate{0, 0}}, top_depth{0}, bottom_depth{
-																											  0} {};
+			: up{false}, up_loc{Coordinate{0, 0}}, down{false}, down_loc{Coordinate{0, 0}}, top_depth{0},
+			  bottom_depth{0} {};
 
 		Elevator(bool up_, Coordinate up_loc_, bool down_, Coordinate down_loc_, int top_depth_, int bottom_depth_)
-			: up{up_}, up_loc{up_loc_}, down{down_}, down_loc{down_loc_}, top_depth{top_depth_}, bottom_depth{
-																									 bottom_depth_} {};
+			: up{up_}, up_loc{up_loc_}, down{down_}, down_loc{down_loc_}, top_depth{top_depth_},
+			  bottom_depth{bottom_depth_} {};
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(up, up_loc, down_loc, top_depth, bottom_depth);
 		}
-	};
+};
 
-	struct Teleport {
+struct Teleport {
 		int to_level;
 		Coordinate to_loc;
 
 		Teleport() : to_level{0}, to_loc{Coordinate{0, 0}} {};
-		Teleport(int to_level_, Coordinate to_loc_) : to_level{to_level_}, to_loc{to_loc_} {}
+
+		Teleport(int to_level_, Coordinate to_loc_) : to_level{to_level_}, to_loc{to_loc_} {
+		}
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(to_level, to_loc);
 		}
-	};
+};
 
-	struct TileNote {
+struct TileNote {
 		Coordinate loc;
 		std::string text;
 		bool visible;
 		Enums::View::Message::Position position;
 
-		TileNote() : loc{Coordinate{-1, -1}}, text{""}, visible{true}, position{Enums::View::Message::Position::NONE} {}
+		TileNote() : loc{Coordinate{-1, -1}}, text{""}, visible{true}, position{Enums::View::Message::Position::NONE} {
+		}
 
 		TileNote(int x_, int y_, std::string text_) {
 			loc = Coordinate{x_, y_};
@@ -433,9 +441,9 @@ namespace Sorcery {
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(loc, text, visible);
 		}
-	};
+};
 
-	struct TileView {
+struct TileView {
 
 		Coordinate3 offset;
 		sf::VertexArray floor;
@@ -507,9 +515,9 @@ namespace Sorcery {
 			right_side_door.setPrimitiveType(sf::Quads);
 			right_side_door.resize(4);
 		}
-	};
+};
 
-	struct ConsoleMessage {
+struct ConsoleMessage {
 
 		long int id;
 		Enums::Internal::MessageType type;
@@ -534,7 +542,6 @@ namespace Sorcery {
 
 			return os << fmt::format("[{}: {}]", TP2STR(a.datetime), a.text);
 		}
+};
 
-	}; // namespace Sorcery
-
-} // namespace Sorcery
+}

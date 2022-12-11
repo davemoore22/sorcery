@@ -33,9 +33,10 @@
 
 namespace Sorcery {
 
-	class Message : public sf::Transformable, public sf::Drawable {
+class Message: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Constructors
 		Message(System *system, Display *display, Graphics *graphics, Component &frame_c, Component &text_c);
 		Message() = delete;
@@ -45,7 +46,8 @@ namespace Sorcery {
 		// Public Methods
 		auto update(TileNote tile_note) -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
@@ -69,5 +71,6 @@ namespace Sorcery {
 		std::vector<sf::Text> _texts;
 
 		std::unique_ptr<Frame> _frame;
-	};
-} // namespace Sorcery
+};
+
+}

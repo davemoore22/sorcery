@@ -38,9 +38,10 @@
 
 namespace Sorcery {
 
-	class Training {
+class Training {
 
-	  public:
+	public:
+
 		// Standard Constructor
 		Training(System *system, Display *display, Graphics *graphics, Game *game);
 		Training() = delete;
@@ -54,7 +55,8 @@ namespace Sorcery {
 		auto start() -> std::optional<MenuItem>;
 		auto stop() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _draw() -> void;
 
@@ -72,5 +74,6 @@ namespace Sorcery {
 		std::unique_ptr<Roster> _inspect;
 		std::unique_ptr<Roster> _edit;
 		std::unique_ptr<Roster> _delete;
-	};
-} // namespace Sorcery
+};
+
+}

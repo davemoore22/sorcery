@@ -33,9 +33,10 @@
 
 namespace Sorcery {
 
-	class License {
+class License {
 
-	  public:
+	public:
+
 		// Constructor
 		License(System *system, Display *display, Graphics *graphics);
 
@@ -48,7 +49,8 @@ namespace Sorcery {
 		auto start() -> int;
 		auto stop() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _draw() -> void;
 		auto _display_file() -> void;
@@ -63,5 +65,6 @@ namespace Sorcery {
 		unsigned int _current_line;
 		sf::Text _progress_text;
 		sf::Text _line_text;
-	};
-} // namespace Sorcery
+};
+
+}

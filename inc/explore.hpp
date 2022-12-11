@@ -28,9 +28,10 @@
 
 namespace Sorcery {
 
-	class Explore {
+class Explore {
 
-	  public:
+	public:
+
 		// Constructors
 		Explore();
 
@@ -51,9 +52,10 @@ namespace Sorcery {
 		auto set(const Coordinate loc) -> void;
 		auto unset(const Coordinate loc) -> void;
 
-	  private:
+	private:
+
 		// Private Members
 		std::map<Coordinate, bool> _tiles;
-	};
+};
 
-} // namespace Sorcery
+}

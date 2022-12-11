@@ -30,7 +30,8 @@ namespace Sorcery {
 
 	class Database {
 
-	  public:
+		public:
+
 		// Constructors
 		Database(const std::filesystem::path &db_file_path);
 		Database() = delete;
@@ -49,7 +50,8 @@ namespace Sorcery {
 		// Public Members
 		bool connected;
 
-	  private:
+		private:
+
 		// Private Members
 		std::filesystem::path _db_file_path;
 

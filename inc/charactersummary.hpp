@@ -33,9 +33,10 @@
 
 namespace Sorcery {
 
-	class CharacterSummary : public sf::Transformable, public sf::Drawable {
+class CharacterSummary: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Constructors
 		CharacterSummary(System *system, Display *display, Graphics *graphics, Character *character, unsigned int num);
 		CharacterSummary() = delete;
@@ -49,7 +50,8 @@ namespace Sorcery {
 		auto get_local_bounds() const -> sf::FloatRect;
 		auto set_local_bounds(int x, int y) -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
@@ -69,5 +71,6 @@ namespace Sorcery {
 		std::vector<sf::RectangleShape> _bars;
 		int _x;
 		int _y;
-	};
-} // namespace Sorcery
+};
+
+}

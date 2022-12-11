@@ -32,9 +32,10 @@
 // Class to handles managing filepaths
 namespace Sorcery {
 
-	class File {
+class File {
 
-	  public:
+	public:
+
 		// Constructors
 		File();
 
@@ -47,7 +48,8 @@ namespace Sorcery {
 		// Public Members
 		auto get_base_path() const -> std::filesystem::path;
 
-	  private:
+	private:
+
 		// Private Members
 		std::map<std::string_view, std::filesystem::path> _file_paths;
 		std::filesystem::path _base_path;
@@ -55,5 +57,6 @@ namespace Sorcery {
 		// Private Methods
 		auto _add_path(const std::string_view dir, const std::string_view file) -> void;
 		auto _get_exe_path() -> std::string_view;
-	};
+};
+
 } // namespace Sorcery

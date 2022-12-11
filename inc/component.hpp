@@ -29,9 +29,10 @@
 // Class to act as a graphical entity with layout information
 namespace Sorcery {
 
-	class Component {
+class Component {
 
-	  public:
+	public:
+
 		// Constructors
 		Component(std::string screen_, std::string name_, int x_, int y_, unsigned int w_, unsigned int h_,
 			float scale_, Enums::Internal::FontType font_, unsigned int size_, unsigned long long colour_,
@@ -84,7 +85,8 @@ namespace Sorcery {
 		Enums::Graphics::Texture texture;
 		std::string unique_key;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _get(std::string_view key) const -> std::optional<std::string>;
 
@@ -94,5 +96,6 @@ namespace Sorcery {
 		std::vector<std::pair<std::string, std::string>> _data;
 		long _id;
 		static inline long s_id{0};
-	};
-} // namespace Sorcery
+};
+
+}

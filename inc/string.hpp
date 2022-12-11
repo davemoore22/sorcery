@@ -28,9 +28,10 @@
 
 namespace Sorcery {
 
-	class String {
+class String {
 
-	  public:
+	public:
+
 		// Constructors
 		String(const std::string &filename);
 		String() = delete;
@@ -41,12 +42,14 @@ namespace Sorcery {
 		// Public Methods
 		auto get(std::string_view key) -> std::string;
 
-	  private:
+	private:
+
 		// Private Members
 		StringMap _strings; // String Storage Table
 		bool _loaded;
 
 		// Private Methods
 		auto _load(std::string_view filename) -> bool;
-	};
-} // namespace Sorcery
+};
+
+}

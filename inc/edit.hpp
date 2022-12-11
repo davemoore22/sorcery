@@ -39,9 +39,10 @@
 
 namespace Sorcery {
 
-	class Edit {
+class Edit {
 
-	  public:
+	public:
+
 		// Standard Constructor
 		Edit(System *system, Display *display, Graphics *graphics, Game *game);
 		Edit() = delete;
@@ -52,7 +53,8 @@ namespace Sorcery {
 		auto start(int current_character_idx) -> std::optional<MenuItem>;
 		auto stop() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _draw() -> void;
 
@@ -75,5 +77,6 @@ namespace Sorcery {
 		bool _show_changed;
 		std::unique_ptr<Dialog> _legated;
 		bool _show_legated;
-	};
-} // namespace Sorcery
+};
+
+}

@@ -30,9 +30,10 @@
 // files (such as COPYING and README)
 namespace Sorcery {
 
-	class TextFile {
+class TextFile {
 
-	  public:
+	public:
+
 		// Constructors
 		TextFile(std::filesystem::path text_file_path);
 		TextFile() = delete;
@@ -49,9 +50,11 @@ namespace Sorcery {
 		// Public Members
 		unsigned int width; // Column Size of max
 
-	  private:
+	private:
+
 		// Private Members
 		std::filesystem::path _text_fp;		// Filename
 		std::vector<std::string> _contents; // Contents of text file
-	};
-} // namespace Sorcery
+};
+
+}

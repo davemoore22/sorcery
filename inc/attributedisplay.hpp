@@ -32,15 +32,17 @@
 #include "main.hpp"
 #include "system.hpp"
 #include "character.hpp"
+
 // clang-format on
 
 namespace Sorcery {
 
-	class Character;
+class Character;
 
-	class AttributeDisplay : public sf::Transformable, public sf::Drawable {
+class AttributeDisplay: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Constructors
 		AttributeDisplay(
 			System *system, Display *display, Graphics *graphics, Character *character, Alignment alignment);
@@ -63,7 +65,8 @@ namespace Sorcery {
 		// Public Methods
 		auto set() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _get_bar(CharacterAttribute attribute) -> sf::RectangleShape;
@@ -85,5 +88,6 @@ namespace Sorcery {
 		std::vector<sf::RectangleShape> _bars;
 		std::array<sf::Sprite, 6> _attribute_icons;
 		std::vector<sf::Text> _texts;
-	};
-} // namespace Sorcery
+};
+
+}

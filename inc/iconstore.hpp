@@ -29,9 +29,10 @@
 
 namespace Sorcery {
 
-	class IconStore {
+class IconStore {
 
-	  public:
+	public:
+
 		// Constructors
 		IconStore(System *system, Component layout, const std::filesystem::path filename);
 		IconStore() = delete;
@@ -44,7 +45,8 @@ namespace Sorcery {
 		auto get(std::string_view key) -> std::optional<sf::Sprite>;
 		auto get(const MenuItem key) -> std::optional<sf::Sprite>;
 
-	  private:
+	private:
+
 		// Private Members
 		System *_system;
 		IconLibrary _icons;
@@ -59,5 +61,6 @@ namespace Sorcery {
 		// Private Methods
 		auto _get_rect(unsigned int index) const -> sf::IntRect;
 		auto _load(const std::filesystem::path filename) -> bool;
-	};
-} // namespace Sorcery
+};
+
+}

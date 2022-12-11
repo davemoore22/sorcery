@@ -32,9 +32,10 @@
 // Class to act as a wrapper around SFML Window etc
 namespace Sorcery {
 
-	class Window {
+class Window {
 
-	  public:
+	public:
+
 		// Constructors
 		Window(System *system, String *string, Layout *layout, const std::string &title);
 		Window() = delete;
@@ -75,7 +76,8 @@ namespace Sorcery {
 		Point centre;
 		sf::IntRect size;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _adjust_brightness(sf::Color colour, double colour_lerp) -> unsigned long long;
 		auto _draw_text(sf::Text &text, const Component &component, const double lerp) -> void;
@@ -111,5 +113,6 @@ namespace Sorcery {
 		WindowInputMode _input_mode;
 		sf::Image _capture;
 		sf::Texture _texture;
-	};
-} // namespace Sorcery
+};
+
+}

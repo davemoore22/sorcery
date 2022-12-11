@@ -32,9 +32,10 @@
 
 namespace Sorcery {
 
-	class Compass : public sf::Transformable, public sf::Drawable {
+class Compass: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Constructors
 		Compass(System *system, Display *display, Graphics *graphics, Game *game, Component layout);
 		Compass() = delete;
@@ -44,7 +45,8 @@ namespace Sorcery {
 		// Public Methods
 		auto refresh() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
@@ -59,5 +61,6 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _frame;
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Sprite> _sprites;
-	};
-} // namespace Sorcery
+};
+
+}

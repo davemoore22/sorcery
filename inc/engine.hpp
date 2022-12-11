@@ -31,7 +31,6 @@
 #include "dialog.hpp"
 #include "display.hpp"
 #include "game.hpp"
-#include "get.hpp"
 #include "graphics.hpp"
 #include "iconpanel.hpp"
 #include "inspect.hpp"
@@ -48,9 +47,10 @@
 
 namespace Sorcery {
 
-	class Engine {
+class Engine {
 
-	  public:
+	public:
+
 		// Standard Constructor - need to pass in game object to this to
 		Engine(System *system, Display *display, Graphics *graphics, Game *game);
 		Engine() = delete;
@@ -64,7 +64,8 @@ namespace Sorcery {
 		auto start() -> int;
 		auto stop() const -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _initalise_components() -> void;
 		auto _place_components() -> void;
@@ -187,5 +188,6 @@ namespace Sorcery {
 		std::optional<std::vector<MenuEntry>::const_iterator> _search_option;
 		std::optional<std::vector<MenuEntry>::const_iterator> _elevator_a_d_option;
 		std::optional<std::vector<MenuEntry>::const_iterator> _elevator_a_f_option;
-	};
-} // namespace Sorcery
+};
+
+}

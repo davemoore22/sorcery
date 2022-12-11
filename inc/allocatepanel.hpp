@@ -33,11 +33,12 @@
 
 namespace Sorcery {
 
-	class Display;
+class Display;
 
-	class AllocatePanel : public sf::Transformable, public sf::Drawable {
+class AllocatePanel: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Constructors
 		AllocatePanel(System *system, Display *display, Graphics *graphics, Character *character);
 		AllocatePanel() = delete;
@@ -51,7 +52,8 @@ namespace Sorcery {
 		// Public Methods
 		auto set() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _get_bar(CharacterAttribute attribute)
 			-> std::tuple<sf::RectangleShape, sf::RectangleShape, sf::RectangleShape>;
@@ -77,5 +79,6 @@ namespace Sorcery {
 		sf::Color _base;
 		Component _stat_bar;
 		std::array<sf::Sprite, 8> _class_icons;
-	};
-} // namespace Sorcery
+};
+
+}

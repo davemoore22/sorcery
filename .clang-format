@@ -1,16 +1,37 @@
-Language: Cpp
-# EmptyLineBeforeAccessModifier: Always
-# IndentAccessModifiers: true
-BasedOnStyle: LLVM
-NamespaceIndentation: All
-IndentWidth: 4
-UseTab: Always
-TabWidth: 4
-ReflowComments: true
-ColumnLimit: 120
-AllowShortFunctionsOnASingleLine: Empty
-ConstructorInitializerIndentWidth: 4
+AccessModifierOffset: 0
 AlignAfterOpenBracket: DontAlign
-AllowShortLambdasOnASingleLine: None
+AlignOperands: Align
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+AllowShortLambdasOnASingleLine: true
 AlwaysBreakBeforeMultilineStrings: true
-#AllowShortEnumsOnASingleLine: False
+BasedOnStyle: LLVM
+ColumnLimit: 120
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 4
+EmptyLineAfterAccessModifier: Always
+EmptyLineBeforeAccessModifier: Always
+FixNamespaceComments: false
+IndentAccessModifiers: true
+IndentWidth: 4
+Language: Cpp
+NamespaceIndentation: Inner
+ReflowComments: true
+SeparateDefinitionBlocks: Always
+SpaceBeforeInheritanceColon: false
+SortUsingDeclarations: true
+TabWidth: 4
+UseTab: Always
+
+
+
+
+
+
+
+
+
+
+
+
+

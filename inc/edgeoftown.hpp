@@ -40,9 +40,10 @@
 
 namespace Sorcery {
 
-	class EdgeOfTown {
+class EdgeOfTown {
 
-	  public:
+	public:
+
 		// Standard Constructor
 		EdgeOfTown(System *system, Display *display, Graphics *graphics, Game *game);
 		EdgeOfTown() = delete;
@@ -56,7 +57,8 @@ namespace Sorcery {
 		auto start(Destination destination = Destination::NONE) -> std::optional<MenuItem>;
 		auto stop() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _draw() -> void;
 		auto _update_menus() -> void;
@@ -74,5 +76,6 @@ namespace Sorcery {
 		std::unique_ptr<Training> _training;
 		std::unique_ptr<StatusBar> _status_bar;
 		std::unique_ptr<Restart> _restart;
-	};
-} // namespace Sorcery
+};
+
+}

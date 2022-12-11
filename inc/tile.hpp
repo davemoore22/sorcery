@@ -28,9 +28,10 @@
 
 namespace Sorcery {
 
-	class Tile {
+class Tile {
 
-	  public:
+	public:
+
 		// Constructors
 		Tile();
 		Tile(std::optional<Coordinate> location);
@@ -82,7 +83,8 @@ namespace Sorcery {
 
 		// need methods for items, events etc
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _reset() -> void;
 
@@ -131,5 +133,6 @@ namespace Sorcery {
 
 		long _id;
 		static inline long s_id{0};
-	};
-} // namespace Sorcery
+};
+
+}

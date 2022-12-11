@@ -36,9 +36,10 @@
 
 namespace Sorcery {
 
-	class Options {
+class Options {
 
-	  public:
+	public:
+
 		// Constructors
 		Options(System *system, Display *display, Graphics *graphics);
 		Options() = delete;
@@ -52,7 +53,8 @@ namespace Sorcery {
 		auto start() -> int;
 		auto stop() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _draw() -> void;
 		auto _set_infopanel(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void;
@@ -72,5 +74,6 @@ namespace Sorcery {
 		std::unique_ptr<Dialog> _confirm_cancel;
 		std::unique_ptr<Dialog> _confirm_strict;
 		std::unique_ptr<InfoPanel> _ip;
-	};
-} // namespace Sorcery
+};
+
+}

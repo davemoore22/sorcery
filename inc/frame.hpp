@@ -30,16 +30,18 @@
 #include "display.hpp"
 #include "component.hpp"
 #include "layout.hpp"
+
 // clang-format on
 
 namespace Sorcery {
 
-	class Component;
-	class Display;
+class Component;
+class Display;
 
-	class Frame : public sf::Transformable, public sf::Drawable {
+class Frame: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Constructors
 		Frame(System *system, WindowFrameType type);
 		Frame(System *system, Display *display, WindowFrameType type, const Component layout);
@@ -56,7 +58,8 @@ namespace Sorcery {
 
 		// Public Methods
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
@@ -83,5 +86,6 @@ namespace Sorcery {
 		sf::RectangleShape _bg;
 		unsigned int _texture_w;
 		unsigned int _texture_h;
-	};
-} // namespace Sorcery
+};
+
+}

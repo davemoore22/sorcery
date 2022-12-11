@@ -32,11 +32,12 @@
 
 namespace Sorcery {
 
-	class Display;
+class Display;
 
-	class InfoPanel : public sf::Transformable, public sf::Drawable {
+class InfoPanel: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Constructors
 		InfoPanel(System *system, Display *display, Graphics *graphics);
 		InfoPanel() = delete;
@@ -49,7 +50,8 @@ namespace Sorcery {
 		auto set_icon(const std::string &string) -> void;
 		auto set_icon(const MenuItem menu_item) -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
@@ -64,5 +66,6 @@ namespace Sorcery {
 		std::vector<std::string> _strings;
 		std::vector<sf::Text> _texts;
 		sf::Sprite _icon;
-	};
-} // namespace Sorcery
+};
+
+}

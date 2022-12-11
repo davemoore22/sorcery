@@ -38,9 +38,10 @@
 
 namespace Sorcery {
 
-	class MainMenu {
+class MainMenu {
 
-	  public:
+	public:
+
 		// Constructors
 		MainMenu(System *system, Display *display, Graphics *graphics, Game *game);
 		MainMenu() = delete;
@@ -54,7 +55,8 @@ namespace Sorcery {
 		auto start(MainMenuType menu_stage) -> std::optional<MenuItem>;
 		auto stop() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _draw() -> void;
 		auto _set() -> void;
@@ -73,5 +75,6 @@ namespace Sorcery {
 		std::unique_ptr<Dialog> _dialog_new_game;
 		std::unique_ptr<Dialog> _dialog_exit;
 		std::optional<std::unique_ptr<Error>> _error;
-	};
-} // namespace Sorcery
+};
+
+}

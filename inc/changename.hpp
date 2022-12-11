@@ -34,9 +34,10 @@
 
 namespace Sorcery {
 
-	class ChangeName {
+class ChangeName {
 
-	  public:
+	public:
+
 		// Standard Constructor
 		ChangeName(System *system, Display *display, Graphics *graphics, std::string old_name);
 		ChangeName() = delete;
@@ -52,7 +53,8 @@ namespace Sorcery {
 		auto get_new_name() -> std::string;
 		auto is_changed() -> bool;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _draw() -> void;
 		auto _handle_change_name(const sf::Event &event) -> std::optional<bool>;
@@ -68,5 +70,6 @@ namespace Sorcery {
 		std::string _new_name;
 		std::unique_ptr<Text> _name_candidate;
 		bool _valid;
-	};
-} // namespace Sorcery
+};
+
+}

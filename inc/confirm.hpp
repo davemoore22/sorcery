@@ -32,9 +32,10 @@
 
 namespace Sorcery {
 
-	class Confirm {
+class Confirm {
 
-	  public:
+	public:
+
 		// Constructors
 		Confirm(System *system, Display *display, Graphics *graphics, Component &gui_c, Component &text_c);
 		Confirm() = delete;
@@ -48,7 +49,8 @@ namespace Sorcery {
 		auto toggle_highlighted() -> WindowConfirm;
 		auto draw(const double lerp) -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 
 		// Private Members
@@ -66,5 +68,6 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _frame;
 		std::vector<std::string> _strings;
 		std::vector<sf::Text> _texts;
-	};
-} // namespace Sorcery
+};
+
+}

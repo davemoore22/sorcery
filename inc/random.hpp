@@ -29,9 +29,10 @@
 // Class to handle all Random Number generation
 namespace Sorcery {
 
-	class Random {
+class Random {
 
-	  public:
+	public:
+
 		// Constructor
 		Random();
 
@@ -43,7 +44,8 @@ namespace Sorcery {
 
 		// Public Members
 
-	  private:
+	private:
+
 		// Private Members
 		std::random_device _device;
 		std::mt19937_64 _random;
@@ -54,5 +56,6 @@ namespace Sorcery {
 
 		// Private Methods
 		auto _get(const RandomType random_type) -> unsigned int;
-	};
-} // namespace Sorcery
+};
+
+}

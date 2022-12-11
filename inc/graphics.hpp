@@ -33,14 +33,10 @@
 
 namespace Sorcery {
 
-	// Forward Declarations
-	// class Animation;
-	// class IconStore;
-	// class TextureStore;
+// Superclass to handle graphics specific functionality such as animation
+class Graphics {
+	public:
 
-	// Superclass to handle graphics specific functionality such as animation
-	class Graphics {
-	  public:
 		// Constructors
 		Graphics(System *system, Display *display);
 		Graphics() = default;
@@ -55,9 +51,11 @@ namespace Sorcery {
 		std::unique_ptr<IconStore> icons;
 		std::unique_ptr<TextureStore> textures;
 
-	  private:
+	private:
+
 		// Private Members
 
 		// Private Methods
-	};
-} // namespace Sorcery
+};
+
+}

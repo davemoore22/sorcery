@@ -33,9 +33,10 @@
 
 namespace Sorcery {
 
-	class Dialog : public sf::Transformable, public sf::Drawable {
+class Dialog: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Constructors
 		Dialog(System *system, Display *display, Graphics *graphics, Component &_frame_c, Component &string_c,
 			WindowDialogType type);
@@ -57,7 +58,8 @@ namespace Sorcery {
 		auto set(Component &string_c) -> void;
 		auto set_duration(unsigned int duration) -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _refresh(Component &string_c) -> void;
@@ -96,5 +98,6 @@ namespace Sorcery {
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _current_time;
 		bool _valid;
 		unsigned int _duration;
-	};
-} // namespace Sorcery
+};
+
+}

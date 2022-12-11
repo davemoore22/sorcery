@@ -32,14 +32,16 @@
 
 namespace Sorcery {
 
-	class Rest : public sf::Transformable, public sf::Drawable {
+class Rest: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		Rest(System *system, Display *display, Graphics *graphics, Character *character, RestMode mode, RestType type);
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
-	};
+};
 
-} // namespace Sorcery
+}

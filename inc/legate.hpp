@@ -34,9 +34,10 @@
 
 namespace Sorcery {
 
-	class Legate {
+class Legate {
 
-	  public:
+	public:
+
 		// Standard Constructor
 		Legate(System *system, Display *display, Graphics *graphics, Character *character);
 		Legate() = delete;
@@ -50,7 +51,8 @@ namespace Sorcery {
 		auto start() -> std::optional<CharacterAlignment>;
 		auto stop() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _draw() -> void;
 		auto _set_alignment_menu() -> void;
@@ -67,5 +69,6 @@ namespace Sorcery {
 		std::unique_ptr<Menu> _menu;
 		std::unique_ptr<Frame> _frame;
 		sf::Text _choose_alignment;
-	};
-} // namespace Sorcery
+};
+
+}

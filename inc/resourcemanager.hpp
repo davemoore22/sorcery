@@ -30,9 +30,10 @@
 
 namespace Sorcery {
 
-	class ResourceManager {
+class ResourceManager {
 
-	  public:
+	public:
+
 		// Constructors
 		ResourceManager(File &files);
 		ResourceManager() = delete;
@@ -44,10 +45,12 @@ namespace Sorcery {
 
 		// Public Methods
 
-	  private:
+	private:
+
 		// Private Methods
 
 		// Private Members
 		File _files;
-	};
-} // namespace Sorcery
+};
+
+}

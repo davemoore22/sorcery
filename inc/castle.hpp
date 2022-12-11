@@ -42,9 +42,10 @@
 
 namespace Sorcery {
 
-	class Castle {
+class Castle {
 
-	  public:
+	public:
+
 		// Standard Constructor
 		Castle(System *system, Display *display, Graphics *graphics, Game *game);
 		Castle() = delete;
@@ -58,7 +59,8 @@ namespace Sorcery {
 		auto start(Destination destination = Destination::NONE) -> std::optional<MenuItem>;
 		auto stop() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _draw() -> void;
 		auto _update_menus() -> void;
@@ -79,5 +81,6 @@ namespace Sorcery {
 		std::unique_ptr<Shop> _shop;
 		std::unique_ptr<Temple> _temple;
 		std::unique_ptr<StatusBar> _status_bar;
-	};
-} // namespace Sorcery
+};
+
+}

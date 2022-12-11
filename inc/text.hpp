@@ -30,9 +30,10 @@
 
 namespace Sorcery {
 
-	class Text : public sf::Transformable, public sf::Drawable {
+class Text: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Constructors
 		Text();
 		Text(System *system, Display *display);
@@ -53,7 +54,8 @@ namespace Sorcery {
 		auto set_position(const float x, const float y) -> void;
 		auto set_string(const std::string value) -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
@@ -61,5 +63,6 @@ namespace Sorcery {
 		System *_system;
 		Display *_display;
 		sf::Text _text;
-	};
-} // namespace Sorcery
+};
+
+}

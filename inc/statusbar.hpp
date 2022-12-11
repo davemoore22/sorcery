@@ -35,11 +35,12 @@
 
 namespace Sorcery {
 
-	class Display;
+class Display;
 
-	class StatusBar : public sf::Transformable, public sf::Drawable {
+class StatusBar: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Constructors
 		StatusBar(System *system, Display *display, Graphics *graphics, Game *game,
 			std::optional<Component> layout = std::nullopt, std::optional<Component> frame = std::nullopt);
@@ -57,7 +58,8 @@ namespace Sorcery {
 		auto set_mouse_selected(sf::Vector2f mouse_pos) -> std::optional<unsigned int>;
 		auto set_selected_background() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _generate() -> void;
@@ -76,5 +78,6 @@ namespace Sorcery {
 		std::map<std::string, sf::Text> _texts;
 		std::vector<std::shared_ptr<CharacterSummary>> _summaries;
 		sf::RectangleShape _selected_bg;
-	};
-} // namespace Sorcery
+};
+
+}

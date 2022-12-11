@@ -37,9 +37,10 @@
 
 namespace Sorcery {
 
-	class Inspect {
+class Inspect {
 
-	  public:
+	public:
+
 		// Standard Constructor
 		Inspect(System *system, Display *display, Graphics *graphics, Game *game, MenuMode mode);
 		Inspect() = delete;
@@ -53,7 +54,8 @@ namespace Sorcery {
 		auto start() -> std::optional<MenuItem>;
 		auto stop() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _draw() -> void;
 
@@ -73,5 +75,6 @@ namespace Sorcery {
 		std::unique_ptr<CharacterPanel> _char_panel;
 		int _cur_char_id;
 		std::unique_ptr<Frame> _preview_frame;
-	};
-} // namespace Sorcery
+};
+
+}

@@ -33,9 +33,10 @@
 // Class to handles managing screen layouts
 namespace Sorcery {
 
-	class View {
+class View {
 
-	  public:
+	public:
+
 		// Constructors
 		View(System *system, Display *display, Graphics *graphics, Game *game);
 		View() = delete;
@@ -48,7 +49,8 @@ namespace Sorcery {
 
 		std::map<Coordinate3, TileView> tileviews;
 
-	  private:
+	private:
+
 		// Private Members
 		System *_system;
 		Display *_display;
@@ -65,5 +67,6 @@ namespace Sorcery {
 			sf::VertexArray &array, sf::Vector2f p1, sf::Vector2f p2, sf::Vector2f p3, sf::Vector2f p4) -> void;
 		auto _set_vertex_array(sf::VertexArray &array, sf::Vector2f p1, sf::Vector2f p2, sf::Vector2f p3,
 			sf::Vector2f p4, const sf::Color colour) -> void;
-	};
-} // namespace Sorcery
+};
+
+}

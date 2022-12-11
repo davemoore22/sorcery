@@ -37,9 +37,10 @@
 
 namespace Sorcery {
 
-	class Temple {
+class Temple {
 
-	  public:
+	public:
+
 		// Standard Constructor
 		Temple(System *system, Display *display, Graphics *graphics, Game *game);
 		Temple() = delete;
@@ -53,7 +54,8 @@ namespace Sorcery {
 		auto start() -> std::optional<MenuItem>;
 		auto stop() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _draw() -> void;
 
@@ -68,5 +70,6 @@ namespace Sorcery {
 		sf::Sprite _bg;
 		std::unique_ptr<StatusBar> _status_bar;
 		std::unique_ptr<Inspect> _inspect;
-	};
-} // namespace Sorcery
+};
+
+}

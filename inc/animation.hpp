@@ -30,9 +30,10 @@
 
 namespace Sorcery {
 
-	class Animation {
+class Animation {
 
-	  public:
+	public:
+
 		// Constructors
 		Animation(System *system, Display *display);
 		Animation() = delete;
@@ -58,7 +59,8 @@ namespace Sorcery {
 		auto stop_colcyc_threads() -> void;
 		auto get_attract_data() -> std::vector<unsigned int>;
 
-	  private:
+	private:
+
 		// Private Members
 		System *_system;
 		Display *_display;
@@ -82,5 +84,6 @@ namespace Sorcery {
 		auto _colcyc(bool force) -> void;
 		auto _do_attract() -> void;
 		auto _do_colcyc() -> void;
-	};
-} // namespace Sorcery
+};
+
+}

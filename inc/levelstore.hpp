@@ -30,9 +30,10 @@
 
 namespace Sorcery {
 
-	class LevelStore {
+class LevelStore {
 
-	  public:
+	public:
+
 		// Constructors
 		LevelStore();
 		LevelStore(System *system);
@@ -49,7 +50,8 @@ namespace Sorcery {
 		// Public Methods
 		auto set(System *system) -> void;
 
-	  private:
+	private:
+
 		// Private Members
 		System *_system;
 		bool _loaded;
@@ -59,5 +61,6 @@ namespace Sorcery {
 		// Private Methods
 		auto _get(const int depth) const -> std::optional<Level>;
 		auto _load(const std::filesystem::path filename) -> bool;
-	};
-} // namespace Sorcery
+};
+
+}

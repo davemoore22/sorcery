@@ -32,11 +32,12 @@
 
 namespace Sorcery {
 
-	class Display;
+class Display;
 
-	class Keyboard : public sf::Transformable, public sf::Drawable {
+class Keyboard: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Constructors
 		Keyboard(System *system, Display *display, Graphics *graphics);
 		Keyboard() = delete;
@@ -52,7 +53,8 @@ namespace Sorcery {
 		auto set_selected(WindowInput input) -> void;
 		auto set_mouse_selected(Component &component, sf::Vector2f mouse_pos) -> std::optional<std::string>;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
@@ -68,5 +70,6 @@ namespace Sorcery {
 		sf::Sprite _fsprite;
 		sf::Texture _texture;
 		sf::RectangleShape _selected_bg;
-	};
-} // namespace Sorcery
+};
+
+}

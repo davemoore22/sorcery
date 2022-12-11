@@ -38,9 +38,10 @@
 
 namespace Sorcery {
 
-	class ChangeClass {
+class ChangeClass {
 
-	  public:
+	public:
+
 		// Standard Constructor
 		ChangeClass(System *system, Display *display, Graphics *graphics, Character *character);
 		ChangeClass() = delete;
@@ -54,7 +55,8 @@ namespace Sorcery {
 		auto start() -> std::optional<CharacterClass>;
 		auto stop() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _draw() -> void;
 		auto _set_classes_menu() -> void;
@@ -76,5 +78,6 @@ namespace Sorcery {
 		bool _show_confirm;
 		bool _show_not_changed;
 		std::optional<CharacterClass> _new_class;
-	};
-} // namespace Sorcery
+};
+
+}

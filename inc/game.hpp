@@ -34,10 +34,11 @@
 
 namespace Sorcery {
 
-	// Game holds the current active game in progress
-	class Game {
+// Game holds the current active game in progress
+class Game {
 
-	  public:
+	public:
+
 		// Constructor
 		Game(System *system, Display *display, Graphics *graphics);
 
@@ -70,7 +71,8 @@ namespace Sorcery {
 		auto divvy_party_gold() -> void;
 		auto pool_party_gold(unsigned int char_id) -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _clear() -> void;
 		auto _create_game() -> void;
@@ -93,5 +95,6 @@ namespace Sorcery {
 		std::string _status;
 		std::vector<unsigned int> _characters_ids;
 		bool _show_console;
-	};
-} // namespace Sorcery
+};
+
+}

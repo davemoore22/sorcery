@@ -30,9 +30,10 @@
 
 namespace Sorcery {
 
-	class IconPanel : public sf::Transformable, public sf::Drawable {
+class IconPanel: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Constructors
 		IconPanel(System *system, Display *display, Graphics *graphics, Game *game, Component layout, bool is_left);
 		IconPanel() = delete;
@@ -46,7 +47,8 @@ namespace Sorcery {
 		auto set_selected_background() -> void;
 		auto is_mouse_over(Component &component, sf::Vector2f mouse_pos) const -> bool;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _set_icon(sf::Sprite &sprite, Component layout, int offset_x, int offset_y) -> void;
@@ -66,5 +68,6 @@ namespace Sorcery {
 		IconStorage _icons;
 		bool _is_left;
 		sf::RectangleShape _selected_bg;
-	};
-} // namespace Sorcery
+};
+
+}

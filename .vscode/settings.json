@@ -140,5 +140,6 @@
 	"csharp.suppressDotnetInstallWarning": true,
 	"sonarlint.pathToCompileCommands": "/home/dave/Development/wizardry/sorcery-sfml/compile_commands.json",
 	"editor.fontFamily": "Monaco,'ProggyVector', 'Droid Sans Mono', 'monospace', monospace",
-	"editor.wordWrapColumn": 120
+	"editor.wordWrapColumn": 120,
+	"C_Cpp.default.intelliSenseMode": "linux-gcc-x64"
 }

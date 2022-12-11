@@ -32,9 +32,11 @@
 #include "view.hpp"
 
 namespace Sorcery {
-	class Render : public sf::Transformable, public sf::Drawable {
 
-	  public:
+class Render: public sf::Transformable, public sf::Drawable {
+
+	public:
+
 		// Constructors
 		Render(System *system, Display *display, Graphics *graphics, Game *game);
 		Render() = delete;
@@ -42,7 +44,8 @@ namespace Sorcery {
 		// Public Methods
 		auto refresh() -> void;
 
-	  private:
+	private:
+
 		// Private Members
 		System *_system;
 		Display *_display;
@@ -68,5 +71,6 @@ namespace Sorcery {
 		auto _has_wall(const Tile &tile, const Sorcery::MapDirection direction) const -> bool;
 		auto _has_secret_door(const Tile &tile, const Sorcery::MapDirection direction) const -> bool;
 		auto _has_normal_door(const Tile &tile, const Sorcery::MapDirection direction) const -> bool;
-	};
-} // namespace Sorcery
+};
+
+}

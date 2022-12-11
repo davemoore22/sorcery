@@ -30,9 +30,10 @@
 
 namespace Sorcery {
 
-	class BuffBar : public sf::Transformable, public sf::Drawable {
+class BuffBar: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Constructors
 		BuffBar(System *system, Display *display, Graphics *graphics, Game *game, Component layout);
 		BuffBar() = delete;
@@ -40,7 +41,8 @@ namespace Sorcery {
 		// Public Methods
 		auto refresh() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
@@ -55,5 +57,6 @@ namespace Sorcery {
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Sprite> _sprites;
 		IconStorage _icons;
-	};
-} // namespace Sorcery
+};
+
+}

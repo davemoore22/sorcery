@@ -32,9 +32,10 @@
 
 namespace Sorcery {
 
-	class Banner {
+class Banner {
 
-	  public:
+	public:
+
 		// Constructors
 		Banner(System *system, Display *display, Graphics *graphics);
 		Banner() = delete;
@@ -44,7 +45,8 @@ namespace Sorcery {
 		// Public Methods
 		auto start() -> int;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _draw() -> void;
 		auto _update() -> void;
@@ -58,5 +60,6 @@ namespace Sorcery {
 		bool _fading_in;
 		bool _fading_out;
 		bool _finished;
-	};
-} // namespace Sorcery
+};
+
+}

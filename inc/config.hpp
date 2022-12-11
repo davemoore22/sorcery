@@ -29,9 +29,10 @@
 // Class to handles game configuration
 namespace Sorcery {
 
-	class Config {
+class Config {
 
-	  public:
+	public:
+
 		// Constructors
 		Config(CSimpleIniA *settings, const std::filesystem::path config_file_path);
 		Config() = delete;
@@ -50,14 +51,16 @@ namespace Sorcery {
 		auto is_strict_mode() -> bool;
 		auto is_rec_mode() -> bool;
 
-	  private:
+	private:
+
 		// Private Members
-		CSimpleIniA *_settings;								 // Dependency-injected
-		std::array<bool, NUM_GAME_SETTINGS> _options;		 // Game Settings
-		std::array<bool, NUM_GAME_SETTINGS> _options_backup; // To handle cancel
+		CSimpleIniA *_settings;
+		std::array<bool, NUM_GAME_SETTINGS> _options;
+		std::array<bool, NUM_GAME_SETTINGS> _options_backup;
 		std::filesystem::path _config_fp;
 
 		// Private Methods
 		auto _load() -> bool;
-	};
-} // namespace Sorcery
+};
+
+}

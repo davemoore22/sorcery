@@ -38,9 +38,10 @@
 
 namespace Sorcery {
 
-	class Tavern {
+class Tavern {
 
-	  public:
+	public:
+
 		// Standard Constructor
 		Tavern(System *system, Display *display, Graphics *graphics, Game *game);
 		Tavern() = delete;
@@ -54,7 +55,8 @@ namespace Sorcery {
 		auto start() -> std::optional<MenuItem>;
 		auto stop() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _draw() -> void;
 		auto _update_menus() -> void;
@@ -76,5 +78,6 @@ namespace Sorcery {
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Dialog> _divvy;
 		bool _show_divvy;
-	};
-} // namespace Sorcery
+};
+
+}

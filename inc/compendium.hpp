@@ -33,9 +33,10 @@
 
 namespace Sorcery {
 
-	class Compendium {
+class Compendium {
 
-	  public:
+	public:
+
 		// Standard Constructor
 		Compendium(System *system, Display *display, Graphics *graphics);
 		Compendium() = delete;
@@ -49,7 +50,8 @@ namespace Sorcery {
 		auto start() -> int;
 		auto stop() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _draw() -> void;
 		auto _do_event_loop() -> std::optional<ModuleResult>;
@@ -60,5 +62,6 @@ namespace Sorcery {
 		Display *_display;
 		Graphics *_graphics;
 		sf::RenderWindow *_window;
-	};
-} // namespace Sorcery
+};
+
+}

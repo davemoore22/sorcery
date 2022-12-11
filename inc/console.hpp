@@ -34,9 +34,10 @@
 
 namespace Sorcery {
 
-	class Console {
+class Console {
 
-	  public:
+	public:
+
 		// Constructors
 		Console(tgui::Gui *gui, System *system, Display *display, Graphics *graphics, Game *game);
 		Console() = delete;
@@ -46,7 +47,8 @@ namespace Sorcery {
 		// Public Methods
 		auto refresh() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 
 		// Private Members
@@ -55,5 +57,6 @@ namespace Sorcery {
 		Display *_display;
 		Graphics *_graphics;
 		Game *_game;
-	};
-} // namespace Sorcery
+};
+
+}

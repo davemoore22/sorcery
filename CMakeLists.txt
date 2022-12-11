@@ -48,10 +48,8 @@ add_executable(${PROJECT_NAME}
 	src/error.cpp
 	src/explore.cpp
 	src/file.cpp
-	src/font.cpp
 	src/frame.cpp
 	src/game.cpp
-	src/get.cpp
 	src/graphics.cpp
 	src/iconpanel.cpp
 	src/iconstore.cpp
@@ -68,7 +66,6 @@ add_executable(${PROJECT_NAME}
 	src/main.cpp
 	src/map.cpp
 	src/mainmenu.cpp
-	src/manage.cpp
 	src/message.cpp
 	src/menu.cpp
 	src/options.cpp

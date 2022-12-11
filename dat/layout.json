@@ -5068,6 +5068,45 @@
 		]
 	},
 	{
+		"name": "rest",
+		"component": [
+			{
+				"name": "rest_text",
+				"x": "1",
+				"y": "1",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "dialog_leave",
+				"x": "31",
+				"y": "13",
+				"w": "16",
+				"type": "dialog",
+				"drawmode": "manual",
+				"alpha": "200",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "dialog_leave_text",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "LEVEL_LEAVE",
+				"background": " 0xff0000ff",
+				"justification": "centre",
+				"type": "text",
+				"drawmode": "manual"
+			}
+		]
+	},
+	{
 		"name": "character",
 		"component": [
 		{

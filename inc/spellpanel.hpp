@@ -32,11 +32,12 @@
 
 namespace Sorcery {
 
-	class Display;
+class Display;
 
-	class SpellPanel : public sf::Transformable, public sf::Drawable {
+class SpellPanel: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Constructors
 		SpellPanel(System *system, Display *display, Graphics *graphics);
 		SpellPanel() = delete;
@@ -45,7 +46,8 @@ namespace Sorcery {
 		auto set(Spell spell) -> void;
 		bool valid;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
@@ -59,5 +61,6 @@ namespace Sorcery {
 		sf::Sprite _icon;
 		unsigned int _width;
 		unsigned int _height;
-	};
-} // namespace Sorcery
+};
+
+}

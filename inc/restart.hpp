@@ -38,9 +38,10 @@
 
 namespace Sorcery {
 
-	class Restart {
+class Restart {
 
-	  public:
+	public:
+
 		// Standard Constructor
 		Restart(System *system, Display *display, Graphics *graphics, Game *game);
 		Restart() = delete;
@@ -54,7 +55,8 @@ namespace Sorcery {
 		auto start() -> std::optional<MenuItem>;
 		auto stop() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _draw() -> void;
 		auto _update_menus() -> void;
@@ -69,5 +71,6 @@ namespace Sorcery {
 		std::unique_ptr<Menu> _menu;
 		sf::Sprite _bg;
 		std::unique_ptr<Frame> _menu_frame;
-	};
-} // namespace Sorcery
+};
+
+}

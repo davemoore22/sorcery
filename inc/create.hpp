@@ -45,7 +45,8 @@ namespace Sorcery {
 
 	class Create {
 
-	  public:
+		public:
+
 		// Constructor
 		Create(System *system, Display *display, Graphics *graphics, Game *game);
 		Create() = delete;
@@ -59,7 +60,8 @@ namespace Sorcery {
 		auto start() -> std::optional<MenuItem>;
 		auto stop() -> void;
 
-	  private:
+		private:
+
 		// Private Methods
 		auto _draw() -> void;
 		auto _do_event_loop() -> std::optional<ModuleResult>;

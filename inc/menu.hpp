@@ -31,13 +31,15 @@
 #include "main.hpp"
 #include "system.hpp"
 #include "game.hpp"
+
 // clang-format on
 
 namespace Sorcery {
 
-	class Menu : public sf::Transformable, public sf::Drawable {
+class Menu: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Constructors
 		Menu(System *system, Display *display, Graphics *graphics, Game *game, const MenuType type,
 			std::optional<MenuMode> _mode = std::nullopt);
@@ -72,7 +74,8 @@ namespace Sorcery {
 		auto enable_entry(Component &component, unsigned int index) -> void;
 		auto disable_entry(Component &component, unsigned int index) -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _add_item(const int index, const MenuItemType itemtype, const MenuItem code, std::string key,
@@ -95,5 +98,6 @@ namespace Sorcery {
 		std::vector<sf::Text> _options;
 		sf::RectangleShape _selected_bg;
 		std::optional<MenuMode> _mode;
-	};
-} // namespace Sorcery
+};
+
+}

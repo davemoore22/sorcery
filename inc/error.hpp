@@ -28,9 +28,10 @@
 
 namespace Sorcery {
 
-	class Error {
+class Error {
 
-	  public:
+	public:
+
 		// Constructors
 		Error(tgui::Gui *gui, Enums::System::Error error_code, std::exception &exception, std::string notes = "");
 		Error(Enums::System::Error error_code, std::exception &exception, std::string notes = "");
@@ -49,7 +50,8 @@ namespace Sorcery {
 		auto get_notes() -> std::string;
 		auto get() -> std::vector<std::string>;
 
-	  private:
+	private:
+
 		// Private Methods
 
 		// Private Members
@@ -59,5 +61,6 @@ namespace Sorcery {
 		std::chrono::time_point<std::chrono::system_clock> _timestamp;
 		std::vector<std::string> _details;
 		std::string _notes;
-	};
-} // namespace Sorcery
+};
+
+}

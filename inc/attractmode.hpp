@@ -30,9 +30,10 @@
 
 namespace Sorcery {
 
-	class AttractMode : public sf::Transformable, public sf::Drawable {
+class AttractMode: public sf::Transformable, public sf::Drawable {
 
-	  public:
+	public:
+
 		// Constructors
 		AttractMode(Graphics *graphics, Component component);
 		AttractMode() = delete;
@@ -46,7 +47,8 @@ namespace Sorcery {
 		auto generate() -> void;
 		auto set_alpha(unsigned int alpha) -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
@@ -56,5 +58,6 @@ namespace Sorcery {
 		sf::Texture _texture;
 		sf::Sprite _sprite;
 		Component _component;
-	};
-} // namespace Sorcery
+};
+
+}

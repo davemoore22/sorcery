@@ -39,9 +39,10 @@
 
 namespace Sorcery {
 
-	class Roster {
+class Roster {
 
-	  public:
+	public:
+
 		// Standard Constructor
 		Roster(System *system, Display *display, Graphics *graphics, Game *game, RosterMode mode);
 		Roster() = delete;
@@ -55,7 +56,8 @@ namespace Sorcery {
 		auto start() -> std::optional<MenuItem>;
 		auto stop() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _draw() -> void;
 
@@ -77,5 +79,6 @@ namespace Sorcery {
 		std::unique_ptr<Frame> _preview_frame;
 		std::unique_ptr<Dialog> _delete;
 		std::unique_ptr<Edit> _edit;
-	};
-} // namespace Sorcery
+};
+
+}

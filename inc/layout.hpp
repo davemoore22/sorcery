@@ -30,9 +30,10 @@
 // Class to handles managing screen layouts
 namespace Sorcery {
 
-	class Layout {
+class Layout {
 
-	  public:
+	public:
+
 		// Constructors
 		Layout(const std::filesystem::path filename);
 		Layout() = delete;
@@ -45,7 +46,8 @@ namespace Sorcery {
 		auto set_grid(unsigned int cell_width, unsigned int cell_height) -> void;
 		auto get_error() -> Component &;
 
-	  private:
+	private:
+
 		// Private Members
 		std::map<std::string, Component> _components;
 		bool _loaded;
@@ -58,5 +60,6 @@ namespace Sorcery {
 		// Private Methods
 		auto _load(const std::filesystem::path filename) -> bool;
 		auto _refresh_needed() -> bool;
-	};
-} // namespace Sorcery
+};
+
+}

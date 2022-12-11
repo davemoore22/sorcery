@@ -33,24 +33,25 @@
 #include "layout.hpp"
 #include "string.hpp"
 #include "window.hpp"
+
 // clang-format on
 
 // Forward Declarations
 namespace Sorcery {
 
-	class Frame;
-	class System;
-	class String;
-	class Layout;
-	class Window;
-	class IconStore;
-	class ControlOverlay;
+class Frame;
+class System;
+class String;
+class Layout;
+class Window;
+class IconStore;
+class ControlOverlay;
 
-	// Superclass to handle basic display requirements such as Windopw Access,
-	// Game Text and so on
-	class Display {
+// Superclass to handle basic display requirements such as Windopw Access, Game Text and so on
+class Display {
 
-	  public:
+	public:
+
 		// Constructors
 		Display(System *system);
 		Display() = delete;
@@ -84,7 +85,8 @@ namespace Sorcery {
 		std::unique_ptr<ControlOverlay> overlay;
 		sf::Texture ui_texture;
 
-	  private:
+	private:
+
 		// Private Members
 		std::map<std::string, sf::Sprite> _sprites;
 		std::map<std::string, sf::Text> _texts;
@@ -96,5 +98,6 @@ namespace Sorcery {
 		bool _show_overlay;
 
 		// Private Methods
-	};
-} // namespace Sorcery
+};
+
+}

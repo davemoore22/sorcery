@@ -39,9 +39,10 @@
 
 namespace Sorcery {
 
-	class Reorder {
+class Reorder {
 
-	  public:
+	public:
+
 		// Standard Constructor
 		Reorder(System *system, Display *display, Graphics *graphics, Game *game, MenuMode mode = MenuMode::NONE);
 		Reorder() = delete;
@@ -55,7 +56,8 @@ namespace Sorcery {
 		auto start() -> std::optional<std::vector<unsigned int>>;
 		auto stop() -> void;
 
-	  private:
+	private:
+
 		// Private Methods
 		auto _draw() -> void;
 		auto _populate_candidate() -> void;
@@ -76,5 +78,6 @@ namespace Sorcery {
 		Component _candidate_c;
 		std::vector<sf::Text> _texts;
 		MenuMode _mode;
-	};
-} // namespace Sorcery
+};
+
+}

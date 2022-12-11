@@ -163,10 +163,8 @@
 		<Unit filename="inc/error.hpp" />
 		<Unit filename="inc/explore.hpp" />
 		<Unit filename="inc/file.hpp" />
-		<Unit filename="inc/font.hpp" />
 		<Unit filename="inc/frame.hpp" />
 		<Unit filename="inc/game.hpp" />
-		<Unit filename="inc/get.hpp" />
 		<Unit filename="inc/graphics.hpp" />
 		<Unit filename="inc/iconpanel.hpp" />
 		<Unit filename="inc/iconstore.hpp" />
@@ -183,7 +181,6 @@
 		<Unit filename="inc/macro.hpp" />
 		<Unit filename="inc/main.hpp" />
 		<Unit filename="inc/mainmenu.hpp" />
-		<Unit filename="inc/manage.hpp" />
 		<Unit filename="inc/map.hpp" />
 		<Unit filename="inc/menu.hpp" />
 		<Unit filename="inc/message.hpp" />
@@ -244,10 +241,8 @@
 		<Unit filename="src/error.cpp" />
 		<Unit filename="src/explore.cpp" />
 		<Unit filename="src/file.cpp" />
-		<Unit filename="src/font.cpp" />
 		<Unit filename="src/frame.cpp" />
 		<Unit filename="src/game.cpp" />
-		<Unit filename="src/get.cpp" />
 		<Unit filename="src/graphics.cpp" />
 		<Unit filename="src/iconpanel.cpp" />
 		<Unit filename="src/iconstore.cpp" />
@@ -263,7 +258,6 @@
 		<Unit filename="src/license.cpp" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/mainmenu.cpp" />
-		<Unit filename="src/manage.cpp" />
 		<Unit filename="src/map.cpp" />
 		<Unit filename="src/menu.cpp" />
 		<Unit filename="src/message.cpp" />
