@@ -512,7 +512,7 @@ namespace Enums::Manage {
 		IMPORT
 	};
 
-	enum Method {
+	enum class Method {
 		FULL = 0,
 		QUICK = 1,
 		RANDOM = 2
@@ -905,7 +905,8 @@ namespace Enums::Menu {
 		RESTART_EXPEDITION,
 		CHARACTERS_HERE,
 		INN_CHOOSE_CHARACTER,
-		INN_CHOOSE_BED
+		INN_CHOOSE_BED,
+		CONTINUE
 	};
 
 	enum class Mode {

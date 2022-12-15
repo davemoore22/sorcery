@@ -60,7 +60,7 @@ class Window {
 		auto get_y(const sf::Text &text, int y_position) const -> unsigned int;
 		auto get_x(unsigned int width, int x_position) const -> unsigned int;
 		auto get_y(unsigned int width, int y_position) const -> unsigned int;
-		auto hl_text(sf::Text &text, Component component, double lerp) -> sf::RectangleShape;
+		auto hl_text(sf::Text &text, const Component &component, double lerp) -> sf::RectangleShape;
 		auto shove_text(sf::Text &shovee, sf::Text &shover, unsigned int gap_units) -> void;
 		auto shove_text(sf::Text &shovee, sf::Text &shover, float gap_units) -> void;
 		auto set_input_mode(WindowInputMode value) -> void;

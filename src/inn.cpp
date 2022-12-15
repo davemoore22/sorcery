@@ -35,6 +35,7 @@ Sorcery::Inn::Inn(System *system, Display *display, Graphics *graphics, Game *ga
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::INN);
 	_roster = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::PARTY_CHARACTERS, MenuMode::INN);
 	_bed = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::INN_CHOOSE_BED);
+	_rest = std::make_unique<Rest>(_system, _display, _graphics, _game);
 	_welcome_text = sf::Text();
 	_gold_text = sf::Text();
 
@@ -56,10 +57,9 @@ Sorcery::Inn::Inn(System *system, Display *display, Graphics *graphics, Game *ga
 // Visit the Tavern
 auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 
-	// Get the Background Display Components and load them into Display module
-	// storage (not local - and note that due to the way both menus are combined
-	// in this class, we need to have the menu stage set first in this case and
-	// this case only)
+	// Get the Background Display Components and load them into Display module storage (not local - and note that due to
+	// the way both menus are combined in this class, we need to have the menu stage set first in this case and this
+	// case only)
 	_display->generate("inn");
 	_display->generate("inn_welcome", _w_sprites, _w_texts, _w_frames);
 	_display->generate("inn_choose", _c_sprites, _c_texts, _c_frames);
@@ -252,6 +252,15 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 
 									_show_pool = true;
 									_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+								} else if (option_chosen == MenuItem::IN_STABLES) {
+									if (auto stables_option{
+											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::STABLES)};
+										stables_option && stables_option.value() == MenuItem::ABORT) {
+										_game->save_game();
+										_display->shutdown_SFML();
+										return MenuItem::ABORT;
+									}
+									_rest->stop();
 								}
 							}
 						}
@@ -287,9 +296,8 @@ auto Sorcery::Inn::_update_and_draw_bed_screen() -> void {
 		std::transform(name.begin(), name.end(), name.begin(), ::toupper);
 		const auto welcome{
 			fmt::format("{} {}. {}", (*_display->string)["INN_WELCOME_ONE"], name, (*_display->string)["INN_HAVE"])};
-        const auto gp{_cur_char.value()->get_gold()};
-		const auto gold{fmt::format(
-			"{} {} {}.", (*_display->string)["INN_YOU"], gp , (*_display->string)["INN_GP"])};
+		const auto gp{_cur_char.value()->get_gold()};
+		const auto gold{fmt::format("{} {} {}.", (*_display->string)["INN_YOU"], gp, (*_display->string)["INN_GP"])};
 
 		_display->window->draw_text(_gold_text, (*_display->layout)["inn_bed:gold_text"], gold);
 		_display->window->draw_text(_welcome_text, (*_display->layout)["inn_bed:welcome_text"], welcome);

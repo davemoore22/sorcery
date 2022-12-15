@@ -146,6 +146,8 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto reset_adjustment_per_turn() -> void;
 		auto get_hp_adjustment_symbol() const -> char;
 		auto get_cur_ac() const -> int;
+		auto get_cur_xp() const -> int;
+		auto get_next_xp() const -> int;
 
 		// Public Members
 		std::map<SpellID, sf::FloatRect> mage_spell_bounds;

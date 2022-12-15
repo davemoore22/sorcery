@@ -367,7 +367,7 @@ auto Sorcery::Window::get_cw() const -> unsigned int {
 	return _cell_width;
 }
 
-auto Sorcery::Window::hl_text(sf::Text &text, Component component, const double lerp) -> sf::RectangleShape {
+auto Sorcery::Window::hl_text(sf::Text &text, const Component &component, const double lerp) -> sf::RectangleShape {
 
 	const sf::FloatRect text_rect{text.getGlobalBounds()};
 	sf::RectangleShape text_bg(sf::Vector2(text_rect.width + 6, text_rect.height + 8));

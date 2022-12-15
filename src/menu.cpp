@@ -124,6 +124,10 @@ Sorcery::Menu::Menu(
 		_add_item(8, MenuItemType::ENTRY, MenuItem::IN_BACK, (*_display->string)["INN_BACK"]);
 		selected = items.begin();
 		break;
+	case MenuType::CONTINUE:
+		_add_item(0, MenuItemType::ENTRY, MenuItem::GO_BACK, (*_display->string)["MENU_LEAVE"]);
+		selected = items.begin();
+		break;
 	case MenuType::TAVERN:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::TA_ADD_TO_PARTY, (*_display->string)["TAVERN_ADD_TO_PARTY"]);
 		_add_item(
@@ -437,9 +441,8 @@ auto Sorcery::Menu::check_menu_mouseover(sf::Vector2f mouse_pos)
 		// item with the same index, since both containers track each other
 		const sf::Vector2f global_pos{this->getPosition()};
 		mouse_pos -= global_pos;
-		auto it{std::find_if(bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) {
-			return item.contains(mouse_pos);
-		})};
+		auto it{std::find_if(
+			bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) { return item.contains(mouse_pos); })};
 		if (it != bounds.end()) {
 			auto dist{std::distance(bounds.begin(), it)};
 			return items.begin() + dist;
@@ -463,9 +466,8 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
 		// other
 		const sf::Vector2f global_pos{this->getPosition()};
 		mouse_pos -= global_pos;
-		auto it{std::find_if(bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) {
-			return item.contains(mouse_pos);
-		})};
+		auto it{std::find_if(
+			bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) { return item.contains(mouse_pos); })};
 		if (it != bounds.end()) {
 			auto dist{std::distance(bounds.begin(), it)};
 			auto candidate{items.begin() + dist};
@@ -574,9 +576,7 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 		break;
 	}
 
-	auto it{std::find_if(items.begin(), items.end(), [&](const auto &item) {
-		return item.item == search_for;
-	})};
+	auto it{std::find_if(items.begin(), items.end(), [&](const auto &item) { return item.item == search_for; })};
 	if (it != items.end()) {
 		selected = it;
 		return selected;
@@ -588,9 +588,7 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 auto Sorcery::Menu::choose(const unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	// Iterate through til we have found the item with the associated index
-	auto it{std::find_if(items.begin(), items.end(), [&](const auto &item) {
-		return item.index == index;
-	})};
+	auto it{std::find_if(items.begin(), items.end(), [&](const auto &item) { return item.index == index; })};
 
 	if (it != items.end())
 		return it;
@@ -606,6 +604,7 @@ auto Sorcery::Menu::choose_first() -> std::optional<std::vector<MenuEntry>::cons
 
 	return _select_first();
 }
+
 auto Sorcery::Menu::choose_last() -> std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	return _select_last();
@@ -1074,16 +1073,12 @@ auto Sorcery::Menu::get_by_index(unsigned int index) -> std::optional<std::vecto
 
 auto Sorcery::Menu::num_enabled() -> unsigned int {
 
-	return std::count_if(items.begin(), items.end(), [](const auto &menu_item) {
-		return menu_item.enabled;
-	});
+	return std::count_if(items.begin(), items.end(), [](const auto &menu_item) { return menu_item.enabled; });
 }
 
 auto Sorcery::Menu::num_disabled() -> unsigned int {
 
-	return std::count_if(items.begin(), items.end(), [](const auto &menu_item) {
-		return menu_item.enabled == false;
-	});
+	return std::count_if(items.begin(), items.end(), [](const auto &menu_item) { return menu_item.enabled == false; });
 }
 
 auto Sorcery::Menu::enable_entry(Component &component, unsigned int index) -> void {

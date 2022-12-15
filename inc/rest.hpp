@@ -28,20 +28,57 @@
 #include "display.hpp"
 #include "graphics.hpp"
 #include "main.hpp"
+#include "menu.hpp"
+#include "statusbar.hpp"
 #include "system.hpp"
 
 namespace Sorcery {
 
-class Rest: public sf::Transformable, public sf::Drawable {
+class Rest {
 
 	public:
 
-		Rest(System *system, Display *display, Graphics *graphics, Character *character, RestMode mode, RestType type);
+		// Standard Constructor
+		Rest(System *system, Display *display, Graphics *graphics, Game *game);
+		Rest() = delete;
+
+		// Public Members
+
+		// Public Methods
+		auto start(Character *character, RestMode mode, RestType type) -> std::optional<MenuItem>;
+		auto stop() -> void;
 
 	private:
 
 		// Private Methods
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto _draw() -> void;
+		auto _go_to_results() -> void;
+
+		// Private Members
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
+		Game *_game;
+		Character *_character;
+		RestMode _mode;
+		RestType _type;
+		RestStage _stage;
+		std::unique_ptr<StatusBar> _status_bar;
+		sf::RenderWindow *_window;
+		std::optional<std::chrono::time_point<std::chrono::system_clock>> _start;
+		std::optional<std::chrono::time_point<std::chrono::system_clock>> _current_time;
+		unsigned int _duration;
+		std::unique_ptr<Menu> _menu;
+		sf::Text _nap_text;
+		sf::Text _no_level_text_1;
+		sf::Text _no_level_text_2;
+		std::string _nap_message;
+		std::string _no_level_message_1;
+		std::string _no_level_message_2;
+		std::string _string;
+		std::vector<std::string> _strings;
+		std::vector<sf::Text> _texts;
+		bool _level_up;
 };
 
 }

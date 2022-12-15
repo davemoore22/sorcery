@@ -24,7 +24,8 @@
 
 #include "character.hpp"
 
-Sorcery::Character::Character() {}
+Sorcery::Character::Character() {
+}
 
 // Standard Constructor
 Sorcery::Character::Character(System *system, Display *display, Graphics *graphics)
@@ -399,6 +400,7 @@ auto Sorcery::Character::get_alignment() const -> CharacterAlignment {
 
 	return _alignment;
 }
+
 auto Sorcery::Character::set_alignment(const CharacterAlignment &value) -> void {
 
 	_alignment = value;
@@ -412,6 +414,7 @@ auto Sorcery::Character::get_class() const -> CharacterClass {
 
 	return _class;
 }
+
 auto Sorcery::Character::set_class(const CharacterClass &value) -> void {
 
 	_class = value;
@@ -431,6 +434,7 @@ auto Sorcery::Character::get_start_points() const -> unsigned int {
 
 	return _st_points;
 }
+
 auto Sorcery::Character::set_start_points(const unsigned int &value) -> void {
 
 	_st_points = value;
@@ -511,6 +515,7 @@ auto Sorcery::Character::left_view() -> void {
 
 	_generate_display();
 }
+
 // Setting the view will regenerate the display components
 auto Sorcery::Character::right_view() -> void {
 
@@ -685,9 +690,8 @@ auto Sorcery::Character::set_pos_class() -> void {
 		_pos_classes[CharacterClass::NINJA] = false;
 
 	// And workout the number of classes
-	_num_pos_classes = std::count_if(_pos_classes.begin(), _pos_classes.end(), [](auto element) {
-		return element.second;
-	});
+	_num_pos_classes =
+		std::count_if(_pos_classes.begin(), _pos_classes.end(), [](auto element) { return element.second; });
 }
 
 // Enum to String functions
@@ -1554,48 +1558,36 @@ auto Sorcery::Character::_set_start_spells() -> void {
 	std::vector<Spell>::iterator it;
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::BISHOP:
-		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
-			return item.id == SpellID::KATINO;
-		});
+		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == SpellID::KATINO; });
 		if (it != _spells.end()) {
 			(*it).known = true;
 			_spells_known[(*it).id] = true;
 		}
-		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
-			return item.id == SpellID::HALITO;
-		});
+		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == SpellID::HALITO; });
 		if (it != _spells.end()) {
 			(*it).known = true;
 			_spells_known[(*it).id] = true;
 		}
 		break;
 	case CharacterClass::MAGE:
-		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
-			return item.id == SpellID::DUMAPIC;
-		});
+		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == SpellID::DUMAPIC; });
 		if (it != _spells.end()) {
 			(*it).known = true;
 			_spells_known[(*it).id] = true;
 		}
-		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
-			return item.id == SpellID::MOGREF;
-		});
+		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == SpellID::MOGREF; });
 		if (it != _spells.end()) {
 			(*it).known = true;
 			_spells_known[(*it).id] = true;
 		}
 		break;
 	case CharacterClass::PRIEST:
-		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
-			return item.id == SpellID::DIOS;
-		});
+		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == SpellID::DIOS; });
 		if (it != _spells.end()) {
 			(*it).known = true;
 			_spells_known[(*it).id] = true;
 		}
-		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
-			return item.id == SpellID::BADIOS;
-		});
+		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == SpellID::BADIOS; });
 		if (it != _spells.end()) {
 			(*it).known = true;
 			_spells_known[(*it).id] = true;
@@ -1708,13 +1700,11 @@ auto Sorcery::Character::_try_learn_spell(SpellType spell_type, unsigned int spe
 
 	// First, get the spells themselves
 	std::vector<Spell>::iterator it;
-	it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
-		return item.type == spell_type && item.level == spell_level;
-	});
+	it = std::find_if(_spells.begin(), _spells.end(),
+		[&](auto item) { return item.type == spell_type && item.level == spell_level; });
 	while (it != _spells.end()) {
-		it = std::find_if(++it, _spells.end(), [&](auto item) {
-			return item.type == spell_type && item.level == spell_level;
-		});
+		it = std::find_if(
+			++it, _spells.end(), [&](auto item) { return item.type == spell_type && item.level == spell_level; });
 
 		// If spell already known, skip
 		if ((*it).known)
@@ -1805,13 +1795,11 @@ auto Sorcery::Character::_get_spells_known(SpellType spell_type, unsigned int sp
 
 	auto spells_known{0};
 	std::vector<Spell>::iterator it;
-	it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
-		return item.type == spell_type && item.level == spell_level;
-	});
+	it = std::find_if(_spells.begin(), _spells.end(),
+		[&](auto item) { return item.type == spell_type && item.level == spell_level; });
 	while (it != _spells.end()) {
-		it = std::find_if(++it, _spells.end(), [=](auto item) {
-			return item.type == spell_type && item.level == spell_level;
-		});
+		it = std::find_if(
+			++it, _spells.end(), [=](auto item) { return item.type == spell_type && item.level == spell_level; });
 
 		if ((*it).known)
 			++spells_known;
@@ -1913,9 +1901,7 @@ auto Sorcery::Character::set_spells() -> void {
 	for (auto &spell_known : _spells_known) {
 
 		std::vector<Spell>::iterator it;
-		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
-			return item.id == spell_known.first;
-		});
+		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == spell_known.first; });
 		if (it != _spells.end())
 			(*it).known = spell_known.second;
 	}
@@ -2544,10 +2530,12 @@ auto Sorcery::Character::set_hp_gain_per_turn(const int adjustment) -> void {
 
 	_abilities.at(CharacterAbility::HP_GAIN_PER_TURN) = adjustment;
 }
+
 auto Sorcery::Character::set_hp_loss_per_turn(const int adjustment) -> void {
 
 	_abilities.at(CharacterAbility::HP_LOSS_PER_TURN) = adjustment;
 }
+
 auto Sorcery::Character::reset_adjustment_per_turn() -> void {
 
 	_abilities.at(CharacterAbility::HP_GAIN_PER_TURN) = 0;
@@ -3448,17 +3436,14 @@ auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::op
 	const sf::Vector2f local_mouse_pos{mouse_pos - global_pos};
 	if (_view == CharacterView::MAGE_SPELLS) {
 
-		auto it{std::find_if(mage_spell_bounds.begin(), mage_spell_bounds.end(), [&local_mouse_pos](const auto &item) {
-			return item.second.contains(local_mouse_pos);
-		})};
+		auto it{std::find_if(mage_spell_bounds.begin(), mage_spell_bounds.end(),
+			[&local_mouse_pos](const auto &item) { return item.second.contains(local_mouse_pos); })};
 		if (it != mage_spell_bounds.end()) {
 			Component spell_name_c{(*_display->layout)["character_mage_spells:spell_name_label"]};
 			_hl_mage_spell = (*it).first;
 
 			std::vector<Spell>::iterator sit;
-			sit = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
-				return item.id == _hl_mage_spell;
-			});
+			sit = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == _hl_mage_spell; });
 			if (sit != _spells.end())
 				_spell_panel->set((*sit));
 
@@ -3467,18 +3452,14 @@ auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::op
 			return std::nullopt;
 
 	} else if (_view == CharacterView::PRIEST_SPELLS) {
-		auto it{
-			std::find_if(priest_spell_bounds.begin(), priest_spell_bounds.end(), [&local_mouse_pos](const auto &item) {
-				return item.second.contains(local_mouse_pos);
-			})};
+		auto it{std::find_if(priest_spell_bounds.begin(), priest_spell_bounds.end(),
+			[&local_mouse_pos](const auto &item) { return item.second.contains(local_mouse_pos); })};
 		if (it != priest_spell_bounds.end()) {
 			Component spell_name_c{(*_display->layout)["character_priest_spells:spell_name_label"]};
 			_hl_priest_spell = (*it).first;
 
 			std::vector<Spell>::iterator sit;
-			sit = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
-				return item.id == _hl_priest_spell;
-			});
+			sit = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == _hl_priest_spell; });
 			if (sit != _spells.end())
 				_spell_panel->set((*sit));
 
@@ -3487,6 +3468,16 @@ auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::op
 			return std::nullopt;
 	} else
 		return std::nullopt;
+}
+
+auto Sorcery::Character::get_cur_xp() const -> int {
+
+	return _abilities.at(CharacterAbility::CURRENT_XP);
+}
+
+auto Sorcery::Character::get_next_xp() const -> int {
+
+	return _abilities.at(CharacterAbility::NEXT_LEVEL_XP);
 }
 
 auto Sorcery::Character::get_cur_ac() const -> int {
@@ -3539,19 +3530,19 @@ auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states)
 
 namespace Sorcery {
 
-	auto operator<<(std::ostream &out_stream, const Sorcery::Character &character) -> std::ostream & {
+auto operator<<(std::ostream &out_stream, const Sorcery::Character &character) -> std::ostream & {
 
-		auto name{character.get_name()};
-		auto cclass{character.get_class()};
-		auto alignment{character.get_alignment()};
-		auto hp{character.get_hp_summary()};
+	auto name{character.get_name()};
+	auto cclass{character.get_class()};
+	auto alignment{character.get_alignment()};
+	auto hp{character.get_hp_summary()};
 
-		std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
 
-		auto body{fmt::format("{:<15} {:>2} {}-{} {:>3} {:>6} {:^10}", name, character.get_level(),
-			character.get_alignment(alignment).substr(0, 1), character.get_class(cclass).substr(0, 3),
-			character.get_cur_ac(), character.get_hp_summary(), character.get_condition())};
+	auto body{fmt::format("{:<15} {:>2} {}-{} {:>3} {:>6} {:^10}", name, character.get_level(),
+		character.get_alignment(alignment).substr(0, 1), character.get_class(cclass).substr(0, 3),
+		character.get_cur_ac(), character.get_hp_summary(), character.get_condition())};
 
-		return out_stream << body << std::endl;
-	}
+	return out_stream << body << std::endl;
+}
 } // namespace Sorcery
