@@ -906,7 +906,8 @@ namespace Enums::Menu {
 		CHARACTERS_HERE,
 		INN_CHOOSE_CHARACTER,
 		INN_CHOOSE_BED,
-		CONTINUE
+		CONTINUE,
+		STOP
 	};
 
 	enum class Mode {
@@ -1068,7 +1069,8 @@ namespace Enums::Menu {
 		IN_MERCHANT,
 		IN_ROYAL,
 		IN_POOL_GOLD,
-		IN_BACK
+		IN_BACK,
+		STOP
 	};
 
 	// Menu Items

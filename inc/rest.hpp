@@ -53,6 +53,7 @@ class Rest {
 		// Private Methods
 		auto _draw() -> void;
 		auto _go_to_results() -> void;
+		auto _recuperate() -> bool;
 
 		// Private Members
 		System *_system;
@@ -68,11 +69,14 @@ class Rest {
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _start;
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _current_time;
 		unsigned int _duration;
-		std::unique_ptr<Menu> _menu;
+		std::unique_ptr<Menu> _continue_menu;
+		std::unique_ptr<Menu> _stop_menu;
 		sf::Text _nap_text;
+		sf::Text _recup_text;
 		sf::Text _no_level_text_1;
 		sf::Text _no_level_text_2;
 		std::string _nap_message;
+		std::string _recup_message;
 		std::string _no_level_message_1;
 		std::string _no_level_message_2;
 		std::string _string;

@@ -32,7 +32,8 @@ Sorcery::Rest::Rest(System *system, Display *display, Graphics *graphics, Game *
 	_window = _display->window->get_window();
 
 	// Custom Components
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CONTINUE);
+	_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CONTINUE);
+	_stop_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::STOP);
 	_nap_text = sf::Text();
 	_no_level_text_1 = sf::Text();
 	_no_level_text_2 = sf::Text();
@@ -52,6 +53,7 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 	auto name{character->get_name()};
 	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	_nap_message = fmt::format("{} {}", name, (*_display->string)["REST_NAPPING"]);
+	_recup_message = fmt::format("{} {}", name, (*_display->string)["REST_RECUPERATING"]);
 
 	_display->generate("rest");
 
@@ -78,7 +80,8 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 	_duration = DELAY_RESTING; // ms
 
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> option_leave{_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> option_leave{_continue_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> option_stop{_stop_menu->items.begin()};
 
 	sf::Event event{};
 	while (_window->isOpen()) {
@@ -94,45 +97,97 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 			} else
 				_display->hide_overlay();
 
-			if (!_start)
-				_start = std::chrono::system_clock::now();
+			if (_type == RestType::STABLES) {
 
-			_current_time = std::chrono::system_clock::now();
+				if (!_start)
+					_start = std::chrono::system_clock::now();
 
-			const auto time_elapsed{_current_time.value() - _start.value()};
-			if (const auto time_elapsed_sec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
-				time_elapsed_sec.count() > _duration)
+				_current_time = std::chrono::system_clock::now();
+
+				const auto time_elapsed{_current_time.value() - _start.value()};
+				if (const auto time_elapsed_sec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
+					time_elapsed_sec.count() > _duration)
+					if (_stage == RestStage::REGEN) {
+						_go_to_results();
+						_stage = RestStage::RESULTS;
+					}
+
 				if (_stage == RestStage::REGEN) {
-					_go_to_results();
-					_stage = RestStage::RESULTS;
+
+					if (_system->input->check(WindowInput::ANYTHING, event)) {
+						_go_to_results();
+						_stage = RestStage::RESULTS;
+					}
+
+				} else if (_stage == RestStage::RESULTS) {
+
+					if (_system->input->check(WindowInput::CANCEL, event))
+						return MenuItem::CP_LEAVE;
+					else if (_system->input->check(WindowInput::BACK, event))
+						return MenuItem::CP_LEAVE;
+					else if (_system->input->check(WindowInput::UP, event))
+						option_leave = _continue_menu->choose_previous();
+					else if (_system->input->check(WindowInput::DOWN, event))
+						option_leave = _continue_menu->choose_next();
+					else if (_system->input->check(WindowInput::MOVE, event))
+						option_leave = _continue_menu->set_mouse_selected(
+							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+						if (option_leave) {
+							if (const MenuItem option_chosen{(*option_leave.value()).item};
+								option_chosen == MenuItem::GO_BACK) {
+								return MenuItem::GO_BACK;
+							}
+						}
+					}
 				}
+			} else {
 
-			if (_stage == RestStage::REGEN) {
+				if (_stage == RestStage::REGEN) {
 
-				if (_system->input->check(WindowInput::ANYTHING, event)) {
-					_go_to_results();
-					_stage = RestStage::RESULTS;
-				}
+					if (!_start)
+						_start = std::chrono::system_clock::now();
 
-			} else if (_stage == RestStage::RESULTS) {
+					_current_time = std::chrono::system_clock::now();
+					const auto time_elapsed{_current_time.value() - _start.value()};
+					if (const auto time_elapsed_sec{
+							std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
+						time_elapsed_sec.count() > _duration) {
 
-				if (_system->input->check(WindowInput::CANCEL, event))
-					return MenuItem::CP_LEAVE;
-				else if (_system->input->check(WindowInput::BACK, event))
-					return MenuItem::CP_LEAVE;
-				else if (_system->input->check(WindowInput::UP, event))
-					option_leave = _menu->choose_previous();
-				else if (_system->input->check(WindowInput::DOWN, event))
-					option_leave = _menu->choose_next();
-				else if (_system->input->check(WindowInput::MOVE, event))
-					option_leave =
-						_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check(WindowInput::CONFIRM, event)) {
+						if (_recuperate()) {
+							_go_to_results();
+							_stage = RestStage::RESULTS;
+						} else {
+							_start = std::chrono::system_clock::now();
 
-					if (option_leave) {
-						if (const MenuItem option_chosen{(*option_leave.value()).item};
-							option_chosen == MenuItem::GO_BACK) {
-							return MenuItem::GO_BACK;
+							// handle stop menu
+						}
+					}
+					if (_stage == RestStage::REGEN) {
+						_go_to_results();
+						_stage = RestStage::RESULTS;
+					} else if (_stage == RestStage::RESULTS) {
+
+						if (_system->input->check(WindowInput::CANCEL, event))
+							return MenuItem::CP_LEAVE;
+						else if (_system->input->check(WindowInput::BACK, event))
+							return MenuItem::CP_LEAVE;
+						else if (_system->input->check(WindowInput::UP, event))
+							option_leave = _continue_menu->choose_previous();
+						else if (_system->input->check(WindowInput::DOWN, event))
+							option_leave = _continue_menu->choose_next();
+						else if (_system->input->check(WindowInput::MOVE, event))
+							option_leave = _continue_menu->set_mouse_selected(
+								static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+							if (option_leave) {
+								if (const MenuItem option_chosen{(*option_leave.value()).item};
+									option_chosen == MenuItem::STOP) {
+									return MenuItem::STOP;
+								}
+							}
 						}
 					}
 				}
@@ -151,6 +206,50 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 	}
 
 	return std::nullopt;
+}
+
+auto Sorcery::Rest::_recuperate() -> bool {
+
+	// get hp and gold
+	auto gold{_character->get_gold()};
+	auto hp{_character->get_current_hp()};
+	auto age{_character->get_age()};
+
+	auto inc_hp{0u};
+	auto dec_gold{0u};
+	auto inc_age{1u};
+
+	switch (_type) {
+	case RestType::COT:
+		inc_hp = 1;
+		dec_gold = 10;
+		break;
+	case RestType::ECONOMY:
+		inc_hp = 3;
+		dec_gold = 50;
+		break;
+	case RestType::MERCHANT:
+		inc_hp = 5;
+		dec_gold = 200;
+		break;
+	case RestType::ROYAL:
+		inc_hp = 10;
+		dec_gold = 500;
+		break;
+	}
+
+	if ((hp == _character->get_max_hp()) || (gold < dec_gold))
+		return true;
+	else {
+
+		_character->set_gold(gold - dec_gold);
+		_character->set_current_hp(hp + inc_hp);
+		_character->set_age(inc_age);
+
+		return false;
+
+		// if week/52 then set birthday flag! then display birthday message
+	}
 }
 
 auto Sorcery::Rest::_go_to_results() -> void {
@@ -187,24 +286,53 @@ auto Sorcery::Rest::_draw() -> void {
 	_display->display("rest");
 	_window->draw(*_status_bar);
 
-	if (_stage == RestStage::REGEN) {
+	if (_type == RestType::STABLES) {
 
-		_display->window->draw_text(_nap_text, (*_display->layout)["rest:nap_text"], _nap_message);
+		if (_stage == RestStage::REGEN) {
 
-	} else if (_stage == RestStage::RESULTS) {
+			_display->window->draw_text(_nap_text, (*_display->layout)["rest:nap_text"], _nap_message);
 
-		if (!_level_up) {
-			_display->window->draw_text(
-				_no_level_text_1, (*_display->layout)["rest:level_text_1"], _no_level_message_1);
-			_display->window->draw_text(
-				_no_level_text_2, (*_display->layout)["rest:level_text_2"], _no_level_message_2);
+		} else if (_stage == RestStage::RESULTS) {
+
+			if (!_level_up) {
+				_display->window->draw_text(
+					_no_level_text_1, (*_display->layout)["rest:level_text_1"], _no_level_message_1);
+				_display->window->draw_text(
+					_no_level_text_2, (*_display->layout)["rest:level_text_2"], _no_level_message_2);
+			}
+
+			// And the Menu
+			_continue_menu->generate((*_display->layout)["rest:menu"]);
+			const sf::Vector2f menu_pos((*_display->layout)["rest:menu"].x, (*_display->layout)["rest:menu"].y);
+			_continue_menu->setPosition(menu_pos);
+			_window->draw(*_continue_menu);
 		}
+	} else {
 
-		// And the Menu
-		_menu->generate((*_display->layout)["rest:menu"]);
-		const sf::Vector2f menu_pos((*_display->layout)["rest:menu"].x, (*_display->layout)["rest:menu"].y);
-		_menu->setPosition(menu_pos);
-		_window->draw(*_menu);
+		if (_stage == RestStage::REGEN) {
+
+			_display->window->draw_text(_recup_text, (*_display->layout)["rest:nap_text"], _recup_message);
+
+			_stop_menu->generate((*_display->layout)["rest:menu"]);
+			const sf::Vector2f menu_pos((*_display->layout)["rest:menu"].x, (*_display->layout)["rest:menu"].y);
+			_stop_menu->setPosition(menu_pos);
+			_window->draw(*_stop_menu);
+
+		} else if (_stage == RestStage::RESULTS) {
+
+			if (!_level_up) {
+				_display->window->draw_text(
+					_no_level_text_1, (*_display->layout)["rest:level_text_1"], _no_level_message_1);
+				_display->window->draw_text(
+					_no_level_text_2, (*_display->layout)["rest:level_text_2"], _no_level_message_2);
+			}
+
+			// And the Menu
+			_continue_menu->generate((*_display->layout)["rest:menu"]);
+			const sf::Vector2f menu_pos((*_display->layout)["rest:menu"].x, (*_display->layout)["rest:menu"].y);
+			_continue_menu->setPosition(menu_pos);
+			_window->draw(*_continue_menu);
+		}
 	}
 
 	// Always draw the following

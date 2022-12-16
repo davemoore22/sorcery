@@ -128,6 +128,10 @@ Sorcery::Menu::Menu(
 		_add_item(0, MenuItemType::ENTRY, MenuItem::GO_BACK, (*_display->string)["MENU_LEAVE"]);
 		selected = items.begin();
 		break;
+	case MenuType::STOP:
+		_add_item(0, MenuItemType::ENTRY, MenuItem::STOP, (*_display->string)["STOP"]);
+		selected = items.begin();
+		break;
 	case MenuType::TAVERN:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::TA_ADD_TO_PARTY, (*_display->string)["TAVERN_ADD_TO_PARTY"]);
 		_add_item(

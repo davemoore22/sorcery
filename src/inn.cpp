@@ -261,6 +261,45 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 										return MenuItem::ABORT;
 									}
 									_rest->stop();
+								} else if (option_chosen == MenuItem::IN_COT) {
+									if (auto stables_option{
+											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::COT)};
+										stables_option && stables_option.value() == MenuItem::ABORT) {
+										_game->save_game();
+										_display->shutdown_SFML();
+										return MenuItem::ABORT;
+									}
+									_rest->stop();
+
+								} else if (option_chosen == MenuItem::IN_ECONOMY) {
+									if (auto stables_option{
+											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::ECONOMY)};
+										stables_option && stables_option.value() == MenuItem::ABORT) {
+										_game->save_game();
+										_display->shutdown_SFML();
+										return MenuItem::ABORT;
+									}
+									_rest->stop();
+
+								} else if (option_chosen == MenuItem::IN_MERCHANT) {
+									if (auto stables_option{
+											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::MERCHANT)};
+										stables_option && stables_option.value() == MenuItem::ABORT) {
+										_game->save_game();
+										_display->shutdown_SFML();
+										return MenuItem::ABORT;
+									}
+									_rest->stop();
+
+								} else if (option_chosen == MenuItem::IN_ROYAL) {
+									if (auto stables_option{
+											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::ROYAL)};
+										stables_option && stables_option.value() == MenuItem::ABORT) {
+										_game->save_game();
+										_display->shutdown_SFML();
+										return MenuItem::ABORT;
+									}
+									_rest->stop();
 								}
 							}
 						}

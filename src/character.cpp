@@ -2668,6 +2668,16 @@ auto Sorcery::Character::get_sb_text(const int position) -> std::string {
 		_get_condition());
 }
 
+auto Sorcery::Character::get_age() const -> int {
+
+	return _abilities.at(CharacterAbility::AGE);
+}
+
+auto Sorcery::Character::set_age(const int adjustment) -> void {
+
+	_abilities.at(CharacterAbility::AGE) = _abilities.at(CharacterAbility::AGE) + adjustment;
+}
+
 auto Sorcery::Character::summary_text() -> std::string {
 
 	auto name{_name};

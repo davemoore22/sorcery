@@ -148,6 +148,8 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto get_cur_ac() const -> int;
 		auto get_cur_xp() const -> int;
 		auto get_next_xp() const -> int;
+		auto get_age() const -> int;
+		auto set_age(const int adjustment) -> void;
 
 		// Public Members
 		std::map<SpellID, sf::FloatRect> mage_spell_bounds;
