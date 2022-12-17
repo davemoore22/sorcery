@@ -5201,6 +5201,32 @@
 				"drawmode" : "manual",
 				"type": "text",
 				"priority": "4"
+			},
+			{
+				"name": "recup_text_1",
+				"x": "centre",
+				"y": "11",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "centre",
+				"drawmode" : "manual",
+				"type": "text",
+				"priority": "4"
+			},
+			{
+				"name": "recup_text_2",
+				"x": "centre",
+				"y": "12",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "NONE",
+				"justification": "centre",
+				"drawmode" : "manual",
+				"type": "text",
+				"priority": "4"
 			}
 		]
 	},

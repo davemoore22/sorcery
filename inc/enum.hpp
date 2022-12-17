@@ -1070,7 +1070,8 @@ namespace Enums::Menu {
 		IN_ROYAL,
 		IN_POOL_GOLD,
 		IN_BACK,
-		STOP
+		STOP,
+		CONTINUE
 	};
 
 	// Menu Items

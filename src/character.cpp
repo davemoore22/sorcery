@@ -2323,6 +2323,14 @@ auto Sorcery::Character::reset_spells() -> void {
 		_spells_known[spell.id] = spell.known;
 }
 
+auto Sorcery::Character::replenish_spells() -> void {
+
+	for (auto level = 1; level <= 7; level++) {
+		_mage_cur_sp[level] = _mage_max_sp[level];
+		_priest_cur_sp[level] = _priest_max_sp[level];
+	}
+}
+
 auto Sorcery::Character::create_quick() -> void {
 
 	// Enter Name and Portrait, rest is random
@@ -2344,12 +2352,9 @@ auto Sorcery::Character::create_quick() -> void {
 		break;
 	}
 
-	// Now get minimum attributes for race/class combo (note as we are only
-	// allowing creation of some classes, it will be as if we had a maximum of
-	// 10 bonus points to spend - in order to incentivise full blown character
-	// creation! see table IV (A) at
-	// https://gamefaqs.gamespot.com/pc/946844-the-ultimate-wizardry-archives/faqs/45726
-	// for info
+	// Now get minimum attributes for race/class combo (note as we are only allowing creation of some classes, it will
+	// be as if we had a maximum of 10 bonus points to spend - in order to incentivise full blown character creation!
+	// see table IV (A) at https://gamefaqs.gamespot.com/pc/946844-the-ultimate-wizardry-archives/faqs/45726 for info
 	switch (_race) { // NOLINT(clang-diagnostic-switch)
 	case CharacterRace::HUMAN:
 		_start_attr = {{CharacterAttribute::STRENGTH, 8}, {CharacterAttribute::IQ, 5}, {CharacterAttribute::PIETY, 5},

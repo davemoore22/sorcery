@@ -75,14 +75,19 @@ class Rest {
 		sf::Text _recup_text;
 		sf::Text _no_level_text_1;
 		sf::Text _no_level_text_2;
+		sf::Text _recup_text_1;
+		sf::Text _recup_text_2;
 		std::string _nap_message;
 		std::string _recup_message;
+		std::string _recup_message_1;
+		std::string _recup_message_2;
 		std::string _no_level_message_1;
 		std::string _no_level_message_2;
 		std::string _string;
 		std::vector<std::string> _strings;
 		std::vector<sf::Text> _texts;
 		bool _level_up;
+		bool _birthday;
 };
 
 }

@@ -49,6 +49,7 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 	_type = type;
 
 	_level_up = false;
+	_birthday = false;
 
 	auto name{character->get_name()};
 	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
@@ -80,7 +81,7 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 	_duration = DELAY_RESTING; // ms
 
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> option_leave{_continue_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> option_continue{_continue_menu->items.begin()};
 	std::optional<std::vector<MenuEntry>::const_iterator> option_stop{_stop_menu->items.begin()};
 
 	sf::Event event{};
@@ -126,18 +127,18 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 					else if (_system->input->check(WindowInput::BACK, event))
 						return MenuItem::CP_LEAVE;
 					else if (_system->input->check(WindowInput::UP, event))
-						option_leave = _continue_menu->choose_previous();
+						option_continue = _continue_menu->choose_previous();
 					else if (_system->input->check(WindowInput::DOWN, event))
-						option_leave = _continue_menu->choose_next();
+						option_continue = _continue_menu->choose_next();
 					else if (_system->input->check(WindowInput::MOVE, event))
-						option_leave = _continue_menu->set_mouse_selected(
+						option_continue = _continue_menu->set_mouse_selected(
 							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
-						if (option_leave) {
-							if (const MenuItem option_chosen{(*option_leave.value()).item};
-								option_chosen == MenuItem::GO_BACK) {
-								return MenuItem::GO_BACK;
+						if (option_continue) {
+							if (const MenuItem option_chosen{(*option_continue.value()).item};
+								option_chosen == MenuItem::CONTINUE) {
+								return MenuItem::CONTINUE;
 							}
 						}
 					}
@@ -146,8 +147,14 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 
 				if (_stage == RestStage::REGEN) {
 
-					if (!_start)
+					if (!_start) {
 						_start = std::chrono::system_clock::now();
+						if (_recuperate()) {
+							_go_to_results();
+							_stage = RestStage::RESULTS;
+						} else
+							_start = std::chrono::system_clock::now();
+					}
 
 					_current_time = std::chrono::system_clock::now();
 					const auto time_elapsed{_current_time.value() - _start.value()};
@@ -158,35 +165,50 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 						if (_recuperate()) {
 							_go_to_results();
 							_stage = RestStage::RESULTS;
-						} else {
+						} else
 							_start = std::chrono::system_clock::now();
+					}
 
-							// handle stop menu
+					if (_system->input->check(WindowInput::CANCEL, event))
+						return MenuItem::CP_LEAVE;
+					else if (_system->input->check(WindowInput::BACK, event))
+						return MenuItem::CP_LEAVE;
+					else if (_system->input->check(WindowInput::UP, event))
+						option_stop = _stop_menu->choose_previous();
+					else if (_system->input->check(WindowInput::DOWN, event))
+						option_stop = _stop_menu->choose_next();
+					else if (_system->input->check(WindowInput::MOVE, event))
+						option_stop =
+							_stop_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+						if (option_stop) {
+							if (const MenuItem option_chosen{(*option_stop.value()).item};
+								option_chosen == MenuItem::STOP) {
+								_go_to_results();
+								_stage = RestStage::RESULTS;
+							}
 						}
 					}
-					if (_stage == RestStage::REGEN) {
-						_go_to_results();
-						_stage = RestStage::RESULTS;
-					} else if (_stage == RestStage::RESULTS) {
+				} else if (_stage == RestStage::RESULTS) {
 
-						if (_system->input->check(WindowInput::CANCEL, event))
-							return MenuItem::CP_LEAVE;
-						else if (_system->input->check(WindowInput::BACK, event))
-							return MenuItem::CP_LEAVE;
-						else if (_system->input->check(WindowInput::UP, event))
-							option_leave = _continue_menu->choose_previous();
-						else if (_system->input->check(WindowInput::DOWN, event))
-							option_leave = _continue_menu->choose_next();
-						else if (_system->input->check(WindowInput::MOVE, event))
-							option_leave = _continue_menu->set_mouse_selected(
-								static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-						else if (_system->input->check(WindowInput::CONFIRM, event)) {
+					if (_system->input->check(WindowInput::CANCEL, event))
+						return MenuItem::CP_LEAVE;
+					else if (_system->input->check(WindowInput::BACK, event))
+						return MenuItem::CP_LEAVE;
+					else if (_system->input->check(WindowInput::UP, event))
+						option_continue = _continue_menu->choose_previous();
+					else if (_system->input->check(WindowInput::DOWN, event))
+						option_continue = _continue_menu->choose_next();
+					else if (_system->input->check(WindowInput::MOVE, event))
+						option_continue = _continue_menu->set_mouse_selected(
+							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
-							if (option_leave) {
-								if (const MenuItem option_chosen{(*option_leave.value()).item};
-									option_chosen == MenuItem::STOP) {
-									return MenuItem::STOP;
-								}
+						if (option_continue) {
+							if (const MenuItem option_chosen{(*option_continue.value()).item};
+								option_chosen == MenuItem::CONTINUE) {
+								return MenuItem::CONTINUE;
 							}
 						}
 					}
@@ -236,7 +258,16 @@ auto Sorcery::Rest::_recuperate() -> bool {
 		inc_hp = 10;
 		dec_gold = 500;
 		break;
+	default:
+		break;
 	}
+
+	_recup_message_1 = fmt::format("{} ({:>5}/{:>5})", (*_display->string)["REST_HP"], hp, _character->get_max_hp());
+	_recup_message_2 = fmt::format("{} {}", (*_display->string)["REST_GOLD"], gold);
+
+	_status_bar->refresh();
+
+	_birthday = age % 52 == 0;
 
 	if ((hp == _character->get_max_hp()) || (gold < dec_gold))
 		return true;
@@ -247,8 +278,6 @@ auto Sorcery::Rest::_recuperate() -> bool {
 		_character->set_age(inc_age);
 
 		return false;
-
-		// if week/52 then set birthday flag! then display birthday message
 	}
 }
 
@@ -272,6 +301,7 @@ auto Sorcery::Rest::_go_to_results() -> void {
 	}
 
 	// both cases restore spells to max!
+	_character->replenish_spells();
 }
 
 auto Sorcery::Rest::stop() -> void {
@@ -312,6 +342,8 @@ auto Sorcery::Rest::_draw() -> void {
 		if (_stage == RestStage::REGEN) {
 
 			_display->window->draw_text(_recup_text, (*_display->layout)["rest:nap_text"], _recup_message);
+			_display->window->draw_text(_recup_text_1, (*_display->layout)["rest:recup_text_1"], _recup_message_1);
+			_display->window->draw_text(_recup_text_2, (*_display->layout)["rest:recup_text_2"], _recup_message_2);
 
 			_stop_menu->generate((*_display->layout)["rest:menu"]);
 			const sf::Vector2f menu_pos((*_display->layout)["rest:menu"].x, (*_display->layout)["rest:menu"].y);

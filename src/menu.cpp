@@ -125,7 +125,7 @@ Sorcery::Menu::Menu(
 		selected = items.begin();
 		break;
 	case MenuType::CONTINUE:
-		_add_item(0, MenuItemType::ENTRY, MenuItem::GO_BACK, (*_display->string)["MENU_LEAVE"]);
+		_add_item(0, MenuItemType::ENTRY, MenuItem::CONTINUE, (*_display->string)["CONTINUE"]);
 		selected = items.begin();
 		break;
 	case MenuType::STOP:
