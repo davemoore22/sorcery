@@ -1676,7 +1676,7 @@ auto Sorcery::Character::get_max_hp() const -> int {
 }
 
 // Level a character up
-auto Sorcery::Character::level_up() -> void {
+auto Sorcery::Character::level_up() -> std::vector<std::string> {
 
 	// For now
 }

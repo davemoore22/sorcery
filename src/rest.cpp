@@ -288,11 +288,11 @@ auto Sorcery::Rest::_go_to_results() -> void {
 
 	const auto current_xp{_character->get_cur_xp()};
 	const auto next_xp{_character->get_next_xp()};
-	const auto need_xp{next_xp - current_xp};
-	if (need_xp < 0) {
+	if (const auto need_xp{next_xp - current_xp}; need_xp < 0) {
 
 		// Level up!
 		_level_up = true;
+		const auto level_up_results{_character->level_up()};
 	} else {
 
 		_no_level_message_1 = fmt::format(

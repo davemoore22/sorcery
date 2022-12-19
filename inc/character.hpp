@@ -70,7 +70,7 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto set_stage(const CharacterStage stage) -> void;
 		auto set_pos_class() -> void;
 		auto finalise() -> void;
-		auto level_up() -> void;
+		auto level_up() -> std::vector<std::string>;
 		auto level_down() -> void;
 		auto get_alignment(const CharacterAlignment alignment) const -> std::string;
 		auto get_race(const CharacterRace race) const -> std::string;
