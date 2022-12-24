@@ -42,7 +42,7 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 * Strict (Legacy) Mode (TO DO)
 * 3D Rendering (TO DO)
 
-## What next? (as of November 2022)
+## What next? (as of December 2022)
 
 I'm currently implementing Inn/Temple functionality.
 
@@ -51,7 +51,7 @@ be something playable here! Then, as mentioned above, a proper 3D renderer will
 probably be implemented.
 
 Initially I am planning to remake Wizardrys 1, 2, and 3, and subsequently
-providing infinite procedurally-generated content like that of Diablo for exmaple.
+providing infinite procedurally-generated content like that of Diablo for example.
 
 ## Complication
 
@@ -69,7 +69,7 @@ details.
 ## Contact and Help
 
 All comments and criticism and help welcome. Spent 20 years away from C++ (day
-job these days is PHP/JS) but I'm really enjoying working with modern C++.
+job these days is PHP/JS) but I'm really enjoying my time back with C++.
 
 You can find me as *Typhon* on the C++ Help, SFML, and DungeonCrawlers.org
 Discord Servers, or my email address is on the Splash Screen of the Game.

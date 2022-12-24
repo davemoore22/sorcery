@@ -134,6 +134,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 							} else if (option_chosen == MenuItem::IN_STAY_CHARACTER) {
 								_stage = InnStage::CHOOSE;
 								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+								_status_bar->refresh();
 							} else if (option_chosen == MenuItem::IN_INSPECT) {
 								if (auto result{_inspect->start()}; result && result.value() == MenuItem::ABORT) {
 									_inspect->stop();
@@ -178,11 +179,13 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 						}
 					}
 				} else if (_stage == InnStage::CHOOSE) {
-					if (_system->input->check(WindowInput::CANCEL, event))
+					if (_system->input->check(WindowInput::CANCEL, event)) {
 						_stage = InnStage::MENU;
-					else if (_system->input->check(WindowInput::BACK, event))
+						_status_bar->refresh();
+					} else if (_system->input->check(WindowInput::BACK, event)) {
 						_stage = InnStage::MENU;
-					else if (_system->input->check(WindowInput::UP, event))
+						_status_bar->refresh();
+					} else if (_system->input->check(WindowInput::UP, event))
 						option_choose = _roster->choose_previous();
 					else if (_system->input->check(WindowInput::DOWN, event))
 						option_choose = _roster->choose_next();
@@ -196,12 +199,14 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 							if (const MenuItem option_chosen{(*option_choose.value()).item};
 								option_chosen == MenuItem::CA_INN) {
 								_stage = InnStage::MENU;
+								_status_bar->refresh();
 								continue;
 							} else {
 								const auto character_chosen{(*option_choose.value()).index};
 								_cur_char = &_game->characters.at(character_chosen);
 								if (_cur_char) {
 									_stage = InnStage::BED;
+									_status_bar->refresh();
 									_cur_char_id = character_chosen;
 									_update = true;
 								}
@@ -225,11 +230,13 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 					} else {
 
 						_update = true;
-						if (_system->input->check(WindowInput::CANCEL, event))
+						if (_system->input->check(WindowInput::CANCEL, event)) {
 							_stage = InnStage::CHOOSE;
-						else if (_system->input->check(WindowInput::BACK, event))
+							_status_bar->refresh();
+						} else if (_system->input->check(WindowInput::BACK, event)) {
 							_stage = InnStage::CHOOSE;
-						else if (_system->input->check(WindowInput::UP, event))
+							_status_bar->refresh();
+						} else if (_system->input->check(WindowInput::UP, event))
 							option_bed = _bed->choose_previous();
 						else if (_system->input->check(WindowInput::DOWN, event))
 							option_bed = _bed->choose_next();
@@ -243,6 +250,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 								if (const MenuItem option_chosen{(*option_bed.value()).item};
 									option_chosen == MenuItem::IN_BACK) {
 									_stage = InnStage::CHOOSE;
+									_status_bar->refresh();
 									continue;
 								} else if (option_chosen == MenuItem::IN_POOL_GOLD) {
 
@@ -261,6 +269,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 										return MenuItem::ABORT;
 									}
 									_rest->stop();
+									_status_bar->refresh();
 								} else if (option_chosen == MenuItem::IN_COT) {
 									if (auto stables_option{
 											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::COT)};
@@ -270,7 +279,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 										return MenuItem::ABORT;
 									}
 									_rest->stop();
-
+									_status_bar->refresh();
 								} else if (option_chosen == MenuItem::IN_ECONOMY) {
 									if (auto stables_option{
 											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::ECONOMY)};
@@ -280,7 +289,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 										return MenuItem::ABORT;
 									}
 									_rest->stop();
-
+									_status_bar->refresh();
 								} else if (option_chosen == MenuItem::IN_MERCHANT) {
 									if (auto stables_option{
 											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::MERCHANT)};
@@ -290,7 +299,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 										return MenuItem::ABORT;
 									}
 									_rest->stop();
-
+									_status_bar->refresh();
 								} else if (option_chosen == MenuItem::IN_ROYAL) {
 									if (auto stables_option{
 											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::ROYAL)};
@@ -300,6 +309,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 										return MenuItem::ABORT;
 									}
 									_rest->stop();
+									_status_bar->refresh();
 								}
 							}
 						}
