@@ -791,8 +791,7 @@ auto Sorcery::Character::set_gold(const unsigned int value) -> void {
 
 auto Sorcery::Character::_legate_start_info() -> void {
 
-	// From here:
-	// https://datadrivengamer.blogspot.com/2021/08/the-new-mechanics-of-wizardry-iii.html
+	// From here:  https://datadrivengamer.blogspot.com/2021/08/the-new-mechanics-of-wizardry-iii.html
 
 	_abilities[CharacterAbility::CURRENT_LEVEL] = 1;
 	_abilities[CharacterAbility::CURRENT_XP] = 0;
@@ -973,8 +972,7 @@ auto Sorcery::Character::_generate_start_info() -> void {
 	_abilities[CharacterAbility::NEXT_LEVEL_XP] = _get_xp_for_level(_abilities[CharacterAbility::CURRENT_LEVEL]);
 }
 
-// Given the characters current level, work out all the secondary
-// abilities/stats etc
+// Given the characters current level, work out all the secondary abilities/stats etc
 auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_class, bool legate) -> void {
 
 	// Formulae used are from here
@@ -1126,8 +1124,7 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 	// Class Change doesn't reset these
 	if (!change_class) {
 
-		// Base Hit Points (num) - note initially all non-legated characters get
-		// 8 HP as per the PSX versions
+		// Base Hit Points (num) - note initially all non-legated characters get 8 HP as per the PSX versions
 		if (initial)
 			if (legate) {
 				switch (_class) {
@@ -1206,8 +1203,7 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 	if (_abilities[CharacterAbility::ASHES_RESURRECT] > 100)
 		_abilities[CharacterAbility::ASHES_RESURRECT] = 100;
 
-	// Chance of resurrecting by a DI or KADORTO spell cast by another Character
-	// (%)
+	// Chance of resurrecting by a DI or KADORTO spell cast by another Character (%)
 	_abilities[CharacterAbility::DI_KADORTO_RESURRECT] = 4 * _cur_attr[CharacterAttribute::VITALITY];
 
 	// Initiative Modifier (num)
@@ -1507,10 +1503,8 @@ auto Sorcery::Character::_set_starting_sp() -> void {
 	// By default clear all spells
 	_clear_sp();
 
-	// In the original code this is handled in
-	// "SETSPELS"/"SPLPERLV"/"NWMAGE"/"NWPRIEST" - but we are just setting them
-	// straight for now but adding in extra slots for casters to make things
-	// easier if we're not in strict mode
+	// In the original code this is handled in "SETSPELS"/"SPLPERLV"/"NWMAGE"/"NWPRIEST" - but we are just setting them
+	// straight for now but adding in extra slots for casters to make things easier if we're not in strict mode
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::PRIEST:
 		_priest_max_sp[1] =
@@ -1545,16 +1539,14 @@ auto Sorcery::Character::_clear_sp() -> void {
 // Reset Starting Spells on Class Change
 auto Sorcery::Character::_reset_start_spells() -> void {
 
-	// All known spells are kept, and new ones added as per the starting class
-	// guildlines
+	// All known spells are kept, and new ones added as per the starting class guildlines
 	_set_start_spells();
 }
 
 // Set starting spells
 auto Sorcery::Character::_set_start_spells() -> void {
 
-	// This is taken from "KEEPCHYN" which hard codes the spells known to
-	// beginning characters!
+	// This is taken from "KEEPCHYN" which hard codes the spells known to beginning characters!
 	std::vector<Spell>::iterator it;
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::BISHOP:
@@ -1633,8 +1625,7 @@ auto Sorcery::Character::_get_hp_per_level() -> int {
 	if (extra_hp < 0)
 		extra_hp = 1;
 
-	// Though this could be an unsigned int as it will always be greater than 0,
-	// just return int as everything else is
+	// Though this could be an unsigned int as it will always be greater than 0, just return int as everything else is
 	return extra_hp;
 }
 
@@ -1642,13 +1633,11 @@ auto Sorcery::Character::_get_hp_per_level() -> int {
 // below)
 auto Sorcery::Character::_update_hp_for_level() -> void {
 
-	// Note the annoying thing in the original Wizardry ("MADELEV") and
-	// reproduced here in strict mode where it recalculates all HP and thus
-	// often you end up with gaining only one HP - this also reproduces the
-	// equally annoying thing where if you have changed class it uses your
-	// *current* class level for recalculation, hence until you get back to
-	// where you were before changing class you will probably only ever gain 1
-	// hp each time unless the random dice rolls are really in your favour!
+	// Note the annoying thing in the original Wizardry ("MADELEV") and reproduced here in strict mode where it
+	// recalculates all HP and thus often you end up with gaining only one HP - this also reproduces the equally
+	// annoying thing where if you have changed class it uses your *current* class level for recalculation, hence until
+	// you get back to where you were before changing class you will probably only ever gain 1 hp each time unless the
+	// random dice rolls are really in your favour!
 	if ((*_system->config)[ConfigOption::REROLL_HIT_POINTS_ON_LEVEL_GAIN]) {
 		auto hp_total{0};
 		for (auto level = 1; level < _abilities[CharacterAbility::CURRENT_LEVEL]; level++)
@@ -1754,9 +1743,8 @@ auto Sorcery::Character::_calculate_sp(SpellType spell_type, unsigned int level_
 // MINMAG/MINPRI/NWPRIEST/NWMAGE
 auto Sorcery::Character::_set_sp() -> void {
 
-	// First work out the number of spells known at each level (not this
-	// deliberately does not alter spells learned in a previous class to allow
-	// those to remain the same (see MINMAG/MINPRI in the code)
+	// First work out the number of spells known at each level (not this deliberately does not alter spells learned in a
+	// previous class to allow those to remain the same (see MINMAG/MINPRI in the code)
 	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
 		_priest_max_sp[spell_level] = _get_spells_known(SpellType::PRIEST, spell_level);
 		_mage_max_sp[spell_level] = _get_spells_known(SpellType::MAGE, spell_level);
@@ -1905,253 +1893,6 @@ auto Sorcery::Character::set_spells() -> void {
 		if (it != _spells.end())
 			(*it).known = spell_known.second;
 	}
-}
-
-// Wizardry V Spells
-auto Sorcery::Character::create_spells_v() -> void {
-	_spells.clear();
-
-	// Mage Spells (grouped by level)
-
-	// Level 1
-	/* auto level{1};
-	_spells.emplace_back(SpellID_V::DUMAPIC, SpellType::MAGE, SpellCategory::FIELD, level, false, "DUMAPIC", "Clarity",
-		"Restablishes the party's bearings and shows their location in the "
-		"maze.");
-	_spells.emplace_back(SpellID_V::HALITO, SpellType::MAGE, SpellCategory::ATTACK, level, false, "HALITO",
-		"Little Fire",
-		"Flings a a ball of fire at one foe inflicting 1d8 points of fire "
-		"damage.");
-	_spells.emplace_back(SpellID_V::KATINO, SpellType::MAGE, SpellCategory::DISABLE, level, false, "KATINO", "Bad Air",
-		"Temporarily puts to sleep one group of foes.");
-	_spells.emplace_back(SpellID_V::MOGREF, SpellType::MAGE, SpellCategory::SUPPORT, level, false, "MOGREF",
-		"Body Iron",
-		"Grants a -2 bonus to armour class to the caster for the duration of "
-		"combat.");
-
-	// Level 2
-	++level;
-	_spells.emplace_back(SpellID_V::BOLATU, SpellType::MAGE, SpellCategory::DISABLE, level, false, "BOLATU",
-		"Heart of Stone", "Attempts to turn one foe to stone.");
-	_spells.emplace_back(SpellID_V::DESTO, SpellType::MAGE, SpellCategory::FIELD, level, false, "DESTO", "Unlock",
-		"Attempts to magically unlock one door as if the caster were a thief "
-		"of the same level.");
-	_spells.emplace_back(SpellID_V::MELITO, SpellType::MAGE, SpellCategory::ATTACK, level, false, "MELITO",
-		"Little Sparks", "Inflicts 1d8 points of electric damage to one group of foes.");
-	_spells.emplace_back(SpellID_V::MORLIS, SpellType::MAGE, SpellCategory::DISABLE, level, false, "MORLIS", "Fear",
-		"Causes one group of foes to fear the party, making them less "
-		"effective in combat.");
-	_spells.emplace_back(SpellID_V::PONTI, SpellType::MAGE, SpellCategory::SUPPORT, level, false, "PONTI", "Speed",
-		"Grants a -1 bonus to armour class to a party member and improves "
-		"their speed for the "
-		"duration of combat.");
-
-	// Level 3
-	++level;
-	_spells.emplace_back(SpellID_V::CALIFIC, SpellType::MAGE, SpellCategory::FIELD, level, false, "CALIFIC", "Reveal",
-		"Reveals nearby secret doors.");
-	_spells.emplace_back(SpellID_V::CORTU, SpellType::MAGE, SpellCategory::SUPPORT, level, false, "CORTU",
-		"Magic Screen",
-		"Erects a protective barrier around the party giving partial "
-		"protection from breath "
-		"attacks during combat. Stacks with multiple casts.");
-	_spells.emplace_back(SpellID_V::KANTIOS, SpellType::MAGE, SpellCategory::DISABLE, level, false, "KANTIOS",
-		"Discrption",
-		"Disrupts the senses of a group of foes, preventing them from casting "
-		"spells, using breath "
-		"attacks and calling for help.");
-	_spells.emplace_back(SpellID_V::MAHALITO, SpellType::MAGE, SpellCategory::ATTACK, level, false, "MAHALITO",
-		"Big Fire",
-		"Causes an explosion in a group of foes, inflicting 3d8 points of fire "
-		"damage.");
-
-	// Level 4
-	++level;
-	_spells.emplace_back(SpellID_V::LAHALITO, SpellType::MAGE, SpellCategory::ATTACK, level, false, "LAHALITO", "Torch",
-		"Inflicts 6d6 points of fire damage to a group of foes.");
-	_spells.emplace_back(SpellID_V::LITOFEIT, SpellType::MAGE, SpellCategory::FIELD, level, false, "LITOFEIT",
-		"Levitate",
-		"Causes the party to levitate, preventing the triggering of floor "
-		"traps and greatly "
-		"reduces the chances of ambushes.");
-	_spells.emplace_back(SpellID_V::ROKDO, SpellType::MAGE, SpellCategory::DISABLE, level, false, "ROKDO", "Stun",
-		"Stuns one group of foes, rendering them helpless in combat.");
-	_spells.emplace_back(SpellID_V::TZALIK, SpellType::MAGE, SpellCategory::ATTACK, level, false, "TZALIK",
-		"Fist of the Gods", "Inflicts 20d3 points of force damage on one foe.");
-
-	// Level 5
-	++level;
-	_spells.emplace_back(SpellID_V::BACORTU, SpellType::MAGE, SpellCategory::DISABLE, level, false, "BACORTU",
-		"Fizzle Field", "Erects a spell dampening field around a group of foes.");
-	_spells.emplace_back(SpellID_V::MADALTO, SpellType::MAGE, SpellCategory::ATTACK, level, false, "MADALTO", "Frost",
-		"Inflicts 8d8 points of cold damage to a group of foes.");
-	_spells.emplace_back(SpellID_V::PALIOS, SpellType::MAGE, SpellCategory::DISABLE, level, false, "PALIOS",
-		"Anti-Magic", "Destroys spell-dampening fields.");
-	_spells.emplace_back(SpellID_V::SOCORDI, SpellType::MAGE, SpellCategory::SUPPORT, level, false, "SOCORDI", "Terror",
-		"Gates in a powerful extra-dimnensional creature to aid the party "
-		"during combat.");
-	_spells.emplace_back(SpellID_V::VASKYRE, SpellType::MAGE, SpellCategory::DISABLE, level, false, "VASKYRE",
-		"Rainbow Rays", "Causes random damaging effects to a group of foes.");
-
-	// Level 6
-	++level;
-	_spells.emplace_back(SpellID_V::HAMAN, SpellType::MAGE, SpellCategory::SUPPORT, level, false, "HAMAN", "Change",
-		"Causes random but beneficial effects to the entire party but the "
-		"caster loses one level "
-		"of experience.");
-	_spells.emplace_back(SpellID_V::LADALTO, SpellType::MAGE, SpellCategory::ATTACK, level, false, "LADALTO",
-		"Ice Storm", "Freezes one group of foes, inflicting 10d10 points of cold damage.");
-	_spells.emplace_back(SpellID_V::LOKARA, SpellType::MAGE, SpellCategory::ATTACK, level, false, "LOKARA", "Big Glass",
-		"Opens the earth underneath all foes, attempting to swallow them "
-		"whole.");
-	_spells.emplace_back(SpellID_V::ZILWAN, SpellType::MAGE, SpellCategory::ATTACK, level, false, "ZILWAN", "Dispel",
-		"Inflicts 200d10 points of positive energy damage to one undead "
-		"creature.");
-
-	// Level 7
-	++level;
-	_spells.emplace_back(SpellID_V::MAHAMAN, SpellType::MAGE, SpellCategory::SUPPORT, level, false, "MAHAMAN",
-		"Great Change",
-		"Causes random but beneficial major effects to the entire party but "
-		"the caster loses one "
-		"level and the spell is forgotten.");
-	_spells.emplace_back(SpellID_V::MALOR, SpellType::MAGE, SpellCategory::FIELD, level, false, "MALOR", "Apport",
-		"Teleports the party to a random nearby location when cast in combat, "
-		"but to a specified "
-		"location when cast outside of combat.");
-	_spells.emplace_back(SpellID_V::MAWXIWTZ, SpellType::MAGE, SpellCategory::DISABLE, level, false, "MAWXIWTZ",
-		"MadHouse", "Causes random major damaging effects to all foes.");
-	_spells.emplace_back(SpellID_V::TILTOWAIT, SpellType::MAGE, SpellCategory::ATTACK, level, false, "TILTOWAIT",
-		"Explosion", "Inflicts 10d15 points of fire and force damage to all foes.");
-
-	// Priest Spells (grouped by level)
-
-	// Level 1
-	level = 1u;
-	_spells.emplace_back(SpellID_V::BADIOS, SpellType::PRIEST, SpellCategory::ATTACK, level, false, "BADIOS", "Harm",
-		"Inflicts 1d8 points of negative energy damage to one foe.");
-	_spells.emplace_back(SpellID_V::DIOS, SpellType::PRIEST, SpellCategory::HEALING, level, false, "DIOS", "Heal",
-		"Restores 1d8 hp to a party member.");
-	_spells.emplace_back(SpellID_V::KALKI, SpellType::PRIEST, SpellCategory::SUPPORT, level, false, "KALKI",
-		"Blessings",
-		"Grants a -1 bonus to armour class to the entire party for the "
-		"duration of combat.");
-	_spells.emplace_back(SpellID_V::MILWA, SpellType::PRIEST, SpellCategory::FIELD, level, false, "MILWA", "Light",
-		"Causes a softly glowing light to follow the party, increasing vision "
-		"and revealing some "
-		"secret doors for 15d2 turns.");
-	_spells.emplace_back(SpellID_V::PORFIC, SpellType::PRIEST, SpellCategory::SUPPORT, level, false, "PORFIC", "Shield",
-		"Grants a -4 bonus to armour class to the caster for the duration of "
-		"combat.");
-
-	// Level 2
-	++level;
-	_spells.emplace_back(SpellID_V::CALFO, SpellType::PRIEST, SpellCategory::FIELD, level, false, "CALFO",
-		"X-Ray Vision", "Allows the caster to identify the trap on a chest with 95% accuracy.");
-	_spells.emplace_back(SpellID_V::KANDI, SpellType::PRIEST, SpellCategory::FIELD, level, false, "KANDI",
-		"Locate Soul",
-		"Gives the direction of the creature the party is attempting to "
-		"locate; the location is "
-		"relative to the position of the caster.");
-	_spells.emplace_back(SpellID_V::KATU, SpellType::PRIEST, SpellCategory::FIELD, level, false, "KATU", "Charm",
-		"Attempts to charm one creature or foe, making it more friendly to the "
-		"party.");
-	_spells.emplace_back(SpellID_V::MONTINO, SpellType::PRIEST, SpellCategory::DISABLE, level, false, "MONTINO",
-		"Still Air",
-		"Stills the air around a group of foes, making it impossible for them "
-		"to cast spells.");
-
-	// Level 3
-	++level;
-	_spells.emplace_back(SpellID_V::BAMATU, SpellType::PRIEST, SpellCategory::SUPPORT, level, false, "BAMATU", "Prayer",
-		"Grants a -4 bonus to armour class to the entire party for the "
-		"duration of combat.");
-	_spells.emplace_back(SpellID_V::DIALKO, SpellType::PRIEST, SpellCategory::HEALING, level, false, "DIALKO",
-		"Softness", "Cures one party member of paralysis, silence, or sleep.");
-	_spells.emplace_back(SpellID_V::HAKANIDO, SpellType::PRIEST, SpellCategory::DISABLE, level, false, "HAKANIDO",
-		"Magic Drain", "Drains one foe of spell points.");
-	_spells.emplace_back(SpellID_V::LATUMAPIC, SpellType::PRIEST, SpellCategory::FIELD, level, false, "LATUMAPIC",
-		"Identify", "Full identifies unknown foes.");
-	_spells.emplace_back(SpellID_V::LOMILWA, SpellType::PRIEST, SpellCategory::FIELD, level, false, "LOMILWA",
-		"More Light",
-		"Extends the party's field of vision and reveals most secret doors. "
-		"Lasts until leaving "
-		"the maze or entering an area of magical darkness.");
-
-	// Level 4
-	++level;
-	_spells.emplace_back(SpellID_V::BADIAL, SpellType::PRIEST, SpellCategory::ATTACK, level, false, "BADIAL",
-		"More Hurt", "Inflicts 2d8 points of negative energy damage to one foe.");
-	_spells.emplace_back(SpellID_V::BARIKO, SpellType::PRIEST, SpellCategory::ATTACK, level, false, "BARIKO",
-		"Razor Wind", "Inflicts 5d3 points of force damage to a group of foes.");
-	_spells.emplace_back(SpellID_V::DIAL, SpellType::PRIEST, SpellCategory::HEALING, level, false, "DIAL", "More Heal",
-		"Restores 2d8 hp to a party member.");
-	_spells.emplace_back(SpellID_V::LATUMOFIS, SpellType::PRIEST, SpellCategory::HEALING, level, false, "LATUMOFIS",
-		"Cure Poison", "Cures a party member of poisoning.");
-	_spells.emplace_back(SpellID_V::MAPORFIC, SpellType::PRIEST, SpellCategory::FIELD, level, false, "MAPORFIC",
-		"Big Shield",
-		"Grants a -2 bonus to armour class to the entire party. Lasts until "
-		"leaving the maze or "
-		"dispelled");
-
-	// Level 5
-	++level;
-	_spells.emplace_back(SpellID_V::BADI, SpellType::PRIEST, SpellCategory::ATTACK, level, false, "BADI", "Death",
-		"Attempts to slay one foe outright.");
-	_spells.emplace_back(SpellID_V::BAMORDI, SpellType::PRIEST, SpellCategory::SUPPORT, level, false, "BAMORDI",
-		"Summoning",
-		"Gates in a group of powerful extra-dimnensional creature to aid the "
-		"party during combat.");
-	_spells.emplace_back(SpellID_V::DI, SpellType::PRIEST, SpellCategory::HEALING, level, false, "DI", "Life",
-		"Attempts to resurrect a dead party member. If it succeeds, the party "
-		"members has 1 hp, "
-		"and loses 1 point of vitality. If it fails, the dead member is turned "
-		"to ashes.");
-	_spells.emplace_back(SpellID_V::DIALMA, SpellType::PRIEST, SpellCategory::HEALING, level, false, "DIALMA",
-		"Great Heal", "Restores 3d8 hp to a party member.");
-	_spells.emplace_back(SpellID_V::MOGATO, SpellType::PRIEST, SpellCategory::DISABLE, level, false, "MOGATO",
-		"Astral Gate", "Attempts to banish a devil or demon back to its home plane.");
-
-	// Level 6
-	++level;
-	_spells.emplace_back(SpellID_V::LABADI, SpellType::PRIEST, SpellCategory::ATTACK, level, false, "LABADI",
-		"Life Steal",
-		"Attempts to drain all but 1d8 hp from a foe, and transfers the "
-		"lifeforce to heal the "
-		"caster.");
-	_spells.emplace_back(SpellID_V::LOKTOFEIT, SpellType::PRIEST, SpellCategory::FIELD, level, false, "LOKTOFEIT",
-		"Recall",
-		"Causes all party members to be transported back to the castle, all of "
-		"their equipment and "
-		"gold, but the spell is forgotten after casting and must be relearned, "
-		"and there is a "
-		"chance the spell will not work.");
-	_spells.emplace_back(SpellID_V::KAKAMEN, SpellType::PRIEST, SpellCategory::ATTACK, level, false, "KAKAMEN",
-		"Fire Wind", "Inflicts 18d2 points of fire damage to a group of foes.");
-	_spells.emplace_back(SpellID_V::MADI, SpellType::PRIEST, SpellCategory::HEALING, level, false, "MADI", "Healing",
-		"Fills a party member with positive energy, causeing all hp to be "
-		"restored to a party "
-		"member and curing any condition except death.");
-
-	// Level 7
-	++level;
-	_spells.emplace_back(SpellID_V::BAKADI, SpellType::PRIEST, SpellCategory::ATTACK, level, false, "BAKADI",
-		"Death Wind",
-		"Unleashes a massive blast of negative energy at one group of foes, "
-		"attempting to wipe "
-		"them from existance.");
-	_spells.emplace_back(SpellID_V::IHALON, SpellType::PRIEST, SpellCategory::SUPPORT, level, false, "IHALON", "Wish",
-		"Grants a special favor to a party member, but is forgotten after "
-		"being cast");
-	_spells.emplace_back(SpellID_V::KADORTO, SpellType::PRIEST, SpellCategory::HEALING, level, false, "KADORTO",
-		"Resurrection",
-		"Restores the dead to life, and restores all hp and cures all "
-		"conditions, even if the "
-		"party member is ashes. If the attempt fails, the character is lost "
-		"forever.");
-	_spells.emplace_back(SpellID_V::MABARIKO, SpellType::PRIEST, SpellCategory::ATTACK, level, false, "MABARIKO",
-		"Meteor Winds", "Inflicts 18d3 points of fire damage to all foes.");
-		*/
 }
 
 // Wizardry 1 - 3 Spells
@@ -2334,6 +2075,7 @@ auto Sorcery::Character::replenish_spells() -> void {
 auto Sorcery::Character::create_quick() -> void {
 
 	// Enter Name and Portrait, rest is random
+
 	// Exclude Samurai/Lord/Ninja/Bishop from this method of character creation
 	_class = static_cast<CharacterClass>((*_system->random)[RandomType::D4]);
 	_race = static_cast<CharacterRace>((*_system->random)[RandomType::D5]);
@@ -2380,9 +2122,8 @@ auto Sorcery::Character::create_quick() -> void {
 		break;
 	};
 
-	// Put most of the points into the main attribute (note that 10 points means
-	// a Human Priest and Dwarf Thief have allocated all points to their main
-	// attribute with no points left over)
+	// Put most of the points into the main attribute (note that 10 points means a Human Priest and Dwarf Thief have
+	// allocated all points to their main attribute with no points left over)
 	_points_left = 10;
 	_st_points = _points_left;
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
@@ -2618,8 +2359,7 @@ auto Sorcery::Character::_get_priest_status(bool current) -> std::string {
 	return value;
 }
 
-// For level draining, optionally keep a track of negative levels unless in
-// strict mode
+// For level draining, optionally keep a track of negative levels unless in strict mode
 
 // Need to also handle character class switching
 
@@ -3460,7 +3200,7 @@ auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::op
 			std::vector<Spell>::iterator sit;
 			sit = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == _hl_mage_spell; });
 			if (sit != _spells.end())
-				_spell_panel->set((*sit));
+				_spell_panel->set(*sit);
 
 			return (*it).first;
 		} else
@@ -3476,7 +3216,7 @@ auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::op
 			std::vector<Spell>::iterator sit;
 			sit = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == _hl_priest_spell; });
 			if (sit != _spells.end())
-				_spell_panel->set((*sit));
+				_spell_panel->set(*sit);
 
 			return (*it).first;
 		} else

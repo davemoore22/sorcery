@@ -117,7 +117,6 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto set_method(const CreateMethod value) -> void;
 		auto get_summary() -> std::string;
 		auto create_spells() -> void;
-		auto create_spells_v() -> void;
 		auto reset_spells() -> void;
 		auto replenish_spells() -> void;
 		auto set_spells() -> void;
