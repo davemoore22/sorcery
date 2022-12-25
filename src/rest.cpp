@@ -38,6 +38,18 @@ Sorcery::Rest::Rest(System *system, Display *display, Graphics *graphics, Game *
 	_no_level_text_1 = sf::Text();
 	_no_level_text_2 = sf::Text();
 
+	Component _smf_c{(*_display->layout)["rest:stop_frame"]};
+	_stop_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _smf_c.w, _smf_c.h,
+		_smf_c.colour, _smf_c.background, _smf_c.alpha);
+	_stop_frame->setPosition(
+		_display->window->get_x(_stop_frame->sprite, _smf_c.x), _display->window->get_y(_stop_frame->sprite, _smf_c.y));
+
+	Component _cmf_c{(*_display->layout)["rest:continue_frame"]};
+	_continue_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _cmf_c.w, _cmf_c.h,
+		_cmf_c.colour, _cmf_c.background, _cmf_c.alpha);
+	_continue_frame->setPosition(_display->window->get_x(_continue_frame->sprite, _cmf_c.x),
+		_display->window->get_y(_continue_frame->sprite, _cmf_c.y));
+
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
 }
@@ -332,9 +344,11 @@ auto Sorcery::Rest::_draw() -> void {
 			}
 
 			// And the Menu
-			_continue_menu->generate((*_display->layout)["rest:menu"]);
-			const sf::Vector2f menu_pos((*_display->layout)["rest:menu"].x, (*_display->layout)["rest:menu"].y);
+			_continue_menu->generate((*_display->layout)["rest:continue_menu"]);
+			const sf::Vector2f menu_pos(
+				(*_display->layout)["rest:continue_menu"].x, (*_display->layout)["rest:continue_menu"].y);
 			_continue_menu->setPosition(menu_pos);
+			_window->draw(*_continue_frame);
 			_window->draw(*_continue_menu);
 		}
 	} else {
@@ -345,9 +359,11 @@ auto Sorcery::Rest::_draw() -> void {
 			_display->window->draw_text(_recup_text_1, (*_display->layout)["rest:recup_text_1"], _recup_message_1);
 			_display->window->draw_text(_recup_text_2, (*_display->layout)["rest:recup_text_2"], _recup_message_2);
 
-			_stop_menu->generate((*_display->layout)["rest:menu"]);
-			const sf::Vector2f menu_pos((*_display->layout)["rest:menu"].x, (*_display->layout)["rest:menu"].y);
+			_stop_menu->generate((*_display->layout)["rest:stop_menu"]);
+			const sf::Vector2f menu_pos(
+				(*_display->layout)["rest:stop_menu"].x, (*_display->layout)["rest:stop_menu"].y);
 			_stop_menu->setPosition(menu_pos);
+			_window->draw(*_stop_frame);
 			_window->draw(*_stop_menu);
 
 		} else if (_stage == RestStage::RESULTS) {
@@ -360,9 +376,11 @@ auto Sorcery::Rest::_draw() -> void {
 			}
 
 			// And the Menu
-			_continue_menu->generate((*_display->layout)["rest:menu"]);
-			const sf::Vector2f menu_pos((*_display->layout)["rest:menu"].x, (*_display->layout)["rest:menu"].y);
+			_continue_menu->generate((*_display->layout)["rest:continue_menu"]);
+			const sf::Vector2f menu_pos(
+				(*_display->layout)["rest:continue_menu"].x, (*_display->layout)["rest:continue_menu"].y);
 			_continue_menu->setPosition(menu_pos);
+			_window->draw(*_continue_frame);
 			_window->draw(*_continue_menu);
 		}
 	}

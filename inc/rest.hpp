@@ -88,6 +88,8 @@ class Rest {
 		std::vector<sf::Text> _texts;
 		bool _level_up;
 		bool _birthday;
+		std::unique_ptr<Frame> _continue_frame;
+		std::unique_ptr<Frame> _stop_frame;
 };
 
 }
