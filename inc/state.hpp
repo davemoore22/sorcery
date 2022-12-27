@@ -59,6 +59,7 @@ class State {
 		auto get_player_facing() const -> MapDirection;
 		auto get_player_pos() const -> Coordinate;
 		auto party_has_members() const -> bool;
+		auto get_character_by_position(unsigned int index) -> std::optional<unsigned int>;
 		auto remove_character_by_id(unsigned int char_id) -> bool;
 		auto remove_character_by_position(unsigned int index) -> bool;
 		auto set(System *system) -> void;

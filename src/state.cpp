@@ -145,9 +145,7 @@ auto Sorcery::State::add_character_by_id(unsigned int char_id) -> bool {
 auto Sorcery::State::check_character_in_party(unsigned int char_id) -> bool {
 
 	if (_party.size() > 0) {
-		auto found{std::find_if(_party.begin(), _party.end(), [&](unsigned int id) {
-			return id = char_id;
-		})};
+		auto found{std::find_if(_party.begin(), _party.end(), [&](unsigned int id) { return id = char_id; })};
 		return found != std::end(_party);
 	} else
 		return false;
@@ -162,9 +160,7 @@ auto Sorcery::State::get_character_index(unsigned int char_id) -> std::optional<
 
 	if (_party.size() > 0) {
 
-		auto distance{std::find_if(_party.begin(), _party.end(), [&](unsigned int id) {
-			return id == char_id;
-		})};
+		auto distance{std::find_if(_party.begin(), _party.end(), [&](unsigned int id) { return id == char_id; })};
 		if (distance != _party.end())
 			return std::distance(_party.begin(), distance);
 		else
@@ -196,14 +192,19 @@ auto Sorcery::State::set_player_pos(const Coordinate position) -> void {
 auto Sorcery::State::remove_character_by_id(unsigned int char_id) -> bool {
 
 	if (_party.size() > 0) {
-		_party.erase(std::remove_if(_party.begin(), _party.end(),
-						 [&](unsigned int id) {
-							 return id == char_id;
-						 }),
-			_party.end());
+		_party.erase(
+			std::remove_if(_party.begin(), _party.end(), [&](unsigned int id) { return id == char_id; }), _party.end());
 		return true;
 	} else
 		return false;
+}
+
+auto Sorcery::State::get_character_by_position(unsigned int index) -> std::optional<unsigned int> {
+
+	if (_party.size() < index)
+		return std::nullopt;
+	else
+		return _party.at(index);
 }
 
 auto Sorcery::State::remove_character_by_position(unsigned int index) -> bool {

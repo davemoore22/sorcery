@@ -177,10 +177,10 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto _set_start_spells() -> void;
 		auto _reset_start_spells() -> void;
 		auto _get_hp_per_level() -> int;
-		auto _update_hp_for_level() -> void;
-		auto _try_learn_spell(SpellType spell_type, unsigned int spell_level) -> void;
+		auto _update_hp_for_level() -> int;
+		auto _try_learn_spell(SpellType spell_type, unsigned int spell_level) -> bool;
 		auto _calculate_sp(SpellType spell_type, unsigned int level_mod, unsigned int level_offset) -> void;
-		auto _set_sp() -> void;
+		auto _set_sp() -> bool;
 		auto _get_spells_known(SpellType spell_type, unsigned int spell_level) -> unsigned int;
 		auto _get_xp_for_level(unsigned int level) const -> int;
 		auto _get_character_portrait() -> sf::Sprite;
@@ -191,9 +191,12 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto _get_spell_icon(SpellCategory category) -> std::optional<sf::Sprite>;
 		auto _get_sp_per_level(const SpellType type, int level) -> std::string;
 		auto _get_condition() const -> std::string;
+		auto _update_stat_for_level(CharacterAttribute attribute, std::string stat) -> std::string;
+		auto _learn_spell(SpellID spell_id) -> void;
 
 		// Private Members
 		int _version;
+
 		System *_system;
 		Display *_display;
 		Graphics *_graphics;
@@ -236,5 +239,4 @@ class Character: public sf::Transformable, public sf::Drawable {
 		sf::RectangleShape _hl_priest_spell_bg;
 		bool _legated;
 };
-
 }

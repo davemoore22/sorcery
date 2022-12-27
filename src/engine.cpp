@@ -230,6 +230,7 @@ auto Sorcery::Engine::_tile_explored(const Coordinate loc) const -> bool {
 
 	return _game->state->explored[_game->state->get_depth()].at(loc);
 }
+
 auto Sorcery::Engine::_set_tile_explored(const Coordinate loc) -> void {
 
 	_game->state->explored[_game->state->get_depth()].set(loc);
@@ -917,16 +918,20 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 
 	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F3)) {
 
-		const auto party{_game->state->get_party_characters()};
+		auto character{_game->characters.at(_game->state->get_character_by_position(1).value())};
+		auto results{character.level_up()};
+		for (auto text : results) {
+			std::cout << text << std::endl;
+		}
 
-		for (auto &[character_id, character] : _game->characters) {
+		/* for (auto &[character_id, character] : _game->characters) {
 			if (std::find(party.begin(), party.end(), character_id) != party.end()) {
 				if ((*_system->random)[RandomType::ZERO_TO_2] == 0)
 					character.set_current_hp(1);
 				else
 					character.set_current_hp(character.get_max_hp());
 			}
-		}
+		} */
 		_update_automap = true;
 		_update_compass = true;
 		_update_buffbar = true;
@@ -1817,6 +1822,7 @@ auto Sorcery::Engine::_turn_left() -> void {
 
 	_last_movement = MapDirection::WEST;
 }
+
 auto Sorcery::Engine::_turn_right() -> void {
 
 	switch (_game->state->get_player_facing()) {

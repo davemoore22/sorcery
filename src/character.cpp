@@ -935,7 +935,7 @@ auto Sorcery::Character::change_class(const CharacterClass &value) -> void {
 
 		_regenerate_start_info();
 		_generate_secondary_abil(false, true, false);
-		_reset_start_spells();
+		_reset_start_spells(); // TODO: check this, not sure this works properly
 		_reset_starting_sp();
 
 		// Also need to deequip all items!
@@ -1543,54 +1543,34 @@ auto Sorcery::Character::_reset_start_spells() -> void {
 	_set_start_spells();
 }
 
+auto Sorcery::Character::_learn_spell(SpellID spell_id) -> void {
+
+	std::vector<Spell>::iterator it;
+	it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == spell_id; });
+	if (it != _spells.end()) {
+		(*it).known = true;
+		_spells_known[(*it).id] = true;
+	} // NOLINT(clang-di
+}
+
 // Set starting spells
 auto Sorcery::Character::_set_start_spells() -> void {
 
 	// This is taken from "KEEPCHYN" which hard codes the spells known to beginning characters!
-	std::vector<Spell>::iterator it;
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::BISHOP:
-		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == SpellID::KATINO; });
-		if (it != _spells.end()) {
-			(*it).known = true;
-			_spells_known[(*it).id] = true;
-		}
-		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == SpellID::HALITO; });
-		if (it != _spells.end()) {
-			(*it).known = true;
-			_spells_known[(*it).id] = true;
-		}
-		break;
 	case CharacterClass::MAGE:
-		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == SpellID::DUMAPIC; });
-		if (it != _spells.end()) {
-			(*it).known = true;
-			_spells_known[(*it).id] = true;
-		}
-		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == SpellID::MOGREF; });
-		if (it != _spells.end()) {
-			(*it).known = true;
-			_spells_known[(*it).id] = true;
-		}
+		_learn_spell(SpellID::KATINO);
+		_learn_spell(SpellID::HALITO);
 		break;
 	case CharacterClass::PRIEST:
-		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == SpellID::DIOS; });
-		if (it != _spells.end()) {
-			(*it).known = true;
-			_spells_known[(*it).id] = true;
-		}
-		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == SpellID::BADIOS; });
-		if (it != _spells.end()) {
-			(*it).known = true;
-			_spells_known[(*it).id] = true;
-		}
+		_learn_spell(SpellID::DIOS);
+		_learn_spell(SpellID::BADIOS);
 		break;
 	default:
 		break;
 	}
 }
-
-// Level Gain/Loss Functions - TODO
 
 // Get HP gained for all levels apart from the first
 auto Sorcery::Character::_get_hp_per_level() -> int {
@@ -1631,27 +1611,30 @@ auto Sorcery::Character::_get_hp_per_level() -> int {
 
 // Add hit points on level gain (but note the strict mode limitation mentioned
 // below)
-auto Sorcery::Character::_update_hp_for_level() -> void {
+auto Sorcery::Character::_update_hp_for_level() -> int {
 
 	// Note the annoying thing in the original Wizardry ("MADELEV") and reproduced here in strict mode where it
 	// recalculates all HP and thus often you end up with gaining only one HP - this also reproduces the equally
 	// annoying thing where if you have changed class it uses your *current* class level for recalculation, hence until
 	// you get back to where you were before changing class you will probably only ever gain 1 hp each time unless the
 	// random dice rolls are really in your favour!
+	auto hp_gained{0};
 	if ((*_system->config)[ConfigOption::REROLL_HIT_POINTS_ON_LEVEL_GAIN]) {
 		auto hp_total{0};
 		for (auto level = 1; level < _abilities[CharacterAbility::CURRENT_LEVEL]; level++)
 			hp_total += _get_hp_per_level();
 		if (hp_total < _abilities[CharacterAbility::MAX_HP])
 			hp_total = _abilities[CharacterAbility::MAX_HP] + 1;
-		auto hp_gained{hp_total - _abilities[CharacterAbility::MAX_HP]};
+		hp_gained = hp_total - _abilities[CharacterAbility::MAX_HP];
 		_abilities[CharacterAbility::MAX_HP] += hp_gained;
 		_abilities[CharacterAbility::CURRENT_HP] += hp_gained;
 	} else {
-		auto hp_gained{_get_hp_per_level()};
+		hp_gained = _get_hp_per_level();
 		_abilities[CharacterAbility::MAX_HP] += hp_gained;
 		_abilities[CharacterAbility::CURRENT_HP] += hp_gained;
 	}
+
+	return hp_gained;
 }
 
 auto Sorcery::Character::get_current_hp() const -> int {
@@ -1664,10 +1647,89 @@ auto Sorcery::Character::get_max_hp() const -> int {
 	return _abilities.at(CharacterAbility::MAX_HP);
 }
 
+auto Sorcery::Character::_update_stat_for_level(CharacterAttribute attribute, std::string stat) -> std::string {
+
+	using enum Enums::Character::Attribute;
+	auto message{""s};
+
+	if ((*_system->random)[RandomType::D100] < 75) {
+		const auto chance{_abilities.at(CharacterAbility::AGE) / 130.f};
+		if ((*_system->random)[RandomType::D100] < chance) {
+
+			// Decrease
+			bool proceed{true};
+			if ((_cur_attr.at(attribute) == 18) && ((*_system->random)[RandomType::D6] > 1))
+				proceed = false;
+
+			if (proceed) {
+				if (_cur_attr.at(attribute) > 3) {
+					_cur_attr.at(attribute) = _cur_attr.at(attribute) - 1;
+					message = fmt::format("{} {}", (*_display->string)["LEVEL_LOSS"], stat);
+				}
+			}
+		} else {
+			if (_cur_attr.at(attribute) < 18) {
+				_cur_attr.at(attribute) = _cur_attr.at(attribute) + 1;
+				if (_cur_attr.at(attribute) > _max_attr.at(attribute))
+					_max_attr.at(attribute) = _cur_attr.at(attribute);
+				message = fmt::format("{} {}", (*_display->string)["LEVEL_GAIN"], stat);
+			}
+		}
+	}
+
+	return message;
+}
+
 // Level a character up
 auto Sorcery::Character::level_up() -> std::vector<std::string> {
 
-	// For now
+	using enum Enums::Character::Ability;
+
+	std::vector<std::string> messages{};
+	messages.clear();
+	messages.push_back((*_display->string)["LEVEL_DING"]);
+
+	// increase level
+	_abilities.at(CURRENT_LEVEL) = _abilities.at(CURRENT_LEVEL) + 1;
+	_abilities.at(HIT_DICE) = _abilities.at(HIT_DICE) + 1;
+	if (_abilities.at(CURRENT_LEVEL) > _abilities.at(MAX_LEVEL))
+		_abilities.at(MAX_LEVEL) = _abilities.at(CURRENT_LEVEL);
+
+	// handle learning spells
+	if (_set_sp())
+		messages.push_back((*_display->string)["LEVEL_SPELLS"]);
+
+	// work out new xp needed
+	_abilities[NEXT_LEVEL_XP] = _get_xp_for_level(_abilities[CURRENT_LEVEL]);
+
+	// handle stat changing
+	auto stat_message{""s};
+	stat_message = _update_stat_for_level(CharacterAttribute::STRENGTH, (*_display->string)["CHARACTER_STAT_STRENGTH"]);
+	if (!stat_message.empty())
+		messages.push_back(stat_message);
+	stat_message = _update_stat_for_level(CharacterAttribute::AGILITY, (*_display->string)["CHARACTER_STAT_AGILITY"]);
+	if (!stat_message.empty())
+		messages.push_back(stat_message);
+	stat_message = _update_stat_for_level(CharacterAttribute::VITALITY, (*_display->string)["CHARACTER_STAT_VITALITY"]);
+	if (!stat_message.empty())
+		messages.push_back(stat_message);
+	stat_message = _update_stat_for_level(CharacterAttribute::IQ, (*_display->string)["CHARACTER_STAT_INTELLIGENCE"]);
+	if (!stat_message.empty())
+		messages.push_back(stat_message);
+	stat_message = _update_stat_for_level(CharacterAttribute::PIETY, (*_display->string)["CHARACTER_STAT_PIETY"]);
+	if (!stat_message.empty())
+		messages.push_back(stat_message);
+	stat_message = _update_stat_for_level(CharacterAttribute::LUCK, (*_display->string)["CHARACTER_STAT_LUCK"]);
+	if (!stat_message.empty())
+		messages.push_back(stat_message);
+
+	// handle hp
+	const auto hp_gained{_update_hp_for_level()};
+	const auto hp_message{fmt::format(
+		"{} {} {}", (*_display->string)["LEVEL_HP_PREFIX"], hp_gained, (*_display->string)["LEVEL_HP_SUFFIX"])};
+	messages.push_back(hp_message);
+
+	return messages;
 }
 
 // Level a character down (e.g. drain levels or give/increase negative levels_
@@ -1677,15 +1739,17 @@ auto Sorcery::Character::level_down() -> void {
 }
 
 // For each spell level, try to learn spells - called before set_spellpoints
-auto Sorcery::Character::_try_learn_spell(SpellType spell_type, unsigned int spell_level) -> void {
+auto Sorcery::Character::_try_learn_spell(SpellType spell_type, unsigned int spell_level) -> bool {
+
+	bool new_spell_learnt{false};
 
 	// Only do spells if a character can learn them
 	if (spell_type == SpellType::PRIEST)
 		if (_priest_max_sp[spell_level] == 0)
-			return;
+			return false;
 	if (spell_type == SpellType::MAGE)
 		if (_mage_max_sp[spell_level] == 0)
-			return;
+			return false;
 
 	// First, get the spells themselves
 	std::vector<Spell>::iterator it;
@@ -1699,29 +1763,33 @@ auto Sorcery::Character::_try_learn_spell(SpellType spell_type, unsigned int spe
 		if ((*it).known)
 			continue;
 
-		// Check the Spell Type against the relevant stat (see
-		// SPLPERLV//TRYLEARN)
+		// Check the Spell Type against the relevant stat (see SPLPERLV//TRYLEARN)
 		if (spell_type == SpellType::PRIEST)
 			if ((*_system->random)[RandomType::ZERO_TO_29] <=
 				static_cast<unsigned int>(_cur_attr[CharacterAttribute::PIETY])) {
 				(*it).known = true;
 				_spells_known[(*it).id] = true;
+				new_spell_learnt = true;
 			}
 		if (spell_type == SpellType::MAGE)
 			if ((*_system->random)[RandomType::ZERO_TO_29] <=
 				static_cast<unsigned int>(_cur_attr[CharacterAttribute::IQ])) {
 				(*it).known = true;
 				_spells_known[(*it).id] = true;
+				new_spell_learnt = true;
 			}
 	}
+
+	return new_spell_learnt;
 }
 
-// Reimplementation of SPLPERLV
+// Reimplementation of SPLPERLV - note this will reset spell points!
 auto Sorcery::Character::_calculate_sp(SpellType spell_type, unsigned int level_mod, unsigned int level_offset)
 	-> void {
 
-	// No ownership granted by use of raw pointer here
 	SpellPoints *spells{spell_type == SpellType::PRIEST ? &_priest_max_sp : &_mage_max_sp};
+	for (auto spell_level = 1; spell_level <= 7; spell_level++)
+		(*spells)[spell_level] = 0;
 
 	auto spell_count{static_cast<int>(_abilities[CharacterAbility::CURRENT_LEVEL] - level_mod)};
 	if (spell_count <= 0)
@@ -1739,23 +1807,22 @@ auto Sorcery::Character::_calculate_sp(SpellType spell_type, unsigned int level_
 			(*spells)[spell_level] = 9;
 }
 
-// Copied and rewritten from the original code from
-// MINMAG/MINPRI/NWPRIEST/NWMAGE
-auto Sorcery::Character::_set_sp() -> void {
+// Copied and rewritten from the original code from MINMAG/MINPRI/NWPRIEST/NWMAGE
+auto Sorcery::Character::_set_sp() -> bool {
 
-	// First work out the number of spells known at each level (not this deliberately does not alter spells learned in a
-	// previous class to allow those to remain the same (see MINMAG/MINPRI in the code)
+	bool new_spells_learnt{false};
+
 	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
-		_priest_max_sp[spell_level] = _get_spells_known(SpellType::PRIEST, spell_level);
-		_mage_max_sp[spell_level] = _get_spells_known(SpellType::MAGE, spell_level);
+		_priest_max_sp[spell_level] = 0;
+		_mage_max_sp[spell_level] = 0;
 	}
 
-	// Then bump up spells according to level
+	// Generate spell points according to current level and class (this does not change any spells known but will reset
+	// spell points)
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::FIGHTER:
 	case CharacterClass::THIEF:
 	case CharacterClass::NINJA:
-		return;
 		break;
 	case CharacterClass::MAGE:
 		_calculate_sp(SpellType::MAGE, 0, 2);
@@ -1776,6 +1843,140 @@ auto Sorcery::Character::_set_sp() -> void {
 	default:
 		break;
 	}
+
+	// Now try and learn any additional spells
+	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
+
+		// If we know at least one spell in this level, we can always try and learn more no matter what even if we are
+		// currently a non-spellcasting class
+		if (_priest_max_sp[spell_level] > 0) {
+			if (_try_learn_spell(SpellType::PRIEST, spell_level))
+				new_spells_learnt = true;
+		}
+		if (_mage_max_sp[spell_level] > 0) {
+			if (_try_learn_spell(SpellType::MAGE, spell_level))
+				new_spells_learnt = true;
+		}
+	}
+
+	// Now make sure that if the above fails, we always learn a spell of each circle just in case (GETMAGSP/GETPRISP -
+	// though note that the orignal is bugged and selects the wrong level spells sometimes)
+	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
+
+		if ((_priest_max_sp[spell_level] > 0) && (_get_spells_known(SpellType::PRIEST, spell_level) == 0)) {
+			switch (spell_level) {
+			case 1:
+				_learn_spell(SpellID::BADIOS);
+				break;
+			case 2:
+				_learn_spell(SpellID::MONTINO);
+				new_spells_learnt = true;
+				break;
+			case 3:
+				if ((*_system->random)[RandomType::D100] > 33)
+					_learn_spell(SpellID::DIALKO);
+				else
+					_learn_spell(SpellID::LOMILWA);
+				new_spells_learnt = true;
+				break;
+			case 4:
+				_learn_spell(SpellID::BADIAL);
+				new_spells_learnt = true;
+				break;
+			case 5:
+				if ((*_system->random)[RandomType::D100] > 33)
+					_learn_spell(SpellID::BADIALMA);
+				else
+					_learn_spell(SpellID::BADI);
+				new_spells_learnt = true;
+				break;
+			case 6:
+				if ((*_system->random)[RandomType::D100] > 33)
+					_learn_spell(SpellID::LORTO);
+				else
+					_learn_spell(SpellID::MABADI);
+				new_spells_learnt = true;
+				break;
+			case 7:
+				_learn_spell(SpellID::MALIKTO);
+				new_spells_learnt = true;
+				break;
+			default:
+				break;
+			}
+		}
+		if ((_mage_max_sp[spell_level] > 0) && (_get_spells_known(SpellType::MAGE, spell_level) == 0)) {
+			switch (spell_level) {
+			case 1:
+				if ((*_system->random)[RandomType::D100] > 33)
+					_learn_spell(SpellID::KATINO);
+				else
+					_learn_spell(SpellID::HALITO);
+				new_spells_learnt = true;
+				break;
+			case 2:
+				if ((*_system->random)[RandomType::D100] > 33)
+					_learn_spell(SpellID::DILTO);
+				else
+					_learn_spell(SpellID::SOPIC);
+				new_spells_learnt = true;
+				break;
+			case 3:
+				if ((*_system->random)[RandomType::D100] > 33)
+					_learn_spell(SpellID::MOLITO);
+				else
+					_learn_spell(SpellID::MAHALITO);
+				new_spells_learnt = true;
+				break;
+			case 4:
+				if ((*_system->random)[RandomType::D100] > 33)
+					_learn_spell(SpellID::DALTO);
+				else
+					_learn_spell(SpellID::LAHALITO);
+				new_spells_learnt = true;
+				break;
+			case 5:
+				if ((*_system->random)[RandomType::D100] > 33)
+					_learn_spell(SpellID::MAMORLIS);
+				else
+					_learn_spell(SpellID::MADALTO);
+				new_spells_learnt = true;
+				break;
+			case 6:
+				if ((*_system->random)[RandomType::D100] > 33)
+					_learn_spell(SpellID::LAKANITO);
+				else
+					_learn_spell(SpellID::ZILWAN);
+				new_spells_learnt = true;
+				break;
+			case 7:
+				_learn_spell(SpellID::MALOR);
+				new_spells_learnt = true;
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	// And work out spells known and boost sp accordingly if we have to
+	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
+		const auto priest_known{_get_spells_known(SpellType::PRIEST, spell_level)};
+		const auto mage_known{_get_spells_known(SpellType::MAGE, spell_level)};
+
+		if (priest_known > _priest_max_sp[spell_level])
+			_priest_max_sp[spell_level] = priest_known;
+		if (mage_known > _mage_max_sp[spell_level])
+			_mage_max_sp[spell_level] = mage_known;
+	}
+
+	// level up only takes place at the inn, so reset spells
+	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
+		_priest_cur_sp[spell_level] = _priest_max_sp[spell_level];
+		_mage_cur_sp[spell_level] = _mage_max_sp[spell_level];
+	}
+
+	return new_spells_learnt;
 }
 
 // In the original code this is from SPLPERLV
@@ -1917,7 +2118,8 @@ auto Sorcery::Character::create_spells() -> void {
 	_spells.emplace_back(SpellID::DILTO, SpellType::MAGE, SpellCategory::DISABLE, level, false, "DILTO", "Darkness",
 		"Causes one group of monsters to be enveloped in darkness lowering their defense.");
 	_spells.emplace_back(SpellID::SOPIC, SpellType::MAGE, SpellCategory::SUPPORT, level, false, "SOPIC", "Glass",
-		"Causes the caster to become transparent, granting a -4 bonus to armour class to the caster for the duration "
+		"Causes the caster to become transparent, granting a -4 bonus to armour class to the caster for the "
+		"duration "
 		"of combat");
 
 	// Level 3
@@ -1960,10 +2162,12 @@ auto Sorcery::Character::create_spells() -> void {
 	++level;
 	_spells.emplace_back(SpellID::MAHAMAN, SpellType::MAGE, SpellCategory::SUPPORT, level, false, "MAHAMAN",
 		"Great Change",
-		"Causes random but beneficial major effects to the entire party but the caster loses one level and the spell "
+		"Causes random but beneficial major effects to the entire party but the caster loses one level and the "
+		"spell "
 		"is forgotten.");
 	_spells.emplace_back(SpellID::MALOR, SpellType::MAGE, SpellCategory::FIELD, level, false, "MALOR", "Apport",
-		"Teleports the party to a random nearby location when cast in combat, but to a specified location when cast "
+		"Teleports the party to a random nearby location when cast in combat, but to a specified location when "
+		"cast "
 		"outside of combat.");
 	_spells.emplace_back(SpellID::TILTOWAIT, SpellType::MAGE, SpellCategory::ATTACK, level, false, "TILTOWAIT",
 		"Explosion", "Inflicts 10d15 points of fire and force damage to all foes.");
@@ -1979,7 +2183,8 @@ auto Sorcery::Character::create_spells() -> void {
 	_spells.emplace_back(SpellID::KALKI, SpellType::PRIEST, SpellCategory::SUPPORT, level, false, "KALKI", "Blessings",
 		"Grants a -1 bonus to armour class to the entire party for the duration of combat.");
 	_spells.emplace_back(SpellID::MILWA, SpellType::PRIEST, SpellCategory::FIELD, level, false, "MILWA", "Light",
-		"Causes a softly glowing light to follow the party, increasing vision and revealing some secret doors for 15d2 "
+		"Causes a softly glowing light to follow the party, increasing vision and revealing some secret doors for "
+		"15d2 "
 		"turns.");
 	_spells.emplace_back(SpellID::PORFIC, SpellType::PRIEST, SpellCategory::SUPPORT, level, false, "PORFIC", "Shield",
 		"Grants a -4 bonus to armour class to the caster for the duration of combat.");
@@ -2005,7 +2210,8 @@ auto Sorcery::Character::create_spells() -> void {
 		"Identify", "Full identifies unknown foes.");
 	_spells.emplace_back(SpellID::LOMILWA, SpellType::PRIEST, SpellCategory::FIELD, level, false, "LOMILWA",
 		"More Light",
-		"Extends the party's field of vision and reveals most secret doors. Lasts until leaving the maze or entering "
+		"Extends the party's field of vision and reveals most secret doors. Lasts until leaving the maze or "
+		"entering "
 		"an area of magical darkness.");
 
 	// Level 4
@@ -2027,7 +2233,8 @@ auto Sorcery::Character::create_spells() -> void {
 	_spells.emplace_back(SpellID::BADIALMA, SpellType::PRIEST, SpellCategory::ATTACK, level, false, "BADIALMA",
 		"Great Hurt", "Causes 3d8 points of damage to one foe");
 	_spells.emplace_back(SpellID::DI, SpellType::PRIEST, SpellCategory::HEALING, level, false, "DI", "Life",
-		"Attempts to resurrect a dead party member. If it succeeds, the party member has 1 hp, and loses 1 point of "
+		"Attempts to resurrect a dead party member. If it succeeds, the party member has 1 hp, and loses 1 point "
+		"of "
 		"vitality. If it fails, the dead member is turned to ashes.");
 	_spells.emplace_back(SpellID::DIALMA, SpellType::PRIEST, SpellCategory::HEALING, level, false, "DIALMA",
 		"Great Heal", "Restores 3d8 hp to a party member.");
@@ -2039,21 +2246,24 @@ auto Sorcery::Character::create_spells() -> void {
 	++level;
 	_spells.emplace_back(SpellID::LOKTOFEIT, SpellType::PRIEST, SpellCategory::FIELD, level, false, "LOKTOFEIT",
 		"Recall",
-		"Causes all party members to be transported back to the castle, minus all of their equipment and most of their "
+		"Causes all party members to be transported back to the castle, minus all of their equipment and most of "
+		"their "
 		"gold");
 	_spells.emplace_back(SpellID::LORTO, SpellType::PRIEST, SpellCategory::ATTACK, level, false, "LORTO", "Blades",
 		"Causes sharp blades to slice through a group of foes, causing 6d6 points of damage");
 	_spells.emplace_back(SpellID::MABADI, SpellType::PRIEST, SpellCategory::ATTACK, level, false, "MABADI", "Harming",
 		"Attempts to drain all but 1d8 hp from a foe");
 	_spells.emplace_back(SpellID::MADI, SpellType::PRIEST, SpellCategory::HEALING, level, false, "MADI", "Healing",
-		"Fills a party member with positive energy, causeing all hp to be restored to a party member and curing any "
+		"Fills a party member with positive energy, causeing all hp to be restored to a party member and curing "
+		"any "
 		"condition except death.");
 
 	// Level 7
 	++level;
 	_spells.emplace_back(SpellID::KADORTO, SpellType::PRIEST, SpellCategory::HEALING, level, false, "KADORTO",
 		"Resurrection",
-		"Restores the dead to life, and restores all hp and cures all conditions, even if the party member is ashes. "
+		"Restores the dead to life, and restores all hp and cures all conditions, even if the party member is "
+		"ashes. "
 		"If the attempt fails, the character is lost forever.");
 	_spells.emplace_back(SpellID::MALIKTO, SpellType::PRIEST, SpellCategory::ATTACK, level, false, "MALIKTO",
 		"Word of Death", "Inflicts 12d6 points of damage to all foes.");
@@ -2094,9 +2304,10 @@ auto Sorcery::Character::create_quick() -> void {
 		break;
 	}
 
-	// Now get minimum attributes for race/class combo (note as we are only allowing creation of some classes, it will
-	// be as if we had a maximum of 10 bonus points to spend - in order to incentivise full blown character creation!
-	// see table IV (A) at https://gamefaqs.gamespot.com/pc/946844-the-ultimate-wizardry-archives/faqs/45726 for info
+	// Now get minimum attributes for race/class combo (note as we are only allowing creation of some classes, it
+	// will be as if we had a maximum of 10 bonus points to spend - in order to incentivise full blown character
+	// creation! see table IV (A) at
+	// https://gamefaqs.gamespot.com/pc/946844-the-ultimate-wizardry-archives/faqs/45726 for info
 	switch (_race) { // NOLINT(clang-diagnostic-switch)
 	case CharacterRace::HUMAN:
 		_start_attr = {{CharacterAttribute::STRENGTH, 8}, {CharacterAttribute::IQ, 5}, {CharacterAttribute::PIETY, 5},
