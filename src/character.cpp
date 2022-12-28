@@ -1125,35 +1125,7 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 	if (!change_class) {
 
 		// Base Hit Points (num) - note initially all non-legated characters get 8 HP as per the PSX versions
-		if (initial)
-			if (legate) {
-				switch (_class) {
-				case CharacterClass::FIGHTER:
-					_abilities[CharacterAbility::MAX_HP] = 10;
-					break;
-				case CharacterClass::SAMURAI:
-				case CharacterClass::LORD:
-					_abilities[CharacterAbility::MAX_HP] = 12;
-					break;
-				case CharacterClass::PRIEST:
-					_abilities[CharacterAbility::MAX_HP] = 8;
-					break;
-				case CharacterClass::NINJA:
-					_abilities[CharacterAbility::MAX_HP] = 7;
-					break;
-				case CharacterClass::THIEF:
-					_abilities[CharacterAbility::MAX_HP] = 6;
-					break;
-				case CharacterClass::MAGE:
-					_abilities[CharacterAbility::MAX_HP] = 4;
-					break;
-				default:
-					break;
-				}
-
-			} else
-				_abilities[CharacterAbility::MAX_HP] = 8;
-		else {
+		if (initial) {
 
 			switch (auto chance{(*_system->random)[RandomType::D100]}; _class) { // NOLINT(clang-diagnostic-switch)
 			case CharacterClass::FIGHTER:
@@ -1190,6 +1162,33 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 			if (_abilities[CharacterAbility::MAX_HP] < 1)
 				_abilities[CharacterAbility::MAX_HP] = 1;
 		}
+
+		if (legate) {
+			switch (_class) {
+			case CharacterClass::FIGHTER:
+				_abilities[CharacterAbility::MAX_HP] = 10;
+				break;
+			case CharacterClass::SAMURAI:
+			case CharacterClass::LORD:
+				_abilities[CharacterAbility::MAX_HP] = 12;
+				break;
+			case CharacterClass::PRIEST:
+				_abilities[CharacterAbility::MAX_HP] = 8;
+				break;
+			case CharacterClass::NINJA:
+				_abilities[CharacterAbility::MAX_HP] = 7;
+				break;
+			case CharacterClass::THIEF:
+				_abilities[CharacterAbility::MAX_HP] = 6;
+				break;
+			case CharacterClass::MAGE:
+				_abilities[CharacterAbility::MAX_HP] = 4;
+				break;
+			default:
+				break;
+			}
+		}
+
 		_abilities[CharacterAbility::CURRENT_HP] = _abilities[CharacterAbility::MAX_HP];
 	}
 
@@ -1723,6 +1722,9 @@ auto Sorcery::Character::level_up() -> std::vector<std::string> {
 	if (!stat_message.empty())
 		messages.push_back(stat_message);
 
+	// Level everything else up
+	_generate_secondary_abil(false, false, false);
+
 	// handle hp
 	const auto hp_gained{_update_hp_for_level()};
 	const auto hp_message{fmt::format(
@@ -1743,7 +1745,7 @@ auto Sorcery::Character::_try_learn_spell(SpellType spell_type, unsigned int spe
 
 	bool new_spell_learnt{false};
 
-	// Only do spells if a character can learn them
+	// Only do spells if a character has spell points in this and has spell slots
 	if (spell_type == SpellType::PRIEST)
 		if (_priest_max_sp[spell_level] == 0)
 			return false;
@@ -1751,7 +1753,7 @@ auto Sorcery::Character::_try_learn_spell(SpellType spell_type, unsigned int spe
 		if (_mage_max_sp[spell_level] == 0)
 			return false;
 
-	// First, get the spells themselves
+	// First, get the spells themselves - TODO
 	std::vector<Spell>::iterator it;
 	it = std::find_if(_spells.begin(), _spells.end(),
 		[&](auto item) { return item.type == spell_type && item.level == spell_level; });
@@ -1791,20 +1793,13 @@ auto Sorcery::Character::_calculate_sp(SpellType spell_type, unsigned int level_
 	for (auto spell_level = 1; spell_level <= 7; spell_level++)
 		(*spells)[spell_level] = 0;
 
-	auto spell_count{static_cast<int>(_abilities[CharacterAbility::CURRENT_LEVEL] - level_mod)};
-	if (spell_count <= 0)
-		return;
-
-	auto spell_level{1u};
-	while (spell_level >= 1 && spell_level <= 7 && spell_count > 0) {
-		if (static_cast<unsigned int>(spell_count) > (*spells)[spell_level])
-			(*spells)[spell_level] = spell_count;
-		++spell_level;
-		spell_count -= level_offset;
+	// https://datadrivengamer.blogspot.com/2019/08/the-not-so-basic-mechanics-of-wizardry.html
+	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
+		int spell_count{
+			_abilities[CharacterAbility::CURRENT_LEVEL] - level_mod + level_offset - (level_offset * spell_level)};
+		spell_count = std::max(0, std::min(spell_count, 9));
+		(*spells)[spell_level] = spell_count;
 	}
-	for (spell_level = 1; spell_level <= 7; spell_level++)
-		if ((*spells)[spell_level] > 9)
-			(*spells)[spell_level] = 9;
 }
 
 // Copied and rewritten from the original code from MINMAG/MINPRI/NWPRIEST/NWMAGE
@@ -1982,19 +1977,8 @@ auto Sorcery::Character::_set_sp() -> bool {
 // In the original code this is from SPLPERLV
 auto Sorcery::Character::_get_spells_known(SpellType spell_type, unsigned int spell_level) -> unsigned int {
 
-	auto spells_known{0};
-	std::vector<Spell>::iterator it;
-	it = std::find_if(_spells.begin(), _spells.end(),
-		[&](auto item) { return item.type == spell_type && item.level == spell_level; });
-	while (it != _spells.end()) {
-		it = std::find_if(
-			++it, _spells.end(), [=](auto item) { return item.type == spell_type && item.level == spell_level; });
-
-		if ((*it).known)
-			++spells_known;
-	}
-
-	return spells_known;
+	return std::ranges::count_if(_spells.begin(), _spells.end(),
+		[&](auto spell) { return spell.type == spell_type && spell.level == spell_level && spell.known; });
 }
 
 // Given a level, get the XP needed for it

@@ -918,7 +918,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 
 	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F3)) {
 
-		auto character{_game->characters.at(_game->state->get_character_by_position(1).value())};
+		auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
 		auto results{character.level_up()};
 		for (auto text : results) {
 			std::cout << text << std::endl;

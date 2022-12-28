@@ -204,7 +204,7 @@ auto Sorcery::State::get_character_by_position(unsigned int index) -> std::optio
 	if (_party.size() < index)
 		return std::nullopt;
 	else
-		return _party.at(index);
+		return _party.at(index - 1);
 }
 
 auto Sorcery::State::remove_character_by_position(unsigned int index) -> bool {
