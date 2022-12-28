@@ -135,6 +135,7 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 							_engine->stop();
 							_game->save_game();
 							_status_bar->refresh();
+							_update_menus();
 							_display->generate("edge_of_town");
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 
@@ -147,12 +148,14 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 							_status_bar->refresh();
 							_training->start();
 							_training->stop();
+							_update_menus();
 							_display->generate("edge_of_town");
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 						} else if (option_chosen == MenuItem::ET_RESTART) {
 
 							_restart->start();
 							_restart->stop();
+							_update_menus();
 							_display->generate("edge_of_town");
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							_status_bar->refresh();

@@ -50,7 +50,8 @@ Sorcery::Castle::Castle(System *system, Display *display, Graphics *graphics, Ga
 }
 
 // Standard Destructor
-Sorcery::Castle::~Castle() {}
+Sorcery::Castle::~Castle() {
+}
 
 // Start/Continue a new Game
 auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> {
@@ -156,6 +157,8 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 								}
 							}
 							_display->generate("castle");
+							_status_bar->refresh();
+							_update_menus();
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							continue;
 						} else if (option_chosen == MenuItem::CA_TAVERN) {
