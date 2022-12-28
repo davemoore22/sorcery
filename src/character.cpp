@@ -1404,7 +1404,12 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 		_abilities[CharacterAbility::RESISTANCE_VS_MANIFO] = 100;
 
 	_abilities[CharacterAbility::RECOVER_FROM_SLEEP] = current_level * 10;
+	if (_abilities[CharacterAbility::RECOVER_FROM_SLEEP] > 100)
+		_abilities[CharacterAbility::RECOVER_FROM_SLEEP] = 100;
+
 	_abilities[CharacterAbility::RECOVER_FROM_FEAR] = current_level * 5;
+	if (_abilities[CharacterAbility::RECOVER_FROM_FEAR] > 100)
+		_abilities[CharacterAbility::RECOVER_FROM_FEAR] = 100;
 
 	// If we are not in strict mode, add some bonus spellpoints to first level
 	// priests/,ages depending on their associated stats
@@ -2976,38 +2981,39 @@ auto Sorcery::Character::_generate_display() -> void {
 		auto offset_columns{std::stoi(resistances_c["offset_columns"].value())};
 
 		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RESISTANCE_VS_CRITICAL_HIT), CharacterAbilityType::PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_CRITICAL_HIT)));
-
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS), CharacterAbilityType::PERCENTAGE);
+			_abilities.at(CharacterAbility::RESISTANCE_VS_CRITICAL_HIT) * 5, CharacterAbilityType::PERCENTAGE);
 		_add_text(
-			resistances_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS)));
+			resistances_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_CRITICAL_HIT) * 5));
 
 		resistances_c.y += _display->window->get_ch();
 		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RESISTANCE_VS_STONING), CharacterAbilityType::PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_STONING)));
+			_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS) * 5, CharacterAbilityType::PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS) * 5));
 
 		resistances_c.y += _display->window->get_ch();
 		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS), CharacterAbilityType::PERCENTAGE);
+			_abilities.at(CharacterAbility::RESISTANCE_VS_STONING) * 5, CharacterAbilityType::PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_STONING) * 5));
+
+		resistances_c.y += _display->window->get_ch();
+		resistances_c.colour = _graphics->adjust_colour(
+			_abilities.at(CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS) * 5, CharacterAbilityType::PERCENTAGE);
 		_add_text(
-			resistances_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS)));
+			resistances_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS) * 5));
 
 		resistances_c.y = pos_y;
 		resistances_c.x = pos_x + (offset_columns * _display->window->get_cw());
 		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP), CharacterAbilityType::PERCENTAGE);
-		_add_text(
-			resistances_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP)));
+			_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP) * 5, CharacterAbilityType::PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP) * 5));
 
 		resistances_c.y += _display->window->get_ch();
 		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP), CharacterAbilityType::PERCENTAGE);
-		_add_text(
-			resistances_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP)));
+			_abilities.at(CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP) * 5, CharacterAbilityType::PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%",
+			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP) * 5));
 
 		resistances_c.y += _display->window->get_ch();
 		resistances_c.colour = _graphics->adjust_colour(
@@ -3022,8 +3028,8 @@ auto Sorcery::Character::_generate_display() -> void {
 		resistances_c.y = pos_y;
 		resistances_c.x = pos_x + (2 * offset_columns * _display->window->get_cw());
 		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RESISTANCE_VS_SILENCE), CharacterAbilityType::PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_SILENCE)));
+			_abilities.at(CharacterAbility::RESISTANCE_VS_SILENCE) * 5, CharacterAbilityType::PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_SILENCE) * 5));
 
 		resistances_c.y += _display->window->get_ch();
 		resistances_c.colour = _graphics->adjust_colour(
