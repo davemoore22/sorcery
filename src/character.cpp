@@ -1970,6 +1970,10 @@ auto Sorcery::Character::_set_sp() -> bool {
 	// And work out spells known and boost sp accordingly if we have to but note that we can't go above maxlevel/2 (for
 	// the case of level drain)
 	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
+
+		if (((spell_level * 2) - 1) > (_abilities.at(CharacterAbility::MAX_LEVEL)))
+			continue;
+
 		const auto priest_known{_get_spells_known(SpellType::PRIEST, spell_level)};
 		const auto mage_known{_get_spells_known(SpellType::MAGE, spell_level)};
 

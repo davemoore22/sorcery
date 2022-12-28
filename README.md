@@ -1,17 +1,11 @@
 # Sorcery: Shadows under Llylgamyn
 
 An open source remake of Wizardry 1,2,3 (and 5) with infinite (proc-genned)
-Dungeon Adventures, and (optional) modern CRPG conveniences! I'm aiming to
-release it by the end of the year. Its coded using C++20 and SFML. Whilst
-eventually the game engine will be (optionall) fully 3D, I need to spend time
-learning OpenGL properly, and for the moment the dungeon is rendered using the
-old-school Painters Algorithm method (used in classics such as Eye of the
-Beholder and The Bard's Tale) to faithfully reproduce the wireframe graphics of
-the originals.
+Dungeon Adventures, and (optional) modern CRPG conveniences!
 
-Hopefully soon, there will be a playable game! Visit back regularily for
-updates. Initially the focus will be on emulating Wizardry 1 fully, then 2, 3, 5
-and maybe even 4 some day.
+Coded using C++20 and SFML, hopefully soon, there will be a playable game! Visit
+back regularily for updates. Initially the focus will be on emulating Wizardry 1
+fully, then 2, 3, 5 and maybe even 4 some day.
 
 ![Logo](/promo/screen1.png)
 ![Logo](/promo/screen7.png)
@@ -47,8 +41,7 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 I'm currently implementing Inn/Temple functionality.
 
 Next stop after that will be items, creatures, magic and combat. Then there might
-be something playable here! Then, as mentioned above, a proper 3D renderer will
-probably be implemented.
+be something playable here! Then a proper 3D renderer will probably be implemented.
 
 Initially I am planning to remake Wizardrys 1, 2, and 3, and subsequently
 providing infinite procedurally-generated content like that of Diablo for example.
