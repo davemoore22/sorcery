@@ -53,7 +53,10 @@ probably be implemented.
 Initially I am planning to remake Wizardrys 1, 2, and 3, and subsequently
 providing infinite procedurally-generated content like that of Diablo for example.
 
-## Complication
+In the meantime, check out Snarfu's bugfix and recompilation of the original
+Wizardry for Apple II at <https://github.com/snafaru>.
+
+## Compilation
 
 Note that I'm currently developing solely on Linux (Ubuntu 20) so compilation
 instructions are currently Linux-specific. Windows instructions and releases

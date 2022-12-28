@@ -941,7 +941,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 
 	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F4)) {
 
-		const auto party{_game->state->get_party_characters()};
+		/* const auto party{_game->state->get_party_characters()};
 		for (auto &[character_id, character] : _game->characters) {
 			if (std::find(party.begin(), party.end(), character_id) != party.end()) {
 				character.set_status(
@@ -954,6 +954,12 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 					character.set_current_hp(character.get_max_hp());
 			}
 		}
+
+		 */
+
+		auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
+		character.level_down();
+
 		_update_automap = true;
 		_update_compass = true;
 		_update_buffbar = true;

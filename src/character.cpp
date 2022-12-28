@@ -1729,7 +1729,31 @@ auto Sorcery::Character::level_up() -> std::vector<std::string> {
 // Level a character down (e.g. drain levels or give/increase negative levels_
 auto Sorcery::Character::level_down() -> void {
 
-	// For now
+	using enum Enums::Character::Ability;
+
+	if (_abilities.at(CURRENT_LEVEL) == 1) {
+		_status = CharacterStatus::LOST;
+		return;
+	}
+
+	const auto old_level{_abilities.at(CURRENT_LEVEL)};
+	const auto diff_hp{_abilities.at(CharacterAbility::MAX_HP) - _abilities.at(CharacterAbility::CURRENT_HP)};
+
+	_abilities.at(CURRENT_LEVEL) = _abilities.at(CURRENT_LEVEL) - 1;
+	_abilities.at(HIT_DICE) = _abilities.at(HIT_DICE) - 1;
+	if (_abilities.at(MAX_LEVEL) > _abilities.at(CURRENT_LEVEL))
+		_abilities.at(MAX_LEVEL) = _abilities.at(CURRENT_LEVEL);
+
+	_set_sp();
+
+	_abilities[NEXT_LEVEL_XP] = _get_xp_for_level(_abilities.at(CURRENT_LEVEL));
+
+	_generate_secondary_abil(false, false, false);
+	_abilities[CharacterAbility::MAX_HP] =
+		_abilities.at(CharacterAbility::MAX_HP) * (_abilities.at(CURRENT_LEVEL) / (old_level * 1.f));
+	_abilities[CharacterAbility::CURRENT_HP] = _abilities[CharacterAbility::MAX_HP] - diff_hp;
+	if (_abilities[CharacterAbility::CURRENT_HP] < 0)
+		_abilities[CharacterAbility::CURRENT_HP] = 0;
 }
 
 // For each spell level, try to learn spells - called before set_spellpoints
@@ -1750,8 +1774,6 @@ auto Sorcery::Character::_try_learn_spell(SpellType spell_type, unsigned int spe
 		return (spell.type == spell_type) && (spell.level == spell_level) && (spell.known == false);
 	})};
 	for (auto &spell : spells) {
-
-		std::cout << spell.level << std::endl;
 
 		// Check the Spell Type against the relevant stat (see SPLPERLV//TRYLEARN)
 		if (spell_type == SpellType::PRIEST)
@@ -1783,8 +1805,11 @@ auto Sorcery::Character::_calculate_sp(SpellType spell_type, unsigned int level_
 
 	// https://datadrivengamer.blogspot.com/2019/08/the-not-so-basic-mechanics-of-wizardry.html
 	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnarrowing"
 		int spell_count{
 			_abilities[CharacterAbility::CURRENT_LEVEL] - level_mod + level_offset - (level_offset * spell_level)};
+#pragma GCC diagnostic pop
 		spell_count = std::max(0, std::min(spell_count, 9));
 		(*spells)[spell_level] = spell_count;
 	}
@@ -1942,7 +1967,8 @@ auto Sorcery::Character::_set_sp() -> bool {
 		}
 	}
 
-	// And work out spells known and boost sp accordingly if we have to
+	// And work out spells known and boost sp accordingly if we have to but note that we can't go above maxlevel/2 (for
+	// the case of level drain)
 	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
 		const auto priest_known{_get_spells_known(SpellType::PRIEST, spell_level)};
 		const auto mage_known{_get_spells_known(SpellType::MAGE, spell_level)};
