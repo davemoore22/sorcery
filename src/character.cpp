@@ -531,28 +531,25 @@ auto Sorcery::Character::right_view() -> void {
 
 auto Sorcery::Character::set_start_attr() -> void {
 
+	using enum Enums::Character::Attribute;
+
 	_start_attr.clear();
 	_cur_attr.clear();
 	switch (_race) {
 	case CharacterRace::HUMAN:
-		_start_attr = {{CharacterAttribute::STRENGTH, 8}, {CharacterAttribute::IQ, 5}, {CharacterAttribute::PIETY, 5},
-			{CharacterAttribute::VITALITY, 8}, {CharacterAttribute::AGILITY, 8}, {CharacterAttribute::LUCK, 9}};
+		_start_attr = {{STRENGTH, 8}, {IQ, 5}, {PIETY, 5}, {VITALITY, 8}, {AGILITY, 8}, {LUCK, 9}};
 		break;
 	case CharacterRace::ELF:
-		_start_attr = {{CharacterAttribute::STRENGTH, 7}, {CharacterAttribute::IQ, 10}, {CharacterAttribute::PIETY, 10},
-			{CharacterAttribute::VITALITY, 6}, {CharacterAttribute::AGILITY, 9}, {CharacterAttribute::LUCK, 6}};
+		_start_attr = {{STRENGTH, 7}, {IQ, 10}, {PIETY, 10}, {VITALITY, 6}, {AGILITY, 9}, {LUCK, 6}};
 		break;
 	case CharacterRace::DWARF:
-		_start_attr = {{CharacterAttribute::STRENGTH, 10}, {CharacterAttribute::IQ, 7}, {CharacterAttribute::PIETY, 10},
-			{CharacterAttribute::VITALITY, 10}, {CharacterAttribute::AGILITY, 5}, {CharacterAttribute::LUCK, 6}};
+		_start_attr = {{STRENGTH, 10}, {IQ, 7}, {PIETY, 10}, {VITALITY, 10}, {AGILITY, 5}, {LUCK, 6}};
 		break;
 	case CharacterRace::GNOME:
-		_start_attr = {{CharacterAttribute::STRENGTH, 7}, {CharacterAttribute::IQ, 7}, {CharacterAttribute::PIETY, 10},
-			{CharacterAttribute::VITALITY, 8}, {CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 7}};
+		_start_attr = {{STRENGTH, 7}, {IQ, 7}, {PIETY, 10}, {VITALITY, 8}, {AGILITY, 10}, {LUCK, 7}};
 		break;
 	case CharacterRace::HOBBIT:
-		_start_attr = {{CharacterAttribute::STRENGTH, 5}, {CharacterAttribute::IQ, 7}, {CharacterAttribute::PIETY, 7},
-			{CharacterAttribute::VITALITY, 6}, {CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 12}};
+		_start_attr = {{STRENGTH, 5}, {IQ, 7}, {PIETY, 7}, {VITALITY, 6}, {AGILITY, 10}, {LUCK, 12}};
 		break;
 	default:
 		break;
@@ -617,22 +614,23 @@ auto Sorcery::Character::get_icon(CharacterStage type) -> std::optional<sf::Spri
 // available
 auto Sorcery::Character::set_pos_class() -> void {
 
+	using enum Enums::Character::Attribute;
+
 	_pos_classes.clear();
 
-	// Do the basic classes first (this also sets
-	// _num_possible_character_classes); data is from
+	// Do the basic classes first (this also sets _num_possible_character_classes); data is from
 	// https://strategywiki.org/wiki/Wizardry:_Proving_Grounds_of_the_Mad_Overlord/Trebor%27s_castle#Classes
-	if (_cur_attr[CharacterAttribute::STRENGTH] >= 11)
+	if (_cur_attr[STRENGTH] >= 11)
 		_pos_classes[CharacterClass::FIGHTER] = true;
 	else
 		_pos_classes[CharacterClass::FIGHTER] = false;
 
-	if (_cur_attr[CharacterAttribute::IQ] >= 11)
+	if (_cur_attr[IQ] >= 11)
 		_pos_classes[CharacterClass::MAGE] = true;
 	else
 		_pos_classes[CharacterClass::MAGE] = false;
 
-	if (_cur_attr[CharacterAttribute::PIETY] >= 11)
+	if (_cur_attr[PIETY] >= 11)
 		if (_alignment == CharacterAlignment::GOOD || _alignment == CharacterAlignment::EVIL)
 			_pos_classes[CharacterClass::PRIEST] = true;
 		else
@@ -640,7 +638,7 @@ auto Sorcery::Character::set_pos_class() -> void {
 	else
 		_pos_classes[CharacterClass::PRIEST] = false;
 
-	if (_cur_attr[CharacterAttribute::AGILITY] >= 11)
+	if (_cur_attr[AGILITY] >= 11)
 		if (_alignment == CharacterAlignment::NEUTRAL || _alignment == CharacterAlignment::EVIL)
 			_pos_classes[CharacterClass::THIEF] = true;
 		else
@@ -649,7 +647,7 @@ auto Sorcery::Character::set_pos_class() -> void {
 		_pos_classes[CharacterClass::THIEF] = false;
 
 	// Now the elite classes
-	if (_cur_attr[CharacterAttribute::IQ] >= 12 && _cur_attr[CharacterAttribute::PIETY] >= 12)
+	if (_cur_attr[IQ] >= 12 && _cur_attr[PIETY] >= 12)
 		if (_alignment == CharacterAlignment::GOOD || _alignment == CharacterAlignment::EVIL)
 			_pos_classes[CharacterClass::BISHOP] = true;
 		else
@@ -657,9 +655,8 @@ auto Sorcery::Character::set_pos_class() -> void {
 	else
 		_pos_classes[CharacterClass::BISHOP] = false;
 
-	if (_cur_attr[CharacterAttribute::STRENGTH] >= 15 && _cur_attr[CharacterAttribute::IQ] >= 11 &&
-		_cur_attr[CharacterAttribute::PIETY] >= 10 && _cur_attr[CharacterAttribute::VITALITY] >= 10 &&
-		_cur_attr[CharacterAttribute::AGILITY] >= 10)
+	if (_cur_attr[STRENGTH] >= 15 && _cur_attr[IQ] >= 11 && _cur_attr[PIETY] >= 10 && _cur_attr[VITALITY] >= 10 &&
+		_cur_attr[AGILITY] >= 10)
 		if (_alignment == CharacterAlignment::GOOD || _alignment == CharacterAlignment::NEUTRAL)
 			_pos_classes[CharacterClass::SAMURAI] = true;
 		else
@@ -667,9 +664,8 @@ auto Sorcery::Character::set_pos_class() -> void {
 	else
 		_pos_classes[CharacterClass::SAMURAI] = false;
 
-	if (_cur_attr[CharacterAttribute::STRENGTH] >= 15 && _cur_attr[CharacterAttribute::IQ] >= 12 &&
-		_cur_attr[CharacterAttribute::PIETY] >= 12 && _cur_attr[CharacterAttribute::VITALITY] >= 15 &&
-		_cur_attr[CharacterAttribute::AGILITY] >= 14 && _cur_attr[CharacterAttribute::LUCK] >= 15)
+	if (_cur_attr[STRENGTH] >= 15 && _cur_attr[IQ] >= 12 && _cur_attr[PIETY] >= 12 && _cur_attr[VITALITY] >= 15 &&
+		_cur_attr[AGILITY] >= 14 && _cur_attr[LUCK] >= 15)
 		if (_alignment == CharacterAlignment::GOOD)
 			_pos_classes[CharacterClass::LORD] = true;
 		else
@@ -677,11 +673,9 @@ auto Sorcery::Character::set_pos_class() -> void {
 	else
 		_pos_classes[CharacterClass::LORD] = false;
 
-	// Using Wizardry 5 requirements for Ninja (see
-	// https://wizardry.fandom.com/wiki/Ninja)
-	if (_cur_attr[CharacterAttribute::STRENGTH] >= 15 && _cur_attr[CharacterAttribute::IQ] >= 17 &&
-		_cur_attr[CharacterAttribute::PIETY] >= 15 && _cur_attr[CharacterAttribute::VITALITY] >= 16 &&
-		_cur_attr[CharacterAttribute::AGILITY] >= 15 && _cur_attr[CharacterAttribute::LUCK] >= 16)
+	// Using Wizardry 5 requirements for Ninja (see https://wizardry.fandom.com/wiki/Ninja)
+	if (_cur_attr[STRENGTH] >= 15 && _cur_attr[IQ] >= 17 && _cur_attr[PIETY] >= 15 && _cur_attr[VITALITY] >= 16 &&
+		_cur_attr[AGILITY] >= 15 && _cur_attr[LUCK] >= 16)
 		if (_alignment != CharacterAlignment::GOOD)
 			_pos_classes[CharacterClass::NINJA] = true;
 		else
@@ -791,8 +785,9 @@ auto Sorcery::Character::set_gold(const unsigned int value) -> void {
 
 auto Sorcery::Character::_legate_start_info() -> void {
 
-	// From here:  https://datadrivengamer.blogspot.com/2021/08/the-new-mechanics-of-wizardry-iii.html
+	using enum Enums::Character::Attribute;
 
+	// From here: https://datadrivengamer.blogspot.com/2021/08/the-new-mechanics-of-wizardry-iii.html
 	_abilities[CharacterAbility::CURRENT_LEVEL] = 1;
 	_abilities[CharacterAbility::CURRENT_XP] = 0;
 	_abilities[CharacterAbility::NEXT_LEVEL_XP] = _get_xp_for_level(_abilities[CharacterAbility::CURRENT_LEVEL]);
@@ -807,39 +802,39 @@ auto Sorcery::Character::_legate_start_info() -> void {
 	_abilities[CharacterAbility::DEATHS] = 0;
 
 	// (D7 - 4) is -3 to +3
-	_start_attr[CharacterAttribute::STRENGTH] += ((*_system->random)[RandomType::D7] - 4);
-	_start_attr[CharacterAttribute::IQ] += ((*_system->random)[RandomType::D7] - 4);
-	_start_attr[CharacterAttribute::PIETY] += ((*_system->random)[RandomType::D7] - 4);
-	_start_attr[CharacterAttribute::VITALITY] += ((*_system->random)[RandomType::D7] - 4);
-	_start_attr[CharacterAttribute::AGILITY] += ((*_system->random)[RandomType::D7] - 4);
-	_start_attr[CharacterAttribute::LUCK] += ((*_system->random)[RandomType::D7] - 4);
+	_start_attr[STRENGTH] += ((*_system->random)[RandomType::D7] - 4);
+	_start_attr[IQ] += ((*_system->random)[RandomType::D7] - 4);
+	_start_attr[PIETY] += ((*_system->random)[RandomType::D7] - 4);
+	_start_attr[VITALITY] += ((*_system->random)[RandomType::D7] - 4);
+	_start_attr[AGILITY] += ((*_system->random)[RandomType::D7] - 4);
+	_start_attr[LUCK] += ((*_system->random)[RandomType::D7] - 4);
 
 	auto mage_sp_total{0};
 	for (auto level = 1; level <= 7; level++)
 		mage_sp_total += _mage_max_sp[level];
-	_start_attr[CharacterAttribute::IQ] += (mage_sp_total / 7);
+	_start_attr[IQ] += (mage_sp_total / 7);
 
 	auto priest_sp_total{1};
 	for (auto level = 1; level <= 7; level++)
 		priest_sp_total += _priest_max_sp[level];
-	_start_attr[CharacterAttribute::PIETY] += (priest_sp_total / 10);
+	_start_attr[PIETY] += (priest_sp_total / 10);
 
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::FIGHTER:
 	case CharacterClass::LORD:
 	case CharacterClass::SAMURAI:
-		_start_attr[CharacterAttribute::STRENGTH] += 2;
+		_start_attr[STRENGTH] += 2;
 		break;
 	case CharacterClass::MAGE:
-		_start_attr[CharacterAttribute::IQ] += 2;
+		_start_attr[IQ] += 2;
 		break;
 	case CharacterClass::PRIEST:
 	case CharacterClass::BISHOP:
-		_start_attr[CharacterAttribute::PIETY] += 2;
+		_start_attr[PIETY] += 2;
 		break;
 	case CharacterClass::THIEF:
 	case CharacterClass::NINJA:
-		_start_attr[CharacterAttribute::AGILITY] += 2;
+		_start_attr[AGILITY] += 2;
 	default:
 		break;
 	}
@@ -848,18 +843,18 @@ auto Sorcery::Character::_legate_start_info() -> void {
 	_abilities[CharacterAbility::CURRENT_HP] = _abilities[CharacterAbility::MAX_HP];
 
 	// Clamp Values
-	_start_attr[CharacterAttribute::STRENGTH] = std::min(_start_attr[CharacterAttribute::STRENGTH], 18);
-	_start_attr[CharacterAttribute::IQ] = std::min(_start_attr[CharacterAttribute::IQ], 18);
-	_start_attr[CharacterAttribute::PIETY] = std::min(_start_attr[CharacterAttribute::PIETY], 18);
-	_start_attr[CharacterAttribute::VITALITY] = std::min(_start_attr[CharacterAttribute::VITALITY], 18);
-	_start_attr[CharacterAttribute::AGILITY] = std::min(_start_attr[CharacterAttribute::AGILITY], 18);
-	_start_attr[CharacterAttribute::LUCK] = std::min(_start_attr[CharacterAttribute::LUCK], 18);
-	_start_attr[CharacterAttribute::STRENGTH] = std::max(_start_attr[CharacterAttribute::STRENGTH], 3);
-	_start_attr[CharacterAttribute::IQ] = std::max(_start_attr[CharacterAttribute::IQ], 3);
-	_start_attr[CharacterAttribute::PIETY] = std::max(_start_attr[CharacterAttribute::PIETY], 3);
-	_start_attr[CharacterAttribute::VITALITY] = std::max(_start_attr[CharacterAttribute::VITALITY], 3);
-	_start_attr[CharacterAttribute::AGILITY] = std::max(_start_attr[CharacterAttribute::AGILITY], 3);
-	_start_attr[CharacterAttribute::LUCK] = std::max(_start_attr[CharacterAttribute::LUCK], 3);
+	_start_attr[STRENGTH] = std::min(_start_attr[STRENGTH], 18);
+	_start_attr[IQ] = std::min(_start_attr[IQ], 18);
+	_start_attr[PIETY] = std::min(_start_attr[PIETY], 18);
+	_start_attr[VITALITY] = std::min(_start_attr[VITALITY], 18);
+	_start_attr[AGILITY] = std::min(_start_attr[AGILITY], 18);
+	_start_attr[LUCK] = std::min(_start_attr[LUCK], 18);
+	_start_attr[STRENGTH] = std::max(_start_attr[STRENGTH], 3);
+	_start_attr[IQ] = std::max(_start_attr[IQ], 3);
+	_start_attr[PIETY] = std::max(_start_attr[PIETY], 3);
+	_start_attr[VITALITY] = std::max(_start_attr[VITALITY], 3);
+	_start_attr[AGILITY] = std::max(_start_attr[AGILITY], 3);
+	_start_attr[LUCK] = std::max(_start_attr[LUCK], 3);
 
 	_cur_attr = _start_attr;
 	_max_attr = _cur_attr;
@@ -869,6 +864,9 @@ auto Sorcery::Character::_legate_start_info() -> void {
 }
 
 auto Sorcery::Character::_regenerate_start_info() -> void {
+
+	using enum Enums::Character::Attribute;
+
 	_abilities[CharacterAbility::MAX_LEVEL] = _abilities[CharacterAbility::CURRENT_LEVEL];
 	_abilities[CharacterAbility::CURRENT_LEVEL] = 1;
 	_abilities[CharacterAbility::CURRENT_XP] = 0;
@@ -882,26 +880,19 @@ auto Sorcery::Character::_regenerate_start_info() -> void {
 	CharacterAttributes minimum_attr;
 	switch (_race) {
 	case CharacterRace::HUMAN:
-		minimum_attr = {{CharacterAttribute::STRENGTH, 8}, {CharacterAttribute::IQ, 5}, {CharacterAttribute::PIETY, 5},
-			{CharacterAttribute::VITALITY, 8}, {CharacterAttribute::AGILITY, 8}, {CharacterAttribute::LUCK, 9}};
+		minimum_attr = {{STRENGTH, 8}, {IQ, 5}, {PIETY, 5}, {VITALITY, 8}, {AGILITY, 8}, {LUCK, 9}};
 		break;
 	case CharacterRace::ELF:
-		minimum_attr = {{CharacterAttribute::STRENGTH, 7}, {CharacterAttribute::IQ, 10},
-			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 6}, {CharacterAttribute::AGILITY, 9},
-			{CharacterAttribute::LUCK, 6}};
+		minimum_attr = {{STRENGTH, 7}, {IQ, 10}, {PIETY, 10}, {VITALITY, 6}, {AGILITY, 9}, {LUCK, 6}};
 		break;
 	case CharacterRace::DWARF:
-		minimum_attr = {{CharacterAttribute::STRENGTH, 10}, {CharacterAttribute::IQ, 7},
-			{CharacterAttribute::PIETY, 10}, {CharacterAttribute::VITALITY, 10}, {CharacterAttribute::AGILITY, 5},
-			{CharacterAttribute::LUCK, 6}};
+		minimum_attr = {{STRENGTH, 10}, {IQ, 7}, {PIETY, 10}, {VITALITY, 10}, {AGILITY, 5}, {LUCK, 6}};
 		break;
 	case CharacterRace::GNOME:
-		minimum_attr = {{CharacterAttribute::STRENGTH, 7}, {CharacterAttribute::IQ, 7}, {CharacterAttribute::PIETY, 10},
-			{CharacterAttribute::VITALITY, 8}, {CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 7}};
+		minimum_attr = {{STRENGTH, 7}, {IQ, 7}, {PIETY, 10}, {VITALITY, 8}, {AGILITY, 10}, {LUCK, 7}};
 		break;
 	case CharacterRace::HOBBIT:
-		minimum_attr = {{CharacterAttribute::STRENGTH, 5}, {CharacterAttribute::IQ, 7}, {CharacterAttribute::PIETY, 7},
-			{CharacterAttribute::VITALITY, 6}, {CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 12}};
+		minimum_attr = {{STRENGTH, 5}, {IQ, 7}, {PIETY, 7}, {VITALITY, 6}, {AGILITY, 10}, {LUCK, 12}};
 		break;
 	default:
 		break;
@@ -975,16 +966,18 @@ auto Sorcery::Character::_generate_start_info() -> void {
 // Given the characters current level, work out all the secondary abilities/stats etc
 auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_class, bool legate) -> void {
 
+	using enum Enums::Character::Attribute;
+
 	// Formulae used are from here
 	// http://www.zimlab.com/wizardry/walk/w123calc.htm and also from
 	// https://mirrors.apple2.org.za/ftp.apple.asimov.net/images/games/rpg/wizardry/wizardry_I/Wizardry_i_SourceCode.zip
 	const auto current_level{_abilities[CharacterAbility::CURRENT_LEVEL]};
 
 	// Bonus Melee to Hit per Attack (num)
-	if (_cur_attr[CharacterAttribute::STRENGTH] > 15)
-		_abilities[CharacterAbility::ATTACK_MODIFIER] = _cur_attr[CharacterAttribute::STRENGTH] - 15;
-	else if (_cur_attr[CharacterAttribute::STRENGTH] < 6)
-		_abilities[CharacterAbility::ATTACK_MODIFIER] = _cur_attr[CharacterAttribute::STRENGTH] - 6;
+	if (_cur_attr[STRENGTH] > 15)
+		_abilities[CharacterAbility::ATTACK_MODIFIER] = _cur_attr[STRENGTH] - 15;
+	else if (_cur_attr[STRENGTH] < 6)
+		_abilities[CharacterAbility::ATTACK_MODIFIER] = _cur_attr[STRENGTH] - 6;
 	else
 		_abilities[CharacterAbility::ATTACK_MODIFIER] = 0;
 
@@ -1003,10 +996,10 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 	}
 
 	// Bonus Melee Damage per Attack (num)
-	if (_cur_attr[CharacterAttribute::STRENGTH] > 15)
-		_abilities[CharacterAbility::BONUS_DAMAGE] = _cur_attr[CharacterAttribute::STRENGTH] - 15;
-	else if (_cur_attr[CharacterAttribute::STRENGTH] < 6)
-		_abilities[CharacterAbility::BONUS_DAMAGE] = _cur_attr[CharacterAttribute::STRENGTH] - 6;
+	if (_cur_attr[STRENGTH] > 15)
+		_abilities[CharacterAbility::BONUS_DAMAGE] = _cur_attr[STRENGTH] - 15;
+	else if (_cur_attr[STRENGTH] < 6)
+		_abilities[CharacterAbility::BONUS_DAMAGE] = _cur_attr[STRENGTH] - 6;
 	else
 		_abilities[CharacterAbility::BONUS_DAMAGE] = 0;
 
@@ -1037,7 +1030,7 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 	case CharacterClass::SAMURAI:
 	case CharacterClass::BISHOP:
 	case CharacterClass::MAGE:
-		_abilities[CharacterAbility::MAGE_SPELL_LEARN] = (_cur_attr[CharacterAttribute::IQ] / 29.0) * 100;
+		_abilities[CharacterAbility::MAGE_SPELL_LEARN] = (_cur_attr[IQ] / 29.0) * 100;
 		break;
 	default:
 		_abilities[CharacterAbility::MAGE_SPELL_LEARN] = 0;
@@ -1055,8 +1048,7 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 		_abilities[CharacterAbility::IDENTIFY_CURSE] = 0;
 
 	// Chance of identifying unknown Foes per round (%)
-	_abilities[CharacterAbility::IDENTIFY_FOES] =
-		current_level + _cur_attr[CharacterAttribute::IQ] + _cur_attr[CharacterAttribute::PIETY];
+	_abilities[CharacterAbility::IDENTIFY_FOES] = current_level + _cur_attr[IQ] + _cur_attr[PIETY];
 	if (_abilities[CharacterAbility::IDENTIFY_FOES] > 100)
 		_abilities[CharacterAbility::IDENTIFY_FOES] = 100;
 
@@ -1065,7 +1057,7 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 	case CharacterClass::PRIEST:
 	case CharacterClass::LORD:
 	case CharacterClass::BISHOP:
-		_abilities[CharacterAbility::PRIEST_SPELL_LEARN] = (_cur_attr[CharacterAttribute::PIETY] / 30.0) * 100;
+		_abilities[CharacterAbility::PRIEST_SPELL_LEARN] = (_cur_attr[PIETY] / 30.0) * 100;
 		break;
 	default:
 		_abilities[CharacterAbility::PRIEST_SPELL_LEARN] = 0;
@@ -1094,7 +1086,7 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 		_abilities[CharacterAbility::BASE_DISPELL] = 100;
 
 	// Vitality Bonus (num)
-	switch (_cur_attr[CharacterAttribute::VITALITY]) {
+	switch (_cur_attr[VITALITY]) {
 	case 3:
 		_abilities[CharacterAbility::VITALITY_BONUS] = -2;
 		break;
@@ -1193,20 +1185,20 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 	}
 
 	// Chance of resurrecting a Dead Character at the Temple (%)
-	_abilities[CharacterAbility::DEAD_RESURRECT] = 50 + (3 * _cur_attr[CharacterAttribute::VITALITY]);
+	_abilities[CharacterAbility::DEAD_RESURRECT] = 50 + (3 * _cur_attr[VITALITY]);
 	if (_abilities[CharacterAbility::DEAD_RESURRECT] > 100)
 		_abilities[CharacterAbility::DEAD_RESURRECT] = 100;
 
 	// Chance of resurrecting an Ashed Character at the Temple (%)
-	_abilities[CharacterAbility::ASHES_RESURRECT] = 40 + (3 * _cur_attr[CharacterAttribute::VITALITY]);
+	_abilities[CharacterAbility::ASHES_RESURRECT] = 40 + (3 * _cur_attr[VITALITY]);
 	if (_abilities[CharacterAbility::ASHES_RESURRECT] > 100)
 		_abilities[CharacterAbility::ASHES_RESURRECT] = 100;
 
 	// Chance of resurrecting by a DI or KADORTO spell cast by another Character (%)
-	_abilities[CharacterAbility::DI_KADORTO_RESURRECT] = 4 * _cur_attr[CharacterAttribute::VITALITY];
+	_abilities[CharacterAbility::DI_KADORTO_RESURRECT] = 4 * _cur_attr[VITALITY];
 
 	// Initiative Modifier (num)
-	switch (_cur_attr[CharacterAttribute::AGILITY]) {
+	switch (_cur_attr[AGILITY]) {
 	case 3:
 		_abilities[CharacterAbility::INITIATIVE_MODIFIER] = 3;
 		break;
@@ -1249,9 +1241,9 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 
 	// Chance to identify a Trap (%)
 	if (_class == CharacterClass::THIEF)
-		_abilities[CharacterAbility::IDENTIFY_TRAP] = 6 * _cur_attr[CharacterAttribute::AGILITY];
+		_abilities[CharacterAbility::IDENTIFY_TRAP] = 6 * _cur_attr[AGILITY];
 	else if (_class == CharacterClass::NINJA)
-		_abilities[CharacterAbility::IDENTIFY_TRAP] = 4 * _cur_attr[CharacterAttribute::AGILITY];
+		_abilities[CharacterAbility::IDENTIFY_TRAP] = 4 * _cur_attr[AGILITY];
 	else
 		_abilities[CharacterAbility::IDENTIFY_TRAP] = 0;
 	if (_abilities[CharacterAbility::IDENTIFY_TRAP] > 95)
@@ -1264,23 +1256,23 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 
 	// Chance to activate a Trap if identify fails (%)
 	_abilities[CharacterAbility::ACTIVATE_TRAP] = (_class == CharacterClass::NINJA) || (_class == CharacterClass::THIEF)
-													  ? 100 - ((_cur_attr[CharacterAttribute::AGILITY] / 20.0) * 100)
+													  ? 100 - ((_cur_attr[AGILITY] / 20.0) * 100)
 													  : 100;
 
 	// Base Chance to avoid following into a Pit (modified by Maze Level) (%)
-	_abilities[CharacterAbility::BASE_AVOID_PIT] = (_cur_attr[CharacterAttribute::AGILITY] / 25.0) * 100;
+	_abilities[CharacterAbility::BASE_AVOID_PIT] = (_cur_attr[AGILITY] / 25.0) * 100;
 
 	// Base Resist Bonus (d20)
 	_abilities[CharacterAbility::BASE_RESIST_BONUS] = 1 * (current_level / 5);
-	if (_cur_attr[CharacterAttribute::LUCK] >= 18)
+	if (_cur_attr[LUCK] >= 18)
 		_abilities[CharacterAbility::BASE_RESIST_BONUS] += 3;
-	else if (_cur_attr[CharacterAttribute::LUCK] >= 12)
+	else if (_cur_attr[LUCK] >= 12)
 		_abilities[CharacterAbility::BASE_RESIST_BONUS] += 2;
-	else if (_cur_attr[CharacterAttribute::LUCK] >= 6)
+	else if (_cur_attr[LUCK] >= 6)
 		_abilities[CharacterAbility::BASE_RESIST_BONUS] += 1;
 
 	// Chance equipment is intact on a corpse TODO: check this is accurate
-	_abilities[CharacterAbility::EQUIPMENT_INTACT_ON_WIPE] = (_cur_attr[CharacterAttribute::LUCK] / 21.0) * 100;
+	_abilities[CharacterAbility::EQUIPMENT_INTACT_ON_WIPE] = (_cur_attr[LUCK] / 21.0) * 100;
 
 	// Other Resists (d20)
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
@@ -1421,7 +1413,7 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 	if (!(*_system->config)[ConfigOption::STRICT_MODE]) {
 		switch (_class) { // NOLINT(clang-diagnostic-switch)
 		case CharacterClass::PRIEST:
-			switch (_cur_attr[CharacterAttribute::PIETY]) {
+			switch (_cur_attr[PIETY]) {
 			case 16:
 				_abilities[CharacterAbility::BONUS_PRIEST_SPELLS] = 1;
 				break;
@@ -1438,7 +1430,7 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 			}
 			break;
 		case CharacterClass::MAGE:
-			switch (_cur_attr[CharacterAttribute::IQ]) {
+			switch (_cur_attr[IQ]) {
 			case 16:
 				_abilities[CharacterAbility::BONUS_MAGE_SPELLS] = 1;
 				break;
@@ -1745,7 +1737,7 @@ auto Sorcery::Character::_try_learn_spell(SpellType spell_type, unsigned int spe
 
 	bool new_spell_learnt{false};
 
-	// Only do spells if a character has spell points in this and has spell slots
+	// Only do spells if a character has available spell points in this spell level
 	if (spell_type == SpellType::PRIEST)
 		if (_priest_max_sp[spell_level] == 0)
 			return false;
@@ -1753,31 +1745,27 @@ auto Sorcery::Character::_try_learn_spell(SpellType spell_type, unsigned int spe
 		if (_mage_max_sp[spell_level] == 0)
 			return false;
 
-	// First, get the spells themselves - TODO
-	std::vector<Spell>::iterator it;
-	it = std::find_if(_spells.begin(), _spells.end(),
-		[&](auto item) { return item.type == spell_type && item.level == spell_level; });
-	while (it != _spells.end()) {
-		it = std::find_if(
-			++it, _spells.end(), [&](auto item) { return item.type == spell_type && item.level == spell_level; });
+	// Get all unknown spells of this spell level and type
+	auto spells{_spells | std::views::filter([&](Spell spell) {
+		return (spell.type == spell_type) && (spell.level == spell_level) && (spell.known == false);
+	})};
+	for (auto &spell : spells) {
 
-		// If spell already known, skip
-		if ((*it).known)
-			continue;
+		std::cout << spell.level << std::endl;
 
 		// Check the Spell Type against the relevant stat (see SPLPERLV//TRYLEARN)
 		if (spell_type == SpellType::PRIEST)
 			if ((*_system->random)[RandomType::ZERO_TO_29] <=
 				static_cast<unsigned int>(_cur_attr[CharacterAttribute::PIETY])) {
-				(*it).known = true;
-				_spells_known[(*it).id] = true;
+				spell.known = true;
+				_spells_known[spell.id] = true;
 				new_spell_learnt = true;
 			}
 		if (spell_type == SpellType::MAGE)
 			if ((*_system->random)[RandomType::ZERO_TO_29] <=
 				static_cast<unsigned int>(_cur_attr[CharacterAttribute::IQ])) {
-				(*it).known = true;
-				_spells_known[(*it).id] = true;
+				spell.known = true;
+				_spells_known[spell.id] = true;
 				new_spell_learnt = true;
 			}
 	}
@@ -2266,9 +2254,10 @@ auto Sorcery::Character::replenish_spells() -> void {
 	}
 }
 
+// Enter Name and Portrait, rest is random
 auto Sorcery::Character::create_quick() -> void {
 
-	// Enter Name and Portrait, rest is random
+	using enum Enums::Character::Attribute;
 
 	// Exclude Samurai/Lord/Ninja/Bishop from this method of character creation
 	_class = static_cast<CharacterClass>((*_system->random)[RandomType::D4]);
@@ -2294,24 +2283,19 @@ auto Sorcery::Character::create_quick() -> void {
 	// https://gamefaqs.gamespot.com/pc/946844-the-ultimate-wizardry-archives/faqs/45726 for info
 	switch (_race) { // NOLINT(clang-diagnostic-switch)
 	case CharacterRace::HUMAN:
-		_start_attr = {{CharacterAttribute::STRENGTH, 8}, {CharacterAttribute::IQ, 5}, {CharacterAttribute::PIETY, 5},
-			{CharacterAttribute::VITALITY, 8}, {CharacterAttribute::AGILITY, 8}, {CharacterAttribute::LUCK, 9}};
+		_start_attr = {{STRENGTH, 8}, {IQ, 5}, {PIETY, 5}, {VITALITY, 8}, {AGILITY, 8}, {LUCK, 9}};
 		break;
 	case CharacterRace::ELF:
-		_start_attr = {{CharacterAttribute::STRENGTH, 7}, {CharacterAttribute::IQ, 10}, {CharacterAttribute::PIETY, 10},
-			{CharacterAttribute::VITALITY, 6}, {CharacterAttribute::AGILITY, 9}, {CharacterAttribute::LUCK, 6}};
+		_start_attr = {{STRENGTH, 7}, {IQ, 10}, {PIETY, 10}, {VITALITY, 6}, {AGILITY, 9}, {LUCK, 6}};
 		break;
 	case CharacterRace::DWARF:
-		_start_attr = {{CharacterAttribute::STRENGTH, 10}, {CharacterAttribute::IQ, 7}, {CharacterAttribute::PIETY, 10},
-			{CharacterAttribute::VITALITY, 10}, {CharacterAttribute::AGILITY, 5}, {CharacterAttribute::LUCK, 6}};
+		_start_attr = {{STRENGTH, 10}, {IQ, 7}, {PIETY, 10}, {VITALITY, 10}, {AGILITY, 5}, {LUCK, 6}};
 		break;
 	case CharacterRace::GNOME:
-		_start_attr = {{CharacterAttribute::STRENGTH, 7}, {CharacterAttribute::IQ, 7}, {CharacterAttribute::PIETY, 10},
-			{CharacterAttribute::VITALITY, 8}, {CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 7}};
+		_start_attr = {{STRENGTH, 7}, {IQ, 7}, {PIETY, 10}, {VITALITY, 8}, {AGILITY, 10}, {LUCK, 7}};
 		break;
 	case CharacterRace::HOBBIT:
-		_start_attr = {{CharacterAttribute::STRENGTH, 5}, {CharacterAttribute::IQ, 7}, {CharacterAttribute::PIETY, 7},
-			{CharacterAttribute::VITALITY, 6}, {CharacterAttribute::AGILITY, 10}, {CharacterAttribute::LUCK, 12}};
+		_start_attr = {{STRENGTH, 5}, {IQ, 7}, {PIETY, 7}, {VITALITY, 6}, {AGILITY, 10}, {LUCK, 12}};
 		break;
 	default:
 		break;
@@ -2323,20 +2307,20 @@ auto Sorcery::Character::create_quick() -> void {
 	_st_points = _points_left;
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case CharacterClass::FIGHTER:
-		_points_left -= (15 - _start_attr[CharacterAttribute::STRENGTH]);
-		_start_attr[CharacterAttribute::STRENGTH] = 15;
+		_points_left -= (15 - _start_attr[STRENGTH]);
+		_start_attr[STRENGTH] = 15;
 		break;
 	case CharacterClass::MAGE:
-		_points_left -= (15 - _start_attr[CharacterAttribute::IQ]);
-		_start_attr[CharacterAttribute::IQ] = 15;
+		_points_left -= (15 - _start_attr[IQ]);
+		_start_attr[IQ] = 15;
 		break;
 	case CharacterClass::PRIEST:
-		_points_left -= (15 - _start_attr[CharacterAttribute::PIETY]);
-		_start_attr[CharacterAttribute::PIETY] = 15;
+		_points_left -= (15 - _start_attr[PIETY]);
+		_start_attr[PIETY] = 15;
 		break;
 	case CharacterClass::THIEF:
-		_points_left -= (15 - _start_attr[CharacterAttribute::AGILITY]);
-		_start_attr[CharacterAttribute::AGILITY] = 15;
+		_points_left -= (15 - _start_attr[AGILITY]);
+		_start_attr[AGILITY] = 15;
 		break;
 	default:
 		break;
@@ -2344,7 +2328,7 @@ auto Sorcery::Character::create_quick() -> void {
 
 	// Pump any points left into the Vitality attribute
 	if (_points_left > 0)
-		_start_attr[CharacterAttribute::VITALITY] += _points_left;
+		_start_attr[VITALITY] += _points_left;
 
 	_cur_attr = _start_attr;
 }
@@ -2669,6 +2653,8 @@ auto Sorcery::Character::summary_text() -> std::string {
 
 auto Sorcery::Character::_generate_display() -> void {
 
+	using enum Enums::Character::Attribute;
+
 	_sprites.clear();
 	_texts.clear();
 	_frames.clear();
@@ -2707,28 +2693,28 @@ auto Sorcery::Character::_generate_display() -> void {
 		_v_sprites.emplace(portrait_c.unique_key, portrait);
 
 		Component s_c{(*_display->layout)["character_summary:strength_value"]};
-		s_c.colour = _graphics->adjust_colour(_cur_attr.at(CharacterAttribute::STRENGTH), CharacterAbilityType::STAT);
-		_add_text(s_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
+		s_c.colour = _graphics->adjust_colour(_cur_attr.at(STRENGTH), CharacterAbilityType::STAT);
+		_add_text(s_c, "{:>2}", std::to_string(_cur_attr.at(STRENGTH)));
 
 		Component i_c{(*_display->layout)["character_summary:iq_value"]};
-		i_c.colour = _graphics->adjust_colour(_cur_attr.at(CharacterAttribute::IQ), CharacterAbilityType::STAT);
-		_add_text(i_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::IQ)));
+		i_c.colour = _graphics->adjust_colour(_cur_attr.at(IQ), CharacterAbilityType::STAT);
+		_add_text(i_c, "{:>2}", std::to_string(_cur_attr.at(IQ)));
 
 		Component p_c{(*_display->layout)["character_summary:piety_value"]};
-		p_c.colour = _graphics->adjust_colour(_cur_attr.at(CharacterAttribute::PIETY), CharacterAbilityType::STAT);
-		_add_text(p_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::PIETY)));
+		p_c.colour = _graphics->adjust_colour(_cur_attr.at(PIETY), CharacterAbilityType::STAT);
+		_add_text(p_c, "{:>2}", std::to_string(_cur_attr.at(PIETY)));
 
 		Component a_c{(*_display->layout)["character_summary:agility_value"]};
-		a_c.colour = _graphics->adjust_colour(_cur_attr.at(CharacterAttribute::AGILITY), CharacterAbilityType::STAT);
-		_add_text(a_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::AGILITY)));
+		a_c.colour = _graphics->adjust_colour(_cur_attr.at(AGILITY), CharacterAbilityType::STAT);
+		_add_text(a_c, "{:>2}", std::to_string(_cur_attr.at(AGILITY)));
 
 		Component v_c{(*_display->layout)["character_summary:vitality_value"]};
-		v_c.colour = _graphics->adjust_colour(_cur_attr.at(CharacterAttribute::VITALITY), CharacterAbilityType::STAT);
-		_add_text(v_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::VITALITY)));
+		v_c.colour = _graphics->adjust_colour(_cur_attr.at(VITALITY), CharacterAbilityType::STAT);
+		_add_text(v_c, "{:>2}", std::to_string(_cur_attr.at(VITALITY)));
 
 		Component l_c{(*_display->layout)["character_summary:luck_value"]};
-		l_c.colour = _graphics->adjust_colour(_cur_attr.at(CharacterAttribute::LUCK), CharacterAbilityType::STAT);
-		_add_text(l_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::LUCK)));
+		l_c.colour = _graphics->adjust_colour(_cur_attr.at(LUCK), CharacterAbilityType::STAT);
+		_add_text(l_c, "{:>2}", std::to_string(_cur_attr.at(LUCK)));
 
 		_add_text((*_display->layout)["character_summary:hp_value"], "{}",
 			fmt::format("{}/{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
@@ -2787,28 +2773,28 @@ auto Sorcery::Character::_generate_display() -> void {
 		_v_sprites.emplace(portrait_c.unique_key, portrait);
 
 		Component s_c{(*_display->layout)["character_detailed:strength_value"]};
-		s_c.colour = _graphics->adjust_colour(_cur_attr.at(CharacterAttribute::STRENGTH), CharacterAbilityType::STAT);
-		_add_text(s_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::STRENGTH)));
+		s_c.colour = _graphics->adjust_colour(_cur_attr.at(STRENGTH), CharacterAbilityType::STAT);
+		_add_text(s_c, "{:>2}", std::to_string(_cur_attr.at(STRENGTH)));
 
 		Component i_c{(*_display->layout)["character_detailed:iq_value"]};
-		i_c.colour = _graphics->adjust_colour(_cur_attr.at(CharacterAttribute::IQ), CharacterAbilityType::STAT);
-		_add_text(i_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::IQ)));
+		i_c.colour = _graphics->adjust_colour(_cur_attr.at(IQ), CharacterAbilityType::STAT);
+		_add_text(i_c, "{:>2}", std::to_string(_cur_attr.at(IQ)));
 
 		Component p_c{(*_display->layout)["character_detailed:piety_value"]};
-		p_c.colour = _graphics->adjust_colour(_cur_attr.at(CharacterAttribute::PIETY), CharacterAbilityType::STAT);
-		_add_text(p_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::PIETY)));
+		p_c.colour = _graphics->adjust_colour(_cur_attr.at(PIETY), CharacterAbilityType::STAT);
+		_add_text(p_c, "{:>2}", std::to_string(_cur_attr.at(PIETY)));
 
 		Component a_c{(*_display->layout)["character_detailed:agility_value"]};
-		a_c.colour = _graphics->adjust_colour(_cur_attr.at(CharacterAttribute::AGILITY), CharacterAbilityType::STAT);
-		_add_text(a_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::AGILITY)));
+		a_c.colour = _graphics->adjust_colour(_cur_attr.at(AGILITY), CharacterAbilityType::STAT);
+		_add_text(a_c, "{:>2}", std::to_string(_cur_attr.at(AGILITY)));
 
 		Component v_c{(*_display->layout)["character_detailed:vitality_value"]};
-		v_c.colour = _graphics->adjust_colour(_cur_attr.at(CharacterAttribute::VITALITY), CharacterAbilityType::STAT);
-		_add_text(v_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::VITALITY)));
+		v_c.colour = _graphics->adjust_colour(_cur_attr.at(VITALITY), CharacterAbilityType::STAT);
+		_add_text(v_c, "{:>2}", std::to_string(_cur_attr.at(VITALITY)));
 
 		Component l_c{(*_display->layout)["character_detailed:luck_value"]};
-		l_c.colour = _graphics->adjust_colour(_cur_attr.at(CharacterAttribute::LUCK), CharacterAbilityType::STAT);
-		_add_text(l_c, "{:>2}", std::to_string(_cur_attr.at(CharacterAttribute::LUCK)));
+		l_c.colour = _graphics->adjust_colour(_cur_attr.at(LUCK), CharacterAbilityType::STAT);
+		_add_text(l_c, "{:>2}", std::to_string(_cur_attr.at(LUCK)));
 
 		Component strength_c((*_display->layout)["character_detailed:strength_detailed_values"]);
 
