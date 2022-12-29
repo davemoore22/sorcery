@@ -1272,7 +1272,7 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 		_abilities[CharacterAbility::BASE_RESIST_BONUS] += 1;
 
 	// Chance equipment is intact on a corpse TODO: check this is accurate
-	_abilities[CharacterAbility::EQUIPMENT_INTACT_ON_WIPE] = (_cur_attr[LUCK] / 21.0) * 100;
+	_abilities[CharacterAbility::EQUIPMENT_INTACT_ON_WIPE] = (_cur_attr[LUCK] / 21.0f) * 100;
 
 	// Other Resists (d20)
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
@@ -2967,8 +2967,8 @@ auto Sorcery::Character::_generate_display() -> void {
 		Component luck_c((*_display->layout)["character_detailed:luck_detailed_values"]);
 
 		luck_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::BASE_RESIST_BONUS), CharacterAbilityType::PERCENTAGE);
-		_add_text(luck_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_RESIST_BONUS)));
+			_abilities.at(CharacterAbility::BASE_RESIST_BONUS) * 5, CharacterAbilityType::PERCENTAGE);
+		_add_text(luck_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_RESIST_BONUS) * 5));
 
 		luck_c.y += _display->window->get_ch();
 		luck_c.colour = _graphics->adjust_colour(
