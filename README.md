@@ -86,6 +86,7 @@ Graphics used (all free/open source) are by:
 
 Most Recent Screenshots are first
 
+![Logo](/promo/screen12.png)
 ![Logo](/promo/screen11.png)
 ![Logo](/promo/screen9.png)
 ![Logo](/promo/screen10.png)

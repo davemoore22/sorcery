@@ -5248,7 +5248,7 @@
 			{
 				"name": "level_up_text",
 				"x": "15",
-				"y": "10",
+				"y": "11",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",

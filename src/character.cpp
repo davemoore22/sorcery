@@ -1612,29 +1612,26 @@ auto Sorcery::Character::_get_hp_per_level() -> int {
 	return extra_hp;
 }
 
-// Add hit points on level gain (but note the strict mode limitation mentioned
-// below)
+// Add hit points on level gain (but note the strict mode limitation mentioned below)
 auto Sorcery::Character::_update_hp_for_level() -> int {
 
-	// Note the annoying thing in the original Wizardry ("MADELEV") and reproduced here in strict mode where it
-	// recalculates all HP and thus often you end up with gaining only one HP - this also reproduces the equally
-	// annoying thing where if you have changed class it uses your *current* class level for recalculation, hence until
-	// you get back to where you were before changing class you will probably only ever gain 1 hp each time unless the
-	// random dice rolls are really in your favour!
+	using enum Enums::Character::Ability;
+
+	// Note the rerolling of all HP ("MADELEV") when levelling - and using MaxLevel achieved when in strict mode
 	auto hp_gained{0};
 	if ((*_system->config)[ConfigOption::REROLL_HIT_POINTS_ON_LEVEL_GAIN]) {
 		auto hp_total{0};
-		for (auto level = 1; level < _abilities[CharacterAbility::CURRENT_LEVEL]; level++)
+		for (auto level = 1; level < _abilities[CURRENT_LEVEL]; level++)
 			hp_total += _get_hp_per_level();
-		if (hp_total < _abilities[CharacterAbility::MAX_HP])
-			hp_total = _abilities[CharacterAbility::MAX_HP] + 1;
-		hp_gained = hp_total - _abilities[CharacterAbility::MAX_HP];
-		_abilities[CharacterAbility::MAX_HP] += hp_gained;
-		_abilities[CharacterAbility::CURRENT_HP] += hp_gained;
+		if (hp_total < _abilities[MAX_HP])
+			hp_total = _abilities[MAX_HP] + 1;
+		hp_gained = hp_total - _abilities[MAX_HP];
+		_abilities[MAX_HP] += hp_gained;
+		_abilities[CURRENT_HP] += hp_gained;
 	} else {
 		hp_gained = _get_hp_per_level();
-		_abilities[CharacterAbility::MAX_HP] += hp_gained;
-		_abilities[CharacterAbility::CURRENT_HP] += hp_gained;
+		_abilities[MAX_HP] += hp_gained;
+		_abilities[CURRENT_HP] += hp_gained;
 	}
 
 	return hp_gained;
