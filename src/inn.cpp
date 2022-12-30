@@ -256,7 +256,6 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 
 									_game->pool_party_gold(_cur_char_id);
 									_game->save_game();
-									_game->load_game();
 
 									_show_pool = true;
 									_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
@@ -270,6 +269,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 									}
 									_rest->stop();
 									_status_bar->refresh();
+									continue;
 								} else if (option_chosen == MenuItem::IN_COT) {
 									if (auto stables_option{
 											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::COT)};
@@ -280,6 +280,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 									}
 									_rest->stop();
 									_status_bar->refresh();
+									continue;
 								} else if (option_chosen == MenuItem::IN_ECONOMY) {
 									if (auto stables_option{
 											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::ECONOMY)};
@@ -290,6 +291,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 									}
 									_rest->stop();
 									_status_bar->refresh();
+									continue;
 								} else if (option_chosen == MenuItem::IN_MERCHANT) {
 									if (auto stables_option{
 											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::MERCHANT)};
@@ -300,6 +302,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 									}
 									_rest->stop();
 									_status_bar->refresh();
+									continue;
 								} else if (option_chosen == MenuItem::IN_ROYAL) {
 									if (auto stables_option{
 											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::ROYAL)};
@@ -310,6 +313,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 									}
 									_rest->stop();
 									_status_bar->refresh();
+									continue;
 								}
 							}
 						}

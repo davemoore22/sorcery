@@ -19,26 +19,29 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 
 ## Progress Update
 
-* Load/Save Game (DONE)
-* Character Creation (DONE)
-* Character Editing (DONE)
-* Town/Castle Menus (DONE)
-* Party/Expedition Management (DONE)
-* Maze Generation and Navigation (DONE)
-* Dungeon Features (DONE)
-* Automapping (DONE)
-* Keyboard/Mouse/Gamepad Control (DONE)
-* Context-Sensitive-Help (DONE)
-* Inn/Temple (IN PROGRESS)
+* ~~Load/Save/New Game~~ (DONE)
+* ~~Town/Castle Menus~~ (DONE)
+* ~~Character Creation~~ (DONE)
+* ~~Character Editing~~ (DONE)
+* ~~Party/Expedition Management~~ (DONE)
+* ~~Maze Generation and Navigation~~ (DONE)
+* ~~Dungeon Features~~ (DONE)
+* ~~Automapping~~ (DONE)
+* ~~Keyboard/Mouse/Gamepad Control~~ (DONE)
+* ~~Context-Sensitive-Help~~ (DONE)
+* ~~Gilgamesh's Tavern~~ (DONE)
+* ~~Adventurer's Inn~~ (DONE)
+* ~~Levelling up/Changing Class~~ (DONE)
+* Temple (DOING)
 * Items and Inventory (TO DO)
 * Creatures and NPCs (TO DO)
 * Magic and Combat (TO DO)
 * Strict (Legacy) Mode (TO DO)
 * 3D Rendering (TO DO)
 
-## What next? (as of December 2022)
+## What next? (as of January 2023)
 
-I'm currently implementing Inn/Temple functionality.
+I'm currently implementing the Temple of Cant.
 
 Next stop after that will be items, creatures, magic and combat. Then there might
 be something playable here! Then a proper 3D renderer will probably be implemented.

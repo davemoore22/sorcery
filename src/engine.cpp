@@ -928,16 +928,6 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		auto next{character.get_next_xp()};
 		character.grant_xp(next - 1);
 
-		// grant_xp
-
-		/* for (auto &[character_id, character] : _game->characters) {
-			if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-				if ((*_system->random)[RandomType::ZERO_TO_2] == 0)
-					character.set_current_hp(1);
-				else
-					character.set_current_hp(character.get_max_hp());
-			}
-		} */
 		_update_automap = true;
 		_update_compass = true;
 		_update_buffbar = true;
@@ -963,8 +953,18 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 
 		 */
 
-		auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
-		character.level_down();
+		/* auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
+		character.level_down(); */
+		auto party{_game->state->get_party_characters()};
+		for (auto &[character_id, character] : _game->characters) {
+			if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+				character.set_current_hp(1);
+				/* if ((*_system->random)[RandomType::ZERO_TO_2] == 0)
+					character.set_current_hp(1);
+				else
+					character.set_current_hp(character.get_max_hp()); */
+			}
+		}
 
 		_update_automap = true;
 		_update_compass = true;
@@ -972,7 +972,6 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_update_search = true;
 		_update_render = true;
 		_update_status_bar = true;
-
 	} else if (_system->input->check(WindowInput::MAZE_SHOW_MAP, event)) {
 		_in_map = !_in_map;
 		_update_automap = true;

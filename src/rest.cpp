@@ -98,9 +98,46 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> option_continue{_continue_menu->items.begin()};
 	std::optional<std::vector<MenuEntry>::const_iterator> option_stop{_stop_menu->items.begin()};
+	bool proceed{false};
+	bool skip{false};
 
 	sf::Event event{};
+	_start = std::chrono::system_clock::now();
 	while (_window->isOpen()) {
+
+		if (_stage == RestStage::REGEN) {
+
+			_current_time = std::chrono::system_clock::now();
+			const auto time_elapsed{_current_time.value() - _start.value()};
+			if (const auto time_elapsed_msec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
+				time_elapsed_msec.count() > _duration)
+				proceed = true;
+
+			const auto time_elapsed_msec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
+			if ((proceed) && (!skip)) {
+				if (_type == RestType::STABLES) {
+					if (_stage == RestStage::REGEN) {
+						_go_to_results();
+						_stage = RestStage::RESULTS;
+					}
+				} else {
+					const auto is_fully_rested_or_stopped{_recuperate()};
+					if (is_fully_rested_or_stopped) {
+						_go_to_results();
+						skip = true;
+						_stage = RestStage::RESULTS;
+
+					} else {
+
+						// Restart clock for another round of resting
+						proceed = false;
+						_start = std::chrono::system_clock::now();
+						continue;
+					}
+				}
+			}
+		}
+
 		while (_window->pollEvent(event)) {
 
 			if (event.type == sf::Event::Closed)
@@ -113,27 +150,10 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 			} else
 				_display->hide_overlay();
 
+			// Stables
 			if (_type == RestType::STABLES) {
 
-				if (!_start)
-					_start = std::chrono::system_clock::now();
-
 				if (_stage == RestStage::REGEN) {
-
-					_current_time = std::chrono::system_clock::now();
-					const auto time_elapsed{_current_time.value() - _start.value()};
-					const auto time_elapsed_m3sec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
-					std::cout << time_elapsed_m3sec.count() << std::endl;
-
-					if (const auto time_elapsed_msec{
-							std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
-						time_elapsed_msec.count() > _duration) {
-						if (_stage == RestStage::REGEN) {
-							_go_to_results();
-							_stage = RestStage::RESULTS;
-							continue;
-						}
-					}
 
 					if (_system->input->check(WindowInput::ANYTHING, event)) {
 						_go_to_results();
@@ -165,24 +185,8 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 				}
 			} else {
 
+				// Do other methods of resting that cost money
 				if (_stage == RestStage::REGEN) {
-
-					if (!_start)
-						_start = std::chrono::system_clock::now();
-
-					_current_time = std::chrono::system_clock::now();
-					const auto time_elapsed{_current_time.value() - _start.value()};
-					if (const auto time_elapsed_sec{
-							std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
-						time_elapsed_sec.count() > _duration) {
-
-						if (_recuperate()) {
-							_go_to_results();
-							_stage = RestStage::RESULTS;
-							continue;
-						} else
-							_start = std::chrono::system_clock::now();
-					}
 
 					if (_system->input->check(WindowInput::CANCEL, event))
 						return MenuItem::CP_LEAVE;
@@ -202,6 +206,7 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 								option_chosen == MenuItem::STOP) {
 								_go_to_results();
 								_stage = RestStage::RESULTS;
+								continue;
 							}
 						}
 					}
@@ -277,6 +282,15 @@ auto Sorcery::Rest::_recuperate() -> bool {
 		break;
 	}
 
+	if (gold < dec_gold)
+		return true;
+
+	if (hp >= _character->get_max_hp()) {
+		if (_character->get_current_hp() > _character->get_max_hp())
+			_character->set_current_hp(_character->get_max_hp());
+		return true;
+	}
+
 	_recup_message_1 = fmt::format("{} ({:>5}/{:>5})", (*_display->string)["REST_HP"], hp, _character->get_max_hp());
 	_recup_message_2 = fmt::format("{} {}", (*_display->string)["REST_GOLD"], gold);
 
@@ -285,16 +299,15 @@ auto Sorcery::Rest::_recuperate() -> bool {
 	_birthday = age % 52 == 0;
 	// need to do happy birthday message;
 
-	if ((hp == _character->get_max_hp()) || (gold < dec_gold))
+	_character->set_gold(gold - dec_gold);
+	_character->set_current_hp(hp + inc_hp);
+	if (_character->get_current_hp() > _character->get_max_hp()) {
+		_character->set_current_hp(_character->get_max_hp());
 		return true;
-	else {
-
-		_character->set_gold(gold - dec_gold);
-		_character->set_current_hp(hp + inc_hp);
-		_character->set_age(inc_age);
-
-		return false;
 	}
+	_character->set_age(inc_age);
+
+	return false;
 }
 
 auto Sorcery::Rest::_go_to_results() -> void {
