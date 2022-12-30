@@ -116,12 +116,12 @@ auto Sorcery::Animation::_animate_attract(bool force) -> void {
 		do {
 			_current_time = std::chrono::system_clock::now();
 			const auto time_elapsed{_current_time - _last_attract};
-			if (const auto time_elapsed_sec{std::chrono::duration_cast<std::chrono::seconds>(time_elapsed)};
-				time_elapsed_sec.count() > 5)
+			if (const auto time_elapsed_msec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
+				time_elapsed_msec.count() > DELAY_ATTRACT)
 				if (_allow_attract)
 					_do_attract();
 
-			std::this_thread::sleep_for(std::chrono::milliseconds(500));
+			std::this_thread::sleep_for(std::chrono::milliseconds(DELAY_TSLEEP));
 		} while (!_finished);
 	}
 }

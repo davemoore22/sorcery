@@ -1464,6 +1464,13 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 	}
 }
 
+auto Sorcery::Character::grant_xp(const int adjustment) -> int {
+
+	_abilities[CharacterAbility::CURRENT_XP] = _abilities[CharacterAbility::CURRENT_XP] + adjustment;
+
+	return _abilities[CharacterAbility::CURRENT_XP];
+}
+
 // Now work out spellpoints!
 auto Sorcery::Character::_reset_starting_sp() -> void {
 
@@ -1741,8 +1748,10 @@ auto Sorcery::Character::level_down() -> void {
 		return;
 	}
 
+	// what to do about negative level ability?
+
 	const auto old_level{_abilities.at(CURRENT_LEVEL)};
-	const auto diff_hp{_abilities.at(CharacterAbility::MAX_HP) - _abilities.at(CharacterAbility::CURRENT_HP)};
+	const auto diff_hp{_abilities.at(MAX_HP) - _abilities.at(CURRENT_HP)};
 
 	_abilities.at(CURRENT_LEVEL) = _abilities.at(CURRENT_LEVEL) - 1;
 	_abilities.at(HIT_DICE) = _abilities.at(HIT_DICE) - 1;
@@ -1752,13 +1761,13 @@ auto Sorcery::Character::level_down() -> void {
 	_set_sp();
 
 	_abilities[NEXT_LEVEL_XP] = _get_xp_for_level(_abilities.at(CURRENT_LEVEL));
+	_abilities[CURRENT_XP] = _abilities[NEXT_LEVEL_XP] - 1; // not sure about this
 
 	_generate_secondary_abil(false, false, false);
-	_abilities[CharacterAbility::MAX_HP] =
-		_abilities.at(CharacterAbility::MAX_HP) * (_abilities.at(CURRENT_LEVEL) / (old_level * 1.f));
-	_abilities[CharacterAbility::CURRENT_HP] = _abilities[CharacterAbility::MAX_HP] - diff_hp;
-	if (_abilities[CharacterAbility::CURRENT_HP] < 0)
-		_abilities[CharacterAbility::CURRENT_HP] = 0;
+	_abilities[MAX_HP] = _abilities.at(MAX_HP) * (_abilities.at(CURRENT_LEVEL) / (old_level * 1.f));
+	_abilities[CURRENT_HP] = _abilities[MAX_HP] - diff_hp;
+	if (_abilities[CURRENT_HP] < 0)
+		_abilities[CURRENT_HP] = 0;
 }
 
 // For each spell level, try to learn spells - called before set_spellpoints
@@ -2617,12 +2626,18 @@ auto Sorcery::Character::get_summary() -> std::string {
 		get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3), get_race(_race).substr(0, 3));
 }
 
+auto Sorcery::Character::can_level() -> bool {
+
+	return _abilities.at(CharacterAbility::CURRENT_XP) > _abilities.at(CharacterAbility::NEXT_LEVEL_XP);
+}
+
 auto Sorcery::Character::get_sb_text(const int position) -> std::string {
 
 	auto name{_name};
+	const std::string indicator{can_level() ? "*" : " "};
 	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
-	return fmt::format("{} {:<15} {:>2} {}-{} {:>3} {:>6} {:^10}", position, name,
-		_abilities.at(CharacterAbility::CURRENT_LEVEL), get_alignment(_alignment).substr(0, 1),
+	return fmt::format("{} {:<15} {:>2}{} {}-{} {:>3} {:>8} {:^7}", position, name,
+		_abilities.at(CharacterAbility::CURRENT_LEVEL), indicator, get_alignment(_alignment).substr(0, 1),
 		get_class(_class).substr(0, 3), _abilities.at(CharacterAbility::CURRENT_ARMOUR_CLASS), get_hp_summary(),
 		_get_condition());
 }

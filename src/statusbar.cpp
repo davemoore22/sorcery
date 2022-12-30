@@ -46,7 +46,7 @@ Sorcery::StatusBar::StatusBar(System *system, Display *display, Graphics *graphi
 	_rtexture.setSmooth(true);
 	_rtexture.clear();
 
-	// Create the Outside Fram
+	// Create the Outside Frame
 	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _frame_c.w, _frame_c.h,
 		_frame_c.colour, _frame_c.background, _frame_c.alpha);
 
@@ -115,9 +115,8 @@ auto Sorcery::StatusBar::set_selected_background() -> void {
 	if (selected) {
 
 		// Find the text that is highlighted (note we are 1-indexed here)
-		auto it{std::find_if(_summaries.begin(), _summaries.end(), [&](auto &summary) {
-			return summary->get_position() == selected.value();
-		})};
+		auto it{std::find_if(_summaries.begin(), _summaries.end(),
+			[&](auto &summary) { return summary->get_position() == selected.value(); })};
 		if (it != _summaries.end()) {
 			auto &summary{*it};
 
@@ -136,9 +135,8 @@ auto Sorcery::StatusBar::set_mouse_selected(sf::Vector2f mouse_pos) -> std::opti
 
 		const sf::Vector2f global_pos{this->getPosition()};
 		mouse_pos -= global_pos;
-		auto it{std::find_if(bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) {
-			return item.contains(mouse_pos);
-		})};
+		auto it{std::find_if(
+			bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) { return item.contains(mouse_pos); })};
 		if (it != bounds.end())
 			return std::distance(bounds.begin(), it) + 1;
 		else

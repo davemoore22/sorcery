@@ -118,13 +118,16 @@ inline constexpr auto FRAMERATE{60u};
 inline constexpr auto DARK_VIEW_DEPTH{3u};
 inline constexpr auto LIGHT_VIEW_DEPTH{6u};
 
-// Timed Settings
+// Timed Settings (Milliseconds)
 inline constexpr auto DELAY_OUCH{1000u};
 inline constexpr auto DELAY_PIT{2000u};
 inline constexpr auto DELAY_CHUTE{2000u};
 inline constexpr auto DELAY_ELEVATOR{2000u};
 inline constexpr auto DELAY_DEFAULT{1000u};
 inline constexpr auto DELAY_RESTING{2000u};
+inline constexpr auto DELAY_ATTRACT{5000u};
+inline constexpr auto DELAY_DIRECTION{150u};
+inline constexpr auto DELAY_TSLEEP{500u};
 
 // Miscellaneous Settings
 inline constexpr auto MAX_PORTRAIT_INDEX{29u};

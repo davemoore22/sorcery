@@ -159,8 +159,8 @@ auto Sorcery::Engine::_update_direction_indicator_timer() -> void {
 		_direction_current_time = std::chrono::system_clock::now();
 
 		const auto time_elapsed{_direction_current_time.value() - _direction_start.value()};
-		const auto time_elapsed_sec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
-		if (time_elapsed_sec.count() > 150) {
+		const auto time_elapsed_msec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
+		if (time_elapsed_msec.count() > DELAY_DIRECTION) {
 			_show_direction_indicatior = false;
 			_direction_start = std::nullopt;
 		}
@@ -918,11 +918,17 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 
 	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F3)) {
 
-		auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
+		/* auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
 		auto results{character.level_up()};
 		for (auto text : results) {
 			std::cout << text << std::endl;
-		}
+		} */
+
+		auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
+		auto next{character.get_next_xp()};
+		character.grant_xp(next - 1);
+
+		// grant_xp
 
 		/* for (auto &[character_id, character] : _game->characters) {
 			if (std::find(party.begin(), party.end(), character_id) != party.end()) {

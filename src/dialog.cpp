@@ -435,8 +435,8 @@ auto Sorcery::Dialog::update() -> void {
 			_current_time = std::chrono::system_clock::now();
 
 			const auto time_elapsed{_current_time.value() - _start.value()};
-			const auto time_elapsed_sec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
-			if (time_elapsed_sec.count() > _duration)
+			const auto time_elapsed_msec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
+			if (time_elapsed_msec.count() > _duration)
 				_valid = false;
 		}
 

@@ -84,6 +84,9 @@ class Rest {
 		std::string _no_level_message_1;
 		std::string _no_level_message_2;
 		std::string _string;
+		sf::Text _level_up_message;
+		std::string _level;
+		std::vector<std::string> _level_up_messages;
 		std::vector<std::string> _strings;
 		std::vector<sf::Text> _texts;
 		bool _level_up;

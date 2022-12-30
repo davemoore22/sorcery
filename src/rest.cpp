@@ -37,6 +37,7 @@ Sorcery::Rest::Rest(System *system, Display *display, Graphics *graphics, Game *
 	_nap_text = sf::Text();
 	_no_level_text_1 = sf::Text();
 	_no_level_text_2 = sf::Text();
+	_level_up_message = sf::Text();
 
 	Component _smf_c{(*_display->layout)["rest:stop_frame"]};
 	_stop_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _smf_c.w, _smf_c.h,
@@ -62,6 +63,8 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 
 	_level_up = false;
 	_birthday = false;
+
+	_level_up_messages.clear();
 
 	auto name{character->get_name()};
 	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
@@ -115,17 +118,22 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 				if (!_start)
 					_start = std::chrono::system_clock::now();
 
-				_current_time = std::chrono::system_clock::now();
-
-				const auto time_elapsed{_current_time.value() - _start.value()};
-				if (const auto time_elapsed_sec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
-					time_elapsed_sec.count() > _duration)
-					if (_stage == RestStage::REGEN) {
-						_go_to_results();
-						_stage = RestStage::RESULTS;
-					}
-
 				if (_stage == RestStage::REGEN) {
+
+					_current_time = std::chrono::system_clock::now();
+					const auto time_elapsed{_current_time.value() - _start.value()};
+					const auto time_elapsed_m3sec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
+					std::cout << time_elapsed_m3sec.count() << std::endl;
+
+					if (const auto time_elapsed_msec{
+							std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
+						time_elapsed_msec.count() > _duration) {
+						if (_stage == RestStage::REGEN) {
+							_go_to_results();
+							_stage = RestStage::RESULTS;
+							continue;
+						}
+					}
 
 					if (_system->input->check(WindowInput::ANYTHING, event)) {
 						_go_to_results();
@@ -159,14 +167,8 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 
 				if (_stage == RestStage::REGEN) {
 
-					if (!_start) {
+					if (!_start)
 						_start = std::chrono::system_clock::now();
-						if (_recuperate()) {
-							_go_to_results();
-							_stage = RestStage::RESULTS;
-						} else
-							_start = std::chrono::system_clock::now();
-					}
 
 					_current_time = std::chrono::system_clock::now();
 					const auto time_elapsed{_current_time.value() - _start.value()};
@@ -177,6 +179,7 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 						if (_recuperate()) {
 							_go_to_results();
 							_stage = RestStage::RESULTS;
+							continue;
 						} else
 							_start = std::chrono::system_clock::now();
 					}
@@ -280,6 +283,7 @@ auto Sorcery::Rest::_recuperate() -> bool {
 	_status_bar->refresh();
 
 	_birthday = age % 52 == 0;
+	// need to do happy birthday message;
 
 	if ((hp == _character->get_max_hp()) || (gold < dec_gold))
 		return true;
@@ -304,7 +308,13 @@ auto Sorcery::Rest::_go_to_results() -> void {
 
 		// Level up!
 		_level_up = true;
-		const auto level_up_results{_character->level_up()};
+		const auto _level_up_messages{_character->level_up()};
+		_level = "";
+		for (const auto &message : _level_up_messages) {
+			_level.append(message);
+			_level.append("\n");
+		}
+
 	} else {
 
 		_no_level_message_1 = fmt::format(
@@ -341,6 +351,8 @@ auto Sorcery::Rest::_draw() -> void {
 					_no_level_text_1, (*_display->layout)["rest:level_text_1"], _no_level_message_1);
 				_display->window->draw_text(
 					_no_level_text_2, (*_display->layout)["rest:level_text_2"], _no_level_message_2);
+			} else {
+				_display->window->draw_text(_no_level_text_1, (*_display->layout)["rest:level_up_text"], _level);
 			}
 
 			// And the Menu
