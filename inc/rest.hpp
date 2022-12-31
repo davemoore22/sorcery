@@ -31,6 +31,7 @@
 #include "menu.hpp"
 #include "statusbar.hpp"
 #include "system.hpp"
+#include "textpanel.hpp"
 
 namespace Sorcery {
 
@@ -65,6 +66,7 @@ class Rest {
 		RestType _type;
 		RestStage _stage;
 		std::unique_ptr<StatusBar> _status_bar;
+		std::unique_ptr<TextPanel> _results;
 		sf::RenderWindow *_window;
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _start;
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _current_time;
@@ -77,6 +79,7 @@ class Rest {
 		sf::Text _no_level_text_2;
 		sf::Text _recup_text_1;
 		sf::Text _recup_text_2;
+		sf::Text _level_text;
 		std::string _nap_message;
 		std::string _recup_message;
 		std::string _recup_message_1;

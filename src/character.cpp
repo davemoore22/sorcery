@@ -1681,13 +1681,17 @@ auto Sorcery::Character::_update_stat_for_level(CharacterAttribute attribute, st
 }
 
 // Level a character up
-auto Sorcery::Character::level_up() -> std::vector<std::string> {
+auto Sorcery::Character::level_up() -> std::string {
 
 	using enum Enums::Character::Ability;
 
 	std::vector<std::string> messages{};
+	std::string results{};
+
 	messages.clear();
 	messages.push_back((*_display->string)["LEVEL_DING"]);
+	results.append((*_display->string)["LEVEL_DING"]);
+	results.append("@");
 
 	// increase level
 	_abilities.at(CURRENT_LEVEL) = _abilities.at(CURRENT_LEVEL) + 1;
@@ -1705,23 +1709,41 @@ auto Sorcery::Character::level_up() -> std::vector<std::string> {
 	// handle stat changing
 	auto stat_message{""s};
 	stat_message = _update_stat_for_level(CharacterAttribute::STRENGTH, (*_display->string)["CHARACTER_STAT_STRENGTH"]);
-	if (!stat_message.empty())
+	if (!stat_message.empty()) {
 		messages.push_back(stat_message);
-	stat_message = _update_stat_for_level(CharacterAttribute::AGILITY, (*_display->string)["CHARACTER_STAT_AGILITY"]);
-	if (!stat_message.empty())
-		messages.push_back(stat_message);
-	stat_message = _update_stat_for_level(CharacterAttribute::VITALITY, (*_display->string)["CHARACTER_STAT_VITALITY"]);
-	if (!stat_message.empty())
-		messages.push_back(stat_message);
+		results.append(stat_message);
+		results.append("@");
+	}
 	stat_message = _update_stat_for_level(CharacterAttribute::IQ, (*_display->string)["CHARACTER_STAT_INTELLIGENCE"]);
-	if (!stat_message.empty())
+	if (!stat_message.empty()) {
 		messages.push_back(stat_message);
+		results.append(stat_message);
+		results.append("@");
+	}
 	stat_message = _update_stat_for_level(CharacterAttribute::PIETY, (*_display->string)["CHARACTER_STAT_PIETY"]);
-	if (!stat_message.empty())
+	if (!stat_message.empty()) {
 		messages.push_back(stat_message);
+		results.append(stat_message);
+		results.append("@");
+	}
+	stat_message = _update_stat_for_level(CharacterAttribute::VITALITY, (*_display->string)["CHARACTER_STAT_VITALITY"]);
+	if (!stat_message.empty()) {
+		messages.push_back(stat_message);
+		results.append(stat_message);
+		results.append("@");
+	}
+	stat_message = _update_stat_for_level(CharacterAttribute::AGILITY, (*_display->string)["CHARACTER_STAT_AGILITY"]);
+	if (!stat_message.empty()) {
+		messages.push_back(stat_message);
+		results.append(stat_message);
+		results.append("@");
+	}
 	stat_message = _update_stat_for_level(CharacterAttribute::LUCK, (*_display->string)["CHARACTER_STAT_LUCK"]);
-	if (!stat_message.empty())
+	if (!stat_message.empty()) {
 		messages.push_back(stat_message);
+		results.append(stat_message);
+		results.append("@");
+	}
 
 	// Level everything else up
 	_generate_secondary_abil(false, false, false);
@@ -1731,8 +1753,9 @@ auto Sorcery::Character::level_up() -> std::vector<std::string> {
 	const auto hp_message{fmt::format(
 		"{} {} {}", (*_display->string)["LEVEL_HP_PREFIX"], hp_gained, (*_display->string)["LEVEL_HP_SUFFIX"])};
 	messages.push_back(hp_message);
+	results.append(hp_message);
 
-	return messages;
+	return results;
 }
 
 // Level a character down (e.g. drain levels or give/increase negative levels_

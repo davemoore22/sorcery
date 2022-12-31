@@ -205,6 +205,7 @@
 		<Unit filename="inc/temple.hpp" />
 		<Unit filename="inc/text.hpp" />
 		<Unit filename="inc/textfile.hpp" />
+		<Unit filename="inc/textpanel.hpp" />
 		<Unit filename="inc/texturestore.hpp" />
 		<Unit filename="inc/tile.hpp" />
 		<Unit filename="inc/type.hpp" />
@@ -282,6 +283,7 @@
 		<Unit filename="src/temple.cpp" />
 		<Unit filename="src/text.cpp" />
 		<Unit filename="src/textfile.cpp" />
+		<Unit filename="src/textpanel.cpp" />
 		<Unit filename="src/texturestore.cpp" />
 		<Unit filename="src/tile.cpp" />
 		<Unit filename="src/training.cpp" />

@@ -89,6 +89,7 @@ add_executable(${PROJECT_NAME}
 	src/temple.cpp
 	src/text.cpp
 	src/textfile.cpp
+	src/textpanel.cpp
 	src/texturestore.cpp
 	src/tile.cpp
 	src/training.cpp

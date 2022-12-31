@@ -38,6 +38,7 @@ Sorcery::Rest::Rest(System *system, Display *display, Graphics *graphics, Game *
 	_no_level_text_1 = sf::Text();
 	_no_level_text_2 = sf::Text();
 	_level_up_message = sf::Text();
+	_level_text = sf::Text();
 
 	Component _smf_c{(*_display->layout)["rest:stop_frame"]};
 	_stop_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _smf_c.w, _smf_c.h,
@@ -53,6 +54,7 @@ Sorcery::Rest::Rest(System *system, Display *display, Graphics *graphics, Game *
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
+	_results = std::make_unique<TextPanel>(_system, _display, _graphics, (*_display->layout)["rest:results_panel"]);
 }
 
 auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) -> std::optional<MenuItem> {
@@ -83,6 +85,8 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
 	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
 		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
+	const Component results_c{(*_display->layout)["rest:results_panel"]};
+	_results->setPosition((*_display->layout)["rest:results_panel"].x, (*_display->layout)["rest:results_panel"].y);
 
 	// Play the background movie!
 	_display->fit_bg_movie();
@@ -321,22 +325,19 @@ auto Sorcery::Rest::_go_to_results() -> void {
 
 		// Level up!
 		_level_up = true;
-		const auto _level_up_messages{_character->level_up()};
-		_level = "";
-		for (const auto &message : _level_up_messages) {
-			_level.append(message);
-			_level.append("\n");
-		}
+		const auto level_up_results{_character->level_up()};
+		_results->set_text(level_up_results);
 
 	} else {
 
-		_no_level_message_1 = fmt::format(
-			"{} {} {}", (*_display->string)["REST_XP_PREFIX_YOU"], need_xp, (*_display->string)["REST_XP_SUFFIX_YOU"]);
-		_no_level_message_2 = (*_display->string)["REST_XP_2_YOU"];
+		const auto no_level_up_results{fmt::format("{} {} {}@{}", (*_display->string)["REST_XP_PREFIX_YOU"], need_xp,
+			(*_display->string)["REST_XP_SUFFIX_YOU"], (*_display->string)["REST_XP_2_YOU"])};
+		_results->set_text(no_level_up_results);
 	}
 
 	// both cases restore spells to max!
 	_character->replenish_spells();
+	_status_bar->refresh();
 }
 
 auto Sorcery::Rest::stop() -> void {
@@ -359,14 +360,8 @@ auto Sorcery::Rest::_draw() -> void {
 
 		} else if (_stage == RestStage::RESULTS) {
 
-			if (!_level_up) {
-				_display->window->draw_text(
-					_no_level_text_1, (*_display->layout)["rest:level_text_1"], _no_level_message_1);
-				_display->window->draw_text(
-					_no_level_text_2, (*_display->layout)["rest:level_text_2"], _no_level_message_2);
-			} else {
-				_display->window->draw_text(_no_level_text_1, (*_display->layout)["rest:level_up_text"], _level);
-			}
+			if (_results->valid)
+				_window->draw(*_results);
 
 			// And the Menu
 			_continue_menu->generate((*_display->layout)["rest:continue_menu"]);
@@ -393,14 +388,8 @@ auto Sorcery::Rest::_draw() -> void {
 
 		} else if (_stage == RestStage::RESULTS) {
 
-			if (!_level_up) {
-				_display->window->draw_text(
-					_no_level_text_1, (*_display->layout)["rest:level_text_1"], _no_level_message_1);
-				_display->window->draw_text(
-					_no_level_text_2, (*_display->layout)["rest:level_text_2"], _no_level_message_2);
-			} else {
-				_display->window->draw_text(_no_level_text_1, (*_display->layout)["rest:level_up_text"], _level);
-			}
+			if (_results->valid)
+				_window->draw(*_results);
 
 			// And the Menu
 			_continue_menu->generate((*_display->layout)["rest:continue_menu"]);

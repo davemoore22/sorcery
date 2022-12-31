@@ -5246,17 +5246,27 @@
 				"priority": "4"
 			},
 			{
-				"name": "level_up_text",
+				"name": "results_panel",
 				"x": "15",
-				"y": "11",
+				"y": "5",
+				"h": "12",
+				"w": "30",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",
 				"string": "NONE",
 				"justification": "left",
 				"drawmode" : "manual",
-				"type": "text",
-				"priority": "4"
+				"type": "panel",
+				"priority": "4",
+				"data": [
+					{
+						"text_colour": "0xffffffff",
+						"offset_x": "0",
+						"offset_y": "0",
+						"spacing_y": "32"
+					}
+				]
 			},
 			{
 				"name": "nap_text",
