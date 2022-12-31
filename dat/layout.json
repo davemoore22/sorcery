@@ -2065,7 +2065,7 @@
 					{
 						"offset_x": "0",
 						"offset_y": "0",
-						"summary_x": "38",
+						"summary_x": "16",
 						"summary_y": "28",
 						"summary_offset_x": "0",
 						"summary_offset_y": "28"
@@ -3051,7 +3051,7 @@
 		]
 	},
 	{
-		"name": "inn_begin",
+		"name": "inn_welcome",
 		"component": [
 			{
 				"name": "menu_frame",
@@ -5643,7 +5643,7 @@
 		},
 		{
 			"name": "class_icon",
-			"x": "27",
+			"x": "26",
 			"y": "0",
 			"scale": "0.10",
 			"type": "icon",
@@ -5660,7 +5660,7 @@
 		},
 		{
 			"name": "race_icon",
-			"x": "30",
+			"x": "29",
 			"y": "0",
 			"scale": "0.10",
 			"colour": "0xffffffff",
@@ -5677,7 +5677,7 @@
 		},
 		{
 			"name": "alignment_icon",
-			"x": "33",
+			"x": "32",
 			"y": "0",
 			"scale": "0.10",
 			"colour": "0xffffffff",
@@ -5694,7 +5694,7 @@
 		},
 		{
 			"name": "level_icon",
-			"x": "36",
+			"x": "35",
 			"y": "0",
 			"scale": "0.10",
 			"colour": "0xffffffff",
@@ -5711,7 +5711,7 @@
 		},
 		{
 			"name": "level_text",
-			"x": "38",
+			"x": "37",
 			"y": "0",
 			"font": "monospace",
 			"colour": "0xffffffff",
