@@ -1153,6 +1153,8 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 			}
 			if (_abilities[CharacterAbility::MAX_HP] < 1)
 				_abilities[CharacterAbility::MAX_HP] = 1;
+
+			_abilities[CharacterAbility::CURRENT_HP] = _abilities[CharacterAbility::MAX_HP];
 		}
 
 		if (legate) {
@@ -1179,9 +1181,9 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 			default:
 				break;
 			}
-		}
 
-		_abilities[CharacterAbility::CURRENT_HP] = _abilities[CharacterAbility::MAX_HP];
+			_abilities[CharacterAbility::CURRENT_HP] = _abilities[CharacterAbility::MAX_HP];
+		}
 	}
 
 	// Chance of resurrecting a Dead Character at the Temple (%)

@@ -48,7 +48,6 @@ be something playable here! Then a proper 3D renderer will probably be implement
 
 Initially I am planning to remake Wizardrys 1, 2, and 3, and subsequently
 providing infinite procedurally-generated content like that of Diablo for example.
-
 In the meantime, check out Snarfu's bugfix and recompilation of the original
 Wizardry for Apple II at <https://github.com/snafaru>.
 

@@ -70,6 +70,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 
 	// Refresh the Party characters
 	_status_bar->refresh();
+	_roster->reload();
 
 	// Generate the Components
 	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
@@ -89,8 +90,9 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 	std::optional<std::vector<MenuEntry>::const_iterator> option_choose{_roster->items.begin()};
 	std::optional<std::vector<MenuEntry>::const_iterator> option_bed{_bed->items.begin()};
 
-	_cur_char_id = -1;
-	_cur_char = std::nullopt;
+	// By default choose the first character in the party!
+	_cur_char_id = (*option_choose.value()).index;
+	_cur_char = &_game->characters.at(_cur_char_id);
 
 	sf::Event event{};
 	while (_window->isOpen()) {
