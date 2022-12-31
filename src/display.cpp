@@ -263,9 +263,8 @@ auto Sorcery::Display::display(std::string_view screen, std::map<std::string, sf
 	for (auto &[unique_key, sprite] : sprites) {
 		if (unique_key.ends_with("wallpaper"))
 			window->get_window()->draw(sprite);
-		if (unique_key.ends_with("background")) {
+		if (unique_key.ends_with("background"))
 			window->get_window()->draw(sprite);
-		}
 	}
 
 	// Handle the different sized window frames in the town menu

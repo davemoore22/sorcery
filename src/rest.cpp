@@ -398,6 +398,8 @@ auto Sorcery::Rest::_draw() -> void {
 					_no_level_text_1, (*_display->layout)["rest:level_text_1"], _no_level_message_1);
 				_display->window->draw_text(
 					_no_level_text_2, (*_display->layout)["rest:level_text_2"], _no_level_message_2);
+			} else {
+				_display->window->draw_text(_no_level_text_1, (*_display->layout)["rest:level_up_text"], _level);
 			}
 
 			// And the Menu

@@ -268,6 +268,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 										return MenuItem::ABORT;
 									}
 									_rest->stop();
+									_display->generate("inn");
 									_status_bar->refresh();
 									continue;
 								} else if (option_chosen == MenuItem::IN_COT) {
@@ -279,6 +280,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 										return MenuItem::ABORT;
 									}
 									_rest->stop();
+									_display->generate("inn");
 									_status_bar->refresh();
 									continue;
 								} else if (option_chosen == MenuItem::IN_ECONOMY) {
@@ -290,6 +292,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 										return MenuItem::ABORT;
 									}
 									_rest->stop();
+									_display->generate("inn");
 									_status_bar->refresh();
 									continue;
 								} else if (option_chosen == MenuItem::IN_MERCHANT) {
@@ -301,6 +304,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 										return MenuItem::ABORT;
 									}
 									_rest->stop();
+									_display->generate("inn");
 									_status_bar->refresh();
 									continue;
 								} else if (option_chosen == MenuItem::IN_ROYAL) {
@@ -312,6 +316,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 										return MenuItem::ABORT;
 									}
 									_rest->stop();
+									_display->generate("inn");
 									_status_bar->refresh();
 									continue;
 								}
