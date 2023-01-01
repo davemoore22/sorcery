@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -72,9 +72,8 @@ auto Sorcery::IconStore::get(std::string_view key) -> std::optional<sf::Sprite> 
 auto Sorcery::IconStore::get(const MenuItem key) -> std::optional<sf::Sprite> {
 
 	if (_loaded) {
-		auto it = std::find_if(_menu_icon_map.begin(), _menu_icon_map.end(), [&key](const auto &item) {
-			return item.second.item == key;
-		});
+		auto it = std::find_if(
+			_menu_icon_map.begin(), _menu_icon_map.end(), [&key](const auto &item) { return item.second.item == key; });
 
 		if (it != _menu_icon_map.end())
 			return _icon_store.at((*it).second.key);

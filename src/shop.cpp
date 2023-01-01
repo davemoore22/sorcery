@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -40,7 +40,8 @@ Sorcery::Shop::Shop(System *system, Display *display, Graphics *graphics, Game *
 }
 
 // Standard Destructor
-Sorcery::Shop::~Shop() {}
+Sorcery::Shop::~Shop() {
+}
 
 // Visit the Tavern
 auto Sorcery::Shop::start() -> std::optional<MenuItem> {

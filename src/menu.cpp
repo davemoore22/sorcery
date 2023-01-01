@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -144,9 +144,8 @@ Sorcery::Menu::Menu(
 		break;
 	case MenuType::INN:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::IN_STAY_CHARACTER, (*_display->string)["INN_STAY_ONE"]);
-		_add_item(1, MenuItemType::ENTRY, MenuItem::IN_STAY_PARTY, (*_display->string)["INN_STAY_ALL"]);
-		_add_item(2, MenuItemType::ENTRY, MenuItem::IN_INSPECT, (*_display->string)["INN_INSPECT"]);
-		_add_item(3, MenuItemType::ENTRY, MenuItem::IN_CASTLE, (*_display->string)["INN_CASTLE"]);
+		_add_item(1, MenuItemType::ENTRY, MenuItem::IN_INSPECT, (*_display->string)["INN_INSPECT"]);
+		_add_item(2, MenuItemType::ENTRY, MenuItem::IN_CASTLE, (*_display->string)["INN_CASTLE"]);
 		selected = items.begin();
 		break;
 	case MenuType::SHOP:

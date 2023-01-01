@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -28,9 +28,9 @@
 
 namespace Sorcery {
 
-	class Database {
+class Database {
 
-		public:
+	public:
 
 		// Constructors
 		Database(const std::filesystem::path &db_file_path);
@@ -50,11 +50,11 @@ namespace Sorcery {
 		// Public Members
 		bool connected;
 
-		private:
+	private:
 
 		// Private Members
 		std::filesystem::path _db_file_path;
 
 		// Private Methods
-	};
+};
 } // namespace Sorcery

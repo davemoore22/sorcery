@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -40,7 +40,8 @@ Sorcery::Reorder::Reorder(System *system, Display *display, Graphics *graphics, 
 }
 
 // Standard Destructor
-Sorcery::Reorder::~Reorder() {}
+Sorcery::Reorder::~Reorder() {
+}
 
 // Visit the Tavern
 auto Sorcery::Reorder::start() -> std::optional<std::vector<unsigned int>> {

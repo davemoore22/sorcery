@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -142,9 +142,8 @@ auto Sorcery::IconPanel::set_selected_background() -> void {
 	if (selected) {
 
 		// Find the text that is highlighted
-		IconStorage::const_iterator it{std::find_if(_icons.begin(), _icons.end(), [&](auto value) {
-			return value.first == selected.value();
-		})};
+		IconStorage::const_iterator it{
+			std::find_if(_icons.begin(), _icons.end(), [&](auto value) { return value.first == selected.value(); })};
 		if (it != _icons.end()) {
 			auto &sprite{it->second};
 

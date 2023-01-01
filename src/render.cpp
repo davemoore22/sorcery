@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -89,6 +89,7 @@ auto Sorcery::Render::_get_left_side(MapDirection facing) const -> MapDirection 
 		break;
 	}
 }
+
 auto Sorcery::Render::_get_right_side(MapDirection facing) const -> MapDirection {
 
 	switch (facing) {

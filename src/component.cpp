@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -26,8 +26,8 @@
 
 Sorcery::Component::Component()
 	: screen{""}, name{""}, x{0}, y{0}, w{0}, h{0}, scale{0.0f}, font{0}, size{0}, colour{0}, animated{false},
-	  string_key{""}, alpha{255}, background{0},
-	  justification{}, type{}, priority{999}, drawmode{}, texture{}, _id{s_id++} {
+	  string_key{""}, alpha{255}, background{0}, justification{}, type{}, priority{999}, drawmode{}, texture{},
+	  _id{s_id++} {
 
 	unique_key.clear();
 	_data.clear();
@@ -227,9 +227,7 @@ auto Sorcery::Component::operator[](std::string_view key) const -> std::optional
 
 auto Sorcery::Component::set(std::string_view key, std::string_view value) -> void {
 
-	auto it{std::find_if(_data.begin(), _data.end(), [&key](auto item) {
-		return item.first == key;
-	})};
+	auto it{std::find_if(_data.begin(), _data.end(), [&key](auto item) { return item.first == key; })};
 	if (it == _data.end())
 		_data.push_back(std::make_pair(std::string{key}, std::string{value}));
 }
@@ -258,9 +256,7 @@ auto Sorcery::Component::_get(std::string_view key) const -> std::optional<std::
 
 	if (_data.capacity() == 0)
 		return std::nullopt;
-	auto it{std::find_if(_data.begin(), _data.end(), [&key](auto item) {
-		return item.first == std::string{key};
-	})};
+	auto it{std::find_if(_data.begin(), _data.end(), [&key](auto item) { return item.first == std::string{key}; })};
 	if (it != _data.end())
 		return it->second;
 	else

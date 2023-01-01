@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -299,16 +299,16 @@ auto Sorcery::Tile::has_teleport() const -> std::optional<Teleport> {
 
 	if (_teleport)
 		return _teleport.value();
-    else
-        return std::nullopt;
+	else
+		return std::nullopt;
 }
 
 auto Sorcery::Tile::has_stairs() const -> std::optional<Teleport> {
 
 	if (_stairs)
 		return _stairs.value();
-    else
-        return std::nullopt;
+	else
+		return std::nullopt;
 }
 
 auto Sorcery::Tile::set_teleport(Teleport teleport) -> void {
@@ -325,8 +325,8 @@ auto Sorcery::Tile::has_elevator() const -> std::optional<Elevator> {
 
 	if (_elevator)
 		return _elevator.value();
-    else
-        return std::nullopt;
+	else
+		return std::nullopt;
 }
 
 auto Sorcery::Tile::set_elevator(Elevator elevator) -> void {

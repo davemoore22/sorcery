@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -30,16 +30,17 @@
 #include "display.hpp"
 #include "frame.hpp"
 #include "layout.hpp"
+
 // clang-format on
 
 namespace Sorcery {
 
-	class Frame;
-	class Display;
+class Frame;
+class Display;
 
-	class ControlOverlay : public sf::Transformable, public sf::Drawable {
+class ControlOverlay: public sf::Transformable, public sf::Drawable {
 
-		public:
+	public:
 
 		// Constructors
 		ControlOverlay(System *system, Display *display, Component layout);
@@ -53,7 +54,7 @@ namespace Sorcery {
 		// Public Methods
 		auto set_input_mode(WindowInputMode input_mode) -> void;
 
-		private:
+	private:
 
 		// Private Methods
 		auto _get_control_gfx(WindowInputCategory input) -> sf::Sprite;
@@ -69,5 +70,5 @@ namespace Sorcery {
 		std::vector<std::pair<std::string, sf::Sprite>> _controls;
 		sf::Texture _control_texture;
 		std::unique_ptr<Frame> _frame;
-	};
+};
 } // namespace Sorcery

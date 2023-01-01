@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -26,7 +26,8 @@
 
 // Standard Constructor
 Sorcery::AttractMode::AttractMode(Graphics *graphics, Component component)
-	: _graphics{graphics}, _component{component} {}
+	: _graphics{graphics}, _component{component} {
+}
 
 // We generate the attract mode graphic in the main thread, though we generate
 // the IDs in the animation threads - see

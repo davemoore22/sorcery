@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -53,7 +53,8 @@ Sorcery::ChangeName::ChangeName(System *system, Display *display, Graphics *grap
 }
 
 // Standard Destructor
-Sorcery::ChangeName::~ChangeName() {}
+Sorcery::ChangeName::~ChangeName() {
+}
 
 auto Sorcery::ChangeName::start() -> std::optional<std::string> {
 

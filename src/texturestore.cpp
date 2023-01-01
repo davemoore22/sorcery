@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -168,9 +168,8 @@ auto Sorcery::TextureStore::_get(const std::string name) const -> std::optional<
 
 	if (_loaded) {
 
-		auto it = std::find_if(_texture_map.begin(), _texture_map.end(), [&](const auto &item) {
-			return item.second.name == name;
-		});
+		auto it = std::find_if(
+			_texture_map.begin(), _texture_map.end(), [&](const auto &item) { return item.second.name == name; });
 
 		if (it != _texture_map.end())
 			return _texture_map.at((*it).first);

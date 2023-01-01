@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -266,9 +266,8 @@ auto Sorcery::Keyboard::set_selected(WindowInput input) -> void {
 		else if (selected == "Spc")
 			selected = "Z";
 		else {
-			std::transform(selected.begin(), selected.end(), selected.begin(), [](unsigned char c) -> unsigned char {
-				return --c;
-			});
+			std::transform(selected.begin(), selected.end(), selected.begin(),
+				[](unsigned char c) -> unsigned char { return --c; });
 		}
 		break;
 	case WindowInput::RIGHT:
@@ -283,9 +282,8 @@ auto Sorcery::Keyboard::set_selected(WindowInput input) -> void {
 		else if (selected == "Z")
 			selected = "Spc";
 		else {
-			std::transform(selected.begin(), selected.end(), selected.begin(), [](unsigned char c) -> unsigned char {
-				return ++c;
-			});
+			std::transform(selected.begin(), selected.end(), selected.begin(),
+				[](unsigned char c) -> unsigned char { return ++c; });
 		}
 		break;
 	case WindowInput::BACK:

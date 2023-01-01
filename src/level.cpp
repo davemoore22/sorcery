@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -42,8 +42,8 @@ Sorcery::Level::Level(
 
 // Copy Constructors
 Sorcery::Level::Level(const Level &other)
-	: _type{other._type}, _dungeon{other._dungeon}, _depth{other._depth},
-	  _bottom_left{other._bottom_left}, _size{other._size} {
+	: _type{other._type}, _dungeon{other._dungeon}, _depth{other._depth}, _bottom_left{other._bottom_left},
+	  _size{other._size} {
 
 	_tiles = other._tiles;
 	_notes = other._notes;
@@ -163,6 +163,7 @@ auto Sorcery::Level::note_at(const Coordinate loc) -> TileNote {
 		return TileNote{};
 	}
 }
+
 auto Sorcery::Level::note_at(const int x, const int y) -> TileNote {
 
 	if (_notes.contains(Coordinate{x, y}))

@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -76,7 +76,8 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics, Ga
 }
 
 // Standard Destructor
-Sorcery::Create::~Create() {}
+Sorcery::Create::~Create() {
+}
 
 auto Sorcery::Create::start() -> std::optional<MenuItem> {
 

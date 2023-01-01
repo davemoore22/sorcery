@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -33,7 +33,8 @@ Sorcery::Restart::Restart(System *system, Display *display, Graphics *graphics, 
 }
 
 // Standard Destructor
-Sorcery::Restart::~Restart() {}
+Sorcery::Restart::~Restart() {
+}
 
 auto Sorcery::Restart::start() -> std::optional<MenuItem> {
 

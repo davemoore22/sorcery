@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -39,18 +39,22 @@ auto Sorcery::Explore::at(const Coordinate loc) const -> bool {
 
 	return _tiles.contains(loc);
 }
+
 auto Sorcery::Explore::at(const int x, const int y) const -> bool {
 
 	return _tiles.contains(Coordinate{x, y});
 }
+
 auto Sorcery::Explore::reset() -> void {
 
 	_tiles.clear();
 }
+
 auto Sorcery::Explore::set(const Coordinate loc) -> void {
 
 	_tiles.insert({loc, true});
 }
+
 auto Sorcery::Explore::unset(const Coordinate loc) -> void {
 
 	if (_tiles.contains(loc))

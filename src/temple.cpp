@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -40,7 +40,8 @@ Sorcery::Temple::Temple(System *system, Display *display, Graphics *graphics, Ga
 }
 
 // Standard Destructor
-Sorcery::Temple::~Temple() {}
+Sorcery::Temple::~Temple() {
+}
 
 // Visit the Tavern
 auto Sorcery::Temple::start() -> std::optional<MenuItem> {

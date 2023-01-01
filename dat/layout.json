@@ -2983,7 +2983,7 @@
 			{
 				"name": "menu_frame",
 				"w": "36",
-				"h": "6",
+				"h": "4",
 				"x": "centre",
 				"y": "11",
 				"alpha": "225",
@@ -3056,7 +3056,7 @@
 			{
 				"name": "menu_frame",
 				"w": "36",
-				"h": "6",
+				"h": "5",
 				"x": "centre",
 				"y": "11",
 				"alpha": "225",
@@ -5093,6 +5093,18 @@
 				"background": " 0x000000ff"
 			},
 			{
+				"name": "inner_frame",
+				"w": "36",
+				"h": "20",
+				"x": "centre",
+				"y": "7",
+				"alpha": "225",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic",
+				"background": " 0x000000ff"
+			},
+			{
 				"name": "title_text",
 				"x": "centre",
 				"y": "2",
@@ -5247,8 +5259,8 @@
 			},
 			{
 				"name": "results_panel",
-				"x": "15",
-				"y": "5",
+				"x": "22",
+				"y": "8",
 				"h": "12",
 				"w": "30",
 				"font": "monospace",
@@ -5271,7 +5283,7 @@
 			{
 				"name": "nap_text",
 				"x": "centre",
-				"y": "7",
+				"y": "8",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",

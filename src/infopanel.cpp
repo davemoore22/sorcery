@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -74,11 +74,8 @@ auto Sorcery::InfoPanel::set_text(const std::string &string) -> void {
 	const std::regex regex{(R"([@]+)")};
 	std::sregex_token_iterator it{wrapped_text.begin(), wrapped_text.end(), regex, -1};
 	std::vector<std::string> split{it, {}};
-	split.erase(std::remove_if(split.begin(), split.end(),
-					[](std::string const &s) {
-						return s.size() == 0;
-					}),
-		split.end());
+	split.erase(
+		std::remove_if(split.begin(), split.end(), [](std::string const &s) { return s.size() == 0; }), split.end());
 	_strings = split;
 
 	auto x{140};

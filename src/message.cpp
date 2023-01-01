@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -26,7 +26,8 @@
 
 // Standard Constructor
 Sorcery::Message::Message(System *system, Display *display, Graphics *graphics, Component &frame_c, Component &text_c)
-	: _system{system}, _display{display}, _graphics{graphics}, _frame_c{frame_c}, _text_c{text_c} {}
+	: _system{system}, _display{display}, _graphics{graphics}, _frame_c{frame_c}, _text_c{text_c} {
+}
 
 auto Sorcery::Message::update(TileNote tile_note) -> void {
 
@@ -53,11 +54,8 @@ auto Sorcery::Message::update(TileNote tile_note) -> void {
 	// Split into seperate lines if we have any delimiters (the @ character)
 	std::sregex_token_iterator it{stripped_text.begin(), stripped_text.end(), regex, -1};
 	std::vector<std::string> split{it, {}};
-	split.erase(std::remove_if(split.begin(), split.end(),
-					[](std::string_view s) {
-						return s.size() == 0;
-					}),
-		split.end());
+	split.erase(
+		std::remove_if(split.begin(), split.end(), [](std::string_view s) { return s.size() == 0; }), split.end());
 
 	if (split.size() > 1) {
 
@@ -69,10 +67,8 @@ auto Sorcery::Message::update(TileNote tile_note) -> void {
 			std::sregex_token_iterator it_sub{text.begin(), text.end(), regex, -1};
 
 			std::vector<std::string> sub_split{it_sub, {}};
-			sub_split.erase(std::remove_if(sub_split.begin(), sub_split.end(),
-								[](std::string_view s) {
-									return s.size() == 0;
-								}),
+			sub_split.erase(
+				std::remove_if(sub_split.begin(), sub_split.end(), [](std::string_view s) { return s.size() == 0; }),
 				sub_split.end());
 
 			for (auto &sub_text : sub_split) {
@@ -86,10 +82,8 @@ auto Sorcery::Message::update(TileNote tile_note) -> void {
 		std::sregex_token_iterator it_sub{wrapped_text.begin(), wrapped_text.end(), regex, -1};
 
 		std::vector<std::string> sub_split{it_sub, {}};
-		sub_split.erase(std::remove_if(sub_split.begin(), sub_split.end(),
-							[](std::string_view s) {
-								return s.size() == 0;
-							}),
+		sub_split.erase(
+			std::remove_if(sub_split.begin(), sub_split.end(), [](std::string_view s) { return s.size() == 0; }),
 			sub_split.end());
 
 		for (auto &sub_text : sub_split) {

@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -25,7 +25,8 @@
 #include "console.hpp"
 
 Sorcery::Console::Console(tgui::Gui *gui, System *system, Display *display, Graphics *graphics, Game *game)
-	: _gui{gui}, _system{system}, _display{display}, _graphics{graphics}, _game{game} {}
+	: _gui{gui}, _system{system}, _display{display}, _graphics{graphics}, _game{game} {
+}
 
 auto Sorcery::Console::refresh() -> void {
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -99,9 +99,8 @@ auto Sorcery::Layout::operator()(std::string_view screen) -> std::optional<std::
 		}
 
 		// Sort by priority
-		std::sort(results.begin(), results.end(), [](const auto &first, const auto &second) {
-			return first.priority < second.priority;
-		});
+		std::sort(results.begin(), results.end(),
+			[](const auto &first, const auto &second) { return first.priority < second.priority; });
 
 		return results;
 	}

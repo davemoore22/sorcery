@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -91,6 +91,7 @@ Sorcery::AttributeDisplay::AttributeDisplay(const AttributeDisplay &other) {
 	texts = other.texts;
 	frames = other.frames;
 }
+
 auto Sorcery::AttributeDisplay::operator=(const AttributeDisplay &other) -> AttributeDisplay & {
 
 	_system = other._system;
@@ -161,6 +162,7 @@ Sorcery::AttributeDisplay::AttributeDisplay(AttributeDisplay &&other) noexcept {
 	other.texts.clear();
 	other.frames.clear();
 }
+
 auto Sorcery::AttributeDisplay::operator=(AttributeDisplay &&other) noexcept -> AttributeDisplay & {
 
 	if (this != &other) {

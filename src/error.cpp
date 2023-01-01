@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -24,8 +24,7 @@
 
 #include "error.hpp"
 
-Sorcery::Error::Error(Enums::System::Error error_code,
-	std::exception &exception, std::string notes)
+Sorcery::Error::Error(Enums::System::Error error_code, std::exception &exception, std::string notes)
 	: _error_code{error_code}, _exception{exception}, _notes{notes} {
 
 	_gui = std::nullopt;
@@ -33,22 +32,19 @@ Sorcery::Error::Error(Enums::System::Error error_code,
 	_timestamp = std::chrono::system_clock::now();
 
 	_details.clear();
-	_details.emplace_back(
-		std::to_string(magic_enum::enum_integer(_error_code)));
+	_details.emplace_back(std::to_string(magic_enum::enum_integer(_error_code)));
 	_details.emplace_back(magic_enum::enum_name(_error_code));
 	_details.emplace_back(_exception.what());
 	_details.emplace_back(get_when());
 	_details.emplace_back(_notes);
 }
 
-Sorcery::Error::Error(tgui::Gui *gui, Enums::System::Error error_code,
-	std::exception &exception, std::string notes)
+Sorcery::Error::Error(tgui::Gui *gui, Enums::System::Error error_code, std::exception &exception, std::string notes)
 	: _gui{gui}, _error_code{error_code}, _exception{exception}, _notes{notes} {
 	_timestamp = std::chrono::system_clock::now();
 
 	_details.clear();
-	_details.emplace_back(
-		std::to_string(magic_enum::enum_integer(_error_code)));
+	_details.emplace_back(std::to_string(magic_enum::enum_integer(_error_code)));
 	_details.emplace_back(magic_enum::enum_name(_error_code));
 	_details.emplace_back(_exception.what());
 	_details.emplace_back(get_when());
@@ -79,8 +75,7 @@ Sorcery::Error::Error(tgui::Gui *gui, Enums::System::Error error_code,
 	window->add(body_panel, "BodyPanel");
 
 	auto title_text{tgui::Label::create()};
-	title_text->setText(
-		fmt::format("{:>5}: #{} - {}", "Error", _details[0], _details[1]));
+	title_text->setText(fmt::format("{:>5}: #{} - {}", "Error", _details[0], _details[1]));
 	title_text->setPosition(16, 0);
 	title_text->setTextSize(32);
 	title_panel->add(title_text, "TitleText");
@@ -138,8 +133,8 @@ Sorcery::Error::Error(tgui::Gui *gui, Enums::System::Error error_code,
 		for (size_t i = 0; i < st.size(); ++i) {
 			backward::ResolvedTrace trace{tr.resolve(st[i])};
 
-			info_e->addText(fmt::format("#{} {} {} [{}]\n", i,
-				trace.object_filename, trace.object_function, trace.addr));
+			info_e->addText(
+				fmt::format("#{} {} {} [{}]\n", i, trace.object_filename, trace.object_function, trace.addr));
 		}
 
 	} else {
@@ -147,13 +142,9 @@ Sorcery::Error::Error(tgui::Gui *gui, Enums::System::Error error_code,
 		// Split the display lines
 		auto wrapped_notes{WORDWRAP(_details[4], 80)};
 		const std::regex regex(R"([@]+)");
-		std::sregex_token_iterator it{
-			wrapped_notes.begin(), wrapped_notes.end(), regex, -1};
+		std::sregex_token_iterator it{wrapped_notes.begin(), wrapped_notes.end(), regex, -1};
 		std::vector<std::string> lines{it, {}};
-		lines.erase(std::remove_if(lines.begin(), lines.end(),
-						[](std::string const &s) {
-							return s.size() == 0;
-						}),
+		lines.erase(std::remove_if(lines.begin(), lines.end(), [](std::string const &s) { return s.size() == 0; }),
 			lines.end());
 		for (auto line_of_text : lines) {
 			info_e->addText(line_of_text);
@@ -163,24 +154,18 @@ Sorcery::Error::Error(tgui::Gui *gui, Enums::System::Error error_code,
 	body_panel->add(info_e, "InfoEdit");
 
 	auto close_button{tgui::Button::create()};
-	close_button->setPosition(
-		window->getSize().x - 115.f, window->getSize().y - 50.f);
+	close_button->setPosition(window->getSize().x - 115.f, window->getSize().y - 50.f);
 	close_button->setText("Exit");
 	close_button->setSize(100, 40);
-	close_button->onPress([&]() {
-		exit(-1);
-	});
+	close_button->onPress([&]() { exit(-1); });
 	close_button->setFocused(true);
 	window->add(close_button);
 
 	auto copy_button{tgui::Button::create()};
-	copy_button->setPosition(
-		window->getSize().x - 230.f, window->getSize().y - 50.f);
+	copy_button->setPosition(window->getSize().x - 230.f, window->getSize().y - 50.f);
 	copy_button->setText("Copy");
 	copy_button->setSize(100, 40);
-	copy_button->onPress([&]() {
-		sf::Clipboard::setString(_details[4]);
-	});
+	copy_button->onPress([&]() { sf::Clipboard::setString(_details[4]); });
 	window->add(copy_button);
 }
 
@@ -219,19 +204,13 @@ auto Sorcery::Error::get() -> std::vector<std::string> {
 
 namespace Sorcery {
 
-	auto operator<<(std::ostream &out_stream, const Sorcery::Error &error)
-		-> std::ostream & {
+auto operator<<(std::ostream &out_stream, const Sorcery::Error &error) -> std::ostream & {
 
-		out_stream << fmt::format("{:>5}: {} - {}", "Error", error._details[0],
-						  error._details[1])
-				   << std::endl;
-		out_stream << fmt::format("{:>5}: {}", "What", error._details[2])
-				   << std::endl;
-		out_stream << fmt::format("{:>5}: {}", "When", error._details[3])
-				   << std::endl;
-		out_stream << fmt::format("{:>5}: {}", "Info", error._details[4])
-				   << std::endl;
+	out_stream << fmt::format("{:>5}: {} - {}", "Error", error._details[0], error._details[1]) << std::endl;
+	out_stream << fmt::format("{:>5}: {}", "What", error._details[2]) << std::endl;
+	out_stream << fmt::format("{:>5}: {}", "When", error._details[3]) << std::endl;
+	out_stream << fmt::format("{:>5}: {}", "Info", error._details[4]) << std::endl;
 
-		return out_stream;
-	}
+	return out_stream;
+}
 } // namespace Sorcery

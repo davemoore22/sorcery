@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -32,9 +32,7 @@ Sorcery::Database::Database(const std::filesystem::path &db_file_path) : _db_fil
 		sqlite::database database(_db_file_path.string());
 		const auto check_valid_db_SQL{"pragma schema_version"};
 
-		database << check_valid_db_SQL >> [&](int return_code) {
-			connected = return_code > 0;
-		};
+		database << check_valid_db_SQL >> [&](int return_code) { connected = return_code > 0; };
 	} catch (std::exception &e) {
 		connected = false;
 	}
@@ -223,9 +221,7 @@ auto Sorcery::Database::get_character_ids(int game_id) -> std::vector<unsigned i
 			"SELECT c.id FROM character c WHERE c.game_id = ? ORDER BY c.id "
 			"ASC;"};
 
-		database << get_character_list_SQL << game_id >> [&](int id) {
-			characters.emplace_back(id);
-		};
+		database << get_character_list_SQL << game_id >> [&](int id) { characters.emplace_back(id); };
 
 		return characters;
 

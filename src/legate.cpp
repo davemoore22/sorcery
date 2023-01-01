@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -75,7 +75,8 @@ Sorcery::Legate::Legate(System *system, Display *display, Graphics *graphics, Ch
 }
 
 // Standard Destructor
-Sorcery::Legate::~Legate() {}
+Sorcery::Legate::~Legate() {
+}
 
 auto Sorcery::Legate::start() -> std::optional<CharacterAlignment> {
 

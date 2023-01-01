@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -59,7 +59,8 @@ Sorcery::ChangeClass::ChangeClass(System *system, Display *display, Graphics *gr
 }
 
 // Standard Destructor
-Sorcery::ChangeClass::~ChangeClass() {}
+Sorcery::ChangeClass::~ChangeClass() {
+}
 
 auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 

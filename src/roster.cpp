@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Dave Moore
+// Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -59,7 +59,8 @@ Sorcery::Roster::Roster(System *system, Display *display, Graphics *graphics, Ga
 }
 
 // Standard Destructor
-Sorcery::Roster::~Roster() {}
+Sorcery::Roster::~Roster() {
+}
 
 auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 
