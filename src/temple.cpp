@@ -34,12 +34,15 @@ Sorcery::Temple::Temple(System *system, Display *display, Graphics *graphics, Ga
 	// Setup Custom Components
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::TEMPLE);
 	_help = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::INVALID_CHARACTERS, MenuMode::TEMPLE);
+	_pay = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::PARTY_CHARACTERS, MenuMode::TEMPLE);
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
 	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MenuMode::TEMPLE);
 
 	_stage = TempleStage::NONE;
+
+	_cost = sf::Text();
 }
 
 // Standard Destructor
@@ -55,6 +58,7 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 	// this case only)
 	_display->generate("temple");
 	_display->generate("temple_help", _h_sprites, _h_texts, _h_frames);
+	_display->generate("temple_pay", _p_sprites, _p_texts, _p_frames);
 
 	// Clear the window
 	_window->clear();
@@ -79,6 +83,7 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
 	std::optional<std::vector<MenuEntry>::const_iterator> option_help{_help->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> option_pay{_pay->items.begin()};
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
@@ -166,12 +171,54 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 							} else {
 								const auto character_chosen{(*option_help.value()).index};
 								_cur_char = &_game->characters.at(character_chosen);
+								const auto cost{_cur_char.value()->get_cure_cost()};
 								if (_cur_char) {
-									/* _stage = InnStage::BED;
+									_stage = TempleStage::PAY;
 									_status_bar->refresh();
+									_refresh_pay_menu(cost);
+									_update_cost(cost);
 									_cur_char_id = character_chosen;
-									_update = true; */
 								}
+							}
+						}
+					}
+				} else if (_stage == TempleStage::PAY) {
+
+					if (_system->input->check(WindowInput::CANCEL, event)) {
+						_stage = TempleStage::HELP;
+						_status_bar->refresh();
+						_help->reload();
+					} else if (_system->input->check(WindowInput::BACK, event)) {
+						_stage = TempleStage::HELP;
+						_status_bar->refresh();
+						_help->reload();
+					} else if (_system->input->check(WindowInput::UP, event))
+						option_pay = _pay->choose_previous();
+					else if (_system->input->check(WindowInput::DOWN, event))
+						option_pay = _pay->choose_next();
+					else if (_system->input->check(WindowInput::MOVE, event))
+						option_pay =
+							_pay->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+						// We have selected something from the menu
+						if (option_help) {
+							if (const MenuItem option_chosen{(*option_pay.value()).item};
+								option_chosen == MenuItem::CA_TEMPLE) {
+								_stage = TempleStage::HELP;
+								_status_bar->refresh();
+								_help->reload();
+								continue;
+							} else {
+								const auto character_chosen{(*option_pay.value()).index};
+								_cur_char = &_game->characters.at(character_chosen);
+								/* const auto cost{_cur_char.value()->get_cure_cost()};
+								if (_cur_char) {
+									_stage = TempleStage::PAY;
+									_status_bar->refresh();
+									_refresh_pay_menu();
+									_cur_char_id = character_chosen;
+								} */
 							}
 						}
 					}
@@ -199,6 +246,17 @@ auto Sorcery::Temple::stop() -> void {
 	_display->stop_bg_movie();
 }
 
+auto Sorcery::Temple::_update_cost(const unsigned int cost) -> void {
+
+	_cost_text = fmt::format(
+		"{} {} {}", (*_display->string)["TEMPLE_COST_PREFIX"], cost, (*_display->string)["TEMPLE_COST_SUFFIX"]);
+}
+
+auto Sorcery::Temple::_refresh_pay_menu(const unsigned int cost) -> void {
+
+	// disable any character menu item who doesn't have enough gold
+}
+
 auto Sorcery::Temple::_draw() -> void {
 
 	// Custom Components
@@ -217,10 +275,19 @@ auto Sorcery::Temple::_draw() -> void {
 		// Choose Invalid Character
 		_help->generate((*_display->layout)["temple_help:menu"]);
 		const sf::Vector2f menu_pos(
-			(*_display->layout)["temple_help:menu"].x, (*_display->layout)["inn_choose:menu"].y);
+			(*_display->layout)["temple_help:menu"].x, (*_display->layout)["temple_help:menu"].y);
 		_help->setPosition(menu_pos);
 		_display->display("inn_choose", _h_sprites, _h_texts, _h_frames);
 		_window->draw(*_help);
+	} else if (_stage == TempleStage::PAY) {
+
+		_pay->generate((*_display->layout)["temple_pay:menu"]);
+		const sf::Vector2f menu_pos(
+			(*_display->layout)["temple_help:menu"].x, (*_display->layout)["temple_pay:menu"].y);
+		_pay->setPosition(menu_pos);
+		_display->display("inn_pay", _p_sprites, _p_texts, _p_frames);
+		_display->window->draw_text(_cost, (*_display->layout)["temple_pay:cost_text"], _cost_text);
+		_window->draw(*_pay);
 	}
 
 	// Always draw the following

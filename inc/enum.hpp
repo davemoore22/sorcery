@@ -580,7 +580,7 @@ namespace Enums::Castle {
 		NONE,
 		MENU,
 		HELP,
-		CURE,
+		PAY,
 		TITHE,
 		INSPECT
 	};

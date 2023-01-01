@@ -145,7 +145,7 @@
 1672595017 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
-1672597165 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
+1672602675 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
 1672594194 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
@@ -1245,7 +1245,7 @@
 	"statusbar.hpp"
 	"system.hpp"
 
-1672597457 /home/dave/Development/wizardry/sorcery-sfml/inc/temple.hpp
+1672603648 /home/dave/Development/wizardry/sorcery-sfml/inc/temple.hpp
 	"display.hpp"
 	"frame.hpp"
 	"game.hpp"
@@ -1263,7 +1263,7 @@
 1672594196 source:/home/dave/Development/wizardry/sorcery-sfml/src/shop.cpp
 	"shop.hpp"
 
-1672597972 source:/home/dave/Development/wizardry/sorcery-sfml/src/temple.cpp
+1672604140 source:/home/dave/Development/wizardry/sorcery-sfml/src/temple.cpp
 	"temple.hpp"
 
 1672594195 /home/dave/Development/wizardry/sorcery-sfml/inc/state.hpp

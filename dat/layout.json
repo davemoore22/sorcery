@@ -3671,6 +3671,63 @@
 		]
 	},
 	{
+		"name": "temple_pay",
+		"component": [
+			{
+				"name": "cost_text",
+				"x": "centre",
+				"y": "8",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "TEMPLE_WELCOME",
+				"justification": "centre",
+				"type": "text",
+				"priority": "4",
+				"drawmode": "manual"
+			},
+			{
+				"name": "who_text",
+				"x": "centre",
+				"y": "10",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "TEMPLE_PAY",
+				"justification": "centre",
+				"type": "text",
+				"priority": "4"
+			},
+			{
+				"name": "menu_frame",
+				"w": "36",
+				"h": "20",
+				"x": "centre",
+				"y": "7",
+				"alpha": "225",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "menu",
+				"x": "22",
+				"y": "12",
+				"w": "36",
+				"h": "4",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"animated": "true",
+				"width": "36",
+				"background": " 0xff0000ff",
+				"justification": "centre",
+				"type": "menu",
+				"priority": "8"
+			}]
+	},
+	{
 		"name": "temple_help",
 		"component": [
 			{

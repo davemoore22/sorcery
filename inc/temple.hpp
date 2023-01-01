@@ -58,6 +58,8 @@ class Temple {
 
 		// Private Methods
 		auto _draw() -> void;
+		auto _refresh_pay_menu(const unsigned int cost) -> void;
+		auto _update_cost(const unsigned int cost) -> void;
 
 		// Private Members
 		System *_system;
@@ -72,11 +74,17 @@ class Temple {
 		std::unique_ptr<Inspect> _inspect;
 		TempleStage _stage;
 		std::unique_ptr<Menu> _help;
+		std::unique_ptr<Menu> _pay;
 		int _cur_char_id;
 		std::optional<Character *> _cur_char;
 		std::map<std::string, sf::Sprite> _h_sprites;
 		std::map<std::string, sf::Text> _h_texts;
 		std::map<std::string, std::shared_ptr<Frame>> _h_frames;
+		std::map<std::string, sf::Sprite> _p_sprites;
+		std::map<std::string, sf::Text> _p_texts;
+		std::map<std::string, std::shared_ptr<Frame>> _p_frames;
+		sf::Text _cost;
+		std::string _cost_text;
 };
 
 }
