@@ -33,10 +33,13 @@ Sorcery::Temple::Temple(System *system, Display *display, Graphics *graphics, Ga
 
 	// Setup Custom Components
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::TEMPLE);
+	_help = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::INVALID_CHARACTERS, MenuMode::TEMPLE);
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
 	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MenuMode::TEMPLE);
+
+	_stage = TempleStage::NONE;
 }
 
 // Standard Destructor
@@ -51,12 +54,14 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 	// in this class, we need to have the menu stage set first in this case and
 	// this case only)
 	_display->generate("temple");
+	_display->generate("temple_help", _h_sprites, _h_texts, _h_frames);
 
 	// Clear the window
 	_window->clear();
 
-	// Refresh the Party characters
+	// Refresh the Party characters and the Invalid Characters
 	_status_bar->refresh();
+	_help->reload();
 
 	// Generate the Components
 	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
@@ -67,9 +72,13 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 	_display->fit_bg_movie();
 	_display->start_bg_movie();
 
+	// Start at the entry menu
+	_stage = TempleStage::MENU;
+
 	// And do the main loop
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> option_help{_help->items.begin()};
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
@@ -95,29 +104,75 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 					return std::nullopt;
 
 				// And handle input on the main menu
-				if (_system->input->check(WindowInput::UP, event))
-					option = _menu->choose_previous();
-				else if (_system->input->check(WindowInput::DOWN, event))
-					option = _menu->choose_next();
-				else if (_system->input->check(WindowInput::MOVE, event))
-					option = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check(WindowInput::CONFIRM, event)) {
+				if (_stage == TempleStage::MENU) {
+					if (_system->input->check(WindowInput::UP, event))
+						option = _menu->choose_previous();
+					else if (_system->input->check(WindowInput::DOWN, event))
+						option = _menu->choose_next();
+					else if (_system->input->check(WindowInput::MOVE, event))
+						option = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
-					// We have selected something from the menu
-					if (option) {
-						if (const MenuItem option_chosen{(*option.value()).item};
-							option_chosen == MenuItem::TE_CASTLE) {
-							return MenuItem::TE_CASTLE;
-						} else if (option_chosen == MenuItem::TE_INSPECT) {
-							auto result{_inspect->start()};
-							if (result && result.value() == MenuItem::ABORT) {
+						// We have selected something from the menu
+						if (option) {
+							if (const MenuItem option_chosen{(*option.value()).item};
+								option_chosen == MenuItem::TE_CASTLE) {
+								return MenuItem::TE_CASTLE;
+							} else if (option_chosen == MenuItem::TE_INSPECT) {
+								auto result{_inspect->start()};
+								if (result && result.value() == MenuItem::ABORT) {
+									_inspect->stop();
+									return MenuItem::ABORT;
+								}
 								_inspect->stop();
-								return MenuItem::ABORT;
+								_display->generate("temple");
+								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+								continue;
+							} else if (const MenuItem option_chosen{(*option.value()).item};
+									   option_chosen == MenuItem::TE_HELP) {
+								_stage = TempleStage::HELP;
+								_status_bar->refresh();
+								_help->reload();
+								continue;
 							}
-							_inspect->stop();
-							_display->generate("temple");
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-							continue;
+						}
+					}
+				} else if (_stage == TempleStage::HELP) {
+					if (_system->input->check(WindowInput::CANCEL, event)) {
+						_stage = TempleStage::MENU;
+						_status_bar->refresh();
+						_help->reload();
+					} else if (_system->input->check(WindowInput::BACK, event)) {
+						_stage = TempleStage::MENU;
+						_status_bar->refresh();
+						_help->reload();
+					} else if (_system->input->check(WindowInput::UP, event))
+						option_help = _help->choose_previous();
+					else if (_system->input->check(WindowInput::DOWN, event))
+						option_help = _help->choose_next();
+					else if (_system->input->check(WindowInput::MOVE, event))
+						option_help =
+							_help->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+						// We have selected something from the menu
+						if (option_help) {
+							if (const MenuItem option_chosen{(*option_help.value()).item};
+								option_chosen == MenuItem::CA_TEMPLE) {
+								_stage = TempleStage::MENU;
+								_status_bar->refresh();
+								_help->reload();
+								continue;
+							} else {
+								const auto character_chosen{(*option_help.value()).index};
+								_cur_char = &_game->characters.at(character_chosen);
+								if (_cur_char) {
+									/* _stage = InnStage::BED;
+									_status_bar->refresh();
+									_cur_char_id = character_chosen;
+									_update = true; */
+								}
+							}
 						}
 					}
 				}
@@ -150,11 +205,23 @@ auto Sorcery::Temple::_draw() -> void {
 	_display->display("temple");
 	_window->draw(*_status_bar);
 
-	// And the Menu
-	_menu->generate((*_display->layout)["temple:menu"]);
-	const sf::Vector2f menu_pos((*_display->layout)["temple:menu"].x, (*_display->layout)["temple:menu"].y);
-	_menu->setPosition(menu_pos);
-	_window->draw(*_menu);
+	if (_stage == TempleStage::MENU) {
+
+		// And the Menu
+		_menu->generate((*_display->layout)["temple:menu"]);
+		const sf::Vector2f menu_pos((*_display->layout)["temple:menu"].x, (*_display->layout)["temple:menu"].y);
+		_menu->setPosition(menu_pos);
+		_window->draw(*_menu);
+	} else if (_stage == TempleStage::HELP) {
+
+		// Choose Invalid Character
+		_help->generate((*_display->layout)["temple_help:menu"]);
+		const sf::Vector2f menu_pos(
+			(*_display->layout)["temple_help:menu"].x, (*_display->layout)["inn_choose:menu"].y);
+		_help->setPosition(menu_pos);
+		_display->display("inn_choose", _h_sprites, _h_texts, _h_frames);
+		_window->draw(*_help);
+	}
 
 	// Always draw the following
 	_display->display_overlay();

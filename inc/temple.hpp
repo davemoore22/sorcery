@@ -70,6 +70,13 @@ class Temple {
 		sf::Sprite _bg;
 		std::unique_ptr<StatusBar> _status_bar;
 		std::unique_ptr<Inspect> _inspect;
+		TempleStage _stage;
+		std::unique_ptr<Menu> _help;
+		int _cur_char_id;
+		std::optional<Character *> _cur_char;
+		std::map<std::string, sf::Sprite> _h_sprites;
+		std::map<std::string, sf::Text> _h_texts;
+		std::map<std::string, std::shared_ptr<Frame>> _h_frames;
 };
 
 }

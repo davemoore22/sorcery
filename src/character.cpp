@@ -2648,9 +2648,32 @@ auto Sorcery::Character::get_summary() -> std::string {
 		get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3), get_race(_race).substr(0, 3));
 }
 
-auto Sorcery::Character::can_level() -> bool {
+auto Sorcery::Character::can_level() const -> bool {
 
 	return _abilities.at(CharacterAbility::CURRENT_XP) > _abilities.at(CharacterAbility::NEXT_LEVEL_XP);
+}
+
+auto Sorcery::Character::get_cure_cost() const -> unsigned int {
+
+	auto cost_per_level{0u};
+	switch (_status) {
+	case CharacterStatus::ASHES:
+		cost_per_level = 500;
+		break;
+	case CharacterStatus::DEAD:
+		cost_per_level = 250;
+		break;
+	case CharacterStatus::HELD:
+		cost_per_level = 100;
+		break;
+	case CharacterStatus::STONED:
+		cost_per_level = 200;
+		break;
+	default:
+		return 0;
+	};
+
+	return cost_per_level * _abilities.at(CharacterAbility::CURRENT_LEVEL);
 }
 
 auto Sorcery::Character::get_sb_text(const int position) -> std::string {

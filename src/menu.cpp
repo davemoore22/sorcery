@@ -739,6 +739,17 @@ auto Sorcery::Menu::generate(Component &component, bool force_refresh) -> void {
 						text.setPosition(entry_x, entry_y);
 						text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 					}
+				} else if (_type == MenuType::TEMPLE) {
+
+					// Override Justification for Invalid Characters so that it looks better
+					if (item.item == MenuItem::IC_CHARACTER) {
+						text.setOrigin(0, text.getLocalBounds().height / 2.0f);
+					} else {
+						if (component.justification == Justification::CENTRE)
+							text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+						else
+							text.setOrigin(0, text.getLocalBounds().height / 2.0f);
+					}
 				} else {
 					if (component.justification == Justification::CENTRE)
 						text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
@@ -1019,7 +1030,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		}
 	} break;
 	case MenuType::AVAILABLE_CHARACTERS: {
-		auto count{0};
+		auto count{0u};
 		auto party{_game->state->get_party_characters()};
 		for (auto &[character_id, character] : _game->characters) {
 			if (std::find(party.begin(), party.end(), character_id) == party.end()) {
@@ -1046,12 +1057,31 @@ auto Sorcery::Menu::_populate_chars() -> void {
 
 	} break;
 	case MenuType::INVALID_CHARACTERS: {
+		auto count{0u};
+		auto last_id{0u};
 		if (_game->characters.size() > 0) {
 			for (auto &[character_id, character] : _game->characters) {
-				if (character.get_status() != CharacterStatus::OK) {
-					auto status{fmt::format("{} {}", character.get_summary(), character.get_status_string())};
+				if ((character.get_status() != CharacterStatus::OK) &&
+					(character.get_status() != CharacterStatus::LOST)) {
+					const auto status{character.get_name_and_status()};
 					_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, status);
+					++count;
+					if (character_id > last_id)
+						last_id = character_id;
 				}
+			}
+			++last_id;
+		}
+
+		if (count == 0) {
+			_add_item(
+				++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["MENU_NO_HELP_CHARACTERS"]);
+		}
+
+		if (_mode) {
+			if (_mode.value() == MenuMode::TEMPLE) {
+				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::CA_TEMPLE, (*_display->string)["MENU_TEMPLE"]);
 			}
 		}
 	} break;

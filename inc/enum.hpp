@@ -579,6 +579,7 @@ namespace Enums::Castle {
 	enum class Temple {
 		NONE,
 		MENU,
+		HELP,
 		CURE,
 		TITHE,
 		INSPECT

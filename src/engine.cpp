@@ -937,7 +937,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 
 	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F4)) {
 
-		/* const auto party{_game->state->get_party_characters()};
+		const auto party{_game->state->get_party_characters()};
 		for (auto &[character_id, character] : _game->characters) {
 			if (std::find(party.begin(), party.end(), character_id) != party.end()) {
 				character.set_status(
@@ -951,20 +951,19 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			}
 		}
 
-		 */
-
 		/* auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
 		character.level_down(); */
-		auto party{_game->state->get_party_characters()};
+
+		/* auto party{_game->state->get_party_characters()};
 		for (auto &[character_id, character] : _game->characters) {
 			if (std::find(party.begin(), party.end(), character_id) != party.end()) {
 				character.set_current_hp(1);
 				/* if ((*_system->random)[RandomType::ZERO_TO_2] == 0)
 					character.set_current_hp(1);
 				else
-					character.set_current_hp(character.get_max_hp()); */
+					character.set_current_hp(character.get_max_hp()); */ /*
 			}
-		}
+		} */
 
 		_update_automap = true;
 		_update_compass = true;
