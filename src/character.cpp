@@ -1664,10 +1664,10 @@ auto Sorcery::Character::_update_stat_for_level(CharacterAttribute attribute, st
 				proceed = false;
 
 			if (proceed) {
-				if (_cur_attr.at(attribute) > 3) {
-					_cur_attr.at(attribute) = _cur_attr.at(attribute) - 1;
-					message = fmt::format("{} {}", (*_display->string)["LEVEL_LOSS"], stat);
-				}
+				_cur_attr.at(attribute) = _cur_attr.at(attribute) - 1;
+				message = fmt::format("{} {}", (*_display->string)["LEVEL_LOSS"], stat);
+				if (_cur_attr.at(attribute) < 1)
+					_cur_attr.at(attribute) = 1;
 			}
 		} else {
 			if (_cur_attr.at(attribute) < 18) {
@@ -1679,6 +1679,9 @@ auto Sorcery::Character::_update_stat_for_level(CharacterAttribute attribute, st
 		}
 	}
 
+	if (_cur_attr.at(attribute) > _max_attr.at(attribute))
+		_max_attr.at(attribute) = _cur_attr.at(attribute);
+
 	return message;
 }
 
@@ -1687,11 +1690,7 @@ auto Sorcery::Character::level_up() -> std::string {
 
 	using enum Enums::Character::Ability;
 
-	std::vector<std::string> messages{};
 	std::string results{};
-
-	messages.clear();
-	messages.push_back((*_display->string)["LEVEL_DING"]);
 	results.append((*_display->string)["LEVEL_DING"]);
 	results.append("@");
 
@@ -1702,8 +1701,10 @@ auto Sorcery::Character::level_up() -> std::string {
 		_abilities.at(MAX_LEVEL) = _abilities.at(CURRENT_LEVEL);
 
 	// handle learning spells
-	if (_set_sp())
-		messages.push_back((*_display->string)["LEVEL_SPELLS"]);
+	if (_set_sp()) {
+		results.append((*_display->string)["LEVEL_SPELLS"]);
+		results.append("@");
+	}
 
 	// work out new xp needed
 	_abilities[NEXT_LEVEL_XP] = _get_xp_for_level(_abilities[CURRENT_LEVEL]);
@@ -1712,37 +1713,30 @@ auto Sorcery::Character::level_up() -> std::string {
 	auto stat_message{""s};
 	stat_message = _update_stat_for_level(CharacterAttribute::STRENGTH, (*_display->string)["CHARACTER_STAT_STRENGTH"]);
 	if (!stat_message.empty()) {
-		messages.push_back(stat_message);
 		results.append(stat_message);
 		results.append("@");
 	}
 	stat_message = _update_stat_for_level(CharacterAttribute::IQ, (*_display->string)["CHARACTER_STAT_INTELLIGENCE"]);
 	if (!stat_message.empty()) {
-		messages.push_back(stat_message);
+
 		results.append(stat_message);
 		results.append("@");
 	}
 	stat_message = _update_stat_for_level(CharacterAttribute::PIETY, (*_display->string)["CHARACTER_STAT_PIETY"]);
 	if (!stat_message.empty()) {
-		messages.push_back(stat_message);
-		results.append(stat_message);
 		results.append("@");
 	}
 	stat_message = _update_stat_for_level(CharacterAttribute::VITALITY, (*_display->string)["CHARACTER_STAT_VITALITY"]);
 	if (!stat_message.empty()) {
-		messages.push_back(stat_message);
 		results.append(stat_message);
 		results.append("@");
 	}
 	stat_message = _update_stat_for_level(CharacterAttribute::AGILITY, (*_display->string)["CHARACTER_STAT_AGILITY"]);
 	if (!stat_message.empty()) {
-		messages.push_back(stat_message);
-		results.append(stat_message);
 		results.append("@");
 	}
 	stat_message = _update_stat_for_level(CharacterAttribute::LUCK, (*_display->string)["CHARACTER_STAT_LUCK"]);
 	if (!stat_message.empty()) {
-		messages.push_back(stat_message);
 		results.append(stat_message);
 		results.append("@");
 	}
@@ -1754,8 +1748,13 @@ auto Sorcery::Character::level_up() -> std::string {
 	const auto hp_gained{_update_hp_for_level()};
 	const auto hp_message{fmt::format(
 		"{} {} {}", (*_display->string)["LEVEL_HP_PREFIX"], hp_gained, (*_display->string)["LEVEL_HP_SUFFIX"])};
-	messages.push_back(hp_message);
 	results.append(hp_message);
+
+	if (_cur_attr.at(CharacterAttribute::VITALITY) < 3) {
+		results.append("@");
+		results.append((*_display->string)["LEVEL_DIE"]);
+		_status = CharacterStatus::LOST;
+	}
 
 	return results;
 }
