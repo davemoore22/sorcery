@@ -255,6 +255,13 @@ auto Sorcery::Temple::_update_cost(const unsigned int cost) -> void {
 auto Sorcery::Temple::_refresh_pay_menu(const unsigned int cost) -> void {
 
 	// disable any character menu item who doesn't have enough gold
+	for (auto &item : _pay->items) {
+		if (item.item == MenuItem::IC_CHARACTER) {
+			const auto &character{_game->characters.at(item.index)};
+			item.enabled = character.get_gold() >= cost;
+		}
+	}
+	_pay->choose_first();
 }
 
 auto Sorcery::Temple::_draw() -> void {
