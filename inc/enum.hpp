@@ -776,7 +776,9 @@ namespace Enums::System {
 		TAVERN = 2,
 		TRAINING = 3,
 		INN = 4,
-		MAZE = 5
+		TEMPLE = 6,
+		SHOP = 7,
+		MAZE = 8
 	};
 
 	// Errors

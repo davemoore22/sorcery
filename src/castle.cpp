@@ -56,7 +56,7 @@ Sorcery::Castle::~Castle() {
 // Start/Continue a new Game
 auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> {
 
-	// TODO: need to incorporare this in main loop so that exiting this goes back
+	// TODO: need to incorporare this in main loop so that exiting this goes back properly
 	if (destination == Destination::MAZE) {
 		if (auto edge_option{_edge_of_town->start(destination)};
 			edge_option && edge_option.value() == MenuItem::ABORT) {
@@ -87,12 +87,25 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 			return MenuItem::ABORT;
 		}
 		_inn->stop();
+	} else if (destination == Destination::TEMPLE) {
+		if (auto temple_option{_temple->start()}; temple_option && temple_option.value() == MenuItem::ABORT) {
+			_game->save_game();
+			_display->shutdown_SFML();
+			return MenuItem::ABORT;
+		}
+		_temple->stop();
+	} else if (destination == Destination::SHOP) {
+		if (auto shop_option{_shop->start()}; shop_option && shop_option.value() == MenuItem::ABORT) {
+			_game->save_game();
+			_display->shutdown_SFML();
+			return MenuItem::ABORT;
+		}
+		_shop->stop();
 	}
 
-	// Get the Background Display Components and load them into Display module
-	// storage (not local - and note that due to the way both menus are combined
-	// in this class, we need to have the menu stage set first in this case and
-	// this case only)
+	// Get the Background Display Components and load them into Display module storage (not local - and note that due to
+	// the way both menus are combined in this class, we need to have the menu stage set first in this case and this
+	// case only)
 	_update_menus();
 	_display->generate("castle");
 
