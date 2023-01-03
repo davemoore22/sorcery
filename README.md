@@ -32,16 +32,19 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 * ~~Gilgamesh's Tavern~~ (DONE)
 * ~~Adventurer's Inn~~ (DONE)
 * ~~Levelling up/Changing Class~~ (DONE)
-* Temple (DOING)
+* ~~Temple~~ (DONE)
+* Wipe Handling (DOING)
 * Items and Inventory (TO DO)
 * Creatures and NPCs (TO DO)
 * Magic and Combat (TO DO)
+* Special Item Handling (TO DO)
+* Victory Handling (TO DO)
 * Strict (Legacy) Mode (TO DO)
 * 3D Rendering (TO DO)
 
 ## What next? (as of January 2023)
 
-I'm currently implementing the Temple of Cant.
+I'm currently implementing party wipe handling.
 
 Next stop after that will be items, creatures, magic and combat. Then there might
 be something playable here! Then a proper 3D renderer will probably be implemented.

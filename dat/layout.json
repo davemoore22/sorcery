@@ -3701,7 +3701,7 @@
 			{
 				"name": "ress_result",
 				"x": "centre",
-				"y": "16",
+				"y": "12",
 				"font": "monospace",
 				"colour": "0xffffffff",
 				"size": "38",

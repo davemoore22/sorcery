@@ -230,6 +230,7 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 									_pay_char_id = character_chosen;
 									_try_cure_or_ress();
 									_status_bar->refresh();
+									_game->save_game();
 								}
 							}
 						}
@@ -283,6 +284,8 @@ auto Sorcery::Temple::stop() -> void {
 
 	// Stop the background movie!
 	_display->stop_bg_movie();
+
+	_stop_count_thread();
 }
 
 auto Sorcery::Temple::_try_cure_or_ress() -> bool {
@@ -302,6 +305,8 @@ auto Sorcery::Temple::_try_cure_or_ress() -> bool {
 				_help_char.value()->get_name(), (*_display->string)["TEMPLE_HEALED_SUFFIX"]);
 			_help_char.value()->set_status(CharacterStatus::OK);
 			_help_char.value()->set_current_hp(1);
+			if (_help_char.value()->location == CharacterLocation::TEMPLE)
+				_help_char.value()->location = CharacterLocation::INN;
 
 			return true;
 		} else {
@@ -324,6 +329,8 @@ auto Sorcery::Temple::_try_cure_or_ress() -> bool {
 				_help_char.value()->get_name(), (*_display->string)["TEMPLE_HEALED_SUFFIX"]);
 			_help_char.value()->set_status(CharacterStatus::OK);
 			_help_char.value()->set_current_hp(1);
+			if (_help_char.value()->location == CharacterLocation::TEMPLE)
+				_help_char.value()->location = CharacterLocation::INN;
 
 			return true;
 

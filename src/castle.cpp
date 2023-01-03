@@ -91,6 +91,7 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 		if (auto temple_option{_temple->start()}; temple_option && temple_option.value() == MenuItem::ABORT) {
 			_game->save_game();
 			_display->shutdown_SFML();
+			_temple->stop();
 			return MenuItem::ABORT;
 		}
 		_temple->stop();
@@ -98,6 +99,7 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 		if (auto shop_option{_shop->start()}; shop_option && shop_option.value() == MenuItem::ABORT) {
 			_game->save_game();
 			_display->shutdown_SFML();
+			_temple->stop();
 			return MenuItem::ABORT;
 		}
 		_shop->stop();
