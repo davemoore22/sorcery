@@ -35,6 +35,7 @@ Sorcery::Temple::Temple(System *system, Display *display, Graphics *graphics, Ga
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::TEMPLE);
 	_help = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::INVALID_CHARACTERS, MenuMode::TEMPLE);
 	_pay = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::PARTY_CHARACTERS, MenuMode::TEMPLE);
+	_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CONTINUE);
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
@@ -43,6 +44,7 @@ Sorcery::Temple::Temple(System *system, Display *display, Graphics *graphics, Ga
 	_stage = TempleStage::NONE;
 
 	_cost = sf::Text();
+	_ress_count = sf::Text();
 }
 
 // Standard Destructor
@@ -59,6 +61,7 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 	_display->generate("temple");
 	_display->generate("temple_help", _h_sprites, _h_texts, _h_frames);
 	_display->generate("temple_pay", _p_sprites, _p_texts, _p_frames);
+	_display->generate("temple_ress", _r_sprites, _r_texts, _r_frames);
 
 	// Clear the window
 	_window->clear();
@@ -66,6 +69,10 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 	// Refresh the Party characters and the Invalid Characters
 	_status_bar->refresh();
 	_help->reload();
+	_pay->reload();
+
+	_duration = DELAY_DEFAULT;
+	_ress_text = "";
 
 	// Generate the Components
 	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
@@ -84,6 +91,7 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
 	std::optional<std::vector<MenuEntry>::const_iterator> option_help{_help->items.begin()};
 	std::optional<std::vector<MenuEntry>::const_iterator> option_pay{_pay->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> option_continue{_continue_menu->items.begin()};
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
@@ -170,14 +178,15 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 								continue;
 							} else {
 								const auto character_chosen{(*option_help.value()).index};
-								_cur_char = &_game->characters.at(character_chosen);
-								const auto cost{_cur_char.value()->get_cure_cost()};
-								if (_cur_char) {
+								_help_char = &_game->characters.at(character_chosen);
+								const auto cost{_help_char.value()->get_cure_cost()};
+								if (_help_char) {
 									_stage = TempleStage::PAY;
 									_status_bar->refresh();
+									_pay->reload();
 									_refresh_pay_menu(cost);
 									_update_cost(cost);
-									_cur_char_id = character_chosen;
+									_help_char_id = character_chosen;
 								}
 							}
 						}
@@ -211,20 +220,50 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 								continue;
 							} else {
 								const auto character_chosen{(*option_pay.value()).index};
-								_cur_char = &_game->characters.at(character_chosen);
-								/* const auto cost{_cur_char.value()->get_cure_cost()};
-								if (_cur_char) {
-									_stage = TempleStage::PAY;
+								_pay_char = &_game->characters.at(character_chosen);
+
+								_stage = TempleStage::RESS;
+								_start_count_thread();
+								_pay_char_id = character_chosen;
+								if (_pay_char) {
+									_result_text = "";
+									_pay_char_id = character_chosen;
+									_try_cure_or_ress();
 									_status_bar->refresh();
-									_refresh_pay_menu();
-									_cur_char_id = character_chosen;
-								} */
+								}
+							}
+						}
+					}
+				} else if (_stage == TempleStage::RESS) {
+					if (_t_finished) {
+
+						if (_system->input->check(WindowInput::CANCEL, event))
+							return MenuItem::CP_LEAVE;
+						else if (_system->input->check(WindowInput::BACK, event))
+							return MenuItem::CP_LEAVE;
+						else if (_system->input->check(WindowInput::UP, event))
+							option_continue = _continue_menu->choose_previous();
+						else if (_system->input->check(WindowInput::DOWN, event))
+							option_continue = _continue_menu->choose_next();
+						else if (_system->input->check(WindowInput::MOVE, event))
+							option_continue = _continue_menu->set_mouse_selected(
+								static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+							if (option_continue) {
+								if (const MenuItem option_chosen{(*option_continue.value()).item};
+									option_chosen == MenuItem::CONTINUE) {
+									return MenuItem::CONTINUE;
+								}
 							}
 						}
 					}
 				}
 			}
 		}
+
+		if (_get_ress_count() > 0)
+			_set_ress_status();
 
 		_window->clear();
 
@@ -244,6 +283,68 @@ auto Sorcery::Temple::stop() -> void {
 
 	// Stop the background movie!
 	_display->stop_bg_movie();
+}
+
+auto Sorcery::Temple::_try_cure_or_ress() -> bool {
+
+	// subtract money cost from selected character
+	const auto cost{_help_char.value()->get_cure_cost()};
+	_pay_char.value()->grant_gold(0 - cost);
+
+	if (_help_char.value()->get_status() == CharacterStatus::DEAD) {
+
+		const auto chance{_help_char.value()->get_ress_chance(false)};
+		const auto roll((*_system->random)[RandomType::D100]);
+		_game->log(fmt::format("{:>16} - {}", _help_char.value()->get_name(), "Ress from Dead"), 100, roll, chance);
+		if (roll < chance) {
+
+			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_HEALED_PREFIX"],
+				_help_char.value()->get_name(), (*_display->string)["TEMPLE_HEALED_SUFFIX"]);
+			_help_char.value()->set_status(CharacterStatus::OK);
+			_help_char.value()->set_current_hp(1);
+
+			return true;
+		} else {
+
+			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_OOPS_DEAD_PREFIX"],
+				_help_char.value()->get_name(), (*_display->string)["TEMPLE_OOPS_DEAD_SUFFIX"]);
+			_help_char.value()->set_status(CharacterStatus::ASHES);
+
+			return false;
+		}
+
+	} else if (_help_char.value()->get_status() == CharacterStatus::ASHES) {
+
+		const auto chance{_help_char.value()->get_ress_chance(true)};
+		const auto roll((*_system->random)[RandomType::D100]);
+		_game->log(fmt::format("{:>16} - {}", _help_char.value()->get_name(), "Ress from Ashes"), 100, roll, chance);
+		if (roll < chance) {
+
+			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_HEALED_PREFIX"],
+				_help_char.value()->get_name(), (*_display->string)["TEMPLE_HEALED_SUFFIX"]);
+			_help_char.value()->set_status(CharacterStatus::OK);
+			_help_char.value()->set_current_hp(1);
+
+			return true;
+
+		} else {
+
+			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_OOPS_ASHES_PREFIX"],
+				_help_char.value()->get_name(), (*_display->string)["TEMPLE_OOPS_ASHES_SUFFIX"]);
+			_help_char.value()->set_status(CharacterStatus::LOST);
+			_help_char.value()->set_current_hp(0);
+
+			return false;
+		}
+
+	} else {
+
+		_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_HEALED_PREFIX"],
+			_help_char.value()->get_name(), (*_display->string)["TEMPLE_HEALED_SUFFIX"]);
+		_help_char.value()->set_status(CharacterStatus::OK);
+
+		return true;
+	}
 }
 
 auto Sorcery::Temple::_update_cost(const unsigned int cost) -> void {
@@ -295,9 +396,91 @@ auto Sorcery::Temple::_draw() -> void {
 		_display->display("inn_pay", _p_sprites, _p_texts, _p_frames);
 		_display->window->draw_text(_cost, (*_display->layout)["temple_pay:cost_text"], _cost_text);
 		_window->draw(*_pay);
+	} else if (_stage == TempleStage::RESS) {
+
+		_display->display("inn_ress", _r_sprites, _r_texts, _r_frames);
+		_display->window->draw_text(_ress_count, (*_display->layout)["temple_ress:ress_message"], _get_ress_status());
+		if (_get_ress_count() > 5) {
+			_display->window->draw_text(_ress_result, (*_display->layout)["temple_ress:ress_result"], _result_text);
+			_continue_menu->generate((*_display->layout)["temple_ress:continue_menu"]);
+			const sf::Vector2f menu_pos(
+				(*_display->layout)["rest:continue_menu"].x, (*_display->layout)["temple_ress:continue_menu"].y);
+			_continue_menu->setPosition(menu_pos);
+			_window->draw(*_continue_menu);
+		}
 	}
 
 	// Always draw the following
 	_display->display_overlay();
 	_display->display_cursor();
+}
+
+auto Sorcery::Temple::_thread_count() -> void {
+
+	do {
+		if (_allow_count)
+			_do_count();
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(_duration));
+	} while (!_t_finished);
+}
+
+auto Sorcery::Temple::_do_count() -> void {
+
+	std::scoped_lock<std::mutex> _scoped_lock(_count_mutex);
+
+	++_t_count;
+	if (_t_count > 5)
+		_t_finished = true;
+}
+
+auto Sorcery::Temple::_start_count() -> void {
+
+	_t_count = 0;
+	_allow_count = true;
+}
+
+auto Sorcery::Temple::_stop_count() -> void {
+
+	_allow_count = false;
+}
+
+auto Sorcery::Temple::_start_count_thread() -> void {
+
+	_start_count();
+	if (!_count_thread.joinable())
+		_count_thread = std::jthread(&Temple::_thread_count, this);
+}
+
+auto Sorcery::Temple::_stop_count_thread() -> void {
+
+	_t_finished = true;
+	_stop_count();
+	if (_count_thread.joinable())
+		_count_thread.join();
+}
+
+auto Sorcery::Temple::_get_ress_status() -> std::string {
+
+	return _ress_text;
+}
+
+auto Sorcery::Temple::_get_ress_count() -> unsigned int {
+
+	std::scoped_lock<std::mutex> _scoped_lock(_count_mutex);
+
+	return _t_count;
+}
+
+auto Sorcery::Temple::_set_ress_status() -> void {
+
+	_ress_text = "";
+	if (_get_ress_count() > 1)
+		_ress_text.append((*_display->string)["TEMPLE_HEAL_1"]);
+	if (_get_ress_count() > 2)
+		_ress_text.append((*_display->string)["TEMPLE_HEAL_2"]);
+	if (_get_ress_count() > 3)
+		_ress_text.append((*_display->string)["TEMPLE_HEAL_3"]);
+	if (_get_ress_count() > 4)
+		_ress_text.append((*_display->string)["TEMPLE_HEAL_4"]);
 }

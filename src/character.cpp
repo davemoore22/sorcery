@@ -773,6 +773,16 @@ auto Sorcery::Character::finalise() -> void {
 	_set_starting_sp();
 }
 
+auto Sorcery::Character::get_ress_chance(bool ashes) -> unsigned int {
+
+	return ashes ? _abilities[CharacterAbility::ASHES_RESURRECT] : _abilities[CharacterAbility::DEAD_RESURRECT];
+}
+
+auto Sorcery::Character::grant_gold(const int value) -> void {
+
+	_abilities[CharacterAbility::GOLD] = _abilities[CharacterAbility::GOLD] + value;
+}
+
 auto Sorcery::Character::get_gold() const -> unsigned int {
 
 	return _abilities.at(CharacterAbility::GOLD);

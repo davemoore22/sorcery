@@ -583,6 +583,7 @@ namespace Enums::Castle {
 		MENU,
 		HELP,
 		PAY,
+		RESS,
 		TITHE,
 		INSPECT
 	};

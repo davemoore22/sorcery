@@ -924,9 +924,12 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			std::cout << text << std::endl;
 		} */
 
-		auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
+		/* auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
 		auto next{character.get_next_xp()};
-		character.grant_xp(next - 1);
+		character.grant_xp(next - 1); */
+
+		auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
+		character.grant_gold(10000);
 
 		_update_automap = true;
 		_update_compass = true;
@@ -1894,6 +1897,7 @@ auto Sorcery::Engine::_pit_if() -> bool {
 	return false;
 }
 
+// Example of dice rolling - incomplete for now
 auto Sorcery::Engine::_pit_oops() -> void {
 
 	auto party{_game->state->get_party_characters()};

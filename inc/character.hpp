@@ -112,6 +112,7 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto right_view() -> void;
 		auto get_gold() const -> unsigned int;
 		auto set_gold(const unsigned int value) -> void;
+		auto grant_gold(const int value) -> void;
 		auto summary_text() -> std::string;
 		auto get_method() const -> CreateMethod;
 		auto set_method(const CreateMethod value) -> void;
@@ -153,6 +154,7 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto grant_xp(const int adjustment) -> int;
 		auto can_level() const -> bool;
 		auto get_cure_cost() const -> unsigned int;
+		auto get_ress_chance(bool ashes) -> unsigned int;
 
 		// Public Members
 		std::map<SpellID, sf::FloatRect> mage_spell_bounds;

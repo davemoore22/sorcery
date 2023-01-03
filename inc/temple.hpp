@@ -56,11 +56,6 @@ class Temple {
 
 	private:
 
-		// Private Methods
-		auto _draw() -> void;
-		auto _refresh_pay_menu(const unsigned int cost) -> void;
-		auto _update_cost(const unsigned int cost) -> void;
-
 		// Private Members
 		System *_system;
 		Display *_display;
@@ -76,15 +71,50 @@ class Temple {
 		std::unique_ptr<Menu> _help;
 		std::unique_ptr<Menu> _pay;
 		int _cur_char_id;
+		int _help_char_id;
+		int _pay_char_id;
 		std::optional<Character *> _cur_char;
+		std::optional<Character *> _help_char;
+		std::optional<Character *> _pay_char;
 		std::map<std::string, sf::Sprite> _h_sprites;
 		std::map<std::string, sf::Text> _h_texts;
 		std::map<std::string, std::shared_ptr<Frame>> _h_frames;
 		std::map<std::string, sf::Sprite> _p_sprites;
 		std::map<std::string, sf::Text> _p_texts;
 		std::map<std::string, std::shared_ptr<Frame>> _p_frames;
+		std::map<std::string, sf::Sprite> _r_sprites;
+		std::map<std::string, sf::Text> _r_texts;
+		std::map<std::string, std::shared_ptr<Frame>> _r_frames;
 		sf::Text _cost;
+		sf::Text _ress_count;
+		sf::Text _ress_result;
 		std::string _cost_text;
+		std::string _ress_text;
+		std::string _result_text;
+		std::jthread _count_thread;
+		std::atomic<bool> _allow_count;
+		std::chrono::time_point<std::chrono::system_clock> _last_count;
+		std::chrono::time_point<std::chrono::system_clock> _current_time;
+		std::mutex _count_mutex;
+		unsigned int _t_count;
+		bool _t_finished;
+		unsigned int _duration;
+		std::unique_ptr<Menu> _continue_menu;
+
+		// Private Methods
+		auto _draw() -> void;
+		auto _refresh_pay_menu(const unsigned int cost) -> void;
+		auto _update_cost(const unsigned int cost) -> void;
+		auto _thread_count() -> void;
+		auto _do_count() -> void;
+		auto _start_count() -> void;
+		auto _stop_count() -> void;
+		auto _start_count_thread() -> void;
+		auto _stop_count_thread() -> void;
+		auto _set_ress_status() -> void;
+		auto _get_ress_status() -> std::string;
+		auto _get_ress_count() -> unsigned int;
+		auto _try_cure_or_ress() -> bool;
 };
 
 }

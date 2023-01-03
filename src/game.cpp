@@ -78,8 +78,7 @@ auto Sorcery::Game::add_console_message(std::string text, MessageType type = Mes
 	console_log.emplace_back(ConsoleMessage{type, text});
 }
 
-auto Sorcery::Game::log(const std::string &message, const int dice = -1, const int roll = -1, const int needed = -1)
-	-> void {
+auto Sorcery::Game::log(const std::string &message, const int dice, const int roll, const int needed) -> void {
 
 	if ((dice != -1) || (roll != -1) || (needed != -1)) {
 		const auto success{roll < needed ? "SUCCESS" : "FAILURE"};

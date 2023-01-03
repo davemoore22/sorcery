@@ -3671,6 +3671,65 @@
 		]
 	},
 	{
+		"name": "temple_ress",
+		"component": [
+			{
+				"name": "ress_message",
+				"x": "centre",
+				"y": "8",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "TEMPLE_WELCOME",
+				"justification": "centre",
+				"type": "text",
+				"priority": "4",
+				"drawmode": "manual"
+			},
+			{
+				"name": "menu_frame",
+				"w": "36",
+				"h": "20",
+				"x": "centre",
+				"y": "7",
+				"alpha": "225",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "ress_result",
+				"x": "centre",
+				"y": "16",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"string": "TEMPLE_WELCOME",
+				"justification": "centre",
+				"type": "text",
+				"priority": "4",
+				"drawmode": "manual"
+			},
+			{
+				"name": "continue_menu",
+				"x": "32",
+				"y": "20",
+				"w": "16",
+				"h": "3",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "38",
+				"animated": "true",
+				"width": "36",
+				"background": " 0xff0000ff",
+				"justification": "centre",
+				"type": "menu",
+				"priority": "4"
+			}
+		]
+	},
+	{
 		"name": "temple_pay",
 		"component": [
 			{
