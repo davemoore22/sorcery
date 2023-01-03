@@ -910,8 +910,27 @@ auto Sorcery::Menu::_populate_chars() -> void {
 	case MenuType::CHARACTER_ROSTER: {
 		if (_game->characters.size() > 0) {
 			for (auto &[character_id, character] : _game->characters) {
-				_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
-				++max_id;
+				if (_mode.value() == MenuMode::TAVERN) {
+					if ((character.location == CharacterLocation::TAVERN) ||
+						(character.location == CharacterLocation::PARTY)) {
+						_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
+						++max_id;
+					}
+				} else if (_mode.value() == MenuMode::INN) {
+					if (character.location == CharacterLocation::PARTY) {
+						_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
+						++max_id;
+					}
+				} else if (_mode.value() == MenuMode::TEMPLE) {
+					if ((character.location == CharacterLocation::TEMPLE) ||
+						(character.location == CharacterLocation::PARTY)) {
+						_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
+						++max_id;
+					}
+				} else if (_mode.value() == MenuMode::TRAINING) {
+					_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
+					++max_id;
+				}
 			}
 		} else
 			_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS"]);
@@ -920,9 +939,15 @@ auto Sorcery::Menu::_populate_chars() -> void {
 			if (_mode.value() == MenuMode::TRAINING) {
 				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
 				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::ET_TRAIN, (*_display->string)["MENU_TRAIN"]);
-			} else if ((_mode.value() == MenuMode::TAVERN) || (_mode.value() == MenuMode::INN)) {
+			} else if (_mode.value() == MenuMode::TAVERN) {
 				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
-				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::CA_TAVERN, (*_display->string)["MENU_TRAIN"]);
+				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::CA_TAVERN, (*_display->string)["MENU_TAVERN"]);
+			} else if (_mode.value() == MenuMode::INN) {
+				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::CA_TAVERN, (*_display->string)["MENU_INN"]);
+			} else if (_mode.value() == MenuMode::TEMPLE) {
+				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::CA_TAVERN, (*_display->string)["MENU_TEMPLE"]);
 			}
 		}
 
@@ -1035,7 +1060,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		for (auto &[character_id, character] : _game->characters) {
 			if (std::find(party.begin(), party.end(), character_id) == party.end()) {
 				// TODO:: good and evil exclusion if in strict mode
-				if (character.location == CharacterLocation::INN) {
+				if (character.location == CharacterLocation::TAVERN) {
 					_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
 					++max_id;
 					++count;

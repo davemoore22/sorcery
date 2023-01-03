@@ -122,6 +122,16 @@ auto Sorcery::CharacterPanel::set(Character *character) -> void {
 	_display->window->set_pos(&hp_c, &hp_text);
 	_texts.push_back(hp_text);
 
+	Component loc_c{(*_display->layout)["character_panel:location_value"]};
+	auto loc{fmt::format("{:>13}", _character->get_location_string())};
+	sf::Text loc_text{};
+	loc_text.setFont(_system->resources->fonts[loc_c.font]);
+	loc_text.setCharacterSize(loc_c.size);
+	loc_text.setFillColor(sf::Color(loc_c.colour));
+	loc_text.setString(loc);
+	_display->window->set_pos(&loc_c, &loc_text);
+	_texts.push_back(loc_text);
+
 	valid = true;
 }
 

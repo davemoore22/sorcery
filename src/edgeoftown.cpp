@@ -65,6 +65,10 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 		_engine->stop();
 	} else if (destination == Destination::TRAINING) {
 
+		for (auto &[character_id, character] : _game->characters) {
+			if (character.location == CharacterLocation::PARTY)
+				character.location = CharacterLocation::TAVERN;
+		}
 		_game->state->clear_party();
 		_game->save_game();
 		_status_bar->refresh();
@@ -143,6 +147,10 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 						} else if (option_chosen == MenuItem::ET_TRAIN) {
 
 							// Remove everyone from the Party
+							for (auto &[character_id, character] : _game->characters) {
+								if (character.location == CharacterLocation::PARTY)
+									character.location = CharacterLocation::TAVERN;
+							}
 							_game->state->clear_party();
 							_game->save_game();
 							_status_bar->refresh();
@@ -177,10 +185,10 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 					} else if (dialog_input.value() == WindowDialogButton::YES) {
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 
-						// If we leave the game, move any current party members into the Inn
+						// If we leave the game, move any current party members into the Tavern
 						for (auto &[character_id, character] : _game->characters) {
 							if (character.location == CharacterLocation::PARTY)
-								character.location = CharacterLocation::INN;
+								character.location = CharacterLocation::TAVERN;
 						}
 						_game->state->clear_party();
 						_game->save_game();

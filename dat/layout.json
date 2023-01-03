@@ -5921,8 +5921,26 @@
 					"offset_y": "12"
 				}
 			]
-		}
-		]
+		},
+		{
+			"name": "location_value",
+			"x": "25",
+			"y": "4",
+			"font": "monospace",
+			"colour": "0xa0a0a0ff",
+			"size": "38",
+			"string": "CHARACTER_PANEL_STATUS",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_x": "0",
+					"offset_y": "-12"
+				}
+			]
+		}]
 	},
 	{
 		"name": "character_detailed",

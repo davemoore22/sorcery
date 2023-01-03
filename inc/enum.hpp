@@ -608,9 +608,10 @@ namespace Enums::Character {
 
 		NONE = -1,
 		PARTY = 0,
-		INN = 1,
+		TAVERN = 1,
 		TEMPLE = 2,
-		MAZE = 3
+		MAZE = 3,
+		TRAINING = 4
 	};
 
 	// State of Character Creation

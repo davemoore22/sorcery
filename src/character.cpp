@@ -56,7 +56,7 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 
 	_legated = false;
 
-	location = CharacterLocation::INN;
+	location = CharacterLocation::TAVERN;
 	coordinate = std::nullopt;
 	depth = std::nullopt;
 }
@@ -850,6 +850,7 @@ auto Sorcery::Character::_legate_start_info() -> void {
 	}
 
 	set_status(CharacterStatus::OK);
+	location = CharacterLocation::TAVERN;
 	_abilities[CharacterAbility::CURRENT_HP] = _abilities[CharacterAbility::MAX_HP];
 
 	// Clamp Values
@@ -923,7 +924,7 @@ auto Sorcery::Character::legate(const CharacterAlignment &value) -> void {
 	set_status(CharacterStatus::OK);
 	_legated = true;
 
-	location = CharacterLocation::INN;
+	location = CharacterLocation::TAVERN;
 	coordinate = std::nullopt;
 	depth = std::nullopt;
 }
@@ -1764,6 +1765,7 @@ auto Sorcery::Character::level_up() -> std::string {
 		results.append("@");
 		results.append((*_display->string)["LEVEL_DIE"]);
 		_status = CharacterStatus::LOST;
+		location = CharacterLocation::TRAINING;
 	}
 
 	return results;
@@ -1776,6 +1778,7 @@ auto Sorcery::Character::level_down() -> void {
 
 	if (_abilities.at(CURRENT_LEVEL) == 1) {
 		_status = CharacterStatus::LOST;
+		location = CharacterLocation::TRAINING;
 		return;
 	}
 
@@ -2472,6 +2475,32 @@ auto Sorcery::Character::_get_condition() const -> std::string {
 			return "";
 		};
 	}
+}
+
+auto Sorcery::Character::get_location_string() const -> std::string {
+
+	switch (location) {
+	case CharacterLocation::PARTY:
+		return (*_display->string)["LOCATION_PARTY"];
+		break;
+	case CharacterLocation::TAVERN:
+		return (*_display->string)["LOCATION_TAVERN"];
+		break;
+	case CharacterLocation::TRAINING:
+		return (*_display->string)["LOCATION_TRAINING"];
+		break;
+	case CharacterLocation::TEMPLE:
+		return (*_display->string)["LOCATION_TEMPLE"];
+		break;
+	case CharacterLocation::MAZE:
+		return (*_display->string)["LOCATION_MAZE"];
+		break;
+	default:
+		return "";
+		break;
+	}
+
+	return "";
 }
 
 auto Sorcery::Character::get_status_string() const -> std::string {

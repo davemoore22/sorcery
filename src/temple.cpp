@@ -306,7 +306,7 @@ auto Sorcery::Temple::_try_cure_or_ress() -> bool {
 			_help_char.value()->set_status(CharacterStatus::OK);
 			_help_char.value()->set_current_hp(1);
 			if (_help_char.value()->location == CharacterLocation::TEMPLE)
-				_help_char.value()->location = CharacterLocation::INN;
+				_help_char.value()->location = CharacterLocation::TAVERN;
 
 			return true;
 		} else {
@@ -330,7 +330,7 @@ auto Sorcery::Temple::_try_cure_or_ress() -> bool {
 			_help_char.value()->set_status(CharacterStatus::OK);
 			_help_char.value()->set_current_hp(1);
 			if (_help_char.value()->location == CharacterLocation::TEMPLE)
-				_help_char.value()->location = CharacterLocation::INN;
+				_help_char.value()->location = CharacterLocation::TAVERN;
 
 			return true;
 
@@ -339,6 +339,7 @@ auto Sorcery::Temple::_try_cure_or_ress() -> bool {
 			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_OOPS_ASHES_PREFIX"],
 				_help_char.value()->get_name(), (*_display->string)["TEMPLE_OOPS_ASHES_SUFFIX"]);
 			_help_char.value()->set_status(CharacterStatus::LOST);
+			_help_char.value()->location = CharacterLocation::TRAINING;
 			_help_char.value()->set_current_hp(0);
 
 			return false;

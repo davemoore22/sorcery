@@ -47,7 +47,7 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 	// Remove all characters from party as is tradition
 	for (auto &[character_id, character] : _game->characters) {
 		if (character.location == CharacterLocation::PARTY) {
-			character.location = CharacterLocation::INN;
+			character.location = CharacterLocation::TAVERN;
 			character.coordinate = std::nullopt;
 			character.depth = std::nullopt;
 		}
