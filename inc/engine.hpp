@@ -106,6 +106,7 @@ class Engine {
 		auto _is_mouse_over(sf::IntRect rect, sf::Vector2f mouse_pos) const -> bool;
 		auto _unpoison_characters_on_return_to_town() -> void;
 		auto _move_characters_to_temple_if_needed() -> void;
+		auto _pit_oops() -> void;
 
 		// Private Members
 		System *_system;

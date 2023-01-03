@@ -1884,12 +1884,33 @@ auto Sorcery::Engine::_pit_if() -> bool {
 	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has(TileFeature::PIT)) {
 
 		_show_pit = true;
+		_pit_oops();
+		_update_status_bar = true;
 		_pit->set_valid(true);
 		_pit->reset_timed();
 		return true;
 	}
 
 	return false;
+}
+
+auto Sorcery::Engine::_pit_oops() -> void {
+
+	auto party{_game->state->get_party_characters()};
+	for (auto &[character_id, character] : _game->characters) {
+		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+
+			const auto chance{(character.get_cur_attr(CharacterAttribute::AGILITY) - _game->state->get_depth()) * 4};
+			const auto roll((*_system->random)[RandomType::D100]);
+			_game->log(fmt::format("{:>16} - {}", character.get_name(), "Avoid Pit"), 100, roll, chance);
+			if (roll < chance) {
+				// avoid damage
+			} else {
+
+				// inflict damage!
+			}
+		}
+	}
 }
 
 auto Sorcery::Engine::_elevator_if() -> bool {

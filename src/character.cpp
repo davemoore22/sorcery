@@ -1810,21 +1810,23 @@ auto Sorcery::Character::_try_learn_spell(SpellType spell_type, unsigned int spe
 	})};
 	for (auto &spell : spells) {
 
+		const auto dice{(*_system->random)[RandomType::ZERO_TO_29]};
+
 		// Check the Spell Type against the relevant stat (see SPLPERLV//TRYLEARN)
-		if (spell_type == SpellType::PRIEST)
-			if ((*_system->random)[RandomType::ZERO_TO_29] <=
-				static_cast<unsigned int>(_cur_attr[CharacterAttribute::PIETY])) {
+		if (spell_type == SpellType::PRIEST) {
+			if (dice <= static_cast<unsigned int>(_cur_attr[CharacterAttribute::PIETY])) {
 				spell.known = true;
 				_spells_known[spell.id] = true;
 				new_spell_learnt = true;
 			}
-		if (spell_type == SpellType::MAGE)
-			if ((*_system->random)[RandomType::ZERO_TO_29] <=
-				static_cast<unsigned int>(_cur_attr[CharacterAttribute::IQ])) {
+		}
+		if (spell_type == SpellType::MAGE) {
+			if (dice <= static_cast<unsigned int>(_cur_attr[CharacterAttribute::IQ])) {
 				spell.known = true;
 				_spells_known[spell.id] = true;
 				new_spell_learnt = true;
 			}
+		}
 	}
 
 	return new_spell_learnt;

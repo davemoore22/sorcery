@@ -35,26 +35,29 @@ auto Sorcery::Console::refresh() -> void {
 
 	_gui->removeAllWidgets();
 
-	auto background{tgui::Panel::create({"1024", "768"})};
+	auto background{tgui::Panel::create({"800", "500"})};
 	background->getRenderer()->setBackgroundColor({0, 0, 0, 175});
 	_gui->add(background, "TransparentBackground");
+
+	auto font{tgui::Font(std::string{(*_system->files)[TEXT_FONT_FILE]})};
+	_gui->setFont(font);
 
 	auto window{tgui::ChildWindow::create()};
 	window->setTitle("Console");
 	window->setTitleAlignment(tgui::ChildWindow::TitleAlignment::Center);
 	window->setTitleButtons(0);
-	window->setPosition({"0%", "0%"});
-	window->setSize(1024, 768);
+	window->setPosition({"32", "32"});
+	window->setSize(800, 500);
 	background->add(window, "Window");
 
 	auto body_panel{tgui::Panel::create()};
 	body_panel->setPosition(16, 16);
-	body_panel->setSize(1024 - 32, 786 - 64);
+	body_panel->setSize(800 - 32, 500 - 64);
 	window->add(body_panel, "BodyPanel");
 
 	auto logs{tgui::TextArea::create()};
 	logs->setPosition(32, 32);
-	logs->setSize(1024 - 64, 786 - 64);
+	logs->setSize(800 - 64, 500 - 64);
 	logs->setTextSize(16);
 	logs->setEnabled(true);
 	logs->setReadOnly(true);

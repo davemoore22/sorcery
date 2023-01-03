@@ -70,6 +70,7 @@ class Game {
 		auto get_turns() const -> unsigned int;
 		auto divvy_party_gold() -> void;
 		auto pool_party_gold(unsigned int char_id) -> void;
+		auto log(const std::string &message, const int dice, const int roll, const int needed) -> void;
 
 	private:
 

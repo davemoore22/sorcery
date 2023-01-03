@@ -311,7 +311,9 @@ namespace Enums::Internal {
 		STANDARD,
 		ALERT,
 		WARNING,
-		ERROR
+		ERROR,
+		ROLL,
+		GAME
 	};
 
 }
