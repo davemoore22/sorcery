@@ -117,17 +117,18 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 				time_elapsed_msec.count() > _duration)
 				proceed = true;
 
-			const auto time_elapsed_msec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
 			if ((proceed) && (!skip)) {
 				if (_type == RestType::STABLES) {
 					if (_stage == RestStage::REGEN) {
 						_go_to_results();
+						_game->save_game();
 						_stage = RestStage::RESULTS;
 					}
 				} else {
 					const auto is_fully_rested_or_stopped{_recuperate()};
 					if (is_fully_rested_or_stopped) {
 						_go_to_results();
+						_game->save_game();
 						skip = true;
 						_stage = RestStage::RESULTS;
 
@@ -167,9 +168,9 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 				} else if (_stage == RestStage::RESULTS) {
 
 					if (_system->input->check(WindowInput::CANCEL, event))
-						return MenuItem::CP_LEAVE;
+						return MenuItem::CONTINUE;
 					else if (_system->input->check(WindowInput::BACK, event))
-						return MenuItem::CP_LEAVE;
+						return MenuItem::CONTINUE;
 					else if (_system->input->check(WindowInput::UP, event))
 						option_continue = _continue_menu->choose_previous();
 					else if (_system->input->check(WindowInput::DOWN, event))

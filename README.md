@@ -37,7 +37,7 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 * Items and Inventory (TO DO)
 * Creatures and NPCs (TO DO)
 * Magic and Combat (TO DO)
-* Special Item Handling (TO DO)
+* Special Item/Square Handling (TO DO)
 * Victory Handling (TO DO)
 * Strict (Legacy) Mode (TO DO)
 * 3D Rendering (TO DO)

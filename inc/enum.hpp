@@ -660,14 +660,14 @@ namespace Enums::Character {
 
 	enum class Class {
 		NONE,
-		FIGHTER,
-		MAGE,
-		PRIEST,
-		THIEF,
-		BISHOP,
-		SAMURAI,
-		LORD,
-		NINJA
+		FIGHTER = 1,
+		MAGE = 2,
+		PRIEST = 3,
+		THIEF = 4,
+		BISHOP = 5,
+		SAMURAI = 6,
+		LORD = 7,
+		NINJA = 8
 	};
 
 	enum class Align {

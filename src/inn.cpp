@@ -270,6 +270,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 										return MenuItem::ABORT;
 									}
 									_rest->stop();
+									_roster->reload();
 									_display->generate("inn");
 									_status_bar->refresh();
 									continue;
@@ -282,6 +283,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 										return MenuItem::ABORT;
 									}
 									_rest->stop();
+									_roster->reload();
 									_display->generate("inn");
 									_status_bar->refresh();
 									continue;
@@ -294,6 +296,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 										return MenuItem::ABORT;
 									}
 									_rest->stop();
+									_roster->reload();
 									_display->generate("inn");
 									_status_bar->refresh();
 									continue;
@@ -306,6 +309,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 										return MenuItem::ABORT;
 									}
 									_rest->stop();
+									_roster->reload();
 									_display->generate("inn");
 									_status_bar->refresh();
 									continue;
@@ -318,6 +322,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 										return MenuItem::ABORT;
 									}
 									_rest->stop();
+									_roster->reload();
 									_display->generate("inn");
 									_status_bar->refresh();
 									continue;

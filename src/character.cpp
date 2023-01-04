@@ -2052,88 +2052,31 @@ auto Sorcery::Character::_get_spells_known(SpellType spell_type, unsigned int sp
 // Given a level, get the XP needed for it
 auto Sorcery::Character::_get_xp_for_level(unsigned int level) const -> int {
 
-	// Values obtained from
-	// http://www.the-spoiler.com/RPG/Sir-Tech/wizardry.1.2.html
-	auto base{0.f};
-	auto coefficient_2_to_3{0.f};
-	auto coefficient_3_to_13{0.f};
-	auto coefficient_13_plus{0.f};
-	switch (_class) { // NOLINT(clang-diagnostic-switch)
-	case CharacterClass::FIGHTER:
-		base = 1000;
-		coefficient_2_to_3 = 1.724;
-		coefficient_3_to_13 = 1.724;
-		coefficient_13_plus = 1.381;
-		break;
-	case CharacterClass::MAGE:
-		base = 1100;
-		coefficient_2_to_3 = 1.724;
-		coefficient_3_to_13 = 1.724;
-		coefficient_13_plus = 1.381;
-		break;
-	case CharacterClass::PRIEST:
-		coefficient_2_to_3 = 1.724;
-		coefficient_3_to_13 = 1.724;
-		coefficient_13_plus = 1.381;
-		base = 1050;
-		break;
-	case CharacterClass::THIEF:
-		coefficient_2_to_3 = 1.724;
-		coefficient_3_to_13 = 1.724;
-		coefficient_13_plus = 1.381;
-		base = 900;
-		break;
-	case CharacterClass::BISHOP:
-		base = 1000;
-		coefficient_2_to_3 = 2.105;
-		coefficient_3_to_13 = 1.724;
-		coefficient_13_plus = 1.326;
-		break;
-	case CharacterClass::SAMURAI:
-		coefficient_2_to_3 = 1.754;
-		coefficient_3_to_13 = 1.754;
-		coefficient_13_plus = 1.326;
-		base = 1250;
-		break;
-	case CharacterClass::LORD:
-		coefficient_2_to_3 = 1.754;
-		coefficient_3_to_13 = 1.754;
-		coefficient_13_plus = 1.326;
-		base = 1300;
-		break;
-	case CharacterClass::NINJA:
-		coefficient_2_to_3 = 1.754;
-		coefficient_3_to_13 = 1.754;
-		coefficient_13_plus = 1.326;
-		base = 1450;
-		break;
-	default:
-		break;
-	}
+	// XP values are obtained directly from original Apple2 Scenario Disc (look for E8 03 00 00 00 00 near &00020106
+	// though due to what I think is the way USCD pascal stores large numbers, they are stored in 16 bit LSB "chunks",
+	// for example, 134586 is stored at &0002013C as EA 11 0D, or 4586 - to get the actuaL value for the level we add
+	// this to 0D in decimal (13) times 10000, to get 134586.
 
-	switch (level) {
-	case 1:
-		return std::floor(base);
-		break;
-	case 2:
-		return std::floor(base * coefficient_2_to_3);
-		break;
-	case 3:
-	case 4:
-	case 5:
-	case 6:
-	case 7:
-	case 8:
-	case 9:
-	case 10:
-	case 11:
-	case 12:
-	case 13:
-		return std::floor((base * coefficient_2_to_3) * std::pow(coefficient_3_to_13, level - 2));
-	default:
-		return std::floor(((base * coefficient_2_to_3) * std::pow(coefficient_3_to_13, level - 2)) *
-						  std::pow(coefficient_13_plus, level - 13));
-	}
+	static const std::array<std::array<int, 14>, 8> levels{
+		{{0, 1000, 1724, 2972, 5124, 8834, 15231, 26260, 45275, 78060, 134586, 232044, 400075, 289709},		 // FIGHTER
+			{0, 1100, 1896, 3268, 5124, 9713, 16746, 28872, 49779, 85825, 147974, 255127, 439874, 318529},	 // MAGE
+			{0, 1050, 1810, 3120, 5379, 9274, 15989, 27567, 47529, 81946, 141286, 243596, 419993, 304132},	 // PRIEST
+			{0, 900, 1551, 2574, 4610, 7948, 13703, 23625, 40732, 70187, 121081, 208750, 359931, 260639},	 // THIEF
+			{0, 1000, 2105, 3692, 6477, 11363, 19935, 34973, 61136, 107642, 188845, 331370, 481240, 438479}, // BISHOP
+			{0, 1250, 2192, 3845, 6745, 11833, 20759, 36419, 63892, 112091, 196650, 345000, 605263, 456601}, // SAMURAI
+			{0, 1300, 2280, 4000, 7017, 12310, 21596, 37887, 66468, 116610, 204578, 358908, 629663, 475008}, // LORD
+			{0, 1450, 2543, 4461, 7826, 13729, 24085, 42254, 74129, 130050, 228157, 400275, 702236, 529756}}}; // NINJA
+
+	// Also found here: http://www.the-spoiler.com/RPG/Sir-Tech/wizardry.1.2.html
+
+	auto xp_needed{0};
+	auto c_index{magic_enum::enum_integer<CharacterClass>(_class) - 1};
+	if (level <= 13)
+		xp_needed = levels[c_index][level];
+	else
+		xp_needed = levels[c_index][12] + ((level - 13) * levels[c_index][13]);
+
+	return xp_needed;
 }
 
 auto Sorcery::Character::set_spells() -> void {
