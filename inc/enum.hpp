@@ -244,6 +244,13 @@ namespace Enums::Graphics {
 		TRAIN
 	};
 
+	enum class Event {
+		NONE = -1,
+		TREASURE = 0,
+		GRAVESTONE = 1,
+		CHEST = 2
+	};
+
 	enum class Texture {
 		NONE,
 		AUTOMAP,
@@ -253,6 +260,7 @@ namespace Enums::Graphics {
 		CREATURES_KNOWN,
 		CREATURES_UNKNOWN,
 		DOORS,
+		EVENTS,
 		FLOORS,
 		ICONS,
 		LOGO,

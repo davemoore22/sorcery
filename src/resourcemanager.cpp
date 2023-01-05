@@ -30,37 +30,27 @@ Sorcery::ResourceManager::ResourceManager(File &files) : _files{files} {
 	// Load all the Fixed Resources
 	try {
 
-		textures.acquire(
-			Enums::Graphics::Texture::AUTOMAP, thor::Resources::fromFile<sf::Texture>(_files[AUTOMAP_TEXTURE]));
-		textures.acquire(
-			Enums::Graphics::Texture::BACKGROUND, thor::Resources::fromFile<sf::Texture>(_files[BACKGROUND_TEXTURE]));
-		textures[Enums::Graphics::Texture::BACKGROUND].setRepeated(true);
-		textures.acquire(
-			Enums::Graphics::Texture::BANNER, thor::Resources::fromFile<sf::Texture>(_files[BANNER_TEXTURE]));
-		textures.acquire(
-			Enums::Graphics::Texture::CONTROLS, thor::Resources::fromFile<sf::Texture>(_files[CONTROLS_TEXTURE]));
-		textures.acquire(Enums::Graphics::Texture::CREATURES_KNOWN,
-			thor::Resources::fromFile<sf::Texture>(_files[CREATURES_KNOWN_TEXTURE]));
-		textures.acquire(Enums::Graphics::Texture::CREATURES_UNKNOWN,
-			thor::Resources::fromFile<sf::Texture>(_files[CREATURES_UNKNOWN_TEXTURE]));
-		textures.acquire(
-			Enums::Graphics::Texture::DOORS, thor::Resources::fromFile<sf::Texture>(_files[DOORS_TEXTURE]));
-		textures.acquire(
-			Enums::Graphics::Texture::FLOORS, thor::Resources::fromFile<sf::Texture>(_files[FLOORS_TEXTURE]));
-		textures.acquire(Enums::Graphics::Texture::LOGO, thor::Resources::fromFile<sf::Texture>(_files[LOGO_TEXTURE]));
-		textures.acquire(
-			Enums::Graphics::Texture::ICONS, thor::Resources::fromFile<sf::Texture>(_files[ICONS_TEXTURE]));
-		textures.acquire(
-			Enums::Graphics::Texture::PORTRAITS, thor::Resources::fromFile<sf::Texture>(_files[PORTRAITS_TEXTURE]));
-		textures.acquire(
-			Enums::Graphics::Texture::SPLASH, thor::Resources::fromFile<sf::Texture>(_files[SPLASH_TEXTURE]));
-		textures.acquire(Enums::Graphics::Texture::TOWN, thor::Resources::fromFile<sf::Texture>(_files[TOWN_TEXTURE]));
-		textures.acquire(Enums::Graphics::Texture::UI, thor::Resources::fromFile<sf::Texture>(_files[UI_TEXTURE]));
-		textures.acquire(Enums::Graphics::Texture::VIEW, thor::Resources::fromFile<sf::Texture>(_files[VIEW_TEXTURE]));
-		textures.acquire(
-			Enums::Graphics::Texture::WALLS, thor::Resources::fromFile<sf::Texture>(_files[WALLS_TEXTURE]));
-		textures.acquire(
-			Enums::Graphics::Texture::WIREFRAME, thor::Resources::fromFile<sf::Texture>(_files[WIREFRAME_TEXTURE]));
+		using enum Enums::Graphics::Texture;
+
+		textures.acquire(AUTOMAP, thor::Resources::fromFile<sf::Texture>(_files[AUTOMAP_TEXTURE]));
+		textures.acquire(BACKGROUND, thor::Resources::fromFile<sf::Texture>(_files[BACKGROUND_TEXTURE]));
+		textures[BACKGROUND].setRepeated(true);
+		textures.acquire(BANNER, thor::Resources::fromFile<sf::Texture>(_files[BANNER_TEXTURE]));
+		textures.acquire(CONTROLS, thor::Resources::fromFile<sf::Texture>(_files[CONTROLS_TEXTURE]));
+		textures.acquire(CREATURES_KNOWN, thor::Resources::fromFile<sf::Texture>(_files[CREATURES_KNOWN_TEXTURE]));
+		textures.acquire(CREATURES_UNKNOWN, thor::Resources::fromFile<sf::Texture>(_files[CREATURES_UNKNOWN_TEXTURE]));
+		textures.acquire(DOORS, thor::Resources::fromFile<sf::Texture>(_files[DOORS_TEXTURE]));
+		textures.acquire(EVENTS, thor::Resources::fromFile<sf::Texture>(_files[EVENTS_TEXTURE]));
+		textures.acquire(FLOORS, thor::Resources::fromFile<sf::Texture>(_files[FLOORS_TEXTURE]));
+		textures.acquire(LOGO, thor::Resources::fromFile<sf::Texture>(_files[LOGO_TEXTURE]));
+		textures.acquire(ICONS, thor::Resources::fromFile<sf::Texture>(_files[ICONS_TEXTURE]));
+		textures.acquire(PORTRAITS, thor::Resources::fromFile<sf::Texture>(_files[PORTRAITS_TEXTURE]));
+		textures.acquire(SPLASH, thor::Resources::fromFile<sf::Texture>(_files[SPLASH_TEXTURE]));
+		textures.acquire(TOWN, thor::Resources::fromFile<sf::Texture>(_files[TOWN_TEXTURE]));
+		textures.acquire(UI, thor::Resources::fromFile<sf::Texture>(_files[UI_TEXTURE]));
+		textures.acquire(VIEW, thor::Resources::fromFile<sf::Texture>(_files[VIEW_TEXTURE]));
+		textures.acquire(WALLS, thor::Resources::fromFile<sf::Texture>(_files[WALLS_TEXTURE]));
+		textures.acquire(WIREFRAME, thor::Resources::fromFile<sf::Texture>(_files[WIREFRAME_TEXTURE]));
 
 		fonts.acquire(FontType::INPUT, thor::Resources::fromFile<sf::Font>(_files[INPUT_FONT_FILE]));
 		fonts.acquire(FontType::MONOSPACE, thor::Resources::fromFile<sf::Font>(_files[MONO_FONT_FILE]));

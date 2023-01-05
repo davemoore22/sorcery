@@ -51,6 +51,7 @@ add_executable(${PROJECT_NAME}
 	src/frame.cpp
 	src/game.cpp
 	src/graphics.cpp
+	src/graveyard.cpp
 	src/iconpanel.cpp
 	src/iconstore.cpp
 	src/infopanel.cpp
