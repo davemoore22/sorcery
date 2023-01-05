@@ -70,12 +70,6 @@ class Temple {
 		TempleStage _stage;
 		std::unique_ptr<Menu> _help;
 		std::unique_ptr<Menu> _pay;
-		int _cur_char_id;
-		int _help_char_id;
-		int _pay_char_id;
-		std::optional<Character *> _cur_char;
-		std::optional<Character *> _help_char;
-		std::optional<Character *> _pay_char;
 		std::map<std::string, sf::Sprite> _h_sprites;
 		std::map<std::string, sf::Text> _h_texts;
 		std::map<std::string, std::shared_ptr<Frame>> _h_frames;
@@ -114,7 +108,7 @@ class Temple {
 		auto _set_ress_status() -> void;
 		auto _get_ress_status() -> std::string;
 		auto _get_ress_count() -> unsigned int;
-		auto _try_cure_or_ress() -> bool;
+		auto _try_cure_or_ress(unsigned int heal_char_id, unsigned int pay_char_id) -> bool;
 };
 
 }

@@ -93,6 +93,7 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 	std::optional<std::vector<MenuEntry>::const_iterator> option_pay{_pay->items.begin()};
 	std::optional<std::vector<MenuEntry>::const_iterator> option_continue{_continue_menu->items.begin()};
 	sf::Event event{};
+	auto heal_char_id{0u};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
 
@@ -177,16 +178,15 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 								_help->reload();
 								continue;
 							} else {
-								const auto character_chosen{(*option_help.value()).index};
-								_help_char = &_game->characters.at(character_chosen);
-								const auto cost{_help_char.value()->get_cure_cost()};
-								if (_help_char) {
+								heal_char_id = (*option_help.value()).index;
+								const auto &help_character{_game->characters.at(heal_char_id)};
+								const auto cost{help_character.get_cure_cost()};
+								if (heal_char_id > 0) {
 									_stage = TempleStage::PAY;
 									_status_bar->refresh();
 									_pay->reload();
 									_refresh_pay_menu(cost);
 									_update_cost(cost);
-									_help_char_id = character_chosen;
 								}
 							}
 						}
@@ -219,25 +219,23 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 								_help->reload();
 								continue;
 							} else {
-								const auto character_chosen{(*option_pay.value()).index};
-								_pay_char = &_game->characters.at(character_chosen);
-
+								const auto pay_char_id{(*option_pay.value()).index};
 								_stage = TempleStage::RESS;
+								_t_finished = false;
 								_start_count_thread();
-								_pay_char_id = character_chosen;
-								if (_pay_char) {
+								if (pay_char_id > 0) {
 									_result_text = "";
-									_pay_char_id = character_chosen;
-									_try_cure_or_ress();
+									_try_cure_or_ress(heal_char_id, pay_char_id);
 									_status_bar->refresh();
 									_game->save_game();
+									_game->load_game();
 								}
 							}
 						}
 					}
 				} else if (_stage == TempleStage::RESS) {
 					if (_t_finished) {
-
+						_stop_count_thread();
 						if (_system->input->check(WindowInput::CANCEL, event))
 							return MenuItem::CP_LEAVE;
 						else if (_system->input->check(WindowInput::BACK, event))
@@ -284,72 +282,73 @@ auto Sorcery::Temple::stop() -> void {
 
 	// Stop the background movie!
 	_display->stop_bg_movie();
-
-	_stop_count_thread();
 }
 
-auto Sorcery::Temple::_try_cure_or_ress() -> bool {
+auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int pay_char_id) -> bool {
+
+	auto &pay_char{_game->characters.at(pay_char_id)};
+	auto &heal_char{_game->characters.at(heal_char_id)};
 
 	// subtract money cost from selected character
-	const auto cost{_help_char.value()->get_cure_cost()};
-	_pay_char.value()->grant_gold(0 - cost);
+	const auto cost{heal_char.get_cure_cost()};
+	pay_char.grant_gold(0 - cost);
 
-	if (_help_char.value()->get_status() == CharacterStatus::DEAD) {
+	if (heal_char.get_status() == CharacterStatus::DEAD) {
 
-		const auto chance{_help_char.value()->get_ress_chance(false)};
+		const auto chance{heal_char.get_ress_chance(false)};
 		const auto roll((*_system->random)[RandomType::D100]);
-		_game->log(fmt::format("{:>16} - {}", _help_char.value()->get_name(), "Ress from Dead"), 100, roll, chance);
+		_game->log(fmt::format("{:>16} - {}", heal_char.get_name(), "Ress from Dead"), 100, roll, chance);
 		if (roll < chance) {
 
-			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_HEALED_PREFIX"],
-				_help_char.value()->get_name(), (*_display->string)["TEMPLE_HEALED_SUFFIX"]);
-			_help_char.value()->set_status(CharacterStatus::OK);
-			_help_char.value()->set_current_hp(1);
-			if (_help_char.value()->location == CharacterLocation::TEMPLE)
-				_help_char.value()->location = CharacterLocation::TAVERN;
+			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_HEALED_PREFIX"], heal_char.get_name(),
+				(*_display->string)["TEMPLE_HEALED_SUFFIX"]);
+			heal_char.set_status(CharacterStatus::OK);
+			heal_char.set_current_hp(1);
+			if (heal_char.location == CharacterLocation::TEMPLE)
+				heal_char.location = CharacterLocation::TAVERN;
 
 			return true;
 		} else {
 
-			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_OOPS_DEAD_PREFIX"],
-				_help_char.value()->get_name(), (*_display->string)["TEMPLE_OOPS_DEAD_SUFFIX"]);
-			_help_char.value()->set_status(CharacterStatus::ASHES);
+			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_OOPS_DEAD_PREFIX"], heal_char.get_name(),
+				(*_display->string)["TEMPLE_OOPS_DEAD_SUFFIX"]);
+			heal_char.set_status(CharacterStatus::ASHES);
 
 			return false;
 		}
 
-	} else if (_help_char.value()->get_status() == CharacterStatus::ASHES) {
+	} else if (heal_char.get_status() == CharacterStatus::ASHES) {
 
-		const auto chance{_help_char.value()->get_ress_chance(true)};
+		const auto chance{heal_char.get_ress_chance(true)};
 		const auto roll((*_system->random)[RandomType::D100]);
-		_game->log(fmt::format("{:>16} - {}", _help_char.value()->get_name(), "Ress from Ashes"), 100, roll, chance);
+		_game->log(fmt::format("{:>16} - {}", heal_char.get_name(), "Ress from Ashes"), 100, roll, chance);
 		if (roll < chance) {
 
-			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_HEALED_PREFIX"],
-				_help_char.value()->get_name(), (*_display->string)["TEMPLE_HEALED_SUFFIX"]);
-			_help_char.value()->set_status(CharacterStatus::OK);
-			_help_char.value()->set_current_hp(1);
-			if (_help_char.value()->location == CharacterLocation::TEMPLE)
-				_help_char.value()->location = CharacterLocation::TAVERN;
+			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_HEALED_PREFIX"], heal_char.get_name(),
+				(*_display->string)["TEMPLE_HEALED_SUFFIX"]);
+			heal_char.set_status(CharacterStatus::OK);
+			heal_char.set_current_hp(1);
+			if (heal_char.location == CharacterLocation::TEMPLE)
+				heal_char.location = CharacterLocation::TAVERN;
 
 			return true;
 
 		} else {
 
 			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_OOPS_ASHES_PREFIX"],
-				_help_char.value()->get_name(), (*_display->string)["TEMPLE_OOPS_ASHES_SUFFIX"]);
-			_help_char.value()->set_status(CharacterStatus::LOST);
-			_help_char.value()->location = CharacterLocation::TRAINING;
-			_help_char.value()->set_current_hp(0);
+				heal_char.get_name(), (*_display->string)["TEMPLE_OOPS_ASHES_SUFFIX"]);
+			heal_char.set_status(CharacterStatus::LOST);
+			heal_char.location = CharacterLocation::TRAINING;
+			heal_char.set_current_hp(0);
 
 			return false;
 		}
 
 	} else {
 
-		_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_HEALED_PREFIX"],
-			_help_char.value()->get_name(), (*_display->string)["TEMPLE_HEALED_SUFFIX"]);
-		_help_char.value()->set_status(CharacterStatus::OK);
+		_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_HEALED_PREFIX"], heal_char.get_name(),
+			(*_display->string)["TEMPLE_HEALED_SUFFIX"]);
+		heal_char.set_status(CharacterStatus::OK);
 
 		return true;
 	}
