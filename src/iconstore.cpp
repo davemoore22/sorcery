@@ -114,7 +114,7 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 					else
 						return sf::Color(std::stoul(colour_hex, 0, 16));
 				}()};
-				MenuItem menu_item{MenuItem::NONE};
+				MenuItem menu_item{MenuItem::NO_ITEM};
 
 				// Use Magic Enum Library Reflection to convert the string to
 				// the type if we have an associated menu item for the icon
@@ -127,7 +127,7 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 				const Icon icon{index, menu_item, key, filename, colour};
 
 				// First for Menu Items
-				if (menu_item != MenuItem::NONE) {
+				if (menu_item != MenuItem::NO_ITEM) {
 					_menu_icon_map[menu_item] = icon;
 				}
 

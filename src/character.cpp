@@ -38,7 +38,7 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 	_v_texts.clear();
 	_v_sprites.clear();
 	_v_frames.clear();
-	_view = CharacterView::NONE;
+	_view = CharacterView::NO_VIEW;
 	_hl_mage_spell = SpellID::DUMAPIC;
 	_hl_priest_spell = SpellID::BADIOS;
 	mage_spell_bounds.clear();
@@ -189,21 +189,21 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		other._spells_known.clear();
 		other._current_stage = CharacterStage::NONE;
 		other._name.clear();
-		other._race = CharacterRace::NONE;
-		other._class = CharacterClass::NONE;
-		other._alignment = CharacterAlignment::NONE;
+		other._race = CharacterRace::NO_RACE;
+		other._class = CharacterClass::NO_CLASS;
+		other._alignment = CharacterAlignment::NO_ALIGN;
 		other._start_attr.clear();
 		other._cur_attr.clear();
 		other._max_attr.clear();
-		other._view = CharacterView::NONE;
+		other._view = CharacterView::NO_VIEW;
 		other._points_left = 0;
 		other._st_points = 0;
 		other._pos_classes.clear();
 		other._class_list.clear();
 		other._num_pos_classes = 0;
 		other._portrait_index = 0;
-		other._hl_mage_spell = SpellID::NONE;
-		other._hl_priest_spell = SpellID::NONE;
+		other._hl_mage_spell = SpellID::NO_SPELL;
+		other._hl_priest_spell = SpellID::NO_SPELL;
 		other._hidden = false;
 		other._status = CharacterStatus::OK;
 		other._legated = false;
@@ -277,13 +277,13 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		other._spells_known.clear();
 		other._current_stage = CharacterStage::NONE;
 		other._name.clear();
-		other._race = CharacterRace::NONE;
-		other._class = CharacterClass::NONE;
-		other._alignment = CharacterAlignment::NONE;
+		other._race = CharacterRace::NO_RACE;
+		other._class = CharacterClass::NO_CLASS;
+		other._alignment = CharacterAlignment::NO_ALIGN;
 		other._start_attr.clear();
 		other._cur_attr.clear();
 		other._max_attr.clear();
-		other._view = CharacterView::NONE;
+		other._view = CharacterView::NO_VIEW;
 		other._points_left = 0;
 		other._st_points = 0;
 		other._pos_classes.clear();
@@ -320,8 +320,8 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 	switch (stage) {
 	case CharacterStage::CHOOSE_METHOD:
 		_name.clear();
-		_race = CharacterRace::NONE;
-		_alignment = CharacterAlignment::NONE;
+		_race = CharacterRace::NO_RACE;
+		_alignment = CharacterAlignment::NO_ALIGN;
 		_start_attr.clear();
 		_cur_attr.clear();
 		_max_attr.clear();
@@ -329,7 +329,7 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 
 		// Used in the display from this point onwards
 		_abilities[CharacterAbility::CURRENT_LEVEL] = 1;
-		_class = CharacterClass::NONE;
+		_class = CharacterClass::NO_CLASS;
 		_points_left = 0;
 		_st_points = 0;
 		_pos_classes.clear();
@@ -342,7 +342,7 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 		_spells.clear();
 		create_spells();
 		reset_spells();
-		_view = CharacterView::NONE;
+		_view = CharacterView::NO_VIEW;
 		break;
 	case CharacterStage::REVIEW_AND_CONFIRM:
 

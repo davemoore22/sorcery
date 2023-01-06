@@ -150,7 +150,7 @@ auto Sorcery::Application::start() -> int {
 		}
 	}
 
-	std::optional<MenuItem> option_chosen{MenuItem::NONE};
+	std::optional<MenuItem> option_chosen{MenuItem::NO_ITEM};
 	MainMenuType menu_stage{MainMenuType::ATTRACT_MODE};
 	do {
 

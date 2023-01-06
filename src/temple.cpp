@@ -41,7 +41,7 @@ Sorcery::Temple::Temple(System *system, Display *display, Graphics *graphics, Ga
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
 	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MenuMode::TEMPLE);
 
-	_stage = TempleStage::NONE;
+	_stage = TempleStage::NO_STAGE;
 
 	_cost = sf::Text();
 	_ress_count = sf::Text();

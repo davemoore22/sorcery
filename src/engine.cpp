@@ -258,7 +258,7 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	_automap->refresh();
 	_map->refresh();
 	_system->stop_pause();
-	_last_movement = MapDirection::NONE;
+	_last_movement = MapDirection::NO_DIRECTION;
 	auto &starting_tile{_game->state->level->at(_game->state->get_player_pos())};
 
 	if (!_tile_explored(_game->state->get_player_pos()))
@@ -1749,7 +1749,7 @@ auto Sorcery::Engine::_move_backward() -> bool {
 	auto this_tile{_game->state->level->at(current_loc)};
 	auto &next_tile{_game->state->level->at(next_loc)};
 
-	auto this_wall_to_check{MapDirection::NONE};
+	auto this_wall_to_check{MapDirection::NO_DIRECTION};
 	switch (_game->state->get_player_facing()) {
 	case MapDirection::NORTH:
 		this_wall_to_check = MapDirection::SOUTH;

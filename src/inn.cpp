@@ -43,7 +43,7 @@ Sorcery::Inn::Inn(System *system, Display *display, Graphics *graphics, Game *ga
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
 	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MenuMode::INN);
 
-	_stage = InnStage::NONE;
+	_stage = InnStage::NO_STAGE;
 	_update = false;
 
 	_pool = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["inn:dialog_pool_gold_ok"],

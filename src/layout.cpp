@@ -211,11 +211,11 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 								else if (components[j]["font"].asString() == "input")
 									return FontType::INPUT;
 								else
-									return FontType::NONE;
+									return FontType::NO_FONT;
 							} else
-								return FontType::NONE;
+								return FontType::NO_FONT;
 						} else
-							return FontType::NONE;
+							return FontType::NO_FONT;
 					}()};
 					auto size{[&] {
 						if (components[j].isMember("size")) {

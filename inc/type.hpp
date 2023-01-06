@@ -34,7 +34,7 @@ namespace Sorcery {
 // Struct to represent a menu entry
 struct MenuEntry {
 		MenuEntry()
-			: index{0}, type{Enums::Menu::ItemType::NONE}, item{Enums::Menu::Item::NONE}, key{}, enabled{false},
+			: index{0}, type{Enums::Menu::ItemType::NO_TYPE}, item{Enums::Menu::Item::NO_ITEM}, key{}, enabled{false},
 			  config{Enums::Options::NONE}, hint{} {};
 		MenuEntry(unsigned int index_, Enums::Menu::ItemType type_, Enums::Menu::Item item_, std::string key_,
 			bool enabled_, Enums::Options config_, std::string hint_)
@@ -72,7 +72,7 @@ struct GameEntry {
 
 // Struct to represent an icon
 struct Icon {
-		Icon() : index{0}, item{Enums::Menu::Item::NONE}, key{}, filename{}, colour{} {};
+		Icon() : index{0}, item{Enums::Menu::Item::NO_ITEM}, key{}, filename{}, colour{} {};
 		Icon(unsigned int index_, Enums::Menu::Item item_, std::string key_, std::string filename_, sf::Color colour_)
 			: index{index_}, item{item_}, key{key_}, filename{filename_}, colour{colour_} {};
 
@@ -296,8 +296,8 @@ struct Rect {
 struct Spell {
 
 		Spell()
-			: id{Enums::Magic::SpellID::NONE}, type{Enums::Magic::SpellType::NONE},
-			  category{Enums::Magic::SpellCategory::NONE}, level{0}, known{false}, name{""}, translated_name{""},
+			: id{Enums::Magic::SpellID::NO_SPELL}, type{Enums::Magic::SpellType::NO_TYPE},
+			  category{Enums::Magic::SpellCategory::NO_CATEGORY}, level{0}, known{false}, name{""}, translated_name{""},
 			  details{""} {};
 		Spell(Enums::Magic::SpellID id_, Enums::Magic::SpellType type_, Enums::Magic::SpellCategory category_,
 			unsigned int level_, bool known_, std::string name_, std::string translated_name_, std::string details_)
@@ -370,7 +370,8 @@ struct Wall {
 		std::optional<Door> door;
 
 		Wall()
-			: visible{false}, walkable{false}, direction(Enums::Map::Direction::NONE), gfx{-1}, door{std::nullopt} {};
+			: visible{false}, walkable{false}, direction(Enums::Map::Direction::NO_DIRECTION), gfx{-1},
+			  door{std::nullopt} {};
 
 		Wall(Enums::Map::Direction direction_)
 			: visible{true}, walkable{false}, direction{direction_}, gfx{-1}, door{std::nullopt} {};
@@ -424,7 +425,8 @@ struct TileNote {
 		bool visible;
 		Enums::View::Message::Position position;
 
-		TileNote() : loc{Coordinate{-1, -1}}, text{""}, visible{true}, position{Enums::View::Message::Position::NONE} {
+		TileNote()
+			: loc{Coordinate{-1, -1}}, text{""}, visible{true}, position{Enums::View::Message::Position::NO_POSITION} {
 		}
 
 		TileNote(int x_, int y_, std::string text_) {

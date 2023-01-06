@@ -71,7 +71,7 @@ Sorcery::Legate::Legate(System *system, Display *display, Graphics *graphics, Ch
 	_choose_alignment.setPosition(text_c.x + offset_x, text_c.y + offset_y);
 
 	// Initial Stage
-	_stage = LegateStage::NONE;
+	_stage = LegateStage::NO_STAGE;
 }
 
 // Standard Destructor

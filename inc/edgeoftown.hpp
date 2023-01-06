@@ -54,7 +54,7 @@ class EdgeOfTown {
 		// Public Members
 
 		// Public Methods
-		auto start(Destination destination = Destination::NONE) -> std::optional<MenuItem>;
+		auto start(Destination destination = Destination::DEFAULT) -> std::optional<MenuItem>;
 		auto stop() -> void;
 
 	private:

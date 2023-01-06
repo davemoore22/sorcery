@@ -264,7 +264,7 @@ namespace Enums::Graphics {
 	};
 
 	enum class TextureType {
-		NONE,
+		NO_TYPE,
 		AUTOMAP,
 		WALL,
 		FLOOR,
@@ -276,35 +276,18 @@ namespace Enums::Graphics {
 	};
 }
 
-namespace Enums::Settings {
-
-	// Settings
-	enum class Category {
-		NONE,
-		GENERAL,
-		GAMEPLAY,
-		GRAPHICS
-	};
-}
-
 namespace Enums::Internal {
 
 	enum class FontType {
-		NONE,
+		NO_FONT,
 		MONOSPACE,
 		PROPORTIONAL,
 		TEXT,
 		INPUT
 	};
 
-	enum class StringType {
-		NONE,
-		NORMAL,
-		EXPLAIN
-	};
-
 	enum class MessageType {
-		NONE,
+		NO_TYPE,
 		STANDARD,
 		ALERT,
 		WARNING,
@@ -318,19 +301,19 @@ namespace Enums::Internal {
 namespace Enums::Magic {
 
 	enum class SpellType {
-		NONE,
+		NO_TYPE,
 		MAGE,
 		PRIEST
 	};
 
 	enum class SpellPointStatus {
-		NONE,
+		NO_STATUS,
 		CURRENT,
 		MAXIMUM
 	};
 
 	enum class SpellCategory {
-		NONE,
+		NO_CATEGORY,
 		HEALING,
 		FIELD,
 		SUPPORT,
@@ -340,7 +323,7 @@ namespace Enums::Magic {
 
 	// Wizardry 1 to 3 Spells
 	enum class SpellID {
-		NONE = -1,
+		NO_SPELL = -1,
 
 		DUMAPIC = 0,
 		HALITO = 1,
@@ -410,118 +393,22 @@ namespace Enums::Magic {
 
 		END_OF_PRIEST = 51
 	};
-
-	enum class SpellID_V {
-
-		DUMAPIC = 0,
-		HALITO = 1,
-		KATINO = 2,
-		MOGREF = 3,
-
-		BOLATU = 4,
-		DESTO = 5,
-		MELITO = 6,
-		MORLIS = 7,
-		PONTI = 8,
-
-		CALIFIC = 9,
-		CORTU = 10,
-		KANTIOS = 11,
-		MAHALITO = 12,
-
-		LAHALITO = 13,
-		LITOFEIT = 14,
-		ROKDO = 15,
-		TZALIK = 16,
-
-		BACORTU = 17,
-		MADALTO = 18,
-		PALIOS = 19,
-		SOCORDI = 20,
-		VASKYRE = 21,
-
-		HAMAN = 22,
-		LADALTO = 23,
-		LOKARA = 24,
-		MAMOGREF = 25,
-		ZILWAN = 26,
-
-		MAHAMAN = 27,
-		MALOR = 28,
-		MAWXIWTZ = 29,
-		TILTOWAIT = 30,
-		END_OF_MAGE = 31,
-
-		BADIOS = 32,
-		DIOS = 33,
-		KALKI = 34,
-		MILWA = 35,
-		PORFIC = 36,
-
-		CALFO = 37,
-		KANDI = 38,
-		KATU = 39,
-		MONTINO = 40,
-
-		BAMATU = 41,
-		DIALKO = 42,
-		HAKANIDO = 43,
-		LATUMAPIC = 44,
-		LOMILWA = 45,
-
-		BADIAL = 46,
-		BARIKO = 47,
-		DIAL = 48,
-		LATUMOFIS = 49,
-		MAPORFIC = 50,
-
-		BADI = 51,
-		BAMORDI = 52,
-		DI = 53,
-		DIALMA = 54,
-		MOGATO = 55,
-
-		LABADI = 56,
-		LOKTOFEIT = 57,
-		KAKAMEN = 58,
-		MADI = 59,
-
-		BAKADI = 60,
-		IHALON = 61,
-		KADORTO = 62,
-		MABARIKO = 63,
-		END_OF_PRIEST = 64
-	};
 }
 
 // Management Menu
 namespace Enums::Manage {
 
 	enum class Roster {
-		NONE,
+		NO_MODE,
 		INSPECT,
 		EDIT,
 		DELETE
-	};
-
-	enum class Category {
-		NONE,
-		MANAGE,
-		CREATE,
-		IMPORT
 	};
 
 	enum class Method {
 		FULL = 0,
 		QUICK = 1,
 		RANDOM = 2
-	};
-
-	enum class Import {
-		NONE,
-		WIZARDRY,
-		BARDS_TALE,
-		ULTIMA
 	};
 }
 
@@ -550,7 +437,7 @@ namespace Enums::Castle {
 	}
 
 	enum class Tavern {
-		NONE,
+		NO_STAGE,
 		MENU,
 		ADD,
 		REMOVE,
@@ -559,7 +446,7 @@ namespace Enums::Castle {
 	};
 
 	enum class Inn {
-		NONE,
+		NO_STAGE,
 		MENU,
 		BED,
 		INPECT,
@@ -567,7 +454,7 @@ namespace Enums::Castle {
 	};
 
 	enum class Shop {
-		NONE,
+		NO_STAGE,
 		MENU,
 		TRADE,
 		UNCURSE,
@@ -576,7 +463,7 @@ namespace Enums::Castle {
 	};
 
 	enum class Temple {
-		NONE,
+		NO_STAGE,
 		MENU,
 		HELP,
 		PAY,
@@ -627,7 +514,7 @@ namespace Enums::Character {
 	};
 
 	enum class Legate {
-		NONE,
+		NO_STAGE,
 		CONFIRM,
 		CHANGE_ALIGNMENT,
 		LEGATED
@@ -635,7 +522,7 @@ namespace Enums::Character {
 
 	// View Sections
 	enum class View {
-		NONE = 0,
+		NO_VIEW = 0,
 		SUMMARY = 1,
 		DETAILED = 2,
 		MAGE_SPELLS = 3,
@@ -647,7 +534,7 @@ namespace Enums::Character {
 
 	// Character Classes
 	enum class Race {
-		NONE,
+		NO_RACE,
 		HUMAN,
 		ELF,
 		DWARF,
@@ -656,7 +543,7 @@ namespace Enums::Character {
 	};
 
 	enum class Class {
-		NONE,
+		NO_CLASS = 0,
 		FIGHTER = 1,
 		MAGE = 2,
 		PRIEST = 3,
@@ -668,7 +555,7 @@ namespace Enums::Character {
 	};
 
 	enum class Align {
-		NONE,
+		NO_ALIGN,
 		GOOD,
 		NEUTRAL,
 		EVIL
@@ -687,7 +574,7 @@ namespace Enums::Character {
 	};
 
 	enum class Attribute {
-		NONE = 0,
+		NO_ATTRIBUTE = 0,
 		STRENGTH = 1,
 		IQ = 2,
 		PIETY = 3,
@@ -697,7 +584,7 @@ namespace Enums::Character {
 	};
 
 	enum class Ability_Type {
-		NONE,
+		NO_TYPE,
 		NUMBER,
 		MODIFIER,
 		PERCENTAGE,
@@ -707,7 +594,7 @@ namespace Enums::Character {
 	};
 
 	enum class Ability {
-		NONE,
+		NO_ABILITY,
 		CURRENT_HP,
 		MAX_HP,
 		HIT_DICE,
@@ -773,7 +660,7 @@ namespace Enums::System {
 
 	// Quick Start
 	enum class Destination {
-		NONE = 0,
+		DEFAULT = 0,
 		CASTLE = 1,
 		TAVERN = 2,
 		TRAINING = 3,
@@ -785,7 +672,7 @@ namespace Enums::System {
 
 	// Errors
 	enum class Error {
-		NONE = 0,
+		NO_ERROR = 0,
 		JSON_PARSE_ERROR = 1,
 		UNKNOWN_STRING_KEY = 2,
 		UNKNOWN_COMPONENT = 3,
@@ -796,7 +683,7 @@ namespace Enums::System {
 
 	// Return values
 	enum class ModuleResult {
-		NONE,
+		NO_RESULT,
 		CLOSE,
 		BACK,
 		EXIT,
@@ -807,7 +694,7 @@ namespace Enums::System {
 
 	// Random (Dice) Types
 	enum class Random {
-		NONE,
+		NO_DICE,
 		D2,
 		D3,
 		D4,
@@ -844,7 +731,6 @@ namespace Enums::System {
 namespace Enums::MainMenu {
 
 	enum class Type {
-		NONE,
 		ATTRACT_MODE,
 		ATTRACT_MENU
 	};
@@ -853,29 +739,8 @@ namespace Enums::MainMenu {
 // Menu
 namespace Enums::Menu {
 
-	// Button States
-	enum class ButtonState {
-		NONE,
-		DISABLED,
-		ENABLED,
-		HOVERED,
-		SELECTED
-	};
-
-	// Menu Type Tuple Fields
-	enum class Field {
-		NONE = -1,
-		INDEX = 0,
-		TYPE = 1,
-		ITEM = 2,
-		TEXT = 3,
-		ENABLED = 4,
-		CONFIG_OPTION = 5
-	};
-
 	// Menu Types
 	enum class Type {
-		NONE,
 		MAIN,
 		OPTIONS,
 		PAUSE,
@@ -915,7 +780,7 @@ namespace Enums::Menu {
 	};
 
 	enum class Mode {
-		NONE,
+		NO_MODE,
 		TAVERN,
 		TEMPLE,
 		INN,
@@ -928,7 +793,7 @@ namespace Enums::Menu {
 
 	// Menu Items
 	enum class Item {
-		NONE,
+		NO_ITEM,
 		ABORT,
 		CANCEL,
 		GO_BACK,
@@ -1080,7 +945,7 @@ namespace Enums::Menu {
 
 	// Menu Items
 	enum class ItemType {
-		NONE,
+		NO_TYPE,
 		ENTRY,
 		TITLE,
 		SEPARATOR,
@@ -1092,12 +957,6 @@ namespace Enums::Menu {
 }
 
 namespace Enums {
-
-	enum class Dialog {
-		NONE,
-		OK,
-		CANCEL
-	};
 
 	// Options
 	enum Options {
@@ -1147,7 +1006,7 @@ namespace Enums {
 
 		enum class Direction {
 
-			NONE = -1,
+			NO_DIRECTION = -1,
 			NORTH = 0,
 			EAST = 1,
 			SOUTH = 2,
@@ -1155,7 +1014,7 @@ namespace Enums {
 		};
 
 		enum class Type {
-			NONE = -1,
+			NO_MAP = -1,
 			EMPTY = 0,
 			START = 1,
 			TUTORIAL = 2,
@@ -1170,7 +1029,7 @@ namespace Enums {
 
 			enum class Position {
 
-				NONE = -1,
+				NO_POSITION = -1,
 				MIDDLE = 0,
 				TOP = 1,
 				BOTTOM = 2

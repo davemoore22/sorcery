@@ -491,7 +491,7 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
 // Set selected based upon the item passed in
 auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEntry>::const_iterator> {
 
-	MenuItem search_for{MenuItem::NONE};
+	MenuItem search_for{MenuItem::NO_ITEM};
 	switch (_type) {
 	case MenuType::CHOOSE_METHOD:
 		switch (std::any_cast<CreateMethod>(option)) {

@@ -44,7 +44,7 @@ class Reorder {
 	public:
 
 		// Standard Constructor
-		Reorder(System *system, Display *display, Graphics *graphics, Game *game, MenuMode mode = MenuMode::NONE);
+		Reorder(System *system, Display *display, Graphics *graphics, Game *game, MenuMode mode = MenuMode::NO_MODE);
 		Reorder() = delete;
 
 		// Standard Destructor

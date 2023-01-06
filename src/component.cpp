@@ -136,7 +136,7 @@ Sorcery::Component::Component(Component &&other) noexcept {
 	other.w = 0;
 	other.h = 0;
 	other.scale = 0;
-	other.font = FontType::NONE;
+	other.font = FontType::NO_FONT;
 	other.size = 0;
 	other.colour = 0;
 	other.animated = false;
@@ -192,7 +192,7 @@ auto Sorcery::Component::operator=(Component &&other) noexcept -> Component & {
 		other.w = 0;
 		other.h = 0;
 		other.scale = 0;
-		other.font = FontType::NONE;
+		other.font = FontType::NO_FONT;
 		other.size = 0;
 		other.colour = 0;
 		other.animated = false;
