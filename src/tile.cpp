@@ -86,16 +86,16 @@ auto Sorcery::Tile::has(const MapDirection direction) const -> bool {
 
 	switch (direction) {
 	case MapDirection::NORTH:
-		return _north.has_value() ? (_north != TileEdge::NONE) : false;
+		return _north.has_value() ? (_north != TileEdge::NO_EDGE) : false;
 		break;
 	case MapDirection::SOUTH:
-		return _south.has_value() ? (_south != TileEdge::NONE) : false;
+		return _south.has_value() ? (_south != TileEdge::NO_EDGE) : false;
 		break;
 	case MapDirection::EAST:
-		return _east.has_value() ? (_east != TileEdge::NONE) : false;
+		return _east.has_value() ? (_east != TileEdge::NO_EDGE) : false;
 		break;
 	case MapDirection::WEST:
-		return _west.has_value() ? (_west != TileEdge::NONE) : false;
+		return _west.has_value() ? (_west != TileEdge::NO_EDGE) : false;
 		break;
 	default:
 		return false;
@@ -153,26 +153,26 @@ auto Sorcery::Tile::is(const TileProperty property) const -> bool {
 
 auto Sorcery::Tile::walkable(const MapDirection direction) const -> bool {
 
-	auto edge{TileEdge::NONE};
+	auto edge{TileEdge::NO_EDGE};
 	switch (direction) {
 	case MapDirection::NORTH:
-		edge = _north.value_or(TileEdge::NONE);
+		edge = _north.value_or(TileEdge::NO_EDGE);
 		break;
 	case MapDirection::SOUTH:
-		edge = _south.value_or(TileEdge::NONE);
+		edge = _south.value_or(TileEdge::NO_EDGE);
 		break;
 	case MapDirection::EAST:
-		edge = _east.value_or(TileEdge::NONE);
+		edge = _east.value_or(TileEdge::NO_EDGE);
 		break;
 	case MapDirection::WEST:
-		edge = _west.value_or(TileEdge::NONE);
+		edge = _west.value_or(TileEdge::NO_EDGE);
 		break;
 	default:
 		return false;
 		break;
 	}
 
-	return (edge == TileEdge::SECRET_DOOR) || (edge == TileEdge::NONE) || (edge == TileEdge::UNLOCKED_DOOR) ||
+	return (edge == TileEdge::SECRET_DOOR) || (edge == TileEdge::NO_EDGE) || (edge == TileEdge::UNLOCKED_DOOR) ||
 		   (edge == TileEdge::ONE_WAY_DOOR) || (edge == TileEdge::ONE_WAY_HIDDEN_DOOR) ||
 		   (edge == TileEdge::HIDDEN_DOOR) || (edge == TileEdge::ONE_WAY_WALL);
 }
@@ -181,19 +181,19 @@ auto Sorcery::Tile::wall(const MapDirection direction) const -> TileEdge {
 
 	switch (direction) {
 	case MapDirection::NORTH:
-		return _north.has_value() ? _north.value() : TileEdge::NONE;
+		return _north.has_value() ? _north.value() : TileEdge::NO_EDGE;
 		break;
 	case MapDirection::SOUTH:
-		return _south.has_value() ? _south.value() : TileEdge::NONE;
+		return _south.has_value() ? _south.value() : TileEdge::NO_EDGE;
 		break;
 	case MapDirection::EAST:
-		return _east.has_value() ? _east.value() : TileEdge::NONE;
+		return _east.has_value() ? _east.value() : TileEdge::NO_EDGE;
 		break;
 	case MapDirection::WEST:
-		return _west.has_value() ? _west.value() : TileEdge::NONE;
+		return _west.has_value() ? _west.value() : TileEdge::NO_EDGE;
 		break;
 	default:
-		return TileEdge::NONE;
+		return TileEdge::NO_EDGE;
 		break;
 	}
 }

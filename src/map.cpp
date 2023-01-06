@@ -118,7 +118,7 @@ auto Sorcery::Map::refresh() -> void {
 
 auto Sorcery::Map::_draw_player(MapDirection direction, int x, int y, float scaling) -> void {
 
-	auto icon{AutoMapFeature::NONE};
+	auto icon{AutoMapFeature::NO_FEATURE};
 	switch (direction) {
 	case MapDirection::NORTH:
 		icon = AutoMapFeature::PLAYER_NORTH;

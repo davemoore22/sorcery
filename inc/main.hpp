@@ -143,7 +143,6 @@ using ConfigOption = Enums::Options;
 using CreateMethod = Enums::Manage::Method;
 using Destination = Enums::System::Destination;
 using DoorType = Enums::Tile::DoorType;
-using FileType = Enums::File::Type;
 using FontType = Enums::Internal::FontType;
 using GraphicsTexture = Enums::Graphics::Texture;
 using GraphicsTextureType = Enums::Graphics::TextureType;
@@ -184,7 +183,6 @@ using TempleStage = Enums::Castle::Temple;
 using TileFeature = Enums::Tile::Features;
 using TileProperty = Enums::Tile::Properties;
 using TileEdge = Enums::Tile::Edge;
-using TileWall = Enums::Tile::Wall;
 using WindowInputMode = Enums::Window::InputMode;
 using WindowInputCategory = Enums::Window::InputCategory;
 using WindowInput = Enums::Controls::Input;
@@ -195,7 +193,5 @@ using WindowDrawMode = Enums::Window::DrawMode;
 using WindowInputOption = Enums::Window::Option;
 using WindowFrameType = Enums::Window::FrameType;
 using WindowFrameParts = Enums::Window::FrameParts;
-using ViewNodeLayer = Enums::View::Cell::Layer;
-using ViewNodeType = Enums::View::Cell::Type;
 
 }

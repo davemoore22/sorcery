@@ -170,7 +170,7 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		_spell_panel = std::move(other._spell_panel);
 		_spell_panel_c = std::move(other._spell_panel_c);
 
-		other.location = CharacterLocation::NONE;
+		other.location = CharacterLocation::NO_LOCATION;
 		other.coordinate = std::nullopt;
 		other.depth = std::nullopt;
 
@@ -187,7 +187,7 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		other._mage_cur_sp.clear();
 		other._spells.clear();
 		other._spells_known.clear();
-		other._current_stage = CharacterStage::NONE;
+		other._current_stage = CharacterStage::NOT_STARTED;
 		other._name.clear();
 		other._race = CharacterRace::NO_RACE;
 		other._class = CharacterClass::NO_CLASS;
@@ -258,7 +258,7 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		_spell_panel = std::move(other._spell_panel);
 		_spell_panel_c = std::move(other._spell_panel_c);
 
-		other.location = CharacterLocation::NONE;
+		other.location = CharacterLocation::NO_LOCATION;
 		other.coordinate = std::nullopt;
 		other.depth = std::nullopt;
 
@@ -275,7 +275,7 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		other._mage_cur_sp.clear();
 		other._spells.clear();
 		other._spells_known.clear();
-		other._current_stage = CharacterStage::NONE;
+		other._current_stage = CharacterStage::NOT_STARTED;
 		other._name.clear();
 		other._race = CharacterRace::NO_RACE;
 		other._class = CharacterClass::NO_CLASS;

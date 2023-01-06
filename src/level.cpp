@@ -482,7 +482,7 @@ auto Sorcery::Level::_set_other_simple_edges(const Coordinate location) -> void 
 
 	auto &tile{_tiles.at(location)};
 	auto north_edge{tile.wall(MapDirection::NORTH)};
-	if (north_edge == TileEdge::NONE) {
+	if (north_edge == TileEdge::NO_EDGE) {
 
 		// Check north adjacent wall (i.e. south wall of above tile)
 		auto adj_north{_tiles.at(Coordinate{location.x, get_delta_y(location.y, 1)})};
@@ -504,7 +504,7 @@ auto Sorcery::Level::_set_other_simple_edges(const Coordinate location) -> void 
 	}
 
 	auto south_edge{tile.wall(MapDirection::SOUTH)};
-	if (south_edge == TileEdge::NONE) {
+	if (south_edge == TileEdge::NO_EDGE) {
 
 		// Check south adjacent wall (i.e. borth wall of below tile)
 		auto adj_south{_tiles.at(Coordinate{location.x, get_delta_y(location.y, -1)})};
@@ -526,7 +526,7 @@ auto Sorcery::Level::_set_other_simple_edges(const Coordinate location) -> void 
 	}
 
 	auto west_edge{tile.wall(MapDirection::WEST)};
-	if (west_edge == TileEdge::NONE) {
+	if (west_edge == TileEdge::NO_EDGE) {
 
 		// Check west adjacent wall (i.e. east wall of left tile)
 		auto adj_west{_tiles.at(Coordinate{get_delta_x(location.x, -1), location.y})};
@@ -548,7 +548,7 @@ auto Sorcery::Level::_set_other_simple_edges(const Coordinate location) -> void 
 	}
 
 	auto east_edge{tile.wall(MapDirection::EAST)};
-	if (east_edge == TileEdge::NONE) {
+	if (east_edge == TileEdge::NO_EDGE) {
 
 		// Check west adjacent wall (i.e. east wall of left tile)
 		auto adj_east{_tiles.at(Coordinate{get_delta_x(location.x, 1), location.y})};
@@ -802,7 +802,7 @@ auto Sorcery::Level::_convert_edge_simple(const unsigned int wall) const -> std:
 	std::optional<TileEdge> edge{std::nullopt};
 	switch (wall) { // NOLINT(clang-diagnostic-switch)
 	case 0:
-		edge = TileEdge::NONE;
+		edge = TileEdge::NO_EDGE;
 		break;
 	case 1:
 		edge = TileEdge::WALL;
@@ -836,7 +836,7 @@ auto Sorcery::Level::_convert_edge_simple(const unsigned int wall) const -> std:
 auto Sorcery::Level::_convert_edge_se(const unsigned int wall) const -> std::optional<TileEdge> {
 
 	std::optional<TileEdge> standard_edge{_convert_edge_simple(wall)};
-	return standard_edge.value_or(TileEdge::NONE);
+	return standard_edge.value_or(TileEdge::NO_EDGE);
 }
 
 // Only populate walls that we need to populate at this point - those

@@ -121,7 +121,6 @@ namespace Enums::Window {
 	};
 
 	enum class InputCategory {
-
 		MOUSE_MOVE = 0,
 		UP = 1,
 		DOWN = 2,
@@ -324,73 +323,57 @@ namespace Enums::Magic {
 	// Wizardry 1 to 3 Spells
 	enum class SpellID {
 		NO_SPELL = -1,
-
-		DUMAPIC = 0,
-		HALITO = 1,
-		KATINO = 2,
-		MOGREF = 3,
-
-		DILTO = 4,
-		SOPIC = 5,
-
-		MAHALITO = 6,
-		MOLITO = 7,
-
-		DALTO = 8,
-		LAHALITO = 9,
-		MORLIS = 10,
-
-		MADALTO = 11,
-		MAKANITO = 12,
-		MAMORLIS = 13,
-
-		HAMAN = 14,
-		LAKANITO = 15,
-		MASOPIC = 16,
-		ZILWAN = 17,
-
-		MAHAMAN = 18,
-		MALOR = 19,
-		TILTOWAIT = 20,
-
+		DUMAPIC = 0,	// Mage 1
+		HALITO = 1,		// Mage 1
+		KATINO = 2,		// Mage 1
+		MOGREF = 3,		// Mage 1
+		DILTO = 4,		// Mage 2
+		SOPIC = 5,		// Mage 2
+		MAHALITO = 6,	// Mage 3
+		MOLITO = 7,		// Mage 3
+		DALTO = 8,		// Mage 4
+		LAHALITO = 9,	// Mage 4
+		MORLIS = 10,	// Mage 4
+		MADALTO = 11,	// Mage 5
+		MAKANITO = 12,	// Mage 5
+		MAMORLIS = 13,	// Mage 5
+		HAMAN = 14,		// Mage 6
+		LAKANITO = 15,	// Mage 6
+		MASOPIC = 16,	// Mage 6
+		ZILWAN = 17,	// Mage 6
+		MAHAMAN = 18,	// Mage 7
+		MALOR = 19,		// Mage 7
+		TILTOWAIT = 20, // Mage 7
 		END_OF_MAGE = 21,
-
-		BADIOS = 22,
-		DIOS = 23,
-		KALKI = 24,
-		MILWA = 25,
-		PORFIC = 26,
-
-		CALFO = 27,
-		MANIFO = 28,
-		MATU = 29,
-		MONTINO = 30,
-
-		BAMATU = 31,
-		DIALKO = 32,
-		LATUMAPIC = 33,
-		LOMILWA = 34,
-
-		BADIAL = 35,
-		DIAL = 36,
-		LATUMOFIS = 37,
-		MAPORFIC = 38,
-
-		BADI = 39,
-		BADIALMA = 40,
-		DI = 41,
-		DIALMA = 42,
-		KANDI = 43,
-		LITOKAN = 44,
-
-		LOKTOFEIT = 45,
-		LORTO = 46,
-		MABADI = 47,
-		MADI = 48,
-
-		KADORTO = 49,
-		MALIKTO = 50,
-
+		BADIOS = 22,	// Priest 1
+		DIOS = 23,		// Priest 1
+		KALKI = 24,		// Priest 1
+		MILWA = 25,		// Priest 1
+		PORFIC = 26,	// Priest 1
+		CALFO = 27,		// Priest 2
+		MANIFO = 28,	// Priest 2
+		MATU = 29,		// Priest 2
+		MONTINO = 30,	// Priest 2
+		BAMATU = 31,	// Priest 3
+		DIALKO = 32,	// Priest 3
+		LATUMAPIC = 33, // Priest 3
+		LOMILWA = 34,	// Priest 3
+		BADIAL = 35,	// Priest 4
+		DIAL = 36,		// Priest 4
+		LATUMOFIS = 37, // Priest 4
+		MAPORFIC = 38,	// Priest 4
+		BADI = 39,		// Priest 5
+		BADIALMA = 40,	// Priest 5
+		DI = 41,		// Priest 5
+		DIALMA = 42,	// Priest 5
+		KANDI = 43,		// Priest 5
+		LITOKAN = 44,	// Priest 5
+		LOKTOFEIT = 45, // Priest 6
+		LORTO = 46,		// Priest 6
+		MABADI = 47,	// Priest 6
+		MADI = 48,		// Priest 6
+		KADORTO = 49,	// Priest 7
+		MALIKTO = 50,	// Priest 7
 		END_OF_PRIEST = 51
 	};
 }
@@ -473,24 +456,11 @@ namespace Enums::Castle {
 	};
 }
 
-// Text Files
-namespace Enums::File {
-
-	// Text File Types
-	enum class Type {
-		NONE,
-		HELP,
-		VERSION,
-		LICENSE
-	};
-}
-
 // Character Stuff
 namespace Enums::Character {
 
 	enum class Location {
-
-		NONE = -1,
+		NO_LOCATION = -1,
 		PARTY = 0,
 		TAVERN = 1,
 		TEMPLE = 2,
@@ -500,7 +470,7 @@ namespace Enums::Character {
 
 	// State of Character Creation
 	enum class Stage {
-		NONE,
+		NOT_STARTED,
 		CHOOSE_METHOD,
 		CHOOSE_RACE,
 		CHOOSE_ALIGNMENT,
@@ -1005,7 +975,6 @@ namespace Enums {
 	namespace Map {
 
 		enum class Direction {
-
 			NO_DIRECTION = -1,
 			NORTH = 0,
 			EAST = 1,
@@ -1028,34 +997,10 @@ namespace Enums {
 		namespace Message {
 
 			enum class Position {
-
 				NO_POSITION = -1,
 				MIDDLE = 0,
 				TOP = 1,
 				BOTTOM = 2
-			};
-		}
-
-		namespace Cell {
-
-			enum class Layer {
-
-				NONE = -1,
-				FLOOR = 0,
-				CEILING = 1,
-				WALLS = 2,
-				OBJECT = 3,
-				DECAL = 4
-			};
-
-			enum class Type {
-
-				NONE = -1,
-				FLOOR = 0,
-				CEILING = 1,
-				FRONT = 2,
-				SIDE = 3,
-				OBJECT = 4
 			};
 		}
 	}
@@ -1063,8 +1008,7 @@ namespace Enums {
 	namespace Tile {
 
 		enum class Edge {
-
-			NONE = 0,
+			NO_EDGE = 0,
 			WALL = 1,
 			UNLOCKED_DOOR = 2,
 			LOCKED_DOOR = 3,
@@ -1076,24 +1020,13 @@ namespace Enums {
 			SECRET_WALL = 9
 		};
 
-		enum class Wall {
-
-			NONE = -1,
-			NORTH = 0,
-			EAST = 1,
-			SOUTH = 2,
-			WEST = 3
-		};
-
 		enum class DoorType {
-
-			NONE = 0,
+			NO_TYPE = 0,
 			NORMAL = 1,
 			LOCKED = 2
 		};
 
 		enum class Properties {
-
 			WALKABLE = 0,
 			ROCK = 1,
 			EXPLORED = 2,
@@ -1102,7 +1035,7 @@ namespace Enums {
 		};
 
 		enum class Features {
-			NONE = 0,
+			NO_FEATURE = 0,
 			SPINNER = 1,
 			PIT = 2,
 			TELEPORT_FROM = 3,
@@ -1133,8 +1066,7 @@ namespace Enums {
 	namespace Automap {
 
 		enum class Feature {
-
-			NONE = -1,
+			NO_FEATURE = -1,
 			FLOOR = 0,
 			NORTH_WALL = 1,
 			SOUTH_WALL = 2,

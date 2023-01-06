@@ -43,9 +43,7 @@ class View {
 
 		// Public Methods
 
-		// Operator Overloading
-		// auto operator[](ViewNodeKey key) -> ViewNode;
-		// auto operator[](int z) -> std::vector<ViewNode>;
+		// Public Members
 
 		std::map<Coordinate3, TileView> tileviews;
 

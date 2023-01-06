@@ -339,7 +339,7 @@ struct Door {
 		bool secret;
 		int gfx;
 
-		Door() : type{Enums::Tile::DoorType::NONE}, secret{false}, gfx{-1} {};
+		Door() : type{Enums::Tile::DoorType::NO_TYPE}, secret{false}, gfx{-1} {};
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
