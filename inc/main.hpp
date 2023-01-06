@@ -121,7 +121,6 @@ namespace Sorcery {
 
 using Alignment = Enums::Window::Alignment;
 using AutoMapFeature = Enums::Automap::Feature;
-using Background = Enums::Graphics::Background;
 using Category = Enums::Manage::Category;
 using CharacterAbility = Enums::Character::Ability;
 using CharacterAbilityType = Enums::Character::Ability_Type;

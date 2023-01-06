@@ -151,7 +151,7 @@ Sorcery::AttributeDisplay::AttributeDisplay(AttributeDisplay &&other) noexcept {
 	other._text_c = Component();
 	other._width = 0;
 	other._height = 0;
-	other._alignment = Alignment::NONE;
+	other._alignment = Alignment::NO_ALIGNMENT;
 
 	other._bars.clear();
 	other._attribute_icons = {};
@@ -198,7 +198,7 @@ auto Sorcery::AttributeDisplay::operator=(AttributeDisplay &&other) noexcept -> 
 		other._text_c = Component();
 		other._width = 0;
 		other._height = 0;
-		other._alignment = Alignment::NONE;
+		other._alignment = Alignment::NO_ALIGNMENT;
 
 		other._bars.clear();
 		other._attribute_icons = {};

@@ -88,7 +88,7 @@ auto Sorcery::Dialog::_refresh(Component &string_c) -> void {
 		// frame_h += menu_size;
 		break;
 	case WindowDialogType::TIMED:
-		_selected = WindowDialogButton::NONE;
+		_selected = WindowDialogButton::NO_BUTTON;
 		frame_h += 2;
 		break;
 	default:
@@ -320,7 +320,7 @@ auto Sorcery::Dialog::toggle_highlighted() -> WindowDialogButton {
 		break;
 	}
 
-	return WindowDialogButton::NONE; // TODO optional
+	return WindowDialogButton::NO_BUTTON; // TODO optional
 }
 
 auto Sorcery::Dialog::check_for_mouse_move(const sf::Vector2f mouse_pos) -> std::optional<WindowDialogButton> {

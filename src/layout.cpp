@@ -358,11 +358,11 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 								else if (components[j]["texture"].asString() == "ui")
 									return GraphicsTexture::UI;
 								else
-									return GraphicsTexture::NONE;
+									return GraphicsTexture::NO_TEXTURE;
 							} else
-								return GraphicsTexture::NONE;
+								return GraphicsTexture::NO_TEXTURE;
 						} else
-							return GraphicsTexture::NONE;
+							return GraphicsTexture::NO_TEXTURE;
 					}()};
 
 					// Add the Component

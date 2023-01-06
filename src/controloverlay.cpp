@@ -31,7 +31,7 @@ Sorcery::ControlOverlay::ControlOverlay(System *system, Display *display, Compon
 	_sprites.clear();
 	_texts.clear();
 
-	_input_mode = WindowInputMode::NONE;
+	_input_mode = WindowInputMode::NO_INPUTMODE;
 	_control_texture = (*_system->resources).textures[GraphicsTexture::CONTROLS];
 
 	_controls.clear();

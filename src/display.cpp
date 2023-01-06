@@ -91,7 +91,7 @@ auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, s
 			} else if (component.type == ComponentType::IMAGE) {
 
 				// Skip in case of an error
-				if (component.texture == GraphicsTexture::NONE)
+				if (component.texture == GraphicsTexture::NO_TEXTURE)
 					continue;
 
 				if (component.unique_key.ends_with("background")) {

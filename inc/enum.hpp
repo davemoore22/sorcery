@@ -32,7 +32,7 @@ namespace Sorcery {
 namespace Enums::Controls {
 
 	enum class Input {
-		NONE,
+		NO_INPUT,
 		ANYTHING,
 		UP,
 		DOWN,
@@ -82,20 +82,20 @@ namespace Enums::Window {
 
 	// Draw Mode
 	enum class DrawMode {
-		NONE,
+		NO_DRAWMODE,
 		MANUAL,
 		AUTOMATIC
 	};
 
 	enum class Alignment {
-		NONE,
+		NO_ALIGNMENT,
 		VERTICAL,
 		HORIZONTAL
 	};
 
 	// Input Mode
 	enum class InputMode {
-		NONE,
+		NO_INPUTMODE,
 		ATTRACT_MODE,
 		NAVIGATE_MENU,
 		IN_GAME,
@@ -153,13 +153,13 @@ namespace Enums::Window {
 	};
 
 	enum class Confirm {
-		NONE,
+		NO_CONFIRM,
 		YES,
 		NO
 	};
 
 	enum class DialogButton {
-		NONE,
+		NO_BUTTON,
 		OK,
 		YES,
 		NO,
@@ -167,7 +167,7 @@ namespace Enums::Window {
 	};
 
 	enum class ComponentType {
-		NONE,
+		NO_TYPE,
 		IMAGE,
 		TEXT,
 		MENU,
@@ -178,7 +178,7 @@ namespace Enums::Window {
 	};
 
 	enum class ComponentElement {
-		NONE = -1,
+		NO_ELEMENT = -1,
 		FONT = 1,
 		SIZE = 2,
 		COLOUR = 4,
@@ -191,7 +191,7 @@ namespace Enums::Window {
 	};
 
 	enum class DialogType {
-		NONE,
+		NO_TYPE,
 		TIMED,
 		OK,
 		CONFIRM,
@@ -206,20 +206,20 @@ namespace Enums::Window {
 	};
 
 	enum class Justification {
-		NONE,
+		NO_JUSTIFY,
 		LEFT,
 		RIGHT,
 		CENTRE
 	};
 
 	enum class FrameType {
-		NONE,
+		NO_TYPE,
 		HINT,
 		NORMAL
 	};
 
 	enum class FrameParts {
-		NONE = -1,
+		NO_PART = -1,
 		TOP_LEFT = 0,
 		TOP = 1,
 		TOP_RIGHT = 2,
@@ -233,26 +233,15 @@ namespace Enums::Window {
 
 namespace Enums::Graphics {
 
-	enum class Background {
-		NONE,
-		CASTLE,
-		TAVERN,
-		INN,
-		SHOP,
-		TEMPLE,
-		EDGE_OF_TOWN,
-		TRAIN
-	};
-
 	enum class Event {
-		NONE = -1,
+		NO_IMAGE = -1,
 		TREASURE = 0,
 		GRAVESTONE = 1,
 		CHEST = 2
 	};
 
 	enum class Texture {
-		NONE,
+		NO_TEXTURE,
 		AUTOMAP,
 		BACKGROUND,
 		BANNER,
