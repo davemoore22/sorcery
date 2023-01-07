@@ -316,20 +316,27 @@ auto Sorcery::Character::get_stage() const -> CharacterStage {
 // Reset a character back to a particular state
 auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 
+	using enum Enums::Character::Ability;
+	using enum Enums::Character::Align;
+	using enum Enums::Character::Class;
+	using enum Enums::Character::Race;
+	using enum Enums::Character::Stage;
+	using enum Enums::Character::View;
+
 	_current_stage = stage;
 	switch (stage) {
-	case CharacterStage::CHOOSE_METHOD:
+	case CHOOSE_METHOD:
 		_name.clear();
-		_race = CharacterRace::NO_RACE;
-		_alignment = CharacterAlignment::NO_ALIGN;
+		_race = NO_RACE;
+		_alignment = NO_ALIGN;
 		_start_attr.clear();
 		_cur_attr.clear();
 		_max_attr.clear();
 		_abilities.clear();
 
 		// Used in the display from this point onwards
-		_abilities[CharacterAbility::CURRENT_LEVEL] = 1;
-		_class = CharacterClass::NO_CLASS;
+		_abilities[CURRENT_LEVEL] = 1;
+		_class = NO_CLASS;
 		_points_left = 0;
 		_st_points = 0;
 		_pos_classes.clear();
@@ -342,12 +349,12 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 		_spells.clear();
 		create_spells();
 		reset_spells();
-		_view = CharacterView::NO_VIEW;
+		_view = NO_VIEW;
 		break;
-	case CharacterStage::REVIEW_AND_CONFIRM:
+	case REVIEW_AND_CONFIRM:
 
 		// Handle the generation of the Character Display Here
-		_view = CharacterView::SUMMARY;
+		_view = SUMMARY;
 		_generate_display();
 		break;
 	default:
@@ -388,12 +395,16 @@ auto Sorcery::Character::set_race(const CharacterRace &value) -> void {
 
 auto Sorcery::Character::get_level() const -> int {
 
-	return _abilities.at(CharacterAbility::CURRENT_LEVEL);
+	using enum Enums::Character::Ability;
+
+	return _abilities.at(CURRENT_LEVEL);
 }
 
 auto Sorcery::Character::set_level(const int &value) -> void {
 
-	_abilities.at(CharacterAbility::CURRENT_LEVEL) = value;
+	using enum Enums::Character::Ability;
+
+	_abilities.at(CURRENT_LEVEL) = value;
 }
 
 auto Sorcery::Character::get_alignment() const -> CharacterAlignment {
@@ -532,28 +543,30 @@ auto Sorcery::Character::right_view() -> void {
 auto Sorcery::Character::set_start_attr() -> void {
 
 	using enum Enums::Character::Attribute;
+	using enum Enums::Character::Race;
 
 	_start_attr.clear();
 	_cur_attr.clear();
 	switch (_race) {
-	case CharacterRace::HUMAN:
+	case HUMAN:
 		_start_attr = {{STRENGTH, 8}, {IQ, 5}, {PIETY, 5}, {VITALITY, 8}, {AGILITY, 8}, {LUCK, 9}};
 		break;
-	case CharacterRace::ELF:
+	case ELF:
 		_start_attr = {{STRENGTH, 7}, {IQ, 10}, {PIETY, 10}, {VITALITY, 6}, {AGILITY, 9}, {LUCK, 6}};
 		break;
-	case CharacterRace::DWARF:
+	case DWARF:
 		_start_attr = {{STRENGTH, 10}, {IQ, 7}, {PIETY, 10}, {VITALITY, 10}, {AGILITY, 5}, {LUCK, 6}};
 		break;
-	case CharacterRace::GNOME:
+	case GNOME:
 		_start_attr = {{STRENGTH, 7}, {IQ, 7}, {PIETY, 10}, {VITALITY, 8}, {AGILITY, 10}, {LUCK, 7}};
 		break;
-	case CharacterRace::HOBBIT:
+	case HOBBIT:
 		_start_attr = {{STRENGTH, 5}, {IQ, 7}, {PIETY, 7}, {VITALITY, 6}, {AGILITY, 10}, {LUCK, 12}};
 		break;
 	default:
 		break;
-	};
+	}
+
 	_cur_attr = _start_attr;
 
 	// Formula soured from http://www.zimlab.com/wizardry/walk/w123calc.htm
@@ -587,18 +600,20 @@ auto Sorcery::Character::get_pos_class() const -> CharacterClassQualified {
 
 auto Sorcery::Character::get_icon(CharacterStage type) -> std::optional<sf::Sprite> {
 
+	using enum Enums::Character::Stage;
+
 	switch (type) {
-	case CharacterStage::CHOOSE_ALIGNMENT: {
+	case CHOOSE_ALIGNMENT: {
 		auto alignment{get_alignment(_alignment)};
 		std::transform(alignment.begin(), alignment.end(), alignment.begin(), ::tolower);
 		return (*_graphics->icons)[alignment].value();
 	} break;
-	case CharacterStage::CHOOSE_RACE: {
+	case CHOOSE_RACE: {
 		auto race{get_race(_race)};
 		std::transform(race.begin(), race.end(), race.begin(), ::tolower);
 		return (*_graphics->icons)[race].value();
 	} break;
-	case CharacterStage::CHOOSE_CLASS: {
+	case CHOOSE_CLASS: {
 		auto cclass{get_class(_class)};
 		std::transform(cclass.begin(), cclass.end(), cclass.begin(), ::tolower);
 		return (*_graphics->icons)[cclass].value();
@@ -614,74 +629,76 @@ auto Sorcery::Character::get_icon(CharacterStage type) -> std::optional<sf::Spri
 // available
 auto Sorcery::Character::set_pos_class() -> void {
 
+	using enum Enums::Character::Align;
 	using enum Enums::Character::Attribute;
+	using enum Enums::Character::Class;
 
 	_pos_classes.clear();
 
 	// Do the basic classes first (this also sets _num_possible_character_classes); data is from
 	// https://strategywiki.org/wiki/Wizardry:_Proving_Grounds_of_the_Mad_Overlord/Trebor%27s_castle#Classes
 	if (_cur_attr[STRENGTH] >= 11)
-		_pos_classes[CharacterClass::FIGHTER] = true;
+		_pos_classes[FIGHTER] = true;
 	else
-		_pos_classes[CharacterClass::FIGHTER] = false;
+		_pos_classes[FIGHTER] = false;
 
 	if (_cur_attr[IQ] >= 11)
-		_pos_classes[CharacterClass::MAGE] = true;
+		_pos_classes[MAGE] = true;
 	else
-		_pos_classes[CharacterClass::MAGE] = false;
+		_pos_classes[MAGE] = false;
 
 	if (_cur_attr[PIETY] >= 11)
-		if (_alignment == CharacterAlignment::GOOD || _alignment == CharacterAlignment::EVIL)
-			_pos_classes[CharacterClass::PRIEST] = true;
+		if (_alignment == GOOD || _alignment == EVIL)
+			_pos_classes[PRIEST] = true;
 		else
-			_pos_classes[CharacterClass::PRIEST] = false;
+			_pos_classes[PRIEST] = false;
 	else
-		_pos_classes[CharacterClass::PRIEST] = false;
+		_pos_classes[PRIEST] = false;
 
 	if (_cur_attr[AGILITY] >= 11)
-		if (_alignment == CharacterAlignment::NEUTRAL || _alignment == CharacterAlignment::EVIL)
-			_pos_classes[CharacterClass::THIEF] = true;
+		if (_alignment == NEUTRAL || _alignment == EVIL)
+			_pos_classes[THIEF] = true;
 		else
-			_pos_classes[CharacterClass::THIEF] = false;
+			_pos_classes[THIEF] = false;
 	else
-		_pos_classes[CharacterClass::THIEF] = false;
+		_pos_classes[THIEF] = false;
 
 	// Now the elite classes
 	if (_cur_attr[IQ] >= 12 && _cur_attr[PIETY] >= 12)
-		if (_alignment == CharacterAlignment::GOOD || _alignment == CharacterAlignment::EVIL)
-			_pos_classes[CharacterClass::BISHOP] = true;
+		if (_alignment == GOOD || _alignment == EVIL)
+			_pos_classes[BISHOP] = true;
 		else
-			_pos_classes[CharacterClass::BISHOP] = false;
+			_pos_classes[BISHOP] = false;
 	else
-		_pos_classes[CharacterClass::BISHOP] = false;
+		_pos_classes[BISHOP] = false;
 
 	if (_cur_attr[STRENGTH] >= 15 && _cur_attr[IQ] >= 11 && _cur_attr[PIETY] >= 10 && _cur_attr[VITALITY] >= 10 &&
 		_cur_attr[AGILITY] >= 10)
-		if (_alignment == CharacterAlignment::GOOD || _alignment == CharacterAlignment::NEUTRAL)
-			_pos_classes[CharacterClass::SAMURAI] = true;
+		if (_alignment == GOOD || _alignment == NEUTRAL)
+			_pos_classes[SAMURAI] = true;
 		else
-			_pos_classes[CharacterClass::SAMURAI] = false;
+			_pos_classes[SAMURAI] = false;
 	else
-		_pos_classes[CharacterClass::SAMURAI] = false;
+		_pos_classes[SAMURAI] = false;
 
 	if (_cur_attr[STRENGTH] >= 15 && _cur_attr[IQ] >= 12 && _cur_attr[PIETY] >= 12 && _cur_attr[VITALITY] >= 15 &&
 		_cur_attr[AGILITY] >= 14 && _cur_attr[LUCK] >= 15)
-		if (_alignment == CharacterAlignment::GOOD)
-			_pos_classes[CharacterClass::LORD] = true;
+		if (_alignment == GOOD)
+			_pos_classes[LORD] = true;
 		else
-			_pos_classes[CharacterClass::LORD] = false;
+			_pos_classes[LORD] = false;
 	else
-		_pos_classes[CharacterClass::LORD] = false;
+		_pos_classes[LORD] = false;
 
 	// Using Wizardry 5 requirements for Ninja (see https://wizardry.fandom.com/wiki/Ninja)
 	if (_cur_attr[STRENGTH] >= 15 && _cur_attr[IQ] >= 17 && _cur_attr[PIETY] >= 15 && _cur_attr[VITALITY] >= 16 &&
 		_cur_attr[AGILITY] >= 15 && _cur_attr[LUCK] >= 16)
-		if (_alignment != CharacterAlignment::GOOD)
-			_pos_classes[CharacterClass::NINJA] = true;
+		if (_alignment != GOOD)
+			_pos_classes[NINJA] = true;
 		else
-			_pos_classes[CharacterClass::NINJA] = false;
+			_pos_classes[NINJA] = false;
 	else
-		_pos_classes[CharacterClass::NINJA] = false;
+		_pos_classes[NINJA] = false;
 
 	// And workout the number of classes
 	_num_pos_classes =
@@ -691,14 +708,16 @@ auto Sorcery::Character::set_pos_class() -> void {
 // Enum to String functions
 auto Sorcery::Character::get_alignment(CharacterAlignment character_alignment) const -> std::string {
 
+	using enum Enums::Character::Align;
+
 	switch (character_alignment) {
-	case CharacterAlignment::GOOD:
+	case GOOD:
 		return (*_display->string)["CHARACTER_ALIGNMENT_GOOD"];
 		break;
-	case CharacterAlignment::NEUTRAL:
+	case NEUTRAL:
 		return (*_display->string)["CHARACTER_ALIGNMENT_NEUTRAL"];
 		break;
-	case CharacterAlignment::EVIL:
+	case EVIL:
 		return (*_display->string)["CHARACTER_ALIGNMENT_EVIL"];
 		break;
 	default:
@@ -709,20 +728,22 @@ auto Sorcery::Character::get_alignment(CharacterAlignment character_alignment) c
 
 auto Sorcery::Character::get_race(CharacterRace character_race) const -> std::string {
 
+	using enum Enums::Character::Race;
+
 	switch (character_race) {
-	case CharacterRace::HUMAN:
+	case HUMAN:
 		return (*_display->string)["CHARACTER_RACE_HUMAN"];
 		break;
-	case CharacterRace::ELF:
+	case ELF:
 		return (*_display->string)["CHARACTER_RACE_ELF"];
 		break;
-	case CharacterRace::DWARF:
+	case DWARF:
 		return (*_display->string)["CHARACTER_RACE_DWARF"];
 		break;
-	case CharacterRace::GNOME:
+	case GNOME:
 		return (*_display->string)["CHARACTER_RACE_GNOME"];
 		break;
-	case CharacterRace::HOBBIT:
+	case HOBBIT:
 		return (*_display->string)["CHARACTER_RACE_HOBBIT"];
 		break;
 	default:
@@ -733,29 +754,31 @@ auto Sorcery::Character::get_race(CharacterRace character_race) const -> std::st
 
 auto Sorcery::Character::get_class(CharacterClass character_class) const -> std::string {
 
+	using enum Enums::Character::Class;
+
 	switch (character_class) {
-	case CharacterClass::FIGHTER:
+	case FIGHTER:
 		return (*_display->string)["CHARACTER_CLASS_FIGHTER"];
 		break;
-	case CharacterClass::MAGE:
+	case MAGE:
 		return (*_display->string)["CHARACTER_CLASS_MAGE"];
 		break;
-	case CharacterClass::PRIEST:
+	case PRIEST:
 		return (*_display->string)["CHARACTER_CLASS_PRIEST"];
 		break;
-	case CharacterClass::THIEF:
+	case THIEF:
 		return (*_display->string)["CHARACTER_CLASS_THIEF"];
 		break;
-	case CharacterClass::BISHOP:
+	case BISHOP:
 		return (*_display->string)["CHARACTER_CLASS_BISHOP"];
 		break;
-	case CharacterClass::SAMURAI:
+	case SAMURAI:
 		return (*_display->string)["CHARACTER_CLASS_SAMURAI"];
 		break;
-	case CharacterClass::LORD:
+	case LORD:
 		return (*_display->string)["CHARACTER_CLASS_LORD"];
 		break;
-	case CharacterClass::NINJA:
+	case NINJA:
 		return (*_display->string)["CHARACTER_CLASS_NINJA"];
 		break;
 	default:
@@ -775,41 +798,51 @@ auto Sorcery::Character::finalise() -> void {
 
 auto Sorcery::Character::get_ress_chance(bool ashes) -> unsigned int {
 
-	return ashes ? _abilities[CharacterAbility::ASHES_RESURRECT] : _abilities[CharacterAbility::DEAD_RESURRECT];
+	using enum Enums::Character::Ability;
+
+	return ashes ? _abilities[ASHES_RESURRECT] : _abilities[DEAD_RESURRECT];
 }
 
 auto Sorcery::Character::grant_gold(const int value) -> void {
 
-	_abilities[CharacterAbility::GOLD] = _abilities[CharacterAbility::GOLD] + value;
+	using enum Enums::Character::Ability;
+
+	_abilities[GOLD] = _abilities[GOLD] + value;
 }
 
 auto Sorcery::Character::get_gold() const -> unsigned int {
 
-	return _abilities.at(CharacterAbility::GOLD);
+	using enum Enums::Character::Ability;
+
+	return _abilities.at(GOLD);
 }
 
 auto Sorcery::Character::set_gold(const unsigned int value) -> void {
 
-	_abilities[CharacterAbility::GOLD] = value;
+	using enum Enums::Character::Ability;
+
+	_abilities[GOLD] = value;
 }
 
 auto Sorcery::Character::_legate_start_info() -> void {
 
 	using enum Enums::Character::Attribute;
+	using enum Enums::Character::Ability;
+	using enum Enums::Character::Class;
 
 	// From here: https://datadrivengamer.blogspot.com/2021/08/the-new-mechanics-of-wizardry-iii.html
-	_abilities[CharacterAbility::CURRENT_LEVEL] = 1;
-	_abilities[CharacterAbility::CURRENT_XP] = 0;
-	_abilities[CharacterAbility::NEXT_LEVEL_XP] = _get_xp_for_level(_abilities[CharacterAbility::CURRENT_LEVEL]);
-	_abilities[CharacterAbility::MAX_LEVEL] = _abilities[CharacterAbility::CURRENT_LEVEL];
-	_abilities[CharacterAbility::NEGATIVE_LEVEL] = 0;
-	_abilities[CharacterAbility::HIT_DICE] = 1;
-	if (_abilities[CharacterAbility::GOLD] > 500)
-		_abilities[CharacterAbility::GOLD] = 500;
-	_abilities[CharacterAbility::AGE] = (20 * 52);
-	_abilities[CharacterAbility::SWIM] = 1;
-	_abilities[CharacterAbility::MARKS] = 0;
-	_abilities[CharacterAbility::DEATHS] = 0;
+	_abilities[CURRENT_LEVEL] = 1;
+	_abilities[CURRENT_XP] = 0;
+	_abilities[NEXT_LEVEL_XP] = _get_xp_for_level(_abilities[CURRENT_LEVEL]);
+	_abilities[MAX_LEVEL] = _abilities[CURRENT_LEVEL];
+	_abilities[NEGATIVE_LEVEL] = 0;
+	_abilities[HIT_DICE] = 1;
+	if (_abilities[GOLD] > 500)
+		_abilities[GOLD] = 500;
+	_abilities[AGE] = (20 * 52);
+	_abilities[SWIM] = 1;
+	_abilities[MARKS] = 0;
+	_abilities[DEATHS] = 0;
 
 	// (D7 - 4) is -3 to +3
 	_start_attr[STRENGTH] += ((*_system->random)[RandomType::D7] - 4);
@@ -830,20 +863,20 @@ auto Sorcery::Character::_legate_start_info() -> void {
 	_start_attr[PIETY] += (priest_sp_total / 10);
 
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
-	case CharacterClass::FIGHTER:
-	case CharacterClass::LORD:
-	case CharacterClass::SAMURAI:
+	case FIGHTER:
+	case LORD:
+	case SAMURAI:
 		_start_attr[STRENGTH] += 2;
 		break;
-	case CharacterClass::MAGE:
+	case MAGE:
 		_start_attr[IQ] += 2;
 		break;
-	case CharacterClass::PRIEST:
-	case CharacterClass::BISHOP:
+	case PRIEST:
+	case BISHOP:
 		_start_attr[PIETY] += 2;
 		break;
-	case CharacterClass::THIEF:
-	case CharacterClass::NINJA:
+	case THIEF:
+	case NINJA:
 		_start_attr[AGILITY] += 2;
 	default:
 		break;
@@ -851,7 +884,7 @@ auto Sorcery::Character::_legate_start_info() -> void {
 
 	set_status(CharacterStatus::OK);
 	location = CharacterLocation::TAVERN;
-	_abilities[CharacterAbility::CURRENT_HP] = _abilities[CharacterAbility::MAX_HP];
+	_abilities[CURRENT_HP] = _abilities[MAX_HP];
 
 	// Clamp Values
 	_start_attr[STRENGTH] = std::min(_start_attr[STRENGTH], 18);
@@ -870,44 +903,47 @@ auto Sorcery::Character::_legate_start_info() -> void {
 	_cur_attr = _start_attr;
 	_max_attr = _cur_attr;
 
-	_abilities[CharacterAbility::CURRENT_XP] = 0;
-	_abilities[CharacterAbility::NEXT_LEVEL_XP] = _get_xp_for_level(_abilities[CharacterAbility::CURRENT_LEVEL]);
+	_abilities[CURRENT_XP] = 0;
+	_abilities[NEXT_LEVEL_XP] = _get_xp_for_level(_abilities[CURRENT_LEVEL]);
 }
 
 auto Sorcery::Character::_regenerate_start_info() -> void {
 
+	using enum Enums::Character::Ability;
 	using enum Enums::Character::Attribute;
+	using enum Enums::Character::Race;
 
-	_abilities[CharacterAbility::MAX_LEVEL] = _abilities[CharacterAbility::CURRENT_LEVEL];
-	_abilities[CharacterAbility::CURRENT_LEVEL] = 1;
-	_abilities[CharacterAbility::CURRENT_XP] = 0;
-	_abilities[CharacterAbility::NEXT_LEVEL_XP] = _get_xp_for_level(_abilities[CharacterAbility::CURRENT_LEVEL]);
+	_abilities[MAX_LEVEL] = _abilities[CURRENT_LEVEL];
+	_abilities[CURRENT_LEVEL] = 1;
+	_abilities[CURRENT_XP] = 0;
+	_abilities[NEXT_LEVEL_XP] = _get_xp_for_level(_abilities[CURRENT_LEVEL]);
 
 	// https://datadrivengamer.blogspot.com/2019/08/the-not-so-basic-mechanics-of-wizardry.html
 	auto age_increment{(52 * (3 + (*_system->random)[RandomType::D3])) + 44};
-	_abilities[CharacterAbility::AGE] += age_increment;
+	_abilities[AGE] += age_increment;
 
 	// Reset attributes to racial minimums
 	CharacterAttributes minimum_attr;
 	switch (_race) {
-	case CharacterRace::HUMAN:
+	case HUMAN:
 		minimum_attr = {{STRENGTH, 8}, {IQ, 5}, {PIETY, 5}, {VITALITY, 8}, {AGILITY, 8}, {LUCK, 9}};
 		break;
-	case CharacterRace::ELF:
+	case ELF:
 		minimum_attr = {{STRENGTH, 7}, {IQ, 10}, {PIETY, 10}, {VITALITY, 6}, {AGILITY, 9}, {LUCK, 6}};
 		break;
-	case CharacterRace::DWARF:
+	case DWARF:
 		minimum_attr = {{STRENGTH, 10}, {IQ, 7}, {PIETY, 10}, {VITALITY, 10}, {AGILITY, 5}, {LUCK, 6}};
 		break;
-	case CharacterRace::GNOME:
+	case GNOME:
 		minimum_attr = {{STRENGTH, 7}, {IQ, 7}, {PIETY, 10}, {VITALITY, 8}, {AGILITY, 10}, {LUCK, 7}};
 		break;
-	case CharacterRace::HOBBIT:
+	case HOBBIT:
 		minimum_attr = {{STRENGTH, 5}, {IQ, 7}, {PIETY, 7}, {VITALITY, 6}, {AGILITY, 10}, {LUCK, 12}};
 		break;
 	default:
 		break;
-	};
+	}
+
 	_cur_attr = minimum_attr;
 }
 
@@ -957,172 +993,175 @@ auto Sorcery::Character::get_version() const -> int {
 // Work out all the stuff to do with starting a new character
 auto Sorcery::Character::_generate_start_info() -> void {
 
-	// _abilities[CharacterAbility::CURRENT_LEVEL] = 1;
-	_abilities[CharacterAbility::MAX_LEVEL] = 1;
-	_abilities[CharacterAbility::NEGATIVE_LEVEL] = 0;
-	_abilities[CharacterAbility::HIT_DICE] = 1;
-	_abilities[CharacterAbility::GOLD] = (*_system->random)[RandomType::ZERO_TO_99] + 90;
-	_abilities[CharacterAbility::AGE] = (18 * 52) + (*_system->random)[RandomType::ZERO_TO_299];
-	_abilities[CharacterAbility::SWIM] = 1;
-	_abilities[CharacterAbility::MARKS] = 0;
-	_abilities[CharacterAbility::DEATHS] = 0;
+	using enum Enums::Character::Ability;
+
+	// _abilities[CURRENT_LEVEL] = 1; // why is this commented out?
+	_abilities[MAX_LEVEL] = 1;
+	_abilities[NEGATIVE_LEVEL] = 0;
+	_abilities[HIT_DICE] = 1;
+	_abilities[GOLD] = (*_system->random)[RandomType::ZERO_TO_99] + 90;
+	_abilities[AGE] = (18 * 52) + (*_system->random)[RandomType::ZERO_TO_299];
+	_abilities[SWIM] = 1;
+	_abilities[MARKS] = 0;
+	_abilities[DEATHS] = 0;
 
 	_start_attr = _cur_attr;
 	_max_attr = _cur_attr;
 
-	_abilities[CharacterAbility::CURRENT_XP] = 0;
-	_abilities[CharacterAbility::NEXT_LEVEL_XP] = _get_xp_for_level(_abilities[CharacterAbility::CURRENT_LEVEL]);
+	_abilities[CURRENT_XP] = 0;
+	_abilities[NEXT_LEVEL_XP] = _get_xp_for_level(_abilities[CURRENT_LEVEL]);
 }
 
 // Given the characters current level, work out all the secondary abilities/stats etc
 auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_class, bool legate) -> void {
 
+	using enum Enums::Character::Ability;
 	using enum Enums::Character::Attribute;
+	using enum Enums::Character::Class;
+	using enum Enums::Character::Race;
 
 	// Formulae used are from here
 	// http://www.zimlab.com/wizardry/walk/w123calc.htm and also from
 	// https://mirrors.apple2.org.za/ftp.apple.asimov.net/images/games/rpg/wizardry/wizardry_I/Wizardry_i_SourceCode.zip
-	const auto current_level{_abilities[CharacterAbility::CURRENT_LEVEL]};
+	const auto current_level{_abilities[CURRENT_LEVEL]};
 
 	// Bonus Melee to Hit per Attack (num)
 	if (_cur_attr[STRENGTH] > 15)
-		_abilities[CharacterAbility::ATTACK_MODIFIER] = _cur_attr[STRENGTH] - 15;
+		_abilities[ATTACK_MODIFIER] = _cur_attr[STRENGTH] - 15;
 	else if (_cur_attr[STRENGTH] < 6)
-		_abilities[CharacterAbility::ATTACK_MODIFIER] = _cur_attr[STRENGTH] - 6;
+		_abilities[ATTACK_MODIFIER] = _cur_attr[STRENGTH] - 6;
 	else
-		_abilities[CharacterAbility::ATTACK_MODIFIER] = 0;
+		_abilities[ATTACK_MODIFIER] = 0;
 
 	// Bonus Melee to Hit per Attack (num)
 	switch (_class) {
-	case CharacterClass::FIGHTER:
-	case CharacterClass::SAMURAI:
-	case CharacterClass::LORD:
-	case CharacterClass::NINJA:
-	case CharacterClass::PRIEST:
-		_abilities[CharacterAbility::HIT_PROBABILITY] = 2 + (current_level / 5);
+	case FIGHTER:
+	case SAMURAI:
+	case LORD:
+	case NINJA:
+	case PRIEST:
+		_abilities[HIT_PROBABILITY] = 2 + (current_level / 5);
 		break;
 	default:
-		_abilities[CharacterAbility::HIT_PROBABILITY] = current_level / 5;
+		_abilities[HIT_PROBABILITY] = current_level / 5;
 		break;
 	}
 
 	// Bonus Melee Damage per Attack (num)
 	if (_cur_attr[STRENGTH] > 15)
-		_abilities[CharacterAbility::BONUS_DAMAGE] = _cur_attr[STRENGTH] - 15;
+		_abilities[BONUS_DAMAGE] = _cur_attr[STRENGTH] - 15;
 	else if (_cur_attr[STRENGTH] < 6)
-		_abilities[CharacterAbility::BONUS_DAMAGE] = _cur_attr[STRENGTH] - 6;
+		_abilities[BONUS_DAMAGE] = _cur_attr[STRENGTH] - 6;
 	else
-		_abilities[CharacterAbility::BONUS_DAMAGE] = 0;
+		_abilities[BONUS_DAMAGE] = 0;
 
 	// Unarmed Attack Damage (num)
-	_abilities[CharacterAbility::UNARMED_DAMAGE] = _class == CharacterClass::NINJA
-													   ? 8 + _abilities[CharacterAbility::BONUS_DAMAGE]
-													   : 4 + _abilities[CharacterAbility::BONUS_DAMAGE];
+	_abilities[UNARMED_DAMAGE] = _class == NINJA ? 8 + _abilities[BONUS_DAMAGE] : 4 + _abilities[BONUS_DAMAGE];
 
 	// Number of Melee Attacks (num)
 	switch (_class) {
-	case CharacterClass::FIGHTER:
-	case CharacterClass::SAMURAI:
-	case CharacterClass::LORD:
-		_abilities[CharacterAbility::BASE_NUMBER_OF_ATTACKS] = current_level / 5;
+	case FIGHTER:
+	case SAMURAI:
+	case LORD:
+		_abilities[BASE_NUMBER_OF_ATTACKS] = current_level / 5;
 		break;
-	case CharacterClass::NINJA:
-		_abilities[CharacterAbility::BASE_NUMBER_OF_ATTACKS] = (current_level / 5) + 1;
+	case NINJA:
+		_abilities[BASE_NUMBER_OF_ATTACKS] = (current_level / 5) + 1;
 		break;
 	default:
-		_abilities[CharacterAbility::BASE_NUMBER_OF_ATTACKS] = 1;
+		_abilities[BASE_NUMBER_OF_ATTACKS] = 1;
 		break;
 	}
-	if (_abilities[CharacterAbility::BASE_NUMBER_OF_ATTACKS] == 0)
-		_abilities[CharacterAbility::BASE_NUMBER_OF_ATTACKS] = 1;
+	if (_abilities[BASE_NUMBER_OF_ATTACKS] == 0)
+		_abilities[BASE_NUMBER_OF_ATTACKS] = 1;
 
 	// Chance of learning new Mage Spells (%)
 	switch (_class) {
-	case CharacterClass::SAMURAI:
-	case CharacterClass::BISHOP:
-	case CharacterClass::MAGE:
-		_abilities[CharacterAbility::MAGE_SPELL_LEARN] = (_cur_attr[IQ] / 29.0) * 100;
+	case SAMURAI:
+	case BISHOP:
+	case MAGE:
+		_abilities[MAGE_SPELL_LEARN] = (_cur_attr[IQ] / 29.0) * 100;
 		break;
 	default:
-		_abilities[CharacterAbility::MAGE_SPELL_LEARN] = 0;
+		_abilities[MAGE_SPELL_LEARN] = 0;
 		break;
 	}
 
 	// Chance of Identifying Items (%)
-	_abilities[CharacterAbility::IDENTIFY_ITEMS] = _class == CharacterClass::BISHOP ? 10 + (5 * current_level) : 0;
-	if (_abilities[CharacterAbility::IDENTIFY_ITEMS] > 100)
-		_abilities[CharacterAbility::IDENTIFY_ITEMS] = 100;
+	_abilities[IDENTIFY_ITEMS] = _class == BISHOP ? 10 + (5 * current_level) : 0;
+	if (_abilities[IDENTIFY_ITEMS] > 100)
+		_abilities[IDENTIFY_ITEMS] = 100;
 
 	// Chance of getting cursed when Identifying Items (%)
-	_abilities[CharacterAbility::IDENTIFY_CURSE] = _class == CharacterClass::BISHOP ? 35 - (5 * current_level) : 0;
-	if (_abilities[CharacterAbility::IDENTIFY_CURSE] < 0)
-		_abilities[CharacterAbility::IDENTIFY_CURSE] = 0;
+	_abilities[IDENTIFY_CURSE] = _class == BISHOP ? 35 - (5 * current_level) : 0;
+	if (_abilities[IDENTIFY_CURSE] < 0)
+		_abilities[IDENTIFY_CURSE] = 0;
 
 	// Chance of identifying unknown Foes per round (%)
-	_abilities[CharacterAbility::IDENTIFY_FOES] = current_level + _cur_attr[IQ] + _cur_attr[PIETY];
-	if (_abilities[CharacterAbility::IDENTIFY_FOES] > 100)
-		_abilities[CharacterAbility::IDENTIFY_FOES] = 100;
+	_abilities[IDENTIFY_FOES] = current_level + _cur_attr[IQ] + _cur_attr[PIETY];
+	if (_abilities[IDENTIFY_FOES] > 100)
+		_abilities[IDENTIFY_FOES] = 100;
 
 	// Chance of learning new Priest Spells (%)
 	switch (_class) {
-	case CharacterClass::PRIEST:
-	case CharacterClass::LORD:
-	case CharacterClass::BISHOP:
-		_abilities[CharacterAbility::PRIEST_SPELL_LEARN] = (_cur_attr[PIETY] / 30.0) * 100;
+	case PRIEST:
+	case LORD:
+	case BISHOP:
+		_abilities[PRIEST_SPELL_LEARN] = (_cur_attr[PIETY] / 30.0) * 100;
 		break;
 	default:
-		_abilities[CharacterAbility::PRIEST_SPELL_LEARN] = 0;
+		_abilities[PRIEST_SPELL_LEARN] = 0;
 		break;
 	}
 
 	// LOKTOFELT success chance (%)
-	_abilities[CharacterAbility::LOKTOFELT_SUCCESS] = _class == CharacterClass::PRIEST ? 2 * current_level : 0;
+	_abilities[LOKTOFELT_SUCCESS] = _class == PRIEST ? 2 * current_level : 0;
 
 	// Base Dispell chance (affected by monster level) (%)
 	switch (_class) {
 	case CharacterClass::PRIEST:
-		_abilities[CharacterAbility::BASE_DISPELL] = 50 + (5 * current_level);
+		_abilities[BASE_DISPELL] = 50 + (5 * current_level);
 		break;
 	case CharacterClass::BISHOP:
-		_abilities[CharacterAbility::BASE_DISPELL] = current_level >= 4 ? 50 + (5 * current_level) - 20 : 0;
+		_abilities[BASE_DISPELL] = current_level >= 4 ? 50 + (5 * current_level) - 20 : 0;
 		break;
 	case CharacterClass::LORD:
-		_abilities[CharacterAbility::BASE_DISPELL] = current_level >= 9 ? 50 + (5 * current_level) - 40 : 0;
+		_abilities[BASE_DISPELL] = current_level >= 9 ? 50 + (5 * current_level) - 40 : 0;
 		break;
 	default:
-		_abilities[CharacterAbility::BASE_DISPELL] = 0;
+		_abilities[BASE_DISPELL] = 0;
 		break;
 	}
-	if (_abilities[CharacterAbility::BASE_DISPELL] > 100)
-		_abilities[CharacterAbility::BASE_DISPELL] = 100;
+	if (_abilities[BASE_DISPELL] > 100)
+		_abilities[BASE_DISPELL] = 100;
 
 	// Vitality Bonus (num)
 	switch (_cur_attr[VITALITY]) {
 	case 3:
-		_abilities[CharacterAbility::VITALITY_BONUS] = -2;
+		_abilities[VITALITY_BONUS] = -2;
 		break;
 	case 4:
 	case 5:
-		_abilities[CharacterAbility::VITALITY_BONUS] = -1;
+		_abilities[VITALITY_BONUS] = -1;
 		break;
 	case 16:
-		_abilities[CharacterAbility::VITALITY_BONUS] = 1;
+		_abilities[VITALITY_BONUS] = 1;
 		break;
 	case 17:
-		_abilities[CharacterAbility::VITALITY_BONUS] = 2;
+		_abilities[VITALITY_BONUS] = 2;
 		break;
 	case 18:
 	case 19:
 	case 20:
-		_abilities[CharacterAbility::VITALITY_BONUS] = 3;
+		_abilities[VITALITY_BONUS] = 3;
 		break;
 	default:
-		_abilities[CharacterAbility::VITALITY_BONUS] = 0;
+		_abilities[VITALITY_BONUS] = 0;
 		break;
 	}
 
 	// Bonus Hit Points per level (num)
-	_abilities[CharacterAbility::BONUS_HIT_POINTS] = _abilities[CharacterAbility::VITALITY_BONUS];
+	_abilities[BONUS_HIT_POINTS] = _abilities[VITALITY_BONUS];
 
 	// Class Change doesn't reset these
 	if (!change_class) {
@@ -1131,357 +1170,296 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 		if (initial) {
 
 			switch (auto chance{(*_system->random)[RandomType::D100]}; _class) { // NOLINT(clang-diagnostic-switch)
-			case CharacterClass::FIGHTER:
-			case CharacterClass::LORD:
-				_abilities[CharacterAbility::MAX_HP] =
-					chance <= 50 ? 10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
-								 : 9 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+			case FIGHTER:
+			case LORD:
+				_abilities[MAX_HP] =
+					chance <= 50 ? 10 + _abilities[BONUS_HIT_POINTS] : 9 * (10 + _abilities[BONUS_HIT_POINTS]) / 10;
 				break;
-			case CharacterClass::PRIEST:
-				_abilities[CharacterAbility::MAX_HP] =
-					chance <= 50 ? 8 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
-								 : 8 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+			case PRIEST:
+				_abilities[MAX_HP] =
+					chance <= 50 ? 8 + _abilities[BONUS_HIT_POINTS] : 8 * (10 + _abilities[BONUS_HIT_POINTS]) / 10;
 				break;
-			case CharacterClass::THIEF:
-			case CharacterClass::BISHOP:
-			case CharacterClass::NINJA:
-				_abilities[CharacterAbility::MAX_HP] =
-					chance <= 50 ? 6 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
-								 : 6 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+			case THIEF:
+			case BISHOP:
+			case NINJA:
+				_abilities[MAX_HP] =
+					chance <= 50 ? 6 + _abilities[BONUS_HIT_POINTS] : 6 * (10 + _abilities[BONUS_HIT_POINTS]) / 10;
 				break;
-			case CharacterClass::MAGE:
-				_abilities[CharacterAbility::MAX_HP] =
-					chance <= 50 ? 4 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
-								 : 4 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+			case MAGE:
+				_abilities[MAX_HP] =
+					chance <= 50 ? 4 + _abilities[BONUS_HIT_POINTS] : 4 * (10 + _abilities[BONUS_HIT_POINTS]) / 10;
 				break;
-			case CharacterClass::SAMURAI:
-				_abilities[CharacterAbility::MAX_HP] =
-					chance <= 50 ? 16 + _abilities[CharacterAbility::BONUS_HIT_POINTS]
-								 : 16 * (10 + _abilities[CharacterAbility::BONUS_HIT_POINTS]) / 10;
+			case SAMURAI:
+				_abilities[MAX_HP] =
+					chance <= 50 ? 16 + _abilities[BONUS_HIT_POINTS] : 16 * (10 + _abilities[BONUS_HIT_POINTS]) / 10;
 				break;
 			default:
 				break;
 			}
-			if (_abilities[CharacterAbility::MAX_HP] < 1)
-				_abilities[CharacterAbility::MAX_HP] = 1;
+			if (_abilities[MAX_HP] < 1)
+				_abilities[MAX_HP] = 1;
 
-			_abilities[CharacterAbility::CURRENT_HP] = _abilities[CharacterAbility::MAX_HP];
+			_abilities[CURRENT_HP] = _abilities[MAX_HP];
 		}
 
 		if (legate) {
 			switch (_class) {
-			case CharacterClass::FIGHTER:
-				_abilities[CharacterAbility::MAX_HP] = 10;
+			case FIGHTER:
+				_abilities[MAX_HP] = 10;
 				break;
-			case CharacterClass::SAMURAI:
-			case CharacterClass::LORD:
-				_abilities[CharacterAbility::MAX_HP] = 12;
+			case SAMURAI:
+			case LORD:
+				_abilities[MAX_HP] = 12;
 				break;
-			case CharacterClass::PRIEST:
-				_abilities[CharacterAbility::MAX_HP] = 8;
+			case PRIEST:
+				_abilities[MAX_HP] = 8;
 				break;
-			case CharacterClass::NINJA:
-				_abilities[CharacterAbility::MAX_HP] = 7;
+			case NINJA:
+				_abilities[MAX_HP] = 7;
 				break;
-			case CharacterClass::THIEF:
-				_abilities[CharacterAbility::MAX_HP] = 6;
+			case THIEF:
+				_abilities[MAX_HP] = 6;
 				break;
-			case CharacterClass::MAGE:
-				_abilities[CharacterAbility::MAX_HP] = 4;
+			case MAGE:
+				_abilities[MAX_HP] = 4;
 				break;
 			default:
 				break;
 			}
 
-			_abilities[CharacterAbility::CURRENT_HP] = _abilities[CharacterAbility::MAX_HP];
+			_abilities[CURRENT_HP] = _abilities[MAX_HP];
 		}
 	}
 
 	// Chance of resurrecting a Dead Character at the Temple (%)
-	_abilities[CharacterAbility::DEAD_RESURRECT] = 50 + (3 * _cur_attr[VITALITY]);
-	if (_abilities[CharacterAbility::DEAD_RESURRECT] > 100)
-		_abilities[CharacterAbility::DEAD_RESURRECT] = 100;
+	_abilities[DEAD_RESURRECT] = 50 + (3 * _cur_attr[VITALITY]);
+	if (_abilities[DEAD_RESURRECT] > 100)
+		_abilities[DEAD_RESURRECT] = 100;
 
 	// Chance of resurrecting an Ashed Character at the Temple (%)
-	_abilities[CharacterAbility::ASHES_RESURRECT] = 40 + (3 * _cur_attr[VITALITY]);
-	if (_abilities[CharacterAbility::ASHES_RESURRECT] > 100)
-		_abilities[CharacterAbility::ASHES_RESURRECT] = 100;
+	_abilities[ASHES_RESURRECT] = 40 + (3 * _cur_attr[VITALITY]);
+	if (_abilities[ASHES_RESURRECT] > 100)
+		_abilities[ASHES_RESURRECT] = 100;
 
 	// Chance of resurrecting by a DI or KADORTO spell cast by another Character (%)
-	_abilities[CharacterAbility::DI_KADORTO_RESURRECT] = 4 * _cur_attr[VITALITY];
+	_abilities[DI_KADORTO_RESURRECT] = 4 * _cur_attr[VITALITY];
 
 	// Initiative Modifier (num)
 	switch (_cur_attr[AGILITY]) {
 	case 3:
-		_abilities[CharacterAbility::INITIATIVE_MODIFIER] = 3;
+		_abilities[INITIATIVE_MODIFIER] = 3;
 		break;
 	case 4:
 	case 5:
-		_abilities[CharacterAbility::INITIATIVE_MODIFIER] = 2;
+		_abilities[INITIATIVE_MODIFIER] = 2;
 		break;
 	case 6:
 	case 7:
-		_abilities[CharacterAbility::INITIATIVE_MODIFIER] = 1;
+		_abilities[INITIATIVE_MODIFIER] = 1;
 		break;
 	case 15:
-		_abilities[CharacterAbility::INITIATIVE_MODIFIER] = -1;
+		_abilities[INITIATIVE_MODIFIER] = -1;
 		break;
 	case 16:
-		_abilities[CharacterAbility::INITIATIVE_MODIFIER] = -2;
+		_abilities[INITIATIVE_MODIFIER] = -2;
 		break;
 	case 17:
-		_abilities[CharacterAbility::INITIATIVE_MODIFIER] = -3;
+		_abilities[INITIATIVE_MODIFIER] = -3;
 		break;
 	case 18:
 	case 19:
 	case 20:
-		_abilities[CharacterAbility::INITIATIVE_MODIFIER] = -4;
+		_abilities[INITIATIVE_MODIFIER] = -4;
 		break;
 	default:
-		_abilities[CharacterAbility::INITIATIVE_MODIFIER] = 0;
+		_abilities[INITIATIVE_MODIFIER] = 0;
 		break;
 	}
 
 	// Armour Class (num) (before equipment)
-	_abilities[CharacterAbility::BASE_ARMOUR_CLASS] =
-		_class == CharacterClass::NINJA ? 10 - (current_level / 3) - 2 : 10;
-	_abilities[CharacterAbility::CURRENT_ARMOUR_CLASS] = _abilities[CharacterAbility::BASE_ARMOUR_CLASS];
+	_abilities[BASE_ARMOUR_CLASS] = _class == NINJA ? 10 - (current_level / 3) - 2 : 10;
+	_abilities[CURRENT_ARMOUR_CLASS] = _abilities[BASE_ARMOUR_CLASS];
 
 	// Critical Hit Chance (%)
-	_abilities[CharacterAbility::BASE_CRITICAL_HIT] = _class == CharacterClass::NINJA ? 2 * current_level : 0;
-	if (_abilities[CharacterAbility::BASE_CRITICAL_HIT] > 50)
-		_abilities[CharacterAbility::BASE_CRITICAL_HIT] = 50;
+	_abilities[BASE_CRITICAL_HIT] = _class == NINJA ? 2 * current_level : 0;
+	if (_abilities[BASE_CRITICAL_HIT] > 50)
+		_abilities[BASE_CRITICAL_HIT] = 50;
 
 	// Chance to identify a Trap (%)
-	if (_class == CharacterClass::THIEF)
-		_abilities[CharacterAbility::IDENTIFY_TRAP] = 6 * _cur_attr[AGILITY];
-	else if (_class == CharacterClass::NINJA)
-		_abilities[CharacterAbility::IDENTIFY_TRAP] = 4 * _cur_attr[AGILITY];
+	if (_class == THIEF)
+		_abilities[IDENTIFY_TRAP] = 6 * _cur_attr[AGILITY];
+	else if (_class == NINJA)
+		_abilities[IDENTIFY_TRAP] = 4 * _cur_attr[AGILITY];
 	else
-		_abilities[CharacterAbility::IDENTIFY_TRAP] = 0;
-	if (_abilities[CharacterAbility::IDENTIFY_TRAP] > 95)
-		_abilities[CharacterAbility::IDENTIFY_TRAP] = 95;
+		_abilities[IDENTIFY_TRAP] = 0;
+	if (_abilities[IDENTIFY_TRAP] > 95)
+		_abilities[IDENTIFY_TRAP] = 95;
 
 	// Base Chance to Disarm a Trap (modified by Maze Level) (%)
-	_abilities[CharacterAbility::BASE_DISARM_TRAP] =
-		(_class == CharacterClass::NINJA) || (_class == CharacterClass::THIEF) ? ((current_level + 50) / 69.0) * 100
-																			   : 0;
+	_abilities[BASE_DISARM_TRAP] = (_class == NINJA) || (_class == THIEF) ? ((current_level + 50) / 69.0) * 100 : 0;
 
 	// Chance to activate a Trap if identify fails (%)
-	_abilities[CharacterAbility::ACTIVATE_TRAP] = (_class == CharacterClass::NINJA) || (_class == CharacterClass::THIEF)
-													  ? 100 - ((_cur_attr[AGILITY] / 20.0) * 100)
-													  : 100;
+	_abilities[ACTIVATE_TRAP] =
+		(_class == NINJA) || (_class == THIEF) ? 100 - ((_cur_attr[AGILITY] / 20.0) * 100) : 100;
 
 	// Base Chance to avoid following into a Pit (modified by Maze Level) (%)
-	_abilities[CharacterAbility::BASE_AVOID_PIT] = (_cur_attr[AGILITY] / 25.0) * 100;
+	_abilities[BASE_AVOID_PIT] = (_cur_attr[AGILITY] / 25.0) * 100;
 
 	// Base Resist Bonus (d20)
-	_abilities[CharacterAbility::BASE_RESIST_BONUS] = 1 * (current_level / 5);
+	_abilities[BASE_RESIST_BONUS] = 1 * (current_level / 5);
 	if (_cur_attr[LUCK] >= 18)
-		_abilities[CharacterAbility::BASE_RESIST_BONUS] += 3;
+		_abilities[BASE_RESIST_BONUS] += 3;
 	else if (_cur_attr[LUCK] >= 12)
-		_abilities[CharacterAbility::BASE_RESIST_BONUS] += 2;
+		_abilities[BASE_RESIST_BONUS] += 2;
 	else if (_cur_attr[LUCK] >= 6)
-		_abilities[CharacterAbility::BASE_RESIST_BONUS] += 1;
+		_abilities[BASE_RESIST_BONUS] += 1;
 
 	// Chance equipment is intact on a corpse TODO: check this is accurate
-	_abilities[CharacterAbility::EQUIPMENT_INTACT_ON_WIPE] = (_cur_attr[LUCK] / 21.0f) * 100;
+	_abilities[EQUIPMENT_INTACT_ON_WIPE] = (_cur_attr[LUCK] / 21.0f) * 100;
 
 	// Other Resists (d20)
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
-	case CharacterClass::SAMURAI:
-		_abilities[CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS] =
-			_abilities[CharacterAbility::BASE_RESIST_BONUS] + 2;
-		_abilities[CharacterAbility::RESISTANCE_VS_CRITICAL_HIT] = _abilities[CharacterAbility::BASE_RESIST_BONUS] + 2;
-		_abilities[CharacterAbility::RESISTANCE_VS_STONING] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP] =
-			_abilities[CharacterAbility::BASE_RESIST_BONUS] + 2;
-		_abilities[CharacterAbility::RESISTANCE_VS_SILENCE] = _abilities[CharacterAbility::BASE_RESIST_BONUS] + 2;
+	case SAMURAI:
+		_abilities[RESISTANCE_VS_POISON_PARALYSIS] = _abilities[BASE_RESIST_BONUS] + 2;
+		_abilities[RESISTANCE_VS_CRITICAL_HIT] = _abilities[BASE_RESIST_BONUS] + 2;
+		_abilities[RESISTANCE_VS_STONING] = 0;
+		_abilities[RESISTANCE_VS_BREATH_ATTACKS] = 0;
+		_abilities[RESISTANCE_VS_POISON_GAS_TRAP] = 0;
+		_abilities[RESISTANCE_VS_MAGE_PRIEST_TRAP] = _abilities[BASE_RESIST_BONUS] + 2;
+		_abilities[RESISTANCE_VS_SILENCE] = _abilities[BASE_RESIST_BONUS] + 2;
 		break;
-	case CharacterClass::FIGHTER:
-		_abilities[CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS] =
-			_abilities[CharacterAbility::BASE_RESIST_BONUS] + 3;
-		_abilities[CharacterAbility::RESISTANCE_VS_CRITICAL_HIT] = _abilities[CharacterAbility::BASE_RESIST_BONUS] + 3;
-		_abilities[CharacterAbility::RESISTANCE_VS_STONING] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_SILENCE] = 0;
+	case FIGHTER:
+		_abilities[RESISTANCE_VS_POISON_PARALYSIS] = _abilities[BASE_RESIST_BONUS] + 3;
+		_abilities[RESISTANCE_VS_CRITICAL_HIT] = _abilities[BASE_RESIST_BONUS] + 3;
+		_abilities[RESISTANCE_VS_STONING] = 0;
+		_abilities[RESISTANCE_VS_BREATH_ATTACKS] = 0;
+		_abilities[RESISTANCE_VS_POISON_GAS_TRAP] = 0;
+		_abilities[RESISTANCE_VS_MAGE_PRIEST_TRAP] = 0;
+		_abilities[RESISTANCE_VS_SILENCE] = 0;
 		break;
-	case CharacterClass::PRIEST:
-		_abilities[CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_CRITICAL_HIT] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_STONING] = _abilities[CharacterAbility::BASE_RESIST_BONUS] + 3;
-		_abilities[CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_SILENCE] = 0;
+	case PRIEST:
+		_abilities[RESISTANCE_VS_POISON_PARALYSIS] = 0;
+		_abilities[RESISTANCE_VS_CRITICAL_HIT] = 0;
+		_abilities[RESISTANCE_VS_STONING] = _abilities[BASE_RESIST_BONUS] + 3;
+		_abilities[RESISTANCE_VS_BREATH_ATTACKS] = 0;
+		_abilities[RESISTANCE_VS_POISON_GAS_TRAP] = 0;
+		_abilities[RESISTANCE_VS_MAGE_PRIEST_TRAP] = 0;
+		_abilities[RESISTANCE_VS_SILENCE] = 0;
 		break;
-	case CharacterClass::LORD:
-		_abilities[CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS] =
-			_abilities[CharacterAbility::BASE_RESIST_BONUS] + 2;
-		_abilities[CharacterAbility::RESISTANCE_VS_CRITICAL_HIT] = _abilities[CharacterAbility::BASE_RESIST_BONUS] + 2;
-		_abilities[CharacterAbility::RESISTANCE_VS_STONING] = _abilities[CharacterAbility::BASE_RESIST_BONUS] + 2;
-		_abilities[CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_SILENCE] = 0;
+	case LORD:
+		_abilities[RESISTANCE_VS_POISON_PARALYSIS] = _abilities[BASE_RESIST_BONUS] + 2;
+		_abilities[RESISTANCE_VS_CRITICAL_HIT] = _abilities[BASE_RESIST_BONUS] + 2;
+		_abilities[RESISTANCE_VS_STONING] = _abilities[BASE_RESIST_BONUS] + 2;
+		_abilities[RESISTANCE_VS_BREATH_ATTACKS] = 0;
+		_abilities[RESISTANCE_VS_POISON_GAS_TRAP] = 0;
+		_abilities[RESISTANCE_VS_MAGE_PRIEST_TRAP] = 0;
+		_abilities[RESISTANCE_VS_SILENCE] = 0;
 		break;
-	case CharacterClass::BISHOP:
-		_abilities[CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_CRITICAL_HIT] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_STONING] = _abilities[CharacterAbility::BASE_RESIST_BONUS] + 2;
-		_abilities[CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS] =
-			_abilities[CharacterAbility::BASE_RESIST_BONUS] + 2;
-		_abilities[CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP] =
-			_abilities[CharacterAbility::BASE_RESIST_BONUS] + 2;
-		_abilities[CharacterAbility::RESISTANCE_VS_SILENCE] = _abilities[CharacterAbility::BASE_RESIST_BONUS] + 2;
+	case BISHOP:
+		_abilities[RESISTANCE_VS_POISON_PARALYSIS] = 0;
+		_abilities[RESISTANCE_VS_CRITICAL_HIT] = 0;
+		_abilities[RESISTANCE_VS_STONING] = _abilities[BASE_RESIST_BONUS] + 2;
+		_abilities[RESISTANCE_VS_BREATH_ATTACKS] = _abilities[BASE_RESIST_BONUS] + 2;
+		_abilities[RESISTANCE_VS_POISON_GAS_TRAP] = 0;
+		_abilities[RESISTANCE_VS_MAGE_PRIEST_TRAP] = _abilities[BASE_RESIST_BONUS] + 2;
+		_abilities[RESISTANCE_VS_SILENCE] = _abilities[BASE_RESIST_BONUS] + 2;
 		break;
-	case CharacterClass::THIEF:
-		_abilities[CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_CRITICAL_HIT] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_STONING] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP] =
-			_abilities[CharacterAbility::BASE_RESIST_BONUS] + 3;
-		_abilities[CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_SILENCE] = 0;
+	case THIEF:
+		_abilities[RESISTANCE_VS_POISON_PARALYSIS] = 0;
+		_abilities[RESISTANCE_VS_CRITICAL_HIT] = 0;
+		_abilities[RESISTANCE_VS_STONING] = 0;
+		_abilities[RESISTANCE_VS_BREATH_ATTACKS] = 0;
+		_abilities[RESISTANCE_VS_POISON_GAS_TRAP] = _abilities[BASE_RESIST_BONUS] + 3;
+		_abilities[RESISTANCE_VS_MAGE_PRIEST_TRAP] = 0;
+		_abilities[RESISTANCE_VS_SILENCE] = 0;
 		break;
-	case CharacterClass::NINJA:
-		_abilities[CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS] =
-			_abilities[CharacterAbility::BASE_RESIST_BONUS] + 3;
-		_abilities[CharacterAbility::RESISTANCE_VS_CRITICAL_HIT] = _abilities[CharacterAbility::BASE_RESIST_BONUS] + 3;
-		_abilities[CharacterAbility::RESISTANCE_VS_STONING] = _abilities[CharacterAbility::BASE_RESIST_BONUS] + 2;
-		_abilities[CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS] =
-			_abilities[CharacterAbility::BASE_RESIST_BONUS] + 4;
-		_abilities[CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP] =
-			_abilities[CharacterAbility::BASE_RESIST_BONUS] + 3;
-		_abilities[CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP] =
-			_abilities[CharacterAbility::BASE_RESIST_BONUS] + 2;
-		_abilities[CharacterAbility::RESISTANCE_VS_SILENCE] = _abilities[CharacterAbility::BASE_RESIST_BONUS] + 2;
+	case NINJA:
+		_abilities[RESISTANCE_VS_POISON_PARALYSIS] = _abilities[BASE_RESIST_BONUS] + 3;
+		_abilities[RESISTANCE_VS_CRITICAL_HIT] = _abilities[BASE_RESIST_BONUS] + 3;
+		_abilities[RESISTANCE_VS_STONING] = _abilities[BASE_RESIST_BONUS] + 2;
+		_abilities[RESISTANCE_VS_BREATH_ATTACKS] = _abilities[BASE_RESIST_BONUS] + 4;
+		_abilities[RESISTANCE_VS_POISON_GAS_TRAP] = _abilities[BASE_RESIST_BONUS] + 3;
+		_abilities[RESISTANCE_VS_MAGE_PRIEST_TRAP] = _abilities[BASE_RESIST_BONUS] + 2;
+		_abilities[RESISTANCE_VS_SILENCE] = _abilities[BASE_RESIST_BONUS] + 2;
 		break;
-	case CharacterClass::MAGE:
-		_abilities[CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_CRITICAL_HIT] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_STONING] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP] = 0;
-		_abilities[CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP] =
-			_abilities[CharacterAbility::BASE_RESIST_BONUS] + 3;
-		_abilities[CharacterAbility::RESISTANCE_VS_SILENCE] = _abilities[CharacterAbility::BASE_RESIST_BONUS] + 3;
+	case MAGE:
+		_abilities[RESISTANCE_VS_POISON_PARALYSIS] = 0;
+		_abilities[RESISTANCE_VS_CRITICAL_HIT] = 0;
+		_abilities[RESISTANCE_VS_STONING] = 0;
+		_abilities[RESISTANCE_VS_BREATH_ATTACKS] = 0;
+		_abilities[RESISTANCE_VS_POISON_GAS_TRAP] = 0;
+		_abilities[RESISTANCE_VS_MAGE_PRIEST_TRAP] = _abilities[BASE_RESIST_BONUS] + 3;
+		_abilities[RESISTANCE_VS_SILENCE] = _abilities[BASE_RESIST_BONUS] + 3;
 		break;
 	default:
 		break;
 	}
-	if (_race == CharacterRace::HUMAN)
-		_abilities[CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS] += 1;
-	if (_race == CharacterRace::HUMAN)
-		_abilities[CharacterAbility::RESISTANCE_VS_CRITICAL_HIT] += 1;
-	if (_race == CharacterRace::GNOME)
-		_abilities[CharacterAbility::RESISTANCE_VS_STONING] += 2;
-	if (_race == CharacterRace::ELF)
-		_abilities[CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS] += 2;
-	if (_race == CharacterRace::DWARF)
-		_abilities[CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP] += 4;
-	if (_race == CharacterRace::HOBBIT) {
-		_abilities[CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP] += 2;
-		_abilities[CharacterAbility::RESISTANCE_VS_SILENCE] += 3;
+	if (_race == HUMAN)
+		_abilities[RESISTANCE_VS_POISON_PARALYSIS] += 1;
+	if (_race == HUMAN)
+		_abilities[RESISTANCE_VS_CRITICAL_HIT] += 1;
+	if (_race == GNOME)
+		_abilities[RESISTANCE_VS_STONING] += 2;
+	if (_race == ELF)
+		_abilities[RESISTANCE_VS_BREATH_ATTACKS] += 2;
+	if (_race == DWARF)
+		_abilities[RESISTANCE_VS_POISON_GAS_TRAP] += 4;
+	if (_race == HOBBIT) {
+		_abilities[RESISTANCE_VS_MAGE_PRIEST_TRAP] += 2;
+		_abilities[RESISTANCE_VS_SILENCE] += 3;
 	}
-	if (_abilities[CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS] > 19)
-		_abilities[CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS] = 19;
-	if (_abilities[CharacterAbility::RESISTANCE_VS_CRITICAL_HIT] > 19)
-		_abilities[CharacterAbility::RESISTANCE_VS_CRITICAL_HIT] = 19;
-	if (_abilities[CharacterAbility::RESISTANCE_VS_STONING] > 19)
-		_abilities[CharacterAbility::RESISTANCE_VS_STONING] = 19;
-	if (_abilities[CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS] > 19)
-		_abilities[CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS] = 19;
-	if (_abilities[CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP] > 19)
-		_abilities[CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP] = 19;
-	if (_abilities[CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP] > 19)
-		_abilities[CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP] = 19;
-	if (_abilities[CharacterAbility::RESISTANCE_VS_SILENCE] > 19)
-		_abilities[CharacterAbility::RESISTANCE_VS_SILENCE] = 19;
+	if (_abilities[RESISTANCE_VS_POISON_PARALYSIS] > 19)
+		_abilities[RESISTANCE_VS_POISON_PARALYSIS] = 19;
+	if (_abilities[RESISTANCE_VS_CRITICAL_HIT] > 19)
+		_abilities[RESISTANCE_VS_CRITICAL_HIT] = 19;
+	if (_abilities[RESISTANCE_VS_STONING] > 19)
+		_abilities[RESISTANCE_VS_STONING] = 19;
+	if (_abilities[RESISTANCE_VS_BREATH_ATTACKS] > 19)
+		_abilities[RESISTANCE_VS_BREATH_ATTACKS] = 19;
+	if (_abilities[RESISTANCE_VS_POISON_GAS_TRAP] > 19)
+		_abilities[RESISTANCE_VS_POISON_GAS_TRAP] = 19;
+	if (_abilities[RESISTANCE_VS_MAGE_PRIEST_TRAP] > 19)
+		_abilities[RESISTANCE_VS_MAGE_PRIEST_TRAP] = 19;
+	if (_abilities[RESISTANCE_VS_SILENCE] > 19)
+		_abilities[RESISTANCE_VS_SILENCE] = 19;
 
 	// Resistance to harmful spells (%)
-	_abilities[CharacterAbility::RESISTANCE_VS_KATINO] = current_level * 10;
-	if (_abilities[CharacterAbility::RESISTANCE_VS_KATINO] > 100)
-		_abilities[CharacterAbility::RESISTANCE_VS_KATINO] = 100;
-	_abilities[CharacterAbility::RESISTANCE_VS_BADI] = current_level * 10;
-	if (_abilities[CharacterAbility::RESISTANCE_VS_BADI] > 100)
-		_abilities[CharacterAbility::RESISTANCE_VS_BADI] = 100;
-	_abilities[CharacterAbility::RESISTANCE_VS_MANIFO] = 50 + (current_level * 10);
-	if (_abilities[CharacterAbility::RESISTANCE_VS_MANIFO] > 100)
-		_abilities[CharacterAbility::RESISTANCE_VS_MANIFO] = 100;
+	_abilities[RESISTANCE_VS_KATINO] = current_level * 10;
+	if (_abilities[RESISTANCE_VS_KATINO] > 100)
+		_abilities[RESISTANCE_VS_KATINO] = 100;
+	_abilities[RESISTANCE_VS_BADI] = current_level * 10;
+	if (_abilities[RESISTANCE_VS_BADI] > 100)
+		_abilities[RESISTANCE_VS_BADI] = 100;
+	_abilities[RESISTANCE_VS_MANIFO] = 50 + (current_level * 10);
+	if (_abilities[RESISTANCE_VS_MANIFO] > 100)
+		_abilities[RESISTANCE_VS_MANIFO] = 100;
 
-	_abilities[CharacterAbility::RECOVER_FROM_SLEEP] = current_level * 10;
-	if (_abilities[CharacterAbility::RECOVER_FROM_SLEEP] > 100)
-		_abilities[CharacterAbility::RECOVER_FROM_SLEEP] = 100;
+	_abilities[RECOVER_FROM_SLEEP] = current_level * 10;
+	if (_abilities[RECOVER_FROM_SLEEP] > 100)
+		_abilities[RECOVER_FROM_SLEEP] = 100;
 
-	_abilities[CharacterAbility::RECOVER_FROM_FEAR] = current_level * 5;
-	if (_abilities[CharacterAbility::RECOVER_FROM_FEAR] > 100)
-		_abilities[CharacterAbility::RECOVER_FROM_FEAR] = 100;
+	_abilities[RECOVER_FROM_FEAR] = current_level * 5;
+	if (_abilities[RECOVER_FROM_FEAR] > 100)
+		_abilities[RECOVER_FROM_FEAR] = 100;
 
-	// If we are not in strict mode, add some bonus spellpoints to first level
-	// priests/,ages depending on their associated stats
-	_abilities[CharacterAbility::BONUS_MAGE_SPELLS] = 0;
-	_abilities[CharacterAbility::BONUS_PRIEST_SPELLS] = 0;
-	if (!(*_system->config)[ConfigOption::STRICT_MODE]) {
-		switch (_class) { // NOLINT(clang-diagnostic-switch)
-		case CharacterClass::PRIEST:
-			switch (_cur_attr[PIETY]) {
-			case 16:
-				_abilities[CharacterAbility::BONUS_PRIEST_SPELLS] = 1;
-				break;
-			case 17:
-				_abilities[CharacterAbility::BONUS_PRIEST_SPELLS] = 2;
-				break;
-			case 18:
-			case 19:
-			case 20:
-				_abilities[CharacterAbility::BONUS_PRIEST_SPELLS] = 3;
-				break;
-			default:
-				break;
-			}
-			break;
-		case CharacterClass::MAGE:
-			switch (_cur_attr[IQ]) {
-			case 16:
-				_abilities[CharacterAbility::BONUS_MAGE_SPELLS] = 1;
-				break;
-			case 17:
-				_abilities[CharacterAbility::BONUS_MAGE_SPELLS] = 2;
-				break;
-			case 18:
-			case 19:
-			case 20:
-				_abilities[CharacterAbility::BONUS_MAGE_SPELLS] = 3;
-				break;
-			default:
-				break;
-			}
-			break;
-		default:
-			break;
-		}
-	}
+	_abilities[BONUS_MAGE_SPELLS] = 0;
+	_abilities[BONUS_PRIEST_SPELLS] = 0;
 
 	// And set poison/regeneration to default
 	if (!change_class) {
-		_abilities[CharacterAbility::HP_LOSS_PER_TURN] = 0;
-		_abilities[CharacterAbility::HP_GAIN_PER_TURN] = 0;
-		_abilities[CharacterAbility::POISON_STRENGTH] = 0;
+		_abilities[HP_LOSS_PER_TURN] = 0;
+		_abilities[HP_GAIN_PER_TURN] = 0;
+		_abilities[POISON_STRENGTH] = 0;
 	}
 }
 
 auto Sorcery::Character::grant_xp(const int adjustment) -> int {
 
-	_abilities[CharacterAbility::CURRENT_XP] = _abilities[CharacterAbility::CURRENT_XP] + adjustment;
+	using enum Enums::Character::Ability;
 
-	return _abilities[CharacterAbility::CURRENT_XP];
+	_abilities[CURRENT_XP] = _abilities[CURRENT_XP] + adjustment;
+
+	return _abilities[CURRENT_XP];
 }
 
 // Now work out spellpoints!
@@ -1516,22 +1494,22 @@ auto Sorcery::Character::_reset_starting_sp() -> void {
 // Set the starting spellpoints
 auto Sorcery::Character::_set_starting_sp() -> void {
 
+	using enum Enums::Character::Ability;
+	using enum Enums::Character::Class;
+
 	// By default clear all spells
 	_clear_sp();
 
-	// In the original code this is handled in "SETSPELS"/"SPLPERLV"/"NWMAGE"/"NWPRIEST" - but we are just setting them
-	// straight for now but adding in extra slots for casters to make things easier if we're not in strict mode
+	// In the original code this is handled in "SETSPELS"/"SPLPERLV"/"NWMAGE"/"NWPRIEST"
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
-	case CharacterClass::PRIEST:
-		_priest_max_sp[1] =
-			(*_system->config)[ConfigOption::STRICT_MODE] ? 2 : 2 + _abilities[CharacterAbility::BONUS_PRIEST_SPELLS];
+	case PRIEST:
+		_priest_max_sp[1] = (*_system->config)[ConfigOption::STRICT_MODE] ? 2 : 2 + _abilities[BONUS_PRIEST_SPELLS];
 		break;
-	case CharacterClass::BISHOP:
+	case BISHOP:
 		_mage_max_sp[1] = 2;
 		break;
-	case CharacterClass::MAGE:
-		_mage_max_sp[1] =
-			(*_system->config)[ConfigOption::STRICT_MODE] ? 2 : 2 + _abilities[CharacterAbility::BONUS_MAGE_SPELLS];
+	case MAGE:
+		_mage_max_sp[1] = (*_system->config)[ConfigOption::STRICT_MODE] ? 2 : 2 + _abilities[BONUS_MAGE_SPELLS];
 		break;
 	default:
 		break;
@@ -1572,14 +1550,16 @@ auto Sorcery::Character::_learn_spell(SpellID spell_id) -> void {
 // Set starting spells
 auto Sorcery::Character::_set_start_spells() -> void {
 
+	using enum Enums::Character::Class;
+
 	// This is taken from "KEEPCHYN" which hard codes the spells known to beginning characters!
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
-	case CharacterClass::BISHOP:
-	case CharacterClass::MAGE:
+	case BISHOP:
+	case MAGE:
 		_learn_spell(SpellID::KATINO);
 		_learn_spell(SpellID::HALITO);
 		break;
-	case CharacterClass::PRIEST:
+	case PRIEST:
 		_learn_spell(SpellID::DIOS);
 		_learn_spell(SpellID::BADIOS);
 		break;
@@ -1591,25 +1571,28 @@ auto Sorcery::Character::_set_start_spells() -> void {
 // Get HP gained for all levels apart from the first
 auto Sorcery::Character::_get_hp_per_level() -> int {
 
+	using enum Enums::Character::Ability;
+	using enum Enums::Character::Class;
+
 	// In the original code ("MOREHP"), Samurai get 2d8
 	auto extra_hp{0};
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
-	case CharacterClass::FIGHTER:
-	case CharacterClass::LORD:
+	case FIGHTER:
+	case LORD:
 		extra_hp += (*_system->random)[RandomType::D10];
 		break;
-	case CharacterClass::PRIEST:
+	case PRIEST:
 		extra_hp += (*_system->random)[RandomType::D8];
 		break;
-	case CharacterClass::THIEF:
-	case CharacterClass::BISHOP:
-	case CharacterClass::NINJA:
+	case THIEF:
+	case BISHOP:
+	case NINJA:
 		extra_hp += (*_system->random)[RandomType::D6];
 		break;
-	case CharacterClass::MAGE:
+	case MAGE:
 		extra_hp += (*_system->random)[RandomType::D4];
 		break;
-	case CharacterClass::SAMURAI:
+	case SAMURAI:
 		extra_hp += (*_system->random)[RandomType::D8];
 		extra_hp += (*_system->random)[RandomType::D8];
 		break;
@@ -1617,7 +1600,7 @@ auto Sorcery::Character::_get_hp_per_level() -> int {
 		break;
 	}
 
-	extra_hp += _abilities[CharacterAbility::BONUS_HIT_POINTS];
+	extra_hp += _abilities[BONUS_HIT_POINTS];
 	if (extra_hp < 0)
 		extra_hp = 1;
 
@@ -1652,21 +1635,27 @@ auto Sorcery::Character::_update_hp_for_level() -> int {
 
 auto Sorcery::Character::get_current_hp() const -> int {
 
-	return _abilities.at(CharacterAbility::CURRENT_HP);
+	using enum Enums::Character::Ability;
+
+	return _abilities.at(CURRENT_HP);
 }
 
 auto Sorcery::Character::get_max_hp() const -> int {
 
-	return _abilities.at(CharacterAbility::MAX_HP);
+	using enum Enums::Character::Ability;
+
+	return _abilities.at(MAX_HP);
 }
 
 auto Sorcery::Character::_update_stat_for_level(CharacterAttribute attribute, std::string stat) -> std::string {
 
+	using enum Enums::Character::Ability;
 	using enum Enums::Character::Attribute;
+
 	auto message{""s};
 
 	if ((*_system->random)[RandomType::D100] < 75) {
-		const auto chance{_abilities.at(CharacterAbility::AGE) / 130.f};
+		const auto chance{_abilities.at(AGE) / 130.f};
 		if ((*_system->random)[RandomType::D100] < chance) {
 
 			// Decrease
@@ -1700,6 +1689,7 @@ auto Sorcery::Character::_update_stat_for_level(CharacterAttribute attribute, st
 auto Sorcery::Character::level_up() -> std::string {
 
 	using enum Enums::Character::Ability;
+	using enum Enums::Character::Attribute;
 
 	std::string results{};
 	results.append((*_display->string)["LEVEL_DING"]);
@@ -1722,31 +1712,31 @@ auto Sorcery::Character::level_up() -> std::string {
 
 	// handle stat changing
 	auto stat_message{""s};
-	stat_message = _update_stat_for_level(CharacterAttribute::STRENGTH, (*_display->string)["CHARACTER_STAT_STRENGTH"]);
+	stat_message = _update_stat_for_level(STRENGTH, (*_display->string)["CHARACTER_STAT_STRENGTH"]);
 	if (!stat_message.empty()) {
 		results.append(stat_message);
 		results.append("@");
 	}
-	stat_message = _update_stat_for_level(CharacterAttribute::IQ, (*_display->string)["CHARACTER_STAT_INTELLIGENCE"]);
+	stat_message = _update_stat_for_level(IQ, (*_display->string)["CHARACTER_STAT_INTELLIGENCE"]);
 	if (!stat_message.empty()) {
 
 		results.append(stat_message);
 		results.append("@");
 	}
-	stat_message = _update_stat_for_level(CharacterAttribute::PIETY, (*_display->string)["CHARACTER_STAT_PIETY"]);
+	stat_message = _update_stat_for_level(PIETY, (*_display->string)["CHARACTER_STAT_PIETY"]);
 	if (!stat_message.empty()) {
 		results.append("@");
 	}
-	stat_message = _update_stat_for_level(CharacterAttribute::VITALITY, (*_display->string)["CHARACTER_STAT_VITALITY"]);
+	stat_message = _update_stat_for_level(VITALITY, (*_display->string)["CHARACTER_STAT_VITALITY"]);
 	if (!stat_message.empty()) {
 		results.append(stat_message);
 		results.append("@");
 	}
-	stat_message = _update_stat_for_level(CharacterAttribute::AGILITY, (*_display->string)["CHARACTER_STAT_AGILITY"]);
+	stat_message = _update_stat_for_level(AGILITY, (*_display->string)["CHARACTER_STAT_AGILITY"]);
 	if (!stat_message.empty()) {
 		results.append("@");
 	}
-	stat_message = _update_stat_for_level(CharacterAttribute::LUCK, (*_display->string)["CHARACTER_STAT_LUCK"]);
+	stat_message = _update_stat_for_level(LUCK, (*_display->string)["CHARACTER_STAT_LUCK"]);
 	if (!stat_message.empty()) {
 		results.append(stat_message);
 		results.append("@");
@@ -1761,7 +1751,7 @@ auto Sorcery::Character::level_up() -> std::string {
 		"{} {} {}", (*_display->string)["LEVEL_HP_PREFIX"], hp_gained, (*_display->string)["LEVEL_HP_SUFFIX"])};
 	results.append(hp_message);
 
-	if (_cur_attr.at(CharacterAttribute::VITALITY) < 3) {
+	if (_cur_attr.at(VITALITY) < 3) {
 		results.append("@");
 		results.append((*_display->string)["LEVEL_DIE"]);
 		_status = CharacterStatus::LOST;
@@ -1795,7 +1785,7 @@ auto Sorcery::Character::level_down() -> void {
 	_set_sp();
 
 	_abilities[NEXT_LEVEL_XP] = _get_xp_for_level(_abilities.at(CURRENT_LEVEL));
-	_abilities[CURRENT_XP] = _abilities[NEXT_LEVEL_XP] - 1; // not sure about this
+	_abilities[CURRENT_XP] = _abilities[NEXT_LEVEL_XP] - 1; // not sure about this TODO
 
 	_generate_secondary_abil(false, false, false);
 	_abilities[MAX_HP] = _abilities.at(MAX_HP) * (_abilities.at(CURRENT_LEVEL) / (old_level * 1.f));
@@ -1849,6 +1839,8 @@ auto Sorcery::Character::_try_learn_spell(SpellType spell_type, unsigned int spe
 auto Sorcery::Character::_calculate_sp(SpellType spell_type, unsigned int level_mod, unsigned int level_offset)
 	-> void {
 
+	using enum Enums::Character::Ability;
+
 	SpellPoints *spells{spell_type == SpellType::PRIEST ? &_priest_max_sp : &_mage_max_sp};
 	for (auto spell_level = 1; spell_level <= 7; spell_level++)
 		(*spells)[spell_level] = 0;
@@ -1857,8 +1849,7 @@ auto Sorcery::Character::_calculate_sp(SpellType spell_type, unsigned int level_
 	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnarrowing"
-		int spell_count{
-			_abilities[CharacterAbility::CURRENT_LEVEL] - level_mod + level_offset - (level_offset * spell_level)};
+		int spell_count{_abilities[CURRENT_LEVEL] - level_mod + level_offset - (level_offset * spell_level)};
 #pragma GCC diagnostic pop
 		spell_count = std::max(0, std::min(spell_count, 9));
 		(*spells)[spell_level] = spell_count;
@@ -1867,6 +1858,9 @@ auto Sorcery::Character::_calculate_sp(SpellType spell_type, unsigned int level_
 
 // Copied and rewritten from the original code from MINMAG/MINPRI/NWPRIEST/NWMAGE
 auto Sorcery::Character::_set_sp() -> bool {
+
+	using enum Enums::Character::Ability;
+	using enum Enums::Character::Class;
 
 	bool new_spells_learnt{false};
 
@@ -1878,24 +1872,24 @@ auto Sorcery::Character::_set_sp() -> bool {
 	// Generate spell points according to current level and class (this does not change any spells known but will reset
 	// spell points)
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
-	case CharacterClass::FIGHTER:
-	case CharacterClass::THIEF:
-	case CharacterClass::NINJA:
+	case FIGHTER:
+	case THIEF:
+	case NINJA:
 		break;
-	case CharacterClass::MAGE:
+	case MAGE:
 		_calculate_sp(SpellType::MAGE, 0, 2);
 		break;
-	case CharacterClass::PRIEST:
+	case PRIEST:
 		_calculate_sp(SpellType::PRIEST, 0, 2);
 		break;
-	case CharacterClass::BISHOP:
+	case BISHOP:
 		_calculate_sp(SpellType::PRIEST, 3, 4);
 		_calculate_sp(SpellType::MAGE, 0, 4);
 		break;
-	case CharacterClass::SAMURAI:
+	case SAMURAI:
 		_calculate_sp(SpellType::MAGE, 3, 3);
 		break;
-	case CharacterClass::LORD:
+	case LORD:
 		_calculate_sp(SpellType::PRIEST, 3, 2);
 		break;
 	default:
@@ -2021,7 +2015,7 @@ auto Sorcery::Character::_set_sp() -> bool {
 	// the case of level drain)
 	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
 
-		if (((spell_level * 2) - 1) > (_abilities.at(CharacterAbility::MAX_LEVEL)))
+		if (((spell_level * 2) - 1) > (_abilities.at(MAX_LEVEL)))
 			continue;
 
 		const auto priest_known{_get_spells_known(SpellType::PRIEST, spell_level)};
@@ -2056,7 +2050,6 @@ auto Sorcery::Character::_get_xp_for_level(unsigned int level) const -> int {
 	// though due to what I think is the way USCD pascal stores large numbers, they are stored in 16 bit LSB "chunks",
 	// for example, 134586 is stored at &0002013C as EA 11 0D, or 4586 - to get the actuaL value for the level we add
 	// this to 0D in decimal (13) times 10000, to get 134586.
-
 	static const std::array<std::array<int, 14>, 8> levels{
 		{{0, 1000, 1724, 2972, 5124, 8834, 15231, 26260, 45275, 78060, 134586, 232044, 400075, 289709},		 // FIGHTER
 			{0, 1100, 1896, 3268, 5124, 9713, 16746, 28872, 49779, 85825, 147974, 255127, 439874, 318529},	 // MAGE
@@ -2280,21 +2273,24 @@ auto Sorcery::Character::replenish_spells() -> void {
 // Enter Name and Portrait, rest is random
 auto Sorcery::Character::create_quick() -> void {
 
+	using enum Enums::Character::Align;
 	using enum Enums::Character::Attribute;
+	using enum Enums::Character::Class;
+	using enum Enums::Character::Race;
 
 	// Exclude Samurai/Lord/Ninja/Bishop from this method of character creation
 	_class = static_cast<CharacterClass>((*_system->random)[RandomType::D4]);
 	_race = static_cast<CharacterRace>((*_system->random)[RandomType::D5]);
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
-	case CharacterClass::FIGHTER:
-	case CharacterClass::MAGE:
+	case FIGHTER:
+	case MAGE:
 		_alignment = static_cast<CharacterAlignment>((*_system->random)[RandomType::D3]);
 		break;
-	case CharacterClass::PRIEST:
-		_alignment = (*_system->random)[RandomType::D2] == 1 ? CharacterAlignment::GOOD : CharacterAlignment::EVIL;
+	case PRIEST:
+		_alignment = (*_system->random)[RandomType::D2] == 1 ? GOOD : EVIL;
 		break;
-	case CharacterClass::THIEF:
-		_alignment = (*_system->random)[RandomType::D2] == 1 ? CharacterAlignment::NEUTRAL : CharacterAlignment::EVIL;
+	case THIEF:
+		_alignment = (*_system->random)[RandomType::D2] == 1 ? NEUTRAL : EVIL;
 		break;
 	default:
 		break;
@@ -2305,43 +2301,43 @@ auto Sorcery::Character::create_quick() -> void {
 	// creation! see table IV (A) at
 	// https://gamefaqs.gamespot.com/pc/946844-the-ultimate-wizardry-archives/faqs/45726 for info
 	switch (_race) { // NOLINT(clang-diagnostic-switch)
-	case CharacterRace::HUMAN:
+	case HUMAN:
 		_start_attr = {{STRENGTH, 8}, {IQ, 5}, {PIETY, 5}, {VITALITY, 8}, {AGILITY, 8}, {LUCK, 9}};
 		break;
-	case CharacterRace::ELF:
+	case ELF:
 		_start_attr = {{STRENGTH, 7}, {IQ, 10}, {PIETY, 10}, {VITALITY, 6}, {AGILITY, 9}, {LUCK, 6}};
 		break;
-	case CharacterRace::DWARF:
+	case DWARF:
 		_start_attr = {{STRENGTH, 10}, {IQ, 7}, {PIETY, 10}, {VITALITY, 10}, {AGILITY, 5}, {LUCK, 6}};
 		break;
-	case CharacterRace::GNOME:
+	case GNOME:
 		_start_attr = {{STRENGTH, 7}, {IQ, 7}, {PIETY, 10}, {VITALITY, 8}, {AGILITY, 10}, {LUCK, 7}};
 		break;
-	case CharacterRace::HOBBIT:
+	case HOBBIT:
 		_start_attr = {{STRENGTH, 5}, {IQ, 7}, {PIETY, 7}, {VITALITY, 6}, {AGILITY, 10}, {LUCK, 12}};
 		break;
 	default:
 		break;
-	};
+	}
 
 	// Put most of the points into the main attribute (note that 10 points means a Human Priest and Dwarf Thief have
 	// allocated all points to their main attribute with no points left over)
 	_points_left = 10;
 	_st_points = _points_left;
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
-	case CharacterClass::FIGHTER:
+	case FIGHTER:
 		_points_left -= (15 - _start_attr[STRENGTH]);
 		_start_attr[STRENGTH] = 15;
 		break;
-	case CharacterClass::MAGE:
+	case MAGE:
 		_points_left -= (15 - _start_attr[IQ]);
 		_start_attr[IQ] = 15;
 		break;
-	case CharacterClass::PRIEST:
+	case PRIEST:
 		_points_left -= (15 - _start_attr[PIETY]);
 		_start_attr[PIETY] = 15;
 		break;
-	case CharacterClass::THIEF:
+	case THIEF:
 		_points_left -= (15 - _start_attr[AGILITY]);
 		_start_attr[AGILITY] = 15;
 		break;
@@ -2384,58 +2380,62 @@ auto Sorcery::Character::get_condition() const -> std::string {
 
 auto Sorcery::Character::_get_condition() const -> std::string {
 
-	if (is_poisoned() && (_status == CharacterStatus::OK)) {
+	using enum Enums::Character::CStatus;
+
+	if (is_poisoned() && (_status == OK)) {
 		return (*_display->string)["STATUS_POISONED"];
-	} else if (_status == CharacterStatus::OK)
+	} else if (_status == OK)
 		return (*_display->string)["STATUS_OK"];
 	else {
 		switch (_status) {
-		case CharacterStatus::AFRAID:
+		case AFRAID:
 			return (*_display->string)["STATUS_AFRAID"];
 			break;
-		case CharacterStatus::ASHES:
+		case ASHES:
 			return (*_display->string)["STATUS_ASHES"];
 			break;
-		case CharacterStatus::ASLEEP:
+		case ASLEEP:
 			return (*_display->string)["STATUS_ASLEEP"];
 			break;
-		case CharacterStatus::DEAD:
+		case DEAD:
 			return (*_display->string)["STATUS_DEAD"];
 			break;
-		case CharacterStatus::LOST:
+		case LOST:
 			return (*_display->string)["STATUS_LOST"];
 			break;
-		case CharacterStatus::HELD:
+		case HELD:
 			return (*_display->string)["STATUS_PARALYSED"];
 			break;
-		case CharacterStatus::SILENCED:
+		case SILENCED:
 			return (*_display->string)["STATUS_SILENCED"];
 			break;
-		case CharacterStatus::STONED:
+		case STONED:
 			return (*_display->string)["STATUS_STONED"];
 			break;
 		default:
 			return "";
-		};
+		}
 	}
 }
 
 auto Sorcery::Character::get_location_string() const -> std::string {
 
+	using enum Enums::Character::Location;
+
 	switch (location) {
-	case CharacterLocation::PARTY:
+	case PARTY:
 		return (*_display->string)["LOCATION_PARTY"];
 		break;
-	case CharacterLocation::TAVERN:
+	case TAVERN:
 		return (*_display->string)["LOCATION_TAVERN"];
 		break;
-	case CharacterLocation::TRAINING:
+	case TRAINING:
 		return (*_display->string)["LOCATION_TRAINING"];
 		break;
-	case CharacterLocation::TEMPLE:
+	case TEMPLE:
 		return (*_display->string)["LOCATION_TEMPLE"];
 		break;
-	case CharacterLocation::MAZE:
+	case MAZE:
 		return (*_display->string)["LOCATION_MAZE"];
 		break;
 	default:
@@ -2468,30 +2468,38 @@ auto Sorcery::Character::set_status(CharacterStatus value) -> void {
 
 auto Sorcery::Character::set_current_hp(const int hp) -> void {
 
-	_abilities[CharacterAbility::CURRENT_HP] = hp;
+	using enum Enums::Character::Ability;
+
+	_abilities[CURRENT_HP] = hp;
 }
 
 auto Sorcery::Character::is_poisoned() const -> bool {
 
-	return _abilities.at(CharacterAbility::POISON_STRENGTH) > 0;
+	using enum Enums::Character::Ability;
+
+	return _abilities.at(POISON_STRENGTH) > 0;
 }
 
 auto Sorcery::Character::get_poisoned_rate() const -> int {
 
-	return _abilities.at(CharacterAbility::POISON_STRENGTH);
+	using enum Enums::Character::Ability;
+
+	return _abilities.at(POISON_STRENGTH);
 }
 
 auto Sorcery::Character::get_hp_adjustment() const -> int {
 
-	return _abilities.at(CharacterAbility::HP_GAIN_PER_TURN) - _abilities.at(CharacterAbility::HP_LOSS_PER_TURN) -
-		   _abilities.at(CharacterAbility::POISON_STRENGTH);
+	using enum Enums::Character::Ability;
+
+	return _abilities.at(HP_GAIN_PER_TURN) - _abilities.at(HP_LOSS_PER_TURN) - _abilities.at(POISON_STRENGTH);
 }
 
 auto Sorcery::Character::get_hp_adjustment_symbol() const -> char {
 
+	using enum Enums::Character::Ability;
+
 	const auto rate{
-		(_abilities.at(CharacterAbility::HP_GAIN_PER_TURN) - _abilities.at(CharacterAbility::HP_LOSS_PER_TURN) -
-			_abilities.at(CharacterAbility::POISON_STRENGTH)) <=> 0};
+		(_abilities.at(HP_GAIN_PER_TURN) - _abilities.at(HP_LOSS_PER_TURN) - _abilities.at(POISON_STRENGTH)) <=> 0};
 	if (rate < 0)
 		return '-';
 	else if (rate > 0)
@@ -2502,40 +2510,50 @@ auto Sorcery::Character::get_hp_adjustment_symbol() const -> char {
 
 auto Sorcery::Character::set_hp_gain_per_turn(const int adjustment) -> void {
 
-	_abilities.at(CharacterAbility::HP_GAIN_PER_TURN) = adjustment;
+	using enum Enums::Character::Ability;
+
+	_abilities.at(HP_GAIN_PER_TURN) = adjustment;
 }
 
 auto Sorcery::Character::set_hp_loss_per_turn(const int adjustment) -> void {
 
-	_abilities.at(CharacterAbility::HP_LOSS_PER_TURN) = adjustment;
+	using enum Enums::Character::Ability;
+
+	_abilities.at(HP_LOSS_PER_TURN) = adjustment;
 }
 
 auto Sorcery::Character::reset_adjustment_per_turn() -> void {
 
-	_abilities.at(CharacterAbility::HP_GAIN_PER_TURN) = 0;
-	_abilities.at(CharacterAbility::HP_LOSS_PER_TURN) = 0;
+	using enum Enums::Character::Ability;
+
+	_abilities.at(HP_GAIN_PER_TURN) = 0;
+	_abilities.at(HP_LOSS_PER_TURN) = 0;
 }
 
 auto Sorcery::Character::set_poisoned_rate(int value) -> void {
 
-	if (value > _abilities.at(CharacterAbility::POISON_STRENGTH)) {
-		_abilities.at(CharacterAbility::POISON_STRENGTH) = value;
+	using enum Enums::Character::Ability;
+
+	if (value > _abilities.at(POISON_STRENGTH)) {
+		_abilities.at(POISON_STRENGTH) = value;
 	} else if (value == 0) {
-		_abilities.at(CharacterAbility::POISON_STRENGTH) = 0;
+		_abilities.at(POISON_STRENGTH) = 0;
 	}
 }
 
 auto Sorcery::Character::get_poisoned_string() const -> std::string {
 
-	return _abilities.at(CharacterAbility::POISON_STRENGTH) > 0
-			   ? fmt::format("{:->2}", _abilities.at(CharacterAbility::POISON_STRENGTH))
-			   : "";
+	using enum Enums::Character::Ability;
+
+	return _abilities.at(POISON_STRENGTH) > 0 ? fmt::format("{:->2}", _abilities.at(POISON_STRENGTH)) : "";
 }
 
 auto Sorcery::Character::get_hp_summary() const -> std::string {
 
-	return fmt::format("{}/{}{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
-		std::to_string(_abilities.at(CharacterAbility::MAX_HP)), get_hp_adjustment_symbol());
+	using enum Enums::Character::Ability;
+
+	return fmt::format("{}/{}{}", std::to_string(_abilities.at(CURRENT_HP)), std::to_string(_abilities.at(MAX_HP)),
+		get_hp_adjustment_symbol());
 }
 
 auto Sorcery::Character::get_spell_points(const SpellType type, const SpellPointStatus status) const
@@ -2592,20 +2610,24 @@ auto Sorcery::Character::_get_priest_status(bool current) -> std::string {
 // Need to also handle character class switching
 
 auto Sorcery::Character::_generate_summary_icons() -> void {
-	auto class_icon{get_icon(CharacterStage::CHOOSE_CLASS).value()};
+
+	using enum Enums::Character::Ability;
+	using enum Enums::Character::Stage;
+
+	auto class_icon{get_icon(CHOOSE_CLASS).value()};
 	class_icon.setPosition(
 		(*_display->layout)["character:class_icon"].x, (*_display->layout)["character:class_icon"].y);
 	class_icon.setScale(
 		(*_display->layout)["character:class_icon"].scale, (*_display->layout)["character:class_icon"].scale);
 	_v_sprites.emplace((*_display->layout)["character:class_icon"].unique_key, class_icon);
 
-	auto race_icon{get_icon(CharacterStage::CHOOSE_RACE).value()};
+	auto race_icon{get_icon(CHOOSE_RACE).value()};
 	race_icon.setPosition((*_display->layout)["character:race_icon"].x, (*_display->layout)["character:race_icon"].y);
 	race_icon.setScale(
 		(*_display->layout)["character:race_icon"].scale, (*_display->layout)["character:race_icon"].scale);
 	_v_sprites.emplace((*_display->layout)["character:race_icon"].unique_key, race_icon);
 
-	auto alignment_icon{get_icon(CharacterStage::CHOOSE_ALIGNMENT).value()};
+	auto alignment_icon{get_icon(CHOOSE_ALIGNMENT).value()};
 	alignment_icon.setPosition(
 		(*_display->layout)["character:alignment_icon"].x, (*_display->layout)["character:alignment_icon"].y);
 	alignment_icon.setScale(
@@ -2619,99 +2641,112 @@ auto Sorcery::Character::_generate_summary_icons() -> void {
 		(*_display->layout)["character:level_icon"].scale, (*_display->layout)["character:level_icon"].scale);
 	_v_sprites.emplace((*_display->layout)["character:level_icon"].unique_key, level_icon);
 
-	_add_text((*_display->layout)["character:level_text"], "{}",
-		std::to_string(_abilities.at(CharacterAbility::CURRENT_LEVEL)), true);
+	_add_text((*_display->layout)["character:level_text"], "{}", std::to_string(_abilities.at(CURRENT_LEVEL)), true);
 }
 
 auto Sorcery::Character::get_summary() -> std::string {
 
+	using enum Enums::Character::Ability;
+
 	auto name{_name};
 	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
-	return fmt::format("{:<15} L {:>2} {}-{} {}", name, _abilities.at(CharacterAbility::CURRENT_LEVEL),
+	return fmt::format("{:<15} L {:>2} {}-{} {}", name, _abilities.at(CURRENT_LEVEL),
 		get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3), get_race(_race).substr(0, 3));
 }
 
 auto Sorcery::Character::can_level() const -> bool {
 
-	return _abilities.at(CharacterAbility::CURRENT_XP) > _abilities.at(CharacterAbility::NEXT_LEVEL_XP);
+	using enum Enums::Character::Ability;
+
+	return _abilities.at(CURRENT_XP) > _abilities.at(NEXT_LEVEL_XP);
 }
 
 auto Sorcery::Character::get_cure_cost() const -> unsigned int {
 
+	using enum Enums::Character::Ability;
+	using enum Enums::Character::CStatus;
+
 	auto cost_per_level{0u};
 	switch (_status) {
-	case CharacterStatus::ASHES:
+	case ASHES:
 		cost_per_level = 500;
 		break;
-	case CharacterStatus::DEAD:
+	case DEAD:
 		cost_per_level = 250;
 		break;
-	case CharacterStatus::HELD:
+	case HELD:
 		cost_per_level = 100;
 		break;
-	case CharacterStatus::STONED:
+	case STONED:
 		cost_per_level = 200;
 		break;
 	default:
 		return 0;
-	};
+	}
 
-	return cost_per_level * _abilities.at(CharacterAbility::CURRENT_LEVEL);
+	return cost_per_level * _abilities.at(CURRENT_LEVEL);
 }
 
 auto Sorcery::Character::get_sb_text(const int position) -> std::string {
 
+	using enum Enums::Character::Ability;
+
 	auto name{_name};
 	const std::string indicator{can_level() ? "*" : " "};
 	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
-	return fmt::format("{} {:<15} {:>2}{} {}-{} {:>3} {:>8} {:^7}", position, name,
-		_abilities.at(CharacterAbility::CURRENT_LEVEL), indicator, get_alignment(_alignment).substr(0, 1),
-		get_class(_class).substr(0, 3), _abilities.at(CharacterAbility::CURRENT_ARMOUR_CLASS), get_hp_summary(),
-		_get_condition());
+	return fmt::format("{} {:<15} {:>2}{} {}-{} {:>3} {:>8} {:^7}", position, name, _abilities.at(CURRENT_LEVEL),
+		indicator, get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3),
+		_abilities.at(CURRENT_ARMOUR_CLASS), get_hp_summary(), _get_condition());
 }
 
 auto Sorcery::Character::get_age() const -> int {
 
-	return _abilities.at(CharacterAbility::AGE);
+	using enum Enums::Character::Ability;
+
+	return _abilities.at(AGE);
 }
 
 auto Sorcery::Character::set_age(const int adjustment) -> void {
 
-	_abilities.at(CharacterAbility::AGE) = _abilities.at(CharacterAbility::AGE) + adjustment;
+	using enum Enums::Character::Ability;
+
+	_abilities.at(AGE) = _abilities.at(AGE) + adjustment;
 }
 
 auto Sorcery::Character::summary_text() -> std::string {
+
+	using enum Enums::Character::Ability;
+	using enum Enums::Character::Stage;
 
 	auto name{_name};
 	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	auto legacy{_legated ? " (D)" : ""};
 	switch (_current_stage) {
-	case CharacterStage::CHOOSE_METHOD:
-	case CharacterStage::ENTER_NAME:
+	case CHOOSE_METHOD:
+	case ENTER_NAME:
 		return fmt::format("{:<15} L ?? ?-??? ???", "???");
 		break;
-	case CharacterStage::CHOOSE_RACE:
-		return fmt::format("{:<15} L {:>2} ?-??? ???", name, _abilities.at(CharacterAbility::CURRENT_LEVEL));
+	case CHOOSE_RACE:
+		return fmt::format("{:<15} L {:>2} ?-??? ???", name, _abilities.at(CURRENT_LEVEL));
 		break;
-	case CharacterStage::CHOOSE_ALIGNMENT:
-		return fmt::format(
-			"{:<15} L {:>2} ?-??? {}", name, _abilities.at(CharacterAbility::CURRENT_LEVEL), get_race(_race));
+	case CHOOSE_ALIGNMENT:
+		return fmt::format("{:<15} L {:>2} ?-??? {}", name, _abilities.at(CURRENT_LEVEL), get_race(_race));
 		break;
-	case CharacterStage::ALLOCATE_STATS:
-		return fmt::format("{:<15} L {:>2} {}-??? {}", name, _abilities.at(CharacterAbility::CURRENT_LEVEL),
+	case ALLOCATE_STATS:
+		return fmt::format("{:<15} L {:>2} {}-??? {}", name, _abilities.at(CURRENT_LEVEL),
 			get_alignment(_alignment).substr(0, 1), get_race(_race));
 		break;
-	case CharacterStage::CHOOSE_CLASS:
-		return fmt::format("{:<15} L {:>2} {}-??? {}", name, _abilities.at(CharacterAbility::CURRENT_LEVEL),
+	case CHOOSE_CLASS:
+		return fmt::format("{:<15} L {:>2} {}-??? {}", name, _abilities.at(CURRENT_LEVEL),
 			get_alignment(_alignment).substr(0, 1), get_race(_race));
 		break;
-	case CharacterStage::CHOOSE_PORTRAIT:
-		return fmt::format("{:<15} L {:>2} {}-{} {}", name, _abilities.at(CharacterAbility::CURRENT_LEVEL),
+	case CHOOSE_PORTRAIT:
+		return fmt::format("{:<15} L {:>2} {}-{} {}", name, _abilities.at(CURRENT_LEVEL),
 			get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3), get_race(_race));
 		break;
-	case CharacterStage::REVIEW_AND_CONFIRM:
-	case CharacterStage::COMPLETED:
-		return fmt::format("{} L {:>2} {}-{} {}{}", name, _abilities.at(CharacterAbility::CURRENT_LEVEL),
+	case REVIEW_AND_CONFIRM:
+	case COMPLETED:
+		return fmt::format("{} L {:>2} {}-{} {}{}", name, _abilities.at(CURRENT_LEVEL),
 			get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3), get_race(_race), legacy);
 		break;
 	default:
@@ -2732,6 +2767,9 @@ auto Sorcery::Character::summary_text() -> std::string {
 auto Sorcery::Character::_generate_display() -> void {
 
 	using enum Enums::Character::Attribute;
+	using enum Enums::Character::Ability;
+	using enum Enums::Character::Ability_Type;
+	using enum Enums::Character::View;
 
 	_sprites.clear();
 	_texts.clear();
@@ -2746,7 +2784,7 @@ auto Sorcery::Character::_generate_display() -> void {
 
 	_display->generate("character", _sprites, _texts, _frames);
 
-	if (_view == CharacterView::SUMMARY) {
+	if (_view == SUMMARY) {
 
 		_display->generate("character_summary", _v_sprites, _v_texts, _v_frames);
 
@@ -2771,51 +2809,45 @@ auto Sorcery::Character::_generate_display() -> void {
 		_v_sprites.emplace(portrait_c.unique_key, portrait);
 
 		Component s_c{(*_display->layout)["character_summary:strength_value"]};
-		s_c.colour = _graphics->adjust_colour(_cur_attr.at(STRENGTH), CharacterAbilityType::STAT);
+		s_c.colour = _graphics->adjust_colour(_cur_attr.at(STRENGTH), STAT);
 		_add_text(s_c, "{:>2}", std::to_string(_cur_attr.at(STRENGTH)));
 
 		Component i_c{(*_display->layout)["character_summary:iq_value"]};
-		i_c.colour = _graphics->adjust_colour(_cur_attr.at(IQ), CharacterAbilityType::STAT);
+		i_c.colour = _graphics->adjust_colour(_cur_attr.at(IQ), STAT);
 		_add_text(i_c, "{:>2}", std::to_string(_cur_attr.at(IQ)));
 
 		Component p_c{(*_display->layout)["character_summary:piety_value"]};
-		p_c.colour = _graphics->adjust_colour(_cur_attr.at(PIETY), CharacterAbilityType::STAT);
+		p_c.colour = _graphics->adjust_colour(_cur_attr.at(PIETY), STAT);
 		_add_text(p_c, "{:>2}", std::to_string(_cur_attr.at(PIETY)));
 
 		Component a_c{(*_display->layout)["character_summary:agility_value"]};
-		a_c.colour = _graphics->adjust_colour(_cur_attr.at(AGILITY), CharacterAbilityType::STAT);
+		a_c.colour = _graphics->adjust_colour(_cur_attr.at(AGILITY), STAT);
 		_add_text(a_c, "{:>2}", std::to_string(_cur_attr.at(AGILITY)));
 
 		Component v_c{(*_display->layout)["character_summary:vitality_value"]};
-		v_c.colour = _graphics->adjust_colour(_cur_attr.at(VITALITY), CharacterAbilityType::STAT);
+		v_c.colour = _graphics->adjust_colour(_cur_attr.at(VITALITY), STAT);
 		_add_text(v_c, "{:>2}", std::to_string(_cur_attr.at(VITALITY)));
 
 		Component l_c{(*_display->layout)["character_summary:luck_value"]};
-		l_c.colour = _graphics->adjust_colour(_cur_attr.at(LUCK), CharacterAbilityType::STAT);
+		l_c.colour = _graphics->adjust_colour(_cur_attr.at(LUCK), STAT);
 		_add_text(l_c, "{:>2}", std::to_string(_cur_attr.at(LUCK)));
 
 		_add_text((*_display->layout)["character_summary:hp_value"], "{}",
-			fmt::format("{}/{}", std::to_string(_abilities.at(CharacterAbility::CURRENT_HP)),
-				std::to_string(_abilities.at(CharacterAbility::MAX_HP))));
+			fmt::format("{}/{}", std::to_string(_abilities.at(CURRENT_HP)), std::to_string(_abilities.at(MAX_HP))));
 		_add_text((*_display->layout)["character_summary:ac_value"], "{}",
-			std::to_string(_abilities.at(CharacterAbility::CURRENT_ARMOUR_CLASS)));
+			std::to_string(_abilities.at(CURRENT_ARMOUR_CLASS)));
 		_add_text((*_display->layout)["character_summary:age_value"], "{}",
-			std::to_string(static_cast<int>(_abilities.at(CharacterAbility::AGE) / 52)));
-		_add_text((*_display->layout)["character_summary:swim_value"], "{}",
-			std::to_string(_abilities.at(CharacterAbility::SWIM)));
+			std::to_string(static_cast<int>(_abilities.at(AGE) / 52)));
+		_add_text((*_display->layout)["character_summary:swim_value"], "{}", std::to_string(_abilities.at(SWIM)));
 		auto status_text{_add_text((*_display->layout)["character_summary:status_value"], "{}", get_status_string())};
 		status_text->setFillColor(sf::Color(_graphics->adjust_status_colour(_status, is_poisoned())));
 
-		_add_text((*_display->layout)["character_summary:exp_value"], "{}",
-			std::to_string(_abilities.at(CharacterAbility::CURRENT_XP)));
-		_add_text((*_display->layout)["character_summary:next_value"], "{}",
-			std::to_string(_abilities.at(CharacterAbility::NEXT_LEVEL_XP)));
-		_add_text((*_display->layout)["character_summary:gold_value"], "{}",
-			std::to_string(_abilities.at(CharacterAbility::GOLD)));
-		_add_text((*_display->layout)["character_summary:marks_value"], "{}",
-			std::to_string(_abilities.at(CharacterAbility::MARKS)));
-		_add_text((*_display->layout)["character_summary:deaths_value"], "{}",
-			std::to_string(_abilities.at(CharacterAbility::DEATHS)));
+		_add_text((*_display->layout)["character_summary:exp_value"], "{}", std::to_string(_abilities.at(CURRENT_XP)));
+		_add_text(
+			(*_display->layout)["character_summary:next_value"], "{}", std::to_string(_abilities.at(NEXT_LEVEL_XP)));
+		_add_text((*_display->layout)["character_summary:gold_value"], "{}", std::to_string(_abilities.at(GOLD)));
+		_add_text((*_display->layout)["character_summary:marks_value"], "{}", std::to_string(_abilities.at(MARKS)));
+		_add_text((*_display->layout)["character_summary:deaths_value"], "{}", std::to_string(_abilities.at(DEATHS)));
 
 		auto mage_spells{fmt::format("{}/{}/{}/{}/{}/{}/{}", _mage_cur_sp.at(1), _mage_cur_sp.at(2), _mage_cur_sp.at(3),
 			_mage_cur_sp.at(4), _mage_cur_sp.at(5), _mage_cur_sp.at(6), _mage_cur_sp.at(7))};
@@ -2826,7 +2858,7 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text((*_display->layout)["character_summary:mage_spells"], "{}", mage_spells);
 		_add_text((*_display->layout)["character_summary:priest_spells"], "{}", priest_spells);
 
-	} else if (_view == CharacterView::DETAILED) {
+	} else if (_view == DETAILED) {
 
 		_display->generate("character_detailed", _v_sprites, _v_texts, _v_frames);
 
@@ -2851,244 +2883,199 @@ auto Sorcery::Character::_generate_display() -> void {
 		_v_sprites.emplace(portrait_c.unique_key, portrait);
 
 		Component s_c{(*_display->layout)["character_detailed:strength_value"]};
-		s_c.colour = _graphics->adjust_colour(_cur_attr.at(STRENGTH), CharacterAbilityType::STAT);
+		s_c.colour = _graphics->adjust_colour(_cur_attr.at(STRENGTH), STAT);
 		_add_text(s_c, "{:>2}", std::to_string(_cur_attr.at(STRENGTH)));
 
 		Component i_c{(*_display->layout)["character_detailed:iq_value"]};
-		i_c.colour = _graphics->adjust_colour(_cur_attr.at(IQ), CharacterAbilityType::STAT);
+		i_c.colour = _graphics->adjust_colour(_cur_attr.at(IQ), STAT);
 		_add_text(i_c, "{:>2}", std::to_string(_cur_attr.at(IQ)));
 
 		Component p_c{(*_display->layout)["character_detailed:piety_value"]};
-		p_c.colour = _graphics->adjust_colour(_cur_attr.at(PIETY), CharacterAbilityType::STAT);
+		p_c.colour = _graphics->adjust_colour(_cur_attr.at(PIETY), STAT);
 		_add_text(p_c, "{:>2}", std::to_string(_cur_attr.at(PIETY)));
 
 		Component a_c{(*_display->layout)["character_detailed:agility_value"]};
-		a_c.colour = _graphics->adjust_colour(_cur_attr.at(AGILITY), CharacterAbilityType::STAT);
+		a_c.colour = _graphics->adjust_colour(_cur_attr.at(AGILITY), STAT);
 		_add_text(a_c, "{:>2}", std::to_string(_cur_attr.at(AGILITY)));
 
 		Component v_c{(*_display->layout)["character_detailed:vitality_value"]};
-		v_c.colour = _graphics->adjust_colour(_cur_attr.at(VITALITY), CharacterAbilityType::STAT);
+		v_c.colour = _graphics->adjust_colour(_cur_attr.at(VITALITY), STAT);
 		_add_text(v_c, "{:>2}", std::to_string(_cur_attr.at(VITALITY)));
 
 		Component l_c{(*_display->layout)["character_detailed:luck_value"]};
-		l_c.colour = _graphics->adjust_colour(_cur_attr.at(LUCK), CharacterAbilityType::STAT);
+		l_c.colour = _graphics->adjust_colour(_cur_attr.at(LUCK), STAT);
 		_add_text(l_c, "{:>2}", std::to_string(_cur_attr.at(LUCK)));
 
 		Component strength_c((*_display->layout)["character_detailed:strength_detailed_values"]);
 
-		strength_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::ATTACK_MODIFIER), CharacterAbilityType::MODIFIER);
-		_add_text(strength_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::ATTACK_MODIFIER)));
+		strength_c.colour = _graphics->adjust_colour(_abilities.at(ATTACK_MODIFIER), MODIFIER);
+		_add_text(strength_c, "{:+>2}", std::to_string(_abilities.at(ATTACK_MODIFIER)));
 
 		strength_c.y += _display->window->get_ch();
-		strength_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::HIT_PROBABILITY), CharacterAbilityType::MODIFIER);
-		_add_text(strength_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::HIT_PROBABILITY)));
+		strength_c.colour = _graphics->adjust_colour(_abilities.at(HIT_PROBABILITY), MODIFIER);
+		_add_text(strength_c, "{:+>2}", std::to_string(_abilities.at(HIT_PROBABILITY)));
 
 		strength_c.y += _display->window->get_ch();
-		strength_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::BONUS_DAMAGE), CharacterAbilityType::MODIFIER);
-		_add_text(strength_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_DAMAGE)));
+		strength_c.colour = _graphics->adjust_colour(_abilities.at(BONUS_DAMAGE), MODIFIER);
+		_add_text(strength_c, "{:+>2}", std::to_string(_abilities.at(BONUS_DAMAGE)));
 
 		strength_c.y += _display->window->get_ch();
-		strength_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::BASE_NUMBER_OF_ATTACKS), CharacterAbilityType::NUMBER);
-		_add_text(strength_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BASE_NUMBER_OF_ATTACKS)));
+		strength_c.colour = _graphics->adjust_colour(_abilities.at(BASE_NUMBER_OF_ATTACKS), NUMBER);
+		_add_text(strength_c, "{:>2}", std::to_string(_abilities.at(BASE_NUMBER_OF_ATTACKS)));
 
 		strength_c.y += _display->window->get_ch();
-		strength_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::UNARMED_DAMAGE), CharacterAbilityType::NUMBER);
-		_add_text(strength_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::UNARMED_DAMAGE)));
+		strength_c.colour = _graphics->adjust_colour(_abilities.at(UNARMED_DAMAGE), NUMBER);
+		_add_text(strength_c, "{:>2}", std::to_string(_abilities.at(UNARMED_DAMAGE)));
 
 		Component iq_c((*_display->layout)["character_detailed:iq_detailed_values"]);
 
-		iq_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::MAGE_SPELL_LEARN), CharacterAbilityType::PERCENTAGE);
-		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::MAGE_SPELL_LEARN)));
+		iq_c.colour = _graphics->adjust_colour(_abilities.at(MAGE_SPELL_LEARN), PERCENTAGE);
+		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(MAGE_SPELL_LEARN)));
 
 		iq_c.y += _display->window->get_ch();
-		iq_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::IDENTIFY_ITEMS), CharacterAbilityType::PERCENTAGE);
-		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_ITEMS)));
+		iq_c.colour = _graphics->adjust_colour(_abilities.at(IDENTIFY_ITEMS), PERCENTAGE);
+		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(IDENTIFY_ITEMS)));
 
 		iq_c.y += _display->window->get_ch();
-		iq_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::IDENTIFY_CURSE), CharacterAbilityType::PERCENTAGE);
-		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_CURSE)));
+		iq_c.colour = _graphics->adjust_colour(_abilities.at(IDENTIFY_CURSE), PERCENTAGE);
+		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(IDENTIFY_CURSE)));
 
 		iq_c.y += _display->window->get_ch();
-		iq_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::IDENTIFY_FOES), CharacterAbilityType::PERCENTAGE);
-		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_FOES)));
+		iq_c.colour = _graphics->adjust_colour(_abilities.at(IDENTIFY_FOES), PERCENTAGE);
+		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(IDENTIFY_FOES)));
 
 		iq_c.y += _display->window->get_ch();
-		iq_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::BONUS_MAGE_SPELLS), CharacterAbilityType::NUMBER);
-		_add_text(iq_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_MAGE_SPELLS)));
+		iq_c.colour = _graphics->adjust_colour(_abilities.at(BONUS_MAGE_SPELLS), NUMBER);
+		_add_text(iq_c, "{:>2}", std::to_string(_abilities.at(BONUS_MAGE_SPELLS)));
 
 		Component piety_c((*_display->layout)["character_detailed:piety_detailed_values"]);
-		piety_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::PRIEST_SPELL_LEARN), CharacterAbilityType::PERCENTAGE);
-		_add_text(piety_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::PRIEST_SPELL_LEARN)));
+		piety_c.colour = _graphics->adjust_colour(_abilities.at(PRIEST_SPELL_LEARN), PERCENTAGE);
+		_add_text(piety_c, "{:>2}%", std::to_string(_abilities.at(PRIEST_SPELL_LEARN)));
 
 		piety_c.y += _display->window->get_ch();
-		piety_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::LOKTOFELT_SUCCESS), CharacterAbilityType::PERCENTAGE);
-		_add_text(piety_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::LOKTOFELT_SUCCESS)));
+		piety_c.colour = _graphics->adjust_colour(_abilities.at(LOKTOFELT_SUCCESS), PERCENTAGE);
+		_add_text(piety_c, "{:>2}%", std::to_string(_abilities.at(LOKTOFELT_SUCCESS)));
 
 		piety_c.y += _display->window->get_ch();
-		piety_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::BASE_DISPELL), CharacterAbilityType::PERCENTAGE);
-		_add_text(piety_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_DISPELL)));
+		piety_c.colour = _graphics->adjust_colour(_abilities.at(BASE_DISPELL), PERCENTAGE);
+		_add_text(piety_c, "{:>2}%", std::to_string(_abilities.at(BASE_DISPELL)));
 
 		piety_c.y += _display->window->get_ch();
-		piety_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::BONUS_PRIEST_SPELLS), CharacterAbilityType::NUMBER);
-		_add_text(piety_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_PRIEST_SPELLS)));
+		piety_c.colour = _graphics->adjust_colour(_abilities.at(BONUS_PRIEST_SPELLS), NUMBER);
+		_add_text(piety_c, "{:>2}", std::to_string(_abilities.at(BONUS_PRIEST_SPELLS)));
 
 		Component vitality_c((*_display->layout)["character_detailed:vitality_detailed_values"]);
-		vitality_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::VITALITY_BONUS), CharacterAbilityType::MODIFIER);
-		_add_text(vitality_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::VITALITY_BONUS)));
+		vitality_c.colour = _graphics->adjust_colour(_abilities.at(VITALITY_BONUS), MODIFIER);
+		_add_text(vitality_c, "{:+>2}", std::to_string(_abilities.at(VITALITY_BONUS)));
 
 		vitality_c.y += _display->window->get_ch();
-		vitality_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::BONUS_HIT_POINTS), CharacterAbilityType::MODIFIER);
-		_add_text(vitality_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::BONUS_HIT_POINTS)));
+		vitality_c.colour = _graphics->adjust_colour(_abilities.at(BONUS_HIT_POINTS), MODIFIER);
+		_add_text(vitality_c, "{:+>2}", std::to_string(_abilities.at(BONUS_HIT_POINTS)));
 
 		vitality_c.y += _display->window->get_ch();
-		vitality_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::DEAD_RESURRECT), CharacterAbilityType::PERCENTAGE);
-		_add_text(vitality_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::DEAD_RESURRECT)));
+		vitality_c.colour = _graphics->adjust_colour(_abilities.at(DEAD_RESURRECT), PERCENTAGE);
+		_add_text(vitality_c, "{:>2}%", std::to_string(_abilities.at(DEAD_RESURRECT)));
 
 		vitality_c.y += _display->window->get_ch();
-		vitality_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::ASHES_RESURRECT), CharacterAbilityType::PERCENTAGE);
-		_add_text(vitality_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::ASHES_RESURRECT)));
+		vitality_c.colour = _graphics->adjust_colour(_abilities.at(ASHES_RESURRECT), PERCENTAGE);
+		_add_text(vitality_c, "{:>2}%", std::to_string(_abilities.at(ASHES_RESURRECT)));
 
 		vitality_c.y += _display->window->get_ch();
-		vitality_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::DI_KADORTO_RESURRECT), CharacterAbilityType::PERCENTAGE);
-		_add_text(vitality_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::DI_KADORTO_RESURRECT)));
+		vitality_c.colour = _graphics->adjust_colour(_abilities.at(DI_KADORTO_RESURRECT), PERCENTAGE);
+		_add_text(vitality_c, "{:>2}%", std::to_string(_abilities.at(DI_KADORTO_RESURRECT)));
 
 		Component agility_c((*_display->layout)["character_detailed:agility_detailed_values"]);
 
-		agility_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::INITIATIVE_MODIFIER), CharacterAbilityType::MODIFIER);
-		_add_text(agility_c, "{:+>2}", std::to_string(_abilities.at(CharacterAbility::INITIATIVE_MODIFIER)));
+		agility_c.colour = _graphics->adjust_colour(_abilities.at(INITIATIVE_MODIFIER), MODIFIER);
+		_add_text(agility_c, "{:+>2}", std::to_string(_abilities.at(INITIATIVE_MODIFIER)));
 
 		agility_c.y += _display->window->get_ch();
-		agility_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::BASE_CRITICAL_HIT), CharacterAbilityType::PERCENTAGE);
-		_add_text(agility_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_CRITICAL_HIT)));
+		agility_c.colour = _graphics->adjust_colour(_abilities.at(BASE_CRITICAL_HIT), PERCENTAGE);
+		_add_text(agility_c, "{:>2}%", std::to_string(_abilities.at(BASE_CRITICAL_HIT)));
 
 		agility_c.y += _display->window->get_ch();
-		agility_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::IDENTIFY_TRAP), CharacterAbilityType::PERCENTAGE);
-		_add_text(agility_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::IDENTIFY_TRAP)));
+		agility_c.colour = _graphics->adjust_colour(_abilities.at(IDENTIFY_TRAP), PERCENTAGE);
+		_add_text(agility_c, "{:>2}%", std::to_string(_abilities.at(IDENTIFY_TRAP)));
 
 		agility_c.y += _display->window->get_ch();
-		agility_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::BASE_DISARM_TRAP), CharacterAbilityType::PERCENTAGE);
-		_add_text(agility_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_DISARM_TRAP)));
+		agility_c.colour = _graphics->adjust_colour(_abilities.at(BASE_DISARM_TRAP), PERCENTAGE);
+		_add_text(agility_c, "{:>2}%", std::to_string(_abilities.at(BASE_DISARM_TRAP)));
 
 		agility_c.y += _display->window->get_ch();
-		agility_c.colour = _graphics->adjust_colour(
-			(100 - _abilities.at(CharacterAbility::ACTIVATE_TRAP)), CharacterAbilityType::PERCENTAGE);
-		_add_text(agility_c, "{:>2}%", std::to_string(100 - _abilities.at(CharacterAbility::ACTIVATE_TRAP)));
+		agility_c.colour = _graphics->adjust_colour((100 - _abilities.at(ACTIVATE_TRAP)), PERCENTAGE);
+		_add_text(agility_c, "{:>2}%", std::to_string(100 - _abilities.at(ACTIVATE_TRAP)));
 
 		agility_c.y += _display->window->get_ch();
-		agility_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::BASE_AVOID_PIT), CharacterAbilityType::PERCENTAGE);
-		_add_text(agility_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_AVOID_PIT)));
+		agility_c.colour = _graphics->adjust_colour(_abilities.at(BASE_AVOID_PIT), PERCENTAGE);
+		_add_text(agility_c, "{:>2}%", std::to_string(_abilities.at(BASE_AVOID_PIT)));
 
 		agility_c.y += _display->window->get_ch();
-		agility_c.colour =
-			_graphics->adjust_colour(_abilities.at(CharacterAbility::BASE_ARMOUR_CLASS), CharacterAbilityType::AC);
-		_add_text(agility_c, "{:>2}", std::to_string(_abilities.at(CharacterAbility::BASE_ARMOUR_CLASS)));
+		agility_c.colour = _graphics->adjust_colour(_abilities.at(BASE_ARMOUR_CLASS), AC);
+		_add_text(agility_c, "{:>2}", std::to_string(_abilities.at(BASE_ARMOUR_CLASS)));
 
 		Component luck_c((*_display->layout)["character_detailed:luck_detailed_values"]);
 
-		luck_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::BASE_RESIST_BONUS) * 5, CharacterAbilityType::PERCENTAGE);
-		_add_text(luck_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::BASE_RESIST_BONUS) * 5));
+		luck_c.colour = _graphics->adjust_colour(_abilities.at(BASE_RESIST_BONUS) * 5, PERCENTAGE);
+		_add_text(luck_c, "{:>2}%", std::to_string(_abilities.at(BASE_RESIST_BONUS) * 5));
 
 		luck_c.y += _display->window->get_ch();
-		luck_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::EQUIPMENT_INTACT_ON_WIPE), CharacterAbilityType::PERCENTAGE);
-		_add_text(luck_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::EQUIPMENT_INTACT_ON_WIPE)));
+		luck_c.colour = _graphics->adjust_colour(_abilities.at(EQUIPMENT_INTACT_ON_WIPE), PERCENTAGE);
+		_add_text(luck_c, "{:>2}%", std::to_string(_abilities.at(EQUIPMENT_INTACT_ON_WIPE)));
 
 		Component resistances_c((*_display->layout)["character_detailed:resistances_detailed_values"]);
 		auto pos_x{resistances_c.x};
 		auto pos_y{resistances_c.y};
 		auto offset_columns{std::stoi(resistances_c["offset_columns"].value())};
 
-		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RESISTANCE_VS_CRITICAL_HIT) * 5, CharacterAbilityType::PERCENTAGE);
-		_add_text(
-			resistances_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_CRITICAL_HIT) * 5));
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_CRITICAL_HIT) * 5, PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_CRITICAL_HIT) * 5));
 
 		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS) * 5, CharacterAbilityType::PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%",
-			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_PARALYSIS) * 5));
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_POISON_PARALYSIS) * 5, PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_POISON_PARALYSIS) * 5));
 
 		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RESISTANCE_VS_STONING) * 5, CharacterAbilityType::PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_STONING) * 5));
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_STONING) * 5, PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_STONING) * 5));
 
 		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS) * 5, CharacterAbilityType::PERCENTAGE);
-		_add_text(
-			resistances_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_BREATH_ATTACKS) * 5));
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_BREATH_ATTACKS) * 5, PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_BREATH_ATTACKS) * 5));
 
 		resistances_c.y = pos_y;
 		resistances_c.x = pos_x + (offset_columns * _display->window->get_cw());
-		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP) * 5, CharacterAbilityType::PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%",
-			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_POISON_GAS_TRAP) * 5));
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_POISON_GAS_TRAP) * 5, PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_POISON_GAS_TRAP) * 5));
 
 		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP) * 5, CharacterAbilityType::PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%",
-			std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_MAGE_PRIEST_TRAP) * 5));
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_MAGE_PRIEST_TRAP) * 5, PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_MAGE_PRIEST_TRAP) * 5));
 
 		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RECOVER_FROM_SLEEP), CharacterAbilityType::PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::RECOVER_FROM_SLEEP)));
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RECOVER_FROM_SLEEP), PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RECOVER_FROM_SLEEP)));
 
 		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RECOVER_FROM_FEAR), CharacterAbilityType::PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::RECOVER_FROM_FEAR)));
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RECOVER_FROM_FEAR), PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RECOVER_FROM_FEAR)));
 
 		resistances_c.y = pos_y;
 		resistances_c.x = pos_x + (2 * offset_columns * _display->window->get_cw());
-		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RESISTANCE_VS_SILENCE) * 5, CharacterAbilityType::PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_SILENCE) * 5));
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_SILENCE) * 5, PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_SILENCE) * 5));
 
 		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RESISTANCE_VS_KATINO), CharacterAbilityType::PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_KATINO)));
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_KATINO), PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_KATINO)));
 
 		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RESISTANCE_VS_BADI), CharacterAbilityType::PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_BADI)));
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_BADI), PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_BADI)));
 
 		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(
-			_abilities.at(CharacterAbility::RESISTANCE_VS_MANIFO), CharacterAbilityType::PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(CharacterAbility::RESISTANCE_VS_MANIFO)));
-	} else if (_view == CharacterView::INVENTORY) {
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_MANIFO), PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_MANIFO)));
+	} else if (_view == INVENTORY) {
 
 		_display->generate("character_inventory", _v_sprites, _v_texts, _v_frames);
 
@@ -3229,7 +3216,7 @@ auto Sorcery::Character::_generate_display() -> void {
 				level_c.y += (std::stoi(level_c["offset_rows"].value()) * _display->window->get_ch());
 			}
 		}
-	} else if (_view == CharacterView::PRIEST_SPELLS) {
+	} else if (_view == PRIEST_SPELLS) {
 
 		_display->generate("character_priest_spells", _v_sprites, _v_texts, _v_frames);
 
@@ -3405,21 +3392,22 @@ auto Sorcery::Character::get_view() const -> CharacterView {
 
 auto Sorcery::Character::_get_spell_icon(SpellCategory category) -> std::optional<sf::Sprite> {
 
-	switch (category) {
+	using enum Enums::Magic::SpellCategory;
 
-	case SpellCategory::ATTACK:
+	switch (category) {
+	case ATTACK:
 		return (*_graphics->icons)["attack"].value();
 		break;
-	case SpellCategory::SUPPORT:
+	case SUPPORT:
 		return (*_graphics->icons)["support"].value();
 		break;
-	case SpellCategory::DISABLE:
+	case DISABLE:
 		return (*_graphics->icons)["disable"].value();
 		break;
-	case SpellCategory::FIELD:
+	case FIELD:
 		return (*_graphics->icons)["field"].value();
 		break;
-	case SpellCategory::HEALING:
+	case HEALING:
 		return (*_graphics->icons)["healing"].value();
 		break;
 	default:
@@ -3447,9 +3435,11 @@ auto Sorcery::Character::set_method(const CreateMethod value) -> void {
 
 auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::optional<SpellID> {
 
+	using enum Enums::Character::View;
+
 	const sf::Vector2f global_pos{this->getPosition()};
 	const sf::Vector2f local_mouse_pos{mouse_pos - global_pos};
-	if (_view == CharacterView::MAGE_SPELLS) {
+	if (_view == MAGE_SPELLS) {
 
 		auto it{std::find_if(mage_spell_bounds.begin(), mage_spell_bounds.end(),
 			[&local_mouse_pos](const auto &item) { return item.second.contains(local_mouse_pos); })};
@@ -3466,7 +3456,7 @@ auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::op
 		} else
 			return std::nullopt;
 
-	} else if (_view == CharacterView::PRIEST_SPELLS) {
+	} else if (_view == PRIEST_SPELLS) {
 		auto it{std::find_if(priest_spell_bounds.begin(), priest_spell_bounds.end(),
 			[&local_mouse_pos](const auto &item) { return item.second.contains(local_mouse_pos); })};
 		if (it != priest_spell_bounds.end()) {
@@ -3487,17 +3477,23 @@ auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::op
 
 auto Sorcery::Character::get_cur_xp() const -> int {
 
-	return _abilities.at(CharacterAbility::CURRENT_XP);
+	using enum Enums::Character::Ability;
+
+	return _abilities.at(CURRENT_XP);
 }
 
 auto Sorcery::Character::get_next_xp() const -> int {
 
-	return _abilities.at(CharacterAbility::NEXT_LEVEL_XP);
+	using enum Enums::Character::Ability;
+
+	return _abilities.at(NEXT_LEVEL_XP);
 }
 
 auto Sorcery::Character::get_cur_ac() const -> int {
 
-	return _abilities.at(CharacterAbility::CURRENT_ARMOUR_CLASS);
+	using enum Enums::Character::Ability;
+
+	return _abilities.at(CURRENT_ARMOUR_CLASS);
 }
 
 auto Sorcery::Character::update() -> void {
@@ -3507,6 +3503,8 @@ auto Sorcery::Character::update() -> void {
 }
 
 auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
+
+	using enum Enums::Character::View;
 
 	states.transform *= getTransform();
 
@@ -3520,9 +3518,9 @@ auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states)
 	for (const auto &[unique_key, text] : _texts)
 		target.draw(text, states);
 
-	if (_view == CharacterView::MAGE_SPELLS)
+	if (_view == MAGE_SPELLS)
 		target.draw(_hl_mage_spell_bg, states);
-	else if (_view == CharacterView::PRIEST_SPELLS)
+	else if (_view == PRIEST_SPELLS)
 		target.draw(_hl_priest_spell_bg, states);
 
 	// Draw the section components
@@ -3536,10 +3534,10 @@ auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states)
 		target.draw(v_text, states);
 
 	// And the preview panels
-	if (_view == CharacterView::MAGE_SPELLS)
+	if (_view == MAGE_SPELLS)
 		target.draw(*_spell_panel, states);
 
-	if (_view == CharacterView::PRIEST_SPELLS)
+	if (_view == PRIEST_SPELLS)
 		target.draw(*_spell_panel, states);
 }
 

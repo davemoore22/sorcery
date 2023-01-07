@@ -80,6 +80,8 @@ Sorcery::Legate::~Legate() {
 
 auto Sorcery::Legate::start() -> std::optional<CharacterAlignment> {
 
+	using enum Enums::Character::Align;
+
 	_stage = LegateStage::CONFIRM;
 	_display->generate("legate");
 	_display->set_input_mode(WindowInputMode::CONFIRM_LEGATE);
@@ -150,13 +152,13 @@ auto Sorcery::Legate::start() -> std::optional<CharacterAlignment> {
 
 					switch ((*selected.value()).item) {
 					case MenuItem::CA_GOOD:
-						return CharacterAlignment::GOOD;
+						return GOOD;
 						break;
 					case MenuItem::CA_NEUTRAL:
-						return CharacterAlignment::NEUTRAL;
+						return NEUTRAL;
 						break;
 					case MenuItem::CA_EVIL:
-						return CharacterAlignment::EVIL;
+						return EVIL;
 						break;
 					default:
 						return std::nullopt;

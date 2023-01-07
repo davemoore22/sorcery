@@ -491,6 +491,10 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
 // Set selected based upon the item passed in
 auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEntry>::const_iterator> {
 
+	using enum Enums::Character::Align;
+	using enum Enums::Character::Class;
+	using enum Enums::Character::Race;
+
 	MenuItem search_for{MenuItem::NO_ITEM};
 	switch (_type) {
 	case MenuType::CHOOSE_METHOD:
@@ -510,19 +514,19 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 		break;
 	case MenuType::CHOOSE_CHARACTER_RACE:
 		switch (std::any_cast<CharacterRace>(option)) {
-		case CharacterRace::DWARF:
+		case DWARF:
 			search_for = MenuItem::CR_DWARF;
 			break;
-		case CharacterRace::ELF:
+		case ELF:
 			search_for = MenuItem::CR_ELF;
 			break;
-		case CharacterRace::GNOME:
+		case GNOME:
 			search_for = MenuItem::CR_GNOME;
 			break;
-		case CharacterRace::HOBBIT:
+		case HOBBIT:
 			search_for = MenuItem::CR_HOBBIT;
 			break;
-		case CharacterRace::HUMAN:
+		case HUMAN:
 			search_for = MenuItem::CR_HUMAN;
 			break;
 		default:
@@ -531,13 +535,13 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 		break;
 	case MenuType::CHOOSE_CHARACTER_ALIGNMENT:
 		switch (std::any_cast<CharacterAlignment>(option)) {
-		case CharacterAlignment::EVIL:
+		case EVIL:
 			search_for = MenuItem::CA_EVIL;
 			break;
-		case CharacterAlignment::GOOD:
+		case GOOD:
 			search_for = MenuItem::CA_GOOD;
 			break;
-		case CharacterAlignment::NEUTRAL:
+		case NEUTRAL:
 			search_for = MenuItem::CA_NEUTRAL;
 			break;
 		default:
@@ -546,28 +550,28 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 		break;
 	case MenuType::CHOOSE_CHARACTER_CLASS:
 		switch (std::any_cast<CharacterClass>(option)) {
-		case CharacterClass::SAMURAI:
+		case SAMURAI:
 			search_for = MenuItem::CC_SAMURAI;
 			break;
-		case CharacterClass::FIGHTER:
+		case FIGHTER:
 			search_for = MenuItem::CC_FIGHTER;
 			break;
-		case CharacterClass::LORD:
+		case LORD:
 			search_for = MenuItem::CC_LORD;
 			break;
-		case CharacterClass::THIEF:
+		case THIEF:
 			search_for = MenuItem::CC_THIEF;
 			break;
-		case CharacterClass::NINJA:
+		case NINJA:
 			search_for = MenuItem::CC_NINJA;
 			break;
-		case CharacterClass::PRIEST:
+		case PRIEST:
 			search_for = MenuItem::CC_PRIEST;
 			break;
-		case CharacterClass::BISHOP:
+		case BISHOP:
 			search_for = MenuItem::CC_BISHOP;
 			break;
-		case CharacterClass::MAGE:
+		case MAGE:
 			search_for = MenuItem::CC_MAGE;
 			break;
 		default:

@@ -337,6 +337,8 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::option
 
 auto Sorcery::Create::_handle_choose_race(const sf::Event &event) -> std::optional<ModuleResult> {
 
+	using enum Enums::Character::Race;
+
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_race_menu->selected};
 	if (_system->input->check(WindowInput::UP, event))
 		_race_menu->choose_previous();
@@ -355,19 +357,19 @@ auto Sorcery::Create::_handle_choose_race(const sf::Event &event) -> std::option
 
 			switch ((*selected.value()).item) {
 			case MenuItem::CR_HUMAN:
-				_candidate.set_race(CharacterRace::HUMAN);
+				_candidate.set_race(HUMAN);
 				break;
 			case MenuItem::CR_ELF:
-				_candidate.set_race(CharacterRace::ELF);
+				_candidate.set_race(ELF);
 				break;
 			case MenuItem::CR_DWARF:
-				_candidate.set_race(CharacterRace::DWARF);
+				_candidate.set_race(DWARF);
 				break;
 			case MenuItem::CR_GNOME:
-				_candidate.set_race(CharacterRace::GNOME);
+				_candidate.set_race(GNOME);
 				break;
 			case MenuItem::CR_HOBBIT:
-				_candidate.set_race(CharacterRace::HOBBIT);
+				_candidate.set_race(HOBBIT);
 				break;
 			default:
 				return std::nullopt;
@@ -379,14 +381,15 @@ auto Sorcery::Create::_handle_choose_race(const sf::Event &event) -> std::option
 		}
 	}
 
-	// If we get here then we are still on the Race Choice screen so set the
-	// Info Panel
+	// If we get here then we are still on the Race Choice screen so set the Info Panel
 	_set_info_panel_contents(_race_menu->selected);
 
 	return std::nullopt;
 }
 
 auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event) -> std::optional<ModuleResult> {
+
+	using enum Enums::Character::Align;
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_alignment_menu->selected};
 	if (_system->input->check(WindowInput::UP, event))
@@ -406,36 +409,36 @@ auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event) -> std::o
 
 			switch ((*selected.value()).item) {
 			case MenuItem::CA_GOOD:
-				_candidate.set_alignment(CharacterAlignment::GOOD);
+				_candidate.set_alignment(GOOD);
 				break;
 			case MenuItem::CA_NEUTRAL:
-				_candidate.set_alignment(CharacterAlignment::NEUTRAL);
+				_candidate.set_alignment(NEUTRAL);
 				break;
 			case MenuItem::CA_EVIL:
-				_candidate.set_alignment(CharacterAlignment::EVIL);
+				_candidate.set_alignment(EVIL);
 				break;
 			default:
 				return std::nullopt;
 				break;
 			}
 
-			// We have chosen an alignment, so what we need to do is to set the
-			// candidate's starting stats and enable the allocation panel before
-			// continuing
+			// We have chosen an alignment, so what we need to do is to set the candidate's starting stats and enable
+			// the allocation panel before continuing
 			_candidate.set_start_attr();
 			_ap->set();
 			return ModuleResult::NEXT;
 		}
 	}
 
-	// If we get here then we are still on the Alignment Choice screen so set
-	// the Info Panel
+	// If we get here then we are still on the Alignment Choice screen so set the Info Panel
 	_set_info_panel_contents(_alignment_menu->selected);
 
 	return std::nullopt;
 }
 
 auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std::optional<ModuleResult> {
+
+	using enum Enums::Character::Attribute;
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_attribute_menu->selected};
 	if (_system->input->check(WindowInput::UP, event))
@@ -450,22 +453,22 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 			std::optional<CharacterAttribute> stat_to_adjust{};
 			switch (selected.value()->item) {
 			case MenuItem::CS_STRENGTH:
-				stat_to_adjust = CharacterAttribute::STRENGTH;
+				stat_to_adjust = STRENGTH;
 				break;
 			case MenuItem::CS_IQ:
-				stat_to_adjust = CharacterAttribute::IQ;
+				stat_to_adjust = IQ;
 				break;
 			case MenuItem::CS_PIETY:
-				stat_to_adjust = CharacterAttribute::PIETY;
+				stat_to_adjust = PIETY;
 				break;
 			case MenuItem::CS_VITALITY:
-				stat_to_adjust = CharacterAttribute::VITALITY;
+				stat_to_adjust = VITALITY;
 				break;
 			case MenuItem::CS_AGILITY:
-				stat_to_adjust = CharacterAttribute::AGILITY;
+				stat_to_adjust = AGILITY;
 				break;
 			case MenuItem::CS_LUCK:
-				stat_to_adjust = CharacterAttribute::LUCK;
+				stat_to_adjust = LUCK;
 				break;
 			default:
 				break;
@@ -503,22 +506,22 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 			std::optional<CharacterAttribute> stat_to_adjust{};
 			switch (selected.value()->item) {
 			case MenuItem::CS_STRENGTH:
-				stat_to_adjust = CharacterAttribute::STRENGTH;
+				stat_to_adjust = STRENGTH;
 				break;
 			case MenuItem::CS_IQ:
-				stat_to_adjust = CharacterAttribute::IQ;
+				stat_to_adjust = IQ;
 				break;
 			case MenuItem::CS_PIETY:
-				stat_to_adjust = CharacterAttribute::PIETY;
+				stat_to_adjust = PIETY;
 				break;
 			case MenuItem::CS_VITALITY:
-				stat_to_adjust = CharacterAttribute::VITALITY;
+				stat_to_adjust = VITALITY;
 				break;
 			case MenuItem::CS_AGILITY:
-				stat_to_adjust = CharacterAttribute::AGILITY;
+				stat_to_adjust = AGILITY;
 				break;
 			case MenuItem::CS_LUCK:
-				stat_to_adjust = CharacterAttribute::LUCK;
+				stat_to_adjust = LUCK;
 				break;
 			default:
 				break;
