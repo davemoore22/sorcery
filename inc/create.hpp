@@ -52,9 +52,6 @@ class Create {
 		Create(System *system, Display *display, Graphics *graphics, Game *game);
 		Create() = delete;
 
-		// Destructor
-		~Create();
-
 		// Public Members
 
 		// Public Methods

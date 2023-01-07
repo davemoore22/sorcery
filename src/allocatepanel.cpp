@@ -125,7 +125,7 @@ auto Sorcery::AllocatePanel::set() -> void {
 	_set_icons();
 }
 
-auto Sorcery::AllocatePanel::_get_bar(CharacterAttribute attribute)
+auto Sorcery::AllocatePanel::_get_bar(CharacterAttribute attribute) const
 	-> std::tuple<sf::RectangleShape, sf::RectangleShape, sf::RectangleShape> {
 
 	// Generate three bars which will simply be put on top of each other
@@ -145,25 +145,27 @@ auto Sorcery::AllocatePanel::_get_bar(CharacterAttribute attribute)
 
 auto Sorcery::AllocatePanel::_set_icons() -> void {
 
+	using enum Enums::Character::Class;
+
 	for (auto &icon : _class_icons)
 		icon.setColor(_red);
 
 	auto possible_classes = _character->get_pos_class();
-	if (possible_classes[CharacterClass::SAMURAI])
+	if (possible_classes[SAMURAI])
 		_class_icons[0].setColor(_green);
-	if (possible_classes[CharacterClass::FIGHTER])
+	if (possible_classes[FIGHTER])
 		_class_icons[1].setColor(_green);
-	if (possible_classes[CharacterClass::LORD])
+	if (possible_classes[LORD])
 		_class_icons[2].setColor(_green);
-	if (possible_classes[CharacterClass::THIEF])
+	if (possible_classes[THIEF])
 		_class_icons[3].setColor(_green);
-	if (possible_classes[CharacterClass::NINJA])
+	if (possible_classes[NINJA])
 		_class_icons[4].setColor(_green);
-	if (possible_classes[CharacterClass::PRIEST])
+	if (possible_classes[PRIEST])
 		_class_icons[5].setColor(_green);
-	if (possible_classes[CharacterClass::BISHOP])
+	if (possible_classes[BISHOP])
 		_class_icons[6].setColor(_green);
-	if (possible_classes[CharacterClass::MAGE])
+	if (possible_classes[MAGE])
 		_class_icons[7].setColor(_green);
 }
 

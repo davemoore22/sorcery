@@ -45,6 +45,9 @@ class Character: public sf::Transformable, public sf::Drawable {
 		Character();
 		Character(System *system, Display *display, Graphics *graphics);
 
+		// Destructor
+		~Character() = default;
+
 		// Copy Constructors
 		Character(const Character &other);
 		auto operator=(const Character &other) -> Character &;

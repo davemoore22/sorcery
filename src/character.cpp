@@ -605,17 +605,17 @@ auto Sorcery::Character::get_icon(CharacterStage type) -> std::optional<sf::Spri
 	switch (type) {
 	case CHOOSE_ALIGNMENT: {
 		auto alignment{get_alignment(_alignment)};
-		std::transform(alignment.begin(), alignment.end(), alignment.begin(), ::tolower);
+		std::ranges::transform(alignment.begin(), alignment.end(), alignment.begin(), ::tolower);
 		return (*_graphics->icons)[alignment].value();
 	} break;
 	case CHOOSE_RACE: {
 		auto race{get_race(_race)};
-		std::transform(race.begin(), race.end(), race.begin(), ::tolower);
+		std::ranges::transform(race.begin(), race.end(), race.begin(), ::tolower);
 		return (*_graphics->icons)[race].value();
 	} break;
 	case CHOOSE_CLASS: {
 		auto cclass{get_class(_class)};
-		std::transform(cclass.begin(), cclass.end(), cclass.begin(), ::tolower);
+		std::ranges::transform(cclass.begin(), cclass.end(), cclass.begin(), ::tolower);
 		return (*_graphics->icons)[cclass].value();
 	} break;
 	default:
@@ -1291,7 +1291,7 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 	else if (_class == NINJA)
 		_abilities[IDENTIFY_TRAP] = 4 * _cur_attr[AGILITY];
 	else
-		_abilities[IDENTIFY_TRAP] = 0;
+		_abilities[IDENTIFY_TRAP] = _cur_attr[AGILITY];
 	if (_abilities[IDENTIFY_TRAP] > 95)
 		_abilities[IDENTIFY_TRAP] = 95;
 
@@ -2619,27 +2619,27 @@ auto Sorcery::Character::_generate_summary_icons() -> void {
 		(*_display->layout)["character:class_icon"].x, (*_display->layout)["character:class_icon"].y);
 	class_icon.setScale(
 		(*_display->layout)["character:class_icon"].scale, (*_display->layout)["character:class_icon"].scale);
-	_v_sprites.emplace((*_display->layout)["character:class_icon"].unique_key, class_icon);
+	_v_sprites.try_emplace((*_display->layout)["character:class_icon"].unique_key, class_icon);
 
 	auto race_icon{get_icon(CHOOSE_RACE).value()};
 	race_icon.setPosition((*_display->layout)["character:race_icon"].x, (*_display->layout)["character:race_icon"].y);
 	race_icon.setScale(
 		(*_display->layout)["character:race_icon"].scale, (*_display->layout)["character:race_icon"].scale);
-	_v_sprites.emplace((*_display->layout)["character:race_icon"].unique_key, race_icon);
+	_v_sprites.try_emplace((*_display->layout)["character:race_icon"].unique_key, race_icon);
 
 	auto alignment_icon{get_icon(CHOOSE_ALIGNMENT).value()};
 	alignment_icon.setPosition(
 		(*_display->layout)["character:alignment_icon"].x, (*_display->layout)["character:alignment_icon"].y);
 	alignment_icon.setScale(
 		(*_display->layout)["character:alignment_icon"].scale, (*_display->layout)["character:alignment_icon"].scale);
-	_v_sprites.emplace((*_display->layout)["character:alignment_icon"].unique_key, alignment_icon);
+	_v_sprites.try_emplace((*_display->layout)["character:alignment_icon"].unique_key, alignment_icon);
 
 	auto level_icon{(*_graphics->icons)["level"].value()};
 	level_icon.setPosition(
 		(*_display->layout)["character:level_icon"].x, (*_display->layout)["character:level_icon"].y);
 	level_icon.setScale(
 		(*_display->layout)["character:level_icon"].scale, (*_display->layout)["character:level_icon"].scale);
-	_v_sprites.emplace((*_display->layout)["character:level_icon"].unique_key, level_icon);
+	_v_sprites.try_emplace((*_display->layout)["character:level_icon"].unique_key, level_icon);
 
 	_add_text((*_display->layout)["character:level_text"], "{}", std::to_string(_abilities.at(CURRENT_LEVEL)), true);
 }
@@ -2806,7 +2806,7 @@ auto Sorcery::Character::_generate_display() -> void {
 				return 0;
 		}()};
 		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
-		_v_sprites.emplace(portrait_c.unique_key, portrait);
+		_v_sprites.try_emplace(portrait_c.unique_key, portrait);
 
 		Component s_c{(*_display->layout)["character_summary:strength_value"]};
 		s_c.colour = _graphics->adjust_colour(_cur_attr.at(STRENGTH), STAT);
@@ -2880,7 +2880,7 @@ auto Sorcery::Character::_generate_display() -> void {
 				return 0;
 		}()};
 		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
-		_v_sprites.emplace(portrait_c.unique_key, portrait);
+		_v_sprites.try_emplace(portrait_c.unique_key, portrait);
 
 		Component s_c{(*_display->layout)["character_detailed:strength_value"]};
 		s_c.colour = _graphics->adjust_colour(_cur_attr.at(STRENGTH), STAT);
@@ -3097,7 +3097,7 @@ auto Sorcery::Character::_generate_display() -> void {
 				return 0;
 		}()};
 		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
-		_v_sprites.emplace(portrait_c.unique_key, portrait);
+		_v_sprites.try_emplace(portrait_c.unique_key, portrait);
 
 		Component carried_c((*_display->layout)["character_inventory:inventory_blank"]);
 		auto c_slots{std::stoi(carried_c["number_of_slots"].value())};
@@ -3128,7 +3128,7 @@ auto Sorcery::Character::_generate_display() -> void {
 				return 0;
 		}()};
 		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
-		_v_sprites.emplace(portrait_c.unique_key, portrait);
+		_v_sprites.try_emplace(portrait_c.unique_key, portrait);
 
 		Component level_c{(*_display->layout)["character_mage_spells:level_label"]};
 		Component sp_c{(*_display->layout)["character_mage_spells:spell_points"]};
@@ -3238,7 +3238,7 @@ auto Sorcery::Character::_generate_display() -> void {
 				return 0;
 		}()};
 		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
-		_v_sprites.emplace(portrait_c.unique_key, portrait);
+		_v_sprites.try_emplace(portrait_c.unique_key, portrait);
 
 		Component level_c{(*_display->layout)["character_priest_spells:level_label"]};
 		Component sp_c{(*_display->layout)["character_priest_spells:spell_points"]};
@@ -3345,7 +3345,7 @@ auto Sorcery::Character::_add_icon(Component &component, std::string icon_key) -
 	}()};
 	icon.setPosition(component.x + offset_x, component.y + offset_y);
 	icon.setScale(component.scale, component.scale);
-	_v_sprites.emplace(component.unique_key, icon);
+	_v_sprites.try_emplace(component.unique_key, icon);
 }
 
 auto Sorcery::Character::_add_text(Component &component, std::string format, std::string value, bool is_view)
@@ -3377,10 +3377,10 @@ auto Sorcery::Character::_add_text(Component &component, std::string format, std
 	// Generate a new key as this is a map, and we might call this with the same base component
 	auto new_unique_key{GUID()};
 	if (is_view) {
-		_v_texts.emplace(new_unique_key, text);
+		_v_texts.try_emplace(new_unique_key, text);
 		return &_v_texts.at(new_unique_key);
 	} else {
-		_texts.emplace(new_unique_key, text);
+		_texts.try_emplace(new_unique_key, text);
 		return &_texts.at(new_unique_key);
 	}
 }

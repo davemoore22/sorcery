@@ -75,10 +75,6 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics, Ga
 		(*_display->layout)["character_create_stage_7:dialog_saved_ok"].y);
 }
 
-// Standard Destructor
-Sorcery::Create::~Create() {
-}
-
 auto Sorcery::Create::start() -> std::optional<MenuItem> {
 
 	// Get the Background Display Components and load them into Display module
@@ -109,8 +105,7 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 	_display->fit_bg_movie();
 	_display->start_bg_movie();
 
-	auto module_result{_do_event_loop()};
-	if (module_result == ModuleResult::EXIT)
+	if (auto module_result{_do_event_loop()}; module_result == ModuleResult::EXIT)
 		return MenuItem::ABORT;
 
 	return std::nullopt;
@@ -124,27 +119,28 @@ auto Sorcery::Create::stop() -> void {
 
 auto Sorcery::Create::_do_event_loop() -> std::optional<ModuleResult> {
 
+	using enum Enums::System::ModuleResult;
+
 	// And do the main loop
 	while (_window->isOpen()) {
 		sf::Event event{};
 		while (_window->pollEvent(event)) {
 
 			// See what happens
-			auto const module_result{_handle_input(event)};
-			if (module_result) {
-				if (module_result.value() == ModuleResult::CLOSE)
-					return ModuleResult::CLOSE;
-				else if (module_result.value() == ModuleResult::EXIT)
-					return ModuleResult::EXIT;
-				else if (module_result.value() == ModuleResult::CANCEL)
-					return ModuleResult::CANCEL;
-				else if (module_result.value() == ModuleResult::BACK) {
+			if (auto const module_result{_handle_input(event)}; module_result) {
+				if (module_result.value() == CLOSE)
+					return CLOSE;
+				else if (module_result.value() == EXIT)
+					return EXIT;
+				else if (module_result.value() == CANCEL)
+					return CANCEL;
+				else if (module_result.value() == BACK) {
 					if (_candidate.get_stage() == CharacterStage::CHOOSE_METHOD)
 						return std::nullopt;
 					else
 						_go_to_previous_stage();
 					continue;
-				} else if (module_result.value() == ModuleResult::NEXT) {
+				} else if (module_result.value() == NEXT) {
 					_go_to_next_stage();
 					continue;
 				}
@@ -168,6 +164,8 @@ auto Sorcery::Create::_do_event_loop() -> std::optional<ModuleResult> {
 
 auto Sorcery::Create::_handle_input(const sf::Event &event) -> std::optional<ModuleResult> {
 
+	using enum Enums::Character::Stage;
+
 	// Handle enabling help overlay
 	if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
 		_display->show_overlay();
@@ -180,27 +178,30 @@ auto Sorcery::Create::_handle_input(const sf::Event &event) -> std::optional<Mod
 		return ModuleResult::EXIT;
 	else if (_system->input->check(WindowInput::CANCEL, event))
 		return ModuleResult::CANCEL;
-	if (_candidate.get_stage() == CharacterStage::CHOOSE_METHOD)
+	if (_candidate.get_stage() == CHOOSE_METHOD)
 		return _handle_choose_create_method(event);
-	else if (_candidate.get_stage() == CharacterStage::ENTER_NAME)
+	else if (_candidate.get_stage() == ENTER_NAME)
 		return _handle_choose_name(event);
-	else if (_candidate.get_stage() == CharacterStage::CHOOSE_RACE)
+	else if (_candidate.get_stage() == CHOOSE_RACE)
 		return _handle_choose_race(event);
-	else if (_candidate.get_stage() == CharacterStage::CHOOSE_ALIGNMENT)
+	else if (_candidate.get_stage() == CHOOSE_ALIGNMENT)
 		return _handle_choose_alignment(event);
-	else if (_candidate.get_stage() == CharacterStage::ALLOCATE_STATS)
+	else if (_candidate.get_stage() == ALLOCATE_STATS)
 		return _handle_allocate_attributes(event);
-	else if (_candidate.get_stage() == CharacterStage::CHOOSE_CLASS)
+	else if (_candidate.get_stage() == CHOOSE_CLASS)
 		return _handle_choose_class(event);
-	else if (_candidate.get_stage() == CharacterStage::CHOOSE_PORTRAIT)
+	else if (_candidate.get_stage() == CHOOSE_PORTRAIT)
 		return _handle_choose_potraits(event);
-	else if (_candidate.get_stage() == CharacterStage::REVIEW_AND_CONFIRM)
+	else if (_candidate.get_stage() == REVIEW_AND_CONFIRM)
 		return _handle_review_and_confirm(event);
 	else
 		return std::nullopt;
 }
 
 auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event) -> std::optional<ModuleResult> {
+
+	using enum Enums::Manage::Method;
+	using enum Enums::Menu::Item;
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_method_menu->selected};
 	if (_system->input->check(WindowInput::UP, event))
@@ -219,14 +220,14 @@ auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event) -> st
 		if (selected) {
 
 			switch ((*selected.value()).item) {
-			case MenuItem::CM_FULL:
-				_method = CreateMethod::FULL;
+			case CM_FULL:
+				_method = FULL;
 				break;
-			case MenuItem::CM_QUICK:
-				_method = CreateMethod::QUICK;
+			case CM_QUICK:
+				_method = QUICK;
 				break;
-			case MenuItem::CM_RANDOM:
-				_method = CreateMethod::RANDOM;
+			case CM_RANDOM:
+				_method = RANDOM;
 				break;
 			default:
 				return std::nullopt;
@@ -338,6 +339,7 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::option
 auto Sorcery::Create::_handle_choose_race(const sf::Event &event) -> std::optional<ModuleResult> {
 
 	using enum Enums::Character::Race;
+	using enum Enums::Menu::Item;
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_race_menu->selected};
 	if (_system->input->check(WindowInput::UP, event))
@@ -356,19 +358,19 @@ auto Sorcery::Create::_handle_choose_race(const sf::Event &event) -> std::option
 		if (selected) {
 
 			switch ((*selected.value()).item) {
-			case MenuItem::CR_HUMAN:
+			case CR_HUMAN:
 				_candidate.set_race(HUMAN);
 				break;
-			case MenuItem::CR_ELF:
+			case CR_ELF:
 				_candidate.set_race(ELF);
 				break;
-			case MenuItem::CR_DWARF:
+			case CR_DWARF:
 				_candidate.set_race(DWARF);
 				break;
-			case MenuItem::CR_GNOME:
+			case CR_GNOME:
 				_candidate.set_race(GNOME);
 				break;
-			case MenuItem::CR_HOBBIT:
+			case CR_HOBBIT:
 				_candidate.set_race(HOBBIT);
 				break;
 			default:
@@ -390,6 +392,7 @@ auto Sorcery::Create::_handle_choose_race(const sf::Event &event) -> std::option
 auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event) -> std::optional<ModuleResult> {
 
 	using enum Enums::Character::Align;
+	using enum Enums::Menu::Item;
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_alignment_menu->selected};
 	if (_system->input->check(WindowInput::UP, event))
@@ -408,13 +411,13 @@ auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event) -> std::o
 		if (selected) {
 
 			switch ((*selected.value()).item) {
-			case MenuItem::CA_GOOD:
+			case CA_GOOD:
 				_candidate.set_alignment(GOOD);
 				break;
-			case MenuItem::CA_NEUTRAL:
+			case CA_NEUTRAL:
 				_candidate.set_alignment(NEUTRAL);
 				break;
-			case MenuItem::CA_EVIL:
+			case CA_EVIL:
 				_candidate.set_alignment(EVIL);
 				break;
 			default:
@@ -439,6 +442,7 @@ auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event) -> std::o
 auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std::optional<ModuleResult> {
 
 	using enum Enums::Character::Attribute;
+	using enum Enums::Menu::Item;
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_attribute_menu->selected};
 	if (_system->input->check(WindowInput::UP, event))
@@ -452,22 +456,22 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 		if (selected) {
 			std::optional<CharacterAttribute> stat_to_adjust{};
 			switch (selected.value()->item) {
-			case MenuItem::CS_STRENGTH:
+			case CS_STRENGTH:
 				stat_to_adjust = STRENGTH;
 				break;
-			case MenuItem::CS_IQ:
+			case CS_IQ:
 				stat_to_adjust = IQ;
 				break;
-			case MenuItem::CS_PIETY:
+			case CS_PIETY:
 				stat_to_adjust = PIETY;
 				break;
-			case MenuItem::CS_VITALITY:
+			case CS_VITALITY:
 				stat_to_adjust = VITALITY;
 				break;
-			case MenuItem::CS_AGILITY:
+			case CS_AGILITY:
 				stat_to_adjust = AGILITY;
 				break;
-			case MenuItem::CS_LUCK:
+			case CS_LUCK:
 				stat_to_adjust = LUCK;
 				break;
 			default:
@@ -505,22 +509,22 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 		if (selected) {
 			std::optional<CharacterAttribute> stat_to_adjust{};
 			switch (selected.value()->item) {
-			case MenuItem::CS_STRENGTH:
+			case CS_STRENGTH:
 				stat_to_adjust = STRENGTH;
 				break;
-			case MenuItem::CS_IQ:
+			case CS_IQ:
 				stat_to_adjust = IQ;
 				break;
-			case MenuItem::CS_PIETY:
+			case CS_PIETY:
 				stat_to_adjust = PIETY;
 				break;
-			case MenuItem::CS_VITALITY:
+			case CS_VITALITY:
 				stat_to_adjust = VITALITY;
 				break;
-			case MenuItem::CS_AGILITY:
+			case CS_AGILITY:
 				stat_to_adjust = AGILITY;
 				break;
-			case MenuItem::CS_LUCK:
+			case CS_LUCK:
 				stat_to_adjust = LUCK;
 				break;
 			default:
@@ -547,6 +551,9 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 
 auto Sorcery::Create::_handle_choose_class(const sf::Event &event) -> std::optional<ModuleResult> {
 
+	using enum Enums::Character::Class;
+	using enum Enums::Menu::Item;
+
 	std::optional<std::vector<MenuEntry>::const_iterator> class_selected{_class_menu->selected};
 	if (_system->input->check(WindowInput::UP, event))
 		_class_menu->choose_previous();
@@ -564,29 +571,29 @@ auto Sorcery::Create::_handle_choose_class(const sf::Event &event) -> std::optio
 		if (class_selected) {
 
 			switch ((*class_selected.value()).item) {
-			case MenuItem::CC_SAMURAI:
-				_candidate.set_class(CharacterClass::SAMURAI);
+			case CC_SAMURAI:
+				_candidate.set_class(SAMURAI);
 				break;
-			case MenuItem::CC_FIGHTER:
-				_candidate.set_class(CharacterClass::FIGHTER);
+			case CC_FIGHTER:
+				_candidate.set_class(FIGHTER);
 				break;
-			case MenuItem::CC_LORD:
-				_candidate.set_class(CharacterClass::LORD);
+			case CC_LORD:
+				_candidate.set_class(LORD);
 				break;
-			case MenuItem::CC_THIEF:
-				_candidate.set_class(CharacterClass::THIEF);
+			case CC_THIEF:
+				_candidate.set_class(THIEF);
 				break;
-			case MenuItem::CC_NINJA:
-				_candidate.set_class(CharacterClass::NINJA);
+			case CC_NINJA:
+				_candidate.set_class(NINJA);
 				break;
-			case MenuItem::CC_PRIEST:
-				_candidate.set_class(CharacterClass::PRIEST);
+			case CC_PRIEST:
+				_candidate.set_class(PRIEST);
 				break;
-			case MenuItem::CC_BISHOP:
-				_candidate.set_class(CharacterClass::BISHOP);
+			case CC_BISHOP:
+				_candidate.set_class(BISHOP);
 				break;
-			case MenuItem::CC_MAGE:
-				_candidate.set_class(CharacterClass::MAGE);
+			case CC_MAGE:
+				_candidate.set_class(MAGE);
 				break;
 			default:
 				return std::nullopt;
@@ -610,14 +617,16 @@ auto Sorcery::Create::_handle_choose_potraits(const sf::Event &event) -> std::op
 	else if (_system->input->check(WindowInput::DELETE, event))
 		return ModuleResult::BACK;
 	else if (_system->input->check(WindowInput::LEFT, event)) {
-		if (index > 0)
-			_candidate.set_portrait_index(--index);
-		else
+		if (index > 0) {
+			--index;
+			_candidate.set_portrait_index(index);
+		} else
 			_candidate.set_portrait_index(MAX_PORTRAIT_INDEX);
 	} else if (_system->input->check(WindowInput::RIGHT, event)) {
-		if (index < MAX_PORTRAIT_INDEX)
-			_candidate.set_portrait_index(++index);
-		else
+		if (index < MAX_PORTRAIT_INDEX) {
+			++index;
+			_candidate.set_portrait_index(index);
+		} else
 			_candidate.set_portrait_index(0);
 	} else if (_system->input->check(WindowInput::CONFIRM, event))
 		return ModuleResult::NEXT;
@@ -627,13 +636,12 @@ auto Sorcery::Create::_handle_choose_potraits(const sf::Event &event) -> std::op
 
 auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event) -> std::optional<ModuleResult> {
 
+	using enum Enums::Menu::Item;
+
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_final_menu->selected};
 	if (_show_final_menu) {
-
 		if (_show_saved_ok) {
-
-			auto dialog_input{_dialog_saved_ok->handle_input(event)};
-			if (dialog_input) {
+			if (auto dialog_input{_dialog_saved_ok->handle_input(event)}; dialog_input) {
 				if (dialog_input.value() == WindowDialogButton::CLOSE) {
 					_show_final_menu = false;
 					_show_saved_ok = false;
@@ -645,29 +653,27 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event) -> std:
 					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					return ModuleResult::CLOSE;
 				}
-			};
+			}
 		} else {
 
-			if (_system->input->check(WindowInput::BACK, event)) {
-				_show_final_menu = false;
-				_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
-			} else if (_system->input->check(WindowInput::DELETE, event)) {
+			if ((_system->input->check(WindowInput::BACK, event)) ||
+				(_system->input->check(WindowInput::DELETE, event))) {
 				_show_final_menu = false;
 				_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
 			} else if (_system->input->check(WindowInput::CONFIRM, event)) {
 				if (selected) {
 					switch ((*selected.value()).item) {
-					case MenuItem::RC_ACCEPT:
+					case RC_ACCEPT:
 						_game->add_character(_candidate);
 						_game->save_game();
 						_game->load_game();
 						_show_saved_ok = true;
 						break;
-					case MenuItem::RC_REJECT:
+					case RC_REJECT:
 						_show_final_menu = false;
 						return ModuleResult::CLOSE;
 						break;
-					case MenuItem::RC_CANCEL:
+					case RC_CANCEL:
 						_show_final_menu = false;
 						_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
 						break;
@@ -853,48 +859,45 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 
 auto Sorcery::Create::_go_to_next_stage() -> void {
 
+	using enum Enums::Character::Stage;
+
 	if (_method == CreateMethod::FULL) {
 
 		switch (_candidate.get_stage()) {
-		case CharacterStage::CHOOSE_METHOD: {
-			auto to_push(_candidate);
-			_stages.emplace_back(to_push);
-			_candidate.set_stage(CharacterStage::ENTER_NAME);
+		case CHOOSE_METHOD: {
+			_stages.emplace_back(_candidate);
+			_candidate.set_stage(ENTER_NAME);
 			_display->generate("character_create_stage_1", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::INPUT_NAME);
 		} break;
-		case CharacterStage::ENTER_NAME: {
-			auto to_push(_candidate);
-			_stages.emplace_back(to_push);
-			_candidate.set_stage(CharacterStage::CHOOSE_RACE);
+		case ENTER_NAME: {
+			_stages.emplace_back(_candidate);
+			_candidate.set_stage(CHOOSE_RACE);
 			_display->generate("character_create_stage_2", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 			_race_menu->choose_first();
 			_set_info_panel_contents(_race_menu->selected);
 
 		} break;
-		case CharacterStage::CHOOSE_RACE: {
-			auto to_push(_candidate);
-			_stages.emplace_back(to_push);
-			_candidate.set_stage(CharacterStage::CHOOSE_ALIGNMENT);
+		case CHOOSE_RACE: {
+			_stages.emplace_back(_candidate);
+			_candidate.set_stage(CHOOSE_ALIGNMENT);
 			_display->generate("character_create_stage_3", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 			_alignment_menu->choose_first();
 		} break;
-		case CharacterStage::CHOOSE_ALIGNMENT: {
-			auto to_push(_candidate);
-			_stages.emplace_back(to_push);
-			_candidate.set_stage(CharacterStage::ALLOCATE_STATS);
+		case CHOOSE_ALIGNMENT: {
+			_stages.emplace_back(_candidate);
+			_candidate.set_stage(ALLOCATE_STATS);
 			_display->generate("character_create_stage_4", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::ALLOCATE_STATS);
 			_attribute_menu->choose_first();
 			_ap->set();
 			_set_info_panel_contents(_attribute_menu->selected);
 		} break;
-		case CharacterStage::ALLOCATE_STATS: {
-			auto to_push(_candidate);
-			_stages.emplace_back(to_push);
-			_candidate.set_stage(CharacterStage::CHOOSE_CLASS);
+		case ALLOCATE_STATS: {
+			_stages.emplace_back(_candidate);
+			_candidate.set_stage(CHOOSE_CLASS);
 			_display->generate("character_create_stage_5", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 			_ap->valid = false;
@@ -904,19 +907,17 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_class_menu->choose_first();
 			_set_info_panel_contents(_class_menu->selected);
 		} break;
-		case CharacterStage::CHOOSE_CLASS: {
-			auto to_push(_candidate);
-			_stages.emplace_back(to_push);
-			_candidate.set_stage(CharacterStage::CHOOSE_PORTRAIT);
+		case CHOOSE_CLASS: {
+			_stages.emplace_back(_candidate);
+			_candidate.set_stage(CHOOSE_PORTRAIT);
 			_display->generate("character_create_stage_6", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::CHOOSE_PORTRAIT);
 			_candidate.set_portrait_index(0);
 		} break;
-		case CharacterStage::CHOOSE_PORTRAIT: {
-			auto to_push(_candidate);
-			_stages.emplace_back(to_push);
+		case CHOOSE_PORTRAIT: {
+			_stages.emplace_back(_candidate);
 			_candidate.finalise();
-			_candidate.set_stage(CharacterStage::REVIEW_AND_CONFIRM);
+			_candidate.set_stage(REVIEW_AND_CONFIRM);
 			_display->generate("character_create_stage_7", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
 			_show_final_menu = false;
@@ -932,28 +933,25 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
 	} else if (_method == CreateMethod::QUICK) {
 		switch (_candidate.get_stage()) {
-		case CharacterStage::CHOOSE_METHOD: {
-			auto to_push(_candidate);
-			_stages.emplace_back(to_push);
-			_candidate.set_stage(CharacterStage::ENTER_NAME);
+		case CHOOSE_METHOD: {
+			_stages.emplace_back(_candidate);
+			_candidate.set_stage(ENTER_NAME);
 			_display->generate("character_create_stage_1", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::INPUT_NAME);
 		} break;
-		case CharacterStage::ENTER_NAME: {
-			auto to_push(_candidate);
-			_stages.emplace_back(to_push);
+		case ENTER_NAME: {
+			_stages.emplace_back(_candidate);
 			_candidate.create_quick();
-			_candidate.set_stage(CharacterStage::CHOOSE_PORTRAIT);
+			_candidate.set_stage(CHOOSE_PORTRAIT);
 			_display->generate("character_create_stage_6", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::CHOOSE_PORTRAIT);
 			_candidate.set_portrait_index(0);
 			_ap->valid = false;
 		} break;
-		case CharacterStage::CHOOSE_PORTRAIT: {
-			auto to_push(_candidate);
-			_stages.emplace_back(to_push);
+		case CHOOSE_PORTRAIT: {
+			_stages.emplace_back(_candidate);
 			_candidate.finalise();
-			_candidate.set_stage(CharacterStage::REVIEW_AND_CONFIRM);
+			_candidate.set_stage(REVIEW_AND_CONFIRM);
 			_display->generate("character_create_stage_7", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
 			_show_final_menu = false;
@@ -966,15 +964,17 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 
 auto Sorcery::Create::_set_classes_menu() -> void {
 
+	using enum Enums::Character::Class;
+
 	auto possible_classes{_candidate.get_pos_class()};
-	(*_class_menu)[0].enabled = possible_classes[CharacterClass::SAMURAI];
-	(*_class_menu)[1].enabled = possible_classes[CharacterClass::FIGHTER];
-	(*_class_menu)[2].enabled = possible_classes[CharacterClass::LORD];
-	(*_class_menu)[3].enabled = possible_classes[CharacterClass::THIEF];
-	(*_class_menu)[4].enabled = possible_classes[CharacterClass::NINJA];
-	(*_class_menu)[5].enabled = possible_classes[CharacterClass::PRIEST];
-	(*_class_menu)[6].enabled = possible_classes[CharacterClass::BISHOP];
-	(*_class_menu)[7].enabled = possible_classes[CharacterClass::MAGE];
+	(*_class_menu)[0].enabled = possible_classes[SAMURAI];
+	(*_class_menu)[1].enabled = possible_classes[FIGHTER];
+	(*_class_menu)[2].enabled = possible_classes[LORD];
+	(*_class_menu)[3].enabled = possible_classes[THIEF];
+	(*_class_menu)[4].enabled = possible_classes[NINJA];
+	(*_class_menu)[5].enabled = possible_classes[PRIEST];
+	(*_class_menu)[6].enabled = possible_classes[BISHOP];
+	(*_class_menu)[7].enabled = possible_classes[MAGE];
 }
 
 auto Sorcery::Create::_set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void {
