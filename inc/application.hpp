@@ -74,7 +74,7 @@ class Application {
 		auto _check_param(std::string_view parameter) const -> bool;
 		auto _display_loading_window() -> void;
 		auto _hide_loading_window() -> void;
-		auto _get_exe_path() -> std::string_view;
+		auto _get_exe_path() const -> std::string_view;
 
 		// Private Members
 		std::unique_ptr<Banner> _banner;

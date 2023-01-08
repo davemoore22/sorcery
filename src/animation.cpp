@@ -34,9 +34,9 @@ Sorcery::Animation::Animation(System *system, Display *display) : _system{system
 	// Setup Colour Cycling
 	_colcyc_dir = false;
 	_selected_gradient[0.0f] =
-		sf::Color(std::stoull((*_display->layout)["global:selected_item"]["minimum_background"].value(), 0, 16));
+		sf::Color(std::stoull((*_display->layout)["global:selected_item"]["minimum_background"].value(), nullptr, 16));
 	_selected_gradient[1.0f] =
-		sf::Color(std::stoull((*_display->layout)["global:selected_item"]["maximum_background"].value(), 0, 16));
+		sf::Color(std::stoull((*_display->layout)["global:selected_item"]["maximum_background"].value(), nullptr, 16));
 	_colcyc_step = std::stod((*_display->layout)["global:selected_item"]["step"].value());
 }
 
@@ -152,7 +152,7 @@ auto Sorcery::Animation::_do_attract() -> void {
 	for (auto i = 0u; i < num; i++) {
 		do {
 			sprite_index = (*_system->random)[RandomType::ZERO_TO_437];
-		} while (std::find(_attract_mode.begin(), _attract_mode.end(), sprite_index) != _attract_mode.end());
+		} while (std::ranges::find(_attract_mode.begin(), _attract_mode.end(), sprite_index) != _attract_mode.end());
 		_attract_mode.push_back(sprite_index);
 	}
 	attract_alpha = 0;
@@ -172,14 +172,14 @@ auto Sorcery::Animation::_do_colcyc() -> void {
 
 	// Colour Lerp goes back and forth between 0 and 1
 	if (_colcyc_dir) {
-		if (colour_lerp < 1.0l)
+		if (colour_lerp < 1.0L)
 			colour_lerp += _colcyc_step;
 		else {
 			_colcyc_dir = !_colcyc_dir;
 			colour_lerp -= _colcyc_step;
 		}
 	} else {
-		if (colour_lerp > 0.0l)
+		if (colour_lerp > 0.0L)
 			colour_lerp -= _colcyc_step;
 		else {
 			_colcyc_dir = !_colcyc_dir;
@@ -187,10 +187,10 @@ auto Sorcery::Animation::_do_colcyc() -> void {
 		}
 	}
 
-	if (colour_lerp < 0.0l)
-		colour_lerp = 0.0l;
-	if (colour_lerp > 1.0l)
-		colour_lerp = 1.0l;
+	if (colour_lerp < 0.0L)
+		colour_lerp = 0.0L;
+	if (colour_lerp > 1.0L)
+		colour_lerp = 1.0L;
 
 	selected_colour = _selected_gradient.sampleColor(colour_lerp);
 

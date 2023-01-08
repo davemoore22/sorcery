@@ -59,6 +59,7 @@ class TextureStore {
 		sf::Texture *_creatures_unknown_t;
 		sf::Texture *_portrait_t;
 		sf::Texture *_view_t;
+		sf::Texture *_events_t;
 		std::map<unsigned int, Texture> _texture_map;
 
 		// Private Methods

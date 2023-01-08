@@ -27,6 +27,8 @@
 Sorcery::AllocatePanel::AllocatePanel(System *system, Display *display, Graphics *graphics, Character *character)
 	: _system{system}, _display{display}, _graphics{graphics}, _character{character} {
 
+	using enum Enums::Menu::Item;
+
 	// Get the standard layout information
 	_layout = Component((*_display->layout)["global:allocate_panel"]);
 	_c_points_left = Component((*_display->layout)["allocate_panel:to_allocate_number"]);
@@ -44,14 +46,14 @@ Sorcery::AllocatePanel::AllocatePanel(System *system, Display *display, Graphics
 	_blue = sf::Color(0x4848ffff);
 
 	// Get and setup Allowed Class Icons
-	_class_icons[0] = (*_graphics->icons)[MenuItem::CC_SAMURAI].value();
-	_class_icons[1] = (*_graphics->icons)[MenuItem::CC_FIGHTER].value();
-	_class_icons[2] = (*_graphics->icons)[MenuItem::CC_LORD].value();
-	_class_icons[3] = (*_graphics->icons)[MenuItem::CC_THIEF].value();
-	_class_icons[4] = (*_graphics->icons)[MenuItem::CC_NINJA].value();
-	_class_icons[5] = (*_graphics->icons)[MenuItem::CC_PRIEST].value();
-	_class_icons[6] = (*_graphics->icons)[MenuItem::CC_BISHOP].value();
-	_class_icons[7] = (*_graphics->icons)[MenuItem::CC_MAGE].value();
+	_class_icons[0] = (*_graphics->icons)[CC_SAMURAI].value();
+	_class_icons[1] = (*_graphics->icons)[CC_FIGHTER].value();
+	_class_icons[2] = (*_graphics->icons)[CC_LORD].value();
+	_class_icons[3] = (*_graphics->icons)[CC_THIEF].value();
+	_class_icons[4] = (*_graphics->icons)[CC_NINJA].value();
+	_class_icons[5] = (*_graphics->icons)[CC_PRIEST].value();
+	_class_icons[6] = (*_graphics->icons)[CC_BISHOP].value();
+	_class_icons[7] = (*_graphics->icons)[CC_MAGE].value();
 	const sf::Vector2u icon_size{_c_allowed_classes.size, _c_allowed_classes.size};
 	constexpr auto texture_size{511.f};
 	sf::Vector2f scale{icon_size.x / texture_size, icon_size.y / texture_size};

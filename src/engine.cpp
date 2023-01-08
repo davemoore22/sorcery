@@ -821,12 +821,13 @@ auto Sorcery::Engine::_handle_in_map(const sf::Event &event) -> std::optional<in
 
 auto Sorcery::Engine::_unpoison_characters_on_return_to_town() -> void {
 
+	using enum Enums::Character::CStatus;
+
 	const auto party{_game->state->get_party_characters()};
 	for (auto &[character_id, character] : _game->characters) {
 		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-			if ((character.get_status() == CharacterStatus::AFRAID) ||
-				(character.get_status() == CharacterStatus::SILENCED))
-				character.set_status(CharacterStatus::OK);
+			if ((character.get_status() == AFRAID) || (character.get_status() == SILENCED))
+				character.set_status(OK);
 			character.set_poisoned_rate(0);
 		}
 	}
@@ -834,14 +835,14 @@ auto Sorcery::Engine::_unpoison_characters_on_return_to_town() -> void {
 
 auto Sorcery::Engine::_move_characters_to_temple_if_needed() -> void {
 
+	using enum Enums::Character::CStatus;
+
 	const auto party{_game->state->get_party_characters()};
 	for (auto &[character_id, character] : _game->characters) {
 		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-			if ((character.get_status() == CharacterStatus::DEAD) ||
-				(character.get_status() == CharacterStatus::ASHES) ||
-				(character.get_status() == CharacterStatus::LOST) ||
-				(character.get_status() == CharacterStatus::STONED) ||
-				(character.get_status() == CharacterStatus::HELD)) {
+			if ((character.get_status() == DEAD) || (character.get_status() == ASHES) ||
+				(character.get_status() == LOST) || (character.get_status() == STONED) ||
+				(character.get_status() == HELD)) {
 				character.location = CharacterLocation::TEMPLE;
 				_game->state->remove_character_by_id(character_id);
 			}
@@ -1238,7 +1239,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				if (std::optional<std::string> left_selected{_left_icon_panel->set_mouse_selected(
 						(*_display->layout)["engine_base_ui:left_icon_panel"], mouse_pos)};
 					left_selected) {
-					const auto what(left_selected.value());
+					const auto &what(left_selected.value());
 					if (what.ends_with("reorder")) {
 						_status_bar->refresh();
 						if (auto new_party{_reorder->start()}; new_party) {
@@ -1300,7 +1301,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				if (std::optional<std::string> right_selected{_right_icon_panel->set_mouse_selected(
 						(*_display->layout)["engine_base_ui:right_icon_panel"], mouse_pos)};
 					right_selected) {
-					const auto what{right_selected.value()};
+					const auto &what{right_selected.value()};
 					if (what.ends_with("left")) {
 						_show_direction_indicatior = true;
 						_reset_direction_indicator();

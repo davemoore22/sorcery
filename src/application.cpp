@@ -31,7 +31,7 @@ Sorcery::Application::Application(int argc, char **argv) {
 	_arguments.clear();
 	for (auto loop = 0; loop < argc; ++loop) {
 		std::string arg{argv[loop]};
-		std::transform(arg.begin(), arg.end(), arg.begin(), ::tolower);
+		std::ranges::transform(arg.begin(), arg.end(), arg.begin(), ::tolower);
 		_arguments.push_back(arg);
 	}
 
@@ -217,6 +217,8 @@ auto Sorcery::Application::start() -> int {
 // Check for a command line parameter
 auto Sorcery::Application::_check_param(std::string_view parameter) const -> bool {
 
+	// return std::ranges::any_of(_arguments, [&](const auto &argument) { return argument == parameter });
+
 	for (const auto &arg : _arguments)
 		if (const auto match_found{arg.find(parameter)}; match_found != std::string::npos)
 			return true;
@@ -263,7 +265,7 @@ auto Sorcery::Application::_hide_loading_window() -> void {
 }
 
 // This is linux only
-auto Sorcery::Application::_get_exe_path() -> std::string_view {
+auto Sorcery::Application::_get_exe_path() const -> std::string_view {
 
 	char result[PATH_MAX];
 	if (const ssize_t count{readlink("/proc/self/exe", result, PATH_MAX)}; count != -1) {
