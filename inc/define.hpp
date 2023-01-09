@@ -131,6 +131,7 @@ inline constexpr auto DELAY_RESTING{2000u};
 inline constexpr auto DELAY_ATTRACT{5000u};
 inline constexpr auto DELAY_DIRECTION{150u};
 inline constexpr auto DELAY_TSLEEP{500u};
+inline constexpr auto WALLPAPER_INTERVAL{30000u};
 
 // Miscellaneous Settings
 inline constexpr auto MAX_PORTRAIT_INDEX{29u};

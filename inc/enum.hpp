@@ -678,6 +678,7 @@ namespace Enums::System {
 		D16,
 		D52,
 		D100,
+		D165,
 		D300,
 		ZERO_TO_2,
 		ZERO_TO_3,

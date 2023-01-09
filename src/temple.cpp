@@ -54,10 +54,9 @@ Sorcery::Temple::~Temple() {
 // Visit the Tavern
 auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 
-	// Get the Background Display Components and load them into Display module
-	// storage (not local - and note that due to the way both menus are combined
-	// in this class, we need to have the menu stage set first in this case and
-	// this case only)
+	// Get the Background Display Components and load them into Display module storage (not local - and note that due to
+	// the way both menus are combined in this class, we need to have the menu stage set first in this case and this
+	// case only)
 	_display->generate("temple");
 	_display->generate("temple_help", _h_sprites, _h_texts, _h_frames);
 	_display->generate("temple_pay", _p_sprites, _p_texts, _p_frames);
@@ -96,6 +95,8 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 	auto heal_char_id{0u};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
+
+			std::cout << _graphics->animation->wallpaper_idx << std::endl;
 
 			// If we are in normal input mode
 			if (_display->get_input_mode() == WindowInputMode::NAVIGATE_MENU) {

@@ -71,6 +71,7 @@ Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics
 Sorcery::MainMenu::~MainMenu() {
 
 	_graphics->animation->stop_attract_threads();
+	_graphics->animation->stop_wallpaper_threads();
 	_display->stop_bg_movie();
 }
 
@@ -91,6 +92,8 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	// Start relevant animation worker threads
 	_graphics->animation->refresh_attract();
 	_graphics->animation->start_attract_ani_threads();
+	_graphics->animation->refresh_wallpaper();
+	_graphics->animation->start_wallpaper_threads();
 
 	// Play the background movie!
 	_display->fit_bg_movie();
@@ -259,8 +262,7 @@ auto Sorcery::MainMenu::_set() -> void {
 
 auto Sorcery::MainMenu::_draw() -> void {
 
-	// Only draw the attract mode if we have something to draw (to avoid timing
-	// issues)
+	// Only draw the attract mode if we have something to draw (to avoid timing issues
 	if (_attract_mode->data_temp.size() > 0) {
 
 		const auto lerp{_graphics->animation->colour_lerp};
@@ -272,8 +274,7 @@ auto Sorcery::MainMenu::_draw() -> void {
 		_attract_mode->setScale(attract_creatures_c.scale, attract_creatures_c.scale);
 		_attract_mode->set_alpha(_graphics->animation->attract_alpha);
 
-		// Horrible - but needed since the size of the Attract Mode Graphics are
-		// variable
+		// Horrible - but needed since the size of the Attract Mode Graphics are variable
 		const sf::Vector2f attract_mode_size{
 			_attract_mode->sprite.getGlobalBounds().width * _attract_mode->getScale().x,
 			_attract_mode->sprite.getGlobalBounds().height * _attract_mode->getScale().y};

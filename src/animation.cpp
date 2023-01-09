@@ -46,6 +46,11 @@ Sorcery::Animation::~Animation() {
 	_finished = true;
 }
 
+auto Sorcery::Animation::refresh_wallpaper() -> void {
+
+	_change_wallpaper(true);
+}
+
 auto Sorcery::Animation::refresh_attract() -> void {
 
 	_animate_attract(true);
@@ -54,6 +59,11 @@ auto Sorcery::Animation::refresh_attract() -> void {
 auto Sorcery::Animation::refresh_colcyc() -> void {
 
 	_colcyc(true);
+}
+
+auto Sorcery::Animation::start_wallpaper() -> void {
+
+	_allow_wallpaper = true;
 }
 
 auto Sorcery::Animation::start_attract() -> void {
@@ -65,6 +75,13 @@ auto Sorcery::Animation::start_colcyc() -> void {
 
 	_allow_colcyc = true;
 	attract_alpha = 0;
+}
+
+auto Sorcery::Animation::start_wallpaper_threads() -> void {
+
+	start_wallpaper();
+	if (!_wallpaper_thread.joinable())
+		_wallpaper_thread = std::jthread(&Animation::_change_wallpaper, this, false);
 }
 
 auto Sorcery::Animation::start_attract_ani_threads() -> void {
@@ -81,6 +98,11 @@ auto Sorcery::Animation::start_colcycl_threads() -> void {
 		_colcyc_thread = std::jthread(&Animation::_colcyc, this, false);
 }
 
+auto Sorcery::Animation::stop_wallpaper() -> void {
+
+	_allow_wallpaper = false;
+}
+
 auto Sorcery::Animation::stop_attract() -> void {
 
 	_allow_attract = false;
@@ -89,6 +111,14 @@ auto Sorcery::Animation::stop_attract() -> void {
 auto Sorcery::Animation::stop_colcyc() -> void {
 
 	_allow_colcyc = false;
+}
+
+auto Sorcery::Animation::stop_wallpaper_threads() -> void {
+
+	_finished = true;
+	stop_wallpaper();
+	if (_wallpaper_thread.joinable())
+		_wallpaper_thread.join();
 }
 
 auto Sorcery::Animation::stop_attract_threads() -> void {
@@ -108,14 +138,34 @@ auto Sorcery::Animation::stop_colcyc_threads() -> void {
 }
 
 // Generate an attract mode sprite to display
+auto Sorcery::Animation::_change_wallpaper(bool force) -> void {
+
+	if (force)
+		_do_wallpaper();
+	else {
+
+		do {
+			_ctime_wallpaper = std::chrono::system_clock::now();
+			const auto time_elapsed{_ctime_wallpaper - _last_wallpaper};
+			if (const auto time_elapsed_msec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
+				time_elapsed_msec.count() > WALLPAPER_INTERVAL)
+				if (_allow_wallpaper)
+					_do_wallpaper();
+
+			std::this_thread::sleep_for(std::chrono::milliseconds(WALLPAPER_INTERVAL));
+		} while (!_finished);
+	}
+}
+
+// Generate an attract mode sprite to display
 auto Sorcery::Animation::_animate_attract(bool force) -> void {
 
 	if (force)
 		_do_attract();
 	else {
 		do {
-			_current_time = std::chrono::system_clock::now();
-			const auto time_elapsed{_current_time - _last_attract};
+			_ctime_attract = std::chrono::system_clock::now();
+			const auto time_elapsed{_ctime_attract - _last_attract};
 			if (const auto time_elapsed_msec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
 				time_elapsed_msec.count() > DELAY_ATTRACT)
 				if (_allow_attract)
@@ -139,6 +189,13 @@ auto Sorcery::Animation::_colcyc(bool force) -> void {
 			std::this_thread::sleep_for(std::chrono::milliseconds(20));
 		} while (!_finished);
 	}
+}
+
+auto Sorcery::Animation::_do_wallpaper() -> void {
+
+	std::scoped_lock<std::mutex> _scoped_lock(_wallpaper_mutex);
+
+	wallpaper_idx = (*_system->random)[RandomType::D165];
 }
 
 // Note for Thread Safety Purposes, we only generate/update the IDs here
