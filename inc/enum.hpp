@@ -272,7 +272,8 @@ namespace Enums::Graphics {
 		KNOWN_CREATURE,
 		UNKNOWN_CREATURE,
 		PORTRAIT,
-		EVENTS
+		EVENTS,
+		WALLPAPER
 	};
 }
 

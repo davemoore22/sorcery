@@ -96,6 +96,7 @@ class Display {
 		std::map<Component, std::variant<sf::Sprite, sf::Text, std::shared_ptr<Frame>>> _components;
 		std::unique_ptr<IconStore> _icons;
 		bool _show_overlay;
+		unsigned int _wallpaper_idx;
 
 		// Private Methods
 };

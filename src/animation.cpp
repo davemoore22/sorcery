@@ -148,11 +148,12 @@ auto Sorcery::Animation::_change_wallpaper(bool force) -> void {
 			_ctime_wallpaper = std::chrono::system_clock::now();
 			const auto time_elapsed{_ctime_wallpaper - _last_wallpaper};
 			if (const auto time_elapsed_msec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
-				time_elapsed_msec.count() > WALLPAPER_INTERVAL)
+				time_elapsed_msec.count() > WALLPAPER_INTERVAL) {
 				if (_allow_wallpaper)
 					_do_wallpaper();
+			}
 
-			std::this_thread::sleep_for(std::chrono::milliseconds(WALLPAPER_INTERVAL));
+			std::this_thread::sleep_for(std::chrono::milliseconds(DELAY_TSLEEP));
 		} while (!_finished);
 	}
 }
@@ -196,6 +197,7 @@ auto Sorcery::Animation::_do_wallpaper() -> void {
 	std::scoped_lock<std::mutex> _scoped_lock(_wallpaper_mutex);
 
 	wallpaper_idx = (*_system->random)[RandomType::D165];
+	_last_wallpaper = std::chrono::system_clock::now();
 }
 
 // Note for Thread Safety Purposes, we only generate/update the IDs here

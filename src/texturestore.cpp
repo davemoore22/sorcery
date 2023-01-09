@@ -104,6 +104,10 @@ auto Sorcery::TextureStore::get(const unsigned int index, GraphicsTextureType te
 		source = _events_t;
 		idx = index;
 		break;
+	case WALLPAPER:
+		source = _wall_t;
+		idx = index;
+		break;
 	default:
 		// Doesn't work for View, as we need the exact coordinates for the atlas
 		return std::nullopt;
@@ -213,6 +217,9 @@ auto Sorcery::TextureStore::_get_rect(unsigned int index, GraphicsTextureType te
 		case EVENTS:
 			return EVENT_TILE_SIZE;
 			break;
+		case WALLPAPER:
+			return WALLPAPER_TILE_SIZE;
+			break;
 		default:
 			return DUNGEON_TILE_SIZE;
 			break;
@@ -231,7 +238,10 @@ auto Sorcery::TextureStore::_get_rect(unsigned int index, GraphicsTextureType te
 			return PORTRAIT_TILE_ROW_COUNT;
 			break;
 		case EVENTS:
-			return EVENT_TILE_SIZE;
+			return EVENT_TILE_ROW_COUNT;
+			break;
+		case WALLPAPER:
+			return WALLPAPER_TILE_ROW_COUNT;
 			break;
 		default:
 			return DUNGEON_TILE_ROW_COUNT;

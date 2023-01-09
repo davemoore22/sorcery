@@ -122,10 +122,6 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 	// Refresh the Party characters
 	_status_bar->refresh();
 
-	// Play the background movie!
-	_display->fit_bg_movie();
-	_display->start_bg_movie();
-
 	// And do the main loop
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
@@ -253,11 +249,6 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 
 		_window->clear();
 
-		// Update Background Movie
-		_display->start_bg_movie();
-		_display->update_bg_movie();
-		_display->draw_bg_movie();
-
 		_draw();
 		_window->display();
 	}
@@ -266,9 +257,6 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 }
 
 auto Sorcery::Castle::stop() -> void {
-
-	// Stop the background movie!
-	_display->stop_bg_movie();
 }
 
 auto Sorcery::Castle::_update_menus() -> void {
@@ -286,6 +274,9 @@ auto Sorcery::Castle::_update_menus() -> void {
 }
 
 auto Sorcery::Castle::_draw() -> void {
+
+	// Background Wallpaper
+	_graphics->tile_bg(_window);
 
 	// Custom Components
 	_display->display("castle");

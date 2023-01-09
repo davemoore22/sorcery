@@ -45,6 +45,8 @@ class Graphics {
 		auto adjust_colour(int value, CharacterAbilityType ability_type) -> unsigned long long;
 		auto adjust_status_colour(Enums::Character::CStatus value, bool poisoned) -> unsigned long long;
 		auto adjust_brightness(sf::Color colour, double colour_lerp) -> unsigned long long;
+		auto get_background_sprite() -> sf::Sprite;
+		auto tile_bg(sf::RenderWindow *window) -> void;
 
 		// Public Members
 		std::unique_ptr<Animation> animation;
@@ -54,6 +56,10 @@ class Graphics {
 	private:
 
 		// Private Members
+		System *_system;
+		Display *_display;
+		unsigned int _wallpaper_idx;
+		sf::Sprite _wallpaper;
 
 		// Private Methods
 };

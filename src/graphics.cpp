@@ -25,11 +25,13 @@
 #include "graphics.hpp"
 
 // Standard Constructor
-Sorcery::Graphics::Graphics(System *system, Display *display) {
+Sorcery::Graphics::Graphics(System *system, Display *display) : _system{system}, _display{display} {
 
 	animation = std::make_unique<Animation>(system, display);
 	icons = std::make_unique<IconStore>(system, (*display->layout)["global:icon"], (*system->files)[ICONS_FILE]);
 	textures = std::make_unique<TextureStore>(system, (*system->files)[TEXTURES_FILE]);
+
+	_wallpaper_idx = 0;
 }
 
 auto Sorcery::Graphics::adjust_brightness(sf::Color colour, double colour_lerp) -> unsigned long long {
@@ -55,6 +57,35 @@ auto Sorcery::Graphics::adjust_status_colour(Enums::Character::CStatus value, bo
 		to_scale = (1.0f / 8.0f) * 2.0f;
 	auto scaled{to_scale / 8.0f};
 	return (gradient.sampleColor(scaled)).toInteger();
+}
+
+auto Sorcery::Graphics::get_background_sprite() -> sf::Sprite {
+
+	if (_wallpaper_idx != animation->wallpaper_idx) {
+		_wallpaper = textures->get(animation->wallpaper_idx, GraphicsTextureType::WALLPAPER).value();
+		_wallpaper_idx = animation->wallpaper_idx;
+	}
+
+	return _wallpaper;
+}
+
+auto Sorcery::Graphics::tile_bg(sf::RenderWindow *window) -> void {
+
+	static unsigned int wallpaper_idx;
+	static sf::Sprite bg;
+	if (wallpaper_idx != animation->wallpaper_idx) {
+		wallpaper_idx = animation->wallpaper_idx;
+		bg = get_background_sprite();
+	}
+
+	const auto cols{std::floor(_display->window->size.width / bg.getLocalBounds().width) + 1};
+	const auto rows{std::floor(_display->window->size.height / bg.getLocalBounds().height) + 1};
+	for (auto x = 0; x <= cols; x++) {
+		for (auto y = 0; y <= rows; y++) {
+			bg.setPosition(x * bg.getLocalBounds().width, y * bg.getLocalBounds().height);
+			window->draw(bg);
+		}
+	}
 }
 
 auto Sorcery::Graphics::adjust_colour(int value, CharacterAbilityType ability_type) -> unsigned long long {
