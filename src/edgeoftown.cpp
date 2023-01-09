@@ -85,10 +85,6 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 	// Refresh the Party characters
 	_status_bar->refresh();
 
-	// Play the background movie!
-	_display->fit_bg_movie();
-	_display->start_bg_movie();
-
 	// Draw the Custom Components
 	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
 	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
@@ -203,11 +199,6 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 
 		_window->clear();
 
-		// Update Background Movie
-		_display->start_bg_movie();
-		_display->update_bg_movie();
-		_display->draw_bg_movie();
-
 		_draw();
 		_window->display();
 	}
@@ -216,9 +207,6 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 }
 
 auto Sorcery::EdgeOfTown::stop() -> void {
-
-	// Stop the background movie!
-	_display->stop_bg_movie();
 }
 
 auto Sorcery::EdgeOfTown::_update_menus() -> void {
@@ -238,6 +226,9 @@ auto Sorcery::EdgeOfTown::_update_menus() -> void {
 }
 
 auto Sorcery::EdgeOfTown::_draw() -> void {
+
+	// Background Wallpaper
+	_graphics->tile_bg(_window);
 
 	// Custom Components
 	_display->display("edge_of_town");

@@ -78,10 +78,6 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
 		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
 
-	// Play the background movie!
-	_display->fit_bg_movie();
-	_display->start_bg_movie();
-
 	// Start at the entry menu
 	_stage = TempleStage::MENU;
 
@@ -267,11 +263,6 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 
 		_window->clear();
 
-		// Update Background Movie
-		_display->start_bg_movie();
-		_display->update_bg_movie();
-		_display->draw_bg_movie();
-
 		_draw();
 		_window->display();
 	}
@@ -280,9 +271,6 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 }
 
 auto Sorcery::Temple::stop() -> void {
-
-	// Stop the background movie!
-	_display->stop_bg_movie();
 }
 
 auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int pay_char_id) -> bool {
@@ -374,6 +362,9 @@ auto Sorcery::Temple::_refresh_pay_menu(const unsigned int cost) -> void {
 }
 
 auto Sorcery::Temple::_draw() -> void {
+
+	// Play the background movie!
+	_graphics->tile_bg(_window);
 
 	// Custom Components
 	_display->display("temple");

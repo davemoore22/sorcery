@@ -66,12 +66,6 @@ auto Sorcery::Reorder::start() -> std::optional<std::vector<unsigned int>> {
 	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
 		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
 
-	// Play the background movie!
-	if (_mode != MenuMode::CAMP) {
-		_display->fit_bg_movie();
-		_display->start_bg_movie();
-	}
-
 	// And do the main loop
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
@@ -126,13 +120,6 @@ auto Sorcery::Reorder::start() -> std::optional<std::vector<unsigned int>> {
 
 		_window->clear();
 
-		// Update Background Movie
-		if (_mode != MenuMode::CAMP) {
-			_display->start_bg_movie();
-			_display->update_bg_movie();
-			_display->draw_bg_movie();
-		}
-
 		_draw();
 		_window->display();
 	}
@@ -164,6 +151,9 @@ auto Sorcery::Reorder::_populate_candidate() -> void {
 
 auto Sorcery::Reorder::_draw() -> void {
 
+	// Play the background movie!
+	_graphics->tile_bg(_window);
+
 	// Custom Components
 	if (_mode == MenuMode::CAMP) {
 		_display->window->restore_screen();
@@ -188,8 +178,4 @@ auto Sorcery::Reorder::_draw() -> void {
 }
 
 auto Sorcery::Reorder::stop() -> void {
-
-	// Stop the background movie!
-	if (_mode != MenuMode::CAMP)
-		_display->stop_bg_movie();
 }

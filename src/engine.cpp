@@ -2056,6 +2056,8 @@ auto Sorcery::Engine::_draw() -> void {
 	const auto wfr_c{(*_display->layout)["engine_base_ui:wireframe_view"]};
 	_render->setScale(std::stof(wfr_c["scale_x"].value()), std::stof(wfr_c["scale_y"].value()));
 
+	_graphics->tile_bg(_window);
+
 	// Standard Components
 	_display->display("engine_base_ui");
 

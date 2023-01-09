@@ -69,10 +69,6 @@ auto Sorcery::ChangeName::start() -> std::optional<std::string> {
 	// Clear the window
 	_window->clear();
 
-	// Play the background movie!
-	_display->fit_bg_movie();
-	_display->start_bg_movie();
-
 	while (_window->isOpen()) {
 		sf::Event event{};
 		while (_window->pollEvent(event)) {
@@ -104,11 +100,6 @@ auto Sorcery::ChangeName::start() -> std::optional<std::string> {
 		}
 
 		_window->clear();
-
-		// Update Background Movie
-		_display->start_bg_movie();
-		_display->update_bg_movie();
-		_display->draw_bg_movie();
 
 		_draw();
 		_window->display();
@@ -226,6 +217,9 @@ auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event) -> std::op
 }
 
 auto Sorcery::ChangeName::_draw() -> void {
+
+	// Background Wallpaper
+	_graphics->tile_bg(_window);
 
 	// Display Components
 	_display->display("change_name");

@@ -77,10 +77,6 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
 		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
 
-	// Play the background movie!
-	_display->fit_bg_movie();
-	_display->start_bg_movie();
-
 	// Start at the Menu Stage
 	_stage = InnStage::MENU;
 
@@ -336,11 +332,6 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 
 		_window->clear();
 
-		// Update Background Movie
-		_display->start_bg_movie();
-		_display->update_bg_movie();
-		_display->draw_bg_movie();
-
 		_draw();
 		_window->display();
 	}
@@ -349,9 +340,6 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 }
 
 auto Sorcery::Inn::stop() -> void {
-
-	// Stop the background movie!
-	_display->stop_bg_movie();
 }
 
 auto Sorcery::Inn::_update_and_draw_bed_screen() -> void {
@@ -396,6 +384,9 @@ auto Sorcery::Inn::_update_and_draw_bed_screen() -> void {
 }
 
 auto Sorcery::Inn::_draw() -> void {
+
+	// Background Wallpaper
+	_graphics->tile_bg(_window);
 
 	// Custom Components
 	_display->display("inn");

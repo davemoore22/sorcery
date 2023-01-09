@@ -101,10 +101,6 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 	_window->clear();
 	_method = CreateMethod::FULL;
 
-	// Play the background movie!
-	_display->fit_bg_movie();
-	_display->start_bg_movie();
-
 	if (auto module_result{_do_event_loop()}; module_result == ModuleResult::EXIT)
 		return MenuItem::ABORT;
 
@@ -112,9 +108,6 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 }
 
 auto Sorcery::Create::stop() -> void {
-
-	// Stop the background movie!
-	_display->stop_bg_movie();
 }
 
 auto Sorcery::Create::_do_event_loop() -> std::optional<ModuleResult> {
@@ -148,11 +141,6 @@ auto Sorcery::Create::_do_event_loop() -> std::optional<ModuleResult> {
 
 			// Redraw whilst in the module
 			_window->clear();
-
-			// Update Background Movie
-			_display->start_bg_movie();
-			_display->update_bg_movie();
-			_display->draw_bg_movie();
 
 			_draw();
 			_window->display();
@@ -993,6 +981,9 @@ auto Sorcery::Create::_set_info_panel_contents(std::vector<Sorcery::MenuEntry>::
 }
 
 auto Sorcery::Create::_draw() -> void {
+
+	// Background Wallpaper
+	_graphics->tile_bg(_window);
 
 	// Display Base Components
 	_display->display("create", _candidate.get_stage());

@@ -88,10 +88,6 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 	const Component results_c{(*_display->layout)["rest:results_panel"]};
 	_results->setPosition((*_display->layout)["rest:results_panel"].x, (*_display->layout)["rest:results_panel"].y);
 
-	// Play the background movie!
-	_display->fit_bg_movie();
-	_display->start_bg_movie();
-
 	// Start at the Regen
 	_stage = RestStage::REGEN;
 
@@ -243,11 +239,6 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 
 		_window->clear();
 
-		// Update Background Movie
-		_display->start_bg_movie();
-		_display->update_bg_movie();
-		_display->draw_bg_movie();
-
 		_draw();
 		_window->display();
 	}
@@ -343,11 +334,12 @@ auto Sorcery::Rest::_go_to_results() -> void {
 
 auto Sorcery::Rest::stop() -> void {
 
-	// Stop the background movie!
-	_display->stop_bg_movie();
 }
 
 auto Sorcery::Rest::_draw() -> void {
+
+	// Play the background movie!
+	_graphics->tile_bg(_window);
 
 	// Custom Components
 	_display->display("rest");

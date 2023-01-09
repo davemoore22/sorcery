@@ -128,12 +128,6 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 	// Clear the window
 	_window->clear();
 
-	// Play the background movie!
-	if (_screen_key != "engine_base_ui") {
-		_display->fit_bg_movie();
-		_display->start_bg_movie();
-	}
-
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->items.begin()};
 
@@ -245,13 +239,6 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 
 		_window->clear();
 
-		// Update Background Movie
-		if (_screen_key != "engine_base_ui") {
-			_display->start_bg_movie();
-			_display->update_bg_movie();
-			_display->draw_bg_movie();
-		}
-
 		_draw();
 		_window->display();
 	}
@@ -264,13 +251,11 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 auto Sorcery::Inspect::stop() -> void {
 
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-
-	// Stop the background movie!
-	if (_screen_key != "engine_base_ui")
-		_display->stop_bg_movie();
 }
 
 auto Sorcery::Inspect::_draw() -> void {
+
+	_graphics->tile_bg(_window);
 
 	// Display Components
 	switch (_mode) {

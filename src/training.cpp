@@ -79,10 +79,6 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 	// Clear the window
 	_window->clear();
 
-	// Play the background movie!
-	_display->fit_bg_movie();
-	_display->start_bg_movie();
-
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->items.begin()};
 
@@ -160,11 +156,6 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 
 		_window->clear();
 
-		// Update Background Movie
-		_display->start_bg_movie();
-		_display->update_bg_movie();
-		_display->draw_bg_movie();
-
 		_draw();
 		_window->display();
 	}
@@ -175,12 +166,12 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 auto Sorcery::Training::stop() -> void {
 
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-
-	// Stop the background movie!
-	_display->stop_bg_movie();
 }
 
 auto Sorcery::Training::_draw() -> void {
+
+	// Play the background movie!
+	_graphics->tile_bg(_window);
 
 	// Display Components
 	_display->display("training_grounds");
