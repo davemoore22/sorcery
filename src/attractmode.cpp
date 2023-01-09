@@ -25,7 +25,7 @@
 #include "attractmode.hpp"
 
 // Standard Constructor
-Sorcery::AttractMode::AttractMode(Graphics *graphics, Component component)
+Sorcery::AttractMode::AttractMode(Graphics *graphics, const Component &component)
 	: _graphics{graphics}, _component{component} {
 }
 
@@ -69,13 +69,13 @@ auto Sorcery::AttractMode::generate() -> void {
 // Adjust the Alpha
 auto Sorcery::AttractMode::set_alpha(unsigned int alpha) -> void {
 
-	if (data_temp.size() > 0)
+	if (data_temp.empty())
 		_sprite.setColor(sf::Color(255, 255, 255, alpha));
 }
 
 auto Sorcery::AttractMode::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
-	if (data_temp.size() > 0) {
+	if (data_temp.empty()) {
 		states.transform *= getTransform();
 		target.draw(_sprite, states);
 	}

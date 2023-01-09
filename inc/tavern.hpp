@@ -46,9 +46,6 @@ class Tavern {
 		Tavern(System *system, Display *display, Graphics *graphics, Game *game);
 		Tavern() = delete;
 
-		// Standard Destructor
-		~Tavern();
-
 		// Public Members
 
 		// Public Methods

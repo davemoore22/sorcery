@@ -47,12 +47,11 @@ Sorcery::Tavern::Tavern(System *system, Display *display, Graphics *graphics, Ga
 	_show_divvy = false;
 }
 
-// Standard Destructor
-Sorcery::Tavern::~Tavern() {
-}
-
 // Visit the Tavern
 auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
+
+	using enum Enums::Castle::Tavern;
+	using enum Enums::Menu::Item;
 
 	// Do the Menus here when we has access to the game characters
 	_add.reset();
@@ -65,13 +64,13 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 
 	// Note Inspect is handled in a generic Inspect Module
 	switch (_stage) {
-	case TavernStage::MENU:
+	case MENU:
 		_screen_key = "tavern";
 		break;
-	case TavernStage::ADD:
+	case ADD:
 		_screen_key = "tavern_add";
 		break;
-	case TavernStage::REMOVE:
+	case REMOVE:
 		_screen_key = "tavern_remove";
 		break;
 	default:
@@ -105,7 +104,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 
 			// Check for Window Close
 			if (event.type == sf::Event::Closed)
-				return MenuItem::ABORT;
+				return ABORT;
 
 			// Handle enabling help overlay
 			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
@@ -114,7 +113,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 			} else
 				_display->hide_overlay();
 
-			if (_stage == TavernStage::MENU) {
+			if (_stage == MENU) {
 
 				// If we are in normal input mode
 				if (_display->get_input_mode() == WindowInputMode::NAVIGATE_MENU) {
@@ -127,16 +126,13 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 
 					if (_show_divvy) {
 
-						auto dialog_input{_divvy->handle_input(event)};
-						if (dialog_input) {
-							if (dialog_input.value() == WindowDialogButton::CLOSE) {
-								_show_divvy = false;
-								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-							} else if (dialog_input.value() == WindowDialogButton::OK) {
+						if (auto dialog_input{_divvy->handle_input(event)}; dialog_input) {
+							if ((dialog_input.value() == WindowDialogButton::CLOSE) ||
+								(dialog_input.value() == WindowDialogButton::OK)) {
 								_show_divvy = false;
 								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							}
-						};
+						}
 
 					} else {
 
@@ -152,39 +148,36 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 
 							// We have selected something from the menu
 							if (option) {
-								if (const MenuItem option_chosen{(*option.value()).item};
-									option_chosen == MenuItem::TA_CASTLE) {
-									return MenuItem::TA_CASTLE;
-								} else if (option_chosen == MenuItem::TA_ADD_TO_PARTY) {
+								if (const MenuItem option_chosen{(*option.value()).item}; option_chosen == TA_CASTLE) {
+									return TA_CASTLE;
+								} else if (option_chosen == TA_ADD_TO_PARTY) {
 									_add->reload();
-									_stage = TavernStage::ADD;
+									_stage = ADD;
 									_screen_key = "tavern_add";
 									_update_menus();
 									_display->generate(_screen_key);
 									continue;
-								} else if (option_chosen == MenuItem::TA_REMOVE_FROM_PARTY) {
+								} else if (option_chosen == TA_REMOVE_FROM_PARTY) {
 									_remove->reload();
-									_stage = TavernStage::REMOVE;
+									_stage = REMOVE;
 									_screen_key = "tavern_remove";
 									_update_menus();
 									_display->generate(_screen_key);
 									continue;
-								} else if (option_chosen == MenuItem::TA_INSPECT) {
-									auto result{_inspect->start()};
-									if (result && result.value() == MenuItem::ABORT) {
+								} else if (option_chosen == TA_INSPECT) {
+									if (auto result{_inspect->start()}; result && result.value() == ABORT) {
 										_game->save_game();
 										_inspect->stop();
-										return MenuItem::ABORT;
+										return ABORT;
 									}
 									_inspect->stop();
 									_update_menus();
 									_display->generate("tavern");
 									_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 									continue;
-								} else if (option_chosen == MenuItem::TA_REORDER) {
+								} else if (option_chosen == TA_REORDER) {
 									auto reorder{std::make_unique<Reorder>(_system, _display, _graphics, _game)};
-									auto new_party{reorder->start()};
-									if (new_party) {
+									if (auto new_party{reorder->start()}; new_party) {
 										// TODO: handle aborts here
 										_game->state->set_party(new_party.value());
 										_game->save_game();
@@ -196,7 +189,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 									_display->generate("tavern");
 									_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 									continue;
-								} else if (option_chosen == MenuItem::TA_DIVVY_GOLD) {
+								} else if (option_chosen == TA_DIVVY_GOLD) {
 
 									_game->divvy_party_gold();
 									_game->save_game();
@@ -209,10 +202,10 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 						}
 					}
 				}
-			} else if (_stage == TavernStage::ADD) {
+			} else if (_stage == ADD) {
 
 				if (_system->input->check(WindowInput::CANCEL, event)) {
-					_stage = TavernStage::MENU;
+					_stage = MENU;
 					_screen_key = "tavern";
 					_update_menus();
 					_display->generate(_screen_key);
@@ -220,7 +213,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 				}
 
 				if (_system->input->check(WindowInput::BACK, event)) {
-					_stage = TavernStage::MENU;
+					_stage = MENU;
 					_screen_key = "tavern";
 					_update_menus();
 					_display->generate(_screen_key);
@@ -238,10 +231,9 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 
 					// We have selected something from the menu
 					if (option) {
-						if (const MenuItem option_chosen{(*option.value()).item};
-							option_chosen == MenuItem::CA_TAVERN) {
+						if (const MenuItem option_chosen{(*option.value()).item}; option_chosen == CA_TAVERN) {
 
-							_stage = TavernStage::MENU;
+							_stage = MENU;
 							_screen_key = "tavern";
 							_update_menus();
 							_display->generate(_screen_key);
@@ -255,17 +247,17 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 							character.location = CharacterLocation::PARTY;
 							_game->save_game();
 							_status_bar->refresh();
-							_stage = TavernStage::MENU;
+							_stage = MENU;
 							_screen_key = "tavern";
 							_update_menus();
 							_display->generate(_screen_key);
 						}
 					}
 				}
-			} else if (_stage == TavernStage::REMOVE) {
+			} else if (_stage == REMOVE) {
 
 				if (_system->input->check(WindowInput::CANCEL, event)) {
-					_stage = TavernStage::MENU;
+					_stage = MENU;
 					_screen_key = "tavern";
 					_update_menus();
 					_display->generate(_screen_key);
@@ -273,7 +265,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 				}
 
 				if (_system->input->check(WindowInput::BACK, event)) {
-					_stage = TavernStage::MENU;
+					_stage = MENU;
 					_screen_key = "tavern";
 					_update_menus();
 					_display->generate(_screen_key);
@@ -291,10 +283,9 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 
 					// We have selected something from the menu
 					if (option) {
-						if (const MenuItem option_chosen{(*option.value()).item};
-							option_chosen == MenuItem::CA_TAVERN) {
+						if (const MenuItem option_chosen{(*option.value()).item}; option_chosen == CA_TAVERN) {
 
-							_stage = TavernStage::MENU;
+							_stage = MENU;
 							_screen_key = "tavern";
 							_update_menus();
 							_display->generate(_screen_key);
@@ -312,7 +303,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 
 							_game->save_game();
 							_status_bar->refresh();
-							_stage = TavernStage::MENU;
+							_stage = MENU;
 							_screen_key = "tavern";
 							_update_menus();
 							_display->generate(_screen_key);
@@ -347,7 +338,7 @@ auto Sorcery::Tavern::_update_menus() -> void {
 	Component component{(*_display->layout)["tavern:menu"]};
 	if (_game->state->get_party_characters().size() == MAX_PARTY_SIZE) {
 		_menu->disable_entry(component, 0);
-	} else if (_game->state->get_party_characters().size() == 0) {
+	} else if (_game->state->get_party_characters().empty()) {
 		_menu->enable_entry(component, 0);
 		_menu->disable_entry(component, 1);
 		_menu->enable_entry(component, 2);

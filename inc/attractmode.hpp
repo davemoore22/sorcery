@@ -35,7 +35,7 @@ class AttractMode: public sf::Transformable, public sf::Drawable {
 	public:
 
 		// Constructors
-		AttractMode(Graphics *graphics, Component component);
+		AttractMode(Graphics *graphics, const Component &component);
 		AttractMode() = delete;
 
 		// Public Members
