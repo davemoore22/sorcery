@@ -54,6 +54,8 @@ Sorcery::Application::Application(int argc, char **argv) {
 	// Start relevant animation worker threads
 	graphics->animation->refresh_colcyc();
 	graphics->animation->start_colcycl_threads();
+	graphics->animation->refresh_wallpaper();
+	graphics->animation->start_wallpaper_threads();
 
 	// Create a Game (load the existing one if possible)
 	_game = std::make_unique<Game>(system.get(), display.get(), graphics.get());
@@ -70,6 +72,7 @@ Sorcery::Application::Application(int argc, char **argv) {
 Sorcery::Application::~Application() {
 
 	graphics->animation->stop_colcyc_threads();
+	graphics->animation->stop_wallpaper_threads();
 }
 
 auto Sorcery::Application::start() -> int {
@@ -217,8 +220,7 @@ auto Sorcery::Application::start() -> int {
 // Check for a command line parameter
 auto Sorcery::Application::_check_param(std::string_view parameter) const -> bool {
 
-	return std::ranges::any_of(
-		_arguments, [&](const auto &arg) { return arg.find(parameter) != std::string::npos; });
+	return std::ranges::any_of(_arguments, [&](const auto &arg) { return arg.find(parameter) != std::string::npos; });
 }
 
 auto Sorcery::Application::_display_loading_window() -> void {

@@ -128,6 +128,10 @@ Sorcery::Menu::Menu(
 		_add_item(0, MenuItemType::ENTRY, MenuItem::CONTINUE, (*_display->string)["CONTINUE"]);
 		selected = items.begin();
 		break;
+	case MenuType::GRAVEYARD:
+		_add_item(0, MenuItemType::ENTRY, MenuItem::CONTINUE, (*_display->string)["GRAVEYARD_MENU"]);
+		selected = items.begin();
+		break;
 	case MenuType::STOP:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::STOP, (*_display->string)["STOP"]);
 		selected = items.begin();

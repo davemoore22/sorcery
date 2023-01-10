@@ -71,14 +71,12 @@ Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics
 Sorcery::MainMenu::~MainMenu() {
 
 	_graphics->animation->stop_attract_threads();
-	_graphics->animation->stop_wallpaper_threads();
 	_display->stop_bg_movie();
 }
 
 auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem> {
 
-	// Get the Background Display Components and load them into Display module
-	// storage (not local)
+	// Get the Background Display Components and load them into Display module storage (not local)
 	_display->generate("main_menu_attract");
 
 	// Clear the window
@@ -92,8 +90,6 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	// Start relevant animation worker threads
 	_graphics->animation->refresh_attract();
 	_graphics->animation->start_attract_ani_threads();
-	_graphics->animation->refresh_wallpaper();
-	_graphics->animation->start_wallpaper_threads();
 
 	// Play the background movie!
 	_display->fit_bg_movie();

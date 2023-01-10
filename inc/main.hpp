@@ -143,6 +143,7 @@ using ConfigOption = Enums::Options;
 using CreateMethod = Enums::Manage::Method;
 using Destination = Enums::System::Destination;
 using DoorType = Enums::Tile::DoorType;
+using EventGraphic = Enums::Graphics::Event;
 using FontType = Enums::Internal::FontType;
 using GraphicsTexture = Enums::Graphics::Texture;
 using GraphicsTextureType = Enums::Graphics::TextureType;

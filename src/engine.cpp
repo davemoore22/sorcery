@@ -664,6 +664,40 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 	return std::nullopt;
 }
 
+// Will return true in the event of a wipe
+auto Sorcery::Engine::_check_for_wipe() const -> bool {
+
+	using enum Enums::Character::CStatus;
+
+	const auto party{_game->state->get_party_characters()};
+	for (const auto &[character_id, character] : _game->characters) {
+		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+
+			if ((character.get_status() == OK) || (character.get_status() == AFRAID) ||
+				(character.get_status() == SILENCED))
+				return false;
+		}
+	}
+
+	return true;
+}
+
+auto Sorcery::Engine::_do_wipe() -> int {
+
+	const auto party{_game->state->get_party_characters()};
+	for (auto &[character_id, character] : _game->characters) {
+		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+			character.location = CharacterLocation::MAZE;
+		}
+	}
+	_graveyard->start();
+	_graveyard->stop();
+	_game->save_game();
+	_game->state->clear_party();
+
+	return EXIT_MODULE;
+}
+
 auto Sorcery::Engine::_handle_elevator_a_f(const sf::Event &event) -> std::optional<int> {
 
 	if (_left_icon_panel->selected)
@@ -852,7 +886,20 @@ auto Sorcery::Engine::_move_characters_to_temple_if_needed() -> void {
 
 auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<int> {
 
+	// First of all check for a wipe!
+	// if (_check_for_wipe())
+	//	return _do_wipe();
+
 	if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F6)) {
+
+		_graveyard->start();
+		_graveyard->stop();
+		_update_automap = true;
+		_update_compass = true;
+		_update_buffbar = true;
+		_update_search = true;
+		_update_render = true;
+		return CONTINUE;
 
 		/*auto dest_level{_game->state->get_depth() - 1};
 		Level level{((*_game->levelstore)[dest_level]).value()};
@@ -2062,7 +2109,8 @@ auto Sorcery::Engine::_draw() -> void {
 	_display->display("engine_base_ui");
 
 	// Draw the Render
-	_render->setPosition(wfr_c.x, wfr_c.y);
+	_render->setPosition(
+		wfr_c.x + std::stoi(wfr_c["offset_x"].value()), wfr_c.y + std::stoi(wfr_c["offset_y"].value()));
 	_window->draw(*_render);
 
 	if (_show_gui) {

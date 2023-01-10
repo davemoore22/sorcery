@@ -749,7 +749,8 @@ namespace Enums::Menu {
 		INN_CHOOSE_CHARACTER,
 		INN_CHOOSE_BED,
 		CONTINUE,
-		STOP
+		STOP,
+		GRAVEYARD
 	};
 
 	enum class Mode {

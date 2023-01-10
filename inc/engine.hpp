@@ -32,6 +32,7 @@
 #include "display.hpp"
 #include "game.hpp"
 #include "graphics.hpp"
+#include "graveyard.hpp"
 #include "iconpanel.hpp"
 #include "inspect.hpp"
 #include "main.hpp"
@@ -107,6 +108,8 @@ class Engine {
 		auto _unpoison_characters_on_return_to_town() -> void;
 		auto _move_characters_to_temple_if_needed() -> void;
 		auto _pit_oops() -> void;
+		auto _check_for_wipe() const -> bool;
+		auto _do_wipe() -> int;
 
 		// Private Members
 		System *_system;
@@ -145,6 +148,7 @@ class Engine {
 		std::unique_ptr<BuffBar> _buffbar;
 		std::unique_ptr<Search> _search;
 		std::unique_ptr<Map> _map;
+		std::unique_ptr<Graveyard> _graveyard;
 		bool _in_camp;
 		bool _in_action;
 		bool _in_search;
