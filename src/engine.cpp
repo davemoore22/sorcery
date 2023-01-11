@@ -136,6 +136,7 @@ auto Sorcery::Engine::_initalise_components() -> void {
 	_reorder = std::make_unique<Reorder>(_system, _display, _graphics, _game, MenuMode::CAMP);
 	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MenuMode::CAMP);
 	_render = std::make_unique<Render>(_system, _display, _graphics, _game);
+	_graveyard = std::make_unique<Graveyard>(_system, _display, _graphics, _game);
 	_automap = std::make_unique<AutoMap>(_system, _display, _graphics, _game, (*_display->layout)["global:automap"]);
 	_compass = std::make_unique<Compass>(_system, _display, _graphics, _game, (*_display->layout)["global:compass"]);
 	_buffbar = std::make_unique<BuffBar>(_system, _display, _graphics, _game, (*_display->layout)["global:buffbar"]);
@@ -894,12 +895,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 
 		_graveyard->start();
 		_graveyard->stop();
-		_update_automap = true;
-		_update_compass = true;
-		_update_buffbar = true;
-		_update_search = true;
-		_update_render = true;
-		return CONTINUE;
+		return EXIT_MODULE;
 
 		/*auto dest_level{_game->state->get_depth() - 1};
 		Level level{((*_game->levelstore)[dest_level]).value()};

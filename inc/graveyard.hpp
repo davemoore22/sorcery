@@ -93,6 +93,7 @@ class Graveyard {
 		std::unique_ptr<Frame> _menu_frame;
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Sprite> _sprites;
+		sf::Text _wipe_message;
 };
 
 }

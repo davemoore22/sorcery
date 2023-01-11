@@ -851,18 +851,18 @@
 			"h": "38",
 			"x": "centre",
 			"y": "2",
-			"alpha": "0",
+			"alpha": "255",
 			"type": "frame",
 			"priority": "3",
 			"background": " 0x000000ff"
 		},
 		{
 			"name": "menu_frame",
-			"w": "36",
+			"w": "52",
 			"h": "3",
 			"x": "centre",
 			"y": "36",
-			"alpha": "225",
+			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
 			"drawmode": "manual",
@@ -871,7 +871,7 @@
 		{
 			"name": "menu",
 			"x": "22",
-			"y": "37",
+			"y": "29",
 			"w": "36",
 			"h": "4",
 			"font": "monospace",
@@ -886,16 +886,16 @@
 		},
 		{
 			"name": "gravestone",
-			"x": "6",
-			"y": "10",
-			"scale": "1.25",
+			"x": "15",
+			"y": "16",
+			"scale": "0.5",
 			"type": "image",
 			"priority": "1",
 			"texture": "background",
 			"drawmode": "manual",
 			"data": [
 				{
-					"offset_x": "10",
+					"offset_x": "12",
 					"offset_y": "0",
 					"number": "4"
 				}
@@ -903,17 +903,35 @@
 
 		},
 		{
+			"name": "wipe_text",
+			"x": "centre",
+			"y": "28",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "35",
+			"string": "GRAVEYARD_MESSAGE",
+			"justification": "centre",
+			"type": "text",
+			"priority": "4",
+			"drawmode": "manual"
+		},
+		{
 			"name": "party_members",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "38",
-			"string": "CONFIRM_SWITCH_ON_STRICT_MODE",
+			"string": "GRAVEYARD_MESSAGE",
 			"background": " 0xff0000ff",
 			"justification": "centre",
 			"type": "text",
 			"drawmode": "manual",
-			"x": "34",
-			"y": "3"
+			"x": "18",
+			"y": "4",
+			"data": [
+				{
+					"spacing_y": "3"
+				}
+			]
 		}
 		]
 	},
