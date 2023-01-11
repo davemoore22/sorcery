@@ -1,17 +1,11 @@
 # Sorcery: Shadows under Llylgamyn
 
-An open source remake of Wizardry 1,2,3 (and 5) with infinite (proc-genned)
-Dungeon Adventures, and (optional) modern CRPG conveniences!
+An in-development open source remake of Wizardry 1,2,3 (and 5) with infinite (proc-genned) Dungeon Adventures, and (optional) modern CRPG conveniences!
 
-Coded using C++20 and SFML, hopefully soon, there will be a playable game! Visit
-back regularily for updates. Initially the focus will be on emulating Wizardry 1
-fully, then 2, 3, 5 and maybe even 4 some day.
+![](/promo/screen1.png)
+![](/promo/screen7.png)
 
-![Logo](/promo/screen1.png)
-![Logo](/promo/screen7.png)
-![Logo](/promo/screen8.png)
-
-Watch a video of Level 1 being explored here:
+Watch a (from an older version) video of Level 1 being explored here:
 
 [![Entering the Dungeon](https://img.youtube.com/vi/AQ9LhK0ta8A/maxresdefault.jpg)](https://youtu.be/AQ9LhK0ta8A).
 
@@ -33,47 +27,35 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 * ~~Adventurer's Inn~~ (DONE)
 * ~~Levelling up/Changing Class~~ (DONE)
 * ~~Temple~~ (DONE)
-* Wipe Handling (DOING)
-* Items and Inventory (TO DO)
+* ~~Wipe Handling~~ (DONE)
+* Items and Inventory (DOING)
+* Boltac's Equipment Shop (TO DO)
 * Creatures and NPCs (TO DO)
 * Magic and Combat (TO DO)
 * Special Item/Square Handling (TO DO)
 * Victory Handling (TO DO)
 * Strict (Legacy) Mode (TO DO)
-* 3D Rendering (TO DO)
+* Compendium (TO DO)
+* Achivements (TO DO)
+* Optional Textured/Rendered 3D View (TO DO)
 
-## What next? (as of January 2023)
+## What next? (as of 11th January 2023)
 
-I'm currently implementing party wipe handling.
+I've started work on Character Inventory and Item-Handling.
 
-Next stop after that will be items, creatures, magic and combat. Then there might
-be something playable here! Then a proper 3D renderer will probably be implemented.
-
-Initially I am planning to remake Wizardrys 1, 2, and 3, and subsequently
-providing infinite procedurally-generated content like that of Diablo for example.
-In the meantime, check out Snarfu's bugfix and recompilation of the original
-Wizardry for Apple II at <https://github.com/snafaru>.
+Initially I am planning to remake Wizardry 1, then adding 2 and 3, and then subsequently providing infinite procedurally-generated content like that of Diablo for example. In the meantime, check out Snarfu's bugfix and recompilation of the original Wizardry for Apple II at <https://github.com/snafaru>.
 
 ## Compilation
 
-Note that I'm currently developing solely on Linux (Ubuntu 20) so compilation
-instructions are currently Linux-specific. Windows instructions and releases
-will of course be supported at a later date.
+I 'm currently developing solely on Linux (Ubuntu 22) so compilation instructions are currently Linux-specific. Windows instructions and releases will of course be supported at a later date.
 
-Full compliation instructions for Linux are in the doc/COMPILE text file, but in
-brief both CMake (via VSCode CMake Tools) and Code::Blocks are supported.
-C++20 compiler support is required.
+Full compliation instructions for Linux are in the doc/COMPILE text file, but in brief both CMake (via VSCode CMake Tools) and Code::Blocks are supported. C++20 compiler support is required.
 
-All code is released under the GPL - see the doc/LICENSE text file for full
-details.
+All code is released under the GPL - see the doc/LICENSE text file for full details.
 
 ## Contact and Help
 
-All comments and criticism and help welcome. Spent 20 years away from C++ (day
-job these days is PHP/JS) but I'm really enjoying my time back with C++.
-
-You can find me as *Typhon* on the C++ Help, SFML, and DungeonCrawlers.org
-Discord Servers, or my email address is on the Splash Screen of the Game.
+All comments and criticism and help welcome. You can find me as *Typhon* on the C++ help, SFML, and DungeonCrawlers.org Discord Servers, or my email address is on the Splash Screen of the Game.
 
 ## Credits
 
@@ -88,17 +70,15 @@ Graphics used (all free/open source) are by:
 
 Most Recent Screenshots are first
 
-![Logo](/promo/screen12.png)
-![Logo](/promo/screen11.png)
-![Logo](/promo/screen9.png)
-![Logo](/promo/screen10.png)
-![Logo](/promo/screen7.png)
-![Logo](/promo/screen6.png)
-![Logo](/promo/screen2.png)
-![Logo](/promo/screen3.png)
-![Logo](/promo/screen4.png)
-![Logo](/promo/screen5.png)
-
-## Important Postscript
-
-TREBOR SUX!
+![](/promo/screen8.png)
+![](/promo/screen13.png)
+![](/promo/screen12.png)
+![](/promo/screen11.png)
+![](/promo/screen9.png)
+![](/promo/screen10.png)
+![](/promo/screen7.png)
+![](/promo/screen6.png)
+![](/promo/screen2.png)
+![](/promo/screen3.png)
+![](/promo/screen4.png)
+![](/promo/screen5.png)

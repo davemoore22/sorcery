@@ -671,9 +671,8 @@ auto Sorcery::Engine::_check_for_wipe() const -> bool {
 	using enum Enums::Character::CStatus;
 
 	const auto party{_game->state->get_party_characters()};
-	for (const auto &[character_id, character] : _game->characters) {
+	for (auto &[character_id, character] : _game->characters) {
 		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-
 			if ((character.get_status() == OK) || (character.get_status() == AFRAID) ||
 				(character.get_status() == SILENCED))
 				return false;
@@ -886,10 +885,6 @@ auto Sorcery::Engine::_move_characters_to_temple_if_needed() -> void {
 }
 
 auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<int> {
-
-	// First of all check for a wipe!
-	// if (_check_for_wipe())
-	//	return _do_wipe();
 
 	if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F6)) {
 
@@ -1604,6 +1599,10 @@ auto Sorcery::Engine::start() -> int {
 				} else {
 
 					if (_display->get_input_mode() == WindowInputMode::IN_GAME) {
+
+						// Check for a wipe!
+						if (_check_for_wipe())
+							return _do_wipe();
 
 						auto what_to_do{_handle_in_game(event)};
 						if (what_to_do) {
