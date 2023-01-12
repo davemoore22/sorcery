@@ -260,7 +260,7 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	_map->refresh();
 	_system->stop_pause();
 	_last_movement = MapDirection::NO_DIRECTION;
-	auto &starting_tile{_game->state->level->at(_game->state->get_player_pos())};
+	const auto &starting_tile{_game->state->level->at(_game->state->get_player_pos())};
 
 	if (!_tile_explored(_game->state->get_player_pos()))
 		_set_tile_explored(_game->state->get_player_pos());
@@ -688,6 +688,7 @@ auto Sorcery::Engine::_do_wipe() -> int {
 	for (auto &[character_id, character] : _game->characters) {
 		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
 			character.location = CharacterLocation::MAZE;
+			character.set_current_hp(0);
 		}
 	}
 	_graveyard->start();
@@ -1000,10 +1001,10 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		for (auto &[character_id, character] : _game->characters) {
 			if (std::find(party.begin(), party.end(), character_id) != party.end()) {
 				character.set_current_hp(1);
-				/* if ((*_system->random)[RandomType::ZERO_TO_2] == 0)
+				if ((*_system->random)[RandomType::ZERO_TO_2] == 0)
 					character.set_current_hp(1);
 				else
-					character.set_current_hp(character.get_max_hp()); */ /*
+					character.set_current_hp(character.get_max_hp());
 			}
 		} */
 
@@ -1670,21 +1671,23 @@ auto Sorcery::Engine::_refresh_display() -> void {
 // Remember Y is reversed
 auto Sorcery::Engine::_move_forward() -> bool {
 
+	using enum Enums::Map::Direction;
+
 	auto current_loc{_game->state->get_player_pos()};
 	auto x_d{current_loc.x};
 	auto y_d{current_loc.y};
 
 	switch (_game->state->get_player_facing()) {
-	case MapDirection::NORTH:
+	case NORTH:
 		++y_d;
 		break;
-	case MapDirection::SOUTH:
+	case SOUTH:
 		--y_d;
 		break;
-	case MapDirection::EAST:
+	case EAST:
 		++x_d;
 		break;
-	case MapDirection::WEST:
+	case WEST:
 		--x_d;
 		break;
 	default:
@@ -1746,7 +1749,7 @@ auto Sorcery::Engine::_move_forward() -> bool {
 			_in_elevator_a_f = false;
 		}
 
-		_last_movement = MapDirection::NORTH;
+		_last_movement = NORTH; // Remember this is COMPASS direction (i.e. on screen), not Map direction
 
 		return true;
 	} else
@@ -1755,22 +1758,24 @@ auto Sorcery::Engine::_move_forward() -> bool {
 
 auto Sorcery::Engine::_move_backward() -> bool {
 
+	using enum Enums::Map::Direction;
+
 	// Work out our new position
 	auto current_loc{_game->state->get_player_pos()};
 	auto x_d{current_loc.x};
 	auto y_d{current_loc.y};
 
 	switch (_game->state->get_player_facing()) {
-	case MapDirection::NORTH:
+	case NORTH:
 		--y_d;
 		break;
-	case MapDirection::SOUTH:
+	case SOUTH:
 		++y_d;
 		break;
-	case MapDirection::EAST:
+	case EAST:
 		--x_d;
 		break;
-	case MapDirection::WEST:
+	case WEST:
 		++x_d;
 		break;
 	default:
@@ -1850,7 +1855,7 @@ auto Sorcery::Engine::_move_backward() -> bool {
 			_in_elevator_a_f = false;
 		}
 
-		_last_movement = MapDirection::SOUTH;
+		_last_movement = SOUTH;
 
 		return true;
 	} else
@@ -2009,6 +2014,8 @@ auto Sorcery::Engine::_spinner_if() const -> bool {
 
 auto Sorcery::Engine::_stairs_if() -> bool {
 
+	using enum Enums::Tile::Features;
+
 	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has_stairs()) {
 
 		auto destination{tile.has_stairs().value()};
@@ -2018,21 +2025,21 @@ auto Sorcery::Engine::_stairs_if() -> bool {
 		if (to_level < 0) {
 			Level level{((*_game->levelstore)[to_level]).value()};
 			_game->state->set_current_level(&level);
-			auto &next_tile{_game->state->level->at(destination.to_loc)};
 			_game->state->set_player_pos(destination.to_loc);
 			_game->state->set_depth(to_level);
 			_set_tile_explored(_game->state->get_player_pos());
 
+			const auto &next_tile{_game->state->level->at(destination.to_loc)};
 			if ((next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
 				_game->state->set_lit(false);
 
-			if (next_tile.has(TileFeature::LADDER_UP))
+			if (next_tile.has(LADDER_UP))
 				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_up_text"]);
-			else if (next_tile.has(TileFeature::LADDER_DOWN))
+			else if (next_tile.has(LADDER_DOWN))
 				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_down_text"]);
-			else if (next_tile.has(TileFeature::STAIRS_UP))
+			else if (next_tile.has(STAIRS_UP))
 				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_stairs_up_text"]);
-			else if (next_tile.has(TileFeature::STAIRS_DOWN))
+			else if (next_tile.has(STAIRS_DOWN))
 				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_stairs_down_text"]);
 
 			return true;

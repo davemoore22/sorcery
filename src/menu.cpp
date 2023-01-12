@@ -961,7 +961,6 @@ auto Sorcery::Menu::_populate_chars() -> void {
 
 	} break;
 	case MenuType::CHARACTERS_HERE: {
-
 		if (_game->state->get_party_size() < 6) {
 
 			// Check for any characters in same square
@@ -1005,22 +1004,26 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		_add_item(++max_id, MenuItemType::CANCEL, MenuItem::AC_LEAVE, (*_display->string)["ACTION_LEAVE"]);
 	} break;
 	case MenuType::RESTART_EXPEDITION: {
-
 		_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["RESTART_TEXT_1"]);
 		_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["RESTART_TEXT_2"]);
 		_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+		auto possible{0U};
 		for (const auto &[character_id, character] : _game->characters) {
-			if ((character.location == CharacterLocation::MAZE) && (character.get_status() == CharacterStatus::OK))
+			if ((character.location == CharacterLocation::MAZE) && (character.get_status() == CharacterStatus::OK)) {
 				_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER,
 					_game->characters[character_id].get_name_and_location());
-			++max_id;
+				++possible;
+				++max_id;
+			}
 		}
+		if (possible == 0)
+			_add_item(
+				++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS_IN_MAZE"]);
 		_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
 		_add_item(++max_id, MenuItemType::CANCEL, MenuItem::TR_EDGE_OF_TOWN,
 			(*_display->string)["RESTART_GROUNDS_MENU_OPTION_RETURN"]);
 	} break;
 	case MenuType::PARTY_CHARACTER_NAMES: {
-
 		if (_game->state->party_has_members()) {
 			auto party{_game->state->get_party_characters()};
 			for (auto character_id : party) {
@@ -1032,7 +1035,6 @@ auto Sorcery::Menu::_populate_chars() -> void {
 			_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS"]);
 	} break;
 	case MenuType::PARTY_CHARACTERS: {
-
 		if (_game->state->party_has_members()) {
 			auto party{_game->state->get_party_characters()};
 			for (auto character_id : party) {
