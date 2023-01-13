@@ -36,6 +36,7 @@ Sorcery::Temple::Temple(System *system, Display *display, Graphics *graphics, Ga
 	_help = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::INVALID_CHARACTERS, MenuMode::TEMPLE);
 	_pay = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::PARTY_CHARACTERS, MenuMode::TEMPLE);
 	_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CONTINUE);
+	_console = std::make_unique<Console>(_display->window->get_gui(), _system, _display, _graphics, _game);
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
@@ -45,6 +46,8 @@ Sorcery::Temple::Temple(System *system, Display *display, Graphics *graphics, Ga
 
 	_cost = sf::Text();
 	_ress_count = sf::Text();
+
+	_game->hide_console();
 }
 
 // Standard Destructor
@@ -105,6 +108,9 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 					continue;
 				} else
 					_display->hide_overlay();
+
+				if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
+					_game->toggle_console();
 
 				if (_system->input->check(WindowInput::CANCEL, event))
 					return std::nullopt;
@@ -286,6 +292,7 @@ auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int 
 
 		const auto chance{heal_char.get_ress_chance(false)};
 		const auto roll((*_system->random)[RandomType::D100]);
+
 		_game->state->add_log_dice_roll(
 			fmt::format("{:>16} - {}", heal_char.get_name(), "Ress from Dead"), 100, roll, chance);
 		if (roll < chance) {
@@ -294,16 +301,14 @@ auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int 
 				(*_display->string)["TEMPLE_HEALED_SUFFIX"]);
 			heal_char.set_status(CharacterStatus::OK);
 			heal_char.set_current_hp(1);
-			if (heal_char.location == CharacterLocation::TEMPLE)
-				heal_char.location = CharacterLocation::TAVERN;
-
+			heal_char.set_location(CharacterLocation::TAVERN);
 			return true;
 		} else {
 
 			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_OOPS_DEAD_PREFIX"], heal_char.get_name(),
 				(*_display->string)["TEMPLE_OOPS_DEAD_SUFFIX"]);
 			heal_char.set_status(CharacterStatus::ASHES);
-
+			_game->characters.at(heal_char_id) = heal_char;
 			return false;
 		}
 
@@ -319,8 +324,8 @@ auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int 
 				(*_display->string)["TEMPLE_HEALED_SUFFIX"]);
 			heal_char.set_status(CharacterStatus::OK);
 			heal_char.set_current_hp(1);
-			if (heal_char.location == CharacterLocation::TEMPLE)
-				heal_char.location = CharacterLocation::TAVERN;
+			heal_char.set_location(CharacterLocation::TAVERN);
+			_game->characters.at(heal_char_id) = heal_char;
 
 			return true;
 
@@ -329,8 +334,9 @@ auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int 
 			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_OOPS_ASHES_PREFIX"],
 				heal_char.get_name(), (*_display->string)["TEMPLE_OOPS_ASHES_SUFFIX"]);
 			heal_char.set_status(CharacterStatus::LOST);
-			heal_char.location = CharacterLocation::TRAINING;
+			heal_char.set_location(CharacterLocation::TRAINING);
 			heal_char.set_current_hp(0);
+			_game->characters.at(heal_char_id) = heal_char;
 
 			return false;
 		}
@@ -409,6 +415,11 @@ auto Sorcery::Temple::_draw() -> void {
 			_continue_menu->setPosition(menu_pos);
 			_window->draw(*_continue_menu);
 		}
+	}
+
+	if (_game->get_console_status()) {
+		_console->refresh();
+		_display->window->get_gui()->draw();
 	}
 
 	// Always draw the following

@@ -87,6 +87,8 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto set_name(std::string_view value) -> void;
 		auto get_race() const -> CharacterRace;
 		auto set_race(const CharacterRace &value) -> void;
+		auto get_location() const -> CharacterLocation;
+		auto set_location(const CharacterLocation &value) -> void;
 		auto get_level() const -> int;
 		auto set_level(const int &value) -> void;
 		auto get_class() const -> CharacterClass;

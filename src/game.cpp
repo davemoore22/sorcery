@@ -195,7 +195,7 @@ auto Sorcery::Game::has_party_in_maze() const -> bool {
 
 	for (auto &[character_id, character] : characters) {
 
-		if (character.location == CharacterLocation::MAZE)
+		if (character.get_location() == CharacterLocation::MAZE)
 			return true;
 	}
 
@@ -217,7 +217,7 @@ auto Sorcery::Game::get_characters_at_loc() const -> std::vector<unsigned int> {
 
 	std::vector<unsigned int> results;
 	for (auto &[character_id, character] : characters) {
-		if (character.location == CharacterLocation::MAZE) {
+		if (character.get_location() == CharacterLocation::MAZE) {
 			if (character.coordinate == state->get_player_pos()) {
 				results.emplace_back(character_id);
 			}

@@ -313,6 +313,16 @@ auto Sorcery::Character::get_stage() const -> CharacterStage {
 	return _current_stage;
 }
 
+auto Sorcery::Character::get_location() const -> CharacterLocation {
+
+	return location;
+}
+
+auto Sorcery::Character::set_location(const CharacterLocation &value) -> void {
+
+	location = value;
+}
+
 // Reset a character back to a particular state
 auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 

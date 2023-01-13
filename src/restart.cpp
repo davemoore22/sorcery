@@ -112,12 +112,11 @@ auto Sorcery::Restart::start() -> std::optional<MenuItem> {
 						auto character{&_game->characters.at(character_chosen)};
 						auto to_depth{character->depth.value()};
 						auto to_loc{character->coordinate.value()};
-
 						_game->state->clear_party();
-						for (auto &[character_id, charact] : _game->characters) {
-							if (charact.location == CharacterLocation::MAZE) {
-								if ((charact.depth.value() == to_depth) && (charact.coordinate.value() == to_loc)) {
-									charact.location = CharacterLocation::PARTY;
+						for (auto &[character_id, character] : _game->characters) {
+							if (character.get_location() == CharacterLocation::MAZE) {
+								if ((character.depth.value() == to_depth) && (character.coordinate.value() == to_loc)) {
+									character.set_location(CharacterLocation::PARTY);
 									_game->state->add_character_by_id(character_id);
 								}
 							}

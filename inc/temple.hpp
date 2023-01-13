@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include "console.hpp"
 #include "display.hpp"
 #include "frame.hpp"
 #include "game.hpp"
@@ -94,6 +95,8 @@ class Temple {
 		bool _t_finished;
 		unsigned int _duration;
 		std::unique_ptr<Menu> _continue_menu;
+		std::unique_ptr<Console> _console;
+		bool _show_console;
 
 		// Private Methods
 		auto _draw() -> void;

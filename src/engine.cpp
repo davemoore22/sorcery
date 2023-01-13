@@ -617,7 +617,7 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 				auto party{_game->state->get_party_characters()};
 				for (auto &[character_id, character] : _game->characters) {
 					if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-						character.location = CharacterLocation::MAZE;
+						character.set_location(CharacterLocation::MAZE);
 					}
 				}
 				_game->save_game();
@@ -687,7 +687,7 @@ auto Sorcery::Engine::_do_wipe() -> int {
 	const auto party{_game->state->get_party_characters()};
 	for (auto &[character_id, character] : _game->characters) {
 		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-			character.location = CharacterLocation::MAZE;
+			character.set_location(CharacterLocation::MAZE);
 			character.set_current_hp(0);
 		}
 	}
@@ -876,9 +876,11 @@ auto Sorcery::Engine::_move_characters_to_temple_if_needed() -> void {
 	for (auto &[character_id, character] : _game->characters) {
 		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
 			if ((character.get_status() == DEAD) || (character.get_status() == ASHES) ||
-				(character.get_status() == LOST) || (character.get_status() == STONED) ||
-				(character.get_status() == HELD)) {
-				character.location = CharacterLocation::TEMPLE;
+				(character.get_status() == STONED) || (character.get_status() == HELD)) {
+				character.set_location(CharacterLocation::TEMPLE);
+				_game->state->remove_character_by_id(character_id);
+			} else if (character.get_status() == LOST) {
+				character.set_location(CharacterLocation::TRAINING);
 				_game->state->remove_character_by_id(character_id);
 			}
 		}
@@ -888,6 +890,11 @@ auto Sorcery::Engine::_move_characters_to_temple_if_needed() -> void {
 auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<int> {
 
 	// Various Debug Commands can be put here
+	if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F2))
+		_debug_give_first_character_gold_xp();
+	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F3))
+		_debug_give_party_random_status();
+
 	if (_system->input->check(WindowInput::MAZE_SHOW_MAP, event)) {
 		_in_map = !_in_map;
 		_update_automap = true;
@@ -1179,7 +1186,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						auto party{_game->state->get_party_characters()};
 						for (auto &[character_id, character] : _game->characters) {
 							if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-								character.location = CharacterLocation::MAZE;
+								character.set_location(CharacterLocation::MAZE);
 							}
 						}
 						_game->save_game();
