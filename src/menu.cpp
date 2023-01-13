@@ -919,19 +919,19 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		if (_game->characters.size() > 0) {
 			for (auto &[character_id, character] : _game->characters) {
 				if (_mode.value() == MenuMode::TAVERN) {
-					if ((character.location == CharacterLocation::TAVERN) ||
-						(character.location == CharacterLocation::PARTY)) {
+					if ((character.get_location() == CharacterLocation::TAVERN) ||
+						(character.get_location() == CharacterLocation::PARTY)) {
 						_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
 						++max_id;
 					}
 				} else if (_mode.value() == MenuMode::INN) {
-					if (character.location == CharacterLocation::PARTY) {
+					if (character.get_location() == CharacterLocation::PARTY) {
 						_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
 						++max_id;
 					}
 				} else if (_mode.value() == MenuMode::TEMPLE) {
-					if ((character.location == CharacterLocation::TEMPLE) ||
-						(character.location == CharacterLocation::PARTY)) {
+					if ((character.get_location() == CharacterLocation::TEMPLE) ||
+						(character.get_location() == CharacterLocation::PARTY)) {
 						_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
 						++max_id;
 					}
@@ -966,7 +966,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 			// Check for any characters in same square
 			bool found{false};
 			for (const auto &[character_id, character] : _game->characters) {
-				if ((character.location == CharacterLocation::MAZE) &&
+				if ((character.get_location() == CharacterLocation::MAZE) &&
 					(character.coordinate == _game->state->get_player_pos()) &&
 					(character.depth == _game->state->get_depth())) {
 					found = true;
@@ -979,7 +979,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 				_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_2"]);
 				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
 				for (const auto &[character_id, character] : _game->characters) {
-					if ((character.location == CharacterLocation::MAZE) &&
+					if ((character.get_location() == CharacterLocation::MAZE) &&
 						(character.coordinate == _game->state->get_player_pos()) &&
 						(character.depth == _game->state->get_depth()))
 						_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER,
@@ -1009,7 +1009,8 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
 		auto possible{0U};
 		for (const auto &[character_id, character] : _game->characters) {
-			if ((character.location == CharacterLocation::MAZE) && (character.get_status() == CharacterStatus::OK)) {
+			if ((character.get_location() == CharacterLocation::MAZE) &&
+				(character.get_status() == CharacterStatus::OK)) {
 				_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER,
 					_game->characters[character_id].get_name_and_location());
 				++possible;
@@ -1069,8 +1070,9 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		auto party{_game->state->get_party_characters()};
 		for (auto &[character_id, character] : _game->characters) {
 			if (std::find(party.begin(), party.end(), character_id) == party.end()) {
+
 				// TODO:: good and evil exclusion if in strict mode
-				if (character.location == CharacterLocation::TAVERN) {
+				if (character.get_location() == CharacterLocation::TAVERN) {
 					_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
 					++max_id;
 					++count;
