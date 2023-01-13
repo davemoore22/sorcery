@@ -92,8 +92,6 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
 
-			std::cout << _graphics->animation->wallpaper_idx << std::endl;
-
 			// If we are in normal input mode
 			if (_display->get_input_mode() == WindowInputMode::NAVIGATE_MENU) {
 
@@ -249,7 +247,9 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 							if (option_continue) {
 								if (const MenuItem option_chosen{(*option_continue.value()).item};
 									option_chosen == MenuItem::CONTINUE) {
-									return MenuItem::CONTINUE;
+									_stage = TempleStage::MENU;
+									_status_bar->refresh();
+									continue;
 								}
 							}
 						}

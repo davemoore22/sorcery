@@ -887,134 +887,8 @@ auto Sorcery::Engine::_move_characters_to_temple_if_needed() -> void {
 
 auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<int> {
 
-	if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F6)) {
-
-		_graveyard->start();
-		_graveyard->stop();
-		return EXIT_MODULE;
-
-		/*auto dest_level{_game->state->get_depth() - 1};
-		Level level{((*_game->levelstore)[dest_level]).value()};
-		_game->state->set_current_level(&level);
-		_game->state->set_depth(dest_level);
-		_set_tile_explored(_game->state->get_player_pos());
-		_update_automap = true;
-		_update_compass = true;
-		_update_buffbar = true;
-		_update_search = true;
-		_update_render = true;
-		return CONTINUE; */
-	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F5)) {
-
-		const auto party{_game->state->get_party_characters()};
-		for (auto &[character_id, character] : _game->characters) {
-			if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-				character.set_status(CharacterStatus::OK);
-				character.set_current_hp(character.get_max_hp());
-				character.reset_adjustment_per_turn();
-				character.set_poisoned_rate(0);
-			}
-		}
-		_update_automap = true;
-		_update_compass = true;
-		_update_buffbar = true;
-		_update_search = true;
-		_update_render = true;
-		_update_status_bar = true;
-
-		/* auto dest_level{_game->state->get_depth() + 1};
-		Level level{((*_game->levelstore)[dest_level]).value()};
-		_game->state->set_current_level(&level);
-		_game->state->set_depth(dest_level);
-		_set_tile_explored(_game->state->get_player_pos());
-		_update_automap = true;
-		_update_compass = true;
-		_update_buffbar = true;
-		_update_search = true;
-		_update_render = true; */
-		return CONTINUE;
-	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F2)) {
-
-		const auto party{_game->state->get_party_characters()};
-
-		for (auto &[character_id, character] : _game->characters) {
-			if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-				if ((*_system->random)[RandomType::ZERO_TO_8] == 0)
-					character.set_poisoned_rate(1);
-				else if ((*_system->random)[RandomType::ZERO_TO_8] == 1)
-					character.set_hp_gain_per_turn(1);
-				else {
-					character.set_poisoned_rate(0);
-					character.reset_adjustment_per_turn();
-				}
-			}
-		}
-		_update_automap = true;
-		_update_compass = true;
-		_update_buffbar = true;
-		_update_search = true;
-		_update_render = true;
-		_update_status_bar = true;
-
-	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F3)) {
-
-		/* auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
-		auto results{character.level_up()};
-		for (auto text : results) {
-			std::cout << text << std::endl;
-		} */
-
-		auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
-		auto next{character.get_next_xp()};
-		character.grant_xp(next - 1);
-
-		// auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
-		character.grant_gold(10000);
-
-		_update_automap = true;
-		_update_compass = true;
-		_update_buffbar = true;
-		_update_search = true;
-		_update_render = true;
-		_update_status_bar = true;
-
-	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F4)) {
-
-		const auto party{_game->state->get_party_characters()};
-		for (auto &[character_id, character] : _game->characters) {
-			if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-				character.set_status(
-					magic_enum::enum_cast<CharacterStatus>((*_system->random)[RandomType::ZERO_TO_8]).value());
-				if ((character.get_status() == CharacterStatus::DEAD) ||
-					(character.get_status() == CharacterStatus::ASHES) ||
-					(character.get_status() == CharacterStatus::LOST)) {
-					character.set_current_hp(0);
-				} else
-					character.set_current_hp(character.get_max_hp());
-			}
-		}
-
-		/* auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
-		character.level_down(); */
-
-		/* auto party{_game->state->get_party_characters()};
-		for (auto &[character_id, character] : _game->characters) {
-			if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-				character.set_current_hp(1);
-				if ((*_system->random)[RandomType::ZERO_TO_2] == 0)
-					character.set_current_hp(1);
-				else
-					character.set_current_hp(character.get_max_hp());
-			}
-		} */
-
-		_update_automap = true;
-		_update_compass = true;
-		_update_buffbar = true;
-		_update_search = true;
-		_update_render = true;
-		_update_status_bar = true;
-	} else if (_system->input->check(WindowInput::MAZE_SHOW_MAP, event)) {
+	// Various Debug Commands can be put here
+	if (_system->input->check(WindowInput::MAZE_SHOW_MAP, event)) {
 		_in_map = !_in_map;
 		_update_automap = true;
 		_update_compass = true;
@@ -1057,22 +931,6 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_update_buffbar = true;
 		_update_search = true;
 		_update_render = true;
-	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F7)) {
-		_game->state->set_lit(true);
-		_update_automap = true;
-		_update_compass = true;
-		_update_buffbar = true;
-		_update_search = true;
-		_update_render = true;
-		return CONTINUE;
-	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F8)) {
-		_game->state->set_lit(false);
-		_update_automap = true;
-		_update_compass = true;
-		_update_buffbar = true;
-		_update_search = true;
-		_update_render = true;
-		return CONTINUE;
 	}
 
 	if (_show_ouch) {
@@ -2266,4 +2124,190 @@ auto Sorcery::Engine::_draw() -> void {
 		_console->refresh();
 		_display->window->get_gui()->draw();
 	}
+}
+
+// Various Debug Functions - can be placed in _handle_in_game and associated with keypresses
+auto Sorcery::Engine::_debug_go_to_graveyard() -> std::optional<int> {
+
+	_graveyard->start();
+	_graveyard->stop();
+	return EXIT_MODULE;
+}
+
+auto Sorcery::Engine::_debug_go_down_a_level() -> std::optional<int> {
+
+	auto dest_level{_game->state->get_depth() + 1};
+	Level level{((*_game->levelstore)[dest_level]).value()};
+	_game->state->set_current_level(&level);
+	_game->state->set_depth(dest_level);
+	_set_tile_explored(_game->state->get_player_pos());
+	_update_automap = true;
+	_update_compass = true;
+	_update_buffbar = true;
+	_update_search = true;
+	_update_render = true;
+
+	return CONTINUE;
+}
+
+auto Sorcery::Engine::_debug_go_up_a_level() -> std::optional<int> {
+
+	auto dest_level{_game->state->get_depth() - 1};
+	Level level{((*_game->levelstore)[dest_level]).value()};
+	_game->state->set_current_level(&level);
+	_game->state->set_depth(dest_level);
+	_set_tile_explored(_game->state->get_player_pos());
+	_update_automap = true;
+	_update_compass = true;
+	_update_buffbar = true;
+	_update_search = true;
+	_update_render = true;
+
+	return CONTINUE;
+}
+
+auto Sorcery::Engine::_debug_heal_party_to_full() -> std::optional<int> {
+
+	const auto party{_game->state->get_party_characters()};
+	for (auto &[character_id, character] : _game->characters) {
+		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+			character.set_status(CharacterStatus::OK);
+			character.set_current_hp(character.get_max_hp());
+			character.reset_adjustment_per_turn();
+			character.set_poisoned_rate(0);
+		}
+	}
+	_update_automap = true;
+	_update_compass = true;
+	_update_buffbar = true;
+	_update_search = true;
+	_update_render = true;
+	_update_status_bar = true;
+
+	return CONTINUE;
+}
+
+auto Sorcery::Engine::_debug_give_first_character_gold_xp() -> std::optional<int> {
+
+	auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
+	auto next{character.get_next_xp()};
+	character.grant_xp(next - 1);
+	character.grant_gold(10000);
+
+	_update_automap = true;
+	_update_compass = true;
+	_update_buffbar = true;
+	_update_search = true;
+	_update_render = true;
+	_update_status_bar = true;
+
+	return CONTINUE;
+}
+
+auto Sorcery::Engine::_debug_level_first_character_down() -> std::optional<int> {
+
+	auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
+	character.level_down();
+
+	_update_automap = true;
+	_update_compass = true;
+	_update_buffbar = true;
+	_update_search = true;
+	_update_render = true;
+	_update_status_bar = true;
+
+	return CONTINUE;
+}
+
+auto Sorcery::Engine::_debug_level_first_character_up() -> std::optional<int> {
+
+	auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
+	auto next{character.get_next_xp()};
+	character.grant_xp(next + 1);
+	auto results{character.level_up()};
+	for (auto text : results)
+		std::cout << text << std::endl;
+
+	_update_automap = true;
+	_update_compass = true;
+	_update_buffbar = true;
+	_update_search = true;
+	_update_render = true;
+	_update_status_bar = true;
+
+	return CONTINUE;
+}
+
+auto Sorcery::Engine::_debug_give_party_random_hp() -> std::optional<int> {
+
+	auto party{_game->state->get_party_characters()};
+	for (auto &[character_id, character] : _game->characters) {
+		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+			character.set_current_hp(1);
+			if ((*_system->random)[RandomType::ZERO_TO_2] == 0)
+				character.set_current_hp(1);
+			else
+				character.set_current_hp(character.get_max_hp());
+		}
+	}
+
+	_update_automap = true;
+	_update_compass = true;
+	_update_buffbar = true;
+	_update_search = true;
+	_update_render = true;
+	_update_status_bar = true;
+
+	return CONTINUE;
+}
+
+auto Sorcery::Engine::_debug_give_party_random_status() -> std::optional<int> {
+
+	const auto party{_game->state->get_party_characters()};
+	for (auto &[character_id, character] : _game->characters) {
+		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+			character.set_status(
+				magic_enum::enum_cast<CharacterStatus>((*_system->random)[RandomType::ZERO_TO_8]).value());
+			if ((character.get_status() == CharacterStatus::DEAD) ||
+				(character.get_status() == CharacterStatus::ASHES) ||
+				(character.get_status() == CharacterStatus::LOST)) {
+				character.set_current_hp(0);
+			} else
+				character.set_current_hp(character.get_max_hp());
+		}
+	}
+
+	_update_automap = true;
+	_update_compass = true;
+	_update_buffbar = true;
+	_update_search = true;
+	_update_render = true;
+	_update_status_bar = true;
+
+	return CONTINUE;
+}
+
+auto Sorcery::Engine::_debug_light_on() -> std::optional<int> {
+
+	_game->state->set_lit(true);
+
+	_update_automap = true;
+	_update_compass = true;
+	_update_buffbar = true;
+	_update_search = true;
+	_update_render = true;
+
+	return CONTINUE;
+}
+
+auto Sorcery::Engine::_debug_light_off() -> std::optional<int> {
+
+	_game->state->set_lit(false);
+	_update_automap = true;
+	_update_compass = true;
+	_update_buffbar = true;
+	_update_search = true;
+	_update_render = true;
+
+	return CONTINUE;
 }

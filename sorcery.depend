@@ -334,7 +334,7 @@
 1673561344 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine.cpp
 	"engine.hpp"
 
-1673388104 /home/dave/Development/wizardry/sorcery-sfml/inc/engine.hpp
+1673633635 /home/dave/Development/wizardry/sorcery-sfml/inc/engine.hpp
 	"automap.hpp"
 	"buffbar.hpp"
 	"compass.hpp"
@@ -1264,7 +1264,7 @@
 1673304446 source:/home/dave/Development/wizardry/sorcery-sfml/src/shop.cpp
 	"shop.hpp"
 
-1673304477 source:/home/dave/Development/wizardry/sorcery-sfml/src/temple.cpp
+1673632602 source:/home/dave/Development/wizardry/sorcery-sfml/src/temple.cpp
 	"temple.hpp"
 
 1672594195 /home/dave/Development/wizardry/sorcery-sfml/inc/state.hpp

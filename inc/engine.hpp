@@ -111,6 +111,18 @@ class Engine {
 		auto _check_for_wipe() const -> bool;
 		auto _do_wipe() -> int;
 
+		auto _debug_give_first_character_gold_xp() -> std::optional<int>;
+		auto _debug_give_party_random_status() -> std::optional<int>;
+		auto _debug_give_party_random_hp() -> std::optional<int>;
+		auto _debug_go_to_graveyard() -> std::optional<int>;
+		auto _debug_go_down_a_level() -> std::optional<int>;
+		auto _debug_go_up_a_level() -> std::optional<int>;
+		auto _debug_heal_party_to_full() -> std::optional<int>;
+		auto _debug_level_first_character_down() -> std::optional<int>;
+		auto _debug_level_first_character_up() -> std::optional<int>;
+		auto _debug_light_on() -> std::optional<int>;
+		auto _debug_light_off() -> std::optional<int>;
+
 		// Private Members
 		System *_system;
 		Display *_display;
