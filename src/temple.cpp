@@ -286,7 +286,8 @@ auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int 
 
 		const auto chance{heal_char.get_ress_chance(false)};
 		const auto roll((*_system->random)[RandomType::D100]);
-		_game->log(fmt::format("{:>16} - {}", heal_char.get_name(), "Ress from Dead"), 100, roll, chance);
+		_game->state->add_log_dice_roll(
+			fmt::format("{:>16} - {}", heal_char.get_name(), "Ress from Dead"), 100, roll, chance);
 		if (roll < chance) {
 
 			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_HEALED_PREFIX"], heal_char.get_name(),
@@ -310,7 +311,8 @@ auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int 
 
 		const auto chance{heal_char.get_ress_chance(true)};
 		const auto roll((*_system->random)[RandomType::D100]);
-		_game->log(fmt::format("{:>16} - {}", heal_char.get_name(), "Ress from Ashes"), 100, roll, chance);
+		_game->state->add_log_dice_roll(
+			fmt::format("{:>16} - {}", heal_char.get_name(), "Ress from Ashes"), 100, roll, chance);
 		if (roll < chance) {
 
 			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_HEALED_PREFIX"], heal_char.get_name(),

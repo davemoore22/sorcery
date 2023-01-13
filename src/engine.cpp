@@ -1812,7 +1812,8 @@ auto Sorcery::Engine::_pit_oops() -> void {
 
 			const auto chance{(character.get_cur_attr(CharacterAttribute::AGILITY) - _game->state->get_depth()) * 4};
 			const auto roll((*_system->random)[RandomType::D100]);
-			_game->log(fmt::format("{:>16} - {}", character.get_name(), "Avoid Pit"), 100, roll, chance);
+			_game->state->add_log_dice_roll(
+				fmt::format("{:>16} - {}", character.get_name(), "Avoid Pit"), 100, roll, chance);
 			if (roll < chance) {
 				// avoid damage
 			} else {

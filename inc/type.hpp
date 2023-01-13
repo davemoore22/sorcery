@@ -527,6 +527,9 @@ struct ConsoleMessage {
 		std::string text;
 		static inline long s_id{0};
 
+		ConsoleMessage() {
+		}
+
 		ConsoleMessage(Enums::Internal::MessageType message_type_, std::string text_)
 			: type{message_type_}, text{text_} {
 			datetime = std::chrono::system_clock::now();
@@ -543,6 +546,11 @@ struct ConsoleMessage {
 		friend std::ostream &operator<<(std::ostream &os, ConsoleMessage &a) {
 
 			return os << fmt::format("[{}: {}]", TP2STR(a.datetime), a.text);
+		}
+
+		// Serialisation
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(id, type, datetime, s_id);
 		}
 };
 

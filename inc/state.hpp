@@ -41,7 +41,7 @@ class State {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_version, _party, level, explored, _player_depth, _player_pos, _playing_facing, _lit, _turns);
+			archive(_version, _party, level, explored, _player_depth, _player_pos, _playing_facing, _lit, _turns, _log);
 		}
 
 		// Public Members
@@ -74,6 +74,11 @@ class State {
 		auto get_lit() const -> bool;
 		auto get_turns() const -> unsigned int;
 		auto pass_turn(unsigned int turns = 1) -> void;
+		auto add_log_message(std::string text, MessageType type) -> void;
+		auto clear_log_messages() -> void;
+		auto add_log_dice_roll(
+			const std::string &message, const int dice = -1, const int roll = -1, const int needed = -1) -> void;
+		auto get_log_messages(unsigned int last = 0) const -> std::vector<ConsoleMessage>;
 
 	private:
 
@@ -91,6 +96,7 @@ class State {
 		bool _lit;
 		int _version;
 		unsigned int _turns;
+		std::vector<ConsoleMessage> _log;
 };
 
 }

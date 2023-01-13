@@ -53,6 +53,7 @@
 #include "cereal/archives/json.hpp"
 #include "cereal/types/array.hpp"
 #include "cereal/types/bitset.hpp"
+#include "cereal/types/chrono.hpp"
 #include "cereal/types/map.hpp"
 #include "cereal/types/memory.hpp"
 #include "cereal/types/optional.hpp"
@@ -92,6 +93,7 @@
 #include <random>
 #include <ranges>
 #include <regex>
+#include <span>
 #include <sstream>
 #include <stdexcept>
 #include <string>

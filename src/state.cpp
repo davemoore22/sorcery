@@ -50,6 +50,8 @@ auto Sorcery::State::_clear() -> void {
 	_clear_explored();
 	_version = SAVE_VERSION;
 	_turns = 0;
+
+	_log.clear();
 }
 
 auto Sorcery::State::get_turns() const -> unsigned int {
@@ -214,4 +216,38 @@ auto Sorcery::State::remove_character_by_position(unsigned int index) -> bool {
 		return true;
 	} else
 		return false;
+}
+
+auto Sorcery::State::add_log_message(std::string text, MessageType type = MessageType::STANDARD) -> void {
+
+	_log.emplace_back(ConsoleMessage{type, text});
+}
+
+auto Sorcery::State::clear_log_messages() -> void {
+
+	_log.clear();
+}
+
+auto Sorcery::State::add_log_dice_roll(const std::string &message, const int dice, const int roll, const int needed)
+	-> void {
+
+	if ((dice != -1) || (roll != -1) || (needed != -1)) {
+		const auto success{roll < needed ? "SUCCESS" : "FAILURE"};
+		const auto string{fmt::format("{} ({})", message, success)};
+		add_log_message(DICE(string, dice, roll, needed), MessageType::ROLL);
+	} else
+		add_log_message(message, MessageType::GAME);
+}
+
+auto Sorcery::State::get_log_messages(unsigned int last) const -> std::vector<ConsoleMessage> {
+
+	if (last == 0)
+		return _log;
+	else {
+		if (_log.size() < last)
+			last = _log.size();
+
+		std::vector<ConsoleMessage> results{_log.cend() - last, _log.cend()};
+		return results;
+	}
 }

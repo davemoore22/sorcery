@@ -47,11 +47,8 @@ class Game {
 		std::map<unsigned int, Character> characters;
 		std::unique_ptr<State> state;
 		std::unique_ptr<LevelStore> levelstore;
-		std::vector<ConsoleMessage> console_log;
 
 		// Public Methods
-		auto add_console_message(std::string text, MessageType type) -> void;
-		auto clear_console_messages() -> void;
 		auto get_id() -> unsigned int;
 		auto create_game() -> void;
 		auto load_game() -> void;

@@ -73,26 +73,6 @@ auto Sorcery::Game::delete_character(unsigned int character_id) -> void {
 	_system->database->delete_character(_id, character_id);
 }
 
-auto Sorcery::Game::add_console_message(std::string text, MessageType type = MessageType::STANDARD) -> void {
-
-	console_log.emplace_back(ConsoleMessage{type, text});
-}
-
-auto Sorcery::Game::log(const std::string &message, const int dice, const int roll, const int needed) -> void {
-
-	if ((dice != -1) || (roll != -1) || (needed != -1)) {
-		const auto success{roll < needed ? "SUCCESS" : "FAILURE"};
-		const auto string{fmt::format("{} ({})", message, success)};
-		add_console_message(DICE(string, dice, roll, needed), MessageType::ROLL);
-	} else
-		add_console_message(message, MessageType::GAME);
-}
-
-auto Sorcery::Game::clear_console_messages() -> void {
-
-	console_log.clear();
-}
-
 auto Sorcery::Game::_clear() -> void {
 
 	// Clear existing data!
@@ -110,7 +90,7 @@ auto Sorcery::Game::_clear() -> void {
 	state = std::make_unique<State>(_system);
 	levelstore = std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
 
-	console_log.clear();
+	state->clear_log_messages();
 
 	state->level->reset();
 }
@@ -121,6 +101,7 @@ auto Sorcery::Game::_create_game() -> void {
 	std::stringstream ss;
 	{
 		cereal::JSONOutputArchive archive(ss);
+		state->add_log_message("New Game Started", MessageType::GAME);
 		archive(state);
 	}
 	const auto data{ss.str()};
@@ -130,7 +111,6 @@ auto Sorcery::Game::_create_game() -> void {
 auto Sorcery::Game::_load_game() -> void {
 
 	// Get Game and State Data
-	console_log.clear();
 	auto [id, key, status, start_time, last_time, data] = _system->database->load_game_state().value();
 	_id = id;
 	_key = key;
