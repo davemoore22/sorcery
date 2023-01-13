@@ -97,3 +97,15 @@ auto Sorcery::System::stop_pause() -> void {
 	_pause_clock_start = std::nullopt;
 	_clock_duration = std::nullopt;
 }
+
+// Timepoint to String
+auto Sorcery::System::convert_tp_to_str(const std::chrono::time_point<std::chrono::system_clock> tp) -> std::string {
+
+	// Need to do it this way til std::chrono::locate_zone etc is supported
+	auto t_t{std::chrono::system_clock::to_time_t(tp)};
+	char t_s[std::size("yyyy-mm-dd hh:mm:ss")];
+	std::strftime(std::data(t_s), std::size(t_s), "%F %T", std::gmtime(&t_t));
+	std::string ts(t_s);
+
+	return ts;
+}

@@ -550,7 +550,7 @@ struct ConsoleMessage {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(id, type, datetime, s_id);
+			archive(id, type, datetime, text, s_id);
 		}
 };
 

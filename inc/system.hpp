@@ -49,6 +49,7 @@ class System {
 		auto update_pause() -> bool;
 		auto stop_pause() -> void;
 		auto get_pause() -> bool;
+		auto convert_tp_to_str(const std::chrono::time_point<std::chrono::system_clock> tp) -> std::string;
 
 		// Public Members
 		std::unique_ptr<File> files;

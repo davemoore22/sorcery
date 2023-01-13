@@ -66,6 +66,7 @@ auto Sorcery::Console::refresh() -> void {
 	std::reverse(messages.begin(), messages.end());
 
 	for (const auto &log_item : messages)
-		logs->addText(fmt::format("#{:06} {} {}\n", log_item.id, TP2STR(log_item.datetime), log_item.text));
+		logs->addText(
+			fmt::format("#{:06} {} {}\n", log_item.id, _system->convert_tp_to_str(log_item.datetime), log_item.text));
 	body_panel->add(logs, "InfoEdit");
 }

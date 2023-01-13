@@ -49,6 +49,7 @@ inline auto PRINT(const std::string &string) -> void {
 // Timepoint to String
 inline auto TP2STR(const std::chrono::time_point<std::chrono::system_clock> tp) -> std::string {
 
+	// Need to do it this way til std::chrono::locate_zone etc is supported
 	auto t{std::chrono::system_clock::to_time_t(tp)};
 	std::string ts{std::ctime(&t)};
 	ts.resize(ts.size() - 1);
