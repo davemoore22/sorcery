@@ -56,14 +56,14 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 
 	_legated = false;
 
-	location = CharacterLocation::TAVERN;
+	_location = CharacterLocation::TAVERN;
 	coordinate = std::nullopt;
 	depth = std::nullopt;
 }
 
 // Note for the copy constuctors we only copy the character data/PODs within
 Sorcery::Character::Character(const Character &other)
-	: location{other.location}, coordinate{other.coordinate}, depth{other.depth}, _version{other._version},
+	: _location{other._location}, coordinate{other.coordinate}, depth{other.depth}, _version{other._version},
 	  _system{other._system}, _display{other._display}, _graphics{other._graphics}, _abilities{other._abilities},
 	  _priest_max_sp{other._priest_max_sp}, _priest_cur_sp{other._priest_cur_sp}, _mage_max_sp{other._mage_max_sp},
 	  _mage_cur_sp{other._mage_cur_sp}, _spells{other._spells}, _spells_known{other._spells_known},
@@ -80,7 +80,7 @@ Sorcery::Character::Character(const Character &other)
 
 auto Sorcery::Character::operator=(const Character &other) -> Character & {
 
-	location = other.location;
+	_location = other._location;
 	coordinate = other.coordinate;
 	depth = other.depth;
 
@@ -129,7 +129,7 @@ Sorcery::Character::Character(Character &&other) noexcept {
 
 	if (this != &other) {
 
-		location = other.location;
+		_location = other._location;
 		coordinate = other.coordinate;
 		depth = other.depth;
 
@@ -170,7 +170,7 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		_spell_panel = std::move(other._spell_panel);
 		_spell_panel_c = std::move(other._spell_panel_c);
 
-		other.location = CharacterLocation::NO_LOCATION;
+		other._location = CharacterLocation::NO_LOCATION;
 		other.coordinate = std::nullopt;
 		other.depth = std::nullopt;
 
@@ -217,7 +217,7 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 
 	if (this != &other) {
 
-		location = other.location;
+		_location = other._location;
 		coordinate = other.coordinate;
 		depth = other.depth;
 
@@ -258,7 +258,7 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		_spell_panel = std::move(other._spell_panel);
 		_spell_panel_c = std::move(other._spell_panel_c);
 
-		other.location = CharacterLocation::NO_LOCATION;
+		other._location = CharacterLocation::NO_LOCATION;
 		other.coordinate = std::nullopt;
 		other.depth = std::nullopt;
 
@@ -315,12 +315,12 @@ auto Sorcery::Character::get_stage() const -> CharacterStage {
 
 auto Sorcery::Character::get_location() const -> CharacterLocation {
 
-	return location;
+	return _location;
 }
 
 auto Sorcery::Character::set_location(const CharacterLocation &value) -> void {
 
-	location = value;
+	_location = value;
 }
 
 // Reset a character back to a particular state
@@ -893,7 +893,7 @@ auto Sorcery::Character::_legate_start_info() -> void {
 	}
 
 	set_status(CharacterStatus::OK);
-	location = CharacterLocation::TAVERN;
+	_location = CharacterLocation::TAVERN;
 	_abilities[CURRENT_HP] = _abilities[MAX_HP];
 
 	// Clamp Values
@@ -970,7 +970,7 @@ auto Sorcery::Character::legate(const CharacterAlignment &value) -> void {
 	set_status(CharacterStatus::OK);
 	_legated = true;
 
-	location = CharacterLocation::TAVERN;
+	_location = CharacterLocation::TAVERN;
 	coordinate = std::nullopt;
 	depth = std::nullopt;
 }
@@ -1766,7 +1766,7 @@ auto Sorcery::Character::level_up() -> std::string {
 		results.append("@");
 		results.append((*_display->string)["LEVEL_DIE"]);
 		_status = CharacterStatus::LOST;
-		location = CharacterLocation::TRAINING;
+		_location = CharacterLocation::TRAINING;
 	}
 
 	return results;
@@ -1779,7 +1779,7 @@ auto Sorcery::Character::level_down() -> void {
 
 	if (_abilities.at(CURRENT_LEVEL) == 1) {
 		_status = CharacterStatus::LOST;
-		location = CharacterLocation::TRAINING;
+		_location = CharacterLocation::TRAINING;
 		return;
 	}
 
@@ -2426,7 +2426,7 @@ auto Sorcery::Character::get_location_string() const -> std::string {
 
 	using enum Enums::Character::Location;
 
-	switch (location) {
+	switch (_location) {
 	case PARTY:
 		return (*_display->string)["LOCATION_PARTY"];
 		break;

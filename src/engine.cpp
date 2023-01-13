@@ -561,7 +561,7 @@ auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<in
 				const auto character_chosen{(*_get_option.value()).index};
 				_cur_char = &_game->characters.at(character_chosen);
 				if (_cur_char) {
-					_cur_char.value()->location = CharacterLocation::PARTY;
+					_cur_char.value()->set_location(CharacterLocation::PARTY);
 					_game->state->add_character_by_id(character_chosen);
 					_game->save_game();
 				}

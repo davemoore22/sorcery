@@ -62,7 +62,7 @@ class Character: public sf::Transformable, public sf::Drawable {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(location, coordinate, depth, _version, _name, _race, _class, _alignment, _start_attr, _cur_attr,
+			archive(_location, coordinate, depth, _version, _name, _race, _class, _alignment, _start_attr, _cur_attr,
 				_max_attr, _st_points, _portrait_index, _abilities, _priest_max_sp, _priest_cur_sp, _mage_max_sp,
 				_mage_cur_sp, _status, _hidden, _spells_known, _legated);
 		}
@@ -168,7 +168,6 @@ class Character: public sf::Transformable, public sf::Drawable {
 		std::map<SpellID, sf::Text *> mage_spell_texts;
 		std::map<SpellID, sf::Text *> priest_spell_texts;
 
-		CharacterLocation location;
 		std::optional<Coordinate> coordinate;
 		std::optional<int> depth;
 
@@ -249,5 +248,6 @@ class Character: public sf::Transformable, public sf::Drawable {
 		sf::RectangleShape _hl_mage_spell_bg;
 		sf::RectangleShape _hl_priest_spell_bg;
 		bool _legated;
+		CharacterLocation _location;
 };
 }
