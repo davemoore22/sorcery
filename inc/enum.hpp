@@ -994,6 +994,16 @@ namespace Enums {
 			MAZE = 3
 		};
 
+		enum class Event {
+
+			NO_EVENT = -1,
+			AREA_OF_OUT_BOUNDS = 0,
+			MAN_TELEPORT_CASTLE = 1,
+			SILVER_KEY = 2,
+			BRONZE_KEY = 3,
+			MURPHYS_GHOSTS = 4
+		};
+
 	}
 
 	namespace View {

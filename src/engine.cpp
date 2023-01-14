@@ -1349,13 +1349,20 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		}
 
 		// If we are in-game, and are on a tile with a note
-		auto current_loc{_game->state->get_player_pos()};
+		const auto current_loc{_game->state->get_player_pos()};
+		if (_game->state->level->at(current_loc).has_event()) {
+
+			const auto event{_game->state->level->at(current_loc).has_event().value()};
+			// DOING
+		}
+
+		/* auto current_loc{_game->state->get_player_pos()};
 		if (auto note{(*_game->state->level)(current_loc)}; (note.text.length() > 0) && (note.visible)) {
 			_show_tile_note = true;
 			_tile_note->update(note);
 		} else
 			_show_tile_note = false;
-		_update_tile_note = false;
+		_update_tile_note = false; */
 	}
 
 	return std::nullopt;

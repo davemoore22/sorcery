@@ -1,8 +1,8 @@
 {
 	"export": {
-		"from": "2022.5",
-		"date": "2022-06-25",
-		"time": "22:26:43"
+		"from": "2022.5.1",
+		"date": "2023-01-14",
+		"time": "22:41:50"
 	},
 	"regions": [
 		{
@@ -15030,7 +15030,7 @@
 									},
 									{
 										"b": 1,
-										"m": 108
+										"m": 25
 									},
 									{
 										"r": 1,
@@ -15118,7 +15118,7 @@
 									{
 										"r": 1,
 										"b": 1,
-										"m": 13
+										"m": 25
 									},
 									{
 										"b": 1
@@ -15538,7 +15538,7 @@
 										"b": 2
 									},
 									{
-										"m": 108
+										"m": 25
 									},
 									{
 										"r": 1
@@ -16058,7 +16058,8 @@
 									},
 									{
 										"r": 2,
-										"b": 1
+										"b": 1,
+										"m": 25
 									},
 									{
 									},
@@ -16199,7 +16200,7 @@
 									{
 										"r": 2,
 										"b": 1,
-										"m": 13
+										"m": 25
 									},
 									{
 										"b": 2
@@ -16457,30 +16458,6 @@
 					},
 					"notes": [
 						{
-							"x": 9,
-							"y": 12,
-							"monospaced": false,
-							"__data": "A large sign on the wall reads:@**Area out of bounds!**"
-						},
-						{
-							"x": 13,
-							"y": 18,
-							"monospaced": false,
-							"__data": "In this room is a silver statue of a boar with horns and long fangs. On the wall by the statue is a message (partially obscured) that appeard to have been left by\npassing elves. It is hardly legible. But some comments warning about ghosts and demons can still be made out."
-						},
-						{
-							"x": 13,
-							"y": 5,
-							"monospaced": false,
-							"__data": "There is a gem encrusted statue of a hooded man here. A golden light emanates from the hood. In front of the statue is an altar, in which pungent incense is burning."
-						},
-						{
-							"x": 13,
-							"y": 3,
-							"monospaced": false,
-							"__data": "In this room is a statue of a monster with the body of a chicken and the head of a cat. The statue is made of bronze, and lies on an onyx pedestal. There are unusual runes on a plaque thereon."
-						},
-						{
 							"x": 10,
 							"y": 8,
 							"monospaced": false,
@@ -16505,12 +16482,6 @@
 							"__data": "METADATA TELEPORT FROM"
 						},
 						{
-							"x": 9,
-							"y": 19,
-							"monospaced": false,
-							"__data": "A strange glow seems to emanate from this room. In the center, a smallish man in a long robe turns towards the party and shouts \"Begone, strangers!\" He slowly waves his hands, and chants \"mapiro mahama diromat!!\""
-						},
-						{
 							"x": 0,
 							"y": 10,
 							"monospaced": false,
@@ -16521,6 +16492,36 @@
 							"y": 5,
 							"monospaced": false,
 							"__data": "METADATA TELEPORT FROM"
+						},
+						{
+							"x": 9,
+							"y": 12,
+							"monospaced": false,
+							"__data": "METADATA EVENT AREA_OUT_OF_BOUNDS"
+						},
+						{
+							"x": 9,
+							"y": 19,
+							"monospaced": false,
+							"__data": "METADATA EVENT MAN_TELEPORT_CASTLE"
+						},
+						{
+							"x": 13,
+							"y": 18,
+							"monospaced": false,
+							"__data": "METADATA EVENT SILVER_KEY"
+						},
+						{
+							"x": 13,
+							"y": 5,
+							"monospaced": false,
+							"__data": "METADATA EVENT MURPHYS_GHOSTS"
+						},
+						{
+							"x": 13,
+							"y": 3,
+							"monospaced": false,
+							"__data": "METADATA EVENT BRONZE_KEY"
 						}
 					]
 				}

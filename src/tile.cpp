@@ -255,6 +255,11 @@ auto Sorcery::Tile::gfx() -> std::optional<unsigned int> {
 	return _texture_id;
 }
 
+auto Sorcery::Tile::set(const std::optional<MapEvent> event) -> void {
+
+	_event = event;
+}
+
 auto Sorcery::Tile::set(const TileFeature feature) -> void {
 
 	_features[magic_enum::enum_integer<TileFeature>(feature)] = true;
@@ -293,6 +298,14 @@ auto Sorcery::Tile::clear_teleport() -> void {
 auto Sorcery::Tile::clear_stairs() -> void {
 
 	_stairs = std::nullopt;
+}
+
+auto Sorcery::Tile::has_event() const -> std::optional<MapEvent> {
+
+	if (_event)
+		return _event.value();
+	else
+		return std::nullopt;
 }
 
 auto Sorcery::Tile::has_teleport() const -> std::optional<Teleport> {
@@ -371,7 +384,8 @@ auto Sorcery::Tile::_reset() -> void {
 	_features.reset();
 
 	_items.clear();
-	_events.clear();
+
+	_event = std::nullopt;
 
 	_room_id = std::nullopt;
 	_treasure_id = std::nullopt;

@@ -103,10 +103,11 @@ class Level {
 		auto _fill_in_complicated_walls(
 			const Coordinate location, const unsigned int south_wall, const unsigned int east_wall) -> void;
 		auto _load_markers(const Json::Value row_data) -> bool;
-		auto _load_notes(const Json::Value note_data) -> bool;
+		// auto _load_notes(const Json::Value note_data) -> bool;
 		auto _load_metadata(const Json::Value note_data) -> bool;
 		auto _update_tile_markers(const Coordinate location, const bool darkness, const unsigned int marker,
 			const unsigned int terrain) -> void;
+		auto _map_event_types(const std::string &string) const -> std::optional<MapEvent>;
 };
 
 }

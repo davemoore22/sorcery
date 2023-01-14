@@ -40,7 +40,7 @@ class Tile {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_location, _north, _south, _east, _west, _texture_id, _properties, _features, _items, _events,
+			archive(_location, _north, _south, _east, _west, _texture_id, _properties, _features, _items, _event,
 				_room_id, _treasure_id, _effect_id, _description_id, _characters, _lighting, _teleport, _stairs,
 				_elevator, _id, s_id);
 		}
@@ -58,6 +58,7 @@ class Tile {
 		auto has(const MapDirection direction) const -> bool;
 		auto has(const MapDirection direction, const TileEdge wall_type) const -> bool;
 		auto has(const TileFeature feature) const -> bool;
+		auto has_event() const -> std::optional<MapEvent>;
 		auto has_stairs() const -> std::optional<Teleport>;
 		auto has_teleport() const -> std::optional<Teleport>;
 		auto has_elevator() const -> std::optional<Elevator>;
@@ -68,6 +69,7 @@ class Tile {
 		auto reset(const TileFeature feature) -> void;
 		auto reset(const TileProperty property) -> void;
 		auto reset(const MapDirection direction) -> void;
+		auto set(const std::optional<MapEvent> event) -> void;
 		auto set(const TileFeature feature) -> void;
 		auto set(const TileProperty property) -> void;
 		auto set(const MapDirection direction, TileEdge new_wall) -> void;
@@ -106,9 +108,11 @@ class Tile {
 		// Features
 		std::bitset<32> _features;
 
-		// Items and Events
+		// Items
 		std::vector<unsigned int> _items;
-		std::vector<unsigned int> _events;
+
+		// Event
+		std::optional<MapEvent> _event;
 
 		// Various IDs
 		std::optional<unsigned int> _room_id;

@@ -107,8 +107,8 @@ auto Sorcery::Level::wrap_size() const -> Size {
 
 auto Sorcery::Level::wrap_top_right() const -> Coordinate {
 
-	// 2 here instead of 1 to fix issue with GC data starting at -1,0 and thus
-	// having an extra square on top (its 21x21 squares)
+	// 2 here instead of 1 to fix issue with GC data starting at -1,0 and thus having an extra square on top (its 21x21
+	// squares)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnarrowing"
 	return Coordinate{_bottom_left.x + _size.w - 1, _bottom_left.y + _size.h - 2};
@@ -138,7 +138,7 @@ auto Sorcery::Level::load(const Json::Value row_data, const Json::Value note_dat
 	_fill_in_simple_walls();
 	_set_complicated_walls(row_data);
 	_load_markers(row_data);
-	_load_notes(note_data);
+	//_load_notes(note_data);
 	_load_metadata(note_data);
 
 	return true;
@@ -180,8 +180,8 @@ auto Sorcery::Level::at(const Coordinate loc) -> Tile & {
 
 auto Sorcery::Level::at(const Coordinate loc, const MapDirection direction, const int x, const int z) -> Tile & {
 
-	// Needs to be done seperately since levels have an extra row/column, and we
-	// must also remember that N/E is actually y/x
+	// Needs to be done seperately since levels have an extra row/column, and we must also remember that N/E is actually
+	// y/x
 	Coordinate dest{loc};
 	switch (direction) {
 	case MapDirection::NORTH: {
@@ -253,8 +253,7 @@ auto Sorcery::Level::_create() -> void {
 
 	_tiles.clear();
 
-	// Create the blank tiles because GC export data doesn't always include
-	// empty tiles to save space in the export
+	// Create the blank tiles because GC export data doesn't always include empty tiles to save space in the export
 	for (auto y = _bottom_left.y; y <= _bottom_left.y + static_cast<int>(_size.h); y++) {
 		for (auto x = _bottom_left.x; x <= _bottom_left.x + static_cast<int>(_size.w); x++) {
 			_add_tile(Coordinate{x, y});
@@ -262,7 +261,7 @@ auto Sorcery::Level::_create() -> void {
 	}
 }
 
-auto Sorcery::Level::_load_notes(const Json::Value note_data) -> bool {
+/* auto Sorcery::Level::_load_notes(const Json::Value note_data) -> bool {
 
 	for (auto j = 0u; j < note_data.size(); j++) {
 
@@ -270,7 +269,7 @@ auto Sorcery::Level::_load_notes(const Json::Value note_data) -> bool {
 		const auto y{static_cast<int>(note_data[j]["y"].asInt())};
 		const auto text{note_data[j]["__data"].asString()};
 
-		if (!text.starts_with("METADATA")) {
+		if (!text.starts_with("METADATA EVENT")) {
 			TileNote note{x, y, text};
 			_notes[Coordinate{x, y}] = note;
 			if (!_tiles.at(Coordinate{x, y}).has(TileFeature::MESSAGE))
@@ -279,7 +278,7 @@ auto Sorcery::Level::_load_notes(const Json::Value note_data) -> bool {
 	}
 
 	return true;
-}
+} */
 
 auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {
 
@@ -315,12 +314,34 @@ auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {
 						_tiles.at(Coordinate{x, y}).set(TileFeature::ELEVATOR_UP);
 					if (down)
 						_tiles.at(Coordinate{x, y}).set(TileFeature::ELEVATOR_DOWN);
+				} else if (data.at(1) == "EVENT") {
+					const auto what{data.at(2)};
+					const auto event{_map_event_types(what)};
+					_tiles.at(Coordinate{x, y}).set(event);
 				}
 			}
 		}
 	}
 
 	return true;
+}
+
+auto Sorcery::Level::_map_event_types(const std::string &string) const -> std::optional<MapEvent> {
+
+	// To do replace this wirh somethig a bit better
+	using enum Enums::Map::Event;
+	if (string == "AREA_OUT_OF_BOUNDS")
+		return AREA_OF_OUT_BOUNDS;
+	else if (string == "MAN_TELEPORT_CASTLE")
+		return MAN_TELEPORT_CASTLE;
+	else if (string == "SILVER_KEY")
+		return SILVER_KEY;
+	else if (string == "BRONZE_KEY")
+		return BRONZE_KEY;
+	else if (string == "MURPHYS_GHOSTS")
+		return MURPHYS_GHOSTS;
+	else
+		return std::nullopt;
 }
 
 auto Sorcery::Level::_load_markers(const Json::Value row_data) -> bool {
@@ -451,9 +472,8 @@ auto Sorcery::Level::_load_simple_walls(const Json::Value row_data) -> bool {
 	return true;
 }
 
-// Since Grid Cartographer only defines s/e walls in our format, we do two
-// updates, first with the tile in question, and then from the adjacent tile on
-// another pass - but for now only update simple walls
+// Since Grid Cartographer only defines s/e walls in our format, we do two updates, first with the tile in question, and
+// then from the adjacent tile on another pass - but for now only update simple walls
 auto Sorcery::Level::_update_tile_walls_simple(
 	const Coordinate location, const unsigned int south_wall, const unsigned int east_wall) -> void {
 
@@ -465,9 +485,8 @@ auto Sorcery::Level::_update_tile_walls_simple(
 	tile.set(MapDirection::EAST, east_edge.value());
 }
 
-// Check for single normal walls and double them as we are using dual
-// walls so for each side, check if its a normal wall/door and if the
-// other side is empty then give the other side the same wall/door
+// Check for single normal walls and double them as we are using dual walls so for each side, check if its a normal
+// wall/door and if the other side is empty then give the other side the same wall/door
 auto Sorcery::Level::_fill_in_simple_walls() -> bool {
 
 	// Use the Wrapping "View" to guarantee tiles exist
@@ -664,16 +683,14 @@ auto Sorcery::Level::stairs_at(const Coordinate loc) -> bool {
 auto Sorcery::Level::_fill_in_complicated_walls(
 	const Coordinate location, const unsigned int south_wall, const unsigned int east_wall) -> void {
 
-	// OK, so this is a bit complicated due to GC only storing one set of walls
-	// per tile - we have to back fill in complicated walls (walls that differ
-	// on each side)
+	// OK, so this is a bit complicated due to GC only storing one set of walls per tile - we have to back fill in
+	// complicated walls (walls that differ on each side)
 
 	// Fortunately, the only walls that we need to worry about are:
 	//
 	// ONE_WAY_DOOR, HIDDEN_DOOR, ONE_WAY_WALL - in both direction
 	//
-	// We need to not only handle the walls in question but set the
-	// correspinding walls on adjacent tiles as needed
+	// We need to not only handle the walls in question but set the correspinding walls on adjacent tiles as needed
 
 	// https: // docs.gridcartographer.com/ref/table/edge
 	auto &tile{_tiles.at(location)};
@@ -793,10 +810,8 @@ auto Sorcery::Level::_fill_in_complicated_walls(
 	}
 }
 
-// Due to the way GC defines levels, we need to handle different edges
-// differently so this is the inner function - this only works for
-// simple non-directional wall-types - the complicated walls we handle
-// later
+// Due to the way GC defines levels, we need to handle different edges differently so this is the inner function - this
+// only works for simple non-directional wall-types - the complicated walls we handle later
 auto Sorcery::Level::_convert_edge_simple(const unsigned int wall) const -> std::optional<TileEdge> {
 
 	std::optional<TileEdge> edge{std::nullopt};
@@ -839,8 +854,8 @@ auto Sorcery::Level::_convert_edge_se(const unsigned int wall) const -> std::opt
 	return standard_edge.value_or(TileEdge::NO_EDGE);
 }
 
-// Only populate walls that we need to populate at this point - those
-// ones that have some meaning for N or W (i.e. types 5/6/7)
+// Only populate walls that we need to populate at this point - those ones that have some meaning for N or W (i.e. types
+// 5/6/7)
 auto Sorcery::Level::_convert_edge_nw(const unsigned int wall) const -> std::optional<TileEdge> {
 
 	std::optional<TileEdge> edge{std::nullopt};

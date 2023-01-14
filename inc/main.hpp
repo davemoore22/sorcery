@@ -157,6 +157,7 @@ using LegateStage = Enums::Character::Legate;
 using LevelID = std::pair<std::string, int>;
 using MainMenuType = Enums::MainMenu::Type;
 using MapDirection = Enums::Map::Direction;
+using MapEvent = Enums::Map::Event;
 using MapType = Enums::Map::Type;
 using MenuItem = Enums::Menu::Item;
 using MenuMode = Enums::Menu::Mode;

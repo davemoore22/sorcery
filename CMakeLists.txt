@@ -46,6 +46,7 @@ add_executable(${PROJECT_NAME}
 	src/edit.cpp
 	src/engine.cpp
 	src/error.cpp
+	src/event.cpp
 	src/explore.cpp
 	src/file.cpp
 	src/frame.cpp
