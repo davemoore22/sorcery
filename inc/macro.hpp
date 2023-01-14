@@ -159,11 +159,6 @@ template <typename T> int sgn(T val) {
 	return (T(0) < val) - (val < T(0));
 }
 
-inline auto DICE(const std::string &message, const int dice, const int roll, const int needed) {
-
-	return fmt::format("d{}: {}/{}: {}", dice, roll, needed, message);
-}
-
 // Split a strong - https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/
 inline auto SPLIT(const std::string &text) -> std::vector<std::string> {
 

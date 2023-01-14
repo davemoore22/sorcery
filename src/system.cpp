@@ -98,8 +98,16 @@ auto Sorcery::System::stop_pause() -> void {
 	_clock_duration = std::nullopt;
 }
 
+// Diceroll to String
+auto Sorcery::System::dice_roll_to_str(
+	const std::string &message, const int dice, const int roll, const int needed) const -> std::string {
+
+	return fmt::format("d{:<3}: {:>3}/{:>3}: {}", dice, roll, needed, message);
+}
+
 // Timepoint to String
-auto Sorcery::System::convert_tp_to_str(const std::chrono::time_point<std::chrono::system_clock> tp) -> std::string {
+auto Sorcery::System::convert_tp_to_str(const std::chrono::time_point<std::chrono::system_clock> tp) const
+	-> std::string {
 
 	// Need to do it this way til std::chrono::locate_zone etc is supported
 	auto t_t{std::chrono::system_clock::to_time_t(tp)};

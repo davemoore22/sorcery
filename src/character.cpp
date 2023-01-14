@@ -321,10 +321,11 @@ auto Sorcery::Character::get_location() const -> CharacterLocation {
 
 auto Sorcery::Character::set_location(const CharacterLocation &value) -> void {
 
+	using enum Enums::Character::Location;
+
 	_location = value;
 
-	if ((value == CharacterLocation::TAVERN) || (value == CharacterLocation::TEMPLE) ||
-		(value == CharacterLocation::TRAINING)) {
+	if ((value == TAVERN) || (value == TEMPLE) || (value == TRAINING)) {
 		coordinate = std::nullopt;
 		depth = std::nullopt;
 	}
@@ -435,6 +436,7 @@ auto Sorcery::Character::set_alignment(const CharacterAlignment &value) -> void 
 }
 
 auto Sorcery::Character::get_num_pos_class() const -> unsigned int {
+
 	return _num_pos_classes;
 }
 

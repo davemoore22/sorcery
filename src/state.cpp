@@ -234,7 +234,7 @@ auto Sorcery::State::add_log_dice_roll(const std::string &message, const int dic
 	if ((dice != -1) || (roll != -1) || (needed != -1)) {
 		const auto success{roll < needed ? "SUCCESS" : "FAILURE"};
 		const auto string{fmt::format("{} ({})", message, success)};
-		add_log_message(DICE(string, dice, roll, needed), MessageType::ROLL);
+		add_log_message(_system->dice_roll_to_str(string, dice, roll, needed), MessageType::ROLL);
 	} else
 		add_log_message(message, MessageType::GAME);
 }

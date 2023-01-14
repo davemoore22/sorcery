@@ -2253,6 +2253,7 @@ auto Sorcery::Engine::_debug_kill_non_party_characters() -> std::optional<int> {
 
 	for (auto &[character_id, character] : _game->characters) {
 		if (character.get_location() != CharacterLocation::PARTY) {
+			std::cout << character;
 			character.set_current_hp(0);
 			character.set_status(CharacterStatus::DEAD);
 			character.set_location(CharacterLocation::TEMPLE);
@@ -2273,6 +2274,7 @@ auto Sorcery::Engine::_debug_send_non_party_characters_to_tavern() -> std::optio
 
 	for (auto &[character_id, character] : _game->characters) {
 		if (character.get_location() != CharacterLocation::PARTY) {
+			std::cout << character;
 			character.set_current_hp(character.get_max_hp());
 			character.set_status(CharacterStatus::OK);
 			character.set_location(CharacterLocation::TAVERN);
