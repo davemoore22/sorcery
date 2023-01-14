@@ -118,6 +118,8 @@ class Engine {
 		auto _debug_go_down_a_level() -> std::optional<int>;
 		auto _debug_go_up_a_level() -> std::optional<int>;
 		auto _debug_heal_party_to_full() -> std::optional<int>;
+		auto _debug_send_non_party_characters_to_tavern() -> std::optional<int>;
+		auto _debug_kill_non_party_characters() -> std::optional<int>;
 		auto _debug_level_first_character_down() -> std::optional<int>;
 		auto _debug_level_first_character_up() -> std::optional<int>;
 		auto _debug_light_on() -> std::optional<int>;

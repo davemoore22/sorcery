@@ -175,7 +175,7 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 						} else {
 
 							const auto character_chosen{(*selected.value()).index};
-							_cur_char = &_game->characters.at(character_chosen);
+							_cur_char = &_game->characters[character_chosen];
 							if (_cur_char) {
 								_display->set_input_mode(WindowInputMode::BROWSE_CHARACTER);
 								_cur_char.value()->set_view(CharacterView::SUMMARY);
@@ -193,7 +193,7 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 						((*selected.value()).item != MenuItem::CAMP)) {
 						const auto character_chosen{static_cast<int>((*selected.value()).index)};
 						if (character_chosen != _cur_char_id) {
-							auto character{&_game->characters.at(character_chosen)};
+							auto character{&_game->characters[character_chosen]};
 							_char_panel->set(character);
 							_cur_char_id = character_chosen;
 						}

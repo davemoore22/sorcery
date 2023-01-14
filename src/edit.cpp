@@ -57,7 +57,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 	_show_legated = false;
 
 	// Get the Current Character
-	_cur_char = &_game->characters.at(current_character_idx);
+	_cur_char = &_game->characters[current_character_idx];
 	_char_panel->set(_cur_char.value());
 
 	// Set up the Custom Components
@@ -193,7 +193,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 								_game->update_character(_game->get_id(), current_character_idx, character);
 
 								_game->save_game();
-								auto cur_char{&_game->characters.at(current_character_idx)};
+								auto cur_char{&_game->characters[current_character_idx]};
 								_char_panel->set(cur_char);
 
 								_show_legated = true;

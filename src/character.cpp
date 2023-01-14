@@ -63,8 +63,8 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 
 // Note for the copy constuctors we only copy the character data/PODs within
 Sorcery::Character::Character(const Character &other)
-	: _location{other._location}, coordinate{other.coordinate}, depth{other.depth}, _version{other._version},
-	  _system{other._system}, _display{other._display}, _graphics{other._graphics}, _abilities{other._abilities},
+	: coordinate{other.coordinate}, depth{other.depth}, _version{other._version}, _system{other._system},
+	  _display{other._display}, _graphics{other._graphics}, _abilities{other._abilities},
 	  _priest_max_sp{other._priest_max_sp}, _priest_cur_sp{other._priest_cur_sp}, _mage_max_sp{other._mage_max_sp},
 	  _mage_cur_sp{other._mage_cur_sp}, _spells{other._spells}, _spells_known{other._spells_known},
 	  _current_stage{other._current_stage}, _name{other._name}, _race{other._race}, _class{other._class},
@@ -72,7 +72,8 @@ Sorcery::Character::Character(const Character &other)
 	  _max_attr{other._max_attr}, _view{other._view}, _points_left{other._points_left}, _st_points{other._st_points},
 	  _pos_classes{other._pos_classes}, _class_list{other._class_list}, _num_pos_classes{other._num_pos_classes},
 	  _portrait_index{other._portrait_index}, _status{other._status}, _hidden{other._hidden},
-	  _hl_mage_spell{other._hl_mage_spell}, _hl_priest_spell{other._hl_priest_spell}, _legated{other._legated} {
+	  _hl_mage_spell{other._hl_mage_spell}, _hl_priest_spell{other._hl_priest_spell}, _legated{other._legated},
+	  _location{other._location} {
 
 	_spell_panel = other._spell_panel;
 	_spell_panel_c = other._spell_panel_c;
@@ -80,7 +81,6 @@ Sorcery::Character::Character(const Character &other)
 
 auto Sorcery::Character::operator=(const Character &other) -> Character & {
 
-	_location = other._location;
 	coordinate = other.coordinate;
 	depth = other.depth;
 
@@ -117,6 +117,7 @@ auto Sorcery::Character::operator=(const Character &other) -> Character & {
 	_hidden = other._hidden;
 	_status = other._status;
 	_legated = other._legated;
+	_location = other._location;
 
 	_spell_panel = other._spell_panel;
 	_spell_panel_c = other._spell_panel_c;
@@ -129,7 +130,6 @@ Sorcery::Character::Character(Character &&other) noexcept {
 
 	if (this != &other) {
 
-		_location = other._location;
 		coordinate = other.coordinate;
 		depth = other.depth;
 
@@ -166,11 +166,11 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		_hidden = other._hidden;
 		_status = other._status;
 		_legated = other._legated;
+		_location = other._location;
 
 		_spell_panel = std::move(other._spell_panel);
 		_spell_panel_c = std::move(other._spell_panel_c);
 
-		other._location = CharacterLocation::NO_LOCATION;
 		other.coordinate = std::nullopt;
 		other.depth = std::nullopt;
 
@@ -207,6 +207,7 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		other._hidden = false;
 		other._status = CharacterStatus::OK;
 		other._legated = false;
+		other._location = CharacterLocation::NO_LOCATION;
 
 		other._spell_panel.reset();
 		other._spell_panel_c = Component();
@@ -321,6 +322,12 @@ auto Sorcery::Character::get_location() const -> CharacterLocation {
 auto Sorcery::Character::set_location(const CharacterLocation &value) -> void {
 
 	_location = value;
+
+	if ((value == CharacterLocation::TAVERN) || (value == CharacterLocation::TEMPLE) ||
+		(value == CharacterLocation::TRAINING)) {
+		coordinate = std::nullopt;
+		depth = std::nullopt;
+	}
 }
 
 // Reset a character back to a particular state
@@ -970,9 +977,7 @@ auto Sorcery::Character::legate(const CharacterAlignment &value) -> void {
 	set_status(CharacterStatus::OK);
 	_legated = true;
 
-	_location = CharacterLocation::TAVERN;
-	coordinate = std::nullopt;
-	depth = std::nullopt;
+	set_location(CharacterLocation::TAVERN);
 }
 
 // Change Class

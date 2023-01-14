@@ -109,9 +109,9 @@ auto Sorcery::Restart::start() -> std::optional<MenuItem> {
 						// Find the location and floor of the character pointed to, and reload the maze, repopulate the
 						// party and restart the game from there
 						const auto character_chosen{(*selected.value()).index};
-						auto character{&_game->characters.at(character_chosen)};
-						auto to_depth{character->depth.value()};
-						auto to_loc{character->coordinate.value()};
+						auto &character{_game->characters[character_chosen]};
+						auto to_depth{character.depth.value()};
+						auto to_loc{character.coordinate.value()};
 						_game->state->clear_party();
 						for (auto &[character_id, character] : _game->characters) {
 							if (character.get_location() == CharacterLocation::MAZE) {
@@ -125,8 +125,7 @@ auto Sorcery::Restart::start() -> std::optional<MenuItem> {
 						_game->state->set_depth(to_depth);
 						_game->state->set_player_pos(to_loc);
 						auto engine{std::make_unique<Engine>(_system, _display, _graphics, _game)};
-						auto result{engine->start()};
-						if (result == EXIT_ALL) {
+						if (auto result{engine->start()}; result == EXIT_ALL) {
 							_game->save_game();
 							_game->state->set_depth(to_depth);
 							_game->state->set_player_pos(to_loc);

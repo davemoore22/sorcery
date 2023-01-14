@@ -88,7 +88,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 
 	// By default choose the first character in the party!
 	_cur_char_id = (*option_choose.value()).index;
-	_cur_char = &_game->characters.at(_cur_char_id);
+	_cur_char = &_game->characters[_cur_char_id];
 
 	sf::Event event{};
 	while (_window->isOpen()) {
@@ -201,7 +201,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 								continue;
 							} else {
 								const auto character_chosen{(*option_choose.value()).index};
-								_cur_char = &_game->characters.at(character_chosen);
+								_cur_char = &_game->characters[character_chosen];
 								if (_cur_char) {
 									_stage = InnStage::BED;
 									_status_bar->refresh();

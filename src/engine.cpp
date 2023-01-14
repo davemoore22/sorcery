@@ -559,7 +559,7 @@ auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<in
 			} else if ((*_get_option.value()).type == MenuItemType::ENTRY) {
 
 				const auto character_chosen{(*_get_option.value()).index};
-				_cur_char = &_game->characters.at(character_chosen);
+				_cur_char = &_game->characters[character_chosen];
 				if (_cur_char) {
 					_cur_char.value()->set_location(CharacterLocation::PARTY);
 					_game->state->add_character_by_id(character_chosen);
@@ -894,7 +894,12 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_debug_give_first_character_gold_xp();
 	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F3))
 		_debug_give_party_random_status();
-
+	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F5))
+		_debug_send_non_party_characters_to_tavern();
+	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F6))
+		_debug_kill_non_party_characters();
+	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F4))
+		_debug_heal_party_to_full();
 	if (_system->input->check(WindowInput::MAZE_SHOW_MAP, event)) {
 		_in_map = !_in_map;
 		_update_automap = true;
@@ -1126,11 +1131,9 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
 			if (_status_bar->selected) {
 
-				// Remember here status-bar selected is
-				// 1-indexed, not 0-index so we need to
-				// take away 1
+				// Status-bar selected is 1-indexed, not 0-indexed
 				const auto character_chosen{(_status_bar->selected.value())};
-				_cur_char = &_game->characters.at(_game->state->get_party_characters().at(character_chosen - 1));
+				_cur_char = &_game->characters[_game->state->get_party_characters().at(character_chosen - 1)];
 				if (_cur_char) {
 					_display->set_input_mode(WindowInputMode::BROWSE_CHARACTER);
 					_cur_char.value()->set_view(CharacterView::SUMMARY);
@@ -2197,7 +2200,7 @@ auto Sorcery::Engine::_debug_heal_party_to_full() -> std::optional<int> {
 
 auto Sorcery::Engine::_debug_give_first_character_gold_xp() -> std::optional<int> {
 
-	auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
+	auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
 	auto next{character.get_next_xp()};
 	character.grant_xp(next - 1);
 	character.grant_gold(10000);
@@ -2214,7 +2217,7 @@ auto Sorcery::Engine::_debug_give_first_character_gold_xp() -> std::optional<int
 
 auto Sorcery::Engine::_debug_level_first_character_down() -> std::optional<int> {
 
-	auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
+	auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
 	character.level_down();
 
 	_update_automap = true;
@@ -2229,12 +2232,52 @@ auto Sorcery::Engine::_debug_level_first_character_down() -> std::optional<int> 
 
 auto Sorcery::Engine::_debug_level_first_character_up() -> std::optional<int> {
 
-	auto &character{_game->characters.at(_game->state->get_character_by_position(1).value())};
+	auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
 	auto next{character.get_next_xp()};
 	character.grant_xp(next + 1);
 	auto results{character.level_up()};
 	for (auto text : results)
 		std::cout << text << std::endl;
+
+	_update_automap = true;
+	_update_compass = true;
+	_update_buffbar = true;
+	_update_search = true;
+	_update_render = true;
+	_update_status_bar = true;
+
+	return CONTINUE;
+}
+
+auto Sorcery::Engine::_debug_kill_non_party_characters() -> std::optional<int> {
+
+	for (auto &[character_id, character] : _game->characters) {
+		if (character.get_location() != CharacterLocation::PARTY) {
+			character.set_current_hp(0);
+			character.set_status(CharacterStatus::DEAD);
+			character.set_location(CharacterLocation::TEMPLE);
+		}
+	}
+
+	_update_automap = true;
+	_update_compass = true;
+	_update_buffbar = true;
+	_update_search = true;
+	_update_render = true;
+	_update_status_bar = true;
+
+	return CONTINUE;
+}
+
+auto Sorcery::Engine::_debug_send_non_party_characters_to_tavern() -> std::optional<int> {
+
+	for (auto &[character_id, character] : _game->characters) {
+		if (character.get_location() != CharacterLocation::PARTY) {
+			character.set_current_hp(character.get_max_hp());
+			character.set_status(CharacterStatus::OK);
+			character.set_location(CharacterLocation::TAVERN);
+		}
+	}
 
 	_update_automap = true;
 	_update_compass = true;

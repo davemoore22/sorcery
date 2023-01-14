@@ -238,9 +238,9 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 
 							// Add a character
 							const auto character_chosen{(*option.value()).index};
-							_game->state->add_character_by_id(character_chosen);
 							auto &character = _game->characters[character_chosen];
 							character.set_location(CharacterLocation::PARTY);
+							_game->state->add_character_by_id(character_chosen);
 							_game->save_game();
 							_status_bar->refresh();
 							_stage = MENU;
@@ -290,12 +290,9 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 
 							// Remove a character
 							const auto character_chosen{(*option.value()).index};
-							_game->state->remove_character_by_id(character_chosen);
-
 							auto &character = _game->characters[character_chosen];
 							character.set_location(CharacterLocation::TAVERN);
-							character.coordinate = std::nullopt;
-							character.depth = std::nullopt;
+							_game->state->remove_character_by_id(character_chosen);
 
 							_game->save_game();
 							_status_bar->refresh();

@@ -48,13 +48,10 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 	for (auto &[character_id, character] : _game->characters) {
 		if (character.get_location() == CharacterLocation::PARTY) {
 			character.set_location(CharacterLocation::TAVERN);
-			character.coordinate = std::nullopt;
-			character.depth = std::nullopt;
 		}
 	}
 
-	// Get the Background Display Components and load them into Display module
-	// storage (not local)
+	// Get the Background Display Components and load them into Display module storage (not local)
 	_display->generate("training_grounds");
 
 	// Set up the Custom Components
