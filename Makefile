@@ -845,6 +845,30 @@ src/error.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/error.cpp.s
 .PHONY : src/error.cpp.s
 
+src/event.o: src/event.cpp.o
+.PHONY : src/event.o
+
+# target to build an object file
+src/event.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/event.cpp.o
+.PHONY : src/event.cpp.o
+
+src/event.i: src/event.cpp.i
+.PHONY : src/event.i
+
+# target to preprocess a source file
+src/event.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/event.cpp.i
+.PHONY : src/event.cpp.i
+
+src/event.s: src/event.cpp.s
+.PHONY : src/event.s
+
+# target to generate assembly for a file
+src/event.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/event.cpp.s
+.PHONY : src/event.cpp.s
+
 src/explore.o: src/explore.cpp.o
 .PHONY : src/explore.o
 
@@ -2143,6 +2167,9 @@ help:
 	@echo "... src/error.o"
 	@echo "... src/error.i"
 	@echo "... src/error.s"
+	@echo "... src/event.o"
+	@echo "... src/event.i"
+	@echo "... src/event.s"
 	@echo "... src/explore.o"
 	@echo "... src/explore.i"
 	@echo "... src/explore.s"

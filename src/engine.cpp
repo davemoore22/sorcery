@@ -1353,7 +1353,55 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		if (_game->state->level->at(current_loc).has_event()) {
 
 			const auto event{_game->state->level->at(current_loc).has_event().value()};
+
+			/*
+
+			event component
+
+			stage: BANNER MESSAGE/PRESS OK TO CONTINUE
+			stage: ACTION
+			stage: RESULT
+
+			Area Out of Bounds:
+
+				BANNER MESSAGE/PRESS OK TO CONTINUE
+
+			Man Teleport Castle:
+
+				BANNER MESSAGEE/PRESS OK TO CONTINUE
+				TELEPORT
+
+			Silver Key:
+
+				BANNER MESSAGEE/PRESS OK TO CONTINUE
+				WILL SEARCH
+				MESSAGE GOT AN ITEM
+
+			Bronze Key:
+
+				BANNER MESSAGEE/PRESS OK TO CONTINUE
+				WILL SEARCH
+				MESSAGE GOT AN ITEM
+
+			Murphy's Ghosts
+
+				BANNER MESSAGEE/PRESS OK TO CONTINUE
+				WILL SEARCH
+				COMBAT
+
+
+
+
+
+
+
+
+			// Area out of Bounds
+
+
 			// DOING
+
+			*/
 		}
 
 		/* auto current_loc{_game->state->get_player_pos()};

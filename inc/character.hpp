@@ -129,6 +129,7 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto get_status() const -> CharacterStatus;
 		auto get_status_string() const -> std::string;
 		auto get_location_string() const -> std::string;
+		auto get_summary_and_out() -> std::string;
 		auto set_status(CharacterStatus value) -> void;
 		auto is_poisoned() const -> bool;
 		auto get_poisoned_rate() const -> int;

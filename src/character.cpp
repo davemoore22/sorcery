@@ -2668,6 +2668,25 @@ auto Sorcery::Character::get_summary() -> std::string {
 		get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3), get_race(_race).substr(0, 3));
 }
 
+auto Sorcery::Character::get_summary_and_out() -> std::string {
+
+	using enum Enums::Character::Ability;
+
+	auto name{_name};
+	auto location{[&] {
+		if (_location == CharacterLocation::MAZE)
+			return "OUT";
+		else if (_status == CharacterStatus::LOST)
+			return "LOST";
+		else
+			return "";
+	}()};
+
+	std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
+	return fmt::format("{:<15} L {:>2} {}-{} {} {:>4}", name, _abilities.at(CURRENT_LEVEL),
+		get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3), get_race(_race).substr(0, 3), location);
+}
+
 auto Sorcery::Character::can_level() const -> bool {
 
 	using enum Enums::Character::Ability;

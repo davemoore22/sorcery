@@ -936,7 +936,8 @@ auto Sorcery::Menu::_populate_chars() -> void {
 						++max_id;
 					}
 				} else if (_mode.value() == MenuMode::TRAINING) {
-					_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
+					_add_item(
+						character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary_and_out());
 					++max_id;
 				}
 			}
