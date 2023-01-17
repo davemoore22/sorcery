@@ -61,11 +61,11 @@ class Window {
 		auto get_x(unsigned int width, int x_position) const -> unsigned int;
 		auto get_y(unsigned int width, int y_position) const -> unsigned int;
 		auto hl_text(sf::Text &text, const Component &component, double lerp) -> sf::RectangleShape;
-		auto shove_text(sf::Text &shovee, sf::Text &shover, unsigned int gap_units) -> void;
-		auto shove_text(sf::Text &shovee, sf::Text &shover, float gap_units) -> void;
+		auto shove_text(const sf::Text &shovee, sf::Text &shover, unsigned int gap_units) const -> void;
+		auto shove_text(const sf::Text &shovee, sf::Text &shover, float gap_units) const -> void;
 		auto set_input_mode(WindowInputMode value) -> void;
 		auto get_input_mode() const -> WindowInputMode;
-		auto set_pos(Component *component, sf::Transformable *object) -> void;
+		auto set_pos(Component *component, sf::Transformable *object) const -> void;
 		auto save_screen() -> void;
 		auto restore_screen() -> void;
 
@@ -79,7 +79,7 @@ class Window {
 	private:
 
 		// Private Methods
-		auto _adjust_brightness(sf::Color colour, double colour_lerp) -> unsigned long long;
+		auto _adjust_brightness(sf::Color colour, double colour_lerp) const -> unsigned long long;
 		auto _draw_text(sf::Text &text, const Component &component, const double lerp) -> void;
 		auto _draw_text(sf::Text &text, const Component &component, const std::string &string, const double lerp)
 			-> void;

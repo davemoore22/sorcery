@@ -186,13 +186,13 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, con
 }
 
 // Shove one text component next to another!
-auto Sorcery::Window::shove_text(sf::Text &shovee, sf::Text &shover, unsigned int gap_units) -> void {
+auto Sorcery::Window::shove_text(const sf::Text &shovee, sf::Text &shover, unsigned int gap_units) const -> void {
 
 	shover.setPosition(shovee.getGlobalBounds().left + shovee.getGlobalBounds().width + (_cell_width * gap_units),
 		shovee.getGlobalBounds().top - (shovee.getGlobalBounds().height / 4));
 }
 
-auto Sorcery::Window::set_pos(Component *component, sf::Transformable *object) -> void {
+auto Sorcery::Window::set_pos(Component *component, sf::Transformable *object) const -> void {
 
 	const auto off_x{[&] {
 		if ((*component)["offset_x"])
@@ -210,7 +210,7 @@ auto Sorcery::Window::set_pos(Component *component, sf::Transformable *object) -
 	object->setPosition(component->x + off_x, component->y + off_y);
 }
 
-auto Sorcery::Window::shove_text(sf::Text &shovee, sf::Text &shover, float gap_units) -> void {
+auto Sorcery::Window::shove_text(const sf::Text &shovee, sf::Text &shover, float gap_units) const -> void {
 	shover.setPosition(shovee.getGlobalBounds().left + shovee.getGlobalBounds().width + (_cell_width * gap_units),
 		shovee.getGlobalBounds().top - (shovee.getGlobalBounds().height / 2) - 2);
 }
@@ -389,7 +389,7 @@ auto Sorcery::Window::get_input_mode() const -> WindowInputMode {
 	return _input_mode;
 }
 
-auto Sorcery::Window::_adjust_brightness(sf::Color colour, double colour_lerp) -> unsigned long long {
+auto Sorcery::Window::_adjust_brightness(sf::Color colour, double colour_lerp) const -> unsigned long long {
 
 	thor::ColorGradient gradient{};
 	gradient[0.0f] = sf::Color(0x404040ff);
