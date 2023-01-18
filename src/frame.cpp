@@ -55,7 +55,7 @@ Sorcery::Frame::Frame(System *system, Display *display, WindowFrameType type, co
 	for (auto &frame_sprite : _frame_sprites) {
 		frame_sprite = sf::Sprite(_display->ui_texture);
 		frame_sprite.setTextureRect(_frame_parts[loop]);
-		if (_colour != 0ull)
+		if (_colour != 0ULL)
 			frame_sprite.setColor(sf::Color(_colour));
 		++loop;
 	}
@@ -89,8 +89,6 @@ Sorcery::Frame::Frame(System *system, Display *display, WindowFrameType type, co
 	sf::RectangleShape rectangle(sf::Vector2f(texture_size.x - (border * 2), texture_size.y - (border * 2)));
 	sf::Color fill{sf::Color(_layout.background)};
 	rectangle.setFillColor(sf::Color(fill.r, fill.g, fill.b, _layout.alpha));
-
-	// rectangle.setFillColor(sf::Color(0, 0, 0, _alpha));
 	rectangle.setPosition(border, border);
 	_rtexture.draw(rectangle);
 
@@ -184,7 +182,7 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type, const unsigned 
 	for (auto &frame_sprite : _frame_sprites) {
 		frame_sprite = sf::Sprite(_texture);
 		frame_sprite.setTextureRect(_frame_parts[loop]);
-		if (_colour != 0ull)
+		if (_colour != 0ULL)
 			frame_sprite.setColor(sf::Color(_colour));
 		++loop;
 	}
@@ -218,8 +216,6 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type, const unsigned 
 	sf::RectangleShape rectangle(sf::Vector2f(texture_size.x - (border * 2), texture_size.y - (border * 2)));
 	sf::Color fill{sf::Color(bg_colour)};
 	rectangle.setFillColor(sf::Color(fill.r, fill.g, fill.b, _alpha));
-
-	// rectangle.setFillColor(sf::Color(0, 0, 0, _alpha));
 	rectangle.setPosition(border, border);
 	_rtexture.draw(rectangle);
 

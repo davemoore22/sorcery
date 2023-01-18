@@ -82,7 +82,7 @@ auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, s
 					image.setPosition(component.x + offset_x, component.y + offset_y);
 					image.setScale(component.scale, component.scale);
 
-					if (component.colour != 0ull)
+					if (component.colour != 0ULL)
 						image.setColor(sf::Color(component.colour));
 
 					// Add the image to the components ready to draw
@@ -299,12 +299,10 @@ auto Sorcery::Display::display(std::string_view screen, std::map<std::string, sf
 			window->get_window()->draw(sprite);
 	}
 
-	for (auto &[unique_key, text] : texts) {
+	for (const auto &[unique_key, text] : texts) {
 
 		if (screen == "main_menu_attract") {
 			if (parameter) {
-
-				// TODO: replace with IF-INIT?
 				if (const MainMenuType menu_stage{std::any_cast<MainMenuType>(parameter.value())};
 					menu_stage == MainMenuType::ATTRACT_MENU) {
 					if ((unique_key.ends_with("main_menu_attract:press_any_key")) ||
@@ -312,7 +310,6 @@ auto Sorcery::Display::display(std::string_view screen, std::map<std::string, sf
 						(unique_key.ends_with("main_menu_attract:subtitle_2")) ||
 						(unique_key.ends_with("main_menu_attract:copyright")))
 						continue;
-				} else if (menu_stage == MainMenuType::ATTRACT_MODE) {
 				}
 			}
 		} else if (screen == "create") {

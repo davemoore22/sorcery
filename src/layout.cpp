@@ -231,9 +231,9 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 							if (components[j]["colour"].asString().length() > 0)
 								return std::stoull(components[j]["colour"].asString(), 0, 16);
 							else
-								return static_cast<unsigned long long>(0ull);
+								return static_cast<unsigned long long>(0ULL);
 						} else
-							return static_cast<unsigned long long>(0ull);
+							return static_cast<unsigned long long>(0ULL);
 					}()};
 					auto animated{[&] {
 						if (components[j].isMember("animated")) {
@@ -273,9 +273,9 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 							if (components[j]["background"].asString().length() > 0)
 								return std::stoull(components[j]["background"].asString(), 0, 16);
 							else
-								return static_cast<unsigned long long>(0ull);
+								return static_cast<unsigned long long>(0ULL);
 						} else
-							return static_cast<unsigned long long>(0ull);
+							return static_cast<unsigned long long>(0ULL);
 					}()};
 					Justification justification{[&] {
 						if (components[j].isMember("justification")) {

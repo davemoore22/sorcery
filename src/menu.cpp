@@ -599,9 +599,8 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 auto Sorcery::Menu::choose(const unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	// Iterate through til we have found the item with the associated index
-	auto it{std::find_if(items.begin(), items.end(), [&](const auto &item) { return item.index == index; })};
-
-	if (it != items.end())
+	if (auto it{std::find_if(items.begin(), items.end(), [&](const auto &item) { return item.index == index; })};
+		it != items.end())
 		return it;
 	else
 		return std::nullopt;
@@ -1097,10 +1096,11 @@ auto Sorcery::Menu::_populate_chars() -> void {
 	case MenuType::INVALID_CHARACTERS: {
 		auto count{0u};
 		auto last_id{0u};
-		if (_game->characters.size() > 0) {
-			for (auto &[character_id, character] : _game->characters) {
+		if (!_game->characters.empty()) {
+			for (const auto &[character_id, character] : _game->characters) {
 				if ((character.get_status() != CharacterStatus::OK) &&
-					(character.get_status() != CharacterStatus::LOST)) {
+					(character.get_status() != CharacterStatus::LOST) &&
+					(character.get_location() == CharacterLocation::TEMPLE)) {
 					const auto status{character.get_name_and_status()};
 					_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, status);
 					++count;
