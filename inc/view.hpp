@@ -42,9 +42,10 @@ class View {
 		View() = delete;
 
 		// Public Methods
+		auto get_monochrome() const -> bool;
+		auto set_monochrome(bool value) -> void;
 
 		// Public Members
-
 		std::map<Coordinate3, TileView> tileviews;
 
 	private:
@@ -57,6 +58,7 @@ class View {
 		bool _loaded;
 		unsigned int _depth;
 		unsigned int _width;
+		bool _monochrome;
 
 		// Private Methods
 		auto _load_tile_views() -> void;

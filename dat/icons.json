@@ -559,8 +559,13 @@
 			"menu_item": "CR_NONE",
 			"key": "levitate-buff",
 			"colour": "0xffffffff"
+		},
+		{
+			"index": "80",
+			"filename": "directions-monochrome",
+			"menu_item": "CR_NONE",
+			"key": "direction-indicator-monochrome",
+			"colour": "0xffffffff"
 		}
-
-
 	]
 }

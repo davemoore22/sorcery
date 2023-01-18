@@ -9779,7 +9779,9 @@
 				{
 
 					"offset_x": "8",
-					"offset_y": "19"
+					"offset_y": "19",
+					"mono": "direction-indicator-monochrome",
+					"not_mono": "direction-indicator"
 				}
 			]
 		},
@@ -10209,16 +10211,12 @@
 					{
 					"scale_x": "3.5",
 					"scale_y": "3.5",
-					"floor_colour": "0xffffffff",
-					"ceiling_colour": "0xffffffff",
-					"darkness_colour": "0xffffffff",
-					"stairs_colour": "0xffffffff",
-					"elevator_colour": "0xffffffff",
-					"c_floor_colour": "0x55ffffff",
-					"c_ceiling_colour": "0xff5555ff",
-					"c_darkness_colour": "0x55ffffff",
-					"c_stairs_colour": "0xff5555ff",
-					"c_elevator_colour": "0xff5555ff",
+					"monochrome_colour": "0xffffffff",
+					"floor_colour": "0x55ffffff",
+					"ceiling_colour": "0xff5555ff",
+					"darkness_colour": "0x55ffffff",
+					"stairs_colour": "0xff5555ff",
+					"elevator_colour": "0xff5555ff",
 					"offset_x": "8",
 					"offset_y": "0"
 					}

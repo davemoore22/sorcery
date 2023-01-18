@@ -341,13 +341,13 @@ auto Sorcery::Display::get_input_mode() const -> WindowInputMode {
 	return window->get_input_mode();
 }
 
-auto Sorcery::Display::display_direction_indicator(MapDirection direction) -> void {
+auto Sorcery::Display::display_direction_indicator(MapDirection direction, bool monochrome = false) -> void {
 
 	auto di_layout{(*layout)["engine_base_ui:direction_indicator"]};
-	auto di_icon{(*_icons)[di_layout.string_key]};
+	auto di_type{[&] { return monochrome ? di_layout["mono"].value() : di_layout["not_mono"].value(); }()};
+	auto di_icon{(*_icons)[di_type]};
 	if (di_icon) {
 		auto indicator{di_icon.value()};
-
 		indicator.setOrigin(indicator.getLocalBounds().width / 2, indicator.getLocalBounds().height / 2);
 		switch (direction) {
 		case MapDirection::NORTH:
@@ -379,9 +379,18 @@ auto Sorcery::Display::display_direction_indicator(MapDirection direction) -> vo
 				return 0;
 		}()};
 
+		sf::RectangleShape backdrop{sf::Vector2f(512, 512)};
+		backdrop.setFillColor(sf::Color(0, 0, 0));
+		backdrop.setOrigin(backdrop.getLocalBounds().width / 2, backdrop.getLocalBounds().height / 2);
+
 		indicator.setPosition((indicator.getGlobalBounds().width / 2) + di_layout.x + offset_x,
 			(indicator.getGlobalBounds().height / 2) + di_layout.y + offset_y);
+		backdrop.setPosition((indicator.getGlobalBounds().width / 2) + di_layout.x + offset_x,
+			(indicator.getGlobalBounds().height / 2) + di_layout.y + offset_y);
 		indicator.setScale(di_layout.scale, di_layout.scale);
+		backdrop.setScale(di_layout.scale, di_layout.scale);
+
+		window->get_window()->draw(backdrop);
 		window->get_window()->draw(indicator);
 	}
 }

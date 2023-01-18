@@ -124,6 +124,8 @@ class Engine {
 		auto _debug_level_first_character_up() -> std::optional<int>;
 		auto _debug_light_on() -> std::optional<int>;
 		auto _debug_light_off() -> std::optional<int>;
+		auto _debug_monochrome_wireframe() -> std::optional<int>;
+		auto _debug_colour_wireframe() -> std::optional<int>;
 
 		// Private Members
 		System *_system;
@@ -207,6 +209,7 @@ class Engine {
 		std::optional<std::vector<MenuEntry>::const_iterator> _search_option;
 		std::optional<std::vector<MenuEntry>::const_iterator> _elevator_a_d_option;
 		std::optional<std::vector<MenuEntry>::const_iterator> _elevator_a_f_option;
+		bool _monochrome;
 };
 
 }

@@ -28,6 +28,20 @@
 Sorcery::View::View(System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
+	_monochrome = false;
+
+	_load_tile_views();
+}
+
+auto Sorcery::View::get_monochrome() const -> bool {
+
+	return _monochrome;
+}
+
+auto Sorcery::View::set_monochrome(bool value) -> void {
+
+	_monochrome = value;
+
 	_load_tile_views();
 }
 
@@ -121,13 +135,22 @@ auto Sorcery::View::_load_tile_views() -> void {
 	}
 
 	const auto floor_c{(*_display->layout)["engine_base_ui:wireframe_view"]};
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnarrowing"
-	const auto floor_colour{sf::Color{std::stoull(floor_c["floor_colour"].value(), 0, 16)}};
-	const auto ceiling_colour{sf::Color{std::stoull(floor_c["ceiling_colour"].value(), 0, 16)}};
-	const auto stairs_colour{sf::Color{std::stoull(floor_c["stairs_colour"].value(), 0, 16)}};
-	const auto elevator_colour{sf::Color{std::stoull(floor_c["elevator_colour"].value(), 0, 16)}};
-	const auto darkness_colour{sf::Color{std::stoull(floor_c["darkness_colour"].value(), 0, 16)}};
+	auto floor_colour{sf::Color{std::stoull(floor_c["monochrome_colour"].value(), nullptr, 16)}};
+	auto ceiling_colour{sf::Color{std::stoull(floor_c["monochrome_colour"].value(), nullptr, 16)}};
+	auto stairs_colour{sf::Color{std::stoull(floor_c["monochrome_colour"].value(), nullptr, 16)}};
+	auto elevator_colour{sf::Color{std::stoull(floor_c["monochrome_colour"].value(), nullptr, 16)}};
+	auto darkness_colour{sf::Color{std::stoull(floor_c["monochrome_colour"].value(), nullptr, 16)}};
+
+	if (!_monochrome) {
+		floor_colour = sf::Color{std::stoull(floor_c["floor_colour"].value(), nullptr, 16)};
+		ceiling_colour = sf::Color{std::stoull(floor_c["ceiling_colour"].value(), nullptr, 16)};
+		stairs_colour = sf::Color{std::stoull(floor_c["stairs_colour"].value(), nullptr, 16)};
+		elevator_colour = sf::Color{std::stoull(floor_c["elevator_colour"].value(), nullptr, 16)};
+		darkness_colour = sf::Color{std::stoull(floor_c["darkness_colour"].value(), nullptr, 16)};
+	}
 #pragma GCC diagnostic pop
 
 	//  FLOORS/CEILINGS				SIDE DARKNESS			SIDE DOORS

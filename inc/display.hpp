@@ -76,7 +76,7 @@ class Display {
 		auto hide_overlay() -> void;
 		auto display_overlay() -> void;
 		auto shutdown_SFML() -> void;
-		auto display_direction_indicator(MapDirection direction) -> void;
+		auto display_direction_indicator(MapDirection direction, bool monochrome) -> void;
 
 		// Public Members
 		std::unique_ptr<String> string;

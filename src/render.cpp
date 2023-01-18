@@ -39,6 +39,19 @@ Sorcery::Render::Render(System *system, Display *display, Graphics *graphics, Ga
 	_sprites.clear();
 }
 
+auto Sorcery::Render::get_monochrome() const -> bool {
+
+	return _view->get_monochrome();
+}
+
+auto Sorcery::Render::set_monochrome(bool value) -> void {
+
+	if (value != _view->get_monochrome()) {
+		_view->set_monochrome(value);
+		refresh();
+	}
+}
+
 auto Sorcery::Render::refresh() -> void {
 
 	// Clear the View

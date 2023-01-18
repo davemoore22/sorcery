@@ -49,6 +49,8 @@ auto Sorcery::Engine::_initialise_state() -> void {
 	_pending_elevator = false;
 	_show_status = true;
 	_show_gui = true;
+
+	_monochrome = false;
 }
 
 auto Sorcery::Engine::_initalise_components() -> void {
@@ -900,6 +902,13 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_debug_kill_non_party_characters();
 	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F4))
 		_debug_heal_party_to_full();
+	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F7)) {
+		_monochrome = true;
+		_debug_monochrome_wireframe();
+	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F8)) {
+		_monochrome = false;
+		_debug_colour_wireframe();
+	}
 	if (_system->input->check(WindowInput::MAZE_SHOW_MAP, event)) {
 		_in_map = !_in_map;
 		_update_automap = true;
@@ -2174,7 +2183,7 @@ auto Sorcery::Engine::_draw() -> void {
 	}
 
 	if (_show_direction_indicatior) {
-		_display->display_direction_indicator(_last_movement);
+		_display->display_direction_indicator(_last_movement, _monochrome);
 	}
 
 	if (_show_confirm_exit) {
@@ -2411,6 +2420,30 @@ auto Sorcery::Engine::_debug_light_on() -> std::optional<int> {
 auto Sorcery::Engine::_debug_light_off() -> std::optional<int> {
 
 	_game->state->set_lit(false);
+	_update_automap = true;
+	_update_compass = true;
+	_update_buffbar = true;
+	_update_search = true;
+	_update_render = true;
+
+	return CONTINUE;
+}
+
+auto Sorcery::Engine::_debug_monochrome_wireframe() -> std::optional<int> {
+
+	_render->set_monochrome(true);
+	_update_automap = true;
+	_update_compass = true;
+	_update_buffbar = true;
+	_update_search = true;
+	_update_render = true;
+
+	return CONTINUE;
+}
+
+auto Sorcery::Engine::_debug_colour_wireframe() -> std::optional<int> {
+
+	_render->set_monochrome(false);
 	_update_automap = true;
 	_update_compass = true;
 	_update_buffbar = true;

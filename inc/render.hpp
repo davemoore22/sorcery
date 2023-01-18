@@ -43,6 +43,8 @@ class Render: public sf::Transformable, public sf::Drawable {
 
 		// Public Methods
 		auto refresh() -> void;
+		auto get_monochrome() const -> bool;
+		auto set_monochrome(bool value) -> void;
 
 	private:
 
