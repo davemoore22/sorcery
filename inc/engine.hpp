@@ -68,6 +68,8 @@ class Engine {
 	private:
 
 		// Private Methods
+		auto _generate_display() -> void;
+		auto _reset_components() -> void;
 		auto _initalise_components() -> void;
 		auto _place_components() -> void;
 		auto _initialise_state() -> void;

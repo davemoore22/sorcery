@@ -29,38 +29,31 @@
 // Standard Constructor
 Sorcery::Layout::Layout(const std::filesystem::path filename) {
 
-	// Defaults for now as _load is called on the constructor here and layout is
-	// created before window object retrieves the cell height and width from the
-	// config file alas! Solution is to pass the system object into this and get
-	// both the layout file name, and the config settings from the system object
-	// as we can do
+	// Defaults for now as _load is called on the constructor here and layout is created before window object retrieves
+	// the cell height and width from the config file alas! Solution is to pass the system object into this and get both
+	// the layout file name, and the config settings from the system object as we can do
 	_cell_width = 20;
 	_cell_height = 25;
 
 	// Load the layout from file
-	_loaded = _load(filename);
-	if (_loaded) {
-		_last_loaded = std::chrono::file_clock::now();
-		_filename = filename;
-		_last_modified = std::filesystem::last_write_time(_filename);
-	}
-}
-
-// Overload [] Operator
-auto Sorcery::Layout::operator[](std::string_view combined_key) -> Component & {
-
-	// swap into _load instead and check if refresh needed is called unnecessary
 	try {
 
-		// First check if we need to reload if anything has changed!
-		if (_refresh_needed())
-			_load(_filename);
+		_loaded = _load(filename);
+		if (_loaded) {
+			_last_loaded = std::chrono::file_clock::now();
+			_filename = filename;
+			_last_modified = std::filesystem::last_write_time(_filename);
+		}
 
 	} catch (std::exception &e) {
 		Error error{SystemError::JSON_PARSE_ERROR, e, "layout.json is not valid JSON!"};
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}
+}
+
+// Overload [] Operator
+auto Sorcery::Layout::operator[](std::string_view combined_key) -> Component & {
 
 	try {
 
@@ -81,12 +74,22 @@ auto Sorcery::Layout::operator[](std::string_view combined_key) -> Component & {
 	}
 }
 
+auto Sorcery::Layout::refresh_if_needed() -> bool {
+
+	auto needed{_refresh_needed()};
+	if (needed) {
+		_loaded = _load(_filename);
+		if (_loaded) {
+			_last_loaded = std::chrono::file_clock::now();
+			_last_modified = std::filesystem::last_write_time(_filename);
+		}
+	}
+
+	return needed;
+}
+
 // Overload () Operator
 auto Sorcery::Layout::operator()(std::string_view screen) -> std::optional<std::vector<Component>> {
-
-	// First check if we need to reload if anything has changed!
-	if (_refresh_needed())
-		_load(_filename);
 
 	// Else return the requested components for the screen
 	std::vector<Component> results;

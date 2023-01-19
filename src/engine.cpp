@@ -28,10 +28,16 @@
 Sorcery::Engine::Engine(System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
-	_initalise_components();
-	_initialise_state();
-
 	_game->hide_console();
+}
+
+auto Sorcery::Engine::_generate_display() -> void {
+
+	_reset_components();
+	_initalise_components();
+	_display->generate("engine_base_ui");
+	_refresh();
+	_place_components();
 }
 
 auto Sorcery::Engine::_initialise_state() -> void {
@@ -51,6 +57,137 @@ auto Sorcery::Engine::_initialise_state() -> void {
 	_show_gui = true;
 
 	_monochrome = false;
+}
+
+auto Sorcery::Engine::_reset_components() -> void {
+
+	if (_camp_menu.get()) {
+		_camp_menu.release();
+		_camp_menu.reset();
+	}
+	if (_camp_menu_frame.get()) {
+		_camp_menu_frame.release();
+		_camp_menu_frame.reset();
+	}
+	if (_search_menu.get()) {
+		_search_menu.release();
+		_search_menu.reset();
+	}
+	if (_search_menu_frame.get()) {
+		_search_menu_frame.release();
+		_search_menu_frame.reset();
+	}
+	if (_get_menu.get()) {
+		_get_menu.release();
+		_get_menu.reset();
+	}
+	if (_get_menu_frame.get()) {
+		_get_menu_frame.release();
+		_get_menu_frame.reset();
+	}
+	if (_action_menu.get()) {
+		_action_menu.release();
+		_action_menu.reset();
+	}
+	if (_action_menu.get()) {
+		_action_menu.release();
+		_action_menu.reset();
+	}
+	if (_elevator_a_d_menu.get()) {
+		_elevator_a_d_menu.release();
+		_elevator_a_d_menu.reset();
+	}
+	if (_elevator_a_d_menu_frame.get()) {
+		_elevator_a_d_menu_frame.release();
+		_elevator_a_d_menu_frame.reset();
+	}
+	if (_elevator_a_f_menu.get()) {
+		_elevator_a_f_menu.release();
+		_elevator_a_f_menu.reset();
+	}
+	if (_elevator_a_f_menu_frame.get()) {
+		_elevator_a_f_menu_frame.release();
+		_elevator_a_f_menu_frame.reset();
+	}
+	if (_confirm_exit.get()) {
+		_confirm_exit.release();
+		_confirm_exit.reset();
+	}
+	if (_confirm_stairs.get()) {
+		_confirm_stairs.release();
+		_confirm_stairs.reset();
+	}
+	if (_ouch.get()) {
+		_ouch.release();
+		_ouch.reset();
+	}
+	if (_pit.get()) {
+		_pit.release();
+		_pit.reset();
+	}
+
+	if (_chute.get()) {
+		_chute.release();
+		_chute.reset();
+	}
+
+	if (_elevator.get()) {
+		_elevator.release();
+		_elevator.reset();
+	}
+
+	if (_status_bar.get()) {
+		_status_bar.release();
+		_status_bar.reset();
+	}
+	if (_reorder.get()) {
+		_reorder.release();
+		_reorder.reset();
+	}
+	if (_inspect.get()) {
+		_inspect.release();
+		_inspect.reset();
+	}
+	if (_render.get()) {
+		_render.release();
+		_render.reset();
+	}
+	if (_graveyard.get()) {
+		_graveyard.release();
+		_graveyard.reset();
+	}
+	if (_automap.get()) {
+		_automap.release();
+		_automap.reset();
+	}
+	if (_compass.get()) {
+		_compass.release();
+		_compass.reset();
+	}
+	if (_buffbar.get()) {
+		_buffbar.release();
+		_buffbar.reset();
+	}
+	if (_search.get()) {
+		_search.release();
+		_search.reset();
+	}
+	if (_left_icon_panel.get()) {
+		_left_icon_panel.release();
+		_left_icon_panel.reset();
+	}
+	if (_right_icon_panel.get()) {
+		_right_icon_panel.release();
+		_right_icon_panel.reset();
+	}
+	if (_map.get()) {
+		_map.release();
+		_map.reset();
+	}
+	if (_tile_note.get()) {
+		_tile_note.release();
+		_tile_note.reset();
+	}
 }
 
 auto Sorcery::Engine::_initalise_components() -> void {
@@ -101,26 +238,16 @@ auto Sorcery::Engine::_initalise_components() -> void {
 	_elevator_a_f_menu_frame->setPosition(_display->window->get_x(_elevator_a_f_menu_frame->sprite, elevator_a_f_fc.x),
 		_display->window->get_y(_elevator_a_f_menu_frame->sprite, elevator_a_f_fc.y));
 
-	_confirm_exit =
-		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:dialog_exit"],
-			(*_display->layout)["engine_base_ui:dialog_exit_text"], WindowDialogType::CONFIRM);
-	_confirm_exit->setPosition(
-		(*_display->layout)["engine_base_ui:dialog_exit"].x, (*_display->layout)["engine_base_ui:dialog_exit"].y);
-
-	_confirm_stairs =
-		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:dialog_stairs"],
-			(*_display->layout)["engine_base_ui:dialog_ladder_up_text"], WindowDialogType::CONFIRM);
-	_confirm_stairs->setPosition(
-		(*_display->layout)["engine_base_ui:dialog_stairs"].x, (*_display->layout)["engine_base_ui:dialog_stairs"].y);
-
 	_ouch = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:ouch"],
 		(*_display->layout)["engine_base_ui:ouch_text"], WindowDialogType::TIMED);
 	_ouch->setPosition((*_display->layout)["engine_base_ui:ouch"].x, (*_display->layout)["engine_base_ui:ouch"].y);
 	_ouch->set_duration(DELAY_OUCH);
+
 	_pit = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:pit"],
 		(*_display->layout)["engine_base_ui:pit_text"], WindowDialogType::TIMED);
 	_pit->setPosition((*_display->layout)["engine_base_ui:pit"].x, (*_display->layout)["engine_base_ui:pit"].y);
 	_pit->set_duration(DELAY_PIT);
+
 	_chute = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:chute"],
 		(*_display->layout)["engine_base_ui:chute_text"], WindowDialogType::TIMED);
 	_chute->setPosition((*_display->layout)["engine_base_ui:chute"].x, (*_display->layout)["engine_base_ui:chute"].y);
@@ -131,6 +258,18 @@ auto Sorcery::Engine::_initalise_components() -> void {
 	_elevator->setPosition(
 		(*_display->layout)["engine_base_ui:one_moment"].x, (*_display->layout)["engine_base_ui:one_moment"].y);
 	_elevator->set_duration(DELAY_ELEVATOR);
+
+	_confirm_stairs =
+		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:dialog_stairs"],
+			(*_display->layout)["engine_base_ui:dialog_ladder_up_text"], WindowDialogType::CONFIRM);
+	_confirm_stairs->setPosition(
+		(*_display->layout)["engine_base_ui:dialog_stairs"].x, (*_display->layout)["engine_base_ui:dialog_stairs"].y);
+
+	_confirm_exit =
+		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:dialog_exit"],
+			(*_display->layout)["engine_base_ui:dialog_exit_text"], WindowDialogType::CONFIRM);
+	_confirm_exit->setPosition(
+		(*_display->layout)["engine_base_ui:dialog_exit"].x, (*_display->layout)["engine_base_ui:dialog_exit"].y);
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game,
@@ -1433,10 +1572,13 @@ auto Sorcery::Engine::_is_mouse_over(sf::IntRect rect, sf::Vector2f mouse_pos) c
 // Entering the Maze
 auto Sorcery::Engine::start() -> int {
 
-	_display->generate("engine_base_ui");
+	_generate_display();
 
-	_refresh();
-	_place_components();
+	//_display->generate("engine_base_ui");
+
+	//_refresh();
+	//_place_components();
+
 	_set_maze_entry_start();
 
 	if (!_tile_explored(_game->state->get_player_pos()))
@@ -1596,6 +1738,10 @@ auto Sorcery::Engine::_update_display() -> void {
 auto Sorcery::Engine::_refresh_display() -> void {
 
 	_window->clear();
+
+	if (_display->layout->refresh_if_needed())
+		_generate_display();
+
 	_draw();
 	_window->display();
 }

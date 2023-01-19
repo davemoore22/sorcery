@@ -45,6 +45,7 @@ class Layout {
 		// Public Methods
 		auto set_grid(unsigned int cell_width, unsigned int cell_height) -> void;
 		auto get_error() -> Component &;
+		auto refresh_if_needed() -> bool;
 
 	private:
 
