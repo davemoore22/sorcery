@@ -183,9 +183,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 							change_class->stop();
 						} else if (option_chosen == MenuItem::EC_LEGATE_CHARACTER) {
 							auto &character{*_cur_char.value()};
-							// auto character{*_cur_char.value()};
 							auto legate{std::make_unique<Legate>(_system, _display, _graphics, &character)};
-
 							if (auto legated{legate->start()}; legated) {
 
 								// How to exit from legated module?

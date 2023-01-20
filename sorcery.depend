@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1673733462 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1674247994 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -209,7 +209,7 @@
 	"component.hpp"
 	"main.hpp"
 
-1673994621 /home/dave/Development/wizardry/sorcery-sfml/inc/window.hpp
+1674249039 /home/dave/Development/wizardry/sorcery-sfml/inc/window.hpp
 	"layout.hpp"
 	"main.hpp"
 	"string.hpp"
@@ -333,16 +333,17 @@
 1674080477 source:/home/dave/Development/wizardry/sorcery-sfml/src/display.cpp
 	"display.hpp"
 
-1674161073 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine.cpp
+1674253364 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine.cpp
 	"engine.hpp"
 
-1674157804 /home/dave/Development/wizardry/sorcery-sfml/inc/engine.hpp
+1674252866 /home/dave/Development/wizardry/sorcery-sfml/inc/engine.hpp
 	"automap.hpp"
 	"buffbar.hpp"
 	"compass.hpp"
 	"console.hpp"
 	"dialog.hpp"
 	"display.hpp"
+	"event.hpp"
 	"game.hpp"
 	"graphics.hpp"
 	"graveyard.hpp"
@@ -384,7 +385,7 @@
 1673045431 source:/home/dave/Development/wizardry/sorcery-sfml/src/map.cpp
 	"map.hpp"
 
-1674233560 source:/home/dave/Development/wizardry/sorcery-sfml/src/menu.cpp
+1674242451 source:/home/dave/Development/wizardry/sorcery-sfml/src/menu.cpp
 	"menu.hpp"
 
 1597513199 source:/home/dave/Development/wizardry/sorcery-sfml/src/menubutton.cpp
@@ -1159,7 +1160,7 @@
 	"menu.hpp"
 	"system.hpp"
 
-1673714638 source:/home/dave/Development/wizardry/sorcery-sfml/src/edit.cpp
+1674250495 source:/home/dave/Development/wizardry/sorcery-sfml/src/edit.cpp
 	"edit.hpp"
 
 1673304196 source:/home/dave/Development/wizardry/sorcery-sfml/src/changename.cpp
@@ -1624,8 +1625,17 @@
 1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/cereal/types/chrono.hpp
 	<chrono>
 
-1673731867 source:/home/dave/Development/wizardry/sorcery-sfml/src/event.cpp
+1674253737 source:/home/dave/Development/wizardry/sorcery-sfml/src/event.cpp
 	"event.hpp"
 
-1673731873 /home/dave/Development/wizardry/sorcery-sfml/inc/event.hpp
+1674248561 /home/dave/Development/wizardry/sorcery-sfml/inc/event.hpp
+	"dialog.hpp"
+	"display.hpp"
+	"frame.hpp"
+	"game.hpp"
+	"graphics.hpp"
+	"layout.hpp"
+	"main.hpp"
+	"menu.hpp"
+	"system.hpp"
 

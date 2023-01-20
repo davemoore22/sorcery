@@ -30,6 +30,7 @@
 #include "console.hpp"
 #include "dialog.hpp"
 #include "display.hpp"
+#include "event.hpp"
 #include "game.hpp"
 #include "graphics.hpp"
 #include "graveyard.hpp"
@@ -102,6 +103,7 @@ class Engine {
 		auto _pit_if() -> bool;
 		auto _chute_if() -> bool;
 		auto _elevator_if() -> bool;
+		auto _event_if() -> bool;
 		auto _tile_explored(const Coordinate loc) const -> bool;
 		auto _set_tile_explored(const Coordinate loc) -> void;
 		auto _reset_direction_indicator() -> void;
@@ -212,6 +214,8 @@ class Engine {
 		std::optional<std::vector<MenuEntry>::const_iterator> _elevator_a_d_option;
 		std::optional<std::vector<MenuEntry>::const_iterator> _elevator_a_f_option;
 		bool _monochrome;
+		bool _can_run_event;
+		bool _display_cursor;
 };
 
 }

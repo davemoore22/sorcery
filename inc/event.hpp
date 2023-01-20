@@ -23,3 +23,55 @@
 // the resulting work.
 
 #pragma once
+
+#include "dialog.hpp"
+#include "display.hpp"
+#include "frame.hpp"
+#include "game.hpp"
+#include "graphics.hpp"
+#include "layout.hpp"
+#include "main.hpp"
+#include "menu.hpp"
+#include "system.hpp"
+
+namespace Sorcery {
+
+class Event {
+
+	public:
+
+		// Standard Constructor
+		Event(System *system, Display *display, Graphics *graphics, Game *game, MapEvent type);
+		Event() = delete;
+
+		// Standard Destructor
+		~Event() = default;
+
+		// Public Members
+
+		// Public Methods
+		auto start() -> std::optional<MenuItem>;
+		auto stop() -> void;
+
+	private:
+
+		// Private Methods
+		auto _draw() -> void;
+
+		// Private Members
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
+		Game *_game;
+		sf::RenderWindow *_window;
+		sf::Sprite _bg;
+		std::unique_ptr<Frame> _frame;
+		MapEvent _type;
+		unsigned int _stage;
+		std::map<std::string, sf::Sprite> _sprites;
+		std::map<std::string, sf::Text> _texts;
+		std::map<std::string, std::shared_ptr<Frame>> _frames;
+		std::unique_ptr<Menu> _continue_menu;
+};
+
+}

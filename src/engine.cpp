@@ -55,6 +55,7 @@ auto Sorcery::Engine::_initialise_state() -> void {
 	_pending_elevator = false;
 	_show_status = true;
 	_show_gui = true;
+	_display_cursor = true;
 
 	_monochrome = false;
 }
@@ -401,6 +402,7 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	_map->refresh();
 	_system->stop_pause();
 	_last_movement = MapDirection::NO_DIRECTION;
+	_can_run_event = false;
 	const auto &starting_tile{_game->state->level->at(_game->state->get_player_pos())};
 
 	if (!_tile_explored(_game->state->get_player_pos()))
@@ -1030,6 +1032,9 @@ auto Sorcery::Engine::_move_characters_to_temple_if_needed() -> void {
 
 auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<int> {
 
+	// Handle any events first - will run once then set _can_run_event to false
+	_event_if();
+
 	// Various Debug Commands can be put here
 	if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F2))
 		_debug_give_first_character_gold_xp();
@@ -1224,13 +1229,13 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_ouch->reset_timed();
 			} else {
 				_show_direction_indicatior = true;
+				if (!_tile_explored(_game->state->get_player_pos()))
+					_set_tile_explored(_game->state->get_player_pos());
 				_reset_direction_indicator();
 				_teleport_if();
 				_spinner_if();
 				_pit_if();
 				_chute_if();
-				if (!_tile_explored(_game->state->get_player_pos()))
-					_set_tile_explored(_game->state->get_player_pos());
 				_update_automap = true;
 			}
 			if (_exit_maze_now) {
@@ -1243,6 +1248,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_update_render = true;
 			_update_buffbar = true;
 			_update_search = true;
+			_can_run_event = true;
 		} else if ((_system->input->check(WindowInput::DOWN, event)) ||
 				   (_system->input->check(WindowInput::MAZE_BACKWARD, event))) {
 			_game->pass_turn();
@@ -1252,14 +1258,14 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_ouch->reset_timed();
 			} else {
 				_show_direction_indicatior = true;
+				if (!_tile_explored(_game->state->get_player_pos()))
+					_set_tile_explored(_game->state->get_player_pos());
+				_update_automap = true;
 				_reset_direction_indicator();
 				_spinner_if();
 				_teleport_if();
 				_pit_if();
 				_chute_if();
-				if (!_tile_explored(_game->state->get_player_pos()))
-					_set_tile_explored(_game->state->get_player_pos());
-				_update_automap = true;
 			}
 			if (_exit_maze_now) {
 				_game->save_game();
@@ -1271,6 +1277,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_update_render = true;
 			_update_buffbar = true;
 			_update_search = true;
+			_can_run_event = true;
+
 		} else if (_system->input->check(WindowInput::CANCEL, event))
 			_in_camp = true;
 		else if (_system->input->check(WindowInput::BACK, event))
@@ -1494,62 +1502,6 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				if (_left_icon_panel->selected)
 					_left_icon_panel->selected = std::nullopt;
 			}
-		}
-
-		// If we are in-game, and are on a tile with a note
-		const auto current_loc{_game->state->get_player_pos()};
-		if (_game->state->level->at(current_loc).has_event()) {
-
-			const auto event{_game->state->level->at(current_loc).has_event().value()};
-
-			/*
-
-			event component
-
-			stage: BANNER MESSAGE/PRESS OK TO CONTINUE
-			stage: ACTION
-			stage: RESULT
-
-			Area Out of Bounds:
-
-				BANNER MESSAGE/PRESS OK TO CONTINUE
-
-			Man Teleport Castle:
-
-				BANNER MESSAGEE/PRESS OK TO CONTINUE
-				TELEPORT
-
-			Silver Key:
-
-				BANNER MESSAGEE/PRESS OK TO CONTINUE
-				WILL SEARCH
-				MESSAGE GOT AN ITEM
-
-			Bronze Key:
-
-				BANNER MESSAGEE/PRESS OK TO CONTINUE
-				WILL SEARCH
-				MESSAGE GOT AN ITEM
-
-			Murphy's Ghosts
-
-				BANNER MESSAGEE/PRESS OK TO CONTINUE
-				WILL SEARCH
-				COMBAT
-
-
-
-
-
-
-
-
-			// Area out of Bounds
-
-
-			// DOING
-
-			*/
 		}
 
 		/* auto current_loc{_game->state->get_player_pos()};
@@ -2044,6 +1996,72 @@ auto Sorcery::Engine::_pit_oops() -> void {
 	}
 }
 
+auto Sorcery::Engine::_event_if() -> bool {
+
+	// If we are in-game, and are on something that will happen
+	const auto current_loc{_game->state->get_player_pos()};
+	if (_game->state->level->at(current_loc).has_event() && _can_run_event) {
+
+		const auto event_type{_game->state->level->at(current_loc).has_event().value()};
+		switch (event_type) {
+		case MapEvent::AREA_OF_OUT_BOUNDS: {
+			_show_direction_indicatior = false;
+			_display_cursor = false;
+			_refresh_display();
+			auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
+			if (auto result{event->start()}; result == MenuItem::ABORT) {
+				event->stop();
+				_display_cursor = true;
+				_refresh_display();
+				return EXIT_ALL;
+			}
+
+		} break;
+
+		default:
+			break;
+		}
+
+		_can_run_event = false;
+		_display_cursor = true;
+		_refresh_display();
+
+		/*
+
+		event component
+
+		stage: BANNER MESSAGE/PRESS OK TO CONTINUE
+		stage: ACTION
+		stage: RESULT
+
+		Man Teleport Castle:
+
+			BANNER MESSAGEE/PRESS OK TO CONTINUE
+			TELEPORT
+
+		Silver Key:
+
+			BANNER MESSAGEE/PRESS OK TO CONTINUE
+			WILL SEARCH
+			MESSAGE GOT AN ITEM
+
+		Bronze Key:
+
+			BANNER MESSAGEE/PRESS OK TO CONTINUE
+			WILL SEARCH
+			MESSAGE GOT AN ITEM
+
+		Murphy's Ghosts
+
+			BANNER MESSAGEE/PRESS OK TO CONTINUE
+			WILL SEARCH
+			COMBAT
+		*/
+		return true;
+	}
+	return false;
+}
+
 auto Sorcery::Engine::_elevator_if() -> bool {
 
 	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has(TileFeature::ELEVATOR)) {
@@ -2339,7 +2357,8 @@ auto Sorcery::Engine::_draw() -> void {
 
 	// Always draw the following
 	_display->display_overlay();
-	_display->display_cursor();
+	if (_display_cursor)
+		_display->display_cursor();
 
 	if (_game->get_console_status()) {
 		_console->refresh();
