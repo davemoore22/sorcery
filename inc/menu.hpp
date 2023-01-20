@@ -45,7 +45,7 @@ class Menu: public sf::Transformable, public sf::Drawable {
 			std::optional<MenuMode> _mode = std::nullopt);
 		Menu() = delete;
 
-		// Overload [] operator
+		// Overload operators
 		auto operator[](const unsigned int index) -> MenuEntry &;
 
 		// Public Members
@@ -65,21 +65,21 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		auto check_menu_mouseover(sf::Vector2f mouse_pos) -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto get_mouse_clicked(const sf::Event::MouseButtonEvent mb_event)
 			-> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto get_type() -> MenuType;
-		auto generate(Component &component, bool force_refresh = false) -> void;
+		auto get_type() const -> MenuType;
+		auto generate(const Component &component, bool force_refresh = false) -> void;
 		auto reload() -> void;
 		auto get_by_index(unsigned int index) -> std::optional<std::vector<MenuEntry>::iterator>;
 		auto num_enabled() -> unsigned int;
 		auto num_disabled() -> unsigned int;
-		auto enable_entry(Component &component, unsigned int index) -> void;
-		auto disable_entry(Component &component, unsigned int index) -> void;
+		auto enable_entry(const Component &component, unsigned int index) -> void;
+		auto disable_entry(const Component &component, unsigned int index) -> void;
 
 	private:
 
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _add_item(const int index, const MenuItemType itemtype, const MenuItem code, std::string key,
-			const bool enabled, const ConfigOption option, const std::string hint) -> void;
+			const bool enabled, const ConfigOption option, const std::string &hint) -> void;
 		auto _add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string key) -> void;
 		auto _populate_chars() -> void;
 		auto _select_first() -> std::optional<std::vector<MenuEntry>::const_iterator>;

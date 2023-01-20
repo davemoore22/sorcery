@@ -348,6 +348,8 @@ Sorcery::Menu::Menu(
 // names and classes change
 auto Sorcery::Menu::reload() -> void {
 
+	using enum Enums::Menu::Type;
+
 	// Clear the Items
 	items.clear();
 	bounds.clear();
@@ -357,11 +359,11 @@ auto Sorcery::Menu::reload() -> void {
 
 	// Now depending on the menu type, add the relevant items
 	switch (_type) {
-	case MenuType::CHARACTER_ROSTER:
-	case MenuType::PARTY_CHARACTERS:
-	case MenuType::AVAILABLE_CHARACTERS:
-	case MenuType::INVALID_CHARACTERS:
-	case MenuType::CHARACTERS_HERE:
+	case CHARACTER_ROSTER:
+	case PARTY_CHARACTERS:
+	case AVAILABLE_CHARACTERS:
+	case INVALID_CHARACTERS:
+	case CHARACTERS_HERE:
 		_populate_chars();
 		selected = items.begin();
 		break;
@@ -376,7 +378,7 @@ auto Sorcery::Menu::operator[](const unsigned int index) -> MenuEntry & {
 	return items.at(index);
 }
 
-auto Sorcery::Menu::get_type() -> MenuType {
+auto Sorcery::Menu::get_type() const -> MenuType {
 
 	return _type;
 }
@@ -389,28 +391,29 @@ auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const Menu
 		key.resize(key.length() + 1, 32);
 
 	auto hint{""s};
-	items.push_back({static_cast<unsigned int>(index), itemtype, code, key, true, ConfigOption::NONE, hint});
+	items.emplace_back(static_cast<unsigned int>(index), itemtype, code, key, true, ConfigOption::NONE, hint);
 	++count;
 }
 
 // Add an item to the Menu
 auto Sorcery::Menu::_add_item(const int index, const MenuItemType itemtype, const MenuItem code, std::string key,
-	const bool enabled, const ConfigOption option, const std::string hint) -> void {
+	const bool enabled, const ConfigOption option, const std::string &hint) -> void {
 
 	// Note passing key by value as we are modifying the key here
 	if (key.length() % 2 == 0)
 		key.resize(key.length() + 1, 32);
 
-	items.push_back({static_cast<unsigned int>(index), itemtype, code, key, enabled, option, hint});
+	items.emplace_back(static_cast<unsigned int>(index), itemtype, code, key, enabled, option, hint);
 	++count;
 }
 
 // Select the first enabled menu item
 auto Sorcery::Menu::_select_first() -> std::optional<std::vector<MenuEntry>::const_iterator> {
 
+	using enum Enums::Menu::ItemType;
+
 	auto it{std::find_if(items.begin(), items.end(), [&](const auto &menu_item) {
-		return (((menu_item.type == MenuItemType::ENTRY) || (menu_item.type == MenuItemType::SAVE) ||
-					(menu_item.type == MenuItemType::CANCEL)) &&
+		return (((menu_item.type == ENTRY) || (menu_item.type == SAVE) || (menu_item.type == CANCEL)) &&
 				(menu_item.enabled));
 	})};
 
@@ -424,13 +427,12 @@ auto Sorcery::Menu::_select_first() -> std::optional<std::vector<MenuEntry>::con
 // Select the last enabled menu item
 auto Sorcery::Menu::_select_last() -> std::optional<std::vector<MenuEntry>::const_iterator> {
 
-	// Would be nice to use a ranges reverse view to handle this, or a
-	// std::find_last_if, instead we have to do a forward iterator backwards
-	// since we can't use a backwards iterator either!
+	using enum Enums::Menu::ItemType;
+
+	// Would be nice to use a ranges reverse view to handle this, or a std::find_last_if, instead we have to do a
+	// forward iterator backwards since we can't use a backwards iterator either!
 	for (std::vector<MenuEntry>::const_iterator it = items.end() - 1; it != items.begin(); --it)
-		if ((((*it).type == MenuItemType::ENTRY) || ((*it).type == MenuItemType::SAVE) ||
-				((*it).type == MenuItemType::CANCEL)) &&
-			((*it).enabled)) {
+		if ((((*it).type == ENTRY) || ((*it).type == SAVE) || ((*it).type == CANCEL)) && ((*it).enabled)) {
 			selected = it;
 			return selected;
 		}
@@ -442,10 +444,10 @@ auto Sorcery::Menu::_select_last() -> std::optional<std::vector<MenuEntry>::cons
 auto Sorcery::Menu::check_menu_mouseover(sf::Vector2f mouse_pos)
 	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
-	if (bounds.size() > 0) {
+	if (!bounds.empty()) {
 
-		// Look for the bounds the mouse cursor is in, but return the associated
-		// item with the same index, since both containers track each other
+		// Look for the bounds the mouse cursor is in, but return the associated item with the same index, since both
+		// containers track each other
 		const sf::Vector2f global_pos{this->getPosition()};
 		mouse_pos -= global_pos;
 		auto it{std::find_if(
@@ -466,7 +468,7 @@ auto Sorcery::Menu::check_menu_mouseover(sf::Vector2f mouse_pos)
 auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
 	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
-	if (bounds.size() > 0) {
+	if (!bounds.empty()) {
 
 		// Look for the bounds the mouse cursor is in, but select and return the
 		// associated item with the same index, since both containers track each
@@ -498,19 +500,21 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 	using enum Enums::Character::Align;
 	using enum Enums::Character::Class;
 	using enum Enums::Character::Race;
+	using enum Enums::Menu::Item;
+	using enum Enums::Manage::Method;
 
-	MenuItem search_for{MenuItem::NO_ITEM};
+	MenuItem search_for{NO_ITEM};
 	switch (_type) {
 	case MenuType::CHOOSE_METHOD:
 		switch (std::any_cast<CreateMethod>(option)) {
-		case CreateMethod::FULL:
-			search_for = MenuItem::CM_FULL;
+		case FULL:
+			search_for = CM_FULL;
 			break;
-		case CreateMethod::QUICK:
-			search_for = MenuItem::CM_QUICK;
+		case QUICK:
+			search_for = CM_QUICK;
 			break;
-		case CreateMethod::RANDOM:
-			search_for = MenuItem::CM_RANDOM;
+		case RANDOM:
+			search_for = CM_RANDOM;
 			break;
 		default:
 			break;
@@ -519,19 +523,19 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 	case MenuType::CHOOSE_CHARACTER_RACE:
 		switch (std::any_cast<CharacterRace>(option)) {
 		case DWARF:
-			search_for = MenuItem::CR_DWARF;
+			search_for = CR_DWARF;
 			break;
 		case ELF:
-			search_for = MenuItem::CR_ELF;
+			search_for = CR_ELF;
 			break;
 		case GNOME:
-			search_for = MenuItem::CR_GNOME;
+			search_for = CR_GNOME;
 			break;
 		case HOBBIT:
-			search_for = MenuItem::CR_HOBBIT;
+			search_for = CR_HOBBIT;
 			break;
 		case HUMAN:
-			search_for = MenuItem::CR_HUMAN;
+			search_for = CR_HUMAN;
 			break;
 		default:
 			break;
@@ -540,13 +544,13 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 	case MenuType::CHOOSE_CHARACTER_ALIGNMENT:
 		switch (std::any_cast<CharacterAlignment>(option)) {
 		case EVIL:
-			search_for = MenuItem::CA_EVIL;
+			search_for = CA_EVIL;
 			break;
 		case GOOD:
-			search_for = MenuItem::CA_GOOD;
+			search_for = CA_GOOD;
 			break;
 		case NEUTRAL:
-			search_for = MenuItem::CA_NEUTRAL;
+			search_for = CA_NEUTRAL;
 			break;
 		default:
 			break;
@@ -555,28 +559,28 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 	case MenuType::CHOOSE_CHARACTER_CLASS:
 		switch (std::any_cast<CharacterClass>(option)) {
 		case SAMURAI:
-			search_for = MenuItem::CC_SAMURAI;
+			search_for = CC_SAMURAI;
 			break;
 		case FIGHTER:
-			search_for = MenuItem::CC_FIGHTER;
+			search_for = CC_FIGHTER;
 			break;
 		case LORD:
-			search_for = MenuItem::CC_LORD;
+			search_for = CC_LORD;
 			break;
 		case THIEF:
-			search_for = MenuItem::CC_THIEF;
+			search_for = CC_THIEF;
 			break;
 		case NINJA:
-			search_for = MenuItem::CC_NINJA;
+			search_for = CC_NINJA;
 			break;
 		case PRIEST:
-			search_for = MenuItem::CC_PRIEST;
+			search_for = CC_PRIEST;
 			break;
 		case BISHOP:
-			search_for = MenuItem::CC_BISHOP;
+			search_for = CC_BISHOP;
 			break;
 		case MAGE:
-			search_for = MenuItem::CC_MAGE;
+			search_for = CC_MAGE;
 			break;
 		default:
 			break;
@@ -623,22 +627,21 @@ auto Sorcery::Menu::choose_last() -> std::optional<std::vector<MenuEntry>::const
 // Choose the previous selected item
 auto Sorcery::Menu::choose_previous() -> std::optional<std::vector<MenuEntry>::const_iterator> {
 
+	using enum Enums::Menu::ItemType;
+
 	if (selected > items.begin()) {
 
-		// Repeat the comment from above, that it would be nice to use a ranges
-		// reverse view to handle this, or a std::find_last_if, instead we have
-		// to do a forward iterator backwards since we can't use a backwards
-		// iterator either!
+		// Repeat the comment from above, that it would be nice to use a ranges reverse view to handle this, or a
+		// std::find_last_if, instead we have to do a forward iterator backwards since we can't use a backwards iterator
+		// either!
 
-		// Iterate backwards until we find the first previous enabled menu if we
-		// can
+		// Iterate backwards until we find the first previous enabled menu if we can
 		bool found{false};
 		std::vector<MenuEntry>::const_iterator working{selected};
 		do {
 			--working;
 			found = ((*working).enabled) &&
-					(((*working).type == MenuItemType::ENTRY) || ((*working).type == MenuItemType::SAVE) ||
-						((*working).type == MenuItemType::CANCEL));
+					(((*working).type == ENTRY) || ((*working).type == SAVE) || ((*working).type == CANCEL));
 		} while ((working >= items.begin()) && (!found));
 		if (found) {
 			selected = working;
@@ -653,6 +656,8 @@ auto Sorcery::Menu::choose_previous() -> std::optional<std::vector<MenuEntry>::c
 // Choose the next selected item
 auto Sorcery::Menu::choose_next() -> std::optional<std::vector<MenuEntry>::const_iterator> {
 
+	using enum Enums::Menu::ItemType;
+
 	if (selected < (items.end() - 1)) {
 
 		// Iterate forwards until we find the first next enabled menu if we can
@@ -661,8 +666,7 @@ auto Sorcery::Menu::choose_next() -> std::optional<std::vector<MenuEntry>::const
 		do {
 			++working;
 			found = ((*working).enabled) &&
-					(((*working).type == MenuItemType::ENTRY) || ((*working).type == MenuItemType::SAVE) ||
-						((*working).type == MenuItemType::CANCEL));
+					(((*working).type == ENTRY) || ((*working).type == SAVE) || ((*working).type == CANCEL));
 		} while ((working <= items.end() - 1) && (!found));
 		if (found) {
 			selected = working;
@@ -675,9 +679,12 @@ auto Sorcery::Menu::choose_next() -> std::optional<std::vector<MenuEntry>::const
 }
 
 // TODO: optimise this so that it isn't created on every refresh!
-auto Sorcery::Menu::generate(Component &component, bool force_refresh) -> void {
+auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> void {
 
-	auto do_refresh{force_refresh || _texts.size() == 0};
+	using enum Enums::Menu::Type;
+	using enum Enums::Menu::ItemType;
+
+	auto do_refresh{force_refresh || _texts.empty()};
 	if (do_refresh) {
 
 		// In case we are generating the Options Menu
@@ -700,9 +707,8 @@ auto Sorcery::Menu::generate(Component &component, bool force_refresh) -> void {
 		for (const auto &item : items) {
 
 			auto current{items.begin() + index};
-			if ((item.type == MenuItemType::TEXT) || (item.type == MenuItemType::ENTRY) ||
-				(item.type == MenuItemType::SAVE) || (item.type == MenuItemType::CANCEL)) {
-				const auto text_string{item.key};
+			if ((item.type == TEXT) || (item.type == ENTRY) || (item.type == SAVE) || (item.type == CANCEL)) {
+				const auto &text_string{item.key};
 				sf::Text text{};
 				text.setFont(_system->resources->fonts[component.font]);
 				text.setCharacterSize(component.size);
@@ -735,18 +741,18 @@ auto Sorcery::Menu::generate(Component &component, bool force_refresh) -> void {
 				}
 
 				// Handle Justification
-				if ((_type == MenuType::OPTIONS) || (_type == MenuType::ALLOCATE_CHARACTER_ATTRIBUTES)) {
-					if (item.type == MenuItemType::ENTRY) {
+				if ((_type == OPTIONS) || (_type == ALLOCATE_CHARACTER_ATTRIBUTES)) {
+					if (item.type == ENTRY) {
 						if (component.justification == Justification::CENTRE)
 							text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 						else
 							text.setOrigin(0, text.getLocalBounds().height / 2.0f);
-					} else if ((item.type == MenuItemType::SAVE) || (item.type == MenuItemType::CANCEL)) {
+					} else if ((item.type == SAVE) || (item.type == CANCEL)) {
 						entry_x = (component.width * _display->window->get_cw()) / 2;
 						text.setPosition(entry_x, entry_y);
 						text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 					}
-				} else if (_type == MenuType::TEMPLE) {
+				} else if (_type == TEMPLE) {
 
 					// Override Justification for Invalid Characters so that it looks better
 					if (item.item == MenuItem::IC_CHARACTER) {
@@ -767,8 +773,7 @@ auto Sorcery::Menu::generate(Component &component, bool force_refresh) -> void {
 				_texts.emplace_back(text);
 
 				// Now handle the mouse move/select!
-				if ((item.type == MenuItemType::ENTRY) || (item.type == MenuItemType::SAVE) ||
-					(item.type == MenuItemType::CANCEL)) {
+				if ((item.type == ENTRY) || (item.type == SAVE) || (item.type == CANCEL)) {
 					const sf::FloatRect actual_rect{text.getGlobalBounds()};
 					bounds.push_back(actual_rect);
 				} else {
@@ -777,7 +782,7 @@ auto Sorcery::Menu::generate(Component &component, bool force_refresh) -> void {
 				}
 
 				// Add options in case of the Options Menu
-				if ((_type == MenuType::OPTIONS) && (item.type == MenuItemType::ENTRY)) {
+				if ((_type == OPTIONS) && (item.type == ENTRY)) {
 					auto option_y{entry_y};
 					auto option_x{component.w * _display->window->get_cw()};
 					const auto option_value{(*_system->config)[item.config] ? true : false};
@@ -812,10 +817,9 @@ auto Sorcery::Menu::generate(Component &component, bool force_refresh) -> void {
 					_options.emplace_back(option_text);
 				}
 			} else {
-				sf::Text empty_text{};
 				const sf::FloatRect actual_rect{};
 				bounds.push_back(actual_rect);
-				_texts.emplace_back(empty_text);
+				_texts.emplace_back();
 				entry_y += _display->window->get_ch();
 			}
 			++index;
@@ -833,8 +837,7 @@ auto Sorcery::Menu::generate(Component &component, bool force_refresh) -> void {
 		for (const auto &item : items) {
 			auto current{items.begin() + index};
 			entry_y += _display->window->get_ch();
-			if ((item.type == MenuItemType::TEXT) || (item.type == MenuItemType::ENTRY) ||
-				(item.type == MenuItemType::SAVE) || (item.type == MenuItemType::CANCEL)) {
+			if ((item.type == TEXT) || (item.type == ENTRY) || (item.type == SAVE) || (item.type == CANCEL)) {
 				if (selected == current) {
 					const sf::FloatRect bg_rect{_texts.at(index).getLocalBounds()};
 					sf::RectangleShape bg(sf::Vector2f(component.w * _display->window->get_cw(), bg_rect.height + 2));
@@ -854,12 +857,11 @@ auto Sorcery::Menu::generate(Component &component, bool force_refresh) -> void {
 					_selected_bg = bg;
 				}
 
-				if ((_type == MenuType::OPTIONS) && (item.type == MenuItemType::ENTRY)) {
+				if ((_type == OPTIONS) && (item.type == ENTRY)) {
 
 					option_y = entry_y;
 					option_x = component.w * _display->window->get_cw();
-					const bool option_value{(*_system->config)[item.config] ? true : false};
-					if (option_value) {
+					if (const bool option_value{(*_system->config)[item.config] ? true : false}; option_value) {
 
 						// On
 						_options.at(options_index).setString((*_display->string)[on_c.string_key]);
@@ -907,6 +909,9 @@ auto Sorcery::Menu::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 
 auto Sorcery::Menu::_populate_chars() -> void {
 
+	using enum Enums::Menu::Type;
+	using enum Enums::Menu::ItemType;
+
 	items.clear();
 	bounds.clear();
 	count = 0;
@@ -914,53 +919,52 @@ auto Sorcery::Menu::_populate_chars() -> void {
 	_options.clear();
 	auto max_id{0};
 	switch (_type) {
-	case MenuType::CHARACTER_ROSTER: {
-		if (_game->characters.size() > 0) {
+	case CHARACTER_ROSTER: {
+		if (!_game->characters.empty()) {
 			for (auto &[character_id, character] : _game->characters) {
 				if (_mode.value() == MenuMode::TAVERN) {
 					if ((character.get_location() == CharacterLocation::TAVERN) ||
 						(character.get_location() == CharacterLocation::PARTY)) {
-						_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
+						_add_item(character_id, ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
 						++max_id;
 					}
 				} else if (_mode.value() == MenuMode::INN) {
 					if (character.get_location() == CharacterLocation::PARTY) {
-						_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
+						_add_item(character_id, ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
 						++max_id;
 					}
 				} else if (_mode.value() == MenuMode::TEMPLE) {
 					if ((character.get_location() == CharacterLocation::TEMPLE) ||
 						(character.get_location() == CharacterLocation::PARTY)) {
-						_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
+						_add_item(character_id, ENTRY, MenuItem::IC_CHARACTER, character.get_summary());
 						++max_id;
 					}
 				} else if (_mode.value() == MenuMode::TRAINING) {
-					_add_item(
-						character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, character.get_summary_and_out());
+					_add_item(character_id, ENTRY, MenuItem::IC_CHARACTER, character.get_summary_and_out());
 					++max_id;
 				}
 			}
 		} else
-			_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS"]);
+			_add_item(++max_id, TEXT, MenuItem::NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS"]);
 
 		if (_mode) {
 			if (_mode.value() == MenuMode::TRAINING) {
-				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
-				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::ET_TRAIN, (*_display->string)["MENU_TRAIN"]);
+				_add_item(++max_id, SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, ENTRY, MenuItem::ET_TRAIN, (*_display->string)["MENU_TRAIN"]);
 			} else if (_mode.value() == MenuMode::TAVERN) {
-				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
-				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::CA_TAVERN, (*_display->string)["MENU_TAVERN"]);
+				_add_item(++max_id, SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, ENTRY, MenuItem::CA_TAVERN, (*_display->string)["MENU_TAVERN"]);
 			} else if (_mode.value() == MenuMode::INN) {
-				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
-				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::CA_TAVERN, (*_display->string)["MENU_INN"]);
+				_add_item(++max_id, SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, ENTRY, MenuItem::CA_TAVERN, (*_display->string)["MENU_INN"]);
 			} else if (_mode.value() == MenuMode::TEMPLE) {
-				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
-				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::CA_TAVERN, (*_display->string)["MENU_TEMPLE"]);
+				_add_item(++max_id, SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, ENTRY, MenuItem::CA_TAVERN, (*_display->string)["MENU_TEMPLE"]);
 			}
 		}
 
 	} break;
-	case MenuType::CHARACTERS_HERE: {
+	case CHARACTERS_HERE: {
 		if (_game->state->get_party_size() < 6) {
 
 			// Check for any characters in same square
@@ -975,35 +979,34 @@ auto Sorcery::Menu::_populate_chars() -> void {
 			}
 			if (found) {
 
-				_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_1"]);
-				_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_2"]);
-				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_1"]);
+				_add_item(++max_id, TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_2"]);
+				_add_item(++max_id, SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
 				for (const auto &[character_id, character] : _game->characters) {
 					if ((character.get_location() == CharacterLocation::MAZE) &&
 						(character.coordinate == _game->state->get_player_pos()) &&
 						(character.depth == _game->state->get_depth()))
-						_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER,
+						_add_item(character_id, ENTRY, MenuItem::IC_CHARACTER,
 							_game->characters[character_id].get_name_and_status());
 					++max_id;
 				}
 			} else {
-				_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_1"]);
-				_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_2"]);
-				_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
-				_add_item(
-					++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS_HERE"]);
+				_add_item(++max_id, TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_1"]);
+				_add_item(++max_id, TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_2"]);
+				_add_item(++max_id, SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, TEXT, MenuItem::NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS_HERE"]);
 			}
 		} else {
-			_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_1"]);
-			_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_2"]);
-			_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
-			_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["PARTY_FULL"]);
+			_add_item(++max_id, TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_1"]);
+			_add_item(++max_id, TEXT, MenuItem::NC_WARNING, (*_display->string)["ACTION_FOUND_2"]);
+			_add_item(++max_id, SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+			_add_item(++max_id, TEXT, MenuItem::NC_WARNING, (*_display->string)["PARTY_FULL"]);
 		}
 
 		_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
 		_add_item(++max_id, MenuItemType::CANCEL, MenuItem::AC_LEAVE, (*_display->string)["ACTION_LEAVE"]);
 	} break;
-	case MenuType::RESTART_EXPEDITION: {
+	case RESTART_EXPEDITION: {
 		_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["RESTART_TEXT_1"]);
 		_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["RESTART_TEXT_2"]);
 		_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
@@ -1024,7 +1027,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		_add_item(++max_id, MenuItemType::CANCEL, MenuItem::TR_EDGE_OF_TOWN,
 			(*_display->string)["RESTART_GROUNDS_MENU_OPTION_RETURN"]);
 	} break;
-	case MenuType::PARTY_CHARACTER_NAMES: {
+	case PARTY_CHARACTER_NAMES: {
 		if (_game->state->party_has_members()) {
 			auto party{_game->state->get_party_characters()};
 			for (auto character_id : party) {
@@ -1035,7 +1038,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		} else
 			_add_item(++max_id, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS"]);
 	} break;
-	case MenuType::PARTY_CHARACTERS: {
+	case PARTY_CHARACTERS: {
 		if (_game->state->party_has_members()) {
 			auto party{_game->state->get_party_characters()};
 			for (auto character_id : party) {
@@ -1065,7 +1068,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 			}
 		}
 	} break;
-	case MenuType::AVAILABLE_CHARACTERS: {
+	case AVAILABLE_CHARACTERS: {
 		auto count{0u};
 		auto party{_game->state->get_party_characters()};
 		for (auto &[character_id, character] : _game->characters) {
@@ -1091,9 +1094,8 @@ auto Sorcery::Menu::_populate_chars() -> void {
 				_add_item(++max_id, MenuItemType::ENTRY, MenuItem::CA_TAVERN, (*_display->string)["MENU_TAVERN"]);
 			}
 		}
-
 	} break;
-	case MenuType::INVALID_CHARACTERS: {
+	case INVALID_CHARACTERS: {
 		auto count{0u};
 		auto last_id{0u};
 		if (!_game->characters.empty()) {
@@ -1125,13 +1127,15 @@ auto Sorcery::Menu::_populate_chars() -> void {
 	} break;
 	default:
 		break;
-	};
+	}
 }
 
 auto Sorcery::Menu::get_by_index(unsigned int index) -> std::optional<std::vector<MenuEntry>::iterator> {
+
+	using enum Enums::Menu::ItemType;
+
 	auto it{std::find_if(items.begin(), items.end(), [index](const auto &menu_item) {
-		return (((menu_item.type == MenuItemType::ENTRY) || (menu_item.type == MenuItemType::SAVE) ||
-					(menu_item.type == MenuItemType::CANCEL)) &&
+		return (((menu_item.type == ENTRY) || (menu_item.type == SAVE) || (menu_item.type == CANCEL)) &&
 				(menu_item.index == index));
 	})};
 
@@ -1152,7 +1156,7 @@ auto Sorcery::Menu::num_disabled() -> unsigned int {
 	return std::count_if(items.begin(), items.end(), [](const auto &menu_item) { return menu_item.enabled == false; });
 }
 
-auto Sorcery::Menu::enable_entry(Component &component, unsigned int index) -> void {
+auto Sorcery::Menu::enable_entry(const Component &component, unsigned int index) -> void {
 
 	auto entry{items.begin() + index};
 	auto current{(*entry).enabled};
@@ -1163,7 +1167,7 @@ auto Sorcery::Menu::enable_entry(Component &component, unsigned int index) -> vo
 	}
 }
 
-auto Sorcery::Menu::disable_entry(__attribute__((unused)) Component &component, unsigned int index) -> void {
+auto Sorcery::Menu::disable_entry(__attribute__((unused)) const Component &component, unsigned int index) -> void {
 
 	auto entry{items.begin() + index};
 	auto current{(*entry).enabled};
