@@ -2021,7 +2021,6 @@ auto Sorcery::Engine::_event_if() -> bool {
 				_refresh_display();
 				return EXIT_ALL;
 			}
-
 		} break;
 		case MapEvent::MAN_TELEPORT_CASTLE: {
 			_show_direction_indicatior = false;
@@ -2037,7 +2036,21 @@ auto Sorcery::Engine::_event_if() -> bool {
 			} else {
 				_exit_maze_now = true;
 			}
-		}
+		} break;
+		case MapEvent::SILVER_KEY: {
+			_show_direction_indicatior = false;
+			_display_cursor = false;
+			_refresh_display();
+			auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
+			if (auto result{event->start()}; result == MenuItem::ABORT) {
+				event->stop();
+				_can_run_event = false;
+				_display_cursor = true;
+				_refresh_display();
+				return EXIT_ALL;
+			}
+			// handle search
+		} break;
 
 		default:
 			break;
@@ -2047,37 +2060,6 @@ auto Sorcery::Engine::_event_if() -> bool {
 		_display_cursor = true;
 		_refresh_display();
 
-		/*
-
-		event component
-
-		stage: BANNER MESSAGE/PRESS OK TO CONTINUE
-		stage: ACTION
-		stage: RESULT
-
-		Man Teleport Castle:
-
-			BANNER MESSAGEE/PRESS OK TO CONTINUE
-			TELEPORT
-
-		Silver Key:
-
-			BANNER MESSAGEE/PRESS OK TO CONTINUE
-			WILL SEARCH
-			MESSAGE GOT AN ITEM
-
-		Bronze Key:
-
-			BANNER MESSAGEE/PRESS OK TO CONTINUE
-			WILL SEARCH
-			MESSAGE GOT AN ITEM
-
-		Murphy's Ghosts
-
-			BANNER MESSAGEE/PRESS OK TO CONTINUE
-			WILL SEARCH
-			COMBAT
-		*/
 		return true;
 	}
 	return false;

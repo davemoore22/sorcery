@@ -24,7 +24,6 @@
 
 #pragma once
 
-#include "dialog.hpp"
 #include "display.hpp"
 #include "frame.hpp"
 #include "game.hpp"

@@ -49,6 +49,9 @@ auto Sorcery::Event::start() -> std::optional<MenuItem> {
 	case MAN_TELEPORT_CASTLE:
 		_display->generate("event_man_teleport_castle", _sprites, _texts, _frames);
 		break;
+	case SILVER_KEY:
+		_display->generate("event_silver_key", _sprites, _texts, _frames);
+		break;
 	default:
 
 		return std::nullopt;
@@ -76,6 +79,7 @@ auto Sorcery::Event::start() -> std::optional<MenuItem> {
 			switch (_type) {
 			case AREA_OF_OUT_BOUNDS:
 			case MAN_TELEPORT_CASTLE:
+			case SILVER_KEY:
 				if (_system->input->check(WindowInput::CANCEL, event))
 					return MenuItem::CONTINUE;
 				else if (_system->input->check(WindowInput::BACK, event))
@@ -141,6 +145,15 @@ auto Sorcery::Event::_draw() -> void {
 		_continue_menu->generate((*_display->layout)["event_man_teleport_castle:continue_menu"]);
 		const sf::Vector2f menu_pos((*_display->layout)["event_man_teleport_castle:continue_menu"].x,
 			(*_display->layout)["event_man_teleport_castle:continue_menu"].y);
+		_continue_menu->setPosition(menu_pos);
+		_window->draw(*_continue_menu);
+	} break;
+	case SILVER_KEY: {
+		_display->display("event_silver_key", _sprites, _texts, _frames);
+
+		_continue_menu->generate((*_display->layout)["event_silver_key:continue_menu"]);
+		const sf::Vector2f menu_pos((*_display->layout)["event_silver_key:continue_menu"].x,
+			(*_display->layout)["event_silver_key:continue_menu"].y);
 		_continue_menu->setPosition(menu_pos);
 		_window->draw(*_continue_menu);
 	} break;
