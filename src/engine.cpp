@@ -1034,6 +1034,11 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 
 	// Handle any events first - will run once then set _can_run_event to false
 	_event_if();
+	if (_exit_maze_now) {
+		_game->save_game();
+		_exit_maze_now = false;
+		return EXIT_MODULE;
+	}
 
 	// Various Debug Commands can be put here
 	if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F2))
@@ -2011,12 +2016,28 @@ auto Sorcery::Engine::_event_if() -> bool {
 			auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
 			if (auto result{event->start()}; result == MenuItem::ABORT) {
 				event->stop();
+				_can_run_event = false;
 				_display_cursor = true;
 				_refresh_display();
 				return EXIT_ALL;
 			}
 
 		} break;
+		case MapEvent::MAN_TELEPORT_CASTLE: {
+			_show_direction_indicatior = false;
+			_display_cursor = false;
+			_refresh_display();
+			auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
+			if (auto result{event->start()}; result == MenuItem::ABORT) {
+				event->stop();
+				_can_run_event = false;
+				_display_cursor = true;
+				_refresh_display();
+				return EXIT_ALL;
+			} else {
+				_exit_maze_now = true;
+			}
+		}
 
 		default:
 			break;
@@ -2154,7 +2175,7 @@ auto Sorcery::Engine::_teleport_if() -> bool {
 		auto destination{tile.has_teleport().value()};
 		if (destination.to_level == 0) {
 
-			// Special case of teleporting Back to castle
+			// Special case of teleporting back to castle
 			_exit_maze_now = true;
 			return true;
 		} else if (destination.to_level == _game->state->get_depth()) {
