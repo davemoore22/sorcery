@@ -537,8 +537,7 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 	if (_status_bar->selected)
 		_status_bar->selected = std::nullopt;
 
-	auto dialog_input{_confirm_search->handle_input(event)};
-	if (dialog_input) {
+	if (auto dialog_input{_confirm_search->handle_input(event)}; dialog_input) {
 		if ((dialog_input.value() == WindowDialogButton::CLOSE) || (dialog_input.value() == WindowDialogButton::NO)) {
 			_display->set_input_mode(WindowInputMode::IN_GAME);
 			_show_confirm_search = false;
@@ -563,6 +562,8 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 
 auto Sorcery::Engine::_handle_confirm_exit(const sf::Event &event) -> void {
 
+	using enum Enums::Window::DialogButton;
+
 	if (_left_icon_panel->selected)
 		_left_icon_panel->selected = std::nullopt;
 	if (_right_icon_panel->selected)
@@ -572,10 +573,10 @@ auto Sorcery::Engine::_handle_confirm_exit(const sf::Event &event) -> void {
 
 	auto dialog_input{_confirm_exit->handle_input(event)};
 	if (dialog_input) {
-		if ((dialog_input.value() == WindowDialogButton::CLOSE) || (dialog_input.value() == WindowDialogButton::NO)) {
+		if ((dialog_input.value() == CLOSE) || (dialog_input.value() == NO)) {
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 			_show_confirm_exit = false;
-		} else if (dialog_input.value() == WindowDialogButton::YES) {
+		} else if (dialog_input.value() == YES) {
 			_window->close();
 		}
 	}
@@ -583,36 +584,38 @@ auto Sorcery::Engine::_handle_confirm_exit(const sf::Event &event) -> void {
 
 auto Sorcery::Engine::_handle_in_character(const sf::Event &event) -> void {
 
-	if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
+	using enum Enums::Controls::Input;
+
+	if (_system->input->check(SHOW_HIDE_CONSOLE, event))
 		_game->toggle_console();
-	else if (_system->input->check(WindowInput::LEFT, event))
+	else if (_system->input->check(LEFT, event))
 		_cur_char.value()->left_view();
-	else if (_system->input->check(WindowInput::RIGHT, event))
+	else if (_system->input->check(RIGHT, event))
 		_cur_char.value()->right_view();
-	else if (_system->input->check(WindowInput::CANCEL, event)) {
+	else if (_system->input->check(CANCEL, event)) {
 		_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 		_cur_char = std::nullopt;
-	} else if (_system->input->check(WindowInput::BACK, event)) {
+	} else if (_system->input->check(BACK, event)) {
 		_display->set_input_mode(WindowInputMode::IN_GAME);
 		_cur_char = std::nullopt;
 		_game->save_game();
 		_status_bar->refresh();
 		_in_character = false;
 		_display->generate("engine_base_ui");
-	} else if (_system->input->check(WindowInput::CONFIRM, event)) {
+	} else if (_system->input->check(CONFIRM, event)) {
 		_cur_char.value()->right_view();
-	} else if (_system->input->check(WindowInput::UP, event)) {
+	} else if (_system->input->check(UP, event)) {
 		if (_cur_char.value()->get_view() == CharacterView::MAGE_SPELLS)
 			_cur_char.value()->dec_hl_spell(SpellType::MAGE);
 		else if (_cur_char.value()->get_view() == CharacterView::PRIEST_SPELLS)
 			_cur_char.value()->dec_hl_spell(SpellType::PRIEST);
 
-	} else if (_system->input->check(WindowInput::DOWN, event)) {
+	} else if (_system->input->check(DOWN, event)) {
 		if (_cur_char.value()->get_view() == CharacterView::MAGE_SPELLS)
 			_cur_char.value()->inc_hl_spell(SpellType::MAGE);
 		else if (_cur_char.value()->get_view() == CharacterView::PRIEST_SPELLS)
 			_cur_char.value()->inc_hl_spell(SpellType::PRIEST);
-	} else if (_system->input->check(WindowInput::MOVE, event)) {
+	} else if (_system->input->check(MOVE, event)) {
 		if (_cur_char.value()->check_for_mouse_move(sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 				static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
 			_cur_char.value()->set_view(_cur_char.value()->get_view());
@@ -885,6 +888,8 @@ auto Sorcery::Engine::_check_for_wipe() const -> bool {
 
 auto Sorcery::Engine::_do_wipe() -> int {
 
+	std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+
 	const auto party{_game->state->get_party_characters()};
 	for (auto &[character_id, character] : _game->characters) {
 		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
@@ -1042,8 +1047,10 @@ auto Sorcery::Engine::_handle_elevator_a_d(const sf::Event &event) -> std::optio
 
 auto Sorcery::Engine::_handle_in_map(const sf::Event &event) -> std::optional<int> {
 
-	if ((_system->input->check(WindowInput::MAZE_SHOW_MAP, event)) ||
-		(_system->input->check(WindowInput::CANCEL, event)) || (_system->input->check(WindowInput::CONFIRM, event))) {
+	using enum Enums::Controls::Input;
+
+	if ((_system->input->check(MAZE_SHOW_MAP, event)) || (_system->input->check(CANCEL, event)) ||
+		(_system->input->check(CONFIRM, event))) {
 		_update_automap = true;
 		_update_compass = true;
 		_update_buffbar = true;
@@ -1202,7 +1209,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_show_chute = false;
 				_chute->set_valid(false);
 
-				if (auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
+				if (const auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
 					(next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
 					_game->state->set_lit(false);
 			}
@@ -1216,7 +1223,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_show_elevator = false;
 				_elevator->set_valid(false);
 
-				if (auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
+				if (const auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
 					(next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
 					_game->state->set_lit(false);
 			}
@@ -1820,7 +1827,7 @@ auto Sorcery::Engine::_move_forward() -> bool {
 	const auto next_loc{Coordinate{x_d, y_d}};
 
 	auto this_tile{_game->state->level->at(current_loc)};
-	auto &next_tile{_game->state->level->at(next_loc)};
+	const auto &next_tile{_game->state->level->at(next_loc)};
 
 	auto this_wall_to_check{_game->state->get_player_facing()};
 	if (this_tile.walkable(this_wall_to_check)) {
@@ -1909,7 +1916,7 @@ auto Sorcery::Engine::_move_backward() -> bool {
 
 	// Check for walls etc between current square and new square
 	auto this_tile{_game->state->level->at(current_loc)};
-	auto &next_tile{_game->state->level->at(next_loc)};
+	const auto &next_tile{_game->state->level->at(next_loc)};
 
 	auto this_wall_to_check{MapDirection::NO_DIRECTION};
 	switch (_game->state->get_player_facing()) {
@@ -1978,68 +1985,74 @@ auto Sorcery::Engine::_move_backward() -> bool {
 
 auto Sorcery::Engine::_turn_left() -> void {
 
+	using enum Enums::Map::Direction;
+
 	switch (_game->state->get_player_facing()) {
-	case MapDirection::NORTH:
-		_game->state->set_player_facing(MapDirection::WEST);
+	case NORTH:
+		_game->state->set_player_facing(WEST);
 		break;
-	case MapDirection::SOUTH:
-		_game->state->set_player_facing(MapDirection::EAST);
+	case SOUTH:
+		_game->state->set_player_facing(EAST);
 		break;
-	case MapDirection::EAST:
-		_game->state->set_player_facing(MapDirection::NORTH);
+	case EAST:
+		_game->state->set_player_facing(NORTH);
 		break;
-	case MapDirection::WEST:
-		_game->state->set_player_facing(MapDirection::SOUTH);
+	case WEST:
+		_game->state->set_player_facing(SOUTH);
 		break;
 	default:
 		break;
 	}
 
-	_last_movement = MapDirection::WEST;
+	_last_movement = WEST;
 }
 
 auto Sorcery::Engine::_turn_right() -> void {
 
+	using enum Enums::Map::Direction;
+
 	switch (_game->state->get_player_facing()) {
-	case MapDirection::NORTH:
-		_game->state->set_player_facing(MapDirection::EAST);
+	case NORTH:
+		_game->state->set_player_facing(EAST);
 		break;
-	case MapDirection::SOUTH:
-		_game->state->set_player_facing(MapDirection::WEST);
+	case SOUTH:
+		_game->state->set_player_facing(WEST);
 		break;
-	case MapDirection::EAST:
-		_game->state->set_player_facing(MapDirection::SOUTH);
+	case EAST:
+		_game->state->set_player_facing(SOUTH);
 		break;
-	case MapDirection::WEST:
-		_game->state->set_player_facing(MapDirection::NORTH);
+	case WEST:
+		_game->state->set_player_facing(NORTH);
 		break;
 	default:
 		break;
 	}
 
-	_last_movement = MapDirection::EAST;
+	_last_movement = EAST;
 }
 
 auto Sorcery::Engine::_turn_around() -> void {
 
+	using enum Enums::Map::Direction;
+
 	switch (_game->state->get_player_facing()) {
-	case MapDirection::NORTH:
-		_game->state->set_player_facing(MapDirection::SOUTH);
+	case NORTH:
+		_game->state->set_player_facing(SOUTH);
 		break;
-	case MapDirection::SOUTH:
-		_game->state->set_player_facing(MapDirection::NORTH);
+	case SOUTH:
+		_game->state->set_player_facing(NORTH);
 		break;
-	case MapDirection::EAST:
-		_game->state->set_player_facing(MapDirection::WEST);
+	case EAST:
+		_game->state->set_player_facing(WEST);
 		break;
-	case MapDirection::WEST:
-		_game->state->set_player_facing(MapDirection::EAST);
+	case WEST:
+		_game->state->set_player_facing(EAST);
 		break;
 	default:
 		break;
 	}
 
-	_last_movement = MapDirection::SOUTH;
+	_last_movement = SOUTH;
 }
 
 // TODO: rock/walkable for all levels/tiles!
@@ -2059,8 +2072,11 @@ auto Sorcery::Engine::_pit_if() -> bool {
 	return false;
 }
 
-// Example of dice rolling - incomplete for now
+// Example of dice rolling
 auto Sorcery::Engine::_pit_oops() -> void {
+
+	std::vector<int> deaths{};
+	deaths.clear();
 
 	auto party{_game->state->get_party_characters()};
 	for (auto &[character_id, character] : _game->characters) {
@@ -2071,23 +2087,49 @@ auto Sorcery::Engine::_pit_oops() -> void {
 			_game->state->add_log_dice_roll(
 				fmt::format("{:>16} - {}", character.get_name(), "Avoid Pit"), 100, roll, chance);
 			if (roll < chance) {
-				// avoid damage
+
+				// Damage is avoided
+
 			} else {
 
-				// inflict damage!
+				// Now in the original Apple 2 version, pit damage is based upon 3 extra values stored in the square in
+				// the TMaze records - AUX0, AUX1, and AUX2. Thanks to the data extraction by Tommy Ewers, the relevant
+				// values for each pit in the game are 0, 8 and depth respectively. This is a long-winded way of saying
+				// that the pit damage (calculated in APIT and ROCKWATR) is 0 + (depth * d8), i.e. a d8 for level depth.
+
+				// Inflict damage! (remember depth is negative here and poisitve in original wizardry)
+				auto pit_damage{0U};
+				const auto dice{std::abs(_game->state->get_depth())};
+				for (int i = 1; i <= dice; i++)
+					pit_damage += (*_system->random)[RandomType::D8];
+
+				_game->state->add_log_message(
+					fmt::format("{} fell into a pit and took {} points of damage!", character.get_name(), pit_damage),
+					MessageType::GAME);
+
+				const auto still_alive{character.damage(pit_damage)};
+				if (!still_alive) {
+
+					// Oh dear death from a pit!
+					_game->state->add_log_message(fmt::format("{} has died!", character.get_name()), MessageType::GAME);
+					deaths.emplace_back(character_id);
+				}
 			}
 		}
+	}
+
+	if (!deaths.empty()) {
+
+		// need to display a character has died dialog
 	}
 }
 
 auto Sorcery::Engine::_event_if() -> bool {
 
 	// If we are in-game, and are on something that will happen
-	const auto current_loc{_game->state->get_player_pos()};
-	if (_game->state->level->at(current_loc).has_event() && _can_run_event) {
-
-		const auto event_type{_game->state->level->at(current_loc).has_event().value()};
-		switch (event_type) {
+	if (const auto current_loc{_game->state->get_player_pos()};
+		_game->state->level->at(current_loc).has_event() && _can_run_event) {
+		switch (const auto event_type{_game->state->level->at(current_loc).has_event().value()}; event_type) {
 		case MapEvent::AREA_OF_OUT_BOUNDS: {
 			_show_direction_indicatior = false;
 			_display_cursor = false;
@@ -2232,6 +2274,8 @@ auto Sorcery::Engine::_stairs_if() -> bool {
 
 auto Sorcery::Engine::_teleport_if() -> bool {
 
+	using enum Enums::Tile::Features;
+
 	// TODO: handle anti-teleport here in the future
 	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has_teleport()) {
 
@@ -2243,7 +2287,7 @@ auto Sorcery::Engine::_teleport_if() -> bool {
 			return true;
 		} else if (destination.to_level == _game->state->get_depth()) {
 
-			auto &next_tile{_game->state->level->at(destination.to_loc)};
+			const auto &next_tile{_game->state->level->at(destination.to_loc)};
 			_game->state->set_player_pos(destination.to_loc);
 
 			if (!_tile_explored(_game->state->get_player_pos()))
@@ -2256,11 +2300,11 @@ auto Sorcery::Engine::_teleport_if() -> bool {
 				const auto current_loc{_game->state->get_player_pos()};
 				if (const auto &this_tile{_game->state->level->at(current_loc)}; this_tile.has(TileFeature::LADDER_UP))
 					_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_up_text"]);
-				else if (this_tile.has(TileFeature::LADDER_DOWN))
+				else if (this_tile.has(LADDER_DOWN))
 					_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_down_text"]);
-				else if (this_tile.has(TileFeature::STAIRS_UP))
+				else if (this_tile.has(STAIRS_UP))
 					_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_stairs_up_text"]);
-				else if (this_tile.has(TileFeature::STAIRS_DOWN))
+				else if (this_tile.has(STAIRS_DOWN))
 					_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_stairs_down_text"]);
 				_show_confirm_stairs = true;
 			} else
@@ -2562,8 +2606,7 @@ auto Sorcery::Engine::_debug_level_first_character_up() -> std::optional<int> {
 	auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
 	auto next{character.get_next_xp()};
 	character.grant_xp(next + 1);
-	auto results{character.level_up()};
-	for (auto text : results)
+	for (auto results{character.level_up()}; auto text : results)
 		std::cout << text << std::endl;
 
 	_update_automap = true;
@@ -2643,14 +2686,15 @@ auto Sorcery::Engine::_debug_give_party_random_hp() -> std::optional<int> {
 
 auto Sorcery::Engine::_debug_give_party_random_status() -> std::optional<int> {
 
+	using enum Enums::Character::CStatus;
+
 	const auto party{_game->state->get_party_characters()};
 	for (auto &[character_id, character] : _game->characters) {
 		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
 			character.set_status(
 				magic_enum::enum_cast<CharacterStatus>((*_system->random)[RandomType::ZERO_TO_8]).value());
-			if ((character.get_status() == CharacterStatus::DEAD) ||
-				(character.get_status() == CharacterStatus::ASHES) ||
-				(character.get_status() == CharacterStatus::LOST)) {
+			if ((character.get_status() == DEAD) || (character.get_status() == ASHES) ||
+				(character.get_status() == LOST)) {
 				character.set_current_hp(0);
 			} else
 				character.set_current_hp(character.get_max_hp());

@@ -2786,15 +2786,39 @@ auto Sorcery::Character::summary_text() -> std::string {
 		return "";
 		break;
 	}
+}
 
-	// starting equipment
+auto Sorcery::Character::damage(const unsigned int adjustment) -> bool {
 
-	// priest, bishop: staff and robes
-	// fighter: longsword leather armour
-	// bishop: staff and robes
-	// mage: dagger robes
-	// thief: short sword leather armour
-	// samurai, lord, ninja?
+	return _damage(adjustment);
+}
+
+auto Sorcery::Character::heal(const unsigned int adjustment) -> void {
+
+	_heal(adjustment);
+}
+
+auto Sorcery::Character::_damage(const unsigned int adjustment) -> bool {
+
+	using enum Enums::Character::Ability;
+
+	_abilities[CURRENT_HP] = _abilities[CURRENT_HP] - adjustment;
+	if (_abilities[CURRENT_HP] < 0) {
+
+		_abilities[CURRENT_HP] = 0;
+		_status = CharacterStatus::DEAD;
+		return false;
+	} else
+		return true;
+}
+
+auto Sorcery::Character::_heal(const unsigned int adjustment) -> void {
+
+	using enum Enums::Character::Ability;
+	_abilities[CURRENT_HP] = _abilities[CURRENT_HP] + adjustment;
+
+	if (_abilities[CURRENT_HP] > _abilities[MAX_HP])
+		_abilities[CURRENT_HP] = _abilities[MAX_HP];
 }
 
 auto Sorcery::Character::_generate_display() -> void {

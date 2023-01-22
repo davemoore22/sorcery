@@ -162,6 +162,8 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto can_level() const -> bool;
 		auto get_cure_cost() const -> unsigned int;
 		auto get_ress_chance(bool ashes) -> unsigned int;
+		auto damage(const unsigned int adjustment) -> bool;
+		auto heal(const unsigned int adjustment) -> void;
 
 		// Public Members
 		std::map<SpellID, sf::FloatRect> mage_spell_bounds;
@@ -204,6 +206,9 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto _get_condition() const -> std::string;
 		auto _update_stat_for_level(CharacterAttribute attribute, std::string stat) -> std::string;
 		auto _learn_spell(SpellID spell_id) -> void;
+		auto _damage(const unsigned int adjustment)
+			-> bool; // returns true is character is alive, or dead if damage was fatal
+		auto _heal(const unsigned int adjustment) -> void;
 
 		// Private Members
 		int _version;
