@@ -1,13 +1,16 @@
 # Sorcery: Shadows under Llylgamyn
 
-An in-development open source remake of Wizardry 1,2,3 (and 5) with infinite (proc-genned) Dungeon Adventures, and (optional) modern CRPG conveniences!
+An open source remake/remaster of the classic CRPG Wizardry, Proving Grounds of the Mad Overlord. Currently under heavy development with a release hopefully later in 2023.
+
+Written using SFML, TGUI, and C++.
 
 ![](/promo/screen1.png)
 ![](/promo/screen7.png)
 
-Watch a (from an older version) video of Level 1 being explored here:
+Watch some videos of parts of Level 1 of the Proving Grounds being explored here:
 
-[![Entering the Dungeon](https://img.youtube.com/vi/AQ9LhK0ta8A/maxresdefault.jpg)](https://youtu.be/AQ9LhK0ta8A).
+[![Entering the Dungeon](https://img.youtube.com/vi/AQ9LhK0ta8A/maxresdefault.jpg)](https://youtu.be/AQ9LhK0ta8A)
+[![Dungeon Events](https://img.youtube.com/vi/yHwHhr6-Gtc/maxresdefault.jpg)](https://youtu.be/yHwHhr6-Gtc)
 
 See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAHej3Dag>
 
@@ -28,20 +31,21 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 * ~~Levelling up/Changing Class~~ (DONE)
 * ~~Temple~~ (DONE)
 * ~~Wipe Handling~~ (DONE)
-* Items and Inventory (DOING)
+* Dungeon Events (DOING)
+* Items and Inventory (TO DO)
 * Boltac's Equipment Shop (TO DO)
 * Creatures and NPCs (TO DO)
 * Magic and Combat (TO DO)
-* Special Item/Square Handling (TO DO)
+* Special Item Handling (TO DO)
 * Victory Handling (TO DO)
 * Strict (Legacy) Mode (TO DO)
 * Compendium (TO DO)
 * Achivements (TO DO)
 * Optional Textured/Rendered 3D View (TO DO)
 
-## What next? (as of 11th January 2023)
+## What next? (as of 22th January 2023)
 
-I've started work on Character Inventory and Item-Handling.
+I've started work on implementing Dungeon Events (such as finding keys and special messages). Character Inventory and Item-Handling will be the next thing to after I've implemented this. I intend to implement the special events on Floors 6 and 7 that by mistake were left out of the original versions of the game.
 
 Initially I am planning to remake Wizardry 1, then adding 2 and 3, and then subsequently providing infinite procedurally-generated content like that of Diablo for example. In the meantime, check out Snarfu's bugfix and recompilation of the original Wizardry for Apple II at <https://github.com/snafaru>.
 
@@ -49,7 +53,7 @@ Initially I am planning to remake Wizardry 1, then adding 2 and 3, and then subs
 
 I 'm currently developing solely on Linux (Ubuntu 22) so compilation instructions are currently Linux-specific. Windows instructions and releases will of course be supported at a later date.
 
-Full compliation instructions for Linux are in the doc/COMPILE text file, but in brief both CMake (via VSCode CMake Tools) and Code::Blocks are supported. C++20 compiler support is required.
+Full compliation instructions for Linux are in the doc/COMPILE text file, but in brief both CMake (via VSCode CMake Tools) and Code::Blocks are supported once the various support libraries are installed. C++20 compiler support is required (I'm currently using GCC 12.1).
 
 All code is released under the GPL - see the doc/LICENSE text file for full details.
 
@@ -70,7 +74,7 @@ Game font is Bitblox Monospaced by James Beall
 
 ## Random Screenshots
 
-Most Recent Screenshots are first
+Most recent screenshots are first
 
 ![](/promo/screen8.png)
 ![](/promo/screen13.png)
