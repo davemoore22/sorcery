@@ -57,7 +57,7 @@ auto Sorcery::Engine::_initialise_state() -> void {
 	_show_gui = true;
 	_display_cursor = true;
 
-	_monochrome = false;
+	_monochrome = true;
 }
 
 auto Sorcery::Engine::_reset_components() -> void {
@@ -134,6 +134,11 @@ auto Sorcery::Engine::_reset_components() -> void {
 	if (_chute.get()) {
 		_chute.release();
 		_chute.reset();
+	}
+
+	if (_found_an_item.get()) {
+		_found_an_item.release();
+		_found_an_item.reset();
 	}
 
 	if (_elevator.get()) {
@@ -257,6 +262,13 @@ auto Sorcery::Engine::_initalise_components() -> void {
 		(*_display->layout)["engine_base_ui:chute_text"], WindowDialogType::TIMED);
 	_chute->setPosition((*_display->layout)["engine_base_ui:chute"].x, (*_display->layout)["engine_base_ui:chute"].y);
 	_chute->set_duration(DELAY_CHUTE);
+
+	_found_an_item =
+		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:found_an_item"],
+			(*_display->layout)["engine_base_ui:found_an_item_text"], WindowDialogType::TIMED);
+	_found_an_item->setPosition(
+		(*_display->layout)["engine_base_ui:found_an_item"].x, (*_display->layout)["engine_base_ui:found_an_item"].y);
+	_found_an_item->set_duration(DELAY_FIND_AN_ITEM);
 
 	_elevator = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:one_moment"],
 		(*_display->layout)["engine_base_ui:one_moment_text"], WindowDialogType::TIMED);
@@ -404,6 +416,7 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	_show_ouch = false;
 	_show_pit = false;
 	_show_chute = false;
+	_show_found_an_item = false;
 	_show_tile_note = false;
 	_show_elevator = false;
 	_show_status = true;
@@ -455,6 +468,7 @@ auto Sorcery::Engine::_update_timers_and_components() -> void {
 	_ouch->update();
 	_pit->update();
 	_chute->update();
+	_found_an_item->update();
 	_elevator->update();
 }
 
@@ -532,6 +546,14 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 		} else if (dialog_input.value() == WindowDialogButton::YES) {
 			_display->set_input_mode(WindowInputMode::IN_GAME);
 			_show_confirm_search = false;
+
+			_show_found_an_item = true;
+
+			// random character who has inventory free unless its a targeted search (TODO)
+			const auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
+			const auto text{fmt::format("{}{}", character.get_name(), (*_display->string)["FOUND_AN_ITEM"])};
+			_found_an_item->set((*_display->layout)["engine_base_ui:found_an_item"], text);
+			_found_an_item->reset_timed();
 			return true;
 		}
 	}
@@ -1150,6 +1172,17 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_ouch->set_valid(false);
 			}
 		}
+	} else if (_show_found_an_item) {
+		_show_direction_indicatior = false;
+		auto dialog_input{_found_an_item->handle_input(event)};
+		if (dialog_input) {
+			if (dialog_input.value() == WindowDialogButton::OK) {
+
+				_display->set_input_mode(WindowInputMode::IN_GAME);
+				_show_found_an_item = false;
+				_found_an_item->set_valid(false);
+			}
+		}
 	} else if (_show_pit) {
 		auto dialog_input{_pit->handle_input(event)};
 		if (dialog_input) {
@@ -1609,6 +1642,10 @@ auto Sorcery::Engine::start() -> int {
 						if (_game->state->level->at(current_loc).has_event()) {
 
 							// Find the event and do something with it!
+							const auto map_event{_game->state->level->at(current_loc).has_event().value()};
+							if (map_event == MapEvent::SILVER_KEY) {
+								// do silver key
+							}
 						}
 					}
 				} else if (_show_confirm_exit) {
@@ -2376,6 +2413,15 @@ auto Sorcery::Engine::_draw() -> void {
 			else {
 				_show_ouch = false;
 				_ouch->set_valid(false);
+			}
+		}
+
+		if (_show_found_an_item) {
+			if (_found_an_item->get_valid())
+				_window->draw(*_found_an_item);
+			else {
+				_show_found_an_item = false;
+				_found_an_item->set_valid(false);
 			}
 		}
 

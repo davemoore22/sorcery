@@ -10643,6 +10643,27 @@
 			"justification": "centre",
 			"type": "text",
 			"drawmode": "manual"
+		},
+		{
+			"name": "found_an_item",
+			"x": "21",
+			"y": "12",
+			"w": "37",
+			"type": "dialog",
+			"drawmode": "manual",
+			"alpha": "200",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "found_an_item_text",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "FOUND_AN_ITEM",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "text",
+			"drawmode": "manual"
 		}
 		]
 	}

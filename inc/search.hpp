@@ -32,6 +32,7 @@
 
 namespace Sorcery {
 
+// Search a square
 class Search: public sf::Transformable, public sf::Drawable {
 
 	public:

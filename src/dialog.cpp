@@ -29,15 +29,15 @@ Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Co
 	WindowDialogType type)
 	: _system{system}, _display{display}, _graphics{graphics}, _frame_c{frame_c}, _string_c{string_c}, _type{type} {
 
-	_refresh(string_c);
+	_refresh(string_c, std::string{""});
 }
 
-auto Sorcery::Dialog::set(Component &string_c) -> void {
+auto Sorcery::Dialog::set(Component &string_c, const std::string &new_text) -> void {
 
-	_refresh(string_c);
+	_refresh(string_c, new_text);
 }
 
-auto Sorcery::Dialog::_refresh(Component &string_c) -> void {
+auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text) -> void {
 	_strings.clear();
 	_texts.clear();
 	_sprites.clear();
@@ -62,7 +62,12 @@ auto Sorcery::Dialog::_refresh(Component &string_c) -> void {
 
 	// Get the Text
 	auto text_width{_frame_c.w - 4};
-	auto string{(*_display->string)[string_c.string_key]};
+	auto string{[&] {
+		if (!new_text.empty())
+			return new_text;
+		else
+			return (*_display->string)[string_c.string_key];
+	}()};
 	auto wrapped_text{WORDWRAP(string, text_width)};
 
 	// Split the Text into lines

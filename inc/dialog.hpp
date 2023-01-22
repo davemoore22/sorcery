@@ -55,14 +55,14 @@ class Dialog: public sf::Transformable, public sf::Drawable {
 		auto get_valid() const -> bool;
 		auto set_valid(const bool valid) -> void;
 		auto reset_timed() -> void;
-		auto set(Component &string_c) -> void;
+		auto set(Component &string_c, const std::string &new_text = "") -> void;
 		auto set_duration(unsigned int duration) -> void;
 
 	private:
 
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
-		auto _refresh(Component &string_c) -> void;
+		auto _refresh(Component &string_c, const std::string &new_text) -> void;
 
 		// Private Members
 		System *_system;

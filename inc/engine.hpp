@@ -105,6 +105,7 @@ class Engine {
 		auto _chute_if() -> bool;
 		auto _elevator_if() -> bool;
 		auto _event_if() -> bool;
+		auto _find_an_item(const std::string name) -> void;
 		auto _tile_explored(const Coordinate loc) const -> bool;
 		auto _set_tile_explored(const Coordinate loc) -> void;
 		auto _reset_direction_indicator() -> void;
@@ -157,6 +158,7 @@ class Engine {
 		std::unique_ptr<Dialog> _chute;
 		std::unique_ptr<Dialog> _elevator;
 		std::unique_ptr<Dialog> _confirm_search;
+		std::unique_ptr<Dialog> _found_an_item;
 		std::unique_ptr<Reorder> _reorder;
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Render> _render;
@@ -183,6 +185,7 @@ class Engine {
 		bool _show_ouch;
 		bool _show_pit;
 		bool _show_chute;
+		bool _show_found_an_item;
 		bool _show_elevator;
 		bool _show_tile_note;
 		bool _show_status;
