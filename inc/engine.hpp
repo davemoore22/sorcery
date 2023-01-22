@@ -80,6 +80,7 @@ class Engine {
 		auto _check_for_pending_events() -> void;
 		auto _do_pause(sf::Event &event) -> void;
 		auto _handle_confirm_exit(const sf::Event &event) -> void;
+		auto _handle_confirm_search(const sf::Event &event) -> bool;
 		auto _handle_in_character(const sf::Event &event) -> void;
 		auto _handle_in_camp(const sf::Event &event) -> std::optional<int>;
 		auto _handle_elevator_a_d(const sf::Event &event) -> std::optional<int>;
@@ -155,6 +156,7 @@ class Engine {
 		std::unique_ptr<Dialog> _pit;
 		std::unique_ptr<Dialog> _chute;
 		std::unique_ptr<Dialog> _elevator;
+		std::unique_ptr<Dialog> _confirm_search;
 		std::unique_ptr<Reorder> _reorder;
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Render> _render;
@@ -184,6 +186,7 @@ class Engine {
 		bool _show_elevator;
 		bool _show_tile_note;
 		bool _show_status;
+		bool _show_confirm_search;
 		bool _show_gui;
 		bool _in_elevator_a_d;
 		bool _in_elevator_a_f;

@@ -118,6 +118,10 @@ auto Sorcery::Engine::_reset_components() -> void {
 		_confirm_stairs.release();
 		_confirm_stairs.reset();
 	}
+	if (_confirm_search.get()) {
+		_confirm_search.release();
+		_confirm_search.reset();
+	}
 	if (_ouch.get()) {
 		_ouch.release();
 		_ouch.reset();
@@ -272,6 +276,12 @@ auto Sorcery::Engine::_initalise_components() -> void {
 	_confirm_exit->setPosition(
 		(*_display->layout)["engine_base_ui:dialog_exit"].x, (*_display->layout)["engine_base_ui:dialog_exit"].y);
 
+	_confirm_search =
+		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:dialog_search"],
+			(*_display->layout)["engine_base_ui:dialog_search_text"], WindowDialogType::CONFIRM);
+	_confirm_search->setPosition(
+		(*_display->layout)["engine_base_ui:dialog_search"].x, (*_display->layout)["engine_base_ui:dialog_search"].y);
+
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game,
 		(*_display->layout)["engine_base_ui:status_bar"], (*_display->layout)["engine_base_ui:status_bar_outer_frame"]);
@@ -390,6 +400,7 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	_in_elevator_a_d = false;
 	_in_elevator_a_f = false;
 	_show_confirm_exit = false;
+	_show_confirm_search = false;
 	_show_ouch = false;
 	_show_pit = false;
 	_show_chute = false;
@@ -501,6 +512,31 @@ auto Sorcery::Engine::_do_pause(sf::Event &event) -> void {
 		if (_system->input->check(WindowInput::ANYTHING, event))
 			_system->stop_pause();
 	}
+}
+
+auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
+
+	if (_left_icon_panel->selected)
+		_left_icon_panel->selected = std::nullopt;
+	if (_right_icon_panel->selected)
+		_right_icon_panel->selected = std::nullopt;
+	if (_status_bar->selected)
+		_status_bar->selected = std::nullopt;
+
+	auto dialog_input{_confirm_search->handle_input(event)};
+	if (dialog_input) {
+		if ((dialog_input.value() == WindowDialogButton::CLOSE) || (dialog_input.value() == WindowDialogButton::NO)) {
+			_display->set_input_mode(WindowInputMode::IN_GAME);
+			_show_confirm_search = false;
+			return false;
+		} else if (dialog_input.value() == WindowDialogButton::YES) {
+			_display->set_input_mode(WindowInputMode::IN_GAME);
+			_show_confirm_search = false;
+			return true;
+		}
+	}
+
+	return false;
 }
 
 auto Sorcery::Engine::_handle_confirm_exit(const sf::Event &event) -> void {
@@ -1531,11 +1567,6 @@ auto Sorcery::Engine::start() -> int {
 
 	_generate_display();
 
-	//_display->generate("engine_base_ui");
-
-	//_refresh();
-	//_place_components();
-
 	_set_maze_entry_start();
 
 	if (!_tile_explored(_game->state->get_player_pos()))
@@ -1569,7 +1600,18 @@ auto Sorcery::Engine::start() -> int {
 				} else
 					_display->hide_overlay();
 
-				if (_show_confirm_exit) {
+				if (_show_confirm_search) {
+					const auto do_search_square{_handle_confirm_search(event)};
+					_display->set_input_mode(WindowInputMode::IN_GAME);
+					if (do_search_square) {
+
+						const auto current_loc{_game->state->get_player_pos()};
+						if (_game->state->level->at(current_loc).has_event()) {
+
+							// Find the event and do something with it!
+						}
+					}
+				} else if (_show_confirm_exit) {
 					_handle_confirm_exit(event);
 				} else if (_in_character) {
 					_handle_in_character(event);
@@ -2050,6 +2092,8 @@ auto Sorcery::Engine::_event_if() -> bool {
 				return EXIT_ALL;
 			}
 			// handle search
+			_show_confirm_search = true;
+			_display->set_input_mode(WindowInputMode::CONFIRM_QUIT_GAME);
 		} break;
 
 		default:
@@ -2319,6 +2363,11 @@ auto Sorcery::Engine::_draw() -> void {
 		if (_show_confirm_stairs) {
 			_confirm_stairs->update();
 			_window->draw(*_confirm_stairs);
+		}
+
+		if (_show_confirm_search) {
+			_confirm_search->update();
+			_window->draw(*_confirm_search);
 		}
 
 		if (_show_ouch) {

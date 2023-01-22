@@ -10281,6 +10281,27 @@
 			"drawmode": "manual"
 		},
 		{
+			"name": "dialog_search",
+			"x": "19",
+			"y": "13",
+			"w": "40",
+			"type": "dialog",
+			"drawmode": "manual",
+			"alpha": "200",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "dialog_search_text",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "38",
+			"string": "CONFIRM_SEARCH",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "text",
+			"drawmode": "manual"
+		},
+		{
 			"name": "status_bar_outer_frame",
 			"w": "53",
 			"h": "9",
