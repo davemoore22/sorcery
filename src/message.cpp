@@ -72,7 +72,6 @@ auto Sorcery::Message::update(TileNote tile_note) -> void {
 				sub_split.end());
 
 			for (auto &sub_text : sub_split) {
-				std::transform(sub_text.begin(), sub_text.end(), sub_text.begin(), ::toupper);
 				output.emplace_back(sub_text);
 			}
 		}
@@ -87,7 +86,6 @@ auto Sorcery::Message::update(TileNote tile_note) -> void {
 			sub_split.end());
 
 		for (auto &sub_text : sub_split) {
-			std::transform(sub_text.begin(), sub_text.end(), sub_text.begin(), ::toupper);
 			output.emplace_back(sub_text);
 		}
 	}
@@ -113,6 +111,7 @@ auto Sorcery::Message::update(TileNote tile_note) -> void {
 		text.setCharacterSize(_text_c.size);
 		text.setFillColor(sf::Color(_text_c.colour));
 		text.setString(each_string);
+		text.setStyle(sf::Text::Bold);
 
 		if (_text_c.justification == Justification::CENTRE) {
 			text.setPosition(

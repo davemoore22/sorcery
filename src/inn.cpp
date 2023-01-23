@@ -346,7 +346,6 @@ auto Sorcery::Inn::_update_and_draw_bed_screen() -> void {
 
 	if (_update) {
 		auto name{_cur_char.value()->get_name()};
-		std::transform(name.begin(), name.end(), name.begin(), ::toupper);
 		const auto welcome{
 			fmt::format("{} {}. {}", (*_display->string)["INN_WELCOME_ONE"], name, (*_display->string)["INN_HAVE"])};
 		const auto gp{_cur_char.value()->get_gold()};

@@ -70,7 +70,7 @@ Graphics used (all free/open source) are by:
 * Justin Nichol - <https://opengameart.org/users/justin-nichol>
 * Various - <https://game-icons.net/>
 
-Game font is Bitblox Monospaced by James Beall
+Game font is Monaco
 
 ## Random Screenshots
 

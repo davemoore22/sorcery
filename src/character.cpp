@@ -2663,7 +2663,6 @@ auto Sorcery::Character::get_summary() -> std::string {
 	using enum Enums::Character::Ability;
 
 	auto name{_name};
-	std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	return fmt::format("{:<15} L {:>2} {}-{} {}", name, _abilities.at(CURRENT_LEVEL),
 		get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3), get_race(_race).substr(0, 3));
 }
@@ -2675,15 +2674,14 @@ auto Sorcery::Character::get_summary_and_out() -> std::string {
 	auto name{_name};
 	auto location{[&] {
 		if (_location == CharacterLocation::MAZE)
-			return "OUT";
+			return "  OUT";
 		else if (_status == CharacterStatus::LOST)
-			return "LOST";
+			return " LOST";
 		else
-			return "";
+			return "    ";
 	}()};
 
-	std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
-	return fmt::format("{:<15} L {:>2} {}-{} {} {:>4}", name, _abilities.at(CURRENT_LEVEL),
+	return fmt::format("{:<15} L {:>2} {}-{} {}{:>5}", name, _abilities.at(CURRENT_LEVEL),
 		get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3), get_race(_race).substr(0, 3), location);
 }
 
@@ -2726,7 +2724,6 @@ auto Sorcery::Character::get_sb_text(const int position) -> std::string {
 
 	auto name{_name};
 	const std::string indicator{can_level() ? "*" : " "};
-	std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	return fmt::format("{} {:<15} {:>2}{} {}-{} {:>3} {:>8} {:^7}", position, name, _abilities.at(CURRENT_LEVEL),
 		indicator, get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3),
 		_abilities.at(CURRENT_ARMOUR_CLASS), get_hp_summary(), _get_condition());
@@ -2752,7 +2749,6 @@ auto Sorcery::Character::summary_text() -> std::string {
 	using enum Enums::Character::Stage;
 
 	auto name{_name};
-	std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	auto legacy{_legated ? " (D)" : ""};
 	switch (_current_stage) {
 	case CHOOSE_METHOD:
@@ -3417,6 +3413,7 @@ auto Sorcery::Character::_add_text(Component &component, std::string format, std
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
 	text.setString(formatted_value);
+	text.setStyle(sf::Text::Bold);
 	const auto offset_x{[&] {
 		if (component["offset_x"])
 			return std::stoi(component["offset_x"].value());
@@ -3606,8 +3603,6 @@ auto operator<<(std::ostream &out_stream, const Sorcery::Character &character) -
 	auto cclass{character.get_class()};
 	auto alignment{character.get_alignment()};
 	auto hp{character.get_hp_summary()};
-
-	std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
 
 	auto body{fmt::format("{:<15} {:>2} {}-{} {:>3} {:>6} {:^10}", name, character.get_level(),
 		character.get_alignment(alignment).substr(0, 1), character.get_class(cclass).substr(0, 3),

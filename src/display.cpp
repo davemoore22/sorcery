@@ -188,6 +188,7 @@ auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, s
 
 				sf::Text text{};
 
+				text.setStyle(sf::Text::Bold);
 				text.setFont(_system->resources->fonts[component.font]);
 				text.setCharacterSize(component.size);
 				text.setFillColor(sf::Color(component.colour));

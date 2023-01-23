@@ -700,6 +700,8 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 		const sf::Vector2f texture_size(texture_w, texture_h);
 		_rtexture.create(texture_size.x, texture_size.y);
 
+		auto adjustment{_system->resources->fonts[component.font].getLineSpacing(4)};
+
 		// Bounds are generated for each menu item to handle mouse over
 		_texts.clear();
 		_options.clear();
@@ -712,8 +714,10 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 			if ((item.type == TEXT) || (item.type == ENTRY) || (item.type == SAVE) || (item.type == CANCEL)) {
 				const auto &text_string{item.key};
 				sf::Text text{};
+				text.setStyle(sf::Text::Bold);
 				text.setFont(_system->resources->fonts[component.font]);
 				text.setCharacterSize(component.size);
+				text.setStyle(sf::Text::Bold);
 				if (item.enabled)
 					text.setFillColor(sf::Color(component.colour));
 				else
@@ -728,8 +732,8 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 				// If we have a selected entry, change the background colour
 				if (selected == current) {
 					const sf::FloatRect bg_rect{text.getLocalBounds()};
-					sf::RectangleShape bg(sf::Vector2f(component.w * _display->window->get_cw(), bg_rect.height + 2));
-					bg.setPosition(0, entry_y);
+					sf::RectangleShape bg(sf::Vector2f(component.w * _display->window->get_cw(), bg_rect.height));
+					bg.setPosition(0, entry_y - text.getLocalBounds().height / 2.0f + adjustment);
 					if (component.animated)
 						bg.setFillColor(_graphics->animation->selected_colour);
 					else
@@ -737,7 +741,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 
 					text.setFillColor(sf::Color(component.colour));
 					text.setOutlineColor(sf::Color(0, 0, 0));
-					text.setOutlineThickness(2);
+					text.setOutlineThickness(1);
 
 					_selected_bg = bg;
 				}
@@ -794,6 +798,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 						// On
 						option_text.setFont(_system->resources->fonts[on_c.font]);
 						option_text.setCharacterSize(on_c.size);
+						option_text.setStyle(sf::Text::Bold);
 						option_text.setFillColor(sf::Color(on_c.colour));
 						option_text.setString((*_display->string)[on_c.string_key]);
 						sf::FloatRect bounds{option_text.getLocalBounds()};
@@ -813,7 +818,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 
 					if (selected == current) {
 						option_text.setOutlineColor(sf::Color(0, 0, 0));
-						option_text.setOutlineThickness(2);
+						option_text.setOutlineThickness(1);
 					}
 
 					_options.emplace_back(option_text);
@@ -827,6 +832,8 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 			++index;
 		}
 	} else {
+
+		auto adjustment{_system->resources->fonts[component.font].getLineSpacing(4)};
 
 		// Only change what needs to be changed
 		auto entry_y{0};
@@ -842,8 +849,8 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 			if ((item.type == TEXT) || (item.type == ENTRY) || (item.type == SAVE) || (item.type == CANCEL)) {
 				if (selected == current) {
 					const sf::FloatRect bg_rect{_texts.at(index).getLocalBounds()};
-					sf::RectangleShape bg(sf::Vector2f(component.w * _display->window->get_cw(), bg_rect.height + 2));
-					bg.setPosition(0, entry_y);
+					sf::RectangleShape bg(sf::Vector2f(component.w * _display->window->get_cw(), bg_rect.height));
+					bg.setPosition(0, entry_y - _texts.at(index).getLocalBounds().height / 2.0f + adjustment);
 					if (component.animated)
 						bg.setFillColor(_graphics->animation->selected_colour);
 					else
@@ -854,7 +861,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 					else
 						_texts.at(index).setFillColor(sf::Color(0x606060ff));
 					_texts.at(index).setOutlineColor(sf::Color(0, 0, 0));
-					_texts.at(index).setOutlineThickness(2);
+					_texts.at(index).setOutlineThickness(1);
 
 					_selected_bg = bg;
 				}
@@ -886,7 +893,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 
 					if (selected == current) {
 						_options.at(options_index).setOutlineColor(sf::Color(0, 0, 0));
-						_options.at(options_index).setOutlineThickness(2);
+						_options.at(options_index).setOutlineThickness(1);
 					}
 					++options_index;
 				}

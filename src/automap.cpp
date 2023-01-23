@@ -144,6 +144,7 @@ auto Sorcery::AutoMap::refresh() -> void {
 	coord_text.setFillColor(sf::Color(ctc));
 	coord_text.setString(coord);
 	coord_text.setPosition(ctx, cfy + cty);
+	coord_text.setStyle(sf::Text::Bold);
 	_texts.push_back(coord_text);
 }
 

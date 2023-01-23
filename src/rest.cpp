@@ -69,7 +69,6 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 	_level_up_messages.clear();
 
 	auto name{character->get_name()};
-	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	_nap_message = fmt::format("{} {}", name, (*_display->string)["REST_NAPPING"]);
 	_recup_message = fmt::format("{} {}", name, (*_display->string)["REST_RECUPERATING"]);
 
@@ -333,7 +332,6 @@ auto Sorcery::Rest::_go_to_results() -> void {
 }
 
 auto Sorcery::Rest::stop() -> void {
-
 }
 
 auto Sorcery::Rest::_draw() -> void {

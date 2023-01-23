@@ -166,6 +166,7 @@ auto Sorcery::StatusBar::_generate() -> void {
 		for (const auto &component : components.value()) {
 			if (component.type == ComponentType::TEXT) {
 				sf::Text text{};
+				text.setStyle(sf::Text::Bold);
 				text.setFont(_system->resources->fonts[component.font]);
 				text.setCharacterSize(component.size);
 				text.setFillColor(sf::Color(component.colour));

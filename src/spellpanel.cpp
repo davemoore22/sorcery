@@ -73,7 +73,6 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 
 	Component name_c{(*_display->layout)["spell_panel:name_text"]};
 	auto translated_name{spell.translated_name};
-	std::transform(translated_name.begin(), translated_name.end(), translated_name.begin(), ::toupper);
 	auto name{fmt::format("{} ({})", spell.name, translated_name)};
 	sf::Text name_text{};
 	name_text.setFont(_system->resources->fonts[name_c.font]);
@@ -81,11 +80,13 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 	name_text.setFillColor(sf::Color(name_c.colour));
 	name_text.setString(name);
 	name_text.setPosition(name_c.x, name_c.y);
+	name_text.setStyle(sf::Text::Bold);
 	_texts.push_back(name_text);
 
-	auto spell_type{spell.type == SpellType::MAGE ? "MAGE" : "PRIEST"};
-	auto spell_category{magic_enum::enum_name<SpellCategory>(spell.category)};
-	auto summary{fmt::format("LEVEL {} {} {} SPELL", spell.level, spell_type, spell_category)};
+	auto spell_type{spell.type == SpellType::MAGE ? "Mage" : "Priest"};
+	std::string spell_category{magic_enum::enum_name<SpellCategory>(spell.category)};
+	std::transform(spell_category.begin(), spell_category.end(), spell_category.begin(), ::tolower);
+	auto summary{fmt::format("Level {} {} {} spell", spell.level, spell_type, spell_category)};
 	Component summary_c{(*_display->layout)["spell_panel:summary_text"]};
 	sf::Text summary_text{};
 	summary_text.setFont(_system->resources->fonts[summary_c.font]);
@@ -93,6 +94,7 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 	summary_text.setFillColor(sf::Color(summary_c.colour));
 	summary_text.setString(summary);
 	summary_text.setPosition(summary_c.x, summary_c.y);
+	summary_text.setStyle(sf::Text::Bold);
 	_texts.push_back(summary_text);
 
 	// Wrap the display lines
@@ -117,6 +119,7 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 		text.setFillColor(sf::Color(_layout.colour));
 		text.setString(each_string);
 		text.setPosition(x, 18 + y * 24);
+		text.setStyle(sf::Text::Bold);
 		++y;
 		_texts.push_back(text);
 	}
