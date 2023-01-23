@@ -1122,6 +1122,9 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F8)) {
 		_monochrome = false;
 		_debug_colour_wireframe();
+	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Pause)) {
+		_display_cursor = true;
+		_refresh_display();
 	}
 	if (_system->input->check(WindowInput::MAZE_SHOW_MAP, event)) {
 		_in_map = !_in_map;

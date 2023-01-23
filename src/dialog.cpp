@@ -187,7 +187,7 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 
 		sf::RectangleShape yes_text_bg(sf::Vector2(yes_text_rect.width + 6, yes_text_rect.height + 8));
 		yes_text_bg.setPosition(yes_x, y);
-		yes_text_bg.setOrigin(0, 0 - yes_text_hl.getLocalBounds().height + 16);
+		// yes_text_bg.setOrigin(0, 0 - yes_text_hl.getLocalBounds().height + 16);
 
 		_highlights[WindowDialogButton::YES] = yes_text_bg;
 
@@ -212,7 +212,7 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 
 		sf::RectangleShape no_text_bg(sf::Vector2(no_text_rect.width + 6, no_text_rect.height + 8));
 		no_text_bg.setPosition(no_x, y);
-		no_text_bg.setOrigin(0, 0 - no_text_hl.getLocalBounds().height + 16);
+		// no_text_bg.setOrigin(0, 0 - no_text_hl.getLocalBounds().height + 16);
 		_highlights[WindowDialogButton::NO] = no_text_bg;
 
 	} break;
