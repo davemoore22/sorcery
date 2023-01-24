@@ -142,6 +142,7 @@ auto Sorcery::Reorder::_populate_candidate() -> void {
 		text.setCharacterSize(_candidate_c.size);
 		text.setFillColor(sf::Color(_candidate_c.colour));
 		auto name{_game->characters[character_id].get_name()};
+		std::transform(name.begin(), name.end(), name.begin(), ::toupper);
 		text.setString(fmt::format("{}. {}", index + 1, name));
 		text.setPosition(x, y + (index * _display->window->get_ch()));
 		++index;

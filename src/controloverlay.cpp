@@ -251,6 +251,7 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 		text.setFont(_system->resources->fonts[text_c.font]);
 		text.setCharacterSize(text_c.size);
 		text.setFillColor(sf::Color(text_c.colour));
+		std::transform(caption.begin(), caption.end(), caption.begin(), ::toupper);
 		text.setString(caption);
 		text.setPosition(text_x, text_y);
 		text.setStyle(sf::Text::Bold);

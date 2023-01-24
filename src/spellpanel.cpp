@@ -119,7 +119,6 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 		text.setFillColor(sf::Color(_layout.colour));
 		text.setString(each_string);
 		text.setPosition(x, 18 + y * 24);
-		text.setStyle(sf::Text::Bold);
 		++y;
 		_texts.push_back(text);
 	}

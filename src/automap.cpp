@@ -131,7 +131,7 @@ auto Sorcery::AutoMap::refresh() -> void {
 
 	const auto player_depth{_game->state->level->depth()};
 
-	const auto coord{[&] {
+	auto coord{[&] {
 		if (player_depth < 0)
 			return fmt::format("B{}F {:>2}N/{:>2}E", std::abs(player_depth), player_pos.y, player_pos.x);
 		else
@@ -142,6 +142,7 @@ auto Sorcery::AutoMap::refresh() -> void {
 	coord_text.setFont(_system->resources->fonts[_layout.font]);
 	coord_text.setCharacterSize(cts);
 	coord_text.setFillColor(sf::Color(ctc));
+	std::transform(coord.begin(), coord.end(), coord.begin(), ::toupper);
 	coord_text.setString(coord);
 	coord_text.setPosition(ctx, cfy + cty);
 	coord_text.setStyle(sf::Text::Bold);

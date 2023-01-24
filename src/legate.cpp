@@ -55,6 +55,9 @@ Sorcery::Legate::Legate(System *system, Display *display, Graphics *graphics, Ch
 	_choose_alignment.setFont(_system->resources->fonts[text_c.font]);
 	_choose_alignment.setCharacterSize(text_c.size);
 	_choose_alignment.setFillColor(sf::Color(text_c.colour));
+	auto alignment{(*_display->string)["LEGATE_CHARACTER_ALIGNMENT"]};
+	std::transform(alignment.begin(), alignment.end(), alignment.begin(), ::toupper);
+
 	_choose_alignment.setString((*_display->string)["LEGATE_CHARACTER_ALIGNMENT"]);
 	const auto offset_x{[&] {
 		if (text_c["offset_x"])

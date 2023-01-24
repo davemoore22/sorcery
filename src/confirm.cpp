@@ -50,11 +50,12 @@ Sorcery::Confirm::Confirm(System *system, Display *display, Graphics *graphics, 
 	auto x{_gui_c.x + _display->window->get_cw() * 2};
 	auto y{_gui_c.y + _display->window->get_ch() * 2};
 	auto index{0};
-	for (const auto &each_string : _strings) {
+	for (auto &each_string : _strings) {
 		sf::Text text{};
 		text.setFont(_system->resources->fonts[_text_c.font]);
 		text.setCharacterSize(_text_c.size);
 		text.setFillColor(sf::Color(_text_c.colour));
+		std::transform(each_string.begin(), each_string.end(), each_string.begin(), ::toupper);
 		text.setString(each_string);
 		text.setPosition(x, y + (index * _display->window->get_ch()));
 		text.setStyle(sf::Text::Bold);

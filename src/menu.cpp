@@ -712,7 +712,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 
 			auto current{items.begin() + index};
 			if ((item.type == TEXT) || (item.type == ENTRY) || (item.type == SAVE) || (item.type == CANCEL)) {
-				const auto &text_string{item.key};
+				auto text_string{item.key};
 				sf::Text text{};
 				text.setStyle(sf::Text::Bold);
 				text.setFont(_system->resources->fonts[component.font]);
@@ -722,6 +722,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 					text.setFillColor(sf::Color(component.colour));
 				else
 					text.setFillColor(sf::Color(0x606060ff));
+				std::transform(text_string.begin(), text_string.end(), text_string.begin(), ::toupper);
 				text.setString(text_string);
 
 				// Check for alignment and set location appropriately

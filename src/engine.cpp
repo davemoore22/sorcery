@@ -1796,6 +1796,7 @@ auto Sorcery::Engine::_refresh_display() -> void {
 auto Sorcery::Engine::_move_forward() -> bool {
 
 	using enum Enums::Map::Direction;
+	using enum Enums::Tile::Features;
 
 	auto current_loc{_game->state->get_player_pos()};
 	auto x_d{current_loc.x};
@@ -1844,13 +1845,13 @@ auto Sorcery::Engine::_move_forward() -> bool {
 
 		if (_game->state->level->stairs_at(next_loc)) {
 			const auto current_loc{_game->state->get_player_pos()};
-			if (const auto &to_tile{_game->state->level->at(current_loc)}; to_tile.has(TileFeature::LADDER_UP))
+			if (const auto &to_tile{_game->state->level->at(current_loc)}; to_tile.has(LADDER_UP))
 				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_up_text"]);
-			else if (to_tile.has(TileFeature::LADDER_DOWN))
+			else if (to_tile.has(LADDER_DOWN))
 				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_down_text"]);
-			else if (to_tile.has(TileFeature::STAIRS_UP))
+			else if (to_tile.has(STAIRS_UP))
 				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_stairs_up_text"]);
-			else if (to_tile.has(TileFeature::STAIRS_DOWN))
+			else if (to_tile.has(STAIRS_DOWN))
 				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_stairs_down_text"]);
 			_show_confirm_stairs = true;
 		} else
@@ -1883,6 +1884,7 @@ auto Sorcery::Engine::_move_forward() -> bool {
 auto Sorcery::Engine::_move_backward() -> bool {
 
 	using enum Enums::Map::Direction;
+	using enum Enums::Tile::Features;
 
 	// Work out our new position
 	auto current_loc{_game->state->get_player_pos()};
@@ -1921,19 +1923,19 @@ auto Sorcery::Engine::_move_backward() -> bool {
 	auto this_tile{_game->state->level->at(current_loc)};
 	const auto &next_tile{_game->state->level->at(next_loc)};
 
-	auto this_wall_to_check{MapDirection::NO_DIRECTION};
+	auto this_wall_to_check{NO_DIRECTION};
 	switch (_game->state->get_player_facing()) {
-	case MapDirection::NORTH:
-		this_wall_to_check = MapDirection::SOUTH;
+	case NORTH:
+		this_wall_to_check = SOUTH;
 		break;
-	case MapDirection::SOUTH:
-		this_wall_to_check = MapDirection::NORTH;
+	case SOUTH:
+		this_wall_to_check = NORTH;
 		break;
-	case MapDirection::EAST:
-		this_wall_to_check = MapDirection::WEST;
+	case EAST:
+		this_wall_to_check = WEST;
 		break;
-	case MapDirection::WEST:
-		this_wall_to_check = MapDirection::EAST;
+	case WEST:
+		this_wall_to_check = EAST;
 		break;
 	default:
 		break;
@@ -1950,13 +1952,13 @@ auto Sorcery::Engine::_move_backward() -> bool {
 
 		if (_game->state->level->stairs_at(next_loc)) {
 			const auto current_loc{_game->state->get_player_pos()};
-			if (const auto &this_tile{_game->state->level->at(current_loc)}; this_tile.has(TileFeature::LADDER_UP))
+			if (const auto &this_tile{_game->state->level->at(current_loc)}; this_tile.has(LADDER_UP))
 				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_up_text"]);
-			else if (this_tile.has(TileFeature::LADDER_DOWN))
+			else if (this_tile.has(LADDER_DOWN))
 				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_down_text"]);
-			else if (this_tile.has(TileFeature::STAIRS_UP))
+			else if (this_tile.has(STAIRS_UP))
 				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_stairs_up_text"]);
-			else if (this_tile.has(TileFeature::STAIRS_DOWN))
+			else if (this_tile.has(STAIRS_DOWN))
 				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_stairs_down_text"]);
 			_show_confirm_stairs = true;
 		} else

@@ -191,8 +191,10 @@ auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, s
 				text.setStyle(sf::Text::Bold);
 				text.setFont(_system->resources->fonts[component.font]);
 				text.setCharacterSize(component.size);
+				auto string_to_print{(*string)[component.string_key]};
+				std::transform(string_to_print.begin(), string_to_print.end(), string_to_print.begin(), ::toupper);
 				text.setFillColor(sf::Color(component.colour));
-				text.setString((*string)[component.string_key]);
+				text.setString(string_to_print);
 				auto x{component.x == -1 ? window->centre.x : component.x};
 				auto y{component.y == -1 ? window->centre.y : component.y};
 

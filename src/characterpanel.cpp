@@ -88,6 +88,7 @@ auto Sorcery::CharacterPanel::set(Character *character) -> void {
 	name_text.setStyle(sf::Text::Bold);
 
 	auto name{_character->get_name()};
+	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	name_text.setString(name);
 	_display->window->set_pos(&name_c, &name_text);
 	_texts.push_back(name_text);
@@ -109,6 +110,7 @@ auto Sorcery::CharacterPanel::set(Character *character) -> void {
 	status_text.setCharacterSize(status_c.size);
 	status_text.setFillColor(
 		sf::Color(_graphics->adjust_status_colour(_character->get_status(), _character->is_poisoned())));
+	std::transform(status.begin(), status.end(), status.begin(), ::toupper);
 	status_text.setString(status);
 	status_text.setStyle(sf::Text::Bold);
 	_display->window->set_pos(&status_c, &status_text);
@@ -131,6 +133,7 @@ auto Sorcery::CharacterPanel::set(Character *character) -> void {
 	loc_text.setFont(_system->resources->fonts[loc_c.font]);
 	loc_text.setCharacterSize(loc_c.size);
 	loc_text.setFillColor(sf::Color(loc_c.colour));
+	std::transform(loc.begin(), loc.end(), loc.begin(), ::toupper);
 	loc_text.setString(loc);
 	loc_text.setStyle(sf::Text::Bold);
 	_display->window->set_pos(&loc_c, &loc_text);
