@@ -45,7 +45,7 @@ Sorcery::CharacterSummary::CharacterSummary(
 	sf::Text name_text{};
 	name_text.setFont(_system->resources->fonts[text.font]);
 	name_text.setCharacterSize(text.size);
-	name_text.setStyle(sf::Text::Bold);
+	// name_text.setStyle(sf::Text::Bold);
 
 	switch (character->get_status()) {
 	case CharacterStatus::OK:

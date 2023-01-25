@@ -96,7 +96,7 @@ auto Sorcery::AllocatePanel::set() -> void {
 		text.setString(fmt::format("{:>2}", value));
 		text.setOrigin(0, text.getLocalBounds().height / 2.0f);
 		text.setPosition(x, (y * _display->window->get_ch()));
-		text.setStyle(sf::Text::Bold);
+		// text.setStyle(sf::Text::Bold);
 		_texts.push_back(text);
 
 		// Get the bars (note drawing order!)

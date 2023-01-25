@@ -254,7 +254,7 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 		std::transform(caption.begin(), caption.end(), caption.begin(), ::toupper);
 		text.setString(caption);
 		text.setPosition(text_x, text_y);
-		text.setStyle(sf::Text::Bold);
+		// text.setStyle(sf::Text::Bold);
 		_texts.emplace_back(text);
 		text_y += text_spacing_y;
 

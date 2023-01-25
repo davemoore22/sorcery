@@ -58,7 +58,7 @@ Sorcery::Confirm::Confirm(System *system, Display *display, Graphics *graphics, 
 		std::transform(each_string.begin(), each_string.end(), each_string.begin(), ::toupper);
 		text.setString(each_string);
 		text.setPosition(x, y + (index * _display->window->get_ch()));
-		text.setStyle(sf::Text::Bold);
+		// text.setStyle(sf::Text::Bold);
 		if (_text_c.justification == Justification::CENTRE)
 			text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 		else if (_text_c.justification == Justification::RIGHT) {

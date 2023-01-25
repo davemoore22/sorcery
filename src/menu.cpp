@@ -714,10 +714,10 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 			if ((item.type == TEXT) || (item.type == ENTRY) || (item.type == SAVE) || (item.type == CANCEL)) {
 				auto text_string{item.key};
 				sf::Text text{};
-				text.setStyle(sf::Text::Bold);
+				// text.setStyle(sf::Text::Bold);
 				text.setFont(_system->resources->fonts[component.font]);
 				text.setCharacterSize(component.size);
-				text.setStyle(sf::Text::Bold);
+				// text.setStyle(sf::Text::Bold);
 				if (item.enabled)
 					text.setFillColor(sf::Color(component.colour));
 				else
@@ -799,7 +799,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 						// On
 						option_text.setFont(_system->resources->fonts[on_c.font]);
 						option_text.setCharacterSize(on_c.size);
-						option_text.setStyle(sf::Text::Bold);
+						// option_text.setStyle(sf::Text::Bold);
 						option_text.setFillColor(sf::Color(on_c.colour));
 						option_text.setString((*_display->string)[on_c.string_key]);
 						sf::FloatRect bounds{option_text.getLocalBounds()};

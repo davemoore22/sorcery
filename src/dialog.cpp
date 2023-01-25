@@ -111,7 +111,7 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 	auto index{0};
 	for (auto &each_string : _strings) {
 		sf::Text text{};
-		text.setStyle(sf::Text::Bold);
+		// text.setStyle(sf::Text::Bold);
 		text.setFont(_system->resources->fonts[_string_c.font]);
 		text.setCharacterSize(_string_c.size);
 		text.setFillColor(sf::Color(_string_c.colour));
@@ -143,7 +143,7 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 	case WindowDialogType::OK: {
 		const auto ok_x{(centre_x - (_display->window->get_cw() * 2)) + (_display->window->get_cw() * 2)};
 		sf::Text ok_text{};
-		ok_text.setStyle(sf::Text::Bold);
+		// ok_text.setStyle(sf::Text::Bold);
 		ok_text.setFont(_system->resources->fonts[_buttons_c.font]);
 		ok_text.setCharacterSize(_buttons_c.size);
 		ok_text.setFillColor(sf::Color(_buttons_c.colour));
@@ -169,7 +169,7 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 	case WindowDialogType::CONFIRM: {
 		const auto yes_x{(centre_x - (_display->window->get_cw() * 4))};
 		sf::Text yes_text{};
-		yes_text.setStyle(sf::Text::Bold);
+		// yes_text.setStyle(sf::Text::Bold);
 		yes_text.setFont(_system->resources->fonts[_buttons_c.font]);
 		yes_text.setCharacterSize(_buttons_c.size);
 		yes_text.setFillColor(sf::Color(_buttons_c.colour));
@@ -194,7 +194,7 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 
 		const auto no_x{centre_x + (_display->window->get_cw() * 2)};
 		sf::Text no_text{};
-		no_text.setStyle(sf::Text::Bold);
+		// no_text.setStyle(sf::Text::Bold);
 		no_text.setFont(_system->resources->fonts[_buttons_c.font]);
 		no_text.setCharacterSize(_buttons_c.size);
 		no_text.setFillColor(sf::Color(_buttons_c.colour));

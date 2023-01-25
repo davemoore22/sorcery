@@ -70,7 +70,7 @@ Graphics used (all free/open source) are by:
 * Justin Nichol - <https://opengameart.org/users/justin-nichol>
 * Various - <https://game-icons.net/>
 
-Game font is Monaco
+Game font is based upon the FM Towns Wizardry V font.
 
 ## Random Screenshots
 

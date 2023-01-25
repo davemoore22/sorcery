@@ -111,7 +111,7 @@ auto Sorcery::Message::update(TileNote tile_note) -> void {
 		text.setCharacterSize(_text_c.size);
 		text.setFillColor(sf::Color(_text_c.colour));
 		text.setString(each_string);
-		text.setStyle(sf::Text::Bold);
+		// text.setStyle(sf::Text::Bold);
 
 		if (_text_c.justification == Justification::CENTRE) {
 			text.setPosition(

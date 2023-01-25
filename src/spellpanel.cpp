@@ -80,7 +80,7 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 	name_text.setFillColor(sf::Color(name_c.colour));
 	name_text.setString(name);
 	name_text.setPosition(name_c.x, name_c.y);
-	name_text.setStyle(sf::Text::Bold);
+	// name_text.setStyle(sf::Text::Bold);
 	_texts.push_back(name_text);
 
 	auto spell_type{spell.type == SpellType::MAGE ? "Mage" : "Priest"};
@@ -94,7 +94,7 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 	summary_text.setFillColor(sf::Color(summary_c.colour));
 	summary_text.setString(summary);
 	summary_text.setPosition(summary_c.x, summary_c.y);
-	summary_text.setStyle(sf::Text::Bold);
+	// summary_text.setStyle(sf::Text::Bold);
 	_texts.push_back(summary_text);
 
 	// Wrap the display lines

@@ -24,12 +24,13 @@
 
 #include "frame.hpp"
 
+// TODO: need to change this depending on the cell height and cell widtg
+
 // Standard Constructor
 Sorcery::Frame::Frame(System *system, Display *display, WindowFrameType type, const Component layout)
 	: _system{system}, _display{display}, _type{type}, _layout{layout} {
 
-	// Define the 8 parts of the Frame based upon the location in the GUI
-	// Texture
+	// Define the 8 parts of the Frame based upon the location in the GUI Texture
 	if (_type == WindowFrameType::NORMAL) {
 		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)] = sf::IntRect(0, 550, 20, 20);
 		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP)] = sf::IntRect(20, 550, 20, 20);
@@ -155,8 +156,7 @@ Sorcery::Frame::Frame(sf::Texture texture, WindowFrameType type, const unsigned 
 	: _texture{texture}, _type{type}, _width_units{width_units}, _height_units{height_units}, _colour{colour},
 	  _bg_colour(bg_colour), _alpha{alpha} {
 
-	// Define the 8 parts of the Frame based upon the location in the GUI
-	// Texture
+	// Define the 8 parts of the Frame based upon the location in the GUI Texture
 	if (_type == WindowFrameType::NORMAL) {
 		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)] = sf::IntRect(0, 550, 20, 20);
 		_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP)] = sf::IntRect(20, 550, 20, 20);

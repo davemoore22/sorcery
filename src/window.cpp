@@ -131,7 +131,7 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, con
 	else
 		text.setFillColor(sf::Color(component.colour));
 	text.setString((*_string)[component.string_key]);
-	text.setStyle(sf::Text::Bold);
+	// text.setStyle(sf::Text::Bold);
 	auto x{component.x == -1 ? centre.x : component.x};
 	auto y{component.y == -1 ? centre.y : component.y};
 	if (component.justification == Justification::CENTRE) {
@@ -162,7 +162,7 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, con
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
 	text.setString(string);
-	text.setStyle(sf::Text::Bold);
+	// text.setStyle(sf::Text::Bold);
 	auto x{component.x == -1 ? centre.x : component.x};
 	auto y{component.y == -1 ? centre.y : component.y};
 	if (component.justification == Justification::CENTRE) {
@@ -227,7 +227,7 @@ auto Sorcery::Window::_draw_text(
 	else
 		text.setFillColor(sf::Color(component.colour));
 	text.setString(string);
-	text.setStyle(sf::Text::Bold);
+	// text.setStyle(sf::Text::Bold);
 	auto x{component.x == -1 ? centre.x : component.x};
 	auto y{component.y == -1 ? centre.y : component.y};
 	if (component.justification == Justification::CENTRE) {

@@ -96,7 +96,7 @@ auto Sorcery::Graveyard::start() -> std::optional<MenuItem> {
 	for (int i = 0; i < 6; i += 2) {
 		auto characters{fmt::format("{:^18}{:^18}", names.at(i), names.at(i + 1))};
 		sf::Text text{};
-		text.setStyle(sf::Text::Bold);
+		// text.setStyle(sf::Text::Bold);
 		text.setFont(_system->resources->fonts[c_c.font]);
 		text.setCharacterSize(c_c.size);
 		text.setFillColor(sf::Color(c_c.colour));
