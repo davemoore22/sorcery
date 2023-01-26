@@ -82,11 +82,11 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 	auto frame_h{static_cast<unsigned int>(_strings.size())};
 	switch (_type) {
 	case WindowDialogType::OK:
-		frame_h += 5;
+		frame_h += 4;
 		_selected = WindowDialogButton::OK;
 		break;
 	case WindowDialogType::CONFIRM:
-		frame_h += 5;
+		frame_h += 4;
 		_selected = WindowDialogButton::NO;
 		break;
 	case WindowDialogType::MENU:
@@ -106,7 +106,7 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 	_frame->setPosition(0, 0);
 
 	// Then the strings
-	auto x{_display->window->get_cw() * 1};
+	auto x{0};
 	auto y{_display->window->get_ch() * 1};
 	auto index{0};
 	for (auto &each_string : _strings) {
@@ -121,15 +121,15 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 
 		if (_string_c.justification == Justification::CENTRE) {
 			text.setPosition(
-				(x + (_frame_c.w * _display->window->get_cw())) / 2, y + (index * _display->window->get_ch()));
-			text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+				(x + (_frame_c.w * _display->window->get_cw()) / 2), y + (index * _display->window->get_ch()));
+			text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
 		} else if (_string_c.justification == Justification::RIGHT) {
 			text.setPosition(x, y + (index * _display->window->get_ch()));
 			const sf::FloatRect bounds{text.getLocalBounds()};
 			text.setPosition(_string_c.x - bounds.width, _string_c.y);
 		} else {
 			text.setPosition(x, y + (index * _display->window->get_ch()));
-			text.setOrigin(0, text.getLocalBounds().height / 2.0f);
+			text.setOrigin(0, 0);
 		}
 
 		++index;
@@ -161,9 +161,8 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 		const sf::FloatRect ok_text_rect{ok_text_hl.getGlobalBounds()};
 		_buttons_fr[WindowDialogButton::OK] = ok_text_rect;
 
-		sf::RectangleShape ok_text_bg(sf::Vector2(ok_text_rect.width + 6, ok_text_rect.height + 8));
+		sf::RectangleShape ok_text_bg(sf::Vector2(ok_text_rect.width, ok_text_rect.height));
 		ok_text_bg.setPosition(ok_x, y);
-		ok_text_bg.setOrigin(0, 0 - ok_text_hl.getLocalBounds().height + 16);
 
 		_highlights[WindowDialogButton::OK] = ok_text_bg;
 
@@ -189,7 +188,7 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 		const sf::FloatRect yes_text_rect{yes_text_hl.getGlobalBounds()};
 		_buttons_fr[WindowDialogButton::YES] = yes_text_rect;
 
-		sf::RectangleShape yes_text_bg(sf::Vector2(yes_text_rect.width + 6, yes_text_rect.height + 8));
+		sf::RectangleShape yes_text_bg(sf::Vector2(yes_text_rect.width, yes_text_rect.height));
 		yes_text_bg.setPosition(yes_x, y);
 
 		_highlights[WindowDialogButton::YES] = yes_text_bg;
@@ -214,9 +213,8 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 		const sf::FloatRect no_text_rect{no_text_hl.getGlobalBounds()};
 		_buttons_fr[WindowDialogButton::NO] = no_text_rect;
 
-		sf::RectangleShape no_text_bg(sf::Vector2(no_text_rect.width + 6, no_text_rect.height + 8));
+		sf::RectangleShape no_text_bg(sf::Vector2(no_text_rect.width, no_text_rect.height));
 		no_text_bg.setPosition(no_x, y);
-		// no_text_bg.setOrigin(0, 0 - no_text_hl.getLocalBounds().height + 16);
 		_highlights[WindowDialogButton::NO] = no_text_bg;
 
 	} break;

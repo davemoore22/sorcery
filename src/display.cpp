@@ -36,7 +36,7 @@ Sorcery::Display::Display(System *system) : _system{system} {
 	auto icon_layout{(*layout)["global:icon"]};
 	_icons = std::make_unique<IconStore>(_system, icon_layout, (*_system->files)[ICONS_FILE]);
 
-	_bold_text = true;
+	_bold_text = false;
 	window->set_bold(_bold_text);
 }
 
