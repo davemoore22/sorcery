@@ -148,7 +148,6 @@
 		<Unit filename="inc/compendium.hpp" />
 		<Unit filename="inc/component.hpp" />
 		<Unit filename="inc/config.hpp" />
-		<Unit filename="inc/confirm.hpp" />
 		<Unit filename="inc/console.hpp" />
 		<Unit filename="inc/controloverlay.hpp" />
 		<Unit filename="inc/create.hpp" />
@@ -231,7 +230,6 @@
 		<Unit filename="src/compendium.cpp" />
 		<Unit filename="src/component.cpp" />
 		<Unit filename="src/config.cpp" />
-		<Unit filename="src/confirm.cpp" />
 		<Unit filename="src/console.cpp" />
 		<Unit filename="src/controloverlay.cpp" />
 		<Unit filename="src/create.cpp" />

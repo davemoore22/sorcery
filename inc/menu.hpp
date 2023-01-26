@@ -62,7 +62,6 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		auto choose(const unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto choose(std::any option) -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto set_mouse_selected(sf::Vector2f mouse_pos) -> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto check_menu_mouseover(sf::Vector2f mouse_pos) -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto get_mouse_clicked(const sf::Event::MouseButtonEvent mb_event)
 			-> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto get_type() const -> MenuType;

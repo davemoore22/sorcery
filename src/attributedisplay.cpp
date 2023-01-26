@@ -258,7 +258,8 @@ auto Sorcery::AttributeDisplay::_get_text(CharacterAttribute attribute) -> sf::T
 		text.setCharacterSize(_text_c.size);
 		text.setFillColor(sf::Color(_text_c.colour));
 		text.setString(formatted_value);
-		// text.setStyle(sf::Text::Bold);
+		if (_display->get_bold())
+			text.setStyle(sf::Text::Bold);
 
 		return text;
 	}

@@ -108,7 +108,8 @@ auto Sorcery::Map::refresh() -> void {
 	}()};
 
 	sf::Text coord_text{};
-	// coord_text.setStyle(sf::Text::Bold);
+	if (_display->get_bold())
+		coord_text.setStyle(sf::Text::Bold);
 	coord_text.setFont(_system->resources->fonts[_layout.font]);
 	coord_text.setCharacterSize(cts);
 	coord_text.setFillColor(sf::Color(ctc));

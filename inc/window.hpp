@@ -68,6 +68,7 @@ class Window {
 		auto set_pos(Component *component, sf::Transformable *object) const -> void;
 		auto save_screen() -> void;
 		auto restore_screen() -> void;
+		auto set_bold(const bool value) -> void;
 
 		// Public Members
 		std::vector<sf::Sprite> sprites;
@@ -113,6 +114,7 @@ class Window {
 		WindowInputMode _input_mode;
 		sf::Image _capture;
 		sf::Texture _texture;
+		bool _bold_text;
 };
 
 }

@@ -3418,7 +3418,8 @@ auto Sorcery::Character::_add_text(Component &component, std::string format, std
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
 	text.setString(formatted_value);
-	// text.setStyle(sf::Text::Bold);
+	if (_display->get_bold())
+		text.setStyle(sf::Text::Bold);
 	const auto offset_x{[&] {
 		if (component["offset_x"])
 			return std::stoi(component["offset_x"].value());

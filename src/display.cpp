@@ -35,6 +35,14 @@ Sorcery::Display::Display(System *system) : _system{system} {
 	_background_movie.openFromFile(_system->files->get_path(MENU_VIDEO));
 	auto icon_layout{(*layout)["global:icon"]};
 	_icons = std::make_unique<IconStore>(_system, icon_layout, (*_system->files)[ICONS_FILE]);
+
+	_bold_text = true;
+	window->set_bold(_bold_text);
+}
+
+auto Sorcery::Display::get_bold() -> bool {
+
+	return _bold_text;
 }
 
 auto Sorcery::Display::generate(std::string_view screen) -> void {
@@ -187,7 +195,8 @@ auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, s
 
 				sf::Text text{};
 
-				// text.setStyle(sf::Text::Bold);
+				if (_bold_text)
+					text.setStyle(sf::Text::Bold);
 				text.setFont(_system->resources->fonts[component.font]);
 				text.setCharacterSize(component.size);
 				auto string_to_print{(*string)[component.string_key]};

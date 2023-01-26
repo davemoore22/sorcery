@@ -34,8 +34,8 @@ Sorcery::Graveyard::Graveyard(System *system, Display *display, Graphics *graphi
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::GRAVEYARD);
 
 	const Component menu_fc{(*_display->layout)["graveyard:menu_frame"]};
-	_menu_frame = std::make_unique<Frame>(_display->ui_texture, menu_fc.w, menu_fc.h,
-		menu_fc.colour, menu_fc.background, menu_fc.alpha);
+	_menu_frame = std::make_unique<Frame>(
+		_display->ui_texture, menu_fc.w, menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
 
 	_sprites.clear();
 	_texts.clear();
@@ -96,7 +96,8 @@ auto Sorcery::Graveyard::start() -> std::optional<MenuItem> {
 	for (int i = 0; i < 6; i += 2) {
 		auto characters{fmt::format("{:^18}{:^18}", names.at(i), names.at(i + 1))};
 		sf::Text text{};
-		// text.setStyle(sf::Text::Bold);
+		if (_display->get_bold())
+			text.setStyle(sf::Text::Bold);
 		text.setFont(_system->resources->fonts[c_c.font]);
 		text.setCharacterSize(c_c.size);
 		text.setFillColor(sf::Color(c_c.colour));

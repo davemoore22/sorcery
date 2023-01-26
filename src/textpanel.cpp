@@ -57,7 +57,8 @@ auto Sorcery::TextPanel::set_text(const std::string &string) -> void {
 	auto y{0};
 	for (const auto &each_string : _strings) {
 		sf::Text text{};
-		// text.setStyle(sf::Text::Bold);
+		if (_display->get_bold())
+			text.setStyle(sf::Text::Bold);
 		text.setFont(_system->resources->fonts[_layout.font]);
 		text.setCharacterSize(_layout.size);
 		text.setFillColor(sf::Color(std::stoull(_layout["text_colour"].value(), 0, 16)));

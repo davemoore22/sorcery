@@ -77,6 +77,7 @@ class Display {
 		auto display_overlay() -> void;
 		auto shutdown_SFML() -> void;
 		auto display_direction_indicator(MapDirection direction, bool monochrome) -> void;
+		auto get_bold() -> bool;
 
 		// Public Members
 		std::unique_ptr<String> string;
@@ -97,6 +98,7 @@ class Display {
 		std::unique_ptr<IconStore> _icons;
 		bool _show_overlay;
 		unsigned int _wallpaper_idx;
+		bool _bold_text;
 
 		// Private Methods
 };

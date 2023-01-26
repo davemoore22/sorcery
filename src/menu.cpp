@@ -344,8 +344,7 @@ Sorcery::Menu::Menu(
 	}
 }
 
-// The Character Menu is a special case and needs to be reloaded often when
-// names and classes change
+// The Character Menu is a special case and needs to be reloaded often when names and classes change
 auto Sorcery::Menu::reload() -> void {
 
 	using enum Enums::Menu::Type;
@@ -437,31 +436,6 @@ auto Sorcery::Menu::_select_last() -> std::optional<std::vector<MenuEntry>::cons
 			return selected;
 		}
 
-	return std::nullopt;
-}
-
-// Check if the mouse cursor is on a menu item
-auto Sorcery::Menu::check_menu_mouseover(sf::Vector2f mouse_pos)
-	-> std::optional<std::vector<MenuEntry>::const_iterator> {
-
-	if (!bounds.empty()) {
-
-		// Look for the bounds the mouse cursor is in, but return the associated item with the same index, since both
-		// containers track each other
-		const sf::Vector2f global_pos{this->getPosition()};
-		mouse_pos -= global_pos;
-		auto it{std::ranges::find_if(
-			bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) { return item.contains(mouse_pos); })};
-		if (it != bounds.end()) {
-			auto dist{std::distance(bounds.begin(), it)};
-			std::cout << int(dist) << std::endl;
-			return items.begin() + dist;
-		} else
-			return std::nullopt;
-	}
-
-	// If we reach here it means that bounds (which requites a draw to take
-	// place, hasn't been populated yet)
 	return std::nullopt;
 }
 
@@ -669,6 +643,7 @@ auto Sorcery::Menu::choose_next() -> std::optional<std::vector<MenuEntry>::const
 					(((*working).type == ENTRY) || ((*working).type == SAVE) || ((*working).type == CANCEL));
 		} while ((working <= items.end() - 1) && (!found));
 		if (found) {
+
 			selected = working;
 			return selected;
 		}
@@ -710,10 +685,10 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 			if ((item.type == TEXT) || (item.type == ENTRY) || (item.type == SAVE) || (item.type == CANCEL)) {
 				auto text_string{item.key};
 				sf::Text text{};
-				// text.setStyle(sf::Text::Bold);
 				text.setFont(_system->resources->fonts[component.font]);
 				text.setCharacterSize(component.size);
-				// text.setStyle(sf::Text::Bold);
+				if (_display->get_bold())
+					text.setStyle(sf::Text::Bold);
 				if (item.enabled)
 					text.setFillColor(sf::Color(component.colour));
 				else
@@ -723,12 +698,11 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 
 				// Check for alignment and set location appropriately
 				auto entry_x{(component.justification == Justification::CENTRE) ? texture_w / 2 : 0};
-				entry_y += _display->window->get_ch();
 				text.setPosition(entry_x, entry_y);
 
 				// If we have a selected entry, change the background colour
 				if (selected == current) {
-					const sf::FloatRect bg_rect{text.getLocalBounds()};
+					const sf::FloatRect bg_rect{text.getGlobalBounds()};
 					sf::RectangleShape bg(sf::Vector2f(component.w * _display->window->get_cw(), bg_rect.height));
 					bg.setPosition(0, entry_y);
 					if (component.animated)
@@ -787,10 +761,11 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 						// On
 						option_text.setFont(_system->resources->fonts[on_c.font]);
 						option_text.setCharacterSize(on_c.size);
-						// option_text.setStyle(sf::Text::Bold);
+						if (_display->get_bold())
+							option_text.setStyle(sf::Text::Bold);
 						option_text.setFillColor(sf::Color(on_c.colour));
 						option_text.setString((*_display->string)[on_c.string_key]);
-						sf::FloatRect bounds{option_text.getLocalBounds()};
+						sf::FloatRect bounds{option_text.getGlobalBounds()};
 						option_text.setPosition(option_x - bounds.width, option_y);
 					} else {
 
@@ -799,7 +774,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 						option_text.setCharacterSize(off_c.size);
 						option_text.setFillColor(sf::Color(off_c.colour));
 						option_text.setString((*_display->string)[off_c.string_key]);
-						sf::FloatRect bounds{option_text.getLocalBounds()};
+						sf::FloatRect bounds{option_text.getGlobalBounds()};
 						option_text.setPosition(option_x - bounds.width, option_y);
 					}
 
@@ -810,10 +785,13 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 
 					_options.emplace_back(option_text);
 				}
+
+				entry_y += _display->window->get_ch();
 			} else {
+				sf::Text empty_text{};
 				const sf::FloatRect actual_rect{};
 				bounds.push_back(actual_rect);
-				_texts.emplace_back();
+				_texts.emplace_back(empty_text);
 				entry_y += _display->window->get_ch();
 			}
 			++index;
@@ -832,11 +810,11 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 		const Component off_c{(*_display->layout)["options:off"]};
 		for (const auto &item : items) {
 			auto current{items.begin() + index};
-			entry_y += _display->window->get_ch();
 			if ((item.type == TEXT) || (item.type == ENTRY) || (item.type == SAVE) || (item.type == CANCEL)) {
 				if (selected == current) {
-					const sf::FloatRect bg_rect{_texts.at(index).getLocalBounds()};
+					const sf::FloatRect bg_rect{_texts.at(index).getGlobalBounds()};
 					sf::RectangleShape bg(sf::Vector2f(component.w * _display->window->get_cw(), bg_rect.height));
+					bg.setPosition(0, entry_y);
 					if (component.animated)
 						bg.setFillColor(_graphics->animation->selected_colour);
 					else
@@ -860,14 +838,14 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 
 						// On
 						_options.at(options_index).setString((*_display->string)[on_c.string_key]);
-						sf::FloatRect bounds{_options.at(options_index).getLocalBounds()};
+						sf::FloatRect bounds{_options.at(options_index).getGlobalBounds()};
 						_options.at(options_index).setPosition(option_x - bounds.width, option_y);
 						_options.at(options_index).setFillColor(sf::Color(on_c.colour));
 					} else {
 
 						// Off
 						_options.at(options_index).setString((*_display->string)[off_c.string_key]);
-						sf::FloatRect bounds{_options.at(options_index).getLocalBounds()};
+						sf::FloatRect bounds{_options.at(options_index).getGlobalBounds()};
 						_options.at(options_index).setPosition(option_x - bounds.width, option_y);
 						_options.at(options_index).setFillColor(sf::Color(off_c.colour));
 					}
@@ -880,6 +858,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 				}
 			}
 			++index;
+			entry_y += _display->window->get_ch();
 		}
 	}
 }

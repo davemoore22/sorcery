@@ -145,7 +145,8 @@ auto Sorcery::AutoMap::refresh() -> void {
 	std::transform(coord.begin(), coord.end(), coord.begin(), ::toupper);
 	coord_text.setString(coord);
 	coord_text.setPosition(ctx, cfy + cty);
-	// coord_text.setStyle(sf::Text::Bold);
+	if (_display->get_bold())
+		coord_text.setStyle(sf::Text::Bold);
 	_texts.push_back(coord_text);
 }
 

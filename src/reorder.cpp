@@ -137,7 +137,8 @@ auto Sorcery::Reorder::_populate_candidate() -> void {
 	for (const auto character_id : _candidate_party) {
 		sf::Text text{};
 
-		// text.setStyle(sf::Text::Bold);
+		if (_display->get_bold())
+			text.setStyle(sf::Text::Bold);
 		text.setFont(_system->resources->fonts[_candidate_c.font]);
 		text.setCharacterSize(_candidate_c.size);
 		text.setFillColor(sf::Color(_candidate_c.colour));
