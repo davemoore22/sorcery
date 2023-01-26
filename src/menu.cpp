@@ -454,6 +454,7 @@ auto Sorcery::Menu::check_menu_mouseover(sf::Vector2f mouse_pos)
 			bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) { return item.contains(mouse_pos); })};
 		if (it != bounds.end()) {
 			auto dist{std::distance(bounds.begin(), it)};
+			std::cout << int(dist) << std::endl;
 			return items.begin() + dist;
 		} else
 			return std::nullopt;
@@ -470,9 +471,8 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
 
 	if (!bounds.empty()) {
 
-		// Look for the bounds the mouse cursor is in, but select and return the
-		// associated item with the same index, since both containers track each
-		// other
+		// Look for the bounds the mouse cursor is in, but select and return the associated item with the same index,
+		// since both containers track each other
 		const sf::Vector2f global_pos{this->getPosition()};
 		mouse_pos -= global_pos;
 		auto it{std::ranges::find_if(
@@ -489,8 +489,7 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
 			return std::nullopt;
 	}
 
-	// If we reach here it means that bounds (which requites a draw to take
-	// place, hasn't been populated yet)
+	// If we reach here it means that bounds (which requites a draw to take place, hasn't been populated yet)
 	return std::nullopt;
 }
 
@@ -611,8 +610,7 @@ auto Sorcery::Menu::choose(const unsigned int index) -> std::optional<std::vecto
 	else
 		return std::nullopt;
 
-	// If we reach here the mouse cursor is outside the items so we don't do
-	// anything
+	// If we reach here the mouse cursor is outside the items so we don't do anything
 	return std::nullopt;
 }
 
@@ -700,8 +698,6 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 		const sf::Vector2f texture_size(texture_w, texture_h);
 		_rtexture.create(texture_size.x, texture_size.y);
 
-		auto adjustment{_system->resources->fonts[component.font].getLineSpacing(4)};
-
 		// Bounds are generated for each menu item to handle mouse over
 		_texts.clear();
 		_options.clear();
@@ -734,7 +730,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 				if (selected == current) {
 					const sf::FloatRect bg_rect{text.getLocalBounds()};
 					sf::RectangleShape bg(sf::Vector2f(component.w * _display->window->get_cw(), bg_rect.height));
-					bg.setPosition(0, entry_y - text.getLocalBounds().height / 2.0f + adjustment);
+					bg.setPosition(0, entry_y);
 					if (component.animated)
 						bg.setFillColor(_graphics->animation->selected_colour);
 					else
@@ -751,30 +747,22 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 				if ((_type == OPTIONS) || (_type == ALLOCATE_CHARACTER_ATTRIBUTES)) {
 					if (item.type == ENTRY) {
 						if (component.justification == Justification::CENTRE)
-							text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
-						else
-							text.setOrigin(0, text.getLocalBounds().height / 2.0f);
+							text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
 					} else if ((item.type == SAVE) || (item.type == CANCEL)) {
 						entry_x = (component.width * _display->window->get_cw()) / 2;
 						text.setPosition(entry_x, entry_y);
-						text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+						text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
 					}
 				} else if (_type == TEMPLE) {
 
 					// Override Justification for Invalid Characters so that it looks better
-					if (item.item == MenuItem::IC_CHARACTER) {
-						text.setOrigin(0, text.getLocalBounds().height / 2.0f);
-					} else {
-						if (component.justification == Justification::CENTRE)
-							text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
-						else
-							text.setOrigin(0, text.getLocalBounds().height / 2.0f);
-					}
+					if (item.item == MenuItem::IC_CHARACTER)
+						text.setOrigin(0, 0);
+					else if (component.justification == Justification::CENTRE)
+						text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
 				} else {
 					if (component.justification == Justification::CENTRE)
-						text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
-					else
-						text.setOrigin(0, text.getLocalBounds().height / 2.0f);
+						text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
 				}
 
 				_texts.emplace_back(text);
@@ -804,7 +792,6 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 						option_text.setString((*_display->string)[on_c.string_key]);
 						sf::FloatRect bounds{option_text.getLocalBounds()};
 						option_text.setPosition(option_x - bounds.width, option_y);
-						option_text.setOrigin(0, option_text.getLocalBounds().height / 2.0f);
 					} else {
 
 						// Off
@@ -814,7 +801,6 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 						option_text.setString((*_display->string)[off_c.string_key]);
 						sf::FloatRect bounds{option_text.getLocalBounds()};
 						option_text.setPosition(option_x - bounds.width, option_y);
-						option_text.setOrigin(0, option_text.getLocalBounds().height / 2.0f);
 					}
 
 					if (selected == current) {
@@ -832,9 +818,9 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 			}
 			++index;
 		}
-	} else {
+	}
 
-		auto adjustment{_system->resources->fonts[component.font].getLineSpacing(4)};
+	else {
 
 		// Only change what needs to be changed
 		auto entry_y{0};
@@ -851,7 +837,6 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 				if (selected == current) {
 					const sf::FloatRect bg_rect{_texts.at(index).getLocalBounds()};
 					sf::RectangleShape bg(sf::Vector2f(component.w * _display->window->get_cw(), bg_rect.height));
-					bg.setPosition(0, entry_y - _texts.at(index).getLocalBounds().height / 2.0f + adjustment);
 					if (component.animated)
 						bg.setFillColor(_graphics->animation->selected_colour);
 					else
@@ -877,8 +862,6 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 						_options.at(options_index).setString((*_display->string)[on_c.string_key]);
 						sf::FloatRect bounds{_options.at(options_index).getLocalBounds()};
 						_options.at(options_index).setPosition(option_x - bounds.width, option_y);
-						_options.at(options_index)
-							.setOrigin(0, _options.at(options_index).getLocalBounds().height / 2.0f);
 						_options.at(options_index).setFillColor(sf::Color(on_c.colour));
 					} else {
 
@@ -886,9 +869,6 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 						_options.at(options_index).setString((*_display->string)[off_c.string_key]);
 						sf::FloatRect bounds{_options.at(options_index).getLocalBounds()};
 						_options.at(options_index).setPosition(option_x - bounds.width, option_y);
-						_options.at(options_index)
-							.setOrigin(0, _options.at(options_index).getLocalBounds().height / 2.0f);
-
 						_options.at(options_index).setFillColor(sf::Color(off_c.colour));
 					}
 

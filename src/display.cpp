@@ -213,21 +213,16 @@ auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, s
 
 				if (component.justification == Justification::CENTRE) {
 					text.setPosition(x + offset_x, y + offset_y);
-					text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+					text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
 				} else if (component.justification == Justification::RIGHT) {
 					text.setPosition(x + offset_x, y + offset_y);
 					const sf::FloatRect bounds{text.getLocalBounds()};
 					text.setPosition(component.x - bounds.width, component.y);
-				} else {
+				} else
 					text.setPosition(x + offset_x, y + offset_y);
-					text.setOrigin(0, text.getLocalBounds().height / 2.0f);
-				}
 
 				// Add the image to the components ready to draw
 				texts[component.unique_key] = text;
-			} else if (component.type == ComponentType::MENU) {
-
-				// Don't do this here - they are all manually displayed
 			}
 		}
 	}

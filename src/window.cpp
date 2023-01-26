@@ -141,12 +141,8 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, con
 		text.setPosition(x, y);
 		const sf::FloatRect bounds{text.getLocalBounds()};
 		text.setPosition(component.x - bounds.width, component.y);
-		// TODO: Right doesn't put it down for some reason?
-		// text.setOrigin(0, text.getLocalBounds().height / 2.0f);
-	} else {
+	} else
 		text.setPosition(x, y);
-		text.setOrigin(0, text.getLocalBounds().height / 2.0f);
-	}
 
 	// Handle varying height of proportional fonts
 	if (component.font == FontType::PROPORTIONAL)
@@ -172,12 +168,8 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, con
 		text.setPosition(x, y);
 		const sf::FloatRect bounds{text.getLocalBounds()};
 		text.setPosition(component.x - bounds.width, component.y);
-		// TODO: Right doesn't put it down for some reason?
-		// text.setOrigin(0, text.getLocalBounds().height / 2.0f);
-	} else {
+	} else
 		text.setPosition(x, y);
-		text.setOrigin(0, text.getLocalBounds().height / 2.0f);
-	}
 
 	// Handle varying height of proportional fonts
 	if (component.font == FontType::PROPORTIONAL)
@@ -237,12 +229,8 @@ auto Sorcery::Window::_draw_text(
 		text.setPosition(x, y);
 		const sf::FloatRect bounds{text.getLocalBounds()};
 		text.setPosition(component.x - bounds.width, component.y);
-		// TODO: Right doesn't put it down for some reason?
-		// text.setOrigin(0, text.getLocalBounds().height / 2.0f);
-	} else {
+	} else
 		text.setPosition(x, y);
-		text.setOrigin(0, text.getLocalBounds().height / 2.0f);
-	}
 
 	// Handle varying height of proportional fonts
 	if (component.font == FontType::PROPORTIONAL)
@@ -255,7 +243,7 @@ auto Sorcery::Window::_draw_text(
 auto Sorcery::Window::get_cursor() const -> sf::Sprite {
 
 	sf::Sprite cursor(_system->resources->textures[GraphicsTexture::UI]);
-	const sf::IntRect cursor_rect(0, 50, 50, 90);
+	const sf::IntRect cursor_rect(0, 50, 40, 40);
 	cursor.setTextureRect(cursor_rect);
 	return cursor;
 }
