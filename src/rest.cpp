@@ -41,14 +41,14 @@ Sorcery::Rest::Rest(System *system, Display *display, Graphics *graphics, Game *
 	_level_text = sf::Text();
 
 	Component _smf_c{(*_display->layout)["rest:stop_frame"]};
-	_stop_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _smf_c.w, _smf_c.h,
-		_smf_c.colour, _smf_c.background, _smf_c.alpha);
+	_stop_frame = std::make_unique<Frame>(
+		_display->ui_texture, _smf_c.w, _smf_c.h, _smf_c.colour, _smf_c.background, _smf_c.alpha);
 	_stop_frame->setPosition(
 		_display->window->get_x(_stop_frame->sprite, _smf_c.x), _display->window->get_y(_stop_frame->sprite, _smf_c.y));
 
 	Component _cmf_c{(*_display->layout)["rest:continue_frame"]};
-	_continue_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _cmf_c.w, _cmf_c.h,
-		_cmf_c.colour, _cmf_c.background, _cmf_c.alpha);
+	_continue_frame = std::make_unique<Frame>(
+		_display->ui_texture, _cmf_c.w, _cmf_c.h, _cmf_c.colour, _cmf_c.background, _cmf_c.alpha);
 	_continue_frame->setPosition(_display->window->get_x(_continue_frame->sprite, _cmf_c.x),
 		_display->window->get_y(_continue_frame->sprite, _cmf_c.y));
 

@@ -109,8 +109,8 @@ auto Sorcery::Confirm::toggle_highlighted() -> WindowConfirm {
 auto Sorcery::Confirm::draw(const double lerp) -> void {
 
 	// Generate back frame
-	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _gui_c.w, _strings.size() + 5,
-		_gui_c.colour, _gui_c.background, _gui_c.alpha);
+	_frame = std::make_unique<Frame>(
+		_display->ui_texture, _gui_c.w, _strings.size() + 5, _gui_c.colour, _gui_c.background, _gui_c.alpha);
 	_frame->setPosition(
 		_display->window->get_x(_frame->sprite, _gui_c.x), _display->window->get_y(_frame->sprite, _gui_c.y));
 	_window->draw(*_frame);

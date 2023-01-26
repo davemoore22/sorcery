@@ -99,7 +99,6 @@ inline constexpr auto EVENTS_TEXTURE{"events.png"sv};
 inline constexpr auto FLOORS_TEXTURE{"floors.png"sv};
 inline constexpr auto ICONS_TEXTURE{"icons.png"sv};
 inline constexpr auto LOGO_TEXTURE{"logo.png"sv};
-inline constexpr auto NINEPATCH_TEXTURE{"ninepatch.png"sv};
 inline constexpr auto PORTRAITS_TEXTURE{"potraits.png"sv};
 inline constexpr auto SPLASH_TEXTURE{"splash.png"sv};
 inline constexpr auto TOWN_TEXTURE{"town.png"sv};

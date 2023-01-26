@@ -74,14 +74,14 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 	_bg.setPosition(_display->window->get_x(_bg, bg_c.x), _display->window->get_y(_bg, bg_c.y));
 
 	const Component menu_fc{(*_display->layout)["character_edit:menu_frame"]};
-	_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, menu_fc.w, menu_fc.h,
-		menu_fc.colour, menu_fc.background, menu_fc.alpha);
+	_menu_frame = std::make_unique<Frame>(
+		_display->ui_texture, menu_fc.w, menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
 	_menu_frame->setPosition(_display->window->get_x(_menu_frame->sprite, menu_fc.x),
 		_display->window->get_y(_menu_frame->sprite, menu_fc.y));
 
 	const Component p_fc{(*_display->layout)["roster:preview_frame"]};
-	_preview_frame = std::make_unique<Frame>(
-		_display->ui_texture, WindowFrameType::NORMAL, p_fc.w, p_fc.h, p_fc.colour, p_fc.background, p_fc.alpha);
+	_preview_frame =
+		std::make_unique<Frame>(_display->ui_texture, p_fc.w, p_fc.h, p_fc.colour, p_fc.background, p_fc.alpha);
 	_preview_frame->setPosition(_display->window->get_x(_preview_frame->sprite, p_fc.x),
 		_display->window->get_y(_preview_frame->sprite, p_fc.y));
 

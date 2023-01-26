@@ -34,7 +34,7 @@ Sorcery::Graveyard::Graveyard(System *system, Display *display, Graphics *graphi
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::GRAVEYARD);
 
 	const Component menu_fc{(*_display->layout)["graveyard:menu_frame"]};
-	_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, menu_fc.w, menu_fc.h,
+	_menu_frame = std::make_unique<Frame>(_display->ui_texture, menu_fc.w, menu_fc.h,
 		menu_fc.colour, menu_fc.background, menu_fc.alpha);
 
 	_sprites.clear();

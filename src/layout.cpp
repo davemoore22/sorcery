@@ -352,8 +352,6 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 									return GraphicsTexture::CREATURES_KNOWN;
 								else if (components[j]["texture"].asString() == "logo")
 									return GraphicsTexture::LOGO;
-								else if (components[j]["texture"].asString() == "ninepatch")
-									return GraphicsTexture::NINEPATCH;
 								else if (components[j]["texture"].asString() == "splash")
 									return GraphicsTexture::SPLASH;
 								else if (components[j]["texture"].asString() == "town")

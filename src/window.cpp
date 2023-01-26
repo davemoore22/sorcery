@@ -255,7 +255,7 @@ auto Sorcery::Window::_draw_text(
 auto Sorcery::Window::get_cursor() const -> sf::Sprite {
 
 	sf::Sprite cursor(_system->resources->textures[GraphicsTexture::UI]);
-	const sf::IntRect cursor_rect(710, 310, 21, 28);
+	const sf::IntRect cursor_rect(0, 50, 50, 90);
 	cursor.setTextureRect(cursor_rect);
 	return cursor;
 }

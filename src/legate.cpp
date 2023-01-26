@@ -44,8 +44,8 @@ Sorcery::Legate::Legate(System *system, Display *display, Graphics *graphics, Ch
 
 	// Frame
 	const Component menu_fc{(*_display->layout)["legate:menu_frame"]};
-	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, menu_fc.w, menu_fc.h,
-		menu_fc.colour, menu_fc.background, menu_fc.alpha);
+	_frame = std::make_unique<Frame>(
+		_display->ui_texture, menu_fc.w, menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
 	_frame->setPosition(
 		_display->window->get_x(_frame->sprite, menu_fc.x), _display->window->get_y(_frame->sprite, menu_fc.y));
 

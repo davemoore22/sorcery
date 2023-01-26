@@ -211,12 +211,6 @@ namespace Enums::Window {
 		CENTRE
 	};
 
-	enum class FrameType {
-		NO_TYPE,
-		HINT,
-		NORMAL
-	};
-
 	enum class FrameParts {
 		NO_PART = -1,
 		TOP_LEFT = 0,
@@ -252,7 +246,6 @@ namespace Enums::Graphics {
 		FLOORS,
 		ICONS,
 		LOGO,
-		NINEPATCH,
 		PORTRAITS,
 		SPLASH,
 		TOWN,

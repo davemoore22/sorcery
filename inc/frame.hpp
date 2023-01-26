@@ -43,12 +43,11 @@ class Frame: public sf::Transformable, public sf::Drawable {
 	public:
 
 		// Constructors
-		Frame(System *system, WindowFrameType type);
-		Frame(System *system, Display *display, WindowFrameType type, const Component layout);
+		Frame(System *system);
+		Frame(System *system, Display *display, const Component layout);
 
-		Frame(sf::Texture texture, WindowFrameType _type, const unsigned int width_units,
-			const unsigned int height_units, const unsigned long long colour, const unsigned long long bg_colour,
-			const unsigned int alpha);
+		Frame(sf::Texture texture, const unsigned int width_units, const unsigned int height_units,
+			const unsigned long long colour, const unsigned long long bg_colour, const unsigned int alpha);
 		Frame() = delete;
 
 		// Public Members
@@ -74,7 +73,6 @@ class Frame: public sf::Transformable, public sf::Drawable {
 		sf::Texture _frame_texture;
 		sf::Texture _bg_texture;
 
-		WindowFrameType _type;
 		Component _layout;
 
 		unsigned int _width_units;

@@ -97,8 +97,8 @@ auto Sorcery::Message::update(TileNote tile_note) -> void {
 	frame_h += 2;
 
 	// Add the standard components - first the frame
-	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _frame_c.w, frame_h,
-		_frame_c.colour, _frame_c.background, _frame_c.alpha);
+	_frame = std::make_unique<Frame>(
+		_display->ui_texture, _frame_c.w, frame_h, _frame_c.colour, _frame_c.background, _frame_c.alpha);
 	_frame->setPosition(0, 0);
 
 	// Then the strings

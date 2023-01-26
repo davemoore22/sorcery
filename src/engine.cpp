@@ -208,43 +208,43 @@ auto Sorcery::Engine::_initalise_components() -> void {
 	// Setup Custom Components
 	_camp_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CAMP);
 	const Component menu_fc{(*_display->layout)["engine_base_ui:camp_menu_frame"]};
-	_camp_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, menu_fc.w, menu_fc.h,
-		menu_fc.colour, menu_fc.background, menu_fc.alpha);
+	_camp_menu_frame = std::make_unique<Frame>(
+		_display->ui_texture, menu_fc.w, menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
 	_camp_menu_frame->setPosition(_display->window->get_x(_camp_menu_frame->sprite, menu_fc.x),
 		_display->window->get_y(_camp_menu_frame->sprite, menu_fc.y));
 
 	_search_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::SEARCH);
 	const Component search_fc{(*_display->layout)["engine_base_ui:search_menu_frame"]};
-	_search_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, search_fc.w,
-		search_fc.h, search_fc.colour, search_fc.background, search_fc.alpha);
+	_search_menu_frame = std::make_unique<Frame>(
+		_display->ui_texture, search_fc.w, search_fc.h, search_fc.colour, search_fc.background, search_fc.alpha);
 	_search_menu_frame->setPosition(_display->window->get_x(_search_menu_frame->sprite, search_fc.x),
 		_display->window->get_y(_search_menu_frame->sprite, search_fc.y));
 
 	_get_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CHARACTERS_HERE);
 	const Component get_fc{(*_display->layout)["engine_base_ui:get_menu_frame"]};
-	_get_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, get_fc.w, get_fc.h,
-		get_fc.colour, get_fc.background, get_fc.alpha);
+	_get_menu_frame = std::make_unique<Frame>(
+		_display->ui_texture, get_fc.w, get_fc.h, get_fc.colour, get_fc.background, get_fc.alpha);
 	_get_menu_frame->setPosition(_display->window->get_x(_get_menu_frame->sprite, get_fc.x),
 		_display->window->get_y(_get_menu_frame->sprite, get_fc.y));
 
 	_action_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::ACTION);
 	const Component action_fc{(*_display->layout)["engine_base_ui:action_menu_frame"]};
-	_action_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, action_fc.w,
-		action_fc.h, action_fc.colour, action_fc.background, action_fc.alpha);
+	_action_menu_frame = std::make_unique<Frame>(
+		_display->ui_texture, action_fc.w, action_fc.h, action_fc.colour, action_fc.background, action_fc.alpha);
 	_action_menu_frame->setPosition(_display->window->get_x(_action_menu_frame->sprite, action_fc.x),
 		_display->window->get_y(_action_menu_frame->sprite, action_fc.y));
 
 	_elevator_a_d_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::ELEVATOR_A_D);
 	const Component elevator_a_d_fc{(*_display->layout)["engine_base_ui:elevator_a_d_menu_frame"]};
-	_elevator_a_d_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, elevator_a_d_fc.w,
-		elevator_a_d_fc.h, elevator_a_d_fc.colour, elevator_a_d_fc.background, elevator_a_d_fc.alpha);
+	_elevator_a_d_menu_frame = std::make_unique<Frame>(_display->ui_texture, elevator_a_d_fc.w, elevator_a_d_fc.h,
+		elevator_a_d_fc.colour, elevator_a_d_fc.background, elevator_a_d_fc.alpha);
 	_elevator_a_d_menu_frame->setPosition(_display->window->get_x(_elevator_a_d_menu_frame->sprite, elevator_a_d_fc.x),
 		_display->window->get_y(_elevator_a_d_menu_frame->sprite, elevator_a_d_fc.y));
 
 	_elevator_a_f_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::ELEVATOR_A_F);
 	const Component elevator_a_f_fc{(*_display->layout)["engine_base_ui:elevator_a_f_menu_frame"]};
-	_elevator_a_f_menu_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, elevator_a_f_fc.w,
-		elevator_a_f_fc.h, elevator_a_f_fc.colour, elevator_a_f_fc.background, elevator_a_f_fc.alpha);
+	_elevator_a_f_menu_frame = std::make_unique<Frame>(_display->ui_texture, elevator_a_f_fc.w, elevator_a_f_fc.h,
+		elevator_a_f_fc.colour, elevator_a_f_fc.background, elevator_a_f_fc.alpha);
 	_elevator_a_f_menu_frame->setPosition(_display->window->get_x(_elevator_a_f_menu_frame->sprite, elevator_a_f_fc.x),
 		_display->window->get_y(_elevator_a_f_menu_frame->sprite, elevator_a_f_fc.y));
 
@@ -372,8 +372,8 @@ auto Sorcery::Engine::_place_components() -> void {
 	_tile_note->setPosition(t_n_c.x, t_n_c.y);
 
 	const Component cc_fc{(*_display->layout)["engine_base_ui:character_frame"]};
-	_cur_char_frame = std::make_unique<Frame>(
-		_display->ui_texture, WindowFrameType::NORMAL, cc_fc.w, cc_fc.h, cc_fc.colour, cc_fc.background, cc_fc.alpha);
+	_cur_char_frame =
+		std::make_unique<Frame>(_display->ui_texture, cc_fc.w, cc_fc.h, cc_fc.colour, cc_fc.background, cc_fc.alpha);
 	_cur_char_frame->setPosition(_display->window->get_x(_cur_char_frame->sprite, cc_fc.x),
 		_display->window->get_y(_cur_char_frame->sprite, cc_fc.y));
 }

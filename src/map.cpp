@@ -35,8 +35,8 @@ Sorcery::Map::Map(System *system, Display *display, Graphics *graphics, Game *ga
 		_outside_frame.reset();
 	}
 
-	_outside_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _layout.w, _layout.h,
-		_layout.colour, _layout.background, _layout.alpha);
+	_outside_frame = std::make_unique<Frame>(
+		_display->ui_texture, _layout.w, _layout.h, _layout.colour, _layout.background, _layout.alpha);
 	auto f_sprite{_outside_frame->sprite};
 	f_sprite.setPosition(0, 0);
 	_sprites.emplace_back(f_sprite);

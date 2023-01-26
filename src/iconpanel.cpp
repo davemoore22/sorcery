@@ -37,8 +37,8 @@ Sorcery::IconPanel::IconPanel(
 		_frame.release();
 		_frame.reset();
 	}
-	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _layout.w, _layout.h,
-		_layout.colour, _layout.background, _layout.alpha);
+	_frame = std::make_unique<Frame>(
+		_display->ui_texture, _layout.w, _layout.h, _layout.colour, _layout.background, _layout.alpha);
 	auto fsprite{_frame->sprite};
 	fsprite.setPosition(0, 0);
 	_sprites.emplace_back(fsprite);

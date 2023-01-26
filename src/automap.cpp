@@ -41,13 +41,13 @@ Sorcery::AutoMap::AutoMap(System *system, Display *display, Graphics *graphics, 
 		_bottom_frame.release();
 		_bottom_frame.reset();
 	}
-	_top_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _layout.w, _layout.h,
-		_layout.colour, _layout.background, _layout.alpha);
+	_top_frame = std::make_unique<Frame>(
+		_display->ui_texture, _layout.w, _layout.h, _layout.colour, _layout.background, _layout.alpha);
 	auto cfh{std::stoi(_layout["coordinates_frame_h"].value())};
 	auto cfy{std::stoi(_layout["coordinates_frame_y"].value())};
 
-	_bottom_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, _layout.w, cfh,
-		_layout.colour, _layout.background, _layout.alpha);
+	_bottom_frame = std::make_unique<Frame>(
+		_display->ui_texture, _layout.w, cfh, _layout.colour, _layout.background, _layout.alpha);
 	auto t_sprite{_top_frame->sprite};
 	auto b_sprite{_bottom_frame->sprite};
 	t_sprite.setPosition(0, 0);

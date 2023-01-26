@@ -226,7 +226,7 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 		_frame.release();
 		_frame.reset();
 	}
-	_frame = std::make_unique<Frame>(_display->ui_texture, WindowFrameType::NORMAL, frame_c.w,
+	_frame = std::make_unique<Frame>(_display->ui_texture, frame_c.w,
 		(count + std::stoi(frame_c["padding_y"].value())) * std::stof(frame_c["scale_y"].value()), frame_c.colour,
 		frame_c.background, frame_c.alpha);
 	auto fsprite{_frame->sprite};
