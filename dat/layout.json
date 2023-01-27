@@ -482,7 +482,7 @@
 		{
 			"name": "subtitle_2",
 			"x": "centre",
-			"y": "29",
+			"y": "30",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "32",
@@ -494,7 +494,7 @@
 		{
 			"name": "copyright",
 			"x": "centre",
-			"y": "31",
+			"y": "32",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "32",
@@ -506,7 +506,7 @@
 		{
 			"name": "press_any_key",
 			"x": "centre",
-			"y": "33",
+			"y": "35",
 			"font": "monospace",
 			"colour": "0x999999ff",
 			"size": "32",
@@ -541,7 +541,7 @@
 			"w": "40",
 			"type": "dialog",
 			"drawmode": "manual",
-			"alpha": "255",
+			"alpha": "200",
 			"background": " 0x000000ff"
 		},
 		{
@@ -562,7 +562,7 @@
 			"w": "40",
 			"type": "dialog",
 			"drawmode": "manual",
-			"alpha": "255",
+			"alpha": "200",
 			"background": " 0x000000ff"
 		},
 		{
@@ -583,8 +583,8 @@
 		"component": [
 		{
 			"name": "frame",
-			"w": "50",
-			"h": "38",
+			"w": "38",
+			"h": "27",
 			"x": "centre",
 			"y": "2",
 			"alpha": "255",
@@ -622,7 +622,7 @@
 			"size": "26",
 			"x": "15",
 			"y": "5",
-			"h": "27",
+			"h": "21",
 			"type": "text",
 			"priority": "4",
 			"drawmode": "manual"
@@ -633,7 +633,7 @@
 			"colour": "0xaaaaaaff",
 			"size": "32",
 			"x": "65",
-			"y": "32",
+			"y": "34",
 			"justification": "right",
 			"type": "text",
 			"priority": "5",
@@ -646,8 +646,8 @@
 		"component": [
 		{
 			"name": "frame",
-			"w": "50",
-			"h": "38",
+			"w": "38",
+			"h": "27",
 			"x": "centre",
 			"y": "2",
 			"alpha": "255",
@@ -680,15 +680,15 @@
 		},
 		{
 			"name": "menu",
-			"x": "16",
-			"y": "4",
-			"w": "48",
+			"x": "11",
+			"y": "5",
+			"w": "36",
 			"h": "20",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "32",
 			"animated": "true",
-			"width": 48,
+			"width": "36",
 			"background": " 0xff0000ff",
 			"justification": "left",
 			"type": "menu",
@@ -697,7 +697,7 @@
 		},
 		{
 			"name": "on",
-			"font": "text",
+			"font": "monospace",
 			"colour": "0x3fff3fff",
 			"size": "32",
 			"justification": "right",
@@ -707,7 +707,7 @@
 		},
 		{
 			"name": "off",
-			"font": "text",
+			"font": "monospace",
 			"colour": "0xff3f3fff",
 			"size": "32",
 			"justification": "right",
@@ -717,8 +717,8 @@
 		},
 		{
 			"name": "dialog_confirm_save",
-			"x": "31",
-			"y": "13",
+			"x": "centre",
+			"y": "centre",
 			"w": "16",
 			"type": "dialog",
 			"drawmode": "manual",
@@ -738,8 +738,8 @@
 		},
 		{
 			"name": "dialog_confirm_cancel",
-			"x": "31",
-			"y": "13",
+			"x": "centre",
+			"y": "centre",
 			"w": "16",
 			"type": "dialog",
 			"drawmode": "manual",
@@ -759,8 +759,8 @@
 		},
 		{
 			"name": "dialog_confirm_strict_on",
-			"x": "19",
-			"y": "13",
+			"x": "centre",
+			"y": "centre",
 			"w": "40",
 			"type": "dialog",
 			"drawmode": "manual",
@@ -781,9 +781,9 @@
 		{
 			"name": "explanation_frame",
 			"w": "40",
-			"h": "6",
+			"h": "8",
 			"x": "centre",
-			"y": "29",
+			"y": "27",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
@@ -793,8 +793,8 @@
 		{
 			"name": "info_panel",
 			"w": "38",
-			"h": "4",
-			"x": "20",
+			"h": "6",
+			"x": "10",
 			"y": "29",
 			"alpha": "255",
 			"type": "panel",
@@ -808,8 +808,8 @@
 		"component": [
 		{
 			"name": "frame",
-			"w": "50",
-			"h": "38",
+			"w": "38",
+			"h": "27",
 			"x": "centre",
 			"y": "2",
 			"alpha": "255",

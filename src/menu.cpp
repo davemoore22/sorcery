@@ -257,32 +257,17 @@ Sorcery::Menu::Menu(
 			ConfigOption::CHEAT_MODE, (*_display->string)["HINT_CONFIG_CHEAT_MODE"]);
 		_add_item(3, MenuItemType::ENTRY, MenuItem::OP_AUTO_SAVE, (*_display->string)["CONFIG_AUTO_SAVE"], true,
 			ConfigOption::AUTO_SAVE, (*_display->string)["HINT_CONFIG_AUTO_SAVE"]);
-		_add_item(4, MenuItemType::ENTRY, MenuItem::OP_DICE_ROLLS, (*_display->string)["CONFIG_DICE_ROLLS"], true,
-			ConfigOption::DICE_ROLLS, (*_display->string)["HINT_CONFIG_DICE_ROLLS"]);
 		_add_item(5, MenuItemType::ENTRY, MenuItem::OP_ALLOW_MIXED_ALIGNMENT_PARTY,
 			(*_display->string)["GAME_ALLOW_MIXED_ALIGNMENT"], true, ConfigOption::ALLOW_MIXED_ALIGNMENT_PARTY,
 			(*_display->string)["HINT_GAME_ALLOW_MIXED_ALIGNMENT"]);
 		_add_item(6, MenuItemType::ENTRY, MenuItem::OP_STAT_LOSS_ON_LEVEL_UP,
 			(*_display->string)["GAME_STAT_LOSS_LEVEL_GAIN"], true, ConfigOption::STAT_LOSS_ON_LEVEL_UP,
 			(*_display->string)["HINT_GAME_STAT_LOSS_LEVEL_GAIN"]);
-		_add_item(7, MenuItemType::ENTRY, MenuItem::OP_REROLL_HIT_POINTS_ON_LEVEL_GAIN,
-			(*_display->string)["GAME_REROLL_HIT_POINTS"], true, ConfigOption::REROLL_HIT_POINTS_ON_LEVEL_GAIN,
-			(*_display->string)["HINT_GAME_REROLL_HIT_POINTS"]);
 		_add_item(8, MenuItemType::ENTRY, MenuItem::OP_STAT_RESET_ON_CLASS_CHANGE,
 			(*_display->string)["GAME_STAT_RESET_CLASS_CHANGE"], true, ConfigOption::STAT_RESET_ON_CLASS_CHANGE,
 			(*_display->string)["HINT_GAME_STAT_RESET_CLASS_CHANGE"]);
-		_add_item(9, MenuItemType::ENTRY, MenuItem::OP_AGING_ON_CLASS_CHANGE,
-			(*_display->string)["GAME_AGING_CLASS_CHANGE"], true, ConfigOption::AGING_ON_CLASS_CHANGE,
-			(*_display->string)["HINT_GAME_AGING_CLASS_CHANGE"]);
 		_add_item(10, MenuItemType::ENTRY, MenuItem::OP_PROTECT_TELEPORT, (*_display->string)["GAME_PROTECT_TELEPORT"],
 			true, ConfigOption::PROTECT_TELEPORT, (*_display->string)["HINT_GAME_PROTECT_TELEPORT"]);
-		_add_item(11, MenuItemType::ENTRY, MenuItem::OP_ALLOW_RANGED_WEAPONS,
-			(*_display->string)["GAME_ALLOW_RANGED_WEAPONS"], true, ConfigOption::ALLOW_RANGED_WEAPONS,
-			(*_display->string)["HINT_GAME_ALLOW_RANGED_WEAPONS"]);
-		_add_item(12, MenuItemType::ENTRY, MenuItem::OP_SPELLCASTING_IN_SURPRISE_ROUND,
-			(*_display->string)["GAME_SPELL_CASTING_SURPRISE_ROUND"], true,
-			ConfigOption::SPELLCASTING_IN_SURPRISE_ROUND,
-			(*_display->string)["HINT_GAME_SPELL_CASTING_SURPRISE_ROUND"]);
 		_add_item(13, MenuItemType::ENTRY, MenuItem::OP_BATCH_HEALING_AFTER_RETURN_TO_CASTLE,
 			(*_display->string)["GAME_BATCH_HEALING_AFTER_RETURN"], true,
 			ConfigOption::BATCH_HEALING_AFTER_RETURN_TO_CASTLE,
@@ -297,14 +282,6 @@ Sorcery::Menu::Menu(
 		_add_item(16, MenuItemType::ENTRY, MenuItem::OP_ALLOW_CURABLE_DRAIN,
 			(*_display->string)["GAME_ALLOW_CURABLE_DRAIN"], true, ConfigOption::ALLOW_CURABLE_DRAIN,
 			(*_display->string)["HINT_GAME_ALLOW_CURABLE_DRAIN"]);
-
-		_add_item(17, MenuItemType::ENTRY, MenuItem::OP_ALLOW_SHARED_INVENTORY,
-			(*_display->string)["GAME_ALLOW_SHARED_INVENTORY"], true, ConfigOption::ALLOW_SHARED_INVENTORY,
-			(*_display->string)["HINT_GAME_ALLOW_SHARED_INVENTORY"]);
-
-		_add_item(18, MenuItemType::ENTRY, MenuItem::OP_CAMPING_RESTORE_SPELL_POINTS,
-			(*_display->string)["GAME_CAMPING_SPELL_POINTS"], true, ConfigOption::CAMPING_RESTORE_SPELL_POINTS,
-			(*_display->string)["HINT_GAME_CAMPING_SPELL_POINTS"]);
 
 		_add_item(19, MenuItemType::ENTRY, MenuItem::OP_CHARGED_ITEMS, (*_display->string)["GAME_CHARGED_ITEMS"], true,
 			ConfigOption::CHARGED_ITEMS, (*_display->string)["HINT_GAME_CHARGED_ITEMS"]);
@@ -703,7 +680,11 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 				// If we have a selected entry, change the background colour
 				if (selected == current) {
 					const sf::FloatRect bg_rect{text.getGlobalBounds()};
-					sf::RectangleShape bg(sf::Vector2f(component.w * _display->window->get_cw(), bg_rect.height));
+
+					// See
+					// https://stackoverflow.com/questions/14505571/centering-text-on-the-screen-with-sfml/15253837#15253837
+					sf::RectangleShape bg(sf::Vector2f(component.w * _display->window->get_cw(),
+						_system->resources->get_font_height(component.font, component.size)));
 					bg.setPosition(0, entry_y);
 					if (component.animated)
 						bg.setFillColor(_graphics->animation->selected_colour);

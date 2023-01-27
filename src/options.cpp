@@ -43,18 +43,17 @@ Sorcery::Options::Options(System *system, Display *display, Graphics *graphics)
 	_confirm_save =
 		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["options:dialog_confirm_save"],
 			(*_display->layout)["options:dialog_confirm_save_text"], WindowDialogType::CONFIRM);
-	_confirm_save->setPosition(
-		(*_display->layout)["options:dialog_confirm_save"].x, (*_display->layout)["options:dialog_confirm_save"].y);
+	_confirm_save->setPosition(_display->get_centre_pos(_confirm_save->get_size()));
+
 	_confirm_cancel =
 		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["options:dialog_confirm_cancel"],
 			(*_display->layout)["options:dialog_confirm_cancel_text"], WindowDialogType::CONFIRM);
-	_confirm_cancel->setPosition(
-		(*_display->layout)["options:dialog_confirm_cancel"].x, (*_display->layout)["options:dialog_confirm_cancel"].y);
+	_confirm_cancel->setPosition(_display->get_centre_pos(_confirm_cancel->get_size()));
+
 	_confirm_strict =
 		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["options:dialog_confirm_strict_on"],
 			(*_display->layout)["options:dialog_confirm_strict_on_text"], WindowDialogType::CONFIRM);
-	_confirm_strict->setPosition((*_display->layout)["options:dialog_confirm_strict_on"].x,
-		(*_display->layout)["options:dialog_confirm_strict_on"].y);
+	_confirm_strict->setPosition(_display->get_centre_pos(_confirm_strict->get_size()));
 }
 
 // Standard Destructor

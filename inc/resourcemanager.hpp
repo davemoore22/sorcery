@@ -44,6 +44,8 @@ class ResourceManager {
 		std::shared_ptr<TextFile> license_file;
 
 		// Public Methods
+		auto get_font_height(const FontType font_type, const unsigned int size, bool bold = false) const
+			-> unsigned int;
 
 	private:
 

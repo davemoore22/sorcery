@@ -63,3 +63,38 @@ Sorcery::ResourceManager::ResourceManager(File &files) : _files{files} {
 		std::cout << e.what() << std::endl;
 	}
 }
+
+auto Sorcery::ResourceManager::get_font_height(const FontType font_type, const unsigned int size, bool bold) const
+	-> unsigned int {
+
+	using enum Enums::Internal::FontType;
+
+	sf::Font font{};
+	switch (font_type) {
+	case INPUT:
+		font = fonts[INPUT];
+		break;
+	case MONOSPACE:
+		font = fonts[MONOSPACE];
+		break;
+	case PROPORTIONAL:
+		font = fonts[PROPORTIONAL];
+		break;
+	case TEXT:
+		font = fonts[TEXT];
+		break;
+	default:
+		return 0;
+	}
+
+	auto max_h{0u};
+	auto current_h{0u};
+	for (size_t char_index = 32; char_index < 128; ++char_index) {
+		current_h = font.getGlyph(char_index, size, bold).bounds.height;
+		if (current_h > max_h) {
+			max_h = current_h;
+		}
+	}
+
+	return max_h;
+}

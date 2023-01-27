@@ -62,7 +62,7 @@ auto Sorcery::License::start() -> int {
 	// And do the main loop
 	_display->set_input_mode(WindowInputMode::DISPLAY_TEXT_FILE);
 	sf::Event event{};
-	const auto lines_to_display{38u - 9u};
+	const auto lines_to_display{21U};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
 
