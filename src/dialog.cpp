@@ -135,7 +135,8 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 		text.setFont(_system->resources->fonts[_string_c.font]);
 		text.setCharacterSize(_string_c.size);
 		text.setFillColor(sf::Color(_string_c.colour));
-		std::transform(each_string.begin(), each_string.end(), each_string.begin(), ::toupper);
+		if (_display->get_upper())
+			std::transform(each_string.begin(), each_string.end(), each_string.begin(), ::toupper);
 		text.setString(each_string);
 
 		if (_string_c.justification == Justification::CENTRE) {

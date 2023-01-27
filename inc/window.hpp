@@ -69,6 +69,7 @@ class Window {
 		auto save_screen() -> void;
 		auto restore_screen() -> void;
 		auto set_bold(const bool value) -> void;
+		auto set_upper(const bool value) -> void;
 		auto get_centre_x(unsigned int width) const -> unsigned int;
 		auto get_centre_y(unsigned int height) const -> unsigned int;
 
@@ -117,6 +118,7 @@ class Window {
 		sf::Image _capture;
 		sf::Texture _texture;
 		bool _bold_text;
+		bool _upper_text;
 };
 
 }

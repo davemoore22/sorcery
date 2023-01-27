@@ -2663,7 +2663,8 @@ auto Sorcery::Character::get_summary() -> std::string {
 	using enum Enums::Character::Ability;
 
 	auto name{_name};
-	std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
+	if (_display->get_upper())
+		std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	return fmt::format("{:<15} L {:>2} {}-{} {}", name, _abilities.at(CURRENT_LEVEL),
 		get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3), get_race(_race).substr(0, 3));
 }
@@ -2673,7 +2674,8 @@ auto Sorcery::Character::get_summary_and_out() -> std::string {
 	using enum Enums::Character::Ability;
 
 	auto name{_name};
-	std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
+	if (_display->get_upper())
+		std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	auto location{[&] {
 		if (_location == CharacterLocation::MAZE)
 			return "  OUT";
@@ -2725,7 +2727,8 @@ auto Sorcery::Character::get_sb_text(const int position) -> std::string {
 	using enum Enums::Character::Ability;
 
 	auto name{_name};
-	std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
+	if (_display->get_upper())
+		std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	const std::string indicator{can_level() ? "*" : " "};
 	return fmt::format("{} {:<15} {:>2}{} {}-{} {:>3} {:>8} {:^7}", position, name, _abilities.at(CURRENT_LEVEL),
 		indicator, get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3),
@@ -2752,7 +2755,8 @@ auto Sorcery::Character::summary_text() -> std::string {
 	using enum Enums::Character::Stage;
 
 	auto name{_name};
-	std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
+	if (_display->get_upper())
+		std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	auto legacy{_legated ? " (D)" : ""};
 	switch (_current_stage) {
 	case CHOOSE_METHOD:
@@ -3413,7 +3417,8 @@ auto Sorcery::Character::_add_text(Component &component, std::string format, std
 	// Note that Format v8 needs the format string wrapped in fmt::runtime - this isn't available in < v8 - see
 	// https://github.com/fmtlib/fmt/issues/2438 - check FMT_VERSION version in fmt/core.h
 	auto formatted_value{fmt::format(fmt::runtime(format), value)};
-	std::transform(formatted_value.begin(), formatted_value.end(), formatted_value.begin(), ::toupper);
+	if (_display->get_upper())
+		std::transform(formatted_value.begin(), formatted_value.end(), formatted_value.begin(), ::toupper);
 	text.setFont(_system->resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));

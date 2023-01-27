@@ -2147,10 +2147,10 @@
 		"component": [
 			{
 				"name": "status_bar",
-				"w": "56",
-				"h": "9",
+				"w": "40",
+				"h": "8",
 				"x": "centre",
-				"y": "25",
+				"y": "27",
 				"alpha": "255",
 				"type": "other",
 				"drawmode": "manual",
@@ -2158,19 +2158,19 @@
 					{
 						"offset_x": "0",
 						"offset_y": "0",
-						"summary_x": "16",
-						"summary_y": "28",
+						"summary_x": "0",
+						"summary_y": "0",
 						"summary_offset_x": "0",
-						"summary_offset_y": "28"
+						"summary_offset_y": "0"
 
 					}
 				]
 			},
 			{
 				"name": "outer_frame",
-				"w": "54",
-				"h": "9",
-				"x": "1",
+				"w": "40",
+				"h": "8",
+				"x": "0",
 				"y": "0",
 				"alpha": "255",
 				"type": "frame",
@@ -2189,8 +2189,8 @@
 				"type": "text",
 				"data": [
 					{
-						"offset_x": "-4",
-						"offset_y": "-12"
+						"offset_x": "0",
+						"offset_y": "0"
 					}
 				]
 			},
@@ -2207,13 +2207,13 @@
 				"data": [
 					{
 						"offset_x": "0",
-						"offset_y": "-12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "character_legend_class",
-				"x": "26",
+				"x": "31",
 				"y": "1",
 				"font": "monospace",
 				"colour": "0xddddddff",
@@ -2223,14 +2223,14 @@
 				"type": "text",
 				"data": [
 					{
-						"offset_x": "-8",
-						"offset_y": "-12"
+						"offset_x": "0",
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "character_legend_level",
-				"x": "21",
+				"x": "27",
 				"y": "1",
 				"font": "monospace",
 				"colour": "0xddddddff",
@@ -2241,13 +2241,13 @@
 				"data": [
 					{
 						"offset_x": "0",
-						"offset_y": "-12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "character_legend_ac",
-				"x": "34",
+				"x": "43",
 				"y": "1",
 				"font": "monospace",
 				"colour": "0xddddddff",
@@ -2257,14 +2257,14 @@
 				"type": "text",
 				"data": [
 					{
-						"offset_x": "-0",
-						"offset_y": "-12"
+						"offset_x": "0",
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "character_legend_hp",
-				"x": "40",
+				"x": "47",
 				"y": "1",
 				"font": "monospace",
 				"colour": "0xddddddff",
@@ -2275,13 +2275,13 @@
 				"data": [
 					{
 						"offset_x": "0",
-						"offset_y": "-12"
+						"offset_y": "0"
 					}
 				]
 			},
 			{
 				"name": "character_legend_status",
-				"x": "47",
+				"x": "52",
 				"y": "1",
 				"font": "monospace",
 				"colour": "0xddddddff",
@@ -2292,7 +2292,7 @@
 				"data": [
 					{
 						"offset_x": "0",
-						"offset_y": "-12"
+						"offset_y": "0"
 					}
 				]
 			}
@@ -4113,8 +4113,8 @@
 		},
 		{
 			"name": "frame",
-			"w": "50",
-			"h": "29",
+			"w": "38",
+			"h": "20",
 			"x": "centre",
 			"y": "2",
 			"alpha": "0",
@@ -4125,7 +4125,7 @@
 		},
 		{
 			"name": "menu_frame",
-			"w": "36",
+			"w": "26",
 			"h": "7",
 			"x": "centre",
 			"y": "10",
@@ -4137,15 +4137,15 @@
 		},
 		{
 			"name": "menu",
-			"x": "22",
-			"y": "10",
-			"w": "36",
+			"x": "20",
+			"y": "11",
+			"w": "25",
 			"h": "5",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "32",
 			"animated": "true",
-			"width": "36",
+			"width": "25",
 			"background": " 0xff0000ff",
 			"justification": "centre",
 			"type": "menu",
@@ -4162,7 +4162,7 @@
 			"drawmode" : "automatic",
 			"data": [
 				{
-					"scale_x": "2.33",
+					"scale_x": "2.73",
 					"scale_y": "1.6",
 					"source_w": "440",
 					"source_h": "420",
@@ -4172,8 +4172,8 @@
 		},
 		{
 			"name": "dialog_leave_game",
-			"x": "19",
-			"y": "13",
+			"x": "centre",
+			"y": "centre",
 			"w": "40",
 			"type": "dialog",
 			"drawmode": "manual",
@@ -4232,8 +4232,8 @@
 		},
 		{
 			"name": "frame",
-			"w": "50",
-			"h": "29",
+			"w": "38",
+			"h": "20",
 			"x": "centre",
 			"y": "2",
 			"alpha": "0",
@@ -4244,7 +4244,7 @@
 		},
 		{
 			"name": "menu_frame",
-			"w": "36",
+			"w": "26",
 			"h": "7",
 			"x": "centre",
 			"y": "10",
@@ -4256,15 +4256,15 @@
 		},
 		{
 			"name": "menu",
-			"x": "22",
-			"y": "10",
-			"w": "36",
+			"x": "20",
+			"y": "11",
+			"w": "25",
 			"h": "5",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "32",
 			"animated": "true",
-			"width": "36",
+			"width": "25",
 			"background": " 0xff0000ff",
 			"justification": "centre",
 			"type": "menu",
@@ -4281,7 +4281,7 @@
 			"drawmode" : "automatic",
 			"data": [
 				{
-					"scale_x": "2.33",
+					"scale_x": "2.73",
 					"scale_y": "1.6",
 					"source_w": "440",
 					"source_h": "420",
@@ -4291,8 +4291,8 @@
 		},
 		{
 			"name": "dialog_leave_game",
-			"x": "19",
-			"y": "13",
+			"x": "centre",
+			"y": "centre",
 			"w": "40",
 			"type": "dialog",
 			"drawmode": "manual",

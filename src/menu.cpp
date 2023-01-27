@@ -670,7 +670,8 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 					text.setFillColor(sf::Color(component.colour));
 				else
 					text.setFillColor(sf::Color(0x606060ff));
-				std::transform(text_string.begin(), text_string.end(), text_string.begin(), ::toupper);
+				if (_display->get_upper())
+					std::transform(text_string.begin(), text_string.end(), text_string.begin(), ::toupper);
 				text.setString(text_string);
 
 				// Check for alignment and set location appropriately

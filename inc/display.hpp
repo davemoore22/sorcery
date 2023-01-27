@@ -78,6 +78,7 @@ class Display {
 		auto shutdown_SFML() -> void;
 		auto display_direction_indicator(MapDirection direction, bool monochrome) -> void;
 		auto get_bold() const -> bool;
+		auto get_upper() const -> bool;
 		auto get_centre_pos(const sf::Vector2f size) const -> sf::Vector2f;
 
 		// Public Members
@@ -100,6 +101,7 @@ class Display {
 		bool _show_overlay;
 		unsigned int _wallpaper_idx;
 		bool _bold_text;
+		bool _upper_text;
 
 		// Private Methods
 };

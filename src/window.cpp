@@ -158,6 +158,11 @@ auto Sorcery::Window::set_bold(const bool value) -> void {
 	_bold_text = value;
 }
 
+auto Sorcery::Window::set_upper(const bool value) -> void {
+
+	_upper_text = value;
+}
+
 auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, const std::string &string) -> void {
 
 	text.setFont(_system->resources->fonts[component.font]);

@@ -37,8 +37,7 @@ Sorcery::Castle::Castle(System *system, Display *display, Graphics *graphics, Ga
 	_leave_game =
 		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["castle:dialog_leave_game"],
 			(*_display->layout)["castle:dialog_leave_game_text"], WindowDialogType::CONFIRM);
-	_leave_game->setPosition(
-		(*_display->layout)["castle:dialog_leave_game"].x, (*_display->layout)["castle:dialog_leave_game"].y);
+	_leave_game->setPosition(_display->get_centre_pos(_leave_game->get_size()));
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);

@@ -37,7 +37,9 @@ Sorcery::Display::Display(System *system) : _system{system} {
 	_icons = std::make_unique<IconStore>(_system, icon_layout, (*_system->files)[ICONS_FILE]);
 
 	_bold_text = false;
+	_upper_text = false;
 	window->set_bold(_bold_text);
+	window->set_upper(_upper_text);
 }
 
 auto Sorcery::Display::get_centre_pos(const sf::Vector2f size) const -> sf::Vector2f {
@@ -48,6 +50,11 @@ auto Sorcery::Display::get_centre_pos(const sf::Vector2f size) const -> sf::Vect
 auto Sorcery::Display::get_bold() const -> bool {
 
 	return _bold_text;
+}
+
+auto Sorcery::Display::get_upper() const -> bool {
+
+	return _upper_text;
 }
 
 auto Sorcery::Display::generate(std::string_view screen) -> void {
@@ -205,7 +212,8 @@ auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, s
 				text.setFont(_system->resources->fonts[component.font]);
 				text.setCharacterSize(component.size);
 				auto string_to_print{(*string)[component.string_key]};
-				std::transform(string_to_print.begin(), string_to_print.end(), string_to_print.begin(), ::toupper);
+				if (_upper_text)
+					std::transform(string_to_print.begin(), string_to_print.end(), string_to_print.begin(), ::toupper);
 				text.setFillColor(sf::Color(component.colour));
 				text.setString(string_to_print);
 				auto x{component.x == -1 ? window->centre.x : component.x};

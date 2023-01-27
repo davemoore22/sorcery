@@ -101,7 +101,8 @@ auto Sorcery::Graveyard::start() -> std::optional<MenuItem> {
 		text.setFont(_system->resources->fonts[c_c.font]);
 		text.setCharacterSize(c_c.size);
 		text.setFillColor(sf::Color(c_c.colour));
-		std::transform(characters.begin(), characters.end(), characters.begin(), ::toupper);
+		if (_display->get_upper())
+			std::transform(characters.begin(), characters.end(), characters.begin(), ::toupper);
 		text.setString(characters);
 		text.setPosition(text_x, text_y);
 		_texts.emplace_back(text);
