@@ -56,13 +56,14 @@ Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics
 	_dialog_exit =
 		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["main_menu_attract:dialog_exit"],
 			(*_display->layout)["main_menu_attract:dialog_exit_text"], WindowDialogType::CONFIRM);
-	_dialog_exit->setPosition(
-		(*_display->layout)["main_menu_attract:dialog_exit"].x, (*_display->layout)["main_menu_attract:dialog_exit"].y);
+	_dialog_exit->setPosition(_display->get_centre_pos(_dialog_exit->get_size()));
+
 	_dialog_new_game =
 		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["main_menu_attract:dialog_new_game"],
 			(*_display->layout)["main_menu_attract:dialog_new_game_text"], WindowDialogType::CONFIRM);
-	_dialog_new_game->setPosition((*_display->layout)["main_menu_attract:dialog_new_game"].x,
-		(*_display->layout)["main_menu_attract:dialog_new_game"].y);
+	_dialog_new_game->setPosition(_display->get_centre_pos(_dialog_new_game->get_size()));
+	//_dialog_new_game->setPosition((*_display->layout)["main_menu_attract:dialog_new_game"].x,
+	//	(*_display->layout)["main_menu_attract:dialog_new_game"].y);
 
 	_error = std::nullopt;
 }

@@ -265,8 +265,8 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 		sprite_y += sprite_spacing_y;
 	}
 
-	width = _frame->width;
-	height = _frame->height;
+	width = _frame->get_width();
+	height = _frame->get_height();
 
 	valid = true;
 }

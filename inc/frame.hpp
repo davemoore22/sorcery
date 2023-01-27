@@ -51,11 +51,11 @@ class Frame: public sf::Transformable, public sf::Drawable {
 		Frame() = delete;
 
 		// Public Members
-		unsigned int width;
-		unsigned int height;
 		sf::Sprite sprite;
 
 		// Public Methods
+		auto get_width() const -> unsigned int;
+		auto get_height() const -> unsigned int;
 
 	private:
 

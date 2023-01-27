@@ -37,6 +37,21 @@ auto Sorcery::Dialog::set(Component &string_c, const std::string &new_text) -> v
 	_refresh(string_c, new_text);
 }
 
+auto Sorcery::Dialog::get_width() const -> unsigned int {
+
+	return _width;
+}
+
+auto Sorcery::Dialog::get_height() const -> unsigned int {
+
+	return _height;
+}
+
+auto Sorcery::Dialog::get_size() const -> sf::Vector2f {
+
+	return sf::Vector2f{_width * 1.0f, _height * 1.0f};
+}
+
 auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text) -> void {
 	_strings.clear();
 	_texts.clear();
@@ -104,6 +119,10 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 	_frame = std::make_unique<Frame>(
 		_display->ui_texture, _frame_c.w, frame_h, _frame_c.colour, _frame_c.background, _frame_c.alpha);
 	_frame->setPosition(0, 0);
+
+	// Note we can use the calculated size of the frame as the size of the component
+	_width = _frame->get_width();
+	_height = _frame->get_height();
 
 	// Then the strings
 	auto x{0};

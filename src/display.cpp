@@ -40,7 +40,12 @@ Sorcery::Display::Display(System *system) : _system{system} {
 	window->set_bold(_bold_text);
 }
 
-auto Sorcery::Display::get_bold() -> bool {
+auto Sorcery::Display::get_centre_pos(const sf::Vector2f size) const -> sf::Vector2f {
+
+	return sf::Vector2f{window->get_centre_x(size.x), window->get_centre_y(size.y)};
+}
+
+auto Sorcery::Display::get_bold() const -> bool {
 
 	return _bold_text;
 }

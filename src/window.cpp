@@ -296,6 +296,16 @@ auto Sorcery::Window::get_y(unsigned int width, int y_position) const -> unsigne
 	return _get_y(width, y_position);
 }
 
+auto Sorcery::Window::get_centre_x(unsigned int width) const -> unsigned int {
+
+	return (_current_size.w - width) / 2.0f;
+}
+
+auto Sorcery::Window::get_centre_y(unsigned int height) const -> unsigned int {
+
+	return (_current_size.h - height) / 2.0f;
+}
+
 auto Sorcery::Window::_get_centre_x(unsigned int width) const -> unsigned int {
 
 	return (_current_size.w - width) / 2.0f;
@@ -311,9 +321,9 @@ auto Sorcery::Window::_get_centre_x(const sf::Text &text) const -> unsigned int 
 	return (_current_size.w - text.getGlobalBounds().width) / 2.0f;
 }
 
-auto Sorcery::Window::_get_centre_y(unsigned int width) const -> unsigned int {
+auto Sorcery::Window::_get_centre_y(unsigned int height) const -> unsigned int {
 
-	return (_current_size.h - width) / 2.0f;
+	return (_current_size.h - height) / 2.0f;
 }
 
 auto Sorcery::Window::_get_centre_y(const sf::Sprite &sprite) const -> unsigned int {

@@ -69,6 +69,8 @@ class Window {
 		auto save_screen() -> void;
 		auto restore_screen() -> void;
 		auto set_bold(const bool value) -> void;
+		auto get_centre_x(unsigned int width) const -> unsigned int;
+		auto get_centre_y(unsigned int height) const -> unsigned int;
 
 		// Public Members
 		std::vector<sf::Sprite> sprites;
@@ -91,7 +93,7 @@ class Window {
 		auto _get_centre_x(unsigned int width) const -> unsigned int;
 		auto _get_centre_y(const sf::Sprite &sprite) const -> unsigned int;
 		auto _get_centre_y(const sf::Text &text) const -> unsigned int;
-		auto _get_centre_y(unsigned int width) const -> unsigned int;
+		auto _get_centre_y(unsigned int height) const -> unsigned int;
 		auto _get_x(const sf::Sprite &sprite, const int x_position) const -> unsigned int;
 		auto _get_x(const sf::Text &text, const int x_position) const -> unsigned int;
 		auto _get_x(unsigned int width, const int x_position) const -> unsigned int;

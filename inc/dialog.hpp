@@ -57,6 +57,9 @@ class Dialog: public sf::Transformable, public sf::Drawable {
 		auto reset_timed() -> void;
 		auto set(Component &string_c, const std::string &new_text = "") -> void;
 		auto set_duration(unsigned int duration) -> void;
+		auto get_width() const -> unsigned int;
+		auto get_height() const -> unsigned int;
+		auto get_size() const -> sf::Vector2f;
 
 	private:
 
@@ -96,6 +99,9 @@ class Dialog: public sf::Transformable, public sf::Drawable {
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _current_time;
 		bool _valid;
 		unsigned int _duration;
+
+		int _width;
+		int _height;
 };
 
 }
