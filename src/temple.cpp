@@ -33,9 +33,22 @@ Sorcery::Temple::Temple(System *system, Display *display, Graphics *graphics, Ga
 
 	// Setup Custom Components
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::TEMPLE);
+	_menu->generate((*_display->layout)["temple:menu"]);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["temple:menu"].y);
+
 	_help = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::INVALID_CHARACTERS, MenuMode::TEMPLE);
+	_menu->generate((*_display->layout)["temple_help:menu"]);
+	_help->setPosition(_display->get_centre_x(_help->get_width()), (*_display->layout)["temple_help:menu"].y);
+
 	_pay = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::PARTY_CHARACTERS, MenuMode::TEMPLE);
+	_pay->generate((*_display->layout)["temple_pay:menu"]);
+	_pay->setPosition(_display->get_centre_x(_pay->get_width()), (*_display->layout)["temple_pay:menu"].y);
+
 	_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CONTINUE);
+	_continue_menu->generate((*_display->layout)["temple_ress:continue_menu"]);
+	_continue_menu->setPosition(
+		_display->get_centre_x(_continue_menu->get_width()), (*_display->layout)["temple_ress:continue_menu"].y);
+
 	_console = std::make_unique<Console>(_display->window->get_gui(), _system, _display, _graphics, _game);
 
 	// Modules
@@ -377,24 +390,16 @@ auto Sorcery::Temple::_draw() -> void {
 
 		// And the Menu
 		_menu->generate((*_display->layout)["temple:menu"]);
-		const sf::Vector2f menu_pos((*_display->layout)["temple:menu"].x, (*_display->layout)["temple:menu"].y);
-		_menu->setPosition(menu_pos);
 		_window->draw(*_menu);
 	} else if (_stage == TempleStage::HELP) {
 
 		// Choose Invalid Character
 		_help->generate((*_display->layout)["temple_help:menu"]);
-		const sf::Vector2f menu_pos(
-			(*_display->layout)["temple_help:menu"].x, (*_display->layout)["temple_help:menu"].y);
-		_help->setPosition(menu_pos);
 		_display->display("inn_choose", _h_sprites, _h_texts, _h_frames);
 		_window->draw(*_help);
 	} else if (_stage == TempleStage::PAY) {
 
 		_pay->generate((*_display->layout)["temple_pay:menu"]);
-		const sf::Vector2f menu_pos(
-			(*_display->layout)["temple_help:menu"].x, (*_display->layout)["temple_pay:menu"].y);
-		_pay->setPosition(menu_pos);
 		_display->display("inn_pay", _p_sprites, _p_texts, _p_frames);
 		_display->window->draw_text(_cost, (*_display->layout)["temple_pay:cost_text"], _cost_text);
 		_window->draw(*_pay);
@@ -405,9 +410,6 @@ auto Sorcery::Temple::_draw() -> void {
 		if (_get_ress_count() > 5) {
 			_display->window->draw_text(_ress_result, (*_display->layout)["temple_ress:ress_result"], _result_text);
 			_continue_menu->generate((*_display->layout)["temple_ress:continue_menu"]);
-			const sf::Vector2f menu_pos(
-				(*_display->layout)["rest:continue_menu"].x, (*_display->layout)["temple_ress:continue_menu"].y);
-			_continue_menu->setPosition(menu_pos);
 			_window->draw(*_continue_menu);
 		}
 	}

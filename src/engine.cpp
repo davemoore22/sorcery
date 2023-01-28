@@ -207,41 +207,65 @@ auto Sorcery::Engine::_initalise_components() -> void {
 
 	// Setup Custom Components
 	_camp_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CAMP);
+	_camp_menu->generate((*_display->layout)["engine_base_ui:camp_menu"]);
+	_camp_menu->setPosition(
+		_display->get_centre_x(_camp_menu->get_width()), (*_display->layout)["engine_base_ui:camp_menu"].y);
+
+	_search_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::SEARCH);
+	_search_menu->generate((*_display->layout)["engine_base_ui:search_menu"]);
+	_search_menu->setPosition(
+		_display->get_centre_x(_search_menu->get_width()), (*_display->layout)["engine_base_ui:search_menu"].y);
+
+	_get_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CHARACTERS_HERE);
+	_get_menu->generate((*_display->layout)["engine_base_ui:get_menu"]);
+	_get_menu->setPosition(
+		_display->get_centre_x(_get_menu->get_width()), (*_display->layout)["engine_base_ui:get_menu"].y);
+
+	_action_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::ACTION);
+	_action_menu->generate((*_display->layout)["engine_base_ui:action_menu"]);
+	_action_menu->setPosition(
+		_display->get_centre_x(_action_menu->get_width()), (*_display->layout)["engine_base_ui:action_menu"].y);
+
+	_elevator_a_d_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::ELEVATOR_A_D);
+	_elevator_a_d_menu->generate((*_display->layout)["engine_base_ui:elevator_a_d_menu"]);
+	_elevator_a_d_menu->setPosition(_display->get_centre_x(_elevator_a_d_menu->get_width()),
+		(*_display->layout)["engine_base_ui:elevator_a_d_menu"].y);
+
+	_elevator_a_f_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::ELEVATOR_A_F);
+	_elevator_a_f_menu->generate((*_display->layout)["engine_base_ui:elevator_a_f_menu"]);
+	_elevator_a_f_menu->setPosition(_display->get_centre_x(_elevator_a_f_menu->get_width()),
+		(*_display->layout)["engine_base_ui:elevator_a_f_menu"].y);
+
 	const Component menu_fc{(*_display->layout)["engine_base_ui:camp_menu_frame"]};
 	_camp_menu_frame = std::make_unique<Frame>(
 		_display->ui_texture, menu_fc.w, menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
 	_camp_menu_frame->setPosition(_display->window->get_x(_camp_menu_frame->sprite, menu_fc.x),
 		_display->window->get_y(_camp_menu_frame->sprite, menu_fc.y));
 
-	_search_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::SEARCH);
 	const Component search_fc{(*_display->layout)["engine_base_ui:search_menu_frame"]};
 	_search_menu_frame = std::make_unique<Frame>(
 		_display->ui_texture, search_fc.w, search_fc.h, search_fc.colour, search_fc.background, search_fc.alpha);
 	_search_menu_frame->setPosition(_display->window->get_x(_search_menu_frame->sprite, search_fc.x),
 		_display->window->get_y(_search_menu_frame->sprite, search_fc.y));
 
-	_get_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CHARACTERS_HERE);
 	const Component get_fc{(*_display->layout)["engine_base_ui:get_menu_frame"]};
 	_get_menu_frame = std::make_unique<Frame>(
 		_display->ui_texture, get_fc.w, get_fc.h, get_fc.colour, get_fc.background, get_fc.alpha);
 	_get_menu_frame->setPosition(_display->window->get_x(_get_menu_frame->sprite, get_fc.x),
 		_display->window->get_y(_get_menu_frame->sprite, get_fc.y));
 
-	_action_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::ACTION);
 	const Component action_fc{(*_display->layout)["engine_base_ui:action_menu_frame"]};
 	_action_menu_frame = std::make_unique<Frame>(
 		_display->ui_texture, action_fc.w, action_fc.h, action_fc.colour, action_fc.background, action_fc.alpha);
 	_action_menu_frame->setPosition(_display->window->get_x(_action_menu_frame->sprite, action_fc.x),
 		_display->window->get_y(_action_menu_frame->sprite, action_fc.y));
 
-	_elevator_a_d_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::ELEVATOR_A_D);
 	const Component elevator_a_d_fc{(*_display->layout)["engine_base_ui:elevator_a_d_menu_frame"]};
 	_elevator_a_d_menu_frame = std::make_unique<Frame>(_display->ui_texture, elevator_a_d_fc.w, elevator_a_d_fc.h,
 		elevator_a_d_fc.colour, elevator_a_d_fc.background, elevator_a_d_fc.alpha);
 	_elevator_a_d_menu_frame->setPosition(_display->window->get_x(_elevator_a_d_menu_frame->sprite, elevator_a_d_fc.x),
 		_display->window->get_y(_elevator_a_d_menu_frame->sprite, elevator_a_d_fc.y));
 
-	_elevator_a_f_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::ELEVATOR_A_F);
 	const Component elevator_a_f_fc{(*_display->layout)["engine_base_ui:elevator_a_f_menu_frame"]};
 	_elevator_a_f_menu_frame = std::make_unique<Frame>(_display->ui_texture, elevator_a_f_fc.w, elevator_a_f_fc.h,
 		elevator_a_f_fc.colour, elevator_a_f_fc.background, elevator_a_f_fc.alpha);
@@ -2371,37 +2395,22 @@ auto Sorcery::Engine::_draw() -> void {
 	} else if (_in_camp) {
 		_window->draw(*_camp_menu_frame);
 		_camp_menu->generate((*_display->layout)["engine_base_ui:camp_menu"]);
-		const sf::Vector2f menu_pos(
-			(*_display->layout)["engine_base_ui:camp_menu"].x, (*_display->layout)["engine_base_ui:camp_menu"].y);
-		_camp_menu->setPosition(menu_pos);
 		_window->draw(*_camp_menu);
 	} else if (_in_action) {
 		_window->draw(*_action_menu_frame);
 		_action_menu->generate((*_display->layout)["engine_base_ui:action_menu"]);
-		const sf::Vector2f menu_pos(
-			(*_display->layout)["engine_base_ui:action_menu"].x, (*_display->layout)["engine_base_ui:action_menu"].y);
-		_action_menu->setPosition(menu_pos);
 		_window->draw(*_action_menu);
 	} else if (_in_search) {
 		_window->draw(*_search_menu_frame);
 		_search_menu->generate((*_display->layout)["engine_base_ui:search_menu"]);
-		const sf::Vector2f menu_pos(
-			(*_display->layout)["engine_base_ui:search_menu"].x, (*_display->layout)["engine_base_ui:search_menu"].y);
-		_search_menu->setPosition(menu_pos);
 		_window->draw(*_search_menu);
 	} else if (_in_get) {
 		_window->draw(*_get_menu_frame);
 		_get_menu->generate((*_display->layout)["engine_base_ui:get_menu"]);
-		const sf::Vector2f menu_pos(
-			(*_display->layout)["engine_base_ui:get_menu"].x, (*_display->layout)["engine_base_ui:get_menu"].y);
-		_get_menu->setPosition(menu_pos);
 		_window->draw(*_get_menu);
 	} else if (_in_elevator_a_d) {
 		_window->draw(*_elevator_a_d_menu_frame);
 		_elevator_a_d_menu->generate((*_display->layout)["engine_base_ui:elevator_a_d_menu"]);
-		const sf::Vector2f menu_pos((*_display->layout)["engine_base_ui:elevator_a_d_menu"].x,
-			(*_display->layout)["engine_base_ui:elevator_a_d_menu"].y);
-		_elevator_a_d_menu->setPosition(menu_pos);
 		_window->draw(*_elevator_a_d_menu);
 
 		if (_show_elevator) {
@@ -2415,9 +2424,6 @@ auto Sorcery::Engine::_draw() -> void {
 	} else if (_in_elevator_a_f) {
 		_window->draw(*_elevator_a_f_menu_frame);
 		_elevator_a_f_menu->generate((*_display->layout)["engine_base_ui:elevator_a_f_menu"]);
-		const sf::Vector2f menu_pos((*_display->layout)["engine_base_ui:elevator_a_f_menu"].x,
-			(*_display->layout)["engine_base_ui:elevator_a_f_menu"].y);
-		_elevator_a_f_menu->setPosition(menu_pos);
 		_window->draw(*_elevator_a_f_menu);
 
 		if (_show_elevator) {

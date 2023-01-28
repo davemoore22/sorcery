@@ -68,6 +68,9 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 	// Do the menu here when it has access to the game characters
 	_menu.reset();
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CHARACTER_ROSTER, MenuMode::TRAINING);
+	_menu->generate((*_display->layout)[_screen_key + ":menu"]);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)[_screen_key + ":menu"].y);
+
 	_cur_char_id = -1;
 
 	// Get the Background Display Components and load them into Display module
@@ -349,9 +352,6 @@ auto Sorcery::Roster::_draw() -> void {
 
 		// And the Menu
 		_menu->generate((*_display->layout)[_screen_key + ":menu"]);
-		const sf::Vector2f menu_pos(
-			(*_display->layout)[_screen_key + ":menu"].x, (*_display->layout)[_screen_key + ":menu"].y);
-		_menu->setPosition(menu_pos);
 		_window->draw(*_menu);
 
 		// Character Preview

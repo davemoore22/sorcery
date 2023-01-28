@@ -191,7 +191,6 @@ auto Sorcery::Graveyard::_draw() -> void {
 
 	// And the Menu
 	_menu->generate((*_display->layout)["graveyard:menu"]);
-	const sf::Vector2f menu_pos((*_display->layout)["graveyard:menu"].x, (*_display->layout)["graveyard:menu"].y);
 	_window->draw(*_menu);
 
 	_display->window->draw_text(

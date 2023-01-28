@@ -33,7 +33,15 @@ Sorcery::Rest::Rest(System *system, Display *display, Graphics *graphics, Game *
 
 	// Custom Components
 	_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CONTINUE);
+	_continue_menu->generate((*_display->layout)["rest:continue_menu"]);
+	_continue_menu->setPosition(
+		_display->get_centre_x(_continue_menu->get_width()), (*_display->layout)["rest:continue_menu"].y);
+
 	_stop_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::STOP);
+	_stop_menu->generate((*_display->layout)["rest:stop_menu"]);
+	_stop_menu->setPosition(_display->get_centre_x(_stop_menu->get_width()), (*_display->layout)["rest:stop_menu"].y);
+
+	// Ugly - need to change this
 	_nap_text = sf::Text();
 	_no_level_text_1 = sf::Text();
 	_no_level_text_2 = sf::Text();
@@ -356,9 +364,7 @@ auto Sorcery::Rest::_draw() -> void {
 
 			// And the Menu
 			_continue_menu->generate((*_display->layout)["rest:continue_menu"]);
-			const sf::Vector2f menu_pos(
-				(*_display->layout)["rest:continue_menu"].x, (*_display->layout)["rest:continue_menu"].y);
-			_continue_menu->setPosition(menu_pos);
+
 			_window->draw(*_continue_frame);
 			_window->draw(*_continue_menu);
 		}
@@ -371,9 +377,7 @@ auto Sorcery::Rest::_draw() -> void {
 			_display->window->draw_text(_recup_text_2, (*_display->layout)["rest:recup_text_2"], _recup_message_2);
 
 			_stop_menu->generate((*_display->layout)["rest:stop_menu"]);
-			const sf::Vector2f menu_pos(
-				(*_display->layout)["rest:stop_menu"].x, (*_display->layout)["rest:stop_menu"].y);
-			_stop_menu->setPosition(menu_pos);
+
 			_window->draw(*_stop_frame);
 			_window->draw(*_stop_menu);
 
@@ -384,9 +388,7 @@ auto Sorcery::Rest::_draw() -> void {
 
 			// And the Menu
 			_continue_menu->generate((*_display->layout)["rest:continue_menu"]);
-			const sf::Vector2f menu_pos(
-				(*_display->layout)["rest:continue_menu"].x, (*_display->layout)["rest:continue_menu"].y);
-			_continue_menu->setPosition(menu_pos);
+
 			_window->draw(*_continue_frame);
 			_window->draw(*_continue_menu);
 		}

@@ -42,6 +42,8 @@ auto Sorcery::Restart::start() -> std::optional<MenuItem> {
 	// storage (not local)
 	_display->generate("restart_expedition");
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::RESTART_EXPEDITION);
+	_menu->generate((*_display->layout)["restart_expedition:menu"]);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["restart_expedition:menu"].y);
 
 	_update_menus();
 
@@ -159,6 +161,8 @@ auto Sorcery::Restart::_update_menus() -> void {
 	}
 
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::RESTART_EXPEDITION);
+	_menu->generate((*_display->layout)["restart_expedition:menu"]);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["restart_expedition:menu"].y);
 }
 
 auto Sorcery::Restart::stop() -> void {
@@ -179,9 +183,6 @@ auto Sorcery::Restart::_draw() -> void {
 
 	// And the Menu
 	_menu->generate((*_display->layout)["restart_expedition:menu"]);
-	const sf::Vector2f menu_pos(
-		(*_display->layout)["restart_expedition:menu"].x, (*_display->layout)["restart_expedition:menu"].y);
-	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 
 	// And finally the Cursor

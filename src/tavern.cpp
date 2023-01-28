@@ -33,6 +33,8 @@ Sorcery::Tavern::Tavern(System *system, Display *display, Graphics *graphics, Ga
 
 	// Setup Custom Components
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::TAVERN);
+	_menu->generate((*_display->layout)["tavern:menu"]);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["tavern:menu"].y);
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
@@ -58,7 +60,11 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 
 	_add =
 		std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::AVAILABLE_CHARACTERS, MenuMode::TAVERN);
+	_add->generate((*_display->layout)["tavern:menu"]);
+	_add->setPosition(_display->get_centre_x(_add->get_width()), (*_display->layout)["tavern:menu"].y);
 	_remove = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::PARTY_CHARACTERS, MenuMode::TAVERN);
+	_remove->generate((*_display->layout)["tavern:menu"]);
+	_remove->setPosition(_display->get_centre_x(_remove->get_width()), (*_display->layout)["tavern:menu"].y);
 	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MenuMode::TAVERN);
 
 	// Note Inspect is handled in a generic Inspect Module
@@ -349,19 +355,12 @@ auto Sorcery::Tavern::_draw() -> void {
 	// And the Menu
 	if (_stage == TavernStage::MENU) {
 		_menu->generate((*_display->layout)["tavern:menu"]);
-		const sf::Vector2f menu_pos((*_display->layout)["tavern:menu"].x, (*_display->layout)["tavern:menu"].y);
-		_menu->setPosition(menu_pos);
 		_window->draw(*_menu);
 	} else if (_stage == TavernStage::ADD) {
 		_add->generate((*_display->layout)["tavern_add:menu"]);
-		const sf::Vector2f menu_pos((*_display->layout)["tavern_add:menu"].x, (*_display->layout)["tavern_add:menu"].y);
-		_add->setPosition(menu_pos);
 		_window->draw(*_add);
 	} else if (_stage == TavernStage::REMOVE) {
 		_remove->generate((*_display->layout)["tavern_remove:menu"]);
-		const sf::Vector2f menu_pos(
-			(*_display->layout)["tavern_remove:menu"].x, (*_display->layout)["tavern_add:menu"].y);
-		_remove->setPosition(menu_pos);
 		_window->draw(*_remove);
 	}
 

@@ -33,6 +33,8 @@ Sorcery::Shop::Shop(System *system, Display *display, Graphics *graphics, Game *
 
 	// Setup Custom Components
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::SHOP);
+	_menu->generate((*_display->layout)["shop:menu"]);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["shop:menu"].y);
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
@@ -145,8 +147,6 @@ auto Sorcery::Shop::_draw() -> void {
 
 	// And the Menu
 	_menu->generate((*_display->layout)["shop:menu"]);
-	const sf::Vector2f menu_pos((*_display->layout)["shop:menu"].x, (*_display->layout)["shop:menu"].y);
-	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 
 	// Always draw the following

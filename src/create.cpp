@@ -52,6 +52,25 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics, Ga
 	_class_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CHOOSE_CHARACTER_CLASS);
 	_final_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::REVIEW_AND_CONFIRM);
 
+	_method_menu->generate((*_display->layout)["choose_method:menu"]);
+	_method_menu->setPosition(
+		_display->get_centre_x(_method_menu->get_width()), (*_display->layout)["choose_method:menu"].y);
+	_race_menu->generate((*_display->layout)["character_create_stage_2:menu"]);
+	_race_menu->setPosition(
+		_display->get_centre_x(_race_menu->get_width()), (*_display->layout)["character_create_stage_2:menu"].y);
+	_alignment_menu->generate((*_display->layout)["character_create_stage_3:menu"]);
+	_alignment_menu->setPosition(
+		_display->get_centre_x(_alignment_menu->get_width()), (*_display->layout)["character_create_stage_4:menu"].y);
+	_attribute_menu->generate((*_display->layout)["character_create_stage_4:menu"]);
+	_attribute_menu->setPosition(
+		(*_display->layout)["character_create_stage_4:menu"].y, (*_display->layout)["character_create_stage_4:menu"].y);
+	_class_menu->generate((*_display->layout)["character_create_stage_5:menu"]);
+	_class_menu->setPosition(
+		_display->get_centre_x(_class_menu->get_width()), (*_display->layout)["character_create_stage_5:menu"].y);
+	_final_menu->generate((*_display->layout)["character_create_stage_7:menu"]);
+	_final_menu->setPosition(
+		_display->get_centre_x(_final_menu->get_width()), (*_display->layout)["character_create_stage_7:menu"].y);
+
 	Component _fmf_c{(*_display->layout)["character_create_stage_7:menu_frame"]};
 	_final_menu_frame = std::make_unique<Frame>(
 		_display->ui_texture, _fmf_c.w, _fmf_c.h, _fmf_c.colour, _fmf_c.background, _fmf_c.alpha);
@@ -995,9 +1014,6 @@ auto Sorcery::Create::_draw() -> void {
 		_display->display("choose_method", _sprites, _texts, _frames);
 
 		_method_menu->generate((*_display->layout)["choose_method:menu"]);
-		const sf::Vector2f menu_pos(
-			(*_display->layout)["choose_method:menu"].x, (*_display->layout)["choose_method:menu"].y);
-		_method_menu->setPosition(menu_pos);
 		_window->draw(*_method_menu);
 
 		_display->window->draw_text(
@@ -1026,9 +1042,6 @@ auto Sorcery::Create::_draw() -> void {
 
 		_display->display("character_create_stage_2", _sprites, _texts, _frames);
 		_race_menu->generate((*_display->layout)["character_create_stage_2:menu"]);
-		const sf::Vector2f menu_pos((*_display->layout)["character_create_stage_2:menu"].x,
-			(*_display->layout)["character_create_stage_2:menu"].y);
-		_race_menu->setPosition(menu_pos);
 		_window->draw(*_race_menu);
 
 		_display->window->draw_text(
@@ -1044,9 +1057,6 @@ auto Sorcery::Create::_draw() -> void {
 
 		_display->display("character_create_stage_3", _sprites, _texts, _frames);
 		_alignment_menu->generate((*_display->layout)["character_create_stage_3:menu"]);
-		const sf::Vector2f menu_pos((*_display->layout)["character_create_stage_3:menu"].x,
-			(*_display->layout)["character_create_stage_3:menu"].y);
-		_alignment_menu->setPosition(menu_pos);
 		_window->draw(*_alignment_menu);
 
 		_display->window->draw_text(
@@ -1062,9 +1072,6 @@ auto Sorcery::Create::_draw() -> void {
 
 		_display->display("character_create_stage_4", _sprites, _texts, _frames);
 		_attribute_menu->generate((*_display->layout)["character_create_stage_4:menu"]);
-		const sf::Vector2f menu_pos((*_display->layout)["character_create_stage_4:menu"].x,
-			(*_display->layout)["character_create_stage_4:menu"].y);
-		_attribute_menu->setPosition(menu_pos);
 		_window->draw(*_attribute_menu);
 
 		_display->window->draw_text(
@@ -1085,9 +1092,6 @@ auto Sorcery::Create::_draw() -> void {
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_CLASS) {
 		_display->display("character_create_stage_5", _sprites, _texts, _frames);
 		_class_menu->generate((*_display->layout)["character_create_stage_5:menu"]);
-		const sf::Vector2f menu_pos((*_display->layout)["character_create_stage_5:menu"].x,
-			(*_display->layout)["character_create_stage_5:menu"].y);
-		_class_menu->setPosition(menu_pos);
 		_window->draw(*_class_menu);
 
 		if (_ap->valid) {
@@ -1132,11 +1136,10 @@ auto Sorcery::Create::_draw() -> void {
 
 		if (_show_final_menu) {
 			_final_menu->generate((*_display->layout)["character_create_stage_7:menu"]);
-			const sf::Vector2f menu_pos((*_display->layout)["character_create_stage_7:menu"].x,
-				(*_display->layout)["character_create_stage_7:menu"].y);
+
 			const sf::Vector2f frame_pos((*_display->layout)["character_create_stage_7:menu_frame"].x,
 				(*_display->layout)["character_create_stage_7:menu_frame"].y);
-			_final_menu->setPosition(menu_pos);
+
 			_final_menu_frame->setPosition(frame_pos);
 			_window->draw(*_final_menu_frame);
 			_window->draw(*_final_menu);

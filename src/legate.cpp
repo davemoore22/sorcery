@@ -39,6 +39,9 @@ Sorcery::Legate::Legate(System *system, Display *display, Graphics *graphics, Ch
 
 	// Menu
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr, MenuType::CHOOSE_CHARACTER_ALIGNMENT);
+	_menu->generate((*_display->layout)["legate:menu"]);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["legate:menu"].y);
+
 	_set_alignment_menu();
 
 	// Frame
@@ -251,8 +254,6 @@ auto Sorcery::Legate::_draw() -> void {
 		// And the Menu
 		_window->draw(*_frame);
 		_menu->generate((*_display->layout)["legate:menu"]);
-		const sf::Vector2f menu_pos((*_display->layout)["legate:menu"].x, (*_display->layout)["legate:menu"].y);
-		_menu->setPosition(menu_pos);
 		_window->draw(*_menu);
 		_window->draw(_choose_alignment);
 	}

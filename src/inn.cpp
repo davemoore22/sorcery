@@ -38,10 +38,10 @@ Sorcery::Inn::Inn(System *system, Display *display, Graphics *graphics, Game *ga
 
 	_menu->generate((*_display->layout)["inn:menu"]);
 	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["inn:menu"].y);
-	_roster->generate((*_display->layout)["inn_choose:menu:menu"]);
-	_roster->setPosition(_display->get_centre_x(_roster->get_width()), (*_display->layout)["inn_choose:menu:menu"].y);
-	_bed->generate((*_display->layout)["inn_bed:menu:menu"]);
-	_bed->setPosition(_display->get_centre_x(_bed->get_width()), (*_display->layout)["inn_bed:menu:menu"].y);
+	_roster->generate((*_display->layout)["inn_choose:menu"]);
+	_roster->setPosition(_display->get_centre_x(_roster->get_width()), (*_display->layout)["inn_choose:menu"].y);
+	_bed->generate((*_display->layout)["inn_bed:menu"]);
+	_bed->setPosition(_display->get_centre_x(_bed->get_width()), (*_display->layout)["inn_bed:menu"].y);
 
 	_rest = std::make_unique<Rest>(_system, _display, _graphics, _game);
 	_welcome_text = sf::Text();

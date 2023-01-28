@@ -36,6 +36,9 @@ Sorcery::ChangeClass::ChangeClass(System *system, Display *display, Graphics *gr
 
 	// Main Menu
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr, MenuType::CHANGE_CHARACTER_CLASS);
+	_menu->generate((*_display->layout)["change_class:menu"]);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["change_class:menu"].y);
+
 	_set_classes_menu();
 
 	// Info Panel
@@ -251,8 +254,6 @@ auto Sorcery::ChangeClass::_draw() -> void {
 
 	// And the Menu
 	_menu->generate((*_display->layout)["change_class:menu"]);
-	const sf::Vector2f menu_pos((*_display->layout)["change_class:menu"].x, (*_display->layout)["change_class:menu"].y);
-	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 
 	if (_ip->valid) {

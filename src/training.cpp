@@ -32,6 +32,8 @@ Sorcery::Training::Training(System *system, Display *display, Graphics *graphics
 	_window = _display->window->get_window();
 
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::TRAINING_GROUNDS);
+	_menu->generate((*_display->layout)["training_grounds:menu"]);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["training_grounds:menu"].y);
 	_create = std::make_unique<Create>(_system, _display, _graphics, _game);
 	_inspect = std::make_unique<Roster>(_system, _display, _graphics, _game, RosterMode::INSPECT);
 	_delete = std::make_unique<Roster>(_system, _display, _graphics, _game, RosterMode::DELETE);
@@ -178,9 +180,6 @@ auto Sorcery::Training::_draw() -> void {
 
 	// And the Menu
 	_menu->generate((*_display->layout)["training_grounds:menu"]);
-	const sf::Vector2f menu_pos(
-		(*_display->layout)["training_grounds:menu"].x, (*_display->layout)["training_grounds:menu"].y);
-	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 
 	// And finally the Cursor

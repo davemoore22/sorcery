@@ -28,9 +28,30 @@
 Sorcery::Event::Event(System *system, Display *display, Graphics *graphics, Game *game, MapEvent type)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _type{type} {
 
+	using enum Enums::Map::Event;
+
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 	_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CONTINUE);
+	switch (_type) {
+	case AREA_OF_OUT_BOUNDS:
+		_continue_menu->generate((*_display->layout)["event_area_out_of_bounds:continue_menu"]);
+		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
+			(*_display->layout)["event_area_out_of_bounds:continue_menu"].y);
+		break;
+	case MAN_TELEPORT_CASTLE:
+		_continue_menu->generate((*_display->layout)["event_man_teleport_castle:continue_menu"]);
+		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
+			(*_display->layout)["event_man_teleport_castle:continue_menu"].y);
+		break;
+	case SILVER_KEY:
+		_continue_menu->generate((*_display->layout)["event_silver_key:continue_menu"]);
+		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
+			(*_display->layout)["event_silver_key:continue_menu"].y);
+		break;
+	default:
+		break;
+	}
 }
 
 auto Sorcery::Event::start() -> std::optional<MenuItem> {
@@ -134,27 +155,18 @@ auto Sorcery::Event::_draw() -> void {
 		_display->display("event_area_out_of_bounds", _sprites, _texts, _frames);
 
 		_continue_menu->generate((*_display->layout)["event_area_out_of_bounds:continue_menu"]);
-		const sf::Vector2f menu_pos((*_display->layout)["event_area_out_of_bounds:continue_menu"].x,
-			(*_display->layout)["event_area_out_of_bounds:continue_menu"].y);
-		_continue_menu->setPosition(menu_pos);
 		_window->draw(*_continue_menu);
 	} break;
 	case MAN_TELEPORT_CASTLE: {
 		_display->display("event_man_teleport_castle", _sprites, _texts, _frames);
 
 		_continue_menu->generate((*_display->layout)["event_man_teleport_castle:continue_menu"]);
-		const sf::Vector2f menu_pos((*_display->layout)["event_man_teleport_castle:continue_menu"].x,
-			(*_display->layout)["event_man_teleport_castle:continue_menu"].y);
-		_continue_menu->setPosition(menu_pos);
 		_window->draw(*_continue_menu);
 	} break;
 	case SILVER_KEY: {
 		_display->display("event_silver_key", _sprites, _texts, _frames);
 
 		_continue_menu->generate((*_display->layout)["event_silver_key:continue_menu"]);
-		const sf::Vector2f menu_pos((*_display->layout)["event_silver_key:continue_menu"].x,
-			(*_display->layout)["event_silver_key:continue_menu"].y);
-		_continue_menu->setPosition(menu_pos);
 		_window->draw(*_continue_menu);
 	} break;
 	default:

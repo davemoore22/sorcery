@@ -33,6 +33,9 @@ Sorcery::Reorder::Reorder(System *system, Display *display, Graphics *graphics, 
 
 	// Setup Custom Components
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::PARTY_CHARACTER_NAMES);
+	_menu->generate((*_display->layout)["reorder:menu"]);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["reorder:menu"].y);
+
 	_candidate_c = Component{(*_display->layout)["reorder:candidate_party"]};
 
 	// Modules
@@ -167,8 +170,7 @@ auto Sorcery::Reorder::_draw() -> void {
 	}
 
 	_menu->generate((*_display->layout)["reorder:menu"]);
-	const sf::Vector2f menu_pos((*_display->layout)["reorder:menu"].x, (*_display->layout)["reorder:menu"].y);
-	_menu->setPosition(menu_pos);
+
 	_window->draw(*_menu);
 
 	// Draw the character names selected

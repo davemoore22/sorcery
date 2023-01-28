@@ -34,6 +34,8 @@ Sorcery::Edit::Edit(System *system, Display *display, Graphics *graphics, Game *
 
 	_char_panel = std::make_unique<CharacterPanel>(_system, _display, _graphics);
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::EDIT_CHARACTER);
+	_menu->generate((*_display->layout)["character_edit:menu"]);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["character_edit:menu"].y);
 
 	_changed = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["character_edit:dialog_class_changed"],
@@ -233,9 +235,6 @@ auto Sorcery::Edit::_draw() -> void {
 
 	// And the Menu
 	_menu->generate((*_display->layout)["character_edit:menu"]);
-	const sf::Vector2f menu_pos(
-		(*_display->layout)["character_edit:menu"].x, (*_display->layout)["character_edit:menu"].y);
-	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 
 	// Character Preview
