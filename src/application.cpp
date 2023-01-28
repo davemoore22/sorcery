@@ -232,7 +232,7 @@ auto Sorcery::Application::_display_loading_window() -> void {
 	// Hard Coded since we don't have access to any file resources at this point
 	const std::filesystem::path base_path{_get_exe_path()};
 	const std::filesystem::path image_path{base_path / GRAPHICS_DIR / LOADING_IMAGE};
-	auto scale{0.5f};
+	auto scale{0.75f};
 
 	sf::Image loading{};
 	loading.loadFromFile(image_path.string());
@@ -240,7 +240,7 @@ auto Sorcery::Application::_display_loading_window() -> void {
 	const sf::Vector2u splash_size{
 		static_cast<unsigned int>(loading.getSize().x * scale), static_cast<unsigned int>(loading.getSize().y * scale)};
 	_load_window.create(
-		sf::VideoMode(splash_size.x, splash_size.y), "Sorcery: Shadows under Llylgamyn", sf::Style::Default);
+		sf::VideoMode(splash_size.x, splash_size.y), "Sorcery: Shadows under Llylgamyn", sf::Style::None);
 	_load_window.setVerticalSyncEnabled(true);
 	_load_window.setPosition(sf::Vector2i((screen_size.x - splash_size.x) / 2, (screen_size.y - splash_size.y) / 2));
 	_load_window.clear({0, 0, 0, 175});

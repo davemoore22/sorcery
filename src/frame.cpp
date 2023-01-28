@@ -94,19 +94,26 @@ Sorcery::Frame::Frame(System *system, Display *display, const Component layout)
 
 	// Draw the Sides of the Frame - note we draw two less since we don't want to overright the corners and we have the
 	// offset of cw/ch anyway (so for a frame height of 3 for example, we draw 1 middle side starting at 1)
-	for (auto x = 0u; x < _layout.w - 2; x++) {
-		auto x_pos{cw + (cw * x)};
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)].setPosition(x_pos, 0);
-		_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)]);
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)].setPosition(x_pos, texture_size.y - ch);
-		_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)]);
+
+	// Note in case we want to draw tiny frames in one direction, as a width or height of 1 - 2 gives a
+	// massive value and it causes a lockup, so we skip unless we actually have to draw
+	if (_layout.w > 2) {
+		for (auto x = 0U; x < _layout.w - 2; x++) {
+			auto x_pos{cw + (cw * x)};
+			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)].setPosition(x_pos, 0);
+			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)]);
+			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)].setPosition(x_pos, texture_size.y - ch);
+			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)]);
+		}
 	}
-	for (auto y = 0u; y < _layout.h - 2; y++) {
-		auto y_pos{ch + (ch * y)};
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)].setPosition(0, y_pos);
-		_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)]);
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)].setPosition(texture_size.x - cw, y_pos);
-		_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)]);
+	if (_layout.h > 2) {
+		for (auto y = 0U; y < _layout.h - 2; y++) {
+			auto y_pos{ch + (ch * y)};
+			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)].setPosition(0, y_pos);
+			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)]);
+			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)].setPosition(texture_size.x - cw, y_pos);
+			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)]);
+		}
 	}
 
 #pragma GCC diagnostic pop
@@ -186,19 +193,26 @@ Sorcery::Frame::Frame(sf::Texture texture, const unsigned int width_units, const
 
 	// Draw the Sides of the Frame - note we draw two less since we don't want to overright the corners and we have the
 	// offset of cw/ch anyway (so for a frame height of 3 for example, we draw 1 middle side starting at 1)
-	for (auto x = 0u; x < _width_units - 2; x++) {
-		auto x_pos{cw + (cw * x)};
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)].setPosition(x_pos, 0);
-		_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)]);
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)].setPosition(x_pos, texture_size.y - ch);
-		_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)]);
+
+	// Note in case we want to draw tiny frames in one direction, as a width or height of 1 - 2 gives a
+	// massive value and it causes a lockup, so we skip unless we actually have to draw
+	if (_width_units > 2) {
+		for (auto x = 0u; x < _width_units - 2; x++) {
+			auto x_pos{cw + (cw * x)};
+			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)].setPosition(x_pos, 0);
+			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)]);
+			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)].setPosition(x_pos, texture_size.y - ch);
+			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)]);
+		}
 	}
-	for (auto y = 0u; y < _height_units - 2; y++) {
-		auto y_pos{ch + (ch * y)};
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)].setPosition(0, y_pos);
-		_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)]);
-		_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)].setPosition(texture_size.x - cw, y_pos);
-		_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)]);
+	if (_height_units > 2) {
+		for (auto y = 0u; y < _height_units - 2; y++) {
+			auto y_pos{ch + (ch * y)};
+			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)].setPosition(0, y_pos);
+			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)]);
+			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)].setPosition(texture_size.x - cw, y_pos);
+			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)]);
+		}
 	}
 
 #pragma GCC diagnostic pop

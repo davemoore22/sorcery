@@ -2150,7 +2150,7 @@
 				"w": "40",
 				"h": "8",
 				"x": "centre",
-				"y": "27",
+				"y": "24",
 				"alpha": "255",
 				"type": "other",
 				"drawmode": "manual",
@@ -2213,7 +2213,7 @@
 			},
 			{
 				"name": "character_legend_class",
-				"x": "31",
+				"x": "26",
 				"y": "1",
 				"font": "monospace",
 				"colour": "0xddddddff",
@@ -2230,7 +2230,7 @@
 			},
 			{
 				"name": "character_legend_level",
-				"x": "27",
+				"x": "22",
 				"y": "1",
 				"font": "monospace",
 				"colour": "0xddddddff",
@@ -2247,7 +2247,7 @@
 			},
 			{
 				"name": "character_legend_ac",
-				"x": "43",
+				"x": "33",
 				"y": "1",
 				"font": "monospace",
 				"colour": "0xddddddff",
@@ -2264,7 +2264,7 @@
 			},
 			{
 				"name": "character_legend_hp",
-				"x": "47",
+				"x": "36",
 				"y": "1",
 				"font": "monospace",
 				"colour": "0xddddddff",
@@ -2281,7 +2281,7 @@
 			},
 			{
 				"name": "character_legend_status",
-				"x": "52",
+				"x": "40",
 				"y": "1",
 				"font": "monospace",
 				"colour": "0xddddddff",
@@ -4114,7 +4114,7 @@
 		{
 			"name": "frame",
 			"w": "38",
-			"h": "20",
+			"h": "25",
 			"x": "centre",
 			"y": "2",
 			"alpha": "0",
@@ -4162,7 +4162,7 @@
 			"drawmode" : "automatic",
 			"data": [
 				{
-					"scale_x": "2.73",
+					"scale_x": "2.05",
 					"scale_y": "1.6",
 					"source_w": "440",
 					"source_h": "420",
@@ -4281,7 +4281,7 @@
 			"drawmode" : "automatic",
 			"data": [
 				{
-					"scale_x": "2.73",
+					"scale_x": "2.05",
 					"scale_y": "1.6",
 					"source_w": "440",
 					"source_h": "420",
