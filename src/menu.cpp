@@ -650,6 +650,9 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 		const sf::Vector2f texture_size(texture_w, texture_h);
 		_rtexture.create(texture_size.x, texture_size.y);
 
+		_width = texture_size.x;
+		_height = texture_size.y;
+
 		// Bounds are generated for each menu item to handle mouse over
 		_texts.clear();
 		_options.clear();
@@ -1128,4 +1131,19 @@ auto Sorcery::Menu::disable_entry(__attribute__((unused)) const Component &compo
 		if (_texts.size() >= index)
 			_texts.at(index).setFillColor(sf::Color(0x606060ff));
 	}
+}
+
+auto Sorcery::Menu::get_width() const -> unsigned int {
+
+	return _width;
+}
+
+auto Sorcery::Menu::get_height() const -> unsigned int {
+
+	return _height;
+}
+
+auto Sorcery::Menu::get_size() const -> sf::Vector2f {
+
+	return sf::Vector2f{_width * 1.0f, _height * 1.0f};
 }

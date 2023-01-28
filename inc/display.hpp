@@ -80,6 +80,8 @@ class Display {
 		auto get_bold() const -> bool;
 		auto get_upper() const -> bool;
 		auto get_centre_pos(const sf::Vector2f size) const -> sf::Vector2f;
+		auto get_centre_x(const unsigned int width) const -> unsigned int;
+		auto get_centre_y(const unsigned int height) const -> unsigned int;
 
 		// Public Members
 		std::unique_ptr<String> string;

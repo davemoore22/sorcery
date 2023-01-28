@@ -72,6 +72,9 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		auto num_disabled() -> unsigned int;
 		auto enable_entry(const Component &component, unsigned int index) -> void;
 		auto disable_entry(const Component &component, unsigned int index) -> void;
+		auto get_width() const -> unsigned int;
+		auto get_height() const -> unsigned int;
+		auto get_size() const -> sf::Vector2f;
 
 	private:
 
@@ -90,6 +93,7 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		Graphics *_graphics;
 		Game *_game;
 		unsigned int _width;
+		unsigned int _height;
 		MenuType _type;
 		sf::RenderTexture _rtexture;
 		sf::Texture _texture;

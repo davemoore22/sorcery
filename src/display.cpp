@@ -20,7 +20,7 @@
 // it with the libraries referred to in README (or a modified version of
 // said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
-// the resulting work.
+// the resulting work.l
 
 #include "display.hpp"
 
@@ -45,6 +45,16 @@ Sorcery::Display::Display(System *system) : _system{system} {
 auto Sorcery::Display::get_centre_pos(const sf::Vector2f size) const -> sf::Vector2f {
 
 	return sf::Vector2f{window->get_centre_x(size.x), window->get_centre_y(size.y)};
+}
+
+auto Sorcery::Display::get_centre_x(const unsigned int width) const -> unsigned int {
+
+	return window->get_centre_x(width);
+}
+
+auto Sorcery::Display::get_centre_y(const unsigned int height) const -> unsigned int {
+
+	return window->get_centre_y(height);
 }
 
 auto Sorcery::Display::get_bold() const -> bool {

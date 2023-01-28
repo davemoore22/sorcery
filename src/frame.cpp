@@ -35,18 +35,25 @@ Sorcery::Frame::Frame(System *system, Display *display, const Component layout)
 	// Currently to simplify, we are using the same sized UI grid in the texture as the cell height
 	// const auto cw(_display->window->get_cw());
 	// const auto ch(_display->window->get_ch());
-	const auto cw{32U};
-	const auto ch{32U};
+	const auto cw{24U};
+	const auto ch{24U};
+	const auto source_top{16U};
+	const auto source_size{24U};
 
 	// Define the 8 parts of the Frame based upon the location in the GUI Texture
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)] = sf::IntRect(0, 25, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP)] = sf::IntRect(80, 25, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)] = sf::IntRect(40, 25, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::LEFT)] = sf::IntRect(140, 25, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)] = sf::IntRect(20, 25, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM)] = sf::IntRect(100, 25, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)] = sf::IntRect(60, 25, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::RIGHT)] = sf::IntRect(120, 25, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)] =
+		sf::IntRect(0 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP)] = sf::IntRect(4 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)] =
+		sf::IntRect(2 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WindowFrameParts::LEFT)] = sf::IntRect(7 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)] =
+		sf::IntRect(1 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM)] =
+		sf::IntRect(5 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)] =
+		sf::IntRect(3 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WindowFrameParts::RIGHT)] = sf::IntRect(6 * source_size, source_top, cw, ch);
 
 	// Get the Frame Components
 	auto loop{0};
@@ -120,10 +127,10 @@ Sorcery::Frame::Frame(sf::Texture texture, const unsigned int width_units, const
 	// Currently to simplify, we are using the same sized UI grid in the texture as the cell height
 	// const auto cw(_display->window->get_cw());
 	// const auto ch(_display->window->get_ch());
-	const auto cw{32U};
-	const auto ch{32U};
+	const auto cw{24U};
+	const auto ch{24U};
 	const auto source_top{16U};
-	const auto source_size{32U};
+	const auto source_size{24U};
 
 	// Define the 8 parts of the Frame based upon the location in the GUI Texture
 	_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)] =
