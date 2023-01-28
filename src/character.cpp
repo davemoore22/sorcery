@@ -2729,10 +2729,8 @@ auto Sorcery::Character::get_sb_text(const int position) -> std::string {
 	auto name{_name};
 	if (_display->get_upper())
 		std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
-	const std::string indicator{can_level() ? "*" : " "};
-	return fmt::format("{} {:<15} {:>2}{} {}-{} {:>3} {:>8} {:^7}", position, name, _abilities.at(CURRENT_LEVEL),
-		indicator, get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3),
-		_abilities.at(CURRENT_ARMOUR_CLASS), get_hp_summary(), _get_condition());
+	return fmt::format("{} {:<15} {}-{} {:>2} {:>4} {:^6}", position, name, get_alignment(_alignment).substr(0, 1),
+		get_class(_class).substr(0, 3), _abilities.at(CURRENT_ARMOUR_CLASS), get_hp_summary(), _get_condition());
 }
 
 auto Sorcery::Character::get_age() const -> int {
