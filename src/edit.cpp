@@ -38,13 +38,12 @@ Sorcery::Edit::Edit(System *system, Display *display, Graphics *graphics, Game *
 	_changed = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["character_edit:dialog_class_changed"],
 		(*_display->layout)["character_edit:dialog_class_changed_text"], WindowDialogType::OK);
-	_changed->setPosition((*_display->layout)["character_edit:dialog_class_changed"].x,
-		(*_display->layout)["character_edit:dialog_class_changed"].y);
+	_changed->setPosition(_display->get_centre_pos(_changed->get_size()));
+
 	_legated =
 		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["character_edit:dialog_legated"],
 			(*_display->layout)["character_edit:dialog_legated_text"], WindowDialogType::OK);
-	_legated->setPosition(
-		(*_display->layout)["character_edit:dialog_legated"].x, (*_display->layout)["character_edit:dialog_legated"].y);
+	_legated->setPosition(_display->get_centre_pos(_legated->get_size()));
 }
 
 auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> {

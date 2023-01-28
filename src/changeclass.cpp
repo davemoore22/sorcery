@@ -46,14 +46,12 @@ Sorcery::ChangeClass::ChangeClass(System *system, Display *display, Graphics *gr
 	_not_changed = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["change_class:dialog_class_not_changed"],
 		(*_display->layout)["change_class:dialog_class_not_changed_text"], WindowDialogType::OK);
-	_not_changed->setPosition((*_display->layout)["change_class:dialog_class_not_changed"].x,
-		(*_display->layout)["change_class:dialog_class_not_changed"].y);
+	_not_changed->setPosition(_display->get_centre_pos(_not_changed->get_size()));
 
 	_confirm = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["change_class:dialog_confirm_change_class"],
 		(*_display->layout)["change_class:dialog_confirm_change_class_text"], WindowDialogType::CONFIRM);
-	_confirm->setPosition((*_display->layout)["change_class:dialog_confirm_change_class"].x,
-		(*_display->layout)["change_class:dialog_confirm_change_class"].y);
+	_confirm->setPosition(_display->get_centre_pos(_confirm->get_size()));
 
 	_new_class = std::nullopt;
 }

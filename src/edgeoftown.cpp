@@ -33,6 +33,8 @@ Sorcery::EdgeOfTown::EdgeOfTown(System *system, Display *display, Graphics *grap
 
 	// Setup Custom Components
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::EDGE_OF_TOWN);
+	_menu->generate((*_display->layout)["edge_of_town:menu"]);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["edge_of_town:menu"].y);
 
 	_leave_game =
 		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["edge_of_town:dialog_leave_game"],
@@ -235,8 +237,6 @@ auto Sorcery::EdgeOfTown::_draw() -> void {
 
 	// And the Menu
 	_menu->generate((*_display->layout)["edge_of_town:menu"]);
-	const sf::Vector2f menu_pos((*_display->layout)["edge_of_town:menu"].x, (*_display->layout)["edge_of_town:menu"].y);
-	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 	if (_display->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME) {
 		_leave_game->update();

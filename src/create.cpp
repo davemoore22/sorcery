@@ -71,8 +71,7 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics, Ga
 	_dialog_saved_ok = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["character_create_stage_7:dialog_saved_ok"],
 		(*_display->layout)["character_create_stage_7:dialog_saved_ok_text"], WindowDialogType::OK);
-	_dialog_saved_ok->setPosition((*_display->layout)["character_create_stage_7:dialog_saved_ok"].x,
-		(*_display->layout)["character_create_stage_7:dialog_saved_ok"].y);
+	_dialog_saved_ok->setPosition(_display->get_centre_pos(_dialog_saved_ok->get_size()));
 }
 
 auto Sorcery::Create::start() -> std::optional<MenuItem> {

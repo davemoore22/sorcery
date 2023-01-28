@@ -41,8 +41,7 @@ Sorcery::Tavern::Tavern(System *system, Display *display, Graphics *graphics, Ga
 
 	_divvy = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["tavern:dialog_divvy_gold_ok"],
 		(*_display->layout)["tavern:dialog_divvy_gold_ok_text"], WindowDialogType::OK);
-	_divvy->setPosition(
-		(*_display->layout)["tavern:dialog_divvy_gold_ok"].x, (*_display->layout)["tavern:dialog_divvy_gold_ok"].y);
+	_divvy->setPosition(_display->get_centre_pos(_divvy->get_size()));
 
 	_show_divvy = false;
 }

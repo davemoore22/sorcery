@@ -33,6 +33,9 @@ Sorcery::Options::Options(System *system, Display *display, Graphics *graphics)
 
 	// Menu and Options
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr, MenuType::OPTIONS);
+	_menu->generate((*_display->layout)["options:menu"]);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["options:menu"].y);
+
 	_option_on = Component((*_display->layout)["options:on"]);
 	_option_off = Component((*_display->layout)["options:off"]);
 
@@ -260,8 +263,6 @@ auto Sorcery::Options::_draw() -> void {
 	_display->display("options");
 
 	_menu->generate((*_display->layout)["options:menu"]);
-	const sf::Vector2f menu_pos((*_display->layout)["options:menu"].x, (*_display->layout)["options:menu"].y);
-	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 	if (_display->get_input_mode() == WindowInputMode::CONFIRM_STRICT_MODE) {
 		_confirm_strict->update();

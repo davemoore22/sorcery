@@ -34,7 +34,9 @@ Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics
 	// Create the Main Menu
 	_menu_stage = MainMenuType::ATTRACT_MODE;
 	_main_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::MAIN);
-	// Cant do setpos until the menu is drawn
+	_main_menu->generate((*_display->layout)["main_menu_attract:main_menu"]);
+	_main_menu->setPosition(
+		_display->get_centre_x(_main_menu->get_width()), (*_display->layout)["main_menu_attract:main_menu"].y);
 
 	// Setup Custom Components
 	Component any_key_c{(*_display->layout)["main_menu_attract:press_any_key"]};
@@ -292,8 +294,6 @@ auto Sorcery::MainMenu::_draw() -> void {
 
 			// Draw the menu
 			_main_menu->generate((*_display->layout)["main_menu_attract:main_menu"]);
-			_main_menu->setPosition(
-				_display->get_centre_x(_main_menu->get_width()), (*_display->layout)["main_menu_attract:main_menu"].y);
 			_window->draw(*_main_menu);
 			if (_display->get_input_mode() == WindowInputMode::CONFIRM_QUIT_GAME) {
 				_dialog_exit->update();

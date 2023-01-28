@@ -35,6 +35,14 @@ Sorcery::Inn::Inn(System *system, Display *display, Graphics *graphics, Game *ga
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::INN);
 	_roster = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::PARTY_CHARACTERS, MenuMode::INN);
 	_bed = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::INN_CHOOSE_BED);
+
+	_menu->generate((*_display->layout)["inn:menu"]);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["inn:menu"].y);
+	_roster->generate((*_display->layout)["inn_choose:menu:menu"]);
+	_roster->setPosition(_display->get_centre_x(_roster->get_width()), (*_display->layout)["inn_choose:menu:menu"].y);
+	_bed->generate((*_display->layout)["inn_bed:menu:menu"]);
+	_bed->setPosition(_display->get_centre_x(_bed->get_width()), (*_display->layout)["inn_bed:menu:menu"].y);
+
 	_rest = std::make_unique<Rest>(_system, _display, _graphics, _game);
 	_welcome_text = sf::Text();
 	_gold_text = sf::Text();
@@ -48,8 +56,7 @@ Sorcery::Inn::Inn(System *system, Display *display, Graphics *graphics, Game *ga
 
 	_pool = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["inn:dialog_pool_gold_ok"],
 		(*_display->layout)["inn:dialog_pool_gold_ok_text"], WindowDialogType::OK);
-	_pool->setPosition(
-		(*_display->layout)["inn:dialog_pool_gold_ok"].x, (*_display->layout)["inn:dialog_pool_gold_ok"].y);
+	_pool->setPosition(_display->get_centre_pos(_pool->get_size()));
 
 	_show_pool = false;
 }
@@ -395,8 +402,6 @@ auto Sorcery::Inn::_draw() -> void {
 
 		// And the Menu
 		_menu->generate((*_display->layout)["inn:menu"]);
-		const sf::Vector2f menu_pos((*_display->layout)["inn:menu"].x, (*_display->layout)["inn:menu"].y);
-		_menu->setPosition(menu_pos);
 		_display->display("inn_welcome", _w_sprites, _w_texts, _w_frames);
 		_window->draw(*_menu);
 
@@ -404,16 +409,12 @@ auto Sorcery::Inn::_draw() -> void {
 
 		// And the Menu
 		_roster->generate((*_display->layout)["inn_choose:menu"]);
-		const sf::Vector2f menu_pos((*_display->layout)["inn_choose:menu"].x, (*_display->layout)["inn_choose:menu"].y);
-		_roster->setPosition(menu_pos);
 		_display->display("inn_choose", _c_sprites, _c_texts, _c_frames);
 		_window->draw(*_roster);
 	} else if (_stage == InnStage::BED) {
 
 		// And the Menu
 		_bed->generate((*_display->layout)["inn_bed:menu"]);
-		const sf::Vector2f menu_pos((*_display->layout)["inn_bed:menu"].x, (*_display->layout)["inn_bed:menu"].y);
-		_bed->setPosition(menu_pos);
 		_display->display("inn_bed", _b_sprites, _b_texts, _b_frames);
 		_window->draw(*_bed);
 

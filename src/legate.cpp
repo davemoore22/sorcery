@@ -35,8 +35,7 @@ Sorcery::Legate::Legate(System *system, Display *display, Graphics *graphics, Ch
 	_proceed =
 		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["legate:dialog_confirm_legate"],
 			(*_display->layout)["legate:dialog_confirm_legate_text"], WindowDialogType::CONFIRM);
-	_proceed->setPosition(
-		(*_display->layout)["legate:dialog_confirm_legate"].x, (*_display->layout)["legate:dialog_confirm_legate"].y);
+	_proceed->setPosition(_display->get_centre_pos(_proceed->get_size()));
 
 	// Menu
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr, MenuType::CHOOSE_CHARACTER_ALIGNMENT);

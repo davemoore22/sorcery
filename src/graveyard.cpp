@@ -32,6 +32,8 @@ Sorcery::Graveyard::Graveyard(System *system, Display *display, Graphics *graphi
 	_window = _display->window->get_window();
 
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::GRAVEYARD);
+	_menu->generate((*_display->layout)["graveyard:menu"]);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["graveyard:menu"].y);
 
 	const Component menu_fc{(*_display->layout)["graveyard:menu_frame"]};
 	_menu_frame = std::make_unique<Frame>(
@@ -190,7 +192,6 @@ auto Sorcery::Graveyard::_draw() -> void {
 	// And the Menu
 	_menu->generate((*_display->layout)["graveyard:menu"]);
 	const sf::Vector2f menu_pos((*_display->layout)["graveyard:menu"].x, (*_display->layout)["graveyard:menu"].y);
-	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 
 	_display->window->draw_text(

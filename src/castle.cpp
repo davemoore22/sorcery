@@ -33,6 +33,8 @@ Sorcery::Castle::Castle(System *system, Display *display, Graphics *graphics, Ga
 
 	// Setup Custom Components
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CASTLE);
+	_menu->generate((*_display->layout)["castle:menu"]);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["castle:menu"].y);
 
 	_leave_game =
 		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["castle:dialog_leave_game"],
@@ -283,8 +285,6 @@ auto Sorcery::Castle::_draw() -> void {
 
 	// And the Menu
 	_menu->generate((*_display->layout)["castle:menu"]);
-	const sf::Vector2f menu_pos((*_display->layout)["castle:menu"].x, (*_display->layout)["castle:menu"].y);
-	_menu->setPosition(menu_pos);
 	_window->draw(*_menu);
 	if (_display->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME) {
 		_leave_game->update();

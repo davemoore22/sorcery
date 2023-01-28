@@ -250,49 +250,44 @@ auto Sorcery::Engine::_initalise_components() -> void {
 
 	_ouch = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:ouch"],
 		(*_display->layout)["engine_base_ui:ouch_text"], WindowDialogType::TIMED);
-	_ouch->setPosition((*_display->layout)["engine_base_ui:ouch"].x, (*_display->layout)["engine_base_ui:ouch"].y);
+	_ouch->setPosition(_display->get_centre_pos(_ouch->get_size()));
 	_ouch->set_duration(DELAY_OUCH);
 
 	_pit = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:pit"],
 		(*_display->layout)["engine_base_ui:pit_text"], WindowDialogType::TIMED);
-	_pit->setPosition((*_display->layout)["engine_base_ui:pit"].x, (*_display->layout)["engine_base_ui:pit"].y);
+	_pit->setPosition(_display->get_centre_pos(_pit->get_size()));
 	_pit->set_duration(DELAY_PIT);
 
 	_chute = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:chute"],
 		(*_display->layout)["engine_base_ui:chute_text"], WindowDialogType::TIMED);
-	_chute->setPosition((*_display->layout)["engine_base_ui:chute"].x, (*_display->layout)["engine_base_ui:chute"].y);
+	_chute->setPosition(_display->get_centre_pos(_chute->get_size()));
 	_chute->set_duration(DELAY_CHUTE);
 
 	_found_an_item =
 		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:found_an_item"],
 			(*_display->layout)["engine_base_ui:found_an_item_text"], WindowDialogType::TIMED);
-	_found_an_item->setPosition(
-		(*_display->layout)["engine_base_ui:found_an_item"].x, (*_display->layout)["engine_base_ui:found_an_item"].y);
+	_found_an_item->setPosition(_display->get_centre_pos(_found_an_item->get_size()));
 	_found_an_item->set_duration(DELAY_FIND_AN_ITEM);
 
 	_elevator = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:one_moment"],
 		(*_display->layout)["engine_base_ui:one_moment_text"], WindowDialogType::TIMED);
-	_elevator->setPosition(
-		(*_display->layout)["engine_base_ui:one_moment"].x, (*_display->layout)["engine_base_ui:one_moment"].y);
+	_elevator->setPosition(_display->get_centre_pos(_elevator->get_size()));
 	_elevator->set_duration(DELAY_ELEVATOR);
 
 	_confirm_stairs =
 		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:dialog_stairs"],
 			(*_display->layout)["engine_base_ui:dialog_ladder_up_text"], WindowDialogType::CONFIRM);
-	_confirm_stairs->setPosition(
-		(*_display->layout)["engine_base_ui:dialog_stairs"].x, (*_display->layout)["engine_base_ui:dialog_stairs"].y);
+	_confirm_stairs->setPosition(_display->get_centre_pos(_confirm_stairs->get_size()));
 
 	_confirm_exit =
 		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:dialog_exit"],
 			(*_display->layout)["engine_base_ui:dialog_exit_text"], WindowDialogType::CONFIRM);
-	_confirm_exit->setPosition(
-		(*_display->layout)["engine_base_ui:dialog_exit"].x, (*_display->layout)["engine_base_ui:dialog_exit"].y);
+	_confirm_exit->setPosition(_display->get_centre_pos(_confirm_exit->get_size()));
 
 	_confirm_search =
 		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:dialog_search"],
 			(*_display->layout)["engine_base_ui:dialog_search_text"], WindowDialogType::CONFIRM);
-	_confirm_search->setPosition(
-		(*_display->layout)["engine_base_ui:dialog_search"].x, (*_display->layout)["engine_base_ui:dialog_search"].y);
+	_confirm_search->setPosition(_display->get_centre_pos(_confirm_search->get_size()));
 
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game,

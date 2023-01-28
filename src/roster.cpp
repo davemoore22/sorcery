@@ -54,8 +54,7 @@ Sorcery::Roster::Roster(System *system, Display *display, Graphics *graphics, Ga
 	_delete = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["roster_delete:dialog_delete_character"],
 		(*_display->layout)["roster_delete:dialog_delete_character_text"], WindowDialogType::CONFIRM);
-	_delete->setPosition((*_display->layout)["roster_delete:dialog_delete_character"].x,
-		(*_display->layout)["roster_delete:dialog_delete_character"].y);
+	_delete->setPosition(_display->get_centre_pos(_delete->get_size()));
 }
 
 // Standard Destructor
