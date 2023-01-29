@@ -82,6 +82,8 @@ class Display {
 		auto get_centre_pos(const sf::Vector2f size) const -> sf::Vector2f;
 		auto get_centre_x(const unsigned int width) const -> unsigned int;
 		auto get_centre_y(const unsigned int height) const -> unsigned int;
+		auto get_disc() const -> bool;
+		auto set_disc(const bool value) -> void;
 
 		// Public Members
 		std::unique_ptr<String> string;
@@ -104,6 +106,7 @@ class Display {
 		unsigned int _wallpaper_idx;
 		bool _bold_text;
 		bool _upper_text;
+		bool _accessing_disc;
 
 		// Private Methods
 };

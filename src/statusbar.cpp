@@ -101,9 +101,9 @@ auto Sorcery::StatusBar::refresh() -> void {
 	for (auto _id : party) {
 		auto character{_game->characters[_id]};
 		auto summary{std::make_shared<CharacterSummary>(_system, _display, _graphics, &character, count + 1)};
-		summary->setPosition(x + summary_offset_x, y);
-		summary->set_local_bounds(x + summary_offset_x, y + 12);
-		y += summary_offset_y;
+		summary->setPosition(x + summary_offset_x, y + summary_offset_y);
+		summary->set_local_bounds(x + summary_offset_x, y);
+		y += _display->window->get_ch();
 		bounds.emplace_back(summary->get_local_bounds());
 		_summaries.emplace_back(std::move(summary));
 		++count;

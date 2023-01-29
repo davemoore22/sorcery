@@ -513,7 +513,10 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 				_update_render = true;
 				_pending_chute = false;
 
+				_display->set_disc(true);
+				_refresh_display();
 				_game->save_game();
+				_display->set_disc(false);
 			}
 		} else if (_pending_elevator) {
 
@@ -530,7 +533,12 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 				_update_search = true;
 				_update_render = true;
 				_pending_elevator = false;
+
+				_display->set_disc(true);
+				_refresh_display();
 				_game->save_game();
+				_display->set_disc(false);
+
 				_destination_floor = 0;
 			}
 		}
@@ -617,7 +625,12 @@ auto Sorcery::Engine::_handle_in_character(const sf::Event &event) -> void {
 	} else if (_system->input->check(BACK, event)) {
 		_display->set_input_mode(WindowInputMode::IN_GAME);
 		_cur_char = std::nullopt;
+
+		_display->set_disc(true);
+		_refresh_display();
 		_game->save_game();
+		_display->set_disc(false);
+
 		_status_bar->refresh();
 		_in_character = false;
 		_display->generate("engine_base_ui");
@@ -674,7 +687,11 @@ auto Sorcery::Engine::_handle_in_search(const sf::Event &event) -> std::optional
 
 			if (const MenuItem option_chosen{(*_search_option.value()).item}; option_chosen == MenuItem::AC_LEAVE) {
 
+				_display->set_disc(true);
+				_refresh_display();
 				_game->save_game();
+				_display->set_disc(false);
+
 				_status_bar->refresh();
 				_in_search = false;
 				_display->generate("engine_base_ui");
@@ -724,7 +741,11 @@ auto Sorcery::Engine::_handle_in_action(const sf::Event &event) -> std::optional
 
 			if (const MenuItem option_chosen{(*_action_option.value()).item}; option_chosen == MenuItem::AC_LEAVE) {
 
+				_display->set_disc(true);
+				_refresh_display();
 				_game->save_game();
+				_display->set_disc(false);
+
 				_status_bar->refresh();
 				_in_action = false;
 				_display->generate("engine_base_ui");
@@ -773,7 +794,11 @@ auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<in
 
 			if (const MenuItem option_chosen{(*_get_option.value()).item}; option_chosen == MenuItem::AC_LEAVE) {
 
+				_display->set_disc(true);
+				_refresh_display();
 				_game->save_game();
+				_display->set_disc(false);
+
 				_status_bar->refresh();
 				_in_get = false;
 				_display->generate("engine_base_ui");
@@ -786,7 +811,11 @@ auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<in
 				if (_cur_char) {
 					_cur_char.value()->set_location(CharacterLocation::PARTY);
 					_game->state->add_character_by_id(character_chosen);
+
+					_display->set_disc(true);
+					_refresh_display();
 					_game->save_game();
+					_display->set_disc(false);
 				}
 
 				_status_bar->refresh();
@@ -829,7 +858,11 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 
 			if (const MenuItem option_chosen{(*_camp_option.value()).item}; option_chosen == MenuItem::CP_LEAVE) {
 
+				_display->set_disc(true);
+				_refresh_display();
 				_game->save_game();
+				_display->set_disc(false);
+
 				_status_bar->refresh();
 				_in_camp = false;
 				_display->generate("engine_base_ui");
@@ -843,7 +876,12 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 						character.set_location(CharacterLocation::MAZE);
 					}
 				}
+
+				_display->set_disc(true);
+				_refresh_display();
 				_game->save_game();
+				_display->set_disc(false);
+
 				_game->state->clear_party();
 				return EXIT_MODULE;
 			} else if (option_chosen == MenuItem::QUIT) {
@@ -874,8 +912,12 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 
 					// TODO: handle aborts here too
 					_game->state->set_party(new_party.value());
+
+					_display->set_disc(true);
+					_refresh_display();
 					_game->save_game();
-					_game->load_game();
+					_display->set_disc(false);
+
 					_status_bar->refresh();
 				}
 				_reorder->stop();
@@ -918,7 +960,12 @@ auto Sorcery::Engine::_do_wipe() -> int {
 	}
 	_graveyard->start();
 	_graveyard->stop();
+
+	_display->set_disc(true);
+	_refresh_display();
 	_game->save_game();
+	_display->set_disc(false);
+
 	_game->state->clear_party();
 
 	return EXIT_MODULE;
@@ -1119,7 +1166,12 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 	// Handle any events first - will run once then set _can_run_event to false
 	_event_if();
 	if (_exit_maze_now) {
+
+		_display->set_disc(true);
+		_refresh_display();
 		_game->save_game();
+		_display->set_disc(false);
+
 		_exit_maze_now = false;
 		return EXIT_MODULE;
 	}
@@ -1273,7 +1325,12 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 					// On return to time - need also to do this on MALOR back as well
 					_unpoison_characters_on_return_to_town();
 					_move_characters_to_temple_if_needed();
+
+					_display->set_disc(true);
+					_refresh_display();
 					_game->save_game();
+					_display->set_disc(false);
+
 					return EXIT_MODULE;
 				} else {
 
@@ -1282,7 +1339,11 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						_set_tile_explored(_game->state->get_player_pos());
 					_update_automap = true;
 					_show_confirm_stairs = true;
+
+					_display->set_disc(true);
+					_refresh_display();
 					_game->save_game();
+					_display->set_disc(false);
 				}
 			}
 		}
@@ -1342,7 +1403,12 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_update_automap = true;
 			}
 			if (_exit_maze_now) {
+
+				_display->set_disc(true);
+				_refresh_display();
 				_game->save_game();
+				_display->set_disc(false);
+
 				_exit_maze_now = false;
 				return EXIT_MODULE;
 			}
@@ -1371,7 +1437,12 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_chute_if();
 			}
 			if (_exit_maze_now) {
+
+				_display->set_disc(true);
+				_refresh_display();
 				_game->save_game();
+				_display->set_disc(false);
+
 				_exit_maze_now = false;
 				return EXIT_MODULE;
 			}
@@ -1412,8 +1483,12 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 
 							// TODO: handle aborts here too
 							_game->state->set_party(new_party.value());
+
+							_display->set_disc(true);
+							_refresh_display();
 							_game->save_game();
-							_game->load_game();
+							_display->set_disc(false);
+
 							_status_bar->refresh();
 						}
 						_reorder->stop();
@@ -1451,7 +1526,11 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 								character.set_location(CharacterLocation::MAZE);
 							}
 						}
+						_display->set_disc(true);
+						_refresh_display();
 						_game->save_game();
+						_display->set_disc(false);
+
 						_game->state->clear_party();
 						return EXIT_MODULE;
 

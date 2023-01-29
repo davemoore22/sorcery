@@ -34,12 +34,16 @@ Sorcery::Display::Display(System *system) : _system{system} {
 	ui_texture = (*_system->resources).textures[GraphicsTexture::UI];
 	_background_movie.openFromFile(_system->files->get_path(MENU_VIDEO));
 	auto icon_layout{(*layout)["global:icon"]};
+
+	// seperate copy of the icons store since graphics module is unaccessable here
 	_icons = std::make_unique<IconStore>(_system, icon_layout, (*_system->files)[ICONS_FILE]);
 
 	_bold_text = false;
 	_upper_text = false;
 	window->set_bold(_bold_text);
 	window->set_upper(_upper_text);
+
+	_accessing_disc = false;
 }
 
 auto Sorcery::Display::get_centre_pos(const sf::Vector2f size) const -> sf::Vector2f {
@@ -423,7 +427,12 @@ auto Sorcery::Display::display_direction_indicator(MapDirection direction, bool 
 
 auto Sorcery::Display::display_cursor() -> void {
 
-	sf::Sprite cursor{window->get_cursor()};
+	auto cursor{[&] {
+		if (_accessing_disc)
+			return window->get_disc();
+		else
+			return window->get_cursor();
+	}()};
 	cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window->get_window())));
 	window->get_window()->draw(cursor);
 }
@@ -436,6 +445,16 @@ auto Sorcery::Display::start_bg_movie() -> void {
 
 	if (_background_movie.getStatus() == sfe::Stopped)
 		_background_movie.play();
+}
+
+auto Sorcery::Display::get_disc() const -> bool {
+
+	return _accessing_disc;
+}
+
+auto Sorcery::Display::set_disc(const bool value) -> void {
+
+	_accessing_disc = value;
 }
 
 auto Sorcery::Display::stop_bg_movie() -> void {

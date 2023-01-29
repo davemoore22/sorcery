@@ -261,6 +261,14 @@ auto Sorcery::Window::get_cursor() const -> sf::Sprite {
 	return cursor;
 }
 
+auto Sorcery::Window::get_disc() const -> sf::Sprite {
+
+	sf::Sprite disc(_system->resources->textures[GraphicsTexture::UI]);
+	const sf::IntRect disc_rect(40, 85, 32, 32);
+	disc.setTextureRect(disc_rect);
+	return disc;
+}
+
 auto Sorcery::Window::get_gui() -> tgui::Gui * {
 
 	return &_gui;

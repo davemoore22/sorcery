@@ -41,7 +41,7 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 	levelstore = std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
 }
 
-auto Sorcery::Game::get_id() -> unsigned int {
+auto Sorcery::Game::get_id() const -> unsigned int {
 
 	return _id;
 }

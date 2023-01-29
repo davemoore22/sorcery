@@ -49,7 +49,7 @@ class Game {
 		std::unique_ptr<LevelStore> levelstore;
 
 		// Public Methods
-		auto get_id() -> unsigned int;
+		auto get_id() const -> unsigned int;
 		auto create_game() -> void;
 		auto load_game() -> void;
 		auto save_game() -> void;

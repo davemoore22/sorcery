@@ -52,6 +52,7 @@ class Window {
 		auto get_ch() const -> unsigned int;
 		auto get_cw() const -> unsigned int;
 		auto get_cursor() const -> sf::Sprite;
+		auto get_disc() const -> sf::Sprite;
 		auto get_gui() -> tgui::Gui *;
 		auto get_window() -> sf::RenderWindow *;
 		auto get_x(const sf::Sprite &sprite, int x_position) const -> unsigned int;

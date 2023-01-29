@@ -11,7 +11,8 @@
 				<Option object_output="obj/debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="--skip-intro -continue-game" />
+				<Option use_console_runner="0" />
+				<Option parameters="--skip-intro -go-to-inn" />
 				<Compiler>
 					<Add option="-pg" />
 					<Add option="-g" />
@@ -25,6 +26,7 @@
 				<Option object_output="obj/release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>

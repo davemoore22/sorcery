@@ -60,11 +60,11 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 
 	_add =
 		std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::AVAILABLE_CHARACTERS, MenuMode::TAVERN);
-	_add->generate((*_display->layout)["tavern:menu"]);
-	_add->setPosition(_display->get_centre_x(_add->get_width()), (*_display->layout)["tavern:menu"].y);
+	_add->generate((*_display->layout)["tavern_add:menu"]);
+	_add->setPosition(_display->get_centre_x(_add->get_width()), (*_display->layout)["tavern_add:menu"].y);
 	_remove = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::PARTY_CHARACTERS, MenuMode::TAVERN);
-	_remove->generate((*_display->layout)["tavern:menu"]);
-	_remove->setPosition(_display->get_centre_x(_remove->get_width()), (*_display->layout)["tavern:menu"].y);
+	_remove->generate((*_display->layout)["tavern_remove:menu"]);
+	_remove->setPosition(_display->get_centre_x(_remove->get_width()), (*_display->layout)["tavern_remove:menu"].y);
 	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MenuMode::TAVERN);
 
 	// Note Inspect is handled in a generic Inspect Module
