@@ -94,7 +94,7 @@ auto Sorcery::AllocatePanel::set() -> void {
 		text.setCharacterSize(_layout.size);
 		text.setFillColor(sf::Color(_graphics->adjust_colour(value, CharacterAbilityType::STAT)));
 		text.setString(fmt::format("{:>2}", value));
-		text.setOrigin(0, text.getLocalBounds().height / 2.0f);
+		// text.setOrigin(0, text.getLocalBounds().height / 2.0f);
 		text.setPosition(x, (y * _display->window->get_ch()));
 		if (_display->get_bold())
 			text.setStyle(sf::Text::Bold);

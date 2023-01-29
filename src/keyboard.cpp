@@ -56,7 +56,7 @@ Sorcery::Keyboard::Keyboard(System *system, Display *display, Graphics *graphics
 		_texts[key].setCharacterSize(_text_c.size);
 		_texts[key].setFillColor(sf::Color(_text_c.colour));
 		_texts[key].setPosition(letter_pos.x, letter_pos.y);
-		_texts[key].setOrigin(_texts[key].getLocalBounds().width / 2.0f, _texts[key].getLocalBounds().height / 2.0f);
+		//_texts[key].setOrigin(_texts[key].getLocalBounds().width / 2.0f, _texts[key].getLocalBounds().height / 2.0f);
 		if (current_col < max_col) {
 			letter_pos.x += spacing.x;
 			++current_col;
@@ -78,7 +78,8 @@ Sorcery::Keyboard::Keyboard(System *system, Display *display, Graphics *graphics
 	_texts[space].setCharacterSize(_text_c.size - 24);
 	_texts[space].setFillColor(sf::Color(_text_c.colour));
 	_texts[space].setPosition(letter_pos.x, letter_pos.y + _texts[space].getLocalBounds().height / 1.5f);
-	_texts[space].setOrigin(_texts[space].getLocalBounds().width / 2.0f, _texts[space].getLocalBounds().height / 2.0f);
+	//_texts[space].setOrigin(_texts[space].getLocalBounds().width / 2.0f, _texts[space].getLocalBounds().height
+	/// 2.0f);
 	if (current_col < max_col) {
 		letter_pos.x += spacing.x;
 		++current_col;
@@ -101,7 +102,7 @@ Sorcery::Keyboard::Keyboard(System *system, Display *display, Graphics *graphics
 		_texts[key].setCharacterSize(_text_c.size);
 		_texts[key].setFillColor(sf::Color(_text_c.colour));
 		_texts[key].setPosition(letter_pos.x, letter_pos.y);
-		_texts[key].setOrigin(_texts[key].getLocalBounds().width / 2.0f, _texts[key].getLocalBounds().height / 2.0f);
+		//_texts[key].setOrigin(_texts[key].getLocalBounds().width / 2.0f, _texts[key].getLocalBounds().height / 2.0f);
 		if (current_col < max_col) {
 			letter_pos.x += spacing.x;
 			++current_col;
@@ -123,7 +124,7 @@ Sorcery::Keyboard::Keyboard(System *system, Display *display, Graphics *graphics
 	_texts[del].setCharacterSize(_text_c.size - 24);
 	_texts[del].setFillColor(sf::Color(_text_c.colour));
 	_texts[del].setPosition(letter_pos.x, letter_pos.y + _texts[del].getLocalBounds().height / 1.5f);
-	_texts[del].setOrigin(_texts[del].getLocalBounds().width / 2.0f, _texts[del].getLocalBounds().height / 2.0f);
+	//_texts[del].setOrigin(_texts[del].getLocalBounds().width / 2.0f, _texts[del].getLocalBounds().height / 2.0f);
 	if (current_col < max_col) {
 		letter_pos.x += spacing.x;
 		++current_col;
@@ -142,7 +143,7 @@ Sorcery::Keyboard::Keyboard(System *system, Display *display, Graphics *graphics
 	_texts[end].setCharacterSize(_text_c.size - 24);
 	_texts[end].setFillColor(sf::Color(_text_c.colour));
 	_texts[end].setPosition(letter_pos.x, letter_pos.y + _texts[end].getLocalBounds().height / 1.5f);
-	_texts[end].setOrigin(_texts[end].getLocalBounds().width / 2.0f, _texts[end].getLocalBounds().height / 2.0f);
+	//_texts[end].setOrigin(_texts[end].getLocalBounds().width / 2.0f, _texts[end].getLocalBounds().height / 2.0f);
 	if (_text_c.font == FontType::PROPORTIONAL)
 		_texts[end].setPosition(_texts[end].getPosition().x,
 			_texts[end].getPosition().y - ((_text_c.size - _texts[end].getLocalBounds().height) / 2));

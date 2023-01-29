@@ -106,7 +106,6 @@ auto Sorcery::Create::_initalise_components() -> void {
 	_dialog_saved_ok = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["character_create_stage_7:dialog_saved_ok"],
 		(*_display->layout)["character_create_stage_7:dialog_saved_ok_text"], WindowDialogType::OK);
-	_dialog_saved_ok->setPosition(_display->get_centre_pos(_dialog_saved_ok->get_size()));
 }
 
 auto Sorcery::Create::_initialise_state() -> void {
@@ -147,6 +146,16 @@ auto Sorcery::Create::_place_components() -> void {
 
 	_keyboard->setPosition((*_display->layout)["character_create_stage_1:keyboard"].x,
 		(*_display->layout)["character_create_stage_1:keyboard"].y);
+
+	_candidate.setPosition((*_display->layout)["character_create_stage_7:candidate"].x,
+		(*_display->layout)["character_create_stage_7:candidate"].y);
+
+	_dialog_saved_ok->setPosition(_display->get_centre_pos(_dialog_saved_ok->get_size()));
+
+	_final_menu_frame->setPosition(_display->window->get_x(_final_menu_frame->sprite,
+									   (*_display->layout)["character_create_stage_7:menu_frame"].x),
+		_display->window->get_y(
+			_final_menu_frame->sprite, (*_display->layout)["character_create_stage_7:menu_frame"].y));
 }
 
 auto Sorcery::Create::start() -> std::optional<MenuItem> {
@@ -1178,8 +1187,6 @@ auto Sorcery::Create::_draw() -> void {
 	} else if (_candidate.get_stage() == CharacterStage::REVIEW_AND_CONFIRM) {
 
 		_display->display("character_create_stage_7", _sprites, _texts, _frames);
-		_candidate.setPosition((*_display->layout)["character_create_stage_7:candidate"].x,
-			(*_display->layout)["character_create_stage_7:candidate"].y);
 
 		_candidate.update();
 		_window->draw(_candidate);
@@ -1187,10 +1194,6 @@ auto Sorcery::Create::_draw() -> void {
 		if (_show_final_menu) {
 			_final_menu->generate((*_display->layout)["character_create_stage_7:menu"]);
 
-			const sf::Vector2f frame_pos((*_display->layout)["character_create_stage_7:menu_frame"].x,
-				(*_display->layout)["character_create_stage_7:menu_frame"].y);
-
-			_final_menu_frame->setPosition(frame_pos);
 			_window->draw(*_final_menu_frame);
 			_window->draw(*_final_menu);
 
