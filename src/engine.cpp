@@ -62,142 +62,72 @@ auto Sorcery::Engine::_initialise_state() -> void {
 
 auto Sorcery::Engine::_reset_components() -> void {
 
-	if (_camp_menu.get()) {
-		_camp_menu.release();
+	if (_camp_menu.get())
 		_camp_menu.reset();
-	}
-	if (_camp_menu_frame.get()) {
-		_camp_menu_frame.release();
+	if (_camp_menu_frame.get())
 		_camp_menu_frame.reset();
-	}
-	if (_search_menu.get()) {
-		_search_menu.release();
+	if (_search_menu.get())
 		_search_menu.reset();
-	}
-	if (_search_menu_frame.get()) {
-		_search_menu_frame.release();
+	if (_search_menu_frame.get())
 		_search_menu_frame.reset();
-	}
-	if (_get_menu.get()) {
-		_get_menu.release();
+	if (_get_menu.get())
 		_get_menu.reset();
-	}
-	if (_get_menu_frame.get()) {
-		_get_menu_frame.release();
+	if (_get_menu_frame.get())
 		_get_menu_frame.reset();
-	}
-	if (_action_menu.get()) {
-		_action_menu.release();
+	if (_action_menu.get())
 		_action_menu.reset();
-	}
-	if (_action_menu.get()) {
-		_action_menu.release();
+	if (_action_menu.get())
 		_action_menu.reset();
-	}
-	if (_elevator_a_d_menu.get()) {
-		_elevator_a_d_menu.release();
+	if (_elevator_a_d_menu.get())
 		_elevator_a_d_menu.reset();
-	}
-	if (_elevator_a_d_menu_frame.get()) {
-		_elevator_a_d_menu_frame.release();
+	if (_elevator_a_d_menu_frame.get())
 		_elevator_a_d_menu_frame.reset();
-	}
-	if (_elevator_a_f_menu.get()) {
-		_elevator_a_f_menu.release();
+	if (_elevator_a_f_menu.get())
 		_elevator_a_f_menu.reset();
-	}
-	if (_elevator_a_f_menu_frame.get()) {
-		_elevator_a_f_menu_frame.release();
+	if (_elevator_a_f_menu_frame.get())
 		_elevator_a_f_menu_frame.reset();
-	}
-	if (_confirm_exit.get()) {
-		_confirm_exit.release();
+	if (_confirm_exit.get())
 		_confirm_exit.reset();
-	}
-	if (_confirm_stairs.get()) {
-		_confirm_stairs.release();
+	if (_confirm_stairs.get())
 		_confirm_stairs.reset();
-	}
-	if (_confirm_search.get()) {
-		_confirm_search.release();
+	if (_confirm_search.get())
 		_confirm_search.reset();
-	}
-	if (_ouch.get()) {
-		_ouch.release();
+	if (_ouch.get())
 		_ouch.reset();
-	}
-	if (_pit.get()) {
-		_pit.release();
+	if (_pit.get())
 		_pit.reset();
-	}
-
-	if (_chute.get()) {
-		_chute.release();
+	if (_chute.get())
 		_chute.reset();
-	}
-
-	if (_found_an_item.get()) {
-		_found_an_item.release();
+	if (_found_an_item.get())
 		_found_an_item.reset();
-	}
-
-	if (_elevator.get()) {
-		_elevator.release();
+	if (_elevator.get())
 		_elevator.reset();
-	}
-
-	if (_status_bar.get()) {
-		_status_bar.release();
+	if (_status_bar.get())
 		_status_bar.reset();
-	}
-	if (_reorder.get()) {
-		_reorder.release();
+	if (_reorder.get())
 		_reorder.reset();
-	}
-	if (_inspect.get()) {
-		_inspect.release();
+	if (_inspect.get())
 		_inspect.reset();
-	}
-	if (_render.get()) {
-		_render.release();
+	if (_render.get())
 		_render.reset();
-	}
-	if (_graveyard.get()) {
-		_graveyard.release();
+	if (_graveyard.get())
 		_graveyard.reset();
-	}
-	if (_automap.get()) {
-		_automap.release();
+	if (_automap.get())
 		_automap.reset();
-	}
-	if (_compass.get()) {
-		_compass.release();
+	if (_compass.get())
 		_compass.reset();
-	}
-	if (_buffbar.get()) {
-		_buffbar.release();
+	if (_buffbar.get())
 		_buffbar.reset();
-	}
-	if (_search.get()) {
-		_search.release();
+	if (_search.get())
 		_search.reset();
-	}
-	if (_left_icon_panel.get()) {
-		_left_icon_panel.release();
+	if (_left_icon_panel.get())
 		_left_icon_panel.reset();
-	}
-	if (_right_icon_panel.get()) {
-		_right_icon_panel.release();
+	if (_right_icon_panel.get())
 		_right_icon_panel.reset();
-	}
-	if (_map.get()) {
-		_map.release();
+	if (_map.get())
 		_map.reset();
-	}
-	if (_tile_note.get()) {
-		_tile_note.release();
+	if (_tile_note.get())
 		_tile_note.reset();
-	}
 }
 
 auto Sorcery::Engine::_initalise_components() -> void {
@@ -1707,6 +1637,7 @@ auto Sorcery::Engine::_is_mouse_over(sf::IntRect rect, sf::Vector2f mouse_pos) c
 auto Sorcery::Engine::start() -> int {
 
 	_generate_display();
+	_initialise_state();
 
 	_set_maze_entry_start();
 

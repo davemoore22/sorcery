@@ -78,6 +78,12 @@ class Create {
 		auto _set_classes_menu() -> void;
 		auto _set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void;
 		auto _update_character(const sf::Event &event) -> std::optional<ModuleResult>;
+		auto _generate_display() -> void;
+		auto _reset_components() -> void;
+		auto _initalise_components() -> void;
+		auto _place_components() -> void;
+		auto _initialise_state() -> void;
+		auto _refresh_display() -> void;
 
 		// Private Members
 		System *_system;

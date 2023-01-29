@@ -27,12 +27,58 @@
 // Standard Constructor
 Sorcery::Create::Create(System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
+}
+
+auto Sorcery::Create::_generate_display() -> void {
+
+	_reset_components();
+	_initalise_components();
+	_display->generate("create");
+	_place_components();
+}
+
+auto Sorcery::Create::_refresh_display() -> void {
+
+	_window->clear();
+
+	if (_display->layout->refresh_if_needed())
+		_generate_display();
+
+	_draw();
+	_window->display();
+}
+
+auto Sorcery::Create::_reset_components() -> void {
+
+	if (_keyboard.get())
+		_keyboard.reset();
+	if (_ip.get())
+		_ip.reset();
+	if (_ap.get())
+		_ap.reset();
+	if (_method_menu.get())
+		_method_menu.reset();
+	if (_race_menu.get())
+		_race_menu.reset();
+	if (_alignment_menu.get())
+		_alignment_menu.reset();
+	if (_attribute_menu.get())
+		_attribute_menu.reset();
+	if (_class_menu.get())
+		_class_menu.reset();
+	if (_final_menu_frame.get())
+		_final_menu_frame.reset();
+	if (_dialog_saved_ok.get())
+		_dialog_saved_ok.reset();
+}
+
+auto Sorcery::Create::_initalise_components() -> void {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
 	// Create the On-Screen Keyboard
-	_keyboard = std::make_unique<Keyboard>(system, display, graphics);
+	_keyboard = std::make_unique<Keyboard>(_system, _display, _graphics);
 
 	// Get the Infopanel
 	_ip = std::make_unique<InfoPanel>(_system, _display, _graphics);
@@ -41,7 +87,7 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics, Ga
 	_ap = std::make_unique<AllocatePanel>(_system, _display, _graphics, &_candidate);
 
 	// Get the Texture for the Potraits
-	_potrait_texture = &system->resources->textures[GraphicsTexture::PORTRAITS];
+	_potrait_texture = &_system->resources->textures[GraphicsTexture::PORTRAITS];
 
 	// Menus
 	_method_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CHOOSE_METHOD);
@@ -51,6 +97,34 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics, Ga
 		std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::ALLOCATE_CHARACTER_ATTRIBUTES);
 	_class_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CHOOSE_CHARACTER_CLASS);
 	_final_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::REVIEW_AND_CONFIRM);
+
+	Component _fmf_c{(*_display->layout)["character_create_stage_7:menu_frame"]};
+	_final_menu_frame = std::make_unique<Frame>(
+		_display->ui_texture, _fmf_c.w, _fmf_c.h, _fmf_c.colour, _fmf_c.background, _fmf_c.alpha);
+
+	// Create the Confirmation Dialogs
+	_dialog_saved_ok = std::make_unique<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["character_create_stage_7:dialog_saved_ok"],
+		(*_display->layout)["character_create_stage_7:dialog_saved_ok_text"], WindowDialogType::OK);
+	_dialog_saved_ok->setPosition(_display->get_centre_pos(_dialog_saved_ok->get_size()));
+}
+
+auto Sorcery::Create::_initialise_state() -> void {
+
+	_stages.clear();
+
+	_frames.clear();
+	_texts.clear();
+	_sprites.clear();
+
+	_show_final_menu = false;
+	_show_saved_ok = false;
+
+	// Create the Candidate Character
+	_candidate = Character(_system, _display, _graphics);
+}
+
+auto Sorcery::Create::_place_components() -> void {
 
 	_method_menu->generate((*_display->layout)["choose_method:menu"]);
 	_method_menu->setPosition(
@@ -71,48 +145,27 @@ Sorcery::Create::Create(System *system, Display *display, Graphics *graphics, Ga
 	_final_menu->setPosition(
 		_display->get_centre_x(_final_menu->get_width()), (*_display->layout)["character_create_stage_7:menu"].y);
 
-	Component _fmf_c{(*_display->layout)["character_create_stage_7:menu_frame"]};
-	_final_menu_frame = std::make_unique<Frame>(
-		_display->ui_texture, _fmf_c.w, _fmf_c.h, _fmf_c.colour, _fmf_c.background, _fmf_c.alpha);
-
-	// Create the Candidate Character
-	_stages.clear();
-	_candidate = Character(_system, _display, _graphics);
-
-	_frames.clear();
-	_texts.clear();
-	_sprites.clear();
-
-	_show_final_menu = false;
-	_show_saved_ok = false;
-
-	// Create the Confirmation Dialogs
-	_dialog_saved_ok = std::make_unique<Dialog>(_system, _display, _graphics,
-		(*_display->layout)["character_create_stage_7:dialog_saved_ok"],
-		(*_display->layout)["character_create_stage_7:dialog_saved_ok_text"], WindowDialogType::OK);
-	_dialog_saved_ok->setPosition(_display->get_centre_pos(_dialog_saved_ok->get_size()));
+	_keyboard->setPosition((*_display->layout)["character_create_stage_1:keyboard"].x,
+		(*_display->layout)["character_create_stage_1:keyboard"].y);
 }
 
 auto Sorcery::Create::start() -> std::optional<MenuItem> {
 
-	// Get the Background Display Components and load them into Display module
-	// storage (not local)
-	_display->generate("create");
+	_generate_display();
+	_initialise_state();
 
 	// Don't display the info panel yet
 	_ip->valid = false;
 	_ap->valid = false;
 
 	// Get the Keyboard
-	_keyboard->setPosition((*_display->layout)["character_create_stage_1:keyboard"].x,
-		(*_display->layout)["character_create_stage_1:keyboard"].y);
 
 	const Component name_c{(*_display->layout)["character_create_stage_1:name_candidate"]};
 
 	// Set to the beginning stage
 	_candidate.set_stage(CharacterStage::CHOOSE_METHOD);
-	_display->generate("choose_method", _sprites, _texts, _frames);
 	_display->set_input_mode(WindowInputMode::CHOOSE_METHOD);
+	_display->generate("choose_method", _sprites, _texts, _frames);
 	_set_info_panel_contents(_method_menu->selected);
 
 	// Clear the window
@@ -158,10 +211,7 @@ auto Sorcery::Create::_do_event_loop() -> std::optional<ModuleResult> {
 			}
 
 			// Redraw whilst in the module
-			_window->clear();
-
-			_draw();
-			_window->display();
+			_refresh_display();
 		}
 	}
 
