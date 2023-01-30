@@ -104,14 +104,14 @@ Sorcery::Text::Text(
 
 			if (layout.justification == Justification::CENTRE) {
 				_text.setPosition(0, 0);
-				_text.setOrigin(_text.getLocalBounds().width / 2.0f, _text.getLocalBounds().height / 2.0f);
+				_text.setOrigin(_text.getLocalBounds().width / 2.0f, 0);
 			} else if (layout.justification == Justification::RIGHT) {
 				_text.setPosition(0, 0);
 				const sf::FloatRect bounds{_text.getLocalBounds()};
 				_text.setPosition(layout.x - bounds.width, layout.y);
 			} else {
 				_text.setPosition(0, 0);
-				_text.setOrigin(0, _text.getLocalBounds().height / 2.0f);
+				_text.setOrigin(0, 0);
 			}
 
 			// Handle varying height of proportional fonts

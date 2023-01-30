@@ -188,7 +188,7 @@ auto Sorcery::StatusBar::_generate() -> void {
 				}()};
 				if (component.justification == Justification::CENTRE) {
 					text.setPosition(x + offset_x, y + offset_y);
-					text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+					text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
 				} else if (component.justification == Justification::RIGHT) {
 					text.setPosition(x + offset_x, y + offset_y);
 					const sf::FloatRect bounds{text.getLocalBounds()};

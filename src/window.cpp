@@ -137,7 +137,7 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, con
 	auto y{component.y == -1 ? centre.y : component.y};
 	if (component.justification == Justification::CENTRE) {
 		text.setPosition(x, y);
-		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+		text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
 	} else if (component.justification == Justification::RIGHT) {
 		text.setPosition(x, y);
 		const sf::FloatRect bounds{text.getLocalBounds()};
@@ -175,7 +175,7 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, con
 	auto y{component.y == -1 ? centre.y : component.y};
 	if (component.justification == Justification::CENTRE) {
 		text.setPosition(x, y);
-		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+		text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
 	} else if (component.justification == Justification::RIGHT) {
 		text.setPosition(x, y);
 		const sf::FloatRect bounds{text.getLocalBounds()};
@@ -392,8 +392,8 @@ auto Sorcery::Window::get_cw() const -> unsigned int {
 auto Sorcery::Window::hl_text(sf::Text &text, const Component &component, const double lerp) -> sf::RectangleShape {
 
 	const sf::FloatRect text_rect{text.getGlobalBounds()};
-	sf::RectangleShape text_bg(sf::Vector2(text_rect.width + 6, text_rect.height + 8));
-	text_bg.setOrigin(0, 0 - text.getLocalBounds().height + 16);
+	sf::RectangleShape text_bg(sf::Vector2(text_rect.width, text_rect.height));
+	// text_bg.setOrigin(0, 0 - text.getLocalBounds().height + 16);
 	text_bg.setFillColor(sf::Color(_adjust_brightness(sf::Color(component.background), lerp)));
 	text.setFillColor(sf::Color(component.colour));
 	text.setOutlineColor(sf::Color(0, 0, 0));

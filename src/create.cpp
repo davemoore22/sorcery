@@ -1087,7 +1087,9 @@ auto Sorcery::Create::_draw() -> void {
 	} else if (_candidate.get_stage() == CharacterStage::ENTER_NAME) {
 
 		_display->display("character_create_stage_1", _sprites, _texts, _frames);
-		auto display_name{_candidate.get_name() + "_"};
+
+		// Font we are using replaces the { with a left cursor character
+		auto display_name{_candidate.get_name() + "{"};
 		sf::Text name_text{};
 		_display->window->draw_text(
 			name_text, (*_display->layout)["character_create_stage_1:name_candidate"], display_name, lerp);

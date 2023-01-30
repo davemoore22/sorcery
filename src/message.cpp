@@ -117,7 +117,7 @@ auto Sorcery::Message::update(TileNote tile_note) -> void {
 		if (_text_c.justification == Justification::CENTRE) {
 			text.setPosition(
 				(x + (_frame_c.w * _display->window->get_cw())) / 2, y + (index * _display->window->get_ch()));
-			text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
+			text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
 		} else if (_text_c.justification == Justification::RIGHT) {
 			text.setPosition(x, y + (index * _display->window->get_ch()));
 			const sf::FloatRect bounds{text.getLocalBounds()};

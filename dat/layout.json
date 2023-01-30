@@ -1138,7 +1138,7 @@
 				"name": "info_panel",
 				"w": "38",
 				"h": "4",
-				"x": "20",
+				"x": "11",
 				"y": "26",
 				"alpha": "255",
 				"type": "panel",
@@ -2213,7 +2213,7 @@
 			},
 			{
 				"name": "character_legend_class",
-				"x": "22",
+				"x": "19",
 				"y": "1",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -2230,7 +2230,7 @@
 			},
 			{
 				"name": "character_legend_ac",
-				"x": "30",
+				"x": "25",
 				"y": "1",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -2247,7 +2247,7 @@
 			},
 			{
 				"name": "character_legend_hp",
-				"x": "33",
+				"x": "28",
 				"y": "1",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -2264,7 +2264,7 @@
 			},
 			{
 				"name": "character_legend_status",
-				"x": "39",
+				"x": "32",
 				"y": "1",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -4792,7 +4792,7 @@
 		{
 			"name": "summary_text",
 			"x": "centre",
-			"y": "7",
+			"y": "6",
 			"alpha": "255",
 			"font": "monospace",
 			"colour": "0xffffffff",
@@ -4858,7 +4858,7 @@
 			"name": "allocate_panel",
 			"w": "28",
 			"h": "10",
-			"x": "30",
+			"x": "22",
 			"y": "14",
 			"alpha": "255",
 			"type": "panel",
@@ -4978,13 +4978,13 @@
 		},
 		{
 			"name": "bonus_points",
-			"x": "0",
+			"x": "1",
 			"y": "7",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "24",
 			"string": "CHARACTER_STAT_BONUS_POINTS",
-			"justification": "right",
+			"justification": "left",
 			"type": "text",
 			"priority": "3",
 			"drawmode": "manual"
@@ -5131,7 +5131,7 @@
 		},
 		{
 			"name": "info_panel",
-			"w": "46",
+			"w": "38",
 			"h": "11",
 			"x": "11",
 			"y": "25",
