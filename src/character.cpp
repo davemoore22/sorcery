@@ -2899,18 +2899,18 @@ auto Sorcery::Character::_generate_display() -> void {
 			fmt::format("{}/{}", std::to_string(_abilities.at(CURRENT_HP)), std::to_string(_abilities.at(MAX_HP))));
 		_add_text((*_display->layout)["character_summary:ac_value"], "{:>3}",
 			std::to_string(_abilities.at(CURRENT_ARMOUR_CLASS)));
-		_add_text((*_display->layout)["character_summary:age_value"], "{}",
+		_add_text((*_display->layout)["character_summary:age_value"], "{:>2}",
 			std::to_string(static_cast<int>(_abilities.at(AGE) / 52)));
 		_add_text((*_display->layout)["character_summary:swim_value"], "{:>2}", std::to_string(_abilities.at(SWIM)));
 		auto status_text{_add_text((*_display->layout)["character_summary:status_value"], "{}", get_status_string())};
 		status_text->setFillColor(sf::Color(_graphics->adjust_status_colour(_status, is_poisoned())));
 
 		_add_text(
-			(*_display->layout)["character_summary:exp_value"], "{:>12}", std::to_string(_abilities.at(CURRENT_XP)));
-		_add_text((*_display->layout)["character_summary:next_value"], "{:>12}",
+			(*_display->layout)["character_summary:exp_value"], "{:>11}", std::to_string(_abilities.at(CURRENT_XP)));
+		_add_text((*_display->layout)["character_summary:next_value"], "{:>11}",
 			std::to_string(_abilities.at(NEXT_LEVEL_XP)));
-		_add_text((*_display->layout)["character_summary:gold_value"], "{:>12}", std::to_string(_abilities.at(GOLD)));
-		_add_text((*_display->layout)["character_summary:marks_value"], "{:>12}", std::to_string(_abilities.at(MARKS)));
+		_add_text((*_display->layout)["character_summary:gold_value"], "{:>11}", std::to_string(_abilities.at(GOLD)));
+		_add_text((*_display->layout)["character_summary:marks_value"], "{:>11}", std::to_string(_abilities.at(MARKS)));
 		_add_text(
 			(*_display->layout)["character_summary:deaths_value"], "{:>2}", std::to_string(_abilities.at(DEATHS)));
 
@@ -3426,7 +3426,7 @@ auto Sorcery::Character::_add_text(Component &component, std::string format, std
 	text.setFont(_system->resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
-	// text.setLetterSpacing(1.04167f);
+
 	text.setString(formatted_value);
 	if (_display->get_bold())
 		text.setStyle(sf::Text::Bold);

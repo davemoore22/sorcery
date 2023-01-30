@@ -284,14 +284,6 @@ auto Sorcery::Inspect::_draw() -> void {
 	if (_display->get_input_mode() == WindowInputMode::BROWSE_CHARACTER) {
 		if (_cur_char) {
 
-			// Character Preview
-			_window->draw(*_preview_frame);
-			if (_char_panel->valid) {
-				_char_panel->setPosition((*_display->layout)[_screen_key + ":info_panel"].x,
-					(*_display->layout)[_screen_key + ":info_panel"].y);
-				_window->draw(*_char_panel);
-			}
-
 			// If we have a character
 			_window->draw(*_cur_char_frame);
 

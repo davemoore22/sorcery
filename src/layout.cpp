@@ -32,8 +32,8 @@ Sorcery::Layout::Layout(const std::filesystem::path filename) {
 	// Defaults for now as _load is called on the constructor here and layout is created before window object retrieves
 	// the cell height and width from the config file alas! Solution is to pass the system object into this and get both
 	// the layout file name, and the config settings from the system object as we can do
-	_cell_width = 20;
-	_cell_height = 25;
+	_cell_width = 24;
+	_cell_height = 24; // TODO: argh. remember to change this
 
 	// Load the layout from file
 	try {
