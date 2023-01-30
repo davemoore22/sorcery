@@ -28,9 +28,6 @@
 Sorcery::SpellPanel::SpellPanel(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
-	// Get the standard layout information
-	_layout = Component((*_display->layout)["global:spell_panel"]);
-
 	// Not valid until we call the set command
 	valid = false;
 }
@@ -41,6 +38,9 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 	_texts.clear();
 	_width = 0;
 	_height = 0;
+
+	// Get the standard layout information
+	_layout = Component((*_display->layout)["global:spell_panel"]);
 
 	Component icon_c{(*_display->layout)["spell_panel:icon"]};
 	switch (spell.category) {
@@ -112,16 +112,17 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 		std::remove_if(split.begin(), split.end(), [](std::string const &s) { return s.size() == 0; }), split.end());
 	_strings = split;
 
-	auto x{164};
-	auto y{2};
+	Component description_c{(*_display->layout)["spell_panel:description_text"]};
+	auto x{description_c.x};
+	auto y{description_c.y};
 	for (const auto &each_string : _strings) {
 		sf::Text text{};
 		text.setFont(_system->resources->fonts[_layout.font]);
 		text.setCharacterSize(_layout.size);
 		text.setFillColor(sf::Color(_layout.colour));
 		text.setString(each_string);
-		text.setPosition(x, 18 + y * 24);
-		++y;
+		text.setPosition(x, y);
+		y += _display->window->get_ch();
 		_texts.push_back(text);
 	}
 

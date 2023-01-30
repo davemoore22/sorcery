@@ -538,7 +538,7 @@ auto Sorcery::Character::left_view() -> void {
 
 	auto view_index{magic_enum::enum_integer<CharacterView>(_view)};
 	if (view_index == magic_enum::enum_integer<CharacterView>(CharacterView::SUMMARY))
-		view_index = magic_enum::enum_integer<CharacterView>(CharacterView::INVENTORY);
+		view_index = magic_enum::enum_integer<CharacterView>(CharacterView::PRIEST_SPELLS);
 	else
 		--view_index;
 	_view = magic_enum::enum_cast<CharacterView>(view_index).value();
@@ -552,7 +552,7 @@ auto Sorcery::Character::left_view() -> void {
 auto Sorcery::Character::right_view() -> void {
 
 	auto view_index{magic_enum::enum_integer<CharacterView>(_view)};
-	if (view_index == magic_enum::enum_integer<CharacterView>(CharacterView::INVENTORY))
+	if (view_index == magic_enum::enum_integer<CharacterView>(CharacterView::PRIEST_SPELLS))
 		view_index = magic_enum::enum_integer<CharacterView>(CharacterView::SUMMARY);
 	else
 		++view_index;
@@ -3087,64 +3087,11 @@ auto Sorcery::Character::_generate_display() -> void {
 		luck_c.colour = _graphics->adjust_colour(_abilities.at(EQUIPMENT_INTACT_ON_WIPE), PERCENTAGE);
 		_add_text(luck_c, "{:>2}%", std::to_string(_abilities.at(EQUIPMENT_INTACT_ON_WIPE)));
 
-		Component resistances_c((*_display->layout)["character_detailed:resistances_detailed_values"]);
-		auto pos_x{resistances_c.x};
-		auto pos_y{resistances_c.y};
-		auto offset_columns{std::stoi(resistances_c["offset_columns"].value())};
+	} else if (_view == RESISTANCES) {
 
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_CRITICAL_HIT) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_CRITICAL_HIT) * 5));
+		_display->generate("character_resistances", _v_sprites, _v_texts, _v_frames);
 
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_POISON_PARALYSIS) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_POISON_PARALYSIS) * 5));
-
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_STONING) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_STONING) * 5));
-
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_BREATH_ATTACKS) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_BREATH_ATTACKS) * 5));
-
-		resistances_c.y = pos_y;
-		resistances_c.x = pos_x + (offset_columns * _display->window->get_cw());
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_POISON_GAS_TRAP) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_POISON_GAS_TRAP) * 5));
-
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_MAGE_PRIEST_TRAP) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_MAGE_PRIEST_TRAP) * 5));
-
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RECOVER_FROM_SLEEP), PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RECOVER_FROM_SLEEP)));
-
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RECOVER_FROM_FEAR), PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RECOVER_FROM_FEAR)));
-
-		resistances_c.y = pos_y;
-		resistances_c.x = pos_x + (2 * offset_columns * _display->window->get_cw());
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_SILENCE) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_SILENCE) * 5));
-
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_KATINO), PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_KATINO)));
-
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_BADI), PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_BADI)));
-
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_MANIFO), PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_MANIFO)));
-	} else if (_view == INVENTORY) {
-
-		_display->generate("character_inventory", _v_sprites, _v_texts, _v_frames);
-
-		_add_text((*_display->layout)["character_inventory:name_and_summary_text"], "{}", summary_text());
+		_add_text((*_display->layout)["character_resistances:name_and_summary_text"], "{}", summary_text());
 
 		/* auto portrait{_get_character_portrait()};
 		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
@@ -3164,12 +3111,61 @@ auto Sorcery::Character::_generate_display() -> void {
 		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
 		_v_sprites.try_emplace(portrait_c.unique_key, portrait); */
 
-		Component carried_c((*_display->layout)["character_inventory:inventory_blank"]);
-		auto c_slots{std::stoi(carried_c["number_of_slots"].value())};
-		for (auto loop = 0; loop < c_slots; loop++) {
-			_add_text(carried_c, "{}", (*_display->string)["INVENTORY_BLANK"]);
-			carried_c.y += _display->window->get_ch();
-		}
+		Component resistances_c((*_display->layout)["character_resistances:resistances_detailed_values"]);
+		// auto pos_x{resistances_c.x};
+		// auto pos_y{resistances_c.y};
+		//  auto offset_columns{std::stoi(resistances_c["offset_columns"].value())};
+
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_CRITICAL_HIT) * 5, PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_CRITICAL_HIT) * 5));
+
+		resistances_c.y += _display->window->get_ch();
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_POISON_PARALYSIS) * 5, PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_POISON_PARALYSIS) * 5));
+
+		resistances_c.y += _display->window->get_ch();
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_STONING) * 5, PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_STONING) * 5));
+
+		resistances_c.y += _display->window->get_ch();
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_BREATH_ATTACKS) * 5, PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_BREATH_ATTACKS) * 5));
+
+		// resistances_c.y = pos_y;
+		// resistances_c.x = pos_x + (offset_columns * _display->window->get_cw());
+		resistances_c.y += _display->window->get_ch();
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_POISON_GAS_TRAP) * 5, PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_POISON_GAS_TRAP) * 5));
+
+		resistances_c.y += _display->window->get_ch();
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_MAGE_PRIEST_TRAP) * 5, PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_MAGE_PRIEST_TRAP) * 5));
+
+		resistances_c.y += _display->window->get_ch();
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RECOVER_FROM_SLEEP), PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RECOVER_FROM_SLEEP)));
+
+		resistances_c.y += _display->window->get_ch();
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RECOVER_FROM_FEAR), PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RECOVER_FROM_FEAR)));
+
+		// resistances_c.y = pos_y;
+		// resistances_c.x = pos_x + (2 * offset_columns * _display->window->get_cw());
+		resistances_c.y += _display->window->get_ch();
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_SILENCE) * 5, PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_SILENCE) * 5));
+
+		resistances_c.y += _display->window->get_ch();
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_KATINO), PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_KATINO)));
+
+		resistances_c.y += _display->window->get_ch();
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_BADI), PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_BADI)));
+
+		resistances_c.y += _display->window->get_ch();
+		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_MANIFO), PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_MANIFO)));
 
 	} else if (_view == CharacterView::MAGE_SPELLS) {
 
@@ -3202,11 +3198,11 @@ auto Sorcery::Character::_generate_display() -> void {
 		auto level_x{level_c.x};
 		for (auto level = 1; level <= 7; level++) {
 
-			_add_text(level_c, "{}", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level));
+			//_add_text(level_c, "{}", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level));
 
 			sp_c.x = level_c.x + (std::stoi(sp_c["offset_columns"].value()) * _display->window->get_cw());
 			sp_c.y = level_c.y;
-			_add_text(sp_c, "{}", _get_sp_per_level(SpellType::MAGE, level));
+			//_add_text(sp_c, "{}", _get_sp_per_level(SpellType::MAGE, level));
 
 			spell_name_c.x = level_c.x;
 			spell_name_c.y = level_c.y + _display->window->get_ch();
@@ -3217,7 +3213,7 @@ auto Sorcery::Character::_generate_display() -> void {
 			for (auto spell : spells) {
 
 				// Add the Spell
-				auto spell_name_text{PADSTR(spell.name, 13)};
+				auto spell_name_text{PADSTR(spell.name, std::stoi(spell_name_c["bar_width"].value()))};
 				auto spell_name{_add_text(spell_name_c, "{}", spell_name_text)};
 				auto hl_bounds{spell_name->getGlobalBounds()};
 				mage_spell_bounds[spell.id] = hl_bounds;
@@ -3312,11 +3308,11 @@ auto Sorcery::Character::_generate_display() -> void {
 		auto level_x{level_c.x};
 		for (auto level = 1; level <= 7; level++) {
 
-			_add_text(level_c, "{}", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level));
+			//_add_text(level_c, "{}", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level));
 
 			sp_c.x = level_c.x + (std::stoi(sp_c["offset_columns"].value()) * _display->window->get_cw());
 			sp_c.y = level_c.y;
-			_add_text(sp_c, "{}", _get_sp_per_level(SpellType::PRIEST, level));
+			//_add_text(sp_c, "{}", _get_sp_per_level(SpellType::PRIEST, level));
 
 			spell_name_c.x = level_c.x;
 			spell_name_c.y = level_c.y + _display->window->get_ch();
@@ -3326,7 +3322,7 @@ auto Sorcery::Character::_generate_display() -> void {
 			})};
 			for (auto spell : spells) {
 
-				auto spell_name_text{PADSTR(spell.name, 13)};
+				auto spell_name_text{PADSTR(spell.name, std::stoi(spell_name_c["bar_width"].value()))};
 				auto spell_name{_add_text(spell_name_c, "{}", spell_name_text)};
 				spell_name->setPosition(spell_name_c.x, spell_name_c.y);
 				auto hl_bounds{spell_name->getGlobalBounds()};

@@ -490,9 +490,9 @@ namespace Enums::Character {
 		NO_VIEW = 0,
 		SUMMARY = 1,
 		DETAILED = 2,
-		MAGE_SPELLS = 3,
-		PRIEST_SPELLS = 4,
-		INVENTORY = 5,
+		RESISTANCES = 3,
+		MAGE_SPELLS = 4,
+		PRIEST_SPELLS = 5,
 		// MESSAGES = 6,
 		// ACHIEVEMENTS = 7
 	};
