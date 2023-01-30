@@ -178,6 +178,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 					auto w{[&] {
 						if (components[j].isMember("w")) {
 							if (components[j]["w"].asString().length() > 0)
+
 								return static_cast<unsigned int>(std::stoi(components[j]["w"].asString()));
 							else
 								return 0u;

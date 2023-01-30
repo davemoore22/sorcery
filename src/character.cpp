@@ -543,6 +543,8 @@ auto Sorcery::Character::left_view() -> void {
 		--view_index;
 	_view = magic_enum::enum_cast<CharacterView>(view_index).value();
 
+	_display->layout->refresh_if_needed();
+
 	_generate_display();
 }
 
@@ -555,6 +557,8 @@ auto Sorcery::Character::right_view() -> void {
 	else
 		++view_index;
 	_view = magic_enum::enum_cast<CharacterView>(view_index).value();
+
+	_display->layout->refresh_if_needed();
 
 	_generate_display();
 }
@@ -2849,7 +2853,7 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		_add_text((*_display->layout)["character_summary:name_and_summary_text"], "{}", summary_text());
 
-		auto portrait{_get_character_portrait()};
+		/* auto portrait{_get_character_portrait()};
 		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
 		portrait.setScale(portrait_c.scale, portrait_c.scale);
 		const auto offset_x{[&] {
@@ -2865,7 +2869,7 @@ auto Sorcery::Character::_generate_display() -> void {
 				return 0;
 		}()};
 		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
-		_v_sprites.try_emplace(portrait_c.unique_key, portrait);
+		_v_sprites.try_emplace(portrait_c.unique_key, portrait); */
 
 		Component s_c{(*_display->layout)["character_summary:strength_value"]};
 		s_c.colour = _graphics->adjust_colour(_cur_attr.at(STRENGTH), STAT);
@@ -2893,20 +2897,22 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		_add_text((*_display->layout)["character_summary:hp_value"], "{}",
 			fmt::format("{}/{}", std::to_string(_abilities.at(CURRENT_HP)), std::to_string(_abilities.at(MAX_HP))));
-		_add_text((*_display->layout)["character_summary:ac_value"], "{}",
+		_add_text((*_display->layout)["character_summary:ac_value"], "{:>3}",
 			std::to_string(_abilities.at(CURRENT_ARMOUR_CLASS)));
 		_add_text((*_display->layout)["character_summary:age_value"], "{}",
 			std::to_string(static_cast<int>(_abilities.at(AGE) / 52)));
-		_add_text((*_display->layout)["character_summary:swim_value"], "{}", std::to_string(_abilities.at(SWIM)));
+		_add_text((*_display->layout)["character_summary:swim_value"], "{:>2}", std::to_string(_abilities.at(SWIM)));
 		auto status_text{_add_text((*_display->layout)["character_summary:status_value"], "{}", get_status_string())};
 		status_text->setFillColor(sf::Color(_graphics->adjust_status_colour(_status, is_poisoned())));
 
-		_add_text((*_display->layout)["character_summary:exp_value"], "{}", std::to_string(_abilities.at(CURRENT_XP)));
 		_add_text(
-			(*_display->layout)["character_summary:next_value"], "{}", std::to_string(_abilities.at(NEXT_LEVEL_XP)));
-		_add_text((*_display->layout)["character_summary:gold_value"], "{}", std::to_string(_abilities.at(GOLD)));
-		_add_text((*_display->layout)["character_summary:marks_value"], "{}", std::to_string(_abilities.at(MARKS)));
-		_add_text((*_display->layout)["character_summary:deaths_value"], "{}", std::to_string(_abilities.at(DEATHS)));
+			(*_display->layout)["character_summary:exp_value"], "{:>12}", std::to_string(_abilities.at(CURRENT_XP)));
+		_add_text((*_display->layout)["character_summary:next_value"], "{:>12}",
+			std::to_string(_abilities.at(NEXT_LEVEL_XP)));
+		_add_text((*_display->layout)["character_summary:gold_value"], "{:>12}", std::to_string(_abilities.at(GOLD)));
+		_add_text((*_display->layout)["character_summary:marks_value"], "{:>12}", std::to_string(_abilities.at(MARKS)));
+		_add_text(
+			(*_display->layout)["character_summary:deaths_value"], "{:>2}", std::to_string(_abilities.at(DEATHS)));
 
 		auto mage_spells{fmt::format("{}/{}/{}/{}/{}/{}/{}", _mage_cur_sp.at(1), _mage_cur_sp.at(2), _mage_cur_sp.at(3),
 			_mage_cur_sp.at(4), _mage_cur_sp.at(5), _mage_cur_sp.at(6), _mage_cur_sp.at(7))};
@@ -2923,7 +2929,7 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		_add_text((*_display->layout)["character_detailed:name_and_summary_text"], "{}", summary_text());
 
-		auto portrait{_get_character_portrait()};
+		/* auto portrait{_get_character_portrait()};
 		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
 		portrait.setScale(portrait_c.scale, portrait_c.scale);
 		const auto offset_x{[&] {
@@ -2939,7 +2945,7 @@ auto Sorcery::Character::_generate_display() -> void {
 				return 0;
 		}()};
 		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
-		_v_sprites.try_emplace(portrait_c.unique_key, portrait);
+		_v_sprites.try_emplace(portrait_c.unique_key, portrait); */
 
 		Component s_c{(*_display->layout)["character_detailed:strength_value"]};
 		s_c.colour = _graphics->adjust_colour(_cur_attr.at(STRENGTH), STAT);
@@ -3140,7 +3146,7 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		_add_text((*_display->layout)["character_inventory:name_and_summary_text"], "{}", summary_text());
 
-		auto portrait{_get_character_portrait()};
+		/* auto portrait{_get_character_portrait()};
 		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
 		portrait.setScale(portrait_c.scale, portrait_c.scale);
 		const auto offset_x{[&] {
@@ -3156,7 +3162,7 @@ auto Sorcery::Character::_generate_display() -> void {
 				return 0;
 		}()};
 		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
-		_v_sprites.try_emplace(portrait_c.unique_key, portrait);
+		_v_sprites.try_emplace(portrait_c.unique_key, portrait); */
 
 		Component carried_c((*_display->layout)["character_inventory:inventory_blank"]);
 		auto c_slots{std::stoi(carried_c["number_of_slots"].value())};
@@ -3171,7 +3177,7 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		_add_text((*_display->layout)["character_mage_spells:name_and_summary_text"], "{}", summary_text());
 
-		auto portrait{_get_character_portrait()};
+		/* auto portrait{_get_character_portrait()};
 		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
 		portrait.setScale(portrait_c.scale, portrait_c.scale);
 		const auto offset_x{[&] {
@@ -3187,7 +3193,7 @@ auto Sorcery::Character::_generate_display() -> void {
 				return 0;
 		}()};
 		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
-		_v_sprites.try_emplace(portrait_c.unique_key, portrait);
+		_v_sprites.try_emplace(portrait_c.unique_key, portrait); */
 
 		Component level_c{(*_display->layout)["character_mage_spells:level_label"]};
 		Component sp_c{(*_display->layout)["character_mage_spells:spell_points"]};
@@ -3281,7 +3287,7 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		_add_text((*_display->layout)["character_priest_spells:name_and_summary_text"], "{}", summary_text());
 
-		auto portrait{_get_character_portrait()};
+		/* auto portrait{_get_character_portrait()};
 		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
 		portrait.setScale(portrait_c.scale, portrait_c.scale);
 		const auto offset_x{[&] {
@@ -3297,7 +3303,7 @@ auto Sorcery::Character::_generate_display() -> void {
 				return 0;
 		}()};
 		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
-		_v_sprites.try_emplace(portrait_c.unique_key, portrait);
+		_v_sprites.try_emplace(portrait_c.unique_key, portrait); */
 
 		Component level_c{(*_display->layout)["character_priest_spells:level_label"]};
 		Component sp_c{(*_display->layout)["character_priest_spells:spell_points"]};
@@ -3420,6 +3426,7 @@ auto Sorcery::Character::_add_text(Component &component, std::string format, std
 	text.setFont(_system->resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
+	// text.setLetterSpacing(1.04167f);
 	text.setString(formatted_value);
 	if (_display->get_bold())
 		text.setStyle(sf::Text::Bold);
