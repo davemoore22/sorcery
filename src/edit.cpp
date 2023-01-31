@@ -202,6 +202,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 						}
 
 						_display->generate("character_edit");
+						_char_panel->set(_cur_char.value());
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					}
 				}

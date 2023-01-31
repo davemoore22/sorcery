@@ -37,7 +37,7 @@ Sorcery::Temple::Temple(System *system, Display *display, Graphics *graphics, Ga
 	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["temple:menu"].y);
 
 	_help = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::INVALID_CHARACTERS, MenuMode::TEMPLE);
-	_menu->generate((*_display->layout)["temple_help:menu"]);
+	_help->generate((*_display->layout)["temple_help:menu"]);
 	_help->setPosition(_display->get_centre_x(_help->get_width()), (*_display->layout)["temple_help:menu"].y);
 
 	_pay = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::PARTY_CHARACTERS, MenuMode::TEMPLE);
@@ -84,7 +84,9 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 	// Refresh the Party characters and the Invalid Characters
 	_status_bar->refresh();
 	_help->reload();
+	_help->generate((*_display->layout)["temple_help:menu"]);
 	_pay->reload();
+	_pay->generate((*_display->layout)["temple_pay:menu"]);
 
 	_duration = DELAY_DEFAULT;
 	_ress_text = "";
@@ -160,6 +162,7 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 								_stage = TempleStage::HELP;
 								_status_bar->refresh();
 								_help->reload();
+								_help->generate((*_display->layout)["temple_help:menu"]);
 								continue;
 							}
 						}
@@ -169,10 +172,12 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 						_stage = TempleStage::MENU;
 						_status_bar->refresh();
 						_help->reload();
+						_help->generate((*_display->layout)["temple_help:menu"]);
 					} else if (_system->input->check(WindowInput::BACK, event)) {
 						_stage = TempleStage::MENU;
 						_status_bar->refresh();
 						_help->reload();
+						_help->generate((*_display->layout)["temple_help:menu"]);
 					} else if (_system->input->check(WindowInput::UP, event))
 						option_help = _help->choose_previous();
 					else if (_system->input->check(WindowInput::DOWN, event))
@@ -189,6 +194,7 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 								_stage = TempleStage::MENU;
 								_status_bar->refresh();
 								_help->reload();
+								_help->generate((*_display->layout)["temple_help:menu"]);
 								continue;
 							} else {
 								heal_char_id = (*option_help.value()).index;
@@ -199,6 +205,7 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 									_status_bar->refresh();
 									_pay->reload();
 									_refresh_pay_menu(cost);
+									_pay->generate((*_display->layout)["temple_pay:menu"]);
 									_update_cost(cost);
 								}
 							}
@@ -210,10 +217,12 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 						_stage = TempleStage::HELP;
 						_status_bar->refresh();
 						_help->reload();
+						_help->generate((*_display->layout)["temple_help:menu"]);
 					} else if (_system->input->check(WindowInput::BACK, event)) {
 						_stage = TempleStage::HELP;
 						_status_bar->refresh();
 						_help->reload();
+						_help->generate((*_display->layout)["temple_help:menu"]);
 					} else if (_system->input->check(WindowInput::UP, event))
 						option_pay = _pay->choose_previous();
 					else if (_system->input->check(WindowInput::DOWN, event))
@@ -230,6 +239,7 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 								_stage = TempleStage::HELP;
 								_status_bar->refresh();
 								_help->reload();
+								_help->generate((*_display->layout)["temple_help:menu"]);
 								continue;
 							} else {
 								const auto pay_char_id{(*option_pay.value()).index};

@@ -130,7 +130,7 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 							return MenuItem::ABORT;
 						}
 						_inspect->stop();
-						_display->generate("roster_inspect");
+						_display->generate("training_grounds");
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					} else if (option_chosen == MenuItem::TR_EDIT) {
 						if (auto result{_edit->start()}; result && result.value() == MenuItem::ABORT) {
@@ -138,7 +138,7 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 							return MenuItem::ABORT;
 						}
 						_edit->stop();
-						_display->generate("roster_edit");
+						_display->generate("training_grounds");
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					} else if (option_chosen == MenuItem::TR_DELETE) {
 						if (auto result{_delete->start()}; result && result.value() == MenuItem::ABORT) {
@@ -146,7 +146,7 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 							return MenuItem::ABORT;
 						}
 						_delete->stop();
-						_display->generate("roster_delete");
+						_display->generate("training_grounds");
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					}
 				}

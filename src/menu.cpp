@@ -1068,6 +1068,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 					(character.get_location() == CharacterLocation::TEMPLE)) {
 					const auto status{character.get_name_and_status()};
 					_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, status);
+					std::cout << character << std::endl;
 					++count;
 					if (character_id > last_id)
 						last_id = character_id;

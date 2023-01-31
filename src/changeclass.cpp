@@ -36,10 +36,12 @@ Sorcery::ChangeClass::ChangeClass(System *system, Display *display, Graphics *gr
 
 	// Main Menu
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr, MenuType::CHANGE_CHARACTER_CLASS);
+	_set_classes_menu();
+	_menu->choose_first();
 	_menu->generate((*_display->layout)["change_class:menu"]);
 	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["change_class:menu"].y);
 
-	_set_classes_menu();
+	;
 
 	// Info Panel
 	_ip->valid = false;

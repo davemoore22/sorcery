@@ -852,6 +852,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_display->generate("character_create_stage_5", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_set_classes_menu();
+			_class_menu->generate((*_display->layout)["character_create_stage_5:menu"]);
 			_class_menu->choose(_candidate.get_class());
 			_set_info_panel_contents(_class_menu->selected);
 			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
@@ -969,6 +970,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 
 			// Set and enable the class menu depending on the possible classes!
 			_set_classes_menu();
+			_class_menu->generate((*_display->layout)["character_create_stage_5:menu"]);
 			_class_menu->choose_first();
 			_set_info_panel_contents(_class_menu->selected);
 		} break;
