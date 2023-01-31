@@ -74,26 +74,28 @@ Sorcery::Menu::Menu(
 		break;
 	case MenuType::ELEVATOR_A_D:
 		_add_item(0, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["BUTTONS_A_TO_D"]);
-		_add_item(1, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
-		_add_item(2, MenuItemType::ENTRY, MenuItem::EL_A, (*_display->string)["ELEVATOR_A"]);
-		_add_item(3, MenuItemType::ENTRY, MenuItem::EL_B, (*_display->string)["ELEVATOR_B"]);
-		_add_item(4, MenuItemType::ENTRY, MenuItem::EL_C, (*_display->string)["ELEVATOR_C"]);
-		_add_item(5, MenuItemType::ENTRY, MenuItem::EL_D, (*_display->string)["ELEVATOR_D"]);
-		_add_item(6, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
-		_add_item(7, MenuItemType::ENTRY, MenuItem::EL_LEAVE, (*_display->string)["ELEVATOR_LEAVE"]);
+		_add_item(1, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["PRESS_ONE"]);
+		_add_item(2, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+		_add_item(3, MenuItemType::ENTRY, MenuItem::EL_A, (*_display->string)["ELEVATOR_A"]);
+		_add_item(4, MenuItemType::ENTRY, MenuItem::EL_B, (*_display->string)["ELEVATOR_B"]);
+		_add_item(5, MenuItemType::ENTRY, MenuItem::EL_C, (*_display->string)["ELEVATOR_C"]);
+		_add_item(6, MenuItemType::ENTRY, MenuItem::EL_D, (*_display->string)["ELEVATOR_D"]);
+		_add_item(7, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+		_add_item(8, MenuItemType::ENTRY, MenuItem::EL_LEAVE, (*_display->string)["ELEVATOR_LEAVE"]);
 		selected = items.end();
 		break;
 	case MenuType::ELEVATOR_A_F:
 		_add_item(0, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["BUTTONS_A_TO_F"]);
-		_add_item(1, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
-		_add_item(2, MenuItemType::ENTRY, MenuItem::EL_A, (*_display->string)["ELEVATOR_A"]);
-		_add_item(3, MenuItemType::ENTRY, MenuItem::EL_B, (*_display->string)["ELEVATOR_B"]);
-		_add_item(4, MenuItemType::ENTRY, MenuItem::EL_C, (*_display->string)["ELEVATOR_C"]);
-		_add_item(5, MenuItemType::ENTRY, MenuItem::EL_D, (*_display->string)["ELEVATOR_D"]);
-		_add_item(6, MenuItemType::ENTRY, MenuItem::EL_E, (*_display->string)["ELEVATOR_E"]);
-		_add_item(7, MenuItemType::ENTRY, MenuItem::EL_F, (*_display->string)["ELEVATOR_F"]);
-		_add_item(8, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
-		_add_item(9, MenuItemType::ENTRY, MenuItem::EL_LEAVE, (*_display->string)["ELEVATOR_LEAVE"]);
+		_add_item(1, MenuItemType::TEXT, MenuItem::NC_WARNING, (*_display->string)["PRESS_ONE"]);
+		_add_item(2, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+		_add_item(3, MenuItemType::ENTRY, MenuItem::EL_A, (*_display->string)["ELEVATOR_A"]);
+		_add_item(4, MenuItemType::ENTRY, MenuItem::EL_B, (*_display->string)["ELEVATOR_B"]);
+		_add_item(5, MenuItemType::ENTRY, MenuItem::EL_C, (*_display->string)["ELEVATOR_C"]);
+		_add_item(6, MenuItemType::ENTRY, MenuItem::EL_D, (*_display->string)["ELEVATOR_D"]);
+		_add_item(7, MenuItemType::ENTRY, MenuItem::EL_E, (*_display->string)["ELEVATOR_E"]);
+		_add_item(8, MenuItemType::ENTRY, MenuItem::EL_F, (*_display->string)["ELEVATOR_F"]);
+		_add_item(9, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
+		_add_item(10, MenuItemType::ENTRY, MenuItem::EL_LEAVE, (*_display->string)["ELEVATOR_LEAVE"]);
 		selected = items.end();
 		break;
 	case MenuType::CASTLE:

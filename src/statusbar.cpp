@@ -195,7 +195,7 @@ auto Sorcery::StatusBar::_generate() -> void {
 					text.setPosition(component.x - bounds.width, component.y);
 				} else {
 					text.setPosition(x + offset_x, y + offset_y);
-					text.setOrigin(0, text.getLocalBounds().height / 2.0f);
+					text.setOrigin(0, 0);
 				}
 
 				_texts[component.unique_key] = text;
