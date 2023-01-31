@@ -38,6 +38,8 @@ Sorcery::Graveyard::Graveyard(System *system, Display *display, Graphics *graphi
 	const Component menu_fc{(*_display->layout)["graveyard:menu_frame"]};
 	_menu_frame = std::make_unique<Frame>(
 		_display->ui_texture, menu_fc.w, menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
+	_menu_frame->setPosition(_display->window->get_x(_menu_frame->sprite, menu_fc.x),
+		_display->window->get_y(_menu_frame->sprite, menu_fc.y));
 
 	_sprites.clear();
 	_texts.clear();
@@ -53,13 +55,6 @@ auto Sorcery::Graveyard::start() -> std::optional<MenuItem> {
 
 	// Get the Background Display Components and load them into Display module storage (not local)
 	_display->generate("graveyard");
-
-	const Component menu_fc{(*_display->layout)["graveyard:menu_frame"]};
-	_menu_frame->setPosition(_display->window->get_x(_menu_frame->sprite, menu_fc.x),
-		_display->window->get_y(_menu_frame->sprite, menu_fc.y));
-
-	const sf::Vector2f menu_pos((*_display->layout)["graveyard:menu"].x, (*_display->layout)["graveyard:menu"].y);
-	_menu->setPosition(menu_pos);
 
 	// Draw the gravestones
 	const auto gs_c{(*_display->layout)["graveyard:gravestone"]};

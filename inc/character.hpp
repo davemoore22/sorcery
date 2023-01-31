@@ -140,6 +140,7 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto dec_hl_spell(SpellType type) -> void;
 		auto update() -> void;
 		auto check_for_mouse_move(sf::Vector2f mouse_pos) -> std::optional<SpellID>;
+		// auto check_for_action_mouse_move(sf::Vector2f mouse_pos) -> std::optional<MenuItem>;
 		auto change_class(const CharacterClass &value) -> void;
 		auto legate(const CharacterAlignment &value) -> void;
 		auto is_legated() const -> bool;
@@ -170,6 +171,8 @@ class Character: public sf::Transformable, public sf::Drawable {
 		std::map<SpellID, sf::FloatRect> priest_spell_bounds;
 		std::map<SpellID, sf::Text *> mage_spell_texts;
 		std::map<SpellID, sf::Text *> priest_spell_texts;
+		std::map<MenuItem, sf::Text *> action_menu_texts;
+		std::map<MenuItem, sf::FloatRect> action_menu_bounds;
 
 		std::optional<Coordinate> coordinate;
 		std::optional<int> depth;
@@ -251,9 +254,12 @@ class Character: public sf::Transformable, public sf::Drawable {
 		CreateMethod _method;
 		SpellID _hl_mage_spell;
 		SpellID _hl_priest_spell;
+		MenuItem _hl_action_item;
 		sf::RectangleShape _hl_mage_spell_bg;
 		sf::RectangleShape _hl_priest_spell_bg;
+		sf::RectangleShape _hl_action_item_bg;
 		bool _legated;
 		CharacterLocation _location;
 };
+
 }

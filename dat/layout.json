@@ -847,7 +847,7 @@
 		"component": [
 		{
 			"name": "frame",
-			"w": "50",
+			"w": "38",
 			"h": "31",
 			"x": "centre",
 			"y": "2",
@@ -858,10 +858,10 @@
 		},
 		{
 			"name": "menu_frame",
-			"w": "52",
-			"h": "7",
+			"w": "40",
+			"h": "5",
 			"x": "centre",
-			"y": "27",
+			"y": "25",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
@@ -871,8 +871,8 @@
 		{
 			"name": "menu",
 			"x": "centre",
-			"y": "31",
-			"w": "36",
+			"y": "30",
+			"w": "20",
 			"h": "4",
 			"font": "monospace",
 			"colour": "0xffffffff",
@@ -886,7 +886,7 @@
 		},
 		{
 			"name": "gravestone",
-			"x": "15",
+			"x": "11",
 			"y": "16",
 			"scale": "0.5",
 			"type": "image",
@@ -895,7 +895,7 @@
 			"drawmode": "manual",
 			"data": [
 				{
-					"offset_x": "12",
+					"offset_x": "3",
 					"offset_y": "0",
 					"number": "4"
 				}
@@ -905,7 +905,7 @@
 		{
 			"name": "wipe_text",
 			"x": "centre",
-			"y": "29",
+			"y": "28",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "24",
@@ -925,7 +925,7 @@
 			"justification": "centre",
 			"type": "text",
 			"drawmode": "manual",
-			"x": "18",
+			"x": "11",
 			"y": "4",
 			"data": [
 				{
@@ -7446,6 +7446,33 @@
 				"drawmode": "manual"
 			},
 			{
+				"name": "action_panel",
+				"x": "1",
+				"y": "18",
+				"w": "36",
+				"h": "2",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"animated": "true",
+				"width": "8",
+				"background": " 0xff0000ff",
+				"justification": "left",
+				"type": "panel",
+				"priority": "4",
+				"drawmode": "manual",
+				"data": [
+					{
+						"offset_x_big": "11",
+						"offset_x_small": "7",
+						"width_small": "5",
+						"width_big": "9",
+						"enabled_colour": "0xffffffff",
+						"disabled_colour": "0x606060ff"
+					}
+				]
+			},
+			{
 				"name": "sheet_icon",
 				"x": "38",
 				"y": "1",
@@ -8263,8 +8290,8 @@
 				{
 					"offset_x": "0",
 					"offset_y": "0",
-					"known_colour": "0x00ff00ff",
-					"unknown_colour": "0xbf0000ff"
+					"known_colour": "0xffffffff",
+					"unknown_colour": "0x606060ff"
 				}
 			]
 		},

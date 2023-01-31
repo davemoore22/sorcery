@@ -41,10 +41,13 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 	_view = CharacterView::NO_VIEW;
 	_hl_mage_spell = SpellID::DUMAPIC;
 	_hl_priest_spell = SpellID::BADIOS;
+	_hl_action_item = MenuItem::C_ACTION_EQUIP;
 	mage_spell_bounds.clear();
 	priest_spell_bounds.clear();
 	mage_spell_texts.clear();
 	priest_spell_texts.clear();
+	action_menu_texts.clear();
+	action_menu_bounds.clear();
 
 	_hidden = false;
 	set_status(CharacterStatus::OK);
@@ -124,6 +127,8 @@ auto Sorcery::Character::operator=(const Character &other) -> Character & {
 
 	return *this;
 }
+
+// TODO do we still need these and if so, add action_hl as well
 
 // Move Constructors
 Sorcery::Character::Character(Character &&other) noexcept {
@@ -2923,6 +2928,207 @@ auto Sorcery::Character::_generate_display() -> void {
 		_add_text((*_display->layout)["character_summary:mage_spells"], "{}", mage_spells);
 		_add_text((*_display->layout)["character_summary:priest_spells"], "{}", priest_spells);
 
+		Component action_c{(*_display->layout)["character_summary:action_panel"]};
+		const auto action_x{action_c.x};
+		const auto action_y{action_c.y};
+		const auto offset_x_small{std::stoi(action_c["offset_x_small"].value())};
+		const auto offset_x_big{std::stoi(action_c["offset_x_big"].value())};
+		const auto width_small{std::stoi(action_c["width_small"].value())};
+		const auto width_big{std::stoi(action_c["width_big"].value())};
+
+		auto read_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_READ"])};
+		auto read_hl_bounds{read_text->getGlobalBounds()};
+		action_menu_bounds[MenuItem::C_ACTION_READ] = read_hl_bounds;
+		action_menu_texts[MenuItem::C_ACTION_READ] = read_text;
+
+		if (_hl_action_item == MenuItem::C_ACTION_READ) {
+			sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), read_hl_bounds.height));
+			bg.setPosition(read_hl_bounds.left, read_hl_bounds.top);
+			bg.setFillColor(_graphics->animation->selected_colour);
+			read_text->setFillColor(sf::Color(action_c.colour));
+			read_text->setOutlineColor(sf::Color(0, 0, 0));
+			read_text->setOutlineThickness(2);
+			_hl_action_item_bg = bg;
+		} else {
+			read_text->setFillColor(sf::Color(std::stoull(action_c["enabled_colour"].value(), nullptr, 16)));
+		}
+
+		action_c.y += _display->window->get_ch();
+
+		auto equip_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_EQUIP"])};
+		auto equip_hl_bounds{equip_text->getGlobalBounds()};
+		action_menu_bounds[MenuItem::C_ACTION_EQUIP] = equip_hl_bounds;
+		action_menu_texts[MenuItem::C_ACTION_EQUIP] = equip_text;
+
+		// TODO enable mouseover etc only when we have spells, can identify etc, or have items etc
+		if (_hl_action_item == MenuItem::C_ACTION_READ) {
+			sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), equip_hl_bounds.height));
+			bg.setPosition(equip_hl_bounds.left, equip_hl_bounds.top);
+			bg.setFillColor(_graphics->animation->selected_colour);
+			equip_text->setFillColor(sf::Color(action_c.colour));
+			equip_text->setOutlineColor(sf::Color(0, 0, 0));
+			equip_text->setOutlineThickness(2);
+			_hl_action_item_bg = bg;
+		} else {
+			equip_text->setFillColor(sf::Color(std::stoull(action_c["enabled_colour"].value(), nullptr, 16)));
+		}
+
+		action_c.x = action_x + (offset_x_small * _display->window->get_cw());
+		action_c.y = action_y;
+
+		auto trade_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_TRADE"])};
+		auto trade_hl_bounds{trade_text->getGlobalBounds()};
+		action_menu_bounds[MenuItem::C_ACTION_TRADE] = trade_hl_bounds;
+		action_menu_texts[MenuItem::C_ACTION_TRADE] = trade_text;
+
+		if (_hl_action_item == MenuItem::C_ACTION_TRADE) {
+			sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), trade_hl_bounds.height));
+			bg.setPosition(trade_hl_bounds.left, trade_hl_bounds.top);
+			bg.setFillColor(_graphics->animation->selected_colour);
+			trade_text->setFillColor(sf::Color(action_c.colour));
+			trade_text->setOutlineColor(sf::Color(0, 0, 0));
+			trade_text->setOutlineThickness(2);
+			_hl_action_item_bg = bg;
+		} else {
+			trade_text->setFillColor(sf::Color(std::stoull(action_c["enabled_colour"].value(), nullptr, 16)));
+		}
+
+		action_c.y += _display->window->get_ch();
+
+		auto drop_text{_add_text(action_c, "{:5}", (*_display->string)["C_ACTION_DROP"])};
+		auto drop_hl_bounds{drop_text->getGlobalBounds()};
+		action_menu_bounds[MenuItem::C_ACTION_DROP] = drop_hl_bounds;
+		action_menu_texts[MenuItem::C_ACTION_DROP] = drop_text;
+
+		if (_hl_action_item == MenuItem::C_ACTION_DROP) {
+			sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), drop_hl_bounds.height));
+			bg.setPosition(drop_hl_bounds.left, drop_hl_bounds.top);
+			bg.setFillColor(_graphics->animation->selected_colour);
+			drop_text->setFillColor(sf::Color(action_c.colour));
+			drop_text->setOutlineColor(sf::Color(0, 0, 0));
+			drop_text->setOutlineThickness(2);
+			_hl_action_item_bg = bg;
+		} else {
+			drop_text->setFillColor(sf::Color(std::stoull(action_c["enabled_colour"].value(), nullptr, 16)));
+		}
+
+		action_c.x = action_c.x + (offset_x_small * _display->window->get_cw());
+		action_c.y = action_y;
+
+		auto pool_text{_add_text(action_c, "{:<9}", (*_display->string)["C_ACTION_POOL"])};
+		auto pool_hl_bounds{pool_text->getGlobalBounds()};
+		action_menu_bounds[MenuItem::C_ACTION_POOL] = pool_hl_bounds;
+		action_menu_texts[MenuItem::C_ACTION_POOL] = pool_text;
+
+		if (_hl_action_item == MenuItem::C_ACTION_POOL) {
+			sf::RectangleShape bg(sf::Vector2f(width_big * _display->window->get_cw(), pool_hl_bounds.height));
+			bg.setPosition(pool_hl_bounds.left, pool_hl_bounds.top);
+			bg.setFillColor(_graphics->animation->selected_colour);
+			pool_text->setFillColor(sf::Color(action_c.colour));
+			pool_text->setOutlineColor(sf::Color(0, 0, 0));
+			pool_text->setOutlineThickness(2);
+			_hl_action_item_bg = bg;
+		} else {
+			pool_text->setFillColor(sf::Color(std::stoull(action_c["enabled_colour"].value(), nullptr, 16)));
+		}
+
+		action_c.y += _display->window->get_ch();
+
+		auto identify_text{_add_text(action_c, "{:9}", (*_display->string)["C_ACTION_IDENTIFY"])};
+		auto identify_hl_bounds{drop_text->getGlobalBounds()};
+		action_menu_bounds[MenuItem::C_ACTION_IDENTIFY] = identify_hl_bounds;
+		action_menu_texts[MenuItem::C_ACTION_IDENTIFY] = identify_text;
+
+		if (_hl_action_item == MenuItem::C_ACTION_IDENTIFY) {
+			sf::RectangleShape bg(sf::Vector2f(width_big * _display->window->get_cw(), identify_hl_bounds.height));
+			bg.setPosition(identify_hl_bounds.left, identify_hl_bounds.top);
+			bg.setFillColor(_graphics->animation->selected_colour);
+			identify_text->setFillColor(sf::Color(action_c.colour));
+			identify_text->setOutlineColor(sf::Color(0, 0, 0));
+			identify_text->setOutlineThickness(2);
+			_hl_action_item_bg = bg;
+		} else {
+			identify_text->setFillColor(sf::Color(std::stoull(action_c["enabled_colour"].value(), nullptr, 16)));
+		}
+
+		action_c.x = action_c.x + (offset_x_big * _display->window->get_cw());
+		action_c.y = action_y;
+
+		auto spell_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_SPELL"])};
+		auto spell_hl_bounds{spell_text->getGlobalBounds()};
+		action_menu_bounds[MenuItem::C_ACTION_SPELL] = spell_hl_bounds;
+		action_menu_texts[MenuItem::C_ACTION_SPELL] = spell_text;
+
+		if (_hl_action_item == MenuItem::C_ACTION_SPELL) {
+			sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), spell_hl_bounds.height));
+			bg.setPosition(spell_hl_bounds.left, spell_hl_bounds.top);
+			bg.setFillColor(_graphics->animation->selected_colour);
+			spell_text->setFillColor(sf::Color(action_c.colour));
+			spell_text->setOutlineColor(sf::Color(0, 0, 0));
+			spell_text->setOutlineThickness(2);
+			_hl_action_item_bg = bg;
+		} else {
+			spell_text->setFillColor(sf::Color(std::stoull(action_c["enabled_colour"].value(), nullptr, 16)));
+		}
+
+		action_c.y += _display->window->get_ch();
+
+		auto use_text{_add_text(action_c, "{:5}", (*_display->string)["C_ACTION_USE"])};
+		auto use_hl_bounds{use_text->getGlobalBounds()};
+		action_menu_bounds[MenuItem::C_ACTION_USE] = use_hl_bounds;
+		action_menu_texts[MenuItem::C_ACTION_USE] = use_text;
+
+		if (_hl_action_item == MenuItem::C_ACTION_USE) {
+			sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), use_hl_bounds.height));
+			bg.setPosition(use_hl_bounds.left, use_hl_bounds.top);
+			bg.setFillColor(_graphics->animation->selected_colour);
+			use_text->setFillColor(sf::Color(action_c.colour));
+			use_text->setOutlineColor(sf::Color(0, 0, 0));
+			use_text->setOutlineThickness(2);
+			_hl_action_item_bg = bg;
+		} else {
+			use_text->setFillColor(sf::Color(std::stoull(action_c["enabled_colour"].value(), nullptr, 16)));
+		}
+
+		action_c.x = action_c.x + (offset_x_small * _display->window->get_cw());
+		action_c.y = action_y;
+
+		auto next_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_NEXT"])};
+		auto next_hl_bounds{next_text->getGlobalBounds()};
+		action_menu_bounds[MenuItem::C_ACTION_NEXT] = next_hl_bounds;
+		action_menu_texts[MenuItem::C_ACTION_NEXT] = next_text;
+
+		if (_hl_action_item == MenuItem::C_ACTION_NEXT) {
+			sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), next_hl_bounds.height));
+			bg.setPosition(next_hl_bounds.left, next_hl_bounds.top);
+			bg.setFillColor(_graphics->animation->selected_colour);
+			next_text->setFillColor(sf::Color(action_c.colour));
+			next_text->setOutlineColor(sf::Color(0, 0, 0));
+			next_text->setOutlineThickness(2);
+			_hl_action_item_bg = bg;
+		} else {
+			next_text->setFillColor(sf::Color(std::stoull(action_c["enabled_colour"].value(), nullptr, 16)));
+		}
+
+		action_c.y += _display->window->get_ch();
+
+		auto leave_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_LEAVE"])};
+		auto leave_hl_bounds{leave_text->getGlobalBounds()};
+		action_menu_bounds[MenuItem::C_ACTION_LEAVE] = leave_hl_bounds;
+		action_menu_texts[MenuItem::C_ACTION_LEAVE] = leave_text;
+
+		if (_hl_action_item == MenuItem::C_ACTION_LEAVE) {
+			sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), leave_hl_bounds.height));
+			bg.setPosition(leave_hl_bounds.left, leave_hl_bounds.top);
+			bg.setFillColor(_graphics->animation->selected_colour);
+			leave_text->setFillColor(sf::Color(action_c.colour));
+			leave_text->setOutlineColor(sf::Color(0, 0, 0));
+			leave_text->setOutlineThickness(2);
+			_hl_action_item_bg = bg;
+		} else {
+			leave_text->setFillColor(sf::Color(std::stoull(action_c["enabled_colour"].value(), nullptr, 16)));
+		}
+
 	} else if (_view == DETAILED) {
 
 		_display->generate("character_detailed", _v_sprites, _v_texts, _v_frames);
@@ -3566,6 +3772,7 @@ auto Sorcery::Character::update() -> void {
 
 	_hl_mage_spell_bg.setFillColor(_graphics->animation->selected_colour);
 	_hl_priest_spell_bg.setFillColor(_graphics->animation->selected_colour);
+	_hl_action_item_bg.setFillColor(_graphics->animation->selected_colour);
 }
 
 auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
@@ -3588,6 +3795,8 @@ auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states)
 		target.draw(_hl_mage_spell_bg, states);
 	else if (_view == PRIEST_SPELLS)
 		target.draw(_hl_priest_spell_bg, states);
+	else if (_view == SUMMARY)
+		target.draw(_hl_action_item_bg, states);
 
 	// Draw the section components
 	for (const auto &[unique_key, v_frame] : _v_frames)

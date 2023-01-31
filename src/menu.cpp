@@ -39,11 +39,17 @@ Sorcery::Menu::Menu(
 	// Now depending on the menu type, add the relevant items
 	switch (_type) {
 	case MenuType::CHARACTER_ROSTER:
+		[[fallthrough]];
 	case MenuType::PARTY_CHARACTERS:
+		[[fallthrough]];
 	case MenuType::AVAILABLE_CHARACTERS:
+		[[fallthrough]];
 	case MenuType::INVALID_CHARACTERS:
+		[[fallthrough]];
 	case MenuType::PARTY_CHARACTER_NAMES:
+		[[fallthrough]];
 	case MenuType::RESTART_EXPEDITION:
+		[[fallthrough]];
 	case MenuType::CHARACTERS_HERE:
 		_populate_chars();
 		selected = items.begin();
@@ -206,8 +212,8 @@ Sorcery::Menu::Menu(
 		selected = items.begin();
 		break;
 	case MenuType::CHOOSE_CHARACTER_CLASS:
+		[[fallthrough]];
 	case MenuType::CHANGE_CHARACTER_CLASS:
-
 		_add_item(0, MenuItemType::ENTRY, MenuItem::CC_SAMURAI, (*_display->string)["CHARACTER_CLASS_SAMURAI"], true,
 			ConfigOption::NONE, (*_display->string)["HINT_CHARACTER_CLASS_SAMURAI"]);
 		_add_item(1, MenuItemType::ENTRY, MenuItem::CC_FIGHTER, (*_display->string)["CHARACTER_CLASS_FIGHTER"], true,
@@ -301,6 +307,7 @@ Sorcery::Menu::Menu(
 		selected = items.begin();
 		break;
 	case MenuType::PAUSE:
+		[[fallthrough]];
 	case MenuType::CAMP:
 		_add_item(0, MenuItemType::ENTRY, MenuItem::CP_INSPECT, (*_display->string)["CAMP_INSPECT"]);
 		_add_item(1, MenuItemType::ENTRY, MenuItem::CP_REORDER, (*_display->string)["CAMP_REORDER"]);
@@ -345,9 +352,13 @@ auto Sorcery::Menu::reload() -> void {
 	// Now depending on the menu type, add the relevant items
 	switch (_type) {
 	case CHARACTER_ROSTER:
+		[[fallthrough]];
 	case PARTY_CHARACTERS:
+		[[fallthrough]];
 	case AVAILABLE_CHARACTERS:
+		[[fallthrough]];
 	case INVALID_CHARACTERS:
+		[[fallthrough]];
 	case CHARACTERS_HERE:
 		_populate_chars();
 		selected = items.begin();
