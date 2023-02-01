@@ -273,6 +273,10 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 							sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 								static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
 						_cur_char.value()->set_view(_cur_char.value()->get_view());
+					} else if (_cur_char.value()->check_for_action_mouse_move(
+								   sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
+									   static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
+						_cur_char.value()->generate_display();
 					}
 				}
 			}

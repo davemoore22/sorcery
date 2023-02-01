@@ -75,8 +75,8 @@ Sorcery::Character::Character(const Character &other)
 	  _max_attr{other._max_attr}, _view{other._view}, _points_left{other._points_left}, _st_points{other._st_points},
 	  _pos_classes{other._pos_classes}, _class_list{other._class_list}, _num_pos_classes{other._num_pos_classes},
 	  _portrait_index{other._portrait_index}, _status{other._status}, _hidden{other._hidden},
-	  _hl_mage_spell{other._hl_mage_spell}, _hl_priest_spell{other._hl_priest_spell}, _legated{other._legated},
-	  _location{other._location} {
+	  _hl_mage_spell{other._hl_mage_spell}, _hl_priest_spell{other._hl_priest_spell},
+	  _hl_action_item{other._hl_action_item}, _legated{other._legated}, _location{other._location} {
 
 	_spell_panel = other._spell_panel;
 	_spell_panel_c = other._spell_panel_c;
@@ -117,6 +117,7 @@ auto Sorcery::Character::operator=(const Character &other) -> Character & {
 	_portrait_index = other._portrait_index;
 	_hl_mage_spell = other._hl_mage_spell;
 	_hl_priest_spell = other._hl_priest_spell;
+	_hl_action_item = other._hl_action_item;
 	_hidden = other._hidden;
 	_status = other._status;
 	_legated = other._legated;
@@ -168,6 +169,7 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		_portrait_index = other._portrait_index;
 		_hl_mage_spell = other._hl_mage_spell;
 		_hl_priest_spell = other._hl_priest_spell;
+		_hl_action_item = other._hl_action_item;
 		_hidden = other._hidden;
 		_status = other._status;
 		_legated = other._legated;
@@ -209,6 +211,7 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		other._portrait_index = 0;
 		other._hl_mage_spell = SpellID::NO_SPELL;
 		other._hl_priest_spell = SpellID::NO_SPELL;
+		other._hl_action_item = MenuItem::ABORT;
 		other._hidden = false;
 		other._status = CharacterStatus::OK;
 		other._legated = false;
@@ -257,6 +260,7 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		_portrait_index = other._portrait_index;
 		_hl_mage_spell = other._hl_mage_spell;
 		_hl_priest_spell = other._hl_priest_spell;
+		_hl_action_item = other._hl_action_item;
 		_hidden = other._hidden;
 		_status = other._status;
 		_legated = other._legated;
@@ -296,6 +300,9 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		other._class_list.clear();
 		other._num_pos_classes = 0;
 		other._portrait_index = 0;
+		other._hl_mage_spell = SpellID::NO_SPELL;
+		other._hl_priest_spell = SpellID::NO_SPELL;
+		other._hl_action_item = MenuItem::ABORT;
 		other._hidden = false;
 		other._status = CharacterStatus::OK;
 		other._legated = false;
@@ -2832,6 +2839,11 @@ auto Sorcery::Character::_heal(const unsigned int adjustment) -> void {
 		_abilities[CURRENT_HP] = _abilities[MAX_HP];
 }
 
+auto Sorcery::Character::generate_display() -> void {
+
+	_generate_display();
+}
+
 auto Sorcery::Character::_generate_display() -> void {
 
 	using enum Enums::Character::Attribute;
@@ -2849,6 +2861,8 @@ auto Sorcery::Character::_generate_display() -> void {
 	priest_spell_bounds.clear();
 	mage_spell_texts.clear();
 	priest_spell_texts.clear();
+	action_menu_bounds.clear();
+	action_menu_texts.clear();
 
 	_display->generate("character", _sprites, _texts, _frames);
 
@@ -2961,7 +2975,7 @@ auto Sorcery::Character::_generate_display() -> void {
 		action_menu_texts[MenuItem::C_ACTION_EQUIP] = equip_text;
 
 		// TODO enable mouseover etc only when we have spells, can identify etc, or have items etc
-		if (_hl_action_item == MenuItem::C_ACTION_READ) {
+		if (_hl_action_item == MenuItem::C_ACTION_EQUIP) {
 			sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), equip_hl_bounds.height));
 			bg.setPosition(equip_hl_bounds.left, equip_hl_bounds.top);
 			bg.setFillColor(_graphics->animation->selected_colour);
@@ -3035,7 +3049,7 @@ auto Sorcery::Character::_generate_display() -> void {
 		action_c.y += _display->window->get_ch();
 
 		auto identify_text{_add_text(action_c, "{:9}", (*_display->string)["C_ACTION_IDENTIFY"])};
-		auto identify_hl_bounds{drop_text->getGlobalBounds()};
+		auto identify_hl_bounds{identify_text->getGlobalBounds()};
 		action_menu_bounds[MenuItem::C_ACTION_IDENTIFY] = identify_hl_bounds;
 		action_menu_texts[MenuItem::C_ACTION_IDENTIFY] = identify_text;
 
@@ -3435,7 +3449,6 @@ auto Sorcery::Character::_generate_display() -> void {
 					spell_name->setOutlineThickness(2);
 					_hl_mage_spell_bg = bg;
 				} else {
-
 					if (spell.known)
 						spell_name->setFillColor(sf::Color(std::stoull(spell_name_c["known_colour"].value(), 0, 16)));
 					else
@@ -3705,6 +3718,27 @@ auto Sorcery::Character::set_method(const CreateMethod value) -> void {
 	_method = value;
 }
 
+auto Sorcery::Character::check_for_action_mouse_move(sf::Vector2f mouse_pos) -> std::optional<MenuItem> {
+
+	using enum Enums::Character::View;
+
+	const sf::Vector2f global_pos{this->getPosition()};
+	const sf::Vector2f local_mouse_pos{mouse_pos - global_pos};
+
+	if (_view == SUMMARY) {
+		auto it{std::find_if(action_menu_bounds.begin(), action_menu_bounds.end(),
+			[&local_mouse_pos](const auto &item) { return item.second.contains(local_mouse_pos); })};
+		if (it != action_menu_bounds.end()) {
+			_hl_action_item = (*it).first;
+			return (*it).first;
+		} else
+			return std::nullopt;
+	}
+
+	else
+		return std::nullopt;
+}
+
 auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::optional<SpellID> {
 
 	using enum Enums::Character::View;
@@ -3795,8 +3829,6 @@ auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states)
 		target.draw(_hl_mage_spell_bg, states);
 	else if (_view == PRIEST_SPELLS)
 		target.draw(_hl_priest_spell_bg, states);
-	else if (_view == SUMMARY)
-		target.draw(_hl_action_item_bg, states);
 
 	// Draw the section components
 	for (const auto &[unique_key, v_frame] : _v_frames)
@@ -3804,6 +3836,9 @@ auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states)
 
 	for (const auto &[unique_key, v_sprite] : _v_sprites)
 		target.draw(v_sprite, states);
+
+	if (_view == SUMMARY)
+		target.draw(_hl_action_item_bg, states);
 
 	for (const auto &[unique_key, v_text] : _v_texts)
 		target.draw(v_text, states);

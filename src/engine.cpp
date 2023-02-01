@@ -581,9 +581,13 @@ auto Sorcery::Engine::_handle_in_character(const sf::Event &event) -> void {
 		if (_cur_char.value()->check_for_mouse_move(sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 				static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
 			_cur_char.value()->set_view(_cur_char.value()->get_view());
-		} else {
-			_status_bar->selected = std::nullopt;
 		}
+		if (_cur_char.value()->check_for_action_mouse_move(
+				sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
+					static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
+			_cur_char.value()->generate_display();
+		}
+		_status_bar->selected = std::nullopt;
 	}
 }
 
@@ -1126,7 +1130,11 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Pause)) {
 		_display_cursor = true;
 		_refresh_display();
-	}
+	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F9))
+		_debug_light_on();
+	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F10))
+		_debug_light_off();
+
 	if (_system->input->check(WindowInput::MAZE_SHOW_MAP, event)) {
 		_in_map = !_in_map;
 		_update_automap = true;
@@ -2639,7 +2647,6 @@ auto Sorcery::Engine::_debug_kill_non_party_characters() -> std::optional<int> {
 
 	for (auto &[character_id, character] : _game->characters) {
 		if (character.get_location() != CharacterLocation::PARTY) {
-			std::cout << character;
 			character.set_current_hp(0);
 			character.set_status(CharacterStatus::DEAD);
 			character.set_location(CharacterLocation::TEMPLE);
@@ -2660,7 +2667,6 @@ auto Sorcery::Engine::_debug_send_non_party_characters_to_tavern() -> std::optio
 
 	for (auto &[character_id, character] : _game->characters) {
 		if (character.get_location() != CharacterLocation::PARTY) {
-			std::cout << character;
 			character.set_current_hp(character.get_max_hp());
 			character.set_status(CharacterStatus::OK);
 			character.set_location(CharacterLocation::TAVERN);

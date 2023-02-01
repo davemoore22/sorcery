@@ -140,7 +140,7 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto dec_hl_spell(SpellType type) -> void;
 		auto update() -> void;
 		auto check_for_mouse_move(sf::Vector2f mouse_pos) -> std::optional<SpellID>;
-		// auto check_for_action_mouse_move(sf::Vector2f mouse_pos) -> std::optional<MenuItem>;
+		auto check_for_action_mouse_move(sf::Vector2f mouse_pos) -> std::optional<MenuItem>;
 		auto change_class(const CharacterClass &value) -> void;
 		auto legate(const CharacterAlignment &value) -> void;
 		auto is_legated() const -> bool;
@@ -165,6 +165,7 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto get_ress_chance(bool ashes) -> unsigned int;
 		auto damage(const unsigned int adjustment) -> bool;
 		auto heal(const unsigned int adjustment) -> void;
+		auto generate_display() -> void;
 
 		// Public Members
 		std::map<SpellID, sf::FloatRect> mage_spell_bounds;

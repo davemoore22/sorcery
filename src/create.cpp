@@ -782,6 +782,11 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event) -> std:
 					static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
 				_candidate.set_view(_candidate.get_view());
 			}
+			if (_candidate.check_for_action_mouse_move(
+					sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
+						static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
+				_candidate.generate_display();
+			}
 		}
 	}
 

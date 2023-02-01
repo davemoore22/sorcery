@@ -101,6 +101,7 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		std::vector<sf::Text> _options;
 		sf::RectangleShape _selected_bg;
 		std::optional<MenuMode> _mode;
+		bool _go_first;
 };
 
 }

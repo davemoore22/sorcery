@@ -62,8 +62,8 @@
 			"data": [
 				{
 					"icon_colour": "0xffffff",
-					"offset_x": "20",
-					"offset_y": "16",
+					"offset_x": "8",
+					"offset_y": "8",
 					"offset_row": "32",
 					"icon_scaling": "0.15"
 				}
@@ -859,9 +859,9 @@
 		{
 			"name": "menu_frame",
 			"w": "40",
-			"h": "5",
+			"h": "6",
 			"x": "centre",
-			"y": "25",
+			"y": "27",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
@@ -895,7 +895,7 @@
 			"drawmode": "manual",
 			"data": [
 				{
-					"offset_x": "3",
+					"offset_x": "6",
 					"offset_y": "0",
 					"number": "4"
 				}
@@ -1049,14 +1049,15 @@
 		},
 		{
 			"name": "frame",
-			"w": "50",
+			"w": "38",
 			"h": "31",
 			"x": "centre",
 			"y": "2",
 			"alpha": "0",
 			"type": "frame",
-			"priority": "3",
-			"background": " 0x000000ff"
+			"priority": "1",
+			"background": " 0x000000ff",
+			"drawmode": "automatic"
 		},
 		{
 			"name": "title_frame",
@@ -1092,8 +1093,8 @@
 			"drawmode" : "automatic",
 			"data": [
 				{
-					"scale_x": "2.33",
-					"scale_y": "1.9",
+					"scale_x": "2.05",
+					"scale_y": "1.76",
 					"source_w": "440",
 					"source_h": "420",
 					"source_index": "1"
@@ -1104,7 +1105,7 @@
 		{
 			"name": "menu_frame",
 			"w": "36",
-			"h": "27",
+			"h": "15",
 			"x": "centre",
 			"y": "8",
 			"alpha": "225",
@@ -1117,13 +1118,13 @@
 			"name": "menu",
 			"x": "centre",
 			"y": "11",
-			"w": "36",
+			"w": "34",
 			"h": "4",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "24",
 			"animated": "true",
-			"width": "36",
+			"width": "34",
 			"background": " 0xff0000ff",
 			"justification": "centre",
 			"type": "menu",
@@ -1261,7 +1262,7 @@
 			"name": "menu",
 			"x": "centre",
 			"y": "7",
-			"w": "38",
+			"w": "36",
 			"h": "4",
 			"font": "monospace",
 			"colour": "0xffffffff",
@@ -5247,20 +5248,8 @@
 			"drawmode": "automatic"
 		},
 		{
-			"name": "main_frame",
-			"w": "52",
-			"h": "29",
-			"x": "centre",
-			"y": "9",
-			"alpha": "255",
-			"type": "frame",
-			"priority": "6",
-			"drawmode": "automatic",
-			"background": " 0x000000ff"
-		},
-		{
 			"name": "candidate",
-			"x": "6",
+			"x": "10",
 			"y": "10",
 			"drawmode": "manual"
 		},
@@ -5269,7 +5258,7 @@
 			"w": "25",
 			"h": "4",
 			"x": "centre",
-			"y": "centre",
+			"y": "15",
 			"alpha": "200",
 			"type": "frame",
 			"priority": "6",
@@ -5279,7 +5268,7 @@
 		{
 			"name": "menu",
 			"x": "centre",
-			"y": "14",
+			"y": "16",
 			"w": "24",
 			"h": "4",
 			"font": "monospace",
@@ -7473,6 +7462,136 @@
 				]
 			},
 			{
+				"name": "read_label",
+				"x": "1",
+				"y": "18",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"string": "C_ACTION_READ",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "equip_label",
+				"x": "1",
+				"y": "19",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"string": "C_ACTION_EQUIP",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "trade_label",
+				"x": "8",
+				"y": "18",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"string": "C_ACTION_TRADE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "drop_label",
+				"x": "8",
+				"y": "19",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"string": "C_ACTION_DROP",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "pool_label",
+				"x": "15",
+				"y": "18",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"string": "C_ACTION_POOL",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "identify_label",
+				"x": "15",
+				"y": "19",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"string": "C_ACTION_IDENTIFY",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "spell_label",
+				"x": "26",
+				"y": "18",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"string": "C_ACTION_SPELL",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "use_label",
+				"x": "26",
+				"y": "19",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"string": "C_ACTION_USE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "next_label",
+				"x": "33",
+				"y": "18",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"string": "C_ACTION_NEXT",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
+				"name": "leave_label",
+				"x": "34",
+				"y": "19",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"string": "C_ACTION_LEAVE",
+				"justification": "left",
+				"type": "text",
+				"priority": "3",
+				"drawmode": "manual"
+			},
+			{
 				"name": "sheet_icon",
 				"x": "38",
 				"y": "1",
@@ -9088,7 +9207,7 @@
 		{
 			"name": "direction_indicator",
 			"x": "26",
-			"y": "11",
+			"y": "10",
 			"alpha": "255",
 			"type": "other",
 			"priority": "6",
@@ -9099,7 +9218,7 @@
 				{
 
 					"offset_x": "16",
-					"offset_y": "0",
+					"offset_y": "8",
 					"mono": "direction-indicator-monochrome",
 					"not_mono": "direction-indicator"
 				}
@@ -9477,7 +9596,7 @@
 			"w": "36",
 			"h": "8",
 			"x": "centre",
-			"y": "10",
+			"y": "9",
 			"alpha": "225",
 			"type": "frame",
 			"priority": "3",
@@ -9531,7 +9650,7 @@
 		{
 			"name": "view_frame",
 			"w": "38",
-			"h": "29",
+			"h": "23",
 			"x": "centre",
 			"y": "2",
 			"alpha": "255",

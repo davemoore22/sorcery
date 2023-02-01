@@ -52,7 +52,10 @@ Sorcery::Menu::Menu(
 		[[fallthrough]];
 	case MenuType::CHARACTERS_HERE:
 		_populate_chars();
-		selected = items.begin();
+		if (_go_first)
+			selected = items.begin();
+		else
+			selected = items.end();
 		break;
 	case MenuType::EDIT_CHARACTER:
 		_add_item(
@@ -886,6 +889,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 	using enum Enums::Menu::Type;
 	using enum Enums::Menu::ItemType;
 
+	_go_first = true;
 	items.clear();
 	bounds.clear();
 	count = 0;
@@ -1000,6 +1004,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		_add_item(++max_id, MenuItemType::SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
 		_add_item(++max_id, MenuItemType::CANCEL, MenuItem::TR_EDGE_OF_TOWN,
 			(*_display->string)["RESTART_GROUNDS_MENU_OPTION_RETURN"]);
+		_go_first = false;
 	} break;
 	case PARTY_CHARACTER_NAMES: {
 		if (_game->state->party_has_members()) {
@@ -1079,7 +1084,6 @@ auto Sorcery::Menu::_populate_chars() -> void {
 					(character.get_location() == CharacterLocation::TEMPLE)) {
 					const auto status{character.get_name_and_status()};
 					_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER, status);
-					std::cout << character << std::endl;
 					++count;
 					if (character_id > last_id)
 						last_id = character_id;
