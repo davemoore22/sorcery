@@ -80,6 +80,7 @@ Game font is based upon the DOS Wizardry V font.
 ## Screenshots
 
 ![](/promo/screen16.png)
+![](/promo/screen17.png)
 ![](/promo/screen5.png)
 ![](/promo/screen15.png)
 ![](/promo/screen14.png)

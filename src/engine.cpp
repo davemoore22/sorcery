@@ -70,6 +70,10 @@ auto Sorcery::Engine::_reset_components() -> void {
 		_search_menu.reset();
 	if (_search_menu_frame.get())
 		_search_menu_frame.reset();
+	if (_view_frame_small.get())
+		_view_frame_small.reset();
+	if (_view_frame_big.get())
+		_view_frame_big.reset();
 	if (_get_menu.get())
 		_get_menu.reset();
 	if (_get_menu_frame.get())
@@ -201,6 +205,18 @@ auto Sorcery::Engine::_initalise_components() -> void {
 		elevator_a_f_fc.colour, elevator_a_f_fc.background, elevator_a_f_fc.alpha);
 	_elevator_a_f_menu_frame->setPosition(_display->window->get_x(_elevator_a_f_menu_frame->sprite, elevator_a_f_fc.x),
 		_display->window->get_y(_elevator_a_f_menu_frame->sprite, elevator_a_f_fc.y));
+
+	const Component vfb_fc{(*_display->layout)["engine_base_ui:view_frame_small"]};
+	_view_frame_small = std::make_unique<Frame>(
+		_display->ui_texture, vfb_fc.w, vfb_fc.h, vfb_fc.colour, vfb_fc.background, vfb_fc.alpha);
+	_view_frame_small->setPosition(_display->window->get_x(_view_frame_small->sprite, vfb_fc.x),
+		_display->window->get_y(_view_frame_small->sprite, vfb_fc.y));
+
+	const Component vfs_fc{(*_display->layout)["engine_base_ui:view_frame_big"]};
+	_view_frame_big = std::make_unique<Frame>(
+		_display->ui_texture, vfs_fc.w, vfs_fc.h, vfs_fc.colour, vfs_fc.background, vfs_fc.alpha);
+	_view_frame_big->setPosition(_display->window->get_x(_view_frame_big->sprite, vfs_fc.x),
+		_display->window->get_y(_view_frame_big->sprite, vfs_fc.y));
 
 	_ouch = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:ouch"],
 		(*_display->layout)["engine_base_ui:ouch_text"], WindowDialogType::TIMED);
@@ -2367,20 +2383,34 @@ auto Sorcery::Engine::stop() const -> void {
 
 auto Sorcery::Engine::_draw() -> void {
 
-	// Scale the Render appropriately
-	const auto vf_c{(*_display->layout)["engine_base_ui:view_frame"]};
-	const auto wfr_c{(*_display->layout)["engine_base_ui:wireframe_view"]};
-	_render->setScale(std::stof(wfr_c["scale_x"].value()), std::stof(wfr_c["scale_y"].value()));
-
 	_graphics->tile_bg(_window);
 
 	// Standard Components
 	_display->display("engine_base_ui");
 
-	// Draw the Render
-	_render->setPosition(
-		wfr_c.x + std::stoi(wfr_c["offset_x"].value()), wfr_c.y + std::stoi(wfr_c["offset_y"].value()));
-	_window->draw(*_render);
+	// Draw and scale the Render
+	if (_show_gui) {
+
+		_window->draw(*_view_frame_small);
+
+		const auto wfr_c{(*_display->layout)["engine_base_ui:wireframe_view_small"]};
+		_render->setScale(std::stof(wfr_c["scale_x"].value()), std::stof(wfr_c["scale_y"].value()));
+		_window->draw(*_view_frame_small);
+		_render->setPosition(
+			wfr_c.x + std::stoi(wfr_c["offset_x"].value()), wfr_c.y + std::stoi(wfr_c["offset_y"].value()));
+		_window->draw(*_render);
+
+	} else {
+
+		_window->draw(*_view_frame_big);
+
+		const auto wfr_c{(*_display->layout)["engine_base_ui:wireframe_view_big"]};
+		_render->setScale(std::stof(wfr_c["scale_x"].value()), std::stof(wfr_c["scale_y"].value()));
+		_window->draw(*_view_frame_big);
+		_render->setPosition(
+			wfr_c.x + std::stoi(wfr_c["offset_x"].value()), wfr_c.y + std::stoi(wfr_c["offset_y"].value()));
+		_window->draw(*_render);
+	}
 
 	if (_show_gui) {
 

@@ -9648,7 +9648,7 @@
 			"priority": "4"
 		},
 		{
-			"name": "view_frame",
+			"name": "view_frame_small",
 			"w": "38",
 			"h": "23",
 			"x": "centre",
@@ -9656,11 +9656,11 @@
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
-			"drawmode": "automatic",
+			"drawmode": "manual",
 			"background": " 0x000000ff"
 		},
 		{
-			"name": "wireframe_view",
+			"name": "wireframe_view_small",
 			"type": "other",
 			"priority": "4",
 			"x": "10",
@@ -9678,6 +9678,41 @@
 					"stairs_colour": "0xff5555ff",
 					"elevator_colour": "0xff5555ff",
 					"offset_x": "8",
+					"offset_y": "0"
+					}
+				]
+		},
+		{
+			"name": "view_frame_big",
+			"w": "56",
+			"h": "31",
+			"x": "2",
+			"y": "2",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "6",
+			"drawmode": "manual",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "wireframe_view_big",
+			"type": "other",
+			"priority": "4",
+			"x": "5",
+			"y": "3",
+			"drawmode": "manual",
+			"data":
+				[
+					{
+					"scale_x": "4.0",
+					"scale_y": "4.0",
+					"monochrome_colour": "0xffffffff",
+					"floor_colour": "0x55ffffff",
+					"ceiling_colour": "0xff5555ff",
+					"darkness_colour": "0x55ffffff",
+					"stairs_colour": "0xff5555ff",
+					"elevator_colour": "0xff5555ff",
+					"offset_x": "-8",
 					"offset_y": "0"
 					}
 				]

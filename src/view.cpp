@@ -134,7 +134,7 @@ auto Sorcery::View::_load_tile_views() -> void {
 		}
 	}
 
-	const auto floor_c{(*_display->layout)["engine_base_ui:wireframe_view"]};
+	const auto floor_c{(*_display->layout)["engine_base_ui:wireframe_view_small"]};
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnarrowing"
