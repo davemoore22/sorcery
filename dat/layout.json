@@ -9313,6 +9313,40 @@
 			]
 		},
 		{
+			"name": "party_panel",
+			"w": "40",
+			"h": "9",
+			"x": "centre",
+			"y": "24",
+			"alpha": "255",
+			"colour": "0xffffffff",
+			"type": "other",
+			"size": "24",
+			"font": "monospace",
+			"animated": "true",
+			"background": "0x000000ff",
+			"drawmode": "manual",
+			"priority": "8",
+			"data": [
+				{
+					"legend_offset_x": "1",
+					"legend_offset_y": "1",
+					"party_offset_x": "1",
+					"party_offset_y": "2",
+					"bar_width": "38",
+					"colour_ok": "0xffffffff",
+					"colour_silenced": "0xffffffff",
+					"colour_held": "0x800080ff",
+					"colour_stoned": "0x808080ff",
+					"colour_dead": "0xff0000ff",
+					"colour_ashes": "0xff0000ff",
+					"colour_lost": "0xff0000ff",
+					"colour_low_health": "0xffff00ff",
+					"colour_poisoned": "0x00ff00ff"
+				}
+			]
+		},
+		{
 			"name": "status_bar",
 			"w": "40",
 			"h": "9",

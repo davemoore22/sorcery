@@ -70,6 +70,7 @@ add_executable(${PROJECT_NAME}
 	src/message.cpp
 	src/menu.cpp
 	src/options.cpp
+	src/partypanel.cpp
 	src/platform.cpp
 	src/random.cpp
 	src/render.cpp

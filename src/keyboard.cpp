@@ -156,7 +156,7 @@ Sorcery::Keyboard::Keyboard(System *system, Display *display, Graphics *graphics
 	// Render the background (inset by the frame)
 	sf::RectangleShape rect(sf::Vector2f(
 		(_display->window->get_cw() * (_frame_c.w)) - 20, (_display->window->get_ch() * (_frame_c.h)) - 20));
-	rect.setFillColor(sf::Color(255, 0, 0, _frame_c.alpha));
+	rect.setFillColor(sf::Color(0, 0, 0, _frame_c.alpha));
 	rect.setPosition(10, 10);
 	_rtexture.draw(rect);
 

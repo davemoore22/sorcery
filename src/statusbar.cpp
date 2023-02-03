@@ -53,7 +53,7 @@ Sorcery::StatusBar::StatusBar(System *system, Display *display, Graphics *graphi
 	// Render the background (inset by the frame)
 	sf::RectangleShape rect(
 		sf::Vector2f((_display->window->get_cw() * (_layout.w)) - 32, (_display->window->get_ch() * (_layout.h)) - 32));
-	rect.setFillColor(sf::Color(0, 0, 0, _layout.alpha));
+	rect.setFillColor(sf::Color(255, 0, 0, _layout.alpha));
 	rect.setPosition(16, 16);
 	_rtexture.draw(rect);
 
@@ -91,8 +91,6 @@ auto Sorcery::StatusBar::refresh() -> void {
 	auto summary_offset_x{std::stoi(_layout["summary_offset_x"].value())};
 	auto summary_offset_y{std::stoi(_layout["summary_offset_y"].value())};
 
-	Component text{(*_display->layout)["character_row:text"]};
-
 	// Remember here position is 1-indexed, not 0-index
 	_summaries.clear();
 	bounds.clear();
@@ -110,6 +108,7 @@ auto Sorcery::StatusBar::refresh() -> void {
 	}
 }
 
+// TODO this is all drivel - needs to be rewritten
 auto Sorcery::StatusBar::set_selected_background() -> void {
 
 	if (selected) {
@@ -126,6 +125,7 @@ auto Sorcery::StatusBar::set_selected_background() -> void {
 
 			// Bounds is 0-indexed
 			_selected_bg.setPosition(bounds.at(selected.value() - 1).left, bounds.at(selected.value() - 1).top);
+			_selected_bg.move(0, _display->window->get_ch());
 		}
 	}
 }

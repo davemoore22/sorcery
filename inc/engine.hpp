@@ -41,6 +41,7 @@
 #include "menu.hpp"
 #include "message.hpp"
 #include "options.hpp"
+#include "partypanel.hpp"
 #include "render.hpp"
 #include "reorder.hpp"
 #include "search.hpp"
@@ -175,6 +176,7 @@ class Engine {
 		std::unique_ptr<Graveyard> _graveyard;
 		std::unique_ptr<Frame> _view_frame_big;
 		std::unique_ptr<Frame> _view_frame_small;
+		std::unique_ptr<PartyPanel> _party_panel;
 		bool _in_camp;
 		bool _in_action;
 		bool _in_search;

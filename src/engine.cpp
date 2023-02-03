@@ -132,6 +132,8 @@ auto Sorcery::Engine::_reset_components() -> void {
 		_map.reset();
 	if (_tile_note.get())
 		_tile_note.reset();
+	if (_party_panel.get())
+		_party_panel.reset();
 }
 
 auto Sorcery::Engine::_initalise_components() -> void {
@@ -262,6 +264,8 @@ auto Sorcery::Engine::_initalise_components() -> void {
 	// Modules
 	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game,
 		(*_display->layout)["engine_base_ui:status_bar"], (*_display->layout)["engine_base_ui:status_bar_outer_frame"]);
+	_party_panel = std::make_unique<PartyPanel>(
+		_system, _display, _graphics, _game, (*_display->layout)["engine_base_ui:party_panel"]);
 	_reorder = std::make_unique<Reorder>(_system, _display, _graphics, _game, MenuMode::CAMP);
 	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MenuMode::CAMP);
 	_render = std::make_unique<Render>(_system, _display, _graphics, _game);
@@ -311,6 +315,10 @@ auto Sorcery::Engine::_place_components() -> void {
 	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
 		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
 
+	const Component party_banel_c{(*_display->layout)["engine_base_ui:party_panel"]};
+	_party_panel->setPosition(
+		_display->get_centre_x(_party_panel->width), (*_display->layout)["engine_base_ui:party_panel"].y);
+
 	const Component automap_c{(*_display->layout)["global:automap"]};
 	_automap->setPosition(automap_c.x, automap_c.y);
 	const Component compass_c{(*_display->layout)["global:compass"]};
@@ -346,7 +354,8 @@ auto Sorcery::Engine::_place_components() -> void {
 auto Sorcery::Engine::_refresh() const -> void {
 
 	_render->refresh();
-	_status_bar->refresh();
+	//_status_bar->refresh();
+	_party_panel->refresh();
 	_automap->refresh();
 	_compass->refresh();
 	_buffbar->refresh();
@@ -577,7 +586,8 @@ auto Sorcery::Engine::_handle_in_character(const sf::Event &event) -> void {
 		_game->save_game();
 		_display->set_disc(false);
 
-		_status_bar->refresh();
+		//_status_bar->refresh();
+		_party_panel->refresh();
 		_in_character = false;
 		_display->generate("engine_base_ui");
 	} else if (_system->input->check(CONFIRM, event)) {
@@ -642,7 +652,8 @@ auto Sorcery::Engine::_handle_in_search(const sf::Event &event) -> std::optional
 				_game->save_game();
 				_display->set_disc(false);
 
-				_status_bar->refresh();
+				//_status_bar->refresh();
+				_party_panel->refresh();
 				_in_search = false;
 				_display->generate("engine_base_ui");
 				_display->set_input_mode(WindowInputMode::IN_GAME);
@@ -696,7 +707,8 @@ auto Sorcery::Engine::_handle_in_action(const sf::Event &event) -> std::optional
 				_game->save_game();
 				_display->set_disc(false);
 
-				_status_bar->refresh();
+				//_status_bar->refresh();
+				_party_panel->refresh();
 				_in_action = false;
 				_display->generate("engine_base_ui");
 				_display->set_input_mode(WindowInputMode::IN_GAME);
@@ -749,7 +761,8 @@ auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<in
 				_game->save_game();
 				_display->set_disc(false);
 
-				_status_bar->refresh();
+				//_status_bar->refresh();
+				_party_panel->refresh();
 				_in_get = false;
 				_display->generate("engine_base_ui");
 				_display->set_input_mode(WindowInputMode::IN_GAME);
@@ -768,7 +781,8 @@ auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<in
 					_display->set_disc(false);
 				}
 
-				_status_bar->refresh();
+				//_status_bar->refresh();
+				_party_panel->refresh();
 				_get_menu->reload();
 				_get_option = _get_menu->items.begin();
 			}
@@ -813,7 +827,8 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 				_game->save_game();
 				_display->set_disc(false);
 
-				_status_bar->refresh();
+				//_status_bar->refresh();
+				_party_panel->refresh();
 				_in_camp = false;
 				_display->generate("engine_base_ui");
 				_display->set_input_mode(WindowInputMode::IN_GAME);
@@ -845,19 +860,23 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 					return EXIT_ALL;
 				}
 				options->stop();
-				_status_bar->refresh();
+				//_status_bar->refresh();
+				_party_panel->refresh();
 				_display->generate("engine_base_ui");
 			} else if (option_chosen == MenuItem::CP_INSPECT) {
-				_status_bar->refresh();
+				_party_panel->refresh();
+				//_status_bar->refresh();
 				if (auto result{_inspect->start()}; result == MenuItem::ABORT) {
 					_inspect->stop();
 					return EXIT_ALL;
 				}
 				_inspect->stop();
-				_status_bar->refresh();
+				_party_panel->refresh();
+				//_status_bar->refresh();
 				_display->generate("engine_base_ui");
 			} else if (option_chosen == MenuItem::CP_REORDER) {
-				_status_bar->refresh();
+				_party_panel->refresh();
+				//_status_bar->refresh();
 				if (auto new_party{_reorder->start()}; new_party) {
 
 					// TODO: handle aborts here too
@@ -868,10 +887,12 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 					_game->save_game();
 					_display->set_disc(false);
 
-					_status_bar->refresh();
+					_party_panel->refresh();
+					//_status_bar->refresh();
 				}
 				_reorder->stop();
-				_status_bar->refresh();
+				_party_panel->refresh();
+				//_status_bar->refresh();
 				_display->generate("engine_base_ui");
 			}
 		}
@@ -1443,10 +1464,12 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 							_game->save_game();
 							_display->set_disc(false);
 
-							_status_bar->refresh();
+							_party_panel->refresh();
+							//_status_bar->refresh();
 						}
 						_reorder->stop();
-						_status_bar->refresh();
+						_party_panel->refresh();
+						//_status_bar->refresh();
 						_display->generate("engine_base_ui");
 						_display->set_input_mode(WindowInputMode::IN_GAME);
 
@@ -1470,7 +1493,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 							return EXIT_ALL;
 						}
 						options->stop();
-						_status_bar->refresh();
+						_party_panel->refresh();
+						//_status_bar->refresh();
 						_display->generate("engine_base_ui");
 						_display->set_input_mode(WindowInputMode::IN_GAME);
 					} else if (what.ends_with("save")) {
@@ -1568,13 +1592,15 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 					} else if (what.ends_with("examine")) {
 						// TODO
 					} else if (what.ends_with("party")) {
-						_status_bar->refresh();
+						_party_panel->refresh();
+						//_status_bar->refresh();
 						if (auto result{_inspect->start()}; result == MenuItem::ABORT) {
 							_inspect->stop();
 							return EXIT_ALL;
 						}
 						_inspect->stop();
-						_status_bar->refresh();
+						_party_panel->refresh();
+						//_status_bar->refresh();
 						_display->generate("engine_base_ui");
 						_display->set_input_mode(WindowInputMode::IN_GAME);
 					}
@@ -1829,7 +1855,8 @@ auto Sorcery::Engine::_update_display() -> void {
 		_update_icon_panels = false;
 	}
 	if (_update_status_bar) {
-		_status_bar->refresh();
+		_party_panel->refresh();
+		//_status_bar->refresh();
 		_update_status_bar = false;
 	}
 }
@@ -2429,9 +2456,11 @@ auto Sorcery::Engine::_draw() -> void {
 	}
 
 	if (_show_status) {
-		if (_status_bar->selected)
-			_status_bar->set_selected_background();
-		_window->draw(*_status_bar);
+		// if (_status_bar->selected)
+		//	_status_bar->set_selected_background();
+		//
+		//_window->draw(*_status_bar);
+		_window->draw(*_party_panel);
 	}
 
 	if (_show_tile_note) {

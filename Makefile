@@ -581,30 +581,6 @@ src/config.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/config.cpp.s
 .PHONY : src/config.cpp.s
 
-src/confirm.o: src/confirm.cpp.o
-.PHONY : src/confirm.o
-
-# target to build an object file
-src/confirm.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/confirm.cpp.o
-.PHONY : src/confirm.cpp.o
-
-src/confirm.i: src/confirm.cpp.i
-.PHONY : src/confirm.i
-
-# target to preprocess a source file
-src/confirm.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/confirm.cpp.i
-.PHONY : src/confirm.cpp.i
-
-src/confirm.s: src/confirm.cpp.s
-.PHONY : src/confirm.s
-
-# target to generate assembly for a file
-src/confirm.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/confirm.cpp.s
-.PHONY : src/confirm.cpp.s
-
 src/console.o: src/console.cpp.o
 .PHONY : src/console.o
 
@@ -1445,6 +1421,30 @@ src/options.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/options.cpp.s
 .PHONY : src/options.cpp.s
 
+src/partypanel.o: src/partypanel.cpp.o
+.PHONY : src/partypanel.o
+
+# target to build an object file
+src/partypanel.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/partypanel.cpp.o
+.PHONY : src/partypanel.cpp.o
+
+src/partypanel.i: src/partypanel.cpp.i
+.PHONY : src/partypanel.i
+
+# target to preprocess a source file
+src/partypanel.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/partypanel.cpp.i
+.PHONY : src/partypanel.cpp.i
+
+src/partypanel.s: src/partypanel.cpp.s
+.PHONY : src/partypanel.s
+
+# target to generate assembly for a file
+src/partypanel.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/partypanel.cpp.s
+.PHONY : src/partypanel.cpp.s
+
 src/platform.o: src/platform.cpp.o
 .PHONY : src/platform.o
 
@@ -2134,9 +2134,6 @@ help:
 	@echo "... src/config.o"
 	@echo "... src/config.i"
 	@echo "... src/config.s"
-	@echo "... src/confirm.o"
-	@echo "... src/confirm.i"
-	@echo "... src/confirm.s"
 	@echo "... src/console.o"
 	@echo "... src/console.i"
 	@echo "... src/console.s"
@@ -2242,6 +2239,9 @@ help:
 	@echo "... src/options.o"
 	@echo "... src/options.i"
 	@echo "... src/options.s"
+	@echo "... src/partypanel.o"
+	@echo "... src/partypanel.i"
+	@echo "... src/partypanel.s"
 	@echo "... src/platform.o"
 	@echo "... src/platform.i"
 	@echo "... src/platform.s"
