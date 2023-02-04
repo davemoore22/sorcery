@@ -104,6 +104,7 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto get_num_pos_class() const -> unsigned int;
 		auto set_start_points(const unsigned int &value) -> void;
 		auto get_condition() const -> std::string;
+		auto get_short_condition() const -> std::string;
 		auto get_cur_attr(const CharacterAttribute attribute) const -> unsigned int;
 		auto get_start_attr(const CharacterAttribute attribute) const -> unsigned int;
 		auto set_cur_attr(const CharacterAttribute attribute, const int adjustment) -> void;
@@ -136,6 +137,7 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto set_poisoned_rate(int value) -> void;
 		auto get_poisoned_string() const -> std::string;
 		auto get_hp_summary() const -> std::string;
+		auto get_short_hp_summary() const -> std::string;
 		auto inc_hl_spell(SpellType type) -> void;
 		auto dec_hl_spell(SpellType type) -> void;
 		auto update() -> void;

@@ -56,6 +56,7 @@ auto Sorcery::Engine::_initialise_state() -> void {
 	_show_party_panel = true;
 	_show_gui = true;
 	_display_cursor = true;
+	_pending_combat = false;
 
 	_monochrome = true;
 }
@@ -104,6 +105,8 @@ auto Sorcery::Engine::_reset_components() -> void {
 		_chute.reset();
 	if (_found_an_item.get())
 		_found_an_item.reset();
+	if (_an_encounter.get())
+		_an_encounter.reset();
 	if (_elevator.get())
 		_elevator.reset();
 	if (_reorder.get())
@@ -238,6 +241,12 @@ auto Sorcery::Engine::_initalise_components() -> void {
 			(*_display->layout)["engine_base_ui:found_an_item_text"], WindowDialogType::TIMED);
 	_found_an_item->setPosition(_display->get_centre_pos(_found_an_item->get_size()));
 	_found_an_item->set_duration(DELAY_FIND_AN_ITEM);
+
+	_an_encounter =
+		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:an_encounter"],
+			(*_display->layout)["engine_base_ui:an_encounter_text"], WindowDialogType::TIMED);
+	_an_encounter->setPosition(_display->get_centre_pos(_an_encounter->get_size()));
+	_an_encounter->set_duration(DELAY_ENCOUNTER);
 
 	_elevator = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:one_moment"],
 		(*_display->layout)["engine_base_ui:one_moment_text"], WindowDialogType::TIMED);
@@ -382,6 +391,7 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	_show_pit = false;
 	_show_chute = false;
 	_show_found_an_item = false;
+	_show_an_encounter = false;
 	_show_tile_note = false;
 	_show_elevator = false;
 	_show_party_panel = true;
@@ -434,6 +444,7 @@ auto Sorcery::Engine::_update_timers_and_components() -> void {
 	_pit->update();
 	_chute->update();
 	_found_an_item->update();
+	_an_encounter->update();
 	_elevator->update();
 }
 
@@ -487,6 +498,16 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 
 				_destination_floor = 0;
 			}
+		} else if (_pending_combat) {
+
+			// combat!!!
+
+			_update_automap = true;
+			_update_compass = true;
+			_update_buffbar = true;
+			_update_search = true;
+			_update_render = true;
+			_pending_combat = false;
 		}
 	}
 }
@@ -541,6 +562,12 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 				case MapEvent::MURPHYS_GHOSTS:
 
 					// combat!
+					_show_an_encounter = true;
+
+					_an_encounter->set(
+						(*_display->layout)["engine_base_ui:an_encounter"], (*_display->string)["DIALOG_ENCOUNTER"]);
+					_an_encounter->reset_timed();
+					return true;
 
 					break;
 
@@ -1239,6 +1266,17 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_found_an_item->set_valid(false);
 			}
 		}
+	} else if (_show_an_encounter) {
+		_show_direction_indicatior = false;
+		auto dialog_input{_an_encounter->handle_input(event)};
+		if (dialog_input) {
+			if (dialog_input.value() == WindowDialogButton::OK) {
+
+				_display->set_input_mode(WindowInputMode::IN_GAME);
+				_show_an_encounter = false;
+				_an_encounter->set_valid(false);
+			}
+		}
 	} else if (_show_pit) {
 		auto dialog_input{_pit->handle_input(event)};
 		if (dialog_input) {
@@ -1707,6 +1745,7 @@ auto Sorcery::Engine::start() -> int {
 
 			_pending_chute = false;
 			_pending_elevator = false;
+			_pending_combat = false;
 			while (_window->pollEvent(event)) {
 
 				// Check for Window Close
@@ -2572,6 +2611,15 @@ auto Sorcery::Engine::_draw() -> void {
 			else {
 				_show_found_an_item = false;
 				_found_an_item->set_valid(false);
+			}
+		}
+
+		if (_show_an_encounter) {
+			if (_an_encounter->get_valid())
+				_window->draw(*_an_encounter);
+			else {
+				_show_an_encounter = false;
+				_an_encounter->set_valid(false);
 			}
 		}
 

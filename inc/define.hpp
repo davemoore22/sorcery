@@ -125,6 +125,7 @@ inline constexpr auto DELAY_OUCH{1000u};
 inline constexpr auto DELAY_PIT{2000u};
 inline constexpr auto DELAY_CHUTE{2000u};
 inline constexpr auto DELAY_FIND_AN_ITEM{2000u};
+inline constexpr auto DELAY_ENCOUNTER{2000u};
 inline constexpr auto DELAY_ELEVATOR{2000u};
 inline constexpr auto DELAY_DEFAULT{1000u};
 inline constexpr auto DELAY_RESTING{2000u};

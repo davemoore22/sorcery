@@ -158,6 +158,7 @@ class Engine {
 		std::unique_ptr<Dialog> _elevator;
 		std::unique_ptr<Dialog> _confirm_search;
 		std::unique_ptr<Dialog> _found_an_item;
+		std::unique_ptr<Dialog> _an_encounter;
 		std::unique_ptr<Reorder> _reorder;
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Render> _render;
@@ -188,6 +189,7 @@ class Engine {
 		bool _show_pit;
 		bool _show_chute;
 		bool _show_found_an_item;
+		bool _show_an_encounter;
 		bool _show_elevator;
 		bool _show_tile_note;
 		bool _show_party_panel;
@@ -207,6 +209,7 @@ class Engine {
 		bool _exit_maze_now;
 		bool _pending_chute;
 		bool _pending_elevator;
+		bool _pending_combat;
 		std::optional<Character *> _cur_char;
 		std::unique_ptr<Frame> _cur_char_frame;
 		MapDirection _last_movement;

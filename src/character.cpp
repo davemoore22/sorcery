@@ -2405,6 +2405,14 @@ auto Sorcery::Character::get_condition() const -> std::string {
 	return _get_condition();
 }
 
+auto Sorcery::Character::get_short_condition() const -> std::string {
+
+	if (_status != CharacterStatus::OK)
+		return fmt::format("{:>6}", _get_condition());
+	else
+		return fmt::format("{:>4}", _abilities.at(CharacterAbility::MAX_HP));
+}
+
 auto Sorcery::Character::_get_condition() const -> std::string {
 
 	using enum Enums::Character::CStatus;
@@ -2573,6 +2581,13 @@ auto Sorcery::Character::get_poisoned_string() const -> std::string {
 	using enum Enums::Character::Ability;
 
 	return _abilities.at(POISON_STRENGTH) > 0 ? fmt::format("{:->2}", _abilities.at(POISON_STRENGTH)) : "";
+}
+
+auto Sorcery::Character::get_short_hp_summary() const -> std::string {
+
+	using enum Enums::Character::Ability;
+
+	return std::to_string(_abilities.at(CURRENT_HP));
 }
 
 auto Sorcery::Character::get_hp_summary() const -> std::string {
@@ -2745,8 +2760,9 @@ auto Sorcery::Character::get_sb_text(const int position) -> std::string {
 	auto name{_name};
 	if (_display->get_upper())
 		std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
-	return fmt::format("{} {:<15} {}-{} {:>2} {:>4} {:^6}", position, name, get_alignment(_alignment).substr(0, 1),
-		get_class(_class).substr(0, 3), _abilities.at(CURRENT_ARMOUR_CLASS), get_hp_summary(), _get_condition());
+	return fmt::format("{} {:<15} {}-{} {:>2} {:>4}{}{:<6}", position, name, get_alignment(_alignment).substr(0, 1),
+		get_class(_class).substr(0, 3), _abilities.at(CURRENT_ARMOUR_CLASS), get_short_hp_summary(),
+		get_hp_adjustment_symbol(), get_short_condition());
 }
 
 auto Sorcery::Character::get_age() const -> int {
