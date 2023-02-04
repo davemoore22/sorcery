@@ -519,14 +519,35 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 			_display->set_input_mode(WindowInputMode::IN_GAME);
 			_show_confirm_search = false;
 
-			_show_found_an_item = true;
+			// now if we have an item, or if it is something like combat
+			const auto current_loc{_game->state->get_player_pos()};
+			if (_game->state->level->at(current_loc).has_event()) {
 
-			// random character who has inventory free unless its a targeted search (TODO)
-			const auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
-			const auto text{fmt::format("{}{}", character.get_name(), (*_display->string)["FOUND_AN_ITEM"])};
-			_found_an_item->set((*_display->layout)["engine_base_ui:found_an_item"], text);
-			_found_an_item->reset_timed();
-			return true;
+				switch (auto event_at_square{_game->state->level->at(current_loc).has_event().value()};
+						event_at_square) {
+				case MapEvent::SILVER_KEY:
+					[[fallthrough]];
+				case MapEvent::BRONZE_KEY: {
+					_show_found_an_item = true;
+
+					// random character who has inventory free unless its a targeted search (TODO)
+					const auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
+					const auto text{fmt::format("{}{}", character.get_name(), (*_display->string)["FOUND_AN_ITEM"])};
+					_found_an_item->set((*_display->layout)["engine_base_ui:found_an_item"], text);
+					_found_an_item->reset_timed();
+					return true;
+				}
+
+				case MapEvent::MURPHYS_GHOSTS:
+
+					// combat!
+
+					break;
+
+				default:
+					break;
+				}
+			}
 		}
 	}
 
@@ -1709,9 +1730,6 @@ auto Sorcery::Engine::start() -> int {
 
 							// Find the event and do something with it!
 							const auto map_event{_game->state->level->at(current_loc).has_event().value()};
-							if (map_event == MapEvent::SILVER_KEY) {
-								// do silver key
-							}
 						}
 					}
 				} else if (_show_confirm_exit) {
@@ -2231,6 +2249,39 @@ auto Sorcery::Engine::_event_if() -> bool {
 				_refresh_display();
 				return EXIT_ALL;
 			}
+			// handle search
+			_show_confirm_search = true;
+			_display->set_input_mode(WindowInputMode::CONFIRM_QUIT_GAME);
+		} break;
+		case MapEvent::BRONZE_KEY: {
+			_show_direction_indicatior = false;
+			_display_cursor = false;
+			_refresh_display();
+			auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
+			if (auto result{event->start()}; result == MenuItem::ABORT) {
+				event->stop();
+				_can_run_event = false;
+				_display_cursor = true;
+				_refresh_display();
+				return EXIT_ALL;
+			}
+			// handle search
+			_show_confirm_search = true;
+			_display->set_input_mode(WindowInputMode::CONFIRM_QUIT_GAME);
+		} break;
+		case MapEvent::MURPHYS_GHOSTS: {
+			_show_direction_indicatior = false;
+			_display_cursor = false;
+			_refresh_display();
+			auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
+			if (auto result{event->start()}; result == MenuItem::ABORT) {
+				event->stop();
+				_can_run_event = false;
+				_display_cursor = true;
+				_refresh_display();
+				return EXIT_ALL;
+			}
+
 			// handle search
 			_show_confirm_search = true;
 			_display->set_input_mode(WindowInputMode::CONFIRM_QUIT_GAME);

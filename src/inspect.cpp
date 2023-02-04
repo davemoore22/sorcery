@@ -323,11 +323,14 @@ auto Sorcery::Inspect::_draw() -> void {
 		_menu->generate((*_display->layout)[_screen_key + ":menu"]);
 		_window->draw(*_menu);
 
-		// Character Preview
-		if (_char_panel->valid) {
-			_char_panel->setPosition(
-				(*_display->layout)[_screen_key + ":info_panel"].x, (*_display->layout)[_screen_key + ":info_panel"].y);
-			_window->draw(*_char_panel);
+		if (_screen_key != "engine_base_ui") {
+
+			// Character Preview
+			if (_char_panel->valid) {
+				_char_panel->setPosition((*_display->layout)[_screen_key + ":info_panel"].x,
+					(*_display->layout)[_screen_key + ":info_panel"].y);
+				_window->draw(*_char_panel);
+			}
 		}
 	}
 

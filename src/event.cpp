@@ -49,6 +49,16 @@ Sorcery::Event::Event(System *system, Display *display, Graphics *graphics, Game
 		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
 			(*_display->layout)["event_silver_key:continue_menu"].y);
 		break;
+	case BRONZE_KEY:
+		_continue_menu->generate((*_display->layout)["event_bronze_key:continue_menu"]);
+		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
+			(*_display->layout)["event_bronze_key:continue_menu"].y);
+		break;
+	case MURPHYS_GHOSTS:
+		_continue_menu->generate((*_display->layout)["event_murphys_ghosts:continue_menu"]);
+		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
+			(*_display->layout)["event_murphys_ghosts:continue_menu"].y);
+		break;
 	default:
 		break;
 	}
@@ -72,6 +82,12 @@ auto Sorcery::Event::start() -> std::optional<MenuItem> {
 		break;
 	case SILVER_KEY:
 		_display->generate("event_silver_key", _sprites, _texts, _frames);
+		break;
+	case BRONZE_KEY:
+		_display->generate("event_bronze_key", _sprites, _texts, _frames);
+		break;
+	case MURPHYS_GHOSTS:
+		_display->generate("event_murphys_ghosts", _sprites, _texts, _frames);
 		break;
 	default:
 
@@ -101,6 +117,8 @@ auto Sorcery::Event::start() -> std::optional<MenuItem> {
 			case AREA_OF_OUT_BOUNDS:
 			case MAN_TELEPORT_CASTLE:
 			case SILVER_KEY:
+			case BRONZE_KEY:
+			case MURPHYS_GHOSTS:
 				if (_system->input->check(WindowInput::CANCEL, event))
 					return MenuItem::CONTINUE;
 				else if (_system->input->check(WindowInput::BACK, event))
@@ -167,6 +185,18 @@ auto Sorcery::Event::_draw() -> void {
 		_display->display("event_silver_key", _sprites, _texts, _frames);
 
 		_continue_menu->generate((*_display->layout)["event_silver_key:continue_menu"]);
+		_window->draw(*_continue_menu);
+	} break;
+	case BRONZE_KEY: {
+		_display->display("event_bronze_key", _sprites, _texts, _frames);
+
+		_continue_menu->generate((*_display->layout)["event_bronze_key:continue_menu"]);
+		_window->draw(*_continue_menu);
+	} break;
+	case MURPHYS_GHOSTS: {
+		_display->display("event_murphys_ghosts", _sprites, _texts, _frames);
+
+		_continue_menu->generate((*_display->layout)["event_murphys_ghosts:continue_menu"]);
 		_window->draw(*_continue_menu);
 	} break;
 	default:
