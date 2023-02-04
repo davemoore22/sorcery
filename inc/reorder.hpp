@@ -34,7 +34,7 @@
 #include "layout.hpp"
 #include "main.hpp"
 #include "menu.hpp"
-#include "statusbar.hpp"
+#include "partypanel.hpp"
 #include "system.hpp"
 
 namespace Sorcery {
@@ -70,7 +70,7 @@ class Reorder {
 		sf::RenderWindow *_window;
 		std::unique_ptr<Menu> _menu;
 		sf::Sprite _bg;
-		std::unique_ptr<StatusBar> _status_bar;
+		std::unique_ptr<PartyPanel> _party_panel;
 		std::unique_ptr<Frame> _menu_frame;
 		std::string _screen_key;
 		int _cur_char_id;

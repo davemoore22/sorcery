@@ -145,7 +145,6 @@
 		<Unit filename="inc/changename.hpp" />
 		<Unit filename="inc/character.hpp" />
 		<Unit filename="inc/characterpanel.hpp" />
-		<Unit filename="inc/charactersummary.hpp" />
 		<Unit filename="inc/compass.hpp" />
 		<Unit filename="inc/compendium.hpp" />
 		<Unit filename="inc/component.hpp" />
@@ -202,7 +201,6 @@
 		<Unit filename="inc/spellpanel.hpp" />
 		<Unit filename="inc/splash.hpp" />
 		<Unit filename="inc/state.hpp" />
-		<Unit filename="inc/statusbar.hpp" />
 		<Unit filename="inc/string.hpp" />
 		<Unit filename="inc/system.hpp" />
 		<Unit filename="inc/tavern.hpp" />
@@ -228,7 +226,6 @@
 		<Unit filename="src/changename.cpp" />
 		<Unit filename="src/character.cpp" />
 		<Unit filename="src/characterpanel.cpp" />
-		<Unit filename="src/charactersummary.cpp" />
 		<Unit filename="src/compass.cpp" />
 		<Unit filename="src/compendium.cpp" />
 		<Unit filename="src/component.cpp" />
@@ -282,7 +279,6 @@
 		<Unit filename="src/spellpanel.cpp" />
 		<Unit filename="src/splash.cpp" />
 		<Unit filename="src/state.cpp" />
-		<Unit filename="src/statusbar.cpp" />
 		<Unit filename="src/string.cpp" />
 		<Unit filename="src/system.cpp" />
 		<Unit filename="src/tavern.cpp" />

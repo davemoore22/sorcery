@@ -32,7 +32,7 @@
 #include "layout.hpp"
 #include "main.hpp"
 #include "menu.hpp"
-#include "statusbar.hpp"
+#include "partypanel.hpp"
 #include "system.hpp"
 
 namespace Sorcery {
@@ -68,7 +68,7 @@ class Shop {
 		std::unique_ptr<Frame> _frame;
 		std::unique_ptr<Menu> _menu;
 		sf::Sprite _bg;
-		std::unique_ptr<StatusBar> _status_bar;
+		std::unique_ptr<PartyPanel> _party_panel;
 		std::unique_ptr<Inspect> _inspect;
 };
 

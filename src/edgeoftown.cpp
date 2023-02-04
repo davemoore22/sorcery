@@ -42,7 +42,8 @@ Sorcery::EdgeOfTown::EdgeOfTown(System *system, Display *display, Graphics *grap
 	_leave_game->setPosition(_display->get_centre_pos(_leave_game->get_size()));
 
 	// Modules
-	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
+	_party_panel =
+		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
 	_training = std::make_unique<Training>(_system, _display, _graphics, _game);
 	_restart = std::make_unique<Restart>(_system, _display, _graphics, _game);
 }
@@ -72,7 +73,7 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 		}
 		_game->state->clear_party();
 		_game->save_game();
-		_status_bar->refresh();
+		_party_panel->refresh();
 		_training->start();
 		_training->stop();
 	}
@@ -84,12 +85,11 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 	_window->clear();
 
 	// Refresh the Party characters
-	_status_bar->refresh();
+	_party_panel->refresh();
 
 	// Draw the Custom Components
-	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
-	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
-		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
+	const Component party_banel_c{(*_display->layout)["global:party_panel"]};
+	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
 
 	// And do the main loop
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
@@ -135,7 +135,7 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 							_engine->start();
 							_engine->stop();
 							_game->save_game();
-							_status_bar->refresh();
+							_party_panel->refresh();
 							_update_menus();
 							_display->generate("edge_of_town");
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
@@ -150,7 +150,7 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 							}
 							_game->state->clear_party();
 							_game->save_game();
-							_status_bar->refresh();
+							_party_panel->refresh();
 							_training->start();
 							_training->stop();
 							_update_menus();
@@ -163,7 +163,7 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 							_update_menus();
 							_display->generate("edge_of_town");
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-							_status_bar->refresh();
+							_party_panel->refresh();
 						}
 					}
 				} else if ((_system->input->check(WindowInput::CANCEL, event)) ||
@@ -233,7 +233,7 @@ auto Sorcery::EdgeOfTown::_draw() -> void {
 
 	// Custom Components
 	_display->display("edge_of_town");
-	_window->draw(*_status_bar);
+	_window->draw(*_party_panel);
 
 	// And the Menu
 	_menu->generate((*_display->layout)["edge_of_town:menu"]);

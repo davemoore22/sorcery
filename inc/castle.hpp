@@ -34,8 +34,8 @@
 #include "layout.hpp"
 #include "main.hpp"
 #include "menu.hpp"
+#include "partypanel.hpp"
 #include "shop.hpp"
-#include "statusbar.hpp"
 #include "system.hpp"
 #include "tavern.hpp"
 #include "temple.hpp"
@@ -80,7 +80,7 @@ class Castle {
 		std::unique_ptr<Inn> _inn;
 		std::unique_ptr<Shop> _shop;
 		std::unique_ptr<Temple> _temple;
-		std::unique_ptr<StatusBar> _status_bar;
+		std::unique_ptr<PartyPanel> _party_panel;
 };
 
 }

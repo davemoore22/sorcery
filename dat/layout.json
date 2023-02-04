@@ -46,6 +46,40 @@
 			]
 		},
 		{
+			"name": "party_panel",
+			"w": "40",
+			"h": "9",
+			"x": "centre",
+			"y": "24",
+			"alpha": "255",
+			"colour": "0xffffffff",
+			"type": "other",
+			"size": "24",
+			"font": "monospace",
+			"animated": "true",
+			"background": "0x000000ff",
+			"drawmode": "manual",
+			"priority": "8",
+			"data": [
+				{
+					"legend_offset_x": "1",
+					"legend_offset_y": "1",
+					"party_offset_x": "1",
+					"party_offset_y": "2",
+					"bar_width": "38",
+					"colour_ok": "0xffffffff",
+					"colour_silenced": "0xffffffff",
+					"colour_held": "0x800080ff",
+					"colour_stoned": "0x808080ff",
+					"colour_dead": "0xff0000ff",
+					"colour_ashes": "0xff0000ff",
+					"colour_lost": "0xff0000ff",
+					"colour_low_health": "0xffff00ff",
+					"colour_poisoned": "0x00ff00ff"
+				}
+			]
+		},
+		{
 			"name": "search",
 			"font": "text",
 			"size": "24",
@@ -2141,145 +2175,6 @@
 			"drawmode": "manual",
 			"background": " 0x000000ff"
 		}
-		]
-	},
-	{
-		"name": "status_bar",
-		"component": [
-			{
-				"name": "status_bar",
-				"w": "40",
-				"h": "8",
-				"x": "centre",
-				"y": "24",
-				"alpha": "255",
-				"type": "other",
-				"drawmode": "manual",
-				"data": [
-					{
-						"offset_x": "0",
-						"offset_y": "0",
-						"summary_x": "0",
-						"summary_y": "0",
-						"summary_offset_x": "0",
-						"summary_offset_y": "0"
-
-					}
-				]
-			},
-			{
-				"name": "outer_frame",
-				"w": "40",
-				"h": "8",
-				"x": "0",
-				"y": "0",
-				"alpha": "255",
-				"type": "frame",
-				"priority": "5",
-				"background": " 0x000000ff"
-			},
-			{
-				"name": "character_legend_number",
-				"x": "1",
-				"y": "1",
-				"font": "monospace",
-				"colour": "0xffffffff",
-				"size": "24",
-				"string": "CHARACTER_LEGEND_NUMBER",
-				"justification": "left",
-				"type": "text",
-				"data": [
-					{
-						"offset_x": "0",
-						"offset_y": "0"
-					}
-				]
-			},
-			{
-				"name": "character_legend_name",
-				"x": "3",
-				"y": "1",
-				"font": "monospace",
-				"colour": "0xffffffff",
-				"size": "24",
-				"string": "CHARACTER_LEGEND_NAME",
-				"justification": "left",
-				"type": "text",
-				"data": [
-					{
-						"offset_x": "0",
-						"offset_y": "0"
-					}
-				]
-			},
-			{
-				"name": "character_legend_class",
-				"x": "19",
-				"y": "1",
-				"font": "monospace",
-				"colour": "0xffffffff",
-				"size": "24",
-				"string": "CHARACTER_LEGEND_CLASS",
-				"justification": "left",
-				"type": "text",
-				"data": [
-					{
-						"offset_x": "0",
-						"offset_y": "0"
-					}
-				]
-			},
-			{
-				"name": "character_legend_ac",
-				"x": "25",
-				"y": "1",
-				"font": "monospace",
-				"colour": "0xffffffff",
-				"size": "24",
-				"string": "CHARACTER_LEGEND_AC",
-				"justification": "left",
-				"type": "text",
-				"data": [
-					{
-						"offset_x": "0",
-						"offset_y": "0"
-					}
-				]
-			},
-			{
-				"name": "character_legend_hp",
-				"x": "28",
-				"y": "1",
-				"font": "monospace",
-				"colour": "0xffffffff",
-				"size": "24",
-				"string": "CHARACTER_LEGEND_HP",
-				"justification": "left",
-				"type": "text",
-				"data": [
-					{
-						"offset_x": "0",
-						"offset_y": "0"
-					}
-				]
-			},
-			{
-				"name": "character_legend_status",
-				"x": "33",
-				"y": "1",
-				"font": "monospace",
-				"colour": "0xffffffff",
-				"size": "24",
-				"string": "CHARACTER_LEGEND_STATUS",
-				"justification": "left",
-				"type": "text",
-				"data": [
-					{
-						"offset_x": "0",
-						"offset_y": "0"
-					}
-				]
-			}
 		]
 	},
 	{
@@ -9347,35 +9242,6 @@
 			]
 		},
 		{
-			"name": "status_bar",
-			"w": "40",
-			"h": "9",
-			"x": "centre",
-			"y": "24",
-			"alpha": "255",
-			"type": "other",
-			"drawmode": "manual",
-			"data": [
-				{
-					"offset_x": "0",
-					"offset_y": "0",
-					"summary_x": "0",
-					"summary_y": "0",
-					"summary_offset_x": "0",
-					"summary_offset_y": "0",
-					"adjustment_w": "0",
-					"colour_ok": "0xffffffff",
-					"colour_silenced": "0xffffffff",
-					"colour_held": "0xffffffff",
-					"colour_stoned": "0xffffffff",
-					"colour_dead": "0xff0000ff",
-					"colour_ashes": "0xff0000ff",
-					"colour_lost": "0xff0000ff",
-					"colour_low_health": "0xffff00ff"
-				}
-			]
-		},
-		{
 			"name": "menu",
 			"x": "centre",
 			"y": "8",
@@ -9466,23 +9332,6 @@
 			"justification": "centre",
 			"type": "text",
 			"drawmode": "manual"
-		},
-		{
-			"name": "status_bar_outer_frame",
-			"w": "40",
-			"h": "9",
-			"x": "centre",
-			"y": "0",
-			"drawmode": "manual",
-			"alpha": "255",
-			"type": "frame",
-			"priority": "5",
-			"background": " 0x000000ff",
-			"data": [
-				{
-				"adjustment_w": "0"
-				}
-			]
 		},
 		{
 			"name": "elevator_a_d_menu_frame",

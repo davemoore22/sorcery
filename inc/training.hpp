@@ -33,7 +33,6 @@
 #include "main.hpp"
 #include "menu.hpp"
 #include "roster.hpp"
-#include "statusbar.hpp"
 #include "system.hpp"
 
 namespace Sorcery {

@@ -39,7 +39,8 @@ Sorcery::Reorder::Reorder(System *system, Display *display, Graphics *graphics, 
 	_candidate_c = Component{(*_display->layout)["reorder:candidate_party"]};
 
 	// Modules
-	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
+	_party_panel =
+		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
 }
 
 // Standard Destructor
@@ -62,12 +63,11 @@ auto Sorcery::Reorder::start() -> std::optional<std::vector<unsigned int>> {
 	_window->clear();
 
 	// Refresh the Party characters
-	_status_bar->refresh();
+	_party_panel->refresh();
 
 	// Generate the Custom Components
-	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
-	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
-		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
+	const Component party_banel_c{(*_display->layout)["global:party_panel"]};
+	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
 
 	// And do the main loop
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
@@ -166,7 +166,7 @@ auto Sorcery::Reorder::_draw() -> void {
 		_display->display("reorder_camp");
 	} else {
 		_display->display("reorder");
-		_window->draw(*_status_bar);
+		_window->draw(*_party_panel);
 	}
 
 	_menu->generate((*_display->layout)["reorder:menu"]);

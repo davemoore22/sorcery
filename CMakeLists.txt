@@ -30,7 +30,6 @@ add_executable(${PROJECT_NAME}
 	src/changename.cpp
 	src/character.cpp
 	src/characterpanel.cpp
-	src/charactersummary.cpp
 	src/compass.cpp
 	src/compendium.cpp
 	src/component.cpp
@@ -84,7 +83,6 @@ add_executable(${PROJECT_NAME}
 	src/spellpanel.cpp
 	src/splash.cpp
 	src/state.cpp
-	src/statusbar.cpp
 	src/string.cpp
 	src/system.cpp
 	src/tavern.cpp

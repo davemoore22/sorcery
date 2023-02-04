@@ -33,8 +33,8 @@
 #include "layout.hpp"
 #include "main.hpp"
 #include "menu.hpp"
+#include "partypanel.hpp"
 #include "restart.hpp"
-#include "statusbar.hpp"
 #include "system.hpp"
 #include "training.hpp"
 
@@ -74,7 +74,7 @@ class EdgeOfTown {
 		sf::Sprite _bg;
 		std::unique_ptr<Dialog> _leave_game;
 		std::unique_ptr<Training> _training;
-		std::unique_ptr<StatusBar> _status_bar;
+		std::unique_ptr<PartyPanel> _party_panel;
 		std::unique_ptr<Restart> _restart;
 };
 

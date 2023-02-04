@@ -29,7 +29,7 @@
 #include "graphics.hpp"
 #include "main.hpp"
 #include "menu.hpp"
-#include "statusbar.hpp"
+#include "partypanel.hpp"
 #include "system.hpp"
 #include "textpanel.hpp"
 
@@ -65,7 +65,7 @@ class Rest {
 		RestMode _mode;
 		RestType _type;
 		RestStage _stage;
-		std::unique_ptr<StatusBar> _status_bar;
+		std::unique_ptr<PartyPanel> _party_panel;
 		std::unique_ptr<TextPanel> _results;
 		sf::RenderWindow *_window;
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _start;

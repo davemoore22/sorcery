@@ -42,7 +42,8 @@ Sorcery::Castle::Castle(System *system, Display *display, Graphics *graphics, Ga
 	_leave_game->setPosition(_display->get_centre_pos(_leave_game->get_size()));
 
 	// Modules
-	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
+	_party_panel =
+		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
 	_edge_of_town = std::make_unique<EdgeOfTown>(_system, _display, _graphics, _game);
 	_tavern = std::make_unique<Tavern>(_system, _display, _graphics, _game);
 	_inn = std::make_unique<Inn>(_system, _display, _graphics, _game);
@@ -116,12 +117,11 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 	_window->clear();
 
 	// Generate the Components
-	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
-	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
-		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
+	const Component party_banel_c{(*_display->layout)["global:party_panel"]};
+	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
 
 	// Refresh the Party characters
-	_status_bar->refresh();
+	_party_panel->refresh();
 
 	// And do the main loop
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
@@ -169,7 +169,7 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 								}
 							}
 							_display->generate("castle");
-							_status_bar->refresh();
+							_party_panel->refresh();
 							_update_menus();
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							continue;
@@ -182,7 +182,7 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 							}
 							_tavern->stop();
 							_game->save_game();
-							_status_bar->refresh();
+							_party_panel->refresh();
 							_update_menus();
 							_display->generate("castle");
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
@@ -195,7 +195,7 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 							}
 							_inn->stop();
 							_game->save_game();
-							_status_bar->refresh();
+							_party_panel->refresh();
 							_display->generate("castle");
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							continue;
@@ -208,7 +208,7 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 							}
 							_shop->stop();
 							_game->save_game();
-							_status_bar->refresh();
+							_party_panel->refresh();
 							_display->generate("castle");
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							continue;
@@ -221,7 +221,7 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 							}
 							_temple->stop();
 							_game->save_game();
-							_status_bar->refresh();
+							_party_panel->refresh();
 							_display->generate("castle");
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							continue;
@@ -281,7 +281,7 @@ auto Sorcery::Castle::_draw() -> void {
 
 	// Custom Components
 	_display->display("castle");
-	_window->draw(*_status_bar);
+	_window->draw(*_party_panel);
 
 	// And the Menu
 	_menu->generate((*_display->layout)["castle:menu"]);

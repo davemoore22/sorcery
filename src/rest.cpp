@@ -61,7 +61,8 @@ Sorcery::Rest::Rest(System *system, Display *display, Graphics *graphics, Game *
 		_display->window->get_y(_continue_frame->sprite, _cmf_c.y));
 
 	// Modules
-	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
+	_party_panel =
+		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
 	_results = std::make_unique<TextPanel>(_system, _display, _graphics, (*_display->layout)["rest:results_panel"]);
 }
 
@@ -86,12 +87,12 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 	_window->clear();
 
 	// Refresh the Party characters
-	_status_bar->refresh();
+	_party_panel->refresh();
 
 	// Generate the Components
-	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
-	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
-		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
+	const Component party_banel_c{(*_display->layout)["global:party_panel"]};
+	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
+
 	const Component results_c{(*_display->layout)["rest:results_panel"]};
 	_results->setPosition((*_display->layout)["rest:results_panel"].x, (*_display->layout)["rest:results_panel"].y);
 
@@ -297,7 +298,7 @@ auto Sorcery::Rest::_recuperate() -> bool {
 	_recup_message_1 = fmt::format("{} ({:>5}/{:>5})", (*_display->string)["REST_HP"], hp, _character->get_max_hp());
 	_recup_message_2 = fmt::format("{} {}", (*_display->string)["REST_GOLD"], gold);
 
-	_status_bar->refresh();
+	_party_panel->refresh();
 
 	_birthday = age % 52 == 0;
 	// need to do happy birthday message;
@@ -336,7 +337,7 @@ auto Sorcery::Rest::_go_to_results() -> void {
 
 	// both cases restore spells to max!
 	_character->replenish_spells();
-	_status_bar->refresh();
+	_party_panel->refresh();
 }
 
 auto Sorcery::Rest::stop() -> void {
@@ -349,7 +350,7 @@ auto Sorcery::Rest::_draw() -> void {
 
 	// Custom Components
 	_display->display("rest");
-	_window->draw(*_status_bar);
+	_window->draw(*_party_panel);
 
 	if (_type == RestType::STABLES) {
 

@@ -48,7 +48,8 @@ Sorcery::Inn::Inn(System *system, Display *display, Graphics *graphics, Game *ga
 	_gold_text = sf::Text();
 
 	// Modules
-	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
+	_party_panel =
+		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
 	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MenuMode::INN);
 
 	_stage = InnStage::NO_STAGE;
@@ -76,13 +77,12 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 	_window->clear();
 
 	// Refresh the Party characters
-	_status_bar->refresh();
+	_party_panel->refresh();
 	_roster->reload();
 
 	// Generate the Components
-	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
-	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
-		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
+	const Component party_banel_c{(*_display->layout)["global:party_panel"]};
+	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
 
 	// Start at the Menu Stage
 	_stage = InnStage::MENU;
@@ -139,7 +139,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 							} else if (option_chosen == MenuItem::IN_STAY_CHARACTER) {
 								_stage = InnStage::CHOOSE;
 								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-								_status_bar->refresh();
+								_party_panel->refresh();
 							} else if (option_chosen == MenuItem::IN_INSPECT) {
 								if (auto result{_inspect->start()}; result && result.value() == MenuItem::ABORT) {
 									_inspect->stop();
@@ -186,10 +186,10 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 				} else if (_stage == InnStage::CHOOSE) {
 					if (_system->input->check(WindowInput::CANCEL, event)) {
 						_stage = InnStage::MENU;
-						_status_bar->refresh();
+						_party_panel->refresh();
 					} else if (_system->input->check(WindowInput::BACK, event)) {
 						_stage = InnStage::MENU;
-						_status_bar->refresh();
+						_party_panel->refresh();
 					} else if (_system->input->check(WindowInput::UP, event))
 						option_choose = _roster->choose_previous();
 					else if (_system->input->check(WindowInput::DOWN, event))
@@ -204,14 +204,14 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 							if (const MenuItem option_chosen{(*option_choose.value()).item};
 								option_chosen == MenuItem::CA_INN) {
 								_stage = InnStage::MENU;
-								_status_bar->refresh();
+								_party_panel->refresh();
 								continue;
 							} else {
 								const auto character_chosen{(*option_choose.value()).index};
 								_cur_char = &_game->characters[character_chosen];
 								if (_cur_char) {
 									_stage = InnStage::BED;
-									_status_bar->refresh();
+									_party_panel->refresh();
 									_cur_char_id = character_chosen;
 									_update = true;
 								}
@@ -237,10 +237,10 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 						_update = true;
 						if (_system->input->check(WindowInput::CANCEL, event)) {
 							_stage = InnStage::CHOOSE;
-							_status_bar->refresh();
+							_party_panel->refresh();
 						} else if (_system->input->check(WindowInput::BACK, event)) {
 							_stage = InnStage::CHOOSE;
-							_status_bar->refresh();
+							_party_panel->refresh();
 						} else if (_system->input->check(WindowInput::UP, event))
 							option_bed = _bed->choose_previous();
 						else if (_system->input->check(WindowInput::DOWN, event))
@@ -255,7 +255,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 								if (const MenuItem option_chosen{(*option_bed.value()).item};
 									option_chosen == MenuItem::IN_BACK) {
 									_stage = InnStage::CHOOSE;
-									_status_bar->refresh();
+									_party_panel->refresh();
 									continue;
 								} else if (option_chosen == MenuItem::IN_POOL_GOLD) {
 
@@ -275,7 +275,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 									_rest->stop();
 									_roster->reload();
 									_display->generate("inn");
-									_status_bar->refresh();
+									_party_panel->refresh();
 									continue;
 								} else if (option_chosen == MenuItem::IN_COT) {
 									if (auto stables_option{
@@ -288,7 +288,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 									_rest->stop();
 									_roster->reload();
 									_display->generate("inn");
-									_status_bar->refresh();
+									_party_panel->refresh();
 									continue;
 								} else if (option_chosen == MenuItem::IN_ECONOMY) {
 									if (auto stables_option{
@@ -301,7 +301,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 									_rest->stop();
 									_roster->reload();
 									_display->generate("inn");
-									_status_bar->refresh();
+									_party_panel->refresh();
 									continue;
 								} else if (option_chosen == MenuItem::IN_MERCHANT) {
 									if (auto stables_option{
@@ -314,7 +314,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 									_rest->stop();
 									_roster->reload();
 									_display->generate("inn");
-									_status_bar->refresh();
+									_party_panel->refresh();
 									continue;
 								} else if (option_chosen == MenuItem::IN_ROYAL) {
 									if (auto stables_option{
@@ -327,7 +327,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 									_rest->stop();
 									_roster->reload();
 									_display->generate("inn");
-									_status_bar->refresh();
+									_party_panel->refresh();
 									continue;
 								}
 							}
@@ -396,7 +396,7 @@ auto Sorcery::Inn::_draw() -> void {
 
 	// Custom Components
 	_display->display("inn");
-	_window->draw(*_status_bar);
+	_window->draw(*_party_panel);
 
 	if (_stage == InnStage::MENU) {
 

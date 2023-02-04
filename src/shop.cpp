@@ -37,7 +37,8 @@ Sorcery::Shop::Shop(System *system, Display *display, Graphics *graphics, Game *
 	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["shop:menu"].y);
 
 	// Modules
-	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
+	_party_panel =
+		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
 	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MenuMode::SHOP);
 }
 
@@ -48,22 +49,20 @@ Sorcery::Shop::~Shop() {
 // Visit the Tavern
 auto Sorcery::Shop::start() -> std::optional<MenuItem> {
 
-	// Get the Background Display Components and load them into Display module
-	// storage (not local - and note that due to the way both menus are combined
-	// in this class, we need to have the menu stage set first in this case and
-	// this case only)
+	// Get the Background Display Components and load them into Display module storage (not local - and note that due to
+	// the way both menus are combined in this class, we need to have the menu stage set first in this case and this
+	// case only)
 	_display->generate("shop");
 
 	// Clear the window
 	_window->clear();
 
 	// Refresh the Party characters
-	_status_bar->refresh();
+	_party_panel->refresh();
 
 	// Generate the Components
-	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
-	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
-		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
+	const Component party_banel_c{(*_display->layout)["global:party_panel"]};
+	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
 
 	// And do the main loop
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
@@ -143,7 +142,7 @@ auto Sorcery::Shop::_draw() -> void {
 
 	// Custom Components
 	_display->display("shop");
-	_window->draw(*_status_bar);
+	_window->draw(*_party_panel);
 
 	// And the Menu
 	_menu->generate((*_display->layout)["shop:menu"]);

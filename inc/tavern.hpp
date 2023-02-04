@@ -32,8 +32,8 @@
 #include "layout.hpp"
 #include "main.hpp"
 #include "menu.hpp"
+#include "partypanel.hpp"
 #include "reorder.hpp"
-#include "statusbar.hpp"
 #include "system.hpp"
 
 namespace Sorcery {
@@ -68,7 +68,7 @@ class Tavern {
 		std::unique_ptr<Frame> _frame;
 		std::unique_ptr<Menu> _menu;
 		sf::Sprite _bg;
-		std::unique_ptr<StatusBar> _status_bar;
+		std::unique_ptr<PartyPanel> _party_panel;
 		TavernStage _stage;
 		std::unique_ptr<Menu> _add;
 		std::unique_ptr<Menu> _remove;

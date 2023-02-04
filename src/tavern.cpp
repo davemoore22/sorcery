@@ -37,7 +37,8 @@ Sorcery::Tavern::Tavern(System *system, Display *display, Graphics *graphics, Ga
 	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["tavern:menu"].y);
 
 	// Modules
-	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game);
+	_party_panel =
+		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
 
 	_stage = TavernStage::MENU;
 
@@ -89,12 +90,12 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 	_window->clear();
 
 	// Refresh the Party characters
-	_status_bar->refresh();
+	_party_panel->refresh();
 
 	// Generate the Custom Components
-	const Component status_bar_c{(*_display->layout)["status_bar:status_bar"]};
-	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
-		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
+	const Component party_banel_c{(*_display->layout)["global:party_panel"]};
+	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
+	;
 
 	// And do the main loop
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
@@ -183,7 +184,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 										_game->state->set_party(new_party.value());
 										_game->save_game();
 										_game->load_game();
-										_status_bar->refresh();
+										_party_panel->refresh();
 									}
 									reorder->stop();
 									_update_menus();
@@ -247,7 +248,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 							character.set_location(CharacterLocation::PARTY);
 							_game->state->add_character_by_id(character_chosen);
 							_game->save_game();
-							_status_bar->refresh();
+							_party_panel->refresh();
 							_stage = MENU;
 							_screen_key = "tavern";
 							_update_menus();
@@ -300,7 +301,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 							_game->state->remove_character_by_id(character_chosen);
 
 							_game->save_game();
-							_status_bar->refresh();
+							_party_panel->refresh();
 							_stage = MENU;
 							_screen_key = "tavern";
 							_update_menus();
@@ -350,7 +351,7 @@ auto Sorcery::Tavern::_draw() -> void {
 
 	// Custom Components
 	_display->display(_screen_key);
-	_window->draw(*_status_bar);
+	_window->draw(*_party_panel);
 
 	// And the Menu
 	if (_stage == TavernStage::MENU) {
