@@ -45,7 +45,6 @@
 #include "render.hpp"
 #include "reorder.hpp"
 #include "search.hpp"
-#include "statusbar.hpp"
 #include "system.hpp"
 
 namespace Sorcery {
@@ -152,7 +151,6 @@ class Engine {
 		std::unique_ptr<Frame> _elevator_a_d_menu_frame;
 		std::unique_ptr<Frame> _elevator_a_f_menu_frame;
 		std::unique_ptr<Frame> _get_menu_frame;
-		std::unique_ptr<StatusBar> _status_bar;
 		std::unique_ptr<Dialog> _confirm_exit;
 		std::unique_ptr<Dialog> _ouch;
 		std::unique_ptr<Dialog> _pit;
@@ -192,7 +190,7 @@ class Engine {
 		bool _show_found_an_item;
 		bool _show_elevator;
 		bool _show_tile_note;
-		bool _show_status;
+		bool _show_party_panel;
 		bool _show_confirm_search;
 		bool _show_gui;
 		bool _in_elevator_a_d;
@@ -201,7 +199,7 @@ class Engine {
 		bool _update_compass;
 		bool _update_buffbar;
 		bool _update_icon_panels;
-		bool _update_status_bar;
+		bool _update_party_panel;
 		bool _update_render;
 		bool _update_search;
 		bool _update_tile_note;

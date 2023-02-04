@@ -45,7 +45,7 @@ class PartyPanel: public sf::Transformable, public sf::Drawable {
 		// Public Members
 		std::vector<int> items;
 		std::vector<sf::FloatRect> bounds;
-		std::vector<int>::const_iterator selected;
+		std::optional<unsigned int> selected;
 		unsigned int count;
 		int width;
 		int height;
@@ -53,9 +53,6 @@ class PartyPanel: public sf::Transformable, public sf::Drawable {
 		// Public Methods
 		auto refresh() -> void;
 		auto set_mouse_selected(sf::Vector2f mouse_pos) -> std::optional<unsigned int>;
-		auto set_selected_background() -> void;
-		auto set_selected_by_position(int value) -> void;
-		auto set_selected_by_character_id(int value) -> void;
 
 	private:
 

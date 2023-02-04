@@ -46,14 +46,14 @@ auto Sorcery::Engine::_initialise_state() -> void {
 	_update_compass = false;
 	_update_buffbar = false;
 	_update_icon_panels = false;
-	_update_status_bar = false;
+	_update_party_panel = false;
 	_update_render = false;
 	_update_search = false;
 	_update_tile_note = false;
 	_exit_maze_now = false;
 	_pending_chute = false;
 	_pending_elevator = false;
-	_show_status = true;
+	_show_party_panel = true;
 	_show_gui = true;
 	_display_cursor = true;
 
@@ -106,8 +106,6 @@ auto Sorcery::Engine::_reset_components() -> void {
 		_found_an_item.reset();
 	if (_elevator.get())
 		_elevator.reset();
-	if (_status_bar.get())
-		_status_bar.reset();
 	if (_reorder.get())
 		_reorder.reset();
 	if (_inspect.get())
@@ -262,8 +260,6 @@ auto Sorcery::Engine::_initalise_components() -> void {
 	_confirm_search->setPosition(_display->get_centre_pos(_confirm_search->get_size()));
 
 	// Modules
-	_status_bar = std::make_unique<StatusBar>(_system, _display, _graphics, _game,
-		(*_display->layout)["engine_base_ui:status_bar"], (*_display->layout)["engine_base_ui:status_bar_outer_frame"]);
 	_party_panel = std::make_unique<PartyPanel>(
 		_system, _display, _graphics, _game, (*_display->layout)["engine_base_ui:party_panel"]);
 	_reorder = std::make_unique<Reorder>(_system, _display, _graphics, _game, MenuMode::CAMP);
@@ -311,10 +307,6 @@ auto Sorcery::Engine::_reset_direction_indicator() -> void {
 auto Sorcery::Engine::_place_components() -> void {
 
 	// Generate the Custom Components
-	const Component status_bar_c{(*_display->layout)["engine_base_ui:status_bar"]};
-	_status_bar->setPosition(_display->window->get_x(_status_bar->sprite, status_bar_c.x),
-		_display->window->get_y(_status_bar->sprite, status_bar_c.y));
-
 	const Component party_banel_c{(*_display->layout)["engine_base_ui:party_panel"]};
 	_party_panel->setPosition(
 		_display->get_centre_x(_party_panel->width), (*_display->layout)["engine_base_ui:party_panel"].y);
@@ -354,7 +346,6 @@ auto Sorcery::Engine::_place_components() -> void {
 auto Sorcery::Engine::_refresh() const -> void {
 
 	_render->refresh();
-	//_status_bar->refresh();
 	_party_panel->refresh();
 	_automap->refresh();
 	_compass->refresh();
@@ -393,7 +384,7 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	_show_found_an_item = false;
 	_show_tile_note = false;
 	_show_elevator = false;
-	_show_status = true;
+	_show_party_panel = true;
 	_show_gui = true;
 	_exit_maze_now = false;
 	_automap->refresh();
@@ -516,8 +507,8 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 		_left_icon_panel->selected = std::nullopt;
 	if (_right_icon_panel->selected)
 		_right_icon_panel->selected = std::nullopt;
-	if (_status_bar->selected)
-		_status_bar->selected = std::nullopt;
+	if (_party_panel->selected)
+		_party_panel->selected = std::nullopt;
 
 	if (auto dialog_input{_confirm_search->handle_input(event)}; dialog_input) {
 		if ((dialog_input.value() == WindowDialogButton::CLOSE) || (dialog_input.value() == WindowDialogButton::NO)) {
@@ -550,8 +541,8 @@ auto Sorcery::Engine::_handle_confirm_exit(const sf::Event &event) -> void {
 		_left_icon_panel->selected = std::nullopt;
 	if (_right_icon_panel->selected)
 		_right_icon_panel->selected = std::nullopt;
-	if (_status_bar->selected)
-		_status_bar->selected = std::nullopt;
+	if (_party_panel->selected)
+		_party_panel->selected = std::nullopt;
 
 	auto dialog_input{_confirm_exit->handle_input(event)};
 	if (dialog_input) {
@@ -586,7 +577,6 @@ auto Sorcery::Engine::_handle_in_character(const sf::Event &event) -> void {
 		_game->save_game();
 		_display->set_disc(false);
 
-		//_status_bar->refresh();
 		_party_panel->refresh();
 		_in_character = false;
 		_display->generate("engine_base_ui");
@@ -613,7 +603,7 @@ auto Sorcery::Engine::_handle_in_character(const sf::Event &event) -> void {
 					static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
 			_cur_char.value()->generate_display();
 		}
-		_status_bar->selected = std::nullopt;
+		_party_panel->selected = std::nullopt;
 	}
 }
 
@@ -623,8 +613,8 @@ auto Sorcery::Engine::_handle_in_search(const sf::Event &event) -> std::optional
 		_left_icon_panel->selected = std::nullopt;
 	if (_right_icon_panel->selected)
 		_right_icon_panel->selected = std::nullopt;
-	if (_status_bar->selected)
-		_status_bar->selected = std::nullopt;
+	if (_party_panel->selected)
+		_party_panel->selected = std::nullopt;
 
 	if (_system->input->check(WindowInput::CANCEL, event))
 		_in_search = false;
@@ -652,7 +642,6 @@ auto Sorcery::Engine::_handle_in_search(const sf::Event &event) -> std::optional
 				_game->save_game();
 				_display->set_disc(false);
 
-				//_status_bar->refresh();
 				_party_panel->refresh();
 				_in_search = false;
 				_display->generate("engine_base_ui");
@@ -678,8 +667,8 @@ auto Sorcery::Engine::_handle_in_action(const sf::Event &event) -> std::optional
 		_left_icon_panel->selected = std::nullopt;
 	if (_right_icon_panel->selected)
 		_right_icon_panel->selected = std::nullopt;
-	if (_status_bar->selected)
-		_status_bar->selected = std::nullopt;
+	if (_party_panel->selected)
+		_party_panel->selected = std::nullopt;
 
 	if (_system->input->check(WindowInput::CANCEL, event))
 		_in_action = false;
@@ -707,7 +696,6 @@ auto Sorcery::Engine::_handle_in_action(const sf::Event &event) -> std::optional
 				_game->save_game();
 				_display->set_disc(false);
 
-				//_status_bar->refresh();
 				_party_panel->refresh();
 				_in_action = false;
 				_display->generate("engine_base_ui");
@@ -732,8 +720,8 @@ auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<in
 		_left_icon_panel->selected = std::nullopt;
 	if (_right_icon_panel->selected)
 		_right_icon_panel->selected = std::nullopt;
-	if (_status_bar->selected)
-		_status_bar->selected = std::nullopt;
+	if (_party_panel->selected)
+		_party_panel->selected = std::nullopt;
 
 	if (_system->input->check(WindowInput::CANCEL, event))
 		_in_get = false;
@@ -761,7 +749,6 @@ auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<in
 				_game->save_game();
 				_display->set_disc(false);
 
-				//_status_bar->refresh();
 				_party_panel->refresh();
 				_in_get = false;
 				_display->generate("engine_base_ui");
@@ -781,7 +768,6 @@ auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<in
 					_display->set_disc(false);
 				}
 
-				//_status_bar->refresh();
 				_party_panel->refresh();
 				_get_menu->reload();
 				_get_option = _get_menu->items.begin();
@@ -798,8 +784,8 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 		_left_icon_panel->selected = std::nullopt;
 	if (_right_icon_panel->selected)
 		_right_icon_panel->selected = std::nullopt;
-	if (_status_bar->selected)
-		_status_bar->selected = std::nullopt;
+	if (_party_panel->selected)
+		_party_panel->selected = std::nullopt;
 
 	if (_system->input->check(WindowInput::CANCEL, event))
 		_in_camp = false;
@@ -827,7 +813,6 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 				_game->save_game();
 				_display->set_disc(false);
 
-				//_status_bar->refresh();
 				_party_panel->refresh();
 				_in_camp = false;
 				_display->generate("engine_base_ui");
@@ -860,23 +845,19 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 					return EXIT_ALL;
 				}
 				options->stop();
-				//_status_bar->refresh();
 				_party_panel->refresh();
 				_display->generate("engine_base_ui");
 			} else if (option_chosen == MenuItem::CP_INSPECT) {
 				_party_panel->refresh();
-				//_status_bar->refresh();
 				if (auto result{_inspect->start()}; result == MenuItem::ABORT) {
 					_inspect->stop();
 					return EXIT_ALL;
 				}
 				_inspect->stop();
 				_party_panel->refresh();
-				//_status_bar->refresh();
 				_display->generate("engine_base_ui");
 			} else if (option_chosen == MenuItem::CP_REORDER) {
 				_party_panel->refresh();
-				//_status_bar->refresh();
 				if (auto new_party{_reorder->start()}; new_party) {
 
 					// TODO: handle aborts here too
@@ -888,11 +869,9 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 					_display->set_disc(false);
 
 					_party_panel->refresh();
-					//_status_bar->refresh();
 				}
 				_reorder->stop();
 				_party_panel->refresh();
-				//_status_bar->refresh();
 				_display->generate("engine_base_ui");
 			}
 		}
@@ -948,8 +927,8 @@ auto Sorcery::Engine::_handle_elevator_a_f(const sf::Event &event) -> std::optio
 		_left_icon_panel->selected = std::nullopt;
 	if (_right_icon_panel->selected)
 		_right_icon_panel->selected = std::nullopt;
-	if (_status_bar->selected)
-		_status_bar->selected = std::nullopt;
+	if (_party_panel->selected)
+		_party_panel->selected = std::nullopt;
 
 	if (_system->input->check(WindowInput::CANCEL, event))
 		_in_elevator_a_f = false;
@@ -1022,8 +1001,8 @@ auto Sorcery::Engine::_handle_elevator_a_d(const sf::Event &event) -> std::optio
 		_left_icon_panel->selected = std::nullopt;
 	if (_right_icon_panel->selected)
 		_right_icon_panel->selected = std::nullopt;
-	if (_status_bar->selected)
-		_status_bar->selected = std::nullopt;
+	if (_party_panel->selected)
+		_party_panel->selected = std::nullopt;
 
 	if (_system->input->check(WindowInput::CANCEL, event))
 		_in_elevator_a_d = false;
@@ -1202,7 +1181,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_update_search = true;
 		_update_render = true;
 	} else if (_system->input->check(WindowInput::MAZE_STATUSBAR_TOGGLE, event)) {
-		_show_status = !_show_status;
+		_show_party_panel = !_show_party_panel;
 		_update_automap = true;
 		_update_compass = true;
 		_update_buffbar = true;
@@ -1282,8 +1261,10 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_left_icon_panel->selected = std::nullopt;
 		if (_right_icon_panel->selected)
 			_right_icon_panel->selected = std::nullopt;
-		if (_status_bar->selected)
-			_status_bar->selected = std::nullopt;
+		if (_party_panel->selected)
+			_party_panel->selected = std::nullopt;
+		if (_party_panel->selected)
+			_party_panel->selected = std::nullopt;
 
 		auto dialog_input{_confirm_stairs->handle_input(event)};
 		if (dialog_input) {
@@ -1434,10 +1415,10 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_in_camp = true;
 		else if (_system->input->check(WindowInput::CONFIRM, event)) {
 			sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
-			if (_status_bar->selected) {
+			if (_party_panel->selected) {
 
 				// Status-bar selected is 1-indexed, not 0-indexed
-				const auto character_chosen{(_status_bar->selected.value())};
+				const auto character_chosen{(_party_panel->selected.value())};
 				_cur_char = &_game->characters[_game->state->get_party_characters().at(character_chosen - 1)];
 				if (_cur_char) {
 					_display->set_input_mode(WindowInputMode::BROWSE_CHARACTER);
@@ -1453,7 +1434,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 					left_selected) {
 					const auto &what(left_selected.value());
 					if (what.ends_with("reorder")) {
-						_status_bar->refresh();
+						_party_panel->refresh();
 						if (auto new_party{_reorder->start()}; new_party) {
 
 							// TODO: handle aborts here too
@@ -1465,11 +1446,9 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 							_display->set_disc(false);
 
 							_party_panel->refresh();
-							//_status_bar->refresh();
 						}
 						_reorder->stop();
 						_party_panel->refresh();
-						//_status_bar->refresh();
 						_display->generate("engine_base_ui");
 						_display->set_input_mode(WindowInputMode::IN_GAME);
 
@@ -1494,7 +1473,6 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						}
 						options->stop();
 						_party_panel->refresh();
-						//_status_bar->refresh();
 						_display->generate("engine_base_ui");
 						_display->set_input_mode(WindowInputMode::IN_GAME);
 					} else if (what.ends_with("save")) {
@@ -1593,14 +1571,12 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						// TODO
 					} else if (what.ends_with("party")) {
 						_party_panel->refresh();
-						//_status_bar->refresh();
 						if (auto result{_inspect->start()}; result == MenuItem::ABORT) {
 							_inspect->stop();
 							return EXIT_ALL;
 						}
 						_inspect->stop();
 						_party_panel->refresh();
-						//_status_bar->refresh();
 						_display->generate("engine_base_ui");
 						_display->set_input_mode(WindowInputMode::IN_GAME);
 					}
@@ -1640,8 +1616,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_left_icon_panel->selected = left_selected.value();
 				if (_right_icon_panel->selected)
 					_right_icon_panel->selected = std::nullopt;
-				if (_status_bar->selected)
-					_status_bar->selected = std::nullopt;
+				if (_party_panel->selected)
+					_party_panel->selected = std::nullopt;
 			}
 
 			if (std::optional<std::string> right_selected{
@@ -1652,13 +1628,14 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_right_icon_panel->selected = right_selected.value();
 				if (_left_icon_panel->selected)
 					_left_icon_panel->selected = std::nullopt;
-				if (_status_bar->selected)
-					_status_bar->selected = std::nullopt;
+				if (_party_panel->selected)
+					_party_panel->selected = std::nullopt;
 			}
 
-			std::optional<unsigned int> status_bar_selected{_status_bar->set_mouse_selected(mouse_pos)};
-			if (status_bar_selected) {
-				_status_bar->selected = status_bar_selected.value();
+			std::optional<unsigned int> party_panel_selected{_party_panel->set_mouse_selected(mouse_pos)};
+			if (party_panel_selected) {
+				_party_panel->selected = party_panel_selected.value();
+				_party_panel->refresh();
 				if (_right_icon_panel->selected)
 					_right_icon_panel->selected = std::nullopt;
 				if (_left_icon_panel->selected)
@@ -1854,10 +1831,9 @@ auto Sorcery::Engine::_update_display() -> void {
 		_right_icon_panel->refresh(_in_camp);
 		_update_icon_panels = false;
 	}
-	if (_update_status_bar) {
+	if (_update_party_panel) {
 		_party_panel->refresh();
-		//_status_bar->refresh();
-		_update_status_bar = false;
+		_update_party_panel = false;
 	}
 }
 
@@ -2148,7 +2124,7 @@ auto Sorcery::Engine::_pit_if() -> bool {
 
 		_show_pit = true;
 		_pit_oops();
-		_update_status_bar = true;
+		_update_party_panel = true;
 		_pit->set_valid(true);
 		_pit->reset_timed();
 		return true;
@@ -2455,11 +2431,7 @@ auto Sorcery::Engine::_draw() -> void {
 		_window->draw(*_right_icon_panel);
 	}
 
-	if (_show_status) {
-		// if (_status_bar->selected)
-		//	_status_bar->set_selected_background();
-		//
-		//_window->draw(*_status_bar);
+	if (_show_party_panel) {
 		_window->draw(*_party_panel);
 	}
 
@@ -2647,7 +2619,7 @@ auto Sorcery::Engine::_debug_heal_party_to_full() -> std::optional<int> {
 	_update_buffbar = true;
 	_update_search = true;
 	_update_render = true;
-	_update_status_bar = true;
+	_update_party_panel = true;
 
 	return CONTINUE;
 }
@@ -2664,7 +2636,7 @@ auto Sorcery::Engine::_debug_give_first_character_gold_xp() -> std::optional<int
 	_update_buffbar = true;
 	_update_search = true;
 	_update_render = true;
-	_update_status_bar = true;
+	_update_party_panel = true;
 
 	return CONTINUE;
 }
@@ -2679,7 +2651,7 @@ auto Sorcery::Engine::_debug_level_first_character_down() -> std::optional<int> 
 	_update_buffbar = true;
 	_update_search = true;
 	_update_render = true;
-	_update_status_bar = true;
+	_update_party_panel = true;
 
 	return CONTINUE;
 }
@@ -2697,7 +2669,7 @@ auto Sorcery::Engine::_debug_level_first_character_up() -> std::optional<int> {
 	_update_buffbar = true;
 	_update_search = true;
 	_update_render = true;
-	_update_status_bar = true;
+	_update_party_panel = true;
 
 	return CONTINUE;
 }
@@ -2717,7 +2689,7 @@ auto Sorcery::Engine::_debug_kill_non_party_characters() -> std::optional<int> {
 	_update_buffbar = true;
 	_update_search = true;
 	_update_render = true;
-	_update_status_bar = true;
+	_update_party_panel = true;
 
 	return CONTINUE;
 }
@@ -2737,7 +2709,7 @@ auto Sorcery::Engine::_debug_send_non_party_characters_to_tavern() -> std::optio
 	_update_buffbar = true;
 	_update_search = true;
 	_update_render = true;
-	_update_status_bar = true;
+	_update_party_panel = true;
 
 	return CONTINUE;
 }
@@ -2760,7 +2732,7 @@ auto Sorcery::Engine::_debug_give_party_random_hp() -> std::optional<int> {
 	_update_buffbar = true;
 	_update_search = true;
 	_update_render = true;
-	_update_status_bar = true;
+	_update_party_panel = true;
 
 	return CONTINUE;
 }
@@ -2787,7 +2759,7 @@ auto Sorcery::Engine::_debug_give_party_random_status() -> std::optional<int> {
 	_update_buffbar = true;
 	_update_search = true;
 	_update_render = true;
-	_update_status_bar = true;
+	_update_party_panel = true;
 
 	return CONTINUE;
 }

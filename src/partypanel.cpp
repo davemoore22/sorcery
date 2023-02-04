@@ -32,6 +32,8 @@ Sorcery::PartyPanel::PartyPanel(System *system, Display *display, Graphics *grap
 	_sprites.clear();
 	bounds.clear();
 
+	selected = std::nullopt;
+
 	// Frame and Legend
 	_frame = std::make_unique<Frame>(
 		_display->ui_texture, _layout.w, _layout.h, _layout.colour, _layout.background, _layout.alpha);
@@ -93,6 +95,14 @@ auto Sorcery::PartyPanel::refresh() -> void {
 		character_text.setCharacterSize(_layout.size);
 		character_text.setString(summary);
 
+		if (selected) {
+			if (selected.value() == position) {
+
+				character_text.setOutlineColor(sf::Color(0, 0, 0));
+				character_text.setOutlineThickness(1);
+			}
+		}
+
 		switch (character.get_status()) {
 		case OK:
 			if (character.get_poisoned_rate() > 0)
@@ -138,9 +148,36 @@ auto Sorcery::PartyPanel::refresh() -> void {
 		bounds.emplace_back(pos.x, pos.y, bar_width * _display->window->get_cw(), _display->window->get_ch());
 		_texts.emplace_back(character_text);
 
+		if (selected) {
+			if (selected.value() == position) {
+				sf::RectangleShape bg{sf::Vector2f(bar_width * _display->window->get_cw(), _display->window->get_ch())};
+				bg.setPosition(pos.x, pos.y);
+				if (_layout.animated)
+					bg.setFillColor(_graphics->animation->selected_colour);
+				else
+					bg.setFillColor(sf::Color(_layout.background));
+				_selected_bg = bg;
+			}
+		}
+
 		++position;
 		++count;
 	}
+}
+
+auto Sorcery::PartyPanel::set_mouse_selected(sf::Vector2f mouse_pos) -> std::optional<unsigned int> {
+
+	if (bounds.size() > 0) {
+		const sf::Vector2f global_pos{this->getPosition()};
+		mouse_pos -= global_pos;
+		auto it{std::find_if(
+			bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) { return item.contains(mouse_pos); })};
+		if (it != bounds.end())
+			return std::distance(bounds.begin(), it) + 1; // we're working on position which is 1-indexed
+		else
+			return std::nullopt;
+	} else
+		return std::nullopt;
 }
 
 auto Sorcery::PartyPanel::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
@@ -150,6 +187,9 @@ auto Sorcery::PartyPanel::draw(sf::RenderTarget &target, sf::RenderStates states
 	// Draw the standard components
 	for (const auto &sprite : _sprites)
 		target.draw(sprite, states);
+
+	if (selected)
+		target.draw(_selected_bg, states);
 
 	for (const auto &text : _texts) {
 		target.draw(text, states);
