@@ -41,7 +41,8 @@ class State {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_version, _party, level, explored, _player_depth, _player_pos, _playing_facing, _lit, _turns, _log);
+			archive(_version, _party, level, explored, _player_depth, _previous_depth, _player_pos, _previous_pos,
+				_playing_facing, _lit, _turns, _log);
 		}
 
 		// Public Members
@@ -58,6 +59,8 @@ class State {
 		auto get_party_size() const -> unsigned int;
 		auto get_player_facing() const -> MapDirection;
 		auto get_player_pos() const -> Coordinate;
+		auto get_player_prev_pos() const -> Coordinate;
+		auto get_player_prev_depth() const -> int;
 		auto party_has_members() const -> bool;
 		auto get_character_by_position(unsigned int index) -> std::optional<unsigned int>;
 		auto remove_character_by_id(unsigned int char_id) -> bool;
@@ -91,6 +94,8 @@ class State {
 		System *_system;
 		std::vector<unsigned int> _party;
 		Coordinate _player_pos;
+		Coordinate _previous_pos;
+		int _previous_depth;
 		MapDirection _playing_facing;
 		int _player_depth;
 		bool _lit;

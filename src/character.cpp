@@ -604,7 +604,7 @@ auto Sorcery::Character::set_start_attr() -> void {
 
 	_cur_attr = _start_attr;
 
-	// Formula soured from http://www.zimlab.com/wizardry/walk/w123calc.htm
+	// Formula sourced from http://www.zimlab.com/wizardry/walk/w123calc.htm
 	_points_left = (*_system->random)[RandomType::ZERO_TO_3];
 	const bool chance_of_more{(*_system->random)[RandomType::D10] == 1};
 	const bool chance_of_more_again{(*_system->random)[RandomType::D10] == 1};
@@ -1807,7 +1807,6 @@ auto Sorcery::Character::level_down() -> void {
 	}
 
 	// what to do about negative level ability?
-
 	const auto old_level{_abilities.at(CURRENT_LEVEL)};
 	const auto diff_hp{_abilities.at(MAX_HP) - _abilities.at(CURRENT_HP)};
 
@@ -2086,7 +2085,7 @@ auto Sorcery::Character::_get_xp_for_level(unsigned int level) const -> int {
 
 	// XP values are obtained directly from original Apple2 Scenario Disc (look for E8 03 00 00 00 00 near &00020106
 	// though due to what I think is the way USCD pascal stores large numbers, they are stored in 16 bit LSB "chunks",
-	// for example, 134586 is stored at &0002013C as EA 11 0D, or 4586 - to get the actuaL value for the level we add
+	// for example, 134586 is stored at &0002013C as EA 11 0D, or 4586 - to get the actual value for the level we add
 	// this to 0D in decimal (13) times 10000, to get 134586.
 	static const std::array<std::array<int, 14>, 8> levels{
 		{{0, 1000, 1724, 2972, 5124, 8834, 15231, 26260, 45275, 78060, 134586, 232044, 400075, 289709},		 // FIGHTER
@@ -2131,6 +2130,9 @@ auto Sorcery::Character::create_spells() -> void {
 	using enum Enums::Magic::SpellType;
 
 	// Mage Spells (grouped by level)
+
+	// TODO: get the autotranslated Japanese text from the PSX versions, and use these, but also put this into the
+	// game strings file
 
 	// Level 1
 	auto level{1};
@@ -2651,7 +2653,6 @@ auto Sorcery::Character::_get_priest_status(bool current) -> std::string {
 }
 
 // For level draining, optionally keep a track of negative levels unless in strict mode
-
 // Need to also handle character class switching
 
 auto Sorcery::Character::_generate_summary_icons() -> void {
@@ -2887,24 +2888,6 @@ auto Sorcery::Character::_generate_display() -> void {
 		_display->generate("character_summary", _v_sprites, _v_texts, _v_frames);
 
 		_add_text((*_display->layout)["character_summary:name_and_summary_text"], "{}", summary_text());
-
-		/* auto portrait{_get_character_portrait()};
-		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
-		portrait.setScale(portrait_c.scale, portrait_c.scale);
-		const auto offset_x{[&] {
-			if (portrait_c["offset_x"])
-				return std::stoi(portrait_c["offset_x"].value());
-			else
-				return 0;
-		}()};
-		const auto offset_y{[&] {
-			if (portrait_c["offset_y"])
-				return std::stoi(portrait_c["offset_y"].value());
-			else
-				return 0;
-		}()};
-		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
-		_v_sprites.try_emplace(portrait_c.unique_key, portrait); */
 
 		Component s_c{(*_display->layout)["character_summary:strength_value"]};
 		s_c.colour = _graphics->adjust_colour(_cur_attr.at(STRENGTH), STAT);
@@ -3165,24 +3148,6 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		_add_text((*_display->layout)["character_detailed:name_and_summary_text"], "{}", summary_text());
 
-		/* auto portrait{_get_character_portrait()};
-		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
-		portrait.setScale(portrait_c.scale, portrait_c.scale);
-		const auto offset_x{[&] {
-			if (portrait_c["offset_x"])
-				return std::stoi(portrait_c["offset_x"].value());
-			else
-				return 0;
-		}()};
-		const auto offset_y{[&] {
-			if (portrait_c["offset_y"])
-				return std::stoi(portrait_c["offset_y"].value());
-			else
-				return 0;
-		}()};
-		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
-		_v_sprites.try_emplace(portrait_c.unique_key, portrait); */
-
 		Component s_c{(*_display->layout)["character_detailed:strength_value"]};
 		s_c.colour = _graphics->adjust_colour(_cur_attr.at(STRENGTH), STAT);
 		_add_text(s_c, "{:>2}", std::to_string(_cur_attr.at(STRENGTH)));
@@ -3329,29 +3294,7 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		_add_text((*_display->layout)["character_resistances:name_and_summary_text"], "{}", summary_text());
 
-		/* auto portrait{_get_character_portrait()};
-		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
-		portrait.setScale(portrait_c.scale, portrait_c.scale);
-		const auto offset_x{[&] {
-			if (portrait_c["offset_x"])
-				return std::stoi(portrait_c["offset_x"].value());
-			else
-				return 0;
-		}()};
-		const auto offset_y{[&] {
-			if (portrait_c["offset_y"])
-				return std::stoi(portrait_c["offset_y"].value());
-			else
-				return 0;
-		}()};
-		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
-		_v_sprites.try_emplace(portrait_c.unique_key, portrait); */
-
 		Component resistances_c((*_display->layout)["character_resistances:resistances_detailed_values"]);
-		// auto pos_x{resistances_c.x};
-		// auto pos_y{resistances_c.y};
-		//  auto offset_columns{std::stoi(resistances_c["offset_columns"].value())};
-
 		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_CRITICAL_HIT) * 5, PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_CRITICAL_HIT) * 5));
 
@@ -3367,8 +3310,6 @@ auto Sorcery::Character::_generate_display() -> void {
 		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_BREATH_ATTACKS) * 5, PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_BREATH_ATTACKS) * 5));
 
-		// resistances_c.y = pos_y;
-		// resistances_c.x = pos_x + (offset_columns * _display->window->get_cw());
 		resistances_c.y += _display->window->get_ch();
 		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_POISON_GAS_TRAP) * 5, PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_POISON_GAS_TRAP) * 5));
@@ -3385,8 +3326,6 @@ auto Sorcery::Character::_generate_display() -> void {
 		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RECOVER_FROM_FEAR), PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RECOVER_FROM_FEAR)));
 
-		// resistances_c.y = pos_y;
-		// resistances_c.x = pos_x + (2 * offset_columns * _display->window->get_cw());
 		resistances_c.y += _display->window->get_ch();
 		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_SILENCE) * 5, PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_SILENCE) * 5));
@@ -3409,24 +3348,6 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		_add_text((*_display->layout)["character_mage_spells:name_and_summary_text"], "{}", summary_text());
 
-		/* auto portrait{_get_character_portrait()};
-		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
-		portrait.setScale(portrait_c.scale, portrait_c.scale);
-		const auto offset_x{[&] {
-			if (portrait_c["offset_x"])
-				return std::stoi(portrait_c["offset_x"].value());
-			else
-				return 0;
-		}()};
-		const auto offset_y{[&] {
-			if (portrait_c["offset_y"])
-				return std::stoi(portrait_c["offset_y"].value());
-			else
-				return 0;
-		}()};
-		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
-		_v_sprites.try_emplace(portrait_c.unique_key, portrait); */
-
 		Component level_c{(*_display->layout)["character_mage_spells:level_label"]};
 		Component sp_c{(*_display->layout)["character_mage_spells:spell_points"]};
 		Component spell_name_c{(*_display->layout)["character_mage_spells:spell_name_label"]};
@@ -3434,11 +3355,8 @@ auto Sorcery::Character::_generate_display() -> void {
 		auto level_x{level_c.x};
 		for (auto level = 1; level <= 7; level++) {
 
-			//_add_text(level_c, "{}", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level));
-
 			sp_c.x = level_c.x + (std::stoi(sp_c["offset_columns"].value()) * _display->window->get_cw());
 			sp_c.y = level_c.y;
-			//_add_text(sp_c, "{}", _get_sp_per_level(SpellType::MAGE, level));
 
 			spell_name_c.x = level_c.x;
 			spell_name_c.y = level_c.y + _display->window->get_ch();
@@ -3518,24 +3436,6 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		_add_text((*_display->layout)["character_priest_spells:name_and_summary_text"], "{}", summary_text());
 
-		/* auto portrait{_get_character_portrait()};
-		Component portrait_c{(*_display->layout)["character_summary:portrait"]};
-		portrait.setScale(portrait_c.scale, portrait_c.scale);
-		const auto offset_x{[&] {
-			if (portrait_c["offset_x"])
-				return std::stoi(portrait_c["offset_x"].value());
-			else
-				return 0;
-		}()};
-		const auto offset_y{[&] {
-			if (portrait_c["offset_y"])
-				return std::stoi(portrait_c["offset_y"].value());
-			else
-				return 0;
-		}()};
-		portrait.setPosition(portrait_c.x + offset_x, portrait_c.y + offset_y);
-		_v_sprites.try_emplace(portrait_c.unique_key, portrait); */
-
 		Component level_c{(*_display->layout)["character_priest_spells:level_label"]};
 		Component sp_c{(*_display->layout)["character_priest_spells:spell_points"]};
 		Component spell_name_c{(*_display->layout)["character_priest_spells:spell_name_label"]};
@@ -3543,11 +3443,8 @@ auto Sorcery::Character::_generate_display() -> void {
 		auto level_x{level_c.x};
 		for (auto level = 1; level <= 7; level++) {
 
-			//_add_text(level_c, "{}", fmt::format("{} {}", (*_display->string)["CHARACTER_SPELL_LEVEL"], level));
-
 			sp_c.x = level_c.x + (std::stoi(sp_c["offset_columns"].value()) * _display->window->get_cw());
 			sp_c.y = level_c.y;
-			//_add_text(sp_c, "{}", _get_sp_per_level(SpellType::PRIEST, level));
 
 			spell_name_c.x = level_c.x;
 			spell_name_c.y = level_c.y + _display->window->get_ch();

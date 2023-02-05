@@ -1,8 +1,8 @@
 {
 	"export": {
 		"from": "2022.5.1",
-		"date": "2023-01-14",
-		"time": "22:41:50"
+		"date": "2023-02-05",
+		"time": "16:27:44"
 	},
 	"regions": [
 		{
@@ -11392,7 +11392,7 @@
 									},
 									{
 										"r": 1,
-										"b": 1
+										"b": 5
 									},
 									{
 										"b": 1
@@ -13557,7 +13557,7 @@
 									{
 										"r": 1,
 										"b": 2,
-										"m": 13
+										"m": 25
 									},
 									{
 										"r": 1,
@@ -13687,7 +13687,7 @@
 									},
 									{
 										"r": 1,
-										"m": 13
+										"m": 25
 									},
 									{
 										"r": 1,
@@ -13979,7 +13979,8 @@
 									},
 									{
 										"r": 1,
-										"b": 2
+										"b": 2,
+										"m": 25
 									},
 									{
 									},
@@ -14054,7 +14055,8 @@
 									{
 										"r": 1,
 										"b": 2,
-										"m": 25
+										"m": 25,
+										"t": 39
 									},
 									{
 										"b": 1
@@ -14549,7 +14551,7 @@
 									{
 										"r": 1,
 										"b": 1,
-										"m": 13
+										"m": 25
 									},
 									{
 										"r": 1
@@ -14843,52 +14845,10 @@
 					},
 					"notes": [
 						{
-							"x": 9,
-							"y": 18,
-							"monospaced": false,
-							"__data": "You see a statue of a bear on a pedestal. On the wall is a sign reading \"I've got a million of 'em.\""
-						},
-						{
-							"x": 12,
-							"y": 4,
-							"monospaced": false,
-							"__data": "On a silvery disk stands a statue of a frog wearing a red and blue cape. The statue animates and shakes its legs while it yells \"Yeah.... Yeah...\""
-						},
-						{
-							"x": 4,
-							"y": 16,
-							"monospaced": false,
-							"__data": "In this room is a statue of a monster with the body of a chicken and the head of a cat. The statue is made of bronze, and lies on an onyx pedestal.  There are unusual runes on a plaque thereon."
-						},
-						{
-							"x": 8,
-							"y": 7,
-							"monospaced": false,
-							"__data": "As you enter this room, a bronze smoke fills it. You feel compelled to leave immdediately!"
-						},
-						{
 							"x": 8,
 							"y": 12,
 							"monospaced": false,
-							"__data": "As you enter this room, a silvery fog evelops you. Terrible demons form all around you. In terror, you flee from the room!"
-						},
-						{
-							"x": 15,
-							"y": 11,
-							"monospaced": false,
-							"__data": "A placard near the ground reads:@\"A dungeon's dark...\""
-						},
-						{
-							"x": 14,
-							"y": 11,
-							"monospaced": false,
-							"__data": "A placard near the ground reads:@\"When it's not lit...\""
-						},
-						{
-							"x": 13,
-							"y": 11,
-							"monospaced": false,
-							"__data": "A placard near the ground reads:@\"Watch out, or you'll...\""
+							"__data": "METADATA EVENT NEED_SILVER_KEY"
 						},
 						{
 							"x": 10,
@@ -14912,7 +14872,55 @@
 							"x": 4,
 							"y": 11,
 							"monospaced": false,
-							"__data": "Nobody in the party can break the door down."
+							"__data": "METADATA EVENT NEED_BEAR_STATUE"
+						},
+						{
+							"x": 4,
+							"y": 16,
+							"monospaced": false,
+							"__data": "METADATA EVENT GOLD_KEY"
+						},
+						{
+							"x": 9,
+							"y": 18,
+							"monospaced": false,
+							"__data": "METADATA EVENT BEAR_STATUE"
+						},
+						{
+							"x": 8,
+							"y": 7,
+							"monospaced": false,
+							"__data": "METADATA EVENT NEED_BRONZE_KEY"
+						},
+						{
+							"x": 12,
+							"y": 4,
+							"monospaced": false,
+							"__data": "METADATA EVENT FROG_STATUE"
+						},
+						{
+							"x": 4,
+							"y": 12,
+							"monospaced": false,
+							"__data": "METADATA EVENT NEED_FROG_STATUE"
+						},
+						{
+							"x": 15,
+							"y": 11,
+							"monospaced": false,
+							"__data": "PLACARD_PIT_1"
+						},
+						{
+							"x": 14,
+							"y": 11,
+							"monospaced": false,
+							"__data": "PLACARD_PIT_2"
+						},
+						{
+							"x": 13,
+							"y": 11,
+							"monospaced": false,
+							"__data": "PLACARD_PIT_3"
 						}
 					]
 				},

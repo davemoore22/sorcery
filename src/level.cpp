@@ -328,7 +328,8 @@ auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {
 
 auto Sorcery::Level::_map_event_types(const std::string &string) const -> std::optional<MapEvent> {
 
-	// To do replace this wirh somethig a bit better
+	// To do replace this wirh something a bit better? (magic enum to string perhaps?)
+
 	using enum Enums::Map::Event;
 	if (string == "AREA_OUT_OF_BOUNDS")
 		return AREA_OF_OUT_BOUNDS;
@@ -340,6 +341,24 @@ auto Sorcery::Level::_map_event_types(const std::string &string) const -> std::o
 		return BRONZE_KEY;
 	else if (string == "MURPHYS_GHOSTS")
 		return MURPHYS_GHOSTS;
+	else if (string == "NEED_SILVER_KEY")
+		return NEED_SILVER_KEY;
+	else if (string == "NEED_BRONZE_KEY")
+		return NEED_BRONZE_KEY;
+	else if (string == "NEED_BEAR_STATUE")
+		return NEED_BEAR_STATUE;
+	else if (string == "NEED_FROG_STATUE")
+		return NEED_FROG_STATUE;
+	else if (string == "GOLD_KEY")
+		return GOLD_KEY;
+	else if (string == "BEAR_STATUE")
+		return BEAR_STATUE;
+	else if (string == "PLACARD_PIT_1")
+		return PLACARD_PIT_1;
+	else if (string == "PLACARD_PIT_2")
+		return PLACARD_PIT_2;
+	else if (string == "PLACARD_PIT_3")
+		return PLACARD_PIT_3;
 	else
 		return std::nullopt;
 }

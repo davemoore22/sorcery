@@ -116,7 +116,9 @@ class Engine {
 		auto _pit_oops() -> void;
 		auto _check_for_wipe() const -> bool;
 		auto _do_wipe() -> int;
+		auto _go_back() -> std::optional<int>;
 
+		auto _debug_go_back() -> std::optional<int>;
 		auto _debug_give_first_character_gold_xp() -> std::optional<int>;
 		auto _debug_give_party_random_status() -> std::optional<int>;
 		auto _debug_give_party_random_hp() -> std::optional<int>;
@@ -227,6 +229,7 @@ class Engine {
 		bool _monochrome;
 		bool _can_run_event;
 		bool _display_cursor;
+		bool _can_go_back;
 };
 
 }

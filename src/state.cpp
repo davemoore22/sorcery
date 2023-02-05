@@ -88,12 +88,18 @@ auto Sorcery::State::get_lit() const -> bool {
 
 auto Sorcery::State::set_depth(int depth) -> void {
 
+	_previous_depth = _player_depth;
 	_player_depth = depth;
 }
 
 auto Sorcery::State::get_depth() const -> int {
 
 	return _player_depth;
+}
+
+auto Sorcery::State::get_player_prev_depth() const -> int {
+
+	return _previous_depth;
 }
 
 auto Sorcery::State::_restart_expedition() -> void {
@@ -181,6 +187,11 @@ auto Sorcery::State::get_player_pos() const -> Coordinate {
 	return _player_pos;
 }
 
+auto Sorcery::State::get_player_prev_pos() const -> Coordinate {
+
+	return _previous_pos;
+}
+
 auto Sorcery::State::set_player_facing(const MapDirection direction) -> void {
 
 	_playing_facing = direction;
@@ -188,6 +199,7 @@ auto Sorcery::State::set_player_facing(const MapDirection direction) -> void {
 
 auto Sorcery::State::set_player_pos(const Coordinate position) -> void {
 
+	_previous_pos = _player_pos;
 	_player_pos = position;
 }
 

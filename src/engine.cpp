@@ -397,6 +397,7 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	_show_party_panel = true;
 	_show_gui = true;
 	_exit_maze_now = false;
+	_can_go_back = false;
 	_automap->refresh();
 	_map->refresh();
 	_system->stop_pause();
@@ -410,6 +411,7 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	// Now, we can also be on an elevator or a set of stairs too when we begin
 	_show_confirm_stairs = (_game->state->get_player_pos() == Coordinate{0, 0}) && (_game->state->get_depth() == -1);
 	if ((_game->state->get_player_pos() == Coordinate{0, 0}) && (_game->state->get_depth() == -1)) {
+
 		_show_confirm_stairs = true;
 		_game->state->set_player_facing(MapDirection::NORTH);
 		_game->state->set_lit(false);
@@ -469,6 +471,7 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 				_update_search = true;
 				_update_render = true;
 				_pending_chute = false;
+				_can_go_back = true;
 
 				_display->set_disc(true);
 				_refresh_display();
@@ -490,6 +493,7 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 				_update_search = true;
 				_update_render = true;
 				_pending_elevator = false;
+				_can_go_back = true;
 
 				_display->set_disc(true);
 				_refresh_display();
@@ -1178,7 +1182,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 	if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F2))
 		_debug_give_first_character_gold_xp();
 	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F3))
-		_debug_give_party_random_status();
+		_debug_go_back();
 	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F5))
 		_debug_send_non_party_characters_to_tavern();
 	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F6))
@@ -1949,7 +1953,9 @@ auto Sorcery::Engine::_move_forward() -> bool {
 	auto this_wall_to_check{_game->state->get_player_facing()};
 	if (this_tile.walkable(this_wall_to_check)) {
 
+		_game->state->set_depth(_game->state->get_depth());
 		_game->state->set_player_pos(next_loc);
+		_can_go_back = true;
 
 		if (!_tile_explored(_game->state->get_player_pos()))
 			_set_tile_explored(_game->state->get_player_pos());
@@ -2056,7 +2062,9 @@ auto Sorcery::Engine::_move_backward() -> bool {
 
 	if (this_tile.walkable(this_wall_to_check)) {
 
+		_game->state->set_depth(_game->state->get_depth());
 		_game->state->set_player_pos(next_loc);
+		_can_go_back = true;
 
 		if (!_tile_explored(_game->state->get_player_pos()))
 			_set_tile_explored(_game->state->get_player_pos());
@@ -2123,6 +2131,7 @@ auto Sorcery::Engine::_turn_left() -> void {
 	}
 
 	_last_movement = WEST;
+	_can_go_back = false;
 }
 
 auto Sorcery::Engine::_turn_right() -> void {
@@ -2147,6 +2156,7 @@ auto Sorcery::Engine::_turn_right() -> void {
 	}
 
 	_last_movement = EAST;
+	_can_go_back = false;
 }
 
 auto Sorcery::Engine::_turn_around() -> void {
@@ -2171,6 +2181,7 @@ auto Sorcery::Engine::_turn_around() -> void {
 	}
 
 	_last_movement = SOUTH;
+	_can_go_back = false;
 }
 
 // TODO: rock/walkable for all levels/tiles!
@@ -2402,6 +2413,7 @@ auto Sorcery::Engine::_stairs_if() -> bool {
 			_game->state->set_player_pos(destination.to_loc);
 			_game->state->set_depth(to_level);
 			_set_tile_explored(_game->state->get_player_pos());
+			_can_go_back = true;
 
 			const auto &next_tile{_game->state->level->at(destination.to_loc)};
 			if ((next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
@@ -2439,7 +2451,9 @@ auto Sorcery::Engine::_teleport_if() -> bool {
 		} else if (destination.to_level == _game->state->get_depth()) {
 
 			const auto &next_tile{_game->state->level->at(destination.to_loc)};
+			_game->state->set_depth(_game->state->get_depth());
 			_game->state->set_player_pos(destination.to_loc);
+			_can_go_back = true;
 
 			if (!_tile_explored(_game->state->get_player_pos()))
 				_set_tile_explored(_game->state->get_player_pos());
@@ -2662,7 +2676,56 @@ auto Sorcery::Engine::_draw() -> void {
 	}
 }
 
+auto Sorcery::Engine::_go_back() -> std::optional<int> {
+
+	if (_can_go_back) {
+
+		const auto current_depth{_game->state->get_depth()};
+		const auto previous_depth{_game->state->get_player_prev_depth()};
+		const auto previous_pos{_game->state->get_player_prev_pos()};
+		if (current_depth == previous_depth) {
+			_game->state->set_player_pos(previous_pos);
+			_can_go_back = false;
+		} else {
+			if (previous_depth == 0) {
+
+				_unpoison_characters_on_return_to_town();
+				_move_characters_to_temple_if_needed();
+
+				_display->set_disc(true);
+				_refresh_display();
+				_game->save_game();
+				_display->set_disc(false);
+				_can_go_back = false;
+
+				return EXIT_MODULE;
+			} else {
+				Level level{((*_game->levelstore)[previous_depth]).value()};
+				_game->state->set_current_level(&level);
+				_game->state->set_depth(previous_depth);
+				_game->state->set_player_pos(previous_pos);
+				_can_go_back = false;
+			}
+		}
+	}
+
+	return CONTINUE;
+}
+
 // Various Debug Functions - can be placed in _handle_in_game and associated with keypresses
+auto Sorcery::Engine::_debug_go_back() -> std::optional<int> {
+
+	_go_back();
+
+	_update_automap = true;
+	_update_compass = true;
+	_update_buffbar = true;
+	_update_search = true;
+	_update_render = true;
+
+	return CONTINUE;
+}
+
 auto Sorcery::Engine::_debug_go_to_graveyard() -> std::optional<int> {
 
 	_graveyard->start();
