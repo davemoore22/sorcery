@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1674752025 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1675712789 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -147,7 +147,7 @@
 1675545432 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
-1675613582 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
+1675712749 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
 1673721476 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
@@ -292,10 +292,10 @@
 1672594195 source:/home/dave/Development/wizardry/sorcery-sfml/src/banner.cpp
 	"banner.hpp"
 
-1675613154 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
+1675718569 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
 	"character.hpp"
 
-1675547919 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
+1675712888 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
 	"display.hpp"
 	"graphics.hpp"
 	"main.hpp"
@@ -333,7 +333,7 @@
 1674952290 source:/home/dave/Development/wizardry/sorcery-sfml/src/display.cpp
 	"display.hpp"
 
-1675611536 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine.cpp
+1675718187 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine.cpp
 	"engine.hpp"
 
 1675611350 /home/dave/Development/wizardry/sorcery-sfml/inc/engine.hpp
@@ -1107,7 +1107,7 @@
 	"cereal/cereal.hpp"
 	<string>
 
-1675279466 source:/home/dave/Development/wizardry/sorcery-sfml/src/roster.cpp
+1675718526 source:/home/dave/Development/wizardry/sorcery-sfml/src/roster.cpp
 	"roster.hpp"
 
 1675533798 /home/dave/Development/wizardry/sorcery-sfml/inc/roster.hpp
@@ -1353,7 +1353,7 @@
 	"menu.hpp"
 	"system.hpp"
 
-1675537048 source:/home/dave/Development/wizardry/sorcery-sfml/src/inspect.cpp
+1675715870 source:/home/dave/Development/wizardry/sorcery-sfml/src/inspect.cpp
 	"inspect.hpp"
 
 1675531588 /home/dave/Development/wizardry/sorcery-sfml/inc/reorder.hpp

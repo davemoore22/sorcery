@@ -172,6 +172,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 								const auto character_chosen{(*selected.value()).index};
 								_cur_char = &_game->characters[character_chosen];
 								if (_cur_char) {
+									_cur_char.value()->set_mode(CharacterMode::IN_TRAINING);
 									_display->set_input_mode(WindowInputMode::BROWSE_CHARACTER);
 									_cur_char.value()->set_view(CharacterView::SUMMARY);
 								}
@@ -318,7 +319,6 @@ auto Sorcery::Roster::_draw() -> void {
 
 			// If we have a character
 			_window->draw(*_cur_char_frame);
-
 			_cur_char.value()->setPosition(
 				(*_display->layout)[_screen_key + ":character"].x, (*_display->layout)[_screen_key + ":character"].y);
 			_cur_char.value()->update();

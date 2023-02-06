@@ -292,6 +292,11 @@ auto Sorcery::Inspect::_draw() -> void {
 			// If we have a character
 			_window->draw(*_cur_char_frame);
 
+			if (_mode == MenuMode::CAMP)
+				_cur_char.value()->set_mode(CharacterMode::IN_MAZE);
+			else
+				_cur_char.value()->set_mode(CharacterMode::IN_CASTLE);
+
 			_cur_char.value()->setPosition(
 				(*_display->layout)[_screen_key + ":character"].x, (*_display->layout)[_screen_key + ":character"].y);
 			_cur_char.value()->update();

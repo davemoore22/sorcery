@@ -463,6 +463,14 @@ namespace Enums::Character {
 		TRAINING = 4
 	};
 
+	// Affects what options are available in the character menu
+	enum class Mode {
+		NO_MODE = -1,
+		IN_MAZE,
+		IN_CASTLE,
+		IN_TRAINING
+	};
+
 	// State of Character Creation
 	enum class Stage {
 		NOT_STARTED,

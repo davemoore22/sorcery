@@ -168,6 +168,7 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto damage(const unsigned int adjustment) -> bool;
 		auto heal(const unsigned int adjustment) -> void;
 		auto generate_display() -> void;
+		auto set_mode(CharacterMode value) -> void;
 
 		// Public Members
 		std::map<SpellID, sf::FloatRect> mage_spell_bounds;
@@ -263,6 +264,7 @@ class Character: public sf::Transformable, public sf::Drawable {
 		sf::RectangleShape _hl_action_item_bg;
 		bool _legated;
 		CharacterLocation _location;
+		CharacterMode _mode;
 };
 
 }

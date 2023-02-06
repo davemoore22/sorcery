@@ -1484,6 +1484,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				const auto character_chosen{(_party_panel->selected.value())};
 				_cur_char = &_game->characters[_game->state->get_party_characters().at(character_chosen - 1)];
 				if (_cur_char) {
+					_cur_char.value()->set_mode(CharacterMode::IN_MAZE);
 					_display->set_input_mode(WindowInputMode::BROWSE_CHARACTER);
 					_cur_char.value()->set_view(CharacterView::SUMMARY);
 					_in_character = true;
@@ -2592,7 +2593,6 @@ auto Sorcery::Engine::_draw() -> void {
 
 			// If we have a character
 			_window->draw(*_cur_char_frame);
-
 			_cur_char.value()->setPosition(
 				(*_display->layout)["engine_base_ui:character"].x, (*_display->layout)["engine_base_ui:character"].y);
 			_cur_char.value()->update();

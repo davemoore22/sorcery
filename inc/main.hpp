@@ -133,6 +133,7 @@ using CharacterClass = Enums::Character::Class;
 using CharacterClassList = std::map<Enums::Character::Class, std::string>;
 using CharacterClassMenu = std::pair<Enums::Character::Class, Enums::Menu::Item>;
 using CharacterClassQualified = std::map<Enums::Character::Class, bool>;
+using CharacterMode = Enums::Character::Mode;
 using CharacterRace = Enums::Character::Race;
 using CharacterStage = Enums::Character::Stage;
 using CharacterStatus = Enums::Character::CStatus;
