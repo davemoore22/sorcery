@@ -1,8 +1,8 @@
 {
 	"export": {
 		"from": "2022.5.1",
-		"date": "2023-02-05",
-		"time": "16:27:44"
+		"date": "2023-02-07",
+		"time": "18:07:51"
 	},
 	"regions": [
 		{
@@ -14908,19 +14908,19 @@
 							"x": 15,
 							"y": 11,
 							"monospaced": false,
-							"__data": "PLACARD_PIT_1"
+							"__data": "METADATA EVENT PLACARD_PIT_1"
 						},
 						{
 							"x": 14,
 							"y": 11,
 							"monospaced": false,
-							"__data": "PLACARD_PIT_2"
+							"__data": "METADATA EVENT PLACARD_PIT_2"
 						},
 						{
 							"x": 13,
 							"y": 11,
 							"monospaced": false,
-							"__data": "PLACARD_PIT_3"
+							"__data": "METADATA EVENT PLACARD_PIT_3"
 						}
 					]
 				},

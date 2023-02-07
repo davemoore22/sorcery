@@ -559,6 +559,12 @@
 	"GAME_MESSAGE_GOLD_KEY_3":					"head of a cat.  The statue is made of ",
 	"GAME_MESSAGE_GOLD_KEY_4":					"gold,  and lies on an  onyx pedestal. ",
 	"GAME_MESSAGE_GOLD_KEY_5":					"There are  unusual runes  on a plaque ",
-	"GAME_MESSAGE_GOLD_KEY_6":					"thereon.                              "
+	"GAME_MESSAGE_GOLD_KEY_6":					"thereon.                              ",
+	"GAME_MESSAGE_PLACARD_PIT_1_1":				"   A placard near the ground reads:   ",
+	"GAME_MESSAGE_PLACARD_PIT_1_2":				"        'A dungeon's dark...'         ",
+	"GAME_MESSAGE_PLACARD_PIT_2_1":				"   A placard near the ground reads:   ",
+	"GAME_MESSAGE_PLACARD_PIT_2_2":				"        'When it's not lit...'        ",
+	"GAME_MESSAGE_PLACARD_PIT_3_1":				"   A placard near the ground reads:   ",
+	"GAME_MESSAGE_PLACARD_PIT_3_2":				"      'Watch out, or you'll...'       "
 }
 

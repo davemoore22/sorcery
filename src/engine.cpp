@@ -2260,7 +2260,13 @@ auto Sorcery::Engine::_event_if() -> bool {
 	if (const auto current_loc{_game->state->get_player_pos()};
 		_game->state->level->at(current_loc).has_event() && _can_run_event) {
 		switch (const auto event_type{_game->state->level->at(current_loc).has_event().value()}; event_type) {
-		case MapEvent::AREA_OF_OUT_BOUNDS: {
+		case MapEvent::AREA_OF_OUT_BOUNDS:
+			[[fallthrough]];
+		case MapEvent::PLACARD_PIT_1:
+			[[fallthrough]];
+		case MapEvent::PLACARD_PIT_2:
+			[[fallthrough]];
+		case MapEvent::PLACARD_PIT_3: {
 			_show_direction_indicatior = false;
 			_display_cursor = false;
 			_refresh_display();
@@ -2300,6 +2306,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 				_refresh_display();
 				return EXIT_ALL;
 			}
+
 			// handle search
 			_show_confirm_search = true;
 			_display->set_input_mode(WindowInputMode::CONFIRM_QUIT_GAME);
@@ -2316,6 +2323,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 				_refresh_display();
 				return EXIT_ALL;
 			}
+
 			// handle search
 			_show_confirm_search = true;
 			_display->set_input_mode(WindowInputMode::CONFIRM_QUIT_GAME);
@@ -2337,7 +2345,50 @@ auto Sorcery::Engine::_event_if() -> bool {
 			_show_confirm_search = true;
 			_display->set_input_mode(WindowInputMode::CONFIRM_QUIT_GAME);
 		} break;
+		case MapEvent::NEED_BEAR_STATUE: {
 
+			// Check for presence of bear statue in inventory. If, we can ignore event
+			_show_direction_indicatior = false;
+			_display_cursor = false;
+			_refresh_display();
+			auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
+			if (auto result{event->start()}; result == MenuItem::ABORT) {
+				event->stop();
+				_can_run_event = false;
+				_display_cursor = true;
+				_refresh_display();
+				return EXIT_ALL;
+			}
+
+			_go_back();
+			_update_automap = true;
+			_update_compass = true;
+			_update_buffbar = true;
+			_update_search = true;
+			_update_render = true;
+		} break;
+		case MapEvent::NEED_FROG_STATUE: {
+
+			// Check for presence of bear statue in inventory. If, we can ignore event
+			_show_direction_indicatior = false;
+			_display_cursor = false;
+			_refresh_display();
+			auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
+			if (auto result{event->start()}; result == MenuItem::ABORT) {
+				event->stop();
+				_can_run_event = false;
+				_display_cursor = true;
+				_refresh_display();
+				return EXIT_ALL;
+			}
+
+			_go_back();
+			_update_automap = true;
+			_update_compass = true;
+			_update_buffbar = true;
+			_update_search = true;
+			_update_render = true;
+		} break;
 		default:
 			break;
 		}

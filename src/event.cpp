@@ -59,6 +59,28 @@ Sorcery::Event::Event(System *system, Display *display, Graphics *graphics, Game
 		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
 			(*_display->layout)["event_murphys_ghosts:continue_menu"].y);
 		break;
+	case NEED_BEAR_STATUE:
+		[[fallthrough]];
+	case NEED_FROG_STATUE:
+		_continue_menu->generate((*_display->layout)["event_cannot_break_doors_down:continue_menu"]);
+		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
+			(*_display->layout)["event_cannot_break_doors_down:continue_menu"].y);
+	case PLACARD_PIT_1:
+		_continue_menu->generate((*_display->layout)["event_placard_pit_1:continue_menu"]);
+		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
+			(*_display->layout)["event_placard_pit_1:continue_menu"].y);
+		break;
+	case PLACARD_PIT_2:
+		_continue_menu->generate((*_display->layout)["event_placard_pit_2:continue_menu"]);
+		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
+			(*_display->layout)["event_placard_pit_2:continue_menu"].y);
+		break;
+	case PLACARD_PIT_3:
+		_continue_menu->generate((*_display->layout)["event_placard_pit_3:continue_menu"]);
+		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
+			(*_display->layout)["event_placard_pit_3:continue_menu"].y);
+		break;
+		break;
 	default:
 		break;
 	}
@@ -89,6 +111,20 @@ auto Sorcery::Event::start() -> std::optional<MenuItem> {
 	case MURPHYS_GHOSTS:
 		_display->generate("event_murphys_ghosts", _sprites, _texts, _frames);
 		break;
+	case NEED_BEAR_STATUE:
+		[[fallthrough]];
+	case NEED_FROG_STATUE:
+		_display->generate("event_cannot_break_doors_down", _sprites, _texts, _frames);
+		break;
+	case PLACARD_PIT_1:
+		_display->generate("event_placard_pit_1", _sprites, _texts, _frames);
+		break;
+	case PLACARD_PIT_2:
+		_display->generate("event_placard_pit_2", _sprites, _texts, _frames);
+		break;
+	case PLACARD_PIT_3:
+		_display->generate("event_placard_pit_3", _sprites, _texts, _frames);
+		break;
 	default:
 
 		return std::nullopt;
@@ -115,10 +151,24 @@ auto Sorcery::Event::start() -> std::optional<MenuItem> {
 
 			switch (_type) {
 			case AREA_OF_OUT_BOUNDS:
+				[[fallthrough]];
 			case MAN_TELEPORT_CASTLE:
+				[[fallthrough]];
 			case SILVER_KEY:
+				[[fallthrough]];
 			case BRONZE_KEY:
+				[[fallthrough]];
 			case MURPHYS_GHOSTS:
+				[[fallthrough]];
+			case PLACARD_PIT_1:
+				[[fallthrough]];
+			case PLACARD_PIT_2:
+				[[fallthrough]];
+			case PLACARD_PIT_3:
+				[[fallthrough]];
+			case NEED_BEAR_STATUE:
+				[[fallthrough]];
+			case NEED_FROG_STATUE:
 				if (_system->input->check(WindowInput::CANCEL, event))
 					return MenuItem::CONTINUE;
 				else if (_system->input->check(WindowInput::BACK, event))
@@ -197,6 +247,32 @@ auto Sorcery::Event::_draw() -> void {
 		_display->display("event_murphys_ghosts", _sprites, _texts, _frames);
 
 		_continue_menu->generate((*_display->layout)["event_murphys_ghosts:continue_menu"]);
+		_window->draw(*_continue_menu);
+	} break;
+	case NEED_BEAR_STATUE:
+		[[fallthrough]];
+	case NEED_FROG_STATUE: {
+		_display->display("event_cannot_break_doors_down", _sprites, _texts, _frames);
+
+		_continue_menu->generate((*_display->layout)["event_cannot_break_doors_down:continue_menu"]);
+		_window->draw(*_continue_menu);
+	} break;
+	case PLACARD_PIT_1: {
+		_display->display("event_placard_pit_1", _sprites, _texts, _frames);
+
+		_continue_menu->generate((*_display->layout)["event_placard_pit_1:continue_menu"]);
+		_window->draw(*_continue_menu);
+	} break;
+	case PLACARD_PIT_2: {
+		_display->display("event_placard_pit_2", _sprites, _texts, _frames);
+
+		_continue_menu->generate((*_display->layout)["event_placard_pit_2:continue_menu"]);
+		_window->draw(*_continue_menu);
+	} break;
+	case PLACARD_PIT_3: {
+		_display->display("event_placard_pit_3", _sprites, _texts, _frames);
+
+		_continue_menu->generate((*_display->layout)["event_placard_pit_3:continue_menu"]);
 		_window->draw(*_continue_menu);
 	} break;
 	default:

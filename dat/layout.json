@@ -9202,6 +9202,242 @@
 	]
 	},
 	{
+		"name": "event_cannot_break_doors_down",
+		"component": [
+		{
+			"name": "frame",
+			"w": "40",
+			"h": "6",
+			"x": "centre",
+			"y": "1",
+			"alpha": "225",
+			"type": "frame",
+			"priority": "3",
+			"drawmode": "automatic",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "text_1",
+			"x": "centre",
+			"y": "2",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_CANNOT_BREAK_DOORS_DOWN_1",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "text_2",
+			"x": "centre",
+			"y": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_CANNOT_BREAK_DOORS_DOWN_2",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "continue_menu",
+			"x": "centre",
+			"y": "5",
+			"w": "16",
+			"h": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"animated": "true",
+			"width": "36",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "menu",
+			"priority": "4"
+		}
+		]
+	},
+	{
+		"name": "event_placard_pit_1",
+		"component": [
+		{
+			"name": "frame",
+			"w": "40",
+			"h": "6",
+			"x": "centre",
+			"y": "1",
+			"alpha": "225",
+			"type": "frame",
+			"priority": "3",
+			"drawmode": "automatic",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "text_1",
+			"x": "centre",
+			"y": "2",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_PLACARD_PIT_1_1",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "text_2",
+			"x": "centre",
+			"y": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_PLACARD_PIT_1_2",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "continue_menu",
+			"x": "centre",
+			"y": "5",
+			"w": "16",
+			"h": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"animated": "true",
+			"width": "36",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "menu",
+			"priority": "4"
+		}
+		]
+	},
+	{
+		"name": "event_placard_pit_2",
+		"component": [
+		{
+			"name": "frame",
+			"w": "40",
+			"h": "6",
+			"x": "centre",
+			"y": "1",
+			"alpha": "225",
+			"type": "frame",
+			"priority": "3",
+			"drawmode": "automatic",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "text_1",
+			"x": "centre",
+			"y": "2",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_PLACARD_PIT_2_1",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "text_2",
+			"x": "centre",
+			"y": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_PLACARD_PIT_2_2",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "continue_menu",
+			"x": "centre",
+			"y": "5",
+			"w": "16",
+			"h": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"animated": "true",
+			"width": "36",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "menu",
+			"priority": "4"
+		}
+		]
+	},
+	{
+		"name": "event_placard_pit_3",
+		"component": [
+		{
+			"name": "frame",
+			"w": "40",
+			"h": "6",
+			"x": "centre",
+			"y": "1",
+			"alpha": "225",
+			"type": "frame",
+			"priority": "3",
+			"drawmode": "automatic",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "text_1",
+			"x": "centre",
+			"y": "2",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_PLACARD_PIT_3_1",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "text_2",
+			"x": "centre",
+			"y": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_PLACARD_PIT_3_2",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "continue_menu",
+			"x": "centre",
+			"y": "5",
+			"w": "16",
+			"h": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"animated": "true",
+			"width": "36",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "menu",
+			"priority": "4"
+		}
+		]
+	},
+	{
 		"name": "engine_base_ui",
 		"component": [
 		{
