@@ -134,6 +134,8 @@ class Engine {
 		auto _debug_light_off() -> std::optional<int>;
 		auto _debug_monochrome_wireframe() -> std::optional<int>;
 		auto _debug_colour_wireframe() -> std::optional<int>;
+		auto _debug_set_quest_item_flags() -> std::optional<int>;
+		auto _debug_clear_quest_item_flags() -> std::optional<int>;
 
 		// Private Members
 		System *_system;

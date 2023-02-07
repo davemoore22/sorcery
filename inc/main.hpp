@@ -153,6 +153,7 @@ using GraphicsTextureType = Enums::Graphics::TextureType;
 using IconLibrary = std::map<std::string, sf::Sprite>;
 using IconStorage = std::vector<std::pair<std::string, sf::Sprite>>;
 using InnStage = Enums::Castle::Inn;
+using ItemQuest = Enums::Items::Quest;
 using Justification = Enums::Window::Justification;
 using LegateStage = Enums::Character::Legate;
 using LevelID = std::pair<std::string, int>;

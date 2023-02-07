@@ -315,7 +315,7 @@ auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {
 					if (down)
 						_tiles.at(Coordinate{x, y}).set(TileFeature::ELEVATOR_DOWN);
 				} else if (data.at(1) == "EVENT") {
-					const auto what{data.at(2)};
+					const auto &what{data.at(2)};
 					const auto event{_map_event_types(what)};
 					_tiles.at(Coordinate{x, y}).set(event);
 				}
@@ -353,6 +353,8 @@ auto Sorcery::Level::_map_event_types(const std::string &string) const -> std::o
 		return GOLD_KEY;
 	else if (string == "BEAR_STATUE")
 		return BEAR_STATUE;
+	else if (string == "FROG_STATUE")
+		return FROG_STATUE;
 	else if (string == "PLACARD_PIT_1")
 		return PLACARD_PIT_1;
 	else if (string == "PLACARD_PIT_2")

@@ -548,10 +548,25 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 			const auto current_loc{_game->state->get_player_pos()};
 			if (_game->state->level->at(current_loc).has_event()) {
 
+				// use the quest item flags for now
+
 				switch (auto event_at_square{_game->state->level->at(current_loc).has_event().value()};
 						event_at_square) {
-				case MapEvent::SILVER_KEY:
-					[[fallthrough]];
+				case MapEvent::SILVER_KEY: {
+					_show_found_an_item = true;
+
+					// random character who has inventory free unless its a targeted search (TODO)
+					const auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
+					const auto text{fmt::format("{}{}", character.get_name(), (*_display->string)["FOUND_AN_ITEM"])};
+					_found_an_item->set((*_display->layout)["engine_base_ui:found_an_item"], text);
+					_found_an_item->reset_timed();
+
+					if (!_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::SILVER_KEY)])
+						_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::SILVER_KEY)] = true;
+
+					return true;
+				} break;
+
 				case MapEvent::BRONZE_KEY: {
 					_show_found_an_item = true;
 
@@ -560,10 +575,59 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 					const auto text{fmt::format("{}{}", character.get_name(), (*_display->string)["FOUND_AN_ITEM"])};
 					_found_an_item->set((*_display->layout)["engine_base_ui:found_an_item"], text);
 					_found_an_item->reset_timed();
-					return true;
-				}
 
-				case MapEvent::MURPHYS_GHOSTS:
+					if (!_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BRONZE_KEY)])
+						_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BRONZE_KEY)] = true;
+
+					return true;
+				} break;
+
+				case MapEvent::GOLD_KEY: {
+					_show_found_an_item = true;
+
+					// random character who has inventory free unless its a targeted search (TODO)
+					const auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
+					const auto text{fmt::format("{}{}", character.get_name(), (*_display->string)["FOUND_AN_ITEM"])};
+					_found_an_item->set((*_display->layout)["engine_base_ui:found_an_item"], text);
+					_found_an_item->reset_timed();
+
+					if (!_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::GOLD_KEY)])
+						_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::GOLD_KEY)] = true;
+
+					return true;
+				} break;
+
+				case MapEvent::BEAR_STATUE: {
+					_show_found_an_item = true;
+
+					// random character who has inventory free unless its a targeted search (TODO)
+					const auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
+					const auto text{fmt::format("{}{}", character.get_name(), (*_display->string)["FOUND_AN_ITEM"])};
+					_found_an_item->set((*_display->layout)["engine_base_ui:found_an_item"], text);
+					_found_an_item->reset_timed();
+
+					if (!_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BEAR_STATUE)])
+						_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BEAR_STATUE)] = true;
+
+					return true;
+				} break;
+
+				case MapEvent::FROG_STATUE: {
+					_show_found_an_item = true;
+
+					// random character who has inventory free unless its a targeted search (TODO)
+					const auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
+					const auto text{fmt::format("{}{}", character.get_name(), (*_display->string)["FOUND_AN_ITEM"])};
+					_found_an_item->set((*_display->layout)["engine_base_ui:found_an_item"], text);
+					_found_an_item->reset_timed();
+
+					if (!_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::FROG_STATUE)])
+						_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::FROG_STATUE)] = true;
+
+					return true;
+				} break;
+
+				case MapEvent::MURPHYS_GHOSTS: {
 
 					// combat!
 					_show_an_encounter = true;
@@ -572,8 +636,7 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 						(*_display->layout)["engine_base_ui:an_encounter"], (*_display->string)["DIALOG_ENCOUNTER"]);
 					_an_encounter->reset_timed();
 					return true;
-
-					break;
+				} break;
 
 				default:
 					break;
@@ -1183,24 +1246,28 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_debug_give_first_character_gold_xp();
 	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F3))
 		_debug_go_back();
-	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F5))
-		_debug_send_non_party_characters_to_tavern();
-	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F6))
-		_debug_kill_non_party_characters();
 	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F4))
+		_debug_send_non_party_characters_to_tavern();
+	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F5))
+		_debug_kill_non_party_characters();
+	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F6))
 		_debug_heal_party_to_full();
-	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F7)) {
+	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F7))
+		_debug_set_quest_item_flags();
+	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F8))
+		_debug_clear_quest_item_flags();
+	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F9)) {
 		_monochrome = true;
 		_debug_monochrome_wireframe();
-	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F8)) {
+	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F10)) {
 		_monochrome = false;
 		_debug_colour_wireframe();
 	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Pause)) {
 		_display_cursor = true;
 		_refresh_display();
-	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F9))
+	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F11))
 		_debug_light_on();
-	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F10))
+	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F12))
 		_debug_light_off();
 
 	if (_system->input->check(WindowInput::MAZE_SHOW_MAP, event)) {
@@ -2256,7 +2323,8 @@ auto Sorcery::Engine::_pit_oops() -> void {
 
 auto Sorcery::Engine::_event_if() -> bool {
 
-	// If we are in-game, and are on something that will happen
+	// If we are in-game, and are on something that will happen - note that consequences of these events are dealt with
+	// otherwise in the main loop when the various flags are set
 	if (const auto current_loc{_game->state->get_player_pos()};
 		_game->state->level->at(current_loc).has_event() && _can_run_event) {
 		switch (const auto event_type{_game->state->level->at(current_loc).has_event().value()}; event_type) {
@@ -2294,40 +2362,16 @@ auto Sorcery::Engine::_event_if() -> bool {
 				_exit_maze_now = true;
 			}
 		} break;
-		case MapEvent::SILVER_KEY: {
-			_show_direction_indicatior = false;
-			_display_cursor = false;
-			_refresh_display();
-			auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
-			if (auto result{event->start()}; result == MenuItem::ABORT) {
-				event->stop();
-				_can_run_event = false;
-				_display_cursor = true;
-				_refresh_display();
-				return EXIT_ALL;
-			}
-
-			// handle search
-			_show_confirm_search = true;
-			_display->set_input_mode(WindowInputMode::CONFIRM_QUIT_GAME);
-		} break;
-		case MapEvent::BRONZE_KEY: {
-			_show_direction_indicatior = false;
-			_display_cursor = false;
-			_refresh_display();
-			auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
-			if (auto result{event->start()}; result == MenuItem::ABORT) {
-				event->stop();
-				_can_run_event = false;
-				_display_cursor = true;
-				_refresh_display();
-				return EXIT_ALL;
-			}
-
-			// handle search
-			_show_confirm_search = true;
-			_display->set_input_mode(WindowInputMode::CONFIRM_QUIT_GAME);
-		} break;
+		case MapEvent::SILVER_KEY:
+			[[fallthrough]];
+		case MapEvent::BRONZE_KEY:
+			[[fallthrough]];
+		case MapEvent::GOLD_KEY:
+			[[fallthrough]];
+		case MapEvent::FROG_STATUE:
+			[[fallthrough]];
+		case MapEvent::BEAR_STATUE:
+			[[fallthrough]];
 		case MapEvent::MURPHYS_GHOSTS: {
 			_show_direction_indicatior = false;
 			_display_cursor = false;
@@ -2347,47 +2391,103 @@ auto Sorcery::Engine::_event_if() -> bool {
 		} break;
 		case MapEvent::NEED_BEAR_STATUE: {
 
-			// Check for presence of bear statue in inventory. If, we can ignore event
-			_show_direction_indicatior = false;
-			_display_cursor = false;
-			_refresh_display();
-			auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
-			if (auto result{event->start()}; result == MenuItem::ABORT) {
-				event->stop();
-				_can_run_event = false;
-				_display_cursor = true;
-				_refresh_display();
-				return EXIT_ALL;
-			}
+			if (!_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BEAR_STATUE)]) {
 
-			_go_back();
-			_update_automap = true;
-			_update_compass = true;
-			_update_buffbar = true;
-			_update_search = true;
-			_update_render = true;
+				// Check for presence of bear statue in inventory. If, we can ignore event
+				_show_direction_indicatior = false;
+				_display_cursor = false;
+				_refresh_display();
+				auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
+				if (auto result{event->start()}; result == MenuItem::ABORT) {
+					event->stop();
+					_can_run_event = false;
+					_display_cursor = true;
+					_refresh_display();
+					return EXIT_ALL;
+				}
+
+				_go_back();
+				_update_automap = true;
+				_update_compass = true;
+				_update_buffbar = true;
+				_update_search = true;
+				_update_render = true;
+			}
 		} break;
 		case MapEvent::NEED_FROG_STATUE: {
 
-			// Check for presence of bear statue in inventory. If, we can ignore event
-			_show_direction_indicatior = false;
-			_display_cursor = false;
-			_refresh_display();
-			auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
-			if (auto result{event->start()}; result == MenuItem::ABORT) {
-				event->stop();
-				_can_run_event = false;
-				_display_cursor = true;
-				_refresh_display();
-				return EXIT_ALL;
-			}
+			if (!_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::FROG_STATUE)]) {
 
-			_go_back();
-			_update_automap = true;
-			_update_compass = true;
-			_update_buffbar = true;
-			_update_search = true;
-			_update_render = true;
+				// Check for presence of bear statue in inventory. If, we can ignore event
+				_show_direction_indicatior = false;
+				_display_cursor = false;
+				_refresh_display();
+				auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
+				if (auto result{event->start()}; result == MenuItem::ABORT) {
+					event->stop();
+					_can_run_event = false;
+					_display_cursor = true;
+					_refresh_display();
+					return EXIT_ALL;
+				}
+
+				_go_back();
+				_update_automap = true;
+				_update_compass = true;
+				_update_buffbar = true;
+				_update_search = true;
+				_update_render = true;
+			}
+		} break;
+		case MapEvent::NEED_BRONZE_KEY: {
+
+			if (!_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BRONZE_KEY)]) {
+
+				// Check for presence of bear statue in inventory. If, we can ignore event
+				_show_direction_indicatior = false;
+				_display_cursor = false;
+				_refresh_display();
+				auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
+				if (auto result{event->start()}; result == MenuItem::ABORT) {
+					event->stop();
+					_can_run_event = false;
+					_display_cursor = true;
+					_refresh_display();
+					return EXIT_ALL;
+				}
+
+				_go_back();
+				_update_automap = true;
+				_update_compass = true;
+				_update_buffbar = true;
+				_update_search = true;
+				_update_render = true;
+			}
+		} break;
+		case MapEvent::NEED_SILVER_KEY: {
+
+			if (!_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::SILVER_KEY)]) {
+
+				// Check for presence of bear statue in inventory. If, we can ignore event
+				_show_direction_indicatior = false;
+				_display_cursor = false;
+				_refresh_display();
+				auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
+				if (auto result{event->start()}; result == MenuItem::ABORT) {
+					event->stop();
+					_can_run_event = false;
+					_display_cursor = true;
+					_refresh_display();
+					return EXIT_ALL;
+				}
+
+				_go_back();
+				_update_automap = true;
+				_update_compass = true;
+				_update_buffbar = true;
+				_update_search = true;
+				_update_render = true;
+			}
 		} break;
 		default:
 			break;
@@ -2777,6 +2877,20 @@ auto Sorcery::Engine::_debug_go_back() -> std::optional<int> {
 	return CONTINUE;
 }
 
+auto Sorcery::Engine::_debug_set_quest_item_flags() -> std::optional<int> {
+
+	std::fill(_game->state->quest_item_flags.begin(), _game->state->quest_item_flags.end(), true);
+
+	return CONTINUE;
+}
+
+auto Sorcery::Engine::_debug_clear_quest_item_flags() -> std::optional<int> {
+
+	std::fill(_game->state->quest_item_flags.begin(), _game->state->quest_item_flags.end(), false);
+
+	return CONTINUE;
+}
+
 auto Sorcery::Engine::_debug_go_to_graveyard() -> std::optional<int> {
 
 	_graveyard->start();
@@ -2874,8 +2988,6 @@ auto Sorcery::Engine::_debug_level_first_character_up() -> std::optional<int> {
 	auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
 	auto next{character.get_next_xp()};
 	character.grant_xp(next + 1);
-	for (auto results{character.level_up()}; auto text : results)
-		std::cout << text << std::endl;
 
 	_update_automap = true;
 	_update_compass = true;

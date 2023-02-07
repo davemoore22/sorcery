@@ -511,6 +511,7 @@
 	"HINT_GRAPHICS_PROGRESS":					"Show explored tiles in the Map",
 	"CONFIRM_SEARCH":							"Will you search?",
 	"FOUND_AN_ITEM":							" has found an item!",
+	"NOTHING_FOUND":							"Nothing was found!",
 	"GAME_MESSAGE_AREA_OUT_OF_BOUNDS_1":		"  A large sign on the wall reads:    ",
 	"GAME_MESSAGE_AREA_OUT_OF_BOUNDS_2":		"      ** AREA OUT OF BOUNDS! **       ",
 	"GAME_MESSAGE_SILVER_KEY_1":				" In this room is a silver statue of a ",

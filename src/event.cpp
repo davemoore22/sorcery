@@ -54,6 +54,21 @@ Sorcery::Event::Event(System *system, Display *display, Graphics *graphics, Game
 		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
 			(*_display->layout)["event_bronze_key:continue_menu"].y);
 		break;
+	case GOLD_KEY:
+		_continue_menu->generate((*_display->layout)["event_gold_key:continue_menu"]);
+		_continue_menu->setPosition(
+			_display->get_centre_x(_continue_menu->get_width()), (*_display->layout)["event_gold_key:continue_menu"].y);
+		break;
+	case BEAR_STATUE:
+		_continue_menu->generate((*_display->layout)["event_bear_statue:continue_menu"]);
+		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
+			(*_display->layout)["event_bear_statue:continue_menu"].y);
+		break;
+	case FROG_STATUE:
+		_continue_menu->generate((*_display->layout)["event_frog_statue:continue_menu"]);
+		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
+			(*_display->layout)["event_frog_statue:continue_menu"].y);
+		break;
 	case MURPHYS_GHOSTS:
 		_continue_menu->generate((*_display->layout)["event_murphys_ghosts:continue_menu"]);
 		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
@@ -65,6 +80,17 @@ Sorcery::Event::Event(System *system, Display *display, Graphics *graphics, Game
 		_continue_menu->generate((*_display->layout)["event_cannot_break_doors_down:continue_menu"]);
 		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
 			(*_display->layout)["event_cannot_break_doors_down:continue_menu"].y);
+		break;
+	case NEED_SILVER_KEY:
+		_continue_menu->generate((*_display->layout)["event_need_silver_key:continue_menu"]);
+		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
+			(*_display->layout)["event_need_silver_key:continue_menu"].y);
+		break;
+	case NEED_BRONZE_KEY:
+		_continue_menu->generate((*_display->layout)["event_need_bronze_key:continue_menu"]);
+		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
+			(*_display->layout)["event_need_bronze_key:continue_menu"].y);
+		break;
 	case PLACARD_PIT_1:
 		_continue_menu->generate((*_display->layout)["event_placard_pit_1:continue_menu"]);
 		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
@@ -108,6 +134,15 @@ auto Sorcery::Event::start() -> std::optional<MenuItem> {
 	case BRONZE_KEY:
 		_display->generate("event_bronze_key", _sprites, _texts, _frames);
 		break;
+	case GOLD_KEY:
+		_display->generate("event_gold_key", _sprites, _texts, _frames);
+		break;
+	case FROG_STATUE:
+		_display->generate("event_frog_statue", _sprites, _texts, _frames);
+		break;
+	case BEAR_STATUE:
+		_display->generate("event_bear_statue", _sprites, _texts, _frames);
+		break;
 	case MURPHYS_GHOSTS:
 		_display->generate("event_murphys_ghosts", _sprites, _texts, _frames);
 		break;
@@ -115,6 +150,12 @@ auto Sorcery::Event::start() -> std::optional<MenuItem> {
 		[[fallthrough]];
 	case NEED_FROG_STATUE:
 		_display->generate("event_cannot_break_doors_down", _sprites, _texts, _frames);
+		break;
+	case NEED_SILVER_KEY:
+		_display->generate("event_need_silver_key", _sprites, _texts, _frames);
+		break;
+	case NEED_BRONZE_KEY:
+		_display->generate("event_need_bronze_key", _sprites, _texts, _frames);
 		break;
 	case PLACARD_PIT_1:
 		_display->generate("event_placard_pit_1", _sprites, _texts, _frames);
@@ -158,13 +199,23 @@ auto Sorcery::Event::start() -> std::optional<MenuItem> {
 				[[fallthrough]];
 			case BRONZE_KEY:
 				[[fallthrough]];
+			case GOLD_KEY:
+				[[fallthrough]];
 			case MURPHYS_GHOSTS:
+				[[fallthrough]];
+			case BEAR_STATUE:
+				[[fallthrough]];
+			case FROG_STATUE:
 				[[fallthrough]];
 			case PLACARD_PIT_1:
 				[[fallthrough]];
 			case PLACARD_PIT_2:
 				[[fallthrough]];
 			case PLACARD_PIT_3:
+				[[fallthrough]];
+			case NEED_SILVER_KEY:
+				[[fallthrough]];
+			case NEED_BRONZE_KEY:
 				[[fallthrough]];
 			case NEED_BEAR_STATUE:
 				[[fallthrough]];
@@ -243,6 +294,24 @@ auto Sorcery::Event::_draw() -> void {
 		_continue_menu->generate((*_display->layout)["event_bronze_key:continue_menu"]);
 		_window->draw(*_continue_menu);
 	} break;
+	case GOLD_KEY: {
+		_display->display("event_gold_key", _sprites, _texts, _frames);
+
+		_continue_menu->generate((*_display->layout)["event_gold_key:continue_menu"]);
+		_window->draw(*_continue_menu);
+	} break;
+	case BEAR_STATUE: {
+		_display->display("event_bear_statue", _sprites, _texts, _frames);
+
+		_continue_menu->generate((*_display->layout)["event_bear_statue:continue_menu"]);
+		_window->draw(*_continue_menu);
+	} break;
+	case FROG_STATUE: {
+		_display->display("event_frog_statue", _sprites, _texts, _frames);
+
+		_continue_menu->generate((*_display->layout)["event_frog_statue:continue_menu"]);
+		_window->draw(*_continue_menu);
+	} break;
 	case MURPHYS_GHOSTS: {
 		_display->display("event_murphys_ghosts", _sprites, _texts, _frames);
 
@@ -255,6 +324,18 @@ auto Sorcery::Event::_draw() -> void {
 		_display->display("event_cannot_break_doors_down", _sprites, _texts, _frames);
 
 		_continue_menu->generate((*_display->layout)["event_cannot_break_doors_down:continue_menu"]);
+		_window->draw(*_continue_menu);
+	} break;
+	case NEED_SILVER_KEY: {
+		_display->display("event_need_silver_key", _sprites, _texts, _frames);
+
+		_continue_menu->generate((*_display->layout)["event_need_silver_key:continue_menu"]);
+		_window->draw(*_continue_menu);
+	} break;
+	case NEED_BRONZE_KEY: {
+		_display->display("event_need_bronze_key", _sprites, _texts, _frames);
+
+		_continue_menu->generate((*_display->layout)["event_need_bronze_key:continue_menu"]);
 		_window->draw(*_continue_menu);
 	} break;
 	case PLACARD_PIT_1: {

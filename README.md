@@ -10,7 +10,7 @@ Written using SFML, TGUI, and C++.
 Watch some videos of parts of Level 1 of the Proving Grounds being explored here:
 
 [![Entering the Dungeon](https://img.youtube.com/vi/AQ9LhK0ta8A/maxresdefault.jpg)](https://youtu.be/AQ9LhK0ta8A)
-[![Dungeon Events](https://img.youtube.com/vi/yHwHhr6-Gtc/maxresdefault.jpg)](https://youtu.be/yHwHhr6-Gtc)
+[![Dungeon Events](https://img.youtube.com/vi/RG25iYrPBlg/maxresdefault.jpg)](https://youtu.be/RG25iYrPBlg)
 
 See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAHej3Dag>
 
@@ -47,8 +47,9 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 
 * Sequels (II, III, V)
 * Procedurally-Generated Infinite Content (like Diablo)
+* Modding
 
-## What next? (as of 31st January 2023)
+## What next? (as of February 2023)
 
 I've started work on implementing Dungeon Events (such as finding keys and special messages). Character Inventory and Item-Handling will be the next thing to after I've implemented this. I intend to implement the special events on Floors 6 and 7 that by mistake were left out of the original versions of the game.
 

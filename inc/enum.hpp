@@ -1152,5 +1152,19 @@ namespace Enums {
 		};
 
 	}
+
+	namespace Items {
+
+		enum class Quest {
+			NO_QUEST_ITEM = 0,
+			AMULET_OF_WERDNA = 1,
+			BEAR_STATUE = 2,
+			BLUE_RIBBON = 3,
+			BRONZE_KEY = 4,
+			FROG_STATUE = 5,
+			GOLD_KEY = 6,
+			SILVER_KEY = 7
+		};
+	}
 }
 }
