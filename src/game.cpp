@@ -39,6 +39,63 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 	}
 
 	levelstore = std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
+
+	_set_up_dungeon_events();
+}
+
+// Mappings for each type of special dungeon event in the Proving Grounds
+auto Sorcery::Game::_set_up_dungeon_events() -> void {
+
+	using enum Enums::Map::Event;
+
+	_dungeon_events.clear();
+
+	// Level 1
+	_dungeon_events.emplace_back(AREA_OF_OUT_BOUNDS, "event_area_out_of_bounds", false, false, false, false);
+	_dungeon_events.emplace_back(MAN_TELEPORT_CASTLE, "event_man_teleport_castle", false, false, false, true);
+	_dungeon_events.emplace_back(SILVER_KEY, "event_silver_key", true, false, false, false);
+	_dungeon_events.emplace_back(BRONZE_KEY, "event_bronze_key", true, false, false, false);
+	_dungeon_events.emplace_back(MURPHYS_GHOSTS, "event_murphys_ghosts", true, true, false, false);
+
+	// Level 2
+	_dungeon_events.emplace_back(GOLD_KEY, "event_gold_key", true, false, false, false);
+	_dungeon_events.emplace_back(BEAR_STATUE, "event_bear_statue", true, false, false, false);
+	_dungeon_events.emplace_back(FROG_STATUE, "event_frog_statue", true, false, false, false);
+	_dungeon_events.emplace_back(PLACARD_PIT_1, "event_placard_pit_1", false, false, false, false);
+	_dungeon_events.emplace_back(PLACARD_PIT_2, "event_placard_pit_2", false, false, false, false);
+	_dungeon_events.emplace_back(PLACARD_PIT_3, "event_placard_pit_3", false, false, false, false);
+	_dungeon_events.emplace_back(NEED_SILVER_KEY, "event_need_silver_key", false, false, true, false);
+	_dungeon_events.emplace_back(NEED_BRONZE_KEY, "event_need_bronze_key", false, false, true, false);
+	_dungeon_events.emplace_back(NEED_BEAR_STATUE, "event_cannot_break_doors_down", false, false, true, false);
+	_dungeon_events.emplace_back(NEED_FROG_STATUE, "event_cannot_break_doors_down", false, false, true, false);
+}
+
+auto Sorcery::Game::get_event(MapEvent event_type) const -> DungeonEvent {
+
+	auto it{std::ranges::find_if(_dungeon_events.begin(), _dungeon_events.end(),
+		[&](const auto &dungeon_event) { return (dungeon_event.event == event_type); })};
+
+	return *it;
+
+	// TODO: handle updating of these
+}
+
+auto Sorcery::Game::enable_event(MapEvent event_type) -> void {
+
+	auto it{std::ranges::find_if(_dungeon_events.begin(), _dungeon_events.end(),
+		[&](const auto &dungeon_event) { return (dungeon_event.event == event_type); })};
+
+	if (it != _dungeon_events.end())
+		(*it).enabled = true;
+}
+
+auto Sorcery::Game::disable_event(MapEvent event_type) -> void {
+
+	auto it{std::ranges::find_if(_dungeon_events.begin(), _dungeon_events.end(),
+		[&](const auto &dungeon_event) { return (dungeon_event.event == event_type); })};
+
+	if (it != _dungeon_events.end())
+		(*it).enabled = false;
 }
 
 auto Sorcery::Game::get_id() const -> unsigned int {

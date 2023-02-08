@@ -920,7 +920,7 @@
 		},
 		{
 			"name": "gravestone",
-			"x": "11",
+			"x": "12",
 			"y": "16",
 			"scale": "0.5",
 			"type": "image",
@@ -929,7 +929,7 @@
 			"drawmode": "manual",
 			"data": [
 				{
-					"offset_x": "6",
+					"offset_x": "8",
 					"offset_y": "0",
 					"number": "4"
 				}
@@ -10378,7 +10378,7 @@
 			"w": "36",
 			"h": "14",
 			"x": "centre",
-			"y": "10",
+			"y": "8",
 			"alpha": "225",
 			"type": "frame",
 			"priority": "3",
@@ -10389,13 +10389,13 @@
 			"name": "get_menu",
 			"x": "centre",
 			"y": "10",
-			"w": "36",
+			"w": "34",
 			"h": "10",
 			"font": "monospace",
 			"colour": "0xffffffff",
 			"size": "24",
 			"animated": "true",
-			"width": "36",
+			"width": "34",
 			"background": " 0xff0000ff",
 			"justification": "centre",
 			"type": "menu",

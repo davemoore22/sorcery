@@ -33,83 +33,11 @@ Sorcery::Event::Event(System *system, Display *display, Graphics *graphics, Game
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 	_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CONTINUE);
-	switch (_type) {
-	case AREA_OF_OUT_BOUNDS:
-		_continue_menu->generate((*_display->layout)["event_area_out_of_bounds:continue_menu"]);
-		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
-			(*_display->layout)["event_area_out_of_bounds:continue_menu"].y);
-		break;
-	case MAN_TELEPORT_CASTLE:
-		_continue_menu->generate((*_display->layout)["event_man_teleport_castle:continue_menu"]);
-		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
-			(*_display->layout)["event_man_teleport_castle:continue_menu"].y);
-		break;
-	case SILVER_KEY:
-		_continue_menu->generate((*_display->layout)["event_silver_key:continue_menu"]);
-		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
-			(*_display->layout)["event_silver_key:continue_menu"].y);
-		break;
-	case BRONZE_KEY:
-		_continue_menu->generate((*_display->layout)["event_bronze_key:continue_menu"]);
-		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
-			(*_display->layout)["event_bronze_key:continue_menu"].y);
-		break;
-	case GOLD_KEY:
-		_continue_menu->generate((*_display->layout)["event_gold_key:continue_menu"]);
-		_continue_menu->setPosition(
-			_display->get_centre_x(_continue_menu->get_width()), (*_display->layout)["event_gold_key:continue_menu"].y);
-		break;
-	case BEAR_STATUE:
-		_continue_menu->generate((*_display->layout)["event_bear_statue:continue_menu"]);
-		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
-			(*_display->layout)["event_bear_statue:continue_menu"].y);
-		break;
-	case FROG_STATUE:
-		_continue_menu->generate((*_display->layout)["event_frog_statue:continue_menu"]);
-		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
-			(*_display->layout)["event_frog_statue:continue_menu"].y);
-		break;
-	case MURPHYS_GHOSTS:
-		_continue_menu->generate((*_display->layout)["event_murphys_ghosts:continue_menu"]);
-		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
-			(*_display->layout)["event_murphys_ghosts:continue_menu"].y);
-		break;
-	case NEED_BEAR_STATUE:
-		[[fallthrough]];
-	case NEED_FROG_STATUE:
-		_continue_menu->generate((*_display->layout)["event_cannot_break_doors_down:continue_menu"]);
-		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
-			(*_display->layout)["event_cannot_break_doors_down:continue_menu"].y);
-		break;
-	case NEED_SILVER_KEY:
-		_continue_menu->generate((*_display->layout)["event_need_silver_key:continue_menu"]);
-		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
-			(*_display->layout)["event_need_silver_key:continue_menu"].y);
-		break;
-	case NEED_BRONZE_KEY:
-		_continue_menu->generate((*_display->layout)["event_need_bronze_key:continue_menu"]);
-		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
-			(*_display->layout)["event_need_bronze_key:continue_menu"].y);
-		break;
-	case PLACARD_PIT_1:
-		_continue_menu->generate((*_display->layout)["event_placard_pit_1:continue_menu"]);
-		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
-			(*_display->layout)["event_placard_pit_1:continue_menu"].y);
-		break;
-	case PLACARD_PIT_2:
-		_continue_menu->generate((*_display->layout)["event_placard_pit_2:continue_menu"]);
-		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
-			(*_display->layout)["event_placard_pit_2:continue_menu"].y);
-		break;
-	case PLACARD_PIT_3:
-		_continue_menu->generate((*_display->layout)["event_placard_pit_3:continue_menu"]);
-		_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()),
-			(*_display->layout)["event_placard_pit_3:continue_menu"].y);
-		break;
-		break;
-	default:
-		break;
-	}
+	_dungeon_event = _game->get_event(_type);
+
+	const auto menu_key{_dungeon_event.component_key + ":continue_menu"};
+	_continue_menu->generate((*_display->layout)[menu_key]);
+	_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()), (*_display->layout)[menu_key].y);
 }
 
 auto Sorcery::Event::start() -> std::optional<MenuItem> {
@@ -121,56 +49,8 @@ auto Sorcery::Event::start() -> std::optional<MenuItem> {
 	std::optional<std::vector<MenuEntry>::const_iterator> option_continue{_continue_menu->items.begin()};
 
 	// Generate the display
-	switch (_type) {
-	case AREA_OF_OUT_BOUNDS:
-		_display->generate("event_area_out_of_bounds", _sprites, _texts, _frames);
-		break;
-	case MAN_TELEPORT_CASTLE:
-		_display->generate("event_man_teleport_castle", _sprites, _texts, _frames);
-		break;
-	case SILVER_KEY:
-		_display->generate("event_silver_key", _sprites, _texts, _frames);
-		break;
-	case BRONZE_KEY:
-		_display->generate("event_bronze_key", _sprites, _texts, _frames);
-		break;
-	case GOLD_KEY:
-		_display->generate("event_gold_key", _sprites, _texts, _frames);
-		break;
-	case FROG_STATUE:
-		_display->generate("event_frog_statue", _sprites, _texts, _frames);
-		break;
-	case BEAR_STATUE:
-		_display->generate("event_bear_statue", _sprites, _texts, _frames);
-		break;
-	case MURPHYS_GHOSTS:
-		_display->generate("event_murphys_ghosts", _sprites, _texts, _frames);
-		break;
-	case NEED_BEAR_STATUE:
-		[[fallthrough]];
-	case NEED_FROG_STATUE:
-		_display->generate("event_cannot_break_doors_down", _sprites, _texts, _frames);
-		break;
-	case NEED_SILVER_KEY:
-		_display->generate("event_need_silver_key", _sprites, _texts, _frames);
-		break;
-	case NEED_BRONZE_KEY:
-		_display->generate("event_need_bronze_key", _sprites, _texts, _frames);
-		break;
-	case PLACARD_PIT_1:
-		_display->generate("event_placard_pit_1", _sprites, _texts, _frames);
-		break;
-	case PLACARD_PIT_2:
-		_display->generate("event_placard_pit_2", _sprites, _texts, _frames);
-		break;
-	case PLACARD_PIT_3:
-		_display->generate("event_placard_pit_3", _sprites, _texts, _frames);
-		break;
-	default:
-
-		return std::nullopt;
-		break;
-	}
+	const auto screen_key{_dungeon_event.component_key};
+	_display->generate(screen_key, _sprites, _texts, _frames);
 
 	// Clear the window
 	_window->clear();
@@ -190,61 +70,26 @@ auto Sorcery::Event::start() -> std::optional<MenuItem> {
 			} else
 				_display->hide_overlay();
 
-			switch (_type) {
-			case AREA_OF_OUT_BOUNDS:
-				[[fallthrough]];
-			case MAN_TELEPORT_CASTLE:
-				[[fallthrough]];
-			case SILVER_KEY:
-				[[fallthrough]];
-			case BRONZE_KEY:
-				[[fallthrough]];
-			case GOLD_KEY:
-				[[fallthrough]];
-			case MURPHYS_GHOSTS:
-				[[fallthrough]];
-			case BEAR_STATUE:
-				[[fallthrough]];
-			case FROG_STATUE:
-				[[fallthrough]];
-			case PLACARD_PIT_1:
-				[[fallthrough]];
-			case PLACARD_PIT_2:
-				[[fallthrough]];
-			case PLACARD_PIT_3:
-				[[fallthrough]];
-			case NEED_SILVER_KEY:
-				[[fallthrough]];
-			case NEED_BRONZE_KEY:
-				[[fallthrough]];
-			case NEED_BEAR_STATUE:
-				[[fallthrough]];
-			case NEED_FROG_STATUE:
-				if (_system->input->check(WindowInput::CANCEL, event))
-					return MenuItem::CONTINUE;
-				else if (_system->input->check(WindowInput::BACK, event))
-					return MenuItem::CONTINUE;
-				else if (_system->input->check(WindowInput::UP, event))
-					option_continue = _continue_menu->choose_previous();
-				else if (_system->input->check(WindowInput::DOWN, event))
-					option_continue = _continue_menu->choose_next();
-				else if (_system->input->check(WindowInput::MOVE, event))
-					option_continue =
-						_continue_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check(WindowInput::CONFIRM, event)) {
+			// We have all continue menus to begin with
+			if (_system->input->check(WindowInput::CANCEL, event))
+				return MenuItem::CONTINUE;
+			else if (_system->input->check(WindowInput::BACK, event))
+				return MenuItem::CONTINUE;
+			else if (_system->input->check(WindowInput::UP, event))
+				option_continue = _continue_menu->choose_previous();
+			else if (_system->input->check(WindowInput::DOWN, event))
+				option_continue = _continue_menu->choose_next();
+			else if (_system->input->check(WindowInput::MOVE, event))
+				option_continue =
+					_continue_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+			else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
-					if (option_continue) {
-						if (const MenuItem option_chosen{(*option_continue.value()).item};
-							option_chosen == MenuItem::CONTINUE) {
-							return MenuItem::CONTINUE;
-						}
+				if (option_continue) {
+					if (const MenuItem option_chosen{(*option_continue.value()).item};
+						option_chosen == MenuItem::CONTINUE) {
+						return MenuItem::CONTINUE;
 					}
 				}
-				break;
-			default:
-
-				return std::nullopt;
-				break;
 			}
 		}
 
@@ -269,97 +114,11 @@ auto Sorcery::Event::_draw() -> void {
 
 	_display->window->restore_screen();
 
-	switch (_type) {
-	case AREA_OF_OUT_BOUNDS: {
-		_display->display("event_area_out_of_bounds", _sprites, _texts, _frames);
-
-		_continue_menu->generate((*_display->layout)["event_area_out_of_bounds:continue_menu"]);
-		_window->draw(*_continue_menu);
-	} break;
-	case MAN_TELEPORT_CASTLE: {
-		_display->display("event_man_teleport_castle", _sprites, _texts, _frames);
-
-		_continue_menu->generate((*_display->layout)["event_man_teleport_castle:continue_menu"]);
-		_window->draw(*_continue_menu);
-	} break;
-	case SILVER_KEY: {
-		_display->display("event_silver_key", _sprites, _texts, _frames);
-
-		_continue_menu->generate((*_display->layout)["event_silver_key:continue_menu"]);
-		_window->draw(*_continue_menu);
-	} break;
-	case BRONZE_KEY: {
-		_display->display("event_bronze_key", _sprites, _texts, _frames);
-
-		_continue_menu->generate((*_display->layout)["event_bronze_key:continue_menu"]);
-		_window->draw(*_continue_menu);
-	} break;
-	case GOLD_KEY: {
-		_display->display("event_gold_key", _sprites, _texts, _frames);
-
-		_continue_menu->generate((*_display->layout)["event_gold_key:continue_menu"]);
-		_window->draw(*_continue_menu);
-	} break;
-	case BEAR_STATUE: {
-		_display->display("event_bear_statue", _sprites, _texts, _frames);
-
-		_continue_menu->generate((*_display->layout)["event_bear_statue:continue_menu"]);
-		_window->draw(*_continue_menu);
-	} break;
-	case FROG_STATUE: {
-		_display->display("event_frog_statue", _sprites, _texts, _frames);
-
-		_continue_menu->generate((*_display->layout)["event_frog_statue:continue_menu"]);
-		_window->draw(*_continue_menu);
-	} break;
-	case MURPHYS_GHOSTS: {
-		_display->display("event_murphys_ghosts", _sprites, _texts, _frames);
-
-		_continue_menu->generate((*_display->layout)["event_murphys_ghosts:continue_menu"]);
-		_window->draw(*_continue_menu);
-	} break;
-	case NEED_BEAR_STATUE:
-		[[fallthrough]];
-	case NEED_FROG_STATUE: {
-		_display->display("event_cannot_break_doors_down", _sprites, _texts, _frames);
-
-		_continue_menu->generate((*_display->layout)["event_cannot_break_doors_down:continue_menu"]);
-		_window->draw(*_continue_menu);
-	} break;
-	case NEED_SILVER_KEY: {
-		_display->display("event_need_silver_key", _sprites, _texts, _frames);
-
-		_continue_menu->generate((*_display->layout)["event_need_silver_key:continue_menu"]);
-		_window->draw(*_continue_menu);
-	} break;
-	case NEED_BRONZE_KEY: {
-		_display->display("event_need_bronze_key", _sprites, _texts, _frames);
-
-		_continue_menu->generate((*_display->layout)["event_need_bronze_key:continue_menu"]);
-		_window->draw(*_continue_menu);
-	} break;
-	case PLACARD_PIT_1: {
-		_display->display("event_placard_pit_1", _sprites, _texts, _frames);
-
-		_continue_menu->generate((*_display->layout)["event_placard_pit_1:continue_menu"]);
-		_window->draw(*_continue_menu);
-	} break;
-	case PLACARD_PIT_2: {
-		_display->display("event_placard_pit_2", _sprites, _texts, _frames);
-
-		_continue_menu->generate((*_display->layout)["event_placard_pit_2:continue_menu"]);
-		_window->draw(*_continue_menu);
-	} break;
-	case PLACARD_PIT_3: {
-		_display->display("event_placard_pit_3", _sprites, _texts, _frames);
-
-		_continue_menu->generate((*_display->layout)["event_placard_pit_3:continue_menu"]);
-		_window->draw(*_continue_menu);
-	} break;
-	default:
-
-		break;
-	}
+	const auto screen_key{_dungeon_event.component_key};
+	const auto menu_key{_dungeon_event.component_key + ":continue_menu"};
+	_display->display(screen_key, _sprites, _texts, _frames);
+	_continue_menu->generate((*_display->layout)[menu_key]);
+	_window->draw(*_continue_menu);
 
 	// Always draw the following
 	_display->display_overlay();

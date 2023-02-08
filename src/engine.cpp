@@ -1720,15 +1720,19 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 					_update_search = true;
 					_update_render = true;
 
-				} else if (_is_mouse_over(_search_bounds, mouse_pos) && (_search->characters_here)) {
+				} else if (_is_mouse_over(_search_bounds, mouse_pos)) {
 
-					_in_get = true;
-					_get_menu->reload();
-					_update_automap = true;
-					_update_compass = true;
-					_update_buffbar = true;
-					_update_search = true;
-					_update_render = true;
+					const auto other_characters{_game->get_characters_at_loc()};
+					if (!other_characters.empty()) {
+
+						_in_get = true;
+						_get_menu->reload();
+						_update_automap = true;
+						_update_compass = true;
+						_update_buffbar = true;
+						_update_search = true;
+						_update_render = true;
+					}
 				} else {
 
 					// Otherwise the left click menu
@@ -2323,182 +2327,75 @@ auto Sorcery::Engine::_pit_oops() -> void {
 
 auto Sorcery::Engine::_event_if() -> bool {
 
+	using enum Enums::Map::Event;
+
 	// If we are in-game, and are on something that will happen - note that consequences of these events are dealt with
-	// otherwise in the main loop when the various flags are set
+	// otherwise in the main loop when the various flags are set. Note that all events initially take the form of a
+	// popup screen with info on it and a continue button
 	if (const auto current_loc{_game->state->get_player_pos()};
 		_game->state->level->at(current_loc).has_event() && _can_run_event) {
-		switch (const auto event_type{_game->state->level->at(current_loc).has_event().value()}; event_type) {
-		case MapEvent::AREA_OF_OUT_BOUNDS:
-			[[fallthrough]];
-		case MapEvent::PLACARD_PIT_1:
-			[[fallthrough]];
-		case MapEvent::PLACARD_PIT_2:
-			[[fallthrough]];
-		case MapEvent::PLACARD_PIT_3: {
-			_show_direction_indicatior = false;
-			_display_cursor = false;
-			_refresh_display();
-			auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
-			if (auto result{event->start()}; result == MenuItem::ABORT) {
-				event->stop();
-				_can_run_event = false;
-				_display_cursor = true;
-				_refresh_display();
-				return EXIT_ALL;
-			}
-		} break;
-		case MapEvent::MAN_TELEPORT_CASTLE: {
-			_show_direction_indicatior = false;
-			_display_cursor = false;
-			_refresh_display();
-			auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
-			if (auto result{event->start()}; result == MenuItem::ABORT) {
-				event->stop();
-				_can_run_event = false;
-				_display_cursor = true;
-				_refresh_display();
-				return EXIT_ALL;
-			} else {
-				_exit_maze_now = true;
-			}
-		} break;
-		case MapEvent::SILVER_KEY:
-			[[fallthrough]];
-		case MapEvent::BRONZE_KEY:
-			[[fallthrough]];
-		case MapEvent::GOLD_KEY:
-			[[fallthrough]];
-		case MapEvent::FROG_STATUE:
-			[[fallthrough]];
-		case MapEvent::BEAR_STATUE:
-			[[fallthrough]];
-		case MapEvent::MURPHYS_GHOSTS: {
-			_show_direction_indicatior = false;
-			_display_cursor = false;
-			_refresh_display();
-			auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
-			if (auto result{event->start()}; result == MenuItem::ABORT) {
-				event->stop();
-				_can_run_event = false;
-				_display_cursor = true;
-				_refresh_display();
-				return EXIT_ALL;
-			}
 
-			// handle search
-			_show_confirm_search = true;
-			_display->set_input_mode(WindowInputMode::CONFIRM_QUIT_GAME);
-		} break;
-		case MapEvent::NEED_BEAR_STATUE: {
+		const auto event_type{_game->state->level->at(current_loc).has_event().value()};
+		const auto dungeon_event{_game->get_event(event_type)};
 
-			if (!_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BEAR_STATUE)]) {
+		// First check the game quest flags (TODO - inventory items instead) - if we have the necessary item then we
+		// don't need to run the event at all
+		switch (event_type) {
+		case NEED_BEAR_STATUE:
+			if (_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BEAR_STATUE)])
+				return true;
+			break;
+		case NEED_FROG_STATUE:
+			if (_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::FROG_STATUE)])
+				return true;
+			break;
+		case NEED_SILVER_KEY:
+			if (_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::SILVER_KEY)])
+				return true;
+			break;
+		case NEED_BRONZE_KEY:
+			if (_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BRONZE_KEY)])
+				return true;
+			break;
 
-				// Check for presence of bear statue in inventory. If, we can ignore event
-				_show_direction_indicatior = false;
-				_display_cursor = false;
-				_refresh_display();
-				auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
-				if (auto result{event->start()}; result == MenuItem::ABORT) {
-					event->stop();
-					_can_run_event = false;
-					_display_cursor = true;
-					_refresh_display();
-					return EXIT_ALL;
-				}
-
-				_go_back();
-				_update_automap = true;
-				_update_compass = true;
-				_update_buffbar = true;
-				_update_search = true;
-				_update_render = true;
-			}
-		} break;
-		case MapEvent::NEED_FROG_STATUE: {
-
-			if (!_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::FROG_STATUE)]) {
-
-				// Check for presence of bear statue in inventory. If, we can ignore event
-				_show_direction_indicatior = false;
-				_display_cursor = false;
-				_refresh_display();
-				auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
-				if (auto result{event->start()}; result == MenuItem::ABORT) {
-					event->stop();
-					_can_run_event = false;
-					_display_cursor = true;
-					_refresh_display();
-					return EXIT_ALL;
-				}
-
-				_go_back();
-				_update_automap = true;
-				_update_compass = true;
-				_update_buffbar = true;
-				_update_search = true;
-				_update_render = true;
-			}
-		} break;
-		case MapEvent::NEED_BRONZE_KEY: {
-
-			if (!_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BRONZE_KEY)]) {
-
-				// Check for presence of bear statue in inventory. If, we can ignore event
-				_show_direction_indicatior = false;
-				_display_cursor = false;
-				_refresh_display();
-				auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
-				if (auto result{event->start()}; result == MenuItem::ABORT) {
-					event->stop();
-					_can_run_event = false;
-					_display_cursor = true;
-					_refresh_display();
-					return EXIT_ALL;
-				}
-
-				_go_back();
-				_update_automap = true;
-				_update_compass = true;
-				_update_buffbar = true;
-				_update_search = true;
-				_update_render = true;
-			}
-		} break;
-		case MapEvent::NEED_SILVER_KEY: {
-
-			if (!_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::SILVER_KEY)]) {
-
-				// Check for presence of bear statue in inventory. If, we can ignore event
-				_show_direction_indicatior = false;
-				_display_cursor = false;
-				_refresh_display();
-				auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
-				if (auto result{event->start()}; result == MenuItem::ABORT) {
-					event->stop();
-					_can_run_event = false;
-					_display_cursor = true;
-					_refresh_display();
-					return EXIT_ALL;
-				}
-
-				_go_back();
-				_update_automap = true;
-				_update_compass = true;
-				_update_buffbar = true;
-				_update_search = true;
-				_update_render = true;
-			}
-		} break;
 		default:
 			break;
 		}
 
+		_show_direction_indicatior = false;
+		_display_cursor = false;
+		_refresh_display();
+		auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
+		if (auto result{event->start()}; result == MenuItem::ABORT) {
+			event->stop();
+			_can_run_event = false;
+			_display_cursor = true;
+			_refresh_display();
+			return EXIT_ALL;
+		} else {
+			event->stop();
+		}
+
+		// Handle what happens after this TODO - chained events
+		if (dungeon_event.search_after) {
+			_show_confirm_search = true;
+			_display->set_input_mode(WindowInputMode::CONFIRM_QUIT_GAME);
+		} else if (dungeon_event.go_town_after)
+			_exit_maze_now = true;
+		else if (dungeon_event.go_back_after) {
+			_go_back();
+			_update_automap = true;
+			_update_compass = true;
+			_update_buffbar = true;
+			_update_search = true;
+			_update_render = true;
+		};
+
 		_can_run_event = false;
 		_display_cursor = true;
 		_refresh_display();
-
-		return true;
 	}
+
 	return false;
 }
 

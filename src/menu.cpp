@@ -949,8 +949,8 @@ auto Sorcery::Menu::_populate_chars() -> void {
 			bool found{false};
 			for (const auto &[character_id, character] : _game->characters) {
 				if ((character.get_location() == CharacterLocation::MAZE) &&
-					(character.coordinate == _game->state->get_player_pos()) &&
-					(character.depth == _game->state->get_depth())) {
+					(character.coordinate.value() == _game->state->get_player_pos()) &&
+					(character.depth.value() == _game->state->get_depth())) {
 					found = true;
 					break;
 				}
@@ -962,8 +962,8 @@ auto Sorcery::Menu::_populate_chars() -> void {
 				_add_item(++max_id, SPACER, MenuItem::SPACER, (*_display->string)["MENU_SPACER"]);
 				for (const auto &[character_id, character] : _game->characters) {
 					if ((character.get_location() == CharacterLocation::MAZE) &&
-						(character.coordinate == _game->state->get_player_pos()) &&
-						(character.depth == _game->state->get_depth()))
+						(character.coordinate.value() == _game->state->get_player_pos()) &&
+						(character.depth.value() == _game->state->get_depth()))
 						_add_item(character_id, ENTRY, MenuItem::IC_CHARACTER,
 							_game->characters[character_id].get_name_and_status());
 					++max_id;

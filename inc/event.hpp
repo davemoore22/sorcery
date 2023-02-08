@@ -71,6 +71,7 @@ class Event {
 		std::map<std::string, sf::Text> _texts;
 		std::map<std::string, std::shared_ptr<Frame>> _frames;
 		std::unique_ptr<Menu> _continue_menu;
+		DungeonEvent _dungeon_event;
 };
 
 }

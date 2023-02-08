@@ -29,7 +29,7 @@
 namespace Sorcery {
 
 // Note that we need to use full details in here as aliases haven't yet been set up in main.hpp when we include
-// enums.hpp
+// enums.hpp (not sure why - need to investigate)
 
 // Struct to represent a menu entry
 struct MenuEntry {
@@ -516,6 +516,31 @@ struct TileView {
 			right_side_wall.resize(4);
 			right_side_door.setPrimitiveType(sf::Quads);
 			right_side_door.resize(4);
+		}
+};
+
+struct DungeonEvent {
+
+		Enums::Map::Event event;
+		std::string component_key;
+		bool search_after;
+		bool combat_after;
+		bool go_back_after;
+		bool go_town_after;
+		bool enabled;
+		int num;
+		int count;
+
+		DungeonEvent() = default;
+
+		DungeonEvent(Enums::Map::Event event_, std::string component_key_, bool search_after_, bool combat_after_,
+			bool go_back_after_, bool go_town_after_)
+			: event{event_}, component_key{component_key_}, search_after{search_after_}, combat_after{combat_after_},
+			  go_back_after{go_back_after_}, go_town_after{go_town_after_} {
+
+			enabled = true;
+			num = -1;
+			count = -1;
 		}
 };
 

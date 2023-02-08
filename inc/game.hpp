@@ -68,6 +68,9 @@ class Game {
 		auto divvy_party_gold() -> void;
 		auto pool_party_gold(unsigned int char_id) -> void;
 		auto log(const std::string &message, const int dice = -1, const int roll = -1, const int needed = -1) -> void;
+		auto get_event(MapEvent event_type) const -> DungeonEvent;
+		auto enable_event(MapEvent event_type) -> void;
+		auto disable_event(MapEvent event_type) -> void;
 
 	private:
 
@@ -81,6 +84,7 @@ class Game {
 		auto _get_characters() -> std::map<unsigned int, Character>;
 		auto _save_characters() -> void;
 		auto _update_party_location() -> void;
+		auto _set_up_dungeon_events() -> void;
 
 		// Private Members
 		System *_system;
@@ -93,6 +97,7 @@ class Game {
 		std::string _status;
 		std::vector<unsigned int> _characters_ids;
 		bool _show_console;
+		std::vector<DungeonEvent> _dungeon_events;
 };
 
 }
