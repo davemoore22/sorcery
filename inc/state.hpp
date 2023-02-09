@@ -73,6 +73,7 @@ class State {
 		auto set_player_pos(const Coordinate position) -> void;
 		auto restart_expedition() -> void;
 		auto set_depth(int depth) -> void;
+		auto set_player_prev_depth(int depth) -> void;
 		auto get_depth() const -> int;
 		auto set_lit(bool lit) -> void;
 		auto get_lit() const -> bool;

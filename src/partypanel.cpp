@@ -75,93 +75,102 @@ auto Sorcery::PartyPanel::refresh() -> void {
 	_texts.resize(1);
 	bounds.clear();
 
-	// Now do each character in the party
-	auto count{0};
-	auto position{1};
-	auto character_x{std::stoi(_layout["party_offset_x"].value())};
-	auto character_y{std::stoi(_layout["party_offset_y"].value())};
-	auto bar_width{std::stoi(_layout["bar_width"].value())};
-	const auto party{_game->state->get_party_characters()};
-	for (auto _id : party) {
-		auto character{_game->characters[_id]};
-		auto summary{character.get_sb_text(position)};
-		if (_display->get_upper())
-			std::transform(summary.begin(), summary.end(), summary.begin(), ::toupper);
+	if (!_game->state->get_party_characters().empty()) {
 
-		sf::Text character_text{};
-		if (_display->get_bold())
-			character_text.setStyle(sf::Text::Bold);
-		character_text.setFont(_system->resources->fonts[_layout.font]);
-		character_text.setCharacterSize(_layout.size);
-		character_text.setString(summary);
+		// Now do each character in the party
+		auto count{0u};
+		auto position{1u};
+		auto character_x{std::stoi(_layout["party_offset_x"].value())};
+		auto character_y{std::stoi(_layout["party_offset_y"].value())};
+		auto bar_width{std::stoi(_layout["bar_width"].value())};
+		const auto party{_game->state->get_party_characters()};
+		for (auto _id : party) {
+			auto character{_game->characters[_id]};
+			auto summary{character.get_sb_text(position)};
+			if (_display->get_upper())
+				std::transform(summary.begin(), summary.end(), summary.begin(), ::toupper);
 
-		if (selected) {
-			if (selected.value() == position) {
+			sf::Text character_text{};
+			if (_display->get_bold())
+				character_text.setStyle(sf::Text::Bold);
+			character_text.setFont(_system->resources->fonts[_layout.font]);
+			character_text.setCharacterSize(_layout.size);
+			character_text.setString(summary);
 
-				character_text.setOutlineColor(sf::Color(0, 0, 0));
-				character_text.setOutlineThickness(1);
+			if (selected) {
+				if (selected.value() == position) {
+
+					character_text.setOutlineColor(sf::Color(0, 0, 0));
+					character_text.setOutlineThickness(1);
+				}
 			}
-		}
 
-		switch (character.get_status()) {
-		case OK:
-			if (character.get_poisoned_rate() > 0)
-				character_text.setFillColor(sf::Color(std::stoull(_layout["colour_poisoned"].value(), nullptr, 16)));
-			else if (character.get_max_hp() / character.get_current_hp() > 5)
-				character_text.setFillColor(sf::Color(std::stoull(_layout["colour_low_health"].value(), nullptr, 16)));
-			else
-				character_text.setFillColor(sf::Color(std::stoull(_layout["colour_ok"].value(), nullptr, 16)));
-			break;
-		case AFRAID:
-			[[fallthrough]];
-		case SILENCED:
-			[[fallthrough]];
-		case ASLEEP:
-			if (character.get_max_hp() / character.get_current_hp() > 5)
-				character_text.setFillColor(sf::Color(std::stoull(_layout["colour_low_health"].value(), nullptr, 16)));
-			else
-				character_text.setFillColor(sf::Color(std::stoull(_layout["colour_ok"].value(), nullptr, 16)));
-			break;
-		case ASHES:
-			character_text.setFillColor(sf::Color(std::stoull(_layout["colour_ashes"].value(), nullptr, 16)));
-			break;
-		case DEAD:
-			character_text.setFillColor(sf::Color(std::stoull(_layout["colour_dead"].value(), nullptr, 16)));
-			break;
-		case HELD:
-			character_text.setFillColor(sf::Color(std::stoull(_layout["colour_held"].value(), nullptr, 16)));
-			break;
-		case LOST:
-			character_text.setFillColor(sf::Color(std::stoull(_layout["colour_lost"].value(), nullptr, 16)));
-			break;
-		case STONED:
-			character_text.setFillColor(sf::Color(std::stoull(_layout["colour_stoned"].value(), nullptr, 16)));
-			break;
-		default:
-			character_text.setFillColor(sf::Color(_layout.colour));
-		}
-
-		const sf::Vector2f pos{
-			character_x * _display->window->get_cw(), (character_y + position - 1) * _display->window->get_ch()};
-		character_text.setPosition(pos);
-
-		bounds.emplace_back(pos.x, pos.y, bar_width * _display->window->get_cw(), _display->window->get_ch());
-		_texts.emplace_back(character_text);
-
-		if (selected) {
-			if (selected.value() == position) {
-				sf::RectangleShape bg{sf::Vector2f(bar_width * _display->window->get_cw(), _display->window->get_ch())};
-				bg.setPosition(pos.x, pos.y);
-				if (_layout.animated)
-					bg.setFillColor(_graphics->animation->selected_colour);
+			switch (character.get_status()) {
+			case OK:
+				if (character.get_poisoned_rate() > 0)
+					character_text.setFillColor(
+						sf::Color(std::stoull(_layout["colour_poisoned"].value(), nullptr, 16)));
+				else if (character.get_max_hp() / character.get_current_hp() > 5)
+					character_text.setFillColor(
+						sf::Color(std::stoull(_layout["colour_low_health"].value(), nullptr, 16)));
 				else
-					bg.setFillColor(sf::Color(_layout.background));
-				_selected_bg = bg;
+					character_text.setFillColor(sf::Color(std::stoull(_layout["colour_ok"].value(), nullptr, 16)));
+				break;
+			case AFRAID:
+				[[fallthrough]];
+			case SILENCED:
+				[[fallthrough]];
+			case ASLEEP:
+				if (character.get_max_hp() / character.get_current_hp() > 5)
+					character_text.setFillColor(
+						sf::Color(std::stoull(_layout["colour_low_health"].value(), nullptr, 16)));
+				else
+					character_text.setFillColor(sf::Color(std::stoull(_layout["colour_ok"].value(), nullptr, 16)));
+				break;
+			case ASHES:
+				character_text.setFillColor(sf::Color(std::stoull(_layout["colour_ashes"].value(), nullptr, 16)));
+				break;
+			case DEAD:
+				character_text.setFillColor(sf::Color(std::stoull(_layout["colour_dead"].value(), nullptr, 16)));
+				break;
+			case HELD:
+				character_text.setFillColor(sf::Color(std::stoull(_layout["colour_held"].value(), nullptr, 16)));
+				break;
+			case LOST:
+				character_text.setFillColor(sf::Color(std::stoull(_layout["colour_lost"].value(), nullptr, 16)));
+				break;
+			case STONED:
+				character_text.setFillColor(sf::Color(std::stoull(_layout["colour_stoned"].value(), nullptr, 16)));
+				break;
+			default:
+				character_text.setFillColor(sf::Color(_layout.colour));
 			}
-		}
 
-		++position;
-		++count;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnarrowing"
+			const sf::Vector2f pos{
+				character_x * _display->window->get_cw(), (character_y + position - 1) * _display->window->get_ch()};
+			character_text.setPosition(pos);
+#pragma GCC diagnostic pop
+			bounds.emplace_back(pos.x, pos.y, bar_width * _display->window->get_cw(), _display->window->get_ch());
+			_texts.emplace_back(character_text);
+
+			if (selected) {
+				if (selected.value() == position) {
+					sf::RectangleShape bg{
+						sf::Vector2f(bar_width * _display->window->get_cw(), _display->window->get_ch())};
+					bg.setPosition(pos.x, pos.y);
+					if (_layout.animated)
+						bg.setFillColor(_graphics->animation->selected_colour);
+					else
+						bg.setFillColor(sf::Color(_layout.background));
+					_selected_bg = bg;
+				}
+			}
+
+			++position;
+			++count;
+		}
 	}
 }
 

@@ -125,6 +125,7 @@ auto Sorcery::Restart::start() -> std::optional<MenuItem> {
 						}
 
 						_game->state->set_depth(to_depth);
+						_game->state->set_player_prev_depth(_game->state->get_depth());
 						_game->state->set_player_pos(to_loc);
 						auto engine{std::make_unique<Engine>(_system, _display, _graphics, _game)};
 						if (auto result{engine->start()}; result == EXIT_ALL) {

@@ -463,6 +463,7 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 				Level level{((*_game->levelstore)[dest_level]).value()};
 				_game->state->set_current_level(&level);
 				_game->state->set_player_pos(destination.to_loc);
+				_game->state->set_player_prev_depth(_game->state->get_depth());
 				_game->state->set_depth(dest_level);
 				_set_tile_explored(_game->state->get_player_pos());
 				_update_automap = true;
@@ -485,6 +486,7 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 
 				Level level{((*_game->levelstore)[_destination_floor]).value()};
 				_game->state->set_current_level(&level);
+				_game->state->set_player_prev_depth(_game->state->get_depth());
 				_game->state->set_depth(_destination_floor);
 				_set_tile_explored(_game->state->get_player_pos());
 				_update_automap = true;
@@ -2025,6 +2027,7 @@ auto Sorcery::Engine::_move_forward() -> bool {
 	auto this_wall_to_check{_game->state->get_player_facing()};
 	if (this_tile.walkable(this_wall_to_check)) {
 
+		_game->state->set_player_prev_depth(_game->state->get_depth());
 		_game->state->set_depth(_game->state->get_depth());
 		_game->state->set_player_pos(next_loc);
 		_can_go_back = true;
@@ -2134,6 +2137,7 @@ auto Sorcery::Engine::_move_backward() -> bool {
 
 	if (this_tile.walkable(this_wall_to_check)) {
 
+		_game->state->set_player_prev_depth(_game->state->get_depth());
 		_game->state->set_depth(_game->state->get_depth());
 		_game->state->set_player_pos(next_loc);
 		_can_go_back = true;
@@ -2460,6 +2464,7 @@ auto Sorcery::Engine::_stairs_if() -> bool {
 			Level level{((*_game->levelstore)[to_level]).value()};
 			_game->state->set_current_level(&level);
 			_game->state->set_player_pos(destination.to_loc);
+			_game->state->set_player_prev_depth(_game->state->get_depth());
 			_game->state->set_depth(to_level);
 			_set_tile_explored(_game->state->get_player_pos());
 			_can_go_back = true;
@@ -2500,6 +2505,7 @@ auto Sorcery::Engine::_teleport_if() -> bool {
 		} else if (destination.to_level == _game->state->get_depth()) {
 
 			const auto &next_tile{_game->state->level->at(destination.to_loc)};
+			_game->state->set_player_prev_depth(_game->state->get_depth());
 			_game->state->set_depth(_game->state->get_depth());
 			_game->state->set_player_pos(destination.to_loc);
 			_can_go_back = true;
@@ -2751,6 +2757,7 @@ auto Sorcery::Engine::_go_back() -> std::optional<int> {
 				Level level{((*_game->levelstore)[previous_depth]).value()};
 				_game->state->set_current_level(&level);
 				_game->state->set_depth(previous_depth);
+				_game->state->set_player_prev_depth(_game->state->get_depth());
 				_game->state->set_player_pos(previous_pos);
 				_can_go_back = false;
 			}
@@ -2800,6 +2807,7 @@ auto Sorcery::Engine::_debug_go_down_a_level() -> std::optional<int> {
 	auto dest_level{_game->state->get_depth() + 1};
 	Level level{((*_game->levelstore)[dest_level]).value()};
 	_game->state->set_current_level(&level);
+	_game->state->set_player_prev_depth(_game->state->get_depth());
 	_game->state->set_depth(dest_level);
 	_set_tile_explored(_game->state->get_player_pos());
 	_update_automap = true;
@@ -2816,6 +2824,7 @@ auto Sorcery::Engine::_debug_go_up_a_level() -> std::optional<int> {
 	auto dest_level{_game->state->get_depth() - 1};
 	Level level{((*_game->levelstore)[dest_level]).value()};
 	_game->state->set_current_level(&level);
+	_game->state->set_player_prev_depth(_game->state->get_depth());
 	_game->state->set_depth(dest_level);
 	_set_tile_explored(_game->state->get_player_pos());
 	_update_automap = true;

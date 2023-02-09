@@ -88,9 +88,13 @@ auto Sorcery::State::get_lit() const -> bool {
 	return _lit;
 }
 
+auto Sorcery::State::set_player_prev_depth(int depth) -> void {
+
+	_previous_depth = depth;
+}
+
 auto Sorcery::State::set_depth(int depth) -> void {
 
-	_previous_depth = _player_depth;
 	_player_depth = depth;
 }
 
