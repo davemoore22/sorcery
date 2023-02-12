@@ -44,11 +44,10 @@ class Level {
 
 		// Overload operators
 		auto operator[](Coordinate loc) -> Tile &;
-		auto operator()(Coordinate loc) -> TileNote;
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_type, _dungeon, _depth, _bottom_left, _size, _tiles, _notes);
+			archive(_type, _dungeon, _depth, _bottom_left, _size, _tiles);
 		}
 
 		// Public Members
@@ -59,8 +58,6 @@ class Level {
 		auto at(const Coordinate loc, const MapDirection direction, const int x, const int z) -> Tile &;
 		auto stairs_at(const Coordinate loc) -> bool;
 		auto elevator_at(const Coordinate loc) -> bool;
-		auto note_at(const Coordinate loc) -> TileNote;
-		auto note_at(const int x, const int y) -> TileNote;
 		auto bottom_left() const -> Coordinate;
 		auto depth() const -> int;
 		auto get_delta_x(const int x, const int delta) const -> int;
@@ -86,7 +83,6 @@ class Level {
 		Coordinate _bottom_left;
 		Size _size;
 		std::map<Coordinate, Tile> _tiles;
-		std::map<Coordinate, TileNote> _notes;
 
 		// Private Methods
 		auto _add_tile(const Coordinate location) -> void;
@@ -103,7 +99,6 @@ class Level {
 		auto _fill_in_complicated_walls(
 			const Coordinate location, const unsigned int south_wall, const unsigned int east_wall) -> void;
 		auto _load_markers(const Json::Value row_data) -> bool;
-		// auto _load_notes(const Json::Value note_data) -> bool;
 		auto _load_metadata(const Json::Value note_data) -> bool;
 		auto _update_tile_markers(const Coordinate location, const bool darkness, const unsigned int marker,
 			const unsigned int terrain) -> void;

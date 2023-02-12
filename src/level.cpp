@@ -46,7 +46,6 @@ Sorcery::Level::Level(const Level &other)
 	  _size{other._size} {
 
 	_tiles = other._tiles;
-	_notes = other._notes;
 }
 
 auto Sorcery::Level::operator=(const Level &other) -> Level & {
@@ -57,7 +56,6 @@ auto Sorcery::Level::operator=(const Level &other) -> Level & {
 	_bottom_left = other._bottom_left;
 	_size = other._size;
 	_tiles = other._tiles;
-	_notes = other._notes;
 
 	return *this;
 }
@@ -65,14 +63,6 @@ auto Sorcery::Level::operator=(const Level &other) -> Level & {
 auto Sorcery::Level::operator[](Coordinate loc) -> Tile & {
 
 	return _tiles.at(loc);
-}
-
-auto Sorcery::Level::operator()(Coordinate loc) -> TileNote {
-
-	if (_notes.contains(loc))
-		return _notes.at(loc);
-	else
-		return TileNote{};
 }
 
 auto Sorcery::Level::reset() -> void {
@@ -138,7 +128,6 @@ auto Sorcery::Level::load(const Json::Value row_data, const Json::Value note_dat
 	_fill_in_simple_walls();
 	_set_complicated_walls(row_data);
 	_load_markers(row_data);
-	//_load_notes(note_data);
 	_load_metadata(note_data);
 
 	return true;
@@ -152,25 +141,6 @@ auto Sorcery::Level::set(const Level *other) -> void {
 	_bottom_left = other->_bottom_left;
 	_size = other->_size;
 	_tiles = other->_tiles;
-	_notes = other->_notes;
-}
-
-auto Sorcery::Level::note_at(const Coordinate loc) -> TileNote {
-
-	if (_notes.contains(loc))
-		return _notes.at(loc);
-	else {
-		return TileNote{};
-	}
-}
-
-auto Sorcery::Level::note_at(const int x, const int y) -> TileNote {
-
-	if (_notes.contains(Coordinate{x, y}))
-		return _notes.at(Coordinate{x, y});
-	else {
-		return TileNote{};
-	}
 }
 
 auto Sorcery::Level::at(const Coordinate loc) -> Tile & {
@@ -260,25 +230,6 @@ auto Sorcery::Level::_create() -> void {
 		}
 	}
 }
-
-/* auto Sorcery::Level::_load_notes(const Json::Value note_data) -> bool {
-
-	for (auto j = 0u; j < note_data.size(); j++) {
-
-		const auto x{static_cast<int>(note_data[j]["x"].asInt())};
-		const auto y{static_cast<int>(note_data[j]["y"].asInt())};
-		const auto text{note_data[j]["__data"].asString()};
-
-		if (!text.starts_with("METADATA EVENT")) {
-			TileNote note{x, y, text};
-			_notes[Coordinate{x, y}] = note;
-			if (!_tiles.at(Coordinate{x, y}).has(TileFeature::MESSAGE))
-				_tiles.at(Coordinate{x, y}).set(TileFeature::MESSAGE);
-		}
-	}
-
-	return true;
-} */
 
 auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {
 

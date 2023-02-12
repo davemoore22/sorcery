@@ -419,32 +419,6 @@ struct Teleport {
 		}
 };
 
-struct TileNote {
-		Coordinate loc;
-		std::string text;
-		bool visible;
-		Enums::View::Message::Position position;
-
-		TileNote()
-			: loc{Coordinate{-1, -1}}, text{""}, visible{true}, position{Enums::View::Message::Position::NO_POSITION} {
-		}
-
-		TileNote(int x_, int y_, std::string text_) {
-			loc = Coordinate{x_, y_};
-			text = text_;
-			visible = true;
-			position = Enums::View::Message::Position::MIDDLE;
-		}
-
-		TileNote(Coordinate loc_, std::string text_, bool visible_)
-			: loc{loc_}, text{text_}, visible{visible_}, position{Enums::View::Message::Position::MIDDLE} {};
-
-		// Serialisation
-		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(loc, text, visible);
-		}
-};
-
 struct TileView {
 
 		Coordinate3 offset;

@@ -49,7 +49,6 @@ auto Sorcery::Engine::_initialise_state() -> void {
 	_update_party_panel = false;
 	_update_render = false;
 	_update_search = false;
-	_update_tile_note = false;
 	_exit_maze_now = false;
 	_pending_chute = false;
 	_pending_elevator = false;
@@ -131,8 +130,6 @@ auto Sorcery::Engine::_reset_components() -> void {
 		_right_icon_panel.reset();
 	if (_map.get())
 		_map.reset();
-	if (_tile_note.get())
-		_tile_note.reset();
 	if (_party_panel.get())
 		_party_panel.reset();
 }
@@ -285,8 +282,6 @@ auto Sorcery::Engine::_initalise_components() -> void {
 	_right_icon_panel = std::make_unique<IconPanel>(
 		_system, _display, _graphics, _game, (*_display->layout)["engine_base_ui:right_icon_panel"], false);
 	_map = std::make_unique<Map>(_system, _display, _graphics, _game, (*_display->layout)["engine_base_ui:map"]);
-	_tile_note = std::make_unique<Message>(_system, _display, _graphics,
-		(*_display->layout)["engine_base_ui:message_panel"], (*_display->layout)["engine_base_ui:message_text"]);
 }
 
 auto Sorcery::Engine::_update_direction_indicator_timer() -> void {
@@ -342,9 +337,6 @@ auto Sorcery::Engine::_place_components() -> void {
 	const Component map_c{(*_display->layout)["engine_base_ui:map"]};
 	_map->setPosition(map_c.x, map_c.y);
 
-	const Component t_n_c{(*_display->layout)["engine_base_ui:message"]};
-	_tile_note->setPosition(t_n_c.x, t_n_c.y);
-
 	const Component cc_fc{(*_display->layout)["engine_base_ui:character_frame"]};
 	_cur_char_frame =
 		std::make_unique<Frame>(_display->ui_texture, cc_fc.w, cc_fc.h, cc_fc.colour, cc_fc.background, cc_fc.alpha);
@@ -392,7 +384,6 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	_show_chute = false;
 	_show_found_an_item = false;
 	_show_an_encounter = false;
-	_show_tile_note = false;
 	_show_elevator = false;
 	_show_party_panel = true;
 	_show_gui = true;
@@ -1779,14 +1770,6 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 					_left_icon_panel->selected = std::nullopt;
 			}
 		}
-
-		/* auto current_loc{_game->state->get_player_pos()};
-		if (auto note{(*_game->state->level)(current_loc)}; (note.text.length() > 0) && (note.visible)) {
-			_show_tile_note = true;
-			_tile_note->update(note);
-		} else
-			_show_tile_note = false;
-		_update_tile_note = false; */
 	}
 
 	return std::nullopt;
@@ -2592,10 +2575,6 @@ auto Sorcery::Engine::_draw() -> void {
 
 	if (_show_party_panel) {
 		_window->draw(*_party_panel);
-	}
-
-	if (_show_tile_note) {
-		_window->draw(*_tile_note);
 	}
 
 	if (_in_map) {

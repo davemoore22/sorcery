@@ -39,7 +39,6 @@
 #include "main.hpp"
 #include "map.hpp"
 #include "menu.hpp"
-#include "message.hpp"
 #include "options.hpp"
 #include "partypanel.hpp"
 #include "render.hpp"
@@ -171,7 +170,6 @@ class Engine {
 		std::unique_ptr<Console> _console;
 		std::unique_ptr<IconPanel> _left_icon_panel;
 		std::unique_ptr<IconPanel> _right_icon_panel;
-		std::unique_ptr<Message> _tile_note;
 		std::unique_ptr<Dialog> _confirm_stairs;
 		std::unique_ptr<BuffBar> _buffbar;
 		std::unique_ptr<Search> _search;
@@ -195,7 +193,6 @@ class Engine {
 		bool _show_found_an_item;
 		bool _show_an_encounter;
 		bool _show_elevator;
-		bool _show_tile_note;
 		bool _show_party_panel;
 		bool _show_confirm_search;
 		bool _show_gui;
@@ -208,7 +205,6 @@ class Engine {
 		bool _update_party_panel;
 		bool _update_render;
 		bool _update_search;
-		bool _update_tile_note;
 		bool _update_get;
 		bool _exit_maze_now;
 		bool _pending_chute;
