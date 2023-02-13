@@ -461,30 +461,6 @@ src/characterpanel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/characterpanel.cpp.s
 .PHONY : src/characterpanel.cpp.s
 
-src/charactersummary.o: src/charactersummary.cpp.o
-.PHONY : src/charactersummary.o
-
-# target to build an object file
-src/charactersummary.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/charactersummary.cpp.o
-.PHONY : src/charactersummary.cpp.o
-
-src/charactersummary.i: src/charactersummary.cpp.i
-.PHONY : src/charactersummary.i
-
-# target to preprocess a source file
-src/charactersummary.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/charactersummary.cpp.i
-.PHONY : src/charactersummary.cpp.i
-
-src/charactersummary.s: src/charactersummary.cpp.s
-.PHONY : src/charactersummary.s
-
-# target to generate assembly for a file
-src/charactersummary.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/charactersummary.cpp.s
-.PHONY : src/charactersummary.cpp.s
-
 src/compass.o: src/compass.cpp.o
 .PHONY : src/compass.o
 
@@ -1373,30 +1349,6 @@ src/menu.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/menu.cpp.s
 .PHONY : src/menu.cpp.s
 
-src/message.o: src/message.cpp.o
-.PHONY : src/message.o
-
-# target to build an object file
-src/message.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/message.cpp.o
-.PHONY : src/message.cpp.o
-
-src/message.i: src/message.cpp.i
-.PHONY : src/message.i
-
-# target to preprocess a source file
-src/message.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/message.cpp.i
-.PHONY : src/message.cpp.i
-
-src/message.s: src/message.cpp.s
-.PHONY : src/message.s
-
-# target to generate assembly for a file
-src/message.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/message.cpp.s
-.PHONY : src/message.cpp.s
-
 src/options.o: src/options.cpp.o
 .PHONY : src/options.o
 
@@ -1757,30 +1709,6 @@ src/state.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/state.cpp.s
 .PHONY : src/state.cpp.s
 
-src/statusbar.o: src/statusbar.cpp.o
-.PHONY : src/statusbar.o
-
-# target to build an object file
-src/statusbar.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/statusbar.cpp.o
-.PHONY : src/statusbar.cpp.o
-
-src/statusbar.i: src/statusbar.cpp.i
-.PHONY : src/statusbar.i
-
-# target to preprocess a source file
-src/statusbar.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/statusbar.cpp.i
-.PHONY : src/statusbar.cpp.i
-
-src/statusbar.s: src/statusbar.cpp.s
-.PHONY : src/statusbar.s
-
-# target to generate assembly for a file
-src/statusbar.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/statusbar.cpp.s
-.PHONY : src/statusbar.cpp.s
-
 src/string.o: src/string.cpp.o
 .PHONY : src/string.o
 
@@ -2119,9 +2047,6 @@ help:
 	@echo "... src/characterpanel.o"
 	@echo "... src/characterpanel.i"
 	@echo "... src/characterpanel.s"
-	@echo "... src/charactersummary.o"
-	@echo "... src/charactersummary.i"
-	@echo "... src/charactersummary.s"
 	@echo "... src/compass.o"
 	@echo "... src/compass.i"
 	@echo "... src/compass.s"
@@ -2233,9 +2158,6 @@ help:
 	@echo "... src/menu.o"
 	@echo "... src/menu.i"
 	@echo "... src/menu.s"
-	@echo "... src/message.o"
-	@echo "... src/message.i"
-	@echo "... src/message.s"
 	@echo "... src/options.o"
 	@echo "... src/options.i"
 	@echo "... src/options.s"
@@ -2281,9 +2203,6 @@ help:
 	@echo "... src/state.o"
 	@echo "... src/state.i"
 	@echo "... src/state.s"
-	@echo "... src/statusbar.o"
-	@echo "... src/statusbar.i"
-	@echo "... src/statusbar.s"
 	@echo "... src/string.o"
 	@echo "... src/string.i"
 	@echo "... src/string.s"

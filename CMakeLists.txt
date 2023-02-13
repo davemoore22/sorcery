@@ -66,7 +66,6 @@ add_executable(${PROJECT_NAME}
 	src/main.cpp
 	src/map.cpp
 	src/mainmenu.cpp
-	src/message.cpp
 	src/menu.cpp
 	src/options.cpp
 	src/partypanel.cpp
