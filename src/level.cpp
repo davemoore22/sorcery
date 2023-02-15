@@ -229,6 +229,56 @@ auto Sorcery::Level::_create() -> void {
 			_add_tile(Coordinate{x, y});
 		}
 	}
+
+	_add_event_mappings();
+}
+
+auto Sorcery::Level::_add_event_mappings() -> void {
+
+	using enum Enums::Map::Event;
+
+	_event_mappings.clear();
+
+	_event_mappings["AREA_OUT_OF_BOUNDS"] = AREA_OF_OUT_BOUNDS;
+
+	_event_mappings["MAN_TELEPORT_CASTLE"] = MAN_TELEPORT_CASTLE;
+	_event_mappings["SILVER_KEY"] = SILVER_KEY;
+	_event_mappings["BRONZE_KEY"] = BRONZE_KEY;
+	_event_mappings["MURPHYS_GHOSTS"] = MURPHYS_GHOSTS;
+	_event_mappings["BEAR_STATUE"] = BEAR_STATUE;
+	_event_mappings["FROG_STATUE"] = FROG_STATUE;
+	_event_mappings["GOLD_KEY"] = GOLD_KEY;
+	_event_mappings["NEED_SILVER_KEY"] = NEED_SILVER_KEY;
+	_event_mappings["NEED_BRONZE_KEY"] = NEED_BRONZE_KEY;
+	_event_mappings["NEED_BEAR_STATUE"] = NEED_BEAR_STATUE;
+
+	_event_mappings["NEED_FROG_STATUE"] = NEED_FROG_STATUE;
+	_event_mappings["PLACARD_PIT_1"] = PLACARD_PIT_1;
+	_event_mappings["PLACARD_PIT_2"] = PLACARD_PIT_2;
+	_event_mappings["PLACARD_PIT_3"] = PLACARD_PIT_3;
+	_event_mappings["TURN_AROUND"] = TURN_AROUND;
+	_event_mappings["TURN_LEFT"] = TURN_LEFT;
+	_event_mappings["TURN_RIGHT"] = TURN_RIGHT;
+	_event_mappings["NEED_BEAR_STATUE_2"] = NEED_BEAR_STATUE_2;
+	_event_mappings["TESTING_GROUNDS"] = TESTING_GROUNDS;
+	_event_mappings["ALARM_BELLS"] = ALARM_BELLS;
+
+	_event_mappings["TREASURE_REPOSITORY"] = TREASURE_REPOSITORY;
+	_event_mappings["MONSTER_ALLOCATION_CENTRE"] = MONSTER_ALLOCATION_CENTRE;
+	_event_mappings["LARGE_DESK"] = LARGE_DESK;
+	_event_mappings["TREBOR_VOICE"] = TREBOR_VOICE;
+	_event_mappings["SERVICE_ELEVATOR"] = SERVICE_ELEVATOR;
+	_event_mappings["WERDNA_BOAST"] = WERDNA_BOAST;
+	_event_mappings["TURN_BACK"] = TURN_BACK;
+	_event_mappings["WERDNA_SIGN"] = WERDNA_SIGN;
+	_event_mappings["THREE_HUMANOIDS"] = THREE_HUMANOIDS;
+	_event_mappings["GETTING_WARM_1"] = GETTING_WARM_1;
+
+	_event_mappings["GETTING_WARM_2"] = GETTING_WARM_2;
+	_event_mappings["GETTING_WARM_3"] = GETTING_WARM_3;
+	_event_mappings["FIRE_DRAGONS_COMBAT"] = FIRE_DRAGONS_COMBAT;
+	_event_mappings["DEADLY_RING_COMBAT"] = DEADLY_RING_COMBAT;
+	_event_mappings["WERDNA_COMBAT"] = WERDNA_COMBAT;
 }
 
 auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {
@@ -279,41 +329,10 @@ auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {
 
 auto Sorcery::Level::_map_event_types(const std::string &string) const -> std::optional<MapEvent> {
 
-	// To do replace this wirh something a bit better? (magic enum to string perhaps?)
+	if (_event_mappings.contains(string))
+		return _event_mappings.at(string);
 
-	using enum Enums::Map::Event;
-	if (string == "AREA_OUT_OF_BOUNDS")
-		return AREA_OF_OUT_BOUNDS;
-	else if (string == "MAN_TELEPORT_CASTLE")
-		return MAN_TELEPORT_CASTLE;
-	else if (string == "SILVER_KEY")
-		return SILVER_KEY;
-	else if (string == "BRONZE_KEY")
-		return BRONZE_KEY;
-	else if (string == "MURPHYS_GHOSTS")
-		return MURPHYS_GHOSTS;
-	else if (string == "NEED_SILVER_KEY")
-		return NEED_SILVER_KEY;
-	else if (string == "NEED_BRONZE_KEY")
-		return NEED_BRONZE_KEY;
-	else if (string == "NEED_BEAR_STATUE")
-		return NEED_BEAR_STATUE;
-	else if (string == "NEED_FROG_STATUE")
-		return NEED_FROG_STATUE;
-	else if (string == "GOLD_KEY")
-		return GOLD_KEY;
-	else if (string == "BEAR_STATUE")
-		return BEAR_STATUE;
-	else if (string == "FROG_STATUE")
-		return FROG_STATUE;
-	else if (string == "PLACARD_PIT_1")
-		return PLACARD_PIT_1;
-	else if (string == "PLACARD_PIT_2")
-		return PLACARD_PIT_2;
-	else if (string == "PLACARD_PIT_3")
-		return PLACARD_PIT_3;
-	else
-		return std::nullopt;
+	return std::nullopt;
 }
 
 auto Sorcery::Level::_load_markers(const Json::Value row_data) -> bool {

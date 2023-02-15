@@ -1,8 +1,8 @@
 {
 	"export": {
 		"from": "2022.5.1",
-		"date": "2023-02-08",
-		"time": "19:56:14"
+		"date": "2023-02-15",
+		"time": "21:52:51"
 	},
 	"regions": [
 		{
@@ -1396,6 +1396,7 @@
 										"t": 35
 									},
 									{
+										"m": 25
 									},
 									{
 										"r": 1
@@ -1658,7 +1659,7 @@
 							"x": 0,
 							"y": 0,
 							"monospaced": false,
-							"__data": "Inscribed on an ornate gold plaque is a message. The script is ornate, and blinks in various colours:@\"You are trespassing on the domain of **Werdna**. There is no possibility that you can get past my guardians! So sure am I of my defenses that I give you this clue: @\"Contra-Dextra Avenue\"@@PS - Trebor sux!\""
+							"__data": "METADATA EVENT WERDNA_BOAST"
 						},
 						{
 							"x": 1,
@@ -1670,7 +1671,7 @@
 							"x": 3,
 							"y": 14,
 							"monospaced": false,
-							"__data": "One group of guardians have been defeated, but there are many more. Turn back while you can, fools!"
+							"__data": "METADATA EVENT TURN_BACK"
 						},
 						{
 							"x": 1,
@@ -1706,13 +1707,13 @@
 							"x": 17,
 							"y": 4,
 							"monospaced": false,
-							"__data": "A discreet sign on the wall reads:@Lair of the evil wizard Werdna!@Office hours 9am to 3pm by appointment onl@The wizard is *in*!"
+							"__data": "METADATA EVENT WERDNA_SIGN"
 						},
 						{
 							"x": 17,
 							"y": 3,
 							"monospaced": false,
-							"__data": "Werdna, Vampire lord, 2 vampires"
+							"__data": "METADATA EVENT WERDNA_COMBAT"
 						},
 						{
 							"x": 2,
@@ -6789,7 +6790,8 @@
 									},
 									{
 										"r": 1,
-										"b": 1
+										"b": 1,
+										"m": 25
 									},
 									{
 										"r": 1
@@ -6849,11 +6851,13 @@
 									},
 									{
 										"r": 29,
-										"b": 2
+										"b": 2,
+										"m": 25
 									},
 									{
 										"r": 1,
-										"b": 1
+										"b": 1,
+										"m": 25
 									},
 									{
 										"r": 2,
@@ -6933,7 +6937,8 @@
 									},
 									{
 										"r": 2,
-										"b": 1
+										"b": 1,
+										"m": 25
 									},
 									{
 										"r": 1,
@@ -7596,25 +7601,31 @@
 							"x": 4,
 							"y": 10,
 							"monospaced": false,
-							"__data": "ITS GETTING WARM AROUND HERE!"
+							"__data": "METADATA EVENT GETTING_WARM_1"
 						},
 						{
 							"x": 3,
 							"y": 8,
 							"monospaced": false,
-							"__data": "ITS GETTING REALLY HOT!"
+							"__data": "METADATA EVENT GETTING_WARM_2"
 						},
 						{
 							"x": 1,
 							"y": 9,
 							"monospaced": false,
-							"__data": "ITS ALMOST TOO HOT TO BEAR!"
+							"__data": "METADATA EVENT GETTING_WARM_3"
 						},
 						{
 							"x": 11,
 							"y": 8,
 							"monospaced": false,
 							"__data": "METADATA STAIRS TO -8 0 0"
+						},
+						{
+							"x": 2,
+							"y": 9,
+							"monospaced": false,
+							"__data": "METADATA EVENT FIRE_DRAGONS_COMBAT"
 						}
 					]
 				},
@@ -9145,7 +9156,7 @@
 							"x": 19,
 							"y": 7,
 							"monospaced": false,
-							"__data": "SUDDENDLY YOU SEE A GROUP OF 3 HUMANOIDS.  ONE IS A BARBARIAN WITH A SWORD THAT GLOWS, ONE IS A SEXY FEMALE MAGE, AND THE THIRD LOOKS LIKE A HUGE OGRE!\nTHE BARBARIAN POINTS TO THE END OF THE CORRIDOR AND YELLS \"ARIEL.. OOKLA.. THIS WAY!!\" AND THEY ALL RUN OFF!"
+							"__data": "METADATA EVENT THREE_HUMANOIDS"
 						}
 					]
 				},
@@ -11045,7 +11056,8 @@
 									{
 									},
 									{
-										"r": 1
+										"r": 1,
+										"m": 25
 									},
 									{
 										"b": 1
@@ -11157,7 +11169,8 @@
 										"r": 1
 									},
 									{
-										"r": 1
+										"r": 1,
+										"m": 25
 									}
 								]
 							},
@@ -11239,7 +11252,7 @@
 									{
 										"r": 1,
 										"b": 1,
-										"m": 13
+										"m": 25
 									},
 									{
 									},
@@ -11827,43 +11840,43 @@
 							"x": 10,
 							"y": 14,
 							"monospaced": false,
-							"__data": "A sign on the door reads:@*** Testing grounds control center ***@Authorized personnel only!@<< Do not enter >>"
+							"__data": "METADATA EVENT TESTING_GROUNDS"
 						},
 						{
 							"x": 10,
 							"y": 2,
 							"monospaced": false,
-							"__data": "A sign on the door reads:@Private express service elevator!@Authorized users only!"
+							"__data": "METADATA EVENT SERVICE_ELEVATOR"
 						},
 						{
 							"x": 10,
 							"y": 15,
 							"monospaced": false,
-							"__data": "Suddenly, a loud alarm bell can be heard. Then the bells stop, and are replaced by the sounds of guardian monsters!"
+							"__data": "METADATA EVENT ALARM_BELLS"
 						},
 						{
 							"x": 12,
 							"y": 15,
 							"monospaced": false,
-							"__data": "A sign on the door reads:@\"Monster Allocation Center\""
+							"__data": "METADATA EVENT MONSTER_ALLOCATION_CENTRE"
 						},
 						{
 							"x": 11,
 							"y": 11,
 							"monospaced": false,
-							"__data": "In this room, there is a large desk. On it are the remains of crystal balls and other magical artifacts; all now broken. As you entered the room, a panel on the door slammed shut. Then it glowed a pale blue. No one can pry it open. Next, the door on the other side of the room glow bright orange, inviting the party to use it."
+							"__data": "METADATA EVENT LARGE_DESK"
 						},
 						{
 							"x": 11,
 							"y": 10,
 							"monospaced": false,
-							"__data": "As the party enters the room, the door slams shut, glows orange and vanishes! A door appears to the right. A voice, coming from the ceiling addresses you: \"Congratulations, brave adventurers! Today you have proved yourself to me and are now ready to start your quest! Years ago, my amulet was stolen by the evil wizard Werdnat.  Werdna hides in the maze somewhere below us. Find him; slay him; and return to me the amulet! To aid you in your quest, I will give you a blue ribbon, which may be used to enter the elevator on this floor. Go now -- And may the gods guide you!\""
+							"__data": "METADATA EVENT TREBOR_VOICE"
 						},
 						{
 							"x": 8,
 							"y": 15,
 							"monospaced": false,
-							"__data": "A sign on the door reads:@\"Treasure repository.\""
+							"__data": "METADATA EVENT TREASURE_REPOSITORY"
 						},
 						{
 							"x": 10,
@@ -11888,6 +11901,18 @@
 							"y": 19,
 							"monospaced": false,
 							"__data": "METADATA NOT USED BUT KEEP THIS SQUARE!"
+						},
+						{
+							"x": 17,
+							"y": 12,
+							"monospaced": false,
+							"__data": "METADATA EVENT NEED_BEAR_STATUE_2"
+						},
+						{
+							"x": 12,
+							"y": 14,
+							"monospaced": false,
+							"__data": "METADATA EVENT DEADLY_RING_COMBAT"
 						}
 					]
 				},
@@ -13314,22 +13339,16 @@
 					},
 					"notes": [
 						{
-							"x": 15,
-							"y": 15,
-							"monospaced": false,
-							"__data": "The floor has a mosaic reading:@\"Turn around.\""
-						},
-						{
 							"x": 0,
 							"y": 15,
 							"monospaced": false,
-							"__data": "The floor has a mosaic reading:@\"Turn left.\""
+							"__data": "METADATA EVENT TURN_LEFT"
 						},
 						{
 							"x": 15,
 							"y": 7,
 							"monospaced": false,
-							"__data": "The floor has a mosaic reading:@\"Turn left.\""
+							"__data": "METADATA EVENT TURN_LEFT"
 						},
 						{
 							"x": 10,
@@ -13341,37 +13360,31 @@
 							"x": 10,
 							"y": 15,
 							"monospaced": false,
-							"__data": "The floor has a mosaic reading:@\"Turn around.\""
-						},
-						{
-							"x": 5,
-							"y": 15,
-							"monospaced": false,
-							"__data": "The floor has a mosaic reading:@\"Turn right.\""
+							"__data": "METADATA EVENT TURN_AROUND"
 						},
 						{
 							"x": 10,
 							"y": 3,
 							"monospaced": false,
-							"__data": "The floor has a mosaic reading:@\"Turn right.\""
+							"__data": "METADATA EVENT TURN_RIGHT"
 						},
 						{
 							"x": 10,
 							"y": 7,
 							"monospaced": false,
-							"__data": "The floor has a mosaic reading:@\"Turn left.\""
+							"__data": "METADATA EVENT TURN_LEFT"
 						},
 						{
 							"x": 5,
 							"y": 7,
 							"monospaced": false,
-							"__data": "The floor has a mosaic reading:@\"Turn right.\""
+							"__data": "METADATA EVENT TURN_RIGHT"
 						},
 						{
 							"x": 5,
 							"y": 3,
 							"monospaced": false,
-							"__data": "The floor has a mosaic reading:@\"Turn around.\""
+							"__data": "METADATA EVENT TURN_AROUND"
 						},
 						{
 							"x": 15,
@@ -13384,6 +13397,18 @@
 							"y": 8,
 							"monospaced": false,
 							"__data": "METADATA STAIRS TO -4 10 18"
+						},
+						{
+							"x": 5,
+							"y": 15,
+							"monospaced": false,
+							"__data": "METADATA EVENT TURN_RIGHT"
+						},
+						{
+							"x": 15,
+							"y": 15,
+							"monospaced": false,
+							"__data": "METADATA EVENT TURN_AROUND"
 						}
 					]
 				},

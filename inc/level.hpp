@@ -83,6 +83,7 @@ class Level {
 		Coordinate _bottom_left;
 		Size _size;
 		std::map<Coordinate, Tile> _tiles;
+		std::map<std::string, MapEvent> _event_mappings;
 
 		// Private Methods
 		auto _add_tile(const Coordinate location) -> void;
@@ -103,6 +104,7 @@ class Level {
 		auto _update_tile_markers(const Coordinate location, const bool darkness, const unsigned int marker,
 			const unsigned int terrain) -> void;
 		auto _map_event_types(const std::string &string) const -> std::optional<MapEvent>;
+		auto _add_event_mappings() -> void;
 };
 
 }
