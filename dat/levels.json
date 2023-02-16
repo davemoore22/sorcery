@@ -1,8 +1,8 @@
 {
 	"export": {
 		"from": "2022.5.1",
-		"date": "2023-02-15",
-		"time": "21:52:51"
+		"date": "2023-02-16",
+		"time": "21:40:49"
 	},
 	"regions": [
 		{
@@ -10941,7 +10941,8 @@
 									},
 									{
 										"r": 1,
-										"b": 2
+										"b": 2,
+										"m": 25
 									},
 									{
 										"b": 1
@@ -10991,14 +10992,16 @@
 										"m": 25
 									},
 									{
-										"b": 1
+										"b": 1,
+										"m": 25
 									},
 									{
 										"b": 2,
 										"m": 25
 									},
 									{
-										"b": 1
+										"b": 1,
+										"m": 25
 									},
 									{
 										"r": 1,
@@ -11809,7 +11812,8 @@
 									},
 									{
 										"r": 1,
-										"b": 2
+										"b": 2,
+										"m": 25
 									}
 								]
 							},
@@ -11913,6 +11917,30 @@
 							"y": 14,
 							"monospaced": false,
 							"__data": "METADATA EVENT DEADLY_RING_COMBAT"
+						},
+						{
+							"x": 9,
+							"y": 15,
+							"monospaced": false,
+							"__data": "METADATA EVENT GUARANTEED_COMBAT"
+						},
+						{
+							"x": 10,
+							"y": 16,
+							"monospaced": false,
+							"__data": "METADATA EVENT GUARANTEED_COMBAT"
+						},
+						{
+							"x": 11,
+							"y": 15,
+							"monospaced": false,
+							"__data": "METADATA EVENT GUARANTEED_COMBAT"
+						},
+						{
+							"x": 10,
+							"y": 1,
+							"monospaced": false,
+							"__data": "METADATA EVENT NEED_BLUE_RIBBON"
 						}
 					]
 				},

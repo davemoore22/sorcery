@@ -279,6 +279,8 @@ auto Sorcery::Level::_add_event_mappings() -> void {
 	_event_mappings["FIRE_DRAGONS_COMBAT"] = FIRE_DRAGONS_COMBAT;
 	_event_mappings["DEADLY_RING_COMBAT"] = DEADLY_RING_COMBAT;
 	_event_mappings["WERDNA_COMBAT"] = WERDNA_COMBAT;
+	_event_mappings["GUARANTEED_COMBAT"] = GUARANTEED_COMBAT;
+	_event_mappings["NEED_BLUE_RIBBON"] = NEED_BLUE_RIBBON;
 }
 
 auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {

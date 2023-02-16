@@ -161,7 +161,6 @@ class Engine {
 		std::unique_ptr<Dialog> _elevator;
 		std::unique_ptr<Dialog> _confirm_search;
 		std::unique_ptr<Dialog> _found_an_item;
-		std::unique_ptr<Dialog> _an_encounter;
 		std::unique_ptr<Reorder> _reorder;
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Render> _render;
@@ -191,7 +190,6 @@ class Engine {
 		bool _show_pit;
 		bool _show_chute;
 		bool _show_found_an_item;
-		bool _show_an_encounter;
 		bool _show_elevator;
 		bool _show_party_panel;
 		bool _show_confirm_search;

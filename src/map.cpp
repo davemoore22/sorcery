@@ -381,6 +381,7 @@ auto Sorcery::Map::_draw_tile(Tile &tile, Coordinate loc, int x, int y, float sc
 			stairs.setScale(scaling, scaling);
 			_sprites.emplace_back(stairs);
 		} else {
+			// TODO: change this to use events instead
 			if ((tile.has(TileFeature::MESSAGE)) || (tile.has(TileFeature::NOTICE))) {
 				sf::Sprite message{_graphics->textures
 									   ->get(magic_enum::enum_integer<AutoMapFeature>(AutoMapFeature::EXCLAMATION),

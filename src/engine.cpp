@@ -104,8 +104,6 @@ auto Sorcery::Engine::_reset_components() -> void {
 		_chute.reset();
 	if (_found_an_item.get())
 		_found_an_item.reset();
-	if (_an_encounter.get())
-		_an_encounter.reset();
 	if (_elevator.get())
 		_elevator.reset();
 	if (_reorder.get())
@@ -239,11 +237,11 @@ auto Sorcery::Engine::_initalise_components() -> void {
 	_found_an_item->setPosition(_display->get_centre_pos(_found_an_item->get_size()));
 	_found_an_item->set_duration(DELAY_FIND_AN_ITEM);
 
-	_an_encounter =
+	/* _an_encounter =
 		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:an_encounter"],
 			(*_display->layout)["engine_base_ui:an_encounter_text"], WindowDialogType::TIMED);
 	_an_encounter->setPosition(_display->get_centre_pos(_an_encounter->get_size()));
-	_an_encounter->set_duration(DELAY_ENCOUNTER);
+	_an_encounter->set_duration(DELAY_ENCOUNTER); */
 
 	_elevator = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:one_moment"],
 		(*_display->layout)["engine_base_ui:one_moment_text"], WindowDialogType::TIMED);
@@ -383,7 +381,6 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	_show_pit = false;
 	_show_chute = false;
 	_show_found_an_item = false;
-	_show_an_encounter = false;
 	_show_elevator = false;
 	_show_party_panel = true;
 	_show_gui = true;
@@ -437,7 +434,6 @@ auto Sorcery::Engine::_update_timers_and_components() -> void {
 	_pit->update();
 	_chute->update();
 	_found_an_item->update();
-	_an_encounter->update();
 	_elevator->update();
 }
 
@@ -619,15 +615,14 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 
 					return true;
 				} break;
-
 				case MapEvent::MURPHYS_GHOSTS: {
 
 					// combat!
-					_show_an_encounter = true;
+					/* _show_an_encounter = true;
 
 					_an_encounter->set(
 						(*_display->layout)["engine_base_ui:an_encounter"], (*_display->string)["DIALOG_ENCOUNTER"]);
-					_an_encounter->reset_timed();
+					_an_encounter->reset_timed(); */
 					return true;
 				} break;
 
@@ -1330,17 +1325,18 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_found_an_item->set_valid(false);
 			}
 		}
-	} else if (_show_an_encounter) {
-		_show_direction_indicatior = false;
-		auto dialog_input{_an_encounter->handle_input(event)};
-		if (dialog_input) {
-			if (dialog_input.value() == WindowDialogButton::OK) {
+		/* } else if (_show_an_encounter) {
+			_show_direction_indicatior = false;
+			auto dialog_input{_an_encounter->handle_input(event)};
+			if (dialog_input) {
+				if (dialog_input.value() == WindowDialogButton::OK) {
 
-				_display->set_input_mode(WindowInputMode::IN_GAME);
-				_show_an_encounter = false;
-				_an_encounter->set_valid(false);
+					_display->set_input_mode(WindowInputMode::IN_GAME);
+					_show_an_encounter = false;
+					_an_encounter->set_valid(false);
+				}
 			}
-		}
+			*/
 	} else if (_show_pit) {
 		auto dialog_input{_pit->handle_input(event)};
 		if (dialog_input) {
@@ -1820,6 +1816,34 @@ auto Sorcery::Engine::start() -> int {
 				} else
 					_display->hide_overlay();
 
+				// Combat encounters are handled a bit differently
+				if (const auto current_loc{_game->state->get_player_pos()};
+					_game->state->level->at(current_loc).has_event()) {
+
+					// Find the event and do something with it!
+					const auto map_event{_game->state->level->at(current_loc).has_event().value()};
+					switch (map_event) {
+					case MapEvent::GUARANTEED_COMBAT:
+						_pending_combat = true;
+						/*
+						_an_encounter->set((*_display->layout)["engine_base_ui:an_encounter"],
+							(*_display->string)["DIALOG_ENCOUNTER"]);
+						_an_encounter->reset_timed(); */
+						break;
+					case MapEvent::DEADLY_RING_COMBAT:
+						_pending_combat = true;
+						break;
+					case MapEvent::FIRE_DRAGONS_COMBAT:
+						_pending_combat = true;
+						break;
+					case MapEvent::WERDNA_COMBAT:
+						_pending_combat = true;
+						break;
+					default:
+						break;
+					}
+				}
+
 				if (_show_confirm_search) {
 					const auto do_search_square{_handle_confirm_search(event)};
 					_display->set_input_mode(WindowInputMode::IN_GAME);
@@ -1876,7 +1900,6 @@ auto Sorcery::Engine::start() -> int {
 						if (what_to_do.value() == CONTINUE)
 							continue;
 					}
-
 				} else if (_in_elevator_a_d) {
 
 					auto what_to_do{_handle_elevator_a_d(event)};
@@ -2280,10 +2303,11 @@ auto Sorcery::Engine::_pit_oops() -> void {
 
 			} else {
 
-				// Now in the original Apple 2 version, pit damage is based upon 3 extra values stored in the square in
-				// the TMaze records - AUX0, AUX1, and AUX2. Thanks to the data extraction by Tommy Ewers, the relevant
-				// values for each pit in the game are 0, 8 and depth respectively. This is a long-winded way of saying
-				// that the pit damage (calculated in APIT and ROCKWATR) is 0 + (depth * d8), i.e. a d8 for level depth.
+				// Now in the original Apple 2 version, pit damage is based upon 3 extra values stored in the square
+				// in the TMaze records - AUX0, AUX1, and AUX2. Thanks to the data extraction by Tommy Ewers, the
+				// relevant values for each pit in the game are 0, 8 and depth respectively. This is a long-winded
+				// way of saying that the pit damage (calculated in APIT and ROCKWATR) is 0 + (depth * d8), i.e. a
+				// d8 for level depth.
 
 				// Inflict damage! (remember depth is negative here and poisitve in original wizardry)
 				auto pit_damage{0U};
@@ -2316,9 +2340,9 @@ auto Sorcery::Engine::_event_if() -> bool {
 
 	using enum Enums::Map::Event;
 
-	// If we are in-game, and are on something that will happen - note that consequences of these events are dealt with
-	// otherwise in the main loop when the various flags are set. Note that all events initially take the form of a
-	// popup screen with info on it and a continue button
+	// If we are in-game, and are on something that will happen - note that consequences of these events are dealt
+	// with otherwise in the main loop when the various flags are set. Note that all events initially take the form
+	// of a popup screen with info on it and a continue button
 	if (const auto current_loc{_game->state->get_player_pos()};
 		_game->state->level->at(current_loc).has_event() && _can_run_event) {
 
@@ -2329,6 +2353,8 @@ auto Sorcery::Engine::_event_if() -> bool {
 		// don't need to run the event at all
 		switch (event_type) {
 		case NEED_BEAR_STATUE:
+			[[fallthrough]];
+		case NEED_BEAR_STATUE_2:
 			if (_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BEAR_STATUE)])
 				return true;
 			break;
@@ -2342,6 +2368,10 @@ auto Sorcery::Engine::_event_if() -> bool {
 			break;
 		case NEED_BRONZE_KEY:
 			if (_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BRONZE_KEY)])
+				return true;
+			break;
+		case NEED_BLUE_RIBBON:
+			if (_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BLUE_RIBBON)])
 				return true;
 			break;
 
@@ -2364,6 +2394,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 		}
 
 		// Handle what happens after this TODO - chained events
+		_show_confirm_search = false;
 		if (dungeon_event.search_after) {
 			_show_confirm_search = true;
 			_display->set_input_mode(WindowInputMode::CONFIRM_QUIT_GAME);
@@ -2661,14 +2692,14 @@ auto Sorcery::Engine::_draw() -> void {
 			}
 		}
 
-		if (_show_an_encounter) {
+		/* if (_show_an_encounter) {
 			if (_an_encounter->get_valid())
 				_window->draw(*_an_encounter);
 			else {
 				_show_an_encounter = false;
 				_an_encounter->set_valid(false);
 			}
-		}
+		} */
 
 		if (_show_pit) {
 			if (_pit->get_valid())

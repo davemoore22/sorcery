@@ -32,74 +32,102 @@ Sorcery::Event::Event(System *system, Display *display, Graphics *graphics, Game
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
-	_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CONTINUE);
 	_dungeon_event = _game->get_event(_type);
 
-	const auto menu_key{_dungeon_event.component_key + ":continue_menu"};
-	_continue_menu->generate((*_display->layout)[menu_key]);
-	_continue_menu->setPosition(_display->get_centre_x(_continue_menu->get_width()), (*_display->layout)[menu_key].y);
+	// some events are passed through without input directly to an encounter
+	switch (_type) {
+	case FIRE_DRAGONS_COMBAT:
+		[[fallthrough]];
+	case WERDNA_COMBAT:
+		[[fallthrough]];
+	case DEADLY_RING_COMBAT:
+		[[fallthrough]];
+	case GUARANTEED_COMBAT:
+		break;
+	default:
+		_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CONTINUE);
+		const auto menu_key{_dungeon_event.component_key + ":continue_menu"};
+		_continue_menu->generate((*_display->layout)[menu_key]);
+		_continue_menu->setPosition(
+			_display->get_centre_x(_continue_menu->get_width()), (*_display->layout)[menu_key].y);
+		break;
+	}
 }
 
 auto Sorcery::Event::start() -> std::optional<MenuItem> {
 
 	using enum Enums::Map::Event;
 
-	_stage = 1;
-	_display->window->save_screen();
-	std::optional<std::vector<MenuEntry>::const_iterator> option_continue{_continue_menu->items.begin()};
+	switch (_type) {
+	case FIRE_DRAGONS_COMBAT:
+		[[fallthrough]];
+	case WERDNA_COMBAT:
+		[[fallthrough]];
+	case DEADLY_RING_COMBAT:
+		[[fallthrough]];
+	case GUARANTEED_COMBAT:
+		return std::nullopt;
+		break;
+	default: {
 
-	// Generate the display
-	const auto screen_key{_dungeon_event.component_key};
-	_display->generate(screen_key, _sprites, _texts, _frames);
+		_stage = 1;
+		_display->window->save_screen();
+		std::optional<std::vector<MenuEntry>::const_iterator> option_continue{_continue_menu->items.begin()};
 
-	// Clear the window
-	_window->clear();
+		// Generate the display
+		const auto screen_key{_dungeon_event.component_key};
+		_display->generate(screen_key, _sprites, _texts, _frames);
 
-	// Handle Input
-	sf::Event event{};
-	while (_window->isOpen()) {
-		while (_window->pollEvent(event)) {
+		// Clear the window
+		_window->clear();
 
-			if (event.type == sf::Event::Closed)
-				return MenuItem::ABORT;
+		// Handle Input
+		sf::Event event{};
+		while (_window->isOpen()) {
+			while (_window->pollEvent(event)) {
 
-			// Handle enabling help overlay
-			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
-				_display->show_overlay();
-				continue;
-			} else
-				_display->hide_overlay();
+				if (event.type == sf::Event::Closed)
+					return MenuItem::ABORT;
 
-			// We have all continue menus to begin with
-			if (_system->input->check(WindowInput::CANCEL, event))
-				return MenuItem::CONTINUE;
-			else if (_system->input->check(WindowInput::BACK, event))
-				return MenuItem::CONTINUE;
-			else if (_system->input->check(WindowInput::UP, event))
-				option_continue = _continue_menu->choose_previous();
-			else if (_system->input->check(WindowInput::DOWN, event))
-				option_continue = _continue_menu->choose_next();
-			else if (_system->input->check(WindowInput::MOVE, event))
-				option_continue =
-					_continue_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-			else if (_system->input->check(WindowInput::CONFIRM, event)) {
+				// Handle enabling help overlay
+				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+					_display->show_overlay();
+					continue;
+				} else
+					_display->hide_overlay();
 
-				if (option_continue) {
-					if (const MenuItem option_chosen{(*option_continue.value()).item};
-						option_chosen == MenuItem::CONTINUE) {
-						return MenuItem::CONTINUE;
+				// We have all continue menus to begin with
+				if (_system->input->check(WindowInput::CANCEL, event))
+					return MenuItem::CONTINUE;
+				else if (_system->input->check(WindowInput::BACK, event))
+					return MenuItem::CONTINUE;
+				else if (_system->input->check(WindowInput::UP, event))
+					option_continue = _continue_menu->choose_previous();
+				else if (_system->input->check(WindowInput::DOWN, event))
+					option_continue = _continue_menu->choose_next();
+				else if (_system->input->check(WindowInput::MOVE, event))
+					option_continue =
+						_continue_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+				else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+					if (option_continue) {
+						if (const MenuItem option_chosen{(*option_continue.value()).item};
+							option_chosen == MenuItem::CONTINUE) {
+							return MenuItem::CONTINUE;
+						}
 					}
 				}
 			}
+
+			_window->clear();
+
+			_draw();
+			_window->display();
 		}
 
-		_window->clear();
-
-		_draw();
-		_window->display();
+		return std::nullopt;
 	}
-
-	return std::nullopt;
+	}
 }
 
 auto Sorcery::Event::stop() -> void {
@@ -114,15 +142,25 @@ auto Sorcery::Event::_draw() -> void {
 
 	_display->window->restore_screen();
 
-	const auto screen_key{_dungeon_event.component_key};
-	const auto menu_key{_dungeon_event.component_key + ":continue_menu"};
-	_display->display(screen_key, _sprites, _texts, _frames);
-	_continue_menu->generate((*_display->layout)[menu_key]);
-	_window->draw(*_continue_menu);
+	switch (_type) {
+	case FIRE_DRAGONS_COMBAT:
+		[[fallthrough]];
+	case WERDNA_COMBAT:
+		[[fallthrough]];
+	case DEADLY_RING_COMBAT:
+		[[fallthrough]];
+	case GUARANTEED_COMBAT:
+		break;
+	default:
+		const auto screen_key{_dungeon_event.component_key};
+		const auto menu_key{_dungeon_event.component_key + ":continue_menu"};
+		_display->display(screen_key, _sprites, _texts, _frames);
+		_continue_menu->generate((*_display->layout)[menu_key]);
+		_window->draw(*_continue_menu);
 
-	// Always draw the following
-	_display->display_overlay();
-	_display->display_cursor();
+		// Always draw the following
+		_display->display_overlay();
+		_display->display_cursor();
+		break;
+	}
 }
-
-//

@@ -50,6 +50,13 @@ auto Sorcery::Game::_set_up_dungeon_events() -> void {
 
 	_dungeon_events.clear();
 
+	// bool params are:
+	//
+	// search after
+	// encounter after
+	// go back a square after
+	// teleport back to town
+
 	// Level 1
 	_dungeon_events.emplace_back(AREA_OF_OUT_BOUNDS, "event_area_out_of_bounds", false, false, false, false);
 	_dungeon_events.emplace_back(MAN_TELEPORT_CASTLE, "event_man_teleport_castle", false, false, false, true);
@@ -73,6 +80,17 @@ auto Sorcery::Game::_set_up_dungeon_events() -> void {
 	_dungeon_events.emplace_back(TURN_LEFT, "event_turn_left", false, false, false, false);
 	_dungeon_events.emplace_back(TURN_AROUND, "event_turn_around", false, false, false, false);
 	_dungeon_events.emplace_back(TURN_RIGHT, "event_turn_right", false, false, false, false);
+
+	// Level 4
+	_dungeon_events.emplace_back(NEED_BEAR_STATUE_2, "event_need_bear_statue_2", false, false, true, false);
+	_dungeon_events.emplace_back(TESTING_GROUNDS, "event_testing_grounds", false, false, false, false);
+	_dungeon_events.emplace_back(ALARM_BELLS, "event_alarm_bells", false, true, false, false);
+	_dungeon_events.emplace_back(TREASURE_REPOSITORY, "event_treasure_repository", false, false, false, false);
+	_dungeon_events.emplace_back(
+		MONSTER_ALLOCATION_CENTRE, "event_monster_allocation_centre", false, false, false, false);
+	_dungeon_events.emplace_back(NEED_BLUE_RIBBON, "event_need_blue_ribbon", false, false, true, false);
+	_dungeon_events.emplace_back(SERVICE_ELEVATOR, "event_service_elevator", false, false, false, false);
+	_dungeon_events.emplace_back(GUARANTEED_COMBAT, "", false, true, false, false);
 }
 
 auto Sorcery::Game::get_event(MapEvent event_type) const -> DungeonEvent {

@@ -9982,6 +9982,235 @@
 		]
 	},
 	{
+		"name": "event_need_bear_statue_2",
+		"component": [
+		{
+			"name": "frame",
+			"w": "40",
+			"h": "7",
+			"x": "centre",
+			"y": "1",
+			"alpha": "225",
+			"type": "frame",
+			"priority": "3",
+			"drawmode": "automatic",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "text_1",
+			"x": "centre",
+			"y": "2",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_NEED_BEAR_STATUE_2_1",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "text_2",
+			"x": "centre",
+			"y": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_NEED_BEAR_STATUE_2_2",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "text_3",
+			"x": "centre",
+			"y": "4",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_NEED_BEAR_STATUE_2_3",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "continue_menu",
+			"x": "centre",
+			"y": "6",
+			"w": "16",
+			"h": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"animated": "true",
+			"width": "36",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "menu",
+			"priority": "4"
+		}
+		]
+	},
+	{
+		"name": "event_service_elevator",
+		"component": [
+		{
+			"name": "frame",
+			"w": "40",
+			"h": "7",
+			"x": "centre",
+			"y": "1",
+			"alpha": "225",
+			"type": "frame",
+			"priority": "3",
+			"drawmode": "automatic",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "text_1",
+			"x": "centre",
+			"y": "2",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_SERVICE_ELEVATOR_1",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "text_2",
+			"x": "centre",
+			"y": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_SERVICE_ELEVATOR_2",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "text_3",
+			"x": "centre",
+			"y": "4",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_SERVICE_ELEVATOR_3",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "continue_menu",
+			"x": "centre",
+			"y": "6",
+			"w": "16",
+			"h": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"animated": "true",
+			"width": "36",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "menu",
+			"priority": "4"
+		}
+		]
+	},
+	{
+		"name": "event_testing_grounds",
+		"component": [
+		{
+			"name": "frame",
+			"w": "40",
+			"h": "8",
+			"x": "centre",
+			"y": "1",
+			"alpha": "225",
+			"type": "frame",
+			"priority": "3",
+			"drawmode": "automatic",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "text_1",
+			"x": "centre",
+			"y": "2",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_TESTING_GROUNDS_1",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "text_2",
+			"x": "centre",
+			"y": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_TESTING_GROUNDS_2",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "text_3",
+			"x": "centre",
+			"y": "4",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_TESTING_GROUNDS_3",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "text_4",
+			"x": "centre",
+			"y": "5",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_TESTING_GROUNDS_4",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "continue_menu",
+			"x": "centre",
+			"y": "7",
+			"w": "16",
+			"h": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"animated": "true",
+			"width": "36",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "menu",
+			"priority": "4"
+		}
+		]
+	},
+	{
 		"name": "event_turn_right",
 		"component": [
 		{
@@ -10017,6 +10246,294 @@
 			"colour": "0xffffffff",
 			"size": "24",
 			"string": "GAME_MESSAGE_TURN_RIGHT_2",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "continue_menu",
+			"x": "centre",
+			"y": "5",
+			"w": "16",
+			"h": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"animated": "true",
+			"width": "36",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "menu",
+			"priority": "4"
+		}
+		]
+	},
+	{
+		"name": "event_alarm_bells",
+		"component": [
+		{
+			"name": "frame",
+			"w": "40",
+			"h": "8",
+			"x": "centre",
+			"y": "1",
+			"alpha": "225",
+			"type": "frame",
+			"priority": "3",
+			"drawmode": "automatic",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "text_1",
+			"x": "centre",
+			"y": "2",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_ALARM_BELLS_1",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "text_2",
+			"x": "centre",
+			"y": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_ALARM_BELLS_2",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "text_3",
+			"x": "centre",
+			"y": "4",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_ALARM_BELLS_3",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "text_4",
+			"x": "centre",
+			"y": "5",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_ALARM_BELLS_4",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "continue_menu",
+			"x": "centre",
+			"y": "7",
+			"w": "16",
+			"h": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"animated": "true",
+			"width": "36",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "menu",
+			"priority": "4"
+		}
+		]
+	},
+	{
+		"name": "event_need_blue_ribbon",
+		"component": [
+		{
+			"name": "frame",
+			"w": "40",
+			"h": "8",
+			"x": "centre",
+			"y": "1",
+			"alpha": "225",
+			"type": "frame",
+			"priority": "3",
+			"drawmode": "automatic",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "text_1",
+			"x": "centre",
+			"y": "2",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_NEED_BLUE_RIBBON_1",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "text_2",
+			"x": "centre",
+			"y": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_NEED_BLUE_RIBBON_2",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "text_3",
+			"x": "centre",
+			"y": "4",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_NEED_BLUE_RIBBON_3",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "text_4",
+			"x": "centre",
+			"y": "5",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_NEED_BLUE_RIBBON_4",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "continue_menu",
+			"x": "centre",
+			"y": "7",
+			"w": "16",
+			"h": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"animated": "true",
+			"width": "36",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "menu",
+			"priority": "4"
+		}
+		]
+	},
+	{
+		"name": "event_treasure_repository",
+		"component": [
+		{
+			"name": "frame",
+			"w": "40",
+			"h": "6",
+			"x": "centre",
+			"y": "1",
+			"alpha": "225",
+			"type": "frame",
+			"priority": "3",
+			"drawmode": "automatic",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "text_1",
+			"x": "centre",
+			"y": "2",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_TREASURE_REPOSITORY_1",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "text_2",
+			"x": "centre",
+			"y": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_TREASURE_REPOSITORY_2",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "continue_menu",
+			"x": "centre",
+			"y": "5",
+			"w": "16",
+			"h": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"animated": "true",
+			"width": "36",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "menu",
+			"priority": "4"
+		}
+		]
+	},
+	{
+		"name": "event_monster_allocation_centre",
+		"component": [
+		{
+			"name": "frame",
+			"w": "40",
+			"h": "6",
+			"x": "centre",
+			"y": "1",
+			"alpha": "225",
+			"type": "frame",
+			"priority": "3",
+			"drawmode": "automatic",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "text_1",
+			"x": "centre",
+			"y": "2",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_MONSTER_ALLOCATION_CENTRE_1",
+			"justification": "centre",
+			"type": "text",
+			"priority": "5",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "text_2",
+			"x": "centre",
+			"y": "3",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "GAME_MESSAGE_MONSTER_ALLOCATION_CENTRE_2",
 			"justification": "centre",
 			"type": "text",
 			"priority": "5",
