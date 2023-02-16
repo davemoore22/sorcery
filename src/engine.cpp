@@ -2376,7 +2376,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 			_update_buffbar = true;
 			_update_search = true;
 			_update_render = true;
-		};
+		}
 
 		_can_run_event = false;
 		_display_cursor = true;

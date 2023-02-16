@@ -68,6 +68,11 @@ auto Sorcery::Game::_set_up_dungeon_events() -> void {
 	_dungeon_events.emplace_back(NEED_BRONZE_KEY, "event_need_bronze_key", false, false, true, false);
 	_dungeon_events.emplace_back(NEED_BEAR_STATUE, "event_cannot_break_doors_down", false, false, true, false);
 	_dungeon_events.emplace_back(NEED_FROG_STATUE, "event_cannot_break_doors_down", false, false, true, false);
+
+	// Level 3
+	_dungeon_events.emplace_back(TURN_LEFT, "event_turn_left", false, false, false, false);
+	_dungeon_events.emplace_back(TURN_AROUND, "event_turn_around", false, false, false, false);
+	_dungeon_events.emplace_back(TURN_RIGHT, "event_turn_right", false, false, false, false);
 }
 
 auto Sorcery::Game::get_event(MapEvent event_type) const -> DungeonEvent {
