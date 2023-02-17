@@ -25,8 +25,9 @@
 #include "event.hpp"
 
 // Standard Constructor
-Sorcery::Event::Event(System *system, Display *display, Graphics *graphics, Game *game, MapEvent type)
-	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _type{type} {
+Sorcery::Event::Event(
+	System *system, Display *display, Graphics *graphics, Game *game, MapEvent type, unsigned int stage)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _type{type}, _stage{stage} {
 
 	using enum Enums::Map::Event;
 
@@ -44,13 +45,27 @@ Sorcery::Event::Event(System *system, Display *display, Graphics *graphics, Game
 		[[fallthrough]];
 	case GUARANTEED_COMBAT:
 		break;
-	default:
+	case TREBOR_VOICE: {
+
+		// Others are multistage
+		_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CONTINUE);
+		const auto menu_stage_key{[&] {
+			if (_stage == 1)
+				return _dungeon_event.component_key + "_1:continue_menu";
+			else
+				return _dungeon_event.component_key + "_2:continue_menu";
+		}()};
+		_continue_menu->generate((*_display->layout)[menu_stage_key]);
+		_continue_menu->setPosition(
+			_display->get_centre_x(_continue_menu->get_width()), (*_display->layout)[menu_stage_key].y);
+	} break;
+	default: {
 		_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CONTINUE);
 		const auto menu_key{_dungeon_event.component_key + ":continue_menu"};
 		_continue_menu->generate((*_display->layout)[menu_key]);
 		_continue_menu->setPosition(
 			_display->get_centre_x(_continue_menu->get_width()), (*_display->layout)[menu_key].y);
-		break;
+	} break;
 	}
 }
 
@@ -69,13 +84,22 @@ auto Sorcery::Event::start() -> std::optional<MenuItem> {
 		return std::nullopt;
 		break;
 	default: {
-
-		_stage = 1;
 		_display->window->save_screen();
 		std::optional<std::vector<MenuEntry>::const_iterator> option_continue{_continue_menu->items.begin()};
 
 		// Generate the display
-		const auto screen_key{_dungeon_event.component_key};
+		std::string screen_key{};
+		if (_type == TREBOR_VOICE) {
+			screen_key = {[&] {
+				if (_stage == 1)
+					return _dungeon_event.component_key + "_1";
+				else
+					return _dungeon_event.component_key + "_2";
+			}()};
+		} else
+			screen_key = _dungeon_event.component_key;
+
+		// const auto screen_key{_dungeon_event.component_key};
 		_display->generate(screen_key, _sprites, _texts, _frames);
 
 		// Clear the window
@@ -151,7 +175,25 @@ auto Sorcery::Event::_draw() -> void {
 		[[fallthrough]];
 	case GUARANTEED_COMBAT:
 		break;
-	default:
+	case TREBOR_VOICE: {
+
+		// Others are multistage
+		const auto screen_key{[&] {
+			if (_stage == 1)
+				return _dungeon_event.component_key + "_1";
+			else
+				return _dungeon_event.component_key + "_2";
+		}()};
+		const auto menu_key{screen_key + ":continue_menu"};
+		_display->display(screen_key, _sprites, _texts, _frames);
+		_continue_menu->generate((*_display->layout)[menu_key]);
+		_window->draw(*_continue_menu);
+
+		// Always draw the following
+		_display->display_overlay();
+		_display->display_cursor();
+	} break;
+	default: {
 		const auto screen_key{_dungeon_event.component_key};
 		const auto menu_key{_dungeon_event.component_key + ":continue_menu"};
 		_display->display(screen_key, _sprites, _texts, _frames);
@@ -161,6 +203,6 @@ auto Sorcery::Event::_draw() -> void {
 		// Always draw the following
 		_display->display_overlay();
 		_display->display_cursor();
-		break;
+	} break;
 	}
 }

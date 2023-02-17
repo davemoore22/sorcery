@@ -6,6 +6,7 @@ Written using SFML, TGUI, and C++.
 
 ![](/promo/screen1.png)
 ![](/promo/screen7.png)
+![](/promo/screen18.png)
 
 Watch some videos of parts of Level 1 of the Proving Grounds being explored here:
 

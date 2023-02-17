@@ -2382,15 +2382,44 @@ auto Sorcery::Engine::_event_if() -> bool {
 		_show_direction_indicatior = false;
 		_display_cursor = false;
 		_refresh_display();
-		auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
-		if (auto result{event->start()}; result == MenuItem::ABORT) {
-			event->stop();
-			_can_run_event = false;
-			_display_cursor = true;
-			_refresh_display();
-			return EXIT_ALL;
+
+		if (event_type == TREBOR_VOICE) {
+
+			// Linked events
+			auto event_1{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 1)};
+			if (auto result{event_1->start()}; result == MenuItem::ABORT) {
+				event_1->stop();
+				_can_run_event = false;
+				_display_cursor = true;
+				_refresh_display();
+				return EXIT_ALL;
+			} else {
+				event_1->stop();
+
+				_refresh_display();
+				auto event_2{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 2)};
+				if (auto result{event_2->start()}; result == MenuItem::ABORT) {
+
+					_can_run_event = false;
+					_display_cursor = true;
+					_refresh_display();
+					return EXIT_ALL;
+				}
+				event_2->stop();
+			}
+
 		} else {
-			event->stop();
+
+			auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
+			if (auto result{event->start()}; result == MenuItem::ABORT) {
+				event->stop();
+				_can_run_event = false;
+				_display_cursor = true;
+				_refresh_display();
+				return EXIT_ALL;
+			} else {
+				event->stop();
+			}
 		}
 
 		// Handle what happens after this TODO - chained events

@@ -90,7 +90,10 @@ auto Sorcery::Game::_set_up_dungeon_events() -> void {
 		MONSTER_ALLOCATION_CENTRE, "event_monster_allocation_centre", false, false, false, false);
 	_dungeon_events.emplace_back(NEED_BLUE_RIBBON, "event_need_blue_ribbon", false, false, true, false);
 	_dungeon_events.emplace_back(SERVICE_ELEVATOR, "event_service_elevator", false, false, false, false);
-	_dungeon_events.emplace_back(GUARANTEED_COMBAT, "", false, true, false, false);
+	_dungeon_events.emplace_back(GUARANTEED_COMBAT, "event_guaranteed_combat", false, true, false, false);
+	_dungeon_events.emplace_back(LARGE_DESK, "event_large_desk", false, false, false, false);
+	_dungeon_events.emplace_back(DEADLY_RING_COMBAT, "event_deadly_ring_combat", false, false, false, false);
+	_dungeon_events.emplace_back(TREBOR_VOICE, "event_trebor_voice", false, false, false, false);
 }
 
 auto Sorcery::Game::get_event(MapEvent event_type) const -> DungeonEvent {
