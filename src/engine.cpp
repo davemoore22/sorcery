@@ -2423,6 +2423,44 @@ auto Sorcery::Engine::_event_if() -> bool {
 						_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BLUE_RIBBON)] = true;
 				}
 
+			} else if (event_type == WERDNA_BOAST) {
+
+				// Linked events
+				// Linked events
+				auto event_1{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 1)};
+				if (auto result{event_1->start()}; result == MenuItem::ABORT) {
+					event_1->stop();
+					_can_run_event = false;
+					_display_cursor = true;
+					_refresh_display();
+					return EXIT_ALL;
+				} else {
+					event_1->stop();
+
+					_refresh_display();
+					auto event_2{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 2)};
+					if (auto result{event_2->start()}; result == MenuItem::ABORT) {
+
+						_can_run_event = false;
+						_display_cursor = true;
+						_refresh_display();
+						return EXIT_ALL;
+					} else {
+						event_2->stop();
+
+						_refresh_display();
+						auto event_3{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 3)};
+						if (auto result{event_3->start()}; result == MenuItem::ABORT) {
+
+							_can_run_event = false;
+							_display_cursor = true;
+							_refresh_display();
+							return EXIT_ALL;
+						}
+						event_3->stop();
+					}
+				}
+
 			} else {
 
 				auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};

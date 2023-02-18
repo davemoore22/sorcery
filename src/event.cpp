@@ -45,15 +45,21 @@ Sorcery::Event::Event(
 		[[fallthrough]];
 	case GUARANTEED_COMBAT:
 		break;
-	case TREBOR_VOICE: {
+	case TREBOR_VOICE:
+		[[fallthrough]];
+	case WERDNA_BOAST: {
 
 		// Others are multistage
 		_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CONTINUE);
 		const auto menu_stage_key{[&] {
 			if (_stage == 1)
 				return _dungeon_event.component_key + "_1:continue_menu";
-			else
+			else if (_stage == 2)
 				return _dungeon_event.component_key + "_2:continue_menu";
+			else if (_stage == 3)
+				return _dungeon_event.component_key + "_3:continue_menu";
+			else
+				return std::string{};
 		}()};
 		_continue_menu->generate((*_display->layout)[menu_stage_key]);
 		_continue_menu->setPosition(
@@ -89,12 +95,16 @@ auto Sorcery::Event::start() -> std::optional<MenuItem> {
 
 		// Generate the display
 		std::string screen_key{};
-		if (_type == TREBOR_VOICE) {
+		if ((_type == TREBOR_VOICE) || (_type == WERDNA_BOAST)) {
 			screen_key = {[&] {
 				if (_stage == 1)
 					return _dungeon_event.component_key + "_1";
-				else
+				else if (_stage == 2)
 					return _dungeon_event.component_key + "_2";
+				else if (_stage == 3)
+					return _dungeon_event.component_key + "_3";
+				else
+					return std::string{};
 			}()};
 		} else
 			screen_key = _dungeon_event.component_key;
@@ -174,14 +184,20 @@ auto Sorcery::Event::_draw() -> void {
 		[[fallthrough]];
 	case GUARANTEED_COMBAT:
 		break;
-	case TREBOR_VOICE: {
+	case TREBOR_VOICE:
+		[[fallthrough]];
+	case WERDNA_BOAST: {
 
 		// Others are multistage
 		const auto screen_key{[&] {
 			if (_stage == 1)
 				return _dungeon_event.component_key + "_1";
-			else
+			else if (_stage == 2)
 				return _dungeon_event.component_key + "_2";
+			else if (_stage == 3)
+				return _dungeon_event.component_key + "_3";
+			else
+				return std::string{};
 		}()};
 		const auto menu_key{screen_key + ":continue_menu"};
 		_display->display(screen_key, _sprites, _texts, _frames);

@@ -103,6 +103,11 @@ auto Sorcery::Game::_set_up_dungeon_events() -> void {
 	_dungeon_events.emplace_back(GETTING_WARM_2, "event_getting_warm_2", false, false, false, false);
 	_dungeon_events.emplace_back(GETTING_WARM_3, "event_getting_warm_3", false, false, false, false);
 	_dungeon_events.emplace_back(FIRE_DRAGONS_COMBAT, "event_fire_dragons_combat", false, true, false, false);
+
+	// Level 10
+	_dungeon_events.emplace_back(WERDNA_BOAST, "event_werdna_boast", false, false, false, false);
+	_dungeon_events.emplace_back(TURN_BACK, "event_turn_back", false, false, false, false);
+	_dungeon_events.emplace_back(WERDNA_SIGN, "event_werdna_sign_1", false, false, false, false);
 }
 
 auto Sorcery::Game::get_event(MapEvent event_type) const -> DungeonEvent {

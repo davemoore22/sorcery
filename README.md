@@ -32,8 +32,8 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 * ~~Levelling up/Changing Class~~ (DONE)
 * ~~Temple~~ (DONE)
 * ~~Wipe Handling~~ (DONE)
-* Dungeon Events (DOING)
-* Items and Inventory (TO DO)
+* ~~Dungeon Events~~ (DONE)
+* Items and Inventory (DOING)
 * Boltac's Equipment Shop (TO DO)
 * Creatures and NPCs (TO DO)
 * Magic and Combat (TO DO)
@@ -52,7 +52,7 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 
 ## What next? (as of February 2023)
 
-I've started work on implementing Dungeon Events (such as finding keys and special messages). Character Inventory and Item-Handling will be the next thing to after I've implemented this. I intend to implement the special events on Floors 6 and 7 that by mistake were left out of the original versions of the game.
+I'm about to start implementing Items, Inventory, and Item-Handling.
 
 Initially I am planning to remake Wizardry 1, then adding 2 and 3, and then subsequently providing infinite procedurally-generated content like that of Diablo for example. In the meantime, check out Snarfu's bugfix and recompilation of the original Wizardry for Apple II at <https://github.com/snafaru>.
 
