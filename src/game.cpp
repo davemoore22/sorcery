@@ -92,8 +92,17 @@ auto Sorcery::Game::_set_up_dungeon_events() -> void {
 	_dungeon_events.emplace_back(SERVICE_ELEVATOR, "event_service_elevator", false, false, false, false);
 	_dungeon_events.emplace_back(GUARANTEED_COMBAT, "event_guaranteed_combat", false, true, false, false);
 	_dungeon_events.emplace_back(LARGE_DESK, "event_large_desk", false, false, false, false);
-	_dungeon_events.emplace_back(DEADLY_RING_COMBAT, "event_deadly_ring_combat", false, false, false, false);
+	_dungeon_events.emplace_back(DEADLY_RING_COMBAT, "event_deadly_ring_combat", false, true, false, false);
 	_dungeon_events.emplace_back(TREBOR_VOICE, "event_trebor_voice", false, false, false, false);
+
+	// Level 6
+	_dungeon_events.emplace_back(THREE_HUMANOIDS, "event_three_humanoids", false, false, false, false);
+
+	// Level 7
+	_dungeon_events.emplace_back(GETTING_WARM_1, "event_getting_warm_1", false, false, false, false);
+	_dungeon_events.emplace_back(GETTING_WARM_2, "event_getting_warm_2", false, false, false, false);
+	_dungeon_events.emplace_back(GETTING_WARM_3, "event_getting_warm_3", false, false, false, false);
+	_dungeon_events.emplace_back(FIRE_DRAGONS_COMBAT, "event_fire_dragons_combat", false, true, false, false);
 }
 
 auto Sorcery::Game::get_event(MapEvent event_type) const -> DungeonEvent {

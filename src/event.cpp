@@ -99,7 +99,6 @@ auto Sorcery::Event::start() -> std::optional<MenuItem> {
 		} else
 			screen_key = _dungeon_event.component_key;
 
-		// const auto screen_key{_dungeon_event.component_key};
 		_display->generate(screen_key, _sprites, _texts, _frames);
 
 		// Clear the window

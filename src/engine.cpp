@@ -495,6 +495,8 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 
 			// combat!!!
 
+			// do combat here
+
 			_update_automap = true;
 			_update_compass = true;
 			_update_buffbar = true;
@@ -2380,45 +2382,59 @@ auto Sorcery::Engine::_event_if() -> bool {
 		}
 
 		_show_direction_indicatior = false;
+		_show_ouch = false;
 		_display_cursor = false;
 		_refresh_display();
 
-		if (event_type == TREBOR_VOICE) {
+		if (_can_run_event) {
+			if (event_type == TREBOR_VOICE) {
 
-			// Linked events
-			auto event_1{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 1)};
-			if (auto result{event_1->start()}; result == MenuItem::ABORT) {
-				event_1->stop();
-				_can_run_event = false;
-				_display_cursor = true;
-				_refresh_display();
-				return EXIT_ALL;
-			} else {
-				event_1->stop();
-
-				_refresh_display();
-				auto event_2{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 2)};
-				if (auto result{event_2->start()}; result == MenuItem::ABORT) {
-
+				// Linked events
+				auto event_1{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 1)};
+				if (auto result{event_1->start()}; result == MenuItem::ABORT) {
+					event_1->stop();
 					_can_run_event = false;
 					_display_cursor = true;
 					_refresh_display();
 					return EXIT_ALL;
+				} else {
+					event_1->stop();
+
+					_refresh_display();
+					auto event_2{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 2)};
+					if (auto result{event_2->start()}; result == MenuItem::ABORT) {
+
+						_can_run_event = false;
+						_display_cursor = true;
+						_refresh_display();
+						return EXIT_ALL;
+					}
+					event_2->stop();
+
+					_show_found_an_item = true;
+
+					// random character who has inventory free
+					const auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
+					const auto text{fmt::format("{}{}", character.get_name(), (*_display->string)["FOUND_AN_ITEM"])};
+					_found_an_item->set((*_display->layout)["engine_base_ui:found_an_item"], text);
+					_found_an_item->reset_timed();
+
+					if (!_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BLUE_RIBBON)])
+						_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BLUE_RIBBON)] = true;
 				}
-				event_2->stop();
-			}
 
-		} else {
-
-			auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
-			if (auto result{event->start()}; result == MenuItem::ABORT) {
-				event->stop();
-				_can_run_event = false;
-				_display_cursor = true;
-				_refresh_display();
-				return EXIT_ALL;
 			} else {
-				event->stop();
+
+				auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
+				if (auto result{event->start()}; result == MenuItem::ABORT) {
+					event->stop();
+					_can_run_event = false;
+					_display_cursor = true;
+					_refresh_display();
+					return EXIT_ALL;
+				} else {
+					event->stop();
+				}
 			}
 		}
 
@@ -2436,6 +2452,10 @@ auto Sorcery::Engine::_event_if() -> bool {
 			_update_buffbar = true;
 			_update_search = true;
 			_update_render = true;
+		} else if (dungeon_event.combat_after) {
+
+			// do combat (need combat event with an optional combat type - DEADLY RING, FIREDRAGONS, WERDNA, RANDOM)
+			std::cout << "An Encounter!" << std::endl;
 		}
 
 		_can_run_event = false;
