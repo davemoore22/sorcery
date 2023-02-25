@@ -2143,69 +2143,66 @@ auto Sorcery::Character::create_spells() -> void {
 
 	// Level 1
 	auto level{1};
-	_spells.emplace_back(DUMAPIC, MAGE, FIELD, level, false, "DUMAPIC", "Clarity",
-		"Restablishes the party's bearings and shows their location in the maze.");
-	_spells.emplace_back(HALITO, MAGE, ATTACK, level, false, "HALITO", "Little Fire",
-		"Flings a a ball of fire at one foe inflicting 1d8 points of fire damage.");
-	_spells.emplace_back(
-		KATINO, MAGE, DISABLE, level, false, "KATINO", "Bad Air", "Temporarily puts to sleep one group of foes.");
-	_spells.emplace_back(MOGREF, MAGE, SUPPORT, level, false, "MOGREF", "Body Iron",
-		"Grants a -2 bonus to armour class to the caster for the duration of combat.");
+	_spells.emplace_back(DUMAPIC, MAGE, FIELD, level, false, (*_display->string)["SPELL_DUMAPIC_NAME"],
+		(*_display->string)["SPELL_DUMAPIC_TITLE"], (*_display->string)["SPELL_DUMAPIC_DESC"]);
+	_spells.emplace_back(HALITO, MAGE, ATTACK, level, false, (*_display->string)["SPELL_HALITO_NAME"],
+		(*_display->string)["SPELL_HALITO_TITLE"], (*_display->string)["SPELL_HALITO_DESC"]);
+	_spells.emplace_back(KATINO, MAGE, DISABLE, level, false, (*_display->string)["SPELL_KATINO_NAME"],
+		(*_display->string)["SPELL_KATINO_TITLE"], (*_display->string)["SPELL_KATINO_DESC"]);
+	_spells.emplace_back(MOGREF, MAGE, SUPPORT, level, false, (*_display->string)["SPELL_MOGREF_NAME"],
+		(*_display->string)["SPELL_MOGREF_TITLE"], (*_display->string)["SPELL_MOGREF_DESC"]);
 
 	// Level 2
 	++level;
-	_spells.emplace_back(DILTO, MAGE, DISABLE, level, false, "DILTO", "Darkness",
-		"Causes one group of monsters to be enveloped in darkness lowering their defense.");
-	_spells.emplace_back(SOPIC, MAGE, SUPPORT, level, false, "SOPIC", "Glass",
-		"Causes the caster to become transparent, granting a -4 bonus to armour class to the caster for the "
-		"duration of combat");
+	_spells.emplace_back(DILTO, MAGE, DISABLE, level, false, (*_display->string)["SPELL_DILTO_NAME"],
+		(*_display->string)["SPELL_DILTO_TITLE"], (*_display->string)["SPELL_DILTO_DESC"]);
+	_spells.emplace_back(SOPIC, MAGE, SUPPORT, level, false, (*_display->string)["SPELL_SOPIC_NAME"],
+		(*_display->string)["SPELL_SOPIC_TITLE"], (*_display->string)["SPELL_SOPIC_DESC"]);
 
 	// Level 3
 	++level;
-	_spells.emplace_back(MAHALITO, MAGE, ATTACK, level, false, "MAHALITO", "Big Fire",
-		"Causes an explosion in a group of foes, inflicting 3d8 points of fire damage.");
-	_spells.emplace_back(MOLITO, MAGE, ATTACK, level, false, "MOLITO", "Spark Storm",
-		"Causes sparks to damage half of the foes in a group for 3d6 points of damage");
+	_spells.emplace_back(MAHALITO, MAGE, ATTACK, level, false, (*_display->string)["SPELL_MAHALITO_NAME"],
+		(*_display->string)["SPELL_MAHALITO_TITLE"], (*_display->string)["SPELL_MAHALITO_DESC"]);
+	_spells.emplace_back(MOLITO, MAGE, ATTACK, level, false, (*_display->string)["SPELL_MOLITO_NAME"],
+		(*_display->string)["SPELL_MOLITO_TITLE"], (*_display->string)["SPELL_MOLITO_DESC"]);
 
 	// Level 4
 	++level;
-	_spells.emplace_back(DALTO, MAGE, ATTACK, level, false, "DALTO", "Blizzard",
-		"Inflicts 6d6 points of cold damage to a group of foes.");
-	_spells.emplace_back(LAHALITO, MAGE, ATTACK, level, false, "LAHALITO", "Torch",
-		"Inflicts 6d6 points of fire damage to a group of foes.");
-	_spells.emplace_back(MORLIS, MAGE, DISABLE, level, false, "MORLIS", "Fear",
-		"Causes a group of foes to fear the party, lowering their defense twice as much as Dilto.");
+	_spells.emplace_back(DALTO, MAGE, ATTACK, level, false, (*_display->string)["SPELL_DALTO_NAME"],
+		(*_display->string)["SPELL_DALTO_TITLE"], (*_display->string)["SPELL_DALTO_DESC"]);
+	_spells.emplace_back(LAHALITO, MAGE, ATTACK, level, false, (*_display->string)["SPELL_LAHALITO_NAME"],
+		(*_display->string)["SPELL_LAHALITO_TITLE"], (*_display->string)["SPELL_LAHALITO_DESC"]);
+	_spells.emplace_back(MORLIS, MAGE, DISABLE, level, false, (*_display->string)["SPELL_MORLIS_NAME"],
+		(*_display->string)["SPELL_MORLIS_TITLE"], (*_display->string)["SPELL_MORLIS_DESC"]);
 
 	// Level 5
 	++level;
-	_spells.emplace_back(MADALTO, MAGE, ATTACK, level, false, "MADALTO", "Frost",
-		"Inflicts 8d8 points of cold damage to a group of foes.");
-	_spells.emplace_back(
-		MAKANITO, MAGE, ATTACK, level, false, "MAKANITO", "Deadly Air", "Kills any foes of less than 8th level.");
-	_spells.emplace_back(
-		MAMORLIS, MAGE, DISABLE, level, false, "MAMORLIS", "Terror", "Causes all foes to fear the party");
+	_spells.emplace_back(MADALTO, MAGE, ATTACK, level, false, (*_display->string)["SPELL_MADALTO_NAME"],
+		(*_display->string)["SPELL_MADALTO_TITLE"], (*_display->string)["SPELL_MADALTO_DESC"]);
+	_spells.emplace_back(MAKANITO, MAGE, ATTACK, level, false, (*_display->string)["SPELL_MAKANITO_NAME"],
+		(*_display->string)["SPELL_MAKANITO_TITLE"], (*_display->string)["SPELL_MAKANITO_DESC"]);
+	_spells.emplace_back(MAMORLIS, MAGE, DISABLE, level, false, (*_display->string)["SPELL_MAMORLIS_NAME"],
+		(*_display->string)["SPELL_MAMORLIS_TITLE"], (*_display->string)["SPELL_MAMORLIS_DESC"]);
 
 	// Level 6
 	++level;
-	_spells.emplace_back(HAMAN, MAGE, SUPPORT, level, false, "HAMAN", "Change",
-		"Causes random but beneficial effects to the entire party but the caster loses one level of experience.");
-	_spells.emplace_back(LAKANITO, MAGE, ATTACK, level, false, "LAKANITO", "Ice Storm",
-		"Kills all foes affected by this spell; some types of foes are immune.");
-	_spells.emplace_back(MASOPIC, MAGE, ATTACK, level, false, "MASOPIC", "Big Glass",
-		"Grants of a bonus of -4 to the armor class of the entire party for the duration of combat");
-	_spells.emplace_back(ZILWAN, MAGE, ATTACK, level, false, "ZILWAN", "Dispel",
-		"Inflicts 200d10 points of positive energy damage to one undead creature.");
+	_spells.emplace_back(HAMAN, MAGE, SUPPORT, level, false, (*_display->string)["SPELL_HAMAN_NAME"],
+		(*_display->string)["SPELL_HAMAN_TITLE"], (*_display->string)["SPELL_HAMAN_DESC"]);
+	_spells.emplace_back(LAKANITO, MAGE, ATTACK, level, false, (*_display->string)["SPELL_LAKANITO_NAME"],
+		(*_display->string)["SPELL_LAKANITO_TITLE"], (*_display->string)["SPELL_LAKANITO_DESC"]);
+	_spells.emplace_back(MASOPIC, MAGE, ATTACK, level, false, (*_display->string)["SPELL_MASOPIC_NAME"],
+		(*_display->string)["SPELL_MASOPIC_TITLE"], (*_display->string)["SPELL_MASOPIC_DESC"]);
+	_spells.emplace_back(ZILWAN, MAGE, ATTACK, level, false, (*_display->string)["SPELL_ZILWAN_NAME"],
+		(*_display->string)["SPELL_ZILWAN_TITLE"], (*_display->string)["SPELL_ZILWAN_DESC"]);
 
 	// Level 7
 	++level;
-	_spells.emplace_back(MAHAMAN, MAGE, SUPPORT, level, false, "MAHAMAN", "Great Change",
-		"Causes random but beneficial major effects to the entire party but the caster loses one level and the "
-		"spell is forgotten.");
-	_spells.emplace_back(MALOR, MAGE, FIELD, level, false, "MALOR", "Apport",
-		"Teleports the party to a random nearby location when cast in combat, but to a specified location when "
-		"cast outside of combat.");
-	_spells.emplace_back(TILTOWAIT, MAGE, ATTACK, level, false, "TILTOWAIT", "Explosion",
-		"Inflicts 10d15 points of fire and force damage to all foes.");
+	_spells.emplace_back(MAHAMAN, MAGE, SUPPORT, level, false, (*_display->string)["SPELL_MAHAMAN_NAME"],
+		(*_display->string)["SPELL_MAHAMAN_TITLE"], (*_display->string)["SPELL_MAHAMAN_DESC"]);
+	_spells.emplace_back(MALOR, MAGE, FIELD, level, false, (*_display->string)["SPELL_MALOR_NAME"],
+		(*_display->string)["SPELL_MALOR_TITLE"], (*_display->string)["SPELL_MALOR_DESC"]);
+	_spells.emplace_back(TILTOWAIT, MAGE, ATTACK, level, false, (*_display->string)["SPELL_TILTOWAIT_NAME"],
+		(*_display->string)["SPELL_TILTOWAIT_TITLE"], (*_display->string)["SPELL_TILTOWAIT_DESC"]);
 
 	// Priest Spells (grouped by level)
 
