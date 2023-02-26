@@ -2208,86 +2208,80 @@ auto Sorcery::Character::create_spells() -> void {
 
 	// Level 1
 	level = 1u;
-	_spells.emplace_back(BADIOS, PRIEST, ATTACK, level, false, "BADIOS", "Harm",
-		"Inflicts 1d8 points of negative energy damage to one foe.");
-	_spells.emplace_back(DIOS, PRIEST, HEALING, level, false, "DIOS", "Heal", "Restores 1d8 hp to a party member.");
-	_spells.emplace_back(KALKI, PRIEST, SUPPORT, level, false, "KALKI", "Blessings",
-		"Grants a -1 bonus to armour class to the entire party for the duration of combat.");
-	_spells.emplace_back(MILWA, PRIEST, FIELD, level, false, "MILWA", "Light",
-		"Causes a softly glowing light to follow the party, increasing vision and revealing some secret doors for "
-		"15d2 turns.");
-	_spells.emplace_back(PORFIC, PRIEST, SUPPORT, level, false, "PORFIC", "Shield",
-		"Grants a -4 bonus to armour class to the caster for the duration of combat.");
+	_spells.emplace_back(BADIOS, PRIEST, ATTACK, level, false, (*_display->string)["SPELL_BADIOS_NAME"],
+		(*_display->string)["SPELL_BADIOS_TITLE"], (*_display->string)["SPELL_BADIOS_DESC"]);
+	_spells.emplace_back(DIOS, PRIEST, HEALING, level, false, (*_display->string)["SPELL_DIOS_NAME"],
+		(*_display->string)["SPELL_DIOS_TITLE"], (*_display->string)["SPELL_DIOS_DESC"]);
+	_spells.emplace_back(KALKI, PRIEST, SUPPORT, level, false, (*_display->string)["SPELL_KALKI_NAME"],
+		(*_display->string)["SPELL_KALKI_TITLE"], (*_display->string)["SPELL_KALKI_DESC"]);
+	_spells.emplace_back(MILWA, PRIEST, FIELD, level, false, (*_display->string)["SPELL_MILWA_NAME"],
+		(*_display->string)["SPELL_MILWA_TITLE"], (*_display->string)["SPELL_MILWA_DESC"]);
+	_spells.emplace_back(PORFIC, PRIEST, SUPPORT, level, false, (*_display->string)["SPELL_PORFIC_NAME"],
+		(*_display->string)["SPELL_PORFIC_TITLE"], (*_display->string)["SPELL_PORFIC_DESC"]);
 
 	// Level 2
 	++level;
-	_spells.emplace_back(CALFO, PRIEST, FIELD, level, false, "CALFO", "X-Ray Vision",
-		"Allows the caster to identify the trap on a chest with 95% accuracy.");
-	_spells.emplace_back(MANIFO, PRIEST, DISABLE, level, false, "MANIFO", "Statue",
-		"Causes ones group of foes to become temporarily paralyzed.");
-	_spells.emplace_back(MATU, PRIEST, SUPPORT, level, false, "MATU", "Blessing",
-		"Lowers armor class of all party members by 2 during combat.");
-	_spells.emplace_back(MONTINO, PRIEST, DISABLE, level, false, "MONTINO", "Still Air",
-		"Stills the air around a group of foes, making it impossible for them to cast spells.");
+	_spells.emplace_back(CALFO, PRIEST, FIELD, level, false, (*_display->string)["SPELL_CALFO_NAME"],
+		(*_display->string)["SPELL_CALFO_TITLE"], (*_display->string)["SPELL_CALFO_DESC"]);
+	_spells.emplace_back(MANIFO, PRIEST, DISABLE, level, false, (*_display->string)["SPELL_MANIFO_NAME"],
+		(*_display->string)["SPELL_MANIFO_TITLE"], (*_display->string)["SPELL_MANIFO_DESC"]);
+	_spells.emplace_back(MATU, PRIEST, SUPPORT, level, false, (*_display->string)["SPELL_MATU_NAME"],
+		(*_display->string)["SPELL_MATU_TITLE"], (*_display->string)["SPELL_MATU_DESC"]);
+	_spells.emplace_back(MONTINO, PRIEST, DISABLE, level, false, (*_display->string)["SPELL_MONTINO_NAME"],
+		(*_display->string)["SPELL_MONTINO_TITLE"], (*_display->string)["SPELL_MONTINO_DESC"]);
 
 	// Level 3
 	++level;
-	_spells.emplace_back(BAMATU, PRIEST, SUPPORT, level, false, "BAMATU", "Prayer",
-		"Grants a -4 bonus to armour class to the entire party for the duration of combat.");
-	_spells.emplace_back(DIALKO, PRIEST, HEALING, level, false, "DIALKO", "Softness",
-		"Cures one party member of paralysis, silence, or sleep.");
-	_spells.emplace_back(
-		LATUMAPIC, PRIEST, FIELD, level, false, "LATUMAPIC", "Identify", "Full identifies unknown foes.");
-	_spells.emplace_back(LOMILWA, PRIEST, FIELD, level, false, "LOMILWA", "More Light",
-		"Extends the party's field of vision and reveals most secret doors. Lasts until leaving the maze or "
-		"entering an area of magical darkness.");
+	_spells.emplace_back(BAMATU, PRIEST, SUPPORT, level, false, (*_display->string)["SPELL_BAMATU_NAME"],
+		(*_display->string)["SPELL_BAMATU_TITLE"], (*_display->string)["SPELL_BAMATU_DESC"]);
+	_spells.emplace_back(DIALKO, PRIEST, HEALING, level, false, (*_display->string)["SPELL_DIALKO_NAME"],
+		(*_display->string)["SPELL_DIALKO_TITLE"], (*_display->string)["SPELL_DIALKO_DESC"]);
+	_spells.emplace_back(LATUMAPIC, PRIEST, FIELD, level, false, (*_display->string)["SPELL_LATUMAPIC_NAME"],
+		(*_display->string)["SPELL_LATUMAPIC_TITLE"], (*_display->string)["SPELL_LATUMAPIC_DESC"]);
+	_spells.emplace_back(LOMILWA, PRIEST, FIELD, level, false, (*_display->string)["SPELL_LOMILWA_NAME"],
+		(*_display->string)["SPELL_LOMILWA_TITLE"], (*_display->string)["SPELL_LOMILWA_DESC"]);
 
 	// Level 4
 	++level;
-	_spells.emplace_back(BADIAL, PRIEST, ATTACK, level, false, "BADIAL", "More Hurt",
-		"Inflicts 2d8 points of negative energy damage to one foe.");
-	_spells.emplace_back(
-		DIAL, PRIEST, HEALING, level, false, "DIAL", "More Heal", "Restores 2d8 hp to a party member.");
-	_spells.emplace_back(
-		LATUMOFIS, PRIEST, HEALING, level, false, "LATUMOFIS", "Cure Poison", "Cures a party member of poisoning.");
-	_spells.emplace_back(MAPORFIC, PRIEST, FIELD, level, false, "MAPORFIC", "Big Shield",
-		"Grants a -2 bonus to armour class to the entire party. Lasts until leaving the maze or dispelled");
+	_spells.emplace_back(BADIAL, PRIEST, ATTACK, level, false, (*_display->string)["SPELL_BADIAL_NAME"],
+		(*_display->string)["SPELL_BADIAL_TITLE"], (*_display->string)["SPELL_BADIAL_DESC"]);
+	_spells.emplace_back(DIAL, PRIEST, HEALING, level, false, (*_display->string)["SPELL_DIAL_NAME"],
+		(*_display->string)["SPELL_DIAL_TITLE"], (*_display->string)["SPELL_DIAL_DESC"]);
+	_spells.emplace_back(LATUMOFIS, PRIEST, HEALING, level, false, (*_display->string)["SPELL_LATUMOFIS_NAME"],
+		(*_display->string)["SPELL_LATUMOFIS_TITLE"], (*_display->string)["SPELL_LATUMOFIS_DESC"]);
+	_spells.emplace_back(MAPORFIC, PRIEST, FIELD, level, false, (*_display->string)["SPELL_MAPORFIC_NAME"],
+		(*_display->string)["SPELL_MAPORFIC_TITLE"], (*_display->string)["SPELL_MAPORFIC_DESC"]);
 
 	// Level 5
 	++level;
-	_spells.emplace_back(BADI, PRIEST, ATTACK, level, false, "BADI", "Death", "Attempts to slay one foe outright.");
-	_spells.emplace_back(
-		BADIALMA, PRIEST, ATTACK, level, false, "BADIALMA", "Great Hurt", "Causes 3d8 points of damage to one foe");
-	_spells.emplace_back(DI, PRIEST, HEALING, level, false, "DI", "Life",
-		"Attempts to resurrect a dead party member. If it succeeds, the party member has 1 hp, and loses 1 point "
-		"of vitality. If it fails, the dead member is turned to ashes.");
-	_spells.emplace_back(
-		DIALMA, PRIEST, HEALING, level, false, "DIALMA", "Great Heal", "Restores 3d8 hp to a party member.");
-	_spells.emplace_back(KANDI, PRIEST, FIELD, level, false, "KANDI", "Locate Soul",
-		"Gives the direction of the creature the party is attempting to locate; the location is relative to the "
-		"position of the caster.");
+	_spells.emplace_back(BADI, PRIEST, ATTACK, level, false, (*_display->string)["SPELL_BADI_NAME"],
+		(*_display->string)["SPELL_BADI_TITLE"], (*_display->string)["SPELL_BADI_DESC"]);
+	_spells.emplace_back(BADIALMA, PRIEST, ATTACK, level, false, (*_display->string)["SPELL_BADIALMA_NAME"],
+		(*_display->string)["SPELL_BADIALMA_TITLE"], (*_display->string)["SPELL_BADIALMA_DESC"]);
+	_spells.emplace_back(DI, PRIEST, HEALING, level, false, (*_display->string)["SPELL_DI_NAME"],
+		(*_display->string)["SPELL_DI_TITLE"], (*_display->string)["SPELL_DI_DESC"]);
+	_spells.emplace_back(DIALMA, PRIEST, HEALING, level, false, (*_display->string)["SPELL_DIALMA_NAME"],
+		(*_display->string)["SPELL_DIALMA_TITLE"], (*_display->string)["SPELL_DIALMA_DESC"]);
+	_spells.emplace_back(KANDI, PRIEST, FIELD, level, false, (*_display->string)["SPELL_KANDI_NAME"],
+		(*_display->string)["SPELL_KANDI_TITLE"], (*_display->string)["SPELL_KANDI_DESC"]);
 
 	// Level 6
 	++level;
-	_spells.emplace_back(LOKTOFEIT, PRIEST, FIELD, level, false, "LOKTOFEIT", "Recall",
-		"Causes all party members to be transported back to the castle, minus all of their equipment and most of "
-		"their gold");
-	_spells.emplace_back(LORTO, PRIEST, ATTACK, level, false, "LORTO", "Blades",
-		"Causes sharp blades to slice through a group of foes, causing 6d6 points of damage");
-	_spells.emplace_back(
-		MABADI, PRIEST, ATTACK, level, false, "MABADI", "Harming", "Attempts to drain all but 1d8 hp from a foe");
-	_spells.emplace_back(MADI, PRIEST, HEALING, level, false, "MADI", "Healing",
-		"Fills a party member with positive energy, causeing all hp to be restored to a party member and curing "
-		"any condition except death.");
+	_spells.emplace_back(LOKTOFEIT, PRIEST, FIELD, level, false, (*_display->string)["SPELL_LOKTOFEIT_NAME"],
+		(*_display->string)["SPELL_LOKTOFEIT_TITLE"], (*_display->string)["SPELL_LOKTOFEIT_DESC"]);
+	_spells.emplace_back(LORTO, PRIEST, ATTACK, level, false, (*_display->string)["SPELL_LORTO_NAME"],
+		(*_display->string)["SPELL_LORTO_TITLE"], (*_display->string)["SPELL_LORTO_DESC"]);
+	_spells.emplace_back(MABADI, PRIEST, ATTACK, level, false, (*_display->string)["SPELL_MABADI_NAME"],
+		(*_display->string)["SPELL_MABADI_TITLE"], (*_display->string)["SPELL_MABADI_DESC"]);
+	_spells.emplace_back(MADI, PRIEST, HEALING, level, false, (*_display->string)["SPELL_MADI_NAME"],
+		(*_display->string)["SPELL_MADI_TITLE"], (*_display->string)["SPELL_MADI_DESC"]);
 
 	// Level 7
 	++level;
-	_spells.emplace_back(KADORTO, PRIEST, HEALING, level, false, "KADORTO", "Resurrection",
-		"Restores the dead to life, and restores all hp and cures all conditions, even if the party member is "
-		"ashes. "
-		"If the attempt fails, the character is lost forever.");
-	_spells.emplace_back(MALIKTO, PRIEST, ATTACK, level, false, "MALIKTO", "Word of Death",
-		"Inflicts 12d6 points of damage to all foes.");
+	_spells.emplace_back(KADORTO, PRIEST, HEALING, level, false, (*_display->string)["SPELL_KADORTO_NAME"],
+		(*_display->string)["SPELL_KADORTO_TITLE"], (*_display->string)["SPELL_KADORTO_DESC"]);
+	_spells.emplace_back(MALIKTO, PRIEST, ATTACK, level, false, (*_display->string)["SPELL_MALIKTO_NAME"],
+		(*_display->string)["SPELL_MALIKTO_TITLE"], (*_display->string)["SPELL_MALIKTO_DESC"]);
 }
 
 auto Sorcery::Character::reset_spells() -> void {
