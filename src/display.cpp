@@ -48,7 +48,10 @@ Sorcery::Display::Display(System *system) : _system{system} {
 
 auto Sorcery::Display::get_centre_pos(const sf::Vector2f size) const -> sf::Vector2f {
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnarrowing"
 	return sf::Vector2f{window->get_centre_x(size.x), window->get_centre_y(size.y)};
+#pragma GCC diagnostic pop
 }
 
 auto Sorcery::Display::get_centre_x(const unsigned int width) const -> unsigned int {

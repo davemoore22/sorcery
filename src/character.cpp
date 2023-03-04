@@ -2971,7 +2971,7 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		action_c.y += _display->window->get_ch();
 
-		enabled = _mode != CharacterMode::IN_TRAINING;
+		enabled = _mode == CharacterMode::IN_CASTLE || _mode == CharacterMode::IN_MAZE;
 		auto equip_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_EQUIP"])};
 		action_menu_texts[MenuItem::C_ACTION_EQUIP] = equip_text;
 		if (enabled) {
@@ -2994,7 +2994,7 @@ auto Sorcery::Character::_generate_display() -> void {
 		action_c.x = action_x + (offset_x_small * _display->window->get_cw());
 		action_c.y = action_y;
 
-		enabled = _mode != CharacterMode::IN_TRAINING;
+		enabled = _mode == CharacterMode::IN_CASTLE || _mode == CharacterMode::IN_MAZE;
 		auto trade_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_TRADE"])};
 		action_menu_texts[MenuItem::C_ACTION_TRADE] = trade_text;
 
@@ -3017,7 +3017,7 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		action_c.y += _display->window->get_ch();
 
-		enabled = _mode != CharacterMode::IN_TRAINING;
+		enabled = _mode == CharacterMode::IN_CASTLE || _mode == CharacterMode::IN_MAZE;
 		auto drop_text{_add_text(action_c, "{:5}", (*_display->string)["C_ACTION_DROP"])};
 		action_menu_texts[MenuItem::C_ACTION_DROP] = drop_text;
 		if (enabled) {
@@ -3040,7 +3040,7 @@ auto Sorcery::Character::_generate_display() -> void {
 		action_c.x = action_c.x + (offset_x_small * _display->window->get_cw());
 		action_c.y = action_y;
 
-		enabled = _mode != CharacterMode::IN_TRAINING;
+		enabled = _mode == CharacterMode::IN_CASTLE || _mode == CharacterMode::IN_MAZE;
 		auto pool_text{_add_text(action_c, "{:<9}", (*_display->string)["C_ACTION_POOL"])};
 		action_menu_texts[MenuItem::C_ACTION_POOL] = pool_text;
 		if (enabled) {
@@ -3062,7 +3062,7 @@ auto Sorcery::Character::_generate_display() -> void {
 
 		action_c.y += _display->window->get_ch();
 
-		enabled = _mode != CharacterMode::IN_TRAINING;
+		enabled = _mode == CharacterMode::IN_MAZE;
 		auto identify_text{_add_text(action_c, "{:9}", (*_display->string)["C_ACTION_IDENTIFY"])};
 		action_menu_texts[MenuItem::C_ACTION_IDENTIFY] = identify_text;
 		if (enabled) {
@@ -3131,7 +3131,7 @@ auto Sorcery::Character::_generate_display() -> void {
 		action_c.x = action_c.x + (offset_x_small * _display->window->get_cw());
 		action_c.y = action_y;
 
-		enabled = _mode != CharacterMode::IN_TRAINING;
+		enabled = _mode == CharacterMode::IN_CASTLE || _mode == CharacterMode::IN_MAZE;
 		auto next_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_NEXT"])};
 		action_menu_texts[MenuItem::C_ACTION_NEXT] = next_text;
 		if (enabled) {
@@ -3154,6 +3154,7 @@ auto Sorcery::Character::_generate_display() -> void {
 		action_c.y += _display->window->get_ch();
 
 		enabled = true;
+		enabled = _mode == CharacterMode::IN_CASTLE || _mode == CharacterMode::IN_MAZE;
 		auto leave_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_LEAVE"])};
 		action_menu_texts[MenuItem::C_ACTION_LEAVE] = leave_text;
 		if (enabled) {

@@ -172,6 +172,7 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 	const Component name_c{(*_display->layout)["character_create_stage_1:name_candidate"]};
 
 	// Set to the beginning stage
+	_candidate.set_mode(CharacterMode::IN_CREATE);
 	_candidate.set_stage(CharacterStage::CHOOSE_METHOD);
 	_display->set_input_mode(WindowInputMode::CHOOSE_METHOD);
 	_display->generate("choose_method", _sprites, _texts, _frames);

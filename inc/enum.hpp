@@ -468,7 +468,8 @@ namespace Enums::Character {
 		NO_MODE = -1,
 		IN_MAZE,
 		IN_CASTLE,
-		IN_TRAINING
+		IN_TRAINING,
+		IN_CREATE
 	};
 
 	// State of Character Creation
