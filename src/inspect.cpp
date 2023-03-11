@@ -263,23 +263,25 @@ auto Sorcery::Inspect::stop() -> void {
 
 auto Sorcery::Inspect::_draw() -> void {
 
+	using enum Sorcery::Enums::Menu::Mode;
+
 	_graphics->tile_bg(_window);
 
 	// Display Components
 	switch (_mode) {
-	case MenuMode::TAVERN:
+	case TAVERN:
 		_display->display("tavern");
 		break;
-	case MenuMode::INN:
+	case INN:
 		_display->display("inn");
 		break;
-	case MenuMode::SHOP:
+	case SHOP:
 		_display->display("shop");
 		break;
-	case MenuMode::TEMPLE:
+	case TEMPLE:
 		_display->display("temple");
 		break;
-	case MenuMode::CAMP:
+	case CAMP:
 		_display->window->restore_screen();
 		break;
 	default:
@@ -292,7 +294,7 @@ auto Sorcery::Inspect::_draw() -> void {
 			// If we have a character
 			_window->draw(*_cur_char_frame);
 
-			if (_mode == MenuMode::CAMP)
+			if (_mode == CAMP)
 				_cur_char.value()->set_mode(CharacterMode::IN_MAZE);
 			else
 				_cur_char.value()->set_mode(CharacterMode::IN_CASTLE);
@@ -322,7 +324,8 @@ auto Sorcery::Inspect::_draw() -> void {
 
 		// Menu Frame
 		_window->draw(*_menu_frame);
-		_window->draw(*_preview_frame);
+		if (_screen_key != "engine_base_ui")
+			_window->draw(*_preview_frame);
 
 		// And the Menu
 		_menu->generate((*_display->layout)[_screen_key + ":menu"]);
