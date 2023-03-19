@@ -24,7 +24,7 @@
 			"background": " 0x000000ff",
 			"w": "10",
 			"h": "10",
-			"x": "50",
+			"x": "49",
 			"y": "1",
 			"data": [
 				{
@@ -91,8 +91,8 @@
 			"scale": "0.15",
 			"w": "4",
 			"h": "4",
-			"x": "6",
-			"y": "9",
+			"x": "44",
+			"y": "19",
 			"data": [
 				{
 					"icon_colour": "0xffffff",
@@ -115,8 +115,8 @@
 			"scale": "0.15",
 			"w": "4",
 			"h": "12",
-			"x": "1",
-			"y": "1",
+			"x": "44",
+			"y": "6",
 			"data": [
 				{
 					"icon_colour": "0xffffff",
@@ -138,7 +138,7 @@
 			"background": "0x000000ff",
 			"w": "4",
 			"h": "4",
-			"x": "6",
+			"x": "44",
 			"y": "1",
 			"data": [
 				{
@@ -12259,7 +12259,7 @@
 			"background": " 0x000000ff",
 			"w": "10",
 			"h": "9",
-			"x": "50",
+			"x": "49",
 			"y": "14",
 			"data": [
 				{
@@ -12279,8 +12279,8 @@
 			"background": " 0x000000ff",
 			"w": "10",
 			"h": "9",
-			"x": "0",
-			"y": "14",
+			"x": "49",
+			"y": "24",
 			"data": [
 				{
 					"offset_x": "48",
@@ -12289,11 +12289,45 @@
 			]
 		},
 		{
-			"name": "party_panel",
+			"name": "party_panel_small",
+			"w": "42",
+			"h": "9",
+			"x": "1",
+			"y": "24",
+			"alpha": "255",
+			"colour": "0xffffffff",
+			"type": "other",
+			"size": "24",
+			"font": "monospace",
+			"animated": "true",
+			"background": "0x000000ff",
+			"drawmode": "manual",
+			"priority": "8",
+			"data": [
+				{
+					"legend_offset_x": "1",
+					"legend_offset_y": "1",
+					"party_offset_x": "1",
+					"party_offset_y": "2",
+					"bar_width": "38",
+					"colour_ok": "0xffffffff",
+					"colour_silenced": "0xffffffff",
+					"colour_held": "0x800080ff",
+					"colour_stoned": "0x808080ff",
+					"colour_dead": "0xff0000ff",
+					"colour_ashes": "0xff0000ff",
+					"colour_lost": "0xff0000ff",
+					"colour_low_health": "0xffff00ff",
+					"colour_poisoned": "0x00ff00ff"
+				}
+			]
+		},
+		{
+			"name": "party_panel_big",
 			"w": "40",
 			"h": "9",
 			"x": "centre",
-			"y": "24",
+			"y": "25",
 			"alpha": "255",
 			"colour": "0xffffffff",
 			"type": "other",
@@ -12613,10 +12647,10 @@
 		},
 		{
 			"name": "view_frame_small",
-			"w": "38",
-			"h": "23",
-			"x": "centre",
-			"y": "2",
+			"w": "42",
+			"h": "22",
+			"x": "1",
+			"y": "1",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "6",
@@ -12627,8 +12661,8 @@
 			"name": "wireframe_view_small",
 			"type": "other",
 			"priority": "4",
-			"x": "11",
-			"y": "2",
+			"x": "3",
+			"y": "1",
 			"drawmode": "manual",
 			"data":
 				[

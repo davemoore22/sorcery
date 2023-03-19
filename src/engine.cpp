@@ -265,7 +265,7 @@ auto Sorcery::Engine::_initalise_components() -> void {
 
 	// Modules
 	_party_panel = std::make_unique<PartyPanel>(
-		_system, _display, _graphics, _game, (*_display->layout)["engine_base_ui:party_panel"]);
+		_system, _display, _graphics, _game, (*_display->layout)["engine_base_ui:party_panel_small"]);
 	_reorder = std::make_unique<Reorder>(_system, _display, _graphics, _game, MenuMode::CAMP);
 	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MenuMode::CAMP);
 	_render = std::make_unique<Render>(_system, _display, _graphics, _game);
@@ -309,9 +309,12 @@ auto Sorcery::Engine::_reset_direction_indicator() -> void {
 auto Sorcery::Engine::_place_components() -> void {
 
 	// Generate the Custom Components
-	const Component party_banel_c{(*_display->layout)["engine_base_ui:party_panel"]};
-	_party_panel->setPosition(
-		_display->get_centre_x(_party_panel->width), (*_display->layout)["engine_base_ui:party_panel"].y);
+	if (_show_gui)
+		_party_panel->setPosition((*_display->layout)["engine_base_ui:party_panel_small"].x,
+			(*_display->layout)["engine_base_ui:party_panel_small"].y);
+	else
+		_party_panel->setPosition(
+			_display->get_centre_x(_party_panel->width), (*_display->layout)["engine_base_ui:party_panel_big"].y);
 
 	const Component automap_c{(*_display->layout)["global:automap"]};
 	_automap->setPosition(automap_c.x, automap_c.y);
@@ -1298,6 +1301,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_update_render = true;
 	} else if (_system->input->check(WindowInput::MAZE_GUI_TOGGLE, event)) {
 		_show_gui = !_show_gui;
+		_place_components();
 		_update_automap = true;
 		_update_compass = true;
 		_update_buffbar = true;
@@ -2691,9 +2695,8 @@ auto Sorcery::Engine::_draw() -> void {
 		_window->draw(*_right_icon_panel);
 	}
 
-	if (_show_party_panel) {
+	if (_show_party_panel)
 		_window->draw(*_party_panel);
-	}
 
 	if (_in_map) {
 		_window->draw(*_map);
