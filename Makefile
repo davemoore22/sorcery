@@ -653,6 +653,30 @@ src/database.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/database.cpp.s
 .PHONY : src/database.cpp.s
 
+src/debuffbar.o: src/debuffbar.cpp.o
+.PHONY : src/debuffbar.o
+
+# target to build an object file
+src/debuffbar.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/debuffbar.cpp.o
+.PHONY : src/debuffbar.cpp.o
+
+src/debuffbar.i: src/debuffbar.cpp.i
+.PHONY : src/debuffbar.i
+
+# target to preprocess a source file
+src/debuffbar.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/debuffbar.cpp.i
+.PHONY : src/debuffbar.cpp.i
+
+src/debuffbar.s: src/debuffbar.cpp.s
+.PHONY : src/debuffbar.s
+
+# target to generate assembly for a file
+src/debuffbar.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/debuffbar.cpp.s
+.PHONY : src/debuffbar.cpp.s
+
 src/dialog.o: src/dialog.cpp.o
 .PHONY : src/dialog.o
 
@@ -2071,6 +2095,9 @@ help:
 	@echo "... src/database.o"
 	@echo "... src/database.i"
 	@echo "... src/database.s"
+	@echo "... src/debuffbar.o"
+	@echo "... src/debuffbar.i"
+	@echo "... src/debuffbar.s"
 	@echo "... src/dialog.o"
 	@echo "... src/dialog.i"
 	@echo "... src/dialog.s"

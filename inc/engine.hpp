@@ -28,6 +28,7 @@
 #include "buffbar.hpp"
 #include "compass.hpp"
 #include "console.hpp"
+#include "debuffbar.hpp"
 #include "dialog.hpp"
 #include "display.hpp"
 #include "event.hpp"
@@ -171,6 +172,7 @@ class Engine {
 		std::unique_ptr<IconPanel> _right_icon_panel;
 		std::unique_ptr<Dialog> _confirm_stairs;
 		std::unique_ptr<BuffBar> _buffbar;
+		std::unique_ptr<DebuffBar> _debuffbar;
 		std::unique_ptr<Search> _search;
 		std::unique_ptr<Map> _map;
 		std::unique_ptr<Graveyard> _graveyard;
@@ -199,6 +201,7 @@ class Engine {
 		bool _update_automap;
 		bool _update_compass;
 		bool _update_buffbar;
+		bool _update_debuffbar;
 		bool _update_icon_panels;
 		bool _update_party_panel;
 		bool _update_render;

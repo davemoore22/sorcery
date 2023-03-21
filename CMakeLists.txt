@@ -38,6 +38,7 @@ add_executable(${PROJECT_NAME}
 	src/controloverlay.cpp
 	src/create.cpp
 	src/database.cpp
+	src/debuffbar.cpp
 	src/dialog.cpp
 	src/display.cpp
 	src/edgeoftown.cpp

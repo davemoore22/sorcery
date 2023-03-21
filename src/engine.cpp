@@ -45,6 +45,7 @@ auto Sorcery::Engine::_initialise_state() -> void {
 	_update_automap = false;
 	_update_compass = false;
 	_update_buffbar = false;
+	_update_debuffbar = false;
 	_update_icon_panels = false;
 	_update_party_panel = false;
 	_update_render = false;
@@ -120,6 +121,8 @@ auto Sorcery::Engine::_reset_components() -> void {
 		_compass.reset();
 	if (_buffbar.get())
 		_buffbar.reset();
+	if (_debuffbar.get())
+		_debuffbar.reset();
 	if (_search.get())
 		_search.reset();
 	if (_left_icon_panel.get())
@@ -273,6 +276,8 @@ auto Sorcery::Engine::_initalise_components() -> void {
 	_automap = std::make_unique<AutoMap>(_system, _display, _graphics, _game, (*_display->layout)["global:automap"]);
 	_compass = std::make_unique<Compass>(_system, _display, _graphics, _game, (*_display->layout)["global:compass"]);
 	_buffbar = std::make_unique<BuffBar>(_system, _display, _graphics, _game, (*_display->layout)["global:buffbar"]);
+	_debuffbar =
+		std::make_unique<DebuffBar>(_system, _display, _graphics, _game, (*_display->layout)["global:debuffbar"]);
 	_search = std::make_unique<Search>(_system, _display, _graphics, _game, (*_display->layout)["global:search"]);
 	_console = std::make_unique<Console>(_display->window->get_gui(), _system, _display, _graphics, _game);
 	_left_icon_panel = std::make_unique<IconPanel>(
@@ -322,6 +327,8 @@ auto Sorcery::Engine::_place_components() -> void {
 	_compass->setPosition(compass_c.x, compass_c.y);
 	const Component buffbar_c{(*_display->layout)["global:buffbar"]};
 	_buffbar->setPosition(buffbar_c.x, buffbar_c.y);
+	const Component debuffbar_c{(*_display->layout)["global:debuffbar"]};
+	_debuffbar->setPosition(debuffbar_c.x, debuffbar_c.y);
 	const Component search_c{(*_display->layout)["global:search"]};
 	_search->setPosition(search_c.x, search_c.y);
 
@@ -352,6 +359,7 @@ auto Sorcery::Engine::_refresh() const -> void {
 	_automap->refresh();
 	_compass->refresh();
 	_buffbar->refresh();
+	_debuffbar->refresh();
 	_search->refresh();
 	_map->refresh();
 	_left_icon_panel->refresh(true);
@@ -459,6 +467,7 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 				_update_automap = true;
 				_update_compass = true;
 				_update_buffbar = true;
+				_update_debuffbar = true;
 				_update_search = true;
 				_update_render = true;
 				_pending_chute = false;
@@ -482,6 +491,7 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 				_update_automap = true;
 				_update_compass = true;
 				_update_buffbar = true;
+				_update_debuffbar = true;
 				_update_search = true;
 				_update_render = true;
 				_pending_elevator = false;
@@ -503,6 +513,7 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 			_update_automap = true;
 			_update_compass = true;
 			_update_buffbar = true;
+			_update_debuffbar = true;
 			_update_search = true;
 			_update_render = true;
 			_pending_combat = false;
@@ -1178,6 +1189,7 @@ auto Sorcery::Engine::_handle_in_map(const sf::Event &event) -> std::optional<in
 		_update_automap = true;
 		_update_compass = true;
 		_update_buffbar = true;
+		_update_debuffbar = true;
 		_update_search = true;
 		_update_render = true;
 		return CONTINUE;
@@ -1268,6 +1280,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_update_automap = true;
 		_update_compass = true;
 		_update_buffbar = true;
+		_update_debuffbar = true;
 		_update_search = true;
 		_update_render = true;
 	} else if (_system->input->check(WindowInput::MAZE_SEARCH, event)) {
@@ -1275,6 +1288,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_update_automap = true;
 		_update_compass = true;
 		_update_buffbar = true;
+		_update_debuffbar = true;
 		_update_search = true;
 		_update_render = true;
 	} else if (_system->input->check(WindowInput::MAZE_INSPECT, event)) {
@@ -1283,6 +1297,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_update_automap = true;
 		_update_compass = true;
 		_update_buffbar = true;
+		_update_debuffbar = true;
 		_update_search = true;
 		_update_render = true;
 	} else if (_system->input->check(WindowInput::MAZE_CAMP, event)) {
@@ -1290,6 +1305,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_update_automap = true;
 		_update_compass = true;
 		_update_buffbar = true;
+		_update_debuffbar = true;
 		_update_search = true;
 		_update_render = true;
 	} else if (_system->input->check(WindowInput::MAZE_STATUSBAR_TOGGLE, event)) {
@@ -1297,6 +1313,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_update_automap = true;
 		_update_compass = true;
 		_update_buffbar = true;
+		_update_debuffbar = true;
 		_update_search = true;
 		_update_render = true;
 	} else if (_system->input->check(WindowInput::MAZE_GUI_TOGGLE, event)) {
@@ -1305,6 +1322,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_update_automap = true;
 		_update_compass = true;
 		_update_buffbar = true;
+		_update_debuffbar = true;
 		_update_search = true;
 		_update_render = true;
 	}
@@ -1438,6 +1456,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_update_compass = true;
 			_update_render = true;
 			_update_buffbar = true;
+			_update_debuffbar = true;
 			_update_search = true;
 			_game->pass_turn();
 		}
@@ -1451,6 +1470,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_update_compass = true;
 			_update_render = true;
 			_update_buffbar = true;
+			_update_debuffbar = true;
 			_update_search = true;
 			_game->pass_turn();
 		} else if ((_system->input->check(WindowInput::RIGHT, event)) ||
@@ -1463,6 +1483,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_update_compass = true;
 			_update_render = true;
 			_update_buffbar = true;
+			_update_debuffbar = true;
 			_update_search = true;
 			_game->pass_turn();
 		} else if ((_system->input->check(WindowInput::UP, event)) ||
@@ -1497,6 +1518,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_update_compass = true;
 			_update_render = true;
 			_update_buffbar = true;
+			_update_debuffbar = true;
 			_update_search = true;
 			_can_run_event = true;
 		} else if ((_system->input->check(WindowInput::DOWN, event)) ||
@@ -1531,6 +1553,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_update_compass = true;
 			_update_render = true;
 			_update_buffbar = true;
+			_update_debuffbar = true;
 			_update_search = true;
 			_can_run_event = true;
 
@@ -1638,6 +1661,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						_update_compass = true;
 						_update_render = true;
 						_update_buffbar = true;
+						_update_debuffbar = true;
 						_update_search = true;
 					} else if (what.ends_with("right")) {
 						_show_direction_indicatior = true;
@@ -1648,6 +1672,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						_update_compass = true;
 						_update_render = true;
 						_update_buffbar = true;
+						_update_debuffbar = true;
 						_update_search = true;
 					} else if (what.ends_with("forward")) {
 						if (auto has_moved{_move_forward()}; !has_moved) {
@@ -1686,6 +1711,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						_update_automap = true;
 						_update_compass = true;
 						_update_buffbar = true;
+						_update_debuffbar = true;
 						_update_search = true;
 						_update_render = true;
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
@@ -1712,6 +1738,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 					_update_automap = true;
 					_update_compass = true;
 					_update_buffbar = true;
+					_update_debuffbar = true;
 					_update_search = true;
 					_update_render = true;
 
@@ -1725,6 +1752,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						_update_automap = true;
 						_update_compass = true;
 						_update_buffbar = true;
+						_update_debuffbar = true;
 						_update_search = true;
 						_update_render = true;
 					}
@@ -1968,6 +1996,10 @@ auto Sorcery::Engine::_update_display() -> void {
 	if (_update_buffbar) {
 		_buffbar->refresh();
 		_update_buffbar = false;
+	}
+	if (_update_debuffbar) {
+		_debuffbar->refresh();
+		_update_debuffbar = false;
 	}
 	if (_update_search) {
 		_search->refresh();
@@ -2492,6 +2524,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 			_update_automap = true;
 			_update_compass = true;
 			_update_buffbar = true;
+			_update_debuffbar = true;
 			_update_search = true;
 			_update_render = true;
 		} else if (dungeon_event.combat_after) {
@@ -2684,6 +2717,7 @@ auto Sorcery::Engine::_draw() -> void {
 		_window->draw(*_automap);
 		_window->draw(*_compass);
 		_window->draw(*_buffbar);
+		_window->draw(*_debuffbar);
 		_window->draw(*_search);
 
 		if (_left_icon_panel->selected)
@@ -2875,6 +2909,7 @@ auto Sorcery::Engine::_debug_go_back() -> std::optional<int> {
 	_update_automap = true;
 	_update_compass = true;
 	_update_buffbar = true;
+	_update_debuffbar = true;
 	_update_search = true;
 	_update_render = true;
 
@@ -2913,6 +2948,7 @@ auto Sorcery::Engine::_debug_go_down_a_level() -> std::optional<int> {
 	_update_automap = true;
 	_update_compass = true;
 	_update_buffbar = true;
+	_update_debuffbar = true;
 	_update_search = true;
 	_update_render = true;
 
@@ -2930,6 +2966,7 @@ auto Sorcery::Engine::_debug_go_up_a_level() -> std::optional<int> {
 	_update_automap = true;
 	_update_compass = true;
 	_update_buffbar = true;
+	_update_debuffbar = true;
 	_update_search = true;
 	_update_render = true;
 
@@ -2950,6 +2987,7 @@ auto Sorcery::Engine::_debug_heal_party_to_full() -> std::optional<int> {
 	_update_automap = true;
 	_update_compass = true;
 	_update_buffbar = true;
+	_update_debuffbar = true;
 	_update_search = true;
 	_update_render = true;
 	_update_party_panel = true;
@@ -2967,6 +3005,7 @@ auto Sorcery::Engine::_debug_give_first_character_gold_xp() -> std::optional<int
 	_update_automap = true;
 	_update_compass = true;
 	_update_buffbar = true;
+	_update_debuffbar = true;
 	_update_search = true;
 	_update_render = true;
 	_update_party_panel = true;
@@ -2982,6 +3021,7 @@ auto Sorcery::Engine::_debug_level_first_character_down() -> std::optional<int> 
 	_update_automap = true;
 	_update_compass = true;
 	_update_buffbar = true;
+	_update_debuffbar = true;
 	_update_search = true;
 	_update_render = true;
 	_update_party_panel = true;
@@ -2998,6 +3038,7 @@ auto Sorcery::Engine::_debug_level_first_character_up() -> std::optional<int> {
 	_update_automap = true;
 	_update_compass = true;
 	_update_buffbar = true;
+	_update_debuffbar = true;
 	_update_search = true;
 	_update_render = true;
 	_update_party_panel = true;
@@ -3018,6 +3059,7 @@ auto Sorcery::Engine::_debug_kill_non_party_characters() -> std::optional<int> {
 	_update_automap = true;
 	_update_compass = true;
 	_update_buffbar = true;
+	_update_debuffbar = true;
 	_update_search = true;
 	_update_render = true;
 	_update_party_panel = true;
@@ -3038,6 +3080,7 @@ auto Sorcery::Engine::_debug_send_non_party_characters_to_tavern() -> std::optio
 	_update_automap = true;
 	_update_compass = true;
 	_update_buffbar = true;
+	_update_debuffbar = true;
 	_update_search = true;
 	_update_render = true;
 	_update_party_panel = true;
@@ -3061,6 +3104,7 @@ auto Sorcery::Engine::_debug_give_party_random_hp() -> std::optional<int> {
 	_update_automap = true;
 	_update_compass = true;
 	_update_buffbar = true;
+	_update_debuffbar = true;
 	_update_search = true;
 	_update_render = true;
 	_update_party_panel = true;
@@ -3088,6 +3132,7 @@ auto Sorcery::Engine::_debug_give_party_random_status() -> std::optional<int> {
 	_update_automap = true;
 	_update_compass = true;
 	_update_buffbar = true;
+	_update_debuffbar = true;
 	_update_search = true;
 	_update_render = true;
 	_update_party_panel = true;
@@ -3102,6 +3147,7 @@ auto Sorcery::Engine::_debug_light_on() -> std::optional<int> {
 	_update_automap = true;
 	_update_compass = true;
 	_update_buffbar = true;
+	_update_debuffbar = true;
 	_update_search = true;
 	_update_render = true;
 
@@ -3114,6 +3160,7 @@ auto Sorcery::Engine::_debug_light_off() -> std::optional<int> {
 	_update_automap = true;
 	_update_compass = true;
 	_update_buffbar = true;
+	_update_debuffbar = true;
 	_update_search = true;
 	_update_render = true;
 
@@ -3126,6 +3173,7 @@ auto Sorcery::Engine::_debug_monochrome_wireframe() -> std::optional<int> {
 	_update_automap = true;
 	_update_compass = true;
 	_update_buffbar = true;
+	_update_debuffbar = true;
 	_update_search = true;
 	_update_render = true;
 
@@ -3138,6 +3186,7 @@ auto Sorcery::Engine::_debug_colour_wireframe() -> std::optional<int> {
 	_update_automap = true;
 	_update_compass = true;
 	_update_buffbar = true;
+	_update_debuffbar = true;
 	_update_search = true;
 	_update_render = true;
 

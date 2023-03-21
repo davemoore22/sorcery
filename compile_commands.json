@@ -78,12 +78,12 @@
       "-std=gnu++20",
       "-c",
       "-o",
-      "CMakeFiles/sorcery.dir/src/application.cpp.o",
-      "/home/dave/sorcery/src/application.cpp"
+      "CMakeFiles/sorcery.dir/src/animation.cpp.o",
+      "/home/dave/sorcery/src/animation.cpp"
     ],
     "directory": "/home/dave/Development/wizardry/sorcery-sfml",
-    "file": "/home/dave/sorcery/src/application.cpp",
-    "output": "/home/dave/Development/wizardry/sorcery-sfml/CMakeFiles/sorcery.dir/src/application.cpp.o"
+    "file": "/home/dave/sorcery/src/animation.cpp",
+    "output": "/home/dave/Development/wizardry/sorcery-sfml/CMakeFiles/sorcery.dir/src/animation.cpp.o"
   },
   {
     "arguments": [
@@ -121,12 +121,12 @@
       "-std=gnu++20",
       "-c",
       "-o",
-      "CMakeFiles/sorcery.dir/src/animation.cpp.o",
-      "/home/dave/sorcery/src/animation.cpp"
+      "CMakeFiles/sorcery.dir/src/application.cpp.o",
+      "/home/dave/sorcery/src/application.cpp"
     ],
     "directory": "/home/dave/Development/wizardry/sorcery-sfml",
-    "file": "/home/dave/sorcery/src/animation.cpp",
-    "output": "/home/dave/Development/wizardry/sorcery-sfml/CMakeFiles/sorcery.dir/src/animation.cpp.o"
+    "file": "/home/dave/sorcery/src/application.cpp",
+    "output": "/home/dave/Development/wizardry/sorcery-sfml/CMakeFiles/sorcery.dir/src/application.cpp.o"
   },
   {
     "arguments": [
@@ -901,6 +901,49 @@
     "directory": "/home/dave/Development/wizardry/sorcery-sfml",
     "file": "/home/dave/sorcery/src/database.cpp",
     "output": "/home/dave/Development/wizardry/sorcery-sfml/CMakeFiles/sorcery.dir/src/database.cpp.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-DTGUI_DYNAMIC",
+      "-I/home/dave/sorcery/inc",
+      "-I/home/dave/sorcery/inc/simpleini",
+      "-I/home/dave/sorcery/inc/magicenum",
+      "-I/home/dave/sorcery/inc/sqlitemoderncpp",
+      "-I/home/dave/sorcery/inc/backwardcpp",
+      "-I/home/dave/sorcery/inc/cereal",
+      "-I/home/dave/sorcery/inc/sfemovie",
+      "-I/usr/include/X11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wunreachable-code",
+      "-Wunused",
+      "-Wignored-qualifiers",
+      "-Wcast-align",
+      "-Wformat-nonliteral",
+      "-Wformat=2",
+      "-Winvalid-pch",
+      "-Wmissing-declarations",
+      "-Wmissing-format-attribute",
+      "-Wmissing-include-dirs",
+      "-Wredundant-decls",
+      "-Wswitch-default",
+      "-Wodr",
+      "-Wfatal-errors",
+      "-fdiagnostics-color=always",
+      "-pthread",
+      "-pg",
+      "-g",
+      "-std=gnu++20",
+      "-c",
+      "-o",
+      "CMakeFiles/sorcery.dir/src/debuffbar.cpp.o",
+      "/home/dave/sorcery/src/debuffbar.cpp"
+    ],
+    "directory": "/home/dave/Development/wizardry/sorcery-sfml",
+    "file": "/home/dave/sorcery/src/debuffbar.cpp",
+    "output": "/home/dave/Development/wizardry/sorcery-sfml/CMakeFiles/sorcery.dir/src/debuffbar.cpp.o"
   },
   {
     "arguments": [

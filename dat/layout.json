@@ -128,6 +128,30 @@
 			]
 		},
 		{
+			"name": "debuffbar",
+			"font": "text",
+			"size": "24",
+			"alpha": "220",
+			"colour": "0xffffffff",
+			"type": "panel",
+			"drawmode": "manual",
+			"background": "0x000000ff",
+			"scale": "0.15",
+			"w": "4",
+			"h": "9",
+			"x": "44",
+			"y": "24",
+			"data": [
+				{
+					"icon_colour": "0xffffff",
+					"offset_x": "16",
+					"offset_y": "12",
+					"offset_row": "32",
+					"icon_scaling": "0.15"
+				}
+			]
+		},
+		{
 			"name": "compass",
 			"font": "text",
 			"size": "24",
