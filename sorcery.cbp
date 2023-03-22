@@ -153,6 +153,7 @@
 		<Unit filename="inc/controloverlay.hpp" />
 		<Unit filename="inc/create.hpp" />
 		<Unit filename="inc/database.hpp" />
+		<Unit filename="inc/debuffbar.hpp" />
 		<Unit filename="inc/define.hpp" />
 		<Unit filename="inc/dialog.hpp" />
 		<Unit filename="inc/display.hpp" />
@@ -233,6 +234,7 @@
 		<Unit filename="src/controloverlay.cpp" />
 		<Unit filename="src/create.cpp" />
 		<Unit filename="src/database.cpp" />
+		<Unit filename="src/debuffbar.cpp" />
 		<Unit filename="src/dialog.cpp" />
 		<Unit filename="src/display.cpp" />
 		<Unit filename="src/edgeoftown.cpp" />
