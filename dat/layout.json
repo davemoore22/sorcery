@@ -387,7 +387,9 @@
 					"spacing_y": "51",
 					"columns_per_row": "15",
 					"highlight_offset_x": "-0",
-					"highlight_offset_y": "-4"
+					"highlight_offset_y": "-4",
+					"highlight_scale_x": "2.1",
+					"highlight_scale_y": "0.6"
 				}
 			]
 		}

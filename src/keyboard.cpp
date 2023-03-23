@@ -177,11 +177,23 @@ Sorcery::Keyboard::Keyboard(System *system, Display *display, Graphics *graphics
 
 auto Sorcery::Keyboard::set_selected_background() -> void {
 
-	// Find the text that is highlighted
+	// Handle END DEL SPC differently!
 	const auto offset_x{std::stoi(_text_c["highlight_offset_x"].value())};
 	const auto offset_y{std::stoi(_text_c["highlight_offset_y"].value())};
-	const sf::FloatRect text_rect{_texts.at(selected).getPosition().x * 1.0f,
-		_texts.at(selected).getPosition().y * 1.0f, _text_c.size * 1.0f, _text_c.size * 1.0f};
+	const auto highlight_div_x{std::stof(_text_c["highlight_scale_x"].value())};
+	const auto highlight_div_y{std::stof(_text_c["highlight_scale_y"].value())};
+	sf::FloatRect text_rect;
+	if (const std::string letter{_texts.at(selected).getString()}; letter.length() > 1) {
+		text_rect =
+			sf::FloatRect(_texts.at(selected).getPosition().x * 1.0f, _texts.at(selected).getPosition().y * 1.0f,
+				_text_c.size * (letter.length() / highlight_div_x), _text_c.size * highlight_div_y);
+	} else {
+		text_rect = sf::FloatRect(_texts.at(selected).getPosition().x * 1.0f,
+			_texts.at(selected).getPosition().y * 1.0f, _text_c.size * 1.0f, _text_c.size * 1.0f);
+	}
+
+	// Find the text that is highlighted
+
 	_selected_bg = sf::RectangleShape(sf::Vector2(text_rect.width, text_rect.height));
 	_selected_bg.setFillColor(_graphics->animation->selected_colour);
 	_selected_bg.setPosition(
