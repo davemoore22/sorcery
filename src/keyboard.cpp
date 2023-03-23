@@ -178,12 +178,14 @@ Sorcery::Keyboard::Keyboard(System *system, Display *display, Graphics *graphics
 auto Sorcery::Keyboard::set_selected_background() -> void {
 
 	// Find the text that is highlighted
+	const auto offset_x{std::stoi(_text_c["highlight_offset_x"].value())};
+	const auto offset_y{std::stoi(_text_c["highlight_offset_y"].value())};
 	const sf::FloatRect text_rect{_texts.at(selected).getPosition().x * 1.0f,
 		_texts.at(selected).getPosition().y * 1.0f, _text_c.size * 1.0f, _text_c.size * 1.0f};
 	_selected_bg = sf::RectangleShape(sf::Vector2(text_rect.width, text_rect.height));
 	_selected_bg.setFillColor(_graphics->animation->selected_colour);
 	_selected_bg.setPosition(
-		_texts.at(selected).getPosition().x - (_text_c.size / 2), _texts.at(selected).getPosition().y - 8);
+		_texts.at(selected).getPosition().x + offset_x, _texts.at(selected).getPosition().y + offset_y);
 	_texts.at(selected).setFillColor(sf::Color(_text_c.colour));
 	_texts.at(selected).setOutlineColor(sf::Color(0, 0, 0));
 	_texts.at(selected).setOutlineThickness(2);

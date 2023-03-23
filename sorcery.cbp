@@ -12,7 +12,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
-				<Option parameters="--skip-intro -go-to-maze" />
+				<Option parameters="--skip-intro -go-to-training" />
 				<Compiler>
 					<Add option="-pg" />
 					<Add option="-g" />
