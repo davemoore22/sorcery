@@ -1189,6 +1189,98 @@ namespace Enums {
 			GOLD_KEY = 6,
 			SILVER_KEY = 7
 		};
+
+		enum class Type {
+
+			NO_ITEM_TYPE = 0,
+			WEAPON = 1,
+			ARMOUR = 2,
+			SHIELD = 3,
+			HELMET = 4,
+			GAUNTLETS = 5,
+			MISCELLANEOUS = 6,
+			SCROLL = 7,
+			POTION = 8,
+			SPECIAL_ITEM = 9
+		};
+
+		// From Snarfaru's updated list at https://www.zimlab.com/wizardry/walk/wizardry-1-items-list.htm
+		namespace Effects {
+
+			enum class Defensive {
+				NO_DEF_EFFECT = 0,
+				// Protection effects cause incoming physical damage from these creature types to be
+				// halved if a character is wearing an item with the appropriate effect
+				PROTECTION_VS_ANIMAL = 1,
+				PROTECTION_VS_CLERIC = 2,
+				PROTECTION_VS_DEMON = 3,
+				PROTECTION_VS_DRAGON = 4,
+				PROTECTION_VS_ENCHANT = 5,
+				PROTECTION_VS_FIGHTER = 6,
+				PROTECTION_VS_GIANT = 7,
+				PROTECTION_VS_INSECT = 8,
+				PROTECTION_VS_MAGE = 9,
+				PROTECTION_VS_MYTH = 10,
+				PROTECTION_VS_THIEF = 11,
+				PROTECTION_VS_UNDEAD = 12,
+				PROTECTION_VS_WERE = 13,
+				// Breath Resistances work as follows ("DOBREATH" in the original code):
+				// There is a Resistance vs Breath Attacks chance of halving the incoming damage
+				// If a character is wearing an item with the appropriate Breath Resistance, then
+				// any incoming damage is halved again - so it is possible for a character to
+				// suffer only 1/4 damage on a successful Saving Throw + Wearing an appropriate item
+				RESIST_COLD = 14,
+				RESIST_FIRE = 15,
+				RESIST_MAGIC = 16,
+				// Reduces all non-magical incoming damage by half
+				RESIST_PHYSICAL = 17,
+				// Resistances to Level Drain, Poison, and Stoning work differently in that the
+				// Resistance vs Poison, Stoning rolls grant a chance of avoiding the relevant status
+				// effect entirely (note that Stoning also applies to Paralyis). Items with these
+				// three resistances also grant complete immunity to these effects ("DRAINLEV")
+				RESIST_LEVELDRAIN = 18,
+				RESIST_POISON = 19,
+				RESIST_STONING = 20,
+				// Immunity to death via critical hits
+				PREVENT_DECAPITATION = 21
+			};
+
+			enum class Offensive {
+				// Double Damage versus these types of enemies
+				NO_OFF_EFFECT = 0,
+				PURPOSED_VS_ANIMAL = 1,
+				PURPOSED_VS_CLERIC = 2,
+				PURPOSED_VS_DEMON = 3,
+				PURPOSED_VS_DRAGON = 4,
+				PURPOSED_VS_ENCHANT = 5,
+				PURPOSED_VS_FIGHTER = 6,
+				PURPOSED_VS_GIANT = 7,
+				PURPOSED_VS_INSECT = 8,
+				PURPOSED_VS_MAGE = 9,
+				PURPOSED_VS_MYTH = 10,
+				PURPOSED_VS_THIEF = 11,
+				PURPOSED_VS_UNDEAD = 12,
+				PURPOSED_VS_WERE = 13,
+				// On a critical hit, this kills the enemy regardless of type
+				DECAPITATION = 14
+			};
+
+			enum class Invocation {
+				NO_INV_EFFECT = 0,
+				BECOME_NINJA = 1,
+				HEAL_ALL = 2,
+				INC_HP = 3,
+				INC_STRENGTH = 4,
+				// These ones are possible in Wiz 1 but never used according to Snafaru
+				AGE_BY_A_YEAR = 5,
+				BECOME_LORD = 6,
+				BECOME_SAMURAI = 7,
+				GRANT_50000_EXP = 8,
+				GRANT_50000_GOLD = 9,
+				HEAL_ALL = 10,
+				STATUS_TO_LOST = 11
+			};
+		}
 	}
 }
 }
