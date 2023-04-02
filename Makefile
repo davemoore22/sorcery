@@ -1133,6 +1133,30 @@ src/inspect.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/inspect.cpp.s
 .PHONY : src/inspect.cpp.s
 
+src/item.o: src/item.cpp.o
+.PHONY : src/item.o
+
+# target to build an object file
+src/item.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/item.cpp.o
+.PHONY : src/item.cpp.o
+
+src/item.i: src/item.cpp.i
+.PHONY : src/item.i
+
+# target to preprocess a source file
+src/item.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/item.cpp.i
+.PHONY : src/item.cpp.i
+
+src/item.s: src/item.cpp.s
+.PHONY : src/item.s
+
+# target to generate assembly for a file
+src/item.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/item.cpp.s
+.PHONY : src/item.cpp.s
+
 src/keyboard.o: src/keyboard.cpp.o
 .PHONY : src/keyboard.o
 
@@ -2155,6 +2179,9 @@ help:
 	@echo "... src/inspect.o"
 	@echo "... src/inspect.i"
 	@echo "... src/inspect.s"
+	@echo "... src/item.o"
+	@echo "... src/item.i"
+	@echo "... src/item.s"
 	@echo "... src/keyboard.o"
 	@echo "... src/keyboard.i"
 	@echo "... src/keyboard.s"

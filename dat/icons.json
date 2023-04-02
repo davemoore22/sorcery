@@ -566,6 +566,76 @@
 			"menu_item": "CR_NONE",
 			"key": "direction-indicator-monochrome",
 			"colour": "0xffffffff"
+		},
+		{
+			"index": "81",
+			"filename": "wooden-sign",
+			"menu_item": "CR_NONE",
+			"key": "event-sign",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "82",
+			"filename": "gargoyle",
+			"menu_item": "CR_NONE",
+			"key": "event-monstrous-statue",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "83",
+			"filename": "stone-bust",
+			"menu_item": "CR_NONE",
+			"key": "event-humanoid-statue",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "84",
+			"filename": "wizard-face",
+			"menu_item": "CR_NONE",
+			"key": "event-man-teleport",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "85",
+			"filename": "doorway",
+			"menu_item": "CR_NONE",
+			"key": "event-door",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "86",
+			"filename": "fog",
+			"menu_item": "CR_NONE",
+			"key": "event-fog",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "87",
+			"filename": "brick-wall",
+			"menu_item": "CR_NONE",
+			"key": "event-wall",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "88",
+			"filename": "ringing-bell",
+			"menu_item": "CR_NONE",
+			"key": "event-alarm",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "89",
+			"filename": "shouting",
+			"menu_item": "CR_NONE",
+			"key": "event-voice",
+			"colour": "0xffffffff"
+		},
+		{
+			"index": "90",
+			"filename": "fire-zone",
+			"menu_item": "CR_NONE",
+			"key": "event-warm",
+			"colour": "0xffffffff"
 		}
 	]
 }

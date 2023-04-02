@@ -1190,9 +1190,8 @@ namespace Enums {
 			SILVER_KEY = 7
 		};
 
-		enum class Type {
-
-			NO_ITEM_TYPE = 0,
+		enum class Category {
+			NO_ITEM_CATEGORY = 0,
 			WEAPON = 1,
 			ARMOUR = 2,
 			SHIELD = 3,
@@ -1202,6 +1201,120 @@ namespace Enums {
 			SCROLL = 7,
 			POTION = 8,
 			SPECIAL_ITEM = 9
+		};
+
+		enum class Location {
+			NO_LOCATION = 0,
+			INVENTORY = 1,
+			FLOOR = 2,
+			SHOP = 3
+		};
+
+		// Following the original numbering at http://www.pekori.jp/~emonoya/item/index.html for the
+		// sake of convenience and ease of replicating original item tables
+		enum class Type {
+			BROKEN_ITEM = 0,
+			LONG_SWORD = 1,
+			SHORT_SWORD = 2,
+			ANOINTED_MACE = 3,
+			ANOINTED_FLAIL = 4,
+			STAFF = 5,
+			DAGGER = 6,
+			SMALL_SHIELD = 7,
+			LARGE_SHIELD = 8,
+			ROBES = 9,
+			LEATHER_ARMOR = 10,
+			CHAIN_MAIL = 11,
+			BREAST_PLATE = 12,
+			PLATE_MAIL = 13,
+			HELM = 14,
+			POTION_OF_DIOS = 15,
+			POTION_OF_LATUMOFIS = 16,
+			LONG_SWORD_PLUS_1 = 17,
+			SHORT_SWORD_PLUS_1 = 18,
+			MACE_PLUS_1 = 19,
+			STAFF_OF_MOGREF = 20,
+			SCROLL_OF_KATINO = 21,
+			LEATHER_PLUS_1 = 22,
+			CHAIN_MAIL_PLUS_1 = 23,
+			PLATE_MAIL_PLUS_1 = 24,
+			SHIELD_PLUS_1 = 25,
+			BREAST_PLATE_PLUS_1 = 26,
+			SCROLL_OF_BADIOS = 27,
+			SCROLL_OF_HALITO = 28,
+			LONG_SWORD_MINUS_1 = 29,
+			SHORT_SWORD_MINUS_1 = 30,
+			MACE_MINUS_1 = 31,
+			STAFF_PLUS_2 = 32,
+			SLAYER_OF_DRAGONS = 33,
+			HELM_PLUS_1 = 34,
+			LEATHER_MINUS_1 = 35,
+			CHAIN_MINUS_1 = 36,
+			BREAST_PLATE_MINUS_1 = 37,
+			SHIELD_MINUS_1 = 38,
+			AMULET_OF_JEWELS = 39,
+			// No, I don't know why this is duplicated either, but its in the original tables
+			SCROLL_OF_BADIOS_2 = 40,
+			POTION_OF_SOPIC = 41,
+			LONG_SWORD_PLUS_2 = 42,
+			SHORT_SWORD_PLUS_2 = 43,
+			MACE_PLUS_2 = 44,
+			SCROLL_OF_LOMILWA = 45,
+			SCROLL_OF_DILTO = 46,
+			GLOVES_OF_COPPER = 47,
+			LEATHER_PLUS_2 = 48,
+			CHAIN_PLUS_2 = 49,
+			PLATE_MAIL_PLUS_2 = 50,
+			SHIELD_PLUS_2 = 51,
+			HELM_PLUS_2_EVIL = 52,
+			POTION_OF_DIAL = 53,
+			RING_OF_PORFIC = 54,
+			WERE_SLAYER = 55,
+			MAGE_MASHER = 56,
+			MACE_OF_POISON = 57,
+			STAFF_OF_MONTINO = 58,
+			BLADE_CUSINART = 59,
+			AMULET_OF_MANIFO = 60,
+			ROD_OF_FLAME = 61,
+			CHAIN_PLUS_2_EVIL = 62,
+			PLATE_PLUS_2_NEUTRAL = 63,
+			SHIELD_PLUS_3_EVIL = 64,
+			AMULET_OF_MAKANITO = 65,
+			HELM_OF_MALOR = 66,
+			SCROLL_OF_BADIAL = 67,
+			SHORT_SWORD_MINUS_2 = 68,
+			DAGGER_PLUS_2 = 69,
+			MACE_MINUS_2 = 70,
+			STAFF_MINUS_2 = 71,
+			DAGGER_OF_SPEED = 72,
+			ROBE_OF_CURSES = 73,
+			LEATHER_MINUS_2 = 74,
+			CHAIN_MINUS_2 = 75,
+			BREAST_PLATE_MINUS_2 = 76,
+			SHIELD_MINUS_2 = 77,
+			HELM_OF_CURSES = 78,
+			BREAST_PLATE_PLUS_2 = 79,
+			GLOVES_OF_SILVER = 80,
+			SWORD_PLUS_3_EVIL = 81,
+			S_MINUS_SWORD_PLUS_3_EVIL = 82,
+			DAGGER_OF_THIEVES = 83,
+			BREAST_PLATE_PLUS_3 = 84,
+			GARB_OF_LORDS = 85,
+			MURAMASA_BLADE = 86,
+			SHURIKENS = 87,
+			COLD_CHAIN_MAIL = 88,
+			PLATE_PLUS_3_EVIL = 89,
+			SHIELD_PLUS_3 = 90,
+			RING_OF_HEALING = 91,
+			PRIESTS_RING = 92,
+			RING_OF_DEATH = 93,
+			AMULET_OF_WERDNA = 94,
+			STATUE_OF_BEAR = 95,
+			STATUE_OF_FROG = 96,
+			KEY_OF_BRONZE = 97,
+			KEY_OF_SILVER = 98,
+			KEY_OF_GOLD = 99,
+			BLUE_RIBBON = 100
 		};
 
 		// From Snarfaru's updated list at https://www.zimlab.com/wizardry/walk/wizardry-1-items-list.htm
@@ -1265,7 +1378,7 @@ namespace Enums {
 				DECAPITATION = 14
 			};
 
-			enum class Invocation {
+			enum class Invoke {
 				NO_INV_EFFECT = 0,
 				BECOME_NINJA = 1,
 				HEAL_ALL = 2,
@@ -1277,8 +1390,7 @@ namespace Enums {
 				BECOME_SAMURAI = 7,
 				GRANT_50000_EXP = 8,
 				GRANT_50000_GOLD = 9,
-				HEAL_ALL = 10,
-				STATUS_TO_LOST = 11
+				STATUS_TO_LOST = 10
 			};
 		}
 	}

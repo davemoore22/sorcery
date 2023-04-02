@@ -28,9 +28,12 @@
 Sorcery::IconStore::IconStore(System *system, Component layout, const std::filesystem::path filename)
 	: _system{system}, _layout{layout} {
 
+	using enum Enums::Map::Event;
+
 	// Prepare the icon stores
 	_icon_store.clear();
 	_menu_icon_map.clear();
+	_event_icon_mapping.clear();
 
 	// First get the Icon Texture and load it into the Spritesheet
 	_texture = _system->resources->textures[GraphicsTexture::ICONS];
@@ -42,6 +45,42 @@ Sorcery::IconStore::IconStore(System *system, Component layout, const std::files
 
 	// Load the Icons
 	_loaded = _load(filename);
+
+	// Set the Event->Icon Mapping
+	_event_icon_mapping[AREA_OF_OUT_BOUNDS] = "event-sign";
+	_event_icon_mapping[MAN_TELEPORT_CASTLE] = "event-man-teleport";
+	_event_icon_mapping[SILVER_KEY] = "event-monstrous-statue";
+	_event_icon_mapping[BRONZE_KEY] = "event-monstrous-statue";
+	_event_icon_mapping[MURPHYS_GHOSTS] = "event-humanoid-statue";
+	_event_icon_mapping[BEAR_STATUE] = "event-monstrous-statue";
+	_event_icon_mapping[FROG_STATUE] = "event-monstrous-statue";
+	_event_icon_mapping[GOLD_KEY] = "event-monstrous-statue";
+	_event_icon_mapping[NEED_SILVER_KEY] = "event-fog";
+	_event_icon_mapping[NEED_BRONZE_KEY] = "event-fog";
+	_event_icon_mapping[NEED_BEAR_STATUE] = "event-door";
+	_event_icon_mapping[NEED_FROG_STATUE] = "event-door";
+	_event_icon_mapping[PLACARD_PIT_1] = "event-sign";
+	_event_icon_mapping[PLACARD_PIT_2] = "event-sign";
+	_event_icon_mapping[PLACARD_PIT_3] = "event-sign";
+	_event_icon_mapping[TURN_AROUND] = "event-sign";
+	_event_icon_mapping[TURN_LEFT] = "event-sign";
+	_event_icon_mapping[TURN_RIGHT] = "event-sign";
+	_event_icon_mapping[NEED_BEAR_STATUE_2] = "event-wall";
+	_event_icon_mapping[TESTING_GROUNDS] = "event-sign";
+	_event_icon_mapping[ALARM_BELLS] = "event-alarm";
+	_event_icon_mapping[TREASURE_REPOSITORY] = "event-sign";
+	_event_icon_mapping[MONSTER_ALLOCATION_CENTRE] = "event-sign";
+	_event_icon_mapping[LARGE_DESK] = "event-voice";
+	_event_icon_mapping[TREBOR_VOICE] = "event-voice";
+	_event_icon_mapping[SERVICE_ELEVATOR] = "event-sign";
+	_event_icon_mapping[WERDNA_BOAST] = "event-sign";
+	_event_icon_mapping[TURN_BACK] = "event-voice";
+	_event_icon_mapping[WERDNA_SIGN] = "event-sign";
+	_event_icon_mapping[THREE_HUMANOIDS] = "party";
+	_event_icon_mapping[GETTING_WARM_1] = "event-warm";
+	_event_icon_mapping[GETTING_WARM_2] = "event-warm";
+	_event_icon_mapping[GETTING_WARM_3] = "event-warm";
+	_event_icon_mapping[NEED_BLUE_RIBBON] = "event-wall";
 }
 
 // Overload [] Operator
@@ -79,6 +118,16 @@ auto Sorcery::IconStore::get(const MenuItem key) -> std::optional<sf::Sprite> {
 			return _icon_store.at((*it).second.key);
 		else
 			return std::nullopt;
+	} else
+		return std::nullopt;
+}
+
+auto Sorcery::IconStore::get_event_icon(MapEvent type) -> std::optional<sf::Sprite> {
+
+	if (_event_icon_mapping.find(type) != _event_icon_mapping.end()) {
+		auto sprite{get(_event_icon_mapping.at(type))};
+		auto copy{sprite};
+		return copy;
 	} else
 		return std::nullopt;
 }

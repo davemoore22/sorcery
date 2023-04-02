@@ -58,6 +58,7 @@ add_executable(${PROJECT_NAME}
 	src/inn.cpp
 	src/input.cpp
 	src/inspect.cpp
+	src/item.cpp
 	src/keyboard.cpp
 	src/layout.cpp
 	src/legate.cpp

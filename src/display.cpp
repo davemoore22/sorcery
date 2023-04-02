@@ -250,15 +250,29 @@ auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, s
 						return 0;
 				}()};
 
+				// And for Shoves
+				const auto shove_x{[&] {
+					if (component["shove_x"])
+						return std::stoi(component["shove_x"].value()) * window->get_cw();
+					else
+						return 0u;
+				}()};
+				const auto shove_y{[&] {
+					if (component["shove_y"])
+						return std::stoi(component["shove_y"].value()) * window->get_ch();
+					else
+						return 0u;
+				}()};
+
 				if (component.justification == Justification::CENTRE) {
-					text.setPosition(x + offset_x, y + offset_y);
+					text.setPosition(x + offset_x + shove_x, y + offset_y + shove_y);
 					text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
 				} else if (component.justification == Justification::RIGHT) {
-					text.setPosition(x + offset_x, y + offset_y);
+					text.setPosition(x + offset_x + shove_x, y + offset_y + shove_y);
 					const sf::FloatRect bounds{text.getLocalBounds()};
 					text.setPosition(component.x - bounds.width, component.y);
 				} else
-					text.setPosition(x + offset_x, y + offset_y);
+					text.setPosition(x + offset_x + shove_x, y + offset_y + shove_x);
 
 				// Add the image to the components ready to draw
 				texts[component.unique_key] = text;

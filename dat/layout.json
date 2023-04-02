@@ -8718,8 +8718,8 @@
 		"component": [
 		{
 			"name": "frame",
-			"w": "40",
-			"h": "4",
+			"w": "46",
+			"h": "7",
 			"x": "centre",
 			"y": "11",
 			"alpha": "225",
@@ -8733,7 +8733,7 @@
 			"w": "18",
 			"h": "3",
 			"x": "centre",
-			"y": "14",
+			"y": "17",
 			"alpha": "255",
 			"type": "frame",
 			"priority": "10",
@@ -8751,7 +8751,13 @@
 			"justification": "centre",
 			"type": "text",
 			"priority": "5",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"data": [
+				{
+					"shove_x": "4",
+					"shove_y": "0"
+				}
+			]
 		},
 		{
 			"name": "text_2",
@@ -8764,12 +8770,18 @@
 			"justification": "centre",
 			"type": "text",
 			"priority": "5",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"data": [
+				{
+					"shove_x": "4",
+					"shove_y": "0"
+				}
+			]
 		},
 		{
 			"name": "continue_menu",
 			"x": "centre",
-			"y": "15",
+			"y": "18",
 			"w": "16",
 			"h": "3",
 			"font": "monospace",
@@ -8789,7 +8801,7 @@
 		"component": [
 		{
 			"name": "frame",
-			"w": "40",
+			"w": "46",
 			"h": "8",
 			"x": "centre",
 			"y": "11",
@@ -8822,7 +8834,13 @@
 			"justification": "centre",
 			"type": "text",
 			"priority": "5",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"data": [
+				{
+					"shove_x": "4",
+					"shove_y": "0"
+				}
+			]
 		},
 		{
 			"name": "text_2",
@@ -8835,7 +8853,13 @@
 			"justification": "centre",
 			"type": "text",
 			"priority": "5",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"data": [
+				{
+					"shove_x": "4",
+					"shove_y": "0"
+				}
+			]
 		},
 		{
 			"name": "text_3",
@@ -8848,7 +8872,13 @@
 			"justification": "centre",
 			"type": "text",
 			"priority": "5",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"data": [
+				{
+					"shove_x": "4",
+					"shove_y": "0"
+				}
+			]
 		},
 		{
 			"name": "text_4",
@@ -8861,7 +8891,13 @@
 			"justification": "centre",
 			"type": "text",
 			"priority": "5",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"data": [
+				{
+					"shove_x": "4",
+					"shove_y": "0"
+				}
+			]
 		},
 		{
 			"name": "text_5",
@@ -8874,7 +8910,13 @@
 			"justification": "centre",
 			"type": "text",
 			"priority": "5",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"data": [
+				{
+					"shove_x": "4",
+					"shove_y": "0"
+				}
+			]
 		},
 		{
 			"name": "text_6",
@@ -8887,7 +8929,13 @@
 			"justification": "centre",
 			"type": "text",
 			"priority": "5",
-			"drawmode": "automatic"
+			"drawmode": "automatic",
+			"data": [
+				{
+					"shove_x": "4",
+					"shove_y": "0"
+				}
+			]
 		},
 		{
 			"name": "continue_menu",
@@ -12116,6 +12164,19 @@
 			"y": "0",
 			"scale": "3.0"
 
+		},
+		{
+			"name": "event",
+			"x": "9",
+			"y": "12",
+			"data": [
+				{
+					"x_offset": "0",
+					"y_offset": "0",
+					"icon_scale_x": "0.24",
+					"icon_scale_y": "0.24"
+				}
+			]
 		},
 		{
 			"name": "dialog_stairs",

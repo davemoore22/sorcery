@@ -12,7 +12,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
-				<Option parameters="--skip-intro -go-to-training" />
+				<Option parameters="--skip-intro -go-to-maze" />
 				<Compiler>
 					<Add option="-pg" />
 					<Add option="-g" />
@@ -175,6 +175,7 @@
 		<Unit filename="inc/inn.hpp" />
 		<Unit filename="inc/input.hpp" />
 		<Unit filename="inc/inspect.hpp" />
+		<Unit filename="inc/item.hpp" />
 		<Unit filename="inc/keyboard.hpp" />
 		<Unit filename="inc/layout.hpp" />
 		<Unit filename="inc/legate.hpp" />
@@ -254,6 +255,7 @@
 		<Unit filename="src/inn.cpp" />
 		<Unit filename="src/input.cpp" />
 		<Unit filename="src/inspect.cpp" />
+		<Unit filename="src/item.cpp" />
 		<Unit filename="src/keyboard.cpp" />
 		<Unit filename="src/layout.cpp" />
 		<Unit filename="src/legate.cpp" />

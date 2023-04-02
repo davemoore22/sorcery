@@ -73,6 +73,15 @@ Sorcery::Event::Event(
 			_display->get_centre_x(_continue_menu->get_width()), (*_display->layout)[menu_key].y);
 	} break;
 	}
+
+	_event_layout = (*_display->layout)["engine_base_ui:event"];
+	_icon = _graphics->icons->get_event_icon(_type);
+
+	if (_icon) {
+		_icon.value().setScale(
+			std::stof(_event_layout["icon_scale_x"].value()), std::stof(_event_layout["icon_scale_y"].value()));
+		_icon.value().setPosition(_event_layout.x, _event_layout.y);
+	}
 }
 
 auto Sorcery::Event::start() -> std::optional<MenuItem> {
@@ -204,6 +213,9 @@ auto Sorcery::Event::_draw() -> void {
 		_continue_menu->generate((*_display->layout)[menu_key]);
 		_window->draw(*_continue_menu);
 
+		if (_icon)
+			_window->draw(_icon.value());
+
 		// Always draw the following
 		_display->display_overlay();
 		_display->display_cursor();
@@ -214,6 +226,9 @@ auto Sorcery::Event::_draw() -> void {
 		_display->display(screen_key, _sprites, _texts, _frames);
 		_continue_menu->generate((*_display->layout)[menu_key]);
 		_window->draw(*_continue_menu);
+
+		if (_icon)
+			_window->draw(_icon.value());
 
 		// Always draw the following
 		_display->display_overlay();

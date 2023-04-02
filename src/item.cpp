@@ -1,3 +1,4 @@
+
 // Copyright (C) 2023 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
@@ -22,47 +23,4 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#pragma once
-
-#include "main.hpp"
-#include "system.hpp"
-
-namespace Sorcery {
-
-class IconStore {
-
-	public:
-
-		// Constructors
-		IconStore(System *system, Component layout, const std::filesystem::path filename);
-		IconStore() = delete;
-
-		// Overload [] operator
-		auto operator[](std::string_view key) -> std::optional<sf::Sprite>;
-		auto operator[](const MenuItem key) -> std::optional<sf::Sprite>;
-
-		// Public Methods
-		auto get(std::string_view key) -> std::optional<sf::Sprite>;
-		auto get(const MenuItem key) -> std::optional<sf::Sprite>;
-		auto get_event_icon(MapEvent type) -> std::optional<sf::Sprite>;
-
-	private:
-
-		// Private Members
-		System *_system;
-		IconLibrary _icons;
-		bool _loaded;
-		sf::Texture _texture;
-		sf::Vector2f _size;
-		sf::Vector2f _scale;
-		Component _layout;
-		std::map<MenuItem, Icon> _menu_icon_map;
-		std::map<std::string, sf::Sprite> _icon_store;
-		std::map<MapEvent, std::string> _event_icon_mapping;
-
-		// Private Methods
-		auto _get_rect(unsigned int index) const -> sf::IntRect;
-		auto _load(const std::filesystem::path filename) -> bool;
-};
-
-}
+#include "item.hpp"
