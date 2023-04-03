@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include "itemregistry.hpp"
 #include "main.hpp"
 #include "system.hpp"
 
@@ -37,6 +38,13 @@ class Item {
 		Item(ItemType item_type);
 
 	private:
+
+		ItemType _type;			// Type
+		ItemCategory _category; // Category
+		bool _known;			// Is known
+		bool _equipped;			// Is currently equipped
+		bool _cursed;			// Is currently cursed
+		bool _marked;			// Marked as undroppable or unsellable
 
 		long _id;
 		static inline long s_id{0};

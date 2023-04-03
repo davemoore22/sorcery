@@ -1317,13 +1317,14 @@ namespace Enums {
 			BLUE_RIBBON = 100
 		};
 
-		// From Snarfaru's updated list at https://www.zimlab.com/wizardry/walk/wizardry-1-items-list.htm
+		// From Snarfaru's updated list (https://www.zimlab.com/wizardry/walk/wizardry-1-items-list.htm)
 		namespace Effects {
 
 			enum class Defensive {
 				NO_DEF_EFFECT = 0,
-				// Protection effects cause incoming physical damage from these creature types to be
-				// halved if a character is wearing an item with the appropriate effect
+				// Protection effects mean that if a player is targed by a creature of that type,
+				// then there is a 50% chance that the creature will skip its attack
+				// (see https://datadrivengamer.blogspot.com/2019/08/the-treasury-of-wizardry.html)
 				PROTECTION_VS_ANIMAL = 1,
 				PROTECTION_VS_CLERIC = 2,
 				PROTECTION_VS_DEMON = 3,
@@ -1345,16 +1346,13 @@ namespace Enums {
 				RESIST_COLD = 14,
 				RESIST_FIRE = 15,
 				RESIST_MAGIC = 16,
-				// Reduces all non-magical incoming damage by half
+				// Immunity to critical hits and paralysis
 				RESIST_PHYSICAL = 17,
-				// Resistances to Level Drain, Poison, and Stoning work differently in that the
-				// Resistance vs Poison, Stoning rolls grant a chance of avoiding the relevant status
-				// effect entirely (note that Stoning also applies to Paralyis). Items with these
-				// three resistances also grant complete immunity to these effects ("DRAINLEV")
+				// Immunity to theese effects ("DRAINLEV")
 				RESIST_LEVELDRAIN = 18,
 				RESIST_POISON = 19,
 				RESIST_STONING = 20,
-				// Immunity to death via critical hits
+				// Immunity to decapitation (how is this different from RESIST_PHYSICAL?)
 				PREVENT_DECAPITATION = 21
 			};
 
