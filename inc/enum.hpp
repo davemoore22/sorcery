@@ -1329,12 +1329,12 @@ namespace Enums {
 				PROTECTION_VS_CLERIC = 2,
 				PROTECTION_VS_DEMON = 3,
 				PROTECTION_VS_DRAGON = 4,
-				PROTECTION_VS_ENCHANT = 5,
+				PROTECTION_VS_ENCHANTED = 5,
 				PROTECTION_VS_FIGHTER = 6,
 				PROTECTION_VS_GIANT = 7,
 				PROTECTION_VS_INSECT = 8,
 				PROTECTION_VS_MAGE = 9,
-				PROTECTION_VS_MYTH = 10,
+				PROTECTION_VS_MYTHICAL = 10,
 				PROTECTION_VS_THIEF = 11,
 				PROTECTION_VS_UNDEAD = 12,
 				PROTECTION_VS_WERE = 13,
@@ -1349,7 +1349,7 @@ namespace Enums {
 				// Immunity to critical hits and paralysis
 				RESIST_PHYSICAL = 17,
 				// Immunity to theese effects ("DRAINLEV")
-				RESIST_LEVELDRAIN = 18,
+				RESIST_LEVEL_DRAIN = 18,
 				RESIST_POISON = 19,
 				RESIST_STONING = 20,
 				// Immunity to decapitation (how is this different from RESIST_PHYSICAL?)
@@ -1363,17 +1363,17 @@ namespace Enums {
 				PURPOSED_VS_CLERIC = 2,
 				PURPOSED_VS_DEMON = 3,
 				PURPOSED_VS_DRAGON = 4,
-				PURPOSED_VS_ENCHANT = 5,
+				PURPOSED_VS_ENCHANTED = 5,
 				PURPOSED_VS_FIGHTER = 6,
 				PURPOSED_VS_GIANT = 7,
 				PURPOSED_VS_INSECT = 8,
 				PURPOSED_VS_MAGE = 9,
-				PURPOSED_VS_MYTH = 10,
+				PURPOSED_VS_MYTHICAL = 10,
 				PURPOSED_VS_THIEF = 11,
 				PURPOSED_VS_UNDEAD = 12,
 				PURPOSED_VS_WERE = 13,
 				// On a critical hit, this kills the enemy regardless of type
-				DECAPITATION = 14
+				AUTOKILL = 14
 			};
 
 			enum class Invoke {

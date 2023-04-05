@@ -40,13 +40,14 @@ class ItemRegistry {
 
 		ItemType _type;							 // e.g. LONG_SWORD, LONG_SWORD_PLUS_1 etc
 		std::string _known_name;				 // Friendly name once identified
+		std::string _display_name;				 // Short display name once identified (max 16 characters)
 		std::string _unknown_name;				 // Unknown name if not identified
 		ItemCategory _category;					 // e.g, WEAPON, ARMOUR etc
 		bool _cursed;							 // Is a cursed item
 		unsigned int _value;					 // Price to buy in shop (Sell/Identify Price is half this)
 		bool _sellable;							 // Can be sold
-		std::array<CharacterClass, 9> _usable;	 // Usable by class list
-		CharacterAlignment _alignment;			 // Usable by alignment (otherwise cursed)
+		std::array<bool, 9> _usable;			 // Usable by class list
+		std::array<bool, 3> _alignment;			 // Usable by alignment (otherwise cursed)
 		int _num_attacks;						 // If a weapon, number of attacks granted
 		int _to_hit_modifier;					 // Bonus to hit using this weapon
 		RandomType _damage_dice;				 // e.g. the 2d8 of 2d8+2
