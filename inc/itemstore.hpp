@@ -29,12 +29,12 @@
 
 namespace Sorcery {
 
-class ItemRegistry {
+class ItemStore {
 
 	public:
 
-		ItemRegistry();
-		ItemRegistry(ItemType item_type);
+		ItemStore();
+		ItemStore(ItemType item_type);
 
 	private:
 

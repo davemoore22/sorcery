@@ -24,7 +24,7 @@
 
 #pragma once
 
-#include "itemregistry.hpp"
+#include "itemstore.hpp"
 #include "main.hpp"
 #include "system.hpp"
 
