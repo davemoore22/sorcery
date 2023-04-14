@@ -336,7 +336,7 @@
 1679511637 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine.cpp
 	"engine.hpp"
 
-1679511247 /home/dave/Development/wizardry/sorcery-sfml/inc/engine.hpp
+1681505155 /home/dave/Development/wizardry/sorcery-sfml/inc/engine.hpp
 	"automap.hpp"
 	"buffbar.hpp"
 	"compass.hpp"
@@ -1675,4 +1675,7 @@
 1681235606 /home/dave/Development/wizardry/sorcery-sfml/inc/itemstore.hpp
 	"main.hpp"
 	"system.hpp"
+
+1681235589 source:/home/dave/Development/wizardry/sorcery-sfml/src/itemstore.cpp
+	"itemstore.hpp"
 

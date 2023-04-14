@@ -118,6 +118,7 @@ class Engine {
 		auto _do_wipe() -> int;
 		auto _go_back() -> std::optional<int>;
 		auto _set_refresh_ui() -> void;
+		auto _unhightlight_panels() -> void;
 
 		auto _debug_go_back() -> std::optional<int>;
 		auto _debug_give_first_character_gold_xp() -> std::optional<int>;

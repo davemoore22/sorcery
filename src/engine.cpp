@@ -521,7 +521,7 @@ auto Sorcery::Engine::_do_pause(sf::Event &event) -> void {
 	}
 }
 
-auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
+auto Sorcery::Engine::_unhightlight_panels() -> void {
 
 	if (_left_icon_panel->selected)
 		_left_icon_panel->selected = std::nullopt;
@@ -529,6 +529,11 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 		_right_icon_panel->selected = std::nullopt;
 	if (_party_panel->selected)
 		_party_panel->selected = std::nullopt;
+}
+
+auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
+
+	_unhightlight_panels();
 
 	if (auto dialog_input{_confirm_search->handle_input(event)}; dialog_input) {
 		if ((dialog_input.value() == WindowDialogButton::CLOSE) || (dialog_input.value() == WindowDialogButton::NO)) {
@@ -646,12 +651,7 @@ auto Sorcery::Engine::_handle_confirm_exit(const sf::Event &event) -> void {
 
 	using enum Enums::Window::DialogButton;
 
-	if (_left_icon_panel->selected)
-		_left_icon_panel->selected = std::nullopt;
-	if (_right_icon_panel->selected)
-		_right_icon_panel->selected = std::nullopt;
-	if (_party_panel->selected)
-		_party_panel->selected = std::nullopt;
+	_unhightlight_panels();
 
 	auto dialog_input{_confirm_exit->handle_input(event)};
 	if (dialog_input) {
@@ -718,12 +718,7 @@ auto Sorcery::Engine::_handle_in_character(const sf::Event &event) -> void {
 
 auto Sorcery::Engine::_handle_in_search(const sf::Event &event) -> std::optional<int> {
 
-	if (_left_icon_panel->selected)
-		_left_icon_panel->selected = std::nullopt;
-	if (_right_icon_panel->selected)
-		_right_icon_panel->selected = std::nullopt;
-	if (_party_panel->selected)
-		_party_panel->selected = std::nullopt;
+	_unhightlight_panels();
 
 	if (_system->input->check(WindowInput::CANCEL, event))
 		_in_search = false;
@@ -772,12 +767,7 @@ auto Sorcery::Engine::_handle_in_search(const sf::Event &event) -> std::optional
 
 auto Sorcery::Engine::_handle_in_action(const sf::Event &event) -> std::optional<int> {
 
-	if (_left_icon_panel->selected)
-		_left_icon_panel->selected = std::nullopt;
-	if (_right_icon_panel->selected)
-		_right_icon_panel->selected = std::nullopt;
-	if (_party_panel->selected)
-		_party_panel->selected = std::nullopt;
+	_unhightlight_panels();
 
 	if (_system->input->check(WindowInput::CANCEL, event))
 		_in_action = false;
@@ -825,12 +815,7 @@ auto Sorcery::Engine::_handle_in_action(const sf::Event &event) -> std::optional
 
 auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<int> {
 
-	if (_left_icon_panel->selected)
-		_left_icon_panel->selected = std::nullopt;
-	if (_right_icon_panel->selected)
-		_right_icon_panel->selected = std::nullopt;
-	if (_party_panel->selected)
-		_party_panel->selected = std::nullopt;
+	_unhightlight_panels();
 
 	if (_system->input->check(WindowInput::CANCEL, event))
 		_in_get = false;
@@ -889,12 +874,7 @@ auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<in
 
 auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<int> {
 
-	if (_left_icon_panel->selected)
-		_left_icon_panel->selected = std::nullopt;
-	if (_right_icon_panel->selected)
-		_right_icon_panel->selected = std::nullopt;
-	if (_party_panel->selected)
-		_party_panel->selected = std::nullopt;
+	_unhightlight_panels();
 
 	if (_system->input->check(WindowInput::CANCEL, event))
 		_in_camp = false;
@@ -1032,12 +1012,7 @@ auto Sorcery::Engine::_do_wipe() -> int {
 
 auto Sorcery::Engine::_handle_elevator_a_f(const sf::Event &event) -> std::optional<int> {
 
-	if (_left_icon_panel->selected)
-		_left_icon_panel->selected = std::nullopt;
-	if (_right_icon_panel->selected)
-		_right_icon_panel->selected = std::nullopt;
-	if (_party_panel->selected)
-		_party_panel->selected = std::nullopt;
+	_unhightlight_panels();
 
 	if (_system->input->check(WindowInput::CANCEL, event))
 		_in_elevator_a_f = false;
@@ -1106,12 +1081,7 @@ auto Sorcery::Engine::_handle_elevator_a_f(const sf::Event &event) -> std::optio
 
 auto Sorcery::Engine::_handle_elevator_a_d(const sf::Event &event) -> std::optional<int> {
 
-	if (_left_icon_panel->selected)
-		_left_icon_panel->selected = std::nullopt;
-	if (_right_icon_panel->selected)
-		_right_icon_panel->selected = std::nullopt;
-	if (_party_panel->selected)
-		_party_panel->selected = std::nullopt;
+	_unhightlight_panels();
 
 	if (_system->input->check(WindowInput::CANCEL, event))
 		_in_elevator_a_d = false;
@@ -1357,14 +1327,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			}
 		}
 	} else if (_show_confirm_stairs) {
-		if (_left_icon_panel->selected)
-			_left_icon_panel->selected = std::nullopt;
-		if (_right_icon_panel->selected)
-			_right_icon_panel->selected = std::nullopt;
-		if (_party_panel->selected)
-			_party_panel->selected = std::nullopt;
-		if (_party_panel->selected)
-			_party_panel->selected = std::nullopt;
+
+		_unhightlight_panels();
 
 		auto dialog_input{_confirm_stairs->handle_input(event)};
 		if (dialog_input) {
