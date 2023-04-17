@@ -79,6 +79,7 @@ inline constexpr auto INPUT_FONT_FILE{"input.ttf"sv};
 inline constexpr auto GUI_FILE{"nanogui.style"sv};
 inline constexpr auto HELP_FILE{"HELP"sv};
 inline constexpr auto ICONS_FILE{"icons.json"sv};
+inline constexpr auto ITEMS_FILE{"items.json"sv};
 inline constexpr auto LAYOUT_FILE{"layout.json"sv};
 inline constexpr auto LICENSE_FILE{"LICENSE"sv};
 inline constexpr auto LEVELS_FILE{"levels.json"sv};

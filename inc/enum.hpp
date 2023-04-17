@@ -1212,7 +1212,7 @@ namespace Enums {
 
 		// Following the original numbering at http://www.pekori.jp/~emonoya/item/index.html for the
 		// sake of convenience and ease of replicating original item tables
-		enum class Type {
+		enum class TypeID {
 			BROKEN_ITEM = 0,
 			LONG_SWORD = 1,
 			SHORT_SWORD = 2,

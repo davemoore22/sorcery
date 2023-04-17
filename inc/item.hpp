@@ -24,7 +24,7 @@
 
 #pragma once
 
-#include "itemstore.hpp"
+#include "itemtype.hpp"
 #include "main.hpp"
 #include "system.hpp"
 
@@ -37,9 +37,11 @@ class Item {
 		Item();
 		Item(ItemType item_type);
 
+		ItemType *type;
+
 	private:
 
-		ItemType _type;			// Type
+		ItemTypeID _type;		// Type
 		ItemCategory _category; // Category
 		bool _known;			// Is known
 		bool _equipped;			// Is currently equipped

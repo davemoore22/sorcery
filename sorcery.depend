@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1679773827 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1681756203 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -144,10 +144,10 @@
 
 1591211577 /home/dave/Development/wizardry/sorcery-sfml/inc/simpleini/ConvertUTF.h
 
-1675545432 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
+1681752757 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
-1680731511 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
+1681756197 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
 1673721476 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
@@ -333,7 +333,7 @@
 1680447366 source:/home/dave/Development/wizardry/sorcery-sfml/src/display.cpp
 	"display.hpp"
 
-1679511637 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine.cpp
+1681505093 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine.cpp
 	"engine.hpp"
 
 1681505155 /home/dave/Development/wizardry/sorcery-sfml/inc/engine.hpp
@@ -360,7 +360,7 @@
 	"search.hpp"
 	"system.hpp"
 
-1674751497 source:/home/dave/Development/wizardry/sorcery-sfml/src/file.cpp
+1681752782 source:/home/dave/Development/wizardry/sorcery-sfml/src/file.cpp
 	"file.hpp"
 
 1673303382 source:/home/dave/Development/wizardry/sorcery-sfml/src/graphics.cpp
@@ -1660,8 +1660,8 @@
 1679770985 source:/home/dave/Development/wizardry/sorcery-sfml/src/item.cpp
 	"item.hpp"
 
-1681235741 /home/dave/Development/wizardry/sorcery-sfml/inc/item.hpp
-	"itemstore.hpp"
+1681757055 /home/dave/Development/wizardry/sorcery-sfml/inc/item.hpp
+	"itemtype.hpp"
 	"main.hpp"
 	"system.hpp"
 
@@ -1672,10 +1672,16 @@
 1680553411 source:/home/dave/Development/wizardry/sorcery-sfml/src/itemregistry.cpp
 	"itemregistry.hpp"
 
-1681235606 /home/dave/Development/wizardry/sorcery-sfml/inc/itemstore.hpp
+1681756602 /home/dave/Development/wizardry/sorcery-sfml/inc/itemstore.hpp
+	"item.hpp"
+	"itemtype.hpp"
 	"main.hpp"
 	"system.hpp"
 
 1681235589 source:/home/dave/Development/wizardry/sorcery-sfml/src/itemstore.cpp
 	"itemstore.hpp"
+
+1681756445 /home/dave/Development/wizardry/sorcery-sfml/inc/itemtype.hpp
+	"main.hpp"
+	"system.hpp"
 
