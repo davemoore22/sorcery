@@ -38,16 +38,17 @@ class ItemStore {
 		ItemStore();
 
 		// Overload operators
-		auto operator[](ItemTypeID item_type_id) -> ItemType;
-		auto operator()(ItemCategory) -> std::optional<std::vector<ItemType>>;
+		auto operator[](ItemTypeID item_type_id) const -> ItemType;
+		auto operator()(ItemCategory) const -> std::optional<std::vector<ItemType>>;
 
-		auto retrieve(ItemTypeID item_type_id) const -> Item;
+		auto generate(ItemTypeID item_type_id) const -> Item;
+		auto generate(ItemTypeID min_item_type_id, ItemTypeID max_item_type_id) const -> Item;
 
 	private:
 
 		auto _load(const std::filesystem::path filename) -> bool;
 
-		std::map<ItemTypeID, ItemType> _components;
+		std::map<ItemTypeID, ItemType> _items;
 		bool _loaded;
 };
 

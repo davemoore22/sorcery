@@ -37,6 +37,17 @@ class Item {
 		Item();
 		Item(ItemType item_type);
 
+		auto get_type_id() const -> ItemTypeID;
+		auto get_known() const -> bool;
+		auto get_equipped() const -> bool;
+		auto get_cursed() const -> bool;
+		auto get_marked() const -> bool;
+		auto set_known(const bool value) -> void;
+		auto set_equipped(const bool value) -> void;
+		auto set_cursed(const bool value) -> void;
+		auto set_marked(const bool value) -> void;
+		auto decay_to(const ItemType &) -> void;
+
 		ItemType *type;
 
 	private:
