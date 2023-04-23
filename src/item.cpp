@@ -24,3 +24,117 @@
 // the resulting work.
 
 #include "item.hpp"
+
+// Default Constructor
+Sorcery::Item::Item() {
+
+	using enum Enums::Items::TypeID;
+
+	_type = BROKEN_ITEM;
+	_known = false;
+	_equipped = false;
+	_cursed = false;
+	_marked = false;
+	_name = "";
+
+	_id = s_id++;
+}
+
+Sorcery::Item::Item(const ItemTypeID item_type) : _type{item_type} {
+
+	using enum Enums::Items::TypeID;
+
+	_known = false;
+	_equipped = false;
+	_cursed = false;
+	_marked = false;
+	_name = "";
+
+	_id = s_id++;
+}
+
+Sorcery::Item::Item(const ItemType &item_type) {
+
+	_type = item_type.get_type_id();
+
+	_known = false;
+	_equipped = false;
+	_cursed = false;
+	_marked = false;
+	_name = item_type.get_known_name();
+
+	_id = s_id++;
+}
+
+auto Sorcery::Item::get_type_id() const -> ItemTypeID {
+
+	return _type;
+}
+
+auto Sorcery::Item::get_known() const -> bool {
+
+	return _known;
+}
+
+auto Sorcery::Item::get_equipped() const -> bool {
+
+	return _equipped;
+}
+
+auto Sorcery::Item::get_cursed() const -> bool {
+
+	return _cursed;
+}
+
+auto Sorcery::Item::get_marked() const -> bool {
+
+	return _marked;
+}
+
+auto Sorcery::Item::get_name() const -> std::string {
+
+	return _name;
+}
+
+auto Sorcery::Item::set_known(const bool value) -> void {
+
+	_known = value;
+}
+
+auto Sorcery::Item::set_equipped(const bool value) -> void {
+
+	_equipped = value;
+}
+
+auto Sorcery::Item::set_cursed(const bool value) -> void {
+
+	_cursed = value;
+}
+
+auto Sorcery::Item::set_marked(const bool value) -> void {
+
+	_marked = value;
+}
+
+auto Sorcery::Item::set_name(const std::string &value) -> void {
+
+	_name = value;
+}
+
+auto Sorcery::Item::decay_to(const ItemTypeID value) -> void {
+
+	_type = value;
+}
+
+namespace Sorcery {
+
+auto operator<<(std::ostream &out_stream, const Sorcery::Item &item) -> std::ostream & {
+
+	const auto type{magic_enum::enum_integer<ItemTypeID>(item.get_type_id())};
+	const auto name{item.get_name()};
+
+	const auto text{fmt::format("{}: {}", type, name)};
+
+	return out_stream << text << std::flush;
+}
+} // namespace Sorcery

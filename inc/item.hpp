@@ -34,30 +34,42 @@ class Item {
 
 	public:
 
+		// Constructors
 		Item();
-		Item(ItemType item_type);
+		Item(const ItemTypeID item_type);
+		Item(const ItemType &item_type);
 
+		// Overloaded Operators
+		auto friend operator<<(std::ostream &out_stream, const Item &Item) -> std::ostream &;
+
+		// Serialisation
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(_type, _known, _equipped, _cursed, _marked, _name, _id, s_id);
+		}
+
+		// Public Methods
 		auto get_type_id() const -> ItemTypeID;
 		auto get_known() const -> bool;
 		auto get_equipped() const -> bool;
 		auto get_cursed() const -> bool;
 		auto get_marked() const -> bool;
+		auto get_name() const -> std::string;
 		auto set_known(const bool value) -> void;
 		auto set_equipped(const bool value) -> void;
 		auto set_cursed(const bool value) -> void;
 		auto set_marked(const bool value) -> void;
-		auto decay_to(const ItemType &) -> void;
-
-		ItemType *type;
+		auto set_name(const std::string &value) -> void;
+		auto decay_to(const ItemTypeID value) -> void;
 
 	private:
 
-		ItemTypeID _type;		// Type
-		ItemCategory _category; // Category
-		bool _known;			// Is known
-		bool _equipped;			// Is currently equipped
-		bool _cursed;			// Is currently cursed
-		bool _marked;			// Marked as undroppable or unsellable
+		// Private Members
+		ItemTypeID _type;  // Type
+		bool _known;	   // Is known
+		bool _equipped;	   // Is currently equipped
+		bool _cursed;	   // Is currently cursed
+		bool _marked;	   // Marked as undroppable or unsellable
+		std::string _name; // Individual Name (or if not set, the ItemTypeID Name)
 
 		long _id;
 		static inline long s_id{0};
