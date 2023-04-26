@@ -33,7 +33,13 @@ class ItemType {
 
 	public:
 
-		ItemType();
+		// Default Constructor
+		ItemType() = default;
+
+		// Overloaded Operators
+		auto friend operator<<(std::ostream &out_stream, const ItemType &ItemType) -> std::ostream &;
+
+		// Public Methods
 		auto get_type_id() const -> ItemTypeID;
 		auto get_known_name() const -> std::string;
 		auto get_display_name() const -> std::string;
@@ -42,8 +48,8 @@ class ItemType {
 		auto get_cursed() const -> bool;
 		auto get_value() const -> unsigned int;
 		auto get_sellable() const -> bool;
-		auto get_usable_class() const -> ItemUsableClass &;
-		auto get_usable_alignment() const -> ItemUsableAlignment &;
+		auto get_usable_class() const -> ItemUsableClass;
+		auto get_usable_alignment() const -> ItemUsableAlignment;
 		auto get_swings() const -> int;
 		auto get_to_hit_mod() const -> int;
 		auto get_damage_dice() const -> RandomType;
@@ -62,9 +68,40 @@ class ItemType {
 		auto get_discovered() const -> bool;
 		auto get_desc() const -> std::string;
 		auto get_gfx() const -> unsigned int;
+		auto is_usable(const CharacterClass cclass) -> bool;
+		auto is_usable(const CharacterAlignment calign) -> bool;
+		auto set_type_id(const ItemTypeID value) -> void;
+		auto set_known_name(const std::string value) -> void;
+		auto set_display_name(const std::string value) -> void;
+		auto set_unknown_name(const std::string value) -> void;
+		auto set_category(const ItemCategory value) -> void;
+		auto set_cursed(const bool value) -> void;
+		auto set_value(const unsigned int value) -> void;
+		auto set_sellable(const bool value) -> void;
+		auto set_usable_class(const ItemUsableClass value) -> void;
+		auto set_usable_alignment(const ItemUsableAlignment value) -> void;
+		auto set_swings(const int value) -> void;
+		auto set_to_hit_mod(const int value) -> void;
+		auto set_damage_dice(const RandomType value) -> void;
+		auto set_damage_dice_mod(const int value) -> void;
+		auto set_ac_mod(const int value) -> void;
+		auto set_curse_ac_mod(const int value) -> void;
+		auto set_regen(const int value) -> void;
+		auto set_eff_def(const ItemEffDef value) -> void;
+		auto set_eff_off(const ItemEffOff value) -> void;
+		auto set_eff_inv(const ItemInv value) -> void;
+		auto set_eff_inv_decay(const unsigned int value) -> void;
+		auto set_eff_use(const SpellType value) -> void;
+		auto set_eff_use_decay(const unsigned int value) -> void;
+		auto set_decay_type_id(const ItemTypeID value) -> void;
+		auto set_shop_inital_stock(const int value) -> void;
+		auto set_discovered(const bool value) -> void;
+		auto set_desc(const std::string value) -> void;
+		auto set_gfx(const unsigned int value) -> void;
 
 	private:
 
+		// Private Members
 		ItemTypeID _type;					   // e.g. LONG_SWORD, LONG_SWORD_PLUS_1 etc
 		std::string _known_name;			   // Friendly name once identified
 		std::string _display_name;			   // Short display name once identified (max 16 characters)

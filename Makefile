@@ -1181,6 +1181,30 @@ src/itemstore.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/itemstore.cpp.s
 .PHONY : src/itemstore.cpp.s
 
+src/itemtype.o: src/itemtype.cpp.o
+.PHONY : src/itemtype.o
+
+# target to build an object file
+src/itemtype.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/itemtype.cpp.o
+.PHONY : src/itemtype.cpp.o
+
+src/itemtype.i: src/itemtype.cpp.i
+.PHONY : src/itemtype.i
+
+# target to preprocess a source file
+src/itemtype.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/itemtype.cpp.i
+.PHONY : src/itemtype.cpp.i
+
+src/itemtype.s: src/itemtype.cpp.s
+.PHONY : src/itemtype.s
+
+# target to generate assembly for a file
+src/itemtype.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/itemtype.cpp.s
+.PHONY : src/itemtype.cpp.s
+
 src/keyboard.o: src/keyboard.cpp.o
 .PHONY : src/keyboard.o
 
@@ -2209,6 +2233,9 @@ help:
 	@echo "... src/itemstore.o"
 	@echo "... src/itemstore.i"
 	@echo "... src/itemstore.s"
+	@echo "... src/itemtype.o"
+	@echo "... src/itemtype.i"
+	@echo "... src/itemtype.s"
 	@echo "... src/keyboard.o"
 	@echo "... src/keyboard.i"
 	@echo "... src/keyboard.s"
