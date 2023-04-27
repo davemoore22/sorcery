@@ -327,4 +327,4 @@ auto operator<<(std::ostream &out_stream, const Sorcery::ItemType &itemtype) -> 
 
 	return out_stream << text << std::flush;
 }
-} // namespace So
+} // namespace Sorcery

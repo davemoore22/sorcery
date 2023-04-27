@@ -461,6 +461,30 @@ src/characterpanel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/characterpanel.cpp.s
 .PHONY : src/characterpanel.cpp.s
 
+src/characterview.o: src/characterview.cpp.o
+.PHONY : src/characterview.o
+
+# target to build an object file
+src/characterview.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/characterview.cpp.o
+.PHONY : src/characterview.cpp.o
+
+src/characterview.i: src/characterview.cpp.i
+.PHONY : src/characterview.i
+
+# target to preprocess a source file
+src/characterview.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/characterview.cpp.i
+.PHONY : src/characterview.cpp.i
+
+src/characterview.s: src/characterview.cpp.s
+.PHONY : src/characterview.s
+
+# target to generate assembly for a file
+src/characterview.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/characterview.cpp.s
+.PHONY : src/characterview.cpp.s
+
 src/compass.o: src/compass.cpp.o
 .PHONY : src/compass.o
 
@@ -2143,6 +2167,9 @@ help:
 	@echo "... src/characterpanel.o"
 	@echo "... src/characterpanel.i"
 	@echo "... src/characterpanel.s"
+	@echo "... src/characterview.o"
+	@echo "... src/characterview.i"
+	@echo "... src/characterview.s"
 	@echo "... src/compass.o"
 	@echo "... src/compass.i"
 	@echo "... src/compass.s"

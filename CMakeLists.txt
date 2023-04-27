@@ -30,6 +30,7 @@ add_executable(${PROJECT_NAME}
 	src/changename.cpp
 	src/character.cpp
 	src/characterpanel.cpp
+	src/characterview.cpp
 	src/compass.cpp
 	src/compendium.cpp
 	src/component.cpp
