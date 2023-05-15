@@ -147,7 +147,7 @@
 1681752757 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
-1681756197 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
+1684178069 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
 1673721476 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
@@ -496,13 +496,14 @@
 1628106617 source:/home/dave/Development/wizardry/sorcery-sfml/src/tooltip.cpp
 	"tooltip.hpp"
 
-1676752894 source:/home/dave/Development/wizardry/sorcery-sfml/src/game.cpp
+1682797284 source:/home/dave/Development/wizardry/sorcery-sfml/src/game.cpp
 	"game.hpp"
 
-1675885464 /home/dave/Development/wizardry/sorcery-sfml/inc/game.hpp
+1682796655 /home/dave/Development/wizardry/sorcery-sfml/inc/game.hpp
 	"character.hpp"
 	"display.hpp"
 	"graphics.hpp"
+	"itemstore.hpp"
 	"levelstore.hpp"
 	"main.hpp"
 	"state.hpp"
@@ -670,7 +671,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1680384481 source:/home/dave/Development/wizardry/sorcery-sfml/src/iconstore.cpp
+1682795125 source:/home/dave/Development/wizardry/sorcery-sfml/src/iconstore.cpp
 	"iconstore.hpp"
 
 1615367144 /home/dave/Development/wizardry/sorcery-sfml/inc/magicenum/magic_enum.hpp
@@ -1657,10 +1658,10 @@
 1679434016 source:/home/dave/Development/wizardry/sorcery-sfml/src/debuffbar.cpp
 	"debuffbar.hpp"
 
-1679770985 source:/home/dave/Development/wizardry/sorcery-sfml/src/item.cpp
+1682283882 source:/home/dave/Development/wizardry/sorcery-sfml/src/item.cpp
 	"item.hpp"
 
-1681929775 /home/dave/Development/wizardry/sorcery-sfml/inc/item.hpp
+1682283021 /home/dave/Development/wizardry/sorcery-sfml/inc/item.hpp
 	"itemtype.hpp"
 	"main.hpp"
 	"system.hpp"
@@ -1672,18 +1673,24 @@
 1680553411 source:/home/dave/Development/wizardry/sorcery-sfml/src/itemregistry.cpp
 	"itemregistry.hpp"
 
-1681928248 /home/dave/Development/wizardry/sorcery-sfml/inc/itemstore.hpp
+1683572383 /home/dave/Development/wizardry/sorcery-sfml/inc/itemstore.hpp
 	"item.hpp"
 	"itemtype.hpp"
 	"main.hpp"
 	"system.hpp"
 
-1681235589 source:/home/dave/Development/wizardry/sorcery-sfml/src/itemstore.cpp
+1684178088 source:/home/dave/Development/wizardry/sorcery-sfml/src/itemstore.cpp
 	"itemstore.hpp"
 
-1681929584 /home/dave/Development/wizardry/sorcery-sfml/inc/itemtype.hpp
+1684176078 /home/dave/Development/wizardry/sorcery-sfml/inc/itemtype.hpp
 	"main.hpp"
 	"system.hpp"
 
-1681756046 source:/home/dave/Development/wizardry/sorcery-sfml/src/itemtype.cpp
+1684176084 source:/home/dave/Development/wizardry/sorcery-sfml/src/itemtype.cpp
+	"itemtype.hpp"
+
+1682624567 source:/home/dave/Development/wizardry/sorcery-sfml/src/characterview.cpp
+	"characterview.hpp"
+
+1682624546 /home/dave/Development/wizardry/sorcery-sfml/inc/characterview.hpp
 

@@ -145,6 +145,7 @@
 		<Unit filename="inc/changename.hpp" />
 		<Unit filename="inc/character.hpp" />
 		<Unit filename="inc/characterpanel.hpp" />
+		<Unit filename="inc/characterview.hpp" />
 		<Unit filename="inc/compass.hpp" />
 		<Unit filename="inc/compendium.hpp" />
 		<Unit filename="inc/component.hpp" />
@@ -229,6 +230,7 @@
 		<Unit filename="src/changename.cpp" />
 		<Unit filename="src/character.cpp" />
 		<Unit filename="src/characterpanel.cpp" />
+		<Unit filename="src/characterview.cpp" />
 		<Unit filename="src/compass.cpp" />
 		<Unit filename="src/compendium.cpp" />
 		<Unit filename="src/component.cpp" />

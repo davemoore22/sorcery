@@ -39,6 +39,7 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 	}
 
 	levelstore = std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
+	itemstore = std::make_unique<ItemStore>(_system, (*_system->files)[ITEMS_FILE]);
 
 	_set_up_dungeon_events();
 }

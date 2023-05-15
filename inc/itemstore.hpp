@@ -35,21 +35,26 @@ class ItemStore {
 
 	public:
 
-		ItemStore();
+		ItemStore(System *system, const std::filesystem::path filename);
+		ItemStore() = delete;
 
 		// Overload operators
 		auto operator[](ItemTypeID item_type_id) const -> ItemType;
 		auto operator()(ItemCategory) const -> std::optional<std::vector<ItemType>>;
 
-		auto generate(ItemTypeID item_type_id) const -> Item;
-		auto generate(ItemTypeID min_item_type_id, ItemTypeID max_item_type_id) const -> Item;
+		// Public methods
+		auto get(ItemTypeID item_type_id) const -> Item;
+		auto get(ItemTypeID min_item_type_id, ItemTypeID max_item_type_id) const -> Item;
 
 	private:
 
-		auto _load(const std::filesystem::path filename) -> bool;
-
+		// Private members
+		System *_system;
 		std::map<ItemTypeID, ItemType> _items;
 		bool _loaded;
+
+		// Private methods
+		auto _load(const std::filesystem::path filename) -> bool;
 };
 
 }

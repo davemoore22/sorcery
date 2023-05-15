@@ -149,9 +149,8 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 			// Iterate through icon file one icon at a time
 			for (auto i = 0u; i < icons.size(); i++) {
 
-				// Get the mappings for each icon (note that all parameters
-				// should always be present for each icon entry in the mapping
-				// file or else this will error)
+				// Get the mappings for each icon (note that all parameters should always be present for each icon entry
+				// in the mapping file or else this will error)
 				auto index{static_cast<unsigned int>(std::stoul(icons[i]["index"].asString()))};
 				auto filename{icons[i]["filename"].asString()};
 				auto menu_item_s{icons[i]["menu_item"].asString()};
@@ -165,9 +164,8 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 				}()};
 				MenuItem menu_item{MenuItem::NO_ITEM};
 
-				// Use Magic Enum Library Reflection to convert the string to
-				// the type if we have an associated menu item for the icon
-				// (which is used in an info panel beneath a menu)
+				// Use Magic Enum Library Reflection to convert the string to the type if we have an associated menu
+				// item for the icon (which is used in an info panel beneath a menu)
 				auto item_t{magic_enum::enum_cast<Sorcery::Enums::Menu::Item>(menu_item_s)};
 				if (item_t.has_value())
 					menu_item = item_t.value();
@@ -195,9 +193,8 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 	return true;
 }
 
-// Fortunately we are using square icons so we can easily find the appropriate
-// icon from the spritesheet - note that we have 15 icons per row, and each icon
-// is 511x511 pixels
+// Fortunately we are using square icons so we can easily find the appropriate icon from the spritesheet - note that we
+// have 15 icons per row, and each icon is 511x511 pixels
 auto Sorcery::IconStore::_get_rect(unsigned int index) const -> sf::IntRect {
 
 	constexpr auto icon_size{511};

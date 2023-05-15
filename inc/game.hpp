@@ -27,6 +27,7 @@
 #include "character.hpp"
 #include "display.hpp"
 #include "graphics.hpp"
+#include "itemstore.hpp"
 #include "levelstore.hpp"
 #include "main.hpp"
 #include "state.hpp"
@@ -47,6 +48,7 @@ class Game {
 		std::map<unsigned int, Character> characters;
 		std::unique_ptr<State> state;
 		std::unique_ptr<LevelStore> levelstore;
+		std::unique_ptr<ItemStore> itemstore;
 
 		// Public Methods
 		auto get_id() const -> unsigned int;
