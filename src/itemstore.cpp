@@ -134,14 +134,12 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 						return items[i]["offensive"].asString().length() > 0 ? items[i]["offensive"].asString() : "";
 					else
 						return std::string{};
-					;
 				}()};
 				const std::string defensive_s{[&] {
 					if (items[i].isMember("defensive"))
 						return items[i]["defensive"].asString().length() > 0 ? items[i]["defensive"].asString() : "";
 					else
 						return std::string{};
-					;
 				}()};
 				const auto invoke_effect{[&] {
 					if (items[i].isMember("invoke")) {

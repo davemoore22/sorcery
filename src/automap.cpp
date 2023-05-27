@@ -153,19 +153,22 @@ auto Sorcery::AutoMap::refresh() -> void {
 
 auto Sorcery::AutoMap::_draw_player(MapDirection direction, int x, int y, float scaling) -> void {
 
-	auto icon{AutoMapFeature::NO_FEATURE};
+	using enum Sorcery::Enums::Automap::Feature;
+	using enum Sorcery::Enums::Map::Direction;
+
+	auto icon{NO_FEATURE};
 	switch (direction) {
-	case MapDirection::NORTH:
-		icon = AutoMapFeature::PLAYER_NORTH;
+	case NORTH:
+		icon = PLAYER_NORTH;
 		break;
-	case MapDirection::SOUTH:
-		icon = AutoMapFeature::PLAYER_SOUTH;
+	case SOUTH:
+		icon = PLAYER_SOUTH;
 		break;
-	case MapDirection::EAST:
-		icon = AutoMapFeature::PLAYER_EAST;
+	case EAST:
+		icon = PLAYER_EAST;
 		break;
-	case MapDirection::WEST:
-		icon = AutoMapFeature::PLAYER_WEST;
+	case WEST:
+		icon = PLAYER_WEST;
 		break;
 	default:
 		break;
