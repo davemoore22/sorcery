@@ -29,15 +29,12 @@
 #include "graphics.hpp"
 #include "main.hpp"
 #include "system.hpp"
-#include "spellpanel.hpp"
 
 // clang-format on
 
 namespace Sorcery {
 
-class SpellSummary;
-
-class Character: public sf::Transformable, public sf::Drawable {
+class Character {
 
 	public:
 
@@ -75,9 +72,9 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto finalise() -> void;
 		auto level_up() -> std::string;
 		auto level_down() -> void;
-		auto get_alignment(const CharacterAlignment alignment) const -> std::string;
-		auto get_race(const CharacterRace race) const -> std::string;
-		auto get_class(const CharacterClass cclass) const -> std::string;
+		auto alignment_to_string(const CharacterAlignment alignment) const -> std::string;
+		auto race_to_string(const CharacterRace race) const -> std::string;
+		auto class_to_string(const CharacterClass cclass) const -> std::string;
 		auto create_random() -> void;
 		auto create_quick() -> void;
 		auto set_start_attr() -> void;
@@ -108,14 +105,9 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto get_cur_attr(const CharacterAttribute attribute) const -> unsigned int;
 		auto get_start_attr(const CharacterAttribute attribute) const -> unsigned int;
 		auto set_cur_attr(const CharacterAttribute attribute, const int adjustment) -> void;
-		auto get_icon(CharacterStage type) -> std::optional<sf::Sprite>;
 		auto get_portrait_index() const -> unsigned int;
 		auto set_portrait_index(const unsigned int value) -> void;
 		auto get_spell_points(const SpellType type, const SpellPointStatus status) const -> std::optional<SpellPoints>;
-		auto get_view() const -> CharacterView;
-		auto set_view(const CharacterView value) -> void;
-		auto left_view() -> void;
-		auto right_view() -> void;
 		auto get_gold() const -> unsigned int;
 		auto set_gold(const unsigned int value) -> void;
 		auto grant_gold(const int value) -> void;
@@ -138,11 +130,6 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto get_poisoned_string() const -> std::string;
 		auto get_hp_summary() const -> std::string;
 		auto get_short_hp_summary() const -> std::string;
-		auto inc_hl_spell(SpellType type) -> void;
-		auto dec_hl_spell(SpellType type) -> void;
-		auto update() -> void;
-		auto check_for_mouse_move(sf::Vector2f mouse_pos) -> std::optional<SpellID>;
-		auto check_for_action_mouse_move(sf::Vector2f mouse_pos) -> std::optional<MenuItem>;
 		auto change_class(const CharacterClass &value) -> void;
 		auto legate(const CharacterAlignment &value) -> void;
 		auto is_legated() const -> bool;
@@ -167,26 +154,14 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto get_ress_chance(bool ashes) -> unsigned int;
 		auto damage(const unsigned int adjustment) -> bool;
 		auto heal(const unsigned int adjustment) -> void;
-		auto generate_display() -> void;
-		auto set_mode(CharacterMode value) -> void;
 
 		// Public Members
-		std::map<SpellID, sf::FloatRect> mage_spell_bounds;
-		std::map<SpellID, sf::FloatRect> priest_spell_bounds;
-		std::map<SpellID, sf::Text *> mage_spell_texts;
-		std::map<SpellID, sf::Text *> priest_spell_texts;
-		std::map<MenuItem, sf::Text *> action_menu_texts;
-		std::map<MenuItem, sf::FloatRect> action_menu_bounds;
-
 		std::optional<Coordinate> coordinate;
 		std::optional<int> depth;
 
 	private:
 
 		// Private Methods
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
-		auto _generate_display() -> void;
-		auto _generate_summary_icons() -> void;
 		auto _generate_start_info() -> void;
 		auto _regenerate_start_info() -> void;
 		auto _legate_start_info() -> void;
@@ -203,12 +178,8 @@ class Character: public sf::Transformable, public sf::Drawable {
 		auto _set_sp() -> bool;
 		auto _get_spells_known(SpellType spell_type, unsigned int spell_level) -> unsigned int;
 		auto _get_xp_for_level(unsigned int level) const -> int;
-		auto _get_character_portrait() -> sf::Sprite;
-		auto _add_text(Component &component, std::string format, std::string value, bool is_view = true) -> sf::Text *;
-		auto _add_icon(Component &component, std::string icon_key) -> void;
 		auto _get_mage_status(bool current) -> std::string;
 		auto _get_priest_status(bool current) -> std::string;
-		auto _get_spell_icon(SpellCategory category) -> std::optional<sf::Sprite>;
 		auto _get_sp_per_level(const SpellType type, int level) -> std::string;
 		auto _get_condition() const -> std::string;
 		auto _update_stat_for_level(CharacterAttribute attribute, std::string stat) -> std::string;
@@ -238,7 +209,6 @@ class Character: public sf::Transformable, public sf::Drawable {
 		CharacterAttributes _start_attr;
 		CharacterAttributes _cur_attr;
 		CharacterAttributes _max_attr;
-		CharacterView _view;
 		unsigned int _points_left;
 		unsigned int _st_points;
 		CharacterClassQualified _pos_classes;
@@ -247,24 +217,9 @@ class Character: public sf::Transformable, public sf::Drawable {
 		unsigned int _portrait_index;
 		CharacterStatus _status;
 		bool _hidden;
-		std::map<std::string, sf::Sprite> _sprites;
-		std::map<std::string, sf::Text> _texts;
-		std::map<std::string, std::shared_ptr<Frame>> _frames;
-		std::map<std::string, sf::Sprite> _v_sprites;
-		std::map<std::string, sf::Text> _v_texts;
-		std::map<std::string, std::shared_ptr<Frame>> _v_frames;
-		std::shared_ptr<SpellPanel> _spell_panel;
-		Component _spell_panel_c;
 		CreateMethod _method;
-		SpellID _hl_mage_spell;
-		SpellID _hl_priest_spell;
-		MenuItem _hl_action_item;
-		sf::RectangleShape _hl_mage_spell_bg;
-		sf::RectangleShape _hl_priest_spell_bg;
-		sf::RectangleShape _hl_action_item_bg;
 		bool _legated;
 		CharacterLocation _location;
-		CharacterMode _mode;
 };
 
 }

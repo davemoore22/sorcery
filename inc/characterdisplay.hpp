@@ -58,6 +58,7 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 	auto check_for_action_mouse_move(sf::Vector2f mouse_pos) -> std::optional<MenuItem>;
 	auto generate_display() -> void;
 	auto set_mode(CharacterMode value) -> void;
+	auto get_icon(CharacterStage type) -> std::optional<sf::Sprite>;
 
 	// Public Members
 	std::map<SpellID, sf::FloatRect> mage_spell_bounds;
@@ -99,6 +100,9 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 	sf::RectangleShape _hl_mage_spell_bg;
 	sf::RectangleShape _hl_priest_spell_bg;
 	sf::RectangleShape _hl_action_item_bg;
+
+	CharacterView _view;
+	CharacterMode _mode;
 };
 
 }

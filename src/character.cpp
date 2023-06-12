@@ -32,35 +32,15 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	set_stage(CharacterStage::CHOOSE_METHOD);
-	_texts.clear();
-	_sprites.clear();
-	_frames.clear();
-	_v_texts.clear();
-	_v_sprites.clear();
-	_v_frames.clear();
-	_view = CharacterView::NO_VIEW;
-	_hl_mage_spell = SpellID::DUMAPIC;
-	_hl_priest_spell = SpellID::BADIOS;
-	_hl_action_item = MenuItem::C_ACTION_READ;
-	mage_spell_bounds.clear();
-	priest_spell_bounds.clear();
-	mage_spell_texts.clear();
-	priest_spell_texts.clear();
-	action_menu_texts.clear();
-	action_menu_bounds.clear();
 
 	_hidden = false;
 	set_status(CharacterStatus::OK);
-
-	_spell_panel = std::make_shared<SpellPanel>(_system, _display, _graphics);
-	_spell_panel->setPosition((*_display->layout)["global:spell_panel"].x, (*_display->layout)["global:spell_panel"].y);
 
 	_version = SAVE_VERSION;
 
 	_legated = false;
 
 	_location = CharacterLocation::TAVERN;
-	_mode = CharacterMode::NO_MODE;
 
 	coordinate = std::nullopt;
 	depth = std::nullopt;
@@ -74,14 +54,10 @@ Sorcery::Character::Character(const Character &other)
 	  _mage_cur_sp{other._mage_cur_sp}, _spells{other._spells}, _spells_known{other._spells_known},
 	  _current_stage{other._current_stage}, _name{other._name}, _race{other._race}, _class{other._class},
 	  _alignment{other._alignment}, _start_attr{other._start_attr}, _cur_attr{other._cur_attr},
-	  _max_attr{other._max_attr}, _view{other._view}, _points_left{other._points_left}, _st_points{other._st_points},
+	  _max_attr{other._max_attr}, _points_left{other._points_left}, _st_points{other._st_points},
 	  _pos_classes{other._pos_classes}, _class_list{other._class_list}, _num_pos_classes{other._num_pos_classes},
-	  _portrait_index{other._portrait_index}, _status{other._status}, _hidden{other._hidden},
-	  _hl_mage_spell{other._hl_mage_spell}, _hl_priest_spell{other._hl_priest_spell},
-	  _hl_action_item{other._hl_action_item}, _legated{other._legated}, _location{other._location} {
-
-	_spell_panel = other._spell_panel;
-	_spell_panel_c = other._spell_panel_c;
+	  _portrait_index{other._portrait_index}, _status{other._status}, _hidden{other._hidden}, _legated{other._legated},
+	  _location{other._location} {
 }
 
 auto Sorcery::Character::operator=(const Character &other) -> Character & {
@@ -110,28 +86,19 @@ auto Sorcery::Character::operator=(const Character &other) -> Character & {
 	_start_attr = other._start_attr;
 	_cur_attr = other._cur_attr;
 	_max_attr = other._max_attr;
-	_view = other._view;
 	_points_left = other._points_left;
 	_st_points = other._st_points;
 	_pos_classes = other._pos_classes;
 	_class_list = other._class_list;
 	_num_pos_classes = other._num_pos_classes;
 	_portrait_index = other._portrait_index;
-	_hl_mage_spell = other._hl_mage_spell;
-	_hl_priest_spell = other._hl_priest_spell;
-	_hl_action_item = other._hl_action_item;
 	_hidden = other._hidden;
 	_status = other._status;
 	_legated = other._legated;
 	_location = other._location;
 
-	_spell_panel = other._spell_panel;
-	_spell_panel_c = other._spell_panel_c;
-
 	return *this;
 }
-
-// TODO do we still need these and if so, add action_hl as well
 
 // Move Constructors
 Sorcery::Character::Character(Character &&other) noexcept {
@@ -162,23 +129,16 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		_start_attr = other._start_attr;
 		_cur_attr = other._cur_attr;
 		_max_attr = other._max_attr;
-		_view = other._view;
 		_points_left = other._points_left;
 		_st_points = other._st_points;
 		_pos_classes = other._pos_classes;
 		_class_list = other._class_list;
 		_num_pos_classes = other._num_pos_classes;
 		_portrait_index = other._portrait_index;
-		_hl_mage_spell = other._hl_mage_spell;
-		_hl_priest_spell = other._hl_priest_spell;
-		_hl_action_item = other._hl_action_item;
 		_hidden = other._hidden;
 		_status = other._status;
 		_legated = other._legated;
 		_location = other._location;
-
-		_spell_panel = std::move(other._spell_panel);
-		_spell_panel_c = std::move(other._spell_panel_c);
 
 		other.coordinate = std::nullopt;
 		other.depth = std::nullopt;
@@ -204,23 +164,16 @@ Sorcery::Character::Character(Character &&other) noexcept {
 		other._start_attr.clear();
 		other._cur_attr.clear();
 		other._max_attr.clear();
-		other._view = CharacterView::NO_VIEW;
 		other._points_left = 0;
 		other._st_points = 0;
 		other._pos_classes.clear();
 		other._class_list.clear();
 		other._num_pos_classes = 0;
 		other._portrait_index = 0;
-		other._hl_mage_spell = SpellID::NO_SPELL;
-		other._hl_priest_spell = SpellID::NO_SPELL;
-		other._hl_action_item = MenuItem::ABORT;
 		other._hidden = false;
 		other._status = CharacterStatus::OK;
 		other._legated = false;
 		other._location = CharacterLocation::NO_LOCATION;
-
-		other._spell_panel.reset();
-		other._spell_panel_c = Component();
 	}
 }
 
@@ -253,22 +206,15 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		_start_attr = other._start_attr;
 		_cur_attr = other._cur_attr;
 		_max_attr = other._max_attr;
-		_view = other._view;
 		_points_left = other._points_left;
 		_st_points = other._st_points;
 		_pos_classes = other._pos_classes;
 		_class_list = other._class_list;
 		_num_pos_classes = other._num_pos_classes;
 		_portrait_index = other._portrait_index;
-		_hl_mage_spell = other._hl_mage_spell;
-		_hl_priest_spell = other._hl_priest_spell;
-		_hl_action_item = other._hl_action_item;
 		_hidden = other._hidden;
 		_status = other._status;
 		_legated = other._legated;
-
-		_spell_panel = std::move(other._spell_panel);
-		_spell_panel_c = std::move(other._spell_panel_c);
 
 		other._location = CharacterLocation::NO_LOCATION;
 		other.coordinate = std::nullopt;
@@ -295,22 +241,15 @@ auto Sorcery::Character::operator=(Character &&other) noexcept -> Character & {
 		other._start_attr.clear();
 		other._cur_attr.clear();
 		other._max_attr.clear();
-		other._view = CharacterView::NO_VIEW;
 		other._points_left = 0;
 		other._st_points = 0;
 		other._pos_classes.clear();
 		other._class_list.clear();
 		other._num_pos_classes = 0;
 		other._portrait_index = 0;
-		other._hl_mage_spell = SpellID::NO_SPELL;
-		other._hl_priest_spell = SpellID::NO_SPELL;
-		other._hl_action_item = MenuItem::ABORT;
 		other._hidden = false;
 		other._status = CharacterStatus::OK;
 		other._legated = false;
-
-		other._spell_panel.reset();
-		other._spell_panel_c = Component();
 	}
 	return *this;
 }
@@ -326,11 +265,6 @@ auto Sorcery::Character::operator[](const CharacterAbility &key) -> int & {
 auto Sorcery::Character::get_stage() const -> CharacterStage {
 
 	return _current_stage;
-}
-
-auto Sorcery::Character::set_mode(CharacterMode value) -> void {
-
-	_mode = value;
 }
 
 auto Sorcery::Character::get_location() const -> CharacterLocation {
@@ -386,13 +320,12 @@ auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 		_spells.clear();
 		create_spells();
 		reset_spells();
-		_view = NO_VIEW;
 		break;
 	case REVIEW_AND_CONFIRM:
 
 		// Handle the generation of the Character Display Here
-		_view = SUMMARY;
-		_generate_display();
+		//_view = SUMMARY;
+		//_generate_display();
 		break;
 	default:
 		break;
@@ -514,74 +447,6 @@ auto Sorcery::Character::set_portrait_index(const unsigned int value) -> void {
 	_portrait_index = value;
 }
 
-auto Sorcery::Character::inc_hl_spell(SpellType type) -> void {
-
-	if (type == SpellType::MAGE) {
-		auto index{magic_enum::enum_integer<SpellID>(_hl_mage_spell)};
-		if (index < magic_enum::enum_integer<SpellID>(SpellID::TILTOWAIT)) {
-			++index;
-			_hl_mage_spell = magic_enum::enum_cast<SpellID>(index).value();
-		}
-	} else {
-		auto index{magic_enum::enum_integer<SpellID>(_hl_priest_spell)};
-		if (index < magic_enum::enum_integer<SpellID>(SpellID::MALIKTO)) {
-			++index;
-			_hl_priest_spell = magic_enum::enum_cast<SpellID>(index).value();
-		}
-	}
-
-	_generate_display();
-}
-
-auto Sorcery::Character::dec_hl_spell(SpellType type) -> void {
-
-	if (type == SpellType::MAGE) {
-		auto index{magic_enum::enum_integer<SpellID>(_hl_mage_spell)};
-		if (index > magic_enum::enum_integer<SpellID>(SpellID::DUMAPIC)) {
-			--index;
-			_hl_mage_spell = magic_enum::enum_cast<SpellID>(index).value();
-		}
-	} else {
-		auto index{magic_enum::enum_integer<SpellID>(_hl_priest_spell)};
-		if (index > magic_enum::enum_integer<SpellID>(SpellID::BADIOS)) {
-			--index;
-			_hl_priest_spell = magic_enum::enum_cast<SpellID>(index).value();
-		}
-	}
-
-	_generate_display();
-}
-
-// Setting the view will regenerate the display components
-auto Sorcery::Character::left_view() -> void {
-
-	auto view_index{magic_enum::enum_integer<CharacterView>(_view)};
-	if (view_index == magic_enum::enum_integer<CharacterView>(CharacterView::SUMMARY))
-		view_index = magic_enum::enum_integer<CharacterView>(CharacterView::PRIEST_SPELLS);
-	else
-		--view_index;
-	_view = magic_enum::enum_cast<CharacterView>(view_index).value();
-
-	_display->layout->refresh_if_needed();
-
-	_generate_display();
-}
-
-// Setting the view will regenerate the display components
-auto Sorcery::Character::right_view() -> void {
-
-	auto view_index{magic_enum::enum_integer<CharacterView>(_view)};
-	if (view_index == magic_enum::enum_integer<CharacterView>(CharacterView::PRIEST_SPELLS))
-		view_index = magic_enum::enum_integer<CharacterView>(CharacterView::SUMMARY);
-	else
-		++view_index;
-	_view = magic_enum::enum_cast<CharacterView>(view_index).value();
-
-	_display->layout->refresh_if_needed();
-
-	_generate_display();
-}
-
 auto Sorcery::Character::set_start_attr() -> void {
 
 	using enum Enums::Character::Attribute;
@@ -638,33 +503,6 @@ auto Sorcery::Character::get_start_attr() const -> CharacterAttributes {
 auto Sorcery::Character::get_pos_class() const -> CharacterClassQualified {
 
 	return _pos_classes;
-}
-
-auto Sorcery::Character::get_icon(CharacterStage type) -> std::optional<sf::Sprite> {
-
-	using enum Enums::Character::Stage;
-
-	switch (type) {
-	case CHOOSE_ALIGNMENT: {
-		auto alignment{get_alignment(_alignment)};
-		std::ranges::transform(alignment.begin(), alignment.end(), alignment.begin(), ::tolower);
-		return (*_graphics->icons)[alignment].value();
-	} break;
-	case CHOOSE_RACE: {
-		auto race{get_race(_race)};
-		std::ranges::transform(race.begin(), race.end(), race.begin(), ::tolower);
-		return (*_graphics->icons)[race].value();
-	} break;
-	case CHOOSE_CLASS: {
-		auto cclass{get_class(_class)};
-		std::ranges::transform(cclass.begin(), cclass.end(), cclass.begin(), ::tolower);
-		return (*_graphics->icons)[cclass].value();
-	} break;
-	default:
-		break;
-	}
-
-	return std::nullopt;
 }
 
 // Given a character's current stats and alignment, work out what classes are
@@ -748,7 +586,7 @@ auto Sorcery::Character::set_pos_class() -> void {
 }
 
 // Enum to String functions
-auto Sorcery::Character::get_alignment(CharacterAlignment character_alignment) const -> std::string {
+auto Sorcery::Character::alignment_to_string(CharacterAlignment character_alignment) const -> std::string {
 
 	using enum Enums::Character::Align;
 
@@ -768,7 +606,7 @@ auto Sorcery::Character::get_alignment(CharacterAlignment character_alignment) c
 	}
 }
 
-auto Sorcery::Character::get_race(CharacterRace character_race) const -> std::string {
+auto Sorcery::Character::race_to_string(CharacterRace character_race) const -> std::string {
 
 	using enum Enums::Character::Race;
 
@@ -794,7 +632,7 @@ auto Sorcery::Character::get_race(CharacterRace character_race) const -> std::st
 	}
 }
 
-auto Sorcery::Character::get_class(CharacterClass character_class) const -> std::string {
+auto Sorcery::Character::class_to_string(CharacterClass character_class) const -> std::string {
 
 	using enum Enums::Character::Class;
 
@@ -2388,13 +2226,6 @@ auto Sorcery::Character::create_random() -> void {
 	_portrait_index = (*_system->random)[RandomType::ZERO_TO_29];
 }
 
-auto Sorcery::Character::_get_character_portrait() -> sf::Sprite {
-
-	sf::Sprite portrait{_graphics->textures->get(_portrait_index, GraphicsTextureType::PORTRAIT).value()};
-
-	return portrait;
-}
-
 auto Sorcery::Character::get_status() const -> CharacterStatus {
 
 	return _status;
@@ -2653,41 +2484,6 @@ auto Sorcery::Character::_get_priest_status(bool current) -> std::string {
 // For level draining, optionally keep a track of negative levels unless in strict mode
 // Need to also handle character class switching
 
-auto Sorcery::Character::_generate_summary_icons() -> void {
-
-	using enum Enums::Character::Ability;
-	using enum Enums::Character::Stage;
-
-	auto class_icon{get_icon(CHOOSE_CLASS).value()};
-	class_icon.setPosition(
-		(*_display->layout)["character:class_icon"].x, (*_display->layout)["character:class_icon"].y);
-	class_icon.setScale(
-		(*_display->layout)["character:class_icon"].scale, (*_display->layout)["character:class_icon"].scale);
-	_v_sprites.try_emplace((*_display->layout)["character:class_icon"].unique_key, class_icon);
-
-	auto race_icon{get_icon(CHOOSE_RACE).value()};
-	race_icon.setPosition((*_display->layout)["character:race_icon"].x, (*_display->layout)["character:race_icon"].y);
-	race_icon.setScale(
-		(*_display->layout)["character:race_icon"].scale, (*_display->layout)["character:race_icon"].scale);
-	_v_sprites.try_emplace((*_display->layout)["character:race_icon"].unique_key, race_icon);
-
-	auto alignment_icon{get_icon(CHOOSE_ALIGNMENT).value()};
-	alignment_icon.setPosition(
-		(*_display->layout)["character:alignment_icon"].x, (*_display->layout)["character:alignment_icon"].y);
-	alignment_icon.setScale(
-		(*_display->layout)["character:alignment_icon"].scale, (*_display->layout)["character:alignment_icon"].scale);
-	_v_sprites.try_emplace((*_display->layout)["character:alignment_icon"].unique_key, alignment_icon);
-
-	auto level_icon{(*_graphics->icons)["level"].value()};
-	level_icon.setPosition(
-		(*_display->layout)["character:level_icon"].x, (*_display->layout)["character:level_icon"].y);
-	level_icon.setScale(
-		(*_display->layout)["character:level_icon"].scale, (*_display->layout)["character:level_icon"].scale);
-	_v_sprites.try_emplace((*_display->layout)["character:level_icon"].unique_key, level_icon);
-
-	_add_text((*_display->layout)["character:level_text"], "{}", std::to_string(_abilities.at(CURRENT_LEVEL)), true);
-}
-
 auto Sorcery::Character::get_summary() -> std::string {
 
 	using enum Enums::Character::Ability;
@@ -2696,7 +2492,8 @@ auto Sorcery::Character::get_summary() -> std::string {
 	if (_display->get_upper())
 		std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	return fmt::format("{:<15} L {:>2} {}-{} {}", name, _abilities.at(CURRENT_LEVEL),
-		get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3), get_race(_race).substr(0, 3));
+		alignment_to_string(_alignment).substr(0, 1), class_to_string(_class).substr(0, 3),
+		race_to_string(_race).substr(0, 3));
 }
 
 auto Sorcery::Character::get_summary_and_out() -> std::string {
@@ -2716,7 +2513,8 @@ auto Sorcery::Character::get_summary_and_out() -> std::string {
 	}()};
 
 	return fmt::format("{:<15} L {:>2} {}-{} {}{:>5}", name, _abilities.at(CURRENT_LEVEL),
-		get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3), get_race(_race).substr(0, 3), location);
+		alignment_to_string(_alignment).substr(0, 1), class_to_string(_class).substr(0, 3),
+		race_to_string(_race).substr(0, 3), location);
 }
 
 auto Sorcery::Character::can_level() const -> bool {
@@ -2759,9 +2557,9 @@ auto Sorcery::Character::get_sb_text(const int position) -> std::string {
 	auto name{_name};
 	if (_display->get_upper())
 		std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
-	return fmt::format("{} {:<15} {}-{} {:>2} {:>4}{}{:<6}", position, name, get_alignment(_alignment).substr(0, 1),
-		get_class(_class).substr(0, 3), _abilities.at(CURRENT_ARMOUR_CLASS), get_short_hp_summary(),
-		get_hp_adjustment_symbol(), get_short_condition());
+	return fmt::format("{} {:<15} {}-{} {:>2} {:>4}{}{:<6}", position, name,
+		alignment_to_string(_alignment).substr(0, 1), class_to_string(_class).substr(0, 3),
+		_abilities.at(CURRENT_ARMOUR_CLASS), get_short_hp_summary(), get_hp_adjustment_symbol(), get_short_condition());
 }
 
 auto Sorcery::Character::get_age() const -> int {
@@ -2796,24 +2594,25 @@ auto Sorcery::Character::summary_text() -> std::string {
 		return fmt::format("{:<15} L {:>2} ?-??? ???", name, _abilities.at(CURRENT_LEVEL));
 		break;
 	case CHOOSE_ALIGNMENT:
-		return fmt::format("{:<15} L {:>2} ?-??? {}", name, _abilities.at(CURRENT_LEVEL), get_race(_race));
+		return fmt::format("{:<15} L {:>2} ?-??? {}", name, _abilities.at(CURRENT_LEVEL), race_to_string(_race));
 		break;
 	case ALLOCATE_STATS:
 		return fmt::format("{:<15} L {:>2} {}-??? {}", name, _abilities.at(CURRENT_LEVEL),
-			get_alignment(_alignment).substr(0, 1), get_race(_race));
+			alignment_to_string(_alignment).substr(0, 1), race_to_string(_race));
 		break;
 	case CHOOSE_CLASS:
 		return fmt::format("{:<15} L {:>2} {}-??? {}", name, _abilities.at(CURRENT_LEVEL),
-			get_alignment(_alignment).substr(0, 1), get_race(_race));
+			alignment_to_string(_alignment).substr(0, 1), race_to_string(_race));
 		break;
 	case CHOOSE_PORTRAIT:
 		return fmt::format("{:<15} L {:>2} {}-{} {}", name, _abilities.at(CURRENT_LEVEL),
-			get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3), get_race(_race));
+			alignment_to_string(_alignment).substr(0, 1), class_to_string(_class).substr(0, 3), race_to_string(_race));
 		break;
 	case REVIEW_AND_CONFIRM:
 	case COMPLETED:
 		return fmt::format("{} L {:>2} {}-{} {}{}", name, _abilities.at(CURRENT_LEVEL),
-			get_alignment(_alignment).substr(0, 1), get_class(_class).substr(0, 3), get_race(_race), legacy);
+			alignment_to_string(_alignment).substr(0, 1), class_to_string(_class).substr(0, 3), race_to_string(_race),
+			legacy);
 		break;
 	default:
 		return "";
@@ -2854,804 +2653,6 @@ auto Sorcery::Character::_heal(const unsigned int adjustment) -> void {
 		_abilities[CURRENT_HP] = _abilities[MAX_HP];
 }
 
-auto Sorcery::Character::generate_display() -> void {
-
-	_generate_display();
-}
-
-auto Sorcery::Character::_generate_display() -> void {
-
-	using enum Enums::Character::Attribute;
-	using enum Enums::Character::Ability;
-	using enum Enums::Character::Ability_Type;
-	using enum Enums::Character::View;
-
-	_sprites.clear();
-	_texts.clear();
-	_frames.clear();
-	_v_sprites.clear();
-	_v_texts.clear();
-	_v_frames.clear();
-	mage_spell_bounds.clear();
-	priest_spell_bounds.clear();
-	mage_spell_texts.clear();
-	priest_spell_texts.clear();
-	action_menu_bounds.clear();
-	action_menu_texts.clear();
-
-	_display->generate("character", _sprites, _texts, _frames);
-
-	if (_view == SUMMARY) {
-
-		_display->generate("character_summary", _v_sprites, _v_texts, _v_frames);
-
-		_add_text((*_display->layout)["character_summary:name_and_summary_text"], "{}", summary_text());
-
-		Component s_c{(*_display->layout)["character_summary:strength_value"]};
-		s_c.colour = _graphics->adjust_colour(_cur_attr.at(STRENGTH), STAT);
-		_add_text(s_c, "{:>2}", std::to_string(_cur_attr.at(STRENGTH)));
-
-		Component i_c{(*_display->layout)["character_summary:iq_value"]};
-		i_c.colour = _graphics->adjust_colour(_cur_attr.at(IQ), STAT);
-		_add_text(i_c, "{:>2}", std::to_string(_cur_attr.at(IQ)));
-
-		Component p_c{(*_display->layout)["character_summary:piety_value"]};
-		p_c.colour = _graphics->adjust_colour(_cur_attr.at(PIETY), STAT);
-		_add_text(p_c, "{:>2}", std::to_string(_cur_attr.at(PIETY)));
-
-		Component a_c{(*_display->layout)["character_summary:agility_value"]};
-		a_c.colour = _graphics->adjust_colour(_cur_attr.at(AGILITY), STAT);
-		_add_text(a_c, "{:>2}", std::to_string(_cur_attr.at(AGILITY)));
-
-		Component v_c{(*_display->layout)["character_summary:vitality_value"]};
-		v_c.colour = _graphics->adjust_colour(_cur_attr.at(VITALITY), STAT);
-		_add_text(v_c, "{:>2}", std::to_string(_cur_attr.at(VITALITY)));
-
-		Component l_c{(*_display->layout)["character_summary:luck_value"]};
-		l_c.colour = _graphics->adjust_colour(_cur_attr.at(LUCK), STAT);
-		_add_text(l_c, "{:>2}", std::to_string(_cur_attr.at(LUCK)));
-
-		_add_text((*_display->layout)["character_summary:hp_value"], "{}",
-			fmt::format("{}/{}", std::to_string(_abilities.at(CURRENT_HP)), std::to_string(_abilities.at(MAX_HP))));
-		_add_text((*_display->layout)["character_summary:ac_value"], "{:>3}",
-			std::to_string(_abilities.at(CURRENT_ARMOUR_CLASS)));
-		_add_text((*_display->layout)["character_summary:age_value"], "{:>2}",
-			std::to_string(static_cast<int>(_abilities.at(AGE) / 52)));
-		_add_text((*_display->layout)["character_summary:swim_value"], "{:>2}", std::to_string(_abilities.at(SWIM)));
-		auto status_text{_add_text((*_display->layout)["character_summary:status_value"], "{}", get_status_string())};
-		status_text->setFillColor(sf::Color(_graphics->adjust_status_colour(_status, is_poisoned())));
-
-		_add_text(
-			(*_display->layout)["character_summary:exp_value"], "{:>11}", std::to_string(_abilities.at(CURRENT_XP)));
-		_add_text((*_display->layout)["character_summary:next_value"], "{:>11}",
-			std::to_string(_abilities.at(NEXT_LEVEL_XP)));
-		_add_text((*_display->layout)["character_summary:gold_value"], "{:>11}", std::to_string(_abilities.at(GOLD)));
-		_add_text((*_display->layout)["character_summary:marks_value"], "{:>11}", std::to_string(_abilities.at(MARKS)));
-		_add_text(
-			(*_display->layout)["character_summary:deaths_value"], "{:>2}", std::to_string(_abilities.at(DEATHS)));
-
-		auto mage_spells{fmt::format("{}/{}/{}/{}/{}/{}/{}", _mage_cur_sp.at(1), _mage_cur_sp.at(2), _mage_cur_sp.at(3),
-			_mage_cur_sp.at(4), _mage_cur_sp.at(5), _mage_cur_sp.at(6), _mage_cur_sp.at(7))};
-		auto priest_spells{
-			fmt::format("{}/{}/{}/{}/{}/{}/{}", _priest_cur_sp.at(1), _priest_cur_sp.at(2), _priest_cur_sp.at(3),
-				_priest_cur_sp.at(4), _priest_cur_sp.at(5), _priest_cur_sp.at(6), _priest_cur_sp.at(7))};
-
-		_add_text((*_display->layout)["character_summary:mage_spells"], "{}", mage_spells);
-		_add_text((*_display->layout)["character_summary:priest_spells"], "{}", priest_spells);
-
-		Component action_c{(*_display->layout)["character_summary:action_panel"]};
-		const auto action_x{action_c.x};
-		const auto action_y{action_c.y};
-		const auto offset_x_small{std::stoi(action_c["offset_x_small"].value())};
-		const auto offset_x_big{std::stoi(action_c["offset_x_big"].value())};
-		const auto width_small{std::stoi(action_c["width_small"].value())};
-		const auto width_big{std::stoi(action_c["width_big"].value())};
-		bool enabled{true};
-
-		// TODO rewrite this
-		auto read_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_READ"])};
-		action_menu_texts[MenuItem::C_ACTION_READ] = read_text;
-		enabled = true;
-		if (enabled) {
-			auto read_hl_bounds{read_text->getGlobalBounds()};
-			action_menu_bounds[MenuItem::C_ACTION_READ] = read_hl_bounds;
-			if (_hl_action_item == MenuItem::C_ACTION_READ) {
-				sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), read_hl_bounds.height));
-				bg.setPosition(read_hl_bounds.left, read_hl_bounds.top);
-				bg.setFillColor(_graphics->animation->selected_colour);
-				read_text->setFillColor(sf::Color(action_c.colour));
-				read_text->setOutlineColor(sf::Color(0, 0, 0));
-				read_text->setOutlineThickness(2);
-				_hl_action_item_bg = bg;
-			} else {
-				read_text->setFillColor(sf::Color(std::stoull(action_c["enabled_colour"].value(), nullptr, 16)));
-			}
-		} else
-			read_text->setFillColor(sf::Color(std::stoull(action_c["disabled_colour"].value(), nullptr, 16)));
-
-		action_c.y += _display->window->get_ch();
-
-		enabled = _mode == CharacterMode::IN_CASTLE || _mode == CharacterMode::IN_MAZE;
-		auto equip_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_EQUIP"])};
-		action_menu_texts[MenuItem::C_ACTION_EQUIP] = equip_text;
-		if (enabled) {
-			auto equip_hl_bounds{equip_text->getGlobalBounds()};
-			action_menu_bounds[MenuItem::C_ACTION_EQUIP] = equip_hl_bounds;
-			if (_hl_action_item == MenuItem::C_ACTION_EQUIP) {
-				sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), equip_hl_bounds.height));
-				bg.setPosition(equip_hl_bounds.left, equip_hl_bounds.top);
-				bg.setFillColor(_graphics->animation->selected_colour);
-				equip_text->setFillColor(sf::Color(action_c.colour));
-				equip_text->setOutlineColor(sf::Color(0, 0, 0));
-				equip_text->setOutlineThickness(2);
-				_hl_action_item_bg = bg;
-			} else {
-				equip_text->setFillColor(sf::Color(std::stoull(action_c["enabled_colour"].value(), nullptr, 16)));
-			}
-		} else
-			equip_text->setFillColor(sf::Color(std::stoull(action_c["disabled_colour"].value(), nullptr, 16)));
-
-		action_c.x = action_x + (offset_x_small * _display->window->get_cw());
-		action_c.y = action_y;
-
-		enabled = _mode == CharacterMode::IN_CASTLE || _mode == CharacterMode::IN_MAZE;
-		auto trade_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_TRADE"])};
-		action_menu_texts[MenuItem::C_ACTION_TRADE] = trade_text;
-
-		if (enabled) {
-			auto trade_hl_bounds{trade_text->getGlobalBounds()};
-			action_menu_bounds[MenuItem::C_ACTION_TRADE] = trade_hl_bounds;
-			if (_hl_action_item == MenuItem::C_ACTION_TRADE) {
-				sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), trade_hl_bounds.height));
-				bg.setPosition(trade_hl_bounds.left, trade_hl_bounds.top);
-				bg.setFillColor(_graphics->animation->selected_colour);
-				trade_text->setFillColor(sf::Color(action_c.colour));
-				trade_text->setOutlineColor(sf::Color(0, 0, 0));
-				trade_text->setOutlineThickness(2);
-				_hl_action_item_bg = bg;
-			} else {
-				trade_text->setFillColor(sf::Color(std::stoull(action_c["enabled_colour"].value(), nullptr, 16)));
-			}
-		} else
-			trade_text->setFillColor(sf::Color(std::stoull(action_c["disabled_colour"].value(), nullptr, 16)));
-
-		action_c.y += _display->window->get_ch();
-
-		enabled = _mode == CharacterMode::IN_CASTLE || _mode == CharacterMode::IN_MAZE;
-		auto drop_text{_add_text(action_c, "{:5}", (*_display->string)["C_ACTION_DROP"])};
-		action_menu_texts[MenuItem::C_ACTION_DROP] = drop_text;
-		if (enabled) {
-			auto drop_hl_bounds{drop_text->getGlobalBounds()};
-			action_menu_bounds[MenuItem::C_ACTION_DROP] = drop_hl_bounds;
-			if (_hl_action_item == MenuItem::C_ACTION_DROP) {
-				sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), drop_hl_bounds.height));
-				bg.setPosition(drop_hl_bounds.left, drop_hl_bounds.top);
-				bg.setFillColor(_graphics->animation->selected_colour);
-				drop_text->setFillColor(sf::Color(action_c.colour));
-				drop_text->setOutlineColor(sf::Color(0, 0, 0));
-				drop_text->setOutlineThickness(2);
-				_hl_action_item_bg = bg;
-			} else {
-				drop_text->setFillColor(sf::Color(std::stoull(action_c["enabled_colour"].value(), nullptr, 16)));
-			}
-		} else
-			drop_text->setFillColor(sf::Color(std::stoull(action_c["disabled_colour"].value(), nullptr, 16)));
-
-		action_c.x = action_c.x + (offset_x_small * _display->window->get_cw());
-		action_c.y = action_y;
-
-		enabled = _mode == CharacterMode::IN_CASTLE || _mode == CharacterMode::IN_MAZE;
-		auto pool_text{_add_text(action_c, "{:<9}", (*_display->string)["C_ACTION_POOL"])};
-		action_menu_texts[MenuItem::C_ACTION_POOL] = pool_text;
-		if (enabled) {
-			auto pool_hl_bounds{pool_text->getGlobalBounds()};
-			action_menu_bounds[MenuItem::C_ACTION_POOL] = pool_hl_bounds;
-			if (_hl_action_item == MenuItem::C_ACTION_POOL) {
-				sf::RectangleShape bg(sf::Vector2f(width_big * _display->window->get_cw(), pool_hl_bounds.height));
-				bg.setPosition(pool_hl_bounds.left, pool_hl_bounds.top);
-				bg.setFillColor(_graphics->animation->selected_colour);
-				pool_text->setFillColor(sf::Color(action_c.colour));
-				pool_text->setOutlineColor(sf::Color(0, 0, 0));
-				pool_text->setOutlineThickness(2);
-				_hl_action_item_bg = bg;
-			} else {
-				pool_text->setFillColor(sf::Color(std::stoull(action_c["enabled_colour"].value(), nullptr, 16)));
-			}
-		} else
-			pool_text->setFillColor(sf::Color(std::stoull(action_c["disabled_colour"].value(), nullptr, 16)));
-
-		action_c.y += _display->window->get_ch();
-
-		enabled = _mode == CharacterMode::IN_MAZE;
-		auto identify_text{_add_text(action_c, "{:9}", (*_display->string)["C_ACTION_IDENTIFY"])};
-		action_menu_texts[MenuItem::C_ACTION_IDENTIFY] = identify_text;
-		if (enabled) {
-			auto identify_hl_bounds{identify_text->getGlobalBounds()};
-			action_menu_bounds[MenuItem::C_ACTION_IDENTIFY] = identify_hl_bounds;
-			if (_hl_action_item == MenuItem::C_ACTION_IDENTIFY) {
-				sf::RectangleShape bg(sf::Vector2f(width_big * _display->window->get_cw(), identify_hl_bounds.height));
-				bg.setPosition(identify_hl_bounds.left, identify_hl_bounds.top);
-				bg.setFillColor(_graphics->animation->selected_colour);
-				identify_text->setFillColor(sf::Color(action_c.colour));
-				identify_text->setOutlineColor(sf::Color(0, 0, 0));
-				identify_text->setOutlineThickness(2);
-				_hl_action_item_bg = bg;
-			} else {
-				identify_text->setFillColor(sf::Color(std::stoull(action_c["enabled_colour"].value(), nullptr, 16)));
-			}
-		} else
-			identify_text->setFillColor(sf::Color(std::stoull(action_c["disabled_colour"].value(), nullptr, 16)));
-
-		action_c.x = action_c.x + (offset_x_big * _display->window->get_cw());
-		action_c.y = action_y;
-
-		enabled = _mode == CharacterMode::IN_MAZE;
-		auto spell_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_SPELL"])};
-		action_menu_texts[MenuItem::C_ACTION_SPELL] = spell_text;
-
-		if (enabled) {
-			auto spell_hl_bounds{spell_text->getGlobalBounds()};
-			action_menu_bounds[MenuItem::C_ACTION_SPELL] = spell_hl_bounds;
-			if (_hl_action_item == MenuItem::C_ACTION_SPELL) {
-				sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), spell_hl_bounds.height));
-				bg.setPosition(spell_hl_bounds.left, spell_hl_bounds.top);
-				bg.setFillColor(_graphics->animation->selected_colour);
-				spell_text->setFillColor(sf::Color(action_c.colour));
-				spell_text->setOutlineColor(sf::Color(0, 0, 0));
-				spell_text->setOutlineThickness(2);
-				_hl_action_item_bg = bg;
-			} else {
-				spell_text->setFillColor(sf::Color(std::stoull(action_c["enabled_colour"].value(), nullptr, 16)));
-			}
-		} else
-			spell_text->setFillColor(sf::Color(std::stoull(action_c["disabled_colour"].value(), nullptr, 16)));
-
-		action_c.y += _display->window->get_ch();
-
-		enabled = _mode == CharacterMode::IN_MAZE;
-		auto use_text{_add_text(action_c, "{:5}", (*_display->string)["C_ACTION_USE"])};
-		action_menu_texts[MenuItem::C_ACTION_USE] = use_text;
-		if (enabled) {
-			auto use_hl_bounds{use_text->getGlobalBounds()};
-			action_menu_bounds[MenuItem::C_ACTION_USE] = use_hl_bounds;
-			if (_hl_action_item == MenuItem::C_ACTION_USE) {
-				sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), use_hl_bounds.height));
-				bg.setPosition(use_hl_bounds.left, use_hl_bounds.top);
-				bg.setFillColor(_graphics->animation->selected_colour);
-				use_text->setFillColor(sf::Color(action_c.colour));
-				use_text->setOutlineColor(sf::Color(0, 0, 0));
-				use_text->setOutlineThickness(2);
-				_hl_action_item_bg = bg;
-			} else {
-				use_text->setFillColor(sf::Color(std::stoull(action_c["enabled_colour"].value(), nullptr, 16)));
-			}
-		} else
-			use_text->setFillColor(sf::Color(std::stoull(action_c["disabled_colour"].value(), nullptr, 16)));
-
-		action_c.x = action_c.x + (offset_x_small * _display->window->get_cw());
-		action_c.y = action_y;
-
-		enabled = _mode == CharacterMode::IN_CASTLE || _mode == CharacterMode::IN_MAZE;
-		auto next_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_NEXT"])};
-		action_menu_texts[MenuItem::C_ACTION_NEXT] = next_text;
-		if (enabled) {
-			auto next_hl_bounds{next_text->getGlobalBounds()};
-			action_menu_bounds[MenuItem::C_ACTION_NEXT] = next_hl_bounds;
-			if (_hl_action_item == MenuItem::C_ACTION_NEXT) {
-				sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), next_hl_bounds.height));
-				bg.setPosition(next_hl_bounds.left, next_hl_bounds.top);
-				bg.setFillColor(_graphics->animation->selected_colour);
-				next_text->setFillColor(sf::Color(action_c.colour));
-				next_text->setOutlineColor(sf::Color(0, 0, 0));
-				next_text->setOutlineThickness(2);
-				_hl_action_item_bg = bg;
-			} else {
-				next_text->setFillColor(sf::Color(std::stoull(action_c["enabled_colour"].value(), nullptr, 16)));
-			}
-		} else
-			next_text->setFillColor(sf::Color(std::stoull(action_c["disabled_colour"].value(), nullptr, 16)));
-
-		action_c.y += _display->window->get_ch();
-
-		enabled = true;
-		enabled = _mode == CharacterMode::IN_CASTLE || _mode == CharacterMode::IN_MAZE;
-		auto leave_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_LEAVE"])};
-		action_menu_texts[MenuItem::C_ACTION_LEAVE] = leave_text;
-		if (enabled) {
-			auto leave_hl_bounds{leave_text->getGlobalBounds()};
-			action_menu_bounds[MenuItem::C_ACTION_LEAVE] = leave_hl_bounds;
-			if (_hl_action_item == MenuItem::C_ACTION_LEAVE) {
-				sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), leave_hl_bounds.height));
-				bg.setPosition(leave_hl_bounds.left, leave_hl_bounds.top);
-				bg.setFillColor(_graphics->animation->selected_colour);
-				leave_text->setFillColor(sf::Color(action_c.colour));
-				leave_text->setOutlineColor(sf::Color(0, 0, 0));
-				leave_text->setOutlineThickness(2);
-				_hl_action_item_bg = bg;
-			} else {
-				leave_text->setFillColor(sf::Color(std::stoull(action_c["enabled_colour"].value(), nullptr, 16)));
-			}
-		} else
-			leave_text->setFillColor(sf::Color(std::stoull(action_c["disabled_colour"].value(), nullptr, 16)));
-
-	} else if (_view == DETAILED) {
-
-		_display->generate("character_detailed", _v_sprites, _v_texts, _v_frames);
-
-		_add_text((*_display->layout)["character_detailed:name_and_summary_text"], "{}", summary_text());
-
-		Component s_c{(*_display->layout)["character_detailed:strength_value"]};
-		s_c.colour = _graphics->adjust_colour(_cur_attr.at(STRENGTH), STAT);
-		_add_text(s_c, "{:>2}", std::to_string(_cur_attr.at(STRENGTH)));
-
-		Component i_c{(*_display->layout)["character_detailed:iq_value"]};
-		i_c.colour = _graphics->adjust_colour(_cur_attr.at(IQ), STAT);
-		_add_text(i_c, "{:>2}", std::to_string(_cur_attr.at(IQ)));
-
-		Component p_c{(*_display->layout)["character_detailed:piety_value"]};
-		p_c.colour = _graphics->adjust_colour(_cur_attr.at(PIETY), STAT);
-		_add_text(p_c, "{:>2}", std::to_string(_cur_attr.at(PIETY)));
-
-		Component a_c{(*_display->layout)["character_detailed:agility_value"]};
-		a_c.colour = _graphics->adjust_colour(_cur_attr.at(AGILITY), STAT);
-		_add_text(a_c, "{:>2}", std::to_string(_cur_attr.at(AGILITY)));
-
-		Component v_c{(*_display->layout)["character_detailed:vitality_value"]};
-		v_c.colour = _graphics->adjust_colour(_cur_attr.at(VITALITY), STAT);
-		_add_text(v_c, "{:>2}", std::to_string(_cur_attr.at(VITALITY)));
-
-		Component l_c{(*_display->layout)["character_detailed:luck_value"]};
-		l_c.colour = _graphics->adjust_colour(_cur_attr.at(LUCK), STAT);
-		_add_text(l_c, "{:>2}", std::to_string(_cur_attr.at(LUCK)));
-
-		Component strength_c((*_display->layout)["character_detailed:strength_detailed_values"]);
-
-		strength_c.colour = _graphics->adjust_colour(_abilities.at(ATTACK_MODIFIER), MODIFIER);
-		_add_text(strength_c, "{:+>2}", std::to_string(_abilities.at(ATTACK_MODIFIER)));
-
-		strength_c.y += _display->window->get_ch();
-		strength_c.colour = _graphics->adjust_colour(_abilities.at(HIT_PROBABILITY), MODIFIER);
-		_add_text(strength_c, "{:+>2}", std::to_string(_abilities.at(HIT_PROBABILITY)));
-
-		strength_c.y += _display->window->get_ch();
-		strength_c.colour = _graphics->adjust_colour(_abilities.at(BONUS_DAMAGE), MODIFIER);
-		_add_text(strength_c, "{:+>2}", std::to_string(_abilities.at(BONUS_DAMAGE)));
-
-		strength_c.y += _display->window->get_ch();
-		strength_c.colour = _graphics->adjust_colour(_abilities.at(BASE_NUMBER_OF_ATTACKS), NUMBER);
-		_add_text(strength_c, "{:>2}", std::to_string(_abilities.at(BASE_NUMBER_OF_ATTACKS)));
-
-		strength_c.y += _display->window->get_ch();
-		strength_c.colour = _graphics->adjust_colour(_abilities.at(UNARMED_DAMAGE), NUMBER);
-		_add_text(strength_c, "{:>2}", std::to_string(_abilities.at(UNARMED_DAMAGE)));
-
-		Component iq_c((*_display->layout)["character_detailed:iq_detailed_values"]);
-
-		iq_c.colour = _graphics->adjust_colour(_abilities.at(MAGE_SPELL_LEARN), PERCENTAGE);
-		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(MAGE_SPELL_LEARN)));
-
-		iq_c.y += _display->window->get_ch();
-		iq_c.colour = _graphics->adjust_colour(_abilities.at(IDENTIFY_ITEMS), PERCENTAGE);
-		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(IDENTIFY_ITEMS)));
-
-		iq_c.y += _display->window->get_ch();
-		iq_c.colour = _graphics->adjust_colour(_abilities.at(IDENTIFY_CURSE), PERCENTAGE);
-		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(IDENTIFY_CURSE)));
-
-		iq_c.y += _display->window->get_ch();
-		iq_c.colour = _graphics->adjust_colour(_abilities.at(IDENTIFY_FOES), PERCENTAGE);
-		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(IDENTIFY_FOES)));
-
-		iq_c.y += _display->window->get_ch();
-		iq_c.colour = _graphics->adjust_colour(_abilities.at(BONUS_MAGE_SPELLS), NUMBER);
-		_add_text(iq_c, "{:>2}", std::to_string(_abilities.at(BONUS_MAGE_SPELLS)));
-
-		Component piety_c((*_display->layout)["character_detailed:piety_detailed_values"]);
-		piety_c.colour = _graphics->adjust_colour(_abilities.at(PRIEST_SPELL_LEARN), PERCENTAGE);
-		_add_text(piety_c, "{:>2}%", std::to_string(_abilities.at(PRIEST_SPELL_LEARN)));
-
-		piety_c.y += _display->window->get_ch();
-		piety_c.colour = _graphics->adjust_colour(_abilities.at(LOKTOFELT_SUCCESS), PERCENTAGE);
-		_add_text(piety_c, "{:>2}%", std::to_string(_abilities.at(LOKTOFELT_SUCCESS)));
-
-		piety_c.y += _display->window->get_ch();
-		piety_c.colour = _graphics->adjust_colour(_abilities.at(BASE_DISPELL), PERCENTAGE);
-		_add_text(piety_c, "{:>2}%", std::to_string(_abilities.at(BASE_DISPELL)));
-
-		piety_c.y += _display->window->get_ch();
-		piety_c.colour = _graphics->adjust_colour(_abilities.at(BONUS_PRIEST_SPELLS), NUMBER);
-		_add_text(piety_c, "{:>2}", std::to_string(_abilities.at(BONUS_PRIEST_SPELLS)));
-
-		Component vitality_c((*_display->layout)["character_detailed:vitality_detailed_values"]);
-		vitality_c.colour = _graphics->adjust_colour(_abilities.at(VITALITY_BONUS), MODIFIER);
-		_add_text(vitality_c, "{:+>2}", std::to_string(_abilities.at(VITALITY_BONUS)));
-
-		vitality_c.y += _display->window->get_ch();
-		vitality_c.colour = _graphics->adjust_colour(_abilities.at(BONUS_HIT_POINTS), MODIFIER);
-		_add_text(vitality_c, "{:+>2}", std::to_string(_abilities.at(BONUS_HIT_POINTS)));
-
-		vitality_c.y += _display->window->get_ch();
-		vitality_c.colour = _graphics->adjust_colour(_abilities.at(DEAD_RESURRECT), PERCENTAGE);
-		_add_text(vitality_c, "{:>2}%", std::to_string(_abilities.at(DEAD_RESURRECT)));
-
-		vitality_c.y += _display->window->get_ch();
-		vitality_c.colour = _graphics->adjust_colour(_abilities.at(ASHES_RESURRECT), PERCENTAGE);
-		_add_text(vitality_c, "{:>2}%", std::to_string(_abilities.at(ASHES_RESURRECT)));
-
-		vitality_c.y += _display->window->get_ch();
-		vitality_c.colour = _graphics->adjust_colour(_abilities.at(DI_KADORTO_RESURRECT), PERCENTAGE);
-		_add_text(vitality_c, "{:>2}%", std::to_string(_abilities.at(DI_KADORTO_RESURRECT)));
-
-		Component agility_c((*_display->layout)["character_detailed:agility_detailed_values"]);
-
-		agility_c.colour = _graphics->adjust_colour(_abilities.at(INITIATIVE_MODIFIER), MODIFIER);
-		_add_text(agility_c, "{:+>2}", std::to_string(_abilities.at(INITIATIVE_MODIFIER)));
-
-		agility_c.y += _display->window->get_ch();
-		agility_c.colour = _graphics->adjust_colour(_abilities.at(BASE_CRITICAL_HIT), PERCENTAGE);
-		_add_text(agility_c, "{:>2}%", std::to_string(_abilities.at(BASE_CRITICAL_HIT)));
-
-		agility_c.y += _display->window->get_ch();
-		agility_c.colour = _graphics->adjust_colour(_abilities.at(IDENTIFY_TRAP), PERCENTAGE);
-		_add_text(agility_c, "{:>2}%", std::to_string(_abilities.at(IDENTIFY_TRAP)));
-
-		agility_c.y += _display->window->get_ch();
-		agility_c.colour = _graphics->adjust_colour(_abilities.at(BASE_DISARM_TRAP), PERCENTAGE);
-		_add_text(agility_c, "{:>2}%", std::to_string(_abilities.at(BASE_DISARM_TRAP)));
-
-		agility_c.y += _display->window->get_ch();
-		agility_c.colour = _graphics->adjust_colour((100 - _abilities.at(ACTIVATE_TRAP)), PERCENTAGE);
-		_add_text(agility_c, "{:>2}%", std::to_string(100 - _abilities.at(ACTIVATE_TRAP)));
-
-		agility_c.y += _display->window->get_ch();
-		agility_c.colour = _graphics->adjust_colour(_abilities.at(BASE_AVOID_PIT), PERCENTAGE);
-		_add_text(agility_c, "{:>2}%", std::to_string(_abilities.at(BASE_AVOID_PIT)));
-
-		agility_c.y += _display->window->get_ch();
-		agility_c.colour = _graphics->adjust_colour(_abilities.at(BASE_ARMOUR_CLASS), AC);
-		_add_text(agility_c, "{:>2}", std::to_string(_abilities.at(BASE_ARMOUR_CLASS)));
-
-		Component luck_c((*_display->layout)["character_detailed:luck_detailed_values"]);
-
-		luck_c.colour = _graphics->adjust_colour(_abilities.at(BASE_RESIST_BONUS) * 5, PERCENTAGE);
-		_add_text(luck_c, "{:>2}%", std::to_string(_abilities.at(BASE_RESIST_BONUS) * 5));
-
-		luck_c.y += _display->window->get_ch();
-		luck_c.colour = _graphics->adjust_colour(_abilities.at(EQUIPMENT_INTACT_ON_WIPE), PERCENTAGE);
-		_add_text(luck_c, "{:>2}%", std::to_string(_abilities.at(EQUIPMENT_INTACT_ON_WIPE)));
-	} else if (_view == RESISTANCES) {
-
-		_display->generate("character_resistances", _v_sprites, _v_texts, _v_frames);
-
-		_add_text((*_display->layout)["character_resistances:name_and_summary_text"], "{}", summary_text());
-
-		Component resistances_c((*_display->layout)["character_resistances:resistances_detailed_values"]);
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_CRITICAL_HIT) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_CRITICAL_HIT) * 5));
-
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_POISON_PARALYSIS) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_POISON_PARALYSIS) * 5));
-
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_STONING) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_STONING) * 5));
-
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_BREATH_ATTACKS) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_BREATH_ATTACKS) * 5));
-
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_POISON_GAS_TRAP) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_POISON_GAS_TRAP) * 5));
-
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_MAGE_PRIEST_TRAP) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_MAGE_PRIEST_TRAP) * 5));
-
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RECOVER_FROM_SLEEP), PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RECOVER_FROM_SLEEP)));
-
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RECOVER_FROM_FEAR), PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RECOVER_FROM_FEAR)));
-
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_SILENCE) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_SILENCE) * 5));
-
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_KATINO), PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_KATINO)));
-
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_BADI), PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_BADI)));
-
-		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_MANIFO), PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_MANIFO)));
-	} else if (_view == CharacterView::MAGE_SPELLS) {
-
-		_display->generate("character_mage_spells", _v_sprites, _v_texts, _v_frames);
-
-		_add_text((*_display->layout)["character_mage_spells:name_and_summary_text"], "{}", summary_text());
-
-		Component level_c{(*_display->layout)["character_mage_spells:level_label"]};
-		Component sp_c{(*_display->layout)["character_mage_spells:spell_points"]};
-		Component spell_name_c{(*_display->layout)["character_mage_spells:spell_name_label"]};
-
-		auto level_x{level_c.x};
-		for (auto level = 1; level <= 7; level++) {
-
-			sp_c.x = level_c.x + (std::stoi(sp_c["offset_columns"].value()) * _display->window->get_cw());
-			sp_c.y = level_c.y;
-
-			spell_name_c.x = level_c.x;
-			spell_name_c.y = level_c.y + _display->window->get_ch();
-
-			auto spells{_spells | std::views::filter([&](Spell spell) {
-				return (spell.type == SpellType::MAGE) && (static_cast<int>(spell.level) == level);
-			})};
-			for (auto spell : spells) {
-
-				// Add the Spell
-				auto spell_name_text{PADSTR(spell.name, std::stoi(spell_name_c["bar_width"].value()))};
-				auto spell_name{_add_text(spell_name_c, "{}", spell_name_text)};
-				auto hl_bounds{spell_name->getGlobalBounds()};
-				mage_spell_bounds[spell.id] = hl_bounds;
-				mage_spell_texts[spell.id] = spell_name;
-
-				if (spell.id == _hl_mage_spell) {
-					sf::RectangleShape bg(sf::Vector2f(
-						std::stoi(spell_name_c["bar_width"].value()) * _display->window->get_cw(), hl_bounds.height));
-					bg.setPosition(hl_bounds.left, hl_bounds.top);
-					bg.setFillColor(_graphics->animation->selected_colour);
-					spell_name->setFillColor(sf::Color(spell_name_c.colour));
-					spell_name->setOutlineColor(sf::Color(0, 0, 0));
-					spell_name->setOutlineThickness(2);
-					_hl_mage_spell_bg = bg;
-				} else {
-					if (spell.known)
-						spell_name->setFillColor(sf::Color(std::stoull(spell_name_c["known_colour"].value(), 0, 16)));
-					else
-						spell_name->setFillColor(sf::Color(std::stoull(spell_name_c["unknown_colour"].value(), 0, 16)));
-				}
-
-				// And the Spell Category Icon
-				Component spell_icon_c{(*_display->layout)["character_mage_spells:spell_icon"]};
-				auto spell_icon{_get_spell_icon(spell.category)};
-				if (spell_icon) {
-					spell_icon.value().setScale(spell_icon_c.scale, spell_icon_c.scale);
-					const auto offset_x{[&] {
-						if (spell_icon_c["offset_x"])
-							return std::stoi(spell_icon_c["offset_x"].value());
-						else
-							return 0;
-					}()};
-					const auto offset_y{[&] {
-						if (spell_icon_c["offset_y"])
-							return std::stoi(spell_icon_c["offset_y"].value());
-						else
-							return 0;
-					}()};
-
-					spell_icon.value().setPosition(
-						spell_name_c.x + offset_x +
-							(std::stoi(spell_icon_c["offset_columns"].value()) * _display->window->get_cw()),
-						spell_name_c.y + offset_y);
-
-					if (spell.known)
-						spell_icon->setColor(sf::Color(std::stoull(spell_name_c["known_colour"].value(), 0, 16)));
-					else
-						spell_icon->setColor(sf::Color(std::stoull(spell_name_c["unknown_colour"].value(), 0, 16)));
-
-					_v_sprites.emplace(GUID(), spell_icon.value());
-				}
-
-				spell_name_c.y += _display->window->get_ch();
-			}
-
-			if ((level % 3 == 1) || (level % 3 == 2))
-				level_c.x += (std::stoi(level_c["offset_columns"].value()) * _display->window->get_cw());
-			else if (level % 3 == 0) {
-				level_c.x = level_x;
-				level_c.y += (std::stoi(level_c["offset_rows"].value()) * _display->window->get_ch());
-			}
-		}
-	} else if (_view == PRIEST_SPELLS) {
-
-		_display->generate("character_priest_spells", _v_sprites, _v_texts, _v_frames);
-
-		_add_text((*_display->layout)["character_priest_spells:name_and_summary_text"], "{}", summary_text());
-
-		Component level_c{(*_display->layout)["character_priest_spells:level_label"]};
-		Component sp_c{(*_display->layout)["character_priest_spells:spell_points"]};
-		Component spell_name_c{(*_display->layout)["character_priest_spells:spell_name_label"]};
-
-		auto level_x{level_c.x};
-		for (auto level = 1; level <= 7; level++) {
-
-			sp_c.x = level_c.x + (std::stoi(sp_c["offset_columns"].value()) * _display->window->get_cw());
-			sp_c.y = level_c.y;
-
-			spell_name_c.x = level_c.x;
-			spell_name_c.y = level_c.y + _display->window->get_ch();
-
-			auto spells{_spells | std::views::filter([&](Spell spell) {
-				return (spell.type == SpellType::PRIEST) && (static_cast<int>(spell.level) == level);
-			})};
-			for (auto spell : spells) {
-
-				auto spell_name_text{PADSTR(spell.name, std::stoi(spell_name_c["bar_width"].value()))};
-				auto spell_name{_add_text(spell_name_c, "{}", spell_name_text)};
-				spell_name->setPosition(spell_name_c.x, spell_name_c.y);
-				auto hl_bounds{spell_name->getGlobalBounds()};
-				priest_spell_bounds[spell.id] = hl_bounds;
-				priest_spell_texts[spell.id] = spell_name;
-
-				if (spell.id == _hl_priest_spell) {
-					sf::RectangleShape bg(sf::Vector2f(
-						std::stoi(spell_name_c["bar_width"].value()) * _display->window->get_cw(), hl_bounds.height));
-					bg.setPosition(hl_bounds.left, hl_bounds.top);
-					bg.setFillColor(_graphics->animation->selected_colour);
-					spell_name->setFillColor(sf::Color(spell_name_c.colour));
-					spell_name->setOutlineColor(sf::Color(0, 0, 0));
-					spell_name->setOutlineThickness(2);
-					_hl_priest_spell_bg = bg;
-				} else {
-					if (spell.known)
-						spell_name->setFillColor(sf::Color(std::stoull(spell_name_c["known_colour"].value(), 0, 16)));
-					else
-						spell_name->setFillColor(sf::Color(std::stoull(spell_name_c["unknown_colour"].value(), 0, 16)));
-				}
-
-				// And the Spell Category Icon
-				Component spell_icon_c{(*_display->layout)["character_mage_spells:spell_icon"]};
-				auto spell_icon{_get_spell_icon(spell.category)};
-				if (spell_icon) {
-					spell_icon.value().setScale(spell_icon_c.scale, spell_icon_c.scale);
-					const auto offset_x{[&] {
-						if (spell_icon_c["offset_x"])
-							return std::stoi(spell_icon_c["offset_x"].value());
-						else
-							return 0;
-					}()};
-					const auto offset_y{[&] {
-						if (spell_icon_c["offset_y"])
-							return std::stoi(spell_icon_c["offset_y"].value());
-						else
-							return 0;
-					}()};
-
-					spell_icon.value().setPosition(
-						spell_name_c.x + offset_x +
-							(std::stoi(spell_icon_c["offset_columns"].value()) * _display->window->get_cw()),
-						spell_name_c.y + offset_y);
-
-					if (spell.known)
-						spell_icon->setColor(sf::Color(std::stoull(spell_name_c["known_colour"].value(), 0, 16)));
-					else
-						spell_icon->setColor(sf::Color(std::stoull(spell_name_c["unknown_colour"].value(), 0, 16)));
-
-					_v_sprites.emplace(GUID(), spell_icon.value());
-				}
-
-				spell_name_c.y += _display->window->get_ch();
-			}
-
-			if ((level % 3 == 1) || (level % 3 == 2))
-				level_c.x += (std::stoi(level_c["offset_columns"].value()) * _display->window->get_cw());
-			else if (level % 3 == 0) {
-				level_c.x = level_x;
-				level_c.y += (std::stoi(level_c["offset_rows"].value()) * _display->window->get_ch());
-			}
-		}
-	}
-}
-
-auto Sorcery::Character::_add_icon(Component &component, std::string icon_key) -> void {
-
-	auto icon{(*_graphics->icons)[icon_key].value()};
-	const auto offset_x{[&] {
-		if (component["offset_x"])
-			return std::stoi(component["offset_x"].value());
-		else
-			return 0;
-	}()};
-	const auto offset_y{[&] {
-		if (component["offset_y"])
-			return std::stoi(component["offset_y"].value());
-		else
-			return 0;
-	}()};
-	icon.setPosition(component.x + offset_x, component.y + offset_y);
-	icon.setScale(component.scale, component.scale);
-	_v_sprites.try_emplace(component.unique_key, icon);
-}
-
-auto Sorcery::Character::_add_text(Component &component, std::string format, std::string value, bool is_view)
-	-> sf::Text * {
-
-	sf::Text text{};
-
-	// Note that Format v8 needs the format string wrapped in fmt::runtime - this isn't available in < v8 - see
-	// https://github.com/fmtlib/fmt/issues/2438 - check FMT_VERSION version in fmt/core.h
-	auto formatted_value{fmt::format(fmt::runtime(format), value)};
-	if (_display->get_upper())
-		std::transform(formatted_value.begin(), formatted_value.end(), formatted_value.begin(), ::toupper);
-	text.setFont(_system->resources->fonts[component.font]);
-	text.setCharacterSize(component.size);
-	text.setFillColor(sf::Color(component.colour));
-
-	text.setString(formatted_value);
-	if (_display->get_bold())
-		text.setStyle(sf::Text::Bold);
-	const auto offset_x{[&] {
-		if (component["offset_x"])
-			return std::stoi(component["offset_x"].value());
-		else
-			return 0;
-	}()};
-	const auto offset_y{[&] {
-		if (component["offset_y"])
-			return std::stoi(component["offset_y"].value());
-		else
-			return 0;
-	}()};
-	text.setPosition(component.x + offset_x, component.y + offset_y);
-
-	// Generate a new key as this is a map, and we might call this with the same base component
-	auto new_unique_key{GUID()};
-	if (is_view) {
-		_v_texts.try_emplace(new_unique_key, text);
-		return &_v_texts.at(new_unique_key);
-	} else {
-		_texts.try_emplace(new_unique_key, text);
-		return &_texts.at(new_unique_key);
-	}
-}
-
-auto Sorcery::Character::get_view() const -> CharacterView {
-
-	return _view;
-}
-
-auto Sorcery::Character::_get_spell_icon(SpellCategory category) -> std::optional<sf::Sprite> {
-
-	using enum Enums::Magic::SpellCategory;
-
-	switch (category) {
-	case ATTACK:
-		return (*_graphics->icons)["attack"].value();
-		break;
-	case SUPPORT:
-		return (*_graphics->icons)["support"].value();
-		break;
-	case DISABLE:
-		return (*_graphics->icons)["disable"].value();
-		break;
-	case FIELD:
-		return (*_graphics->icons)["field"].value();
-		break;
-	case HEALING:
-		return (*_graphics->icons)["healing"].value();
-		break;
-	default:
-		return std::nullopt;
-		break;
-	}
-}
-
-// Setting the view will regenerate the display components
-auto Sorcery::Character::set_view(const CharacterView value) -> void {
-
-	_view = value;
-	_hl_action_item = MenuItem::C_ACTION_READ;
-	_generate_display();
-}
-
 auto Sorcery::Character::get_method() const -> CreateMethod {
 
 	return _method;
@@ -3660,69 +2661,6 @@ auto Sorcery::Character::get_method() const -> CreateMethod {
 auto Sorcery::Character::set_method(const CreateMethod value) -> void {
 
 	_method = value;
-}
-
-auto Sorcery::Character::check_for_action_mouse_move(sf::Vector2f mouse_pos) -> std::optional<MenuItem> {
-
-	using enum Enums::Character::View;
-
-	const sf::Vector2f global_pos{this->getPosition()};
-	const sf::Vector2f local_mouse_pos{mouse_pos - global_pos};
-
-	if (_view == SUMMARY) {
-		auto it{std::find_if(action_menu_bounds.begin(), action_menu_bounds.end(),
-			[&local_mouse_pos](const auto &item) { return item.second.contains(local_mouse_pos); })};
-		if (it != action_menu_bounds.end()) {
-			_hl_action_item = (*it).first;
-			return (*it).first;
-		} else
-			return std::nullopt;
-	}
-
-	else
-		return std::nullopt;
-}
-
-auto Sorcery::Character::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::optional<SpellID> {
-
-	using enum Enums::Character::View;
-
-	const sf::Vector2f global_pos{this->getPosition()};
-	const sf::Vector2f local_mouse_pos{mouse_pos - global_pos};
-	if (_view == MAGE_SPELLS) {
-
-		auto it{std::find_if(mage_spell_bounds.begin(), mage_spell_bounds.end(),
-			[&local_mouse_pos](const auto &item) { return item.second.contains(local_mouse_pos); })};
-		if (it != mage_spell_bounds.end()) {
-			Component spell_name_c{(*_display->layout)["character_mage_spells:spell_name_label"]};
-			_hl_mage_spell = (*it).first;
-
-			std::vector<Spell>::iterator sit;
-			sit = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == _hl_mage_spell; });
-			if (sit != _spells.end())
-				_spell_panel->set(*sit);
-
-			return (*it).first;
-		} else
-			return std::nullopt;
-
-	} else if (_view == PRIEST_SPELLS) {
-		auto it{std::find_if(priest_spell_bounds.begin(), priest_spell_bounds.end(),
-			[&local_mouse_pos](const auto &item) { return item.second.contains(local_mouse_pos); })};
-		if (it != priest_spell_bounds.end()) {
-			Component spell_name_c{(*_display->layout)["character_priest_spells:spell_name_label"]};
-			_hl_priest_spell = (*it).first;
-
-			std::vector<Spell>::iterator sit;
-			sit = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == _hl_priest_spell; });
-			if (sit != _spells.end())
-				_spell_panel->set(*sit);
-
-			return (*it).first;
-		} else
-			return std::nullopt;
-	} else
-		return std::nullopt;
 }
 
 auto Sorcery::Character::get_cur_xp() const -> int {
@@ -3746,55 +2684,6 @@ auto Sorcery::Character::get_cur_ac() const -> int {
 	return _abilities.at(CURRENT_ARMOUR_CLASS);
 }
 
-auto Sorcery::Character::update() -> void {
-
-	_hl_mage_spell_bg.setFillColor(_graphics->animation->selected_colour);
-	_hl_priest_spell_bg.setFillColor(_graphics->animation->selected_colour);
-	_hl_action_item_bg.setFillColor(_graphics->animation->selected_colour);
-}
-
-auto Sorcery::Character::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
-
-	using enum Enums::Character::View;
-
-	states.transform *= getTransform();
-
-	// Draw the common components
-	for (const auto &[unique_key, frame] : _frames)
-		target.draw(*frame, states);
-
-	for (const auto &[unique_key, sprite] : _sprites)
-		target.draw(sprite, states);
-
-	for (const auto &[unique_key, text] : _texts)
-		target.draw(text, states);
-
-	if (_view == MAGE_SPELLS)
-		target.draw(_hl_mage_spell_bg, states);
-	else if (_view == PRIEST_SPELLS)
-		target.draw(_hl_priest_spell_bg, states);
-
-	// Draw the section components
-	for (const auto &[unique_key, v_frame] : _v_frames)
-		target.draw(*v_frame, states);
-
-	for (const auto &[unique_key, v_sprite] : _v_sprites)
-		target.draw(v_sprite, states);
-
-	if (_view == SUMMARY)
-		target.draw(_hl_action_item_bg, states);
-
-	for (const auto &[unique_key, v_text] : _v_texts)
-		target.draw(v_text, states);
-
-	// And the preview panels
-	if (_view == MAGE_SPELLS)
-		target.draw(*_spell_panel, states);
-
-	if (_view == PRIEST_SPELLS)
-		target.draw(*_spell_panel, states);
-}
-
 namespace Sorcery {
 
 auto operator<<(std::ostream &out_stream, const Sorcery::Character &character) -> std::ostream & {
@@ -3805,7 +2694,7 @@ auto operator<<(std::ostream &out_stream, const Sorcery::Character &character) -
 	auto hp{character.get_hp_summary()};
 
 	auto body{fmt::format("{:<15} {:>2} {}-{} {:>3} {:>6} {:^10}", name, character.get_level(),
-		character.get_alignment(alignment).substr(0, 1), character.get_class(cclass).substr(0, 3),
+		character.alignment_to_string(alignment).substr(0, 1), character.class_to_string(cclass).substr(0, 3),
 		character.get_cur_ac(), character.get_hp_summary(), character.get_condition())};
 
 	return out_stream << body << std::endl;
