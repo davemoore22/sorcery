@@ -197,7 +197,8 @@ auto Sorcery::CharacterDisplay::_generate_summary_icons() -> void {
 		(*_display->layout)["character:level_icon"].scale, (*_display->layout)["character:level_icon"].scale);
 	_v_sprites.try_emplace((*_display->layout)["character:level_icon"].unique_key, level_icon);
 
-	_add_text((*_display->layout)["character:level_text"], "{}", std::to_string(_abilities.at(CURRENT_LEVEL)), true);
+	_add_text((*_display->layout)["character:level_text"], "{}",
+		std::to_string(_character->abilities().at(CURRENT_LEVEL)), true);
 }
 
 auto Sorcery::CharacterDisplay::generate_display() -> void {
@@ -342,8 +343,9 @@ auto Sorcery::CharacterDisplay::check_for_mouse_move(sf::Vector2f mouse_pos) -> 
 			_hl_mage_spell = (*it).first;
 
 			std::vector<Spell>::iterator sit;
-			sit = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == _hl_mage_spell; });
-			if (sit != _spells.end())
+			sit = std::find_if(_character->spells().begin(), _character->spells().end(),
+				[&](auto item) { return item.id == _hl_mage_spell; });
+			if (sit != _character->spells().end())
 				_spell_panel->set(*sit);
 
 			return (*it).first;
@@ -358,8 +360,9 @@ auto Sorcery::CharacterDisplay::check_for_mouse_move(sf::Vector2f mouse_pos) -> 
 			_hl_priest_spell = (*it).first;
 
 			std::vector<Spell>::iterator sit;
-			sit = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == _hl_priest_spell; });
-			if (sit != _spells.end())
+			sit = std::find_if(_character->spells().begin(), _character->spells().end(),
+				[&](auto item) { return item.id == _hl_priest_spell; });
+			if (sit != _character->spells().end())
 				_spell_panel->set(*sit);
 
 			return (*it).first;
@@ -447,55 +450,60 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 		_add_text((*_display->layout)["character_summary:name_and_summary_text"], "{}", _character->summary_text());
 
 		Component s_c{(*_display->layout)["character_summary:strength_value"]};
-		s_c.colour = _graphics->adjust_colour(_cur_attr.at(STRENGTH), STAT);
-		_add_text(s_c, "{:>2}", std::to_string(_cur_attr.at(STRENGTH)));
+		s_c.colour = _graphics->adjust_colour(_character->attributes().at(STRENGTH), STAT);
+		_add_text(s_c, "{:>2}", std::to_string(_character->attributes().at(STRENGTH)));
 
 		Component i_c{(*_display->layout)["character_summary:iq_value"]};
-		i_c.colour = _graphics->adjust_colour(_cur_attr.at(IQ), STAT);
-		_add_text(i_c, "{:>2}", std::to_string(_cur_attr.at(IQ)));
+		i_c.colour = _graphics->adjust_colour(_character->attributes().at(IQ), STAT);
+		_add_text(i_c, "{:>2}", std::to_string(_character->attributes().at(IQ)));
 
 		Component p_c{(*_display->layout)["character_summary:piety_value"]};
-		p_c.colour = _graphics->adjust_colour(_cur_attr.at(PIETY), STAT);
-		_add_text(p_c, "{:>2}", std::to_string(_cur_attr.at(PIETY)));
+		p_c.colour = _graphics->adjust_colour(_character->attributes().at(PIETY), STAT);
+		_add_text(p_c, "{:>2}", std::to_string(_character->attributes().at(PIETY)));
 
 		Component a_c{(*_display->layout)["character_summary:agility_value"]};
-		a_c.colour = _graphics->adjust_colour(_cur_attr.at(AGILITY), STAT);
-		_add_text(a_c, "{:>2}", std::to_string(_cur_attr.at(AGILITY)));
+		a_c.colour = _graphics->adjust_colour(_character->attributes().at(AGILITY), STAT);
+		_add_text(a_c, "{:>2}", std::to_string(_character->attributes().at(AGILITY)));
 
 		Component v_c{(*_display->layout)["character_summary:vitality_value"]};
-		v_c.colour = _graphics->adjust_colour(_cur_attr.at(VITALITY), STAT);
-		_add_text(v_c, "{:>2}", std::to_string(_cur_attr.at(VITALITY)));
+		v_c.colour = _graphics->adjust_colour(_character->attributes().at(VITALITY), STAT);
+		_add_text(v_c, "{:>2}", std::to_string(_character->attributes().at(VITALITY)));
 
 		Component l_c{(*_display->layout)["character_summary:luck_value"]};
-		l_c.colour = _graphics->adjust_colour(_cur_attr.at(LUCK), STAT);
-		_add_text(l_c, "{:>2}", std::to_string(_cur_attr.at(LUCK)));
+		l_c.colour = _graphics->adjust_colour(_character->attributes().at(LUCK), STAT);
+		_add_text(l_c, "{:>2}", std::to_string(_character->attributes().at(LUCK)));
 
 		_add_text((*_display->layout)["character_summary:hp_value"], "{}",
-			fmt::format("{}/{}", std::to_string(_abilities.at(CURRENT_HP)), std::to_string(_abilities.at(MAX_HP))));
+			fmt::format("{}/{}", std::to_string(_character->abilities().at(CURRENT_HP)),
+				std::to_string(_character->abilities().at(MAX_HP))));
 		_add_text((*_display->layout)["character_summary:ac_value"], "{:>3}",
-			std::to_string(_abilities.at(CURRENT_ARMOUR_CLASS)));
+			std::to_string(_character->abilities().at(CURRENT_ARMOUR_CLASS)));
 		_add_text((*_display->layout)["character_summary:age_value"], "{:>2}",
-			std::to_string(static_cast<int>(_abilities.at(AGE) / 52)));
-		_add_text((*_display->layout)["character_summary:swim_value"], "{:>2}", std::to_string(_abilities.at(SWIM)));
+			std::to_string(static_cast<int>(_character->abilities().at(AGE) / 52)));
+		_add_text((*_display->layout)["character_summary:swim_value"], "{:>2}",
+			std::to_string(_character->abilities().at(SWIM)));
 		auto status_text{
 			_add_text((*_display->layout)["character_summary:status_value"], "{}", _character->get_status_string())};
 		status_text->setFillColor(
 			sf::Color(_graphics->adjust_status_colour(_character->get_status(), _character->is_poisoned())));
 
-		_add_text(
-			(*_display->layout)["character_summary:exp_value"], "{:>11}", std::to_string(_abilities.at(CURRENT_XP)));
+		_add_text((*_display->layout)["character_summary:exp_value"], "{:>11}",
+			std::to_string(_character->abilities().at(CURRENT_XP)));
 		_add_text((*_display->layout)["character_summary:next_value"], "{:>11}",
-			std::to_string(_abilities.at(NEXT_LEVEL_XP)));
-		_add_text((*_display->layout)["character_summary:gold_value"], "{:>11}", std::to_string(_abilities.at(GOLD)));
-		_add_text((*_display->layout)["character_summary:marks_value"], "{:>11}", std::to_string(_abilities.at(MARKS)));
-		_add_text(
-			(*_display->layout)["character_summary:deaths_value"], "{:>2}", std::to_string(_abilities.at(DEATHS)));
+			std::to_string(_character->abilities().at(NEXT_LEVEL_XP)));
+		_add_text((*_display->layout)["character_summary:gold_value"], "{:>11}",
+			std::to_string(_character->abilities().at(GOLD)));
+		_add_text((*_display->layout)["character_summary:marks_value"], "{:>11}",
+			std::to_string(_character->abilities().at(MARKS)));
+		_add_text((*_display->layout)["character_summary:deaths_value"], "{:>2}",
+			std::to_string(_character->abilities().at(DEATHS)));
 
-		auto mage_spells{fmt::format("{}/{}/{}/{}/{}/{}/{}", _mage_cur_sp.at(1), _mage_cur_sp.at(2), _mage_cur_sp.at(3),
-			_mage_cur_sp.at(4), _mage_cur_sp.at(5), _mage_cur_sp.at(6), _mage_cur_sp.at(7))};
-		auto priest_spells{
-			fmt::format("{}/{}/{}/{}/{}/{}/{}", _priest_cur_sp.at(1), _priest_cur_sp.at(2), _priest_cur_sp.at(3),
-				_priest_cur_sp.at(4), _priest_cur_sp.at(5), _priest_cur_sp.at(6), _priest_cur_sp.at(7))};
+		auto mage_spells{fmt::format("{}/{}/{}/{}/{}/{}/{}", _character->mage_cur_sp().at(1),
+			_character->mage_cur_sp().at(2), _character->mage_cur_sp().at(3), _character->mage_cur_sp().at(4),
+			_character->mage_cur_sp().at(5), _character->mage_cur_sp().at(6), _character->mage_cur_sp().at(7))};
+		auto priest_spells{fmt::format("{}/{}/{}/{}/{}/{}/{}", _character->priest_cur_sp().at(1),
+			_character->priest_cur_sp().at(2), _character->priest_cur_sp().at(3), _character->priest_cur_sp().at(4),
+			_character->priest_cur_sp().at(5), _character->priest_cur_sp().at(6), _character->priest_cur_sp().at(7))};
 
 		_add_text((*_display->layout)["character_summary:mage_spells"], "{}", mage_spells);
 		_add_text((*_display->layout)["character_summary:priest_spells"], "{}", priest_spells);
@@ -742,144 +750,144 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 		_add_text((*_display->layout)["character_detailed:name_and_summary_text"], "{}", _character->summary_text());
 
 		Component s_c{(*_display->layout)["character_detailed:strength_value"]};
-		s_c.colour = _graphics->adjust_colour(_cur_attr.at(STRENGTH), STAT);
-		_add_text(s_c, "{:>2}", std::to_string(_cur_attr.at(STRENGTH)));
+		s_c.colour = _graphics->adjust_colour(_character->attributes().at(STRENGTH), STAT);
+		_add_text(s_c, "{:>2}", std::to_string(_character->attributes().at(STRENGTH)));
 
 		Component i_c{(*_display->layout)["character_detailed:iq_value"]};
-		i_c.colour = _graphics->adjust_colour(_cur_attr.at(IQ), STAT);
-		_add_text(i_c, "{:>2}", std::to_string(_cur_attr.at(IQ)));
+		i_c.colour = _graphics->adjust_colour(_character->attributes().at(IQ), STAT);
+		_add_text(i_c, "{:>2}", std::to_string(_character->attributes().at(IQ)));
 
 		Component p_c{(*_display->layout)["character_detailed:piety_value"]};
-		p_c.colour = _graphics->adjust_colour(_cur_attr.at(PIETY), STAT);
-		_add_text(p_c, "{:>2}", std::to_string(_cur_attr.at(PIETY)));
+		p_c.colour = _graphics->adjust_colour(_character->attributes().at(PIETY), STAT);
+		_add_text(p_c, "{:>2}", std::to_string(_character->attributes().at(PIETY)));
 
 		Component a_c{(*_display->layout)["character_detailed:agility_value"]};
-		a_c.colour = _graphics->adjust_colour(_cur_attr.at(AGILITY), STAT);
-		_add_text(a_c, "{:>2}", std::to_string(_cur_attr.at(AGILITY)));
+		a_c.colour = _graphics->adjust_colour(_character->attributes().at(AGILITY), STAT);
+		_add_text(a_c, "{:>2}", std::to_string(_character->attributes().at(AGILITY)));
 
 		Component v_c{(*_display->layout)["character_detailed:vitality_value"]};
-		v_c.colour = _graphics->adjust_colour(_cur_attr.at(VITALITY), STAT);
-		_add_text(v_c, "{:>2}", std::to_string(_cur_attr.at(VITALITY)));
+		v_c.colour = _graphics->adjust_colour(_character->attributes().at(VITALITY), STAT);
+		_add_text(v_c, "{:>2}", std::to_string(_character->attributes().at(VITALITY)));
 
 		Component l_c{(*_display->layout)["character_detailed:luck_value"]};
-		l_c.colour = _graphics->adjust_colour(_cur_attr.at(LUCK), STAT);
-		_add_text(l_c, "{:>2}", std::to_string(_cur_attr.at(LUCK)));
+		l_c.colour = _graphics->adjust_colour(_character->attributes().at(LUCK), STAT);
+		_add_text(l_c, "{:>2}", std::to_string(_character->attributes().at(LUCK)));
 
 		Component strength_c((*_display->layout)["character_detailed:strength_detailed_values"]);
 
-		strength_c.colour = _graphics->adjust_colour(_abilities.at(ATTACK_MODIFIER), MODIFIER);
-		_add_text(strength_c, "{:+>2}", std::to_string(_abilities.at(ATTACK_MODIFIER)));
+		strength_c.colour = _graphics->adjust_colour(_character->abilities().at(ATTACK_MODIFIER), MODIFIER);
+		_add_text(strength_c, "{:+>2}", std::to_string(_character->abilities().at(ATTACK_MODIFIER)));
 
 		strength_c.y += _display->window->get_ch();
-		strength_c.colour = _graphics->adjust_colour(_abilities.at(HIT_PROBABILITY), MODIFIER);
-		_add_text(strength_c, "{:+>2}", std::to_string(_abilities.at(HIT_PROBABILITY)));
+		strength_c.colour = _graphics->adjust_colour(_character->abilities().at(HIT_PROBABILITY), MODIFIER);
+		_add_text(strength_c, "{:+>2}", std::to_string(_character->abilities().at(HIT_PROBABILITY)));
 
 		strength_c.y += _display->window->get_ch();
-		strength_c.colour = _graphics->adjust_colour(_abilities.at(BONUS_DAMAGE), MODIFIER);
-		_add_text(strength_c, "{:+>2}", std::to_string(_abilities.at(BONUS_DAMAGE)));
+		strength_c.colour = _graphics->adjust_colour(_character->abilities().at(BONUS_DAMAGE), MODIFIER);
+		_add_text(strength_c, "{:+>2}", std::to_string(_character->abilities().at(BONUS_DAMAGE)));
 
 		strength_c.y += _display->window->get_ch();
-		strength_c.colour = _graphics->adjust_colour(_abilities.at(BASE_NUMBER_OF_ATTACKS), NUMBER);
-		_add_text(strength_c, "{:>2}", std::to_string(_abilities.at(BASE_NUMBER_OF_ATTACKS)));
+		strength_c.colour = _graphics->adjust_colour(_character->abilities().at(BASE_NUMBER_OF_ATTACKS), NUMBER);
+		_add_text(strength_c, "{:>2}", std::to_string(_character->abilities().at(BASE_NUMBER_OF_ATTACKS)));
 
 		strength_c.y += _display->window->get_ch();
-		strength_c.colour = _graphics->adjust_colour(_abilities.at(UNARMED_DAMAGE), NUMBER);
-		_add_text(strength_c, "{:>2}", std::to_string(_abilities.at(UNARMED_DAMAGE)));
+		strength_c.colour = _graphics->adjust_colour(_character->abilities().at(UNARMED_DAMAGE), NUMBER);
+		_add_text(strength_c, "{:>2}", std::to_string(_character->abilities().at(UNARMED_DAMAGE)));
 
 		Component iq_c((*_display->layout)["character_detailed:iq_detailed_values"]);
 
-		iq_c.colour = _graphics->adjust_colour(_abilities.at(MAGE_SPELL_LEARN), PERCENTAGE);
-		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(MAGE_SPELL_LEARN)));
+		iq_c.colour = _graphics->adjust_colour(_character->abilities().at(MAGE_SPELL_LEARN), PERCENTAGE);
+		_add_text(iq_c, "{:>2}%", std::to_string(_character->abilities().at(MAGE_SPELL_LEARN)));
 
 		iq_c.y += _display->window->get_ch();
-		iq_c.colour = _graphics->adjust_colour(_abilities.at(IDENTIFY_ITEMS), PERCENTAGE);
-		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(IDENTIFY_ITEMS)));
+		iq_c.colour = _graphics->adjust_colour(_character->abilities().at(IDENTIFY_ITEMS), PERCENTAGE);
+		_add_text(iq_c, "{:>2}%", std::to_string(_character->abilities().at(IDENTIFY_ITEMS)));
 
 		iq_c.y += _display->window->get_ch();
-		iq_c.colour = _graphics->adjust_colour(_abilities.at(IDENTIFY_CURSE), PERCENTAGE);
-		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(IDENTIFY_CURSE)));
+		iq_c.colour = _graphics->adjust_colour(_character->abilities().at(IDENTIFY_CURSE), PERCENTAGE);
+		_add_text(iq_c, "{:>2}%", std::to_string(_character->abilities().at(IDENTIFY_CURSE)));
 
 		iq_c.y += _display->window->get_ch();
-		iq_c.colour = _graphics->adjust_colour(_abilities.at(IDENTIFY_FOES), PERCENTAGE);
-		_add_text(iq_c, "{:>2}%", std::to_string(_abilities.at(IDENTIFY_FOES)));
+		iq_c.colour = _graphics->adjust_colour(_character->abilities().at(IDENTIFY_FOES), PERCENTAGE);
+		_add_text(iq_c, "{:>2}%", std::to_string(_character->abilities().at(IDENTIFY_FOES)));
 
 		iq_c.y += _display->window->get_ch();
-		iq_c.colour = _graphics->adjust_colour(_abilities.at(BONUS_MAGE_SPELLS), NUMBER);
-		_add_text(iq_c, "{:>2}", std::to_string(_abilities.at(BONUS_MAGE_SPELLS)));
+		iq_c.colour = _graphics->adjust_colour(_character->abilities().at(BONUS_MAGE_SPELLS), NUMBER);
+		_add_text(iq_c, "{:>2}", std::to_string(_character->abilities().at(BONUS_MAGE_SPELLS)));
 
 		Component piety_c((*_display->layout)["character_detailed:piety_detailed_values"]);
-		piety_c.colour = _graphics->adjust_colour(_abilities.at(PRIEST_SPELL_LEARN), PERCENTAGE);
-		_add_text(piety_c, "{:>2}%", std::to_string(_abilities.at(PRIEST_SPELL_LEARN)));
+		piety_c.colour = _graphics->adjust_colour(_character->abilities().at(PRIEST_SPELL_LEARN), PERCENTAGE);
+		_add_text(piety_c, "{:>2}%", std::to_string(_character->abilities().at(PRIEST_SPELL_LEARN)));
 
 		piety_c.y += _display->window->get_ch();
-		piety_c.colour = _graphics->adjust_colour(_abilities.at(LOKTOFELT_SUCCESS), PERCENTAGE);
-		_add_text(piety_c, "{:>2}%", std::to_string(_abilities.at(LOKTOFELT_SUCCESS)));
+		piety_c.colour = _graphics->adjust_colour(_character->abilities().at(LOKTOFELT_SUCCESS), PERCENTAGE);
+		_add_text(piety_c, "{:>2}%", std::to_string(_character->abilities().at(LOKTOFELT_SUCCESS)));
 
 		piety_c.y += _display->window->get_ch();
-		piety_c.colour = _graphics->adjust_colour(_abilities.at(BASE_DISPELL), PERCENTAGE);
-		_add_text(piety_c, "{:>2}%", std::to_string(_abilities.at(BASE_DISPELL)));
+		piety_c.colour = _graphics->adjust_colour(_character->abilities().at(BASE_DISPELL), PERCENTAGE);
+		_add_text(piety_c, "{:>2}%", std::to_string(_character->abilities().at(BASE_DISPELL)));
 
 		piety_c.y += _display->window->get_ch();
-		piety_c.colour = _graphics->adjust_colour(_abilities.at(BONUS_PRIEST_SPELLS), NUMBER);
-		_add_text(piety_c, "{:>2}", std::to_string(_abilities.at(BONUS_PRIEST_SPELLS)));
+		piety_c.colour = _graphics->adjust_colour(_character->abilities().at(BONUS_PRIEST_SPELLS), NUMBER);
+		_add_text(piety_c, "{:>2}", std::to_string(_character->abilities().at(BONUS_PRIEST_SPELLS)));
 
 		Component vitality_c((*_display->layout)["character_detailed:vitality_detailed_values"]);
-		vitality_c.colour = _graphics->adjust_colour(_abilities.at(VITALITY_BONUS), MODIFIER);
-		_add_text(vitality_c, "{:+>2}", std::to_string(_abilities.at(VITALITY_BONUS)));
+		vitality_c.colour = _graphics->adjust_colour(_character->abilities().at(VITALITY_BONUS), MODIFIER);
+		_add_text(vitality_c, "{:+>2}", std::to_string(_character->abilities().at(VITALITY_BONUS)));
 
 		vitality_c.y += _display->window->get_ch();
-		vitality_c.colour = _graphics->adjust_colour(_abilities.at(BONUS_HIT_POINTS), MODIFIER);
-		_add_text(vitality_c, "{:+>2}", std::to_string(_abilities.at(BONUS_HIT_POINTS)));
+		vitality_c.colour = _graphics->adjust_colour(_character->abilities().at(BONUS_HIT_POINTS), MODIFIER);
+		_add_text(vitality_c, "{:+>2}", std::to_string(_character->abilities().at(BONUS_HIT_POINTS)));
 
 		vitality_c.y += _display->window->get_ch();
-		vitality_c.colour = _graphics->adjust_colour(_abilities.at(DEAD_RESURRECT), PERCENTAGE);
-		_add_text(vitality_c, "{:>2}%", std::to_string(_abilities.at(DEAD_RESURRECT)));
+		vitality_c.colour = _graphics->adjust_colour(_character->abilities().at(DEAD_RESURRECT), PERCENTAGE);
+		_add_text(vitality_c, "{:>2}%", std::to_string(_character->abilities().at(DEAD_RESURRECT)));
 
 		vitality_c.y += _display->window->get_ch();
-		vitality_c.colour = _graphics->adjust_colour(_abilities.at(ASHES_RESURRECT), PERCENTAGE);
-		_add_text(vitality_c, "{:>2}%", std::to_string(_abilities.at(ASHES_RESURRECT)));
+		vitality_c.colour = _graphics->adjust_colour(_character->abilities().at(ASHES_RESURRECT), PERCENTAGE);
+		_add_text(vitality_c, "{:>2}%", std::to_string(_character->abilities().at(ASHES_RESURRECT)));
 
 		vitality_c.y += _display->window->get_ch();
-		vitality_c.colour = _graphics->adjust_colour(_abilities.at(DI_KADORTO_RESURRECT), PERCENTAGE);
-		_add_text(vitality_c, "{:>2}%", std::to_string(_abilities.at(DI_KADORTO_RESURRECT)));
+		vitality_c.colour = _graphics->adjust_colour(_character->abilities().at(DI_KADORTO_RESURRECT), PERCENTAGE);
+		_add_text(vitality_c, "{:>2}%", std::to_string(_character->abilities().at(DI_KADORTO_RESURRECT)));
 
 		Component agility_c((*_display->layout)["character_detailed:agility_detailed_values"]);
 
-		agility_c.colour = _graphics->adjust_colour(_abilities.at(INITIATIVE_MODIFIER), MODIFIER);
-		_add_text(agility_c, "{:+>2}", std::to_string(_abilities.at(INITIATIVE_MODIFIER)));
+		agility_c.colour = _graphics->adjust_colour(_character->abilities().at(INITIATIVE_MODIFIER), MODIFIER);
+		_add_text(agility_c, "{:+>2}", std::to_string(_character->abilities().at(INITIATIVE_MODIFIER)));
 
 		agility_c.y += _display->window->get_ch();
-		agility_c.colour = _graphics->adjust_colour(_abilities.at(BASE_CRITICAL_HIT), PERCENTAGE);
-		_add_text(agility_c, "{:>2}%", std::to_string(_abilities.at(BASE_CRITICAL_HIT)));
+		agility_c.colour = _graphics->adjust_colour(_character->abilities().at(BASE_CRITICAL_HIT), PERCENTAGE);
+		_add_text(agility_c, "{:>2}%", std::to_string(_character->abilities().at(BASE_CRITICAL_HIT)));
 
 		agility_c.y += _display->window->get_ch();
-		agility_c.colour = _graphics->adjust_colour(_abilities.at(IDENTIFY_TRAP), PERCENTAGE);
-		_add_text(agility_c, "{:>2}%", std::to_string(_abilities.at(IDENTIFY_TRAP)));
+		agility_c.colour = _graphics->adjust_colour(_character->abilities().at(IDENTIFY_TRAP), PERCENTAGE);
+		_add_text(agility_c, "{:>2}%", std::to_string(_character->abilities().at(IDENTIFY_TRAP)));
 
 		agility_c.y += _display->window->get_ch();
-		agility_c.colour = _graphics->adjust_colour(_abilities.at(BASE_DISARM_TRAP), PERCENTAGE);
-		_add_text(agility_c, "{:>2}%", std::to_string(_abilities.at(BASE_DISARM_TRAP)));
+		agility_c.colour = _graphics->adjust_colour(_character->abilities().at(BASE_DISARM_TRAP), PERCENTAGE);
+		_add_text(agility_c, "{:>2}%", std::to_string(_character->abilities().at(BASE_DISARM_TRAP)));
 
 		agility_c.y += _display->window->get_ch();
-		agility_c.colour = _graphics->adjust_colour((100 - _abilities.at(ACTIVATE_TRAP)), PERCENTAGE);
-		_add_text(agility_c, "{:>2}%", std::to_string(100 - _abilities.at(ACTIVATE_TRAP)));
+		agility_c.colour = _graphics->adjust_colour((100 - _character->abilities().at(ACTIVATE_TRAP)), PERCENTAGE);
+		_add_text(agility_c, "{:>2}%", std::to_string(100 - _character->abilities().at(ACTIVATE_TRAP)));
 
 		agility_c.y += _display->window->get_ch();
-		agility_c.colour = _graphics->adjust_colour(_abilities.at(BASE_AVOID_PIT), PERCENTAGE);
-		_add_text(agility_c, "{:>2}%", std::to_string(_abilities.at(BASE_AVOID_PIT)));
+		agility_c.colour = _graphics->adjust_colour(_character->abilities().at(BASE_AVOID_PIT), PERCENTAGE);
+		_add_text(agility_c, "{:>2}%", std::to_string(_character->abilities().at(BASE_AVOID_PIT)));
 
 		agility_c.y += _display->window->get_ch();
-		agility_c.colour = _graphics->adjust_colour(_abilities.at(BASE_ARMOUR_CLASS), AC);
-		_add_text(agility_c, "{:>2}", std::to_string(_abilities.at(BASE_ARMOUR_CLASS)));
+		agility_c.colour = _graphics->adjust_colour(_character->abilities().at(BASE_ARMOUR_CLASS), AC);
+		_add_text(agility_c, "{:>2}", std::to_string(_character->abilities().at(BASE_ARMOUR_CLASS)));
 
 		Component luck_c((*_display->layout)["character_detailed:luck_detailed_values"]);
 
-		luck_c.colour = _graphics->adjust_colour(_abilities.at(BASE_RESIST_BONUS) * 5, PERCENTAGE);
-		_add_text(luck_c, "{:>2}%", std::to_string(_abilities.at(BASE_RESIST_BONUS) * 5));
+		luck_c.colour = _graphics->adjust_colour(_character->abilities().at(BASE_RESIST_BONUS) * 5, PERCENTAGE);
+		_add_text(luck_c, "{:>2}%", std::to_string(_character->abilities().at(BASE_RESIST_BONUS) * 5));
 
 		luck_c.y += _display->window->get_ch();
-		luck_c.colour = _graphics->adjust_colour(_abilities.at(EQUIPMENT_INTACT_ON_WIPE), PERCENTAGE);
-		_add_text(luck_c, "{:>2}%", std::to_string(_abilities.at(EQUIPMENT_INTACT_ON_WIPE)));
+		luck_c.colour = _graphics->adjust_colour(_character->abilities().at(EQUIPMENT_INTACT_ON_WIPE), PERCENTAGE);
+		_add_text(luck_c, "{:>2}%", std::to_string(_character->abilities().at(EQUIPMENT_INTACT_ON_WIPE)));
 	} else if (_view == RESISTANCES) {
 
 		_display->generate("character_resistances", _v_sprites, _v_texts, _v_frames);
@@ -887,52 +895,63 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 		_add_text((*_display->layout)["character_resistances:name_and_summary_text"], "{}", _character->summary_text());
 
 		Component resistances_c((*_display->layout)["character_resistances:resistances_detailed_values"]);
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_CRITICAL_HIT) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_CRITICAL_HIT) * 5));
+		resistances_c.colour =
+			_graphics->adjust_colour(_character->abilities().at(RESISTANCE_VS_CRITICAL_HIT) * 5, PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_character->abilities().at(RESISTANCE_VS_CRITICAL_HIT) * 5));
 
 		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_POISON_PARALYSIS) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_POISON_PARALYSIS) * 5));
+		resistances_c.colour =
+			_graphics->adjust_colour(_character->abilities().at(RESISTANCE_VS_POISON_PARALYSIS) * 5, PERCENTAGE);
+		_add_text(
+			resistances_c, "{:>2}%", std::to_string(_character->abilities().at(RESISTANCE_VS_POISON_PARALYSIS) * 5));
 
 		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_STONING) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_STONING) * 5));
+		resistances_c.colour =
+			_graphics->adjust_colour(_character->abilities().at(RESISTANCE_VS_STONING) * 5, PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_character->abilities().at(RESISTANCE_VS_STONING) * 5));
 
 		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_BREATH_ATTACKS) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_BREATH_ATTACKS) * 5));
+		resistances_c.colour =
+			_graphics->adjust_colour(_character->abilities().at(RESISTANCE_VS_BREATH_ATTACKS) * 5, PERCENTAGE);
+		_add_text(
+			resistances_c, "{:>2}%", std::to_string(_character->abilities().at(RESISTANCE_VS_BREATH_ATTACKS) * 5));
 
 		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_POISON_GAS_TRAP) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_POISON_GAS_TRAP) * 5));
+		resistances_c.colour =
+			_graphics->adjust_colour(_character->abilities().at(RESISTANCE_VS_POISON_GAS_TRAP) * 5, PERCENTAGE);
+		_add_text(
+			resistances_c, "{:>2}%", std::to_string(_character->abilities().at(RESISTANCE_VS_POISON_GAS_TRAP) * 5));
 
 		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_MAGE_PRIEST_TRAP) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_MAGE_PRIEST_TRAP) * 5));
+		resistances_c.colour =
+			_graphics->adjust_colour(_character->abilities().at(RESISTANCE_VS_MAGE_PRIEST_TRAP) * 5, PERCENTAGE);
+		_add_text(
+			resistances_c, "{:>2}%", std::to_string(_character->abilities().at(RESISTANCE_VS_MAGE_PRIEST_TRAP) * 5));
 
 		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RECOVER_FROM_SLEEP), PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RECOVER_FROM_SLEEP)));
+		resistances_c.colour = _graphics->adjust_colour(_character->abilities().at(RECOVER_FROM_SLEEP), PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_character->abilities().at(RECOVER_FROM_SLEEP)));
 
 		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RECOVER_FROM_FEAR), PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RECOVER_FROM_FEAR)));
+		resistances_c.colour = _graphics->adjust_colour(_character->abilities().at(RECOVER_FROM_FEAR), PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_character->abilities().at(RECOVER_FROM_FEAR)));
 
 		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_SILENCE) * 5, PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_SILENCE) * 5));
+		resistances_c.colour =
+			_graphics->adjust_colour(_character->abilities().at(RESISTANCE_VS_SILENCE) * 5, PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_character->abilities().at(RESISTANCE_VS_SILENCE) * 5));
 
 		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_KATINO), PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_KATINO)));
+		resistances_c.colour = _graphics->adjust_colour(_character->abilities().at(RESISTANCE_VS_KATINO), PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_character->abilities().at(RESISTANCE_VS_KATINO)));
 
 		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_BADI), PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_BADI)));
+		resistances_c.colour = _graphics->adjust_colour(_character->abilities().at(RESISTANCE_VS_BADI), PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_character->abilities().at(RESISTANCE_VS_BADI)));
 
 		resistances_c.y += _display->window->get_ch();
-		resistances_c.colour = _graphics->adjust_colour(_abilities.at(RESISTANCE_VS_MANIFO), PERCENTAGE);
-		_add_text(resistances_c, "{:>2}%", std::to_string(_abilities.at(RESISTANCE_VS_MANIFO)));
+		resistances_c.colour = _graphics->adjust_colour(_character->abilities().at(RESISTANCE_VS_MANIFO), PERCENTAGE);
+		_add_text(resistances_c, "{:>2}%", std::to_string(_character->abilities().at(RESISTANCE_VS_MANIFO)));
 	} else if (_view == CharacterView::MAGE_SPELLS) {
 
 		_display->generate("character_mage_spells", _v_sprites, _v_texts, _v_frames);
@@ -952,7 +971,7 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 			spell_name_c.x = level_c.x;
 			spell_name_c.y = level_c.y + _display->window->get_ch();
 
-			auto spells{_spells | std::views::filter([&](Spell spell) {
+			auto spells{_character->spells() | std::views::filter([&](Spell spell) {
 				return (spell.type == SpellType::MAGE) && (static_cast<int>(spell.level) == level);
 			})};
 			for (auto spell : spells) {
@@ -1041,7 +1060,7 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 			spell_name_c.x = level_c.x;
 			spell_name_c.y = level_c.y + _display->window->get_ch();
 
-			auto spells{_spells | std::views::filter([&](Spell spell) {
+			auto spells{_character->spells() | std::views::filter([&](Spell spell) {
 				return (spell.type == SpellType::PRIEST) && (static_cast<int>(spell.level) == level);
 			})};
 			for (auto spell : spells) {

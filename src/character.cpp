@@ -284,6 +284,41 @@ auto Sorcery::Character::set_location(const CharacterLocation &value) -> void {
 	}
 }
 
+auto Sorcery::Character::abilities() -> CharacterAbilities & {
+
+	return _abilities;
+}
+
+auto Sorcery::Character::spells() -> std::vector<Spell> & {
+
+	return _spells;
+}
+
+auto Sorcery::Character::attributes() -> CharacterAttributes & {
+
+	return _cur_attr;
+}
+
+auto Sorcery::Character::priest_cur_sp() -> SpellPoints & {
+
+	return _priest_cur_sp;
+}
+
+auto Sorcery::Character::mage_cur_sp() -> SpellPoints & {
+
+	return _mage_cur_sp;
+}
+
+auto Sorcery::Character::priest_max_sp() -> SpellPoints & {
+
+	return _priest_max_sp;
+}
+
+auto Sorcery::Character::mage_max_sp() -> SpellPoints & {
+
+	return _mage_max_sp;
+}
+
 // Reset a character back to a particular state
 auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
 

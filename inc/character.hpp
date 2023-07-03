@@ -154,6 +154,13 @@ class Character {
 		auto get_ress_chance(bool ashes) -> unsigned int;
 		auto damage(const unsigned int adjustment) -> bool;
 		auto heal(const unsigned int adjustment) -> void;
+		auto attributes() -> CharacterAttributes &;
+		auto abilities() -> CharacterAbilities &;
+		auto spells() -> std::vector<Spell> &;
+		auto priest_cur_sp() -> SpellPoints &;
+		auto mage_cur_sp() -> SpellPoints &;
+		auto priest_max_sp() -> SpellPoints &;
+		auto mage_max_sp() -> SpellPoints &;
 
 		// Public Members
 		std::optional<Coordinate> coordinate;
