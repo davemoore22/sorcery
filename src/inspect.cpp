@@ -54,6 +54,7 @@ Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, 
 	}
 
 	_char_panel = std::make_unique<CharacterPanel>(_system, _display, _graphics);
+	_character_display = std::make_unique<CharacterDisplay>(_system, _display, _graphics);
 }
 
 // Standard Destructor
@@ -179,9 +180,10 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 
 							const auto character_chosen{(*selected.value()).index};
 							_cur_char = &_game->characters[character_chosen];
+							_character_display->set(_cur_char.value());
 							if (_cur_char) {
 								_display->set_input_mode(WindowInputMode::BROWSE_CHARACTER);
-								_cur_char.value()->set_view(CharacterView::SUMMARY);
+								_character_display->set_view(CharacterView::SUMMARY);
 							}
 						}
 					}
@@ -208,9 +210,9 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 			} else {
 
 				if (_system->input->check(WindowInput::LEFT, event))
-					_cur_char.value()->left_view();
+					_character_display->left_view();
 				else if (_system->input->check(WindowInput::RIGHT, event))
-					_cur_char.value()->right_view();
+					_character_display->right_view();
 				else if (_system->input->check(WindowInput::CANCEL, event)) {
 					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					_cur_char = std::nullopt;
@@ -218,28 +220,28 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					_cur_char = std::nullopt;
 				} else if (_system->input->check(WindowInput::CONFIRM, event)) {
-					_cur_char.value()->right_view();
+					_character_display->right_view();
 				} else if (_system->input->check(WindowInput::UP, event)) {
-					if (_cur_char.value()->get_view() == CharacterView::MAGE_SPELLS)
-						_cur_char.value()->dec_hl_spell(SpellType::MAGE);
-					else if (_cur_char.value()->get_view() == CharacterView::PRIEST_SPELLS)
-						_cur_char.value()->dec_hl_spell(SpellType::PRIEST);
+					if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
+						_character_display->dec_hl_spell(SpellType::MAGE);
+					else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
+						_character_display->dec_hl_spell(SpellType::PRIEST);
 
 				} else if (_system->input->check(WindowInput::DOWN, event)) {
-					if (_cur_char.value()->get_view() == CharacterView::MAGE_SPELLS)
-						_cur_char.value()->inc_hl_spell(SpellType::MAGE);
-					else if (_cur_char.value()->get_view() == CharacterView::PRIEST_SPELLS)
-						_cur_char.value()->inc_hl_spell(SpellType::PRIEST);
+					if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
+						_character_display->inc_hl_spell(SpellType::MAGE);
+					else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
+						_character_display->inc_hl_spell(SpellType::PRIEST);
 				} else if (_system->input->check(WindowInput::MOVE, event)) {
-					if (_cur_char.value()->check_for_mouse_move(
+					if (_character_display->check_for_mouse_move(
 							sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 								static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
-						_cur_char.value()->set_view(_cur_char.value()->get_view());
+						_character_display->set_view(_character_display->get_view());
 					}
-					if (_cur_char.value()->check_for_action_mouse_move(
+					if (_character_display->check_for_action_mouse_move(
 							sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 								static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
-						_cur_char.value()->generate_display();
+						_character_display->generate_display();
 					}
 				}
 			}
@@ -295,14 +297,14 @@ auto Sorcery::Inspect::_draw() -> void {
 			_window->draw(*_cur_char_frame);
 
 			if (_mode == CAMP)
-				_cur_char.value()->set_mode(CharacterMode::IN_MAZE);
+				_character_display->set_mode(CharacterMode::IN_MAZE);
 			else
-				_cur_char.value()->set_mode(CharacterMode::IN_CASTLE);
+				_character_display->set_mode(CharacterMode::IN_CASTLE);
 
-			_cur_char.value()->setPosition(
+			_character_display->setPosition(
 				(*_display->layout)[_screen_key + ":character"].x, (*_display->layout)[_screen_key + ":character"].y);
-			_cur_char.value()->update();
-			_window->draw(*_cur_char.value());
+			_character_display->update();
+			_window->draw(*_character_display);
 		}
 	} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_DELETE_CHARACTER) {
 

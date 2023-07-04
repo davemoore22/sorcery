@@ -32,6 +32,7 @@
 #include "allocatepanel.hpp"
 #include "attributedisplay.hpp"
 #include "character.hpp"
+#include "characterdisplay.hpp"
 #include "dialog.hpp"
 #include "frame.hpp"
 #include "infopanel.hpp"
@@ -112,5 +113,6 @@ class Create {
 		bool _show_final_menu;
 		bool _show_saved_ok;
 		std::unique_ptr<Dialog> _dialog_saved_ok;
+		std::unique_ptr<CharacterDisplay> _character_display;
 };
 } // namespace Sorcery

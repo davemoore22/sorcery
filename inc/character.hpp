@@ -61,7 +61,7 @@ class Character {
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_location, coordinate, depth, _version, _name, _race, _class, _alignment, _start_attr, _cur_attr,
 				_max_attr, _st_points, _portrait_index, _abilities, _priest_max_sp, _priest_cur_sp, _mage_max_sp,
-				_mage_cur_sp, _status, _hidden, _spells_known, _legated, _mode);
+				_mage_cur_sp, _status, _hidden, _spells_known, _legated);
 		}
 
 		// Public Methods

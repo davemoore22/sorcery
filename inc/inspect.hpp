@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include "characterdisplay.hpp"
 #include "characterpanel.hpp"
 #include "display.hpp"
 #include "frame.hpp"
@@ -74,6 +75,7 @@ class Inspect {
 		std::unique_ptr<CharacterPanel> _char_panel;
 		int _cur_char_id;
 		std::unique_ptr<Frame> _preview_frame;
+		std::unique_ptr<CharacterDisplay> _character_display;
 };
 
 }

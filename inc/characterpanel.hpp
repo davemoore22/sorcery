@@ -58,6 +58,7 @@ class CharacterPanel: public sf::Transformable, public sf::Drawable {
 	private:
 
 		// Private Methods
+		auto _get_icon(CharacterStage type) -> std::optional<sf::Sprite>;
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members

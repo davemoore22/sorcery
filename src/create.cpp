@@ -70,6 +70,8 @@ auto Sorcery::Create::_reset_components() -> void {
 		_final_menu_frame.reset();
 	if (_dialog_saved_ok.get())
 		_dialog_saved_ok.reset();
+	if (_character_display.get())
+		_character_display.reset();
 }
 
 auto Sorcery::Create::_initalise_components() -> void {
@@ -88,6 +90,9 @@ auto Sorcery::Create::_initalise_components() -> void {
 
 	// Get the Texture for the Potraits
 	_potrait_texture = &_system->resources->textures[GraphicsTexture::PORTRAITS];
+
+	// Character Display
+	_character_display = std::make_unique<CharacterDisplay>(_system, _display, _graphics);
 
 	// Menus
 	_method_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CHOOSE_METHOD);
@@ -121,6 +126,7 @@ auto Sorcery::Create::_initialise_state() -> void {
 
 	// Create the Candidate Character
 	_candidate = Character(_system, _display, _graphics);
+	_character_display->set(&_candidate);
 }
 
 auto Sorcery::Create::_place_components() -> void {
@@ -147,7 +153,7 @@ auto Sorcery::Create::_place_components() -> void {
 	_keyboard->setPosition((*_display->layout)["character_create_stage_1:keyboard"].x,
 		(*_display->layout)["character_create_stage_1:keyboard"].y);
 
-	_candidate.setPosition((*_display->layout)["character_create_stage_7:candidate"].x,
+	_character_display->setPosition((*_display->layout)["character_create_stage_7:candidate"].x,
 		(*_display->layout)["character_create_stage_7:candidate"].y);
 
 	_dialog_saved_ok->setPosition(_display->get_centre_pos(_dialog_saved_ok->get_size()));
@@ -172,7 +178,7 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 	const Component name_c{(*_display->layout)["character_create_stage_1:name_candidate"]};
 
 	// Set to the beginning stage
-	_candidate.set_mode(CharacterMode::IN_CREATE);
+	_character_display->set_mode(CharacterMode::IN_CREATE);
 	_candidate.set_stage(CharacterStage::CHOOSE_METHOD);
 	_display->set_input_mode(WindowInputMode::CHOOSE_METHOD);
 	_display->generate("choose_method", _sprites, _texts, _frames);
@@ -765,28 +771,29 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event) -> std:
 		else if (_system->input->check(WindowInput::DELETE, event))
 			return ModuleResult::BACK;
 		else if (_system->input->check(WindowInput::LEFT, event))
-			_candidate.left_view();
+			_character_display->left_view();
 		else if (_system->input->check(WindowInput::RIGHT, event))
-			_candidate.right_view();
+			_character_display->right_view();
 		else if (_system->input->check(WindowInput::UP, event)) {
-			if (_candidate.get_view() == CharacterView::MAGE_SPELLS)
-				_candidate.dec_hl_spell(SpellType::MAGE);
-			else if (_candidate.get_view() == CharacterView::PRIEST_SPELLS)
-				_candidate.dec_hl_spell(SpellType::PRIEST);
+			if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
+				_character_display->dec_hl_spell(SpellType::MAGE);
+			else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
+				_character_display->dec_hl_spell(SpellType::PRIEST);
 		} else if (_system->input->check(WindowInput::DOWN, event)) {
-			if (_candidate.get_view() == CharacterView::MAGE_SPELLS)
-				_candidate.inc_hl_spell(SpellType::MAGE);
-			else if (_candidate.get_view() == CharacterView::PRIEST_SPELLS)
-				_candidate.inc_hl_spell(SpellType::PRIEST);
+			if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
+				_character_display->inc_hl_spell(SpellType::MAGE);
+			else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
+				_character_display->inc_hl_spell(SpellType::PRIEST);
 		} else if (_system->input->check(WindowInput::MOVE, event)) {
-			if (_candidate.check_for_mouse_move(sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
-					static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
-				_candidate.set_view(_candidate.get_view());
-			}
-			if (_candidate.check_for_action_mouse_move(
+			if (_character_display->check_for_mouse_move(
 					sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 						static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
-				_candidate.generate_display();
+				_character_display->set_view(_character_display->get_view());
+			}
+			if (_character_display->check_for_action_mouse_move(
+					sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
+						static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
+				_character_display->generate_display();
 			}
 		}
 	}
@@ -1198,8 +1205,8 @@ auto Sorcery::Create::_draw() -> void {
 
 		_display->display("character_create_stage_7", _sprites, _texts, _frames);
 
-		_candidate.update();
-		_window->draw(_candidate);
+		_character_display->update();
+		_window->draw(*_character_display);
 
 		if (_show_final_menu) {
 			_final_menu->generate((*_display->layout)["character_create_stage_7:menu"]);

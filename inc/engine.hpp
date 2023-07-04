@@ -26,6 +26,7 @@
 
 #include "automap.hpp"
 #include "buffbar.hpp"
+#include "characterdisplay.hpp"
 #include "compass.hpp"
 #include "console.hpp"
 #include "debuffbar.hpp"
@@ -181,6 +182,7 @@ class Engine {
 		std::unique_ptr<Frame> _view_frame_big;
 		std::unique_ptr<Frame> _view_frame_small;
 		std::unique_ptr<PartyPanel> _party_panel;
+		std::unique_ptr<CharacterDisplay> _character_display;
 		bool _in_camp;
 		bool _in_action;
 		bool _in_search;

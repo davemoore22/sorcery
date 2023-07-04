@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include "characterdisplay.hpp"
 #include "characterpanel.hpp"
 #include "create.hpp"
 #include "display.hpp"
@@ -78,6 +79,7 @@ class Roster {
 		std::unique_ptr<Frame> _preview_frame;
 		std::unique_ptr<Dialog> _delete;
 		std::unique_ptr<Edit> _edit;
+		std::unique_ptr<CharacterDisplay> _character_display;
 };
 
 }

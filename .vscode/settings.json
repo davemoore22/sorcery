@@ -1,7 +1,7 @@
 {
 	"C_Cpp.autocomplete": "default",
 	"C_Cpp.intelliSenseEngine": "default",
-	"C_Cpp.dimInactiveRegions": false,
+	"C_Cpp.dimInactiveRegions": true,
 	"C_Cpp.preferredPathSeparator": "Forward Slash",
 	"C_Cpp.loggingLevel": "Warning",
 	"C_Cpp.workspaceParsingPriority": "highest",

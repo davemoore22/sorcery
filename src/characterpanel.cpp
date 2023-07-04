@@ -56,19 +56,19 @@ auto Sorcery::CharacterPanel::set(Character *character) -> void {
 	portrait.setScale(p_c.scale, p_c.scale);
 	_portrait = portrait;
 
-	auto class_icon{_character->get_icon(CharacterStage::CHOOSE_CLASS).value()};
+	auto class_icon{_get_icon(CharacterStage::CHOOSE_CLASS).value()};
 	_display->window->set_pos(&((*_display->layout)["character_panel:class_icon"]), &class_icon);
 	class_icon.setScale((*_display->layout)["character_panel:class_icon"].scale,
 		(*_display->layout)["character_panel:class_icon"].scale);
 	_icons.push_back(class_icon);
 
-	auto race_icon{_character->get_icon(CharacterStage::CHOOSE_RACE).value()};
+	auto race_icon{_get_icon(CharacterStage::CHOOSE_RACE).value()};
 	_display->window->set_pos(&((*_display->layout)["character_panel:race_icon"]), &race_icon);
 	race_icon.setScale(
 		(*_display->layout)["character_panel:race_icon"].scale, (*_display->layout)["character_panel:race_icon"].scale);
 	_icons.push_back(race_icon);
 
-	auto alignment_icon{_character->get_icon(CharacterStage::CHOOSE_ALIGNMENT).value()};
+	auto alignment_icon{_get_icon(CharacterStage::CHOOSE_ALIGNMENT).value()};
 	_display->window->set_pos(&((*_display->layout)["character_panel:alignment_icon"]), &alignment_icon);
 	alignment_icon.setScale((*_display->layout)["character_panel:alignment_icon"].scale,
 		(*_display->layout)["character_panel:alignment_icon"].scale);
@@ -147,6 +147,33 @@ auto Sorcery::CharacterPanel::set(Character *character) -> void {
 	_texts.push_back(loc_text);
 
 	valid = true;
+}
+
+auto Sorcery::CharacterPanel::_get_icon(CharacterStage type) -> std::optional<sf::Sprite> {
+
+	using enum Enums::Character::Stage;
+
+	switch (type) {
+	case CHOOSE_ALIGNMENT: {
+		auto alignment{_character->alignment_to_string(_character->get_alignment())};
+		std::ranges::transform(alignment.begin(), alignment.end(), alignment.begin(), ::tolower);
+		return (*_graphics->icons)[alignment].value();
+	} break;
+	case CHOOSE_RACE: {
+		auto race{_character->race_to_string(_character->get_race())};
+		std::ranges::transform(race.begin(), race.end(), race.begin(), ::tolower);
+		return (*_graphics->icons)[race].value();
+	} break;
+	case CHOOSE_CLASS: {
+		auto cclass{_character->class_to_string(_character->get_class())};
+		std::ranges::transform(cclass.begin(), cclass.end(), cclass.begin(), ::tolower);
+		return (*_graphics->icons)[cclass].value();
+	} break;
+	default:
+		break;
+	}
+
+	return std::nullopt;
 }
 
 auto Sorcery::CharacterPanel::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {

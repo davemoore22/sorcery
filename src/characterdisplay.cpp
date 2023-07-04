@@ -26,8 +26,8 @@
 #include "characterdisplay.hpp"
 
 // Standard Constructor
-Sorcery::CharacterDisplay::CharacterDisplay(System *system, Display *display, Graphics *graphics, Character *character)
-	: _system{system}, _display{display}, _graphics{graphics}, _character{character} {
+Sorcery::CharacterDisplay::CharacterDisplay(System *system, Display *display, Graphics *graphics)
+	: _system{system}, _display{display}, _graphics{graphics} {
 
 	_texts.clear();
 	_sprites.clear();
@@ -50,6 +50,7 @@ Sorcery::CharacterDisplay::CharacterDisplay(System *system, Display *display, Gr
 	_spell_panel->setPosition((*_display->layout)["global:spell_panel"].x, (*_display->layout)["global:spell_panel"].y);
 
 	_mode = CharacterMode::NO_MODE;
+	_character = nullptr;
 }
 
 auto Sorcery::CharacterDisplay::set(Character *character) -> void {

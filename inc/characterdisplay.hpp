@@ -43,7 +43,7 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 	public:
 
 	// Constructor
-	CharacterDisplay(System *system, Display *display, Graphics *graphics, Character *character);
+	CharacterDisplay(System *system, Display *display, Graphics *graphics);
 
 	// Public Methods
 	auto set(Character* character) -> void;
