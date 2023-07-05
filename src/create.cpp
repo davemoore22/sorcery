@@ -875,6 +875,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CharacterStage::CHOOSE_PORTRAIT);
+			_character_display->generate_display();
 			_display->generate("character_create_stage_6", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::CHOOSE_PORTRAIT);
 			_stages.pop_back();
@@ -998,6 +999,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_stages.emplace_back(_candidate);
 			_candidate.finalise();
 			_candidate.set_stage(REVIEW_AND_CONFIRM);
+			_character_display->generate_display();
 			_display->generate("character_create_stage_7", _sprites, _texts, _frames);
 			_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
 			_show_final_menu = false;
@@ -1008,6 +1010,8 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 	} else if (_method == CreateMethod::RANDOM) {
 		_candidate.create_random();
 		_candidate.finalise();
+		_character_display->generate_display();
+		_character_display->update();
 		_candidate.set_stage(CharacterStage::REVIEW_AND_CONFIRM);
 		_display->generate("character_create_stage_7", _sprites, _texts, _frames);
 		_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);

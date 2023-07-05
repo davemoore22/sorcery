@@ -56,6 +56,7 @@ Sorcery::CharacterDisplay::CharacterDisplay(System *system, Display *display, Gr
 auto Sorcery::CharacterDisplay::set(Character *character) -> void {
 
 	_character = character;
+	_generate_display();
 }
 
 auto Sorcery::CharacterDisplay::set_mode(CharacterMode value) -> void {
