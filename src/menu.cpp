@@ -476,7 +476,7 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 	using enum Enums::Menu::Item;
 	using enum Enums::Manage::Method;
 
-	MenuItem search_for{NO_ITEM};
+	MenuItem search_for{NO_MENU_ITEM};
 	switch (_type) {
 	case MenuType::CHOOSE_METHOD:
 		switch (std::any_cast<CreateMethod>(option)) {

@@ -66,15 +66,18 @@ auto Sorcery::CharacterDisplay::set_mode(CharacterMode value) -> void {
 
 auto Sorcery::CharacterDisplay::inc_hl_spell(SpellType type) -> void {
 
-	if (type == SpellType::MAGE) {
+	using enum Enums::Magic::SpellID;
+	using enum Enums::Magic::SpellType;
+
+	if (type == MAGE) {
 		auto index{magic_enum::enum_integer<SpellID>(_hl_mage_spell)};
-		if (index < magic_enum::enum_integer<SpellID>(SpellID::TILTOWAIT)) {
+		if (index < magic_enum::enum_integer<SpellID>(TILTOWAIT)) {
 			++index;
 			_hl_mage_spell = magic_enum::enum_cast<SpellID>(index).value();
 		}
 	} else {
 		auto index{magic_enum::enum_integer<SpellID>(_hl_priest_spell)};
-		if (index < magic_enum::enum_integer<SpellID>(SpellID::MALIKTO)) {
+		if (index < magic_enum::enum_integer<SpellID>(MALIKTO)) {
 			++index;
 			_hl_priest_spell = magic_enum::enum_cast<SpellID>(index).value();
 		}
@@ -85,15 +88,18 @@ auto Sorcery::CharacterDisplay::inc_hl_spell(SpellType type) -> void {
 
 auto Sorcery::CharacterDisplay::dec_hl_spell(SpellType type) -> void {
 
-	if (type == SpellType::MAGE) {
+	using enum Enums::Magic::SpellID;
+	using enum Enums::Magic::SpellType;
+
+	if (type == MAGE) {
 		auto index{magic_enum::enum_integer<SpellID>(_hl_mage_spell)};
-		if (index > magic_enum::enum_integer<SpellID>(SpellID::DUMAPIC)) {
+		if (index > magic_enum::enum_integer<SpellID>(DUMAPIC)) {
 			--index;
 			_hl_mage_spell = magic_enum::enum_cast<SpellID>(index).value();
 		}
 	} else {
 		auto index{magic_enum::enum_integer<SpellID>(_hl_priest_spell)};
-		if (index > magic_enum::enum_integer<SpellID>(SpellID::BADIOS)) {
+		if (index > magic_enum::enum_integer<SpellID>(BADIOS)) {
 			--index;
 			_hl_priest_spell = magic_enum::enum_cast<SpellID>(index).value();
 		}
@@ -105,9 +111,11 @@ auto Sorcery::CharacterDisplay::dec_hl_spell(SpellType type) -> void {
 // Setting the view will regenerate the display components
 auto Sorcery::CharacterDisplay::left_view() -> void {
 
+	using enum Enums::Character::View;
+
 	auto view_index{magic_enum::enum_integer<CharacterView>(_view)};
-	if (view_index == magic_enum::enum_integer<CharacterView>(CharacterView::SUMMARY))
-		view_index = magic_enum::enum_integer<CharacterView>(CharacterView::PRIEST_SPELLS);
+	if (view_index == magic_enum::enum_integer<CharacterView>(SUMMARY))
+		view_index = magic_enum::enum_integer<CharacterView>(PRIEST_SPELLS);
 	else
 		--view_index;
 	_view = magic_enum::enum_cast<CharacterView>(view_index).value();
@@ -120,9 +128,11 @@ auto Sorcery::CharacterDisplay::left_view() -> void {
 // Setting the view will regenerate the display components
 auto Sorcery::CharacterDisplay::right_view() -> void {
 
+	using enum Enums::Character::View;
+
 	auto view_index{magic_enum::enum_integer<CharacterView>(_view)};
-	if (view_index == magic_enum::enum_integer<CharacterView>(CharacterView::PRIEST_SPELLS))
-		view_index = magic_enum::enum_integer<CharacterView>(CharacterView::SUMMARY);
+	if (view_index == magic_enum::enum_integer<CharacterView>(PRIEST_SPELLS))
+		view_index = magic_enum::enum_integer<CharacterView>(SUMMARY);
 	else
 		++view_index;
 	_view = magic_enum::enum_cast<CharacterView>(view_index).value();
@@ -134,8 +144,9 @@ auto Sorcery::CharacterDisplay::right_view() -> void {
 
 auto Sorcery::CharacterDisplay::_get_character_portrait() -> sf::Sprite {
 
-	sf::Sprite portrait{
-		_graphics->textures->get(_character->get_portrait_index(), GraphicsTextureType::PORTRAIT).value()};
+	using enum Enums::Graphics::TextureType;
+
+	sf::Sprite portrait{_graphics->textures->get(_character->get_portrait_index(), PORTRAIT).value()};
 
 	return portrait;
 }
@@ -304,8 +315,10 @@ auto Sorcery::CharacterDisplay::_get_spell_icon(SpellCategory category) -> std::
 // Setting the view will regenerate the display components
 auto Sorcery::CharacterDisplay::set_view(const CharacterView value) -> void {
 
+	using enum Enums::Menu::Item;
+
 	_view = value;
-	_hl_action_item = MenuItem::C_ACTION_READ;
+	_hl_action_item = C_ACTION_READ;
 	_generate_display();
 }
 
@@ -428,7 +441,10 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 	using enum Enums::Character::Attribute;
 	using enum Enums::Character::Ability;
 	using enum Enums::Character::Ability_Type;
+	using enum Enums::Character::Mode;
 	using enum Enums::Character::View;
+	using enum Enums::Menu::Item;
+	using enum Enums::Magic::SpellType;
 
 	_sprites.clear();
 	_texts.clear();
@@ -521,12 +537,12 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 
 		// TODO rewrite this
 		auto read_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_READ"])};
-		action_menu_texts[MenuItem::C_ACTION_READ] = read_text;
+		action_menu_texts[C_ACTION_READ] = read_text;
 		enabled = true;
 		if (enabled) {
 			auto read_hl_bounds{read_text->getGlobalBounds()};
-			action_menu_bounds[MenuItem::C_ACTION_READ] = read_hl_bounds;
-			if (_hl_action_item == MenuItem::C_ACTION_READ) {
+			action_menu_bounds[C_ACTION_READ] = read_hl_bounds;
+			if (_hl_action_item == C_ACTION_READ) {
 				sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), read_hl_bounds.height));
 				bg.setPosition(read_hl_bounds.left, read_hl_bounds.top);
 				bg.setFillColor(_graphics->animation->selected_colour);
@@ -542,13 +558,13 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 
 		action_c.y += _display->window->get_ch();
 
-		enabled = _mode == CharacterMode::IN_CASTLE || _mode == CharacterMode::IN_MAZE;
+		enabled = _mode == AT_CASTLE || _mode == IN_MAZE;
 		auto equip_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_EQUIP"])};
-		action_menu_texts[MenuItem::C_ACTION_EQUIP] = equip_text;
+		action_menu_texts[C_ACTION_EQUIP] = equip_text;
 		if (enabled) {
 			auto equip_hl_bounds{equip_text->getGlobalBounds()};
-			action_menu_bounds[MenuItem::C_ACTION_EQUIP] = equip_hl_bounds;
-			if (_hl_action_item == MenuItem::C_ACTION_EQUIP) {
+			action_menu_bounds[C_ACTION_EQUIP] = equip_hl_bounds;
+			if (_hl_action_item == C_ACTION_EQUIP) {
 				sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), equip_hl_bounds.height));
 				bg.setPosition(equip_hl_bounds.left, equip_hl_bounds.top);
 				bg.setFillColor(_graphics->animation->selected_colour);
@@ -565,14 +581,14 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 		action_c.x = action_x + (offset_x_small * _display->window->get_cw());
 		action_c.y = action_y;
 
-		enabled = _mode == CharacterMode::IN_CASTLE || _mode == CharacterMode::IN_MAZE;
+		enabled = _mode == AT_CASTLE || _mode == IN_MAZE;
 		auto trade_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_TRADE"])};
-		action_menu_texts[MenuItem::C_ACTION_TRADE] = trade_text;
+		action_menu_texts[C_ACTION_TRADE] = trade_text;
 
 		if (enabled) {
 			auto trade_hl_bounds{trade_text->getGlobalBounds()};
-			action_menu_bounds[MenuItem::C_ACTION_TRADE] = trade_hl_bounds;
-			if (_hl_action_item == MenuItem::C_ACTION_TRADE) {
+			action_menu_bounds[C_ACTION_TRADE] = trade_hl_bounds;
+			if (_hl_action_item == C_ACTION_TRADE) {
 				sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), trade_hl_bounds.height));
 				bg.setPosition(trade_hl_bounds.left, trade_hl_bounds.top);
 				bg.setFillColor(_graphics->animation->selected_colour);
@@ -588,13 +604,13 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 
 		action_c.y += _display->window->get_ch();
 
-		enabled = _mode == CharacterMode::IN_CASTLE || _mode == CharacterMode::IN_MAZE;
+		enabled = _mode == AT_CASTLE || _mode == IN_MAZE;
 		auto drop_text{_add_text(action_c, "{:5}", (*_display->string)["C_ACTION_DROP"])};
-		action_menu_texts[MenuItem::C_ACTION_DROP] = drop_text;
+		action_menu_texts[C_ACTION_DROP] = drop_text;
 		if (enabled) {
 			auto drop_hl_bounds{drop_text->getGlobalBounds()};
-			action_menu_bounds[MenuItem::C_ACTION_DROP] = drop_hl_bounds;
-			if (_hl_action_item == MenuItem::C_ACTION_DROP) {
+			action_menu_bounds[C_ACTION_DROP] = drop_hl_bounds;
+			if (_hl_action_item == C_ACTION_DROP) {
 				sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), drop_hl_bounds.height));
 				bg.setPosition(drop_hl_bounds.left, drop_hl_bounds.top);
 				bg.setFillColor(_graphics->animation->selected_colour);
@@ -611,13 +627,13 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 		action_c.x = action_c.x + (offset_x_small * _display->window->get_cw());
 		action_c.y = action_y;
 
-		enabled = _mode == CharacterMode::IN_CASTLE || _mode == CharacterMode::IN_MAZE;
+		enabled = _mode == AT_CASTLE || _mode == IN_MAZE;
 		auto pool_text{_add_text(action_c, "{:<9}", (*_display->string)["C_ACTION_POOL"])};
-		action_menu_texts[MenuItem::C_ACTION_POOL] = pool_text;
+		action_menu_texts[C_ACTION_POOL] = pool_text;
 		if (enabled) {
 			auto pool_hl_bounds{pool_text->getGlobalBounds()};
-			action_menu_bounds[MenuItem::C_ACTION_POOL] = pool_hl_bounds;
-			if (_hl_action_item == MenuItem::C_ACTION_POOL) {
+			action_menu_bounds[C_ACTION_POOL] = pool_hl_bounds;
+			if (_hl_action_item == C_ACTION_POOL) {
 				sf::RectangleShape bg(sf::Vector2f(width_big * _display->window->get_cw(), pool_hl_bounds.height));
 				bg.setPosition(pool_hl_bounds.left, pool_hl_bounds.top);
 				bg.setFillColor(_graphics->animation->selected_colour);
@@ -633,13 +649,13 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 
 		action_c.y += _display->window->get_ch();
 
-		enabled = _mode == CharacterMode::IN_MAZE;
+		enabled = _mode == IN_MAZE;
 		auto identify_text{_add_text(action_c, "{:9}", (*_display->string)["C_ACTION_IDENTIFY"])};
-		action_menu_texts[MenuItem::C_ACTION_IDENTIFY] = identify_text;
+		action_menu_texts[C_ACTION_IDENTIFY] = identify_text;
 		if (enabled) {
 			auto identify_hl_bounds{identify_text->getGlobalBounds()};
-			action_menu_bounds[MenuItem::C_ACTION_IDENTIFY] = identify_hl_bounds;
-			if (_hl_action_item == MenuItem::C_ACTION_IDENTIFY) {
+			action_menu_bounds[C_ACTION_IDENTIFY] = identify_hl_bounds;
+			if (_hl_action_item == C_ACTION_IDENTIFY) {
 				sf::RectangleShape bg(sf::Vector2f(width_big * _display->window->get_cw(), identify_hl_bounds.height));
 				bg.setPosition(identify_hl_bounds.left, identify_hl_bounds.top);
 				bg.setFillColor(_graphics->animation->selected_colour);
@@ -656,14 +672,14 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 		action_c.x = action_c.x + (offset_x_big * _display->window->get_cw());
 		action_c.y = action_y;
 
-		enabled = _mode == CharacterMode::IN_MAZE;
+		enabled = _mode == IN_MAZE;
 		auto spell_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_SPELL"])};
-		action_menu_texts[MenuItem::C_ACTION_SPELL] = spell_text;
+		action_menu_texts[C_ACTION_SPELL] = spell_text;
 
 		if (enabled) {
 			auto spell_hl_bounds{spell_text->getGlobalBounds()};
-			action_menu_bounds[MenuItem::C_ACTION_SPELL] = spell_hl_bounds;
-			if (_hl_action_item == MenuItem::C_ACTION_SPELL) {
+			action_menu_bounds[C_ACTION_SPELL] = spell_hl_bounds;
+			if (_hl_action_item == C_ACTION_SPELL) {
 				sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), spell_hl_bounds.height));
 				bg.setPosition(spell_hl_bounds.left, spell_hl_bounds.top);
 				bg.setFillColor(_graphics->animation->selected_colour);
@@ -679,13 +695,13 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 
 		action_c.y += _display->window->get_ch();
 
-		enabled = _mode == CharacterMode::IN_MAZE;
+		enabled = _mode == IN_MAZE;
 		auto use_text{_add_text(action_c, "{:5}", (*_display->string)["C_ACTION_USE"])};
-		action_menu_texts[MenuItem::C_ACTION_USE] = use_text;
+		action_menu_texts[C_ACTION_USE] = use_text;
 		if (enabled) {
 			auto use_hl_bounds{use_text->getGlobalBounds()};
-			action_menu_bounds[MenuItem::C_ACTION_USE] = use_hl_bounds;
-			if (_hl_action_item == MenuItem::C_ACTION_USE) {
+			action_menu_bounds[C_ACTION_USE] = use_hl_bounds;
+			if (_hl_action_item == C_ACTION_USE) {
 				sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), use_hl_bounds.height));
 				bg.setPosition(use_hl_bounds.left, use_hl_bounds.top);
 				bg.setFillColor(_graphics->animation->selected_colour);
@@ -702,13 +718,13 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 		action_c.x = action_c.x + (offset_x_small * _display->window->get_cw());
 		action_c.y = action_y;
 
-		enabled = _mode == CharacterMode::IN_CASTLE || _mode == CharacterMode::IN_MAZE;
+		enabled = _mode == AT_CASTLE || _mode == IN_MAZE;
 		auto next_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_NEXT"])};
-		action_menu_texts[MenuItem::C_ACTION_NEXT] = next_text;
+		action_menu_texts[C_ACTION_NEXT] = next_text;
 		if (enabled) {
 			auto next_hl_bounds{next_text->getGlobalBounds()};
-			action_menu_bounds[MenuItem::C_ACTION_NEXT] = next_hl_bounds;
-			if (_hl_action_item == MenuItem::C_ACTION_NEXT) {
+			action_menu_bounds[C_ACTION_NEXT] = next_hl_bounds;
+			if (_hl_action_item == C_ACTION_NEXT) {
 				sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), next_hl_bounds.height));
 				bg.setPosition(next_hl_bounds.left, next_hl_bounds.top);
 				bg.setFillColor(_graphics->animation->selected_colour);
@@ -725,13 +741,13 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 		action_c.y += _display->window->get_ch();
 
 		enabled = true;
-		enabled = _mode == CharacterMode::IN_CASTLE || _mode == CharacterMode::IN_MAZE;
+		enabled = _mode == AT_CASTLE || _mode == IN_MAZE;
 		auto leave_text{_add_text(action_c, "{:<5}", (*_display->string)["C_ACTION_LEAVE"])};
-		action_menu_texts[MenuItem::C_ACTION_LEAVE] = leave_text;
+		action_menu_texts[C_ACTION_LEAVE] = leave_text;
 		if (enabled) {
 			auto leave_hl_bounds{leave_text->getGlobalBounds()};
-			action_menu_bounds[MenuItem::C_ACTION_LEAVE] = leave_hl_bounds;
-			if (_hl_action_item == MenuItem::C_ACTION_LEAVE) {
+			action_menu_bounds[C_ACTION_LEAVE] = leave_hl_bounds;
+			if (_hl_action_item == C_ACTION_LEAVE) {
 				sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), leave_hl_bounds.height));
 				bg.setPosition(leave_hl_bounds.left, leave_hl_bounds.top);
 				bg.setFillColor(_graphics->animation->selected_colour);
@@ -890,6 +906,7 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 		luck_c.y += _display->window->get_ch();
 		luck_c.colour = _graphics->adjust_colour(_character->abilities().at(EQUIPMENT_INTACT_ON_WIPE), PERCENTAGE);
 		_add_text(luck_c, "{:>2}%", std::to_string(_character->abilities().at(EQUIPMENT_INTACT_ON_WIPE)));
+
 	} else if (_view == RESISTANCES) {
 
 		_display->generate("character_resistances", _v_sprites, _v_texts, _v_frames);
@@ -954,7 +971,8 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 		resistances_c.y += _display->window->get_ch();
 		resistances_c.colour = _graphics->adjust_colour(_character->abilities().at(RESISTANCE_VS_MANIFO), PERCENTAGE);
 		_add_text(resistances_c, "{:>2}%", std::to_string(_character->abilities().at(RESISTANCE_VS_MANIFO)));
-	} else if (_view == CharacterView::MAGE_SPELLS) {
+
+	} else if (_view == MAGE_SPELLS) {
 
 		_display->generate("character_mage_spells", _v_sprites, _v_texts, _v_frames);
 
@@ -974,7 +992,7 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 			spell_name_c.y = level_c.y + _display->window->get_ch();
 
 			auto spells{_character->spells() | std::views::filter([&](Spell spell) {
-				return (spell.type == SpellType::MAGE) && (static_cast<int>(spell.level) == level);
+				return (spell.type == MAGE) && (static_cast<int>(spell.level) == level);
 			})};
 			for (auto spell : spells) {
 
@@ -1063,7 +1081,7 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 			spell_name_c.y = level_c.y + _display->window->get_ch();
 
 			auto spells{_character->spells() | std::views::filter([&](Spell spell) {
-				return (spell.type == SpellType::PRIEST) && (static_cast<int>(spell.level) == level);
+				return (spell.type == PRIEST) && (static_cast<int>(spell.level) == level);
 			})};
 			for (auto spell : spells) {
 

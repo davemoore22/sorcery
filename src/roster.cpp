@@ -174,7 +174,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 								_cur_char = &_game->characters[character_chosen];
 								_character_display->set(_cur_char.value());
 								if (_cur_char) {
-									_character_display->set_mode(CharacterMode::IN_TRAINING);
+									_character_display->set_mode(CharacterMode::AT_TRAINING);
 									_display->set_input_mode(WindowInputMode::BROWSE_CHARACTER);
 									_character_display->set_view(CharacterView::SUMMARY);
 								}

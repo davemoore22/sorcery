@@ -166,7 +166,7 @@ namespace Enums::Window {
 	};
 
 	enum class ComponentType {
-		NO_TYPE,
+		NO_COMPONENT_TYPE,
 		IMAGE,
 		TEXT,
 		MENU,
@@ -190,7 +190,7 @@ namespace Enums::Window {
 	};
 
 	enum class DialogType {
-		NO_TYPE,
+		NO_DIALOG_TYPE,
 		TIMED,
 		OK,
 		CONFIRM,
@@ -256,7 +256,7 @@ namespace Enums::Graphics {
 	};
 
 	enum class TextureType {
-		NO_TYPE,
+		NO_TEXTURE_TYPE,
 		AUTOMAP,
 		WALL,
 		FLOOR,
@@ -281,7 +281,7 @@ namespace Enums::Internal {
 	};
 
 	enum class MessageType {
-		NO_TYPE,
+		NO_MESSAGE_TYPE,
 		STANDARD,
 		ALERT,
 		WARNING,
@@ -295,7 +295,7 @@ namespace Enums::Internal {
 namespace Enums::Magic {
 
 	enum class SpellType {
-		NO_TYPE,
+		NO_SPELL_TYPE,
 		MAGE,
 		PRIEST
 	};
@@ -467,8 +467,8 @@ namespace Enums::Character {
 	enum class Mode {
 		NO_MODE = -1,
 		IN_MAZE,
-		IN_CASTLE,
-		IN_TRAINING,
+		AT_CASTLE,
+		AT_TRAINING,
 		IN_CREATE
 	};
 
@@ -558,7 +558,7 @@ namespace Enums::Character {
 	};
 
 	enum class Ability_Type {
-		NO_TYPE,
+		NO_ABILITY_TYPE,
 		NUMBER,
 		MODIFIER,
 		PERCENTAGE,
@@ -769,7 +769,7 @@ namespace Enums::Menu {
 
 	// Menu Items
 	enum class Item {
-		NO_ITEM,
+		NO_MENU_ITEM,
 		ABORT,
 		CANCEL,
 		GO_BACK,
@@ -931,7 +931,7 @@ namespace Enums::Menu {
 
 	// Menu Items
 	enum class ItemType {
-		NO_TYPE,
+		NO_MENU_ITEM_TYPE,
 		ENTRY,
 		TITLE,
 		SEPARATOR,
@@ -1080,7 +1080,7 @@ namespace Enums {
 		};
 
 		enum class DoorType {
-			NO_TYPE = 0,
+			NO_DOOR_TYPE = 0,
 			NORMAL = 1,
 			LOCKED = 2
 		};

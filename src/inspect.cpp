@@ -299,7 +299,7 @@ auto Sorcery::Inspect::_draw() -> void {
 			if (_mode == CAMP)
 				_character_display->set_mode(CharacterMode::IN_MAZE);
 			else
-				_character_display->set_mode(CharacterMode::IN_CASTLE);
+				_character_display->set_mode(CharacterMode::AT_CASTLE);
 
 			_character_display->setPosition(
 				(*_display->layout)[_screen_key + ":character"].x, (*_display->layout)[_screen_key + ":character"].y);

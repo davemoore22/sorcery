@@ -34,8 +34,8 @@ namespace Sorcery {
 // Struct to represent a menu entry
 struct MenuEntry {
 		MenuEntry()
-			: index{0}, type{Enums::Menu::ItemType::NO_TYPE}, item{Enums::Menu::Item::NO_ITEM}, key{}, enabled{false},
-			  config{Enums::Options::NONE}, hint{} {};
+			: index{0}, type{Enums::Menu::ItemType::NO_MENU_ITEM_TYPE}, item{Enums::Menu::Item::NO_MENU_ITEM}, key{},
+			  enabled{false}, config{Enums::Options::NONE}, hint{} {};
 		MenuEntry(unsigned int index_, Enums::Menu::ItemType type_, Enums::Menu::Item item_, std::string key_,
 			bool enabled_, Enums::Options config_, std::string hint_)
 			: index{index_}, type{type_}, item{item_}, key{key_}, enabled{enabled_}, config{config_}, hint{hint_} {};
@@ -72,7 +72,7 @@ struct GameEntry {
 
 // Struct to represent an icon
 struct Icon {
-		Icon() : index{0}, item{Enums::Menu::Item::NO_ITEM}, key{}, filename{}, colour{} {};
+		Icon() : index{0}, item{Enums::Menu::Item::NO_MENU_ITEM}, key{}, filename{}, colour{} {};
 		Icon(unsigned int index_, Enums::Menu::Item item_, std::string key_, std::string filename_, sf::Color colour_)
 			: index{index_}, item{item_}, key{key_}, filename{filename_}, colour{colour_} {};
 
@@ -296,7 +296,7 @@ struct Rect {
 struct Spell {
 
 		Spell()
-			: id{Enums::Magic::SpellID::NO_SPELL}, type{Enums::Magic::SpellType::NO_TYPE},
+			: id{Enums::Magic::SpellID::NO_SPELL}, type{Enums::Magic::SpellType::NO_SPELL_TYPE},
 			  category{Enums::Magic::SpellCategory::NO_CATEGORY}, level{0}, known{false}, name{""}, translated_name{""},
 			  details{""} {};
 		Spell(Enums::Magic::SpellID id_, Enums::Magic::SpellType type_, Enums::Magic::SpellCategory category_,
@@ -339,7 +339,7 @@ struct Door {
 		bool secret;
 		int gfx;
 
-		Door() : type{Enums::Tile::DoorType::NO_TYPE}, secret{false}, gfx{-1} {};
+		Door() : type{Enums::Tile::DoorType::NO_DOOR_TYPE}, secret{false}, gfx{-1} {};
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
