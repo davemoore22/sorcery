@@ -5934,6 +5934,18 @@
 		"name": "character_detailed",
 		"component": [
 			{
+				"name": "character_frame_1",
+				"w": "40",
+				"h": "21",
+				"x": "0",
+				"y": "0",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic",
+				"background": " 0x000000ff"
+			},
+			{
 				"name": "name_and_summary_text",
 				"x": "1",
 				"y": "1",
@@ -6780,6 +6792,18 @@
 		"name": "character_resistances",
 		"component": [
 			{
+				"name": "character_frame_1",
+				"w": "40",
+				"h": "21",
+				"x": "0",
+				"y": "0",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic",
+				"background": " 0x000000ff"
+			},
+			{
 				"name": "name_and_summary_text",
 				"x": "1",
 				"y": "1",
@@ -7076,6 +7100,18 @@
 		"name": "character_mage_spells",
 		"component": [
 			{
+				"name": "character_frame_1",
+				"w": "40",
+				"h": "21",
+				"x": "0",
+				"y": "0",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic",
+				"background": " 0x000000ff"
+			},
+			{
 				"name": "name_and_summary_text",
 				"x": "1",
 				"y": "1",
@@ -7209,6 +7245,18 @@
 	{
 		"name": "character_priest_spells",
 		"component": [
+			{
+				"name": "character_frame_1",
+				"w": "40",
+				"h": "21",
+				"x": "0",
+				"y": "0",
+				"alpha": "255",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic",
+				"background": " 0x000000ff"
+			},
 			{
 				"name": "name_and_summary_text",
 				"x": "1",

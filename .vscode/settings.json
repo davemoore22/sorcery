@@ -135,13 +135,13 @@
 	"[applescript]": {
 		"files.encoding": "utf8"
 	},
-	"editor.fontSize": 14,
+	"editor.fontSize": 16,
 	"editor.fontLigatures": true,
 	"C_Cpp.errorSquiggles": "enabled",
 	"csharp.suppressDotnetInstallWarning": true,
 	"sonarlint.pathToCompileCommands": "/home/dave/Development/wizardry/sorcery-sfml/compile_commands.json",
-	"editor.fontFamily": "Monaco,'ProggyVector', 'Droid Sans Mono', 'monospace', monospace",
 	"editor.wordWrapColumn": 120,
 	"C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
-	"C_Cpp.default.compilerPath": "linux-gcc-x64"
+	"C_Cpp.default.compilerPath": "linux-gcc-x64",
+	"editor.fontFamily": "'Comic Mono','Hack Nerd Font Mono', Monaco,'ProggyVector', 'Droid Sans Mono', 'monospace', monospace"
 }

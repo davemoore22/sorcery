@@ -2622,6 +2622,7 @@ auto Sorcery::Character::summary_text() -> std::string {
 	auto legacy{_legated ? " (D)" : ""};
 	switch (_current_stage) {
 	case CHOOSE_METHOD:
+		[[fallthrough]];
 	case ENTER_NAME:
 		return fmt::format("{:<15} L ?? ?-??? ???", "???");
 		break;
@@ -2644,6 +2645,7 @@ auto Sorcery::Character::summary_text() -> std::string {
 			alignment_to_string(_alignment).substr(0, 1), class_to_string(_class).substr(0, 3), race_to_string(_race));
 		break;
 	case REVIEW_AND_CONFIRM:
+		[[fallthrough]];
 	case COMPLETED:
 		return fmt::format("{} L {:>2} {}-{} {}{}", name, _abilities.at(CURRENT_LEVEL),
 			alignment_to_string(_alignment).substr(0, 1), class_to_string(_class).substr(0, 3), race_to_string(_race),
