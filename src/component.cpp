@@ -252,6 +252,16 @@ auto Sorcery::Component::get_visible() -> bool {
 	return _visible;
 }
 
+auto Sorcery::Component::pos() const -> sf::Vector2f {
+
+	return {static_cast<float>(x), static_cast<float>(y)};
+}
+
+auto Sorcery::Component::scl() const -> sf::Vector2f {
+
+	return {scale, scale};
+}
+
 auto Sorcery::Component::_get(std::string_view key) const -> std::optional<std::string> {
 
 	if (_data.capacity() == 0)

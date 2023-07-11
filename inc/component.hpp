@@ -61,6 +61,8 @@ class Component {
 		auto set_visible(bool value) -> void;
 		auto get_visible() -> bool;
 		auto id() const -> long;
+		auto pos() const -> sf::Vector2f;
+		auto scl() const -> sf::Vector2f;
 
 		// Public Members
 		std::string screen;

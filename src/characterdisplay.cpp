@@ -47,7 +47,7 @@ Sorcery::CharacterDisplay::CharacterDisplay(System *system, Display *display, Gr
 	action_menu_bounds.clear();
 
 	_spell_panel = std::make_shared<SpellPanel>(_system, _display, _graphics);
-	_spell_panel->setPosition((*_display->layout)["global:spell_panel"].x, (*_display->layout)["global:spell_panel"].y);
+	_spell_panel->setPosition((*_display->layout)["global:spell_panel"].pos());
 
 	_mode = CharacterMode::NO_MODE;
 	_character = nullptr;
@@ -184,30 +184,23 @@ auto Sorcery::CharacterDisplay::_generate_summary_icons() -> void {
 	using enum Enums::Character::Stage;
 
 	auto class_icon{get_icon(CHOOSE_CLASS).value()};
-	class_icon.setPosition(
-		(*_display->layout)["character:class_icon"].x, (*_display->layout)["character:class_icon"].y);
-	class_icon.setScale(
-		(*_display->layout)["character:class_icon"].scale, (*_display->layout)["character:class_icon"].scale);
+	class_icon.setPosition((*_display->layout)["character:class_icon"].pos());
+	class_icon.setScale((*_display->layout)["character:class_icon"].scl());
 	_v_sprites.try_emplace((*_display->layout)["character:class_icon"].unique_key, class_icon);
 
 	auto race_icon{get_icon(CHOOSE_RACE).value()};
-	race_icon.setPosition((*_display->layout)["character:race_icon"].x, (*_display->layout)["character:race_icon"].y);
-	race_icon.setScale(
-		(*_display->layout)["character:race_icon"].scale, (*_display->layout)["character:race_icon"].scale);
+	race_icon.setPosition((*_display->layout)["character:race_icon"].pos());
+	race_icon.setScale((*_display->layout)["character:race_icon"].scl());
 	_v_sprites.try_emplace((*_display->layout)["character:race_icon"].unique_key, race_icon);
 
 	auto alignment_icon{get_icon(CHOOSE_ALIGNMENT).value()};
-	alignment_icon.setPosition(
-		(*_display->layout)["character:alignment_icon"].x, (*_display->layout)["character:alignment_icon"].y);
-	alignment_icon.setScale(
-		(*_display->layout)["character:alignment_icon"].scale, (*_display->layout)["character:alignment_icon"].scale);
+	alignment_icon.setPosition((*_display->layout)["character:alignment_icon"].pos());
+	alignment_icon.setScale((*_display->layout)["character:alignment_icon"].scl());
 	_v_sprites.try_emplace((*_display->layout)["character:alignment_icon"].unique_key, alignment_icon);
 
 	auto level_icon{(*_graphics->icons)["level"].value()};
-	level_icon.setPosition(
-		(*_display->layout)["character:level_icon"].x, (*_display->layout)["character:level_icon"].y);
-	level_icon.setScale(
-		(*_display->layout)["character:level_icon"].scale, (*_display->layout)["character:level_icon"].scale);
+	level_icon.setPosition((*_display->layout)["character:level_icon"].pos());
+	level_icon.setScale((*_display->layout)["character:level_icon"].scl());
 	_v_sprites.try_emplace((*_display->layout)["character:level_icon"].unique_key, level_icon);
 
 	_add_text((*_display->layout)["character:level_text"], "{}",
@@ -235,7 +228,7 @@ auto Sorcery::CharacterDisplay::_add_icon(Component &component, std::string icon
 			return 0;
 	}()};
 	icon.setPosition(component.x + offset_x, component.y + offset_y);
-	icon.setScale(component.scale, component.scale);
+	icon.setScale(component.scl());
 	_v_sprites.try_emplace(component.unique_key, icon);
 }
 
@@ -1023,7 +1016,7 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 				Component spell_icon_c{(*_display->layout)["character_mage_spells:spell_icon"]};
 				auto spell_icon{_get_spell_icon(spell.category)};
 				if (spell_icon) {
-					spell_icon.value().setScale(spell_icon_c.scale, spell_icon_c.scale);
+					spell_icon.value().setScale(spell_icon_c.scl());
 					const auto offset_x{[&] {
 						if (spell_icon_c["offset_x"])
 							return std::stoi(spell_icon_c["offset_x"].value());
@@ -1112,7 +1105,7 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 				Component spell_icon_c{(*_display->layout)["character_mage_spells:spell_icon"]};
 				auto spell_icon{_get_spell_icon(spell.category)};
 				if (spell_icon) {
-					spell_icon.value().setScale(spell_icon_c.scale, spell_icon_c.scale);
+					spell_icon.value().setScale(spell_icon_c.scl());
 					const auto offset_x{[&] {
 						if (spell_icon_c["offset_x"])
 							return std::stoi(spell_icon_c["offset_x"].value());
