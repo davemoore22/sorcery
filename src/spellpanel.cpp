@@ -64,8 +64,8 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 		break;
 	}
 
-	_icon.setScale(icon_c.scale, icon_c.scale);
-	_icon.setPosition(icon_c.x, icon_c.y);
+	_icon.setScale(icon_c.scl());
+	_icon.setPosition(icon_c.pos());
 	if (spell.known)
 		_icon.setColor(sf::Color(std::stoull(icon_c["known_colour"].value(), 0, 16)));
 	else
@@ -79,7 +79,7 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 	name_text.setCharacterSize(name_c.size);
 	name_text.setFillColor(sf::Color(name_c.colour));
 	name_text.setString(name);
-	name_text.setPosition(name_c.x, name_c.y);
+	name_text.setPosition(name_c.pos());
 	if (_display->get_bold())
 		name_text.setStyle(sf::Text::Bold);
 	_texts.push_back(name_text);
@@ -94,7 +94,7 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 	summary_text.setCharacterSize(summary_c.size);
 	summary_text.setFillColor(sf::Color(summary_c.colour));
 	summary_text.setString(summary);
-	summary_text.setPosition(summary_c.x, summary_c.y);
+	summary_text.setPosition(summary_c.pos());
 	if (_display->get_bold())
 		summary_text.setStyle(sf::Text::Bold);
 	_texts.push_back(summary_text);

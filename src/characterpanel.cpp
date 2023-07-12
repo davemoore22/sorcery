@@ -53,31 +53,27 @@ auto Sorcery::CharacterPanel::set(Character *character) -> void {
 
 	Component p_c{(*_display->layout)["character_panel:portrait"]};
 	_display->window->set_pos(&p_c, &portrait);
-	portrait.setScale(p_c.scale, p_c.scale);
+	portrait.setScale(p_c.scl());
 	_portrait = portrait;
 
 	auto class_icon{_get_icon(CharacterStage::CHOOSE_CLASS).value()};
 	_display->window->set_pos(&((*_display->layout)["character_panel:class_icon"]), &class_icon);
-	class_icon.setScale((*_display->layout)["character_panel:class_icon"].scale,
-		(*_display->layout)["character_panel:class_icon"].scale);
+	class_icon.setScale((*_display->layout)["character_panel:class_icon"].scl());
 	_icons.push_back(class_icon);
 
 	auto race_icon{_get_icon(CharacterStage::CHOOSE_RACE).value()};
 	_display->window->set_pos(&((*_display->layout)["character_panel:race_icon"]), &race_icon);
-	race_icon.setScale(
-		(*_display->layout)["character_panel:race_icon"].scale, (*_display->layout)["character_panel:race_icon"].scale);
+	race_icon.setScale((*_display->layout)["character_panel:race_icon"].scl());
 	_icons.push_back(race_icon);
 
 	auto alignment_icon{_get_icon(CharacterStage::CHOOSE_ALIGNMENT).value()};
 	_display->window->set_pos(&((*_display->layout)["character_panel:alignment_icon"]), &alignment_icon);
-	alignment_icon.setScale((*_display->layout)["character_panel:alignment_icon"].scale,
-		(*_display->layout)["character_panel:alignment_icon"].scale);
+	alignment_icon.setScale((*_display->layout)["character_panel:alignment_icon"].scl());
 	_icons.push_back(alignment_icon);
 
 	auto level_icon{(*_graphics->icons)["level"].value()};
 	_display->window->set_pos(&((*_display->layout)["character_panel:level_icon"]), &level_icon);
-	level_icon.setScale((*_display->layout)["character_panel:level_icon"].scale,
-		(*_display->layout)["character_panel:level_icon"].scale);
+	level_icon.setScale((*_display->layout)["character_panel:level_icon"].scl());
 	_icons.push_back(level_icon);
 
 	Component name_c{(*_display->layout)["character_panel:name_text"]};

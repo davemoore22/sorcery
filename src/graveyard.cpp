@@ -70,7 +70,7 @@ auto Sorcery::Graveyard::start() -> std::optional<MenuItem> {
 								GraphicsTextureType::EVENTS)
 							.value()};
 		gravestone.setPosition(gs_x + (inc_x * i), gs_y + (inc_y * i));
-		gravestone.setScale(gs_c.scale, gs_c.scale);
+		gravestone.setScale(gs_c.scl());
 		_sprites.emplace_back(gravestone);
 	}
 

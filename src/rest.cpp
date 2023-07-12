@@ -94,7 +94,7 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
 
 	const Component results_c{(*_display->layout)["rest:results_panel"]};
-	_results->setPosition((*_display->layout)["rest:results_panel"].x, (*_display->layout)["rest:results_panel"].y);
+	_results->setPosition((*_display->layout)["rest:results_panel"].pos());
 
 	// Start at the Regen
 	_stage = RestStage::REGEN;

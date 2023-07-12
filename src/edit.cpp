@@ -241,8 +241,7 @@ auto Sorcery::Edit::_draw() -> void {
 	// Character Preview
 	_window->draw(*_preview_frame);
 	if (_char_panel->valid) {
-		_char_panel->setPosition(
-			(*_display->layout)["character_edit:info_panel"].x, (*_display->layout)["character_edit:info_panel"].y);
+		_char_panel->setPosition((*_display->layout)["character_edit:info_panel"].pos());
 		_window->draw(*_char_panel);
 	}
 

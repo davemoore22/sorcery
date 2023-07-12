@@ -269,7 +269,7 @@ auto Sorcery::MainMenu::_draw() -> void {
 		// Generate and draw the Attract Mode Graphics
 		Component attract_creatures_c{(*_display->layout)["main_menu_attract:attract_creatures"]};
 		_attract_mode->generate();
-		_attract_mode->setScale(attract_creatures_c.scale, attract_creatures_c.scale);
+		_attract_mode->setScale(attract_creatures_c.scl());
 		_attract_mode->set_alpha(_graphics->animation->attract_alpha);
 
 		// Horrible - but needed since the size of the Attract Mode Graphics are variable

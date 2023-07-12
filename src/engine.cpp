@@ -319,22 +319,21 @@ auto Sorcery::Engine::_place_components() -> void {
 
 	// Generate the Custom Components
 	if (_show_gui)
-		_party_panel->setPosition((*_display->layout)["engine_base_ui:party_panel_small"].x,
-			(*_display->layout)["engine_base_ui:party_panel_small"].y);
+		_party_panel->setPosition((*_display->layout)["engine_base_ui:party_panel_small"].pos());
 	else
 		_party_panel->setPosition(
 			_display->get_centre_x(_party_panel->width), (*_display->layout)["engine_base_ui:party_panel_big"].y);
 
 	const Component automap_c{(*_display->layout)["global:automap"]};
-	_automap->setPosition(automap_c.x, automap_c.y);
+	_automap->setPosition(automap_c.pos());
 	const Component compass_c{(*_display->layout)["global:compass"]};
-	_compass->setPosition(compass_c.x, compass_c.y);
+	_compass->setPosition(compass_c.pos());
 	const Component buffbar_c{(*_display->layout)["global:buffbar"]};
-	_buffbar->setPosition(buffbar_c.x, buffbar_c.y);
+	_buffbar->setPosition(buffbar_c.pos());
 	const Component debuffbar_c{(*_display->layout)["global:debuffbar"]};
-	_debuffbar->setPosition(debuffbar_c.x, debuffbar_c.y);
+	_debuffbar->setPosition(debuffbar_c.pos());
 	const Component search_c{(*_display->layout)["global:search"]};
-	_search->setPosition(search_c.x, search_c.y);
+	_search->setPosition(search_c.pos());
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnarrowing"
@@ -342,12 +341,12 @@ auto Sorcery::Engine::_place_components() -> void {
 #pragma GCC diagnostic pop
 
 	const Component l_icon_panel_c{(*_display->layout)["engine_base_ui:left_icon_panel"]};
-	_left_icon_panel->setPosition(l_icon_panel_c.x, l_icon_panel_c.y);
+	_left_icon_panel->setPosition(l_icon_panel_c.pos());
 	const Component r_icon_panel_c{(*_display->layout)["engine_base_ui:right_icon_panel"]};
-	_right_icon_panel->setPosition(r_icon_panel_c.x, r_icon_panel_c.y);
+	_right_icon_panel->setPosition(r_icon_panel_c.pos());
 
 	const Component map_c{(*_display->layout)["engine_base_ui:map"]};
-	_map->setPosition(map_c.x, map_c.y);
+	_map->setPosition(map_c.pos());
 
 	const Component cc_fc{(*_display->layout)["engine_base_ui:character_frame"]};
 	_cur_char_frame =
@@ -2657,8 +2656,7 @@ auto Sorcery::Engine::_draw() -> void {
 
 			// If we have a character
 			_window->draw(*_cur_char_frame);
-			_character_display->setPosition(
-				(*_display->layout)["engine_base_ui:character"].x, (*_display->layout)["engine_base_ui:character"].y);
+			_character_display->setPosition((*_display->layout)["engine_base_ui:character"].pos());
 			_character_display->update();
 			_window->draw(*_character_display);
 		}

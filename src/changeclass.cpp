@@ -259,8 +259,7 @@ auto Sorcery::ChangeClass::_draw() -> void {
 	_window->draw(*_menu);
 
 	if (_ip->valid) {
-		_ip->setPosition(
-			(*_display->layout)["change_class:info_panel"].x, (*_display->layout)["change_class:info_panel"].y);
+		_ip->setPosition((*_display->layout)["change_class:info_panel"].pos());
 		_window->draw(*_ip);
 	}
 

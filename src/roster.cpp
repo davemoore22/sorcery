@@ -317,15 +317,13 @@ auto Sorcery::Roster::_draw() -> void {
 			// Character Preview
 			_window->draw(*_preview_frame);
 			if (_char_panel->valid) {
-				_char_panel->setPosition(
-					(*_display->layout)["roster:info_panel"].x, (*_display->layout)["roster:info_panel"].y);
+				_char_panel->setPosition((*_display->layout)["roster:info_panel"].pos());
 				_window->draw(*_char_panel);
 			}
 
 			// If we have a character
 			_window->draw(*_cur_char_frame);
-			_character_display->setPosition(
-				(*_display->layout)[_screen_key + ":character"].x, (*_display->layout)[_screen_key + ":character"].y);
+			_character_display->setPosition((*_display->layout)[_screen_key + ":character"].pos());
 			_character_display->update();
 			_window->draw(*_character_display);
 		}
@@ -337,15 +335,13 @@ auto Sorcery::Roster::_draw() -> void {
 
 		// And the Menu
 		_menu->generate((*_display->layout)[_screen_key + ":menu"]);
-		const sf::Vector2f menu_pos(
-			(*_display->layout)[_screen_key + ":menu"].x, (*_display->layout)[_screen_key + ":menu"].y);
+		const sf::Vector2f menu_pos((*_display->layout)[_screen_key + ":menu"].pos());
 		_menu->setPosition(menu_pos);
 		_window->draw(*_menu);
 
 		// Character Preview
 		if (_char_panel->valid) {
-			_char_panel->setPosition(
-				(*_display->layout)["roster:info_panel"].x, (*_display->layout)["roster:info_panel"].y);
+			_char_panel->setPosition((*_display->layout)["roster:info_panel"].pos());
 			_window->draw(*_char_panel);
 		}
 
@@ -365,8 +361,7 @@ auto Sorcery::Roster::_draw() -> void {
 
 		// Character Preview
 		if (_char_panel->valid) {
-			_char_panel->setPosition(
-				(*_display->layout)["roster:info_panel"].x, (*_display->layout)["roster:info_panel"].y);
+			_char_panel->setPosition((*_display->layout)["roster:info_panel"].pos());
 			_window->draw(*_char_panel);
 		}
 	}

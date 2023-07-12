@@ -58,8 +58,7 @@ Sorcery::ChangeName::~ChangeName() {
 
 auto Sorcery::ChangeName::start() -> std::optional<std::string> {
 
-	_keyboard->setPosition(
-		(*_display->layout)["change_name:keyboard"].x, (*_display->layout)["change_name:keyboard"].y);
+	_keyboard->setPosition((*_display->layout)["change_name:keyboard"].pos());
 
 	const Component name_c{(*_display->layout)["change_name:name_candidate"]};
 

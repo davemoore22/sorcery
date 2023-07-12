@@ -117,7 +117,7 @@ auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, s
 							return 0;
 					}()};
 					image.setPosition(component.x + offset_x, component.y + offset_y);
-					image.setScale(component.scale, component.scale);
+					image.setScale(component.scl());
 
 					if (component.colour != 0ULL)
 						image.setColor(sf::Color(component.colour));
@@ -434,8 +434,8 @@ auto Sorcery::Display::display_direction_indicator(MapDirection direction, bool 
 			(indicator.getGlobalBounds().height / 2) + di_layout.y + offset_y);
 		backdrop.setPosition((indicator.getGlobalBounds().width / 2) + di_layout.x + offset_x,
 			(indicator.getGlobalBounds().height / 2) + di_layout.y + offset_y);
-		indicator.setScale(di_layout.scale, di_layout.scale);
-		backdrop.setScale(di_layout.scale, di_layout.scale);
+		indicator.setScale(di_layout.scl());
+		backdrop.setScale(di_layout.scl());
 
 		window->get_window()->draw(backdrop);
 		window->get_window()->draw(indicator);

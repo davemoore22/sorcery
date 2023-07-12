@@ -80,7 +80,7 @@ Sorcery::Event::Event(
 	if (_icon) {
 		_icon.value().setScale(
 			std::stof(_event_layout["icon_scale_x"].value()), std::stof(_event_layout["icon_scale_y"].value()));
-		_icon.value().setPosition(_event_layout.x, _event_layout.y);
+		_icon.value().setPosition(_event_layout.pos());
 	}
 }
 

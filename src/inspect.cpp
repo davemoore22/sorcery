@@ -301,8 +301,7 @@ auto Sorcery::Inspect::_draw() -> void {
 			else
 				_character_display->set_mode(CharacterMode::AT_CASTLE);
 
-			_character_display->setPosition(
-				(*_display->layout)[_screen_key + ":character"].x, (*_display->layout)[_screen_key + ":character"].y);
+			_character_display->setPosition((*_display->layout)[_screen_key + ":character"].pos());
 			_character_display->update();
 			_window->draw(*_character_display);
 		}
@@ -318,8 +317,7 @@ auto Sorcery::Inspect::_draw() -> void {
 
 		// Character Preview
 		if (_char_panel->valid) {
-			_char_panel->setPosition(
-				(*_display->layout)[_screen_key + ":info_panel"].x, (*_display->layout)[_screen_key + ":info_panel"].y);
+			_char_panel->setPosition((*_display->layout)[_screen_key + ":info_panel"].pos());
 			_window->draw(*_char_panel);
 		}
 	} else {
@@ -337,8 +335,7 @@ auto Sorcery::Inspect::_draw() -> void {
 
 			// Character Preview
 			if (_char_panel->valid) {
-				_char_panel->setPosition((*_display->layout)[_screen_key + ":info_panel"].x,
-					(*_display->layout)[_screen_key + ":info_panel"].y);
+				_char_panel->setPosition((*_display->layout)[_screen_key + ":info_panel"].pos());
 				_window->draw(*_char_panel);
 			}
 		}

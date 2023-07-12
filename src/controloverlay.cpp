@@ -261,7 +261,7 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 		text_y += text_spacing_y;
 
 		image.setPosition(sprite_x, sprite_y);
-		image.setScale(sprite_c.scale, sprite_c.scale);
+		image.setScale(sprite_c.scl());
 		_sprites.emplace_back(image);
 		sprite_y += sprite_spacing_y;
 	}

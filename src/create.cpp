@@ -150,14 +150,9 @@ auto Sorcery::Create::_place_components() -> void {
 	_final_menu->setPosition(
 		_display->get_centre_x(_final_menu->get_width()), (*_display->layout)["character_create_stage_7:menu"].y);
 
-	_keyboard->setPosition((*_display->layout)["character_create_stage_1:keyboard"].x,
-		(*_display->layout)["character_create_stage_1:keyboard"].y);
-
-	_character_display->setPosition((*_display->layout)["character_create_stage_7:candidate"].x,
-		(*_display->layout)["character_create_stage_7:candidate"].y);
-
+	_keyboard->setPosition((*_display->layout)["character_create_stage_1:keyboard"].pos());
+	_character_display->setPosition((*_display->layout)["character_create_stage_7:candidate"].pos());
 	_dialog_saved_ok->setPosition(_display->get_centre_pos(_dialog_saved_ok->get_size()));
-
 	_final_menu_frame->setPosition(_display->window->get_x(_final_menu_frame->sprite,
 									   (*_display->layout)["character_create_stage_7:menu_frame"].x),
 		_display->window->get_y(
@@ -1104,8 +1099,7 @@ auto Sorcery::Create::_draw() -> void {
 			summary_text, (*_display->layout)["choose_method:summary_text"], _candidate.summary_text());
 
 		if (_ip->valid) {
-			_ip->setPosition(
-				(*_display->layout)["choose_method:info_panel"].x, (*_display->layout)["choose_method:info_panel"].y);
+			_ip->setPosition((*_display->layout)["choose_method:info_panel"].pos());
 			_window->draw(*_ip);
 		}
 
@@ -1135,8 +1129,7 @@ auto Sorcery::Create::_draw() -> void {
 
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
-			_ip->setPosition((*_display->layout)["character_create_stage_2:info_panel"].x,
-				(*_display->layout)["character_create_stage_2:info_panel"].y);
+			_ip->setPosition((*_display->layout)["character_create_stage_2:info_panel"].pos());
 			_window->draw(*_ip);
 		}
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_ALIGNMENT) {
@@ -1150,8 +1143,7 @@ auto Sorcery::Create::_draw() -> void {
 
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
-			_ip->setPosition((*_display->layout)["character_create_stage_3:info_panel"].x,
-				(*_display->layout)["character_create_stage_3:info_panel"].y);
+			_ip->setPosition((*_display->layout)["character_create_stage_3:info_panel"].pos());
 			_window->draw(*_ip);
 		}
 	} else if (_candidate.get_stage() == CharacterStage::ALLOCATE_STATS) {
@@ -1164,15 +1156,13 @@ auto Sorcery::Create::_draw() -> void {
 			summary_text, (*_display->layout)["character_create_stage_4:summary_text"], _candidate.summary_text());
 
 		if (_ap->valid) {
-			_ap->setPosition((*_display->layout)["character_create_stage_4:allocate_panel"].x,
-				(*_display->layout)["character_create_stage_4:allocate_panel"].y);
+			_ap->setPosition((*_display->layout)["character_create_stage_4:allocate_panel"].pos());
 			_window->draw(*_ap);
 		}
 
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
-			_ip->setPosition((*_display->layout)["character_create_stage_4:info_panel"].x,
-				(*_display->layout)["character_create_stage_4:info_panel"].y);
+			_ip->setPosition((*_display->layout)["character_create_stage_4:info_panel"].pos());
 			_window->draw(*_ip);
 		}
 	} else if (_candidate.get_stage() == CharacterStage::CHOOSE_CLASS) {
@@ -1181,8 +1171,7 @@ auto Sorcery::Create::_draw() -> void {
 		_window->draw(*_class_menu);
 
 		if (_ap->valid) {
-			_ap->setPosition((*_display->layout)["character_create_stage_4:allocate_panel"].x,
-				(*_display->layout)["character_create_stage_4:allocate_panel"].y);
+			_ap->setPosition((*_display->layout)["character_create_stage_4:allocate_panel"].pos());
 			_window->draw(*_ap);
 		}
 
@@ -1191,8 +1180,7 @@ auto Sorcery::Create::_draw() -> void {
 
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
-			_ip->setPosition((*_display->layout)["character_create_stage_5:info_panel"].x,
-				(*_display->layout)["character_create_stage_5:info_panel"].y);
+			_ip->setPosition((*_display->layout)["character_create_stage_5:info_panel"].pos());
 			_window->draw(*_ip);
 		}
 
@@ -1201,10 +1189,8 @@ auto Sorcery::Create::_draw() -> void {
 		_display->display("character_create_stage_6", _sprites, _texts, _frames);
 
 		sf::Sprite portrait{_get_character_portrait(_candidate.get_portrait_index()).value()};
-		portrait.setPosition((*_display->layout)["character_create_stage_6:current_portrait"].x,
-			(*_display->layout)["character_create_stage_6:current_portrait"].y);
-		portrait.setScale((*_display->layout)["character_create_stage_6:current_portrait"].scale,
-			(*_display->layout)["character_create_stage_6:current_portrait"].scale);
+		portrait.setPosition((*_display->layout)["character_create_stage_6:current_portrait"].pos());
+		portrait.setScale((*_display->layout)["character_create_stage_6:current_portrait"].scl());
 
 		_display->window->draw_text(
 			summary_text, (*_display->layout)["character_create_stage_6:summary_text"], _candidate.summary_text());

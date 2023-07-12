@@ -81,7 +81,7 @@ auto Sorcery::IconPanel::_set_icon(sf::Sprite &sprite, Component layout, int off
 
 	sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
 	sprite.rotate(std::stof(layout["rotation"].value()));
-	sprite.setScale(layout.scale, layout.scale);
+	sprite.setScale(layout.scl());
 	sprite.setColor(sf::Color(layout.colour));
 	const auto comp_offset_x{[&] {
 		if (layout["offset_x"])

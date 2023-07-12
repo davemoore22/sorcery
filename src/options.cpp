@@ -276,7 +276,7 @@ auto Sorcery::Options::_draw() -> void {
 	}
 
 	if (_ip->valid) {
-		_ip->setPosition((*_display->layout)["options:info_panel"].x, (*_display->layout)["options:info_panel"].y);
+		_ip->setPosition((*_display->layout)["options:info_panel"].pos());
 		_window->draw(*_ip);
 	}
 

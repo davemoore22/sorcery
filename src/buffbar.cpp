@@ -70,12 +70,12 @@ auto Sorcery::BuffBar::refresh() -> void {
 	auto y{initial_y};
 
 	if (_game->state->get_lit()) {
-		lomilwa.setScale(_layout.scale, _layout.scale);
+		lomilwa.setScale(_layout.scl());
 		lomilwa.setColor(sf::Color(_layout.colour));
 		lomilwa.setPosition(x, y);
 		_icons.emplace_back(std::make_pair("light-buff", lomilwa));
 	} else {
-		torch.setScale(_layout.scale, _layout.scale);
+		torch.setScale(_layout.scl());
 		torch.setColor(sf::Color(_layout.colour));
 		torch.setPosition(x, y);
 		_icons.emplace_back(std::make_pair("no-light-buff", torch));

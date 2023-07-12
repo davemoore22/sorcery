@@ -70,7 +70,7 @@ auto Sorcery::Search::refresh() -> void {
 		auto x{initial_x};
 		auto y{initial_y};
 
-		characters_here.setScale(_layout.scale, _layout.scale);
+		characters_here.setScale(_layout.scl());
 		characters_here.setColor(sf::Color(_layout.colour));
 		characters_here.setPosition(x, y);
 		_icons.emplace_back(std::make_pair("characters_here", characters_here));
