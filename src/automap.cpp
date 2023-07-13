@@ -361,68 +361,53 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, Coordinate loc, int x, int y, floa
 		}
 
 		if ((tile.has(TileFeature::STAIRS_UP)) || (tile.has(TileFeature::LADDER_UP))) {
-			sf::Sprite stairs{_graphics->textures
-								  ->get(magic_enum::enum_integer<AutoMapFeature>(AutoMapFeature::STAIRS_UP),
-									  GraphicsTextureType::AUTOMAP)
-								  .value()};
+			sf::Sprite stairs{
+				_graphics->textures->get(unenum(AutoMapFeature::STAIRS_UP), GraphicsTextureType::AUTOMAP).value()};
 			stairs.setPosition(x, y);
 			stairs.setScale(scaling, scaling);
 			_sprites.emplace_back(stairs);
 		} else if ((tile.has(TileFeature::STAIRS_DOWN)) || (tile.has(TileFeature::LADDER_DOWN))) {
-			sf::Sprite stairs{_graphics->textures
-								  ->get(magic_enum::enum_integer<AutoMapFeature>(AutoMapFeature::STAIRS_DOWN),
-									  GraphicsTextureType::AUTOMAP)
-								  .value()};
+			sf::Sprite stairs{
+				_graphics->textures->get(unenum(AutoMapFeature::STAIRS_DOWN), GraphicsTextureType::AUTOMAP).value()};
 			stairs.setPosition(x, y);
 			stairs.setScale(scaling, scaling);
 			_sprites.emplace_back(stairs);
 		} else if (tile.has(TileFeature::ELEVATOR)) {
-			sf::Sprite stairs{_graphics->textures
-								  ->get(magic_enum::enum_integer<AutoMapFeature>(AutoMapFeature::ELEVATOR),
-									  GraphicsTextureType::AUTOMAP)
-								  .value()};
+			sf::Sprite stairs{
+				_graphics->textures->get(unenum(AutoMapFeature::ELEVATOR), GraphicsTextureType::AUTOMAP).value()};
 			stairs.setPosition(x, y);
 			stairs.setScale(scaling, scaling);
 			_sprites.emplace_back(stairs);
 		} else if (tile.has(TileFeature::SPINNER)) {
-			sf::Sprite message{_graphics->textures
-								   ->get(magic_enum::enum_integer<AutoMapFeature>(AutoMapFeature::SPINNER),
-									   GraphicsTextureType::AUTOMAP)
-								   .value()};
+			sf::Sprite message{
+				_graphics->textures->get(unenum(AutoMapFeature::SPINNER), GraphicsTextureType::AUTOMAP).value()};
 			message.setPosition(x, y);
 			message.setScale(scaling, scaling);
 			_sprites.emplace_back(message);
 		} else if (tile.has(TileFeature::PIT)) {
 			sf::Sprite message{
-				_graphics->textures
-					->get(magic_enum::enum_integer<AutoMapFeature>(AutoMapFeature::PIT), GraphicsTextureType::AUTOMAP)
-					.value()};
+				_graphics->textures->get(unenum(AutoMapFeature::PIT), GraphicsTextureType::AUTOMAP).value()};
 			message.setPosition(x, y);
 			message.setScale(scaling, scaling);
 			_sprites.emplace_back(message);
 		} else if (tile.has(TileFeature::CHUTE)) {
 			sf::Sprite message{
-				_graphics->textures
-					->get(magic_enum::enum_integer<AutoMapFeature>(AutoMapFeature::CHUTE), GraphicsTextureType::AUTOMAP)
-					.value()};
+				_graphics->textures->get(unenum(AutoMapFeature::CHUTE), GraphicsTextureType::AUTOMAP).value()};
 			message.setPosition(x, y);
 			message.setScale(scaling, scaling);
 			_sprites.emplace_back(message);
 		} else if (tile.has(TileFeature::TELEPORT_TO)) {
-			sf::Sprite stairs{_graphics->textures
-								  ->get(magic_enum::enum_integer<AutoMapFeature>(AutoMapFeature::TELEPORT_TO),
-									  GraphicsTextureType::AUTOMAP)
-								  .value()};
+			sf::Sprite stairs{
+				_graphics->textures->get(unenum(AutoMapFeature::TELEPORT_TO), GraphicsTextureType::AUTOMAP).value()};
 			stairs.setPosition(x, y);
 			stairs.setScale(scaling, scaling);
 			_sprites.emplace_back(stairs);
 		} else {
 			// TODO: change this to use events instead
 			if ((tile.has(TileFeature::MESSAGE)) || (tile.has(TileFeature::NOTICE))) {
-				sf::Sprite message{_graphics->textures
-									   ->get(magic_enum::enum_integer<AutoMapFeature>(AutoMapFeature::EXCLAMATION),
-										   GraphicsTextureType::AUTOMAP)
-									   .value()};
+				sf::Sprite message{
+					_graphics->textures->get(unenum(AutoMapFeature::EXCLAMATION), GraphicsTextureType::AUTOMAP)
+						.value()};
 				message.setPosition(x, y);
 				message.setScale(scaling, scaling);
 				_sprites.emplace_back(message);

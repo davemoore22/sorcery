@@ -70,14 +70,14 @@ auto Sorcery::CharacterDisplay::inc_hl_spell(SpellType type) -> void {
 	using enum Enums::Magic::SpellType;
 
 	if (type == MAGE) {
-		auto index{magic_enum::enum_integer<SpellID>(_hl_mage_spell)};
-		if (index < magic_enum::enum_integer<SpellID>(TILTOWAIT)) {
+		auto index{+_hl_mage_spell};
+		if (index < (+TILTOWAIT)) {
 			++index;
 			_hl_mage_spell = magic_enum::enum_cast<SpellID>(index).value();
 		}
 	} else {
-		auto index{magic_enum::enum_integer<SpellID>(_hl_priest_spell)};
-		if (index < magic_enum::enum_integer<SpellID>(MALIKTO)) {
+		auto index{+_hl_priest_spell};
+		if (index < (+MALIKTO)) {
 			++index;
 			_hl_priest_spell = magic_enum::enum_cast<SpellID>(index).value();
 		}
@@ -92,14 +92,14 @@ auto Sorcery::CharacterDisplay::dec_hl_spell(SpellType type) -> void {
 	using enum Enums::Magic::SpellType;
 
 	if (type == MAGE) {
-		auto index{magic_enum::enum_integer<SpellID>(_hl_mage_spell)};
-		if (index > magic_enum::enum_integer<SpellID>(DUMAPIC)) {
+		auto index{unenum(_hl_mage_spell)};
+		if (index > (unenum(DUMAPIC))) {
 			--index;
 			_hl_mage_spell = magic_enum::enum_cast<SpellID>(index).value();
 		}
 	} else {
-		auto index{magic_enum::enum_integer<SpellID>(_hl_priest_spell)};
-		if (index > magic_enum::enum_integer<SpellID>(BADIOS)) {
+		auto index{unenum(_hl_priest_spell)};
+		if (index > (unenum(BADIOS))) {
 			--index;
 			_hl_priest_spell = magic_enum::enum_cast<SpellID>(index).value();
 		}
@@ -113,9 +113,9 @@ auto Sorcery::CharacterDisplay::left_view() -> void {
 
 	using enum Enums::Character::View;
 
-	auto view_index{magic_enum::enum_integer<CharacterView>(_view)};
-	if (view_index == magic_enum::enum_integer<CharacterView>(SUMMARY))
-		view_index = magic_enum::enum_integer<CharacterView>(PRIEST_SPELLS);
+	auto view_index{unenum(_view)};
+	if (view_index == unenum(SUMMARY))
+		view_index = unenum(PRIEST_SPELLS);
 	else
 		--view_index;
 	_view = magic_enum::enum_cast<CharacterView>(view_index).value();
@@ -130,9 +130,9 @@ auto Sorcery::CharacterDisplay::right_view() -> void {
 
 	using enum Enums::Character::View;
 
-	auto view_index{magic_enum::enum_integer<CharacterView>(_view)};
-	if (view_index == magic_enum::enum_integer<CharacterView>(PRIEST_SPELLS))
-		view_index = magic_enum::enum_integer<CharacterView>(SUMMARY);
+	auto view_index{unenum(_view)};
+	if (view_index == unenum(PRIEST_SPELLS))
+		view_index = unenum(SUMMARY);
 	else
 		++view_index;
 	_view = magic_enum::enum_cast<CharacterView>(view_index).value();

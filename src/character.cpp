@@ -1772,7 +1772,7 @@ auto Sorcery::Character::_get_xp_for_level(unsigned int level) const -> int {
 	// Also found here: http://www.the-spoiler.com/RPG/Sir-Tech/wizardry.1.2.html
 
 	auto xp_needed{0};
-	auto c_index{magic_enum::enum_integer<CharacterClass>(_class) - 1};
+	auto c_index{unenum(_class) - 1};
 	if (level <= 13)
 		xp_needed = levels[c_index][level];
 	else
@@ -2152,8 +2152,8 @@ auto Sorcery::Character::set_status(CharacterStatus value) -> void {
 	if (value == CharacterStatus::OK)
 		_status = value;
 	else {
-		auto candidate{magic_enum::enum_integer<CharacterStatus>(value)};
-		auto current{magic_enum::enum_integer<CharacterStatus>(_status)};
+		auto candidate{unenum(value)};
+		auto current{unenum(_status)};
 		if (candidate > current)
 			_status = value;
 	}

@@ -168,4 +168,14 @@ inline auto SPLIT(const std::string &text) -> std::vector<std::string> {
 	return results;
 }
 
+// Use the + Operator or unenum to get the int value of an enum class
+template <typename T>
+constexpr auto operator+(T e) noexcept -> std::enable_if_t<std::is_enum<T>::value, std::underlying_type_t<T>> {
+	return static_cast<std::underlying_type_t<T>>(e);
+}
+
+template <class Enum> constexpr std::underlying_type_t<Enum> unenum(Enum e) noexcept {
+	return static_cast<std::underlying_type_t<Enum>>(e);
+}
+
 }
