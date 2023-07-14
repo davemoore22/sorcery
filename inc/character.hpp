@@ -64,14 +64,14 @@ class Character {
 		auto finalise() -> void;
 		auto level_up() -> std::string;
 		auto level_down() -> void;
-		auto alignment_to_string(const CharacterAlignment alignment) const -> std::string;
-		auto race_to_string(const CharacterRace race) const -> std::string;
-		auto class_to_string(const CharacterClass cclass) const -> std::string;
+		auto alignment_to_str(const CharacterAlignment alignment) const -> std::string;
+		auto race_to_str(const CharacterRace race) const -> std::string;
+		auto class_to_str(const CharacterClass cclass) const -> std::string;
 		auto create_random() -> void;
 		auto create_quick() -> void;
 		auto set_start_attr() -> void;
 		auto get_name() const -> std::string;
-		auto get_name_and_location() const -> std::string;
+		auto get_name_and_loc() const -> std::string;
 		auto get_name_and_status() const -> std::string;
 		auto set_name(std::string_view value) -> void;
 		auto get_race() const -> CharacterRace;
@@ -93,7 +93,7 @@ class Character {
 		auto get_num_pos_class() const -> unsigned int;
 		auto set_start_points(const unsigned int &value) -> void;
 		auto get_condition() const -> std::string;
-		auto get_short_condition() const -> std::string;
+		auto get_short_cond() const -> std::string;
 		auto get_cur_attr(const CharacterAttribute attribute) const -> unsigned int;
 		auto get_start_attr(const CharacterAttribute attribute) const -> unsigned int;
 		auto set_cur_attr(const CharacterAttribute attribute, const int adjustment) -> void;
@@ -113,7 +113,7 @@ class Character {
 		auto set_spells() -> void;
 		auto get_status() const -> CharacterStatus;
 		auto get_status_string() const -> std::string;
-		auto get_location_string() const -> std::string;
+		auto get_loc_str() const -> std::string;
 		auto get_summary_and_out() -> std::string;
 		auto set_status(CharacterStatus value) -> void;
 		auto is_poisoned() const -> bool;

@@ -65,10 +65,8 @@ auto Sorcery::Graveyard::start() -> std::optional<MenuItem> {
 	auto inc_y{std::stoi(gs_c["offset_y"].value()) * _display->window->get_cw()};
 
 	for (int i = 0; i < num_gs; i++) {
-		auto gravestone{_graphics->textures
-							->get(magic_enum::enum_integer<EventGraphic>(Enums::Graphics::Event::GRAVESTONE),
-								GraphicsTextureType::EVENTS)
-							.value()};
+		auto gravestone{
+			_graphics->textures->get(unenum(Enums::Graphics::Event::GRAVESTONE), GraphicsTextureType::EVENTS).value()};
 		gravestone.setPosition(gs_x + (inc_x * i), gs_y + (inc_y * i));
 		gravestone.setScale(gs_c.scl());
 		_sprites.emplace_back(gravestone);

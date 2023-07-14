@@ -168,12 +168,12 @@ auto Sorcery::ItemType::get_gfx() const -> unsigned int {
 
 auto Sorcery::ItemType::is_usable(const CharacterClass cclass) -> bool {
 
-	return _usable[magic_enum::enum_integer<CharacterClass>(cclass)];
+	return _usable[unenum(cclass)];
 }
 
 auto Sorcery::ItemType::is_usable(const CharacterAlignment calign) -> bool {
 
-	return _alignment[magic_enum::enum_integer<CharacterAlignment>(calign)];
+	return _alignment[unenum(calign)];
 }
 
 auto Sorcery::ItemType::set_type_id(const ItemTypeID value) -> void {
@@ -320,7 +320,7 @@ namespace Sorcery {
 
 auto operator<<(std::ostream &out_stream, const Sorcery::ItemType &itemtype) -> std::ostream & {
 
-	const auto type{magic_enum::enum_integer<ItemTypeID>(itemtype.get_type_id())};
+	const auto type{unenum(itemtype.get_type_id())};
 	const auto name{itemtype.get_known_name()};
 
 	const auto text{fmt::format("{}: {}", type, name)};

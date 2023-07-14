@@ -138,17 +138,17 @@ auto Sorcery::Tile::has(const MapDirection direction, const TileEdge wall_type) 
 
 auto Sorcery::Tile::set_explored() -> void {
 
-	_properties[magic_enum::enum_integer<TileProperty>(TileProperty::EXPLORED)] = true;
+	_properties[unenum(TileProperty::EXPLORED)] = true;
 }
 
 auto Sorcery::Tile::has(const TileFeature feature) const -> bool {
 
-	return _features[magic_enum::enum_integer<TileFeature>(feature)];
+	return _features[unenum(feature)];
 }
 
 auto Sorcery::Tile::is(const TileProperty property) const -> bool {
 
-	return _properties[magic_enum::enum_integer<TileProperty>(property)];
+	return _properties[unenum(property)];
 }
 
 auto Sorcery::Tile::walkable(const MapDirection direction) const -> bool {
@@ -217,12 +217,12 @@ auto Sorcery::Tile::reset() -> void {
 
 auto Sorcery::Tile::reset(const TileFeature feature) -> void {
 
-	_features[magic_enum::enum_integer<TileFeature>(feature)] = false;
+	_features[unenum(feature)] = false;
 }
 
 auto Sorcery::Tile::reset(const TileProperty property) -> void {
 
-	_properties[magic_enum::enum_integer<TileProperty>(property)] = false;
+	_properties[unenum(property)] = false;
 }
 
 auto Sorcery::Tile::reset(const MapDirection direction) -> void {
@@ -262,12 +262,12 @@ auto Sorcery::Tile::set(const std::optional<MapEvent> event) -> void {
 
 auto Sorcery::Tile::set(const TileFeature feature) -> void {
 
-	_features[magic_enum::enum_integer<TileFeature>(feature)] = true;
+	_features[unenum(feature)] = true;
 }
 
 auto Sorcery::Tile::set(const TileProperty property) -> void {
 
-	_properties[magic_enum::enum_integer<TileProperty>(property)] = true;
+	_properties[unenum(property)] = true;
 }
 
 auto Sorcery::Tile::set(const MapDirection direction, const TileEdge new_wall) -> void {

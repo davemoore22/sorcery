@@ -130,7 +130,7 @@ auto Sorcery::CharacterPanel::set(Character *character) -> void {
 	_texts.push_back(hp_text);
 
 	Component loc_c{(*_display->layout)["character_panel:location_value"]};
-	auto loc{fmt::format("{:>13}", _character->get_location_string())};
+	auto loc{fmt::format("{:>13}", _character->get_loc_str())};
 	sf::Text loc_text{};
 	loc_text.setFont(_system->resources->fonts[loc_c.font]);
 	loc_text.setCharacterSize(loc_c.size);
@@ -151,17 +151,17 @@ auto Sorcery::CharacterPanel::_get_icon(CharacterStage type) -> std::optional<sf
 
 	switch (type) {
 	case CHOOSE_ALIGNMENT: {
-		auto alignment{_character->alignment_to_string(_character->get_alignment())};
+		auto alignment{_character->alignment_to_str(_character->get_alignment())};
 		std::ranges::transform(alignment.begin(), alignment.end(), alignment.begin(), ::tolower);
 		return (*_graphics->icons)[alignment].value();
 	} break;
 	case CHOOSE_RACE: {
-		auto race{_character->race_to_string(_character->get_race())};
+		auto race{_character->race_to_str(_character->get_race())};
 		std::ranges::transform(race.begin(), race.end(), race.begin(), ::tolower);
 		return (*_graphics->icons)[race].value();
 	} break;
 	case CHOOSE_CLASS: {
-		auto cclass{_character->class_to_string(_character->get_class())};
+		auto cclass{_character->class_to_str(_character->get_class())};
 		std::ranges::transform(cclass.begin(), cclass.end(), cclass.begin(), ::tolower);
 		return (*_graphics->icons)[cclass].value();
 	} break;

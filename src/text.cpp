@@ -45,15 +45,15 @@ Sorcery::Text::Text(
 
 		Component layout{component.value()};
 
-		if (bits | magic_enum::enum_integer<ComponentElement>(ComponentElement::FONT))
+		if (bits | unenum(ComponentElement::FONT))
 			_text.setFont(_system->resources->fonts[layout.font]);
-		if (bits | magic_enum::enum_integer<ComponentElement>(ComponentElement::SIZE))
+		if (bits | unenum(ComponentElement::SIZE))
 			_text.setCharacterSize(layout.size);
-		if (bits | magic_enum::enum_integer<ComponentElement>(ComponentElement::COLOUR))
+		if (bits | unenum(ComponentElement::COLOUR))
 			_text.setFillColor(sf::Color(layout.colour));
-		if (bits | magic_enum::enum_integer<ComponentElement>(ComponentElement::STRING))
+		if (bits | unenum(ComponentElement::STRING))
 			_text.setString((*_display->string)[layout.string_key]);
-		if (bits | magic_enum::enum_integer<ComponentElement>(ComponentElement::OFFSET)) {
+		if (bits | unenum(ComponentElement::OFFSET)) {
 			const auto offset_x{[&] {
 				if (layout["offset_x"])
 					return std::stoi(layout["offset_x"].value());
@@ -68,7 +68,7 @@ Sorcery::Text::Text(
 			}()};
 			_text.setPosition(offset_x, offset_y);
 		}
-		if (bits | magic_enum::enum_integer<ComponentElement>(ComponentElement::ORIGIN)) {
+		if (bits | unenum(ComponentElement::ORIGIN)) {
 			const auto origin_x{[&] {
 				if (layout["origin_x"])
 					return std::stoi(layout["origin_x"].value());
@@ -83,7 +83,7 @@ Sorcery::Text::Text(
 			}()};
 			_text.setPosition(origin_x, origin_y);
 		}
-		if (bits | magic_enum::enum_integer<ComponentElement>(ComponentElement::O_COLOUR)) {
+		if (bits | unenum(ComponentElement::O_COLOUR)) {
 			const auto outline_colour{[&] {
 				if (layout["outline_colour"])
 					return sf::Color(std::stoull(layout["outline_colour"].value(), 0, 16));
@@ -91,7 +91,7 @@ Sorcery::Text::Text(
 					return sf::Color(sf::Color::Black);
 			}()};
 		}
-		if (bits | magic_enum::enum_integer<ComponentElement>(ComponentElement::O_THICKNESS)) {
+		if (bits | unenum(ComponentElement::O_THICKNESS)) {
 			const auto outline_thickness{[&] {
 				if (layout["origin_y"])
 					return std::stoi(layout["outline_thickness"].value());
@@ -100,7 +100,7 @@ Sorcery::Text::Text(
 			}()};
 			_text.setOutlineThickness(outline_thickness);
 		}
-		if (bits | magic_enum::enum_integer<ComponentElement>(ComponentElement::JUSTIFICATION)) {
+		if (bits | unenum(ComponentElement::JUSTIFICATION)) {
 
 			if (layout.justification == Justification::CENTRE) {
 				_text.setPosition(0, 0);

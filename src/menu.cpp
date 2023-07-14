@@ -993,7 +993,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 			if ((character.get_location() == CharacterLocation::MAZE) &&
 				(character.get_status() == CharacterStatus::OK)) {
 				_add_item(character_id, MenuItemType::ENTRY, MenuItem::IC_CHARACTER,
-					_game->characters[character_id].get_name_and_location());
+					_game->characters[character_id].get_name_and_loc());
 				++possible;
 				++max_id;
 			}

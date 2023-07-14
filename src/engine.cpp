@@ -564,8 +564,8 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 					_found_an_item->set((*_display->layout)["engine_base_ui:found_an_item"], text);
 					_found_an_item->reset_timed();
 
-					if (!_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::SILVER_KEY)])
-						_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::SILVER_KEY)] = true;
+					if (!_game->state->quest_item_flags[unenum(ItemQuest::SILVER_KEY)])
+						_game->state->quest_item_flags[unenum(ItemQuest::SILVER_KEY)] = true;
 
 					return true;
 				} break;
@@ -579,8 +579,8 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 					_found_an_item->set((*_display->layout)["engine_base_ui:found_an_item"], text);
 					_found_an_item->reset_timed();
 
-					if (!_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BRONZE_KEY)])
-						_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BRONZE_KEY)] = true;
+					if (!_game->state->quest_item_flags[unenum(ItemQuest::BRONZE_KEY)])
+						_game->state->quest_item_flags[unenum(ItemQuest::BRONZE_KEY)] = true;
 
 					return true;
 				} break;
@@ -594,8 +594,8 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 					_found_an_item->set((*_display->layout)["engine_base_ui:found_an_item"], text);
 					_found_an_item->reset_timed();
 
-					if (!_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::GOLD_KEY)])
-						_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::GOLD_KEY)] = true;
+					if (!_game->state->quest_item_flags[unenum(ItemQuest::GOLD_KEY)])
+						_game->state->quest_item_flags[unenum(ItemQuest::GOLD_KEY)] = true;
 
 					return true;
 				} break;
@@ -609,8 +609,8 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 					_found_an_item->set((*_display->layout)["engine_base_ui:found_an_item"], text);
 					_found_an_item->reset_timed();
 
-					if (!_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BEAR_STATUE)])
-						_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BEAR_STATUE)] = true;
+					if (!_game->state->quest_item_flags[unenum(ItemQuest::BEAR_STATUE)])
+						_game->state->quest_item_flags[unenum(ItemQuest::BEAR_STATUE)] = true;
 
 					return true;
 				} break;
@@ -624,8 +624,8 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 					_found_an_item->set((*_display->layout)["engine_base_ui:found_an_item"], text);
 					_found_an_item->reset_timed();
 
-					if (!_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::FROG_STATUE)])
-						_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::FROG_STATUE)] = true;
+					if (!_game->state->quest_item_flags[unenum(ItemQuest::FROG_STATUE)])
+						_game->state->quest_item_flags[unenum(ItemQuest::FROG_STATUE)] = true;
 
 					return true;
 				} break;
@@ -2272,23 +2272,23 @@ auto Sorcery::Engine::_event_if() -> bool {
 		case NEED_BEAR_STATUE:
 			[[fallthrough]];
 		case NEED_BEAR_STATUE_2:
-			if (_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BEAR_STATUE)])
+			if (_game->state->quest_item_flags[unenum(ItemQuest::BEAR_STATUE)])
 				return true;
 			break;
 		case NEED_FROG_STATUE:
-			if (_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::FROG_STATUE)])
+			if (_game->state->quest_item_flags[unenum(ItemQuest::FROG_STATUE)])
 				return true;
 			break;
 		case NEED_SILVER_KEY:
-			if (_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::SILVER_KEY)])
+			if (_game->state->quest_item_flags[unenum(ItemQuest::SILVER_KEY)])
 				return true;
 			break;
 		case NEED_BRONZE_KEY:
-			if (_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BRONZE_KEY)])
+			if (_game->state->quest_item_flags[unenum(ItemQuest::BRONZE_KEY)])
 				return true;
 			break;
 		case NEED_BLUE_RIBBON:
-			if (_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BLUE_RIBBON)])
+			if (_game->state->quest_item_flags[unenum(ItemQuest::BLUE_RIBBON)])
 				return true;
 			break;
 
@@ -2334,8 +2334,8 @@ auto Sorcery::Engine::_event_if() -> bool {
 					_found_an_item->set((*_display->layout)["engine_base_ui:found_an_item"], text);
 					_found_an_item->reset_timed();
 
-					if (!_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BLUE_RIBBON)])
-						_game->state->quest_item_flags[magic_enum::enum_integer(ItemQuest::BLUE_RIBBON)] = true;
+					if (!_game->state->quest_item_flags[unenum(ItemQuest::BLUE_RIBBON)])
+						_game->state->quest_item_flags[unenum(ItemQuest::BLUE_RIBBON)] = true;
 				}
 
 			} else if (event_type == WERDNA_BOAST) {

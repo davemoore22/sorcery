@@ -169,29 +169,29 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				ItemUsableClass item_usable{};
 				item_usable.fill(false);
 				if (allowed_classes_s.find('f') != std::string::npos)
-					item_usable[magic_enum::enum_integer<Enums::Character::Class>(FIGHTER)] = true;
+					item_usable[unenum(FIGHTER)] = true;
 				if (allowed_classes_s.find('l') != std::string::npos)
-					item_usable[magic_enum::enum_integer<Enums::Character::Class>(LORD)] = true;
+					item_usable[unenum(LORD)] = true;
 				if (allowed_classes_s.find('s') != std::string::npos)
-					item_usable[magic_enum::enum_integer<Enums::Character::Class>(SAMURAI)] = true;
+					item_usable[unenum(SAMURAI)] = true;
 				if (allowed_classes_s.find('t') != std::string::npos)
-					item_usable[magic_enum::enum_integer<Enums::Character::Class>(THIEF)] = true;
+					item_usable[unenum(THIEF)] = true;
 				if (allowed_classes_s.find('n') != std::string::npos)
-					item_usable[magic_enum::enum_integer<Enums::Character::Class>(NINJA)] = true;
+					item_usable[unenum(NINJA)] = true;
 				if (allowed_classes_s.find('p') != std::string::npos)
-					item_usable[magic_enum::enum_integer<Enums::Character::Class>(PRIEST)] = true;
+					item_usable[unenum(PRIEST)] = true;
 				if (allowed_classes_s.find('b') != std::string::npos)
-					item_usable[magic_enum::enum_integer<Enums::Character::Class>(BISHOP)] = true;
+					item_usable[unenum(BISHOP)] = true;
 				if (allowed_classes_s.find('m') != std::string::npos)
-					item_usable[magic_enum::enum_integer<Enums::Character::Class>(MAGE)] = true;
+					item_usable[unenum(MAGE)] = true;
 				ItemUsableAlignment item_alignment{};
 				item_usable.fill(false);
 				if (allowed_alignments_s.find('g') != std::string::npos)
-					item_alignment[magic_enum::enum_integer<Enums::Character::Align>(GOOD)] = true;
+					item_alignment[unenum(GOOD)] = true;
 				if (allowed_alignments_s.find('n') != std::string::npos)
-					item_alignment[magic_enum::enum_integer<Enums::Character::Align>(NEUTRAL)] = true;
+					item_alignment[unenum(NEUTRAL)] = true;
 				if (allowed_alignments_s.find('e') != std::string::npos)
-					item_alignment[magic_enum::enum_integer<Enums::Character::Align>(EVIL)] = true;
+					item_alignment[unenum(EVIL)] = true;
 
 				ItemType item_type{};
 				item_type.set_type_id(id.value());

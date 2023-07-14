@@ -169,7 +169,7 @@ auto Sorcery::Character::get_name_and_status() const -> std::string {
 	return fmt::format("{:<16} {:>12}", _name, get_status_string());
 }
 
-auto Sorcery::Character::get_name_and_location() const -> std::string {
+auto Sorcery::Character::get_name_and_loc() const -> std::string {
 
 	return fmt::format(
 		"{:<16} B{}F {:>2}N/{:>2}E", _name, std::abs(depth.value()), coordinate.value().y, coordinate.value().x);
@@ -413,85 +413,32 @@ auto Sorcery::Character::set_pos_class() -> void {
 }
 
 // Enum to String functions
-auto Sorcery::Character::alignment_to_string(CharacterAlignment character_alignment) const -> std::string {
+auto Sorcery::Character::alignment_to_str(CharacterAlignment character_alignment) const -> std::string {
 
-	using enum Enums::Character::Align;
+	static const std::array<std::string, 4> alignments{"", (*_display->string)["CHARACTER_ALIGNMENT_GOOD"],
+		(*_display->string)["CHARACTER_ALIGNMENT_NEUTRAL"], (*_display->string)["CHARACTER_ALIGNMENT_EVIL"]};
 
-	switch (character_alignment) {
-	case GOOD:
-		return (*_display->string)["CHARACTER_ALIGNMENT_GOOD"];
-		break;
-	case NEUTRAL:
-		return (*_display->string)["CHARACTER_ALIGNMENT_NEUTRAL"];
-		break;
-	case EVIL:
-		return (*_display->string)["CHARACTER_ALIGNMENT_EVIL"];
-		break;
-	default:
-		return "";
-		break;
-	}
+	return alignments[unenum(character_alignment)];
 }
 
-auto Sorcery::Character::race_to_string(CharacterRace character_race) const -> std::string {
+auto Sorcery::Character::race_to_str(CharacterRace character_race) const -> std::string {
 
-	using enum Enums::Character::Race;
+	static const std::array<std::string, 6> races{"", (*_display->string)["CHARACTER_RACE_HUMAN"],
+		(*_display->string)["CHARACTER_RACE_ELF"], (*_display->string)["CHARACTER_RACE_DWARF"],
+		(*_display->string)["CHARACTER_RACE_GNOME"], (*_display->string)["CHARACTER_RACE_HOBBIT"]};
 
-	switch (character_race) {
-	case HUMAN:
-		return (*_display->string)["CHARACTER_RACE_HUMAN"];
-		break;
-	case ELF:
-		return (*_display->string)["CHARACTER_RACE_ELF"];
-		break;
-	case DWARF:
-		return (*_display->string)["CHARACTER_RACE_DWARF"];
-		break;
-	case GNOME:
-		return (*_display->string)["CHARACTER_RACE_GNOME"];
-		break;
-	case HOBBIT:
-		return (*_display->string)["CHARACTER_RACE_HOBBIT"];
-		break;
-	default:
-		return "";
-		break;
-	}
+	return races[unenum(character_race)];
 }
 
-auto Sorcery::Character::class_to_string(CharacterClass character_class) const -> std::string {
+auto Sorcery::Character::class_to_str(CharacterClass character_class) const -> std::string {
 
-	using enum Enums::Character::Class;
+	static const std::array<std::string, 10> classes{"", (*_display->string)["CHARACTER_CLASS_FIGHTER"],
+		(*_display->string)["CHARACTER_CLASS_MAGE"], (*_display->string)["CHARACTER_CLASS_PRIEST"],
+		(*_display->string)["CHARACTER_CLASS_THIEF"], (*_display->string)["CHARACTER_CLASS_BISHOP"],
+		(*_display->string)["CHARACTER_CLASS_SAMURAI"], (*_display->string)["CHARACTER_CLASS_LORD"],
+		(*_display->string)["CHARACTER_CLASS_NINJA"]};
 
-	switch (character_class) {
-	case FIGHTER:
-		return (*_display->string)["CHARACTER_CLASS_FIGHTER"];
-		break;
-	case MAGE:
-		return (*_display->string)["CHARACTER_CLASS_MAGE"];
-		break;
-	case PRIEST:
-		return (*_display->string)["CHARACTER_CLASS_PRIEST"];
-		break;
-	case THIEF:
-		return (*_display->string)["CHARACTER_CLASS_THIEF"];
-		break;
-	case BISHOP:
-		return (*_display->string)["CHARACTER_CLASS_BISHOP"];
-		break;
-	case SAMURAI:
-		return (*_display->string)["CHARACTER_CLASS_SAMURAI"];
-		break;
-	case LORD:
-		return (*_display->string)["CHARACTER_CLASS_LORD"];
-		break;
-	case NINJA:
-		return (*_display->string)["CHARACTER_CLASS_NINJA"];
-		break;
-	default:
-		return "";
-		break;
-	}
+	return classes[unenum(character_class)];
 }
 
 // Last step of creating new a character
@@ -2063,7 +2010,7 @@ auto Sorcery::Character::get_condition() const -> std::string {
 	return _get_condition();
 }
 
-auto Sorcery::Character::get_short_condition() const -> std::string {
+auto Sorcery::Character::get_short_cond() const -> std::string {
 
 	if (_status != CharacterStatus::OK)
 		return fmt::format("{:>6}", _get_condition());
@@ -2111,7 +2058,7 @@ auto Sorcery::Character::_get_condition() const -> std::string {
 	}
 }
 
-auto Sorcery::Character::get_location_string() const -> std::string {
+auto Sorcery::Character::get_loc_str() const -> std::string {
 
 	using enum Enums::Character::Location;
 
@@ -2319,8 +2266,7 @@ auto Sorcery::Character::get_summary() -> std::string {
 	if (_display->get_upper())
 		std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	return fmt::format("{:<15} L {:>2} {}-{} {}", name, _abilities.at(CURRENT_LEVEL),
-		alignment_to_string(_alignment).substr(0, 1), class_to_string(_class).substr(0, 3),
-		race_to_string(_race).substr(0, 3));
+		alignment_to_str(_alignment).substr(0, 1), class_to_str(_class).substr(0, 3), race_to_str(_race).substr(0, 3));
 }
 
 auto Sorcery::Character::get_summary_and_out() -> std::string {
@@ -2340,8 +2286,8 @@ auto Sorcery::Character::get_summary_and_out() -> std::string {
 	}()};
 
 	return fmt::format("{:<15} L {:>2} {}-{} {}{:>5}", name, _abilities.at(CURRENT_LEVEL),
-		alignment_to_string(_alignment).substr(0, 1), class_to_string(_class).substr(0, 3),
-		race_to_string(_race).substr(0, 3), location);
+		alignment_to_str(_alignment).substr(0, 1), class_to_str(_class).substr(0, 3), race_to_str(_race).substr(0, 3),
+		location);
 }
 
 auto Sorcery::Character::can_level() const -> bool {
@@ -2384,9 +2330,9 @@ auto Sorcery::Character::get_sb_text(const int position) -> std::string {
 	auto name{_name};
 	if (_display->get_upper())
 		std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
-	return fmt::format("{} {:<15} {}-{} {:>2} {:>4}{}{:<6}", position, name,
-		alignment_to_string(_alignment).substr(0, 1), class_to_string(_class).substr(0, 3),
-		_abilities.at(CURRENT_ARMOUR_CLASS), get_short_hp_summary(), get_hp_adjustment_symbol(), get_short_condition());
+	return fmt::format("{} {:<15} {}-{} {:>2} {:>4}{}{:<6}", position, name, alignment_to_str(_alignment).substr(0, 1),
+		class_to_str(_class).substr(0, 3), _abilities.at(CURRENT_ARMOUR_CLASS), get_short_hp_summary(),
+		get_hp_adjustment_symbol(), get_short_cond());
 }
 
 auto Sorcery::Character::get_age() const -> int {
@@ -2422,26 +2368,25 @@ auto Sorcery::Character::summary_text() -> std::string {
 		return fmt::format("{:<15} L {:>2} ?-??? ???", name, _abilities.at(CURRENT_LEVEL));
 		break;
 	case CHOOSE_ALIGNMENT:
-		return fmt::format("{:<15} L {:>2} ?-??? {}", name, _abilities.at(CURRENT_LEVEL), race_to_string(_race));
+		return fmt::format("{:<15} L {:>2} ?-??? {}", name, _abilities.at(CURRENT_LEVEL), race_to_str(_race));
 		break;
 	case ALLOCATE_STATS:
 		return fmt::format("{:<15} L {:>2} {}-??? {}", name, _abilities.at(CURRENT_LEVEL),
-			alignment_to_string(_alignment).substr(0, 1), race_to_string(_race));
+			alignment_to_str(_alignment).substr(0, 1), race_to_str(_race));
 		break;
 	case CHOOSE_CLASS:
 		return fmt::format("{:<15} L {:>2} {}-??? {}", name, _abilities.at(CURRENT_LEVEL),
-			alignment_to_string(_alignment).substr(0, 1), race_to_string(_race));
+			alignment_to_str(_alignment).substr(0, 1), race_to_str(_race));
 		break;
 	case CHOOSE_PORTRAIT:
 		return fmt::format("{:<15} L {:>2} {}-{} {}", name, _abilities.at(CURRENT_LEVEL),
-			alignment_to_string(_alignment).substr(0, 1), class_to_string(_class).substr(0, 3), race_to_string(_race));
+			alignment_to_str(_alignment).substr(0, 1), class_to_str(_class).substr(0, 3), race_to_str(_race));
 		break;
 	case REVIEW_AND_CONFIRM:
 		[[fallthrough]];
 	case COMPLETED:
 		return fmt::format("{} L {:>2} {}-{} {}{}", name, _abilities.at(CURRENT_LEVEL),
-			alignment_to_string(_alignment).substr(0, 1), class_to_string(_class).substr(0, 3), race_to_string(_race),
-			legacy);
+			alignment_to_str(_alignment).substr(0, 1), class_to_str(_class).substr(0, 3), race_to_str(_race), legacy);
 		break;
 	default:
 		return "";
@@ -2523,7 +2468,7 @@ auto operator<<(std::ostream &out_stream, const Sorcery::Character &character) -
 	auto hp{character.get_hp_summary()};
 
 	auto body{fmt::format("{:<15} {:>2} {}-{} {:>3} {:>6} {:^10}", name, character.get_level(),
-		character.alignment_to_string(alignment).substr(0, 1), character.class_to_string(cclass).substr(0, 3),
+		character.alignment_to_str(alignment).substr(0, 1), character.class_to_str(cclass).substr(0, 3),
 		character.get_cur_ac(), character.get_hp_summary(), character.get_condition())};
 
 	return out_stream << body << std::endl;

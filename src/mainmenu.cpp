@@ -41,11 +41,8 @@ Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics
 	// Setup Custom Components
 	Component any_key_c{(*_display->layout)["main_menu_attract:press_any_key"]};
 	_press_any_key = std::make_unique<Text>(_system, _display, any_key_c,
-		magic_enum::enum_integer<ComponentElement>(ComponentElement::COLOUR) |
-			magic_enum::enum_integer<ComponentElement>(ComponentElement::FONT) |
-			magic_enum::enum_integer<ComponentElement>(ComponentElement::STRING) |
-			magic_enum::enum_integer<ComponentElement>(ComponentElement::SIZE) |
-			magic_enum::enum_integer<ComponentElement>(ComponentElement::JUSTIFICATION));
+		unenum(ComponentElement::COLOUR) | unenum(ComponentElement::FONT) | unenum(ComponentElement::STRING) |
+			unenum(ComponentElement::SIZE) | unenum(ComponentElement::JUSTIFICATION));
 	auto x{any_key_c.x == -1 ? _display->window->centre.x : any_key_c.x};
 	auto y{any_key_c.y == -1 ? _display->window->centre.y : any_key_c.y};
 	_press_any_key->setPosition(x, y);

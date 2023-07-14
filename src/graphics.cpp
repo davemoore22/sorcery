@@ -51,7 +51,7 @@ auto Sorcery::Graphics::adjust_status_colour(Enums::Character::CStatus value, bo
 	gradient[(1.0f / 8.0f) * 2.0f] = sf::Color(0xffff00ff);
 	gradient[1.0f] = sf::Color(0x00ff00ff);
 
-	auto to_scale{magic_enum::enum_integer<Enums::Character::CStatus>(value) * 1.0f};
+	auto to_scale{unenum(value) * 1.0f};
 	to_scale = 8.0f - to_scale;
 	if (poisoned)
 		to_scale = (1.0f / 8.0f) * 2.0f;

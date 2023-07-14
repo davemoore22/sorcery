@@ -71,13 +71,13 @@ auto Sorcery::CharacterDisplay::inc_hl_spell(SpellType type) -> void {
 
 	if (type == MAGE) {
 		auto index{+_hl_mage_spell};
-		if (index < (+TILTOWAIT)) {
+		if (index < unenum(TILTOWAIT)) {
 			++index;
 			_hl_mage_spell = magic_enum::enum_cast<SpellID>(index).value();
 		}
 	} else {
 		auto index{+_hl_priest_spell};
-		if (index < (+MALIKTO)) {
+		if (index < unenum(MALIKTO)) {
 			++index;
 			_hl_priest_spell = magic_enum::enum_cast<SpellID>(index).value();
 		}
@@ -157,17 +157,17 @@ auto Sorcery::CharacterDisplay::get_icon(CharacterStage type) -> std::optional<s
 
 	switch (type) {
 	case CHOOSE_ALIGNMENT: {
-		auto alignment{_character->alignment_to_string(_character->get_alignment())};
+		auto alignment{_character->alignment_to_str(_character->get_alignment())};
 		std::ranges::transform(alignment.begin(), alignment.end(), alignment.begin(), ::tolower);
 		return (*_graphics->icons)[alignment].value();
 	} break;
 	case CHOOSE_RACE: {
-		auto race{_character->race_to_string(_character->get_race())};
+		auto race{_character->race_to_str(_character->get_race())};
 		std::ranges::transform(race.begin(), race.end(), race.begin(), ::tolower);
 		return (*_graphics->icons)[race].value();
 	} break;
 	case CHOOSE_CLASS: {
-		auto cclass{_character->class_to_string(_character->get_class())};
+		auto cclass{_character->class_to_str(_character->get_class())};
 		std::ranges::transform(cclass.begin(), cclass.end(), cclass.begin(), ::tolower);
 		return (*_graphics->icons)[cclass].value();
 	} break;

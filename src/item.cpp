@@ -130,7 +130,7 @@ namespace Sorcery {
 
 auto operator<<(std::ostream &out_stream, const Sorcery::Item &item) -> std::ostream & {
 
-	const auto type{magic_enum::enum_integer<ItemTypeID>(item.get_type_id())};
+	const auto type{unenum(item.get_type_id())};
 	const auto name{item.get_name()};
 
 	const auto text{fmt::format("{}: {}", type, name)};

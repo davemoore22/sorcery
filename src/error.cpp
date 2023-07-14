@@ -32,7 +32,7 @@ Sorcery::Error::Error(Enums::System::Error error_code, std::exception &exception
 	_timestamp = std::chrono::system_clock::now();
 
 	_details.clear();
-	_details.emplace_back(std::to_string(magic_enum::enum_integer(_error_code)));
+	_details.emplace_back(std::to_string(unenum(_error_code)));
 	_details.emplace_back(magic_enum::enum_name(_error_code));
 	_details.emplace_back(_exception.what());
 	_details.emplace_back(get_when());
@@ -44,7 +44,7 @@ Sorcery::Error::Error(tgui::Gui *gui, Enums::System::Error error_code, std::exce
 	_timestamp = std::chrono::system_clock::now();
 
 	_details.clear();
-	_details.emplace_back(std::to_string(magic_enum::enum_integer(_error_code)));
+	_details.emplace_back(std::to_string(unenum(_error_code)));
 	_details.emplace_back(magic_enum::enum_name(_error_code));
 	_details.emplace_back(_exception.what());
 	_details.emplace_back(get_when());
