@@ -61,48 +61,48 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 	// TODO: need to incorporare this in main loop so that exiting this goes back properly
 	if (destination == Destination::MAZE) {
 		if (auto edge_option{_edge_of_town->start(destination)};
-			edge_option && edge_option.value() == MenuItem::ABORT) {
+			edge_option && edge_option.value() == MenuItem::ITEM_ABORT) {
 			_game->save_game();
 			_display->shutdown_SFML();
-			return MenuItem::ABORT;
+			return MenuItem::ITEM_ABORT;
 		}
 		_edge_of_town->stop();
 	} else if (destination == Destination::TAVERN) {
-		if (auto tavern_option{_tavern->start()}; tavern_option && tavern_option.value() == MenuItem::ABORT) {
+		if (auto tavern_option{_tavern->start()}; tavern_option && tavern_option.value() == MenuItem::ITEM_ABORT) {
 			_game->save_game();
 			_display->shutdown_SFML();
-			return MenuItem::ABORT;
+			return MenuItem::ITEM_ABORT;
 		}
 		_tavern->stop();
 	} else if (destination == Destination::TRAINING) {
 		if (auto edge_option{_edge_of_town->start(destination)};
-			edge_option && edge_option.value() == MenuItem::ABORT) {
+			edge_option && edge_option.value() == MenuItem::ITEM_ABORT) {
 			_game->save_game();
 			_display->shutdown_SFML();
-			return MenuItem::ABORT;
+			return MenuItem::ITEM_ABORT;
 		}
 		_edge_of_town->stop();
 	} else if (destination == Destination::INN) {
-		if (auto inn_option{_inn->start()}; inn_option && inn_option.value() == MenuItem::ABORT) {
+		if (auto inn_option{_inn->start()}; inn_option && inn_option.value() == MenuItem::ITEM_ABORT) {
 			_game->save_game();
 			_display->shutdown_SFML();
-			return MenuItem::ABORT;
+			return MenuItem::ITEM_ABORT;
 		}
 		_inn->stop();
 	} else if (destination == Destination::TEMPLE) {
-		if (auto temple_option{_temple->start()}; temple_option && temple_option.value() == MenuItem::ABORT) {
+		if (auto temple_option{_temple->start()}; temple_option && temple_option.value() == MenuItem::ITEM_ABORT) {
 			_game->save_game();
 			_display->shutdown_SFML();
 			_temple->stop();
-			return MenuItem::ABORT;
+			return MenuItem::ITEM_ABORT;
 		}
 		_temple->stop();
 	} else if (destination == Destination::SHOP) {
-		if (auto shop_option{_shop->start()}; shop_option && shop_option.value() == MenuItem::ABORT) {
+		if (auto shop_option{_shop->start()}; shop_option && shop_option.value() == MenuItem::ITEM_ABORT) {
 			_game->save_game();
 			_display->shutdown_SFML();
 			_temple->stop();
-			return MenuItem::ABORT;
+			return MenuItem::ITEM_ABORT;
 		}
 		_shop->stop();
 	}
@@ -135,7 +135,7 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return MenuItem::ABORT;
+					return MenuItem::ITEM_ABORT;
 
 				// Handle enabling help overlay
 				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
@@ -162,10 +162,10 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 							if (edge_option) {
 								if (edge_option.value() == MenuItem::ET_LEAVE_GAME)
 									return MenuItem::ET_LEAVE_GAME;
-								else if (edge_option.value() == MenuItem::ABORT) {
+								else if (edge_option.value() == MenuItem::ITEM_ABORT) {
 									_game->save_game();
 									_display->shutdown_SFML();
-									return MenuItem::ABORT;
+									return MenuItem::ITEM_ABORT;
 								}
 							}
 							_display->generate("castle");
@@ -175,10 +175,10 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 							continue;
 						} else if (option_chosen == MenuItem::CA_TAVERN) {
 							if (auto tavern_option{_tavern->start()};
-								tavern_option && tavern_option.value() == MenuItem::ABORT) {
+								tavern_option && tavern_option.value() == MenuItem::ITEM_ABORT) {
 								_game->save_game();
 								_display->shutdown_SFML();
-								return MenuItem::ABORT;
+								return MenuItem::ITEM_ABORT;
 							}
 							_tavern->stop();
 							_game->save_game();
@@ -188,10 +188,11 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							continue;
 						} else if (option_chosen == MenuItem::CA_INN) {
-							if (auto inn_option{_inn->start()}; inn_option && inn_option.value() == MenuItem::ABORT) {
+							if (auto inn_option{_inn->start()};
+								inn_option && inn_option.value() == MenuItem::ITEM_ABORT) {
 								_game->save_game();
 								_display->shutdown_SFML();
-								return MenuItem::ABORT;
+								return MenuItem::ITEM_ABORT;
 							}
 							_inn->stop();
 							_game->save_game();
@@ -201,10 +202,10 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 							continue;
 						} else if (option_chosen == MenuItem::CA_SHOP) {
 							if (auto shop_option{_shop->start()};
-								shop_option && shop_option.value() == MenuItem::ABORT) {
+								shop_option && shop_option.value() == MenuItem::ITEM_ABORT) {
 								_game->save_game();
 								_display->shutdown_SFML();
-								return MenuItem::ABORT;
+								return MenuItem::ITEM_ABORT;
 							}
 							_shop->stop();
 							_game->save_game();
@@ -214,10 +215,10 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 							continue;
 						} else if (option_chosen == MenuItem::CA_TEMPLE) {
 							if (auto temple_option{_temple->start()};
-								temple_option && temple_option.value() == MenuItem::ABORT) {
+								temple_option && temple_option.value() == MenuItem::ITEM_ABORT) {
 								_game->save_game();
 								_display->shutdown_SFML();
-								return MenuItem::ABORT;
+								return MenuItem::ITEM_ABORT;
 							}
 							_temple->stop();
 							_game->save_game();

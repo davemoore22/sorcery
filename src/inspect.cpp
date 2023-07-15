@@ -142,7 +142,7 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 
 			// Check for Window Close
 			if (event.type == sf::Event::Closed)
-				return MenuItem::ABORT;
+				return MenuItem::ITEM_ABORT;
 
 			// Handle enabling help overlay
 			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
@@ -172,7 +172,7 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 						const MenuItem option_chosen{(*selected.value()).item};
 						if ((option_chosen == MenuItem::ET_TRAIN) || (option_chosen == MenuItem::CA_TAVERN) ||
 							(option_chosen == MenuItem::CA_TEMPLE) || (option_chosen == MenuItem::CA_INN) ||
-							(option_chosen == MenuItem::CAMP) || (option_chosen == MenuItem::CA_SHOP)) {
+							(option_chosen == MenuItem::ITEM_CAMP) || (option_chosen == MenuItem::CA_SHOP)) {
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							_cur_char = std::nullopt;
 							return std::nullopt;
@@ -195,7 +195,7 @@ auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 						((*selected.value()).item != MenuItem::CA_SHOP) &&
 						((*selected.value()).item != MenuItem::CA_TEMPLE) &&
 						((*selected.value()).item != MenuItem::CA_INN) &&
-						((*selected.value()).item != MenuItem::CAMP)) {
+						((*selected.value()).item != MenuItem::ITEM_CAMP)) {
 						const auto character_chosen{static_cast<int>((*selected.value()).index)};
 						if (character_chosen != _cur_char_id) {
 							auto character{&_game->characters[character_chosen]};

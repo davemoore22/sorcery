@@ -901,6 +901,34 @@
 			"justification": "centre",
 			"type": "text",
 			"priority": "3"
+		},
+		{
+			"name": "menu_frame",
+			"w": "36",
+			"h": "7",
+			"x": "centre",
+			"y": "8",
+			"alpha": "225",
+			"type": "frame",
+			"priority": "6",
+			"drawmode": "automatic",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "menu",
+			"x": "centre",
+			"y": "11",
+			"w": "34",
+			"h": "5",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"animated": "true",
+			"width": "34",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "menu",
+			"priority": "8"
 		}
 		]
 	},

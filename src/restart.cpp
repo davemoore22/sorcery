@@ -134,12 +134,12 @@ auto Sorcery::Restart::start() -> std::optional<MenuItem> {
 							_game->state->set_player_pos(to_loc);
 							engine->stop();
 							_display->shutdown_SFML();
-							return MenuItem::ABORT;
+							return MenuItem::ITEM_ABORT;
 						}
 
 						engine->stop();
 						_update_menus();
-						return MenuItem::CANCEL;
+						return MenuItem::ITEM_CANCEL;
 					}
 				}
 			}

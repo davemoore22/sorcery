@@ -99,7 +99,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 
 			// Check for Window Close
 			if (event.type == sf::Event::Closed)
-				return MenuItem::ABORT;
+				return MenuItem::ITEM_ABORT;
 
 			// Handle enabling help overlay
 			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
@@ -155,7 +155,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 							if (auto new_name{change_name->start()}; new_name) {
 
 								if (new_name.value() == EXIT_STRING)
-									return MenuItem::ABORT;
+									return MenuItem::ITEM_ABORT;
 
 								// Update character name and resave the
 								// character!

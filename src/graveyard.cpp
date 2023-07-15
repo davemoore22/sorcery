@@ -127,10 +127,10 @@ auto Sorcery::Graveyard::start() -> std::optional<MenuItem> {
 				_display->hide_overlay();
 
 			if (_system->input->check(WindowInput::CANCEL, event))
-				return MenuItem::CONTINUE;
+				return MenuItem::ITEM_CONTINUE;
 
 			if (_system->input->check(WindowInput::BACK, event))
-				return MenuItem::CONTINUE;
+				return MenuItem::ITEM_CONTINUE;
 
 			if (_system->input->check(WindowInput::UP, event))
 				selected = _menu->choose_previous();
@@ -143,8 +143,8 @@ auto Sorcery::Graveyard::start() -> std::optional<MenuItem> {
 				// We have selected something from the menu
 				if (selected) {
 					const MenuItem option_chosen{(*selected.value()).item};
-					if (option_chosen == MenuItem::CONTINUE) {
-						return MenuItem::CONTINUE;
+					if (option_chosen == MenuItem::ITEM_CONTINUE) {
+						return MenuItem::ITEM_CONTINUE;
 					}
 				}
 			}

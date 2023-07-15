@@ -61,7 +61,7 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 			_game->save_game();
 			_engine->stop();
 			_display->shutdown_SFML();
-			return MenuItem::ABORT;
+			return MenuItem::ITEM_ABORT;
 		}
 		_game->save_game();
 		_engine->stop();

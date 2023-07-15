@@ -115,7 +115,7 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return MenuItem::ABORT;
+					return MenuItem::ITEM_ABORT;
 
 				// Handle enabling help overlay
 				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
@@ -149,9 +149,9 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 								option_chosen == MenuItem::TE_CASTLE) {
 								return MenuItem::TE_CASTLE;
 							} else if (option_chosen == MenuItem::TE_INSPECT) {
-								if (auto result{_inspect->start()}; result && result.value() == MenuItem::ABORT) {
+								if (auto result{_inspect->start()}; result && result.value() == MenuItem::ITEM_ABORT) {
 									_inspect->stop();
-									return MenuItem::ABORT;
+									return MenuItem::ITEM_ABORT;
 								}
 								_inspect->stop();
 								_display->generate("temple");
@@ -273,7 +273,7 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 
 							if (option_continue) {
 								if (const MenuItem option_chosen{(*option_continue.value()).item};
-									option_chosen == MenuItem::CONTINUE) {
+									option_chosen == MenuItem::ITEM_CONTINUE) {
 									_stage = TempleStage::MENU;
 									_party_panel->refresh();
 									continue;

@@ -117,33 +117,33 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 					if (option_chosen == MenuItem::TR_EDGE_OF_TOWN) {
 						return MenuItem::ET_LEAVE_GAME;
 					} else if (option_chosen == MenuItem::TR_CREATE) {
-						if (auto result{_create->start()}; result && result.value() == MenuItem::ABORT) {
+						if (auto result{_create->start()}; result && result.value() == MenuItem::ITEM_ABORT) {
 							_create->stop();
-							return MenuItem::ABORT;
+							return MenuItem::ITEM_ABORT;
 						}
 						_create->stop();
 						_display->generate("training_grounds");
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					} else if (option_chosen == MenuItem::TR_INSPECT) {
-						if (auto result{_inspect->start()}; result && result.value() == MenuItem::ABORT) {
+						if (auto result{_inspect->start()}; result && result.value() == MenuItem::ITEM_ABORT) {
 							_inspect->stop();
-							return MenuItem::ABORT;
+							return MenuItem::ITEM_ABORT;
 						}
 						_inspect->stop();
 						_display->generate("training_grounds");
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					} else if (option_chosen == MenuItem::TR_EDIT) {
-						if (auto result{_edit->start()}; result && result.value() == MenuItem::ABORT) {
+						if (auto result{_edit->start()}; result && result.value() == MenuItem::ITEM_ABORT) {
 							_edit->stop();
-							return MenuItem::ABORT;
+							return MenuItem::ITEM_ABORT;
 						}
 						_edit->stop();
 						_display->generate("training_grounds");
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					} else if (option_chosen == MenuItem::TR_DELETE) {
-						if (auto result{_delete->start()}; result && result.value() == MenuItem::ABORT) {
+						if (auto result{_delete->start()}; result && result.value() == MenuItem::ITEM_ABORT) {
 							_delete->stop();
-							return MenuItem::ABORT;
+							return MenuItem::ITEM_ABORT;
 						}
 						_delete->stop();
 						_display->generate("training_grounds");

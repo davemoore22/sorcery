@@ -150,7 +150,7 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 		while (_window->pollEvent(event)) {
 
 			if (event.type == sf::Event::Closed)
-				return MenuItem::ABORT;
+				return MenuItem::ITEM_ABORT;
 
 			// Handle enabling help overlay
 			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
@@ -172,9 +172,9 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 				} else if (_stage == RestStage::RESULTS) {
 
 					if (_system->input->check(WindowInput::CANCEL, event))
-						return MenuItem::CONTINUE;
+						return MenuItem::ITEM_CONTINUE;
 					else if (_system->input->check(WindowInput::BACK, event))
-						return MenuItem::CONTINUE;
+						return MenuItem::ITEM_CONTINUE;
 					else if (_system->input->check(WindowInput::UP, event))
 						option_continue = _continue_menu->choose_previous();
 					else if (_system->input->check(WindowInput::DOWN, event))
@@ -186,8 +186,8 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 
 						if (option_continue) {
 							if (const MenuItem option_chosen{(*option_continue.value()).item};
-								option_chosen == MenuItem::CONTINUE) {
-								return MenuItem::CONTINUE;
+								option_chosen == MenuItem::ITEM_CONTINUE) {
+								return MenuItem::ITEM_CONTINUE;
 							}
 						}
 					}
@@ -212,7 +212,7 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 
 						if (option_stop) {
 							if (const MenuItem option_chosen{(*option_stop.value()).item};
-								option_chosen == MenuItem::STOP) {
+								option_chosen == MenuItem::ITEM_STOP) {
 								_go_to_results();
 								_stage = RestStage::RESULTS;
 								continue;
@@ -236,8 +236,8 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 
 						if (option_continue) {
 							if (const MenuItem option_chosen{(*option_continue.value()).item};
-								option_chosen == MenuItem::CONTINUE) {
-								return MenuItem::CONTINUE;
+								option_chosen == MenuItem::ITEM_CONTINUE) {
+								return MenuItem::ITEM_CONTINUE;
 							}
 						}
 					}

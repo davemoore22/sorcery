@@ -134,7 +134,7 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 
 			// Check for Window Close
 			if (event.type == sf::Event::Closed)
-				return MenuItem::ABORT;
+				return MenuItem::ITEM_ABORT;
 
 			// Handle enabling help overlay
 			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
@@ -190,11 +190,11 @@ auto Sorcery::Roster::start() -> std::optional<MenuItem> {
 
 								const auto character_chosen{(*selected.value()).index};
 								auto result{_edit->start(character_chosen)};
-								if (result && result.value() == MenuItem::ABORT) {
+								if (result && result.value() == MenuItem::ITEM_ABORT) {
 									_game->save_game();
 									_edit->stop();
 									_display->shutdown_SFML();
-									return MenuItem::ABORT;
+									return MenuItem::ITEM_ABORT;
 								}
 								_edit->stop();
 								_menu->reload();

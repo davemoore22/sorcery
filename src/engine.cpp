@@ -929,7 +929,7 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 
 				_game->state->clear_party();
 				return EXIT_MODULE;
-			} else if (option_chosen == MenuItem::QUIT) {
+			} else if (option_chosen == MenuItem::ITEM_QUIT) {
 				_show_confirm_exit = true;
 				return CONTINUE;
 			} else if (option_chosen == MenuItem::CP_OPTIONS) {
@@ -944,7 +944,7 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 				_display->generate("engine_base_ui");
 			} else if (option_chosen == MenuItem::CP_INSPECT) {
 				_party_panel->refresh();
-				if (auto result{_inspect->start()}; result == MenuItem::ABORT) {
+				if (auto result{_inspect->start()}; result == MenuItem::ITEM_ABORT) {
 					_inspect->stop();
 					return EXIT_ALL;
 				}
@@ -1612,7 +1612,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						// TODO
 					} else if (what.ends_with("party")) {
 						_party_panel->refresh();
-						if (auto result{_inspect->start()}; result == MenuItem::ABORT) {
+						if (auto result{_inspect->start()}; result == MenuItem::ITEM_ABORT) {
 							_inspect->stop();
 							return EXIT_ALL;
 						}
@@ -2306,7 +2306,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 
 				// Linked events
 				auto event_1{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 1)};
-				if (auto result{event_1->start()}; result == MenuItem::ABORT) {
+				if (auto result{event_1->start()}; result == MenuItem::ITEM_ABORT) {
 					event_1->stop();
 					_can_run_event = false;
 					_display_cursor = true;
@@ -2317,7 +2317,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 
 					_refresh_display();
 					auto event_2{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 2)};
-					if (auto result{event_2->start()}; result == MenuItem::ABORT) {
+					if (auto result{event_2->start()}; result == MenuItem::ITEM_ABORT) {
 
 						_can_run_event = false;
 						_display_cursor = true;
@@ -2343,7 +2343,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 				// Linked events
 				// Linked events
 				auto event_1{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 1)};
-				if (auto result{event_1->start()}; result == MenuItem::ABORT) {
+				if (auto result{event_1->start()}; result == MenuItem::ITEM_ABORT) {
 					event_1->stop();
 					_can_run_event = false;
 					_display_cursor = true;
@@ -2354,7 +2354,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 
 					_refresh_display();
 					auto event_2{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 2)};
-					if (auto result{event_2->start()}; result == MenuItem::ABORT) {
+					if (auto result{event_2->start()}; result == MenuItem::ITEM_ABORT) {
 
 						_can_run_event = false;
 						_display_cursor = true;
@@ -2365,7 +2365,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 
 						_refresh_display();
 						auto event_3{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 3)};
-						if (auto result{event_3->start()}; result == MenuItem::ABORT) {
+						if (auto result{event_3->start()}; result == MenuItem::ITEM_ABORT) {
 
 							_can_run_event = false;
 							_display_cursor = true;
@@ -2379,7 +2379,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 			} else {
 
 				auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
-				if (auto result{event->start()}; result == MenuItem::ABORT) {
+				if (auto result{event->start()}; result == MenuItem::ITEM_ABORT) {
 					event->stop();
 					_can_run_event = false;
 					_display_cursor = true;

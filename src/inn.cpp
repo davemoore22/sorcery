@@ -106,7 +106,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return MenuItem::ABORT;
+					return MenuItem::ITEM_ABORT;
 
 				// Handle enabling help overlay
 				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
@@ -141,11 +141,11 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 								_party_panel->refresh();
 							} else if (option_chosen == MenuItem::IN_INSPECT) {
-								if (auto result{_inspect->start()}; result && result.value() == MenuItem::ABORT) {
+								if (auto result{_inspect->start()}; result && result.value() == MenuItem::ITEM_ABORT) {
 									_inspect->stop();
 									_game->save_game();
 									_display->shutdown_SFML();
-									return MenuItem::ABORT;
+									return MenuItem::ITEM_ABORT;
 								}
 								_inspect->stop();
 								_display->generate("inn");
@@ -167,11 +167,11 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 											return MenuItem::IN_CASTLE;
 										} else if (option_chosen == MenuItem::IN_INSPECT) {
 											if (auto result{_inspect->start()};
-												result && result.value() == MenuItem::ABORT) {
+												result && result.value() == MenuItem::ITEM_ABORT) {
 												_inspect->stop();
 												_game->save_game();
 												_display->shutdown_SFML();
-												return MenuItem::ABORT;
+												return MenuItem::ITEM_ABORT;
 											}
 											_inspect->stop();
 											_display->generate("inn");
@@ -267,10 +267,10 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 								} else if (option_chosen == MenuItem::IN_STABLES) {
 									if (auto stables_option{
 											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::STABLES)};
-										stables_option && stables_option.value() == MenuItem::ABORT) {
+										stables_option && stables_option.value() == MenuItem::ITEM_ABORT) {
 										_game->save_game();
 										_display->shutdown_SFML();
-										return MenuItem::ABORT;
+										return MenuItem::ITEM_ABORT;
 									}
 									_rest->stop();
 									_roster->reload();
@@ -280,10 +280,10 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 								} else if (option_chosen == MenuItem::IN_COT) {
 									if (auto stables_option{
 											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::COT)};
-										stables_option && stables_option.value() == MenuItem::ABORT) {
+										stables_option && stables_option.value() == MenuItem::ITEM_ABORT) {
 										_game->save_game();
 										_display->shutdown_SFML();
-										return MenuItem::ABORT;
+										return MenuItem::ITEM_ABORT;
 									}
 									_rest->stop();
 									_roster->reload();
@@ -293,10 +293,10 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 								} else if (option_chosen == MenuItem::IN_ECONOMY) {
 									if (auto stables_option{
 											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::ECONOMY)};
-										stables_option && stables_option.value() == MenuItem::ABORT) {
+										stables_option && stables_option.value() == MenuItem::ITEM_ABORT) {
 										_game->save_game();
 										_display->shutdown_SFML();
-										return MenuItem::ABORT;
+										return MenuItem::ITEM_ABORT;
 									}
 									_rest->stop();
 									_roster->reload();
@@ -306,10 +306,10 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 								} else if (option_chosen == MenuItem::IN_MERCHANT) {
 									if (auto stables_option{
 											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::MERCHANT)};
-										stables_option && stables_option.value() == MenuItem::ABORT) {
+										stables_option && stables_option.value() == MenuItem::ITEM_ABORT) {
 										_game->save_game();
 										_display->shutdown_SFML();
-										return MenuItem::ABORT;
+										return MenuItem::ITEM_ABORT;
 									}
 									_rest->stop();
 									_roster->reload();
@@ -319,10 +319,10 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 								} else if (option_chosen == MenuItem::IN_ROYAL) {
 									if (auto stables_option{
 											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::ROYAL)};
-										stables_option && stables_option.value() == MenuItem::ABORT) {
+										stables_option && stables_option.value() == MenuItem::ITEM_ABORT) {
 										_game->save_game();
 										_display->shutdown_SFML();
-										return MenuItem::ABORT;
+										return MenuItem::ITEM_ABORT;
 									}
 									_rest->stop();
 									_roster->reload();

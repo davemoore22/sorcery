@@ -80,7 +80,7 @@ auto Sorcery::Application::start() -> int {
 	if (_check_param(GO_TO_MAZE)) {
 		if (_game->valid) {
 			if (_game->state->party_has_members()) {
-				if (_castle->start(Destination::MAZE) == MenuItem::ABORT) {
+				if (_castle->start(Destination::MAZE) == MenuItem::ITEM_ABORT) {
 					_game->save_game();
 					display->shutdown_SFML();
 					return EXIT_ALL;
@@ -89,9 +89,12 @@ auto Sorcery::Application::start() -> int {
 				_game->save_game();
 			}
 		}
+	} else if (_check_param(GO_TO_COMPENDIUM)) {
+		_compendium->start();
+		_compendium->stop();
 	} else if (_check_param(GO_TO_TAVERN)) {
 		if (_game->valid) {
-			if (_castle->start(Destination::TAVERN) == MenuItem::ABORT) {
+			if (_castle->start(Destination::TAVERN) == MenuItem::ITEM_ABORT) {
 				_game->save_game();
 				display->shutdown_SFML();
 				return EXIT_ALL;
@@ -101,7 +104,7 @@ auto Sorcery::Application::start() -> int {
 	} else if (_check_param(GO_TO_INN)) {
 		if (_game->valid) {
 			if (_game->state->party_has_members()) {
-				if (_castle->start(Destination::INN) == MenuItem::ABORT) {
+				if (_castle->start(Destination::INN) == MenuItem::ITEM_ABORT) {
 					_game->save_game();
 					display->shutdown_SFML();
 					return EXIT_ALL;
@@ -112,7 +115,7 @@ auto Sorcery::Application::start() -> int {
 	} else if (_check_param(GO_TO_TEMPLE)) {
 		if (_game->valid) {
 			if (_game->state->party_has_members()) {
-				if (_castle->start(Destination::TEMPLE) == MenuItem::ABORT) {
+				if (_castle->start(Destination::TEMPLE) == MenuItem::ITEM_ABORT) {
 					_game->save_game();
 					display->shutdown_SFML();
 					return EXIT_ALL;
@@ -123,7 +126,7 @@ auto Sorcery::Application::start() -> int {
 	} else if (_check_param(GO_TO_SHOP)) {
 		if (_game->valid) {
 			if (_game->state->party_has_members()) {
-				if (_castle->start(Destination::SHOP) == MenuItem::ABORT) {
+				if (_castle->start(Destination::SHOP) == MenuItem::ITEM_ABORT) {
 					_game->save_game();
 					display->shutdown_SFML();
 					return EXIT_ALL;
@@ -133,7 +136,7 @@ auto Sorcery::Application::start() -> int {
 		}
 	} else if (_check_param(GO_TO_TRAINING)) {
 		if (_game->valid) {
-			if (_castle->start(Destination::TRAINING) == MenuItem::ABORT) {
+			if (_castle->start(Destination::TRAINING) == MenuItem::ITEM_ABORT) {
 				_game->save_game();
 				display->shutdown_SFML();
 				return EXIT_ALL;
@@ -143,7 +146,7 @@ auto Sorcery::Application::start() -> int {
 		_game->save_game();
 	} else if (_check_param(CONTINUE_GAME)) {
 		if (_game->valid) {
-			if (auto result{_castle->start()}; result && result == MenuItem::ABORT) {
+			if (auto result{_castle->start()}; result && result == MenuItem::ITEM_ABORT) {
 				_game->save_game();
 				display->shutdown_SFML();
 				return EXIT_ALL;
@@ -165,7 +168,7 @@ auto Sorcery::Application::start() -> int {
 			case MenuItem::MM_NEW_GAME:
 				_game->create_game();
 				option_chosen = _castle->start();
-				if (option_chosen == MenuItem::ABORT) {
+				if (option_chosen == MenuItem::ITEM_ABORT) {
 					_game->save_game();
 					display->shutdown_SFML();
 					return EXIT_ALL;
@@ -178,7 +181,7 @@ auto Sorcery::Application::start() -> int {
 				_castle->stop();
 				_game->save_game();
 				break;
-			case MenuItem::QUIT:
+			case MenuItem::ITEM_QUIT:
 				_game->save_game();
 				display->shutdown_SFML();
 				return EXIT_ALL;

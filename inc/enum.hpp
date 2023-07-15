@@ -752,7 +752,8 @@ namespace Enums::Menu {
 		INN_CHOOSE_BED,
 		CONTINUE,
 		STOP,
-		GRAVEYARD
+		GRAVEYARD,
+		COMPENDIUM
 	};
 
 	enum class Mode {
@@ -770,21 +771,21 @@ namespace Enums::Menu {
 	// Menu Items
 	enum class Item {
 		NO_MENU_ITEM,
-		ABORT,
-		CANCEL,
+		ITEM_ABORT,
+		ITEM_CANCEL,
 		GO_BACK,
 		GO_NEXT,
-		RETURN,
-		SAVE,
+		ITEM_RETURN,
+		ITEM_SAVE,
 		MM_NEW_GAME,
 		MM_CONTINUE_GAME,
 		MM_OPTIONS,
 		MM_COMPENDIUM,
 		MM_LICENSE,
-		QUIT,
-		SEPARATOR,
-		TITLE,
-		SPACER,
+		ITEM_QUIT,
+		ITEM_SEPARATOR,
+		ITEM_TITLE,
+		ITEM_SPACER,
 		NC_WARNING,
 		OP_AUTO_SAVE,
 		OP_STRICT_MODE,
@@ -846,7 +847,7 @@ namespace Enums::Menu {
 		CA_SHOP,
 		CA_TEMPLE,
 		CA_EDGE_OF_TOWN,
-		CAMP,
+		ITEM_CAMP,
 		ET_CASTLE,
 		ET_TRAIN,
 		ET_MAZE,
@@ -915,8 +916,8 @@ namespace Enums::Menu {
 		IN_ROYAL,
 		IN_POOL_GOLD,
 		IN_BACK,
-		STOP,
-		CONTINUE,
+		ITEM_STOP,
+		ITEM_CONTINUE,
 		C_ACTION_TRADE,
 		C_ACTION_IDENTIFY,
 		C_ACTION_POOL,
@@ -926,7 +927,12 @@ namespace Enums::Menu {
 		C_ACTION_USE,
 		C_ACTION_LEAVE,
 		C_ACTION_READ,
-		C_ACTION_NEXT
+		C_ACTION_NEXT,
+		CO_MONSTERS,
+		CO_ITEMS,
+		CO_SPELLS,
+		CO_FEATURES,
+		CO_STATS,
 	};
 
 	// Menu Items

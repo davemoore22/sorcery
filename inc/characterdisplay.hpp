@@ -33,7 +33,6 @@
 #include "system.hpp"
 #include "spellpanel.hpp"
 
-
 namespace Sorcery {
 
 class SpellSummary;

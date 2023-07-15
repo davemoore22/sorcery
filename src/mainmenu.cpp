@@ -121,7 +121,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 
 						// Check for Window Close
 						if (event.type == sf::Event::Closed)
-							return MenuItem::ABORT;
+							return MenuItem::ITEM_ABORT;
 
 						// Check for any key being pressed to move onto the main
 						// menu
@@ -179,7 +179,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 								} else if (option_chosen == MenuItem::MM_OPTIONS) {
 									_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
 									return MenuItem::MM_OPTIONS;
-								} else if (option_chosen == MenuItem::QUIT) {
+								} else if (option_chosen == MenuItem::ITEM_QUIT) {
 									_display->set_input_mode(WindowInputMode::CONFIRM_QUIT_GAME);
 								}
 							}
@@ -211,7 +211,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 								return std::nullopt;
 							} else if (dialog_input.value() == WindowDialogButton::YES) {
 								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-								return MenuItem::QUIT;
+								return MenuItem::ITEM_QUIT;
 							} else if (dialog_input.value() == WindowDialogButton::NO) {
 								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							}

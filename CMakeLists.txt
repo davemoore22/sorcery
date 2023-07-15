@@ -60,6 +60,7 @@ add_executable(${PROJECT_NAME}
 	src/input.cpp
 	src/inspect.cpp
 	src/item.cpp
+	src/itemdisplay.cpp
 	src/itemtype.cpp
 	src/itemstore.cpp
 	src/keyboard.cpp

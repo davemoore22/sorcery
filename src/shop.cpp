@@ -76,7 +76,7 @@ auto Sorcery::Shop::start() -> std::optional<MenuItem> {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return MenuItem::ABORT;
+					return MenuItem::ITEM_ABORT;
 
 				// Handle enabling help overlay
 				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
@@ -108,9 +108,9 @@ auto Sorcery::Shop::start() -> std::optional<MenuItem> {
 						} else if (option_chosen == MenuItem::SH_INSPECT) {
 
 							auto result{_inspect->start()};
-							if (result && result.value() == MenuItem::ABORT) {
+							if (result && result.value() == MenuItem::ITEM_ABORT) {
 								_inspect->stop();
-								return MenuItem::ABORT;
+								return MenuItem::ITEM_ABORT;
 							}
 
 							_inspect->stop();

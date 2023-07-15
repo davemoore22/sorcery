@@ -184,7 +184,7 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 	_method = CreateMethod::FULL;
 
 	if (auto module_result{_do_event_loop()}; module_result == ModuleResult::EXIT)
-		return MenuItem::ABORT;
+		return MenuItem::ITEM_ABORT;
 
 	return std::nullopt;
 }
