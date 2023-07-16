@@ -905,9 +905,9 @@
 		{
 			"name": "menu_frame",
 			"w": "36",
-			"h": "7",
+			"h": "8",
 			"x": "centre",
-			"y": "8",
+			"y": "10",
 			"alpha": "225",
 			"type": "frame",
 			"priority": "6",

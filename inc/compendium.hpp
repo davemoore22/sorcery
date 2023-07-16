@@ -26,9 +26,11 @@
 
 #include "display.hpp"
 #include "frame.hpp"
+#include "game.hpp"
 #include "graphics.hpp"
 #include "layout.hpp"
 #include "main.hpp"
+#include "menu.hpp"
 #include "system.hpp"
 
 namespace Sorcery {
@@ -38,7 +40,7 @@ class Compendium {
 	public:
 
 		// Standard Constructor
-		Compendium(System *system, Display *display, Graphics *graphics);
+		Compendium(System *system, Display *display, Graphics *graphics, Game *game);
 		Compendium() = delete;
 
 		// Standard Destructor
@@ -56,12 +58,20 @@ class Compendium {
 		auto _draw() -> void;
 		auto _do_event_loop() -> std::optional<ModuleResult>;
 		auto _handle_input(const sf::Event &event) -> std::optional<ModuleResult>;
+		auto _generate_display() -> void;
+		auto _reset_components() -> void;
+		auto _initalise_components() -> void;
+		auto _place_components() -> void;
+		auto _refresh_display() -> void;
 
 		// Private Members
 		System *_system;
 		Display *_display;
 		Graphics *_graphics;
+		Game *_game;
 		sf::RenderWindow *_window;
+		std::unique_ptr<Menu> _menu;
+		std::optional<std::vector<MenuEntry>::const_iterator> _selected;
 };
 
 }

@@ -64,7 +64,7 @@ Sorcery::Application::Application(int argc, char **argv) {
 	_mainmenu = std::make_unique<MainMenu>(system.get(), display.get(), graphics.get(), _game.get());
 	_license = std::make_unique<License>(system.get(), display.get(), graphics.get());
 	_options = std::make_unique<Options>(system.get(), display.get(), graphics.get());
-	_compendium = std::make_unique<Compendium>(system.get(), display.get(), graphics.get());
+	_compendium = std::make_unique<Compendium>(system.get(), display.get(), graphics.get(), _game.get());
 	_castle = std::make_unique<Castle>(system.get(), display.get(), graphics.get(), _game.get());
 }
 

@@ -25,11 +25,8 @@
 #include "compendium.hpp"
 
 // Standard Constructor
-Sorcery::Compendium::Compendium(System *system, Display *display, Graphics *graphics)
-	: _system{system}, _display{display}, _graphics{graphics} {
-
-	// Get the Window and Graphics to Display
-	_window = _display->window->get_window();
+Sorcery::Compendium::Compendium(System *system, Display *display, Graphics *graphics, Game *game)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 }
 
 // Standard Destructor
@@ -40,21 +37,18 @@ Sorcery::Compendium::~Compendium() {
 
 auto Sorcery::Compendium::start() -> int {
 
-	// Get the Background Display Components and load them into Display module
-	// storage (not local)
-	_display->generate("compendium");
-
 	// Clear the window
+	_generate_display();
 	_window->clear();
 
 	// Play the background movie!
 	_display->fit_bg_movie();
 	_display->start_bg_movie();
 
-	_display->set_input_mode(WindowInputMode::COMPENDIUM);
+	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+	_selected = _menu->items.begin();
 
-	auto module_result{_do_event_loop()};
-	if (module_result == ModuleResult::EXIT) {
+	if (auto module_result{_do_event_loop()}; module_result == ModuleResult::EXIT) {
 
 		// Shutdown
 		_display->shutdown_SFML();
@@ -69,9 +63,52 @@ auto Sorcery::Compendium::stop() -> void {
 	_display->stop_bg_movie();
 }
 
+auto Sorcery::Compendium::_generate_display() -> void {
+
+	_reset_components();
+	_initalise_components();
+	_display->generate("compendium");
+	_place_components();
+}
+
+auto Sorcery::Compendium::_reset_components() -> void {
+
+	if (_menu.get())
+		_menu.reset();
+}
+
+auto Sorcery::Compendium::_place_components() -> void {
+
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["compendium:menu"].y);
+}
+
+auto Sorcery::Compendium::_initalise_components() -> void {
+
+	// Get the Window and Graphics to Display
+	_window = _display->window->get_window();
+
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::COMPENDIUM);
+	_menu->generate((*_display->layout)["compendium:menu"]);
+}
+
+auto Sorcery::Compendium::_refresh_display() -> void {
+
+	_window->clear();
+
+	if (_display->layout->refresh_if_needed())
+		_generate_display();
+
+	_draw();
+	_window->display();
+}
+
 auto Sorcery::Compendium::_draw() -> void {
 
 	_display->display("compendium");
+
+	_menu->generate((*_display->layout)["compendium:menu"]);
+	_window->draw(*_menu);
+
 	_display->display_overlay();
 	_display->display_cursor();
 }
@@ -99,7 +136,7 @@ auto Sorcery::Compendium::_do_event_loop() -> std::optional<ModuleResult> {
 		_display->update_bg_movie();
 		_display->draw_bg_movie();
 
-		_draw();
+		_refresh_display();
 		_window->display();
 	}
 
@@ -124,6 +161,22 @@ auto Sorcery::Compendium::_handle_input(const sf::Event &event) -> std::optional
 		return std::nullopt;
 	} else
 		_display->hide_overlay();
+
+	if (_system->input->check(WindowInput::UP, event))
+		_selected = _menu->choose_previous();
+	else if (_system->input->check(WindowInput::DOWN, event))
+		_selected = _menu->choose_next();
+	else if (_system->input->check(WindowInput::MOVE, event))
+		_selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+	else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+		// We have selected something from the menu
+		if (_selected) {
+			const MenuItem option_chosen{(*_selected.value()).item};
+			if (option_chosen == MenuItem::ITEM_RETURN)
+				return ModuleResult::BACK;
+		}
+	}
 
 	return std::nullopt;
 }
