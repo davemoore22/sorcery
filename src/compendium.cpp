@@ -75,6 +75,8 @@ auto Sorcery::Compendium::_reset_components() -> void {
 
 	if (_menu.get())
 		_menu.reset();
+	if (_museum.get())
+		_museum.reset();
 }
 
 auto Sorcery::Compendium::_place_components() -> void {
@@ -89,6 +91,8 @@ auto Sorcery::Compendium::_initalise_components() -> void {
 
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::COMPENDIUM);
 	_menu->generate((*_display->layout)["compendium:menu"]);
+
+	_museum = std::make_unique<Museum>(_system, _display, _graphics, _game);
 }
 
 auto Sorcery::Compendium::_refresh_display() -> void {
@@ -97,6 +101,10 @@ auto Sorcery::Compendium::_refresh_display() -> void {
 
 	if (_display->layout->refresh_if_needed())
 		_generate_display();
+
+	_display->start_bg_movie();
+	_display->update_bg_movie();
+	_display->draw_bg_movie();
 
 	_draw();
 	_window->display();
@@ -131,10 +139,6 @@ auto Sorcery::Compendium::_do_event_loop() -> std::optional<ModuleResult> {
 		}
 
 		_window->clear();
-
-		_display->start_bg_movie();
-		_display->update_bg_movie();
-		_display->draw_bg_movie();
 
 		_refresh_display();
 		_window->display();
@@ -175,6 +179,15 @@ auto Sorcery::Compendium::_handle_input(const sf::Event &event) -> std::optional
 			const MenuItem option_chosen{(*_selected.value()).item};
 			if (option_chosen == MenuItem::ITEM_RETURN)
 				return ModuleResult::BACK;
+			else if (option_chosen == MenuItem::CO_ITEMS) {
+				if (auto result{_museum->start()}; result && result == EXIT_ALL) {
+					_museum->stop();
+					return ModuleResult::EXIT;
+				}
+				_museum->stop();
+				_generate_display();
+				_refresh_display();
+			}
 		}
 	}
 

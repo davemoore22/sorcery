@@ -437,6 +437,30 @@ src/character.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/character.cpp.s
 .PHONY : src/character.cpp.s
 
+src/characterdisplay.o: src/characterdisplay.cpp.o
+.PHONY : src/characterdisplay.o
+
+# target to build an object file
+src/characterdisplay.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/characterdisplay.cpp.o
+.PHONY : src/characterdisplay.cpp.o
+
+src/characterdisplay.i: src/characterdisplay.cpp.i
+.PHONY : src/characterdisplay.i
+
+# target to preprocess a source file
+src/characterdisplay.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/characterdisplay.cpp.i
+.PHONY : src/characterdisplay.cpp.i
+
+src/characterdisplay.s: src/characterdisplay.cpp.s
+.PHONY : src/characterdisplay.s
+
+# target to generate assembly for a file
+src/characterdisplay.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/characterdisplay.cpp.s
+.PHONY : src/characterdisplay.cpp.s
+
 src/characterpanel.o: src/characterpanel.cpp.o
 .PHONY : src/characterpanel.o
 
@@ -460,30 +484,6 @@ src/characterpanel.s: src/characterpanel.cpp.s
 src/characterpanel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/characterpanel.cpp.s
 .PHONY : src/characterpanel.cpp.s
-
-src/characterview.o: src/characterview.cpp.o
-.PHONY : src/characterview.o
-
-# target to build an object file
-src/characterview.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/characterview.cpp.o
-.PHONY : src/characterview.cpp.o
-
-src/characterview.i: src/characterview.cpp.i
-.PHONY : src/characterview.i
-
-# target to preprocess a source file
-src/characterview.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/characterview.cpp.i
-.PHONY : src/characterview.cpp.i
-
-src/characterview.s: src/characterview.cpp.s
-.PHONY : src/characterview.s
-
-# target to generate assembly for a file
-src/characterview.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/characterview.cpp.s
-.PHONY : src/characterview.cpp.s
 
 src/compass.o: src/compass.cpp.o
 .PHONY : src/compass.o
@@ -1181,6 +1181,30 @@ src/item.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/item.cpp.s
 .PHONY : src/item.cpp.s
 
+src/itemdisplay.o: src/itemdisplay.cpp.o
+.PHONY : src/itemdisplay.o
+
+# target to build an object file
+src/itemdisplay.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/itemdisplay.cpp.o
+.PHONY : src/itemdisplay.cpp.o
+
+src/itemdisplay.i: src/itemdisplay.cpp.i
+.PHONY : src/itemdisplay.i
+
+# target to preprocess a source file
+src/itemdisplay.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/itemdisplay.cpp.i
+.PHONY : src/itemdisplay.cpp.i
+
+src/itemdisplay.s: src/itemdisplay.cpp.s
+.PHONY : src/itemdisplay.s
+
+# target to generate assembly for a file
+src/itemdisplay.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/itemdisplay.cpp.s
+.PHONY : src/itemdisplay.cpp.s
+
 src/itemstore.o: src/itemstore.cpp.o
 .PHONY : src/itemstore.o
 
@@ -1468,6 +1492,30 @@ src/menu.s: src/menu.cpp.s
 src/menu.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/menu.cpp.s
 .PHONY : src/menu.cpp.s
+
+src/museum.o: src/museum.cpp.o
+.PHONY : src/museum.o
+
+# target to build an object file
+src/museum.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/museum.cpp.o
+.PHONY : src/museum.cpp.o
+
+src/museum.i: src/museum.cpp.i
+.PHONY : src/museum.i
+
+# target to preprocess a source file
+src/museum.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/museum.cpp.i
+.PHONY : src/museum.cpp.i
+
+src/museum.s: src/museum.cpp.s
+.PHONY : src/museum.s
+
+# target to generate assembly for a file
+src/museum.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/museum.cpp.s
+.PHONY : src/museum.cpp.s
 
 src/options.o: src/options.cpp.o
 .PHONY : src/options.o
@@ -2164,12 +2212,12 @@ help:
 	@echo "... src/character.o"
 	@echo "... src/character.i"
 	@echo "... src/character.s"
+	@echo "... src/characterdisplay.o"
+	@echo "... src/characterdisplay.i"
+	@echo "... src/characterdisplay.s"
 	@echo "... src/characterpanel.o"
 	@echo "... src/characterpanel.i"
 	@echo "... src/characterpanel.s"
-	@echo "... src/characterview.o"
-	@echo "... src/characterview.i"
-	@echo "... src/characterview.s"
 	@echo "... src/compass.o"
 	@echo "... src/compass.i"
 	@echo "... src/compass.s"
@@ -2257,6 +2305,9 @@ help:
 	@echo "... src/item.o"
 	@echo "... src/item.i"
 	@echo "... src/item.s"
+	@echo "... src/itemdisplay.o"
+	@echo "... src/itemdisplay.i"
+	@echo "... src/itemdisplay.s"
 	@echo "... src/itemstore.o"
 	@echo "... src/itemstore.i"
 	@echo "... src/itemstore.s"
@@ -2293,6 +2344,9 @@ help:
 	@echo "... src/menu.o"
 	@echo "... src/menu.i"
 	@echo "... src/menu.s"
+	@echo "... src/museum.o"
+	@echo "... src/museum.i"
+	@echo "... src/museum.s"
 	@echo "... src/options.o"
 	@echo "... src/options.i"
 	@echo "... src/options.s"

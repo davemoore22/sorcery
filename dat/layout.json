@@ -866,6 +866,73 @@
 		]
 	},
 	{
+		"name": "museum",
+		"component": [
+		{
+			"name": "frame",
+			"w": "38",
+			"h": "30",
+			"x": "centre",
+			"y": "2",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "1",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "title_frame",
+			"w": "12",
+			"h": "3",
+			"x": "centre",
+			"y": "1",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "2",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "title_text",
+			"x": "centre",
+			"y": "2",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "MUSEUM_TITLE",
+			"justification": "centre",
+			"type": "text",
+			"priority": "3"
+		},
+		{
+			"name": "menu_frame",
+			"w": "18",
+			"h": "25",
+			"x": "12",
+			"y": "5",
+			"alpha": "225",
+			"type": "frame",
+			"priority": "6",
+			"drawmode": "automatic",
+			"background": " 0x000000ff"
+		},
+		{
+			"name": "menu",
+			"x": "13",
+			"y": "6",
+			"w": "16",
+			"h": "22",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"animated": "true",
+			"width": "16",
+			"background": " 0xff0000ff",
+			"justification": "left",
+			"type": "menu",
+			"priority": "8"
+		}
+		]
+	},
+	{
 		"name": "compendium",
 		"component": [
 		{

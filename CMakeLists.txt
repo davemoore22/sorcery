@@ -73,6 +73,7 @@ add_executable(${PROJECT_NAME}
 	src/map.cpp
 	src/mainmenu.cpp
 	src/menu.cpp
+	src/museum.cpp
 	src/options.cpp
 	src/partypanel.cpp
 	src/platform.cpp

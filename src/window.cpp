@@ -393,7 +393,6 @@ auto Sorcery::Window::hl_text(sf::Text &text, const Component &component, const 
 
 	const sf::FloatRect text_rect{text.getGlobalBounds()};
 	sf::RectangleShape text_bg(sf::Vector2(text_rect.width, text_rect.height));
-	// text_bg.setOrigin(0, 0 - text.getLocalBounds().height + 16);
 	text_bg.setFillColor(sf::Color(_adjust_brightness(sf::Color(component.background), lerp)));
 	text.setFillColor(sf::Color(component.colour));
 	text.setOutlineColor(sf::Color(0, 0, 0));

@@ -31,6 +31,7 @@
 #include "layout.hpp"
 #include "main.hpp"
 #include "menu.hpp"
+#include "museum.hpp"
 #include "system.hpp"
 
 namespace Sorcery {
@@ -72,6 +73,7 @@ class Compendium {
 		sf::RenderWindow *_window;
 		std::unique_ptr<Menu> _menu;
 		std::optional<std::vector<MenuEntry>::const_iterator> _selected;
+		std::unique_ptr<Museum> _museum;
 };
 
 }

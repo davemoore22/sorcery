@@ -753,7 +753,8 @@ namespace Enums::Menu {
 		CONTINUE,
 		STOP,
 		GRAVEYARD,
-		COMPENDIUM
+		COMPENDIUM,
+		MUSEUM
 	};
 
 	enum class Mode {
@@ -933,6 +934,7 @@ namespace Enums::Menu {
 		CO_SPELLS,
 		CO_FEATURES,
 		CO_STATS,
+		MU_ITEM
 	};
 
 	// Menu Items
