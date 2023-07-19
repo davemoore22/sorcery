@@ -190,6 +190,7 @@
 		<Unit filename="inc/mainmenu.hpp" />
 		<Unit filename="inc/map.hpp" />
 		<Unit filename="inc/menu.hpp" />
+		<Unit filename="inc/museum.hpp" />
 		<Unit filename="inc/options.hpp" />
 		<Unit filename="inc/partypanel.hpp" />
 		<Unit filename="inc/platform.hpp" />
@@ -273,6 +274,7 @@
 		<Unit filename="src/mainmenu.cpp" />
 		<Unit filename="src/map.cpp" />
 		<Unit filename="src/menu.cpp" />
+		<Unit filename="src/museum.cpp" />
 		<Unit filename="src/options.cpp" />
 		<Unit filename="src/partypanel.cpp" />
 		<Unit filename="src/platform.cpp" />

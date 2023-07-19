@@ -43,8 +43,9 @@ class ItemStore {
 		auto operator()(ItemCategory) const -> std::optional<std::vector<ItemType>>;
 
 		// Public methods
-		auto get(ItemTypeID item_type_id) const -> Item;
-		auto get(ItemTypeID min_item_type_id, ItemTypeID max_item_type_id) const -> Item;
+		auto get_an_item(ItemTypeID item_type_id) const -> Item;
+		auto get_random_item(ItemTypeID min_item_type_id, ItemTypeID max_item_type_id) const -> Item;
+		auto get_all_types() const -> std::vector<ItemType>;
 
 	private:
 

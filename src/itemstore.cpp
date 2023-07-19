@@ -231,8 +231,17 @@ auto Sorcery::ItemStore::operator()(ItemCategory) const -> std::optional<std::ve
 }
 
 // Public methods
-auto Sorcery::ItemStore::get(ItemTypeID item_type_id) const -> Item {
+auto Sorcery::ItemStore::get_an_item(ItemTypeID item_type_id) const -> Item {
 }
 
-auto Sorcery::ItemStore::get(ItemTypeID min_item_type_id, ItemTypeID max_item_type_id) const -> Item {
+auto Sorcery::ItemStore::get_random_item(ItemTypeID min_item_type_id, ItemTypeID max_item_type_id) const -> Item {
+}
+
+auto Sorcery::ItemStore::get_all_types() const -> std::vector<ItemType> {
+
+	std::vector<ItemType> items;
+	for (const auto &[_, value] : _items)
+		items.push_back(value);
+
+	return items;
 }

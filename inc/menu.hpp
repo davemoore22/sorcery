@@ -86,6 +86,7 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		auto _populate_chars() -> void;
 		auto _select_first() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto _select_last() -> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto _add_all_items() -> void;
 
 		// Private Members
 		System *_system;

@@ -332,9 +332,16 @@ Sorcery::Menu::Menu(
 		_add_item(6, ENTRY, AC_SEARCH_SECRET, (*_display->string)["ACTION_SEARCH_SECRET"]);
 		_add_item(7, ENTRY, AC_LEAVE, (*_display->string)["ACTION_LEAVE"]);
 		break;
+	case MUSEUM:
+		_add_all_items();
+		break;
 	default:
 		break;
 	}
+}
+
+// Item List is special
+auto Sorcery::Menu::_add_all_items() -> void {
 }
 
 // The Character Menu is a special case and needs to be reloaded often when names and classes change

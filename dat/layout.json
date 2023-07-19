@@ -928,7 +928,12 @@
 			"background": " 0xff0000ff",
 			"justification": "left",
 			"type": "menu",
-			"priority": "8"
+			"priority": "8",
+			"data": [
+				{
+					"display_items": "24"
+				}
+			]
 		}
 		]
 	},
