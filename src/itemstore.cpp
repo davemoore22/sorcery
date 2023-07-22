@@ -213,6 +213,8 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				item_type.set_eff_inv(invoke_effect);
 				item_type.set_eff_inv_decay(invoke_decay);
 				item_type.set_cursed(cursed);
+
+				_items[id.value()] = item_type;
 			}
 
 			return true;
@@ -240,7 +242,7 @@ auto Sorcery::ItemStore::get_random_item(ItemTypeID min_item_type_id, ItemTypeID
 auto Sorcery::ItemStore::get_all_types() const -> std::vector<ItemType> {
 
 	std::vector<ItemType> items;
-	for (const auto &[_, value] : _items)
+	for (const auto &[key, value] : _items)
 		items.push_back(value);
 
 	return items;

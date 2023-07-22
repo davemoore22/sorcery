@@ -334,6 +334,7 @@ Sorcery::Menu::Menu(
 		break;
 	case MUSEUM:
 		_add_all_items();
+		selected = items.begin();
 		break;
 	default:
 		break;
@@ -342,6 +343,10 @@ Sorcery::Menu::Menu(
 
 // Item List is special
 auto Sorcery::Menu::_add_all_items() -> void {
+
+	const auto item_types{_game->itemstore->get_all_types()};
+	for (auto &item_type : item_types)
+		_add_item(unenum(item_type.get_type_id()), MenuItemType::ENTRY, MenuItem::MU_ITEM, item_type.get_known_name());
 }
 
 // The Character Menu is a special case and needs to be reloaded often when names and classes change
@@ -663,6 +668,26 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 	using enum Enums::Menu::Type;
 	using enum Enums::Menu::ItemType;
 
+	// Figure out if we can display all the items to begin with or just a moving "window"
+	std::span<Sorcery::MenuEntry> working{};
+
+	if (_type != MUSEUM) {
+		working = items;
+	} else {
+		auto current{
+			static_cast<unsigned int>(std::distance<std::vector<MenuEntry>::const_iterator>(items.begin(), selected))};
+		if (current < component.h) {
+
+			// In this case, only display the first part of the vector of items
+			working = std::span<Sorcery::MenuEntry>(items.begin(), items.begin() + component.h);
+		} else {
+
+			// Otherwise scroll the items appropriately
+			working = std::span<Sorcery::MenuEntry>(items.begin() + current - component.h, items.begin() + current);
+			force_refresh = true;
+		}
+	}
+
 	auto do_refresh{force_refresh || _texts.empty()};
 	if (do_refresh) {
 
@@ -686,9 +711,9 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 		bounds.clear();
 		auto index{0};
 		auto entry_y{0};
-		for (const auto &item : items) {
+		for (const auto &item : working) {
 
-			auto current{items.begin() + index};
+			auto current{working.begin() + index};
 			if ((item.type == TEXT) || (item.type == ENTRY) || (item.type == SAVE) || (item.type == CANCEL)) {
 				auto text_string{item.key};
 				sf::Text text{};
@@ -709,7 +734,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 				text.setPosition(entry_x, entry_y);
 
 				// If we have a selected entry, change the background colour
-				if (selected == current) {
+				if ((*selected).index == (*current).index) {
 					const sf::FloatRect bg_rect{text.getGlobalBounds()};
 
 					// See
@@ -790,7 +815,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 						option_text.setPosition(option_x - bounds.width, option_y);
 					}
 
-					if (selected == current) {
+					if ((*selected).index == (*current).index) {
 						option_text.setOutlineColor(sf::Color(0, 0, 0));
 						option_text.setOutlineThickness(1);
 					}
@@ -808,9 +833,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 			}
 			++index;
 		}
-	}
-
-	else {
+	} else {
 
 		// Only change what needs to be changed
 		auto entry_y{0};
@@ -820,10 +843,10 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 		auto option_y{0};
 		const Component on_c{(*_display->layout)["options:on"]};
 		const Component off_c{(*_display->layout)["options:off"]};
-		for (const auto &item : items) {
-			auto current{items.begin() + index};
+		for (const auto &item : working) {
+			auto current{working.begin() + index};
 			if ((item.type == TEXT) || (item.type == ENTRY) || (item.type == SAVE) || (item.type == CANCEL)) {
-				if (selected == current) {
+				if ((*selected).index == (*current).index) {
 					const sf::FloatRect bg_rect{_texts.at(index).getGlobalBounds()};
 					sf::RectangleShape bg(sf::Vector2f(component.w * _display->window->get_cw(), bg_rect.height));
 					bg.setPosition(0, entry_y);
@@ -862,7 +885,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 						_options.at(options_index).setFillColor(sf::Color(off_c.colour));
 					}
 
-					if (selected == current) {
+					if ((*selected).index == (*current).index) {
 						_options.at(options_index).setOutlineColor(sf::Color(0, 0, 0));
 						_options.at(options_index).setOutlineThickness(1);
 					}
