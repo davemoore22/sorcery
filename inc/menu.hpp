@@ -75,6 +75,7 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		auto get_width() const -> unsigned int;
 		auto get_height() const -> unsigned int;
 		auto get_size() const -> sf::Vector2f;
+		auto set_visible_size(const unsigned int value) -> void;
 
 	private:
 
@@ -87,6 +88,7 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		auto _select_first() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto _select_last() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto _add_all_items() -> void;
+		auto _choose_by_index(const unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator>;
 
 		// Private Members
 		System *_system;
@@ -103,6 +105,9 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		sf::RectangleShape _selected_bg;
 		std::optional<MenuMode> _mode;
 		bool _go_first;
+		unsigned int _previous;
+		unsigned int _visible_size;
+		std::span<Sorcery::MenuEntry> _visible_items;
 };
 
 }

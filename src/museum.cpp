@@ -89,7 +89,9 @@ auto Sorcery::Museum::_initalise_components() -> void {
 	_window = _display->window->get_window();
 
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::MUSEUM);
-	_menu->generate((*_display->layout)["museum:menu"]);
+	const auto menu_c{(*_display->layout)["museum:menu"]};
+	_menu->set_visible_size(std::stoi(menu_c["display_items"].value()));
+	_menu->generate(menu_c);
 }
 
 auto Sorcery::Museum::_refresh_display() -> void {

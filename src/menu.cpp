@@ -341,6 +341,11 @@ Sorcery::Menu::Menu(
 	}
 }
 
+auto Sorcery::Menu::set_visible_size(const unsigned int value) -> void {
+
+	_visible_size = value;
+}
+
 // Item List is special
 auto Sorcery::Menu::_add_all_items() -> void {
 
@@ -436,12 +441,17 @@ auto Sorcery::Menu::_select_first() -> std::optional<std::vector<MenuEntry>::con
 auto Sorcery::Menu::_select_last() -> std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	using enum Enums::Menu::ItemType;
+	using enum Enums::Menu::Type;
 
 	// Would be nice to use a ranges reverse view to handle this, or a std::find_last_if, instead we have to do a
 	// forward iterator backwards since we can't use a backwards iterator either!
 	for (std::vector<MenuEntry>::const_iterator it = items.end() - 1; it != items.begin(); --it)
 		if ((((*it).type == ENTRY) || ((*it).type == SAVE) || ((*it).type == CANCEL)) && ((*it).enabled)) {
 			selected = it;
+			if (_type == MUSEUM) {
+
+				// Change the working window
+			}
 			return selected;
 		}
 
@@ -452,19 +462,22 @@ auto Sorcery::Menu::_select_last() -> std::optional<std::vector<MenuEntry>::cons
 auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
 	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
+	using enum Enums::Menu::Type;
+	using enum Enums::Menu::ItemType;
+
 	if (!bounds.empty()) {
 
-		// Look for the bounds the mouse cursor is in, but select and return the associated item with the same index,
-		// since both containers track each other
+		// Look for the bounds the mouse cursor is in, but select and return the associated item with the same
+		// index, since both containers track each other
 		const sf::Vector2f global_pos{this->getPosition()};
 		mouse_pos -= global_pos;
 		auto it{std::ranges::find_if(
 			bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) { return item.contains(mouse_pos); })};
 		if (it != bounds.end()) {
 			auto dist{std::distance(bounds.begin(), it)};
-			auto candidate{items.begin() + dist};
+			auto candidate{_visible_items.begin() + dist};
 			if (candidate->enabled) {
-				selected = candidate;
+				selected = _choose_by_index(candidate->index).value();
 				return selected;
 			} else
 				return std::nullopt;
@@ -582,6 +595,21 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 		return std::nullopt;
 }
 
+auto Sorcery::Menu::_choose_by_index(const unsigned int index)
+	-> std::optional<std::vector<MenuEntry>::const_iterator> {
+
+	// Iterate through til we have found the item with the associated index
+	if (auto it{
+			std::ranges::find_if(items.begin(), items.end(), [&](const auto &item) { return item.index == index; })};
+		it != items.end())
+		return it;
+	else
+		return std::nullopt;
+
+	// If we reach here the mouse cursor is outside the items so we don't do anything
+	return std::nullopt;
+}
+
 // Set selected based upon the item index
 auto Sorcery::Menu::choose(const unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator> {
 
@@ -633,6 +661,8 @@ auto Sorcery::Menu::choose_previous() -> std::optional<std::vector<MenuEntry>::c
 	} else
 		return selected;
 
+	// TODO: need to change _visible_items range if we have to
+
 	return std::nullopt;
 }
 
@@ -659,6 +689,8 @@ auto Sorcery::Menu::choose_next() -> std::optional<std::vector<MenuEntry>::const
 	} else
 		return selected;
 
+	// TODO: need to change _visible_items range if we have to
+
 	return std::nullopt;
 }
 
@@ -669,22 +701,20 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 	using enum Enums::Menu::ItemType;
 
 	// Figure out if we can display all the items to begin with or just a moving "window"
-	std::span<Sorcery::MenuEntry> working{};
-
 	if (_type != MUSEUM) {
-		working = items;
+		_visible_items = items;
 	} else {
 		auto current{
 			static_cast<unsigned int>(std::distance<std::vector<MenuEntry>::const_iterator>(items.begin(), selected))};
 		if (current < component.h) {
 
-			// In this case, only display the first part of the vector of items
-			working = std::span<Sorcery::MenuEntry>(items.begin(), items.begin() + component.h);
+			// In this case, only display the first part of the vector of items as we haven't reached the bottom yet
+			_visible_items = std::span<Sorcery::MenuEntry>(items.begin(), items.begin() + component.h);
 		} else {
 
-			// Otherwise scroll the items appropriately
-			working = std::span<Sorcery::MenuEntry>(items.begin() + current - component.h, items.begin() + current);
-			force_refresh = true;
+			// Otherwise scroll the items appropriately with the selected item at the bottom
+			_visible_items =
+				std::span<Sorcery::MenuEntry>(items.begin() + current - component.h, items.begin() + current);
 		}
 	}
 
@@ -711,9 +741,9 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 		bounds.clear();
 		auto index{0};
 		auto entry_y{0};
-		for (const auto &item : working) {
+		for (const auto &item : _visible_items) {
 
-			auto current{working.begin() + index};
+			auto current{_visible_items.begin() + index};
 			if ((item.type == TEXT) || (item.type == ENTRY) || (item.type == SAVE) || (item.type == CANCEL)) {
 				auto text_string{item.key};
 				sf::Text text{};
@@ -843,8 +873,8 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 		auto option_y{0};
 		const Component on_c{(*_display->layout)["options:on"]};
 		const Component off_c{(*_display->layout)["options:off"]};
-		for (const auto &item : working) {
-			auto current{working.begin() + index};
+		for (const auto &item : _visible_items) {
+			auto current{_visible_items.begin() + index};
 			if ((item.type == TEXT) || (item.type == ENTRY) || (item.type == SAVE) || (item.type == CANCEL)) {
 				if ((*selected).index == (*current).index) {
 					const sf::FloatRect bg_rect{_texts.at(index).getGlobalBounds()};
