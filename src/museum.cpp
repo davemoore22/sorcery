@@ -80,7 +80,7 @@ auto Sorcery::Museum::_reset_components() -> void {
 
 auto Sorcery::Museum::_place_components() -> void {
 
-	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["museum:menu"].y);
+	_menu->setPosition((*_display->layout)["museum:menu"].pos());
 }
 
 auto Sorcery::Museum::_initalise_components() -> void {
@@ -164,11 +164,15 @@ auto Sorcery::Museum::_handle_input(const sf::Event &event) -> std::optional<Mod
 	} else
 		_display->hide_overlay();
 
-	if (_system->input->check(WindowInput::UP, event))
+	if (_system->input->check(WindowInput::UP, event)) {
 		_selected = _menu->choose_previous();
-	else if (_system->input->check(WindowInput::DOWN, event))
+		const auto menu_c{(*_display->layout)["museum:menu"]};
+		_menu->generate(menu_c, true);
+	} else if (_system->input->check(WindowInput::DOWN, event)) {
 		_selected = _menu->choose_next();
-	else if (_system->input->check(WindowInput::MOVE, event))
+		const auto menu_c{(*_display->layout)["museum:menu"]};
+		_menu->generate(menu_c, true);
+	} else if (_system->input->check(WindowInput::MOVE, event))
 		_selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 	else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
