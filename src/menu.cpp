@@ -346,13 +346,14 @@ auto Sorcery::Menu::set_visible_size(const unsigned int value) -> void {
 	_visible_size = value;
 }
 
-// Item List is special
+// Item List is special (but don't add Broken Item)
 auto Sorcery::Menu::_add_all_items() -> void {
 
 	const auto item_types{_game->itemstore->get_all_types()};
 	for (auto &item_type : item_types)
-		_add_item(
-			unenum(item_type.get_type_id()), MenuItemType::ENTRY, MenuItem::MU_ITEM, item_type.get_display_name());
+		if (item_type.get_type_id() != ItemTypeID::BROKEN_ITEM)
+			_add_item(
+				unenum(item_type.get_type_id()), MenuItemType::ENTRY, MenuItem::MU_ITEM, item_type.get_display_name());
 }
 
 // The Character Menu is a special case and needs to be reloaded often when names and classes change
