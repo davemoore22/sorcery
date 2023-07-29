@@ -42,6 +42,7 @@ Sorcery::ResourceManager::ResourceManager(File &files) : _files{files} {
 		textures.acquire(DOORS, thor::Resources::fromFile<sf::Texture>(_files[DOORS_TEXTURE]));
 		textures.acquire(EVENTS, thor::Resources::fromFile<sf::Texture>(_files[EVENTS_TEXTURE]));
 		textures.acquire(FLOORS, thor::Resources::fromFile<sf::Texture>(_files[FLOORS_TEXTURE]));
+		textures.acquire(ITEMS, thor::Resources::fromFile<sf::Texture>(_files[ITEMS_TEXTURE]));
 		textures.acquire(LOGO, thor::Resources::fromFile<sf::Texture>(_files[LOGO_TEXTURE]));
 		textures.acquire(ICONS, thor::Resources::fromFile<sf::Texture>(_files[ICONS_TEXTURE]));
 		textures.acquire(PORTRAITS, thor::Resources::fromFile<sf::Texture>(_files[PORTRAITS_TEXTURE]));

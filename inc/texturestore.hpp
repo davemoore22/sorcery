@@ -57,6 +57,7 @@ class TextureStore {
 		sf::Texture *_door_t;
 		sf::Texture *_creatures_known_t;
 		sf::Texture *_creatures_unknown_t;
+		sf::Texture *_item_t;
 		sf::Texture *_portrait_t;
 		sf::Texture *_view_t;
 		sf::Texture *_events_t;

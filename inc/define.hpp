@@ -100,6 +100,7 @@ inline constexpr auto DOORS_TEXTURE{"doors.png"sv};
 inline constexpr auto EVENTS_TEXTURE{"events.png"sv};
 inline constexpr auto FLOORS_TEXTURE{"floors.png"sv};
 inline constexpr auto ICONS_TEXTURE{"icons.png"sv};
+inline constexpr auto ITEMS_TEXTURE{"items.png"sv};
 inline constexpr auto LOGO_TEXTURE{"logo.png"sv};
 inline constexpr auto PORTRAITS_TEXTURE{"potraits.png"sv};
 inline constexpr auto SPLASH_TEXTURE{"splash.png"sv};
@@ -139,6 +140,7 @@ inline constexpr auto WALLPAPER_INTERVAL{30000u};
 // Miscellaneous Settings
 inline constexpr auto MAX_PORTRAIT_INDEX{29u};
 inline constexpr auto CREATURE_TILE_SIZE{400};
+inline constexpr auto ITEM_TILE_SIZE{108};
 inline constexpr auto DUNGEON_TILE_SIZE{400};
 inline constexpr auto WALLPAPER_TILE_SIZE{400};
 inline constexpr auto PORTRAIT_TILE_SIZE{600};
@@ -149,6 +151,7 @@ inline constexpr auto EVENT_TILE_SIZE{511};
 inline constexpr auto CREATURE_TILE_ROW_COUNT{20};
 inline constexpr auto DUNGEON_TILE_ROW_COUNT{15};
 inline constexpr auto EVENT_TILE_ROW_COUNT{15};
+inline constexpr auto ITEM_TILE_ROW_COUNT{15};
 inline constexpr auto WALLPAPER_TILE_ROW_COUNT{15};
 inline constexpr auto PORTRAIT_TILE_ROW_COUNT{6};
 inline constexpr auto ICON_TILE_ROW_COUNT{15};
@@ -206,5 +209,4 @@ static const std::string EXPLAIN_KEY_NOT_FOUND{"EXPLAIN KEY NOT FOUND"};
 static const std::string KEY_NOT_FOUND{"KEY NOT FOUND"};
 static const std::string STRINGS_NOT_LOADED{"GAME STRINGS NOT LOADED"};
 static const std::string FILE_NOT_FOUND{"FILE NOT FOUND"};
-
 }

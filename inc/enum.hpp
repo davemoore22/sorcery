@@ -245,6 +245,7 @@ namespace Enums::Graphics {
 		EVENTS,
 		FLOORS,
 		ICONS,
+		ITEMS,
 		LOGO,
 		PORTRAITS,
 		SPLASH,
@@ -266,6 +267,7 @@ namespace Enums::Graphics {
 		UNKNOWN_CREATURE,
 		PORTRAIT,
 		EVENTS,
+		ITEMS,
 		WALLPAPER
 	};
 }

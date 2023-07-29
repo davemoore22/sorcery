@@ -36,6 +36,7 @@ Sorcery::TextureStore::TextureStore(System *system, const std::filesystem::path 
 	_ceiling_t = &_system->resources->textures[GraphicsTexture::FLOORS];
 	_floor_t = &_system->resources->textures[GraphicsTexture::FLOORS];
 	_door_t = &_system->resources->textures[GraphicsTexture::DOORS];
+	_item_t = &_system->resources->textures[GraphicsTexture::ITEMS];
 	_creatures_known_t = &_system->resources->textures[GraphicsTexture::CREATURES_KNOWN];
 	_creatures_unknown_t = &_system->resources->textures[GraphicsTexture::CREATURES_UNKNOWN];
 	_portrait_t = &_system->resources->textures[GraphicsTexture::PORTRAITS];
@@ -95,6 +96,10 @@ auto Sorcery::TextureStore::get(const unsigned int index, GraphicsTextureType te
 	case UNKNOWN_CREATURE:
 		source = _creatures_unknown_t;
 		idx = index;
+		break;
+	case ITEMS:
+		idx = index;
+		source = _item_t;
 		break;
 	case PORTRAIT:
 		source = _portrait_t;
@@ -214,6 +219,9 @@ auto Sorcery::TextureStore::_get_rect(unsigned int index, GraphicsTextureType te
 		case PORTRAIT:
 			return PORTRAIT_TILE_SIZE;
 			break;
+		case ITEMS:
+			return ITEM_TILE_SIZE;
+			break;
 		case EVENTS:
 			return EVENT_TILE_SIZE;
 			break;
@@ -236,6 +244,9 @@ auto Sorcery::TextureStore::_get_rect(unsigned int index, GraphicsTextureType te
 			break;
 		case PORTRAIT:
 			return PORTRAIT_TILE_ROW_COUNT;
+			break;
+		case ITEMS:
+			return ITEM_TILE_ROW_COUNT;
 			break;
 		case EVENTS:
 			return EVENT_TILE_ROW_COUNT;
