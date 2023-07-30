@@ -352,8 +352,8 @@ auto Sorcery::Menu::_add_all_items() -> void {
 	const auto item_types{_game->itemstore->get_all_types()};
 	for (auto &item_type : item_types)
 		if (item_type.get_type_id() != ItemTypeID::BROKEN_ITEM)
-			_add_item(
-				unenum(item_type.get_type_id()), MenuItemType::ENTRY, MenuItem::MU_ITEM, item_type.get_display_name());
+			_add_item(unenum(item_type.get_type_id()), MenuItemType::ENTRY, MenuItem::MU_ITEM,
+				item_type.get_display_name(), unenum(item_type.get_type_id()));
 }
 
 // The Character Menu is a special case and needs to be reloaded often when names and classes change
@@ -407,6 +407,18 @@ auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const Menu
 
 	auto hint{""s};
 	items.emplace_back(static_cast<unsigned int>(index), itemtype, code, key, true, ConfigOption::NONE, hint);
+	++count;
+}
+
+auto Sorcery::Menu::_add_item(
+	int index, const MenuItemType itemtype, const MenuItem code, std::string key, unsigned int idx) -> void {
+
+	// Note passing key by value as we are modifying the key here
+	if (key.length() % 2 == 0)
+		key.resize(key.length() + 1, 32);
+
+	auto hint{""s};
+	items.emplace_back(static_cast<unsigned int>(index), itemtype, code, key, true, idx);
 	++count;
 }
 
@@ -708,6 +720,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 	} else {
 		auto current{
 			static_cast<unsigned int>(std::distance<std::vector<MenuEntry>::const_iterator>(items.begin(), selected))};
+
 		if (current < component.h) {
 
 			// In this case, only display the first part of the vector of items as we haven't reached the bottom yet
@@ -715,8 +728,9 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 		} else {
 
 			// Otherwise scroll the items appropriately with the selected item at the bottom
-			_visible_items =
-				std::span<Sorcery::MenuEntry>(items.begin() + current - component.h, items.begin() + current);
+			const auto start_span{items.begin() + current + 1 - component.h};
+			const auto end_span{items.begin() + current + 1};
+			_visible_items = std::span<Sorcery::MenuEntry>(start_span, end_span);
 		}
 	}
 
@@ -726,7 +740,6 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 		// In case we are generating the Options Menu
 		const Component on_c{(*_display->layout)["options:on"]};
 		const Component off_c{(*_display->layout)["options:off"]};
-		const sf::Vector2f global_pos(component.pos());
 
 		// Work out total size of texture needed
 		const auto texture_w{component.w * _display->window->get_cw()};
@@ -767,7 +780,6 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 
 				// If we have a selected entry, change the background colour
 				if ((*selected).index == (*current).index) {
-					const sf::FloatRect bg_rect{text.getGlobalBounds()};
 
 					// See
 					// https://stackoverflow.com/questions/14505571/centering-text-on-the-screen-with-sfml/15253837#15253837

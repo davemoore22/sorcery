@@ -41,6 +41,7 @@ class ItemStore {
 		// Overload operators
 		auto operator[](ItemTypeID item_type_id) const -> ItemType;
 		auto operator()(ItemCategory) const -> std::optional<std::vector<ItemType>>;
+		auto operator[](std::string name) const -> ItemType;
 
 		// Public methods
 		auto get_an_item(ItemTypeID item_type_id) const -> Item;

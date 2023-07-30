@@ -927,6 +927,23 @@
 			"background": " 0x000000ff"
 		},
 		{
+			"name": "picture",
+			"x": "35",
+			"y": "6",
+			"scale": "1.8",
+			"type": "image",
+			"priority": "1",
+			"texture": "background",
+			"drawmode": "manual",
+			"data": [
+				{
+					"offset_x": "8",
+					"offset_y": "0"
+				}
+			]
+
+		},
+		{
 			"name": "item_frame",
 			"w": "18",
 			"h": "14",

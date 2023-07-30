@@ -35,14 +35,17 @@ namespace Sorcery {
 struct MenuEntry {
 		MenuEntry()
 			: index{0}, type{Enums::Menu::ItemType::NO_MENU_ITEM_TYPE}, item{Enums::Menu::Item::NO_MENU_ITEM}, key{},
-			  enabled{false}, config{Enums::Options::NONE}, hint{} {};
+			  enabled{false}, config{Enums::Options::NONE}, hint{}, idx{0} {};
 		MenuEntry(unsigned int index_, Enums::Menu::ItemType type_, Enums::Menu::Item item_, std::string key_,
 			bool enabled_, Enums::Options config_, std::string hint_)
 			: index{index_}, type{type_}, item{item_}, key{key_}, enabled{enabled_}, config{config_}, hint{hint_} {};
+		MenuEntry(unsigned int index_, Enums::Menu::ItemType type_, Enums::Menu::Item item_, std::string key_,
+			bool enabled_, unsigned int idx_)
+			: index{index_}, type{type_}, item{item_}, key{key_}, enabled{enabled_}, idx{idx_} {};
 
 		auto operator==(const MenuEntry &a) const -> bool {
 			return ((index == a.index) && (type == a.type) && (item == a.item) && (key == a.key) &&
-					(enabled == a.enabled) && (config == a.config) && (hint == a.hint));
+					(enabled == a.enabled) && (config == a.config) && (hint == a.hint) && (idx == a.idx));
 		}
 
 		unsigned int index;
@@ -52,6 +55,7 @@ struct MenuEntry {
 		bool enabled;
 		Enums::Options config;
 		std::string hint;
+		unsigned int idx;
 };
 
 // Struct to represent a game

@@ -63,6 +63,7 @@ class Museum {
 		auto _initalise_components() -> void;
 		auto _place_components() -> void;
 		auto _refresh_display() -> void;
+		auto _update_display() -> void;
 
 		// Private Members
 		System *_system;
@@ -72,6 +73,7 @@ class Museum {
 		sf::RenderWindow *_window;
 		std::unique_ptr<Menu> _menu;
 		std::optional<std::vector<MenuEntry>::const_iterator> _selected;
+		sf::Sprite _item_gfx;
 };
 
 }

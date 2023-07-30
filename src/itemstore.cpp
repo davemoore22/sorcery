@@ -229,6 +229,13 @@ auto Sorcery::ItemStore::operator[](ItemTypeID item_type_id) const -> ItemType {
 	return _items.at(item_type_id);
 }
 
+auto Sorcery::ItemStore::operator[](std::string name) const -> ItemType {
+
+	auto it{std::ranges::find_if(_items.begin(), _items.end(),
+		[&](const auto &item_type) { return (item_type.second.get_display_name() == name); })};
+	return (*it).second;
+}
+
 auto Sorcery::ItemStore::operator()(ItemCategory) const -> std::optional<std::vector<ItemType>> {
 }
 

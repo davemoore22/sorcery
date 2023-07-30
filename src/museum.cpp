@@ -114,9 +114,20 @@ auto Sorcery::Museum::_draw() -> void {
 	_menu->generate((*_display->layout)["museum:menu"]);
 	_window->draw(*_menu);
 
+	_window->draw(_item_gfx);
+
 	_display->display_overlay();
 	_display->display_cursor();
 }
+
+auto Sorcery::Museum::_update_display() -> void {
+
+	const auto item_gfx_c{(*_display->layout)["museum:picture"]};
+	const auto selected_idx{_selected.value()->idx};
+	_item_gfx = _graphics->textures->get(selected_idx - 1, GraphicsTextureType::ITEMS).value();
+	_item_gfx.setPosition(item_gfx_c.pos());
+	_item_gfx.setScale(item_gfx_c.scl());
+};
 
 auto Sorcery::Museum::_do_event_loop() -> std::optional<ModuleResult> {
 
@@ -168,13 +179,21 @@ auto Sorcery::Museum::_handle_input(const sf::Event &event) -> std::optional<Mod
 		_selected = _menu->choose_previous();
 		const auto menu_c{(*_display->layout)["museum:menu"]};
 		_menu->generate(menu_c, true);
+		_update_display();
 	} else if (_system->input->check(WindowInput::DOWN, event)) {
 		_selected = _menu->choose_next();
 		const auto menu_c{(*_display->layout)["museum:menu"]};
 		_menu->generate(menu_c, true);
-	} else if (_system->input->check(WindowInput::MOVE, event))
+		_update_display();
+	} else if (_system->input->check(WindowInput::MOVE, event)) {
 		_selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	else if (_system->input->check(WindowInput::CONFIRM, event)) {
+		if (_selected) {
+			// TODO This needs to be fixed as mouse-moving over scrolled menus is not 100%
+			const auto menu_c{(*_display->layout)["museum:menu"]};
+			_menu->generate(menu_c, true);
+			_update_display();
+		}
+	} else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
 		// We have selected something from the menu
 		if (_selected) {
