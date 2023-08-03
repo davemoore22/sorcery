@@ -52,8 +52,10 @@ class ItemType {
 		auto get_usable_alignment() const -> ItemUsableAlignment;
 		auto get_swings() const -> int;
 		auto get_to_hit_mod() const -> int;
-		auto get_damage_dice() const -> RandomType;
+		auto get_damage_dice_number() const -> int;
+		auto get_damage_dice_type() const -> int;
 		auto get_damage_dice_mod() const -> int;
+		auto get_random_damage() const -> int;
 		auto get_ac_mod() const -> int;
 		auto get_curse_ac_mod() const -> int;
 		auto get_regen() const -> int;
@@ -82,8 +84,7 @@ class ItemType {
 		auto set_usable_alignment(const ItemUsableAlignment value) -> void;
 		auto set_swings(const int value) -> void;
 		auto set_to_hit_mod(const int value) -> void;
-		auto set_damage_dice(const RandomType value) -> void;
-		auto set_damage_dice_mod(const int value) -> void;
+		auto set_damage_dice(const int num, const int type, const int mod) -> void;
 		auto set_ac_mod(const int value) -> void;
 		auto set_curse_ac_mod(const int value) -> void;
 		auto set_regen(const int value) -> void;
@@ -114,8 +115,9 @@ class ItemType {
 		ItemUsableAlignment _alignment;		   // Usable by alignment (otherwise cursed)
 		int _swings;						   // If a weapon, number of attacks granted
 		int _to_hit_modifier;				   // Bonus to hit using this weapon
-		RandomType _damage_dice;			   // e.g. the 2d8 of 2d8+2
-		int _damage_dice_modifer;			   // e.g. the 2 of 2d8+2
+		int _damage_dice_number;			   // e.g. the 3 of 3d8+2
+		int _damage_dice_type;				   // e.g. the d8 of 3d8+2
+		int _damage_dice_modifer;			   // e.g. the +2 of 3d8+2
 		int _ac_modifier;					   // AC modifier if worn normally
 		int _curse_ac_modifier;				   // If a cursed item, AC modifier
 		int _regeneration;					   // Passive hp adjustment (25% chance per turn of this happening)
@@ -130,6 +132,9 @@ class ItemType {
 		bool _discovered_by_player;			   // Has been discovered in this game
 		std::string _description;			   // Flowery Description
 		unsigned int _gfx;					   // Index of Item Graphic
+
+		static std::random_device _device; // Shared RNG
+		static std::mt19937_64 _random;
 };
 
 }

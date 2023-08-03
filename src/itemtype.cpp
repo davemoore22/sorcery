@@ -26,6 +26,9 @@
 
 #include "itemtype.hpp"
 
+std::random_device Sorcery::ItemType::_device;
+std::mt19937_64 Sorcery::ItemType::_random(_device());
+
 auto Sorcery::ItemType::get_type_id() const -> ItemTypeID {
 
 	return _type;
@@ -86,9 +89,25 @@ auto Sorcery::ItemType::get_to_hit_mod() const -> int {
 	return _to_hit_modifier;
 }
 
-auto Sorcery::ItemType::get_damage_dice() const -> RandomType {
+auto Sorcery::ItemType::get_damage_dice_number() const -> int {
 
-	return _damage_dice;
+	return _damage_dice_number;
+}
+
+auto Sorcery::ItemType::get_damage_dice_type() const -> int {
+
+	return _damage_dice_type;
+}
+
+auto Sorcery::ItemType::get_random_damage() const -> int {
+
+	if (_damage_dice_number > 0) {
+		{
+			auto dist{std::uniform_int_distribution<unsigned int>(1, _damage_dice_type)};
+			return _damage_dice_number * dist(_random) + _damage_dice_modifer;
+		}
+	} else
+		return 0;
 }
 
 auto Sorcery::ItemType::get_damage_dice_mod() const -> int {
@@ -236,14 +255,11 @@ auto Sorcery::ItemType::set_to_hit_mod(const int value) -> void {
 	_to_hit_modifier = value;
 }
 
-auto Sorcery::ItemType::set_damage_dice(const RandomType value) -> void {
+auto Sorcery::ItemType::set_damage_dice(const int num, const int type, const int mod) -> void {
 
-	_damage_dice = value;
-}
-
-auto Sorcery::ItemType::set_damage_dice_mod(const int value) -> void {
-
-	_damage_dice_modifer = value;
+	_damage_dice_number = num;
+	_damage_dice_type = type;
+	_damage_dice_modifer = mod;
 }
 
 auto Sorcery::ItemType::set_ac_mod(const int value) -> void {

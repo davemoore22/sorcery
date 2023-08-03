@@ -87,6 +87,11 @@ auto Sorcery::Random::operator[](const RandomType random_type) -> unsigned int {
 	return _get(random_type);
 }
 
+auto Sorcery::Random::get_type(const int num) const -> RandomType {
+
+	return magic_enum::enum_cast<RandomType>(num).value_or(RandomType::NO_DICE);
+}
+
 auto Sorcery::Random::get_random_name() -> std::string {
 
 	auto sy1_dist{std::uniform_int_distribution<unsigned int>(0, _sy1.size() - 1)};
