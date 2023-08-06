@@ -203,34 +203,23 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				item_type.set_usable_class(item_usable);
 				item_type.set_usable_alignment(item_alignment);
 				item_type.set_to_hit_mod(to_hit);
+
+				// Parse Damage Dice String
 				if ((!damage_s.empty()) && (category == ItemCategory::WEAPON)) {
 
-					// Dice Strings are always of the format (x)d(+/-)(y)
-					auto d_pos{damage_s.find('d')};
-					if (d_pos != std::string::npos) {
-						auto num{std::stoi(damage_s.substr(0, d_pos))};
-						auto type{[&] {
-							auto sign_pos{std::min(damage_s.find('+'), damage_s.find('-'))};
-							if (sign_pos != std::string::npos) {
-								return std::stoi(damage_s.substr(d_pos + 1, sign_pos - d_pos));
-							} else
-								return 0;
-						}()};
-						auto mod{[&] {
-							auto p_pos{damage_s.find('+')};
-							auto n_pos{damage_s.find('-')};
-							if (p_pos != std::string::npos)
-								return std::stoi(damage_s.substr(p_pos, damage_s.size() - p_pos));
-							else if (n_pos != std::string::npos)
-								return 0 - std::stoi(damage_s.substr(n_pos, damage_s.size() - n_pos));
-							else
-								return 0;
-						}()};
+					// Regex for Dice Parsing by "rikkles" on the Grid Cartographer Discord
+					const std::regex regex(R"(^(\d+)d(\d+)[+-]?(\d*)$)");
+					if (std::smatch match; std::regex_search(damage_s, match, regex)) {
+						auto num{std::stoi(match[1])};
+						auto type{std::stoi(match[2])};
+						auto mod{std::stoi(match[3])};
+						if (damage_s.find('-') != std::string::npos)
+							mod = -mod;
 						item_type.set_damage_dice(num, type, mod);
-					} else {
+					} else
 						item_type.set_damage_dice(0, 0, 0);
-					}
-				}
+				} else
+					item_type.set_damage_dice(0, 0, 0);
 				item_type.set_swings(attacks);
 				item_type.set_ac_mod(ac);
 				item_type.set_eff_use(use_spell);

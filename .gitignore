@@ -39,6 +39,9 @@ build/*
 obj/*
 .debris/*
 
+# Temporary Files
+*.swp
+
 bin/Debug/sorcery-sfml
 bin/Debug/dat/strings.json
 profiler_analysis.stats
