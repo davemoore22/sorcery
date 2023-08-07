@@ -224,8 +224,8 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				item_type.set_ac_mod(ac);
 				item_type.set_eff_use(use_spell);
 				item_type.set_eff_use_decay(use_decay);
-				// TODO: offensive effects
-				// TODO: defensive effects
+				item_type.set_eff_def(_get_defensive_effects(defensive_s));
+				item_type.set_eff_off(_get_offensive_effects(offensive_s));
 				item_type.set_eff_inv(invoke_effect);
 				item_type.set_eff_inv_decay(invoke_decay);
 				item_type.set_cursed(cursed);
@@ -271,4 +271,55 @@ auto Sorcery::ItemStore::get_all_types() const -> std::vector<ItemType> {
 		items.push_back(value);
 
 	return items;
+}
+
+auto Sorcery::ItemStore::_get_defensive_effects(const std::string defensive_s) const -> ItemEffDef {
+
+	ItemEffDef effects{};
+	effects.fill(false);
+
+	if (defensive_s.length() > 0) {
+		std::regex regex{R"([,]+)"};
+		std::sregex_token_iterator it{defensive_s.begin(), defensive_s.end(), regex, -1};
+		std::vector<std::string> split{it, {}};
+		split.erase(
+			std::remove_if(split.begin(), split.end(), [](std::string_view s) { return s.size() == 0; }), split.end());
+
+		for (const auto &term : split) {
+			if (term == "RESIST_ALL") {
+				for (auto i = unenum(ItemDef::RESIST_COLD); i <= unenum(ItemDef::PREVENT_DECAPITATION); i++)
+					effects[i] = true;
+			}
+			if (term == "PROTECT_VS_ALL") {
+				for (auto i = unenum(ItemDef::PROTECTION_VS_ANIMAL); i <= unenum(ItemDef::PROTECTION_VS_WERE); i++)
+					effects[i] = true;
+			};
+			auto def{magic_enum::enum_cast<ItemDef>(term)};
+			if (def.has_value())
+				effects[unenum(def.value())] = term.starts_with('!') ? false : true;
+		}
+	}
+
+	return effects;
+}
+
+auto Sorcery::ItemStore::_get_offensive_effects(const std::string offsensive_s) const -> ItemEffOff {
+
+	ItemEffOff effects{};
+	effects.fill(false);
+
+	if (offsensive_s.length() > 0) {
+		std::regex regex{R"([,]+)"};
+		std::sregex_token_iterator it{offsensive_s.begin(), offsensive_s.end(), regex, -1};
+		std::vector<std::string> split{it, {}};
+		split.erase(
+			std::remove_if(split.begin(), split.end(), [](std::string_view s) { return s.size() == 0; }), split.end());
+
+		for (const auto &term : split) {
+			auto off{magic_enum::enum_cast<ItemOff>(term)};
+			if (off.has_value())
+				effects[unenum(off.value())] = term.starts_with('!') ? false : true;
+		}
+	}
+	return effects;
 }

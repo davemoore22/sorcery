@@ -57,6 +57,8 @@ class ItemStore {
 
 		// Private methods
 		auto _load(const std::filesystem::path filename) -> bool;
+		auto _get_defensive_effects(const std::string defensive_s) const -> ItemEffDef;
+		auto _get_offensive_effects(const std::string offsensive_s) const -> ItemEffOff;
 };
 
 }
