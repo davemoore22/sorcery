@@ -252,7 +252,7 @@
 		 "to hit": 1,
 		 "damage": "1d6+0",
 		 "attacks": 1,
-		 "use": "MOGRAF",
+		 "use": "MOGREF",
 		 "use decay": 25,
 		 "decay id": 0
 		},
@@ -353,7 +353,7 @@
 		{
 		 "id": 29,
 		 "category": "WEAPON",
-		 "Cursed": "Cursed",
+		 "cursed": "Cursed",
 		 "known name": "Long Sword -1",
 		 "unknown name": "Sword",
 		 "display name": "Long Sword -1",
@@ -367,7 +367,7 @@
 		{
 		 "id": 30,
 		 "category": "WEAPON",
-		 "Cursed": "Cursed",
+		 "cursed": "Cursed",
 		 "known name": "Short Sword -1",
 		 "unknown name": "Sword",
 		 "display name": "Short Sword -1",
@@ -380,7 +380,7 @@
 		{
 		 "id": 31,
 		 "category": "WEAPON",
-		 "Cursed": "Cursed",
+		 "cursed": "Cursed",
 		 "known name": "Mace -1",
 		 "unknown name": "Staff",
 		 "display name": "Mace -1",
@@ -433,7 +433,7 @@
 		{
 		 "id": 35,
 		 "category": "ARMOUR",
-		 "Cursed": "Cursed",
+		 "cursed": "Cursed",
 		 "known name": "Leather Armour-1",
 		 "unknown name": "Armour",
 		 "display name": "Leather -1",
@@ -445,7 +445,7 @@
 		{
 		 "id": 36,
 		 "category": "ARMOUR",
-		 "Cursed": "Cursed",
+		 "cursed": "Cursed",
 		 "known name": "Chain Mail -1",
 		 "unknown name": "Armour",
 		 "display name": "Chain Mail -1",
@@ -457,7 +457,7 @@
 		{
 		 "id": 37,
 		 "category": "ARMOUR",
-		 "Cursed": "Cursed",
+		 "cursed": "Cursed",
 		 "known name": "Breast Plate -1",
 		 "unknown name": "Armour",
 		 "display name": "Breast Plate -1",
@@ -847,7 +847,7 @@
 		{
 		 "id": 68,
 		 "category": "WEAPON",
-		 "Cursed": "Cursed",
+		 "cursed": "Cursed",
 		 "known name": "Short Sword -2",
 		 "unknown name": "Sword",
 		 "display name": "Short Sword -2",
@@ -874,7 +874,7 @@
 		{
 		 "id": 70,
 		 "category": "WEAPON",
-		 "Cursed": "Cursed",
+		 "cursed": "Cursed",
 		 "known name": "Mace -2",
 		 "unknown name": "Staff",
 		 "display name": "Mace -2",
@@ -888,7 +888,7 @@
 		{
 		 "id": 71,
 		 "category": "WEAPON",
-		 "Cursed": "Cursed",
+		 "cursed": "Cursed",
 		 "known name": "Staff -2",
 		 "unknown name": "Staff",
 		 "display name": "Staff -2",
@@ -916,7 +916,7 @@
 		{
 		 "id": 73,
 		 "category": "ARMOUR",
-		 "Cursed": "Cursed",
+		 "cursed": "Cursed",
 		 "known name": "Robe of Curses",
 		 "unknown name": "Clothing",
 		 "display name": "Robe|Curses",
@@ -929,7 +929,7 @@
 		{
 		 "id": 74,
 		 "category": "ARMOUR",
-		 "Cursed": "Cursed",
+		 "cursed": "Cursed",
 		 "known name": "Leather Armour -2",
 		 "unknown name": "Armour",
 		 "display name": "Leather -2",
@@ -941,7 +941,7 @@
 		{
 		 "id": 75,
 		 "category": "ARMOUR",
-		 "Cursed": "Cursed",
+		 "cursed": "Cursed",
 		 "known name": "Chain Mail -2",
 		 "unknown name": "Armour",
 		 "display name": "Chain Mail -2",
@@ -953,7 +953,7 @@
 		{
 		 "id": 76,
 		 "category": "ARMOUR",
-		 "Cursed": "Cursed",
+		 "cursed": "Cursed",
 		 "known name": "Breast Plate -2",
 		 "unknown name": "Armour",
 		 "display name": "Breast Plate -2",
@@ -965,7 +965,7 @@
 		{
 		 "id": 77,
 		 "category": "SHIELD",
-		 "Cursed": "Cursed",
+		 "cursed": "Cursed",
 		 "known name": "Shield -2",
 		 "unknown name": "Shield",
 		 "display name": "Shield -2",
@@ -1171,7 +1171,7 @@
 		{
 		 "id": 93,
 		 "category": "MISCELLANEOUS",
-		 "Cursed": "Cursed",
+		 "cursed": "Cursed",
 		 "known name": "Ring of Death",
 		 "unknown name": "Ring",
 		 "display name": "Ring|Death",
@@ -1183,7 +1183,7 @@
 		{
 		 "id": 94,
 		 "category": "MISCELLANEOUS",
-		 "Cursed": "Cursed",
+		 "cursed": "Cursed",
 		 "known name": "Amulet of Werdna",
 		 "unknown name": "Amulet",
 		 "display name": "Amulet|Werdna",

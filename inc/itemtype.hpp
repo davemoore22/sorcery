@@ -52,6 +52,7 @@ class ItemType {
 		auto get_usable_alignment() const -> ItemUsableAlignment;
 		auto get_swings() const -> int;
 		auto get_to_hit_mod() const -> int;
+		auto get_damage() const -> std::string;
 		auto get_damage_dice_number() const -> int;
 		auto get_damage_dice_type() const -> int;
 		auto get_damage_dice_mod() const -> int;
@@ -74,6 +75,7 @@ class ItemType {
 		auto is_usable(const CharacterAlignment calign) -> bool;
 		auto set_type_id(const ItemTypeID value) -> void;
 		auto set_known_name(const std::string value) -> void;
+		auto set_damage(const std::string value) -> void;
 		auto set_display_name(const std::string value) -> void;
 		auto set_unknown_name(const std::string value) -> void;
 		auto set_category(const ItemCategory value) -> void;
@@ -115,6 +117,7 @@ class ItemType {
 		ItemUsableAlignment _alignment;		   // Usable by alignment (otherwise cursed)
 		int _swings;						   // If a weapon, number of attacks granted
 		int _to_hit_modifier;				   // Bonus to hit using this weapon
+		std::string _damage_str;			   // 3d8+2
 		int _damage_dice_number;			   // e.g. the 3 of 3d8+2
 		int _damage_dice_type;				   // e.g. the d8 of 3d8+2
 		int _damage_dice_modifer;			   // e.g. the +2 of 3d8+2

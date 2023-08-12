@@ -54,6 +54,11 @@ auto Sorcery::ItemType::get_category() const -> ItemCategory {
 	return _category;
 }
 
+auto Sorcery::ItemType::get_damage() const -> std::string {
+
+	return _damage_str;
+}
+
 auto Sorcery::ItemType::get_cursed() const -> bool {
 
 	return _cursed;
@@ -157,7 +162,7 @@ auto Sorcery::ItemType::get_eff_use() const -> SpellID {
 
 auto Sorcery::ItemType::get_eff_use_decay() const -> unsigned int {
 
-	return _invocation_decay_chance;
+	return _use_decay_chance;
 }
 
 auto Sorcery::ItemType::get_decay_type_id() const -> ItemTypeID {
@@ -208,6 +213,11 @@ auto Sorcery::ItemType::set_known_name(const std::string value) -> void {
 auto Sorcery::ItemType::set_display_name(const std::string value) -> void {
 
 	_display_name = value;
+}
+
+auto Sorcery::ItemType::set_damage(const std::string value) -> void {
+
+	_damage_str = value;
 }
 
 auto Sorcery::ItemType::set_unknown_name(const std::string value) -> void {

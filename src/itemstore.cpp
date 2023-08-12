@@ -143,7 +143,7 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				}()};
 				const auto invoke_effect{[&] {
 					if (items[i].isMember("invoke")) {
-						if (items[i]["use"].asString().length() > 0) {
+						if (items[i]["invoke"].asString().length() > 0) {
 							auto invoke{
 								magic_enum::enum_cast<Enums::Items::Effects::Invoke>(items[i]["invoke"].asString())};
 							return invoke.value_or(NO_INV_EFFECT);
@@ -170,20 +170,21 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				item_usable.fill(false);
 				if (allowed_classes_s.find('f') != std::string::npos)
 					item_usable[unenum(FIGHTER)] = true;
-				if (allowed_classes_s.find('l') != std::string::npos)
-					item_usable[unenum(LORD)] = true;
-				if (allowed_classes_s.find('s') != std::string::npos)
-					item_usable[unenum(SAMURAI)] = true;
-				if (allowed_classes_s.find('t') != std::string::npos)
-					item_usable[unenum(THIEF)] = true;
-				if (allowed_classes_s.find('n') != std::string::npos)
-					item_usable[unenum(NINJA)] = true;
-				if (allowed_classes_s.find('p') != std::string::npos)
-					item_usable[unenum(PRIEST)] = true;
-				if (allowed_classes_s.find('b') != std::string::npos)
-					item_usable[unenum(BISHOP)] = true;
 				if (allowed_classes_s.find('m') != std::string::npos)
 					item_usable[unenum(MAGE)] = true;
+				if (allowed_classes_s.find('p') != std::string::npos)
+					item_usable[unenum(PRIEST)] = true;
+				if (allowed_classes_s.find('t') != std::string::npos)
+					item_usable[unenum(THIEF)] = true;
+				if (allowed_classes_s.find('b') != std::string::npos)
+					item_usable[unenum(BISHOP)] = true;
+				if (allowed_classes_s.find('s') != std::string::npos)
+					item_usable[unenum(SAMURAI)] = true;
+				if (allowed_classes_s.find('l') != std::string::npos)
+					item_usable[unenum(LORD)] = true;
+				if (allowed_classes_s.find('n') != std::string::npos)
+					item_usable[unenum(NINJA)] = true;
+
 				ItemUsableAlignment item_alignment{};
 				item_usable.fill(false);
 				if (allowed_alignments_s.find('g') != std::string::npos)
@@ -203,6 +204,8 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				item_type.set_usable_class(item_usable);
 				item_type.set_usable_alignment(item_alignment);
 				item_type.set_to_hit_mod(to_hit);
+				item_type.set_damage(damage_s);
+				item_type.set_discovered(false);
 
 				// Parse Damage Dice String
 				if ((!damage_s.empty()) && (category == ItemCategory::WEAPON)) {
@@ -254,14 +257,29 @@ auto Sorcery::ItemStore::operator[](std::string name) const -> ItemType {
 	return (*it).second;
 }
 
-auto Sorcery::ItemStore::operator()(ItemCategory) const -> std::optional<std::vector<ItemType>> {
+auto Sorcery::ItemStore::operator()(const ItemCategory category) const -> std::vector<ItemType> {
+
+	std::vector<ItemType> items;
+	for (const auto &[key, value] : _items)
+		if (value.get_category() == category)
+			items.push_back(value);
+
+	return items;
 }
 
 // Public methods
-auto Sorcery::ItemStore::get_an_item(ItemTypeID item_type_id) const -> Item {
+auto Sorcery::ItemStore::get_an_item(const ItemTypeID item_type_id) const -> Item {
+
+	return Item{item_type_id};
 }
 
-auto Sorcery::ItemStore::get_random_item(ItemTypeID min_item_type_id, ItemTypeID max_item_type_id) const -> Item {
+auto Sorcery::ItemStore::get_random_item(const ItemTypeID min_item_type_id, const ItemTypeID max_item_type_id) const
+	-> Item {
+
+	// TODO: probably needs some bounds checking on this
+	auto item_type_id{_system->random->get(unenum(min_item_type_id), unenum(max_item_type_id))};
+
+	return Item{magic_enum::enum_cast<ItemTypeID>(item_type_id).value()};
 }
 
 auto Sorcery::ItemStore::get_all_types() const -> std::vector<ItemType> {

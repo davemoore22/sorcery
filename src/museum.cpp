@@ -81,6 +81,7 @@ auto Sorcery::Museum::_reset_components() -> void {
 auto Sorcery::Museum::_place_components() -> void {
 
 	_menu->setPosition((*_display->layout)["museum:menu"].pos());
+	_item_display->setPosition((*_display->layout)["museum:item_display"].pos());
 }
 
 auto Sorcery::Museum::_initalise_components() -> void {
@@ -92,6 +93,8 @@ auto Sorcery::Museum::_initalise_components() -> void {
 	const auto menu_c{(*_display->layout)["museum:menu"]};
 	_menu->set_visible_size(std::stoi(menu_c["display_items"].value()));
 	_menu->generate(menu_c);
+
+	_item_display = std::make_unique<ItemDisplay>(_system, _display, _graphics, _game);
 }
 
 auto Sorcery::Museum::_refresh_display() -> void {
@@ -115,6 +118,7 @@ auto Sorcery::Museum::_draw() -> void {
 	_window->draw(*_menu);
 
 	_window->draw(_item_gfx);
+	_window->draw(*_item_display);
 
 	_display->display_overlay();
 	_display->display_cursor();
@@ -127,6 +131,7 @@ auto Sorcery::Museum::_update_display() -> void {
 	_item_gfx = _graphics->textures->get(selected_idx - 1, GraphicsTextureType::ITEMS).value();
 	_item_gfx.setPosition(item_gfx_c.pos());
 	_item_gfx.setScale(item_gfx_c.scl());
+	_item_display->set(selected_idx);
 };
 
 auto Sorcery::Museum::_do_event_loop() -> std::optional<ModuleResult> {

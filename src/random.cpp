@@ -104,10 +104,17 @@ auto Sorcery::Random::get_random_name() -> std::string {
 	return name;
 }
 
+// Generate a random number of a specified type
 auto Sorcery::Random::_get(const RandomType random_type) -> unsigned int {
 
-	// Generate a random number of a specified type
 	const auto [min, max]{_range[random_type]};
+	auto dist{std::uniform_int_distribution<unsigned int>(min, max)};
+	return dist(_random);
+}
+
+// Generate a random number of a specified range
+auto Sorcery::Random::get(const unsigned int min, const unsigned int max) -> unsigned int {
+
 	auto dist{std::uniform_int_distribution<unsigned int>(min, max)};
 	return dist(_random);
 }

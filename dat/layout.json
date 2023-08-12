@@ -207,6 +207,28 @@
 			"y": "17"
 		},
 		{
+			"name": "item_display",
+			"font": "text",
+			"colour": "0xdddddddff",
+			"size": "24",
+			"alpha": "255",
+			"type": "panel",
+			"drawmode": "manual",
+			"w": "35",
+			"h": "10",
+			"data": [
+				{
+					"icon_scale": "0.05",
+					"icon_x_classes": "96",
+					"icon_y_classes": "28",
+					"icon_x_alignments": "308",
+					"icon_y_alignments": "28",
+					"icon_offset_x": "26",
+					"icon_offset_y": "48"
+				}
+			]
+		},
+		{
 			"name": "get",
 			"x": "centre",
 			"y": "centre",
@@ -878,6 +900,17 @@
 			"type": "frame",
 			"priority": "1",
 			"background": " 0x000000ff"
+		},
+		{
+			"name": "item_display",
+			"font": "text",
+			"colour": "0xdddddddff",
+			"size": "24",
+			"alpha": "255",
+			"type": "panel",
+			"drawmode": "manual",
+			"x": "31",
+			"y": "17"
 		},
 		{
 			"name": "title_frame",
@@ -5850,6 +5883,8 @@
 			}
 		]
 	},
+
+
 	{
 		"name": "character_panel",
 		"component": [
@@ -6070,6 +6105,326 @@
 				}
 			]
 		}]
+	},
+
+
+
+	{
+		"name": "item_display",
+		"component": [
+		{
+			"name": "type_label",
+			"x": "0",
+			"y": "2",
+			"font": "text",
+			"colour": "0xa0a0a0ff",
+			"size": "24",
+			"string": "ITEM_TYPE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "price_label",
+			"x": "0",
+			"y": "3",
+			"font": "text",
+			"colour": "0xa0a0a0ff",
+			"size": "24",
+			"string": "ITEM_PRICE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "cursed_label",
+			"x": "14",
+			"y": "2",
+			"font": "text",
+			"colour": "0xa0a0a0ff",
+			"size": "24",
+			"string": "ITEM_CURSED",
+			"justification": "right",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "discovered_label",
+			"x": "14",
+			"y": "3",
+			"font": "text",
+			"colour": "0xa0a0a0ff",
+			"size": "24",
+			"string": "ITEM_DISCOVERED",
+			"justification": "right",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "usable_label",
+			"x": "0",
+			"y": "1",
+			"font": "text",
+			"colour": "0xa0a0a0ff",
+			"size": "24",
+			"string": "ITEM_USABLE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "ac_label",
+			"x": "0",
+			"y": "4",
+			"font": "text",
+			"colour": "0xa0a0a0ff",
+			"size": "24",
+			"string": "ITEM_AC",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "to_hit_label",
+			"x": "14",
+			"y": "4",
+			"font": "text",
+			"colour": "0xa0a0a0ff",
+			"size": "24",
+			"string": "ITEM_TO_HIT",
+			"justification": "right",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "swings_label",
+			"x": "14",
+			"y": "5",
+			"font": "text",
+			"colour": "0xa0a0a0ff",
+			"size": "24",
+			"string": "ITEM_SWINGS",
+			"justification": "right",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "damage_label",
+			"x": "0",
+			"y": "5",
+			"font": "text",
+			"colour": "0xa0a0a0ff",
+			"size": "24",
+			"string": "ITEM_DAMAGE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "invoke_label",
+			"x": "0",
+			"y": "7",
+			"font": "text",
+			"colour": "0xa0a0a0ff",
+			"size": "24",
+			"string": "ITEM_INVOKE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "usage_label",
+			"x": "0",
+			"y": "8",
+			"font": "text",
+			"colour": "0xa0a0a0ff",
+			"size": "24",
+			"string": "ITEM_USAGE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "properties_label",
+			"x": "0",
+			"y": "9",
+			"font": "text",
+			"colour": "0xa0a0a0ff",
+			"size": "24",
+			"string": "ITEM_PROPERTIES",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "name_label_item",
+			"x": "0",
+			"y": "0",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "type_label_item",
+			"x": "3",
+			"y": "2",
+			"font": "text",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "cursed_label_item",
+			"x": "15",
+			"y": "2",
+			"font": "text",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "value_label_item",
+			"x": "4",
+			"y": "3",
+			"font": "text",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "discovered_label_item",
+			"x": "15",
+			"y": "3",
+			"font": "text",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "ac_mod_label_item",
+			"x": "5",
+			"y": "4",
+			"font": "text",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "attack_mod_label_item",
+			"x": "15",
+			"y": "4",
+			"font": "text",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "damage_label_item",
+			"x": "4",
+			"y": "5",
+			"font": "text",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "swings_label_item",
+			"x": "15",
+			"y": "5",
+			"font": "text",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "invoke_label_item",
+			"x": "7",
+			"y": "7",
+			"font": "text",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "use_label_item",
+			"x": "7",
+			"y": "8",
+			"font": "text",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "properties_label_item",
+			"x": "0",
+			"y": "10",
+			"font": "text",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		}
+	]
 	},
 	{
 		"name": "character_detailed",

@@ -177,6 +177,7 @@
 		<Unit filename="inc/input.hpp" />
 		<Unit filename="inc/inspect.hpp" />
 		<Unit filename="inc/item.hpp" />
+		<Unit filename="inc/itemdisplay.hpp" />
 		<Unit filename="inc/itemstore.hpp" />
 		<Unit filename="inc/itemtype.hpp" />
 		<Unit filename="inc/keyboard.hpp" />
@@ -262,6 +263,7 @@
 		<Unit filename="src/inspect.cpp" />
 		<Unit filename="src/item.cpp" />
 		<Unit filename="src/itemdefinition" />
+		<Unit filename="src/itemdisplay.cpp" />
 		<Unit filename="src/itemstore.cpp" />
 		<Unit filename="src/itemtype.cpp" />
 		<Unit filename="src/keyboard.cpp" />

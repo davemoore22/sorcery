@@ -28,6 +28,7 @@
 #include "frame.hpp"
 #include "game.hpp"
 #include "graphics.hpp"
+#include "itemdisplay.hpp"
 #include "layout.hpp"
 #include "main.hpp"
 #include "menu.hpp"
@@ -72,6 +73,7 @@ class Museum {
 		Game *_game;
 		sf::RenderWindow *_window;
 		std::unique_ptr<Menu> _menu;
+		std::unique_ptr<ItemDisplay> _item_display;
 		std::optional<std::vector<MenuEntry>::const_iterator> _selected;
 		sf::Sprite _item_gfx;
 };

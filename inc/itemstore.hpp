@@ -40,12 +40,12 @@ class ItemStore {
 
 		// Overload operators
 		auto operator[](ItemTypeID item_type_id) const -> ItemType;
-		auto operator()(ItemCategory) const -> std::optional<std::vector<ItemType>>;
+		auto operator()(ItemCategory category) const -> std::vector<ItemType>;
 		auto operator[](std::string name) const -> ItemType;
 
 		// Public methods
-		auto get_an_item(ItemTypeID item_type_id) const -> Item;
-		auto get_random_item(ItemTypeID min_item_type_id, ItemTypeID max_item_type_id) const -> Item;
+		auto get_an_item(const ItemTypeID item_type_id) const -> Item;
+		auto get_random_item(const ItemTypeID min_item_type_id, const ItemTypeID max_item_type_id) const -> Item;
 		auto get_all_types() const -> std::vector<ItemType>;
 
 	private:

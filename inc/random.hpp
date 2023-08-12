@@ -42,6 +42,7 @@ class Random {
 		// Public Methods
 		auto get_random_name() -> std::string;
 		auto get_type(const int num) const -> RandomType;
+		auto get(const unsigned int min, const unsigned int max) -> unsigned int;
 
 		// Public Members
 

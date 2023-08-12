@@ -531,10 +531,10 @@ namespace Enums::Character {
 	};
 
 	enum class Align {
-		NO_ALIGN,
-		GOOD,
-		NEUTRAL,
-		EVIL
+		NO_ALIGN = 0,
+		GOOD = 1,
+		NEUTRAL = 2,
+		EVIL = 3
 	};
 
 	enum class CStatus {
@@ -1220,6 +1220,13 @@ namespace Enums {
 			INVENTORY = 1,
 			FLOOR = 2,
 			SHOP = 3
+		};
+
+		enum class View {
+
+			SUMMARY = 0,
+			DETAILED = 1,
+			SPECIALS = 2
 		};
 
 		// Following the original numbering at http://www.pekori.jp/~emonoya/item/index.html for the
