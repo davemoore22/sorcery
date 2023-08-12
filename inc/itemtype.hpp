@@ -61,7 +61,9 @@ class ItemType {
 		auto get_curse_ac_mod() const -> int;
 		auto get_regen() const -> int;
 		auto get_eff_def() const -> ItemEffDef;
+		auto get_eff_def_str() const -> std::string;
 		auto get_eff_off() const -> ItemEffOff;
+		auto get_eff_off_str() const -> std::string;
 		auto get_eff_inv() const -> ItemInv;
 		auto get_eff_inv_decay() const -> unsigned int;
 		auto get_eff_use() const -> SpellID;
@@ -71,8 +73,8 @@ class ItemType {
 		auto get_discovered() const -> bool;
 		auto get_desc() const -> std::string;
 		auto get_gfx() const -> unsigned int;
-		auto is_usable(const CharacterClass cclass) -> bool;
-		auto is_usable(const CharacterAlignment calign) -> bool;
+		auto is_class_usable(const CharacterClass cclass) const -> bool;
+		auto is_align_usable(const CharacterAlignment calign) const -> bool;
 		auto set_type_id(const ItemTypeID value) -> void;
 		auto set_known_name(const std::string value) -> void;
 		auto set_damage(const std::string value) -> void;

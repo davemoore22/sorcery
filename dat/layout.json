@@ -224,7 +224,8 @@
 					"icon_x_alignments": "308",
 					"icon_y_alignments": "28",
 					"icon_offset_x": "26",
-					"icon_offset_y": "48"
+					"icon_offset_y": "48",
+					"effects_width": "34"
 				}
 			]
 		},
@@ -6232,7 +6233,7 @@
 		{
 			"name": "invoke_label",
 			"x": "0",
-			"y": "7",
+			"y": "6",
 			"font": "text",
 			"colour": "0xa0a0a0ff",
 			"size": "24",
@@ -6245,7 +6246,7 @@
 		{
 			"name": "usage_label",
 			"x": "0",
-			"y": "8",
+			"y": "7",
 			"font": "text",
 			"colour": "0xa0a0a0ff",
 			"size": "24",
@@ -6258,7 +6259,7 @@
 		{
 			"name": "properties_label",
 			"x": "0",
-			"y": "9",
+			"y": "8",
 			"font": "text",
 			"colour": "0xa0a0a0ff",
 			"size": "24",
@@ -6388,7 +6389,7 @@
 		{
 			"name": "invoke_label_item",
 			"x": "7",
-			"y": "7",
+			"y": "6",
 			"font": "text",
 			"colour": "0xffffffff",
 			"size": "24",
@@ -6401,7 +6402,7 @@
 		{
 			"name": "use_label_item",
 			"x": "7",
-			"y": "8",
+			"y": "7",
 			"font": "text",
 			"colour": "0xffffffff",
 			"size": "24",
@@ -6414,7 +6415,7 @@
 		{
 			"name": "properties_label_item",
 			"x": "0",
-			"y": "10",
+			"y": "9",
 			"font": "text",
 			"colour": "0xffffffff",
 			"size": "24",

@@ -90,32 +90,29 @@ auto Sorcery::ItemDisplay::set(const unsigned int item_idx) -> void {
 	for (auto &icon : _align_icons)
 		icon.setColor(sf::Color(0xff1a1aff));
 
-	const auto usable_classes{it.get_usable_class()};
-	const auto usable_aligns{it.get_usable_alignment()};
-
 	// Stored in different order to enum, argh
-	if (usable_classes[unenum(FIGHTER)])
+	if (it.is_class_usable(FIGHTER))
 		_class_icons[1].setColor(sf::Color(0x169016ff));
-	if (usable_classes[unenum(MAGE)])
+	if (it.is_class_usable(MAGE))
 		_class_icons[7].setColor(sf::Color(0x169016ff));
-	if (usable_classes[unenum(PRIEST)])
+	if (it.is_class_usable(PRIEST))
 		_class_icons[5].setColor(sf::Color(0x169016ff));
-	if (usable_classes[unenum(THIEF)])
+	if (it.is_class_usable(THIEF))
 		_class_icons[3].setColor(sf::Color(0x169016ff));
-	if (usable_classes[unenum(BISHOP)])
+	if (it.is_class_usable(BISHOP))
 		_class_icons[6].setColor(sf::Color(0x169016ff));
-	if (usable_classes[unenum(SAMURAI)])
+	if (it.is_class_usable(SAMURAI))
 		_class_icons[0].setColor(sf::Color(0x169016ff));
-	if (usable_classes[unenum(LORD)])
+	if (it.is_class_usable(LORD))
 		_class_icons[2].setColor(sf::Color(0x169016ff));
-	if (usable_classes[unenum(NINJA)])
+	if (it.is_class_usable(NINJA))
 		_class_icons[4].setColor(sf::Color(0x169016ff));
 
-	if (usable_aligns[unenum(GOOD)])
+	if (it.is_align_usable(GOOD))
 		_align_icons[0].setColor(sf::Color(0x169016ff));
-	if (usable_aligns[unenum(NEUTRAL)])
+	if (it.is_align_usable(NEUTRAL))
 		_align_icons[1].setColor(sf::Color(0x169016ff));
-	if (usable_aligns[unenum(EVIL)])
+	if (it.is_align_usable(EVIL))
 		_align_icons[2].setColor(sf::Color(0x169016ff));
 
 	valid = true;
@@ -126,8 +123,8 @@ auto Sorcery::ItemDisplay::set(const unsigned int item_idx) -> void {
 	const std::string it_cursed{it.get_cursed() == true ? "Yes" : "No"};
 	_add_text((*_display->layout)["item_display:cursed_label_item"], "{}", it_cursed);
 	const std::string it_disc{it.get_discovered() == true ? "Yes" : "No"};
-	_add_text((*_display->layout)["item_display:discovered_label_item"], "{}", it_cursed);
-	_add_text((*_display->layout)["item_display:value_label_item"], "{} GP", std::to_string(it.get_value()));
+	_add_text((*_display->layout)["item_display:discovered_label_item"], "{}", it_disc);
+	_add_text((*_display->layout)["item_display:value_label_item"], "{}", std::to_string(it.get_value()));
 	_add_text((*_display->layout)["item_display:ac_mod_label_item"], "{}", std::to_string(it.get_ac_mod()));
 	_add_text((*_display->layout)["item_display:attack_mod_label_item"], "{}", std::to_string(it.get_to_hit_mod()));
 	_add_text((*_display->layout)["item_display:damage_label_item"], "{}", it.get_damage());
@@ -135,7 +132,7 @@ auto Sorcery::ItemDisplay::set(const unsigned int item_idx) -> void {
 
 	const std::string it_invoke{[&] {
 		if (it.get_eff_inv() == ItemInv::NO_INV_EFFECT)
-			return std::string{"None"};
+			return std::string{""};
 		else {
 			const std::string inv{magic_enum::enum_name(it.get_eff_inv())};
 			auto str{fmt::format("{} ({}%)", inv, it.get_eff_inv_decay())};
@@ -147,7 +144,7 @@ auto Sorcery::ItemDisplay::set(const unsigned int item_idx) -> void {
 
 	const std::string it_use{[&] {
 		if (it.get_eff_use() == SpellID::NO_SPELL)
-			return std::string{"None"};
+			return std::string{""};
 		else {
 			const std::string inv{magic_enum::enum_name(it.get_eff_use())};
 			auto str{fmt::format("{} ({}%)", inv, it.get_eff_use_decay())};
@@ -157,14 +154,37 @@ auto Sorcery::ItemDisplay::set(const unsigned int item_idx) -> void {
 	}()};
 	_add_text((*_display->layout)["item_display:use_label_item"], "{}", it_use);
 
-	/* const auto item_def{it.get_eff_def()};
-	auto def_effects{""s};
-	auto def_eff{ItemDef::NO_DEF_EFFECT};
-	for (const auto &[value] : item_def) {
-		if (value)
+	auto effects{it.get_eff_def_str()};
+	effects.append(it.get_eff_off_str());
+	if (effects.length() > 0) {
+		TRIM(effects);
 
-		def_eff++;
-	} */
+		std::string shortened{std::regex_replace(effects, std::regex("PROTECTION"), "PROT")};
+		shortened = std::regex_replace(shortened, std::regex("RESIST"), "RES");
+		shortened = std::regex_replace(shortened, std::regex("PURPOSED"), "BANE");
+		shortened = std::regex_replace(shortened, std::regex("(,)[^,]*$"), "");
+
+		auto chunk_size{std::stoi(_layout["effects_width"].value())};
+		auto wrapped_text{WORDWRAP(shortened, chunk_size)};
+
+		// Split the display lines into a vector
+		std::vector<std::string> strings;
+		const std::regex regex(R"([@]+)");
+		std::sregex_token_iterator it{wrapped_text.begin(), wrapped_text.end(), regex, -1};
+		std::vector<std::string> split{it, {}};
+		split.erase(std::remove_if(split.begin(), split.end(), [](std::string const &s) { return s.size() == 0; }),
+			split.end());
+		strings = split;
+
+		Component effects_c{(*_display->layout)["item_display:properties_label_item"]};
+		auto x{effects_c.x};
+		auto y{effects_c.y};
+		for (const auto &each_string : strings) {
+			auto text{_add_text((*_display->layout)["item_display:properties_label_item"], "{}", each_string)};
+			text->setPosition(x, y);
+			y += _display->window->get_ch();
+		}
+	}
 }
 
 auto Sorcery::ItemDisplay::_add_text(Component &component, std::string format, std::string value) -> sf::Text * {

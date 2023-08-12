@@ -6,10 +6,12 @@ Written using SFML, TGUI, and C++.
 
 ![](/promo/screen1.png)
 ![](/promo/screen7.png)
+![](/promo/screen19.png)
 ![](/promo/screen18.png)
 
-Watch some videos of parts of Level 1 of the Proving Grounds being explored here:
+Watch some videos of gameplay (most recent first):
 
+(New as of August 2023 - Compendium Browsing)[![Compendium Browsing](https://img.youtube.com/vi/TSj7Rw3l3Iw/maxresdefault.jpg)](https://youtu.be/TSj7Rw3l3Iw)
 [![Entering the Dungeon](https://img.youtube.com/vi/AQ9LhK0ta8A/maxresdefault.jpg)](https://youtu.be/AQ9LhK0ta8A)
 [![Dungeon Events](https://img.youtube.com/vi/RG25iYrPBlg/maxresdefault.jpg)](https://youtu.be/RG25iYrPBlg)
 
@@ -33,14 +35,14 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 * ~~Temple~~ (DONE)
 * ~~Wipe Handling~~ (DONE)
 * ~~Dungeon Events~~ (DONE)
-* Items and Inventory (DOING)
+* **Items and Inventory (DOING)**
+* **Compendium (DOING)**
 * Boltac's Equipment Shop (TO DO)
 * Creatures and NPCs (TO DO)
 * Magic and Combat (TO DO)
 * Special Item Handling (TO DO)
 * Victory Handling (TO DO)
 * Strict (Legacy) Mode (TO DO)
-* Compendium (TO DO)
 * Achivements (TO DO)
 * Optional Textured/Rendered 3D View (TO DO)
 
@@ -50,7 +52,7 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 * Procedurally-Generated Infinite Content (like Diablo)
 * Modding
 
-## What next? (as of July 2023)
+## What next? (as of August 2023)
 
 I'm am currently implementing Items, Inventory, and Item-Handling.
 
@@ -60,7 +62,7 @@ Initially I am planning to remake Wizardry 1, then adding 2 and 3, and then subs
 
 I 'm currently developing solely on Linux (Ubuntu 22) so compilation instructions are currently Linux-specific. Windows instructions and releases will of course be supported at a later date.
 
-Full compliation instructions for Linux are in the doc/COMPILE text file, but in brief both CMake (via VSCode CMake Tools) and Code::Blocks are supported once the various support libraries are installed. C++20 compiler support is required (I'm currently using GCC 12.1).
+Full compliation instructions for Linux are in the doc/COMPILE text file, but in brief both CMake (via VSCode CMake Tools) and Code::Blocks are supported once the various support libraries are installed. C++20 compiler support is required (I'm currently using GCC 11.3).
 
 All code is released under the GPL - see the doc/LICENSE text file for full details.
 

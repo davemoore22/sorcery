@@ -1029,7 +1029,7 @@
 		 "display name": "S-Sword +3 (E)",
 		 "value": 50000,
 		 "allowed classes": "ftsln",
-		 "allowed alignments": "gne",
+		 "allowed alignments": "e",
 		 "to hit": 6,
 		 "damage": "1d6+0",
 		 "attacks": 4

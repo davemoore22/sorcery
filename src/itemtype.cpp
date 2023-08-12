@@ -190,14 +190,18 @@ auto Sorcery::ItemType::get_gfx() const -> unsigned int {
 	return _gfx;
 }
 
-auto Sorcery::ItemType::is_usable(const CharacterClass cclass) -> bool {
+auto Sorcery::ItemType::is_class_usable(const CharacterClass cclass) const -> bool {
 
-	return _usable[unenum(cclass)];
+	auto cc{unenum(cclass)};
+
+	return _usable[cc];
 }
 
-auto Sorcery::ItemType::is_usable(const CharacterAlignment calign) -> bool {
+auto Sorcery::ItemType::is_align_usable(const CharacterAlignment calign) const -> bool {
 
-	return _alignment[unenum(calign)];
+	auto ca{unenum(calign)};
+
+	return _alignment[ca];
 }
 
 auto Sorcery::ItemType::set_type_id(const ItemTypeID value) -> void {
@@ -300,6 +304,47 @@ auto Sorcery::ItemType::set_eff_off(const ItemEffOff value) -> void {
 auto Sorcery::ItemType::set_eff_inv(const ItemInv value) -> void {
 
 	_invocation_effect = value;
+}
+
+auto Sorcery::ItemType::get_eff_def_str() const -> std::string {
+
+	auto effects{""s};
+	for (auto i = unenum(ItemDef::RESIST_COLD); i <= unenum(ItemDef::PREVENT_DECAPITATION); i++) {
+		if (_defensive_effects[i]) {
+			const auto eff_enum{magic_enum::enum_value<ItemDef>(i)};
+			std::string str{magic_enum::enum_name<ItemDef>(eff_enum)};
+			std::replace(str.begin(), str.end(), '_', ' ');
+			effects.append(str);
+			effects.append(", ");
+		}
+	}
+	for (auto i = unenum(ItemDef::PROTECTION_VS_ANIMAL); i <= unenum(ItemDef::PROTECTION_VS_WERE); i++) {
+		if (_defensive_effects[i]) {
+			const auto eff_enum{magic_enum::enum_value<ItemDef>(i)};
+			std::string str{magic_enum::enum_name<ItemDef>(eff_enum)};
+			std::replace(str.begin(), str.end(), '_', ' ');
+			effects.append(str);
+			effects.append(", ");
+		}
+	}
+
+	return effects;
+}
+
+auto Sorcery::ItemType::get_eff_off_str() const -> std::string {
+
+	auto effects{""s};
+	for (auto i = unenum(ItemOff::PURPOSED_VS_ANIMAL); i <= unenum(ItemOff::AUTOKILL); i++) {
+		if (_offensive_effects[i]) {
+			const auto eff_enum{magic_enum::enum_value<ItemOff>(i)};
+			std::string str{magic_enum::enum_name<ItemOff>(eff_enum)};
+			std::replace(str.begin(), str.end(), '_', ' ');
+			effects.append(str);
+			effects.append(", ");
+		}
+	}
+
+	return effects;
 }
 
 auto Sorcery::ItemType::set_eff_inv_decay(const unsigned int value) -> void {

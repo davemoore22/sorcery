@@ -186,7 +186,7 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 					item_usable[unenum(NINJA)] = true;
 
 				ItemUsableAlignment item_alignment{};
-				item_usable.fill(false);
+				item_alignment.fill(false);
 				if (allowed_alignments_s.find('g') != std::string::npos)
 					item_alignment[unenum(GOOD)] = true;
 				if (allowed_alignments_s.find('n') != std::string::npos)
