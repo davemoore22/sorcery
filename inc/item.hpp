@@ -26,7 +26,6 @@
 
 #include "itemtype.hpp"
 #include "main.hpp"
-#include "system.hpp"
 
 namespace Sorcery {
 

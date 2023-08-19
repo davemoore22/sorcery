@@ -25,6 +25,8 @@
 #pragma once
 
 #include "main.hpp"
+#include "tile.hpp"
+#include "item.hpp"
 
 namespace Sorcery {
 
@@ -84,6 +86,7 @@ class Tile {
 		auto y() const -> int;
 
 		// need methods for items, events etc
+		std::vector<Item> items;
 
 	private:
 

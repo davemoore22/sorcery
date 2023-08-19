@@ -44,6 +44,9 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 
 	coordinate = std::nullopt;
 	depth = std::nullopt;
+
+	_inventory.clear();
+	_inventory.reserve(8);
 }
 
 // Overloaded Operator

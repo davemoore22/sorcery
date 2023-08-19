@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include "item.hpp"
 #include "main.hpp"
 #include "tile.hpp"
 

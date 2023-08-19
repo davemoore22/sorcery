@@ -292,13 +292,14 @@
 1672594195 source:/home/dave/Development/wizardry/sorcery-sfml/src/banner.cpp
 	"banner.hpp"
 
-1689359898 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
+1692465914 source:/home/dave/Development/wizardry/sorcery-sfml/src/character.cpp
 	"character.hpp"
 
-1689359898 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
+1692465928 /home/dave/Development/wizardry/sorcery-sfml/inc/character.hpp
 	"display.hpp"
 	"graphics.hpp"
 	"main.hpp"
+	"item.hpp"
 	"system.hpp"
 
 1689106283 source:/home/dave/Development/wizardry/sorcery-sfml/src/component.cpp
@@ -428,8 +429,10 @@
 1689358673 source:/home/dave/Development/wizardry/sorcery-sfml/src/tile.cpp
 	"tile.hpp"
 
-1673734712 /home/dave/Development/wizardry/sorcery-sfml/inc/tile.hpp
+1692467148 /home/dave/Development/wizardry/sorcery-sfml/inc/tile.hpp
 	"main.hpp"
+	"tile.hpp"
+	"item.hpp"
 
 1689620779 source:/home/dave/Development/wizardry/sorcery-sfml/src/window.cpp
 	"window.hpp"
@@ -1506,7 +1509,8 @@
 1676584366 source:/home/dave/Development/wizardry/sorcery-sfml/src/level.cpp
 	"level.hpp"
 
-1676494616 /home/dave/Development/wizardry/sorcery-sfml/inc/level.hpp
+1692466206 /home/dave/Development/wizardry/sorcery-sfml/inc/level.hpp
+	"item.hpp"
 	"main.hpp"
 	"tile.hpp"
 
@@ -1667,10 +1671,9 @@
 1689358263 source:/home/dave/Development/wizardry/sorcery-sfml/src/item.cpp
 	"item.hpp"
 
-1689448679 /home/dave/Development/wizardry/sorcery-sfml/inc/item.hpp
+1692466161 /home/dave/Development/wizardry/sorcery-sfml/inc/item.hpp
 	"itemtype.hpp"
 	"main.hpp"
-	"system.hpp"
 
 1680556067 /home/dave/Development/wizardry/sorcery-sfml/inc/itemregistry.hpp
 	"main.hpp"
@@ -1711,7 +1714,7 @@
 1689359860 source:/home/dave/Development/wizardry/sorcery-sfml/src/characterdisplay.cpp
 	"characterdisplay.hpp"
 
-1691882128 source:/home/dave/Development/wizardry/sorcery-sfml/src/itemdisplay.cpp
+1692461417 source:/home/dave/Development/wizardry/sorcery-sfml/src/itemdisplay.cpp
 	"itemdisplay.hpp"
 
 1691872177 /home/dave/Development/wizardry/sorcery-sfml/inc/itemdisplay.hpp
