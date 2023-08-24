@@ -1157,6 +1157,30 @@ src/inspect.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/inspect.cpp.s
 .PHONY : src/inspect.cpp.s
 
+src/inventory.o: src/inventory.cpp.o
+.PHONY : src/inventory.o
+
+# target to build an object file
+src/inventory.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/inventory.cpp.o
+.PHONY : src/inventory.cpp.o
+
+src/inventory.i: src/inventory.cpp.i
+.PHONY : src/inventory.i
+
+# target to preprocess a source file
+src/inventory.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/inventory.cpp.i
+.PHONY : src/inventory.cpp.i
+
+src/inventory.s: src/inventory.cpp.s
+.PHONY : src/inventory.s
+
+# target to generate assembly for a file
+src/inventory.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/inventory.cpp.s
+.PHONY : src/inventory.cpp.s
+
 src/item.o: src/item.cpp.o
 .PHONY : src/item.o
 
@@ -2302,6 +2326,9 @@ help:
 	@echo "... src/inspect.o"
 	@echo "... src/inspect.i"
 	@echo "... src/inspect.s"
+	@echo "... src/inventory.o"
+	@echo "... src/inventory.i"
+	@echo "... src/inventory.s"
 	@echo "... src/item.o"
 	@echo "... src/item.i"
 	@echo "... src/item.s"

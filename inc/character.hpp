@@ -29,6 +29,7 @@
 #include "graphics.hpp"
 #include "main.hpp"
 #include "item.hpp"
+#include "inventory.hpp"
 #include "system.hpp"
 
 // clang-format on
@@ -54,7 +55,7 @@ class Character {
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_location, coordinate, depth, _version, _name, _race, _class, _alignment, _start_attr, _cur_attr,
 				_max_attr, _st_points, _portrait_index, _abilities, _priest_max_sp, _priest_cur_sp, _mage_max_sp,
-				_mage_cur_sp, _status, _hidden, _spells_known, _legated, _inventory);
+				_mage_cur_sp, _status, _hidden, _spells_known, _legated);
 		}
 
 		// Public Methods
@@ -158,6 +159,7 @@ class Character {
 		// Public Members
 		std::optional<Coordinate> coordinate;
 		std::optional<int> depth;
+		Inventory inventory;
 
 	private:
 
@@ -165,7 +167,7 @@ class Character {
 		auto _generate_start_info() -> void;
 		auto _regenerate_start_info() -> void;
 		auto _legate_start_info() -> void;
-		auto _generate_secondary_abil(bool ini_inventorytial, bool change_class, bool legate) -> void;
+		auto _generate_secondary_abil(bool initial, bool change_class, bool legate) -> void;
 		auto _set_starting_sp() -> void;
 		auto _reset_starting_sp() -> void;
 		auto _clear_sp() -> void;
@@ -220,7 +222,6 @@ class Character {
 		CreateMethod _method;
 		bool _legated;
 		CharacterLocation _location;
-		std::vector<Item> _inventory;
 };
 
 }

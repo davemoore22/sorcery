@@ -176,6 +176,7 @@
 		<Unit filename="inc/inn.hpp" />
 		<Unit filename="inc/input.hpp" />
 		<Unit filename="inc/inspect.hpp" />
+		<Unit filename="inc/inventory.hpp" />
 		<Unit filename="inc/item.hpp" />
 		<Unit filename="inc/itemdisplay.hpp" />
 		<Unit filename="inc/itemstore.hpp" />
@@ -261,6 +262,7 @@
 		<Unit filename="src/inn.cpp" />
 		<Unit filename="src/input.cpp" />
 		<Unit filename="src/inspect.cpp" />
+		<Unit filename="src/inventory.cpp" />
 		<Unit filename="src/item.cpp" />
 		<Unit filename="src/itemdefinition" />
 		<Unit filename="src/itemdisplay.cpp" />

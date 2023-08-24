@@ -59,6 +59,7 @@ add_executable(${PROJECT_NAME}
 	src/inn.cpp
 	src/input.cpp
 	src/inspect.cpp
+	src/inventory.cpp
 	src/item.cpp
 	src/itemdisplay.cpp
 	src/itemtype.cpp
