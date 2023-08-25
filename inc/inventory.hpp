@@ -57,6 +57,7 @@ class Inventory {
 		auto is_full() const -> bool;
 		auto is_empty() const -> bool;
 		auto add_type(ItemTypeID item_type) -> bool;
+		auto unequip_all() -> void;
 
 	private:
 

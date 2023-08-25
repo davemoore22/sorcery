@@ -37,13 +37,14 @@ class Item {
 		Item();
 		Item(const ItemTypeID item_type);
 		Item(const ItemType &item_type);
+		Item(const ItemTypeID item_type, const bool usable);
 
 		// Overloaded Operators
 		auto friend operator<<(std::ostream &out_stream, const Item &Item) -> std::ostream &;
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_type, _known, _equipped, _cursed, _marked, _name, _id, s_id);
+			archive(_type, _known, _equipped, _cursed, _marked, _usable, _name, _id, s_id);
 		}
 
 		// Public Methods
@@ -59,6 +60,8 @@ class Item {
 		auto set_marked(const bool value) -> void;
 		auto set_name(const std::string &value) -> void;
 		auto decay_to(const ItemTypeID value) -> void;
+		auto set_usable(const bool value) -> void;
+		auto get_usable() const -> bool;
 
 	private:
 
@@ -68,6 +71,7 @@ class Item {
 		bool _equipped;	   // Is currently equipped
 		bool _cursed;	   // Is currently cursed
 		bool _marked;	   // Marked as undroppable or unsellable
+		bool _usable;	   // Is usable
 		std::string _name; // Individual Name (or if not set, the ItemTypeID Name)
 
 		long _id;

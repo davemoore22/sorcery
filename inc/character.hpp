@@ -189,6 +189,7 @@ class Character {
 		auto _damage(const unsigned int adjustment)
 			-> bool; // returns true is character is alive, or dead if damage was fatal
 		auto _heal(const unsigned int adjustment) -> void;
+		auto _add_starting_equipment() -> void;
 
 		// Private Members
 		int _version;

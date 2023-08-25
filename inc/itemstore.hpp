@@ -47,6 +47,8 @@ class ItemStore {
 		auto get_an_item(const ItemTypeID item_type_id) const -> Item;
 		auto get_random_item(const ItemTypeID min_item_type_id, const ItemTypeID max_item_type_id) const -> Item;
 		auto get_all_types() const -> std::vector<ItemType>;
+		auto is_usable(
+			const ItemTypeID item_type_id, const CharacterClass cclass, const CharacterAlignment calign) const -> bool;
 
 	private:
 

@@ -33,25 +33,58 @@ auto Sorcery::Inventory::operator[](const int slot) -> Item * {
 }
 
 auto Sorcery::Inventory::clear() -> void {
+
+	_items.clear();
 }
 
 auto Sorcery::Inventory::size() const -> unsigned int {
+
+	return _items.size();
 }
 
 auto Sorcery::Inventory::is_full() const -> bool {
+
+	return _items.size() == 8;
 }
 
 auto Sorcery::Inventory::is_empty() const -> bool {
+
+	return _items.size() == 8;
 }
 
 auto Sorcery::Inventory::add_type(ItemTypeID item_type) -> bool {
+
+	if (_items.size() != 8) {
+		Item item{item_type};
+		_items.emplace_back(item);
+		return true;
+	} else
+		return false;
+}
+
+auto Sorcery::Inventory::unequip_all() -> void {
+
+	for (auto &item : _items) {
+		if (item.get_equipped())
+			item.set_equipped(false);
+	}
 }
 
 namespace Sorcery {
 
-auto operator<<(std::ostream &out_stream, const Sorcery::Inventory &Inventory) -> std::ostream & {
+auto operator<<(std::ostream &out_stream, const Sorcery::Inventory &inventory) -> std::ostream & {
 
-	auto body{""s};
+	auto body{"Inventory:\n\n"s};
+	int slot{1};
+
+	for (const auto &item : inventory._items) {
+
+		std::string flag{!item.get_usable() ? "#" : (item.get_equipped() ? "*" : " ")};
+		auto line{fmt::format("{}){}{}", slot, flag, item.get_name())};
+		body.append(line);
+		body.append("\n");
+		++slot;
+	}
 
 	return out_stream << body << std::endl;
 }

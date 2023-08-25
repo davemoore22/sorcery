@@ -273,6 +273,12 @@ auto Sorcery::ItemStore::get_an_item(const ItemTypeID item_type_id) const -> Ite
 	return Item{item_type_id};
 }
 
+auto Sorcery::ItemStore::is_usable(
+	const ItemTypeID item_type_id, const CharacterClass cclass, const CharacterAlignment calign) const -> bool {
+
+	return _items.at(item_type_id).is_class_usable(cclass) && _items.at(item_type_id).is_align_usable(calign);
+}
+
 auto Sorcery::ItemStore::get_random_item(const ItemTypeID min_item_type_id, const ItemTypeID max_item_type_id) const
 	-> Item {
 

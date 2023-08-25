@@ -35,6 +35,20 @@ Sorcery::Item::Item() {
 	_equipped = false;
 	_cursed = false;
 	_marked = false;
+	_usable = true;
+	_name = "";
+
+	_id = s_id++;
+}
+
+Sorcery::Item::Item(const ItemTypeID item_type, const bool usable) : _type{item_type}, _usable{usable} {
+
+	using enum Enums::Items::TypeID;
+
+	_known = false;
+	_equipped = false;
+	_cursed = false;
+	_marked = false;
 	_name = "";
 
 	_id = s_id++;
@@ -48,6 +62,7 @@ Sorcery::Item::Item(const ItemTypeID item_type) : _type{item_type} {
 	_equipped = false;
 	_cursed = false;
 	_marked = false;
+	_usable = true;
 	_name = "";
 
 	_id = s_id++;
@@ -61,6 +76,7 @@ Sorcery::Item::Item(const ItemType &item_type) {
 	_equipped = false;
 	_cursed = false;
 	_marked = false;
+	_usable = true;
 	_name = item_type.get_known_name();
 
 	_id = s_id++;
@@ -74,6 +90,16 @@ auto Sorcery::Item::get_type_id() const -> ItemTypeID {
 auto Sorcery::Item::get_known() const -> bool {
 
 	return _known;
+}
+
+auto Sorcery::Item::set_usable(const bool value) -> void {
+
+	_usable = value;
+}
+
+auto Sorcery::Item::get_usable() const -> bool {
+
+	return _usable;
 }
 
 auto Sorcery::Item::get_equipped() const -> bool {
