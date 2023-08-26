@@ -8635,7 +8635,7 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "automatic",
+				"drawmode": "manual",
 				"data": [
 					{
 						"offset_y": "0"
@@ -8666,7 +8666,7 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "automatic",
+				"drawmode": "manual",
 				"data": [
 					{
 						"offset_y": "-4"
@@ -8697,7 +8697,7 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "automatic",
+				"drawmode": "manual",
 				"data": [
 					{
 						"offset_y": "-4"
@@ -8728,7 +8728,7 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "automatic",
+				"drawmode": "manual",
 				"data": [
 					{
 						"offset_y": "-4"
@@ -8759,7 +8759,7 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "automatic",
+				"drawmode": "manual",
 				"data": [
 					{
 						"offset_y": "-4"
@@ -8790,7 +8790,7 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "automatic",
+				"drawmode": "manual",
 				"data": [
 					{
 						"offset_y": "-4"
@@ -8821,7 +8821,7 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "automatic",
+				"drawmode": "manual",
 				"data": [
 					{
 						"offset_y": "-4"
@@ -8852,7 +8852,7 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "automatic",
+				"drawmode": "manual",
 				"data": [
 					{
 						"offset_y": "-4"

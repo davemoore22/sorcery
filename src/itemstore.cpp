@@ -270,7 +270,7 @@ auto Sorcery::ItemStore::operator()(const ItemCategory category) const -> std::v
 // Public methods
 auto Sorcery::ItemStore::get_an_item(const ItemTypeID item_type_id) const -> Item {
 
-	return Item{item_type_id};
+	return Item{_items.at(item_type_id)};
 }
 
 auto Sorcery::ItemStore::is_usable(
@@ -285,7 +285,7 @@ auto Sorcery::ItemStore::get_random_item(const ItemTypeID min_item_type_id, cons
 	// TODO: probably needs some bounds checking on this
 	auto item_type_id{_system->random->get(unenum(min_item_type_id), unenum(max_item_type_id))};
 
-	return Item{magic_enum::enum_cast<ItemTypeID>(item_type_id).value()};
+	return Item{_items.at(magic_enum::enum_cast<ItemTypeID>(item_type_id).value())};
 }
 
 auto Sorcery::ItemStore::get_all_types() const -> std::vector<ItemType> {

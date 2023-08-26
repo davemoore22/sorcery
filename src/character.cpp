@@ -450,14 +450,6 @@ auto Sorcery::Character::finalise() -> void {
 	_generate_secondary_abil(true, false, false);
 	_set_start_spells();
 	_set_starting_sp();
-	_add_starting_equipment();
-}
-
-auto Sorcery::Character::_add_starting_equipment() -> void {
-
-	using enum Enums::Character::Class;
-
-	inventory.clear();
 }
 
 auto Sorcery::Character::get_ress_chance(bool ashes) -> unsigned int {
@@ -622,7 +614,6 @@ auto Sorcery::Character::legate(const CharacterAlignment &value) -> void {
 	_set_start_spells();
 	_set_starting_sp();
 	inventory.clear();
-	_add_starting_equipment();
 	set_status(CharacterStatus::OK);
 	_legated = true;
 

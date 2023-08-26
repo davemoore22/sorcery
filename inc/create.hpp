@@ -85,6 +85,7 @@ class Create {
 		auto _place_components() -> void;
 		auto _initialise_state() -> void;
 		auto _refresh_display() -> void;
+		auto _add_starting_equipment() -> void;
 
 		// Private Members
 		System *_system;

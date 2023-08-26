@@ -30,6 +30,9 @@ Sorcery::Inventory::Inventory() {
 }
 
 auto Sorcery::Inventory::operator[](const int slot) -> Item * {
+
+	if (_items.size() >= (slot - 1))
+		return &_items.at(slot - 1);
 }
 
 auto Sorcery::Inventory::clear() -> void {
@@ -52,7 +55,7 @@ auto Sorcery::Inventory::is_empty() const -> bool {
 	return _items.size() == 8;
 }
 
-auto Sorcery::Inventory::add_type(ItemTypeID item_type) -> bool {
+auto Sorcery::Inventory::add_type(ItemType item_type) -> bool {
 
 	if (_items.size() != 8) {
 		Item item{item_type};

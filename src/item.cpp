@@ -37,33 +37,21 @@ Sorcery::Item::Item() {
 	_marked = false;
 	_usable = true;
 	_name = "";
+	_uname = "";
 
 	_id = s_id++;
 }
 
-Sorcery::Item::Item(const ItemTypeID item_type, const bool usable) : _type{item_type}, _usable{usable} {
+Sorcery::Item::Item(const ItemType &item_type, const bool usable) {
 
-	using enum Enums::Items::TypeID;
-
+	_type = item_type.get_type_id();
+	_usable = usable;
 	_known = false;
 	_equipped = false;
 	_cursed = false;
 	_marked = false;
-	_name = "";
-
-	_id = s_id++;
-}
-
-Sorcery::Item::Item(const ItemTypeID item_type) : _type{item_type} {
-
-	using enum Enums::Items::TypeID;
-
-	_known = false;
-	_equipped = false;
-	_cursed = false;
-	_marked = false;
-	_usable = true;
-	_name = "";
+	_name = item_type.get_known_name();
+	_uname = item_type.get_unknown_name();
 
 	_id = s_id++;
 }
@@ -78,6 +66,7 @@ Sorcery::Item::Item(const ItemType &item_type) {
 	_marked = false;
 	_usable = true;
 	_name = item_type.get_known_name();
+	_uname = item_type.get_unknown_name();
 
 	_id = s_id++;
 }
@@ -120,6 +109,13 @@ auto Sorcery::Item::get_marked() const -> bool {
 auto Sorcery::Item::get_name() const -> std::string {
 
 	return _name;
+}
+
+auto Sorcery::Item::get_display_name() const -> std::string {
+
+	std::string prefix{_equipped ? "*" : (!_usable ? "#" : " ")};
+	std::string name{_known ? _name : _uname};
+	return fmt::format("{}{}", prefix, name);
 }
 
 auto Sorcery::Item::set_known(const bool value) -> void {

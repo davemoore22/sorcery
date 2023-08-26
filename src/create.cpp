@@ -993,6 +993,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		case CHOOSE_PORTRAIT: {
 			_stages.emplace_back(_candidate);
 			_candidate.finalise();
+			_add_starting_equipment();
 			_candidate.set_stage(REVIEW_AND_CONFIRM);
 			_character_display->generate_display();
 			_display->generate("character_create_stage_7", _sprites, _texts, _frames);
@@ -1005,6 +1006,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 	} else if (_method == CreateMethod::RANDOM) {
 		_candidate.create_random();
 		_candidate.finalise();
+		_add_starting_equipment();
 		_candidate.set_stage(CharacterStage::REVIEW_AND_CONFIRM);
 		_character_display->set(&_candidate);
 		_character_display->set_view(CharacterView::SUMMARY);
@@ -1032,6 +1034,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		case CHOOSE_PORTRAIT: {
 			_stages.emplace_back(_candidate);
 			_candidate.finalise();
+			_add_starting_equipment();
 			_candidate.set_stage(REVIEW_AND_CONFIRM);
 			_character_display->set(&_candidate);
 			_character_display->set_view(CharacterView::SUMMARY);
@@ -1229,4 +1232,41 @@ auto Sorcery::Create::_get_character_portrait(const unsigned int index) -> std::
 	sf::Sprite portrait{_graphics->textures->get(index, GraphicsTextureType::PORTRAIT).value()};
 
 	return portrait;
+}
+
+auto Sorcery::Create::_add_starting_equipment() -> void {
+
+	using enum Enums::Character::Class;
+	using enum Enums::Items::TypeID;
+
+	_candidate.inventory.clear();
+
+	switch (_candidate.get_class()) { // NOLINT(clang-diagnostic-switch)
+	case FIGHTER:
+	case LORD:
+	case SAMURAI:
+		_candidate.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR]);
+		_candidate.inventory.add_type((*_game->itemstore)[LONG_SWORD]);
+		break;
+	case MAGE:
+		_candidate.inventory.add_type((*_game->itemstore)[ROBES]);
+		_candidate.inventory.add_type((*_game->itemstore)[DAGGER]);
+		break;
+	case PRIEST:
+	case BISHOP:
+		_candidate.inventory.add_type((*_game->itemstore)[ROBES]);
+		_candidate.inventory.add_type((*_game->itemstore)[STAFF]);
+		break;
+	case THIEF:
+	case NINJA:
+		_candidate.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR]);
+		_candidate.inventory.add_type((*_game->itemstore)[SHORT_SWORD]);
+	default:
+		break;
+	}
+
+	if (_candidate.inventory.size() > 0) {
+		(*_candidate.inventory[0]).set_known(true);
+		(*_candidate.inventory[1]).set_known(true);
+	}
 }

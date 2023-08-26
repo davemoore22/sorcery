@@ -77,7 +77,7 @@ auto Sorcery::ItemDisplay::set(const unsigned int item_idx) -> void {
 		_item.reset();
 	}
 
-	_item = std::make_unique<Item>(magic_enum::enum_cast<ItemTypeID>(item_idx).value());
+	_item = std::make_unique<Item>((*_itemstore)[(magic_enum::enum_cast<ItemTypeID>(item_idx).value())]);
 	const auto it{(*_itemstore)[_item->get_type_id()]};
 
 	_display->generate("item_display", _sprites, _texts, _frames);

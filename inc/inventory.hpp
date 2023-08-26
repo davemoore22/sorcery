@@ -27,6 +27,7 @@
 // clang-format off
 #include "main.hpp"
 #include "item.hpp"
+#include "itemtype.hpp"
 
 // clang-format on
 
@@ -56,7 +57,7 @@ class Inventory {
 		auto size() const -> unsigned int;
 		auto is_full() const -> bool;
 		auto is_empty() const -> bool;
-		auto add_type(ItemTypeID item_type) -> bool;
+		auto add_type(ItemType item_type) -> bool;
 		auto unequip_all() -> void;
 
 	private:

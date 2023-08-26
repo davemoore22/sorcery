@@ -35,9 +35,8 @@ class Item {
 
 		// Constructors
 		Item();
-		Item(const ItemTypeID item_type);
 		Item(const ItemType &item_type);
-		Item(const ItemTypeID item_type, const bool usable);
+		Item(const ItemType &item_type, const bool usable);
 
 		// Overloaded Operators
 		auto friend operator<<(std::ostream &out_stream, const Item &Item) -> std::ostream &;
@@ -62,6 +61,7 @@ class Item {
 		auto decay_to(const ItemTypeID value) -> void;
 		auto set_usable(const bool value) -> void;
 		auto get_usable() const -> bool;
+		auto get_display_name() const -> std::string;
 
 	private:
 
@@ -73,6 +73,7 @@ class Item {
 		bool _marked;	   // Marked as undroppable or unsellable
 		bool _usable;	   // Is usable
 		std::string _name; // Individual Name (or if not set, the ItemTypeID Name)
+		std::string _uname;
 
 		long _id;
 		static inline long s_id{0};
