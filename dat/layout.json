@@ -230,6 +230,22 @@
 			]
 		},
 		{
+			"name": "inventory_display",
+			"font": "monospace",
+			"colour": "0xdddddddff",
+			"size": "24",
+			"alpha": "255",
+			"type": "panel",
+			"drawmode": "manual",
+			"w": "35",
+			"h": "10",
+			"data": [
+				{
+					"icon_scale": "0.05"
+				}
+			]
+		},
+		{
 			"name": "get",
 			"x": "centre",
 			"y": "centre",

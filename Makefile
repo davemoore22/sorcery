@@ -60,7 +60,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/dave/sorcery
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/dave/sorcery
+CMAKE_BINARY_DIR = /home/dave/Development/wizardry/sorcery-sfml
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -78,7 +78,7 @@ package/fast: package
 # Special rule for the target package_source
 package_source:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
-	/usr/bin/cpack --config ./CPackSourceConfig.cmake /home/dave/sorcery/CPackSourceConfig.cmake
+	/usr/bin/cpack --config ./CPackSourceConfig.cmake /home/dave/Development/wizardry/sorcery-sfml/CPackSourceConfig.cmake
 .PHONY : package_source
 
 # Special rule for the target package_source
@@ -107,9 +107,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/dave/sorcery/CMakeFiles /home/dave/sorcery//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dave/Development/wizardry/sorcery-sfml/CMakeFiles /home/dave/Development/wizardry/sorcery-sfml//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/dave/sorcery/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dave/Development/wizardry/sorcery-sfml/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -1180,6 +1180,30 @@ src/inventory.s: src/inventory.cpp.s
 src/inventory.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/inventory.cpp.s
 .PHONY : src/inventory.cpp.s
+
+src/inventorydisplay.o: src/inventorydisplay.cpp.o
+.PHONY : src/inventorydisplay.o
+
+# target to build an object file
+src/inventorydisplay.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/inventorydisplay.cpp.o
+.PHONY : src/inventorydisplay.cpp.o
+
+src/inventorydisplay.i: src/inventorydisplay.cpp.i
+.PHONY : src/inventorydisplay.i
+
+# target to preprocess a source file
+src/inventorydisplay.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/inventorydisplay.cpp.i
+.PHONY : src/inventorydisplay.cpp.i
+
+src/inventorydisplay.s: src/inventorydisplay.cpp.s
+.PHONY : src/inventorydisplay.s
+
+# target to generate assembly for a file
+src/inventorydisplay.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/inventorydisplay.cpp.s
+.PHONY : src/inventorydisplay.cpp.s
 
 src/item.o: src/item.cpp.o
 .PHONY : src/item.o
@@ -2329,6 +2353,9 @@ help:
 	@echo "... src/inventory.o"
 	@echo "... src/inventory.i"
 	@echo "... src/inventory.s"
+	@echo "... src/inventorydisplay.o"
+	@echo "... src/inventorydisplay.i"
+	@echo "... src/inventorydisplay.s"
 	@echo "... src/item.o"
 	@echo "... src/item.i"
 	@echo "... src/item.s"

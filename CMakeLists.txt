@@ -60,10 +60,11 @@ add_executable(${PROJECT_NAME}
 	src/input.cpp
 	src/inspect.cpp
 	src/inventory.cpp
+	src/inventorydisplay.cpp
 	src/item.cpp
 	src/itemdisplay.cpp
-	src/itemtype.cpp
 	src/itemstore.cpp
+	src/itemtype.cpp
 	src/keyboard.cpp
 	src/layout.cpp
 	src/legate.cpp
@@ -71,8 +72,8 @@ add_executable(${PROJECT_NAME}
 	src/levelstore.cpp
 	src/license.cpp
 	src/main.cpp
-	src/map.cpp
 	src/mainmenu.cpp
+	src/map.cpp
 	src/menu.cpp
 	src/museum.cpp
 	src/options.cpp
@@ -81,9 +82,9 @@ add_executable(${PROJECT_NAME}
 	src/random.cpp
 	src/render.cpp
 	src/reorder.cpp
-	src/restart.cpp
 	src/resourcemanager.cpp
 	src/rest.cpp
+	src/restart.cpp
 	src/roster.cpp
 	src/search.cpp
 	src/shop.cpp
