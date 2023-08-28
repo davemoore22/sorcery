@@ -1245,28 +1245,23 @@ auto Sorcery::Create::_add_starting_equipment() -> void {
 	case FIGHTER:
 	case LORD:
 	case SAMURAI:
-		_candidate.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR]);
-		_candidate.inventory.add_type((*_game->itemstore)[LONG_SWORD]);
+		_candidate.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR], true);
+		_candidate.inventory.add_type((*_game->itemstore)[LONG_SWORD], true);
 		break;
 	case MAGE:
-		_candidate.inventory.add_type((*_game->itemstore)[ROBES]);
-		_candidate.inventory.add_type((*_game->itemstore)[DAGGER]);
+		_candidate.inventory.add_type((*_game->itemstore)[ROBES], true);
+		_candidate.inventory.add_type((*_game->itemstore)[DAGGER], true);
 		break;
 	case PRIEST:
 	case BISHOP:
-		_candidate.inventory.add_type((*_game->itemstore)[ROBES]);
-		_candidate.inventory.add_type((*_game->itemstore)[STAFF]);
+		_candidate.inventory.add_type((*_game->itemstore)[ROBES], true);
+		_candidate.inventory.add_type((*_game->itemstore)[STAFF], true);
 		break;
 	case THIEF:
 	case NINJA:
-		_candidate.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR]);
-		_candidate.inventory.add_type((*_game->itemstore)[SHORT_SWORD]);
+		_candidate.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR], true);
+		_candidate.inventory.add_type((*_game->itemstore)[SHORT_SWORD], true);
 	default:
 		break;
-	}
-
-	if (_candidate.inventory.size() > 0) {
-		(*_candidate.inventory[0]).set_known(true);
-		(*_candidate.inventory[1]).set_known(true);
 	}
 }

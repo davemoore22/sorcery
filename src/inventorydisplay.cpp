@@ -30,6 +30,48 @@ Sorcery::InventoryDisplay::InventoryDisplay(System *system, Display *display, Gr
 	_layout = Component((*_display->layout)["global:inventory_display"]);
 }
 
+auto Sorcery::InventoryDisplay::generate() -> void {
+
+	_sprites.clear();
+	_texts.clear();
+
+	auto slot{1u};
+	auto x{std::stoi(_layout["offset_x"].value())};
+	const auto start_x{x};
+	auto y{std::stoi(_layout["offset_y"].value())};
+	const auto start_y{y};
+	const auto row_y{std::stoi(_layout["row_y"].value())};
+	const auto column_x{std::stoi(_layout["column_x"].value())};
+
+	for (const auto &item : _inventory->items()) {
+
+		std::string flag{!item.get_usable() ? "#" : (item.get_equipped() ? "*" : " ")};
+		auto line{fmt::format("{}){}{}", slot, flag, item.get_name())};
+
+		if (slot % 2 == 1) {
+			x = start_x;
+			y += row_y;
+		} else {
+			x = start_x + column_x;
+		}
+
+		sf::Text text{};
+		text.setFont(_system->resources->fonts[_layout.font]);
+		text.setCharacterSize(_layout.size);
+		text.setFillColor(sf::Color(_layout.colour));
+
+		text.setString(line);
+		if (_display->get_bold())
+			text.setStyle(sf::Text::Bold);
+		text.setPosition(x, y);
+
+		auto new_unique_key{GUID()};
+		_texts.try_emplace(new_unique_key, text);
+
+		++slot;
+	}
+}
+
 auto Sorcery::InventoryDisplay::_add_text(Component &component, std::string format, std::string value) -> sf::Text * {
 
 	sf::Text text{};

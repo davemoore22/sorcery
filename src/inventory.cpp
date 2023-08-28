@@ -29,10 +29,17 @@ Sorcery::Inventory::Inventory() {
 	_items.clear();
 }
 
-auto Sorcery::Inventory::operator[](const int slot) -> Item * {
+auto Sorcery::Inventory::operator[](const int slot) -> std::optional<Item *> {
 
 	if (_items.size() >= (slot - 1))
 		return &_items.at(slot - 1);
+	else
+		return std::nullopt;
+}
+
+auto Sorcery::Inventory::items() const -> std::vector<Item> {
+
+	return _items;
 }
 
 auto Sorcery::Inventory::clear() -> void {
@@ -53,6 +60,17 @@ auto Sorcery::Inventory::is_full() const -> bool {
 auto Sorcery::Inventory::is_empty() const -> bool {
 
 	return _items.size() == 8;
+}
+
+auto Sorcery::Inventory::add_type(ItemType item_type, const bool known) -> bool {
+
+	if (_items.size() != 8) {
+		Item item{item_type};
+		item.set_known(known);
+		_items.emplace_back(item);
+		return true;
+	} else
+		return false;
 }
 
 auto Sorcery::Inventory::add_type(ItemType item_type) -> bool {

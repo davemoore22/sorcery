@@ -57,6 +57,14 @@ auto Sorcery::CharacterDisplay::set(Character *character) -> void {
 
 	_character = character;
 	_generate_display();
+
+	if (_inventory_display.get()) {
+		_inventory_display.release();
+		_inventory_display.reset();
+	}
+	_inventory_display = std::make_unique<InventoryDisplay>(_system, _display, _graphics, &_character->inventory);
+	_inventory_display->generate();
+	_inventory_display->setPosition((*_display->layout)["global:inventory_display"].pos());
 }
 
 auto Sorcery::CharacterDisplay::set_mode(CharacterMode value) -> void {
@@ -427,6 +435,9 @@ auto Sorcery::CharacterDisplay::draw(sf::RenderTarget &target, sf::RenderStates 
 
 	if (_view == PRIEST_SPELLS)
 		target.draw(*_spell_panel, states);
+
+	if (_view == SUMMARY)
+		target.draw(*_inventory_display, states);
 }
 
 auto Sorcery::CharacterDisplay::_generate_display() -> void {
@@ -457,6 +468,8 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 	if (_view == SUMMARY) {
 
 		_display->generate("character_summary", _v_sprites, _v_texts, _v_frames);
+
+		_inventory_display->generate();
 
 		_add_text((*_display->layout)["character_summary:name_and_summary_text"], "{}", _character->summary_text());
 

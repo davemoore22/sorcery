@@ -49,6 +49,7 @@ class InventoryDisplay: public sf::Transformable, public sf::Drawable {
 		int height;
 
 		// Public Methods
+		auto generate() -> void;
 
 	private:
 

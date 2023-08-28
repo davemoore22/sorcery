@@ -44,7 +44,7 @@ class Inventory {
 		~Inventory() = default;
 
 		// Overloaded Operators
-		auto operator[](const int slot) -> Item *;
+		auto operator[](const int slot) -> std::optional<Item *>;
 		auto friend operator<<(std::ostream &out_stream, const Inventory &inventory) -> std::ostream &;
 
 		// Serialisation
@@ -58,7 +58,9 @@ class Inventory {
 		auto is_full() const -> bool;
 		auto is_empty() const -> bool;
 		auto add_type(ItemType item_type) -> bool;
+		auto add_type(ItemType item_type, const bool known) -> bool;
 		auto unequip_all() -> void;
+		auto items() const -> std::vector<Item>;
 
 	private:
 

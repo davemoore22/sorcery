@@ -209,7 +209,7 @@
 		{
 			"name": "item_display",
 			"font": "text",
-			"colour": "0xdddddddff",
+			"colour": "0xddddddff",
 			"size": "24",
 			"alpha": "255",
 			"type": "panel",
@@ -232,16 +232,21 @@
 		{
 			"name": "inventory_display",
 			"font": "monospace",
-			"colour": "0xdddddddff",
+			"colour": "0xffffffff",
 			"size": "24",
 			"alpha": "255",
 			"type": "panel",
 			"drawmode": "manual",
 			"w": "35",
 			"h": "10",
+			"x": "1",
+			"y": "11",
 			"data": [
 				{
-					"icon_scale": "0.05"
+					"offset_x": "0",
+					"offset_y": "0",
+					"column_x": "496",
+					"row_y":	"24"
 				}
 			]
 		},
@@ -8638,7 +8643,7 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "automatic"
+				"drawmode": "manual"
 			},
 			{
 				"name": "inn_blank_1",
@@ -8669,7 +8674,7 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "automatic"
+				"drawmode": "manual"
 			},
 			{
 				"name": "inn_blank_2",
@@ -8700,7 +8705,7 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "automatic"
+				"drawmode": "manual"
 			},
 			{
 				"name": "inn_blank_3",
@@ -8731,7 +8736,7 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "automatic"
+				"drawmode": "manual"
 			},
 			{
 				"name": "inn_blank_4",
@@ -8762,7 +8767,7 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "automatic"
+				"drawmode": "manual"
 			},
 			{
 				"name": "inn_blank_5",
@@ -8793,7 +8798,7 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "automatic"
+				"drawmode": "manual"
 			},
 			{
 				"name": "inn_blank_6",
@@ -8824,7 +8829,7 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "automatic"
+				"drawmode": "manual"
 			},
 			{
 				"name": "inn_blank_7",
@@ -8855,7 +8860,7 @@
 				"justification": "left",
 				"type": "text",
 				"priority": "3",
-				"drawmode": "automatic"
+				"drawmode": "manual"
 			},
 			{
 				"name": "inn_blank_8",

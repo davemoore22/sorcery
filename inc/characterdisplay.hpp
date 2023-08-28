@@ -32,6 +32,8 @@
 #include "main.hpp"
 #include "system.hpp"
 #include "spellpanel.hpp"
+#include "inventorydisplay.hpp"
+#include "inventory.hpp"
 
 namespace Sorcery {
 
@@ -92,6 +94,7 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 	std::map<std::string, std::shared_ptr<Frame>> _v_frames;
 	std::shared_ptr<SpellPanel> _spell_panel;
 	Component _spell_panel_c;
+	std::unique_ptr<InventoryDisplay> _inventory_display;
 
 	SpellID _hl_mage_spell;
 	SpellID _hl_priest_spell;

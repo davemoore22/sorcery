@@ -309,7 +309,7 @@
 1672594195 source:/home/dave/Development/wizardry/sorcery-sfml/src/config.cpp
 	"config.hpp"
 
-1693079232 source:/home/dave/Development/wizardry/sorcery-sfml/src/create.cpp
+1693258439 source:/home/dave/Development/wizardry/sorcery-sfml/src/create.cpp
 	"create.hpp"
 
 1693076225 /home/dave/Development/wizardry/sorcery-sfml/inc/create.hpp
@@ -1704,18 +1704,20 @@
 
 1682624546 /home/dave/Development/wizardry/sorcery-sfml/inc/characterview.hpp
 
-1689448651 /home/dave/Development/wizardry/sorcery-sfml/inc/characterdisplay.hpp
+1693257026 /home/dave/Development/wizardry/sorcery-sfml/inc/characterdisplay.hpp
 	"character.hpp"
 	"display.hpp"
 	"graphics.hpp"
 	"main.hpp"
 	"system.hpp"
 	"spellpanel.hpp"
+	"inventorydisplay.hpp"
+	"inventory.hpp"
 
-1689359860 source:/home/dave/Development/wizardry/sorcery-sfml/src/characterdisplay.cpp
+1693257429 source:/home/dave/Development/wizardry/sorcery-sfml/src/characterdisplay.cpp
 	"characterdisplay.hpp"
 
-1693078102 source:/home/dave/Development/wizardry/sorcery-sfml/src/itemdisplay.cpp
+1693151144 source:/home/dave/Development/wizardry/sorcery-sfml/src/itemdisplay.cpp
 	"itemdisplay.hpp"
 
 1693151534 /home/dave/Development/wizardry/sorcery-sfml/inc/itemdisplay.hpp
@@ -1743,11 +1745,25 @@
 1691704247 source:/home/dave/Development/wizardry/sorcery-sfml/src/museum.cpp
 	"museum.hpp"
 
-1693076517 /home/dave/Development/wizardry/sorcery-sfml/inc/inventory.hpp
+1693258038 /home/dave/Development/wizardry/sorcery-sfml/inc/inventory.hpp
 	"main.hpp"
 	"item.hpp"
 	"itemtype.hpp"
 
-1693076531 source:/home/dave/Development/wizardry/sorcery-sfml/src/inventory.cpp
+1693258035 source:/home/dave/Development/wizardry/sorcery-sfml/src/inventory.cpp
 	"inventory.hpp"
+
+1693238794 /home/dave/Development/wizardry/sorcery-sfml/inc/inventorydisplay.hpp
+	"display.hpp"
+	"frame.hpp"
+	"game.hpp"
+	"graphics.hpp"
+	"inventory.hpp"
+	"item.hpp"
+	"layout.hpp"
+	"main.hpp"
+	"system.hpp"
+
+1693256916 source:/home/dave/Development/wizardry/sorcery-sfml/src/inventorydisplay.cpp
+	"inventorydisplay.hpp"
 
