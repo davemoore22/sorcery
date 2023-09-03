@@ -8,6 +8,7 @@ Written using SFML, TGUI, and C++.
 ![](/promo/screen7.png)
 ![](/promo/screen19.png)
 ![](/promo/screen18.png)
+![](/promo/screen15.png)
 
 Watch some videos of gameplay (most recent first):
 
@@ -86,7 +87,6 @@ Game font is based upon the DOS Wizardry V font.
 ![](/promo/screen16.png)
 ![](/promo/screen17.png)
 ![](/promo/screen5.png)
-![](/promo/screen15.png)
 ![](/promo/screen14.png)
 ![](/promo/screen8.png)
 ![](/promo/screen13.png)
