@@ -164,6 +164,12 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 					else
 						return false;
 				}()};
+				const int shop_stock{[&] {
+					if (items[i].isMember("shop stock"))
+						return items[i]["shop stock"].asInt();
+					else
+						return 0;
+				}()};
 
 				// Now do extra processing
 				ItemUsableClass item_usable{};
@@ -206,6 +212,7 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				item_type.set_to_hit_mod(to_hit);
 				item_type.set_damage(damage_s);
 				item_type.set_discovered(false);
+				item_type.set_shop_inital_stock(shop_stock);
 
 				// Parse Damage Dice String
 				if ((!damage_s.empty()) && (category == ItemCategory::WEAPON)) {

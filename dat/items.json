@@ -20,7 +20,8 @@
 		 "allowed alignments": "gne",
 		 "to hit": 4,
 		 "damage": "1d8+0",
-		 "attacks": 1
+		 "attacks": 1,
+		 "shop stock": -1
 		},
 		{
 		 "id": 2,
@@ -33,7 +34,8 @@
 		 "allowed alignments": "gne",
 		 "to hit": 3,
 		 "damage": "1d6+0",
-		 "attacks": 1
+		 "attacks": 1,
+		 "shop stock": -1
 		},
 		{
 		 "id": 3,
@@ -46,7 +48,8 @@
 		 "allowed alignments": "gne",
 		 "to hit": 2,
 		 "damage": "2d3+0",
-		 "attacks": 1
+		 "attacks": 1,
+		 "shop stock": -1
 		},
 		{
 		 "id": 4,
@@ -59,7 +62,8 @@
 		 "allowed alignments": "gne",
 		 "to hit": 3,
 		 "damage": "1d7+0",
-		 "attacks": 1
+		 "attacks": 1,
+		 "shop stock": -1
 		},
 		{
 		 "id": 5,
@@ -72,7 +76,8 @@
 		 "allowed alignments": "gne",
 		 "to hit": 0,
 		 "damage": "1d5+0",
-		 "attacks": 1
+		 "attacks": 1,
+		 "shop stock": -1
 		},
 		{
 		 "id": 6,
@@ -85,7 +90,8 @@
 		 "allowed alignments": "gne",
 		 "to hit": 1,
 		 "damage": "1d4+0",
-		 "attacks": 1
+		 "attacks": 1,
+		 "shop stock": -1
 		},
 		{
 		 "id": 7,
@@ -96,7 +102,8 @@
 		 "value": 20,
 		 "allowed classes": "fptbsln",
 		 "allowed alignments": "gne",
-		 "ac": 2
+		 "ac": 2,
+		 "shop stock": -1
 		},
 		{
 		 "id": 8,
@@ -107,7 +114,8 @@
 		 "value": 40,
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "gne",
-		 "ac": 3
+		 "ac": 3,
+		 "shop stock": -1
 		},
 		{
 		 "id": 9,
@@ -118,7 +126,8 @@
 		 "value": 15,
 		 "allowed classes": "fmptbsln",
 		 "allowed alignments": "gne",
-		 "ac": 1
+		 "ac": 1,
+		 "shop stock": -1
 		},
 		{
 		 "id": 10,
@@ -129,7 +138,8 @@
 		 "value": 50,
 		 "allowed classes": "fptbsln",
 		 "allowed alignments": "gne",
-		 "ac": 2
+		 "ac": 2,
+		 "shop stock": -1
 		},
 		{
 		 "id": 11,
@@ -140,7 +150,8 @@
 		 "value": 90,
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "gne",
-		 "ac": 3
+		 "ac": 3,
+		 "shop stock": -1
 		},
 		{
 		 "id": 12,
@@ -151,7 +162,8 @@
 		 "value": 200,
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "gne",
-		 "ac": 4
+		 "ac": 4,
+		 "shop stock": -1
 		},
 		{
 		 "id": 13,
@@ -162,7 +174,8 @@
 		 "value": 750,
 		 "allowed classes": "fsln",
 		 "allowed alignments": "gne",
-		 "ac": 5
+		 "ac": 5,
+		 "shop stock": -1
 		},
 		{
 		 "id": 14,
@@ -173,7 +186,8 @@
 		 "value": 100,
 		 "allowed classes": "fsln",
 		 "allowed alignments": "gne",
-		 "ac": 1
+		 "ac": 1,
+		 "shop stock": -1
 		},
 		{
 		 "id": 15,
@@ -186,7 +200,8 @@
 		 "allowed alignments": "gne",
 		 "use": "DIOS",
 		 "use decay": 100,
-		 "decay id": 0
+		 "decay id": 0,
+		 "shop stock": -1
 		},
 		{
 		 "id": 16,
@@ -199,7 +214,8 @@
 		 "allowed alignments": "gne",
 		 "use": "LATUMOFIS",
 		 "use decay": 100,
-		 "decay id": 0
+		 "decay id": 0,
+		 "shop stock": -1
 		},
 		{
 		 "id": 17,
@@ -225,7 +241,8 @@
 		 "allowed alignments": "gne",
 		 "to hit": 4,
 		 "damage": "1d6+1",
-		 "attacks": 2
+		 "attacks": 2,
+		 "shop stock": 2
 		},
 		{
 		 "id": 19,
@@ -254,7 +271,8 @@
 		 "attacks": 1,
 		 "use": "MOGREF",
 		 "use decay": 25,
-		 "decay id": 0
+		 "decay id": 0,
+		 "shop stock": 1
 		},
 		{
 		 "id": 21,
@@ -267,7 +285,8 @@
 		 "allowed alignments": "gne",
 		 "use": "KATINO",
 		 "use decay": 100,
-		 "decay id": 0
+		 "decay id": 0,
+		 "shop stock": 1
 		},
 		{
 		 "id": 22,
@@ -278,7 +297,8 @@
 		 "value": 1500,
 		 "allowed classes": "fptbsln",
 		 "allowed alignments": "gne",
-		 "ac": 3
+		 "ac": 3,
+		 "shop stock": -1
 		},
 		{
 		 "id": 23,
@@ -289,7 +309,8 @@
 		 "value": 1500,
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "gne",
-		 "ac": 4
+		 "ac": 4,
+		 "shop stock": -1
 		},
 		{
 		 "id": 24,
@@ -300,7 +321,8 @@
 		 "value": 1500,
 		 "allowed classes": "fsln",
 		 "allowed alignments": "gne",
-		 "ac": 6
+		 "ac": 6,
+		 "shop stock": 1
 		},
 		{
 		 "id": 25,
@@ -311,7 +333,8 @@
 		 "value": 1500,
 		 "allowed classes": "fptsln",
 		 "allowed alignments": "gne",
-		 "ac": 4
+		 "ac": 4,
+		 "shop stock": -1
 		},
 		{
 		 "id": 26,
@@ -322,7 +345,8 @@
 		 "value": 1500,
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "gne",
-		 "ac": 5
+		 "ac": 5,
+		 "shop stock": -1
 		},
 		{
 		 "id": 27,
@@ -335,7 +359,8 @@
 		 "allowed alignments": "gne",
 		 "use": "BADIOS",
 		 "use decay": 100,
-		 "decay id": 0
+		 "decay id": 0,
+		 "shop stock": -1
 		},
 		{
 		 "id": 28,
@@ -348,7 +373,8 @@
 		 "allowed alignments": "gne",
 		 "use": "HALITO",
 		 "use decay": 100,
-		 "decay id": 0
+		 "decay id": 0,
+		 "shop stock": 25
 		},
 		{
 		 "id": 29,
@@ -402,7 +428,8 @@
 		 "allowed alignments": "gne",
 		 "to hit": 2,
 		 "damage": "1d4+2",
-		 "attacks": 1
+		 "attacks": 1,
+		 "shop stock": -1
 		},
 		{
 		 "id": 33,
@@ -513,7 +540,8 @@
 		 "allowed alignments": "gne",
 		 "use": "SOPIC",
 		 "use decay": 100,
-		 "decay id": 0
+		 "decay id": 0,
+		 "shop stock": 1
 		},
 		{
 		 "id": 42,
@@ -589,7 +617,8 @@
 		 "value": 6000,
 		 "allowed classes": "fsln",
 		 "allowed alignments": "gne",
-		 "ac": 1
+		 "ac": 1,
+		 "shop stock": -1
 		},
 		{
 		 "id": 48,
