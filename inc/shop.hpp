@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include "console.hpp"
 #include "display.hpp"
 #include "frame.hpp"
 #include "game.hpp"
@@ -70,6 +71,8 @@ class Shop {
 		sf::Sprite _bg;
 		std::unique_ptr<PartyPanel> _party_panel;
 		std::unique_ptr<Inspect> _inspect;
+		std::unique_ptr<Console> _console;
+		bool _show_console;
 };
 
 }

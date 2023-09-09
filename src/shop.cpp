@@ -40,6 +40,9 @@ Sorcery::Shop::Shop(System *system, Display *display, Graphics *graphics, Game *
 	_party_panel =
 		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
 	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MenuMode::SHOP);
+
+	_console = std::make_unique<Console>(_display->window->get_gui(), _system, _display, _graphics, _game);
+	_game->hide_console();
 }
 
 // Standard Destructor
@@ -84,6 +87,9 @@ auto Sorcery::Shop::start() -> std::optional<MenuItem> {
 					continue;
 				} else
 					_display->hide_overlay();
+
+				if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
+					_game->toggle_console();
 
 				if (_system->input->check(WindowInput::CANCEL, event))
 					return std::nullopt;
@@ -147,6 +153,11 @@ auto Sorcery::Shop::_draw() -> void {
 	// And the Menu
 	_menu->generate((*_display->layout)["shop:menu"]);
 	_window->draw(*_menu);
+
+	if (_game->get_console_status()) {
+		_console->refresh();
+		_display->window->get_gui()->draw();
+	}
 
 	// Always draw the following
 	_display->display_overlay();
