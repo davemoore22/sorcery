@@ -61,6 +61,8 @@ class Inventory {
 		auto add_type(ItemType item_type, const bool known) -> bool;
 		auto unequip_all() -> void;
 		auto items() const -> std::vector<Item>;
+		auto has_unidentified_items() const -> bool;
+		auto has_cursed_items() const -> bool;
 
 	private:
 

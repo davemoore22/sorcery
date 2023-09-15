@@ -91,6 +91,26 @@ auto Sorcery::Inventory::unequip_all() -> void {
 	}
 }
 
+auto Sorcery::Inventory::has_unidentified_items() const -> bool {
+
+	for (const auto &item : _items) {
+		if (item.get_cursed())
+			return true;
+	}
+
+	return false;
+}
+
+auto Sorcery::Inventory::has_cursed_items() const -> bool {
+
+	for (const auto &item : _items) {
+		if (!item.get_known())
+			return true;
+	}
+
+	return false;
+}
+
 namespace Sorcery {
 
 auto operator<<(std::ostream &out_stream, const Sorcery::Inventory &inventory) -> std::ostream & {

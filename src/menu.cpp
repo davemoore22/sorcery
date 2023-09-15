@@ -54,6 +54,12 @@ Sorcery::Menu::Menu(
 		[[fallthrough]];
 	case RESTART_EXPEDITION:
 		[[fallthrough]];
+	case BUY_SELL_CHARACTERS:
+		[[fallthrough]];
+	case CURSED_CHARACTERS:
+		[[fallthrough]];
+	case IDENTIFY_CHARACTERS:
+		[[fallthrough]];
 	case CHARACTERS_HERE:
 		_populate_chars();
 		if (_go_first)
@@ -377,6 +383,12 @@ auto Sorcery::Menu::reload() -> void {
 	case AVAILABLE_CHARACTERS:
 		[[fallthrough]];
 	case INVALID_CHARACTERS:
+		[[fallthrough]];
+	case BUY_SELL_CHARACTERS:
+		[[fallthrough]];
+	case CURSED_CHARACTERS:
+		[[fallthrough]];
+	case IDENTIFY_CHARACTERS:
 		[[fallthrough]];
 	case CHARACTERS_HERE:
 		_populate_chars();

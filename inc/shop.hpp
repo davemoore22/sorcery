@@ -68,11 +68,16 @@ class Shop {
 		sf::RenderWindow *_window;
 		std::unique_ptr<Frame> _frame;
 		std::unique_ptr<Menu> _menu;
+		std::unique_ptr<Menu> _who;
 		sf::Sprite _bg;
+		ShopStage _stage;
 		std::unique_ptr<PartyPanel> _party_panel;
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Console> _console;
 		bool _show_console;
+		std::map<std::string, sf::Sprite> _w_sprites;
+		std::map<std::string, sf::Text> _w_texts;
+		std::map<std::string, std::shared_ptr<Frame>> _w_frames;
 };
 
 }
