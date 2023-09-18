@@ -146,12 +146,10 @@ auto Sorcery::Shop::start() -> std::optional<MenuItem> {
 					if (_system->input->check(WindowInput::CANCEL, event)) {
 						_stage = ShopStage::MENU;
 						_party_panel->refresh();
-						_menu->reload();
 						_menu->generate((*_display->layout)["shop:menu"]);
 					} else if (_system->input->check(WindowInput::BACK, event)) {
 						_stage = ShopStage::MENU;
 						_party_panel->refresh();
-						_menu->reload();
 						_menu->generate((*_display->layout)["shop:menu"]);
 					} else if (_system->input->check(WindowInput::UP, event))
 						option_who = _who->choose_previous();
@@ -168,7 +166,6 @@ auto Sorcery::Shop::start() -> std::optional<MenuItem> {
 								option_chosen == MenuItem::CA_SHOP) {
 								_stage = ShopStage::MENU;
 								_party_panel->refresh();
-								_menu->reload();
 								_menu->generate((*_display->layout)["shop:menu"]);
 								continue;
 							} else {
