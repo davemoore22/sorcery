@@ -69,6 +69,7 @@ class Shop {
 		std::unique_ptr<Frame> _frame;
 		std::unique_ptr<Menu> _menu;
 		std::unique_ptr<Menu> _who;
+		std::unique_ptr<Menu> _action;
 		sf::Sprite _bg;
 		ShopStage _stage;
 		std::unique_ptr<PartyPanel> _party_panel;
@@ -78,6 +79,10 @@ class Shop {
 		std::map<std::string, sf::Sprite> _w_sprites;
 		std::map<std::string, sf::Text> _w_texts;
 		std::map<std::string, std::shared_ptr<Frame>> _w_frames;
+		std::map<std::string, sf::Sprite> _a_sprites;
+		std::map<std::string, sf::Text> _a_texts;
+		std::map<std::string, std::shared_ptr<Frame>> _a_frames;
+		unsigned int _chosen_char_id;
 };
 
 }

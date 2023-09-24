@@ -437,6 +437,7 @@ namespace Enums::Castle {
 		NO_STAGE,
 		MENU,
 		WHO,
+		ACTION,
 		UNCURSE,
 		IDENTIFY,
 		INSPECT
@@ -761,7 +762,8 @@ namespace Enums::Menu {
 		STOP,
 		GRAVEYARD,
 		COMPENDIUM,
-		MUSEUM
+		MUSEUM,
+		SHOP_ACTION
 	};
 
 	enum class Mode {
@@ -894,6 +896,10 @@ namespace Enums::Menu {
 		SH_IDENTIFY,
 		SH_INSPECT,
 		SH_CASTLE,
+		SH_BUY,
+		SH_SELL,
+		SH_POOL_GOLD,
+		SH_BACK,
 		TE_HELP,
 		TE_TITHE,
 		TE_INSPECT,

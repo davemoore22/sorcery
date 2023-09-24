@@ -187,6 +187,15 @@ Sorcery::Menu::Menu(
 		_add_item(4, ENTRY, SH_CASTLE, (*_display->string)["SHOP_CASTLE"]);
 		selected = items.begin();
 		break;
+	case SHOP_ACTION:
+		_add_item(0, ENTRY, SH_BUY, (*_display->string)["SHOP_BUY"]);
+		_add_item(1, ENTRY, SH_SELL, (*_display->string)["SHOP_SELL"]);
+		_add_item(2, ENTRY, SH_UNCURSE, (*_display->string)["SHOP_UNCURSE"]);
+		_add_item(3, ENTRY, SH_IDENTIFY, (*_display->string)["SHOP_IDENTIFY"]);
+		_add_item(4, ENTRY, SH_POOL_GOLD, (*_display->string)["SHOP_POOL"]);
+		_add_item(5, ENTRY, SH_BACK, (*_display->string)["SHOP_BACK"]);
+		selected = items.begin();
+		break;
 	case TEMPLE:
 		_add_item(0, ENTRY, TE_HELP, (*_display->string)["TEMPLE_HELP"]);
 		_add_item(1, ENTRY, TE_TITHE, (*_display->string)["TEMPLE_TITHE"]);
@@ -1248,4 +1257,23 @@ auto Sorcery::Menu::get_height() const -> unsigned int {
 auto Sorcery::Menu::get_size() const -> sf::Vector2f {
 
 	return sf::Vector2f{_width * 1.0f, _height * 1.0f};
+}
+
+auto Sorcery::Menu::print() -> void {
+
+	std::string title{magic_enum::enum_name<MenuType>(_type)};
+	auto body{title + "\n\n"s};
+	int slot{0};
+
+	for (const auto &item : items) {
+
+		std::string entry{item.key};
+		std::string flag{item.enabled ? "Yes" : " No"};
+		auto line{fmt::format("{} ({}) {}", slot, flag, entry)};
+		body.append(line);
+		body.append("\n");
+		++slot;
+	}
+
+	std::cout << body << std::endl;
 }

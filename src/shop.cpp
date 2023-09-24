@@ -40,6 +40,10 @@ Sorcery::Shop::Shop(System *system, Display *display, Graphics *graphics, Game *
 	_who->generate((*_display->layout)["shop_who:menu"]);
 	_who->setPosition(_display->get_centre_x(_who->get_width()), (*_display->layout)["shop_who:menu"].y);
 
+	_action = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::SHOP_ACTION);
+	_action->generate((*_display->layout)["shop_action:menu"]);
+	_action->setPosition(_display->get_centre_x(_action->get_width()), (*_display->layout)["shop_action:menu"].y);
+
 	// Modules
 	_party_panel =
 		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
@@ -61,13 +65,13 @@ auto Sorcery::Shop::start() -> std::optional<MenuItem> {
 	// case only)
 	_display->generate("shop");
 	_display->generate("shop_who", _w_sprites, _w_texts, _w_frames);
+	_display->generate("shop_action", _a_sprites, _a_texts, _a_frames);
 
 	// Clear the window
 	_window->clear();
 
 	// Refresh the Party characters
 	_party_panel->refresh();
-
 	_who->reload();
 	_who->generate((*_display->layout)["shop_who:menu"]);
 
@@ -81,6 +85,7 @@ auto Sorcery::Shop::start() -> std::optional<MenuItem> {
 	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
 	std::optional<std::vector<MenuEntry>::const_iterator> option_who{_who->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> option_action{_action->items.begin()};
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
@@ -169,17 +174,42 @@ auto Sorcery::Shop::start() -> std::optional<MenuItem> {
 								_menu->generate((*_display->layout)["shop:menu"]);
 								continue;
 							} else {
-								/* const auto pay_char_id{(*option_pay.value()).index};
-								_stage = TempleStage::RESS;
-								_t_finished = false;
-								_start_count_thread();
-								if (pay_char_id > 0) {
-									_result_text = "";
-									_try_cure_or_ress(heal_char_id, pay_char_id);
-									_party_panel->refresh();
-									_game->save_game();
-								} */
+								_chosen_char_id = (*option_who.value()).index;
+								_stage = ShopStage::ACTION;
+								_party_panel->refresh();
+								_action->generate((*_display->layout)["shop_action:menu"]);
+								continue;
+								// TODO: handle population of who and gold strings here
 							}
+						}
+					}
+				} else if (_stage == ShopStage::ACTION) {
+
+					if (_system->input->check(WindowInput::CANCEL, event)) {
+						_stage = ShopStage::WHO;
+						_party_panel->refresh();
+						_who->generate((*_display->layout)["shop_who:menu"]);
+					} else if (_system->input->check(WindowInput::BACK, event)) {
+						_stage = ShopStage::WHO;
+						_party_panel->refresh();
+						_who->generate((*_display->layout)["shop_who:menu"]);
+					} else if (_system->input->check(WindowInput::UP, event))
+						option_action = _action->choose_previous();
+					else if (_system->input->check(WindowInput::DOWN, event))
+						option_action = _action->choose_next();
+					else if (_system->input->check(WindowInput::MOVE, event))
+						option_action =
+							_action->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					else if (_system->input->check(WindowInput::CONFIRM, event)) {
+						if (const MenuItem option_chosen{(*option_action.value()).item};
+							option_chosen == MenuItem::SH_BACK) {
+							_stage = ShopStage::WHO;
+							_party_panel->refresh();
+							_who->generate((*_display->layout)["shop_who:menu"]);
+							continue;
+						} else {
+							PRINT("chosen");
+							// depending on what is chosen, go into sell, buy, etc
 						}
 					}
 				}
@@ -216,6 +246,13 @@ auto Sorcery::Shop::_draw() -> void {
 		_who->generate((*_display->layout)["shop_who:menu"]);
 		_display->display("shop_who", _w_sprites, _w_texts, _w_frames);
 		_window->draw(*_who);
+	} else if (_stage == ShopStage::ACTION) {
+
+		// TODO: need to add who and cost texts
+
+		_action->generate((*_display->layout)["shop_action:menu"]);
+		_display->display("shop_action", _a_sprites, _a_texts, _a_frames);
+		_window->draw(*_action);
 	}
 
 	if (_game->get_console_status()) {

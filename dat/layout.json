@@ -3827,6 +3827,77 @@
 			}]
 	},
 	{
+		"name": "shop_action",
+		"component": [
+			{
+				"name": "shop_title",
+				"x": "centre",
+				"y": "8",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"string": "SHOP_WELCOME",
+				"justification": "centre",
+				"type": "text",
+				"priority": "4",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "action_text_1",
+				"x": "14",
+				"y": "10",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"string": "SHOP_WELCOME_ACTION",
+				"justification": "left",
+				"type": "text",
+				"priority": "4",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "action_text_2",
+				"x": "14",
+				"y": "21",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"string": "SHOP_GOLD_PREFIX",
+				"justification": "left",
+				"type": "text",
+				"priority": "4",
+				"drawmode": "automatic"
+			},
+			{
+				"name": "menu_frame",
+				"w": "34",
+				"h": "16",
+				"x": "centre",
+				"y": "7",
+				"alpha": "225",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "menu",
+				"x": "centre",
+				"y": "13",
+				"w": "32",
+				"h": "5",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"animated": "true",
+				"width": "32",
+				"background": " 0xff0000ff",
+				"justification": "centre",
+				"type": "menu",
+				"priority": "8"
+			}]
+	},
+	{
 		"name": "temple",
 		"component": [
 			{

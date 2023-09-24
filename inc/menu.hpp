@@ -76,6 +76,7 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		auto get_height() const -> unsigned int;
 		auto get_size() const -> sf::Vector2f;
 		auto set_visible_size(const unsigned int value) -> void;
+		auto print() -> void;
 
 	private:
 
