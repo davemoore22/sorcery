@@ -170,6 +170,18 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 					else
 						return 0;
 				}()};
+				const auto buy{[&] {
+					if (items[i].isMember("buy"))
+						return items[i]["buy"].asString() == "yes";
+					else
+						return false;
+				}()};
+				const auto sell{[&] {
+					if (items[i].isMember("sell"))
+						return items[i]["sell"].asString() == "yes";
+					else
+						return false;
+				}()};
 
 				// Now do extra processing
 				ItemUsableClass item_usable{};
@@ -239,6 +251,8 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				item_type.set_eff_inv(invoke_effect);
 				item_type.set_eff_inv_decay(invoke_decay);
 				item_type.set_cursed(cursed);
+				item_type.set_buy(buy);
+				item_type.set_sell(sell);
 
 				_items[id.value()] = item_type;
 			}

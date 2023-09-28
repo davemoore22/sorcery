@@ -387,6 +387,26 @@ auto Sorcery::ItemType::set_gfx(const unsigned int value) -> void {
 	_gfx = value;
 }
 
+auto Sorcery::ItemType::get_buy() const -> bool {
+
+	return _buy;
+}
+
+auto Sorcery::ItemType::get_sell() const -> bool {
+
+	return _sell;
+}
+
+auto Sorcery::ItemType::set_buy(const bool value) -> void {
+
+	_buy = value;
+}
+
+auto Sorcery::ItemType::set_sell(const bool value) -> void {
+
+	_sell = value;
+}
+
 namespace Sorcery {
 
 auto operator<<(std::ostream &out_stream, const Sorcery::ItemType &itemtype) -> std::ostream & {

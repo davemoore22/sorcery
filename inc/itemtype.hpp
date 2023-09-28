@@ -72,6 +72,8 @@ class ItemType {
 		auto get_decay_type_id() const -> ItemTypeID;
 		auto get_shop_inital_stock() const -> int;
 		auto get_discovered() const -> bool;
+		auto get_buy() const -> bool;
+		auto get_sell() const -> bool;
 		auto get_desc() const -> std::string;
 		auto get_gfx() const -> unsigned int;
 		auto is_class_usable(const CharacterClass cclass) const -> bool;
@@ -104,6 +106,8 @@ class ItemType {
 		auto set_discovered(const bool value) -> void;
 		auto set_desc(const std::string value) -> void;
 		auto set_gfx(const unsigned int value) -> void;
+		auto set_sell(const bool value) -> void;
+		auto set_buy(const bool value) -> void;
 
 	private:
 
@@ -138,6 +142,8 @@ class ItemType {
 		bool _discovered_by_player;			   // Has been discovered in this game
 		std::string _description;			   // Flowery Description
 		unsigned int _gfx;					   // Index of Item Graphic
+		bool _buy;							   // Can Player buy this item from Shop
+		bool _sell;							   // Can Player sell this item to Shop
 
 		static std::random_device _device; // Shared RNG
 		static std::mt19937_64 _random;

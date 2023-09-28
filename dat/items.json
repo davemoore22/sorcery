@@ -7,7 +7,9 @@
 		 "known name": "Broken Item",
 		 "unknown name": "Broken Item",
 		 "display name": "Broken Item",
-		 "value": 0
+		 "value": 0,
+		 "buy": "no",
+		 "sell": "no"
 		},
 		{
 		 "id": 1,
@@ -21,7 +23,9 @@
 		 "to hit": 4,
 		 "damage": "1d8+0",
 		 "attacks": 1,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 2,
@@ -35,7 +39,9 @@
 		 "to hit": 3,
 		 "damage": "1d6+0",
 		 "attacks": 1,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 3,
@@ -49,7 +55,9 @@
 		 "to hit": 2,
 		 "damage": "2d3+0",
 		 "attacks": 1,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 4,
@@ -63,7 +71,9 @@
 		 "to hit": 3,
 		 "damage": "1d7+0",
 		 "attacks": 1,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 5,
@@ -77,7 +87,9 @@
 		 "to hit": 0,
 		 "damage": "1d5+0",
 		 "attacks": 1,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 6,
@@ -91,7 +103,9 @@
 		 "to hit": 1,
 		 "damage": "1d4+0",
 		 "attacks": 1,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 7,
@@ -103,7 +117,9 @@
 		 "allowed classes": "fptbsln",
 		 "allowed alignments": "gne",
 		 "ac": 2,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 8,
@@ -115,7 +131,9 @@
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "gne",
 		 "ac": 3,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 9,
@@ -127,7 +145,9 @@
 		 "allowed classes": "fmptbsln",
 		 "allowed alignments": "gne",
 		 "ac": 1,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 10,
@@ -139,7 +159,9 @@
 		 "allowed classes": "fptbsln",
 		 "allowed alignments": "gne",
 		 "ac": 2,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 11,
@@ -151,7 +173,9 @@
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "gne",
 		 "ac": 3,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 12,
@@ -163,7 +187,9 @@
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "gne",
 		 "ac": 4,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 13,
@@ -175,7 +201,9 @@
 		 "allowed classes": "fsln",
 		 "allowed alignments": "gne",
 		 "ac": 5,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 14,
@@ -187,7 +215,9 @@
 		 "allowed classes": "fsln",
 		 "allowed alignments": "gne",
 		 "ac": 1,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 15,
@@ -201,7 +231,9 @@
 		 "use": "DIOS",
 		 "use decay": 100,
 		 "decay id": 0,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 16,
@@ -215,7 +247,9 @@
 		 "use": "LATUMOFIS",
 		 "use decay": 100,
 		 "decay id": 0,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 17,
@@ -228,7 +262,9 @@
 		 "allowed alignments": "gne",
 		 "to hit": 5,
 		 "damage": "1d8+1",
-		 "attacks": 2
+		 "attacks": 2,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 18,
@@ -242,7 +278,9 @@
 		 "to hit": 4,
 		 "damage": "1d6+1",
 		 "attacks": 2,
-		 "shop stock": 2
+		 "shop stock": 2,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 19,
@@ -255,7 +293,9 @@
 		 "allowed alignments": "gne",
 		 "to hit": 3,
 		 "damage": "2d4+1",
-		 "attacks": 2
+		 "attacks": 2,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 20,
@@ -272,7 +312,9 @@
 		 "use": "MOGREF",
 		 "use decay": 25,
 		 "decay id": 0,
-		 "shop stock": 1
+		 "shop stock": 1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 21,
@@ -286,7 +328,9 @@
 		 "use": "KATINO",
 		 "use decay": 100,
 		 "decay id": 0,
-		 "shop stock": 1
+		 "shop stock": 1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 22,
@@ -298,7 +342,9 @@
 		 "allowed classes": "fptbsln",
 		 "allowed alignments": "gne",
 		 "ac": 3,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 23,
@@ -310,7 +356,9 @@
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "gne",
 		 "ac": 4,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 24,
@@ -322,7 +370,9 @@
 		 "allowed classes": "fsln",
 		 "allowed alignments": "gne",
 		 "ac": 6,
-		 "shop stock": 1
+		 "shop stock": 1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 25,
@@ -334,7 +384,9 @@
 		 "allowed classes": "fptsln",
 		 "allowed alignments": "gne",
 		 "ac": 4,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 26,
@@ -346,7 +398,9 @@
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "gne",
 		 "ac": 5,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 27,
@@ -360,7 +414,9 @@
 		 "use": "BADIOS",
 		 "use decay": 100,
 		 "decay id": 0,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 28,
@@ -374,7 +430,9 @@
 		 "use": "HALITO",
 		 "use decay": 100,
 		 "decay id": 0,
-		 "shop stock": 25
+		 "shop stock": 25,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 29,
@@ -388,7 +446,9 @@
 		 "allowed alignments": "gne",
 		 "to hit": -1,
 		 "damage": "1d8+0",
-		 "attacks": 1
+		 "attacks": 1,
+		 "buy": "yes",
+		 "sell": "no"
 		},
 		{
 		 "id": 30,
@@ -401,7 +461,9 @@
 		 "allowed alignments": "gne",
 		 "to hit": -1,
 		 "damage": "1d6+0",
-		 "attacks": 1
+		 "attacks": 1,
+		 "buy": "yes",
+		 "sell": "no"
 		},
 		{
 		 "id": 31,
@@ -415,7 +477,9 @@
 		 "allowed alignments": "gne",
 		 "to hit": -1,
 		 "damage": "2d3+0",
-		 "attacks": 1
+		 "attacks": 1,
+		 "buy": "yes",
+		 "sell": "no"
 		},
 		{
 		 "id": 32,
@@ -429,7 +493,9 @@
 		 "to hit": 2,
 		 "damage": "1d4+2",
 		 "attacks": 1,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 33,
@@ -444,7 +510,9 @@
 		 "damage": "1d10+1",
 		 "attacks": 1,
 		 "offensive": "PURPOSED_VS_DRAGON",
-		 "defensive": "PROTECTION_VS_DRAGON"
+		 "defensive": "PROTECTION_VS_DRAGON",
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 34,
@@ -455,7 +523,9 @@
 		 "value": 3000,
 		 "allowed classes": "fsln",
 		 "allowed alignments": "gne",
-		 "ac": 2
+		 "ac": 2,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 35,
@@ -467,7 +537,9 @@
 		 "value": 1500,
 		 "allowed classes": "fptbsl",
 		 "allowed alignments": "gne",
-		 "ac": 1
+		 "ac": 1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 36,
@@ -479,7 +551,9 @@
 		 "value": 1500,
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "gne",
-		 "ac": 2
+		 "ac": 2,
+		 "buy": "yes",
+		 "sell": "no"
 		},
 		{
 		 "id": 37,
@@ -491,18 +565,23 @@
 		 "value": 1500,
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "gne",
-		 "ac": 3
+		 "ac": 3,
+		 "buy": "yes",
+		 "sell": "no"
 		},
 		{
 		 "id": 38,
 		 "category": "SHIELD",
+		 "cursed": "Cursed",
 		 "known name": "Shield -1",
 		 "unknown name": "Shield",
 		 "display name": "Shield -1",
 		 "value": 1500,
 		 "allowed classes": "fptsl",
 		 "allowed alignments": "gne",
-		 "ac": -1
+		 "ac": -1,
+		 "buy": "yes",
+		 "sell": "no"
 		},
 		{
 		 "id": 39,
@@ -514,7 +593,9 @@
 		 "allowed classes": "fmptbsln",
 		 "use": "DUMAPIC",
 		 "use decay": 0,
-		 "decay id": 0
+		 "decay id": 0,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 40,
@@ -527,7 +608,9 @@
 		 "allowed alignments": "gne",
 		 "use": "BADIOS",
 		 "use decay": 100,
-		 "decay id": 0
+		 "decay id": 0,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 41,
@@ -541,7 +624,9 @@
 		 "use": "SOPIC",
 		 "use decay": 100,
 		 "decay id": 0,
-		 "shop stock": 1
+		 "shop stock": 1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 42,
@@ -554,7 +639,9 @@
 		 "allowed alignments": "gne",
 		 "to hit": 6,
 		 "damage": "1d10+2",
-		 "attacks": 3
+		 "attacks": 3,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 43,
@@ -567,7 +654,9 @@
 		 "allowed alignments": "gne",
 		 "to hit": 5,
 		 "damage": "1d6+2",
-		 "attacks": 3
+		 "attacks": 3,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 44,
@@ -580,7 +669,9 @@
 		 "allowed alignments": "gne",
 		 "to hit": 4,
 		 "damage": "1d8+2",
-		 "attacks": 2
+		 "attacks": 2,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 45,
@@ -593,7 +684,9 @@
 		 "allowed alignments": "gne",
 		 "use": "LOMILWA",
 		 "use decay": 100,
-		 "decay id": 0
+		 "decay id": 0,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 46,
@@ -606,7 +699,9 @@
 		 "allowed alignments": "gne",
 		 "use": "DILTO",
 		 "use decay": 100,
-		 "decay id": 0
+		 "decay id": 0,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 47,
@@ -618,7 +713,9 @@
 		 "allowed classes": "fsln",
 		 "allowed alignments": "gne",
 		 "ac": 1,
-		 "shop stock": -1
+		 "shop stock": -1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 48,
@@ -629,7 +726,9 @@
 		 "value": 6000,
 		 "allowed classes": "fptbsln",
 		 "allowed alignments": "gne",
-		 "ac": 4
+		 "ac": 4,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 49,
@@ -640,7 +739,9 @@
 		 "value": 6000,
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "gne",
-		 "ac": 5
+		 "ac": 5,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 50,
@@ -651,7 +752,9 @@
 		 "value": 6000,
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "gne",
-		 "ac": 7
+		 "ac": 7,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 51,
@@ -662,7 +765,9 @@
 		 "value": 7000,
 		 "allowed classes": "fptsln",
 		 "allowed alignments": "gne",
-		 "ac": 5
+		 "ac": 5,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 52,
@@ -673,7 +778,9 @@
 		 "value": 8000,
 		 "allowed classes": "fsln",
 		 "allowed alignments": "e",
-		 "ac": 2
+		 "ac": 2,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 53,
@@ -686,7 +793,9 @@
 		 "allowed alignments": "gne",
 		 "use": "DIAL",
 		 "use decay": 100,
-		 "decay id": 0
+		 "decay id": 0,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 54,
@@ -698,7 +807,9 @@
 		 "allowed classes": "fmptbsln",
 		 "use": "PORFIC",
 		 "use decay": 5,
-		 "decay id": 0
+		 "decay id": 0,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 55,
@@ -713,7 +824,9 @@
 		 "damage": "1d10+1",
 		 "attacks": 2,
 		 "offensive": "PURPOSED_VS_WERE",
-		 "defensive": "PROTECTION_VS_WERE"
+		 "defensive": "PROTECTION_VS_WERE",
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 56,
@@ -728,7 +841,9 @@
 		 "damage": "1d6+1",
 		 "attacks": 2,
 		 "offensive": "PURPOSED_VS_MAGE",
-		 "defensive": "PROTECTION_VS_MAGE"
+		 "defensive": "PROTECTION_VS_MAGE",
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 57,
@@ -743,7 +858,9 @@
 		 "damage": "1d8+0",
 		 "attacks": 2,
 		 "offensive": "PURPOSED_VS_INSECT",
-		 "defensive": "PROTECTION_VS_INSECT"
+		 "defensive": "PROTECTION_VS_INSECT",
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 58,
@@ -758,7 +875,9 @@
 		 "attacks": 1,
 		 "use": "MONTINO",
 		 "use decay": 10,
-		 "decay id": 5
+		 "decay id": 5,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 59,
@@ -771,7 +890,9 @@
 		 "allowed alignments": "gne",
 		 "to hit": 6,
 		 "damage": "1d3+9",
-		 "attacks": 4
+		 "attacks": 4,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 60,
@@ -784,7 +905,9 @@
 		 "allowed alignments": "gne",
 		 "use": "MANIFO",
 		 "use decay": 10,
-		 "decay id": 0
+		 "decay id": 0,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 61,
@@ -798,7 +921,9 @@
 		 "use": "MAHALITO",
 		 "use decay": 10,
 		 "decay id": 0,
-		 "defensive": "RESIST_FIRE"
+		 "defensive": "RESIST_FIRE",
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 62,
@@ -809,7 +934,9 @@
 		 "value": 8000,
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "e",
-		 "ac": 5
+		 "ac": 5,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 63,
@@ -820,7 +947,9 @@
 		 "value": 8000,
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "n",
-		 "ac": 7
+		 "ac": 7,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 64,
@@ -831,7 +960,9 @@
 		 "value": 25000,
 		 "allowed classes": "fptsln",
 		 "allowed alignments": "e",
-		 "ac": 5
+		 "ac": 5,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 65,
@@ -844,7 +975,9 @@
 		 "allowed alignments": "gne",
 		 "use": "MAKANITO",
 		 "use decay": 5,
-		 "decay id": 0
+		 "decay id": 0,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 66,
@@ -858,7 +991,9 @@
 		 "ac": 2,
 		 "use": "MALOR",
 		 "use decay": 100,
-		 "decay id": 14
+		 "decay id": 14,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 67,
@@ -871,7 +1006,9 @@
 		 "allowed alignments": "gne",
 		 "use": "BADIAL",
 		 "use decay": 100,
-		 "decay id": 0
+		 "decay id": 0,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 68,
@@ -885,7 +1022,9 @@
 		 "allowed alignments": "gne",
 		 "to hit": 1,
 		 "damage": "1d6+0",
-		 "attacks": 1
+		 "attacks": 1,
+		 "buy": "yes",
+		 "sell": "no"
 		},
 		{
 		 "id": 69,
@@ -898,7 +1037,9 @@
 		 "allowed alignments": "gne",
 		 "to hit": 3,
 		 "damage": "1d4+2",
-		 "attacks": 2
+		 "attacks": 2,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 70,
@@ -912,7 +1053,9 @@
 		 "allowed alignments": "gne",
 		 "to hit": 0,
 		 "damage": "1d8+0",
-		 "attacks": 0
+		 "attacks": 0,
+		 "buy": "yes",
+		 "sell": "no"
 		},
 		{
 		 "id": 71,
@@ -926,7 +1069,9 @@
 		 "allowed alignments": "gne",
 		 "to hit": -2,
 		 "damage": "1d4+0",
-		 "attacks": 1
+		 "attacks": 1,
+		 "buy": "yes",
+		 "sell": "no"
 		},
 		{
 		 "id": 72,
@@ -940,7 +1085,9 @@
 		 "ac": -3,
 		 "to hit": -1,
 		 "damage": "1d4+0",
-		 "attacks": 7
+		 "attacks": 7,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 73,
@@ -953,7 +1100,9 @@
 		 "allowed classes": "fmptbsln",
 		 "allowed alignments": "gne",
 		 "ac": -2,
-		 "to hit": -2
+		 "to hit": -2,
+		 "buy": "yes",
+		 "sell": "no"
 		},
 		{
 		 "id": 74,
@@ -965,7 +1114,9 @@
 		 "value": 8000,
 		 "allowed classes": "fptbsln",
 		 "allowed alignments": "gne",
-		 "ac": 0
+		 "ac": 0,
+		 "buy": "yes",
+		 "sell": "no"
 		},
 		{
 		 "id": 75,
@@ -977,7 +1128,9 @@
 		 "value": 8000,
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "gne",
-		 "ac": -1
+		 "ac": -1,
+		 "buy": "yes",
+		 "sell": "no"
 		},
 		{
 		 "id": 76,
@@ -989,7 +1142,9 @@
 		 "value": 8000,
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "gne",
-		 "ac": -2
+		 "ac": -2,
+		 "buy": "yes",
+		 "sell": "no"
 		},
 		{
 		 "id": 77,
@@ -1001,7 +1156,9 @@
 		 "value": 8000,
 		 "allowed classes": "fptsln",
 		 "allowed alignments": "gne",
-		 "ac": 0
+		 "ac": 0,
+		 "buy": "yes",
+		 "sell": "no"
 		},
 		{
 		 "id": 78,
@@ -1013,7 +1170,9 @@
 		 "allowed classes": "fsln",
 		 "allowed alignments": "gne",
 		 "ac": -2,
-		 "to hit": -2
+		 "to hit": -2,
+		 "buy": "yes",
+		 "sell": "no"
 		},
 		{
 		 "id": 79,
@@ -1024,7 +1183,9 @@
 		 "value": 10000,
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "gne",
-		 "ac": 6
+		 "ac": 6,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 80,
@@ -1035,7 +1196,9 @@
 		 "value": 60000,
 		 "allowed classes": "fsln",
 		 "allowed alignments": "gne",
-		 "ac": 3
+		 "ac": 3,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 81,
@@ -1048,7 +1211,9 @@
 		 "allowed alignments": "e",
 		 "to hit": 7,
 		 "damage": "1d10+3",
-		 "attacks": 4
+		 "attacks": 4,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 82,
@@ -1061,7 +1226,9 @@
 		 "allowed alignments": "e",
 		 "to hit": 6,
 		 "damage": "1d6+0",
-		 "attacks": 4
+		 "attacks": 4,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 83,
@@ -1077,7 +1244,9 @@
 		 "attacks": 4,
 		 "invoke": "BECOME_NINJA",
 		 "invoke decay": 100,
-		 "decay id": 0
+		 "decay id": 0,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 84,
@@ -1088,7 +1257,9 @@
 		 "value": 100000,
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "gne",
-		 "ac": 7
+		 "ac": 7,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 85,
@@ -1105,7 +1276,9 @@
 		 "invoke decay": 50,
 		 "decay id": 0,
 		 "offensive": "PURPOSED_VS_WERE,PURPOSED_VS_UNDEAD,PURPOSED_VS_DEMON,AUTOKILL",
-		 "defensive": "PROTECTION_VS_MYTHICAL,PROTECTION_VS_DRAGON"
+		 "defensive": "PROTECTION_VS_MYTHICAL,PROTECTION_VS_DRAGON",
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 86,
@@ -1121,7 +1294,9 @@
 		 "attacks": 3,
 		 "invoke": "INC_STRENGTH",
 		 "invoke decay": 50,
-		 "decay id": 0
+		 "decay id": 0,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 87,
@@ -1139,7 +1314,9 @@
 		 "invoke decay": 50,
 		 "decay id": 0,
 		 "offensive": "AUTOKILL",
-		 "defensive": "RESIST_LEVEL_DRAIN,RESIST_POISON"
+		 "defensive": "RESIST_LEVEL_DRAIN,RESIST_POISON",
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 88,
@@ -1151,7 +1328,9 @@
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "gne",
 		 "ac": 6,
-		 "defensive": "RESIST_FIRE"
+		 "defensive": "RESIST_FIRE",
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 89,
@@ -1162,7 +1341,9 @@
 		 "value": 150000,
 		 "allowed classes": "fpsln",
 		 "allowed alignments": "e",
-		 "ac": 9
+		 "ac": 9,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 90,
@@ -1173,7 +1354,9 @@
 		 "value": 250000,
 		 "allowed classes": "fptsln",
 		 "allowed alignments": "gne",
-		 "ac": 6
+		 "ac": 6,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 91,
@@ -1184,7 +1367,9 @@
 		 "value": 300000,
 		 "allowed classes": "fmptbsln",
 		 "allowed alignments": "gne",
-		 "regeneration": 1
+		 "regeneration": 1,
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 92,
@@ -1195,7 +1380,9 @@
 		 "value": 500000,
 		 "allowed classes": "fmptbsln",
 		 "allowed alignments": "gne",
-		 "defensive": "PROTECTION_VS_UNDEAD"
+		 "defensive": "PROTECTION_VS_UNDEAD",
+		 "buy": "yes",
+		 "sell": "yes"
 		},
 		{
 		 "id": 93,
@@ -1207,7 +1394,9 @@
 		 "value": 500000,
 		 "allowed classes": "fmptbsln",
 		 "allowed alignments": "gne",
-		 "regeneration": -3
+		 "regeneration": -3,
+		 "buy": "yes",
+		 "sell": "no"
 		},
 		{
 		 "id": 94,
@@ -1225,7 +1414,9 @@
 		 "invoke": "HEAL_ALL",
 		 "invoke decay": 0,
 		 "use": "MALOR",
-		 "use decay": 0
+		 "use decay": 0,
+		 "buy": "yes",
+		 "sell": "no"
 		},
 		{
 		 "id": 95,
@@ -1233,7 +1424,9 @@
 		 "known name": "Statue of Bear",
 		 "unknown name": "Statue",
 		 "display name": "Statue|Bear",
-		 "value": 0
+		 "value": 0,
+		 "buy": "no",
+		 "sell": "no"
 		},
 		{
 		 "id": 96,
@@ -1241,7 +1434,9 @@
 		 "known name": "Statue of Frog",
 		 "unknown name": "Statue",
 		 "display name": "Statue|Frog",
-		 "value": 0
+		 "value": 0,
+		 "buy": "no",
+		 "sell": "no"
 		},
 		{
 		 "id": 97,
@@ -1249,7 +1444,9 @@
 		 "known name": "Bronze key",
 		 "unknown name": "Key",
 		 "display name": "Bronze key",
-		 "value": 0
+		 "value": 0,
+		 "buy": "no",
+		 "sell": "no"
 		},
 		{
 		 "id": 98,
@@ -1257,7 +1454,9 @@
 		 "known name": "Silver Key",
 		 "unknown name": "Key",
 		 "display name": "Silver Key",
-		 "value": 0
+		 "value": 0,
+		 "buy": "no",
+		 "sell": "no"
 		},
 		{
 		 "id": 99,
@@ -1265,7 +1464,9 @@
 		 "known name": "Gold Key",
 		 "unknown name": "Key",
 		 "display name": "Gold Key",
-		 "value": 0
+		 "value": 0,
+		 "buy": "no",
+		 "sell": "no"
 		},
 		{
 		 "id": 100,
@@ -1273,7 +1474,9 @@
 		 "known name": "Blue Ribbon",
 		 "unknown name": "Ribbon",
 		 "display name": "Blue Ribbon",
-		 "value": 0
+		 "value": 0,
+		 "buy": "no",
+		 "sell": "no"
 		}
 	]
 }
