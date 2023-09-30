@@ -153,7 +153,7 @@
 1689283234 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
 	"main.hpp"
 
-1690663567 /home/dave/Development/wizardry/sorcery-sfml/inc/type.hpp
+1696097518 /home/dave/Development/wizardry/sorcery-sfml/inc/type.hpp
 	"main.hpp"
 
 1625475027 /home/dave/Development/wizardry/sorcery-sfml/inc/operator.hpp
@@ -504,10 +504,10 @@
 1628106617 source:/home/dave/Development/wizardry/sorcery-sfml/src/tooltip.cpp
 	"tooltip.hpp"
 
-1682797284 source:/home/dave/Development/wizardry/sorcery-sfml/src/game.cpp
+1696099810 source:/home/dave/Development/wizardry/sorcery-sfml/src/game.cpp
 	"game.hpp"
 
-1682796655 /home/dave/Development/wizardry/sorcery-sfml/inc/game.hpp
+1696095585 /home/dave/Development/wizardry/sorcery-sfml/inc/game.hpp
 	"character.hpp"
 	"display.hpp"
 	"graphics.hpp"
@@ -1274,15 +1274,16 @@
 1689455000 source:/home/dave/Development/wizardry/sorcery-sfml/src/inn.cpp
 	"inn.hpp"
 
-1695590624 source:/home/dave/Development/wizardry/sorcery-sfml/src/shop.cpp
+1695591665 source:/home/dave/Development/wizardry/sorcery-sfml/src/shop.cpp
 	"shop.hpp"
 
 1689455236 source:/home/dave/Development/wizardry/sorcery-sfml/src/temple.cpp
 	"temple.hpp"
 
-1675970713 /home/dave/Development/wizardry/sorcery-sfml/inc/state.hpp
+1696097109 /home/dave/Development/wizardry/sorcery-sfml/inc/state.hpp
 	"character.hpp"
 	"explore.hpp"
+	"itemstore.hpp"
 	"level.hpp"
 	"main.hpp"
 	"system.hpp"
@@ -1317,7 +1318,7 @@
 	<set>
 	<stack>
 
-1675970709 source:/home/dave/Development/wizardry/sorcery-sfml/src/state.cpp
+1696099665 source:/home/dave/Development/wizardry/sorcery-sfml/src/state.cpp
 	"state.hpp"
 
 1629823675 source:/home/dave/Development/wizardry/sorcery-sfml/src/summary.cpp
@@ -1690,14 +1691,14 @@
 	"main.hpp"
 	"system.hpp"
 
-1693857415 source:/home/dave/Development/wizardry/sorcery-sfml/src/itemstore.cpp
+1695931059 source:/home/dave/Development/wizardry/sorcery-sfml/src/itemstore.cpp
 	"itemstore.hpp"
 
-1693857353 /home/dave/Development/wizardry/sorcery-sfml/inc/itemtype.hpp
+1696098894 /home/dave/Development/wizardry/sorcery-sfml/inc/itemtype.hpp
 	"main.hpp"
 	"system.hpp"
 
-1693857315 source:/home/dave/Development/wizardry/sorcery-sfml/src/itemtype.cpp
+1696099030 source:/home/dave/Development/wizardry/sorcery-sfml/src/itemtype.cpp
 	"itemtype.hpp"
 
 1682624567 source:/home/dave/Development/wizardry/sorcery-sfml/src/characterview.cpp

@@ -38,6 +38,15 @@ Sorcery::State::State(System *system) : _system{system} {
 	_restart_expedition();
 }
 
+auto Sorcery::State::reset_shop(ItemStore *itemstore) -> void {
+
+	for (int item_type_id = 1; item_type_id < 101; item_type_id++) {
+		const auto item_type{(*itemstore)[magic_enum::enum_cast<ItemTypeID>(item_type_id).value()]};
+		_shop[item_type_id] = {item_type.get_shop_inital_stock(), item_type.get_shop_inital_stock(),
+			item_type.get_buy(), item_type.get_sell()};
+	}
+}
+
 auto Sorcery::State::_clear() -> void {
 
 	_party.clear();

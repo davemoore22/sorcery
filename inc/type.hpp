@@ -31,6 +31,22 @@ namespace Sorcery {
 // Note that we need to use full details in here as aliases haven't yet been set up in main.hpp when we include
 // enums.hpp (not sure why - need to investigate)
 
+struct ShopStock {
+
+		ShopStock() : initial_stock{0}, current_stock{0}, buyable{false}, sellable{false} {};
+		ShopStock(int initial_stock_, int current_stock_, bool buyable_, bool sellable_)
+			: initial_stock{initial_stock_}, current_stock{current_stock_}, buyable{buyable_}, sellable{sellable_} {};
+
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(initial_stock, current_stock, buyable, sellable);
+		}
+
+		int initial_stock;
+		int current_stock;
+		bool buyable;
+		bool sellable;
+};
+
 // Struct to represent a menu entry
 struct MenuEntry {
 		MenuEntry()

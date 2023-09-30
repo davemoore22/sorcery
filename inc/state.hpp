@@ -24,6 +24,7 @@
 
 #include "character.hpp"
 #include "explore.hpp"
+#include "itemstore.hpp"
 #include "level.hpp"
 #include "main.hpp"
 #include "system.hpp"
@@ -42,7 +43,7 @@ class State {
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_version, _party, level, explored, _player_depth, _previous_depth, _player_pos, _previous_pos,
-				_playing_facing, _lit, _turns, _log);
+				_playing_facing, _lit, _turns, _log, _shop);
 		}
 
 		// Public Members
@@ -52,6 +53,7 @@ class State {
 		std::array<bool, 8> quest_item_flags;
 
 		// Public Methods
+		auto reset_shop(ItemStore *itemstore) -> void;
 		auto add_character_by_id(unsigned int char_id) -> bool;
 		auto check_character_in_party(unsigned int char_id) -> bool;
 		auto clear_party() -> void;
@@ -104,6 +106,7 @@ class State {
 		int _version;
 		unsigned int _turns;
 		std::vector<ConsoleMessage> _log;
+		std::array<ShopStock, 101> _shop; // Max ItemID + 1 as its 0-indexed
 };
 
 }

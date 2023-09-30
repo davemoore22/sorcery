@@ -29,6 +29,8 @@
 Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
+	itemstore = std::make_unique<ItemStore>(_system, (*_system->files)[ITEMS_FILE]);
+
 	valid = _system->database->has_game();
 	if (valid) {
 		_clear();
@@ -39,7 +41,6 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 	}
 
 	levelstore = std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
-	itemstore = std::make_unique<ItemStore>(_system, (*_system->files)[ITEMS_FILE]);
 
 	_set_up_dungeon_events();
 }
@@ -189,6 +190,7 @@ auto Sorcery::Game::_clear() -> void {
 	levelstore = std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
 
 	state->clear_log_messages();
+	state->reset_shop(itemstore.get());
 
 	state->level->reset();
 }

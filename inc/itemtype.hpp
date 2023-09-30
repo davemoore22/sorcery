@@ -51,7 +51,6 @@ class ItemType {
 		auto get_usable_class() const -> ItemUsableClass;
 		auto get_usable_alignment() const -> ItemUsableAlignment;
 		auto get_swings() const -> int;
-		auto get_shop_stock() const -> int;
 		auto get_to_hit_mod() const -> int;
 		auto get_damage() const -> std::string;
 		auto get_damage_dice_number() const -> int;
