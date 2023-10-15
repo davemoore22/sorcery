@@ -334,8 +334,8 @@ Sorcery::Menu::Menu(
 		selected = items.begin();
 		break;
 	case SEARCH:
-		// Not Used
 		_add_item(0, ENTRY, AC_LEAVE, (*_display->string)["ACTION_LEAVE"]);
+		selected = items.begin();
 		break;
 	case ACTION:
 		_add_item(0, ENTRY, CP_INSPECT, (*_display->string)["ACTION_INSPECT"]);
@@ -346,6 +346,7 @@ Sorcery::Menu::Menu(
 		_add_item(5, ENTRY, AC_SEARCH_ITEMS, (*_display->string)["ACTION_SEARCH_ITEMS"]);
 		_add_item(6, ENTRY, AC_SEARCH_SECRET, (*_display->string)["ACTION_SEARCH_SECRET"]);
 		_add_item(7, ENTRY, AC_LEAVE, (*_display->string)["ACTION_LEAVE"]);
+		selected = items.begin();
 		break;
 	case MUSEUM:
 		_add_all_items();
