@@ -1769,3 +1769,39 @@
 1693256916 source:/home/dave/Development/wizardry/sorcery-sfml/src/inventorydisplay.cpp
 	"inventorydisplay.hpp"
 
+1697388678 source:/home/dave/Development/wizardry/sorcery-sfml/src/buy.cpp
+
+1697388683 source:/home/dave/Development/wizardry/sorcery-sfml/src/cast.cpp
+
+1697388686 source:/home/dave/Development/wizardry/sorcery-sfml/src/disarm.cpp
+
+1697388688 source:/home/dave/Development/wizardry/sorcery-sfml/src/drop.cpp
+
+1697388695 source:/home/dave/Development/wizardry/sorcery-sfml/src/encounter.cpp
+
+1697388699 source:/home/dave/Development/wizardry/sorcery-sfml/src/equip.cpp
+
+1697388702 source:/home/dave/Development/wizardry/sorcery-sfml/src/identify.cpp
+
+1697388706 source:/home/dave/Development/wizardry/sorcery-sfml/src/loot.cpp
+
+1697388708 source:/home/dave/Development/wizardry/sorcery-sfml/src/open.cpp
+
+1697388711 source:/home/dave/Development/wizardry/sorcery-sfml/src/read.cpp
+
+1697388716 source:/home/dave/Development/wizardry/sorcery-sfml/src/searching.cpp
+
+1697388719 source:/home/dave/Development/wizardry/sorcery-sfml/src/sell.cpp
+
+1697388723 source:/home/dave/Development/wizardry/sorcery-sfml/src/trade.cpp
+
+1697388727 source:/home/dave/Development/wizardry/sorcery-sfml/src/trap.cpp
+
+1697388733 source:/home/dave/Development/wizardry/sorcery-sfml/src/treasure.cpp
+
+1697388737 source:/home/dave/Development/wizardry/sorcery-sfml/src/uncurse.cpp
+
+1697388739 source:/home/dave/Development/wizardry/sorcery-sfml/src/use.cpp
+
+1697388741 source:/home/dave/Development/wizardry/sorcery-sfml/src/win.cpp
+

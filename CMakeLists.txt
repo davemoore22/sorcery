@@ -106,6 +106,7 @@ add_executable(${PROJECT_NAME}
 	src/string.cpp
 	src/system.cpp
 	src/tavern.cpp
+	src/teleport.cpp
 	src/temple.cpp
 	src/text.cpp
 	src/textfile.cpp
@@ -120,7 +121,8 @@ add_executable(${PROJECT_NAME}
 	src/use.cpp
 	src/view.cpp
 	src/win.cpp
-	src/window.cpp)
+	src/window.cpp
+	src/wish.cpp)
 
 # Include Directories
 target_include_directories(${PROJECT_NAME} PRIVATE
