@@ -25,6 +25,8 @@ add_executable(${PROJECT_NAME}
 	src/automap.cpp
 	src/banner.cpp
 	src/buffbar.cpp
+	src/buy.cpp
+	src/cast.cpp
 	src/castle.cpp
 	src/changeclass.cpp
 	src/changename.cpp
@@ -41,10 +43,14 @@ add_executable(${PROJECT_NAME}
 	src/database.cpp
 	src/debuffbar.cpp
 	src/dialog.cpp
+	src/disarm.cpp
 	src/display.cpp
+	src/drop.cpp
 	src/edgeoftown.cpp
 	src/edit.cpp
+	src/encounter.cpp
 	src/engine.cpp
+	src/equip.cpp
 	src/error.cpp
 	src/event.cpp
 	src/explore.cpp
@@ -55,6 +61,7 @@ add_executable(${PROJECT_NAME}
 	src/graveyard.cpp
 	src/iconpanel.cpp
 	src/iconstore.cpp
+	src/identify.cpp
 	src/infopanel.cpp
 	src/inn.cpp
 	src/input.cpp
@@ -71,15 +78,18 @@ add_executable(${PROJECT_NAME}
 	src/level.cpp
 	src/levelstore.cpp
 	src/license.cpp
+	src/loot.cpp
 	src/main.cpp
 	src/mainmenu.cpp
 	src/map.cpp
 	src/menu.cpp
 	src/museum.cpp
+	src/open.cpp
 	src/options.cpp
 	src/partypanel.cpp
 	src/platform.cpp
 	src/random.cpp
+	src/read.cpp
 	src/render.cpp
 	src/reorder.cpp
 	src/resourcemanager.cpp
@@ -87,6 +97,8 @@ add_executable(${PROJECT_NAME}
 	src/restart.cpp
 	src/roster.cpp
 	src/search.cpp
+	src/searching.cpp
+	src/sell.cpp
 	src/shop.cpp
 	src/spellpanel.cpp
 	src/splash.cpp
@@ -100,8 +112,14 @@ add_executable(${PROJECT_NAME}
 	src/textpanel.cpp
 	src/texturestore.cpp
 	src/tile.cpp
+	src/trade.cpp
 	src/training.cpp
+	src/trap.cpp
+	src/treasure.cpp
+	src/uncurse.cpp
+	src/use.cpp
 	src/view.cpp
+	src/win.cpp
 	src/window.cpp)
 
 # Include Directories
