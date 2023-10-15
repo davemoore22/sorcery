@@ -139,6 +139,7 @@
 		<Unit filename="inc/automap.hpp" />
 		<Unit filename="inc/backwardcpp/backward.hpp" />
 		<Unit filename="inc/banner.hpp" />
+		<Unit filename="inc/bestiary.hpp" />
 		<Unit filename="inc/buffbar.hpp" />
 		<Unit filename="inc/buy.hpp" />
 		<Unit filename="inc/cast.hpp" />
@@ -174,6 +175,7 @@
 		<Unit filename="inc/file.hpp" />
 		<Unit filename="inc/frame.hpp" />
 		<Unit filename="inc/game.hpp" />
+		<Unit filename="inc/gazetteer.hpp" />
 		<Unit filename="inc/graphics.hpp" />
 		<Unit filename="inc/graveyard.hpp" />
 		<Unit filename="inc/iconpanel.hpp" />
@@ -218,9 +220,11 @@
 		<Unit filename="inc/searching.hpp" />
 		<Unit filename="inc/sell.hpp" />
 		<Unit filename="inc/shop.hpp" />
+		<Unit filename="inc/spellbook.hpp" />
 		<Unit filename="inc/spellpanel.hpp" />
 		<Unit filename="inc/splash.hpp" />
 		<Unit filename="inc/state.hpp" />
+		<Unit filename="inc/statistics.hpp" />
 		<Unit filename="inc/string.hpp" />
 		<Unit filename="inc/system.hpp" />
 		<Unit filename="inc/tavern.hpp" />
@@ -248,6 +252,7 @@
 		<Unit filename="src/attributedisplay.cpp" />
 		<Unit filename="src/automap.cpp" />
 		<Unit filename="src/banner.cpp" />
+		<Unit filename="src/bestiary.cpp" />
 		<Unit filename="src/buffbar.cpp" />
 		<Unit filename="src/buy.cpp" />
 		<Unit filename="src/cast.cpp" />
@@ -281,6 +286,7 @@
 		<Unit filename="src/file.cpp" />
 		<Unit filename="src/frame.cpp" />
 		<Unit filename="src/game.cpp" />
+		<Unit filename="src/gazetteer.cpp" />
 		<Unit filename="src/graphics.cpp" />
 		<Unit filename="src/graveyard.cpp" />
 		<Unit filename="src/iconpanel.cpp" />
@@ -325,9 +331,11 @@
 		<Unit filename="src/searching.cpp" />
 		<Unit filename="src/sell.cpp" />
 		<Unit filename="src/shop.cpp" />
+		<Unit filename="src/spellbook.cpp" />
 		<Unit filename="src/spellpanel.cpp" />
 		<Unit filename="src/splash.cpp" />
 		<Unit filename="src/state.cpp" />
+		<Unit filename="src/statistics.cpp" />
 		<Unit filename="src/string.cpp" />
 		<Unit filename="src/system.cpp" />
 		<Unit filename="src/tavern.cpp" />

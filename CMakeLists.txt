@@ -24,6 +24,7 @@ add_executable(${PROJECT_NAME}
 	src/attributedisplay.cpp
 	src/automap.cpp
 	src/banner.cpp
+	src/bestiary.cpp
 	src/buffbar.cpp
 	src/buy.cpp
 	src/cast.cpp
@@ -57,6 +58,7 @@ add_executable(${PROJECT_NAME}
 	src/file.cpp
 	src/frame.cpp
 	src/game.cpp
+	src/gazetteer.cpp
 	src/graphics.cpp
 	src/graveyard.cpp
 	src/iconpanel.cpp
@@ -100,9 +102,11 @@ add_executable(${PROJECT_NAME}
 	src/searching.cpp
 	src/sell.cpp
 	src/shop.cpp
+	src/spellbook.cpp
 	src/spellpanel.cpp
 	src/splash.cpp
 	src/state.cpp
+	src/statistics.cpp
 	src/string.cpp
 	src/system.cpp
 	src/tavern.cpp
