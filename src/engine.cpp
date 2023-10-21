@@ -1692,8 +1692,8 @@ auto Sorcery::Engine::_is_mouse_over(sf::IntRect rect, sf::Vector2f mouse_pos) c
 // Entering the Maze
 auto Sorcery::Engine::start() -> int {
 
-	_generate_display();
 	_initialise_state();
+	_generate_display();
 
 	_set_maze_entry_start();
 

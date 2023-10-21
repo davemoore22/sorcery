@@ -147,7 +147,7 @@
 	"cmake.debugConfig": {
 		"args": [
 			"-skip-intro",
-			"-go-to-shop"
+			"-go-to-maze"
 		]
 	}
 }
