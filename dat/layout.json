@@ -375,6 +375,36 @@
 		]
 	},
 	{
+		"name": "encounter",
+		"component": [
+		{
+			"name": "frame",
+			"w": "15",
+			"h": "3",
+			"x": "centre",
+			"y": "centre",
+			"alpha": "255",
+			"type": "frame",
+			"priority": "2",
+			"background": "0x000000ff",
+			"drawmode": "automatic"
+		},
+		{
+			"name": "text",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "AN_ENCOUNTER",
+			"background": " 0xff0000ff",
+			"justification": "centre",
+			"type": "text",
+			"drawmode": "automatic",
+			"x": "centre",
+			"y": "centre"
+		}
+		]
+	},
+	{
 		"name": "dialog",
 		"component": [
 		{

@@ -468,6 +468,7 @@
 	"DIALOG_PIT": "A Pit!",
 	"DIALOG_CHUTE": "A Chute!",
 	"DIALOG_ENCOUNTER": "An Encounter!",
+	"AN_ENCOUNTER": "An Encounter",
 	"LADDER_UP": "Stairs going up. Take them?",
 	"LADDER_DOWN": "Stairs going down. Take them?",
 	"STAIRS_UP": "Stairs going up. Take them?",

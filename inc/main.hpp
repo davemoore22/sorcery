@@ -139,6 +139,7 @@ using CharacterStage = Enums::Character::Stage;
 using CharacterStatus = Enums::Character::CStatus;
 using CharacterView = Enums::Character::View;
 using CharacterLocation = Enums::Character::Location;
+using CombatType = Enums::Combat::Type;
 using ComponentData = std::pair<std::string, std::string>;
 using ComponentElement = Enums::Window::ComponentElement;
 using ComponentType = Enums::Window::ComponentType;

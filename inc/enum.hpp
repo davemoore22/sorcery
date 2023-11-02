@@ -688,6 +688,8 @@ namespace Enums::System {
 		D100,
 		D165,
 		D300,
+		D1000,
+		D2000,
 		ZERO_TO_2,
 		ZERO_TO_3,
 		ZERO_TO_4,
@@ -1194,6 +1196,18 @@ namespace Enums {
 			EAST_ONE_WAY_WALL = 44,
 			WEST_ONE_WAY_WALL = 45,
 			TELEPORT_TO = 46
+		};
+
+	}
+
+	namespace Combat {
+
+		enum class Type {
+			RANDOM = 0,
+			MURPHYS_GHOSTS = 1,
+			RING_PARTY = 2,
+			DRAOGNS = 3,
+			WERDNA = 4
 		};
 
 	}
