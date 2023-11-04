@@ -57,6 +57,7 @@ auto Sorcery::Engine::_initialise_state() -> void {
 	_show_gui = true;
 	_display_cursor = true;
 	_pending_combat = false;
+	_show_an_encounter = false;
 
 	_monochrome = true;
 }
@@ -244,12 +245,6 @@ auto Sorcery::Engine::_initalise_components() -> void {
 
 	_character_display = std::make_unique<CharacterDisplay>(_system, _display, _graphics);
 
-	/* _an_encounter =
-		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:an_encounter"],
-			(*_display->layout)["engine_base_ui:an_encounter_text"], WindowDialogType::TIMED);
-	_an_encounter->setPosition(_display->get_centre_pos(_an_encounter->get_size()));
-	_an_encounter->set_duration(DELAY_ENCOUNTER); */
-
 	_elevator = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:one_moment"],
 		(*_display->layout)["engine_base_ui:one_moment_text"], WindowDialogType::TIMED);
 	_elevator->setPosition(_display->get_centre_pos(_elevator->get_size()));
@@ -396,6 +391,7 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	_show_chute = false;
 	_show_found_an_item = false;
 	_show_elevator = false;
+	_show_an_encounter = false;
 	_show_party_panel = true;
 	_show_gui = true;
 	_exit_maze_now = false;
@@ -631,12 +627,12 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 				} break;
 				case MapEvent::MURPHYS_GHOSTS: {
 
-					// combat!
-					/* _show_an_encounter = true;
+					_show_an_encounter = true;
+					auto encounter{
+						std::make_unique<Encounter>(_system, _display, _graphics, _game, CombatType::MURPHYS_GHOSTS)};
+					encounter->start();
+					_show_an_encounter = false;
 
-					_an_encounter->set(
-						(*_display->layout)["engine_base_ui:an_encounter"], (*_display->string)["DIALOG_ENCOUNTER"]);
-					_an_encounter->reset_timed(); */
 					return true;
 				} break;
 

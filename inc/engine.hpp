@@ -32,6 +32,7 @@
 #include "debuffbar.hpp"
 #include "dialog.hpp"
 #include "display.hpp"
+#include "encounter.hpp"
 #include "event.hpp"
 #include "game.hpp"
 #include "graphics.hpp"
@@ -200,6 +201,7 @@ class Engine {
 		bool _show_party_panel;
 		bool _show_confirm_search;
 		bool _show_gui;
+		bool _show_an_encounter;
 		bool _in_elevator_a_d;
 		bool _in_elevator_a_f;
 		bool _update_automap;
