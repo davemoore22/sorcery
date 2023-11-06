@@ -57,7 +57,8 @@ auto Sorcery::Engine::_initialise_state() -> void {
 	_show_gui = true;
 	_display_cursor = true;
 	_pending_combat = false;
-	_show_an_encounter = false;
+	_show_encounter = false;
+	_next_combat = std::nullopt;
 
 	_monochrome = true;
 }
@@ -100,6 +101,8 @@ auto Sorcery::Engine::_reset_components() -> void {
 		_confirm_search.reset();
 	if (_ouch.get())
 		_ouch.reset();
+	if (_encounter.get())
+		_encounter.reset();
 	if (_pit.get())
 		_pit.reset();
 	if (_chute.get())
@@ -227,6 +230,12 @@ auto Sorcery::Engine::_initalise_components() -> void {
 	_ouch->setPosition(_display->get_centre_pos(_ouch->get_size()));
 	_ouch->set_duration(DELAY_OUCH);
 
+	_encounter =
+		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:an_encounter"],
+			(*_display->layout)["engine_base_ui:an_encounter_text"], WindowDialogType::TIMED);
+	_encounter->setPosition(_display->get_centre_pos(_encounter->get_size()));
+	_encounter->set_duration(DELAY_ENCOUNTER);
+
 	_pit = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:pit"],
 		(*_display->layout)["engine_base_ui:pit_text"], WindowDialogType::TIMED);
 	_pit->setPosition(_display->get_centre_pos(_pit->get_size()));
@@ -288,7 +297,7 @@ auto Sorcery::Engine::_initalise_components() -> void {
 
 auto Sorcery::Engine::_update_direction_indicator_timer() -> void {
 
-	if (_show_direction_indicatior) {
+	if (_show_direction_indicator) {
 		if (!_direction_start)
 			_direction_start = std::chrono::system_clock::now();
 
@@ -297,7 +306,7 @@ auto Sorcery::Engine::_update_direction_indicator_timer() -> void {
 		const auto time_elapsed{_direction_current_time.value() - _direction_start.value()};
 		const auto time_elapsed_msec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
 		if (time_elapsed_msec.count() > DELAY_DIRECTION) {
-			_show_direction_indicatior = false;
+			_show_direction_indicator = false;
 			_direction_start = std::nullopt;
 		}
 	}
@@ -305,7 +314,7 @@ auto Sorcery::Engine::_update_direction_indicator_timer() -> void {
 
 auto Sorcery::Engine::_reset_direction_indicator() -> void {
 
-	_show_direction_indicatior = true;
+	_show_direction_indicator = true;
 	_direction_start = std::nullopt;
 	_direction_current_time = std::nullopt;
 }
@@ -391,7 +400,7 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	_show_chute = false;
 	_show_found_an_item = false;
 	_show_elevator = false;
-	_show_an_encounter = false;
+	_show_encounter = false;
 	_show_party_panel = true;
 	_show_gui = true;
 	_exit_maze_now = false;
@@ -441,6 +450,7 @@ auto Sorcery::Engine::_update_timers_and_components() -> void {
 
 	_update_direction_indicator_timer();
 	_ouch->update();
+	_encounter->update();
 	_pit->update();
 	_chute->update();
 	_found_an_item->update();
@@ -627,12 +637,8 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 				} break;
 				case MapEvent::MURPHYS_GHOSTS: {
 
-					_show_an_encounter = true;
-					auto encounter{
-						std::make_unique<Encounter>(_system, _display, _graphics, _game, CombatType::MURPHYS_GHOSTS)};
-					encounter->start();
-					_show_an_encounter = false;
-
+					_show_encounter = true;
+					_next_combat = CombatType::MURPHYS_GHOSTS;
 					return true;
 				} break;
 
@@ -1192,8 +1198,10 @@ auto Sorcery::Engine::_move_characters_to_temple_if_needed() -> void {
 
 auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<int> {
 
-	// Handle any events first - will run once then set _can_run_event to false
+	// Handle any events or encounters first - will run once then set _can_run_event to false
 	_event_if();
+	_encounter_if();
+	_combat_if();
 	if (_exit_maze_now) {
 
 		_display->set_disc(true);
@@ -1207,7 +1215,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 
 	// Various Debug Commands can be put here
 	if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F2))
-		_debug_give_first_character_gold_xp();
+		_debug_start_random_combat();
 	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F3))
 		_debug_go_back();
 	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F4))
@@ -1257,7 +1265,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 	}
 
 	if (_show_ouch) {
-		_show_direction_indicatior = false;
+		_show_direction_indicator = false;
 		auto dialog_input{_ouch->handle_input(event)};
 		if (dialog_input) {
 			if (dialog_input.value() == WindowDialogButton::OK) {
@@ -1267,8 +1275,19 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_ouch->set_valid(false);
 			}
 		}
+	} else if (_show_encounter) {
+		_show_direction_indicator = false;
+		auto dialog_input{_encounter->handle_input(event)};
+		if (dialog_input) {
+			if (dialog_input.value() == WindowDialogButton::OK) {
+
+				_display->set_input_mode(WindowInputMode::IN_GAME);
+				_show_encounter = false;
+				_encounter->set_valid(false);
+			}
+		}
 	} else if (_show_found_an_item) {
-		_show_direction_indicatior = false;
+		_show_direction_indicator = false;
 		auto dialog_input{_found_an_item->handle_input(event)};
 		if (dialog_input) {
 			if (dialog_input.value() == WindowDialogButton::OK) {
@@ -1278,18 +1297,6 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_found_an_item->set_valid(false);
 			}
 		}
-		/* } else if (_show_an_encounter) {
-			_show_direction_indicatior = false;
-			auto dialog_input{_an_encounter->handle_input(event)};
-			if (dialog_input) {
-				if (dialog_input.value() == WindowDialogButton::OK) {
-
-					_display->set_input_mode(WindowInputMode::IN_GAME);
-					_show_an_encounter = false;
-					_an_encounter->set_valid(false);
-				}
-			}
-			*/
 	} else if (_show_pit) {
 		auto dialog_input{_pit->handle_input(event)};
 		if (dialog_input) {
@@ -1371,7 +1378,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		}
 	} else {
 		if (_system->input->check(WindowInput::MAZE_TURN_AROUND, event)) {
-			_show_direction_indicatior = true;
+			_show_direction_indicator = true;
 			_reset_direction_indicator();
 			_turn_around();
 			_spinner_if();
@@ -1380,7 +1387,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		}
 		if ((_system->input->check(WindowInput::LEFT, event)) ||
 			(_system->input->check(WindowInput::MAZE_LEFT, event))) {
-			_show_direction_indicatior = true;
+			_show_direction_indicator = true;
 			_reset_direction_indicator();
 			_turn_left();
 			_spinner_if();
@@ -1388,7 +1395,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_game->pass_turn();
 		} else if ((_system->input->check(WindowInput::RIGHT, event)) ||
 				   (_system->input->check(WindowInput::MAZE_RIGHT, event))) {
-			_show_direction_indicatior = true;
+			_show_direction_indicator = true;
 			_reset_direction_indicator();
 			_turn_right();
 			_spinner_if();
@@ -1398,11 +1405,11 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				   (_system->input->check(WindowInput::MAZE_FORWARD, event))) {
 			_game->pass_turn();
 			if (auto has_moved{_move_forward()}; !has_moved) {
-				_show_direction_indicatior = false;
+				_show_direction_indicator = false;
 				_show_ouch = true;
 				_ouch->reset_timed();
 			} else {
-				_show_direction_indicatior = true;
+				_show_direction_indicator = true;
 				if (!_tile_explored(_game->state->get_player_pos()))
 					_set_tile_explored(_game->state->get_player_pos());
 				_reset_direction_indicator();
@@ -1428,11 +1435,11 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				   (_system->input->check(WindowInput::MAZE_BACKWARD, event))) {
 			_game->pass_turn();
 			if (auto has_moved{_move_backward()}; !has_moved) {
-				_show_direction_indicatior = false;
+				_show_direction_indicator = false;
 				_show_ouch = true;
 				_ouch->reset_timed();
 			} else {
-				_show_direction_indicatior = true;
+				_show_direction_indicator = true;
 				if (!_tile_explored(_game->state->get_player_pos()))
 					_set_tile_explored(_game->state->get_player_pos());
 				_update_automap = true;
@@ -1552,25 +1559,25 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 					right_selected) {
 					const auto &what{right_selected.value()};
 					if (what.ends_with("left")) {
-						_show_direction_indicatior = true;
+						_show_direction_indicator = true;
 						_reset_direction_indicator();
 						_turn_left();
 						_spinner_if();
 						_update_automap = true;
 						_set_refresh_ui();
 					} else if (what.ends_with("right")) {
-						_show_direction_indicatior = true;
+						_show_direction_indicator = true;
 						_reset_direction_indicator();
 						_turn_right();
 						_spinner_if();
 						_set_refresh_ui();
 					} else if (what.ends_with("forward")) {
 						if (auto has_moved{_move_forward()}; !has_moved) {
-							_show_direction_indicatior = false;
+							_show_direction_indicator = false;
 							_show_ouch = true;
 							_ouch->reset_timed();
 						} else {
-							_show_direction_indicatior = true;
+							_show_direction_indicator = true;
 							_reset_direction_indicator();
 							_teleport_if();
 							_spinner_if();
@@ -1582,11 +1589,11 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						}
 					} else if (what.ends_with("backward")) {
 						if (auto has_moved{_move_backward()}; !has_moved) {
-							_show_direction_indicatior = false;
+							_show_direction_indicator = false;
 							_show_ouch = true;
 							_ouch->reset_timed();
 						} else {
-							_show_direction_indicatior = true;
+							_show_direction_indicator = true;
 							_reset_direction_indicator();
 							_spinner_if();
 							_teleport_if();
@@ -1761,8 +1768,12 @@ auto Sorcery::Engine::start() -> int {
 						const auto current_loc{_game->state->get_player_pos()};
 						if (_game->state->level->at(current_loc).has_event()) {
 
+							// TODO: not sure this is used
+
 							// Find the event and do something with it!
 							const auto map_event{_game->state->level->at(current_loc).has_event().value()};
+							if (map_event == MapEvent::MURPHYS_GHOSTS)
+								_show_encounter = true;
 						}
 					}
 				} else if (_show_confirm_exit) {
@@ -2196,6 +2207,32 @@ auto Sorcery::Engine::_pit_if() -> bool {
 	return false;
 }
 
+auto Sorcery::Engine::_combat_if() -> bool {
+
+	if (_next_combat) {
+
+		// Wait until the encounter window has disappeared then initialise combat
+		if (!_encounter->get_valid()) {
+
+			// do combat
+			PRINT("Combat Here!");
+			_next_combat = std::nullopt;
+		}
+	}
+}
+
+auto Sorcery::Engine::_encounter_if() -> bool {
+
+	if (_show_encounter) {
+
+		_encounter->set_valid(true);
+		_encounter->reset_timed();
+		return true;
+	}
+
+	return false;
+}
+
 // Example of dice rolling
 auto Sorcery::Engine::_pit_oops() -> void {
 
@@ -2292,7 +2329,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 			break;
 		}
 
-		_show_direction_indicatior = false;
+		_show_direction_indicator = false;
 		_show_ouch = false;
 		_display_cursor = false;
 		_refresh_display();
@@ -2677,6 +2714,15 @@ auto Sorcery::Engine::_draw() -> void {
 			}
 		}
 
+		if (_show_encounter) {
+			if (_encounter->get_valid())
+				_window->draw(*_encounter);
+			else {
+				_show_encounter = false;
+				_encounter->set_valid(false);
+			}
+		}
+
 		if (_show_found_an_item) {
 			if (_found_an_item->get_valid())
 				_window->draw(*_found_an_item);
@@ -2685,15 +2731,6 @@ auto Sorcery::Engine::_draw() -> void {
 				_found_an_item->set_valid(false);
 			}
 		}
-
-		/* if (_show_an_encounter) {
-			if (_an_encounter->get_valid())
-				_window->draw(*_an_encounter);
-			else {
-				_show_an_encounter = false;
-				_an_encounter->set_valid(false);
-			}
-		} */
 
 		if (_show_pit) {
 			if (_pit->get_valid())
@@ -2714,7 +2751,7 @@ auto Sorcery::Engine::_draw() -> void {
 		}
 	}
 
-	if (_show_direction_indicatior) {
+	if (_show_direction_indicator) {
 		_display->display_direction_indicator(_last_movement, _monochrome);
 	}
 
@@ -2789,6 +2826,12 @@ auto Sorcery::Engine::_debug_go_back() -> std::optional<int> {
 	_set_refresh_ui();
 
 	return CONTINUE;
+}
+
+auto Sorcery::Engine::_debug_start_random_combat() -> std::optional<int> {
+
+	_show_encounter = true;
+	_next_combat = CombatType::RANDOM;
 }
 
 auto Sorcery::Engine::_debug_set_quest_item_flags() -> std::optional<int> {

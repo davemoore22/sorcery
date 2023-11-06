@@ -107,6 +107,8 @@ class Engine {
 		auto _chute_if() -> bool;
 		auto _elevator_if() -> bool;
 		auto _event_if() -> bool;
+		auto _encounter_if() -> bool;
+		auto _combat_if() -> bool;
 		auto _find_an_item(const std::string name) -> void;
 		auto _tile_explored(const Coordinate loc) const -> bool;
 		auto _set_tile_explored(const Coordinate loc) -> void;
@@ -140,6 +142,7 @@ class Engine {
 		auto _debug_colour_wireframe() -> std::optional<int>;
 		auto _debug_set_quest_item_flags() -> std::optional<int>;
 		auto _debug_clear_quest_item_flags() -> std::optional<int>;
+		auto _debug_start_random_combat() -> std::optional<int>;
 
 		// Private Members
 		System *_system;
@@ -164,6 +167,7 @@ class Engine {
 		std::unique_ptr<Dialog> _pit;
 		std::unique_ptr<Dialog> _chute;
 		std::unique_ptr<Dialog> _elevator;
+		std::unique_ptr<Dialog> _encounter;
 		std::unique_ptr<Dialog> _confirm_search;
 		std::unique_ptr<Dialog> _found_an_item;
 		std::unique_ptr<Reorder> _reorder;
@@ -201,7 +205,7 @@ class Engine {
 		bool _show_party_panel;
 		bool _show_confirm_search;
 		bool _show_gui;
-		bool _show_an_encounter;
+		bool _show_encounter;
 		bool _in_elevator_a_d;
 		bool _in_elevator_a_f;
 		bool _update_automap;
@@ -224,7 +228,7 @@ class Engine {
 		sf::IntRect _search_bounds;
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _direction_start;
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _direction_current_time;
-		bool _show_direction_indicatior;
+		bool _show_direction_indicator;
 		std::optional<std::vector<MenuEntry>::const_iterator> _get_option;
 		std::optional<std::vector<MenuEntry>::const_iterator> _camp_option;
 		std::optional<std::vector<MenuEntry>::const_iterator> _action_option;
@@ -235,6 +239,7 @@ class Engine {
 		bool _can_run_event;
 		bool _display_cursor;
 		bool _can_go_back;
+		std::optional<CombatType> _next_combat;
 };
 
 }
