@@ -1205,10 +1205,11 @@ namespace Enums {
 		enum class Type {
 			NO_COMBAT = -1,
 			RANDOM = 0,
-			MURPHYS_GHOSTS = 1,
-			RING_PARTY = 2,
-			DRAGONS = 3,
-			WERDNA = 4
+			ROOM = 1,
+			MURPHYS_GHOSTS = 2,
+			RING_PARTY = 3,
+			DRAGONS = 4,
+			WERDNA = 5
 		};
 
 	}
