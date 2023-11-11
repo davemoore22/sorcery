@@ -111,6 +111,7 @@
 		<Unit filename="dat/layout.json" />
 		<Unit filename="dat/layout.txt" />
 		<Unit filename="dat/monospace.otf" />
+		<Unit filename="dat/monsters.json" />
 		<Unit filename="dat/proportional.ttf" />
 		<Unit filename="dat/sorcery.db3" />
 		<Unit filename="dat/strings.json" />
