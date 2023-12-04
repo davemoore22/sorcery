@@ -36,6 +36,8 @@
 
 namespace Sorcery {
 
+class Game;
+
 class Character {
 
 	public:
@@ -155,6 +157,7 @@ class Character {
 		auto mage_cur_sp() -> SpellPoints &;
 		auto priest_max_sp() -> SpellPoints &;
 		auto mage_max_sp() -> SpellPoints &;
+		// auto add_starting_equipment(Game *game) -> void;
 
 		// Public Members
 		std::optional<Coordinate> coordinate;
@@ -186,8 +189,8 @@ class Character {
 		auto _get_condition() const -> std::string;
 		auto _update_stat_for_level(CharacterAttribute attribute, std::string stat) -> std::string;
 		auto _learn_spell(SpellID spell_id) -> void;
-		auto _damage(const unsigned int adjustment)
-			-> bool; // returns true is character is alive, or dead if damage was fatal
+		auto _damage(
+			const unsigned int adjustment) -> bool; // returns true is character is alive, or dead if damage was fatal
 		auto _heal(const unsigned int adjustment) -> void;
 
 		// Private Members

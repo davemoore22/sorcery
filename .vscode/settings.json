@@ -123,10 +123,6 @@
 		"PATH": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 	},
 	"workbench.colorCustomizations": {
-		"statusBar.background": "#8ac242",
-		"statusBar.foreground": "#ffffff",
-		"statusBar.debuggingBackground": "#5e9517",
-		"statusBar.debuggingForeground": "#ffffff",
 		"terminal.ansiBrightRed": "#ee3355",
 		"terminal.ansiBrightYellow": "#ffcc55",
 		"terminal.ansiBrightGreen": "#a5ea4f",
@@ -147,7 +143,7 @@
 	"cmake.debugConfig": {
 		"args": [
 			"-skip-intro",
-			"-go-to-maze"
+			"-quickstart"
 		]
 	}
 }

@@ -45,6 +45,13 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 	_set_up_dungeon_events();
 }
 
+auto Sorcery::Game::reset() -> void {
+
+	valid = false;
+	_create_game();
+	_load_game();
+}
+
 // Mappings for each type of special dungeon event in the Proving Grounds
 auto Sorcery::Game::_set_up_dungeon_events() -> void {
 

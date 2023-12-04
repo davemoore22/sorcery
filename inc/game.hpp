@@ -53,6 +53,7 @@ class Game {
 		// Public Methods
 		auto get_id() const -> unsigned int;
 		auto create_game() -> void;
+		auto reset() -> void;
 		auto load_game() -> void;
 		auto save_game() -> void;
 		auto add_character(Character &character) -> unsigned int;

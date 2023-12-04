@@ -1494,8 +1494,8 @@ auto Sorcery::Character::_try_learn_spell(SpellType spell_type, unsigned int spe
 }
 
 // Reimplementation of SPLPERLV - note this will reset spell points!
-auto Sorcery::Character::_calculate_sp(SpellType spell_type, unsigned int level_mod, unsigned int level_offset)
-	-> void {
+auto Sorcery::Character::_calculate_sp(
+	SpellType spell_type, unsigned int level_mod, unsigned int level_offset) -> void {
 
 	using enum Enums::Character::Ability;
 
@@ -2207,8 +2207,8 @@ auto Sorcery::Character::get_hp_summary() const -> std::string {
 		get_hp_adjustment_symbol());
 }
 
-auto Sorcery::Character::get_spell_points(const SpellType type, const SpellPointStatus status) const
-	-> std::optional<SpellPoints> {
+auto Sorcery::Character::get_spell_points(
+	const SpellType type, const SpellPointStatus status) const -> std::optional<SpellPoints> {
 
 	using enum Enums::Magic::SpellPointStatus;
 	using enum Enums::Magic::SpellType;
@@ -2461,6 +2461,39 @@ auto Sorcery::Character::get_cur_ac() const -> int {
 
 	return _abilities.at(CURRENT_ARMOUR_CLASS);
 }
+
+/*
+auto Sorcery::Character::add_starting_equipment(Game *game) -> void {
+
+	using enum Enums::Character::Class;
+	using enum Enums::Items::TypeID;
+
+	inventory.clear();
+
+	switch (get_class()) { // NOLINT(clang-diagnostic-switch)
+	case FIGHTER:
+	case LORD:
+	case SAMURAI:
+		inventory.add_type((*game->itemstore)[LEATHER_ARMOR], true);
+		inventory.add_type((*game->itemstore)[LONG_SWORD], true);
+		break;
+	case MAGE:
+		inventory.add_type((*game->itemstore)[ROBES], true);
+		inventory.add_type((*game->itemstore)[DAGGER], true);
+		break;
+	case PRIEST:
+	case BISHOP:
+		inventory.add_type((*game->itemstore)[ROBES], true);
+		inventory.add_type((*game->itemstore)[STAFF], true);
+		break;
+	case THIEF:
+	case NINJA:
+		inventory.add_type((*game->itemstore)[LEATHER_ARMOR], true);
+		inventory.add_type((*game->itemstore)[SHORT_SWORD], true);
+	default:
+		break;
+	}
+} */
 
 namespace Sorcery {
 

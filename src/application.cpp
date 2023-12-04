@@ -77,6 +77,27 @@ Sorcery::Application::~Application() {
 
 auto Sorcery::Application::start() -> int {
 
+	// Quick Start will start a new game, add a couple of new characters to the
+	// party, and deposit the party in the maze
+	if (_check_param(QUICKSTART)) {
+		_game->reset();
+		auto pc_1 = Character(system.get(), display.get(), graphics.get());
+		pc_1.create_random();
+		pc_1.finalise();
+		auto id = _game->add_character(pc_1);
+		_game->save_game();
+		_game->load_game();
+		_game->state->clear_party();
+		_game->state->add_character_by_id(id);
+		auto num = _game->state->get_party_size();
+		if (_castle->start(Destination::MAZE) == MenuItem::ITEM_ABORT) {
+			display->shutdown_SFML();
+			return EXIT_ALL;
+		}
+		_castle->stop();
+		_game->save_game();
+	}
+
 	if (_check_param(GO_TO_MAZE)) {
 		if (_game->valid) {
 			if (_game->state->party_has_members()) {

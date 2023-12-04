@@ -61,6 +61,7 @@ inline constexpr auto GO_TO_INN{"go-to-inn"sv};
 inline constexpr auto GO_TO_TEMPLE{"go-to-temple"sv};
 inline constexpr auto GO_TO_SHOP{"go-to-shop"sv};
 inline constexpr auto GO_TO_COMPENDIUM{"go-to-compendium"sv};
+inline constexpr auto QUICKSTART{"quickstart"sv};
 
 // Directories
 inline constexpr auto CONFIG_DIR{"cfg"sv};
