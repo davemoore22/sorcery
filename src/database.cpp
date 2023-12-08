@@ -38,6 +38,31 @@ Sorcery::Database::Database(const std::filesystem::path &db_file_path) : _db_fil
 	}
 }
 
+// Reset and Clean the Database
+auto Sorcery::Database::wipe_data() -> void {
+
+	try {
+
+		sqlite::database database(_db_file_path.string());
+
+		const auto delete_characters_SQL{"DELETE FROM character"};
+		const auto delete_games_SQL{"DELETE FROM game"};
+		const auto reset_characters_SQL{"UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='character';"};
+		const auto reset_games_SQL{"UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='game';"};
+
+		database << delete_characters_SQL;
+		database << delete_games_SQL;
+		database << reset_characters_SQL;
+		database << reset_games_SQL;
+
+	} catch (sqlite::sqlite_exception &e) {
+		Error error{SystemError::SQLLITE_ERROR, e,
+			fmt::format("{} {} {} {}", e.get_code(), e.what(), e.get_sql(), _db_file_path.string())};
+		std::cout << error;
+		exit(EXIT_FAILURE);
+	}
+}
+
 auto Sorcery::Database::has_game() -> bool {
 
 	try {

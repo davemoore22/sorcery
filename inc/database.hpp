@@ -37,6 +37,7 @@ class Database {
 		Database() = delete;
 
 		// Public Methods
+		auto wipe_data() -> void;
 		auto has_game() -> bool;
 		auto create_game_state(std::string data) -> unsigned int;
 		auto load_game_state() -> std::optional<GameEntry>;

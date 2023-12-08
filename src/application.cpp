@@ -75,27 +75,43 @@ Sorcery::Application::~Application() {
 	graphics->animation->stop_wallpaper_threads();
 }
 
+auto Sorcery::Application::_quickstart() -> void {
+
+	_game->wipe_data();
+	_game->create_game();
+	auto pc_1{Character(system.get(), display.get(), graphics.get())};
+	pc_1.create_random();
+	pc_1.finalise();
+	auto pc_2{Character(system.get(), display.get(), graphics.get())};
+	pc_2.create_random();
+	pc_2.finalise();
+	auto num = pc_1.get_name();
+	auto pc1_id{_game->add_character(pc_1)};
+	num = pc_2.get_name();
+	auto pc2_id{_game->add_character(pc_2)};
+	_game->state->clear_party();
+	_game->state->add_character_by_id(pc1_id);
+	pc_1.set_location(CharacterLocation::PARTY);
+	_game->state->add_character_by_id(pc2_id);
+	pc_2.set_location(CharacterLocation::PARTY);
+	_game->save_game();
+	_game->load_game();
+	auto _engine{std::make_unique<Engine>(system.get(), display.get(), graphics.get(), _game.get())};
+	_game->enter_maze();
+	_engine->start();
+	_engine->stop();
+	_game->save_game();
+}
+
 auto Sorcery::Application::start() -> int {
 
 	// Quick Start will start a new game, add a couple of new characters to the
 	// party, and deposit the party in the maze
 	if (_check_param(QUICKSTART)) {
-		_game->reset();
-		auto pc_1 = Character(system.get(), display.get(), graphics.get());
-		pc_1.create_random();
-		pc_1.finalise();
-		auto id = _game->add_character(pc_1);
-		_game->save_game();
-		_game->load_game();
-		_game->state->clear_party();
-		_game->state->add_character_by_id(id);
-		auto num = _game->state->get_party_size();
-		if (_castle->start(Destination::MAZE) == MenuItem::ITEM_ABORT) {
-			display->shutdown_SFML();
-			return EXIT_ALL;
-		}
-		_castle->stop();
-		_game->save_game();
+
+		_quickstart();
+		display->shutdown_SFML();
+		return EXIT_ALL;
 	}
 
 	if (_check_param(GO_TO_MAZE)) {

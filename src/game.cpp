@@ -52,6 +52,11 @@ auto Sorcery::Game::reset() -> void {
 	_load_game();
 }
 
+auto Sorcery::Game::wipe_data() -> void {
+
+	_system->database->wipe_data();
+}
+
 // Mappings for each type of special dungeon event in the Proving Grounds
 auto Sorcery::Game::_set_up_dungeon_events() -> void {
 

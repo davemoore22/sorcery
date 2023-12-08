@@ -75,6 +75,7 @@ class Application {
 		auto _display_loading_window() -> void;
 		auto _hide_loading_window() -> void;
 		auto _get_exe_path() const -> std::string_view;
+		auto _quickstart() -> void;
 
 		// Private Members
 		std::unique_ptr<Banner> _banner;
@@ -85,6 +86,7 @@ class Application {
 		std::unique_ptr<Compendium> _compendium;
 		std::unique_ptr<Castle> _castle;
 		std::unique_ptr<Game> _game;
+		std::unique_ptr<Engine> _engine;
 		std::vector<std::string> _arguments;
 		sf::RenderWindow _load_window;
 };

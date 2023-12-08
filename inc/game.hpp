@@ -51,6 +51,7 @@ class Game {
 		std::unique_ptr<ItemStore> itemstore;
 
 		// Public Methods
+		auto wipe_data() -> void;
 		auto get_id() const -> unsigned int;
 		auto create_game() -> void;
 		auto reset() -> void;
