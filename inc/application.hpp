@@ -28,15 +28,21 @@
 #include "castle.hpp"
 #include "compendium.hpp"
 #include "display.hpp"
+#include "edgeoftown.hpp"
 #include "engine.hpp"
 #include "game.hpp"
 #include "graphics.hpp"
+#include "inn.hpp"
 #include "license.hpp"
 #include "main.hpp"
 #include "mainmenu.hpp"
 #include "options.hpp"
+#include "shop.hpp"
 #include "splash.hpp"
 #include "system.hpp"
+#include "tavern.hpp"
+#include "temple.hpp"
+#include "training.hpp"
 
 namespace Sorcery {
 
@@ -76,6 +82,8 @@ class Application {
 		auto _hide_loading_window() -> void;
 		auto _get_exe_path() const -> std::string_view;
 		auto _quickstart() -> void;
+		auto _run_game() -> void;
+		auto _run_main_menu() -> std::optional<MenuItem>;
 
 		// Private Members
 		std::unique_ptr<Banner> _banner;
@@ -85,8 +93,14 @@ class Application {
 		std::unique_ptr<Options> _options;
 		std::unique_ptr<Compendium> _compendium;
 		std::unique_ptr<Castle> _castle;
+		std::unique_ptr<EdgeOfTown> _edgeoftown;
+		std::unique_ptr<Training> _training;
 		std::unique_ptr<Game> _game;
 		std::unique_ptr<Engine> _engine;
+		std::unique_ptr<Tavern> _tavern;
+		std::unique_ptr<Inn> _inn;
+		std::unique_ptr<Shop> _shop;
+		std::unique_ptr<Temple> _temple;
 		std::vector<std::string> _arguments;
 		sf::RenderWindow _load_window;
 };

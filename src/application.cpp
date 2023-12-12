@@ -66,6 +66,12 @@ Sorcery::Application::Application(int argc, char **argv) {
 	_options = std::make_unique<Options>(system.get(), display.get(), graphics.get());
 	_compendium = std::make_unique<Compendium>(system.get(), display.get(), graphics.get(), _game.get());
 	_castle = std::make_unique<Castle>(system.get(), display.get(), graphics.get(), _game.get());
+	_edgeoftown = std::make_unique<EdgeOfTown>(system.get(), display.get(), graphics.get(), _game.get());
+	_training = std::make_unique<Training>(system.get(), display.get(), graphics.get(), _game.get());
+	_tavern = std::make_unique<Tavern>(system.get(), display.get(), graphics.get(), _game.get());
+	_inn = std::make_unique<Inn>(system.get(), display.get(), graphics.get(), _game.get());
+	_shop = std::make_unique<Shop>(system.get(), display.get(), graphics.get(), _game.get());
+	_temple = std::make_unique<Temple>(system.get(), display.get(), graphics.get(), _game.get());
 }
 
 // Standard Destructor
@@ -105,13 +111,103 @@ auto Sorcery::Application::_quickstart() -> void {
 
 auto Sorcery::Application::start() -> int {
 
+	// Run the game we have chosen to quit or abort
+	std::optional<MenuItem> option_chosen{MenuItem::NO_MENU_ITEM};
+	do {
+
+		option_chosen = _run_main_menu();
+
+	} while ((option_chosen != MenuItem::ITEM_QUIT) && (option_chosen != MenuItem::ITEM_ABORT));
+
+	display->shutdown_SFML();
+	return EXIT_ALL;
+
+	MainMenuType menu_stage{MainMenuType::ATTRACT_MODE};
+	do {
+
+		option_chosen = _mainmenu->start(menu_stage);
+		_mainmenu->stop();
+		if (option_chosen) {
+
+			// Now handle what we do
+		}
+	} while (option_chosen);
+
+	display->shutdown_SFML();
+	return EXIT_ALL;
+
 	// Quick Start will start a new game, add a couple of new characters to the
 	// party, and deposit the party in the maze
 	if (_check_param(QUICKSTART)) {
-
 		_quickstart();
 		display->shutdown_SFML();
 		return EXIT_ALL;
+	} else if (_check_param(GO_TO_COMPENDIUM)) {
+		_compendium->start();
+		_compendium->stop();
+	} else if (_check_param(GO_TO_TAVERN)) {
+
+		// Go directly to the Tavern
+		if (_game->valid) {
+			if (_castle->start(Destination::TAVERN) == MenuItem::ITEM_ABORT) {
+				_game->save_game();
+				display->shutdown_SFML();
+				return EXIT_ALL;
+			}
+			_castle->stop();
+		}
+	} else if (_check_param(GO_TO_INN)) {
+
+		// Go directly to the Inn
+		if (_game->valid) {
+			if (_game->state->party_has_members()) {
+				const auto option_chosen{_castle->start(Destination::INN)};
+				_castle->stop();
+				if (option_chosen == MenuItem::ITEM_ABORT) {
+					_castle->stop();
+					_game->save_game();
+					display->shutdown_SFML();
+					return EXIT_ALL;
+				} else if (option_chosen == MenuItem::CA_EDGE_OF_TOWN) {
+
+					// If we want to move from the Castle to the Edge of Town
+				}
+			}
+		}
+	} else if (_check_param(GO_TO_TEMPLE)) {
+
+		// Go directly to the Temple
+		if (_game->valid) {
+			if (_game->state->party_has_members()) {
+				const auto option_chosen{_castle->start(Destination::TEMPLE)};
+				_castle->stop();
+				if (option_chosen == MenuItem::ITEM_ABORT) {
+					_game->save_game();
+					display->shutdown_SFML();
+					return EXIT_ALL;
+				} else if (option_chosen == MenuItem::CA_EDGE_OF_TOWN) {
+
+					// If we want to move from the Castle to the Edge of Town
+				}
+			}
+		}
+	} else if (_check_param(GO_TO_SHOP)) {
+
+		// Go directly to the Shop
+		if (_game->valid) {
+			if (_game->state->party_has_members()) {
+				const auto option_chosen{_castle->start(Destination::SHOP)};
+				_castle->stop();
+				if (option_chosen == MenuItem::ITEM_ABORT) {
+					_game->save_game();
+					display->shutdown_SFML();
+					return EXIT_ALL;
+				} else if (option_chosen == MenuItem::CA_EDGE_OF_TOWN) {
+
+					// If we want to move from the Castle to the Edge of Town
+				}
+			}
+		}
 	}
 
 	if (_check_param(GO_TO_MAZE)) {
@@ -126,9 +222,6 @@ auto Sorcery::Application::start() -> int {
 				_game->save_game();
 			}
 		}
-	} else if (_check_param(GO_TO_COMPENDIUM)) {
-		_compendium->start();
-		_compendium->stop();
 	} else if (_check_param(GO_TO_TAVERN)) {
 		if (_game->valid) {
 			if (_castle->start(Destination::TAVERN) == MenuItem::ITEM_ABORT) {
@@ -192,9 +285,17 @@ auto Sorcery::Application::start() -> int {
 			_game->save_game();
 		}
 	}
+}
 
-	std::optional<MenuItem> option_chosen{MenuItem::NO_MENU_ITEM};
-	MainMenuType menu_stage{MainMenuType::ATTRACT_MODE};
+// Run the Main Menu
+auto Sorcery::Application::_run_main_menu() -> std::optional<MenuItem> {
+
+	using enum Enums::Menu::Item;
+	using enum Enums::MainMenu::Type;
+
+	std::optional<MenuItem> option_chosen{NO_MENU_ITEM};
+	MainMenuType menu_stage{ATTRACT_MODE};
+
 	do {
 
 		option_chosen = _mainmenu->start(menu_stage);
@@ -202,45 +303,37 @@ auto Sorcery::Application::start() -> int {
 		if (option_chosen) {
 
 			switch (option_chosen.value()) {
-			case MenuItem::MM_NEW_GAME:
+			case MM_NEW_GAME:
 				_game->create_game();
-				option_chosen = _castle->start();
-				if (option_chosen == MenuItem::ITEM_ABORT) {
-					_game->save_game();
-					display->shutdown_SFML();
-					return EXIT_ALL;
-				}
-				_castle->stop();
 				_game->save_game();
+				return MM_NEW_GAME;
 				break;
-			case MenuItem::MM_CONTINUE_GAME:
-				option_chosen = _castle->start();
-				_castle->stop();
-				_game->save_game();
+			case MM_CONTINUE_GAME:
+				return MM_CONTINUE_GAME;
 				break;
-			case MenuItem::ITEM_QUIT:
+			case ITEM_QUIT:
 				_game->save_game();
 				display->shutdown_SFML();
-				return EXIT_ALL;
+				return ITEM_QUIT;
 				break;
 			case MenuItem::MM_OPTIONS:
 				if (_options->start() == EXIT_ALL) {
 					display->shutdown_SFML();
-					return EXIT_ALL;
+					return ITEM_QUIT;
 				}
 				_options->stop();
 				break;
-			case MenuItem::MM_LICENSE:
+			case MM_LICENSE:
 				if (_license->start() == EXIT_ALL) {
 					display->shutdown_SFML();
-					return EXIT_ALL;
+					return ITEM_QUIT;
 				}
 				_license->stop();
 				break;
-			case MenuItem::MM_COMPENDIUM:
+			case MM_COMPENDIUM:
 				if (_compendium->start() == EXIT_ALL) {
 					display->shutdown_SFML();
-					return EXIT_ALL;
+					return ITEM_QUIT;
 				}
 				_compendium->stop();
 				break;
@@ -248,13 +341,13 @@ auto Sorcery::Application::start() -> int {
 				break;
 			}
 
-			menu_stage = MainMenuType::ATTRACT_MENU;
+			menu_stage = ATTRACT_MENU;
 		}
 
 	} while (option_chosen);
 
 	display->shutdown_SFML();
-	return EXIT_ALL;
+	return ITEM_QUIT;
 }
 
 // Check for a command line parameter

@@ -44,11 +44,6 @@ Sorcery::Castle::Castle(System *system, Display *display, Graphics *graphics, Ga
 	// Modules
 	_party_panel =
 		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
-	_edge_of_town = std::make_unique<EdgeOfTown>(_system, _display, _graphics, _game);
-	_tavern = std::make_unique<Tavern>(_system, _display, _graphics, _game);
-	_inn = std::make_unique<Inn>(_system, _display, _graphics, _game);
-	_shop = std::make_unique<Shop>(_system, _display, _graphics, _game);
-	_temple = std::make_unique<Temple>(_system, _display, _graphics, _game);
 }
 
 // Standard Destructor
@@ -58,54 +53,17 @@ Sorcery::Castle::~Castle() {
 // Start/Continue a new Game
 auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> {
 
-	// TODO: need to incorporare this in main loop so that exiting this goes back properly
-	if (destination == Destination::MAZE) {
-		if (auto edge_option{_edge_of_town->start(destination)};
-			edge_option && edge_option.value() == MenuItem::ITEM_ABORT) {
-			_game->save_game();
-			_display->shutdown_SFML();
-			return MenuItem::ITEM_ABORT;
-		}
-		_edge_of_town->stop();
-	} else if (destination == Destination::TAVERN) {
-		if (auto tavern_option{_tavern->start()}; tavern_option && tavern_option.value() == MenuItem::ITEM_ABORT) {
-			_game->save_game();
-			_display->shutdown_SFML();
-			return MenuItem::ITEM_ABORT;
-		}
-		_tavern->stop();
-	} else if (destination == Destination::TRAINING) {
-		if (auto edge_option{_edge_of_town->start(destination)};
-			edge_option && edge_option.value() == MenuItem::ITEM_ABORT) {
-			_game->save_game();
-			_display->shutdown_SFML();
-			return MenuItem::ITEM_ABORT;
-		}
-		_edge_of_town->stop();
-	} else if (destination == Destination::INN) {
-		if (auto inn_option{_inn->start()}; inn_option && inn_option.value() == MenuItem::ITEM_ABORT) {
-			_game->save_game();
-			_display->shutdown_SFML();
-			return MenuItem::ITEM_ABORT;
-		}
-		_inn->stop();
-	} else if (destination == Destination::TEMPLE) {
-		if (auto temple_option{_temple->start()}; temple_option && temple_option.value() == MenuItem::ITEM_ABORT) {
-			_game->save_game();
-			_display->shutdown_SFML();
-			_temple->stop();
-			return MenuItem::ITEM_ABORT;
-		}
-		_temple->stop();
-	} else if (destination == Destination::SHOP) {
-		if (auto shop_option{_shop->start()}; shop_option && shop_option.value() == MenuItem::ITEM_ABORT) {
-			_game->save_game();
-			_display->shutdown_SFML();
-			_temple->stop();
-			return MenuItem::ITEM_ABORT;
-		}
-		_shop->stop();
-	}
+	// Handle Passthroughs
+	if (destination == Destination::TAVERN)
+		return MenuItem::CA_TAVERN;
+	else if (destination == Destination::INN)
+		return MenuItem::CA_INN;
+	else if (destination == Destination::TEMPLE)
+		return MenuItem::CA_TEMPLE;
+	else if (destination == Destination::SHOP)
+		return MenuItem::CA_SHOP;
+	else if (destination == Destination::EDGE)
+		return MenuItem::CA_EDGE_OF_TOWN;
 
 	// Get the Background Display Components and load them into Display module storage (not local - and note that due to
 	// the way both menus are combined in this class, we need to have the menu stage set first in this case and this
@@ -156,77 +114,16 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 					// We have selected something from the menu
 					if (option) {
 						const MenuItem option_chosen{(*option.value()).item};
-						if (option_chosen == MenuItem::CA_EDGE_OF_TOWN) {
-							auto edge_option{_edge_of_town->start()};
-							_edge_of_town->stop();
-							if (edge_option) {
-								if (edge_option.value() == MenuItem::ET_LEAVE_GAME)
-									return MenuItem::ET_LEAVE_GAME;
-								else if (edge_option.value() == MenuItem::ITEM_ABORT) {
-									_game->save_game();
-									_display->shutdown_SFML();
-									return MenuItem::ITEM_ABORT;
-								}
-							}
-							_display->generate("castle");
-							_party_panel->refresh();
-							_update_menus();
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-							continue;
-						} else if (option_chosen == MenuItem::CA_TAVERN) {
-							if (auto tavern_option{_tavern->start()};
-								tavern_option && tavern_option.value() == MenuItem::ITEM_ABORT) {
-								_game->save_game();
-								_display->shutdown_SFML();
-								return MenuItem::ITEM_ABORT;
-							}
-							_tavern->stop();
-							_game->save_game();
-							_party_panel->refresh();
-							_update_menus();
-							_display->generate("castle");
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-							continue;
-						} else if (option_chosen == MenuItem::CA_INN) {
-							if (auto inn_option{_inn->start()};
-								inn_option && inn_option.value() == MenuItem::ITEM_ABORT) {
-								_game->save_game();
-								_display->shutdown_SFML();
-								return MenuItem::ITEM_ABORT;
-							}
-							_inn->stop();
-							_game->save_game();
-							_party_panel->refresh();
-							_display->generate("castle");
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-							continue;
-						} else if (option_chosen == MenuItem::CA_SHOP) {
-							if (auto shop_option{_shop->start()};
-								shop_option && shop_option.value() == MenuItem::ITEM_ABORT) {
-								_game->save_game();
-								_display->shutdown_SFML();
-								return MenuItem::ITEM_ABORT;
-							}
-							_shop->stop();
-							_game->save_game();
-							_party_panel->refresh();
-							_display->generate("castle");
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-							continue;
-						} else if (option_chosen == MenuItem::CA_TEMPLE) {
-							if (auto temple_option{_temple->start()};
-								temple_option && temple_option.value() == MenuItem::ITEM_ABORT) {
-								_game->save_game();
-								_display->shutdown_SFML();
-								return MenuItem::ITEM_ABORT;
-							}
-							_temple->stop();
-							_game->save_game();
-							_party_panel->refresh();
-							_display->generate("castle");
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-							continue;
-						}
+						if (option_chosen == MenuItem::CA_EDGE_OF_TOWN)
+							return MenuItem::CA_EDGE_OF_TOWN;
+						else if (option_chosen == MenuItem::CA_TAVERN)
+							return MenuItem::CA_TAVERN;
+						else if (option_chosen == MenuItem::CA_INN)
+							return MenuItem::CA_INN;
+						else if (option_chosen == MenuItem::CA_SHOP)
+							return MenuItem::CA_SHOP;
+						else if (option_chosen == MenuItem::CA_TEMPLE)
+							return MenuItem::CA_TEMPLE;
 					}
 				} else if ((_system->input->check(WindowInput::CANCEL, event)) ||
 						   ((_system->input->check(WindowInput::BACK, event)))) {

@@ -26,7 +26,6 @@
 
 #include "dialog.hpp"
 #include "display.hpp"
-#include "engine.hpp"
 #include "frame.hpp"
 #include "game.hpp"
 #include "graphics.hpp"
@@ -36,7 +35,6 @@
 #include "partypanel.hpp"
 #include "restart.hpp"
 #include "system.hpp"
-#include "training.hpp"
 
 namespace Sorcery {
 
@@ -54,7 +52,7 @@ class EdgeOfTown {
 		// Public Members
 
 		// Public Methods
-		auto start(Destination destination = Destination::DEFAULT) -> std::optional<MenuItem>;
+		auto start(Destination destination) -> std::optional<MenuItem>;
 		auto stop() -> void;
 
 	private:
@@ -73,9 +71,7 @@ class EdgeOfTown {
 		std::unique_ptr<Menu> _menu;
 		sf::Sprite _bg;
 		std::unique_ptr<Dialog> _leave_game;
-		std::unique_ptr<Training> _training;
 		std::unique_ptr<PartyPanel> _party_panel;
-		std::unique_ptr<Restart> _restart;
 };
 
 }

@@ -26,19 +26,14 @@
 
 #include "dialog.hpp"
 #include "display.hpp"
-#include "edgeoftown.hpp"
 #include "frame.hpp"
 #include "game.hpp"
 #include "graphics.hpp"
-#include "inn.hpp"
 #include "layout.hpp"
 #include "main.hpp"
 #include "menu.hpp"
 #include "partypanel.hpp"
-#include "shop.hpp"
 #include "system.hpp"
-#include "tavern.hpp"
-#include "temple.hpp"
 
 namespace Sorcery {
 
@@ -75,11 +70,6 @@ class Castle {
 		std::unique_ptr<Menu> _menu;
 		sf::Sprite _bg;
 		std::unique_ptr<Dialog> _leave_game;
-		std::unique_ptr<EdgeOfTown> _edge_of_town;
-		std::unique_ptr<Tavern> _tavern;
-		std::unique_ptr<Inn> _inn;
-		std::unique_ptr<Shop> _shop;
-		std::unique_ptr<Temple> _temple;
 		std::unique_ptr<PartyPanel> _party_panel;
 };
 

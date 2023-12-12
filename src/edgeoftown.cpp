@@ -44,8 +44,6 @@ Sorcery::EdgeOfTown::EdgeOfTown(System *system, Display *display, Graphics *grap
 	// Modules
 	_party_panel =
 		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
-	_training = std::make_unique<Training>(_system, _display, _graphics, _game);
-	_restart = std::make_unique<Restart>(_system, _display, _graphics, _game);
 }
 
 // Standard Destructor
@@ -55,28 +53,15 @@ Sorcery::EdgeOfTown::~EdgeOfTown() {
 // Start/Continue a new Game
 auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuItem> {
 
-	if (destination == Destination::MAZE) {
-		auto _engine{std::make_unique<Engine>(_system, _display, _graphics, _game)};
-		if (auto result{_engine->start()}; result == EXIT_ALL) {
-			_game->save_game();
-			_engine->stop();
-			_display->shutdown_SFML();
-			return MenuItem::ITEM_ABORT;
-		}
-		_game->save_game();
-		_engine->stop();
-	} else if (destination == Destination::TRAINING) {
-
-		for (auto &[character_id, character] : _game->characters) {
-			if (character.get_location() == CharacterLocation::PARTY)
-				character.set_location(CharacterLocation::TAVERN);
-		}
-		_game->state->clear_party();
-		_game->save_game();
-		_party_panel->refresh();
-		_training->start();
-		_training->stop();
-	}
+	// Handle Passthroughs
+	if (destination == Destination::MAZE)
+		return MenuItem::ET_MAZE;
+	else if (destination == Destination::TRAINING)
+		return MenuItem::ET_TRAIN;
+	else if (destination == Destination::RESTART)
+		return MenuItem::ET_RESTART;
+	else if (destination == Destination::CASTLE)
+		return MenuItem::ET_CASTLE;
 
 	_update_menus();
 	_display->generate("edge_of_town");
@@ -128,43 +113,12 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 							return MenuItem::ET_CASTLE;
 						} else if (option_chosen == MenuItem::ET_LEAVE_GAME)
 							_display->set_input_mode(WindowInputMode::CONFIRM_LEAVE_GAME);
-						else if (option_chosen == MenuItem::ET_MAZE) {
-
-							auto _engine{std::make_unique<Engine>(_system, _display, _graphics, _game)};
-							_game->enter_maze();
-							_engine->start();
-							_engine->stop();
-							_game->save_game();
-							_party_panel->refresh();
-							_update_menus();
-							_display->generate("edge_of_town");
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-
+						else if (option_chosen == MenuItem::ET_MAZE)
 							return MenuItem::ET_MAZE;
-						} else if (option_chosen == MenuItem::ET_TRAIN) {
-
-							// Remove everyone from the Party
-							for (auto &[character_id, character] : _game->characters) {
-								if (character.get_location() == CharacterLocation::PARTY)
-									character.set_location(CharacterLocation::TAVERN);
-							}
-							_game->state->clear_party();
-							_game->save_game();
-							_party_panel->refresh();
-							_training->start();
-							_training->stop();
-							_update_menus();
-							_display->generate("edge_of_town");
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-						} else if (option_chosen == MenuItem::ET_RESTART) {
-
-							_restart->start();
-							_restart->stop();
-							_update_menus();
-							_display->generate("edge_of_town");
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-							_party_panel->refresh();
-						}
+						else if (option_chosen == MenuItem::ET_TRAIN)
+							return MenuItem::ET_TRAIN;
+						else if (option_chosen == MenuItem::ET_RESTART)
+							return MenuItem::ET_RESTART;
 					}
 				} else if ((_system->input->check(WindowInput::CANCEL, event)) ||
 						   (_system->input->check(WindowInput::BACK, event))) {

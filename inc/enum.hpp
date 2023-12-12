@@ -644,7 +644,9 @@ namespace Enums::System {
 		INN = 4,
 		TEMPLE = 6,
 		SHOP = 7,
-		MAZE = 8
+		MAZE = 8,
+		RESTART = 9,
+		EDGE = 10
 	};
 
 	// Errors
