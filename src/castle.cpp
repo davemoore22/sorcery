@@ -138,7 +138,7 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 						return std::nullopt;
 					} else if (dialog_input.value() == WindowDialogButton::YES) {
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-						return MenuItem::ET_LEAVE_GAME;
+						return MenuItem::ITEM_LEAVE_GAME;
 					} else if (dialog_input.value() == WindowDialogButton::NO) {
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					}

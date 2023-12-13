@@ -111,13 +111,26 @@ auto Sorcery::Application::_quickstart() -> void {
 
 auto Sorcery::Application::start() -> int {
 
-	// Run the game we have chosen to quit or abort
-	std::optional<MenuItem> option_chosen{MenuItem::NO_MENU_ITEM};
+	using enum Enums::Menu::Item;
+
+	std::optional<MenuItem> mm_opt{NO_MENU_ITEM};
+	std::optional<MenuItem> ca_opt{NO_MENU_ITEM};
 	do {
 
-		option_chosen = _run_main_menu();
+		mm_opt = _run_main_menu();
+		if ((mm_opt.value() == MM_NEW_GAME) || (mm_opt.value() == MM_CONTINUE_GAME)) {
 
-	} while ((option_chosen != MenuItem::ITEM_QUIT) && (option_chosen != MenuItem::ITEM_ABORT));
+			do {
+				ca_opt = _run_castle();
+			} while ((ca_opt != ITEM_ABORT) && (ca_opt != ITEM_LEAVE_GAME) && (ca_opt != CA_EDGE_OF_TOWN));
+
+			if (ca_opt == ITEM_ABORT) {
+				_game->save_game();
+				display->shutdown_SFML();
+				return EXIT_ALL;
+			}
+		}
+	} while ((mm_opt != MenuItem::ITEM_QUIT) && (mm_opt != MenuItem::ITEM_ABORT));
 
 	display->shutdown_SFML();
 	return EXIT_ALL;
@@ -125,166 +138,70 @@ auto Sorcery::Application::start() -> int {
 	MainMenuType menu_stage{MainMenuType::ATTRACT_MODE};
 	do {
 
-		option_chosen = _mainmenu->start(menu_stage);
+		mm_opt = _mainmenu->start(menu_stage);
 		_mainmenu->stop();
-		if (option_chosen) {
+		if (mm_opt) {
 
 			// Now handle what we do
 		}
-	} while (option_chosen);
+	} while (mm_opt);
 
 	display->shutdown_SFML();
 	return EXIT_ALL;
+}
 
-	// Quick Start will start a new game, add a couple of new characters to the
-	// party, and deposit the party in the maze
-	if (_check_param(QUICKSTART)) {
-		_quickstart();
-		display->shutdown_SFML();
-		return EXIT_ALL;
-	} else if (_check_param(GO_TO_COMPENDIUM)) {
-		_compendium->start();
-		_compendium->stop();
-	} else if (_check_param(GO_TO_TAVERN)) {
+auto Sorcery::Application::_run_castle() -> std::optional<MenuItem> {
 
-		// Go directly to the Tavern
-		if (_game->valid) {
-			if (_castle->start(Destination::TAVERN) == MenuItem::ITEM_ABORT) {
+	using enum Enums::Menu::Item;
+
+	std::optional<MenuItem> option_chosen{NO_MENU_ITEM};
+
+	do {
+
+		option_chosen = _castle->start();
+		if (option_chosen == CA_TAVERN) {
+
+			// Tavern
+			if (auto tavern_option{_tavern->start()}; tavern_option && tavern_option.value() == MenuItem::ITEM_ABORT) {
 				_game->save_game();
 				display->shutdown_SFML();
-				return EXIT_ALL;
+				return ITEM_ABORT;
 			}
-			_castle->stop();
-		}
-	} else if (_check_param(GO_TO_INN)) {
+			_tavern->stop();
 
-		// Go directly to the Inn
-		if (_game->valid) {
-			if (_game->state->party_has_members()) {
-				const auto option_chosen{_castle->start(Destination::INN)};
-				_castle->stop();
-				if (option_chosen == MenuItem::ITEM_ABORT) {
-					_castle->stop();
-					_game->save_game();
-					display->shutdown_SFML();
-					return EXIT_ALL;
-				} else if (option_chosen == MenuItem::CA_EDGE_OF_TOWN) {
+		} else if (option_chosen == CA_INN) {
 
-					// If we want to move from the Castle to the Edge of Town
-				}
-			}
-		}
-	} else if (_check_param(GO_TO_TEMPLE)) {
-
-		// Go directly to the Temple
-		if (_game->valid) {
-			if (_game->state->party_has_members()) {
-				const auto option_chosen{_castle->start(Destination::TEMPLE)};
-				_castle->stop();
-				if (option_chosen == MenuItem::ITEM_ABORT) {
-					_game->save_game();
-					display->shutdown_SFML();
-					return EXIT_ALL;
-				} else if (option_chosen == MenuItem::CA_EDGE_OF_TOWN) {
-
-					// If we want to move from the Castle to the Edge of Town
-				}
-			}
-		}
-	} else if (_check_param(GO_TO_SHOP)) {
-
-		// Go directly to the Shop
-		if (_game->valid) {
-			if (_game->state->party_has_members()) {
-				const auto option_chosen{_castle->start(Destination::SHOP)};
-				_castle->stop();
-				if (option_chosen == MenuItem::ITEM_ABORT) {
-					_game->save_game();
-					display->shutdown_SFML();
-					return EXIT_ALL;
-				} else if (option_chosen == MenuItem::CA_EDGE_OF_TOWN) {
-
-					// If we want to move from the Castle to the Edge of Town
-				}
-			}
-		}
-	}
-
-	if (_check_param(GO_TO_MAZE)) {
-		if (_game->valid) {
-			if (_game->state->party_has_members()) {
-				if (_castle->start(Destination::MAZE) == MenuItem::ITEM_ABORT) {
-					_game->save_game();
-					display->shutdown_SFML();
-					return EXIT_ALL;
-				}
-				_castle->stop();
-				_game->save_game();
-			}
-		}
-	} else if (_check_param(GO_TO_TAVERN)) {
-		if (_game->valid) {
-			if (_castle->start(Destination::TAVERN) == MenuItem::ITEM_ABORT) {
+			// Inn
+			if (auto inn_option{_inn->start()}; inn_option && inn_option.value() == MenuItem::ITEM_ABORT) {
 				_game->save_game();
 				display->shutdown_SFML();
-				return EXIT_ALL;
+				return ITEM_ABORT;
 			}
-			_castle->stop();
-		}
-	} else if (_check_param(GO_TO_INN)) {
-		if (_game->valid) {
-			if (_game->state->party_has_members()) {
-				if (_castle->start(Destination::INN) == MenuItem::ITEM_ABORT) {
-					_game->save_game();
-					display->shutdown_SFML();
-					return EXIT_ALL;
-				}
-				_castle->stop();
-			}
-		}
-	} else if (_check_param(GO_TO_TEMPLE)) {
-		if (_game->valid) {
-			if (_game->state->party_has_members()) {
-				if (_castle->start(Destination::TEMPLE) == MenuItem::ITEM_ABORT) {
-					_game->save_game();
-					display->shutdown_SFML();
-					return EXIT_ALL;
-				}
-				_castle->stop();
-			}
-		}
-	} else if (_check_param(GO_TO_SHOP)) {
-		if (_game->valid) {
-			if (_game->state->party_has_members()) {
-				if (_castle->start(Destination::SHOP) == MenuItem::ITEM_ABORT) {
-					_game->save_game();
-					display->shutdown_SFML();
-					return EXIT_ALL;
-				}
-				_castle->stop();
-			}
-		}
-	} else if (_check_param(GO_TO_TRAINING)) {
-		if (_game->valid) {
-			if (_castle->start(Destination::TRAINING) == MenuItem::ITEM_ABORT) {
+			_inn->stop();
+		} else if (option_chosen == CA_SHOP) {
+
+			// Shop
+			if (auto shop_option{_shop->start()}; shop_option && shop_option.value() == MenuItem::ITEM_ABORT) {
 				_game->save_game();
 				display->shutdown_SFML();
-				return EXIT_ALL;
+				return ITEM_ABORT;
 			}
-			_castle->stop();
-		}
+			_shop->stop();
+		} else if (option_chosen == CA_TEMPLE) {
+			if (auto temple_option{_temple->start()}; temple_option && temple_option.value() == MenuItem::ITEM_ABORT) {
+				_game->save_game();
+				display->shutdown_SFML();
+				ITEM_ABORT;
+			}
+			_temple->stop();
+		} else if (option_chosen == CA_EDGE_OF_TOWN)
+			return CA_EDGE_OF_TOWN;
+
 		_game->save_game();
-	} else if (_check_param(CONTINUE_GAME)) {
-		if (_game->valid) {
-			if (auto result{_castle->start()}; result && result == MenuItem::ITEM_ABORT) {
-				_game->save_game();
-				display->shutdown_SFML();
-				return EXIT_ALL;
-			}
-			_castle->stop();
-			_game->save_game();
-		}
-	}
+		display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+		_castle->stop();
+
+	} while ((option_chosen != ITEM_LEAVE_GAME) && (option_chosen != ITEM_ABORT) && (option_chosen != CA_EDGE_OF_TOWN));
 }
 
 // Run the Main Menu
@@ -316,7 +233,7 @@ auto Sorcery::Application::_run_main_menu() -> std::optional<MenuItem> {
 				display->shutdown_SFML();
 				return ITEM_QUIT;
 				break;
-			case MenuItem::MM_OPTIONS:
+			case MM_OPTIONS:
 				if (_options->start() == EXIT_ALL) {
 					display->shutdown_SFML();
 					return ITEM_QUIT;

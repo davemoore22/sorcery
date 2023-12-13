@@ -84,6 +84,7 @@ class Application {
 		auto _quickstart() -> void;
 		auto _run_game() -> void;
 		auto _run_main_menu() -> std::optional<MenuItem>;
+		auto _run_castle() -> std::optional<MenuItem>;
 
 		// Private Members
 		std::unique_ptr<Banner> _banner;
