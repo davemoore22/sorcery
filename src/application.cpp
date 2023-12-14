@@ -116,10 +116,23 @@ auto Sorcery::Application::start() -> int {
 	std::optional<MenuItem> mm_opt{std::nullopt};
 	std::optional<MenuItem> ca_opt{std::nullopt};
 	std::optional<MenuItem> ed_opt{std::nullopt};
+
+	// Check if we are doing any sort of shortcut
+	auto destination{Destination::DEFAULT};
+	if ((_check_param(CONTINUE_GAME)) && (_game->valid))
+		destination = Destination::CONTINUE;
+	else if (_check_param(NEW_GAME))
+		destination = Destination::NEW;
 	do {
 
 		// Run the Main Menu
-		mm_opt = _run_main_menu();
+		mm_opt = _run_main_menu(destination);
+
+		// If we are going via a shortcut after we have done that, disable it
+		if (destination != Destination::DEFAULT)
+			destination = Destination::DEFAULT;
+
+		// That way the Program will always return to the Main Menu
 		if (mm_opt.value() == ITEM_QUIT) {
 			display->shutdown_SFML();
 			return EXIT_ALL;
@@ -246,10 +259,20 @@ auto Sorcery::Application::_run_castle() -> std::optional<MenuItem> {
 }
 
 // Run the Main Menu
-auto Sorcery::Application::_run_main_menu() -> std::optional<MenuItem> {
+auto Sorcery::Application::_run_main_menu(const Destination destination) -> std::optional<MenuItem> {
 
 	using enum Enums::Menu::Item;
 	using enum Enums::MainMenu::Type;
+
+	// Handle shortcuts
+	if (destination == Destination::CONTINUE)
+		return MM_CONTINUE_GAME;
+	else if (destination == Destination::NEW) {
+		_game->wipe_data();
+		_game->create_game();
+		_game->save_game();
+		return MM_NEW_GAME;
+	}
 
 	std::optional<MenuItem> option_chosen{NO_MENU_ITEM};
 	MainMenuType menu_stage{ATTRACT_MODE};

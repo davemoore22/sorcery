@@ -54,6 +54,7 @@ inline constexpr auto MAP_SIZE{20};
 // Command Line Arguments
 inline constexpr auto SKIP_INTRO{"skip-intro"sv};
 inline constexpr auto CONTINUE_GAME{"continue-game"sv};
+inline constexpr auto NEW_GAME{"new-game"sv};
 inline constexpr auto GO_TO_MAZE{"go-to-maze"sv};
 inline constexpr auto GO_TO_TRAINING{"go-to-training"sv};
 inline constexpr auto GO_TO_TAVERN{"go-to-tavern"sv};

@@ -646,7 +646,9 @@ namespace Enums::System {
 		SHOP = 7,
 		MAZE = 8,
 		RESTART = 9,
-		EDGE = 10
+		EDGE = 10,
+		CONTINUE = 11,
+		NEW = 12
 	};
 
 	// Errors

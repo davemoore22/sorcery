@@ -83,7 +83,7 @@ class Application {
 		auto _get_exe_path() const -> std::string_view;
 		auto _quickstart() -> void;
 		auto _run_game() -> void;
-		auto _run_main_menu() -> std::optional<MenuItem>;
+		auto _run_main_menu(const Destination destination) -> std::optional<MenuItem>;
 		auto _run_castle() -> std::optional<MenuItem>;
 		auto _run_edge_of_town() -> std::optional<MenuItem>;
 
