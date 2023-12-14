@@ -53,18 +53,6 @@ Sorcery::Castle::~Castle() {
 // Start/Continue a new Game
 auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> {
 
-	// Handle Passthroughs
-	if (destination == Destination::TAVERN)
-		return MenuItem::CA_TAVERN;
-	else if (destination == Destination::INN)
-		return MenuItem::CA_INN;
-	else if (destination == Destination::TEMPLE)
-		return MenuItem::CA_TEMPLE;
-	else if (destination == Destination::SHOP)
-		return MenuItem::CA_SHOP;
-	else if (destination == Destination::EDGE)
-		return MenuItem::CA_EDGE_OF_TOWN;
-
 	// Get the Background Display Components and load them into Display module storage (not local - and note that due to
 	// the way both menus are combined in this class, we need to have the menu stage set first in this case and this
 	// case only)
@@ -135,7 +123,8 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 				if (dialog_input) {
 					if (dialog_input.value() == WindowDialogButton::CLOSE) {
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-						return std::nullopt;
+						_game->save_game();
+						return MenuItem::ITEM_LEAVE_GAME;
 					} else if (dialog_input.value() == WindowDialogButton::YES) {
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 						return MenuItem::ITEM_LEAVE_GAME;

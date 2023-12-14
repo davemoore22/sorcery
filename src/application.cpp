@@ -113,53 +113,47 @@ auto Sorcery::Application::start() -> int {
 
 	using enum Enums::Menu::Item;
 
-	std::optional<MenuItem> mm_opt{NO_MENU_ITEM};
-	std::optional<MenuItem> ca_opt{NO_MENU_ITEM};
-	std::optional<MenuItem> ed_opt{NO_MENU_ITEM};
+	std::optional<MenuItem> mm_opt{std::nullopt};
+	std::optional<MenuItem> ca_opt{std::nullopt};
+	std::optional<MenuItem> ed_opt{std::nullopt};
 	do {
 
-		// Main Menu
+		// Run the Main Menu
 		mm_opt = _run_main_menu();
-		if ((mm_opt.value() == MM_NEW_GAME) || (mm_opt.value() == MM_CONTINUE_GAME)) {
+		if (mm_opt.value() == ITEM_QUIT) {
+			display->shutdown_SFML();
+			return EXIT_ALL;
+		} else {
 
+			// If we are starting a new game, or continuing an existing game
 			do {
 
-				// Castle
+				// Go to the Castle
 				ca_opt = _run_castle();
-				if (ca_opt == ITEM_ABORT) {
-					_game->save_game();
+				if (ca_opt.value() == ITEM_ABORT) {
 					display->shutdown_SFML();
 					return EXIT_ALL;
-				} else if (ca_opt == ITEM_LEAVE_GAME) {
-					_game->save_game();
+				} else if (ca_opt.value() == ITEM_LEAVE_GAME) {
 					break;
-				} else if (ca_opt == CA_EDGE_OF_TOWN) {
+				} else if (ca_opt.value() != CA_EDGE_OF_TOWN)
+					continue;
 
-					do {
+				// Go to the Edge of Town
+				ed_opt = _run_edge_of_town();
+				if (ed_opt.value() == ITEM_ABORT) {
+					display->shutdown_SFML();
+					return EXIT_ALL;
+				} else if (ed_opt.value() == ET_MAZE) {
 
-						// Edge of Town
-						ed_opt = _run_edge_of_town();
+					// Maze
+				} else if (ed_opt.value() == ET_RESTART) {
 
-						if (ed_opt == ITEM_ABORT) {
-							_game->save_game();
-							display->shutdown_SFML();
-							return EXIT_ALL;
-						} else if (ed_opt == ITEM_LEAVE_GAME) {
-							_game->save_game();
-							break;
-						} else if (ed_opt == ET_RESTART) {
-							// Do restart
+					// Restart
+				} else if (ed_opt.value() == ITEM_LEAVE_GAME)
+					break;
 
-						} else if (ed_opt == ET_MAZE) {
-							// Do Engine
-						} else if (ed_opt == ET_CASTLE) {
-
-							break;
-						}
-
-					} while ((ed_opt != ITEM_LEAVE_GAME) && (ed_opt != ET_CASTLE));
-				}
-			} while ((ca_opt != ITEM_ABORT) && (ed_opt != ITEM_LEAVE_GAME));
+			} while ((ed_opt.value() != ITEM_LEAVE_GAME) && (ca_opt.value() != ITEM_LEAVE_GAME));
+			_game->save_game();
 		}
 	} while ((mm_opt != ITEM_QUIT) && (mm_opt != ITEM_ABORT));
 
@@ -193,11 +187,12 @@ auto Sorcery::Application::_run_edge_of_town() -> std::optional<MenuItem> {
 			return ET_RESTART;
 		} else if (option_chosen == ET_MAZE) {
 			return ET_MAZE;
-		}
+		} else if (option_chosen == ET_LEAVE_GAME)
+			return ITEM_LEAVE_GAME;
 
-	} while ((option_chosen != ITEM_LEAVE_GAME) && (option_chosen != ITEM_ABORT));
+	} while (option_chosen != ITEM_ABORT);
 
-	return ITEM_LEAVE_GAME;
+	return ITEM_ABORT;
 }
 
 auto Sorcery::Application::_run_castle() -> std::optional<MenuItem> {
@@ -238,14 +233,16 @@ auto Sorcery::Application::_run_castle() -> std::optional<MenuItem> {
 			_temple->stop();
 		} else if (option_chosen == CA_EDGE_OF_TOWN)
 			return CA_EDGE_OF_TOWN;
+		else if (option_chosen == ITEM_LEAVE_GAME)
+			return ITEM_LEAVE_GAME;
 
 		_game->save_game();
 		display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 		_castle->stop();
 
-	} while ((option_chosen != ITEM_ABORT) && (option_chosen != CA_EDGE_OF_TOWN));
+	} while (option_chosen != ITEM_ABORT);
 
-	return CA_EDGE_OF_TOWN;
+	return ITEM_ABORT;
 }
 
 // Run the Main Menu
@@ -274,29 +271,28 @@ auto Sorcery::Application::_run_main_menu() -> std::optional<MenuItem> {
 				break;
 			case ITEM_QUIT:
 				_game->save_game();
-				display->shutdown_SFML();
 				return ITEM_QUIT;
 				break;
 			case MM_OPTIONS:
 				if (_options->start() == EXIT_ALL) {
-					display->shutdown_SFML();
+					_options->stop();
 					return ITEM_QUIT;
-				}
-				_options->stop();
+				} else
+					_options->stop();
 				break;
 			case MM_LICENSE:
 				if (_license->start() == EXIT_ALL) {
-					display->shutdown_SFML();
+					_license->stop();
 					return ITEM_QUIT;
-				}
-				_license->stop();
+				} else
+					_license->stop();
 				break;
 			case MM_COMPENDIUM:
 				if (_compendium->start() == EXIT_ALL) {
-					display->shutdown_SFML();
+					_compendium->stop();
 					return ITEM_QUIT;
-				}
-				_compendium->stop();
+				} else
+					_compendium->stop();
 				break;
 			default:
 				break;

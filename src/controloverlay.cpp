@@ -59,7 +59,7 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 		_controls.emplace_back(std::make_pair(
 			(*_display->string)["CONTROL_RIGHT_ALLOCATE_STATS"], _get_control_gfx(WindowInputCategory::RIGHT)));
 		break;
-	case WindowInputMode::ATTRACT_MODE:
+	case WindowInputMode::MENU_ATTRACT_MODE:
 		valid = false;
 		return;
 		break;

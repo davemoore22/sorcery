@@ -75,6 +75,11 @@ Sorcery::MainMenu::~MainMenu() {
 
 auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem> {
 
+	using enum Enums::Menu::Item;
+	using enum Enums::MainMenu::Type;
+	using enum Enums::Window::InputMode;
+	using enum Enums::Controls::Input;
+
 	// Get the Background Display Components and load them into Display module storage (not local)
 	_display->generate("main_menu_attract");
 
@@ -95,10 +100,10 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 	_display->start_bg_movie();
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected_option{_main_menu->items.begin()};
-	if (_menu_stage == MainMenuType::ATTRACT_MODE)
-		_display->set_input_mode(WindowInputMode::ATTRACT_MODE);
+	if (_menu_stage == ATTRACT_MODE)
+		_display->set_input_mode(MENU_ATTRACT_MODE);
 	else
-		_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+		_display->set_input_mode(NAVIGATE_MENU);
 
 	// See if we have a Game to Continue;
 	_set();
@@ -117,15 +122,15 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 				else {
 
 					// If we are in normal input mode
-					if (_display->get_input_mode() == WindowInputMode::ATTRACT_MODE) {
+					if (_display->get_input_mode() == MENU_ATTRACT_MODE) {
 
 						// Check for Window Close
 						if (event.type == sf::Event::Closed)
-							return MenuItem::ITEM_ABORT;
+							return ITEM_ABORT;
 
 						// Check for any key being pressed to move onto the main
 						// menu
-						if (_menu_stage == MainMenuType::ATTRACT_MODE) {
+						if (_menu_stage == ATTRACT_MODE) {
 
 							// Check for Window Close
 							if (event.type == sf::Event::Closed)
@@ -133,87 +138,86 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 
 							// Check for any key being pressed to move onto the
 							// main menu
-							if (_system->input->check(WindowInput::ANYTHING, event)) {
+							if (_system->input->check(ANYTHING, event)) {
 
-								_menu_stage = MainMenuType::ATTRACT_MENU;
-								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+								_menu_stage = ATTRACT_MENU;
+								_display->set_input_mode(NAVIGATE_MENU);
 							}
 						}
-					} else if (_display->get_input_mode() == WindowInputMode::NAVIGATE_MENU) {
+					} else if (_display->get_input_mode() == NAVIGATE_MENU) {
 
 						// Check for Window Close
 						if (event.type == sf::Event::Closed)
 							return std::nullopt;
 
 						// Handle enabling help overlay
-						if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+						if (_system->input->check(SHOW_CONTROLS, event)) {
 							_display->show_overlay();
 							continue;
 						} else
 							_display->hide_overlay();
 
 						// And handle input on the main menu
-						if (_system->input->check(WindowInput::UP, event))
+						if (_system->input->check(UP, event))
 							selected_option = _main_menu->choose_previous();
-						else if (_system->input->check(WindowInput::DOWN, event))
+						else if (_system->input->check(DOWN, event))
 							selected_option = _main_menu->choose_next();
-						else if (_system->input->check(WindowInput::MOVE, event))
+						else if (_system->input->check(MOVE, event))
 							selected_option = _main_menu->set_mouse_selected(
 								static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-						else if (_system->input->check(WindowInput::CONFIRM, event)) {
+						else if (_system->input->check(CONFIRM, event)) {
 							if (selected_option) {
 
 								// We have selected something from the menu
 								if (const MenuItem option_chosen{(*selected_option.value()).item};
-									option_chosen == MenuItem::MM_NEW_GAME) {
-									_display->set_input_mode(WindowInputMode::CONFIRM_NEW_GAME);
-								} else if (option_chosen == MenuItem::MM_CONTINUE_GAME) {
-									_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-									return MenuItem::MM_CONTINUE_GAME;
-								} else if (option_chosen == MenuItem::MM_LICENSE) {
-									_display->set_input_mode(WindowInputMode::DISPLAY_TEXT_FILE);
-									return MenuItem::MM_LICENSE;
-								} else if (option_chosen == MenuItem::MM_COMPENDIUM) {
-									_display->set_input_mode(WindowInputMode::COMPENDIUM);
-									return MenuItem::MM_COMPENDIUM;
-								} else if (option_chosen == MenuItem::MM_OPTIONS) {
-									_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
-									return MenuItem::MM_OPTIONS;
-								} else if (option_chosen == MenuItem::ITEM_QUIT) {
-									_display->set_input_mode(WindowInputMode::CONFIRM_QUIT_GAME);
+									option_chosen == MM_NEW_GAME) {
+									_display->set_input_mode(CONFIRM_NEW_GAME);
+								} else if (option_chosen == MM_CONTINUE_GAME) {
+									_display->set_input_mode(NAVIGATE_MENU);
+									return MM_CONTINUE_GAME;
+								} else if (option_chosen == MM_LICENSE) {
+									_display->set_input_mode(DISPLAY_TEXT_FILE);
+									return MM_LICENSE;
+								} else if (option_chosen == MM_COMPENDIUM) {
+									_display->set_input_mode(COMPENDIUM);
+									return MM_COMPENDIUM;
+								} else if (option_chosen == MM_OPTIONS) {
+									_display->set_input_mode(GAME_OPTIONS);
+									return MM_OPTIONS;
+								} else if (option_chosen == ITEM_QUIT) {
+									_display->set_input_mode(CONFIRM_QUIT_GAME);
 								}
 							}
-						} else if ((_system->input->check(WindowInput::CANCEL, event)) ||
-								   ((_system->input->check(WindowInput::BACK, event)))) {
-							_display->set_input_mode(WindowInputMode::CONFIRM_QUIT_GAME);
+						} else if ((_system->input->check(CANCEL, event)) || (_system->input->check(BACK, event))) {
+							_display->set_input_mode(CONFIRM_QUIT_GAME);
 						}
 
-					} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_NEW_GAME) {
+					} else if (_display->get_input_mode() == CONFIRM_NEW_GAME) {
 
 						auto dialog_input{_dialog_new_game->handle_input(event)};
 						if (dialog_input) {
 							if (dialog_input.value() == WindowDialogButton::CLOSE) {
-								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+								_display->set_input_mode(NAVIGATE_MENU);
 								return std::nullopt;
 							} else if (dialog_input.value() == WindowDialogButton::YES) {
-								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-								return MenuItem::MM_NEW_GAME;
+								_display->set_input_mode(NAVIGATE_MENU);
+								return MM_NEW_GAME;
 							} else if (dialog_input.value() == WindowDialogButton::NO) {
-								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+								_display->set_input_mode(NAVIGATE_MENU);
 							}
 						}
-					} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_QUIT_GAME) {
+					} else if (_display->get_input_mode() == CONFIRM_QUIT_GAME) {
 
 						auto dialog_input{_dialog_exit->handle_input(event)};
 						if (dialog_input) {
 							if (dialog_input.value() == WindowDialogButton::CLOSE) {
-								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+								_display->set_input_mode(NAVIGATE_MENU);
 								return std::nullopt;
 							} else if (dialog_input.value() == WindowDialogButton::YES) {
-								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-								return MenuItem::ITEM_QUIT;
+								_display->set_input_mode(NAVIGATE_MENU);
+								return ITEM_QUIT;
 							} else if (dialog_input.value() == WindowDialogButton::NO) {
-								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+								_display->set_input_mode(NAVIGATE_MENU);
 							}
 						}
 					}

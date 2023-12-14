@@ -53,16 +53,6 @@ Sorcery::EdgeOfTown::~EdgeOfTown() {
 // Start/Continue a new Game
 auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuItem> {
 
-	// Handle Passthroughs
-	if (destination == Destination::MAZE)
-		return MenuItem::ET_MAZE;
-	else if (destination == Destination::TRAINING)
-		return MenuItem::ET_TRAIN;
-	else if (destination == Destination::RESTART)
-		return MenuItem::ET_RESTART;
-	else if (destination == Destination::CASTLE)
-		return MenuItem::ET_CASTLE;
-
 	_update_menus();
 	_display->generate("edge_of_town");
 
@@ -132,7 +122,7 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 					if (dialog_input.value() == WindowDialogButton::CLOSE) {
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 						_game->save_game();
-						return std::nullopt;
+						return MenuItem::ET_LEAVE_GAME;
 					} else if (dialog_input.value() == WindowDialogButton::YES) {
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 
@@ -143,7 +133,6 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 						}
 						_game->state->clear_party();
 						_game->save_game();
-
 						return MenuItem::ET_LEAVE_GAME;
 					} else if (dialog_input.value() == WindowDialogButton::NO) {
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);

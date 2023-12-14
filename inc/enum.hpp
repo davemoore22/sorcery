@@ -96,7 +96,7 @@ namespace Enums::Window {
 	// Input Mode
 	enum class InputMode {
 		NO_INPUTMODE,
-		ATTRACT_MODE,
+		MENU_ATTRACT_MODE,
 		NAVIGATE_MENU,
 		IN_GAME,
 		DISPLAY_TEXT_FILE,
