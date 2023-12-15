@@ -1,0 +1,19 @@
+list(APPEND sorcery_SOURCES
+	${CMAKE_CURRENT_LIST_DIR}/buy.cpp
+	${CMAKE_CURRENT_LIST_DIR}/castle.cpp
+	${CMAKE_CURRENT_LIST_DIR}/changeclass.cpp
+	${CMAKE_CURRENT_LIST_DIR}/changename.cpp
+	${CMAKE_CURRENT_LIST_DIR}/create.cpp
+	${CMAKE_CURRENT_LIST_DIR}/edgeoftown.cpp
+	${CMAKE_CURRENT_LIST_DIR}/edit.cpp
+	${CMAKE_CURRENT_LIST_DIR}/graveyard.cpp
+	${CMAKE_CURRENT_LIST_DIR}/inn.cpp
+	${CMAKE_CURRENT_LIST_DIR}/legate.cpp
+	${CMAKE_CURRENT_LIST_DIR}/restart.cpp
+	${CMAKE_CURRENT_LIST_DIR}/roster.cpp
+	${CMAKE_CURRENT_LIST_DIR}/sell.cpp
+	${CMAKE_CURRENT_LIST_DIR}/shop.cpp
+	${CMAKE_CURRENT_LIST_DIR}/tavern.cpp
+	${CMAKE_CURRENT_LIST_DIR}/temple.cpp
+	${CMAKE_CURRENT_LIST_DIR}/training.cpp
+)

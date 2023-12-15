@@ -11,7 +11,8 @@
                 "${workspaceFolder}/inc/simpleini",
                 "${workspaceFolder}/inc/magicenum",
                 "/usr/local/include/**",
-                "/usr/include/**"
+                "/usr/include/**",
+                "${workspaceFolder}/inc"
             ],
             "defines": [
                 "_DEBUG"

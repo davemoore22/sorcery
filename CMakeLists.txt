@@ -15,118 +15,17 @@ find_package(SQLite3 REQUIRED)
 find_package(jsoncpp REQUIRED)
 find_package(fmt REQUIRED)
 
+include(src/core/CMakeLists.txt)
+include(src/engine/CMakeLists.txt)
+include(src/frontend/CMakeLists.txt)
+include(src/gui/CMakeLists.txt)
+include(src/modules/CMakeLists.txt)
+include(src/types/CMakeLists.txt)
+
 # Source Files
 add_executable(${PROJECT_NAME}
-	src/allocatepanel.cpp
-	src/animation.cpp
-	src/application.cpp
-	src/attractmode.cpp
-	src/attributedisplay.cpp
-	src/automap.cpp
-	src/banner.cpp
-	src/bestiary.cpp
-	src/buffbar.cpp
-	src/buy.cpp
-	src/cast.cpp
-	src/castle.cpp
-	src/changeclass.cpp
-	src/changename.cpp
-	src/character.cpp
-	src/characterdisplay.cpp
-	src/characterpanel.cpp
-	src/compass.cpp
-	src/compendium.cpp
-	src/component.cpp
-	src/config.cpp
-	src/console.cpp
-	src/controloverlay.cpp
-	src/create.cpp
-	src/database.cpp
-	src/debuffbar.cpp
-	src/dialog.cpp
-	src/disarm.cpp
-	src/display.cpp
-	src/drop.cpp
-	src/edgeoftown.cpp
-	src/edit.cpp
-	src/encounter.cpp
-	src/engine.cpp
-	src/equip.cpp
-	src/error.cpp
-	src/event.cpp
-	src/explore.cpp
-	src/file.cpp
-	src/frame.cpp
-	src/game.cpp
-	src/gazetteer.cpp
-	src/graphics.cpp
-	src/graveyard.cpp
-	src/iconpanel.cpp
-	src/iconstore.cpp
-	src/identify.cpp
-	src/infopanel.cpp
-	src/inn.cpp
-	src/input.cpp
-	src/inspect.cpp
-	src/inventory.cpp
-	src/inventorydisplay.cpp
-	src/item.cpp
-	src/itemdisplay.cpp
-	src/itemstore.cpp
-	src/itemtype.cpp
-	src/keyboard.cpp
-	src/layout.cpp
-	src/legate.cpp
-	src/level.cpp
-	src/levelstore.cpp
-	src/license.cpp
-	src/loot.cpp
 	src/main.cpp
-	src/mainmenu.cpp
-	src/map.cpp
-	src/menu.cpp
-	src/museum.cpp
-	src/open.cpp
-	src/options.cpp
-	src/partypanel.cpp
-	src/platform.cpp
-	src/random.cpp
-	src/read.cpp
-	src/render.cpp
-	src/reorder.cpp
-	src/resourcemanager.cpp
-	src/rest.cpp
-	src/restart.cpp
-	src/roster.cpp
-	src/search.cpp
-	src/searching.cpp
-	src/sell.cpp
-	src/shop.cpp
-	src/spellbook.cpp
-	src/spellpanel.cpp
-	src/splash.cpp
-	src/state.cpp
-	src/statistics.cpp
-	src/string.cpp
-	src/system.cpp
-	src/tavern.cpp
-	src/teleport.cpp
-	src/temple.cpp
-	src/text.cpp
-	src/textfile.cpp
-	src/textpanel.cpp
-	src/texturestore.cpp
-	src/tile.cpp
-	src/trade.cpp
-	src/training.cpp
-	src/trap.cpp
-	src/treasure.cpp
-	src/uncurse.cpp
-	src/use.cpp
-	src/view.cpp
-	src/win.cpp
-	src/window.cpp
-	src/wish.cpp)
+	${sorcery_SOURCES})
 
 # Include Directories
 target_include_directories(${PROJECT_NAME} PRIVATE
