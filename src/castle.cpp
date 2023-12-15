@@ -53,6 +53,13 @@ Sorcery::Castle::~Castle() {
 // Start/Continue a new Game
 auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> {
 
+	if (destination == Destination::RESTART)
+		return MenuItem::ET_RESTART;
+	else if (destination == Destination::EDGE)
+		return MenuItem::CA_EDGE_OF_TOWN;
+	else if (destination == Destination::MAZE)
+		return MenuItem::ET_MAZE;
+
 	// Get the Background Display Components and load them into Display module storage (not local - and note that due to
 	// the way both menus are combined in this class, we need to have the menu stage set first in this case and this
 	// case only)

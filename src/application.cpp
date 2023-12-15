@@ -72,6 +72,7 @@ Sorcery::Application::Application(int argc, char **argv) {
 	_inn = std::make_unique<Inn>(system.get(), display.get(), graphics.get(), _game.get());
 	_shop = std::make_unique<Shop>(system.get(), display.get(), graphics.get(), _game.get());
 	_temple = std::make_unique<Temple>(system.get(), display.get(), graphics.get(), _game.get());
+	_restart = std::make_unique<Restart>(system.get(), display.get(), graphics.get(), _game.get());
 }
 
 // Standard Destructor
@@ -113,17 +114,26 @@ auto Sorcery::Application::start() -> int {
 
 	using enum Enums::Menu::Item;
 
-	std::optional<MenuItem> mm_opt{std::nullopt};
-	std::optional<MenuItem> ca_opt{std::nullopt};
-	std::optional<MenuItem> ed_opt{std::nullopt};
-
 	// Check if we are doing any sort of shortcut
+	auto do_restart{false};
 	auto destination{Destination::DEFAULT};
 	if ((_check_param(CONTINUE_GAME)) && (_game->valid))
 		destination = Destination::CONTINUE;
 	else if (_check_param(NEW_GAME))
 		destination = Destination::NEW;
+	else if ((_check_param(RESTART_EXPEDITION)) && (_game->valid))
+		do_restart = true;
+
+	std::optional<MenuItem> mm_opt{std::nullopt};
 	do {
+
+		if (do_restart) {
+			auto ra_opt{_run_restart()};
+			if (ra_opt.value() == RS_RESTART) {
+
+				// can run engine
+			}
+		}
 
 		// Run the Main Menu
 		mm_opt = _run_main_menu(destination);
@@ -139,6 +149,8 @@ auto Sorcery::Application::start() -> int {
 		} else {
 
 			// If we are starting a new game, or continuing an existing game
+			std::optional<MenuItem> ca_opt{std::nullopt};
+			std::optional<MenuItem> ed_opt{std::nullopt};
 			do {
 
 				// Go to the Castle
@@ -161,7 +173,18 @@ auto Sorcery::Application::start() -> int {
 					// Maze
 				} else if (ed_opt.value() == ET_RESTART) {
 
-					// Restart
+					std::optional<MenuItem> rs_opt{std::nullopt};
+					unsigned int character_chosen{0u};
+					rs_opt = _restart->start(character_chosen);
+					_restart->stop();
+					if (rs_opt.value() == ITEM_ABORT) {
+						display->shutdown_SFML();
+						return EXIT_ALL;
+					} else if (rs_opt == MenuItem::RS_RESTART)
+						rs_opt = _restart_expedition(character_chosen);
+					else
+						ca_opt = CA_EDGE_OF_TOWN;
+
 				} else if (ed_opt.value() == ITEM_LEAVE_GAME)
 					break;
 
@@ -172,6 +195,22 @@ auto Sorcery::Application::start() -> int {
 
 	display->shutdown_SFML();
 	return EXIT_ALL;
+}
+
+auto Sorcery::Application::_run_restart() -> std::optional<MenuItem> {
+
+	std::optional<MenuItem> rs_opt{std::nullopt};
+	unsigned int character_chosen{0u};
+
+	rs_opt = _restart->start(character_chosen);
+	_restart->stop();
+	if (rs_opt.value() == MenuItem::ITEM_ABORT) {
+		display->shutdown_SFML();
+		return MenuItem::ITEM_QUIT;
+	} else if (rs_opt == MenuItem::RS_RESTART)
+		return _restart_expedition(character_chosen);
+	else
+		return MenuItem::CA_EDGE_OF_TOWN;
 }
 
 auto Sorcery::Application::_run_edge_of_town() -> std::optional<MenuItem> {
@@ -206,6 +245,44 @@ auto Sorcery::Application::_run_edge_of_town() -> std::optional<MenuItem> {
 	} while (option_chosen != ITEM_ABORT);
 
 	return ITEM_ABORT;
+}
+
+auto Sorcery::Application::_restart_expedition(const unsigned int character_chosen) -> std::optional<MenuItem> {
+
+	// Find the location and floor of the character pointed to, and reload the maze, repopulate the
+	// party and restart the game from there
+	auto &character{_game->characters[character_chosen]};
+	auto to_depth{character.depth.value()};
+	auto to_loc{character.coordinate.value()};
+	_game->state->clear_party();
+	for (auto &[character_id, character] : _game->characters) {
+		if (character.get_location() == CharacterLocation::MAZE) {
+			if ((character.depth.value() == to_depth) && (character.coordinate.value() == to_loc)) {
+				character.set_location(CharacterLocation::PARTY);
+				_game->state->add_character_by_id(character_id);
+			}
+		}
+	}
+
+	_game->state->set_depth(to_depth);
+	_game->state->set_player_prev_depth(_game->state->get_depth());
+	_game->state->set_player_pos(to_loc);
+
+	return MenuItem::RS_RESTART;
+
+	/* auto engine{std::make_unique<Engine>(_system, _display, _graphics, _game)};
+	if (auto result{engine->start()}; result == EXIT_ALL) {
+		_game->save_game();
+		_game->state->set_depth(to_depth);
+		_game->state->set_player_pos(to_loc);
+		engine->stop();
+		_display->shutdown_SFML();
+		return MenuItem::ITEM_ABORT;
+	}
+
+	engine->stop();
+	_update_menus();
+	return MenuItem::ITEM_CANCEL; */
 }
 
 auto Sorcery::Application::_run_castle() -> std::optional<MenuItem> {
@@ -272,6 +349,8 @@ auto Sorcery::Application::_run_main_menu(const Destination destination) -> std:
 		_game->create_game();
 		_game->save_game();
 		return MM_NEW_GAME;
+	} else if (destination == Destination::RESTART) {
+		return RS_RESTART;
 	}
 
 	std::optional<MenuItem> option_chosen{NO_MENU_ITEM};

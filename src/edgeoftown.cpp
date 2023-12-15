@@ -53,6 +53,11 @@ Sorcery::EdgeOfTown::~EdgeOfTown() {
 // Start/Continue a new Game
 auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuItem> {
 
+	if (destination == Destination::RESTART)
+		return MenuItem::ET_RESTART;
+	else if (destination == Destination::MAZE)
+		return MenuItem::ET_MAZE;
+
 	_update_menus();
 	_display->generate("edge_of_town");
 

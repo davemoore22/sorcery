@@ -36,7 +36,7 @@ Sorcery::Restart::Restart(System *system, Display *display, Graphics *graphics, 
 Sorcery::Restart::~Restart() {
 }
 
-auto Sorcery::Restart::start() -> std::optional<MenuItem> {
+auto Sorcery::Restart::start(unsigned int &character_chosen) -> std::optional<MenuItem> {
 
 	// Get the Background Display Components and load them into Display module
 	// storage (not local)
@@ -89,10 +89,10 @@ auto Sorcery::Restart::start() -> std::optional<MenuItem> {
 				_display->hide_overlay();
 
 			if (_system->input->check(WindowInput::CANCEL, event))
-				return std::nullopt;
+				return MenuItem::TR_EDGE_OF_TOWN;
 
 			if (_system->input->check(WindowInput::BACK, event))
-				return std::nullopt;
+				return MenuItem::TR_EDGE_OF_TOWN;
 
 			if (_system->input->check(WindowInput::UP, event))
 				selected = _menu->choose_previous();
@@ -108,38 +108,8 @@ auto Sorcery::Restart::start() -> std::optional<MenuItem> {
 						return MenuItem::TR_EDGE_OF_TOWN;
 					} else {
 
-						// Find the location and floor of the character pointed to, and reload the maze, repopulate the
-						// party and restart the game from there
-						const auto character_chosen{(*selected.value()).index};
-						auto &character{_game->characters[character_chosen]};
-						auto to_depth{character.depth.value()};
-						auto to_loc{character.coordinate.value()};
-						_game->state->clear_party();
-						for (auto &[character_id, character] : _game->characters) {
-							if (character.get_location() == CharacterLocation::MAZE) {
-								if ((character.depth.value() == to_depth) && (character.coordinate.value() == to_loc)) {
-									character.set_location(CharacterLocation::PARTY);
-									_game->state->add_character_by_id(character_id);
-								}
-							}
-						}
-
-						_game->state->set_depth(to_depth);
-						_game->state->set_player_prev_depth(_game->state->get_depth());
-						_game->state->set_player_pos(to_loc);
-						auto engine{std::make_unique<Engine>(_system, _display, _graphics, _game)};
-						if (auto result{engine->start()}; result == EXIT_ALL) {
-							_game->save_game();
-							_game->state->set_depth(to_depth);
-							_game->state->set_player_pos(to_loc);
-							engine->stop();
-							_display->shutdown_SFML();
-							return MenuItem::ITEM_ABORT;
-						}
-
-						engine->stop();
-						_update_menus();
-						return MenuItem::ITEM_CANCEL;
+						character_chosen = (*selected.value()).index;
+						return MenuItem::RS_RESTART;
 					}
 				}
 			}

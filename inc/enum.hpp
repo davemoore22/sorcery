@@ -875,6 +875,7 @@ namespace Enums::Menu {
 		TR_DELETE,
 		TR_INSPECT,
 		TR_EDGE_OF_TOWN,
+		RS_RESTART,
 		RC_ACCEPT,
 		RC_REJECT,
 		RC_CANCEL,

@@ -52,7 +52,7 @@ class Restart {
 		// Public Members
 
 		// Public Methods
-		auto start() -> std::optional<MenuItem>;
+		auto start(unsigned int &character_chosen) -> std::optional<MenuItem>;
 		auto stop() -> void;
 
 	private:

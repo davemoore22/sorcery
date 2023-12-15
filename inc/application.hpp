@@ -37,6 +37,7 @@
 #include "main.hpp"
 #include "mainmenu.hpp"
 #include "options.hpp"
+#include "restart.hpp"
 #include "shop.hpp"
 #include "splash.hpp"
 #include "system.hpp"
@@ -86,6 +87,8 @@ class Application {
 		auto _run_main_menu(const Destination destination) -> std::optional<MenuItem>;
 		auto _run_castle() -> std::optional<MenuItem>;
 		auto _run_edge_of_town() -> std::optional<MenuItem>;
+		auto _run_restart() -> std::optional<MenuItem>;
+		auto _restart_expedition(const unsigned int character_chosen) -> std::optional<MenuItem>;
 
 		// Private Members
 		std::unique_ptr<Banner> _banner;
@@ -103,6 +106,7 @@ class Application {
 		std::unique_ptr<Inn> _inn;
 		std::unique_ptr<Shop> _shop;
 		std::unique_ptr<Temple> _temple;
+		std::unique_ptr<Restart> _restart;
 		std::vector<std::string> _arguments;
 		sf::RenderWindow _load_window;
 };
