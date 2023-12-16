@@ -1,5 +1,5 @@
 Sorcery: Shadows under Llylgamyn
-Copyright (C) 2021 Dave Moore
+Copyright (C) 2023 Dave Moore
 
 Linux Instructions (Ubuntu 20:04 LTS):
 
@@ -32,7 +32,7 @@ Download, compile and install the following libraries (cmake needed):
 - Thor <https://github.com/Bromeon/Thor> (commit f9b7890)
 
 Then make sure the following header libraries are included and linked (the
-default location to install them are in subdirectories in the inc folder):
+default location to install them are in /3rdparty/ in the inc folder):
 
 - simpleini <https://github.com/brofield/simpleini/>
 - sqlite modern cpp wrapper <https://github.com/SqliteModernCpp/sqlite_modern_cpp>

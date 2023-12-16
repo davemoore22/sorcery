@@ -15,14 +15,13 @@ find_package(SQLite3 REQUIRED)
 find_package(jsoncpp REQUIRED)
 find_package(fmt REQUIRED)
 
+# Source Files
 include(src/core/CMakeLists.txt)
 include(src/engine/CMakeLists.txt)
 include(src/frontend/CMakeLists.txt)
 include(src/gui/CMakeLists.txt)
 include(src/modules/CMakeLists.txt)
 include(src/types/CMakeLists.txt)
-
-# Source Files
 add_executable(${PROJECT_NAME}
 	src/main.cpp
 	${sorcery_SOURCES})
@@ -30,12 +29,7 @@ add_executable(${PROJECT_NAME}
 # Include Directories
 target_include_directories(${PROJECT_NAME} PRIVATE
 	${CMAKE_SOURCE_DIR}/inc
-	${CMAKE_SOURCE_DIR}/inc/simpleini
-	${CMAKE_SOURCE_DIR}/inc/magicenum
-	${CMAKE_SOURCE_DIR}/inc/sqlitemoderncpp
-	${CMAKE_SOURCE_DIR}/inc/backwardcpp
-	${CMAKE_SOURCE_DIR}/inc/cereal
-	${CMAKE_SOURCE_DIR}/inc/sfemovie
+	${CMAKE_SOURCE_DIR}/inc/3rdparty
 	/usr/local/include
 	/usr/include/X11)
 

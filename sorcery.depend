@@ -144,10 +144,10 @@
 
 1591211577 /home/dave/Development/wizardry/sorcery-sfml/inc/simpleini/ConvertUTF.h
 
-1701724357 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
+1702671665 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
-1702578823 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
+1702672136 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
 	"main.hpp"
 
 1689283234 /home/dave/Development/wizardry/sorcery-sfml/inc/macro.hpp
@@ -218,7 +218,7 @@
 1702587157 source:/home/dave/Development/wizardry/sorcery-sfml/src/application.cpp
 	"application.hpp"
 
-1702500677 /home/dave/Development/wizardry/sorcery-sfml/inc/application.hpp
+1702674103 /home/dave/Development/wizardry/sorcery-sfml/inc/application.hpp
 	"banner.hpp"
 	"castle.hpp"
 	"compendium.hpp"
@@ -232,6 +232,7 @@
 	"main.hpp"
 	"mainmenu.hpp"
 	"options.hpp"
+	"restart.hpp"
 	"shop.hpp"
 	"splash.hpp"
 	"system.hpp"
@@ -828,7 +829,7 @@
 1672594195 /home/dave/Development/wizardry/sorcery-sfml/inc/error.hpp
 	"main.hpp"
 
-1702416225 /home/dave/Development/wizardry/sorcery-sfml/inc/edgeoftown.hpp
+1702672479 /home/dave/Development/wizardry/sorcery-sfml/inc/edgeoftown.hpp
 	"dialog.hpp"
 	"display.hpp"
 	"frame.hpp"
@@ -838,7 +839,6 @@
 	"main.hpp"
 	"menu.hpp"
 	"partypanel.hpp"
-	"restart.hpp"
 	"system.hpp"
 
 1702586012 source:/home/dave/Development/wizardry/sorcery-sfml/src/edgeoftown.cpp
@@ -1567,7 +1567,7 @@
 1672594196 source:/home/dave/Development/wizardry/sorcery-sfml/src/explore.cpp
 	"explore.hpp"
 
-1672594194 /home/dave/Development/wizardry/sorcery-sfml/inc/restart.hpp
+1702672002 /home/dave/Development/wizardry/sorcery-sfml/inc/restart.hpp
 	"create.hpp"
 	"display.hpp"
 	"engine.hpp"

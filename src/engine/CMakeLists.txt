@@ -5,11 +5,11 @@ list(APPEND sorcery_SOURCES
 	${CMAKE_CURRENT_LIST_DIR}/encounter.cpp
 	${CMAKE_CURRENT_LIST_DIR}/engine.cpp
 	${CMAKE_CURRENT_LIST_DIR}/equip.cpp
+	${CMAKE_CURRENT_LIST_DIR}/graveyard.cpp
 	${CMAKE_CURRENT_LIST_DIR}/identify.cpp
 	${CMAKE_CURRENT_LIST_DIR}/inspect.cpp
 	${CMAKE_CURRENT_LIST_DIR}/inventory.cpp
 	${CMAKE_CURRENT_LIST_DIR}/loot.cpp
-	${CMAKE_CURRENT_LIST_DIR}/map.cpp
 	${CMAKE_CURRENT_LIST_DIR}/open.cpp
 	${CMAKE_CURRENT_LIST_DIR}/read.cpp
 	${CMAKE_CURRENT_LIST_DIR}/reorder.cpp
