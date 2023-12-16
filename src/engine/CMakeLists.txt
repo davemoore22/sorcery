@@ -4,6 +4,7 @@ list(APPEND sorcery_SOURCES
 	${CMAKE_CURRENT_LIST_DIR}/drop.cpp
 	${CMAKE_CURRENT_LIST_DIR}/encounter.cpp
 	${CMAKE_CURRENT_LIST_DIR}/engine.cpp
+	${CMAKE_CURRENT_LIST_DIR}/event.cpp
 	${CMAKE_CURRENT_LIST_DIR}/equip.cpp
 	${CMAKE_CURRENT_LIST_DIR}/graveyard.cpp
 	${CMAKE_CURRENT_LIST_DIR}/identify.cpp
@@ -11,6 +12,7 @@ list(APPEND sorcery_SOURCES
 	${CMAKE_CURRENT_LIST_DIR}/loot.cpp
 	${CMAKE_CURRENT_LIST_DIR}/open.cpp
 	${CMAKE_CURRENT_LIST_DIR}/read.cpp
+	${CMAKE_CURRENT_LIST_DIR}/render.cpp
 	${CMAKE_CURRENT_LIST_DIR}/reorder.cpp
 	${CMAKE_CURRENT_LIST_DIR}/rest.cpp
 	${CMAKE_CURRENT_LIST_DIR}/search.cpp
@@ -20,6 +22,7 @@ list(APPEND sorcery_SOURCES
 	${CMAKE_CURRENT_LIST_DIR}/treasure.cpp
 	${CMAKE_CURRENT_LIST_DIR}/uncurse.cpp
 	${CMAKE_CURRENT_LIST_DIR}/use.cpp
+	${CMAKE_CURRENT_LIST_DIR}/view.cpp
 	${CMAKE_CURRENT_LIST_DIR}/win.cpp
 	${CMAKE_CURRENT_LIST_DIR}/wish.cpp
 )

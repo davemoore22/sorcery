@@ -25,14 +25,14 @@
 #pragma once
 
 #include "core/display.hpp"
-#include "core/event.hpp"
 #include "core/game.hpp"
 #include "core/graphics.hpp"
-#include "core/render.hpp"
 #include "core/system.hpp"
 #include "engine/encounter.hpp"
+#include "engine/event.hpp"
 #include "engine/graveyard.hpp"
 #include "engine/inspect.hpp"
+#include "engine/render.hpp"
 #include "engine/reorder.hpp"
 #include "engine/search.hpp"
 #include "frontend/options.hpp"

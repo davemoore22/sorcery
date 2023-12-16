@@ -25,7 +25,7 @@
 #include "resources/resourcemanager.hpp"
 
 // Standard Constructor
-Sorcery::ResourceManager::ResourceManager(File &files) : _files{files} {
+Sorcery::ResourceManager::ResourceManager(FileStore &files) : _files{files} {
 
 	// Load all the Fixed Resources
 	try {

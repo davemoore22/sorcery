@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "core/view.hpp"
+#include "engine/view.hpp"
 
 // Standard Constructor
 Sorcery::View::View(System *system, Display *display, Graphics *graphics, Game *game)

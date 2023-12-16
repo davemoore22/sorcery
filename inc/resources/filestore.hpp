@@ -32,12 +32,12 @@
 // Class to handles managing filepaths
 namespace Sorcery {
 
-class File {
+class FileStore {
 
 	public:
 
 		// Constructors
-		File();
+		FileStore();
 
 		// Overloaded Operators
 		auto operator[](std::string_view key) const -> std::filesystem::path;

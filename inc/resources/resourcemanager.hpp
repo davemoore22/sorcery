@@ -24,8 +24,8 @@
 
 #pragma once
 
-#include "core/file.hpp"
 #include "main.hpp"
+#include "resources/filestore.hpp"
 #include "types/textfile.hpp"
 
 namespace Sorcery {
@@ -35,7 +35,7 @@ class ResourceManager {
 	public:
 
 		// Constructors
-		ResourceManager(File &files);
+		ResourceManager(FileStore &files);
 		ResourceManager() = delete;
 
 		// Public Members
@@ -52,7 +52,7 @@ class ResourceManager {
 		// Private Methods
 
 		// Private Members
-		File _files;
+		FileStore _files;
 };
 
 }

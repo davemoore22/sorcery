@@ -26,10 +26,10 @@
 
 #include "core/config.hpp"
 #include "core/database.hpp"
-#include "core/file.hpp"
 #include "core/input.hpp"
 #include "core/random.hpp"
 #include "main.hpp"
+#include "resources/filestore.hpp"
 #include "resources/resourcemanager.hpp"
 #include "resources/stringstore.hpp"
 
@@ -54,7 +54,7 @@ class System {
 			const std::string &message, const int dice, const int roll, const int needed) const -> std::string;
 
 		// Public Members
-		std::unique_ptr<File> files;
+		std::unique_ptr<FileStore> files;
 		std::unique_ptr<CSimpleIniA> settings;
 		std::unique_ptr<Config> config;
 		std::unique_ptr<Random> random;

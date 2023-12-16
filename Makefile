@@ -269,78 +269,6 @@ src/core/display.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/display.cpp.s
 .PHONY : src/core/display.cpp.s
 
-src/core/event.o: src/core/event.cpp.o
-.PHONY : src/core/event.o
-
-# target to build an object file
-src/core/event.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/event.cpp.o
-.PHONY : src/core/event.cpp.o
-
-src/core/event.i: src/core/event.cpp.i
-.PHONY : src/core/event.i
-
-# target to preprocess a source file
-src/core/event.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/event.cpp.i
-.PHONY : src/core/event.cpp.i
-
-src/core/event.s: src/core/event.cpp.s
-.PHONY : src/core/event.s
-
-# target to generate assembly for a file
-src/core/event.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/event.cpp.s
-.PHONY : src/core/event.cpp.s
-
-src/core/explore.o: src/core/explore.cpp.o
-.PHONY : src/core/explore.o
-
-# target to build an object file
-src/core/explore.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/explore.cpp.o
-.PHONY : src/core/explore.cpp.o
-
-src/core/explore.i: src/core/explore.cpp.i
-.PHONY : src/core/explore.i
-
-# target to preprocess a source file
-src/core/explore.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/explore.cpp.i
-.PHONY : src/core/explore.cpp.i
-
-src/core/explore.s: src/core/explore.cpp.s
-.PHONY : src/core/explore.s
-
-# target to generate assembly for a file
-src/core/explore.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/explore.cpp.s
-.PHONY : src/core/explore.cpp.s
-
-src/core/file.o: src/core/file.cpp.o
-.PHONY : src/core/file.o
-
-# target to build an object file
-src/core/file.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/file.cpp.o
-.PHONY : src/core/file.cpp.o
-
-src/core/file.i: src/core/file.cpp.i
-.PHONY : src/core/file.i
-
-# target to preprocess a source file
-src/core/file.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/file.cpp.i
-.PHONY : src/core/file.cpp.i
-
-src/core/file.s: src/core/file.cpp.s
-.PHONY : src/core/file.s
-
-# target to generate assembly for a file
-src/core/file.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/file.cpp.s
-.PHONY : src/core/file.cpp.s
-
 src/core/game.o: src/core/game.cpp.o
 .PHONY : src/core/game.o
 
@@ -413,30 +341,6 @@ src/core/input.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/input.cpp.s
 .PHONY : src/core/input.cpp.s
 
-src/core/layout.o: src/core/layout.cpp.o
-.PHONY : src/core/layout.o
-
-# target to build an object file
-src/core/layout.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/layout.cpp.o
-.PHONY : src/core/layout.cpp.o
-
-src/core/layout.i: src/core/layout.cpp.i
-.PHONY : src/core/layout.i
-
-# target to preprocess a source file
-src/core/layout.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/layout.cpp.i
-.PHONY : src/core/layout.cpp.i
-
-src/core/layout.s: src/core/layout.cpp.s
-.PHONY : src/core/layout.s
-
-# target to generate assembly for a file
-src/core/layout.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/layout.cpp.s
-.PHONY : src/core/layout.cpp.s
-
 src/core/platform.o: src/core/platform.cpp.o
 .PHONY : src/core/platform.o
 
@@ -485,30 +389,6 @@ src/core/random.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/random.cpp.s
 .PHONY : src/core/random.cpp.s
 
-src/core/render.o: src/core/render.cpp.o
-.PHONY : src/core/render.o
-
-# target to build an object file
-src/core/render.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/render.cpp.o
-.PHONY : src/core/render.cpp.o
-
-src/core/render.i: src/core/render.cpp.i
-.PHONY : src/core/render.i
-
-# target to preprocess a source file
-src/core/render.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/render.cpp.i
-.PHONY : src/core/render.cpp.i
-
-src/core/render.s: src/core/render.cpp.s
-.PHONY : src/core/render.s
-
-# target to generate assembly for a file
-src/core/render.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/render.cpp.s
-.PHONY : src/core/render.cpp.s
-
 src/core/state.o: src/core/state.cpp.o
 .PHONY : src/core/state.o
 
@@ -556,30 +436,6 @@ src/core/system.s: src/core/system.cpp.s
 src/core/system.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/system.cpp.s
 .PHONY : src/core/system.cpp.s
-
-src/core/view.o: src/core/view.cpp.o
-.PHONY : src/core/view.o
-
-# target to build an object file
-src/core/view.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/view.cpp.o
-.PHONY : src/core/view.cpp.o
-
-src/core/view.i: src/core/view.cpp.i
-.PHONY : src/core/view.i
-
-# target to preprocess a source file
-src/core/view.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/view.cpp.i
-.PHONY : src/core/view.cpp.i
-
-src/core/view.s: src/core/view.cpp.s
-.PHONY : src/core/view.s
-
-# target to generate assembly for a file
-src/core/view.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/view.cpp.s
-.PHONY : src/core/view.cpp.s
 
 src/core/window.o: src/core/window.cpp.o
 .PHONY : src/core/window.o
@@ -749,6 +605,30 @@ src/engine/equip.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/equip.cpp.s
 .PHONY : src/engine/equip.cpp.s
 
+src/engine/event.o: src/engine/event.cpp.o
+.PHONY : src/engine/event.o
+
+# target to build an object file
+src/engine/event.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/event.cpp.o
+.PHONY : src/engine/event.cpp.o
+
+src/engine/event.i: src/engine/event.cpp.i
+.PHONY : src/engine/event.i
+
+# target to preprocess a source file
+src/engine/event.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/event.cpp.i
+.PHONY : src/engine/event.cpp.i
+
+src/engine/event.s: src/engine/event.cpp.s
+.PHONY : src/engine/event.s
+
+# target to generate assembly for a file
+src/engine/event.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/event.cpp.s
+.PHONY : src/engine/event.cpp.s
+
 src/engine/graveyard.o: src/engine/graveyard.cpp.o
 .PHONY : src/engine/graveyard.o
 
@@ -892,6 +772,30 @@ src/engine/read.s: src/engine/read.cpp.s
 src/engine/read.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/read.cpp.s
 .PHONY : src/engine/read.cpp.s
+
+src/engine/render.o: src/engine/render.cpp.o
+.PHONY : src/engine/render.o
+
+# target to build an object file
+src/engine/render.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/render.cpp.o
+.PHONY : src/engine/render.cpp.o
+
+src/engine/render.i: src/engine/render.cpp.i
+.PHONY : src/engine/render.i
+
+# target to preprocess a source file
+src/engine/render.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/render.cpp.i
+.PHONY : src/engine/render.cpp.i
+
+src/engine/render.s: src/engine/render.cpp.s
+.PHONY : src/engine/render.s
+
+# target to generate assembly for a file
+src/engine/render.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/render.cpp.s
+.PHONY : src/engine/render.cpp.s
 
 src/engine/reorder.o: src/engine/reorder.cpp.o
 .PHONY : src/engine/reorder.o
@@ -1108,6 +1012,30 @@ src/engine/use.s: src/engine/use.cpp.s
 src/engine/use.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/use.cpp.s
 .PHONY : src/engine/use.cpp.s
+
+src/engine/view.o: src/engine/view.cpp.o
+.PHONY : src/engine/view.o
+
+# target to build an object file
+src/engine/view.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/view.cpp.o
+.PHONY : src/engine/view.cpp.o
+
+src/engine/view.i: src/engine/view.cpp.i
+.PHONY : src/engine/view.i
+
+# target to preprocess a source file
+src/engine/view.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/view.cpp.i
+.PHONY : src/engine/view.cpp.i
+
+src/engine/view.s: src/engine/view.cpp.s
+.PHONY : src/engine/view.s
+
+# target to generate assembly for a file
+src/engine/view.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/view.cpp.s
+.PHONY : src/engine/view.cpp.s
 
 src/engine/win.o: src/engine/win.cpp.o
 .PHONY : src/engine/win.o
@@ -2405,6 +2333,54 @@ src/modules/training.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/training.cpp.s
 .PHONY : src/modules/training.cpp.s
 
+src/resources/componentstore.o: src/resources/componentstore.cpp.o
+.PHONY : src/resources/componentstore.o
+
+# target to build an object file
+src/resources/componentstore.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/componentstore.cpp.o
+.PHONY : src/resources/componentstore.cpp.o
+
+src/resources/componentstore.i: src/resources/componentstore.cpp.i
+.PHONY : src/resources/componentstore.i
+
+# target to preprocess a source file
+src/resources/componentstore.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/componentstore.cpp.i
+.PHONY : src/resources/componentstore.cpp.i
+
+src/resources/componentstore.s: src/resources/componentstore.cpp.s
+.PHONY : src/resources/componentstore.s
+
+# target to generate assembly for a file
+src/resources/componentstore.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/componentstore.cpp.s
+.PHONY : src/resources/componentstore.cpp.s
+
+src/resources/filestore.o: src/resources/filestore.cpp.o
+.PHONY : src/resources/filestore.o
+
+# target to build an object file
+src/resources/filestore.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/filestore.cpp.o
+.PHONY : src/resources/filestore.cpp.o
+
+src/resources/filestore.i: src/resources/filestore.cpp.i
+.PHONY : src/resources/filestore.i
+
+# target to preprocess a source file
+src/resources/filestore.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/filestore.cpp.i
+.PHONY : src/resources/filestore.cpp.i
+
+src/resources/filestore.s: src/resources/filestore.cpp.s
+.PHONY : src/resources/filestore.s
+
+# target to generate assembly for a file
+src/resources/filestore.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/filestore.cpp.s
+.PHONY : src/resources/filestore.cpp.s
+
 src/resources/iconstore.o: src/resources/iconstore.cpp.o
 .PHONY : src/resources/iconstore.o
 
@@ -2621,6 +2597,30 @@ src/types/error.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/error.cpp.s
 .PHONY : src/types/error.cpp.s
 
+src/types/explore.o: src/types/explore.cpp.o
+.PHONY : src/types/explore.o
+
+# target to build an object file
+src/types/explore.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/explore.cpp.o
+.PHONY : src/types/explore.cpp.o
+
+src/types/explore.i: src/types/explore.cpp.i
+.PHONY : src/types/explore.i
+
+# target to preprocess a source file
+src/types/explore.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/explore.cpp.i
+.PHONY : src/types/explore.cpp.i
+
+src/types/explore.s: src/types/explore.cpp.s
+.PHONY : src/types/explore.s
+
+# target to generate assembly for a file
+src/types/explore.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/explore.cpp.s
+.PHONY : src/types/explore.cpp.s
+
 src/types/inventory.o: src/types/inventory.cpp.o
 .PHONY : src/types/inventory.o
 
@@ -2791,15 +2791,6 @@ help:
 	@echo "... src/core/display.o"
 	@echo "... src/core/display.i"
 	@echo "... src/core/display.s"
-	@echo "... src/core/event.o"
-	@echo "... src/core/event.i"
-	@echo "... src/core/event.s"
-	@echo "... src/core/explore.o"
-	@echo "... src/core/explore.i"
-	@echo "... src/core/explore.s"
-	@echo "... src/core/file.o"
-	@echo "... src/core/file.i"
-	@echo "... src/core/file.s"
 	@echo "... src/core/game.o"
 	@echo "... src/core/game.i"
 	@echo "... src/core/game.s"
@@ -2809,27 +2800,18 @@ help:
 	@echo "... src/core/input.o"
 	@echo "... src/core/input.i"
 	@echo "... src/core/input.s"
-	@echo "... src/core/layout.o"
-	@echo "... src/core/layout.i"
-	@echo "... src/core/layout.s"
 	@echo "... src/core/platform.o"
 	@echo "... src/core/platform.i"
 	@echo "... src/core/platform.s"
 	@echo "... src/core/random.o"
 	@echo "... src/core/random.i"
 	@echo "... src/core/random.s"
-	@echo "... src/core/render.o"
-	@echo "... src/core/render.i"
-	@echo "... src/core/render.s"
 	@echo "... src/core/state.o"
 	@echo "... src/core/state.i"
 	@echo "... src/core/state.s"
 	@echo "... src/core/system.o"
 	@echo "... src/core/system.i"
 	@echo "... src/core/system.s"
-	@echo "... src/core/view.o"
-	@echo "... src/core/view.i"
-	@echo "... src/core/view.s"
 	@echo "... src/core/window.o"
 	@echo "... src/core/window.i"
 	@echo "... src/core/window.s"
@@ -2851,6 +2833,9 @@ help:
 	@echo "... src/engine/equip.o"
 	@echo "... src/engine/equip.i"
 	@echo "... src/engine/equip.s"
+	@echo "... src/engine/event.o"
+	@echo "... src/engine/event.i"
+	@echo "... src/engine/event.s"
 	@echo "... src/engine/graveyard.o"
 	@echo "... src/engine/graveyard.i"
 	@echo "... src/engine/graveyard.s"
@@ -2869,6 +2854,9 @@ help:
 	@echo "... src/engine/read.o"
 	@echo "... src/engine/read.i"
 	@echo "... src/engine/read.s"
+	@echo "... src/engine/render.o"
+	@echo "... src/engine/render.i"
+	@echo "... src/engine/render.s"
 	@echo "... src/engine/reorder.o"
 	@echo "... src/engine/reorder.i"
 	@echo "... src/engine/reorder.s"
@@ -2896,6 +2884,9 @@ help:
 	@echo "... src/engine/use.o"
 	@echo "... src/engine/use.i"
 	@echo "... src/engine/use.s"
+	@echo "... src/engine/view.o"
+	@echo "... src/engine/view.i"
+	@echo "... src/engine/view.s"
 	@echo "... src/engine/win.o"
 	@echo "... src/engine/win.i"
 	@echo "... src/engine/win.s"
@@ -3058,6 +3049,12 @@ help:
 	@echo "... src/modules/training.o"
 	@echo "... src/modules/training.i"
 	@echo "... src/modules/training.s"
+	@echo "... src/resources/componentstore.o"
+	@echo "... src/resources/componentstore.i"
+	@echo "... src/resources/componentstore.s"
+	@echo "... src/resources/filestore.o"
+	@echo "... src/resources/filestore.i"
+	@echo "... src/resources/filestore.s"
 	@echo "... src/resources/iconstore.o"
 	@echo "... src/resources/iconstore.i"
 	@echo "... src/resources/iconstore.s"
@@ -3085,6 +3082,9 @@ help:
 	@echo "... src/types/error.o"
 	@echo "... src/types/error.i"
 	@echo "... src/types/error.s"
+	@echo "... src/types/explore.o"
+	@echo "... src/types/explore.i"
+	@echo "... src/types/explore.s"
 	@echo "... src/types/inventory.o"
 	@echo "... src/types/inventory.i"
 	@echo "... src/types/inventory.s"

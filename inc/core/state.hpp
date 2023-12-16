@@ -22,11 +22,11 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "core/explore.hpp"
 #include "core/system.hpp"
 #include "main.hpp"
 #include "resources/itemstore.hpp"
 #include "types/character.hpp"
+#include "types/explore.hpp"
 #include "types/level.hpp"
 
 namespace Sorcery {

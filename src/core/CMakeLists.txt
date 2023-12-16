@@ -4,17 +4,12 @@ list(APPEND sorcery_SOURCES
 	${CMAKE_CURRENT_LIST_DIR}/config.cpp
 	${CMAKE_CURRENT_LIST_DIR}/database.cpp
 	${CMAKE_CURRENT_LIST_DIR}/display.cpp
-	${CMAKE_CURRENT_LIST_DIR}/event.cpp
-	${CMAKE_CURRENT_LIST_DIR}/explore.cpp
-	${CMAKE_CURRENT_LIST_DIR}/file.cpp
 	${CMAKE_CURRENT_LIST_DIR}/game.cpp
 	${CMAKE_CURRENT_LIST_DIR}/graphics.cpp
 	${CMAKE_CURRENT_LIST_DIR}/input.cpp
 	${CMAKE_CURRENT_LIST_DIR}/platform.cpp
 	${CMAKE_CURRENT_LIST_DIR}/random.cpp
-	${CMAKE_CURRENT_LIST_DIR}/render.cpp
 	${CMAKE_CURRENT_LIST_DIR}/state.cpp
 	${CMAKE_CURRENT_LIST_DIR}/system.cpp
-	${CMAKE_CURRENT_LIST_DIR}/view.cpp
 	${CMAKE_CURRENT_LIST_DIR}/window.cpp
 )

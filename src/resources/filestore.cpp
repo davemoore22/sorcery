@@ -22,10 +22,10 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "core/file.hpp"
+#include "resources/filestore.hpp"
 
 // Standard Constructor
-Sorcery::File::File() {
+Sorcery::FileStore::FileStore() {
 
 	// Generate and add the file paths
 
@@ -75,29 +75,29 @@ Sorcery::File::File() {
 }
 
 // Overload [] Operator
-auto Sorcery::File::operator[](std::string_view key) const -> std::filesystem::path {
+auto Sorcery::FileStore::operator[](std::string_view key) const -> std::filesystem::path {
 
 	return _file_paths.contains(key) ? _file_paths.at(key) : std::filesystem::path{FILE_NOT_FOUND};
 }
 
-auto Sorcery::File::get_path(std::string_view key) const -> std::string {
+auto Sorcery::FileStore::get_path(std::string_view key) const -> std::string {
 
 	return _file_paths.contains(key) ? _file_paths.at(key).string() : FILE_NOT_FOUND;
 }
 
-auto Sorcery::File::get_base_path() const -> std::filesystem::path {
+auto Sorcery::FileStore::get_base_path() const -> std::filesystem::path {
 
 	return _base_path;
 }
 
-auto Sorcery::File::_add_path(const std::string_view dir, const std::string_view file) -> void {
+auto Sorcery::FileStore::_add_path(const std::string_view dir, const std::string_view file) -> void {
 
 	const std::filesystem::path file_path{_base_path / dir / file};
 	_file_paths[file] = file_path;
 }
 
 // This is linux only
-auto Sorcery::File::_get_exe_path() -> std::string_view {
+auto Sorcery::FileStore::_get_exe_path() -> std::string_view {
 
 	char result[PATH_MAX];
 	if (const ssize_t count{readlink("/proc/self/exe", result, PATH_MAX)}; count != -1) {
