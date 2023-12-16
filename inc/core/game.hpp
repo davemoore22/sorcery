@@ -26,11 +26,11 @@
 
 #include "core/display.hpp"
 #include "core/graphics.hpp"
-#include "core/itemstore.hpp"
-#include "core/levelstore.hpp"
 #include "core/state.hpp"
 #include "core/system.hpp"
 #include "main.hpp"
+#include "resources/itemstore.hpp"
+#include "resources/levelstore.hpp"
 #include "types/character.hpp"
 
 namespace Sorcery {

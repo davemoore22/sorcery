@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "core/stringstore.hpp"
+#include "resources/stringstore.hpp"
 
 // This is the Game Message Handling Class
 

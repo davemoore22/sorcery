@@ -23,7 +23,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "core/itemstore.hpp"
+#include "resources/itemstore.hpp"
 
 // Standard Constructor
 Sorcery::ItemStore::ItemStore(System *system, const std::filesystem::path filename) : _system{system} {

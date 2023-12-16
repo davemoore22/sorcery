@@ -29,9 +29,9 @@
 #include "core/system.hpp"
 #include "gui/controloverlay.hpp"
 #include "gui/frame.hpp"
-#include "core/iconstore.hpp"
+#include "resources/iconstore.hpp"
 #include "core/layout.hpp"
-#include "core/stringstore.hpp"
+#include "resources/stringstore.hpp"
 #include "core/window.hpp"
 
 // clang-format on

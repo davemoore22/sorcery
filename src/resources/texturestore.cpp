@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "core/texturestore.hpp"
+#include "resources/texturestore.hpp"
 
 // Standard Constructor
 Sorcery::TextureStore::TextureStore(System *system, const std::filesystem::path filename) : _system{system} {

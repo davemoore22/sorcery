@@ -29,9 +29,9 @@
 #include "core/file.hpp"
 #include "core/input.hpp"
 #include "core/random.hpp"
-#include "core/resourcemanager.hpp"
-#include "core/stringstore.hpp"
 #include "main.hpp"
+#include "resources/resourcemanager.hpp"
+#include "resources/stringstore.hpp"
 
 // Superclass to handle all system level requirements such as Random Number
 // Generation, File and Database Access, etc

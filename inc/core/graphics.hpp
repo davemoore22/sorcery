@@ -26,10 +26,10 @@
 
 #include "core/animation.hpp"
 #include "core/display.hpp"
-#include "core/iconstore.hpp"
 #include "core/system.hpp"
-#include "core/texturestore.hpp"
 #include "main.hpp"
+#include "resources/iconstore.hpp"
+#include "resources/texturestore.hpp"
 
 namespace Sorcery {
 

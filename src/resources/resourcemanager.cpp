@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "core/resourcemanager.hpp"
+#include "resources/resourcemanager.hpp"
 
 // Standard Constructor
 Sorcery::ResourceManager::ResourceManager(File &files) : _files{files} {

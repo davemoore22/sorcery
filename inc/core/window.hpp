@@ -25,9 +25,9 @@
 #pragma once
 
 #include "core/layout.hpp"
-#include "core/stringstore.hpp"
 #include "core/system.hpp"
 #include "main.hpp"
+#include "resources/stringstore.hpp"
 
 // Class to act as a wrapper around SFML Window etc
 namespace Sorcery {

@@ -21,6 +21,7 @@ include(src/engine/CMakeLists.txt)
 include(src/frontend/CMakeLists.txt)
 include(src/gui/CMakeLists.txt)
 include(src/modules/CMakeLists.txt)
+include(src/resources/CMakeLists.txt)
 include(src/types/CMakeLists.txt)
 add_executable(${PROJECT_NAME}
 	src/main.cpp

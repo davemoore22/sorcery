@@ -23,9 +23,9 @@
 // the resulting work.
 
 #include "core/explore.hpp"
-#include "core/itemstore.hpp"
 #include "core/system.hpp"
 #include "main.hpp"
+#include "resources/itemstore.hpp"
 #include "types/character.hpp"
 #include "types/level.hpp"
 
