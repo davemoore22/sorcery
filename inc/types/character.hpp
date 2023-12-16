@@ -29,7 +29,7 @@
 #include "core/graphics.hpp"
 #include "main.hpp"
 #include "types/item.hpp"
-#include "engine/inventory.hpp"
+#include "types/inventory.hpp"
 #include "core/system.hpp"
 
 // clang-format on

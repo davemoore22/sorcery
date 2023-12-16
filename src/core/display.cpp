@@ -27,7 +27,7 @@
 // Standard Constructor
 Sorcery::Display::Display(System *system) : _system{system} {
 
-	string = std::make_unique<String>((*_system->files)[STRINGS_FILE]);
+	string = std::make_unique<StringStore>((*_system->files)[STRINGS_FILE]);
 	layout = std::make_unique<Layout>((*_system->files)[LAYOUT_FILE]);
 	window = std::make_unique<Window>(_system, string.get(), layout.get(), (*string)["TITLE_AND_VERSION_INFO"]);
 	overlay = std::make_unique<ControlOverlay>(_system, this, (*layout)["global:control_overlay"]);

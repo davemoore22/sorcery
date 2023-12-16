@@ -28,13 +28,13 @@
 
 namespace Sorcery {
 
-class String {
+class StringStore {
 
 	public:
 
 		// Constructors
-		String(const std::string &filename);
-		String() = delete;
+		StringStore(const std::string &filename);
+		StringStore() = delete;
 
 		// Overload [] operator
 		auto operator[](std::string_view key) -> std::string &;

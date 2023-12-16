@@ -30,7 +30,7 @@
 #include "core/input.hpp"
 #include "core/random.hpp"
 #include "core/resourcemanager.hpp"
-#include "core/string.hpp"
+#include "core/stringstore.hpp"
 #include "main.hpp"
 
 // Superclass to handle all system level requirements such as Random Number

@@ -33,7 +33,7 @@
 #include "core/system.hpp"
 #include "gui/spellpanel.hpp"
 #include "gui/inventorydisplay.hpp"
-#include "engine/inventory.hpp"
+#include "types/inventory.hpp"
 
 namespace Sorcery {
 

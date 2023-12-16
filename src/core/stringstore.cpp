@@ -22,25 +22,25 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "core/string.hpp"
+#include "core/stringstore.hpp"
 
 // This is the Game Message Handling Class
 
 // Standard Constructor
-Sorcery::String::String(const std::string &filename) {
+Sorcery::StringStore::StringStore(const std::string &filename) {
 
 	// Load strings from file
 	_loaded = _load(std::string_view{filename});
 }
 
 // Overload [] Operator
-auto Sorcery::String::operator[](std::string_view key) -> std::string & {
+auto Sorcery::StringStore::operator[](std::string_view key) -> std::string & {
 
 	return _loaded ? _strings[std::string{key}] : _strings["NONE"];
 }
 
 // Load File into Game Strings
-auto Sorcery::String::_load(std::string_view filename) -> bool {
+auto Sorcery::StringStore::_load(std::string_view filename) -> bool {
 
 	// Work out the destination, but load an empty string anyway in case of
 	// error
@@ -82,7 +82,7 @@ auto Sorcery::String::_load(std::string_view filename) -> bool {
 }
 
 // Get Text
-auto Sorcery::String::get(std::string_view key) -> std::string {
+auto Sorcery::StringStore::get(std::string_view key) -> std::string {
 
 	if (_loaded)
 		return (_strings.contains(std::string{key}) ? _strings.at(std::string{key}) : KEY_NOT_FOUND);

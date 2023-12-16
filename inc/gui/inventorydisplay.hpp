@@ -29,9 +29,9 @@
 #include "core/graphics.hpp"
 #include "core/layout.hpp"
 #include "core/system.hpp"
-#include "engine/inventory.hpp"
 #include "gui/frame.hpp"
 #include "main.hpp"
+#include "types/inventory.hpp"
 #include "types/item.hpp"
 
 namespace Sorcery {

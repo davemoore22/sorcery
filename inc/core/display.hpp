@@ -31,7 +31,7 @@
 #include "gui/frame.hpp"
 #include "core/iconstore.hpp"
 #include "core/layout.hpp"
-#include "core/string.hpp"
+#include "core/stringstore.hpp"
 #include "core/window.hpp"
 
 // clang-format on
@@ -41,7 +41,7 @@ namespace Sorcery {
 
 class Frame;
 class System;
-class String;
+class StringStore;
 class Layout;
 class Window;
 class IconStore;
@@ -86,7 +86,7 @@ class Display {
 		auto set_disc(const bool value) -> void;
 
 		// Public Members
-		std::unique_ptr<String> string;
+		std::unique_ptr<StringStore> string;
 		std::unique_ptr<Window> window;
 		std::unique_ptr<Layout> layout;
 		std::unique_ptr<ControlOverlay> overlay;

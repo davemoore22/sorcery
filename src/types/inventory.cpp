@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "engine/inventory.hpp"
+#include "types/inventory.hpp"
 
 Sorcery::Inventory::Inventory() {
 

@@ -25,7 +25,7 @@
 #pragma once
 
 #include "core/layout.hpp"
-#include "core/string.hpp"
+#include "core/stringstore.hpp"
 #include "core/system.hpp"
 #include "main.hpp"
 
@@ -37,7 +37,7 @@ class Window {
 	public:
 
 		// Constructors
-		Window(System *system, String *string, Layout *layout, const std::string &title);
+		Window(System *system, StringStore *string, Layout *layout, const std::string &title);
 		Window() = delete;
 
 		// Public Methods
@@ -107,7 +107,7 @@ class Window {
 		ScreenSize _default_size;
 		ScreenSize _current_size;
 		System *_system;
-		String *_string;
+		StringStore *_string;
 		Layout *_layout;
 		std::string _title;
 		sf::RenderWindow _window;

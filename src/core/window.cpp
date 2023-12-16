@@ -25,7 +25,7 @@
 #include "core/window.hpp"
 
 // Standard Constructor
-Sorcery::Window::Window(System *system, String *string, Layout *layout, const std::string &title)
+Sorcery::Window::Window(System *system, StringStore *string, Layout *layout, const std::string &title)
 	: _system{system}, _string{string}, _layout{layout}, _title{title} {
 
 	// First get the Window Size from System Config
