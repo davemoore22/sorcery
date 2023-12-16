@@ -22,7 +22,7 @@
 // licensors of this Program grant you additional permission to convey the
 // resulting work.
 
-#include "automap.hpp"
+#include "gui/automap.hpp"
 
 Sorcery::AutoMap::AutoMap(System *system, Display *display, Graphics *graphics, Game *game, Component layout)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _layout{layout} {

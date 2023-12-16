@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "game.hpp"
+#include "core/game.hpp"
 
 // need to load level stores into this
 

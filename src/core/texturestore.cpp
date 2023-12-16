@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "texturestore.hpp"
+#include "core/texturestore.hpp"
 
 // Standard Constructor
 Sorcery::TextureStore::TextureStore(System *system, const std::filesystem::path filename) : _system{system} {
@@ -56,8 +56,8 @@ auto Sorcery::TextureStore::operator[](unsigned int index) const -> std::optiona
 
 // Get the indexed texture as an appropriate sprite - note that for  WALLS/CEILINGS/FLOORS/DOORS, the index refers to
 // the entry in textures.json; whereas for all other spritesheets it refers to the actual sprite position
-auto Sorcery::TextureStore::get(const unsigned int index, GraphicsTextureType texture_type) const
-	-> std::optional<sf::Sprite> {
+auto Sorcery::TextureStore::get(
+	const unsigned int index, GraphicsTextureType texture_type) const -> std::optional<sf::Sprite> {
 
 	using enum Enums::Graphics::TextureType;
 
@@ -126,8 +126,8 @@ auto Sorcery::TextureStore::get(const unsigned int index, GraphicsTextureType te
 
 // Get the named texture as an appropriate sprite - WALLS/CEILINGS/FLOORS/DOORS  only since those are only texture ids
 // stored in the Texture class
-auto Sorcery::TextureStore::get(const std::string name, GraphicsTextureType texture_type) const
-	-> std::optional<sf::Sprite> {
+auto Sorcery::TextureStore::get(
+	const std::string name, GraphicsTextureType texture_type) const -> std::optional<sf::Sprite> {
 
 	using enum Enums::Graphics::TextureType;
 

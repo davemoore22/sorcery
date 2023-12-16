@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "create.hpp"
+#include "modules/create.hpp"
 
 // Standard Constructor
 Sorcery::Create::Create(System *system, Display *display, Graphics *graphics, Game *game)

@@ -23,7 +23,7 @@
 // resulting work.
 
 #include "main.hpp"
-#include "application.hpp"
+#include "core/application.hpp"
 
 auto main(int argc, char *argv[]) -> int {
 

@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "config.hpp"
+#include "core/config.hpp"
 
 // Standard Constructor
 Sorcery::Config::Config(CSimpleIniA *settings, const std::filesystem::path config_file_path)

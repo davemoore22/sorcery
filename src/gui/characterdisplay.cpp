@@ -23,7 +23,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "characterdisplay.hpp"
+#include "gui/characterdisplay.hpp"
 
 // Standard Constructor
 Sorcery::CharacterDisplay::CharacterDisplay(System *system, Display *display, Graphics *graphics)
@@ -240,8 +240,8 @@ auto Sorcery::CharacterDisplay::_add_icon(Component &component, std::string icon
 	_v_sprites.try_emplace(component.unique_key, icon);
 }
 
-auto Sorcery::CharacterDisplay::_add_text(Component &component, std::string format, std::string value, bool is_view)
-	-> sf::Text * {
+auto Sorcery::CharacterDisplay::_add_text(
+	Component &component, std::string format, std::string value, bool is_view) -> sf::Text * {
 
 	sf::Text text{};
 

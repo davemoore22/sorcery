@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "file.hpp"
+#include "core/file.hpp"
 
 // Standard Constructor
 Sorcery::File::File() {

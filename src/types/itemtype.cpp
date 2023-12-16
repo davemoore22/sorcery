@@ -24,7 +24,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "itemtype.hpp"
+#include "types/itemtype.hpp"
 
 std::random_device Sorcery::ItemType::_device;
 std::mt19937_64 Sorcery::ItemType::_random(_device());

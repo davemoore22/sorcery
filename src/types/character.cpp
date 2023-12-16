@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "character.hpp"
+#include "types/character.hpp"
 
 Sorcery::Character::Character() {
 }

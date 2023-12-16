@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.l
 
-#include "display.hpp"
+#include "core/display.hpp"
 
 // Standard Constructor
 Sorcery::Display::Display(System *system) : _system{system} {

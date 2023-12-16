@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "layout.hpp"
+#include "core/layout.hpp"
 
 // This is the Game Layout Handling Class
 

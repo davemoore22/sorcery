@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "frame.hpp"
+#include "gui/frame.hpp"
 
 // TODO: need to change this depending on the cell height and cell width
 

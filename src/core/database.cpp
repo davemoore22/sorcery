@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "database.hpp"
+#include "core/database.hpp"
 
 // Standard Constructor
 Sorcery::Database::Database(const std::filesystem::path &db_file_path) : _db_file_path{db_file_path} {

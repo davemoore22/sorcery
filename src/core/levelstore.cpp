@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "levelstore.hpp"
+#include "core/levelstore.hpp"
 
 Sorcery::LevelStore::LevelStore() {
 	_levels.clear();

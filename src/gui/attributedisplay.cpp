@@ -22,7 +22,7 @@
 // licensors of this Program grant you additional permission to convey the
 // resulting work.
 
-#include "attributedisplay.hpp"
+#include "gui/attributedisplay.hpp"
 
 // Standard Constructor
 Sorcery::AttributeDisplay::AttributeDisplay(

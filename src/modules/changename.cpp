@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "changename.hpp"
+#include "modules/changename.hpp"
 
 // Standard Constructor
 Sorcery::ChangeName::ChangeName(System *system, Display *display, Graphics *graphics, std::string old_name)

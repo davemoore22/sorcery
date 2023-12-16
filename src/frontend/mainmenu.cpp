@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "mainmenu.hpp"
+#include "frontend/mainmenu.hpp"
 
 // Standard Constructor
 Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics, Game *game)

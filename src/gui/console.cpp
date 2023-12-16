@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "console.hpp"
+#include "gui/console.hpp"
 
 Sorcery::Console::Console(tgui::Gui *gui, System *system, Display *display, Graphics *graphics, Game *game)
 	: _gui{gui}, _system{system}, _display{display}, _graphics{graphics}, _game{game} {

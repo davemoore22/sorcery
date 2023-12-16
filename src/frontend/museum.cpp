@@ -23,7 +23,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "museum.hpp"
+#include "frontend/museum.hpp"
 
 // Standard Constructor
 Sorcery::Museum::Museum(System *system, Display *display, Graphics *graphics, Game *game)

@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "partypanel.hpp"
+#include "gui/partypanel.hpp"
 
 // Standard Constructor
 Sorcery::PartyPanel::PartyPanel(System *system, Display *display, Graphics *graphics, Game *game, Component layout)

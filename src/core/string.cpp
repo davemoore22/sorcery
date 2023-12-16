@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "string.hpp"
+#include "core/string.hpp"
 
 // This is the Game Message Handling Class
 

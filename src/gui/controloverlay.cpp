@@ -22,7 +22,7 @@
 // licensors of this Program grant you additional permission to convey the
 // resulting work.
 
-#include "controloverlay.hpp"
+#include "gui/controloverlay.hpp"
 
 // Standard Constructor
 Sorcery::ControlOverlay::ControlOverlay(System *system, Display *display, Component layout)

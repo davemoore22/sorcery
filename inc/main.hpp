@@ -106,15 +106,15 @@
 #include <vector>
 
 // Internal Includes
-#include "platform.hpp"
+#include "core/platform.hpp"
 
 // clang-format off
 #include "define.hpp"
 #include "enum.hpp"
 #include "macro.hpp"
-#include "type.hpp"
-#include "component.hpp"
-#include "error.hpp"
+#include "types/type.hpp"
+#include "types/component.hpp"
+#include "types/error.hpp"
 
 // clang-format on
 

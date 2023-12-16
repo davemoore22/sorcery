@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "banner.hpp"
+#include "frontend/banner.hpp"
 
 // Standard Constructor
 Sorcery::Banner::Banner(System *system, Display *display, Graphics *graphics)

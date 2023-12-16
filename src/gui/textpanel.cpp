@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "textpanel.hpp"
+#include "gui/textpanel.hpp"
 
 // Standard Constructor
 Sorcery::TextPanel::TextPanel(System *system, Display *display, Graphics *graphics, Component &component)

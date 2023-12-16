@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "attractmode.hpp"
+#include "frontend/attractmode.hpp"
 
 // Standard Constructor
 Sorcery::AttractMode::AttractMode(Graphics *graphics, const Component &component)

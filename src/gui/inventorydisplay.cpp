@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "inventorydisplay.hpp"
+#include "gui/inventorydisplay.hpp"
 
 Sorcery::InventoryDisplay::InventoryDisplay(System *system, Display *display, Graphics *graphics, Inventory *inventory)
 	: _system{system}, _display{display}, _graphics{graphics}, _inventory{inventory} {

@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "event.hpp"
+#include "core/event.hpp"
 
 // Standard Constructor
 Sorcery::Event::Event(

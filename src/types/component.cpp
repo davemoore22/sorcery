@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "component.hpp"
+#include "types/component.hpp"
 
 Sorcery::Component::Component()
 	: screen{""}, name{""}, x{0}, y{0}, w{0}, h{0}, scale{0.0f}, font{0}, size{0}, colour{0}, animated{false},

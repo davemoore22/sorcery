@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "input.hpp"
+#include "core/input.hpp"
 
 // Standard Constructor
 Sorcery::Input::Input() {

@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "temple.hpp"
+#include "modules/temple.hpp"
 
 // Standard Constructor
 Sorcery::Temple::Temple(System *system, Display *display, Graphics *graphics, Game *game)

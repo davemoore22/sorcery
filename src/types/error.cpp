@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "error.hpp"
+#include "types/error.hpp"
 
 Sorcery::Error::Error(Enums::System::Error error_code, std::exception &exception, std::string notes)
 	: _error_code{error_code}, _exception{exception}, _notes{notes} {

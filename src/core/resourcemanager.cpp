@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "resourcemanager.hpp"
+#include "core/resourcemanager.hpp"
 
 // Standard Constructor
 Sorcery::ResourceManager::ResourceManager(File &files) : _files{files} {
@@ -65,8 +65,8 @@ Sorcery::ResourceManager::ResourceManager(File &files) : _files{files} {
 	}
 }
 
-auto Sorcery::ResourceManager::get_font_height(const FontType font_type, const unsigned int size, bool bold) const
-	-> unsigned int {
+auto Sorcery::ResourceManager::get_font_height(
+	const FontType font_type, const unsigned int size, bool bold) const -> unsigned int {
 
 	using enum Enums::Internal::FontType;
 

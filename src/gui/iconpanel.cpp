@@ -22,7 +22,7 @@
 // licensors of this Program grant you additional permission to convey the
 // resulting work.
 
-#include "iconpanel.hpp"
+#include "gui/iconpanel.hpp"
 
 Sorcery::IconPanel::IconPanel(
 	System *system, Display *display, Graphics *graphics, Game *game, Component layout, bool is_left)
@@ -107,8 +107,8 @@ auto Sorcery::IconPanel::refresh(bool in_camp) -> void {
 	}
 }
 
-auto Sorcery::IconPanel::set_mouse_selected(Component &component, sf::Vector2f mouse_pos)
-	-> std::optional<std::string> {
+auto Sorcery::IconPanel::set_mouse_selected(
+	Component &component, sf::Vector2f mouse_pos) -> std::optional<std::string> {
 
 	// Now look through the global positions of each icon and see if it matches
 	// the mouse position

@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "options.hpp"
+#include "frontend/options.hpp"
 
 // Standard Constructor
 Sorcery::Options::Options(System *system, Display *display, Graphics *graphics)

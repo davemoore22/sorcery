@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "license.hpp"
+#include "frontend/license.hpp"
 
 // Standard Constructor
 Sorcery::License::License(System *system, Display *display, Graphics *graphics)

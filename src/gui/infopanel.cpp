@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "infopanel.hpp"
+#include "gui/infopanel.hpp"
 
 // Standard Constructor
 Sorcery::InfoPanel::InfoPanel(System *system, Display *display, Graphics *graphics)

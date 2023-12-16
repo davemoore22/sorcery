@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "characterpanel.hpp"
+#include "gui/characterpanel.hpp"
 
 // Standard Constructor
 Sorcery::CharacterPanel::CharacterPanel(System *system, Display *display, Graphics *graphics)

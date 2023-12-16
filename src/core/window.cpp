@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "window.hpp"
+#include "core/window.hpp"
 
 // Standard Constructor
 Sorcery::Window::Window(System *system, String *string, Layout *layout, const std::string &title)

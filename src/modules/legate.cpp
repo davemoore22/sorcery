@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "legate.hpp"
+#include "modules/legate.hpp"
 
 // Standard Constructor
 Sorcery::Legate::Legate(System *system, Display *display, Graphics *graphics, Character *character)

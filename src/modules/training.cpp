@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "training.hpp"
+#include "modules/training.hpp"
 
 // Standard Constructor
 Sorcery::Training::Training(System *system, Display *display, Graphics *graphics, Game *game)

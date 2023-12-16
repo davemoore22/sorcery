@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "animation.hpp"
+#include "core/animation.hpp"
 
 // Standard Constructor
 Sorcery::Animation::Animation(System *system, Display *display) : _system{system}, _display{display} {

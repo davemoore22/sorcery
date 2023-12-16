@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "changeclass.hpp"
+#include "modules/changeclass.hpp"
 
 // Standard Constructor
 Sorcery::ChangeClass::ChangeClass(System *system, Display *display, Graphics *graphics, Character *character)

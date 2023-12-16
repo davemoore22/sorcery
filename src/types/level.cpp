@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "level.hpp"
+#include "types/level.hpp"
 
 // Default Constructor
 Sorcery::Level::Level() {

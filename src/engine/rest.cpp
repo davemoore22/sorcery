@@ -22,7 +22,7 @@
 // licensors of this Program grant you additional permission to convey the
 // resulting work.
 
-#include "rest.hpp"
+#include "engine/rest.hpp"
 
 // Standard Constructor
 Sorcery::Rest::Rest(System *system, Display *display, Graphics *graphics, Game *game)

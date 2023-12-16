@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "itemdisplay.hpp"
+#include "gui/itemdisplay.hpp"
 
 Sorcery::ItemDisplay::ItemDisplay(System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {

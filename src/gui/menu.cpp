@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "menu.hpp"
+#include "gui/menu.hpp"
 
 // Standard Constructor
 Sorcery::Menu::Menu(
@@ -495,8 +495,8 @@ auto Sorcery::Menu::_select_last() -> std::optional<std::vector<MenuEntry>::cons
 }
 
 // Check if the mouse cursor is on a menu item, and if so set it
-auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
-	-> std::optional<std::vector<MenuEntry>::const_iterator> {
+auto Sorcery::Menu::set_mouse_selected(
+	sf::Vector2f mouse_pos) -> std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	using enum Enums::Menu::Type;
 	using enum Enums::Menu::ItemType;
@@ -631,8 +631,8 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 		return std::nullopt;
 }
 
-auto Sorcery::Menu::_choose_by_index(const unsigned int index)
-	-> std::optional<std::vector<MenuEntry>::const_iterator> {
+auto Sorcery::Menu::_choose_by_index(
+	const unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	// Iterate through til we have found the item with the associated index
 	if (auto it{

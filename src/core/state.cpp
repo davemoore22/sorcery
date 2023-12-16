@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "state.hpp"
+#include "core/state.hpp"
 
 // Constructor used by Cereal to serialise this item
 Sorcery::State::State() {
@@ -255,8 +255,8 @@ auto Sorcery::State::clear_log_messages() -> void {
 	_log.clear();
 }
 
-auto Sorcery::State::add_log_dice_roll(const std::string &message, const int dice, const int roll, const int needed)
-	-> void {
+auto Sorcery::State::add_log_dice_roll(
+	const std::string &message, const int dice, const int roll, const int needed) -> void {
 
 	if ((dice != -1) || (roll != -1) || (needed != -1)) {
 		const auto success{roll < needed ? "SUCCESS" : "FAILURE"};

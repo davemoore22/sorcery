@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "edgeoftown.hpp"
+#include "modules/edgeoftown.hpp"
 
 // Standard Constructor
 Sorcery::EdgeOfTown::EdgeOfTown(System *system, Display *display, Graphics *graphics, Game *game)

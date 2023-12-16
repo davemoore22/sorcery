@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "application.hpp"
+#include "core/application.hpp"
 
 // Standard Constructor
 Sorcery::Application::Application(int argc, char **argv) {

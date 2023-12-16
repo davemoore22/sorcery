@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "explore.hpp"
+#include "core/explore.hpp"
 
 // Default Constructor
 Sorcery::Explore::Explore() {

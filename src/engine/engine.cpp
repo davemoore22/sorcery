@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "engine.hpp"
+#include "engine/engine.hpp"
 
 // Standard Constructor
 Sorcery::Engine::Engine(System *system, Display *display, Graphics *graphics, Game *game)

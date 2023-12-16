@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "inn.hpp"
+#include "modules/inn.hpp"
 
 // Standard Constructor
 Sorcery::Inn::Inn(System *system, Display *display, Graphics *graphics, Game *game)

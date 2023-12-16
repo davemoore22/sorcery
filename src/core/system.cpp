@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "system.hpp"
+#include "core/system.hpp"
 
 // Standard Constructor
 Sorcery::System::System(int argc __attribute__((unused)), char **argv __attribute__((unused))) {
@@ -106,8 +106,8 @@ auto Sorcery::System::dice_roll_to_str(
 }
 
 // Timepoint to String
-auto Sorcery::System::convert_tp_to_str(const std::chrono::time_point<std::chrono::system_clock> tp) const
-	-> std::string {
+auto Sorcery::System::convert_tp_to_str(
+	const std::chrono::time_point<std::chrono::system_clock> tp) const -> std::string {
 
 	// Need to do it this way til std::chrono::locate_zone etc is supported
 	auto t_t{std::chrono::system_clock::to_time_t(tp)};

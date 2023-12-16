@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "restart.hpp"
+#include "modules/restart.hpp"
 
 // Standard Constructor
 Sorcery::Restart::Restart(System *system, Display *display, Graphics *graphics, Game *game)

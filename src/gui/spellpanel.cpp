@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "spellpanel.hpp"
+#include "gui/spellpanel.hpp"
 
 // Standard Constructor
 Sorcery::SpellPanel::SpellPanel(System *system, Display *display, Graphics *graphics)

@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "compendium.hpp"
+#include "frontend/compendium.hpp"
 
 // Standard Constructor
 Sorcery::Compendium::Compendium(System *system, Display *display, Graphics *graphics, Game *game)

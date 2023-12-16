@@ -23,7 +23,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "item.hpp"
+#include "types/item.hpp"
 
 // Default Constructor
 Sorcery::Item::Item() {

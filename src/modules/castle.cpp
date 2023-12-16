@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "castle.hpp"
+#include "modules/castle.hpp"
 
 // Standard Constructor
 Sorcery::Castle::Castle(System *system, Display *display, Graphics *graphics, Game *game)

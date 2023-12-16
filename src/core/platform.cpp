@@ -21,4 +21,4 @@
 // licensors of this Program grant you additional permission to convey the
 // resulting work.
 
-#include "platform.hpp"
+#include "core/platform.hpp"

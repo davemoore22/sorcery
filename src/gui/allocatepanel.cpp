@@ -22,7 +22,7 @@
 // licensors of this Program grant you additional permission to convey the
 // resulting work.
 
-#include "allocatepanel.hpp"
+#include "gui/allocatepanel.hpp"
 
 Sorcery::AllocatePanel::AllocatePanel(System *system, Display *display, Graphics *graphics, Character *character)
 	: _system{system}, _display{display}, _graphics{graphics}, _character{character} {
@@ -129,8 +129,8 @@ auto Sorcery::AllocatePanel::set() -> void {
 	_set_icons();
 }
 
-auto Sorcery::AllocatePanel::_get_bar(CharacterAttribute attribute) const
-	-> std::tuple<sf::RectangleShape, sf::RectangleShape, sf::RectangleShape> {
+auto Sorcery::AllocatePanel::_get_bar(
+	CharacterAttribute attribute) const -> std::tuple<sf::RectangleShape, sf::RectangleShape, sf::RectangleShape> {
 
 	// Generate three bars which will simply be put on top of each other
 	sf::RectangleShape base(sf::Vector2f((_stat_bar.w * _character->get_start_attr(attribute) / 2), _stat_bar.h / 2));

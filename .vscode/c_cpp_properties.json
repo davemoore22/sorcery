@@ -4,12 +4,11 @@
             "name": "Linux",
             "intelliSenseMode": "gcc-x64",
             "includePath": [
-                "${workspaceFolder}/inc",
-                "${workspaceFolder}/src",
-                "${workspaceFolder}/lib",
-                "${workspaceFolder}/inc/sqlitemoderncpp",
-                "${workspaceFolder}/inc/simpleini",
-                "${workspaceFolder}/inc/magicenum",
+                "${workspaceFolder}/inc/",
+                "${workspaceFolder}/src/",
+                "${workspaceFolder}/inc/3rdparty/sqlitemoderncpp",
+                "${workspaceFolder}/inc/3rdparty/simpleini",
+                "${workspaceFolder}/inc/3rdparty/magicenum",
                 "/usr/local/include/**",
                 "/usr/include/**",
                 "${workspaceFolder}/inc"

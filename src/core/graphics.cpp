@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "graphics.hpp"
+#include "core/graphics.hpp"
 
 // Standard Constructor
 Sorcery::Graphics::Graphics(System *system, Display *display) : _system{system}, _display{display} {

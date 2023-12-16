@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "keyboard.hpp"
+#include "gui/keyboard.hpp"
 
 // Standard Constructor
 Sorcery::Keyboard::Keyboard(System *system, Display *display, Graphics *graphics)

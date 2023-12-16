@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "iconstore.hpp"
+#include "core/iconstore.hpp"
 
 // Standard Constructor
 Sorcery::IconStore::IconStore(System *system, Component layout, const std::filesystem::path filename)

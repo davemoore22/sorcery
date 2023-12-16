@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "graveyard.hpp"
+#include "engine/graveyard.hpp"
 
 // Standard Constructor
 Sorcery::Graveyard::Graveyard(System *system, Display *display, Graphics *graphics, Game *game)

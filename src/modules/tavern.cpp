@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "tavern.hpp"
+#include "modules/tavern.hpp"
 
 // Standard Constructor
 Sorcery::Tavern::Tavern(System *system, Display *display, Graphics *graphics, Game *game)
