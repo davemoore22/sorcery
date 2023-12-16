@@ -30,13 +30,13 @@
 // Class to handles managing screen layouts
 namespace Sorcery {
 
-class Layout {
+class ComponentStore {
 
 	public:
 
 		// Constructors
-		Layout(const std::filesystem::path filename);
-		Layout() = delete;
+		ComponentStore(const std::filesystem::path filename);
+		ComponentStore() = delete;
 
 		// Overload [] operator
 		auto operator[](std::string_view combined_key) -> Component &;

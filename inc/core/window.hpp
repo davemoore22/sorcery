@@ -24,9 +24,9 @@
 
 #pragma once
 
-#include "core/layout.hpp"
 #include "core/system.hpp"
 #include "main.hpp"
+#include "resources/componentstore.hpp"
 #include "resources/stringstore.hpp"
 
 // Class to act as a wrapper around SFML Window etc
@@ -37,7 +37,7 @@ class Window {
 	public:
 
 		// Constructors
-		Window(System *system, StringStore *string, Layout *layout, const std::string &title);
+		Window(System *system, StringStore *string, ComponentStore *layout, const std::string &title);
 		Window() = delete;
 
 		// Public Methods
@@ -108,7 +108,7 @@ class Window {
 		ScreenSize _current_size;
 		System *_system;
 		StringStore *_string;
-		Layout *_layout;
+		ComponentStore *_layout;
 		std::string _title;
 		sf::RenderWindow _window;
 		tgui::Gui _gui;

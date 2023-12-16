@@ -37,7 +37,7 @@
 #include "gui/frame.hpp"
 #include "gui/infopanel.hpp"
 #include "gui/keyboard.hpp"
-#include "core/layout.hpp"
+#include "resources/componentstore.hpp"
 #include "gui/menu.hpp"
 #include "core/game.hpp"
 // clang-format on

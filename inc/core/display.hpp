@@ -30,7 +30,7 @@
 #include "gui/controloverlay.hpp"
 #include "gui/frame.hpp"
 #include "resources/iconstore.hpp"
-#include "core/layout.hpp"
+#include "resources/componentstore.hpp"
 #include "resources/stringstore.hpp"
 #include "core/window.hpp"
 
@@ -42,7 +42,7 @@ namespace Sorcery {
 class Frame;
 class System;
 class StringStore;
-class Layout;
+class ComponentStore;
 class Window;
 class IconStore;
 class ControlOverlay;
@@ -88,7 +88,7 @@ class Display {
 		// Public Members
 		std::unique_ptr<StringStore> string;
 		std::unique_ptr<Window> window;
-		std::unique_ptr<Layout> layout;
+		std::unique_ptr<ComponentStore> layout;
 		std::unique_ptr<ControlOverlay> overlay;
 		sf::Texture ui_texture;
 

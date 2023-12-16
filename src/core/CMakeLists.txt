@@ -10,7 +10,6 @@ list(APPEND sorcery_SOURCES
 	${CMAKE_CURRENT_LIST_DIR}/game.cpp
 	${CMAKE_CURRENT_LIST_DIR}/graphics.cpp
 	${CMAKE_CURRENT_LIST_DIR}/input.cpp
-	${CMAKE_CURRENT_LIST_DIR}/layout.cpp
 	${CMAKE_CURRENT_LIST_DIR}/platform.cpp
 	${CMAKE_CURRENT_LIST_DIR}/random.cpp
 	${CMAKE_CURRENT_LIST_DIR}/render.cpp

@@ -22,12 +22,12 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "core/layout.hpp"
+#include "resources/componentstore.hpp"
 
 // This is the Game Layout Handling Class
 
 // Standard Constructor
-Sorcery::Layout::Layout(const std::filesystem::path filename) {
+Sorcery::ComponentStore::ComponentStore(const std::filesystem::path filename) {
 
 	// Defaults for now as _load is called on the constructor here and layout is created before window object retrieves
 	// the cell height and width from the config file alas! Solution is to pass the system object into this and get both
@@ -53,7 +53,7 @@ Sorcery::Layout::Layout(const std::filesystem::path filename) {
 }
 
 // Overload [] Operator
-auto Sorcery::Layout::operator[](std::string_view combined_key) -> Component & {
+auto Sorcery::ComponentStore::operator[](std::string_view combined_key) -> Component & {
 
 	try {
 
@@ -74,7 +74,7 @@ auto Sorcery::Layout::operator[](std::string_view combined_key) -> Component & {
 	}
 }
 
-auto Sorcery::Layout::refresh_if_needed() -> bool {
+auto Sorcery::ComponentStore::refresh_if_needed() -> bool {
 
 	auto needed{_refresh_needed()};
 	if (needed) {
@@ -89,7 +89,7 @@ auto Sorcery::Layout::refresh_if_needed() -> bool {
 }
 
 // Overload () Operator
-auto Sorcery::Layout::operator()(std::string_view screen) -> std::optional<std::vector<Component>> {
+auto Sorcery::ComponentStore::operator()(std::string_view screen) -> std::optional<std::vector<Component>> {
 
 	// Else return the requested components for the screen
 	std::vector<Component> results;
@@ -111,18 +111,18 @@ auto Sorcery::Layout::operator()(std::string_view screen) -> std::optional<std::
 	return std::nullopt;
 }
 
-auto Sorcery::Layout::get_error() -> Component & {
+auto Sorcery::ComponentStore::get_error() -> Component & {
 
 	return _components.at("global:error");
 }
 
-auto Sorcery::Layout::set_grid(unsigned int cell_width, unsigned int cell_height) -> void {
+auto Sorcery::ComponentStore::set_grid(unsigned int cell_width, unsigned int cell_height) -> void {
 
 	_cell_width = cell_width;
 	_cell_height = cell_height;
 }
 
-auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
+auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> bool {
 
 	_components.clear();
 
@@ -394,7 +394,7 @@ auto Sorcery::Layout::_load(const std::filesystem::path filename) -> bool {
 	return true;
 }
 
-auto Sorcery::Layout::_refresh_needed() -> bool {
+auto Sorcery::ComponentStore::_refresh_needed() -> bool {
 
 	_last_modified = std::filesystem::last_write_time(_filename);
 	return _last_modified > _last_loaded;

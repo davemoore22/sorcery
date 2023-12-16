@@ -27,12 +27,12 @@
 #include "core/display.hpp"
 #include "core/game.hpp"
 #include "core/graphics.hpp"
-#include "core/layout.hpp"
 #include "core/system.hpp"
 #include "gui/frame.hpp"
 #include "gui/itemdisplay.hpp"
 #include "gui/menu.hpp"
 #include "main.hpp"
+#include "resources/componentstore.hpp"
 
 namespace Sorcery {
 

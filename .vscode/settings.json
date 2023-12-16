@@ -145,5 +145,8 @@
 			"-skip-intro",
 			"-continue-game"
 		]
-	}
+	},
+	"cmake.configureArgs": [
+		"-DCMAKE_ECLIPSE_MAKE_ARGUMENTS=-j4"
+	]
 }

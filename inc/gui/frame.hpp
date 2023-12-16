@@ -29,7 +29,7 @@
 #include "core/system.hpp"
 #include "core/display.hpp"
 #include "types/component.hpp"
-#include "core/layout.hpp"
+#include "resources/componentstore.hpp"
 
 // clang-format on
 

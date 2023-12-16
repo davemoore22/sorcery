@@ -26,9 +26,9 @@
 
 #include "core/display.hpp"
 #include "core/graphics.hpp"
-#include "core/layout.hpp"
 #include "core/system.hpp"
 #include "main.hpp"
+#include "resources/componentstore.hpp"
 #include "types/character.hpp"
 
 namespace Sorcery {
