@@ -1696,6 +1696,11 @@ auto Sorcery::Engine::_is_mouse_over(sf::IntRect rect, sf::Vector2f mouse_pos) c
 auto Sorcery::Engine::start() -> int {
 
 	_initialise_state();
+
+	auto wibble = _game->state->get_party_characters();
+	auto p1 = _game->characters[_game->state->get_character_by_position(1).value()];
+	auto p2 = _game->characters[_game->state->get_character_by_position(2).value()];
+
 	_generate_display();
 
 	_set_maze_entry_start();

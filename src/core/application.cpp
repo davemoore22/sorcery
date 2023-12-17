@@ -92,22 +92,22 @@ auto Sorcery::Application::_quickstart() -> void {
 	auto pc_2{Character(system.get(), display.get(), graphics.get())};
 	pc_2.create_random();
 	pc_2.finalise();
-	auto num = pc_1.get_name();
 	auto pc1_id{_game->add_character(pc_1)};
-	num = pc_2.get_name();
-	auto pc2_id{_game->add_character(pc_2)};
-	_game->state->clear_party();
-	_game->state->add_character_by_id(pc1_id);
-	pc_1.set_location(CharacterLocation::PARTY);
-	_game->state->add_character_by_id(pc2_id);
-	pc_2.set_location(CharacterLocation::PARTY);
 	_game->save_game();
 	_game->load_game();
-	auto _engine{std::make_unique<Engine>(system.get(), display.get(), graphics.get(), _game.get())};
-	_game->enter_maze();
-	_engine->start();
-	_engine->stop();
+	auto pc2_id{_game->add_character(pc_2)};
 	_game->save_game();
+	_game->load_game();
+
+	auto &c1 = _game->characters[1];
+	c1.set_location(CharacterLocation::PARTY);
+	_game->state->add_character_by_id(1);
+	auto &c2 = _game->characters[1];
+	c2.set_location(CharacterLocation::PARTY);
+	_game->state->add_character_by_id(2);
+	_game->save_game();
+
+	_start_expedition();
 }
 
 auto Sorcery::Application::start() -> int {
@@ -116,6 +116,7 @@ auto Sorcery::Application::start() -> int {
 
 	// Check if we are doing any sort of shortcut
 	auto do_restart{false};
+	auto do_maze{false};
 	auto destination{Destination::DEFAULT};
 	if ((_check_param(CONTINUE_GAME)) && (_game->valid))
 		destination = Destination::CONTINUE;
@@ -123,6 +124,11 @@ auto Sorcery::Application::start() -> int {
 		destination = Destination::NEW;
 	else if ((_check_param(RESTART_EXPEDITION)) && (_game->valid))
 		do_restart = true;
+	else if ((_check_param(GO_TO_MAZE)) && (_game->valid)) {
+		if (_game->state->party_has_members())
+			do_maze = true;
+	} else if (_check_param(QUICKSTART))
+		_quickstart();
 
 	std::optional<MenuItem> mm_opt{std::nullopt};
 	do {
@@ -130,9 +136,15 @@ auto Sorcery::Application::start() -> int {
 		if (do_restart) {
 			auto ra_opt{_run_restart()};
 			if (ra_opt.value() == RS_RESTART) {
-
-				// can run engine
+				_restart_expedition(_game->state->get_party_characters()[0]);
+				do_restart = false;
+				continue;
 			}
+		} else if (do_maze) {
+
+			_start_expedition();
+			do_maze = false;
+			continue;
 		}
 
 		// Run the Main Menu
@@ -170,7 +182,9 @@ auto Sorcery::Application::start() -> int {
 					return EXIT_ALL;
 				} else if (ed_opt.value() == ET_MAZE) {
 
-					// Maze
+					// Go to the Maze
+					if (_game->state->party_has_members())
+						_start_expedition();
 				} else if (ed_opt.value() == ET_RESTART) {
 
 					std::optional<MenuItem> rs_opt{std::nullopt};
@@ -195,6 +209,20 @@ auto Sorcery::Application::start() -> int {
 
 	display->shutdown_SFML();
 	return EXIT_ALL;
+}
+
+auto Sorcery::Application::_start_expedition() -> std::optional<MenuItem> {
+
+	_game->enter_maze();
+	auto engine{std::make_unique<Engine>(system.get(), display.get(), graphics.get(), _game.get())};
+	if (auto result{engine->start()}; result == EXIT_ALL) {
+		_game->save_game();
+		engine->stop();
+		display->shutdown_SFML();
+		return MenuItem::ITEM_ABORT;
+	}
+	_engine->stop();
+	return MenuItem::ITEM_QUIT;
 }
 
 auto Sorcery::Application::_run_restart() -> std::optional<MenuItem> {
@@ -267,22 +295,19 @@ auto Sorcery::Application::_restart_expedition(const unsigned int character_chos
 	_game->state->set_depth(to_depth);
 	_game->state->set_player_prev_depth(_game->state->get_depth());
 	_game->state->set_player_pos(to_loc);
+	Level level{((*_game->levelstore)[to_depth]).value()};
+	_game->state->set_current_level(&level);
 
-	return MenuItem::RS_RESTART;
-
-	/* auto engine{std::make_unique<Engine>(_system, _display, _graphics, _game)};
+	auto engine{std::make_unique<Engine>(system.get(), display.get(), graphics.get(), _game.get())};
 	if (auto result{engine->start()}; result == EXIT_ALL) {
 		_game->save_game();
-		_game->state->set_depth(to_depth);
-		_game->state->set_player_pos(to_loc);
 		engine->stop();
-		_display->shutdown_SFML();
+		display->shutdown_SFML();
 		return MenuItem::ITEM_ABORT;
 	}
+	_engine->stop();
 
-	engine->stop();
-	_update_menus();
-	return MenuItem::ITEM_CANCEL; */
+	return MenuItem::RS_RESTART;
 }
 
 auto Sorcery::Application::_run_castle() -> std::optional<MenuItem> {
