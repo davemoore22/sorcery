@@ -43,6 +43,9 @@ class Game {
 		// Constructor
 		Game(System *system, Display *display, Graphics *graphics);
 
+		// Overloaded Operator
+		auto friend operator<<(std::ostream &out_stream, const Game &game) -> std::ostream &;
+
 		// Public Members
 		bool valid;
 		std::map<unsigned int, Character> characters;
@@ -57,7 +60,7 @@ class Game {
 		auto reset() -> void;
 		auto load_game() -> void;
 		auto save_game() -> void;
-		auto add_character(Character &character) -> unsigned int;
+		auto add_character(Character character) -> unsigned int;
 		auto delete_character(unsigned int character_id) -> void;
 		auto update_character(unsigned game_id, unsigned character_id, Character &character) -> bool;
 		auto enter_maze() -> void;
@@ -75,6 +78,7 @@ class Game {
 		auto get_event(MapEvent event_type) const -> DungeonEvent;
 		auto enable_event(MapEvent event_type) -> void;
 		auto disable_event(MapEvent event_type) -> void;
+		auto print() -> void;
 
 	private:
 

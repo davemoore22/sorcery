@@ -33,7 +33,8 @@ Sorcery::Inn::Inn(System *system, Display *display, Graphics *graphics, Game *ga
 
 	// Setup Custom Components
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::INN);
-	_roster = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::PARTY_CHARACTERS, MenuMode::INN);
+	_roster =
+		std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::PARTY_CHARACTERS, MenuMode::INN, true);
 	_bed = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::INN_CHOOSE_BED);
 
 	_menu->generate((*_display->layout)["inn:menu"]);

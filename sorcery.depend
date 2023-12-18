@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1702746831 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1702931039 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -20,7 +20,7 @@
 	"backwardcpp/backward.hpp"
 	"simpleini/SimpleIni.h"
 	"cereal/cereal.hpp"
-	"cereal/archives/json.hpp"
+	"cereal/archives/xml.hpp"
 	"cereal/types/array.hpp"
 	"cereal/types/bitset.hpp"
 	"cereal/types/chrono.hpp"
@@ -144,7 +144,7 @@
 
 1591211577 /home/dave/Development/wizardry/sorcery-sfml/inc/simpleini/ConvertUTF.h
 
-1702671665 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
+1702839578 /home/dave/Development/wizardry/sorcery-sfml/inc/define.hpp
 	"main.hpp"
 
 1702672136 /home/dave/Development/wizardry/sorcery-sfml/inc/enum.hpp
@@ -2401,7 +2401,7 @@
 	"resources/componentstore.hpp"
 	"resources/stringstore.hpp"
 
-1702832647 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/application.cpp
+1702933203 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/application.cpp
 	"core/application.hpp"
 
 1702826275 /home/dave/Development/wizardry/sorcery-sfml/inc/core/application.hpp
@@ -2426,7 +2426,7 @@
 	"modules/temple.hpp"
 	"modules/training.hpp"
 
-1702752783 /home/dave/Development/wizardry/sorcery-sfml/inc/core/game.hpp
+1702852214 /home/dave/Development/wizardry/sorcery-sfml/inc/core/game.hpp
 	"core/display.hpp"
 	"core/graphics.hpp"
 	"core/state.hpp"
@@ -2448,7 +2448,7 @@
 	"core/system.hpp"
 	"main.hpp"
 
-1702759373 /home/dave/Development/wizardry/sorcery-sfml/inc/core/state.hpp
+1702929279 /home/dave/Development/wizardry/sorcery-sfml/inc/core/state.hpp
 	"core/system.hpp"
 	"main.hpp"
 	"resources/itemstore.hpp"
@@ -2470,7 +2470,7 @@
 	"core/system.hpp"
 	"main.hpp"
 
-1702751676 /home/dave/Development/wizardry/sorcery-sfml/inc/types/character.hpp
+1702918589 /home/dave/Development/wizardry/sorcery-sfml/inc/types/character.hpp
 	"core/display.hpp"
 	"core/graphics.hpp"
 	"main.hpp"
@@ -2539,7 +2539,7 @@
 	"main.hpp"
 	"resources/componentstore.hpp"
 
-1702748075 /home/dave/Development/wizardry/sorcery-sfml/inc/gui/menu.hpp
+1702847852 /home/dave/Development/wizardry/sorcery-sfml/inc/gui/menu.hpp
 	"types/component.hpp"
 	"core/display.hpp"
 	"core/graphics.hpp"
@@ -3031,10 +3031,10 @@
 1702748884 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/database.cpp
 	"core/database.hpp"
 
-1702758244 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/display.cpp
+1702845186 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/display.cpp
 	"core/display.hpp"
 
-1702748894 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/game.cpp
+1702932810 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/game.cpp
 	"core/game.hpp"
 
 1702748897 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/graphics.cpp
@@ -3049,7 +3049,7 @@
 1702748919 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/random.cpp
 	"core/random.hpp"
 
-1702825752 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/state.cpp
+1702933060 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/state.cpp
 	"core/state.hpp"
 
 1702759558 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/system.cpp
@@ -3058,7 +3058,7 @@
 1702758725 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/window.cpp
 	"core/window.hpp"
 
-1702831560 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/engine.cpp
+1702919766 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/engine.cpp
 	"engine/engine.hpp"
 
 1702759273 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/event.cpp
@@ -3163,10 +3163,10 @@
 1702749619 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/map.cpp
 	"gui/map.hpp"
 
-1702749623 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/menu.cpp
+1702851028 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/menu.cpp
 	"gui/menu.hpp"
 
-1702749629 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/partypanel.cpp
+1702932975 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/partypanel.cpp
 	"gui/partypanel.hpp"
 
 1697389637 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/spellbook.cpp
@@ -3198,7 +3198,7 @@
 1702751125 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/edit.cpp
 	"modules/edit.hpp"
 
-1702751155 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/inn.cpp
+1702847910 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/inn.cpp
 	"modules/inn.hpp"
 
 1702751158 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/legate.cpp
@@ -3213,7 +3213,7 @@
 1702751171 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/shop.cpp
 	"modules/shop.hpp"
 
-1702751204 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/tavern.cpp
+1702920235 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/tavern.cpp
 	"modules/tavern.hpp"
 
 1702751371 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/temple.cpp
@@ -3246,7 +3246,7 @@
 1702752755 source:/home/dave/Development/wizardry/sorcery-sfml/src/resources/texturestore.cpp
 	"resources/texturestore.hpp"
 
-1702749647 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/character.cpp
+1702918559 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/character.cpp
 	"types/character.hpp"
 
 1702749652 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/component.cpp
@@ -3275,4 +3275,29 @@
 
 1702749671 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/tile.cpp
 	"types/tile.hpp"
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/3rdparty/cereal/archives/xml.hpp
+	"cereal/cereal.hpp"
+	"cereal/details/util.hpp"
+	"cereal/external/rapidxml/rapidxml.hpp"
+	"cereal/external/rapidxml/rapidxml_print.hpp"
+	"cereal/external/base64.hpp"
+	<sstream>
+	<stack>
+	<vector>
+	<limits>
+	<string>
+	<cstring>
+	<cmath>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/3rdparty/cereal/external/rapidxml/rapidxml.hpp
+	<cstdlib>
+	<cassert>
+	<new>
+	<exception>
+
+1620253578 /home/dave/Development/wizardry/sorcery-sfml/inc/3rdparty/cereal/external/rapidxml/rapidxml_print.hpp
+	"rapidxml.hpp"
+	<ostream>
+	<iterator>
 

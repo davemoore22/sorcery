@@ -86,27 +86,40 @@ auto Sorcery::Application::_quickstart() -> void {
 
 	_game->wipe_data();
 	_game->create_game();
-	auto pc_1{Character(system.get(), display.get(), graphics.get())};
-	pc_1.create_random();
-	pc_1.finalise();
-	auto pc_2{Character(system.get(), display.get(), graphics.get())};
-	pc_2.create_random();
-	pc_2.finalise();
-	auto pc1_id{_game->add_character(pc_1)};
-	_game->save_game();
-	_game->load_game();
-	auto pc2_id{_game->add_character(pc_2)};
-	_game->save_game();
-	_game->load_game();
 
-	auto &c1 = _game->characters[1];
-	c1.set_location(CharacterLocation::PARTY);
-	_game->state->add_character_by_id(1);
-	auto &c2 = _game->characters[1];
-	c2.set_location(CharacterLocation::PARTY);
-	_game->state->add_character_by_id(2);
-	_game->save_game();
+	// Create a new random party
+	auto party_alignment{(*system->random)[RandomType::D2] == 1 ? CharacterAlignment::GOOD : CharacterAlignment::EVIL};
+	for (int i = 0; i < 6; i++) {
+		auto pc{Character(system.get(), display.get(), graphics.get())};
+		switch (i) {
+		case 0:
+			pc.create_class_alignment(CharacterClass::FIGHTER, party_alignment);
+			break;
+		case 1:
+			pc.create_class_alignment(CharacterClass::FIGHTER, CharacterAlignment::NEUTRAL);
+			break;
+		case 2:
+			pc.create_class_alignment(CharacterClass::THIEF, CharacterAlignment::NEUTRAL);
+			break;
+		case 3:
+			pc.create_class_alignment(CharacterClass::PRIEST, party_alignment);
+			break;
+		case 4:
+			pc.create_class_alignment(CharacterClass::BISHOP, party_alignment);
+			break;
+		case 5:
+			pc.create_class_alignment(CharacterClass::MAGE, CharacterAlignment::NEUTRAL);
+			break;
+		}
 
+		pc.finalise();
+		pc.set_location(CharacterLocation::PARTY);
+		auto char_id{_game->add_character(pc)};
+		_game->characters[char_id] = pc;
+		_game->state->add_character_by_id(char_id);
+	}
+
+	_game->save_game();
 	_start_expedition();
 }
 
@@ -124,7 +137,7 @@ auto Sorcery::Application::start() -> int {
 		destination = Destination::NEW;
 	else if ((_check_param(RESTART_EXPEDITION)) && (_game->valid))
 		do_restart = true;
-	else if ((_check_param(GO_TO_MAZE)) && (_game->valid)) {
+	else if ((_check_param(START_EXPEDITION)) && (_game->valid)) {
 		if (_game->state->party_has_members())
 			do_maze = true;
 	} else if (_check_param(QUICKSTART))
@@ -212,6 +225,9 @@ auto Sorcery::Application::start() -> int {
 }
 
 auto Sorcery::Application::_start_expedition() -> std::optional<MenuItem> {
+
+	std::cout << "_start_expedition:" << std::endl;
+	_game->print();
 
 	_game->enter_maze();
 	auto engine{std::make_unique<Engine>(system.get(), display.get(), graphics.get(), _game.get())};

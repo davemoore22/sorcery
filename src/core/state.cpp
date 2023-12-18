@@ -26,9 +26,6 @@
 
 // Constructor used by Cereal to serialise this item
 Sorcery::State::State() {
-
-	_clear();
-	_restart_expedition();
 }
 
 // Normal Constructor
@@ -47,10 +44,28 @@ auto Sorcery::State::reset_shop(ItemStore *itemstore) -> void {
 	}
 }
 
+auto Sorcery::State::print() -> void {
+
+	auto text{"State:\n\n"s};
+
+	text.append(fmt::format("{}\n", _version));
+	text.append(fmt::format("{}\n", _player_depth));
+	text.append(fmt::format("{}\\{}\n", _player_pos.x, _player_pos.y));
+	text.append(fmt::format("{}\n", (int)_playing_facing));
+	text.append(fmt::format("{}\n", _lit));
+	text.append(fmt::format("{}\n\n[", _turns));
+
+	for (const auto id : _party) {
+		auto line{fmt::format("{},", id)};
+		text.append(line);
+	}
+	text.append("]\n");
+	std::cout << text << std::endl;
+}
+
 auto Sorcery::State::_clear() -> void {
 
 	_party.clear();
-	_party.reserve(MAX_PARTY_SIZE);
 	if (level.get()) {
 		level.release();
 		level.reset();

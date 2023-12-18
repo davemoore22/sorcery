@@ -329,7 +329,7 @@ auto Sorcery::Tavern::_update_menus() -> void {
 	Component component{(*_display->layout)["tavern:menu"]};
 	if (_game->state->get_party_characters().size() == MAX_PARTY_SIZE) {
 		_menu->disable_entry(component, 0);
-	} else if (_game->state->get_party_characters().empty()) {
+	} else if (_game->state->get_party_characters().size() == 0) {
 		_menu->enable_entry(component, 0);
 		_menu->disable_entry(component, 1);
 		_menu->enable_entry(component, 2);

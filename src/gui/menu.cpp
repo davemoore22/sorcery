@@ -25,8 +25,8 @@
 #include "gui/menu.hpp"
 
 // Standard Constructor
-Sorcery::Menu::Menu(
-	System *system, Display *display, Graphics *graphics, Game *game, const MenuType type, std::optional<MenuMode> mode)
+Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics, Game *game, const MenuType type,
+	std::optional<MenuMode> mode, bool skip)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _type{type}, _mode{mode} {
 
 	using enum Enums::Menu::Type;
@@ -61,11 +61,13 @@ Sorcery::Menu::Menu(
 	case IDENTIFY_CHARACTERS:
 		[[fallthrough]];
 	case CHARACTERS_HERE:
-		_populate_chars();
-		if (_go_first)
-			selected = items.begin();
-		else
-			selected = items.end();
+		if (!skip) {
+			_populate_chars();
+			if (_go_first)
+				selected = items.begin();
+			else
+				selected = items.end();
+		}
 		break;
 	case COMPENDIUM:
 		_add_item(0, ENTRY, CO_MONSTERS, (*_display->string)["MENU_MONSTERS"]);

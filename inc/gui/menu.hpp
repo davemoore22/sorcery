@@ -42,7 +42,7 @@ class Menu: public sf::Transformable, public sf::Drawable {
 
 		// Constructors
 		Menu(System *system, Display *display, Graphics *graphics, Game *game, const MenuType type,
-			std::optional<MenuMode> _mode = std::nullopt);
+			std::optional<MenuMode> mode = std::nullopt, bool skip = false);
 		Menu() = delete;
 
 		// Overload operators

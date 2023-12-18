@@ -86,6 +86,7 @@ class State {
 		auto add_log_dice_roll(
 			const std::string &message, const int dice = -1, const int roll = -1, const int needed = -1) -> void;
 		auto get_log_messages(unsigned int last = 0) const -> std::vector<ConsoleMessage>;
+		auto print() -> void;
 
 	private:
 

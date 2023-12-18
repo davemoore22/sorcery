@@ -730,12 +730,13 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event) -> std:
 			} else if (_system->input->check(WindowInput::CONFIRM, event)) {
 				if (selected) {
 					switch ((*selected.value()).item) {
-					case RC_ACCEPT:
-						_game->add_character(_candidate);
+					case RC_ACCEPT: {
+						auto new_id{_game->add_character(_candidate)};
+						_game->characters[new_id] = _candidate; // TODO: HERE
 						_game->save_game();
 						_game->load_game();
 						_show_saved_ok = true;
-						break;
+					} break;
 					case RC_REJECT:
 						_show_final_menu = false;
 						return ModuleResult::CLOSE;

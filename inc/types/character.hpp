@@ -73,6 +73,7 @@ class Character {
 		auto class_to_str(const CharacterClass cclass) const -> std::string;
 		auto create_random() -> void;
 		auto create_quick() -> void;
+		auto create_class_alignment(const CharacterClass cclass, const CharacterAlignment alignment) -> void;
 		auto set_start_attr() -> void;
 		auto get_name() const -> std::string;
 		auto get_name_and_loc() const -> std::string;
@@ -81,7 +82,7 @@ class Character {
 		auto get_race() const -> CharacterRace;
 		auto set_race(const CharacterRace &value) -> void;
 		auto get_location() const -> CharacterLocation;
-		auto set_location(const CharacterLocation &value) -> void;
+		auto set_location(const CharacterLocation value) -> void;
 		auto get_level() const -> int;
 		auto set_level(const int &value) -> void;
 		auto get_class() const -> CharacterClass;

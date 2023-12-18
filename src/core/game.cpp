@@ -212,9 +212,9 @@ auto Sorcery::Game::_create_game() -> void {
 	_clear();
 	std::stringstream ss;
 	{
-		cereal::JSONOutputArchive archive(ss);
+		cereal::XMLOutputArchive out_archive(ss);
 		state->add_log_message("New Game Started", MessageType::GAME);
-		archive(state);
+		out_archive(state);
 	}
 	const auto data{ss.str()};
 	_id = _system->database->create_game_state(data);
@@ -229,14 +229,14 @@ auto Sorcery::Game::_load_game() -> void {
 	_status = status;
 	_start_time = start_time;
 	_last_time = last_time;
-	state = std::make_unique<State>(_system);
+	state = std::make_unique<State>();
 	levelstore = std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
 	if (data.length() > 0) {
 		std::stringstream ss;
 		ss.str(data);
 		{
-			cereal::JSONInputArchive archive(ss);
-			archive(state);
+			cereal::XMLInputArchive in_archive(ss);
+			in_archive(state);
 			state->set(_system);
 		}
 	}
@@ -279,10 +279,10 @@ auto Sorcery::Game::_save_game() -> void {
 
 	std::stringstream ss;
 	{
-		cereal::JSONOutputArchive archive(ss);
+		cereal::XMLOutputArchive archive(ss);
 		archive(state);
 	}
-	const auto data{ss.str()};
+	auto data{ss.str()};
 
 	_system->database->save_game_state(_id, _key, data);
 	_save_characters();
@@ -294,8 +294,8 @@ auto Sorcery::Game::_save_characters() -> void {
 		_update_party_location();
 		std::stringstream ss;
 		{
-			cereal::JSONOutputArchive archive(ss);
-			archive(character);
+			cereal::XMLOutputArchive out_archive(ss);
+			out_archive(character);
 		}
 		const auto character_data{ss.str()};
 
@@ -339,38 +339,12 @@ auto Sorcery::Game::get_characters_at_loc() const -> std::vector<unsigned int> {
 	return results;
 }
 
-auto Sorcery::Game::_get_characters() -> std::map<unsigned int, Character> {
-
-	std::map<unsigned int, Character> characters;
-	characters.clear();
-
-	for (auto character_id : _characters_ids) {
-
-		const auto data{_system->database->get_character(_id, character_id)};
-		std::stringstream ss;
-		ss.str(data);
-
-		// Remember that the three pointers aren't serialised
-		Character character(_system, _display, _graphics);
-		character.create_spells();
-		{
-			cereal::JSONInputArchive archive(ss);
-			archive(character);
-		}
-		character.set_spells();
-		character.set_stage(CharacterStage::COMPLETED);
-		characters[character_id] = character;
-	}
-
-	return characters;
-}
-
-auto Sorcery::Game::add_character(Character &character) -> unsigned int {
+auto Sorcery::Game::add_character(Character character) -> unsigned int {
 
 	std::stringstream ss;
 	{
-		cereal::JSONOutputArchive archive(ss);
-		archive(character);
+		cereal::XMLOutputArchive out_archive(ss);
+		out_archive(character);
 	}
 	const auto character_data{ss.str()};
 
@@ -380,8 +354,8 @@ auto Sorcery::Game::add_character(Character &character) -> unsigned int {
 auto Sorcery::Game::update_character(unsigned int game_id, unsigned int character_id, Character &character) -> bool {
 	std::stringstream ss;
 	{
-		cereal::JSONOutputArchive archive(ss);
-		archive(character);
+		cereal::XMLOutputArchive out_archive(ss);
+		out_archive(character);
 	}
 	const auto character_data{ss.str()};
 
@@ -393,7 +367,25 @@ auto Sorcery::Game::_load_characters() -> void {
 	_characters_ids.clear();
 	_characters_ids = _system->database->get_character_ids(_id);
 	characters.clear();
-	characters = _get_characters();
+
+	for (auto character_id : _characters_ids) {
+
+		const auto data{_system->database->get_character(_id, character_id)};
+		std::stringstream ss;
+		ss.str(data);
+
+		// Remember that the three pointers aren't serialised
+		Character character(_system, _display, _graphics);
+		// Character character;
+		{
+			cereal::XMLInputArchive in_archive(ss);
+			in_archive(character);
+		}
+		character.create_spells();
+		character.set_spells();
+		character.set_stage(CharacterStage::COMPLETED);
+		characters[character_id] = character;
+	}
 }
 
 auto Sorcery::Game::divvy_party_gold() -> void {
@@ -431,3 +423,39 @@ auto Sorcery::Game::pool_party_gold(unsigned int char_id) -> void {
 			_cur_char->set_gold(gold);
 	}
 }
+
+auto Sorcery::Game::print() -> void {
+
+	auto text{"Game:\n\n"s};
+
+	for (const auto &[id, character] : characters) {
+		auto line{
+			fmt::format("{}){:>16} {}", id, character.get_name(), magic_enum::enum_name(character.get_location()))};
+		text.append(line);
+		text.append("\n");
+	}
+
+	text.append("\n[");
+	for (const auto id : state->get_party_characters()) {
+		auto line{fmt::format("{},", id)};
+		text.append(line);
+	}
+	text.append("]\n");
+	std::cout << text << std::endl;
+}
+
+namespace Sorcery {
+
+auto operator<<(std::ostream &out_stream, const Sorcery::Game &game) -> std::ostream & {
+
+	auto text{"Game:\n\n"s};
+
+	for (const auto &[id, character] : game.characters) {
+		auto line{fmt::format("{}){:>16}{}", id, character.get_name(), (int)character.get_location())};
+		text.append(line);
+		text.append("\n");
+	}
+
+	return out_stream << text << std::endl;
+}
+} // namespace Sorcery

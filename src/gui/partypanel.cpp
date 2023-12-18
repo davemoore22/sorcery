@@ -62,8 +62,6 @@ Sorcery::PartyPanel::PartyPanel(System *system, Display *display, Graphics *grap
 	legend_text.setString(legend);
 
 	_texts.push_back(legend_text);
-
-	refresh();
 }
 
 auto Sorcery::PartyPanel::refresh() -> void {
@@ -75,7 +73,7 @@ auto Sorcery::PartyPanel::refresh() -> void {
 	_texts.resize(1);
 	bounds.clear();
 
-	if (!_game->state->get_party_characters().empty()) {
+	if (_game->state->get_party_size() > 0) {
 
 		// Now do each character in the party
 		auto count{0u};
@@ -85,7 +83,7 @@ auto Sorcery::PartyPanel::refresh() -> void {
 		auto bar_width{std::stoi(_layout["bar_width"].value())};
 		const auto party{_game->state->get_party_characters()};
 		for (auto _id : party) {
-			auto character{_game->characters[_id]};
+			auto character{_game->characters.at(_id)};
 			auto summary{character.get_sb_text(position)};
 			if (_display->get_upper())
 				std::transform(summary.begin(), summary.end(), summary.begin(), ::toupper);

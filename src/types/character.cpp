@@ -66,7 +66,7 @@ auto Sorcery::Character::get_location() const -> CharacterLocation {
 	return _location;
 }
 
-auto Sorcery::Character::set_location(const CharacterLocation &value) -> void {
+auto Sorcery::Character::set_location(const CharacterLocation value) -> void {
 
 	using enum Enums::Character::Location;
 
@@ -1911,6 +1911,82 @@ auto Sorcery::Character::replenish_spells() -> void {
 		_mage_cur_sp[level] = _mage_max_sp[level];
 		_priest_cur_sp[level] = _priest_max_sp[level];
 	}
+}
+
+// Given an Alignment and a Class, create a character
+auto Sorcery::Character::create_class_alignment(
+	const CharacterClass cclass, const CharacterAlignment alignment) -> void {
+
+	using enum Enums::Character::Align;
+	using enum Enums::Character::Attribute;
+	using enum Enums::Character::Class;
+	using enum Enums::Character::Race;
+
+	_class = cclass;
+	_race = static_cast<CharacterRace>((*_system->random)[RandomType::D5]);
+	_alignment = alignment;
+
+	switch (_race) { // NOLINT(clang-diagnostic-switch)
+	case HUMAN:
+		_start_attr = {{STRENGTH, 8}, {IQ, 5}, {PIETY, 5}, {VITALITY, 8}, {AGILITY, 8}, {LUCK, 9}};
+		break;
+	case ELF:
+		_start_attr = {{STRENGTH, 7}, {IQ, 10}, {PIETY, 10}, {VITALITY, 6}, {AGILITY, 9}, {LUCK, 6}};
+		break;
+	case DWARF:
+		_start_attr = {{STRENGTH, 10}, {IQ, 7}, {PIETY, 10}, {VITALITY, 10}, {AGILITY, 5}, {LUCK, 6}};
+		break;
+	case GNOME:
+		_start_attr = {{STRENGTH, 7}, {IQ, 7}, {PIETY, 10}, {VITALITY, 8}, {AGILITY, 10}, {LUCK, 7}};
+		break;
+	case HOBBIT:
+		_start_attr = {{STRENGTH, 5}, {IQ, 7}, {PIETY, 7}, {VITALITY, 6}, {AGILITY, 10}, {LUCK, 12}};
+		break;
+	default:
+		break;
+	}
+
+	// Put most of the points into the main attribute (note that 10 points means a Human Priest and Dwarf Thief have
+	// allocated all points to their main attribute with no points left over)
+	_points_left = 10;
+	_st_points = _points_left;
+	switch (_class) { // NOLINT(clang-diagnostic-switch)
+	case FIGHTER:
+		[[fallthrough]];
+	case LORD:
+		[[fallthrough]];
+	case SAMURAI:
+		_points_left -= (15 - _start_attr[STRENGTH]);
+		_start_attr[STRENGTH] = 15;
+		break;
+	case MAGE:
+		[[fallthrough]];
+	case BISHOP:
+		_points_left -= (15 - _start_attr[IQ]);
+		_start_attr[IQ] = 15;
+		break;
+	case PRIEST:
+		_points_left -= (15 - _start_attr[PIETY]);
+		_start_attr[PIETY] = 15;
+		break;
+	case THIEF:
+		[[fallthrough]];
+	case NINJA:
+		_points_left -= (15 - _start_attr[AGILITY]);
+		_start_attr[AGILITY] = 15;
+		break;
+	default:
+		break;
+	}
+
+	// Pump any points left into the Vitality attribute
+	if (_points_left > 0)
+		_start_attr[VITALITY] += _points_left;
+
+	_cur_attr = _start_attr;
+
+	_name = _system->random->get_random_name();
+	_portrait_index = (*_system->random)[RandomType::ZERO_TO_29];
 }
 
 // Enter Name and Portrait, rest is random
