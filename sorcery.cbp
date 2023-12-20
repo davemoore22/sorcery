@@ -7,12 +7,13 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/debug/sorcery" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="" />
-				<Option object_output="obj/debug/" />
-				<Option type="5" />
+				<Option output="build/sorcery" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="build/" />
+				<Option object_output="build/obj/debug/" />
+				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="--skip-intro -go-to-compendium" />
+				<Option use_console_runner="0" />
+				<Option parameters="--skip-intro -go-to-license" />
 				<Compiler>
 					<Add option="-pg" />
 					<Add option="-g" />
@@ -22,8 +23,9 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/release/sorcery" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/release/" />
+				<Option output="build/sorcery" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="build/" />
+				<Option object_output="build/obj/release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />

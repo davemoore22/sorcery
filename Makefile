@@ -1301,6 +1301,30 @@ src/frontend/options.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/options.cpp.s
 .PHONY : src/frontend/options.cpp.s
 
+src/frontend/spellbook.o: src/frontend/spellbook.cpp.o
+.PHONY : src/frontend/spellbook.o
+
+# target to build an object file
+src/frontend/spellbook.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/spellbook.cpp.o
+.PHONY : src/frontend/spellbook.cpp.o
+
+src/frontend/spellbook.i: src/frontend/spellbook.cpp.i
+.PHONY : src/frontend/spellbook.i
+
+# target to preprocess a source file
+src/frontend/spellbook.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/spellbook.cpp.i
+.PHONY : src/frontend/spellbook.cpp.i
+
+src/frontend/spellbook.s: src/frontend/spellbook.cpp.s
+.PHONY : src/frontend/spellbook.s
+
+# target to generate assembly for a file
+src/frontend/spellbook.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/spellbook.cpp.s
+.PHONY : src/frontend/spellbook.cpp.s
+
 src/frontend/splash.o: src/frontend/splash.cpp.o
 .PHONY : src/frontend/splash.o
 
@@ -1828,30 +1852,6 @@ src/gui/partypanel.s: src/gui/partypanel.cpp.s
 src/gui/partypanel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/partypanel.cpp.s
 .PHONY : src/gui/partypanel.cpp.s
-
-src/gui/spellbook.o: src/gui/spellbook.cpp.o
-.PHONY : src/gui/spellbook.o
-
-# target to build an object file
-src/gui/spellbook.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/spellbook.cpp.o
-.PHONY : src/gui/spellbook.cpp.o
-
-src/gui/spellbook.i: src/gui/spellbook.cpp.i
-.PHONY : src/gui/spellbook.i
-
-# target to preprocess a source file
-src/gui/spellbook.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/spellbook.cpp.i
-.PHONY : src/gui/spellbook.cpp.i
-
-src/gui/spellbook.s: src/gui/spellbook.cpp.s
-.PHONY : src/gui/spellbook.s
-
-# target to generate assembly for a file
-src/gui/spellbook.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/spellbook.cpp.s
-.PHONY : src/gui/spellbook.cpp.s
 
 src/gui/spellpanel.o: src/gui/spellpanel.cpp.o
 .PHONY : src/gui/spellpanel.o
@@ -2920,6 +2920,9 @@ help:
 	@echo "... src/frontend/options.o"
 	@echo "... src/frontend/options.i"
 	@echo "... src/frontend/options.s"
+	@echo "... src/frontend/spellbook.o"
+	@echo "... src/frontend/spellbook.i"
+	@echo "... src/frontend/spellbook.s"
 	@echo "... src/frontend/splash.o"
 	@echo "... src/frontend/splash.i"
 	@echo "... src/frontend/splash.s"
@@ -2986,9 +2989,6 @@ help:
 	@echo "... src/gui/partypanel.o"
 	@echo "... src/gui/partypanel.i"
 	@echo "... src/gui/partypanel.s"
-	@echo "... src/gui/spellbook.o"
-	@echo "... src/gui/spellbook.i"
-	@echo "... src/gui/spellbook.s"
 	@echo "... src/gui/spellpanel.o"
 	@echo "... src/gui/spellpanel.i"
 	@echo "... src/gui/spellpanel.s"

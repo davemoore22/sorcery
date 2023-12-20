@@ -2401,7 +2401,7 @@
 	"resources/componentstore.hpp"
 	"resources/stringstore.hpp"
 
-1703086268 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/application.cpp
+1703108440 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/application.cpp
 	"core/application.hpp"
 
 1702826275 /home/dave/Development/wizardry/sorcery-sfml/inc/core/application.hpp
@@ -3058,7 +3058,7 @@
 1702758725 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/window.cpp
 	"core/window.hpp"
 
-1703087849 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/engine.cpp
+1703108427 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/engine.cpp
 	"engine/engine.hpp"
 
 1702759273 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/event.cpp
@@ -3151,7 +3151,7 @@
 1702749607 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/infopanel.cpp
 	"gui/infopanel.hpp"
 
-1702749612 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/inventorydisplay.cpp
+1703108392 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/inventorydisplay.cpp
 	"gui/inventorydisplay.hpp"
 
 1702749614 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/itemdisplay.cpp
@@ -3258,7 +3258,7 @@
 1702759376 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/explore.cpp
 	"types/explore.hpp"
 
-1702751679 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/inventory.cpp
+1703108378 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/inventory.cpp
 	"types/inventory.hpp"
 
 1702749658 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/item.cpp
@@ -3300,4 +3300,6 @@
 	"rapidxml.hpp"
 	<ostream>
 	<iterator>
+
+1697389637 source:/home/dave/Development/wizardry/sorcery-sfml/src/frontend/spellbook.cpp
 
