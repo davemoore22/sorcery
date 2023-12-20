@@ -57,7 +57,7 @@ class Character {
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_location, coordinate, depth, _version, _name, _race, _class, _alignment, _start_attr, _cur_attr,
 				_max_attr, _st_points, _portrait_index, _abilities, _priest_max_sp, _priest_cur_sp, _mage_max_sp,
-				_mage_cur_sp, _status, _hidden, _spells_known, _legated, inventory);
+				_mage_cur_sp, _status, _hidden, _spells_known, _legated, inventory, _current_stage);
 		}
 
 		// Public Methods
@@ -158,7 +158,6 @@ class Character {
 		auto mage_cur_sp() -> SpellPoints &;
 		auto priest_max_sp() -> SpellPoints &;
 		auto mage_max_sp() -> SpellPoints &;
-		// auto add_starting_equipment(Game *game) -> void;
 
 		// Public Members
 		std::optional<Coordinate> coordinate;

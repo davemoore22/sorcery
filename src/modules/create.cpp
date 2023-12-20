@@ -731,6 +731,7 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event) -> std:
 				if (selected) {
 					switch ((*selected.value()).item) {
 					case RC_ACCEPT: {
+						_candidate.set_stage(CharacterStage::COMPLETED);
 						auto new_id{_game->add_character(_candidate)};
 						_game->characters[new_id] = _candidate; // TODO: HERE
 						_game->save_game();

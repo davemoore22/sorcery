@@ -114,6 +114,36 @@ auto Sorcery::Application::_quickstart() -> void {
 
 		pc.finalise();
 		pc.set_location(CharacterLocation::PARTY);
+		pc.set_stage(CharacterStage::COMPLETED);
+		pc.inventory.clear();
+
+		using enum Enums::Character::Class;
+		using enum Enums::Items::TypeID;
+
+		switch (pc.get_class()) { // NOLINT(clang-diagnostic-switch)
+		case FIGHTER:
+		case LORD:
+		case SAMURAI:
+			pc.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR], true);
+			pc.inventory.add_type((*_game->itemstore)[LONG_SWORD], true);
+			break;
+		case MAGE:
+			pc.inventory.add_type((*_game->itemstore)[ROBES], true);
+			pc.inventory.add_type((*_game->itemstore)[DAGGER], true);
+			break;
+		case PRIEST:
+		case BISHOP:
+			pc.inventory.add_type((*_game->itemstore)[ROBES], true);
+			pc.inventory.add_type((*_game->itemstore)[STAFF], true);
+			break;
+		case THIEF:
+		case NINJA:
+			pc.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR], true);
+			pc.inventory.add_type((*_game->itemstore)[SHORT_SWORD], true);
+		default:
+			break;
+		}
+
 		auto char_id{_game->add_character(pc)};
 		_game->characters[char_id] = pc;
 		_game->state->add_character_by_id(char_id);
@@ -225,9 +255,6 @@ auto Sorcery::Application::start() -> int {
 }
 
 auto Sorcery::Application::_start_expedition() -> std::optional<MenuItem> {
-
-	std::cout << "_start_expedition:" << std::endl;
-	_game->print();
 
 	_game->enter_maze();
 	auto engine{std::make_unique<Engine>(system.get(), display.get(), graphics.get(), _game.get())};

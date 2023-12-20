@@ -22,7 +22,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 1,
@@ -46,7 +47,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 2,
@@ -70,7 +72,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 3,
@@ -93,7 +96,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 4,
@@ -116,7 +120,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 5,
@@ -139,7 +144,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 6,
@@ -162,7 +168,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 7,
@@ -185,7 +192,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 8,
@@ -209,7 +217,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 9,
@@ -232,7 +241,8 @@
   "Mage Level": 2,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 10,
@@ -255,7 +265,8 @@
   "Mage Level": 1,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 11,
@@ -278,7 +289,8 @@
   "Mage Level": 0,
   "Priest Level": 1,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 12,
@@ -303,7 +315,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 13,
@@ -326,7 +339,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 14,
@@ -350,7 +364,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 15,
@@ -373,7 +388,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 16,
@@ -397,7 +413,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 17,
@@ -421,7 +438,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 18,
@@ -444,7 +462,8 @@
   "Mage Level": 0,
   "Priest Level": 2,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 19,
@@ -467,7 +486,8 @@
   "Mage Level": 1,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 20,
@@ -490,7 +510,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 21,
@@ -515,7 +536,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 22,
@@ -538,7 +560,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 20,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 23,
@@ -561,7 +584,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 24,
@@ -584,7 +608,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 25,
@@ -607,7 +632,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 26,
@@ -631,7 +657,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 27,
@@ -653,7 +680,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 28,
@@ -676,7 +704,8 @@
   "Mage Level": 1,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 29,
@@ -699,7 +728,8 @@
   "Mage Level": 0,
   "Priest Level": 2,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 30,
@@ -722,7 +752,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 31,
@@ -745,7 +776,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 32,
@@ -768,7 +800,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 33,
@@ -789,7 +822,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 50,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 34,
@@ -812,7 +846,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 35,
@@ -835,7 +870,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 36,
@@ -858,7 +894,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 37,
@@ -882,7 +919,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 38,
@@ -905,7 +943,8 @@
   "Mage Level": 1,
   "Priest Level": 3,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 39,
@@ -928,7 +967,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 40,
@@ -951,7 +991,8 @@
   "Mage Level": 3,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 41,
@@ -973,7 +1014,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 42,
@@ -995,7 +1037,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 43,
@@ -1020,7 +1063,8 @@
   "Mage Level": 3,
   "Priest Level": 0,
   "Spell Resistance": 25,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 44,
@@ -1043,7 +1087,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 45,
@@ -1068,7 +1113,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 46,
@@ -1091,7 +1137,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 47,
@@ -1113,7 +1160,8 @@
   "Mage Level": 0,
   "Priest Level": 3,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 48,
@@ -1135,7 +1183,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 49,
@@ -1158,7 +1207,8 @@
   "Mage Level": 4,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 50,
@@ -1181,7 +1231,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 51,
@@ -1203,7 +1254,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 20,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 52,
@@ -1225,7 +1277,8 @@
   "Mage Level": 0,
   "Priest Level": 5,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 53,
@@ -1247,7 +1300,8 @@
   "Mage Level": 1,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 54,
@@ -1269,7 +1323,8 @@
   "Mage Level": 2,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 55,
@@ -1292,7 +1347,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 56,
@@ -1316,7 +1372,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 57,
@@ -1339,7 +1396,8 @@
   "Mage Level": 3,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 58,
@@ -1362,7 +1420,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 59,
@@ -1386,7 +1445,8 @@
   "Mage Level": 3,
   "Priest Level": 3,
   "Spell Resistance": 20,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 60,
@@ -1410,7 +1470,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 25,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 61,
@@ -1433,7 +1494,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 62,
@@ -1455,7 +1517,8 @@
   "Mage Level": 0,
   "Priest Level": 4,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 63,
@@ -1477,7 +1540,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 64,
@@ -1499,7 +1563,8 @@
   "Mage Level": 5,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 65,
@@ -1522,7 +1587,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 66,
@@ -1545,7 +1611,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 67,
@@ -1566,7 +1633,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 85,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 68,
@@ -1589,7 +1657,8 @@
   "Mage Level": 3,
   "Priest Level": 0,
   "Spell Resistance": 60,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 69,
@@ -1613,7 +1682,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 70,
@@ -1636,7 +1706,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 71,
@@ -1659,7 +1730,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 72,
@@ -1681,7 +1753,8 @@
   "Mage Level": 3,
   "Priest Level": 4,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 73,
@@ -1703,7 +1776,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 74,
@@ -1725,7 +1799,8 @@
   "Mage Level": 5,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 75,
@@ -1748,7 +1823,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 76,
@@ -1771,7 +1847,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 77,
@@ -1796,7 +1873,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 40,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 78,
@@ -1816,7 +1894,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 95,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 79,
@@ -1840,7 +1919,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 80,
@@ -1863,7 +1943,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 95,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 81,
@@ -1884,7 +1965,8 @@
   "Mage Level": 5,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 82,
@@ -1906,7 +1988,8 @@
   "Mage Level": 0,
   "Priest Level": 6,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 83,
@@ -1929,7 +2012,8 @@
   "Mage Level": 6,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 84,
@@ -1953,7 +2037,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 85,
@@ -1976,7 +2061,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 86,
@@ -2001,7 +2087,8 @@
   "Mage Level": 3,
   "Priest Level": 0,
   "Spell Resistance": 20,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 87,
@@ -2025,7 +2112,8 @@
   "Mage Level": 5,
   "Priest Level": 0,
   "Spell Resistance": 95,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 88,
@@ -2048,7 +2136,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 95,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 89,
@@ -2071,7 +2160,8 @@
   "Mage Level": 5,
   "Priest Level": 0,
   "Spell Resistance": 25,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 90,
@@ -2095,7 +2185,8 @@
   "Mage Level": 5,
   "Priest Level": 4,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 91,
@@ -2119,7 +2210,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 92,
@@ -2144,7 +2236,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 93,
@@ -2166,7 +2259,8 @@
   "Mage Level": 6,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 94,
@@ -2190,7 +2284,8 @@
   "Mage Level": 7,
   "Priest Level": 0,
   "Spell Resistance": 50,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 95,
@@ -2214,7 +2309,8 @@
   "Mage Level": 6,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 96,
@@ -2239,7 +2335,8 @@
   "Mage Level": 7,
   "Priest Level": 7,
   "Spell Resistance": 70,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 97,
@@ -2260,7 +2357,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 98,
@@ -2282,7 +2380,8 @@
   "Mage Level": 0,
   "Priest Level": 5,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 99,
@@ -2305,7 +2404,8 @@
   "Mage Level": 4,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  },
  {
   "ID": 100,
@@ -2328,7 +2428,8 @@
   "Mage Level": 0,
   "Priest Level": 0,
   "Spell Resistance": 0,
-  "GFX Index": 0
+  "GFX Known Index": 0,
+  "GFX Unknown Index": 0
  }
 ]
 }

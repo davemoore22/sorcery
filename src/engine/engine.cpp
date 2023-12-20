@@ -1699,6 +1699,8 @@ auto Sorcery::Engine::start() -> int {
 	_generate_display();
 	_set_maze_entry_start();
 
+	_game->print();
+
 	if (!_tile_explored(_game->state->get_player_pos()))
 		_set_tile_explored(_game->state->get_player_pos());
 

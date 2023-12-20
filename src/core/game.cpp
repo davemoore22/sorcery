@@ -383,7 +383,6 @@ auto Sorcery::Game::_load_characters() -> void {
 		}
 		character.create_spells();
 		character.set_spells();
-		character.set_stage(CharacterStage::COMPLETED);
 		characters[character_id] = character;
 	}
 }
