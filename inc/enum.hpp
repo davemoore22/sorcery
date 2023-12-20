@@ -648,7 +648,10 @@ namespace Enums::System {
 		RESTART = 9,
 		EDGE = 10,
 		CONTINUE = 11,
-		NEW = 12
+		NEW = 12,
+		COMPENDIUM = 13,
+		LICENSE = 14,
+		OPTIONS = 15
 	};
 
 	// Errors

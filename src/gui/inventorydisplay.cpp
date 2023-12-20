@@ -39,7 +39,6 @@ auto Sorcery::InventoryDisplay::generate() -> void {
 	auto x{std::stoi(_layout["offset_x"].value())};
 	const auto start_x{x};
 	auto y{std::stoi(_layout["offset_y"].value())};
-	const auto start_y{y};
 	const auto row_y{std::stoi(_layout["row_y"].value())};
 	const auto column_x{std::stoi(_layout["column_x"].value())};
 

@@ -9,5 +9,6 @@ list(APPEND sorcery_SOURCES
 	${CMAKE_CURRENT_LIST_DIR}/museum.cpp
 	${CMAKE_CURRENT_LIST_DIR}/options.cpp
 	${CMAKE_CURRENT_LIST_DIR}/splash.cpp
+	${CMAKE_CURRENT_LIST_DIR}/spellbook.cpp
 	${CMAKE_CURRENT_LIST_DIR}/statistics.cpp
 )

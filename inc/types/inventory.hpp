@@ -44,7 +44,7 @@ class Inventory {
 		~Inventory() = default;
 
 		// Overloaded Operators
-		auto operator[](const int slot) -> std::optional<Item *>;
+		auto operator[](const unsigned int slot) -> std::optional<Item *>;
 		auto friend operator<<(std::ostream &out_stream, const Inventory &inventory) -> std::ostream &;
 
 		// Serialisation

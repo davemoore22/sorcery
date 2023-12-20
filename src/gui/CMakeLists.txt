@@ -19,7 +19,6 @@ list(APPEND sorcery_SOURCES
 	${CMAKE_CURRENT_LIST_DIR}/map.cpp
 	${CMAKE_CURRENT_LIST_DIR}/menu.cpp
 	${CMAKE_CURRENT_LIST_DIR}/partypanel.cpp
-	${CMAKE_CURRENT_LIST_DIR}/spellbook.cpp
 	${CMAKE_CURRENT_LIST_DIR}/spellpanel.cpp
 	${CMAKE_CURRENT_LIST_DIR}/text.cpp
 	${CMAKE_CURRENT_LIST_DIR}/textpanel.cpp

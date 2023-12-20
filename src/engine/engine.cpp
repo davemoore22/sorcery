@@ -2218,8 +2218,11 @@ auto Sorcery::Engine::_combat_if() -> bool {
 			// do combat
 			PRINT("Combat Here!");
 			_next_combat = std::nullopt;
+			return true;
 		}
 	}
+
+	return false;
 }
 
 auto Sorcery::Engine::_encounter_if() -> bool {
@@ -2833,6 +2836,8 @@ auto Sorcery::Engine::_debug_start_random_combat() -> std::optional<int> {
 
 	_show_encounter = true;
 	_next_combat = CombatType::RANDOM;
+
+	return std::nullopt;
 }
 
 auto Sorcery::Engine::_debug_set_quest_item_flags() -> std::optional<int> {

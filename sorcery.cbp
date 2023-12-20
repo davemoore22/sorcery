@@ -12,7 +12,7 @@
 				<Option object_output="obj/debug/" />
 				<Option type="5" />
 				<Option compiler="gcc" />
-				<Option parameters="--skip-intro -quickstart" />
+				<Option parameters="--skip-intro -go-to-compendium" />
 				<Compiler>
 					<Add option="-pg" />
 					<Add option="-g" />
@@ -279,6 +279,7 @@
 		<Unit filename="inc/frontend/mainmenu.hpp" />
 		<Unit filename="inc/frontend/museum.hpp" />
 		<Unit filename="inc/frontend/options.hpp" />
+		<Unit filename="inc/frontend/spellbook.hpp" />
 		<Unit filename="inc/frontend/splash.hpp" />
 		<Unit filename="inc/frontend/statistics.hpp" />
 		<Unit filename="inc/gui/allocatepanel.hpp" />
@@ -301,7 +302,6 @@
 		<Unit filename="inc/gui/map.hpp" />
 		<Unit filename="inc/gui/menu.hpp" />
 		<Unit filename="inc/gui/partypanel.hpp" />
-		<Unit filename="inc/gui/spellbook.hpp" />
 		<Unit filename="inc/gui/spellpanel.hpp" />
 		<Unit filename="inc/gui/text.hpp" />
 		<Unit filename="inc/gui/textpanel.hpp" />
@@ -394,6 +394,7 @@
 		<Unit filename="src/frontend/mainmenu.cpp" />
 		<Unit filename="src/frontend/museum.cpp" />
 		<Unit filename="src/frontend/options.cpp" />
+		<Unit filename="src/frontend/spellbook.cpp" />
 		<Unit filename="src/frontend/splash.cpp" />
 		<Unit filename="src/frontend/statistics.cpp" />
 		<Unit filename="src/gui/CMakeLists.txt" />
@@ -417,7 +418,6 @@
 		<Unit filename="src/gui/map.cpp" />
 		<Unit filename="src/gui/menu.cpp" />
 		<Unit filename="src/gui/partypanel.cpp" />
-		<Unit filename="src/gui/spellbook.cpp" />
 		<Unit filename="src/gui/spellpanel.cpp" />
 		<Unit filename="src/gui/text.cpp" />
 		<Unit filename="src/gui/textpanel.cpp" />

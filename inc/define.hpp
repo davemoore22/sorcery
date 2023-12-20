@@ -58,13 +58,15 @@ inline constexpr auto NEW_GAME{"new-game"sv};
 inline constexpr auto RESTART_EXPEDITION{"restart-expedition"sv};
 inline constexpr auto START_EXPEDITION{"start-expedition"sv};
 inline constexpr auto QUICKSTART{"quickstart"sv};
+inline constexpr auto GO_TO_COMPENDIUM{"go-to-compendium"sv};
+inline constexpr auto GO_TO_LICENSE{"go-to-license"sv};
+inline constexpr auto GO_TO_OPTIONS{"go-to-options"sv};
 
 inline constexpr auto GO_TO_TRAINING{"go-to-training"sv};
 inline constexpr auto GO_TO_TAVERN{"go-to-tavern"sv};
 inline constexpr auto GO_TO_INN{"go-to-inn"sv};
 inline constexpr auto GO_TO_TEMPLE{"go-to-temple"sv};
 inline constexpr auto GO_TO_SHOP{"go-to-shop"sv};
-inline constexpr auto GO_TO_COMPENDIUM{"go-to-compendium"sv};
 
 // Directories
 inline constexpr auto CONFIG_DIR{"cfg"sv};

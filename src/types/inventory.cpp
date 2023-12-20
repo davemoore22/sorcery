@@ -29,7 +29,7 @@ Sorcery::Inventory::Inventory() {
 	_items.clear();
 }
 
-auto Sorcery::Inventory::operator[](const int slot) -> std::optional<Item *> {
+auto Sorcery::Inventory::operator[](const unsigned int slot) -> std::optional<Item *> {
 
 	if (_items.size() >= (slot - 1))
 		return &_items.at(slot - 1);

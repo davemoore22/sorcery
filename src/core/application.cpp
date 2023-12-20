@@ -110,6 +110,8 @@ auto Sorcery::Application::_quickstart() -> void {
 		case 5:
 			pc.create_class_alignment(CharacterClass::MAGE, CharacterAlignment::NEUTRAL);
 			break;
+		default:
+			return;
 		}
 
 		pc.finalise();
@@ -172,6 +174,12 @@ auto Sorcery::Application::start() -> int {
 			do_maze = true;
 	} else if (_check_param(QUICKSTART))
 		_quickstart();
+	else if (_check_param(GO_TO_COMPENDIUM))
+		destination = Destination::COMPENDIUM;
+	else if (_check_param(GO_TO_LICENSE))
+		destination = Destination::LICENSE;
+	else if (_check_param(GO_TO_OPTIONS))
+		destination = Destination::OPTIONS;
 
 	std::optional<MenuItem> mm_opt{std::nullopt};
 	do {
@@ -425,9 +433,25 @@ auto Sorcery::Application::_run_main_menu(const Destination destination) -> std:
 	MainMenuType menu_stage{ATTRACT_MODE};
 
 	do {
+		if (destination != Destination::DEFAULT) {
+			switch (destination) {
+			case Destination::OPTIONS:
+				option_chosen = MM_OPTIONS;
+				break;
+			case Destination::LICENSE:
+				option_chosen = MM_LICENSE;
+				break;
+			case Destination::COMPENDIUM:
+				option_chosen = MM_COMPENDIUM;
+				break;
+			default:
+				option_chosen = std::nullopt;
+			}
 
-		option_chosen = _mainmenu->start(menu_stage);
-		_mainmenu->stop();
+		} else {
+			option_chosen = _mainmenu->start(menu_stage);
+			_mainmenu->stop();
+		}
 		if (option_chosen) {
 
 			switch (option_chosen.value()) {
