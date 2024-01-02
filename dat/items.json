@@ -512,7 +512,8 @@
 		 "offensive": "PURPOSED_VS_DRAGON",
 		 "defensive": "PROTECTION_VS_DRAGON",
 		 "buy": "yes",
-		 "sell": "yes"
+		 "sell": "yes",
+		 "effects": "Bane: Dragon|Prot: Dragon"
 		},
 		{
 		 "id": 34,
@@ -826,7 +827,8 @@
 		 "offensive": "PURPOSED_VS_WERE",
 		 "defensive": "PROTECTION_VS_WERE",
 		 "buy": "yes",
-		 "sell": "yes"
+		 "sell": "yes",
+		 "effects": "Bane: Were|Prot: Were"
 		},
 		{
 		 "id": 56,
@@ -843,7 +845,8 @@
 		 "offensive": "PURPOSED_VS_MAGE",
 		 "defensive": "PROTECTION_VS_MAGE",
 		 "buy": "yes",
-		 "sell": "yes"
+		 "sell": "yes",
+		 "effects": "Bane: Mage|Prot: Mage"
 		},
 		{
 		 "id": 57,
@@ -860,7 +863,8 @@
 		 "offensive": "PURPOSED_VS_INSECT",
 		 "defensive": "PROTECTION_VS_INSECT",
 		 "buy": "yes",
-		 "sell": "yes"
+		 "sell": "yes",
+		 "effects": "Bane: Insect|Prot: Insect"
 		},
 		{
 		 "id": 58,
@@ -923,7 +927,8 @@
 		 "decay id": 0,
 		 "defensive": "RESIST_FIRE",
 		 "buy": "yes",
-		 "sell": "yes"
+		 "sell": "yes",
+		 "effects": "Resist: Fire"
 		},
 		{
 		 "id": 62,
@@ -1279,7 +1284,8 @@
 		 "offensive": "PURPOSED_VS_WERE,PURPOSED_VS_UNDEAD,PURPOSED_VS_DEMON,AUTOKILL",
 		 "defensive": "PROTECTION_VS_MYTHICAL,PROTECTION_VS_DRAGON",
 		 "buy": "yes",
-		 "sell": "yes"
+		 "sell": "yes",
+		 "effects": "Bane: Were/Undead/Demon|Prot: Mythical/Dragon|Autokill, Regen (1)"
 		},
 		{
 		 "id": 86,
@@ -1317,7 +1323,8 @@
 		 "offensive": "AUTOKILL",
 		 "defensive": "RESIST_LEVEL_DRAIN,RESIST_POISON",
 		 "buy": "yes",
-		 "sell": "yes"
+		 "sell": "yes",
+		 "effects": "Resist: Drain/Poison|Autokill"
 		},
 		{
 		 "id": 88,
@@ -1331,7 +1338,8 @@
 		 "ac": 6,
 		 "defensive": "RESIST_FIRE",
 		 "buy": "yes",
-		 "sell": "yes"
+		 "sell": "yes",
+		 "effects": "Resist: Fire"
 		},
 		{
 		 "id": 89,
@@ -1370,7 +1378,8 @@
 		 "allowed alignments": "gne",
 		 "regeneration": 1,
 		 "buy": "yes",
-		 "sell": "yes"
+		 "sell": "yes",
+		 "effects": "Regen (1)"
 		},
 		{
 		 "id": 92,
@@ -1383,7 +1392,8 @@
 		 "allowed alignments": "gne",
 		 "defensive": "PROTECTION_VS_UNDEAD",
 		 "buy": "yes",
-		 "sell": "yes"
+		 "sell": "yes",
+		 "effects": "Resist: Undead/Drain"
 		},
 		{
 		 "id": 93,
@@ -1397,7 +1407,8 @@
 		 "allowed alignments": "gne",
 		 "regeneration": -3,
 		 "buy": "yes",
-		 "sell": "no"
+		 "sell": "no",
+		 "effects": "Drain (3)"
 		},
 		{
 		 "id": 94,
@@ -1417,7 +1428,8 @@
 		 "use": "MALOR",
 		 "use decay": 0,
 		 "buy": "yes",
-		 "sell": "no"
+		 "sell": "no",
+		 "effects": "Prot: All|Resist: All|Regen (5)"
 		},
 		{
 		 "id": 95,
@@ -1427,7 +1439,8 @@
 		 "display name": "Statue|Bear",
 		 "value": 0,
 		 "buy": "no",
-		 "sell": "no"
+		 "sell": "no",
+		 "effects": "Quest Item"
 		},
 		{
 		 "id": 96,
@@ -1437,7 +1450,8 @@
 		 "display name": "Statue|Frog",
 		 "value": 0,
 		 "buy": "no",
-		 "sell": "no"
+		 "sell": "no",
+		 "effects": "Quest Item"
 		},
 		{
 		 "id": 97,
@@ -1447,7 +1461,8 @@
 		 "display name": "Bronze key",
 		 "value": 0,
 		 "buy": "no",
-		 "sell": "no"
+		 "sell": "no",
+		 "effects": "Quest Item"
 		},
 		{
 		 "id": 98,
@@ -1457,7 +1472,8 @@
 		 "display name": "Silver Key",
 		 "value": 0,
 		 "buy": "no",
-		 "sell": "no"
+		 "sell": "no",
+		 "effects": "Quest Item"
 		},
 		{
 		 "id": 99,
@@ -1467,7 +1483,8 @@
 		 "display name": "Gold Key",
 		 "value": 0,
 		 "buy": "no",
-		 "sell": "no"
+		 "sell": "no",
+		 "effects": "Quest Item"
 		},
 		{
 		 "id": 100,
@@ -1477,7 +1494,8 @@
 		 "display name": "Blue Ribbon",
 		 "value": 0,
 		 "buy": "no",
-		 "sell": "no"
+		 "sell": "no",
+		 "effects": "Quest Item"
 		}
 	]
 }

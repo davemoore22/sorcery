@@ -107,6 +107,8 @@ class ItemType {
 		auto set_gfx(const unsigned int value) -> void;
 		auto set_sell(const bool value) -> void;
 		auto set_buy(const bool value) -> void;
+		auto set_effects(const std::string value) -> void;
+		auto get_effects() const -> std::string;
 
 	private:
 
@@ -143,6 +145,7 @@ class ItemType {
 		unsigned int _gfx;					   // Index of Item Graphic
 		bool _buy;							   // Can Player buy this item from Shop
 		bool _sell;							   // Can Player sell this item to Shop
+		std::string _effects;				   // Textual Representation of Effects
 
 		static std::random_device _device; // Shared RNG
 		static std::mt19937_64 _random;

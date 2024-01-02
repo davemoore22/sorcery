@@ -67,6 +67,16 @@ auto Sorcery::ItemType::get_value() const -> unsigned int {
 	return _value;
 }
 
+auto Sorcery::ItemType::set_effects(const std::string value) -> void {
+
+	_effects = value;
+}
+
+auto Sorcery::ItemType::get_effects() const -> std::string {
+
+	return _effects;
+}
+
 auto Sorcery::ItemType::get_sellable() const -> bool {
 
 	return _sellable;

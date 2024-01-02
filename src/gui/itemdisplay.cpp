@@ -153,7 +153,29 @@ auto Sorcery::ItemDisplay::set(const unsigned int item_idx) -> void {
 	}()};
 	_add_text((*_display->layout)["item_display:use_label_item"], "{}", it_use);
 
-	auto effects{it.get_eff_def_str()};
+	auto effects{it.get_effects()};
+	if (effects.length() > 0) {
+		TRIM(effects);
+
+		std::vector<std::string> strings;
+		const std::regex regex(R"([|]+)");
+		std::sregex_token_iterator it{effects.begin(), effects.end(), regex, -1};
+		std::vector<std::string> split{it, {}};
+		split.erase(std::remove_if(split.begin(), split.end(), [](std::string const &s) { return s.size() == 0; }),
+			split.end());
+		strings = split;
+
+		Component effects_c{(*_display->layout)["item_display:properties_label_item"]};
+		auto x{effects_c.x};
+		auto y{effects_c.y};
+		for (const auto &each_string : strings) {
+			auto text{_add_text((*_display->layout)["item_display:properties_label_item"], "{}", each_string)};
+			text->setPosition(x, y);
+			y += _display->window->get_ch();
+		}
+	}
+
+	/* auto effects{it.get_eff_def_str()};
 	effects.append(it.get_eff_off_str());
 	if (effects.length() > 0) {
 		TRIM(effects);
@@ -183,7 +205,7 @@ auto Sorcery::ItemDisplay::set(const unsigned int item_idx) -> void {
 			text->setPosition(x, y);
 			y += _display->window->get_ch();
 		}
-	}
+	} */
 }
 
 auto Sorcery::ItemDisplay::_add_text(Component &component, std::string format, std::string value) -> sf::Text * {

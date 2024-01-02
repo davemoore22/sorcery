@@ -225,7 +225,7 @@
 					"icon_y_alignments": "28",
 					"icon_offset_x": "26",
 					"icon_offset_y": "48",
-					"effects_width": "34"
+					"effects_width": "23"
 				}
 			]
 		},
@@ -6419,26 +6419,26 @@
 		"component": [
 		{
 			"name": "type_label",
-			"x": "0",
-			"y": "2",
+			"x": "4",
+			"y": "3",
 			"font": "text",
 			"colour": "0xa0a0a0ff",
 			"size": "24",
 			"string": "ITEM_TYPE",
-			"justification": "left",
+			"justification": "right",
 			"type": "text",
 			"priority": "3",
 			"drawmode": "automatic"
 		},
 		{
 			"name": "price_label",
-			"x": "0",
-			"y": "3",
+			"x": "4",
+			"y": "4",
 			"font": "text",
 			"colour": "0xa0a0a0ff",
 			"size": "24",
 			"string": "ITEM_PRICE",
-			"justification": "left",
+			"justification": "right",
 			"type": "text",
 			"priority": "3",
 			"drawmode": "automatic"
@@ -6446,7 +6446,7 @@
 		{
 			"name": "cursed_label",
 			"x": "14",
-			"y": "2",
+			"y": "3",
 			"font": "text",
 			"colour": "0xa0a0a0ff",
 			"size": "24",
@@ -6459,7 +6459,7 @@
 		{
 			"name": "discovered_label",
 			"x": "14",
-			"y": "3",
+			"y": "4",
 			"font": "text",
 			"colour": "0xa0a0a0ff",
 			"size": "24",
@@ -6471,26 +6471,26 @@
 		},
 		{
 			"name": "usable_label",
-			"x": "0",
+			"x": "4",
 			"y": "1",
 			"font": "text",
 			"colour": "0xa0a0a0ff",
 			"size": "24",
 			"string": "ITEM_USABLE",
-			"justification": "left",
+			"justification": "right",
 			"type": "text",
 			"priority": "3",
 			"drawmode": "automatic"
 		},
 		{
 			"name": "ac_label",
-			"x": "0",
-			"y": "4",
+			"x": "4",
+			"y": "5",
 			"font": "text",
 			"colour": "0xa0a0a0ff",
 			"size": "24",
 			"string": "ITEM_AC",
-			"justification": "left",
+			"justification": "right",
 			"type": "text",
 			"priority": "3",
 			"drawmode": "automatic"
@@ -6498,7 +6498,7 @@
 		{
 			"name": "to_hit_label",
 			"x": "14",
-			"y": "4",
+			"y": "5",
 			"font": "text",
 			"colour": "0xa0a0a0ff",
 			"size": "24",
@@ -6511,7 +6511,7 @@
 		{
 			"name": "swings_label",
 			"x": "14",
-			"y": "5",
+			"y": "6",
 			"font": "text",
 			"colour": "0xa0a0a0ff",
 			"size": "24",
@@ -6523,52 +6523,52 @@
 		},
 		{
 			"name": "damage_label",
-			"x": "0",
-			"y": "5",
+			"x": "4",
+			"y": "6",
 			"font": "text",
 			"colour": "0xa0a0a0ff",
 			"size": "24",
 			"string": "ITEM_DAMAGE",
-			"justification": "left",
+			"justification": "right",
 			"type": "text",
 			"priority": "3",
 			"drawmode": "automatic"
 		},
 		{
 			"name": "invoke_label",
-			"x": "0",
-			"y": "6",
+			"x": "4",
+			"y": "7",
 			"font": "text",
 			"colour": "0xa0a0a0ff",
 			"size": "24",
 			"string": "ITEM_INVOKE",
-			"justification": "left",
+			"justification": "right",
 			"type": "text",
 			"priority": "3",
 			"drawmode": "automatic"
 		},
 		{
 			"name": "usage_label",
-			"x": "0",
-			"y": "7",
+			"x": "4",
+			"y": "8",
 			"font": "text",
 			"colour": "0xa0a0a0ff",
 			"size": "24",
 			"string": "ITEM_USAGE",
-			"justification": "left",
+			"justification": "right",
 			"type": "text",
 			"priority": "3",
 			"drawmode": "automatic"
 		},
 		{
 			"name": "properties_label",
-			"x": "0",
-			"y": "8",
+			"x": "4",
+			"y": "9",
 			"font": "text",
 			"colour": "0xa0a0a0ff",
 			"size": "24",
 			"string": "ITEM_PROPERTIES",
-			"justification": "left",
+			"justification": "right",
 			"type": "text",
 			"priority": "3",
 			"drawmode": "automatic"
@@ -6588,8 +6588,8 @@
 		},
 		{
 			"name": "type_label_item",
-			"x": "3",
-			"y": "2",
+			"x": "5",
+			"y": "3",
 			"font": "text",
 			"colour": "0xffffffff",
 			"size": "24",
@@ -6602,7 +6602,7 @@
 		{
 			"name": "cursed_label_item",
 			"x": "15",
-			"y": "2",
+			"y": "3",
 			"font": "text",
 			"colour": "0xffffffff",
 			"size": "24",
@@ -6614,32 +6614,6 @@
 		},
 		{
 			"name": "value_label_item",
-			"x": "4",
-			"y": "3",
-			"font": "text",
-			"colour": "0xffffffff",
-			"size": "24",
-			"string": "NONE",
-			"justification": "left",
-			"type": "text",
-			"priority": "3",
-			"drawmode": "manual"
-		},
-		{
-			"name": "discovered_label_item",
-			"x": "15",
-			"y": "3",
-			"font": "text",
-			"colour": "0xffffffff",
-			"size": "24",
-			"string": "NONE",
-			"justification": "left",
-			"type": "text",
-			"priority": "3",
-			"drawmode": "manual"
-		},
-		{
-			"name": "ac_mod_label_item",
 			"x": "5",
 			"y": "4",
 			"font": "text",
@@ -6652,7 +6626,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "attack_mod_label_item",
+			"name": "discovered_label_item",
 			"x": "15",
 			"y": "4",
 			"font": "text",
@@ -6665,8 +6639,8 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "damage_label_item",
-			"x": "4",
+			"name": "ac_mod_label_item",
+			"x": "5",
 			"y": "5",
 			"font": "text",
 			"colour": "0xffffffff",
@@ -6678,7 +6652,7 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "swings_label_item",
+			"name": "attack_mod_label_item",
 			"x": "15",
 			"y": "5",
 			"font": "text",
@@ -6691,8 +6665,8 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "invoke_label_item",
-			"x": "7",
+			"name": "damage_label_item",
+			"x": "5",
 			"y": "6",
 			"font": "text",
 			"colour": "0xffffffff",
@@ -6704,8 +6678,21 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "use_label_item",
-			"x": "7",
+			"name": "swings_label_item",
+			"x": "15",
+			"y": "6",
+			"font": "text",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
+			"name": "invoke_label_item",
+			"x": "5",
 			"y": "7",
 			"font": "text",
 			"colour": "0xffffffff",
@@ -6717,8 +6704,21 @@
 			"drawmode": "manual"
 		},
 		{
+			"name": "use_label_item",
+			"x": "5",
+			"y": "8",
+			"font": "text",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		},
+		{
 			"name": "properties_label_item",
-			"x": "0",
+			"x": "5",
 			"y": "9",
 			"font": "text",
 			"colour": "0xffffffff",
