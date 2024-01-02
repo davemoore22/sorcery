@@ -13,7 +13,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
-				<Option parameters="--skip-intro -go-to-license" />
+				<Option parameters="--skip-intro -go-to-compendium" />
 				<Compiler>
 					<Add option="-pg" />
 					<Add option="-g" />
@@ -330,7 +330,9 @@
 		<Unit filename="inc/resources/iconstore.hpp" />
 		<Unit filename="inc/resources/itemstore.hpp" />
 		<Unit filename="inc/resources/levelstore.hpp" />
+		<Unit filename="inc/resources/monsterstore.hpp" />
 		<Unit filename="inc/resources/resourcemanager.hpp" />
+		<Unit filename="inc/resources/spellstore.hpp" />
 		<Unit filename="inc/resources/stringstore.hpp" />
 		<Unit filename="inc/resources/texturestore.hpp" />
 		<Unit filename="inc/types/character.hpp" />
@@ -341,6 +343,8 @@
 		<Unit filename="inc/types/item.hpp" />
 		<Unit filename="inc/types/itemtype.hpp" />
 		<Unit filename="inc/types/level.hpp" />
+		<Unit filename="inc/types/monster.hpp" />
+		<Unit filename="inc/types/monstertype.hpp" />
 		<Unit filename="inc/types/textfile.hpp" />
 		<Unit filename="inc/types/tile.hpp" />
 		<Unit filename="inc/types/type.hpp" />
@@ -447,6 +451,7 @@
 		<Unit filename="src/resources/iconstore.cpp" />
 		<Unit filename="src/resources/itemstore.cpp" />
 		<Unit filename="src/resources/levelstore.cpp" />
+		<Unit filename="src/resources/monsterstore.cpp" />
 		<Unit filename="src/resources/resourcemanager.cpp" />
 		<Unit filename="src/resources/stringstore.cpp" />
 		<Unit filename="src/resources/texturestore.cpp" />
@@ -459,6 +464,8 @@
 		<Unit filename="src/types/item.cpp" />
 		<Unit filename="src/types/itemtype.cpp" />
 		<Unit filename="src/types/level.cpp" />
+		<Unit filename="src/types/monster.cpp" />
+		<Unit filename="src/types/monstertype.cpp" />
 		<Unit filename="src/types/textfile.cpp" />
 		<Unit filename="src/types/tile.cpp" />
 		<Unit filename="vfx/menu.mp4" />

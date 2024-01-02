@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Dave Moore
+// Copyright (C) 2024 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -28,6 +28,7 @@
 #include "core/game.hpp"
 #include "core/graphics.hpp"
 #include "core/system.hpp"
+#include "frontend/bestiary.hpp"
 #include "frontend/museum.hpp"
 #include "gui/frame.hpp"
 #include "gui/menu.hpp"
@@ -74,6 +75,6 @@ class Compendium {
 		std::unique_ptr<Menu> _menu;
 		std::optional<std::vector<MenuEntry>::const_iterator> _selected;
 		std::unique_ptr<Museum> _museum;
+		std::unique_ptr<Bestiary> _bestiary;
 };
-
 }

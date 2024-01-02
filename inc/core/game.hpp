@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Dave Moore
+// Copyright (C) 2024 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -31,6 +31,7 @@
 #include "main.hpp"
 #include "resources/itemstore.hpp"
 #include "resources/levelstore.hpp"
+#include "resources/monsterstore.hpp"
 #include "types/character.hpp"
 
 namespace Sorcery {
@@ -52,6 +53,7 @@ class Game {
 		std::unique_ptr<State> state;
 		std::unique_ptr<LevelStore> levelstore;
 		std::unique_ptr<ItemStore> itemstore;
+		std::unique_ptr<MonsterStore> monsterstore;
 
 		// Public Methods
 		auto wipe_data() -> void;

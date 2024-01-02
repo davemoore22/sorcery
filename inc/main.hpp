@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Dave Moore
+// Copyright (C) 2024 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -181,6 +181,7 @@ using MessagePosition = Enums::View::Message::Position;
 using MessageType = Enums::Internal::MessageType;
 using Method = Enums::Manage::Method;
 using ModuleResult = Enums::System::ModuleResult;
+using MonsterTypeID = Enums::Monsters::TypeID;
 using RandomType = Enums::System::Random;
 using Range = std::tuple<unsigned int, unsigned int>;
 using RestMode = Enums::Castle::Rest::Mode;

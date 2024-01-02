@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Dave Moore
+// Copyright (C) 2024 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -77,6 +77,8 @@ auto Sorcery::Compendium::_reset_components() -> void {
 		_menu.reset();
 	if (_museum.get())
 		_museum.reset();
+	if (_bestiary.get())
+		_bestiary.reset();
 }
 
 auto Sorcery::Compendium::_place_components() -> void {
@@ -93,6 +95,7 @@ auto Sorcery::Compendium::_initalise_components() -> void {
 	_menu->generate((*_display->layout)["compendium:menu"]);
 
 	_museum = std::make_unique<Museum>(_system, _display, _graphics, _game);
+	_bestiary = std::make_unique<Bestiary>(_system, _display, _graphics, _game);
 }
 
 auto Sorcery::Compendium::_refresh_display() -> void {
@@ -185,6 +188,14 @@ auto Sorcery::Compendium::_handle_input(const sf::Event &event) -> std::optional
 					return ModuleResult::EXIT;
 				}
 				_museum->stop();
+				_generate_display();
+				_refresh_display();
+			} else if (option_chosen == MenuItem::CO_MONSTERS) {
+				if (auto result{_bestiary->start()}; result && result == EXIT_ALL) {
+					_bestiary->stop();
+					return ModuleResult::EXIT;
+				}
+				_bestiary->stop();
 				_generate_display();
 				_refresh_display();
 			}

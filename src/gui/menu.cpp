@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Dave Moore
+// Copyright (C) 2024 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -352,6 +352,14 @@ Sorcery::Menu::Menu(
 		_add_all_items();
 		selected = items.begin();
 		break;
+	case BESTIARY:
+		_add_all_monsters();
+		selected = items.begin();
+		break;
+	case SPELLBOOK:
+		_add_all_spells();
+		selected = items.begin();
+		break;
 	default:
 		break;
 	}
@@ -370,6 +378,19 @@ auto Sorcery::Menu::_add_all_items() -> void {
 		if (item_type.get_type_id() != ItemTypeID::BROKEN_ITEM)
 			_add_item(unenum(item_type.get_type_id()), MenuItemType::ENTRY, MenuItem::MU_ITEM,
 				item_type.get_display_name(), unenum(item_type.get_type_id()));
+}
+
+// Monster List is special
+auto Sorcery::Menu::_add_all_monsters() -> void {
+
+	const auto monster_types{_game->monsterstore->get_all_types()};
+	for (auto &monster : monster_types)
+		_add_item(unenum(monster.get_type_id()), MenuItemType::ENTRY, MenuItem::MU_ITEM, monster.get_known_name(),
+			unenum(monster.get_type_id()));
+}
+
+// Spellbook is special too
+auto Sorcery::Menu::_add_all_spells() -> void {
 }
 
 // The Character Menu is a special case and needs to be reloaded often when names and classes change
@@ -737,7 +758,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 	using enum Enums::Menu::ItemType;
 
 	// Figure out if we can display all the items to begin with or just a moving "window"
-	if (_type != MUSEUM) {
+	if ((_type != MUSEUM) && (_type != BESTIARY)) {
 		_visible_items = items;
 	} else {
 		auto current{

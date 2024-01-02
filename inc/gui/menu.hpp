@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Dave Moore
+// Copyright (C) 2024 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -91,6 +91,8 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		auto _select_first() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto _select_last() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto _add_all_items() -> void;
+		auto _add_all_spells() -> void;
+		auto _add_all_monsters() -> void;
 		auto _choose_by_index(const unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator>;
 
 		// Private Members

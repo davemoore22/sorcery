@@ -1163,6 +1163,7 @@
 		{
 		 "id": 78,
 		 "category": "HELMET",
+		 "cursed": "Cursed",
 		 "known name": "Helm of Curses",
 		 "unknown name": "Helm",
 		 "display name": "Helm|Curses",

@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Dave Moore
+// Copyright (C) 2024 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -772,7 +772,9 @@ namespace Enums::Menu {
 		GRAVEYARD,
 		COMPENDIUM,
 		MUSEUM,
-		SHOP_ACTION
+		BESTIARY,
+		SHOP_ACTION,
+		SPELLBOOK
 	};
 
 	enum class Mode {
@@ -1223,7 +1225,7 @@ namespace Enums {
 
 	}
 
-	namespace Creatures {
+	namespace Monsters {
 
 		// Following the original numbering at http://www.pekori.jp/~emonoya/monster/index.html for
 		// the sake of convenience and ease of replicating original item tables

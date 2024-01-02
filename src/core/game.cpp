@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Dave Moore
+// Copyright (C) 2024 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
 //
@@ -30,6 +30,7 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	itemstore = std::make_unique<ItemStore>(_system, (*_system->files)[ITEMS_FILE]);
+	monsterstore = std::make_unique<MonsterStore>(_system, (*_system->files)[MONSTERS_FILE]);
 
 	valid = _system->database->has_game();
 	if (valid) {

@@ -1,6 +1,6 @@
 # Sorcery: Shadows under Llylgamyn
 
-An open source remake/remaster initially of the classic CRPG Wizardry, Proving Grounds of the Mad Overlord, then hopefully of the Sequels II (The Diamond Knight), III (Legacy of Llylgamyn), and V (Heart of the Maelstrom). Currently under heavy development with a release hopefully later in 2023.
+An open source remake/remaster initially of the classic CRPG Wizardry, Proving Grounds of the Mad Overlord, then hopefully of the Sequels II (The Diamond Knight), III (Legacy of Llylgamyn), and V (Heart of the Maelstrom). Currently under heavy development with a release hopefully later in 2024.
 
 Written using SFML, TGUI, and C++.
 
@@ -12,7 +12,7 @@ Written using SFML, TGUI, and C++.
 
 Watch some videos of gameplay (most recent first):
 
-(New as of August 2023 - Compendium Browsing)[![Compendium Browsing](https://img.youtube.com/vi/TSj7Rw3l3Iw/maxresdefault.jpg)](https://youtu.be/TSj7Rw3l3Iw)
+(New as of December 2023 - Compendium Browsing)[![Compendium Browsing](https://img.youtube.com/vi/TSj7Rw3l3Iw/maxresdefault.jpg)](https://youtu.be/TSj7Rw3l3Iw)
 [![Entering the Dungeon](https://img.youtube.com/vi/AQ9LhK0ta8A/maxresdefault.jpg)](https://youtu.be/AQ9LhK0ta8A)
 [![Dungeon Events](https://img.youtube.com/vi/RG25iYrPBlg/maxresdefault.jpg)](https://youtu.be/RG25iYrPBlg)
 

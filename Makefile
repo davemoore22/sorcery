@@ -2453,6 +2453,30 @@ src/resources/levelstore.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/levelstore.cpp.s
 .PHONY : src/resources/levelstore.cpp.s
 
+src/resources/monsterstore.o: src/resources/monsterstore.cpp.o
+.PHONY : src/resources/monsterstore.o
+
+# target to build an object file
+src/resources/monsterstore.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/monsterstore.cpp.o
+.PHONY : src/resources/monsterstore.cpp.o
+
+src/resources/monsterstore.i: src/resources/monsterstore.cpp.i
+.PHONY : src/resources/monsterstore.i
+
+# target to preprocess a source file
+src/resources/monsterstore.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/monsterstore.cpp.i
+.PHONY : src/resources/monsterstore.cpp.i
+
+src/resources/monsterstore.s: src/resources/monsterstore.cpp.s
+.PHONY : src/resources/monsterstore.s
+
+# target to generate assembly for a file
+src/resources/monsterstore.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/monsterstore.cpp.s
+.PHONY : src/resources/monsterstore.cpp.s
+
 src/resources/resourcemanager.o: src/resources/resourcemanager.cpp.o
 .PHONY : src/resources/resourcemanager.o
 
@@ -2476,6 +2500,30 @@ src/resources/resourcemanager.s: src/resources/resourcemanager.cpp.s
 src/resources/resourcemanager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/resourcemanager.cpp.s
 .PHONY : src/resources/resourcemanager.cpp.s
+
+src/resources/spellstore.o: src/resources/spellstore.cpp.o
+.PHONY : src/resources/spellstore.o
+
+# target to build an object file
+src/resources/spellstore.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/spellstore.cpp.o
+.PHONY : src/resources/spellstore.cpp.o
+
+src/resources/spellstore.i: src/resources/spellstore.cpp.i
+.PHONY : src/resources/spellstore.i
+
+# target to preprocess a source file
+src/resources/spellstore.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/spellstore.cpp.i
+.PHONY : src/resources/spellstore.cpp.i
+
+src/resources/spellstore.s: src/resources/spellstore.cpp.s
+.PHONY : src/resources/spellstore.s
+
+# target to generate assembly for a file
+src/resources/spellstore.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/spellstore.cpp.s
+.PHONY : src/resources/spellstore.cpp.s
 
 src/resources/stringstore.o: src/resources/stringstore.cpp.o
 .PHONY : src/resources/stringstore.o
@@ -2716,6 +2764,54 @@ src/types/level.s: src/types/level.cpp.s
 src/types/level.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/level.cpp.s
 .PHONY : src/types/level.cpp.s
+
+src/types/monster.o: src/types/monster.cpp.o
+.PHONY : src/types/monster.o
+
+# target to build an object file
+src/types/monster.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/monster.cpp.o
+.PHONY : src/types/monster.cpp.o
+
+src/types/monster.i: src/types/monster.cpp.i
+.PHONY : src/types/monster.i
+
+# target to preprocess a source file
+src/types/monster.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/monster.cpp.i
+.PHONY : src/types/monster.cpp.i
+
+src/types/monster.s: src/types/monster.cpp.s
+.PHONY : src/types/monster.s
+
+# target to generate assembly for a file
+src/types/monster.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/monster.cpp.s
+.PHONY : src/types/monster.cpp.s
+
+src/types/monstertype.o: src/types/monstertype.cpp.o
+.PHONY : src/types/monstertype.o
+
+# target to build an object file
+src/types/monstertype.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/monstertype.cpp.o
+.PHONY : src/types/monstertype.cpp.o
+
+src/types/monstertype.i: src/types/monstertype.cpp.i
+.PHONY : src/types/monstertype.i
+
+# target to preprocess a source file
+src/types/monstertype.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/monstertype.cpp.i
+.PHONY : src/types/monstertype.cpp.i
+
+src/types/monstertype.s: src/types/monstertype.cpp.s
+.PHONY : src/types/monstertype.s
+
+# target to generate assembly for a file
+src/types/monstertype.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/monstertype.cpp.s
+.PHONY : src/types/monstertype.cpp.s
 
 src/types/textfile.o: src/types/textfile.cpp.o
 .PHONY : src/types/textfile.o
@@ -3064,9 +3160,15 @@ help:
 	@echo "... src/resources/levelstore.o"
 	@echo "... src/resources/levelstore.i"
 	@echo "... src/resources/levelstore.s"
+	@echo "... src/resources/monsterstore.o"
+	@echo "... src/resources/monsterstore.i"
+	@echo "... src/resources/monsterstore.s"
 	@echo "... src/resources/resourcemanager.o"
 	@echo "... src/resources/resourcemanager.i"
 	@echo "... src/resources/resourcemanager.s"
+	@echo "... src/resources/spellstore.o"
+	@echo "... src/resources/spellstore.i"
+	@echo "... src/resources/spellstore.s"
 	@echo "... src/resources/stringstore.o"
 	@echo "... src/resources/stringstore.i"
 	@echo "... src/resources/stringstore.s"
@@ -3097,6 +3199,12 @@ help:
 	@echo "... src/types/level.o"
 	@echo "... src/types/level.i"
 	@echo "... src/types/level.s"
+	@echo "... src/types/monster.o"
+	@echo "... src/types/monster.i"
+	@echo "... src/types/monster.s"
+	@echo "... src/types/monstertype.o"
+	@echo "... src/types/monstertype.i"
+	@echo "... src/types/monstertype.s"
 	@echo "... src/types/textfile.o"
 	@echo "... src/types/textfile.i"
 	@echo "... src/types/textfile.s"
