@@ -8,8 +8,8 @@
 		"Unknown Name": "Slime",
 		"Unknown Name Plural": "Slimes",
 		"Group Size": "2d2",
-		"Level": 1,
-		"HP per Level": "1d3+1",
+		"level": 1,
+		"hitdice": "1d3+1",
 		"Class": "Animal",
 		"AC": 12,
 		"Attacks": "1d1",
@@ -23,7 +23,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 69,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Res: Magic, Physical"
 		},
 		{
 		"id": 1,
@@ -32,8 +33,8 @@
 		"Unknown Name": "Small Humanoid",
 		"Unknown Name Plural": "Small Humanoids",
 		"Group Size": "3d2",
-		"Level": 1,
-		"HP per Level": "1d4",
+		"level": 1,
+		"hitdice": "1d4",
 		"Class": "Fighter",
 		"AC": 10,
 		"Attacks": "1d4",
@@ -48,7 +49,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 281,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees, Sleepable|Res: Fire"
 		},
 		{
 		"id": 2,
@@ -57,8 +59,8 @@
 		"Unknown Name": "Small Humanoid",
 		"Unknown Name Plural": "Small Humanoids",
 		"Group Size": "2d2+1",
-		"Level": 2,
-		"HP per Level": "2d3+1",
+		"level": 2,
+		"hitdice": "2d3+1",
 		"Class": "Fighter",
 		"AC": 8,
 		"Attacks": "1d2+1,1d2+1",
@@ -73,7 +75,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 204,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees, Sleepable|Res: Cold, Physical"
 		},
 		{
 		"id": 3,
@@ -82,8 +85,8 @@
 		"Unknown Name": "Skeleton",
 		"Unknown Name Plural": "Skeletons",
 		"Group Size": "1d6+1",
-		"Level": 2,
-		"HP per Level": "2d3+2",
+		"level": 2,
+		"hitdice": "2d3+2",
 		"Class": "Undead",
 		"AC": 10,
 		"Attacks": "1d4+1",
@@ -97,7 +100,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 430,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Res: Cold, Fire"
 		},
 		{
 		"id": 4,
@@ -106,8 +110,8 @@
 		"Unknown Name": "Scruffy Man",
 		"Unknown Name Plural": "Scruffy Men",
 		"Group Size": "1d4+1",
-		"Level": 2,
-		"HP per Level": "2d5+1",
+		"level": 2,
+		"hitdice": "2d5+1",
 		"Class": "Thief",
 		"AC": 10,
 		"Attacks": "1d4,2d2+1",
@@ -121,7 +125,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 312,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees, Sleepable"
 		},
 		{
 		"id": 5,
@@ -130,8 +135,8 @@
 		"Unknown Name": "Scruffy Man",
 		"Unknown Name Plural": "Scruffy Men",
 		"Group Size": "1d4+1",
-		"Level": 3,
-		"HP per Level": "3d6+1",
+		"level": 3,
+		"hitdice": "3d6+1",
 		"Class": "Fighter",
 		"AC": 8,
 		"Attacks": "1d6+1,2d4+1",
@@ -145,7 +150,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 433,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees, Sleepable"
 		},
 		{
 		"id": 6,
@@ -154,8 +160,8 @@
 		"Unknown Name": "Man In Chain",
 		"Unknown Name Plural": "Men In Chain",
 		"Group Size": "2d6",
-		"Level": 3,
-		"HP per Level": "3d4+2",
+		"level": 3,
+		"hitdice": "3d4+2",
 		"Class": "Fighter",
 		"AC": 6,
 		"Attacks": "1d2+1,1d2+1,1d2+1,1d2+1",
@@ -169,7 +175,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 432,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees, Sleepable|Infl: Criticals"
 		},
 		{
 		"id": 7,
@@ -178,8 +185,8 @@
 		"Unknown Name": "Weird Humanoid",
 		"Unknown Name Plural": "Weird Humanoids",
 		"Group Size": "1d6+1",
-		"Level": 1,
-		"HP per Level": "1d10+1",
+		"level": 1,
+		"hitdice": "1d10+1",
 		"Class": "Undead",
 		"AC": 4,
 		"Attacks": "1d6",
@@ -193,7 +200,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 431,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Infl: Paralysis"
 		},
 		{
 		"id": 8,
@@ -202,8 +210,8 @@
 		"Unknown Name": "Slime",
 		"Unknown Name Plural": "Slimes",
 		"Group Size": "1d6+1",
-		"Level": 3,
-		"HP per Level": "3d4",
+		"level": 3,
+		"hitdice": "3d4",
 		"Class": "Animal",
 		"AC": 6,
 		"Attacks": "1d3+1",
@@ -218,7 +226,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 167,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Infl: Poison|Res: Cold, Magic"
 		},
 		{
 		"id": 9,
@@ -227,8 +236,8 @@
 		"Unknown Name": "Gas Cloud",
 		"Unknown Name Plural": "Gas Clouds",
 		"Group Size": "2d4",
-		"Level": 2,
-		"HP per Level": "2d4",
+		"level": 2,
+		"hitdice": "2d4",
 		"Class": "Enchanted",
 		"AC": 10,
 		"Attacks": "1d4",
@@ -242,7 +251,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 142,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees|Mage Spells (2)|Infl: Paralysis"
 		},
 		{
 		"id": 10,
@@ -251,8 +261,8 @@
 		"Unknown Name": "Man In Robes",
 		"Unknown Name Plural": "Men In Robes",
 		"Group Size": "1d1",
-		"Level": 1,
-		"HP per Level": "1d4+1",
+		"level": 1,
+		"hitdice": "1d4+1",
 		"Class": "Mage",
 		"AC": 4,
 		"Attacks": "2d2",
@@ -266,7 +276,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 340,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees, Sleepable|Mage Spells (1)"
 		},
 		{
 		"id": 11,
@@ -275,8 +286,8 @@
 		"Unknown Name": "Priest",
 		"Unknown Name Plural": "Priests",
 		"Group Size": "1d4+1",
-		"Level": 1,
-		"HP per Level": "1d8",
+		"level": 1,
+		"hitdice": "1d8",
 		"Class": "Priest",
 		"AC": 5,
 		"Attacks": "1d8",
@@ -290,7 +301,8 @@
 		"Priest Level": 1,
 		"Spell Resistance": 0,
 		"gfx known index": 85,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees, Sleepable|Priest Spells (1)"
 		},
 		{
 		"id": 12,
@@ -299,8 +311,8 @@
 		"Unknown Name": "Small Object",
 		"Unknown Name Plural": "Small Objects",
 		"Group Size": "9d1",
-		"Level": 1,
-		"HP per Level": "1d1",
+		"level": 1,
+		"hitdice": "1d1",
 		"Class": "Enchanted",
 		"AC": 4,
 		"Attacks": "1d1",
@@ -316,7 +328,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 68,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Draining Breath, Reinforces|Res: Cold, Drain, Fire, Poison, Stone"
 		},
 		{
 		"id": 13,
@@ -325,8 +338,8 @@
 		"Unknown Name": "Kimonoed Man",
 		"Unknown Name Plural": "Kimonoed Men",
 		"Group Size": "2d4",
-		"Level": 2,
-		"HP per Level": "2d4+2",
+		"level": 2,
+		"hitdice": "2d4+2",
 		"Class": "Fighter",
 		"AC": 5,
 		"Attacks": "1d4,1d4,1d4",
@@ -340,7 +353,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 275,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Sleepable|Infl: Criticals"
 		},
 		{
 		"id": 14,
@@ -349,8 +363,8 @@
 		"Unknown Name": "Rabbit",
 		"Unknown Name Plural": "Rabbits",
 		"Group Size": "2d3+2",
-		"Level": 3,
-		"HP per Level": "3d6+2",
+		"level": 3,
+		"hitdice": "3d6+2",
 		"Class": "Animal",
 		"AC": 6,
 		"Attacks": "1d6,1d8",
@@ -365,7 +379,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 404,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees|Infl: Criticals|Res: Cold"
 		},
 		{
 		"id": 15,
@@ -374,8 +389,8 @@
 		"Unknown Name": "Giant Rodent",
 		"Unknown Name Plural": "Giant Rodents",
 		"Group Size": "2d4+1",
-		"Level": 4,
-		"HP per Level": "4d4",
+		"level": 4,
+		"hitdice": "4d4",
 		"Class": "Animal",
 		"AC": 8,
 		"Attacks": "1d10",
@@ -389,7 +404,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 37,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees|Infl: Poison"
 		},
 		{
 		"id": 16,
@@ -398,8 +414,8 @@
 		"Unknown Name": "Amphibian",
 		"Unknown Name Plural": "Amphibians",
 		"Group Size": "2d2+4",
-		"Level": 4,
-		"HP per Level": "4d5",
+		"level": 4,
+		"hitdice": "4d5",
 		"Class": "Animal",
 		"AC": 7,
 		"Attacks": "1d4,1d6,2d3+2",
@@ -414,7 +430,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 99,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees|Infl: Poison|Res: Fire"
 		},
 		{
 		"id": 17,
@@ -423,8 +440,8 @@
 		"Unknown Name": "Mangy Dog",
 		"Unknown Name Plural": "Mangy Dogs",
 		"Group Size": "4d2",
-		"Level": 4,
-		"HP per Level": "4d6",
+		"level": 4,
+		"hitdice": "4d6",
 		"Class": "Animal",
 		"AC": 8,
 		"Attacks": "4d4",
@@ -439,7 +456,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 185,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees|Res: Drain, Poison, Stone"
 		},
 		{
 		"id": 18,
@@ -448,8 +466,8 @@
 		"Unknown Name": "Priest",
 		"Unknown Name Plural": "Priests",
 		"Group Size": "2d2+3",
-		"Level": 3,
-		"HP per Level": "3d8+1",
+		"level": 3,
+		"hitdice": "3d8+1",
 		"Class": "Priest",
 		"AC": 4,
 		"Attacks": "1d8+2",
@@ -463,7 +481,8 @@
 		"Priest Level": 2,
 		"Spell Resistance": 0,
 		"gfx known index": 85,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees, Sleepable|Priest Spells (2)|Infl: Poison"
 		},
 		{
 		"id": 19,
@@ -472,8 +491,8 @@
 		"Unknown Name": "Kimonoed Man",
 		"Unknown Name Plural": "Kimonoed Men",
 		"Group Size": "4d2",
-		"Level": 3,
-		"HP per Level": "3d6+4",
+		"level": 3,
+		"hitdice": "3d6+4",
 		"Class": "Fighter",
 		"AC": 5,
 		"Attacks": "1d4+1,1d6+1,1d4+1",
@@ -487,7 +506,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 21,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees|Mage Spells (1)"
 		},
 		{
 		"id": 20,
@@ -496,8 +516,8 @@
 		"Unknown Name": "Kimonoed Man",
 		"Unknown Name Plural": "Kimonoed Men",
 		"Group Size": "2d4+2",
-		"Level": 3,
-		"HP per Level": "3d8",
+		"level": 3,
+		"hitdice": "3d8",
 		"Class": "Fighter",
 		"AC": 3,
 		"Attacks": "1d41d4,1d4,1d4,1d4",
@@ -511,7 +531,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 275,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Infl: Criticals, Poison"
 		},
 		{
 		"id": 21,
@@ -520,8 +541,8 @@
 		"Unknown Name": "Animal",
 		"Unknown Name Plural": "Animals",
 		"Group Size": "2d3+2",
-		"Level": 5,
-		"HP per Level": "5d8",
+		"level": 5,
+		"hitdice": "5d8",
 		"Class": "Animal",
 		"AC": 6,
 		"Attacks": "3d6+1",
@@ -537,7 +558,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 409,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees| Infl: Paralysis, Poison|Res: Cold, Poison"
 		},
 		{
 		"id": 22,
@@ -546,8 +568,8 @@
 		"Unknown Name": "Fly",
 		"Unknown Name Plural": "Flies",
 		"Group Size": "1d3+1",
-		"Level": 2,
-		"HP per Level": "2d8",
+		"level": 2,
+		"hitdice": "2d8",
 		"Class": "Dragon",
 		"AC": 4,
 		"Attacks": "1d4,1d4,1d6",
@@ -561,7 +583,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 20,
 		"gfx known index": 123,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Sleepable|Flame Breath|Res: Fire"
 		},
 		{
 		"id": 23,
@@ -570,8 +593,8 @@
 		"Unknown Name": "Weird Humanoid",
 		"Unknown Name Plural": "Weird Humanoids",
 		"Group Size": "1d5",
-		"Level": 2,
-		"HP per Level": "2d8",
+		"level": 2,
+		"hitdice": "2d8",
 		"Class": "Undead",
 		"AC": 6,
 		"Attacks": "1d3,1d3,1d6",
@@ -585,7 +608,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 430,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Infl: Paralysis"
 		},
 		{
 		"id": 24,
@@ -594,8 +618,8 @@
 		"Unknown Name": "Ogre",
 		"Unknown Name Plural": "Ogres",
 		"Group Size": "1d8",
-		"Level": 4,
-		"HP per Level": "4d8+1",
+		"level": 4,
+		"hitdice": "4d8+1",
 		"Class": "Fighter",
 		"AC": 5,
 		"Attacks": "2d6",
@@ -609,7 +633,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 279,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees, Sleepable"
 		},
 		{
 		"id": 25,
@@ -618,8 +643,8 @@
 		"Unknown Name": "Insect",
 		"Unknown Name Plural": "Insects",
 		"Group Size": "1d8",
-		"Level": 2,
-		"HP per Level": "2d8+2",
+		"level": 2,
+		"hitdice": "2d8+2",
 		"Class": "Insect",
 		"AC": 6,
 		"Attacks": "1d6",
@@ -633,7 +658,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 364,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Sleepable| Infl: Poison"
 		},
 		{
 		"id": 26,
@@ -642,8 +668,8 @@
 		"Unknown Name": "Animal",
 		"Unknown Name Plural": "Animals",
 		"Group Size": "1d4",
-		"Level": 3,
-		"HP per Level": "3d8+1",
+		"level": 3,
+		"hitdice": "3d8+1",
 		"Class": "Were",
 		"AC": 6,
 		"Attacks": "1d8",
@@ -658,7 +684,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 409,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Sleepable|Res: Magic"
 		},
 		{
 		"id": 27,
@@ -667,8 +694,8 @@
 		"Unknown Name": "Insect",
 		"Unknown Name Plural": "Insects",
 		"Group Size": "1d8",
-		"Level": 5,
-		"HP per Level": "5d8",
+		"level": 5,
+		"hitdice": "5d8",
 		"Class": "Insect",
 		"AC": 3,
 		"Attacks": "5d4",
@@ -681,7 +708,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 149,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":""
 		},
 		{
 		"id": 28,
@@ -690,8 +718,8 @@
 		"Unknown Name": "Dragon",
 		"Unknown Name Plural": "Dragons",
 		"Group Size": "1d4",
-		"Level": 5,
-		"HP per Level": "5d8",
+		"level": 5,
+		"hitdice": "5d8",
 		"Class": "Dragon",
 		"AC": 3,
 		"Attacks": "1d4,1d4,3d6",
@@ -705,7 +733,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 36,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Poison Breath|Mage Spells (1)"
 		},
 		{
 		"id": 29,
@@ -714,8 +743,8 @@
 		"Unknown Name": "Priest",
 		"Unknown Name Plural": "Priests",
 		"Group Size": "1d6",
-		"Level": 3,
-		"HP per Level": "3d8+1",
+		"level": 3,
+		"hitdice": "3d8+1",
 		"Class": "Priest",
 		"AC": 4,
 		"Attacks": "1d6+2",
@@ -729,7 +758,8 @@
 		"Priest Level": 2,
 		"Spell Resistance": 0,
 		"gfx known index": 290,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Sleepable|Priest Spells (2)"
 		},
 		{
 		"id": 30,
@@ -738,8 +768,8 @@
 		"Unknown Name": "Man In Armour",
 		"Unknown Name Plural": "Men In Armour",
 		"Group Size": "1d6",
-		"Level": 3,
-		"HP per Level": "3d10",
+		"level": 3,
+		"hitdice": "3d10",
 		"Class": "Fighter",
 		"AC": 3,
 		"Attacks": "2d7",
@@ -753,7 +783,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 361,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Sleepable"
 		},
 		{
 		"id": 31,
@@ -762,8 +793,8 @@
 		"Unknown Name": "Insect",
 		"Unknown Name Plural": "Insects",
 		"Group Size": "1d8",
-		"Level": 2,
-		"HP per Level": "2d8+2",
+		"level": 2,
+		"hitdice": "2d8+2",
 		"Class": "Insect",
 		"AC": 6,
 		"Attacks": "1d6",
@@ -777,7 +808,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 364,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Sleepable|Infl: Poison"
 		},
 		{
 		"id": 32,
@@ -786,8 +818,8 @@
 		"Unknown Name": "Animal",
 		"Unknown Name Plural": "Animals",
 		"Group Size": "1d6",
-		"Level": 4,
-		"HP per Level": "4d8",
+		"level": 4,
+		"hitdice": "4d8",
 		"Class": "Animal",
 		"AC": 1,
 		"Attacks": "1d6",
@@ -801,7 +833,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 185,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees, Sleepable"
 		},
 		{
 		"id": 33,
@@ -810,8 +843,8 @@
 		"Unknown Name": "Gargoyle",
 		"Unknown Name Plural": "Gargoyles",
 		"Group Size": "1d6",
-		"Level": 4,
-		"HP per Level": "4d8+4",
+		"level": 4,
+		"hitdice": "4d8+4",
 		"Class": "Enchanted",
 		"AC": 5,
 		"Attacks": "1d3,1d3,1d6,1d4",
@@ -823,7 +856,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 50,
 		"gfx known index": 141,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Res: Magic"
 		},
 		{
 		"id": 34,
@@ -832,8 +866,8 @@
 		"Unknown Name": "Unseen Entity",
 		"Unknown Name Plural": "Unseen Entities",
 		"Group Size": "1d6",
-		"Level": 4,
-		"HP per Level": "4d8",
+		"level": 4,
+		"hitdice": "4d8",
 		"Class": "Undead",
 		"AC": 4,
 		"Attacks": "1d4,1d4,1d8",
@@ -847,7 +881,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 86,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Infl: Paralysis"
 		},
 		{
 		"id": 35,
@@ -856,8 +891,8 @@
 		"Unknown Name": "Animal",
 		"Unknown Name Plural": "Animals",
 		"Group Size": "1d6",
-		"Level": 5,
-		"HP per Level": "5d10",
+		"level": 5,
+		"hitdice": "5d10",
 		"Class": "Dragon",
 		"AC": 4,
 		"Attacks": "1d10",
@@ -871,7 +906,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 101,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Cold Breath"
 		},
 		{
 		"id": 36,
@@ -880,8 +916,8 @@
 		"Unknown Name": "Animal",
 		"Unknown Name Plural": "Animals",
 		"Group Size": "1d6",
-		"Level": 4,
-		"HP per Level": "4d8+3",
+		"level": 4,
+		"hitdice": "4d8+3",
 		"Class": "Were",
 		"AC": 5,
 		"Attacks": "2d4,2d4",
@@ -895,7 +931,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 120,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Res: Magic"
 		},
 		{
 		"id": 37,
@@ -904,8 +941,8 @@
 		"Unknown Name": "Unseen Entity",
 		"Unknown Name Plural": "Unseen Entities",
 		"Group Size": "1d6",
-		"Level": 3,
-		"HP per Level": "3d8+3",
+		"level": 3,
+		"hitdice": "3d8+3",
 		"Class": "Undead",
 		"AC": 7,
 		"Attacks": "1d4+1",
@@ -920,7 +957,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 146,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Level Drain (1)|Res: Magic"
 		},
 		{
 		"id": 38,
@@ -929,8 +967,8 @@
 		"Unknown Name": "Priest",
 		"Unknown Name Plural": "Priests",
 		"Group Size": "1d6",
-		"Level": 4,
-		"HP per Level": "4d8",
+		"level": 4,
+		"hitdice": "4d8",
 		"Class": "Priest",
 		"AC": 4,
 		"Attacks": "1d10",
@@ -944,7 +982,8 @@
 		"Priest Level": 3,
 		"Spell Resistance": 0,
 		"gfx known index": 261,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Sleepable|Mage Spells (1), Priest Spells (3)"
 		},
 		{
 		"id": 39,
@@ -953,8 +992,8 @@
 		"Unknown Name": "Man In Armour",
 		"Unknown Name Plural": "Men In Armour",
 		"Group Size": "1d6",
-		"Level": 4,
-		"HP per Level": "4d10",
+		"level": 4,
+		"hitdice": "4d10",
 		"Class": "Fighter",
 		"AC": 2,
 		"Attacks": "1d12",
@@ -968,7 +1007,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 20,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Sleepable"
 		},
 		{
 		"id": 40,
@@ -977,8 +1017,8 @@
 		"Unknown Name": "Man In Robes",
 		"Unknown Name Plural": "Men In Robes",
 		"Group Size": "1d6",
-		"Level": 5,
-		"HP per Level": "5d4",
+		"level": 5,
+		"hitdice": "5d4",
 		"Class": "Mage",
 		"AC": 10,
 		"Attacks": "1d4",
@@ -992,7 +1032,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 340,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Sleepable|Mage Spells (3)"
 		},
 		{
 		"id": 41,
@@ -1001,8 +1042,8 @@
 		"Unknown Name": "Man In Leather",
 		"Unknown Name Plural": "Men In Leather",
 		"Group Size": "1d6",
-		"Level": 4,
-		"HP per Level": "4d8+3",
+		"level": 4,
+		"hitdice": "4d8+3",
 		"Class": "Thief",
 		"AC": 10,
 		"Attacks": "1d6,2d6",
@@ -1015,7 +1056,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 312,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":""
 		},
 		{
 		"id": 42,
@@ -1024,8 +1066,8 @@
 		"Unknown Name": "Animal",
 		"Unknown Name Plural": "Animals",
 		"Group Size": "1d6",
-		"Level": 6,
-		"HP per Level": "6d8",
+		"level": 6,
+		"hitdice": "6d8",
 		"Class": "Animal",
 		"AC": 0,
 		"Attacks": "2d4,2d4",
@@ -1038,7 +1080,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 417,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":""
 		},
 		{
 		"id": 43,
@@ -1047,8 +1090,8 @@
 		"Unknown Name": "Unseen Entity",
 		"Unknown Name Plural": "Unseen Entity",
 		"Group Size": "1d6",
-		"Level": 7,
-		"HP per Level": "7d3+2",
+		"level": 7,
+		"hitdice": "7d3+2",
 		"Class": "Mythical",
 		"AC": 2,
 		"Attacks": "1d4",
@@ -1064,7 +1107,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 25,
 		"gfx known index": 420,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Mage Spells(3)| Infl: Poison|Res: Magic"
 		},
 		{
 		"id": 44,
@@ -1073,8 +1117,8 @@
 		"Unknown Name": "Insect",
 		"Unknown Name Plural": "Insects",
 		"Group Size": "1d6",
-		"Level": 4,
-		"HP per Level": "4d8+4",
+		"level": 4,
+		"hitdice": "4d8+4",
 		"Class": "Insect",
 		"AC": 4,
 		"Attacks": "2d4",
@@ -1088,7 +1132,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 363,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Infl: Poison"
 		},
 		{
 		"id": 45,
@@ -1097,8 +1142,8 @@
 		"Unknown Name": "Animal",
 		"Unknown Name Plural": "Animals",
 		"Group Size": "1d8",
-		"Level": 5,
-		"HP per Level": "5d8",
+		"level": 5,
+		"hitdice": "5d8",
 		"Class": "Were",
 		"AC": 4,
 		"Attacks": "2d6,2d6,1d4",
@@ -1114,7 +1159,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 434,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Sleepable|Infl: Poison|Res: Magic"
 		},
 		{
 		"id": 46,
@@ -1123,8 +1169,8 @@
 		"Unknown Name": "Strange Animal",
 		"Unknown Name Plural": "Strange Animals",
 		"Group Size": "1d6",
-		"Level": 5,
-		"HP per Level": "5d8",
+		"level": 5,
+		"hitdice": "5d8",
 		"Class": "Mythical",
 		"AC": 6,
 		"Attacks": "1d3",
@@ -1138,7 +1184,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 2,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Infl: Stone"
 		},
 		{
 		"id": 47,
@@ -1147,8 +1194,8 @@
 		"Unknown Name": "Priest",
 		"Unknown Name Plural": "Priests",
 		"Group Size": "1d5",
-		"Level": 5,
-		"HP per Level": "5d8",
+		"level": 5,
+		"hitdice": "5d8",
 		"Class": "Priest",
 		"AC": 4,
 		"Attacks": "1d6+2",
@@ -1161,7 +1208,8 @@
 		"Priest Level": 3,
 		"Spell Resistance": 0,
 		"gfx known index": 85,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Priest Spells (3)"
 		},
 		{
 		"id": 48,
@@ -1170,8 +1218,8 @@
 		"Unknown Name": "Man In Black",
 		"Unknown Name Plural": "Men In Black",
 		"Group Size": "1d5",
-		"Level": 6,
-		"HP per Level": "6d10",
+		"level": 6,
+		"hitdice": "6d10",
 		"Class": "Fighter",
 		"AC": 6,
 		"Attacks": "1d6,1d6,1d6",
@@ -1184,7 +1232,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 275,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":""
 		},
 		{
 		"id": 49,
@@ -1193,8 +1242,8 @@
 		"Unknown Name": "Man In Robes",
 		"Unknown Name Plural": "Men In Robes",
 		"Group Size": "1d6",
-		"Level": 7,
-		"HP per Level": "7d4",
+		"level": 7,
+		"hitdice": "7d4",
 		"Class": "Mage",
 		"AC": 8,
 		"Attacks": "1d4",
@@ -1208,7 +1257,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 340,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Sleepable|Mage Spells (4)"
 		},
 		{
 		"id": 50,
@@ -1217,8 +1267,8 @@
 		"Unknown Name": "Man In Leather",
 		"Unknown Name Plural": "Men In Leather",
 		"Group Size": "1d6",
-		"Level": 4,
-		"HP per Level": "4d6",
+		"level": 4,
+		"hitdice": "4d6",
 		"Class": "Thief",
 		"AC": 4,
 		"Attacks": "1d6,1d6,2d6",
@@ -1232,7 +1282,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 112,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees, Sleepable"
 		},
 		{
 		"id": 51,
@@ -1241,8 +1292,8 @@
 		"Unknown Name": "Man In Armour",
 		"Unknown Name Plural": "Men In Armour",
 		"Group Size": "1d5",
-		"Level": 7,
-		"HP per Level": "7d12",
+		"level": 7,
+		"hitdice": "7d12",
 		"Class": "Fighter",
 		"AC": 0,
 		"Attacks": "1d10,1d4",
@@ -1255,7 +1306,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 20,
 		"gfx known index": 20,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":""
 		},
 		{
 		"id": 52,
@@ -1264,8 +1316,8 @@
 		"Unknown Name": "Priest",
 		"Unknown Name Plural": "Priests",
 		"Group Size": "1d6",
-		"Level": 8,
-		"HP per Level": "8d8",
+		"level": 8,
+		"hitdice": "8d8",
 		"Class": "Priest",
 		"AC": 3,
 		"Attacks": "1d8+2",
@@ -1278,7 +1330,8 @@
 		"Priest Level": 5,
 		"Spell Resistance": 0,
 		"gfx known index": 178,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Priest Spells (5)"
 		},
 		{
 		"id": 53,
@@ -1287,8 +1340,8 @@
 		"Unknown Name": "Man In Armour",
 		"Unknown Name Plural": "Men In Armour",
 		"Group Size": "1d6",
-		"Level": 10,
-		"HP per Level": "10d10",
+		"level": 10,
+		"hitdice": "10d10",
 		"Class": "Fighter",
 		"AC": 2,
 		"Attacks": "1d12+2",
@@ -1301,7 +1354,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 21,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Mage Spells (1)"
 		},
 		{
 		"id": 54,
@@ -1310,8 +1364,8 @@
 		"Unknown Name": "Man In Robes",
 		"Unknown Name Plural": "Men In Robes",
 		"Group Size": "1d6",
-		"Level": 8,
-		"HP per Level": "8d4+2",
+		"level": 8,
+		"hitdice": "8d4+2",
 		"Class": "Mage",
 		"AC": 9,
 		"Attacks": "1d4",
@@ -1324,7 +1378,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 16,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Mage Spells (2)"
 		},
 		{
 		"id": 55,
@@ -1333,8 +1388,8 @@
 		"Unknown Name": "Man In Leather",
 		"Unknown Name Plural": "Men In Leather",
 		"Group Size": "1d6",
-		"Level": 6,
-		"HP per Level": "6d6",
+		"level": 6,
+		"hitdice": "6d6",
 		"Class": "Thief",
 		"AC": 3,
 		"Attacks": "1d8,3d8",
@@ -1348,7 +1403,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 112,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees"
 		},
 		{
 		"id": 56,
@@ -1357,8 +1413,8 @@
 		"Unknown Name": "Strange Animal",
 		"Unknown Name Plural": "Strange Animals",
 		"Group Size": "1d5",
-		"Level": 4,
-		"HP per Level": "4d8",
+		"level": 4,
+		"hitdice": "4d8",
 		"Class": "Animal",
 		"AC": -1,
 		"Attacks": "1d2",
@@ -1373,7 +1429,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 173,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees|Infl: Paralysis|Res: Magic"
 		},
 		{
 		"id": 57,
@@ -1382,8 +1439,8 @@
 		"Unknown Name": "Ogre",
 		"Unknown Name Plural": "Ogres",
 		"Group Size": "1d5",
-		"Level": 8,
-		"HP per Level": "8d8",
+		"level": 8,
+		"hitdice": "8d8",
 		"Class": "Mage",
 		"AC": 4,
 		"Attacks": "1d12",
@@ -1397,7 +1454,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 282,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Regeneration (1)|Mage Spells (3)"
 		},
 		{
 		"id": 58,
@@ -1406,8 +1464,8 @@
 		"Unknown Name": "Strange Animal",
 		"Unknown Name Plural": "Strange Animals",
 		"Group Size": "1d3",
-		"Level": 6,
-		"HP per Level": "6d8+6",
+		"level": 6,
+		"hitdice": "6d8+6",
 		"Class": "Fighter",
 		"AC": 4,
 		"Attacks": "1d4+4,1d4+4,1d4+4",
@@ -1421,7 +1479,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 385,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Regeneration (3)"
 		},
 		{
 		"id": 59,
@@ -1430,8 +1489,8 @@
 		"Unknown Name": "Unseen Entity",
 		"Unknown Name Plural": "Unseen Entities",
 		"Group Size": "1d1",
-		"Level": 5,
-		"HP per Level": "5d8+3",
+		"level": 5,
+		"hitdice": "5d8+3",
 		"Class": "Undead",
 		"AC": 3,
 		"Attacks": "1d4",
@@ -1446,7 +1505,8 @@
 		"Priest Level": 3,
 		"Spell Resistance": 20,
 		"gfx known index": 76,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Level Drain (2)|Mage Spells (3), Priest Spells (3)|Res: Drain, Magic, Poison, Stone"
 		},
 		{
 		"id": 60,
@@ -1455,8 +1515,8 @@
 		"Unknown Name": "Unseen Entity",
 		"Unknown Name Plural": "Unseen Entities",
 		"Group Size": "2d3",
-		"Level": 5,
-		"HP per Level": "5d8+3",
+		"level": 5,
+		"hitdice": "5d8+3",
 		"Class": "Undead",
 		"AC": 4,
 		"Attacks": "1d6",
@@ -1471,7 +1531,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 25,
 		"gfx known index": 192,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Level Drain (1)|Res: Magic"
 		},
 		{
 		"id": 61,
@@ -1480,8 +1541,8 @@
 		"Unknown Name": "Strange Animal",
 		"Unknown Name Plural": "Strange Animals",
 		"Group Size": "1d6",
-		"Level": 7,
-		"HP per Level": "7d8+7",
+		"level": 7,
+		"hitdice": "7d8+7",
 		"Class": "Animal",
 		"AC": 3,
 		"Attacks": "2d8,1d6",
@@ -1495,7 +1556,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 421,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Infl: Poison"
 		},
 		{
 		"id": 62,
@@ -1504,8 +1566,8 @@
 		"Unknown Name": "Priest",
 		"Unknown Name Plural": "Priests",
 		"Group Size": "1d5",
-		"Level": 7,
-		"HP per Level": "7d8",
+		"level": 7,
+		"hitdice": "7d8",
 		"Class": "Priest",
 		"AC": 3,
 		"Attacks": "1d8",
@@ -1518,7 +1580,8 @@
 		"Priest Level": 4,
 		"Spell Resistance": 0,
 		"gfx known index": 85,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Priest Spells (4)"
 		},
 		{
 		"id": 63,
@@ -1527,8 +1590,8 @@
 		"Unknown Name": "Man In Armour",
 		"Unknown Name Plural": "Men In Armour",
 		"Group Size": "1d6",
-		"Level": 7,
-		"HP per Level": "7d10",
+		"level": 7,
+		"hitdice": "7d10",
 		"Class": "Fighter",
 		"AC": 0,
 		"Attacks": "1d12,1d12",
@@ -1541,7 +1604,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 243,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":""
 		},
 		{
 		"id": 64,
@@ -1550,8 +1614,8 @@
 		"Unknown Name": "Man In Robes",
 		"Unknown Name Plural": "Men In Robes",
 		"Group Size": "1d6",
-		"Level": 7,
-		"HP per Level": "7d4",
+		"level": 7,
+		"hitdice": "7d4",
 		"Class": "Mage",
 		"AC": 8,
 		"Attacks": "1d4",
@@ -1564,7 +1628,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 340,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Mage Spells (5)"
 		},
 		{
 		"id": 65,
@@ -1573,8 +1638,8 @@
 		"Unknown Name": "Man In Leather",
 		"Unknown Name Plural": "Men In Leather",
 		"Group Size": "1d5",
-		"Level": 7,
-		"HP per Level": "7d6",
+		"level": 7,
+		"hitdice": "7d6",
 		"Class": "Thief",
 		"AC": 4,
 		"Attacks": "1d8,3d8",
@@ -1588,7 +1653,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 275,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees"
 		},
 		{
 		"id": 66,
@@ -1597,8 +1663,8 @@
 		"Unknown Name": "Monk",
 		"Unknown Name Plural": "Monks",
 		"Group Size": "1d3",
-		"Level": 8,
-		"HP per Level": "8d4",
+		"level": 8,
+		"hitdice": "8d4",
 		"Class": "Fighter",
 		"AC": 4,
 		"Attacks": "2d6,1d6",
@@ -1612,7 +1678,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 275,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Infl: Criticals"
 		},
 		{
 		"id": 67,
@@ -1621,8 +1688,8 @@
 		"Unknown Name": "Giant",
 		"Unknown Name Plural": "Giants",
 		"Group Size": "1d5",
-		"Level": 1,
-		"HP per Level": "1d1+40",
+		"level": 1,
+		"hitdice": "1d1+40",
 		"Class": "Giant",
 		"AC": 9,
 		"Attacks": "2d8,2d8",
@@ -1634,7 +1701,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 85,
 		"gfx known index": 182,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Res: Magic"
 		},
 		{
 		"id": 68,
@@ -1643,8 +1711,8 @@
 		"Unknown Name": "Demon",
 		"Unknown Name Plural": "Demons",
 		"Group Size": "1d1",
-		"Level": 10,
-		"HP per Level": "10d8",
+		"level": 10,
+		"hitdice": "10d8",
 		"Class": "Demon",
 		"AC": 4,
 		"Attacks": "2d6,2d6,1d3,1d3,1d4+4",
@@ -1658,7 +1726,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 60,
 		"gfx known index": 214,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Reinforces|Mage Spells (3)"
 		},
 		{
 		"id": 69,
@@ -1667,8 +1736,8 @@
 		"Unknown Name": "Strange Animal",
 		"Unknown Name Plural": "Strange Animals",
 		"Group Size": "1d4",
-		"Level": 9,
-		"HP per Level": "9d6",
+		"level": 9,
+		"hitdice": "9d6",
 		"Class": "Animal",
 		"AC": 2,
 		"Attacks": "1d3,1d3,1d4,1d4,2d4,3d4",
@@ -1683,7 +1752,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 56,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flame Breath|Res: Fire"
 		},
 		{
 		"id": 70,
@@ -1692,8 +1762,8 @@
 		"Unknown Name": "Giant",
 		"Unknown Name Plural": "Giants",
 		"Group Size": "1d4",
-		"Level": 11,
-		"HP per Level": "11d8+4",
+		"level": 11,
+		"hitdice": "11d8+4",
 		"Class": "Giant",
 		"AC": 3,
 		"Attacks": "5d6",
@@ -1707,7 +1777,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 241,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Res: Fire"
 		},
 		{
 		"id": 71,
@@ -1716,8 +1787,8 @@
 		"Unknown Name": "Strange Animal",
 		"Unknown Name Plural": "Strange Animals",
 		"Group Size": "1d1",
-		"Level": 8,
-		"HP per Level": "8d8",
+		"level": 8,
+		"hitdice": "8d8",
 		"Class": "Mythical",
 		"AC": 2,
 		"Attacks": "2d6",
@@ -1731,7 +1802,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 159,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Stone Breath"
 		},
 		{
 		"id": 72,
@@ -1740,8 +1812,8 @@
 		"Unknown Name": "Priest",
 		"Unknown Name Plural": "Priests",
 		"Group Size": "1d6",
-		"Level": 8,
-		"HP per Level": "8d8",
+		"level": 8,
+		"hitdice": "8d8",
 		"Class": "Priest",
 		"AC": 2,
 		"Attacks": "1d8+4",
@@ -1754,7 +1826,8 @@
 		"Priest Level": 4,
 		"Spell Resistance": 0,
 		"gfx known index": 261,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Mage Spells (3), Priest Spells (4)"
 		},
 		{
 		"id": 73,
@@ -1763,8 +1836,8 @@
 		"Unknown Name": "Man In Armour",
 		"Unknown Name Plural": "Men In Armour",
 		"Group Size": "1d6",
-		"Level": 8,
-		"HP per Level": "8d10",
+		"level": 8,
+		"hitdice": "8d10",
 		"Class": "Fighter",
 		"AC": -1,
 		"Attacks": "1d12+2,1d12+2",
@@ -1777,7 +1850,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 243,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":""
 		},
 		{
 		"id": 74,
@@ -1786,8 +1860,8 @@
 		"Unknown Name": "Man In Robes",
 		"Unknown Name Plural": "Men In Robes",
 		"Group Size": "1d6",
-		"Level": 10,
-		"HP per Level": "10d4",
+		"level": 10,
+		"hitdice": "10d4",
 		"Class": "Mage",
 		"AC": 10,
 		"Attacks": "1d4",
@@ -1800,7 +1874,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 235,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Mage Spells (5)"
 		},
 		{
 		"id": 75,
@@ -1809,8 +1884,8 @@
 		"Unknown Name": "Man In Leather",
 		"Unknown Name Plural": "Men In Leather",
 		"Group Size": "1d5",
-		"Level": 9,
-		"HP per Level": "9d6",
+		"level": 9,
+		"hitdice": "9d6",
 		"Class": "Thief",
 		"AC": 4,
 		"Attacks": "1d8,1d3,3d8,2d10",
@@ -1824,7 +1899,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 374,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees"
 		},
 		{
 		"id": 76,
@@ -1833,8 +1909,8 @@
 		"Unknown Name": "Man In Robe",
 		"Unknown Name Plural": "Men In Robes",
 		"Group Size": "1d5",
-		"Level": 10,
-		"HP per Level": "10d4",
+		"level": 10,
+		"hitdice": "10d4",
 		"Class": "Fighter",
 		"AC": 3,
 		"Attacks": "1d10+3,1d10+3,1d10+3",
@@ -1848,7 +1924,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 250,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Infl: Criticals"
 		},
 		{
 		"id": 77,
@@ -1857,8 +1934,8 @@
 		"Unknown Name": "Unseen Entity",
 		"Unknown Name Plural": "Unseen Entities",
 		"Group Size": "1d1",
-		"Level": 10,
-		"HP per Level": "10d10+10",
+		"level": 10,
+		"hitdice": "10d10+10",
 		"Class": "Undead",
 		"AC": -3,
 		"Attacks": "1d1+1",
@@ -1874,7 +1951,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 40,
 		"gfx known index": 267,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Regeneration (1)|Res: Cold, Drain, Fire, Magic, Poison, Stone"
 		},
 		{
 		"id": 78,
@@ -1883,8 +1961,8 @@
 		"Unknown Name": "Unseen Entity",
 		"Unknown Name Plural": "Unseen Entities",
 		"Group Size": "1d2",
-		"Level": 10,
-		"HP per Level": "10d8",
+		"level": 10,
+		"hitdice": "10d8",
 		"Class": "Enchanted",
 		"AC": -8,
 		"Attacks": "2d8",
@@ -1895,7 +1973,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 95,
 		"gfx known index": 414,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":""
 		},
 		{
 		"id": 79,
@@ -1904,8 +1983,8 @@
 		"Unknown Name": "Strange Animal",
 		"Unknown Name Plural": "Strange Animals",
 		"Group Size": "1d8",
-		"Level": 10,
-		"HP per Level": "10d8",
+		"level": 10,
+		"hitdice": "10d8",
 		"Class": "Animal",
 		"AC": 0,
 		"Attacks": "1d8+1,1d8+1",
@@ -1920,7 +1999,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 41,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees, Reinforces|Res: Cold, Drain, Fire, Magic, Physical, Stone"
 		},
 		{
 		"id": 80,
@@ -1929,8 +2009,8 @@
 		"Unknown Name": "Giant",
 		"Unknown Name Plural": "Giants",
 		"Group Size": "1d4",
-		"Level": 1,
-		"HP per Level": "1d8+50",
+		"level": 1,
+		"hitdice": "1d8+50",
 		"Class": "Giant",
 		"AC": 6,
 		"Attacks": "3d10",
@@ -1944,7 +2024,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 95,
 		"gfx known index": 136,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Res: Cold"
 		},
 		{
 		"id": 81,
@@ -1953,8 +2034,8 @@
 		"Unknown Name": "Dragon",
 		"Unknown Name Plural": "Dragon",
 		"Group Size": "1d4",
-		"Level": 12,
-		"HP per Level": "12d8",
+		"level": 12,
+		"hitdice": "12d8",
 		"Class": "Dragon",
 		"AC": -1,
 		"Attacks": "1d4,1d4,4d4",
@@ -1966,7 +2047,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 121,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flame Breath|Mage Spells (5)"
 		},
 		{
 		"id": 82,
@@ -1975,8 +2057,8 @@
 		"Unknown Name": "Priest",
 		"Unknown Name Plural": "Priests",
 		"Group Size": "1d1",
-		"Level": 11,
-		"HP per Level": "11d8",
+		"level": 11,
+		"hitdice": "11d8",
 		"Class": "Priest",
 		"AC": 2,
 		"Attacks": "1d8,1d8",
@@ -1989,7 +2071,8 @@
 		"Priest Level": 6,
 		"Spell Resistance": 0,
 		"gfx known index": 178,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Priest Spells (6)"
 		},
 		{
 		"id": 83,
@@ -1998,8 +2081,8 @@
 		"Unknown Name": "Man In Robes",
 		"Unknown Name Plural": "Men In Robes",
 		"Group Size": "1d1",
-		"Level": 12,
-		"HP per Level": "12d4",
+		"level": 12,
+		"hitdice": "12d4",
 		"Class": "Mage",
 		"AC": 4,
 		"Attacks": "1d4",
@@ -2013,7 +2096,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 181,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Mage Spells (6)"
 		},
 		{
 		"id": 84,
@@ -2022,8 +2106,8 @@
 		"Unknown Name": "Man In Leather",
 		"Unknown Name Plural": "Men In Leather",
 		"Group Size": "1d1",
-		"Level": 12,
-		"HP per Level": "12d6",
+		"level": 12,
+		"hitdice": "12d6",
 		"Class": "Thief",
 		"AC": 2,
 		"Attacks": "1d8,5d8",
@@ -2038,7 +2122,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 112,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Flees|Res: Poison"
 		},
 		{
 		"id": 85,
@@ -2047,8 +2132,8 @@
 		"Unknown Name": "Man In Robes",
 		"Unknown Name Plural": "Men In Robes",
 		"Group Size": "1d1",
-		"Level": 12,
-		"HP per Level": "12d4",
+		"level": 12,
+		"hitdice": "12d4",
 		"Class": "Fighter",
 		"AC": -1,
 		"Attacks": "3d8,3d8,3d8",
@@ -2062,7 +2147,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 20,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Infl: Criticals"
 		},
 		{
 		"id": 86,
@@ -2071,8 +2157,8 @@
 		"Unknown Name": "Unseen Entity",
 		"Unknown Name Plural": "Unseen Entities",
 		"Group Size": "1d4",
-		"Level": 11,
-		"HP per Level": "11d8",
+		"level": 11,
+		"hitdice": "11d8",
 		"Class": "Undead",
 		"AC": -1,
 		"Attacks": "2d8,1d4,1d4",
@@ -2088,7 +2174,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 20,
 		"gfx known index": 335,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Level Drain (2), Regeneration (2)|Mage Spells (3)|Infl:Paralysis|Res:Drain, Poison, Stone"
 		},
 		{
 		"id": 87,
@@ -2097,8 +2184,8 @@
 		"Unknown Name": "Demon",
 		"Unknown Name Plural": "Demons",
 		"Group Size": "1d6",
-		"Level": 11,
-		"HP per Level": "11d8",
+		"level": 11,
+		"hitdice": "11d8",
 		"Class": "Demon",
 		"AC": -3,
 		"Attacks": "2d12,1d6,1d4,1d4,1d4",
@@ -2113,7 +2200,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 95,
 		"gfx known index": 163,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Reinforces|Regeneration (1)|Mage Spells (5)|Infl: Paralysis, Poison"
 		},
 		{
 		"id": 88,
@@ -2122,8 +2210,8 @@
 		"Unknown Name": "Giant",
 		"Unknown Name Plural": "Giants",
 		"Group Size": "1d4",
-		"Level": 1,
-		"HP per Level": "1d1+80",
+		"level": 1,
+		"hitdice": "1d1+80",
 		"Class": "Giant",
 		"AC": 3,
 		"Attacks": "4d10",
@@ -2137,7 +2225,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 95,
 		"gfx known index": 289,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Poison Breath"
 		},
 		{
 		"id": 89,
@@ -2146,8 +2235,8 @@
 		"Unknown Name": "Dragon",
 		"Unknown Name Plural": "Dragons",
 		"Group Size": "1d4",
-		"Level": 12,
-		"HP per Level": "12d8",
+		"level": 12,
+		"hitdice": "12d8",
 		"Class": "Undead",
 		"AC": -2,
 		"Attacks": "1d8,1d8,3d12",
@@ -2161,7 +2250,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 25,
 		"gfx known index": 19,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Draining Breath|Mage Spells (5)"
 		},
 		{
 		"id": 90,
@@ -2170,8 +2260,8 @@
 		"Unknown Name": "Man In Armour",
 		"Unknown Name Plural": "Men In Armour",
 		"Group Size": "1d1",
-		"Level": 15,
-		"HP per Level": "15d10",
+		"level": 15,
+		"hitdice": "15d10",
 		"Class": "Animal",
 		"AC": 10,
 		"Attacks": "3d12,3d12",
@@ -2186,7 +2276,8 @@
 		"Priest Level": 4,
 		"Spell Resistance": 304,
 		"gfx known index": 0,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Regeneration (2)|Mage Spells (5), Priest Spells (4)|Res: Fire"
 		},
 		{
 		"id": 91,
@@ -2195,8 +2286,8 @@
 		"Unknown Name": "Conehead",
 		"Unknown Name Plural": "Coneheads",
 		"Group Size": "1d1",
-		"Level": 15,
-		"HP per Level": "15d4",
+		"level": 15,
+		"hitdice": "15d4",
 		"Class": "Fighter",
 		"AC": -2,
 		"Attacks": "3d12,3d12,3d6",
@@ -2211,7 +2302,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 175,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Infl: Criticals|Res: Cold, Drain, Fire, Magic, Poison, Stone"
 		},
 		{
 		"id": 92,
@@ -2220,8 +2312,8 @@
 		"Unknown Name": "Strange Animal",
 		"Unknown Name Plural": "Strange Animals",
 		"Group Size": "1d1",
-		"Level": 15,
-		"HP per Level": "15d12",
+		"level": 15,
+		"hitdice": "15d12",
 		"Class": "Animal",
 		"AC": -3,
 		"Attacks": "4d8+3",
@@ -2237,7 +2329,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 124,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Cold Breath|Infl: Criticals, Paralysis, Poison, Stone|Res: Cold, Drain, Fire, Magic, Physical, Poison, Stone"
 		},
 		{
 		"id": 93,
@@ -2246,8 +2339,8 @@
 		"Unknown Name": "Man In Robes",
 		"Unknown Name Plural": "Men In Robes",
 		"Group Size": "1d1",
-		"Level": 20,
-		"HP per Level": "20d4",
+		"level": 20,
+		"hitdice": "20d4",
 		"Class": "Mage",
 		"AC": 0,
 		"Attacks": "1d4",
@@ -2260,7 +2353,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 16,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Mage Spells (6)"
 		},
 		{
 		"id": 94,
@@ -2269,8 +2363,8 @@
 		"Unknown Name": "Unseen Being",
 		"Unknown Name Plural": "Unseen Beings",
 		"Group Size": "1d1",
-		"Level": 25,
-		"HP per Level": "25d4",
+		"level": 25,
+		"hitdice": "25d4",
 		"Class": "Undead",
 		"AC": -5,
 		"Attacks": "1d4,1d0+1",
@@ -2285,7 +2379,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 50,
 		"gfx known index": 232,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Level Drain (3), Regeneration (3)|Mage Spells (7)|Infl: Paralysis, Poison"
 		},
 		{
 		"id": 95,
@@ -2294,8 +2389,8 @@
 		"Unknown Name": "Unseen Entity",
 		"Unknown Name Plural": "Unseen Entities",
 		"Group Size": "1d1",
-		"Level": 20,
-		"HP per Level": "20d8",
+		"level": 20,
+		"hitdice": "20d8",
 		"Class": "Undead",
 		"AC": -5,
 		"Attacks": "1d4",
@@ -2310,7 +2405,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 398,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Level Drain (4), Regeneration (4)|Mage Spells (6)|Infl: Paralysis"
 		},
 		{
 		"id": 96,
@@ -2319,8 +2415,8 @@
 		"Unknown Name": "Man In Robes",
 		"Unknown Name Plural": "Men In Robes",
 		"Group Size": "1d1",
-		"Level": 10,
-		"HP per Level": "10d10+20",
+		"level": 10,
+		"hitdice": "10d10+20",
 		"Class": "Mage",
 		"AC": -7,
 		"Attacks": "8d5,8d5",
@@ -2336,7 +2432,8 @@
 		"Priest Level": 7,
 		"Spell Resistance": 70,
 		"gfx known index": 166,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Level Drain (4), Regeneration (5)|Mage Spells (7), Priest Spells (7)|Infl: Criticals, Paralysis, Poison, Stoning|Res:Cold, Fire, Poison"
 		},
 		{
 		"id": 97,
@@ -2345,8 +2442,8 @@
 		"Unknown Name": "Man In Kimono",
 		"Unknown Name Plural": "Men In Kimonos",
 		"Group Size": "1d1",
-		"Level": 12,
-		"HP per Level": "12d4",
+		"level": 12,
+		"hitdice": "12d4",
 		"Class": "Fighter",
 		"AC": -1,
 		"Attacks": "3d8,3d8,3d8",
@@ -2358,7 +2455,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 249,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Infl: Criticals"
 		},
 		{
 		"id": 98,
@@ -2367,8 +2465,8 @@
 		"Unknown Name": "Priest",
 		"Unknown Name Plural": "Priests",
 		"Group Size": "2d1",
-		"Level": 8,
-		"HP per Level": "8d8",
+		"level": 8,
+		"hitdice": "8d8",
 		"Class": "Priest",
 		"AC": 2,
 		"Attacks": "1d8+4",
@@ -2381,7 +2479,8 @@
 		"Priest Level": 5,
 		"Spell Resistance": 0,
 		"gfx known index": 177,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Priest Spells (5)"
 		},
 		{
 		"id": 99,
@@ -2390,8 +2489,8 @@
 		"Unknown Name": "Man In Robes",
 		"Unknown Name Plural": "Men In Robes",
 		"Group Size": "2d1",
-		"Level": 7,
-		"HP per Level": "7d4",
+		"level": 7,
+		"hitdice": "7d4",
 		"Class": "Mage",
 		"AC": 8,
 		"Attacks": "1d4",
@@ -2405,7 +2504,8 @@
 		"Priest Level": 0,
 		"Spell Resistance": 0,
 		"gfx known index": 340,
-		"GFX Unknown Index": 0
+		"GFX Unknown Index": 0,
+		"effects":"Sleepable|Mage Spells (4)"
 		},
 		{
 		"id": 100,
@@ -2414,8 +2514,8 @@
 		"Unknown Name": "Man In Armour",
 		"Unknown Name Plural": "Men In Armour",
 		"Group Size": "2d1",
-		"Level": 7,
-		"HP per Level": "7d10",
+		"level": 7,
+		"hitdice": "7d10",
 		"Class": "Fighter",
 		"AC": 0,
 		"Attacks": "1d12,1d12",
