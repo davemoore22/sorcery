@@ -337,6 +337,7 @@
 		<Unit filename="inc/resources/texturestore.hpp" />
 		<Unit filename="inc/types/character.hpp" />
 		<Unit filename="inc/types/component.hpp" />
+		<Unit filename="inc/types/dice.hpp" />
 		<Unit filename="inc/types/error.hpp" />
 		<Unit filename="inc/types/explore.hpp" />
 		<Unit filename="inc/types/inventory.hpp" />
@@ -458,6 +459,7 @@
 		<Unit filename="src/types/CMakeLists.txt" />
 		<Unit filename="src/types/character.cpp" />
 		<Unit filename="src/types/component.cpp" />
+		<Unit filename="src/types/dice.cpp" />
 		<Unit filename="src/types/error.cpp" />
 		<Unit filename="src/types/explore.cpp" />
 		<Unit filename="src/types/inventory.cpp" />

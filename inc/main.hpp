@@ -114,6 +114,7 @@
 #include "macro.hpp"
 #include "types/type.hpp"
 #include "types/component.hpp"
+#include "types/dice.hpp"
 #include "types/error.hpp"
 
 // clang-format on

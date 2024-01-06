@@ -7,7 +7,7 @@
 	"main.hpp"
 	"system.hpp"
 
-1704573723 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
+1704575068 /home/dave/Development/wizardry/sorcery-sfml/inc/main.hpp
 	<SFML/Audio.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Network.hpp>
@@ -74,6 +74,7 @@
 	"macro.hpp"
 	"types/type.hpp"
 	"types/component.hpp"
+	"types/dice.hpp"
 	"types/error.hpp"
 
 1518522417 /home/dave/Development/wizardry/sorcery-sfml/inc/sqlitemoderncpp/sqlite_modern_cpp.h
@@ -3335,4 +3336,7 @@
 
 1704566814 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/monstertype.cpp
 	"types/monstertype.hpp"
+
+1704575782 /home/dave/Development/wizardry/sorcery-sfml/inc/types/dice.hpp
+	"main.hpp"
 
