@@ -60,12 +60,22 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename) -> bool 
 				// Some fields are always present
 				const auto id{magic_enum::enum_cast<Enums::Monsters::TypeID>(items[i]["id"].asInt())};
 				const std::string known_name{items[i]["known name"].asString()};
+				const std::string unknown_name{items[i]["unknown name"].asString()};
+				const std::string known_name_plural{items[i]["known name plural"].asString()};
+				const std::string unknown_name_plural{items[i]["unknown name plural"].asString()};
 				const auto known_gfx{items[i]["gfx known index"].asInt()};
+				const std::string traits{items[i]["traits"].asString()};
+				const std::string weaknesses{items[i]["weaknesses"].asString()};
 
 				MonsterType monster_type{};
 				monster_type.set_type_id(id.value());
 				monster_type.set_known_name(known_name);
+				monster_type.set_unknown_name(unknown_name);
+				monster_type.set_known_name_plural(known_name_plural);
+				monster_type.set_unknown_name_plural(unknown_name_plural);
 				monster_type.set_known_gfx(known_gfx);
+				monster_type.set_traits(traits);
+				monster_type.set_weaknesses(weaknesses);
 
 				_items[id.value()] = monster_type;
 			}

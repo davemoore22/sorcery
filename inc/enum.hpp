@@ -1227,6 +1227,20 @@ namespace Enums {
 
 	namespace Monsters {
 
+		enum class Category {
+			NO_CATEGORY = 0,
+			HUMANOID = 1,
+			ANIMAL = 2,
+			DEMON = 3,
+			DRAGON = 4,
+			ENCHANTED = 5,
+			GIANT = 6,
+			INSECT = 7,
+			MYTHICAL = 8,
+			UNDEAD = 9,
+			WERE = 10
+		};
+
 		// Following the original numbering at http://www.pekori.jp/~emonoya/monster/index.html for
 		// the sake of convenience and ease of replicating original item tables
 		enum class TypeID {

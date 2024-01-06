@@ -42,6 +42,9 @@ class MonsterType {
 		// Public Methods
 		auto get_type_id() const -> MonsterTypeID;
 		auto get_known_name() const -> std::string;
+		auto get_unknown_name() const -> std::string;
+		auto get_known_name_plural() const -> std::string;
+		auto get_unknown_name_plural() const -> std::string;
 		/* auto get_display_name() const -> std::string;
 		auto get_unknown_name() const -> std::string;
 		auto get_category() const -> ItemCategory;
@@ -79,6 +82,9 @@ class MonsterType {
 		auto is_align_usable(const CharacterAlignment calign) const -> bool; */
 		auto set_type_id(const MonsterTypeID value) -> void;
 		auto set_known_name(const std::string value) -> void;
+		auto set_unknown_name(const std::string value) -> void;
+		auto set_known_name_plural(const std::string value) -> void;
+		auto set_unknown_name_plural(const std::string value) -> void;
 		/* auto set_damage(const std::string value) -> void;
 		auto set_display_name(const std::string value) -> void;
 		auto set_unknown_name(const std::string value) -> void;
@@ -107,16 +113,23 @@ class MonsterType {
 		auto set_known_gfx(const unsigned int value) -> void;
 		/* auto set_sell(const bool value) -> void;
 		auto set_buy(const bool value) -> void; */
+		auto set_traits(const std::string value) -> void;
+		auto set_weaknesses(const std::string value) -> void;
+		auto get_traits() const -> std::string;
+		auto get_weaknesses() const -> std::string;
 
 	private:
 
 		// Private Members
-		MonsterTypeID _type;	 // e.g. LONG_SWORD, LONG_SWORD_PLUS_1 etc
-		std::string _known_name; // Friendly name once identified
-		/* std::string _display_name;			   // Short display name once identified (max 16 characters)
-		std::string _unknown_name;			   // Unknown name if not identified
-		ItemCategory _category;				   // e.g, WEAPON, ARMOUR etc
-		bool _cursed;						   // Is a cursed item
+		MonsterTypeID _type;
+		std::string _known_name;
+		std::string _unknown_name;
+		std::string _known_name_plural;
+		std::string _unknown_name_plural;
+
+		/* std::string _display_name;			// Friendly name once identified   // Short display name once identified
+		(max 16 characters) std::string _unknown_name;			   // Unknown name if not identified ItemCategory
+		_category;				   // e.g, WEAPON, ARMOUR etc bool _cursed;						   // Is a cursed item
 		unsigned int _value;				   // Price to buy in shop (Sell/Identify Price is half this)
 		bool _sellable;						   // Can be sold
 		ItemUsableClass _usable;			   // Usable by class list
@@ -143,6 +156,9 @@ class MonsterType {
 		unsigned int _known_gfx;
 		/* bool _buy;							   // Can Player buy this item from Shop
 		bool _sell;							   // Can Player sell this item to Shop */
+
+		std::string _weaknesses;
+		std::string _traits;
 
 		static std::random_device _device; // Shared RNG
 		static std::mt19937_64 _random;

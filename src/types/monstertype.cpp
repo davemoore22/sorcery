@@ -57,6 +57,41 @@ auto Sorcery::MonsterType::set_known_name(const std::string value) -> void {
 	_known_name = value;
 }
 
+auto Sorcery::MonsterType::set_unknown_name(const std::string value) -> void {
+
+	_unknown_name = value;
+}
+
+auto Sorcery::MonsterType::set_known_name_plural(const std::string value) -> void {
+
+	_known_name_plural = value;
+}
+
+auto Sorcery::MonsterType::set_unknown_name_plural(const std::string value) -> void {
+
+	_unknown_name_plural = value;
+}
+
+auto Sorcery::MonsterType::set_traits(const std::string value) -> void {
+
+	_traits = value;
+}
+
+auto Sorcery::MonsterType::set_weaknesses(const std::string value) -> void {
+
+	_weaknesses = value;
+}
+
+auto Sorcery::MonsterType::get_traits() const -> std::string {
+
+	return _traits;
+}
+
+auto Sorcery::MonsterType::get_weaknesses() const -> std::string {
+
+	return _weaknesses;
+}
+
 namespace Sorcery {
 
 auto operator<<(std::ostream &out_stream, const Sorcery::MonsterType &monstertype) -> std::ostream & {
