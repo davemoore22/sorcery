@@ -35,18 +35,20 @@ class Dice {
 		// Constructors
 		Dice();
 		Dice(const unsigned int num_, const unsigned int dice_);
-		Dice(const unsigned int num_, const unsigned int dice_, const unsigned int mod_);
+		Dice(const std::string dice_);
+		Dice(const unsigned int num_, const unsigned int dice_, const int mod_);
 
 		// Public Methods
 		auto roll() const -> int;
 		auto roll_min() const -> int;
 		auto roll_max() const -> int;
-		auto set(const unsigned int num_, const unsigned int dice_, const unsigned int mod_);
+		auto set(const unsigned int num_, const unsigned int dice_, const int mod_);
+		auto str() const -> std::string;
 
 		// Public Members
 		unsigned int num;
 		unsigned int dice;
-		unsigned int mod;
+		int mod;
 
 		// Shared RNG
 		static std::random_device _device;

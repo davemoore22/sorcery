@@ -2469,7 +2469,7 @@
 	"main.hpp"
 	"types/itemtype.hpp"
 
-1704223344 /home/dave/Development/wizardry/sorcery-sfml/inc/types/itemtype.hpp
+1704640855 /home/dave/Development/wizardry/sorcery-sfml/inc/types/itemtype.hpp
 	"core/system.hpp"
 	"main.hpp"
 
@@ -3235,7 +3235,7 @@
 1704133084 source:/home/dave/Development/wizardry/sorcery-sfml/src/resources/iconstore.cpp
 	"resources/iconstore.hpp"
 
-1704223409 source:/home/dave/Development/wizardry/sorcery-sfml/src/resources/itemstore.cpp
+1704642769 source:/home/dave/Development/wizardry/sorcery-sfml/src/resources/itemstore.cpp
 	"resources/itemstore.hpp"
 
 1704133084 source:/home/dave/Development/wizardry/sorcery-sfml/src/resources/levelstore.cpp
@@ -3268,7 +3268,7 @@
 1704133084 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/item.cpp
 	"types/item.hpp"
 
-1704223336 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/itemtype.cpp
+1704641520 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/itemtype.cpp
 	"types/itemtype.hpp"
 
 1704133084 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/level.cpp
@@ -3337,6 +3337,9 @@
 1704566814 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/monstertype.cpp
 	"types/monstertype.hpp"
 
-1704575782 /home/dave/Development/wizardry/sorcery-sfml/inc/types/dice.hpp
+1704637175 /home/dave/Development/wizardry/sorcery-sfml/inc/types/dice.hpp
 	"main.hpp"
+
+1704642758 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/dice.cpp
+	"types/dice.hpp"
 

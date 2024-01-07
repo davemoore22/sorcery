@@ -37,14 +37,40 @@ Sorcery::Dice::Dice() {
 Sorcery::Dice::Dice(const unsigned int num_, const unsigned int dice_) : num{num_}, dice{dice_}, mod{0} {
 }
 
-Sorcery::Dice::Dice(const unsigned int num_, const unsigned int dice_, const unsigned int mod_)
+Sorcery::Dice::Dice(const std::string dice_) {
+
+	if (dice_.length() > 0) {
+		const std::regex regex(R"(^(\d+)d(\d+)[+-]?(\d*)$)");
+		if (std::smatch match; std::regex_search(dice_, match, regex)) {
+			num = std::stoi(match[1]);
+			dice = std::stoi(match[2]);
+			mod = std::stoi(match[3]);
+			if (dice_.find('-') != std::string::npos)
+				mod = -mod;
+		} else {
+			num = 0;
+			dice = 0;
+			mod = 0;
+		}
+	} else {
+
+		num = 0;
+		dice = 0;
+		mod = 0;
+	}
+}
+
+Sorcery::Dice::Dice(const unsigned int num_, const unsigned int dice_, const int mod_)
 	: num{num_}, dice{dice_}, mod{mod_} {
 }
 
 auto Sorcery::Dice::roll() const -> int {
 
-	auto dist{std::uniform_int_distribution<unsigned int>(1, dice)};
-	return num * dist(_random) + mod;
+	if (dice > 0) {
+		auto dist{std::uniform_int_distribution<unsigned int>(1, dice)};
+		return num * dist(_random) + mod;
+	} else
+		return 0;
 }
 
 auto Sorcery::Dice::roll_min() const -> int {
@@ -57,7 +83,17 @@ auto Sorcery::Dice::roll_max() const -> int {
 	return (num * dice) + mod;
 }
 
-auto Sorcery::Dice::set(const unsigned int num_, const unsigned int dice_, const unsigned int mod_) {
+auto Sorcery::Dice::str() const -> std::string {
+
+	// Note that Format v8 needs the format string wrapped in fmt::runtime - this isn't available in < v8 - see
+	// https://github.com/fmtlib/fmt/issues/2438 - check FMT_VERSION version in fmt/core.h
+	if (mod == 0)
+		return fmt::format("{}d{}", num, dice);
+	else
+		return fmt::format(fmt::runtime("{}d{+}"), num, dice, mod);
+}
+
+auto Sorcery::Dice::set(const unsigned int num_, const unsigned int dice_, const int mod_) {
 
 	num = num_;
 	dice = dice_;

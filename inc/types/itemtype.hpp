@@ -52,6 +52,7 @@ class ItemType {
 		auto get_usable_alignment() const -> ItemUsableAlignment;
 		auto get_swings() const -> int;
 		auto get_to_hit_mod() const -> int;
+		auto get_damage_dice() const -> Dice;
 		auto get_damage() const -> std::string;
 		auto get_damage_dice_number() const -> int;
 		auto get_damage_dice_type() const -> int;
@@ -90,7 +91,7 @@ class ItemType {
 		auto set_usable_alignment(const ItemUsableAlignment value) -> void;
 		auto set_swings(const int value) -> void;
 		auto set_to_hit_mod(const int value) -> void;
-		auto set_damage_dice(const int num, const int type, const int mod) -> void;
+		auto set_damage_dice(const std::string value) -> void;
 		auto set_ac_mod(const int value) -> void;
 		auto set_curse_ac_mod(const int value) -> void;
 		auto set_regen(const int value) -> void;
@@ -113,22 +114,20 @@ class ItemType {
 	private:
 
 		// Private Members
-		ItemTypeID _type;					   // e.g. LONG_SWORD, LONG_SWORD_PLUS_1 etc
-		std::string _known_name;			   // Friendly name once identified
-		std::string _display_name;			   // Short display name once identified (max 16 characters)
-		std::string _unknown_name;			   // Unknown name if not identified
-		ItemCategory _category;				   // e.g, WEAPON, ARMOUR etc
-		bool _cursed;						   // Is a cursed item
-		unsigned int _value;				   // Price to buy in shop (Sell/Identify Price is half this)
-		bool _sellable;						   // Can be sold
-		ItemUsableClass _usable;			   // Usable by class list
-		ItemUsableAlignment _alignment;		   // Usable by alignment (otherwise cursed)
-		int _swings;						   // If a weapon, number of attacks granted
-		int _to_hit_modifier;				   // Bonus to hit using this weapon
-		std::string _damage_str;			   // 3d8+2
-		int _damage_dice_number;			   // e.g. the 3 of 3d8+2
-		int _damage_dice_type;				   // e.g. the d8 of 3d8+2
-		int _damage_dice_modifer;			   // e.g. the +2 of 3d8+2
+		ItemTypeID _type;				// e.g. LONG_SWORD, LONG_SWORD_PLUS_1 etc
+		std::string _known_name;		// Friendly name once identified
+		std::string _display_name;		// Short display name once identified (max 16 characters)
+		std::string _unknown_name;		// Unknown name if not identified
+		ItemCategory _category;			// e.g, WEAPON, ARMOUR etc
+		bool _cursed;					// Is a cursed item
+		unsigned int _value;			// Price to buy in shop (Sell/Identify Price is half this)
+		bool _sellable;					// Can be sold
+		ItemUsableClass _usable;		// Usable by class list
+		ItemUsableAlignment _alignment; // Usable by alignment (otherwise cursed)
+		int _swings;					// If a weapon, number of attacks granted
+		int _to_hit_modifier;			// Bonus to hit using this weapon
+		std::string _damage_str;		// 3d8+2
+		Dice _damage_dice;
 		int _ac_modifier;					   // AC modifier if worn normally
 		int _curse_ac_modifier;				   // If a cursed item, AC modifier
 		int _regeneration;					   // Passive hp adjustment (25% chance per turn of this happening)

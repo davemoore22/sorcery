@@ -104,28 +104,22 @@ auto Sorcery::ItemType::get_to_hit_mod() const -> int {
 
 auto Sorcery::ItemType::get_damage_dice_number() const -> int {
 
-	return _damage_dice_number;
+	return _damage_dice.num;
 }
 
 auto Sorcery::ItemType::get_damage_dice_type() const -> int {
 
-	return _damage_dice_type;
+	return _damage_dice.dice;
 }
 
 auto Sorcery::ItemType::get_random_damage() const -> int {
 
-	if (_damage_dice_number > 0) {
-		{
-			auto dist{std::uniform_int_distribution<unsigned int>(1, _damage_dice_type)};
-			return _damage_dice_number * dist(_random) + _damage_dice_modifer;
-		}
-	} else
-		return 0;
+	return _damage_dice.roll();
 }
 
 auto Sorcery::ItemType::get_damage_dice_mod() const -> int {
 
-	return _damage_dice_modifer;
+	return _damage_dice.mod;
 }
 
 auto Sorcery::ItemType::get_ac_mod() const -> int {
@@ -232,6 +226,11 @@ auto Sorcery::ItemType::set_damage(const std::string value) -> void {
 	_damage_str = value;
 }
 
+auto Sorcery::ItemType::set_damage_dice(const std::string value) -> void {
+
+	_damage_dice = Dice{value};
+}
+
 auto Sorcery::ItemType::set_unknown_name(const std::string value) -> void {
 
 	_unknown_name = value;
@@ -275,13 +274,6 @@ auto Sorcery::ItemType::set_swings(const int value) -> void {
 auto Sorcery::ItemType::set_to_hit_mod(const int value) -> void {
 
 	_to_hit_modifier = value;
-}
-
-auto Sorcery::ItemType::set_damage_dice(const int num, const int type, const int mod) -> void {
-
-	_damage_dice_number = num;
-	_damage_dice_type = type;
-	_damage_dice_modifer = mod;
 }
 
 auto Sorcery::ItemType::set_ac_mod(const int value) -> void {

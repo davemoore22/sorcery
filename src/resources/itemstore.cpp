@@ -234,21 +234,10 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				item_type.set_effects(effects);
 
 				// Parse Damage Dice String
-				if ((!damage_s.empty()) && (category == ItemCategory::WEAPON)) {
-
-					// Regex for Dice Parsing by "rikkles" on the Grid Cartographer Discord
-					const std::regex regex(R"(^(\d+)d(\d+)[+-]?(\d*)$)");
-					if (std::smatch match; std::regex_search(damage_s, match, regex)) {
-						auto num{std::stoi(match[1])};
-						auto type{std::stoi(match[2])};
-						auto mod{std::stoi(match[3])};
-						if (damage_s.find('-') != std::string::npos)
-							mod = -mod;
-						item_type.set_damage_dice(num, type, mod);
-					} else
-						item_type.set_damage_dice(0, 0, 0);
-				} else
-					item_type.set_damage_dice(0, 0, 0);
+				if ((!damage_s.empty()) && (category == ItemCategory::WEAPON))
+					item_type.set_damage_dice(damage_s);
+				else
+					item_type.set_damage_dice("");
 				item_type.set_swings(attacks);
 				item_type.set_ac_mod(ac);
 				item_type.set_eff_use(use_spell);
