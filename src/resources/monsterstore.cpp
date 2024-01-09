@@ -66,6 +66,24 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename) -> bool 
 				const auto known_gfx{items[i]["gfx known index"].asInt()};
 				const std::string traits{items[i]["traits"].asString()};
 				const std::string weaknesses{items[i]["weaknesses"].asString()};
+				const std::string group_size{items[i]["group size"].asString()};
+				const auto level{[&] {
+					if (items[i].isMember("level"))
+						return items[i]["level"].asUInt();
+					else
+						return 0u;
+				}()};
+				const std::string hit_dice{items[i]["hit dice"].asString()};
+				const auto category{[&] {
+					if (items[i].isMember("category")) {
+						if (items[i]["category"].asString().length() > 0) {
+							auto category{magic_enum::enum_cast<MonsterCategory>(items[i]["category"].asString())};
+							return category.value_or(MonsterCategory::HUMANOID);
+						} else
+							return MonsterCategory::HUMANOID;
+					} else
+						return MonsterCategory::HUMANOID;
+				}()};
 
 				MonsterType monster_type{};
 				monster_type.set_type_id(id.value());
@@ -76,6 +94,9 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename) -> bool 
 				monster_type.set_known_gfx(known_gfx);
 				monster_type.set_traits(traits);
 				monster_type.set_weaknesses(weaknesses);
+				monster_type.set_group_size(group_size);
+				monster_type.set_level(level);
+				monster_type.set_hit_dice(hit_dice);
 
 				_items[id.value()] = monster_type;
 			}

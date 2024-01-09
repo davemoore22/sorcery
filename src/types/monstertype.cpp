@@ -62,6 +62,16 @@ auto Sorcery::MonsterType::set_unknown_name(const std::string value) -> void {
 	_unknown_name = value;
 }
 
+auto Sorcery::MonsterType::set_level(const unsigned int value) -> void {
+
+	_level = value;
+}
+
+auto Sorcery::MonsterType::get_level() const -> unsigned int {
+
+	return _level;
+}
+
 auto Sorcery::MonsterType::set_known_name_plural(const std::string value) -> void {
 
 	_known_name_plural = value;
@@ -90,6 +100,36 @@ auto Sorcery::MonsterType::get_traits() const -> std::string {
 auto Sorcery::MonsterType::get_weaknesses() const -> std::string {
 
 	return _weaknesses;
+}
+
+auto Sorcery::MonsterType::get_group_size() const -> Dice {
+
+	return _group_size;
+}
+
+auto Sorcery::MonsterType::set_group_size(const std::string value) -> void {
+
+	_group_size = Dice{value};
+}
+
+auto Sorcery::MonsterType::get_hit_dice() const -> Dice {
+
+	return _hit_dice;
+}
+
+auto Sorcery::MonsterType::set_hit_dice(const std::string value) -> void {
+
+	_hit_dice = Dice{value};
+}
+
+auto Sorcery::MonsterType::get_category() const -> MonsterCategory {
+
+	return _category;
+}
+
+auto Sorcery::MonsterType::set_category(const MonsterCategory value) -> void {
+
+	_category = value;
 }
 
 namespace Sorcery {

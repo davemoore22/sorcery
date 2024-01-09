@@ -44,7 +44,10 @@ Sorcery::Dice::Dice(const std::string dice_) {
 		if (std::smatch match; std::regex_search(dice_, match, regex)) {
 			num = std::stoi(match[1]);
 			dice = std::stoi(match[2]);
-			mod = std::stoi(match[3]);
+			if (match[3].length() > 0)
+				mod = std::stoi(match[3]);
+			else
+				mod = 0;
 			if (dice_.find('-') != std::string::npos)
 				mod = -mod;
 		} else {

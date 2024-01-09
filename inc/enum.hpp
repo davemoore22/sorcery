@@ -1228,7 +1228,7 @@ namespace Enums {
 	namespace Monsters {
 
 		enum class Category {
-			NO_CATEGORY = 0,
+			NO_MONSTER_CATEGORY = 0,
 			HUMANOID = 1,
 			ANIMAL = 2,
 			DEMON = 3,
