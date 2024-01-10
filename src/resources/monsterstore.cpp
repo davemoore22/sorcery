@@ -84,6 +84,21 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename) -> bool 
 					} else
 						return MonsterCategory::HUMANOID;
 				}()};
+				const auto mclass{[&] {
+					if (category == MonsterCategory::HUMANOID) {
+						auto mclass{magic_enum::enum_cast<MonsterClass>(items[i]["category"].asString())};
+						return mclass.value_or(MonsterClass::NO_CLASS);
+					} else
+						return MonsterClass::NO_CLASS;
+				}()};
+				const auto ac{[&] {
+					if (items[i].isMember("ac"))
+						return items[i]["ac"].asInt();
+					else
+						return 10;
+				}()};
+				const std::string atks{items[i]["attacks"].asString()};
+				auto attacks{_parse_attacks(atks)};
 
 				MonsterType monster_type{};
 				monster_type.set_type_id(id.value());
@@ -97,6 +112,12 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename) -> bool 
 				monster_type.set_group_size(group_size);
 				monster_type.set_level(level);
 				monster_type.set_hit_dice(hit_dice);
+				monster_type.set_category(category);
+				monster_type.set_class(mclass);
+				monster_type.set_armour_class(ac);
+				monster_type.clear_attacks();
+				for (auto attack : attacks)
+					monster_type.set_attack(attack);
 
 				_items[id.value()] = monster_type;
 			}
@@ -122,4 +143,24 @@ auto Sorcery::MonsterStore::get_all_types() const -> std::vector<MonsterType> {
 		items.push_back(value);
 
 	return items;
+}
+
+auto Sorcery::MonsterStore::_parse_attacks(const std::string value) const -> std::vector<Dice> {
+
+	std::vector<Dice> attacks;
+	attacks.clear();
+
+	const std::regex regex(R"([,]+)");
+	std::sregex_token_iterator it{value.begin(), value.end(), regex, -1};
+	std::vector<std::string> split{it, {}};
+	split.erase(
+		std::remove_if(split.begin(), split.end(), [](std::string_view s) { return s.size() == 0; }), split.end());
+
+	for (const auto &each : split) {
+
+		Dice atk{each};
+		attacks.emplace_back(atk);
+	}
+
+	return attacks;
 }

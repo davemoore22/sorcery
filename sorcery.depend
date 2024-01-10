@@ -3307,7 +3307,7 @@
 
 1697389637 source:/home/dave/Development/wizardry/sorcery-sfml/src/frontend/spellbook.cpp
 
-1704136050 /home/dave/Development/wizardry/sorcery-sfml/inc/resources/monsterstore.hpp
+1704923638 /home/dave/Development/wizardry/sorcery-sfml/inc/resources/monsterstore.hpp
 	"core/system.hpp"
 	"main.hpp"
 	"types/monster.hpp"
@@ -3315,7 +3315,7 @@
 
 1704132950 /home/dave/Development/wizardry/sorcery-sfml/inc/types/monster.hpp
 
-1704827172 /home/dave/Development/wizardry/sorcery-sfml/inc/types/monstertype.hpp
+1704924410 /home/dave/Development/wizardry/sorcery-sfml/inc/types/monstertype.hpp
 	"core/system.hpp"
 	"main.hpp"
 

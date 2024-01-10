@@ -52,6 +52,11 @@ class MonsterType {
 		auto get_known_gfx() const -> unsigned int;
 		auto get_hit_dice() const -> Dice;
 		auto get_category() const -> MonsterCategory;
+		auto get_class() const -> MonsterClass;
+		auto get_armour_class() const -> int;
+		auto get_attacks() const -> std::vector<Dice>;
+		auto get_number_attacks() const -> unsigned int;
+		auto get_attack(const unsigned int attack) const -> Dice;
 
 		auto set_type_id(const MonsterTypeID value) -> void;
 		auto set_known_name(const std::string value) -> void;
@@ -65,6 +70,10 @@ class MonsterType {
 		auto set_weaknesses(const std::string value) -> void;
 		auto set_hit_dice(const std::string value) -> void;
 		auto set_category(const MonsterCategory value) -> void;
+		auto set_class(const MonsterClass value) -> void;
+		auto set_armour_class(const int value) -> void;
+		auto clear_attacks() -> void;
+		auto set_attack(Dice value) -> void;
 
 	private:
 
@@ -80,6 +89,8 @@ class MonsterType {
 		unsigned int _known_gfx;
 		MonsterCategory _category;
 		MonsterClass _class;
+		int _armour_class;
+		std::vector<Dice> _attacks;
 
 		std::string _weaknesses;
 		std::string _traits;

@@ -67,9 +67,19 @@ auto Sorcery::MonsterType::set_level(const unsigned int value) -> void {
 	_level = value;
 }
 
+auto Sorcery::MonsterType::set_armour_class(const int value) -> void {
+
+	_armour_class = value;
+}
+
 auto Sorcery::MonsterType::get_level() const -> unsigned int {
 
 	return _level;
+}
+
+auto Sorcery::MonsterType::get_armour_class() const -> int {
+
+	return _armour_class;
 }
 
 auto Sorcery::MonsterType::set_known_name_plural(const std::string value) -> void {
@@ -107,6 +117,11 @@ auto Sorcery::MonsterType::get_group_size() const -> Dice {
 	return _group_size;
 }
 
+auto Sorcery::MonsterType::get_class() const -> MonsterClass {
+
+	return _class;
+}
+
 auto Sorcery::MonsterType::set_group_size(const std::string value) -> void {
 
 	_group_size = Dice{value};
@@ -130,6 +145,39 @@ auto Sorcery::MonsterType::get_category() const -> MonsterCategory {
 auto Sorcery::MonsterType::set_category(const MonsterCategory value) -> void {
 
 	_category = value;
+}
+
+auto Sorcery::MonsterType::set_class(const MonsterClass value) -> void {
+
+	_class = value;
+}
+
+auto Sorcery::MonsterType::get_attacks() const -> std::vector<Dice> {
+
+	return _attacks;
+}
+
+auto Sorcery::MonsterType::get_number_attacks() const -> unsigned int {
+
+	return _attacks.size();
+}
+
+auto Sorcery::MonsterType::clear_attacks() -> void {
+
+	_attacks.clear();
+}
+
+auto Sorcery::MonsterType::set_attack(Dice value) -> void {
+
+	_attacks.emplace_back(value);
+}
+
+auto Sorcery::MonsterType::get_attack(const unsigned int attack) const -> Dice {
+
+	if (attack < _attacks.size())
+		return _attacks.at(attack);
+	else
+		return Dice{};
 }
 
 namespace Sorcery {

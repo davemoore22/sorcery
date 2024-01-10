@@ -58,6 +58,7 @@ class MonsterStore {
 
 		// Private methods
 		auto _load(const std::filesystem::path filename) -> bool;
+		auto _parse_attacks(const std::string value) const -> std::vector<Dice>;
 };
 
 }
