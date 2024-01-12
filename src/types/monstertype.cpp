@@ -180,6 +180,36 @@ auto Sorcery::MonsterType::get_attack(const unsigned int attack) const -> Dice {
 		return Dice{};
 }
 
+auto Sorcery::MonsterType::get_breath_weapon() const -> MonsterBreath {
+
+	return _breath_weapon;
+}
+
+auto Sorcery::MonsterType::set_breath_weapon(const MonsterBreath value) -> void {
+
+	_breath_weapon = value;
+}
+
+auto Sorcery::MonsterType::get_level_drain() const -> unsigned int {
+
+	return _level_drain;
+}
+
+auto Sorcery::MonsterType::get_regeneration() const -> unsigned int {
+
+	return _regeneration;
+}
+
+auto Sorcery::MonsterType::set_level_drain(const unsigned int value) -> void {
+
+	_level_drain = value;
+}
+
+auto Sorcery::MonsterType::set_regeneration(const unsigned int value) -> void {
+
+	_regeneration = value;
+}
+
 namespace Sorcery {
 
 auto operator<<(std::ostream &out_stream, const Sorcery::MonsterType &monstertype) -> std::ostream & {
@@ -191,4 +221,4 @@ auto operator<<(std::ostream &out_stream, const Sorcery::MonsterType &monstertyp
 
 	return out_stream << text << std::flush;
 }
-} // names
+} // namest

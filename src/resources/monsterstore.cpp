@@ -98,7 +98,16 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename) -> bool 
 						return 10;
 				}()};
 				const std::string atks{items[i]["attacks"].asString()};
-				auto attacks{_parse_attacks(atks)};
+				const auto attacks{_parse_attacks(atks)};
+				const auto specials{[&] {
+					if (items[i].isMember("special"))
+						return items[i]["special"].asString();
+					else
+						return std::string{};
+				}()};
+				const auto level_drain{_parse_level_drain(specials)};
+				const auto regeneration(_parse_regen(specials));
+				const auto breath_weapon{_parse_breath_weapons(specials)};
 
 				MonsterType monster_type{};
 				monster_type.set_type_id(id.value());
@@ -118,6 +127,9 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename) -> bool 
 				monster_type.clear_attacks();
 				for (auto attack : attacks)
 					monster_type.set_attack(attack);
+				monster_type.set_breath_weapon(breath_weapon);
+				monster_type.set_level_drain(level_drain);
+				monster_type.set_regeneration(regeneration);
 
 				_items[id.value()] = monster_type;
 			}
@@ -163,4 +175,40 @@ auto Sorcery::MonsterStore::_parse_attacks(const std::string value) const -> std
 	}
 
 	return attacks;
+}
+
+auto Sorcery::MonsterStore::_parse_breath_weapons(const std::string value) const -> MonsterBreath {
+
+	if (value.find("Drain Breath") != std::string::npos)
+		return MonsterBreath::DRAIN_BREATH;
+	else if (value.find("Flame Breath") != std::string::npos)
+		return MonsterBreath::FLAME_BREATH;
+	else if (value.find("Poison Breath") != std::string::npos)
+		return MonsterBreath::POISON_BREATH;
+	else if (value.find("Cold Breath") != std::string::npos)
+		return MonsterBreath::COLD_BREATH;
+	else if (value.find("Stone Breath") != std::string::npos)
+		return MonsterBreath::STONE_BREATH;
+	else
+		return MonsterBreath::NO_BREATH_WEAPON;
+}
+
+auto Sorcery::MonsterStore::_parse_level_drain(const std::string value) const -> unsigned int {
+
+	if (value.find("Level Drain") != std::string::npos) {
+		std::string output{std::regex_replace(value, std::regex("[^0-9]*([0-9]+).*"), std::string("$1"))};
+		return std::stoi(output);
+	} else
+		return 0;
+}
+
+auto Sorcery::MonsterStore::_parse_regen(const std::string value) const -> unsigned int {
+
+	auto pos{value.find("Heal")};
+	if (pos != std::string::npos) {
+		auto heal_portion{value.substr(pos)};
+		std::string output{std::regex_replace(heal_portion, std::regex("[^0-9]*([0-9]+).*"), std::string("$1"))};
+		return std::stoi(output);
+	} else
+		return 0;
 }

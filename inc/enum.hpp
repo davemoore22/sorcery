@@ -1346,6 +1346,15 @@ namespace Enums {
 			LVL_7_MAGE_C_ = 99,
 			LVL_7_FIGHTER = 100,
 		};
+
+		enum class Breath {
+			NO_BREATH_WEAPON,
+			COLD_BREATH,
+			DRAIN_BREATH,
+			FLAME_BREATH,
+			POISON_BREATH,
+			STONE_BREATH,
+		};
 	}
 
 	namespace Items {

@@ -182,6 +182,7 @@ using MessagePosition = Enums::View::Message::Position;
 using MessageType = Enums::Internal::MessageType;
 using Method = Enums::Manage::Method;
 using ModuleResult = Enums::System::ModuleResult;
+using MonsterBreath = Enums::Monsters::Breath;
 using MonsterClass = Enums::Character::Class;
 using MonsterCategory = Enums::Monsters::Category;
 using MonsterTypeID = Enums::Monsters::TypeID;

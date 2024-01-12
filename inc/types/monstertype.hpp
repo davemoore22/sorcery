@@ -57,6 +57,9 @@ class MonsterType {
 		auto get_attacks() const -> std::vector<Dice>;
 		auto get_number_attacks() const -> unsigned int;
 		auto get_attack(const unsigned int attack) const -> Dice;
+		auto get_breath_weapon() const -> MonsterBreath;
+		auto get_level_drain() const -> unsigned int;
+		auto get_regeneration() const -> unsigned int;
 
 		auto set_type_id(const MonsterTypeID value) -> void;
 		auto set_known_name(const std::string value) -> void;
@@ -74,6 +77,9 @@ class MonsterType {
 		auto set_armour_class(const int value) -> void;
 		auto clear_attacks() -> void;
 		auto set_attack(Dice value) -> void;
+		auto set_breath_weapon(const MonsterBreath value) -> void;
+		auto set_level_drain(const unsigned int value) -> void;
+		auto set_regeneration(const unsigned int value) -> void;
 
 	private:
 
@@ -91,6 +97,9 @@ class MonsterType {
 		MonsterClass _class;
 		int _armour_class;
 		std::vector<Dice> _attacks;
+		MonsterBreath _breath_weapon;
+		unsigned int _level_drain;
+		unsigned int _regeneration;
 
 		std::string _weaknesses;
 		std::string _traits;
