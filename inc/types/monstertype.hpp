@@ -60,6 +60,8 @@ class MonsterType {
 		auto get_breath_weapon() const -> MonsterBreath;
 		auto get_level_drain() const -> unsigned int;
 		auto get_regeneration() const -> unsigned int;
+		auto get_rewards() const -> std::tuple<unsigned int, unsigned int>;
+		auto get_resistances() const -> MonsterResistances;
 
 		auto set_type_id(const MonsterTypeID value) -> void;
 		auto set_known_name(const std::string value) -> void;
@@ -80,6 +82,9 @@ class MonsterType {
 		auto set_breath_weapon(const MonsterBreath value) -> void;
 		auto set_level_drain(const unsigned int value) -> void;
 		auto set_regeneration(const unsigned int value) -> void;
+		auto set_rewards(const unsigned int value_1, const unsigned int value_2) -> void;
+		auto set_resistances(MonsterResistances value) -> void;
+		auto has_resistance(MonsterResist value) -> bool;
 
 	private:
 
@@ -100,6 +105,9 @@ class MonsterType {
 		MonsterBreath _breath_weapon;
 		unsigned int _level_drain;
 		unsigned int _regeneration;
+		unsigned int _reward_1;
+		unsigned int _reward_2;
+		MonsterResistances _resistances;
 
 		std::string _weaknesses;
 		std::string _traits;

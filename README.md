@@ -53,7 +53,7 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 * Procedurally-Generated Infinite Content (like Diablo)
 * Modding
 
-## What next? (as of August 2023)
+## What next? (as of December 2023)
 
 I'm am currently implementing Items, Inventory, and Item-Handling.
 

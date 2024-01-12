@@ -2,9 +2,9 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="src/resources/itemstore.cpp" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/resources/itemstore.cpp" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="8272" topLine="216" />
+			<Cursor1 position="11134" topLine="319" />
 		</Cursor>
 	</File>
 	<File name="src/engine/engine.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -12,14 +12,9 @@
 			<Cursor1 position="60367" topLine="1683" />
 		</Cursor>
 	</File>
-	<File name="src/types/dice.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/types/dice.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1313" topLine="26" />
-		</Cursor>
-	</File>
-	<File name="cfg/config.ini" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="136" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="src/modules/castle.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -27,9 +22,9 @@
 			<Cursor1 position="2024" topLine="32" />
 		</Cursor>
 	</File>
-	<File name="dat/explain.json" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="dat/layout.json" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4629" topLine="18" />
+			<Cursor1 position="252118" topLine="13634" />
 		</Cursor>
 	</File>
 	<File name="src/types/monstertype.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -37,9 +32,24 @@
 			<Cursor1 position="2904" topLine="91" />
 		</Cursor>
 	</File>
-	<File name="src/resources/monsterstore.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/resources/monsterstore.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1543" topLine="24" />
+			<Cursor1 position="4048" topLine="80" />
+		</Cursor>
+	</File>
+	<File name="dat/explain.json" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4629" topLine="18" />
+		</Cursor>
+	</File>
+	<File name="inc/define.hpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2501" topLine="49" />
+		</Cursor>
+	</File>
+	<File name="cfg/config.ini" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="136" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="doc/COMPILE" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -50,11 +60,6 @@
 	<File name="dat/strings.json" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="477" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="inc/define.hpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2501" topLine="49" />
 		</Cursor>
 	</File>
 	<File name="src/modules/inn.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -70,11 +75,6 @@
 	<File name="src/core/application.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="4115" topLine="79" />
-		</Cursor>
-	</File>
-	<File name="dat/layout.json" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="252118" topLine="13634" />
 		</Cursor>
 	</File>
 	<File name="src/gui/partypanel.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

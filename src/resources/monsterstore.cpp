@@ -108,6 +108,20 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename) -> bool 
 				const auto level_drain{_parse_level_drain(specials)};
 				const auto regeneration(_parse_regen(specials));
 				const auto breath_weapon{_parse_breath_weapons(specials)};
+				const auto rewards_1{[&] {
+					if (items[i].isMember("reward 1"))
+						return items[i]["reward 1"].asUInt();
+					else
+						return 0u;
+				}()};
+				const auto rewards_2{[&] {
+					if (items[i].isMember("reward 2"))
+						return items[i]["reward 2"].asUInt();
+					else
+						return 0u;
+				}()};
+				const std::string res{items[i]["resistances"].asString()};
+				const auto resistances{_parse_resistances(res)};
 
 				MonsterType monster_type{};
 				monster_type.set_type_id(id.value());
@@ -130,6 +144,8 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename) -> bool 
 				monster_type.set_breath_weapon(breath_weapon);
 				monster_type.set_level_drain(level_drain);
 				monster_type.set_regeneration(regeneration);
+				monster_type.set_rewards(rewards_1, rewards_2);
+				monster_type.set_resistances(resistances);
 
 				_items[id.value()] = monster_type;
 			}
@@ -211,4 +227,25 @@ auto Sorcery::MonsterStore::_parse_regen(const std::string value) const -> unsig
 		return std::stoi(output);
 	} else
 		return 0;
+}
+
+auto Sorcery::MonsterStore::_parse_resistances(const std::string value) const -> MonsterResistances {
+
+	MonsterResistances res;
+	if (value.find("Cold") != std::string::npos)
+		res[unenum(MonsterResist::RESIST_COLD)] = true;
+	if (value.find("Drain") != std::string::npos)
+		res[unenum(MonsterResist::RESIST_LEVEL_DRAIN)] = true;
+	if (value.find("Fire") != std::string::npos)
+		res[unenum(MonsterResist::RESIST_FIRE)] = true;
+	if (value.find("Magic") != std::string::npos)
+		res[unenum(MonsterResist::RESIST_MAGIC)] = true;
+	if (value.find("Poison") != std::string::npos)
+		res[unenum(MonsterResist::RESIST_POISON)] = true;
+	if (value.find("Physical") != std::string::npos)
+		res[unenum(MonsterResist::RESIST_PHYSICAL)] = true;
+	if (value.find("Stone") != std::string::npos)
+		res[unenum(MonsterResist::RESIST_STONING)] = true;
+
+	return res;
 }

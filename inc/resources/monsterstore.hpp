@@ -62,6 +62,7 @@ class MonsterStore {
 		auto _parse_breath_weapons(const std::string value) const -> MonsterBreath;
 		auto _parse_regen(const std::string value) const -> unsigned int;
 		auto _parse_level_drain(const std::string value) const -> unsigned int;
+		auto _parse_resistances(const std::string value) const -> MonsterResistances;
 };
 
 }

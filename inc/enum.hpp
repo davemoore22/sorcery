@@ -1344,7 +1344,7 @@ namespace Enums {
 			HIGH_NINJA = 97,
 			HIGH_PRIEST_C = 98,
 			LVL_7_MAGE_C_ = 99,
-			LVL_7_FIGHTER = 100,
+			LVL_7_FIGHTER = 100
 		};
 
 		enum class Breath {
@@ -1353,7 +1353,17 @@ namespace Enums {
 			DRAIN_BREATH,
 			FLAME_BREATH,
 			POISON_BREATH,
-			STONE_BREATH,
+			STONE_BREATH
+		};
+
+		enum class Resistance {
+			RESIST_COLD = 0,
+			RESIST_FIRE = 1,
+			RESIST_MAGIC = 2,
+			RESIST_PHYSICAL = 3,
+			RESIST_LEVEL_DRAIN = 4,
+			RESIST_POISON = 5,
+			RESIST_STONING = 6
 		};
 	}
 

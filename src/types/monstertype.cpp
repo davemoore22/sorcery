@@ -210,6 +210,34 @@ auto Sorcery::MonsterType::set_regeneration(const unsigned int value) -> void {
 	_regeneration = value;
 }
 
+auto Sorcery::MonsterType::get_rewards() const -> std::tuple<unsigned int, unsigned int> {
+
+	return std::make_tuple(_reward_1, _reward_2);
+}
+
+auto Sorcery::MonsterType::set_rewards(const unsigned int value_1, const unsigned int value_2) -> void {
+
+	_reward_1 = value_1;
+	_reward_2 = value_2;
+}
+
+auto Sorcery::MonsterType::set_resistances(MonsterResistances value) -> void {
+
+	_resistances = value;
+}
+
+auto Sorcery::MonsterType::has_resistance(MonsterResist value) -> bool {
+
+	const auto res{unenum(value)};
+
+	return _resistances[res];
+}
+
+auto Sorcery::MonsterType::get_resistances() const -> MonsterResistances {
+
+	return _resistances;
+}
+
 namespace Sorcery {
 
 auto operator<<(std::ostream &out_stream, const Sorcery::MonsterType &monstertype) -> std::ostream & {
