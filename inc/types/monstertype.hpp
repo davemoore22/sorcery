@@ -50,6 +50,7 @@ class MonsterType {
 		auto get_weaknesses() const -> std::string;
 		auto get_level() const -> unsigned int;
 		auto get_known_gfx() const -> unsigned int;
+		auto get_unknown_gfx() const -> unsigned int;
 		auto get_hit_dice() const -> Dice;
 		auto get_category() const -> MonsterCategory;
 		auto get_class() const -> MonsterClass;
@@ -62,6 +63,12 @@ class MonsterType {
 		auto get_regeneration() const -> unsigned int;
 		auto get_rewards() const -> std::tuple<unsigned int, unsigned int>;
 		auto get_resistances() const -> MonsterResistances;
+		auto get_properties() const -> MonsterProperties;
+		auto get_xp() const -> unsigned int;
+		auto get_partners() const -> std::tuple<unsigned int, unsigned int>;
+		auto get_mage_level() const -> unsigned int;
+		auto get_priest_level() const -> unsigned int;
+		auto get_spell_resistance() const -> unsigned int;
 
 		auto set_type_id(const MonsterTypeID value) -> void;
 		auto set_known_name(const std::string value) -> void;
@@ -71,20 +78,29 @@ class MonsterType {
 		auto set_group_size(const std::string value) -> void;
 		auto set_level(const unsigned int value) -> void;
 		auto set_known_gfx(const unsigned int value) -> void;
+		auto set_unknown_gfx(const unsigned int value) -> void;
 		auto set_traits(const std::string value) -> void;
 		auto set_weaknesses(const std::string value) -> void;
 		auto set_hit_dice(const std::string value) -> void;
 		auto set_category(const MonsterCategory value) -> void;
 		auto set_class(const MonsterClass value) -> void;
 		auto set_armour_class(const int value) -> void;
-		auto clear_attacks() -> void;
 		auto set_attack(Dice value) -> void;
 		auto set_breath_weapon(const MonsterBreath value) -> void;
 		auto set_level_drain(const unsigned int value) -> void;
 		auto set_regeneration(const unsigned int value) -> void;
 		auto set_rewards(const unsigned int value_1, const unsigned int value_2) -> void;
 		auto set_resistances(MonsterResistances value) -> void;
+		auto set_properties(MonsterProperties value) -> void;
+		auto set_xp(const unsigned int value) -> void;
+		auto set_partners(const unsigned int value_1, const unsigned int value_2) -> void;
+		auto set_priest_level(const unsigned int value) -> void;
+		auto set_mage_level(const unsigned int value) -> void;
+		auto set_spell_resistance(const unsigned int value) -> void;
+
 		auto has_resistance(MonsterResist value) -> bool;
+		auto has_property(MonsterProperty value) -> bool;
+		auto clear_attacks() -> void;
 
 	private:
 
@@ -98,6 +114,7 @@ class MonsterType {
 		unsigned int _level;
 		Dice _hit_dice;
 		unsigned int _known_gfx;
+		unsigned int _unknown_gfx;
 		MonsterCategory _category;
 		MonsterClass _class;
 		int _armour_class;
@@ -108,6 +125,13 @@ class MonsterType {
 		unsigned int _reward_1;
 		unsigned int _reward_2;
 		MonsterResistances _resistances;
+		MonsterProperties _properties;
+		unsigned int _xp;
+		unsigned int _partner_type_id;
+		unsigned int _partner_chance;
+		unsigned int _mage_level;
+		unsigned int _priest_level;
+		unsigned int _spell_resistance;
 
 		std::string _weaknesses;
 		std::string _traits;

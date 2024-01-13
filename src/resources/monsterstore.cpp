@@ -64,8 +64,7 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename) -> bool 
 				const std::string known_name_plural{items[i]["known name plural"].asString()};
 				const std::string unknown_name_plural{items[i]["unknown name plural"].asString()};
 				const auto known_gfx{items[i]["gfx known index"].asInt()};
-				const std::string traits{items[i]["traits"].asString()};
-				const std::string weaknesses{items[i]["weaknesses"].asString()};
+				const auto unknown_gfx{items[i]["gfx known index"].asInt()};
 				const std::string group_size{items[i]["group size"].asString()};
 				const auto level{[&] {
 					if (items[i].isMember("level"))
@@ -120,8 +119,58 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename) -> bool 
 					else
 						return 0u;
 				}()};
-				const std::string res{items[i]["resistances"].asString()};
+				const std::string res{[&] {
+					if (items[i].isMember("resistances"))
+						return items[i]["resistances"].asString();
+					else
+						return std::string{};
+				}()};
 				const auto resistances{_parse_resistances(res)};
+				const std::string props{[&] {
+					if (items[i].isMember("properties"))
+						return items[i]["properties"].asString();
+					else
+						return std::string{};
+				}()};
+				const auto properties{_parse_properties(props)};
+				const auto xp{[&] {
+					if (items[i].isMember("xp"))
+						return items[i]["xp"].asUInt();
+					else
+						return 0u;
+				}()};
+				const auto partner_type_id{[&] {
+					if (items[i].isMember("partner id"))
+						return items[i]["partner id"].asUInt();
+					else
+						return 0u;
+				}()};
+				const auto partner_chance{[&] {
+					if (items[i].isMember("partner chance"))
+						return items[i]["partner chance"].asUInt();
+					else
+						return 0u;
+				}()};
+				const auto mage_level{[&] {
+					if (items[i].isMember("mage level"))
+						return items[i]["mage level"].asUInt();
+					else
+						return 0u;
+				}()};
+				const auto priest_level{[&] {
+					if (items[i].isMember("priest level"))
+						return items[i]["priest level"].asUInt();
+					else
+						return 0u;
+				}()};
+				const auto spell_resistance{[&] {
+					if (items[i].isMember("spell resistance"))
+						return items[i]["spell resistance"].asUInt();
+					else
+						return 0u;
+				}()};
+				const std::string traits{items[i]["traits"].asString()};
+				const std::string weaknesses{items[i]["weaknesses"].asString()};
 
 				MonsterType monster_type{};
 				monster_type.set_type_id(id.value());
@@ -130,8 +179,7 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename) -> bool 
 				monster_type.set_known_name_plural(known_name_plural);
 				monster_type.set_unknown_name_plural(unknown_name_plural);
 				monster_type.set_known_gfx(known_gfx);
-				monster_type.set_traits(traits);
-				monster_type.set_weaknesses(weaknesses);
+				monster_type.set_unknown_gfx(unknown_gfx);
 				monster_type.set_group_size(group_size);
 				monster_type.set_level(level);
 				monster_type.set_hit_dice(hit_dice);
@@ -146,6 +194,14 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename) -> bool 
 				monster_type.set_regeneration(regeneration);
 				monster_type.set_rewards(rewards_1, rewards_2);
 				monster_type.set_resistances(resistances);
+				monster_type.set_properties(properties);
+				monster_type.set_xp(xp);
+				monster_type.set_partners(partner_type_id, partner_chance);
+				monster_type.set_priest_level(priest_level);
+				monster_type.set_mage_level(mage_level);
+				monster_type.set_spell_resistance(spell_resistance);
+				monster_type.set_traits(traits);
+				monster_type.set_weaknesses(weaknesses);
 
 				_items[id.value()] = monster_type;
 			}
@@ -248,4 +304,25 @@ auto Sorcery::MonsterStore::_parse_resistances(const std::string value) const ->
 		res[unenum(MonsterResist::RESIST_STONING)] = true;
 
 	return res;
+}
+
+auto Sorcery::MonsterStore::_parse_properties(const std::string value) const -> MonsterProperties {
+
+	MonsterProperties props;
+	if (value.find("Critical") != std::string::npos)
+		props[unenum(MonsterProperty::CAN_AUTOKILL)] = true;
+	if (value.find("Sleep") != std::string::npos)
+		props[unenum(MonsterProperty::CAN_BE_SLEPT)] = true;
+	if (value.find("Call") != std::string::npos)
+		props[unenum(MonsterProperty::CAN_CALL_FOR_OTHERS)] = true;
+	if (value.find("Run") != std::string::npos)
+		props[unenum(MonsterProperty::CAN_FLEE)] = true;
+	if (value.find("Paralyse") != std::string::npos)
+		props[unenum(MonsterProperty::CAN_PARALYSE)] = true;
+	if (value.find("Stone") != std::string::npos)
+		props[unenum(MonsterProperty::CAN_PETRIFY)] = true;
+	if (value.find("Poison") != std::string::npos)
+		props[unenum(MonsterProperty::CAN_POISON)] = true;
+
+	return props;
 }

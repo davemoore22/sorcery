@@ -37,6 +37,21 @@ auto Sorcery::MonsterType::get_known_name() const -> std::string {
 	return _known_name;
 }
 
+auto Sorcery::MonsterType::get_unknown_name() const -> std::string {
+
+	return _unknown_name;
+}
+
+auto Sorcery::MonsterType::get_known_name_plural() const -> std::string {
+
+	return _known_name_plural;
+}
+
+auto Sorcery::MonsterType::get_unknown_name_plural() const -> std::string {
+
+	return _unknown_name_plural;
+}
+
 auto Sorcery::MonsterType::set_known_gfx(const unsigned int value) -> void {
 
 	_known_gfx = value;
@@ -44,7 +59,17 @@ auto Sorcery::MonsterType::set_known_gfx(const unsigned int value) -> void {
 
 auto Sorcery::MonsterType::get_known_gfx() const -> unsigned int {
 
-	return _known_gfx;
+	return _unknown_gfx;
+}
+
+auto Sorcery::MonsterType::set_unknown_gfx(const unsigned int value) -> void {
+
+	_unknown_gfx = value;
+}
+
+auto Sorcery::MonsterType::get_unknown_gfx() const -> unsigned int {
+
+	return _unknown_gfx;
 }
 
 auto Sorcery::MonsterType::set_type_id(const MonsterTypeID value) -> void {
@@ -226,6 +251,11 @@ auto Sorcery::MonsterType::set_resistances(MonsterResistances value) -> void {
 	_resistances = value;
 }
 
+auto Sorcery::MonsterType::set_properties(MonsterProperties value) -> void {
+
+	_properties = value;
+}
+
 auto Sorcery::MonsterType::has_resistance(MonsterResist value) -> bool {
 
 	const auto res{unenum(value)};
@@ -233,9 +263,72 @@ auto Sorcery::MonsterType::has_resistance(MonsterResist value) -> bool {
 	return _resistances[res];
 }
 
+auto Sorcery::MonsterType::has_property(MonsterProperty value) -> bool {
+
+	const auto prop{unenum(value)};
+
+	return _properties[prop];
+}
+
+auto Sorcery::MonsterType::get_properties() const -> MonsterProperties {
+
+	return _properties;
+}
+
 auto Sorcery::MonsterType::get_resistances() const -> MonsterResistances {
 
 	return _resistances;
+}
+
+auto Sorcery::MonsterType::get_xp() const -> unsigned int {
+
+	return _xp;
+}
+
+auto Sorcery::MonsterType::set_xp(const unsigned int value) -> void {
+
+	_xp = value;
+}
+
+auto Sorcery::MonsterType::get_partners() const -> std::tuple<unsigned int, unsigned int> {
+
+	return std::make_tuple(_partner_type_id, _partner_chance);
+}
+
+auto Sorcery::MonsterType::set_partners(const unsigned int value_1, const unsigned int value_2) -> void {
+
+	_partner_type_id = value_1;
+	_partner_chance = value_2;
+}
+
+auto Sorcery::MonsterType::set_priest_level(const unsigned int value) -> void {
+
+	_priest_level = value;
+}
+
+auto Sorcery::MonsterType::set_mage_level(const unsigned int value) -> void {
+
+	_mage_level = value;
+}
+
+auto Sorcery::MonsterType::get_priest_level() const -> unsigned int {
+
+	return _mage_level;
+}
+
+auto Sorcery::MonsterType::get_mage_level() const -> unsigned int {
+
+	return _priest_level;
+}
+
+auto Sorcery::MonsterType::get_spell_resistance() const -> unsigned int {
+
+	return _mage_level;
+}
+
+auto Sorcery::MonsterType::set_spell_resistance(const unsigned int value) -> void {
+
+	_spell_resistance = value;
 }
 
 namespace Sorcery {

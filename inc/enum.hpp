@@ -1365,6 +1365,16 @@ namespace Enums {
 			RESIST_POISON = 5,
 			RESIST_STONING = 6
 		};
+
+		enum class Property {
+			CAN_AUTOKILL = 0,
+			CAN_BE_SLEPT = 1,
+			CAN_CALL_FOR_OTHERS = 2,
+			CAN_FLEE = 3,
+			CAN_PARALYSE = 4,
+			CAN_PETRIFY = 5,
+			CAN_POISON = 6
+		};
 	}
 
 	namespace Items {
