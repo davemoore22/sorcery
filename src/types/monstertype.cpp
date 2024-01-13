@@ -132,6 +132,19 @@ auto Sorcery::MonsterType::get_traits() const -> std::string {
 	return _traits;
 }
 
+auto Sorcery::MonsterType::get_attacks_str() const -> std::string {
+
+	std::string result;
+	for (const auto atk : _attacks) {
+		result.append(atk.str());
+		result.append(" ");
+	}
+
+	TRIM(result);
+
+	return result;
+}
+
 auto Sorcery::MonsterType::get_weaknesses() const -> std::string {
 
 	return _weaknesses;

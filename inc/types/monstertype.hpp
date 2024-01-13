@@ -56,6 +56,7 @@ class MonsterType {
 		auto get_class() const -> MonsterClass;
 		auto get_armour_class() const -> int;
 		auto get_attacks() const -> std::vector<Dice>;
+		auto get_attacks_str() const -> std::string;
 		auto get_number_attacks() const -> unsigned int;
 		auto get_attack(const unsigned int attack) const -> Dice;
 		auto get_breath_weapon() const -> MonsterBreath;
