@@ -5,6 +5,7 @@ An open source remake/remaster initially of the classic CRPG Wizardry, Proving G
 Written using SFML, TGUI, and C++.
 
 ![](/promo/screen1.png)
+![](/promo/screen20.png)
 ![](/promo/screen7.png)
 ![](/promo/screen19.png)
 ![](/promo/screen18.png)
@@ -53,9 +54,9 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 * Procedurally-Generated Infinite Content (like Diablo)
 * Modding
 
-## What next? (as of December 2023)
+## What next? (as of January 2024)
 
-I'm am currently implementing Items, Inventory, and Item-Handling.
+I've almost finished the Compendium (Museum/Bestiary/Spellbook), and I'm also making progress on Items, Inventory, and Item-Handling.
 
 Initially I am planning to remake Wizardry 1, then adding 2 and 3, and then subsequently providing infinite procedurally-generated content like that of Diablo for example. In the meantime, check out Snarfu's bugfix and recompilation of the original Wizardry for Apple II at <https://github.com/snafaru>.
 
@@ -85,6 +86,7 @@ Game font is based upon the DOS Wizardry V font.
 ## Screenshots
 
 ![](/promo/screen16.png)
+![](/promo/screen21.png)
 ![](/promo/screen17.png)
 ![](/promo/screen5.png)
 ![](/promo/screen14.png)

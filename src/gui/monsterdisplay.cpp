@@ -62,6 +62,28 @@ auto Sorcery::MonsterDisplay::set(const unsigned int monster_idx) -> void {
 	_add_text((*_display->layout)["monster_display:sr_label_value"], "{}%", std::to_string(mon.get_spell_resistance()));
 	_add_text((*_display->layout)["monster_display:hit_dice_label_value"], "{}", mon.get_hit_dice().str());
 	_add_text((*_display->layout)["monster_display:attacks_label_value"], "{}", mon.get_attacks_str());
+
+	auto traits{mon.get_traits()};
+	if (traits.length() > 0) {
+		TRIM(traits);
+
+		std::vector<std::string> strings;
+		const std::regex regex(R"([|]+)");
+		std::sregex_token_iterator it{traits.begin(), traits.end(), regex, -1};
+		std::vector<std::string> split{it, {}};
+		split.erase(std::remove_if(split.begin(), split.end(), [](std::string const &s) { return s.size() == 0; }),
+			split.end());
+		strings = split;
+
+		Component effects_c{(*_display->layout)["monster_display:traits_label_value"]};
+		auto x{effects_c.x};
+		auto y{effects_c.y};
+		for (const auto &each_string : strings) {
+			auto text{_add_text((*_display->layout)["monster_display:traits_label_value"], "{}", each_string)};
+			text->setPosition(x, y);
+			y += _display->window->get_ch();
+		}
+	}
 }
 
 auto Sorcery::MonsterDisplay::_add_text(Component &component, std::string format, std::string value) -> sf::Text * {

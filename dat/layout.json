@@ -6522,20 +6522,20 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "actions_label",
+			"name": "traits_label",
 			"x": "4",
 			"y": "4",
 			"font": "text",
 			"colour": "0xa0a0a0ff",
 			"size": "24",
-			"string": "MONSTER_ACTIONS",
+			"string": "MONSTER_TRAITS",
 			"justification": "right",
 			"type": "text",
 			"priority": "3",
 			"drawmode": "automatic"
 		},
 		{
-			"name": "actions_label_value",
+			"name": "traits_label_value",
 			"x": "5",
 			"y": "4",
 			"font": "text",
@@ -6546,19 +6546,6 @@
 			"type": "text",
 			"priority": "3",
 			"drawmode": "manual"
-		},
-		{
-			"name": "traits_label",
-			"x": "4",
-			"y": "5",
-			"font": "text",
-			"colour": "0xa0a0a0ff",
-			"size": "24",
-			"string": "MONSTER_TRAITS",
-			"justification": "right",
-			"type": "text",
-			"priority": "3",
-			"drawmode": "automatic"
 		},
 		{
 			"name": "class_label",
@@ -6613,22 +6600,9 @@
 			"drawmode": "manual"
 		},
 		{
-			"name": "friends_label",
-			"x": "17",
-			"y": "3",
-			"font": "text",
-			"colour": "0xa0a0a0ff",
-			"size": "24",
-			"string": "MONSTER_FRIENDS",
-			"justification": "right",
-			"type": "text",
-			"priority": "3",
-			"drawmode": "automatic"
-		},
-		{
 			"name": "attacks_label",
 			"x": "17",
-			"y": "4",
+			"y": "3",
 			"font": "text",
 			"colour": "0xa0a0a0ff",
 			"size": "24",
@@ -6641,7 +6615,7 @@
 		{
 			"name": "attacks_label_value",
 			"x": "18",
-			"y": "4",
+			"y": "3",
 			"font": "text",
 			"colour": "0xffffffff",
 			"size": "24",
