@@ -1829,6 +1829,30 @@ src/gui/menu.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/menu.cpp.s
 .PHONY : src/gui/menu.cpp.s
 
+src/gui/monsterdisplay.o: src/gui/monsterdisplay.cpp.o
+.PHONY : src/gui/monsterdisplay.o
+
+# target to build an object file
+src/gui/monsterdisplay.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/monsterdisplay.cpp.o
+.PHONY : src/gui/monsterdisplay.cpp.o
+
+src/gui/monsterdisplay.i: src/gui/monsterdisplay.cpp.i
+.PHONY : src/gui/monsterdisplay.i
+
+# target to preprocess a source file
+src/gui/monsterdisplay.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/monsterdisplay.cpp.i
+.PHONY : src/gui/monsterdisplay.cpp.i
+
+src/gui/monsterdisplay.s: src/gui/monsterdisplay.cpp.s
+.PHONY : src/gui/monsterdisplay.s
+
+# target to generate assembly for a file
+src/gui/monsterdisplay.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/monsterdisplay.cpp.s
+.PHONY : src/gui/monsterdisplay.cpp.s
+
 src/gui/partypanel.o: src/gui/partypanel.cpp.o
 .PHONY : src/gui/partypanel.o
 
@@ -2621,6 +2645,30 @@ src/types/component.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/component.cpp.s
 .PHONY : src/types/component.cpp.s
 
+src/types/dice.o: src/types/dice.cpp.o
+.PHONY : src/types/dice.o
+
+# target to build an object file
+src/types/dice.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/dice.cpp.o
+.PHONY : src/types/dice.cpp.o
+
+src/types/dice.i: src/types/dice.cpp.i
+.PHONY : src/types/dice.i
+
+# target to preprocess a source file
+src/types/dice.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/dice.cpp.i
+.PHONY : src/types/dice.cpp.i
+
+src/types/dice.s: src/types/dice.cpp.s
+.PHONY : src/types/dice.s
+
+# target to generate assembly for a file
+src/types/dice.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/dice.cpp.s
+.PHONY : src/types/dice.cpp.s
+
 src/types/error.o: src/types/error.cpp.o
 .PHONY : src/types/error.o
 
@@ -3082,6 +3130,9 @@ help:
 	@echo "... src/gui/menu.o"
 	@echo "... src/gui/menu.i"
 	@echo "... src/gui/menu.s"
+	@echo "... src/gui/monsterdisplay.o"
+	@echo "... src/gui/monsterdisplay.i"
+	@echo "... src/gui/monsterdisplay.s"
 	@echo "... src/gui/partypanel.o"
 	@echo "... src/gui/partypanel.i"
 	@echo "... src/gui/partypanel.s"
@@ -3181,6 +3232,9 @@ help:
 	@echo "... src/types/component.o"
 	@echo "... src/types/component.i"
 	@echo "... src/types/component.s"
+	@echo "... src/types/dice.o"
+	@echo "... src/types/dice.i"
+	@echo "... src/types/dice.s"
 	@echo "... src/types/error.o"
 	@echo "... src/types/error.i"
 	@echo "... src/types/error.s"

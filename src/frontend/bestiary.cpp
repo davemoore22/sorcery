@@ -81,7 +81,7 @@ auto Sorcery::Bestiary::_reset_components() -> void {
 auto Sorcery::Bestiary::_place_components() -> void {
 
 	_menu->setPosition((*_display->layout)["bestiary:menu"].pos());
-	//_monster_display->setPosition((*_display->layout)["bestiary:monster_display"].pos());
+	_monster_display->setPosition((*_display->layout)["bestiary:monster_display"].pos());
 }
 
 auto Sorcery::Bestiary::_initalise_components() -> void {
@@ -94,7 +94,7 @@ auto Sorcery::Bestiary::_initalise_components() -> void {
 	_menu->set_visible_size(std::stoi(menu_c["display_items"].value()));
 	_menu->generate(menu_c);
 
-	//_monster_display = std::make_unique<MonsterDisplay>(_system, _display, _graphics, _game);
+	_monster_display = std::make_unique<MonsterDisplay>(_system, _display, _graphics, _game);
 }
 
 auto Sorcery::Bestiary::_refresh_display() -> void {
@@ -118,7 +118,7 @@ auto Sorcery::Bestiary::_draw() -> void {
 	_window->draw(*_menu);
 
 	_window->draw(_known_monster_gfx);
-	//_window->draw(*_monster_display);
+	_window->draw(*_monster_display);
 
 	_display->display_overlay();
 	_display->display_cursor();
@@ -133,7 +133,7 @@ auto Sorcery::Bestiary::_update_display() -> void {
 		_graphics->textures->get(monster_type.get_known_gfx(), GraphicsTextureType::KNOWN_CREATURE).value();
 	_known_monster_gfx.setPosition(monster_gfx_c.pos());
 	_known_monster_gfx.setScale(monster_gfx_c.scl());
-	//_monster_display->set(selected_idx);
+	_monster_display->set(selected_idx);
 };
 
 auto Sorcery::Bestiary::_do_event_loop() -> std::optional<ModuleResult> {

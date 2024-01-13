@@ -29,8 +29,8 @@
 #include "core/graphics.hpp"
 #include "core/system.hpp"
 #include "gui/frame.hpp"
-// #include "gui/monsterdisplay.hpp"
 #include "gui/menu.hpp"
+#include "gui/monsterdisplay.hpp"
 #include "main.hpp"
 #include "resources/componentstore.hpp"
 
@@ -73,7 +73,7 @@ class Bestiary {
 		Game *_game;
 		sf::RenderWindow *_window;
 		std::unique_ptr<Menu> _menu;
-		// std::unique_ptr<MonsterDisplay> _monster_display;
+		std::unique_ptr<MonsterDisplay> _monster_display;
 		std::optional<std::vector<MenuEntry>::const_iterator> _selected;
 		sf::Sprite _known_monster_gfx;
 };

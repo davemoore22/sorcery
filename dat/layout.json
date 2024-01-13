@@ -230,6 +230,22 @@
 			]
 		},
 		{
+			"name": "monster_display",
+			"font": "text",
+			"colour": "0xddddddff",
+			"size": "24",
+			"alpha": "255",
+			"type": "panel",
+			"drawmode": "manual",
+			"w": "35",
+			"h": "10",
+			"data": [
+				{
+					"effects_width": "23"
+				}
+			]
+		},
+		{
 			"name": "inventory_display",
 			"font": "monospace",
 			"colour": "0xffffffff",
@@ -1085,8 +1101,8 @@
 			"alpha": "255",
 			"type": "panel",
 			"drawmode": "manual",
-			"x": "31",
-			"y": "17"
+			"x": "13",
+			"y": "23"
 		},
 		{
 			"name": "title_frame",
@@ -6411,9 +6427,23 @@
 			]
 		}]
 	},
-
-
-
+	{
+		"name": "monster_display",
+		"component": [
+		{
+			"name": "known_name",
+			"x": "0",
+			"y": "0",
+			"font": "monospace",
+			"colour": "0xffffffff",
+			"size": "24",
+			"string": "NONE",
+			"justification": "left",
+			"type": "text",
+			"priority": "3",
+			"drawmode": "manual"
+		}]
+	},
 	{
 		"name": "item_display",
 		"component": [

@@ -39,7 +39,7 @@ class Item {
 		Item(const ItemType &item_type, const bool usable);
 
 		// Overloaded Operators
-		auto friend operator<<(std::ostream &out_stream, const Item &Item) -> std::ostream &;
+		auto friend operator<<(std::ostream &out_stream, const Item &item) -> std::ostream &;
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {

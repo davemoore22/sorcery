@@ -134,7 +134,7 @@ auto Sorcery::ItemDisplay::set(const unsigned int item_idx) -> void {
 			return std::string{""};
 		else {
 			const std::string inv{magic_enum::enum_name(it.get_eff_inv())};
-			auto str{fmt::format("{} ({}%)", inv, it.get_eff_inv_decay())};
+			auto str{fmt::format("{}old. ({}%)", inv, it.get_eff_inv_decay())};
 			std::replace(str.begin(), str.end(), '_', ' ');
 			return str;
 		}
@@ -174,38 +174,6 @@ auto Sorcery::ItemDisplay::set(const unsigned int item_idx) -> void {
 			y += _display->window->get_ch();
 		}
 	}
-
-	/* auto effects{it.get_eff_def_str()};
-	effects.append(it.get_eff_off_str());
-	if (effects.length() > 0) {
-		TRIM(effects);
-
-		std::string shortened{std::regex_replace(effects, std::regex("PROTECTION"), "PROT")};
-		shortened = std::regex_replace(shortened, std::regex("RESIST"), "RES");
-		shortened = std::regex_replace(shortened, std::regex("PURPOSED"), "BANE");
-		shortened = std::regex_replace(shortened, std::regex("(,)[^,]*$"), "");
-
-		auto chunk_size{std::stoi(_layout["effects_width"].value())};
-		auto wrapped_text{WORDWRAP(shortened, chunk_size)};
-
-		// Split the display lines into a vector
-		std::vector<std::string> strings;
-		const std::regex regex(R"([@]+)");
-		std::sregex_token_iterator it{wrapped_text.begin(), wrapped_text.end(), regex, -1};
-		std::vector<std::string> split{it, {}};
-		split.erase(std::remove_if(split.begin(), split.end(), [](std::string const &s) { return s.size() == 0; }),
-			split.end());
-		strings = split;
-
-		Component effects_c{(*_display->layout)["item_display:properties_label_item"]};
-		auto x{effects_c.x};
-		auto y{effects_c.y};
-		for (const auto &each_string : strings) {
-			auto text{_add_text((*_display->layout)["item_display:properties_label_item"], "{}", each_string)};
-			text->setPosition(x, y);
-			y += _display->window->get_ch();
-		}
-	} */
 }
 
 auto Sorcery::ItemDisplay::_add_text(Component &component, std::string format, std::string value) -> sf::Text * {

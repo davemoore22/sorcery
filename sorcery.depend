@@ -1856,7 +1856,7 @@
 
 1697389315 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/wish.cpp
 
-1704212730 source:/home/dave/Development/wizardry/sorcery-sfml/src/frontend/bestiary.cpp
+1705177827 source:/home/dave/Development/wizardry/sorcery-sfml/src/frontend/bestiary.cpp
 	"frontend/bestiary.hpp"
 
 1697389643 source:/home/dave/Development/wizardry/sorcery-sfml/src/frontend/gazetteer.cpp
@@ -2465,7 +2465,7 @@
 	"types/item.hpp"
 	"types/itemtype.hpp"
 
-1704133084 /home/dave/Development/wizardry/sorcery-sfml/inc/types/item.hpp
+1705176472 /home/dave/Development/wizardry/sorcery-sfml/inc/types/item.hpp
 	"main.hpp"
 	"types/itemtype.hpp"
 
@@ -3158,7 +3158,7 @@
 1704133084 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/inventorydisplay.cpp
 	"gui/inventorydisplay.hpp"
 
-1704224170 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/itemdisplay.cpp
+1705174416 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/itemdisplay.cpp
 	"gui/itemdisplay.hpp"
 
 1704133084 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/keyboard.cpp
@@ -3265,7 +3265,7 @@
 1704133084 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/inventory.cpp
 	"types/inventory.hpp"
 
-1704133084 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/item.cpp
+1705175249 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/item.cpp
 	"types/item.hpp"
 
 1705095507 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/itemtype.cpp
@@ -3313,28 +3313,32 @@
 	"types/monster.hpp"
 	"types/monstertype.hpp"
 
-1704132950 /home/dave/Development/wizardry/sorcery-sfml/inc/types/monster.hpp
+1705176754 /home/dave/Development/wizardry/sorcery-sfml/inc/types/monster.hpp
+	"main.hpp"
+	"types/monstertype.hpp"
 
 1705173216 /home/dave/Development/wizardry/sorcery-sfml/inc/types/monstertype.hpp
 	"core/system.hpp"
 	"main.hpp"
 
-1704138718 /home/dave/Development/wizardry/sorcery-sfml/inc/frontend/bestiary.hpp
+1705177774 /home/dave/Development/wizardry/sorcery-sfml/inc/frontend/bestiary.hpp
 	"core/display.hpp"
 	"core/game.hpp"
 	"core/graphics.hpp"
 	"core/system.hpp"
 	"gui/frame.hpp"
 	"gui/menu.hpp"
+	"gui/monsterdisplay.hpp"
 	"main.hpp"
 	"resources/componentstore.hpp"
 
-1704826347 source:/home/dave/Development/wizardry/sorcery-sfml/src/resources/monsterstore.cpp
+1705173409 source:/home/dave/Development/wizardry/sorcery-sfml/src/resources/monsterstore.cpp
 	"resources/monsterstore.hpp"
 
-1704132904 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/monster.cpp
+1705176739 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/monster.cpp
+	"types/monster.hpp"
 
-1705171421 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/monstertype.cpp
+1705173236 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/monstertype.cpp
 	"types/monstertype.hpp"
 
 1704637175 /home/dave/Development/wizardry/sorcery-sfml/inc/types/dice.hpp
@@ -3342,4 +3346,18 @@
 
 1704840463 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/dice.cpp
 	"types/dice.hpp"
+
+1705177720 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/monsterdisplay.cpp
+	"gui/monsterdisplay.hpp"
+
+1705176391 /home/dave/Development/wizardry/sorcery-sfml/inc/gui/monsterdisplay.hpp
+	"core/display.hpp"
+	"core/game.hpp"
+	"core/graphics.hpp"
+	"core/system.hpp"
+	"gui/frame.hpp"
+	"main.hpp"
+	"resources/componentstore.hpp"
+	"resources/monsterstore.hpp"
+	"types/monster.hpp"
 

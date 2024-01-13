@@ -1,4 +1,3 @@
-
 // Copyright (C) 2024 Dave Moore
 //
 // This file is part of Sorcery: Shadows under Llylgamyn.
