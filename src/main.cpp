@@ -22,7 +22,7 @@
 // licensors of this Program grant you additional permission to convey the
 // resulting work.
 
-#include "main.hpp"
+#include "common/include.hpp"
 #include "core/application.hpp"
 
 auto main(int argc, char *argv[]) -> int {

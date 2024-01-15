@@ -24,11 +24,13 @@
 
 #pragma once
 
+#include "common/include.hpp"
+#include "core/define.hpp"
+
 #include "core/display.hpp"
 #include "core/graphics.hpp"
 #include "core/state.hpp"
 #include "core/system.hpp"
-#include "main.hpp"
 #include "resources/itemstore.hpp"
 #include "resources/levelstore.hpp"
 #include "resources/monsterstore.hpp"

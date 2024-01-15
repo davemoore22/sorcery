@@ -97,13 +97,6 @@ auto Sorcery::Dice::str() const -> std::string {
 		result = fmt::format("{}d{}+{}", num, dice, mod);
 
 	return result;
-
-	// Note that Format v8 needs the format string wrapped in fmt::runtime - this isn't available in < v8 - see
-	// https://github.com/fmtlib/fmt/issues/2438 - check FMT_VERSION version in fmt/core.h
-	if (mod == 0)
-		return fmt::format("{}d{}", num, dice);
-	else
-		return fmt::format(fmt::runtime("{}d{}{+}"), num, dice, mod);
 }
 
 auto Sorcery::Dice::set(const unsigned int num_, const unsigned int dice_, const int mod_) {

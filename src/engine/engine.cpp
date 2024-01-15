@@ -930,16 +930,16 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 				_display->set_disc(false);
 
 				_game->state->clear_party();
-				return EXIT_MODULE;
+				return STOP_ENGINE;
 			} else if (option_chosen == MenuItem::ITEM_QUIT) {
 				_show_confirm_exit = true;
 				return CONTINUE;
 			} else if (option_chosen == MenuItem::CP_OPTIONS) {
 
 				auto options{std::make_unique<Options>(_system, _display, _graphics)};
-				if (auto result{options->start()}; result == EXIT_ALL) {
+				if (auto result{options->start()}; result == STOP_ALL) {
 					options->stop();
-					return EXIT_ALL;
+					return STOP_ALL;
 				}
 				options->stop();
 				_party_panel->refresh();
@@ -948,7 +948,7 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 				_party_panel->refresh();
 				if (auto result{_inspect->start()}; result == MenuItem::ITEM_ABORT) {
 					_inspect->stop();
-					return EXIT_ALL;
+					return STOP_ALL;
 				}
 				_inspect->stop();
 				_party_panel->refresh();
@@ -1015,7 +1015,7 @@ auto Sorcery::Engine::_do_wipe() -> int {
 
 	_game->state->clear_party();
 
-	return EXIT_MODULE;
+	return STOP_ENGINE;
 }
 
 auto Sorcery::Engine::_handle_elevator_a_f(const sf::Event &event) -> std::optional<int> {
@@ -1210,7 +1210,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		_display->set_disc(false);
 
 		_exit_maze_now = false;
-		return EXIT_MODULE;
+		return STOP_ENGINE;
 	}
 
 	// Various Debug Commands can be put here
@@ -1360,7 +1360,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 					_game->save_game();
 					_display->set_disc(false);
 
-					return EXIT_MODULE;
+					return STOP_ENGINE;
 				} else {
 
 					_stairs_if();
@@ -1427,7 +1427,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_display->set_disc(false);
 
 				_exit_maze_now = false;
-				return EXIT_MODULE;
+				return STOP_ENGINE;
 			}
 			_set_refresh_ui();
 			_can_run_event = true;
@@ -1457,7 +1457,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_display->set_disc(false);
 
 				_exit_maze_now = false;
-				return EXIT_MODULE;
+				return STOP_ENGINE;
 			}
 			_set_refresh_ui();
 			_can_run_event = true;
@@ -1522,9 +1522,9 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						// TODO
 					} else if (what.ends_with("options")) {
 						auto options{std::make_unique<Options>(_system, _display, _graphics)};
-						if (auto result{options->start()}; result == EXIT_ALL) {
+						if (auto result{options->start()}; result == STOP_ALL) {
 							options->stop();
-							return EXIT_ALL;
+							return STOP_ALL;
 						}
 						options->stop();
 						_party_panel->refresh();
@@ -1543,7 +1543,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						_display->set_disc(false);
 
 						_game->state->clear_party();
-						return EXIT_MODULE;
+						return STOP_ENGINE;
 
 					} else if (what.ends_with("exit")) {
 						_show_confirm_exit = true;
@@ -1617,7 +1617,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						_party_panel->refresh();
 						if (auto result{_inspect->start()}; result == MenuItem::ITEM_ABORT) {
 							_inspect->stop();
-							return EXIT_ALL;
+							return STOP_ALL;
 						}
 						_inspect->stop();
 						_party_panel->refresh();
@@ -1699,8 +1699,6 @@ auto Sorcery::Engine::start() -> int {
 	_generate_display();
 	_set_maze_entry_start();
 
-	_game->print();
-
 	if (!_tile_explored(_game->state->get_player_pos()))
 		_set_tile_explored(_game->state->get_player_pos());
 
@@ -1724,7 +1722,7 @@ auto Sorcery::Engine::start() -> int {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return EXIT_ALL;
+					return STOP_ALL;
 
 				// Handle enabling help overlay
 				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
@@ -1794,10 +1792,10 @@ auto Sorcery::Engine::start() -> int {
 					if (what_to_do) {
 						if (what_to_do.value() == CONTINUE)
 							continue;
-						else if (what_to_do.value() == EXIT_MODULE)
-							return EXIT_MODULE;
-						else if (what_to_do.value() == EXIT_ALL) {
-							return EXIT_ALL;
+						else if (what_to_do.value() == STOP_ENGINE)
+							return STOP_ENGINE;
+						else if (what_to_do.value() == STOP_ALL) {
+							return STOP_ALL;
 						}
 					}
 				} else if (_in_search) {
@@ -1847,10 +1845,10 @@ auto Sorcery::Engine::start() -> int {
 						if (what_to_do) {
 							if (what_to_do.value() == CONTINUE)
 								continue;
-							else if (what_to_do.value() == EXIT_MODULE)
-								return EXIT_MODULE;
-							else if (what_to_do.value() == EXIT_ALL) {
-								return EXIT_ALL;
+							else if (what_to_do.value() == STOP_ENGINE)
+								return STOP_ENGINE;
+							else if (what_to_do.value() == STOP_ALL) {
+								return STOP_ALL;
 							}
 						}
 					}
@@ -1862,7 +1860,7 @@ auto Sorcery::Engine::start() -> int {
 		_refresh_display();
 	}
 
-	return EXIT_MODULE;
+	return STOP_ENGINE;
 }
 
 auto Sorcery::Engine::_update_display() -> void {
@@ -2348,7 +2346,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 					_can_run_event = false;
 					_display_cursor = true;
 					_refresh_display();
-					return EXIT_ALL;
+					return STOP_ALL;
 				} else {
 					event_1->stop();
 
@@ -2359,7 +2357,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 						_can_run_event = false;
 						_display_cursor = true;
 						_refresh_display();
-						return EXIT_ALL;
+						return STOP_ALL;
 					}
 					event_2->stop();
 
@@ -2385,7 +2383,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 					_can_run_event = false;
 					_display_cursor = true;
 					_refresh_display();
-					return EXIT_ALL;
+					return STOP_ALL;
 				} else {
 					event_1->stop();
 
@@ -2396,7 +2394,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 						_can_run_event = false;
 						_display_cursor = true;
 						_refresh_display();
-						return EXIT_ALL;
+						return STOP_ALL;
 					} else {
 						event_2->stop();
 
@@ -2407,7 +2405,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 							_can_run_event = false;
 							_display_cursor = true;
 							_refresh_display();
-							return EXIT_ALL;
+							return STOP_ALL;
 						}
 						event_3->stop();
 					}
@@ -2421,7 +2419,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 					_can_run_event = false;
 					_display_cursor = true;
 					_refresh_display();
-					return EXIT_ALL;
+					return STOP_ALL;
 				} else {
 					event->stop();
 				}
@@ -2797,7 +2795,7 @@ auto Sorcery::Engine::_go_back() -> std::optional<int> {
 				_display->set_disc(false);
 				_can_go_back = false;
 
-				return EXIT_MODULE;
+				return STOP_ENGINE;
 			} else {
 				Level level{((*_game->levelstore)[previous_depth]).value()};
 				_game->state->set_current_level(&level);
@@ -2858,7 +2856,7 @@ auto Sorcery::Engine::_debug_go_to_graveyard() -> std::optional<int> {
 
 	_graveyard->start();
 	_graveyard->stop();
-	return EXIT_MODULE;
+	return STOP_ENGINE;
 }
 
 auto Sorcery::Engine::_debug_go_down_a_level() -> std::optional<int> {

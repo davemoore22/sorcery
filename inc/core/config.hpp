@@ -24,7 +24,10 @@
 
 #pragma once
 
-#include "main.hpp"
+#include "common/define.hpp"
+#include "common/include.hpp"
+#include "core/define.hpp"
+#include "core/macro.hpp"
 
 // Class to handles game configuration
 namespace Sorcery {

@@ -24,10 +24,10 @@
 
 #pragma once
 
+#include "common/include.hpp"
 #include "core/display.hpp"
 #include "core/graphics.hpp"
 #include "gui/frame.hpp"
-#include "main.hpp"
 #include "resources/componentstore.hpp"
 
 namespace Sorcery {

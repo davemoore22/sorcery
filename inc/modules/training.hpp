@@ -24,13 +24,13 @@
 
 #pragma once
 
+#include "common/include.hpp"
 #include "core/display.hpp"
 #include "core/game.hpp"
 #include "core/graphics.hpp"
 #include "core/system.hpp"
 #include "gui/frame.hpp"
 #include "gui/menu.hpp"
-#include "main.hpp"
 #include "modules/create.hpp"
 #include "modules/roster.hpp"
 #include "resources/componentstore.hpp"

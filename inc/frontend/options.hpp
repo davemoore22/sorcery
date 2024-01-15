@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include "common/include.hpp"
 #include "core/display.hpp"
 #include "core/graphics.hpp"
 #include "core/system.hpp"
@@ -31,7 +32,6 @@
 #include "gui/frame.hpp"
 #include "gui/infopanel.hpp"
 #include "gui/menu.hpp"
-#include "main.hpp"
 #include "resources/componentstore.hpp"
 
 namespace Sorcery {

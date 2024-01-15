@@ -25,7 +25,7 @@
 #pragma once
 
 // clang-format off
-#include "main.hpp"
+#include "common/include.hpp"
 #include "core/system.hpp"
 #include "core/display.hpp"
 #include "gui/frame.hpp"

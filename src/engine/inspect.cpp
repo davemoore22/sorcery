@@ -63,10 +63,6 @@ Sorcery::Inspect::~Inspect() {
 
 auto Sorcery::Inspect::start() -> std::optional<MenuItem> {
 
-	//_game->load_game();
-
-	_game->print();
-
 	// Do the menu here when it has access to the game characters
 	_menu.reset();
 	auto menu_type{_mode == MenuMode::TAVERN ? MenuType::CHARACTER_ROSTER : MenuType::PARTY_CHARACTERS};

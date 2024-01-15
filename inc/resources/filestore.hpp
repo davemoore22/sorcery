@@ -24,7 +24,9 @@
 
 #pragma once
 
+#include "common/define.hpp"
 #include "main.hpp"
+#include "resources/define.hpp"
 #include <libgen.h>
 #include <limits.h>
 #include <unistd.h>

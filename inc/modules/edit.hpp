@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include "common/include.hpp"
 #include "core/display.hpp"
 #include "core/game.hpp"
 #include "core/graphics.hpp"
@@ -31,9 +32,9 @@
 #include "gui/characterpanel.hpp"
 #include "gui/frame.hpp"
 #include "gui/menu.hpp"
-#include "main.hpp"
 #include "modules/changeclass.hpp"
 #include "modules/changename.hpp"
+#include "modules/define.hpp"
 #include "modules/legate.hpp"
 #include "resources/componentstore.hpp"
 

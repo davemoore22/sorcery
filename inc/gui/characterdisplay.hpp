@@ -29,7 +29,7 @@
 #include "types/character.hpp"
 #include "core/display.hpp"
 #include "core/graphics.hpp"
-#include "main.hpp"
+#include "common/include.hpp"
 #include "core/system.hpp"
 #include "gui/spellpanel.hpp"
 #include "gui/inventorydisplay.hpp"

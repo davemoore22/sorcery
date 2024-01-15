@@ -24,7 +24,7 @@
 
 #pragma once
 
-#include "main.hpp"
+#include "common/include.hpp"
 
 namespace Sorcery {
 
@@ -32,12 +32,6 @@ namespace Sorcery {
 inline auto BOOL2OPTIONCSTR(bool bool_to_convert) -> const char * {
 
 	return bool_to_convert ? "on" : "off";
-}
-
-// Macro to convert std::string to C string
-inline auto CSTR(const std::string &string) -> const char * {
-
-	return !string.empty() ? (char *)string.c_str() : (char *)"";
 }
 
 // Print
@@ -151,7 +145,7 @@ inline auto WORDWRAP(std::string text, unsigned per_line) -> std::string {
 
 // Convert x/y to map vector position
 inline auto COORD2VECPOS(int x, int y) {
-	return (x + (MAP_SIZE * y));
+	return (x + (20 * y)); // TODO move this out to engine?
 }
 
 // Template for sgn function from C

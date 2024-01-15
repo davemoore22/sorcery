@@ -24,10 +24,12 @@
 
 #pragma once
 
+#include "common/include.hpp"
+#include "types/define.hpp"
 // clang-format off
 #include "core/display.hpp"
 #include "core/graphics.hpp"
-#include "main.hpp"
+#include "common/include.hpp"
 #include "types/item.hpp"
 #include "types/inventory.hpp"
 #include "core/system.hpp"

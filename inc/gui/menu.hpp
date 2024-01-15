@@ -28,7 +28,7 @@
 #include "types/component.hpp"
 #include "core/display.hpp"
 #include "core/graphics.hpp"
-#include "main.hpp"
+#include "common/include.hpp"
 #include "core/system.hpp"
 #include "core/game.hpp"
 

@@ -24,10 +24,12 @@
 
 #pragma once
 
+#include "common/include.hpp"
+#include "core/define.hpp"
+
 #include "core/animation.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
-#include "main.hpp"
 #include "resources/iconstore.hpp"
 #include "resources/texturestore.hpp"
 

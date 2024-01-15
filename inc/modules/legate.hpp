@@ -22,6 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
+#include "common/include.hpp"
 #include "core/display.hpp"
 #include "core/graphics.hpp"
 #include "core/system.hpp"
@@ -29,7 +30,6 @@
 #include "gui/frame.hpp"
 #include "gui/keyboard.hpp"
 #include "gui/menu.hpp"
-#include "main.hpp"
 #include "resources/componentstore.hpp"
 
 namespace Sorcery {

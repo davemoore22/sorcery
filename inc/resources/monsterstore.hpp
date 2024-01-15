@@ -26,6 +26,7 @@
 
 #include "core/system.hpp"
 #include "main.hpp"
+#include "resources/define.hpp"
 #include "types/monster.hpp"
 #include "types/monstertype.hpp"
 

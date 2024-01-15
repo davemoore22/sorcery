@@ -25,6 +25,7 @@
 #pragma once
 
 #include "main.hpp"
+#include "resources/define.hpp"
 #include "resources/filestore.hpp"
 #include "types/textfile.hpp"
 

@@ -26,6 +26,7 @@
 
 #include "core/system.hpp"
 #include "main.hpp"
+#include "resources/define.hpp"
 #include "types/item.hpp"
 #include "types/itemtype.hpp"
 

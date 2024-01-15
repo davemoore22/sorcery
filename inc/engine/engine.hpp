@@ -24,10 +24,12 @@
 
 #pragma once
 
+#include "common/include.hpp"
 #include "core/display.hpp"
 #include "core/game.hpp"
 #include "core/graphics.hpp"
 #include "core/system.hpp"
+#include "engine/define.hpp"
 #include "engine/encounter.hpp"
 #include "engine/event.hpp"
 #include "engine/graveyard.hpp"
@@ -47,7 +49,6 @@
 #include "gui/map.hpp"
 #include "gui/menu.hpp"
 #include "gui/partypanel.hpp"
-#include "main.hpp"
 
 namespace Sorcery {
 

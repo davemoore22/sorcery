@@ -24,8 +24,9 @@
 
 #pragma once
 
+#include "common/include.hpp"
+#include "types/define.hpp"
 // clang-format off
-#include "main.hpp"
 #include "types/item.hpp"
 #include "types/itemtype.hpp"
 

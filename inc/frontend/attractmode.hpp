@@ -24,8 +24,8 @@
 
 #pragma once
 
+#include "common/include.hpp"
 #include "core/graphics.hpp"
-#include "main.hpp"
 #include "types/component.hpp"
 
 namespace Sorcery {

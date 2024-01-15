@@ -24,6 +24,10 @@
 
 #pragma once
 
+#include "common/define.hpp"
+#include "common/include.hpp"
+#include "core/define.hpp"
+
 #include "core/display.hpp"
 #include "core/game.hpp"
 #include "core/graphics.hpp"
@@ -35,7 +39,7 @@
 #include "frontend/mainmenu.hpp"
 #include "frontend/options.hpp"
 #include "frontend/splash.hpp"
-#include "main.hpp"
+
 #include "modules/castle.hpp"
 #include "modules/edgeoftown.hpp"
 #include "modules/inn.hpp"

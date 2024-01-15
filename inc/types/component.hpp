@@ -24,7 +24,8 @@
 
 #pragma once
 
-#include "main.hpp"
+#include "common/include.hpp"
+#include "types/define.hpp"
 
 // Class to act as a graphical entity with layout information
 namespace Sorcery {

@@ -24,7 +24,8 @@
 
 #pragma once
 
-#include "main.hpp"
+#include "common/include.hpp"
+#include "types/define.hpp"
 #include "types/monstertype.hpp"
 
 namespace Sorcery {

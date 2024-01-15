@@ -24,8 +24,9 @@
 
 #pragma once
 
+#include "common/include.hpp"
+#include "modules/define.hpp"
 // clang-format off
-#include "main.hpp"
 #include "core/system.hpp"
 #include "core/display.hpp"
 #include "core/graphics.hpp"

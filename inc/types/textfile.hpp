@@ -24,11 +24,18 @@
 
 #pragma once
 
-#include "main.hpp"
+#include "common/include.hpp"
+#include "types/define.hpp"
 
 // Class to handles loading and displaying on the console the contents of text
 // files (such as COPYING and README)
 namespace Sorcery {
+
+// Macro to convert std::string to C string
+inline auto CEESTR(const std::string &string) -> const char * {
+
+	return !string.empty() ? (char *)string.c_str() : (char *)"";
+}
 
 class TextFile {
 

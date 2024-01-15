@@ -24,8 +24,11 @@
 
 #pragma once
 
+#include "common/define.hpp"
+#include "common/include.hpp"
+#include "core/define.hpp"
+
 #include "core/system.hpp"
-#include "main.hpp"
 #include "resources/componentstore.hpp"
 #include "resources/stringstore.hpp"
 

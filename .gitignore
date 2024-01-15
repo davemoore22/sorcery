@@ -144,3 +144,4 @@ CPackConfig.cmake
 CPackSourceConfig.cmake
 .debris/tmp/lock
 dat/sorcery.db3
+inc/resources

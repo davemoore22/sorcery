@@ -24,11 +24,13 @@
 
 #pragma once
 
+#include "common/include.hpp"
+#include "core/define.hpp"
+
 #include "core/config.hpp"
 #include "core/database.hpp"
 #include "core/input.hpp"
 #include "core/random.hpp"
-#include "main.hpp"
 #include "resources/filestore.hpp"
 #include "resources/resourcemanager.hpp"
 #include "resources/stringstore.hpp"

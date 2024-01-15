@@ -29,7 +29,7 @@ Sorcery::TextFile::TextFile(std::filesystem::path text_file_path) : _text_fp{tex
 
 	// Attempt to load the text file specified
 	width = 0;
-	if (std::ifstream file{CSTR(text_file_path.string()), std::ifstream::in}; file.good()) {
+	if (std::ifstream file{CEESTR(text_file_path.string()), std::ifstream::in}; file.good()) {
 		_contents.clear();
 		_contents.push_back(EMPTY);
 		auto line{""s};
