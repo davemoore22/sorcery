@@ -26,6 +26,7 @@
 
 #include "common/define.hpp"
 #include "common/include.hpp"
+
 #include "core/define.hpp"
 #include "core/macro.hpp"
 

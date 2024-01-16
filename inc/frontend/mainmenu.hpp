@@ -25,6 +25,8 @@
 #pragma once
 
 #include "common/include.hpp"
+#include "common/macro.hpp"
+
 #include "core/display.hpp"
 #include "core/game.hpp"
 #include "core/graphics.hpp"

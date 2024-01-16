@@ -25,15 +25,19 @@
 
 #pragma once
 
+#include "common/include.hpp"
+#include "common/macro.hpp"
+
 // clang-format off
+#include "gui/macro.hpp"
 #include "types/character.hpp"
 #include "core/display.hpp"
 #include "core/graphics.hpp"
-#include "common/include.hpp"
 #include "core/system.hpp"
 #include "gui/spellpanel.hpp"
 #include "gui/inventorydisplay.hpp"
 #include "types/inventory.hpp"
+// clang-format on
 
 namespace Sorcery {
 
@@ -43,68 +47,68 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 
 	public:
 
-	// Constructor
-	CharacterDisplay(System *system, Display *display, Graphics *graphics);
+		// Constructor
+		CharacterDisplay(System *system, Display *display, Graphics *graphics);
 
-	// Public Methods
-	auto set(Character* character) -> void;
-	auto get_view() const -> CharacterView;
-	auto set_view(const CharacterView value) -> void;
-	auto left_view() -> void;
-	auto right_view() -> void;
-	auto inc_hl_spell(SpellType type) -> void;
-	auto dec_hl_spell(SpellType type) -> void;
-	auto update() -> void;
-	auto check_for_mouse_move(sf::Vector2f mouse_pos) -> std::optional<SpellID>;
-	auto check_for_action_mouse_move(sf::Vector2f mouse_pos) -> std::optional<MenuItem>;
-	auto generate_display() -> void;
-	auto set_mode(CharacterMode value) -> void;
-	auto get_icon(CharacterStage type) -> std::optional<sf::Sprite>;
+		// Public Methods
+		auto set(Character *character) -> void;
+		auto get_view() const -> CharacterView;
+		auto set_view(const CharacterView value) -> void;
+		auto left_view() -> void;
+		auto right_view() -> void;
+		auto inc_hl_spell(SpellType type) -> void;
+		auto dec_hl_spell(SpellType type) -> void;
+		auto update() -> void;
+		auto check_for_mouse_move(sf::Vector2f mouse_pos) -> std::optional<SpellID>;
+		auto check_for_action_mouse_move(sf::Vector2f mouse_pos) -> std::optional<MenuItem>;
+		auto generate_display() -> void;
+		auto set_mode(CharacterMode value) -> void;
+		auto get_icon(CharacterStage type) -> std::optional<sf::Sprite>;
 
-	// Public Members
-	std::map<SpellID, sf::FloatRect> mage_spell_bounds;
-	std::map<SpellID, sf::FloatRect> priest_spell_bounds;
-	std::map<SpellID, sf::Text *> mage_spell_texts;
-	std::map<SpellID, sf::Text *> priest_spell_texts;
-	std::map<MenuItem, sf::Text *> action_menu_texts;
-	std::map<MenuItem, sf::FloatRect> action_menu_bounds;
+		// Public Members
+		std::map<SpellID, sf::FloatRect> mage_spell_bounds;
+		std::map<SpellID, sf::FloatRect> priest_spell_bounds;
+		std::map<SpellID, sf::Text *> mage_spell_texts;
+		std::map<SpellID, sf::Text *> priest_spell_texts;
+		std::map<MenuItem, sf::Text *> action_menu_texts;
+		std::map<MenuItem, sf::FloatRect> action_menu_bounds;
 
 	private:
 
-	// Private Methods
-	auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
-	auto _generate_display() -> void;
-	auto _generate_summary_icons() -> void;
-	auto _get_character_portrait() -> sf::Sprite;
-	auto _add_text(Component &component, std::string format, std::string value, bool is_view = true) -> sf::Text *;
-	auto _add_icon(Component &component, std::string icon_key) -> void;
-	auto _get_spell_icon(SpellCategory category) -> std::optional<sf::Sprite>;
+		// Private Methods
+		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto _generate_display() -> void;
+		auto _generate_summary_icons() -> void;
+		auto _get_character_portrait() -> sf::Sprite;
+		auto _add_text(Component &component, std::string format, std::string value, bool is_view = true) -> sf::Text *;
+		auto _add_icon(Component &component, std::string icon_key) -> void;
+		auto _get_spell_icon(SpellCategory category) -> std::optional<sf::Sprite>;
 
-	// Private Members
-	System *_system;
-	Display *_display;
-	Graphics *_graphics;
-	Character *_character;
+		// Private Members
+		System *_system;
+		Display *_display;
+		Graphics *_graphics;
+		Character *_character;
 
-	std::map<std::string, sf::Sprite> _sprites;
-	std::map<std::string, sf::Text> _texts;
-	std::map<std::string, std::shared_ptr<Frame>> _frames;
-	std::map<std::string, sf::Sprite> _v_sprites;
-	std::map<std::string, sf::Text> _v_texts;
-	std::map<std::string, std::shared_ptr<Frame>> _v_frames;
-	std::shared_ptr<SpellPanel> _spell_panel;
-	Component _spell_panel_c;
-	std::unique_ptr<InventoryDisplay> _inventory_display;
+		std::map<std::string, sf::Sprite> _sprites;
+		std::map<std::string, sf::Text> _texts;
+		std::map<std::string, std::shared_ptr<Frame>> _frames;
+		std::map<std::string, sf::Sprite> _v_sprites;
+		std::map<std::string, sf::Text> _v_texts;
+		std::map<std::string, std::shared_ptr<Frame>> _v_frames;
+		std::shared_ptr<SpellPanel> _spell_panel;
+		Component _spell_panel_c;
+		std::unique_ptr<InventoryDisplay> _inventory_display;
 
-	SpellID _hl_mage_spell;
-	SpellID _hl_priest_spell;
-	MenuItem _hl_action_item;
-	sf::RectangleShape _hl_mage_spell_bg;
-	sf::RectangleShape _hl_priest_spell_bg;
-	sf::RectangleShape _hl_action_item_bg;
+		SpellID _hl_mage_spell;
+		SpellID _hl_priest_spell;
+		MenuItem _hl_action_item;
+		sf::RectangleShape _hl_mage_spell_bg;
+		sf::RectangleShape _hl_priest_spell_bg;
+		sf::RectangleShape _hl_action_item_bg;
 
-	CharacterView _view;
-	CharacterMode _mode;
+		CharacterView _view;
+		CharacterMode _mode;
 };
 
 }

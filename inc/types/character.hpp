@@ -25,8 +25,10 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "types/define.hpp"
+#include "common/macro.hpp"
+
 // clang-format off
+#include "types/define.hpp"
 #include "core/display.hpp"
 #include "core/graphics.hpp"
 #include "common/include.hpp"

@@ -25,12 +25,14 @@
 #pragma once
 
 #include "common/include.hpp"
+
 #include "types/define.hpp"
+#include "types/macro.hpp"
 
 namespace Sorcery {
 
-// Note that we need to use full details in here as aliases haven't yet been set up in main.hpp when we include
-// enums.hpp (not sure why - need to investigate)
+// Note that we need to use full details in here as aliases haven't yet been
+// set up in common/*.hpp files when we include enums.hpp (not sure why - need to investigate)
 
 struct ShopStock {
 

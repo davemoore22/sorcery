@@ -26,5 +26,25 @@
 
 #include "common/include.hpp"
 
-// Internal Includes
-#include "core/platform.hpp"
+namespace Sorcery {
+
+// Split a string - https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/
+inline auto SPLIT(const std::string &text) -> std::vector<std::string> {
+
+	std::istringstream iss(text);
+	std::vector<std::string> results((std::istream_iterator<std::string>(iss)), std::istream_iterator<std::string>());
+
+	return results;
+}
+
+// Timepoint to String
+inline auto TP2STR(const std::chrono::time_point<std::chrono::system_clock> tp) -> std::string {
+
+	// Need to do it this way til std::chrono::locate_zone etc is supported
+	auto t{std::chrono::system_clock::to_time_t(tp)};
+	std::string ts{std::ctime(&t)};
+	ts.resize(ts.size() - 1);
+	return ts;
+}
+
+}

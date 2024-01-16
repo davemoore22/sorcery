@@ -25,8 +25,9 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "types/define.hpp"
+#include "common/macro.hpp"
 
+#include "types/define.hpp"
 #include "types/item.hpp"
 #include "types/tile.hpp"
 

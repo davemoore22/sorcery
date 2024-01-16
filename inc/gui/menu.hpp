@@ -24,14 +24,15 @@
 
 #pragma once
 
+#include "common/include.hpp"
+#include "common/macro.hpp"
+
 // clang-format off
 #include "types/component.hpp"
 #include "core/display.hpp"
 #include "core/graphics.hpp"
-#include "common/include.hpp"
 #include "core/system.hpp"
 #include "core/game.hpp"
-
 // clang-format on
 
 namespace Sorcery {

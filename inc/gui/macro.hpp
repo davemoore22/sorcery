@@ -26,35 +26,19 @@
 
 #include "common/include.hpp"
 
-#include "resources/define.hpp"
-#include "resources/filestore.hpp"
-#include "types/textfile.hpp"
-
 namespace Sorcery {
 
-class ResourceManager {
-
-	public:
-
-		// Constructors
-		ResourceManager(FileStore &files);
-		ResourceManager() = delete;
-
-		// Public Members
-		thor::ResourceHolder<sf::Texture, Enums::Graphics::Texture> textures;
-		thor::ResourceHolder<sf::Font, FontType> fonts;
-		std::shared_ptr<TextFile> license_file;
-
-		// Public Methods
-		auto get_font_height(
-			const FontType font_type, const unsigned int size, bool bold = false) const -> unsigned int;
-
-	private:
-
-		// Private Methods
-
-		// Private Members
-		FileStore _files;
-};
+// Pad a string to the desired length
+inline auto PADSTR(std::string &string, unsigned int width, bool pad_both = false) -> std::string {
+	if (static_cast<unsigned int>(string.size()) < width) {
+		const std::string::size_type padding{pad_both ? (width - string.size()) / 2 : (width - string.size())};
+		std::string string_copy{string};
+		if (pad_both)
+			string_copy.insert(0, padding, ' ');
+		string_copy.append(padding, ' ');
+		return string_copy;
+	} else
+		return string;
+}
 
 }

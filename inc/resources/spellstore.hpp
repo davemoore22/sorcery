@@ -24,9 +24,10 @@
 
 #pragma once
 
+#include "common/include.hpp"
+
 #include "core/display.hpp"
 #include "core/system.hpp"
-#include "main.hpp"
 #include "resources/define.hpp"
 #include "types/type.hpp"
 

@@ -24,7 +24,7 @@ include(src/modules/CMakeLists.txt)
 include(src/resources/CMakeLists.txt)
 include(src/types/CMakeLists.txt)
 add_executable(${PROJECT_NAME}
-	src/main.cpp
+	src/sorcery.cpp
 	${sorcery_SOURCES})
 
 # Include Directories

@@ -311,8 +311,7 @@
 #include <vector>
 
 // clang-format off
-#include "enum.hpp"
-#include "macro.hpp"
+#include "common/enum.hpp"
 #include "types/type.hpp"
 #include "types/component.hpp"
 #include "types/dice.hpp"
