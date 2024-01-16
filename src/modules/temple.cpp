@@ -89,7 +89,7 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 	_pay->reload();
 	_pay->generate((*_display->layout)["temple_pay:menu"]);
 
-	_duration = DELAY_DEFAULT;
+	_duration = DELAY_TEMPLE;
 	_ress_text = "";
 
 	// Generate the Components

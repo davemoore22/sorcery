@@ -30,4 +30,9 @@ namespace Sorcery {
 
 using namespace std::literals;
 
+inline constexpr auto EXIT_MODULE{1};
+inline constexpr auto EXIT_ALL{0};
+
+inline constexpr auto ATTRACT_MODE_TILE_SIZE{400};
+
 }

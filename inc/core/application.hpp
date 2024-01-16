@@ -26,8 +26,8 @@
 
 #include "common/define.hpp"
 #include "common/include.hpp"
-#include "core/define.hpp"
 
+#include "core/define.hpp"
 #include "core/display.hpp"
 #include "core/game.hpp"
 #include "core/graphics.hpp"
@@ -35,6 +35,7 @@
 #include "engine/engine.hpp"
 #include "frontend/banner.hpp"
 #include "frontend/compendium.hpp"
+#include "frontend/define.hpp"
 #include "frontend/license.hpp"
 #include "frontend/mainmenu.hpp"
 #include "frontend/options.hpp"

@@ -230,21 +230,25 @@
 		<Unit filename="inc/3rdparty/sqlitemoderncpp/sqlite_modern_cpp/utility/uncaught_exceptions.h" />
 		<Unit filename="inc/3rdparty/sqlitemoderncpp/sqlite_modern_cpp/utility/utf16_utf8.h" />
 		<Unit filename="inc/3rdparty/sqlitemoderncpp/sqlite_modern_cpp/utility/variant.h" />
+		<Unit filename="inc/common/define.hpp" />
+		<Unit filename="inc/common/include.hpp" />
 		<Unit filename="inc/core/animation.hpp" />
 		<Unit filename="inc/core/application.hpp" />
 		<Unit filename="inc/core/config.hpp" />
 		<Unit filename="inc/core/database.hpp" />
+		<Unit filename="inc/core/define.hpp" />
 		<Unit filename="inc/core/display.hpp" />
 		<Unit filename="inc/core/game.hpp" />
 		<Unit filename="inc/core/graphics.hpp" />
 		<Unit filename="inc/core/input.hpp" />
+		<Unit filename="inc/core/macro.hpp" />
 		<Unit filename="inc/core/platform.hpp" />
 		<Unit filename="inc/core/random.hpp" />
 		<Unit filename="inc/core/state.hpp" />
 		<Unit filename="inc/core/system.hpp" />
 		<Unit filename="inc/core/window.hpp" />
-		<Unit filename="inc/define.hpp" />
 		<Unit filename="inc/engine/cast.hpp" />
+		<Unit filename="inc/engine/define.hpp" />
 		<Unit filename="inc/engine/disarm.hpp" />
 		<Unit filename="inc/engine/drop.hpp" />
 		<Unit filename="inc/engine/encounter.hpp" />
@@ -276,6 +280,7 @@
 		<Unit filename="inc/frontend/banner.hpp" />
 		<Unit filename="inc/frontend/bestiary.hpp" />
 		<Unit filename="inc/frontend/compendium.hpp" />
+		<Unit filename="inc/frontend/define.hpp" />
 		<Unit filename="inc/frontend/gazetteer.hpp" />
 		<Unit filename="inc/frontend/license.hpp" />
 		<Unit filename="inc/frontend/mainmenu.hpp" />
@@ -294,6 +299,7 @@
 		<Unit filename="inc/gui/console.hpp" />
 		<Unit filename="inc/gui/controloverlay.hpp" />
 		<Unit filename="inc/gui/debuffbar.hpp" />
+		<Unit filename="inc/gui/define.hpp" />
 		<Unit filename="inc/gui/dialog.hpp" />
 		<Unit filename="inc/gui/frame.hpp" />
 		<Unit filename="inc/gui/iconpanel.hpp" />
@@ -315,6 +321,7 @@
 		<Unit filename="inc/modules/changeclass.hpp" />
 		<Unit filename="inc/modules/changename.hpp" />
 		<Unit filename="inc/modules/create.hpp" />
+		<Unit filename="inc/modules/define.hpp" />
 		<Unit filename="inc/modules/edgeoftown.hpp" />
 		<Unit filename="inc/modules/edit.hpp" />
 		<Unit filename="inc/modules/inn.hpp" />
@@ -327,6 +334,7 @@
 		<Unit filename="inc/modules/temple.hpp" />
 		<Unit filename="inc/modules/training.hpp" />
 		<Unit filename="inc/resources/componentstore.hpp" />
+		<Unit filename="inc/resources/define.hpp" />
 		<Unit filename="inc/resources/filestore.hpp" />
 		<Unit filename="inc/resources/iconstore.hpp" />
 		<Unit filename="inc/resources/itemstore.hpp" />
@@ -338,6 +346,7 @@
 		<Unit filename="inc/resources/texturestore.hpp" />
 		<Unit filename="inc/types/character.hpp" />
 		<Unit filename="inc/types/component.hpp" />
+		<Unit filename="inc/types/define.hpp" />
 		<Unit filename="inc/types/dice.hpp" />
 		<Unit filename="inc/types/error.hpp" />
 		<Unit filename="inc/types/explore.hpp" />

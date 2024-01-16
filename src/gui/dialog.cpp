@@ -66,7 +66,7 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 	_start = std::nullopt;
 	_current_time = std::nullopt;
 	_valid = true;
-	_duration = DELAY_DEFAULT; // ms
+	_duration = DELAY_DIALOG; // ms
 
 	// Get the Window
 	_window = _display->window->get_window();

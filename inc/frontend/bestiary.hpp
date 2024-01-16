@@ -25,10 +25,12 @@
 #pragma once
 
 #include "common/include.hpp"
+
 #include "core/display.hpp"
 #include "core/game.hpp"
 #include "core/graphics.hpp"
 #include "core/system.hpp"
+#include "frontend/define.hpp"
 #include "gui/frame.hpp"
 #include "gui/menu.hpp"
 #include "gui/monsterdisplay.hpp"

@@ -28,6 +28,6 @@
 
 namespace Sorcery {
 
-using namespace std::literals;
+inline constexpr auto DELAY_DIALOG{1000u};
 
 }

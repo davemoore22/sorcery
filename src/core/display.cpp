@@ -32,7 +32,7 @@ Sorcery::Display::Display(System *system) : _system{system} {
 	window = std::make_unique<Window>(_system, string.get(), layout.get(), (*string)["TITLE_AND_VERSION_INFO"]);
 	overlay = std::make_unique<ControlOverlay>(_system, this, (*layout)["global:control_overlay"]);
 	ui_texture = (*_system->resources).textures[GraphicsTexture::UI];
-	_background_movie.openFromFile(_system->files->get_path(MENU_VIDEO));
+	_background_movie.openFromFile(_system->files->get_path(VIDEO_FILE));
 	auto icon_layout{(*layout)["global:icon"]};
 
 	// seperate copy of the icons store since graphics module is unaccessable here

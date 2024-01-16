@@ -30,9 +30,6 @@ namespace Sorcery {
 
 using namespace std::literals;
 
-inline constexpr auto SAVE_VERSION{1};
-inline constexpr auto MAX_PARTY_SIZE{6};
-
 // Files
 inline constexpr auto CONFIG_FILE{"config.ini"sv};
 inline constexpr auto DATABASE_FILE{"sorcery.db3"sv};
@@ -52,17 +49,6 @@ inline constexpr auto README_FILE{"README"sv};
 inline constexpr auto STRINGS_FILE{"strings.json"sv};
 inline constexpr auto TEXTURES_FILE{"textures.json"sv};
 inline constexpr auto VERSION_FILE{"VERSION"sv};
+inline constexpr auto VIDEO_FILE{"menu.mp4"sv};
 
-// Videos
-inline constexpr auto MENU_VIDEO{"menu.mp4"sv};
-
-inline constexpr auto CREATURE_TILE_SIZE{400};
-
-inline constexpr auto ON{"on"};
-inline constexpr auto OFF{"off"};
-
-inline constexpr auto EXIT_ALL{0};
-inline constexpr auto EXIT_MODULE{1};
-
-inline constexpr auto DELAY_DEFAULT{1000u};
 }

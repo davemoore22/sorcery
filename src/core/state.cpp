@@ -72,7 +72,7 @@ auto Sorcery::State::_clear() -> void {
 	}
 	level = std::make_unique<Level>();
 	_clear_explored();
-	_version = SAVE_VERSION;
+	_version = GAME_SAVE_VERSION;
 	_turns = 0;
 
 	_log.clear();
@@ -173,7 +173,7 @@ auto Sorcery::State::clear_party() -> void {
 
 auto Sorcery::State::add_character_by_id(unsigned int char_id) -> bool {
 
-	if (_party.size() < MAX_PARTY_SIZE) {
+	if (_party.size() < 6) {
 		_party.push_back(char_id);
 		return true;
 	} else

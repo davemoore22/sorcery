@@ -29,8 +29,7 @@
 
 namespace Sorcery {
 
-using namespace std::literals;
-
 inline constexpr auto EMPTY{""};
+inline constexpr auto CHARACTER_SAVE_VERSION{1};
 
 }

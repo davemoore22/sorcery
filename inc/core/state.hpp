@@ -23,8 +23,8 @@
 // the resulting work.
 
 #include "common/include.hpp"
-#include "core/define.hpp"
 
+#include "core/define.hpp"
 #include "core/system.hpp"
 #include "resources/itemstore.hpp"
 #include "types/character.hpp"

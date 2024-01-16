@@ -29,10 +29,10 @@
 
 namespace Sorcery {
 
-using namespace std::literals;
-
 inline constexpr auto EXIT_STRING{"exit_game"};
 
 inline constexpr auto MAX_PORTRAIT_INDEX{29u};
+
+inline constexpr auto DELAY_TEMPLE{1000u};
 
 }

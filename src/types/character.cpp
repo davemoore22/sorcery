@@ -36,7 +36,7 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 	_hidden = false;
 	set_status(CharacterStatus::OK);
 
-	_version = SAVE_VERSION;
+	_version = CHARACTER_SAVE_VERSION;
 
 	_legated = false;
 

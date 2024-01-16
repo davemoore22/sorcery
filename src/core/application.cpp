@@ -208,7 +208,7 @@ auto Sorcery::Application::start() -> int {
 		// That way the Program will always return to the Main Menu
 		if (mm_opt.value() == ITEM_QUIT) {
 			display->shutdown_SFML();
-			return EXIT_ALL;
+			return EXIT_APP;
 		} else {
 
 			// If we are starting a new game, or continuing an existing game
@@ -220,7 +220,7 @@ auto Sorcery::Application::start() -> int {
 				ca_opt = _run_castle();
 				if (ca_opt.value() == ITEM_ABORT) {
 					display->shutdown_SFML();
-					return EXIT_ALL;
+					return EXIT_APP;
 				} else if (ca_opt.value() == ITEM_LEAVE_GAME) {
 					break;
 				} else if (ca_opt.value() != CA_EDGE_OF_TOWN)
@@ -230,7 +230,7 @@ auto Sorcery::Application::start() -> int {
 				ed_opt = _run_edge_of_town();
 				if (ed_opt.value() == ITEM_ABORT) {
 					display->shutdown_SFML();
-					return EXIT_ALL;
+					return EXIT_APP;
 				} else if (ed_opt.value() == ET_MAZE) {
 
 					// Go to the Maze
@@ -244,7 +244,7 @@ auto Sorcery::Application::start() -> int {
 					_restart->stop();
 					if (rs_opt.value() == ITEM_ABORT) {
 						display->shutdown_SFML();
-						return EXIT_ALL;
+						return EXIT_APP;
 					} else if (rs_opt == MenuItem::RS_RESTART)
 						rs_opt = _restart_expedition(character_chosen);
 					else
@@ -259,14 +259,14 @@ auto Sorcery::Application::start() -> int {
 	} while ((mm_opt != ITEM_QUIT) && (mm_opt != ITEM_ABORT));
 
 	display->shutdown_SFML();
-	return EXIT_ALL;
+	return EXIT_APP;
 }
 
 auto Sorcery::Application::_start_expedition() -> std::optional<MenuItem> {
 
 	_game->enter_maze();
 	auto engine{std::make_unique<Engine>(system.get(), display.get(), graphics.get(), _game.get())};
-	if (auto result{engine->start()}; result == EXIT_ALL) {
+	if (auto result{engine->start()}; result == EXIT_APP) {
 		_game->save_game();
 		engine->stop();
 		display->shutdown_SFML();
@@ -350,7 +350,7 @@ auto Sorcery::Application::_restart_expedition(const unsigned int character_chos
 	_game->state->set_current_level(&level);
 
 	auto engine{std::make_unique<Engine>(system.get(), display.get(), graphics.get(), _game.get())};
-	if (auto result{engine->start()}; result == EXIT_ALL) {
+	if (auto result{engine->start()}; result == EXIT_APP) {
 		_game->save_game();
 		engine->stop();
 		display->shutdown_SFML();
@@ -468,21 +468,21 @@ auto Sorcery::Application::_run_main_menu(const Destination destination) -> std:
 				return ITEM_QUIT;
 				break;
 			case MM_OPTIONS:
-				if (_options->start() == EXIT_ALL) {
+				if (_options->start() == EXIT_APP) {
 					_options->stop();
 					return ITEM_QUIT;
 				} else
 					_options->stop();
 				break;
 			case MM_LICENSE:
-				if (_license->start() == EXIT_ALL) {
+				if (_license->start() == EXIT_APP) {
 					_license->stop();
 					return ITEM_QUIT;
 				} else
 					_license->stop();
 				break;
 			case MM_COMPENDIUM:
-				if (_compendium->start() == EXIT_ALL) {
+				if (_compendium->start() == EXIT_APP) {
 					_compendium->stop();
 					return ITEM_QUIT;
 				} else

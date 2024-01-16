@@ -25,11 +25,13 @@
 #pragma once
 
 #include "common/include.hpp"
+
 #include "core/display.hpp"
 #include "core/game.hpp"
 #include "core/graphics.hpp"
 #include "core/system.hpp"
 #include "frontend/bestiary.hpp"
+#include "frontend/define.hpp"
 #include "frontend/museum.hpp"
 #include "gui/frame.hpp"
 #include "gui/menu.hpp"

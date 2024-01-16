@@ -25,9 +25,11 @@
 #pragma once
 
 #include "common/include.hpp"
+
 #include "core/display.hpp"
 #include "core/graphics.hpp"
 #include "core/system.hpp"
+#include "gui/define.hpp"
 #include "gui/frame.hpp"
 #include "resources/componentstore.hpp"
 
