@@ -24,13 +24,10 @@
 
 #pragma once
 
+#include "common/define.hpp"
 #include "common/include.hpp"
-#include "types/define.hpp"
-// clang-format off
 #include "types/item.hpp"
 #include "types/itemtype.hpp"
-
-// clang-format on
 
 namespace Sorcery {
 

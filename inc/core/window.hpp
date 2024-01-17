@@ -27,8 +27,8 @@
 #include "common/define.hpp"
 #include "common/include.hpp"
 #include "core/define.hpp"
-
 #include "core/system.hpp"
+#include "core/type.hpp"
 #include "resources/componentstore.hpp"
 #include "resources/stringstore.hpp"
 
@@ -81,7 +81,7 @@ class Window {
 		std::vector<sf::Sprite> sprites;
 		std::vector<sf::Texture> textures;
 		sf::View view;
-		Point centre;
+		Coordinate centre;
 		sf::IntRect size;
 
 	private:

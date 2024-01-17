@@ -26,7 +26,6 @@
 
 #include "common/include.hpp"
 #include "common/macro.hpp"
-
 #include "core/animation.hpp"
 #include "core/define.hpp"
 #include "core/display.hpp"

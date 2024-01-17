@@ -26,7 +26,6 @@
 
 #include "common/define.hpp"
 #include "common/include.hpp"
-
 #include "resources/define.hpp"
 #include <libgen.h>
 #include <limits.h>

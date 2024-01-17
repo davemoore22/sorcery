@@ -27,17 +27,14 @@
 
 #include "common/include.hpp"
 #include "common/macro.hpp"
-
-// clang-format off
-#include "gui/macro.hpp"
-#include "types/character.hpp"
 #include "core/display.hpp"
 #include "core/graphics.hpp"
 #include "core/system.hpp"
-#include "gui/spellpanel.hpp"
 #include "gui/inventorydisplay.hpp"
+#include "gui/macro.hpp"
+#include "gui/spellpanel.hpp"
+#include "types/character.hpp"
 #include "types/inventory.hpp"
-// clang-format on
 
 namespace Sorcery {
 

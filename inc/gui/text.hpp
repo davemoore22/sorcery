@@ -26,7 +26,6 @@
 
 #include "common/include.hpp"
 #include "common/macro.hpp"
-
 #include "core/display.hpp"
 #include "core/system.hpp"
 

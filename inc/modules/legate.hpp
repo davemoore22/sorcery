@@ -22,6 +22,8 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
+#pragma once
+
 #include "common/include.hpp"
 #include "core/display.hpp"
 #include "core/graphics.hpp"

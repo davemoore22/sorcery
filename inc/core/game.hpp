@@ -26,7 +26,6 @@
 
 #include "common/include.hpp"
 #include "core/define.hpp"
-
 #include "core/display.hpp"
 #include "core/graphics.hpp"
 #include "core/state.hpp"

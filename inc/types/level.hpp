@@ -24,11 +24,10 @@
 
 #pragma once
 
+#include "common/define.hpp"
 #include "common/include.hpp"
-
-#include "types/define.hpp"
+#include "common/macro.hpp"
 #include "types/item.hpp"
-#include "types/macro.hpp"
 #include "types/tile.hpp"
 
 namespace Sorcery {

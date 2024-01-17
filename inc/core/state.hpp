@@ -22,10 +22,12 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "common/include.hpp"
+#pragma once
 
+#include "common/include.hpp"
 #include "core/define.hpp"
 #include "core/system.hpp"
+#include "core/type.hpp"
 #include "resources/itemstore.hpp"
 #include "types/character.hpp"
 #include "types/explore.hpp"

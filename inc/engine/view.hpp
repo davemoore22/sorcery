@@ -29,6 +29,7 @@
 #include "core/game.hpp"
 #include "core/graphics.hpp"
 #include "core/system.hpp"
+#include "engine/type.hpp"
 
 // Class to handles managing screen layouts
 namespace Sorcery {

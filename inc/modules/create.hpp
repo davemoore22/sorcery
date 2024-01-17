@@ -25,23 +25,21 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "modules/define.hpp"
-// clang-format off
-#include "core/system.hpp"
 #include "core/display.hpp"
+#include "core/game.hpp"
 #include "core/graphics.hpp"
+#include "core/system.hpp"
 #include "gui/allocatepanel.hpp"
 #include "gui/attributedisplay.hpp"
-#include "types/character.hpp"
 #include "gui/characterdisplay.hpp"
 #include "gui/dialog.hpp"
 #include "gui/frame.hpp"
 #include "gui/infopanel.hpp"
 #include "gui/keyboard.hpp"
-#include "resources/componentstore.hpp"
 #include "gui/menu.hpp"
-#include "core/game.hpp"
-// clang-format on
+#include "modules/define.hpp"
+#include "resources/componentstore.hpp"
+#include "types/character.hpp"
 
 namespace Sorcery {
 

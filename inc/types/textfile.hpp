@@ -24,8 +24,8 @@
 
 #pragma once
 
+#include "common/define.hpp"
 #include "common/include.hpp"
-#include "types/define.hpp"
 
 // Class to handles loading and displaying on the console the contents of text
 // files (such as COPYING and README)

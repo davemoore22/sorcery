@@ -25,15 +25,12 @@
 
 #pragma once
 
-// clang-format off
+#include "common/include.hpp"
 #include "core/display.hpp"
 #include "core/graphics.hpp"
-#include "resources/componentstore.hpp"
-#include "common/include.hpp"
 #include "core/system.hpp"
+#include "resources/componentstore.hpp"
 #include "types/character.hpp"
-
-// clang-format on
 
 namespace Sorcery {
 

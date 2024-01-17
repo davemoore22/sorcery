@@ -26,14 +26,11 @@
 
 #include "common/include.hpp"
 #include "common/macro.hpp"
-
-// clang-format off
-#include "types/component.hpp"
 #include "core/display.hpp"
+#include "core/game.hpp"
 #include "core/graphics.hpp"
 #include "core/system.hpp"
-#include "core/game.hpp"
-// clang-format on
+#include "types/component.hpp"
 
 namespace Sorcery {
 

@@ -310,14 +310,12 @@
 #include <uuid/uuid.h>
 #include <vector>
 
-// clang-format off
+// Internal Includes
 #include "common/enum.hpp"
-#include "types/type.hpp"
+#include "common/type.hpp"
 #include "types/component.hpp"
 #include "types/dice.hpp"
 #include "types/error.hpp"
-
-// clang-format on
 
 // Aliases
 namespace Sorcery {

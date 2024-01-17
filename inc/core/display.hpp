@@ -26,16 +26,14 @@
 
 #include "common/include.hpp"
 #include "core/define.hpp"
-// clang-format off
 #include "core/system.hpp"
+#include "core/type.hpp"
+#include "core/window.hpp"
 #include "gui/controloverlay.hpp"
 #include "gui/frame.hpp"
-#include "resources/iconstore.hpp"
 #include "resources/componentstore.hpp"
+#include "resources/iconstore.hpp"
 #include "resources/stringstore.hpp"
-#include "core/window.hpp"
-
-// clang-format on
 
 // Forward Declarations
 namespace Sorcery {
