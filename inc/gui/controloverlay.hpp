@@ -27,6 +27,7 @@
 #include "common/include.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
+#include "gui/enum.hpp"
 #include "gui/frame.hpp"
 #include "resources/componentstore.hpp"
 

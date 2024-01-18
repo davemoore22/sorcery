@@ -24,52 +24,21 @@
 
 #pragma once
 
-#include "common/include.hpp"
-#include "common/macro.hpp"
-#include "core/display.hpp"
-#include "core/game.hpp"
-#include "core/graphics.hpp"
-#include "core/system.hpp"
-#include "engine/enum.hpp"
-#include "gui/frame.hpp"
-#include "gui/menu.hpp"
-#include "resources/componentstore.hpp"
-
+// Enums
 namespace Sorcery {
 
-class Graveyard {
+namespace Enums::Window {}
 
-	public:
+namespace Enums::Graphics {
 
-		// Standard Constructor
-		Graveyard(System *system, Display *display, Graphics *graphics, Game *game);
-		Graveyard() = delete;
+	enum class Event {
+		NO_IMAGE = -1,
+		TREASURE = 0,
+		GRAVESTONE = 1,
+		CHEST = 2
+	};
+}
 
-		// Standard Destructor
-		~Graveyard();
-
-		// Public Members
-
-		// Public Methods
-		auto start() -> std::optional<MenuItem>;
-		auto stop() -> void;
-
-	private:
-
-		// Private Methods
-		auto _draw() -> void;
-
-		// Private Members
-		System *_system;
-		Display *_display;
-		Graphics *_graphics;
-		Game *_game;
-		sf::RenderWindow *_window;
-		std::unique_ptr<Menu> _menu;
-		std::unique_ptr<Frame> _menu_frame;
-		std::vector<sf::Text> _texts;
-		std::vector<sf::Sprite> _sprites;
-		sf::Text _wipe_message;
-};
+using EventGraphic = Enums::Graphics::Event;
 
 }

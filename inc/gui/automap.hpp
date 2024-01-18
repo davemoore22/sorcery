@@ -30,6 +30,7 @@
 #include "core/game.hpp"
 #include "core/graphics.hpp"
 #include "core/system.hpp"
+#include "gui/enum.hpp"
 
 namespace Sorcery {
 

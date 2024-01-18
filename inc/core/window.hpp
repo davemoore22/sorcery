@@ -27,6 +27,7 @@
 #include "common/define.hpp"
 #include "common/include.hpp"
 #include "core/define.hpp"
+#include "core/platform.hpp"
 #include "core/system.hpp"
 #include "core/type.hpp"
 #include "resources/componentstore.hpp"

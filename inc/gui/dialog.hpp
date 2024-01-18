@@ -29,6 +29,7 @@
 #include "core/graphics.hpp"
 #include "core/system.hpp"
 #include "gui/define.hpp"
+#include "gui/enum.hpp"
 #include "gui/frame.hpp"
 #include "resources/componentstore.hpp"
 

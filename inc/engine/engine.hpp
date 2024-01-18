@@ -32,6 +32,7 @@
 #include "core/system.hpp"
 #include "engine/define.hpp"
 #include "engine/encounter.hpp"
+#include "engine/enum.hpp"
 #include "engine/event.hpp"
 #include "engine/graveyard.hpp"
 #include "engine/inspect.hpp"
