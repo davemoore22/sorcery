@@ -9,6 +9,7 @@ list(APPEND sorcery_SOURCES
 	${CMAKE_CURRENT_LIST_DIR}/inn.cpp
 	${CMAKE_CURRENT_LIST_DIR}/legate.cpp
 	${CMAKE_CURRENT_LIST_DIR}/restart.cpp
+	${CMAKE_CURRENT_LIST_DIR}/rest.cpp
 	${CMAKE_CURRENT_LIST_DIR}/roster.cpp
 	${CMAKE_CURRENT_LIST_DIR}/sell.cpp
 	${CMAKE_CURRENT_LIST_DIR}/shop.cpp

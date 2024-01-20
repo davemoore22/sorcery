@@ -35,7 +35,7 @@ Sorcery::System::System(int argc __attribute__((unused)), char **argv __attribut
 	settings->SetUnicode();
 	const auto settings_fp{(*files)[CONFIG_FILE]};
 	settings->LoadFile(CSTR(settings_fp));
-	config = std::make_unique<Config>(settings.get(), (*files)[CONFIG_FILE]);
+	config = std::make_unique<ConfigFile>(settings.get(), (*files)[CONFIG_FILE]);
 
 	// Random Module
 	random = std::make_unique<Random>();

@@ -32,13 +32,13 @@
 // Class to handles game configuration
 namespace Sorcery {
 
-class Config {
+class ConfigFile {
 
 	public:
 
 		// Constructors
-		Config(CSimpleIniA *settings, const std::filesystem::path config_file_path);
-		Config() = delete;
+		ConfigFile(CSimpleIniA *settings, const std::filesystem::path config_file_path);
+		ConfigFile() = delete;
 
 		// Overload [] operator
 		auto operator[](const unsigned int i) -> bool &;

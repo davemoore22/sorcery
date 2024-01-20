@@ -14,7 +14,6 @@ list(APPEND sorcery_SOURCES
 	${CMAKE_CURRENT_LIST_DIR}/read.cpp
 	${CMAKE_CURRENT_LIST_DIR}/render.cpp
 	${CMAKE_CURRENT_LIST_DIR}/reorder.cpp
-	${CMAKE_CURRENT_LIST_DIR}/rest.cpp
 	${CMAKE_CURRENT_LIST_DIR}/search.cpp
 	${CMAKE_CURRENT_LIST_DIR}/searching.cpp
 	${CMAKE_CURRENT_LIST_DIR}/teleport.cpp

@@ -24,58 +24,77 @@
 
 #pragma once
 
-#include "common/include.hpp"
-#include "core/display.hpp"
-#include "core/game.hpp"
-#include "core/graphics.hpp"
-#include "core/system.hpp"
-#include "engine/inspect.hpp"
-#include "engine/reorder.hpp"
-#include "gui/frame.hpp"
-#include "gui/menu.hpp"
-#include "gui/partypanel.hpp"
-#include "modules/enum.hpp"
-#include "resources/componentstore.hpp"
-
+// Enums
 namespace Sorcery {
 
-class Tavern {
+namespace Enums::Castle {
 
-	public:
+	namespace Rest {
 
-		// Standard Constructor
-		Tavern(System *system, Display *display, Graphics *graphics, Game *game);
-		Tavern() = delete;
+		enum class Mode {
+			SINGLE,
+			ALL
+		};
 
-		// Public Members
+		enum class Stage {
+			REGEN,
+			RESULTS
+		};
 
-		// Public Methods
-		auto start() -> std::optional<MenuItem>;
-		auto stop() -> void;
+		enum class Type {
+			STABLES,
+			COT,
+			ECONOMY,
+			MERCHANT,
+			ROYAL
+		};
 
-	private:
+	}
 
-		// Private Methods
-		auto _draw() -> void;
-		auto _update_menus() -> void;
+	enum class Tavern {
+		NO_STAGE,
+		MENU,
+		ADD,
+		REMOVE,
+		REORDER,
+		INSPECT
+	};
 
-		// Private Members
-		System *_system;
-		Display *_display;
-		Graphics *_graphics;
-		Game *_game;
-		sf::RenderWindow *_window;
-		std::string _screen_key;
-		std::unique_ptr<Frame> _frame;
-		std::unique_ptr<Menu> _menu;
-		sf::Sprite _bg;
-		std::unique_ptr<PartyPanel> _party_panel;
-		TavernStage _stage;
-		std::unique_ptr<Menu> _add;
-		std::unique_ptr<Menu> _remove;
-		std::unique_ptr<Inspect> _inspect;
-		std::unique_ptr<Dialog> _divvy;
-		bool _show_divvy;
-};
+	enum class Inn {
+		NO_STAGE,
+		MENU,
+		BED,
+		INPECT,
+		CHOOSE
+	};
+
+	enum class Shop {
+		NO_STAGE,
+		MENU,
+		WHO,
+		ACTION,
+		UNCURSE,
+		IDENTIFY,
+		INSPECT
+	};
+
+	enum class Temple {
+		NO_STAGE,
+		MENU,
+		HELP,
+		PAY,
+		RESS,
+		TITHE,
+		INSPECT
+	};
+}
+
+using InnStage = Enums::Castle::Inn;
+using RestMode = Enums::Castle::Rest::Mode;
+using RestStage = Enums::Castle::Rest::Stage;
+using RestType = Enums::Castle::Rest::Type;
+using ShopStage = Enums::Castle::Shop;
+using TavernStage = Enums::Castle::Tavern;
+using TempleStage = Enums::Castle::Temple;
 
 }

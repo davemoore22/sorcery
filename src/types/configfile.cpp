@@ -22,10 +22,10 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "core/config.hpp"
+#include "types/configfile.hpp"
 
 // Standard Constructor
-Sorcery::Config::Config(CSimpleIniA *settings, const std::filesystem::path config_file_path)
+Sorcery::ConfigFile::ConfigFile(CSimpleIniA *settings, const std::filesystem::path config_file_path)
 	: _settings{settings}, _config_fp{config_file_path} {
 
 	_load();
@@ -33,30 +33,30 @@ Sorcery::Config::Config(CSimpleIniA *settings, const std::filesystem::path confi
 
 // Overload [] operator - remember if this is a pointer, use the (*options)[i]
 // syntax to deference properly!
-auto Sorcery::Config::operator[](const unsigned int i) -> bool & {
+auto Sorcery::ConfigFile::operator[](const unsigned int i) -> bool & {
 
 	return _options[i];
 }
 
 // Get a value from the config file
-auto Sorcery::Config::get(std::string_view section, std::string_view value) const -> std::string {
+auto Sorcery::ConfigFile::get(std::string_view section, std::string_view value) const -> std::string {
 
 	return _settings->GetValue(CSTR(std::string{section}), CSTR(std::string{value}));
 }
 
 // Check if the options have changed
-bool Sorcery::Config::has_changed() {
+bool Sorcery::ConfigFile::has_changed() {
 
 	return _options == _options_backup;
 }
 
-auto Sorcery::Config::load() -> bool {
+auto Sorcery::ConfigFile::load() -> bool {
 
 	return _load();
 }
 
 // Load settings from ini file
-auto Sorcery::Config::_load() -> bool {
+auto Sorcery::ConfigFile::_load() -> bool {
 
 	// Attempt to read the settings from the Settings file if possible
 	_options.fill(false);
@@ -123,7 +123,7 @@ auto Sorcery::Config::_load() -> bool {
 }
 
 // Save current settings to ini file
-bool Sorcery::Config::save() {
+bool Sorcery::ConfigFile::save() {
 
 	_settings->SetValue(
 		"Options", CSTR(OPT_RECOMMENDED_MODE), BOOL2OPTIONCSTR(_options[Enums::Options::RECOMMENDED_MODE]));
@@ -175,7 +175,7 @@ bool Sorcery::Config::save() {
 }
 
 // Preset Options
-auto Sorcery::Config::set_rec_mode() -> void {
+auto Sorcery::ConfigFile::set_rec_mode() -> void {
 
 	std::array<bool, NUM_GAME_SETTINGS> _rec_settings{true, false, true, false, true, false, true, true, true, true,
 		true, true, false, false, false, false, true, true, true, true, true, true, true, false, false, true};
@@ -183,7 +183,7 @@ auto Sorcery::Config::set_rec_mode() -> void {
 }
 
 // Preset Options
-auto Sorcery::Config::set_strict_mode() -> void {
+auto Sorcery::ConfigFile::set_strict_mode() -> void {
 
 	std::array<bool, NUM_GAME_SETTINGS> _strict_settings{false, true, true, false, false, true, false, false, false,
 		false, false, false, true, true, true, true, false, false, false, false, false, false, false, false, false};
@@ -191,13 +191,13 @@ auto Sorcery::Config::set_strict_mode() -> void {
 }
 
 // Store to enable comparison for checking if anything has changed on cancel
-auto Sorcery::Config::store() -> void {
+auto Sorcery::ConfigFile::store() -> void {
 
 	_options_backup = _options;
 }
 
 // Compare to Strict Mode
-auto Sorcery::Config::is_strict_mode() -> bool {
+auto Sorcery::ConfigFile::is_strict_mode() -> bool {
 
 	std::array<bool, NUM_GAME_SETTINGS> _strict_settings{false, true, true, false, false, true, false, false, false,
 		false, false, false, true, true, true, true, false, false, false, false, false, false, false, false, false,
@@ -206,7 +206,7 @@ auto Sorcery::Config::is_strict_mode() -> bool {
 }
 
 // Compare to Recommended Mode
-auto Sorcery::Config::is_rec_mode() -> bool {
+auto Sorcery::ConfigFile::is_rec_mode() -> bool {
 
 	std::array<bool, NUM_GAME_SETTINGS> _rec_settings{true, false, true, false, true, false, true, true, true, true,
 		true, true, false, false, false, false, true, true, true, true, true, true, true, false, false, true};

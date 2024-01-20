@@ -48,7 +48,6 @@ class ItemDisplay: public sf::Transformable, public sf::Drawable {
 		// Public Members
 		int width;
 		int height;
-		ItemView view;
 		bool valid;
 
 		// Public Methods

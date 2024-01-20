@@ -323,68 +323,6 @@ namespace Enums::Manage {
 	};
 }
 
-namespace Enums::Castle {
-
-	namespace Rest {
-
-		enum class Mode {
-			SINGLE,
-			ALL
-		};
-
-		enum class Stage {
-			REGEN,
-			RESULTS
-		};
-
-		enum class Type {
-			STABLES,
-			COT,
-			ECONOMY,
-			MERCHANT,
-			ROYAL
-		};
-
-	}
-
-	enum class Tavern {
-		NO_STAGE,
-		MENU,
-		ADD,
-		REMOVE,
-		REORDER,
-		INSPECT
-	};
-
-	enum class Inn {
-		NO_STAGE,
-		MENU,
-		BED,
-		INPECT,
-		CHOOSE
-	};
-
-	enum class Shop {
-		NO_STAGE,
-		MENU,
-		WHO,
-		ACTION,
-		UNCURSE,
-		IDENTIFY,
-		INSPECT
-	};
-
-	enum class Temple {
-		NO_STAGE,
-		MENU,
-		HELP,
-		PAY,
-		RESS,
-		TITHE,
-		INSPECT
-	};
-}
-
 // Character Stuff
 namespace Enums::Character {
 
@@ -1247,17 +1185,6 @@ namespace Enums {
 
 	namespace Items {
 
-		enum class Quest {
-			NO_QUEST_ITEM = 0,
-			AMULET_OF_WERDNA = 1,
-			BEAR_STATUE = 2,
-			BLUE_RIBBON = 3,
-			BRONZE_KEY = 4,
-			FROG_STATUE = 5,
-			GOLD_KEY = 6,
-			SILVER_KEY = 7
-		};
-
 		enum class Category {
 			NO_ITEM_CATEGORY = 0,
 			WEAPON = 1,
@@ -1269,20 +1196,6 @@ namespace Enums {
 			SCROLL = 7,
 			POTION = 8,
 			SPECIAL_ITEM = 9
-		};
-
-		enum class Location {
-			NO_LOCATION = 0,
-			INVENTORY = 1,
-			FLOOR = 2,
-			SHOP = 3
-		};
-
-		enum class View {
-
-			SUMMARY = 0,
-			DETAILED = 1,
-			SPECIALS = 2
 		};
 
 		// Following the original numbering at http://www.pekori.jp/~emonoya/item/index.html for the

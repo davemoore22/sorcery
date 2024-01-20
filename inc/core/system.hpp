@@ -25,7 +25,6 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "core/config.hpp"
 #include "core/database.hpp"
 #include "core/define.hpp"
 #include "core/input.hpp"
@@ -33,6 +32,7 @@
 #include "resources/filestore.hpp"
 #include "resources/resourcemanager.hpp"
 #include "resources/stringstore.hpp"
+#include "types/configfile.hpp"
 
 // Superclass to handle all system level requirements such as Random Number
 // Generation, File and Database Access, etc
@@ -57,7 +57,7 @@ class System {
 		// Public Members
 		std::unique_ptr<FileStore> files;
 		std::unique_ptr<CSimpleIniA> settings;
-		std::unique_ptr<Config> config;
+		std::unique_ptr<ConfigFile> config;
 		std::unique_ptr<Random> random;
 		std::unique_ptr<Database> database;
 		std::unique_ptr<ResourceManager> resources;

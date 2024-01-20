@@ -35,6 +35,7 @@
 #include "gui/menu.hpp"
 #include "gui/partypanel.hpp"
 #include "modules/define.hpp"
+#include "modules/enum.hpp"
 #include "resources/componentstore.hpp"
 
 namespace Sorcery {

@@ -30,11 +30,12 @@
 #include "core/graphics.hpp"
 #include "core/system.hpp"
 #include "engine/inspect.hpp"
-#include "engine/rest.hpp"
 #include "gui/dialog.hpp"
 #include "gui/frame.hpp"
 #include "gui/menu.hpp"
 #include "gui/partypanel.hpp"
+#include "modules/enum.hpp"
+#include "modules/rest.hpp"
 #include "resources/componentstore.hpp"
 
 namespace Sorcery {

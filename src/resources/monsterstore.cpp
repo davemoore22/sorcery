@@ -38,10 +38,6 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename) -> bool 
 
 	using enum Enums::Character::Align;
 	using enum Enums::Character::Class;
-	using enum Enums::Items::Category;
-	using enum Enums::Items::Effects::Invoke;
-	using enum Enums::Items::TypeID;
-	using enum Enums::Magic::SpellID;
 
 	if (std::ifstream file{filename.string(), std::ifstream::binary}; file.good()) {
 
