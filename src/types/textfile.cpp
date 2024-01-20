@@ -31,7 +31,7 @@ Sorcery::TextFile::TextFile(std::filesystem::path text_file_path) : _text_fp{tex
 	width = 0;
 	if (std::ifstream file{CEESTR(text_file_path.string()), std::ifstream::in}; file.good()) {
 		_contents.clear();
-		_contents.push_back(EMPTY);
+		_contents.push_back("");
 		auto line{""s};
 		while (std::getline(file, line)) {
 

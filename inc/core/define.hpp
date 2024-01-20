@@ -99,9 +99,5 @@ static const std::string CELL_WIDTH{"cell_width"};
 // Miscelleanous Defines
 inline constexpr auto GAME_SAVE_VERSION{1};
 
-// On/Off Settings
-inline constexpr auto OPTION_ON{"on"};
-inline constexpr auto OPTION_OFF{"off"};
-
 inline constexpr auto EXIT_APP{0};
 }

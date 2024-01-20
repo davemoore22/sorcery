@@ -28,6 +28,8 @@
 #include "common/include.hpp"
 #include "core/define.hpp"
 #include "core/macro.hpp"
+#include "types/define.hpp"
+#include "types/enum.hpp"
 
 // Class to handles game configuration
 namespace Sorcery {
@@ -65,5 +67,11 @@ class ConfigFile {
 		// Private Methods
 		auto _load() -> bool;
 };
+
+// Macro to convert bool to C string
+inline auto BOOL2OPTIONCSTR(bool bool_to_convert) -> const char * {
+
+	return bool_to_convert ? "on" : "off";
+}
 
 }

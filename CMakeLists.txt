@@ -1,3 +1,9 @@
+# Note to use Include What You Use, use this:
+# CC="clang" CXX="clang++" cmake -DCMAKE_CXX_INCLUDE_WHAT_YOU_USE=include-what-you-use .
+
+# To use Build EAR, use this:
+# bear -- make -j4
+
 # Project Definition
 cmake_minimum_required(VERSION 3.20)
 set(CMAKE_CXX_STANDARD 20)

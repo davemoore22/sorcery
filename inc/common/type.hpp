@@ -28,6 +28,7 @@
 #include "common/enum.hpp"
 #include "common/include.hpp"
 #include "common/macro.hpp"
+#include "types/enum.hpp"
 
 namespace Sorcery {
 
@@ -54,9 +55,9 @@ struct ShopStock {
 struct MenuEntry {
 		MenuEntry()
 			: index{0}, type{Enums::Menu::ItemType::NO_MENU_ITEM_TYPE}, item{Enums::Menu::Item::NO_MENU_ITEM}, key{},
-			  enabled{false}, config{Enums::Options::NONE}, hint{}, idx{0} {};
+			  enabled{false}, config{Enums::Config::Options::NONE}, hint{}, idx{0} {};
 		MenuEntry(unsigned int index_, Enums::Menu::ItemType type_, Enums::Menu::Item item_, std::string key_,
-			bool enabled_, Enums::Options config_, std::string hint_)
+			bool enabled_, Enums::Config::Options config_, std::string hint_)
 			: index{index_}, type{type_}, item{item_}, key{key_}, enabled{enabled_}, config{config_}, hint{hint_} {};
 		MenuEntry(unsigned int index_, Enums::Menu::ItemType type_, Enums::Menu::Item item_, std::string key_,
 			bool enabled_, unsigned int idx_)
@@ -72,7 +73,7 @@ struct MenuEntry {
 		Enums::Menu::Item item;
 		std::string key;
 		bool enabled;
-		Enums::Options config;
+		Enums::Config::Options config;
 		std::string hint;
 		unsigned int idx;
 };

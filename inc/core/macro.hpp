@@ -34,10 +34,4 @@ inline auto CSTR(const std::string &string) -> const char * {
 	return !string.empty() ? (char *)string.c_str() : (char *)"";
 }
 
-// Macro to convert bool to C string
-inline auto BOOL2OPTIONCSTR(bool bool_to_convert) -> const char * {
-
-	return bool_to_convert ? "on" : "off";
-}
-
 }

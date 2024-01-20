@@ -51,7 +51,4 @@ inline constexpr auto TEXTURES_FILE{"textures.json"sv};
 inline constexpr auto VERSION_FILE{"VERSION"sv};
 inline constexpr auto VIDEO_FILE{"menu.mp4"sv};
 
-inline constexpr auto EMPTY{""};
-inline constexpr auto CHARACTER_SAVE_VERSION{1};
-
 }

@@ -46,6 +46,7 @@ Both CMake (via VSCode/CMakeTools) and Code::Blocks are supported.
 Additional support tools useful for development:
 
 - Build EAR <https://github.com/rizsotto/Bear>
+- Include What You Use <https://github.com/include-what-you-use>
 
 Note that to compile Sorcery: Shadows under Llylgamyn requires a compiler
 with C++20 support such as gcc 10.3.

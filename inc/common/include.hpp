@@ -39,13 +39,18 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wswitch-default"
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#ifndef __clang__
 #pragma GCC diagnostic ignored "-Wvolatile" // NOLINT(clang-diagnostic-unknown-warning-option)
+#endif
 #pragma GCC diagnostic ignored "-Wignored-qualifiers"
 #pragma GCC diagnostic ignored "-Wreorder"
 #pragma GCC diagnostic ignored "-Wreturn-type"
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
 #pragma GCC diagnostic ignored "-Wshadow"
+#ifdef __clang__
+#pragma GCC diagnostic ignored "-Wunqualified-std-cast-call"
+#endif
 #include "backwardcpp/backward.hpp"
 #include "simpleini/SimpleIni.h"
 // clang-format off
@@ -135,7 +140,6 @@ using CombatType = Enums::Combat::Type;
 using ComponentData = std::pair<std::string, std::string>;
 using ComponentElement = Enums::Window::ComponentElement;
 using ComponentType = Enums::Window::ComponentType;
-using ConfigOption = Enums::Options;
 using CreateMethod = Enums::Manage::Method;
 using Destination = Enums::System::Destination;
 using FontType = Enums::Internal::FontType;

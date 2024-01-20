@@ -30,6 +30,8 @@
 #include "core/display.hpp"
 #include "core/graphics.hpp"
 #include "core/system.hpp"
+#include "types/define.hpp"
+#include "types/enum.hpp"
 #include "types/inventory.hpp"
 #include "types/item.hpp"
 

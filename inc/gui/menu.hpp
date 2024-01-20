@@ -31,6 +31,7 @@
 #include "core/graphics.hpp"
 #include "core/system.hpp"
 #include "types/component.hpp"
+#include "types/enum.hpp"
 
 namespace Sorcery {
 

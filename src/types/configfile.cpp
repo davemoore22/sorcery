@@ -61,63 +61,63 @@ auto Sorcery::ConfigFile::_load() -> bool {
 	// Attempt to read the settings from the Settings file if possible
 	_options.fill(false);
 
-	// Gameplay Settings
+	// Gameplay Settingss
 	auto option{""s};
 	option = _settings->GetValue("Options", CSTR(OPT_RECOMMENDED_MODE), CSTR(OPTION_OFF));
-	_options[Enums::Options::RECOMMENDED_MODE] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::RECOMMENDED_MODE] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Options", CSTR(OPT_STRICT_MODE), CSTR(OPTION_OFF));
-	_options[Enums::Options::STRICT_MODE] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::STRICT_MODE] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Options", CSTR(OPT_AUTO_SAVE), CSTR(OPTION_OFF));
-	_options[Enums::Options::AUTO_SAVE] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::AUTO_SAVE] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Options", CSTR(OPT_CHEAT_MODE), CSTR(OPTION_OFF));
-	_options[Enums::Options::CHEAT_MODE] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::CHEAT_MODE] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Options", CSTR(OPT_DICE_ROLLS), CSTR(OPTION_ON));
-	_options[Enums::Options::DICE_ROLLS] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::DICE_ROLLS] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(GAME_ALLOW_MIXED_ALIGNMENT_PARTY), CSTR(OPTION_ON));
-	_options[Enums::Options::ALLOW_MIXED_ALIGNMENT_PARTY] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::ALLOW_MIXED_ALIGNMENT_PARTY] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(GAME_STAT_LOSS_ON_LEVEL_UP), CSTR(OPTION_OFF));
-	_options[Enums::Options::STAT_LOSS_ON_LEVEL_UP] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::STAT_LOSS_ON_LEVEL_UP] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(GAME_REROLL_HIT_POINTS_ON_LEVEL_GAIN), CSTR(OPTION_OFF));
-	_options[Enums::Options::REROLL_HIT_POINTS_ON_LEVEL_GAIN] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::REROLL_HIT_POINTS_ON_LEVEL_GAIN] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(GAME_STAT_RESET_ON_CLASS_CHANGE), CSTR(OPTION_OFF));
-	_options[Enums::Options::STAT_RESET_ON_CLASS_CHANGE] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::STAT_RESET_ON_CLASS_CHANGE] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(GAME_AGING_ON_CLASS_CHANGE), CSTR(OPTION_OFF));
-	_options[Enums::Options::AGING_ON_CLASS_CHANGE] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::AGING_ON_CLASS_CHANGE] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(GAME_ALLOW_RANGED_WEAPONS), CSTR(OPTION_ON));
-	_options[Enums::Options::ALLOW_RANGED_WEAPONS] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::ALLOW_RANGED_WEAPONS] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(GAME_SPELLCASTING_IN_SURPRISE_ROUND), CSTR(OPTION_ON));
-	_options[Enums::Options::SPELLCASTING_IN_SURPRISE_ROUND] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::SPELLCASTING_IN_SURPRISE_ROUND] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(GAME_BATCH_HEALING_AFTER_RETURN_TO_CASTLE), CSTR(OPTION_ON));
-	_options[Enums::Options::BATCH_HEALING_AFTER_RETURN_TO_CASTLE] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::BATCH_HEALING_AFTER_RETURN_TO_CASTLE] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(GAME_REROLL_ONES_ON_DICE), CSTR(OPTION_ON));
-	_options[Enums::Options::REROLL_ONES_ON_DICE] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::REROLL_ONES_ON_DICE] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(GAME_PROTECT_TELEPORT), CSTR(OPTION_ON));
-	_options[Enums::Options::PROTECT_TELEPORT] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::PROTECT_TELEPORT] = option.compare(OPTION_ON) == 0;
 
 	option = _settings->GetValue("Gameplay", CSTR(GAME_ALLOW_LOST_LEGATED), CSTR(OPTION_ON));
-	_options[Enums::Options::ALLOW_LOST_LEGATED] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::ALLOW_LOST_LEGATED] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(GAME_ALLOW_CURABLE_DRAIN), CSTR(OPTION_ON));
-	_options[Enums::Options::ALLOW_CURABLE_DRAIN] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::ALLOW_CURABLE_DRAIN] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(GAME_ALLOW_SHARED_INVENTORY), CSTR(OPTION_ON));
-	_options[Enums::Options::ALLOW_SHARED_INVENTORY] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::ALLOW_SHARED_INVENTORY] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(GAME_CAMPING_RESTORE_SPELL_POINTS), CSTR(OPTION_ON));
-	_options[Enums::Options::CAMPING_RESTORE_SPELL_POINTS] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::CAMPING_RESTORE_SPELL_POINTS] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(GAME_CHARGED_ITEMS), CSTR(OPTION_ON));
-	_options[Enums::Options::CHARGED_ITEMS] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::CHARGED_ITEMS] = option.compare(OPTION_ON) == 0;
 
 	// Graphics Settings
 	option = _settings->GetValue("Graphics", CSTR(GFX_WIREFRAME), CSTR(OPTION_OFF));
-	_options[Enums::Options::WIREFRAME_MODE] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::WIREFRAME_MODE] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Graphics", CSTR(GFX_TEXTURES), CSTR(OPTION_ON));
-	_options[Enums::Options::DISPLAY_TEXTURES] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::DISPLAY_TEXTURES] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Graphics", CSTR(GFX_TRAPS), CSTR(OPTION_ON));
-	_options[Enums::Options::DISPLAY_TRAPS] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::DISPLAY_TRAPS] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Graphics", CSTR(GFX_TELEPORTERS), CSTR(OPTION_ON));
-	_options[Enums::Options::DISPLAY_TELEPORTERS] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::DISPLAY_TELEPORTERS] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Graphics", CSTR(GFX_ENCOUNTERS), CSTR(OPTION_ON));
-	_options[Enums::Options::DISPLAY_ENCOUNTERS] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::DISPLAY_ENCOUNTERS] = option.compare(OPTION_ON) == 0;
 	option = _settings->GetValue("Graphics", CSTR(GFX_PROGRESS), CSTR(OPTION_ON));
-	_options[Enums::Options::DISPLAY_PROGRESS] = option.compare(OPTION_ON) == 0;
+	_options[Enums::Config::Options::DISPLAY_PROGRESS] = option.compare(OPTION_ON) == 0;
 
 	return true;
 }
@@ -126,49 +126,54 @@ auto Sorcery::ConfigFile::_load() -> bool {
 bool Sorcery::ConfigFile::save() {
 
 	_settings->SetValue(
-		"Options", CSTR(OPT_RECOMMENDED_MODE), BOOL2OPTIONCSTR(_options[Enums::Options::RECOMMENDED_MODE]));
-	_settings->SetValue("Options", CSTR(OPT_STRICT_MODE), BOOL2OPTIONCSTR(_options[Enums::Options::STRICT_MODE]));
-	_settings->SetValue("Options", CSTR(OPT_AUTO_SAVE), BOOL2OPTIONCSTR(_options[Enums::Options::AUTO_SAVE]));
-	_settings->SetValue("Options", CSTR(OPT_CHEAT_MODE), BOOL2OPTIONCSTR(_options[Enums::Options::CHEAT_MODE]));
-	_settings->SetValue("Options", CSTR(OPT_DICE_ROLLS), BOOL2OPTIONCSTR(_options[Enums::Options::DICE_ROLLS]));
-	_settings->SetValue("Graphics", CSTR(GFX_WIREFRAME), BOOL2OPTIONCSTR(_options[Enums::Options::WIREFRAME_MODE]));
-	_settings->SetValue("Graphics", CSTR(GFX_TEXTURES), BOOL2OPTIONCSTR(_options[Enums::Options::DISPLAY_TEXTURES]));
-	_settings->SetValue("Graphics", CSTR(GFX_TRAPS), BOOL2OPTIONCSTR(_options[Enums::Options::DISPLAY_TRAPS]));
+		"Options", CSTR(OPT_RECOMMENDED_MODE), BOOL2OPTIONCSTR(_options[Enums::Config::Options::RECOMMENDED_MODE]));
 	_settings->SetValue(
-		"Graphics", CSTR(GFX_TELEPORTERS), BOOL2OPTIONCSTR(_options[Enums::Options::DISPLAY_TELEPORTERS]));
+		"Options", CSTR(OPT_STRICT_MODE), BOOL2OPTIONCSTR(_options[Enums::Config::Options::STRICT_MODE]));
+	_settings->SetValue("Options", CSTR(OPT_AUTO_SAVE), BOOL2OPTIONCSTR(_options[Enums::Config::Options::AUTO_SAVE]));
+	_settings->SetValue("Options", CSTR(OPT_CHEAT_MODE), BOOL2OPTIONCSTR(_options[Enums::Config::Options::CHEAT_MODE]));
+	_settings->SetValue("Options", CSTR(OPT_DICE_ROLLS), BOOL2OPTIONCSTR(_options[Enums::Config::Options::DICE_ROLLS]));
 	_settings->SetValue(
-		"Graphics", CSTR(GFX_ENCOUNTERS), BOOL2OPTIONCSTR(_options[Enums::Options::DISPLAY_ENCOUNTERS]));
-	_settings->SetValue("Graphics", CSTR(GFX_PROGRESS), BOOL2OPTIONCSTR(_options[Enums::Options::DISPLAY_PROGRESS]));
+		"Graphics", CSTR(GFX_WIREFRAME), BOOL2OPTIONCSTR(_options[Enums::Config::Options::WIREFRAME_MODE]));
+	_settings->SetValue(
+		"Graphics", CSTR(GFX_TEXTURES), BOOL2OPTIONCSTR(_options[Enums::Config::Options::DISPLAY_TEXTURES]));
+	_settings->SetValue("Graphics", CSTR(GFX_TRAPS), BOOL2OPTIONCSTR(_options[Enums::Config::Options::DISPLAY_TRAPS]));
+	_settings->SetValue(
+		"Graphics", CSTR(GFX_TELEPORTERS), BOOL2OPTIONCSTR(_options[Enums::Config::Options::DISPLAY_TELEPORTERS]));
+	_settings->SetValue(
+		"Graphics", CSTR(GFX_ENCOUNTERS), BOOL2OPTIONCSTR(_options[Enums::Config::Options::DISPLAY_ENCOUNTERS]));
+	_settings->SetValue(
+		"Graphics", CSTR(GFX_PROGRESS), BOOL2OPTIONCSTR(_options[Enums::Config::Options::DISPLAY_PROGRESS]));
 	_settings->SetValue("Gameplay", CSTR(GAME_ALLOW_MIXED_ALIGNMENT_PARTY),
-		BOOL2OPTIONCSTR(_options[Enums::Options::ALLOW_MIXED_ALIGNMENT_PARTY]));
+		BOOL2OPTIONCSTR(_options[Enums::Config::Options::ALLOW_MIXED_ALIGNMENT_PARTY]));
 	_settings->SetValue(
-		"Gameplay", CSTR(GAME_STAT_LOSS_ON_LEVEL_UP), BOOL2OPTIONCSTR(_options[Enums::Options::DICE_ROLLS]));
+		"Gameplay", CSTR(GAME_STAT_LOSS_ON_LEVEL_UP), BOOL2OPTIONCSTR(_options[Enums::Config::Options::DICE_ROLLS]));
 	_settings->SetValue("Gameplay", CSTR(GAME_REROLL_HIT_POINTS_ON_LEVEL_GAIN),
-		BOOL2OPTIONCSTR(_options[Enums::Options::REROLL_HIT_POINTS_ON_LEVEL_GAIN]));
+		BOOL2OPTIONCSTR(_options[Enums::Config::Options::REROLL_HIT_POINTS_ON_LEVEL_GAIN]));
 	_settings->SetValue("Gameplay", CSTR(GAME_STAT_RESET_ON_CLASS_CHANGE),
-		BOOL2OPTIONCSTR(_options[Enums::Options::STAT_RESET_ON_CLASS_CHANGE]));
+		BOOL2OPTIONCSTR(_options[Enums::Config::Options::STAT_RESET_ON_CLASS_CHANGE]));
+	_settings->SetValue("Gameplay", CSTR(GAME_AGING_ON_CLASS_CHANGE),
+		BOOL2OPTIONCSTR(_options[Enums::Config::Options::AGING_ON_CLASS_CHANGE]));
 	_settings->SetValue(
-		"Gameplay", CSTR(GAME_AGING_ON_CLASS_CHANGE), BOOL2OPTIONCSTR(_options[Enums::Options::AGING_ON_CLASS_CHANGE]));
-	_settings->SetValue(
-		"Gameplay", CSTR(GAME_PROTECT_TELEPORT), BOOL2OPTIONCSTR(_options[Enums::Options::PROTECT_TELEPORT]));
-	_settings->SetValue(
-		"Gameplay", CSTR(GAME_ALLOW_RANGED_WEAPONS), BOOL2OPTIONCSTR(_options[Enums::Options::ALLOW_RANGED_WEAPONS]));
+		"Gameplay", CSTR(GAME_PROTECT_TELEPORT), BOOL2OPTIONCSTR(_options[Enums::Config::Options::PROTECT_TELEPORT]));
+	_settings->SetValue("Gameplay", CSTR(GAME_ALLOW_RANGED_WEAPONS),
+		BOOL2OPTIONCSTR(_options[Enums::Config::Options::ALLOW_RANGED_WEAPONS]));
 	_settings->SetValue("Gameplay", CSTR(GAME_SPELLCASTING_IN_SURPRISE_ROUND),
-		BOOL2OPTIONCSTR(_options[Enums::Options::SPELLCASTING_IN_SURPRISE_ROUND]));
+		BOOL2OPTIONCSTR(_options[Enums::Config::Options::SPELLCASTING_IN_SURPRISE_ROUND]));
 	_settings->SetValue("Gameplay", CSTR(GAME_BATCH_HEALING_AFTER_RETURN_TO_CASTLE),
-		BOOL2OPTIONCSTR(_options[Enums::Options::BATCH_HEALING_AFTER_RETURN_TO_CASTLE]));
-	_settings->SetValue(
-		"Gameplay", CSTR(GAME_REROLL_ONES_ON_DICE), BOOL2OPTIONCSTR(_options[Enums::Options::REROLL_ONES_ON_DICE]));
+		BOOL2OPTIONCSTR(_options[Enums::Config::Options::BATCH_HEALING_AFTER_RETURN_TO_CASTLE]));
+	_settings->SetValue("Gameplay", CSTR(GAME_REROLL_ONES_ON_DICE),
+		BOOL2OPTIONCSTR(_options[Enums::Config::Options::REROLL_ONES_ON_DICE]));
 
-	_settings->SetValue(
-		"Gameplay", CSTR(GAME_ALLOW_LOST_LEGATED), BOOL2OPTIONCSTR(_options[Enums::Options::ALLOW_LOST_LEGATED]));
-	_settings->SetValue(
-		"Gameplay", CSTR(GAME_ALLOW_CURABLE_DRAIN), BOOL2OPTIONCSTR(_options[Enums::Options::ALLOW_CURABLE_DRAIN]));
+	_settings->SetValue("Gameplay", CSTR(GAME_ALLOW_LOST_LEGATED),
+		BOOL2OPTIONCSTR(_options[Enums::Config::Options::ALLOW_LOST_LEGATED]));
+	_settings->SetValue("Gameplay", CSTR(GAME_ALLOW_CURABLE_DRAIN),
+		BOOL2OPTIONCSTR(_options[Enums::Config::Options::ALLOW_CURABLE_DRAIN]));
 	_settings->SetValue("Gameplay", CSTR(GAME_ALLOW_SHARED_INVENTORY),
-		BOOL2OPTIONCSTR(_options[Enums::Options::ALLOW_SHARED_INVENTORY]));
+		BOOL2OPTIONCSTR(_options[Enums::Config::Options::ALLOW_SHARED_INVENTORY]));
 	_settings->SetValue("Gameplay", CSTR(GAME_CAMPING_RESTORE_SPELL_POINTS),
-		BOOL2OPTIONCSTR(_options[Enums::Options::CAMPING_RESTORE_SPELL_POINTS]));
-	_settings->SetValue("Gameplay", CSTR(GAME_CHARGED_ITEMS), BOOL2OPTIONCSTR(_options[Enums::Options::CHARGED_ITEMS]));
+		BOOL2OPTIONCSTR(_options[Enums::Config::Options::CAMPING_RESTORE_SPELL_POINTS]));
+	_settings->SetValue(
+		"Gameplay", CSTR(GAME_CHARGED_ITEMS), BOOL2OPTIONCSTR(_options[Enums::Config::Options::CHARGED_ITEMS]));
 
 	SI_Error result{_settings->SaveFile(CSTR(_config_fp))};
 	return (result >= 0);
