@@ -306,15 +306,7 @@ namespace Enums::Magic {
 	};
 }
 
-// Management Menu
 namespace Enums::Manage {
-
-	enum class Roster {
-		NO_MODE,
-		INSPECT,
-		EDIT,
-		DELETE
-	};
 
 	enum class Method {
 		FULL = 0,
@@ -323,7 +315,6 @@ namespace Enums::Manage {
 	};
 }
 
-// Character Stuff
 namespace Enums::Character {
 
 	enum class Location {
@@ -501,7 +492,6 @@ namespace Enums::Character {
 	};
 }
 
-// System
 namespace Enums::System {
 
 	// Quick Start
@@ -594,7 +584,6 @@ namespace Enums::MainMenu {
 	};
 }
 
-// Menu
 namespace Enums::Menu {
 
 	// Menu Types
@@ -845,147 +834,116 @@ namespace Enums::Menu {
 	};
 }
 
-namespace Enums {
+namespace Enums::Map {
 
-	namespace Map {
+	enum class Direction {
+		NO_DIRECTION = -1,
+		NORTH = 0,
+		EAST = 1,
+		SOUTH = 2,
+		WEST = 3
+	};
 
-		enum class Direction {
-			NO_DIRECTION = -1,
-			NORTH = 0,
-			EAST = 1,
-			SOUTH = 2,
-			WEST = 3
-		};
+	enum class Type {
+		NO_MAP = -1,
+		EMPTY = 0,
+		START = 1,
+		TUTORIAL = 2,
+		MAZE = 3
+	};
 
-		enum class Type {
-			NO_MAP = -1,
-			EMPTY = 0,
-			START = 1,
-			TUTORIAL = 2,
-			MAZE = 3
-		};
+	enum class Event {
 
-		enum class Event {
+		NO_EVENT = -1,
+		AREA_OF_OUT_BOUNDS = 0,
+		MAN_TELEPORT_CASTLE = 1,
+		SILVER_KEY = 2,
+		BRONZE_KEY = 3,
+		MURPHYS_GHOSTS = 4,
+		BEAR_STATUE = 5,
+		FROG_STATUE = 6,
+		GOLD_KEY = 7,
+		NEED_SILVER_KEY = 8,
+		NEED_BRONZE_KEY = 9,
+		NEED_BEAR_STATUE = 10,
+		NEED_FROG_STATUE = 11,
+		PLACARD_PIT_1 = 12,
+		PLACARD_PIT_2 = 13,
+		PLACARD_PIT_3 = 14,
+		TURN_AROUND = 15,
+		TURN_LEFT = 16,
+		TURN_RIGHT = 17,
+		NEED_BEAR_STATUE_2 = 18,
+		TESTING_GROUNDS = 19,
+		ALARM_BELLS = 20,
+		TREASURE_REPOSITORY = 21,
+		MONSTER_ALLOCATION_CENTRE = 22,
+		LARGE_DESK = 23,
+		TREBOR_VOICE = 24,
+		SERVICE_ELEVATOR = 25,
+		WERDNA_BOAST = 26,
+		TURN_BACK = 27,
+		WERDNA_SIGN = 28,
+		THREE_HUMANOIDS = 29,
+		GETTING_WARM_1 = 30,
+		GETTING_WARM_2 = 31,
+		GETTING_WARM_3 = 32,
+		FIRE_DRAGONS_COMBAT = 33,
+		DEADLY_RING_COMBAT = 34,
+		WERDNA_COMBAT = 35,
+		GUARANTEED_COMBAT = 36,
+		NEED_BLUE_RIBBON = 37
+	};
 
-			NO_EVENT = -1,
-			AREA_OF_OUT_BOUNDS = 0,
-			MAN_TELEPORT_CASTLE = 1,
-			SILVER_KEY = 2,
-			BRONZE_KEY = 3,
-			MURPHYS_GHOSTS = 4,
-			BEAR_STATUE = 5,
-			FROG_STATUE = 6,
-			GOLD_KEY = 7,
-			NEED_SILVER_KEY = 8,
-			NEED_BRONZE_KEY = 9,
-			NEED_BEAR_STATUE = 10,
-			NEED_FROG_STATUE = 11,
-			PLACARD_PIT_1 = 12,
-			PLACARD_PIT_2 = 13,
-			PLACARD_PIT_3 = 14,
-			TURN_AROUND = 15,
-			TURN_LEFT = 16,
-			TURN_RIGHT = 17,
-			NEED_BEAR_STATUE_2 = 18,
-			TESTING_GROUNDS = 19,
-			ALARM_BELLS = 20,
-			TREASURE_REPOSITORY = 21,
-			MONSTER_ALLOCATION_CENTRE = 22,
-			LARGE_DESK = 23,
-			TREBOR_VOICE = 24,
-			SERVICE_ELEVATOR = 25,
-			WERDNA_BOAST = 26,
-			TURN_BACK = 27,
-			WERDNA_SIGN = 28,
-			THREE_HUMANOIDS = 29,
-			GETTING_WARM_1 = 30,
-			GETTING_WARM_2 = 31,
-			GETTING_WARM_3 = 32,
-			FIRE_DRAGONS_COMBAT = 33,
-			DEADLY_RING_COMBAT = 34,
-			WERDNA_COMBAT = 35,
-			GUARANTEED_COMBAT = 36,
-			NEED_BLUE_RIBBON = 37
-		};
-
-	}
-
-	namespace View {
-
-		namespace Message {
-
-			enum class Position {
-				NO_POSITION = -1,
-				MIDDLE = 0,
-				TOP = 1,
-				BOTTOM = 2
-			};
-		}
-	}
-
-	namespace Tile {
-
-		enum class Edge {
-			NO_EDGE = 0,
-			WALL = 1,
-			UNLOCKED_DOOR = 2,
-			LOCKED_DOOR = 3,
-			HIDDEN_DOOR = 4,
-			ONE_WAY_DOOR = 5,
-			ONE_WAY_HIDDEN_DOOR = 6,
-			ONE_WAY_WALL = 7,
-			SECRET_DOOR = 8,
-			SECRET_WALL = 9
-		};
-
-		enum class Properties {
-			WALKABLE = 0,
-			ROCK = 1,
-			EXPLORED = 2,
-			DARKNESS = 3,
-			ANTIMAGIC = 4
-		};
-
-		enum class Features {
-			NO_FEATURE = 0,
-			SPINNER = 1,
-			PIT = 2,
-			TELEPORT_FROM = 3,
-			POOL = 4,
-			FOUNTAIN = 5,
-			MESSAGE = 6,
-			MOVEMENT_NORTH = 7,
-			MOVEMENT_SOUTH = 8,
-			MOVEMENT_EAST = 9,
-			MOVEMENT_WEST = 10,
-			STAIRS_UP = 11,
-			STAIRS_DOWN = 12,
-			LADDER_UP = 13,
-			LADDER_DOWN = 14,
-			TELEPORT_TO = 15,
-			PORTAL = 16,
-			ELEVATOR = 17,
-			NOTICE = 18,
-			ELEVATOR_UP = 19,
-			ELEVATOR_DOWN = 20,
-			CHUTE = 21
-		};
-
-	}
-
-	namespace Combat {
-
-		enum class Type {
-			NO_COMBAT = -1,
-			RANDOM = 0,
-			ROOM = 1,
-			MURPHYS_GHOSTS = 2,
-			RING_PARTY = 3,
-			DRAGONS = 4,
-			WERDNA = 5
-		};
-
-	}
 }
 
+namespace Enums::Tile {
+
+	enum class Edge {
+		NO_EDGE = 0,
+		WALL = 1,
+		UNLOCKED_DOOR = 2,
+		LOCKED_DOOR = 3,
+		HIDDEN_DOOR = 4,
+		ONE_WAY_DOOR = 5,
+		ONE_WAY_HIDDEN_DOOR = 6,
+		ONE_WAY_WALL = 7,
+		SECRET_DOOR = 8,
+		SECRET_WALL = 9
+	};
+
+	enum class Properties {
+		WALKABLE = 0,
+		ROCK = 1,
+		EXPLORED = 2,
+		DARKNESS = 3,
+		ANTIMAGIC = 4
+	};
+
+	enum class Features {
+		NO_FEATURE = 0,
+		SPINNER = 1,
+		PIT = 2,
+		TELEPORT_FROM = 3,
+		POOL = 4,
+		FOUNTAIN = 5,
+		MESSAGE = 6,
+		MOVEMENT_NORTH = 7,
+		MOVEMENT_SOUTH = 8,
+		MOVEMENT_EAST = 9,
+		MOVEMENT_WEST = 10,
+		STAIRS_UP = 11,
+		STAIRS_DOWN = 12,
+		LADDER_UP = 13,
+		LADDER_DOWN = 14,
+		TELEPORT_TO = 15,
+		PORTAL = 16,
+		ELEVATOR = 17,
+		NOTICE = 18,
+		ELEVATOR_UP = 19,
+		ELEVATOR_DOWN = 20,
+		CHUTE = 21
+	};
+
+}
 }

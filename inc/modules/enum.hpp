@@ -87,12 +87,20 @@ namespace Enums::Castle {
 		TITHE,
 		INSPECT
 	};
+
+	enum class Roster {
+		NO_MODE,
+		INSPECT,
+		EDIT,
+		DELETE
+	};
 }
 
 using InnStage = Enums::Castle::Inn;
 using RestMode = Enums::Castle::Rest::Mode;
 using RestStage = Enums::Castle::Rest::Stage;
 using RestType = Enums::Castle::Rest::Type;
+using RosterMode = Enums::Castle::Roster;
 using ShopStage = Enums::Castle::Shop;
 using TavernStage = Enums::Castle::Tavern;
 using TempleStage = Enums::Castle::Temple;

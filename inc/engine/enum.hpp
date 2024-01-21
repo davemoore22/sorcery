@@ -54,6 +54,21 @@ namespace Enums::Items {
 
 }
 
+namespace Enums::Combat {
+
+	enum class Type {
+		NO_COMBAT = -1,
+		RANDOM = 0,
+		ROOM = 1,
+		MURPHYS_GHOSTS = 2,
+		RING_PARTY = 3,
+		DRAGONS = 4,
+		WERDNA = 5
+	};
+
+}
+
+using CombatType = Enums::Combat::Type;
 using EventGraphic = Enums::Graphics::Event;
 using ItemQuest = Enums::Items::Quest;
 
