@@ -28,6 +28,7 @@
 #include "common/macro.hpp"
 #include "core/system.hpp"
 #include "resources/define.hpp"
+#include "types/enum.hpp"
 #include "types/monster.hpp"
 #include "types/monstertype.hpp"
 
