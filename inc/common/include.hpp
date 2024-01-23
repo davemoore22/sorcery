@@ -25,14 +25,12 @@
 #pragma once
 
 // Library Includes
+// IWYU pragma: begin_keep
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
-#include <TGUI/TGUI.hpp>
-#include <Thor/Graphics.hpp>
-#include <Thor/Resources.hpp>
 #include <jsoncpp/json/json.h>
 
 // External Includes
@@ -72,6 +70,7 @@
 #include "sfeMovie/Movie.hpp"
 #include "sqlitemoderncpp/sqlite_modern_cpp.h"
 #pragma GCC diagnostic pop
+// IWYU pragma: end_keep
 
 // Standard Includes
 #include <algorithm>

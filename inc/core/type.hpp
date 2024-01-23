@@ -28,6 +28,8 @@
 #include "common/include.hpp"
 #include "common/macro.hpp"
 #include "common/type.hpp"
+#include "core/macro.hpp"
+#include "types/macro.hpp"
 
 namespace Sorcery {
 
@@ -100,6 +102,22 @@ struct ImageSize {
 
 		unsigned int w;
 		unsigned int h;
+};
+
+struct ShopStock {
+
+		ShopStock() : initial_stock{0}, current_stock{0}, buyable{false}, sellable{false} {};
+		ShopStock(int initial_stock_, int current_stock_, bool buyable_, bool sellable_)
+			: initial_stock{initial_stock_}, current_stock{current_stock_}, buyable{buyable_}, sellable{sellable_} {};
+
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(initial_stock, current_stock, buyable, sellable);
+		}
+
+		int initial_stock;
+		int current_stock;
+		bool buyable;
+		bool sellable;
 };
 
 }

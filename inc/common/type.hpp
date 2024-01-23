@@ -32,25 +32,6 @@
 
 namespace Sorcery {
 
-// Note that we need to use full details in here as aliases haven't yet been
-// set up in common/*.hpp files when we include enums.hpp (not sure why - need to investigate)
-
-struct ShopStock {
-
-		ShopStock() : initial_stock{0}, current_stock{0}, buyable{false}, sellable{false} {};
-		ShopStock(int initial_stock_, int current_stock_, bool buyable_, bool sellable_)
-			: initial_stock{initial_stock_}, current_stock{current_stock_}, buyable{buyable_}, sellable{sellable_} {};
-
-		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(initial_stock, current_stock, buyable, sellable);
-		}
-
-		int initial_stock;
-		int current_stock;
-		bool buyable;
-		bool sellable;
-};
-
 // Struct to represent a menu entry
 struct MenuEntry {
 		MenuEntry()
@@ -186,43 +167,6 @@ struct Spell {
 		std::string name;
 		std::string translated_name;
 		std::string details;
-};
-
-struct Elevator {
-		bool up;
-		Coordinate up_loc;
-		bool down;
-		Coordinate down_loc;
-		int top_depth;
-		int bottom_depth;
-
-		Elevator()
-			: up{false}, up_loc{Coordinate{0, 0}}, down{false}, down_loc{Coordinate{0, 0}}, top_depth{0},
-			  bottom_depth{0} {};
-
-		Elevator(bool up_, Coordinate up_loc_, bool down_, Coordinate down_loc_, int top_depth_, int bottom_depth_)
-			: up{up_}, up_loc{up_loc_}, down{down_}, down_loc{down_loc_}, top_depth{top_depth_},
-			  bottom_depth{bottom_depth_} {};
-
-		// Serialisation
-		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(up, up_loc, down_loc, top_depth, bottom_depth);
-		}
-};
-
-struct Teleport {
-		int to_level;
-		Coordinate to_loc;
-
-		Teleport() : to_level{0}, to_loc{Coordinate{0, 0}} {};
-
-		Teleport(int to_level_, Coordinate to_loc_) : to_level{to_level_}, to_loc{to_loc_} {
-		}
-
-		// Serialisation
-		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(to_level, to_loc);
-		}
 };
 
 struct DungeonEvent {

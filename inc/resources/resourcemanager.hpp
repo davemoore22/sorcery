@@ -27,6 +27,7 @@
 #include "common/include.hpp"
 #include "resources/define.hpp"
 #include "resources/filestore.hpp"
+#include "resources/include.hpp"
 #include "types/textfile.hpp"
 
 namespace Sorcery {

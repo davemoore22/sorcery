@@ -24,24 +24,8 @@
 
 #pragma once
 
-#include "common/include.hpp"
-
-namespace Sorcery {
-
-// Macro to convert std::string to C string
-inline auto CSTR(const std::string &string) -> const char * {
-
-	return !string.empty() ? (char *)string.c_str() : (char *)"";
-}
-
-// Timepoint to String
-inline auto TP2STR(const std::chrono::time_point<std::chrono::system_clock> tp) -> std::string {
-
-	// Need to do it this way til std::chrono::locate_zone etc is supported
-	auto t{std::chrono::system_clock::to_time_t(tp)};
-	std::string ts{std::ctime(&t)};
-	ts.resize(ts.size() - 1);
-	return ts;
-}
-
-}
+// Library Includes
+// IWYU pragma: begin_keep
+#include <TGUI/TGUI.hpp>
+#include <Thor/Graphics.hpp>
+// IWYU pragma: end_keep

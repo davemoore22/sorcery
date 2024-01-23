@@ -25,23 +25,45 @@
 #pragma once
 
 #include "common/include.hpp"
+#include "common/type.hpp"
 
 namespace Sorcery {
 
-// Macro to convert std::string to C string
-inline auto CSTR(const std::string &string) -> const char * {
+struct Elevator {
+		bool up;
+		Coordinate up_loc;
+		bool down;
+		Coordinate down_loc;
+		int top_depth;
+		int bottom_depth;
 
-	return !string.empty() ? (char *)string.c_str() : (char *)"";
-}
+		Elevator()
+			: up{false}, up_loc{Coordinate{0, 0}}, down{false}, down_loc{Coordinate{0, 0}}, top_depth{0},
+			  bottom_depth{0} {};
 
-// Timepoint to String
-inline auto TP2STR(const std::chrono::time_point<std::chrono::system_clock> tp) -> std::string {
+		Elevator(bool up_, Coordinate up_loc_, bool down_, Coordinate down_loc_, int top_depth_, int bottom_depth_)
+			: up{up_}, up_loc{up_loc_}, down{down_}, down_loc{down_loc_}, top_depth{top_depth_},
+			  bottom_depth{bottom_depth_} {};
 
-	// Need to do it this way til std::chrono::locate_zone etc is supported
-	auto t{std::chrono::system_clock::to_time_t(tp)};
-	std::string ts{std::ctime(&t)};
-	ts.resize(ts.size() - 1);
-	return ts;
-}
+		// Serialisation
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(up, up_loc, down_loc, top_depth, bottom_depth);
+		}
+};
+
+struct Teleport {
+		int to_level;
+		Coordinate to_loc;
+
+		Teleport() : to_level{0}, to_loc{Coordinate{0, 0}} {};
+
+		Teleport(int to_level_, Coordinate to_loc_) : to_level{to_level_}, to_loc{to_loc_} {
+		}
+
+		// Serialisation
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(to_level, to_loc);
+		}
+};
 
 }
