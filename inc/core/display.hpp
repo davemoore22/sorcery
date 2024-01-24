@@ -26,6 +26,7 @@
 
 #include "common/include.hpp"
 #include "core/define.hpp"
+#include "core/include.hpp"
 #include "core/system.hpp"
 #include "core/type.hpp"
 #include "core/window.hpp"

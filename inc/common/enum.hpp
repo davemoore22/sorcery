@@ -632,7 +632,8 @@ namespace Enums::Menu {
 		MUSEUM,
 		BESTIARY,
 		SHOP_ACTION,
-		SPELLBOOK
+		SPELLBOOK,
+		CHARACTER_ACTIONS
 	};
 
 	enum class Mode {

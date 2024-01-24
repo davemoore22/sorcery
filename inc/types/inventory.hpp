@@ -26,6 +26,7 @@
 
 #include "common/define.hpp"
 #include "common/include.hpp"
+#include "types/include.hpp"
 #include "types/item.hpp"
 #include "types/itemtype.hpp"
 

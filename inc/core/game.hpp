@@ -28,6 +28,7 @@
 #include "core/define.hpp"
 #include "core/display.hpp"
 #include "core/graphics.hpp"
+#include "core/include.hpp"
 #include "core/state.hpp"
 #include "core/system.hpp"
 #include "resources/itemstore.hpp"

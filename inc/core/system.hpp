@@ -27,6 +27,7 @@
 #include "common/include.hpp"
 #include "core/database.hpp"
 #include "core/define.hpp"
+#include "core/include.hpp"
 #include "core/input.hpp"
 #include "core/random.hpp"
 #include "resources/filestore.hpp"

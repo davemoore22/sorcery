@@ -24,47 +24,34 @@
 
 #pragma once
 
-#include "common/include.hpp"
-#include "common/type.hpp"
-#include "types/include.hpp"
-
-namespace Sorcery {
-
-struct Elevator {
-		bool up;
-		Coordinate up_loc;
-		bool down;
-		Coordinate down_loc;
-		int top_depth;
-		int bottom_depth;
-
-		Elevator()
-			: up{false}, up_loc{Coordinate{0, 0}}, down{false}, down_loc{Coordinate{0, 0}}, top_depth{0},
-			  bottom_depth{0} {};
-
-		Elevator(bool up_, Coordinate up_loc_, bool down_, Coordinate down_loc_, int top_depth_, int bottom_depth_)
-			: up{up_}, up_loc{up_loc_}, down{down_}, down_loc{down_loc_}, top_depth{top_depth_},
-			  bottom_depth{bottom_depth_} {};
-
-		// Serialisation
-		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(up, up_loc, down_loc, top_depth, bottom_depth);
-		}
-};
-
-struct Teleport {
-		int to_level;
-		Coordinate to_loc;
-
-		Teleport() : to_level{0}, to_loc{Coordinate{0, 0}} {};
-
-		Teleport(int to_level_, Coordinate to_loc_) : to_level{to_level_}, to_loc{to_loc_} {
-		}
-
-		// Serialisation
-		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(to_level, to_loc);
-		}
-};
-
-}
+// Library Includes
+// IWYU pragma: begin_keep
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wswitch-default"
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#ifndef __clang__
+#pragma GCC diagnostic ignored "-Wvolatile" // NOLINT(clang-diagnostic-unknown-warning-option)
+#endif
+#pragma GCC diagnostic ignored "-Wignored-qualifiers"
+#pragma GCC diagnostic ignored "-Wreorder"
+#pragma GCC diagnostic ignored "-Wreturn-type"
+#pragma GCC diagnostic ignored "-Weffc++"
+#pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
+#pragma GCC diagnostic ignored "-Wshadow"
+#ifdef __clang__
+#pragma GCC diagnostic ignored "-Wunqualified-std-cast-call"
+#endif
+// clang-format off
+#include "cereal/cereal.hpp"
+#include "cereal/archives/xml.hpp"
+#include "cereal/types/array.hpp"
+#include "cereal/types/bitset.hpp"
+#include "cereal/types/chrono.hpp"
+#include "cereal/types/map.hpp"
+#include "cereal/types/memory.hpp"
+#include "cereal/types/optional.hpp"
+#include "cereal/types/string.hpp"
+#include "cereal/types/unordered_map.hpp"
+#include "cereal/types/vector.hpp"
+// clang-format on
+// IWYU pragma: end_keep

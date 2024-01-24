@@ -28,6 +28,7 @@
 #include "common/macro.hpp"
 #include "core/system.hpp"
 #include "resources/define.hpp"
+#include "resources/include.hpp"
 #include "types/enum.hpp"
 #include "types/item.hpp"
 #include "types/itemtype.hpp"

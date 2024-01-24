@@ -28,6 +28,7 @@
 
 #include "core/system.hpp"
 #include "resources/define.hpp"
+#include "resources/include.hpp"
 #include "resources/type.hpp"
 
 namespace Sorcery {
