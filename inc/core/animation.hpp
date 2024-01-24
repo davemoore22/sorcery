@@ -26,11 +26,13 @@
 
 #include "common/include.hpp"
 #include "core/define.hpp"
-#include "core/display.hpp"
 #include "core/include.hpp"
-#include "core/system.hpp"
 
 namespace Sorcery {
+
+// Forward Declarations
+class Display;
+class System;
 
 class Animation {
 

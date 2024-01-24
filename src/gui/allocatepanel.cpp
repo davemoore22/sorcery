@@ -23,6 +23,15 @@
 // resulting work.
 
 #include "gui/allocatepanel.hpp"
+#include "core/display.hpp"
+#include "core/graphics.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "gui/frame.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/iconstore.hpp"
+#include "resources/resourcemanager.hpp"
+#include "types/character.hpp"
 
 Sorcery::AllocatePanel::AllocatePanel(System *system, Display *display, Graphics *graphics, Character *character)
 	: _system{system}, _display{display}, _graphics{graphics}, _character{character} {

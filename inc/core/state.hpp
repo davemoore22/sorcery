@@ -27,14 +27,15 @@
 #include "common/include.hpp"
 #include "core/define.hpp"
 #include "core/include.hpp"
-#include "core/system.hpp"
 #include "core/type.hpp"
-#include "resources/itemstore.hpp"
-#include "types/character.hpp"
 #include "types/explore.hpp"
 #include "types/level.hpp"
 
 namespace Sorcery {
+
+// Forward Declarations
+class ItemStore;
+class System;
 
 // State holds the changable game data
 class State {

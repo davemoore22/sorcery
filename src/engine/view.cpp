@@ -23,6 +23,12 @@
 // the resulting work.
 
 #include "engine/view.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/system.hpp"
+#include "resources/componentstore.hpp"
+#include "types/component.hpp"
 
 // Standard Constructor
 Sorcery::View::View(System *system, Display *display, Graphics *graphics, Game *game)

@@ -25,15 +25,16 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "core/display.hpp"
-#include "core/graphics.hpp"
-#include "core/system.hpp"
-#include "resources/componentstore.hpp"
-#include "types/character.hpp"
+#include "types/component.hpp"
 
 namespace Sorcery {
 
+// Forward Declarations
+class Character;
 class Display;
+class Frame;
+class Graphics;
+class System;
 
 class AllocatePanel: public sf::Transformable, public sf::Drawable {
 

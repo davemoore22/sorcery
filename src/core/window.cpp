@@ -23,6 +23,9 @@
 // the resulting work.
 
 #include "core/window.hpp"
+#include "core/system.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/stringstore.hpp"
 
 // Standard Constructor
 Sorcery::Window::Window(System *system, StringStore *string, ComponentStore *layout, const std::string &title)

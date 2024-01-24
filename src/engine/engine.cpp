@@ -23,6 +23,27 @@
 // the resulting work.
 
 #include "engine/engine.hpp"
+#include "common/macro.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/random.hpp"
+#include "core/state.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "engine/define.hpp"
+#include "engine/event.hpp"
+#include "frontend/options.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/levelstore.hpp"
+#include "resources/stringstore.hpp"
+#include "types/character.hpp"
+#include "types/component.hpp"
+#include "types/explore.hpp"
+#include "types/level.hpp"
+#include "types/tile.hpp"
+#include "types/type.hpp"
 
 // Standard Constructor
 Sorcery::Engine::Engine(System *system, Display *display, Graphics *graphics, Game *game)

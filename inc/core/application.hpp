@@ -27,34 +27,35 @@
 #include "common/define.hpp"
 #include "common/include.hpp"
 #include "core/define.hpp"
-#include "core/display.hpp"
-#include "core/game.hpp"
-#include "core/graphics.hpp"
-#include "core/system.hpp"
-#include "engine/engine.hpp"
-#include "frontend/banner.hpp"
-#include "frontend/compendium.hpp"
-#include "frontend/define.hpp"
-#include "frontend/license.hpp"
-#include "frontend/mainmenu.hpp"
-#include "frontend/options.hpp"
-#include "frontend/splash.hpp"
-#include "modules/castle.hpp"
-#include "modules/edgeoftown.hpp"
-#include "modules/inn.hpp"
-#include "modules/restart.hpp"
-#include "modules/shop.hpp"
-#include "modules/tavern.hpp"
-#include "modules/temple.hpp"
-#include "modules/training.hpp"
 
 namespace Sorcery {
+
+// Forward Declarations
+class Banner;
+class Castle;
+class Compendium;
+class Display;
+class EdgeOfTown;
+class Engine;
+class Game;
+class Graphics;
+class Inn;
+class License;
+class MainMenu;
+class Options;
+class Restart;
+class Shop;
+class Splash;
+class System;
+class Tavern;
+class Temple;
+class Training;
 
 // Application is a container class to hold the entire game structure, data, and any associated meta-objects. Only one
 // instance is ever created, at start-up, and it is (automatically) freed just before the game is exited. This class is
 // responsible for creating the various subclasses to handle all the other parts of the game. It's technically not a
 // singleton even though only one instance is ever created in main.cpp as there's nothing to prevent another copy being
-// created, and game state isn’t held in this class. So there!
+// created.
 class Application {
 
 	public:

@@ -23,6 +23,10 @@
 // the resulting work.l
 
 #include "core/display.hpp"
+#include "core/system.hpp"
+#include "gui/frame.hpp"
+#include "resources/filestore.hpp"
+#include "resources/resourcemanager.hpp"
 
 // Standard Constructor
 Sorcery::Display::Display(System *system) : _system{system} {

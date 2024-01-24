@@ -23,6 +23,12 @@
 // resulting work.
 
 #include "gui/compass.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/state.hpp"
+#include "core/system.hpp"
+#include "resources/iconstore.hpp"
 
 Sorcery::Compass::Compass(System *system, Display *display, Graphics *graphics, Game *game, Component layout)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _layout{layout} {

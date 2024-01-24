@@ -26,17 +26,20 @@
 
 #include "common/include.hpp"
 #include "core/define.hpp"
-#include "core/display.hpp"
-#include "core/graphics.hpp"
 #include "core/include.hpp"
 #include "core/state.hpp"
-#include "core/system.hpp"
+
 #include "resources/itemstore.hpp"
 #include "resources/levelstore.hpp"
 #include "resources/monsterstore.hpp"
 #include "types/character.hpp"
 
 namespace Sorcery {
+
+// Forward Declarations
+class Display;
+class Graphics;
+class System;
 
 // Game holds the current active game in progress
 class Game {

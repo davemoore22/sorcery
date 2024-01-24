@@ -23,6 +23,13 @@
 // resulting work.
 
 #include "gui/iconpanel.hpp"
+#include "core/animation.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/system.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/iconstore.hpp"
 
 Sorcery::IconPanel::IconPanel(
 	System *system, Display *display, Graphics *graphics, Game *game, Component layout, bool is_left)

@@ -23,6 +23,18 @@
 // the resulting work.
 
 #include "modules/tavern.hpp"
+#include "common/type.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/state.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "engine/reorder.hpp"
+#include "resources/componentstore.hpp"
+#include "types/character.hpp"
+#include "types/component.hpp"
 
 // Standard Constructor
 Sorcery::Tavern::Tavern(System *system, Display *display, Graphics *graphics, Game *game)

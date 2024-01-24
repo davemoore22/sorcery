@@ -23,6 +23,8 @@
 // the resulting work.
 
 #include "core/state.hpp"
+#include "core/system.hpp"
+#include "resources/itemstore.hpp"
 
 // Constructor used by Cereal to serialise this item
 Sorcery::State::State() {

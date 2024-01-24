@@ -23,6 +23,15 @@
 // the resulting work.
 
 #include "engine/render.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/state.hpp"
+#include "core/system.hpp"
+#include "engine/define.hpp"
+#include "engine/type.hpp"
+#include "resources/resourcemanager.hpp"
+#include "types/level.hpp"
 
 // Standard Constructor
 Sorcery::Render::Render(System *system, Display *display, Graphics *graphics, Game *game)

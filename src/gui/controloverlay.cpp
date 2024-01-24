@@ -23,6 +23,9 @@
 // resulting work.
 
 #include "gui/controloverlay.hpp"
+#include "core/display.hpp"
+#include "core/system.hpp"
+#include "gui/frame.hpp"
 
 // Standard Constructor
 Sorcery::ControlOverlay::ControlOverlay(System *system, Display *display, Component layout)

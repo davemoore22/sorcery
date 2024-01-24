@@ -25,16 +25,14 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "core/display.hpp"
-#include "core/system.hpp"
 #include "gui/enum.hpp"
-#include "gui/frame.hpp"
 #include "resources/componentstore.hpp"
 
 namespace Sorcery {
 
 class Frame;
 class Display;
+class System;
 
 class ControlOverlay: public sf::Transformable, public sf::Drawable {
 

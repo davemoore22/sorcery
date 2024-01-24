@@ -23,6 +23,16 @@
 // the resulting work.
 
 #include "gui/characterpanel.hpp"
+#include "core/display.hpp"
+#include "core/graphics.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "gui/frame.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/iconstore.hpp"
+#include "resources/resourcemanager.hpp"
+#include "resources/texturestore.hpp"
+#include "types/character.hpp"
 
 // Standard Constructor
 Sorcery::CharacterPanel::CharacterPanel(System *system, Display *display, Graphics *graphics)

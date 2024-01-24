@@ -23,6 +23,9 @@
 // the resulting work.
 
 #include "core/game.hpp"
+#include "core/display.hpp"
+#include "core/graphics.hpp"
+#include "core/system.hpp"
 
 // need to load level stores into this
 

@@ -27,25 +27,18 @@
 #include "common/include.hpp"
 #include "core/define.hpp"
 #include "core/include.hpp"
-#include "core/system.hpp"
 #include "core/type.hpp"
 #include "core/window.hpp"
 #include "gui/controloverlay.hpp"
-#include "gui/frame.hpp"
 #include "resources/componentstore.hpp"
 #include "resources/iconstore.hpp"
 #include "resources/stringstore.hpp"
 
-// Forward Declarations
 namespace Sorcery {
 
-class Frame;
+// Forward Declarations
 class System;
-class StringStore;
-class ComponentStore;
-class Window;
-class IconStore;
-class ControlOverlay;
+class Frame;
 
 // Superclass to handle basic display requirements such as Windopw Access, Game Text and so on
 class Display {

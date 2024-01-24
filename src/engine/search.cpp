@@ -23,6 +23,11 @@
 // resulting work.
 
 #include "engine/search.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/system.hpp"
+#include "resources/iconstore.hpp"
 
 Sorcery::Search::Search(System *system, Display *display, Graphics *graphics, Game *game, Component layout)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _layout{layout} {

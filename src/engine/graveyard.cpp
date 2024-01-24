@@ -23,6 +23,25 @@
 // the resulting work.
 
 #include "engine/graveyard.hpp"
+#include "common/enum.hpp"
+#include "common/macro.hpp"
+#include "common/type.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/state.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "engine/enum.hpp"
+#include "gui/frame.hpp"
+#include "gui/menu.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/resourcemanager.hpp"
+#include "resources/stringstore.hpp"
+#include "resources/texturestore.hpp"
+#include "types/character.hpp"
+#include "types/component.hpp"
 
 // Standard Constructor
 Sorcery::Graveyard::Graveyard(System *system, Display *display, Graphics *graphics, Game *game)

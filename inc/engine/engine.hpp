@@ -25,21 +25,13 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "common/macro.hpp"
-#include "core/display.hpp"
-#include "core/game.hpp"
-#include "core/graphics.hpp"
-#include "core/system.hpp"
-#include "engine/define.hpp"
-#include "engine/encounter.hpp"
+#include "common/type.hpp"
 #include "engine/enum.hpp"
-#include "engine/event.hpp"
 #include "engine/graveyard.hpp"
 #include "engine/inspect.hpp"
 #include "engine/render.hpp"
 #include "engine/reorder.hpp"
 #include "engine/search.hpp"
-#include "frontend/options.hpp"
 #include "gui/automap.hpp"
 #include "gui/buffbar.hpp"
 #include "gui/characterdisplay.hpp"
@@ -47,12 +39,20 @@
 #include "gui/console.hpp"
 #include "gui/debuffbar.hpp"
 #include "gui/dialog.hpp"
+#include "gui/frame.hpp"
 #include "gui/iconpanel.hpp"
 #include "gui/map.hpp"
 #include "gui/menu.hpp"
 #include "gui/partypanel.hpp"
 
 namespace Sorcery {
+
+// Forward Declarations
+class Character;
+class Display;
+class Game;
+class Graphics;
+class System;
 
 class Engine {
 

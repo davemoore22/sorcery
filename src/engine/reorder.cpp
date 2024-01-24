@@ -23,6 +23,19 @@
 // the resulting work.
 
 #include "engine/reorder.hpp"
+#include "common/type.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "gui/frame.hpp"
+#include "gui/menu.hpp"
+#include "gui/partypanel.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/resourcemanager.hpp"
+#include "types/character.hpp"
 
 // Standard Constructor
 Sorcery::Reorder::Reorder(System *system, Display *display, Graphics *graphics, Game *game, MenuMode mode)

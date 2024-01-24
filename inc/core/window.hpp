@@ -29,14 +29,17 @@
 #include "core/define.hpp"
 #include "core/include.hpp"
 #include "core/platform.hpp"
-#include "core/system.hpp"
 #include "core/type.hpp"
-#include "resources/componentstore.hpp"
-#include "resources/stringstore.hpp"
 
-// Class to act as a wrapper around SFML Window etc
 namespace Sorcery {
 
+// Forward Declarations
+class Component;
+class ComponentStore;
+class StringStore;
+class System;
+
+// Class to act as a wrapper around SFML Window etc
 class Window {
 
 	public:

@@ -28,12 +28,14 @@
 #include "common/macro.hpp"
 #include "core/animation.hpp"
 #include "core/define.hpp"
-#include "core/display.hpp"
-#include "core/system.hpp"
 #include "resources/iconstore.hpp"
 #include "resources/texturestore.hpp"
 
 namespace Sorcery {
+
+// Forward Declarations
+class Display;
+class System;
 
 // Superclass to handle graphics specific functionality such as animation
 class Graphics {

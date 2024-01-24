@@ -23,6 +23,19 @@
 // resulting work.
 
 #include "gui/map.hpp"
+#include "common/macro.hpp"
+#include "common/type.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/state.hpp"
+#include "core/system.hpp"
+#include "gui/enum.hpp"
+#include "resources/resourcemanager.hpp"
+#include "resources/texturestore.hpp"
+#include "types/explore.hpp"
+#include "types/level.hpp"
+#include "types/tile.hpp"
 
 Sorcery::Map::Map(System *system, Display *display, Graphics *graphics, Game *game, Component layout)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _layout{layout} {

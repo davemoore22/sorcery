@@ -23,6 +23,15 @@
 // the resulting work.
 
 #include "engine/event.hpp"
+#include "common/enum.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/iconstore.hpp"
 
 // Standard Constructor
 Sorcery::Event::Event(

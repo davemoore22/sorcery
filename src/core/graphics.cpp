@@ -23,6 +23,8 @@
 // the resulting work.
 
 #include "core/graphics.hpp"
+#include "core/display.hpp"
+#include "core/system.hpp"
 
 // Standard Constructor
 Sorcery::Graphics::Graphics(System *system, Display *display) : _system{system}, _display{display} {

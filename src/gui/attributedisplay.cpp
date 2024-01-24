@@ -23,6 +23,14 @@
 // resulting work.
 
 #include "gui/attributedisplay.hpp"
+#include "core/display.hpp"
+#include "core/graphics.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/iconstore.hpp"
+#include "resources/resourcemanager.hpp"
+#include "types/character.hpp"
 
 // Standard Constructor
 Sorcery::AttributeDisplay::AttributeDisplay(

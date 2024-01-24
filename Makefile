@@ -60,7 +60,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/dave/sorcery
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/dave/sorcery
+CMAKE_BINARY_DIR = /home/dave/Development/wizardry/sorcery-sfml
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -78,7 +78,7 @@ package/fast: package
 # Special rule for the target package_source
 package_source:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
-	/usr/bin/cpack --config ./CPackSourceConfig.cmake /home/dave/sorcery/CPackSourceConfig.cmake
+	/usr/bin/cpack --config ./CPackSourceConfig.cmake /home/dave/Development/wizardry/sorcery-sfml/CPackSourceConfig.cmake
 .PHONY : package_source
 
 # Special rule for the target package_source
@@ -107,9 +107,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/dave/sorcery/CMakeFiles /home/dave/sorcery//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dave/Development/wizardry/sorcery-sfml/CMakeFiles /home/dave/Development/wizardry/sorcery-sfml//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/dave/sorcery/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dave/Development/wizardry/sorcery-sfml/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

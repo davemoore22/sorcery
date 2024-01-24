@@ -26,15 +26,18 @@
 
 #include "common/include.hpp"
 #include "common/macro.hpp"
-#include "core/display.hpp"
-#include "core/game.hpp"
-#include "core/graphics.hpp"
-#include "core/system.hpp"
-#include "gui/enum.hpp"
+#include "gui/frame.hpp"
+#include "types/component.hpp"
 
 namespace Sorcery {
 
+// Forward Declarations
 class Display;
+class Game;
+class Graphics;
+class System;
+class Tile;
+struct Coordinate;
 
 class AutoMap: public sf::Transformable, public sf::Drawable {
 
