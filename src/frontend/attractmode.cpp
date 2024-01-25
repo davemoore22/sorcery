@@ -23,6 +23,11 @@
 // the resulting work.
 
 #include "frontend/attractmode.hpp"
+#include "common/include.hpp"
+#include "core/graphics.hpp"
+#include "frontend/define.hpp"
+#include "resources/define.hpp"
+#include "resources/texturestore.hpp"
 
 // Standard Constructor
 Sorcery::AttractMode::AttractMode(Graphics *graphics, const Component &component)

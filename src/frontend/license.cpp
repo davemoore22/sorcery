@@ -23,6 +23,16 @@
 // the resulting work.
 
 #include "frontend/license.hpp"
+#include "core/display.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "frontend/define.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/resourcemanager.hpp"
+#include "types/component.hpp"
+#include "types/textfile.hpp"
 
 // Standard Constructor
 Sorcery::License::License(System *system, Display *display, Graphics *graphics)

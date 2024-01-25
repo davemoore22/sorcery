@@ -23,6 +23,18 @@
 // the resulting work.
 
 #include "frontend/options.hpp"
+#include "core/display.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "frontend/define.hpp"
+#include "gui/dialog.hpp"
+#include "gui/infopanel.hpp"
+#include "gui/menu.hpp"
+#include "resources/componentstore.hpp"
+#include "types/configfile.hpp"
+#include "types/enum.hpp"
 
 // Standard Constructor
 Sorcery::Options::Options(System *system, Display *display, Graphics *graphics)

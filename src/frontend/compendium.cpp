@@ -23,6 +23,18 @@
 // the resulting work.
 
 #include "frontend/compendium.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "frontend/bestiary.hpp"
+#include "frontend/define.hpp"
+#include "frontend/museum.hpp"
+#include "gui/menu.hpp"
+#include "resources/componentstore.hpp"
+#include "types/component.hpp"
 
 // Standard Constructor
 Sorcery::Compendium::Compendium(System *system, Display *display, Graphics *graphics, Game *game)

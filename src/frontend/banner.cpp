@@ -23,6 +23,11 @@
 // the resulting work.
 
 #include "frontend/banner.hpp"
+#include "core/display.hpp"
+#include "core/graphics.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "frontend/define.hpp"
 
 // Standard Constructor
 Sorcery::Banner::Banner(System *system, Display *display, Graphics *graphics)

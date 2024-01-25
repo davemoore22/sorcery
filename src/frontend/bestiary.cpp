@@ -24,6 +24,21 @@
 // the resulting work.
 
 #include "frontend/bestiary.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "frontend/define.hpp"
+#include "gui/menu.hpp"
+#include "gui/monsterdisplay.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/monsterstore.hpp"
+#include "resources/texturestore.hpp"
+#include "types/component.hpp"
+#include "types/enum.hpp"
+#include "types/monstertype.hpp"
 
 // Standard Constructor
 Sorcery::Bestiary::Bestiary(System *system, Display *display, Graphics *graphics, Game *game)

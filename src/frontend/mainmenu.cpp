@@ -23,6 +23,20 @@
 // the resulting work.
 
 #include "frontend/mainmenu.hpp"
+#include "common/macro.hpp"
+#include "common/type.hpp"
+#include "core/animation.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "frontend/attractmode.hpp"
+#include "gui/dialog.hpp"
+#include "gui/menu.hpp"
+#include "gui/text.hpp"
+#include "resources/componentstore.hpp"
 
 // Standard Constructor
 Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics, Game *game)

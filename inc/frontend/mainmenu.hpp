@@ -25,19 +25,18 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "common/macro.hpp"
-#include "core/display.hpp"
-#include "core/game.hpp"
-#include "core/graphics.hpp"
-#include "core/system.hpp"
-#include "frontend/attractmode.hpp"
-#include "gui/dialog.hpp"
-#include "gui/frame.hpp"
-#include "gui/menu.hpp"
-#include "gui/text.hpp"
-#include "resources/componentstore.hpp"
 
 namespace Sorcery {
+
+// Forward Declarations
+class AttractMode;
+class Dialog;
+class Display;
+class Game;
+class Graphics;
+class Menu;
+class System;
+class Text;
 
 class MainMenu {
 

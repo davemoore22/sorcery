@@ -25,17 +25,17 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "core/display.hpp"
-#include "core/game.hpp"
-#include "core/graphics.hpp"
-#include "core/system.hpp"
-#include "frontend/define.hpp"
-#include "gui/frame.hpp"
-#include "gui/menu.hpp"
-#include "gui/monsterdisplay.hpp"
-#include "resources/componentstore.hpp"
+#include "common/type.hpp"
 
 namespace Sorcery {
+
+// Forward Declarations
+class Display;
+class Game;
+class Graphics;
+class Menu;
+class MonsterDisplay;
+class System;
 
 class Bestiary {
 

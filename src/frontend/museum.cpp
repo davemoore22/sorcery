@@ -24,6 +24,19 @@
 // the resulting work.
 
 #include "frontend/museum.hpp"
+#include "common/enum.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "frontend/define.hpp"
+#include "gui/itemdisplay.hpp"
+#include "gui/menu.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/texturestore.hpp"
+#include "types/component.hpp"
 
 // Standard Constructor
 Sorcery::Museum::Museum(System *system, Display *display, Graphics *graphics, Game *game)

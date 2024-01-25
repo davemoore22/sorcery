@@ -25,11 +25,12 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "core/graphics.hpp"
 #include "frontend/define.hpp"
-#include "types/component.hpp"
 
 namespace Sorcery {
+
+// Forward Declarations
+class Graphics;
 
 class AttractMode: public sf::Transformable, public sf::Drawable {
 

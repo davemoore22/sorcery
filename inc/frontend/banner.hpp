@@ -25,13 +25,14 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "core/display.hpp"
-#include "core/graphics.hpp"
-#include "core/system.hpp"
 #include "frontend/define.hpp"
-#include "gui/frame.hpp"
 
 namespace Sorcery {
+
+// Forward Declarations
+class Display;
+class Graphics;
+class System;
 
 class Banner {
 

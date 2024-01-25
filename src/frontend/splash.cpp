@@ -23,6 +23,11 @@
 // the resulting work.
 
 #include "frontend/splash.hpp"
+#include "core/display.hpp"
+#include "core/graphics.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "frontend/define.hpp"
 
 // Standard Constructor
 Sorcery::Splash::Splash(System *system, Display *display, Graphics *graphics)
