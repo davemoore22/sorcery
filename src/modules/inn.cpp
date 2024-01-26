@@ -23,6 +23,18 @@
 // the resulting work.
 
 #include "modules/inn.hpp"
+#include "common/enum.hpp"
+#include "common/type.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/stringstore.hpp"
+#include "types/character.hpp"
+#include "types/component.hpp"
 
 // Standard Constructor
 Sorcery::Inn::Inn(System *system, Display *display, Graphics *graphics, Game *game)

@@ -23,6 +23,21 @@
 // the resulting work.
 
 #include "modules/changename.hpp"
+#include "common/enum.hpp"
+#include "common/include.hpp"
+#include "common/macro.hpp"
+#include "common/type.hpp"
+#include "core/animation.hpp"
+#include "core/display.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "gui/keyboard.hpp"
+#include "gui/text.hpp"
+#include "modules/define.hpp"
+#include "resources/componentstore.hpp"
+#include "types/component.hpp"
 
 // Standard Constructor
 Sorcery::ChangeName::ChangeName(System *system, Display *display, Graphics *graphics, std::string old_name)

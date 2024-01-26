@@ -23,6 +23,19 @@
 // the resulting work.
 
 #include "modules/restart.hpp"
+#include "common/enum.hpp"
+#include "common/type.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "gui/frame.hpp"
+#include "gui/menu.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/resourcemanager.hpp"
+#include "types/component.hpp"
 
 // Standard Constructor
 Sorcery::Restart::Restart(System *system, Display *display, Graphics *graphics, Game *game)

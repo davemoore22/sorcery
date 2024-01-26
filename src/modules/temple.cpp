@@ -23,6 +23,26 @@
 // the resulting work.
 
 #include "modules/temple.hpp"
+#include "common/enum.hpp"
+#include "common/type.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/random.hpp"
+#include "core/state.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "engine/inspect.hpp"
+#include "gui/console.hpp"
+#include "gui/frame.hpp"
+#include "gui/menu.hpp"
+#include "gui/partypanel.hpp"
+#include "modules/define.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/stringstore.hpp"
+#include "types/character.hpp"
+#include "types/component.hpp"
 
 // Standard Constructor
 Sorcery::Temple::Temple(System *system, Display *display, Graphics *graphics, Game *game)

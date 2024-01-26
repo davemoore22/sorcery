@@ -23,6 +23,23 @@
 // the resulting work.
 
 #include "modules/create.hpp"
+#include "common/enum.hpp"
+#include "common/macro.hpp"
+#include "core/animation.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "modules/define.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/itemstore.hpp"
+#include "resources/resourcemanager.hpp"
+#include "resources/texturestore.hpp"
+#include "types/component.hpp"
+#include "types/enum.hpp"
+#include "types/inventory.hpp"
 
 // Standard Constructor
 Sorcery::Create::Create(System *system, Display *display, Graphics *graphics, Game *game)

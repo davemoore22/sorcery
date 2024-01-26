@@ -23,6 +23,20 @@
 // the resulting work.
 
 #include "modules/castle.hpp"
+#include "common/type.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/state.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "gui/dialog.hpp"
+#include "gui/frame.hpp"
+#include "gui/menu.hpp"
+#include "gui/partypanel.hpp"
+#include "resources/componentstore.hpp"
+#include "types/component.hpp"
 
 // Standard Constructor
 Sorcery::Castle::Castle(System *system, Display *display, Graphics *graphics, Game *game)

@@ -23,6 +23,23 @@
 // the resulting work.
 
 #include "modules/training.hpp"
+#include "common/enum.hpp"
+#include "common/type.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "gui/frame.hpp"
+#include "gui/menu.hpp"
+#include "modules/create.hpp"
+#include "modules/enum.hpp"
+#include "modules/roster.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/resourcemanager.hpp"
+#include "types/character.hpp"
+#include "types/component.hpp"
 
 // Standard Constructor
 Sorcery::Training::Training(System *system, Display *display, Graphics *graphics, Game *game)

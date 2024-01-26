@@ -23,6 +23,19 @@
 // the resulting work.
 
 #include "modules/changeclass.hpp"
+#include "common/enum.hpp"
+#include "core/display.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "gui/dialog.hpp"
+#include "gui/frame.hpp"
+#include "gui/infopanel.hpp"
+#include "gui/menu.hpp"
+#include "resources/componentstore.hpp"
+#include "types/character.hpp"
+#include "types/component.hpp"
 
 // Standard Constructor
 Sorcery::ChangeClass::ChangeClass(System *system, Display *display, Graphics *graphics, Character *character)

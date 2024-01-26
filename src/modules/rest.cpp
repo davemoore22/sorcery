@@ -23,6 +23,19 @@
 // resulting work.
 
 #include "modules/rest.hpp"
+#include "common/enum.hpp"
+#include "common/type.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "engine/define.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/stringstore.hpp"
+#include "types/character.hpp"
+#include "types/component.hpp"
 
 // Standard Constructor
 Sorcery::Rest::Rest(System *system, Display *display, Graphics *graphics, Game *game)
