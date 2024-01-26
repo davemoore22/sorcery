@@ -23,6 +23,14 @@
 // the resulting work.
 
 #include "gui/console.hpp"
+#include "common/define.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/state.hpp"
+#include "core/system.hpp"
+#include "core/type.hpp"
+#include "resources/filestore.hpp"
 
 Sorcery::Console::Console(tgui::Gui *gui, System *system, Display *display, Graphics *graphics, Game *game)
 	: _gui{gui}, _system{system}, _display{display}, _graphics{graphics}, _game{game} {

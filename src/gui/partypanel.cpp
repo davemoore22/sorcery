@@ -23,6 +23,17 @@
 // the resulting work.
 
 #include "gui/partypanel.hpp"
+#include "common/enum.hpp"
+#include "core/animation.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/state.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "resources/resourcemanager.hpp"
+#include "resources/stringstore.hpp"
+#include "types/character.hpp"
 
 // Standard Constructor
 Sorcery::PartyPanel::PartyPanel(System *system, Display *display, Graphics *graphics, Game *game, Component layout)

@@ -23,6 +23,14 @@
 // the resulting work.
 
 #include "gui/text.hpp"
+#include "common/enum.hpp"
+#include "common/include.hpp"
+#include "common/macro.hpp"
+#include "core/display.hpp"
+#include "core/system.hpp"
+#include "resources/resourcemanager.hpp"
+#include "resources/stringstore.hpp"
+#include "types/component.hpp"
 
 Sorcery::Text::Text() {
 

@@ -23,6 +23,25 @@
 // the resulting work.
 
 #include "gui/menu.hpp"
+#include "common/enum.hpp"
+#include "common/macro.hpp"
+#include "core/animation.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/state.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/itemstore.hpp"
+#include "resources/monsterstore.hpp"
+#include "resources/resourcemanager.hpp"
+#include "resources/stringstore.hpp"
+#include "types/character.hpp"
+#include "types/component.hpp"
+#include "types/configfile.hpp"
+#include "types/itemtype.hpp"
+#include "types/monstertype.hpp"
 
 // Standard Constructor
 Sorcery::Menu::Menu(

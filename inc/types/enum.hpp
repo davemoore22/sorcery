@@ -89,6 +89,18 @@ namespace Enums::Monsters {
 		WERE = 10
 	};
 
+	enum class Class {
+		NO_CLASS = 0,
+		FIGHTER = 1,
+		MAGE = 2,
+		PRIEST = 3,
+		THIEF = 4,
+		BISHOP = 5,
+		SAMURAI = 6,
+		LORD = 7,
+		NINJA = 8
+	};
+
 	// Following the original numbering at http://www.pekori.jp/~emonoya/monster/index.html for
 	// the sake of convenience and ease of replicating original item tables
 	enum class TypeID {
@@ -430,7 +442,7 @@ using ItemOff = Enums::Items::Effects::Offensive;
 using ItemInv = Enums::Items::Effects::Invoke;
 using ItemTypeID = Enums::Items::TypeID;
 using MonsterBreath = Enums::Monsters::Breath;
-using MonsterClass = Enums::Character::Class;
+using MonsterClass = Enums::Monsters::Class;
 using MonsterCategory = Enums::Monsters::Category;
 using MonsterResist = Enums::Monsters::Resistance;
 using MonsterResistances = std::array<bool, 7>;

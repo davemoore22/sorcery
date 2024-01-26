@@ -23,6 +23,18 @@
 // the resulting work.
 
 #include "gui/dialog.hpp"
+#include "common/enum.hpp"
+#include "common/macro.hpp"
+#include "core/animation.hpp"
+#include "core/display.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "gui/define.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/resourcemanager.hpp"
+#include "resources/stringstore.hpp"
 
 // Standard Constructor
 Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Component &frame_c, Component &string_c,

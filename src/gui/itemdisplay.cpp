@@ -23,6 +23,20 @@
 // the resulting work.
 
 #include "gui/itemdisplay.hpp"
+#include "common/enum.hpp"
+#include "common/include.hpp"
+#include "common/macro.hpp"
+#include "core/display.hpp"
+#include "core/game.hpp"
+#include "core/graphics.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/iconstore.hpp"
+#include "resources/itemstore.hpp"
+#include "resources/resourcemanager.hpp"
+#include "types/enum.hpp"
+#include "types/itemtype.hpp"
 
 Sorcery::ItemDisplay::ItemDisplay(System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {

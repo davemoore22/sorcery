@@ -23,6 +23,10 @@
 // the resulting work.
 
 #include "gui/textpanel.hpp"
+#include "core/display.hpp"
+#include "core/graphics.hpp"
+#include "core/system.hpp"
+#include "resources/resourcemanager.hpp"
 
 // Standard Constructor
 Sorcery::TextPanel::TextPanel(System *system, Display *display, Graphics *graphics, Component &component)

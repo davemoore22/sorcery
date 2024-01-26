@@ -23,6 +23,9 @@
 // the resulting work.
 
 #include "gui/frame.hpp"
+#include "core/display.hpp"
+#include "core/system.hpp"
+#include "gui/enum.hpp"
 
 // TODO: need to change this depending on the cell height and cell width
 

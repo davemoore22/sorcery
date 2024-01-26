@@ -23,6 +23,13 @@
 // the resulting work.
 
 #include "gui/infopanel.hpp"
+#include "common/macro.hpp"
+#include "core/display.hpp"
+#include "core/graphics.hpp"
+#include "core/system.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/iconstore.hpp"
+#include "resources/resourcemanager.hpp"
 
 // Standard Constructor
 Sorcery::InfoPanel::InfoPanel(System *system, Display *display, Graphics *graphics)

@@ -25,11 +25,13 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "common/macro.hpp"
-#include "core/display.hpp"
-#include "core/system.hpp"
 
 namespace Sorcery {
+
+// Forward Declarations
+class Component;
+class Display;
+class System;
 
 class Text: public sf::Transformable, public sf::Drawable {
 

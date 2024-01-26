@@ -24,6 +24,23 @@
 // the resulting work.
 
 #include "gui/characterdisplay.hpp"
+#include "common/enum.hpp"
+#include "common/macro.hpp"
+#include "common/type.hpp"
+#include "core/animation.hpp"
+#include "core/display.hpp"
+#include "core/graphics.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "gui/frame.hpp"
+#include "gui/macro.hpp"
+#include "gui/spellpanel.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/iconstore.hpp"
+#include "resources/resourcemanager.hpp"
+#include "resources/stringstore.hpp"
+#include "resources/texturestore.hpp"
+#include "types/character.hpp"
 
 // Standard Constructor
 Sorcery::CharacterDisplay::CharacterDisplay(System *system, Display *display, Graphics *graphics)

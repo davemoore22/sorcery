@@ -26,19 +26,18 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "common/macro.hpp"
-#include "core/display.hpp"
-#include "core/graphics.hpp"
-#include "core/system.hpp"
 #include "gui/inventorydisplay.hpp"
-#include "gui/macro.hpp"
-#include "gui/spellpanel.hpp"
-#include "types/character.hpp"
-#include "types/inventory.hpp"
+#include "types/component.hpp"
 
 namespace Sorcery {
 
-class SpellSummary;
+// Forward Declarations
+class Character;
+class Display;
+class Frame;
+class Graphics;
+class SpellPanel;
+class System;
 
 class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 

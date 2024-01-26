@@ -23,6 +23,13 @@
 // the resulting work.
 
 #include "gui/inventorydisplay.hpp"
+#include "common/macro.hpp"
+#include "core/display.hpp"
+#include "core/graphics.hpp"
+#include "core/system.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/resourcemanager.hpp"
+#include "types/inventory.hpp"
 
 Sorcery::InventoryDisplay::InventoryDisplay(System *system, Display *display, Graphics *graphics, Inventory *inventory)
 	: _system{system}, _display{display}, _graphics{graphics}, _inventory{inventory} {

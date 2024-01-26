@@ -23,6 +23,17 @@
 // the resulting work.
 
 #include "gui/spellpanel.hpp"
+#include "common/enum.hpp"
+#include "common/include.hpp"
+#include "common/macro.hpp"
+#include "common/type.hpp"
+#include "core/display.hpp"
+#include "core/graphics.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/iconstore.hpp"
+#include "resources/resourcemanager.hpp"
 
 // Standard Constructor
 Sorcery::SpellPanel::SpellPanel(System *system, Display *display, Graphics *graphics)

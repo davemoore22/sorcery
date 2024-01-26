@@ -23,6 +23,21 @@
 // the resulting work.
 
 #include "modules/legate.hpp"
+#include "common/enum.hpp"
+#include "common/type.hpp"
+#include "core/display.hpp"
+#include "core/graphics.hpp"
+#include "core/input.hpp"
+#include "core/system.hpp"
+#include "core/window.hpp"
+#include "gui/dialog.hpp"
+#include "gui/frame.hpp"
+#include "gui/menu.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/resourcemanager.hpp"
+#include "resources/stringstore.hpp"
+#include "types/character.hpp"
+#include "types/component.hpp"
 
 // Standard Constructor
 Sorcery::Legate::Legate(System *system, Display *display, Graphics *graphics, Character *character)

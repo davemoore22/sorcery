@@ -25,15 +25,17 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "common/macro.hpp"
-#include "core/display.hpp"
-#include "core/game.hpp"
-#include "core/graphics.hpp"
-#include "core/system.hpp"
-#include "types/component.hpp"
+#include "common/type.hpp"
 #include "types/enum.hpp"
 
 namespace Sorcery {
+
+// Forward Declarations
+class Character;
+class Display;
+class Game;
+class Graphics;
+class System;
 
 class Menu: public sf::Transformable, public sf::Drawable {
 
