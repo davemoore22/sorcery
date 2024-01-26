@@ -23,6 +23,7 @@
 // the resulting work.
 
 #include "types/itemtype.hpp"
+#include "common/macro.hpp"
 
 std::random_device Sorcery::ItemType::_device;
 std::mt19937_64 Sorcery::ItemType::_random(_device());

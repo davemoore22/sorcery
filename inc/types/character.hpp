@@ -24,21 +24,16 @@
 
 #pragma once
 
-#include "common/define.hpp"
 #include "common/include.hpp"
-#include "common/macro.hpp"
-#include "core/display.hpp"
-#include "core/graphics.hpp"
-#include "core/system.hpp"
-#include "types/define.hpp"
-#include "types/enum.hpp"
-#include "types/include.hpp"
+#include "common/type.hpp"
 #include "types/inventory.hpp"
-#include "types/item.hpp"
 
 namespace Sorcery {
 
-class Game;
+// Forward Declarations
+class Display;
+class Graphics;
+class System;
 
 class Character {
 

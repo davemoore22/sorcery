@@ -23,6 +23,10 @@
 // the resulting work.
 
 #include "resources/texturestore.hpp"
+#include "common/enum.hpp"
+#include "core/system.hpp"
+#include "resources/define.hpp"
+#include "resources/resourcemanager.hpp"
 
 // Standard Constructor
 Sorcery::TextureStore::TextureStore(System *system, const std::filesystem::path filename) : _system{system} {

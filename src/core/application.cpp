@@ -53,6 +53,7 @@
 #include "types/enum.hpp"
 #include "types/inventory.hpp"
 #include "types/level.hpp"
+#include <libgen.h>
 
 // Standard Constructor
 Sorcery::Application::Application(int argc, char **argv) {

@@ -25,12 +25,12 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "core/system.hpp"
-#include "resources/define.hpp"
-#include "resources/include.hpp"
 #include "resources/type.hpp"
 
 namespace Sorcery {
+
+// Forward Declarations
+class System;
 
 class TextureStore {
 

@@ -23,6 +23,11 @@
 // the resulting work.
 
 #include "resources/filestore.hpp"
+#include "common/define.hpp"
+#include "resources/define.hpp"
+#include <libgen.h>
+#include <limits.h>
+#include <unistd.h>
 
 // Standard Constructor
 Sorcery::FileStore::FileStore() {

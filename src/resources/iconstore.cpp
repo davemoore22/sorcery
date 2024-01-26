@@ -23,6 +23,9 @@
 // the resulting work.
 
 #include "resources/iconstore.hpp"
+#include "common/enum.hpp"
+#include "core/system.hpp"
+#include "resources/resourcemanager.hpp"
 
 // Standard Constructor
 Sorcery::IconStore::IconStore(System *system, Component layout, const std::filesystem::path filename)

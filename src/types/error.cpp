@@ -23,6 +23,8 @@
 // the resulting work.
 
 #include "types/error.hpp"
+#include "common/include.hpp"
+#include "common/macro.hpp"
 
 Sorcery::Error::Error(Enums::System::Error error_code, std::exception &exception, std::string notes)
 	: _error_code{error_code}, _exception{exception}, _notes{notes} {

@@ -24,10 +24,9 @@
 
 #pragma once
 
-#include "common/define.hpp"
 #include "common/include.hpp"
-#include "common/macro.hpp"
-#include "core/system.hpp"
+#include "types/dice.hpp"
+#include "types/enum.hpp"
 
 namespace Sorcery {
 

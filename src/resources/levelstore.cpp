@@ -23,6 +23,11 @@
 // the resulting work.
 
 #include "resources/levelstore.hpp"
+#include "common/enum.hpp"
+#include "common/include.hpp"
+#include "common/type.hpp"
+#include "core/system.hpp"
+#include "types/error.hpp"
 
 Sorcery::LevelStore::LevelStore() {
 	_levels.clear();

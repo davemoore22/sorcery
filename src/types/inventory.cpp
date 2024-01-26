@@ -23,6 +23,7 @@
 // the resulting work.
 
 #include "types/inventory.hpp"
+#include "types/itemtype.hpp"
 
 Sorcery::Inventory::Inventory() {
 

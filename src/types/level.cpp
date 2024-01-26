@@ -23,6 +23,9 @@
 // the resulting work.
 
 #include "types/level.hpp"
+#include "common/enum.hpp"
+#include "types/macro.hpp"
+#include "types/type.hpp"
 
 // Default Constructor
 Sorcery::Level::Level() {

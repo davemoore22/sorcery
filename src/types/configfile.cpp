@@ -23,6 +23,9 @@
 // the resulting work.
 
 #include "types/configfile.hpp"
+#include "core/macro.hpp"
+#include "types/define.hpp"
+#include "types/enum.hpp"
 
 // Standard Constructor
 Sorcery::ConfigFile::ConfigFile(CSimpleIniA *settings, const std::filesystem::path config_file_path)

@@ -24,12 +24,12 @@
 
 #pragma once
 
-#include "common/define.hpp"
 #include "common/include.hpp"
-#include "common/macro.hpp"
-#include "types/monstertype.hpp"
 
 namespace Sorcery {
+
+// Forward Declarations
+class MonsterType;
 
 class Monster {
 

@@ -23,6 +23,16 @@
 // the resulting work.
 
 #include "types/character.hpp"
+#include "common/enum.hpp"
+#include "common/macro.hpp"
+#include "core/display.hpp"
+#include "core/graphics.hpp"
+#include "core/random.hpp"
+#include "core/system.hpp"
+#include "resources/stringstore.hpp"
+#include "types/configfile.hpp"
+#include "types/define.hpp"
+#include "types/enum.hpp"
 
 Sorcery::Character::Character() {
 }

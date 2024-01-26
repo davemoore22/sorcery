@@ -25,8 +25,6 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "resources/define.hpp"
-#include "resources/include.hpp"
 #include "types/component.hpp"
 
 // Class to handles managing screen layouts

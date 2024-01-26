@@ -25,15 +25,14 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "common/macro.hpp"
-#include "core/system.hpp"
-#include "resources/define.hpp"
-#include "resources/include.hpp"
+#include "types/dice.hpp"
 #include "types/enum.hpp"
-#include "types/monster.hpp"
 #include "types/monstertype.hpp"
 
 namespace Sorcery {
+
+// Forward Declaration
+class System;
 
 class MonsterStore {
 

@@ -23,6 +23,8 @@
 // the resulting work.
 
 #include "resources/componentstore.hpp"
+#include "common/enum.hpp"
+#include "types/error.hpp"
 
 // This is the Game Layout Handling Class
 

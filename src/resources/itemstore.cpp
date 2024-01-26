@@ -24,6 +24,10 @@
 // the resulting work.
 
 #include "resources/itemstore.hpp"
+#include "common/enum.hpp"
+#include "common/macro.hpp"
+#include "core/random.hpp"
+#include "core/system.hpp"
 
 // Standard Constructor
 Sorcery::ItemStore::ItemStore(System *system, const std::filesystem::path filename) : _system{system} {

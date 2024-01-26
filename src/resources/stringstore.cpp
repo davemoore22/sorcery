@@ -23,6 +23,8 @@
 // the resulting work.
 
 #include "resources/stringstore.hpp"
+#include "resources/define.hpp"
+#include "resources/include.hpp"
 
 // This is the Game Message Handling Class
 

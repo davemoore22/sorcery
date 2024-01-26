@@ -28,9 +28,11 @@
 #include "resources/define.hpp"
 #include "resources/filestore.hpp"
 #include "resources/include.hpp"
-#include "types/textfile.hpp"
 
 namespace Sorcery {
+
+// Forward Declarations
+class TextFile;
 
 class ResourceManager {
 

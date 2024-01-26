@@ -24,7 +24,6 @@
 
 #pragma once
 
-#include "common/define.hpp"
 #include "common/include.hpp"
 
 // Class to handles loading and displaying on the console the contents of text

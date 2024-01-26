@@ -23,6 +23,9 @@
 // the resulting work.
 
 #include "types/tile.hpp"
+#include "common/enum.hpp"
+#include "common/macro.hpp"
+#include "types/error.hpp"
 
 // Default Constructor
 Sorcery::Tile::Tile() {

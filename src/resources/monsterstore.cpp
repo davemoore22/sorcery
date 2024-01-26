@@ -24,6 +24,10 @@
 // the resulting work.
 
 #include "resources/monsterstore.hpp"
+#include "common/enum.hpp"
+#include "common/include.hpp"
+#include "common/macro.hpp"
+#include "core/system.hpp"
 
 // Standard Constructor
 Sorcery::MonsterStore::MonsterStore(System *system, const std::filesystem::path filename) : _system{system} {

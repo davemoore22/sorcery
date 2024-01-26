@@ -23,6 +23,7 @@
 // resulting work.
 
 #include "gui/buffbar.hpp"
+#include "core/display.hpp"
 #include "core/game.hpp"
 #include "core/graphics.hpp"
 #include "core/state.hpp"

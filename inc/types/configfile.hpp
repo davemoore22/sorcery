@@ -27,9 +27,6 @@
 #include "common/define.hpp"
 #include "common/include.hpp"
 #include "core/define.hpp"
-#include "core/macro.hpp"
-#include "types/define.hpp"
-#include "types/enum.hpp"
 #include "types/include.hpp"
 
 // Class to handles game configuration

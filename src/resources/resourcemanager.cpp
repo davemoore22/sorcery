@@ -23,6 +23,7 @@
 // the resulting work.
 
 #include "resources/resourcemanager.hpp"
+#include "types/textfile.hpp"
 
 // Standard Constructor
 Sorcery::ResourceManager::ResourceManager(FileStore &files) : _files{files} {

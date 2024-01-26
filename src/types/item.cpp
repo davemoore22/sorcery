@@ -23,6 +23,8 @@
 // the resulting work.
 
 #include "types/item.hpp"
+#include "common/macro.hpp"
+#include "types/itemtype.hpp"
 
 // Default Constructor
 Sorcery::Item::Item() {
