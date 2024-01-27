@@ -7221,7 +7221,7 @@
 			},
 			{
 				"name": "iq_label",
-				"x": "30",
+				"x": "29",
 				"y": "3",
 				"font": "monospace",
 				"colour": "0xffffffff",
@@ -9518,7 +9518,7 @@
 		{
 			"name": "description_text",
 			"x": "8",
-			"y": "3",
+			"y": "2",
 			"font": "text",
 			"colour": "0xffffffff",
 			"size": "24",

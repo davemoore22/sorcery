@@ -23,6 +23,10 @@
 // the resulting work.
 
 #include "core/database.hpp"
+#include "common/enum.hpp"
+#include "common/include.hpp"
+#include "common/macro.hpp"
+#include "types/error.hpp"
 
 // Standard Constructor
 Sorcery::Database::Database(const std::filesystem::path &db_file_path) : _db_file_path{db_file_path} {

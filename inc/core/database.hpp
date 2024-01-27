@@ -25,8 +25,6 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "common/macro.hpp"
-#include "core/define.hpp"
 #include "core/include.hpp"
 #include "core/type.hpp"
 

@@ -23,8 +23,14 @@
 // the resulting work.
 
 #include "core/graphics.hpp"
+#include "common/define.hpp"
+#include "common/enum.hpp"
+#include "common/macro.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
+#include "core/window.hpp"
+#include "resources/componentstore.hpp"
+#include "resources/filestore.hpp"
 
 // Standard Constructor
 Sorcery::Graphics::Graphics(System *system, Display *display) : _system{system}, _display{display} {

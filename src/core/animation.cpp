@@ -23,8 +23,13 @@
 // the resulting work.
 
 #include "core/animation.hpp"
+#include "common/enum.hpp"
+#include "core/define.hpp"
 #include "core/display.hpp"
+#include "core/random.hpp"
 #include "core/system.hpp"
+#include "resources/componentstore.hpp"
+#include "types/component.hpp"
 
 // Standard Constructor
 Sorcery::Animation::Animation(System *system, Display *display) : _system{system}, _display{display} {

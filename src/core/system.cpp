@@ -23,6 +23,9 @@
 // the resulting work.
 
 #include "core/system.hpp"
+#include "common/define.hpp"
+#include "common/enum.hpp"
+#include "core/macro.hpp"
 
 // Standard Constructor
 Sorcery::System::System(int argc __attribute__((unused)), char **argv __attribute__((unused))) {

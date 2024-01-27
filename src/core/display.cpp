@@ -23,7 +23,11 @@
 // the resulting work.l
 
 #include "core/display.hpp"
+#include "common/define.hpp"
+#include "common/enum.hpp"
+#include "common/type.hpp"
 #include "core/system.hpp"
+#include "core/type.hpp"
 #include "gui/frame.hpp"
 #include "resources/filestore.hpp"
 #include "resources/resourcemanager.hpp"
