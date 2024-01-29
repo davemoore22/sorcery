@@ -68,9 +68,48 @@ Sorcery::Application::Application(int argc, char **argv) {
 
 	// First set up System modules
 	_display_loading_window();
+	_update_loading_window();
 	system = std::make_unique<System>(argc, argv);
+	_update_loading_window();
 	display = std::make_unique<Display>(system.get());
+	_update_loading_window();
 	graphics = std::make_unique<Graphics>(system.get(), display.get());
+	_update_loading_window();
+
+	// Start relevant animation worker threads
+	graphics->animation->refresh_colcyc();
+	graphics->animation->start_colcycl_threads();
+	graphics->animation->refresh_wallpaper();
+	graphics->animation->start_wallpaper_threads();
+
+	// Create a Game (load the existing one if possible)
+	_game = std::make_unique<Game>(system.get(), display.get(), graphics.get());
+	_update_loading_window();
+
+	// Generate the necessary modules
+	_mainmenu = std::make_unique<MainMenu>(system.get(), display.get(), graphics.get(), _game.get());
+	_update_loading_window();
+	_license = std::make_unique<License>(system.get(), display.get(), graphics.get());
+	_update_loading_window();
+	_options = std::make_unique<Options>(system.get(), display.get(), graphics.get());
+	_update_loading_window();
+	_compendium = std::make_unique<Compendium>(system.get(), display.get(), graphics.get(), _game.get());
+	_update_loading_window();
+	_castle = std::make_unique<Castle>(system.get(), display.get(), graphics.get(), _game.get());
+	_update_loading_window();
+	_edgeoftown = std::make_unique<EdgeOfTown>(system.get(), display.get(), graphics.get(), _game.get());
+	_update_loading_window();
+	_training = std::make_unique<Training>(system.get(), display.get(), graphics.get(), _game.get());
+	_update_loading_window();
+	_tavern = std::make_unique<Tavern>(system.get(), display.get(), graphics.get(), _game.get());
+	_update_loading_window();
+	_inn = std::make_unique<Inn>(system.get(), display.get(), graphics.get(), _game.get());
+	_update_loading_window();
+	_shop = std::make_unique<Shop>(system.get(), display.get(), graphics.get(), _game.get());
+	_update_loading_window();
+	_temple = std::make_unique<Temple>(system.get(), display.get(), graphics.get(), _game.get());
+	_update_loading_window();
+	_restart = std::make_unique<Restart>(system.get(), display.get(), graphics.get(), _game.get());
 	_hide_loading_window();
 
 	if (!_check_param(SKIP_INTRO)) {
@@ -81,29 +120,6 @@ Sorcery::Application::Application(int argc, char **argv) {
 		_banner = std::make_unique<Banner>(system.get(), display.get(), graphics.get());
 		_banner->start();
 	}
-
-	// Start relevant animation worker threads
-	graphics->animation->refresh_colcyc();
-	graphics->animation->start_colcycl_threads();
-	graphics->animation->refresh_wallpaper();
-	graphics->animation->start_wallpaper_threads();
-
-	// Create a Game (load the existing one if possible)
-	_game = std::make_unique<Game>(system.get(), display.get(), graphics.get());
-
-	// Generate the necessary modules
-	_mainmenu = std::make_unique<MainMenu>(system.get(), display.get(), graphics.get(), _game.get());
-	_license = std::make_unique<License>(system.get(), display.get(), graphics.get());
-	_options = std::make_unique<Options>(system.get(), display.get(), graphics.get());
-	_compendium = std::make_unique<Compendium>(system.get(), display.get(), graphics.get(), _game.get());
-	_castle = std::make_unique<Castle>(system.get(), display.get(), graphics.get(), _game.get());
-	_edgeoftown = std::make_unique<EdgeOfTown>(system.get(), display.get(), graphics.get(), _game.get());
-	_training = std::make_unique<Training>(system.get(), display.get(), graphics.get(), _game.get());
-	_tavern = std::make_unique<Tavern>(system.get(), display.get(), graphics.get(), _game.get());
-	_inn = std::make_unique<Inn>(system.get(), display.get(), graphics.get(), _game.get());
-	_shop = std::make_unique<Shop>(system.get(), display.get(), graphics.get(), _game.get());
-	_temple = std::make_unique<Temple>(system.get(), display.get(), graphics.get(), _game.get());
-	_restart = std::make_unique<Restart>(system.get(), display.get(), graphics.get(), _game.get());
 }
 
 // Standard Destructor
@@ -547,13 +563,19 @@ auto Sorcery::Application::_display_loading_window() -> void {
 	// Hard Coded since we don't have access to any file resources at this point
 	const std::filesystem::path base_path{_get_exe_path()};
 	const std::filesystem::path image_path{base_path / GRAPHICS_DIR / LOADING_IMAGE};
+	const std::filesystem::path font_path{base_path / DATA_DIR / MONO_FONT_FILE};
 	auto scale{0.75f};
-
 	sf::Image loading{};
 	loading.loadFromFile(image_path.string());
 
 	const sf::Vector2u splash_size{
 		static_cast<unsigned int>(loading.getSize().x * scale), static_cast<unsigned int>(loading.getSize().y * scale)};
+
+	_load_font.loadFromFile(font_path);
+	_load_text.setFont(_load_font);
+	_load_text.setColor(sf::Color::White);
+	_load_text.setCharacterSize(24);
+	_load_text.setPosition(16, splash_size.y - 48);
 
 	// can't use sf::Style::None here due to None being defined somewhere else (no I don't know either), so use 0
 	_load_window.create(sf::VideoMode(splash_size.x, splash_size.y), "Sorcery: Shadows under Llylgamyn", 0);
@@ -568,13 +590,22 @@ auto Sorcery::Application::_display_loading_window() -> void {
 	sprite.setPosition(0, 0);
 	sprite.setScale(scale, scale);
 	_load_window.draw(sprite);
-
 	_load_window.display();
 }
 
 auto Sorcery::Application::_hide_loading_window() -> void {
 
 	_load_window.close();
+}
+
+auto Sorcery::Application::_update_loading_window() -> void {
+
+	static std::string message{"LOADING"};
+
+	message.append(".");
+	_load_text.setString(message);
+	_load_window.draw(_load_text);
+	_load_window.display();
 }
 
 // This is linux only

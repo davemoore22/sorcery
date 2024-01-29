@@ -86,6 +86,7 @@ class Application {
 		auto _check_param(std::string_view parameter) const -> bool;
 		auto _display_loading_window() -> void;
 		auto _hide_loading_window() -> void;
+		auto _update_loading_window() -> void;
 		auto _get_exe_path() const -> std::string_view;
 		auto _quickstart() -> void;
 		auto _start_expedition() -> std::optional<MenuItem>;
@@ -114,6 +115,8 @@ class Application {
 		std::unique_ptr<Restart> _restart;
 		std::vector<std::string> _arguments;
 		sf::RenderWindow _load_window;
+		sf::Font _load_font;
+		sf::Text _load_text;
 };
 
 }

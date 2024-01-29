@@ -219,10 +219,10 @@
 			"data": [
 				{
 					"icon_scale": "0.05",
-					"icon_x_classes": "96",
-					"icon_y_classes": "28",
-					"icon_x_alignments": "308",
-					"icon_y_alignments": "28",
+					"icon_x_classes": "104",
+					"icon_y_classes": "48",
+					"icon_x_alignments": "316",
+					"icon_y_alignments": "48",
 					"icon_offset_x": "26",
 					"icon_offset_y": "48",
 					"effects_width": "23"
@@ -1006,7 +1006,7 @@
 		{
 			"name": "menu_frame",
 			"w": "17",
-			"h": "25",
+			"h": "26",
 			"x": "12",
 			"y": "5",
 			"alpha": "225",
@@ -1047,7 +1047,7 @@
 		{
 			"name": "item_frame",
 			"w": "18",
-			"h": "14",
+			"h": "15",
 			"x": "30",
 			"y": "16",
 			"alpha": "225",
@@ -1073,7 +1073,7 @@
 			"priority": "8",
 			"data": [
 				{
-					"display_items": "24"
+					"display_items": "25"
 				}
 			]
 		}
@@ -6763,7 +6763,7 @@
 		{
 			"name": "usable_label",
 			"x": "4",
-			"y": "1",
+			"y": "2",
 			"font": "text",
 			"colour": "0xa0a0a0ff",
 			"size": "24",
