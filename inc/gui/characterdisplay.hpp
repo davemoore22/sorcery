@@ -79,6 +79,8 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 		auto _add_text(Component &component, std::string format, std::string value, bool is_view = true) -> sf::Text *;
 		auto _add_icon(Component &component, std::string icon_key) -> void;
 		auto _get_spell_icon(SpellCategory category) -> std::optional<sf::Sprite>;
+		auto _add_action_button(Component layout_c, const MenuItem item, const std::string format,
+			const std::string str, const bool enabled) -> void;
 
 		// Private Members
 		System *_system;
