@@ -580,6 +580,7 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 		_add_action_button(action_c, C_ACTION_NEXT, "{:5}", "C_ACTION_NEXT", _mode == AT_CASTLE || _mode == IN_MAZE);
 		action_c.y += _display->window->get_ch();
 		_add_action_button(action_c, C_ACTION_LEAVE, "{:5}", "C_ACTION_LEAVE", _mode == AT_CASTLE || _mode == IN_MAZE);
+
 	} else if (_view == DETAILED) {
 
 		_display->generate("character_detailed", _v_sprites, _v_texts, _v_frames);
@@ -969,6 +970,11 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 			}
 		}
 	}
+}
+
+auto Sorcery::CharacterDisplay::get_hl_action_item() const -> MenuItem {
+
+	return _hl_action_item;
 }
 
 auto Sorcery::CharacterDisplay::_add_action_button(Component layout_c, const MenuItem item, const std::string format,

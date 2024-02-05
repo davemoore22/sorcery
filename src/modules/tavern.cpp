@@ -179,7 +179,8 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 									_display->generate(_screen_key);
 									continue;
 								} else if (option_chosen == TA_INSPECT) {
-									if (auto result{_inspect->start()}; result && result.value() == ITEM_ABORT) {
+									if (auto result{_inspect->start(std::nullopt)};
+										result && result.value() == ITEM_ABORT) {
 										_game->save_game();
 										_inspect->stop();
 										return ITEM_ABORT;

@@ -53,19 +53,22 @@ class Inspect {
 		// Public Members
 
 		// Public Methods
-		auto start() -> std::optional<MenuItem>;
+		auto start(std::optional<unsigned int> character_id) -> std::optional<MenuItem>;
 		auto stop() -> void;
 
 	private:
 
 		// Private Methods
 		auto _draw() -> void;
+		auto _handle_in_character(unsigned int character_id) -> std::optional<MenuItem>;
 
 		// Private Members
 		System *_system;
 		Display *_display;
 		Graphics *_graphics;
 		Game *_game;
+		bool _restricted;
+		bool _in_character;
 		sf::RenderWindow *_window;
 		std::unique_ptr<Menu> _menu;
 		sf::Sprite _bg;

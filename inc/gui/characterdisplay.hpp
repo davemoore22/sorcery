@@ -60,6 +60,7 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 		auto generate_display() -> void;
 		auto set_mode(CharacterMode value) -> void;
 		auto get_icon(CharacterStage type) -> std::optional<sf::Sprite>;
+		auto get_hl_action_item() const -> MenuItem;
 
 		// Public Members
 		std::map<SpellID, sf::FloatRect> mage_spell_bounds;

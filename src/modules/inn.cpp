@@ -153,7 +153,8 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 								_party_panel->refresh();
 							} else if (option_chosen == MenuItem::IN_INSPECT) {
-								if (auto result{_inspect->start()}; result && result.value() == MenuItem::ITEM_ABORT) {
+								if (auto result{_inspect->start(std::nullopt)};
+									result && result.value() == MenuItem::ITEM_ABORT) {
 									_inspect->stop();
 									_game->save_game();
 									_display->shutdown_SFML();
@@ -178,7 +179,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 											option_chosen == MenuItem::IN_CASTLE) {
 											return MenuItem::IN_CASTLE;
 										} else if (option_chosen == MenuItem::IN_INSPECT) {
-											if (auto result{_inspect->start()};
+											if (auto result{_inspect->start(std::nullopt)};
 												result && result.value() == MenuItem::ITEM_ABORT) {
 												_inspect->stop();
 												_game->save_game();

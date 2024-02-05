@@ -169,7 +169,8 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 								option_chosen == MenuItem::TE_CASTLE) {
 								return MenuItem::TE_CASTLE;
 							} else if (option_chosen == MenuItem::TE_INSPECT) {
-								if (auto result{_inspect->start()}; result && result.value() == MenuItem::ITEM_ABORT) {
+								if (auto result{_inspect->start(std::nullopt)};
+									result && result.value() == MenuItem::ITEM_ABORT) {
 									_inspect->stop();
 									return MenuItem::ITEM_ABORT;
 								}

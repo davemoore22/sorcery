@@ -243,6 +243,8 @@ class Engine {
 		bool _display_cursor;
 		bool _can_go_back;
 		std::optional<CombatType> _next_combat;
+		std::unique_ptr<Dialog> _pool;
+		bool _show_pool;
 };
 
 }

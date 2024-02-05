@@ -76,6 +76,7 @@ auto Sorcery::Engine::_initialise_state() -> void {
 	_pending_elevator = false;
 	_show_party_panel = true;
 	_show_gui = true;
+	_show_pool = false;
 	_display_cursor = true;
 	_pending_combat = false;
 	_show_encounter = false;
@@ -251,6 +252,11 @@ auto Sorcery::Engine::_initalise_components() -> void {
 	_ouch->setPosition(_display->get_centre_pos(_ouch->get_size()));
 	_ouch->set_duration(DELAY_OUCH);
 
+	_pool = std::make_unique<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["engine_base_ui:dialog_pool_gold_ok"],
+		(*_display->layout)["engine_base_ui:dialog_pool_gold_ok_text"], WindowDialogType::OK);
+	_pool->setPosition(_display->get_centre_pos(_pool->get_size()));
+
 	_encounter =
 		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:an_encounter"],
 			(*_display->layout)["engine_base_ui:an_encounter_text"], WindowDialogType::TIMED);
@@ -418,6 +424,7 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	_show_confirm_search = false;
 	_show_ouch = false;
 	_show_pit = false;
+	_show_pool = false;
 	_show_chute = false;
 	_show_found_an_item = false;
 	_show_elevator = false;
@@ -696,52 +703,81 @@ auto Sorcery::Engine::_handle_in_character(const sf::Event &event) -> void {
 
 	_character_display->set(_cur_char.value());
 
-	if (_system->input->check(SHOW_HIDE_CONSOLE, event))
-		_game->toggle_console();
-	else if (_system->input->check(LEFT, event))
-		_character_display->left_view();
-	else if (_system->input->check(RIGHT, event))
-		_character_display->right_view();
-	else if (_system->input->check(CANCEL, event)) {
-		_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-		_cur_char = std::nullopt;
-	} else if (_system->input->check(BACK, event)) {
-		_display->set_input_mode(WindowInputMode::IN_GAME);
-		_cur_char = std::nullopt;
+	if (_show_pool) {
 
-		_display->set_disc(true);
-		_refresh_display();
-		_game->save_game();
-		_display->set_disc(false);
-
-		_party_panel->refresh();
-		_in_character = false;
-		_display->generate("engine_base_ui");
-	} else if (_system->input->check(CONFIRM, event)) {
-		_character_display->right_view();
-	} else if (_system->input->check(UP, event)) {
-		if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
-			_character_display->dec_hl_spell(SpellType::MAGE);
-		else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
-			_character_display->dec_hl_spell(SpellType::PRIEST);
-
-	} else if (_system->input->check(DOWN, event)) {
-		if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
-			_character_display->inc_hl_spell(SpellType::MAGE);
-		else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
-			_character_display->inc_hl_spell(SpellType::PRIEST);
-	} else if (_system->input->check(MOVE, event)) {
-		if (_character_display->check_for_mouse_move(
-				sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
-					static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
-			_character_display->set_view(_character_display->get_view());
+		auto dialog_input{_pool->handle_input(event)};
+		if (dialog_input) {
+			if (dialog_input.value() == WindowDialogButton::CLOSE) {
+				_show_pool = false;
+				_display->set_input_mode(WindowInputMode::BROWSE_CHARACTER);
+			} else if (dialog_input.value() == WindowDialogButton::OK) {
+				_show_pool = false;
+				_display->set_input_mode(WindowInputMode::BROWSE_CHARACTER);
+			}
 		}
-		if (_character_display->check_for_action_mouse_move(
-				sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
-					static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
-			_character_display->generate_display();
+	} else {
+
+		if (_system->input->check(SHOW_HIDE_CONSOLE, event))
+			_game->toggle_console();
+		else if (_system->input->check(LEFT, event))
+			_character_display->left_view();
+		else if (_system->input->check(RIGHT, event))
+			_character_display->right_view();
+		else if (_system->input->check(CANCEL, event)) {
+			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+			_cur_char = std::nullopt;
+		} else if (_system->input->check(BACK, event)) {
+			_display->set_input_mode(WindowInputMode::IN_GAME);
+			_cur_char = std::nullopt;
+
+			_display->set_disc(true);
+			_refresh_display();
+			_game->save_game();
+			_display->set_disc(false);
+
+			_party_panel->refresh();
+			_in_character = false;
+			_display->generate("engine_base_ui");
+		} else if (_system->input->check(CONFIRM, event)) {
+
+			if (_character_display->get_view() == CharacterView::SUMMARY) {
+
+				// Check for Action Menu Items
+				std::cout << (int)_character_display->get_hl_action_item() << std::endl;
+				if (_character_display->get_hl_action_item() == MenuItem::C_ACTION_POOL) {
+					const auto character_chosen{(_party_panel->selected.value())};
+					_game->pool_party_gold(character_chosen);
+					_game->save_game();
+
+					_show_pool = true;
+					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+				}
+
+			} else
+				_character_display->right_view();
+		} else if (_system->input->check(UP, event)) {
+			if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
+				_character_display->dec_hl_spell(SpellType::MAGE);
+			else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
+				_character_display->dec_hl_spell(SpellType::PRIEST);
+		} else if (_system->input->check(DOWN, event)) {
+			if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
+				_character_display->inc_hl_spell(SpellType::MAGE);
+			else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
+				_character_display->inc_hl_spell(SpellType::PRIEST);
+		} else if (_system->input->check(MOVE, event)) {
+			if (_character_display->check_for_mouse_move(
+					sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
+						static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
+				_character_display->set_view(_character_display->get_view());
+			}
+			if (_character_display->check_for_action_mouse_move(
+					sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
+						static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
+				_character_display->generate_display();
+			}
+			_party_panel->selected = std::nullopt;
 		}
-		_party_panel->selected = std::nullopt;
 	}
 }
 
@@ -967,7 +1003,7 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 				_display->generate("engine_base_ui");
 			} else if (option_chosen == MenuItem::CP_INSPECT) {
 				_party_panel->refresh();
-				if (auto result{_inspect->start()}; result == MenuItem::ITEM_ABORT) {
+				if (auto result{_inspect->start(std::nullopt)}; result == MenuItem::ITEM_ABORT) {
 					_inspect->stop();
 					return STOP_ALL;
 				}
@@ -1493,6 +1529,13 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 
 				// Status-bar selected is 1-indexed, not 0-indexed
 				const auto character_chosen{(_party_panel->selected.value())};
+				if (auto result{_inspect->start(character_chosen)}; result == MenuItem::ITEM_ABORT) {
+					_inspect->stop();
+					return STOP_ALL;
+				}
+				/* _inspect->stop();
+				_party_panel->refresh();
+				_display->generate("engine_base_ui");
 				_cur_char = &_game->characters[_game->state->get_party_characters().at(character_chosen - 1)];
 				_character_display->set(_cur_char.value());
 				if (_cur_char) {
@@ -1501,7 +1544,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 					_character_display->set_view(CharacterView::SUMMARY);
 					_in_character = true;
 					return CONTINUE;
-				}
+				} */
 			} else if (_left_icon_panel->is_mouse_over(
 						   (*_display->layout)["engine_base_ui:left_icon_panel"], mouse_pos)) {
 
@@ -1636,7 +1679,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						// TODO
 					} else if (what.ends_with("party")) {
 						_party_panel->refresh();
-						if (auto result{_inspect->start()}; result == MenuItem::ITEM_ABORT) {
+						if (auto result{_inspect->start(std::nullopt)}; result == MenuItem::ITEM_ABORT) {
 							_inspect->stop();
 							return STOP_ALL;
 						}
@@ -2715,6 +2758,11 @@ auto Sorcery::Engine::_draw() -> void {
 			_character_display->setPosition((*_display->layout)["engine_base_ui:character"].pos());
 			_character_display->update();
 			_window->draw(*_character_display);
+
+			if (_show_pool) {
+				_pool->update();
+				_window->draw(*_pool);
+			}
 		}
 	} else if (_display->get_input_mode() == WindowInputMode::IN_GAME) {
 

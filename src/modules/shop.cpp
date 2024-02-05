@@ -146,7 +146,7 @@ auto Sorcery::Shop::start() -> std::optional<MenuItem> {
 								return MenuItem::SH_CASTLE;
 							} else if (option_chosen == MenuItem::SH_INSPECT) {
 
-								auto result{_inspect->start()};
+								auto result{_inspect->start(std::nullopt)};
 								if (result && result.value() == MenuItem::ITEM_ABORT) {
 									_inspect->stop();
 									return MenuItem::ITEM_ABORT;
