@@ -238,10 +238,6 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 	} else {
 
 		_handle_in_character(character_id.value());
-		_window->clear();
-
-		_draw();
-		_window->display();
 	}
 	_game->save_game();
 
@@ -264,6 +260,9 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
+
+			if (event.type == sf::Event::Closed)
+				return MenuItem::ITEM_ABORT;
 
 			if (_system->input->check(WindowInput::LEFT, event))
 				_character_display->left_view();
@@ -392,9 +391,6 @@ auto Sorcery::Inspect::_draw() -> void {
 
 		if (_cur_char) {
 
-			// If we have a character
-			//_window->draw(*_cur_char_frame);
-
 			if (_mode == CAMP)
 				_character_display->set_mode(CharacterMode::IN_MAZE);
 			else
@@ -403,6 +399,10 @@ auto Sorcery::Inspect::_draw() -> void {
 			_character_display->setPosition((*_display->layout)[_screen_key + ":character"].pos());
 			_character_display->update();
 			_window->draw(*_character_display);
+
+			// And finally the Cursor
+			_display->display_overlay();
+			_display->display_cursor();
 		}
 	}
 }

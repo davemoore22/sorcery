@@ -86,7 +86,6 @@ class Engine {
 		auto _do_pause(sf::Event &event) -> void;
 		auto _handle_confirm_exit(const sf::Event &event) -> void;
 		auto _handle_confirm_search(const sf::Event &event) -> bool;
-		auto _handle_in_character(const sf::Event &event) -> void;
 		auto _handle_in_camp(const sf::Event &event) -> std::optional<int>;
 		auto _handle_elevator_a_d(const sf::Event &event) -> std::optional<int>;
 		auto _handle_elevator_a_f(const sf::Event &event) -> std::optional<int>;
@@ -194,7 +193,6 @@ class Engine {
 		bool _in_camp;
 		bool _in_action;
 		bool _in_search;
-		bool _in_character;
 		bool _in_map;
 		bool _in_get;
 		bool _show_confirm_exit;
