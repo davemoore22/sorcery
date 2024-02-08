@@ -159,7 +159,8 @@ auto Sorcery::PartyPanel::refresh() -> void {
 #pragma GCC diagnostic ignored "-Wnarrowing"
 			const sf::Vector2f pos{
 				character_x * _display->window->get_cw(), (character_y + position - 1) * _display->window->get_ch()};
-			character_text.setPosition(pos);
+			character_text.setPosition(pos.x, pos.y - character_text.getLocalBounds().top);
+
 #pragma GCC diagnostic pop
 			bounds.emplace_back(pos.x, pos.y, bar_width * _display->window->get_cw(), _display->window->get_ch());
 			_texts.emplace_back(character_text);

@@ -35,7 +35,7 @@
 						"tile_reverse_y": "212",
 						"coordinates_frame_h": "2",
 						"coordinates_frame_y": "248",
-						"coordinates_text_size": "24",
+						"coordinates_text_size": "18",
 						"coordinates_text_colour": "0xffffffff",
 						"coordinates_text_x": "48",
 						"coordinates_text_y": "6"
@@ -13310,7 +13310,7 @@
 					"h": "32",
 					"x": "15",
 					"y": "1",
-					"font": "text",
+					"font": "monospace",
 					"size": "24",
 					"alpha": "225",
 					"type": "panel",
@@ -13327,7 +13327,7 @@
 						"tile_reverse_y": "212",
 						"coordinates_text_size": "24",
 						"coordinates_text_colour": "0xffffffff",
-						"coordinates_text_x": "296",
+						"coordinates_text_x": "224",
 						"coordinates_text_y": "708"
 					}]
 				},

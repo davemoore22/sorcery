@@ -838,7 +838,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 
 				// Check for alignment and set location appropriately
 				auto entry_x{(component.justification == Justification::CENTRE) ? texture_w / 2 : 0};
-				text.setPosition(entry_x, entry_y);
+				text.setPosition(entry_x - text.getLocalBounds().left, entry_y - text.getLocalBounds().top);
 
 				// If we have a selected entry, change the background colour
 				if ((*selected).index == (*current).index) {
