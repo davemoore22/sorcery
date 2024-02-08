@@ -236,7 +236,7 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 		}
 
 	} else {
-
+		_display->window->save_screen();
 		_handle_in_character(character_id.value());
 	}
 	_game->save_game();
@@ -398,6 +398,7 @@ auto Sorcery::Inspect::_draw() -> void {
 
 			_character_display->setPosition((*_display->layout)[_screen_key + ":character"].pos());
 			_character_display->update();
+			_display->window->restore_screen();
 			_window->draw(*_character_display);
 
 			// And finally the Cursor

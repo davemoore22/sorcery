@@ -2866,7 +2866,7 @@
 	"types/character.hpp"
 	"types/component.hpp"
 
-1707245845 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/inspect.cpp
+1707423442 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/inspect.cpp
 	"engine/inspect.hpp"
 	"common/enum.hpp"
 	"common/type.hpp"
@@ -3814,14 +3814,14 @@
 1706032252 /home/dave/Development/wizardry/sorcery-sfml/inc/common/define.hpp
 	"common/include.hpp"
 
-1705780781 /home/dave/Development/wizardry/sorcery-sfml/inc/core/define.hpp
+1707421401 /home/dave/Development/wizardry/sorcery-sfml/inc/core/define.hpp
 	"common/define.hpp"
 	"common/include.hpp"
 
 1705861459 /home/dave/Development/wizardry/sorcery-sfml/inc/core/macro.hpp
 	"common/include.hpp"
 
-1705443597 /home/dave/Development/wizardry/sorcery-sfml/inc/resources/define.hpp
+1707421396 /home/dave/Development/wizardry/sorcery-sfml/inc/resources/define.hpp
 	"common/include.hpp"
 
 1705359959 /home/dave/Development/wizardry/sorcery-sfml/inc/engine/define.hpp
