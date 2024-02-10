@@ -61,6 +61,10 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 		auto set_mode(CharacterMode value) -> void;
 		auto get_icon(CharacterStage type) -> std::optional<sf::Sprite>;
 		auto get_hl_action_item() const -> MenuItem;
+		auto left_hl_action() -> void;
+		auto right_hl_action() -> void;
+		auto up_hl_action() -> void;
+		auto down_hl_action() -> void;
 
 		// Public Members
 		std::map<SpellID, sf::FloatRect> mage_spell_bounds;

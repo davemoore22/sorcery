@@ -566,9 +566,9 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 		_add_action_button(action_c, C_ACTION_DROP, "{:5}", "C_ACTION_DROP", _mode == AT_CASTLE || _mode == IN_MAZE);
 		action_c.x = action_c.x + (offset_x_small * _display->window->get_cw());
 		action_c.y = action_y;
-		_add_action_button(action_c, C_ACTION_POOL, "{:9}", "C_ACTION_POOL", _mode == AT_CASTLE || _mode == IN_MAZE);
+		_add_action_button(action_c, C_ACTION_POOL, "{:<9}", "C_ACTION_POOL", _mode == AT_CASTLE || _mode == IN_MAZE);
 		action_c.y += _display->window->get_ch();
-		_add_action_button(action_c, C_ACTION_IDENTIFY, "{:9}", "C_ACTION_IDENTIFY", _mode == IN_MAZE);
+		_add_action_button(action_c, C_ACTION_IDENTIFY, "{:<9}", "C_ACTION_IDENTIFY", _mode == IN_MAZE);
 		action_c.x = action_c.x + (offset_x_big * _display->window->get_cw());
 		action_c.y = action_y;
 		_add_action_button(action_c, C_ACTION_SPELL, "{:5}", "C_ACTION_SPELL", _mode == IN_MAZE);
@@ -577,9 +577,10 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 		action_c.y += _display->window->get_ch();
 		action_c.x = action_c.x + (offset_x_small * _display->window->get_cw());
 		action_c.y = action_y;
-		_add_action_button(action_c, C_ACTION_NEXT, "{:5}", "C_ACTION_NEXT", _mode == AT_CASTLE || _mode == IN_MAZE);
+		_add_action_button(
+			action_c, C_ACTION_INVOKE, "{:6}", "C_ACTION_INVOKE", _mode == AT_CASTLE || _mode == IN_MAZE);
 		action_c.y += _display->window->get_ch();
-		_add_action_button(action_c, C_ACTION_LEAVE, "{:5}", "C_ACTION_LEAVE", _mode == AT_CASTLE || _mode == IN_MAZE);
+		_add_action_button(action_c, C_ACTION_LEAVE, "{:5}", "C_ACTION_LEAVE", true);
 
 	} else if (_view == DETAILED) {
 
@@ -999,4 +1000,33 @@ auto Sorcery::CharacterDisplay::_add_action_button(Component layout_c, const Men
 			text->setFillColor(sf::Color(std::stoull(layout_c["enabled_colour"].value(), nullptr, 16)));
 	} else
 		text->setFillColor(sf::Color(std::stoull(layout_c["disabled_colour"].value(), nullptr, 16)));
+}
+
+/*
+ * 	READ	TRADE	POOL		SPELL	NEXT
+ * 	EQUIP	DROP	IDENTIFY	USE		LEAVE
+ *
+ * 	TRAINING:
+ * 	READ	xxxxx	xxxx		xxxxx	xxxx
+ * 	xxxxx	xxxx	xxxxxxxx	xxx		LEAVE
+ *
+ * 	CASTLE:
+ *	READ	TRADE	POOL		xxxxx	NEXT
+ * 	EQUIP	DROP	xxxxxxxx	xxx		LEAVE
+ *
+ * 	MAZE:
+ * 	READ	TRADE	POOL		SPELL	NEXT
+ *	EQUIP	DROP	IDENTIFY	USE		LEAVE
+ *
+ * */
+auto Sorcery::CharacterDisplay::left_hl_action() -> void {
+}
+
+auto Sorcery::CharacterDisplay::right_hl_action() -> void {
+}
+
+auto Sorcery::CharacterDisplay::up_hl_action() -> void {
+}
+
+auto Sorcery::CharacterDisplay::down_hl_action() -> void {
 }

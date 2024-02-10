@@ -263,44 +263,89 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 
 			if (event.type == sf::Event::Closed)
 				return MenuItem::ITEM_ABORT;
-
-			if (_system->input->check(WindowInput::LEFT, event))
-				_character_display->left_view();
-			else if (_system->input->check(WindowInput::RIGHT, event))
-				_character_display->right_view();
-			else if (_system->input->check(WindowInput::CANCEL, event)) {
+			else if ((_system->input->check(WindowInput::CANCEL, event)) ||
+					 (_system->input->check(WindowInput::BACK, event))) {
 				_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 				_cur_char = std::nullopt;
 				_in_character = false;
 				return std::nullopt;
-			} else if (_system->input->check(WindowInput::BACK, event)) {
-				_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-				_cur_char = std::nullopt;
-				_in_character = false;
-				return std::nullopt;
-			} else if (_system->input->check(WindowInput::CONFIRM, event)) {
-				_character_display->right_view();
-			} else if (_system->input->check(WindowInput::UP, event)) {
-				if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
-					_character_display->dec_hl_spell(SpellType::MAGE);
-				else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
-					_character_display->dec_hl_spell(SpellType::PRIEST);
+			}
 
-			} else if (_system->input->check(WindowInput::DOWN, event)) {
-				if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
-					_character_display->inc_hl_spell(SpellType::MAGE);
-				else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
-					_character_display->inc_hl_spell(SpellType::PRIEST);
-			} else if (_system->input->check(WindowInput::MOVE, event)) {
-				if (_character_display->check_for_mouse_move(
-						sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
-							static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
-					_character_display->set_view(_character_display->get_view());
-				}
+			if (_character_display->get_view() == CharacterView::SUMMARY) {
 				if (_character_display->check_for_action_mouse_move(
 						sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 							static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
 					_character_display->generate_display();
+				}
+
+			} else {
+				if (_system->input->check(WindowInput::LEFT, event))
+					_character_display->left_view();
+				else if (_system->input->check(WindowInput::RIGHT, event))
+					_character_display->right_view();
+				else if (_system->input->check(WindowInput::CONFIRM, event)) {
+					_character_display->right_view();
+				} else if (_system->input->check(WindowInput::UP, event)) {
+					if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
+						_character_display->dec_hl_spell(SpellType::MAGE);
+					else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
+						_character_display->dec_hl_spell(SpellType::PRIEST);
+
+				} else if (_system->input->check(WindowInput::DOWN, event)) {
+					if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
+						_character_display->inc_hl_spell(SpellType::MAGE);
+					else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
+						_character_display->inc_hl_spell(SpellType::PRIEST);
+				} else if (_system->input->check(WindowInput::MOVE, event)) {
+					if (_character_display->check_for_mouse_move(
+							sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
+								static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
+						_character_display->set_view(_character_display->get_view());
+					}
+					if (_system->input->check(WindowInput::LEFT, event))
+						_character_display->left_view();
+					else if (_system->input->check(WindowInput::RIGHT, event))
+						_character_display->right_view();
+					else if (_system->input->check(WindowInput::CANCEL, event)) {
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						_cur_char = std::nullopt;
+						_in_character = false;
+						return std::nullopt;
+					} else if (_system->input->check(WindowInput::BACK, event)) {
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						_cur_char = std::nullopt;
+						_in_character = false;
+						return std::nullopt;
+					} else if (_system->input->check(WindowInput::CONFIRM, event)) {
+						_character_display->right_view();
+					} else if (_system->input->check(WindowInput::UP, event)) {
+						if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
+							_character_display->dec_hl_spell(SpellType::MAGE);
+						else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
+							_character_display->dec_hl_spell(SpellType::PRIEST);
+
+					} else if (_system->input->check(WindowInput::DOWN, event)) {
+						if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
+							_character_display->inc_hl_spell(SpellType::MAGE);
+						else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
+							_character_display->inc_hl_spell(SpellType::PRIEST);
+					} else if (_system->input->check(WindowInput::MOVE, event)) {
+						if (_character_display->check_for_mouse_move(
+								sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
+									static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
+							_character_display->set_view(_character_display->get_view());
+						}
+						if (_character_display->check_for_action_mouse_move(
+								sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
+									static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
+							_character_display->generate_display();
+						}
+					}
+					if (_character_display->check_for_action_mouse_move(
+							sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
+								static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
+						_character_display->generate_display();
+					}
 				}
 			}
 		}
