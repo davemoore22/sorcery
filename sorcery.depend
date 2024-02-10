@@ -2519,7 +2519,7 @@
 1706134454 /home/dave/Development/wizardry/sorcery-sfml/inc/engine/graveyard.hpp
 	"common/include.hpp"
 
-1707156078 /home/dave/Development/wizardry/sorcery-sfml/inc/engine/inspect.hpp
+1707595570 /home/dave/Development/wizardry/sorcery-sfml/inc/engine/inspect.hpp
 	"common/include.hpp"
 
 1707586438 /home/dave/Development/wizardry/sorcery-sfml/inc/gui/characterdisplay.hpp
@@ -2866,7 +2866,7 @@
 	"types/character.hpp"
 	"types/component.hpp"
 
-1707588705 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/inspect.cpp
+1707596185 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/inspect.cpp
 	"engine/inspect.hpp"
 	"common/enum.hpp"
 	"common/type.hpp"
@@ -2878,6 +2878,7 @@
 	"core/window.hpp"
 	"gui/characterdisplay.hpp"
 	"gui/characterpanel.hpp"
+	"gui/dialog.hpp"
 	"gui/frame.hpp"
 	"gui/menu.hpp"
 	"resources/componentstore.hpp"

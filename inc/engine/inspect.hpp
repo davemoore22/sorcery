@@ -33,6 +33,7 @@ class Character;
 class CharacterDisplay;
 class CharacterPanel;
 class Display;
+class Dialog;
 class Frame;
 class Game;
 class Graphics;
@@ -75,6 +76,8 @@ class Inspect {
 		std::unique_ptr<Frame> _menu_frame;
 		std::optional<Character *> _cur_char;
 		std::unique_ptr<Frame> _cur_char_frame;
+		std::unique_ptr<Dialog> _pool;
+		bool _in_pool;
 		MenuMode _mode;
 		std::string _screen_key;
 		std::unique_ptr<CharacterPanel> _char_panel;

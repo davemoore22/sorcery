@@ -33,6 +33,7 @@
 #include "core/window.hpp"
 #include "gui/characterdisplay.hpp"
 #include "gui/characterpanel.hpp"
+#include "gui/dialog.hpp"
 #include "gui/frame.hpp"
 #include "gui/menu.hpp"
 #include "resources/componentstore.hpp"
@@ -71,6 +72,11 @@ Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, 
 
 	_char_panel = std::make_unique<CharacterPanel>(_system, _display, _graphics);
 	_character_display = std::make_unique<CharacterDisplay>(_system, _display, _graphics);
+
+	_pool = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["inspect:dialog_pool_gold_ok"],
+		(*_display->layout)["inspect:dialog_pool_gold_ok_text"], WindowDialogType::OK);
+	_pool->setPosition(_display->get_centre_pos(_pool->get_size()));
+	_in_pool = false;
 }
 
 // Standard Destructor
@@ -79,7 +85,7 @@ Sorcery::Inspect::~Inspect() {
 
 auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::optional<MenuItem> {
 
-	// Do we want to display a menu with all characters in the party, or just handle one
+	// Do we want to display a menu with all characters in the party, or just handle one character directly
 	_restricted = character_id.has_value();
 	if (!_restricted) {
 
@@ -147,9 +153,6 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 			std::make_unique<Frame>(_display->ui_texture, p_fc.w, p_fc.h, p_fc.colour, p_fc.background, p_fc.alpha);
 		_preview_frame->setPosition(_display->window->get_x(_preview_frame->sprite, p_fc.x),
 			_display->window->get_y(_preview_frame->sprite, p_fc.y));
-
-		// Clear the window
-		_window->clear();
 
 		// Clear the window
 		_window->clear();
@@ -271,52 +274,50 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 				return std::nullopt;
 			}
 
-			if (_character_display->get_view() == CharacterView::SUMMARY) {
-				if (_character_display->check_for_action_mouse_move(
-						sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
-							static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
-					_character_display->generate_display();
+			if (_in_pool) {
+
+				// Handle Pool Gold Dialog
+				auto dialog_input{_pool->handle_input(event)};
+				if (dialog_input) {
+					if (dialog_input.value() == WindowDialogButton::CLOSE) {
+						_in_pool = false;
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} else if (dialog_input.value() == WindowDialogButton::OK) {
+
+						_game->pool_party_gold(character_id);
+						_game->save_game();
+						_in_pool = false;
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					}
 				}
 
 			} else {
-				if (_system->input->check(WindowInput::LEFT, event))
-					_character_display->left_view();
-				else if (_system->input->check(WindowInput::RIGHT, event))
-					_character_display->right_view();
-				else if (_system->input->check(WindowInput::CONFIRM, event)) {
-					_character_display->right_view();
-				} else if (_system->input->check(WindowInput::UP, event)) {
-					if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
-						_character_display->dec_hl_spell(SpellType::MAGE);
-					else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
-						_character_display->dec_hl_spell(SpellType::PRIEST);
 
-				} else if (_system->input->check(WindowInput::DOWN, event)) {
-					if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
-						_character_display->inc_hl_spell(SpellType::MAGE);
-					else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
-						_character_display->inc_hl_spell(SpellType::PRIEST);
-				} else if (_system->input->check(WindowInput::MOVE, event)) {
-					if (_character_display->check_for_mouse_move(
+				if (_character_display->get_view() == CharacterView::SUMMARY) {
+					if (_character_display->check_for_action_mouse_move(
 							sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 								static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
-						_character_display->set_view(_character_display->get_view());
+						_character_display->generate_display();
 					}
+
+					if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+						if (_character_display->get_hl_action_item() == MenuItem::C_ACTION_POOL) {
+							_in_pool = true;
+						} else if (_character_display->get_hl_action_item() == MenuItem::C_ACTION_LEAVE) {
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+							_cur_char = std::nullopt;
+							_in_character = false;
+							return std::nullopt;
+						}
+					}
+
+				} else {
 					if (_system->input->check(WindowInput::LEFT, event))
 						_character_display->left_view();
 					else if (_system->input->check(WindowInput::RIGHT, event))
 						_character_display->right_view();
-					else if (_system->input->check(WindowInput::CANCEL, event)) {
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-						_cur_char = std::nullopt;
-						_in_character = false;
-						return std::nullopt;
-					} else if (_system->input->check(WindowInput::BACK, event)) {
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-						_cur_char = std::nullopt;
-						_in_character = false;
-						return std::nullopt;
-					} else if (_system->input->check(WindowInput::CONFIRM, event)) {
+					else if (_system->input->check(WindowInput::CONFIRM, event)) {
 						_character_display->right_view();
 					} else if (_system->input->check(WindowInput::UP, event)) {
 						if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
@@ -335,16 +336,50 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 									static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
 							_character_display->set_view(_character_display->get_view());
 						}
+						if (_system->input->check(WindowInput::LEFT, event))
+							_character_display->left_view();
+						else if (_system->input->check(WindowInput::RIGHT, event))
+							_character_display->right_view();
+						else if (_system->input->check(WindowInput::CANCEL, event)) {
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+							_cur_char = std::nullopt;
+							_in_character = false;
+							return std::nullopt;
+						} else if (_system->input->check(WindowInput::BACK, event)) {
+							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+							_cur_char = std::nullopt;
+							_in_character = false;
+							return std::nullopt;
+						} else if (_system->input->check(WindowInput::CONFIRM, event)) {
+							_character_display->right_view();
+						} else if (_system->input->check(WindowInput::UP, event)) {
+							if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
+								_character_display->dec_hl_spell(SpellType::MAGE);
+							else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
+								_character_display->dec_hl_spell(SpellType::PRIEST);
+
+						} else if (_system->input->check(WindowInput::DOWN, event)) {
+							if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
+								_character_display->inc_hl_spell(SpellType::MAGE);
+							else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
+								_character_display->inc_hl_spell(SpellType::PRIEST);
+						} else if (_system->input->check(WindowInput::MOVE, event)) {
+							if (_character_display->check_for_mouse_move(
+									sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
+										static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
+								_character_display->set_view(_character_display->get_view());
+							}
+							if (_character_display->check_for_action_mouse_move(
+									sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
+										static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
+								_character_display->generate_display();
+							}
+						}
 						if (_character_display->check_for_action_mouse_move(
 								sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 									static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
 							_character_display->generate_display();
 						}
-					}
-					if (_character_display->check_for_action_mouse_move(
-							sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
-								static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
-						_character_display->generate_display();
 					}
 				}
 			}
@@ -445,6 +480,11 @@ auto Sorcery::Inspect::_draw() -> void {
 			_character_display->update();
 			_display->window->restore_screen();
 			_window->draw(*_character_display);
+
+			if (_in_pool) {
+				_pool->update();
+				_window->draw(*_pool);
+			}
 
 			// And finally the Cursor
 			_display->display_overlay();

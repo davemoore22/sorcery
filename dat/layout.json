@@ -58,7 +58,7 @@
 					"priority": "8",
 					"data": [{
 						"legend_offset_x": "1",
-						"legend_offset_y": "1",
+						"legend_offset_y": "0",
 						"party_offset_x": "1",
 						"party_offset_y": "2",
 						"bar_width": "38",
@@ -3690,9 +3690,32 @@
 			]
 		},
 		{
+			"name": "inspect",
+			"component": [{
+				"name": "dialog_pool_gold_ok",
+				"x": "centre",
+				"y": "centre",
+				"w": "40",
+				"type": "dialog",
+				"drawmode": "manual",
+				"alpha": "200",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "dialog_pool_gold_ok_text",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"string": "CONFIRM_POOL_GOLD",
+				"background": " 0xff0000ff",
+				"justification": "centre",
+				"type": "text",
+				"drawmode": "manual"
+			}]
+		},
+		{
 			"name": "shop_inspect",
 			"component": [{
-
 					"name": "wallpaper",
 					"x": "0",
 					"y": "0",
@@ -13081,7 +13104,7 @@
 					"priority": "8",
 					"data": [{
 						"legend_offset_x": "1",
-						"legend_offset_y": "1",
+						"legend_offset_y": "0",
 						"party_offset_x": "1",
 						"party_offset_y": "2",
 						"bar_width": "38",
