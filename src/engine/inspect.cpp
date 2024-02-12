@@ -202,6 +202,7 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 						} else {
 
 							const auto character_id{(*selected.value()).index};
+							_display->window->save_screen();
 							_handle_in_character(character_id);
 							_window->clear();
 
