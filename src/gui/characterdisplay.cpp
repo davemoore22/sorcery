@@ -55,7 +55,7 @@ Sorcery::CharacterDisplay::CharacterDisplay(System *system, Display *display, Gr
 	_view = CharacterView::NO_VIEW;
 	_hl_mage_spell = SpellID::DUMAPIC;
 	_hl_priest_spell = SpellID::BADIOS;
-	_hl_action_item = MenuItem::C_ACTION_READ;
+	_hl_action_item = MenuItem::NO_MENU_ITEM;
 	mage_spell_bounds.clear();
 	priest_spell_bounds.clear();
 	mage_spell_texts.clear();
@@ -270,7 +270,6 @@ auto Sorcery::CharacterDisplay::_add_text(
 	text.setFont(_system->resources->fonts[component.font]);
 	text.setCharacterSize(component.size);
 	text.setFillColor(sf::Color(component.colour));
-
 	text.setString(formatted_value);
 	if (_display->get_bold())
 		text.setStyle(sf::Text::Bold);
@@ -336,7 +335,7 @@ auto Sorcery::CharacterDisplay::set_view(const CharacterView value) -> void {
 	using enum Enums::Menu::Item;
 
 	_view = value;
-	_hl_action_item = C_ACTION_READ;
+	_hl_action_item = NO_MENU_ITEM;
 	_generate_display();
 }
 
@@ -353,8 +352,10 @@ auto Sorcery::CharacterDisplay::check_for_action_mouse_move(sf::Vector2f mouse_p
 		if (it != action_menu_bounds.end()) {
 			_hl_action_item = (*it).first;
 			return (*it).first;
-		} else
+		} else {
+			_hl_action_item = MenuItem::NO_MENU_ITEM;
 			return std::nullopt;
+		}
 	}
 
 	else
@@ -440,7 +441,7 @@ auto Sorcery::CharacterDisplay::draw(sf::RenderTarget &target, sf::RenderStates 
 	for (const auto &[unique_key, v_sprite] : _v_sprites)
 		target.draw(v_sprite, states);
 
-	if (_view == SUMMARY)
+	if ((_view == SUMMARY) && (_hl_action_item != MenuItem::NO_MENU_ITEM))
 		target.draw(_hl_action_item_bg, states);
 
 	for (const auto &[unique_key, v_text] : _v_texts)
@@ -566,9 +567,9 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 		_add_action_button(action_c, C_ACTION_DROP, "{:5}", "C_ACTION_DROP", _mode == AT_CASTLE || _mode == IN_MAZE);
 		action_c.x = action_c.x + (offset_x_small * _display->window->get_cw());
 		action_c.y = action_y;
-		_add_action_button(action_c, C_ACTION_POOL, "{:<9}", "C_ACTION_POOL", _mode == AT_CASTLE || _mode == IN_MAZE);
+		_add_action_button(action_c, C_ACTION_POOL, "{:9}", "C_ACTION_POOL", _mode == AT_CASTLE || _mode == IN_MAZE);
 		action_c.y += _display->window->get_ch();
-		_add_action_button(action_c, C_ACTION_IDENTIFY, "{:<9}", "C_ACTION_IDENTIFY", _mode == IN_MAZE);
+		_add_action_button(action_c, C_ACTION_IDENTIFY, "{:9}", "C_ACTION_IDENTIFY", _mode == IN_MAZE);
 		action_c.x = action_c.x + (offset_x_big * _display->window->get_cw());
 		action_c.y = action_y;
 		_add_action_button(action_c, C_ACTION_SPELL, "{:5}", "C_ACTION_SPELL", _mode == IN_MAZE);
@@ -580,7 +581,7 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 		_add_action_button(
 			action_c, C_ACTION_INVOKE, "{:6}", "C_ACTION_INVOKE", _mode == AT_CASTLE || _mode == IN_MAZE);
 		action_c.y += _display->window->get_ch();
-		_add_action_button(action_c, C_ACTION_LEAVE, "{:5}", "C_ACTION_LEAVE", true);
+		_add_action_button(action_c, C_ACTION_LEAVE, "{:6}", "C_ACTION_LEAVE", true);
 
 	} else if (_view == DETAILED) {
 
@@ -981,15 +982,14 @@ auto Sorcery::CharacterDisplay::get_hl_action_item() const -> MenuItem {
 auto Sorcery::CharacterDisplay::_add_action_button(Component layout_c, const MenuItem item, const std::string format,
 	const std::string str, const bool enabled) -> void {
 
-	const auto width_small{std::stoi(layout_c["width_small"].value())};
-
 	auto text{_add_text(layout_c, format, (*_display->string)[str])};
 	action_menu_texts[item] = text;
 	if (enabled) {
 		auto text_hl_bounds{text->getGlobalBounds()};
 		action_menu_bounds[item] = text_hl_bounds;
 		if (_hl_action_item == item) {
-			sf::RectangleShape bg(sf::Vector2f(width_small * _display->window->get_cw(), text_hl_bounds.height));
+			sf::RectangleShape bg(
+				sf::Vector2f((*_display->string)[str].length() * _display->window->get_cw(), text_hl_bounds.height));
 			bg.setPosition(text_hl_bounds.left, text_hl_bounds.top);
 			bg.setFillColor(_graphics->animation->selected_colour);
 			text->setFillColor(sf::Color(layout_c.colour));

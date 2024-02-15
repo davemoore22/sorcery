@@ -2366,7 +2366,7 @@
 	"core/platform.hpp"
 	"core/type.hpp"
 
-1706560046 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/application.cpp
+1707766169 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/application.cpp
 	"core/application.hpp"
 	"core/animation.hpp"
 	"core/define.hpp"
@@ -2866,7 +2866,7 @@
 	"types/character.hpp"
 	"types/component.hpp"
 
-1707596185 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/inspect.cpp
+1707767658 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/inspect.cpp
 	"engine/inspect.hpp"
 	"common/enum.hpp"
 	"common/type.hpp"
@@ -3081,7 +3081,7 @@
 	"core/system.hpp"
 	"resources/iconstore.hpp"
 
-1707589573 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/characterdisplay.cpp
+1708036580 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/characterdisplay.cpp
 	"gui/characterdisplay.hpp"
 	"common/enum.hpp"
 	"common/macro.hpp"

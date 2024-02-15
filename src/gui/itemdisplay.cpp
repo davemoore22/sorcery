@@ -148,7 +148,7 @@ auto Sorcery::ItemDisplay::set(const unsigned int item_idx) -> void {
 			return std::string{""};
 		else {
 			const std::string inv{magic_enum::enum_name(it.get_eff_inv())};
-			auto str{fmt::format("{}old. ({}%)", inv, it.get_eff_inv_decay())};
+			auto str{fmt::format("{} ({}%)", inv, it.get_eff_inv_decay())};
 			std::replace(str.begin(), str.end(), '_', ' ');
 			return str;
 		}
