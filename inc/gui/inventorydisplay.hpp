@@ -52,6 +52,8 @@ class InventoryDisplay: public sf::Transformable, public sf::Drawable {
 
 		// Public Methods
 		auto generate() -> void;
+		auto check_for_mouse_move(sf::Vector2f mouse_pos) -> bool;
+		auto update() -> void;
 
 	private:
 
@@ -72,6 +74,10 @@ class InventoryDisplay: public sf::Transformable, public sf::Drawable {
 		std::map<std::string, sf::Sprite> _sprites;
 		std::map<std::string, sf::Text> _texts;
 		std::map<std::string, std::shared_ptr<Frame>> _frames;
+
+		unsigned int _hl_slot;
+		sf::RectangleShape _hl_slot_bg;
+		std::map<unsigned int, sf::FloatRect> _bounds;
 };
 
 }

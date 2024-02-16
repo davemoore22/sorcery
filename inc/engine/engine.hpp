@@ -145,6 +145,7 @@ class Engine {
 		auto _debug_set_quest_item_flags() -> std::optional<int>;
 		auto _debug_clear_quest_item_flags() -> std::optional<int>;
 		auto _debug_start_random_combat() -> std::optional<int>;
+		auto _debug_toggle_coordinates() -> std::optional<int>;
 
 		// Private Members
 		System *_system;
@@ -243,6 +244,7 @@ class Engine {
 		std::optional<CombatType> _next_combat;
 		std::unique_ptr<Dialog> _pool;
 		bool _show_pool;
+		sf::Text _cursor_coords;
 };
 
 }

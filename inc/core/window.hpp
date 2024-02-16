@@ -60,6 +60,9 @@ class Window {
 		auto get_ch() const -> unsigned int;
 		auto get_cw() const -> unsigned int;
 		auto get_cursor() const -> sf::Sprite;
+		auto set_cursor_coord(const bool value) -> void;
+		auto get_cursor_coord() const -> bool;
+		auto draw_cursor_coord(const sf::Vector2f mouse_pos) -> void;
 		auto get_disc() const -> sf::Sprite;
 		auto get_gui() -> tgui::Gui *;
 		auto get_window() -> sf::RenderWindow *;
@@ -110,6 +113,7 @@ class Window {
 		auto _get_y(const sf::Sprite &sprite, const int y_position) const -> unsigned int;
 		auto _get_y(const sf::Text &text, const int y_position) const -> unsigned int;
 		auto _get_y(unsigned int width, const int y_position) const -> unsigned int;
+		auto _get_cursor_coord_text(sf::Vector2f mouse_pos, sf::Text &text) -> void;
 
 		// Private Members
 		ScreenSize _default_size;
@@ -128,6 +132,8 @@ class Window {
 		sf::Texture _texture;
 		bool _bold_text;
 		bool _upper_text;
+		bool _show_cursor_coords;
+		sf::Text _cursor_coord;
 };
 
 }

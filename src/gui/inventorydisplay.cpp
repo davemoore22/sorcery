@@ -41,6 +41,9 @@ auto Sorcery::InventoryDisplay::generate() -> void {
 
 	_sprites.clear();
 	_texts.clear();
+	_bounds.clear();
+	_bounds[0] = sf::FloatRect();
+	_hl_slot = 0;
 
 	auto slot{1u};
 	auto x{std::stoi(_layout["offset_x"].value())};
@@ -64,7 +67,6 @@ auto Sorcery::InventoryDisplay::generate() -> void {
 		sf::Text text{};
 		text.setFont(_system->resources->fonts[_layout.font]);
 		text.setCharacterSize(_layout.size);
-		text.setFillColor(sf::Color(_layout.colour));
 
 		text.setString(line);
 		if (_display->get_bold())
@@ -74,7 +76,43 @@ auto Sorcery::InventoryDisplay::generate() -> void {
 		auto new_unique_key{GUID()};
 		_texts.try_emplace(new_unique_key, text);
 
+		auto text_hl_bounds{text.getLocalBounds()};
+		_bounds[slot] = text_hl_bounds;
+
+		if (_hl_slot == slot) {
+			sf::RectangleShape bg(sf::Vector2f(line.length() * _display->window->get_cw(), text_hl_bounds.height));
+			bg.setPosition(text_hl_bounds.left, text_hl_bounds.top);
+			bg.setFillColor(_graphics->animation->selected_colour);
+			text.setFillColor(sf::Color(_layout.colour));
+			text.setOutlineColor(sf::Color(0, 0, 0));
+			text.setOutlineThickness(2);
+			_hl_slot_bg = bg;
+		} else
+			text.setFillColor(sf::Color(_layout.colour));
+
 		++slot;
+	}
+}
+
+auto Sorcery::InventoryDisplay::update() -> void {
+
+	_hl_slot_bg.setFillColor(_graphics->animation->selected_colour);
+}
+
+auto Sorcery::InventoryDisplay::check_for_mouse_move(sf::Vector2f mouse_pos) -> bool {
+
+	const sf::Vector2f global_pos{this->getPosition()};
+	const sf::Vector2f local_mouse_pos{mouse_pos - global_pos};
+
+	auto it{std::find_if(_bounds.begin(), _bounds.end(),
+		[&local_mouse_pos](const auto &item) { return item.second.contains(local_mouse_pos); })};
+
+	if (it != _bounds.end()) {
+		_hl_slot = (*it).first;
+		return true;
+	} else {
+		_hl_slot = 0;
+		return false;
 	}
 }
 
@@ -124,6 +162,9 @@ auto Sorcery::InventoryDisplay::draw(sf::RenderTarget &target, sf::RenderStates 
 
 	for (const auto &[unique_key, sprite] : _sprites)
 		target.draw(sprite, states);
+
+	if (_hl_slot != 0)
+		target.draw(_hl_slot_bg, states);
 
 	for (const auto &[unique_key, text] : _texts)
 		target.draw(text, states);

@@ -68,6 +68,8 @@ Sorcery::CharacterDisplay::CharacterDisplay(System *system, Display *display, Gr
 
 	_mode = CharacterMode::NO_MODE;
 	_character = nullptr;
+
+	_window = _display->window->get_window();
 }
 
 auto Sorcery::CharacterDisplay::set(Character *character) -> void {
@@ -347,11 +349,20 @@ auto Sorcery::CharacterDisplay::check_for_action_mouse_move(sf::Vector2f mouse_p
 	const sf::Vector2f local_mouse_pos{mouse_pos - global_pos};
 
 	if (_view == SUMMARY) {
-		auto it{std::find_if(action_menu_bounds.begin(), action_menu_bounds.end(),
-			[&local_mouse_pos](const auto &item) { return item.second.contains(local_mouse_pos); })};
-		if (it != action_menu_bounds.end()) {
-			_hl_action_item = (*it).first;
-			return (*it).first;
+
+		// Check for Mouse Over on Inventory Items
+		if (!_inventory_display->check_for_mouse_move(local_mouse_pos)) {
+
+			// If not, check for Mouse Over on Summary Action Items
+			auto it{std::find_if(action_menu_bounds.begin(), action_menu_bounds.end(),
+				[&local_mouse_pos](const auto &item) { return item.second.contains(local_mouse_pos); })};
+			if (it != action_menu_bounds.end()) {
+				_hl_action_item = (*it).first;
+				return (*it).first;
+			} else {
+				_hl_action_item = MenuItem::NO_MENU_ITEM;
+				return std::nullopt;
+			}
 		} else {
 			_hl_action_item = MenuItem::NO_MENU_ITEM;
 			return std::nullopt;
@@ -411,6 +422,8 @@ auto Sorcery::CharacterDisplay::update() -> void {
 	_hl_mage_spell_bg.setFillColor(_graphics->animation->selected_colour);
 	_hl_priest_spell_bg.setFillColor(_graphics->animation->selected_colour);
 	_hl_action_item_bg.setFillColor(_graphics->animation->selected_colour);
+
+	_inventory_display->update();
 }
 
 auto Sorcery::CharacterDisplay::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
@@ -456,6 +469,8 @@ auto Sorcery::CharacterDisplay::draw(sf::RenderTarget &target, sf::RenderStates 
 
 	if (_view == SUMMARY)
 		target.draw(*_inventory_display, states);
+
+	_display->window->draw_cursor_coord(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 }
 
 auto Sorcery::CharacterDisplay::_generate_display() -> void {

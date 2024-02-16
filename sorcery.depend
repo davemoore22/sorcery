@@ -2358,7 +2358,7 @@
 	"resources/type.hpp"
 	"types/component.hpp"
 
-1706370994 /home/dave/Development/wizardry/sorcery-sfml/inc/core/window.hpp
+1708118921 /home/dave/Development/wizardry/sorcery-sfml/inc/core/window.hpp
 	"common/define.hpp"
 	"common/include.hpp"
 	"core/define.hpp"
@@ -2480,7 +2480,7 @@
 	"common/include.hpp"
 	"types/level.hpp"
 
-1707163860 /home/dave/Development/wizardry/sorcery-sfml/inc/engine/engine.hpp
+1708117845 /home/dave/Development/wizardry/sorcery-sfml/inc/engine/engine.hpp
 	"common/include.hpp"
 	"common/type.hpp"
 	"engine/enum.hpp"
@@ -2522,7 +2522,7 @@
 1707595570 /home/dave/Development/wizardry/sorcery-sfml/inc/engine/inspect.hpp
 	"common/include.hpp"
 
-1707586438 /home/dave/Development/wizardry/sorcery-sfml/inc/gui/characterdisplay.hpp
+1708119456 /home/dave/Development/wizardry/sorcery-sfml/inc/gui/characterdisplay.hpp
 	"common/include.hpp"
 	"gui/inventorydisplay.hpp"
 	"types/component.hpp"
@@ -2531,7 +2531,7 @@
 	"common/include.hpp"
 	"types/component.hpp"
 
-1706292108 /home/dave/Development/wizardry/sorcery-sfml/inc/gui/inventorydisplay.hpp
+1708109323 /home/dave/Development/wizardry/sorcery-sfml/inc/gui/inventorydisplay.hpp
 	"common/include.hpp"
 	"gui/frame.hpp"
 	"types/component.hpp"
@@ -3081,7 +3081,7 @@
 	"core/system.hpp"
 	"resources/iconstore.hpp"
 
-1708036580 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/characterdisplay.cpp
+1708109340 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/characterdisplay.cpp
 	"gui/characterdisplay.hpp"
 	"common/enum.hpp"
 	"common/macro.hpp"
@@ -3188,7 +3188,7 @@
 	"resources/iconstore.hpp"
 	"resources/resourcemanager.hpp"
 
-1706290761 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/inventorydisplay.cpp
+1708110318 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/inventorydisplay.cpp
 	"gui/inventorydisplay.hpp"
 	"common/macro.hpp"
 	"core/display.hpp"
@@ -3198,7 +3198,7 @@
 	"resources/resourcemanager.hpp"
 	"types/inventory.hpp"
 
-1706290824 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/itemdisplay.cpp
+1708037147 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/itemdisplay.cpp
 	"gui/itemdisplay.hpp"
 	"common/enum.hpp"
 	"common/include.hpp"

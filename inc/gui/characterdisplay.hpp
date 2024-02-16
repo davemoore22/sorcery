@@ -112,6 +112,7 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 
 		CharacterView _view;
 		CharacterMode _mode;
+		sf::RenderWindow *_window;
 };
 
 }

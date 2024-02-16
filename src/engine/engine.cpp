@@ -50,6 +50,8 @@ Sorcery::Engine::Engine(System *system, Display *display, Graphics *graphics, Ga
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	_game->hide_console();
+
+	_cursor_coords = sf::Text{};
 }
 
 auto Sorcery::Engine::_generate_display() -> void {
@@ -83,6 +85,8 @@ auto Sorcery::Engine::_initialise_state() -> void {
 	_next_combat = std::nullopt;
 
 	_monochrome = true;
+
+	_display->window->set_cursor_coord(true);
 }
 
 auto Sorcery::Engine::_reset_components() -> void {
@@ -2746,6 +2750,8 @@ auto Sorcery::Engine::_draw() -> void {
 		_console->refresh();
 		_display->window->get_gui()->draw();
 	}
+
+	_display->window->draw_cursor_coord(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 }
 
 auto Sorcery::Engine::_go_back() -> std::optional<int> {

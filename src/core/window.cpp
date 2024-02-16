@@ -66,6 +66,10 @@ Sorcery::Window::Window(System *system, StringStore *string, ComponentStore *lay
 	// Screenshot Capture Buffer
 	_capture.create(_window.getSize().x, _window.getSize().y, sf::Color(0x000000ff));
 	_texture.create(_window.getSize().x, _window.getSize().y);
+
+	// Default for Cursor Coordinates
+	_show_cursor_coords = false;
+	_cursor_coord = sf::Text{};
 }
 
 auto Sorcery::Window::clear_window() -> void {
@@ -224,6 +228,11 @@ auto Sorcery::Window::shove_text(const sf::Text &shovee, sf::Text &shover, float
 		shovee.getGlobalBounds().top - (shovee.getGlobalBounds().height / 2) - 2);
 }
 
+auto Sorcery::Window::get_cursor_coord() const -> bool {
+
+	return _show_cursor_coords;
+}
+
 auto Sorcery::Window::_draw_text(
 	sf::Text &text, const Component &component, const std::string &string, const double lerp) -> void {
 
@@ -262,6 +271,18 @@ auto Sorcery::Window::get_cursor() const -> sf::Sprite {
 	const sf::IntRect cursor_rect(0, 85, 40, 40);
 	cursor.setTextureRect(cursor_rect);
 	return cursor;
+}
+
+auto Sorcery::Window::_get_cursor_coord_text(sf::Vector2f mouse_pos, sf::Text &text) -> void {
+
+	auto str{fmt::format("({}/{})", mouse_pos.x, mouse_pos.y)};
+	text.setFillColor(sf::Color::White);
+	text.setOutlineColor(sf::Color::Red);
+	text.setOutlineThickness(1);
+	text.setFont(_system->resources->fonts[FontType::TEXT]);
+	text.setCharacterSize(16);
+	text.setString(str);
+	text.setPosition(1, 1);
 }
 
 auto Sorcery::Window::get_disc() const -> sf::Sprite {
@@ -411,6 +432,19 @@ auto Sorcery::Window::set_input_mode(WindowInputMode value) -> void {
 auto Sorcery::Window::get_input_mode() const -> WindowInputMode {
 
 	return _input_mode;
+}
+
+auto Sorcery::Window::set_cursor_coord(const bool value) -> void {
+
+	_show_cursor_coords = value;
+}
+
+auto Sorcery::Window::draw_cursor_coord(const sf::Vector2f mouse_pos) -> void {
+
+	if (_show_cursor_coords) {
+		_get_cursor_coord_text(mouse_pos, _cursor_coord);
+		_window.draw(_cursor_coord);
+	}
 }
 
 auto Sorcery::Window::_adjust_brightness(sf::Color colour, double colour_lerp) const -> unsigned long long {
