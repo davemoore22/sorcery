@@ -13,7 +13,6 @@ list(APPEND sorcery_SOURCES
 	${CMAKE_CURRENT_LIST_DIR}/frame.cpp
 	${CMAKE_CURRENT_LIST_DIR}/iconpanel.cpp
 	${CMAKE_CURRENT_LIST_DIR}/infopanel.cpp
-	${CMAKE_CURRENT_LIST_DIR}/inventorydisplay.cpp
 	${CMAKE_CURRENT_LIST_DIR}/itemdisplay.cpp
 	${CMAKE_CURRENT_LIST_DIR}/keyboard.cpp
 	${CMAKE_CURRENT_LIST_DIR}/map.cpp

@@ -311,7 +311,6 @@
 		<Unit filename="inc/gui/iconpanel.hpp" />
 		<Unit filename="inc/gui/include.hpp" />
 		<Unit filename="inc/gui/infopanel.hpp" />
-		<Unit filename="inc/gui/inventorydisplay.hpp" />
 		<Unit filename="inc/gui/itemdisplay.hpp" />
 		<Unit filename="inc/gui/keyboard.hpp" />
 		<Unit filename="inc/gui/macro.hpp" />
@@ -441,7 +440,6 @@
 		<Unit filename="src/gui/frame.cpp" />
 		<Unit filename="src/gui/iconpanel.cpp" />
 		<Unit filename="src/gui/infopanel.cpp" />
-		<Unit filename="src/gui/inventorydisplay.cpp" />
 		<Unit filename="src/gui/itemdisplay.cpp" />
 		<Unit filename="src/gui/keyboard.cpp" />
 		<Unit filename="src/gui/map.cpp" />

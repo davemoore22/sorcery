@@ -238,8 +238,8 @@
 					"x": "1",
 					"y": "11",
 					"data": [{
-						"offset_x": "0",
-						"offset_y": "0",
+						"offset_x": "24",
+						"offset_y": "264",
 						"column_x": "456",
 						"row_y": "24"
 					}]

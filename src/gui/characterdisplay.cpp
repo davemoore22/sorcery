@@ -56,12 +56,15 @@ Sorcery::CharacterDisplay::CharacterDisplay(System *system, Display *display, Gr
 	_hl_mage_spell = SpellID::DUMAPIC;
 	_hl_priest_spell = SpellID::BADIOS;
 	_hl_action_item = MenuItem::NO_MENU_ITEM;
+	_hl_inventory = 0;
 	mage_spell_bounds.clear();
 	priest_spell_bounds.clear();
 	mage_spell_texts.clear();
 	priest_spell_texts.clear();
 	action_menu_texts.clear();
 	action_menu_bounds.clear();
+	inventory_texts.clear();
+	inventory_bounds.clear();
 
 	_spell_panel = std::make_shared<SpellPanel>(_system, _display, _graphics);
 	_spell_panel->setPosition((*_display->layout)["global:spell_panel"].pos());
@@ -76,14 +79,55 @@ auto Sorcery::CharacterDisplay::set(Character *character) -> void {
 
 	_character = character;
 	_generate_display();
+}
 
-	if (_inventory_display.get()) {
-		_inventory_display.release();
-		_inventory_display.reset();
+auto Sorcery::CharacterDisplay::_generate_inventory(Component layout_c) -> void {
+
+	auto slot{1u};
+	auto x{std::stoi(layout_c["offset_x"].value())};
+	const auto start_x{x};
+	auto y{std::stoi(layout_c["offset_y"].value())};
+	const auto row_y{std::stoi(layout_c["row_y"].value())};
+	const auto column_x{std::stoi(layout_c["column_x"].value())};
+
+	for (const auto &item : _character->inventory.items()) {
+
+		std::string flag{!item.get_usable() ? "#" : (item.get_equipped() ? "*" : " ")};
+		auto line{fmt::format("{}){}{}", slot, flag, item.get_name())};
+
+		if (slot % 2 == 1) {
+			x = start_x;
+			y += row_y;
+		} else {
+			x = start_x + column_x;
+		}
+
+		auto text{_add_text(layout_c, "{}", line)};
+
+		text->setFont(_system->resources->fonts[layout_c.font]);
+		text->setCharacterSize(layout_c.size);
+
+		text->setString(line);
+		if (_display->get_bold())
+			text->setStyle(sf::Text::Bold);
+		text->setPosition(x, y);
+
+		auto text_hl_bounds{text->getLocalBounds()};
+		inventory_bounds[slot] = text_hl_bounds;
+
+		if (_hl_inventory == slot) {
+			sf::RectangleShape bg(sf::Vector2f(line.length() * _display->window->get_cw(), text_hl_bounds.height));
+			bg.setPosition(text_hl_bounds.left, text_hl_bounds.top);
+			bg.setFillColor(_graphics->animation->selected_colour);
+			text->setFillColor(sf::Color(layout_c.colour));
+			text->setOutlineColor(sf::Color(0, 0, 0));
+			text->setOutlineThickness(2);
+			_hl_inventory_bg = bg;
+		} else
+			text->setFillColor(sf::Color(layout_c.colour));
+
+		++slot;
 	}
-	_inventory_display = std::make_unique<InventoryDisplay>(_system, _display, _graphics, &_character->inventory);
-	_inventory_display->generate();
-	_inventory_display->setPosition((*_display->layout)["global:inventory_display"].pos());
 }
 
 auto Sorcery::CharacterDisplay::set_mode(CharacterMode value) -> void {
@@ -341,6 +385,9 @@ auto Sorcery::CharacterDisplay::set_view(const CharacterView value) -> void {
 	_generate_display();
 }
 
+auto Sorcery::CharacterDisplay::check_for_inventory_mouse_move(sf::Vector2f mouse_pos) -> unsigned int {
+}
+
 auto Sorcery::CharacterDisplay::check_for_action_mouse_move(sf::Vector2f mouse_pos) -> std::optional<MenuItem> {
 
 	using enum Enums::Character::View;
@@ -350,19 +397,12 @@ auto Sorcery::CharacterDisplay::check_for_action_mouse_move(sf::Vector2f mouse_p
 
 	if (_view == SUMMARY) {
 
-		// Check for Mouse Over on Inventory Items
-		if (!_inventory_display->check_for_mouse_move(local_mouse_pos)) {
-
-			// If not, check for Mouse Over on Summary Action Items
-			auto it{std::find_if(action_menu_bounds.begin(), action_menu_bounds.end(),
-				[&local_mouse_pos](const auto &item) { return item.second.contains(local_mouse_pos); })};
-			if (it != action_menu_bounds.end()) {
-				_hl_action_item = (*it).first;
-				return (*it).first;
-			} else {
-				_hl_action_item = MenuItem::NO_MENU_ITEM;
-				return std::nullopt;
-			}
+		// Check for Mouse Over on Summary Action Items
+		auto it{std::find_if(action_menu_bounds.begin(), action_menu_bounds.end(),
+			[&local_mouse_pos](const auto &item) { return item.second.contains(local_mouse_pos); })};
+		if (it != action_menu_bounds.end()) {
+			_hl_action_item = (*it).first;
+			return (*it).first;
 		} else {
 			_hl_action_item = MenuItem::NO_MENU_ITEM;
 			return std::nullopt;
@@ -423,7 +463,7 @@ auto Sorcery::CharacterDisplay::update() -> void {
 	_hl_priest_spell_bg.setFillColor(_graphics->animation->selected_colour);
 	_hl_action_item_bg.setFillColor(_graphics->animation->selected_colour);
 
-	_inventory_display->update();
+	//_inventory_display->update();
 }
 
 auto Sorcery::CharacterDisplay::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
@@ -467,8 +507,8 @@ auto Sorcery::CharacterDisplay::draw(sf::RenderTarget &target, sf::RenderStates 
 	if (_view == PRIEST_SPELLS)
 		target.draw(*_spell_panel, states);
 
-	if (_view == SUMMARY)
-		target.draw(*_inventory_display, states);
+	// if (_view == SUMMARY)
+	//	target.draw(*_inventory_display, states);
 
 	_display->window->draw_cursor_coord(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 }
@@ -502,8 +542,6 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 
 		_display->generate("character_summary", _v_sprites, _v_texts, _v_frames);
 
-		_inventory_display->generate();
-
 		_add_text((*_display->layout)["character_summary:name_and_summary_text"], "{}", _character->summary_text());
 
 		Component s_c{(*_display->layout)["character_summary:strength_value"]};
@@ -529,6 +567,9 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 		Component l_c{(*_display->layout)["character_summary:luck_value"]};
 		l_c.colour = _graphics->adjust_colour(_character->attributes().at(LUCK), STAT);
 		_add_text(l_c, "{:>2}", std::to_string(_character->attributes().at(LUCK)));
+
+		Component inv_c{(*_display->layout)["global:inventory_display"]};
+		_generate_inventory(inv_c);
 
 		_add_text((*_display->layout)["character_summary:hp_value"], "{}",
 			fmt::format("{}/{}", std::to_string(_character->abilities().at(CURRENT_HP)),
