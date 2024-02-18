@@ -108,11 +108,11 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 		SpellID _hl_mage_spell;
 		SpellID _hl_priest_spell;
 		MenuItem _hl_action_item;
-		unsigned int _hl_inventory;
+		unsigned int _hl_inventory_item;
 		sf::RectangleShape _hl_mage_spell_bg;
 		sf::RectangleShape _hl_priest_spell_bg;
 		sf::RectangleShape _hl_action_item_bg;
-		sf::RectangleShape _hl_inventory_bg;
+		sf::RectangleShape _hl_inventory_item_bg;
 
 		CharacterView _view;
 		CharacterMode _mode;

@@ -300,9 +300,13 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 								static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
 						_character_display->generate_display();
 					}
+					if (_character_display->check_for_inventory_mouse_move(
+							sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
+								static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
+						_character_display->generate_display();
+					}
 
 					if (_system->input->check(WindowInput::CONFIRM, event)) {
-
 						if (_character_display->get_hl_action_item() == MenuItem::C_ACTION_POOL) {
 							_in_pool = true;
 						} else if (_character_display->get_hl_action_item() == MenuItem::C_ACTION_LEAVE) {
@@ -375,8 +379,18 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 										static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
 								_character_display->generate_display();
 							}
+							if (_character_display->check_for_inventory_mouse_move(
+									sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
+										static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
+								_character_display->generate_display();
+							}
 						}
 						if (_character_display->check_for_action_mouse_move(
+								sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
+									static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
+							_character_display->generate_display();
+						}
+						if (_character_display->check_for_inventory_mouse_move(
 								sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 									static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
 							_character_display->generate_display();

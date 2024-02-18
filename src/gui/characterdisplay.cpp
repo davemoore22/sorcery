@@ -56,7 +56,7 @@ Sorcery::CharacterDisplay::CharacterDisplay(System *system, Display *display, Gr
 	_hl_mage_spell = SpellID::DUMAPIC;
 	_hl_priest_spell = SpellID::BADIOS;
 	_hl_action_item = MenuItem::NO_MENU_ITEM;
-	_hl_inventory = 0;
+	_hl_inventory_item = 0;
 	mage_spell_bounds.clear();
 	priest_spell_bounds.clear();
 	mage_spell_texts.clear();
@@ -112,17 +112,17 @@ auto Sorcery::CharacterDisplay::_generate_inventory(Component layout_c) -> void 
 			text->setStyle(sf::Text::Bold);
 		text->setPosition(x, y);
 
-		auto text_hl_bounds{text->getLocalBounds()};
+		auto text_hl_bounds{text->getGlobalBounds()};
 		inventory_bounds[slot] = text_hl_bounds;
 
-		if (_hl_inventory == slot) {
+		if (_hl_inventory_item == slot) {
 			sf::RectangleShape bg(sf::Vector2f(line.length() * _display->window->get_cw(), text_hl_bounds.height));
 			bg.setPosition(text_hl_bounds.left, text_hl_bounds.top);
 			bg.setFillColor(_graphics->animation->selected_colour);
 			text->setFillColor(sf::Color(layout_c.colour));
 			text->setOutlineColor(sf::Color(0, 0, 0));
 			text->setOutlineThickness(2);
-			_hl_inventory_bg = bg;
+			_hl_inventory_item_bg = bg;
 		} else
 			text->setFillColor(sf::Color(layout_c.colour));
 
@@ -386,6 +386,27 @@ auto Sorcery::CharacterDisplay::set_view(const CharacterView value) -> void {
 }
 
 auto Sorcery::CharacterDisplay::check_for_inventory_mouse_move(sf::Vector2f mouse_pos) -> unsigned int {
+
+	using enum Enums::Character::View;
+
+	const sf::Vector2f global_pos{this->getPosition()};
+	const sf::Vector2f local_mouse_pos{mouse_pos - global_pos};
+
+	if (_view == SUMMARY) {
+
+		// Check for Mouse Over on Inventory Slots
+		auto it{std::find_if(inventory_bounds.begin(), inventory_bounds.end(),
+			[&local_mouse_pos](const auto &item) { return item.second.contains(local_mouse_pos); })};
+		if (it != inventory_bounds.end()) {
+			_hl_inventory_item = (*it).first;
+			return (*it).first;
+		} else {
+			_hl_inventory_item = 0;
+			return 0;
+		}
+
+	} else
+		return 0;
 }
 
 auto Sorcery::CharacterDisplay::check_for_action_mouse_move(sf::Vector2f mouse_pos) -> std::optional<MenuItem> {
@@ -497,6 +518,9 @@ auto Sorcery::CharacterDisplay::draw(sf::RenderTarget &target, sf::RenderStates 
 	if ((_view == SUMMARY) && (_hl_action_item != MenuItem::NO_MENU_ITEM))
 		target.draw(_hl_action_item_bg, states);
 
+	if ((_view == SUMMARY) && (_hl_inventory_item != 0))
+		target.draw(_hl_inventory_item_bg, states);
+
 	for (const auto &[unique_key, v_text] : _v_texts)
 		target.draw(v_text, states);
 
@@ -506,9 +530,6 @@ auto Sorcery::CharacterDisplay::draw(sf::RenderTarget &target, sf::RenderStates 
 
 	if (_view == PRIEST_SPELLS)
 		target.draw(*_spell_panel, states);
-
-	// if (_view == SUMMARY)
-	//	target.draw(*_inventory_display, states);
 
 	_display->window->draw_cursor_coord(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 }
@@ -535,6 +556,8 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 	priest_spell_texts.clear();
 	action_menu_bounds.clear();
 	action_menu_texts.clear();
+	inventory_bounds.clear();
+	inventory_texts.clear();
 
 	_display->generate("character", _sprites, _texts, _frames);
 
