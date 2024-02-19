@@ -86,6 +86,18 @@ Sorcery::Menu::Menu(
 		else
 			selected = items.end();
 		break;
+	case ITEM_ACTION:
+		// Note these are enabled/disabled depending on the context in inspect.cpp
+		_add_item(0, ENTRY, C_ACTION_EQUIP, (*_display->string)["C_ACTION_EQUIP"]);
+		_add_item(1, ENTRY, C_ACTION_UNEQUIP, (*_display->string)["C_ACTION_UNEQUIP"]);
+		_add_item(2, ENTRY, C_ACTION_TRADE, (*_display->string)["C_ACTION_TRADE"]);
+		_add_item(3, ENTRY, C_ACTION_EXAMINE, (*_display->string)["C_ACTION_EXAMINE"]);
+		_add_item(4, ENTRY, C_ACTION_INVOKE, (*_display->string)["C_ACTION_INVOKE"]);
+		_add_item(5, ENTRY, C_ACTION_USE, (*_display->string)["C_ACTION_USE"]);
+		_add_item(6, ENTRY, C_ACTION_DROP, (*_display->string)["C_ACTION_DROP"]);
+		_add_item(7, ENTRY, C_ACTION_LEAVE, (*_display->string)["C_ACTION_LEAVE"]);
+		selected = items.begin();
+		break;
 	case COMPENDIUM:
 		_add_item(0, ENTRY, CO_MONSTERS, (*_display->string)["MENU_MONSTERS"]);
 		_add_item(1, ENTRY, CO_ITEMS, (*_display->string)["MENU_ITEMS"]);

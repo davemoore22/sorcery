@@ -633,7 +633,7 @@ namespace Enums::Menu {
 		BESTIARY,
 		SHOP_ACTION,
 		SPELLBOOK,
-		CHARACTER_ACTIONS
+		ITEM_ACTION
 	};
 
 	enum class Mode {
@@ -814,6 +814,8 @@ namespace Enums::Menu {
 		C_ACTION_LEAVE,
 		C_ACTION_READ,
 		C_ACTION_INVOKE,
+		C_ACTION_UNEQUIP,
+		C_ACTION_EXAMINE,
 		CO_MONSTERS,
 		CO_ITEMS,
 		CO_SPELLS,
