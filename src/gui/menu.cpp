@@ -88,14 +88,14 @@ Sorcery::Menu::Menu(
 		break;
 	case ITEM_ACTION:
 		// Note these are enabled/disabled depending on the context in inspect.cpp
-		_add_item(0, ENTRY, C_ACTION_EQUIP, (*_display->string)["C_ACTION_EQUIP"]);
-		_add_item(1, ENTRY, C_ACTION_UNEQUIP, (*_display->string)["C_ACTION_UNEQUIP"]);
-		_add_item(2, ENTRY, C_ACTION_TRADE, (*_display->string)["C_ACTION_TRADE"]);
-		_add_item(3, ENTRY, C_ACTION_EXAMINE, (*_display->string)["C_ACTION_EXAMINE"]);
-		_add_item(4, ENTRY, C_ACTION_INVOKE, (*_display->string)["C_ACTION_INVOKE"]);
-		_add_item(5, ENTRY, C_ACTION_USE, (*_display->string)["C_ACTION_USE"]);
-		_add_item(6, ENTRY, C_ACTION_DROP, (*_display->string)["C_ACTION_DROP"]);
-		_add_item(7, ENTRY, C_ACTION_LEAVE, (*_display->string)["C_ACTION_LEAVE"]);
+		_add_item(0, ENTRY, C_ACTION_EQUIP, TRIM_COPY((*_display->string)["C_ACTION_EQUIP"]));
+		_add_item(1, ENTRY, C_ACTION_UNEQUIP, TRIM_COPY((*_display->string)["C_ACTION_UNEQUIP"]));
+		_add_item(2, ENTRY, C_ACTION_TRADE, TRIM_COPY((*_display->string)["C_ACTION_TRADE"]));
+		_add_item(3, ENTRY, C_ACTION_EXAMINE, TRIM_COPY((*_display->string)["C_ACTION_EXAMINE"]));
+		_add_item(4, ENTRY, C_ACTION_INVOKE, TRIM_COPY((*_display->string)["C_ACTION_INVOKE"]));
+		_add_item(5, ENTRY, C_ACTION_USE, TRIM_COPY((*_display->string)["C_ACTION_USE"]));
+		_add_item(6, ENTRY, C_ACTION_DROP, TRIM_COPY((*_display->string)["C_ACTION_DROP"]));
+		_add_item(7, ENTRY, C_ACTION_LEAVE, TRIM_COPY((*_display->string)["C_ACTION_LEAVE"]));
 		selected = items.begin();
 		break;
 	case COMPENDIUM:

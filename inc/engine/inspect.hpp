@@ -84,6 +84,9 @@ class Inspect {
 		int _cur_char_id;
 		std::unique_ptr<Frame> _preview_frame;
 		std::unique_ptr<CharacterDisplay> _character_display;
+		std::unique_ptr<Menu> _item_action_menu;
+		std::unique_ptr<Frame> _item_action_menu_frame;
+		bool _in_item_action;
 };
 
 }

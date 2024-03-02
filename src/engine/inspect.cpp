@@ -77,6 +77,7 @@ Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, 
 		(*_display->layout)["inspect:dialog_pool_gold_ok_text"], WindowDialogType::OK);
 	_pool->setPosition(_display->get_centre_pos(_pool->get_size()));
 	_in_pool = false;
+	_in_item_action = false;
 }
 
 // Standard Destructor
@@ -260,6 +261,24 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 
 	_in_character = true;
 
+	_in_item_action = false;
+	_item_action_menu.reset();
+	_item_action_menu =
+		std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::ITEM_ACTION, MenuMode::ACTION);
+	_item_action_menu->generate((*_display->layout)["character_summary:item_action_menu"]);
+	_item_action_menu->setPosition(_display->get_centre_x(_item_action_menu->get_width()),
+		(*_display->layout)["character_summary:item_action_menu"].y);
+
+	const Component item_action_menu_fc{(*_display->layout)["character_summary:item_action_menu_frame"]};
+	_item_action_menu_frame.reset();
+	_item_action_menu_frame = std::make_unique<Frame>(_display->ui_texture, item_action_menu_fc.w,
+		item_action_menu_fc.h, item_action_menu_fc.colour, item_action_menu_fc.background, item_action_menu_fc.alpha);
+	_item_action_menu_frame->setPosition(
+		_display->window->get_x(_item_action_menu_frame->sprite, item_action_menu_fc.x),
+		_display->window->get_y(_item_action_menu_frame->sprite, item_action_menu_fc.y));
+
+	std::optional<std::vector<MenuEntry>::const_iterator> item_action_selected{_item_action_menu->items.begin()};
+
 	// And do the main loop inside the character
 	sf::Event event{};
 	while (_window->isOpen()) {
@@ -292,6 +311,41 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 					}
 				}
 
+			} else if (_in_item_action) {
+
+				// Check for Window Close
+				if (event.type == sf::Event::Closed)
+					return MenuItem::ITEM_ABORT;
+
+				// Handle enabling help overlay
+				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+					_display->show_overlay();
+					continue;
+				} else
+					_display->hide_overlay();
+
+				if (_system->input->check(WindowInput::CANCEL, event))
+					_in_item_action = false;
+
+				if (_system->input->check(WindowInput::BACK, event))
+					_in_item_action = false;
+
+				if (_system->input->check(WindowInput::UP, event))
+					item_action_selected = _item_action_menu->choose_previous();
+				else if (_system->input->check(WindowInput::DOWN, event))
+					item_action_selected = _item_action_menu->choose_next();
+				else if (_system->input->check(WindowInput::MOVE, event))
+					item_action_selected = _item_action_menu->set_mouse_selected(
+						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+				else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+					if (item_action_selected) {
+						const MenuItem option_chosen{(*item_action_selected.value()).item};
+						if (option_chosen == MenuItem::C_ACTION_LEAVE) {
+							_in_item_action = false;
+						}
+					}
+				}
 			} else {
 
 				if (_character_display->get_view() == CharacterView::SUMMARY) {
@@ -314,6 +368,8 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 							_cur_char = std::nullopt;
 							_in_character = false;
 							return std::nullopt;
+						} else if (_character_display->get_inventory_item() > 0) {
+							_in_item_action = true;
 						}
 					}
 
@@ -321,7 +377,6 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 						_character_display->left_view();
 					else if (_system->input->check(WindowInput::RIGHT, event))
 						_character_display->right_view();
-
 				} else {
 					if (_system->input->check(WindowInput::LEFT, event))
 						_character_display->left_view();
@@ -402,6 +457,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 				}
 			}
 		}
+
 		_character_display->generate_display();
 		_draw();
 		_window->display();
@@ -502,6 +558,10 @@ auto Sorcery::Inspect::_draw() -> void {
 			if (_in_pool) {
 				_pool->update();
 				_window->draw(*_pool);
+			} else if (_in_item_action) {
+				_window->draw(*_item_action_menu_frame);
+				_item_action_menu->generate((*_display->layout)["character_summary:item_action_menu"]);
+				_window->draw(*_item_action_menu);
 			}
 
 			// And finally the Cursor

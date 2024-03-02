@@ -8191,6 +8191,35 @@
 					"drawmode": "manual"
 				},
 				{
+					"name": "item_action_menu",
+					"x": "centre",
+					"y": "13",
+					"w": "8",
+					"h": "8",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"animated": "true",
+					"width": "38",
+					"background": " 0xff0000ff",
+					"justification": "centre",
+					"type": "menu",
+					"priority": "10",
+					"old_background": "0x6060c8ff"
+				},
+				{
+					"name": "item_action_menu_frame",
+					"w": "10",
+					"h": "10",
+					"x": "centre",
+					"y": "centre",
+					"alpha": "225",
+					"type": "frame",
+					"priority": "3",
+					"drawmode": "automatic",
+					"background": " 0x000000ff"
+				},
+				{
 					"name": "action_panel",
 					"x": "1",
 					"y": "18",

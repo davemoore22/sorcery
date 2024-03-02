@@ -1058,6 +1058,11 @@ auto Sorcery::CharacterDisplay::get_hl_action_item() const -> MenuItem {
 	return _hl_action_item;
 }
 
+auto Sorcery::CharacterDisplay::get_inventory_item() const -> unsigned int {
+
+	return _hl_inventory_item;
+}
+
 auto Sorcery::CharacterDisplay::_add_action_button(Component layout_c, const MenuItem item, const std::string format,
 	const std::string str, const bool enabled) -> void {
 
