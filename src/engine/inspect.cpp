@@ -370,6 +370,9 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 							return std::nullopt;
 						} else if (_character_display->get_inventory_item() > 0) {
 							_in_item_action = true;
+							_set_in_item_action_menu(character_id, _character_display->get_inventory_item());
+							_item_action_menu->generate(
+								(*_display->layout)["character_summary:item_action_menu"], true);
 						}
 					}
 
@@ -464,6 +467,45 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 	}
 
 	return std::nullopt;
+}
+
+auto Sorcery::Inspect::_set_in_item_action_menu(unsigned int character_id, unsigned int slot_id) -> void {
+
+	auto character{&_game->characters[character_id]};
+	auto slot_item{character->inventory[slot_id]};
+	if (slot_item.has_value()) {
+
+		auto item{slot_item.value()};
+
+		// Equip
+		_item_action_menu->items[0].enabled = item->get_usable() && (!item->get_equipped());
+
+		// Unequip
+		_item_action_menu->items[1].enabled = (!item->get_cursed()) && item->get_equipped();
+
+		// Trade
+		_item_action_menu->items[2].enabled = !item->get_equipped();
+
+		// Examine
+		_item_action_menu->items[3].enabled = true;
+
+		// Invoke
+		_item_action_menu->items[4].enabled =
+			(*_game->itemstore)[item->get_type_id()].get_eff_inv() != ItemInv::NO_INV_EFFECT;
+
+		// Use
+		_item_action_menu->items[5].enabled =
+			(*_game->itemstore)[item->get_type_id()].get_eff_use() != SpellID::NO_SPELL;
+
+		// Identify
+		_item_action_menu->items[6].enabled = (!item->get_known()) && character->get_class() == CharacterClass::BISHOP;
+
+		// Drop
+		_item_action_menu->items[7].enabled = (!item->get_cursed()) && (!item->get_equipped());
+
+		// Leave
+		_item_action_menu->items[8].enabled = true;
+	}
 }
 
 auto Sorcery::Inspect::stop() -> void {

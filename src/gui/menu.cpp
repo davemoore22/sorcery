@@ -94,8 +94,9 @@ Sorcery::Menu::Menu(
 		_add_item(3, ENTRY, C_ACTION_EXAMINE, TRIM_COPY((*_display->string)["C_ACTION_EXAMINE"]));
 		_add_item(4, ENTRY, C_ACTION_INVOKE, TRIM_COPY((*_display->string)["C_ACTION_INVOKE"]));
 		_add_item(5, ENTRY, C_ACTION_USE, TRIM_COPY((*_display->string)["C_ACTION_USE"]));
-		_add_item(6, ENTRY, C_ACTION_DROP, TRIM_COPY((*_display->string)["C_ACTION_DROP"]));
-		_add_item(7, ENTRY, C_ACTION_LEAVE, TRIM_COPY((*_display->string)["C_ACTION_LEAVE"]));
+		_add_item(6, ENTRY, C_ACTION_IDENTIFY, TRIM_COPY((*_display->string)["C_ACTION_IDENTIFY"]));
+		_add_item(7, ENTRY, C_ACTION_DROP, TRIM_COPY((*_display->string)["C_ACTION_DROP"]));
+		_add_item(8, ENTRY, C_ACTION_LEAVE, TRIM_COPY((*_display->string)["C_ACTION_LEAVE"]));
 		selected = items.begin();
 		break;
 	case COMPENDIUM:

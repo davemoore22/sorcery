@@ -62,6 +62,7 @@ class Inspect {
 		// Private Methods
 		auto _draw() -> void;
 		auto _handle_in_character(unsigned int character_id) -> std::optional<MenuItem>;
+		auto _set_in_item_action_menu(unsigned int character_id, unsigned int slot_id) -> void;
 
 		// Private Members
 		System *_system;

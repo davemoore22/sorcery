@@ -8210,9 +8210,9 @@
 				{
 					"name": "item_action_menu_frame",
 					"w": "10",
-					"h": "10",
+					"h": "11",
 					"x": "centre",
-					"y": "centre",
+					"y": "12",
 					"alpha": "225",
 					"type": "frame",
 					"priority": "3",
