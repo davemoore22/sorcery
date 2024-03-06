@@ -37,6 +37,7 @@ class Dialog;
 class Frame;
 class Game;
 class Graphics;
+class ItemDisplay;
 class Menu;
 class System;
 
@@ -88,6 +89,9 @@ class Inspect {
 		std::unique_ptr<Menu> _item_action_menu;
 		std::unique_ptr<Frame> _item_action_menu_frame;
 		bool _in_item_action;
+		std::unique_ptr<ItemDisplay> _item_display;
+		sf::Sprite _item_gfx;
+		std::unique_ptr<Frame> _item_frame;
 };
 
 }

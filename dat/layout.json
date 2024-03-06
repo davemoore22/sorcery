@@ -3711,7 +3711,58 @@
 				"justification": "centre",
 				"type": "text",
 				"drawmode": "manual"
-			}]
+			},
+			{
+				"name": "item_display",
+				"font": "text",
+				"colour": "0xdddddddff",
+				"size": "24",
+				"alpha": "255",
+				"type": "panel",
+				"drawmode": "manual",
+				"x": "centre",
+				"y": "17"
+			},
+			{
+				"name": "item_display_frame",
+				"w": "38",
+				"h": "26",
+				"x": "centre",
+				"y": "2",
+				"alpha": "0",
+				"type": "frame",
+				"priority": "3",
+				"background": " 0x000000ff",
+				"drawmode": "manual"
+			},
+			{
+				"name": "picture",
+				"x": "35",
+				"y": "6",
+				"scale": "1.8",
+				"type": "image",
+				"priority": "1",
+				"texture": "background",
+				"drawmode": "manual",
+				"data": [{
+					"offset_x": "8",
+					"offset_y": "0"
+				}]
+
+			},
+			{
+				"name": "item_frame",
+				"w": "18",
+				"h": "15",
+				"x": "30",
+				"y": "16",
+				"alpha": "225",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic",
+				"background": " 0x000000ff"
+			}
+		]
 		},
 		{
 			"name": "shop_inspect",

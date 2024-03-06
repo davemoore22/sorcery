@@ -139,11 +139,11 @@
 	"editor.wordWrapColumn": 120,
 	"C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
 	"C_Cpp.default.compilerPath": "linux-gcc-x64",
-	"editor.fontFamily": "'Monaco', 'ProggyVector', 'Hack Nerd Font Mono', 'Comic Mono', Monaco, 'Droid Sans Mono', 'monospace', monospace",
+	"editor.fontFamily": "'ProggyVector', 'Monaco', 'Hack Nerd Font Mono', 'Comic Mono', Monaco, 'Droid Sans Mono', 'monospace', monospace",
 	"cmake.debugConfig": {
 		"args": [
 			"-skip-intro",
-			"-quickstart"
+			"-notquickstart"
 		]
 	},
 	"cmake.configureArgs": [

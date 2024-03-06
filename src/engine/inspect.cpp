@@ -35,6 +35,7 @@
 #include "gui/characterpanel.hpp"
 #include "gui/dialog.hpp"
 #include "gui/frame.hpp"
+#include "gui/itemdisplay.hpp"
 #include "gui/menu.hpp"
 #include "resources/componentstore.hpp"
 #include "resources/resourcemanager.hpp"
@@ -477,31 +478,60 @@ auto Sorcery::Inspect::_set_in_item_action_menu(unsigned int character_id, unsig
 
 		auto item{slot_item.value()};
 
-		// Equip
-		_item_action_menu->items[0].enabled = item->get_usable() && (!item->get_equipped());
+		if (_mode == MenuMode::CAMP) {
 
-		// Unequip
-		_item_action_menu->items[1].enabled = (!item->get_cursed()) && item->get_equipped();
+			// Equip
+			_item_action_menu->items[0].enabled = item->get_usable() && (!item->get_equipped());
 
-		// Trade
-		_item_action_menu->items[2].enabled = !item->get_equipped();
+			// Unequip
+			_item_action_menu->items[1].enabled = (!item->get_cursed()) && item->get_equipped();
 
-		// Examine
-		_item_action_menu->items[3].enabled = true;
+			// Trade
+			_item_action_menu->items[2].enabled = !item->get_equipped();
 
-		// Invoke
-		_item_action_menu->items[4].enabled =
-			(*_game->itemstore)[item->get_type_id()].get_eff_inv() != ItemInv::NO_INV_EFFECT;
+			// Examine
+			_item_action_menu->items[3].enabled = true;
 
-		// Use
-		_item_action_menu->items[5].enabled =
-			(*_game->itemstore)[item->get_type_id()].get_eff_use() != SpellID::NO_SPELL;
+			// Invoke
+			_item_action_menu->items[4].enabled =
+				(*_game->itemstore)[item->get_type_id()].get_eff_inv() != ItemInv::NO_INV_EFFECT;
 
-		// Identify
-		_item_action_menu->items[6].enabled = (!item->get_known()) && character->get_class() == CharacterClass::BISHOP;
+			// Use
+			_item_action_menu->items[5].enabled =
+				(*_game->itemstore)[item->get_type_id()].get_eff_use() != SpellID::NO_SPELL;
 
-		// Drop
-		_item_action_menu->items[7].enabled = (!item->get_cursed()) && (!item->get_equipped());
+			// Identify
+			_item_action_menu->items[6].enabled =
+				(!item->get_known()) && character->get_class() == CharacterClass::BISHOP;
+
+			// Drop
+			_item_action_menu->items[7].enabled = (!item->get_cursed()) && (!item->get_equipped());
+		} else {
+
+			// Equip
+			_item_action_menu->items[0].enabled = item->get_usable() && (!item->get_equipped());
+
+			// Unequip
+			_item_action_menu->items[1].enabled = (!item->get_cursed()) && item->get_equipped();
+
+			// Trade
+			_item_action_menu->items[2].enabled = !item->get_equipped();
+
+			// Examine
+			_item_action_menu->items[3].enabled = true;
+
+			// Invoke
+			_item_action_menu->items[4].enabled = false;
+
+			// Use
+			_item_action_menu->items[5].enabled = false;
+
+			// Identify
+			_item_action_menu->items[6].enabled = false;
+
+			// Drop
+			_item_action_menu->items[7].enabled = (!item->get_cursed()) && (!item->get_equipped());
+		}
 
 		// Leave
 		_item_action_menu->items[8].enabled = true;
