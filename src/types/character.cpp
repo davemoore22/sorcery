@@ -2366,14 +2366,14 @@ auto Sorcery::Character::get_summary_and_out() -> std::string {
 	auto name{_name};
 	if (_display->get_upper())
 		std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
-	auto location{[&] {
+	auto location{std::invoke([&] {
 		if (_location == CharacterLocation::MAZE)
 			return "  OUT";
 		else if (_status == CharacterStatus::LOST)
 			return " LOST";
 		else
 			return "    ";
-	}()};
+	})};
 
 	return fmt::format("{:<15} L {:>2} {}-{} {}{:>5}", name, _abilities.at(CURRENT_LEVEL),
 		alignment_to_str(_alignment).substr(0, 1), class_to_str(_class).substr(0, 3), race_to_str(_race).substr(0, 3),

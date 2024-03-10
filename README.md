@@ -5,9 +5,9 @@ An open source remake/remaster initially of the classic CRPG Wizardry, Proving G
 Written using SFML, TGUI, and C++.
 
 ![](/promo/screen1.png)
+![](/promo/screen22.png)
 ![](/promo/screen20.png)
 ![](/promo/screen7.png)
-![](/promo/screen19.png)
 ![](/promo/screen18.png)
 ![](/promo/screen15.png)
 
@@ -54,7 +54,7 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 * Procedurally-Generated Infinite Content (like Diablo)
 * Modding
 
-## What next? (as of January 2024)
+## What next? (as of March 2024)
 
 I've almost finished the Compendium (Museum/Bestiary/Spellbook), and I'm also making progress on Items, Inventory, and Item-Handling.
 
@@ -62,7 +62,7 @@ Initially I am planning to remake Wizardry 1, then adding 2 and 3, and then subs
 
 ## Compilation
 
-I 'm currently developing solely on Linux (Ubuntu 22) so compilation instructions are currently Linux-specific. Windows instructions and releases will of course be supported at a later date.
+I'm currently developing solely on Linux (Ubuntu 22) so compilation instructions are currently Linux-specific. Windows instructions and releases will of course be supported at a later date.
 
 Full compliation instructions for Linux are in the doc/COMPILE text file, but in brief both CMake (via VSCode CMake Tools) and Code::Blocks are supported once the various support libraries are installed. C++20 compiler support is required (I'm currently using GCC 11.3).
 

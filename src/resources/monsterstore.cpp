@@ -66,14 +66,14 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename) -> bool 
 				const auto known_gfx{items[i]["gfx known index"].asInt()};
 				const auto unknown_gfx{items[i]["gfx known index"].asInt()};
 				const std::string group_size{items[i]["group size"].asString()};
-				const auto level{[&] {
+				const auto level{std::invoke([&] {
 					if (items[i].isMember("level"))
 						return items[i]["level"].asUInt();
 					else
 						return 0u;
-				}()};
+				})};
 				const std::string hit_dice{items[i]["hit dice"].asString()};
-				const auto category{[&] {
+				const auto category{std::invoke([&] {
 					if (items[i].isMember("category")) {
 						if (items[i]["category"].asString().length() > 0) {
 							auto category{magic_enum::enum_cast<MonsterCategory>(items[i]["category"].asString())};
@@ -82,93 +82,93 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename) -> bool 
 							return MonsterCategory::HUMANOID;
 					} else
 						return MonsterCategory::HUMANOID;
-				}()};
-				const auto mclass{[&] {
+				})};
+				const auto mclass{std::invoke([&] {
 					if (category == MonsterCategory::HUMANOID) {
 						auto mclass{magic_enum::enum_cast<MonsterClass>(items[i]["category"].asString())};
 						return mclass.value_or(MonsterClass::NO_CLASS);
 					} else
 						return MonsterClass::NO_CLASS;
-				}()};
-				const auto ac{[&] {
+				})};
+				const auto ac{std::invoke([&] {
 					if (items[i].isMember("ac"))
 						return items[i]["ac"].asInt();
 					else
 						return 10;
-				}()};
+				})};
 				const std::string atks{items[i]["attacks"].asString()};
 				const auto attacks{_parse_attacks(atks)};
-				const auto specials{[&] {
+				const auto specials{std::invoke([&] {
 					if (items[i].isMember("special"))
 						return items[i]["special"].asString();
 					else
 						return std::string{};
-				}()};
+				})};
 				const auto level_drain{_parse_level_drain(specials)};
 				const auto regeneration(_parse_regen(specials));
 				const auto breath_weapon{_parse_breath_weapons(specials)};
-				const auto rewards_1{[&] {
+				const auto rewards_1{std::invoke([&] {
 					if (items[i].isMember("reward 1"))
 						return items[i]["reward 1"].asUInt();
 					else
 						return 0u;
-				}()};
-				const auto rewards_2{[&] {
+				})};
+				const auto rewards_2{std::invoke([&] {
 					if (items[i].isMember("reward 2"))
 						return items[i]["reward 2"].asUInt();
 					else
 						return 0u;
-				}()};
-				const std::string res{[&] {
+				})};
+				const std::string res{std::invoke([&] {
 					if (items[i].isMember("resistances"))
 						return items[i]["resistances"].asString();
 					else
 						return std::string{};
-				}()};
+				})};
 				const auto resistances{_parse_resistances(res)};
-				const std::string props{[&] {
+				const std::string props{std::invoke([&] {
 					if (items[i].isMember("properties"))
 						return items[i]["properties"].asString();
 					else
 						return std::string{};
-				}()};
+				})};
 				const auto properties{_parse_properties(props)};
-				const auto xp{[&] {
+				const auto xp{std::invoke([&] {
 					if (items[i].isMember("xp"))
 						return items[i]["xp"].asUInt();
 					else
 						return 0u;
-				}()};
-				const auto partner_type_id{[&] {
+				})};
+				const auto partner_type_id{std::invoke([&] {
 					if (items[i].isMember("partner id"))
 						return items[i]["partner id"].asUInt();
 					else
 						return 0u;
-				}()};
-				const auto partner_chance{[&] {
+				})};
+				const auto partner_chance{std::invoke([&] {
 					if (items[i].isMember("partner chance"))
 						return items[i]["partner chance"].asUInt();
 					else
 						return 0u;
-				}()};
-				const auto mage_level{[&] {
+				})};
+				const auto mage_level{std::invoke([&] {
 					if (items[i].isMember("mage level"))
 						return items[i]["mage level"].asUInt();
 					else
 						return 0u;
-				}()};
-				const auto priest_level{[&] {
+				})};
+				const auto priest_level{std::invoke([&] {
 					if (items[i].isMember("priest level"))
 						return items[i]["priest level"].asUInt();
 					else
 						return 0u;
-				}()};
-				const auto spell_resistance{[&] {
+				})};
+				const auto spell_resistance{std::invoke([&] {
 					if (items[i].isMember("spell resistance"))
 						return items[i]["spell resistance"].asUInt();
 					else
 						return 0u;
-				}()};
+				})};
 				const std::string traits{items[i]["traits"].asString()};
 				const std::string weaknesses{items[i]["weaknesses"].asString()};
 

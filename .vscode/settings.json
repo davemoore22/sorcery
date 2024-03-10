@@ -131,7 +131,7 @@
 	"[applescript]": {
 		"files.encoding": "utf8"
 	},
-	"editor.fontSize": 12,
+	"editor.fontSize": 16,
 	"editor.fontLigatures": true,
 	"C_Cpp.errorSquiggles": "enabled",
 	"csharp.suppressDotnetInstallWarning": true,
@@ -139,11 +139,11 @@
 	"editor.wordWrapColumn": 120,
 	"C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
 	"C_Cpp.default.compilerPath": "linux-gcc-x64",
-	"editor.fontFamily": "'ProggyVector', 'Monaco', 'Hack Nerd Font Mono', 'Comic Mono', Monaco, 'Droid Sans Mono', 'monospace', monospace",
+	"editor.fontFamily": "'Monaco', 'ProggyVector', 'Fira Code', 'Hack Nerd Font Mono', 'Comic Mono', Monaco, 'Droid Sans Mono', 'monospace', monospace",
 	"cmake.debugConfig": {
 		"args": [
 			"-skip-intro",
-			"-notquickstart"
+			"-quickstart"
 		]
 	},
 	"cmake.configureArgs": [

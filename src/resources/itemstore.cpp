@@ -63,7 +63,7 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 
 				// Some fields are always present
 				const auto id{magic_enum::enum_cast<Enums::Items::TypeID>(items[i]["id"].asInt())};
-				const auto category{[&] {
+				const auto category{std::invoke([&] {
 					if (items[i].isMember("category")) {
 						if (items[i]["category"].asString().length() > 0) {
 							auto category{magic_enum::enum_cast<ItemCategory>(items[i]["category"].asString())};
@@ -72,52 +72,52 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 							return NO_ITEM_CATEGORY;
 					} else
 						return NO_ITEM_CATEGORY;
-				}()};
+				})};
 				const std::string known_name(items[i]["known name"].asString());
 				const std::string unknown_name(items[i]["unknown name"].asString());
 				const std::string display_name(items[i]["display name"].asString());
 				const auto value{static_cast<unsigned int>(std::stoul(items[i]["value"].asString()))};
-				const std::string allowed_classes_s{[&] {
+				const std::string allowed_classes_s{std::invoke([&] {
 					if (items[i].isMember("allowed classes")) {
 						return items[i]["allowed classes"].asString().length() > 0
 								   ? items[i]["allowed classes"].asString()
 								   : "";
 					} else
 						return std::string{};
-				}()};
-				const std::string allowed_alignments_s{[&] {
+				})};
+				const std::string allowed_alignments_s{std::invoke([&] {
 					if (items[i].isMember("allowed alignments"))
 						return items[i]["allowed alignments"].asString().length() > 0
 								   ? items[i]["allowed alignments"].asString()
 								   : "";
 					else
 						return std::string{};
-				}()};
-				const auto to_hit{[&] {
+				})};
+				const auto to_hit{std::invoke([&] {
 					if (items[i].isMember("to hit"))
 						return items[i]["to hit"].asInt();
 					else
 						return 0;
-				}()};
-				const std::string damage_s{[&] {
+				})};
+				const std::string damage_s{std::invoke([&] {
 					if (items[i].isMember("damage"))
 						return items[i]["damage"].asString().length() > 0 ? items[i]["damage"].asString() : "";
 					else
 						return std::string{};
-				}()};
-				const auto attacks{[&] {
+				})};
+				const auto attacks{std::invoke([&] {
 					if (items[i].isMember("attacks"))
 						return items[i]["attacks"].asUInt();
 					else
 						return 0u;
-				}()};
-				const auto ac{[&] {
+				})};
+				const auto ac{std::invoke([&] {
 					if (items[i].isMember("ac"))
 						return items[i]["ac"].asInt();
 					else
 						return 0;
-				}()};
-				const auto use_spell{[&] {
+				})};
+				const auto use_spell{std::invoke([&] {
 					if (items[i].isMember("use")) {
 						if (items[i]["use"].asString().length() > 0) {
 							auto use{magic_enum::enum_cast<SpellID>(items[i]["use"].asString())};
@@ -126,26 +126,26 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 							return NO_SPELL;
 					} else
 						return NO_SPELL;
-				}()};
-				const auto use_decay{[&] {
+				})};
+				const auto use_decay{std::invoke([&] {
 					if (items[i].isMember("use decay"))
 						return items[i]["use decay"].asUInt();
 					else
 						return 0u;
-				}()};
-				const std::string offensive_s{[&] {
+				})};
+				const std::string offensive_s{std::invoke([&] {
 					if (items[i].isMember("offensive"))
 						return items[i]["offensive"].asString().length() > 0 ? items[i]["offensive"].asString() : "";
 					else
 						return std::string{};
-				}()};
-				const std::string defensive_s{[&] {
+				})};
+				const std::string defensive_s{std::invoke([&] {
 					if (items[i].isMember("defensive"))
 						return items[i]["defensive"].asString().length() > 0 ? items[i]["defensive"].asString() : "";
 					else
 						return std::string{};
-				}()};
-				const auto invoke_effect{[&] {
+				})};
+				const auto invoke_effect{std::invoke([&] {
 					if (items[i].isMember("invoke")) {
 						if (items[i]["invoke"].asString().length() > 0) {
 							auto invoke{
@@ -155,43 +155,43 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 							return NO_INV_EFFECT;
 					} else
 						return NO_INV_EFFECT;
-				}()};
-				const auto invoke_decay{[&] {
+				})};
+				const auto invoke_decay{std::invoke([&] {
 					if (items[i].isMember("invoke decay"))
 						return items[i]["invoke decay"].asUInt();
 					else
 						return 0u;
-				}()};
-				const auto cursed{[&] {
+				})};
+				const auto cursed{std::invoke([&] {
 					if (items[i].isMember("cursed"))
 						return items[i]["cursed"].asString() == "Cursed";
 					else
 						return false;
-				}()};
-				const int shop_stock{[&] {
+				})};
+				const int shop_stock{std::invoke([&] {
 					if (items[i].isMember("shop stock"))
 						return items[i]["shop stock"].asInt();
 					else
 						return 0;
-				}()};
-				const auto buy{[&] {
+				})};
+				const auto buy{std::invoke([&] {
 					if (items[i].isMember("buy"))
 						return items[i]["buy"].asString() == "yes";
 					else
 						return false;
-				}()};
-				const auto sell{[&] {
+				})};
+				const auto sell{std::invoke([&] {
 					if (items[i].isMember("sell"))
 						return items[i]["sell"].asString() == "yes";
 					else
 						return false;
-				}()};
-				const std::string effects{[&] {
+				})};
+				const std::string effects{std::invoke([&] {
 					if (items[i].isMember("effects"))
 						return items[i]["effects"].asString().length() > 0 ? items[i]["effects"].asString() : "";
 					else
 						return std::string{};
-				}()};
+				})};
 
 				// Now do extra processing
 				ItemUsableClass item_usable{};

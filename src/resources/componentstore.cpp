@@ -155,7 +155,7 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 					auto name{components[j]["name"].asString()};
 
 					// Not always present
-					auto x{[&] {
+					auto x{std::invoke([&] {
 						if (components[j].isMember("x")) {
 							if (components[j]["x"].asString() == "centre")
 								return -1;
@@ -165,8 +165,8 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 								return 0;
 						} else
 							return 0;
-					}()};
-					auto y{[&] {
+					})};
+					auto y{std::invoke([&] {
 						if (components[j].isMember("y")) {
 							if (components[j]["y"].asString() == "centre")
 								return -1;
@@ -176,8 +176,8 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 								return 0;
 						} else
 							return 0;
-					}()};
-					auto w{[&] {
+					})};
+					auto w{std::invoke([&] {
 						if (components[j].isMember("w")) {
 							if (components[j]["w"].asString().length() > 0)
 
@@ -186,8 +186,8 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 								return 0u;
 						} else
 							return 0u;
-					}()};
-					auto h{[&] {
+					})};
+					auto h{std::invoke([&] {
 						if (components[j].isMember("h")) {
 							if (components[j]["h"].asString().length() > 0)
 								return static_cast<unsigned int>(std::stoi(components[j]["h"].asString()));
@@ -195,8 +195,8 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 								return 0u;
 						} else
 							return 0u;
-					}()};
-					auto scale{[&] {
+					})};
+					auto scale{std::invoke([&] {
 						if (components[j].isMember("scale")) {
 							if (components[j]["scale"].asString().length() > 0)
 								return std::stof(components[j]["scale"].asString());
@@ -204,8 +204,8 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 								return 0.0f;
 						} else
 							return 0.0f;
-					}()};
-					FontType font_type{[&] {
+					})};
+					FontType font_type{std::invoke([&] {
 						if (components[j].isMember("font")) {
 							if (components[j]["font"].asString().length() > 0) {
 								if (components[j]["font"].asString() == "monospace")
@@ -222,8 +222,8 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 								return FontType::NO_FONT;
 						} else
 							return FontType::NO_FONT;
-					}()};
-					auto size{[&] {
+					})};
+					auto size{std::invoke([&] {
 						if (components[j].isMember("size")) {
 							if (components[j]["size"].asString().length() > 0)
 								return static_cast<unsigned int>(std::stoi(components[j]["size"].asString()));
@@ -231,8 +231,8 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 								return 0u;
 						} else
 							return 0u;
-					}()};
-					auto colour{[&] {
+					})};
+					auto colour{std::invoke([&] {
 						if (components[j].isMember("colour")) {
 							if (components[j]["colour"].asString().length() > 0)
 								return std::stoull(components[j]["colour"].asString(), 0, 16);
@@ -240,8 +240,8 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 								return static_cast<unsigned long long>(0ULL);
 						} else
 							return static_cast<unsigned long long>(0ULL);
-					}()};
-					auto animated{[&] {
+					})};
+					auto animated{std::invoke([&] {
 						if (components[j].isMember("animated")) {
 							if (components[j]["animated"].asString().length() > 0)
 								return components[j]["animated"].asString() == "true";
@@ -249,14 +249,14 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 								return false;
 						} else
 							return false;
-					}()};
-					auto string_key{[&] {
+					})};
+					auto string_key{std::invoke([&] {
 						if (components[j].isMember("string"))
 							return components[j]["string"].asString();
 						else
 							return std::string{};
-					}()};
-					auto alpha{[&] {
+					})};
+					auto alpha{std::invoke([&] {
 						if (components[j].isMember("alpha")) {
 							if (components[j]["alpha"].asString().length() > 0)
 								return static_cast<unsigned int>(std::stoi(components[j]["alpha"].asString()));
@@ -264,8 +264,8 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 								return 0u;
 						} else
 							return 0u;
-					}()};
-					auto width{[&] {
+					})};
+					auto width{std::invoke([&] {
 						if (components[j].isMember("width")) {
 							if (components[j]["width"].asString().length() > 0)
 								return static_cast<unsigned int>(std::stoi(components[j]["width"].asString()));
@@ -273,8 +273,8 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 								return 0u;
 						} else
 							return 0u;
-					}()};
-					auto background{[&] {
+					})};
+					auto background{std::invoke([&] {
 						if (components[j].isMember("background")) {
 							if (components[j]["background"].asString().length() > 0)
 								return std::stoull(components[j]["background"].asString(), 0, 16);
@@ -282,8 +282,8 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 								return static_cast<unsigned long long>(0ULL);
 						} else
 							return static_cast<unsigned long long>(0ULL);
-					}()};
-					Justification justification{[&] {
+					})};
+					Justification justification{std::invoke([&] {
 						if (components[j].isMember("justification")) {
 							if (components[j]["justification"].asString().length() > 0) {
 								if (components[j]["justification"].asString() == "left")
@@ -298,8 +298,8 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 								return Justification::LEFT;
 						} else
 							return Justification::LEFT;
-					}()};
-					ComponentType component_type{[&] {
+					})};
+					ComponentType component_type{std::invoke([&] {
 						if (components[j].isMember("type")) {
 							if (components[j]["type"].asString().length() > 0) {
 								if (components[j]["type"].asString() == "frame")
@@ -320,8 +320,8 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 								return ComponentType::UNKNOWN;
 						} else
 							return ComponentType::UNKNOWN;
-					}()};
-					auto priority{[&] {
+					})};
+					auto priority{std::invoke([&] {
 						if (components[j].isMember("priority")) {
 							if (components[j]["priority"].asString().length() > 0)
 								return static_cast<unsigned int>(std::stoi(components[j]["priority"].asString()));
@@ -329,8 +329,8 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 								return 999u;
 						} else
 							return 999u;
-					}()};
-					WindowDrawMode drawmode{[&] {
+					})};
+					WindowDrawMode drawmode{std::invoke([&] {
 						if (components[j].isMember("drawmode")) {
 							if (components[j]["drawmode"].asString().length() > 0) {
 								if (components[j]["drawmode"].asString() == "manual")
@@ -343,8 +343,8 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 								return WindowDrawMode::AUTOMATIC;
 						} else
 							return WindowDrawMode::AUTOMATIC;
-					}()};
-					GraphicsTexture texture{[&] {
+					})};
+					GraphicsTexture texture{std::invoke([&] {
 						if (components[j].isMember("texture")) {
 							if (components[j]["texture"].asString().length() > 0) {
 								if (components[j]["texture"].asString() == "background")
@@ -367,7 +367,7 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 								return GraphicsTexture::NO_TEXTURE;
 						} else
 							return GraphicsTexture::NO_TEXTURE;
-					}()};
+					})};
 
 					// Add the Component
 					const auto key{fmt::format("{}:{}", screen_name, name)};

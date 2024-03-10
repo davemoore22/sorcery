@@ -108,7 +108,7 @@ auto Sorcery::Graphics::adjust_colour(int value, CharacterAbilityType ability_ty
 	auto to_scale{value * 1.0f};
 	switch (ability_type) {
 	case CharacterAbilityType::NUMBER: {
-		to_scale = [&] {
+		to_scale = std::invoke([&] {
 			to_scale *= 0.5f;
 			if (to_scale > 5.0f)
 				return 5.0f;
@@ -116,26 +116,26 @@ auto Sorcery::Graphics::adjust_colour(int value, CharacterAbilityType ability_ty
 				return -5.0f;
 			else
 				return to_scale;
-		}();
+		});
 		to_scale += 5.0f;
 		auto scaled{to_scale / 10.0f};
 		return (gradient.sampleColor(scaled)).toInteger();
 	} break;
 	case CharacterAbilityType::AC: {
-		to_scale = [&] {
+		to_scale = std::invoke([&] {
 			if (to_scale < -10.0f)
 				return -10.0f;
 			else if (to_scale > 10.0f)
 				return 10.0f;
 			else
 				return to_scale;
-		}();
+		});
 		to_scale = 10.0f - to_scale;
 		auto scaled{to_scale / 20.0f};
 		return (gradient.sampleColor(scaled)).toInteger();
 	} break;
 	case CharacterAbilityType::STAT: {
-		to_scale = [&] {
+		to_scale = std::invoke([&] {
 			to_scale -= 3.0f;
 			if (to_scale < 0.0f)
 				return 0.0f;
@@ -143,7 +143,7 @@ auto Sorcery::Graphics::adjust_colour(int value, CharacterAbilityType ability_ty
 				return 15.0f;
 			else
 				return to_scale;
-		}();
+		});
 		auto scaled{to_scale / 15.0f};
 		return (gradient.sampleColor(scaled)).toInteger();
 	} break;
@@ -152,7 +152,7 @@ auto Sorcery::Graphics::adjust_colour(int value, CharacterAbilityType ability_ty
 		return (gradient.sampleColor(scaled)).toInteger();
 	} break;
 	case CharacterAbilityType::MODIFIER: {
-		to_scale = [&] {
+		to_scale = std::invoke([&] {
 			to_scale *= 0.5f;
 			if (to_scale > 5.0f)
 				return 5.0f;
@@ -160,7 +160,7 @@ auto Sorcery::Graphics::adjust_colour(int value, CharacterAbilityType ability_ty
 				return -5.0f;
 			else
 				return to_scale;
-		}();
+		});
 		to_scale += 5.0f;
 		auto scaled{to_scale / 10.0f};
 		return (gradient.sampleColor(scaled)).toInteger();

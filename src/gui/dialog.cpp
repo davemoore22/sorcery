@@ -89,12 +89,12 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 
 	// Get the Text
 	auto text_width{_frame_c.w - 4};
-	auto string{[&] {
+	auto string{std::invoke([&] {
 		if (!new_text.empty())
 			return new_text;
 		else
 			return (*_display->string)[string_c.string_key];
-	}()};
+	})};
 	auto wrapped_text{WORDWRAP(string, text_width)};
 
 	// Split the Text into lines

@@ -159,12 +159,12 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 				auto menu_item_s{icons[i]["menu_item"].asString()};
 				auto key{icons[i]["key"].asString()};
 				auto colour_hex{icons[i]["colour"].asString()};
-				sf::Color colour{[&] {
+				sf::Color colour{std::invoke([&] {
 					if (colour_hex.length() == 0)
 						return sf::Color(_layout.colour);
 					else
 						return sf::Color(std::stoul(colour_hex, 0, 16));
-				}()};
+				})};
 				MenuItem menu_item{MenuItem::NO_MENU_ITEM};
 
 				// Use Magic Enum Library Reflection to convert the string to the type if we have an associated menu

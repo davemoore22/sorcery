@@ -178,20 +178,20 @@ auto Sorcery::Level::at(const Coordinate loc, const MapDirection direction, cons
 		break;
 	}
 
-	auto wrapped_x{[&] {
+	auto wrapped_x{std::invoke([&] {
 		if (dest.x < wrap_bottom_left().x)
 			return dest.x + static_cast<int>(wrap_size().w);
 		else if (dest.x > wrap_top_right().x)
 			return dest.x - static_cast<int>(wrap_size().w);
 		return dest.x;
-	}()};
-	auto wrapped_y{[&] {
+	})};
+	auto wrapped_y{std::invoke([&] {
 		if (dest.y < wrap_bottom_left().y)
 			return dest.y + static_cast<int>(wrap_size().h);
 		else if (dest.y > wrap_top_right().y)
 			return dest.y - static_cast<int>(wrap_size().h);
 		return dest.y;
-	}()};
+	})};
 	return _tiles.at(Coordinate{wrapped_x, wrapped_y});
 }
 
@@ -360,24 +360,24 @@ auto Sorcery::Level::_load_markers(const Json::Value row_data) -> bool {
 			x = absolute_x + i;
 			auto tile{tile_data[i]};
 
-			auto darkness{[&] {
+			auto darkness{std::invoke([&] {
 				if (tile.isMember("d"))
 					return static_cast<std::string>(tile["d"].asString()) == "1";
 				else
 					return false;
-			}()};
-			auto marker{[&] {
+			})};
+			auto marker{std::invoke([&] {
 				if (tile.isMember("m"))
 					return static_cast<unsigned int>(tile["m"].asUInt());
 				else
 					return 0u;
-			}()};
-			auto terrain{[&] {
+			})};
+			auto terrain{std::invoke([&] {
 				if (tile.isMember("t"))
 					return static_cast<unsigned int>(tile["t"].asUInt());
 				else
 					return 0u;
-			}()};
+			})};
 
 			_update_tile_markers(Coordinate{x, y}, darkness, marker, terrain);
 		}
@@ -407,18 +407,18 @@ auto Sorcery::Level::_set_complicated_walls(const Json::Value row_data) -> bool 
 			auto tile{tile_data[i]};
 
 			// Get the bottom and right walls and cell properties
-			auto south_wall{[&] {
+			auto south_wall{std::invoke([&] {
 				if (tile.isMember("b"))
 					return static_cast<unsigned int>(tile["b"].asUInt());
 				else
 					return 0u;
-			}()};
-			auto east_wall{[&] {
+			})};
+			auto east_wall{std::invoke([&] {
 				if (tile.isMember("r"))
 					return static_cast<unsigned int>(tile["r"].asUInt());
 				else
 					return 0u;
-			}()};
+			})};
 
 			_fill_in_complicated_walls(Coordinate{x, y}, south_wall, east_wall);
 		}
@@ -448,18 +448,18 @@ auto Sorcery::Level::_load_simple_walls(const Json::Value row_data) -> bool {
 			auto tile{tile_data[i]};
 
 			// Get the bottom and right walls and cell properties
-			auto south_wall{[&] {
+			auto south_wall{std::invoke([&] {
 				if (tile.isMember("b"))
 					return static_cast<unsigned int>(tile["b"].asUInt());
 				else
 					return 0u;
-			}()};
-			auto east_wall{[&] {
+			})};
+			auto east_wall{std::invoke([&] {
 				if (tile.isMember("r"))
 					return static_cast<unsigned int>(tile["r"].asUInt());
 				else
 					return 0u;
-			}()};
+			})};
 
 			_update_tile_walls_simple(Coordinate{x, y}, south_wall, east_wall);
 		}

@@ -207,18 +207,18 @@ auto Sorcery::Window::shove_text(const sf::Text &shovee, sf::Text &shover, unsig
 
 auto Sorcery::Window::set_pos(Component *component, sf::Transformable *object) const -> void {
 
-	const auto off_x{[&] {
+	const auto off_x{std::invoke([&] {
 		if ((*component)["offset_x"])
 			return std::stoi((*component)["offset_x"].value());
 		else
 			return 0;
-	}()};
-	const auto off_y{[&] {
+	})};
+	const auto off_y{std::invoke([&] {
 		if ((*component)["offset_y"])
 			return std::stoi((*component)["offset_y"].value());
 		else
 			return 0;
-	}()};
+	})};
 
 	object->setPosition(component->x + off_x, component->y + off_y);
 }

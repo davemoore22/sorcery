@@ -286,18 +286,18 @@ auto Sorcery::CharacterDisplay::generate_display() -> void {
 auto Sorcery::CharacterDisplay::_add_icon(Component &component, std::string icon_key) -> void {
 
 	auto icon{(*_graphics->icons)[icon_key].value()};
-	const auto offset_x{[&] {
+	const auto offset_x{std::invoke([&] {
 		if (component["offset_x"])
 			return std::stoi(component["offset_x"].value());
 		else
 			return 0;
-	}()};
-	const auto offset_y{[&] {
+	})};
+	const auto offset_y{std::invoke([&] {
 		if (component["offset_y"])
 			return std::stoi(component["offset_y"].value());
 		else
 			return 0;
-	}()};
+	})};
 	icon.setPosition(component.x + offset_x, component.y + offset_y);
 	icon.setScale(component.scl());
 	_v_sprites.try_emplace(component.unique_key, icon);
@@ -319,18 +319,18 @@ auto Sorcery::CharacterDisplay::_add_text(
 	text.setString(formatted_value);
 	if (_display->get_bold())
 		text.setStyle(sf::Text::Bold);
-	const auto offset_x{[&] {
+	const auto offset_x{std::invoke([&] {
 		if (component["offset_x"])
 			return std::stoi(component["offset_x"].value());
 		else
 			return 0;
-	}()};
-	const auto offset_y{[&] {
+	})};
+	const auto offset_y{std::invoke([&] {
 		if (component["offset_y"])
 			return std::stoi(component["offset_y"].value());
 		else
 			return 0;
-	}()};
+	})};
 	text.setPosition(component.x + offset_x, component.y + offset_y);
 
 	// Generate a new key as this is a map, and we might call this with the same base component
@@ -925,18 +925,18 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 				auto spell_icon{_get_spell_icon(spell.category)};
 				if (spell_icon) {
 					spell_icon.value().setScale(spell_icon_c.scl());
-					const auto offset_x{[&] {
+					const auto offset_x{std::invoke([&] {
 						if (spell_icon_c["offset_x"])
 							return std::stoi(spell_icon_c["offset_x"].value());
 						else
 							return 0;
-					}()};
-					const auto offset_y{[&] {
+					})};
+					const auto offset_y{std::invoke([&] {
 						if (spell_icon_c["offset_y"])
 							return std::stoi(spell_icon_c["offset_y"].value());
 						else
 							return 0;
-					}()};
+					})};
 
 					spell_icon.value().setPosition(
 						spell_name_c.x + offset_x +
@@ -1014,18 +1014,18 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 				auto spell_icon{_get_spell_icon(spell.category)};
 				if (spell_icon) {
 					spell_icon.value().setScale(spell_icon_c.scl());
-					const auto offset_x{[&] {
+					const auto offset_x{std::invoke([&] {
 						if (spell_icon_c["offset_x"])
 							return std::stoi(spell_icon_c["offset_x"].value());
 						else
 							return 0;
-					}()};
-					const auto offset_y{[&] {
+					})};
+					const auto offset_y{std::invoke([&] {
 						if (spell_icon_c["offset_y"])
 							return std::stoi(spell_icon_c["offset_y"].value());
 						else
 							return 0;
-					}()};
+					})};
 
 					spell_icon.value().setPosition(
 						spell_name_c.x + offset_x +

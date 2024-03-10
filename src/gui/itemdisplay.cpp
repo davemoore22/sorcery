@@ -143,7 +143,7 @@ auto Sorcery::ItemDisplay::set(const unsigned int item_idx) -> void {
 	_add_text((*_display->layout)["item_display:damage_label_item"], "{}", it.get_damage());
 	_add_text((*_display->layout)["item_display:swings_label_item"], "{}", std::to_string(it.get_swings()));
 
-	const std::string it_invoke{[&] {
+	const std::string it_invoke{std::invoke([&] {
 		if (it.get_eff_inv() == ItemInv::NO_INV_EFFECT)
 			return std::string{""};
 		else {
@@ -152,10 +152,10 @@ auto Sorcery::ItemDisplay::set(const unsigned int item_idx) -> void {
 			std::replace(str.begin(), str.end(), '_', ' ');
 			return str;
 		}
-	}()};
+	})};
 	_add_text((*_display->layout)["item_display:invoke_label_item"], "{}", it_invoke);
 
-	const std::string it_use{[&] {
+	const std::string it_use{std::invoke([&] {
 		if (it.get_eff_use() == SpellID::NO_SPELL)
 			return std::string{""};
 		else {
@@ -164,7 +164,7 @@ auto Sorcery::ItemDisplay::set(const unsigned int item_idx) -> void {
 			std::replace(str.begin(), str.end(), '_', ' ');
 			return str;
 		}
-	}()};
+	})};
 	_add_text((*_display->layout)["item_display:use_label_item"], "{}", it_use);
 
 	auto effects{it.get_effects()};
@@ -206,18 +206,18 @@ auto Sorcery::ItemDisplay::_add_text(Component &component, std::string format, s
 	text.setString(formatted_value);
 	if (_display->get_bold())
 		text.setStyle(sf::Text::Bold);
-	const auto offset_x{[&] {
+	const auto offset_x{std::invoke([&] {
 		if (component["offset_x"])
 			return std::stoi(component["offset_x"].value());
 		else
 			return 0;
-	}()};
-	const auto offset_y{[&] {
+	})};
+	const auto offset_y{std::invoke([&] {
 		if (component["offset_y"])
 			return std::stoi(component["offset_y"].value());
 		else
 			return 0;
-	}()};
+	})};
 	text.setPosition(component.x + offset_x, component.y + offset_y);
 
 	// Generate a new key as this is a map, and we might call this with the same base component

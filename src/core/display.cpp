@@ -112,18 +112,18 @@ auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, s
 					auto image{icon.value()};
 
 					// Check for Offsets
-					const auto offset_x{[&] {
+					const auto offset_x{std::invoke([&] {
 						if (component["offset_x"])
 							return std::stoi(component["offset_x"].value());
 						else
 							return 0;
-					}()};
-					const auto offset_y{[&] {
+					})};
+					const auto offset_y{std::invoke([&] {
 						if (component["offset_y"])
 							return std::stoi(component["offset_y"].value());
 						else
 							return 0;
-					}()};
+					})};
 					image.setPosition(component.x + offset_x, component.y + offset_y);
 					image.setScale(component.scl());
 
@@ -184,18 +184,18 @@ auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, s
 					}
 
 					// Check for Offsets
-					const auto offset_x{[&] {
+					const auto offset_x{std::invoke([&] {
 						if (component["offset_x"])
 							return std::stoi(component["offset_x"].value());
 						else
 							return 0;
-					}()};
-					const auto offset_y{[&] {
+					})};
+					const auto offset_y{std::invoke([&] {
 						if (component["offset_y"])
 							return std::stoi(component["offset_y"].value());
 						else
 							return 0;
-					}()};
+					})};
 
 					// Set the image position
 					const sf::Vector2f image_pos(
@@ -212,18 +212,18 @@ auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, s
 					component.h, component.colour, component.background, component.alpha);
 
 				// Check for Offsets
-				const auto offset_x{[&] {
+				const auto offset_x{std::invoke([&] {
 					if (component["offset_x"])
 						return std::stoi(component["offset_x"].value());
 					else
 						return 0;
-				}()};
-				const auto offset_y{[&] {
+				})};
+				const auto offset_y{std::invoke([&] {
 					if (component["offset_y"])
 						return std::stoi(component["offset_y"].value());
 					else
 						return 0;
-				}()};
+				})};
 
 				frame->setPosition(window->get_x(frame->sprite, component.x) + offset_x,
 					window->get_y(frame->sprite, component.y) + offset_y);
@@ -245,32 +245,32 @@ auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, s
 				auto y{component.y == -1 ? window->centre.y : component.y};
 
 				// Check for Offsets
-				const auto offset_x{[&] {
+				const auto offset_x{std::invoke([&] {
 					if (component["offset_x"])
 						return std::stoi(component["offset_x"].value());
 					else
 						return 0;
-				}()};
-				const auto offset_y{[&] {
+				})};
+				const auto offset_y{std::invoke([&] {
 					if (component["offset_y"])
 						return std::stoi(component["offset_y"].value());
 					else
 						return 0;
-				}()};
+				})};
 
 				// And for Shoves
-				const auto shove_x{[&] {
+				const auto shove_x{std::invoke([&] {
 					if (component["shove_x"])
 						return std::stoi(component["shove_x"].value()) * window->get_cw();
 					else
 						return 0u;
-				}()};
-				const auto shove_y{[&] {
+				})};
+				const auto shove_y{std::invoke([&] {
 					if (component["shove_y"])
 						return std::stoi(component["shove_y"].value()) * window->get_ch();
 					else
 						return 0u;
-				}()};
+				})};
 
 				if (component.justification == Justification::CENTRE) {
 					text.setPosition(x + offset_x + shove_x, y + offset_y + shove_y);
@@ -399,7 +399,7 @@ auto Sorcery::Display::get_input_mode() const -> WindowInputMode {
 auto Sorcery::Display::display_direction_indicator(MapDirection direction, bool monochrome = false) -> void {
 
 	auto di_layout{(*layout)["engine_base_ui:direction_indicator"]};
-	auto di_type{[&] { return monochrome ? di_layout["mono"].value() : di_layout["not_mono"].value(); }()};
+	auto di_type{std::invoke([&] { return monochrome ? di_layout["mono"].value() : di_layout["not_mono"].value(); })};
 	auto di_icon{(*_icons)[di_type]};
 	if (di_icon) {
 		auto indicator{di_icon.value()};
@@ -421,18 +421,18 @@ auto Sorcery::Display::display_direction_indicator(MapDirection direction, bool 
 			break;
 		}
 
-		const auto offset_x{[&] {
+		const auto offset_x{std::invoke([&] {
 			if (di_layout["offset_x"])
 				return std::stoi(di_layout["offset_x"].value());
 			else
 				return 0;
-		}()};
-		const auto offset_y{[&] {
+		})};
+		const auto offset_y{std::invoke([&] {
 			if (di_layout["offset_y"])
 				return std::stoi(di_layout["offset_y"].value());
 			else
 				return 0;
-		}()};
+		})};
 
 		sf::RectangleShape backdrop{sf::Vector2f(512, 512)};
 		backdrop.setFillColor(sf::Color(0, 0, 0));
@@ -452,12 +452,12 @@ auto Sorcery::Display::display_direction_indicator(MapDirection direction, bool 
 
 auto Sorcery::Display::display_cursor() -> void {
 
-	auto cursor{[&] {
+	auto cursor{std::invoke([&] {
 		if (_accessing_disc)
 			return window->get_disc();
 		else
 			return window->get_cursor();
-	}()};
+	})};
 	cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window->get_window())));
 	window->get_window()->draw(cursor);
 }

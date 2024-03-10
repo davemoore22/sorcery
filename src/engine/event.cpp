@@ -60,7 +60,7 @@ Sorcery::Event::Event(
 
 		// Others are multistage
 		_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CONTINUE);
-		const auto menu_stage_key{[&] {
+		const auto menu_stage_key{std::invoke([&] {
 			if (_stage == 1)
 				return _dungeon_event.component_key + "_1:continue_menu";
 			else if (_stage == 2)
@@ -69,7 +69,7 @@ Sorcery::Event::Event(
 				return _dungeon_event.component_key + "_3:continue_menu";
 			else
 				return std::string{};
-		}()};
+		})};
 		_continue_menu->generate((*_display->layout)[menu_stage_key]);
 		_continue_menu->setPosition(
 			_display->get_centre_x(_continue_menu->get_width()), (*_display->layout)[menu_stage_key].y);
@@ -114,7 +114,7 @@ auto Sorcery::Event::start() -> std::optional<MenuItem> {
 		// Generate the display
 		std::string screen_key{};
 		if ((_type == TREBOR_VOICE) || (_type == WERDNA_BOAST)) {
-			screen_key = {[&] {
+			screen_key = std::invoke([&] {
 				if (_stage == 1)
 					return _dungeon_event.component_key + "_1";
 				else if (_stage == 2)
@@ -123,7 +123,7 @@ auto Sorcery::Event::start() -> std::optional<MenuItem> {
 					return _dungeon_event.component_key + "_3";
 				else
 					return std::string{};
-			}()};
+			});
 		} else
 			screen_key = _dungeon_event.component_key;
 
@@ -207,7 +207,7 @@ auto Sorcery::Event::_draw() -> void {
 	case WERDNA_BOAST: {
 
 		// Others are multistage
-		const auto screen_key{[&] {
+		const auto screen_key{std::invoke([&] {
 			if (_stage == 1)
 				return _dungeon_event.component_key + "_1";
 			else if (_stage == 2)
@@ -216,7 +216,7 @@ auto Sorcery::Event::_draw() -> void {
 				return _dungeon_event.component_key + "_3";
 			else
 				return std::string{};
-		}()};
+		})};
 		const auto menu_key{screen_key + ":continue_menu"};
 		_display->display(screen_key, _sprites, _texts, _frames);
 		_continue_menu->generate((*_display->layout)[menu_key]);

@@ -62,50 +62,50 @@ Sorcery::Text::Text(
 		if (bits | unenum(ComponentElement::STRING))
 			_text.setString((*_display->string)[layout.string_key]);
 		if (bits | unenum(ComponentElement::OFFSET)) {
-			const auto offset_x{[&] {
+			const auto offset_x{std::invoke([&] {
 				if (layout["offset_x"])
 					return std::stoi(layout["offset_x"].value());
 				else
 					return 0;
-			}()};
-			const auto offset_y{[&] {
+			})};
+			const auto offset_y{std::invoke([&] {
 				if (layout["offset_y"])
 					return std::stoi(layout["offset_y"].value());
 				else
 					return 0;
-			}()};
+			})};
 			_text.setPosition(offset_x, offset_y);
 		}
 		if (bits | unenum(ComponentElement::ORIGIN)) {
-			const auto origin_x{[&] {
+			const auto origin_x{std::invoke([&] {
 				if (layout["origin_x"])
 					return std::stoi(layout["origin_x"].value());
 				else
 					return 0;
-			}()};
-			const auto origin_y{[&] {
+			})};
+			const auto origin_y{std::invoke([&] {
 				if (layout["origin_y"])
 					return std::stoi(layout["origin_y"].value());
 				else
 					return 0;
-			}()};
+			})};
 			_text.setPosition(origin_x, origin_y);
 		}
 		if (bits | unenum(ComponentElement::O_COLOUR)) {
-			const auto outline_colour{[&] {
+			const auto outline_colour{std::invoke([&] {
 				if (layout["outline_colour"])
 					return sf::Color(std::stoull(layout["outline_colour"].value(), 0, 16));
 				else
 					return sf::Color(sf::Color::Black);
-			}()};
+			})};
 		}
 		if (bits | unenum(ComponentElement::O_THICKNESS)) {
-			const auto outline_thickness{[&] {
+			const auto outline_thickness{std::invoke([&] {
 				if (layout["origin_y"])
 					return std::stoi(layout["outline_thickness"].value());
 				else
 					return 0;
-			}()};
+			})};
 			_text.setOutlineThickness(outline_thickness);
 		}
 		if (bits | unenum(ComponentElement::JUSTIFICATION)) {

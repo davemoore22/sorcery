@@ -77,18 +77,18 @@ Sorcery::Legate::Legate(System *system, Display *display, Graphics *graphics, Ch
 		std::transform(alignment.begin(), alignment.end(), alignment.begin(), ::toupper);
 
 	_choose_alignment.setString((*_display->string)["LEGATE_CHARACTER_ALIGNMENT"]);
-	const auto offset_x{[&] {
+	const auto offset_x{std::invoke([&] {
 		if (text_c["offset_x"])
 			return std::stoi(text_c["offset_x"].value());
 		else
 			return 0;
-	}()};
-	const auto offset_y{[&] {
+	})};
+	const auto offset_y{std::invoke([&] {
 		if (text_c["offset_y"])
 			return std::stoi(text_c["offset_y"].value());
 		else
 			return 0;
-	}()};
+	})};
 	_choose_alignment.setPosition(text_c.x + offset_x, text_c.y + offset_y);
 
 	// Initial Stage

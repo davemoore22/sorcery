@@ -116,18 +116,18 @@ auto Sorcery::MonsterDisplay::_add_text(Component &component, std::string format
 	text.setString(formatted_value);
 	if (_display->get_bold())
 		text.setStyle(sf::Text::Bold);
-	const auto offset_x{[&] {
+	const auto offset_x{std::invoke([&] {
 		if (component["offset_x"])
 			return std::stoi(component["offset_x"].value());
 		else
 			return 0;
-	}()};
-	const auto offset_y{[&] {
+	})};
+	const auto offset_y{std::invoke([&] {
 		if (component["offset_y"])
 			return std::stoi(component["offset_y"].value());
 		else
 			return 0;
-	}()};
+	})};
 	text.setPosition(component.x + offset_x, component.y + offset_y);
 
 	// Generate a new key as this is a map, and we might call this with the same base component

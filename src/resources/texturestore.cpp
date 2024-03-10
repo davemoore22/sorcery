@@ -211,7 +211,7 @@ auto Sorcery::TextureStore::_get_rect(unsigned int index, GraphicsTextureType te
 
 	using enum Enums::Graphics::TextureType;
 
-	int tile_size{[&] {
+	int tile_size{std::invoke([&] {
 		switch (texture_type) {
 		case AUTOMAP:
 			return AUTOMAP_TILE_SIZE;
@@ -236,8 +236,8 @@ auto Sorcery::TextureStore::_get_rect(unsigned int index, GraphicsTextureType te
 			return DUNGEON_TILE_SIZE;
 			break;
 		}
-	}()};
-	int tile_row_count{[&] {
+	})};
+	int tile_row_count{std::invoke([&] {
 		switch (texture_type) {
 		case AUTOMAP:
 			return AUTOMAP_TILE_ROW_COUNT;
@@ -262,7 +262,7 @@ auto Sorcery::TextureStore::_get_rect(unsigned int index, GraphicsTextureType te
 			return DUNGEON_TILE_ROW_COUNT;
 			break;
 		}
-	}()};
+	})};
 
 	return sf::IntRect(
 		tile_size * (index % tile_row_count), tile_size * (index / tile_row_count), tile_size, tile_size);

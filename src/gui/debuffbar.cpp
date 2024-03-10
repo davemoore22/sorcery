@@ -57,18 +57,18 @@ auto Sorcery::DebuffBar::refresh() -> void {
 	auto maporfic{(*_graphics->icons)["shield-buff"].value()};
 	auto latumpaic{(*_graphics->icons)["knowledge-buff"].value()};
 
-	const auto initial_x{[&] {
+	const auto initial_x{std::invoke([&] {
 		if (_layout["offset_x"])
 			return std::stoi(_layout["offset_x"].value());
 		else
 			return 0;
-	}()};
-	const auto initial_y{[&] {
+	})};
+	const auto initial_y{std::invoke([&] {
 		if (_layout["offset_y"])
 			return std::stoi(_layout["offset_y"].value());
 		else
 			return 0;
-	}()};
+	})};
 
 	auto x{initial_x};
 	auto y{initial_y};

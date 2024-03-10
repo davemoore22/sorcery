@@ -90,18 +90,18 @@ auto Sorcery::IconPanel::_set_icon(sf::Sprite &sprite, Component layout, int off
 	sprite.rotate(std::stof(layout["rotation"].value()));
 	sprite.setScale(layout.scl());
 	sprite.setColor(sf::Color(layout.colour));
-	const auto comp_offset_x{[&] {
+	const auto comp_offset_x{std::invoke([&] {
 		if (layout["offset_x"])
 			return std::stoi(layout["offset_x"].value());
 		else
 			return 0;
-	}()};
-	const auto comp_offset_y{[&] {
+	})};
+	const auto comp_offset_y{std::invoke([&] {
 		if (layout["offset_y"])
 			return std::stoi(layout["offset_y"].value());
 		else
 			return 0;
-	}()};
+	})};
 
 	sprite.setPosition(layout.x + offset_x + comp_offset_x, layout.y + offset_y + comp_offset_y);
 }

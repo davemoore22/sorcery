@@ -77,20 +77,20 @@ auto Sorcery::Map::refresh() -> void {
 	for (auto y = 0; y <= 19; y++) {
 		for (auto x = 0; x <= 19; x++) {
 
-			auto lx{[&] {
+			auto lx{std::invoke([&] {
 				if (x < _game->state->level->wrap_bottom_left().x)
 					return x + static_cast<int>(_game->state->level->wrap_size().w);
 				else if (x > _game->state->level->wrap_top_right().x)
 					return x - static_cast<int>(_game->state->level->wrap_size().w);
 				return x;
-			}()};
-			auto ly{[&] {
+			})};
+			auto ly{std::invoke([&] {
 				if (y < _game->state->level->wrap_bottom_left().y)
 					return y + static_cast<int>(_game->state->level->wrap_size().h);
 				else if (y > _game->state->level->wrap_top_right().y)
 					return y - static_cast<int>(_game->state->level->wrap_size().h);
 				return y;
-			}()};
+			})};
 
 			auto tile{_game->state->level->at(lx, ly)};
 			auto tile_x{tx + (tcx * tw) + (tcx * spacing)};
@@ -113,12 +113,12 @@ auto Sorcery::Map::refresh() -> void {
 
 	const auto player_depth{_game->state->level->depth()};
 
-	const auto coord{[&] {
+	const auto coord{std::invoke([&] {
 		if (player_depth < 0)
 			return fmt::format("B{}F {:>2}N/{:>2}E", std::abs(player_depth), player_pos.y, player_pos.x);
 		else
 			return fmt::format("{}F {:>2}/{:>2}E", std::abs(player_depth), player_pos.y, player_pos.x);
-	}()};
+	})};
 
 	sf::Text coord_text{};
 	if (_display->get_bold())

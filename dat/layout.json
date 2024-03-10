@@ -3720,16 +3720,16 @@
 				"alpha": "255",
 				"type": "panel",
 				"drawmode": "manual",
-				"x": "centre",
-				"y": "17"
+				"x": "22",
+				"y": "15"
 			},
 			{
 				"name": "item_display_frame",
-				"w": "38",
+				"w": "18",
 				"h": "26",
 				"x": "centre",
 				"y": "2",
-				"alpha": "0",
+				"alpha": "255",
 				"type": "frame",
 				"priority": "3",
 				"background": " 0x000000ff",
@@ -3737,9 +3737,9 @@
 			},
 			{
 				"name": "picture",
-				"x": "35",
-				"y": "6",
-				"scale": "1.8",
+				"x": "25",
+				"y": "3",
+				"scale": "2.4",
 				"type": "image",
 				"priority": "1",
 				"texture": "background",

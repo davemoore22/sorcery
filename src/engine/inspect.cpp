@@ -79,6 +79,7 @@ Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, 
 	_pool->setPosition(_display->get_centre_pos(_pool->get_size()));
 	_in_pool = false;
 	_in_item_action = false;
+	_in_item_display = false;
 }
 
 // Standard Destructor
@@ -263,6 +264,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 	_in_character = true;
 
 	_in_item_action = false;
+	_in_item_display = false;
 	_item_action_menu.reset();
 	_item_action_menu =
 		std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::ITEM_ACTION, MenuMode::ACTION);
@@ -277,6 +279,17 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 	_item_action_menu_frame->setPosition(
 		_display->window->get_x(_item_action_menu_frame->sprite, item_action_menu_fc.x),
 		_display->window->get_y(_item_action_menu_frame->sprite, item_action_menu_fc.y));
+
+	const Component item_display_fc{(*_display->layout)["inspect:item_display_frame"]};
+	_item_display_frame.reset();
+	_item_display_frame = std::make_unique<Frame>(_display->ui_texture, item_display_fc.w, item_display_fc.h,
+		item_display_fc.colour, item_display_fc.background, item_display_fc.alpha);
+	_item_display_frame->setPosition(_display->window->get_x(_item_display_frame->sprite, item_display_fc.x),
+		_display->window->get_y(_item_display_frame->sprite, item_display_fc.y));
+
+	_item_display.reset();
+	_item_display = std::make_unique<ItemDisplay>(_system, _display, _graphics, _game);
+	_item_display->setPosition((*_display->layout)["inspect:item_display"].pos());
 
 	std::optional<std::vector<MenuEntry>::const_iterator> item_action_selected{_item_action_menu->items.begin()};
 
@@ -312,6 +325,34 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 					}
 				}
 
+			} else if (_in_item_display) {
+
+				// Check for Window Close
+				if (event.type == sf::Event::Closed)
+					return MenuItem::ITEM_ABORT;
+
+				// Handle enabling help overlay
+				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+					_display->show_overlay();
+					continue;
+				} else
+					_display->hide_overlay();
+
+				if (_system->input->check(WindowInput::CANCEL, event)) {
+					_in_item_display = false;
+					_in_item_action = true;
+				}
+
+				if (_system->input->check(WindowInput::BACK, event)) {
+					_in_item_display = false;
+					_in_item_action = true;
+				}
+
+				if (_system->input->check(WindowInput::CONFIRM, event)) {
+					_in_item_display = false;
+					_in_item_action = true;
+				}
+
 			} else if (_in_item_action) {
 
 				// Check for Window Close
@@ -344,6 +385,24 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 						const MenuItem option_chosen{(*item_action_selected.value()).item};
 						if (option_chosen == MenuItem::C_ACTION_LEAVE) {
 							_in_item_action = false;
+						} else if (option_chosen == MenuItem::C_ACTION_EXAMINE) {
+							_in_item_action = false;
+							_in_item_display = true;
+
+							auto character{&_game->characters[character_id]};
+							auto slot_item{character->inventory[_character_display->get_inventory_item()]};
+							if (slot_item.has_value()) {
+								auto item{slot_item.value()};
+								_item_display->set(unenum(item->get_type_id()));
+
+								const auto item_gfx_c{(*_display->layout)["inspect:picture"]};
+								_item_display_gfx =
+									_graphics->textures->get(
+														   unenum(item->get_type_id()) - 1, GraphicsTextureType::ITEMS)
+										.value();
+								_item_display_gfx.setPosition(item_gfx_c.pos());
+								_item_display_gfx.setScale(item_gfx_c.scl());
+							}
 						}
 					}
 				}
@@ -634,6 +693,10 @@ auto Sorcery::Inspect::_draw() -> void {
 				_window->draw(*_item_action_menu_frame);
 				_item_action_menu->generate((*_display->layout)["character_summary:item_action_menu"]);
 				_window->draw(*_item_action_menu);
+			} else if (_in_item_display) {
+				_window->draw(*_item_display_frame);
+				_window->draw(*_item_display);
+				_window->draw(_item_display_gfx);
 			}
 
 			// And finally the Cursor
