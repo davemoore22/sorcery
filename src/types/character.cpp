@@ -29,6 +29,7 @@
 #include "core/graphics.hpp"
 #include "core/random.hpp"
 #include "core/system.hpp"
+#include "resources/itemstore.hpp"
 #include "resources/stringstore.hpp"
 #include "types/configfile.hpp"
 #include "types/define.hpp"
@@ -38,8 +39,8 @@ Sorcery::Character::Character() {
 }
 
 // Standard Constructor
-Sorcery::Character::Character(System *system, Display *display, Graphics *graphics)
-	: _system{system}, _display{display}, _graphics{graphics} {
+Sorcery::Character::Character(System *system, Display *display, Graphics *graphics, ItemStore *itemstore)
+	: _system{system}, _display{display}, _graphics{graphics}, _itemstore{itemstore} {
 
 	set_stage(CharacterStage::CHOOSE_METHOD);
 
@@ -944,6 +945,8 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 
 	// Armour Class (num) (before equipment)
 	_abilities[BASE_ARMOUR_CLASS] = _class == NINJA ? 10 - (current_level / 3) - 2 : 10;
+
+	// Don't use this!
 	_abilities[CURRENT_ARMOUR_CLASS] = _abilities[BASE_ARMOUR_CLASS];
 
 	// Critical Hit Chance (%)
@@ -2421,8 +2424,8 @@ auto Sorcery::Character::get_sb_text(const int position) -> std::string {
 	if (_display->get_upper())
 		std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	return fmt::format("{} {:<15} {}-{} {:>2} {:>4}{}{:<6}", position, name, alignment_to_str(_alignment).substr(0, 1),
-		class_to_str(_class).substr(0, 3), _abilities.at(CURRENT_ARMOUR_CLASS), get_short_hp_summary(),
-		get_hp_adjustment_symbol(), get_short_cond());
+		class_to_str(_class).substr(0, 3), get_cur_ac(), get_short_hp_summary(), get_hp_adjustment_symbol(),
+		get_short_cond());
 }
 
 auto Sorcery::Character::get_age() const -> int {
@@ -2545,7 +2548,16 @@ auto Sorcery::Character::get_cur_ac() const -> int {
 
 	using enum Enums::Character::Ability;
 
-	return _abilities.at(CURRENT_ARMOUR_CLASS);
+	auto ac{_abilities.at(BASE_ARMOUR_CLASS)};
+
+	for (const auto &item : inventory.items()) {
+		if ((item.get_equipped()) && (item.get_cursed()))
+			ac = ac + (*_itemstore)[item.get_type_id()].get_ac_mod();
+		else if (item.get_equipped())
+			ac = ac - (*_itemstore)[item.get_type_id()].get_ac_mod();
+	}
+
+	return ac;
 }
 
 /*

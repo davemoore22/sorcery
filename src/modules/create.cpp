@@ -142,7 +142,7 @@ auto Sorcery::Create::_initialise_state() -> void {
 	_show_saved_ok = false;
 
 	// Create the Candidate Character
-	_candidate = Character(_system, _display, _graphics);
+	_candidate = Character(_system, _display, _graphics, _game->itemstore.get());
 	_character_display->set(&_candidate);
 }
 

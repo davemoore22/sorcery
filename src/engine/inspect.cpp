@@ -403,6 +403,31 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 								_item_display_gfx.setPosition(item_gfx_c.pos());
 								_item_display_gfx.setScale(item_gfx_c.scl());
 							}
+						} else if (option_chosen == MenuItem::C_ACTION_EQUIP) {
+
+							auto character{&_game->characters[character_id]};
+							auto slot_item{character->inventory[_character_display->get_inventory_item()]};
+							if (slot_item.has_value()) {
+								auto &item{slot_item.value()};
+
+								if ((!item->get_equipped()) && (item->get_usable()))
+									item->set_equipped(true);
+
+								// TODO: handle curses
+								_in_item_action = false;
+							}
+						} else if (option_chosen == MenuItem::C_ACTION_UNEQUIP) {
+							auto character{&_game->characters[character_id]};
+							auto slot_item{character->inventory[_character_display->get_inventory_item()]};
+							if (slot_item.has_value()) {
+								auto &item{slot_item.value()};
+
+								if ((item->get_equipped()) && (item->get_usable()))
+									item->set_equipped(false);
+
+								// TODO: handle curses
+								_in_item_action = false;
+							}
 						}
 					}
 				}

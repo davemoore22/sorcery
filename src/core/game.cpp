@@ -379,7 +379,7 @@ auto Sorcery::Game::_load_characters() -> void {
 		ss.str(data);
 
 		// Remember that the three pointers aren't serialised
-		Character character(_system, _display, _graphics);
+		Character character(_system, _display, _graphics, itemstore.get());
 		// Character character;
 		{
 			cereal::XMLInputArchive in_archive(ss);

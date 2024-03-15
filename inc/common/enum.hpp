@@ -446,7 +446,7 @@ namespace Enums::Character {
 		MARKS,
 		DEATHS,
 		BASE_ARMOUR_CLASS,
-		CURRENT_ARMOUR_CLASS,
+		CURRENT_ARMOUR_CLASS, // Don't use this, use character->get_cur_ac() instead
 		UNARMED_DAMAGE,
 		ATTACK_MODIFIER,
 		HIT_PROBABILITY,

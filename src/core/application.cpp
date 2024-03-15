@@ -137,7 +137,7 @@ auto Sorcery::Application::_quickstart() -> void {
 	// Create a new random party
 	auto party_alignment{(*system->random)[RandomType::D2] == 1 ? CharacterAlignment::GOOD : CharacterAlignment::EVIL};
 	for (int i = 0; i < 6; i++) {
-		auto pc{Character(system.get(), display.get(), graphics.get())};
+		auto pc{Character(system.get(), display.get(), graphics.get(), _game->itemstore.get())};
 		switch (i) {
 		case 0:
 			pc.create_class_alignment(CharacterClass::FIGHTER, party_alignment);

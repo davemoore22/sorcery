@@ -597,8 +597,7 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 		_add_text((*_display->layout)["character_summary:hp_value"], "{}",
 			fmt::format("{}/{}", std::to_string(_character->abilities().at(CURRENT_HP)),
 				std::to_string(_character->abilities().at(MAX_HP))));
-		_add_text((*_display->layout)["character_summary:ac_value"], "{:>3}",
-			std::to_string(_character->abilities().at(CURRENT_ARMOUR_CLASS)));
+		_add_text((*_display->layout)["character_summary:ac_value"], "{:>3}", std::to_string(_character->get_cur_ac()));
 		_add_text((*_display->layout)["character_summary:age_value"], "{:>2}",
 			std::to_string(static_cast<int>(_character->abilities().at(AGE) / 52)));
 		_add_text((*_display->layout)["character_summary:swim_value"], "{:>2}",

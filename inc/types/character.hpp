@@ -34,6 +34,7 @@ namespace Sorcery {
 class Display;
 class Graphics;
 class System;
+class ItemStore;
 
 class Character {
 
@@ -41,7 +42,7 @@ class Character {
 
 		// Constructors
 		Character();
-		Character(System *system, Display *display, Graphics *graphics);
+		Character(System *system, Display *display, Graphics *graphics, ItemStore *itemstore);
 
 		// Destructor
 		~Character() = default;
@@ -196,6 +197,7 @@ class Character {
 		System *_system;
 		Display *_display;
 		Graphics *_graphics;
+		ItemStore *_itemstore;
 		CharacterAbilities _abilities;
 		SpellPoints _priest_max_sp;
 		SpellPoints _priest_cur_sp;
