@@ -78,6 +78,12 @@ Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, 
 		(*_display->layout)["inspect:dialog_pool_gold_ok_text"], WindowDialogType::OK);
 	_pool->setPosition(_display->get_centre_pos(_pool->get_size()));
 	_in_pool = false;
+
+	_cursed = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["inspect:dialog_cursed_ok"],
+		(*_display->layout)["inspect:dialog_cursed_ok_text"], WindowDialogType::OK);
+	_cursed->setPosition(_display->get_centre_pos(_cursed->get_size()));
+	_in_cursed = false;
+
 	_in_item_action = false;
 	_in_item_display = false;
 }
@@ -325,6 +331,20 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 					}
 				}
 
+			} else if (_in_cursed) {
+
+				// Handle Cursed Item Dialog
+				auto dialog_input{_cursed->handle_input(event)};
+				if (dialog_input) {
+					if (dialog_input.value() == WindowDialogButton::CLOSE) {
+						_in_cursed = false;
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} else if (dialog_input.value() == WindowDialogButton::OK) {
+						_in_cursed = false;
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					}
+				}
+
 			} else if (_in_item_display) {
 
 				// Check for Window Close
@@ -341,16 +361,19 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 				if (_system->input->check(WindowInput::CANCEL, event)) {
 					_in_item_display = false;
 					_in_item_action = true;
+					_in_cursed = false;
 				}
 
 				if (_system->input->check(WindowInput::BACK, event)) {
 					_in_item_display = false;
 					_in_item_action = true;
+					_in_cursed = false;
 				}
 
 				if (_system->input->check(WindowInput::CONFIRM, event)) {
 					_in_item_display = false;
 					_in_item_action = true;
+					_in_cursed = false;
 				}
 
 			} else if (_in_item_action) {
@@ -386,36 +409,23 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 						if (option_chosen == MenuItem::C_ACTION_LEAVE) {
 							_in_item_action = false;
 						} else if (option_chosen == MenuItem::C_ACTION_EXAMINE) {
+
+							// Examine an Item (only possible if it is identified)
 							_in_item_action = false;
 							_in_item_display = true;
-
-							auto character{&_game->characters[character_id]};
-							auto slot_item{character->inventory[_character_display->get_inventory_item()]};
-							if (slot_item.has_value()) {
-								auto item{slot_item.value()};
-								_item_display->set(unenum(item->get_type_id()));
-
-								const auto item_gfx_c{(*_display->layout)["inspect:picture"]};
-								_item_display_gfx =
-									_graphics->textures->get(
-														   unenum(item->get_type_id()) - 1, GraphicsTextureType::ITEMS)
-										.value();
-								_item_display_gfx.setPosition(item_gfx_c.pos());
-								_item_display_gfx.setScale(item_gfx_c.scl());
-							}
+							_examine_item(character_id);
 						} else if (option_chosen == MenuItem::C_ACTION_EQUIP) {
 
+							// Equip an Item
+							_in_item_action = false;
+
 							auto character{&_game->characters[character_id]};
-							auto slot_item{character->inventory[_character_display->get_inventory_item()]};
-							if (slot_item.has_value()) {
-								auto &item{slot_item.value()};
+							character->inventory.equip_item(_character_display->get_inventory_item());
 
-								if ((!item->get_equipped()) && (item->get_usable()))
-									item->set_equipped(true);
+							if (character->inventory.is_equipped_cursed(_character_display->get_inventory_item()))
+								_in_cursed = true;
 
-								// TODO: handle curses
-								_in_item_action = false;
-							}
+							_in_item_action = false;
 						} else if (option_chosen == MenuItem::C_ACTION_UNEQUIP) {
 							auto character{&_game->characters[character_id]};
 							auto slot_item{character->inventory[_character_display->get_inventory_item()]};
@@ -554,6 +564,22 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 	return std::nullopt;
 }
 
+auto Sorcery::Inspect::_examine_item(const unsigned int character_id) -> void {
+
+	auto character{&_game->characters[character_id]};
+	auto slot_item{character->inventory[_character_display->get_inventory_item()]};
+	if (slot_item.has_value()) {
+		auto item{slot_item.value()};
+		_item_display->set(unenum(item->get_type_id()));
+
+		const auto item_gfx_c{(*_display->layout)["inspect:picture"]};
+		_item_display_gfx =
+			_graphics->textures->get(unenum(item->get_type_id()) - 1, GraphicsTextureType::ITEMS).value();
+		_item_display_gfx.setPosition(item_gfx_c.pos());
+		_item_display_gfx.setScale(item_gfx_c.scl());
+	}
+}
+
 auto Sorcery::Inspect::_set_in_item_action_menu(unsigned int character_id, unsigned int slot_id) -> void {
 
 	auto character{&_game->characters[character_id]};
@@ -574,7 +600,7 @@ auto Sorcery::Inspect::_set_in_item_action_menu(unsigned int character_id, unsig
 			_item_action_menu->items[2].enabled = !item->get_equipped();
 
 			// Examine
-			_item_action_menu->items[3].enabled = true;
+			_item_action_menu->items[3].enabled = item->get_known();
 
 			// Invoke
 			_item_action_menu->items[4].enabled =
@@ -714,6 +740,9 @@ auto Sorcery::Inspect::_draw() -> void {
 			if (_in_pool) {
 				_pool->update();
 				_window->draw(*_pool);
+			} else if (_in_cursed) {
+				_cursed->update();
+				_window->draw(*_cursed);
 			} else if (_in_item_action) {
 				_window->draw(*_item_action_menu_frame);
 				_item_action_menu->generate((*_display->layout)["character_summary:item_action_menu"]);

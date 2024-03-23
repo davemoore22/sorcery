@@ -175,6 +175,8 @@ auto Sorcery::Application::_quickstart() -> void {
 		case SAMURAI:
 			pc.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR], true);
 			pc.inventory.add_type((*_game->itemstore)[LONG_SWORD], true);
+			pc.inventory.add_type((*_game->itemstore)[CHAIN_MINUS_2], false);
+			pc.inventory.add_type((*_game->itemstore)[MACE_MINUS_1], false);
 			break;
 		case MAGE:
 			pc.inventory.add_type((*_game->itemstore)[ROBES], true);

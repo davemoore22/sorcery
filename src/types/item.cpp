@@ -114,9 +114,7 @@ auto Sorcery::Item::get_name() const -> std::string {
 
 auto Sorcery::Item::get_display_name() const -> std::string {
 
-	std::string prefix{_equipped ? "*" : (!_usable ? "#" : " ")};
-	std::string name{_known ? _name : _uname};
-	return fmt::format("{}{}", prefix, name);
+	return _known ? _name : _uname;
 }
 
 auto Sorcery::Item::set_known(const bool value) -> void {

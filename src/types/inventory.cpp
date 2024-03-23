@@ -63,7 +63,7 @@ auto Sorcery::Inventory::is_empty() const -> bool {
 	return _items.size() == 8;
 }
 
-auto Sorcery::Inventory::add_type(ItemType item_type, const bool known) -> bool {
+auto Sorcery::Inventory::add_type(const ItemType &item_type, const bool known) -> bool {
 
 	if (_items.size() != 8) {
 		Item item{item_type};
@@ -74,11 +74,10 @@ auto Sorcery::Inventory::add_type(ItemType item_type, const bool known) -> bool 
 		return false;
 }
 
-auto Sorcery::Inventory::add_type(ItemType item_type) -> bool {
+auto Sorcery::Inventory::add_type(const ItemType &item_type) -> bool {
 
 	if (_items.size() != 8) {
-		Item item{item_type};
-		_items.emplace_back(item);
+		_items.emplace_back(item_type);
 		return true;
 	} else
 		return false;
@@ -94,22 +93,70 @@ auto Sorcery::Inventory::unequip_all() -> void {
 
 auto Sorcery::Inventory::has_unidentified_items() const -> bool {
 
-	for (const auto &item : _items) {
-		if (item.get_cursed())
+	return std::ranges::any_of(
+		_items.begin(), _items.end(), [&](const auto &item) { return item.get_known() == false; });
+}
+
+auto Sorcery::Inventory::has_cursed_items() const -> bool {
+
+	return std::ranges::any_of(
+		_items.begin(), _items.end(), [&](const auto &item) { return item.get_cursed() == false; });
+}
+
+auto Sorcery::Inventory::is_equipped_cursed(const unsigned int slot) -> bool {
+
+	if (_items.size() < (slot - 1))
+		return false;
+
+	const auto candidate{_items.at(slot - 1)};
+
+	return candidate.get_cursed() && candidate.get_equipped();
+}
+
+auto Sorcery::Inventory::_unequip_item_type(const ItemTypeID type_id) -> bool {
+
+	for (auto &item : _items) {
+		if ((item.get_equipped()) && (item.get_type_id() == type_id)) {
+			item.set_equipped(false);
 			return true;
+		}
 	}
 
 	return false;
 }
 
-auto Sorcery::Inventory::has_cursed_items() const -> bool {
+auto Sorcery::Inventory::equip_item(const unsigned int slot) -> bool {
 
-	for (const auto &item : _items) {
-		if (!item.get_known())
-			return true;
-	}
+	if (_items.size() < (slot - 1))
+		return false;
 
-	return false;
+	auto &candidate{_items.at(slot - 1)};
+	const auto item_type{candidate.get_type_id()};
+
+	if (_has_cursed_equipped_item_type(item_type))
+		return false;
+
+	for (auto &item : _items) {
+
+		if ((item.get_type_id() == item_type) && (item.get_equipped()))
+			item.set_equipped(false);
+	};
+
+	candidate.set_equipped(true);
+	candidate.set_known(true);
+	return true;
+}
+
+auto Sorcery::Inventory::_has_equipped_item_type(const ItemTypeID type_id) const -> bool {
+
+	return std::ranges::any_of(_items.begin(), _items.end(),
+		[&](const auto &item) { return item.get_type_id() == type_id && item.get_equipped(); });
+}
+
+auto Sorcery::Inventory::_has_cursed_equipped_item_type(const ItemTypeID type_id) const -> bool {
+
+	return std::ranges::any_of(_items.begin(), _items.end(),
+		[&](const auto &item) { return item.get_type_id() == type_id && item.get_equipped() && item.get_cursed(); });
 }
 
 namespace Sorcery {
@@ -120,9 +167,20 @@ auto operator<<(std::ostream &out_stream, const Sorcery::Inventory &inventory) -
 	int slot{1};
 
 	for (const auto &item : inventory._items) {
+		const std::string flag{std::invoke([&] {
+			if (!item.get_usable())
+				return "#";
+			else if (item.get_cursed() && item.get_equipped())
+				return "-";
+			else if (!item.get_known())
+				return "?";
+			else if (item.get_equipped())
+				return "*";
+			else
+				return " ";
+		})};
 
-		std::string flag{!item.get_usable() ? "#" : (item.get_equipped() ? "*" : " ")};
-		auto line{fmt::format("{}){}{}", slot, flag, item.get_name())};
+		auto line{fmt::format("{}){}{}", slot, flag, item.get_display_name())};
 		body.append(line);
 		body.append("\n");
 		++slot;

@@ -65,6 +65,8 @@ class Inspect {
 		auto _handle_in_character(unsigned int character_id) -> std::optional<MenuItem>;
 		auto _set_in_item_action_menu(unsigned int character_id, unsigned int slot_id) -> void;
 
+		auto _examine_item(const unsigned int character_id) -> void;
+
 		// Private Members
 		System *_system;
 		Display *_display;
@@ -79,7 +81,9 @@ class Inspect {
 		std::optional<Character *> _cur_char;
 		std::unique_ptr<Frame> _cur_char_frame;
 		std::unique_ptr<Dialog> _pool;
+		std::unique_ptr<Dialog> _cursed;
 		bool _in_pool;
+		bool _in_cursed;
 		MenuMode _mode;
 		std::string _screen_key;
 		std::unique_ptr<CharacterPanel> _char_panel;

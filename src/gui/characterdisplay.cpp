@@ -91,9 +91,20 @@ auto Sorcery::CharacterDisplay::_generate_inventory(Component layout_c) -> void 
 	const auto column_x{std::stoi(layout_c["column_x"].value())};
 
 	for (const auto &item : _character->inventory.items()) {
+		const std::string flag{std::invoke([&] {
+			if (!item.get_usable())
+				return "#";
+			else if (item.get_cursed() && item.get_equipped())
+				return "-";
+			else if (!item.get_known())
+				return "?";
+			else if (item.get_equipped())
+				return "*";
+			else
+				return " ";
+		})};
 
-		std::string flag{!item.get_usable() ? "#" : (item.get_equipped() ? "*" : " ")};
-		auto line{fmt::format("{}){}{}", slot, flag, item.get_name())};
+		auto line{fmt::format("{}){}{}", slot, flag, item.get_display_name())};
 
 		if (slot % 2 == 1) {
 			x = start_x;

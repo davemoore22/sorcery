@@ -56,16 +56,27 @@ class Inventory {
 		auto size() const -> unsigned int;
 		auto is_full() const -> bool;
 		auto is_empty() const -> bool;
-		auto add_type(ItemType item_type) -> bool;
-		auto add_type(ItemType item_type, const bool known) -> bool;
+		auto add_type(const ItemType &item_type) -> bool;
+		auto add_type(const ItemType &item_type, const bool known) -> bool;
 		auto unequip_all() -> void;
 		auto items() const -> std::vector<Item>;
 		auto has_unidentified_items() const -> bool;
 		auto has_cursed_items() const -> bool;
+		auto equip_item(const unsigned int slot) -> bool;
+		auto is_equipped_cursed(const unsigned int slot) -> bool;
+
+		auto unequip_item(const unsigned int slot) -> bool;
+		auto drop_item(const unsigned int slot) -> bool;
+		auto identify_item(const unsigned int slot) -> bool;
+		auto invoke_item(const unsigned int slot) -> bool;
+		auto use_item(const unsigned int slot) -> bool;
 
 	private:
 
 		// Private Methods
+		auto _has_equipped_item_type(const ItemTypeID type_id) const -> bool;
+		auto _has_cursed_equipped_item_type(const ItemTypeID type_id) const -> bool;
+		auto _unequip_item_type(const ItemTypeID type_id) -> bool;
 
 		// Private Members
 		std::vector<Item> _items;
