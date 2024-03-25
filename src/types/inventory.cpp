@@ -116,7 +116,7 @@ auto Sorcery::Inventory::is_equipped_cursed(const unsigned int slot) -> bool {
 auto Sorcery::Inventory::_unequip_item_type(const ItemTypeID type_id) -> bool {
 
 	for (auto &item : _items) {
-		if ((item.get_equipped()) && (item.get_type_id() == type_id)) {
+		if (item.get_equipped() && item.get_type_id() == type_id) {
 			item.set_equipped(false);
 			return true;
 		}
@@ -138,7 +138,7 @@ auto Sorcery::Inventory::equip_item(const unsigned int slot) -> bool {
 
 	for (auto &item : _items) {
 
-		if ((item.get_type_id() == item_type) && (item.get_equipped()))
+		if (item.get_type_id() == item_type && item.get_equipped())
 			item.set_equipped(false);
 	};
 

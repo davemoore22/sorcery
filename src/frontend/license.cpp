@@ -87,8 +87,7 @@ auto Sorcery::License::start() -> int {
 			} else
 				_display->hide_overlay();
 
-			if ((_system->input->check(WindowInput::CANCEL, event)) ||
-				(_system->input->check(WindowInput::BACK, event))) {
+			if (_system->input->check(WindowInput::CANCEL, event) || _system->input->check(WindowInput::BACK, event)) {
 				return EXIT_MODULE;
 			} else if (_system->input->check(WindowInput::DOWN, event)) {
 				if (_current_line < _textfile->size())

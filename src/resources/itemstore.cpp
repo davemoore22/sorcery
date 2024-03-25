@@ -238,7 +238,7 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				item_type.set_effects(effects);
 
 				// Parse Damage Dice String
-				if ((!damage_s.empty()) && (category == ItemCategory::WEAPON))
+				if (!damage_s.empty() && category == ItemCategory::WEAPON)
 					item_type.set_damage_dice(damage_s);
 				else
 					item_type.set_damage_dice("");

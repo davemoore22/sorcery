@@ -275,7 +275,7 @@ auto Sorcery::State::clear_log_messages() -> void {
 auto Sorcery::State::add_log_dice_roll(
 	const std::string &message, const int dice, const int roll, const int needed) -> void {
 
-	if ((dice != -1) || (roll != -1) || (needed != -1)) {
+	if (dice != -1 || roll != -1 || needed != -1) {
 		const auto success{roll < needed ? "SUCCESS" : "FAILURE"};
 		const auto string{fmt::format("{} ({})", message, success)};
 		add_log_message(_system->dice_roll_to_str(string, dice, roll, needed), MessageType::ROLL);

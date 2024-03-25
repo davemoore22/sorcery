@@ -127,8 +127,8 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 			if (_show_changed) {
 				auto dialog_input{_changed->handle_input(event)};
 				if (dialog_input) {
-					if ((dialog_input.value() == WindowDialogButton::CLOSE) ||
-						(dialog_input.value() == WindowDialogButton::OK)) {
+					if (dialog_input.value() == WindowDialogButton::CLOSE ||
+						dialog_input.value() == WindowDialogButton::OK) {
 						_show_changed = false;
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 						return std::nullopt;
@@ -137,8 +137,8 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 			} else if (_show_legated) {
 				auto dialog_input{_legated->handle_input(event)};
 				if (dialog_input) {
-					if ((dialog_input.value() == WindowDialogButton::CLOSE) ||
-						(dialog_input.value() == WindowDialogButton::OK)) {
+					if (dialog_input.value() == WindowDialogButton::CLOSE ||
+						dialog_input.value() == WindowDialogButton::OK) {
 						_show_legated = false;
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 						return std::nullopt;

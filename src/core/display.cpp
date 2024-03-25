@@ -163,15 +163,15 @@ auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, s
 					image.setTexture(_system->resources->textures[component.texture]);
 
 					// Scale to less than the window size if needed
-					if ((component.unique_key.ends_with("banner:banner_image")) ||
-						(component.unique_key.ends_with("splash:splash_image")) ||
-						(component.unique_key.ends_with("main_menu_attract:logo_image"))) {
+					if (component.unique_key.ends_with("banner:banner_image") ||
+						component.unique_key.ends_with("splash:splash_image") ||
+						component.unique_key.ends_with("main_menu_attract:logo_image")) {
 						const ImageSize size{static_cast<unsigned int>(image.getLocalBounds().width),
 							static_cast<unsigned int>(image.getLocalBounds().height)};
 						const ImageSize window_size{
 							window->get_window()->getSize().x, window->get_window()->getSize().y};
 						auto scale_ratio_needed{1.0f};
-						if ((size.w > window_size.w) || (size.h > window_size.h)) {
+						if (size.w > window_size.w || size.h > window_size.h) {
 							auto shrink_width_needed{static_cast<float>(window_size.w) / static_cast<float>(size.w)};
 							auto shrink_height_needed{static_cast<float>(window_size.h) / static_cast<float>(size.h)};
 							scale_ratio_needed = std::min(shrink_width_needed, shrink_height_needed);
@@ -332,7 +332,7 @@ auto Sorcery::Display::display(std::string_view screen, std::map<std::string, sf
 				if (const CharacterStage character_stage{std::any_cast<CharacterStage>(parameter.value())};
 					character_stage == CharacterStage::CHOOSE_METHOD ||
 					character_stage == CharacterStage::REVIEW_AND_CONFIRM) {
-					if ((unique_key.ends_with("_frame_progress")) || (unique_key.ends_with("_summary_progres")))
+					if (unique_key.ends_with("_frame_progress") || unique_key.ends_with("_summary_progres"))
 						continue;
 				}
 			}
@@ -343,7 +343,7 @@ auto Sorcery::Display::display(std::string_view screen, std::map<std::string, sf
 
 	// Display all other sprites, but not the background wallpaper
 	for (auto &[unique_key, sprite] : sprites) {
-		if ((unique_key.ends_with("banner:banner_image")) || (unique_key.ends_with("splash:splash_image"))) {
+		if (unique_key.ends_with("banner:banner_image") || unique_key.ends_with("splash:splash_image")) {
 			if (parameter) {
 				sprite.setColor(sf::Color(255, 255, 255, std::any_cast<unsigned int>(parameter.value())));
 			}
@@ -363,10 +363,10 @@ auto Sorcery::Display::display(std::string_view screen, std::map<std::string, sf
 			if (parameter) {
 				if (const MainMenuType menu_stage{std::any_cast<MainMenuType>(parameter.value())};
 					menu_stage == MainMenuType::ATTRACT_MENU) {
-					if ((unique_key.ends_with("main_menu_attract:press_any_key")) ||
-						(unique_key.ends_with("main_menu_attract:subtitle_1")) ||
-						(unique_key.ends_with("main_menu_attract:subtitle_2")) ||
-						(unique_key.ends_with("main_menu_attract:copyright")))
+					if (unique_key.ends_with("main_menu_attract:press_any_key") ||
+						unique_key.ends_with("main_menu_attract:subtitle_1") ||
+						unique_key.ends_with("main_menu_attract:subtitle_2") ||
+						unique_key.ends_with("main_menu_attract:copyright"))
 						continue;
 				}
 			}
@@ -375,7 +375,7 @@ auto Sorcery::Display::display(std::string_view screen, std::map<std::string, sf
 				if (const CharacterStage character_stage{std::any_cast<CharacterStage>(parameter.value())};
 					character_stage == CharacterStage::CHOOSE_METHOD ||
 					character_stage == CharacterStage::REVIEW_AND_CONFIRM) {
-					if ((unique_key.ends_with("_frame_progress")) || (unique_key.ends_with("_summary_progress")))
+					if (unique_key.ends_with("_frame_progress") || unique_key.ends_with("_summary_progress"))
 						continue;
 				}
 			}

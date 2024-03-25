@@ -131,8 +131,8 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 						else if (option_chosen == MenuItem::ET_RESTART)
 							return MenuItem::ET_RESTART;
 					}
-				} else if ((_system->input->check(WindowInput::CANCEL, event)) ||
-						   (_system->input->check(WindowInput::BACK, event))) {
+				} else if (_system->input->check(WindowInput::CANCEL, event) ||
+						   _system->input->check(WindowInput::BACK, event)) {
 					_display->set_input_mode(WindowInputMode::CONFIRM_LEAVE_GAME);
 				}
 

@@ -535,7 +535,7 @@ auto Sorcery::Menu::_select_last() -> std::optional<std::vector<MenuEntry>::cons
 	// Would be nice to use a ranges reverse view to handle this, or a std::find_last_if, instead we have to do a
 	// forward iterator backwards since we can't use a backwards iterator either!
 	for (std::vector<MenuEntry>::const_iterator it = items.end() - 1; it != items.begin(); --it)
-		if ((((*it).type == ENTRY) || ((*it).type == SAVE) || ((*it).type == CANCEL)) && ((*it).enabled)) {
+		if (((*it).type == ENTRY || (*it).type == SAVE || (*it).type == CANCEL) && (*it).enabled) {
 			selected = it;
 			if (_type == MUSEUM) {
 
@@ -790,7 +790,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 	using enum Enums::Menu::ItemType;
 
 	// Figure out if we can display all the items to begin with or just a moving "window"
-	if ((_type != MUSEUM) && (_type != BESTIARY)) {
+	if (_type != MUSEUM && _type != BESTIARY) {
 		_visible_items = items;
 	} else {
 		auto current{
@@ -834,7 +834,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 		for (const auto &item : _visible_items) {
 
 			auto current{_visible_items.begin() + index};
-			if ((item.type == TEXT) || (item.type == ENTRY) || (item.type == SAVE) || (item.type == CANCEL)) {
+			if (item.type == TEXT || item.type == ENTRY || item.type == SAVE || item.type == CANCEL) {
 				auto text_string{item.key};
 				sf::Text text{};
 				text.setFont(_system->resources->fonts[component.font]);
@@ -874,11 +874,11 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 				}
 
 				// Handle Justification
-				if ((_type == OPTIONS) || (_type == ALLOCATE_CHARACTER_ATTRIBUTES)) {
+				if (_type == OPTIONS || _type == ALLOCATE_CHARACTER_ATTRIBUTES) {
 					if (item.type == ENTRY) {
 						if (component.justification == Justification::CENTRE)
 							text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
-					} else if ((item.type == SAVE) || (item.type == CANCEL)) {
+					} else if (item.type == SAVE || item.type == CANCEL) {
 						entry_x = (component.width * _display->window->get_cw()) / 2;
 						text.setPosition(entry_x, entry_y);
 						text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
@@ -898,7 +898,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 				_texts.emplace_back(text);
 
 				// Now handle the mouse move/select!
-				if ((item.type == ENTRY) || (item.type == SAVE) || (item.type == CANCEL)) {
+				if (item.type == ENTRY || item.type == SAVE || item.type == CANCEL) {
 					const sf::FloatRect actual_rect{text.getGlobalBounds()};
 					bounds.push_back(actual_rect);
 				} else {
@@ -907,7 +907,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 				}
 
 				// Add options in case of the Options Menu
-				if ((_type == OPTIONS) && (item.type == ENTRY)) {
+				if (_type == OPTIONS && item.type == ENTRY) {
 					auto option_y{entry_y};
 					auto option_x{component.w * _display->window->get_cw()};
 					const auto option_value{(*_system->config)[item.config] ? true : false};
@@ -964,7 +964,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 		const Component off_c{(*_display->layout)["options:off"]};
 		for (const auto &item : _visible_items) {
 			auto current{_visible_items.begin() + index};
-			if ((item.type == TEXT) || (item.type == ENTRY) || (item.type == SAVE) || (item.type == CANCEL)) {
+			if (item.type == TEXT || item.type == ENTRY || item.type == SAVE || item.type == CANCEL) {
 				if ((*selected).index == (*current).index) {
 					const sf::FloatRect bg_rect{_texts.at(index).getGlobalBounds()};
 					sf::RectangleShape bg(sf::Vector2f(component.w * _display->window->get_cw(), bg_rect.height));
@@ -984,7 +984,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 					_selected_bg = bg;
 				}
 
-				if ((_type == OPTIONS) && (item.type == ENTRY)) {
+				if (_type == OPTIONS && item.type == ENTRY) {
 
 					option_y = entry_y;
 					option_x = component.w * _display->window->get_cw();
@@ -1048,8 +1048,8 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		if (!_game->characters.empty()) {
 			for (auto &[character_id, character] : _game->characters) {
 				if (_mode.value() == MenuMode::TAVERN) {
-					if ((character.get_location() == CharacterLocation::TAVERN) ||
-						(character.get_location() == CharacterLocation::PARTY)) {
+					if (character.get_location() == CharacterLocation::TAVERN ||
+						character.get_location() == CharacterLocation::PARTY) {
 						_add_item(character_id, ENTRY, IC_CHARACTER, character.get_summary());
 						++max_id;
 					}
@@ -1059,8 +1059,8 @@ auto Sorcery::Menu::_populate_chars() -> void {
 						++max_id;
 					}
 				} else if (_mode.value() == MenuMode::TEMPLE) {
-					if ((character.get_location() == CharacterLocation::TEMPLE) ||
-						(character.get_location() == CharacterLocation::PARTY)) {
+					if (character.get_location() == CharacterLocation::TEMPLE ||
+						character.get_location() == CharacterLocation::PARTY) {
 						_add_item(character_id, ENTRY, IC_CHARACTER, character.get_summary());
 						++max_id;
 					}
@@ -1095,9 +1095,9 @@ auto Sorcery::Menu::_populate_chars() -> void {
 			// Check for any characters in same square
 			bool found{false};
 			for (const auto &[character_id, character] : _game->characters) {
-				if ((character.get_location() == CharacterLocation::MAZE) &&
-					(character.coordinate.value() == _game->state->get_player_pos()) &&
-					(character.depth.value() == _game->state->get_depth())) {
+				if (character.get_location() == CharacterLocation::MAZE &&
+					character.coordinate.value() == _game->state->get_player_pos() &&
+					character.depth.value() == _game->state->get_depth()) {
 					found = true;
 					break;
 				}
@@ -1108,9 +1108,9 @@ auto Sorcery::Menu::_populate_chars() -> void {
 				_add_item(++max_id, TEXT, NC_WARNING, (*_display->string)["ACTION_FOUND_2"]);
 				_add_item(++max_id, SPACER, ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
 				for (const auto &[character_id, character] : _game->characters) {
-					if ((character.get_location() == CharacterLocation::MAZE) &&
-						(character.coordinate.value() == _game->state->get_player_pos()) &&
-						(character.depth.value() == _game->state->get_depth()))
+					if (character.get_location() == CharacterLocation::MAZE &&
+						character.coordinate.value() == _game->state->get_player_pos() &&
+						character.depth.value() == _game->state->get_depth())
 						_add_item(
 							character_id, ENTRY, IC_CHARACTER, _game->characters[character_id].get_name_and_status());
 					++max_id;
@@ -1137,8 +1137,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		_add_item(++max_id, SPACER, ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
 		auto possible{0U};
 		for (const auto &[character_id, character] : _game->characters) {
-			if ((character.get_location() == CharacterLocation::MAZE) &&
-				(character.get_status() == CharacterStatus::OK)) {
+			if (character.get_location() == CharacterLocation::MAZE && character.get_status() == CharacterStatus::OK) {
 				_add_item(character_id, ENTRY, IC_CHARACTER, _game->characters[character_id].get_name_and_loc());
 				++possible;
 				++max_id;
@@ -1220,9 +1219,8 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		auto last_id{0u};
 		if (!_game->characters.empty()) {
 			for (const auto &[character_id, character] : _game->characters) {
-				if ((character.get_status() != CharacterStatus::OK) &&
-					(character.get_status() != CharacterStatus::LOST) &&
-					(character.get_location() == CharacterLocation::TEMPLE)) {
+				if (character.get_status() != CharacterStatus::OK && character.get_status() != CharacterStatus::LOST &&
+					character.get_location() == CharacterLocation::TEMPLE) {
 					const auto status{character.get_name_and_status()};
 					_add_item(character_id, ENTRY, IC_CHARACTER, status);
 					++count;

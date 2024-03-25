@@ -134,7 +134,7 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 				time_elapsed_msec.count() > _duration)
 				proceed = true;
 
-			if ((proceed) && (!skip)) {
+			if (proceed && !skip) {
 				if (_type == RestType::STABLES) {
 					if (_stage == RestStage::REGEN) {
 						_go_to_results();

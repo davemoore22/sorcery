@@ -526,10 +526,10 @@ auto Sorcery::CharacterDisplay::draw(sf::RenderTarget &target, sf::RenderStates 
 	for (const auto &[unique_key, v_sprite] : _v_sprites)
 		target.draw(v_sprite, states);
 
-	if ((_view == SUMMARY) && (_hl_action_item != MenuItem::NO_MENU_ITEM))
+	if (_view == SUMMARY && _hl_action_item != MenuItem::NO_MENU_ITEM)
 		target.draw(_hl_action_item_bg, states);
 
-	if ((_view == SUMMARY) && (_hl_inventory_item != 0))
+	if (_view == SUMMARY && _hl_inventory_item != 0)
 		target.draw(_hl_inventory_item_bg, states);
 
 	for (const auto &[unique_key, v_text] : _v_texts)
@@ -964,7 +964,7 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 				spell_name_c.y += _display->window->get_ch();
 			}
 
-			if ((level % 3 == 1) || (level % 3 == 2))
+			if (level % 3 == 1 || level % 3 == 2)
 				level_c.x += (std::stoi(level_c["offset_columns"].value()) * _display->window->get_cw());
 			else if (level % 3 == 0) {
 				level_c.x = level_x;
@@ -1053,7 +1053,7 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 				spell_name_c.y += _display->window->get_ch();
 			}
 
-			if ((level % 3 == 1) || (level % 3 == 2))
+			if (level % 3 == 1 || level % 3 == 2)
 				level_c.x += (std::stoi(level_c["offset_columns"].value()) * _display->window->get_cw());
 			else if (level % 3 == 0) {
 				level_c.x = level_x;

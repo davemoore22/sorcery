@@ -212,13 +212,13 @@ auto Sorcery::Application::start() -> int {
 	auto do_restart{false};
 	auto do_maze{false};
 	auto destination{Destination::DEFAULT};
-	if ((_check_param(CONTINUE_GAME)) && (_game->valid))
+	if (_check_param(CONTINUE_GAME) && _game->valid)
 		destination = Destination::CONTINUE;
 	else if (_check_param(NEW_GAME))
 		destination = Destination::NEW;
-	else if ((_check_param(RESTART_EXPEDITION)) && (_game->valid))
+	else if (_check_param(RESTART_EXPEDITION) && _game->valid)
 		do_restart = true;
-	else if ((_check_param(START_EXPEDITION)) && (_game->valid)) {
+	else if (_check_param(START_EXPEDITION) && _game->valid) {
 		if (_game->state->party_has_members())
 			do_maze = true;
 	} else if (_check_param(QUICKSTART))
@@ -385,7 +385,7 @@ auto Sorcery::Application::_restart_expedition(const unsigned int character_chos
 	_game->state->clear_party();
 	for (auto &[character_id, character] : _game->characters) {
 		if (character.get_location() == CharacterLocation::MAZE) {
-			if ((character.depth.value() == to_depth) && (character.coordinate.value() == to_loc)) {
+			if (character.depth.value() == to_depth && character.coordinate.value() == to_loc) {
 				character.set_location(CharacterLocation::PARTY);
 				_game->state->add_character_by_id(character_id);
 			}

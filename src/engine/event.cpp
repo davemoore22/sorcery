@@ -113,7 +113,7 @@ auto Sorcery::Event::start() -> std::optional<MenuItem> {
 
 		// Generate the display
 		std::string screen_key{};
-		if ((_type == TREBOR_VOICE) || (_type == WERDNA_BOAST)) {
+		if (_type == TREBOR_VOICE || _type == WERDNA_BOAST) {
 			screen_key = std::invoke([&] {
 				if (_stage == 1)
 					return _dungeon_event.component_key + "_1";

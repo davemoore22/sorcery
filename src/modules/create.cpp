@@ -340,8 +340,8 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::option
 			_keyboard->set_mouse_selected((*_display->layout)["character_create_stage_1:keyboard"], mouse_pos)};
 		if (mouse_selected)
 			_keyboard->selected = mouse_selected.value();
-	} else if ((_system->input->check(WindowInput::ALPHANUMERIC, event)) ||
-			   (_system->input->check(WindowInput::SPACE, event))) {
+	} else if (_system->input->check(WindowInput::ALPHANUMERIC, event) ||
+			   _system->input->check(WindowInput::SPACE, event)) {
 		if (candidate_name.length() < 16) {
 			candidate_name += static_cast<char>(event.text.unicode);
 			_candidate.set_name(candidate_name);
@@ -535,8 +535,8 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 		_attribute_menu->choose_next();
 	else if (_system->input->check(WindowInput::MOVE, event))
 		_attribute_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	else if ((_system->input->check(WindowInput::LEFT, event)) || (_system->input->check(WindowInput::BACK, event)) ||
-			 (_system->input->check(WindowInput::DELETE, event))) {
+	else if (_system->input->check(WindowInput::LEFT, event) || _system->input->check(WindowInput::BACK, event) ||
+			 _system->input->check(WindowInput::DELETE, event)) {
 		if (selected) {
 			std::optional<CharacterAttribute> stat_to_adjust{};
 			switch (selected.value()->item) {
@@ -578,11 +578,10 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 					return ModuleResult::BACK;
 			}
 		}
-	} else if ((_system->input->check(WindowInput::RIGHT, event)) ||
-			   (_system->input->check(WindowInput::CONFIRM, event))) {
+	} else if (_system->input->check(WindowInput::RIGHT, event) || _system->input->check(WindowInput::CONFIRM, event)) {
 
-		if ((_system->input->check(WindowInput::CONFIRM, event)) && (_candidate.get_points_left() == 0) &&
-			(_candidate.get_num_pos_class() > 0)) {
+		if (_system->input->check(WindowInput::CONFIRM, event) && _candidate.get_points_left() == 0 &&
+			_candidate.get_num_pos_class() > 0) {
 
 			// If we have confirmation AND have spent all the points AND have at
 			// least one possible class to choose
@@ -740,8 +739,7 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event) -> std:
 			}
 		} else {
 
-			if ((_system->input->check(WindowInput::BACK, event)) ||
-				(_system->input->check(WindowInput::DELETE, event))) {
+			if (_system->input->check(WindowInput::BACK, event) || _system->input->check(WindowInput::DELETE, event)) {
 				_show_final_menu = false;
 				_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
 			} else if (_system->input->check(WindowInput::CONFIRM, event)) {

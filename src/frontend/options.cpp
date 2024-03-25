@@ -137,14 +137,13 @@ auto Sorcery::Options::start() -> int {
 					if (selected) {
 						if ((*_menu->selected).type == MenuItemType::ENTRY) {
 							const ConfigOption config_to_toggle{(*_menu->selected).config};
-							if ((config_to_toggle == ConfigOption::STRICT_MODE) &&
-								(!(*_system->config)[ConfigOption::STRICT_MODE])) {
+							if (config_to_toggle == ConfigOption::STRICT_MODE &&
+								!(*_system->config)[ConfigOption::STRICT_MODE]) {
 
 								// Ask for confirmation of Strict Mode
 								_display->set_input_mode(WindowInputMode::CONFIRM_STRICT_MODE);
-
-							} else if ((config_to_toggle == ConfigOption::RECOMMENDED_MODE) &&
-									   (!(*_system->config)[ConfigOption::RECOMMENDED_MODE])) {
+							} else if (config_to_toggle == ConfigOption::RECOMMENDED_MODE &&
+									   !(*_system->config)[ConfigOption::RECOMMENDED_MODE]) {
 
 								// Handle Recommended Toggling
 								_system->config->set_rec_mode();
@@ -175,9 +174,9 @@ auto Sorcery::Options::start() -> int {
 
 				_set_infopanel(_menu->selected);
 
-			} else if ((_display->get_input_mode() == WindowInputMode::CONFIRM_STRICT_MODE) ||
-					   (_display->get_input_mode() == WindowInputMode::SAVE_CHANGES) ||
-					   (_display->get_input_mode() == WindowInputMode::CANCEL_CHANGES)) {
+			} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_STRICT_MODE ||
+					   _display->get_input_mode() == WindowInputMode::SAVE_CHANGES ||
+					   _display->get_input_mode() == WindowInputMode::CANCEL_CHANGES) {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)

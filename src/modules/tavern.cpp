@@ -141,8 +141,8 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 					if (_show_divvy) {
 
 						if (auto dialog_input{_divvy->handle_input(event)}; dialog_input) {
-							if ((dialog_input.value() == WindowDialogButton::CLOSE) ||
-								(dialog_input.value() == WindowDialogButton::OK)) {
+							if (dialog_input.value() == WindowDialogButton::CLOSE ||
+								dialog_input.value() == WindowDialogButton::OK) {
 								_show_divvy = false;
 								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							}

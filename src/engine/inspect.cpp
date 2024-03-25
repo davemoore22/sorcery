@@ -202,9 +202,9 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 					// We have selected something from the menu
 					if (selected) {
 						const MenuItem option_chosen{(*selected.value()).item};
-						if ((option_chosen == MenuItem::ET_TRAIN) || (option_chosen == MenuItem::CA_TAVERN) ||
-							(option_chosen == MenuItem::CA_TEMPLE) || (option_chosen == MenuItem::CA_INN) ||
-							(option_chosen == MenuItem::ITEM_CAMP) || (option_chosen == MenuItem::CA_SHOP)) {
+						if (option_chosen == MenuItem::ET_TRAIN || option_chosen == MenuItem::CA_TAVERN ||
+							option_chosen == MenuItem::CA_TEMPLE || option_chosen == MenuItem::CA_INN ||
+							option_chosen == MenuItem::ITEM_CAMP || option_chosen == MenuItem::CA_SHOP) {
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							_cur_char = std::nullopt;
 							return std::nullopt;
@@ -222,12 +222,12 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 
 					// Display Character Panel
 					if (selected) {
-						if (((*selected.value()).item != MenuItem::ET_TRAIN) &&
-							((*selected.value()).item != MenuItem::CA_TAVERN) &&
-							((*selected.value()).item != MenuItem::CA_SHOP) &&
-							((*selected.value()).item != MenuItem::CA_TEMPLE) &&
-							((*selected.value()).item != MenuItem::CA_INN) &&
-							((*selected.value()).item != MenuItem::ITEM_CAMP)) {
+						if ((*selected.value()).item != MenuItem::ET_TRAIN &&
+							(*selected.value()).item != MenuItem::CA_TAVERN &&
+							(*selected.value()).item != MenuItem::CA_SHOP &&
+							(*selected.value()).item != MenuItem::CA_TEMPLE &&
+							(*selected.value()).item != MenuItem::CA_INN &&
+							(*selected.value()).item != MenuItem::ITEM_CAMP) {
 							const auto character_chosen{static_cast<int>((*selected.value()).index)};
 							if (character_chosen != _cur_char_id) {
 								auto character{&_game->characters[character_chosen]};
@@ -306,8 +306,8 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 
 			if (event.type == sf::Event::Closed)
 				return MenuItem::ITEM_ABORT;
-			else if ((_system->input->check(WindowInput::CANCEL, event)) ||
-					 (_system->input->check(WindowInput::BACK, event))) {
+			else if (_system->input->check(WindowInput::CANCEL, event) ||
+					 _system->input->check(WindowInput::BACK, event)) {
 				_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 				_cur_char = std::nullopt;
 				_in_character = false;
@@ -432,7 +432,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 							if (slot_item.has_value()) {
 								auto &item{slot_item.value()};
 
-								if ((item->get_equipped()) && (item->get_usable()))
+								if (item->get_equipped() && item->get_usable() && !item->get_cursed())
 									item->set_equipped(false);
 
 								// TODO: handle curses

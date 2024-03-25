@@ -125,7 +125,7 @@ auto Sorcery::AutoMap::refresh() -> void {
 			auto tile_x{tx + (tcx * tw) + (tcx * spacing)};
 			auto tile_y{ty + (tcy * th) + (tcy * spacing)};
 			_draw_tile(tile, Coordinate{lx, ly}, tile_x, reverse_y - tile_y, scaling);
-			if ((x == static_cast<int>(player_pos.x)) && (y == static_cast<int>(player_pos.y)))
+			if (x == static_cast<int>(player_pos.x) && y == static_cast<int>(player_pos.y))
 				_draw_player(_game->state->get_player_facing(), tile_x, reverse_y - tile_y, scaling);
 
 			++tcx;
@@ -218,12 +218,12 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, Coordinate loc, int x, int y, floa
 			_sprites.emplace_back(property);
 		}
 
-		if ((tile.has(NORTH, TileEdge::SECRET_DOOR)) || (tile.has(NORTH, TileEdge::ONE_WAY_HIDDEN_DOOR))) {
+		if (tile.has(NORTH, TileEdge::SECRET_DOOR) || tile.has(NORTH, TileEdge::ONE_WAY_HIDDEN_DOOR)) {
 			sf::Sprite wall{_graphics->textures->get(unenum(AutoMapFeature::NORTH_SECRET), AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
-		} else if ((tile.has(NORTH, TileEdge::UNLOCKED_DOOR)) || (tile.has(NORTH, TileEdge::ONE_WAY_DOOR))) {
+		} else if (tile.has(NORTH, TileEdge::UNLOCKED_DOOR) || tile.has(NORTH, TileEdge::ONE_WAY_DOOR)) {
 			sf::Sprite wall{_graphics->textures->get(unenum(AutoMapFeature::NORTH_DOOR), AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
@@ -240,12 +240,12 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, Coordinate loc, int x, int y, floa
 			_sprites.emplace_back(wall);
 		}
 
-		if ((tile.has(SOUTH, TileEdge::SECRET_DOOR)) || (tile.has(SOUTH, TileEdge::ONE_WAY_HIDDEN_DOOR))) {
+		if (tile.has(SOUTH, TileEdge::SECRET_DOOR) || tile.has(SOUTH, TileEdge::ONE_WAY_HIDDEN_DOOR)) {
 			sf::Sprite wall{_graphics->textures->get(unenum(AutoMapFeature::SOUTH_SECRET), AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
-		} else if ((tile.has(SOUTH, TileEdge::UNLOCKED_DOOR)) || (tile.has(SOUTH, TileEdge::ONE_WAY_DOOR))) {
+		} else if (tile.has(SOUTH, TileEdge::UNLOCKED_DOOR) || tile.has(SOUTH, TileEdge::ONE_WAY_DOOR)) {
 			sf::Sprite wall{_graphics->textures->get(unenum(AutoMapFeature::SOUTH_DOOR), AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
@@ -262,12 +262,12 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, Coordinate loc, int x, int y, floa
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
 		}
-		if ((tile.has(EAST, TileEdge::SECRET_DOOR)) || (tile.has(EAST, TileEdge::ONE_WAY_HIDDEN_DOOR))) {
+		if (tile.has(EAST, TileEdge::SECRET_DOOR) || tile.has(EAST, TileEdge::ONE_WAY_HIDDEN_DOOR)) {
 			sf::Sprite wall{_graphics->textures->get(unenum(AutoMapFeature::EAST_SECRET), AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
-		} else if ((tile.has(EAST, TileEdge::UNLOCKED_DOOR)) || (tile.has(EAST, TileEdge::ONE_WAY_DOOR))) {
+		} else if (tile.has(EAST, TileEdge::UNLOCKED_DOOR) || tile.has(EAST, TileEdge::ONE_WAY_DOOR)) {
 			sf::Sprite wall{_graphics->textures->get(unenum(AutoMapFeature::EAST_DOOR), AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
@@ -284,7 +284,7 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, Coordinate loc, int x, int y, floa
 			_sprites.emplace_back(wall);
 		}
 
-		if ((tile.has(WEST, TileEdge::SECRET_DOOR)) || (tile.has(WEST, TileEdge::ONE_WAY_HIDDEN_DOOR))) {
+		if (tile.has(WEST, TileEdge::SECRET_DOOR) || tile.has(WEST, TileEdge::ONE_WAY_HIDDEN_DOOR)) {
 			sf::Sprite wall{_graphics->textures->get(unenum(AutoMapFeature::WEST_SECRET), AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
@@ -294,7 +294,7 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, Coordinate loc, int x, int y, floa
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
-		} else if ((tile.has(WEST, TileEdge::UNLOCKED_DOOR)) || (tile.has(WEST, TileEdge::ONE_WAY_DOOR))) {
+		} else if (tile.has(WEST, TileEdge::UNLOCKED_DOOR) || tile.has(WEST, TileEdge::ONE_WAY_DOOR)) {
 			sf::Sprite wall{_graphics->textures->get(unenum(AutoMapFeature::WEST_DOOR), AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
@@ -307,12 +307,12 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, Coordinate loc, int x, int y, floa
 			_sprites.emplace_back(wall);
 		}
 
-		if ((tile.has(TileFeature::STAIRS_UP)) || (tile.has(TileFeature::LADDER_UP))) {
+		if (tile.has(TileFeature::STAIRS_UP) || tile.has(TileFeature::LADDER_UP)) {
 			sf::Sprite stairs{_graphics->textures->get(unenum(AutoMapFeature::STAIRS_UP), AUTOMAP).value()};
 			stairs.setPosition(x, y);
 			stairs.setScale(scaling, scaling);
 			_sprites.emplace_back(stairs);
-		} else if ((tile.has(TileFeature::STAIRS_DOWN)) || (tile.has(TileFeature::LADDER_DOWN))) {
+		} else if (tile.has(TileFeature::STAIRS_DOWN) || tile.has(TileFeature::LADDER_DOWN)) {
 			sf::Sprite stairs{_graphics->textures->get(unenum(AutoMapFeature::STAIRS_DOWN), AUTOMAP).value()};
 			stairs.setPosition(x, y);
 			stairs.setScale(scaling, scaling);
@@ -344,7 +344,7 @@ auto Sorcery::AutoMap::_draw_tile(Tile &tile, Coordinate loc, int x, int y, floa
 			_sprites.emplace_back(stairs);
 		} else {
 			// TODO: change this to use events instead
-			if ((tile.has(TileFeature::MESSAGE)) || (tile.has(TileFeature::NOTICE))) {
+			if (tile.has(TileFeature::MESSAGE) || tile.has(TileFeature::NOTICE)) {
 				sf::Sprite message{_graphics->textures->get(unenum(AutoMapFeature::EXCLAMATION), AUTOMAP).value()};
 				message.setPosition(x, y);
 				message.setScale(scaling, scaling);

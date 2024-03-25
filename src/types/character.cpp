@@ -83,7 +83,7 @@ auto Sorcery::Character::set_location(const CharacterLocation value) -> void {
 
 	_location = value;
 
-	if ((value == TAVERN) || (value == TEMPLE) || (value == TRAINING)) {
+	if (value == TAVERN || value == TEMPLE || value == TRAINING) {
 		coordinate = std::nullopt;
 		depth = std::nullopt;
 	}
@@ -1330,7 +1330,7 @@ auto Sorcery::Character::_update_stat_for_level(CharacterAttribute attribute, st
 
 			// Decrease
 			bool proceed{true};
-			if ((_cur_attr.at(attribute) == 18) && ((*_system->random)[RandomType::D6] > 1))
+			if (_cur_attr.at(attribute) == 18 && (*_system->random)[RandomType::D6] > 1)
 				proceed = false;
 
 			if (proceed) {
@@ -1588,7 +1588,7 @@ auto Sorcery::Character::_set_sp() -> bool {
 	// so it might not be applicable?
 	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
 
-		if ((_priest_max_sp[spell_level] > 0) && (_get_spells_known(SpellType::PRIEST, spell_level) == 0)) {
+		if (_priest_max_sp[spell_level] > 0 && _get_spells_known(SpellType::PRIEST, spell_level) == 0) {
 			switch (spell_level) {
 			case 1:
 				_learn_spell(BADIOS);
@@ -1630,7 +1630,7 @@ auto Sorcery::Character::_set_sp() -> bool {
 				break;
 			}
 		}
-		if ((_mage_max_sp[spell_level] > 0) && (_get_spells_known(SpellType::MAGE, spell_level) == 0)) {
+		if (_mage_max_sp[spell_level] > 0 && _get_spells_known(SpellType::MAGE, spell_level) == 0) {
 			switch (spell_level) {
 			case 1:
 				if ((*_system->random)[RandomType::D100] > 33)
@@ -1688,7 +1688,7 @@ auto Sorcery::Character::_set_sp() -> bool {
 	// the case of level drain)
 	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
 
-		if (((spell_level * 2) - 1) > (_abilities.at(MAX_LEVEL)))
+		if ((spell_level * 2) - 1 > _abilities.at(MAX_LEVEL))
 			continue;
 
 		const auto priest_known{_get_spells_known(SpellType::PRIEST, spell_level)};
@@ -2302,13 +2302,13 @@ auto Sorcery::Character::get_spell_points(
 	using enum Enums::Magic::SpellPointStatus;
 	using enum Enums::Magic::SpellType;
 
-	if ((type == MAGE) && (status == CURRENT))
+	if (type == MAGE && status == CURRENT)
 		return _mage_cur_sp;
-	else if ((type == MAGE) && (status == MAXIMUM))
+	else if (type == MAGE && status == MAXIMUM)
 		return _mage_max_sp;
-	else if ((type == PRIEST) && (status == CURRENT))
+	else if (type == PRIEST && status == CURRENT)
 		return _priest_cur_sp;
-	else if ((type == PRIEST) && (status == MAXIMUM))
+	else if (type == PRIEST && status == MAXIMUM)
 		return _priest_max_sp;
 	else
 		return std::nullopt;
@@ -2551,7 +2551,7 @@ auto Sorcery::Character::get_cur_ac() const -> int {
 	auto ac{_abilities.at(BASE_ARMOUR_CLASS)};
 
 	for (const auto &item : inventory.items()) {
-		if ((item.get_equipped()) && (item.get_cursed()))
+		if (item.get_equipped() && item.get_cursed())
 			ac = ac + (*_itemstore)[item.get_type_id()].get_ac_mod();
 		else if (item.get_equipped())
 			ac = ac - (*_itemstore)[item.get_type_id()].get_ac_mod();

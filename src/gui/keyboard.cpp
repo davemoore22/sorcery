@@ -232,15 +232,15 @@ auto Sorcery::Keyboard::set_selected(WindowInput input) -> void {
 			selected = "Spc";
 		else {
 			std::transform(selected.begin(), selected.end(), selected.begin(), [](unsigned char c) -> unsigned char {
-				if ((c >= 'A') && (c <= 'H'))
+				if (c >= 'A' && c <= 'H')
 					return c += 50;
-				else if ((c >= 'K') && (c <= 'O'))
+				else if (c >= 'K' && c <= 'O')
 					return c += 35;
-				else if ((c >= 'P') && (c <= 'Z'))
+				else if (c >= 'P' && c <= 'Z')
 					return c -= 15;
-				else if ((c >= 'a') && (c <= 'n'))
+				else if (c >= 'a' && c <= 'n')
 					return c -= 20;
-				else if ((c >= 'p') && (c <= 'z'))
+				else if (c >= 'p' && c <= 'z')
 					return c -= 15;
 				else
 					return c;
@@ -262,15 +262,15 @@ auto Sorcery::Keyboard::set_selected(WindowInput input) -> void {
 			selected = "Spc";
 		else {
 			std::transform(selected.begin(), selected.end(), selected.begin(), [](unsigned char c) -> unsigned char {
-				if ((c >= 'A') && (c <= 'K'))
+				if (c >= 'A' && c <= 'K')
 					return c += 15;
-				else if ((c >= 'M') && (c <= 'Z'))
+				else if (c >= 'M' && c <= 'Z')
 					return c += 20;
-				else if ((c >= 'a') && (c <= 'k'))
+				else if (c >= 'a' && c <= 'k')
 					return c += 15;
-				else if ((c >= 'n') && (c <= 'r'))
+				else if (c >= 'n' && c <= 'r')
 					return c -= 35;
-				else if ((c >= 's') && (c <= 'z'))
+				else if (c >= 's' && c <= 'z')
 					return c -= 50;
 				else
 					return c;

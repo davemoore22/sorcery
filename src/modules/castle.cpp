@@ -134,8 +134,8 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MenuItem> 
 						else if (option_chosen == MenuItem::CA_TEMPLE)
 							return MenuItem::CA_TEMPLE;
 					}
-				} else if ((_system->input->check(WindowInput::CANCEL, event)) ||
-						   ((_system->input->check(WindowInput::BACK, event)))) {
+				} else if (_system->input->check(WindowInput::CANCEL, event) ||
+						   _system->input->check(WindowInput::BACK, event)) {
 					_display->set_input_mode(WindowInputMode::CONFIRM_LEAVE_GAME);
 				}
 			} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME) {

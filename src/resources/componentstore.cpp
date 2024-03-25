@@ -98,7 +98,7 @@ auto Sorcery::ComponentStore::operator()(std::string_view screen) -> std::option
 	if (_loaded) {
 
 		for (const auto &[unique_key, component] : _components) {
-			if ((component.screen == screen) && (component.drawmode == WindowDrawMode::AUTOMATIC)) {
+			if (component.screen == screen && component.drawmode == WindowDrawMode::AUTOMATIC) {
 				results.push_back(component);
 			}
 		}

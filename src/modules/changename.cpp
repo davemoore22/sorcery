@@ -148,8 +148,8 @@ auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event) -> std::op
 			_keyboard->set_mouse_selected((*_display->layout)["character_create_stage_1:keyboard"], mouse_pos)};
 		if (mouse_selected)
 			_keyboard->selected = mouse_selected.value();
-	} else if ((_system->input->check(WindowInput::ALPHANUMERIC, event)) ||
-			   (_system->input->check(WindowInput::SPACE, event))) {
+	} else if (_system->input->check(WindowInput::ALPHANUMERIC, event) ||
+			   _system->input->check(WindowInput::SPACE, event)) {
 		if (candidate_name.length() < 16) {
 			candidate_name += static_cast<char>(event.text.unicode);
 			_new_name = candidate_name;

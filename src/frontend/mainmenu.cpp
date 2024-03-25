@@ -202,7 +202,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 									_display->set_input_mode(CONFIRM_QUIT_GAME);
 								}
 							}
-						} else if ((_system->input->check(CANCEL, event)) || (_system->input->check(BACK, event))) {
+						} else if (_system->input->check(CANCEL, event) || _system->input->check(BACK, event)) {
 							_display->set_input_mode(CONFIRM_QUIT_GAME);
 						}
 

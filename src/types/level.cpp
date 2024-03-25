@@ -300,13 +300,13 @@ auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {
 			if (metadata.starts_with("METADATA")) {
 
 				auto data{SPLIT(metadata)};
-				if ((data.at(1) == "TELEPORT") && (data.at(2) == "TO")) {
+				if (data.at(1) == "TELEPORT" && data.at(2) == "TO") {
 					Teleport teleport{std::stoi(data.at(3)), Coordinate{std::stoi(data.at(4)), std::stoi(data.at(5))}};
 					_tiles.at(Coordinate{x, y}).set_teleport(teleport);
-				} else if ((data.at(1) == "CHUTE") && (data.at(2) == "TO")) {
+				} else if (data.at(1) == "CHUTE" && data.at(2) == "TO") {
 					Teleport teleport{std::stoi(data.at(3)), Coordinate{std::stoi(data.at(4)), std::stoi(data.at(5))}};
 					_tiles.at(Coordinate{x, y}).set_teleport(teleport);
-				} else if ((data.at(1) == "STAIRS") && (data.at(2) == "TO")) {
+				} else if (data.at(1) == "STAIRS" && data.at(2) == "TO") {
 					Teleport stairs{std::stoi(data.at(3)), Coordinate{std::stoi(data.at(4)), std::stoi(data.at(5))}};
 					_tiles.at(Coordinate{x, y}).set_stairs(stairs);
 				} else if (data.at(1) == "ELEVATOR") {
