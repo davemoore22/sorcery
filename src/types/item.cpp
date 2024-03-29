@@ -29,9 +29,11 @@
 // Default Constructor
 Sorcery::Item::Item() {
 
+	using enum Enums::Items::Category;
 	using enum Enums::Items::TypeID;
 
 	_type = BROKEN_ITEM;
+	_category = NO_ITEM_CATEGORY;
 	_known = false;
 	_equipped = false;
 	_cursed = false;
@@ -46,10 +48,12 @@ Sorcery::Item::Item() {
 Sorcery::Item::Item(const ItemType &item_type, const bool usable) {
 
 	_type = item_type.get_type_id();
+	_category = item_type.get_category();
+
 	_usable = usable;
 	_known = false;
 	_equipped = false;
-	_cursed = false;
+	_cursed = item_type.get_cursed();
 	_marked = false;
 	_name = item_type.get_known_name();
 	_uname = item_type.get_unknown_name();
@@ -60,10 +64,11 @@ Sorcery::Item::Item(const ItemType &item_type, const bool usable) {
 Sorcery::Item::Item(const ItemType &item_type) {
 
 	_type = item_type.get_type_id();
+	_category = item_type.get_category();
 
 	_known = false;
 	_equipped = false;
-	_cursed = false;
+	_cursed = item_type.get_cursed();
 	_marked = false;
 	_usable = true;
 	_name = item_type.get_known_name();
@@ -75,6 +80,11 @@ Sorcery::Item::Item(const ItemType &item_type) {
 auto Sorcery::Item::get_type_id() const -> ItemTypeID {
 
 	return _type;
+}
+
+auto Sorcery::Item::get_category() const -> ItemCategory {
+
+	return _category;
 }
 
 auto Sorcery::Item::get_known() const -> bool {

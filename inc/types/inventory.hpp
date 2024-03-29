@@ -74,9 +74,9 @@ class Inventory {
 	private:
 
 		// Private Methods
-		auto _has_equipped_item_type(const ItemTypeID type_id) const -> bool;
-		auto _has_cursed_equipped_item_type(const ItemTypeID type_id) const -> bool;
-		auto _unequip_item_type(const ItemTypeID type_id) -> bool;
+		auto _has_equipped_item_category(const ItemCategory category) const -> bool;
+		auto _has_cursed_equipped_item_category(const ItemCategory category) const -> bool;
+		auto _unequip_item_category(const ItemCategory category) -> bool;
 
 		// Private Members
 		std::vector<Item> _items;

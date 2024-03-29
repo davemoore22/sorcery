@@ -3716,7 +3716,7 @@
 				"name": "dialog_cursed_ok",
 				"x": "centre",
 				"y": "centre",
-				"w": "12",
+				"w": "16",
 				"type": "dialog",
 				"drawmode": "manual",
 				"alpha": "200",
