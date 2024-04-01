@@ -147,6 +147,21 @@ auto Sorcery::Inventory::equip_item(const unsigned int slot) -> bool {
 	return true;
 }
 
+auto Sorcery::Inventory::drop_item(const unsigned int slot) -> bool {
+
+	if (_items.size() < (slot - 1))
+		return false;
+
+	auto candidate{_items.at(slot - 1)};
+	if (candidate.get_equipped())
+		return false;
+
+	// For now, just discard the item
+	_items.erase(_items.begin() + (slot - 1));
+
+	return true;
+}
+
 auto Sorcery::Inventory::_has_equipped_item_category(const ItemCategory category) const -> bool {
 
 	return std::ranges::any_of(_items.begin(), _items.end(),

@@ -82,8 +82,10 @@ class Inspect {
 		std::unique_ptr<Frame> _cur_char_frame;
 		std::unique_ptr<Dialog> _pool;
 		std::unique_ptr<Dialog> _cursed;
+		std::unique_ptr<Dialog> _drop;
 		bool _in_pool;
 		bool _in_cursed;
+		bool _in_drop;
 		MenuMode _mode;
 		std::string _screen_key;
 		std::unique_ptr<CharacterPanel> _char_panel;

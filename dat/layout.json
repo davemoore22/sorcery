@@ -3734,6 +3734,27 @@
 				"drawmode": "manual"
 			},
 			{
+				"name": "dialog_confirm_drop",
+				"x": "centre",
+				"y": "centre",
+				"w": "16",
+				"type": "dialog",
+				"drawmode": "manual",
+				"alpha": "200",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "dialog_confirm_drop_text",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"string": "CONFIRM_DROP_ITEM",
+				"background": " 0xff0000ff",
+				"justification": "centre",
+				"type": "text",
+				"drawmode": "manual"
+			},
+			{
 				"name": "item_display",
 				"font": "text",
 				"colour": "0xdddddddff",

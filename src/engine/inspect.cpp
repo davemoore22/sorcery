@@ -84,6 +84,11 @@ Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, 
 	_cursed->setPosition(_display->get_centre_pos(_cursed->get_size()));
 	_in_cursed = false;
 
+	_drop = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["inspect:dialog_confirm_drop"],
+		(*_display->layout)["inspect:dialog_confirm_drop_text"], WindowDialogType::CONFIRM);
+	_drop->setPosition(_display->get_centre_pos(_cursed->get_size()));
+	_in_drop = false;
+
 	_in_item_action = false;
 	_in_item_display = false;
 }
@@ -331,6 +336,25 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 					}
 				}
 
+			} else if (_in_drop) {
+
+				// Handle Drop Item Dialog
+				auto dialog_input{_drop->handle_input(event)};
+				if (dialog_input) {
+					if (dialog_input.value() == WindowDialogButton::CLOSE ||
+						dialog_input.value() == WindowDialogButton::NO) {
+
+						_in_drop = false;
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} else if (dialog_input.value() == WindowDialogButton::YES) {
+
+						auto character{&_game->characters[character_id]};
+						character->inventory.drop_item(_character_display->get_inventory_item());
+						_game->save_game();
+						_in_drop = false;
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					}
+				}
 			} else if (_in_cursed) {
 
 				// Handle Cursed Item Dialog
@@ -414,6 +438,11 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 							_in_item_action = false;
 							_in_item_display = true;
 							_examine_item(character_id);
+						} else if (option_chosen == MenuItem::C_ACTION_DROP) {
+
+							// Drop an Item
+							_in_item_action = false;
+							_in_drop = true;
 						} else if (option_chosen == MenuItem::C_ACTION_EQUIP) {
 
 							// Equip an Item
@@ -743,6 +772,9 @@ auto Sorcery::Inspect::_draw() -> void {
 			} else if (_in_cursed) {
 				_cursed->update();
 				_window->draw(*_cursed);
+			} else if (_in_drop) {
+				_drop->update();
+				_window->draw(*_drop);
 			} else if (_in_item_action) {
 				_window->draw(*_item_action_menu_frame);
 				_item_action_menu->generate((*_display->layout)["character_summary:item_action_menu"]);

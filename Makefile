@@ -869,6 +869,30 @@ src/engine/teleport.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/teleport.cpp.s
 .PHONY : src/engine/teleport.cpp.s
 
+src/engine/trade.o: src/engine/trade.cpp.o
+.PHONY : src/engine/trade.o
+
+# target to build an object file
+src/engine/trade.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/trade.cpp.o
+.PHONY : src/engine/trade.cpp.o
+
+src/engine/trade.i: src/engine/trade.cpp.i
+.PHONY : src/engine/trade.i
+
+# target to preprocess a source file
+src/engine/trade.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/trade.cpp.i
+.PHONY : src/engine/trade.cpp.i
+
+src/engine/trade.s: src/engine/trade.cpp.s
+.PHONY : src/engine/trade.s
+
+# target to generate assembly for a file
+src/engine/trade.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/trade.cpp.s
+.PHONY : src/engine/trade.cpp.s
+
 src/engine/trap.o: src/engine/trap.cpp.o
 .PHONY : src/engine/trap.o
 
@@ -1660,30 +1684,6 @@ src/gui/infopanel.s: src/gui/infopanel.cpp.s
 src/gui/infopanel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/infopanel.cpp.s
 .PHONY : src/gui/infopanel.cpp.s
-
-src/gui/inventorydisplay.o: src/gui/inventorydisplay.cpp.o
-.PHONY : src/gui/inventorydisplay.o
-
-# target to build an object file
-src/gui/inventorydisplay.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/inventorydisplay.cpp.o
-.PHONY : src/gui/inventorydisplay.cpp.o
-
-src/gui/inventorydisplay.i: src/gui/inventorydisplay.cpp.i
-.PHONY : src/gui/inventorydisplay.i
-
-# target to preprocess a source file
-src/gui/inventorydisplay.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/inventorydisplay.cpp.i
-.PHONY : src/gui/inventorydisplay.cpp.i
-
-src/gui/inventorydisplay.s: src/gui/inventorydisplay.cpp.s
-.PHONY : src/gui/inventorydisplay.s
-
-# target to generate assembly for a file
-src/gui/inventorydisplay.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/inventorydisplay.cpp.s
-.PHONY : src/gui/inventorydisplay.cpp.s
 
 src/gui/itemdisplay.o: src/gui/itemdisplay.cpp.o
 .PHONY : src/gui/itemdisplay.o
@@ -3010,6 +3010,9 @@ help:
 	@echo "... src/engine/teleport.o"
 	@echo "... src/engine/teleport.i"
 	@echo "... src/engine/teleport.s"
+	@echo "... src/engine/trade.o"
+	@echo "... src/engine/trade.i"
+	@echo "... src/engine/trade.s"
 	@echo "... src/engine/trap.o"
 	@echo "... src/engine/trap.i"
 	@echo "... src/engine/trap.s"
@@ -3109,9 +3112,6 @@ help:
 	@echo "... src/gui/infopanel.o"
 	@echo "... src/gui/infopanel.i"
 	@echo "... src/gui/infopanel.s"
-	@echo "... src/gui/inventorydisplay.o"
-	@echo "... src/gui/inventorydisplay.i"
-	@echo "... src/gui/inventorydisplay.s"
 	@echo "... src/gui/itemdisplay.o"
 	@echo "... src/gui/itemdisplay.i"
 	@echo "... src/gui/itemdisplay.s"
