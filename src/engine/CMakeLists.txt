@@ -1,7 +1,6 @@
 list(APPEND sorcery_SOURCES
 	${CMAKE_CURRENT_LIST_DIR}/cast.cpp
 	${CMAKE_CURRENT_LIST_DIR}/disarm.cpp
-	${CMAKE_CURRENT_LIST_DIR}/drop.cpp
 	${CMAKE_CURRENT_LIST_DIR}/encounter.cpp
 	${CMAKE_CURRENT_LIST_DIR}/engine.cpp
 	${CMAKE_CURRENT_LIST_DIR}/event.cpp

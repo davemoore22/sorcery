@@ -254,7 +254,6 @@
 		<Unit filename="inc/engine/cast.hpp" />
 		<Unit filename="inc/engine/define.hpp" />
 		<Unit filename="inc/engine/disarm.hpp" />
-		<Unit filename="inc/engine/drop.hpp" />
 		<Unit filename="inc/engine/encounter.hpp" />
 		<Unit filename="inc/engine/engine.hpp" />
 		<Unit filename="inc/engine/enum.hpp" />
@@ -388,7 +387,6 @@
 		<Unit filename="src/engine/CMakeLists.txt" />
 		<Unit filename="src/engine/cast.cpp" />
 		<Unit filename="src/engine/disarm.cpp" />
-		<Unit filename="src/engine/drop.cpp" />
 		<Unit filename="src/engine/encounter.cpp" />
 		<Unit filename="src/engine/engine.cpp" />
 		<Unit filename="src/engine/equip.cpp" />

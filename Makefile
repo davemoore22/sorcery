@@ -485,30 +485,6 @@ src/engine/disarm.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/disarm.cpp.s
 .PHONY : src/engine/disarm.cpp.s
 
-src/engine/drop.o: src/engine/drop.cpp.o
-.PHONY : src/engine/drop.o
-
-# target to build an object file
-src/engine/drop.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/drop.cpp.o
-.PHONY : src/engine/drop.cpp.o
-
-src/engine/drop.i: src/engine/drop.cpp.i
-.PHONY : src/engine/drop.i
-
-# target to preprocess a source file
-src/engine/drop.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/drop.cpp.i
-.PHONY : src/engine/drop.cpp.i
-
-src/engine/drop.s: src/engine/drop.cpp.s
-.PHONY : src/engine/drop.s
-
-# target to generate assembly for a file
-src/engine/drop.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/drop.cpp.s
-.PHONY : src/engine/drop.cpp.s
-
 src/engine/encounter.o: src/engine/encounter.cpp.o
 .PHONY : src/engine/encounter.o
 
@@ -2962,9 +2938,6 @@ help:
 	@echo "... src/engine/disarm.o"
 	@echo "... src/engine/disarm.i"
 	@echo "... src/engine/disarm.s"
-	@echo "... src/engine/drop.o"
-	@echo "... src/engine/drop.i"
-	@echo "... src/engine/drop.s"
 	@echo "... src/engine/encounter.o"
 	@echo "... src/engine/encounter.i"
 	@echo "... src/engine/encounter.s"
