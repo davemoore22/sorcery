@@ -68,6 +68,19 @@ auto Sorcery::Inventory::add_type(const ItemType &item_type, const bool known) -
 	if (_items.size() != 8) {
 		Item item{item_type};
 		item.set_known(known);
+		item.set_usable(true);
+		_items.emplace_back(item);
+		return true;
+	} else
+		return false;
+}
+
+auto Sorcery::Inventory::add_type(const ItemType &item_type, const bool usable, const bool known) -> bool {
+
+	if (_items.size() != 8) {
+		Item item{item_type};
+		item.set_known(known);
+		item.set_usable(usable);
 		_items.emplace_back(item);
 		return true;
 	} else
@@ -133,6 +146,9 @@ auto Sorcery::Inventory::equip_item(const unsigned int slot) -> bool {
 	auto &candidate{_items.at(slot - 1)};
 	const auto item_category{candidate.get_category()};
 
+	if (!candidate.get_usable())
+		return false;
+
 	if (_has_cursed_equipped_item_category(item_category))
 		return false;
 
@@ -168,6 +184,11 @@ auto Sorcery::Inventory::_has_equipped_item_category(const ItemCategory category
 		[&](const auto &item) { return item.get_category() == category && item.get_equipped(); });
 }
 
+auto Sorcery::Inventory::has_cursed_equipped_item_category(const ItemCategory category) const -> bool {
+
+	return _has_cursed_equipped_item_category(category);
+}
+
 auto Sorcery::Inventory::_has_cursed_equipped_item_category(const ItemCategory category) const -> bool {
 
 	return std::ranges::any_of(_items.begin(), _items.end(),
@@ -183,12 +204,12 @@ auto operator<<(std::ostream &out_stream, const Sorcery::Inventory &inventory) -
 
 	for (const auto &item : inventory._items) {
 		const std::string flag{std::invoke([&] {
-			if (!item.get_usable())
+			if (!item.get_known())
+				return "?";
+			else if (!item.get_usable())
 				return "#";
 			else if (item.get_cursed() && item.get_equipped())
 				return "-";
-			else if (!item.get_known())
-				return "?";
 			else if (item.get_equipped())
 				return "*";
 			else

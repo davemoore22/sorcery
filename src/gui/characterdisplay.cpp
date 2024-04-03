@@ -92,14 +92,14 @@ auto Sorcery::CharacterDisplay::_generate_inventory(Component layout_c) -> void 
 
 	for (const auto &item : _character->inventory.items()) {
 		const std::string flag{std::invoke([&] {
-			if (!item.get_usable())
-				return "#";
+			if (!item.get_known())
+				return "?";
 			else if (item.get_cursed() && item.get_equipped())
 				return "-";
-			else if (!item.get_known())
-				return "?";
 			else if (item.get_equipped())
 				return "*";
+			else if (!item.get_usable())
+				return "#";
 			else
 				return " ";
 		})};
@@ -708,6 +708,8 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 		_add_text(strength_c, "{:+>2}", std::to_string(_character->abilities().at(ATTACK_MODIFIER)));
 
 		strength_c.y += _display->window->get_ch();
+		// strength_c.colour = _graphics->adjust_colour(_character->get_cur_to_hit(), MODIFIER);
+		//_add_text(strength_c, "{:+>2}", std::to_string(_character->get_cur_to_hit()));
 		strength_c.colour = _graphics->adjust_colour(_character->abilities().at(HIT_PROBABILITY), MODIFIER);
 		_add_text(strength_c, "{:+>2}", std::to_string(_character->abilities().at(HIT_PROBABILITY)));
 
@@ -716,6 +718,8 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 		_add_text(strength_c, "{:+>2}", std::to_string(_character->abilities().at(BONUS_DAMAGE)));
 
 		strength_c.y += _display->window->get_ch();
+		// strength_c.colour = _graphics->adjust_colour(_character->get_cur_num_attacks(), NUMBER);
+		// ANCHOR - (strength_c, "{:>2}", std::to_string(_character->get_cur_num_attacks()));
 		strength_c.colour = _graphics->adjust_colour(_character->abilities().at(BASE_NUMBER_OF_ATTACKS), NUMBER);
 		_add_text(strength_c, "{:>2}", std::to_string(_character->abilities().at(BASE_NUMBER_OF_ATTACKS)));
 

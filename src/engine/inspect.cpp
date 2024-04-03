@@ -616,11 +616,12 @@ auto Sorcery::Inspect::_set_in_item_action_menu(unsigned int character_id, unsig
 	if (slot_item.has_value()) {
 
 		auto item{slot_item.value()};
+		auto has_already_cursed{character->inventory.has_cursed_equipped_item_category(item->get_category())};
 
 		if (_mode == MenuMode::CAMP) {
 
 			// Equip
-			_item_action_menu->items[0].enabled = item->get_usable() && (!item->get_equipped());
+			_item_action_menu->items[0].enabled = item->get_usable() && !item->get_equipped() && !has_already_cursed;
 
 			// Unequip
 			_item_action_menu->items[1].enabled = (!item->get_cursed()) && item->get_equipped();
@@ -644,11 +645,11 @@ auto Sorcery::Inspect::_set_in_item_action_menu(unsigned int character_id, unsig
 				(!item->get_known()) && character->get_class() == CharacterClass::BISHOP;
 
 			// Drop
-			_item_action_menu->items[7].enabled = (!item->get_cursed()) && (!item->get_equipped());
+			_item_action_menu->items[7].enabled = (!item->get_cursed()) && !item->get_equipped();
 		} else {
 
 			// Equip
-			_item_action_menu->items[0].enabled = item->get_usable() && (!item->get_equipped());
+			_item_action_menu->items[0].enabled = item->get_usable() && !item->get_equipped() && !has_already_cursed;
 
 			// Unequip
 			_item_action_menu->items[1].enabled = (!item->get_cursed()) && item->get_equipped();

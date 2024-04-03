@@ -58,10 +58,12 @@ class Inventory {
 		auto is_empty() const -> bool;
 		auto add_type(const ItemType &item_type) -> bool;
 		auto add_type(const ItemType &item_type, const bool known) -> bool;
+		auto add_type(const ItemType &item_type, const bool usable, const bool known) -> bool;
 		auto unequip_all() -> void;
 		auto items() const -> std::vector<Item>;
 		auto has_unidentified_items() const -> bool;
 		auto has_cursed_items() const -> bool;
+		auto has_cursed_equipped_item_category(const ItemCategory category) const -> bool;
 		auto equip_item(const unsigned int slot) -> bool;
 		auto drop_item(const unsigned int slot) -> bool;
 		auto is_equipped_cursed(const unsigned int slot) -> bool;

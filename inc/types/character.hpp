@@ -139,6 +139,8 @@ class Character {
 		auto reset_adjustment_per_turn() -> void;
 		auto get_hp_adjustment_symbol() const -> char;
 		auto get_cur_ac() const -> int;
+		auto get_cur_to_hit() const -> int;
+		auto get_cur_num_attacks() const -> int;
 		auto get_cur_xp() const -> int;
 		auto get_next_xp() const -> int;
 		auto get_age() const -> int;

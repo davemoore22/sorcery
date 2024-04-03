@@ -174,10 +174,7 @@ auto Sorcery::Application::_quickstart() -> void {
 		case LORD:
 		case SAMURAI:
 			pc.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR], true);
-			pc.inventory.add_type((*_game->itemstore)[CHAIN_MAIL], true);
 			pc.inventory.add_type((*_game->itemstore)[LONG_SWORD], true);
-			pc.inventory.add_type((*_game->itemstore)[CHAIN_MINUS_2], false);
-			pc.inventory.add_type((*_game->itemstore)[MACE_MINUS_1], false);
 			break;
 		case MAGE:
 			pc.inventory.add_type((*_game->itemstore)[ROBES], true);
@@ -187,6 +184,12 @@ auto Sorcery::Application::_quickstart() -> void {
 		case BISHOP:
 			pc.inventory.add_type((*_game->itemstore)[ROBES], true);
 			pc.inventory.add_type((*_game->itemstore)[STAFF], true);
+			pc.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR], true);
+			pc.inventory.add_type((*_game->itemstore)[CHAIN_MAIL], true);
+			pc.inventory.add_type((*_game->itemstore)[LONG_SWORD], false, true);
+			pc.inventory.add_type((*_game->itemstore)[CHAIN_MINUS_2], false);
+			pc.inventory.add_type((*_game->itemstore)[MACE_MINUS_1], false);
+			pc.inventory.add_type((*_game->itemstore)[PLATE_MAIL], false, false);
 			break;
 		case THIEF:
 		case NINJA:

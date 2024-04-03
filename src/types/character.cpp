@@ -2560,6 +2560,31 @@ auto Sorcery::Character::get_cur_ac() const -> int {
 	return ac;
 }
 
+auto Sorcery::Character::get_cur_to_hit() const -> int {
+
+	using enum Enums::Character::Ability;
+
+	auto to_hit{_abilities.at(HIT_PROBABILITY)};
+
+	for (const auto &item : inventory.items())
+		to_hit = to_hit + (*_itemstore)[item.get_type_id()].get_to_hit_mod();
+
+	return to_hit;
+}
+
+auto Sorcery::Character::get_cur_num_attacks() const -> int {
+
+	using enum Enums::Character::Ability;
+
+	auto base_attacks{_abilities.at(BASE_NUMBER_OF_ATTACKS)};
+	auto extra_attacks{0};
+
+	for (const auto &item : inventory.items())
+		extra_attacks = extra_attacks + (*_itemstore)[item.get_type_id()].get_swings();
+
+	return extra_attacks > base_attacks ? extra_attacks : base_attacks;
+}
+
 /*
 auto Sorcery::Character::add_starting_equipment(Game *game) -> void {
 
