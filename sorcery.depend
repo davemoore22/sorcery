@@ -2366,7 +2366,7 @@
 	"core/platform.hpp"
 	"core/type.hpp"
 
-1711396058 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/application.cpp
+1712177426 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/application.cpp
 	"core/application.hpp"
 	"core/animation.hpp"
 	"core/define.hpp"
@@ -2451,12 +2451,12 @@
 	"types/dice.hpp"
 	"types/enum.hpp"
 
-1710537376 /home/dave/Development/wizardry/sorcery-sfml/inc/types/character.hpp
+1712174857 /home/dave/Development/wizardry/sorcery-sfml/inc/types/character.hpp
 	"common/include.hpp"
 	"common/type.hpp"
 	"types/inventory.hpp"
 
-1711986356 /home/dave/Development/wizardry/sorcery-sfml/inc/types/inventory.hpp
+1712177336 /home/dave/Development/wizardry/sorcery-sfml/inc/types/inventory.hpp
 	"common/include.hpp"
 	"types/item.hpp"
 
@@ -2865,7 +2865,7 @@
 	"types/character.hpp"
 	"types/component.hpp"
 
-1711987636 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/inspect.cpp
+1712176811 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/inspect.cpp
 	"engine/inspect.hpp"
 	"common/enum.hpp"
 	"common/type.hpp"
@@ -3081,7 +3081,7 @@
 	"core/system.hpp"
 	"resources/iconstore.hpp"
 
-1711389818 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/characterdisplay.cpp
+1712177972 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/characterdisplay.cpp
 	"gui/characterdisplay.hpp"
 	"common/enum.hpp"
 	"common/macro.hpp"
@@ -3618,7 +3618,7 @@
 	"resources/define.hpp"
 	"resources/resourcemanager.hpp"
 
-1711389605 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/character.cpp
+1712175052 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/character.cpp
 	"types/character.hpp"
 	"common/enum.hpp"
 	"common/macro.hpp"
@@ -3643,11 +3643,11 @@
 1704133084 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/explore.cpp
 	"types/explore.hpp"
 
-1711987065 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/inventory.cpp
+1712177991 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/inventory.cpp
 	"types/inventory.hpp"
 	"types/itemtype.hpp"
 
-1711728283 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/item.cpp
+1712177281 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/item.cpp
 	"types/item.hpp"
 	"common/macro.hpp"
 	"types/itemtype.hpp"
