@@ -1025,8 +1025,7 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 
 				// And the Spell Category Icon
 				Component spell_icon_c{(*_display->layout)["character_mage_spells:spell_icon"]};
-				auto spell_icon{_get_spell_icon(spell.category)};
-				if (spell_icon) {
+				if (auto spell_icon{_get_spell_icon(spell.category)}; spell_icon) {
 					spell_icon.value().setScale(spell_icon_c.scl());
 					const auto offset_x{std::invoke([&] {
 						if (spell_icon_c["offset_x"])

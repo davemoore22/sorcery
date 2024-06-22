@@ -464,8 +464,30 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 								if (item->get_equipped() && item->get_usable() && !item->get_cursed())
 									item->set_equipped(false);
 
-								// TODO: handle curses
 								_in_item_action = false;
+							}
+						} else if (option_chosen == MenuItem::C_ACTION_IDENTIFY) {
+
+							// Attempt to Identify an Item
+							auto character{&_game->characters[character_id]};
+							if (character->get_class() == CharacterClass::BISHOP) {
+								auto slot_item{character->inventory[_character_display->get_inventory_item()]};
+								if (slot_item.has_value()) {
+									auto &item{slot_item.value()};
+									if (!item->get_known()) {
+										auto dice{(*_system->random)[RandomType::D100]};
+										auto result{
+											character->inventory.identify_item(_character_display->get_inventory_item(),
+												dice, character->abilities().at(CharacterAbility::IDENTIFY_ITEMS),
+												character->abilities().at(CharacterAbility::IDENTIFY_CURSE))};
+
+										if (result == ItemIDResult::CURSED_FAIL ||
+											result == ItemIDResult::CURSED_SUCCESS)
+											_in_cursed = true;
+										else
+											_in_item_action = false;
+									}
+								}
 							}
 						}
 					}

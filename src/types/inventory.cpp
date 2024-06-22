@@ -138,6 +138,38 @@ auto Sorcery::Inventory::_unequip_item_category(const ItemCategory category) -> 
 	return false;
 }
 
+// Attempt to identify an Item
+auto Sorcery::Inventory::identify_item(const unsigned int slot, const unsigned int roll, const unsigned int id_chance,
+	const unsigned int curse_chance) -> ItemIDResult {
+
+	auto cursed{false};
+	auto success{false};
+
+	if (_items.size() < (slot - 1))
+		return ItemIDResult::NONE;
+
+	auto &candidate{_items.at(slot - 1)};
+	if (roll < id_chance) {
+		success = true;
+		candidate.set_known(true);
+	}
+	if (roll < curse_chance) {
+		if (candidate.get_cursed()) {
+			cursed = true;
+			candidate.set_equipped(true);
+		}
+	}
+
+	if (success && !cursed)
+		return ItemIDResult::SUCCESS;
+	else if (success && cursed)
+		return ItemIDResult::CURSED_SUCCESS;
+	else if (!success && cursed)
+		return ItemIDResult::CURSED_FAIL;
+	else
+		return ItemIDResult::FAIL;
+}
+
 auto Sorcery::Inventory::equip_item(const unsigned int slot) -> bool {
 
 	if (_items.size() < (slot - 1))
@@ -171,6 +203,7 @@ auto Sorcery::Inventory::drop_item(const unsigned int slot) -> bool {
 	auto candidate{_items.at(slot - 1)};
 	if (candidate.get_equipped())
 		return false;
+	candidate.set_known(true);
 
 	// For now, just discard the item
 	_items.erase(_items.begin() + (slot - 1));

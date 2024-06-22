@@ -359,6 +359,15 @@ namespace Enums::Items {
 		BLUE_RIBBON = 100
 	};
 
+	enum class IdentifyOutcome {
+
+		NONE = 0,
+		FAIL = 1,
+		SUCCESS = 2,
+		CURSED_FAIL = 3,
+		CURSED_SUCCESS = 4
+	};
+
 	// From Snarfaru's updated list (https://www.zimlab.com/wizardry/walk/wizardry-1-items-list.htm)
 	namespace Effects {
 
@@ -441,6 +450,7 @@ using ItemDef = Enums::Items::Effects::Defensive;
 using ItemOff = Enums::Items::Effects::Offensive;
 using ItemInv = Enums::Items::Effects::Invoke;
 using ItemTypeID = Enums::Items::TypeID;
+using ItemIDResult = Enums::Items::IdentifyOutcome;
 using MonsterBreath = Enums::Monsters::Breath;
 using MonsterClass = Enums::Monsters::Class;
 using MonsterCategory = Enums::Monsters::Category;

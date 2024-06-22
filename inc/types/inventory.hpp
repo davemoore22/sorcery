@@ -67,10 +67,11 @@ class Inventory {
 		auto equip_item(const unsigned int slot) -> bool;
 		auto drop_item(const unsigned int slot) -> bool;
 		auto is_equipped_cursed(const unsigned int slot) -> bool;
+		auto identify_item(const unsigned int slot, const unsigned int roll, const unsigned int id_chance,
+			const unsigned int curse_chance) -> ItemIDResult;
 
 		auto unequip_item(const unsigned int slot) -> bool;
 
-		auto identify_item(const unsigned int slot) -> bool;
 		auto invoke_item(const unsigned int slot) -> bool;
 		auto use_item(const unsigned int slot) -> bool;
 
