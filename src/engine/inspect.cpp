@@ -46,25 +46,27 @@
 Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, Game *game, MenuMode mode)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _mode{mode} {
 
+	using enum Enums::Menu::Mode;
+
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 	_cur_char = std::nullopt;
 
 	// Same object can be used in three different modes
 	switch (_mode) {
-	case MenuMode::TAVERN:
+	case TAVERN:
 		_screen_key = "tavern_inspect";
 		break;
-	case MenuMode::INN:
+	case INN:
 		_screen_key = "inn_inspect";
 		break;
-	case MenuMode::SHOP:
+	case SHOP:
 		_screen_key = "shop_inspect";
 		break;
-	case MenuMode::TEMPLE:
+	case TEMPLE:
 		_screen_key = "temple_inspect";
 		break;
-	case MenuMode::CAMP:
+	case CAMP:
 		_screen_key = "engine_base_ui";
 		break;
 	default:
