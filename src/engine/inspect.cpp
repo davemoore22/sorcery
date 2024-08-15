@@ -86,6 +86,16 @@ Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, 
 	_cursed->setPosition(_display->get_centre_pos(_cursed->get_size()));
 	_in_cursed = false;
 
+	_failed = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["inspect:dialog_failed_ok"],
+		(*_display->layout)["inspect:dialog_failed_ok_text"], WindowDialogType::OK);
+	_failed->setPosition(_display->get_centre_pos(_failed->get_size()));
+	_in_failed = false;
+
+	_success = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["inspect:dialog_success_ok"],
+		(*_display->layout)["inspect:dialog_success_ok_text"], WindowDialogType::OK);
+	_success->setPosition(_display->get_centre_pos(_success->get_size()));
+	_in_success = false;
+
 	_drop = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["inspect:dialog_confirm_drop"],
 		(*_display->layout)["inspect:dialog_confirm_drop_text"], WindowDialogType::CONFIRM);
 	_drop->setPosition(_display->get_centre_pos(_cursed->get_size()));
@@ -371,6 +381,34 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 					}
 				}
 
+			} else if (_in_failed) {
+
+				// Handle Failed Item Identify
+				auto dialog_input{_failed->handle_input(event)};
+				if (dialog_input) {
+					if (dialog_input.value() == WindowDialogButton::CLOSE) {
+						_in_failed = false;
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} else if (dialog_input.value() == WindowDialogButton::OK) {
+						_in_failed = false;
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					}
+				}
+
+			} else if (_in_success) {
+
+				// Handle Item Identify
+				auto dialog_input{_success->handle_input(event)};
+				if (dialog_input) {
+					if (dialog_input.value() == WindowDialogButton::CLOSE) {
+						_in_success = false;
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} else if (dialog_input.value() == WindowDialogButton::OK) {
+						_in_success = false;
+						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					}
+				}
+
 			} else if (_in_item_display) {
 
 				// Check for Window Close
@@ -388,18 +426,24 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 					_in_item_display = false;
 					_in_item_action = true;
 					_in_cursed = false;
+					_in_failed = false;
+					_in_success = false;
 				}
 
 				if (_system->input->check(WindowInput::BACK, event)) {
 					_in_item_display = false;
 					_in_item_action = true;
 					_in_cursed = false;
+					_in_failed = false;
+					_in_success = false;
 				}
 
 				if (_system->input->check(WindowInput::CONFIRM, event)) {
 					_in_item_display = false;
 					_in_item_action = true;
 					_in_cursed = false;
+					_in_failed = false;
+					_in_success = false;
 				}
 
 			} else if (_in_item_action) {
@@ -486,6 +530,10 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 										if (result == ItemIDResult::CURSED_FAIL ||
 											result == ItemIDResult::CURSED_SUCCESS)
 											_in_cursed = true;
+										else if (result == ItemIDResult::FAIL)
+											_in_failed = true;
+										else if (result == ItemIDResult::SUCCESS)
+											_in_success = true;
 										else
 											_in_item_action = false;
 									}
@@ -797,6 +845,12 @@ auto Sorcery::Inspect::_draw() -> void {
 			} else if (_in_cursed) {
 				_cursed->update();
 				_window->draw(*_cursed);
+			} else if (_in_success) {
+				_success->update();
+				_window->draw(*_success);
+			} else if (_in_failed) {
+				_failed->update();
+				_window->draw(*_failed);
 			} else if (_in_drop) {
 				_drop->update();
 				_window->draw(*_drop);

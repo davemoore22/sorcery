@@ -259,6 +259,8 @@
 	"C_ACTION_EXAMINE": "Examine",
 	"C_ACTION_BACK": "Back",
 	"DIALOG_CURSED": "* Cursed *",
+	"DIALOG_FAILED": "Failed",
+	"DIALOG_SUCCESS": "Success!",
 	"CONFIRM_DROP_ITEM": "Are you sure?",
 	"PARTY_PANEL_LEGEND": "# CHARACTER NAME  CLASS AC HITS STATUS",
 	"EDIT_CHARACTER_TITLE": "Edit Character",

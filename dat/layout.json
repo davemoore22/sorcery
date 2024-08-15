@@ -3734,6 +3734,48 @@
 				"drawmode": "manual"
 			},
 			{
+				"name": "dialog_failed_ok",
+				"x": "centre",
+				"y": "centre",
+				"w": "14",
+				"type": "dialog",
+				"drawmode": "manual",
+				"alpha": "200",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "dialog_failed_ok_text",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"string": "DIALOG_FAILED",
+				"background": " 0xff0000ff",
+				"justification": "centre",
+				"type": "text",
+				"drawmode": "manual"
+			},
+			{
+				"name": "dialog_success_ok",
+				"x": "centre",
+				"y": "centre",
+				"w": "14",
+				"type": "dialog",
+				"drawmode": "manual",
+				"alpha": "200",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "dialog_success_ok_text",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"string": "DIALOG_SUCCESS",
+				"background": " 0xff0000ff",
+				"justification": "centre",
+				"type": "text",
+				"drawmode": "manual"
+			},
+			{
 				"name": "dialog_confirm_drop",
 				"x": "centre",
 				"y": "centre",
@@ -3743,6 +3785,7 @@
 				"alpha": "200",
 				"background": " 0x000000ff"
 			},
+
 			{
 				"name": "dialog_confirm_drop_text",
 				"font": "monospace",
