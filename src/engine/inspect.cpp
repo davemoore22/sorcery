@@ -111,6 +111,9 @@ Sorcery::Inspect::~Inspect() {
 
 auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::optional<MenuItem> {
 
+	using enum Enums::Menu::Mode;
+	using enum Enums::Menu::Item;
+
 	// Do we want to display a menu with all characters in the party, or just handle one character directly
 	_restricted = character_id.has_value();
 	if (!_restricted) {
@@ -128,19 +131,19 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 		// Get the Background Display Components and load them into Display module
 		// storage (not local) unless its camp in which case we save the screen
 		switch (_mode) {
-		case MenuMode::TAVERN:
+		case TAVERN:
 			_display->generate("tavern_inspect");
 			break;
-		case MenuMode::INN:
+		case INN:
 			_display->generate("inn_inspect");
 			break;
-		case MenuMode::SHOP:
+		case SHOP:
 			_display->generate("shop_inspect");
 			break;
-		case MenuMode::TEMPLE:
+		case TEMPLE:
 			_display->generate("temple_inspect");
 			break;
-		case MenuMode::CAMP:
+		case CAMP:
 			_display->window->save_screen();
 			break;
 		default:
@@ -193,7 +196,7 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return MenuItem::ITEM_ABORT;
+					return ITEM_ABORT;
 
 				// Handle enabling help overlay
 				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
@@ -219,9 +222,8 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 					// We have selected something from the menu
 					if (selected) {
 						const MenuItem option_chosen{(*selected.value()).item};
-						if (option_chosen == MenuItem::ET_TRAIN || option_chosen == MenuItem::CA_TAVERN ||
-							option_chosen == MenuItem::CA_TEMPLE || option_chosen == MenuItem::CA_INN ||
-							option_chosen == MenuItem::ITEM_CAMP || option_chosen == MenuItem::CA_SHOP) {
+						if (option_chosen == ET_TRAIN || option_chosen == CA_TAVERN || option_chosen == CA_TEMPLE ||
+							option_chosen == CA_INN || option_chosen == ITEM_CAMP || option_chosen == CA_SHOP) {
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							_cur_char = std::nullopt;
 							return std::nullopt;
@@ -239,12 +241,9 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 
 					// Display Character Panel
 					if (selected) {
-						if ((*selected.value()).item != MenuItem::ET_TRAIN &&
-							(*selected.value()).item != MenuItem::CA_TAVERN &&
-							(*selected.value()).item != MenuItem::CA_SHOP &&
-							(*selected.value()).item != MenuItem::CA_TEMPLE &&
-							(*selected.value()).item != MenuItem::CA_INN &&
-							(*selected.value()).item != MenuItem::ITEM_CAMP) {
+						if ((*selected.value()).item != ET_TRAIN && (*selected.value()).item != CA_TAVERN &&
+							(*selected.value()).item != CA_SHOP && (*selected.value()).item != CA_TEMPLE &&
+							(*selected.value()).item != CA_INN && (*selected.value()).item != ITEM_CAMP) {
 							const auto character_chosen{static_cast<int>((*selected.value()).index)};
 							if (character_chosen != _cur_char_id) {
 								auto character{&_game->characters[character_chosen]};
@@ -276,6 +275,9 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 
 auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::optional<MenuItem> {
 
+	using enum Enums::Window::DialogButton;
+	using enum Enums::Items::IdentifyOutcome;
+
 	const auto character_chosen{character_id};
 	_cur_char = &_game->characters[character_chosen];
 	_character_display->set(_cur_char.value());
@@ -285,9 +287,9 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 	}
 
 	_in_character = true;
-
 	_in_item_action = false;
 	_in_item_display = false;
+
 	_item_action_menu.reset();
 	_item_action_menu =
 		std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::ITEM_ACTION, MenuMode::ACTION);
@@ -336,10 +338,10 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 				// Handle Pool Gold Dialog
 				auto dialog_input{_pool->handle_input(event)};
 				if (dialog_input) {
-					if (dialog_input.value() == WindowDialogButton::CLOSE) {
+					if (dialog_input.value() == CLOSE) {
 						_in_pool = false;
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-					} else if (dialog_input.value() == WindowDialogButton::OK) {
+					} else if (dialog_input.value() == OK) {
 
 						_game->pool_party_gold(character_id);
 						_game->save_game();
@@ -353,12 +355,11 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 				// Handle Drop Item Dialog
 				auto dialog_input{_drop->handle_input(event)};
 				if (dialog_input) {
-					if (dialog_input.value() == WindowDialogButton::CLOSE ||
-						dialog_input.value() == WindowDialogButton::NO) {
+					if (dialog_input.value() == CLOSE || dialog_input.value() == NO) {
 
 						_in_drop = false;
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-					} else if (dialog_input.value() == WindowDialogButton::YES) {
+					} else if (dialog_input.value() == YES) {
 
 						auto character{&_game->characters[character_id]};
 						character->inventory.drop_item(_character_display->get_inventory_item());
@@ -372,43 +373,31 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 				// Handle Cursed Item Dialog
 				auto dialog_input{_cursed->handle_input(event)};
 				if (dialog_input) {
-					if (dialog_input.value() == WindowDialogButton::CLOSE) {
-						_in_cursed = false;
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-					} else if (dialog_input.value() == WindowDialogButton::OK) {
+					if ((dialog_input.value() == CLOSE) || (dialog_input.value() == OK)) {
 						_in_cursed = false;
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					}
 				}
-
 			} else if (_in_failed) {
 
 				// Handle Failed Item Identify
 				auto dialog_input{_failed->handle_input(event)};
 				if (dialog_input) {
-					if (dialog_input.value() == WindowDialogButton::CLOSE) {
-						_in_failed = false;
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-					} else if (dialog_input.value() == WindowDialogButton::OK) {
+					if ((dialog_input.value() == CLOSE) || (dialog_input.value() == OK)) {
 						_in_failed = false;
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					}
 				}
-
 			} else if (_in_success) {
 
 				// Handle Item Identify
 				auto dialog_input{_success->handle_input(event)};
 				if (dialog_input) {
-					if (dialog_input.value() == WindowDialogButton::CLOSE) {
-						_in_success = false;
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-					} else if (dialog_input.value() == WindowDialogButton::OK) {
+					if ((dialog_input.value() == CLOSE) || (dialog_input.value() == OK)) {
 						_in_success = false;
 						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 					}
 				}
-
 			} else if (_in_item_display) {
 
 				// Check for Window Close
@@ -445,7 +434,6 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 					_in_failed = false;
 					_in_success = false;
 				}
-
 			} else if (_in_item_action) {
 
 				// Check for Window Close
@@ -505,9 +493,8 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 							auto character{&_game->characters[character_id]};
 							auto slot_item{character->inventory[_character_display->get_inventory_item()]};
 							if (slot_item.has_value()) {
-								auto &item{slot_item.value()};
-
-								if (item->get_equipped() && item->get_usable() && !item->get_cursed())
+								if (auto &item{slot_item.value()};
+									item->get_equipped() && item->get_usable() && !item->get_cursed())
 									item->set_equipped(false);
 
 								_in_item_action = false;
@@ -527,12 +514,11 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 												dice, character->abilities().at(CharacterAbility::IDENTIFY_ITEMS),
 												character->abilities().at(CharacterAbility::IDENTIFY_CURSE))};
 
-										if (result == ItemIDResult::CURSED_FAIL ||
-											result == ItemIDResult::CURSED_SUCCESS)
+										if (result == CURSED_FAIL || result == CURSED_SUCCESS)
 											_in_cursed = true;
-										else if (result == ItemIDResult::FAIL)
+										else if (result == FAIL)
 											_in_failed = true;
-										else if (result == ItemIDResult::SUCCESS)
+										else if (result == SUCCESS)
 											_in_success = true;
 										else
 											_in_item_action = false;
@@ -602,12 +588,8 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 							_character_display->left_view();
 						else if (_system->input->check(WindowInput::RIGHT, event))
 							_character_display->right_view();
-						else if (_system->input->check(WindowInput::CANCEL, event)) {
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-							_cur_char = std::nullopt;
-							_in_character = false;
-							return std::nullopt;
-						} else if (_system->input->check(WindowInput::BACK, event)) {
+						else if ((_system->input->check(WindowInput::CANCEL, event)) ||
+								 (_system->input->check(WindowInput::BACK, event))) {
 							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
 							_cur_char = std::nullopt;
 							_in_character = false;
@@ -800,24 +782,22 @@ auto Sorcery::Inspect::_draw() -> void {
 				_window->draw(*_char_panel);
 			}
 		} else if (_display->get_input_mode() != WindowInputMode::BROWSE_CHARACTER) {
-			{
 
-				// Menu Frame
-				_window->draw(*_menu_frame);
-				if (_screen_key != "engine_base_ui")
-					_window->draw(*_preview_frame);
+			// Menu Frame
+			_window->draw(*_menu_frame);
+			if (_screen_key != "engine_base_ui")
+				_window->draw(*_preview_frame);
 
-				// And the Menu
-				_menu->generate((*_display->layout)[_screen_key + ":menu"]);
-				_window->draw(*_menu);
+			// And the Menu
+			_menu->generate((*_display->layout)[_screen_key + ":menu"]);
+			_window->draw(*_menu);
 
-				if (_screen_key != "engine_base_ui") {
+			if (_screen_key != "engine_base_ui") {
 
-					// Character Preview
-					if (_char_panel->valid) {
-						_char_panel->setPosition((*_display->layout)[_screen_key + ":info_panel"].pos());
-						_window->draw(*_char_panel);
-					}
+				// Character Preview
+				if (_char_panel->valid) {
+					_char_panel->setPosition((*_display->layout)[_screen_key + ":info_panel"].pos());
+					_window->draw(*_char_panel);
 				}
 			}
 
