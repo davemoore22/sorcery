@@ -31,6 +31,7 @@
 #include "core/input.hpp"
 #include "core/system.hpp"
 #include "core/window.hpp"
+#include "engine/trade.hpp"
 #include "gui/characterdisplay.hpp"
 #include "gui/characterpanel.hpp"
 #include "gui/dialog.hpp"
