@@ -56,6 +56,7 @@ class Inventory {
 		auto size() const -> unsigned int;
 		auto is_full() const -> bool;
 		auto is_empty() const -> bool;
+		auto get_empty_slots() const -> unsigned int;
 		auto add_type(const ItemType &item_type) -> bool;
 		auto add_type(const ItemType &item_type, const bool known) -> bool;
 		auto add_type(const ItemType &item_type, const bool usable, const bool known) -> bool;

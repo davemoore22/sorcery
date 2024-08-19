@@ -16,7 +16,6 @@ list(APPEND sorcery_SOURCES
 	${CMAKE_CURRENT_LIST_DIR}/search.cpp
 	${CMAKE_CURRENT_LIST_DIR}/searching.cpp
 	${CMAKE_CURRENT_LIST_DIR}/teleport.cpp
-	${CMAKE_CURRENT_LIST_DIR}/trade.cpp
 	${CMAKE_CURRENT_LIST_DIR}/trap.cpp
 	${CMAKE_CURRENT_LIST_DIR}/treasure.cpp
 	${CMAKE_CURRENT_LIST_DIR}/uncurse.cpp

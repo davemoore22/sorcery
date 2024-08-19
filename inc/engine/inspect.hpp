@@ -40,7 +40,6 @@ class Graphics;
 class ItemDisplay;
 class Menu;
 class System;
-class Trade;
 
 class Inspect {
 
@@ -104,7 +103,6 @@ class Inspect {
 		std::unique_ptr<ItemDisplay> _item_display;
 		sf::Sprite _item_display_gfx;
 		std::unique_ptr<Frame> _item_display_frame;
-		std::unique_ptr<Trade> _trade;
 };
 
 }

@@ -2735,6 +2735,38 @@
 			]
 		},
 		{
+			"name": "trade",
+			"component": [{
+					"name": "menu_frame",
+					"w": "20",
+					"h": "8",
+					"x": "centre",
+					"y": "5",
+					"alpha": "225",
+					"type": "frame",
+					"priority": "6",
+					"drawmode": "automatic",
+					"background": " 0x000000ff"
+				},
+				{
+					"name": "menu",
+					"x": "centre",
+					"y": "18",
+					"w": "18",
+					"h": "7",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"animated": "true",
+					"width": "36",
+					"background": " 0xff0000ff",
+					"justification": "centre",
+					"type": "menu",
+					"priority": "8"
+				}
+			]
+		},
+		{
 			"name": "reorder_camp",
 			"component": [{
 					"name": "menu_frame",

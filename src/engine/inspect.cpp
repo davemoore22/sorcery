@@ -31,7 +31,6 @@
 #include "core/input.hpp"
 #include "core/system.hpp"
 #include "core/window.hpp"
-#include "engine/trade.hpp"
 #include "gui/characterdisplay.hpp"
 #include "gui/characterpanel.hpp"
 #include "gui/dialog.hpp"
@@ -526,6 +525,9 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 									}
 								}
 							}
+						} else if (option_chosen == MenuItem::C_ACTION_TRADE) {
+
+							// TODO
 						}
 					}
 				}

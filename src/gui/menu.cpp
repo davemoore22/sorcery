@@ -44,8 +44,8 @@
 #include "types/monstertype.hpp"
 
 // Standard Constructor
-Sorcery::Menu::Menu(
-	System *system, Display *display, Graphics *graphics, Game *game, const MenuType type, std::optional<MenuMode> mode)
+Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics, Game *game, const MenuType type,
+	std::optional<MenuMode> mode, std::optional<unsigned int> data)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _type{type}, _mode{mode} {
 
 	using enum Enums::Menu::Type;
@@ -85,6 +85,10 @@ Sorcery::Menu::Menu(
 			selected = items.begin();
 		else
 			selected = items.end();
+		break;
+	case CHARACTER_TRADE:
+		_populate_trade_chars(data.value_or(-1));
+		selected = items.begin();
 		break;
 	case ITEM_ACTION:
 		// Note these are enabled/disabled depending on the context in inspect.cpp
@@ -1030,6 +1034,25 @@ auto Sorcery::Menu::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 			target.draw(option, states);
 }
 
+auto Sorcery::Menu::_populate_trade_chars(const int current_char) -> void {
+
+	using enum Enums::Menu::Type;
+	using enum Enums::Menu::ItemType;
+	using enum Enums::Menu::Item;
+
+	items.clear();
+	bounds.clear();
+	count = 0;
+	_texts.clear();
+	_options.clear();
+	auto max_id{0};
+	if (_game->state->party_has_members()) {
+		auto party{_game->state->get_party_characters()};
+		for (auto character_id : party) {
+		}
+	}
+}
+
 auto Sorcery::Menu::_populate_chars() -> void {
 
 	using enum Enums::Menu::Type;
@@ -1282,6 +1305,18 @@ auto Sorcery::Menu::enable_entry(const Component &component, unsigned int index)
 		(*entry).enabled = true;
 		if (_texts.size() >= index)
 			_texts.at(index).setFillColor(sf::Color(component.colour));
+	}
+}
+
+auto Sorcery::Menu::disable_by_index(__attribute__((unused)) const Component &component, unsigned int index) -> void {
+
+	using enum Enums::Menu::ItemType;
+
+	auto it{std::ranges::find_if(items.begin(), items.end(),
+		[index](const auto &menu_item) { return ((menu_item.type == ENTRY) && (menu_item.index == index)); })};
+
+	if (it != items.end()) {
+		(*it).enabled = false;
 	}
 }
 

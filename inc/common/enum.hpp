@@ -633,7 +633,8 @@ namespace Enums::Menu {
 		BESTIARY,
 		SHOP_ACTION,
 		SPELLBOOK,
-		ITEM_ACTION
+		ITEM_ACTION,
+		CHARACTER_TRADE
 	};
 
 	enum class Mode {

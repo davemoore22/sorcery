@@ -43,7 +43,7 @@ class Menu: public sf::Transformable, public sf::Drawable {
 
 		// Constructors
 		Menu(System *system, Display *display, Graphics *graphics, Game *game, const MenuType type,
-			std::optional<MenuMode> mode = std::nullopt);
+			std::optional<MenuMode> mode = std::nullopt, std::optional<unsigned int> data = 0);
 		Menu() = delete;
 
 		// Overload operators
@@ -73,6 +73,7 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		auto num_disabled() -> unsigned int;
 		auto enable_entry(const Component &component, unsigned int index) -> void;
 		auto disable_entry(const Component &component, unsigned int index) -> void;
+		auto disable_by_index(const Component &component, unsigned int index) -> void;
 		auto get_width() const -> unsigned int;
 		auto get_height() const -> unsigned int;
 		auto get_size() const -> sf::Vector2f;
@@ -89,6 +90,7 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		auto _add_item(
 			int index, const MenuItemType itemtype, const MenuItem code, std::string key, unsigned int idx) -> void;
 		auto _populate_chars() -> void;
+		auto _populate_trade_chars(const int current_char) -> void;
 		auto _select_first() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto _select_last() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto _add_all_items() -> void;

@@ -58,6 +58,11 @@ auto Sorcery::Inventory::is_full() const -> bool {
 	return _items.size() == 8;
 }
 
+auto Sorcery::Inventory::get_empty_slots() const -> unsigned int {
+
+	return 8 - _items.size();
+}
+
 auto Sorcery::Inventory::is_empty() const -> bool {
 
 	return _items.size() == 8;
