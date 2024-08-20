@@ -102,9 +102,9 @@ auto Sorcery::AutoMap::refresh() -> void {
 	auto tcy{0};
 	auto player_pos{_game->state->get_player_pos()};
 	for (auto y = static_cast<int>(player_pos.y - _map_radius); y <= static_cast<int>(player_pos.y + _map_radius);
-		 y++) {
+		y++) {
 		for (auto x = static_cast<int>(player_pos.x - _map_radius); x <= static_cast<int>(player_pos.x) + _map_radius;
-			 x++) {
+			x++) {
 
 			auto lx{std::invoke([&] {
 				if (x < _game->state->level->wrap_bottom_left().x)
@@ -165,8 +165,8 @@ auto Sorcery::AutoMap::refresh() -> void {
 
 auto Sorcery::AutoMap::_draw_player(MapDirection direction, int x, int y, float scaling) -> void {
 
-	using enum Sorcery::Enums::Automap::Feature;
-	using enum Sorcery::Enums::Map::Direction;
+	using enum Enums::Automap::Feature;
+	using enum Enums::Map::Direction;
 
 	auto icon{NO_FEATURE};
 	switch (direction) {
@@ -195,8 +195,8 @@ auto Sorcery::AutoMap::_draw_player(MapDirection direction, int x, int y, float 
 // TODO
 auto Sorcery::AutoMap::_draw_tile(Tile &tile, Coordinate loc, int x, int y, float scaling) -> void {
 
-	using enum Sorcery::Enums::Graphics::TextureType;
-	using enum Sorcery::Enums::Map::Direction;
+	using enum Enums::Graphics::TextureType;
+	using enum Enums::Map::Direction;
 
 	sf::Sprite bg{_graphics->textures->get(unenum(AutoMapFeature::FLOOR), AUTOMAP).value()};
 	bg.setPosition(x, y);

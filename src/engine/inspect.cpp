@@ -318,7 +318,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 
 	std::optional<std::vector<MenuEntry>::const_iterator> item_action_selected{_item_action_menu->items.begin()};
 
-	// And do the main loop inside the character
+	// And do the main loop inside thCHARACTER_ROSTERe character
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
@@ -742,7 +742,7 @@ auto Sorcery::Inspect::stop() -> void {
 
 auto Sorcery::Inspect::_draw() -> void {
 
-	using enum Sorcery::Enums::Menu::Mode;
+	using enum Enums::Menu::Mode;
 
 	if (!_in_character) {
 
