@@ -87,10 +87,11 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		auto _add_item(const int index, const MenuItemType itemtype, const MenuItem code, std::string key,
 			const bool enabled, const ConfigOption option, const std::string &hint) -> void;
 		auto _add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string key) -> void;
+		auto _add_item_disabled(int index, const MenuItemType itemtype, const MenuItem code, std::string key) -> void;
 		auto _add_item(
 			int index, const MenuItemType itemtype, const MenuItem code, std::string key, unsigned int idx) -> void;
 		auto _populate_chars() -> void;
-		auto _populate_trade_chars(const int current_char) -> void;
+		auto _populate_trade_chars(const unsigned int current_char) -> void;
 		auto _select_first() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto _select_last() -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto _add_all_items() -> void;

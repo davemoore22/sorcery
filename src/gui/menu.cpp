@@ -489,6 +489,18 @@ auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const Menu
 	++count;
 }
 
+auto Sorcery::Menu::_add_item_disabled(
+	int index, const MenuItemType itemtype, const MenuItem code, std::string key) -> void {
+
+	// Note passing key by value as we are modifying the key here
+	if (key.length() % 2 == 0)
+		key.resize(key.length() + 1, 32);
+
+	auto hint{""s};
+	items.emplace_back(static_cast<unsigned int>(index), itemtype, code, key, false, ConfigOption::NONE, hint);
+	++count;
+}
+
 auto Sorcery::Menu::_add_item(
 	int index, const MenuItemType itemtype, const MenuItem code, std::string key, unsigned int idx) -> void {
 
@@ -1034,7 +1046,7 @@ auto Sorcery::Menu::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 			target.draw(option, states);
 }
 
-auto Sorcery::Menu::_populate_trade_chars(const int current_char) -> void {
+auto Sorcery::Menu::_populate_trade_chars(const unsigned int current_char) -> void {
 
 	using enum Enums::Menu::Type;
 	using enum Enums::Menu::ItemType;
@@ -1049,8 +1061,18 @@ auto Sorcery::Menu::_populate_trade_chars(const int current_char) -> void {
 	if (_game->state->party_has_members()) {
 		auto party{_game->state->get_party_characters()};
 		for (auto character_id : party) {
+			if (character_id != current_char) {
+				auto slots_free{_game->characters[character_id].inventory.get_empty_slots()};
+				auto text{fmt::format("{} ({})", _game->characters[character_id].get_name(), slots_free)};
+				if (slots_free == 0)
+					_add_item_disabled(character_id, ENTRY, IC_CHARACTER, text);
+				else
+					_add_item(character_id, ENTRY, IC_CHARACTER, text);
+				++max_id;
+			}
 		}
-	}
+	} else
+		_add_item(++max_id, TEXT, NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS"]);
 }
 
 auto Sorcery::Menu::_populate_chars() -> void {
