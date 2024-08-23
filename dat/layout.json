@@ -3853,6 +3853,34 @@
 				"drawmode": "manual"
 			},
 			{
+				"name": "item_trade_frame",
+				"w": "20",
+				"h": "11",
+				"x": "centre",
+				"y": "8",
+				"alpha": "225",
+				"type": "frame",
+				"priority": "6",
+				"drawmode": "automatic",
+				"background": " 0x000000ff"
+			},
+			{
+				"name": "item_trade_menu",
+				"x": "centre",
+				"y": "10",
+				"w": "18",
+				"h": "7",
+				"font": "monospace",
+				"colour": "0xffffffff",
+				"size": "24",
+				"animated": "true",
+				"width": "36",
+				"background": " 0xff0000ff",
+				"justification": "centre",
+				"type": "menu",
+				"priority": "8"
+			},
+			{
 				"name": "picture",
 				"x": "25",
 				"y": "3",

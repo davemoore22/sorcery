@@ -1073,6 +1073,9 @@ auto Sorcery::Menu::_populate_trade_chars(const unsigned int current_char) -> vo
 		}
 	} else
 		_add_item(++max_id, TEXT, NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS"]);
+
+	_add_item(++max_id, SPACER, ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
+	_add_item(++max_id, CANCEL, AC_LEAVE, (*_display->string)["ACTION_LEAVE"]);
 }
 
 auto Sorcery::Menu::_populate_chars() -> void {

@@ -90,6 +90,7 @@ class Inspect {
 		bool _in_drop;
 		bool _in_failed;
 		bool _in_success;
+		bool _in_trade;
 		MenuMode _mode;
 		std::string _screen_key;
 		std::unique_ptr<CharacterPanel> _char_panel;
@@ -103,6 +104,8 @@ class Inspect {
 		std::unique_ptr<ItemDisplay> _item_display;
 		sf::Sprite _item_display_gfx;
 		std::unique_ptr<Frame> _item_display_frame;
+		std::unique_ptr<Menu> _item_trade_menu;
+		std::unique_ptr<Frame> _item_trade_frame;
 };
 
 }

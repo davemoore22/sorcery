@@ -271,7 +271,6 @@
 		<Unit filename="inc/engine/search.hpp" />
 		<Unit filename="inc/engine/searching.hpp" />
 		<Unit filename="inc/engine/teleport.hpp" />
-		<Unit filename="inc/engine/trade.hpp" />
 		<Unit filename="inc/engine/trap.hpp" />
 		<Unit filename="inc/engine/treasure.hpp" />
 		<Unit filename="inc/engine/type.hpp" />
@@ -402,7 +401,6 @@
 		<Unit filename="src/engine/search.cpp" />
 		<Unit filename="src/engine/searching.cpp" />
 		<Unit filename="src/engine/teleport.cpp" />
-		<Unit filename="src/engine/trade.cpp" />
 		<Unit filename="src/engine/trap.cpp" />
 		<Unit filename="src/engine/treasure.cpp" />
 		<Unit filename="src/engine/uncurse.cpp" />

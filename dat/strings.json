@@ -90,6 +90,7 @@
 	"ACTION_LEAVE": "Leave Menu",
 	"ACTION_FOUND_1": "Found The Following",
 	"ACTION_FOUND_2": "Choose To Add To Party:",
+	"ACTION_TRADE_TO": "Trade Item to:",
 	"PARTY_FULL": "Party Already Full!",
 	"NAME_CURSOR": ">",
 	"OPTION_ON" : "ON",

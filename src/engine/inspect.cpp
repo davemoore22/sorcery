@@ -101,6 +101,7 @@ Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, 
 	_drop->setPosition(_display->get_centre_pos(_cursed->get_size()));
 	_in_drop = false;
 
+	_in_trade = false;
 	_in_item_action = false;
 	_in_item_display = false;
 }
@@ -289,6 +290,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 	_in_character = true;
 	_in_item_action = false;
 	_in_item_display = false;
+	_in_trade = false;
 
 	_item_action_menu.reset();
 	_item_action_menu =
@@ -316,9 +318,24 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 	_item_display = std::make_unique<ItemDisplay>(_system, _display, _graphics, _game);
 	_item_display->setPosition((*_display->layout)["inspect:item_display"].pos());
 
-	std::optional<std::vector<MenuEntry>::const_iterator> item_action_selected{_item_action_menu->items.begin()};
+	const Component it_fc{(*_display->layout)["inspect:item_trade_frame"]};
+	_item_trade_frame.reset();
+	_item_trade_frame =
+		std::make_unique<Frame>(_display->ui_texture, it_fc.w, it_fc.h, it_fc.colour, it_fc.background, it_fc.alpha);
+	_item_trade_frame->setPosition(_display->window->get_x(_item_trade_frame->sprite, it_fc.x),
+		_display->window->get_y(_item_trade_frame->sprite, it_fc.y));
 
-	// And do the main loop inside thCHARACTER_ROSTERe character
+	_item_trade_menu.reset();
+	_item_trade_menu = std::make_unique<Menu>(
+		_system, _display, _graphics, _game, MenuType::CHARACTER_TRADE, MenuMode::NO_MODE, character_id);
+	_item_trade_menu->generate((*_display->layout)["inspect:item_trade_menu"]);
+	_item_trade_menu->setPosition(
+		_display->get_centre_x(_item_trade_menu->get_width()), (*_display->layout)["inspect:item_trade_menu"].y);
+
+	std::optional<std::vector<MenuEntry>::const_iterator> item_action_selected{_item_action_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> item_trade_selected{_item_trade_menu->items.begin()};
+
+	// And do the main loop inside the character
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
@@ -417,6 +434,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 					_in_cursed = false;
 					_in_failed = false;
 					_in_success = false;
+					_in_trade = false;
 				}
 
 				if (_system->input->check(WindowInput::BACK, event)) {
@@ -425,6 +443,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 					_in_cursed = false;
 					_in_failed = false;
 					_in_success = false;
+					_in_trade = false;
 				}
 
 				if (_system->input->check(WindowInput::CONFIRM, event)) {
@@ -433,7 +452,44 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 					_in_cursed = false;
 					_in_failed = false;
 					_in_success = false;
+					_in_trade = false;
 				}
+			} else if (_in_trade) {
+
+				// Check for Window Close
+				if (event.type == sf::Event::Closed)
+					return MenuItem::ITEM_ABORT;
+
+				// Handle enabling help overlay
+				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+					_display->show_overlay();
+					continue;
+				} else
+					_display->hide_overlay();
+
+				if (_system->input->check(WindowInput::CANCEL, event)) {
+					_in_trade = false;
+					_in_item_action = false;
+				}
+
+				if (_system->input->check(WindowInput::BACK, event)) {
+					_in_trade = false;
+					_in_item_action = false;
+				}
+
+				if (_system->input->check(WindowInput::UP, event))
+					item_trade_selected = _item_trade_menu->choose_previous();
+				else if (_system->input->check(WindowInput::DOWN, event))
+					item_trade_selected = _item_trade_menu->choose_next();
+				else if (_system->input->check(WindowInput::MOVE, event))
+					item_trade_selected = _item_trade_menu->set_mouse_selected(
+						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+				else if (_system->input->check(WindowInput::CONFIRM, event)) {
+
+					if (item_trade_selected) {
+					}
+				}
+
 			} else if (_in_item_action) {
 
 				// Check for Window Close
@@ -527,7 +583,8 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 							}
 						} else if (option_chosen == MenuItem::C_ACTION_TRADE) {
 
-							// TODO
+							_in_item_action = false;
+							_in_trade = true;
 						}
 					}
 				}
@@ -845,6 +902,10 @@ auto Sorcery::Inspect::_draw() -> void {
 				_window->draw(*_item_display_frame);
 				_window->draw(*_item_display);
 				_window->draw(_item_display_gfx);
+			} else if (_in_trade) {
+				_window->draw(*_item_trade_frame);
+				_item_trade_menu->generate((*_display->layout)["inspect:item_trade_menu"]);
+				_window->draw(*_item_trade_menu);
 			}
 
 			// And finally the Cursor
