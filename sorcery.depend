@@ -2456,7 +2456,7 @@
 	"common/type.hpp"
 	"types/inventory.hpp"
 
-1724090159 /home/dave/Development/wizardry/sorcery-sfml/inc/types/inventory.hpp
+1724525613 /home/dave/Development/wizardry/sorcery-sfml/inc/types/inventory.hpp
 	"common/include.hpp"
 	"types/item.hpp"
 
@@ -2522,7 +2522,7 @@
 1724436680 /home/dave/Development/wizardry/sorcery-sfml/inc/engine/inspect.hpp
 	"common/include.hpp"
 
-1709413784 /home/dave/Development/wizardry/sorcery-sfml/inc/gui/characterdisplay.hpp
+1724527821 /home/dave/Development/wizardry/sorcery-sfml/inc/gui/characterdisplay.hpp
 	"common/include.hpp"
 	"types/component.hpp"
 
@@ -2865,7 +2865,7 @@
 	"types/character.hpp"
 	"types/component.hpp"
 
-1724442031 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/inspect.cpp
+1725052145 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/inspect.cpp
 	"engine/inspect.hpp"
 	"common/enum.hpp"
 	"common/type.hpp"
@@ -3081,7 +3081,7 @@
 	"core/system.hpp"
 	"resources/iconstore.hpp"
 
-1718999923 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/characterdisplay.cpp
+1724528161 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/characterdisplay.cpp
 	"gui/characterdisplay.hpp"
 	"common/enum.hpp"
 	"common/macro.hpp"
@@ -3643,7 +3643,7 @@
 1704133084 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/explore.cpp
 	"types/explore.hpp"
 
-1724090200 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/inventory.cpp
+1724525649 source:/home/dave/Development/wizardry/sorcery-sfml/src/types/inventory.cpp
 	"types/inventory.hpp"
 	"types/itemtype.hpp"
 

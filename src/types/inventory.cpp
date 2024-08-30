@@ -80,6 +80,11 @@ auto Sorcery::Inventory::add_type(const ItemType &item_type, const bool known) -
 		return false;
 }
 
+auto Sorcery::Inventory::add(Item item) -> void {
+
+	_items.emplace_back(item);
+}
+
 auto Sorcery::Inventory::add_type(const ItemType &item_type, const bool usable, const bool known) -> bool {
 
 	if (_items.size() != 8) {
@@ -209,6 +214,17 @@ auto Sorcery::Inventory::drop_item(const unsigned int slot) -> bool {
 	if (candidate.get_equipped())
 		return false;
 	candidate.set_known(true);
+
+	// For now, just discard the item
+	_items.erase(_items.begin() + (slot - 1));
+
+	return true;
+}
+
+auto Sorcery::Inventory::discard_item(const unsigned int slot) -> bool {
+
+	if (_items.size() < (slot - 1))
+		return false;
 
 	// For now, just discard the item
 	_items.erase(_items.begin() + (slot - 1));

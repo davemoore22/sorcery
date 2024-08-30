@@ -62,6 +62,7 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 		auto get_icon(CharacterStage type) -> std::optional<sf::Sprite>;
 		auto get_hl_action_item() const -> MenuItem;
 		auto get_inventory_item() const -> unsigned int;
+		auto clear_inventory_item() -> void;
 		auto left_hl_action() -> void;
 		auto right_hl_action() -> void;
 		auto up_hl_action() -> void;

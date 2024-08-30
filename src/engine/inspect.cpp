@@ -487,6 +487,23 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 				else if (_system->input->check(WindowInput::CONFIRM, event)) {
 
 					if (item_trade_selected) {
+						if ((*item_trade_selected.value()).type == MenuItemType::ENTRY) {
+							const auto dest_char_id{(*item_trade_selected.value()).index};
+							auto src_char{&_game->characters[character_id]};
+							auto dest_char{&_game->characters[dest_char_id]};
+							Item item_copy = *src_char->inventory[_character_display->get_inventory_item()].value();
+							dest_char->inventory.add(item_copy);
+							src_char->inventory.discard_item(_character_display->get_inventory_item());
+							_character_display->clear_inventory_item();
+							_in_trade = false;
+							_in_item_action = false;
+							// auto item_to_move{src_char->inventory[_character_display->get_inventory_item()].value()};
+							// dest_char->inventory.items().emplace_back(std::move(item_to_move));
+						} else {
+							_in_trade = false;
+							_in_item_action = true;
+							continue;
+						}
 					}
 				}
 
@@ -585,8 +602,8 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 							const auto dest_char_id{(*item_trade_selected.value()).index};
 							auto src_char{&_game->characters[character_id]};
 							auto dest_char{&_game->characters[dest_char_id]};
-							auto item_to_move{src_char->inventory[_character_display->get_inventory_item()].value()};
-							dest_char->inventory.items().emplace_back(std::move(item_to_move));
+							Item *item_to_move{src_char->inventory[_character_display->get_inventory_item()].value()};
+							dest_char->inventory.items().emplace_back(std::move(*item_to_move));
 							_in_item_action = false;
 							_in_trade = true;
 						}

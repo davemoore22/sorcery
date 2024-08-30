@@ -57,6 +57,7 @@ class Inventory {
 		auto is_full() const -> bool;
 		auto is_empty() const -> bool;
 		auto get_empty_slots() const -> unsigned int;
+		auto add(Item item) -> void;
 		auto add_type(const ItemType &item_type) -> bool;
 		auto add_type(const ItemType &item_type, const bool known) -> bool;
 		auto add_type(const ItemType &item_type, const bool usable, const bool known) -> bool;
@@ -67,6 +68,7 @@ class Inventory {
 		auto has_cursed_equipped_item_category(const ItemCategory category) const -> bool;
 		auto equip_item(const unsigned int slot) -> bool;
 		auto drop_item(const unsigned int slot) -> bool;
+		auto discard_item(const unsigned int slot) -> bool;
 		auto is_equipped_cursed(const unsigned int slot) -> bool;
 		auto identify_item(const unsigned int slot, const unsigned int roll, const unsigned int id_chance,
 			const unsigned int curse_chance) -> ItemIDResult;

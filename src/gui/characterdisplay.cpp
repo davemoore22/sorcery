@@ -141,6 +141,11 @@ auto Sorcery::CharacterDisplay::_generate_inventory(Component layout_c) -> void 
 	}
 }
 
+auto Sorcery::CharacterDisplay::clear_inventory_item() -> void {
+
+	_hl_inventory_item = 0;
+}
+
 auto Sorcery::CharacterDisplay::set_mode(CharacterMode value) -> void {
 
 	_mode = value;
