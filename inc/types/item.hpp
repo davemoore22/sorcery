@@ -41,6 +41,9 @@ class Item {
 		Item(const ItemType &item_type);
 		Item(const ItemType &item_type, const bool usable);
 
+		// Copy Constructor
+		Item(const Item &item);
+
 		// Overloaded Operators
 		auto friend operator<<(std::ostream &out_stream, const Item &item) -> std::ostream &;
 

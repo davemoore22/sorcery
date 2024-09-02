@@ -38,6 +38,16 @@ auto Sorcery::Inventory::operator[](const unsigned int slot) -> std::optional<It
 		return std::nullopt;
 }
 
+auto Sorcery::Inventory::get(const unsigned int slot) -> Item {
+
+	return _items.at(slot - 1);
+}
+
+auto Sorcery::Inventory::has(const unsigned int slot) const -> bool {
+
+	return _items.size() >= (slot - 1);
+}
+
 auto Sorcery::Inventory::items() const -> std::vector<Item> {
 
 	return _items;

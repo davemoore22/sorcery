@@ -77,6 +77,19 @@ Sorcery::Item::Item(const ItemType &item_type) {
 	_id = s_id++;
 }
 
+Sorcery::Item::Item(const Item &item) {
+
+	_type = item._type;
+	_category = item._category;
+	_known = item._known;
+	_equipped = item._equipped;
+	_cursed = item._cursed;
+	_marked = item._marked;
+	_usable = item._usable;
+	_name = item._name;
+	_uname = item._uname;
+}
+
 auto Sorcery::Item::get_type_id() const -> ItemTypeID {
 
 	return _type;
