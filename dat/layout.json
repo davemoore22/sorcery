@@ -3855,7 +3855,7 @@
 			{
 				"name": "item_trade_frame",
 				"w": "20",
-				"h": "11",
+				"h": "12",
 				"x": "centre",
 				"y": "8",
 				"alpha": "225",

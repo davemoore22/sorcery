@@ -1059,6 +1059,8 @@ auto Sorcery::Menu::_populate_trade_chars(const unsigned int current_char) -> vo
 	_options.clear();
 	auto max_id{0};
 	if (_game->state->party_has_members()) {
+		_add_item(++max_id, TEXT, NC_WARNING, (*_display->string)["ACTION_TRADE_TO"]);
+		_add_item(++max_id, SPACER, ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
 		auto party{_game->state->get_party_characters()};
 		for (auto character_id : party) {
 			if (character_id != current_char) {
@@ -1075,7 +1077,7 @@ auto Sorcery::Menu::_populate_trade_chars(const unsigned int current_char) -> vo
 		_add_item(++max_id, TEXT, NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS"]);
 
 	_add_item(++max_id, SPACER, ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-	_add_item(++max_id, CANCEL, AC_LEAVE, (*_display->string)["ACTION_LEAVE"]);
+	_add_item(++max_id, CANCEL, AC_LEAVE, (*_display->string)["ACTION_CANCEL"]);
 }
 
 auto Sorcery::Menu::_populate_chars() -> void {
