@@ -50,6 +50,7 @@ namespace Sorcery {
 // Forward Declarations
 class Character;
 class Display;
+class Factory;
 class Game;
 class Graphics;
 class System;
@@ -58,12 +59,12 @@ class Engine {
 
 	public:
 
-		// Standard Constructor - need to pass in game object to this to
+		// Standard Constructor
 		Engine(System *system, Display *display, Graphics *graphics, Game *game);
 		Engine() = delete;
 
 		// Standard Destructor
-		~Engine() = default;
+		~Engine();
 
 		// Public Members
 
@@ -245,6 +246,7 @@ class Engine {
 		std::unique_ptr<Dialog> _pool;
 		bool _show_pool;
 		sf::Text _cursor_coords;
+		std::unique_ptr<Factory> _factory;
 };
 
 }

@@ -340,6 +340,7 @@
 		<Unit filename="inc/modules/training.hpp" />
 		<Unit filename="inc/resources/componentstore.hpp" />
 		<Unit filename="inc/resources/define.hpp" />
+		<Unit filename="inc/resources/factory.hpp" />
 		<Unit filename="inc/resources/filestore.hpp" />
 		<Unit filename="inc/resources/iconstore.hpp" />
 		<Unit filename="inc/resources/include.hpp" />
@@ -465,6 +466,7 @@
 		<Unit filename="src/modules/temple.cpp" />
 		<Unit filename="src/modules/training.cpp" />
 		<Unit filename="src/resources/componentstore.cpp" />
+		<Unit filename="src/resources/factory.cpp" />
 		<Unit filename="src/resources/filestore.cpp" />
 		<Unit filename="src/resources/iconstore.cpp" />
 		<Unit filename="src/resources/itemstore.cpp" />

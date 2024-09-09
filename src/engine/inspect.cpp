@@ -38,6 +38,7 @@
 #include "gui/itemdisplay.hpp"
 #include "gui/menu.hpp"
 #include "resources/componentstore.hpp"
+#include "resources/factory.hpp"
 #include "resources/resourcemanager.hpp"
 #include "types/character.hpp"
 #include "types/component.hpp"
@@ -51,6 +52,9 @@ Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 	_cur_char = std::nullopt;
+
+	// Setup the Factory
+	_factory = std::make_unique<Factory>(_system, _display, _graphics, _game);
 
 	// Same object can be used in three different modes
 	switch (_mode) {
@@ -76,29 +80,16 @@ Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, 
 	_char_panel = std::make_unique<CharacterPanel>(_system, _display, _graphics);
 	_character_display = std::make_unique<CharacterDisplay>(_system, _display, _graphics);
 
-	_pool = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["inspect:dialog_pool_gold_ok"],
-		(*_display->layout)["inspect:dialog_pool_gold_ok_text"], WindowDialogType::OK);
-	_pool->setPosition(_display->get_centre_pos(_pool->get_size()));
+	_pool = _factory->make_dialog("inspect:dialog_pool_gold_ok", WindowDialogType::OK);
+	_cursed = _factory->make_dialog("inspect:dialog_cursed_ok", WindowDialogType::OK);
+	_failed = _factory->make_dialog("inspect:dialog_failed_ok", WindowDialogType::OK);
+	_success = _factory->make_dialog("inspect:dialog_success_ok", WindowDialogType::OK);
+	_drop = _factory->make_dialog("inspect:dialog_confirm_drop", WindowDialogType::CONFIRM);
+
 	_in_pool = false;
-
-	_cursed = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["inspect:dialog_cursed_ok"],
-		(*_display->layout)["inspect:dialog_cursed_ok_text"], WindowDialogType::OK);
-	_cursed->setPosition(_display->get_centre_pos(_cursed->get_size()));
 	_in_cursed = false;
-
-	_failed = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["inspect:dialog_failed_ok"],
-		(*_display->layout)["inspect:dialog_failed_ok_text"], WindowDialogType::OK);
-	_failed->setPosition(_display->get_centre_pos(_failed->get_size()));
 	_in_failed = false;
-
-	_success = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["inspect:dialog_success_ok"],
-		(*_display->layout)["inspect:dialog_success_ok_text"], WindowDialogType::OK);
-	_success->setPosition(_display->get_centre_pos(_success->get_size()));
 	_in_success = false;
-
-	_drop = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["inspect:dialog_confirm_drop"],
-		(*_display->layout)["inspect:dialog_confirm_drop_text"], WindowDialogType::CONFIRM);
-	_drop->setPosition(_display->get_centre_pos(_cursed->get_size()));
 	_in_drop = false;
 
 	_in_trade = false;

@@ -34,6 +34,7 @@ class CharacterDisplay;
 class CharacterPanel;
 class Display;
 class Dialog;
+class Factory;
 class Frame;
 class Game;
 class Graphics;
@@ -106,6 +107,7 @@ class Inspect {
 		std::unique_ptr<Frame> _item_display_frame;
 		std::unique_ptr<Menu> _item_trade_menu;
 		std::unique_ptr<Frame> _item_trade_frame;
+		std::unique_ptr<Factory> _factory;
 };
 
 }

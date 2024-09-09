@@ -36,6 +36,7 @@
 #include "engine/event.hpp"
 #include "frontend/options.hpp"
 #include "resources/componentstore.hpp"
+#include "resources/factory.hpp"
 #include "resources/levelstore.hpp"
 #include "resources/stringstore.hpp"
 #include "types/character.hpp"
@@ -52,6 +53,13 @@ Sorcery::Engine::Engine(System *system, Display *display, Graphics *graphics, Ga
 	_game->hide_console();
 
 	_cursor_coords = sf::Text{};
+
+	// Setup the Factory
+	_factory = std::make_unique<Factory>(_system, _display, _graphics, _game);
+}
+
+// Standard Destructor
+Sorcery::Engine::~Engine() {
 }
 
 auto Sorcery::Engine::_generate_display() -> void {
@@ -251,59 +259,19 @@ auto Sorcery::Engine::_initalise_components() -> void {
 	_view_frame_big->setPosition(_display->window->get_x(_view_frame_big->sprite, vfs_fc.x),
 		_display->window->get_y(_view_frame_big->sprite, vfs_fc.y));
 
-	_ouch = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:ouch"],
-		(*_display->layout)["engine_base_ui:ouch_text"], WindowDialogType::TIMED);
-	_ouch->setPosition(_display->get_centre_pos(_ouch->get_size()));
-	_ouch->set_duration(DELAY_OUCH);
-
-	_pool = std::make_unique<Dialog>(_system, _display, _graphics,
-		(*_display->layout)["engine_base_ui:dialog_pool_gold_ok"],
-		(*_display->layout)["engine_base_ui:dialog_pool_gold_ok_text"], WindowDialogType::OK);
-	_pool->setPosition(_display->get_centre_pos(_pool->get_size()));
-
-	_encounter =
-		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:an_encounter"],
-			(*_display->layout)["engine_base_ui:an_encounter_text"], WindowDialogType::TIMED);
-	_encounter->setPosition(_display->get_centre_pos(_encounter->get_size()));
-	_encounter->set_duration(DELAY_ENCOUNTER);
-
-	_pit = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:pit"],
-		(*_display->layout)["engine_base_ui:pit_text"], WindowDialogType::TIMED);
-	_pit->setPosition(_display->get_centre_pos(_pit->get_size()));
-	_pit->set_duration(DELAY_PIT);
-
-	_chute = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:chute"],
-		(*_display->layout)["engine_base_ui:chute_text"], WindowDialogType::TIMED);
-	_chute->setPosition(_display->get_centre_pos(_chute->get_size()));
-	_chute->set_duration(DELAY_CHUTE);
-
-	_found_an_item =
-		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:found_an_item"],
-			(*_display->layout)["engine_base_ui:found_an_item_text"], WindowDialogType::TIMED);
-	_found_an_item->setPosition(_display->get_centre_pos(_found_an_item->get_size()));
-	_found_an_item->set_duration(DELAY_FIND_AN_ITEM);
+	// Dialogs
+	_ouch = _factory->make_dialog("engine_base_ui:ouch", WindowDialogType::TIMED, DELAY_OUCH);
+	_pool = _factory->make_dialog("engine_base_ui:dialog_pool_gold_ok", WindowDialogType::OK);
+	_encounter = _factory->make_dialog("engine_base_ui:an_encounter", WindowDialogType::TIMED, DELAY_ENCOUNTER);
+	_pit = _factory->make_dialog("engine_base_ui:pit", WindowDialogType::TIMED, DELAY_PIT);
+	_chute = _factory->make_dialog("engine_base_ui:chute", WindowDialogType::TIMED, DELAY_CHUTE);
+	_found_an_item = _factory->make_dialog("engine_base_ui:found_an_item", WindowDialogType::TIMED, DELAY_FIND_AN_ITEM);
+	_elevator = _factory->make_dialog("engine_base_ui:one_moment", WindowDialogType::TIMED, DELAY_ELEVATOR);
+	_confirm_stairs = _factory->make_dialog("engine_base_ui:dialog_stairs", WindowDialogType::CONFIRM);
+	_confirm_exit = _factory->make_dialog("engine_base_ui:dialog_exit", WindowDialogType::CONFIRM);
+	_confirm_search = _factory->make_dialog("engine_base_ui:dialog_search", WindowDialogType::CONFIRM);
 
 	_character_display = std::make_unique<CharacterDisplay>(_system, _display, _graphics);
-
-	_elevator = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:one_moment"],
-		(*_display->layout)["engine_base_ui:one_moment_text"], WindowDialogType::TIMED);
-	_elevator->setPosition(_display->get_centre_pos(_elevator->get_size()));
-	_elevator->set_duration(DELAY_ELEVATOR);
-
-	_confirm_stairs =
-		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:dialog_stairs"],
-			(*_display->layout)["engine_base_ui:dialog_ladder_up_text"], WindowDialogType::CONFIRM);
-	_confirm_stairs->setPosition(_display->get_centre_pos(_confirm_stairs->get_size()));
-
-	_confirm_exit =
-		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:dialog_exit"],
-			(*_display->layout)["engine_base_ui:dialog_exit_text"], WindowDialogType::CONFIRM);
-	_confirm_exit->setPosition(_display->get_centre_pos(_confirm_exit->get_size()));
-
-	_confirm_search =
-		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["engine_base_ui:dialog_search"],
-			(*_display->layout)["engine_base_ui:dialog_search_text"], WindowDialogType::CONFIRM);
-	_confirm_search->setPosition(_display->get_centre_pos(_confirm_search->get_size()));
 
 	// Modules
 	_party_panel = std::make_unique<PartyPanel>(
@@ -591,7 +559,7 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 				// use the quest item flags for now
 
 				switch (auto event_at_square{_game->state->level->at(current_loc).has_event().value()};
-						event_at_square) {
+					event_at_square) {
 				case MapEvent::SILVER_KEY: {
 					_show_found_an_item = true;
 

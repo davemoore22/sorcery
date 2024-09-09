@@ -13134,6 +13134,17 @@
 					"background": " 0x000000ff"
 				},
 				{
+					"name": "dialog_stairs_text",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "STAIRS_UP",
+					"background": " 0xff0000ff",
+					"justification": "centre",
+					"type": "text",
+					"drawmode": "manual"
+				},
+				{
 					"name": "dialog_stairs_up_text",
 					"font": "monospace",
 					"colour": "0xffffffff",

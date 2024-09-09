@@ -845,30 +845,6 @@ src/engine/teleport.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/teleport.cpp.s
 .PHONY : src/engine/teleport.cpp.s
 
-src/engine/trade.o: src/engine/trade.cpp.o
-.PHONY : src/engine/trade.o
-
-# target to build an object file
-src/engine/trade.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/trade.cpp.o
-.PHONY : src/engine/trade.cpp.o
-
-src/engine/trade.i: src/engine/trade.cpp.i
-.PHONY : src/engine/trade.i
-
-# target to preprocess a source file
-src/engine/trade.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/trade.cpp.i
-.PHONY : src/engine/trade.cpp.i
-
-src/engine/trade.s: src/engine/trade.cpp.s
-.PHONY : src/engine/trade.s
-
-# target to generate assembly for a file
-src/engine/trade.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/trade.cpp.s
-.PHONY : src/engine/trade.cpp.s
-
 src/engine/trap.o: src/engine/trap.cpp.o
 .PHONY : src/engine/trap.o
 
@@ -2309,6 +2285,30 @@ src/resources/componentstore.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/componentstore.cpp.s
 .PHONY : src/resources/componentstore.cpp.s
 
+src/resources/factory.o: src/resources/factory.cpp.o
+.PHONY : src/resources/factory.o
+
+# target to build an object file
+src/resources/factory.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/factory.cpp.o
+.PHONY : src/resources/factory.cpp.o
+
+src/resources/factory.i: src/resources/factory.cpp.i
+.PHONY : src/resources/factory.i
+
+# target to preprocess a source file
+src/resources/factory.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/factory.cpp.i
+.PHONY : src/resources/factory.cpp.i
+
+src/resources/factory.s: src/resources/factory.cpp.s
+.PHONY : src/resources/factory.s
+
+# target to generate assembly for a file
+src/resources/factory.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/factory.cpp.s
+.PHONY : src/resources/factory.cpp.s
+
 src/resources/filestore.o: src/resources/filestore.cpp.o
 .PHONY : src/resources/filestore.o
 
@@ -2983,9 +2983,6 @@ help:
 	@echo "... src/engine/teleport.o"
 	@echo "... src/engine/teleport.i"
 	@echo "... src/engine/teleport.s"
-	@echo "... src/engine/trade.o"
-	@echo "... src/engine/trade.i"
-	@echo "... src/engine/trade.s"
 	@echo "... src/engine/trap.o"
 	@echo "... src/engine/trap.i"
 	@echo "... src/engine/trap.s"
@@ -3166,6 +3163,9 @@ help:
 	@echo "... src/resources/componentstore.o"
 	@echo "... src/resources/componentstore.i"
 	@echo "... src/resources/componentstore.s"
+	@echo "... src/resources/factory.o"
+	@echo "... src/resources/factory.i"
+	@echo "... src/resources/factory.s"
 	@echo "... src/resources/filestore.o"
 	@echo "... src/resources/filestore.i"
 	@echo "... src/resources/filestore.s"

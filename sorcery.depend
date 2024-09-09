@@ -2480,7 +2480,7 @@
 	"common/include.hpp"
 	"types/level.hpp"
 
-1708117845 /home/dave/Development/wizardry/sorcery-sfml/inc/engine/engine.hpp
+1725914254 /home/dave/Development/wizardry/sorcery-sfml/inc/engine/engine.hpp
 	"common/include.hpp"
 	"common/type.hpp"
 	"engine/enum.hpp"
@@ -2519,7 +2519,7 @@
 1706134454 /home/dave/Development/wizardry/sorcery-sfml/inc/engine/graveyard.hpp
 	"common/include.hpp"
 
-1724436680 /home/dave/Development/wizardry/sorcery-sfml/inc/engine/inspect.hpp
+1725912952 /home/dave/Development/wizardry/sorcery-sfml/inc/engine/inspect.hpp
 	"common/include.hpp"
 
 1724527821 /home/dave/Development/wizardry/sorcery-sfml/inc/gui/characterdisplay.hpp
@@ -2807,7 +2807,7 @@
 	"resources/componentstore.hpp"
 	"resources/stringstore.hpp"
 
-1708118902 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/engine.cpp
+1725915304 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/engine.cpp
 	"engine/engine.hpp"
 	"common/macro.hpp"
 	"core/display.hpp"
@@ -2822,6 +2822,7 @@
 	"engine/event.hpp"
 	"frontend/options.hpp"
 	"resources/componentstore.hpp"
+	"resources/factory.hpp"
 	"resources/levelstore.hpp"
 	"resources/stringstore.hpp"
 	"types/character.hpp"
@@ -2865,7 +2866,7 @@
 	"types/character.hpp"
 	"types/component.hpp"
 
-1725307492 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/inspect.cpp
+1725915328 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/inspect.cpp
 	"engine/inspect.hpp"
 	"common/enum.hpp"
 	"common/type.hpp"
@@ -2882,6 +2883,7 @@
 	"gui/itemdisplay.hpp"
 	"gui/menu.hpp"
 	"resources/componentstore.hpp"
+	"resources/factory.hpp"
 	"resources/resourcemanager.hpp"
 	"types/character.hpp"
 	"types/component.hpp"
@@ -3242,7 +3244,7 @@
 	"types/level.hpp"
 	"types/tile.hpp"
 
-1724442106 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/menu.cpp
+1725382670 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/menu.cpp
 	"gui/menu.hpp"
 	"common/enum.hpp"
 	"common/macro.hpp"
@@ -3981,4 +3983,7 @@
 	"core/macro.hpp"
 	"types/define.hpp"
 	"types/enum.hpp"
+
+1725914633 /home/dave/Development/wizardry/sorcery-sfml/inc/resources/factory.hpp
+	"common/include.hpp"
 
