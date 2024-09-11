@@ -37,6 +37,7 @@
 #include "gui/menu.hpp"
 #include "gui/text.hpp"
 #include "resources/componentstore.hpp"
+#include "resources/factory.hpp"
 
 // Standard Constructor
 Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics, Game *game)
@@ -61,21 +62,17 @@ Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics
 	auto y{any_key_c.y == -1 ? _display->window->centre.y : any_key_c.y};
 	_press_any_key->setPosition(x, y);
 
+	// Setup the Factory
+	_factory = std::make_unique<Factory>(_system, _display, _graphics, _game);
+
 	// Now set up attract mode data
 	_attract_mode =
 		std::make_unique<AttractMode>(_graphics, (*_display->layout)["main_menu_attract:attract_creatures"]);
 	_attract_mode->data.clear();
 
 	// Create the Confirmation Dialogs
-	_dialog_exit =
-		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["main_menu_attract:dialog_exit"],
-			(*_display->layout)["main_menu_attract:dialog_exit_text"], WindowDialogType::CONFIRM);
-	_dialog_exit->setPosition(_display->get_centre_pos(_dialog_exit->get_size()));
-
-	_dialog_new_game =
-		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["main_menu_attract:dialog_new_game"],
-			(*_display->layout)["main_menu_attract:dialog_new_game_text"], WindowDialogType::CONFIRM);
-	_dialog_new_game->setPosition(_display->get_centre_pos(_dialog_new_game->get_size()));
+	_dialog_exit = _factory->make_dialog("main_menu_attract:dialog_exit", WindowDialogType::CONFIRM);
+	_dialog_new_game = _factory->make_dialog("main_menu_attract:dialog_new_game", WindowDialogType::CONFIRM);
 
 	_error = std::nullopt;
 }

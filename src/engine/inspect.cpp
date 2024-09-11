@@ -80,10 +80,10 @@ Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, 
 	_char_panel = std::make_unique<CharacterPanel>(_system, _display, _graphics);
 	_character_display = std::make_unique<CharacterDisplay>(_system, _display, _graphics);
 
-	_pool = _factory->make_dialog("inspect:dialog_pool_gold_ok", WindowDialogType::OK);
-	_cursed = _factory->make_dialog("inspect:dialog_cursed_ok", WindowDialogType::OK);
-	_failed = _factory->make_dialog("inspect:dialog_failed_ok", WindowDialogType::OK);
-	_success = _factory->make_dialog("inspect:dialog_success_ok", WindowDialogType::OK);
+	_pool = _factory->make_dialog("inspect:dialog_pool_gold_ok");
+	_cursed = _factory->make_dialog("inspect:dialog_cursed_ok");
+	_failed = _factory->make_dialog("inspect:dialog_failed_ok");
+	_success = _factory->make_dialog("inspect:dialog_success_ok");
 	_drop = _factory->make_dialog("inspect:dialog_confirm_drop", WindowDialogType::CONFIRM);
 
 	_in_pool = false;

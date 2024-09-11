@@ -29,14 +29,15 @@
 #include "core/graphics.hpp"
 #include "core/system.hpp"
 #include "gui/dialog.hpp"
+#include "gui/menu.hpp"
 #include "resources/define.hpp"
 
 Sorcery::Factory::Factory(System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 }
 
-auto Sorcery::Factory::make_dialog(const std::string &component, const WindowDialogType type)
-	-> std::unique_ptr<Dialog> {
+auto Sorcery::Factory::make_dialog(
+	const std::string &component, const WindowDialogType type, const unsigned int duration) -> std::unique_ptr<Dialog> {
 
 	auto component_text{component};
 	component_text.append("_text");
@@ -45,14 +46,17 @@ auto Sorcery::Factory::make_dialog(const std::string &component, const WindowDia
 		_system, _display, _graphics, (*_display->layout)[component], (*_display->layout)[component_text], type);
 	dialog->setPosition(_display->get_centre_pos(dialog->get_size()));
 
+	if (duration > 0)
+		dialog->set_duration(duration);
+
 	return dialog;
 }
 
-auto Sorcery::Factory::make_dialog(
-	const std::string &component, const WindowDialogType type, const unsigned int duration) -> std::unique_ptr<Dialog> {
+auto Sorcery::Factory::make_menu(const std::string &component, const MenuType type) -> std::unique_ptr<Menu> {
 
-	auto dialog = make_dialog(component, type);
-	dialog->set_duration(duration);
+	auto menu = std::make_unique<Menu>(_system, _display, _graphics, _game, type);
+	menu->generate((*_display->layout)[component]);
+	menu->setPosition(_display->get_centre_x(menu->get_width()), (*_display->layout)[component].y);
 
-	return dialog;
+	return menu;
 }

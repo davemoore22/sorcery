@@ -32,6 +32,7 @@ namespace Sorcery {
 class AttractMode;
 class Dialog;
 class Display;
+class Factory;
 class Game;
 class Graphics;
 class Menu;
@@ -75,6 +76,7 @@ class MainMenu {
 		std::unique_ptr<Dialog> _dialog_new_game;
 		std::unique_ptr<Dialog> _dialog_exit;
 		std::optional<std::unique_ptr<Error>> _error;
+		std::unique_ptr<Factory> _factory;
 };
 
 }

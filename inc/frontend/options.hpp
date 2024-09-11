@@ -31,6 +31,7 @@ namespace Sorcery {
 // Forward Declarations
 class Dialog;
 class Display;
+class Factory;
 class Graphics;
 class InfoPanel;
 class Menu;
@@ -74,6 +75,7 @@ class Options {
 		std::unique_ptr<Dialog> _confirm_cancel;
 		std::unique_ptr<Dialog> _confirm_strict;
 		std::unique_ptr<InfoPanel> _ip;
+		std::unique_ptr<Factory> _factory;
 };
 
 }

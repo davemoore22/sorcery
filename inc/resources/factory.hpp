@@ -33,6 +33,7 @@ class Dialog;
 class Display;
 class Game;
 class Graphics;
+class Menu;
 class System;
 
 class Factory {
@@ -46,9 +47,9 @@ class Factory {
 		// Public Members
 
 		// Public Methods
-		auto make_dialog(const std::string &component, const WindowDialogType type) -> std::unique_ptr<Dialog>;
-		auto make_dialog(const std::string &component, const WindowDialogType type, const unsigned int duration)
-			-> std::unique_ptr<Dialog>;
+		auto make_dialog(const std::string &component, const WindowDialogType type = WindowDialogType::OK,
+			const unsigned int duration = 0) -> std::unique_ptr<Dialog>;
+		auto make_menu(const std::string &component, const MenuType type) -> std::unique_ptr<Menu>;
 
 	private:
 

@@ -33,6 +33,7 @@
 #include "gui/infopanel.hpp"
 #include "gui/menu.hpp"
 #include "resources/componentstore.hpp"
+#include "resources/factory.hpp"
 #include "types/configfile.hpp"
 #include "types/enum.hpp"
 
@@ -43,11 +44,11 @@ Sorcery::Options::Options(System *system, Display *display, Graphics *graphics)
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
-	// Menu and Options
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr, MenuType::OPTIONS);
-	_menu->generate((*_display->layout)["options:menu"]);
-	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["options:menu"].y);
+	// Setup the Factory
+	_factory = std::make_unique<Factory>(_system, _display, _graphics, nullptr);
 
+	// Menu and Options
+	_menu = _factory->make_menu("options:menu", MenuType::OPTIONS);
 	_option_on = Component((*_display->layout)["options:on"]);
 	_option_off = Component((*_display->layout)["options:off"]);
 
@@ -55,20 +56,9 @@ Sorcery::Options::Options(System *system, Display *display, Graphics *graphics)
 	_ip = std::make_unique<InfoPanel>(_system, _display, _graphics);
 
 	// Create the Confirmation Dialog Boxes
-	_confirm_save =
-		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["options:dialog_confirm_save"],
-			(*_display->layout)["options:dialog_confirm_save_text"], WindowDialogType::CONFIRM);
-	_confirm_save->setPosition(_display->get_centre_pos(_confirm_save->get_size()));
-
-	_confirm_cancel =
-		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["options:dialog_confirm_cancel"],
-			(*_display->layout)["options:dialog_confirm_cancel_text"], WindowDialogType::CONFIRM);
-	_confirm_cancel->setPosition(_display->get_centre_pos(_confirm_cancel->get_size()));
-
-	_confirm_strict =
-		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["options:dialog_confirm_strict_on"],
-			(*_display->layout)["options:dialog_confirm_strict_on_text"], WindowDialogType::CONFIRM);
-	_confirm_strict->setPosition(_display->get_centre_pos(_confirm_strict->get_size()));
+	_confirm_save = _factory->make_dialog("options:dialog_confirm_save", WindowDialogType::CONFIRM);
+	_confirm_cancel = _factory->make_dialog("options:dialog_confirm_cancel", WindowDialogType::CONFIRM);
+	_confirm_strict = _factory->make_dialog("options:dialog_confirm_strict_on", WindowDialogType::CONFIRM);
 }
 
 // Standard Destructor
