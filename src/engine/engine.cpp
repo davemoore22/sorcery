@@ -180,60 +180,21 @@ auto Sorcery::Engine::_initalise_components() -> void {
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
-	// Setup Custom Components
+	// Setup Menus
 	_camp_menu = _factory->make_menu("engine_base_ui:camp_menu", MenuType::CAMP);
 	_search_menu = _factory->make_menu("engine_base_ui:search_menu", MenuType::SEARCH);
 	_get_menu = _factory->make_menu("engine_base_ui:get_menu", MenuType::CHARACTERS_HERE);
 	_action_menu = _factory->make_menu("engine_base_ui:action_menu", MenuType::ACTION);
 	_elevator_a_d_menu = _factory->make_menu("engine_base_ui:elevator_a_d_menu", MenuType::ELEVATOR_A_D);
-
-	const Component menu_fc{(*_display->layout)["engine_base_ui:camp_menu_frame"]};
-	_camp_menu_frame = std::make_unique<Frame>(
-		_display->ui_texture, menu_fc.w, menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
-	_camp_menu_frame->setPosition(_display->window->get_x(_camp_menu_frame->sprite, menu_fc.x),
-		_display->window->get_y(_camp_menu_frame->sprite, menu_fc.y));
-
-	const Component search_fc{(*_display->layout)["engine_base_ui:search_menu_frame"]};
-	_search_menu_frame = std::make_unique<Frame>(
-		_display->ui_texture, search_fc.w, search_fc.h, search_fc.colour, search_fc.background, search_fc.alpha);
-	_search_menu_frame->setPosition(_display->window->get_x(_search_menu_frame->sprite, search_fc.x),
-		_display->window->get_y(_search_menu_frame->sprite, search_fc.y));
-
-	const Component get_fc{(*_display->layout)["engine_base_ui:get_menu_frame"]};
-	_get_menu_frame = std::make_unique<Frame>(
-		_display->ui_texture, get_fc.w, get_fc.h, get_fc.colour, get_fc.background, get_fc.alpha);
-	_get_menu_frame->setPosition(_display->window->get_x(_get_menu_frame->sprite, get_fc.x),
-		_display->window->get_y(_get_menu_frame->sprite, get_fc.y));
-
-	const Component action_fc{(*_display->layout)["engine_base_ui:action_menu_frame"]};
-	_action_menu_frame = std::make_unique<Frame>(
-		_display->ui_texture, action_fc.w, action_fc.h, action_fc.colour, action_fc.background, action_fc.alpha);
-	_action_menu_frame->setPosition(_display->window->get_x(_action_menu_frame->sprite, action_fc.x),
-		_display->window->get_y(_action_menu_frame->sprite, action_fc.y));
-
-	const Component elevator_a_d_fc{(*_display->layout)["engine_base_ui:elevator_a_d_menu_frame"]};
-	_elevator_a_d_menu_frame = std::make_unique<Frame>(_display->ui_texture, elevator_a_d_fc.w, elevator_a_d_fc.h,
-		elevator_a_d_fc.colour, elevator_a_d_fc.background, elevator_a_d_fc.alpha);
-	_elevator_a_d_menu_frame->setPosition(_display->window->get_x(_elevator_a_d_menu_frame->sprite, elevator_a_d_fc.x),
-		_display->window->get_y(_elevator_a_d_menu_frame->sprite, elevator_a_d_fc.y));
-
-	const Component elevator_a_f_fc{(*_display->layout)["engine_base_ui:elevator_a_f_menu_frame"]};
-	_elevator_a_f_menu_frame = std::make_unique<Frame>(_display->ui_texture, elevator_a_f_fc.w, elevator_a_f_fc.h,
-		elevator_a_f_fc.colour, elevator_a_f_fc.background, elevator_a_f_fc.alpha);
-	_elevator_a_f_menu_frame->setPosition(_display->window->get_x(_elevator_a_f_menu_frame->sprite, elevator_a_f_fc.x),
-		_display->window->get_y(_elevator_a_f_menu_frame->sprite, elevator_a_f_fc.y));
-
-	const Component vfb_fc{(*_display->layout)["engine_base_ui:view_frame_small"]};
-	_view_frame_small = std::make_unique<Frame>(
-		_display->ui_texture, vfb_fc.w, vfb_fc.h, vfb_fc.colour, vfb_fc.background, vfb_fc.alpha);
-	_view_frame_small->setPosition(_display->window->get_x(_view_frame_small->sprite, vfb_fc.x),
-		_display->window->get_y(_view_frame_small->sprite, vfb_fc.y));
-
-	const Component vfs_fc{(*_display->layout)["engine_base_ui:view_frame_big"]};
-	_view_frame_big = std::make_unique<Frame>(
-		_display->ui_texture, vfs_fc.w, vfs_fc.h, vfs_fc.colour, vfs_fc.background, vfs_fc.alpha);
-	_view_frame_big->setPosition(_display->window->get_x(_view_frame_big->sprite, vfs_fc.x),
-		_display->window->get_y(_view_frame_big->sprite, vfs_fc.y));
+	_elevator_a_f_menu = _factory->make_menu("engine_base_ui:elevator_a_f_menu", MenuType::ELEVATOR_A_F);
+	_camp_menu_frame = _factory->make_menu_frame("engine_base_ui:camp_menu_frame");
+	_search_menu_frame = _factory->make_menu_frame("engine_base_ui:search_menu_frame");
+	_get_menu_frame = _factory->make_menu_frame("engine_base_ui:get_menu_frame");
+	_action_menu_frame = _factory->make_menu_frame("engine_base_ui:action_menu_frame");
+	_elevator_a_d_menu_frame = _factory->make_menu_frame("engine_base_ui:elevator_a_d_menu_frame");
+	_elevator_a_f_menu_frame = _factory->make_menu_frame("engine_base_ui:elevator_a_f_menu_frame");
+	_view_frame_small = _factory->make_frame("engine_base_ui:view_frame_small");
+	_view_frame_big = _factory->make_frame("engine_base_ui:view_frame_big");
 
 	// Dialogs
 	_ouch = _factory->make_dialog("engine_base_ui:ouch", WindowDialogType::TIMED, DELAY_OUCH);
@@ -327,11 +288,7 @@ auto Sorcery::Engine::_place_components() -> void {
 	const Component map_c{(*_display->layout)["engine_base_ui:map"]};
 	_map->setPosition(map_c.pos());
 
-	const Component cc_fc{(*_display->layout)["engine_base_ui:character_frame"]};
-	_cur_char_frame =
-		std::make_unique<Frame>(_display->ui_texture, cc_fc.w, cc_fc.h, cc_fc.colour, cc_fc.background, cc_fc.alpha);
-	_cur_char_frame->setPosition(_display->window->get_x(_cur_char_frame->sprite, cc_fc.x),
-		_display->window->get_y(_cur_char_frame->sprite, cc_fc.y));
+	_cur_char_frame = _factory->make_frame("engine_base_ui:character_frame");
 }
 
 auto Sorcery::Engine::_refresh() const -> void {

@@ -111,12 +111,9 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 	if (!_restricted) {
 
 		_in_character = false;
+		const auto menu_type{_mode == MenuMode::TAVERN ? MenuType::CHARACTER_ROSTER : MenuType::PARTY_CHARACTERS};
 		_menu.reset();
-		auto menu_type{_mode == MenuMode::TAVERN ? MenuType::CHARACTER_ROSTER : MenuType::PARTY_CHARACTERS};
-		_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, menu_type, _mode);
-		_menu->reload();
-		_menu->generate((*_display->layout)[_screen_key + ":menu"]);
-		_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)[_screen_key + ":menu"].y);
+		_menu = _factory->make_menu(_screen_key + ":menu", menu_type, _mode, std::nullopt, true);
 
 		_cur_char_id = -1;
 
@@ -157,23 +154,9 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 			_bg.setPosition(_display->window->get_x(_bg, bg_c.x), _display->window->get_y(_bg, bg_c.y));
 		}
 
-		const Component menu_fc{(*_display->layout)[_screen_key + ":menu_frame"]};
-		_menu_frame = std::make_unique<Frame>(
-			_display->ui_texture, menu_fc.w, menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
-		_menu_frame->setPosition(_display->window->get_x(_menu_frame->sprite, menu_fc.x),
-			_display->window->get_y(_menu_frame->sprite, menu_fc.y));
-
-		const Component cc_fc{(*_display->layout)[_screen_key + ":character_frame"]};
-		_cur_char_frame = std::make_unique<Frame>(
-			_display->ui_texture, cc_fc.w, cc_fc.h, cc_fc.colour, cc_fc.background, cc_fc.alpha);
-		_cur_char_frame->setPosition(_display->window->get_x(_cur_char_frame->sprite, cc_fc.x),
-			_display->window->get_y(_cur_char_frame->sprite, cc_fc.y));
-
-		const Component p_fc{(*_display->layout)["roster:preview_frame"]};
-		_preview_frame =
-			std::make_unique<Frame>(_display->ui_texture, p_fc.w, p_fc.h, p_fc.colour, p_fc.background, p_fc.alpha);
-		_preview_frame->setPosition(_display->window->get_x(_preview_frame->sprite, p_fc.x),
-			_display->window->get_y(_preview_frame->sprite, p_fc.y));
+		_menu_frame = _factory->make_menu_frame(_screen_key + ":menu_frame");
+		_cur_char_frame = _factory->make_frame(_screen_key + ":character_frame");
+		_preview_frame = _factory->make_frame("roster:preview_frame");
 
 		// Clear the window
 		_window->clear();
@@ -284,44 +267,22 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 	_in_trade = false;
 
 	_item_action_menu.reset();
-	_item_action_menu =
-		std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::ITEM_ACTION, MenuMode::ACTION);
-	_item_action_menu->generate((*_display->layout)["character_summary:item_action_menu"]);
-	_item_action_menu->setPosition(_display->get_centre_x(_item_action_menu->get_width()),
-		(*_display->layout)["character_summary:item_action_menu"].y);
-
-	const Component item_action_menu_fc{(*_display->layout)["character_summary:item_action_menu_frame"]};
 	_item_action_menu_frame.reset();
-	_item_action_menu_frame = std::make_unique<Frame>(_display->ui_texture, item_action_menu_fc.w,
-		item_action_menu_fc.h, item_action_menu_fc.colour, item_action_menu_fc.background, item_action_menu_fc.alpha);
-	_item_action_menu_frame->setPosition(
-		_display->window->get_x(_item_action_menu_frame->sprite, item_action_menu_fc.x),
-		_display->window->get_y(_item_action_menu_frame->sprite, item_action_menu_fc.y));
-
-	const Component item_display_fc{(*_display->layout)["inspect:item_display_frame"]};
-	_item_display_frame.reset();
-	_item_display_frame = std::make_unique<Frame>(_display->ui_texture, item_display_fc.w, item_display_fc.h,
-		item_display_fc.colour, item_display_fc.background, item_display_fc.alpha);
-	_item_display_frame->setPosition(_display->window->get_x(_item_display_frame->sprite, item_display_fc.x),
-		_display->window->get_y(_item_display_frame->sprite, item_display_fc.y));
-
 	_item_display.reset();
+	_item_display_frame.reset();
+	_item_trade_menu.reset();
+	_item_trade_frame.reset();
+
+	_item_action_menu =
+		_factory->make_menu("character_summary:item_action_menu", MenuType::ITEM_ACTION, MenuMode::ACTION);
+	_item_trade_menu =
+		_factory->make_menu("inspect:item_trade_menu", MenuType::CHARACTER_TRADE, MenuMode::NO_MODE, character_id);
+
+	_item_action_menu_frame = _factory->make_menu_frame("character_summary:item_action_menu_frame");
+	_item_display_frame = _factory->make_frame("inspect:item_display_frame");
+
 	_item_display = std::make_unique<ItemDisplay>(_system, _display, _graphics, _game);
 	_item_display->setPosition((*_display->layout)["inspect:item_display"].pos());
-
-	const Component it_fc{(*_display->layout)["inspect:item_trade_frame"]};
-	_item_trade_frame.reset();
-	_item_trade_frame =
-		std::make_unique<Frame>(_display->ui_texture, it_fc.w, it_fc.h, it_fc.colour, it_fc.background, it_fc.alpha);
-	_item_trade_frame->setPosition(_display->window->get_x(_item_trade_frame->sprite, it_fc.x),
-		_display->window->get_y(_item_trade_frame->sprite, it_fc.y));
-
-	_item_trade_menu.reset();
-	_item_trade_menu = std::make_unique<Menu>(
-		_system, _display, _graphics, _game, MenuType::CHARACTER_TRADE, MenuMode::NO_MODE, character_id);
-	_item_trade_menu->generate((*_display->layout)["inspect:item_trade_menu"]);
-	_item_trade_menu->setPosition(
-		_display->get_centre_x(_item_trade_menu->get_width()), (*_display->layout)["inspect:item_trade_menu"].y);
 
 	std::optional<std::vector<MenuEntry>::const_iterator> item_action_selected{_item_action_menu->items.begin()};
 	std::optional<std::vector<MenuEntry>::const_iterator> item_trade_selected{_item_trade_menu->items.begin()};

@@ -46,12 +46,12 @@ Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
+	// Setup the Factory
+	_factory = std::make_unique<Factory>(_system, _display, _graphics, _game);
+
 	// Create the Main Menu
 	_menu_stage = MainMenuType::ATTRACT_MODE;
-	_main_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::MAIN);
-	_main_menu->generate((*_display->layout)["main_menu_attract:main_menu"]);
-	_main_menu->setPosition(
-		_display->get_centre_x(_main_menu->get_width()), (*_display->layout)["main_menu_attract:main_menu"].y);
+	_main_menu = _factory->make_menu("main_menu_attract:main_menu", MenuType::MAIN);
 
 	// Setup Custom Components
 	Component any_key_c{(*_display->layout)["main_menu_attract:press_any_key"]};
@@ -61,9 +61,6 @@ Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics
 	auto x{any_key_c.x == -1 ? _display->window->centre.x : any_key_c.x};
 	auto y{any_key_c.y == -1 ? _display->window->centre.y : any_key_c.y};
 	_press_any_key->setPosition(x, y);
-
-	// Setup the Factory
-	_factory = std::make_unique<Factory>(_system, _display, _graphics, _game);
 
 	// Now set up attract mode data
 	_attract_mode =
