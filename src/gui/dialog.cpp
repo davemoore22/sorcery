@@ -37,8 +37,8 @@
 #include "resources/stringstore.hpp"
 
 // Standard Constructor
-Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics, Component &frame_c, Component &string_c,
-	WindowDialogType type)
+Sorcery::Dialog::Dialog(
+	System *system, Display *display, Graphics *graphics, Component &frame_c, Component &string_c, WDT type)
 	: _system{system}, _display{display}, _graphics{graphics}, _frame_c{frame_c}, _string_c{string_c}, _type{type} {
 
 	_refresh(string_c, std::string{""});
@@ -108,19 +108,19 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 	// Now work out the vertical size of the Frame
 	auto frame_h{static_cast<unsigned int>(_strings.size())};
 	switch (_type) {
-	case WindowDialogType::OK:
+	case WDT::OK:
 		frame_h += 4;
-		_selected = WindowDialogButton::OK;
+		_selected = WDB::OK;
 		break;
-	case WindowDialogType::CONFIRM:
+	case WDT::CONFIRM:
 		frame_h += 4;
-		_selected = WindowDialogButton::NO;
+		_selected = WDB::NO;
 		break;
-	case WindowDialogType::MENU:
+	case WDT::MENU:
 		// frame_h += menu_size;
 		break;
-	case WindowDialogType::TIMED:
-		_selected = WindowDialogButton::NO_BUTTON;
+	case WDT::TIMED:
+		_selected = WDB::NO_BUTTON;
 		frame_h += 2;
 		break;
 	default:
@@ -173,7 +173,7 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 	const auto centre_x{(_frame_c.w * _display->window->get_cw()) / 2};
 
 	switch (_type) {
-	case WindowDialogType::OK: {
+	case WDT::OK: {
 		const auto ok_x{(centre_x - (_display->window->get_cw() * 2)) + (_display->window->get_cw() * 2)};
 		sf::Text ok_text{};
 		if (_display->get_bold())
@@ -183,23 +183,23 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 		ok_text.setFillColor(sf::Color(_buttons_c.colour));
 		ok_text.setString((*_display->string)["DIALOG_OK"]);
 		ok_text.setPosition(ok_x, y);
-		_buttons[WindowDialogButton::OK] = ok_text;
+		_buttons[WDB::OK] = ok_text;
 
 		sf::Text ok_text_hl{ok_text};
 		ok_text_hl.setOutlineColor(sf::Color(0, 0, 0));
 		ok_text_hl.setOutlineThickness(2);
-		_buttons_hl[WindowDialogButton::OK] = ok_text_hl;
+		_buttons_hl[WDB::OK] = ok_text_hl;
 
 		const sf::FloatRect ok_text_rect{ok_text_hl.getGlobalBounds()};
-		_buttons_fr[WindowDialogButton::OK] = ok_text_rect;
+		_buttons_fr[WDB::OK] = ok_text_rect;
 
 		sf::RectangleShape ok_text_bg(sf::Vector2(ok_text_rect.width, ok_text_rect.height));
 		ok_text_bg.setPosition(ok_x, y);
 
-		_highlights[WindowDialogButton::OK] = ok_text_bg;
+		_highlights[WDB::OK] = ok_text_bg;
 
 	} break;
-	case WindowDialogType::CONFIRM: {
+	case WDT::CONFIRM: {
 		const auto yes_x{(centre_x - (_display->window->get_cw() * 4))};
 		sf::Text yes_text{};
 		if (_display->get_bold())
@@ -209,21 +209,21 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 		yes_text.setFillColor(sf::Color(_buttons_c.colour));
 		yes_text.setString((*_display->string)["DIALOG_YES"]);
 		yes_text.setPosition(yes_x, y);
-		_buttons[WindowDialogButton::YES] = yes_text;
+		_buttons[WDB::YES] = yes_text;
 
 		sf::Text yes_text_hl{yes_text};
 		yes_text_hl.setPosition(yes_x, y);
 		yes_text_hl.setOutlineColor(sf::Color(0, 0, 0));
 		yes_text_hl.setOutlineThickness(2);
-		_buttons_hl[WindowDialogButton::YES] = yes_text_hl;
+		_buttons_hl[WDB::YES] = yes_text_hl;
 
 		const sf::FloatRect yes_text_rect{yes_text_hl.getGlobalBounds()};
-		_buttons_fr[WindowDialogButton::YES] = yes_text_rect;
+		_buttons_fr[WDB::YES] = yes_text_rect;
 
 		sf::RectangleShape yes_text_bg(sf::Vector2(yes_text_rect.width, yes_text_rect.height));
 		yes_text_bg.setPosition(yes_x, y);
 
-		_highlights[WindowDialogButton::YES] = yes_text_bg;
+		_highlights[WDB::YES] = yes_text_bg;
 
 		const auto no_x{centre_x + (_display->window->get_cw() * 2)};
 		sf::Text no_text{};
@@ -234,104 +234,104 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 		no_text.setFillColor(sf::Color(_buttons_c.colour));
 		no_text.setString((*_display->string)["DIALOG_NO"]);
 		no_text.setPosition(no_x, y);
-		_buttons[WindowDialogButton::NO] = no_text;
+		_buttons[WDB::NO] = no_text;
 
 		sf::Text no_text_hl{no_text};
 		no_text_hl.setPosition(no_x, y);
 		no_text_hl.setOutlineColor(sf::Color(0, 0, 0));
 		no_text_hl.setOutlineThickness(2);
-		_buttons_hl[WindowDialogButton::NO] = no_text_hl;
+		_buttons_hl[WDB::NO] = no_text_hl;
 
 		const sf::FloatRect no_text_rect{no_text_hl.getGlobalBounds()};
-		_buttons_fr[WindowDialogButton::NO] = no_text_rect;
+		_buttons_fr[WDB::NO] = no_text_rect;
 
 		sf::RectangleShape no_text_bg(sf::Vector2(no_text_rect.width, no_text_rect.height));
 		no_text_bg.setPosition(no_x, y);
-		_highlights[WindowDialogButton::NO] = no_text_bg;
+		_highlights[WDB::NO] = no_text_bg;
 
 	} break;
-	case WindowDialogType::MENU:
+	case WDT::MENU:
 		break;
-	case WindowDialogType::TIMED:
+	case WDT::TIMED:
 		break;
 	default:
 		break;
 	}
 }
 
-auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WindowDialogButton> {
+auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WDB> {
 
 	if (event.type == sf::Event::Closed)
-		return WindowDialogButton::CLOSE;
+		return WDB::CLOSE;
 
-	if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+	if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
 		_display->show_overlay();
 		return std::nullopt;
 	} else
 		_display->hide_overlay();
 
 	switch (_type) {
-	case WindowDialogType::OK:
+	case WDT::OK:
 
-		if (_system->input->check(WindowInput::MOVE, event))
+		if (_system->input->check(WIP::MOVE, event))
 			check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-		else if (_system->input->check(WindowInput::CONFIRM, event)) {
-			std::optional<WindowDialogButton> button_chosen{
+		else if (_system->input->check(WIP::CONFIRM, event)) {
+			std::optional<WDB> button_chosen{
 				check_if_option_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)))};
 			if (button_chosen) {
-				if (button_chosen.value() == WindowDialogButton::OK)
-					return WindowDialogButton::OK;
+				if (button_chosen.value() == WDB::OK)
+					return WDB::OK;
 			} else {
 
-				if (get_selected() == WindowDialogButton::OK) {
-					return WindowDialogButton::OK;
+				if (get_selected() == WDB::OK) {
+					return WDB::OK;
 				}
 			}
 		}
 
 		break;
-	case WindowDialogType::CONFIRM:
-		if (_system->input->check(WindowInput::LEFT, event))
+	case WDT::CONFIRM:
+		if (_system->input->check(WIP::LEFT, event))
 			toggle_highlighted();
-		else if (_system->input->check(WindowInput::RIGHT, event))
+		else if (_system->input->check(WIP::RIGHT, event))
 			toggle_highlighted();
-		else if (_system->input->check(WindowInput::YES, event))
-			set_selected(WindowDialogButton::YES);
-		else if (_system->input->check(WindowInput::NO, event))
-			set_selected(WindowDialogButton::NO);
-		else if (_system->input->check(WindowInput::CANCEL, event))
-			return WindowDialogButton::NO;
-		else if (_system->input->check(WindowInput::BACK, event))
-			return WindowDialogButton::NO;
-		else if (_system->input->check(WindowInput::MOVE, event))
+		else if (_system->input->check(WIP::YES, event))
+			set_selected(WDB::YES);
+		else if (_system->input->check(WIP::NO, event))
+			set_selected(WDB::NO);
+		else if (_system->input->check(WIP::CANCEL, event))
+			return WDB::NO;
+		else if (_system->input->check(WIP::BACK, event))
+			return WDB::NO;
+		else if (_system->input->check(WIP::MOVE, event))
 			check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-		else if (_system->input->check(WindowInput::CONFIRM, event)) {
-			std::optional<WindowDialogButton> button_chosen{
+		else if (_system->input->check(WIP::CONFIRM, event)) {
+			std::optional<WDB> button_chosen{
 				check_if_option_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)))};
 
 			// Mouse click only
 			if (button_chosen) {
-				if (button_chosen.value() == WindowDialogButton::YES)
-					return WindowDialogButton::YES;
-				else if (button_chosen.value() == WindowDialogButton::NO)
-					return WindowDialogButton::NO;
+				if (button_chosen.value() == WDB::YES)
+					return WDB::YES;
+				else if (button_chosen.value() == WDB::NO)
+					return WDB::NO;
 
 			} else {
 
 				// Button/Keyboard
-				if (get_selected() == WindowDialogButton::YES) {
-					return WindowDialogButton::YES;
-				} else if (get_selected() == WindowDialogButton::NO)
-					return WindowDialogButton::NO;
+				if (get_selected() == WDB::YES) {
+					return WDB::YES;
+				} else if (get_selected() == WDB::NO)
+					return WDB::NO;
 			}
 		}
 		break;
-	case WindowDialogType::MENU:
+	case WDT::MENU:
 		break;
-	case WindowDialogType::TIMED:
+	case WDT::TIMED:
 		if (_valid) {
-			if (_system->input->check(WindowInput::ANYTHING, event)) {
-				return WindowDialogButton::OK;
+			if (_system->input->check(WIP::ANYTHING, event)) {
+				return WDB::OK;
 				_valid = false;
 			}
 		}
@@ -343,53 +343,53 @@ auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WindowDialo
 	return std::nullopt;
 }
 
-auto Sorcery::Dialog::toggle_highlighted() -> WindowDialogButton {
+auto Sorcery::Dialog::toggle_highlighted() -> WDB {
 
 	switch (_type) {
-	case WindowDialogType::OK:
+	case WDT::OK:
 		// Can't be toggled
 		break;
-	case WindowDialogType::CONFIRM:
-		if (_selected == WindowDialogButton::YES)
-			_selected = WindowDialogButton::NO;
-		else if (_selected == WindowDialogButton::NO)
-			_selected = WindowDialogButton::YES;
+	case WDT::CONFIRM:
+		if (_selected == WDB::YES)
+			_selected = WDB::NO;
+		else if (_selected == WDB::NO)
+			_selected = WDB::YES;
 		return _selected;
-	case WindowDialogType::MENU:
+	case WDT::MENU:
 		break;
-	case WindowDialogType::TIMED:
+	case WDT::TIMED:
 		break;
 	default:
 		break;
 	}
 
-	return WindowDialogButton::NO_BUTTON; // TODO optional
+	return WDB::NO_BUTTON; // TODO optional
 }
 
-auto Sorcery::Dialog::check_for_mouse_move(const sf::Vector2f mouse_pos) -> std::optional<WindowDialogButton> {
+auto Sorcery::Dialog::check_for_mouse_move(const sf::Vector2f mouse_pos) -> std::optional<WDB> {
 
 	const sf::Vector2f global_pos{this->getPosition()};
 	const sf::Vector2f local_mouse_pos{mouse_pos - global_pos};
 
 	switch (_type) {
-	case WindowDialogType::OK:
-		if (_buttons_fr.at(WindowDialogButton::OK).contains(local_mouse_pos)) {
-			_selected = WindowDialogButton::OK;
-			return WindowDialogButton::OK;
+	case WDT::OK:
+		if (_buttons_fr.at(WDB::OK).contains(local_mouse_pos)) {
+			_selected = WDB::OK;
+			return WDB::OK;
 		}
 		break;
-	case WindowDialogType::CONFIRM:
-		if (_buttons_fr.at(WindowDialogButton::YES).contains(local_mouse_pos)) {
-			_selected = WindowDialogButton::YES;
-			return WindowDialogButton::YES;
-		} else if (_buttons_fr.at(WindowDialogButton::NO).contains(local_mouse_pos)) {
-			_selected = WindowDialogButton::NO;
-			return WindowDialogButton::NO;
+	case WDT::CONFIRM:
+		if (_buttons_fr.at(WDB::YES).contains(local_mouse_pos)) {
+			_selected = WDB::YES;
+			return WDB::YES;
+		} else if (_buttons_fr.at(WDB::NO).contains(local_mouse_pos)) {
+			_selected = WDB::NO;
+			return WDB::NO;
 		}
 		break;
-	case WindowDialogType::MENU:
+	case WDT::MENU:
 		break;
-	case WindowDialogType::TIMED:
+	case WDT::TIMED:
 		break;
 	default:
 		break;
@@ -399,30 +399,30 @@ auto Sorcery::Dialog::check_for_mouse_move(const sf::Vector2f mouse_pos) -> std:
 }
 
 // Only works for the Mouse
-auto Sorcery::Dialog::check_if_option_selected(const sf::Vector2f mouse_pos) -> std::optional<WindowDialogButton> {
+auto Sorcery::Dialog::check_if_option_selected(const sf::Vector2f mouse_pos) -> std::optional<WDB> {
 
 	const sf::Vector2f global_pos{this->getPosition()};
 	const sf::Vector2f local_mouse_pos{mouse_pos - global_pos};
 
 	switch (_type) {
-	case WindowDialogType::OK:
-		if (_buttons_fr.at(WindowDialogButton::OK).contains(local_mouse_pos)) {
-			_selected = WindowDialogButton::OK;
-			return WindowDialogButton::OK;
+	case WDT::OK:
+		if (_buttons_fr.at(WDB::OK).contains(local_mouse_pos)) {
+			_selected = WDB::OK;
+			return WDB::OK;
 		}
 		break;
-	case WindowDialogType::CONFIRM:
-		if (_buttons_fr.at(WindowDialogButton::YES).contains(local_mouse_pos)) {
-			_selected = WindowDialogButton::YES;
-			return WindowDialogButton::YES;
-		} else if (_buttons_fr.at(WindowDialogButton::NO).contains(local_mouse_pos)) {
-			_selected = WindowDialogButton::NO;
-			return WindowDialogButton::NO;
+	case WDT::CONFIRM:
+		if (_buttons_fr.at(WDB::YES).contains(local_mouse_pos)) {
+			_selected = WDB::YES;
+			return WDB::YES;
+		} else if (_buttons_fr.at(WDB::NO).contains(local_mouse_pos)) {
+			_selected = WDB::NO;
+			return WDB::NO;
 		}
 		break;
-	case WindowDialogType::MENU:
+	case WDT::MENU:
 		break;
-	case WindowDialogType::TIMED:
+	case WDT::TIMED:
 		break;
 	default:
 		break;
@@ -431,12 +431,12 @@ auto Sorcery::Dialog::check_if_option_selected(const sf::Vector2f mouse_pos) -> 
 	return std::nullopt;
 }
 
-auto Sorcery::Dialog::set_selected(WindowDialogButton value) -> void {
+auto Sorcery::Dialog::set_selected(WDB value) -> void {
 
 	_selected = value;
 }
 
-auto Sorcery::Dialog::get_selected() const -> WindowDialogButton {
+auto Sorcery::Dialog::get_selected() const -> WDB {
 
 	return _selected;
 }
@@ -451,24 +451,24 @@ auto Sorcery::Dialog::reset_timed() -> void {
 auto Sorcery::Dialog::update() -> void {
 
 	switch (_type) {
-	case WindowDialogType::OK: {
-		if (_selected == WindowDialogButton::OK) {
-			sf::RectangleShape &hl{_highlights.at(WindowDialogButton::OK)};
+	case WDT::OK: {
+		if (_selected == WDB::OK) {
+			sf::RectangleShape &hl{_highlights.at(WDB::OK)};
 			hl.setFillColor(_graphics->animation->selected_colour);
 		}
 	} break;
-	case WindowDialogType::CONFIRM: {
-		if (_selected == WindowDialogButton::YES) {
-			sf::RectangleShape &hl{_highlights.at(WindowDialogButton::YES)};
+	case WDT::CONFIRM: {
+		if (_selected == WDB::YES) {
+			sf::RectangleShape &hl{_highlights.at(WDB::YES)};
 			hl.setFillColor(_graphics->animation->selected_colour);
-		} else if (_selected == WindowDialogButton::NO) {
-			sf::RectangleShape &hl{_highlights.at(WindowDialogButton::NO)};
+		} else if (_selected == WDB::NO) {
+			sf::RectangleShape &hl{_highlights.at(WDB::NO)};
 			hl.setFillColor(_graphics->animation->selected_colour);
 		}
 	} break;
-	case WindowDialogType::MENU:
+	case WDT::MENU:
 		break;
-	case WindowDialogType::TIMED:
+	case WDT::TIMED:
 
 		// Handle timing
 		if (_valid) {
@@ -513,26 +513,26 @@ auto Sorcery::Dialog::draw(sf::RenderTarget &target, sf::RenderStates state) con
 			target.draw(text, state);
 
 		switch (_type) {
-		case WindowDialogType::OK:
-			if (_selected == WindowDialogButton::OK) {
-				target.draw(_highlights.at(WindowDialogButton::OK), state);
-				target.draw(_buttons_hl.at(WindowDialogButton::OK), state);
+		case WDT::OK:
+			if (_selected == WDB::OK) {
+				target.draw(_highlights.at(WDB::OK), state);
+				target.draw(_buttons_hl.at(WDB::OK), state);
 			}
 			break;
-		case WindowDialogType::CONFIRM:
-			if (_selected == WindowDialogButton::YES) {
-				target.draw(_buttons.at(WindowDialogButton::NO), state);
-				target.draw(_highlights.at(WindowDialogButton::YES), state);
-				target.draw(_buttons_hl.at(WindowDialogButton::YES), state);
-			} else if (_selected == WindowDialogButton::NO) {
-				target.draw(_buttons.at(WindowDialogButton::YES), state);
-				target.draw(_highlights.at(WindowDialogButton::NO), state);
-				target.draw(_buttons_hl.at(WindowDialogButton::NO), state);
+		case WDT::CONFIRM:
+			if (_selected == WDB::YES) {
+				target.draw(_buttons.at(WDB::NO), state);
+				target.draw(_highlights.at(WDB::YES), state);
+				target.draw(_buttons_hl.at(WDB::YES), state);
+			} else if (_selected == WDB::NO) {
+				target.draw(_buttons.at(WDB::YES), state);
+				target.draw(_highlights.at(WDB::NO), state);
+				target.draw(_buttons_hl.at(WDB::NO), state);
 			}
 			break;
-		case WindowDialogType::MENU:
+		case WDT::MENU:
 			break;
-		case WindowDialogType::TIMED:
+		case WDT::TIMED:
 			break;
 		default:
 			break;

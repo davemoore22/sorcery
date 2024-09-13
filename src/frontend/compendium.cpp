@@ -57,7 +57,7 @@ auto Sorcery::Compendium::start() -> int {
 	_display->fit_bg_movie();
 	_display->start_bg_movie();
 
-	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+	_display->set_input_mode(WIM::NAVIGATE_MENU);
 	_selected = _menu->items.begin();
 
 	if (auto module_result{_do_event_loop()}; module_result == ModuleResult::EXIT) {
@@ -168,26 +168,26 @@ auto Sorcery::Compendium::_handle_input(const sf::Event &event) -> std::optional
 	if (event.type == sf::Event::Closed)
 		return ModuleResult::EXIT;
 
-	if (_system->input->check(WindowInput::CANCEL, event))
+	if (_system->input->check(WIP::CANCEL, event))
 		return ModuleResult::CLOSE;
 
-	if (_system->input->check(WindowInput::BACK, event))
+	if (_system->input->check(WIP::BACK, event))
 		return ModuleResult::BACK;
 
 	// Handle enabling help overlay
-	if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+	if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
 		_display->show_overlay();
 		return std::nullopt;
 	} else
 		_display->hide_overlay();
 
-	if (_system->input->check(WindowInput::UP, event))
+	if (_system->input->check(WIP::UP, event))
 		_selected = _menu->choose_previous();
-	else if (_system->input->check(WindowInput::DOWN, event))
+	else if (_system->input->check(WIP::DOWN, event))
 		_selected = _menu->choose_next();
-	else if (_system->input->check(WindowInput::MOVE, event))
+	else if (_system->input->check(WIP::MOVE, event))
 		_selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	else if (_system->input->check(WindowInput::CONFIRM, event)) {
+	else if (_system->input->check(WIP::CONFIRM, event)) {
 
 		// We have selected something from the menu
 		if (_selected) {

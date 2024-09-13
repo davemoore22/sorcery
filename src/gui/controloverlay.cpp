@@ -34,13 +34,13 @@ Sorcery::ControlOverlay::ControlOverlay(System *system, Display *display, Compon
 	_sprites.clear();
 	_texts.clear();
 
-	_input_mode = WindowInputMode::NO_INPUTMODE;
+	_input_mode = WIM::NO_INPUTMODE;
 	_control_texture = (*_system->resources).textures[GraphicsTexture::CONTROLS];
 
 	_controls.clear();
 }
 
-auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void {
+auto Sorcery::ControlOverlay::set_input_mode(WIM input_mode) -> void {
 
 	valid = false;
 	_input_mode = input_mode;
@@ -50,177 +50,165 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 
 	// Populate the Available Control Methods
 	switch (_input_mode) {
-	case WindowInputMode::ALLOCATE_STATS:
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_MOUSE_ALLOCATE_STATS"], _get_control_gfx(WindowInputCategory::MOUSE_MOVE)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_UP_ALLOCATE_STATS"], _get_control_gfx(WindowInputCategory::UP)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_DOWN_ALLOCATE_STATS"], _get_control_gfx(WindowInputCategory::DOWN)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_LEFT_ALLOCATE_STATS"], _get_control_gfx(WindowInputCategory::LEFT)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_RIGHT_ALLOCATE_STATS"], _get_control_gfx(WindowInputCategory::RIGHT)));
+	case WIM::ALLOCATE_STATS:
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_MOUSE_ALLOCATE_STATS"], _get_control_gfx(WIC::MOUSE_MOVE)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_UP_ALLOCATE_STATS"], _get_control_gfx(WIC::UP)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_DOWN_ALLOCATE_STATS"], _get_control_gfx(WIC::DOWN)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_LEFT_ALLOCATE_STATS"], _get_control_gfx(WIC::LEFT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_RIGHT_ALLOCATE_STATS"], _get_control_gfx(WIC::RIGHT)));
 		break;
-	case WindowInputMode::MENU_ATTRACT_MODE:
+	case WIM::MENU_ATTRACT_MODE:
 		valid = false;
 		return;
 		break;
-	case WindowInputMode::CHOOSE_METHOD:
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_MOUSE_METHOD"], _get_control_gfx(WindowInputCategory::MOUSE_MOVE)));
+	case WIM::CHOOSE_METHOD:
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_LEFT_METHOD"], _get_control_gfx(WindowInputCategory::LEFT)));
+			std::make_pair((*_display->string)["CONTROL_MOUSE_METHOD"], _get_control_gfx(WIC::MOUSE_MOVE)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_LEFT_METHOD"], _get_control_gfx(WIC::LEFT)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_RIGHT_METHOD"], _get_control_gfx(WindowInputCategory::RIGHT)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_CONFIRM_METHOD"], _get_control_gfx(WindowInputCategory::CONFIRM)));
+			std::make_pair((*_display->string)["CONTROL_RIGHT_METHOD"], _get_control_gfx(WIC::RIGHT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_CONFIRM_METHOD"], _get_control_gfx(WIC::CONFIRM)));
 		break;
-	case WindowInputMode::CHOOSE_PORTRAIT:
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_LEFT_CHOOSE_PORTRAIT"], _get_control_gfx(WindowInputCategory::LEFT)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_RIGHT_CHOOSE_PORTRAIT"], _get_control_gfx(WindowInputCategory::RIGHT)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_CONFIRM_CHOOSE_PORTRAIT"], _get_control_gfx(WindowInputCategory::CONFIRM)));
+	case WIM::CHOOSE_PORTRAIT:
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_LEFT_CHOOSE_PORTRAIT"], _get_control_gfx(WIC::LEFT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_RIGHT_CHOOSE_PORTRAIT"], _get_control_gfx(WIC::RIGHT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_CONFIRM_CHOOSE_PORTRAIT"], _get_control_gfx(WIC::CONFIRM)));
 		break;
-	case WindowInputMode::COMPENDIUM:
+	case WIM::COMPENDIUM:
 		break;
-	case WindowInputMode::CONFIRM_LEAVE_GAME:
-	case WindowInputMode::CONFIRM_QUIT_GAME:
-	case WindowInputMode::CONFIRM_STRICT_MODE:
-	case WindowInputMode::SAVE_CHANGES:
-	case WindowInputMode::CANCEL_CHANGES:
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_MOUSE_CONFIRMATION"], _get_control_gfx(WindowInputCategory::MOUSE_MOVE)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_LEFT_CONFIRMATION"], _get_control_gfx(WindowInputCategory::LEFT)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_RIGHT_CONFIRMATION"], _get_control_gfx(WindowInputCategory::RIGHT)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_CONFIRM_CONFIRMATION"], _get_control_gfx(WindowInputCategory::CONFIRM)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_Y_N_CONFIRMATION"], _get_control_gfx(WindowInputCategory::YES_NO)));
+	case WIM::CONFIRM_LEAVE_GAME:
+	case WIM::CONFIRM_QUIT_GAME:
+	case WIM::CONFIRM_STRICT_MODE:
+	case WIM::SAVE_CHANGES:
+	case WIM::CANCEL_CHANGES:
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_MOUSE_CONFIRMATION"], _get_control_gfx(WIC::MOUSE_MOVE)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_LEFT_CONFIRMATION"], _get_control_gfx(WIC::LEFT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_RIGHT_CONFIRMATION"], _get_control_gfx(WIC::RIGHT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_CONFIRM_CONFIRMATION"], _get_control_gfx(WIC::CONFIRM)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_Y_N_CONFIRMATION"], _get_control_gfx(WIC::YES_NO)));
 		break;
-	case WindowInputMode::DISPLAY_TEXT_FILE:
+	case WIM::DISPLAY_TEXT_FILE:
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_UP_FILE"], _get_control_gfx(WIC::UP)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_DOWN_FILE"], _get_control_gfx(WIC::DOWN)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_UP_FILE"], _get_control_gfx(WindowInputCategory::UP)));
+			std::make_pair((*_display->string)["CONTROL_PAGE_UP_FILE"], _get_control_gfx(WIC::PAGE_UP)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_DOWN_FILE"], _get_control_gfx(WindowInputCategory::DOWN)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_PAGE_UP_FILE"], _get_control_gfx(WindowInputCategory::PAGE_UP)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_PAGE_DOWN_FILE"], _get_control_gfx(WindowInputCategory::PAGE_DOWN)));
-		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_HOME_FILE"], _get_control_gfx(WindowInputCategory::HOME)));
-		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_END_FILE"], _get_control_gfx(WindowInputCategory::END)));
+			std::make_pair((*_display->string)["CONTROL_PAGE_DOWN_FILE"], _get_control_gfx(WIC::PAGE_DOWN)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_HOME_FILE"], _get_control_gfx(WIC::HOME)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_END_FILE"], _get_control_gfx(WIC::END)));
 		break;
-	case WindowInputMode::GAME_OPTIONS:
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_MOUSE_OPTION"], _get_control_gfx(WindowInputCategory::MOUSE_MOVE)));
+	case WIM::GAME_OPTIONS:
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_UP_OPTION"], _get_control_gfx(WindowInputCategory::UP)));
+			std::make_pair((*_display->string)["CONTROL_MOUSE_OPTION"], _get_control_gfx(WIC::MOUSE_MOVE)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_UP_OPTION"], _get_control_gfx(WIC::UP)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_DOWN_OPTION"], _get_control_gfx(WIC::DOWN)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_LEFT_OPTION"], _get_control_gfx(WIC::LEFT)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_DOWN_OPTION"], _get_control_gfx(WindowInputCategory::DOWN)));
+			std::make_pair((*_display->string)["CONTROL_RIGHT_OPTION"], _get_control_gfx(WIC::RIGHT)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_LEFT_OPTION"], _get_control_gfx(WindowInputCategory::LEFT)));
-		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_RIGHT_OPTION"], _get_control_gfx(WindowInputCategory::RIGHT)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_CONFIRM_OPTION"], _get_control_gfx(WindowInputCategory::CONFIRM)));
+			std::make_pair((*_display->string)["CONTROL_CONFIRM_OPTION"], _get_control_gfx(WIC::CONFIRM)));
 		break;
-	case WindowInputMode::INPUT_NAME:
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_MOUSE_INPUT_NAME"], _get_control_gfx(WindowInputCategory::MOUSE_MOVE)));
+	case WIM::INPUT_NAME:
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_UP_INPUT_NAME"], _get_control_gfx(WindowInputCategory::UP)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_DOWN_INPUT_NAME"], _get_control_gfx(WindowInputCategory::DOWN)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_LEFT_INPUT_NAME"], _get_control_gfx(WindowInputCategory::LEFT)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_RIGHT_INPUT_NAME"], _get_control_gfx(WindowInputCategory::RIGHT)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_CONFIRM_INPUT_NAME"], _get_control_gfx(WindowInputCategory::CONFIRM)));
-		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_ALPHANUMERIC_INPUT_NAME"],
-			_get_control_gfx(WindowInputCategory::ALPHANUMERIC)));
-		break;
-	case WindowInputMode::NAVIGATE_MENU:
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_MOUSE_MOVE_MENU"], _get_control_gfx(WindowInputCategory::MOUSE_MOVE)));
+			std::make_pair((*_display->string)["CONTROL_MOUSE_INPUT_NAME"], _get_control_gfx(WIC::MOUSE_MOVE)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_UP_INPUT_NAME"], _get_control_gfx(WIC::UP)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_UP_MENU"], _get_control_gfx(WindowInputCategory::UP)));
+			std::make_pair((*_display->string)["CONTROL_DOWN_INPUT_NAME"], _get_control_gfx(WIC::DOWN)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_DOWN_MENU"], _get_control_gfx(WindowInputCategory::DOWN)));
+			std::make_pair((*_display->string)["CONTROL_LEFT_INPUT_NAME"], _get_control_gfx(WIC::LEFT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_RIGHT_INPUT_NAME"], _get_control_gfx(WIC::RIGHT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_CONFIRM_INPUT_NAME"], _get_control_gfx(WIC::CONFIRM)));
 		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_CONFIRM_MENU"], _get_control_gfx(WindowInputCategory::CONFIRM)));
+			(*_display->string)["CONTROL_ALPHANUMERIC_INPUT_NAME"], _get_control_gfx(WIC::ALPHANUMERIC)));
 		break;
-	case WindowInputMode::BROWSE_CHARACTER:
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_UP_BROWSER_CHARACTER"], _get_control_gfx(WindowInputCategory::UP)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_DOWN_BROWSER_CHARACTER"], _get_control_gfx(WindowInputCategory::DOWN)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_LEFT_BROWSER_CHARACTER"], _get_control_gfx(WindowInputCategory::LEFT)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_RIGHT_BROWSER_CHARACTER"], _get_control_gfx(WindowInputCategory::RIGHT)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_CONFIRM_BROWSER_CHARACTER"], _get_control_gfx(WindowInputCategory::CONFIRM)));
+	case WIM::NAVIGATE_MENU:
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_MOUSE_MOVE_MENU"], _get_control_gfx(WIC::MOUSE_MOVE)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_UP_MENU"], _get_control_gfx(WIC::UP)));
+		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_DOWN_MENU"], _get_control_gfx(WIC::DOWN)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_CONFIRM_MENU"], _get_control_gfx(WIC::CONFIRM)));
 		break;
-	case WindowInputMode::REVIEW_AND_CONFIRM:
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_LEFT_REVIEW_AND_CONFIRM"], _get_control_gfx(WindowInputCategory::LEFT)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_RIGHT_REVIEW_AND_CONFIRM"], _get_control_gfx(WindowInputCategory::RIGHT)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_CONFIRM_REVIEW_AND_CONFIRM"], _get_control_gfx(WindowInputCategory::CONFIRM)));
+	case WIM::BROWSE_CHARACTER:
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_UP_BROWSER_CHARACTER"], _get_control_gfx(WIC::UP)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_DOWN_BROWSER_CHARACTER"], _get_control_gfx(WIC::DOWN)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_LEFT_BROWSER_CHARACTER"], _get_control_gfx(WIC::LEFT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_RIGHT_BROWSER_CHARACTER"], _get_control_gfx(WIC::RIGHT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_CONFIRM_BROWSER_CHARACTER"], _get_control_gfx(WIC::CONFIRM)));
 		break;
-	case WindowInputMode::IN_GAME:
+	case WIM::REVIEW_AND_CONFIRM:
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_LEFT_REVIEW_AND_CONFIRM"], _get_control_gfx(WIC::LEFT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_RIGHT_REVIEW_AND_CONFIRM"], _get_control_gfx(WIC::RIGHT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_CONFIRM_REVIEW_AND_CONFIRM"], _get_control_gfx(WIC::CONFIRM)));
+		break;
+	case WIM::IN_GAME:
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_LEFT_IN_GAME"], _get_control_gfx(WIC::MAZE_LEFT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_RIGHT_IN_GAME"], _get_control_gfx(WIC::MAZE_RIGHT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_UP_IN_GAME"], _get_control_gfx(WIC::MAZE_FORWARD)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_DOWN_IN_GAME"], _get_control_gfx(WIC::MAZE_BACKWARD)));
 		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_LEFT_IN_GAME"], _get_control_gfx(WindowInputCategory::MAZE_LEFT)));
+			(*_display->string)["CONTROL_TURN_AROUND_IN_GAME"], _get_control_gfx(WIC::MAZE_TURN_AROUND)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_CAMP_IN_GAME"], _get_control_gfx(WIC::MAZE_CAMP)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_ACTION_IN_GAME"], _get_control_gfx(WIC::MAZE_ACTION)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_SEARCH_IN_GAME"], _get_control_gfx(WIC::MAZE_SEARCH)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_INSPECT_IN_GAME"], _get_control_gfx(WIC::MAZE_INSPECT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_1_TO_6_IN_GAME"], _get_control_gfx(WIC::SHOW_CHARACTER)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_GUI_TOGGLE_IN_GAME"], _get_control_gfx(WIC::MAZE_GUI_TOGGLE)));
 		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_RIGHT_IN_GAME"], _get_control_gfx(WindowInputCategory::MAZE_RIGHT)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_UP_IN_GAME"], _get_control_gfx(WindowInputCategory::MAZE_FORWARD)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_DOWN_IN_GAME"], _get_control_gfx(WindowInputCategory::MAZE_BACKWARD)));
-		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_TURN_AROUND_IN_GAME"],
-			_get_control_gfx(WindowInputCategory::MAZE_TURN_AROUND)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_CAMP_IN_GAME"], _get_control_gfx(WindowInputCategory::MAZE_CAMP)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_ACTION_IN_GAME"], _get_control_gfx(WindowInputCategory::MAZE_ACTION)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_SEARCH_IN_GAME"], _get_control_gfx(WindowInputCategory::MAZE_SEARCH)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_INSPECT_IN_GAME"], _get_control_gfx(WindowInputCategory::MAZE_INSPECT)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_1_TO_6_IN_GAME"], _get_control_gfx(WindowInputCategory::SHOW_CHARACTER)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_GUI_TOGGLE_IN_GAME"], _get_control_gfx(WindowInputCategory::MAZE_GUI_TOGGLE)));
-		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_STATUS_TOGGLE_IN_GAME"],
-			_get_control_gfx(WindowInputCategory::MAZE_STATUSBAR_TOGGLE)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_QUIT_IN_GAME"], _get_control_gfx(WindowInputCategory::MAZE_QUIT)));
+			(*_display->string)["CONTROL_STATUS_TOGGLE_IN_GAME"], _get_control_gfx(WIC::MAZE_STATUSBAR_TOGGLE)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_QUIT_IN_GAME"], _get_control_gfx(WIC::MAZE_QUIT)));
 		break;
 	default:
 		break;
 	};
 
 	switch (_input_mode) {
-	case WindowInputMode::IN_GAME:
+	case WIM::IN_GAME:
 		break;
 	default:
-		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_DELETE_BACK_ALWAYS"],
-			_get_control_gfx(WindowInputCategory::BACK_DELETE_CANCEL)));
 		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_ESCAPE_ALWAYS"], _get_control_gfx(WindowInputCategory::ESCAPE)));
+			(*_display->string)["CONTROL_DELETE_BACK_ALWAYS"], _get_control_gfx(WIC::BACK_DELETE_CANCEL)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_ESCAPE_ALWAYS"], _get_control_gfx(WIC::ESCAPE)));
 		break;
 	}
 
-	_controls.emplace_back(
-		std::make_pair((*_display->string)["CONTROL_HELP_ALWAYS"], _get_control_gfx(WindowInputCategory::HELP)));
+	_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_HELP_ALWAYS"], _get_control_gfx(WIC::HELP)));
 
 	// Now generate the various Components
 	auto count{_controls.size()};
@@ -275,7 +263,7 @@ auto Sorcery::ControlOverlay::set_input_mode(WindowInputMode input_mode) -> void
 	valid = true;
 }
 
-auto Sorcery::ControlOverlay::_get_control_gfx(WindowInputCategory input) -> sf::Sprite {
+auto Sorcery::ControlOverlay::_get_control_gfx(WIC input) -> sf::Sprite {
 
 	constexpr auto row_height{100u};
 	const auto row_width{_control_texture.getSize().x};

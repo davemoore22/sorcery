@@ -142,10 +142,10 @@ using SystemError = Enums::System::Error;
 using TileFeature = Enums::Tile::Features;
 using TileProperty = Enums::Tile::Properties;
 using TileEdge = Enums::Tile::Edge;
-using WindowInputMode = Enums::Window::InputMode;
-using WindowInput = Enums::Controls::Input;
-using WindowDialogType = Enums::Window::DialogType;
-using WindowDrawMode = Enums::Window::DrawMode;
-using WindowDialogButton = Enums::Window::DialogButton;
+using WIM = Enums::Window::InputMode;
+using WIP = Enums::Controls::Input;
+using WDT = Enums::Window::DialogType;
+using WDM = Enums::Window::DrawMode;
+using WDB = Enums::Window::DialogButton;
 
 }

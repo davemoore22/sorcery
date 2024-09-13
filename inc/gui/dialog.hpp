@@ -40,20 +40,20 @@ class Dialog: public sf::Transformable, public sf::Drawable {
 	public:
 
 		// Constructors
-		Dialog(System *system, Display *display, Graphics *graphics, Component &_frame_c, Component &string_c,
-			WindowDialogType type);
+		Dialog(
+			System *system, Display *display, Graphics *graphics, Component &_frame_c, Component &string_c, WDT type);
 		Dialog() = delete;
 
 		// Public Members
 
 		// Public Methods
-		auto check_for_mouse_move(const sf::Vector2f mouse_pos) -> std::optional<WindowDialogButton>;
-		auto check_if_option_selected(const sf::Vector2f mouse_pos) -> std::optional<WindowDialogButton>;
-		auto get_selected() const -> WindowDialogButton;
-		auto set_selected(WindowDialogButton value) -> void;
-		auto toggle_highlighted() -> WindowDialogButton;
+		auto check_for_mouse_move(const sf::Vector2f mouse_pos) -> std::optional<WDB>;
+		auto check_if_option_selected(const sf::Vector2f mouse_pos) -> std::optional<WDB>;
+		auto get_selected() const -> WDB;
+		auto set_selected(WDB value) -> void;
+		auto toggle_highlighted() -> WDB;
 		auto update() -> void;
-		auto handle_input(sf::Event event) -> std::optional<WindowDialogButton>;
+		auto handle_input(sf::Event event) -> std::optional<WDB>;
 		auto get_valid() const -> bool;
 		auto set_valid(const bool valid) -> void;
 		auto reset_timed() -> void;
@@ -76,7 +76,7 @@ class Dialog: public sf::Transformable, public sf::Drawable {
 
 		sf::RenderWindow *_window;
 
-		WindowDialogButton _selected;
+		WDB _selected;
 
 		Component _frame_c;
 		Component _string_c;
@@ -84,16 +84,16 @@ class Dialog: public sf::Transformable, public sf::Drawable {
 		Component _text_c;
 		Component _buttons_c;
 
-		WindowDialogType _type;
+		WDT _type;
 
 		std::vector<std::string> _strings;
 		std::vector<sf::Sprite> _sprites;
 		std::vector<sf::Text> _texts;
 		std::vector<sf::FloatRect> _rects;
-		std::map<WindowDialogButton, sf::Text> _buttons;
-		std::map<WindowDialogButton, sf::Text> _buttons_hl;
-		std::map<WindowDialogButton, sf::FloatRect> _buttons_fr;
-		std::map<WindowDialogButton, sf::RectangleShape> _highlights;
+		std::map<WDB, sf::Text> _buttons;
+		std::map<WDB, sf::Text> _buttons_hl;
+		std::map<WDB, sf::FloatRect> _buttons_fr;
+		std::map<WDB, sf::RectangleShape> _highlights;
 
 		std::unique_ptr<Frame> _frame;
 

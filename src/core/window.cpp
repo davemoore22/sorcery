@@ -424,12 +424,12 @@ auto Sorcery::Window::hl_text(sf::Text &text, const Component &component, const 
 	return text_bg;
 }
 
-auto Sorcery::Window::set_input_mode(WindowInputMode value) -> void {
+auto Sorcery::Window::set_input_mode(WIM value) -> void {
 
 	_input_mode = value;
 }
 
-auto Sorcery::Window::get_input_mode() const -> WindowInputMode {
+auto Sorcery::Window::get_input_mode() const -> WIM {
 
 	return _input_mode;
 }

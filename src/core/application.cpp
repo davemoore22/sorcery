@@ -366,7 +366,7 @@ auto Sorcery::Application::_run_edge_of_town() -> std::optional<MenuItem> {
 			_game->save_game();
 			_training->start();
 			_training->stop();
-			display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+			display->set_input_mode(WIM::NAVIGATE_MENU);
 		} else if (option_chosen == ET_RESTART) {
 			return ET_RESTART;
 		} else if (option_chosen == ET_MAZE) {
@@ -456,7 +456,7 @@ auto Sorcery::Application::_run_castle() -> std::optional<MenuItem> {
 			return ITEM_LEAVE_GAME;
 
 		_game->save_game();
-		display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+		display->set_input_mode(WIM::NAVIGATE_MENU);
 		_castle->stop();
 
 	} while (option_chosen != ITEM_ABORT);

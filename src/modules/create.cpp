@@ -127,7 +127,7 @@ auto Sorcery::Create::_initalise_components() -> void {
 	// Create the Confirmation Dialogs
 	_dialog_saved_ok = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["character_create_stage_7:dialog_saved_ok"],
-		(*_display->layout)["character_create_stage_7:dialog_saved_ok_text"], WindowDialogType::OK);
+		(*_display->layout)["character_create_stage_7:dialog_saved_ok_text"], WDT::OK);
 }
 
 auto Sorcery::Create::_initialise_state() -> void {
@@ -192,7 +192,7 @@ auto Sorcery::Create::start() -> std::optional<MenuItem> {
 	// Set to the beginning stage
 	_character_display->set_mode(CharacterMode::IN_CREATE);
 	_candidate.set_stage(CharacterStage::CHOOSE_METHOD);
-	_display->set_input_mode(WindowInputMode::CHOOSE_METHOD);
+	_display->set_input_mode(WIM::CHOOSE_METHOD);
 	_display->generate("choose_method", _sprites, _texts, _frames);
 	_set_info_panel_contents(_method_menu->selected);
 
@@ -251,7 +251,7 @@ auto Sorcery::Create::_handle_input(const sf::Event &event) -> std::optional<Mod
 	using enum Enums::Character::Stage;
 
 	// Handle enabling help overlay
-	if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+	if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
 		_display->show_overlay();
 		return std::nullopt;
 	} else
@@ -260,7 +260,7 @@ auto Sorcery::Create::_handle_input(const sf::Event &event) -> std::optional<Mod
 	// Now look for other events to respond to
 	if (event.type == sf::Event::Closed)
 		return ModuleResult::EXIT;
-	else if (_system->input->check(WindowInput::CANCEL, event))
+	else if (_system->input->check(WIP::CANCEL, event))
 		return ModuleResult::CANCEL;
 	if (_candidate.get_stage() == CHOOSE_METHOD)
 		return _handle_choose_create_method(event);
@@ -288,17 +288,17 @@ auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event) -> st
 	using enum Enums::Menu::Item;
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_method_menu->selected};
-	if (_system->input->check(WindowInput::UP, event))
+	if (_system->input->check(WIP::UP, event))
 		_method_menu->choose_previous();
-	else if (_system->input->check(WindowInput::DOWN, event))
+	else if (_system->input->check(WIP::DOWN, event))
 		_method_menu->choose_next();
-	else if (_system->input->check(WindowInput::MOVE, event))
+	else if (_system->input->check(WIP::MOVE, event))
 		_method_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	else if (_system->input->check(WindowInput::BACK, event))
+	else if (_system->input->check(WIP::BACK, event))
 		return ModuleResult::BACK;
-	else if (_system->input->check(WindowInput::DELETE, event))
+	else if (_system->input->check(WIP::DELETE, event))
 		return ModuleResult::BACK;
-	else if (_system->input->check(WindowInput::CONFIRM, event)) {
+	else if (_system->input->check(WIP::CONFIRM, event)) {
 
 		// We have selected something from the menu
 		if (selected) {
@@ -333,15 +333,14 @@ auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event) -> st
 auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::optional<ModuleResult> {
 
 	auto candidate_name{_candidate.get_name()};
-	if (_system->input->check(WindowInput::MOVE, event)) {
+	if (_system->input->check(WIP::MOVE, event)) {
 
 		sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
 		std::optional<std::string> mouse_selected{
 			_keyboard->set_mouse_selected((*_display->layout)["character_create_stage_1:keyboard"], mouse_pos)};
 		if (mouse_selected)
 			_keyboard->selected = mouse_selected.value();
-	} else if (_system->input->check(WindowInput::ALPHANUMERIC, event) ||
-			   _system->input->check(WindowInput::SPACE, event)) {
+	} else if (_system->input->check(WIP::ALPHANUMERIC, event) || _system->input->check(WIP::SPACE, event)) {
 		if (candidate_name.length() < 16) {
 			candidate_name += static_cast<char>(event.text.unicode);
 			_candidate.set_name(candidate_name);
@@ -353,13 +352,13 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::option
 			key_pressed.push_back(static_cast<char>(event.text.unicode));
 			_keyboard->selected = key_pressed;
 		}
-	} else if (_system->input->check(WindowInput::DELETE, event)) {
+	} else if (_system->input->check(WIP::DELETE, event)) {
 		if (candidate_name.length() > 0) {
 			candidate_name.pop_back();
 			_candidate.set_name(candidate_name);
 			_keyboard->selected = "Del";
 		}
-	} else if (_system->input->check(WindowInput::BACK, event)) {
+	} else if (_system->input->check(WIP::BACK, event)) {
 		if (candidate_name.length() > 0) {
 			candidate_name.pop_back();
 			_candidate.set_name(candidate_name);
@@ -369,7 +368,7 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::option
 			// Return if Back Button is selected and no character name is chosen
 			return ModuleResult::BACK;
 		}
-	} else if (_system->input->check(WindowInput::SELECT, event)) {
+	} else if (_system->input->check(WIP::SELECT, event)) {
 		if (_keyboard->selected == "End") {
 			if (TRIM_COPY(candidate_name).length() > 0) {
 				_candidate.set_name(candidate_name);
@@ -391,7 +390,7 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::option
 			candidate_name += _keyboard->selected;
 			_candidate.set_name(candidate_name);
 		}
-	} else if (_system->input->check(WindowInput::CONFIRM_NO_SPACE, event)) {
+	} else if (_system->input->check(WIP::CONFIRM_NO_SPACE, event)) {
 
 		if (_keyboard->selected == "End") {
 			if (TRIM_COPY(candidate_name).length() > 0) {
@@ -408,14 +407,14 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::option
 				return ModuleResult::NEXT;
 			}
 		}
-	} else if (_system->input->check(WindowInput::LEFT, event))
-		_keyboard->set_selected(WindowInput::LEFT);
-	else if (_system->input->check(WindowInput::RIGHT, event))
-		_keyboard->set_selected(WindowInput::RIGHT);
-	else if (_system->input->check(WindowInput::UP, event))
-		_keyboard->set_selected(WindowInput::UP);
-	else if (_system->input->check(WindowInput::DOWN, event))
-		_keyboard->set_selected(WindowInput::DOWN);
+	} else if (_system->input->check(WIP::LEFT, event))
+		_keyboard->set_selected(WIP::LEFT);
+	else if (_system->input->check(WIP::RIGHT, event))
+		_keyboard->set_selected(WIP::RIGHT);
+	else if (_system->input->check(WIP::UP, event))
+		_keyboard->set_selected(WIP::UP);
+	else if (_system->input->check(WIP::DOWN, event))
+		_keyboard->set_selected(WIP::DOWN);
 
 	return std::nullopt;
 }
@@ -426,17 +425,17 @@ auto Sorcery::Create::_handle_choose_race(const sf::Event &event) -> std::option
 	using enum Enums::Menu::Item;
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_race_menu->selected};
-	if (_system->input->check(WindowInput::UP, event))
+	if (_system->input->check(WIP::UP, event))
 		_race_menu->choose_previous();
-	else if (_system->input->check(WindowInput::DOWN, event))
+	else if (_system->input->check(WIP::DOWN, event))
 		_race_menu->choose_next();
-	else if (_system->input->check(WindowInput::MOVE, event))
+	else if (_system->input->check(WIP::MOVE, event))
 		_race_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	else if (_system->input->check(WindowInput::BACK, event))
+	else if (_system->input->check(WIP::BACK, event))
 		return ModuleResult::BACK;
-	else if (_system->input->check(WindowInput::DELETE, event))
+	else if (_system->input->check(WIP::DELETE, event))
 		return ModuleResult::BACK;
-	else if (_system->input->check(WindowInput::CONFIRM, event)) {
+	else if (_system->input->check(WIP::CONFIRM, event)) {
 
 		// We have selected something from the menu
 		if (selected) {
@@ -479,17 +478,17 @@ auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event) -> std::o
 	using enum Enums::Menu::Item;
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_alignment_menu->selected};
-	if (_system->input->check(WindowInput::UP, event))
+	if (_system->input->check(WIP::UP, event))
 		_alignment_menu->choose_previous();
-	else if (_system->input->check(WindowInput::DOWN, event))
+	else if (_system->input->check(WIP::DOWN, event))
 		_alignment_menu->choose_next();
-	else if (_system->input->check(WindowInput::MOVE, event))
+	else if (_system->input->check(WIP::MOVE, event))
 		_alignment_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	else if (_system->input->check(WindowInput::BACK, event))
+	else if (_system->input->check(WIP::BACK, event))
 		return ModuleResult::BACK;
-	else if (_system->input->check(WindowInput::DELETE, event))
+	else if (_system->input->check(WIP::DELETE, event))
 		return ModuleResult::BACK;
-	else if (_system->input->check(WindowInput::CONFIRM, event)) {
+	else if (_system->input->check(WIP::CONFIRM, event)) {
 
 		// We have selected something from the menu
 		if (selected) {
@@ -529,14 +528,14 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 	using enum Enums::Menu::Item;
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_attribute_menu->selected};
-	if (_system->input->check(WindowInput::UP, event))
+	if (_system->input->check(WIP::UP, event))
 		_attribute_menu->choose_previous();
-	else if (_system->input->check(WindowInput::DOWN, event))
+	else if (_system->input->check(WIP::DOWN, event))
 		_attribute_menu->choose_next();
-	else if (_system->input->check(WindowInput::MOVE, event))
+	else if (_system->input->check(WIP::MOVE, event))
 		_attribute_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	else if (_system->input->check(WindowInput::LEFT, event) || _system->input->check(WindowInput::BACK, event) ||
-			 _system->input->check(WindowInput::DELETE, event)) {
+	else if (_system->input->check(WIP::LEFT, event) || _system->input->check(WIP::BACK, event) ||
+			 _system->input->check(WIP::DELETE, event)) {
 		if (selected) {
 			std::optional<CharacterAttribute> stat_to_adjust{};
 			switch (selected.value()->item) {
@@ -573,14 +572,14 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 			_candidate.set_pos_class();
 
 			// Handle going back if we have no assigned points
-			if (_system->input->check(WindowInput::BACK, event)) {
+			if (_system->input->check(WIP::BACK, event)) {
 				if (_candidate.get_points_left() == _candidate.get_start_points())
 					return ModuleResult::BACK;
 			}
 		}
-	} else if (_system->input->check(WindowInput::RIGHT, event) || _system->input->check(WindowInput::CONFIRM, event)) {
+	} else if (_system->input->check(WIP::RIGHT, event) || _system->input->check(WIP::CONFIRM, event)) {
 
-		if (_system->input->check(WindowInput::CONFIRM, event) && _candidate.get_points_left() == 0 &&
+		if (_system->input->check(WIP::CONFIRM, event) && _candidate.get_points_left() == 0 &&
 			_candidate.get_num_pos_class() > 0) {
 
 			// If we have confirmation AND have spent all the points AND have at
@@ -638,17 +637,17 @@ auto Sorcery::Create::_handle_choose_class(const sf::Event &event) -> std::optio
 	using enum Enums::Menu::Item;
 
 	std::optional<std::vector<MenuEntry>::const_iterator> class_selected{_class_menu->selected};
-	if (_system->input->check(WindowInput::UP, event))
+	if (_system->input->check(WIP::UP, event))
 		_class_menu->choose_previous();
-	else if (_system->input->check(WindowInput::DOWN, event))
+	else if (_system->input->check(WIP::DOWN, event))
 		_class_menu->choose_next();
-	else if (_system->input->check(WindowInput::MOVE, event))
+	else if (_system->input->check(WIP::MOVE, event))
 		_class_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	else if (_system->input->check(WindowInput::BACK, event))
+	else if (_system->input->check(WIP::BACK, event))
 		return ModuleResult::BACK;
-	else if (_system->input->check(WindowInput::DELETE, event))
+	else if (_system->input->check(WIP::DELETE, event))
 		return ModuleResult::BACK;
-	else if (_system->input->check(WindowInput::CONFIRM, event)) {
+	else if (_system->input->check(WIP::CONFIRM, event)) {
 
 		// We have selected something from the menu
 		if (class_selected) {
@@ -695,23 +694,23 @@ auto Sorcery::Create::_handle_choose_class(const sf::Event &event) -> std::optio
 auto Sorcery::Create::_handle_choose_potraits(const sf::Event &event) -> std::optional<ModuleResult> {
 
 	auto index{_candidate.get_portrait_index()};
-	if (_system->input->check(WindowInput::BACK, event))
+	if (_system->input->check(WIP::BACK, event))
 		return ModuleResult::BACK;
-	else if (_system->input->check(WindowInput::DELETE, event))
+	else if (_system->input->check(WIP::DELETE, event))
 		return ModuleResult::BACK;
-	else if (_system->input->check(WindowInput::LEFT, event)) {
+	else if (_system->input->check(WIP::LEFT, event)) {
 		if (index > 0) {
 			--index;
 			_candidate.set_portrait_index(index);
 		} else
 			_candidate.set_portrait_index(MAX_PORTRAIT_INDEX);
-	} else if (_system->input->check(WindowInput::RIGHT, event)) {
+	} else if (_system->input->check(WIP::RIGHT, event)) {
 		if (index < MAX_PORTRAIT_INDEX) {
 			++index;
 			_candidate.set_portrait_index(index);
 		} else
 			_candidate.set_portrait_index(0);
-	} else if (_system->input->check(WindowInput::CONFIRM, event))
+	} else if (_system->input->check(WIP::CONFIRM, event))
 		return ModuleResult::NEXT;
 
 	return std::nullopt;
@@ -725,24 +724,24 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event) -> std:
 	if (_show_final_menu) {
 		if (_show_saved_ok) {
 			if (auto dialog_input{_dialog_saved_ok->handle_input(event)}; dialog_input) {
-				if (dialog_input.value() == WindowDialogButton::CLOSE) {
+				if (dialog_input.value() == WDB::CLOSE) {
 					_show_final_menu = false;
 					_show_saved_ok = false;
-					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					_display->set_input_mode(WIM::NAVIGATE_MENU);
 					return std::nullopt;
-				} else if (dialog_input.value() == WindowDialogButton::OK) {
+				} else if (dialog_input.value() == WDB::OK) {
 					_show_final_menu = false;
 					_show_saved_ok = false;
-					_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					_display->set_input_mode(WIM::NAVIGATE_MENU);
 					return ModuleResult::CLOSE;
 				}
 			}
 		} else {
 
-			if (_system->input->check(WindowInput::BACK, event) || _system->input->check(WindowInput::DELETE, event)) {
+			if (_system->input->check(WIP::BACK, event) || _system->input->check(WIP::DELETE, event)) {
 				_show_final_menu = false;
-				_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
-			} else if (_system->input->check(WindowInput::CONFIRM, event)) {
+				_display->set_input_mode(WIM::REVIEW_AND_CONFIRM);
+			} else if (_system->input->check(WIP::CONFIRM, event)) {
 				if (selected) {
 					switch ((*selected.value()).item) {
 					case RC_ACCEPT: {
@@ -759,44 +758,44 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event) -> std:
 						break;
 					case RC_CANCEL:
 						_show_final_menu = false;
-						_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
+						_display->set_input_mode(WIM::REVIEW_AND_CONFIRM);
 						break;
 					default:
 						break;
 					}
 				}
 
-			} else if (_system->input->check(WindowInput::UP, event))
+			} else if (_system->input->check(WIP::UP, event))
 				_final_menu->choose_previous();
-			else if (_system->input->check(WindowInput::DOWN, event))
+			else if (_system->input->check(WIP::DOWN, event))
 				_final_menu->choose_next();
-			else if (_system->input->check(WindowInput::MOVE, event))
+			else if (_system->input->check(WIP::MOVE, event))
 				_final_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 		}
 	} else {
 
-		if (_system->input->check(WindowInput::CONFIRM, event)) {
+		if (_system->input->check(WIP::CONFIRM, event)) {
 			_show_final_menu = true;
-			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-		} else if (_system->input->check(WindowInput::BACK, event))
+			_display->set_input_mode(WIM::NAVIGATE_MENU);
+		} else if (_system->input->check(WIP::BACK, event))
 			return ModuleResult::BACK;
-		else if (_system->input->check(WindowInput::DELETE, event))
+		else if (_system->input->check(WIP::DELETE, event))
 			return ModuleResult::BACK;
-		else if (_system->input->check(WindowInput::LEFT, event))
+		else if (_system->input->check(WIP::LEFT, event))
 			_character_display->left_view();
-		else if (_system->input->check(WindowInput::RIGHT, event))
+		else if (_system->input->check(WIP::RIGHT, event))
 			_character_display->right_view();
-		else if (_system->input->check(WindowInput::UP, event)) {
+		else if (_system->input->check(WIP::UP, event)) {
 			if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
 				_character_display->dec_hl_spell(SpellType::MAGE);
 			else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
 				_character_display->dec_hl_spell(SpellType::PRIEST);
-		} else if (_system->input->check(WindowInput::DOWN, event)) {
+		} else if (_system->input->check(WIP::DOWN, event)) {
 			if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
 				_character_display->inc_hl_spell(SpellType::MAGE);
 			else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
 				_character_display->inc_hl_spell(SpellType::PRIEST);
-		} else if (_system->input->check(WindowInput::MOVE, event)) {
+		} else if (_system->input->check(WIP::MOVE, event)) {
 			if (_character_display->check_for_mouse_move(
 					sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 						static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
@@ -828,7 +827,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_stages.pop_back();
 			_method_menu->choose(_candidate.get_method());
 			_set_info_panel_contents(_method_menu->selected);
-			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+			_display->set_input_mode(WIM::NAVIGATE_MENU);
 		} break;
 		case CharacterStage::CHOOSE_RACE: {
 			auto popped{_stages.back()};
@@ -836,7 +835,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_candidate.set_stage(CharacterStage::ENTER_NAME);
 			_display->generate("character_create_stage_1", _sprites, _texts, _frames);
 			_stages.pop_back();
-			_display->set_input_mode(WindowInputMode::INPUT_NAME);
+			_display->set_input_mode(WIM::INPUT_NAME);
 		} break;
 		case CharacterStage::CHOOSE_ALIGNMENT: {
 			auto popped{_stages.back()};
@@ -846,7 +845,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_stages.pop_back();
 			_race_menu->choose(_candidate.get_race());
 			_set_info_panel_contents(_race_menu->selected);
-			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+			_display->set_input_mode(WIM::NAVIGATE_MENU);
 		} break;
 		case CharacterStage::ALLOCATE_STATS: {
 			auto popped{_stages.back()};
@@ -856,7 +855,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_stages.pop_back();
 			_alignment_menu->choose(_candidate.get_alignment());
 			_set_info_panel_contents(_alignment_menu->selected);
-			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+			_display->set_input_mode(WIM::NAVIGATE_MENU);
 			_ap->valid = false;
 		} break;
 		case CharacterStage::CHOOSE_CLASS: {
@@ -865,7 +864,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_candidate.set_stage(CharacterStage::ALLOCATE_STATS);
 			_display->generate("character_create_stage_4", _sprites, _texts, _frames);
 			_stages.pop_back();
-			_display->set_input_mode(WindowInputMode::ALLOCATE_STATS);
+			_display->set_input_mode(WIM::ALLOCATE_STATS);
 			_attribute_menu->selected = _attribute_menu->items.begin();
 			_ap->set();
 			_set_info_panel_contents(_attribute_menu->selected);
@@ -880,7 +879,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_class_menu->generate((*_display->layout)["character_create_stage_5:menu"]);
 			_class_menu->choose(_candidate.get_class());
 			_set_info_panel_contents(_class_menu->selected);
-			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+			_display->set_input_mode(WIM::NAVIGATE_MENU);
 			_ap->valid = false;
 		} break;
 		case CharacterStage::REVIEW_AND_CONFIRM: {
@@ -889,7 +888,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_candidate.set_stage(CharacterStage::CHOOSE_PORTRAIT);
 			_character_display->generate_display();
 			_display->generate("character_create_stage_6", _sprites, _texts, _frames);
-			_display->set_input_mode(WindowInputMode::CHOOSE_PORTRAIT);
+			_display->set_input_mode(WIM::CHOOSE_PORTRAIT);
 			_stages.pop_back();
 			_ap->valid = false;
 			_show_final_menu = false;
@@ -904,7 +903,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_candidate.set_stage(CharacterStage::CHOOSE_METHOD);
 			_method_menu->choose(_candidate.get_method());
 			_display->generate("choose_method", _sprites, _texts, _frames);
-			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+			_display->set_input_mode(WIM::NAVIGATE_MENU);
 			_show_final_menu = false;
 			_set_info_panel_contents(_method_menu->selected);
 		}
@@ -921,7 +920,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_display->generate("choose_method", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_method_menu->choose(_candidate.get_method());
-			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+			_display->set_input_mode(WIM::NAVIGATE_MENU);
 			_set_info_panel_contents(_method_menu->selected);
 		} break;
 		case CharacterStage::CHOOSE_PORTRAIT: {
@@ -930,7 +929,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_candidate.set_stage(CharacterStage::ENTER_NAME);
 			_display->generate("character_create_stage_1", _sprites, _texts, _frames);
 			_stages.pop_back();
-			_display->set_input_mode(WindowInputMode::INPUT_NAME);
+			_display->set_input_mode(WIM::INPUT_NAME);
 			_ap->valid = false;
 		} break;
 		case CharacterStage::REVIEW_AND_CONFIRM: {
@@ -940,7 +939,7 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_display->generate("character_create_stage_6", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_ap->valid = false;
-			_display->set_input_mode(WindowInputMode::CHOOSE_PORTRAIT);
+			_display->set_input_mode(WIM::CHOOSE_PORTRAIT);
 			_show_final_menu = false;
 		}
 		default:
@@ -960,13 +959,13 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_stages.emplace_back(_candidate);
 			_candidate.set_stage(ENTER_NAME);
 			_display->generate("character_create_stage_1", _sprites, _texts, _frames);
-			_display->set_input_mode(WindowInputMode::INPUT_NAME);
+			_display->set_input_mode(WIM::INPUT_NAME);
 		} break;
 		case ENTER_NAME: {
 			_stages.emplace_back(_candidate);
 			_candidate.set_stage(CHOOSE_RACE);
 			_display->generate("character_create_stage_2", _sprites, _texts, _frames);
-			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+			_display->set_input_mode(WIM::NAVIGATE_MENU);
 			_race_menu->choose_first();
 			_set_info_panel_contents(_race_menu->selected);
 
@@ -975,14 +974,14 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_stages.emplace_back(_candidate);
 			_candidate.set_stage(CHOOSE_ALIGNMENT);
 			_display->generate("character_create_stage_3", _sprites, _texts, _frames);
-			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+			_display->set_input_mode(WIM::NAVIGATE_MENU);
 			_alignment_menu->choose_first();
 		} break;
 		case CHOOSE_ALIGNMENT: {
 			_stages.emplace_back(_candidate);
 			_candidate.set_stage(ALLOCATE_STATS);
 			_display->generate("character_create_stage_4", _sprites, _texts, _frames);
-			_display->set_input_mode(WindowInputMode::ALLOCATE_STATS);
+			_display->set_input_mode(WIM::ALLOCATE_STATS);
 			_attribute_menu->choose_first();
 			_ap->set();
 			_set_info_panel_contents(_attribute_menu->selected);
@@ -991,7 +990,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_stages.emplace_back(_candidate);
 			_candidate.set_stage(CHOOSE_CLASS);
 			_display->generate("character_create_stage_5", _sprites, _texts, _frames);
-			_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+			_display->set_input_mode(WIM::NAVIGATE_MENU);
 			_ap->valid = false;
 
 			// Set and enable the class menu depending on the possible classes!
@@ -1004,7 +1003,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_stages.emplace_back(_candidate);
 			_candidate.set_stage(CHOOSE_PORTRAIT);
 			_display->generate("character_create_stage_6", _sprites, _texts, _frames);
-			_display->set_input_mode(WindowInputMode::CHOOSE_PORTRAIT);
+			_display->set_input_mode(WIM::CHOOSE_PORTRAIT);
 			_candidate.set_portrait_index(0);
 		} break;
 		case CHOOSE_PORTRAIT: {
@@ -1014,7 +1013,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_candidate.set_stage(REVIEW_AND_CONFIRM);
 			_character_display->generate_display();
 			_display->generate("character_create_stage_7", _sprites, _texts, _frames);
-			_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
+			_display->set_input_mode(WIM::REVIEW_AND_CONFIRM);
 			_show_final_menu = false;
 		} break;
 		default:
@@ -1030,21 +1029,21 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		_character_display->generate_display();
 		_character_display->update();
 		_display->generate("character_create_stage_7", _sprites, _texts, _frames);
-		_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
+		_display->set_input_mode(WIM::REVIEW_AND_CONFIRM);
 	} else if (_method == CreateMethod::QUICK) {
 		switch (_candidate.get_stage()) {
 		case CHOOSE_METHOD: {
 			_stages.emplace_back(_candidate);
 			_candidate.set_stage(ENTER_NAME);
 			_display->generate("character_create_stage_1", _sprites, _texts, _frames);
-			_display->set_input_mode(WindowInputMode::INPUT_NAME);
+			_display->set_input_mode(WIM::INPUT_NAME);
 		} break;
 		case ENTER_NAME: {
 			_stages.emplace_back(_candidate);
 			_candidate.create_quick();
 			_candidate.set_stage(CHOOSE_PORTRAIT);
 			_display->generate("character_create_stage_6", _sprites, _texts, _frames);
-			_display->set_input_mode(WindowInputMode::CHOOSE_PORTRAIT);
+			_display->set_input_mode(WIM::CHOOSE_PORTRAIT);
 			_candidate.set_portrait_index(0);
 			_ap->valid = false;
 		} break;
@@ -1058,7 +1057,7 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_character_display->generate_display();
 			_character_display->update();
 			_display->generate("character_create_stage_7", _sprites, _texts, _frames);
-			_display->set_input_mode(WindowInputMode::REVIEW_AND_CONFIRM);
+			_display->set_input_mode(WIM::REVIEW_AND_CONFIRM);
 			_show_final_menu = false;
 		} break;
 		default:

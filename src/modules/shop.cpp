@@ -98,7 +98,7 @@ auto Sorcery::Shop::start() -> std::optional<MenuItem> {
 	_stage = ShopStage::MENU;
 
 	// And do the main loop
-	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+	_display->set_input_mode(WIM::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
 	std::optional<std::vector<MenuEntry>::const_iterator> option_who{_who->items.begin()};
 	std::optional<std::vector<MenuEntry>::const_iterator> option_action{_action->items.begin()};
@@ -107,37 +107,37 @@ auto Sorcery::Shop::start() -> std::optional<MenuItem> {
 		while (_window->pollEvent(event)) {
 
 			// If we are in normal input mode
-			if (_display->get_input_mode() == WindowInputMode::NAVIGATE_MENU) {
+			if (_display->get_input_mode() == WIM::NAVIGATE_MENU) {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
 					return MenuItem::ITEM_ABORT;
 
 				// Handle enabling help overlay
-				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+				if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
 					continue;
 				} else
 					_display->hide_overlay();
 
-				if (_system->input->check(WindowInput::SHOW_HIDE_CONSOLE, event))
+				if (_system->input->check(WIP::SHOW_HIDE_CONSOLE, event))
 					_game->toggle_console();
 
-				if (_system->input->check(WindowInput::CANCEL, event))
+				if (_system->input->check(WIP::CANCEL, event))
 					return std::nullopt;
 
-				if (_system->input->check(WindowInput::BACK, event))
+				if (_system->input->check(WIP::BACK, event))
 					return std::nullopt;
 
 				// And handle input on the main menu
 				if (_stage == ShopStage::MENU) {
-					if (_system->input->check(WindowInput::UP, event))
+					if (_system->input->check(WIP::UP, event))
 						option = _menu->choose_previous();
-					else if (_system->input->check(WindowInput::DOWN, event))
+					else if (_system->input->check(WIP::DOWN, event))
 						option = _menu->choose_next();
-					else if (_system->input->check(WindowInput::MOVE, event))
+					else if (_system->input->check(WIP::MOVE, event))
 						option = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					else if (_system->input->check(WindowInput::CONFIRM, event)) {
+					else if (_system->input->check(WIP::CONFIRM, event)) {
 
 						// We have selected something from the menu
 						if (option) {
@@ -154,32 +154,32 @@ auto Sorcery::Shop::start() -> std::optional<MenuItem> {
 
 								_inspect->stop();
 								_display->generate("shop");
-								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+								_display->set_input_mode(WIM::NAVIGATE_MENU);
 								continue;
 							} else if (option_chosen == MenuItem::SH_BUY_AND_SELL) {
 								_stage = ShopStage::WHO;
-								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+								_display->set_input_mode(WIM::NAVIGATE_MENU);
 								continue;
 							}
 						}
 					}
 				} else if (_stage == ShopStage::WHO) {
-					if (_system->input->check(WindowInput::CANCEL, event)) {
+					if (_system->input->check(WIP::CANCEL, event)) {
 						_stage = ShopStage::MENU;
 						_party_panel->refresh();
 						_menu->generate((*_display->layout)["shop:menu"]);
-					} else if (_system->input->check(WindowInput::BACK, event)) {
+					} else if (_system->input->check(WIP::BACK, event)) {
 						_stage = ShopStage::MENU;
 						_party_panel->refresh();
 						_menu->generate((*_display->layout)["shop:menu"]);
-					} else if (_system->input->check(WindowInput::UP, event))
+					} else if (_system->input->check(WIP::UP, event))
 						option_who = _who->choose_previous();
-					else if (_system->input->check(WindowInput::DOWN, event))
+					else if (_system->input->check(WIP::DOWN, event))
 						option_who = _who->choose_next();
-					else if (_system->input->check(WindowInput::MOVE, event))
+					else if (_system->input->check(WIP::MOVE, event))
 						option_who =
 							_who->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					else if (_system->input->check(WindowInput::CONFIRM, event)) {
+					else if (_system->input->check(WIP::CONFIRM, event)) {
 
 						// We have selected something from the menu
 						if (option_who) {
@@ -201,22 +201,22 @@ auto Sorcery::Shop::start() -> std::optional<MenuItem> {
 					}
 				} else if (_stage == ShopStage::ACTION) {
 
-					if (_system->input->check(WindowInput::CANCEL, event)) {
+					if (_system->input->check(WIP::CANCEL, event)) {
 						_stage = ShopStage::WHO;
 						_party_panel->refresh();
 						_who->generate((*_display->layout)["shop_who:menu"]);
-					} else if (_system->input->check(WindowInput::BACK, event)) {
+					} else if (_system->input->check(WIP::BACK, event)) {
 						_stage = ShopStage::WHO;
 						_party_panel->refresh();
 						_who->generate((*_display->layout)["shop_who:menu"]);
-					} else if (_system->input->check(WindowInput::UP, event))
+					} else if (_system->input->check(WIP::UP, event))
 						option_action = _action->choose_previous();
-					else if (_system->input->check(WindowInput::DOWN, event))
+					else if (_system->input->check(WIP::DOWN, event))
 						option_action = _action->choose_next();
-					else if (_system->input->check(WindowInput::MOVE, event))
+					else if (_system->input->check(WIP::MOVE, event))
 						option_action =
 							_action->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					else if (_system->input->check(WindowInput::CONFIRM, event)) {
+					else if (_system->input->check(WIP::CONFIRM, event)) {
 						if (const MenuItem option_chosen{(*option_action.value()).item};
 							option_chosen == MenuItem::SH_BACK) {
 							_stage = ShopStage::WHO;

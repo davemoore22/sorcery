@@ -68,7 +68,7 @@ Sorcery::Inn::Inn(System *system, Display *display, Graphics *graphics, Game *ga
 	_update = false;
 
 	_pool = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["inn:dialog_pool_gold_ok"],
-		(*_display->layout)["inn:dialog_pool_gold_ok_text"], WindowDialogType::OK);
+		(*_display->layout)["inn:dialog_pool_gold_ok_text"], WDT::OK);
 	_pool->setPosition(_display->get_centre_pos(_pool->get_size()));
 
 	_show_pool = false;
@@ -100,7 +100,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 	_stage = InnStage::MENU;
 
 	// And do the main loop
-	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+	_display->set_input_mode(WIM::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
 	std::optional<std::vector<MenuEntry>::const_iterator> option_choose{_roster->items.begin()};
 	std::optional<std::vector<MenuEntry>::const_iterator> option_bed{_bed->items.begin()};
@@ -114,14 +114,14 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 		while (_window->pollEvent(event)) {
 
 			// If we are in normal input mode
-			if (_display->get_input_mode() == WindowInputMode::NAVIGATE_MENU) {
+			if (_display->get_input_mode() == WIM::NAVIGATE_MENU) {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
 					return MenuItem::ITEM_ABORT;
 
 				// Handle enabling help overlay
-				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+				if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
 					continue;
 				} else
@@ -130,17 +130,17 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 				// And handle input on the main menu
 				if (_stage == InnStage::MENU) {
 
-					if (_system->input->check(WindowInput::CANCEL, event))
+					if (_system->input->check(WIP::CANCEL, event))
 						return std::nullopt;
-					else if (_system->input->check(WindowInput::BACK, event))
+					else if (_system->input->check(WIP::BACK, event))
 						return std::nullopt;
-					else if (_system->input->check(WindowInput::UP, event))
+					else if (_system->input->check(WIP::UP, event))
 						option = _menu->choose_previous();
-					else if (_system->input->check(WindowInput::DOWN, event))
+					else if (_system->input->check(WIP::DOWN, event))
 						option = _menu->choose_next();
-					else if (_system->input->check(WindowInput::MOVE, event))
+					else if (_system->input->check(WIP::MOVE, event))
 						option = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					else if (_system->input->check(WindowInput::CONFIRM, event)) {
+					else if (_system->input->check(WIP::CONFIRM, event)) {
 
 						// We have selected something from the menu
 						if (option) {
@@ -150,7 +150,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 								return MenuItem::IN_CASTLE;
 							} else if (option_chosen == MenuItem::IN_STAY_CHARACTER) {
 								_stage = InnStage::CHOOSE;
-								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+								_display->set_input_mode(WIM::NAVIGATE_MENU);
 								_party_panel->refresh();
 							} else if (option_chosen == MenuItem::IN_INSPECT) {
 								if (auto result{_inspect->start(std::nullopt)};
@@ -162,16 +162,16 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 								}
 								_inspect->stop();
 								_display->generate("inn");
-								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+								_display->set_input_mode(WIM::NAVIGATE_MENU);
 								continue;
-								if (_system->input->check(WindowInput::UP, event))
+								if (_system->input->check(WIP::UP, event))
 									option = _menu->choose_previous();
-								else if (_system->input->check(WindowInput::DOWN, event))
+								else if (_system->input->check(WIP::DOWN, event))
 									option = _menu->choose_next();
-								else if (_system->input->check(WindowInput::MOVE, event))
+								else if (_system->input->check(WIP::MOVE, event))
 									option = _menu->set_mouse_selected(
 										static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-								else if (_system->input->check(WindowInput::CONFIRM, event)) {
+								else if (_system->input->check(WIP::CONFIRM, event)) {
 
 									// We have selected something from the menu
 									if (option) {
@@ -188,7 +188,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 											}
 											_inspect->stop();
 											_display->generate("inn");
-											_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+											_display->set_input_mode(WIM::NAVIGATE_MENU);
 											continue;
 										}
 									}
@@ -197,20 +197,20 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 						}
 					}
 				} else if (_stage == InnStage::CHOOSE) {
-					if (_system->input->check(WindowInput::CANCEL, event)) {
+					if (_system->input->check(WIP::CANCEL, event)) {
 						_stage = InnStage::MENU;
 						_party_panel->refresh();
-					} else if (_system->input->check(WindowInput::BACK, event)) {
+					} else if (_system->input->check(WIP::BACK, event)) {
 						_stage = InnStage::MENU;
 						_party_panel->refresh();
-					} else if (_system->input->check(WindowInput::UP, event))
+					} else if (_system->input->check(WIP::UP, event))
 						option_choose = _roster->choose_previous();
-					else if (_system->input->check(WindowInput::DOWN, event))
+					else if (_system->input->check(WIP::DOWN, event))
 						option_choose = _roster->choose_next();
-					else if (_system->input->check(WindowInput::MOVE, event))
+					else if (_system->input->check(WIP::MOVE, event))
 						option_choose =
 							_roster->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					else if (_system->input->check(WindowInput::CONFIRM, event)) {
+					else if (_system->input->check(WIP::CONFIRM, event)) {
 
 						// We have selected something from the menu
 						if (option_choose) {
@@ -237,31 +237,31 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 
 						auto dialog_input{_pool->handle_input(event)};
 						if (dialog_input) {
-							if (dialog_input.value() == WindowDialogButton::CLOSE) {
+							if (dialog_input.value() == WDB::CLOSE) {
 								_show_pool = false;
-								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
-							} else if (dialog_input.value() == WindowDialogButton::OK) {
+								_display->set_input_mode(WIM::NAVIGATE_MENU);
+							} else if (dialog_input.value() == WDB::OK) {
 								_show_pool = false;
-								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+								_display->set_input_mode(WIM::NAVIGATE_MENU);
 							}
 						}
 					} else {
 
 						_update = true;
-						if (_system->input->check(WindowInput::CANCEL, event)) {
+						if (_system->input->check(WIP::CANCEL, event)) {
 							_stage = InnStage::CHOOSE;
 							_party_panel->refresh();
-						} else if (_system->input->check(WindowInput::BACK, event)) {
+						} else if (_system->input->check(WIP::BACK, event)) {
 							_stage = InnStage::CHOOSE;
 							_party_panel->refresh();
-						} else if (_system->input->check(WindowInput::UP, event))
+						} else if (_system->input->check(WIP::UP, event))
 							option_bed = _bed->choose_previous();
-						else if (_system->input->check(WindowInput::DOWN, event))
+						else if (_system->input->check(WIP::DOWN, event))
 							option_bed = _bed->choose_next();
-						else if (_system->input->check(WindowInput::MOVE, event))
+						else if (_system->input->check(WIP::MOVE, event))
 							option_bed =
 								_bed->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-						else if (_system->input->check(WindowInput::CONFIRM, event)) {
+						else if (_system->input->check(WIP::CONFIRM, event)) {
 
 							// We have selected something from the menu
 							if (option_bed) {
@@ -276,7 +276,7 @@ auto Sorcery::Inn::start() -> std::optional<MenuItem> {
 									_game->save_game();
 
 									_show_pool = true;
-									_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+									_display->set_input_mode(WIM::NAVIGATE_MENU);
 								} else if (option_chosen == MenuItem::IN_STABLES) {
 									if (auto stables_option{
 											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::STABLES)};

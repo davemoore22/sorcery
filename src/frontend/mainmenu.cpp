@@ -68,8 +68,8 @@ Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics
 	_attract_mode->data.clear();
 
 	// Create the Confirmation Dialogs
-	_dialog_exit = _factory->make_dialog("main_menu_attract:dialog_exit", WindowDialogType::CONFIRM);
-	_dialog_new_game = _factory->make_dialog("main_menu_attract:dialog_new_game", WindowDialogType::CONFIRM);
+	_dialog_exit = _factory->make_dialog("main_menu_attract:dialog_exit", WDT::CONFIRM);
+	_dialog_new_game = _factory->make_dialog("main_menu_attract:dialog_new_game", WDT::CONFIRM);
 
 	_error = std::nullopt;
 }
@@ -204,13 +204,13 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 
 						auto dialog_input{_dialog_new_game->handle_input(event)};
 						if (dialog_input) {
-							if (dialog_input.value() == WindowDialogButton::CLOSE) {
+							if (dialog_input.value() == WDB::CLOSE) {
 								_display->set_input_mode(NAVIGATE_MENU);
 								return std::nullopt;
-							} else if (dialog_input.value() == WindowDialogButton::YES) {
+							} else if (dialog_input.value() == WDB::YES) {
 								_display->set_input_mode(NAVIGATE_MENU);
 								return MM_NEW_GAME;
-							} else if (dialog_input.value() == WindowDialogButton::NO) {
+							} else if (dialog_input.value() == WDB::NO) {
 								_display->set_input_mode(NAVIGATE_MENU);
 							}
 						}
@@ -218,13 +218,13 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 
 						auto dialog_input{_dialog_exit->handle_input(event)};
 						if (dialog_input) {
-							if (dialog_input.value() == WindowDialogButton::CLOSE) {
+							if (dialog_input.value() == WDB::CLOSE) {
 								_display->set_input_mode(NAVIGATE_MENU);
 								return std::nullopt;
-							} else if (dialog_input.value() == WindowDialogButton::YES) {
+							} else if (dialog_input.value() == WDB::YES) {
 								_display->set_input_mode(NAVIGATE_MENU);
 								return ITEM_QUIT;
-							} else if (dialog_input.value() == WindowDialogButton::NO) {
+							} else if (dialog_input.value() == WDB::NO) {
 								_display->set_input_mode(NAVIGATE_MENU);
 							}
 						}
@@ -304,10 +304,10 @@ auto Sorcery::MainMenu::_draw() -> void {
 			// Draw the menu
 			_main_menu->generate((*_display->layout)["main_menu_attract:main_menu"]);
 			_window->draw(*_main_menu);
-			if (_display->get_input_mode() == WindowInputMode::CONFIRM_QUIT_GAME) {
+			if (_display->get_input_mode() == WIM::CONFIRM_QUIT_GAME) {
 				_dialog_exit->update();
 				_window->draw(*_dialog_exit);
-			} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_NEW_GAME) {
+			} else if (_display->get_input_mode() == WIM::CONFIRM_NEW_GAME) {
 				_dialog_new_game->update();
 				_window->draw(*_dialog_new_game);
 			}

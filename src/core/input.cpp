@@ -32,22 +32,22 @@ Sorcery::Input::Input() {
 }
 
 // Check for a type of input
-auto Sorcery::Input::check(WindowInput input, sf::Event event) -> bool {
+auto Sorcery::Input::check(WIP input, sf::Event event) -> bool {
 
 	switch (input) {
-	case WindowInput::SHOW_HIDE_CONSOLE:
+	case WIP::SHOW_HIDE_CONSOLE:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F12));
 		break;
-	case WindowInput::SHOW_CONTROLS:
+	case WIP::SHOW_CONTROLS:
 		return (((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F1)) ||
 				((event.type == sf::Event::MouseButtonPressed) && (event.mouseButton.button == sf::Mouse::Middle)) ||
 				((event.type == sf::Event::JoystickButtonPressed) && (event.joystickButton.button == 3)));
 		break;
-	case WindowInput::ANYTHING:
+	case WIP::ANYTHING:
 		return ((event.type == sf::Event::KeyPressed) || (event.type == sf::Event::MouseButtonPressed) ||
 				(event.type == sf::Event::JoystickButtonPressed));
 		break;
-	case WindowInput::UP:
+	case WIP::UP:
 		return (((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Up)) ||
 				((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Numpad8)) ||
 				((event.type == sf::Event::JoystickMoved) &&
@@ -59,7 +59,7 @@ auto Sorcery::Input::check(WindowInput input, sf::Event event) -> bool {
 				((event.type == sf::Event::MouseWheelScrolled) &&
 					(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) && (event.mouseWheelScroll.delta > 0)));
 		break;
-	case WindowInput::DOWN:
+	case WIP::DOWN:
 		return (((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Down)) ||
 				((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Numpad2)) ||
 				((event.type == sf::Event::JoystickMoved) &&
@@ -71,7 +71,7 @@ auto Sorcery::Input::check(WindowInput input, sf::Event event) -> bool {
 				((event.type == sf::Event::MouseWheelScrolled) &&
 					(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) && (event.mouseWheelScroll.delta < 0)));
 		break;
-	case WindowInput::LEFT:
+	case WIP::LEFT:
 		return (
 			((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Left)) ||
 			((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Numpad4)) ||
@@ -84,7 +84,7 @@ auto Sorcery::Input::check(WindowInput input, sf::Event event) -> bool {
 			((event.type == sf::Event::MouseWheelScrolled) &&
 				(event.mouseWheelScroll.wheel == sf::Mouse::HorizontalWheel) && (event.mouseWheelScroll.delta < 0)));
 		break;
-	case WindowInput::RIGHT:
+	case WIP::RIGHT:
 		return (
 			((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Right)) ||
 			((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Numpad6)) ||
@@ -97,129 +97,129 @@ auto Sorcery::Input::check(WindowInput input, sf::Event event) -> bool {
 			((event.type == sf::Event::MouseWheelScrolled) &&
 				(event.mouseWheelScroll.wheel == sf::Mouse::HorizontalWheel) && (event.mouseWheelScroll.delta > 0)));
 		break;
-	case WindowInput::MOVE:
+	case WIP::MOVE:
 		return (event.type == sf::Event::MouseMoved);
 		break;
-	case WindowInput::CONFIRM:
+	case WIP::CONFIRM:
 		return (
 			((event.type == sf::Event::MouseButtonReleased) && (event.mouseButton.button == sf::Mouse::Button::Left)) ||
 			((event.type == sf::Event::KeyReleased) &&
 				((event.key.code == sf::Keyboard::Space) || (event.key.code == sf::Keyboard::Enter))) ||
 			((event.type == sf::Event::JoystickButtonReleased) && (event.joystickButton.button == 0)));
 		break;
-	case WindowInput::CONFIRM_NO_SPACE:
+	case WIP::CONFIRM_NO_SPACE:
 		return (
 			((event.type == sf::Event::MouseButtonReleased) && (event.mouseButton.button == sf::Mouse::Button::Left)) ||
 			((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Enter)) ||
 			((event.type == sf::Event::JoystickButtonReleased) && (event.joystickButton.button == 0)));
 		break;
-	case WindowInput::SELECT:
+	case WIP::SELECT:
 		return (
 			((event.type == sf::Event::MouseButtonReleased) && (event.mouseButton.button == sf::Mouse::Button::Left)) ||
 			((event.type == sf::Event::JoystickButtonReleased) && (event.joystickButton.button == 0)));
 		break;
-	case WindowInput::CANCEL:
+	case WIP::CANCEL:
 		return (((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Escape)) ||
 				((event.type == sf::Event::JoystickButtonReleased) && (event.joystickButton.button == 2)));
 		break;
-	case WindowInput::BACK:
+	case WIP::BACK:
 		return (((event.type == sf::Event::MouseButtonReleased) && (event.mouseButton.button == sf::Mouse::Right)) ||
 				((event.type == sf::Event::JoystickButtonReleased) && (event.joystickButton.button == 1)));
 		break;
-	case WindowInput::YES:
+	case WIP::YES:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Y));
 		break;
-	case WindowInput::NO:
+	case WIP::NO:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::N));
 		break;
-	case WindowInput::PAGE_UP:
+	case WIP::PAGE_UP:
 		return (((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::PageUp)) ||
 				((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Numpad9)));
 		break;
-	case WindowInput::PAGE_DOWN:
+	case WIP::PAGE_DOWN:
 		return (((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::PageDown)) ||
 				((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Numpad3)));
 		break;
-	case WindowInput::HOME:
+	case WIP::HOME:
 		return (((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Home)) ||
 				((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Numpad7)));
-	case WindowInput::END:
+	case WIP::END:
 		return (((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::End)) ||
 				((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Numpad1)));
 		break;
-	case WindowInput::ALPHANUMERIC:
+	case WIP::ALPHANUMERIC:
 		return (
 			(event.type == sf::Event::TextEntered) && (((event.text.unicode >= 65) && (event.text.unicode <= 90)) ||
 														  ((event.text.unicode >= 97) && (event.text.unicode <= 122))));
 		break;
-	case WindowInput::DELETE:
+	case WIP::DELETE:
 		return ((event.type == sf::Event::KeyPressed) &&
 				((event.key.code == sf::Keyboard::Delete) || (event.key.code == sf::Keyboard::BackSpace)));
 		break;
-	case WindowInput::SPACE:
+	case WIP::SPACE:
 		return ((event.type == sf::Event::TextEntered) && (event.text.unicode == 32));
 		break;
-	case WindowInput::MAZE_TURN_AROUND:
+	case WIP::MAZE_TURN_AROUND:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::X));
 		break;
-	case WindowInput::MAZE_LEFT:
+	case WIP::MAZE_LEFT:
 		return (((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::A)) ||
 				((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::L)) ||
 				((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Left)));
 		break;
-	case WindowInput::MAZE_RIGHT:
+	case WIP::MAZE_RIGHT:
 		return (((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::D)) ||
 				((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::R)) ||
 				((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Right)));
 		break;
-	case WindowInput::MAZE_FORWARD:
+	case WIP::MAZE_FORWARD:
 		return (((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::W)) ||
 				((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F)) ||
 				((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Up)));
 		break;
-	case WindowInput::MAZE_BACKWARD:
+	case WIP::MAZE_BACKWARD:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Down));
 		break;
-	case WindowInput::MAZE_CAMP:
+	case WIP::MAZE_CAMP:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::C));
 		break;
-	case WindowInput::MAZE_CHARACTER_1:
+	case WIP::MAZE_CHARACTER_1:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Num1));
 		break;
-	case WindowInput::MAZE_CHARACTER_2:
+	case WIP::MAZE_CHARACTER_2:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Num2));
 		break;
-	case WindowInput::MAZE_CHARACTER_3:
+	case WIP::MAZE_CHARACTER_3:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Num3));
 		break;
-	case WindowInput::MAZE_CHARACTER_4:
+	case WIP::MAZE_CHARACTER_4:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Num4));
 		break;
-	case WindowInput::MAZE_CHARACTER_5:
+	case WIP::MAZE_CHARACTER_5:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Num5));
 		break;
-	case WindowInput::MAZE_CHARACTER_6:
+	case WIP::MAZE_CHARACTER_6:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Num6));
 		break;
-	case WindowInput::MAZE_QUIT:
+	case WIP::MAZE_QUIT:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Q));
 		break;
-	case WindowInput::MAZE_ACTION:
+	case WIP::MAZE_ACTION:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::T));
 		break;
-	case WindowInput::MAZE_SEARCH:
+	case WIP::MAZE_SEARCH:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Z));
 		break;
-	case WindowInput::MAZE_INSPECT:
+	case WIP::MAZE_INSPECT:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::I));
 		break;
-	case WindowInput::MAZE_GUI_TOGGLE:
+	case WIP::MAZE_GUI_TOGGLE:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::O));
 		break;
-	case WindowInput::MAZE_STATUSBAR_TOGGLE:
+	case WIP::MAZE_STATUSBAR_TOGGLE:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::S));
 		break;
-	case WindowInput::MAZE_SHOW_MAP:
+	case WIP::MAZE_SHOW_MAP:
 		return ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::M));
 		break;
 	default:

@@ -70,7 +70,7 @@ auto Sorcery::License::start() -> int {
 	_display->start_bg_movie();
 
 	// And do the main loop
-	_display->set_input_mode(WindowInputMode::DISPLAY_TEXT_FILE);
+	_display->set_input_mode(WIM::DISPLAY_TEXT_FILE);
 	sf::Event event{};
 	const auto lines_to_display{21U};
 	while (_window->isOpen()) {
@@ -81,37 +81,37 @@ auto Sorcery::License::start() -> int {
 				return EXIT_ALL;
 
 			// Handle enabling help overlay
-			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+			if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
 				_display->hide_overlay();
 
-			if (_system->input->check(WindowInput::CANCEL, event) || _system->input->check(WindowInput::BACK, event)) {
+			if (_system->input->check(WIP::CANCEL, event) || _system->input->check(WIP::BACK, event)) {
 				return EXIT_MODULE;
-			} else if (_system->input->check(WindowInput::DOWN, event)) {
+			} else if (_system->input->check(WIP::DOWN, event)) {
 				if (_current_line < _textfile->size())
 					++_current_line;
-			} else if (_system->input->check(WindowInput::CONFIRM, event)) {
+			} else if (_system->input->check(WIP::CONFIRM, event)) {
 				if (_current_line < _textfile->size())
 					++_current_line;
-			} else if (_system->input->check(WindowInput::UP, event)) {
+			} else if (_system->input->check(WIP::UP, event)) {
 				if (_current_line > 1)
 					_current_line--;
-			} else if (_system->input->check(WindowInput::PAGE_DOWN, event)) {
+			} else if (_system->input->check(WIP::PAGE_DOWN, event)) {
 				if (_current_line < (_textfile->size() - lines_to_display))
 					_current_line += lines_to_display;
 				else
 					_current_line = _textfile->size();
-			} else if (_system->input->check(WindowInput::PAGE_UP, event)) {
+			} else if (_system->input->check(WIP::PAGE_UP, event)) {
 				if (_current_line >= lines_to_display)
 					_current_line -= lines_to_display;
 				else
 					_current_line = 1;
 				break;
-			} else if (_system->input->check(WindowInput::HOME, event)) {
+			} else if (_system->input->check(WIP::HOME, event)) {
 				_current_line = 1;
-			} else if (_system->input->check(WindowInput::END, event)) {
+			} else if (_system->input->check(WIP::END, event)) {
 				_current_line = _textfile->size() - 1;
 			}
 		}

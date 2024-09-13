@@ -126,7 +126,7 @@ auto Sorcery::Graveyard::start() -> std::optional<MenuItem> {
 	// Clear the window
 	_window->clear();
 
-	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+	_display->set_input_mode(WIM::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->items.begin()};
 
 	// And do the main loop
@@ -139,25 +139,25 @@ auto Sorcery::Graveyard::start() -> std::optional<MenuItem> {
 				_window->close();
 
 			// Handle enabling help overlay
-			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+			if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
 				_display->hide_overlay();
 
-			if (_system->input->check(WindowInput::CANCEL, event))
+			if (_system->input->check(WIP::CANCEL, event))
 				return MenuItem::ITEM_CONTINUE;
 
-			if (_system->input->check(WindowInput::BACK, event))
+			if (_system->input->check(WIP::BACK, event))
 				return MenuItem::ITEM_CONTINUE;
 
-			if (_system->input->check(WindowInput::UP, event))
+			if (_system->input->check(WIP::UP, event))
 				selected = _menu->choose_previous();
-			else if (_system->input->check(WindowInput::DOWN, event))
+			else if (_system->input->check(WIP::DOWN, event))
 				selected = _menu->choose_next();
-			else if (_system->input->check(WindowInput::MOVE, event))
+			else if (_system->input->check(WIP::MOVE, event))
 				selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-			else if (_system->input->check(WindowInput::CONFIRM, event)) {
+			else if (_system->input->check(WIP::CONFIRM, event)) {
 
 				// We have selected something from the menu
 				if (selected) {
@@ -180,7 +180,7 @@ auto Sorcery::Graveyard::start() -> std::optional<MenuItem> {
 
 auto Sorcery::Graveyard::stop() -> void {
 
-	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+	_display->set_input_mode(WIM::NAVIGATE_MENU);
 }
 
 auto Sorcery::Graveyard::_draw() -> void {

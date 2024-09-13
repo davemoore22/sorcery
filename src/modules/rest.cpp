@@ -116,7 +116,7 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 	_current_time = std::nullopt;
 	_duration = DELAY_RESTING; // ms
 
-	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+	_display->set_input_mode(WIM::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> option_continue{_continue_menu->items.begin()};
 	std::optional<std::vector<MenuEntry>::const_iterator> option_stop{_stop_menu->items.begin()};
 	bool proceed{false};
@@ -166,7 +166,7 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 				return MenuItem::ITEM_ABORT;
 
 			// Handle enabling help overlay
-			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+			if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
@@ -177,25 +177,25 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 
 				if (_stage == RestStage::REGEN) {
 
-					if (_system->input->check(WindowInput::ANYTHING, event)) {
+					if (_system->input->check(WIP::ANYTHING, event)) {
 						_go_to_results();
 						_stage = RestStage::RESULTS;
 					}
 
 				} else if (_stage == RestStage::RESULTS) {
 
-					if (_system->input->check(WindowInput::CANCEL, event))
+					if (_system->input->check(WIP::CANCEL, event))
 						return MenuItem::ITEM_CONTINUE;
-					else if (_system->input->check(WindowInput::BACK, event))
+					else if (_system->input->check(WIP::BACK, event))
 						return MenuItem::ITEM_CONTINUE;
-					else if (_system->input->check(WindowInput::UP, event))
+					else if (_system->input->check(WIP::UP, event))
 						option_continue = _continue_menu->choose_previous();
-					else if (_system->input->check(WindowInput::DOWN, event))
+					else if (_system->input->check(WIP::DOWN, event))
 						option_continue = _continue_menu->choose_next();
-					else if (_system->input->check(WindowInput::MOVE, event))
+					else if (_system->input->check(WIP::MOVE, event))
 						option_continue = _continue_menu->set_mouse_selected(
 							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					else if (_system->input->check(WindowInput::CONFIRM, event)) {
+					else if (_system->input->check(WIP::CONFIRM, event)) {
 
 						if (option_continue) {
 							if (const MenuItem option_chosen{(*option_continue.value()).item};
@@ -210,18 +210,18 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 				// Do other methods of resting that cost money
 				if (_stage == RestStage::REGEN) {
 
-					if (_system->input->check(WindowInput::CANCEL, event))
+					if (_system->input->check(WIP::CANCEL, event))
 						return MenuItem::CP_LEAVE;
-					else if (_system->input->check(WindowInput::BACK, event))
+					else if (_system->input->check(WIP::BACK, event))
 						return MenuItem::CP_LEAVE;
-					else if (_system->input->check(WindowInput::UP, event))
+					else if (_system->input->check(WIP::UP, event))
 						option_stop = _stop_menu->choose_previous();
-					else if (_system->input->check(WindowInput::DOWN, event))
+					else if (_system->input->check(WIP::DOWN, event))
 						option_stop = _stop_menu->choose_next();
-					else if (_system->input->check(WindowInput::MOVE, event))
+					else if (_system->input->check(WIP::MOVE, event))
 						option_stop =
 							_stop_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					else if (_system->input->check(WindowInput::CONFIRM, event)) {
+					else if (_system->input->check(WIP::CONFIRM, event)) {
 
 						if (option_stop) {
 							if (const MenuItem option_chosen{(*option_stop.value()).item};
@@ -234,18 +234,18 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 					}
 				} else if (_stage == RestStage::RESULTS) {
 
-					if (_system->input->check(WindowInput::CANCEL, event))
+					if (_system->input->check(WIP::CANCEL, event))
 						return MenuItem::CP_LEAVE;
-					else if (_system->input->check(WindowInput::BACK, event))
+					else if (_system->input->check(WIP::BACK, event))
 						return MenuItem::CP_LEAVE;
-					else if (_system->input->check(WindowInput::UP, event))
+					else if (_system->input->check(WIP::UP, event))
 						option_continue = _continue_menu->choose_previous();
-					else if (_system->input->check(WindowInput::DOWN, event))
+					else if (_system->input->check(WIP::DOWN, event))
 						option_continue = _continue_menu->choose_next();
-					else if (_system->input->check(WindowInput::MOVE, event))
+					else if (_system->input->check(WIP::MOVE, event))
 						option_continue = _continue_menu->set_mouse_selected(
 							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					else if (_system->input->check(WindowInput::CONFIRM, event)) {
+					else if (_system->input->check(WIP::CONFIRM, event)) {
 
 						if (option_continue) {
 							if (const MenuItem option_chosen{(*option_continue.value()).item};

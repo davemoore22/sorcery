@@ -55,7 +55,7 @@ Sorcery::Tavern::Tavern(System *system, Display *display, Graphics *graphics, Ga
 	_stage = TavernStage::MENU;
 
 	_divvy = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["tavern:dialog_divvy_gold_ok"],
-		(*_display->layout)["tavern:dialog_divvy_gold_ok_text"], WindowDialogType::OK);
+		(*_display->layout)["tavern:dialog_divvy_gold_ok_text"], WDT::OK);
 	_divvy->setPosition(_display->get_centre_pos(_divvy->get_size()));
 
 	_show_divvy = false;
@@ -110,7 +110,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 	;
 
 	// And do the main loop
-	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+	_display->set_input_mode(WIM::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
 	sf::Event event{};
 	while (_window->isOpen()) {
@@ -121,7 +121,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 				return ITEM_ABORT;
 
 			// Handle enabling help overlay
-			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+			if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
@@ -130,35 +130,34 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 			if (_stage == MENU) {
 
 				// If we are in normal input mode
-				if (_display->get_input_mode() == WindowInputMode::NAVIGATE_MENU) {
+				if (_display->get_input_mode() == WIM::NAVIGATE_MENU) {
 
-					if (_system->input->check(WindowInput::CANCEL, event))
+					if (_system->input->check(WIP::CANCEL, event))
 						return std::nullopt;
 
-					if (_system->input->check(WindowInput::BACK, event))
+					if (_system->input->check(WIP::BACK, event))
 						return std::nullopt;
 
 					if (_show_divvy) {
 
 						if (auto dialog_input{_divvy->handle_input(event)}; dialog_input) {
-							if (dialog_input.value() == WindowDialogButton::CLOSE ||
-								dialog_input.value() == WindowDialogButton::OK) {
+							if (dialog_input.value() == WDB::CLOSE || dialog_input.value() == WDB::OK) {
 								_show_divvy = false;
-								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+								_display->set_input_mode(WIM::NAVIGATE_MENU);
 							}
 						}
 
 					} else {
 
 						// And handle input on the main menu
-						if (_system->input->check(WindowInput::UP, event))
+						if (_system->input->check(WIP::UP, event))
 							option = _menu->choose_previous();
-						else if (_system->input->check(WindowInput::DOWN, event))
+						else if (_system->input->check(WIP::DOWN, event))
 							option = _menu->choose_next();
-						else if (_system->input->check(WindowInput::MOVE, event))
+						else if (_system->input->check(WIP::MOVE, event))
 							option =
 								_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-						else if (_system->input->check(WindowInput::CONFIRM, event)) {
+						else if (_system->input->check(WIP::CONFIRM, event)) {
 
 							// We have selected something from the menu
 							if (option) {
@@ -188,7 +187,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 									_inspect->stop();
 									_update_menus();
 									_display->generate("tavern");
-									_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+									_display->set_input_mode(WIM::NAVIGATE_MENU);
 									continue;
 								} else if (option_chosen == TA_REORDER) {
 									auto reorder{std::make_unique<Reorder>(_system, _display, _graphics, _game)};
@@ -202,7 +201,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 									reorder->stop();
 									_update_menus();
 									_display->generate("tavern");
-									_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+									_display->set_input_mode(WIM::NAVIGATE_MENU);
 									continue;
 								} else if (option_chosen == TA_DIVVY_GOLD) {
 
@@ -211,7 +210,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 									_game->load_game();
 
 									_show_divvy = true;
-									_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+									_display->set_input_mode(WIM::NAVIGATE_MENU);
 								}
 							}
 						}
@@ -219,7 +218,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 				}
 			} else if (_stage == ADD) {
 
-				if (_system->input->check(WindowInput::CANCEL, event)) {
+				if (_system->input->check(WIP::CANCEL, event)) {
 					_stage = MENU;
 					_screen_key = "tavern";
 					_update_menus();
@@ -227,7 +226,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 					continue;
 				}
 
-				if (_system->input->check(WindowInput::BACK, event)) {
+				if (_system->input->check(WIP::BACK, event)) {
 					_stage = MENU;
 					_screen_key = "tavern";
 					_update_menus();
@@ -236,13 +235,13 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 				}
 
 				// And handle input on the main menu
-				if (_system->input->check(WindowInput::UP, event))
+				if (_system->input->check(WIP::UP, event))
 					option = _add->choose_previous();
-				else if (_system->input->check(WindowInput::DOWN, event))
+				else if (_system->input->check(WIP::DOWN, event))
 					option = _add->choose_next();
-				else if (_system->input->check(WindowInput::MOVE, event))
+				else if (_system->input->check(WIP::MOVE, event))
 					option = _add->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check(WindowInput::CONFIRM, event)) {
+				else if (_system->input->check(WIP::CONFIRM, event)) {
 
 					// We have selected something from the menu
 					if (option) {
@@ -271,7 +270,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 				}
 			} else if (_stage == REMOVE) {
 
-				if (_system->input->check(WindowInput::CANCEL, event)) {
+				if (_system->input->check(WIP::CANCEL, event)) {
 					_stage = MENU;
 					_screen_key = "tavern";
 					_update_menus();
@@ -279,7 +278,7 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 					continue;
 				}
 
-				if (_system->input->check(WindowInput::BACK, event)) {
+				if (_system->input->check(WIP::BACK, event)) {
 					_stage = MENU;
 					_screen_key = "tavern";
 					_update_menus();
@@ -288,13 +287,13 @@ auto Sorcery::Tavern::start() -> std::optional<MenuItem> {
 				}
 
 				// And handle input on the main menu
-				if (_system->input->check(WindowInput::UP, event))
+				if (_system->input->check(WIP::UP, event))
 					option = _remove->choose_previous();
-				else if (_system->input->check(WindowInput::DOWN, event))
+				else if (_system->input->check(WIP::DOWN, event))
 					option = _remove->choose_next();
-				else if (_system->input->check(WindowInput::MOVE, event))
+				else if (_system->input->check(WIP::MOVE, event))
 					option = _remove->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check(WindowInput::CONFIRM, event)) {
+				else if (_system->input->check(WIP::CONFIRM, event)) {
 
 					// We have selected something from the menu
 					if (option) {

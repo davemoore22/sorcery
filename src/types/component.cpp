@@ -147,7 +147,7 @@ Sorcery::Component::Component(Component &&other) noexcept {
 	other.justification = Justification::NO_JUSTIFY;
 	other.type = ComponentType::NO_COMPONENT_TYPE;
 	other.priority = 0;
-	other.drawmode = WindowDrawMode::NO_DRAWMODE;
+	other.drawmode = WDM::NO_DRAWMODE;
 	other.texture = GraphicsTexture::NO_TEXTURE;
 	other.unique_key.clear();
 	other._data.clear();
@@ -203,7 +203,7 @@ auto Sorcery::Component::operator=(Component &&other) noexcept -> Component & {
 		other.justification = Justification::NO_JUSTIFY;
 		other.type = ComponentType::NO_COMPONENT_TYPE;
 		other.priority = 0;
-		other.drawmode = WindowDrawMode::NO_DRAWMODE;
+		other.drawmode = WDM::NO_DRAWMODE;
 		other.texture = GraphicsTexture::NO_TEXTURE;
 		other.unique_key.clear();
 		other._data.clear();

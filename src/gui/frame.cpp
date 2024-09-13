@@ -44,19 +44,14 @@ Sorcery::Frame::Frame(System *system, Display *display, const Component layout)
 	const auto source_size{24U};
 
 	// Define the 8 parts of the Frame based upon the location in the GUI Texture
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)] =
-		sf::IntRect(0 * source_size, source_top, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP)] = sf::IntRect(4 * source_size, source_top, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)] =
-		sf::IntRect(2 * source_size, source_top, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::LEFT)] = sf::IntRect(7 * source_size, source_top, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)] =
-		sf::IntRect(1 * source_size, source_top, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM)] =
-		sf::IntRect(5 * source_size, source_top, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)] =
-		sf::IntRect(3 * source_size, source_top, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::RIGHT)] = sf::IntRect(6 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WFP::TOP_LEFT)] = sf::IntRect(0 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WFP::TOP)] = sf::IntRect(4 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WFP::TOP_RIGHT)] = sf::IntRect(2 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WFP::LEFT)] = sf::IntRect(7 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WFP::BOTTOM_LEFT)] = sf::IntRect(1 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WFP::BOTTOM)] = sf::IntRect(5 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WFP::BOTTOM_RIGHT)] = sf::IntRect(3 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WFP::RIGHT)] = sf::IntRect(6 * source_size, source_top, cw, ch);
 
 	// Get the Frame Components
 	auto loop{0};
@@ -85,15 +80,14 @@ Sorcery::Frame::Frame(System *system, Display *display, const Component layout)
 	_rtexture.draw(rectangle);
 
 	// Draw the Corners of the Frame
-	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)].setPosition(0, 0);
-	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)]);
-	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)].setPosition(texture_size.x - cw, 0);
-	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)]);
-	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)].setPosition(0, texture_size.y - ch);
-	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)]);
-	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)].setPosition(
-		texture_size.x - cw, texture_size.y - ch);
-	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)]);
+	_frame_sprites[static_cast<unsigned int>(WFP::TOP_LEFT)].setPosition(0, 0);
+	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WFP::TOP_LEFT)]);
+	_frame_sprites[static_cast<unsigned int>(WFP::TOP_RIGHT)].setPosition(texture_size.x - cw, 0);
+	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WFP::TOP_RIGHT)]);
+	_frame_sprites[static_cast<unsigned int>(WFP::BOTTOM_LEFT)].setPosition(0, texture_size.y - ch);
+	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WFP::BOTTOM_LEFT)]);
+	_frame_sprites[static_cast<unsigned int>(WFP::BOTTOM_RIGHT)].setPosition(texture_size.x - cw, texture_size.y - ch);
+	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WFP::BOTTOM_RIGHT)]);
 
 	// Draw the Sides of the Frame - note we draw two less since we don't want to overright the corners and we have the
 	// offset of cw/ch anyway (so for a frame height of 3 for example, we draw 1 middle side starting at 1)
@@ -103,19 +97,19 @@ Sorcery::Frame::Frame(System *system, Display *display, const Component layout)
 	if (_layout.w > 2) {
 		for (auto x = 0U; x < _layout.w - 2; x++) {
 			auto x_pos{cw + (cw * x)};
-			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)].setPosition(x_pos, 0);
-			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)]);
-			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)].setPosition(x_pos, texture_size.y - ch);
-			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)]);
+			_frame_sprites[static_cast<unsigned int>(WFP::TOP)].setPosition(x_pos, 0);
+			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WFP::TOP)]);
+			_frame_sprites[static_cast<unsigned int>(WFP::BOTTOM)].setPosition(x_pos, texture_size.y - ch);
+			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WFP::BOTTOM)]);
 		}
 	}
 	if (_layout.h > 2) {
 		for (auto y = 0U; y < _layout.h - 2; y++) {
 			auto y_pos{ch + (ch * y)};
-			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)].setPosition(0, y_pos);
-			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)]);
-			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)].setPosition(texture_size.x - cw, y_pos);
-			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)]);
+			_frame_sprites[static_cast<unsigned int>(WFP::LEFT)].setPosition(0, y_pos);
+			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WFP::LEFT)]);
+			_frame_sprites[static_cast<unsigned int>(WFP::RIGHT)].setPosition(texture_size.x - cw, y_pos);
+			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WFP::RIGHT)]);
 		}
 	}
 
@@ -143,19 +137,14 @@ Sorcery::Frame::Frame(sf::Texture texture, const unsigned int width_units, const
 	const auto source_size{24U};
 
 	// Define the 8 parts of the Frame based upon the location in the GUI Texture
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)] =
-		sf::IntRect(0 * source_size, source_top, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP)] = sf::IntRect(4 * source_size, source_top, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)] =
-		sf::IntRect(2 * source_size, source_top, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::LEFT)] = sf::IntRect(7 * source_size, source_top, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)] =
-		sf::IntRect(1 * source_size, source_top, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM)] =
-		sf::IntRect(5 * source_size, source_top, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)] =
-		sf::IntRect(3 * source_size, source_top, cw, ch);
-	_frame_parts[static_cast<unsigned int>(WindowFrameParts::RIGHT)] = sf::IntRect(6 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WFP::TOP_LEFT)] = sf::IntRect(0 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WFP::TOP)] = sf::IntRect(4 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WFP::TOP_RIGHT)] = sf::IntRect(2 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WFP::LEFT)] = sf::IntRect(7 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WFP::BOTTOM_LEFT)] = sf::IntRect(1 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WFP::BOTTOM)] = sf::IntRect(5 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WFP::BOTTOM_RIGHT)] = sf::IntRect(3 * source_size, source_top, cw, ch);
+	_frame_parts[static_cast<unsigned int>(WFP::RIGHT)] = sf::IntRect(6 * source_size, source_top, cw, ch);
 
 	// Get the Frame Components
 	auto loop{0};
@@ -184,15 +173,14 @@ Sorcery::Frame::Frame(sf::Texture texture, const unsigned int width_units, const
 	_rtexture.draw(rectangle);
 
 	// Draw the Corners of the Frame
-	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)].setPosition(0, 0);
-	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_LEFT)]);
-	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)].setPosition(texture_size.x - cw, 0);
-	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP_RIGHT)]);
-	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)].setPosition(0, texture_size.y - ch);
-	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_LEFT)]);
-	_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)].setPosition(
-		texture_size.x - cw, texture_size.y - ch);
-	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM_RIGHT)]);
+	_frame_sprites[static_cast<unsigned int>(WFP::TOP_LEFT)].setPosition(0, 0);
+	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WFP::TOP_LEFT)]);
+	_frame_sprites[static_cast<unsigned int>(WFP::TOP_RIGHT)].setPosition(texture_size.x - cw, 0);
+	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WFP::TOP_RIGHT)]);
+	_frame_sprites[static_cast<unsigned int>(WFP::BOTTOM_LEFT)].setPosition(0, texture_size.y - ch);
+	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WFP::BOTTOM_LEFT)]);
+	_frame_sprites[static_cast<unsigned int>(WFP::BOTTOM_RIGHT)].setPosition(texture_size.x - cw, texture_size.y - ch);
+	_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WFP::BOTTOM_RIGHT)]);
 
 	// Draw the Sides of the Frame - note we draw two less since we don't want to overright the corners and we have the
 	// offset of cw/ch anyway (so for a frame height of 3 for example, we draw 1 middle side starting at 1)
@@ -202,19 +190,19 @@ Sorcery::Frame::Frame(sf::Texture texture, const unsigned int width_units, const
 	if (_width_units > 2) {
 		for (auto x = 0u; x < _width_units - 2; x++) {
 			auto x_pos{cw + (cw * x)};
-			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)].setPosition(x_pos, 0);
-			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::TOP)]);
-			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)].setPosition(x_pos, texture_size.y - ch);
-			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::BOTTOM)]);
+			_frame_sprites[static_cast<unsigned int>(WFP::TOP)].setPosition(x_pos, 0);
+			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WFP::TOP)]);
+			_frame_sprites[static_cast<unsigned int>(WFP::BOTTOM)].setPosition(x_pos, texture_size.y - ch);
+			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WFP::BOTTOM)]);
 		}
 	}
 	if (_height_units > 2) {
 		for (auto y = 0u; y < _height_units - 2; y++) {
 			auto y_pos{ch + (ch * y)};
-			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)].setPosition(0, y_pos);
-			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::LEFT)]);
-			_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)].setPosition(texture_size.x - cw, y_pos);
-			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WindowFrameParts::RIGHT)]);
+			_frame_sprites[static_cast<unsigned int>(WFP::LEFT)].setPosition(0, y_pos);
+			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WFP::LEFT)]);
+			_frame_sprites[static_cast<unsigned int>(WFP::RIGHT)].setPosition(texture_size.x - cw, y_pos);
+			_rtexture.draw(_frame_sprites[static_cast<unsigned int>(WFP::RIGHT)]);
 		}
 	}
 

@@ -63,12 +63,12 @@ Sorcery::ChangeClass::ChangeClass(System *system, Display *display, Graphics *gr
 	// And the Dialogs
 	_not_changed = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["change_class:dialog_class_not_changed"],
-		(*_display->layout)["change_class:dialog_class_not_changed_text"], WindowDialogType::OK);
+		(*_display->layout)["change_class:dialog_class_not_changed_text"], WDT::OK);
 	_not_changed->setPosition(_display->get_centre_pos(_not_changed->get_size()));
 
 	_confirm = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["change_class:dialog_confirm_change_class"],
-		(*_display->layout)["change_class:dialog_confirm_change_class_text"], WindowDialogType::CONFIRM);
+		(*_display->layout)["change_class:dialog_confirm_change_class_text"], WDT::CONFIRM);
 	_confirm->setPosition(_display->get_centre_pos(_confirm->get_size()));
 
 	_new_class = std::nullopt;
@@ -84,7 +84,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 	_show_not_changed = false;
 
 	_display->generate("change_class");
-	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+	_display->set_input_mode(WIM::NAVIGATE_MENU);
 
 	// Clear the window
 	_window->clear();
@@ -98,7 +98,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 				return std::nullopt; // TODO: how to differ from cancel?
 
 			// Handle enabling help overlay
-			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+			if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
@@ -108,13 +108,13 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 
 				auto dialog_input{_not_changed->handle_input(event)};
 				if (dialog_input) {
-					if (dialog_input.value() == WindowDialogButton::CLOSE) {
+					if (dialog_input.value() == WDB::CLOSE) {
 						_show_not_changed = false;
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						return std::nullopt;
-					} else if (dialog_input.value() == WindowDialogButton::OK) {
+					} else if (dialog_input.value() == WDB::OK) {
 						_show_not_changed = false;
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						return std::nullopt;
 					}
 				};
@@ -122,38 +122,38 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 
 				auto dialog_input{_confirm->handle_input(event)};
 				if (dialog_input) {
-					if (dialog_input.value() == WindowDialogButton::CLOSE) {
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					if (dialog_input.value() == WDB::CLOSE) {
+						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						_show_confirm = false;
-					} else if (dialog_input.value() == WindowDialogButton::YES) {
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} else if (dialog_input.value() == WDB::YES) {
+						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						return _new_class;
-					} else if (dialog_input.value() == WindowDialogButton::NO) {
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} else if (dialog_input.value() == WDB::NO) {
+						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						_show_confirm = false;
 					}
 				}
 
 			} else {
 
-				if (_system->input->check(WindowInput::CANCEL, event))
+				if (_system->input->check(WIP::CANCEL, event))
 					return std::nullopt;
 
-				if (_system->input->check(WindowInput::BACK, event))
+				if (_system->input->check(WIP::BACK, event))
 					return std::nullopt;
 
 				std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->selected};
-				if (_system->input->check(WindowInput::UP, event))
+				if (_system->input->check(WIP::UP, event))
 					selected = _menu->choose_previous();
-				else if (_system->input->check(WindowInput::DOWN, event))
+				else if (_system->input->check(WIP::DOWN, event))
 					selected = _menu->choose_next();
-				else if (_system->input->check(WindowInput::MOVE, event))
+				else if (_system->input->check(WIP::MOVE, event))
 					selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check(WindowInput::BACK, event))
+				else if (_system->input->check(WIP::BACK, event))
 					return std::nullopt;
-				else if (_system->input->check(WindowInput::DELETE, event))
+				else if (_system->input->check(WIP::DELETE, event))
 					return std::nullopt;
-				else if (_system->input->check(WindowInput::CONFIRM, event)) {
+				else if (_system->input->check(WIP::CONFIRM, event)) {
 
 					// We have selected something from the menu
 					if (selected) {
@@ -165,7 +165,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 							else {
 								_show_confirm = true;
 								_new_class = CharacterClass::SAMURAI;
-								_display->set_input_mode(WindowInputMode::CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MenuItem::CC_FIGHTER:
@@ -174,7 +174,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 							else {
 								_show_confirm = true;
 								_new_class = CharacterClass::FIGHTER;
-								_display->set_input_mode(WindowInputMode::CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MenuItem::CC_LORD:
@@ -183,7 +183,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 							else {
 								_show_confirm = true;
 								_new_class = CharacterClass::LORD;
-								_display->set_input_mode(WindowInputMode::CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MenuItem::CC_THIEF:
@@ -192,7 +192,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 							else {
 								_show_confirm = true;
 								_new_class = CharacterClass::THIEF;
-								_display->set_input_mode(WindowInputMode::CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MenuItem::CC_NINJA:
@@ -201,7 +201,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 							else {
 								_show_confirm = true;
 								_new_class = CharacterClass::NINJA;
-								_display->set_input_mode(WindowInputMode::CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MenuItem::CC_PRIEST:
@@ -210,7 +210,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 							else {
 								_show_confirm = true;
 								_new_class = CharacterClass::PRIEST;
-								_display->set_input_mode(WindowInputMode::CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MenuItem::CC_BISHOP:
@@ -219,7 +219,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 							else {
 								_show_confirm = true;
 								_new_class = CharacterClass::BISHOP;
-								_display->set_input_mode(WindowInputMode::CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MenuItem::CC_MAGE:
@@ -228,7 +228,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 							else {
 								_show_confirm = true;
 								_new_class = CharacterClass::MAGE;
-								_display->set_input_mode(WindowInputMode::CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						default:
@@ -253,7 +253,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 
 auto Sorcery::ChangeClass::stop() -> void {
 
-	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+	_display->set_input_mode(WIM::NAVIGATE_MENU);
 
 	// Stop the background movie!
 	_display->stop_bg_movie();

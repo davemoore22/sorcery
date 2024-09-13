@@ -37,8 +37,8 @@ Sorcery::Factory::Factory(System *system, Display *display, Graphics *graphics, 
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 }
 
-auto Sorcery::Factory::make_dialog(
-	const std::string &component, const WindowDialogType type, const unsigned int duration) -> std::unique_ptr<Dialog> {
+auto Sorcery::Factory::make_dialog(const std::string &component, const WDT type, const unsigned int duration)
+	-> std::unique_ptr<Dialog> {
 
 	auto component_text{component};
 	component_text.append("_text");

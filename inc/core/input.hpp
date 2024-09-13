@@ -39,7 +39,7 @@ class Input {
 		// Public Members
 
 		// Public Methods
-		auto check(WindowInput input, sf::Event event) -> bool;
+		auto check(WIP input, sf::Event event) -> bool;
 
 	private:
 

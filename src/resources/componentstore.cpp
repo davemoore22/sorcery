@@ -98,7 +98,7 @@ auto Sorcery::ComponentStore::operator()(std::string_view screen) -> std::option
 	if (_loaded) {
 
 		for (const auto &[unique_key, component] : _components) {
-			if (component.screen == screen && component.drawmode == WindowDrawMode::AUTOMATIC) {
+			if (component.screen == screen && component.drawmode == WDM::AUTOMATIC) {
 				results.push_back(component);
 			}
 		}
@@ -330,19 +330,19 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 						} else
 							return 999u;
 					})};
-					WindowDrawMode drawmode{std::invoke([&] {
+					WDM drawmode{std::invoke([&] {
 						if (components[j].isMember("drawmode")) {
 							if (components[j]["drawmode"].asString().length() > 0) {
 								if (components[j]["drawmode"].asString() == "manual")
-									return WindowDrawMode::MANUAL;
+									return WDM::MANUAL;
 								else if (components[j]["drawmode"].asString() == "automatic")
-									return WindowDrawMode::AUTOMATIC;
+									return WDM::AUTOMATIC;
 								else
-									return WindowDrawMode::AUTOMATIC;
+									return WDM::AUTOMATIC;
 							} else
-								return WindowDrawMode::AUTOMATIC;
+								return WDM::AUTOMATIC;
 						} else
-							return WindowDrawMode::AUTOMATIC;
+							return WDM::AUTOMATIC;
 					})};
 					GraphicsTexture texture{std::invoke([&] {
 						if (components[j].isMember("texture")) {

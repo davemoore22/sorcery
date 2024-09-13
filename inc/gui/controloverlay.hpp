@@ -48,12 +48,12 @@ class ControlOverlay: public sf::Transformable, public sf::Drawable {
 		bool valid;
 
 		// Public Methods
-		auto set_input_mode(WindowInputMode input_mode) -> void;
+		auto set_input_mode(WIM input_mode) -> void;
 
 	private:
 
 		// Private Methods
-		auto _get_control_gfx(WindowInputCategory input) -> sf::Sprite;
+		auto _get_control_gfx(WIC input) -> sf::Sprite;
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
@@ -62,7 +62,7 @@ class ControlOverlay: public sf::Transformable, public sf::Drawable {
 		std::vector<sf::Sprite> _sprites;
 		std::vector<sf::Text> _texts;
 		Component _layout;
-		WindowInputMode _input_mode;
+		WIM _input_mode;
 		std::vector<std::pair<std::string, sf::Sprite>> _controls;
 		sf::Texture _control_texture;
 		std::unique_ptr<Frame> _frame;

@@ -83,7 +83,7 @@ auto Sorcery::Reorder::start() -> std::optional<std::vector<unsigned int>> {
 	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
 
 	// And do the main loop
-	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+	_display->set_input_mode(WIM::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
 	sf::Event event{};
 	while (_window->isOpen()) {
@@ -97,26 +97,26 @@ auto Sorcery::Reorder::start() -> std::optional<std::vector<unsigned int>> {
 				return std::nullopt;
 
 			// Handle enabling help overlay
-			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+			if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
 				_display->hide_overlay();
 
-			if (_system->input->check(WindowInput::CANCEL, event))
+			if (_system->input->check(WIP::CANCEL, event))
 				return std::nullopt;
 
-			if (_system->input->check(WindowInput::BACK, event))
+			if (_system->input->check(WIP::BACK, event))
 				return std::nullopt;
 
 			// And handle input on the main menu
-			if (_system->input->check(WindowInput::UP, event))
+			if (_system->input->check(WIP::UP, event))
 				option = _menu->choose_previous();
-			else if (_system->input->check(WindowInput::DOWN, event))
+			else if (_system->input->check(WIP::DOWN, event))
 				option = _menu->choose_next();
-			else if (_system->input->check(WindowInput::MOVE, event))
+			else if (_system->input->check(WIP::MOVE, event))
 				option = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-			else if (_system->input->check(WindowInput::CONFIRM, event)) {
+			else if (_system->input->check(WIP::CONFIRM, event)) {
 
 				if (option) {
 

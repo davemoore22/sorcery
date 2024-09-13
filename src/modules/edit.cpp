@@ -55,12 +55,12 @@ Sorcery::Edit::Edit(System *system, Display *display, Graphics *graphics, Game *
 
 	_changed = std::make_unique<Dialog>(_system, _display, _graphics,
 		(*_display->layout)["character_edit:dialog_class_changed"],
-		(*_display->layout)["character_edit:dialog_class_changed_text"], WindowDialogType::OK);
+		(*_display->layout)["character_edit:dialog_class_changed_text"], WDT::OK);
 	_changed->setPosition(_display->get_centre_pos(_changed->get_size()));
 
 	_legated =
 		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["character_edit:dialog_legated"],
-			(*_display->layout)["character_edit:dialog_legated_text"], WindowDialogType::OK);
+			(*_display->layout)["character_edit:dialog_legated_text"], WDT::OK);
 	_legated->setPosition(_display->get_centre_pos(_legated->get_size()));
 }
 
@@ -105,7 +105,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 	// Clear the window
 	_window->clear();
 
-	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+	_display->set_input_mode(WIM::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->items.begin()};
 
 	// And do the main loop
@@ -118,7 +118,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 				return MenuItem::ITEM_ABORT;
 
 			// Handle enabling help overlay
-			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+			if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
@@ -127,37 +127,35 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 			if (_show_changed) {
 				auto dialog_input{_changed->handle_input(event)};
 				if (dialog_input) {
-					if (dialog_input.value() == WindowDialogButton::CLOSE ||
-						dialog_input.value() == WindowDialogButton::OK) {
+					if (dialog_input.value() == WDB::CLOSE || dialog_input.value() == WDB::OK) {
 						_show_changed = false;
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						return std::nullopt;
 					}
 				}
 			} else if (_show_legated) {
 				auto dialog_input{_legated->handle_input(event)};
 				if (dialog_input) {
-					if (dialog_input.value() == WindowDialogButton::CLOSE ||
-						dialog_input.value() == WindowDialogButton::OK) {
+					if (dialog_input.value() == WDB::CLOSE || dialog_input.value() == WDB::OK) {
 						_show_legated = false;
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						return std::nullopt;
 					}
 				}
 			} else {
-				if (_system->input->check(WindowInput::CANCEL, event))
+				if (_system->input->check(WIP::CANCEL, event))
 					return std::nullopt;
 
-				if (_system->input->check(WindowInput::BACK, event))
+				if (_system->input->check(WIP::BACK, event))
 					return std::nullopt;
 
-				if (_system->input->check(WindowInput::UP, event))
+				if (_system->input->check(WIP::UP, event))
 					selected = _menu->choose_previous();
-				else if (_system->input->check(WindowInput::DOWN, event))
+				else if (_system->input->check(WIP::DOWN, event))
 					selected = _menu->choose_next();
-				else if (_system->input->check(WindowInput::MOVE, event))
+				else if (_system->input->check(WIP::MOVE, event))
 					selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check(WindowInput::CONFIRM, event)) {
+				else if (_system->input->check(WIP::CONFIRM, event)) {
 
 					// We have selected something from the menu
 					if (selected) {
@@ -195,7 +193,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 								_game->save_game();
 
 								_show_changed = true;
-								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+								_display->set_input_mode(WIM::NAVIGATE_MENU);
 							}
 							change_class->stop();
 						} else if (option_chosen == MenuItem::EC_LEGATE_CHARACTER) {
@@ -212,14 +210,14 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 								_char_panel->set(cur_char);
 
 								_show_legated = true;
-								_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+								_display->set_input_mode(WIM::NAVIGATE_MENU);
 							}
 							legate->stop();
 						}
 
 						_display->generate("character_edit");
 						_char_panel->set(_cur_char.value());
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						_display->set_input_mode(WIM::NAVIGATE_MENU);
 					}
 				}
 			}
@@ -236,7 +234,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 
 auto Sorcery::Edit::stop() -> void {
 
-	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+	_display->set_input_mode(WIM::NAVIGATE_MENU);
 }
 
 auto Sorcery::Edit::_draw() -> void {

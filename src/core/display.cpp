@@ -385,13 +385,13 @@ auto Sorcery::Display::display(std::string_view screen, std::map<std::string, sf
 	}
 }
 
-auto Sorcery::Display::set_input_mode(WindowInputMode input_mode) -> void {
+auto Sorcery::Display::set_input_mode(WIM input_mode) -> void {
 
 	window->set_input_mode(input_mode);
 	overlay->set_input_mode(input_mode);
 }
 
-auto Sorcery::Display::get_input_mode() const -> WindowInputMode {
+auto Sorcery::Display::get_input_mode() const -> WIM {
 
 	return window->get_input_mode();
 }

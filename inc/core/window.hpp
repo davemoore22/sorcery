@@ -54,8 +54,8 @@ class Window {
 		auto draw_text(sf::Text &text) -> void;
 		auto draw_text(sf::Text &text, const Component &component, const double lerp = -1.0f) -> void;
 		auto draw_text(sf::Text &text, const Component &component, const std::string &string) -> void;
-		auto draw_text(
-			sf::Text &text, const Component &component, const std::string &string, const double lerp) -> void;
+		auto draw_text(sf::Text &text, const Component &component, const std::string &string, const double lerp)
+			-> void;
 		auto draw_gui() -> void;
 		auto get_ch() const -> unsigned int;
 		auto get_cw() const -> unsigned int;
@@ -75,8 +75,8 @@ class Window {
 		auto hl_text(sf::Text &text, const Component &component, double lerp) -> sf::RectangleShape;
 		auto shove_text(const sf::Text &shovee, sf::Text &shover, unsigned int gap_units) const -> void;
 		auto shove_text(const sf::Text &shovee, sf::Text &shover, float gap_units) const -> void;
-		auto set_input_mode(WindowInputMode value) -> void;
-		auto get_input_mode() const -> WindowInputMode;
+		auto set_input_mode(WIM value) -> void;
+		auto get_input_mode() const -> WIM;
 		auto set_pos(Component *component, sf::Transformable *object) const -> void;
 		auto save_screen() -> void;
 		auto restore_screen() -> void;
@@ -97,8 +97,8 @@ class Window {
 		// Private Methods
 		auto _adjust_brightness(sf::Color colour, double colour_lerp) const -> unsigned long long;
 		auto _draw_text(sf::Text &text, const Component &component, const double lerp) -> void;
-		auto _draw_text(
-			sf::Text &text, const Component &component, const std::string &string, const double lerp) -> void;
+		auto _draw_text(sf::Text &text, const Component &component, const std::string &string, const double lerp)
+			-> void;
 		auto _draw_text(sf::Text &text, const Component &component, const std::string &string) -> void;
 		auto _draw_text(sf::Text &text) -> void;
 		auto _get_centre_x(const sf::Sprite &sprite) const -> unsigned int;
@@ -127,7 +127,7 @@ class Window {
 		tgui::Theme _theme;
 		unsigned int _cell_height;
 		unsigned int _cell_width;
-		WindowInputMode _input_mode;
+		WIM _input_mode;
 		sf::Image _capture;
 		sf::Texture _texture;
 		bool _bold_text;

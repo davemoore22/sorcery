@@ -56,9 +56,9 @@ Sorcery::Options::Options(System *system, Display *display, Graphics *graphics)
 	_ip = std::make_unique<InfoPanel>(_system, _display, _graphics);
 
 	// Create the Confirmation Dialog Boxes
-	_confirm_save = _factory->make_dialog("options:dialog_confirm_save", WindowDialogType::CONFIRM);
-	_confirm_cancel = _factory->make_dialog("options:dialog_confirm_cancel", WindowDialogType::CONFIRM);
-	_confirm_strict = _factory->make_dialog("options:dialog_confirm_strict_on", WindowDialogType::CONFIRM);
+	_confirm_save = _factory->make_dialog("options:dialog_confirm_save", WDT::CONFIRM);
+	_confirm_cancel = _factory->make_dialog("options:dialog_confirm_cancel", WDT::CONFIRM);
+	_confirm_strict = _factory->make_dialog("options:dialog_confirm_strict_on", WDT::CONFIRM);
 }
 
 // Standard Destructor
@@ -85,7 +85,7 @@ auto Sorcery::Options::start() -> int {
 	_display->start_bg_movie();
 
 	// And select the first option by default;
-	_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
+	_display->set_input_mode(WIM::GAME_OPTIONS);
 	_menu->choose_first();
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->items.begin()};
 	_set_infopanel(_menu->selected);
@@ -96,34 +96,34 @@ auto Sorcery::Options::start() -> int {
 		while (_window->pollEvent(event)) {
 
 			// If we are in normal input mode
-			if (_display->get_input_mode() == WindowInputMode::GAME_OPTIONS) {
+			if (_display->get_input_mode() == WIM::GAME_OPTIONS) {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
 					return EXIT_ALL;
 
-				if (_system->input->check(WindowInput::CANCEL, event))
+				if (_system->input->check(WIP::CANCEL, event))
 					return EXIT_MODULE;
 
 				// Handle enabling help overlay
-				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+				if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
 					continue;
 				} else
 					_display->hide_overlay();
 
 				// And handle input on the main menu
-				if (_system->input->check(WindowInput::UP, event)) {
+				if (_system->input->check(WIP::UP, event)) {
 					selected = _menu->choose_previous();
-				} else if (_system->input->check(WindowInput::DOWN, event)) {
+				} else if (_system->input->check(WIP::DOWN, event)) {
 					selected = _menu->choose_next();
-				} else if (_system->input->check(WindowInput::MOVE, event)) {
+				} else if (_system->input->check(WIP::MOVE, event)) {
 					selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					if (selected) {
 						// No Tooltips anymore
 					}
 
-				} else if (_system->input->check(WindowInput::CONFIRM, event)) {
+				} else if (_system->input->check(WIP::CONFIRM, event)) {
 					if (selected) {
 						if ((*_menu->selected).type == MenuItemType::ENTRY) {
 							const ConfigOption config_to_toggle{(*_menu->selected).config};
@@ -131,7 +131,7 @@ auto Sorcery::Options::start() -> int {
 								!(*_system->config)[ConfigOption::STRICT_MODE]) {
 
 								// Ask for confirmation of Strict Mode
-								_display->set_input_mode(WindowInputMode::CONFIRM_STRICT_MODE);
+								_display->set_input_mode(WIM::CONFIRM_STRICT_MODE);
 							} else if (config_to_toggle == ConfigOption::RECOMMENDED_MODE &&
 									   !(*_system->config)[ConfigOption::RECOMMENDED_MODE]) {
 
@@ -153,73 +153,73 @@ auto Sorcery::Options::start() -> int {
 						} else if ((*_menu->selected).type == MenuItemType::SAVE) {
 
 							// Ask for confirmation of Save
-							_display->set_input_mode(WindowInputMode::SAVE_CHANGES);
+							_display->set_input_mode(WIM::SAVE_CHANGES);
 						} else if ((*_menu->selected).type == MenuItemType::CANCEL) {
 
 							// Ask for confirmation of Cancel
-							_display->set_input_mode(WindowInputMode::CANCEL_CHANGES);
+							_display->set_input_mode(WIM::CANCEL_CHANGES);
 						}
 					}
 				}
 
 				_set_infopanel(_menu->selected);
 
-			} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_STRICT_MODE ||
-					   _display->get_input_mode() == WindowInputMode::SAVE_CHANGES ||
-					   _display->get_input_mode() == WindowInputMode::CANCEL_CHANGES) {
+			} else if (_display->get_input_mode() == WIM::CONFIRM_STRICT_MODE ||
+					   _display->get_input_mode() == WIM::SAVE_CHANGES ||
+					   _display->get_input_mode() == WIM::CANCEL_CHANGES) {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
 					return EXIT_ALL;
 
-				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+				if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
 					continue;
 				} else
 					_display->hide_overlay();
 
 				// All we can do is select Y or N
-				if (_display->get_input_mode() == WindowInputMode::CONFIRM_STRICT_MODE) {
+				if (_display->get_input_mode() == WIM::CONFIRM_STRICT_MODE) {
 					auto dialog_input{_confirm_strict->handle_input(event)};
 					if (dialog_input) {
-						if (dialog_input.value() == WindowDialogButton::CLOSE) {
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						if (dialog_input.value() == WDB::CLOSE) {
+							_display->set_input_mode(WIM::NAVIGATE_MENU);
 							return EXIT_MODULE;
-						} else if (dialog_input.value() == WindowDialogButton::YES) {
+						} else if (dialog_input.value() == WDB::YES) {
 							_system->config->set_strict_mode();
 							(*_system->config)[ConfigOption::STRICT_MODE] = true;
-							_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
-						} else if (dialog_input.value() == WindowDialogButton::NO) {
-							_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
+							_display->set_input_mode(WIM::GAME_OPTIONS);
+						} else if (dialog_input.value() == WDB::NO) {
+							_display->set_input_mode(WIM::GAME_OPTIONS);
 						}
 					}
-				} else if (_display->get_input_mode() == WindowInputMode::SAVE_CHANGES) {
+				} else if (_display->get_input_mode() == WIM::SAVE_CHANGES) {
 					auto dialog_input{_confirm_save->handle_input(event)};
 					if (dialog_input) {
-						if (dialog_input.value() == WindowDialogButton::CLOSE) {
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						if (dialog_input.value() == WDB::CLOSE) {
+							_display->set_input_mode(WIM::NAVIGATE_MENU);
 							return EXIT_MODULE;
-						} else if (dialog_input.value() == WindowDialogButton::YES) {
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						} else if (dialog_input.value() == WDB::YES) {
+							_display->set_input_mode(WIM::NAVIGATE_MENU);
 							_system->config->save();
 							return true;
-						} else if (dialog_input.value() == WindowDialogButton::NO) {
-							_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
+						} else if (dialog_input.value() == WDB::NO) {
+							_display->set_input_mode(WIM::GAME_OPTIONS);
 						}
 					}
-				} else if (_display->get_input_mode() == WindowInputMode::CANCEL_CHANGES) {
+				} else if (_display->get_input_mode() == WIM::CANCEL_CHANGES) {
 
 					auto dialog_input{_confirm_cancel->handle_input(event)};
 					if (dialog_input) {
-						if (dialog_input.value() == WindowDialogButton::CLOSE) {
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						if (dialog_input.value() == WDB::CLOSE) {
+							_display->set_input_mode(WIM::NAVIGATE_MENU);
 							return false;
-						} else if (dialog_input.value() == WindowDialogButton::YES) {
-							_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+						} else if (dialog_input.value() == WDB::YES) {
+							_display->set_input_mode(WIM::NAVIGATE_MENU);
 							_system->config->load();
 							return true;
-						} else if (dialog_input.value() == WindowDialogButton::NO) {
-							_display->set_input_mode(WindowInputMode::GAME_OPTIONS);
+						} else if (dialog_input.value() == WDB::NO) {
+							_display->set_input_mode(WIM::GAME_OPTIONS);
 						}
 					}
 				}
@@ -265,13 +265,13 @@ auto Sorcery::Options::_draw() -> void {
 
 	_menu->generate((*_display->layout)["options:menu"]);
 	_window->draw(*_menu);
-	if (_display->get_input_mode() == WindowInputMode::CONFIRM_STRICT_MODE) {
+	if (_display->get_input_mode() == WIM::CONFIRM_STRICT_MODE) {
 		_confirm_strict->update();
 		_window->draw(*_confirm_strict);
-	} else if (_display->get_input_mode() == WindowInputMode::SAVE_CHANGES) {
+	} else if (_display->get_input_mode() == WIM::SAVE_CHANGES) {
 		_confirm_save->update();
 		_window->draw(*_confirm_save);
-	} else if (_display->get_input_mode() == WindowInputMode::CANCEL_CHANGES) {
+	} else if (_display->get_input_mode() == WIM::CANCEL_CHANGES) {
 		_confirm_cancel->update();
 		_window->draw(*_confirm_cancel);
 	}

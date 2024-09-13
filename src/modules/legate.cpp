@@ -49,7 +49,7 @@ Sorcery::Legate::Legate(System *system, Display *display, Graphics *graphics, Ch
 	// Dialog
 	_proceed =
 		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["legate:dialog_confirm_legate"],
-			(*_display->layout)["legate:dialog_confirm_legate_text"], WindowDialogType::CONFIRM);
+			(*_display->layout)["legate:dialog_confirm_legate_text"], WDT::CONFIRM);
 	_proceed->setPosition(_display->get_centre_pos(_proceed->get_size()));
 
 	// Menu
@@ -105,7 +105,7 @@ auto Sorcery::Legate::start() -> std::optional<CharacterAlignment> {
 
 	_stage = LegateStage::CONFIRM;
 	_display->generate("legate");
-	_display->set_input_mode(WindowInputMode::CONFIRM_LEGATE);
+	_display->set_input_mode(WIM::CONFIRM_LEGATE);
 
 	// Clear the window
 	_window->clear();
@@ -119,31 +119,31 @@ auto Sorcery::Legate::start() -> std::optional<CharacterAlignment> {
 				return std::nullopt;
 
 			// Handle enabling help overlay
-			if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+			if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
 				_display->hide_overlay();
 
-			if (_system->input->check(WindowInput::CANCEL, event))
+			if (_system->input->check(WIP::CANCEL, event))
 				return std::nullopt;
 
-			if (_system->input->check(WindowInput::BACK, event))
+			if (_system->input->check(WIP::BACK, event))
 				return std::nullopt;
 
 			if (_stage == LegateStage::CONFIRM) {
 
 				auto dialog_input{_proceed->handle_input(event)};
 				if (dialog_input) {
-					if (dialog_input.value() == WindowDialogButton::CLOSE) {
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					if (dialog_input.value() == WDB::CLOSE) {
+						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						return std::nullopt;
-					} else if (dialog_input.value() == WindowDialogButton::YES) {
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} else if (dialog_input.value() == WDB::YES) {
+						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						_stage = LegateStage::CHANGE_ALIGNMENT;
 						continue;
-					} else if (dialog_input.value() == WindowDialogButton::NO) {
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} else if (dialog_input.value() == WDB::NO) {
+						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						return std::nullopt;
 					}
 				}
@@ -151,21 +151,21 @@ auto Sorcery::Legate::start() -> std::optional<CharacterAlignment> {
 			} else if (_stage == LegateStage::CHANGE_ALIGNMENT) {
 
 				std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->selected};
-				if (_system->input->check(WindowInput::UP, event))
+				if (_system->input->check(WIP::UP, event))
 					selected = _menu->choose_previous();
-				else if (_system->input->check(WindowInput::DOWN, event))
+				else if (_system->input->check(WIP::DOWN, event))
 					selected = _menu->choose_next();
-				else if (_system->input->check(WindowInput::MOVE, event))
+				else if (_system->input->check(WIP::MOVE, event))
 					selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check(WindowInput::BACK, event)) {
+				else if (_system->input->check(WIP::BACK, event)) {
 					_stage = LegateStage::CONFIRM;
-					_display->set_input_mode(WindowInputMode::CONFIRM_LEGATE);
+					_display->set_input_mode(WIM::CONFIRM_LEGATE);
 					continue;
-				} else if (_system->input->check(WindowInput::DELETE, event)) {
+				} else if (_system->input->check(WIP::DELETE, event)) {
 					_stage = LegateStage::CONFIRM;
-					_display->set_input_mode(WindowInputMode::CONFIRM_LEGATE);
+					_display->set_input_mode(WIM::CONFIRM_LEGATE);
 					continue;
-				} else if (_system->input->check(WindowInput::CONFIRM, event)) {
+				} else if (_system->input->check(WIP::CONFIRM, event)) {
 
 					switch ((*selected.value()).item) {
 					case MenuItem::CA_GOOD:
@@ -197,7 +197,7 @@ auto Sorcery::Legate::start() -> std::optional<CharacterAlignment> {
 
 auto Sorcery::Legate::stop() -> void {
 
-	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+	_display->set_input_mode(WIM::NAVIGATE_MENU);
 }
 
 auto Sorcery::Legate::_set_alignment_menu() -> void {

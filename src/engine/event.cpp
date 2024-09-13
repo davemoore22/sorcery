@@ -141,25 +141,25 @@ auto Sorcery::Event::start() -> std::optional<MenuItem> {
 					return MenuItem::ITEM_ABORT;
 
 				// Handle enabling help overlay
-				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+				if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
 					continue;
 				} else
 					_display->hide_overlay();
 
 				// We have all continue menus to begin with
-				if (_system->input->check(WindowInput::CANCEL, event))
+				if (_system->input->check(WIP::CANCEL, event))
 					return MenuItem::ITEM_CONTINUE;
-				else if (_system->input->check(WindowInput::BACK, event))
+				else if (_system->input->check(WIP::BACK, event))
 					return MenuItem::ITEM_CONTINUE;
-				else if (_system->input->check(WindowInput::UP, event))
+				else if (_system->input->check(WIP::UP, event))
 					option_continue = _continue_menu->choose_previous();
-				else if (_system->input->check(WindowInput::DOWN, event))
+				else if (_system->input->check(WIP::DOWN, event))
 					option_continue = _continue_menu->choose_next();
-				else if (_system->input->check(WindowInput::MOVE, event))
+				else if (_system->input->check(WIP::MOVE, event))
 					option_continue =
 						_continue_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check(WindowInput::CONFIRM, event)) {
+				else if (_system->input->check(WIP::CONFIRM, event)) {
 
 					if (option_continue) {
 						if (const MenuItem option_chosen{(*option_continue.value()).item};
@@ -183,7 +183,7 @@ auto Sorcery::Event::start() -> std::optional<MenuItem> {
 
 auto Sorcery::Event::stop() -> void {
 
-	_display->set_input_mode(WindowInputMode::IN_GAME);
+	_display->set_input_mode(WIM::IN_GAME);
 	_display->window->restore_screen();
 }
 

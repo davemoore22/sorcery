@@ -54,7 +54,7 @@ Sorcery::EdgeOfTown::EdgeOfTown(System *system, Display *display, Graphics *grap
 
 	_leave_game =
 		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["edge_of_town:dialog_leave_game"],
-			(*_display->layout)["edge_of_town:dialog_leave_game_text"], WindowDialogType::CONFIRM);
+			(*_display->layout)["edge_of_town:dialog_leave_game_text"], WDT::CONFIRM);
 	_leave_game->setPosition(_display->get_centre_pos(_leave_game->get_size()));
 
 	// Modules
@@ -88,34 +88,34 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
 
 	// And do the main loop
-	_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+	_display->set_input_mode(WIM::NAVIGATE_MENU);
 	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
 
 			// If we are in normal input mode
-			if (_display->get_input_mode() == WindowInputMode::NAVIGATE_MENU) {
+			if (_display->get_input_mode() == WIM::NAVIGATE_MENU) {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
 					_window->close();
 
 				// Handle enabling help overlay
-				if (_system->input->check(WindowInput::SHOW_CONTROLS, event)) {
+				if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
 					continue;
 				} else
 					_display->hide_overlay();
 
 				// And handle input on the main menu
-				if (_system->input->check(WindowInput::UP, event))
+				if (_system->input->check(WIP::UP, event))
 					option = _menu->choose_previous();
-				else if (_system->input->check(WindowInput::DOWN, event))
+				else if (_system->input->check(WIP::DOWN, event))
 					option = _menu->choose_next();
-				else if (_system->input->check(WindowInput::MOVE, event))
+				else if (_system->input->check(WIP::MOVE, event))
 					option = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check(WindowInput::CONFIRM, event)) {
+				else if (_system->input->check(WIP::CONFIRM, event)) {
 
 					// We have selected something from the menu
 					if (option) {
@@ -123,7 +123,7 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 							option_chosen == MenuItem::ET_CASTLE) {
 							return MenuItem::ET_CASTLE;
 						} else if (option_chosen == MenuItem::ET_LEAVE_GAME)
-							_display->set_input_mode(WindowInputMode::CONFIRM_LEAVE_GAME);
+							_display->set_input_mode(WIM::CONFIRM_LEAVE_GAME);
 						else if (option_chosen == MenuItem::ET_MAZE)
 							return MenuItem::ET_MAZE;
 						else if (option_chosen == MenuItem::ET_TRAIN)
@@ -131,21 +131,20 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 						else if (option_chosen == MenuItem::ET_RESTART)
 							return MenuItem::ET_RESTART;
 					}
-				} else if (_system->input->check(WindowInput::CANCEL, event) ||
-						   _system->input->check(WindowInput::BACK, event)) {
-					_display->set_input_mode(WindowInputMode::CONFIRM_LEAVE_GAME);
+				} else if (_system->input->check(WIP::CANCEL, event) || _system->input->check(WIP::BACK, event)) {
+					_display->set_input_mode(WIM::CONFIRM_LEAVE_GAME);
 				}
 
-			} else if (_display->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME) {
+			} else if (_display->get_input_mode() == WIM::CONFIRM_LEAVE_GAME) {
 
 				auto dialog_input{_leave_game->handle_input(event)};
 				if (dialog_input) {
-					if (dialog_input.value() == WindowDialogButton::CLOSE) {
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					if (dialog_input.value() == WDB::CLOSE) {
+						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						_game->save_game();
 						return MenuItem::ET_LEAVE_GAME;
-					} else if (dialog_input.value() == WindowDialogButton::YES) {
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} else if (dialog_input.value() == WDB::YES) {
+						_display->set_input_mode(WIM::NAVIGATE_MENU);
 
 						// If we leave the game, move any current party members into the Tavern
 						for (auto &[character_id, character] : _game->characters) {
@@ -155,8 +154,8 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 						_game->state->clear_party();
 						_game->save_game();
 						return MenuItem::ET_LEAVE_GAME;
-					} else if (dialog_input.value() == WindowDialogButton::NO) {
-						_display->set_input_mode(WindowInputMode::NAVIGATE_MENU);
+					} else if (dialog_input.value() == WDB::NO) {
+						_display->set_input_mode(WIM::NAVIGATE_MENU);
 					}
 				}
 			}
@@ -202,7 +201,7 @@ auto Sorcery::EdgeOfTown::_draw() -> void {
 	// And the Menu
 	_menu->generate((*_display->layout)["edge_of_town:menu"]);
 	_window->draw(*_menu);
-	if (_display->get_input_mode() == WindowInputMode::CONFIRM_LEAVE_GAME) {
+	if (_display->get_input_mode() == WIM::CONFIRM_LEAVE_GAME) {
 		_leave_game->update();
 		_window->draw(*_leave_game);
 	}

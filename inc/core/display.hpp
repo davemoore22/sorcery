@@ -62,8 +62,8 @@ class Display {
 		auto stop_bg_movie() -> void;
 		auto update_bg_movie() -> void;
 		auto draw_bg_movie() -> void;
-		auto set_input_mode(WindowInputMode input_mode) -> void;
-		auto get_input_mode() const -> WindowInputMode;
+		auto set_input_mode(WIM input_mode) -> void;
+		auto get_input_mode() const -> WIM;
 		auto show_overlay() -> void;
 		auto hide_overlay() -> void;
 		auto display_overlay() -> void;
