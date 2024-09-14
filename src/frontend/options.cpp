@@ -102,30 +102,30 @@ auto Sorcery::Options::start() -> int {
 				if (event.type == sf::Event::Closed)
 					return EXIT_ALL;
 
-				if (_system->input->check(WIP::CANCEL, event))
+				if (_system->input->check(CIN::CANCEL, event))
 					return EXIT_MODULE;
 
 				// Handle enabling help overlay
-				if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
+				if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
 					continue;
 				} else
 					_display->hide_overlay();
 
 				// And handle input on the main menu
-				if (_system->input->check(WIP::UP, event)) {
+				if (_system->input->check(CIN::UP, event)) {
 					selected = _menu->choose_previous();
-				} else if (_system->input->check(WIP::DOWN, event)) {
+				} else if (_system->input->check(CIN::DOWN, event)) {
 					selected = _menu->choose_next();
-				} else if (_system->input->check(WIP::MOVE, event)) {
+				} else if (_system->input->check(CIN::MOVE, event)) {
 					selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					if (selected) {
 						// No Tooltips anymore
 					}
 
-				} else if (_system->input->check(WIP::CONFIRM, event)) {
+				} else if (_system->input->check(CIN::CONFIRM, event)) {
 					if (selected) {
-						if ((*_menu->selected).type == MenuItemType::ENTRY) {
+						if ((*_menu->selected).type == MIT::ENTRY) {
 							const ConfigOption config_to_toggle{(*_menu->selected).config};
 							if (config_to_toggle == ConfigOption::STRICT_MODE &&
 								!(*_system->config)[ConfigOption::STRICT_MODE]) {
@@ -150,11 +150,11 @@ auto Sorcery::Options::start() -> int {
 								if (!_system->config->is_rec_mode())
 									(*_system->config)[ConfigOption::RECOMMENDED_MODE] = false;
 							}
-						} else if ((*_menu->selected).type == MenuItemType::SAVE) {
+						} else if ((*_menu->selected).type == MIT::SAVE) {
 
 							// Ask for confirmation of Save
 							_display->set_input_mode(WIM::SAVE_CHANGES);
-						} else if ((*_menu->selected).type == MenuItemType::CANCEL) {
+						} else if ((*_menu->selected).type == MIT::CANCEL) {
 
 							// Ask for confirmation of Cancel
 							_display->set_input_mode(WIM::CANCEL_CHANGES);
@@ -172,7 +172,7 @@ auto Sorcery::Options::start() -> int {
 				if (event.type == sf::Event::Closed)
 					return EXIT_ALL;
 
-				if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
+				if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
 					continue;
 				} else
@@ -247,7 +247,7 @@ auto Sorcery::Options::stop() -> void {
 auto Sorcery::Options::_set_infopanel(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void {
 
 	// Set the Text
-	if ((*it).type == MenuItemType::ENTRY) {
+	if ((*it).type == MIT::ENTRY) {
 		auto ip_contents{(*it).hint};
 		_ip->set_text(ip_contents);
 		_ip->valid = true;
@@ -255,8 +255,8 @@ auto Sorcery::Options::_set_infopanel(std::vector<Sorcery::MenuEntry>::const_ite
 		_ip->valid = false;
 
 	// Set the Icon
-	if ((*it).type == MenuItemType::ENTRY)
-		_ip->set_icon(MenuItem::OP_ALL);
+	if ((*it).type == MIT::ENTRY)
+		_ip->set_icon(MI::OP_ALL);
 }
 
 auto Sorcery::Options::_draw() -> void {

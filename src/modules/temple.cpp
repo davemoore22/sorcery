@@ -89,7 +89,7 @@ Sorcery::Temple::~Temple() {
 }
 
 // Visit the Tavern
-auto Sorcery::Temple::start() -> std::optional<MenuItem> {
+auto Sorcery::Temple::start() -> std::optional<MI> {
 
 	// Get the Background Display Components and load them into Display module storage (not local - and note that due to
 	// the way both menus are combined in this class, we need to have the menu stage set first in this case and this
@@ -135,51 +135,49 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return MenuItem::ITEM_ABORT;
+					return MI::ITEM_ABORT;
 
 				// Handle enabling help overlay
-				if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
+				if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
 					continue;
 				} else
 					_display->hide_overlay();
 
-				if (_system->input->check(WIP::SHOW_HIDE_CONSOLE, event))
+				if (_system->input->check(CIN::SHOW_HIDE_CONSOLE, event))
 					_game->toggle_console();
 
-				if (_system->input->check(WIP::CANCEL, event))
+				if (_system->input->check(CIN::CANCEL, event))
 					return std::nullopt;
 
-				if (_system->input->check(WIP::BACK, event))
+				if (_system->input->check(CIN::BACK, event))
 					return std::nullopt;
 
 				// And handle input on the main menu
 				if (_stage == TempleStage::MENU) {
-					if (_system->input->check(WIP::UP, event))
+					if (_system->input->check(CIN::UP, event))
 						option = _menu->choose_previous();
-					else if (_system->input->check(WIP::DOWN, event))
+					else if (_system->input->check(CIN::DOWN, event))
 						option = _menu->choose_next();
-					else if (_system->input->check(WIP::MOVE, event))
+					else if (_system->input->check(CIN::MOVE, event))
 						option = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					else if (_system->input->check(WIP::CONFIRM, event)) {
+					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						// We have selected something from the menu
 						if (option) {
-							if (const MenuItem option_chosen{(*option.value()).item};
-								option_chosen == MenuItem::TE_CASTLE) {
-								return MenuItem::TE_CASTLE;
-							} else if (option_chosen == MenuItem::TE_INSPECT) {
+							if (const MI option_chosen{(*option.value()).item}; option_chosen == MI::TE_CASTLE) {
+								return MI::TE_CASTLE;
+							} else if (option_chosen == MI::TE_INSPECT) {
 								if (auto result{_inspect->start(std::nullopt)};
-									result && result.value() == MenuItem::ITEM_ABORT) {
+									result && result.value() == MI::ITEM_ABORT) {
 									_inspect->stop();
-									return MenuItem::ITEM_ABORT;
+									return MI::ITEM_ABORT;
 								}
 								_inspect->stop();
 								_display->generate("temple");
 								_display->set_input_mode(WIM::NAVIGATE_MENU);
 								continue;
-							} else if (const MenuItem option_chosen{(*option.value()).item};
-								option_chosen == MenuItem::TE_HELP) {
+							} else if (const MI option_chosen{(*option.value()).item}; option_chosen == MI::TE_HELP) {
 								_stage = TempleStage::HELP;
 								_party_panel->refresh();
 								_help->reload();
@@ -189,29 +187,28 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 						}
 					}
 				} else if (_stage == TempleStage::HELP) {
-					if (_system->input->check(WIP::CANCEL, event)) {
+					if (_system->input->check(CIN::CANCEL, event)) {
 						_stage = TempleStage::MENU;
 						_party_panel->refresh();
 						_help->reload();
 						_help->generate((*_display->layout)["temple_help:menu"]);
-					} else if (_system->input->check(WIP::BACK, event)) {
+					} else if (_system->input->check(CIN::BACK, event)) {
 						_stage = TempleStage::MENU;
 						_party_panel->refresh();
 						_help->reload();
 						_help->generate((*_display->layout)["temple_help:menu"]);
-					} else if (_system->input->check(WIP::UP, event))
+					} else if (_system->input->check(CIN::UP, event))
 						option_help = _help->choose_previous();
-					else if (_system->input->check(WIP::DOWN, event))
+					else if (_system->input->check(CIN::DOWN, event))
 						option_help = _help->choose_next();
-					else if (_system->input->check(WIP::MOVE, event))
+					else if (_system->input->check(CIN::MOVE, event))
 						option_help =
 							_help->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					else if (_system->input->check(WIP::CONFIRM, event)) {
+					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						// We have selected something from the menu
 						if (option_help) {
-							if (const MenuItem option_chosen{(*option_help.value()).item};
-								option_chosen == MenuItem::CA_TEMPLE) {
+							if (const MI option_chosen{(*option_help.value()).item}; option_chosen == MI::CA_TEMPLE) {
 								_stage = TempleStage::MENU;
 								_party_panel->refresh();
 								_help->reload();
@@ -234,29 +231,28 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 					}
 				} else if (_stage == TempleStage::PAY) {
 
-					if (_system->input->check(WIP::CANCEL, event)) {
+					if (_system->input->check(CIN::CANCEL, event)) {
 						_stage = TempleStage::HELP;
 						_party_panel->refresh();
 						_help->reload();
 						_help->generate((*_display->layout)["temple_help:menu"]);
-					} else if (_system->input->check(WIP::BACK, event)) {
+					} else if (_system->input->check(CIN::BACK, event)) {
 						_stage = TempleStage::HELP;
 						_party_panel->refresh();
 						_help->reload();
 						_help->generate((*_display->layout)["temple_help:menu"]);
-					} else if (_system->input->check(WIP::UP, event))
+					} else if (_system->input->check(CIN::UP, event))
 						option_pay = _pay->choose_previous();
-					else if (_system->input->check(WIP::DOWN, event))
+					else if (_system->input->check(CIN::DOWN, event))
 						option_pay = _pay->choose_next();
-					else if (_system->input->check(WIP::MOVE, event))
+					else if (_system->input->check(CIN::MOVE, event))
 						option_pay =
 							_pay->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-					else if (_system->input->check(WIP::CONFIRM, event)) {
+					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						// We have selected something from the menu
 						if (option_help) {
-							if (const MenuItem option_chosen{(*option_pay.value()).item};
-								option_chosen == MenuItem::CA_TEMPLE) {
+							if (const MI option_chosen{(*option_pay.value()).item}; option_chosen == MI::CA_TEMPLE) {
 								_stage = TempleStage::HELP;
 								_party_panel->refresh();
 								_help->reload();
@@ -279,22 +275,22 @@ auto Sorcery::Temple::start() -> std::optional<MenuItem> {
 				} else if (_stage == TempleStage::RESS) {
 					if (_t_finished) {
 						_stop_count_thread();
-						if (_system->input->check(WIP::CANCEL, event))
-							return MenuItem::CP_LEAVE;
-						else if (_system->input->check(WIP::BACK, event))
-							return MenuItem::CP_LEAVE;
-						else if (_system->input->check(WIP::UP, event))
+						if (_system->input->check(CIN::CANCEL, event))
+							return MI::CP_LEAVE;
+						else if (_system->input->check(CIN::BACK, event))
+							return MI::CP_LEAVE;
+						else if (_system->input->check(CIN::UP, event))
 							option_continue = _continue_menu->choose_previous();
-						else if (_system->input->check(WIP::DOWN, event))
+						else if (_system->input->check(CIN::DOWN, event))
 							option_continue = _continue_menu->choose_next();
-						else if (_system->input->check(WIP::MOVE, event))
+						else if (_system->input->check(CIN::MOVE, event))
 							option_continue = _continue_menu->set_mouse_selected(
 								static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-						else if (_system->input->check(WIP::CONFIRM, event)) {
+						else if (_system->input->check(CIN::CONFIRM, event)) {
 
 							if (option_continue) {
-								if (const MenuItem option_chosen{(*option_continue.value()).item};
-									option_chosen == MenuItem::ITEM_CONTINUE) {
+								if (const MI option_chosen{(*option_continue.value()).item};
+									option_chosen == MI::ITEM_CONTINUE) {
 									_stage = TempleStage::MENU;
 									_party_panel->refresh();
 									continue;
@@ -400,7 +396,7 @@ auto Sorcery::Temple::_refresh_pay_menu(const unsigned int cost) -> void {
 
 	// disable any character menu item who doesn't have enough gold
 	for (auto &item : _pay->items) {
-		if (item.item == MenuItem::IC_CHARACTER) {
+		if (item.item == MI::IC_CHARACTER) {
 			const auto &character{_game->characters[item.index]};
 			item.enabled = character.get_gold() >= cost;
 		}

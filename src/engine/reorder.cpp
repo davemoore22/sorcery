@@ -97,26 +97,26 @@ auto Sorcery::Reorder::start() -> std::optional<std::vector<unsigned int>> {
 				return std::nullopt;
 
 			// Handle enabling help overlay
-			if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
+			if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
 				_display->hide_overlay();
 
-			if (_system->input->check(WIP::CANCEL, event))
+			if (_system->input->check(CIN::CANCEL, event))
 				return std::nullopt;
 
-			if (_system->input->check(WIP::BACK, event))
+			if (_system->input->check(CIN::BACK, event))
 				return std::nullopt;
 
 			// And handle input on the main menu
-			if (_system->input->check(WIP::UP, event))
+			if (_system->input->check(CIN::UP, event))
 				option = _menu->choose_previous();
-			else if (_system->input->check(WIP::DOWN, event))
+			else if (_system->input->check(CIN::DOWN, event))
 				option = _menu->choose_next();
-			else if (_system->input->check(WIP::MOVE, event))
+			else if (_system->input->check(CIN::MOVE, event))
 				option = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-			else if (_system->input->check(WIP::CONFIRM, event)) {
+			else if (_system->input->check(CIN::CONFIRM, event)) {
 
 				if (option) {
 

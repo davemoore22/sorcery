@@ -57,8 +57,8 @@ class Museum {
 
 		// Private Methods
 		auto _draw() -> void;
-		auto _do_event_loop() -> std::optional<ModuleResult>;
-		auto _handle_input(const sf::Event &event) -> std::optional<ModuleResult>;
+		auto _do_event_loop() -> std::optional<MDR>;
+		auto _handle_input(const sf::Event &event) -> std::optional<MDR>;
 		auto _generate_display() -> void;
 		auto _reset_components() -> void;
 		auto _initalise_components() -> void;

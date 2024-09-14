@@ -52,7 +52,7 @@ class Event {
 		// Public Members
 
 		// Public Methods
-		auto start() -> std::optional<MenuItem>;
+		auto start() -> std::optional<MI>;
 		auto stop() -> void;
 
 	private:

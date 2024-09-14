@@ -55,12 +55,12 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 		auto dec_hl_spell(SpellType type) -> void;
 		auto update() -> void;
 		auto check_for_mouse_move(sf::Vector2f mouse_pos) -> std::optional<SpellID>;
-		auto check_for_action_mouse_move(sf::Vector2f mouse_pos) -> std::optional<MenuItem>;
+		auto check_for_action_mouse_move(sf::Vector2f mouse_pos) -> std::optional<MI>;
 		auto check_for_inventory_mouse_move(sf::Vector2f mouse_pos) -> unsigned int;
 		auto generate_display() -> void;
 		auto set_mode(CharacterMode value) -> void;
 		auto get_icon(CharacterStage type) -> std::optional<sf::Sprite>;
-		auto get_hl_action_item() const -> MenuItem;
+		auto get_hl_action_item() const -> MI;
 		auto get_inventory_item() const -> unsigned int;
 		auto clear_inventory_item() -> void;
 		auto left_hl_action() -> void;
@@ -73,8 +73,8 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 		std::map<SpellID, sf::FloatRect> priest_spell_bounds;
 		std::map<SpellID, sf::Text *> mage_spell_texts;
 		std::map<SpellID, sf::Text *> priest_spell_texts;
-		std::map<MenuItem, sf::Text *> action_menu_texts;
-		std::map<MenuItem, sf::FloatRect> action_menu_bounds;
+		std::map<MI, sf::Text *> action_menu_texts;
+		std::map<MI, sf::FloatRect> action_menu_bounds;
 		std::map<unsigned int, sf::Text *> inventory_texts;
 		std::map<unsigned int, sf::FloatRect> inventory_bounds;
 
@@ -88,8 +88,8 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 		auto _add_text(Component &component, std::string format, std::string value, bool is_view = true) -> sf::Text *;
 		auto _add_icon(Component &component, std::string icon_key) -> void;
 		auto _get_spell_icon(SpellCategory category) -> std::optional<sf::Sprite>;
-		auto _add_action_button(Component layout_c, const MenuItem item, const std::string format,
-			const std::string str, const bool enabled) -> void;
+		auto _add_action_button(Component layout_c, const MI item, const std::string format, const std::string str,
+			const bool enabled) -> void;
 		auto _generate_inventory(Component layout_c) -> void;
 
 		// Private Members
@@ -109,7 +109,7 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 
 		SpellID _hl_mage_spell;
 		SpellID _hl_priest_spell;
-		MenuItem _hl_action_item;
+		MI _hl_action_item;
 		unsigned int _hl_inventory_item;
 		sf::RectangleShape _hl_mage_spell_bg;
 		sf::RectangleShape _hl_priest_spell_bg;

@@ -90,16 +90,16 @@ auto Sorcery::ChangeName::start() -> std::optional<std::string> {
 				return EXIT_STRING;
 
 			// Handle enabling help overlay
-			if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
+			if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
 				_display->hide_overlay();
 
-			if (_system->input->check(WIP::CANCEL, event))
+			if (_system->input->check(CIN::CANCEL, event))
 				return std::nullopt;
 
-			if (_system->input->check(WIP::BACK, event))
+			if (_system->input->check(CIN::BACK, event))
 				return std::nullopt;
 
 			auto name_changed = _handle_change_name(event);
@@ -141,14 +141,14 @@ auto Sorcery::ChangeName::is_changed() -> bool {
 auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event) -> std::optional<bool> {
 
 	auto candidate_name{_new_name};
-	if (_system->input->check(WIP::MOVE, event)) {
+	if (_system->input->check(CIN::MOVE, event)) {
 
 		sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
 		std::optional<std::string> mouse_selected{
 			_keyboard->set_mouse_selected((*_display->layout)["character_create_stage_1:keyboard"], mouse_pos)};
 		if (mouse_selected)
 			_keyboard->selected = mouse_selected.value();
-	} else if (_system->input->check(WIP::ALPHANUMERIC, event) || _system->input->check(WIP::SPACE, event)) {
+	} else if (_system->input->check(CIN::ALPHANUMERIC, event) || _system->input->check(CIN::SPACE, event)) {
 		if (candidate_name.length() < 16) {
 			candidate_name += static_cast<char>(event.text.unicode);
 			_new_name = candidate_name;
@@ -160,13 +160,13 @@ auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event) -> std::op
 			key_pressed.push_back(static_cast<char>(event.text.unicode));
 			_keyboard->selected = key_pressed;
 		}
-	} else if (_system->input->check(WIP::DELETE, event)) {
+	} else if (_system->input->check(CIN::DELETE, event)) {
 		if (candidate_name.length() > 0) {
 			candidate_name.pop_back();
 			_new_name = candidate_name;
 			_keyboard->selected = "Del";
 		}
-	} else if (_system->input->check(WIP::BACK, event)) {
+	} else if (_system->input->check(CIN::BACK, event)) {
 		if (candidate_name.length() > 0) {
 			candidate_name.pop_back();
 			_new_name = candidate_name;
@@ -176,7 +176,7 @@ auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event) -> std::op
 			// Return if Back Button is selected and no character name is chosen
 			return false;
 		}
-	} else if (_system->input->check(WIP::SELECT, event)) {
+	} else if (_system->input->check(CIN::SELECT, event)) {
 		if (_keyboard->selected == "End") {
 			if (TRIM_COPY(candidate_name).length() > 0) {
 				_new_name = candidate_name;
@@ -198,7 +198,7 @@ auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event) -> std::op
 			candidate_name += _keyboard->selected;
 			_new_name = candidate_name;
 		}
-	} else if (_system->input->check(WIP::CONFIRM_NO_SPACE, event)) {
+	} else if (_system->input->check(CIN::CONFIRM_NO_SPACE, event)) {
 
 		if (_keyboard->selected == "End") {
 			if (TRIM_COPY(candidate_name).length() > 0) {
@@ -215,14 +215,14 @@ auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event) -> std::op
 				return true;
 			}
 		}
-	} else if (_system->input->check(WIP::LEFT, event))
-		_keyboard->set_selected(WIP::LEFT);
-	else if (_system->input->check(WIP::RIGHT, event))
-		_keyboard->set_selected(WIP::RIGHT);
-	else if (_system->input->check(WIP::UP, event))
-		_keyboard->set_selected(WIP::UP);
-	else if (_system->input->check(WIP::DOWN, event))
-		_keyboard->set_selected(WIP::DOWN);
+	} else if (_system->input->check(CIN::LEFT, event))
+		_keyboard->set_selected(CIN::LEFT);
+	else if (_system->input->check(CIN::RIGHT, event))
+		_keyboard->set_selected(CIN::RIGHT);
+	else if (_system->input->check(CIN::UP, event))
+		_keyboard->set_selected(CIN::UP);
+	else if (_system->input->check(CIN::DOWN, event))
+		_keyboard->set_selected(CIN::DOWN);
 
 	return std::nullopt;
 }

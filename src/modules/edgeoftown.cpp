@@ -67,12 +67,12 @@ Sorcery::EdgeOfTown::~EdgeOfTown() {
 }
 
 // Start/Continue a new Game
-auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuItem> {
+auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MI> {
 
 	if (destination == Destination::RESTART)
-		return MenuItem::ET_RESTART;
+		return MI::ET_RESTART;
 	else if (destination == Destination::MAZE)
-		return MenuItem::ET_MAZE;
+		return MI::ET_MAZE;
 
 	_update_menus();
 	_display->generate("edge_of_town");
@@ -102,36 +102,35 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 					_window->close();
 
 				// Handle enabling help overlay
-				if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
+				if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
 					continue;
 				} else
 					_display->hide_overlay();
 
 				// And handle input on the main menu
-				if (_system->input->check(WIP::UP, event))
+				if (_system->input->check(CIN::UP, event))
 					option = _menu->choose_previous();
-				else if (_system->input->check(WIP::DOWN, event))
+				else if (_system->input->check(CIN::DOWN, event))
 					option = _menu->choose_next();
-				else if (_system->input->check(WIP::MOVE, event))
+				else if (_system->input->check(CIN::MOVE, event))
 					option = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check(WIP::CONFIRM, event)) {
+				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					// We have selected something from the menu
 					if (option) {
-						if (const MenuItem option_chosen{(*option.value()).item};
-							option_chosen == MenuItem::ET_CASTLE) {
-							return MenuItem::ET_CASTLE;
-						} else if (option_chosen == MenuItem::ET_LEAVE_GAME)
+						if (const MI option_chosen{(*option.value()).item}; option_chosen == MI::ET_CASTLE) {
+							return MI::ET_CASTLE;
+						} else if (option_chosen == MI::ET_LEAVE_GAME)
 							_display->set_input_mode(WIM::CONFIRM_LEAVE_GAME);
-						else if (option_chosen == MenuItem::ET_MAZE)
-							return MenuItem::ET_MAZE;
-						else if (option_chosen == MenuItem::ET_TRAIN)
-							return MenuItem::ET_TRAIN;
-						else if (option_chosen == MenuItem::ET_RESTART)
-							return MenuItem::ET_RESTART;
+						else if (option_chosen == MI::ET_MAZE)
+							return MI::ET_MAZE;
+						else if (option_chosen == MI::ET_TRAIN)
+							return MI::ET_TRAIN;
+						else if (option_chosen == MI::ET_RESTART)
+							return MI::ET_RESTART;
 					}
-				} else if (_system->input->check(WIP::CANCEL, event) || _system->input->check(WIP::BACK, event)) {
+				} else if (_system->input->check(CIN::CANCEL, event) || _system->input->check(CIN::BACK, event)) {
 					_display->set_input_mode(WIM::CONFIRM_LEAVE_GAME);
 				}
 
@@ -142,7 +141,7 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 					if (dialog_input.value() == WDB::CLOSE) {
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						_game->save_game();
-						return MenuItem::ET_LEAVE_GAME;
+						return MI::ET_LEAVE_GAME;
 					} else if (dialog_input.value() == WDB::YES) {
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 
@@ -153,7 +152,7 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MenuIt
 						}
 						_game->state->clear_party();
 						_game->save_game();
-						return MenuItem::ET_LEAVE_GAME;
+						return MI::ET_LEAVE_GAME;
 					} else if (dialog_input.value() == WDB::NO) {
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 					}

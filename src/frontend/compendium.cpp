@@ -60,7 +60,7 @@ auto Sorcery::Compendium::start() -> int {
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
 	_selected = _menu->items.begin();
 
-	if (auto module_result{_do_event_loop()}; module_result == ModuleResult::EXIT) {
+	if (auto module_result{_do_event_loop()}; module_result == MDR::EXIT) {
 
 		// Shutdown
 		_display->shutdown_SFML();
@@ -136,7 +136,7 @@ auto Sorcery::Compendium::_draw() -> void {
 	_display->display_cursor();
 }
 
-auto Sorcery::Compendium::_do_event_loop() -> std::optional<ModuleResult> {
+auto Sorcery::Compendium::_do_event_loop() -> std::optional<MDR> {
 
 	// And do the main loop
 	while (_window->isOpen()) {
@@ -144,12 +144,12 @@ auto Sorcery::Compendium::_do_event_loop() -> std::optional<ModuleResult> {
 		while (_window->pollEvent(event)) {
 			auto const module_result = _handle_input(event);
 			if (module_result) {
-				if (module_result.value() == ModuleResult::CLOSE)
-					return ModuleResult::CLOSE;
-				if (module_result.value() == ModuleResult::BACK)
-					return ModuleResult::BACK;
-				if (module_result.value() == ModuleResult::EXIT)
-					return ModuleResult::EXIT;
+				if (module_result.value() == MDR::CLOSE)
+					return MDR::CLOSE;
+				if (module_result.value() == MDR::BACK)
+					return MDR::BACK;
+				if (module_result.value() == MDR::EXIT)
+					return MDR::EXIT;
 			}
 		}
 
@@ -162,50 +162,50 @@ auto Sorcery::Compendium::_do_event_loop() -> std::optional<ModuleResult> {
 	return std::nullopt;
 }
 
-auto Sorcery::Compendium::_handle_input(const sf::Event &event) -> std::optional<ModuleResult> {
+auto Sorcery::Compendium::_handle_input(const sf::Event &event) -> std::optional<MDR> {
 
 	// Check for Window Close
 	if (event.type == sf::Event::Closed)
-		return ModuleResult::EXIT;
+		return MDR::EXIT;
 
-	if (_system->input->check(WIP::CANCEL, event))
-		return ModuleResult::CLOSE;
+	if (_system->input->check(CIN::CANCEL, event))
+		return MDR::CLOSE;
 
-	if (_system->input->check(WIP::BACK, event))
-		return ModuleResult::BACK;
+	if (_system->input->check(CIN::BACK, event))
+		return MDR::BACK;
 
 	// Handle enabling help overlay
-	if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
+	if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 		_display->show_overlay();
 		return std::nullopt;
 	} else
 		_display->hide_overlay();
 
-	if (_system->input->check(WIP::UP, event))
+	if (_system->input->check(CIN::UP, event))
 		_selected = _menu->choose_previous();
-	else if (_system->input->check(WIP::DOWN, event))
+	else if (_system->input->check(CIN::DOWN, event))
 		_selected = _menu->choose_next();
-	else if (_system->input->check(WIP::MOVE, event))
+	else if (_system->input->check(CIN::MOVE, event))
 		_selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	else if (_system->input->check(WIP::CONFIRM, event)) {
+	else if (_system->input->check(CIN::CONFIRM, event)) {
 
 		// We have selected something from the menu
 		if (_selected) {
-			const MenuItem option_chosen{(*_selected.value()).item};
-			if (option_chosen == MenuItem::ITEM_RETURN)
-				return ModuleResult::BACK;
-			else if (option_chosen == MenuItem::CO_ITEMS) {
+			const MI option_chosen{(*_selected.value()).item};
+			if (option_chosen == MI::ITEM_RETURN)
+				return MDR::BACK;
+			else if (option_chosen == MI::CO_ITEMS) {
 				if (auto result{_museum->start()}; result && result == EXIT_ALL) {
 					_museum->stop();
-					return ModuleResult::EXIT;
+					return MDR::EXIT;
 				}
 				_museum->stop();
 				_generate_display();
 				_refresh_display();
-			} else if (option_chosen == MenuItem::CO_MONSTERS) {
+			} else if (option_chosen == MI::CO_MONSTERS) {
 				if (auto result{_bestiary->start()}; result && result == EXIT_ALL) {
 					_bestiary->stop();
-					return ModuleResult::EXIT;
+					return MDR::EXIT;
 				}
 				_bestiary->stop();
 				_generate_display();

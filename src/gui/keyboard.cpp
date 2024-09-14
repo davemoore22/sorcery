@@ -211,13 +211,13 @@ auto Sorcery::Keyboard::set_selected_background() -> void {
 	_texts.at(selected).setOutlineThickness(2);
 }
 
-auto Sorcery::Keyboard::set_selected(WIP input) -> void {
+auto Sorcery::Keyboard::set_selected(CIN input) -> void {
 
 	// TODO: This will sadly break if the columns in the key grid is changed -
 	// need to change this to use something else to handle precedent and
 	// succedent selected
 	switch (input) {
-	case WIP::UP:
+	case CIN::UP:
 		if (selected == "J")
 			selected = "End";
 		else if (selected == "I")
@@ -247,7 +247,7 @@ auto Sorcery::Keyboard::set_selected(WIP input) -> void {
 			});
 		}
 		break;
-	case WIP::DOWN:
+	case CIN::DOWN:
 		if (selected == "End")
 			selected = "J";
 		else if (selected == "Del")
@@ -277,7 +277,7 @@ auto Sorcery::Keyboard::set_selected(WIP input) -> void {
 			});
 		}
 		break;
-	case WIP::LEFT:
+	case CIN::LEFT:
 		if (selected == "A")
 			selected = "End";
 		else if (selected == "End")
@@ -293,7 +293,7 @@ auto Sorcery::Keyboard::set_selected(WIP input) -> void {
 				[](unsigned char c) -> unsigned char { return --c; });
 		}
 		break;
-	case WIP::RIGHT:
+	case CIN::RIGHT:
 		if (selected == "End")
 			selected = "A";
 		else if (selected == "Del")
@@ -309,8 +309,8 @@ auto Sorcery::Keyboard::set_selected(WIP input) -> void {
 				[](unsigned char c) -> unsigned char { return ++c; });
 		}
 		break;
-	case WIP::BACK:
-	case WIP::CANCEL:
+	case CIN::BACK:
+	case CIN::CANCEL:
 		selected = "Del";
 		break;
 	default:

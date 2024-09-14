@@ -63,8 +63,8 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		auto choose(const unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto choose(std::any option) -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto set_mouse_selected(sf::Vector2f mouse_pos) -> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto get_mouse_clicked(
-			const sf::Event::MouseButtonEvent mb_event) -> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto get_mouse_clicked(const sf::Event::MouseButtonEvent mb_event)
+			-> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto get_type() const -> MenuType;
 		auto generate(const Component &component, bool force_refresh = false) -> void;
 		auto reload() -> void;
@@ -84,12 +84,11 @@ class Menu: public sf::Transformable, public sf::Drawable {
 
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
-		auto _add_item(const int index, const MenuItemType itemtype, const MenuItem code, std::string key,
-			const bool enabled, const ConfigOption option, const std::string &hint) -> void;
-		auto _add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string key) -> void;
-		auto _add_item_disabled(int index, const MenuItemType itemtype, const MenuItem code, std::string key) -> void;
-		auto _add_item(
-			int index, const MenuItemType itemtype, const MenuItem code, std::string key, unsigned int idx) -> void;
+		auto _add_item(const int index, const MIT itemtype, const MI code, std::string key, const bool enabled,
+			const ConfigOption option, const std::string &hint) -> void;
+		auto _add_item(int index, const MIT itemtype, const MI code, std::string key) -> void;
+		auto _add_item_disabled(int index, const MIT itemtype, const MI code, std::string key) -> void;
+		auto _add_item(int index, const MIT itemtype, const MI code, std::string key, unsigned int idx) -> void;
 		auto _populate_chars() -> void;
 		auto _populate_trade_chars(const unsigned int current_char) -> void;
 		auto _select_first() -> std::optional<std::vector<MenuEntry>::const_iterator>;

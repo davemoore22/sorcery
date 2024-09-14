@@ -234,7 +234,7 @@ auto Sorcery::Application::start() -> int {
 	else if (_check_param(GO_TO_OPTIONS))
 		destination = Destination::OPTIONS;
 
-	std::optional<MenuItem> mm_opt{std::nullopt};
+	std::optional<MI> mm_opt{std::nullopt};
 	do {
 
 		if (do_restart) {
@@ -265,8 +265,8 @@ auto Sorcery::Application::start() -> int {
 		} else {
 
 			// If we are starting a new game, or continuing an existing game
-			std::optional<MenuItem> ca_opt{std::nullopt};
-			std::optional<MenuItem> ed_opt{std::nullopt};
+			std::optional<MI> ca_opt{std::nullopt};
+			std::optional<MI> ed_opt{std::nullopt};
 			do {
 
 				// Go to the Castle
@@ -291,14 +291,14 @@ auto Sorcery::Application::start() -> int {
 						_start_expedition();
 				} else if (ed_opt.value() == ET_RESTART) {
 
-					std::optional<MenuItem> rs_opt{std::nullopt};
+					std::optional<MI> rs_opt{std::nullopt};
 					unsigned int character_chosen{0u};
 					rs_opt = _restart->start(character_chosen);
 					_restart->stop();
 					if (rs_opt.value() == ITEM_ABORT) {
 						display->shutdown_SFML();
 						return EXIT_APP;
-					} else if (rs_opt == MenuItem::RS_RESTART)
+					} else if (rs_opt == MI::RS_RESTART)
 						rs_opt = _restart_expedition(character_chosen);
 					else
 						ca_opt = CA_EDGE_OF_TOWN;
@@ -315,7 +315,7 @@ auto Sorcery::Application::start() -> int {
 	return EXIT_APP;
 }
 
-auto Sorcery::Application::_start_expedition() -> std::optional<MenuItem> {
+auto Sorcery::Application::_start_expedition() -> std::optional<MI> {
 
 	_game->enter_maze();
 	auto engine{std::make_unique<Engine>(system.get(), display.get(), graphics.get(), _game.get())};
@@ -323,33 +323,33 @@ auto Sorcery::Application::_start_expedition() -> std::optional<MenuItem> {
 		_game->save_game();
 		engine->stop();
 		display->shutdown_SFML();
-		return MenuItem::ITEM_ABORT;
+		return MI::ITEM_ABORT;
 	}
 	_engine->stop();
-	return MenuItem::ITEM_QUIT;
+	return MI::ITEM_QUIT;
 }
 
-auto Sorcery::Application::_run_restart() -> std::optional<MenuItem> {
+auto Sorcery::Application::_run_restart() -> std::optional<MI> {
 
-	std::optional<MenuItem> rs_opt{std::nullopt};
+	std::optional<MI> rs_opt{std::nullopt};
 	unsigned int character_chosen{0u};
 
 	rs_opt = _restart->start(character_chosen);
 	_restart->stop();
-	if (rs_opt.value() == MenuItem::ITEM_ABORT) {
+	if (rs_opt.value() == MI::ITEM_ABORT) {
 		display->shutdown_SFML();
-		return MenuItem::ITEM_QUIT;
-	} else if (rs_opt == MenuItem::RS_RESTART)
+		return MI::ITEM_QUIT;
+	} else if (rs_opt == MI::RS_RESTART)
 		return _restart_expedition(character_chosen);
 	else
-		return MenuItem::CA_EDGE_OF_TOWN;
+		return MI::CA_EDGE_OF_TOWN;
 }
 
-auto Sorcery::Application::_run_edge_of_town() -> std::optional<MenuItem> {
+auto Sorcery::Application::_run_edge_of_town() -> std::optional<MI> {
 
 	using enum Enums::Menu::Item;
 
-	std::optional<MenuItem> option_chosen{NO_MENU_ITEM};
+	std::optional<MI> option_chosen{NO_MENU_ITEM};
 
 	do {
 		option_chosen = _edgeoftown->start(Destination::DEFAULT);
@@ -379,7 +379,7 @@ auto Sorcery::Application::_run_edge_of_town() -> std::optional<MenuItem> {
 	return ITEM_ABORT;
 }
 
-auto Sorcery::Application::_restart_expedition(const unsigned int character_chosen) -> std::optional<MenuItem> {
+auto Sorcery::Application::_restart_expedition(const unsigned int character_chosen) -> std::optional<MI> {
 
 	// Find the location and floor of the character pointed to, and reload the maze, repopulate the
 	// party and restart the game from there
@@ -407,18 +407,18 @@ auto Sorcery::Application::_restart_expedition(const unsigned int character_chos
 		_game->save_game();
 		engine->stop();
 		display->shutdown_SFML();
-		return MenuItem::ITEM_ABORT;
+		return MI::ITEM_ABORT;
 	}
 	_engine->stop();
 
-	return MenuItem::RS_RESTART;
+	return MI::RS_RESTART;
 }
 
-auto Sorcery::Application::_run_castle() -> std::optional<MenuItem> {
+auto Sorcery::Application::_run_castle() -> std::optional<MI> {
 
 	using enum Enums::Menu::Item;
 
-	std::optional<MenuItem> option_chosen{NO_MENU_ITEM};
+	std::optional<MI> option_chosen{NO_MENU_ITEM};
 
 	do {
 
@@ -465,7 +465,7 @@ auto Sorcery::Application::_run_castle() -> std::optional<MenuItem> {
 }
 
 // Run the Main Menu
-auto Sorcery::Application::_run_main_menu(const Destination destination) -> std::optional<MenuItem> {
+auto Sorcery::Application::_run_main_menu(const Destination destination) -> std::optional<MI> {
 
 	using enum Enums::Menu::Item;
 	using enum Enums::MainMenu::Type;
@@ -482,7 +482,7 @@ auto Sorcery::Application::_run_main_menu(const Destination destination) -> std:
 		return RS_RESTART;
 	}
 
-	std::optional<MenuItem> option_chosen{NO_MENU_ITEM};
+	std::optional<MI> option_chosen{NO_MENU_ITEM};
 	MainMenuType menu_stage{ATTRACT_MODE};
 
 	do {

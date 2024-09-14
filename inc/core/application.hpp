@@ -89,12 +89,12 @@ class Application {
 		auto _update_loading_window() -> void;
 		auto _get_exe_path() const -> std::string_view;
 		auto _quickstart() -> void;
-		auto _start_expedition() -> std::optional<MenuItem>;
-		auto _run_main_menu(const Destination destination) -> std::optional<MenuItem>;
-		auto _run_castle() -> std::optional<MenuItem>;
-		auto _run_edge_of_town() -> std::optional<MenuItem>;
-		auto _run_restart() -> std::optional<MenuItem>;
-		auto _restart_expedition(const unsigned int character_chosen) -> std::optional<MenuItem>;
+		auto _start_expedition() -> std::optional<MI>;
+		auto _run_main_menu(const Destination destination) -> std::optional<MI>;
+		auto _run_castle() -> std::optional<MI>;
+		auto _run_edge_of_town() -> std::optional<MI>;
+		auto _run_restart() -> std::optional<MI>;
+		auto _restart_expedition(const unsigned int character_chosen) -> std::optional<MI>;
 
 		// Private Members
 		std::unique_ptr<Banner> _banner;

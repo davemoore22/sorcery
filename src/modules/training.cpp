@@ -61,7 +61,7 @@ Sorcery::Training::Training(System *system, Display *display, Graphics *graphics
 Sorcery::Training::~Training() {
 }
 
-auto Sorcery::Training::start() -> std::optional<MenuItem> {
+auto Sorcery::Training::start() -> std::optional<MI> {
 
 	// Remove all characters from party as is tradition
 	for (auto &[character_id, character] : _game->characters) {
@@ -108,59 +108,59 @@ auto Sorcery::Training::start() -> std::optional<MenuItem> {
 				_window->close();
 
 			// Handle enabling help overlay
-			if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
+			if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
 				_display->hide_overlay();
 
-			if (_system->input->check(WIP::CANCEL, event))
+			if (_system->input->check(CIN::CANCEL, event))
 				return std::nullopt;
 
-			if (_system->input->check(WIP::BACK, event))
+			if (_system->input->check(CIN::BACK, event))
 				return std::nullopt;
 
-			if (_system->input->check(WIP::UP, event))
+			if (_system->input->check(CIN::UP, event))
 				selected = _menu->choose_previous();
-			else if (_system->input->check(WIP::DOWN, event))
+			else if (_system->input->check(CIN::DOWN, event))
 				selected = _menu->choose_next();
-			else if (_system->input->check(WIP::MOVE, event))
+			else if (_system->input->check(CIN::MOVE, event))
 				selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-			else if (_system->input->check(WIP::CONFIRM, event)) {
+			else if (_system->input->check(CIN::CONFIRM, event)) {
 
 				// We have selected something from the menu
 				if (selected) {
-					const MenuItem option_chosen{(*selected.value()).item};
-					if (option_chosen == MenuItem::TR_EDGE_OF_TOWN) {
-						return MenuItem::ET_LEAVE_GAME;
-					} else if (option_chosen == MenuItem::TR_CREATE) {
-						if (auto result{_create->start()}; result && result.value() == MenuItem::ITEM_ABORT) {
+					const MI option_chosen{(*selected.value()).item};
+					if (option_chosen == MI::TR_EDGE_OF_TOWN) {
+						return MI::ET_LEAVE_GAME;
+					} else if (option_chosen == MI::TR_CREATE) {
+						if (auto result{_create->start()}; result && result.value() == MI::ITEM_ABORT) {
 							_create->stop();
-							return MenuItem::ITEM_ABORT;
+							return MI::ITEM_ABORT;
 						}
 						_create->stop();
 						_display->generate("training_grounds");
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
-					} else if (option_chosen == MenuItem::TR_INSPECT) {
-						if (auto result{_inspect->start()}; result && result.value() == MenuItem::ITEM_ABORT) {
+					} else if (option_chosen == MI::TR_INSPECT) {
+						if (auto result{_inspect->start()}; result && result.value() == MI::ITEM_ABORT) {
 							_inspect->stop();
-							return MenuItem::ITEM_ABORT;
+							return MI::ITEM_ABORT;
 						}
 						_inspect->stop();
 						_display->generate("training_grounds");
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
-					} else if (option_chosen == MenuItem::TR_EDIT) {
-						if (auto result{_edit->start()}; result && result.value() == MenuItem::ITEM_ABORT) {
+					} else if (option_chosen == MI::TR_EDIT) {
+						if (auto result{_edit->start()}; result && result.value() == MI::ITEM_ABORT) {
 							_edit->stop();
-							return MenuItem::ITEM_ABORT;
+							return MI::ITEM_ABORT;
 						}
 						_edit->stop();
 						_display->generate("training_grounds");
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
-					} else if (option_chosen == MenuItem::TR_DELETE) {
-						if (auto result{_delete->start()}; result && result.value() == MenuItem::ITEM_ABORT) {
+					} else if (option_chosen == MI::TR_DELETE) {
+						if (auto result{_delete->start()}; result && result.value() == MI::ITEM_ABORT) {
 							_delete->stop();
-							return MenuItem::ITEM_ABORT;
+							return MI::ITEM_ABORT;
 						}
 						_delete->stop();
 						_display->generate("training_grounds");

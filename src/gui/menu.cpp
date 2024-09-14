@@ -412,8 +412,8 @@ auto Sorcery::Menu::_add_all_items() -> void {
 	const auto item_types{_game->itemstore->get_all_types()};
 	for (auto &item_type : item_types)
 		if (item_type.get_type_id() != ItemTypeID::BROKEN_ITEM)
-			_add_item(unenum(item_type.get_type_id()), MenuItemType::ENTRY, MenuItem::MU_ITEM,
-				item_type.get_display_name(), unenum(item_type.get_type_id()));
+			_add_item(unenum(item_type.get_type_id()), MIT::ENTRY, MI::MU_ITEM, item_type.get_display_name(),
+				unenum(item_type.get_type_id()));
 }
 
 // Monster List is special
@@ -421,7 +421,7 @@ auto Sorcery::Menu::_add_all_monsters() -> void {
 
 	const auto monster_types{_game->monsterstore->get_all_types()};
 	for (auto &monster : monster_types)
-		_add_item(unenum(monster.get_type_id()), MenuItemType::ENTRY, MenuItem::MU_ITEM, monster.get_known_name(),
+		_add_item(unenum(monster.get_type_id()), MIT::ENTRY, MI::MU_ITEM, monster.get_known_name(),
 			unenum(monster.get_type_id()));
 }
 
@@ -478,7 +478,7 @@ auto Sorcery::Menu::get_type() const -> MenuType {
 }
 
 // Add an item to the Menu
-auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const MenuItem code, std::string key) -> void {
+auto Sorcery::Menu::_add_item(int index, const MIT itemtype, const MI code, std::string key) -> void {
 
 	// Note passing key by value as we are modifying the key here
 	if (key.length() % 2 == 0)
@@ -489,8 +489,7 @@ auto Sorcery::Menu::_add_item(int index, const MenuItemType itemtype, const Menu
 	++count;
 }
 
-auto Sorcery::Menu::_add_item_disabled(
-	int index, const MenuItemType itemtype, const MenuItem code, std::string key) -> void {
+auto Sorcery::Menu::_add_item_disabled(int index, const MIT itemtype, const MI code, std::string key) -> void {
 
 	// Note passing key by value as we are modifying the key here
 	if (key.length() % 2 == 0)
@@ -501,8 +500,7 @@ auto Sorcery::Menu::_add_item_disabled(
 	++count;
 }
 
-auto Sorcery::Menu::_add_item(
-	int index, const MenuItemType itemtype, const MenuItem code, std::string key, unsigned int idx) -> void {
+auto Sorcery::Menu::_add_item(int index, const MIT itemtype, const MI code, std::string key, unsigned int idx) -> void {
 
 	// Note passing key by value as we are modifying the key here
 	if (key.length() % 2 == 0)
@@ -514,8 +512,8 @@ auto Sorcery::Menu::_add_item(
 }
 
 // Add an item to the Menu
-auto Sorcery::Menu::_add_item(const int index, const MenuItemType itemtype, const MenuItem code, std::string key,
-	const bool enabled, const ConfigOption option, const std::string &hint) -> void {
+auto Sorcery::Menu::_add_item(const int index, const MIT itemtype, const MI code, std::string key, const bool enabled,
+	const ConfigOption option, const std::string &hint) -> void {
 
 	// Note passing key by value as we are modifying the key here
 	if (key.length() % 2 == 0)
@@ -564,8 +562,8 @@ auto Sorcery::Menu::_select_last() -> std::optional<std::vector<MenuEntry>::cons
 }
 
 // Check if the mouse cursor is on a menu item, and if so set it
-auto Sorcery::Menu::set_mouse_selected(
-	sf::Vector2f mouse_pos) -> std::optional<std::vector<MenuEntry>::const_iterator> {
+auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
+	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	using enum Enums::Menu::Type;
 	using enum Enums::Menu::ItemType;
@@ -603,7 +601,7 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 	using enum Enums::Menu::Item;
 	using enum Enums::Manage::Method;
 
-	MenuItem search_for{NO_MENU_ITEM};
+	MI search_for{NO_MENU_ITEM};
 	switch (_type) {
 	case MenuType::CHOOSE_METHOD:
 		switch (std::any_cast<CreateMethod>(option)) {
@@ -700,8 +698,8 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 		return std::nullopt;
 }
 
-auto Sorcery::Menu::_choose_by_index(
-	const unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator> {
+auto Sorcery::Menu::_choose_by_index(const unsigned int index)
+	-> std::optional<std::vector<MenuEntry>::const_iterator> {
 
 	// Iterate through til we have found the item with the associated index
 	if (auto it{
@@ -902,7 +900,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 				} else if (_type == TEMPLE) {
 
 					// Override Justification for Invalid Characters so that it looks better
-					if (item.item == MenuItem::IC_CHARACTER)
+					if (item.item == MI::IC_CHARACTER)
 						text.setOrigin(0, 0);
 					else if (component.justification == Justification::CENTRE)
 						text.setOrigin(text.getLocalBounds().width / 2.0f, 0);

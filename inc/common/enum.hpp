@@ -525,7 +525,7 @@ namespace Enums::System {
 	};
 
 	// Return values
-	enum class ModuleResult {
+	enum class MDR {
 		NO_RESULT,
 		CLOSE,
 		BACK,

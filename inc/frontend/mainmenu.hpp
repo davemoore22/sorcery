@@ -53,7 +53,7 @@ class MainMenu {
 		// Public Members
 
 		// Public Methods
-		auto start(MainMenuType menu_stage) -> std::optional<MenuItem>;
+		auto start(MainMenuType menu_stage) -> std::optional<MI>;
 		auto stop() -> void;
 
 	private:

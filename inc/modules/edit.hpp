@@ -50,7 +50,7 @@ class Edit {
 		// Public Members
 
 		// Public Methods
-		auto start(int current_character_idx) -> std::optional<MenuItem>;
+		auto start(int current_character_idx) -> std::optional<MI>;
 		auto stop() -> void;
 
 	private:

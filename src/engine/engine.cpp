@@ -457,7 +457,7 @@ auto Sorcery::Engine::_do_pause(sf::Event &event) -> void {
 	_refresh_display();
 
 	if (auto any_event{_window->pollEvent(event)}; any_event) {
-		if (_system->input->check(WIP::ANYTHING, event))
+		if (_system->input->check(CIN::ANYTHING, event))
 			_system->stop_pause();
 	}
 }
@@ -605,26 +605,26 @@ auto Sorcery::Engine::_handle_in_search(const sf::Event &event) -> std::optional
 
 	_unhightlight_panels();
 
-	if (_system->input->check(WIP::CANCEL, event))
+	if (_system->input->check(CIN::CANCEL, event))
 		_in_search = false;
 
-	if (_system->input->check(WIP::BACK, event))
+	if (_system->input->check(CIN::BACK, event))
 		_in_search = false;
 
-	if (_system->input->check(WIP::SHOW_HIDE_CONSOLE, event))
+	if (_system->input->check(CIN::SHOW_HIDE_CONSOLE, event))
 		_game->toggle_console();
-	else if (_system->input->check(WIP::UP, event))
+	else if (_system->input->check(CIN::UP, event))
 		_search_option = _search_menu->choose_previous();
-	else if (_system->input->check(WIP::DOWN, event))
+	else if (_system->input->check(CIN::DOWN, event))
 		_search_option = _search_menu->choose_next();
-	else if (_system->input->check(WIP::MOVE, event))
+	else if (_system->input->check(CIN::MOVE, event))
 		_search_option = _search_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	else if (_system->input->check(WIP::CONFIRM, event)) {
+	else if (_system->input->check(CIN::CONFIRM, event)) {
 
 		// We have selected something from the menu
 		if (_search_option) {
 
-			if (const MenuItem option_chosen{(*_search_option.value()).item}; option_chosen == MenuItem::AC_LEAVE) {
+			if (const MI option_chosen{(*_search_option.value()).item}; option_chosen == MI::AC_LEAVE) {
 
 				_display->set_disc(true);
 				_refresh_display();
@@ -636,7 +636,7 @@ auto Sorcery::Engine::_handle_in_search(const sf::Event &event) -> std::optional
 				_display->generate("engine_base_ui");
 				_display->set_input_mode(WIM::IN_GAME);
 				return CONTINUE;
-			} else if (option_chosen == MenuItem::AC_SEARCH_CHARACTERS) {
+			} else if (option_chosen == MI::AC_SEARCH_CHARACTERS) {
 				_in_search = false;
 				_in_get = true;
 				_get_menu->reload();
@@ -654,26 +654,26 @@ auto Sorcery::Engine::_handle_in_action(const sf::Event &event) -> std::optional
 
 	_unhightlight_panels();
 
-	if (_system->input->check(WIP::CANCEL, event))
+	if (_system->input->check(CIN::CANCEL, event))
 		_in_action = false;
 
-	if (_system->input->check(WIP::BACK, event))
+	if (_system->input->check(CIN::BACK, event))
 		_in_action = false;
 
-	if (_system->input->check(WIP::SHOW_HIDE_CONSOLE, event))
+	if (_system->input->check(CIN::SHOW_HIDE_CONSOLE, event))
 		_game->toggle_console();
-	else if (_system->input->check(WIP::UP, event))
+	else if (_system->input->check(CIN::UP, event))
 		_action_option = _action_menu->choose_previous();
-	else if (_system->input->check(WIP::DOWN, event))
+	else if (_system->input->check(CIN::DOWN, event))
 		_action_option = _action_menu->choose_next();
-	else if (_system->input->check(WIP::MOVE, event))
+	else if (_system->input->check(CIN::MOVE, event))
 		_action_option = _action_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	else if (_system->input->check(WIP::CONFIRM, event)) {
+	else if (_system->input->check(CIN::CONFIRM, event)) {
 
 		// We have selected something from the menu
 		if (_action_option) {
 
-			if (const MenuItem option_chosen{(*_action_option.value()).item}; option_chosen == MenuItem::AC_LEAVE) {
+			if (const MI option_chosen{(*_action_option.value()).item}; option_chosen == MI::AC_LEAVE) {
 
 				_display->set_disc(true);
 				_refresh_display();
@@ -685,7 +685,7 @@ auto Sorcery::Engine::_handle_in_action(const sf::Event &event) -> std::optional
 				_display->generate("engine_base_ui");
 				_display->set_input_mode(WIM::IN_GAME);
 				return CONTINUE;
-			} else if (option_chosen == MenuItem::AC_SEARCH_CHARACTERS) {
+			} else if (option_chosen == MI::AC_SEARCH_CHARACTERS) {
 
 				_in_action = false;
 				_in_get = true;
@@ -702,26 +702,26 @@ auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<in
 
 	_unhightlight_panels();
 
-	if (_system->input->check(WIP::CANCEL, event))
+	if (_system->input->check(CIN::CANCEL, event))
 		_in_get = false;
 
-	if (_system->input->check(WIP::BACK, event))
+	if (_system->input->check(CIN::BACK, event))
 		_in_get = false;
 
-	if (_system->input->check(WIP::SHOW_HIDE_CONSOLE, event))
+	if (_system->input->check(CIN::SHOW_HIDE_CONSOLE, event))
 		_game->toggle_console();
-	else if (_system->input->check(WIP::UP, event))
+	else if (_system->input->check(CIN::UP, event))
 		_get_option = _get_menu->choose_previous();
-	else if (_system->input->check(WIP::DOWN, event))
+	else if (_system->input->check(CIN::DOWN, event))
 		_get_option = _get_menu->choose_next();
-	else if (_system->input->check(WIP::MOVE, event))
+	else if (_system->input->check(CIN::MOVE, event))
 		_get_option = _get_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	else if (_system->input->check(WIP::CONFIRM, event)) {
+	else if (_system->input->check(CIN::CONFIRM, event)) {
 
 		// We have selected something from the menu
 		if (_get_option) {
 
-			if (const MenuItem option_chosen{(*_get_option.value()).item}; option_chosen == MenuItem::AC_LEAVE) {
+			if (const MI option_chosen{(*_get_option.value()).item}; option_chosen == MI::AC_LEAVE) {
 
 				_display->set_disc(true);
 				_refresh_display();
@@ -733,7 +733,7 @@ auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<in
 				_display->generate("engine_base_ui");
 				_display->set_input_mode(WIM::IN_GAME);
 				return CONTINUE;
-			} else if ((*_get_option.value()).type == MenuItemType::ENTRY) {
+			} else if ((*_get_option.value()).type == MIT::ENTRY) {
 
 				const auto character_chosen{(*_get_option.value()).index};
 				_cur_char = &_game->characters[character_chosen];
@@ -761,26 +761,26 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 
 	_unhightlight_panels();
 
-	if (_system->input->check(WIP::CANCEL, event))
+	if (_system->input->check(CIN::CANCEL, event))
 		_in_camp = false;
 
-	if (_system->input->check(WIP::BACK, event))
+	if (_system->input->check(CIN::BACK, event))
 		_in_camp = false;
 
-	if (_system->input->check(WIP::SHOW_HIDE_CONSOLE, event))
+	if (_system->input->check(CIN::SHOW_HIDE_CONSOLE, event))
 		_game->toggle_console();
-	else if (_system->input->check(WIP::UP, event))
+	else if (_system->input->check(CIN::UP, event))
 		_camp_option = _camp_menu->choose_previous();
-	else if (_system->input->check(WIP::DOWN, event))
+	else if (_system->input->check(CIN::DOWN, event))
 		_camp_option = _camp_menu->choose_next();
-	else if (_system->input->check(WIP::MOVE, event))
+	else if (_system->input->check(CIN::MOVE, event))
 		_camp_option = _camp_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	else if (_system->input->check(WIP::CONFIRM, event)) {
+	else if (_system->input->check(CIN::CONFIRM, event)) {
 
 		// We have selected something from the menu
 		if (_camp_option) {
 
-			if (const MenuItem option_chosen{(*_camp_option.value()).item}; option_chosen == MenuItem::CP_LEAVE) {
+			if (const MI option_chosen{(*_camp_option.value()).item}; option_chosen == MI::CP_LEAVE) {
 
 				_display->set_disc(true);
 				_refresh_display();
@@ -792,7 +792,7 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 				_display->generate("engine_base_ui");
 				_display->set_input_mode(WIM::IN_GAME);
 				return CONTINUE;
-			} else if (option_chosen == MenuItem::CP_SAVE) {
+			} else if (option_chosen == MI::CP_SAVE) {
 
 				auto party{_game->state->get_party_characters()};
 				for (auto &[character_id, character] : _game->characters) {
@@ -808,10 +808,10 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 
 				_game->state->clear_party();
 				return STOP_ENGINE;
-			} else if (option_chosen == MenuItem::ITEM_QUIT) {
+			} else if (option_chosen == MI::ITEM_QUIT) {
 				_show_confirm_exit = true;
 				return CONTINUE;
-			} else if (option_chosen == MenuItem::CP_OPTIONS) {
+			} else if (option_chosen == MI::CP_OPTIONS) {
 
 				auto options{std::make_unique<Options>(_system, _display, _graphics)};
 				if (auto result{options->start()}; result == STOP_ALL) {
@@ -821,16 +821,16 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 				options->stop();
 				_party_panel->refresh();
 				_display->generate("engine_base_ui");
-			} else if (option_chosen == MenuItem::CP_INSPECT) {
+			} else if (option_chosen == MI::CP_INSPECT) {
 				_party_panel->refresh();
-				if (auto result{_inspect->start(std::nullopt)}; result == MenuItem::ITEM_ABORT) {
+				if (auto result{_inspect->start(std::nullopt)}; result == MI::ITEM_ABORT) {
 					_inspect->stop();
 					return STOP_ALL;
 				}
 				_inspect->stop();
 				_party_panel->refresh();
 				_display->generate("engine_base_ui");
-			} else if (option_chosen == MenuItem::CP_REORDER) {
+			} else if (option_chosen == MI::CP_REORDER) {
 				_party_panel->refresh();
 				if (auto new_party{_reorder->start()}; new_party) {
 
@@ -899,55 +899,54 @@ auto Sorcery::Engine::_handle_elevator_a_f(const sf::Event &event) -> std::optio
 
 	_unhightlight_panels();
 
-	if (_system->input->check(WIP::CANCEL, event))
+	if (_system->input->check(CIN::CANCEL, event))
 		_in_elevator_a_f = false;
 
-	if (_system->input->check(WIP::BACK, event))
+	if (_system->input->check(CIN::BACK, event))
 		_in_elevator_a_f = false;
 
-	if (_system->input->check(WIP::SHOW_HIDE_CONSOLE, event))
+	if (_system->input->check(CIN::SHOW_HIDE_CONSOLE, event))
 		_game->toggle_console();
-	else if (_system->input->check(WIP::UP, event))
+	else if (_system->input->check(CIN::UP, event))
 		_elevator_a_f_option = _elevator_a_f_menu->choose_previous();
-	else if (_system->input->check(WIP::DOWN, event))
+	else if (_system->input->check(CIN::DOWN, event))
 		_elevator_a_f_option = _elevator_a_f_menu->choose_next();
-	else if (_system->input->check(WIP::MOVE, event))
+	else if (_system->input->check(CIN::MOVE, event))
 		_elevator_a_f_option =
 			_elevator_a_f_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	else if (_system->input->check(WIP::CONFIRM, event)) {
+	else if (_system->input->check(CIN::CONFIRM, event)) {
 
 		// We have selected something from the menu
 		if (_elevator_a_f_option) {
 
-			if (const MenuItem option_chosen{(*_elevator_a_f_option.value()).item};
-				option_chosen == MenuItem::EL_LEAVE) {
+			if (const MI option_chosen{(*_elevator_a_f_option.value()).item}; option_chosen == MI::EL_LEAVE) {
 				_in_elevator_a_f = false;
 				_display->generate("engine_base_ui");
 				_display->set_input_mode(WIM::IN_GAME);
 				_pending_elevator = false;
 				_destination_floor = 0;
 				return CONTINUE;
-			} else if ((option_chosen == MenuItem::EL_A) && (_game->state->get_depth() != -4)) {
+			} else if ((option_chosen == MI::EL_A) && (_game->state->get_depth() != -4)) {
 				_destination_floor = -4;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((option_chosen == MenuItem::EL_B) && (_game->state->get_depth() != -5)) {
+			} else if ((option_chosen == MI::EL_B) && (_game->state->get_depth() != -5)) {
 				_destination_floor = -5;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((option_chosen == MenuItem::EL_C) && (_game->state->get_depth() != -6)) {
+			} else if ((option_chosen == MI::EL_C) && (_game->state->get_depth() != -6)) {
 				_destination_floor = -6;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((option_chosen == MenuItem::EL_D) && (_game->state->get_depth() != -7)) {
+			} else if ((option_chosen == MI::EL_D) && (_game->state->get_depth() != -7)) {
 				_destination_floor = -7;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((option_chosen == MenuItem::EL_E) && (_game->state->get_depth() != -8)) {
+			} else if ((option_chosen == MI::EL_E) && (_game->state->get_depth() != -8)) {
 				_destination_floor = -8;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((option_chosen == MenuItem::EL_F) && (_game->state->get_depth() != -9)) {
+			} else if ((option_chosen == MI::EL_F) && (_game->state->get_depth() != -9)) {
 				_destination_floor = -9;
 				_pending_elevator = true;
 				_elevator_if();
@@ -968,47 +967,46 @@ auto Sorcery::Engine::_handle_elevator_a_d(const sf::Event &event) -> std::optio
 
 	_unhightlight_panels();
 
-	if (_system->input->check(WIP::CANCEL, event))
+	if (_system->input->check(CIN::CANCEL, event))
 		_in_elevator_a_d = false;
 
-	if (_system->input->check(WIP::BACK, event))
+	if (_system->input->check(CIN::BACK, event))
 		_in_elevator_a_d = false;
 
-	if (_system->input->check(WIP::SHOW_HIDE_CONSOLE, event))
+	if (_system->input->check(CIN::SHOW_HIDE_CONSOLE, event))
 		_game->toggle_console();
-	else if (_system->input->check(WIP::UP, event))
+	else if (_system->input->check(CIN::UP, event))
 		_elevator_a_d_option = _elevator_a_d_menu->choose_previous();
-	else if (_system->input->check(WIP::DOWN, event))
+	else if (_system->input->check(CIN::DOWN, event))
 		_elevator_a_d_option = _elevator_a_d_menu->choose_next();
-	else if (_system->input->check(WIP::MOVE, event))
+	else if (_system->input->check(CIN::MOVE, event))
 		_elevator_a_d_option =
 			_elevator_a_d_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-	else if (_system->input->check(WIP::CONFIRM, event)) {
+	else if (_system->input->check(CIN::CONFIRM, event)) {
 
 		// We have selected something from the menu
 		if (_elevator_a_d_option) {
 
-			if (const MenuItem option_chosen{(*_elevator_a_d_option.value()).item};
-				option_chosen == MenuItem::EL_LEAVE) {
+			if (const MI option_chosen{(*_elevator_a_d_option.value()).item}; option_chosen == MI::EL_LEAVE) {
 				_in_elevator_a_d = false;
 				_display->generate("engine_base_ui");
 				_display->set_input_mode(WIM::IN_GAME);
 				_pending_elevator = false;
 				_destination_floor = 0;
 				return CONTINUE;
-			} else if ((option_chosen == MenuItem::EL_A) && (_game->state->get_depth() != -1)) {
+			} else if ((option_chosen == MI::EL_A) && (_game->state->get_depth() != -1)) {
 				_destination_floor = -1;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((option_chosen == MenuItem::EL_B) && (_game->state->get_depth() != -2)) {
+			} else if ((option_chosen == MI::EL_B) && (_game->state->get_depth() != -2)) {
 				_destination_floor = -2;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((option_chosen == MenuItem::EL_C) && (_game->state->get_depth() != -3)) {
+			} else if ((option_chosen == MI::EL_C) && (_game->state->get_depth() != -3)) {
 				_destination_floor = -3;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((option_chosen == MenuItem::EL_D) && (_game->state->get_depth() != -4)) {
+			} else if ((option_chosen == MI::EL_D) && (_game->state->get_depth() != -4)) {
 				_destination_floor = -4;
 				_pending_elevator = true;
 				_elevator_if();
@@ -1119,23 +1117,23 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F12))
 		_debug_light_off();
 
-	if (_system->input->check(WIP::MAZE_SHOW_MAP, event)) {
+	if (_system->input->check(CIN::MAZE_SHOW_MAP, event)) {
 		_in_map = !_in_map;
 		_set_refresh_ui();
-	} else if (_system->input->check(WIP::MAZE_SEARCH, event)) {
+	} else if (_system->input->check(CIN::MAZE_SEARCH, event)) {
 		_in_search = true;
 		_set_refresh_ui();
-	} else if (_system->input->check(WIP::MAZE_INSPECT, event)) {
+	} else if (_system->input->check(CIN::MAZE_INSPECT, event)) {
 		_in_get = true;
 		_get_menu->reload();
 		_set_refresh_ui();
-	} else if (_system->input->check(WIP::MAZE_CAMP, event)) {
+	} else if (_system->input->check(CIN::MAZE_CAMP, event)) {
 		_in_camp = true;
 		_set_refresh_ui();
-	} else if (_system->input->check(WIP::MAZE_STATUSBAR_TOGGLE, event)) {
+	} else if (_system->input->check(CIN::MAZE_STATUSBAR_TOGGLE, event)) {
 		_show_party_panel = !_show_party_panel;
 		_set_refresh_ui();
-	} else if (_system->input->check(WIP::MAZE_GUI_TOGGLE, event)) {
+	} else if (_system->input->check(CIN::MAZE_GUI_TOGGLE, event)) {
 		_show_gui = !_show_gui;
 		_place_components();
 		_set_refresh_ui();
@@ -1253,7 +1251,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			}
 		}
 	} else {
-		if (_system->input->check(WIP::MAZE_TURN_AROUND, event)) {
+		if (_system->input->check(CIN::MAZE_TURN_AROUND, event)) {
 			_show_direction_indicator = true;
 			_reset_direction_indicator();
 			_turn_around();
@@ -1261,21 +1259,21 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_set_refresh_ui();
 			_game->pass_turn();
 		}
-		if ((_system->input->check(WIP::LEFT, event)) || (_system->input->check(WIP::MAZE_LEFT, event))) {
+		if ((_system->input->check(CIN::LEFT, event)) || (_system->input->check(CIN::MAZE_LEFT, event))) {
 			_show_direction_indicator = true;
 			_reset_direction_indicator();
 			_turn_left();
 			_spinner_if();
 			_set_refresh_ui();
 			_game->pass_turn();
-		} else if ((_system->input->check(WIP::RIGHT, event)) || (_system->input->check(WIP::MAZE_RIGHT, event))) {
+		} else if ((_system->input->check(CIN::RIGHT, event)) || (_system->input->check(CIN::MAZE_RIGHT, event))) {
 			_show_direction_indicator = true;
 			_reset_direction_indicator();
 			_turn_right();
 			_spinner_if();
 			_set_refresh_ui();
 			_game->pass_turn();
-		} else if ((_system->input->check(WIP::UP, event)) || (_system->input->check(WIP::MAZE_FORWARD, event))) {
+		} else if ((_system->input->check(CIN::UP, event)) || (_system->input->check(CIN::MAZE_FORWARD, event))) {
 			_game->pass_turn();
 			if (auto has_moved{_move_forward()}; !has_moved) {
 				_show_direction_indicator = false;
@@ -1304,7 +1302,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			}
 			_set_refresh_ui();
 			_can_run_event = true;
-		} else if ((_system->input->check(WIP::DOWN, event)) || (_system->input->check(WIP::MAZE_BACKWARD, event))) {
+		} else if ((_system->input->check(CIN::DOWN, event)) || (_system->input->check(CIN::MAZE_BACKWARD, event))) {
 			_game->pass_turn();
 			if (auto has_moved{_move_backward()}; !has_moved) {
 				_show_direction_indicator = false;
@@ -1334,17 +1332,17 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_set_refresh_ui();
 			_can_run_event = true;
 
-		} else if (_system->input->check(WIP::CANCEL, event))
+		} else if (_system->input->check(CIN::CANCEL, event))
 			_in_camp = true;
-		else if (_system->input->check(WIP::BACK, event))
+		else if (_system->input->check(CIN::BACK, event))
 			_in_camp = true;
-		else if (_system->input->check(WIP::CONFIRM, event)) {
+		else if (_system->input->check(CIN::CONFIRM, event)) {
 			sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
 			if (_party_panel->selected) {
 
 				// Status-bar selected is 1-indexed, not 0-indexed
 				const auto character_chosen{(_party_panel->selected.value())};
-				if (auto result{_inspect->start(character_chosen)}; result == MenuItem::ITEM_ABORT) {
+				if (auto result{_inspect->start(character_chosen)}; result == MI::ITEM_ABORT) {
 					_inspect->stop();
 					return STOP_ALL;
 				} else {
@@ -1487,7 +1485,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						// TODO
 					} else if (what.ends_with("party")) {
 						_party_panel->refresh();
-						if (auto result{_inspect->start(std::nullopt)}; result == MenuItem::ITEM_ABORT) {
+						if (auto result{_inspect->start(std::nullopt)}; result == MI::ITEM_ABORT) {
 							_inspect->stop();
 							return STOP_ALL;
 						}
@@ -1516,9 +1514,9 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 					_in_action = true;
 				}
 			}
-		} else if (_system->input->check(WIP::SHOW_HIDE_CONSOLE, event))
+		} else if (_system->input->check(CIN::SHOW_HIDE_CONSOLE, event))
 			_game->toggle_console();
-		else if (_system->input->check(WIP::MOVE, event)) {
+		else if (_system->input->check(CIN::MOVE, event)) {
 			// Check for Mouse Overs
 			sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
 
@@ -1597,7 +1595,7 @@ auto Sorcery::Engine::start() -> int {
 					return STOP_ALL;
 
 				// Handle enabling help overlay
-				if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
+				if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
 					continue;
 				} else
@@ -2211,7 +2209,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 
 				// Linked events
 				auto event_1{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 1)};
-				if (auto result{event_1->start()}; result == MenuItem::ITEM_ABORT) {
+				if (auto result{event_1->start()}; result == MI::ITEM_ABORT) {
 					event_1->stop();
 					_can_run_event = false;
 					_display_cursor = true;
@@ -2222,7 +2220,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 
 					_refresh_display();
 					auto event_2{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 2)};
-					if (auto result{event_2->start()}; result == MenuItem::ITEM_ABORT) {
+					if (auto result{event_2->start()}; result == MI::ITEM_ABORT) {
 
 						_can_run_event = false;
 						_display_cursor = true;
@@ -2248,7 +2246,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 				// Linked events
 				// Linked events
 				auto event_1{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 1)};
-				if (auto result{event_1->start()}; result == MenuItem::ITEM_ABORT) {
+				if (auto result{event_1->start()}; result == MI::ITEM_ABORT) {
 					event_1->stop();
 					_can_run_event = false;
 					_display_cursor = true;
@@ -2259,7 +2257,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 
 					_refresh_display();
 					auto event_2{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 2)};
-					if (auto result{event_2->start()}; result == MenuItem::ITEM_ABORT) {
+					if (auto result{event_2->start()}; result == MI::ITEM_ABORT) {
 
 						_can_run_event = false;
 						_display_cursor = true;
@@ -2270,7 +2268,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 
 						_refresh_display();
 						auto event_3{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 3)};
-						if (auto result{event_3->start()}; result == MenuItem::ITEM_ABORT) {
+						if (auto result{event_3->start()}; result == MI::ITEM_ABORT) {
 
 							_can_run_event = false;
 							_display_cursor = true;
@@ -2284,7 +2282,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 			} else {
 
 				auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
-				if (auto result{event->start()}; result == MenuItem::ITEM_ABORT) {
+				if (auto result{event->start()}; result == MI::ITEM_ABORT) {
 					event->stop();
 					_can_run_event = false;
 					_display_cursor = true;

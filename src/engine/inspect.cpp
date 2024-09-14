@@ -101,7 +101,7 @@ Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, 
 Sorcery::Inspect::~Inspect() {
 }
 
-auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::optional<MenuItem> {
+auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::optional<MI> {
 
 	using enum Enums::Menu::Mode;
 	using enum Enums::Menu::Item;
@@ -174,29 +174,29 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 					return ITEM_ABORT;
 
 				// Handle enabling help overlay
-				if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
+				if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
 					continue;
 				} else
 					_display->hide_overlay();
 
-				if (_system->input->check(WIP::CANCEL, event))
+				if (_system->input->check(CIN::CANCEL, event))
 					return std::nullopt;
 
-				if (_system->input->check(WIP::BACK, event))
+				if (_system->input->check(CIN::BACK, event))
 					return std::nullopt;
 
-				if (_system->input->check(WIP::UP, event))
+				if (_system->input->check(CIN::UP, event))
 					selected = _menu->choose_previous();
-				else if (_system->input->check(WIP::DOWN, event))
+				else if (_system->input->check(CIN::DOWN, event))
 					selected = _menu->choose_next();
-				else if (_system->input->check(WIP::MOVE, event))
+				else if (_system->input->check(CIN::MOVE, event))
 					selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check(WIP::CONFIRM, event)) {
+				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					// We have selected something from the menu
 					if (selected) {
-						const MenuItem option_chosen{(*selected.value()).item};
+						const MI option_chosen{(*selected.value()).item};
 						if (option_chosen == ET_TRAIN || option_chosen == CA_TAVERN || option_chosen == CA_TEMPLE ||
 							option_chosen == CA_INN || option_chosen == ITEM_CAMP || option_chosen == CA_SHOP) {
 							_display->set_input_mode(WIM::NAVIGATE_MENU);
@@ -248,7 +248,7 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 	return std::nullopt;
 }
 
-auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::optional<MenuItem> {
+auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::optional<MI> {
 
 	using enum Enums::Window::DialogButton;
 	using enum Enums::Items::IdentifyOutcome;
@@ -293,8 +293,8 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 		while (_window->pollEvent(event)) {
 
 			if (event.type == sf::Event::Closed)
-				return MenuItem::ITEM_ABORT;
-			else if (_system->input->check(WIP::CANCEL, event) || _system->input->check(WIP::BACK, event)) {
+				return MI::ITEM_ABORT;
+			else if (_system->input->check(CIN::CANCEL, event) || _system->input->check(CIN::BACK, event)) {
 				_display->set_input_mode(WIM::NAVIGATE_MENU);
 				_cur_char = std::nullopt;
 				_in_character = false;
@@ -370,16 +370,16 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return MenuItem::ITEM_ABORT;
+					return MI::ITEM_ABORT;
 
 				// Handle enabling help overlay
-				if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
+				if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
 					continue;
 				} else
 					_display->hide_overlay();
 
-				if (_system->input->check(WIP::CANCEL, event)) {
+				if (_system->input->check(CIN::CANCEL, event)) {
 					_in_item_display = false;
 					_in_item_action = true;
 					_in_cursed = false;
@@ -388,7 +388,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 					_in_trade = false;
 				}
 
-				if (_system->input->check(WIP::BACK, event)) {
+				if (_system->input->check(CIN::BACK, event)) {
 					_in_item_display = false;
 					_in_item_action = true;
 					_in_cursed = false;
@@ -397,7 +397,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 					_in_trade = false;
 				}
 
-				if (_system->input->check(WIP::CONFIRM, event)) {
+				if (_system->input->check(CIN::CONFIRM, event)) {
 					_in_item_display = false;
 					_in_item_action = true;
 					_in_cursed = false;
@@ -409,36 +409,36 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return MenuItem::ITEM_ABORT;
+					return MI::ITEM_ABORT;
 
 				// Handle enabling help overlay
-				if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
+				if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
 					continue;
 				} else
 					_display->hide_overlay();
 
-				if (_system->input->check(WIP::CANCEL, event)) {
+				if (_system->input->check(CIN::CANCEL, event)) {
 					_in_trade = false;
 					_in_item_action = false;
 				}
 
-				if (_system->input->check(WIP::BACK, event)) {
+				if (_system->input->check(CIN::BACK, event)) {
 					_in_trade = false;
 					_in_item_action = false;
 				}
 
-				if (_system->input->check(WIP::UP, event))
+				if (_system->input->check(CIN::UP, event))
 					item_trade_selected = _item_trade_menu->choose_previous();
-				else if (_system->input->check(WIP::DOWN, event))
+				else if (_system->input->check(CIN::DOWN, event))
 					item_trade_selected = _item_trade_menu->choose_next();
-				else if (_system->input->check(WIP::MOVE, event))
+				else if (_system->input->check(CIN::MOVE, event))
 					item_trade_selected = _item_trade_menu->set_mouse_selected(
 						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check(WIP::CONFIRM, event)) {
+				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					if (item_trade_selected) {
-						if ((*item_trade_selected.value()).type == MenuItemType::ENTRY) {
+						if ((*item_trade_selected.value()).type == MIT::ENTRY) {
 							const auto dest_char_id{(*item_trade_selected.value()).index};
 							const auto slot_to_move{_character_display->get_inventory_item()};
 							auto src_char{&_game->characters[character_id]};
@@ -464,46 +464,46 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return MenuItem::ITEM_ABORT;
+					return MI::ITEM_ABORT;
 
 				// Handle enabling help overlay
-				if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
+				if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
 					continue;
 				} else
 					_display->hide_overlay();
 
-				if (_system->input->check(WIP::CANCEL, event))
+				if (_system->input->check(CIN::CANCEL, event))
 					_in_item_action = false;
 
-				if (_system->input->check(WIP::BACK, event))
+				if (_system->input->check(CIN::BACK, event))
 					_in_item_action = false;
 
-				if (_system->input->check(WIP::UP, event))
+				if (_system->input->check(CIN::UP, event))
 					item_action_selected = _item_action_menu->choose_previous();
-				else if (_system->input->check(WIP::DOWN, event))
+				else if (_system->input->check(CIN::DOWN, event))
 					item_action_selected = _item_action_menu->choose_next();
-				else if (_system->input->check(WIP::MOVE, event))
+				else if (_system->input->check(CIN::MOVE, event))
 					item_action_selected = _item_action_menu->set_mouse_selected(
 						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check(WIP::CONFIRM, event)) {
+				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					if (item_action_selected) {
-						const MenuItem option_chosen{(*item_action_selected.value()).item};
-						if (option_chosen == MenuItem::C_ACTION_LEAVE) {
+						const MI option_chosen{(*item_action_selected.value()).item};
+						if (option_chosen == MI::C_ACTION_LEAVE) {
 							_in_item_action = false;
-						} else if (option_chosen == MenuItem::C_ACTION_EXAMINE) {
+						} else if (option_chosen == MI::C_ACTION_EXAMINE) {
 
 							// Examine an Item (only possible if it is identified)
 							_in_item_action = false;
 							_in_item_display = true;
 							_examine_item(character_id);
-						} else if (option_chosen == MenuItem::C_ACTION_DROP) {
+						} else if (option_chosen == MI::C_ACTION_DROP) {
 
 							// Drop an Item
 							_in_item_action = false;
 							_in_drop = true;
-						} else if (option_chosen == MenuItem::C_ACTION_EQUIP) {
+						} else if (option_chosen == MI::C_ACTION_EQUIP) {
 
 							// Equip an Item
 							_in_item_action = false;
@@ -515,7 +515,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 								_in_cursed = true;
 
 							_in_item_action = false;
-						} else if (option_chosen == MenuItem::C_ACTION_UNEQUIP) {
+						} else if (option_chosen == MI::C_ACTION_UNEQUIP) {
 							auto character{&_game->characters[character_id]};
 							auto slot_item{character->inventory[_character_display->get_inventory_item()]};
 							if (slot_item.has_value()) {
@@ -525,7 +525,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 
 								_in_item_action = false;
 							}
-						} else if (option_chosen == MenuItem::C_ACTION_IDENTIFY) {
+						} else if (option_chosen == MI::C_ACTION_IDENTIFY) {
 
 							// Attempt to Identify an Item
 							auto character{&_game->characters[character_id]};
@@ -551,7 +551,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 									}
 								}
 							}
-						} else if (option_chosen == MenuItem::C_ACTION_TRADE) {
+						} else if (option_chosen == MI::C_ACTION_TRADE) {
 							const auto dest_char_id{(*item_trade_selected.value()).index};
 							auto src_char{&_game->characters[character_id]};
 							auto dest_char{&_game->characters[dest_char_id]};
@@ -576,10 +576,10 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 						_character_display->generate_display();
 					}
 
-					if (_system->input->check(WIP::CONFIRM, event)) {
-						if (_character_display->get_hl_action_item() == MenuItem::C_ACTION_POOL) {
+					if (_system->input->check(CIN::CONFIRM, event)) {
+						if (_character_display->get_hl_action_item() == MI::C_ACTION_POOL) {
 							_in_pool = true;
-						} else if (_character_display->get_hl_action_item() == MenuItem::C_ACTION_LEAVE) {
+						} else if (_character_display->get_hl_action_item() == MI::C_ACTION_LEAVE) {
 							_display->set_input_mode(WIM::NAVIGATE_MENU);
 							_cur_char = std::nullopt;
 							_in_character = false;
@@ -592,56 +592,56 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 						}
 					}
 
-					if (_system->input->check(WIP::LEFT, event))
+					if (_system->input->check(CIN::LEFT, event))
 						_character_display->left_view();
-					else if (_system->input->check(WIP::RIGHT, event))
+					else if (_system->input->check(CIN::RIGHT, event))
 						_character_display->right_view();
 				} else {
-					if (_system->input->check(WIP::LEFT, event))
+					if (_system->input->check(CIN::LEFT, event))
 						_character_display->left_view();
-					else if (_system->input->check(WIP::RIGHT, event))
+					else if (_system->input->check(CIN::RIGHT, event))
 						_character_display->right_view();
-					if (_system->input->check(WIP::UP, event)) {
+					if (_system->input->check(CIN::UP, event)) {
 						if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
 							_character_display->dec_hl_spell(SpellType::MAGE);
 						else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
 							_character_display->dec_hl_spell(SpellType::PRIEST);
 
-					} else if (_system->input->check(WIP::DOWN, event)) {
+					} else if (_system->input->check(CIN::DOWN, event)) {
 						if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
 							_character_display->inc_hl_spell(SpellType::MAGE);
 						else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
 							_character_display->inc_hl_spell(SpellType::PRIEST);
-					} else if (_system->input->check(WIP::MOVE, event)) {
+					} else if (_system->input->check(CIN::MOVE, event)) {
 						if (_character_display->check_for_mouse_move(
 								sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 									static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
 							_character_display->set_view(_character_display->get_view());
 						}
-						if (_system->input->check(WIP::LEFT, event))
+						if (_system->input->check(CIN::LEFT, event))
 							_character_display->left_view();
-						else if (_system->input->check(WIP::RIGHT, event))
+						else if (_system->input->check(CIN::RIGHT, event))
 							_character_display->right_view();
-						else if ((_system->input->check(WIP::CANCEL, event)) ||
-								 (_system->input->check(WIP::BACK, event))) {
+						else if ((_system->input->check(CIN::CANCEL, event)) ||
+								 (_system->input->check(CIN::BACK, event))) {
 							_display->set_input_mode(WIM::NAVIGATE_MENU);
 							_cur_char = std::nullopt;
 							_in_character = false;
 							return std::nullopt;
-						} else if (_system->input->check(WIP::CONFIRM, event)) {
+						} else if (_system->input->check(CIN::CONFIRM, event)) {
 							_character_display->right_view();
-						} else if (_system->input->check(WIP::UP, event)) {
+						} else if (_system->input->check(CIN::UP, event)) {
 							if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
 								_character_display->dec_hl_spell(SpellType::MAGE);
 							else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
 								_character_display->dec_hl_spell(SpellType::PRIEST);
 
-						} else if (_system->input->check(WIP::DOWN, event)) {
+						} else if (_system->input->check(CIN::DOWN, event)) {
 							if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
 								_character_display->inc_hl_spell(SpellType::MAGE);
 							else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
 								_character_display->inc_hl_spell(SpellType::PRIEST);
-						} else if (_system->input->check(WIP::MOVE, event)) {
+						} else if (_system->input->check(CIN::MOVE, event)) {
 							if (_character_display->check_for_mouse_move(
 									sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 										static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {

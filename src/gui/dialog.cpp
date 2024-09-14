@@ -264,7 +264,7 @@ auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WDB> {
 	if (event.type == sf::Event::Closed)
 		return WDB::CLOSE;
 
-	if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
+	if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 		_display->show_overlay();
 		return std::nullopt;
 	} else
@@ -273,9 +273,9 @@ auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WDB> {
 	switch (_type) {
 	case WDT::OK:
 
-		if (_system->input->check(WIP::MOVE, event))
+		if (_system->input->check(CIN::MOVE, event))
 			check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-		else if (_system->input->check(WIP::CONFIRM, event)) {
+		else if (_system->input->check(CIN::CONFIRM, event)) {
 			std::optional<WDB> button_chosen{
 				check_if_option_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)))};
 			if (button_chosen) {
@@ -291,21 +291,21 @@ auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WDB> {
 
 		break;
 	case WDT::CONFIRM:
-		if (_system->input->check(WIP::LEFT, event))
+		if (_system->input->check(CIN::LEFT, event))
 			toggle_highlighted();
-		else if (_system->input->check(WIP::RIGHT, event))
+		else if (_system->input->check(CIN::RIGHT, event))
 			toggle_highlighted();
-		else if (_system->input->check(WIP::YES, event))
+		else if (_system->input->check(CIN::YES, event))
 			set_selected(WDB::YES);
-		else if (_system->input->check(WIP::NO, event))
+		else if (_system->input->check(CIN::NO, event))
 			set_selected(WDB::NO);
-		else if (_system->input->check(WIP::CANCEL, event))
+		else if (_system->input->check(CIN::CANCEL, event))
 			return WDB::NO;
-		else if (_system->input->check(WIP::BACK, event))
+		else if (_system->input->check(CIN::BACK, event))
 			return WDB::NO;
-		else if (_system->input->check(WIP::MOVE, event))
+		else if (_system->input->check(CIN::MOVE, event))
 			check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-		else if (_system->input->check(WIP::CONFIRM, event)) {
+		else if (_system->input->check(CIN::CONFIRM, event)) {
 			std::optional<WDB> button_chosen{
 				check_if_option_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)))};
 
@@ -330,7 +330,7 @@ auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WDB> {
 		break;
 	case WDT::TIMED:
 		if (_valid) {
-			if (_system->input->check(WIP::ANYTHING, event)) {
+			if (_system->input->check(CIN::ANYTHING, event)) {
 				return WDB::OK;
 				_valid = false;
 			}

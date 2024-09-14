@@ -81,7 +81,7 @@ Sorcery::MainMenu::~MainMenu() {
 	_display->stop_bg_movie();
 }
 
-auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem> {
+auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MI> {
 
 	using enum Enums::Menu::Item;
 	using enum Enums::MainMenu::Type;
@@ -177,7 +177,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MenuItem
 							if (selected_option) {
 
 								// We have selected something from the menu
-								if (const MenuItem option_chosen{(*selected_option.value()).item};
+								if (const MI option_chosen{(*selected_option.value()).item};
 									option_chosen == MM_NEW_GAME) {
 									_display->set_input_mode(CONFIRM_NEW_GAME);
 								} else if (option_chosen == MM_CONTINUE_GAME) {

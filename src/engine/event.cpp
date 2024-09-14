@@ -93,7 +93,7 @@ Sorcery::Event::Event(
 	}
 }
 
-auto Sorcery::Event::start() -> std::optional<MenuItem> {
+auto Sorcery::Event::start() -> std::optional<MI> {
 
 	using enum Enums::Map::Event;
 
@@ -138,33 +138,33 @@ auto Sorcery::Event::start() -> std::optional<MenuItem> {
 			while (_window->pollEvent(event)) {
 
 				if (event.type == sf::Event::Closed)
-					return MenuItem::ITEM_ABORT;
+					return MI::ITEM_ABORT;
 
 				// Handle enabling help overlay
-				if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
+				if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 					_display->show_overlay();
 					continue;
 				} else
 					_display->hide_overlay();
 
 				// We have all continue menus to begin with
-				if (_system->input->check(WIP::CANCEL, event))
-					return MenuItem::ITEM_CONTINUE;
-				else if (_system->input->check(WIP::BACK, event))
-					return MenuItem::ITEM_CONTINUE;
-				else if (_system->input->check(WIP::UP, event))
+				if (_system->input->check(CIN::CANCEL, event))
+					return MI::ITEM_CONTINUE;
+				else if (_system->input->check(CIN::BACK, event))
+					return MI::ITEM_CONTINUE;
+				else if (_system->input->check(CIN::UP, event))
 					option_continue = _continue_menu->choose_previous();
-				else if (_system->input->check(WIP::DOWN, event))
+				else if (_system->input->check(CIN::DOWN, event))
 					option_continue = _continue_menu->choose_next();
-				else if (_system->input->check(WIP::MOVE, event))
+				else if (_system->input->check(CIN::MOVE, event))
 					option_continue =
 						_continue_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check(WIP::CONFIRM, event)) {
+				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					if (option_continue) {
-						if (const MenuItem option_chosen{(*option_continue.value()).item};
-							option_chosen == MenuItem::ITEM_CONTINUE) {
-							return MenuItem::ITEM_CONTINUE;
+						if (const MI option_chosen{(*option_continue.value()).item};
+							option_chosen == MI::ITEM_CONTINUE) {
+							return MI::ITEM_CONTINUE;
 						}
 					}
 				}

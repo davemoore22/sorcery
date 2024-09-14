@@ -98,7 +98,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 				return std::nullopt; // TODO: how to differ from cancel?
 
 			// Handle enabling help overlay
-			if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
+			if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
@@ -136,30 +136,30 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 
 			} else {
 
-				if (_system->input->check(WIP::CANCEL, event))
+				if (_system->input->check(CIN::CANCEL, event))
 					return std::nullopt;
 
-				if (_system->input->check(WIP::BACK, event))
+				if (_system->input->check(CIN::BACK, event))
 					return std::nullopt;
 
 				std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->selected};
-				if (_system->input->check(WIP::UP, event))
+				if (_system->input->check(CIN::UP, event))
 					selected = _menu->choose_previous();
-				else if (_system->input->check(WIP::DOWN, event))
+				else if (_system->input->check(CIN::DOWN, event))
 					selected = _menu->choose_next();
-				else if (_system->input->check(WIP::MOVE, event))
+				else if (_system->input->check(CIN::MOVE, event))
 					selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check(WIP::BACK, event))
+				else if (_system->input->check(CIN::BACK, event))
 					return std::nullopt;
-				else if (_system->input->check(WIP::DELETE, event))
+				else if (_system->input->check(CIN::DELETE, event))
 					return std::nullopt;
-				else if (_system->input->check(WIP::CONFIRM, event)) {
+				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					// We have selected something from the menu
 					if (selected) {
 
 						switch ((*selected.value()).item) {
-						case MenuItem::CC_SAMURAI:
+						case MI::CC_SAMURAI:
 							if (_character->get_class() == CharacterClass::SAMURAI)
 								_show_not_changed = true;
 							else {
@@ -168,7 +168,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
-						case MenuItem::CC_FIGHTER:
+						case MI::CC_FIGHTER:
 							if (_character->get_class() == CharacterClass::FIGHTER)
 								_show_not_changed = true;
 							else {
@@ -177,7 +177,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
-						case MenuItem::CC_LORD:
+						case MI::CC_LORD:
 							if (_character->get_class() == CharacterClass::LORD)
 								_show_not_changed = true;
 							else {
@@ -186,7 +186,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
-						case MenuItem::CC_THIEF:
+						case MI::CC_THIEF:
 							if (_character->get_class() == CharacterClass::THIEF)
 								_show_not_changed = true;
 							else {
@@ -195,7 +195,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
-						case MenuItem::CC_NINJA:
+						case MI::CC_NINJA:
 							if (_character->get_class() == CharacterClass::NINJA)
 								_show_not_changed = true;
 							else {
@@ -204,7 +204,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
-						case MenuItem::CC_PRIEST:
+						case MI::CC_PRIEST:
 							if (_character->get_class() == CharacterClass::PRIEST)
 								_show_not_changed = true;
 							else {
@@ -213,7 +213,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
-						case MenuItem::CC_BISHOP:
+						case MI::CC_BISHOP:
 							if (_character->get_class() == CharacterClass::BISHOP)
 								_show_not_changed = true;
 							else {
@@ -222,7 +222,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
-						case MenuItem::CC_MAGE:
+						case MI::CC_MAGE:
 							if (_character->get_class() == CharacterClass::MAGE)
 								_show_not_changed = true;
 							else {
@@ -311,7 +311,7 @@ auto Sorcery::ChangeClass::_set_classes_menu() -> void {
 auto Sorcery::ChangeClass::_set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void {
 
 	// Set the Text
-	if ((*it).type == MenuItemType::ENTRY) {
+	if ((*it).type == MIT::ENTRY) {
 		const auto ip_contents{(*it).hint};
 		_ip->set_text(ip_contents);
 		_ip->valid = true;
@@ -319,6 +319,6 @@ auto Sorcery::ChangeClass::_set_info_panel_contents(std::vector<Sorcery::MenuEnt
 		_ip->valid = false;
 
 	// Set the Icon
-	if ((*it).type == MenuItemType::ENTRY)
+	if ((*it).type == MIT::ENTRY)
 		_ip->set_icon((*it).item);
 }

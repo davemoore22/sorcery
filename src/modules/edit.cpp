@@ -64,7 +64,7 @@ Sorcery::Edit::Edit(System *system, Display *display, Graphics *graphics, Game *
 	_legated->setPosition(_display->get_centre_pos(_legated->get_size()));
 }
 
-auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> {
+auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MI> {
 
 	// Get the Background Display Components and load them into Display module
 	// storage (not local)
@@ -115,10 +115,10 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 
 			// Check for Window Close
 			if (event.type == sf::Event::Closed)
-				return MenuItem::ITEM_ABORT;
+				return MI::ITEM_ABORT;
 
 			// Handle enabling help overlay
-			if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
+			if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
@@ -143,33 +143,32 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 					}
 				}
 			} else {
-				if (_system->input->check(WIP::CANCEL, event))
+				if (_system->input->check(CIN::CANCEL, event))
 					return std::nullopt;
 
-				if (_system->input->check(WIP::BACK, event))
+				if (_system->input->check(CIN::BACK, event))
 					return std::nullopt;
 
-				if (_system->input->check(WIP::UP, event))
+				if (_system->input->check(CIN::UP, event))
 					selected = _menu->choose_previous();
-				else if (_system->input->check(WIP::DOWN, event))
+				else if (_system->input->check(CIN::DOWN, event))
 					selected = _menu->choose_next();
-				else if (_system->input->check(WIP::MOVE, event))
+				else if (_system->input->check(CIN::MOVE, event))
 					selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check(WIP::CONFIRM, event)) {
+				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					// We have selected something from the menu
 					if (selected) {
-						if (const MenuItem option_chosen{(*selected.value()).item};
-							option_chosen == MenuItem::EC_RETURN_EDIT) {
-							return MenuItem::EC_RETURN_EDIT;
-						} else if (option_chosen == MenuItem::EC_CHANGE_NAME) {
+						if (const MI option_chosen{(*selected.value()).item}; option_chosen == MI::EC_RETURN_EDIT) {
+							return MI::EC_RETURN_EDIT;
+						} else if (option_chosen == MI::EC_CHANGE_NAME) {
 
 							auto change_name{std::make_unique<ChangeName>(
 								_system, _display, _graphics, _cur_char.value()->get_name())};
 							if (auto new_name{change_name->start()}; new_name) {
 
 								if (new_name.value() == EXIT_STRING)
-									return MenuItem::ITEM_ABORT;
+									return MI::ITEM_ABORT;
 
 								// Update character name and resave the
 								// character!
@@ -180,7 +179,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 								_game->save_game();
 							}
 							change_name->stop();
-						} else if (option_chosen == MenuItem::EC_CHANGE_CLASS) {
+						} else if (option_chosen == MI::EC_CHANGE_CLASS) {
 							auto &character{*_cur_char.value()};
 							auto change_class{std::make_unique<ChangeClass>(_system, _display, _graphics, &character)};
 
@@ -196,7 +195,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MenuItem> 
 								_display->set_input_mode(WIM::NAVIGATE_MENU);
 							}
 							change_class->stop();
-						} else if (option_chosen == MenuItem::EC_LEGATE_CHARACTER) {
+						} else if (option_chosen == MI::EC_LEGATE_CHARACTER) {
 							auto &character{*_cur_char.value()};
 							auto legate{std::make_unique<Legate>(_system, _display, _graphics, &character)};
 							if (auto legated{legate->start()}; legated) {

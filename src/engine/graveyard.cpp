@@ -70,7 +70,7 @@ Sorcery::Graveyard::Graveyard(System *system, Display *display, Graphics *graphi
 Sorcery::Graveyard::~Graveyard() {
 }
 
-auto Sorcery::Graveyard::start() -> std::optional<MenuItem> {
+auto Sorcery::Graveyard::start() -> std::optional<MI> {
 
 	// Get the Background Display Components and load them into Display module storage (not local)
 	_display->generate("graveyard");
@@ -139,31 +139,31 @@ auto Sorcery::Graveyard::start() -> std::optional<MenuItem> {
 				_window->close();
 
 			// Handle enabling help overlay
-			if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
+			if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
 				_display->hide_overlay();
 
-			if (_system->input->check(WIP::CANCEL, event))
-				return MenuItem::ITEM_CONTINUE;
+			if (_system->input->check(CIN::CANCEL, event))
+				return MI::ITEM_CONTINUE;
 
-			if (_system->input->check(WIP::BACK, event))
-				return MenuItem::ITEM_CONTINUE;
+			if (_system->input->check(CIN::BACK, event))
+				return MI::ITEM_CONTINUE;
 
-			if (_system->input->check(WIP::UP, event))
+			if (_system->input->check(CIN::UP, event))
 				selected = _menu->choose_previous();
-			else if (_system->input->check(WIP::DOWN, event))
+			else if (_system->input->check(CIN::DOWN, event))
 				selected = _menu->choose_next();
-			else if (_system->input->check(WIP::MOVE, event))
+			else if (_system->input->check(CIN::MOVE, event))
 				selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-			else if (_system->input->check(WIP::CONFIRM, event)) {
+			else if (_system->input->check(CIN::CONFIRM, event)) {
 
 				// We have selected something from the menu
 				if (selected) {
-					const MenuItem option_chosen{(*selected.value()).item};
-					if (option_chosen == MenuItem::ITEM_CONTINUE) {
-						return MenuItem::ITEM_CONTINUE;
+					const MI option_chosen{(*selected.value()).item};
+					if (option_chosen == MI::ITEM_CONTINUE) {
+						return MI::ITEM_CONTINUE;
 					}
 				}
 			}

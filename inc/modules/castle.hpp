@@ -54,7 +54,7 @@ class Castle {
 		// Public Members
 
 		// Public Methods
-		auto start(Destination destination = Destination::DEFAULT) -> std::optional<MenuItem>;
+		auto start(Destination destination = Destination::DEFAULT) -> std::optional<MI>;
 		auto stop() -> void;
 
 	private:

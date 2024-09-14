@@ -119,16 +119,16 @@ auto Sorcery::Legate::start() -> std::optional<CharacterAlignment> {
 				return std::nullopt;
 
 			// Handle enabling help overlay
-			if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
+			if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
 				_display->hide_overlay();
 
-			if (_system->input->check(WIP::CANCEL, event))
+			if (_system->input->check(CIN::CANCEL, event))
 				return std::nullopt;
 
-			if (_system->input->check(WIP::BACK, event))
+			if (_system->input->check(CIN::BACK, event))
 				return std::nullopt;
 
 			if (_stage == LegateStage::CONFIRM) {
@@ -151,30 +151,30 @@ auto Sorcery::Legate::start() -> std::optional<CharacterAlignment> {
 			} else if (_stage == LegateStage::CHANGE_ALIGNMENT) {
 
 				std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->selected};
-				if (_system->input->check(WIP::UP, event))
+				if (_system->input->check(CIN::UP, event))
 					selected = _menu->choose_previous();
-				else if (_system->input->check(WIP::DOWN, event))
+				else if (_system->input->check(CIN::DOWN, event))
 					selected = _menu->choose_next();
-				else if (_system->input->check(WIP::MOVE, event))
+				else if (_system->input->check(CIN::MOVE, event))
 					selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-				else if (_system->input->check(WIP::BACK, event)) {
+				else if (_system->input->check(CIN::BACK, event)) {
 					_stage = LegateStage::CONFIRM;
 					_display->set_input_mode(WIM::CONFIRM_LEGATE);
 					continue;
-				} else if (_system->input->check(WIP::DELETE, event)) {
+				} else if (_system->input->check(CIN::DELETE, event)) {
 					_stage = LegateStage::CONFIRM;
 					_display->set_input_mode(WIM::CONFIRM_LEGATE);
 					continue;
-				} else if (_system->input->check(WIP::CONFIRM, event)) {
+				} else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					switch ((*selected.value()).item) {
-					case MenuItem::CA_GOOD:
+					case MI::CA_GOOD:
 						return GOOD;
 						break;
-					case MenuItem::CA_NEUTRAL:
+					case MI::CA_NEUTRAL:
 						return NEUTRAL;
 						break;
-					case MenuItem::CA_EVIL:
+					case MI::CA_EVIL:
 						return EVIL;
 						break;
 					default:

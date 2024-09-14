@@ -49,7 +49,7 @@ Sorcery::Restart::Restart(System *system, Display *display, Graphics *graphics, 
 Sorcery::Restart::~Restart() {
 }
 
-auto Sorcery::Restart::start(unsigned int &character_chosen) -> std::optional<MenuItem> {
+auto Sorcery::Restart::start(unsigned int &character_chosen) -> std::optional<MI> {
 
 	// Get the Background Display Components and load them into Display module
 	// storage (not local)
@@ -95,34 +95,34 @@ auto Sorcery::Restart::start(unsigned int &character_chosen) -> std::optional<Me
 				_window->close();
 
 			// Handle enabling help overlay
-			if (_system->input->check(WIP::SHOW_CONTROLS, event)) {
+			if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 				_display->show_overlay();
 				continue;
 			} else
 				_display->hide_overlay();
 
-			if (_system->input->check(WIP::CANCEL, event))
-				return MenuItem::TR_EDGE_OF_TOWN;
+			if (_system->input->check(CIN::CANCEL, event))
+				return MI::TR_EDGE_OF_TOWN;
 
-			if (_system->input->check(WIP::BACK, event))
-				return MenuItem::TR_EDGE_OF_TOWN;
+			if (_system->input->check(CIN::BACK, event))
+				return MI::TR_EDGE_OF_TOWN;
 
-			if (_system->input->check(WIP::UP, event))
+			if (_system->input->check(CIN::UP, event))
 				selected = _menu->choose_previous();
-			else if (_system->input->check(WIP::DOWN, event))
+			else if (_system->input->check(CIN::DOWN, event))
 				selected = _menu->choose_next();
-			else if (_system->input->check(WIP::MOVE, event))
+			else if (_system->input->check(CIN::MOVE, event))
 				selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
-			else if (_system->input->check(WIP::CONFIRM, event)) {
+			else if (_system->input->check(CIN::CONFIRM, event)) {
 
 				if (selected) {
-					const MenuItem option_chosen{(*selected.value()).item};
-					if (option_chosen == MenuItem::TR_EDGE_OF_TOWN) {
-						return MenuItem::TR_EDGE_OF_TOWN;
+					const MI option_chosen{(*selected.value()).item};
+					if (option_chosen == MI::TR_EDGE_OF_TOWN) {
+						return MI::TR_EDGE_OF_TOWN;
 					} else {
 
 						character_chosen = (*selected.value()).index;
-						return MenuItem::RS_RESTART;
+						return MI::RS_RESTART;
 					}
 				}
 			}
