@@ -45,12 +45,12 @@ Sorcery::Rest::Rest(System *system, Display *display, Graphics *graphics, Game *
 	_window = _display->window->get_window();
 
 	// Custom Components
-	_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CONTINUE);
+	_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CONTINUE);
 	_continue_menu->generate((*_display->layout)["rest:continue_menu"]);
 	_continue_menu->setPosition(
 		_display->get_centre_x(_continue_menu->get_width()), (*_display->layout)["rest:continue_menu"].y);
 
-	_stop_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::STOP);
+	_stop_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::STOP);
 	_stop_menu->generate((*_display->layout)["rest:stop_menu"]);
 	_stop_menu->setPosition(_display->get_centre_x(_stop_menu->get_width()), (*_display->layout)["rest:stop_menu"].y);
 
@@ -79,7 +79,7 @@ Sorcery::Rest::Rest(System *system, Display *display, Graphics *graphics, Game *
 	_results = std::make_unique<TextPanel>(_system, _display, _graphics, (*_display->layout)["rest:results_panel"]);
 }
 
-auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) -> std::optional<MI> {
+auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) -> std::optional<MIM> {
 
 	_character = character;
 	_mode = mode;
@@ -163,7 +163,7 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 		while (_window->pollEvent(event)) {
 
 			if (event.type == sf::Event::Closed)
-				return MI::ITEM_ABORT;
+				return MIM::ITEM_ABORT;
 
 			// Handle enabling help overlay
 			if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
@@ -185,9 +185,9 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 				} else if (_stage == RestStage::RESULTS) {
 
 					if (_system->input->check(CIN::CANCEL, event))
-						return MI::ITEM_CONTINUE;
+						return MIM::ITEM_CONTINUE;
 					else if (_system->input->check(CIN::BACK, event))
-						return MI::ITEM_CONTINUE;
+						return MIM::ITEM_CONTINUE;
 					else if (_system->input->check(CIN::UP, event))
 						option_continue = _continue_menu->choose_previous();
 					else if (_system->input->check(CIN::DOWN, event))
@@ -198,9 +198,9 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						if (option_continue) {
-							if (const MI option_chosen{(*option_continue.value()).item};
-								option_chosen == MI::ITEM_CONTINUE) {
-								return MI::ITEM_CONTINUE;
+							if (const MIM option_chosen{(*option_continue.value()).item};
+								option_chosen == MIM::ITEM_CONTINUE) {
+								return MIM::ITEM_CONTINUE;
 							}
 						}
 					}
@@ -211,9 +211,9 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 				if (_stage == RestStage::REGEN) {
 
 					if (_system->input->check(CIN::CANCEL, event))
-						return MI::CP_LEAVE;
+						return MIM::CP_LEAVE;
 					else if (_system->input->check(CIN::BACK, event))
-						return MI::CP_LEAVE;
+						return MIM::CP_LEAVE;
 					else if (_system->input->check(CIN::UP, event))
 						option_stop = _stop_menu->choose_previous();
 					else if (_system->input->check(CIN::DOWN, event))
@@ -224,7 +224,7 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						if (option_stop) {
-							if (const MI option_chosen{(*option_stop.value()).item}; option_chosen == MI::ITEM_STOP) {
+							if (const MIM option_chosen{(*option_stop.value()).item}; option_chosen == MIM::ITEM_STOP) {
 								_go_to_results();
 								_stage = RestStage::RESULTS;
 								continue;
@@ -234,9 +234,9 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 				} else if (_stage == RestStage::RESULTS) {
 
 					if (_system->input->check(CIN::CANCEL, event))
-						return MI::CP_LEAVE;
+						return MIM::CP_LEAVE;
 					else if (_system->input->check(CIN::BACK, event))
-						return MI::CP_LEAVE;
+						return MIM::CP_LEAVE;
 					else if (_system->input->check(CIN::UP, event))
 						option_continue = _continue_menu->choose_previous();
 					else if (_system->input->check(CIN::DOWN, event))
@@ -247,9 +247,9 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						if (option_continue) {
-							if (const MI option_chosen{(*option_continue.value()).item};
-								option_chosen == MI::ITEM_CONTINUE) {
-								return MI::ITEM_CONTINUE;
+							if (const MIM option_chosen{(*option_continue.value()).item};
+								option_chosen == MIM::ITEM_CONTINUE) {
+								return MIM::ITEM_CONTINUE;
 							}
 						}
 					}

@@ -50,7 +50,7 @@ class Restart {
 		// Public Members
 
 		// Public Methods
-		auto start(unsigned int &character_chosen) -> std::optional<MI>;
+		auto start(unsigned int &character_chosen) -> std::optional<MIM>;
 		auto stop() -> void;
 
 	private:
@@ -65,7 +65,7 @@ class Restart {
 		Graphics *_graphics;
 		Game *_game;
 		sf::RenderWindow *_window;
-		MainMenuType _menu_stage;
+		MMT _menu_stage;
 		std::unique_ptr<Menu> _menu;
 		sf::Sprite _bg;
 		std::unique_ptr<Frame> _menu_frame;

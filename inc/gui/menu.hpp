@@ -42,8 +42,8 @@ class Menu: public sf::Transformable, public sf::Drawable {
 	public:
 
 		// Constructors
-		Menu(System *system, Display *display, Graphics *graphics, Game *game, const MenuType type,
-			std::optional<MenuMode> mode = std::nullopt, std::optional<unsigned int> data = 0);
+		Menu(System *system, Display *display, Graphics *graphics, Game *game, const MTP type,
+			std::optional<MMD> mode = std::nullopt, std::optional<unsigned int> data = 0);
 		Menu() = delete;
 
 		// Overload operators
@@ -65,7 +65,7 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		auto set_mouse_selected(sf::Vector2f mouse_pos) -> std::optional<std::vector<MenuEntry>::const_iterator>;
 		auto get_mouse_clicked(const sf::Event::MouseButtonEvent mb_event)
 			-> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto get_type() const -> MenuType;
+		auto get_type() const -> MTP;
 		auto generate(const Component &component, bool force_refresh = false) -> void;
 		auto reload() -> void;
 		auto get_by_index(unsigned int index) -> std::optional<std::vector<MenuEntry>::iterator>;
@@ -84,11 +84,11 @@ class Menu: public sf::Transformable, public sf::Drawable {
 
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
-		auto _add_item(const int index, const MIT itemtype, const MI code, std::string key, const bool enabled,
+		auto _add_item(const int index, const MIT itemtype, const MIM code, std::string key, const bool enabled,
 			const ConfigOption option, const std::string &hint) -> void;
-		auto _add_item(int index, const MIT itemtype, const MI code, std::string key) -> void;
-		auto _add_item_disabled(int index, const MIT itemtype, const MI code, std::string key) -> void;
-		auto _add_item(int index, const MIT itemtype, const MI code, std::string key, unsigned int idx) -> void;
+		auto _add_item(int index, const MIT itemtype, const MIM code, std::string key) -> void;
+		auto _add_item_disabled(int index, const MIT itemtype, const MIM code, std::string key) -> void;
+		auto _add_item(int index, const MIT itemtype, const MIM code, std::string key, unsigned int idx) -> void;
 		auto _populate_chars() -> void;
 		auto _populate_trade_chars(const unsigned int current_char) -> void;
 		auto _select_first() -> std::optional<std::vector<MenuEntry>::const_iterator>;
@@ -105,13 +105,13 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		Game *_game;
 		unsigned int _width;
 		unsigned int _height;
-		MenuType _type;
+		MTP _type;
 		sf::RenderTexture _rtexture;
 		sf::Texture _texture;
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Text> _options;
 		sf::RectangleShape _selected_bg;
-		std::optional<MenuMode> _mode;
+		std::optional<MMD> _mode;
 		bool _go_first;
 		unsigned int _previous;
 		unsigned int _visible_size;

@@ -52,7 +52,7 @@ class Training {
 		// Public Members
 
 		// Public Methods
-		auto start() -> std::optional<MI>;
+		auto start() -> std::optional<MIM>;
 		auto stop() -> void;
 
 	private:
@@ -66,7 +66,7 @@ class Training {
 		Graphics *_graphics;
 		Game *_game;
 		sf::RenderWindow *_window;
-		MainMenuType _menu_stage;
+		MMT _menu_stage;
 		std::unique_ptr<Menu> _menu;
 		sf::Sprite _bg;
 		std::unique_ptr<Frame> _menu_frame;

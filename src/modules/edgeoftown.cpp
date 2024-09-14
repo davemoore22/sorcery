@@ -48,7 +48,7 @@ Sorcery::EdgeOfTown::EdgeOfTown(System *system, Display *display, Graphics *grap
 	_window = _display->window->get_window();
 
 	// Setup Custom Components
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::EDGE_OF_TOWN);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::EDGE_OF_TOWN);
 	_menu->generate((*_display->layout)["edge_of_town:menu"]);
 	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["edge_of_town:menu"].y);
 
@@ -67,12 +67,12 @@ Sorcery::EdgeOfTown::~EdgeOfTown() {
 }
 
 // Start/Continue a new Game
-auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MI> {
+auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MIM> {
 
 	if (destination == Destination::RESTART)
-		return MI::ET_RESTART;
+		return MIM::ET_RESTART;
 	else if (destination == Destination::MAZE)
-		return MI::ET_MAZE;
+		return MIM::ET_MAZE;
 
 	_update_menus();
 	_display->generate("edge_of_town");
@@ -119,16 +119,16 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MI> {
 
 					// We have selected something from the menu
 					if (option) {
-						if (const MI option_chosen{(*option.value()).item}; option_chosen == MI::ET_CASTLE) {
-							return MI::ET_CASTLE;
-						} else if (option_chosen == MI::ET_LEAVE_GAME)
+						if (const MIM option_chosen{(*option.value()).item}; option_chosen == MIM::ET_CASTLE) {
+							return MIM::ET_CASTLE;
+						} else if (option_chosen == MIM::ET_LEAVE_GAME)
 							_display->set_input_mode(WIM::CONFIRM_LEAVE_GAME);
-						else if (option_chosen == MI::ET_MAZE)
-							return MI::ET_MAZE;
-						else if (option_chosen == MI::ET_TRAIN)
-							return MI::ET_TRAIN;
-						else if (option_chosen == MI::ET_RESTART)
-							return MI::ET_RESTART;
+						else if (option_chosen == MIM::ET_MAZE)
+							return MIM::ET_MAZE;
+						else if (option_chosen == MIM::ET_TRAIN)
+							return MIM::ET_TRAIN;
+						else if (option_chosen == MIM::ET_RESTART)
+							return MIM::ET_RESTART;
 					}
 				} else if (_system->input->check(CIN::CANCEL, event) || _system->input->check(CIN::BACK, event)) {
 					_display->set_input_mode(WIM::CONFIRM_LEAVE_GAME);
@@ -141,7 +141,7 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MI> {
 					if (dialog_input.value() == WDB::CLOSE) {
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						_game->save_game();
-						return MI::ET_LEAVE_GAME;
+						return MIM::ET_LEAVE_GAME;
 					} else if (dialog_input.value() == WDB::YES) {
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 
@@ -152,7 +152,7 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MI> {
 						}
 						_game->state->clear_party();
 						_game->save_game();
-						return MI::ET_LEAVE_GAME;
+						return MIM::ET_LEAVE_GAME;
 					} else if (dialog_input.value() == WDB::NO) {
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 					}

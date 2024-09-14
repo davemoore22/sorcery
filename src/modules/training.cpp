@@ -48,7 +48,7 @@ Sorcery::Training::Training(System *system, Display *display, Graphics *graphics
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::TRAINING_GROUNDS);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::TRAINING_GROUNDS);
 	_menu->generate((*_display->layout)["training_grounds:menu"]);
 	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["training_grounds:menu"].y);
 	_create = std::make_unique<Create>(_system, _display, _graphics, _game);
@@ -61,7 +61,7 @@ Sorcery::Training::Training(System *system, Display *display, Graphics *graphics
 Sorcery::Training::~Training() {
 }
 
-auto Sorcery::Training::start() -> std::optional<MI> {
+auto Sorcery::Training::start() -> std::optional<MIM> {
 
 	// Remove all characters from party as is tradition
 	for (auto &[character_id, character] : _game->characters) {
@@ -130,37 +130,37 @@ auto Sorcery::Training::start() -> std::optional<MI> {
 
 				// We have selected something from the menu
 				if (selected) {
-					const MI option_chosen{(*selected.value()).item};
-					if (option_chosen == MI::TR_EDGE_OF_TOWN) {
-						return MI::ET_LEAVE_GAME;
-					} else if (option_chosen == MI::TR_CREATE) {
-						if (auto result{_create->start()}; result && result.value() == MI::ITEM_ABORT) {
+					const MIM option_chosen{(*selected.value()).item};
+					if (option_chosen == MIM::TR_EDGE_OF_TOWN) {
+						return MIM::ET_LEAVE_GAME;
+					} else if (option_chosen == MIM::TR_CREATE) {
+						if (auto result{_create->start()}; result && result.value() == MIM::ITEM_ABORT) {
 							_create->stop();
-							return MI::ITEM_ABORT;
+							return MIM::ITEM_ABORT;
 						}
 						_create->stop();
 						_display->generate("training_grounds");
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
-					} else if (option_chosen == MI::TR_INSPECT) {
-						if (auto result{_inspect->start()}; result && result.value() == MI::ITEM_ABORT) {
+					} else if (option_chosen == MIM::TR_INSPECT) {
+						if (auto result{_inspect->start()}; result && result.value() == MIM::ITEM_ABORT) {
 							_inspect->stop();
-							return MI::ITEM_ABORT;
+							return MIM::ITEM_ABORT;
 						}
 						_inspect->stop();
 						_display->generate("training_grounds");
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
-					} else if (option_chosen == MI::TR_EDIT) {
-						if (auto result{_edit->start()}; result && result.value() == MI::ITEM_ABORT) {
+					} else if (option_chosen == MIM::TR_EDIT) {
+						if (auto result{_edit->start()}; result && result.value() == MIM::ITEM_ABORT) {
 							_edit->stop();
-							return MI::ITEM_ABORT;
+							return MIM::ITEM_ABORT;
 						}
 						_edit->stop();
 						_display->generate("training_grounds");
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
-					} else if (option_chosen == MI::TR_DELETE) {
-						if (auto result{_delete->start()}; result && result.value() == MI::ITEM_ABORT) {
+					} else if (option_chosen == MIM::TR_DELETE) {
+						if (auto result{_delete->start()}; result && result.value() == MIM::ITEM_ABORT) {
 							_delete->stop();
-							return MI::ITEM_ABORT;
+							return MIM::ITEM_ABORT;
 						}
 						_delete->stop();
 						_display->generate("training_grounds");

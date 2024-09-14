@@ -44,7 +44,7 @@ Sorcery::Tavern::Tavern(System *system, Display *display, Graphics *graphics, Ga
 	_window = _display->window->get_window();
 
 	// Setup Custom Components
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::TAVERN);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::TAVERN);
 	_menu->generate((*_display->layout)["tavern:menu"]);
 	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["tavern:menu"].y);
 
@@ -62,7 +62,7 @@ Sorcery::Tavern::Tavern(System *system, Display *display, Graphics *graphics, Ga
 }
 
 // Visit the Tavern
-auto Sorcery::Tavern::start() -> std::optional<MI> {
+auto Sorcery::Tavern::start() -> std::optional<MIM> {
 
 	using enum Enums::Castle::Tavern;
 	using enum Enums::Menu::Item;
@@ -71,14 +71,13 @@ auto Sorcery::Tavern::start() -> std::optional<MI> {
 	_add.reset();
 	_remove.reset();
 
-	_add =
-		std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::AVAILABLE_CHARACTERS, MenuMode::TAVERN);
+	_add = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::AVAILABLE_CHARACTERS, MMD::TAVERN);
 	_add->generate((*_display->layout)["tavern_add:menu"]);
 	_add->setPosition(_display->get_centre_x(_add->get_width()), (*_display->layout)["tavern_add:menu"].y);
-	_remove = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::PARTY_CHARACTERS, MenuMode::TAVERN);
+	_remove = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::PARTY_CHARACTERS, MMD::TAVERN);
 	_remove->generate((*_display->layout)["tavern_remove:menu"]);
 	_remove->setPosition(_display->get_centre_x(_remove->get_width()), (*_display->layout)["tavern_remove:menu"].y);
-	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MenuMode::TAVERN);
+	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MMD::TAVERN);
 
 	// Note Inspect is handled in a generic Inspect Module
 	switch (_stage) {
@@ -161,7 +160,7 @@ auto Sorcery::Tavern::start() -> std::optional<MI> {
 
 							// We have selected something from the menu
 							if (option) {
-								if (const MI option_chosen{(*option.value()).item}; option_chosen == TA_CASTLE) {
+								if (const MIM option_chosen{(*option.value()).item}; option_chosen == TA_CASTLE) {
 									return TA_CASTLE;
 								} else if (option_chosen == TA_ADD_TO_PARTY) {
 									_add->reload();
@@ -245,7 +244,7 @@ auto Sorcery::Tavern::start() -> std::optional<MI> {
 
 					// We have selected something from the menu
 					if (option) {
-						if (const MI option_chosen{(*option.value()).item}; option_chosen == CA_TAVERN) {
+						if (const MIM option_chosen{(*option.value()).item}; option_chosen == CA_TAVERN) {
 
 							_stage = MENU;
 							_screen_key = "tavern";
@@ -297,7 +296,7 @@ auto Sorcery::Tavern::start() -> std::optional<MI> {
 
 					// We have selected something from the menu
 					if (option) {
-						if (const MI option_chosen{(*option.value()).item}; option_chosen == CA_TAVERN) {
+						if (const MIM option_chosen{(*option.value()).item}; option_chosen == CA_TAVERN) {
 
 							_stage = MENU;
 							_screen_key = "tavern";

@@ -51,7 +51,7 @@ class Rest {
 		// Public Members
 
 		// Public Methods
-		auto start(Character *character, RestMode mode, RestType type) -> std::optional<MI>;
+		auto start(Character *character, RestMode mode, RestType type) -> std::optional<MIM>;
 		auto stop() -> void;
 
 	private:

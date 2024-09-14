@@ -54,7 +54,7 @@ auto Sorcery::InfoPanel::set_icon(const std::string &string) -> void {
 	_icon.setColor(sf::Color(std::stoull(_layout["icon_colour"].value(), 0, 16)));
 }
 
-auto Sorcery::InfoPanel::set_icon(const MI menu_item) -> void {
+auto Sorcery::InfoPanel::set_icon(const MIM menu_item) -> void {
 
 	if ((*_graphics->icons)[menu_item])
 		_icon = (*_graphics->icons)[menu_item].value();

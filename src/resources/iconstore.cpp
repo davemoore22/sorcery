@@ -94,7 +94,7 @@ auto Sorcery::IconStore::operator[](std::string_view key) -> std::optional<sf::S
 	return copy;
 }
 
-auto Sorcery::IconStore::operator[](const MI key) -> std::optional<sf::Sprite> {
+auto Sorcery::IconStore::operator[](const MIM key) -> std::optional<sf::Sprite> {
 
 	auto sprite{get(key)};
 	auto copy{sprite};
@@ -111,7 +111,7 @@ auto Sorcery::IconStore::get(std::string_view key) -> std::optional<sf::Sprite> 
 }
 
 // Find the corresponding item in the map by Menu Item
-auto Sorcery::IconStore::get(const MI key) -> std::optional<sf::Sprite> {
+auto Sorcery::IconStore::get(const MIM key) -> std::optional<sf::Sprite> {
 
 	if (_loaded) {
 		auto it = std::find_if(
@@ -165,7 +165,7 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 					else
 						return sf::Color(std::stoul(colour_hex, 0, 16));
 				})};
-				MI menu_item{MI::NO_MENU_ITEM};
+				MIM menu_item{MIM::NO_MENU_ITEM};
 
 				// Use Magic Enum Library Reflection to convert the string to the type if we have an associated menu
 				// item for the icon (which is used in an info panel beneath a menu)
@@ -177,7 +177,7 @@ auto Sorcery::IconStore::_load(const std::filesystem::path filename) -> bool {
 				const Icon icon{index, menu_item, key, filename, colour};
 
 				// First for Menu Items
-				if (menu_item != MI::NO_MENU_ITEM) {
+				if (menu_item != MIM::NO_MENU_ITEM) {
 					_menu_icon_map[menu_item] = icon;
 				}
 

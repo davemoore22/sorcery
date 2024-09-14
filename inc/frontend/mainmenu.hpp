@@ -53,7 +53,7 @@ class MainMenu {
 		// Public Members
 
 		// Public Methods
-		auto start(MainMenuType menu_stage) -> std::optional<MI>;
+		auto start(MMT menu_stage) -> std::optional<MIM>;
 		auto stop() -> void;
 
 	private:
@@ -68,7 +68,7 @@ class MainMenu {
 		Graphics *_graphics;
 		Game *_game;
 		sf::RenderWindow *_window;
-		MainMenuType _menu_stage;
+		MMT _menu_stage;
 		std::unique_ptr<Menu> _main_menu;
 		std::unique_ptr<AttractMode> _attract_mode;
 		Component _attract_creatures_c;

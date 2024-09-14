@@ -361,8 +361,7 @@ auto Sorcery::Display::display(std::string_view screen, std::map<std::string, sf
 
 		if (screen == "main_menu_attract") {
 			if (parameter) {
-				if (const MainMenuType menu_stage{std::any_cast<MainMenuType>(parameter.value())};
-					menu_stage == MainMenuType::ATTRACT_MENU) {
+				if (const MMT menu_stage{std::any_cast<MMT>(parameter.value())}; menu_stage == MMT::ATTRACT_MENU) {
 					if (unique_key.ends_with("main_menu_attract:press_any_key") ||
 						unique_key.ends_with("main_menu_attract:subtitle_1") ||
 						unique_key.ends_with("main_menu_attract:subtitle_2") ||

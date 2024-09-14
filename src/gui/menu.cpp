@@ -44,8 +44,8 @@
 #include "types/monstertype.hpp"
 
 // Standard Constructor
-Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics, Game *game, const MenuType type,
-	std::optional<MenuMode> mode, std::optional<unsigned int> data)
+Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics, Game *game, const MTP type,
+	std::optional<MMD> mode, std::optional<unsigned int> data)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _type{type}, _mode{mode} {
 
 	using enum Enums::Menu::Type;
@@ -412,7 +412,7 @@ auto Sorcery::Menu::_add_all_items() -> void {
 	const auto item_types{_game->itemstore->get_all_types()};
 	for (auto &item_type : item_types)
 		if (item_type.get_type_id() != ItemTypeID::BROKEN_ITEM)
-			_add_item(unenum(item_type.get_type_id()), MIT::ENTRY, MI::MU_ITEM, item_type.get_display_name(),
+			_add_item(unenum(item_type.get_type_id()), MIT::ENTRY, MIM::MU_ITEM, item_type.get_display_name(),
 				unenum(item_type.get_type_id()));
 }
 
@@ -421,7 +421,7 @@ auto Sorcery::Menu::_add_all_monsters() -> void {
 
 	const auto monster_types{_game->monsterstore->get_all_types()};
 	for (auto &monster : monster_types)
-		_add_item(unenum(monster.get_type_id()), MIT::ENTRY, MI::MU_ITEM, monster.get_known_name(),
+		_add_item(unenum(monster.get_type_id()), MIT::ENTRY, MIM::MU_ITEM, monster.get_known_name(),
 			unenum(monster.get_type_id()));
 }
 
@@ -472,13 +472,13 @@ auto Sorcery::Menu::operator[](const unsigned int index) -> MenuEntry & {
 	return items.at(index);
 }
 
-auto Sorcery::Menu::get_type() const -> MenuType {
+auto Sorcery::Menu::get_type() const -> MTP {
 
 	return _type;
 }
 
 // Add an item to the Menu
-auto Sorcery::Menu::_add_item(int index, const MIT itemtype, const MI code, std::string key) -> void {
+auto Sorcery::Menu::_add_item(int index, const MIT itemtype, const MIM code, std::string key) -> void {
 
 	// Note passing key by value as we are modifying the key here
 	if (key.length() % 2 == 0)
@@ -489,7 +489,7 @@ auto Sorcery::Menu::_add_item(int index, const MIT itemtype, const MI code, std:
 	++count;
 }
 
-auto Sorcery::Menu::_add_item_disabled(int index, const MIT itemtype, const MI code, std::string key) -> void {
+auto Sorcery::Menu::_add_item_disabled(int index, const MIT itemtype, const MIM code, std::string key) -> void {
 
 	// Note passing key by value as we are modifying the key here
 	if (key.length() % 2 == 0)
@@ -500,7 +500,8 @@ auto Sorcery::Menu::_add_item_disabled(int index, const MIT itemtype, const MI c
 	++count;
 }
 
-auto Sorcery::Menu::_add_item(int index, const MIT itemtype, const MI code, std::string key, unsigned int idx) -> void {
+auto Sorcery::Menu::_add_item(int index, const MIT itemtype, const MIM code, std::string key, unsigned int idx)
+	-> void {
 
 	// Note passing key by value as we are modifying the key here
 	if (key.length() % 2 == 0)
@@ -512,7 +513,7 @@ auto Sorcery::Menu::_add_item(int index, const MIT itemtype, const MI code, std:
 }
 
 // Add an item to the Menu
-auto Sorcery::Menu::_add_item(const int index, const MIT itemtype, const MI code, std::string key, const bool enabled,
+auto Sorcery::Menu::_add_item(const int index, const MIT itemtype, const MIM code, std::string key, const bool enabled,
 	const ConfigOption option, const std::string &hint) -> void {
 
 	// Note passing key by value as we are modifying the key here
@@ -601,9 +602,9 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 	using enum Enums::Menu::Item;
 	using enum Enums::Manage::Method;
 
-	MI search_for{NO_MENU_ITEM};
+	MIM search_for{NO_MENU_ITEM};
 	switch (_type) {
-	case MenuType::CHOOSE_METHOD:
+	case MTP::CHOOSE_METHOD:
 		switch (std::any_cast<CreateMethod>(option)) {
 		case FULL:
 			search_for = CM_FULL;
@@ -618,7 +619,7 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 			break;
 		}
 		break;
-	case MenuType::CHOOSE_CHARACTER_RACE:
+	case MTP::CHOOSE_CHARACTER_RACE:
 		switch (std::any_cast<CharacterRace>(option)) {
 		case DWARF:
 			search_for = CR_DWARF;
@@ -639,7 +640,7 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 			break;
 		}
 		break;
-	case MenuType::CHOOSE_CHARACTER_ALIGNMENT:
+	case MTP::CHOOSE_CHARACTER_ALIGNMENT:
 		switch (std::any_cast<CharacterAlignment>(option)) {
 		case EVIL:
 			search_for = CA_EVIL;
@@ -654,7 +655,7 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 			break;
 		}
 		break;
-	case MenuType::CHOOSE_CHARACTER_CLASS:
+	case MTP::CHOOSE_CHARACTER_CLASS:
 		switch (std::any_cast<CharacterClass>(option)) {
 		case SAMURAI:
 			search_for = CC_SAMURAI;
@@ -900,7 +901,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 				} else if (_type == TEMPLE) {
 
 					// Override Justification for Invalid Characters so that it looks better
-					if (item.item == MI::IC_CHARACTER)
+					if (item.item == MIM::IC_CHARACTER)
 						text.setOrigin(0, 0);
 					else if (component.justification == Justification::CENTRE)
 						text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
@@ -1039,7 +1040,7 @@ auto Sorcery::Menu::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 	for (auto &text : _texts)
 		target.draw(text, states);
 
-	if (_type == MenuType::OPTIONS)
+	if (_type == MTP::OPTIONS)
 		for (auto &option : _options)
 			target.draw(option, states);
 }
@@ -1095,24 +1096,24 @@ auto Sorcery::Menu::_populate_chars() -> void {
 	case CHARACTER_ROSTER: {
 		if (!_game->characters.empty()) {
 			for (auto &[character_id, character] : _game->characters) {
-				if (_mode.value() == MenuMode::TAVERN) {
+				if (_mode.value() == MMD::TAVERN) {
 					if (character.get_location() == CharacterLocation::TAVERN ||
 						character.get_location() == CharacterLocation::PARTY) {
 						_add_item(character_id, ENTRY, IC_CHARACTER, character.get_summary());
 						++max_id;
 					}
-				} else if (_mode.value() == MenuMode::INN) {
+				} else if (_mode.value() == MMD::INN) {
 					if (character.get_location() == CharacterLocation::PARTY) {
 						_add_item(character_id, ENTRY, IC_CHARACTER, character.get_summary());
 						++max_id;
 					}
-				} else if (_mode.value() == MenuMode::TEMPLE) {
+				} else if (_mode.value() == MMD::TEMPLE) {
 					if (character.get_location() == CharacterLocation::TEMPLE ||
 						character.get_location() == CharacterLocation::PARTY) {
 						_add_item(character_id, ENTRY, IC_CHARACTER, character.get_summary());
 						++max_id;
 					}
-				} else if (_mode.value() == MenuMode::TRAINING) {
+				} else if (_mode.value() == MMD::TRAINING) {
 					_add_item(character_id, ENTRY, IC_CHARACTER, character.get_summary_and_out());
 					++max_id;
 				}
@@ -1121,16 +1122,16 @@ auto Sorcery::Menu::_populate_chars() -> void {
 			_add_item(++max_id, TEXT, NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS"]);
 
 		if (_mode) {
-			if (_mode.value() == MenuMode::TRAINING) {
+			if (_mode.value() == MMD::TRAINING) {
 				_add_item(++max_id, SPACER, ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
 				_add_item(++max_id, ENTRY, ET_TRAIN, (*_display->string)["MENU_TRAIN"]);
-			} else if (_mode.value() == MenuMode::TAVERN) {
+			} else if (_mode.value() == MMD::TAVERN) {
 				_add_item(++max_id, SPACER, ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
 				_add_item(++max_id, ENTRY, CA_TAVERN, (*_display->string)["MENU_TAVERN"]);
-			} else if (_mode.value() == MenuMode::INN) {
+			} else if (_mode.value() == MMD::INN) {
 				_add_item(++max_id, SPACER, ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
 				_add_item(++max_id, ENTRY, CA_TAVERN, (*_display->string)["MENU_INN"]);
-			} else if (_mode.value() == MenuMode::TEMPLE) {
+			} else if (_mode.value() == MMD::TEMPLE) {
 				_add_item(++max_id, SPACER, ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
 				_add_item(++max_id, ENTRY, CA_TAVERN, (*_display->string)["MENU_TEMPLE"]);
 			}
@@ -1218,19 +1219,19 @@ auto Sorcery::Menu::_populate_chars() -> void {
 			_add_item(++max_id, TEXT, NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS"]);
 
 		if (_mode) {
-			if (_mode.value() == MenuMode::TAVERN) {
+			if (_mode.value() == MMD::TAVERN) {
 				_add_item(++max_id, SPACER, ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
 				_add_item(++max_id, ENTRY, CA_TAVERN, (*_display->string)["MENU_TAVERN"]);
-			} else if (_mode.value() == MenuMode::INN) {
+			} else if (_mode.value() == MMD::INN) {
 				_add_item(++max_id, SPACER, ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
 				_add_item(++max_id, ENTRY, CA_INN, (*_display->string)["MENU_INN"]);
-			} else if (_mode.value() == MenuMode::SHOP) {
+			} else if (_mode.value() == MMD::SHOP) {
 				_add_item(++max_id, SPACER, ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
 				_add_item(++max_id, ENTRY, CA_SHOP, (*_display->string)["MENU_SHOP"]);
-			} else if (_mode.value() == MenuMode::TEMPLE) {
+			} else if (_mode.value() == MMD::TEMPLE) {
 				_add_item(++max_id, SPACER, ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
 				_add_item(++max_id, ENTRY, CA_TEMPLE, (*_display->string)["MENU_TEMPLE"]);
-			} else if (_mode.value() == MenuMode::CAMP) {
+			} else if (_mode.value() == MMD::CAMP) {
 				_add_item(++max_id, SPACER, ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
 				_add_item(++max_id, ENTRY, ITEM_CAMP, (*_display->string)["MENU_LEAVE"]);
 			}
@@ -1256,7 +1257,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		}
 
 		if (_mode) {
-			if (_mode.value() == MenuMode::TAVERN) {
+			if (_mode.value() == MMD::TAVERN) {
 				_add_item(++max_id, SPACER, ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
 				_add_item(++max_id, ENTRY, CA_TAVERN, (*_display->string)["MENU_TAVERN"]);
 			}
@@ -1284,7 +1285,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		}
 
 		if (_mode) {
-			if (_mode.value() == MenuMode::TEMPLE) {
+			if (_mode.value() == MMD::TEMPLE) {
 				_add_item(++max_id, SPACER, ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
 				_add_item(++max_id, ENTRY, CA_TEMPLE, (*_display->string)["MENU_TEMPLE"]);
 			}
@@ -1373,7 +1374,7 @@ auto Sorcery::Menu::get_size() const -> sf::Vector2f {
 
 auto Sorcery::Menu::print() -> void {
 
-	std::string title{magic_enum::enum_name<MenuType>(_type)};
+	std::string title{magic_enum::enum_name<MTP>(_type)};
 	auto body{title + "\n\n"s};
 	int slot{0};
 

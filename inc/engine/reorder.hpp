@@ -43,7 +43,7 @@ class Reorder {
 	public:
 
 		// Standard Constructor
-		Reorder(System *system, Display *display, Graphics *graphics, Game *game, MenuMode mode = MenuMode::NO_MODE);
+		Reorder(System *system, Display *display, Graphics *graphics, Game *game, MMD mode = MMD::NO_MODE);
 		Reorder() = delete;
 
 		// Standard Destructor
@@ -76,7 +76,7 @@ class Reorder {
 		std::vector<unsigned int> _candidate_party;
 		Component _candidate_c;
 		std::vector<sf::Text> _texts;
-		MenuMode _mode;
+		MMD _mode;
 };
 
 }

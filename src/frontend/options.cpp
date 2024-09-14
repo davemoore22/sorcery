@@ -48,7 +48,7 @@ Sorcery::Options::Options(System *system, Display *display, Graphics *graphics)
 	_factory = std::make_unique<Factory>(_system, _display, _graphics, nullptr);
 
 	// Menu and Options
-	_menu = _factory->make_menu("options:menu", MenuType::OPTIONS);
+	_menu = _factory->make_menu("options:menu", MTP::OPTIONS);
 	_option_on = Component((*_display->layout)["options:on"]);
 	_option_off = Component((*_display->layout)["options:off"]);
 
@@ -256,7 +256,7 @@ auto Sorcery::Options::_set_infopanel(std::vector<Sorcery::MenuEntry>::const_ite
 
 	// Set the Icon
 	if ((*it).type == MIT::ENTRY)
-		_ip->set_icon(MI::OP_ALL);
+		_ip->set_icon(MIM::OP_ALL);
 }
 
 auto Sorcery::Options::_draw() -> void {

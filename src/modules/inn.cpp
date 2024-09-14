@@ -44,9 +44,9 @@ Sorcery::Inn::Inn(System *system, Display *display, Graphics *graphics, Game *ga
 	_window = _display->window->get_window();
 
 	// Setup Custom Components
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::INN);
-	_roster = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::PARTY_CHARACTERS, MenuMode::INN);
-	_bed = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::INN_CHOOSE_BED);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::INN);
+	_roster = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::PARTY_CHARACTERS, MMD::INN);
+	_bed = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::INN_CHOOSE_BED);
 
 	_menu->generate((*_display->layout)["inn:menu"]);
 	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["inn:menu"].y);
@@ -62,7 +62,7 @@ Sorcery::Inn::Inn(System *system, Display *display, Graphics *graphics, Game *ga
 	// Modules
 	_party_panel =
 		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
-	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MenuMode::INN);
+	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MMD::INN);
 
 	_stage = InnStage::NO_STAGE;
 	_update = false;
@@ -75,7 +75,7 @@ Sorcery::Inn::Inn(System *system, Display *display, Graphics *graphics, Game *ga
 }
 
 // Visit the Tavern
-auto Sorcery::Inn::start() -> std::optional<MI> {
+auto Sorcery::Inn::start() -> std::optional<MIM> {
 
 	// Get the Background Display Components and load them into Display module storage (not local - and note that due to
 	// the way both menus are combined in this class, we need to have the menu stage set first in this case and this
@@ -118,7 +118,7 @@ auto Sorcery::Inn::start() -> std::optional<MI> {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return MI::ITEM_ABORT;
+					return MIM::ITEM_ABORT;
 
 				// Handle enabling help overlay
 				if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
@@ -145,19 +145,19 @@ auto Sorcery::Inn::start() -> std::optional<MI> {
 						// We have selected something from the menu
 						if (option) {
 
-							if (const MI option_chosen{(*option.value()).item}; option_chosen == MI::IN_CASTLE) {
-								return MI::IN_CASTLE;
-							} else if (option_chosen == MI::IN_STAY_CHARACTER) {
+							if (const MIM option_chosen{(*option.value()).item}; option_chosen == MIM::IN_CASTLE) {
+								return MIM::IN_CASTLE;
+							} else if (option_chosen == MIM::IN_STAY_CHARACTER) {
 								_stage = InnStage::CHOOSE;
 								_display->set_input_mode(WIM::NAVIGATE_MENU);
 								_party_panel->refresh();
-							} else if (option_chosen == MI::IN_INSPECT) {
+							} else if (option_chosen == MIM::IN_INSPECT) {
 								if (auto result{_inspect->start(std::nullopt)};
-									result && result.value() == MI::ITEM_ABORT) {
+									result && result.value() == MIM::ITEM_ABORT) {
 									_inspect->stop();
 									_game->save_game();
 									_display->shutdown_SFML();
-									return MI::ITEM_ABORT;
+									return MIM::ITEM_ABORT;
 								}
 								_inspect->stop();
 								_display->generate("inn");
@@ -174,16 +174,16 @@ auto Sorcery::Inn::start() -> std::optional<MI> {
 
 									// We have selected something from the menu
 									if (option) {
-										if (const MI option_chosen{(*option.value()).item};
-											option_chosen == MI::IN_CASTLE) {
-											return MI::IN_CASTLE;
-										} else if (option_chosen == MI::IN_INSPECT) {
+										if (const MIM option_chosen{(*option.value()).item};
+											option_chosen == MIM::IN_CASTLE) {
+											return MIM::IN_CASTLE;
+										} else if (option_chosen == MIM::IN_INSPECT) {
 											if (auto result{_inspect->start(std::nullopt)};
-												result && result.value() == MI::ITEM_ABORT) {
+												result && result.value() == MIM::ITEM_ABORT) {
 												_inspect->stop();
 												_game->save_game();
 												_display->shutdown_SFML();
-												return MI::ITEM_ABORT;
+												return MIM::ITEM_ABORT;
 											}
 											_inspect->stop();
 											_display->generate("inn");
@@ -213,7 +213,7 @@ auto Sorcery::Inn::start() -> std::optional<MI> {
 
 						// We have selected something from the menu
 						if (option_choose) {
-							if (const MI option_chosen{(*option_choose.value()).item}; option_chosen == MI::CA_INN) {
+							if (const MIM option_chosen{(*option_choose.value()).item}; option_chosen == MIM::CA_INN) {
 								_stage = InnStage::MENU;
 								_party_panel->refresh();
 								continue;
@@ -263,76 +263,77 @@ auto Sorcery::Inn::start() -> std::optional<MI> {
 
 							// We have selected something from the menu
 							if (option_bed) {
-								if (const MI option_chosen{(*option_bed.value()).item}; option_chosen == MI::IN_BACK) {
+								if (const MIM option_chosen{(*option_bed.value()).item};
+									option_chosen == MIM::IN_BACK) {
 									_stage = InnStage::CHOOSE;
 									_party_panel->refresh();
 									continue;
-								} else if (option_chosen == MI::IN_POOL_GOLD) {
+								} else if (option_chosen == MIM::IN_POOL_GOLD) {
 
 									_game->pool_party_gold(_cur_char_id);
 									_game->save_game();
 
 									_show_pool = true;
 									_display->set_input_mode(WIM::NAVIGATE_MENU);
-								} else if (option_chosen == MI::IN_STABLES) {
+								} else if (option_chosen == MIM::IN_STABLES) {
 									if (auto stables_option{
 											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::STABLES)};
-										stables_option && stables_option.value() == MI::ITEM_ABORT) {
+										stables_option && stables_option.value() == MIM::ITEM_ABORT) {
 										_game->save_game();
 										_display->shutdown_SFML();
-										return MI::ITEM_ABORT;
+										return MIM::ITEM_ABORT;
 									}
 									_rest->stop();
 									_roster->reload();
 									_display->generate("inn");
 									_party_panel->refresh();
 									continue;
-								} else if (option_chosen == MI::IN_COT) {
+								} else if (option_chosen == MIM::IN_COT) {
 									if (auto stables_option{
 											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::COT)};
-										stables_option && stables_option.value() == MI::ITEM_ABORT) {
+										stables_option && stables_option.value() == MIM::ITEM_ABORT) {
 										_game->save_game();
 										_display->shutdown_SFML();
-										return MI::ITEM_ABORT;
+										return MIM::ITEM_ABORT;
 									}
 									_rest->stop();
 									_roster->reload();
 									_display->generate("inn");
 									_party_panel->refresh();
 									continue;
-								} else if (option_chosen == MI::IN_ECONOMY) {
+								} else if (option_chosen == MIM::IN_ECONOMY) {
 									if (auto stables_option{
 											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::ECONOMY)};
-										stables_option && stables_option.value() == MI::ITEM_ABORT) {
+										stables_option && stables_option.value() == MIM::ITEM_ABORT) {
 										_game->save_game();
 										_display->shutdown_SFML();
-										return MI::ITEM_ABORT;
+										return MIM::ITEM_ABORT;
 									}
 									_rest->stop();
 									_roster->reload();
 									_display->generate("inn");
 									_party_panel->refresh();
 									continue;
-								} else if (option_chosen == MI::IN_MERCHANT) {
+								} else if (option_chosen == MIM::IN_MERCHANT) {
 									if (auto stables_option{
 											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::MERCHANT)};
-										stables_option && stables_option.value() == MI::ITEM_ABORT) {
+										stables_option && stables_option.value() == MIM::ITEM_ABORT) {
 										_game->save_game();
 										_display->shutdown_SFML();
-										return MI::ITEM_ABORT;
+										return MIM::ITEM_ABORT;
 									}
 									_rest->stop();
 									_roster->reload();
 									_display->generate("inn");
 									_party_panel->refresh();
 									continue;
-								} else if (option_chosen == MI::IN_ROYAL) {
+								} else if (option_chosen == MIM::IN_ROYAL) {
 									if (auto stables_option{
 											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::ROYAL)};
-										stables_option && stables_option.value() == MI::ITEM_ABORT) {
+										stables_option && stables_option.value() == MIM::ITEM_ABORT) {
 										_game->save_game();
 										_display->shutdown_SFML();
-										return MI::ITEM_ABORT;
+										return MIM::ITEM_ABORT;
 									}
 									_rest->stop();
 									_roster->reload();

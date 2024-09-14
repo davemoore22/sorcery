@@ -59,7 +59,7 @@ Sorcery::Event::Event(
 	case WERDNA_BOAST: {
 
 		// Others are multistage
-		_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CONTINUE);
+		_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CONTINUE);
 		const auto menu_stage_key{std::invoke([&] {
 			if (_stage == 1)
 				return _dungeon_event.component_key + "_1:continue_menu";
@@ -75,7 +75,7 @@ Sorcery::Event::Event(
 			_display->get_centre_x(_continue_menu->get_width()), (*_display->layout)[menu_stage_key].y);
 	} break;
 	default: {
-		_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CONTINUE);
+		_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CONTINUE);
 		const auto menu_key{_dungeon_event.component_key + ":continue_menu"};
 		_continue_menu->generate((*_display->layout)[menu_key]);
 		_continue_menu->setPosition(
@@ -93,7 +93,7 @@ Sorcery::Event::Event(
 	}
 }
 
-auto Sorcery::Event::start() -> std::optional<MI> {
+auto Sorcery::Event::start() -> std::optional<MIM> {
 
 	using enum Enums::Map::Event;
 
@@ -138,7 +138,7 @@ auto Sorcery::Event::start() -> std::optional<MI> {
 			while (_window->pollEvent(event)) {
 
 				if (event.type == sf::Event::Closed)
-					return MI::ITEM_ABORT;
+					return MIM::ITEM_ABORT;
 
 				// Handle enabling help overlay
 				if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
@@ -149,9 +149,9 @@ auto Sorcery::Event::start() -> std::optional<MI> {
 
 				// We have all continue menus to begin with
 				if (_system->input->check(CIN::CANCEL, event))
-					return MI::ITEM_CONTINUE;
+					return MIM::ITEM_CONTINUE;
 				else if (_system->input->check(CIN::BACK, event))
-					return MI::ITEM_CONTINUE;
+					return MIM::ITEM_CONTINUE;
 				else if (_system->input->check(CIN::UP, event))
 					option_continue = _continue_menu->choose_previous();
 				else if (_system->input->check(CIN::DOWN, event))
@@ -162,9 +162,9 @@ auto Sorcery::Event::start() -> std::optional<MI> {
 				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					if (option_continue) {
-						if (const MI option_chosen{(*option_continue.value()).item};
-							option_chosen == MI::ITEM_CONTINUE) {
-							return MI::ITEM_CONTINUE;
+						if (const MIM option_chosen{(*option_continue.value()).item};
+							option_chosen == MIM::ITEM_CONTINUE) {
+							return MIM::ITEM_CONTINUE;
 						}
 					}
 				}

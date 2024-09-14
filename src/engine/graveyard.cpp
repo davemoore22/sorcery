@@ -50,7 +50,7 @@ Sorcery::Graveyard::Graveyard(System *system, Display *display, Graphics *graphi
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::GRAVEYARD);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::GRAVEYARD);
 	_menu->generate((*_display->layout)["graveyard:menu"]);
 	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["graveyard:menu"].y);
 
@@ -70,7 +70,7 @@ Sorcery::Graveyard::Graveyard(System *system, Display *display, Graphics *graphi
 Sorcery::Graveyard::~Graveyard() {
 }
 
-auto Sorcery::Graveyard::start() -> std::optional<MI> {
+auto Sorcery::Graveyard::start() -> std::optional<MIM> {
 
 	// Get the Background Display Components and load them into Display module storage (not local)
 	_display->generate("graveyard");
@@ -146,10 +146,10 @@ auto Sorcery::Graveyard::start() -> std::optional<MI> {
 				_display->hide_overlay();
 
 			if (_system->input->check(CIN::CANCEL, event))
-				return MI::ITEM_CONTINUE;
+				return MIM::ITEM_CONTINUE;
 
 			if (_system->input->check(CIN::BACK, event))
-				return MI::ITEM_CONTINUE;
+				return MIM::ITEM_CONTINUE;
 
 			if (_system->input->check(CIN::UP, event))
 				selected = _menu->choose_previous();
@@ -161,9 +161,9 @@ auto Sorcery::Graveyard::start() -> std::optional<MI> {
 
 				// We have selected something from the menu
 				if (selected) {
-					const MI option_chosen{(*selected.value()).item};
-					if (option_chosen == MI::ITEM_CONTINUE) {
-						return MI::ITEM_CONTINUE;
+					const MIM option_chosen{(*selected.value()).item};
+					if (option_chosen == MIM::ITEM_CONTINUE) {
+						return MIM::ITEM_CONTINUE;
 					}
 				}
 			}

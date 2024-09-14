@@ -50,12 +50,12 @@ Sorcery::AttributeDisplay::AttributeDisplay(
 		_text_c = Component((*_display->layout)["attribute_display:stat_text_horizontal"]);
 	}
 
-	_attribute_icons[0] = (*_graphics->icons)[MI::CS_STRENGTH].value();
-	_attribute_icons[1] = (*_graphics->icons)[MI::CS_IQ].value();
-	_attribute_icons[2] = (*_graphics->icons)[MI::CS_PIETY].value();
-	_attribute_icons[3] = (*_graphics->icons)[MI::CS_VITALITY].value();
-	_attribute_icons[4] = (*_graphics->icons)[MI::CS_AGILITY].value();
-	_attribute_icons[5] = (*_graphics->icons)[MI::CS_LUCK].value();
+	_attribute_icons[0] = (*_graphics->icons)[MIM::CS_STRENGTH].value();
+	_attribute_icons[1] = (*_graphics->icons)[MIM::CS_IQ].value();
+	_attribute_icons[2] = (*_graphics->icons)[MIM::CS_PIETY].value();
+	_attribute_icons[3] = (*_graphics->icons)[MIM::CS_VITALITY].value();
+	_attribute_icons[4] = (*_graphics->icons)[MIM::CS_AGILITY].value();
+	_attribute_icons[5] = (*_graphics->icons)[MIM::CS_LUCK].value();
 
 	const sf::Vector2u icon_size{_icons_c.size, _icons_c.size};
 	constexpr auto texture_size{511.f};

@@ -80,13 +80,13 @@ Sorcery::Roster::Roster(System *system, Display *display, Graphics *graphics, Ga
 Sorcery::Roster::~Roster() {
 }
 
-auto Sorcery::Roster::start() -> std::optional<MI> {
+auto Sorcery::Roster::start() -> std::optional<MIM> {
 
 	_game->load_game();
 
 	// Do the menu here when it has access to the game characters
 	_menu.reset();
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CHARACTER_ROSTER, MenuMode::TRAINING);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CHARACTER_ROSTER, MMD::TRAINING);
 	_menu->generate((*_display->layout)[_screen_key + ":menu"]);
 	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)[_screen_key + ":menu"].y);
 
@@ -152,7 +152,7 @@ auto Sorcery::Roster::start() -> std::optional<MI> {
 
 			// Check for Window Close
 			if (event.type == sf::Event::Closed)
-				return MI::ITEM_ABORT;
+				return MIM::ITEM_ABORT;
 
 			// Handle enabling help overlay
 			if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
@@ -179,8 +179,8 @@ auto Sorcery::Roster::start() -> std::optional<MI> {
 
 					// We have selected something from the menu
 					if (selected) {
-						const MI option_chosen{(*selected.value()).item};
-						if (option_chosen == MI::ET_TRAIN) {
+						const MIM option_chosen{(*selected.value()).item};
+						if (option_chosen == MIM::ET_TRAIN) {
 							_display->set_input_mode(WIM::NAVIGATE_MENU);
 							_cur_char = std::nullopt;
 							return std::nullopt;
@@ -208,11 +208,11 @@ auto Sorcery::Roster::start() -> std::optional<MI> {
 
 								const auto character_chosen{(*selected.value()).index};
 								auto result{_edit->start(character_chosen)};
-								if (result && result.value() == MI::ITEM_ABORT) {
+								if (result && result.value() == MIM::ITEM_ABORT) {
 									_game->save_game();
 									_edit->stop();
 									_display->shutdown_SFML();
-									return MI::ITEM_ABORT;
+									return MIM::ITEM_ABORT;
 								}
 								_edit->stop();
 								_menu->reload();
@@ -227,7 +227,7 @@ auto Sorcery::Roster::start() -> std::optional<MI> {
 				}
 
 				if (selected) {
-					if ((*selected.value()).item != MI::ET_TRAIN) {
+					if ((*selected.value()).item != MIM::ET_TRAIN) {
 						const auto character_chosen{static_cast<int>((*selected.value()).index)};
 						if (character_chosen != _cur_char_id) {
 							auto character{&_game->characters[character_chosen]};

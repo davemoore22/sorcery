@@ -103,7 +103,7 @@ auto Sorcery::Compendium::_initalise_components() -> void {
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::COMPENDIUM);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::COMPENDIUM);
 	_menu->generate((*_display->layout)["compendium:menu"]);
 
 	_museum = std::make_unique<Museum>(_system, _display, _graphics, _game);
@@ -191,10 +191,10 @@ auto Sorcery::Compendium::_handle_input(const sf::Event &event) -> std::optional
 
 		// We have selected something from the menu
 		if (_selected) {
-			const MI option_chosen{(*_selected.value()).item};
-			if (option_chosen == MI::ITEM_RETURN)
+			const MIM option_chosen{(*_selected.value()).item};
+			if (option_chosen == MIM::ITEM_RETURN)
 				return MDR::BACK;
-			else if (option_chosen == MI::CO_ITEMS) {
+			else if (option_chosen == MIM::CO_ITEMS) {
 				if (auto result{_museum->start()}; result && result == EXIT_ALL) {
 					_museum->stop();
 					return MDR::EXIT;
@@ -202,7 +202,7 @@ auto Sorcery::Compendium::_handle_input(const sf::Event &event) -> std::optional
 				_museum->stop();
 				_generate_display();
 				_refresh_display();
-			} else if (option_chosen == MI::CO_MONSTERS) {
+			} else if (option_chosen == MIM::CO_MONSTERS) {
 				if (auto result{_bestiary->start()}; result && result == EXIT_ALL) {
 					_bestiary->stop();
 					return MDR::EXIT;

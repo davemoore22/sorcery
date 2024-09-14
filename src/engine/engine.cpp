@@ -181,12 +181,12 @@ auto Sorcery::Engine::_initalise_components() -> void {
 	_window = _display->window->get_window();
 
 	// Setup Menus
-	_camp_menu = _factory->make_menu("engine_base_ui:camp_menu", MenuType::CAMP);
-	_search_menu = _factory->make_menu("engine_base_ui:search_menu", MenuType::SEARCH);
-	_get_menu = _factory->make_menu("engine_base_ui:get_menu", MenuType::CHARACTERS_HERE);
-	_action_menu = _factory->make_menu("engine_base_ui:action_menu", MenuType::ACTION);
-	_elevator_a_d_menu = _factory->make_menu("engine_base_ui:elevator_a_d_menu", MenuType::ELEVATOR_A_D);
-	_elevator_a_f_menu = _factory->make_menu("engine_base_ui:elevator_a_f_menu", MenuType::ELEVATOR_A_F);
+	_camp_menu = _factory->make_menu("engine_base_ui:camp_menu", MTP::CAMP);
+	_search_menu = _factory->make_menu("engine_base_ui:search_menu", MTP::SEARCH);
+	_get_menu = _factory->make_menu("engine_base_ui:get_menu", MTP::CHARACTERS_HERE);
+	_action_menu = _factory->make_menu("engine_base_ui:action_menu", MTP::ACTION);
+	_elevator_a_d_menu = _factory->make_menu("engine_base_ui:elevator_a_d_menu", MTP::ELEVATOR_A_D);
+	_elevator_a_f_menu = _factory->make_menu("engine_base_ui:elevator_a_f_menu", MTP::ELEVATOR_A_F);
 	_camp_menu_frame = _factory->make_menu_frame("engine_base_ui:camp_menu_frame");
 	_search_menu_frame = _factory->make_menu_frame("engine_base_ui:search_menu_frame");
 	_get_menu_frame = _factory->make_menu_frame("engine_base_ui:get_menu_frame");
@@ -213,8 +213,8 @@ auto Sorcery::Engine::_initalise_components() -> void {
 	// Modules
 	_party_panel = std::make_unique<PartyPanel>(
 		_system, _display, _graphics, _game, (*_display->layout)["engine_base_ui:party_panel_small"]);
-	_reorder = std::make_unique<Reorder>(_system, _display, _graphics, _game, MenuMode::CAMP);
-	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MenuMode::CAMP);
+	_reorder = std::make_unique<Reorder>(_system, _display, _graphics, _game, MMD::CAMP);
+	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MMD::CAMP);
 	_render = std::make_unique<Render>(_system, _display, _graphics, _game);
 	_graveyard = std::make_unique<Graveyard>(_system, _display, _graphics, _game);
 	_automap = std::make_unique<AutoMap>(_system, _display, _graphics, _game, (*_display->layout)["global:automap"]);
@@ -624,7 +624,7 @@ auto Sorcery::Engine::_handle_in_search(const sf::Event &event) -> std::optional
 		// We have selected something from the menu
 		if (_search_option) {
 
-			if (const MI option_chosen{(*_search_option.value()).item}; option_chosen == MI::AC_LEAVE) {
+			if (const MIM option_chosen{(*_search_option.value()).item}; option_chosen == MIM::AC_LEAVE) {
 
 				_display->set_disc(true);
 				_refresh_display();
@@ -636,7 +636,7 @@ auto Sorcery::Engine::_handle_in_search(const sf::Event &event) -> std::optional
 				_display->generate("engine_base_ui");
 				_display->set_input_mode(WIM::IN_GAME);
 				return CONTINUE;
-			} else if (option_chosen == MI::AC_SEARCH_CHARACTERS) {
+			} else if (option_chosen == MIM::AC_SEARCH_CHARACTERS) {
 				_in_search = false;
 				_in_get = true;
 				_get_menu->reload();
@@ -673,7 +673,7 @@ auto Sorcery::Engine::_handle_in_action(const sf::Event &event) -> std::optional
 		// We have selected something from the menu
 		if (_action_option) {
 
-			if (const MI option_chosen{(*_action_option.value()).item}; option_chosen == MI::AC_LEAVE) {
+			if (const MIM option_chosen{(*_action_option.value()).item}; option_chosen == MIM::AC_LEAVE) {
 
 				_display->set_disc(true);
 				_refresh_display();
@@ -685,7 +685,7 @@ auto Sorcery::Engine::_handle_in_action(const sf::Event &event) -> std::optional
 				_display->generate("engine_base_ui");
 				_display->set_input_mode(WIM::IN_GAME);
 				return CONTINUE;
-			} else if (option_chosen == MI::AC_SEARCH_CHARACTERS) {
+			} else if (option_chosen == MIM::AC_SEARCH_CHARACTERS) {
 
 				_in_action = false;
 				_in_get = true;
@@ -721,7 +721,7 @@ auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<in
 		// We have selected something from the menu
 		if (_get_option) {
 
-			if (const MI option_chosen{(*_get_option.value()).item}; option_chosen == MI::AC_LEAVE) {
+			if (const MIM option_chosen{(*_get_option.value()).item}; option_chosen == MIM::AC_LEAVE) {
 
 				_display->set_disc(true);
 				_refresh_display();
@@ -780,7 +780,7 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 		// We have selected something from the menu
 		if (_camp_option) {
 
-			if (const MI option_chosen{(*_camp_option.value()).item}; option_chosen == MI::CP_LEAVE) {
+			if (const MIM option_chosen{(*_camp_option.value()).item}; option_chosen == MIM::CP_LEAVE) {
 
 				_display->set_disc(true);
 				_refresh_display();
@@ -792,7 +792,7 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 				_display->generate("engine_base_ui");
 				_display->set_input_mode(WIM::IN_GAME);
 				return CONTINUE;
-			} else if (option_chosen == MI::CP_SAVE) {
+			} else if (option_chosen == MIM::CP_SAVE) {
 
 				auto party{_game->state->get_party_characters()};
 				for (auto &[character_id, character] : _game->characters) {
@@ -808,10 +808,10 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 
 				_game->state->clear_party();
 				return STOP_ENGINE;
-			} else if (option_chosen == MI::ITEM_QUIT) {
+			} else if (option_chosen == MIM::ITEM_QUIT) {
 				_show_confirm_exit = true;
 				return CONTINUE;
-			} else if (option_chosen == MI::CP_OPTIONS) {
+			} else if (option_chosen == MIM::CP_OPTIONS) {
 
 				auto options{std::make_unique<Options>(_system, _display, _graphics)};
 				if (auto result{options->start()}; result == STOP_ALL) {
@@ -821,16 +821,16 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 				options->stop();
 				_party_panel->refresh();
 				_display->generate("engine_base_ui");
-			} else if (option_chosen == MI::CP_INSPECT) {
+			} else if (option_chosen == MIM::CP_INSPECT) {
 				_party_panel->refresh();
-				if (auto result{_inspect->start(std::nullopt)}; result == MI::ITEM_ABORT) {
+				if (auto result{_inspect->start(std::nullopt)}; result == MIM::ITEM_ABORT) {
 					_inspect->stop();
 					return STOP_ALL;
 				}
 				_inspect->stop();
 				_party_panel->refresh();
 				_display->generate("engine_base_ui");
-			} else if (option_chosen == MI::CP_REORDER) {
+			} else if (option_chosen == MIM::CP_REORDER) {
 				_party_panel->refresh();
 				if (auto new_party{_reorder->start()}; new_party) {
 
@@ -919,34 +919,34 @@ auto Sorcery::Engine::_handle_elevator_a_f(const sf::Event &event) -> std::optio
 		// We have selected something from the menu
 		if (_elevator_a_f_option) {
 
-			if (const MI option_chosen{(*_elevator_a_f_option.value()).item}; option_chosen == MI::EL_LEAVE) {
+			if (const MIM option_chosen{(*_elevator_a_f_option.value()).item}; option_chosen == MIM::EL_LEAVE) {
 				_in_elevator_a_f = false;
 				_display->generate("engine_base_ui");
 				_display->set_input_mode(WIM::IN_GAME);
 				_pending_elevator = false;
 				_destination_floor = 0;
 				return CONTINUE;
-			} else if ((option_chosen == MI::EL_A) && (_game->state->get_depth() != -4)) {
+			} else if ((option_chosen == MIM::EL_A) && (_game->state->get_depth() != -4)) {
 				_destination_floor = -4;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((option_chosen == MI::EL_B) && (_game->state->get_depth() != -5)) {
+			} else if ((option_chosen == MIM::EL_B) && (_game->state->get_depth() != -5)) {
 				_destination_floor = -5;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((option_chosen == MI::EL_C) && (_game->state->get_depth() != -6)) {
+			} else if ((option_chosen == MIM::EL_C) && (_game->state->get_depth() != -6)) {
 				_destination_floor = -6;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((option_chosen == MI::EL_D) && (_game->state->get_depth() != -7)) {
+			} else if ((option_chosen == MIM::EL_D) && (_game->state->get_depth() != -7)) {
 				_destination_floor = -7;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((option_chosen == MI::EL_E) && (_game->state->get_depth() != -8)) {
+			} else if ((option_chosen == MIM::EL_E) && (_game->state->get_depth() != -8)) {
 				_destination_floor = -8;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((option_chosen == MI::EL_F) && (_game->state->get_depth() != -9)) {
+			} else if ((option_chosen == MIM::EL_F) && (_game->state->get_depth() != -9)) {
 				_destination_floor = -9;
 				_pending_elevator = true;
 				_elevator_if();
@@ -987,26 +987,26 @@ auto Sorcery::Engine::_handle_elevator_a_d(const sf::Event &event) -> std::optio
 		// We have selected something from the menu
 		if (_elevator_a_d_option) {
 
-			if (const MI option_chosen{(*_elevator_a_d_option.value()).item}; option_chosen == MI::EL_LEAVE) {
+			if (const MIM option_chosen{(*_elevator_a_d_option.value()).item}; option_chosen == MIM::EL_LEAVE) {
 				_in_elevator_a_d = false;
 				_display->generate("engine_base_ui");
 				_display->set_input_mode(WIM::IN_GAME);
 				_pending_elevator = false;
 				_destination_floor = 0;
 				return CONTINUE;
-			} else if ((option_chosen == MI::EL_A) && (_game->state->get_depth() != -1)) {
+			} else if ((option_chosen == MIM::EL_A) && (_game->state->get_depth() != -1)) {
 				_destination_floor = -1;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((option_chosen == MI::EL_B) && (_game->state->get_depth() != -2)) {
+			} else if ((option_chosen == MIM::EL_B) && (_game->state->get_depth() != -2)) {
 				_destination_floor = -2;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((option_chosen == MI::EL_C) && (_game->state->get_depth() != -3)) {
+			} else if ((option_chosen == MIM::EL_C) && (_game->state->get_depth() != -3)) {
 				_destination_floor = -3;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((option_chosen == MI::EL_D) && (_game->state->get_depth() != -4)) {
+			} else if ((option_chosen == MIM::EL_D) && (_game->state->get_depth() != -4)) {
 				_destination_floor = -4;
 				_pending_elevator = true;
 				_elevator_if();
@@ -1342,7 +1342,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 
 				// Status-bar selected is 1-indexed, not 0-indexed
 				const auto character_chosen{(_party_panel->selected.value())};
-				if (auto result{_inspect->start(character_chosen)}; result == MI::ITEM_ABORT) {
+				if (auto result{_inspect->start(character_chosen)}; result == MIM::ITEM_ABORT) {
 					_inspect->stop();
 					return STOP_ALL;
 				} else {
@@ -1485,7 +1485,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						// TODO
 					} else if (what.ends_with("party")) {
 						_party_panel->refresh();
-						if (auto result{_inspect->start(std::nullopt)}; result == MI::ITEM_ABORT) {
+						if (auto result{_inspect->start(std::nullopt)}; result == MIM::ITEM_ABORT) {
 							_inspect->stop();
 							return STOP_ALL;
 						}
@@ -2209,7 +2209,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 
 				// Linked events
 				auto event_1{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 1)};
-				if (auto result{event_1->start()}; result == MI::ITEM_ABORT) {
+				if (auto result{event_1->start()}; result == MIM::ITEM_ABORT) {
 					event_1->stop();
 					_can_run_event = false;
 					_display_cursor = true;
@@ -2220,7 +2220,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 
 					_refresh_display();
 					auto event_2{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 2)};
-					if (auto result{event_2->start()}; result == MI::ITEM_ABORT) {
+					if (auto result{event_2->start()}; result == MIM::ITEM_ABORT) {
 
 						_can_run_event = false;
 						_display_cursor = true;
@@ -2246,7 +2246,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 				// Linked events
 				// Linked events
 				auto event_1{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 1)};
-				if (auto result{event_1->start()}; result == MI::ITEM_ABORT) {
+				if (auto result{event_1->start()}; result == MIM::ITEM_ABORT) {
 					event_1->stop();
 					_can_run_event = false;
 					_display_cursor = true;
@@ -2257,7 +2257,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 
 					_refresh_display();
 					auto event_2{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 2)};
-					if (auto result{event_2->start()}; result == MI::ITEM_ABORT) {
+					if (auto result{event_2->start()}; result == MIM::ITEM_ABORT) {
 
 						_can_run_event = false;
 						_display_cursor = true;
@@ -2268,7 +2268,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 
 						_refresh_display();
 						auto event_3{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 3)};
-						if (auto result{event_3->start()}; result == MI::ITEM_ABORT) {
+						if (auto result{event_3->start()}; result == MIM::ITEM_ABORT) {
 
 							_can_run_event = false;
 							_display_cursor = true;
@@ -2282,7 +2282,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 			} else {
 
 				auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
-				if (auto result{event->start()}; result == MI::ITEM_ABORT) {
+				if (auto result{event->start()}; result == MIM::ITEM_ABORT) {
 					event->stop();
 					_can_run_event = false;
 					_display_cursor = true;

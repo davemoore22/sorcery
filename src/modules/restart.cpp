@@ -49,12 +49,12 @@ Sorcery::Restart::Restart(System *system, Display *display, Graphics *graphics, 
 Sorcery::Restart::~Restart() {
 }
 
-auto Sorcery::Restart::start(unsigned int &character_chosen) -> std::optional<MI> {
+auto Sorcery::Restart::start(unsigned int &character_chosen) -> std::optional<MIM> {
 
 	// Get the Background Display Components and load them into Display module
 	// storage (not local)
 	_display->generate("restart_expedition");
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::RESTART_EXPEDITION);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::RESTART_EXPEDITION);
 	_menu->generate((*_display->layout)["restart_expedition:menu"]);
 	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["restart_expedition:menu"].y);
 
@@ -102,10 +102,10 @@ auto Sorcery::Restart::start(unsigned int &character_chosen) -> std::optional<MI
 				_display->hide_overlay();
 
 			if (_system->input->check(CIN::CANCEL, event))
-				return MI::TR_EDGE_OF_TOWN;
+				return MIM::TR_EDGE_OF_TOWN;
 
 			if (_system->input->check(CIN::BACK, event))
-				return MI::TR_EDGE_OF_TOWN;
+				return MIM::TR_EDGE_OF_TOWN;
 
 			if (_system->input->check(CIN::UP, event))
 				selected = _menu->choose_previous();
@@ -116,13 +116,13 @@ auto Sorcery::Restart::start(unsigned int &character_chosen) -> std::optional<MI
 			else if (_system->input->check(CIN::CONFIRM, event)) {
 
 				if (selected) {
-					const MI option_chosen{(*selected.value()).item};
-					if (option_chosen == MI::TR_EDGE_OF_TOWN) {
-						return MI::TR_EDGE_OF_TOWN;
+					const MIM option_chosen{(*selected.value()).item};
+					if (option_chosen == MIM::TR_EDGE_OF_TOWN) {
+						return MIM::TR_EDGE_OF_TOWN;
 					} else {
 
 						character_chosen = (*selected.value()).index;
-						return MI::RS_RESTART;
+						return MIM::RS_RESTART;
 					}
 				}
 			}
@@ -144,7 +144,7 @@ auto Sorcery::Restart::_update_menus() -> void {
 		_menu.reset();
 	}
 
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::RESTART_EXPEDITION);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::RESTART_EXPEDITION);
 	_menu->generate((*_display->layout)["restart_expedition:menu"]);
 	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["restart_expedition:menu"].y);
 }

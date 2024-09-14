@@ -44,7 +44,7 @@
 #include "types/component.hpp"
 
 // Standard Constructor
-Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, Game *game, MenuMode mode)
+Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, Game *game, MMD mode)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _mode{mode} {
 
 	using enum Enums::Menu::Mode;
@@ -101,7 +101,7 @@ Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, 
 Sorcery::Inspect::~Inspect() {
 }
 
-auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::optional<MI> {
+auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::optional<MIM> {
 
 	using enum Enums::Menu::Mode;
 	using enum Enums::Menu::Item;
@@ -111,7 +111,7 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 	if (!_restricted) {
 
 		_in_character = false;
-		const auto menu_type{_mode == MenuMode::TAVERN ? MenuType::CHARACTER_ROSTER : MenuType::PARTY_CHARACTERS};
+		const auto menu_type{_mode == MMD::TAVERN ? MTP::CHARACTER_ROSTER : MTP::PARTY_CHARACTERS};
 		_menu.reset();
 		_menu = _factory->make_menu(_screen_key + ":menu", menu_type, _mode, std::nullopt, true);
 
@@ -196,7 +196,7 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 
 					// We have selected something from the menu
 					if (selected) {
-						const MI option_chosen{(*selected.value()).item};
+						const MIM option_chosen{(*selected.value()).item};
 						if (option_chosen == ET_TRAIN || option_chosen == CA_TAVERN || option_chosen == CA_TEMPLE ||
 							option_chosen == CA_INN || option_chosen == ITEM_CAMP || option_chosen == CA_SHOP) {
 							_display->set_input_mode(WIM::NAVIGATE_MENU);
@@ -248,7 +248,7 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 	return std::nullopt;
 }
 
-auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::optional<MI> {
+auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::optional<MIM> {
 
 	using enum Enums::Window::DialogButton;
 	using enum Enums::Items::IdentifyOutcome;
@@ -273,10 +273,8 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 	_item_trade_menu.reset();
 	_item_trade_frame.reset();
 
-	_item_action_menu =
-		_factory->make_menu("character_summary:item_action_menu", MenuType::ITEM_ACTION, MenuMode::ACTION);
-	_item_trade_menu =
-		_factory->make_menu("inspect:item_trade_menu", MenuType::CHARACTER_TRADE, MenuMode::NO_MODE, character_id);
+	_item_action_menu = _factory->make_menu("character_summary:item_action_menu", MTP::ITEM_ACTION, MMD::ACTION);
+	_item_trade_menu = _factory->make_menu("inspect:item_trade_menu", MTP::CHARACTER_TRADE, MMD::NO_MODE, character_id);
 
 	_item_action_menu_frame = _factory->make_menu_frame("character_summary:item_action_menu_frame");
 	_item_display_frame = _factory->make_frame("inspect:item_display_frame");
@@ -293,7 +291,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 		while (_window->pollEvent(event)) {
 
 			if (event.type == sf::Event::Closed)
-				return MI::ITEM_ABORT;
+				return MIM::ITEM_ABORT;
 			else if (_system->input->check(CIN::CANCEL, event) || _system->input->check(CIN::BACK, event)) {
 				_display->set_input_mode(WIM::NAVIGATE_MENU);
 				_cur_char = std::nullopt;
@@ -370,7 +368,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return MI::ITEM_ABORT;
+					return MIM::ITEM_ABORT;
 
 				// Handle enabling help overlay
 				if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
@@ -409,7 +407,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return MI::ITEM_ABORT;
+					return MIM::ITEM_ABORT;
 
 				// Handle enabling help overlay
 				if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
@@ -464,7 +462,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return MI::ITEM_ABORT;
+					return MIM::ITEM_ABORT;
 
 				// Handle enabling help overlay
 				if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
@@ -489,21 +487,21 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					if (item_action_selected) {
-						const MI option_chosen{(*item_action_selected.value()).item};
-						if (option_chosen == MI::C_ACTION_LEAVE) {
+						const MIM option_chosen{(*item_action_selected.value()).item};
+						if (option_chosen == MIM::C_ACTION_LEAVE) {
 							_in_item_action = false;
-						} else if (option_chosen == MI::C_ACTION_EXAMINE) {
+						} else if (option_chosen == MIM::C_ACTION_EXAMINE) {
 
 							// Examine an Item (only possible if it is identified)
 							_in_item_action = false;
 							_in_item_display = true;
 							_examine_item(character_id);
-						} else if (option_chosen == MI::C_ACTION_DROP) {
+						} else if (option_chosen == MIM::C_ACTION_DROP) {
 
 							// Drop an Item
 							_in_item_action = false;
 							_in_drop = true;
-						} else if (option_chosen == MI::C_ACTION_EQUIP) {
+						} else if (option_chosen == MIM::C_ACTION_EQUIP) {
 
 							// Equip an Item
 							_in_item_action = false;
@@ -515,7 +513,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 								_in_cursed = true;
 
 							_in_item_action = false;
-						} else if (option_chosen == MI::C_ACTION_UNEQUIP) {
+						} else if (option_chosen == MIM::C_ACTION_UNEQUIP) {
 							auto character{&_game->characters[character_id]};
 							auto slot_item{character->inventory[_character_display->get_inventory_item()]};
 							if (slot_item.has_value()) {
@@ -525,7 +523,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 
 								_in_item_action = false;
 							}
-						} else if (option_chosen == MI::C_ACTION_IDENTIFY) {
+						} else if (option_chosen == MIM::C_ACTION_IDENTIFY) {
 
 							// Attempt to Identify an Item
 							auto character{&_game->characters[character_id]};
@@ -551,7 +549,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 									}
 								}
 							}
-						} else if (option_chosen == MI::C_ACTION_TRADE) {
+						} else if (option_chosen == MIM::C_ACTION_TRADE) {
 							const auto dest_char_id{(*item_trade_selected.value()).index};
 							auto src_char{&_game->characters[character_id]};
 							auto dest_char{&_game->characters[dest_char_id]};
@@ -577,9 +575,9 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 					}
 
 					if (_system->input->check(CIN::CONFIRM, event)) {
-						if (_character_display->get_hl_action_item() == MI::C_ACTION_POOL) {
+						if (_character_display->get_hl_action_item() == MIM::C_ACTION_POOL) {
 							_in_pool = true;
-						} else if (_character_display->get_hl_action_item() == MI::C_ACTION_LEAVE) {
+						} else if (_character_display->get_hl_action_item() == MIM::C_ACTION_LEAVE) {
 							_display->set_input_mode(WIM::NAVIGATE_MENU);
 							_cur_char = std::nullopt;
 							_in_character = false;
@@ -706,7 +704,7 @@ auto Sorcery::Inspect::_set_in_item_action_menu(unsigned int character_id, unsig
 		auto item{slot_item.value()};
 		auto has_already_cursed{character->inventory.has_cursed_equipped_item_category(item->get_category())};
 
-		if (_mode == MenuMode::CAMP) {
+		if (_mode == MMD::CAMP) {
 
 			// Equip
 			_item_action_menu->items[0].enabled = item->get_usable() && !item->get_equipped() && !has_already_cursed;

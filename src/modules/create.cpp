@@ -112,13 +112,12 @@ auto Sorcery::Create::_initalise_components() -> void {
 	_character_display = std::make_unique<CharacterDisplay>(_system, _display, _graphics);
 
 	// Menus
-	_method_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CHOOSE_METHOD);
-	_race_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CHOOSE_CHARACTER_RACE);
-	_alignment_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CHOOSE_CHARACTER_ALIGNMENT);
-	_attribute_menu =
-		std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::ALLOCATE_CHARACTER_ATTRIBUTES);
-	_class_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CHOOSE_CHARACTER_CLASS);
-	_final_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::REVIEW_AND_CONFIRM);
+	_method_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CHOOSE_METHOD);
+	_race_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CHOOSE_CHARACTER_RACE);
+	_alignment_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CHOOSE_CHARACTER_ALIGNMENT);
+	_attribute_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::ALLOCATE_CHARACTER_ATTRIBUTES);
+	_class_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CHOOSE_CHARACTER_CLASS);
+	_final_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::REVIEW_AND_CONFIRM);
 
 	Component _fmf_c{(*_display->layout)["character_create_stage_7:menu_frame"]};
 	_final_menu_frame = std::make_unique<Frame>(
@@ -176,7 +175,7 @@ auto Sorcery::Create::_place_components() -> void {
 			_final_menu_frame->sprite, (*_display->layout)["character_create_stage_7:menu_frame"].y));
 }
 
-auto Sorcery::Create::start() -> std::optional<MI> {
+auto Sorcery::Create::start() -> std::optional<MIM> {
 
 	_generate_display();
 	_initialise_state();
@@ -201,7 +200,7 @@ auto Sorcery::Create::start() -> std::optional<MI> {
 	_method = CreateMethod::FULL;
 
 	if (auto module_result{_do_event_loop()}; module_result == MDR::EXIT)
-		return MI::ITEM_ABORT;
+		return MIM::ITEM_ABORT;
 
 	return std::nullopt;
 }

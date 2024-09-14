@@ -55,7 +55,7 @@ Sorcery::CharacterDisplay::CharacterDisplay(System *system, Display *display, Gr
 	_view = CharacterView::NO_VIEW;
 	_hl_mage_spell = SpellID::DUMAPIC;
 	_hl_priest_spell = SpellID::BADIOS;
-	_hl_action_item = MI::NO_MENU_ITEM;
+	_hl_action_item = MIM::NO_MENU_ITEM;
 	_hl_inventory_item = 0;
 	mage_spell_bounds.clear();
 	priest_spell_bounds.clear();
@@ -425,7 +425,7 @@ auto Sorcery::CharacterDisplay::check_for_inventory_mouse_move(sf::Vector2f mous
 		return 0;
 }
 
-auto Sorcery::CharacterDisplay::check_for_action_mouse_move(sf::Vector2f mouse_pos) -> std::optional<MI> {
+auto Sorcery::CharacterDisplay::check_for_action_mouse_move(sf::Vector2f mouse_pos) -> std::optional<MIM> {
 
 	using enum Enums::Character::View;
 
@@ -441,7 +441,7 @@ auto Sorcery::CharacterDisplay::check_for_action_mouse_move(sf::Vector2f mouse_p
 			_hl_action_item = (*it).first;
 			return (*it).first;
 		} else {
-			_hl_action_item = MI::NO_MENU_ITEM;
+			_hl_action_item = MIM::NO_MENU_ITEM;
 			return std::nullopt;
 		}
 	}
@@ -531,7 +531,7 @@ auto Sorcery::CharacterDisplay::draw(sf::RenderTarget &target, sf::RenderStates 
 	for (const auto &[unique_key, v_sprite] : _v_sprites)
 		target.draw(v_sprite, states);
 
-	if (_view == SUMMARY && _hl_action_item != MI::NO_MENU_ITEM)
+	if (_view == SUMMARY && _hl_action_item != MIM::NO_MENU_ITEM)
 		target.draw(_hl_action_item_bg, states);
 
 	if (_view == SUMMARY && _hl_inventory_item != 0)
@@ -1071,7 +1071,7 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 	}
 }
 
-auto Sorcery::CharacterDisplay::get_hl_action_item() const -> MI {
+auto Sorcery::CharacterDisplay::get_hl_action_item() const -> MIM {
 
 	return _hl_action_item;
 }
@@ -1082,7 +1082,7 @@ auto Sorcery::CharacterDisplay::get_inventory_item() const -> unsigned int {
 }
 
 auto Sorcery::CharacterDisplay::_add_action_button(
-	Component layout_c, const MI item, const std::string format, const std::string str, const bool enabled) -> void {
+	Component layout_c, const MIM item, const std::string format, const std::string str, const bool enabled) -> void {
 
 	auto text{_add_text(layout_c, format, (*_display->string)[str])};
 	action_menu_texts[item] = text;

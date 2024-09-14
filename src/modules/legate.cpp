@@ -53,7 +53,7 @@ Sorcery::Legate::Legate(System *system, Display *display, Graphics *graphics, Ch
 	_proceed->setPosition(_display->get_centre_pos(_proceed->get_size()));
 
 	// Menu
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr, MenuType::CHOOSE_CHARACTER_ALIGNMENT);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr, MTP::CHOOSE_CHARACTER_ALIGNMENT);
 	_menu->generate((*_display->layout)["legate:menu"]);
 	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["legate:menu"].y);
 
@@ -168,13 +168,13 @@ auto Sorcery::Legate::start() -> std::optional<CharacterAlignment> {
 				} else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					switch ((*selected.value()).item) {
-					case MI::CA_GOOD:
+					case MIM::CA_GOOD:
 						return GOOD;
 						break;
-					case MI::CA_NEUTRAL:
+					case MIM::CA_NEUTRAL:
 						return NEUTRAL;
 						break;
-					case MI::CA_EVIL:
+					case MIM::CA_EVIL:
 						return EVIL;
 						break;
 					default:

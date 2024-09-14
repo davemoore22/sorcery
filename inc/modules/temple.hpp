@@ -54,7 +54,7 @@ class Temple {
 		// Public Members
 
 		// Public Methods
-		auto start() -> std::optional<MI>;
+		auto start() -> std::optional<MIM>;
 		auto stop() -> void;
 
 	private:

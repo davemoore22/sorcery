@@ -50,7 +50,7 @@ class Factory {
 		// Public Methods
 		auto make_dialog(const std::string &component, const WDT type = WDT::OK, const unsigned int duration = 0)
 			-> std::unique_ptr<Dialog>;
-		auto make_menu(const std::string &component, const MenuType type, std::optional<MenuMode> mode = std::nullopt,
+		auto make_menu(const std::string &component, const MTP type, std::optional<MMD> mode = std::nullopt,
 			std::optional<unsigned int> data = 0, const bool reload = false) -> std::unique_ptr<Menu>;
 		auto make_frame(const std::string &component) -> std::unique_ptr<Frame>;
 		auto make_menu_frame(const std::string &component) -> std::unique_ptr<Frame>;

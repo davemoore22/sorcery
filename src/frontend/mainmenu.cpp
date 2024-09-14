@@ -50,8 +50,8 @@ Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics
 	_factory = std::make_unique<Factory>(_system, _display, _graphics, _game);
 
 	// Create the Main Menu
-	_menu_stage = MainMenuType::ATTRACT_MODE;
-	_main_menu = _factory->make_menu("main_menu_attract:main_menu", MenuType::MAIN);
+	_menu_stage = MMT::ATTRACT_MODE;
+	_main_menu = _factory->make_menu("main_menu_attract:main_menu", MTP::MAIN);
 
 	// Setup Custom Components
 	Component any_key_c{(*_display->layout)["main_menu_attract:press_any_key"]};
@@ -81,7 +81,7 @@ Sorcery::MainMenu::~MainMenu() {
 	_display->stop_bg_movie();
 }
 
-auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MI> {
+auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 
 	using enum Enums::Menu::Item;
 	using enum Enums::MainMenu::Type;
@@ -177,7 +177,7 @@ auto Sorcery::MainMenu::start(MainMenuType menu_stage) -> std::optional<MI> {
 							if (selected_option) {
 
 								// We have selected something from the menu
-								if (const MI option_chosen{(*selected_option.value()).item};
+								if (const MIM option_chosen{(*selected_option.value()).item};
 									option_chosen == MM_NEW_GAME) {
 									_display->set_input_mode(CONFIRM_NEW_GAME);
 								} else if (option_chosen == MM_CONTINUE_GAME) {
@@ -291,7 +291,7 @@ auto Sorcery::MainMenu::_draw() -> void {
 		_window->draw(*_attract_mode);
 
 		// And either the blurb or the main menu
-		if (_menu_stage == MainMenuType::ATTRACT_MODE) {
+		if (_menu_stage == MMT::ATTRACT_MODE) {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnarrowing"
 			sf::Color adjusted{_graphics->adjust_brightness(

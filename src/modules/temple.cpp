@@ -52,19 +52,19 @@ Sorcery::Temple::Temple(System *system, Display *display, Graphics *graphics, Ga
 	_window = _display->window->get_window();
 
 	// Setup Custom Components
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::TEMPLE);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::TEMPLE);
 	_menu->generate((*_display->layout)["temple:menu"]);
 	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["temple:menu"].y);
 
-	_help = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::INVALID_CHARACTERS, MenuMode::TEMPLE);
+	_help = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::INVALID_CHARACTERS, MMD::TEMPLE);
 	_help->generate((*_display->layout)["temple_help:menu"]);
 	_help->setPosition(_display->get_centre_x(_help->get_width()), (*_display->layout)["temple_help:menu"].y);
 
-	_pay = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::PARTY_CHARACTERS, MenuMode::TEMPLE);
+	_pay = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::PARTY_CHARACTERS, MMD::TEMPLE);
 	_pay->generate((*_display->layout)["temple_pay:menu"]);
 	_pay->setPosition(_display->get_centre_x(_pay->get_width()), (*_display->layout)["temple_pay:menu"].y);
 
-	_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CONTINUE);
+	_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CONTINUE);
 	_continue_menu->generate((*_display->layout)["temple_ress:continue_menu"]);
 	_continue_menu->setPosition(
 		_display->get_centre_x(_continue_menu->get_width()), (*_display->layout)["temple_ress:continue_menu"].y);
@@ -74,7 +74,7 @@ Sorcery::Temple::Temple(System *system, Display *display, Graphics *graphics, Ga
 	// Modules
 	_party_panel =
 		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
-	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MenuMode::TEMPLE);
+	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MMD::TEMPLE);
 
 	_stage = TempleStage::NO_STAGE;
 
@@ -89,7 +89,7 @@ Sorcery::Temple::~Temple() {
 }
 
 // Visit the Tavern
-auto Sorcery::Temple::start() -> std::optional<MI> {
+auto Sorcery::Temple::start() -> std::optional<MIM> {
 
 	// Get the Background Display Components and load them into Display module storage (not local - and note that due to
 	// the way both menus are combined in this class, we need to have the menu stage set first in this case and this
@@ -135,7 +135,7 @@ auto Sorcery::Temple::start() -> std::optional<MI> {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return MI::ITEM_ABORT;
+					return MIM::ITEM_ABORT;
 
 				// Handle enabling help overlay
 				if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
@@ -165,19 +165,19 @@ auto Sorcery::Temple::start() -> std::optional<MI> {
 
 						// We have selected something from the menu
 						if (option) {
-							if (const MI option_chosen{(*option.value()).item}; option_chosen == MI::TE_CASTLE) {
-								return MI::TE_CASTLE;
-							} else if (option_chosen == MI::TE_INSPECT) {
+							if (const MIM option_chosen{(*option.value()).item}; option_chosen == MIM::TE_CASTLE) {
+								return MIM::TE_CASTLE;
+							} else if (option_chosen == MIM::TE_INSPECT) {
 								if (auto result{_inspect->start(std::nullopt)};
-									result && result.value() == MI::ITEM_ABORT) {
+									result && result.value() == MIM::ITEM_ABORT) {
 									_inspect->stop();
-									return MI::ITEM_ABORT;
+									return MIM::ITEM_ABORT;
 								}
 								_inspect->stop();
 								_display->generate("temple");
 								_display->set_input_mode(WIM::NAVIGATE_MENU);
 								continue;
-							} else if (const MI option_chosen{(*option.value()).item}; option_chosen == MI::TE_HELP) {
+							} else if (const MIM option_chosen{(*option.value()).item}; option_chosen == MIM::TE_HELP) {
 								_stage = TempleStage::HELP;
 								_party_panel->refresh();
 								_help->reload();
@@ -208,7 +208,7 @@ auto Sorcery::Temple::start() -> std::optional<MI> {
 
 						// We have selected something from the menu
 						if (option_help) {
-							if (const MI option_chosen{(*option_help.value()).item}; option_chosen == MI::CA_TEMPLE) {
+							if (const MIM option_chosen{(*option_help.value()).item}; option_chosen == MIM::CA_TEMPLE) {
 								_stage = TempleStage::MENU;
 								_party_panel->refresh();
 								_help->reload();
@@ -252,7 +252,7 @@ auto Sorcery::Temple::start() -> std::optional<MI> {
 
 						// We have selected something from the menu
 						if (option_help) {
-							if (const MI option_chosen{(*option_pay.value()).item}; option_chosen == MI::CA_TEMPLE) {
+							if (const MIM option_chosen{(*option_pay.value()).item}; option_chosen == MIM::CA_TEMPLE) {
 								_stage = TempleStage::HELP;
 								_party_panel->refresh();
 								_help->reload();
@@ -276,9 +276,9 @@ auto Sorcery::Temple::start() -> std::optional<MI> {
 					if (_t_finished) {
 						_stop_count_thread();
 						if (_system->input->check(CIN::CANCEL, event))
-							return MI::CP_LEAVE;
+							return MIM::CP_LEAVE;
 						else if (_system->input->check(CIN::BACK, event))
-							return MI::CP_LEAVE;
+							return MIM::CP_LEAVE;
 						else if (_system->input->check(CIN::UP, event))
 							option_continue = _continue_menu->choose_previous();
 						else if (_system->input->check(CIN::DOWN, event))
@@ -289,8 +289,8 @@ auto Sorcery::Temple::start() -> std::optional<MI> {
 						else if (_system->input->check(CIN::CONFIRM, event)) {
 
 							if (option_continue) {
-								if (const MI option_chosen{(*option_continue.value()).item};
-									option_chosen == MI::ITEM_CONTINUE) {
+								if (const MIM option_chosen{(*option_continue.value()).item};
+									option_chosen == MIM::ITEM_CONTINUE) {
 									_stage = TempleStage::MENU;
 									_party_panel->refresh();
 									continue;
@@ -396,7 +396,7 @@ auto Sorcery::Temple::_refresh_pay_menu(const unsigned int cost) -> void {
 
 	// disable any character menu item who doesn't have enough gold
 	for (auto &item : _pay->items) {
-		if (item.item == MI::IC_CHARACTER) {
+		if (item.item == MIM::IC_CHARACTER) {
 			const auto &character{_game->characters[item.index]};
 			item.enabled = character.get_gold() >= cost;
 		}

@@ -53,7 +53,7 @@ auto Sorcery::Factory::make_dialog(const std::string &component, const WDT type,
 	return dialog;
 }
 
-auto Sorcery::Factory::make_menu(const std::string &component, const MenuType type, std::optional<MenuMode> mode,
+auto Sorcery::Factory::make_menu(const std::string &component, const MTP type, std::optional<MMD> mode,
 	std::optional<unsigned int> data, const bool reload) -> std::unique_ptr<Menu> {
 
 	auto menu = std::make_unique<Menu>(_system, _display, _graphics, _game, type, mode, data);

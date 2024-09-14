@@ -43,11 +43,11 @@ class IconStore {
 
 		// Overload [] operator
 		auto operator[](std::string_view key) -> std::optional<sf::Sprite>;
-		auto operator[](const MI key) -> std::optional<sf::Sprite>;
+		auto operator[](const MIM key) -> std::optional<sf::Sprite>;
 
 		// Public Methods
 		auto get(std::string_view key) -> std::optional<sf::Sprite>;
-		auto get(const MI key) -> std::optional<sf::Sprite>;
+		auto get(const MIM key) -> std::optional<sf::Sprite>;
 		auto get_event_icon(MapEvent type) -> std::optional<sf::Sprite>;
 
 	private:
@@ -60,7 +60,7 @@ class IconStore {
 		sf::Vector2f _size;
 		sf::Vector2f _scale;
 		Component _layout;
-		std::map<MI, Icon> _menu_icon_map;
+		std::map<MIM, Icon> _menu_icon_map;
 		std::map<std::string, sf::Sprite> _icon_store;
 		std::map<MapEvent, std::string> _event_icon_mapping;
 

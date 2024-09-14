@@ -49,7 +49,7 @@ Sorcery::Edit::Edit(System *system, Display *display, Graphics *graphics, Game *
 	_cur_char = std::nullopt;
 
 	_char_panel = std::make_unique<CharacterPanel>(_system, _display, _graphics);
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::EDIT_CHARACTER);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::EDIT_CHARACTER);
 	_menu->generate((*_display->layout)["character_edit:menu"]);
 	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["character_edit:menu"].y);
 
@@ -64,7 +64,7 @@ Sorcery::Edit::Edit(System *system, Display *display, Graphics *graphics, Game *
 	_legated->setPosition(_display->get_centre_pos(_legated->get_size()));
 }
 
-auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MI> {
+auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MIM> {
 
 	// Get the Background Display Components and load them into Display module
 	// storage (not local)
@@ -115,7 +115,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MI> {
 
 			// Check for Window Close
 			if (event.type == sf::Event::Closed)
-				return MI::ITEM_ABORT;
+				return MIM::ITEM_ABORT;
 
 			// Handle enabling help overlay
 			if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
@@ -159,16 +159,16 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MI> {
 
 					// We have selected something from the menu
 					if (selected) {
-						if (const MI option_chosen{(*selected.value()).item}; option_chosen == MI::EC_RETURN_EDIT) {
-							return MI::EC_RETURN_EDIT;
-						} else if (option_chosen == MI::EC_CHANGE_NAME) {
+						if (const MIM option_chosen{(*selected.value()).item}; option_chosen == MIM::EC_RETURN_EDIT) {
+							return MIM::EC_RETURN_EDIT;
+						} else if (option_chosen == MIM::EC_CHANGE_NAME) {
 
 							auto change_name{std::make_unique<ChangeName>(
 								_system, _display, _graphics, _cur_char.value()->get_name())};
 							if (auto new_name{change_name->start()}; new_name) {
 
 								if (new_name.value() == EXIT_STRING)
-									return MI::ITEM_ABORT;
+									return MIM::ITEM_ABORT;
 
 								// Update character name and resave the
 								// character!
@@ -179,7 +179,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MI> {
 								_game->save_game();
 							}
 							change_name->stop();
-						} else if (option_chosen == MI::EC_CHANGE_CLASS) {
+						} else if (option_chosen == MIM::EC_CHANGE_CLASS) {
 							auto &character{*_cur_char.value()};
 							auto change_class{std::make_unique<ChangeClass>(_system, _display, _graphics, &character)};
 
@@ -195,7 +195,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MI> {
 								_display->set_input_mode(WIM::NAVIGATE_MENU);
 							}
 							change_class->stop();
-						} else if (option_chosen == MI::EC_LEGATE_CHARACTER) {
+						} else if (option_chosen == MIM::EC_LEGATE_CHARACTER) {
 							auto &character{*_cur_char.value()};
 							auto legate{std::make_unique<Legate>(_system, _display, _graphics, &character)};
 							if (auto legated{legate->start()}; legated) {

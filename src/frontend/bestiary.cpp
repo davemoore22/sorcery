@@ -104,7 +104,7 @@ auto Sorcery::Bestiary::_initalise_components() -> void {
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::BESTIARY);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::BESTIARY);
 	const auto menu_c{(*_display->layout)["bestiary:menu"]};
 	_menu->set_visible_size(std::stoi(menu_c["display_items"].value()));
 	_menu->generate(menu_c);
@@ -219,8 +219,8 @@ auto Sorcery::Bestiary::_handle_input(const sf::Event &event) -> std::optional<M
 
 		// We have selected something from the menu
 		if (_selected) {
-			const MI option_chosen{(*_selected.value()).item};
-			if (option_chosen == MI::ITEM_RETURN)
+			const MIM option_chosen{(*_selected.value()).item};
+			if (option_chosen == MIM::ITEM_RETURN)
 				return MDR::BACK;
 		}
 	}

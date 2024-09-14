@@ -48,7 +48,7 @@ Sorcery::ChangeClass::ChangeClass(System *system, Display *display, Graphics *gr
 	_ip = std::make_unique<InfoPanel>(_system, _display, _graphics);
 
 	// Main Menu
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr, MenuType::CHANGE_CHARACTER_CLASS);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr, MTP::CHANGE_CHARACTER_CLASS);
 	_set_classes_menu();
 	_menu->choose_first();
 	_menu->generate((*_display->layout)["change_class:menu"]);
@@ -159,7 +159,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 					if (selected) {
 
 						switch ((*selected.value()).item) {
-						case MI::CC_SAMURAI:
+						case MIM::CC_SAMURAI:
 							if (_character->get_class() == CharacterClass::SAMURAI)
 								_show_not_changed = true;
 							else {
@@ -168,7 +168,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
-						case MI::CC_FIGHTER:
+						case MIM::CC_FIGHTER:
 							if (_character->get_class() == CharacterClass::FIGHTER)
 								_show_not_changed = true;
 							else {
@@ -177,7 +177,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
-						case MI::CC_LORD:
+						case MIM::CC_LORD:
 							if (_character->get_class() == CharacterClass::LORD)
 								_show_not_changed = true;
 							else {
@@ -186,7 +186,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
-						case MI::CC_THIEF:
+						case MIM::CC_THIEF:
 							if (_character->get_class() == CharacterClass::THIEF)
 								_show_not_changed = true;
 							else {
@@ -195,7 +195,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
-						case MI::CC_NINJA:
+						case MIM::CC_NINJA:
 							if (_character->get_class() == CharacterClass::NINJA)
 								_show_not_changed = true;
 							else {
@@ -204,7 +204,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
-						case MI::CC_PRIEST:
+						case MIM::CC_PRIEST:
 							if (_character->get_class() == CharacterClass::PRIEST)
 								_show_not_changed = true;
 							else {
@@ -213,7 +213,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
-						case MI::CC_BISHOP:
+						case MIM::CC_BISHOP:
 							if (_character->get_class() == CharacterClass::BISHOP)
 								_show_not_changed = true;
 							else {
@@ -222,7 +222,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
-						case MI::CC_MAGE:
+						case MIM::CC_MAGE:
 							if (_character->get_class() == CharacterClass::MAGE)
 								_show_not_changed = true;
 							else {

@@ -38,14 +38,14 @@
 #include "types/character.hpp"
 
 // Standard Constructor
-Sorcery::Reorder::Reorder(System *system, Display *display, Graphics *graphics, Game *game, MenuMode mode)
+Sorcery::Reorder::Reorder(System *system, Display *display, Graphics *graphics, Game *game, MMD mode)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _mode{mode} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
 	// Setup Custom Components
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::PARTY_CHARACTER_NAMES);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::PARTY_CHARACTER_NAMES);
 	_menu->generate((*_display->layout)["reorder:menu"]);
 	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["reorder:menu"].y);
 
@@ -66,7 +66,7 @@ auto Sorcery::Reorder::start() -> std::optional<std::vector<unsigned int>> {
 	_candidate_party.clear();
 	_texts.clear();
 
-	if (_mode == MenuMode::CAMP) {
+	if (_mode == MMD::CAMP) {
 		_display->window->save_screen();
 		_display->generate("reorder_camp");
 	} else
@@ -174,7 +174,7 @@ auto Sorcery::Reorder::_draw() -> void {
 	_graphics->tile_bg(_window);
 
 	// Custom Components
-	if (_mode == MenuMode::CAMP) {
+	if (_mode == MMD::CAMP) {
 		_display->window->restore_screen();
 		_display->display("reorder_camp");
 	} else {

@@ -46,7 +46,7 @@ Sorcery::Castle::Castle(System *system, Display *display, Graphics *graphics, Ga
 	_window = _display->window->get_window();
 
 	// Setup Custom Components
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MenuType::CASTLE);
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CASTLE);
 	_menu->generate((*_display->layout)["castle:menu"]);
 	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["castle:menu"].y);
 
@@ -65,14 +65,14 @@ Sorcery::Castle::~Castle() {
 }
 
 // Start/Continue a new Game
-auto Sorcery::Castle::start(Destination destination) -> std::optional<MI> {
+auto Sorcery::Castle::start(Destination destination) -> std::optional<MIM> {
 
 	if (destination == Destination::RESTART)
-		return MI::ET_RESTART;
+		return MIM::ET_RESTART;
 	else if (destination == Destination::EDGE)
-		return MI::CA_EDGE_OF_TOWN;
+		return MIM::CA_EDGE_OF_TOWN;
 	else if (destination == Destination::MAZE)
-		return MI::ET_MAZE;
+		return MIM::ET_MAZE;
 
 	// Get the Background Display Components and load them into Display module storage (not local - and note that due to
 	// the way both menus are combined in this class, we need to have the menu stage set first in this case and this
@@ -102,7 +102,7 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MI> {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return MI::ITEM_ABORT;
+					return MIM::ITEM_ABORT;
 
 				// Handle enabling help overlay
 				if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
@@ -122,17 +122,17 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MI> {
 
 					// We have selected something from the menu
 					if (option) {
-						const MI option_chosen{(*option.value()).item};
-						if (option_chosen == MI::CA_EDGE_OF_TOWN)
-							return MI::CA_EDGE_OF_TOWN;
-						else if (option_chosen == MI::CA_TAVERN)
-							return MI::CA_TAVERN;
-						else if (option_chosen == MI::CA_INN)
-							return MI::CA_INN;
-						else if (option_chosen == MI::CA_SHOP)
-							return MI::CA_SHOP;
-						else if (option_chosen == MI::CA_TEMPLE)
-							return MI::CA_TEMPLE;
+						const MIM option_chosen{(*option.value()).item};
+						if (option_chosen == MIM::CA_EDGE_OF_TOWN)
+							return MIM::CA_EDGE_OF_TOWN;
+						else if (option_chosen == MIM::CA_TAVERN)
+							return MIM::CA_TAVERN;
+						else if (option_chosen == MIM::CA_INN)
+							return MIM::CA_INN;
+						else if (option_chosen == MIM::CA_SHOP)
+							return MIM::CA_SHOP;
+						else if (option_chosen == MIM::CA_TEMPLE)
+							return MIM::CA_TEMPLE;
 					}
 				} else if (_system->input->check(CIN::CANCEL, event) || _system->input->check(CIN::BACK, event)) {
 					_display->set_input_mode(WIM::CONFIRM_LEAVE_GAME);
@@ -144,10 +144,10 @@ auto Sorcery::Castle::start(Destination destination) -> std::optional<MI> {
 					if (dialog_input.value() == WDB::CLOSE) {
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						_game->save_game();
-						return MI::ITEM_LEAVE_GAME;
+						return MIM::ITEM_LEAVE_GAME;
 					} else if (dialog_input.value() == WDB::YES) {
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
-						return MI::ITEM_LEAVE_GAME;
+						return MIM::ITEM_LEAVE_GAME;
 					} else if (dialog_input.value() == WDB::NO) {
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 					}
