@@ -128,7 +128,7 @@ auto Sorcery::Game::_set_up_dungeon_events() -> void {
 	_dungeon_events.emplace_back(WERDNA_SIGN, "event_werdna_sign_1", false, false, false, false);
 }
 
-auto Sorcery::Game::get_event(MapEvent event_type) const -> DungeonEvent {
+auto Sorcery::Game::get_event(MAV event_type) const -> DungeonEvent {
 
 	auto it{std::ranges::find_if(_dungeon_events.begin(), _dungeon_events.end(),
 		[&](const auto &dungeon_event) { return (dungeon_event.event == event_type); })};
@@ -138,7 +138,7 @@ auto Sorcery::Game::get_event(MapEvent event_type) const -> DungeonEvent {
 	// TODO: handle updating of these
 }
 
-auto Sorcery::Game::enable_event(MapEvent event_type) -> void {
+auto Sorcery::Game::enable_event(MAV event_type) -> void {
 
 	auto it{std::ranges::find_if(_dungeon_events.begin(), _dungeon_events.end(),
 		[&](const auto &dungeon_event) { return (dungeon_event.event == event_type); })};
@@ -147,7 +147,7 @@ auto Sorcery::Game::enable_event(MapEvent event_type) -> void {
 		(*it).enabled = true;
 }
 
-auto Sorcery::Game::disable_event(MapEvent event_type) -> void {
+auto Sorcery::Game::disable_event(MAV event_type) -> void {
 
 	auto it{std::ranges::find_if(_dungeon_events.begin(), _dungeon_events.end(),
 		[&](const auto &dungeon_event) { return (dungeon_event.event == event_type); })};
@@ -217,7 +217,7 @@ auto Sorcery::Game::_create_game() -> void {
 	std::stringstream ss;
 	{
 		cereal::XMLOutputArchive out_archive(ss);
-		state->add_log_message("New Game Started", MessageType::GAME);
+		state->add_log_message("New Game Started", IMT::GAME);
 		out_archive(state);
 	}
 	const auto data{ss.str()};

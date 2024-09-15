@@ -226,7 +226,7 @@ class Engine {
 		bool _pending_combat;
 		std::optional<Character *> _cur_char;
 		std::unique_ptr<Frame> _cur_char_frame;
-		MapDirection _last_movement;
+		MAD _last_movement;
 		int _destination_floor;
 		sf::IntRect _search_bounds;
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _direction_start;

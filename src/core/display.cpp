@@ -272,10 +272,10 @@ auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, s
 						return 0u;
 				})};
 
-				if (component.justification == Justification::CENTRE) {
+				if (component.justification == JUS::CENTRE) {
 					text.setPosition(x + offset_x + shove_x, y + offset_y + shove_y);
 					text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
-				} else if (component.justification == Justification::RIGHT) {
+				} else if (component.justification == JUS::RIGHT) {
 					text.setPosition(x + offset_x + shove_x, y + offset_y + shove_y);
 					const sf::FloatRect bounds{text.getLocalBounds()};
 					text.setPosition(component.x - bounds.width, component.y);
@@ -395,7 +395,7 @@ auto Sorcery::Display::get_input_mode() const -> WIM {
 	return window->get_input_mode();
 }
 
-auto Sorcery::Display::display_direction_indicator(MapDirection direction, bool monochrome = false) -> void {
+auto Sorcery::Display::display_direction_indicator(MAD direction, bool monochrome = false) -> void {
 
 	auto di_layout{(*layout)["engine_base_ui:direction_indicator"]};
 	auto di_type{std::invoke([&] { return monochrome ? di_layout["mono"].value() : di_layout["not_mono"].value(); })};
@@ -404,16 +404,16 @@ auto Sorcery::Display::display_direction_indicator(MapDirection direction, bool 
 		auto indicator{di_icon.value()};
 		indicator.setOrigin(indicator.getLocalBounds().width / 2, indicator.getLocalBounds().height / 2);
 		switch (direction) {
-		case MapDirection::NORTH:
+		case MAD::NORTH:
 			indicator.setRotation(180.0f);
 			break;
-		case MapDirection::SOUTH:
+		case MAD::SOUTH:
 			indicator.setRotation(0.0f);
 			break;
-		case MapDirection::EAST:
+		case MAD::EAST:
 			indicator.setRotation(270.0f);
 			break;
-		case MapDirection::WEST:
+		case MAD::WEST:
 			indicator.setRotation(90.0f);
 			break;
 		default:

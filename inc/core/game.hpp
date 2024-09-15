@@ -82,9 +82,9 @@ class Game {
 		auto divvy_party_gold() -> void;
 		auto pool_party_gold(unsigned int char_id) -> void;
 		auto log(const std::string &message, const int dice = -1, const int roll = -1, const int needed = -1) -> void;
-		auto get_event(MapEvent event_type) const -> DungeonEvent;
-		auto enable_event(MapEvent event_type) -> void;
-		auto disable_event(MapEvent event_type) -> void;
+		auto get_event(MAV event_type) const -> DungeonEvent;
+		auto enable_event(MAV event_type) -> void;
+		auto disable_event(MAV event_type) -> void;
 		auto print() -> void;
 
 	private:

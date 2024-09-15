@@ -102,7 +102,7 @@ class Character {
 		auto set_cur_attr(const CAR attribute, const int adjustment) -> void;
 		auto get_portrait_index() const -> unsigned int;
 		auto set_portrait_index(const unsigned int value) -> void;
-		auto get_spell_points(const SpellType type, const SpellPointStatus status) const -> std::optional<SpellPoints>;
+		auto get_spell_points(const SPT type, const SPS status) const -> std::optional<SpellPoints>;
 		auto get_gold() const -> unsigned int;
 		auto set_gold(const unsigned int value) -> void;
 		auto grant_gold(const int value) -> void;
@@ -178,17 +178,17 @@ class Character {
 		auto _reset_start_spells() -> void;
 		auto _get_hp_per_level() -> int;
 		auto _update_hp_for_level() -> int;
-		auto _try_learn_spell(SpellType spell_type, unsigned int spell_level) -> bool;
-		auto _calculate_sp(SpellType spell_type, unsigned int level_mod, unsigned int level_offset) -> void;
+		auto _try_learn_spell(SPT spell_type, unsigned int spell_level) -> bool;
+		auto _calculate_sp(SPT spell_type, unsigned int level_mod, unsigned int level_offset) -> void;
 		auto _set_sp() -> bool;
-		auto _get_spells_known(SpellType spell_type, unsigned int spell_level) -> unsigned int;
+		auto _get_spells_known(SPT spell_type, unsigned int spell_level) -> unsigned int;
 		auto _get_xp_for_level(unsigned int level) const -> int;
 		auto _get_mage_status(bool current) -> std::string;
 		auto _get_priest_status(bool current) -> std::string;
-		auto _get_sp_per_level(const SpellType type, int level) -> std::string;
+		auto _get_sp_per_level(const SPT type, int level) -> std::string;
 		auto _get_condition() const -> std::string;
 		auto _update_stat_for_level(CAR attribute, std::string stat) -> std::string;
-		auto _learn_spell(SpellID spell_id) -> void;
+		auto _learn_spell(SPI spell_id) -> void;
 		auto _damage(const unsigned int adjustment)
 			-> bool; // returns true is character is alive, or dead if damage was fatal
 		auto _heal(const unsigned int adjustment) -> void;
@@ -206,7 +206,7 @@ class Character {
 		SpellPoints _mage_max_sp;
 		SpellPoints _mage_cur_sp;
 		std::vector<Spell> _spells;
-		std::map<SpellID, bool> _spells_known;
+		std::map<SPI, bool> _spells_known;
 		CharacterStage _current_stage;
 		std::string _name;
 		CharacterRace _race;

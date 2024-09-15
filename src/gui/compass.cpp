@@ -55,16 +55,16 @@ auto Sorcery::Compass::refresh() -> void {
 	auto compass{(*_graphics->icons)["direction"].value()};
 	compass.setOrigin(compass.getLocalBounds().width / 2, compass.getLocalBounds().height / 2);
 	switch (_game->state->get_player_facing()) {
-	case MapDirection::NORTH:
+	case MAD::NORTH:
 		compass.setRotation(180.0f);
 		break;
-	case MapDirection::SOUTH:
+	case MAD::SOUTH:
 		compass.setRotation(0.0f);
 		break;
-	case MapDirection::EAST:
+	case MAD::EAST:
 		compass.setRotation(270.0f);
 		break;
-	case MapDirection::WEST:
+	case MAD::WEST:
 		compass.setRotation(90.0f);
 		break;
 	default:

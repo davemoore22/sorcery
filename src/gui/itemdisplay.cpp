@@ -156,7 +156,7 @@ auto Sorcery::ItemDisplay::set(const unsigned int item_idx) -> void {
 	_add_text((*_display->layout)["item_display:invoke_label_item"], "{}", it_invoke);
 
 	const std::string it_use{std::invoke([&] {
-		if (it.get_eff_use() == SpellID::NO_SPELL)
+		if (it.get_eff_use() == SPI::NO_SPELL)
 			return std::string{""};
 		else {
 			const std::string inv{magic_enum::enum_name(it.get_eff_use())};

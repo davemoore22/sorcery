@@ -142,10 +142,10 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, con
 		text.setStyle(sf::Text::Bold);
 	auto x{component.x == -1 ? centre.x : component.x};
 	auto y{component.y == -1 ? centre.y : component.y};
-	if (component.justification == Justification::CENTRE) {
+	if (component.justification == JUS::CENTRE) {
 		text.setPosition(x, y);
 		text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
-	} else if (component.justification == Justification::RIGHT) {
+	} else if (component.justification == JUS::RIGHT) {
 		text.setPosition(x, y);
 		const sf::FloatRect bounds{text.getLocalBounds()};
 		text.setPosition(component.x - bounds.width, component.y);
@@ -180,10 +180,10 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, con
 		text.setStyle(sf::Text::Bold);
 	auto x{component.x == -1 ? centre.x : component.x};
 	auto y{component.y == -1 ? centre.y : component.y};
-	if (component.justification == Justification::CENTRE) {
+	if (component.justification == JUS::CENTRE) {
 		text.setPosition(x, y);
 		text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
-	} else if (component.justification == Justification::RIGHT) {
+	} else if (component.justification == JUS::RIGHT) {
 		text.setPosition(x, y);
 		const sf::FloatRect bounds{text.getLocalBounds()};
 		text.setPosition(component.x - bounds.width, component.y);
@@ -247,10 +247,10 @@ auto Sorcery::Window::_draw_text(
 		text.setStyle(sf::Text::Bold);
 	auto x{component.x == -1 ? centre.x : component.x};
 	auto y{component.y == -1 ? centre.y : component.y};
-	if (component.justification == Justification::CENTRE) {
+	if (component.justification == JUS::CENTRE) {
 		text.setPosition(x, y);
 		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
-	} else if (component.justification == Justification::RIGHT) {
+	} else if (component.justification == JUS::RIGHT) {
 		text.setPosition(x, y);
 		const sf::FloatRect bounds{text.getLocalBounds()};
 		text.setPosition(component.x - bounds.width, component.y);

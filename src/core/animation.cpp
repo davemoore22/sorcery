@@ -203,7 +203,7 @@ auto Sorcery::Animation::_do_wallpaper() -> void {
 
 	std::scoped_lock<std::mutex> _scoped_lock(_wallpaper_mutex);
 
-	wallpaper_idx = (*_system->random)[RandomType::D165];
+	wallpaper_idx = (*_system->random)[RNT::D165];
 	_last_wallpaper = std::chrono::system_clock::now();
 }
 
@@ -213,11 +213,11 @@ auto Sorcery::Animation::_do_attract() -> void {
 
 	std::scoped_lock<std::mutex> _scoped_lock(_attract_mutex);
 	auto sprite_index{0u};
-	const auto num{(*_system->random)[RandomType::D4]};
+	const auto num{(*_system->random)[RNT::D4]};
 	_attract_mode.clear();
 	for (auto i = 0u; i < num; i++) {
 		do {
-			sprite_index = (*_system->random)[RandomType::ZERO_TO_399];
+			sprite_index = (*_system->random)[RNT::ZERO_TO_399];
 		} while (std::ranges::find(_attract_mode.begin(), _attract_mode.end(), sprite_index) != _attract_mode.end());
 		_attract_mode.push_back(sprite_index);
 	}

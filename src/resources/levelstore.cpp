@@ -106,7 +106,7 @@ auto Sorcery::LevelStore::_load(const std::filesystem::path filename) -> bool {
 					auto height{bounds["height"].asInt()};
 
 					// Create the Level
-					Level level{MapType::MAZE, dungeon, depth, Coordinate(x_origin, y_origin), Size(width, height)};
+					Level level{MAT::MAZE, dungeon, depth, Coordinate(x_origin, y_origin), Size(width, height)};
 					level.load(rows, notes);
 
 					// Store it
@@ -121,7 +121,7 @@ auto Sorcery::LevelStore::_load(const std::filesystem::path filename) -> bool {
 	}
 
 	catch (std::exception &e) {
-		Error error{SystemError::JSON_PARSE_ERROR, e, "error loading levels.json!"};
+		Error error{SYE::JSON_PARSE_ERROR, e, "error loading levels.json!"};
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}

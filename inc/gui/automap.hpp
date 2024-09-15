@@ -57,7 +57,7 @@ class AutoMap: public sf::Transformable, public sf::Drawable {
 
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
-		auto _draw_player(MapDirection direction, int x, int y, float scaling) -> void;
+		auto _draw_player(MAD direction, int x, int y, float scaling) -> void;
 		auto _draw_tile(Tile &tile, Coordinate loc, int x, int y, float scaling) -> void;
 
 		// Private Members

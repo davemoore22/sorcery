@@ -51,10 +51,10 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 		auto set_view(const CharacterView value) -> void;
 		auto left_view() -> void;
 		auto right_view() -> void;
-		auto inc_hl_spell(SpellType type) -> void;
-		auto dec_hl_spell(SpellType type) -> void;
+		auto inc_hl_spell(SPT type) -> void;
+		auto dec_hl_spell(SPT type) -> void;
 		auto update() -> void;
-		auto check_for_mouse_move(sf::Vector2f mouse_pos) -> std::optional<SpellID>;
+		auto check_for_mouse_move(sf::Vector2f mouse_pos) -> std::optional<SPI>;
 		auto check_for_action_mouse_move(sf::Vector2f mouse_pos) -> std::optional<MIM>;
 		auto check_for_inventory_mouse_move(sf::Vector2f mouse_pos) -> unsigned int;
 		auto generate_display() -> void;
@@ -69,10 +69,10 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 		auto down_hl_action() -> void;
 
 		// Public Members
-		std::map<SpellID, sf::FloatRect> mage_spell_bounds;
-		std::map<SpellID, sf::FloatRect> priest_spell_bounds;
-		std::map<SpellID, sf::Text *> mage_spell_texts;
-		std::map<SpellID, sf::Text *> priest_spell_texts;
+		std::map<SPI, sf::FloatRect> mage_spell_bounds;
+		std::map<SPI, sf::FloatRect> priest_spell_bounds;
+		std::map<SPI, sf::Text *> mage_spell_texts;
+		std::map<SPI, sf::Text *> priest_spell_texts;
 		std::map<MIM, sf::Text *> action_menu_texts;
 		std::map<MIM, sf::FloatRect> action_menu_bounds;
 		std::map<unsigned int, sf::Text *> inventory_texts;
@@ -87,7 +87,7 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 		auto _get_character_portrait() -> sf::Sprite;
 		auto _add_text(Component &component, std::string format, std::string value, bool is_view = true) -> sf::Text *;
 		auto _add_icon(Component &component, std::string icon_key) -> void;
-		auto _get_spell_icon(SpellCategory category) -> std::optional<sf::Sprite>;
+		auto _get_spell_icon(SPC category) -> std::optional<sf::Sprite>;
 		auto _add_action_button(Component layout_c, const MIM item, const std::string format, const std::string str,
 			const bool enabled) -> void;
 		auto _generate_inventory(Component layout_c) -> void;
@@ -107,8 +107,8 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 		std::shared_ptr<SpellPanel> _spell_panel;
 		Component _spell_panel_c;
 
-		SpellID _hl_mage_spell;
-		SpellID _hl_priest_spell;
+		SPI _hl_mage_spell;
+		SPI _hl_priest_spell;
 		MIM _hl_action_item;
 		unsigned int _hl_inventory_item;
 		sf::RectangleShape _hl_mage_spell_bg;

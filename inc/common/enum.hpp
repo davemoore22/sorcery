@@ -233,7 +233,7 @@ namespace Enums::Magic {
 		PRIEST
 	};
 
-	enum class SpellPointStatus {
+	enum class SpellPointType {
 		NO_STATUS,
 		CURRENT,
 		MAXIMUM
@@ -525,7 +525,7 @@ namespace Enums::System {
 	};
 
 	// Return values
-	enum class MDR {
+	enum class MessageDialogResult {
 		NO_RESULT,
 		CLOSE,
 		BACK,

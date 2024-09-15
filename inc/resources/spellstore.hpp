@@ -40,7 +40,7 @@ class Spellstore {
 		Spellstore() = delete;
 
 		// Overload operators
-		auto operator[](SpellID spell_id) const -> Spell;
+		auto operator[](SPI spell_id) const -> Spell;
 		auto operator()(ItemCategory category) const -> std::vector<Spell>;
 		auto operator[](std::string name) const -> Spell;
 

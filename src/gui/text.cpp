@@ -110,10 +110,10 @@ Sorcery::Text::Text(
 		}
 		if (bits | unenum(ComponentElement::JUSTIFICATION)) {
 
-			if (layout.justification == Justification::CENTRE) {
+			if (layout.justification == JUS::CENTRE) {
 				_text.setPosition(0, 0);
 				_text.setOrigin(_text.getLocalBounds().width / 2.0f, 0);
-			} else if (layout.justification == Justification::RIGHT) {
+			} else if (layout.justification == JUS::RIGHT) {
 				_text.setPosition(0, 0);
 				const sf::FloatRect bounds{_text.getLocalBounds()};
 				_text.setPosition(layout.x - bounds.width, layout.y);

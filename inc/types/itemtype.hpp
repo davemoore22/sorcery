@@ -68,7 +68,7 @@ class ItemType {
 		auto get_eff_off_str() const -> std::string;
 		auto get_eff_inv() const -> ItemInv;
 		auto get_eff_inv_decay() const -> unsigned int;
-		auto get_eff_use() const -> SpellID;
+		auto get_eff_use() const -> SPI;
 		auto get_eff_use_decay() const -> unsigned int;
 		auto get_decay_type_id() const -> ItemTypeID;
 		auto get_shop_inital_stock() const -> int;
@@ -100,7 +100,7 @@ class ItemType {
 		auto set_eff_off(const ItemEffOff value) -> void;
 		auto set_eff_inv(const ItemInv value) -> void;
 		auto set_eff_inv_decay(const unsigned int value) -> void;
-		auto set_eff_use(const SpellID value) -> void;
+		auto set_eff_use(const SPI value) -> void;
 		auto set_eff_use_decay(const unsigned int value) -> void;
 		auto set_decay_type_id(const ItemTypeID value) -> void;
 		auto set_shop_inital_stock(const int value) -> void;
@@ -136,7 +136,7 @@ class ItemType {
 		ItemEffDef _defensive_effects;		   // Defensive effects wearing this item bestows
 		ItemInv _invocation_effect;			   // Effect when invoked
 		unsigned int _invocation_decay_chance; // % chance of turning into _decay_type when invoked
-		SpellID _use_effect;				   // Effect when used (same as associated spell effect)
+		SPI _use_effect;					   // Effect when used (same as associated spell effect)
 		unsigned int _use_decay_chance;		   // % chance of turning into _decay_type when used
 		ItemTypeID _decay_type;				   // Item type decays to when used/invoked
 		int _shop_initial_stock;			   // Number in stock in shop at beginning of game

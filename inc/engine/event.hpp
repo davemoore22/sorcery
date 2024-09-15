@@ -43,7 +43,7 @@ class Event {
 	public:
 
 		// Standard Constructor
-		Event(System *system, Display *display, Graphics *graphics, Game *game, MapEvent type, unsigned int stage = 1);
+		Event(System *system, Display *display, Graphics *graphics, Game *game, MAV type, unsigned int stage = 1);
 		Event() = delete;
 
 		// Standard Destructor
@@ -68,7 +68,7 @@ class Event {
 		sf::RenderWindow *_window;
 		sf::Sprite _bg;
 		std::unique_ptr<Frame> _frame;
-		MapEvent _type;
+		MAV _type;
 		unsigned int _stage;
 		std::map<std::string, sf::Sprite> _sprites;
 		std::map<std::string, sf::Text> _texts;

@@ -234,7 +234,7 @@ auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 
 		} catch (std::exception &e) {
 
-			_error = std::make_unique<Error>(_display->window->get_gui(), SystemError::UNHANDLED_EXCEPTION, e);
+			_error = std::make_unique<Error>(_display->window->get_gui(), SYE::UNHANDLED_EXCEPTION, e);
 		}
 
 		_window->clear();

@@ -158,7 +158,7 @@ auto Sorcery::ItemType::get_eff_inv_decay() const -> unsigned int {
 	return _invocation_decay_chance;
 }
 
-auto Sorcery::ItemType::get_eff_use() const -> SpellID {
+auto Sorcery::ItemType::get_eff_use() const -> SPI {
 
 	return _use_effect;
 }
@@ -353,7 +353,7 @@ auto Sorcery::ItemType::set_eff_inv_decay(const unsigned int value) -> void {
 	_invocation_decay_chance = value;
 }
 
-auto Sorcery::ItemType::set_eff_use(const SpellID value) -> void {
+auto Sorcery::ItemType::set_eff_use(const SPI value) -> void {
 
 	_use_effect = value;
 }

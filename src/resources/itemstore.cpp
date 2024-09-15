@@ -120,7 +120,7 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				const auto use_spell{std::invoke([&] {
 					if (items[i].isMember("use")) {
 						if (items[i]["use"].asString().length() > 0) {
-							auto use{magic_enum::enum_cast<SpellID>(items[i]["use"].asString())};
+							auto use{magic_enum::enum_cast<SPI>(items[i]["use"].asString())};
 							return use.value_or(NO_SPELL);
 						} else
 							return NO_SPELL;

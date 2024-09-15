@@ -70,12 +70,12 @@ class Render: public sf::Transformable, public sf::Drawable {
 
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _render_wireframe(sf::RenderTarget &target, sf::RenderStates states) const -> void;
-		auto _get_left_side(MapDirection facing) const -> MapDirection;
-		auto _get_right_side(MapDirection facing) const -> MapDirection;
+		auto _get_left_side(MAD facing) const -> MAD;
+		auto _get_right_side(MAD facing) const -> MAD;
 
-		auto _has_wall(const Tile &tile, const Sorcery::MapDirection direction) const -> bool;
-		auto _has_secret_door(const Tile &tile, const Sorcery::MapDirection direction) const -> bool;
-		auto _has_normal_door(const Tile &tile, const Sorcery::MapDirection direction) const -> bool;
+		auto _has_wall(const Tile &tile, const Sorcery::MAD direction) const -> bool;
+		auto _has_secret_door(const Tile &tile, const Sorcery::MAD direction) const -> bool;
+		auto _has_normal_door(const Tile &tile, const Sorcery::MAD direction) const -> bool;
 };
 
 }

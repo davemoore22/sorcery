@@ -340,7 +340,7 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	_automap->refresh();
 	_map->refresh();
 	_system->stop_pause();
-	_last_movement = MapDirection::NO_DIRECTION;
+	_last_movement = MAD::NO_DIRECTION;
 	_can_run_event = false;
 	const auto &starting_tile{_game->state->level->at(_game->state->get_player_pos())};
 
@@ -352,7 +352,7 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	if ((_game->state->get_player_pos() == Coordinate{0, 0}) && (_game->state->get_depth() == -1)) {
 
 		_show_confirm_stairs = true;
-		_game->state->set_player_facing(MapDirection::NORTH);
+		_game->state->set_player_facing(MAD::NORTH);
 		_game->state->set_lit(false);
 		if (!_tile_explored(_game->state->get_player_pos()))
 			_set_tile_explored(_game->state->get_player_pos());
@@ -369,10 +369,10 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 
 		// TODO: clunky need to fix this
 		if (has_elevator.value().bottom_depth == -4) {
-			_in_elevator_a_d = starting_tile.has(TileFeature::ELEVATOR);
+			_in_elevator_a_d = starting_tile.has(TLF::ELEVATOR);
 			_elevator_a_d_option = _elevator_a_d_menu->items.end();
 		} else if (has_elevator.value().bottom_depth == -9) {
-			_in_elevator_a_f = starting_tile.has(TileFeature::ELEVATOR);
+			_in_elevator_a_f = starting_tile.has(TLF::ELEVATOR);
 			_elevator_a_f_option = _elevator_a_f_menu->items.end();
 		}
 	}
@@ -395,7 +395,7 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 		if (_pending_chute) {
 
 			const auto tile{_game->state->level->at(_game->state->get_player_pos())};
-			if (tile.has(TileFeature::CHUTE)) {
+			if (tile.has(TLF::CHUTE)) {
 
 				auto destination{tile.has_teleport().value()};
 				auto dest_level{destination.to_level};
@@ -419,7 +419,7 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 		} else if (_pending_elevator) {
 
 			const auto tile{_game->state->level->at(_game->state->get_player_pos())};
-			if (tile.has(TileFeature::ELEVATOR)) {
+			if (tile.has(TLF::ELEVATOR)) {
 
 				Level level{((*_game->levelstore)[_destination_floor]).value()};
 				_game->state->set_current_level(&level);
@@ -493,7 +493,7 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 
 				switch (auto event_at_square{_game->state->level->at(current_loc).has_event().value()};
 					event_at_square) {
-				case MapEvent::SILVER_KEY: {
+				case MAV::SILVER_KEY: {
 					_show_found_an_item = true;
 
 					// random character who has inventory free unless its a targeted search (TODO)
@@ -508,7 +508,7 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 					return true;
 				} break;
 
-				case MapEvent::BRONZE_KEY: {
+				case MAV::BRONZE_KEY: {
 					_show_found_an_item = true;
 
 					// random character who has inventory free unless its a targeted search (TODO)
@@ -523,7 +523,7 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 					return true;
 				} break;
 
-				case MapEvent::GOLD_KEY: {
+				case MAV::GOLD_KEY: {
 					_show_found_an_item = true;
 
 					// random character who has inventory free unless its a targeted search (TODO)
@@ -538,7 +538,7 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 					return true;
 				} break;
 
-				case MapEvent::BEAR_STATUE: {
+				case MAV::BEAR_STATUE: {
 					_show_found_an_item = true;
 
 					// random character who has inventory free unless its a targeted search (TODO)
@@ -553,7 +553,7 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 					return true;
 				} break;
 
-				case MapEvent::FROG_STATUE: {
+				case MAV::FROG_STATUE: {
 					_show_found_an_item = true;
 
 					// random character who has inventory free unless its a targeted search (TODO)
@@ -567,7 +567,7 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 
 					return true;
 				} break;
-				case MapEvent::MURPHYS_GHOSTS: {
+				case MAV::MURPHYS_GHOSTS: {
 
 					_show_encounter = true;
 					_next_combat = CombatType::MURPHYS_GHOSTS;
@@ -1192,7 +1192,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_chute->set_valid(false);
 
 				if (const auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
-					(next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
+					(next_tile.is(TLP::DARKNESS)) && (_game->state->get_lit()))
 					_game->state->set_lit(false);
 			}
 		}
@@ -1206,7 +1206,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_elevator->set_valid(false);
 
 				if (const auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
-					(next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
+					(next_tile.is(TLP::DARKNESS)) && (_game->state->get_lit()))
 					_game->state->set_lit(false);
 			}
 		}
@@ -1608,20 +1608,20 @@ auto Sorcery::Engine::start() -> int {
 					// Find the event and do something with it!
 					const auto map_event{_game->state->level->at(current_loc).has_event().value()};
 					switch (map_event) {
-					case MapEvent::GUARANTEED_COMBAT:
+					case MAV::GUARANTEED_COMBAT:
 						_pending_combat = true;
 						/*
 						_an_encounter->set((*_display->layout)["engine_base_ui:an_encounter"],
 							(*_display->string)["DIALOG_ENCOUNTER"]);
 						_an_encounter->reset_timed(); */
 						break;
-					case MapEvent::DEADLY_RING_COMBAT:
+					case MAV::DEADLY_RING_COMBAT:
 						_pending_combat = true;
 						break;
-					case MapEvent::FIRE_DRAGONS_COMBAT:
+					case MAV::FIRE_DRAGONS_COMBAT:
 						_pending_combat = true;
 						break;
-					case MapEvent::WERDNA_COMBAT:
+					case MAV::WERDNA_COMBAT:
 						_pending_combat = true;
 						break;
 					default:
@@ -1641,7 +1641,7 @@ auto Sorcery::Engine::start() -> int {
 
 							// Find the event and do something with it!
 							const auto map_event{_game->state->level->at(current_loc).has_event().value()};
-							if (map_event == MapEvent::MURPHYS_GHOSTS)
+							if (map_event == MAV::MURPHYS_GHOSTS)
 								_show_encounter = true;
 						}
 					}
@@ -1831,7 +1831,7 @@ auto Sorcery::Engine::_move_forward() -> bool {
 
 		if (!_tile_explored(_game->state->get_player_pos()))
 			_set_tile_explored(_game->state->get_player_pos());
-		if ((next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
+		if ((next_tile.is(TLP::DARKNESS)) && (_game->state->get_lit()))
 			_game->state->set_lit(false);
 
 		if (_game->state->level->stairs_at(next_loc)) {
@@ -1941,7 +1941,7 @@ auto Sorcery::Engine::_move_backward() -> bool {
 
 		if (!_tile_explored(_game->state->get_player_pos()))
 			_set_tile_explored(_game->state->get_player_pos());
-		if ((next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
+		if ((next_tile.is(TLP::DARKNESS)) && (_game->state->get_lit()))
 			_game->state->set_lit(false);
 
 		if (_game->state->level->stairs_at(next_loc)) {
@@ -2061,7 +2061,7 @@ auto Sorcery::Engine::_turn_around() -> void {
 
 auto Sorcery::Engine::_pit_if() -> bool {
 
-	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has(TileFeature::PIT)) {
+	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has(TLF::PIT)) {
 
 		_show_pit = true;
 		_pit_oops();
@@ -2114,7 +2114,7 @@ auto Sorcery::Engine::_pit_oops() -> void {
 		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
 
 			const auto chance{(character.get_cur_attr(CAR::AGILITY) - _game->state->get_depth()) * 4};
-			const auto roll((*_system->random)[RandomType::D100]);
+			const auto roll((*_system->random)[RNT::D100]);
 			_game->state->add_log_dice_roll(
 				fmt::format("{:>16} - {}", character.get_name(), "Avoid Pit"), 100, roll, chance);
 			if (roll < chance) {
@@ -2133,17 +2133,17 @@ auto Sorcery::Engine::_pit_oops() -> void {
 				auto pit_damage{0U};
 				const auto dice{std::abs(_game->state->get_depth())};
 				for (int i = 1; i <= dice; i++)
-					pit_damage += (*_system->random)[RandomType::D8];
+					pit_damage += (*_system->random)[RNT::D8];
 
 				_game->state->add_log_message(
 					fmt::format("{} fell into a pit and took {} points of damage!", character.get_name(), pit_damage),
-					MessageType::GAME);
+					IMT::GAME);
 
 				const auto still_alive{character.damage(pit_damage)};
 				if (!still_alive) {
 
 					// Oh dear death from a pit!
-					_game->state->add_log_message(fmt::format("{} has died!", character.get_name()), MessageType::GAME);
+					_game->state->add_log_message(fmt::format("{} has died!", character.get_name()), IMT::GAME);
 					deaths.emplace_back(character_id);
 				}
 			}
@@ -2321,7 +2321,7 @@ auto Sorcery::Engine::_event_if() -> bool {
 
 auto Sorcery::Engine::_elevator_if() -> bool {
 
-	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has(TileFeature::ELEVATOR)) {
+	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has(TLF::ELEVATOR)) {
 
 		_show_elevator = true;
 		_elevator->set_valid(true);
@@ -2338,7 +2338,7 @@ auto Sorcery::Engine::_elevator_if() -> bool {
 
 auto Sorcery::Engine::_chute_if() -> bool {
 
-	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has(TileFeature::CHUTE)) {
+	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has(TLF::CHUTE)) {
 
 		_show_chute = true;
 		_chute->set_valid(true);
@@ -2355,10 +2355,10 @@ auto Sorcery::Engine::_chute_if() -> bool {
 
 auto Sorcery::Engine::_spinner_if() const -> bool {
 
-	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has(TileFeature::SPINNER)) {
+	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has(TLF::SPINNER)) {
 
 		// Random Direction Change
-		auto new_facing{static_cast<MapDirection>((*_system->random)[RandomType::ZERO_TO_3])};
+		auto new_facing{static_cast<MAD>((*_system->random)[RNT::ZERO_TO_3])};
 		_game->state->set_player_facing(new_facing);
 		return true;
 	}
@@ -2386,7 +2386,7 @@ auto Sorcery::Engine::_stairs_if() -> bool {
 			_can_go_back = true;
 
 			const auto &next_tile{_game->state->level->at(destination.to_loc)};
-			if ((next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
+			if ((next_tile.is(TLP::DARKNESS)) && (_game->state->get_lit()))
 				_game->state->set_lit(false);
 
 			if (next_tile.has(LADDER_UP))
@@ -2429,12 +2429,12 @@ auto Sorcery::Engine::_teleport_if() -> bool {
 			if (!_tile_explored(_game->state->get_player_pos()))
 				_set_tile_explored(_game->state->get_player_pos());
 
-			if ((next_tile.is(TileProperty::DARKNESS)) && (_game->state->get_lit()))
+			if ((next_tile.is(TLP::DARKNESS)) && (_game->state->get_lit()))
 				_game->state->set_lit(false);
 
 			if (_game->state->level->stairs_at(_game->state->get_player_pos())) {
 				const auto current_loc{_game->state->get_player_pos()};
-				if (const auto &this_tile{_game->state->level->at(current_loc)}; this_tile.has(TileFeature::LADDER_UP))
+				if (const auto &this_tile{_game->state->level->at(current_loc)}; this_tile.has(TLF::LADDER_UP))
 					_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_up_text"]);
 				else if (this_tile.has(LADDER_DOWN))
 					_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_down_text"]);
@@ -2860,7 +2860,7 @@ auto Sorcery::Engine::_debug_give_party_random_hp() -> std::optional<int> {
 	for (auto &[character_id, character] : _game->characters) {
 		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
 			character.set_current_hp(1);
-			if ((*_system->random)[RandomType::ZERO_TO_2] == 0)
+			if ((*_system->random)[RNT::ZERO_TO_2] == 0)
 				character.set_current_hp(1);
 			else
 				character.set_current_hp(character.get_max_hp());
@@ -2881,8 +2881,7 @@ auto Sorcery::Engine::_debug_give_party_random_status() -> std::optional<int> {
 	const auto party{_game->state->get_party_characters()};
 	for (auto &[character_id, character] : _game->characters) {
 		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-			character.set_status(
-				magic_enum::enum_cast<CharacterStatus>((*_system->random)[RandomType::ZERO_TO_8]).value());
+			character.set_status(magic_enum::enum_cast<CharacterStatus>((*_system->random)[RNT::ZERO_TO_8]).value());
 			if ((character.get_status() == DEAD) || (character.get_status() == ASHES) ||
 				(character.get_status() == LOST)) {
 				character.set_current_hp(0);

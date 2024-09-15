@@ -48,7 +48,7 @@ Sorcery::ComponentStore::ComponentStore(const std::filesystem::path filename) {
 		}
 
 	} catch (std::exception &e) {
-		Error error{SystemError::JSON_PARSE_ERROR, e, "layout.json is not valid JSON!"};
+		Error error{SYE::JSON_PARSE_ERROR, e, "layout.json is not valid JSON!"};
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}
@@ -69,8 +69,8 @@ auto Sorcery::ComponentStore::operator[](std::string_view combined_key) -> Compo
 			return _components[0];
 
 	} catch (std::exception &e) {
-		Error error{SystemError::UNKNOWN_COMPONENT, e,
-			fmt::format("Unable to find Component '{}' in layout.json!", combined_key)};
+		Error error{
+			SYE::UNKNOWN_COMPONENT, e, fmt::format("Unable to find Component '{}' in layout.json!", combined_key)};
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}
@@ -283,21 +283,21 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 						} else
 							return static_cast<unsigned long long>(0ULL);
 					})};
-					Justification justification{std::invoke([&] {
+					JUS justification{std::invoke([&] {
 						if (components[j].isMember("justification")) {
 							if (components[j]["justification"].asString().length() > 0) {
 								if (components[j]["justification"].asString() == "left")
-									return Justification::LEFT;
+									return JUS::LEFT;
 								else if (components[j]["justification"].asString() == "centre")
-									return Justification::CENTRE;
+									return JUS::CENTRE;
 								else if (components[j]["justification"].asString() == "right")
-									return Justification::RIGHT;
+									return JUS::RIGHT;
 								else
-									return Justification::LEFT;
+									return JUS::LEFT;
 							} else
-								return Justification::LEFT;
+								return JUS::LEFT;
 						} else
-							return Justification::LEFT;
+							return JUS::LEFT;
 					})};
 					ComponentType component_type{std::invoke([&] {
 						if (components[j].isMember("type")) {

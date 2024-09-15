@@ -36,7 +36,7 @@ namespace Sorcery {
 struct ConsoleMessage {
 
 		long int id;
-		Enums::Internal::MessageType type;
+		IMT type;
 		std::chrono::time_point<std::chrono::system_clock> datetime;
 		std::string text;
 		static inline long s_id{0};

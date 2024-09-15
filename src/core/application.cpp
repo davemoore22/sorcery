@@ -135,7 +135,7 @@ auto Sorcery::Application::_quickstart() -> void {
 	_game->create_game();
 
 	// Create a new random party
-	auto party_alignment{(*system->random)[RandomType::D2] == 1 ? CAL::GOOD : CAL::EVIL};
+	auto party_alignment{(*system->random)[RNT::D2] == 1 ? CAL::GOOD : CAL::EVIL};
 	for (int i = 0; i < 6; i++) {
 		auto pc{Character(system.get(), display.get(), graphics.get(), _game->itemstore.get())};
 		switch (i) {

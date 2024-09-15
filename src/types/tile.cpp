@@ -61,8 +61,8 @@ Sorcery::Tile::Tile(const std::optional<Coordinate> location) : _location{locati
 	s_id++;
 }
 
-Sorcery::Tile::Tile(std::optional<Coordinate> location, std::optional<TileEdge> north, std::optional<TileEdge> south,
-	std::optional<TileEdge> east, std::optional<TileEdge> west)
+Sorcery::Tile::Tile(std::optional<Coordinate> location, std::optional<TLE> north, std::optional<TLE> south,
+	std::optional<TLE> east, std::optional<TLE> west)
 	: _location{location}, _north{north}, _south{south}, _east{east}, _west{west} {
 
 	_reset();
@@ -79,26 +79,26 @@ auto Sorcery::Tile::loc() const -> Coordinate {
 		return _location.value();
 
 	} catch (std::exception &e) {
-		Error error{SystemError::OPTIONAL_RETURNED, e, "tile.location has no value!"};
+		Error error{SYE::OPTIONAL_RETURNED, e, "tile.location has no value!"};
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}
 }
 
-auto Sorcery::Tile::has(const MapDirection direction) const -> bool {
+auto Sorcery::Tile::has(const MAD direction) const -> bool {
 
 	switch (direction) {
-	case MapDirection::NORTH:
-		return _north.has_value() ? (_north != TileEdge::NO_EDGE) : false;
+	case MAD::NORTH:
+		return _north.has_value() ? (_north != TLE::NO_EDGE) : false;
 		break;
-	case MapDirection::SOUTH:
-		return _south.has_value() ? (_south != TileEdge::NO_EDGE) : false;
+	case MAD::SOUTH:
+		return _south.has_value() ? (_south != TLE::NO_EDGE) : false;
 		break;
-	case MapDirection::EAST:
-		return _east.has_value() ? (_east != TileEdge::NO_EDGE) : false;
+	case MAD::EAST:
+		return _east.has_value() ? (_east != TLE::NO_EDGE) : false;
 		break;
-	case MapDirection::WEST:
-		return _west.has_value() ? (_west != TileEdge::NO_EDGE) : false;
+	case MAD::WEST:
+		return _west.has_value() ? (_west != TLE::NO_EDGE) : false;
 		break;
 	default:
 		return false;
@@ -106,28 +106,28 @@ auto Sorcery::Tile::has(const MapDirection direction) const -> bool {
 	}
 }
 
-auto Sorcery::Tile::has(const MapDirection direction, const TileEdge wall_type) const -> bool {
+auto Sorcery::Tile::has(const MAD direction, const TLE wall_type) const -> bool {
 
 	switch (direction) {
-	case MapDirection::NORTH:
+	case MAD::NORTH:
 		if (_north.has_value())
 			return _north == wall_type;
 		else
 			return false;
 		break;
-	case MapDirection::SOUTH:
+	case MAD::SOUTH:
 		if (_south.has_value())
 			return _south == wall_type;
 		else
 			return false;
 		break;
-	case MapDirection::EAST:
+	case MAD::EAST:
 		if (_east.has_value())
 			return _east == wall_type;
 		else
 			return false;
 		break;
-	case MapDirection::WEST:
+	case MAD::WEST:
 		if (_west.has_value())
 			return _west == wall_type;
 		else
@@ -141,62 +141,62 @@ auto Sorcery::Tile::has(const MapDirection direction, const TileEdge wall_type) 
 
 auto Sorcery::Tile::set_explored() -> void {
 
-	_properties[unenum(TileProperty::EXPLORED)] = true;
+	_properties[unenum(TLP::EXPLORED)] = true;
 }
 
-auto Sorcery::Tile::has(const TileFeature feature) const -> bool {
+auto Sorcery::Tile::has(const TLF feature) const -> bool {
 
 	return _features[unenum(feature)];
 }
 
-auto Sorcery::Tile::is(const TileProperty property) const -> bool {
+auto Sorcery::Tile::is(const TLP property) const -> bool {
 
 	return _properties[unenum(property)];
 }
 
-auto Sorcery::Tile::walkable(const MapDirection direction) const -> bool {
+auto Sorcery::Tile::walkable(const MAD direction) const -> bool {
 
-	auto edge{TileEdge::NO_EDGE};
+	auto edge{TLE::NO_EDGE};
 	switch (direction) {
-	case MapDirection::NORTH:
-		edge = _north.value_or(TileEdge::NO_EDGE);
+	case MAD::NORTH:
+		edge = _north.value_or(TLE::NO_EDGE);
 		break;
-	case MapDirection::SOUTH:
-		edge = _south.value_or(TileEdge::NO_EDGE);
+	case MAD::SOUTH:
+		edge = _south.value_or(TLE::NO_EDGE);
 		break;
-	case MapDirection::EAST:
-		edge = _east.value_or(TileEdge::NO_EDGE);
+	case MAD::EAST:
+		edge = _east.value_or(TLE::NO_EDGE);
 		break;
-	case MapDirection::WEST:
-		edge = _west.value_or(TileEdge::NO_EDGE);
+	case MAD::WEST:
+		edge = _west.value_or(TLE::NO_EDGE);
 		break;
 	default:
 		return false;
 		break;
 	}
 
-	return (edge == TileEdge::SECRET_DOOR) || (edge == TileEdge::NO_EDGE) || (edge == TileEdge::UNLOCKED_DOOR) ||
-		   (edge == TileEdge::ONE_WAY_DOOR) || (edge == TileEdge::ONE_WAY_HIDDEN_DOOR) ||
-		   (edge == TileEdge::HIDDEN_DOOR) || (edge == TileEdge::ONE_WAY_WALL);
+	return (edge == TLE::SECRET_DOOR) || (edge == TLE::NO_EDGE) || (edge == TLE::UNLOCKED_DOOR) ||
+		   (edge == TLE::ONE_WAY_DOOR) || (edge == TLE::ONE_WAY_HIDDEN_DOOR) || (edge == TLE::HIDDEN_DOOR) ||
+		   (edge == TLE::ONE_WAY_WALL);
 }
 
-auto Sorcery::Tile::wall(const MapDirection direction) const -> TileEdge {
+auto Sorcery::Tile::wall(const MAD direction) const -> TLE {
 
 	switch (direction) {
-	case MapDirection::NORTH:
-		return _north.has_value() ? _north.value() : TileEdge::NO_EDGE;
+	case MAD::NORTH:
+		return _north.has_value() ? _north.value() : TLE::NO_EDGE;
 		break;
-	case MapDirection::SOUTH:
-		return _south.has_value() ? _south.value() : TileEdge::NO_EDGE;
+	case MAD::SOUTH:
+		return _south.has_value() ? _south.value() : TLE::NO_EDGE;
 		break;
-	case MapDirection::EAST:
-		return _east.has_value() ? _east.value() : TileEdge::NO_EDGE;
+	case MAD::EAST:
+		return _east.has_value() ? _east.value() : TLE::NO_EDGE;
 		break;
-	case MapDirection::WEST:
-		return _west.has_value() ? _west.value() : TileEdge::NO_EDGE;
+	case MAD::WEST:
+		return _west.has_value() ? _west.value() : TLE::NO_EDGE;
 		break;
 	default:
-		return TileEdge::NO_EDGE;
+		return TLE::NO_EDGE;
 		break;
 	}
 }
@@ -218,29 +218,29 @@ auto Sorcery::Tile::reset() -> void {
 	_reset();
 }
 
-auto Sorcery::Tile::reset(const TileFeature feature) -> void {
+auto Sorcery::Tile::reset(const TLF feature) -> void {
 
 	_features[unenum(feature)] = false;
 }
 
-auto Sorcery::Tile::reset(const TileProperty property) -> void {
+auto Sorcery::Tile::reset(const TLP property) -> void {
 
 	_properties[unenum(property)] = false;
 }
 
-auto Sorcery::Tile::reset(const MapDirection direction) -> void {
+auto Sorcery::Tile::reset(const MAD direction) -> void {
 	switch (direction) {
 
-	case MapDirection::NORTH:
+	case MAD::NORTH:
 		_north = std::nullopt;
 		break;
-	case MapDirection::SOUTH:
+	case MAD::SOUTH:
 		_south = std::nullopt;
 		break;
-	case MapDirection::EAST:
+	case MAD::EAST:
 		_east = std::nullopt;
 		break;
-	case MapDirection::WEST:
+	case MAD::WEST:
 		_west = std::nullopt;
 		break;
 	default:
@@ -258,34 +258,34 @@ auto Sorcery::Tile::gfx() -> std::optional<unsigned int> {
 	return _texture_id;
 }
 
-auto Sorcery::Tile::set(const std::optional<MapEvent> event) -> void {
+auto Sorcery::Tile::set(const std::optional<MAV> event) -> void {
 
 	_event = event;
 }
 
-auto Sorcery::Tile::set(const TileFeature feature) -> void {
+auto Sorcery::Tile::set(const TLF feature) -> void {
 
 	_features[unenum(feature)] = true;
 }
 
-auto Sorcery::Tile::set(const TileProperty property) -> void {
+auto Sorcery::Tile::set(const TLP property) -> void {
 
 	_properties[unenum(property)] = true;
 }
 
-auto Sorcery::Tile::set(const MapDirection direction, const TileEdge new_wall) -> void {
+auto Sorcery::Tile::set(const MAD direction, const TLE new_wall) -> void {
 
 	switch (direction) {
-	case MapDirection::NORTH:
+	case MAD::NORTH:
 		_north = new_wall;
 		break;
-	case MapDirection::SOUTH:
+	case MAD::SOUTH:
 		_south = new_wall;
 		break;
-	case MapDirection::EAST:
+	case MAD::EAST:
 		_east = new_wall;
 		break;
-	case MapDirection::WEST:
+	case MAD::WEST:
 		_west = new_wall;
 		break;
 	default:
@@ -303,7 +303,7 @@ auto Sorcery::Tile::clear_stairs() -> void {
 	_stairs = std::nullopt;
 }
 
-auto Sorcery::Tile::has_event() const -> std::optional<MapEvent> {
+auto Sorcery::Tile::has_event() const -> std::optional<MAV> {
 
 	if (_event)
 		return _event.value();
@@ -361,7 +361,7 @@ auto Sorcery::Tile::x() const -> int {
 		return _location.value().x;
 
 	} catch (std::exception &e) {
-		Error error{SystemError::OPTIONAL_RETURNED, e, "tile.location.x has no value!"};
+		Error error{SYE::OPTIONAL_RETURNED, e, "tile.location.x has no value!"};
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}
@@ -373,7 +373,7 @@ auto Sorcery::Tile::y() const -> int {
 		return _location.value().y;
 
 	} catch (std::exception &e) {
-		Error error{SystemError::OPTIONAL_RETURNED, e, "tile.location.y has no value!"};
+		Error error{SYE::OPTIONAL_RETURNED, e, "tile.location.y has no value!"};
 		std::cout << error;
 		exit(EXIT_FAILURE);
 	}

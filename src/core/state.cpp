@@ -136,7 +136,7 @@ auto Sorcery::State::get_player_prev_depth() const -> int {
 
 auto Sorcery::State::_restart_expedition() -> void {
 
-	_playing_facing = MapDirection::NORTH;
+	_playing_facing = MAD::NORTH;
 	_player_pos = Coordinate{0, 0};
 	_player_depth = -1;
 	_lit = false;
@@ -209,7 +209,7 @@ auto Sorcery::State::get_character_index(unsigned int char_id) -> std::optional<
 		return std::nullopt;
 }
 
-auto Sorcery::State::get_player_facing() const -> MapDirection {
+auto Sorcery::State::get_player_facing() const -> MAD {
 
 	return _playing_facing;
 }
@@ -224,7 +224,7 @@ auto Sorcery::State::get_player_prev_pos() const -> Coordinate {
 	return _previous_pos;
 }
 
-auto Sorcery::State::set_player_facing(const MapDirection direction) -> void {
+auto Sorcery::State::set_player_facing(const MAD direction) -> void {
 
 	_playing_facing = direction;
 }
@@ -262,7 +262,7 @@ auto Sorcery::State::remove_character_by_position(unsigned int index) -> bool {
 		return false;
 }
 
-auto Sorcery::State::add_log_message(std::string text, MessageType type = MessageType::STANDARD) -> void {
+auto Sorcery::State::add_log_message(std::string text, IMT type = IMT::STANDARD) -> void {
 
 	_log.emplace_back(ConsoleMessage{type, text});
 }
@@ -278,9 +278,9 @@ auto Sorcery::State::add_log_dice_roll(const std::string &message, const int dic
 	if (dice != -1 || roll != -1 || needed != -1) {
 		const auto success{roll < needed ? "SUCCESS" : "FAILURE"};
 		const auto string{fmt::format("{} ({})", message, success)};
-		add_log_message(_system->dice_roll_to_str(string, dice, roll, needed), MessageType::ROLL);
+		add_log_message(_system->dice_roll_to_str(string, dice, roll, needed), IMT::ROLL);
 	} else
-		add_log_message(message, MessageType::GAME);
+		add_log_message(message, IMT::GAME);
 }
 
 auto Sorcery::State::get_log_messages(unsigned int last) const -> std::vector<ConsoleMessage> {

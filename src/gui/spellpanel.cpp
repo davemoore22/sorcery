@@ -55,19 +55,19 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 
 	Component icon_c{(*_display->layout)["spell_panel:icon"]};
 	switch (spell.category) {
-	case SpellCategory::ATTACK:
+	case SPC::ATTACK:
 		_icon = (*_graphics->icons)["attack"].value();
 		break;
-	case SpellCategory::SUPPORT:
+	case SPC::SUPPORT:
 		_icon = (*_graphics->icons)["support"].value();
 		break;
-	case SpellCategory::DISABLE:
+	case SPC::DISABLE:
 		_icon = (*_graphics->icons)["disable"].value();
 		break;
-	case SpellCategory::FIELD:
+	case SPC::FIELD:
 		_icon = (*_graphics->icons)["field"].value();
 		break;
-	case SpellCategory::HEALING:
+	case SPC::HEALING:
 		_icon = (*_graphics->icons)["healing"].value();
 		break;
 	default:
@@ -95,8 +95,8 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 		name_text.setStyle(sf::Text::Bold);
 	_texts.push_back(name_text);
 
-	auto spell_type{spell.type == SpellType::MAGE ? "Mage" : "Priest"};
-	std::string spell_category{magic_enum::enum_name<SpellCategory>(spell.category)};
+	auto spell_type{spell.type == SPT::MAGE ? "Mage" : "Priest"};
+	std::string spell_category{magic_enum::enum_name<SPC>(spell.category)};
 	std::transform(spell_category.begin(), spell_category.end(), spell_category.begin(), ::tolower);
 	auto summary{fmt::format("Level {} {} {} spell", spell.level, spell_type, spell_category)};
 	Component summary_c{(*_display->layout)["spell_panel:summary_text"]};

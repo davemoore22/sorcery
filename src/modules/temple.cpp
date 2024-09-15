@@ -329,7 +329,7 @@ auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int 
 	if (heal_char.get_status() == CharacterStatus::DEAD) {
 
 		const auto chance{heal_char.get_ress_chance(false)};
-		const auto roll((*_system->random)[RandomType::D100]);
+		const auto roll((*_system->random)[RNT::D100]);
 
 		_game->state->add_log_dice_roll(
 			fmt::format("{:>16} - {}", heal_char.get_name(), "Ress from Dead"), 100, roll, chance);
@@ -352,7 +352,7 @@ auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int 
 	} else if (heal_char.get_status() == CharacterStatus::ASHES) {
 
 		const auto chance{heal_char.get_ress_chance(true)};
-		const auto roll((*_system->random)[RandomType::D100]);
+		const auto roll((*_system->random)[RNT::D100]);
 		_game->state->add_log_dice_roll(
 			fmt::format("{:>16} - {}", heal_char.get_name(), "Ress from Ashes"), 100, roll, chance);
 		if (roll < chance) {

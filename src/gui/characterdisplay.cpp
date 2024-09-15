@@ -53,8 +53,8 @@ Sorcery::CharacterDisplay::CharacterDisplay(System *system, Display *display, Gr
 	_v_sprites.clear();
 	_v_frames.clear();
 	_view = CharacterView::NO_VIEW;
-	_hl_mage_spell = SpellID::DUMAPIC;
-	_hl_priest_spell = SpellID::BADIOS;
+	_hl_mage_spell = SPI::DUMAPIC;
+	_hl_priest_spell = SPI::BADIOS;
 	_hl_action_item = MIM::NO_MENU_ITEM;
 	_hl_inventory_item = 0;
 	mage_spell_bounds.clear();
@@ -151,7 +151,7 @@ auto Sorcery::CharacterDisplay::set_mode(CharacterMode value) -> void {
 	_mode = value;
 }
 
-auto Sorcery::CharacterDisplay::inc_hl_spell(SpellType type) -> void {
+auto Sorcery::CharacterDisplay::inc_hl_spell(SPT type) -> void {
 
 	using enum Enums::Magic::SpellID;
 	using enum Enums::Magic::SpellType;
@@ -160,20 +160,20 @@ auto Sorcery::CharacterDisplay::inc_hl_spell(SpellType type) -> void {
 		auto index{+_hl_mage_spell};
 		if (index < unenum(TILTOWAIT)) {
 			++index;
-			_hl_mage_spell = magic_enum::enum_cast<SpellID>(index).value();
+			_hl_mage_spell = magic_enum::enum_cast<SPI>(index).value();
 		}
 	} else {
 		auto index{+_hl_priest_spell};
 		if (index < unenum(MALIKTO)) {
 			++index;
-			_hl_priest_spell = magic_enum::enum_cast<SpellID>(index).value();
+			_hl_priest_spell = magic_enum::enum_cast<SPI>(index).value();
 		}
 	}
 
 	_generate_display();
 }
 
-auto Sorcery::CharacterDisplay::dec_hl_spell(SpellType type) -> void {
+auto Sorcery::CharacterDisplay::dec_hl_spell(SPT type) -> void {
 
 	using enum Enums::Magic::SpellID;
 	using enum Enums::Magic::SpellType;
@@ -182,13 +182,13 @@ auto Sorcery::CharacterDisplay::dec_hl_spell(SpellType type) -> void {
 		auto index{unenum(_hl_mage_spell)};
 		if (index > (unenum(DUMAPIC))) {
 			--index;
-			_hl_mage_spell = magic_enum::enum_cast<SpellID>(index).value();
+			_hl_mage_spell = magic_enum::enum_cast<SPI>(index).value();
 		}
 	} else {
 		auto index{unenum(_hl_priest_spell)};
 		if (index > (unenum(BADIOS))) {
 			--index;
-			_hl_priest_spell = magic_enum::enum_cast<SpellID>(index).value();
+			_hl_priest_spell = magic_enum::enum_cast<SPI>(index).value();
 		}
 	}
 
@@ -365,7 +365,7 @@ auto Sorcery::CharacterDisplay::get_view() const -> CharacterView {
 	return _view;
 }
 
-auto Sorcery::CharacterDisplay::_get_spell_icon(SpellCategory category) -> std::optional<sf::Sprite> {
+auto Sorcery::CharacterDisplay::_get_spell_icon(SPC category) -> std::optional<sf::Sprite> {
 
 	using enum Enums::Magic::SpellCategory;
 
@@ -450,7 +450,7 @@ auto Sorcery::CharacterDisplay::check_for_action_mouse_move(sf::Vector2f mouse_p
 		return std::nullopt;
 }
 
-auto Sorcery::CharacterDisplay::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::optional<SpellID> {
+auto Sorcery::CharacterDisplay::check_for_mouse_move(sf::Vector2f mouse_pos) -> std::optional<SPI> {
 
 	using enum Enums::Character::View;
 

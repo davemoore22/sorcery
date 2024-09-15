@@ -84,14 +84,14 @@ Sorcery::Random::Random() {
 }
 
 // Overload [] operator
-auto Sorcery::Random::operator[](const RandomType random_type) -> unsigned int {
+auto Sorcery::Random::operator[](const RNT random_type) -> unsigned int {
 
 	return _get(random_type);
 }
 
-auto Sorcery::Random::get_type(const int num) const -> RandomType {
+auto Sorcery::Random::get_type(const int num) const -> RNT {
 
-	return magic_enum::enum_cast<RandomType>(num).value_or(RandomType::NO_DICE);
+	return magic_enum::enum_cast<RNT>(num).value_or(RNT::NO_DICE);
 }
 
 auto Sorcery::Random::get_random_name() -> std::string {
@@ -107,7 +107,7 @@ auto Sorcery::Random::get_random_name() -> std::string {
 }
 
 // Generate a random number of a specified type
-auto Sorcery::Random::_get(const RandomType random_type) -> unsigned int {
+auto Sorcery::Random::_get(const RNT random_type) -> unsigned int {
 
 	const auto [min, max]{_range[random_type]};
 	auto dist{std::uniform_int_distribution<unsigned int>(min, max)};

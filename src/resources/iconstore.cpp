@@ -125,7 +125,7 @@ auto Sorcery::IconStore::get(const MIM key) -> std::optional<sf::Sprite> {
 		return std::nullopt;
 }
 
-auto Sorcery::IconStore::get_event_icon(MapEvent type) -> std::optional<sf::Sprite> {
+auto Sorcery::IconStore::get_event_icon(MAV type) -> std::optional<sf::Sprite> {
 
 	if (_event_icon_mapping.find(type) != _event_icon_mapping.end()) {
 		auto sprite{get(_event_icon_mapping.at(type))};

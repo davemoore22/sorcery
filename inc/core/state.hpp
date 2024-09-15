@@ -66,7 +66,7 @@ class State {
 		auto get_character_index(unsigned int char_id) -> std::optional<unsigned int>;
 		auto get_party_characters() const -> std::vector<unsigned int>;
 		auto get_party_size() const -> unsigned int;
-		auto get_player_facing() const -> MapDirection;
+		auto get_player_facing() const -> MAD;
 		auto get_player_pos() const -> Coordinate;
 		auto get_player_prev_pos() const -> Coordinate;
 		auto get_player_prev_depth() const -> int;
@@ -77,7 +77,7 @@ class State {
 		auto set(System *system) -> void;
 		auto set_party(std::vector<unsigned int> candidate_party) -> void;
 		auto set_current_level(Level *other) -> void;
-		auto set_player_facing(const MapDirection direction) -> void;
+		auto set_player_facing(const MAD direction) -> void;
 		auto set_player_pos(const Coordinate position) -> void;
 		auto restart_expedition() -> void;
 		auto set_depth(int depth) -> void;
@@ -87,7 +87,7 @@ class State {
 		auto get_lit() const -> bool;
 		auto get_turns() const -> unsigned int;
 		auto pass_turn(unsigned int turns = 1) -> void;
-		auto add_log_message(std::string text, MessageType type) -> void;
+		auto add_log_message(std::string text, IMT type) -> void;
 		auto clear_log_messages() -> void;
 		auto add_log_dice_roll(
 			const std::string &message, const int dice = -1, const int roll = -1, const int needed = -1) -> void;
@@ -107,7 +107,7 @@ class State {
 		Coordinate _player_pos;
 		Coordinate _previous_pos;
 		int _previous_depth;
-		MapDirection _playing_facing;
+		MAD _playing_facing;
 		int _player_depth;
 		bool _lit;
 		int _version;

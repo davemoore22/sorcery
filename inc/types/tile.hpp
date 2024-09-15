@@ -38,8 +38,8 @@ class Tile {
 		// Constructors
 		Tile();
 		Tile(std::optional<Coordinate> location);
-		Tile(std::optional<Coordinate> location, std::optional<TileEdge> north, std::optional<TileEdge> south,
-			std::optional<TileEdge> east, std::optional<TileEdge> west);
+		Tile(std::optional<Coordinate> location, std::optional<TLE> north, std::optional<TLE> south,
+			std::optional<TLE> east, std::optional<TLE> west);
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
@@ -58,31 +58,31 @@ class Tile {
 		auto clear_stairs() -> void;
 		auto gfx(const unsigned int texture) -> void;
 		auto gfx() -> std::optional<unsigned int>;
-		auto has(const MapDirection direction) const -> bool;
-		auto has(const MapDirection direction, const TileEdge wall_type) const -> bool;
-		auto has(const TileFeature feature) const -> bool;
-		auto has_event() const -> std::optional<MapEvent>;
+		auto has(const MAD direction) const -> bool;
+		auto has(const MAD direction, const TLE wall_type) const -> bool;
+		auto has(const TLF feature) const -> bool;
+		auto has_event() const -> std::optional<MAV>;
 		auto has_stairs() const -> std::optional<Teleport>;
 		auto has_teleport() const -> std::optional<Teleport>;
 		auto has_elevator() const -> std::optional<Elevator>;
 		auto id() const -> long;
-		auto is(const TileProperty property) const -> bool;
+		auto is(const TLP property) const -> bool;
 		auto loc() const -> Coordinate;
 		auto reset() -> void;
-		auto reset(const TileFeature feature) -> void;
-		auto reset(const TileProperty property) -> void;
-		auto reset(const MapDirection direction) -> void;
-		auto set(const std::optional<MapEvent> event) -> void;
-		auto set(const TileFeature feature) -> void;
-		auto set(const TileProperty property) -> void;
-		auto set(const MapDirection direction, TileEdge new_wall) -> void;
+		auto reset(const TLF feature) -> void;
+		auto reset(const TLP property) -> void;
+		auto reset(const MAD direction) -> void;
+		auto set(const std::optional<MAV> event) -> void;
+		auto set(const TLF feature) -> void;
+		auto set(const TLP property) -> void;
+		auto set(const MAD direction, TLE new_wall) -> void;
 		auto set(const std::optional<Coordinate> location);
 		auto set_explored() -> void;
 		auto set_teleport(Teleport teleport) -> void;
 		auto set_stairs(Teleport stairs) -> void;
 		auto set_elevator(Elevator elevator) -> void;
-		auto wall(const MapDirection direction) const -> TileEdge;
-		auto walkable(const MapDirection direction) const -> bool;
+		auto wall(const MAD direction) const -> TLE;
+		auto walkable(const MAD direction) const -> bool;
 		auto x() const -> int;
 		auto y() const -> int;
 
@@ -98,10 +98,10 @@ class Tile {
 		std::optional<Coordinate> _location;
 
 		// Walls (based upon https://docs.gridcartographer.com/ref/table/edge)
-		std::optional<TileEdge> _north;
-		std::optional<TileEdge> _south;
-		std::optional<TileEdge> _east;
-		std::optional<TileEdge> _west;
+		std::optional<TLE> _north;
+		std::optional<TLE> _south;
+		std::optional<TLE> _east;
+		std::optional<TLE> _west;
 
 		// Texture
 		std::optional<unsigned int> _texture_id;
@@ -116,7 +116,7 @@ class Tile {
 		std::vector<unsigned int> _items;
 
 		// Event
-		std::optional<MapEvent> _event;
+		std::optional<MAV> _event;
 
 		// Various IDs
 		std::optional<unsigned int> _room_id;

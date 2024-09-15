@@ -68,7 +68,7 @@ class Display {
 		auto hide_overlay() -> void;
 		auto display_overlay() -> void;
 		auto shutdown_SFML() -> void;
-		auto display_direction_indicator(MapDirection direction, bool monochrome) -> void;
+		auto display_direction_indicator(MAD direction, bool monochrome) -> void;
 		auto get_bold() const -> bool;
 		auto get_upper() const -> bool;
 		auto get_centre_pos(const sf::Vector2f size) const -> sf::Vector2f;

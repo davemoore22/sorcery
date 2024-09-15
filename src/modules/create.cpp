@@ -210,7 +210,7 @@ auto Sorcery::Create::stop() -> void {
 
 auto Sorcery::Create::_do_event_loop() -> std::optional<MDR> {
 
-	using enum Enums::System::MDR;
+	using enum Enums::System::MessageDialogResult;
 
 	// And do the main loop
 	while (_window->isOpen()) {
@@ -786,14 +786,14 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event) -> std:
 			_character_display->right_view();
 		else if (_system->input->check(CIN::UP, event)) {
 			if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
-				_character_display->dec_hl_spell(SpellType::MAGE);
+				_character_display->dec_hl_spell(SPT::MAGE);
 			else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
-				_character_display->dec_hl_spell(SpellType::PRIEST);
+				_character_display->dec_hl_spell(SPT::PRIEST);
 		} else if (_system->input->check(CIN::DOWN, event)) {
 			if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
-				_character_display->inc_hl_spell(SpellType::MAGE);
+				_character_display->inc_hl_spell(SPT::MAGE);
 			else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
-				_character_display->inc_hl_spell(SpellType::PRIEST);
+				_character_display->inc_hl_spell(SPT::PRIEST);
 		} else if (_system->input->check(CIN::MOVE, event)) {
 			if (_character_display->check_for_mouse_move(
 					sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),

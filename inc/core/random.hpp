@@ -38,11 +38,11 @@ class Random {
 		Random();
 
 		// Overload [] operator
-		auto operator[](const RandomType random_type) -> unsigned int;
+		auto operator[](const RNT random_type) -> unsigned int;
 
 		// Public Methods
 		auto get_random_name() -> std::string;
-		auto get_type(const int num) const -> RandomType;
+		auto get_type(const int num) const -> RNT;
 		auto get(const unsigned int min, const unsigned int max) -> unsigned int;
 
 		// Public Members
@@ -52,13 +52,13 @@ class Random {
 		// Private Members
 		std::random_device _device;
 		std::mt19937_64 _random;
-		std::map<RandomType, Range> _range;
+		std::map<RNT, Range> _range;
 		std::vector<std::string> _sy1;
 		std::vector<std::string> _sy2;
 		std::vector<std::string> _sy3;
 
 		// Private Methods
-		auto _get(const RandomType random_type) -> unsigned int;
+		auto _get(const RNT random_type) -> unsigned int;
 };
 
 }

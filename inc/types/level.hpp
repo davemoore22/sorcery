@@ -36,8 +36,8 @@ class Level {
 
 		// Constructors
 		Level();
-		Level(const MapType type, const std::string dungeon, const int depth, const Coordinate bottom_left,
-			const Size size);
+		Level(
+			const MAT type, const std::string dungeon, const int depth, const Coordinate bottom_left, const Size size);
 
 		// Copy Constructors
 		Level(const Level &other);
@@ -56,7 +56,7 @@ class Level {
 		// Public Methods
 		auto at(const Coordinate loc) -> Tile &;
 		auto at(const int x, const int y) -> Tile &;
-		auto at(const Coordinate loc, const MapDirection direction, const int x, const int z) -> Tile &;
+		auto at(const Coordinate loc, const MAD direction, const int x, const int z) -> Tile &;
 		auto stairs_at(const Coordinate loc) -> bool;
 		auto elevator_at(const Coordinate loc) -> bool;
 		auto bottom_left() const -> Coordinate;
@@ -70,7 +70,7 @@ class Level {
 		auto set(const Level *other) -> void;
 		auto size() const -> Size;
 		auto top_right() const -> Coordinate;
-		auto type() const -> MapType;
+		auto type() const -> MAT;
 		auto wrap_bottom_left() const -> Coordinate;
 		auto wrap_size() const -> Size;
 		auto wrap_top_right() const -> Coordinate;
@@ -78,20 +78,20 @@ class Level {
 	private:
 
 		// Private Members - need getters for these (bot not setters)
-		MapType _type;
+		MAT _type;
 		std::string _dungeon;
 		int _depth;
 		Coordinate _bottom_left;
 		Size _size;
 		std::map<Coordinate, Tile> _tiles;
-		std::map<std::string, MapEvent> _event_mappings;
+		std::map<std::string, MAV> _event_mappings;
 
 		// Private Methods
 		auto _add_tile(const Coordinate location) -> void;
-		auto _convert_edge_simple(const unsigned int wall) const -> std::optional<TileEdge>;
-		auto _convert_edge_se(const unsigned int wall) const -> std::optional<TileEdge>;
+		auto _convert_edge_simple(const unsigned int wall) const -> std::optional<TLE>;
+		auto _convert_edge_se(const unsigned int wall) const -> std::optional<TLE>;
 		auto _create() -> void;
-		auto _convert_edge_nw(const unsigned int wall) const -> std::optional<TileEdge>;
+		auto _convert_edge_nw(const unsigned int wall) const -> std::optional<TLE>;
 		auto _load_simple_walls(const Json::Value row_data) -> bool;
 		auto _update_tile_walls_simple(
 			const Coordinate location, const unsigned int south_wall, const unsigned int east_wall) -> void;
@@ -104,7 +104,7 @@ class Level {
 		auto _load_metadata(const Json::Value note_data) -> bool;
 		auto _update_tile_markers(const Coordinate location, const bool darkness, const unsigned int marker,
 			const unsigned int terrain) -> void;
-		auto _map_event_types(const std::string &string) const -> std::optional<MapEvent>;
+		auto _map_event_types(const std::string &string) const -> std::optional<MAV>;
 		auto _add_event_mappings() -> void;
 };
 

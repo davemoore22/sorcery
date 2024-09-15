@@ -532,7 +532,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 								if (slot_item.has_value()) {
 									auto &item{slot_item.value()};
 									if (!item->get_known()) {
-										auto dice{(*_system->random)[RandomType::D100]};
+										auto dice{(*_system->random)[RNT::D100]};
 										auto result{
 											character->inventory.identify_item(_character_display->get_inventory_item(),
 												dice, character->abilities().at(CAB::IDENTIFY_ITEMS),
@@ -601,15 +601,15 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 						_character_display->right_view();
 					if (_system->input->check(CIN::UP, event)) {
 						if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
-							_character_display->dec_hl_spell(SpellType::MAGE);
+							_character_display->dec_hl_spell(SPT::MAGE);
 						else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
-							_character_display->dec_hl_spell(SpellType::PRIEST);
+							_character_display->dec_hl_spell(SPT::PRIEST);
 
 					} else if (_system->input->check(CIN::DOWN, event)) {
 						if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
-							_character_display->inc_hl_spell(SpellType::MAGE);
+							_character_display->inc_hl_spell(SPT::MAGE);
 						else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
-							_character_display->inc_hl_spell(SpellType::PRIEST);
+							_character_display->inc_hl_spell(SPT::PRIEST);
 					} else if (_system->input->check(CIN::MOVE, event)) {
 						if (_character_display->check_for_mouse_move(
 								sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
@@ -630,15 +630,15 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 							_character_display->right_view();
 						} else if (_system->input->check(CIN::UP, event)) {
 							if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
-								_character_display->dec_hl_spell(SpellType::MAGE);
+								_character_display->dec_hl_spell(SPT::MAGE);
 							else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
-								_character_display->dec_hl_spell(SpellType::PRIEST);
+								_character_display->dec_hl_spell(SPT::PRIEST);
 
 						} else if (_system->input->check(CIN::DOWN, event)) {
 							if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
-								_character_display->inc_hl_spell(SpellType::MAGE);
+								_character_display->inc_hl_spell(SPT::MAGE);
 							else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
-								_character_display->inc_hl_spell(SpellType::PRIEST);
+								_character_display->inc_hl_spell(SPT::PRIEST);
 						} else if (_system->input->check(CIN::MOVE, event)) {
 							if (_character_display->check_for_mouse_move(
 									sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
@@ -724,7 +724,7 @@ auto Sorcery::Inspect::_set_in_item_action_menu(unsigned int character_id, unsig
 
 			// Use
 			_item_action_menu->items[5].enabled =
-				(*_game->itemstore)[item->get_type_id()].get_eff_use() != SpellID::NO_SPELL;
+				(*_game->itemstore)[item->get_type_id()].get_eff_use() != SPI::NO_SPELL;
 
 			// Identify
 			_item_action_menu->items[6].enabled =

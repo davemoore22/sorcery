@@ -48,7 +48,7 @@ class IconStore {
 		// Public Methods
 		auto get(std::string_view key) -> std::optional<sf::Sprite>;
 		auto get(const MIM key) -> std::optional<sf::Sprite>;
-		auto get_event_icon(MapEvent type) -> std::optional<sf::Sprite>;
+		auto get_event_icon(MAV type) -> std::optional<sf::Sprite>;
 
 	private:
 
@@ -62,7 +62,7 @@ class IconStore {
 		Component _layout;
 		std::map<MIM, Icon> _menu_icon_map;
 		std::map<std::string, sf::Sprite> _icon_store;
-		std::map<MapEvent, std::string> _event_icon_mapping;
+		std::map<MAV, std::string> _event_icon_mapping;
 
 		// Private Methods
 		auto _get_rect(unsigned int index) const -> sf::IntRect;

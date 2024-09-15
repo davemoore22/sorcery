@@ -317,9 +317,9 @@ auto Sorcery::Character::set_start_attr() -> void {
 	_cur_attr = _start_attr;
 
 	// Formula sourced from http://www.zimlab.com/wizardry/walk/w123calc.htm
-	_points_left = (*_system->random)[RandomType::ZERO_TO_3];
-	const bool chance_of_more{(*_system->random)[RandomType::D10] == 1};
-	const bool chance_of_more_again{(*_system->random)[RandomType::D10] == 1};
+	_points_left = (*_system->random)[RNT::ZERO_TO_3];
+	const bool chance_of_more{(*_system->random)[RNT::D10] == 1};
+	const bool chance_of_more_again{(*_system->random)[RNT::D10] == 1};
 	_points_left += 7;
 	if (_points_left < 20)
 		if (chance_of_more)
@@ -512,12 +512,12 @@ auto Sorcery::Character::_legate_start_info() -> void {
 	_abilities[DEATHS] = 0;
 
 	// (D7 - 4) is -3 to +3
-	_start_attr[STRENGTH] += ((*_system->random)[RandomType::D7] - 4);
-	_start_attr[IQ] += ((*_system->random)[RandomType::D7] - 4);
-	_start_attr[PIETY] += ((*_system->random)[RandomType::D7] - 4);
-	_start_attr[VITALITY] += ((*_system->random)[RandomType::D7] - 4);
-	_start_attr[AGILITY] += ((*_system->random)[RandomType::D7] - 4);
-	_start_attr[LUCK] += ((*_system->random)[RandomType::D7] - 4);
+	_start_attr[STRENGTH] += ((*_system->random)[RNT::D7] - 4);
+	_start_attr[IQ] += ((*_system->random)[RNT::D7] - 4);
+	_start_attr[PIETY] += ((*_system->random)[RNT::D7] - 4);
+	_start_attr[VITALITY] += ((*_system->random)[RNT::D7] - 4);
+	_start_attr[AGILITY] += ((*_system->random)[RNT::D7] - 4);
+	_start_attr[LUCK] += ((*_system->random)[RNT::D7] - 4);
 
 	auto mage_sp_total{0};
 	for (auto level = 1; level <= 7; level++)
@@ -586,7 +586,7 @@ auto Sorcery::Character::_regenerate_start_info() -> void {
 	_abilities[NEXT_LEVEL_XP] = _get_xp_for_level(_abilities[CURRENT_LEVEL]);
 
 	// https://datadrivengamer.blogspot.com/2019/08/the-not-so-basic-mechanics-of-wizardry.html
-	auto age_increment{(52 * (3 + (*_system->random)[RandomType::D3])) + 44};
+	auto age_increment{(52 * (3 + (*_system->random)[RNT::D3])) + 44};
 	_abilities[AGE] += age_increment;
 
 	// Reset attributes to racial minimums
@@ -666,8 +666,8 @@ auto Sorcery::Character::_generate_start_info() -> void {
 	_abilities[MAX_LEVEL] = 1;
 	_abilities[NEGATIVE_LEVEL] = 0;
 	_abilities[HIT_DICE] = 1;
-	_abilities[GOLD] = (*_system->random)[RandomType::ZERO_TO_99] + 90;
-	_abilities[AGE] = (18 * 52) + (*_system->random)[RandomType::ZERO_TO_299];
+	_abilities[GOLD] = (*_system->random)[RNT::ZERO_TO_99] + 90;
+	_abilities[AGE] = (18 * 52) + (*_system->random)[RNT::ZERO_TO_299];
 	_abilities[SWIM] = 1;
 	_abilities[MARKS] = 0;
 	_abilities[DEATHS] = 0;
@@ -836,7 +836,7 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 		// Base Hit Points (num) - note initially all non-legated characters get 8 HP as per the PSX versions
 		if (initial) {
 
-			switch (auto chance{(*_system->random)[RandomType::D100]}; _class) { // NOLINT(clang-diagnostic-switch)
+			switch (auto chance{(*_system->random)[RNT::D100]}; _class) { // NOLINT(clang-diagnostic-switch)
 			case FIGHTER:
 			case LORD:
 				_abilities[MAX_HP] =
@@ -1140,9 +1140,8 @@ auto Sorcery::Character::_reset_starting_sp() -> void {
 	for (auto spell_level = 1u; spell_level <= 7u; spell_level++) {
 
 		// Handle Priest Spells
-		auto priest_known{static_cast<unsigned int>(std::count_if(_spells.begin(), _spells.end(), [=](auto spell) {
-			return (spell.type == SpellType::PRIEST) && (spell.level == spell_level) && (spell.known);
-		}))};
+		auto priest_known{static_cast<unsigned int>(std::count_if(_spells.begin(), _spells.end(),
+			[=](auto spell) { return (spell.type == SPT::PRIEST) && (spell.level == spell_level) && (spell.known); }))};
 
 		if (_priest_max_sp[spell_level] < priest_known) {
 			_priest_max_sp[spell_level] = priest_known;
@@ -1150,9 +1149,8 @@ auto Sorcery::Character::_reset_starting_sp() -> void {
 		}
 
 		// Handle Mage Spells
-		auto mage_known{static_cast<unsigned int>(std::count_if(_spells.begin(), _spells.end(), [=](auto spell) {
-			return (spell.type == SpellType::MAGE) && (spell.level == spell_level) && (spell.known);
-		}))};
+		auto mage_known{static_cast<unsigned int>(std::count_if(_spells.begin(), _spells.end(),
+			[=](auto spell) { return (spell.type == SPT::MAGE) && (spell.level == spell_level) && (spell.known); }))};
 		if (_mage_max_sp[spell_level] < mage_known) {
 			_mage_max_sp[spell_level] = mage_known;
 			_mage_cur_sp[spell_level] = _mage_max_sp[spell_level];
@@ -1206,7 +1204,7 @@ auto Sorcery::Character::_reset_start_spells() -> void {
 	_set_start_spells();
 }
 
-auto Sorcery::Character::_learn_spell(SpellID spell_id) -> void {
+auto Sorcery::Character::_learn_spell(SPI spell_id) -> void {
 
 	std::vector<Spell>::iterator it;
 	it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) { return item.id == spell_id; });
@@ -1249,22 +1247,22 @@ auto Sorcery::Character::_get_hp_per_level() -> int {
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case FIGHTER:
 	case LORD:
-		extra_hp += (*_system->random)[RandomType::D10];
+		extra_hp += (*_system->random)[RNT::D10];
 		break;
 	case PRIEST:
-		extra_hp += (*_system->random)[RandomType::D8];
+		extra_hp += (*_system->random)[RNT::D8];
 		break;
 	case THIEF:
 	case BISHOP:
 	case NINJA:
-		extra_hp += (*_system->random)[RandomType::D6];
+		extra_hp += (*_system->random)[RNT::D6];
 		break;
 	case MAGE:
-		extra_hp += (*_system->random)[RandomType::D4];
+		extra_hp += (*_system->random)[RNT::D4];
 		break;
 	case SAMURAI:
-		extra_hp += (*_system->random)[RandomType::D8];
-		extra_hp += (*_system->random)[RandomType::D8];
+		extra_hp += (*_system->random)[RNT::D8];
+		extra_hp += (*_system->random)[RNT::D8];
 		break;
 	default:
 		break;
@@ -1324,13 +1322,13 @@ auto Sorcery::Character::_update_stat_for_level(CAR attribute, std::string stat)
 
 	auto message{""s};
 
-	if ((*_system->random)[RandomType::D100] < 75) {
+	if ((*_system->random)[RNT::D100] < 75) {
 		const auto chance{_abilities.at(AGE) / 130.f};
-		if ((*_system->random)[RandomType::D100] < chance) {
+		if ((*_system->random)[RNT::D100] < chance) {
 
 			// Decrease
 			bool proceed{true};
-			if (_cur_attr.at(attribute) == 18 && (*_system->random)[RandomType::D6] > 1)
+			if (_cur_attr.at(attribute) == 18 && (*_system->random)[RNT::D6] > 1)
 				proceed = false;
 
 			if (proceed) {
@@ -1466,15 +1464,15 @@ auto Sorcery::Character::level_down() -> void {
 }
 
 // For each spell level, try to learn spells - called before set_spellpoints
-auto Sorcery::Character::_try_learn_spell(SpellType spell_type, unsigned int spell_level) -> bool {
+auto Sorcery::Character::_try_learn_spell(SPT spell_type, unsigned int spell_level) -> bool {
 
 	bool new_spell_learnt{false};
 
 	// Only do spells if a character has available spell points in this spell level
-	if (spell_type == SpellType::PRIEST)
+	if (spell_type == SPT::PRIEST)
 		if (_priest_max_sp[spell_level] == 0)
 			return false;
-	if (spell_type == SpellType::MAGE)
+	if (spell_type == SPT::MAGE)
 		if (_mage_max_sp[spell_level] == 0)
 			return false;
 
@@ -1484,17 +1482,17 @@ auto Sorcery::Character::_try_learn_spell(SpellType spell_type, unsigned int spe
 	})};
 	for (auto &spell : spells) {
 
-		const auto dice{(*_system->random)[RandomType::ZERO_TO_29]};
+		const auto dice{(*_system->random)[RNT::ZERO_TO_29]};
 
 		// Check the Spell Type against the relevant stat (see SPLPERLV//TRYLEARN)
-		if (spell_type == SpellType::PRIEST) {
+		if (spell_type == SPT::PRIEST) {
 			if (dice <= static_cast<unsigned int>(_cur_attr[CAR::PIETY])) {
 				spell.known = true;
 				_spells_known[spell.id] = true;
 				new_spell_learnt = true;
 			}
 		}
-		if (spell_type == SpellType::MAGE) {
+		if (spell_type == SPT::MAGE) {
 			if (dice <= static_cast<unsigned int>(_cur_attr[CAR::IQ])) {
 				spell.known = true;
 				_spells_known[spell.id] = true;
@@ -1507,12 +1505,11 @@ auto Sorcery::Character::_try_learn_spell(SpellType spell_type, unsigned int spe
 }
 
 // Reimplementation of SPLPERLV - note this will reset spell points!
-auto Sorcery::Character::_calculate_sp(SpellType spell_type, unsigned int level_mod, unsigned int level_offset)
-	-> void {
+auto Sorcery::Character::_calculate_sp(SPT spell_type, unsigned int level_mod, unsigned int level_offset) -> void {
 
 	using enum Enums::Character::Ability;
 
-	SpellPoints *spells{spell_type == SpellType::PRIEST ? &_priest_max_sp : &_mage_max_sp};
+	SpellPoints *spells{spell_type == SPT::PRIEST ? &_priest_max_sp : &_mage_max_sp};
 	for (auto spell_level = 1; spell_level <= 7; spell_level++)
 		(*spells)[spell_level] = 0;
 
@@ -1549,20 +1546,20 @@ auto Sorcery::Character::_set_sp() -> bool {
 	case NINJA:
 		break;
 	case MAGE:
-		_calculate_sp(SpellType::MAGE, 0, 2);
+		_calculate_sp(SPT::MAGE, 0, 2);
 		break;
 	case PRIEST:
-		_calculate_sp(SpellType::PRIEST, 0, 2);
+		_calculate_sp(SPT::PRIEST, 0, 2);
 		break;
 	case BISHOP:
-		_calculate_sp(SpellType::PRIEST, 3, 4);
-		_calculate_sp(SpellType::MAGE, 0, 4);
+		_calculate_sp(SPT::PRIEST, 3, 4);
+		_calculate_sp(SPT::MAGE, 0, 4);
 		break;
 	case SAMURAI:
-		_calculate_sp(SpellType::MAGE, 3, 3);
+		_calculate_sp(SPT::MAGE, 3, 3);
 		break;
 	case LORD:
-		_calculate_sp(SpellType::PRIEST, 3, 2);
+		_calculate_sp(SPT::PRIEST, 3, 2);
 		break;
 	default:
 		break;
@@ -1574,11 +1571,11 @@ auto Sorcery::Character::_set_sp() -> bool {
 		// If we know at least one spell in this level, we can always try and learn more no matter what even if we are
 		// currently a non-spellcasting class
 		if (_priest_max_sp[spell_level] > 0) {
-			if (_try_learn_spell(SpellType::PRIEST, spell_level))
+			if (_try_learn_spell(SPT::PRIEST, spell_level))
 				new_spells_learnt = true;
 		}
 		if (_mage_max_sp[spell_level] > 0) {
-			if (_try_learn_spell(SpellType::MAGE, spell_level))
+			if (_try_learn_spell(SPT::MAGE, spell_level))
 				new_spells_learnt = true;
 		}
 	}
@@ -1588,7 +1585,7 @@ auto Sorcery::Character::_set_sp() -> bool {
 	// so it might not be applicable?
 	for (auto spell_level = 1; spell_level <= 7; spell_level++) {
 
-		if (_priest_max_sp[spell_level] > 0 && _get_spells_known(SpellType::PRIEST, spell_level) == 0) {
+		if (_priest_max_sp[spell_level] > 0 && _get_spells_known(SPT::PRIEST, spell_level) == 0) {
 			switch (spell_level) {
 			case 1:
 				_learn_spell(BADIOS);
@@ -1598,7 +1595,7 @@ auto Sorcery::Character::_set_sp() -> bool {
 				new_spells_learnt = true;
 				break;
 			case 3:
-				if ((*_system->random)[RandomType::D100] > 33)
+				if ((*_system->random)[RNT::D100] > 33)
 					_learn_spell(DIALKO);
 				else
 					_learn_spell(LOMILWA);
@@ -1609,14 +1606,14 @@ auto Sorcery::Character::_set_sp() -> bool {
 				new_spells_learnt = true;
 				break;
 			case 5:
-				if ((*_system->random)[RandomType::D100] > 33)
+				if ((*_system->random)[RNT::D100] > 33)
 					_learn_spell(BADIALMA);
 				else
 					_learn_spell(BADI);
 				new_spells_learnt = true;
 				break;
 			case 6:
-				if ((*_system->random)[RandomType::D100] > 33)
+				if ((*_system->random)[RNT::D100] > 33)
 					_learn_spell(LORTO);
 				else
 					_learn_spell(MABADI);
@@ -1630,45 +1627,45 @@ auto Sorcery::Character::_set_sp() -> bool {
 				break;
 			}
 		}
-		if (_mage_max_sp[spell_level] > 0 && _get_spells_known(SpellType::MAGE, spell_level) == 0) {
+		if (_mage_max_sp[spell_level] > 0 && _get_spells_known(SPT::MAGE, spell_level) == 0) {
 			switch (spell_level) {
 			case 1:
-				if ((*_system->random)[RandomType::D100] > 33)
+				if ((*_system->random)[RNT::D100] > 33)
 					_learn_spell(KATINO);
 				else
 					_learn_spell(HALITO);
 				new_spells_learnt = true;
 				break;
 			case 2:
-				if ((*_system->random)[RandomType::D100] > 33)
+				if ((*_system->random)[RNT::D100] > 33)
 					_learn_spell(DILTO);
 				else
 					_learn_spell(SOPIC);
 				new_spells_learnt = true;
 				break;
 			case 3:
-				if ((*_system->random)[RandomType::D100] > 33)
+				if ((*_system->random)[RNT::D100] > 33)
 					_learn_spell(MOLITO);
 				else
 					_learn_spell(MAHALITO);
 				new_spells_learnt = true;
 				break;
 			case 4:
-				if ((*_system->random)[RandomType::D100] > 33)
+				if ((*_system->random)[RNT::D100] > 33)
 					_learn_spell(DALTO);
 				else
 					_learn_spell(LAHALITO);
 				new_spells_learnt = true;
 				break;
 			case 5:
-				if ((*_system->random)[RandomType::D100] > 33)
+				if ((*_system->random)[RNT::D100] > 33)
 					_learn_spell(MAMORLIS);
 				else
 					_learn_spell(MADALTO);
 				new_spells_learnt = true;
 				break;
 			case 6:
-				if ((*_system->random)[RandomType::D100] > 33)
+				if ((*_system->random)[RNT::D100] > 33)
 					_learn_spell(LAKANITO);
 				else
 					_learn_spell(ZILWAN);
@@ -1691,8 +1688,8 @@ auto Sorcery::Character::_set_sp() -> bool {
 		if ((spell_level * 2) - 1 > _abilities.at(MAX_LEVEL))
 			continue;
 
-		const auto priest_known{_get_spells_known(SpellType::PRIEST, spell_level)};
-		const auto mage_known{_get_spells_known(SpellType::MAGE, spell_level)};
+		const auto priest_known{_get_spells_known(SPT::PRIEST, spell_level)};
+		const auto mage_known{_get_spells_known(SPT::MAGE, spell_level)};
 
 		if (priest_known > _priest_max_sp[spell_level])
 			_priest_max_sp[spell_level] = priest_known;
@@ -1710,7 +1707,7 @@ auto Sorcery::Character::_set_sp() -> bool {
 }
 
 // In the original code this is from SPLPERLV
-auto Sorcery::Character::_get_spells_known(SpellType spell_type, unsigned int spell_level) -> unsigned int {
+auto Sorcery::Character::_get_spells_known(SPT spell_type, unsigned int spell_level) -> unsigned int {
 
 	return std::ranges::count_if(_spells.begin(), _spells.end(),
 		[&](auto spell) { return spell.type == spell_type && spell.level == spell_level && spell.known; });
@@ -1935,7 +1932,7 @@ auto Sorcery::Character::create_class_alignment(const CharacterClass cclass, con
 	using enum Enums::Character::Race;
 
 	_class = cclass;
-	_race = static_cast<CharacterRace>((*_system->random)[RandomType::D5]);
+	_race = static_cast<CharacterRace>((*_system->random)[RNT::D5]);
 	_alignment = alignment;
 
 	switch (_race) { // NOLINT(clang-diagnostic-switch)
@@ -1998,7 +1995,7 @@ auto Sorcery::Character::create_class_alignment(const CharacterClass cclass, con
 	_cur_attr = _start_attr;
 
 	_name = _system->random->get_random_name();
-	_portrait_index = (*_system->random)[RandomType::ZERO_TO_29];
+	_portrait_index = (*_system->random)[RNT::ZERO_TO_29];
 }
 
 // Enter Name and Portrait, rest is random
@@ -2010,18 +2007,18 @@ auto Sorcery::Character::create_quick() -> void {
 	using enum Enums::Character::Race;
 
 	// Exclude Samurai/Lord/Ninja/Bishop from this method of character creation
-	_class = static_cast<CharacterClass>((*_system->random)[RandomType::D4]);
-	_race = static_cast<CharacterRace>((*_system->random)[RandomType::D5]);
+	_class = static_cast<CharacterClass>((*_system->random)[RNT::D4]);
+	_race = static_cast<CharacterRace>((*_system->random)[RNT::D5]);
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case FIGHTER:
 	case MAGE:
-		_alignment = static_cast<CAL>((*_system->random)[RandomType::D3]);
+		_alignment = static_cast<CAL>((*_system->random)[RNT::D3]);
 		break;
 	case PRIEST:
-		_alignment = (*_system->random)[RandomType::D2] == 1 ? GOOD : EVIL;
+		_alignment = (*_system->random)[RNT::D2] == 1 ? GOOD : EVIL;
 		break;
 	case THIEF:
-		_alignment = (*_system->random)[RandomType::D2] == 1 ? NEUTRAL : EVIL;
+		_alignment = (*_system->random)[RNT::D2] == 1 ? NEUTRAL : EVIL;
 		break;
 	default:
 		break;
@@ -2089,7 +2086,7 @@ auto Sorcery::Character::create_random() -> void {
 	// Random Name and Portrait
 	create_quick();
 	_name = _system->random->get_random_name();
-	_portrait_index = (*_system->random)[RandomType::ZERO_TO_29];
+	_portrait_index = (*_system->random)[RNT::ZERO_TO_29];
 }
 
 auto Sorcery::Character::get_status() const -> CharacterStatus {
@@ -2295,10 +2292,9 @@ auto Sorcery::Character::get_hp_summary() const -> std::string {
 		get_hp_adjustment_symbol());
 }
 
-auto Sorcery::Character::get_spell_points(const SpellType type, const SpellPointStatus status) const
-	-> std::optional<SpellPoints> {
+auto Sorcery::Character::get_spell_points(const SPT type, const SPS status) const -> std::optional<SpellPoints> {
 
-	using enum Enums::Magic::SpellPointStatus;
+	using enum Enums::Magic::SpellPointType;
 	using enum Enums::Magic::SpellType;
 
 	if (type == MAGE && status == CURRENT)
@@ -2313,9 +2309,9 @@ auto Sorcery::Character::get_spell_points(const SpellType type, const SpellPoint
 		return std::nullopt;
 }
 
-auto Sorcery::Character::_get_sp_per_level(const SpellType type, int level) -> std::string {
+auto Sorcery::Character::_get_sp_per_level(const SPT type, int level) -> std::string {
 
-	if (type == SpellType::MAGE)
+	if (type == SPT::MAGE)
 		return fmt::format("{}/{}", std::to_string(_mage_cur_sp[level]), std::to_string(_mage_max_sp[level]));
 	else
 		return fmt::format("{}/{}", std::to_string(_priest_cur_sp[level]), std::to_string(_priest_max_sp[level]));

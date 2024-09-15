@@ -34,8 +34,7 @@
 #include "resources/iconstore.hpp"
 
 // Standard Constructor
-Sorcery::Event::Event(
-	System *system, Display *display, Graphics *graphics, Game *game, MapEvent type, unsigned int stage)
+Sorcery::Event::Event(System *system, Display *display, Graphics *graphics, Game *game, MAV type, unsigned int stage)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _type{type}, _stage{stage} {
 
 	using enum Enums::Map::Event;

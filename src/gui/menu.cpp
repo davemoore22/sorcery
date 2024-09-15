@@ -865,7 +865,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 				text.setString(text_string);
 
 				// Check for alignment and set location appropriately
-				auto entry_x{(component.justification == Justification::CENTRE) ? texture_w / 2 : 0};
+				auto entry_x{(component.justification == JUS::CENTRE) ? texture_w / 2 : 0};
 				text.setPosition(entry_x - text.getLocalBounds().left, entry_y - text.getLocalBounds().top);
 
 				// If we have a selected entry, change the background colour
@@ -891,7 +891,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 				// Handle Justification
 				if (_type == OPTIONS || _type == ALLOCATE_CHARACTER_ATTRIBUTES) {
 					if (item.type == ENTRY) {
-						if (component.justification == Justification::CENTRE)
+						if (component.justification == JUS::CENTRE)
 							text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
 					} else if (item.type == SAVE || item.type == CANCEL) {
 						entry_x = (component.width * _display->window->get_cw()) / 2;
@@ -903,10 +903,10 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 					// Override Justification for Invalid Characters so that it looks better
 					if (item.item == MIM::IC_CHARACTER)
 						text.setOrigin(0, 0);
-					else if (component.justification == Justification::CENTRE)
+					else if (component.justification == JUS::CENTRE)
 						text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
 				} else {
-					if (component.justification == Justification::CENTRE)
+					if (component.justification == JUS::CENTRE)
 						text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
 				}
 
