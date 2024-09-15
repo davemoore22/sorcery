@@ -68,8 +68,8 @@ class AttributeDisplay: public sf::Transformable, public sf::Drawable {
 
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
-		auto _get_bar(CharacterAttribute attribute) -> sf::RectangleShape;
-		auto _get_text(CharacterAttribute attribute) -> sf::Text;
+		auto _get_bar(CAR attribute) -> sf::RectangleShape;
+		auto _get_text(CAR attribute) -> sf::Text;
 
 		// Private Members
 		System *_system;

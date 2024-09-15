@@ -250,7 +250,7 @@ auto Sorcery::AttributeDisplay::set() -> void {
 	valid = true;
 }
 
-auto Sorcery::AttributeDisplay::_get_text(CharacterAttribute attribute) -> sf::Text {
+auto Sorcery::AttributeDisplay::_get_text(CAR attribute) -> sf::Text {
 
 	if (_alignment == Alignment::VERTICAL) {
 
@@ -273,7 +273,7 @@ auto Sorcery::AttributeDisplay::_get_text(CharacterAttribute attribute) -> sf::T
 	}
 }
 
-auto Sorcery::AttributeDisplay::_get_bar(CharacterAttribute attribute) -> sf::RectangleShape {
+auto Sorcery::AttributeDisplay::_get_bar(CAR attribute) -> sf::RectangleShape {
 
 	// Generate three bars which will simply be put on top of each other
 	if (_alignment == Alignment::VERTICAL) {

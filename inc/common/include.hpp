@@ -86,11 +86,11 @@
 // Aliases
 namespace Sorcery {
 
-using CharacterAbility = Enums::Character::Ability;
-using CharacterAbilityType = Enums::Character::Ability_Type;
+using CAB = Enums::Character::Ability;
+using CAT = Enums::Character::Ability_Type;
 using CharacterAbilities = std::map<Enums::Character::Ability, int>;
-using CharacterAlignment = Enums::Character::Align;
-using CharacterAttribute = Enums::Character::Attribute;
+using CAL = Enums::Character::Align;
+using CAR = Enums::Character::Attribute;
 using CharacterAttributes = std::map<Enums::Character::Attribute, int>;
 using CharacterClass = Enums::Character::Class;
 using CharacterClassList = std::map<Enums::Character::Class, std::string>;

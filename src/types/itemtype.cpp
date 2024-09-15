@@ -200,7 +200,7 @@ auto Sorcery::ItemType::is_class_usable(const CharacterClass cclass) const -> bo
 	return _usable[cc];
 }
 
-auto Sorcery::ItemType::is_align_usable(const CharacterAlignment calign) const -> bool {
+auto Sorcery::ItemType::is_align_usable(const CAL calign) const -> bool {
 
 	auto ca{unenum(calign)};
 

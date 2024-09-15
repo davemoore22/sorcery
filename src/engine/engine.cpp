@@ -2113,7 +2113,7 @@ auto Sorcery::Engine::_pit_oops() -> void {
 	for (auto &[character_id, character] : _game->characters) {
 		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
 
-			const auto chance{(character.get_cur_attr(CharacterAttribute::AGILITY) - _game->state->get_depth()) * 4};
+			const auto chance{(character.get_cur_attr(CAR::AGILITY) - _game->state->get_depth()) * 4};
 			const auto roll((*_system->random)[RandomType::D100]);
 			_game->state->add_log_dice_roll(
 				fmt::format("{:>16} - {}", character.get_name(), "Avoid Pit"), 100, roll, chance);

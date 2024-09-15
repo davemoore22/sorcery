@@ -48,7 +48,7 @@ class Character {
 		~Character() = default;
 
 		// Overloaded Operators
-		auto operator[](const CharacterAbility &key) -> int &;
+		auto operator[](const CAB &key) -> int &;
 		auto friend operator<<(std::ostream &out_stream, const Character &character) -> std::ostream &;
 
 		// Serialisation
@@ -66,12 +66,12 @@ class Character {
 		auto finalise() -> void;
 		auto level_up() -> std::string;
 		auto level_down() -> void;
-		auto alignment_to_str(const CharacterAlignment alignment) const -> std::string;
+		auto alignment_to_str(const CAL alignment) const -> std::string;
 		auto race_to_str(const CharacterRace race) const -> std::string;
 		auto class_to_str(const CharacterClass cclass) const -> std::string;
 		auto create_random() -> void;
 		auto create_quick() -> void;
-		auto create_class_alignment(const CharacterClass cclass, const CharacterAlignment alignment) -> void;
+		auto create_class_alignment(const CharacterClass cclass, const CAL alignment) -> void;
 		auto set_start_attr() -> void;
 		auto get_name() const -> std::string;
 		auto get_name_and_loc() const -> std::string;
@@ -85,8 +85,8 @@ class Character {
 		auto set_level(const int &value) -> void;
 		auto get_class() const -> CharacterClass;
 		auto set_class(const CharacterClass &value) -> void;
-		auto get_alignment() const -> CharacterAlignment;
-		auto set_alignment(const CharacterAlignment &value) -> void;
+		auto get_alignment() const -> CAL;
+		auto set_alignment(const CAL &value) -> void;
 		auto get_cur_attr() const -> CharacterAttributes;
 		auto get_pos_class() const -> CharacterClassQualified;
 		auto get_start_attr() const -> CharacterAttributes;
@@ -97,9 +97,9 @@ class Character {
 		auto set_start_points(const unsigned int &value) -> void;
 		auto get_condition() const -> std::string;
 		auto get_short_cond() const -> std::string;
-		auto get_cur_attr(const CharacterAttribute attribute) const -> unsigned int;
-		auto get_start_attr(const CharacterAttribute attribute) const -> unsigned int;
-		auto set_cur_attr(const CharacterAttribute attribute, const int adjustment) -> void;
+		auto get_cur_attr(const CAR attribute) const -> unsigned int;
+		auto get_start_attr(const CAR attribute) const -> unsigned int;
+		auto set_cur_attr(const CAR attribute, const int adjustment) -> void;
 		auto get_portrait_index() const -> unsigned int;
 		auto set_portrait_index(const unsigned int value) -> void;
 		auto get_spell_points(const SpellType type, const SpellPointStatus status) const -> std::optional<SpellPoints>;
@@ -126,7 +126,7 @@ class Character {
 		auto get_hp_summary() const -> std::string;
 		auto get_short_hp_summary() const -> std::string;
 		auto change_class(const CharacterClass &value) -> void;
-		auto legate(const CharacterAlignment &value) -> void;
+		auto legate(const CAL &value) -> void;
 		auto is_legated() const -> bool;
 		auto get_version() const -> int;
 		auto get_sb_text(const int position) -> std::string;
@@ -187,10 +187,10 @@ class Character {
 		auto _get_priest_status(bool current) -> std::string;
 		auto _get_sp_per_level(const SpellType type, int level) -> std::string;
 		auto _get_condition() const -> std::string;
-		auto _update_stat_for_level(CharacterAttribute attribute, std::string stat) -> std::string;
+		auto _update_stat_for_level(CAR attribute, std::string stat) -> std::string;
 		auto _learn_spell(SpellID spell_id) -> void;
-		auto _damage(
-			const unsigned int adjustment) -> bool; // returns true is character is alive, or dead if damage was fatal
+		auto _damage(const unsigned int adjustment)
+			-> bool; // returns true is character is alive, or dead if damage was fatal
 		auto _heal(const unsigned int adjustment) -> void;
 
 		// Private Members
@@ -211,7 +211,7 @@ class Character {
 		std::string _name;
 		CharacterRace _race;
 		CharacterClass _class;
-		CharacterAlignment _alignment;
+		CAL _alignment;
 		CharacterAttributes _start_attr;
 		CharacterAttributes _cur_attr;
 		CharacterAttributes _max_attr;

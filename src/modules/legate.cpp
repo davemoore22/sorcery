@@ -99,7 +99,7 @@ Sorcery::Legate::Legate(System *system, Display *display, Graphics *graphics, Ch
 Sorcery::Legate::~Legate() {
 }
 
-auto Sorcery::Legate::start() -> std::optional<CharacterAlignment> {
+auto Sorcery::Legate::start() -> std::optional<CAL> {
 
 	using enum Enums::Character::Align;
 

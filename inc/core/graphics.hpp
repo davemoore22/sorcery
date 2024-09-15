@@ -46,7 +46,7 @@ class Graphics {
 		Graphics() = default;
 
 		// Public Methods
-		auto adjust_colour(int value, CharacterAbilityType ability_type) -> unsigned long long;
+		auto adjust_colour(int value, CAT ability_type) -> unsigned long long;
 		auto adjust_status_colour(Enums::Character::CStatus value, bool poisoned) -> unsigned long long;
 		auto adjust_brightness(sf::Color colour, double colour_lerp) -> unsigned long long;
 		auto get_background_sprite() -> sf::Sprite;

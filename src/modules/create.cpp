@@ -536,7 +536,7 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 	else if (_system->input->check(CIN::LEFT, event) || _system->input->check(CIN::BACK, event) ||
 			 _system->input->check(CIN::DELETE, event)) {
 		if (selected) {
-			std::optional<CharacterAttribute> stat_to_adjust{};
+			std::optional<CAR> stat_to_adjust{};
 			switch (selected.value()->item) {
 			case CS_STRENGTH:
 				stat_to_adjust = STRENGTH;
@@ -588,7 +588,7 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 		}
 
 		if (selected) {
-			std::optional<CharacterAttribute> stat_to_adjust{};
+			std::optional<CAR> stat_to_adjust{};
 			switch (selected.value()->item) {
 			case CS_STRENGTH:
 				stat_to_adjust = STRENGTH;

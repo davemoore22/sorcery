@@ -535,8 +535,8 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 										auto dice{(*_system->random)[RandomType::D100]};
 										auto result{
 											character->inventory.identify_item(_character_display->get_inventory_item(),
-												dice, character->abilities().at(CharacterAbility::IDENTIFY_ITEMS),
-												character->abilities().at(CharacterAbility::IDENTIFY_CURSE))};
+												dice, character->abilities().at(CAB::IDENTIFY_ITEMS),
+												character->abilities().at(CAB::IDENTIFY_CURSE))};
 
 										if (result == CURSED_FAIL || result == CURSED_SUCCESS)
 											_in_cursed = true;

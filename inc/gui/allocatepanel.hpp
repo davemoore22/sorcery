@@ -56,8 +56,7 @@ class AllocatePanel: public sf::Transformable, public sf::Drawable {
 	private:
 
 		// Private Methods
-		auto _get_bar(CharacterAttribute attribute) const
-			-> std::tuple<sf::RectangleShape, sf::RectangleShape, sf::RectangleShape>;
+		auto _get_bar(CAR attribute) const -> std::tuple<sf::RectangleShape, sf::RectangleShape, sf::RectangleShape>;
 		auto _set_icons() -> void;
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 

@@ -101,7 +101,7 @@ auto Sorcery::AllocatePanel::set() -> void {
 		sf::Text text{};
 		text.setFont(_system->resources->fonts[_layout.font]);
 		text.setCharacterSize(_layout.size);
-		text.setFillColor(sf::Color(_graphics->adjust_colour(value, CharacterAbilityType::STAT)));
+		text.setFillColor(sf::Color(_graphics->adjust_colour(value, CAT::STAT)));
 		text.setString(fmt::format("{:>2}", value));
 		// text.setOrigin(0, text.getLocalBounds().height / 2.0f);
 		text.setPosition(x, (y * _display->window->get_ch()));
@@ -138,8 +138,8 @@ auto Sorcery::AllocatePanel::set() -> void {
 	_set_icons();
 }
 
-auto Sorcery::AllocatePanel::_get_bar(
-	CharacterAttribute attribute) const -> std::tuple<sf::RectangleShape, sf::RectangleShape, sf::RectangleShape> {
+auto Sorcery::AllocatePanel::_get_bar(CAR attribute) const
+	-> std::tuple<sf::RectangleShape, sf::RectangleShape, sf::RectangleShape> {
 
 	// Generate three bars which will simply be put on top of each other
 	sf::RectangleShape base(sf::Vector2f((_stat_bar.w * _character->get_start_attr(attribute) / 2), _stat_bar.h / 2));

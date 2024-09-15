@@ -641,7 +641,7 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 		}
 		break;
 	case MTP::CHOOSE_CHARACTER_ALIGNMENT:
-		switch (std::any_cast<CharacterAlignment>(option)) {
+		switch (std::any_cast<CAL>(option)) {
 		case EVIL:
 			search_for = CA_EVIL;
 			break;

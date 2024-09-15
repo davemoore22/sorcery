@@ -51,7 +51,7 @@ class Legate {
 		// Public Members
 
 		// Public Methods
-		auto start() -> std::optional<CharacterAlignment>;
+		auto start() -> std::optional<CAL>;
 		auto stop() -> void;
 
 	private:

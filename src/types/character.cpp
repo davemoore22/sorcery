@@ -60,7 +60,7 @@ Sorcery::Character::Character(System *system, Display *display, Graphics *graphi
 }
 
 // Overloaded Operator
-auto Sorcery::Character::operator[](const CharacterAbility &key) -> int & {
+auto Sorcery::Character::operator[](const CAB &key) -> int & {
 
 	return _abilities[key];
 }
@@ -217,12 +217,12 @@ auto Sorcery::Character::set_level(const int &value) -> void {
 	_abilities.at(CURRENT_LEVEL) = value;
 }
 
-auto Sorcery::Character::get_alignment() const -> CharacterAlignment {
+auto Sorcery::Character::get_alignment() const -> CAL {
 
 	return _alignment;
 }
 
-auto Sorcery::Character::set_alignment(const CharacterAlignment &value) -> void {
+auto Sorcery::Character::set_alignment(const CAL &value) -> void {
 
 	_alignment = value;
 }
@@ -262,17 +262,17 @@ auto Sorcery::Character::set_start_points(const unsigned int &value) -> void {
 	_st_points = value;
 }
 
-auto Sorcery::Character::get_cur_attr(const CharacterAttribute attribute) const -> unsigned int {
+auto Sorcery::Character::get_cur_attr(const CAR attribute) const -> unsigned int {
 
 	return _cur_attr.at(attribute);
 }
 
-auto Sorcery::Character::get_start_attr(const CharacterAttribute attribute) const -> unsigned int {
+auto Sorcery::Character::get_start_attr(const CAR attribute) const -> unsigned int {
 
 	return _start_attr.at(attribute);
 }
 
-auto Sorcery::Character::set_cur_attr(const CharacterAttribute attribute, const int adjustment) -> void {
+auto Sorcery::Character::set_cur_attr(const CAR attribute, const int adjustment) -> void {
 
 	_cur_attr.at(attribute) += adjustment;
 }
@@ -426,7 +426,7 @@ auto Sorcery::Character::set_pos_class() -> void {
 }
 
 // Enum to String functions
-auto Sorcery::Character::alignment_to_str(CharacterAlignment character_alignment) const -> std::string {
+auto Sorcery::Character::alignment_to_str(CAL character_alignment) const -> std::string {
 
 	static const std::array<std::string, 4> alignments{"", (*_display->string)["CHARACTER_ALIGNMENT_GOOD"],
 		(*_display->string)["CHARACTER_ALIGNMENT_NEUTRAL"], (*_display->string)["CHARACTER_ALIGNMENT_EVIL"]};
@@ -615,7 +615,7 @@ auto Sorcery::Character::_regenerate_start_info() -> void {
 }
 
 // Legate
-auto Sorcery::Character::legate(const CharacterAlignment &value) -> void {
+auto Sorcery::Character::legate(const CAL &value) -> void {
 
 	if (_alignment != value)
 		_alignment = value;
@@ -1317,7 +1317,7 @@ auto Sorcery::Character::get_max_hp() const -> int {
 	return _abilities.at(MAX_HP);
 }
 
-auto Sorcery::Character::_update_stat_for_level(CharacterAttribute attribute, std::string stat) -> std::string {
+auto Sorcery::Character::_update_stat_for_level(CAR attribute, std::string stat) -> std::string {
 
 	using enum Enums::Character::Ability;
 	using enum Enums::Character::Attribute;
@@ -1488,14 +1488,14 @@ auto Sorcery::Character::_try_learn_spell(SpellType spell_type, unsigned int spe
 
 		// Check the Spell Type against the relevant stat (see SPLPERLV//TRYLEARN)
 		if (spell_type == SpellType::PRIEST) {
-			if (dice <= static_cast<unsigned int>(_cur_attr[CharacterAttribute::PIETY])) {
+			if (dice <= static_cast<unsigned int>(_cur_attr[CAR::PIETY])) {
 				spell.known = true;
 				_spells_known[spell.id] = true;
 				new_spell_learnt = true;
 			}
 		}
 		if (spell_type == SpellType::MAGE) {
-			if (dice <= static_cast<unsigned int>(_cur_attr[CharacterAttribute::IQ])) {
+			if (dice <= static_cast<unsigned int>(_cur_attr[CAR::IQ])) {
 				spell.known = true;
 				_spells_known[spell.id] = true;
 				new_spell_learnt = true;
@@ -1507,8 +1507,8 @@ auto Sorcery::Character::_try_learn_spell(SpellType spell_type, unsigned int spe
 }
 
 // Reimplementation of SPLPERLV - note this will reset spell points!
-auto Sorcery::Character::_calculate_sp(
-	SpellType spell_type, unsigned int level_mod, unsigned int level_offset) -> void {
+auto Sorcery::Character::_calculate_sp(SpellType spell_type, unsigned int level_mod, unsigned int level_offset)
+	-> void {
 
 	using enum Enums::Character::Ability;
 
@@ -1927,8 +1927,7 @@ auto Sorcery::Character::replenish_spells() -> void {
 }
 
 // Given an Alignment and a Class, create a character
-auto Sorcery::Character::create_class_alignment(
-	const CharacterClass cclass, const CharacterAlignment alignment) -> void {
+auto Sorcery::Character::create_class_alignment(const CharacterClass cclass, const CAL alignment) -> void {
 
 	using enum Enums::Character::Align;
 	using enum Enums::Character::Attribute;
@@ -2016,7 +2015,7 @@ auto Sorcery::Character::create_quick() -> void {
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case FIGHTER:
 	case MAGE:
-		_alignment = static_cast<CharacterAlignment>((*_system->random)[RandomType::D3]);
+		_alignment = static_cast<CAL>((*_system->random)[RandomType::D3]);
 		break;
 	case PRIEST:
 		_alignment = (*_system->random)[RandomType::D2] == 1 ? GOOD : EVIL;
@@ -2108,7 +2107,7 @@ auto Sorcery::Character::get_short_cond() const -> std::string {
 	if (_status != CharacterStatus::OK)
 		return fmt::format("{:>6}", _get_condition());
 	else
-		return fmt::format("{:>4}", _abilities.at(CharacterAbility::MAX_HP));
+		return fmt::format("{:>4}", _abilities.at(CAB::MAX_HP));
 }
 
 auto Sorcery::Character::_get_condition() const -> std::string {
@@ -2296,8 +2295,8 @@ auto Sorcery::Character::get_hp_summary() const -> std::string {
 		get_hp_adjustment_symbol());
 }
 
-auto Sorcery::Character::get_spell_points(
-	const SpellType type, const SpellPointStatus status) const -> std::optional<SpellPoints> {
+auto Sorcery::Character::get_spell_points(const SpellType type, const SpellPointStatus status) const
+	-> std::optional<SpellPoints> {
 
 	using enum Enums::Magic::SpellPointStatus;
 	using enum Enums::Magic::SpellType;

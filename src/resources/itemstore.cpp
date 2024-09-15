@@ -294,14 +294,14 @@ auto Sorcery::ItemStore::get_an_item(const ItemTypeID item_type_id) const -> Ite
 	return Item{_items.at(item_type_id)};
 }
 
-auto Sorcery::ItemStore::is_usable(
-	const ItemTypeID item_type_id, const CharacterClass cclass, const CharacterAlignment calign) const -> bool {
+auto Sorcery::ItemStore::is_usable(const ItemTypeID item_type_id, const CharacterClass cclass, const CAL calign) const
+	-> bool {
 
 	return _items.at(item_type_id).is_class_usable(cclass) && _items.at(item_type_id).is_align_usable(calign);
 }
 
-auto Sorcery::ItemStore::get_random_item(
-	const ItemTypeID min_item_type_id, const ItemTypeID max_item_type_id) const -> Item {
+auto Sorcery::ItemStore::get_random_item(const ItemTypeID min_item_type_id, const ItemTypeID max_item_type_id) const
+	-> Item {
 
 	// TODO: probably needs some bounds checking on this
 	auto item_type_id{_system->random->get(unenum(min_item_type_id), unenum(max_item_type_id))};

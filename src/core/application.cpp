@@ -135,7 +135,7 @@ auto Sorcery::Application::_quickstart() -> void {
 	_game->create_game();
 
 	// Create a new random party
-	auto party_alignment{(*system->random)[RandomType::D2] == 1 ? CharacterAlignment::GOOD : CharacterAlignment::EVIL};
+	auto party_alignment{(*system->random)[RandomType::D2] == 1 ? CAL::GOOD : CAL::EVIL};
 	for (int i = 0; i < 6; i++) {
 		auto pc{Character(system.get(), display.get(), graphics.get(), _game->itemstore.get())};
 		switch (i) {
@@ -143,10 +143,10 @@ auto Sorcery::Application::_quickstart() -> void {
 			pc.create_class_alignment(CharacterClass::FIGHTER, party_alignment);
 			break;
 		case 1:
-			pc.create_class_alignment(CharacterClass::FIGHTER, CharacterAlignment::NEUTRAL);
+			pc.create_class_alignment(CharacterClass::FIGHTER, CAL::NEUTRAL);
 			break;
 		case 2:
-			pc.create_class_alignment(CharacterClass::THIEF, CharacterAlignment::NEUTRAL);
+			pc.create_class_alignment(CharacterClass::THIEF, CAL::NEUTRAL);
 			break;
 		case 3:
 			pc.create_class_alignment(CharacterClass::PRIEST, party_alignment);
@@ -155,7 +155,7 @@ auto Sorcery::Application::_quickstart() -> void {
 			pc.create_class_alignment(CharacterClass::BISHOP, party_alignment);
 			break;
 		case 5:
-			pc.create_class_alignment(CharacterClass::MAGE, CharacterAlignment::NEUTRAL);
+			pc.create_class_alignment(CharacterClass::MAGE, CAL::NEUTRAL);
 			break;
 		default:
 			return;
