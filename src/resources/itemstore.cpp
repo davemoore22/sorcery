@@ -294,8 +294,7 @@ auto Sorcery::ItemStore::get_an_item(const ItemTypeID item_type_id) const -> Ite
 	return Item{_items.at(item_type_id)};
 }
 
-auto Sorcery::ItemStore::is_usable(const ItemTypeID item_type_id, const CharacterClass cclass, const CAL calign) const
-	-> bool {
+auto Sorcery::ItemStore::is_usable(const ItemTypeID item_type_id, const CHC cclass, const CAL calign) const -> bool {
 
 	return _items.at(item_type_id).is_class_usable(cclass) && _items.at(item_type_id).is_align_usable(calign);
 }

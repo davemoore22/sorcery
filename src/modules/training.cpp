@@ -65,8 +65,8 @@ auto Sorcery::Training::start() -> std::optional<MIM> {
 
 	// Remove all characters from party as is tradition
 	for (auto &[character_id, character] : _game->characters) {
-		if (character.get_location() == CharacterLocation::PARTY) {
-			character.set_location(CharacterLocation::TAVERN);
+		if (character.get_location() == CHL::PARTY) {
+			character.set_location(CHL::TAVERN);
 		}
 	}
 
@@ -81,7 +81,7 @@ auto Sorcery::Training::start() -> std::optional<MIM> {
 	bg_rect.top = 0;
 	bg_rect.left = std::stoi(bg_c["source_w"].value()) * std::stoi(bg_c["source_index"].value());
 
-	_bg.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
+	_bg.setTexture(_system->resources->textures[GTX::TOWN]);
 	_bg.setTextureRect(bg_rect);
 	_bg.setScale(std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
 	_bg.setPosition(_display->window->get_x(_bg, bg_c.x), _display->window->get_y(_bg, bg_c.y));

@@ -144,8 +144,7 @@ auto Sorcery::Bestiary::_update_display() -> void {
 	const auto monster_gfx_c{(*_display->layout)["bestiary:picture"]};
 	const auto selected_idx{_selected.value()->idx};
 	const auto monster_type{(*_game->monsterstore)[magic_enum::enum_cast<MonsterTypeID>(selected_idx).value()]};
-	_known_monster_gfx =
-		_graphics->textures->get(monster_type.get_known_gfx(), GraphicsTextureType::KNOWN_CREATURE).value();
+	_known_monster_gfx = _graphics->textures->get(monster_type.get_known_gfx(), GTT::KNOWN_CREATURE).value();
 	_known_monster_gfx.setPosition(monster_gfx_c.pos());
 	_known_monster_gfx.setScale(monster_gfx_c.scl());
 	_monster_display->set(selected_idx);

@@ -326,7 +326,7 @@ auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int 
 	const auto cost{heal_char.get_cure_cost()};
 	pay_char.grant_gold(0 - cost);
 
-	if (heal_char.get_status() == CharacterStatus::DEAD) {
+	if (heal_char.get_status() == CHT::DEAD) {
 
 		const auto chance{heal_char.get_ress_chance(false)};
 		const auto roll((*_system->random)[RNT::D100]);
@@ -337,19 +337,19 @@ auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int 
 
 			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_HEALED_PREFIX"], heal_char.get_name(),
 				(*_display->string)["TEMPLE_HEALED_SUFFIX"]);
-			heal_char.set_status(CharacterStatus::OK);
+			heal_char.set_status(CHT::OK);
 			heal_char.set_current_hp(1);
-			heal_char.set_location(CharacterLocation::TAVERN);
+			heal_char.set_location(CHL::TAVERN);
 			return true;
 		} else {
 
 			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_OOPS_DEAD_PREFIX"], heal_char.get_name(),
 				(*_display->string)["TEMPLE_OOPS_DEAD_SUFFIX"]);
-			heal_char.set_status(CharacterStatus::ASHES);
+			heal_char.set_status(CHT::ASHES);
 			return false;
 		}
 
-	} else if (heal_char.get_status() == CharacterStatus::ASHES) {
+	} else if (heal_char.get_status() == CHT::ASHES) {
 
 		const auto chance{heal_char.get_ress_chance(true)};
 		const auto roll((*_system->random)[RNT::D100]);
@@ -359,9 +359,9 @@ auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int 
 
 			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_HEALED_PREFIX"], heal_char.get_name(),
 				(*_display->string)["TEMPLE_HEALED_SUFFIX"]);
-			heal_char.set_status(CharacterStatus::OK);
+			heal_char.set_status(CHT::OK);
 			heal_char.set_current_hp(1);
-			heal_char.set_location(CharacterLocation::TAVERN);
+			heal_char.set_location(CHL::TAVERN);
 
 			return true;
 
@@ -369,8 +369,8 @@ auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int 
 
 			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_OOPS_ASHES_PREFIX"],
 				heal_char.get_name(), (*_display->string)["TEMPLE_OOPS_ASHES_SUFFIX"]);
-			heal_char.set_status(CharacterStatus::LOST);
-			heal_char.set_location(CharacterLocation::TRAINING);
+			heal_char.set_status(CHT::LOST);
+			heal_char.set_location(CHL::TRAINING);
 			heal_char.set_current_hp(0);
 
 			return false;
@@ -380,7 +380,7 @@ auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int 
 
 		_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_HEALED_PREFIX"], heal_char.get_name(),
 			(*_display->string)["TEMPLE_HEALED_SUFFIX"]);
-		heal_char.set_status(CharacterStatus::OK);
+		heal_char.set_status(CHT::OK);
 
 		return true;
 	}

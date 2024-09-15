@@ -148,7 +148,7 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 			bg_rect.top = 0;
 			bg_rect.left = std::stoi(bg_c["source_w"].value()) * std::stoi(bg_c["source_index"].value());
 
-			_bg.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
+			_bg.setTexture(_system->resources->textures[GTX::TOWN]);
 			_bg.setTextureRect(bg_rect);
 			_bg.setScale(std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
 			_bg.setPosition(_display->window->get_x(_bg, bg_c.x), _display->window->get_y(_bg, bg_c.y));
@@ -258,7 +258,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 	_character_display->set(_cur_char.value());
 	if (_cur_char) {
 		_display->set_input_mode(WIM::BROWSE_CHARACTER);
-		_character_display->set_view(CharacterView::SUMMARY);
+		_character_display->set_view(CHV::SUMMARY);
 	}
 
 	_in_character = true;
@@ -527,7 +527,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 
 							// Attempt to Identify an Item
 							auto character{&_game->characters[character_id]};
-							if (character->get_class() == CharacterClass::BISHOP) {
+							if (character->get_class() == CHC::BISHOP) {
 								auto slot_item{character->inventory[_character_display->get_inventory_item()]};
 								if (slot_item.has_value()) {
 									auto &item{slot_item.value()};
@@ -562,7 +562,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 				}
 			} else {
 
-				if (_character_display->get_view() == CharacterView::SUMMARY) {
+				if (_character_display->get_view() == CHV::SUMMARY) {
 					if (_character_display->check_for_action_mouse_move(
 							sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 								static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
@@ -600,15 +600,15 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 					else if (_system->input->check(CIN::RIGHT, event))
 						_character_display->right_view();
 					if (_system->input->check(CIN::UP, event)) {
-						if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
+						if (_character_display->get_view() == CHV::MAGE_SPELLS)
 							_character_display->dec_hl_spell(SPT::MAGE);
-						else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
+						else if (_character_display->get_view() == CHV::PRIEST_SPELLS)
 							_character_display->dec_hl_spell(SPT::PRIEST);
 
 					} else if (_system->input->check(CIN::DOWN, event)) {
-						if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
+						if (_character_display->get_view() == CHV::MAGE_SPELLS)
 							_character_display->inc_hl_spell(SPT::MAGE);
-						else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
+						else if (_character_display->get_view() == CHV::PRIEST_SPELLS)
 							_character_display->inc_hl_spell(SPT::PRIEST);
 					} else if (_system->input->check(CIN::MOVE, event)) {
 						if (_character_display->check_for_mouse_move(
@@ -629,15 +629,15 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 						} else if (_system->input->check(CIN::CONFIRM, event)) {
 							_character_display->right_view();
 						} else if (_system->input->check(CIN::UP, event)) {
-							if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
+							if (_character_display->get_view() == CHV::MAGE_SPELLS)
 								_character_display->dec_hl_spell(SPT::MAGE);
-							else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
+							else if (_character_display->get_view() == CHV::PRIEST_SPELLS)
 								_character_display->dec_hl_spell(SPT::PRIEST);
 
 						} else if (_system->input->check(CIN::DOWN, event)) {
-							if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
+							if (_character_display->get_view() == CHV::MAGE_SPELLS)
 								_character_display->inc_hl_spell(SPT::MAGE);
-							else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
+							else if (_character_display->get_view() == CHV::PRIEST_SPELLS)
 								_character_display->inc_hl_spell(SPT::PRIEST);
 						} else if (_system->input->check(CIN::MOVE, event)) {
 							if (_character_display->check_for_mouse_move(
@@ -688,8 +688,7 @@ auto Sorcery::Inspect::_examine_item(const unsigned int character_id) -> void {
 		_item_display->set(unenum(item->get_type_id()));
 
 		const auto item_gfx_c{(*_display->layout)["inspect:picture"]};
-		_item_display_gfx =
-			_graphics->textures->get(unenum(item->get_type_id()) - 1, GraphicsTextureType::ITEMS).value();
+		_item_display_gfx = _graphics->textures->get(unenum(item->get_type_id()) - 1, GTT::ITEMS).value();
 		_item_display_gfx.setPosition(item_gfx_c.pos());
 		_item_display_gfx.setScale(item_gfx_c.scl());
 	}
@@ -727,8 +726,7 @@ auto Sorcery::Inspect::_set_in_item_action_menu(unsigned int character_id, unsig
 				(*_game->itemstore)[item->get_type_id()].get_eff_use() != SPI::NO_SPELL;
 
 			// Identify
-			_item_action_menu->items[6].enabled =
-				(!item->get_known()) && character->get_class() == CharacterClass::BISHOP;
+			_item_action_menu->items[6].enabled = (!item->get_known()) && character->get_class() == CHC::BISHOP;
 
 			// Drop
 			_item_action_menu->items[7].enabled = (!item->get_cursed()) && !item->get_equipped();
@@ -842,9 +840,9 @@ auto Sorcery::Inspect::_draw() -> void {
 		if (_cur_char) {
 
 			if (_mode == CAMP)
-				_character_display->set_mode(CharacterMode::IN_MAZE);
+				_character_display->set_mode(CHM::IN_MAZE);
 			else
-				_character_display->set_mode(CharacterMode::AT_CASTLE);
+				_character_display->set_mode(CHM::AT_CASTLE);
 
 			_character_display->setPosition((*_display->layout)[_screen_key + ":character"].pos());
 			_character_display->update();

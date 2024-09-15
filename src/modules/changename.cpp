@@ -54,8 +54,7 @@ Sorcery::ChangeName::ChangeName(System *system, Display *display, Graphics *grap
 
 	Component name_candidate_c{(*_display->layout)["change_name:name_candidate"]};
 	_name_candidate = std::make_unique<Text>(_system, _display, name_candidate_c,
-		unenum(ComponentElement::COLOUR) | unenum(ComponentElement::FONT) | unenum(ComponentElement::SIZE) |
-			unenum(ComponentElement::JUSTIFICATION));
+		unenum(CPE::COLOUR) | unenum(CPE::FONT) | unenum(CPE::SIZE) | unenum(CPE::JUSTIFICATION));
 	auto x{(*_display->layout)["change_name:name_candidate"].x == -1
 			   ? _display->window->centre.x
 			   : (*_display->layout)["change_name:name_candidate"].x};

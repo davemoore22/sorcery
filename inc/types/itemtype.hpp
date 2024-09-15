@@ -77,7 +77,7 @@ class ItemType {
 		auto get_sell() const -> bool;
 		auto get_desc() const -> std::string;
 		auto get_gfx() const -> unsigned int;
-		auto is_class_usable(const CharacterClass cclass) const -> bool;
+		auto is_class_usable(const CHC cclass) const -> bool;
 		auto is_align_usable(const CAL calign) const -> bool;
 		auto set_type_id(const ItemTypeID value) -> void;
 		auto set_known_name(const std::string value) -> void;

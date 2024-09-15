@@ -39,7 +39,7 @@ Sorcery::Display::Display(System *system) : _system{system} {
 	layout = std::make_unique<ComponentStore>((*_system->files)[LAYOUT_FILE]);
 	window = std::make_unique<Window>(_system, string.get(), layout.get(), (*string)["TITLE_AND_VERSION_INFO"]);
 	overlay = std::make_unique<ControlOverlay>(_system, this, (*layout)["global:control_overlay"]);
-	ui_texture = (*_system->resources).textures[GraphicsTexture::UI];
+	ui_texture = (*_system->resources).textures[GTX::UI];
 	_background_movie.openFromFile(_system->files->get_path(VIDEO_FILE));
 	auto icon_layout{(*layout)["global:icon"]};
 
@@ -104,7 +104,7 @@ auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, s
 	const std::optional<std::vector<Component>> components{(*layout)(screen)};
 	if (components) {
 		for (const auto &component : components.value()) {
-			if (component.type == ComponentType::ICON) {
+			if (component.type == CPT::ICON) {
 
 				// use string for the icon key
 				auto icon{(*_icons)[component.string_key]};
@@ -133,10 +133,10 @@ auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, s
 					// Add the image to the components ready to draw
 					sprites[component.unique_key] = image;
 				}
-			} else if (component.type == ComponentType::IMAGE) {
+			} else if (component.type == CPT::IMAGE) {
 
 				// Skip in case of an error
-				if (component.texture == GraphicsTexture::NO_TEXTURE)
+				if (component.texture == GTX::NO_TEXTURE)
 					continue;
 
 				if (component.unique_key.ends_with("background")) {
@@ -149,7 +149,7 @@ auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, s
 					bg_rect.left =
 						std::stoi(component["source_w"].value()) * std::stoi(component["source_index"].value());
 					sf::Sprite image{};
-					image.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
+					image.setTexture(_system->resources->textures[GTX::TOWN]);
 					image.setTextureRect(bg_rect);
 					image.setScale(std::stof(component["scale_x"].value()), std::stof(component["scale_y"].value()));
 					image.setPosition(window->get_x(image, component.x), window->get_y(image, component.y));
@@ -206,10 +206,10 @@ auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, s
 					sprites[component.unique_key] = image;
 				}
 
-			} else if (component.type == ComponentType::FRAME) {
+			} else if (component.type == CPT::FRAME) {
 
-				auto frame = std::make_shared<Frame>(_system->resources->textures[GraphicsTexture::UI], component.w,
-					component.h, component.colour, component.background, component.alpha);
+				auto frame = std::make_shared<Frame>(_system->resources->textures[GTX::UI], component.w, component.h,
+					component.colour, component.background, component.alpha);
 
 				// Check for Offsets
 				const auto offset_x{std::invoke([&] {
@@ -228,7 +228,7 @@ auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, s
 				frame->setPosition(window->get_x(frame->sprite, component.x) + offset_x,
 					window->get_y(frame->sprite, component.y) + offset_y);
 				frames.emplace(std::make_pair(component.unique_key, std::move(frame)));
-			} else if (component.type == ComponentType::TEXT) {
+			} else if (component.type == CPT::TEXT) {
 
 				sf::Text text{};
 
@@ -329,9 +329,8 @@ auto Sorcery::Display::display(std::string_view screen, std::map<std::string, sf
 	for (auto &[unique_key, frame] : frames) {
 		if (screen == "create") {
 			if (parameter) {
-				if (const CharacterStage character_stage{std::any_cast<CharacterStage>(parameter.value())};
-					character_stage == CharacterStage::CHOOSE_METHOD ||
-					character_stage == CharacterStage::REVIEW_AND_CONFIRM) {
+				if (const CHS character_stage{std::any_cast<CHS>(parameter.value())};
+					character_stage == CHS::CHOOSE_METHOD || character_stage == CHS::REVIEW_AND_CONFIRM) {
 					if (unique_key.ends_with("_frame_progress") || unique_key.ends_with("_summary_progres"))
 						continue;
 				}
@@ -371,9 +370,8 @@ auto Sorcery::Display::display(std::string_view screen, std::map<std::string, sf
 			}
 		} else if (screen == "create") {
 			if (parameter) {
-				if (const CharacterStage character_stage{std::any_cast<CharacterStage>(parameter.value())};
-					character_stage == CharacterStage::CHOOSE_METHOD ||
-					character_stage == CharacterStage::REVIEW_AND_CONFIRM) {
+				if (const CHS character_stage{std::any_cast<CHS>(parameter.value())};
+					character_stage == CHS::CHOOSE_METHOD || character_stage == CHS::REVIEW_AND_CONFIRM) {
 					if (unique_key.ends_with("_frame_progress") || unique_key.ends_with("_summary_progress"))
 						continue;
 				}

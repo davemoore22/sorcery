@@ -605,7 +605,7 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 	MIM search_for{NO_MENU_ITEM};
 	switch (_type) {
 	case MTP::CHOOSE_METHOD:
-		switch (std::any_cast<CreateMethod>(option)) {
+		switch (std::any_cast<CRM>(option)) {
 		case FULL:
 			search_for = CM_FULL;
 			break;
@@ -620,7 +620,7 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 		}
 		break;
 	case MTP::CHOOSE_CHARACTER_RACE:
-		switch (std::any_cast<CharacterRace>(option)) {
+		switch (std::any_cast<CHR>(option)) {
 		case DWARF:
 			search_for = CR_DWARF;
 			break;
@@ -656,7 +656,7 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 		}
 		break;
 	case MTP::CHOOSE_CHARACTER_CLASS:
-		switch (std::any_cast<CharacterClass>(option)) {
+		switch (std::any_cast<CHC>(option)) {
 		case SAMURAI:
 			search_for = CC_SAMURAI;
 			break;
@@ -1097,19 +1097,17 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		if (!_game->characters.empty()) {
 			for (auto &[character_id, character] : _game->characters) {
 				if (_mode.value() == MMD::TAVERN) {
-					if (character.get_location() == CharacterLocation::TAVERN ||
-						character.get_location() == CharacterLocation::PARTY) {
+					if (character.get_location() == CHL::TAVERN || character.get_location() == CHL::PARTY) {
 						_add_item(character_id, ENTRY, IC_CHARACTER, character.get_summary());
 						++max_id;
 					}
 				} else if (_mode.value() == MMD::INN) {
-					if (character.get_location() == CharacterLocation::PARTY) {
+					if (character.get_location() == CHL::PARTY) {
 						_add_item(character_id, ENTRY, IC_CHARACTER, character.get_summary());
 						++max_id;
 					}
 				} else if (_mode.value() == MMD::TEMPLE) {
-					if (character.get_location() == CharacterLocation::TEMPLE ||
-						character.get_location() == CharacterLocation::PARTY) {
+					if (character.get_location() == CHL::TEMPLE || character.get_location() == CHL::PARTY) {
 						_add_item(character_id, ENTRY, IC_CHARACTER, character.get_summary());
 						++max_id;
 					}
@@ -1144,7 +1142,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 			// Check for any characters in same square
 			bool found{false};
 			for (const auto &[character_id, character] : _game->characters) {
-				if (character.get_location() == CharacterLocation::MAZE &&
+				if (character.get_location() == CHL::MAZE &&
 					character.coordinate.value() == _game->state->get_player_pos() &&
 					character.depth.value() == _game->state->get_depth()) {
 					found = true;
@@ -1157,7 +1155,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 				_add_item(++max_id, TEXT, NC_WARNING, (*_display->string)["ACTION_FOUND_2"]);
 				_add_item(++max_id, SPACER, ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
 				for (const auto &[character_id, character] : _game->characters) {
-					if (character.get_location() == CharacterLocation::MAZE &&
+					if (character.get_location() == CHL::MAZE &&
 						character.coordinate.value() == _game->state->get_player_pos() &&
 						character.depth.value() == _game->state->get_depth())
 						_add_item(
@@ -1186,7 +1184,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		_add_item(++max_id, SPACER, ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
 		auto possible{0U};
 		for (const auto &[character_id, character] : _game->characters) {
-			if (character.get_location() == CharacterLocation::MAZE && character.get_status() == CharacterStatus::OK) {
+			if (character.get_location() == CHL::MAZE && character.get_status() == CHT::OK) {
 				_add_item(character_id, ENTRY, IC_CHARACTER, _game->characters[character_id].get_name_and_loc());
 				++possible;
 				++max_id;
@@ -1244,7 +1242,7 @@ auto Sorcery::Menu::_populate_chars() -> void {
 			if (std::ranges::find(party.begin(), party.end(), character_id) == party.end()) {
 
 				// TODO:: good and evil exclusion if in strict mode
-				if (character.get_location() == CharacterLocation::TAVERN) {
+				if (character.get_location() == CHL::TAVERN) {
 					_add_item(character_id, ENTRY, IC_CHARACTER, character.get_summary());
 					++max_id;
 					++count;
@@ -1268,8 +1266,8 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		auto last_id{0u};
 		if (!_game->characters.empty()) {
 			for (const auto &[character_id, character] : _game->characters) {
-				if (character.get_status() != CharacterStatus::OK && character.get_status() != CharacterStatus::LOST &&
-					character.get_location() == CharacterLocation::TEMPLE) {
+				if (character.get_status() != CHT::OK && character.get_status() != CHT::LOST &&
+					character.get_location() == CHL::TEMPLE) {
 					const auto status{character.get_name_and_status()};
 					_add_item(character_id, ENTRY, IC_CHARACTER, status);
 					++count;

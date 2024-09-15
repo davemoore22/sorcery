@@ -738,7 +738,7 @@ auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<in
 				const auto character_chosen{(*_get_option.value()).index};
 				_cur_char = &_game->characters[character_chosen];
 				if (_cur_char) {
-					_cur_char.value()->set_location(CharacterLocation::PARTY);
+					_cur_char.value()->set_location(CHL::PARTY);
 					_game->state->add_character_by_id(character_chosen);
 
 					_display->set_disc(true);
@@ -797,7 +797,7 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 				auto party{_game->state->get_party_characters()};
 				for (auto &[character_id, character] : _game->characters) {
 					if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-						character.set_location(CharacterLocation::MAZE);
+						character.set_location(CHL::MAZE);
 					}
 				}
 
@@ -878,7 +878,7 @@ auto Sorcery::Engine::_do_wipe() -> int {
 	const auto party{_game->state->get_party_characters()};
 	for (auto &[character_id, character] : _game->characters) {
 		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-			character.set_location(CharacterLocation::MAZE);
+			character.set_location(CHL::MAZE);
 			character.set_current_hp(0);
 		}
 	}
@@ -1061,10 +1061,10 @@ auto Sorcery::Engine::_move_characters_to_temple_if_needed() -> void {
 		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
 			if ((character.get_status() == DEAD) || (character.get_status() == ASHES) ||
 				(character.get_status() == STONED) || (character.get_status() == HELD)) {
-				character.set_location(CharacterLocation::TEMPLE);
+				character.set_location(CHL::TEMPLE);
 				_game->state->remove_character_by_id(character_id);
 			} else if (character.get_status() == LOST) {
-				character.set_location(CharacterLocation::TRAINING);
+				character.set_location(CHL::TRAINING);
 				_game->state->remove_character_by_id(character_id);
 			}
 		}
@@ -1404,7 +1404,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						auto party{_game->state->get_party_characters()};
 						for (auto &[character_id, character] : _game->characters) {
 							if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-								character.set_location(CharacterLocation::MAZE);
+								character.set_location(CHL::MAZE);
 							}
 						}
 						_display->set_disc(true);
@@ -2767,7 +2767,7 @@ auto Sorcery::Engine::_debug_heal_party_to_full() -> std::optional<int> {
 	const auto party{_game->state->get_party_characters()};
 	for (auto &[character_id, character] : _game->characters) {
 		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-			character.set_status(CharacterStatus::OK);
+			character.set_status(CHT::OK);
 			character.set_current_hp(character.get_max_hp());
 			character.reset_adjustment_per_turn();
 			character.set_poisoned_rate(0);
@@ -2823,10 +2823,10 @@ auto Sorcery::Engine::_debug_level_first_character_up() -> std::optional<int> {
 auto Sorcery::Engine::_debug_kill_non_party_characters() -> std::optional<int> {
 
 	for (auto &[character_id, character] : _game->characters) {
-		if (character.get_location() != CharacterLocation::PARTY) {
+		if (character.get_location() != CHL::PARTY) {
 			character.set_current_hp(0);
-			character.set_status(CharacterStatus::DEAD);
-			character.set_location(CharacterLocation::TEMPLE);
+			character.set_status(CHT::DEAD);
+			character.set_location(CHL::TEMPLE);
 		}
 	}
 
@@ -2840,10 +2840,10 @@ auto Sorcery::Engine::_debug_kill_non_party_characters() -> std::optional<int> {
 auto Sorcery::Engine::_debug_send_non_party_characters_to_tavern() -> std::optional<int> {
 
 	for (auto &[character_id, character] : _game->characters) {
-		if (character.get_location() != CharacterLocation::PARTY) {
+		if (character.get_location() != CHL::PARTY) {
 			character.set_current_hp(character.get_max_hp());
-			character.set_status(CharacterStatus::OK);
-			character.set_location(CharacterLocation::TAVERN);
+			character.set_status(CHT::OK);
+			character.set_location(CHL::TAVERN);
 		}
 	}
 
@@ -2881,7 +2881,7 @@ auto Sorcery::Engine::_debug_give_party_random_status() -> std::optional<int> {
 	const auto party{_game->state->get_party_characters()};
 	for (auto &[character_id, character] : _game->characters) {
 		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-			character.set_status(magic_enum::enum_cast<CharacterStatus>((*_system->random)[RNT::ZERO_TO_8]).value());
+			character.set_status(magic_enum::enum_cast<CHT>((*_system->random)[RNT::ZERO_TO_8]).value());
 			if ((character.get_status() == DEAD) || (character.get_status() == ASHES) ||
 				(character.get_status() == LOST)) {
 				character.set_current_hp(0);

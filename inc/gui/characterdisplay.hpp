@@ -47,8 +47,8 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 
 		// Public Methods
 		auto set(Character *character) -> void;
-		auto get_view() const -> CharacterView;
-		auto set_view(const CharacterView value) -> void;
+		auto get_view() const -> CHV;
+		auto set_view(const CHV value) -> void;
 		auto left_view() -> void;
 		auto right_view() -> void;
 		auto inc_hl_spell(SPT type) -> void;
@@ -58,8 +58,8 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 		auto check_for_action_mouse_move(sf::Vector2f mouse_pos) -> std::optional<MIM>;
 		auto check_for_inventory_mouse_move(sf::Vector2f mouse_pos) -> unsigned int;
 		auto generate_display() -> void;
-		auto set_mode(CharacterMode value) -> void;
-		auto get_icon(CharacterStage type) -> std::optional<sf::Sprite>;
+		auto set_mode(CHM value) -> void;
+		auto get_icon(CHS type) -> std::optional<sf::Sprite>;
 		auto get_hl_action_item() const -> MIM;
 		auto get_inventory_item() const -> unsigned int;
 		auto clear_inventory_item() -> void;
@@ -116,8 +116,8 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 		sf::RectangleShape _hl_action_item_bg;
 		sf::RectangleShape _hl_inventory_item_bg;
 
-		CharacterView _view;
-		CharacterMode _mode;
+		CHV _view;
+		CHM _mode;
 		sf::RenderWindow *_window;
 };
 

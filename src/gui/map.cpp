@@ -151,7 +151,7 @@ auto Sorcery::Map::_draw_player(MAD direction, int x, int y, float scaling) -> v
 		break;
 	}
 
-	sf::Sprite player{_graphics->textures->get(unenum(icon), GraphicsTextureType::AUTOMAP).value()};
+	sf::Sprite player{_graphics->textures->get(unenum(icon), GTT::AUTOMAP).value()};
 	player.setPosition(x, y);
 	player.setScale(scaling, scaling);
 	_sprites.emplace_back(player);
@@ -161,7 +161,7 @@ auto Sorcery::Map::_draw_player(MAD direction, int x, int y, float scaling) -> v
 auto Sorcery::Map::_draw_tile(Tile &tile, Coordinate loc, int x, int y, float scaling) -> void {
 
 	{
-		sf::Sprite bg{_graphics->textures->get(unenum(AMF::FLOOR), GraphicsTextureType::AUTOMAP).value()};
+		sf::Sprite bg{_graphics->textures->get(unenum(AMF::FLOOR), GTT::AUTOMAP).value()};
 		bg.setPosition(x, y);
 		bg.setScale(scaling, scaling);
 		_sprites.emplace_back(bg);
@@ -169,152 +169,147 @@ auto Sorcery::Map::_draw_tile(Tile &tile, Coordinate loc, int x, int y, float sc
 
 	if (_game->state->explored[_game->state->get_depth()].at(loc)) {
 
-		sf::Sprite bg_explored{_graphics->textures->get(unenum(AMF::FLOOR), GraphicsTextureType::AUTOMAP).value()};
+		sf::Sprite bg_explored{_graphics->textures->get(unenum(AMF::FLOOR), GTT::AUTOMAP).value()};
 		bg_explored.setPosition(x, y);
 		bg_explored.setScale(scaling, scaling);
 		bg_explored.setColor(sf::Color(0x000000ff));
 		_sprites.emplace_back(bg_explored);
 
 		if (tile.is(TLP::DARKNESS)) {
-			sf::Sprite property{_graphics->textures->get(unenum(AMF::DARKNESS), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite property{_graphics->textures->get(unenum(AMF::DARKNESS), GTT::AUTOMAP).value()};
 			property.setPosition(x, y);
 			property.setScale(scaling, scaling);
 			_sprites.emplace_back(property);
 		}
 
 		if (tile.has(MAD::NORTH, TLE::SECRET_DOOR) || tile.has(MAD::NORTH, TLE::ONE_WAY_HIDDEN_DOOR)) {
-			sf::Sprite wall{_graphics->textures->get(unenum(AMF::NORTH_SECRET), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite wall{_graphics->textures->get(unenum(AMF::NORTH_SECRET), GTT::AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
 		} else if (tile.has(MAD::NORTH, TLE::UNLOCKED_DOOR) || tile.has(MAD::NORTH, TLE::ONE_WAY_DOOR)) {
-			sf::Sprite wall{_graphics->textures->get(unenum(AMF::NORTH_DOOR), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite wall{_graphics->textures->get(unenum(AMF::NORTH_DOOR), GTT::AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
 		} else if (tile.has(MAD::NORTH, TLE::ONE_WAY_WALL)) {
-			sf::Sprite wall{
-				_graphics->textures->get(unenum(AMF::NORTH_ONE_WAY_WALL), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite wall{_graphics->textures->get(unenum(AMF::NORTH_ONE_WAY_WALL), GTT::AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
 		} else if (tile.has(MAD::NORTH)) {
-			sf::Sprite wall{_graphics->textures->get(unenum(AMF::NORTH_WALL), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite wall{_graphics->textures->get(unenum(AMF::NORTH_WALL), GTT::AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
 		}
 
 		if (tile.has(MAD::SOUTH, TLE::SECRET_DOOR) || tile.has(MAD::SOUTH, TLE::ONE_WAY_HIDDEN_DOOR)) {
-			sf::Sprite wall{_graphics->textures->get(unenum(AMF::SOUTH_SECRET), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite wall{_graphics->textures->get(unenum(AMF::SOUTH_SECRET), GTT::AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
 		} else if (tile.has(MAD::SOUTH, TLE::UNLOCKED_DOOR) || tile.has(MAD::SOUTH, TLE::ONE_WAY_DOOR)) {
-			sf::Sprite wall{_graphics->textures->get(unenum(AMF::SOUTH_DOOR), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite wall{_graphics->textures->get(unenum(AMF::SOUTH_DOOR), GTT::AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
 		} else if (tile.has(MAD::SOUTH, TLE::ONE_WAY_WALL)) {
-			sf::Sprite wall{
-				_graphics->textures->get(unenum(AMF::SOUTH_ONE_WAY_WALL), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite wall{_graphics->textures->get(unenum(AMF::SOUTH_ONE_WAY_WALL), GTT::AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
 
 		} else if (tile.has(MAD::SOUTH)) {
-			sf::Sprite wall{_graphics->textures->get(unenum(AMF::SOUTH_WALL), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite wall{_graphics->textures->get(unenum(AMF::SOUTH_WALL), GTT::AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
 		}
 		if (tile.has(MAD::EAST, TLE::SECRET_DOOR) || tile.has(MAD::EAST, TLE::ONE_WAY_HIDDEN_DOOR)) {
-			sf::Sprite wall{_graphics->textures->get(unenum(AMF::EAST_SECRET), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite wall{_graphics->textures->get(unenum(AMF::EAST_SECRET), GTT::AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
 		} else if (tile.has(MAD::EAST, TLE::UNLOCKED_DOOR) || tile.has(MAD::EAST, TLE::ONE_WAY_DOOR)) {
-			sf::Sprite wall{_graphics->textures->get(unenum(AMF::EAST_DOOR), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite wall{_graphics->textures->get(unenum(AMF::EAST_DOOR), GTT::AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
 		} else if (tile.has(MAD::EAST, TLE::ONE_WAY_WALL)) {
-			sf::Sprite wall{
-				_graphics->textures->get(unenum(AMF::EAST_ONE_WAY_WALL), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite wall{_graphics->textures->get(unenum(AMF::EAST_ONE_WAY_WALL), GTT::AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
 		} else if (tile.has(MAD::EAST)) {
-			sf::Sprite wall{_graphics->textures->get(unenum(AMF::EAST_WALL), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite wall{_graphics->textures->get(unenum(AMF::EAST_WALL), GTT::AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
 		}
 
 		if (tile.has(MAD::WEST, TLE::SECRET_DOOR) || tile.has(MAD::WEST, TLE::ONE_WAY_HIDDEN_DOOR)) {
-			sf::Sprite wall{_graphics->textures->get(unenum(AMF::WEST_SECRET), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite wall{_graphics->textures->get(unenum(AMF::WEST_SECRET), GTT::AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
 		} else if (tile.has(MAD::WEST, TLE::ONE_WAY_WALL)) {
-			sf::Sprite wall{
-				_graphics->textures->get(unenum(AMF::WEST_ONE_WAY_WALL), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite wall{_graphics->textures->get(unenum(AMF::WEST_ONE_WAY_WALL), GTT::AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
 		} else if (tile.has(MAD::WEST, TLE::UNLOCKED_DOOR) || tile.has(MAD::WEST, TLE::ONE_WAY_DOOR)) {
-			sf::Sprite wall{_graphics->textures->get(unenum(AMF::WEST_DOOR), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite wall{_graphics->textures->get(unenum(AMF::WEST_DOOR), GTT::AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
 
 		} else if (tile.has(MAD::WEST)) {
-			sf::Sprite wall{_graphics->textures->get(unenum(AMF::WEST_WALL), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite wall{_graphics->textures->get(unenum(AMF::WEST_WALL), GTT::AUTOMAP).value()};
 			wall.setPosition(x, y);
 			wall.setScale(scaling, scaling);
 			_sprites.emplace_back(wall);
 		}
 
 		if (tile.has(TLF::STAIRS_UP) || tile.has(TLF::LADDER_UP)) {
-			sf::Sprite stairs{_graphics->textures->get(unenum(AMF::STAIRS_UP), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite stairs{_graphics->textures->get(unenum(AMF::STAIRS_UP), GTT::AUTOMAP).value()};
 			stairs.setPosition(x, y);
 			stairs.setScale(scaling, scaling);
 			_sprites.emplace_back(stairs);
 		} else if (tile.has(TLF::STAIRS_DOWN) || tile.has(TLF::LADDER_DOWN)) {
-			sf::Sprite stairs{_graphics->textures->get(unenum(AMF::STAIRS_DOWN), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite stairs{_graphics->textures->get(unenum(AMF::STAIRS_DOWN), GTT::AUTOMAP).value()};
 			stairs.setPosition(x, y);
 			stairs.setScale(scaling, scaling);
 			_sprites.emplace_back(stairs);
 		} else if (tile.has(TLF::ELEVATOR)) {
-			sf::Sprite stairs{_graphics->textures->get(unenum(AMF::ELEVATOR), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite stairs{_graphics->textures->get(unenum(AMF::ELEVATOR), GTT::AUTOMAP).value()};
 			stairs.setPosition(x, y);
 			stairs.setScale(scaling, scaling);
 			_sprites.emplace_back(stairs);
 		} else if (tile.has(TLF::SPINNER)) {
-			sf::Sprite message{_graphics->textures->get(unenum(AMF::SPINNER), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite message{_graphics->textures->get(unenum(AMF::SPINNER), GTT::AUTOMAP).value()};
 			message.setPosition(x, y);
 			message.setScale(scaling, scaling);
 			_sprites.emplace_back(message);
 		} else if (tile.has(TLF::PIT)) {
-			sf::Sprite message{_graphics->textures->get(unenum(AMF::PIT), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite message{_graphics->textures->get(unenum(AMF::PIT), GTT::AUTOMAP).value()};
 			message.setPosition(x, y);
 			message.setScale(scaling, scaling);
 			_sprites.emplace_back(message);
 		} else if (tile.has(TLF::CHUTE)) {
-			sf::Sprite message{_graphics->textures->get(unenum(AMF::CHUTE), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite message{_graphics->textures->get(unenum(AMF::CHUTE), GTT::AUTOMAP).value()};
 			message.setPosition(x, y);
 			message.setScale(scaling, scaling);
 			_sprites.emplace_back(message);
 		} else if (tile.has(TLF::TELEPORT_TO)) {
-			sf::Sprite stairs{_graphics->textures->get(unenum(AMF::TELEPORT_TO), GraphicsTextureType::AUTOMAP).value()};
+			sf::Sprite stairs{_graphics->textures->get(unenum(AMF::TELEPORT_TO), GTT::AUTOMAP).value()};
 			stairs.setPosition(x, y);
 			stairs.setScale(scaling, scaling);
 			_sprites.emplace_back(stairs);
 		} else {
 			// TODO: change this to use events instead
 			if (tile.has(TLF::MESSAGE) || tile.has(TLF::NOTICE)) {
-				sf::Sprite message{
-					_graphics->textures->get(unenum(AMF::EXCLAMATION), GraphicsTextureType::AUTOMAP).value()};
+				sf::Sprite message{_graphics->textures->get(unenum(AMF::EXCLAMATION), GTT::AUTOMAP).value()};
 				message.setPosition(x, y);
 				message.setScale(scaling, scaling);
 				_sprites.emplace_back(message);

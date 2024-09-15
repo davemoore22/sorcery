@@ -35,17 +35,17 @@ Sorcery::TextureStore::TextureStore(System *system, const std::filesystem::path 
 	_texture_map.clear();
 
 	// Get the Textures
-	_automap_t = &_system->resources->textures[GraphicsTexture::AUTOMAP];
-	_wall_t = &_system->resources->textures[GraphicsTexture::WALLS];
-	_ceiling_t = &_system->resources->textures[GraphicsTexture::FLOORS];
-	_floor_t = &_system->resources->textures[GraphicsTexture::FLOORS];
-	_door_t = &_system->resources->textures[GraphicsTexture::DOORS];
-	_item_t = &_system->resources->textures[GraphicsTexture::ITEMS];
-	_creatures_known_t = &_system->resources->textures[GraphicsTexture::CREATURES_KNOWN];
-	_creatures_unknown_t = &_system->resources->textures[GraphicsTexture::CREATURES_UNKNOWN];
-	_portrait_t = &_system->resources->textures[GraphicsTexture::PORTRAITS];
-	_view_t = &_system->resources->textures[GraphicsTexture::VIEW];
-	_events_t = &_system->resources->textures[GraphicsTexture::EVENTS];
+	_automap_t = &_system->resources->textures[GTX::AUTOMAP];
+	_wall_t = &_system->resources->textures[GTX::WALLS];
+	_ceiling_t = &_system->resources->textures[GTX::FLOORS];
+	_floor_t = &_system->resources->textures[GTX::FLOORS];
+	_door_t = &_system->resources->textures[GTX::DOORS];
+	_item_t = &_system->resources->textures[GTX::ITEMS];
+	_creatures_known_t = &_system->resources->textures[GTX::CREATURES_KNOWN];
+	_creatures_unknown_t = &_system->resources->textures[GTX::CREATURES_UNKNOWN];
+	_portrait_t = &_system->resources->textures[GTX::PORTRAITS];
+	_view_t = &_system->resources->textures[GTX::VIEW];
+	_events_t = &_system->resources->textures[GTX::EVENTS];
 
 	// Load the Mapping
 	_loaded = _load(filename);
@@ -60,8 +60,7 @@ auto Sorcery::TextureStore::operator[](unsigned int index) const -> std::optiona
 
 // Get the indexed texture as an appropriate sprite - note that for  WALLS/CEILINGS/FLOORS/DOORS, the index refers to
 // the entry in textures.json; whereas for all other spritesheets it refers to the actual sprite position
-auto Sorcery::TextureStore::get(
-	const unsigned int index, GraphicsTextureType texture_type) const -> std::optional<sf::Sprite> {
+auto Sorcery::TextureStore::get(const unsigned int index, GTT texture_type) const -> std::optional<sf::Sprite> {
 
 	using enum Enums::Graphics::TextureType;
 
@@ -130,8 +129,7 @@ auto Sorcery::TextureStore::get(
 
 // Get the named texture as an appropriate sprite - WALLS/CEILINGS/FLOORS/DOORS  only since those are only texture ids
 // stored in the Texture class
-auto Sorcery::TextureStore::get(
-	const std::string name, GraphicsTextureType texture_type) const -> std::optional<sf::Sprite> {
+auto Sorcery::TextureStore::get(const std::string name, GTT texture_type) const -> std::optional<sf::Sprite> {
 
 	using enum Enums::Graphics::TextureType;
 
@@ -207,7 +205,7 @@ auto Sorcery::TextureStore::_get(const unsigned int index) const -> std::optiona
 		return std::nullopt;
 }
 
-auto Sorcery::TextureStore::_get_rect(unsigned int index, GraphicsTextureType texture_type) const -> sf::IntRect {
+auto Sorcery::TextureStore::_get_rect(unsigned int index, GTT texture_type) const -> sf::IntRect {
 
 	using enum Enums::Graphics::TextureType;
 

@@ -104,7 +104,7 @@ class Create {
 		std::unique_ptr<InfoPanel> _ip;
 		std::unique_ptr<AllocatePanel> _ap;
 		std::vector<Character> _stages;
-		CreateMethod _method;
+		CRM _method;
 		std::map<std::string, sf::Sprite> _sprites;
 		std::map<std::string, sf::Text> _texts;
 		std::map<std::string, std::shared_ptr<Frame>> _frames;

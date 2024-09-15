@@ -53,15 +53,15 @@ Sorcery::Text::Text(
 
 		Component layout{component.value()};
 
-		if (bits | unenum(ComponentElement::FONT))
+		if (bits | unenum(CPE::FONT))
 			_text.setFont(_system->resources->fonts[layout.font]);
-		if (bits | unenum(ComponentElement::SIZE))
+		if (bits | unenum(CPE::SIZE))
 			_text.setCharacterSize(layout.size);
-		if (bits | unenum(ComponentElement::COLOUR))
+		if (bits | unenum(CPE::COLOUR))
 			_text.setFillColor(sf::Color(layout.colour));
-		if (bits | unenum(ComponentElement::STRING))
+		if (bits | unenum(CPE::STRING))
 			_text.setString((*_display->string)[layout.string_key]);
-		if (bits | unenum(ComponentElement::OFFSET)) {
+		if (bits | unenum(CPE::OFFSET)) {
 			const auto offset_x{std::invoke([&] {
 				if (layout["offset_x"])
 					return std::stoi(layout["offset_x"].value());
@@ -76,7 +76,7 @@ Sorcery::Text::Text(
 			})};
 			_text.setPosition(offset_x, offset_y);
 		}
-		if (bits | unenum(ComponentElement::ORIGIN)) {
+		if (bits | unenum(CPE::ORIGIN)) {
 			const auto origin_x{std::invoke([&] {
 				if (layout["origin_x"])
 					return std::stoi(layout["origin_x"].value());
@@ -91,7 +91,7 @@ Sorcery::Text::Text(
 			})};
 			_text.setPosition(origin_x, origin_y);
 		}
-		if (bits | unenum(ComponentElement::O_COLOUR)) {
+		if (bits | unenum(CPE::O_COLOUR)) {
 			const auto outline_colour{std::invoke([&] {
 				if (layout["outline_colour"])
 					return sf::Color(std::stoull(layout["outline_colour"].value(), 0, 16));
@@ -99,7 +99,7 @@ Sorcery::Text::Text(
 					return sf::Color(sf::Color::Black);
 			})};
 		}
-		if (bits | unenum(ComponentElement::O_THICKNESS)) {
+		if (bits | unenum(CPE::O_THICKNESS)) {
 			const auto outline_thickness{std::invoke([&] {
 				if (layout["origin_y"])
 					return std::stoi(layout["outline_thickness"].value());
@@ -108,7 +108,7 @@ Sorcery::Text::Text(
 			})};
 			_text.setOutlineThickness(outline_thickness);
 		}
-		if (bits | unenum(ComponentElement::JUSTIFICATION)) {
+		if (bits | unenum(CPE::JUSTIFICATION)) {
 
 			if (layout.justification == JUS::CENTRE) {
 				_text.setPosition(0, 0);
@@ -123,7 +123,7 @@ Sorcery::Text::Text(
 			}
 
 			// Handle varying height of proportional fonts
-			if (layout.font == FontType::PROPORTIONAL)
+			if (layout.font == FTT::PROPORTIONAL)
 				_text.setPosition(
 					_text.getPosition().x, _text.getPosition().y - ((layout.size - _text.getLocalBounds().height) / 2));
 		}

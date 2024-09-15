@@ -52,7 +52,7 @@ Sorcery::CharacterDisplay::CharacterDisplay(System *system, Display *display, Gr
 	_v_texts.clear();
 	_v_sprites.clear();
 	_v_frames.clear();
-	_view = CharacterView::NO_VIEW;
+	_view = CHV::NO_VIEW;
 	_hl_mage_spell = SPI::DUMAPIC;
 	_hl_priest_spell = SPI::BADIOS;
 	_hl_action_item = MIM::NO_MENU_ITEM;
@@ -69,7 +69,7 @@ Sorcery::CharacterDisplay::CharacterDisplay(System *system, Display *display, Gr
 	_spell_panel = std::make_shared<SpellPanel>(_system, _display, _graphics);
 	_spell_panel->setPosition((*_display->layout)["global:spell_panel"].pos());
 
-	_mode = CharacterMode::NO_MODE;
+	_mode = CHM::NO_MODE;
 	_character = nullptr;
 
 	_window = _display->window->get_window();
@@ -146,7 +146,7 @@ auto Sorcery::CharacterDisplay::clear_inventory_item() -> void {
 	_hl_inventory_item = 0;
 }
 
-auto Sorcery::CharacterDisplay::set_mode(CharacterMode value) -> void {
+auto Sorcery::CharacterDisplay::set_mode(CHM value) -> void {
 
 	_mode = value;
 }
@@ -205,7 +205,7 @@ auto Sorcery::CharacterDisplay::left_view() -> void {
 		view_index = unenum(PRIEST_SPELLS);
 	else
 		--view_index;
-	_view = magic_enum::enum_cast<CharacterView>(view_index).value();
+	_view = magic_enum::enum_cast<CHV>(view_index).value();
 
 	_display->layout->refresh_if_needed();
 
@@ -222,7 +222,7 @@ auto Sorcery::CharacterDisplay::right_view() -> void {
 		view_index = unenum(SUMMARY);
 	else
 		++view_index;
-	_view = magic_enum::enum_cast<CharacterView>(view_index).value();
+	_view = magic_enum::enum_cast<CHV>(view_index).value();
 
 	_display->layout->refresh_if_needed();
 
@@ -238,7 +238,7 @@ auto Sorcery::CharacterDisplay::_get_character_portrait() -> sf::Sprite {
 	return portrait;
 }
 
-auto Sorcery::CharacterDisplay::get_icon(CharacterStage type) -> std::optional<sf::Sprite> {
+auto Sorcery::CharacterDisplay::get_icon(CHS type) -> std::optional<sf::Sprite> {
 
 	using enum Enums::Character::Stage;
 
@@ -360,7 +360,7 @@ auto Sorcery::CharacterDisplay::_add_text(Component &component, std::string form
 	}
 }
 
-auto Sorcery::CharacterDisplay::get_view() const -> CharacterView {
+auto Sorcery::CharacterDisplay::get_view() const -> CHV {
 
 	return _view;
 }
@@ -392,7 +392,7 @@ auto Sorcery::CharacterDisplay::_get_spell_icon(SPC category) -> std::optional<s
 }
 
 // Setting the view will regenerate the display components
-auto Sorcery::CharacterDisplay::set_view(const CharacterView value) -> void {
+auto Sorcery::CharacterDisplay::set_view(const CHV value) -> void {
 
 	using enum Enums::Menu::Item;
 

@@ -54,7 +54,7 @@ class Castle {
 		// Public Members
 
 		// Public Methods
-		auto start(Destination destination = Destination::DEFAULT) -> std::optional<MIM>;
+		auto start(DES destination = DES::DEFAULT) -> std::optional<MIM>;
 		auto stop() -> void;
 
 	private:

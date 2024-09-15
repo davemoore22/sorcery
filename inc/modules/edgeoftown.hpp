@@ -52,7 +52,7 @@ class EdgeOfTown {
 		// Public Members
 
 		// Public Methods
-		auto start(Destination destination) -> std::optional<MIM>;
+		auto start(DES destination) -> std::optional<MIM>;
 		auto stop() -> void;
 
 	private:

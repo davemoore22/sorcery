@@ -153,7 +153,7 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, con
 		text.setPosition(x, y);
 
 	// Handle varying height of proportional fonts
-	if (component.font == FontType::PROPORTIONAL)
+	if (component.font == FTT::PROPORTIONAL)
 		text.setPosition(
 			text.getPosition().x, text.getPosition().y - ((component.size - text.getLocalBounds().height) / 2));
 
@@ -191,7 +191,7 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &component, con
 		text.setPosition(x, y);
 
 	// Handle varying height of proportional fonts
-	if (component.font == FontType::PROPORTIONAL)
+	if (component.font == FTT::PROPORTIONAL)
 		text.setPosition(
 			text.getPosition().x, text.getPosition().y - ((component.size - text.getLocalBounds().height) / 2));
 
@@ -258,7 +258,7 @@ auto Sorcery::Window::_draw_text(
 		text.setPosition(x, y);
 
 	// Handle varying height of proportional fonts
-	if (component.font == FontType::PROPORTIONAL)
+	if (component.font == FTT::PROPORTIONAL)
 		text.setPosition(
 			text.getPosition().x, text.getPosition().y - ((component.size - text.getLocalBounds().height) / 2));
 
@@ -267,7 +267,7 @@ auto Sorcery::Window::_draw_text(
 
 auto Sorcery::Window::get_cursor() const -> sf::Sprite {
 
-	sf::Sprite cursor(_system->resources->textures[GraphicsTexture::UI]);
+	sf::Sprite cursor(_system->resources->textures[GTX::UI]);
 	const sf::IntRect cursor_rect(0, 85, 40, 40);
 	cursor.setTextureRect(cursor_rect);
 	return cursor;
@@ -279,7 +279,7 @@ auto Sorcery::Window::_get_cursor_coord_text(sf::Vector2f mouse_pos, sf::Text &t
 	text.setFillColor(sf::Color::White);
 	text.setOutlineColor(sf::Color::Red);
 	text.setOutlineThickness(1);
-	text.setFont(_system->resources->fonts[FontType::TEXT]);
+	text.setFont(_system->resources->fonts[FTT::TEXT]);
 	text.setCharacterSize(16);
 	text.setString(str);
 	text.setPosition(1, 1);
@@ -287,7 +287,7 @@ auto Sorcery::Window::_get_cursor_coord_text(sf::Vector2f mouse_pos, sf::Text &t
 
 auto Sorcery::Window::get_disc() const -> sf::Sprite {
 
-	sf::Sprite disc(_system->resources->textures[GraphicsTexture::UI]);
+	sf::Sprite disc(_system->resources->textures[GTX::UI]);
 	const sf::IntRect disc_rect(40, 85, 32, 32);
 	disc.setTextureRect(disc_rect);
 	return disc;

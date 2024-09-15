@@ -140,30 +140,30 @@ auto Sorcery::Application::_quickstart() -> void {
 		auto pc{Character(system.get(), display.get(), graphics.get(), _game->itemstore.get())};
 		switch (i) {
 		case 0:
-			pc.create_class_alignment(CharacterClass::FIGHTER, party_alignment);
+			pc.create_class_alignment(CHC::FIGHTER, party_alignment);
 			break;
 		case 1:
-			pc.create_class_alignment(CharacterClass::FIGHTER, CAL::NEUTRAL);
+			pc.create_class_alignment(CHC::FIGHTER, CAL::NEUTRAL);
 			break;
 		case 2:
-			pc.create_class_alignment(CharacterClass::THIEF, CAL::NEUTRAL);
+			pc.create_class_alignment(CHC::THIEF, CAL::NEUTRAL);
 			break;
 		case 3:
-			pc.create_class_alignment(CharacterClass::PRIEST, party_alignment);
+			pc.create_class_alignment(CHC::PRIEST, party_alignment);
 			break;
 		case 4:
-			pc.create_class_alignment(CharacterClass::BISHOP, party_alignment);
+			pc.create_class_alignment(CHC::BISHOP, party_alignment);
 			break;
 		case 5:
-			pc.create_class_alignment(CharacterClass::MAGE, CAL::NEUTRAL);
+			pc.create_class_alignment(CHC::MAGE, CAL::NEUTRAL);
 			break;
 		default:
 			return;
 		}
 
 		pc.finalise();
-		pc.set_location(CharacterLocation::PARTY);
-		pc.set_stage(CharacterStage::COMPLETED);
+		pc.set_location(CHL::PARTY);
+		pc.set_stage(CHS::COMPLETED);
 		pc.inventory.clear();
 
 		using enum Enums::Character::Class;
@@ -215,11 +215,11 @@ auto Sorcery::Application::start() -> int {
 	// Check if we are doing any sort of shortcut
 	auto do_restart{false};
 	auto do_maze{false};
-	auto destination{Destination::DEFAULT};
+	auto destination{DES::DEFAULT};
 	if (_check_param(CONTINUE_GAME) && _game->valid)
-		destination = Destination::CONTINUE;
+		destination = DES::CONTINUE;
 	else if (_check_param(NEW_GAME))
-		destination = Destination::NEW;
+		destination = DES::NEW;
 	else if (_check_param(RESTART_EXPEDITION) && _game->valid)
 		do_restart = true;
 	else if (_check_param(START_EXPEDITION) && _game->valid) {
@@ -228,11 +228,11 @@ auto Sorcery::Application::start() -> int {
 	} else if (_check_param(QUICKSTART))
 		_quickstart();
 	else if (_check_param(GO_TO_COMPENDIUM))
-		destination = Destination::COMPENDIUM;
+		destination = DES::COMPENDIUM;
 	else if (_check_param(GO_TO_LICENSE))
-		destination = Destination::LICENSE;
+		destination = DES::LICENSE;
 	else if (_check_param(GO_TO_OPTIONS))
-		destination = Destination::OPTIONS;
+		destination = DES::OPTIONS;
 
 	std::optional<MIM> mm_opt{std::nullopt};
 	do {
@@ -255,8 +255,8 @@ auto Sorcery::Application::start() -> int {
 		mm_opt = _run_main_menu(destination);
 
 		// If we are going via a shortcut after we have done that, disable it
-		if (destination != Destination::DEFAULT)
-			destination = Destination::DEFAULT;
+		if (destination != DES::DEFAULT)
+			destination = DES::DEFAULT;
 
 		// That way the Program will always return to the Main Menu
 		if (mm_opt.value() == ITEM_QUIT) {
@@ -352,15 +352,15 @@ auto Sorcery::Application::_run_edge_of_town() -> std::optional<MIM> {
 	std::optional<MIM> option_chosen{NO_MENU_ITEM};
 
 	do {
-		option_chosen = _edgeoftown->start(Destination::DEFAULT);
+		option_chosen = _edgeoftown->start(DES::DEFAULT);
 		if (option_chosen == ET_CASTLE) {
 			return ET_CASTLE;
 		} else if (option_chosen == ET_TRAIN) {
 
 			// Remove everyone from the Party
 			for (auto &[character_id, character] : _game->characters) {
-				if (character.get_location() == CharacterLocation::PARTY)
-					character.set_location(CharacterLocation::TAVERN);
+				if (character.get_location() == CHL::PARTY)
+					character.set_location(CHL::TAVERN);
 			}
 			_game->state->clear_party();
 			_game->save_game();
@@ -388,9 +388,9 @@ auto Sorcery::Application::_restart_expedition(const unsigned int character_chos
 	auto to_loc{character.coordinate.value()};
 	_game->state->clear_party();
 	for (auto &[character_id, character] : _game->characters) {
-		if (character.get_location() == CharacterLocation::MAZE) {
+		if (character.get_location() == CHL::MAZE) {
 			if (character.depth.value() == to_depth && character.coordinate.value() == to_loc) {
-				character.set_location(CharacterLocation::PARTY);
+				character.set_location(CHL::PARTY);
 				_game->state->add_character_by_id(character_id);
 			}
 		}
@@ -465,20 +465,20 @@ auto Sorcery::Application::_run_castle() -> std::optional<MIM> {
 }
 
 // Run the Main Menu
-auto Sorcery::Application::_run_main_menu(const Destination destination) -> std::optional<MIM> {
+auto Sorcery::Application::_run_main_menu(const DES destination) -> std::optional<MIM> {
 
 	using enum Enums::Menu::Item;
 	using enum Enums::MainMenu::Type;
 
 	// Handle shortcuts
-	if (destination == Destination::CONTINUE)
+	if (destination == DES::CONTINUE)
 		return MM_CONTINUE_GAME;
-	else if (destination == Destination::NEW) {
+	else if (destination == DES::NEW) {
 		_game->wipe_data();
 		_game->create_game();
 		_game->save_game();
 		return MM_NEW_GAME;
-	} else if (destination == Destination::RESTART) {
+	} else if (destination == DES::RESTART) {
 		return RS_RESTART;
 	}
 
@@ -486,15 +486,15 @@ auto Sorcery::Application::_run_main_menu(const Destination destination) -> std:
 	MMT menu_stage{ATTRACT_MODE};
 
 	do {
-		if (destination != Destination::DEFAULT) {
+		if (destination != DES::DEFAULT) {
 			switch (destination) {
-			case Destination::OPTIONS:
+			case DES::OPTIONS:
 				option_chosen = MM_OPTIONS;
 				break;
-			case Destination::LICENSE:
+			case DES::LICENSE:
 				option_chosen = MM_LICENSE;
 				break;
-			case Destination::COMPENDIUM:
+			case DES::COMPENDIUM:
 				option_chosen = MM_COMPENDIUM;
 				break;
 			default:

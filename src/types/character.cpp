@@ -42,16 +42,16 @@ Sorcery::Character::Character() {
 Sorcery::Character::Character(System *system, Display *display, Graphics *graphics, ItemStore *itemstore)
 	: _system{system}, _display{display}, _graphics{graphics}, _itemstore{itemstore} {
 
-	set_stage(CharacterStage::CHOOSE_METHOD);
+	set_stage(CHS::CHOOSE_METHOD);
 
 	_hidden = false;
-	set_status(CharacterStatus::OK);
+	set_status(CHT::OK);
 
 	_version = CHARACTER_SAVE_VERSION;
 
 	_legated = false;
 
-	_location = CharacterLocation::TAVERN;
+	_location = CHL::TAVERN;
 
 	coordinate = std::nullopt;
 	depth = std::nullopt;
@@ -67,17 +67,17 @@ auto Sorcery::Character::operator[](const CAB &key) -> int & {
 
 // Utility Functions
 
-auto Sorcery::Character::get_stage() const -> CharacterStage {
+auto Sorcery::Character::get_stage() const -> CHS {
 
 	return _current_stage;
 }
 
-auto Sorcery::Character::get_location() const -> CharacterLocation {
+auto Sorcery::Character::get_location() const -> CHL {
 
 	return _location;
 }
 
-auto Sorcery::Character::set_location(const CharacterLocation value) -> void {
+auto Sorcery::Character::set_location(const CHL value) -> void {
 
 	using enum Enums::Character::Location;
 
@@ -125,7 +125,7 @@ auto Sorcery::Character::mage_max_sp() -> SpellPoints & {
 }
 
 // Reset a character back to a particular state
-auto Sorcery::Character::set_stage(const CharacterStage stage) -> void {
+auto Sorcery::Character::set_stage(const CHS stage) -> void {
 
 	using enum Enums::Character::Ability;
 	using enum Enums::Character::Align;
@@ -193,12 +193,12 @@ auto Sorcery::Character::set_name(std::string_view value) -> void {
 	_name = value;
 }
 
-auto Sorcery::Character::get_race() const -> CharacterRace {
+auto Sorcery::Character::get_race() const -> CHR {
 
 	return _race;
 }
 
-auto Sorcery::Character::set_race(const CharacterRace &value) -> void {
+auto Sorcery::Character::set_race(const CHR &value) -> void {
 
 	_race = value;
 }
@@ -232,12 +232,12 @@ auto Sorcery::Character::get_num_pos_class() const -> unsigned int {
 	return _num_pos_classes;
 }
 
-auto Sorcery::Character::get_class() const -> CharacterClass {
+auto Sorcery::Character::get_class() const -> CHC {
 
 	return _class;
 }
 
-auto Sorcery::Character::set_class(const CharacterClass &value) -> void {
+auto Sorcery::Character::set_class(const CHC &value) -> void {
 
 	_class = value;
 }
@@ -434,7 +434,7 @@ auto Sorcery::Character::alignment_to_str(CAL character_alignment) const -> std:
 	return alignments[unenum(character_alignment)];
 }
 
-auto Sorcery::Character::race_to_str(CharacterRace character_race) const -> std::string {
+auto Sorcery::Character::race_to_str(CHR character_race) const -> std::string {
 
 	static const std::array<std::string, 6> races{"", (*_display->string)["CHARACTER_RACE_HUMAN"],
 		(*_display->string)["CHARACTER_RACE_ELF"], (*_display->string)["CHARACTER_RACE_DWARF"],
@@ -443,7 +443,7 @@ auto Sorcery::Character::race_to_str(CharacterRace character_race) const -> std:
 	return races[unenum(character_race)];
 }
 
-auto Sorcery::Character::class_to_str(CharacterClass character_class) const -> std::string {
+auto Sorcery::Character::class_to_str(CHC character_class) const -> std::string {
 
 	static const std::array<std::string, 10> classes{"", (*_display->string)["CHARACTER_CLASS_FIGHTER"],
 		(*_display->string)["CHARACTER_CLASS_MAGE"], (*_display->string)["CHARACTER_CLASS_PRIEST"],
@@ -549,8 +549,8 @@ auto Sorcery::Character::_legate_start_info() -> void {
 		break;
 	}
 
-	set_status(CharacterStatus::OK);
-	_location = CharacterLocation::TAVERN;
+	set_status(CHT::OK);
+	_location = CHL::TAVERN;
 	_abilities[CURRENT_HP] = _abilities[MAX_HP];
 
 	// Clamp Values
@@ -625,14 +625,14 @@ auto Sorcery::Character::legate(const CAL &value) -> void {
 	_set_start_spells();
 	_set_starting_sp();
 	inventory.clear();
-	set_status(CharacterStatus::OK);
+	set_status(CHT::OK);
 	_legated = true;
 
-	set_location(CharacterLocation::TAVERN);
+	set_location(CHL::TAVERN);
 }
 
 // Change Class
-auto Sorcery::Character::change_class(const CharacterClass &value) -> void {
+auto Sorcery::Character::change_class(const CHC &value) -> void {
 
 	if (_class != value) {
 		_class = value;
@@ -786,13 +786,13 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial, bool change_clas
 
 	// Base Dispell chance (affected by monster level) (%)
 	switch (_class) {
-	case CharacterClass::PRIEST:
+	case CHC::PRIEST:
 		_abilities[BASE_DISPELL] = 50 + (5 * current_level);
 		break;
-	case CharacterClass::BISHOP:
+	case CHC::BISHOP:
 		_abilities[BASE_DISPELL] = current_level >= 4 ? 50 + (5 * current_level) - 20 : 0;
 		break;
-	case CharacterClass::LORD:
+	case CHC::LORD:
 		_abilities[BASE_DISPELL] = current_level >= 9 ? 50 + (5 * current_level) - 40 : 0;
 		break;
 	default:
@@ -1422,8 +1422,8 @@ auto Sorcery::Character::level_up() -> std::string {
 	if (_cur_attr.at(VITALITY) < 3) {
 		results.append("@");
 		results.append((*_display->string)["LEVEL_DIE"]);
-		_status = CharacterStatus::LOST;
-		_location = CharacterLocation::TRAINING;
+		_status = CHT::LOST;
+		_location = CHL::TRAINING;
 	}
 
 	return results;
@@ -1435,8 +1435,8 @@ auto Sorcery::Character::level_down() -> void {
 	using enum Enums::Character::Ability;
 
 	if (_abilities.at(CURRENT_LEVEL) == 1) {
-		_status = CharacterStatus::LOST;
-		_location = CharacterLocation::TRAINING;
+		_status = CHT::LOST;
+		_location = CHL::TRAINING;
 		return;
 	}
 
@@ -1924,7 +1924,7 @@ auto Sorcery::Character::replenish_spells() -> void {
 }
 
 // Given an Alignment and a Class, create a character
-auto Sorcery::Character::create_class_alignment(const CharacterClass cclass, const CAL alignment) -> void {
+auto Sorcery::Character::create_class_alignment(const CHC cclass, const CAL alignment) -> void {
 
 	using enum Enums::Character::Align;
 	using enum Enums::Character::Attribute;
@@ -1932,7 +1932,7 @@ auto Sorcery::Character::create_class_alignment(const CharacterClass cclass, con
 	using enum Enums::Character::Race;
 
 	_class = cclass;
-	_race = static_cast<CharacterRace>((*_system->random)[RNT::D5]);
+	_race = static_cast<CHR>((*_system->random)[RNT::D5]);
 	_alignment = alignment;
 
 	switch (_race) { // NOLINT(clang-diagnostic-switch)
@@ -2007,8 +2007,8 @@ auto Sorcery::Character::create_quick() -> void {
 	using enum Enums::Character::Race;
 
 	// Exclude Samurai/Lord/Ninja/Bishop from this method of character creation
-	_class = static_cast<CharacterClass>((*_system->random)[RNT::D4]);
-	_race = static_cast<CharacterRace>((*_system->random)[RNT::D5]);
+	_class = static_cast<CHC>((*_system->random)[RNT::D4]);
+	_race = static_cast<CHR>((*_system->random)[RNT::D5]);
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case FIGHTER:
 	case MAGE:
@@ -2089,7 +2089,7 @@ auto Sorcery::Character::create_random() -> void {
 	_portrait_index = (*_system->random)[RNT::ZERO_TO_29];
 }
 
-auto Sorcery::Character::get_status() const -> CharacterStatus {
+auto Sorcery::Character::get_status() const -> CHT {
 
 	return _status;
 }
@@ -2101,7 +2101,7 @@ auto Sorcery::Character::get_condition() const -> std::string {
 
 auto Sorcery::Character::get_short_cond() const -> std::string {
 
-	if (_status != CharacterStatus::OK)
+	if (_status != CHT::OK)
 		return fmt::format("{:>6}", _get_condition());
 	else
 		return fmt::format("{:>4}", _abilities.at(CAB::MAX_HP));
@@ -2183,9 +2183,9 @@ auto Sorcery::Character::get_status_string() const -> std::string {
 		return (*_display->string)["STATUS_HIDDEN"];
 }
 
-auto Sorcery::Character::set_status(CharacterStatus value) -> void {
+auto Sorcery::Character::set_status(CHT value) -> void {
 
-	if (value == CharacterStatus::OK)
+	if (value == CHT::OK)
 		_status = value;
 	else {
 		auto candidate{unenum(value)};
@@ -2365,9 +2365,9 @@ auto Sorcery::Character::get_summary_and_out() -> std::string {
 	if (_display->get_upper())
 		std::ranges::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	auto location{std::invoke([&] {
-		if (_location == CharacterLocation::MAZE)
+		if (_location == CHL::MAZE)
 			return "  OUT";
-		else if (_status == CharacterStatus::LOST)
+		else if (_status == CHT::LOST)
 			return " LOST";
 		else
 			return "    ";
@@ -2500,7 +2500,7 @@ auto Sorcery::Character::_damage(const unsigned int adjustment) -> bool {
 	if (_abilities[CURRENT_HP] < 0) {
 
 		_abilities[CURRENT_HP] = 0;
-		_status = CharacterStatus::DEAD;
+		_status = CHT::DEAD;
 		return false;
 	} else
 		return true;
@@ -2515,12 +2515,12 @@ auto Sorcery::Character::_heal(const unsigned int adjustment) -> void {
 		_abilities[CURRENT_HP] = _abilities[MAX_HP];
 }
 
-auto Sorcery::Character::get_method() const -> CreateMethod {
+auto Sorcery::Character::get_method() const -> CRM {
 
 	return _method;
 }
 
-auto Sorcery::Character::set_method(const CreateMethod value) -> void {
+auto Sorcery::Character::set_method(const CRM value) -> void {
 
 	_method = value;
 }

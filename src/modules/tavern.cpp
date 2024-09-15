@@ -256,7 +256,7 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 							// Add a character
 							const auto character_chosen{(*option.value()).index};
 							auto &character = _game->characters[character_chosen];
-							character.set_location(CharacterLocation::PARTY);
+							character.set_location(CHL::PARTY);
 							_game->state->add_character_by_id(character_chosen);
 							_game->save_game();
 							_party_panel->refresh();
@@ -308,7 +308,7 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 							// Remove a character
 							const auto character_chosen{(*option.value()).index};
 							auto &character = _game->characters[character_chosen];
-							character.set_location(CharacterLocation::TAVERN);
+							character.set_location(CHL::TAVERN);
 							_game->state->remove_character_by_id(character_chosen);
 
 							_game->save_game();

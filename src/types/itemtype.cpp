@@ -193,7 +193,7 @@ auto Sorcery::ItemType::get_gfx() const -> unsigned int {
 	return _gfx;
 }
 
-auto Sorcery::ItemType::is_class_usable(const CharacterClass cclass) const -> bool {
+auto Sorcery::ItemType::is_class_usable(const CHC cclass) const -> bool {
 
 	auto cc{unenum(cclass)};
 

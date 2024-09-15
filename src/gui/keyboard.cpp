@@ -73,7 +73,7 @@ Sorcery::Keyboard::Keyboard(System *system, Display *display, Graphics *graphics
 			letter_pos.y += spacing.y;
 			current_col = 1;
 		}
-		if (_text_c.font == FontType::PROPORTIONAL)
+		if (_text_c.font == FTT::PROPORTIONAL)
 			_texts[key].setPosition(_texts[key].getPosition().x,
 				_texts[key].getPosition().y - ((_text_c.size - _texts[key].getLocalBounds().height) / 2));
 	}
@@ -96,7 +96,7 @@ Sorcery::Keyboard::Keyboard(System *system, Display *display, Graphics *graphics
 		letter_pos.y += spacing.y;
 		current_col = 1;
 	}
-	if (_text_c.font == FontType::PROPORTIONAL)
+	if (_text_c.font == FTT::PROPORTIONAL)
 		_texts[space].setPosition(_texts[space].getPosition().x,
 			_texts[space].getPosition().y - ((_text_c.size - _texts[space].getLocalBounds().height) / 2));
 
@@ -119,7 +119,7 @@ Sorcery::Keyboard::Keyboard(System *system, Display *display, Graphics *graphics
 			letter_pos.y += spacing.y;
 			current_col = 1;
 		}
-		if (_text_c.font == FontType::PROPORTIONAL)
+		if (_text_c.font == FTT::PROPORTIONAL)
 			_texts[key].setPosition(_texts[key].getPosition().x,
 				_texts[key].getPosition().y - ((_text_c.size - _texts[key].getLocalBounds().height) / 2));
 	}
@@ -140,7 +140,7 @@ Sorcery::Keyboard::Keyboard(System *system, Display *display, Graphics *graphics
 		letter_pos.x = offset.x;
 		letter_pos.y += spacing.y;
 	}
-	if (_text_c.font == FontType::PROPORTIONAL)
+	if (_text_c.font == FTT::PROPORTIONAL)
 		_texts[del].setPosition(_texts[del].getPosition().x,
 			_texts[del].getPosition().y - ((_text_c.size - _texts[del].getLocalBounds().height) / 2));
 
@@ -152,7 +152,7 @@ Sorcery::Keyboard::Keyboard(System *system, Display *display, Graphics *graphics
 	_texts[end].setFillColor(sf::Color(_text_c.colour));
 	_texts[end].setPosition(letter_pos.x, letter_pos.y + _texts[end].getLocalBounds().height / 1.5f);
 	//_texts[end].setOrigin(_texts[end].getLocalBounds().width / 2.0f, _texts[end].getLocalBounds().height / 2.0f);
-	if (_text_c.font == FontType::PROPORTIONAL)
+	if (_text_c.font == FTT::PROPORTIONAL)
 		_texts[end].setPosition(_texts[end].getPosition().x,
 			_texts[end].getPosition().y - ((_text_c.size - _texts[end].getLocalBounds().height) / 2));
 

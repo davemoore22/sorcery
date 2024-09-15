@@ -141,7 +141,7 @@ auto Sorcery::Museum::_update_display() -> void {
 
 	const auto item_gfx_c{(*_display->layout)["museum:picture"]};
 	const auto selected_idx{_selected.value()->idx};
-	_item_gfx = _graphics->textures->get(selected_idx - 1, GraphicsTextureType::ITEMS).value();
+	_item_gfx = _graphics->textures->get(selected_idx - 1, GTT::ITEMS).value();
 	_item_gfx.setPosition(item_gfx_c.pos());
 	_item_gfx.setScale(item_gfx_c.scl());
 	_item_display->set(selected_idx);

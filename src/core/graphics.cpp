@@ -70,7 +70,7 @@ auto Sorcery::Graphics::adjust_status_colour(Enums::Character::CStatus value, bo
 auto Sorcery::Graphics::get_background_sprite() -> sf::Sprite {
 
 	if (_wallpaper_idx != animation->wallpaper_idx) {
-		_wallpaper = textures->get(animation->wallpaper_idx, GraphicsTextureType::WALLPAPER).value();
+		_wallpaper = textures->get(animation->wallpaper_idx, GTT::WALLPAPER).value();
 		_wallpaper_idx = animation->wallpaper_idx;
 	}
 

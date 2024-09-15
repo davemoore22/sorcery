@@ -39,7 +39,7 @@ Sorcery::IconStore::IconStore(System *system, Component layout, const std::files
 	_event_icon_mapping.clear();
 
 	// First get the Icon Texture and load it into the Spritesheet
-	_texture = _system->resources->textures[GraphicsTexture::ICONS];
+	_texture = _system->resources->textures[GTX::ICONS];
 
 	// Set the Icon scaling (remember we are using square icons)
 	_size = sf::Vector2f(_layout.size, _layout.size);

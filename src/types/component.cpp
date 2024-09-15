@@ -136,7 +136,7 @@ Sorcery::Component::Component(Component &&other) noexcept {
 	other.w = 0;
 	other.h = 0;
 	other.scale = 0;
-	other.font = FontType::NO_FONT;
+	other.font = FTT::NO_FONT;
 	other.size = 0;
 	other.colour = 0;
 	other.animated = false;
@@ -145,10 +145,10 @@ Sorcery::Component::Component(Component &&other) noexcept {
 	other.width = 0;
 	other.background = 0;
 	other.justification = JUS::NO_JUSTIFY;
-	other.type = ComponentType::NO_COMPONENT_TYPE;
+	other.type = CPT::NO_COMPONENT_TYPE;
 	other.priority = 0;
 	other.drawmode = WDM::NO_DRAWMODE;
-	other.texture = GraphicsTexture::NO_TEXTURE;
+	other.texture = GTX::NO_TEXTURE;
 	other.unique_key.clear();
 	other._data.clear();
 	other._enabled = false;
@@ -192,7 +192,7 @@ auto Sorcery::Component::operator=(Component &&other) noexcept -> Component & {
 		other.w = 0;
 		other.h = 0;
 		other.scale = 0;
-		other.font = FontType::NO_FONT;
+		other.font = FTT::NO_FONT;
 		other.size = 0;
 		other.colour = 0;
 		other.animated = false;
@@ -201,10 +201,10 @@ auto Sorcery::Component::operator=(Component &&other) noexcept -> Component & {
 		other.width = 0;
 		other.background = 0;
 		other.justification = JUS::NO_JUSTIFY;
-		other.type = ComponentType::NO_COMPONENT_TYPE;
+		other.type = CPT::NO_COMPONENT_TYPE;
 		other.priority = 0;
 		other.drawmode = WDM::NO_DRAWMODE;
-		other.texture = GraphicsTexture::NO_TEXTURE;
+		other.texture = GTX::NO_TEXTURE;
 		other.unique_key.clear();
 		other._data.clear();
 		other._enabled = false;

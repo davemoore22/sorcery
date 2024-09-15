@@ -67,11 +67,11 @@ Sorcery::EdgeOfTown::~EdgeOfTown() {
 }
 
 // Start/Continue a new Game
-auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MIM> {
+auto Sorcery::EdgeOfTown::start(DES destination) -> std::optional<MIM> {
 
-	if (destination == Destination::RESTART)
+	if (destination == DES::RESTART)
 		return MIM::ET_RESTART;
-	else if (destination == Destination::MAZE)
+	else if (destination == DES::MAZE)
 		return MIM::ET_MAZE;
 
 	_update_menus();
@@ -147,8 +147,8 @@ auto Sorcery::EdgeOfTown::start(Destination destination) -> std::optional<MIM> {
 
 						// If we leave the game, move any current party members into the Tavern
 						for (auto &[character_id, character] : _game->characters) {
-							if (character.get_location() == CharacterLocation::PARTY)
-								character.set_location(CharacterLocation::TAVERN);
+							if (character.get_location() == CHL::PARTY)
+								character.set_location(CHL::TAVERN);
 						}
 						_game->state->clear_party();
 						_game->save_game();

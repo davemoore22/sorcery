@@ -83,49 +83,31 @@
 #include "types/dice.hpp"
 #include "types/error.hpp"
 
-// Aliases
+// Aliases for Enums and Types
 namespace Sorcery {
 
 using CAB = Enums::Character::Ability;
 using CAT = Enums::Character::Ability_Type;
-using CharacterAbilities = std::map<Enums::Character::Ability, int>;
 using CAL = Enums::Character::Align;
 using CAR = Enums::Character::Attribute;
-using CharacterAttributes = std::map<Enums::Character::Attribute, int>;
-using CharacterClass = Enums::Character::Class;
-using CharacterClassList = std::map<Enums::Character::Class, std::string>;
-using CharacterClassMenu = std::pair<Enums::Character::Class, Enums::Menu::Item>;
-using CharacterClassQualified = std::map<Enums::Character::Class, bool>;
-using CharacterMode = Enums::Character::Mode;
-using CharacterRace = Enums::Character::Race;
-using CharacterStage = Enums::Character::Stage;
-using CharacterStatus = Enums::Character::CStatus;
-using CharacterView = Enums::Character::View;
-using CharacterLocation = Enums::Character::Location;
-using ComponentData = std::pair<std::string, std::string>;
-using ComponentElement = Enums::Window::ComponentElement;
-using ComponentType = Enums::Window::ComponentType;
+using CHC = Enums::Character::Class;
+using CHG = Enums::Character::Legate;
+using CHM = Enums::Character::Mode;
+using CHR = Enums::Character::Race;
+using CHS = Enums::Character::Stage;
+using CHT = Enums::Character::CStatus;
+using CHV = Enums::Character::View;
+using CHL = Enums::Character::Location;
+using CPE = Enums::Window::ComponentElement;
+using CPT = Enums::Window::ComponentType;
 using CIN = Enums::Controls::Input;
-using CreateMethod = Enums::Manage::Method;
-using Destination = Enums::System::Destination;
-using FontType = Enums::Internal::FontType;
-using GraphicsTexture = Enums::Graphics::Texture;
-using GraphicsTextureType = Enums::Graphics::TextureType;
-using IconLibrary = std::map<std::string, sf::Sprite>;
-using IconStorage = std::vector<std::pair<std::string, sf::Sprite>>;
-using ItemEffDef = std::array<bool, 22>;
-using ItemEffOff = std::array<bool, 15>;
-using ItemUsableClass = std::array<bool, 9>;
-using ItemUsableAlignment = std::array<bool, 4>;
+using CRM = Enums::Manage::Method;
+using DES = Enums::System::Destination;
+using FTT = Enums::Internal::FontType;
+using GTX = Enums::Graphics::Texture;
+using GTT = Enums::Graphics::TextureType;
 using IMT = Enums::Internal::MessageType;
 using JUS = Enums::Window::Justification;
-using LegateStage = Enums::Character::Legate;
-using LevelID = std::pair<std::string, int>;
-
-using Range = std::tuple<unsigned int, unsigned int>;
-using SpellPoints = std::map<unsigned int, unsigned int>;
-using StringMap = std::map<std::string, std::string>;
-
 using MAD = Enums::Map::Direction;
 using MAT = Enums::Map::Type;
 using MAV = Enums::Map::Event;
@@ -148,5 +130,22 @@ using WIM = Enums::Window::InputMode;
 using WDT = Enums::Window::DialogType;
 using WDM = Enums::Window::DrawMode;
 using WDB = Enums::Window::DialogButton;
+
+using CharacterAbilities = std::map<Enums::Character::Ability, int>;
+using CharacterAttributes = std::map<Enums::Character::Attribute, int>;
+using CharacterClassList = std::map<Enums::Character::Class, std::string>;
+using CharacterClassMenu = std::pair<Enums::Character::Class, Enums::Menu::Item>;
+using CharacterClassQualified = std::map<Enums::Character::Class, bool>;
+using ComponentData = std::pair<std::string, std::string>;
+using IconLibrary = std::map<std::string, sf::Sprite>;
+using IconStorage = std::vector<std::pair<std::string, sf::Sprite>>;
+using ItemEffDef = std::array<bool, 22>;
+using ItemEffOff = std::array<bool, 15>;
+using ItemUsableClass = std::array<bool, 9>;
+using ItemUsableAlignment = std::array<bool, 4>;
+using LevelID = std::pair<std::string, int>;
+using Range = std::tuple<unsigned int, unsigned int>;
+using SpellPoints = std::map<unsigned int, unsigned int>;
+using StringMap = std::map<std::string, std::string>;
 
 }

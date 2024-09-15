@@ -68,7 +68,7 @@ auto Sorcery::Restart::start(unsigned int &character_chosen) -> std::optional<MI
 	bg_rect.top = 0;
 	bg_rect.left = std::stoi(bg_c["source_w"].value()) * std::stoi(bg_c["source_index"].value());
 
-	_bg.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
+	_bg.setTexture(_system->resources->textures[GTX::TOWN]);
 	_bg.setTextureRect(bg_rect);
 	_bg.setScale(std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
 	_bg.setPosition(_display->window->get_x(_bg, bg_c.x), _display->window->get_y(_bg, bg_c.y));

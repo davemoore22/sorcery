@@ -44,12 +44,11 @@ class ResourceManager {
 
 		// Public Members
 		thor::ResourceHolder<sf::Texture, Enums::Graphics::Texture> textures;
-		thor::ResourceHolder<sf::Font, FontType> fonts;
+		thor::ResourceHolder<sf::Font, FTT> fonts;
 		std::shared_ptr<TextFile> license_file;
 
 		// Public Methods
-		auto get_font_height(
-			const FontType font_type, const unsigned int size, bool bold = false) const -> unsigned int;
+		auto get_font_height(const FTT font_type, const unsigned int size, bool bold = false) const -> unsigned int;
 
 	private:
 

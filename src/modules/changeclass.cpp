@@ -78,7 +78,7 @@ Sorcery::ChangeClass::ChangeClass(System *system, Display *display, Graphics *gr
 Sorcery::ChangeClass::~ChangeClass() {
 }
 
-auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
+auto Sorcery::ChangeClass::start() -> std::optional<CHC> {
 
 	_show_confirm = false;
 	_show_not_changed = false;
@@ -160,74 +160,74 @@ auto Sorcery::ChangeClass::start() -> std::optional<CharacterClass> {
 
 						switch ((*selected.value()).item) {
 						case MIM::CC_SAMURAI:
-							if (_character->get_class() == CharacterClass::SAMURAI)
+							if (_character->get_class() == CHC::SAMURAI)
 								_show_not_changed = true;
 							else {
 								_show_confirm = true;
-								_new_class = CharacterClass::SAMURAI;
+								_new_class = CHC::SAMURAI;
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MIM::CC_FIGHTER:
-							if (_character->get_class() == CharacterClass::FIGHTER)
+							if (_character->get_class() == CHC::FIGHTER)
 								_show_not_changed = true;
 							else {
 								_show_confirm = true;
-								_new_class = CharacterClass::FIGHTER;
+								_new_class = CHC::FIGHTER;
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MIM::CC_LORD:
-							if (_character->get_class() == CharacterClass::LORD)
+							if (_character->get_class() == CHC::LORD)
 								_show_not_changed = true;
 							else {
 								_show_confirm = true;
-								_new_class = CharacterClass::LORD;
+								_new_class = CHC::LORD;
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MIM::CC_THIEF:
-							if (_character->get_class() == CharacterClass::THIEF)
+							if (_character->get_class() == CHC::THIEF)
 								_show_not_changed = true;
 							else {
 								_show_confirm = true;
-								_new_class = CharacterClass::THIEF;
+								_new_class = CHC::THIEF;
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MIM::CC_NINJA:
-							if (_character->get_class() == CharacterClass::NINJA)
+							if (_character->get_class() == CHC::NINJA)
 								_show_not_changed = true;
 							else {
 								_show_confirm = true;
-								_new_class = CharacterClass::NINJA;
+								_new_class = CHC::NINJA;
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MIM::CC_PRIEST:
-							if (_character->get_class() == CharacterClass::PRIEST)
+							if (_character->get_class() == CHC::PRIEST)
 								_show_not_changed = true;
 							else {
 								_show_confirm = true;
-								_new_class = CharacterClass::PRIEST;
+								_new_class = CHC::PRIEST;
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MIM::CC_BISHOP:
-							if (_character->get_class() == CharacterClass::BISHOP)
+							if (_character->get_class() == CHC::BISHOP)
 								_show_not_changed = true;
 							else {
 								_show_confirm = true;
-								_new_class = CharacterClass::BISHOP;
+								_new_class = CHC::BISHOP;
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MIM::CC_MAGE:
-							if (_character->get_class() == CharacterClass::MAGE)
+							if (_character->get_class() == CHC::MAGE)
 								_show_not_changed = true;
 							else {
 								_show_confirm = true;
-								_new_class = CharacterClass::MAGE;
+								_new_class = CHC::MAGE;
 								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
@@ -295,14 +295,14 @@ auto Sorcery::ChangeClass::_set_classes_menu() -> void {
 
 	_character->set_pos_class();
 	auto possible_classes{_character->get_pos_class()};
-	(*_menu)[0].enabled = possible_classes[CharacterClass::SAMURAI];
-	(*_menu)[1].enabled = possible_classes[CharacterClass::FIGHTER];
-	(*_menu)[2].enabled = possible_classes[CharacterClass::LORD];
-	(*_menu)[3].enabled = possible_classes[CharacterClass::THIEF];
-	(*_menu)[4].enabled = possible_classes[CharacterClass::NINJA];
-	(*_menu)[5].enabled = possible_classes[CharacterClass::PRIEST];
-	(*_menu)[6].enabled = possible_classes[CharacterClass::BISHOP];
-	(*_menu)[7].enabled = possible_classes[CharacterClass::MAGE];
+	(*_menu)[0].enabled = possible_classes[CHC::SAMURAI];
+	(*_menu)[1].enabled = possible_classes[CHC::FIGHTER];
+	(*_menu)[2].enabled = possible_classes[CHC::LORD];
+	(*_menu)[3].enabled = possible_classes[CHC::THIEF];
+	(*_menu)[4].enabled = possible_classes[CHC::NINJA];
+	(*_menu)[5].enabled = possible_classes[CHC::PRIEST];
+	(*_menu)[6].enabled = possible_classes[CHC::BISHOP];
+	(*_menu)[7].enabled = possible_classes[CHC::MAGE];
 
 	// And select the current class
 	_menu->choose(_character->get_class());

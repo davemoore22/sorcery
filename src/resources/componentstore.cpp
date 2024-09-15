@@ -205,23 +205,23 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 						} else
 							return 0.0f;
 					})};
-					FontType font_type{std::invoke([&] {
+					FTT font_type{std::invoke([&] {
 						if (components[j].isMember("font")) {
 							if (components[j]["font"].asString().length() > 0) {
 								if (components[j]["font"].asString() == "monospace")
-									return FontType::MONOSPACE;
+									return FTT::MONOSPACE;
 								else if (components[j]["font"].asString() == "text")
-									return FontType::TEXT;
+									return FTT::TEXT;
 								else if (components[j]["font"].asString() == "proportional")
-									return FontType::PROPORTIONAL;
+									return FTT::PROPORTIONAL;
 								else if (components[j]["font"].asString() == "input")
-									return FontType::INPUT;
+									return FTT::INPUT;
 								else
-									return FontType::NO_FONT;
+									return FTT::NO_FONT;
 							} else
-								return FontType::NO_FONT;
+								return FTT::NO_FONT;
 						} else
-							return FontType::NO_FONT;
+							return FTT::NO_FONT;
 					})};
 					auto size{std::invoke([&] {
 						if (components[j].isMember("size")) {
@@ -299,27 +299,27 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 						} else
 							return JUS::LEFT;
 					})};
-					ComponentType component_type{std::invoke([&] {
+					CPT component_type{std::invoke([&] {
 						if (components[j].isMember("type")) {
 							if (components[j]["type"].asString().length() > 0) {
 								if (components[j]["type"].asString() == "frame")
-									return ComponentType::FRAME;
+									return CPT::FRAME;
 								else if (components[j]["type"].asString() == "text")
-									return ComponentType::TEXT;
+									return CPT::TEXT;
 								else if (components[j]["type"].asString() == "image")
-									return ComponentType::IMAGE;
+									return CPT::IMAGE;
 								else if (components[j]["type"].asString() == "icon")
-									return ComponentType::ICON;
+									return CPT::ICON;
 								else if (components[j]["type"].asString() == "menu")
-									return ComponentType::MENU;
+									return CPT::MENU;
 								else if (components[j]["type"].asString() == "dialog")
-									return ComponentType::DIALOG;
+									return CPT::DIALOG;
 								else
-									return ComponentType::UNKNOWN;
+									return CPT::UNKNOWN;
 							} else
-								return ComponentType::UNKNOWN;
+								return CPT::UNKNOWN;
 						} else
-							return ComponentType::UNKNOWN;
+							return CPT::UNKNOWN;
 					})};
 					auto priority{std::invoke([&] {
 						if (components[j].isMember("priority")) {
@@ -344,29 +344,29 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 						} else
 							return WDM::AUTOMATIC;
 					})};
-					GraphicsTexture texture{std::invoke([&] {
+					GTX texture{std::invoke([&] {
 						if (components[j].isMember("texture")) {
 							if (components[j]["texture"].asString().length() > 0) {
 								if (components[j]["texture"].asString() == "background")
-									return GraphicsTexture::BACKGROUND;
+									return GTX::BACKGROUND;
 								else if (components[j]["texture"].asString() == "banner")
-									return GraphicsTexture::BANNER;
+									return GTX::BANNER;
 								else if (components[j]["texture"].asString() == "creature")
-									return GraphicsTexture::CREATURES_KNOWN;
+									return GTX::CREATURES_KNOWN;
 								else if (components[j]["texture"].asString() == "logo")
-									return GraphicsTexture::LOGO;
+									return GTX::LOGO;
 								else if (components[j]["texture"].asString() == "splash")
-									return GraphicsTexture::SPLASH;
+									return GTX::SPLASH;
 								else if (components[j]["texture"].asString() == "town")
-									return GraphicsTexture::TOWN;
+									return GTX::TOWN;
 								else if (components[j]["texture"].asString() == "ui")
-									return GraphicsTexture::UI;
+									return GTX::UI;
 								else
-									return GraphicsTexture::NO_TEXTURE;
+									return GTX::NO_TEXTURE;
 							} else
-								return GraphicsTexture::NO_TEXTURE;
+								return GTX::NO_TEXTURE;
 						} else
-							return GraphicsTexture::NO_TEXTURE;
+							return GTX::NO_TEXTURE;
 					})};
 
 					// Add the Component

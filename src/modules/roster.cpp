@@ -116,7 +116,7 @@ auto Sorcery::Roster::start() -> std::optional<MIM> {
 	bg_rect.top = 0;
 	bg_rect.left = std::stoi(bg_c["source_w"].value()) * std::stoi(bg_c["source_index"].value());
 
-	_bg.setTexture(_system->resources->textures[GraphicsTexture::TOWN]);
+	_bg.setTexture(_system->resources->textures[GTX::TOWN]);
 	_bg.setTextureRect(bg_rect);
 	_bg.setScale(std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
 	_bg.setPosition(_display->window->get_x(_bg, bg_c.x), _display->window->get_y(_bg, bg_c.y));
@@ -192,9 +192,9 @@ auto Sorcery::Roster::start() -> std::optional<MIM> {
 								_cur_char = &_game->characters[character_chosen];
 								_character_display->set(_cur_char.value());
 								if (_cur_char) {
-									_character_display->set_mode(CharacterMode::AT_TRAINING);
+									_character_display->set_mode(CHM::AT_TRAINING);
 									_display->set_input_mode(WIM::BROWSE_CHARACTER);
-									_character_display->set_view(CharacterView::SUMMARY);
+									_character_display->set_view(CHV::SUMMARY);
 								}
 							} else if (_mode == RosterMode::DELETE) {
 
@@ -282,15 +282,15 @@ auto Sorcery::Roster::start() -> std::optional<MIM> {
 				} else if (_system->input->check(CIN::CONFIRM, event)) {
 					_character_display->right_view();
 				} else if (_system->input->check(CIN::UP, event)) {
-					if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
+					if (_character_display->get_view() == CHV::MAGE_SPELLS)
 						_character_display->dec_hl_spell(SPT::MAGE);
-					else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
+					else if (_character_display->get_view() == CHV::PRIEST_SPELLS)
 						_character_display->dec_hl_spell(SPT::PRIEST);
 
 				} else if (_system->input->check(CIN::DOWN, event)) {
-					if (_character_display->get_view() == CharacterView::MAGE_SPELLS)
+					if (_character_display->get_view() == CHV::MAGE_SPELLS)
 						_character_display->inc_hl_spell(SPT::MAGE);
-					else if (_character_display->get_view() == CharacterView::PRIEST_SPELLS)
+					else if (_character_display->get_view() == CHV::PRIEST_SPELLS)
 						_character_display->inc_hl_spell(SPT::PRIEST);
 				} else if (_system->input->check(CIN::MOVE, event)) {
 					if (_character_display->check_for_mouse_move(

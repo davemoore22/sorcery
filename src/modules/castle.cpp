@@ -65,13 +65,13 @@ Sorcery::Castle::~Castle() {
 }
 
 // Start/Continue a new Game
-auto Sorcery::Castle::start(Destination destination) -> std::optional<MIM> {
+auto Sorcery::Castle::start(DES destination) -> std::optional<MIM> {
 
-	if (destination == Destination::RESTART)
+	if (destination == DES::RESTART)
 		return MIM::ET_RESTART;
-	else if (destination == Destination::EDGE)
+	else if (destination == DES::EDGE)
 		return MIM::CA_EDGE_OF_TOWN;
-	else if (destination == Destination::MAZE)
+	else if (destination == DES::MAZE)
 		return MIM::ET_MAZE;
 
 	// Get the Background Display Components and load them into Display module storage (not local - and note that due to

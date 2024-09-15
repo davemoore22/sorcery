@@ -92,7 +92,7 @@ Sorcery::Legate::Legate(System *system, Display *display, Graphics *graphics, Ch
 	_choose_alignment.setPosition(text_c.x + offset_x, text_c.y + offset_y);
 
 	// Initial Stage
-	_stage = LegateStage::NO_STAGE;
+	_stage = CHG::NO_STAGE;
 }
 
 // Standard Destructor
@@ -103,7 +103,7 @@ auto Sorcery::Legate::start() -> std::optional<CAL> {
 
 	using enum Enums::Character::Align;
 
-	_stage = LegateStage::CONFIRM;
+	_stage = CHG::CONFIRM;
 	_display->generate("legate");
 	_display->set_input_mode(WIM::CONFIRM_LEGATE);
 
@@ -131,7 +131,7 @@ auto Sorcery::Legate::start() -> std::optional<CAL> {
 			if (_system->input->check(CIN::BACK, event))
 				return std::nullopt;
 
-			if (_stage == LegateStage::CONFIRM) {
+			if (_stage == CHG::CONFIRM) {
 
 				auto dialog_input{_proceed->handle_input(event)};
 				if (dialog_input) {
@@ -140,7 +140,7 @@ auto Sorcery::Legate::start() -> std::optional<CAL> {
 						return std::nullopt;
 					} else if (dialog_input.value() == WDB::YES) {
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
-						_stage = LegateStage::CHANGE_ALIGNMENT;
+						_stage = CHG::CHANGE_ALIGNMENT;
 						continue;
 					} else if (dialog_input.value() == WDB::NO) {
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
@@ -148,7 +148,7 @@ auto Sorcery::Legate::start() -> std::optional<CAL> {
 					}
 				}
 
-			} else if (_stage == LegateStage::CHANGE_ALIGNMENT) {
+			} else if (_stage == CHG::CHANGE_ALIGNMENT) {
 
 				std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->selected};
 				if (_system->input->check(CIN::UP, event))
@@ -158,11 +158,11 @@ auto Sorcery::Legate::start() -> std::optional<CAL> {
 				else if (_system->input->check(CIN::MOVE, event))
 					selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 				else if (_system->input->check(CIN::BACK, event)) {
-					_stage = LegateStage::CONFIRM;
+					_stage = CHG::CONFIRM;
 					_display->set_input_mode(WIM::CONFIRM_LEGATE);
 					continue;
 				} else if (_system->input->check(CIN::DELETE, event)) {
-					_stage = LegateStage::CONFIRM;
+					_stage = CHG::CONFIRM;
 					_display->set_input_mode(WIM::CONFIRM_LEGATE);
 					continue;
 				} else if (_system->input->check(CIN::CONFIRM, event)) {
@@ -203,42 +203,42 @@ auto Sorcery::Legate::stop() -> void {
 auto Sorcery::Legate::_set_alignment_menu() -> void {
 
 	switch (_character->get_class()) {
-	case CharacterClass::FIGHTER:
+	case CHC::FIGHTER:
 		(*_menu)[0].enabled = true;
 		(*_menu)[1].enabled = true;
 		(*_menu)[2].enabled = true;
 		break;
-	case CharacterClass::MAGE:
+	case CHC::MAGE:
 		(*_menu)[0].enabled = true;
 		(*_menu)[1].enabled = true;
 		(*_menu)[2].enabled = true;
 		break;
-	case CharacterClass::PRIEST:
+	case CHC::PRIEST:
 		(*_menu)[0].enabled = true;
 		(*_menu)[1].enabled = false;
 		(*_menu)[2].enabled = true;
 		break;
-	case CharacterClass::THIEF:
+	case CHC::THIEF:
 		(*_menu)[0].enabled = false;
 		(*_menu)[1].enabled = true;
 		(*_menu)[2].enabled = true;
 		break;
-	case CharacterClass::BISHOP:
+	case CHC::BISHOP:
 		(*_menu)[0].enabled = true;
 		(*_menu)[1].enabled = false;
 		(*_menu)[2].enabled = true;
 		break;
-	case CharacterClass::SAMURAI:
+	case CHC::SAMURAI:
 		(*_menu)[0].enabled = true;
 		(*_menu)[1].enabled = true;
 		(*_menu)[2].enabled = false;
 		break;
-	case CharacterClass::LORD:
+	case CHC::LORD:
 		(*_menu)[0].enabled = true;
 		(*_menu)[1].enabled = false;
 		(*_menu)[2].enabled = false;
 		break;
-	case CharacterClass::NINJA:
+	case CHC::NINJA:
 		(*_menu)[0].enabled = false;
 		(*_menu)[1].enabled = false;
 		(*_menu)[2].enabled = true;
@@ -259,12 +259,12 @@ auto Sorcery::Legate::_draw() -> void {
 	// Display Components
 	_display->display("legate");
 
-	if (_stage == LegateStage::CONFIRM) {
+	if (_stage == CHG::CONFIRM) {
 
 		_proceed->update();
 		_window->draw(*_proceed);
 
-	} else if (_stage == LegateStage::CHANGE_ALIGNMENT) {
+	} else if (_stage == CHG::CHANGE_ALIGNMENT) {
 
 		// And the Menu
 		_window->draw(*_frame);

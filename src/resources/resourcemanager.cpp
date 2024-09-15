@@ -54,10 +54,10 @@ Sorcery::ResourceManager::ResourceManager(FileStore &files) : _files{files} {
 		textures.acquire(WALLS, thor::Resources::fromFile<sf::Texture>(_files[WALLS_TEXTURE]));
 		textures.acquire(WIREFRAME, thor::Resources::fromFile<sf::Texture>(_files[WIREFRAME_TEXTURE]));
 
-		fonts.acquire(FontType::INPUT, thor::Resources::fromFile<sf::Font>(_files[INPUT_FONT_FILE]));
-		fonts.acquire(FontType::MONOSPACE, thor::Resources::fromFile<sf::Font>(_files[MONO_FONT_FILE]));
-		fonts.acquire(FontType::PROPORTIONAL, thor::Resources::fromFile<sf::Font>(_files[PROPORTIONAL_FONT_FILE]));
-		fonts.acquire(FontType::TEXT, thor::Resources::fromFile<sf::Font>(_files[TEXT_FONT_FILE]));
+		fonts.acquire(FTT::INPUT, thor::Resources::fromFile<sf::Font>(_files[INPUT_FONT_FILE]));
+		fonts.acquire(FTT::MONOSPACE, thor::Resources::fromFile<sf::Font>(_files[MONO_FONT_FILE]));
+		fonts.acquire(FTT::PROPORTIONAL, thor::Resources::fromFile<sf::Font>(_files[PROPORTIONAL_FONT_FILE]));
+		fonts.acquire(FTT::TEXT, thor::Resources::fromFile<sf::Font>(_files[TEXT_FONT_FILE]));
 
 		license_file = std::make_shared<TextFile>(_files[LICENSE_FILE]);
 
@@ -66,8 +66,8 @@ Sorcery::ResourceManager::ResourceManager(FileStore &files) : _files{files} {
 	}
 }
 
-auto Sorcery::ResourceManager::get_font_height(
-	const FontType font_type, const unsigned int size, bool bold) const -> unsigned int {
+auto Sorcery::ResourceManager::get_font_height(const FTT font_type, const unsigned int size, bool bold) const
+	-> unsigned int {
 
 	using enum Enums::Internal::FontType;
 

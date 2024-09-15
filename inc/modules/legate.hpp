@@ -68,7 +68,7 @@ class Legate {
 		sf::RenderWindow *_window;
 		sf::Sprite _bg;
 		std::unique_ptr<Dialog> _proceed;
-		LegateStage _stage;
+		CHG _stage;
 		std::unique_ptr<Menu> _menu;
 		std::unique_ptr<Frame> _frame;
 		sf::Text _choose_alignment;

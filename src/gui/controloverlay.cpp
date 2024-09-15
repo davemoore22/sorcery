@@ -35,7 +35,7 @@ Sorcery::ControlOverlay::ControlOverlay(System *system, Display *display, Compon
 	_texts.clear();
 
 	_input_mode = WIM::NO_INPUTMODE;
-	_control_texture = (*_system->resources).textures[GraphicsTexture::CONTROLS];
+	_control_texture = (*_system->resources).textures[GTX::CONTROLS];
 
 	_controls.clear();
 }

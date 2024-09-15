@@ -151,7 +151,7 @@ auto Sorcery::Render::_has_wall(const Tile &tile, const Sorcery::MAD direction) 
 
 auto Sorcery::Render::_render_wireframe(sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
-	sf::Texture wireframe_t{_system->resources->textures[GraphicsTexture::WIREFRAME]};
+	sf::Texture wireframe_t{_system->resources->textures[GTX::WIREFRAME]};
 
 	states.texture = &wireframe_t;
 

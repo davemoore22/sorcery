@@ -54,7 +54,7 @@ class ChangeClass {
 		// Public Members
 
 		// Public Methods
-		auto start() -> std::optional<CharacterClass>;
+		auto start() -> std::optional<CHC>;
 		auto stop() -> void;
 
 	private:
@@ -79,7 +79,7 @@ class ChangeClass {
 		bool _valid;
 		bool _show_confirm;
 		bool _show_not_changed;
-		std::optional<CharacterClass> _new_class;
+		std::optional<CHC> _new_class;
 };
 
 }

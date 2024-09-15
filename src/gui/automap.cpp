@@ -186,7 +186,7 @@ auto Sorcery::AutoMap::_draw_player(MAD direction, int x, int y, float scaling) 
 		break;
 	}
 
-	sf::Sprite player{_graphics->textures->get(unenum(icon), GraphicsTextureType::AUTOMAP).value()};
+	sf::Sprite player{_graphics->textures->get(unenum(icon), GTT::AUTOMAP).value()};
 	player.setPosition(x, y);
 	player.setScale(scaling, scaling);
 	_sprites.emplace_back(player);
