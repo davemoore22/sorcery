@@ -54,7 +54,7 @@ class Item {
 
 		// Public Methods
 		auto get_type_id() const -> ItemTypeID;
-		auto get_category() const -> ItemCategory;
+		auto get_category() const -> ITC;
 		auto get_known() const -> bool;
 		auto get_equipped() const -> bool;
 		auto get_cursed() const -> bool;
@@ -73,14 +73,14 @@ class Item {
 	private:
 
 		// Private Members
-		ItemTypeID _type;		// Type
-		ItemCategory _category; // Category
-		bool _known;			// Is known
-		bool _equipped;			// Is currently equipped
-		bool _cursed;			// Is currently cursed
-		bool _marked;			// Marked as undroppable or unsellable
-		bool _usable;			// Is usable
-		std::string _name;		// Individual Name (or if not set, the ItemTypeID Name)
+		ItemTypeID _type;  // Type
+		ITC _category;	   // Category
+		bool _known;	   // Is known
+		bool _equipped;	   // Is currently equipped
+		bool _cursed;	   // Is currently cursed
+		bool _marked;	   // Marked as undroppable or unsellable
+		bool _usable;	   // Is usable
+		std::string _name; // Individual Name (or if not set, the ItemTypeID Name)
 		std::string _uname;
 
 		long _id;

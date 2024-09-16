@@ -43,7 +43,7 @@ class MonsterStore {
 
 		// Overload operators
 		auto operator[](MonsterTypeID monster_type_id) const -> MonsterType;
-		// auto operator()(ItemCategory category) const -> std::vector<ItemType>;
+		// auto operator()(ITC category) const -> std::vector<ItemType>;
 		auto operator[](std::string name) const -> MonsterType;
 
 		// Public methods

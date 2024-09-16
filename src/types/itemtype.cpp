@@ -48,7 +48,7 @@ auto Sorcery::ItemType::get_unknown_name() const -> std::string {
 	return _unknown_name;
 }
 
-auto Sorcery::ItemType::get_category() const -> ItemCategory {
+auto Sorcery::ItemType::get_category() const -> ITC {
 
 	return _category;
 }
@@ -237,7 +237,7 @@ auto Sorcery::ItemType::set_unknown_name(const std::string value) -> void {
 	_unknown_name = value;
 }
 
-auto Sorcery::ItemType::set_category(const ItemCategory value) -> void {
+auto Sorcery::ItemType::set_category(const ITC value) -> void {
 
 	_category = value;
 }

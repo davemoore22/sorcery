@@ -45,7 +45,7 @@ class ItemType {
 		auto get_known_name() const -> std::string;
 		auto get_display_name() const -> std::string;
 		auto get_unknown_name() const -> std::string;
-		auto get_category() const -> ItemCategory;
+		auto get_category() const -> ITC;
 		auto get_cursed() const -> bool;
 		auto get_value() const -> unsigned int;
 		auto get_sellable() const -> bool;
@@ -84,7 +84,7 @@ class ItemType {
 		auto set_damage(const std::string value) -> void;
 		auto set_display_name(const std::string value) -> void;
 		auto set_unknown_name(const std::string value) -> void;
-		auto set_category(const ItemCategory value) -> void;
+		auto set_category(const ITC value) -> void;
 		auto set_cursed(const bool value) -> void;
 		auto set_value(const unsigned int value) -> void;
 		auto set_sellable(const bool value) -> void;
@@ -119,7 +119,7 @@ class ItemType {
 		std::string _known_name;		// Friendly name once identified
 		std::string _display_name;		// Short display name once identified (max 16 characters)
 		std::string _unknown_name;		// Unknown name if not identified
-		ItemCategory _category;			// e.g, WEAPON, ARMOUR etc
+		ITC _category;					// e.g, WEAPON, ARMOUR etc
 		bool _cursed;					// Is a cursed item
 		unsigned int _value;			// Price to buy in shop (Sell/Identify Price is half this)
 		bool _sellable;					// Can be sold

@@ -65,7 +65,7 @@ class Inventory {
 		auto items() const -> std::vector<Item>;
 		auto has_unidentified_items() const -> bool;
 		auto has_cursed_items() const -> bool;
-		auto has_cursed_equipped_item_category(const ItemCategory category) const -> bool;
+		auto has_cursed_equipped_item_category(const ITC category) const -> bool;
 		auto equip_item(const unsigned int slot) -> bool;
 		auto drop_item(const unsigned int slot) -> bool;
 		auto discard_item(const unsigned int slot) -> bool;
@@ -83,9 +83,9 @@ class Inventory {
 	private:
 
 		// Private Methods
-		auto _has_equipped_item_category(const ItemCategory category) const -> bool;
-		auto _has_cursed_equipped_item_category(const ItemCategory category) const -> bool;
-		auto _unequip_item_category(const ItemCategory category) -> bool;
+		auto _has_equipped_item_category(const ITC category) const -> bool;
+		auto _has_cursed_equipped_item_category(const ITC category) const -> bool;
+		auto _unequip_item_category(const ITC category) -> bool;
 
 		// Private Members
 		std::vector<Item> _items;

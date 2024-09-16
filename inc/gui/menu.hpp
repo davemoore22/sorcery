@@ -85,7 +85,7 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		// Private Methods
 		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _add_item(const int index, const MIT itemtype, const MIM code, std::string key, const bool enabled,
-			const ConfigOption option, const std::string &hint) -> void;
+			const CFG option, const std::string &hint) -> void;
 		auto _add_item(int index, const MIT itemtype, const MIM code, std::string key) -> void;
 		auto _add_item_disabled(int index, const MIT itemtype, const MIM code, std::string key) -> void;
 		auto _add_item(int index, const MIT itemtype, const MIM code, std::string key, unsigned int idx) -> void;

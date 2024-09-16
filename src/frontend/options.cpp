@@ -126,18 +126,17 @@ auto Sorcery::Options::start() -> int {
 				} else if (_system->input->check(CIN::CONFIRM, event)) {
 					if (selected) {
 						if ((*_menu->selected).type == MIT::ENTRY) {
-							const ConfigOption config_to_toggle{(*_menu->selected).config};
-							if (config_to_toggle == ConfigOption::STRICT_MODE &&
-								!(*_system->config)[ConfigOption::STRICT_MODE]) {
+							const CFG config_to_toggle{(*_menu->selected).config};
+							if (config_to_toggle == CFG::STRICT_MODE && !(*_system->config)[CFG::STRICT_MODE]) {
 
 								// Ask for confirmation of Strict Mode
 								_display->set_input_mode(WIM::CONFIRM_STRICT_MODE);
-							} else if (config_to_toggle == ConfigOption::RECOMMENDED_MODE &&
-									   !(*_system->config)[ConfigOption::RECOMMENDED_MODE]) {
+							} else if (config_to_toggle == CFG::RECOMMENDED_MODE &&
+									   !(*_system->config)[CFG::RECOMMENDED_MODE]) {
 
 								// Handle Recommended Toggling
 								_system->config->set_rec_mode();
-								(*_system->config)[ConfigOption::RECOMMENDED_MODE] = true;
+								(*_system->config)[CFG::RECOMMENDED_MODE] = true;
 
 							} else {
 
@@ -145,10 +144,10 @@ auto Sorcery::Options::start() -> int {
 
 								// And toggling off strict mode
 								if (!_system->config->is_strict_mode())
-									(*_system->config)[ConfigOption::STRICT_MODE] = false;
+									(*_system->config)[CFG::STRICT_MODE] = false;
 
 								if (!_system->config->is_rec_mode())
-									(*_system->config)[ConfigOption::RECOMMENDED_MODE] = false;
+									(*_system->config)[CFG::RECOMMENDED_MODE] = false;
 							}
 						} else if ((*_menu->selected).type == MIT::SAVE) {
 
@@ -187,7 +186,7 @@ auto Sorcery::Options::start() -> int {
 							return EXIT_MODULE;
 						} else if (dialog_input.value() == WDB::YES) {
 							_system->config->set_strict_mode();
-							(*_system->config)[ConfigOption::STRICT_MODE] = true;
+							(*_system->config)[CFG::STRICT_MODE] = true;
 							_display->set_input_mode(WIM::GAME_OPTIONS);
 						} else if (dialog_input.value() == WDB::NO) {
 							_display->set_input_mode(WIM::GAME_OPTIONS);

@@ -43,7 +43,7 @@ class ItemStore {
 
 		// Overload operators
 		auto operator[](ItemTypeID item_type_id) const -> ItemType;
-		auto operator()(ItemCategory category) const -> std::vector<ItemType>;
+		auto operator()(ITC category) const -> std::vector<ItemType>;
 		auto operator[](std::string name) const -> ItemType;
 
 		// Public methods

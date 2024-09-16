@@ -444,8 +444,8 @@ namespace Enums::Items {
 	};
 }
 
-using ConfigOption = Enums::Config::Options;
-using ItemCategory = Enums::Items::Category;
+using CFG = Enums::Config::Options;
+using ITC = Enums::Items::Category;
 using ItemDef = Enums::Items::Effects::Defensive;
 using ItemOff = Enums::Items::Effects::Offensive;
 using ItemInv = Enums::Items::Effects::Invoke;

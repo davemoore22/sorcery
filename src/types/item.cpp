@@ -95,7 +95,7 @@ auto Sorcery::Item::get_type_id() const -> ItemTypeID {
 	return _type;
 }
 
-auto Sorcery::Item::get_category() const -> ItemCategory {
+auto Sorcery::Item::get_category() const -> ITC {
 
 	return _category;
 }

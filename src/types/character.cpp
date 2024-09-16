@@ -1170,13 +1170,13 @@ auto Sorcery::Character::_set_starting_sp() -> void {
 	// In the original code this is handled in "SETSPELS"/"SPLPERLV"/"NWMAGE"/"NWPRIEST"
 	switch (_class) { // NOLINT(clang-diagnostic-switch)
 	case PRIEST:
-		_priest_max_sp[1] = (*_system->config)[ConfigOption::STRICT_MODE] ? 2 : 2 + _abilities[BONUS_PRIEST_SPELLS];
+		_priest_max_sp[1] = (*_system->config)[CFG::STRICT_MODE] ? 2 : 2 + _abilities[BONUS_PRIEST_SPELLS];
 		break;
 	case BISHOP:
 		_mage_max_sp[1] = 2;
 		break;
 	case MAGE:
-		_mage_max_sp[1] = (*_system->config)[ConfigOption::STRICT_MODE] ? 2 : 2 + _abilities[BONUS_MAGE_SPELLS];
+		_mage_max_sp[1] = (*_system->config)[CFG::STRICT_MODE] ? 2 : 2 + _abilities[BONUS_MAGE_SPELLS];
 		break;
 	default:
 		break;
@@ -1283,7 +1283,7 @@ auto Sorcery::Character::_update_hp_for_level() -> int {
 
 	// Note the rerolling of all HP ("MADELEV") when levelling - and using MaxLevel achieved when in strict mode
 	auto hp_gained{0};
-	if ((*_system->config)[ConfigOption::REROLL_HIT_POINTS_ON_LEVEL_GAIN]) {
+	if ((*_system->config)[CFG::REROLL_HIT_POINTS_ON_LEVEL_GAIN]) {
 		auto hp_total{0};
 		for (auto level = 1; level < _abilities[CURRENT_LEVEL]; level++)
 			hp_total += _get_hp_per_level();

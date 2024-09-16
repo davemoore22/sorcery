@@ -248,111 +248,110 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics, Game *
 		selected = items.begin();
 		break;
 	case ALLOCATE_CHARACTER_ATTRIBUTES:
-		_add_item(0, ENTRY, CS_STRENGTH, (*_display->string)["CHARACTER_STAT_STRENGTH"], true, ConfigOption::NONE,
+		_add_item(0, ENTRY, CS_STRENGTH, (*_display->string)["CHARACTER_STAT_STRENGTH"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_STAT_STRENGTH"]);
-		_add_item(1, ENTRY, CS_IQ, (*_display->string)["CHARACTER_STAT_INTELLIGENCE"], true, ConfigOption::NONE,
+		_add_item(1, ENTRY, CS_IQ, (*_display->string)["CHARACTER_STAT_INTELLIGENCE"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_STAT_INTELLIGENCE"]);
-		_add_item(2, ENTRY, CS_PIETY, (*_display->string)["CHARACTER_STAT_PIETY"], true, ConfigOption::NONE,
+		_add_item(2, ENTRY, CS_PIETY, (*_display->string)["CHARACTER_STAT_PIETY"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_STAT_PIETY"]);
-		_add_item(3, ENTRY, CS_VITALITY, (*_display->string)["CHARACTER_STAT_VITALITY"], true, ConfigOption::NONE,
+		_add_item(3, ENTRY, CS_VITALITY, (*_display->string)["CHARACTER_STAT_VITALITY"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_STAT_VITALITY"]);
-		_add_item(4, ENTRY, CS_AGILITY, (*_display->string)["CHARACTER_STAT_AGILITY"], true, ConfigOption::NONE,
+		_add_item(4, ENTRY, CS_AGILITY, (*_display->string)["CHARACTER_STAT_AGILITY"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_STAT_AGILITY"]);
-		_add_item(5, ENTRY, CS_LUCK, (*_display->string)["CHARACTER_STAT_LUCK"], true, ConfigOption::NONE,
+		_add_item(5, ENTRY, CS_LUCK, (*_display->string)["CHARACTER_STAT_LUCK"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_STAT_LUCK"]);
 		selected = items.begin();
 		break;
 	case CHOOSE_CHARACTER_ALIGNMENT:
-		_add_item(0, ENTRY, CA_GOOD, (*_display->string)["CHARACTER_ALIGNMENT_GOOD"], true, ConfigOption::NONE,
+		_add_item(0, ENTRY, CA_GOOD, (*_display->string)["CHARACTER_ALIGNMENT_GOOD"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_ALIGNMENT_GOOD"]);
-		_add_item(1, ENTRY, CA_NEUTRAL, (*_display->string)["CHARACTER_ALIGNMENT_NEUTRAL"], true, ConfigOption::NONE,
+		_add_item(1, ENTRY, CA_NEUTRAL, (*_display->string)["CHARACTER_ALIGNMENT_NEUTRAL"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_ALIGNMENT_NEUTRAL"]);
-		_add_item(2, ENTRY, CA_EVIL, (*_display->string)["CHARACTER_ALIGNMENT_EVIL"], true, ConfigOption::NONE,
+		_add_item(2, ENTRY, CA_EVIL, (*_display->string)["CHARACTER_ALIGNMENT_EVIL"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_ALIGNMENT_EVIL"]);
 		selected = items.begin();
 		break;
 	case CHOOSE_CHARACTER_CLASS:
 		[[fallthrough]];
 	case CHANGE_CHARACTER_CLASS:
-		_add_item(0, ENTRY, CC_SAMURAI, (*_display->string)["CHARACTER_CLASS_SAMURAI"], true, ConfigOption::NONE,
+		_add_item(0, ENTRY, CC_SAMURAI, (*_display->string)["CHARACTER_CLASS_SAMURAI"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_SAMURAI"]);
-		_add_item(1, ENTRY, CC_FIGHTER, (*_display->string)["CHARACTER_CLASS_FIGHTER"], true, ConfigOption::NONE,
+		_add_item(1, ENTRY, CC_FIGHTER, (*_display->string)["CHARACTER_CLASS_FIGHTER"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_FIGHTER"]);
-		_add_item(2, ENTRY, CC_LORD, (*_display->string)["CHARACTER_CLASS_LORD"], true, ConfigOption::NONE,
+		_add_item(2, ENTRY, CC_LORD, (*_display->string)["CHARACTER_CLASS_LORD"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_LORD"]);
-		_add_item(3, ENTRY, CC_THIEF, (*_display->string)["CHARACTER_CLASS_THIEF"], true, ConfigOption::NONE,
+		_add_item(3, ENTRY, CC_THIEF, (*_display->string)["CHARACTER_CLASS_THIEF"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_THIEF"]);
-		_add_item(4, ENTRY, CC_NINJA, (*_display->string)["CHARACTER_CLASS_NINJA"], true, ConfigOption::NONE,
+		_add_item(4, ENTRY, CC_NINJA, (*_display->string)["CHARACTER_CLASS_NINJA"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_NINJA"]);
-		_add_item(5, ENTRY, CC_PRIEST, (*_display->string)["CHARACTER_CLASS_PRIEST"], true, ConfigOption::NONE,
+		_add_item(5, ENTRY, CC_PRIEST, (*_display->string)["CHARACTER_CLASS_PRIEST"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_PRIEST"]);
-		_add_item(6, ENTRY, CC_BISHOP, (*_display->string)["CHARACTER_CLASS_BISHOP"], true, ConfigOption::NONE,
+		_add_item(6, ENTRY, CC_BISHOP, (*_display->string)["CHARACTER_CLASS_BISHOP"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_BISHOP"]);
-		_add_item(7, ENTRY, CC_MAGE, (*_display->string)["CHARACTER_CLASS_MAGE"], true, ConfigOption::NONE,
+		_add_item(7, ENTRY, CC_MAGE, (*_display->string)["CHARACTER_CLASS_MAGE"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_MAGE"]);
 		selected = items.begin();
 		break;
 	case CHOOSE_CHARACTER_PORTRAIT:
 		break;
 	case CHOOSE_CHARACTER_RACE:
-		_add_item(0, ENTRY, CR_HUMAN, (*_display->string)["CHARACTER_RACE_HUMAN"], true, ConfigOption::NONE,
+		_add_item(0, ENTRY, CR_HUMAN, (*_display->string)["CHARACTER_RACE_HUMAN"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_RACE_HUMAN"]);
-		_add_item(1, ENTRY, CR_ELF, (*_display->string)["CHARACTER_RACE_ELF"], true, ConfigOption::NONE,
+		_add_item(1, ENTRY, CR_ELF, (*_display->string)["CHARACTER_RACE_ELF"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_RACE_ELF"]);
-		_add_item(2, ENTRY, CR_DWARF, (*_display->string)["CHARACTER_RACE_DWARF"], true, ConfigOption::NONE,
+		_add_item(2, ENTRY, CR_DWARF, (*_display->string)["CHARACTER_RACE_DWARF"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_RACE_DWARF"]);
-		_add_item(3, ENTRY, CR_GNOME, (*_display->string)["CHARACTER_RACE_GNOME"], true, ConfigOption::NONE,
+		_add_item(3, ENTRY, CR_GNOME, (*_display->string)["CHARACTER_RACE_GNOME"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_RACE_GNOME"]);
-		_add_item(4, ENTRY, CR_HOBBIT, (*_display->string)["CHARACTER_RACE_HOBBIT"], true, ConfigOption::NONE,
+		_add_item(4, ENTRY, CR_HOBBIT, (*_display->string)["CHARACTER_RACE_HOBBIT"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_RACE_HOBBIT"]);
 		selected = items.begin();
 		break;
 	case CHOOSE_METHOD:
-		_add_item(0, ENTRY, CM_FULL, (*_display->string)["CHARACTER_CREATION_METHOD_FULL"], true, ConfigOption::NONE,
+		_add_item(0, ENTRY, CM_FULL, (*_display->string)["CHARACTER_CREATION_METHOD_FULL"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_CREATION_METHOD_FULL"]);
-		_add_item(1, ENTRY, CM_QUICK, (*_display->string)["CHARACTER_CREATION_METHOD_QUICK"], true, ConfigOption::NONE,
+		_add_item(1, ENTRY, CM_QUICK, (*_display->string)["CHARACTER_CREATION_METHOD_QUICK"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_CREATION_METHOD_QUICK"]);
-		_add_item(2, ENTRY, CM_RANDOM, (*_display->string)["CHARACTER_CREATION_METHOD_RANDOM"], true,
-			ConfigOption::NONE, (*_display->string)["HINT_CHARACTER_CREATION_METHOD_RANDOM"]);
+		_add_item(2, ENTRY, CM_RANDOM, (*_display->string)["CHARACTER_CREATION_METHOD_RANDOM"], true, CFG::NONE,
+			(*_display->string)["HINT_CHARACTER_CREATION_METHOD_RANDOM"]);
 		selected = items.begin();
 		break;
 	case OPTIONS:
 		_add_item(0, ENTRY, OP_RECOMMENDED_MODE, (*_display->string)["CONFIG_RECOMMENDED_MODE"], true,
-			ConfigOption::RECOMMENDED_MODE, (*_display->string)["HINT_CONFIG_RECOMMENDED_MODE"]);
-		_add_item(1, ENTRY, OP_STRICT_MODE, (*_display->string)["CONFIG_STRICT_MODE"], true, ConfigOption::STRICT_MODE,
+			CFG::RECOMMENDED_MODE, (*_display->string)["HINT_CONFIG_RECOMMENDED_MODE"]);
+		_add_item(1, ENTRY, OP_STRICT_MODE, (*_display->string)["CONFIG_STRICT_MODE"], true, CFG::STRICT_MODE,
 			(*_display->string)["HINT_CONFIG_STRICT_MODE"]);
-		_add_item(2, ENTRY, OP_CHEAT_MODE, (*_display->string)["CONFIG_CHEAT_MODE"], true, ConfigOption::CHEAT_MODE,
+		_add_item(2, ENTRY, OP_CHEAT_MODE, (*_display->string)["CONFIG_CHEAT_MODE"], true, CFG::CHEAT_MODE,
 			(*_display->string)["HINT_CONFIG_CHEAT_MODE"]);
-		_add_item(3, ENTRY, OP_AUTO_SAVE, (*_display->string)["CONFIG_AUTO_SAVE"], true, ConfigOption::AUTO_SAVE,
+		_add_item(3, ENTRY, OP_AUTO_SAVE, (*_display->string)["CONFIG_AUTO_SAVE"], true, CFG::AUTO_SAVE,
 			(*_display->string)["HINT_CONFIG_AUTO_SAVE"]);
-		_add_item(4, ENTRY, OP_DICE_ROLLS, (*_display->string)["CONFIG_DICE_ROLLS"], true, ConfigOption::DICE_ROLLS,
+		_add_item(4, ENTRY, OP_DICE_ROLLS, (*_display->string)["CONFIG_DICE_ROLLS"], true, CFG::DICE_ROLLS,
 			(*_display->string)["HINT_CONFIG_DICE_ROLLS"]);
 		_add_item(5, ENTRY, OP_ALLOW_MIXED_ALIGNMENT_PARTY, (*_display->string)["GAME_ALLOW_MIXED_ALIGNMENT"], true,
-			ConfigOption::ALLOW_MIXED_ALIGNMENT_PARTY, (*_display->string)["HINT_GAME_ALLOW_MIXED_ALIGNMENT"]);
+			CFG::ALLOW_MIXED_ALIGNMENT_PARTY, (*_display->string)["HINT_GAME_ALLOW_MIXED_ALIGNMENT"]);
 		_add_item(6, ENTRY, OP_STAT_LOSS_ON_LEVEL_UP, (*_display->string)["GAME_STAT_LOSS_LEVEL_GAIN"], true,
-			ConfigOption::STAT_LOSS_ON_LEVEL_UP, (*_display->string)["HINT_GAME_STAT_LOSS_LEVEL_GAIN"]);
+			CFG::STAT_LOSS_ON_LEVEL_UP, (*_display->string)["HINT_GAME_STAT_LOSS_LEVEL_GAIN"]);
 		_add_item(7, ENTRY, OP_REROLL_HIT_POINTS_ON_LEVEL_GAIN, (*_display->string)["GAME_REROLL_HIT_POINTS"], true,
-			ConfigOption::REROLL_HIT_POINTS_ON_LEVEL_GAIN, (*_display->string)["HINT_GAME_REROLL_HIT_POINTS"]);
+			CFG::REROLL_HIT_POINTS_ON_LEVEL_GAIN, (*_display->string)["HINT_GAME_REROLL_HIT_POINTS"]);
 		_add_item(8, ENTRY, OP_STAT_RESET_ON_CLASS_CHANGE, (*_display->string)["GAME_STAT_RESET_CLASS_CHANGE"], true,
-			ConfigOption::STAT_RESET_ON_CLASS_CHANGE, (*_display->string)["HINT_GAME_STAT_RESET_CLASS_CHANGE"]);
+			CFG::STAT_RESET_ON_CLASS_CHANGE, (*_display->string)["HINT_GAME_STAT_RESET_CLASS_CHANGE"]);
 		_add_item(9, ENTRY, OP_AGING_ON_CLASS_CHANGE, (*_display->string)["GAME_AGING_CLASS_CHANGE"], true,
-			ConfigOption::AGING_ON_CLASS_CHANGE, (*_display->string)["HINT_GAME_AGING_CLASS_CHANGE"]);
+			CFG::AGING_ON_CLASS_CHANGE, (*_display->string)["HINT_GAME_AGING_CLASS_CHANGE"]);
 		_add_item(10, ENTRY, OP_PROTECT_TELEPORT, (*_display->string)["GAME_PROTECT_TELEPORT"], true,
-			ConfigOption::PROTECT_TELEPORT, (*_display->string)["HINT_GAME_PROTECT_TELEPORT"]);
+			CFG::PROTECT_TELEPORT, (*_display->string)["HINT_GAME_PROTECT_TELEPORT"]);
 		_add_item(11, ENTRY, OP_ALLOW_RANGED_WEAPONS, (*_display->string)["GAME_ALLOW_RANGED_WEAPONS"], true,
-			ConfigOption::ALLOW_RANGED_WEAPONS, (*_display->string)["HINT_GAME_ALLOW_RANGED_WEAPONS"]);
+			CFG::ALLOW_RANGED_WEAPONS, (*_display->string)["HINT_GAME_ALLOW_RANGED_WEAPONS"]);
 		_add_item(13, ENTRY, OP_BATCH_HEALING_AFTER_RETURN_TO_CASTLE,
-			(*_display->string)["GAME_BATCH_HEALING_AFTER_RETURN"], true,
-			ConfigOption::BATCH_HEALING_AFTER_RETURN_TO_CASTLE,
+			(*_display->string)["GAME_BATCH_HEALING_AFTER_RETURN"], true, CFG::BATCH_HEALING_AFTER_RETURN_TO_CASTLE,
 			(*_display->string)["HINT_GAME_BATCH_HEALING_AFTER_RETURN"]);
 		_add_item(14, ENTRY, OP_REROLL_ONES_ON_DICE, (*_display->string)["GAME_REROLL_ONES"], true,
-			ConfigOption::REROLL_ONES_ON_DICE, (*_display->string)["HINT_GAME_REROLL_ONES"]);
+			CFG::REROLL_ONES_ON_DICE, (*_display->string)["HINT_GAME_REROLL_ONES"]);
 		_add_item(15, ENTRY, OP_ALLOW_LOST_LEGATED, (*_display->string)["GAME_ALLOW_LOST_LEGATED"], true,
-			ConfigOption::ALLOW_LOST_LEGATED, (*_display->string)["HINT_GAME_ALLOW_LOST_LEGATED"]);
+			CFG::ALLOW_LOST_LEGATED, (*_display->string)["HINT_GAME_ALLOW_LOST_LEGATED"]);
 		_add_item(16, ENTRY, OP_ALLOW_CURABLE_DRAIN, (*_display->string)["GAME_ALLOW_CURABLE_DRAIN"], true,
-			ConfigOption::ALLOW_CURABLE_DRAIN, (*_display->string)["HINT_GAME_ALLOW_CURABLE_DRAIN"]);
-		_add_item(19, ENTRY, OP_CHARGED_ITEMS, (*_display->string)["GAME_CHARGED_ITEMS"], true,
-			ConfigOption::CHARGED_ITEMS, (*_display->string)["HINT_GAME_CHARGED_ITEMS"]);
+			CFG::ALLOW_CURABLE_DRAIN, (*_display->string)["HINT_GAME_ALLOW_CURABLE_DRAIN"]);
+		_add_item(19, ENTRY, OP_CHARGED_ITEMS, (*_display->string)["GAME_CHARGED_ITEMS"], true, CFG::CHARGED_ITEMS,
+			(*_display->string)["HINT_GAME_CHARGED_ITEMS"]);
 		_add_item(20, SPACER, ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
 		_add_item(21, SAVE, ITEM_SAVE, (*_display->string)["MENU_OPTIONS_SAVE"]);
 		_add_item(22, CANCEL, ITEM_CANCEL, (*_display->string)["MENU_OPTIONS_CANCEL"]);
@@ -485,7 +484,7 @@ auto Sorcery::Menu::_add_item(int index, const MIT itemtype, const MIM code, std
 		key.resize(key.length() + 1, 32);
 
 	auto hint{""s};
-	items.emplace_back(static_cast<unsigned int>(index), itemtype, code, key, true, ConfigOption::NONE, hint);
+	items.emplace_back(static_cast<unsigned int>(index), itemtype, code, key, true, CFG::NONE, hint);
 	++count;
 }
 
@@ -496,7 +495,7 @@ auto Sorcery::Menu::_add_item_disabled(int index, const MIT itemtype, const MIM 
 		key.resize(key.length() + 1, 32);
 
 	auto hint{""s};
-	items.emplace_back(static_cast<unsigned int>(index), itemtype, code, key, false, ConfigOption::NONE, hint);
+	items.emplace_back(static_cast<unsigned int>(index), itemtype, code, key, false, CFG::NONE, hint);
 	++count;
 }
 
@@ -514,7 +513,7 @@ auto Sorcery::Menu::_add_item(int index, const MIT itemtype, const MIM code, std
 
 // Add an item to the Menu
 auto Sorcery::Menu::_add_item(const int index, const MIT itemtype, const MIM code, std::string key, const bool enabled,
-	const ConfigOption option, const std::string &hint) -> void {
+	const CFG option, const std::string &hint) -> void {
 
 	// Note passing key by value as we are modifying the key here
 	if (key.length() % 2 == 0)

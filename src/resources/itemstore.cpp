@@ -66,7 +66,7 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				const auto category{std::invoke([&] {
 					if (items[i].isMember("category")) {
 						if (items[i]["category"].asString().length() > 0) {
-							auto category{magic_enum::enum_cast<ItemCategory>(items[i]["category"].asString())};
+							auto category{magic_enum::enum_cast<ITC>(items[i]["category"].asString())};
 							return category.value_or(NO_ITEM_CATEGORY);
 						} else
 							return NO_ITEM_CATEGORY;
@@ -238,7 +238,7 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				item_type.set_effects(effects);
 
 				// Parse Damage Dice String
-				if (!damage_s.empty() && category == ItemCategory::WEAPON)
+				if (!damage_s.empty() && category == ITC::WEAPON)
 					item_type.set_damage_dice(damage_s);
 				else
 					item_type.set_damage_dice("");
@@ -278,7 +278,7 @@ auto Sorcery::ItemStore::operator[](std::string name) const -> ItemType {
 	return (*it).second;
 }
 
-auto Sorcery::ItemStore::operator()(const ItemCategory category) const -> std::vector<ItemType> {
+auto Sorcery::ItemStore::operator()(const ITC category) const -> std::vector<ItemType> {
 
 	std::vector<ItemType> items;
 	for (const auto &[key, value] : _items)

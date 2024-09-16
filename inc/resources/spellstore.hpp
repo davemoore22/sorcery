@@ -41,7 +41,7 @@ class Spellstore {
 
 		// Overload operators
 		auto operator[](SPI spell_id) const -> Spell;
-		auto operator()(ItemCategory category) const -> std::vector<Spell>;
+		auto operator()(ITC category) const -> std::vector<Spell>;
 		auto operator[](std::string name) const -> Spell;
 
 		// Public methods

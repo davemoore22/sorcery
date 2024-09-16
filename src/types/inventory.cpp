@@ -146,7 +146,7 @@ auto Sorcery::Inventory::is_equipped_cursed(const unsigned int slot) -> bool {
 	return candidate.get_cursed() && candidate.get_equipped();
 }
 
-auto Sorcery::Inventory::_unequip_item_category(const ItemCategory category) -> bool {
+auto Sorcery::Inventory::_unequip_item_category(const ITC category) -> bool {
 
 	for (auto &item : _items) {
 		if (item.get_equipped() && item.get_category() == category) {
@@ -242,18 +242,18 @@ auto Sorcery::Inventory::discard_item(const unsigned int slot) -> bool {
 	return true;
 }
 
-auto Sorcery::Inventory::_has_equipped_item_category(const ItemCategory category) const -> bool {
+auto Sorcery::Inventory::_has_equipped_item_category(const ITC category) const -> bool {
 
 	return std::ranges::any_of(_items.begin(), _items.end(),
 		[&](const auto &item) { return item.get_category() == category && item.get_equipped(); });
 }
 
-auto Sorcery::Inventory::has_cursed_equipped_item_category(const ItemCategory category) const -> bool {
+auto Sorcery::Inventory::has_cursed_equipped_item_category(const ITC category) const -> bool {
 
 	return _has_cursed_equipped_item_category(category);
 }
 
-auto Sorcery::Inventory::_has_cursed_equipped_item_category(const ItemCategory category) const -> bool {
+auto Sorcery::Inventory::_has_cursed_equipped_item_category(const ITC category) const -> bool {
 
 	return std::ranges::any_of(_items.begin(), _items.end(),
 		[&](const auto &item) { return item.get_category() == category && item.get_equipped() && item.get_cursed(); });
