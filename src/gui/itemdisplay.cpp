@@ -90,7 +90,7 @@ auto Sorcery::ItemDisplay::set(const unsigned int item_idx) -> void {
 		_item.reset();
 	}
 
-	_item = std::make_unique<Item>((*_itemstore)[(magic_enum::enum_cast<ItemTypeID>(item_idx).value())]);
+	_item = std::make_unique<Item>((*_itemstore)[(magic_enum::enum_cast<ITT>(item_idx).value())]);
 	const auto it{(*_itemstore)[_item->get_type_id()]};
 
 	_display->generate("item_display", _sprites, _texts, _frames);
@@ -144,7 +144,7 @@ auto Sorcery::ItemDisplay::set(const unsigned int item_idx) -> void {
 	_add_text((*_display->layout)["item_display:swings_label_item"], "{}", std::to_string(it.get_swings()));
 
 	const std::string it_invoke{std::invoke([&] {
-		if (it.get_eff_inv() == ItemInv::NO_INV_EFFECT)
+		if (it.get_eff_inv() == ITV::NO_INV_EFFECT)
 			return std::string{""};
 		else {
 			const std::string inv{magic_enum::enum_name(it.get_eff_inv())};

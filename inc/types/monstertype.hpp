@@ -41,7 +41,7 @@ class MonsterType {
 		auto friend operator<<(std::ostream &out_stream, const MonsterType &ItemType) -> std::ostream &;
 
 		// Public Methods
-		auto get_type_id() const -> MonsterTypeID;
+		auto get_type_id() const -> MTI;
 		auto get_known_name() const -> std::string;
 		auto get_unknown_name() const -> std::string;
 		auto get_known_name_plural() const -> std::string;
@@ -53,14 +53,14 @@ class MonsterType {
 		auto get_known_gfx() const -> unsigned int;
 		auto get_unknown_gfx() const -> unsigned int;
 		auto get_hit_dice() const -> Dice;
-		auto get_category() const -> MonsterCategory;
-		auto get_class() const -> MonsterClass;
+		auto get_category() const -> MCT;
+		auto get_class() const -> MCL;
 		auto get_armour_class() const -> int;
 		auto get_attacks() const -> std::vector<Dice>;
 		auto get_attacks_str() const -> std::string;
 		auto get_number_attacks() const -> unsigned int;
 		auto get_attack(const unsigned int attack) const -> Dice;
-		auto get_breath_weapon() const -> MonsterBreath;
+		auto get_breath_weapon() const -> MBR;
 		auto get_level_drain() const -> unsigned int;
 		auto get_regeneration() const -> unsigned int;
 		auto get_rewards() const -> std::tuple<unsigned int, unsigned int>;
@@ -72,7 +72,7 @@ class MonsterType {
 		auto get_priest_level() const -> unsigned int;
 		auto get_spell_resistance() const -> unsigned int;
 
-		auto set_type_id(const MonsterTypeID value) -> void;
+		auto set_type_id(const MTI value) -> void;
 		auto set_known_name(const std::string value) -> void;
 		auto set_unknown_name(const std::string value) -> void;
 		auto set_known_name_plural(const std::string value) -> void;
@@ -84,11 +84,11 @@ class MonsterType {
 		auto set_traits(const std::string value) -> void;
 		auto set_weaknesses(const std::string value) -> void;
 		auto set_hit_dice(const std::string value) -> void;
-		auto set_category(const MonsterCategory value) -> void;
-		auto set_class(const MonsterClass value) -> void;
+		auto set_category(const MCT value) -> void;
+		auto set_class(const MCL value) -> void;
 		auto set_armour_class(const int value) -> void;
 		auto set_attack(Dice value) -> void;
-		auto set_breath_weapon(const MonsterBreath value) -> void;
+		auto set_breath_weapon(const MBR value) -> void;
 		auto set_level_drain(const unsigned int value) -> void;
 		auto set_regeneration(const unsigned int value) -> void;
 		auto set_rewards(const unsigned int value_1, const unsigned int value_2) -> void;
@@ -100,14 +100,14 @@ class MonsterType {
 		auto set_mage_level(const unsigned int value) -> void;
 		auto set_spell_resistance(const unsigned int value) -> void;
 
-		auto has_resistance(MonsterResist value) -> bool;
-		auto has_property(MonsterProperty value) -> bool;
+		auto has_resistance(MRE value) -> bool;
+		auto has_property(MPR value) -> bool;
 		auto clear_attacks() -> void;
 
 	private:
 
 		// Private Members
-		MonsterTypeID _type;
+		MTI _type;
 		std::string _known_name;
 		std::string _unknown_name;
 		std::string _known_name_plural;
@@ -117,11 +117,11 @@ class MonsterType {
 		Dice _hit_dice;
 		unsigned int _known_gfx;
 		unsigned int _unknown_gfx;
-		MonsterCategory _category;
-		MonsterClass _class;
+		MCT _category;
+		MCL _class;
 		int _armour_class;
 		std::vector<Dice> _attacks;
-		MonsterBreath _breath_weapon;
+		MBR _breath_weapon;
 		unsigned int _level_drain;
 		unsigned int _regeneration;
 		unsigned int _reward_1;

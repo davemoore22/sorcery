@@ -90,7 +90,7 @@ Sorcery::Item::Item(const Item &item) {
 	_uname = item._uname;
 }
 
-auto Sorcery::Item::get_type_id() const -> ItemTypeID {
+auto Sorcery::Item::get_type_id() const -> ITT {
 
 	return _type;
 }
@@ -165,7 +165,7 @@ auto Sorcery::Item::set_name(const std::string &value) -> void {
 	_name = value;
 }
 
-auto Sorcery::Item::decay_to(const ItemTypeID value) -> void {
+auto Sorcery::Item::decay_to(const ITT value) -> void {
 
 	_type = value;
 }

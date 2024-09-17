@@ -446,18 +446,19 @@ namespace Enums::Items {
 
 using CFG = Enums::Config::Options;
 using ITC = Enums::Items::Category;
-using ItemDef = Enums::Items::Effects::Defensive;
-using ItemOff = Enums::Items::Effects::Offensive;
-using ItemInv = Enums::Items::Effects::Invoke;
-using ItemTypeID = Enums::Items::TypeID;
-using ItemIDResult = Enums::Items::IdentifyOutcome;
-using MonsterBreath = Enums::Monsters::Breath;
-using MonsterClass = Enums::Monsters::Class;
-using MonsterCategory = Enums::Monsters::Category;
-using MonsterResist = Enums::Monsters::Resistance;
+using ITD = Enums::Items::Effects::Defensive;
+using ITO = Enums::Items::Effects::Offensive;
+using ITV = Enums::Items::Effects::Invoke;
+using ITT = Enums::Items::TypeID;
+using IIR = Enums::Items::IdentifyOutcome;
+using MBR = Enums::Monsters::Breath;
+using MCL = Enums::Monsters::Class;
+using MCT = Enums::Monsters::Category;
+using MRE = Enums::Monsters::Resistance;
+using MPR = Enums::Monsters::Property;
+using MTI = Enums::Monsters::TypeID;
+
 using MonsterResistances = std::array<bool, 7>;
-using MonsterProperty = Enums::Monsters::Property;
 using MonsterProperties = std::array<bool, 7>;
-using MonsterTypeID = Enums::Monsters::TypeID;
 
 }

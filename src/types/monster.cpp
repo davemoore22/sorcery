@@ -62,7 +62,7 @@ Sorcery::Monster::Monster(const MonsterType &monster_type) {
 	_id = s_id++;
 }
 
-auto Sorcery::Monster::get_type_id() const -> MonsterTypeID {
+auto Sorcery::Monster::get_type_id() const -> MTI {
 
 	return _type;
 }

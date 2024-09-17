@@ -160,13 +160,13 @@ auto Sorcery::Inventory::_unequip_item_category(const ITC category) -> bool {
 
 // Attempt to identify an Item
 auto Sorcery::Inventory::identify_item(const unsigned int slot, const unsigned int roll, const unsigned int id_chance,
-	const unsigned int curse_chance) -> ItemIDResult {
+	const unsigned int curse_chance) -> IIR {
 
 	auto cursed{false};
 	auto success{false};
 
 	if (_items.size() < (slot - 1))
-		return ItemIDResult::NONE;
+		return IIR::NONE;
 
 	auto &candidate{_items.at(slot - 1)};
 	if (roll < id_chance) {
@@ -181,13 +181,13 @@ auto Sorcery::Inventory::identify_item(const unsigned int slot, const unsigned i
 	}
 
 	if (success && !cursed)
-		return ItemIDResult::SUCCESS;
+		return IIR::SUCCESS;
 	else if (success && cursed)
-		return ItemIDResult::CURSED_SUCCESS;
+		return IIR::CURSED_SUCCESS;
 	else if (!success && cursed)
-		return ItemIDResult::CURSED_FAIL;
+		return IIR::CURSED_FAIL;
 	else
-		return ItemIDResult::FAIL;
+		return IIR::FAIL;
 }
 
 auto Sorcery::Inventory::equip_item(const unsigned int slot) -> bool {

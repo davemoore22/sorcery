@@ -41,7 +41,7 @@ class ItemType {
 		auto friend operator<<(std::ostream &out_stream, const ItemType &ItemType) -> std::ostream &;
 
 		// Public Methods
-		auto get_type_id() const -> ItemTypeID;
+		auto get_type_id() const -> ITT;
 		auto get_known_name() const -> std::string;
 		auto get_display_name() const -> std::string;
 		auto get_unknown_name() const -> std::string;
@@ -66,11 +66,11 @@ class ItemType {
 		auto get_eff_def_str() const -> std::string;
 		auto get_eff_off() const -> ItemEffOff;
 		auto get_eff_off_str() const -> std::string;
-		auto get_eff_inv() const -> ItemInv;
+		auto get_eff_inv() const -> ITV;
 		auto get_eff_inv_decay() const -> unsigned int;
 		auto get_eff_use() const -> SPI;
 		auto get_eff_use_decay() const -> unsigned int;
-		auto get_decay_type_id() const -> ItemTypeID;
+		auto get_decay_type_id() const -> ITT;
 		auto get_shop_inital_stock() const -> int;
 		auto get_discovered() const -> bool;
 		auto get_buy() const -> bool;
@@ -79,7 +79,7 @@ class ItemType {
 		auto get_gfx() const -> unsigned int;
 		auto is_class_usable(const CHC cclass) const -> bool;
 		auto is_align_usable(const CAL calign) const -> bool;
-		auto set_type_id(const ItemTypeID value) -> void;
+		auto set_type_id(const ITT value) -> void;
 		auto set_known_name(const std::string value) -> void;
 		auto set_damage(const std::string value) -> void;
 		auto set_display_name(const std::string value) -> void;
@@ -98,11 +98,11 @@ class ItemType {
 		auto set_regen(const int value) -> void;
 		auto set_eff_def(const ItemEffDef value) -> void;
 		auto set_eff_off(const ItemEffOff value) -> void;
-		auto set_eff_inv(const ItemInv value) -> void;
+		auto set_eff_inv(const ITV value) -> void;
 		auto set_eff_inv_decay(const unsigned int value) -> void;
 		auto set_eff_use(const SPI value) -> void;
 		auto set_eff_use_decay(const unsigned int value) -> void;
-		auto set_decay_type_id(const ItemTypeID value) -> void;
+		auto set_decay_type_id(const ITT value) -> void;
 		auto set_shop_inital_stock(const int value) -> void;
 		auto set_discovered(const bool value) -> void;
 		auto set_desc(const std::string value) -> void;
@@ -115,7 +115,7 @@ class ItemType {
 	private:
 
 		// Private Members
-		ItemTypeID _type;				// e.g. LONG_SWORD, LONG_SWORD_PLUS_1 etc
+		ITT _type;						// e.g. LONG_SWORD, LONG_SWORD_PLUS_1 etc
 		std::string _known_name;		// Friendly name once identified
 		std::string _display_name;		// Short display name once identified (max 16 characters)
 		std::string _unknown_name;		// Unknown name if not identified
@@ -134,11 +134,11 @@ class ItemType {
 		int _regeneration;					   // Passive hp adjustment (25% chance per turn of this happening)
 		ItemEffOff _offensive_effects;		   // Offensive effects wielding this item bestows
 		ItemEffDef _defensive_effects;		   // Defensive effects wearing this item bestows
-		ItemInv _invocation_effect;			   // Effect when invoked
+		ITV _invocation_effect;				   // Effect when invoked
 		unsigned int _invocation_decay_chance; // % chance of turning into _decay_type when invoked
 		SPI _use_effect;					   // Effect when used (same as associated spell effect)
 		unsigned int _use_decay_chance;		   // % chance of turning into _decay_type when used
-		ItemTypeID _decay_type;				   // Item type decays to when used/invoked
+		ITT _decay_type;					   // Item type decays to when used/invoked
 		int _shop_initial_stock;			   // Number in stock in shop at beginning of game
 		bool _discovered_by_player;			   // Has been discovered in this game
 		std::string _description;			   // Flowery Description

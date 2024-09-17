@@ -42,27 +42,27 @@ class MonsterStore {
 		MonsterStore() = delete;
 
 		// Overload operators
-		auto operator[](MonsterTypeID monster_type_id) const -> MonsterType;
+		auto operator[](MTI monster_type_id) const -> MonsterType;
 		// auto operator()(ITC category) const -> std::vector<ItemType>;
 		auto operator[](std::string name) const -> MonsterType;
 
 		// Public methods
-		// auto get_a_monster(const MonsterTypeID monster_type_id) const -> Monster;
+		// auto get_a_monster(const MTI monster_type_id) const -> Monster;
 		// auto get_random_monster(
-		//	const MonsterTypeID min_monster_type_id, const MonsterTypeID max_monster_type_id) const -> Monster;
+		//	const MTI min_monster_type_id, const MTI max_monster_type_id) const -> Monster;
 		auto get_all_types() const -> std::vector<MonsterType>;
 
 	private:
 
 		// Private members
 		System *_system;
-		std::map<MonsterTypeID, MonsterType> _items;
+		std::map<MTI, MonsterType> _items;
 		bool _loaded;
 
 		// Private methods
 		auto _load(const std::filesystem::path filename) -> bool;
 		auto _parse_attacks(const std::string value) const -> std::vector<Dice>;
-		auto _parse_breath_weapons(const std::string value) const -> MonsterBreath;
+		auto _parse_breath_weapons(const std::string value) const -> MBR;
 		auto _parse_regen(const std::string value) const -> unsigned int;
 		auto _parse_level_drain(const std::string value) const -> unsigned int;
 		auto _parse_resistances(const std::string value) const -> MonsterResistances;

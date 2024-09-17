@@ -53,7 +53,7 @@ auto Sorcery::MonsterDisplay::set(const unsigned int monster_idx) -> void {
 		_monster.reset();
 	}
 
-	_monster = std::make_unique<Monster>((*_monsterstore)[(magic_enum::enum_cast<MonsterTypeID>(monster_idx).value())]);
+	_monster = std::make_unique<Monster>((*_monsterstore)[(magic_enum::enum_cast<MTI>(monster_idx).value())]);
 	const auto mon{(*_monsterstore)[_monster->get_type_id()]};
 
 	_display->generate("monster_display", _sprites, _texts, _frames);
@@ -65,8 +65,7 @@ auto Sorcery::MonsterDisplay::set(const unsigned int monster_idx) -> void {
 
 	const std::string mon_type{magic_enum::enum_name(mon.get_category())};
 	_add_text((*_display->layout)["monster_display:type_label_value"], "{}", mon_type);
-	const std::string mon_class{
-		mon.get_class() != MonsterClass::NO_CLASS ? magic_enum::enum_name(mon.get_class()) : "N/A"};
+	const std::string mon_class{mon.get_class() != MCL::NO_CLASS ? magic_enum::enum_name(mon.get_class()) : "N/A"};
 	_add_text((*_display->layout)["monster_display:class_label_value"], "{}", mon_class);
 	_add_text((*_display->layout)["monster_display:xp_label_value"], "{}", std::to_string(mon.get_xp()));
 	_add_text((*_display->layout)["monster_display:ac_label_value"], "{}", std::to_string(mon.get_armour_class()));

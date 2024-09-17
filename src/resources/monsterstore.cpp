@@ -76,19 +76,19 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename) -> bool 
 				const auto category{std::invoke([&] {
 					if (items[i].isMember("category")) {
 						if (items[i]["category"].asString().length() > 0) {
-							auto category{magic_enum::enum_cast<MonsterCategory>(items[i]["category"].asString())};
-							return category.value_or(MonsterCategory::HUMANOID);
+							auto category{magic_enum::enum_cast<MCT>(items[i]["category"].asString())};
+							return category.value_or(MCT::HUMANOID);
 						} else
-							return MonsterCategory::HUMANOID;
+							return MCT::HUMANOID;
 					} else
-						return MonsterCategory::HUMANOID;
+						return MCT::HUMANOID;
 				})};
 				const auto mclass{std::invoke([&] {
-					if (category == MonsterCategory::HUMANOID) {
-						auto mclass{magic_enum::enum_cast<MonsterClass>(items[i]["category"].asString())};
-						return mclass.value_or(MonsterClass::NO_CLASS);
+					if (category == MCT::HUMANOID) {
+						auto mclass{magic_enum::enum_cast<MCL>(items[i]["category"].asString())};
+						return mclass.value_or(MCL::NO_CLASS);
 					} else
-						return MonsterClass::NO_CLASS;
+						return MCL::NO_CLASS;
 				})};
 				const auto ac{std::invoke([&] {
 					if (items[i].isMember("ac"))
@@ -215,7 +215,7 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename) -> bool 
 		return false;
 }
 
-auto Sorcery::MonsterStore::operator[](MonsterTypeID monster_type_id) const -> MonsterType {
+auto Sorcery::MonsterStore::operator[](MTI monster_type_id) const -> MonsterType {
 
 	return _items.at(monster_type_id);
 }
@@ -249,20 +249,20 @@ auto Sorcery::MonsterStore::_parse_attacks(const std::string value) const -> std
 	return attacks;
 }
 
-auto Sorcery::MonsterStore::_parse_breath_weapons(const std::string value) const -> MonsterBreath {
+auto Sorcery::MonsterStore::_parse_breath_weapons(const std::string value) const -> MBR {
 
 	if (value.find("Drain Breath") != std::string::npos)
-		return MonsterBreath::DRAIN_BREATH;
+		return MBR::DRAIN_BREATH;
 	else if (value.find("Flame Breath") != std::string::npos)
-		return MonsterBreath::FLAME_BREATH;
+		return MBR::FLAME_BREATH;
 	else if (value.find("Poison Breath") != std::string::npos)
-		return MonsterBreath::POISON_BREATH;
+		return MBR::POISON_BREATH;
 	else if (value.find("Cold Breath") != std::string::npos)
-		return MonsterBreath::COLD_BREATH;
+		return MBR::COLD_BREATH;
 	else if (value.find("Stone Breath") != std::string::npos)
-		return MonsterBreath::STONE_BREATH;
+		return MBR::STONE_BREATH;
 	else
-		return MonsterBreath::NO_BREATH_WEAPON;
+		return MBR::NO_BREATH_WEAPON;
 }
 
 auto Sorcery::MonsterStore::_parse_level_drain(const std::string value) const -> unsigned int {
@@ -289,19 +289,19 @@ auto Sorcery::MonsterStore::_parse_resistances(const std::string value) const ->
 
 	MonsterResistances res;
 	if (value.find("Cold") != std::string::npos)
-		res[unenum(MonsterResist::RESIST_COLD)] = true;
+		res[unenum(MRE::RESIST_COLD)] = true;
 	if (value.find("Drain") != std::string::npos)
-		res[unenum(MonsterResist::RESIST_LEVEL_DRAIN)] = true;
+		res[unenum(MRE::RESIST_LEVEL_DRAIN)] = true;
 	if (value.find("Fire") != std::string::npos)
-		res[unenum(MonsterResist::RESIST_FIRE)] = true;
+		res[unenum(MRE::RESIST_FIRE)] = true;
 	if (value.find("Magic") != std::string::npos)
-		res[unenum(MonsterResist::RESIST_MAGIC)] = true;
+		res[unenum(MRE::RESIST_MAGIC)] = true;
 	if (value.find("Poison") != std::string::npos)
-		res[unenum(MonsterResist::RESIST_POISON)] = true;
+		res[unenum(MRE::RESIST_POISON)] = true;
 	if (value.find("Physical") != std::string::npos)
-		res[unenum(MonsterResist::RESIST_PHYSICAL)] = true;
+		res[unenum(MRE::RESIST_PHYSICAL)] = true;
 	if (value.find("Stone") != std::string::npos)
-		res[unenum(MonsterResist::RESIST_STONING)] = true;
+		res[unenum(MRE::RESIST_STONING)] = true;
 
 	return res;
 }
@@ -310,19 +310,19 @@ auto Sorcery::MonsterStore::_parse_properties(const std::string value) const -> 
 
 	MonsterProperties props;
 	if (value.find("Critical") != std::string::npos)
-		props[unenum(MonsterProperty::CAN_AUTOKILL)] = true;
+		props[unenum(MPR::CAN_AUTOKILL)] = true;
 	if (value.find("Sleep") != std::string::npos)
-		props[unenum(MonsterProperty::CAN_BE_SLEPT)] = true;
+		props[unenum(MPR::CAN_BE_SLEPT)] = true;
 	if (value.find("Call") != std::string::npos)
-		props[unenum(MonsterProperty::CAN_CALL_FOR_OTHERS)] = true;
+		props[unenum(MPR::CAN_CALL_FOR_OTHERS)] = true;
 	if (value.find("Run") != std::string::npos)
-		props[unenum(MonsterProperty::CAN_FLEE)] = true;
+		props[unenum(MPR::CAN_FLEE)] = true;
 	if (value.find("Paralyse") != std::string::npos)
-		props[unenum(MonsterProperty::CAN_PARALYSE)] = true;
+		props[unenum(MPR::CAN_PARALYSE)] = true;
 	if (value.find("Stone") != std::string::npos)
-		props[unenum(MonsterProperty::CAN_PETRIFY)] = true;
+		props[unenum(MPR::CAN_PETRIFY)] = true;
 	if (value.find("Poison") != std::string::npos)
-		props[unenum(MonsterProperty::CAN_POISON)] = true;
+		props[unenum(MPR::CAN_POISON)] = true;
 
 	return props;
 }

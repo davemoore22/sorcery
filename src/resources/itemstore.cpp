@@ -266,7 +266,7 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 		return false;
 }
 
-auto Sorcery::ItemStore::operator[](ItemTypeID item_type_id) const -> ItemType {
+auto Sorcery::ItemStore::operator[](ITT item_type_id) const -> ItemType {
 
 	return _items.at(item_type_id);
 }
@@ -289,23 +289,22 @@ auto Sorcery::ItemStore::operator()(const ITC category) const -> std::vector<Ite
 }
 
 // Public methods
-auto Sorcery::ItemStore::get_an_item(const ItemTypeID item_type_id) const -> Item {
+auto Sorcery::ItemStore::get_an_item(const ITT item_type_id) const -> Item {
 
 	return Item{_items.at(item_type_id)};
 }
 
-auto Sorcery::ItemStore::is_usable(const ItemTypeID item_type_id, const CHC cclass, const CAL calign) const -> bool {
+auto Sorcery::ItemStore::is_usable(const ITT item_type_id, const CHC cclass, const CAL calign) const -> bool {
 
 	return _items.at(item_type_id).is_class_usable(cclass) && _items.at(item_type_id).is_align_usable(calign);
 }
 
-auto Sorcery::ItemStore::get_random_item(const ItemTypeID min_item_type_id, const ItemTypeID max_item_type_id) const
-	-> Item {
+auto Sorcery::ItemStore::get_random_item(const ITT min_item_type_id, const ITT max_item_type_id) const -> Item {
 
 	// TODO: probably needs some bounds checking on this
 	auto item_type_id{_system->random->get(unenum(min_item_type_id), unenum(max_item_type_id))};
 
-	return Item{_items.at(magic_enum::enum_cast<ItemTypeID>(item_type_id).value())};
+	return Item{_items.at(magic_enum::enum_cast<ITT>(item_type_id).value())};
 }
 
 auto Sorcery::ItemStore::get_all_types() const -> std::vector<ItemType> {
@@ -331,14 +330,14 @@ auto Sorcery::ItemStore::_get_defensive_effects(const std::string defensive_s) c
 
 		for (const auto &term : split) {
 			if (term == "RESIST_ALL") {
-				for (auto i = unenum(ItemDef::RESIST_COLD); i <= unenum(ItemDef::PREVENT_DECAPITATION); i++)
+				for (auto i = unenum(ITD::RESIST_COLD); i <= unenum(ITD::PREVENT_DECAPITATION); i++)
 					effects[i] = true;
 			}
 			if (term == "PROTECT_VS_ALL") {
-				for (auto i = unenum(ItemDef::PROTECTION_VS_ANIMAL); i <= unenum(ItemDef::PROTECTION_VS_WERE); i++)
+				for (auto i = unenum(ITD::PROTECTION_VS_ANIMAL); i <= unenum(ITD::PROTECTION_VS_WERE); i++)
 					effects[i] = true;
 			};
-			auto def{magic_enum::enum_cast<ItemDef>(term)};
+			auto def{magic_enum::enum_cast<ITD>(term)};
 			if (def.has_value())
 				effects[unenum(def.value())] = term.starts_with('!') ? false : true;
 		}
@@ -360,7 +359,7 @@ auto Sorcery::ItemStore::_get_offensive_effects(const std::string offsensive_s) 
 			std::remove_if(split.begin(), split.end(), [](std::string_view s) { return s.size() == 0; }), split.end());
 
 		for (const auto &term : split) {
-			auto off{magic_enum::enum_cast<ItemOff>(term)};
+			auto off{magic_enum::enum_cast<ITO>(term)};
 			if (off.has_value())
 				effects[unenum(off.value())] = term.starts_with('!') ? false : true;
 		}

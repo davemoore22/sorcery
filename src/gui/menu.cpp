@@ -410,7 +410,7 @@ auto Sorcery::Menu::_add_all_items() -> void {
 
 	const auto item_types{_game->itemstore->get_all_types()};
 	for (auto &item_type : item_types)
-		if (item_type.get_type_id() != ItemTypeID::BROKEN_ITEM)
+		if (item_type.get_type_id() != ITT::BROKEN_ITEM)
 			_add_item(unenum(item_type.get_type_id()), MIT::ENTRY, MIM::MU_ITEM, item_type.get_display_name(),
 				unenum(item_type.get_type_id()));
 }

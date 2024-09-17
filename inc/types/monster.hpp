@@ -43,7 +43,7 @@ class Monster {
 		auto friend operator<<(std::ostream &out_stream, const Monster &monster) -> std::ostream &;
 
 		// Public Methods
-		auto get_type_id() const -> MonsterTypeID;
+		auto get_type_id() const -> MTI;
 		auto get_max_hp() const -> int;
 		auto get_current_hp() const -> int;
 		auto get_alive() const -> bool;
@@ -66,7 +66,7 @@ class Monster {
 	private:
 
 		// Private Members
-		MonsterTypeID _type;
+		MTI _type;
 		int _max_hp;
 		int _current_hp;
 		bool _alive;

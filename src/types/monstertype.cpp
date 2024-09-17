@@ -28,7 +28,7 @@
 std::random_device Sorcery::MonsterType::_device;
 std::mt19937_64 Sorcery::MonsterType::_random(_device());
 
-auto Sorcery::MonsterType::get_type_id() const -> MonsterTypeID {
+auto Sorcery::MonsterType::get_type_id() const -> MTI {
 
 	return _type;
 }
@@ -73,7 +73,7 @@ auto Sorcery::MonsterType::get_unknown_gfx() const -> unsigned int {
 	return _unknown_gfx;
 }
 
-auto Sorcery::MonsterType::set_type_id(const MonsterTypeID value) -> void {
+auto Sorcery::MonsterType::set_type_id(const MTI value) -> void {
 
 	_type = value;
 }
@@ -156,7 +156,7 @@ auto Sorcery::MonsterType::get_group_size() const -> Dice {
 	return _group_size;
 }
 
-auto Sorcery::MonsterType::get_class() const -> MonsterClass {
+auto Sorcery::MonsterType::get_class() const -> MCL {
 
 	return _class;
 }
@@ -176,17 +176,17 @@ auto Sorcery::MonsterType::set_hit_dice(const std::string value) -> void {
 	_hit_dice = Dice{value};
 }
 
-auto Sorcery::MonsterType::get_category() const -> MonsterCategory {
+auto Sorcery::MonsterType::get_category() const -> MCT {
 
 	return _category;
 }
 
-auto Sorcery::MonsterType::set_category(const MonsterCategory value) -> void {
+auto Sorcery::MonsterType::set_category(const MCT value) -> void {
 
 	_category = value;
 }
 
-auto Sorcery::MonsterType::set_class(const MonsterClass value) -> void {
+auto Sorcery::MonsterType::set_class(const MCL value) -> void {
 
 	_class = value;
 }
@@ -219,12 +219,12 @@ auto Sorcery::MonsterType::get_attack(const unsigned int attack) const -> Dice {
 		return Dice{};
 }
 
-auto Sorcery::MonsterType::get_breath_weapon() const -> MonsterBreath {
+auto Sorcery::MonsterType::get_breath_weapon() const -> MBR {
 
 	return _breath_weapon;
 }
 
-auto Sorcery::MonsterType::set_breath_weapon(const MonsterBreath value) -> void {
+auto Sorcery::MonsterType::set_breath_weapon(const MBR value) -> void {
 
 	_breath_weapon = value;
 }
@@ -270,14 +270,14 @@ auto Sorcery::MonsterType::set_properties(MonsterProperties value) -> void {
 	_properties = value;
 }
 
-auto Sorcery::MonsterType::has_resistance(MonsterResist value) -> bool {
+auto Sorcery::MonsterType::has_resistance(MRE value) -> bool {
 
 	const auto res{unenum(value)};
 
 	return _resistances[res];
 }
 
-auto Sorcery::MonsterType::has_property(MonsterProperty value) -> bool {
+auto Sorcery::MonsterType::has_property(MPR value) -> bool {
 
 	const auto prop{unenum(value)};
 

@@ -53,7 +53,7 @@ class Item {
 		}
 
 		// Public Methods
-		auto get_type_id() const -> ItemTypeID;
+		auto get_type_id() const -> ITT;
 		auto get_category() const -> ITC;
 		auto get_known() const -> bool;
 		auto get_equipped() const -> bool;
@@ -65,7 +65,7 @@ class Item {
 		auto set_cursed(const bool value) -> void;
 		auto set_marked(const bool value) -> void;
 		auto set_name(const std::string &value) -> void;
-		auto decay_to(const ItemTypeID value) -> void;
+		auto decay_to(const ITT value) -> void;
 		auto set_usable(const bool value) -> void;
 		auto get_usable() const -> bool;
 		auto get_display_name() const -> std::string;
@@ -73,14 +73,14 @@ class Item {
 	private:
 
 		// Private Members
-		ItemTypeID _type;  // Type
+		ITT _type;		   // Type
 		ITC _category;	   // Category
 		bool _known;	   // Is known
 		bool _equipped;	   // Is currently equipped
 		bool _cursed;	   // Is currently cursed
 		bool _marked;	   // Marked as undroppable or unsellable
 		bool _usable;	   // Is usable
-		std::string _name; // Individual Name (or if not set, the ItemTypeID Name)
+		std::string _name; // Individual Name (or if not set, the ITT Name)
 		std::string _uname;
 
 		long _id;

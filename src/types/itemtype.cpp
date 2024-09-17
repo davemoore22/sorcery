@@ -28,7 +28,7 @@
 std::random_device Sorcery::ItemType::_device;
 std::mt19937_64 Sorcery::ItemType::_random(_device());
 
-auto Sorcery::ItemType::get_type_id() const -> ItemTypeID {
+auto Sorcery::ItemType::get_type_id() const -> ITT {
 
 	return _type;
 }
@@ -148,7 +148,7 @@ auto Sorcery::ItemType::get_eff_off() const -> ItemEffOff {
 	return _offensive_effects;
 }
 
-auto Sorcery::ItemType::get_eff_inv() const -> ItemInv {
+auto Sorcery::ItemType::get_eff_inv() const -> ITV {
 
 	return _invocation_effect;
 }
@@ -168,7 +168,7 @@ auto Sorcery::ItemType::get_eff_use_decay() const -> unsigned int {
 	return _use_decay_chance;
 }
 
-auto Sorcery::ItemType::get_decay_type_id() const -> ItemTypeID {
+auto Sorcery::ItemType::get_decay_type_id() const -> ITT {
 
 	return _decay_type;
 }
@@ -207,7 +207,7 @@ auto Sorcery::ItemType::is_align_usable(const CAL calign) const -> bool {
 	return _alignment[ca];
 }
 
-auto Sorcery::ItemType::set_type_id(const ItemTypeID value) -> void {
+auto Sorcery::ItemType::set_type_id(const ITT value) -> void {
 
 	_type = value;
 }
@@ -302,7 +302,7 @@ auto Sorcery::ItemType::set_eff_off(const ItemEffOff value) -> void {
 	_offensive_effects = value;
 }
 
-auto Sorcery::ItemType::set_eff_inv(const ItemInv value) -> void {
+auto Sorcery::ItemType::set_eff_inv(const ITV value) -> void {
 
 	_invocation_effect = value;
 }
@@ -310,19 +310,19 @@ auto Sorcery::ItemType::set_eff_inv(const ItemInv value) -> void {
 auto Sorcery::ItemType::get_eff_def_str() const -> std::string {
 
 	auto effects{""s};
-	for (auto i = unenum(ItemDef::RESIST_COLD); i <= unenum(ItemDef::PREVENT_DECAPITATION); i++) {
+	for (auto i = unenum(ITD::RESIST_COLD); i <= unenum(ITD::PREVENT_DECAPITATION); i++) {
 		if (_defensive_effects[i]) {
-			const auto eff_enum{magic_enum::enum_value<ItemDef>(i)};
-			std::string str{magic_enum::enum_name<ItemDef>(eff_enum)};
+			const auto eff_enum{magic_enum::enum_value<ITD>(i)};
+			std::string str{magic_enum::enum_name<ITD>(eff_enum)};
 			std::replace(str.begin(), str.end(), '_', ' ');
 			effects.append(str);
 			effects.append(", ");
 		}
 	}
-	for (auto i = unenum(ItemDef::PROTECTION_VS_ANIMAL); i <= unenum(ItemDef::PROTECTION_VS_WERE); i++) {
+	for (auto i = unenum(ITD::PROTECTION_VS_ANIMAL); i <= unenum(ITD::PROTECTION_VS_WERE); i++) {
 		if (_defensive_effects[i]) {
-			const auto eff_enum{magic_enum::enum_value<ItemDef>(i)};
-			std::string str{magic_enum::enum_name<ItemDef>(eff_enum)};
+			const auto eff_enum{magic_enum::enum_value<ITD>(i)};
+			std::string str{magic_enum::enum_name<ITD>(eff_enum)};
 			std::replace(str.begin(), str.end(), '_', ' ');
 			effects.append(str);
 			effects.append(", ");
@@ -335,10 +335,10 @@ auto Sorcery::ItemType::get_eff_def_str() const -> std::string {
 auto Sorcery::ItemType::get_eff_off_str() const -> std::string {
 
 	auto effects{""s};
-	for (auto i = unenum(ItemOff::PURPOSED_VS_ANIMAL); i <= unenum(ItemOff::AUTOKILL); i++) {
+	for (auto i = unenum(ITO::PURPOSED_VS_ANIMAL); i <= unenum(ITO::AUTOKILL); i++) {
 		if (_offensive_effects[i]) {
-			const auto eff_enum{magic_enum::enum_value<ItemOff>(i)};
-			std::string str{magic_enum::enum_name<ItemOff>(eff_enum)};
+			const auto eff_enum{magic_enum::enum_value<ITO>(i)};
+			std::string str{magic_enum::enum_name<ITO>(eff_enum)};
 			std::replace(str.begin(), str.end(), '_', ' ');
 			effects.append(str);
 			effects.append(", ");
@@ -363,7 +363,7 @@ auto Sorcery::ItemType::set_eff_use_decay(const unsigned int value) -> void {
 	_use_decay_chance = value;
 }
 
-auto Sorcery::ItemType::set_decay_type_id(const ItemTypeID value) -> void {
+auto Sorcery::ItemType::set_decay_type_id(const ITT value) -> void {
 
 	_decay_type = value;
 }

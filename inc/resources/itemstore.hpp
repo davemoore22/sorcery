@@ -42,21 +42,21 @@ class ItemStore {
 		ItemStore() = delete;
 
 		// Overload operators
-		auto operator[](ItemTypeID item_type_id) const -> ItemType;
+		auto operator[](ITT item_type_id) const -> ItemType;
 		auto operator()(ITC category) const -> std::vector<ItemType>;
 		auto operator[](std::string name) const -> ItemType;
 
 		// Public methods
-		auto get_an_item(const ItemTypeID item_type_id) const -> Item;
-		auto get_random_item(const ItemTypeID min_item_type_id, const ItemTypeID max_item_type_id) const -> Item;
+		auto get_an_item(const ITT item_type_id) const -> Item;
+		auto get_random_item(const ITT min_item_type_id, const ITT max_item_type_id) const -> Item;
 		auto get_all_types() const -> std::vector<ItemType>;
-		auto is_usable(const ItemTypeID item_type_id, const CHC cclass, const CAL calign) const -> bool;
+		auto is_usable(const ITT item_type_id, const CHC cclass, const CAL calign) const -> bool;
 
 	private:
 
 		// Private members
 		System *_system;
-		std::map<ItemTypeID, ItemType> _items;
+		std::map<ITT, ItemType> _items;
 		bool _loaded;
 
 		// Private methods

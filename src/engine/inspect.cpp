@@ -719,7 +719,7 @@ auto Sorcery::Inspect::_set_in_item_action_menu(unsigned int character_id, unsig
 
 			// Invoke
 			_item_action_menu->items[4].enabled =
-				(*_game->itemstore)[item->get_type_id()].get_eff_inv() != ItemInv::NO_INV_EFFECT;
+				(*_game->itemstore)[item->get_type_id()].get_eff_inv() != ITV::NO_INV_EFFECT;
 
 			// Use
 			_item_action_menu->items[5].enabled =
