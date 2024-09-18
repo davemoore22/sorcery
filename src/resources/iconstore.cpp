@@ -31,8 +31,6 @@
 Sorcery::IconStore::IconStore(System *system, Component layout, const std::filesystem::path filename)
 	: _system{system}, _layout{layout} {
 
-	using enum Enums::Map::Event;
-
 	// Prepare the icon stores
 	_icon_store.clear();
 	_menu_icon_map.clear();
@@ -50,40 +48,40 @@ Sorcery::IconStore::IconStore(System *system, Component layout, const std::files
 	_loaded = _load(filename);
 
 	// Set the Event->Icon Mapping
-	_event_icon_mapping[AREA_OF_OUT_BOUNDS] = "event-sign";
-	_event_icon_mapping[MAN_TELEPORT_CASTLE] = "event-man-teleport";
-	_event_icon_mapping[SILVER_KEY] = "event-monstrous-statue";
-	_event_icon_mapping[BRONZE_KEY] = "event-monstrous-statue";
-	_event_icon_mapping[MURPHYS_GHOSTS] = "event-humanoid-statue";
-	_event_icon_mapping[BEAR_STATUE] = "event-monstrous-statue";
-	_event_icon_mapping[FROG_STATUE] = "event-monstrous-statue";
-	_event_icon_mapping[GOLD_KEY] = "event-monstrous-statue";
-	_event_icon_mapping[NEED_SILVER_KEY] = "event-fog";
-	_event_icon_mapping[NEED_BRONZE_KEY] = "event-fog";
-	_event_icon_mapping[NEED_BEAR_STATUE] = "event-door";
-	_event_icon_mapping[NEED_FROG_STATUE] = "event-door";
-	_event_icon_mapping[PLACARD_PIT_1] = "event-sign";
-	_event_icon_mapping[PLACARD_PIT_2] = "event-sign";
-	_event_icon_mapping[PLACARD_PIT_3] = "event-sign";
-	_event_icon_mapping[TURN_AROUND] = "event-sign";
-	_event_icon_mapping[TURN_LEFT] = "event-sign";
-	_event_icon_mapping[TURN_RIGHT] = "event-sign";
-	_event_icon_mapping[NEED_BEAR_STATUE_2] = "event-wall";
-	_event_icon_mapping[TESTING_GROUNDS] = "event-sign";
-	_event_icon_mapping[ALARM_BELLS] = "event-alarm";
-	_event_icon_mapping[TREASURE_REPOSITORY] = "event-sign";
-	_event_icon_mapping[MONSTER_ALLOCATION_CENTRE] = "event-sign";
-	_event_icon_mapping[LARGE_DESK] = "event-voice";
-	_event_icon_mapping[TREBOR_VOICE] = "event-voice";
-	_event_icon_mapping[SERVICE_ELEVATOR] = "event-sign";
-	_event_icon_mapping[WERDNA_BOAST] = "event-sign";
-	_event_icon_mapping[TURN_BACK] = "event-voice";
-	_event_icon_mapping[WERDNA_SIGN] = "event-sign";
-	_event_icon_mapping[THREE_HUMANOIDS] = "party";
-	_event_icon_mapping[GETTING_WARM_1] = "event-warm";
-	_event_icon_mapping[GETTING_WARM_2] = "event-warm";
-	_event_icon_mapping[GETTING_WARM_3] = "event-warm";
-	_event_icon_mapping[NEED_BLUE_RIBBON] = "event-wall";
+	_event_icon_mapping[MAV::AREA_OF_OUT_BOUNDS] = "event-sign";
+	_event_icon_mapping[MAV::MAN_TELEPORT_CASTLE] = "event-man-teleport";
+	_event_icon_mapping[MAV::SILVER_KEY] = "event-monstrous-statue";
+	_event_icon_mapping[MAV::BRONZE_KEY] = "event-monstrous-statue";
+	_event_icon_mapping[MAV::MURPHYS_GHOSTS] = "event-humanoid-statue";
+	_event_icon_mapping[MAV::BEAR_STATUE] = "event-monstrous-statue";
+	_event_icon_mapping[MAV::FROG_STATUE] = "event-monstrous-statue";
+	_event_icon_mapping[MAV::GOLD_KEY] = "event-monstrous-statue";
+	_event_icon_mapping[MAV::NEED_SILVER_KEY] = "event-fog";
+	_event_icon_mapping[MAV::NEED_BRONZE_KEY] = "event-fog";
+	_event_icon_mapping[MAV::NEED_BEAR_STATUE] = "event-door";
+	_event_icon_mapping[MAV::NEED_FROG_STATUE] = "event-door";
+	_event_icon_mapping[MAV::PLACARD_PIT_1] = "event-sign";
+	_event_icon_mapping[MAV::PLACARD_PIT_2] = "event-sign";
+	_event_icon_mapping[MAV::PLACARD_PIT_3] = "event-sign";
+	_event_icon_mapping[MAV::TURN_AROUND] = "event-sign";
+	_event_icon_mapping[MAV::TURN_LEFT] = "event-sign";
+	_event_icon_mapping[MAV::TURN_RIGHT] = "event-sign";
+	_event_icon_mapping[MAV::NEED_BEAR_STATUE_2] = "event-wall";
+	_event_icon_mapping[MAV::TESTING_GROUNDS] = "event-sign";
+	_event_icon_mapping[MAV::ALARM_BELLS] = "event-alarm";
+	_event_icon_mapping[MAV::TREASURE_REPOSITORY] = "event-sign";
+	_event_icon_mapping[MAV::MONSTER_ALLOCATION_CENTRE] = "event-sign";
+	_event_icon_mapping[MAV::LARGE_DESK] = "event-voice";
+	_event_icon_mapping[MAV::TREBOR_VOICE] = "event-voice";
+	_event_icon_mapping[MAV::SERVICE_ELEVATOR] = "event-sign";
+	_event_icon_mapping[MAV::WERDNA_BOAST] = "event-sign";
+	_event_icon_mapping[MAV::TURN_BACK] = "event-voice";
+	_event_icon_mapping[MAV::WERDNA_SIGN] = "event-sign";
+	_event_icon_mapping[MAV::THREE_HUMANOIDS] = "party";
+	_event_icon_mapping[MAV::GETTING_WARM_1] = "event-warm";
+	_event_icon_mapping[MAV::GETTING_WARM_2] = "event-warm";
+	_event_icon_mapping[MAV::GETTING_WARM_3] = "event-warm";
+	_event_icon_mapping[MAV::NEED_BLUE_RIBBON] = "event-wall";
 }
 
 // Overload [] Operator

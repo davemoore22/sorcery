@@ -64,8 +64,6 @@ auto Sorcery::Game::wipe_data() -> void {
 // Mappings for each type of special dungeon event in the Proving Grounds
 auto Sorcery::Game::_set_up_dungeon_events() -> void {
 
-	using enum Enums::Map::Event;
-
 	_dungeon_events.clear();
 
 	// bool params are:
@@ -76,56 +74,56 @@ auto Sorcery::Game::_set_up_dungeon_events() -> void {
 	// teleport back to town
 
 	// Level 1
-	_dungeon_events.emplace_back(AREA_OF_OUT_BOUNDS, "event_area_out_of_bounds", false, false, false, false);
-	_dungeon_events.emplace_back(MAN_TELEPORT_CASTLE, "event_man_teleport_castle", false, false, false, true);
-	_dungeon_events.emplace_back(SILVER_KEY, "event_silver_key", true, false, false, false);
-	_dungeon_events.emplace_back(BRONZE_KEY, "event_bronze_key", true, false, false, false);
-	_dungeon_events.emplace_back(MURPHYS_GHOSTS, "event_murphys_ghosts", true, true, false, false);
+	_dungeon_events.emplace_back(MAV::AREA_OF_OUT_BOUNDS, "event_area_out_of_bounds", false, false, false, false);
+	_dungeon_events.emplace_back(MAV::MAN_TELEPORT_CASTLE, "event_man_teleport_castle", false, false, false, true);
+	_dungeon_events.emplace_back(MAV::SILVER_KEY, "event_silver_key", true, false, false, false);
+	_dungeon_events.emplace_back(MAV::BRONZE_KEY, "event_bronze_key", true, false, false, false);
+	_dungeon_events.emplace_back(MAV::MURPHYS_GHOSTS, "event_murphys_ghosts", true, true, false, false);
 
 	// Level 2
-	_dungeon_events.emplace_back(GOLD_KEY, "event_gold_key", true, false, false, false);
-	_dungeon_events.emplace_back(BEAR_STATUE, "event_bear_statue", true, false, false, false);
-	_dungeon_events.emplace_back(FROG_STATUE, "event_frog_statue", true, false, false, false);
-	_dungeon_events.emplace_back(PLACARD_PIT_1, "event_placard_pit_1", false, false, false, false);
-	_dungeon_events.emplace_back(PLACARD_PIT_2, "event_placard_pit_2", false, false, false, false);
-	_dungeon_events.emplace_back(PLACARD_PIT_3, "event_placard_pit_3", false, false, false, false);
-	_dungeon_events.emplace_back(NEED_SILVER_KEY, "event_need_silver_key", false, false, true, false);
-	_dungeon_events.emplace_back(NEED_BRONZE_KEY, "event_need_bronze_key", false, false, true, false);
-	_dungeon_events.emplace_back(NEED_BEAR_STATUE, "event_cannot_break_doors_down", false, false, true, false);
-	_dungeon_events.emplace_back(NEED_FROG_STATUE, "event_cannot_break_doors_down", false, false, true, false);
+	_dungeon_events.emplace_back(MAV::GOLD_KEY, "event_gold_key", true, false, false, false);
+	_dungeon_events.emplace_back(MAV::BEAR_STATUE, "event_bear_statue", true, false, false, false);
+	_dungeon_events.emplace_back(MAV::FROG_STATUE, "event_frog_statue", true, false, false, false);
+	_dungeon_events.emplace_back(MAV::PLACARD_PIT_1, "event_placard_pit_1", false, false, false, false);
+	_dungeon_events.emplace_back(MAV::PLACARD_PIT_2, "event_placard_pit_2", false, false, false, false);
+	_dungeon_events.emplace_back(MAV::PLACARD_PIT_3, "event_placard_pit_3", false, false, false, false);
+	_dungeon_events.emplace_back(MAV::NEED_SILVER_KEY, "event_need_silver_key", false, false, true, false);
+	_dungeon_events.emplace_back(MAV::NEED_BRONZE_KEY, "event_need_bronze_key", false, false, true, false);
+	_dungeon_events.emplace_back(MAV::NEED_BEAR_STATUE, "event_cannot_break_doors_down", false, false, true, false);
+	_dungeon_events.emplace_back(MAV::NEED_FROG_STATUE, "event_cannot_break_doors_down", false, false, true, false);
 
 	// Level 3
-	_dungeon_events.emplace_back(TURN_LEFT, "event_turn_left", false, false, false, false);
-	_dungeon_events.emplace_back(TURN_AROUND, "event_turn_around", false, false, false, false);
-	_dungeon_events.emplace_back(TURN_RIGHT, "event_turn_right", false, false, false, false);
+	_dungeon_events.emplace_back(MAV::TURN_LEFT, "event_turn_left", false, false, false, false);
+	_dungeon_events.emplace_back(MAV::TURN_AROUND, "event_turn_around", false, false, false, false);
+	_dungeon_events.emplace_back(MAV::TURN_RIGHT, "event_turn_right", false, false, false, false);
 
 	// Level 4
-	_dungeon_events.emplace_back(NEED_BEAR_STATUE_2, "event_need_bear_statue_2", false, false, true, false);
-	_dungeon_events.emplace_back(TESTING_GROUNDS, "event_testing_grounds", false, false, false, false);
-	_dungeon_events.emplace_back(ALARM_BELLS, "event_alarm_bells", false, true, false, false);
-	_dungeon_events.emplace_back(TREASURE_REPOSITORY, "event_treasure_repository", false, false, false, false);
+	_dungeon_events.emplace_back(MAV::NEED_BEAR_STATUE_2, "event_need_bear_statue_2", false, false, true, false);
+	_dungeon_events.emplace_back(MAV::TESTING_GROUNDS, "event_testing_grounds", false, false, false, false);
+	_dungeon_events.emplace_back(MAV::ALARM_BELLS, "event_alarm_bells", false, true, false, false);
+	_dungeon_events.emplace_back(MAV::TREASURE_REPOSITORY, "event_treasure_repository", false, false, false, false);
 	_dungeon_events.emplace_back(
-		MONSTER_ALLOCATION_CENTRE, "event_monster_allocation_centre", false, false, false, false);
-	_dungeon_events.emplace_back(NEED_BLUE_RIBBON, "event_need_blue_ribbon", false, false, true, false);
-	_dungeon_events.emplace_back(SERVICE_ELEVATOR, "event_service_elevator", false, false, false, false);
-	_dungeon_events.emplace_back(GUARANTEED_COMBAT, "event_guaranteed_combat", false, true, false, false);
-	_dungeon_events.emplace_back(LARGE_DESK, "event_large_desk", false, false, false, false);
-	_dungeon_events.emplace_back(DEADLY_RING_COMBAT, "event_deadly_ring_combat", false, true, false, false);
-	_dungeon_events.emplace_back(TREBOR_VOICE, "event_trebor_voice", false, false, false, false);
+		MAV::MONSTER_ALLOCATION_CENTRE, "event_monster_allocation_centre", false, false, false, false);
+	_dungeon_events.emplace_back(MAV::NEED_BLUE_RIBBON, "event_need_blue_ribbon", false, false, true, false);
+	_dungeon_events.emplace_back(MAV::SERVICE_ELEVATOR, "event_service_elevator", false, false, false, false);
+	_dungeon_events.emplace_back(MAV::GUARANTEED_COMBAT, "event_guaranteed_combat", false, true, false, false);
+	_dungeon_events.emplace_back(MAV::LARGE_DESK, "event_large_desk", false, false, false, false);
+	_dungeon_events.emplace_back(MAV::DEADLY_RING_COMBAT, "event_deadly_ring_combat", false, true, false, false);
+	_dungeon_events.emplace_back(MAV::TREBOR_VOICE, "event_trebor_voice", false, false, false, false);
 
 	// Level 6
-	_dungeon_events.emplace_back(THREE_HUMANOIDS, "event_three_humanoids", false, false, false, false);
+	_dungeon_events.emplace_back(MAV::THREE_HUMANOIDS, "event_three_humanoids", false, false, false, false);
 
 	// Level 7
-	_dungeon_events.emplace_back(GETTING_WARM_1, "event_getting_warm_1", false, false, false, false);
-	_dungeon_events.emplace_back(GETTING_WARM_2, "event_getting_warm_2", false, false, false, false);
-	_dungeon_events.emplace_back(GETTING_WARM_3, "event_getting_warm_3", false, false, false, false);
-	_dungeon_events.emplace_back(FIRE_DRAGONS_COMBAT, "event_fire_dragons_combat", false, true, false, false);
+	_dungeon_events.emplace_back(MAV::GETTING_WARM_1, "event_getting_warm_1", false, false, false, false);
+	_dungeon_events.emplace_back(MAV::GETTING_WARM_2, "event_getting_warm_2", false, false, false, false);
+	_dungeon_events.emplace_back(MAV::GETTING_WARM_3, "event_getting_warm_3", false, false, false, false);
+	_dungeon_events.emplace_back(MAV::FIRE_DRAGONS_COMBAT, "event_fire_dragons_combat", false, true, false, false);
 
 	// Level 10
-	_dungeon_events.emplace_back(WERDNA_BOAST, "event_werdna_boast", false, false, false, false);
-	_dungeon_events.emplace_back(TURN_BACK, "event_turn_back", false, false, false, false);
-	_dungeon_events.emplace_back(WERDNA_SIGN, "event_werdna_sign_1", false, false, false, false);
+	_dungeon_events.emplace_back(MAV::WERDNA_BOAST, "event_werdna_boast", false, false, false, false);
+	_dungeon_events.emplace_back(MAV::TURN_BACK, "event_turn_back", false, false, false, false);
+	_dungeon_events.emplace_back(MAV::WERDNA_SIGN, "event_werdna_sign_1", false, false, false, false);
 }
 
 auto Sorcery::Game::get_event(MAV event_type) const -> DungeonEvent {

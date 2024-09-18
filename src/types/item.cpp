@@ -29,11 +29,8 @@
 // Default Constructor
 Sorcery::Item::Item() {
 
-	using enum Enums::Items::Category;
-	using enum Enums::Items::TypeID;
-
-	_type = BROKEN_ITEM;
-	_category = NO_ITEM_CATEGORY;
+	_type = ITT::BROKEN_ITEM;
+	_category = ITC::NO_ITEM_CATEGORY;
 	_known = false;
 	_equipped = false;
 	_cursed = false;

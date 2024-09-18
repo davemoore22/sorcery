@@ -238,52 +238,50 @@ auto Sorcery::Level::_create() -> void {
 
 auto Sorcery::Level::_add_event_mappings() -> void {
 
-	using enum Enums::Map::Event;
-
 	_event_mappings.clear();
 
-	_event_mappings["AREA_OUT_OF_BOUNDS"] = AREA_OF_OUT_BOUNDS;
+	_event_mappings["AREA_OUT_OF_BOUNDS"] = MAV::AREA_OF_OUT_BOUNDS;
 
-	_event_mappings["MAN_TELEPORT_CASTLE"] = MAN_TELEPORT_CASTLE;
-	_event_mappings["SILVER_KEY"] = SILVER_KEY;
-	_event_mappings["BRONZE_KEY"] = BRONZE_KEY;
-	_event_mappings["MURPHYS_GHOSTS"] = MURPHYS_GHOSTS;
-	_event_mappings["BEAR_STATUE"] = BEAR_STATUE;
-	_event_mappings["FROG_STATUE"] = FROG_STATUE;
-	_event_mappings["GOLD_KEY"] = GOLD_KEY;
-	_event_mappings["NEED_SILVER_KEY"] = NEED_SILVER_KEY;
-	_event_mappings["NEED_BRONZE_KEY"] = NEED_BRONZE_KEY;
-	_event_mappings["NEED_BEAR_STATUE"] = NEED_BEAR_STATUE;
+	_event_mappings["MAN_TELEPORT_CASTLE"] = MAV::MAN_TELEPORT_CASTLE;
+	_event_mappings["SILVER_KEY"] = MAV::SILVER_KEY;
+	_event_mappings["BRONZE_KEY"] = MAV::BRONZE_KEY;
+	_event_mappings["MURPHYS_GHOSTS"] = MAV::MURPHYS_GHOSTS;
+	_event_mappings["BEAR_STATUE"] = MAV::BEAR_STATUE;
+	_event_mappings["FROG_STATUE"] = MAV::FROG_STATUE;
+	_event_mappings["GOLD_KEY"] = MAV::GOLD_KEY;
+	_event_mappings["NEED_SILVER_KEY"] = MAV::NEED_SILVER_KEY;
+	_event_mappings["NEED_BRONZE_KEY"] = MAV::NEED_BRONZE_KEY;
+	_event_mappings["NEED_BEAR_STATUE"] = MAV::NEED_BEAR_STATUE;
 
-	_event_mappings["NEED_FROG_STATUE"] = NEED_FROG_STATUE;
-	_event_mappings["PLACARD_PIT_1"] = PLACARD_PIT_1;
-	_event_mappings["PLACARD_PIT_2"] = PLACARD_PIT_2;
-	_event_mappings["PLACARD_PIT_3"] = PLACARD_PIT_3;
-	_event_mappings["TURN_AROUND"] = TURN_AROUND;
-	_event_mappings["TURN_LEFT"] = TURN_LEFT;
-	_event_mappings["TURN_RIGHT"] = TURN_RIGHT;
-	_event_mappings["NEED_BEAR_STATUE_2"] = NEED_BEAR_STATUE_2;
-	_event_mappings["TESTING_GROUNDS"] = TESTING_GROUNDS;
-	_event_mappings["ALARM_BELLS"] = ALARM_BELLS;
+	_event_mappings["NEED_FROG_STATUE"] = MAV::NEED_FROG_STATUE;
+	_event_mappings["PLACARD_PIT_1"] = MAV::PLACARD_PIT_1;
+	_event_mappings["PLACARD_PIT_2"] = MAV::PLACARD_PIT_2;
+	_event_mappings["PLACARD_PIT_3"] = MAV::PLACARD_PIT_3;
+	_event_mappings["TURN_AROUND"] = MAV::TURN_AROUND;
+	_event_mappings["TURN_LEFT"] = MAV::TURN_LEFT;
+	_event_mappings["TURN_RIGHT"] = MAV::TURN_RIGHT;
+	_event_mappings["NEED_BEAR_STATUE_2"] = MAV::NEED_BEAR_STATUE_2;
+	_event_mappings["TESTING_GROUNDS"] = MAV::TESTING_GROUNDS;
+	_event_mappings["ALARM_BELLS"] = MAV::ALARM_BELLS;
 
-	_event_mappings["TREASURE_REPOSITORY"] = TREASURE_REPOSITORY;
-	_event_mappings["MONSTER_ALLOCATION_CENTRE"] = MONSTER_ALLOCATION_CENTRE;
-	_event_mappings["LARGE_DESK"] = LARGE_DESK;
-	_event_mappings["TREBOR_VOICE"] = TREBOR_VOICE;
-	_event_mappings["SERVICE_ELEVATOR"] = SERVICE_ELEVATOR;
-	_event_mappings["WERDNA_BOAST"] = WERDNA_BOAST;
-	_event_mappings["TURN_BACK"] = TURN_BACK;
-	_event_mappings["WERDNA_SIGN"] = WERDNA_SIGN;
-	_event_mappings["THREE_HUMANOIDS"] = THREE_HUMANOIDS;
-	_event_mappings["GETTING_WARM_1"] = GETTING_WARM_1;
+	_event_mappings["TREASURE_REPOSITORY"] = MAV::TREASURE_REPOSITORY;
+	_event_mappings["MONSTER_ALLOCATION_CENTRE"] = MAV::MONSTER_ALLOCATION_CENTRE;
+	_event_mappings["LARGE_DESK"] = MAV::LARGE_DESK;
+	_event_mappings["TREBOR_VOICE"] = MAV::TREBOR_VOICE;
+	_event_mappings["SERVICE_ELEVATOR"] = MAV::SERVICE_ELEVATOR;
+	_event_mappings["WERDNA_BOAST"] = MAV::WERDNA_BOAST;
+	_event_mappings["TURN_BACK"] = MAV::TURN_BACK;
+	_event_mappings["WERDNA_SIGN"] = MAV::WERDNA_SIGN;
+	_event_mappings["THREE_HUMANOIDS"] = MAV::THREE_HUMANOIDS;
+	_event_mappings["GETTING_WARM_1"] = MAV::GETTING_WARM_1;
 
-	_event_mappings["GETTING_WARM_2"] = GETTING_WARM_2;
-	_event_mappings["GETTING_WARM_3"] = GETTING_WARM_3;
-	_event_mappings["FIRE_DRAGONS_COMBAT"] = FIRE_DRAGONS_COMBAT;
-	_event_mappings["DEADLY_RING_COMBAT"] = DEADLY_RING_COMBAT;
-	_event_mappings["WERDNA_COMBAT"] = WERDNA_COMBAT;
-	_event_mappings["GUARANTEED_COMBAT"] = GUARANTEED_COMBAT;
-	_event_mappings["NEED_BLUE_RIBBON"] = NEED_BLUE_RIBBON;
+	_event_mappings["GETTING_WARM_2"] = MAV::GETTING_WARM_2;
+	_event_mappings["GETTING_WARM_3"] = MAV::GETTING_WARM_3;
+	_event_mappings["FIRE_DRAGONS_COMBAT"] = MAV::FIRE_DRAGONS_COMBAT;
+	_event_mappings["DEADLY_RING_COMBAT"] = MAV::DEADLY_RING_COMBAT;
+	_event_mappings["WERDNA_COMBAT"] = MAV::WERDNA_COMBAT;
+	_event_mappings["GUARANTEED_COMBAT"] = MAV::GUARANTEED_COMBAT;
+	_event_mappings["NEED_BLUE_RIBBON"] = MAV::NEED_BLUE_RIBBON;
 }
 
 auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {

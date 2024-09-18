@@ -166,35 +166,32 @@ auto Sorcery::Application::_quickstart() -> void {
 		pc.set_stage(CHS::COMPLETED);
 		pc.inventory.clear();
 
-		using enum Enums::Character::Class;
-		using enum Enums::Items::TypeID;
-
 		switch (pc.get_class()) { // NOLINT(clang-diagnostic-switch)
-		case FIGHTER:
-		case LORD:
-		case SAMURAI:
-			pc.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR], true);
-			pc.inventory.add_type((*_game->itemstore)[LONG_SWORD], true);
+		case CHC::FIGHTER:
+		case CHC::LORD:
+		case CHC::SAMURAI:
+			pc.inventory.add_type((*_game->itemstore)[ITT::LEATHER_ARMOR], true);
+			pc.inventory.add_type((*_game->itemstore)[ITT::LONG_SWORD], true);
 			break;
-		case MAGE:
-			pc.inventory.add_type((*_game->itemstore)[ROBES], true);
-			pc.inventory.add_type((*_game->itemstore)[DAGGER], true);
+		case CHC::MAGE:
+			pc.inventory.add_type((*_game->itemstore)[ITT::ROBES], true);
+			pc.inventory.add_type((*_game->itemstore)[ITT::DAGGER], true);
 			break;
-		case PRIEST:
-		case BISHOP:
-			pc.inventory.add_type((*_game->itemstore)[ROBES], true);
-			pc.inventory.add_type((*_game->itemstore)[STAFF], true);
-			pc.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR], true);
-			pc.inventory.add_type((*_game->itemstore)[CHAIN_MAIL], true);
-			pc.inventory.add_type((*_game->itemstore)[LONG_SWORD], false, true);
-			pc.inventory.add_type((*_game->itemstore)[CHAIN_MINUS_2], false);
-			pc.inventory.add_type((*_game->itemstore)[MACE_MINUS_1], false);
-			pc.inventory.add_type((*_game->itemstore)[PLATE_MAIL], false, false);
+		case CHC::PRIEST:
+		case CHC::BISHOP:
+			pc.inventory.add_type((*_game->itemstore)[ITT::ROBES], true);
+			pc.inventory.add_type((*_game->itemstore)[ITT::STAFF], true);
+			// pc.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR], true);
+			// pc.inventory.add_type((*_game->itemstore)[CHAIN_MAIL], true);
+			// pc.inventory.add_type((*_game->itemstore)[LONG_SWORD], false, true);
+			// pc.inventory.add_type((*_game->itemstore)[CHAIN_MINUS_2], false);
+			// pc.inventory.add_type((*_game->itemstore)[MACE_MINUS_1], false);
+			// pc.inventory.add_type((*_game->itemstore)[PLATE_MAIL], false, false);
 			break;
-		case THIEF:
-		case NINJA:
-			pc.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR], true);
-			pc.inventory.add_type((*_game->itemstore)[SHORT_SWORD], true);
+		case CHC::THIEF:
+		case CHC::NINJA:
+			pc.inventory.add_type((*_game->itemstore)[ITT::LEATHER_ARMOR], true);
+			pc.inventory.add_type((*_game->itemstore)[ITT::SHORT_SWORD], true);
 		default:
 			break;
 		}
@@ -209,8 +206,6 @@ auto Sorcery::Application::_quickstart() -> void {
 }
 
 auto Sorcery::Application::start() -> int {
-
-	using enum Enums::Menu::Item;
 
 	// Check if we are doing any sort of shortcut
 	auto do_restart{false};
@@ -239,7 +234,7 @@ auto Sorcery::Application::start() -> int {
 
 		if (do_restart) {
 			auto ra_opt{_run_restart()};
-			if (ra_opt.value() == RS_RESTART) {
+			if (ra_opt.value() == MIM::RS_RESTART) {
 				_restart_expedition(_game->state->get_party_characters()[0]);
 				do_restart = false;
 				continue;
@@ -259,7 +254,7 @@ auto Sorcery::Application::start() -> int {
 			destination = DES::DEFAULT;
 
 		// That way the Program will always return to the Main Menu
-		if (mm_opt.value() == ITEM_QUIT) {
+		if (mm_opt.value() == MIM::ITEM_QUIT) {
 			display->shutdown_SFML();
 			return EXIT_APP;
 		} else {
@@ -271,45 +266,45 @@ auto Sorcery::Application::start() -> int {
 
 				// Go to the Castle
 				ca_opt = _run_castle();
-				if (ca_opt.value() == ITEM_ABORT) {
+				if (ca_opt.value() == MIM::ITEM_ABORT) {
 					display->shutdown_SFML();
 					return EXIT_APP;
-				} else if (ca_opt.value() == ITEM_LEAVE_GAME) {
+				} else if (ca_opt.value() == MIM::ITEM_LEAVE_GAME) {
 					break;
-				} else if (ca_opt.value() != CA_EDGE_OF_TOWN)
+				} else if (ca_opt.value() != MIM::CA_EDGE_OF_TOWN)
 					continue;
 
 				// Go to the Edge of Town
 				ed_opt = _run_edge_of_town();
-				if (ed_opt.value() == ITEM_ABORT) {
+				if (ed_opt.value() == MIM::ITEM_ABORT) {
 					display->shutdown_SFML();
 					return EXIT_APP;
-				} else if (ed_opt.value() == ET_MAZE) {
+				} else if (ed_opt.value() == MIM::ET_MAZE) {
 
 					// Go to the Maze
 					if (_game->state->party_has_members())
 						_start_expedition();
-				} else if (ed_opt.value() == ET_RESTART) {
+				} else if (ed_opt.value() == MIM::ET_RESTART) {
 
 					std::optional<MIM> rs_opt{std::nullopt};
 					unsigned int character_chosen{0u};
 					rs_opt = _restart->start(character_chosen);
 					_restart->stop();
-					if (rs_opt.value() == ITEM_ABORT) {
+					if (rs_opt.value() == MIM::ITEM_ABORT) {
 						display->shutdown_SFML();
 						return EXIT_APP;
 					} else if (rs_opt == MIM::RS_RESTART)
 						rs_opt = _restart_expedition(character_chosen);
 					else
-						ca_opt = CA_EDGE_OF_TOWN;
+						ca_opt = MIM::CA_EDGE_OF_TOWN;
 
-				} else if (ed_opt.value() == ITEM_LEAVE_GAME)
+				} else if (ed_opt.value() == MIM::ITEM_LEAVE_GAME)
 					break;
 
-			} while ((ed_opt.value() != ITEM_LEAVE_GAME) && (ca_opt.value() != ITEM_LEAVE_GAME));
+			} while ((ed_opt.value() != MIM::ITEM_LEAVE_GAME) && (ca_opt.value() != MIM::ITEM_LEAVE_GAME));
 			_game->save_game();
 		}
-	} while ((mm_opt != ITEM_QUIT) && (mm_opt != ITEM_ABORT));
+	} while ((mm_opt != MIM::ITEM_QUIT) && (mm_opt != MIM::ITEM_ABORT));
 
 	display->shutdown_SFML();
 	return EXIT_APP;
@@ -347,15 +342,13 @@ auto Sorcery::Application::_run_restart() -> std::optional<MIM> {
 
 auto Sorcery::Application::_run_edge_of_town() -> std::optional<MIM> {
 
-	using enum Enums::Menu::Item;
-
-	std::optional<MIM> option_chosen{NO_MENU_ITEM};
+	std::optional<MIM> option_chosen{MIM::NO_MENU_ITEM};
 
 	do {
 		option_chosen = _edgeoftown->start(DES::DEFAULT);
-		if (option_chosen == ET_CASTLE) {
-			return ET_CASTLE;
-		} else if (option_chosen == ET_TRAIN) {
+		if (option_chosen == MIM::ET_CASTLE) {
+			return MIM::ET_CASTLE;
+		} else if (option_chosen == MIM::ET_TRAIN) {
 
 			// Remove everyone from the Party
 			for (auto &[character_id, character] : _game->characters) {
@@ -367,16 +360,16 @@ auto Sorcery::Application::_run_edge_of_town() -> std::optional<MIM> {
 			_training->start();
 			_training->stop();
 			display->set_input_mode(WIM::NAVIGATE_MENU);
-		} else if (option_chosen == ET_RESTART) {
-			return ET_RESTART;
-		} else if (option_chosen == ET_MAZE) {
-			return ET_MAZE;
-		} else if (option_chosen == ET_LEAVE_GAME)
-			return ITEM_LEAVE_GAME;
+		} else if (option_chosen == MIM::ET_RESTART) {
+			return MIM::ET_RESTART;
+		} else if (option_chosen == MIM::ET_MAZE) {
+			return MIM::ET_MAZE;
+		} else if (option_chosen == MIM::ET_LEAVE_GAME)
+			return MIM::ITEM_LEAVE_GAME;
 
-	} while (option_chosen != ITEM_ABORT);
+	} while (option_chosen != MIM::ITEM_ABORT);
 
-	return ITEM_ABORT;
+	return MIM::ITEM_ABORT;
 }
 
 auto Sorcery::Application::_restart_expedition(const unsigned int character_chosen) -> std::optional<MIM> {
@@ -416,86 +409,81 @@ auto Sorcery::Application::_restart_expedition(const unsigned int character_chos
 
 auto Sorcery::Application::_run_castle() -> std::optional<MIM> {
 
-	using enum Enums::Menu::Item;
-
-	std::optional<MIM> option_chosen{NO_MENU_ITEM};
+	std::optional<MIM> option_chosen{MIM::NO_MENU_ITEM};
 
 	do {
 
 		option_chosen = _castle->start();
-		if (option_chosen == CA_TAVERN) {
+		if (option_chosen == MIM::CA_TAVERN) {
 
 			// Tavern
-			if (auto tavern_option{_tavern->start()}; tavern_option && tavern_option.value() == ITEM_ABORT) {
-				return ITEM_ABORT;
+			if (auto tavern_option{_tavern->start()}; tavern_option && tavern_option.value() == MIM::ITEM_ABORT) {
+				return MIM::ITEM_ABORT;
 			}
 			_tavern->stop();
 
-		} else if (option_chosen == CA_INN) {
+		} else if (option_chosen == MIM::CA_INN) {
 
 			// Inn
-			if (auto inn_option{_inn->start()}; inn_option && inn_option.value() == ITEM_ABORT) {
-				return ITEM_ABORT;
+			if (auto inn_option{_inn->start()}; inn_option && inn_option.value() == MIM::ITEM_ABORT) {
+				return MIM::ITEM_ABORT;
 			}
 			_inn->stop();
-		} else if (option_chosen == CA_SHOP) {
+		} else if (option_chosen == MIM::CA_SHOP) {
 
 			// Shop
-			if (auto shop_option{_shop->start()}; shop_option && shop_option.value() == ITEM_ABORT) {
-				return ITEM_ABORT;
+			if (auto shop_option{_shop->start()}; shop_option && shop_option.value() == MIM::ITEM_ABORT) {
+				return MIM::ITEM_ABORT;
 			}
 			_shop->stop();
-		} else if (option_chosen == CA_TEMPLE) {
-			if (auto temple_option{_temple->start()}; temple_option && temple_option.value() == ITEM_ABORT) {
-				return ITEM_ABORT;
+		} else if (option_chosen == MIM::CA_TEMPLE) {
+			if (auto temple_option{_temple->start()}; temple_option && temple_option.value() == MIM::ITEM_ABORT) {
+				return MIM::ITEM_ABORT;
 			}
 			_temple->stop();
-		} else if (option_chosen == CA_EDGE_OF_TOWN)
-			return CA_EDGE_OF_TOWN;
-		else if (option_chosen == ITEM_LEAVE_GAME)
-			return ITEM_LEAVE_GAME;
+		} else if (option_chosen == MIM::CA_EDGE_OF_TOWN)
+			return MIM::CA_EDGE_OF_TOWN;
+		else if (option_chosen == MIM::ITEM_LEAVE_GAME)
+			return MIM::ITEM_LEAVE_GAME;
 
 		_game->save_game();
 		display->set_input_mode(WIM::NAVIGATE_MENU);
 		_castle->stop();
 
-	} while (option_chosen != ITEM_ABORT);
+	} while (option_chosen != MIM::ITEM_ABORT);
 
-	return ITEM_ABORT;
+	return MIM::ITEM_ABORT;
 }
 
 // Run the Main Menu
 auto Sorcery::Application::_run_main_menu(const DES destination) -> std::optional<MIM> {
 
-	using enum Enums::Menu::Item;
-	using enum Enums::MainMenu::Type;
-
 	// Handle shortcuts
 	if (destination == DES::CONTINUE)
-		return MM_CONTINUE_GAME;
+		return MIM::MM_CONTINUE_GAME;
 	else if (destination == DES::NEW) {
 		_game->wipe_data();
 		_game->create_game();
 		_game->save_game();
-		return MM_NEW_GAME;
+		return MIM::MM_NEW_GAME;
 	} else if (destination == DES::RESTART) {
-		return RS_RESTART;
+		return MIM::RS_RESTART;
 	}
 
-	std::optional<MIM> option_chosen{NO_MENU_ITEM};
-	MMT menu_stage{ATTRACT_MODE};
+	std::optional<MIM> option_chosen{MIM::NO_MENU_ITEM};
+	MMT menu_stage{MMT::ATTRACT_MODE};
 
 	do {
 		if (destination != DES::DEFAULT) {
 			switch (destination) {
 			case DES::OPTIONS:
-				option_chosen = MM_OPTIONS;
+				option_chosen = MIM::MM_OPTIONS;
 				break;
 			case DES::LICENSE:
-				option_chosen = MM_LICENSE;
+				option_chosen = MIM::MM_LICENSE;
 				break;
 			case DES::COMPENDIUM:
-				option_chosen = MM_COMPENDIUM;
+				option_chosen = MIM::MM_COMPENDIUM;
 				break;
 			default:
 				option_chosen = std::nullopt;
@@ -508,36 +496,36 @@ auto Sorcery::Application::_run_main_menu(const DES destination) -> std::optiona
 		if (option_chosen) {
 
 			switch (option_chosen.value()) {
-			case MM_NEW_GAME:
+			case MIM::MM_NEW_GAME:
 				_game->create_game();
 				_game->save_game();
-				return MM_NEW_GAME;
+				return MIM::MM_NEW_GAME;
 				break;
-			case MM_CONTINUE_GAME:
-				return MM_CONTINUE_GAME;
+			case MIM::MM_CONTINUE_GAME:
+				return MIM::MM_CONTINUE_GAME;
 				break;
-			case ITEM_QUIT:
+			case MIM::ITEM_QUIT:
 				_game->save_game();
-				return ITEM_QUIT;
+				return MIM::ITEM_QUIT;
 				break;
-			case MM_OPTIONS:
+			case MIM::MM_OPTIONS:
 				if (_options->start() == EXIT_APP) {
 					_options->stop();
-					return ITEM_QUIT;
+					return MIM::ITEM_QUIT;
 				} else
 					_options->stop();
 				break;
-			case MM_LICENSE:
+			case MIM::MM_LICENSE:
 				if (_license->start() == EXIT_APP) {
 					_license->stop();
-					return ITEM_QUIT;
+					return MIM::ITEM_QUIT;
 				} else
 					_license->stop();
 				break;
-			case MM_COMPENDIUM:
+			case MIM::MM_COMPENDIUM:
 				if (_compendium->start() == EXIT_APP) {
 					_compendium->stop();
-					return ITEM_QUIT;
+					return MIM::ITEM_QUIT;
 				} else
 					_compendium->stop();
 				break;
@@ -545,13 +533,13 @@ auto Sorcery::Application::_run_main_menu(const DES destination) -> std::optiona
 				break;
 			}
 
-			menu_stage = ATTRACT_MENU;
+			menu_stage = MMT::ATTRACT_MENU;
 		}
 
 	} while (option_chosen);
 
 	display->shutdown_SFML();
-	return ITEM_QUIT;
+	return MIM::ITEM_QUIT;
 }
 
 // Check for a command line parameter

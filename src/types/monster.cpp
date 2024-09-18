@@ -30,9 +30,7 @@
 // Default Constructor
 Sorcery::Monster::Monster() {
 
-	using enum Enums::Monsters::TypeID;
-
-	_type = BUBBLY_SLIME;
+	_type = MTI::BUBBLY_SLIME;
 	_max_hp = 0;
 	_current_hp = 0;
 	_alive = false;
