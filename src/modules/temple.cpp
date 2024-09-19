@@ -159,7 +159,7 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 					else if (_system->input->check(CIN::DOWN, event))
 						opt = _menu->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						opt = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						opt = _menu->set_mouse_selected(_display->get_cur());
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						// We have selected something from the menu
@@ -201,8 +201,7 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 					else if (_system->input->check(CIN::DOWN, event))
 						opt_help = _help->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						opt_help =
-							_help->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						opt_help = _help->set_mouse_selected(_display->get_cur());
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						// We have selected something from the menu
@@ -245,7 +244,7 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 					else if (_system->input->check(CIN::DOWN, event))
 						opt_pay = _pay->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						opt_pay = _pay->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						opt_pay = _pay->set_mouse_selected(_display->get_cur());
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						// We have selected something from the menu
@@ -282,8 +281,7 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 						else if (_system->input->check(CIN::DOWN, event))
 							opt_cont = _cont->choose_next();
 						else if (_system->input->check(CIN::MOVE, event))
-							opt_cont =
-								_cont->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+							opt_cont = _cont->set_mouse_selected(_display->get_cur());
 						else if (_system->input->check(CIN::CONFIRM, event)) {
 
 							if (opt_cont) {

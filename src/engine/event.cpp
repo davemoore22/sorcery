@@ -150,7 +150,7 @@ auto Sorcery::Event::start() -> std::optional<MIM> {
 				else if (_system->input->check(CIN::DOWN, event))
 					opt = _cont_menu->choose_next();
 				else if (_system->input->check(CIN::MOVE, event))
-					opt = _cont_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					opt = _cont_menu->set_mouse_selected(_display->get_cur());
 				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					if (opt) {

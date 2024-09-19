@@ -142,7 +142,7 @@ auto Sorcery::ChangeName::_handle_change_name(const sf::Event &event) -> std::op
 	auto candidate_name{_new_name};
 	if (_system->input->check(CIN::MOVE, event)) {
 
-		sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
+		sf::Vector2f mouse_pos{_display->get_cur()};
 		std::optional<std::string> mouse_selected{
 			_keyboard->set_mouse_selected((*_display->layout)["character_create_stage_1:keyboard"], mouse_pos)};
 		if (mouse_selected)

@@ -76,6 +76,7 @@ class Display {
 		auto get_centre_y(const unsigned int height) const -> unsigned int;
 		auto get_disc() const -> bool;
 		auto set_disc(const bool value) -> void;
+		auto get_cur() const -> sf::Vector2f;
 
 		// Public Members
 		std::unique_ptr<StringStore> string;

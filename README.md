@@ -1,10 +1,13 @@
 # Sorcery: Shadows under Llylgamyn
 
-An open source remake/remaster initially of the classic CRPG Wizardry, Proving Grounds of the Mad Overlord, then hopefully of the Sequels II (The Diamond Knight), III (Legacy of Llylgamyn), and V (Heart of the Maelstrom). Currently under heavy development with a release hopefully later in 2024.
+An open source remake/remaster initially of the classic CRPG Wizardry, Proving Grounds of the Mad Overlord, then hopefully of the Sequels II (The Diamond Knight), III (Legacy of Llylgamyn), and V (Heart of the Maelstrom). Currently under heavy development with a release hopefully in 2025.
 
 Written using SFML, TGUI, and C++.
 
+**(Updated 19th September 2024)**
+
 ![](/promo/screen1.png)
+![](/promo/screen23.png)
 ![](/promo/screen22.png)
 ![](/promo/screen20.png)
 ![](/promo/screen7.png)
@@ -13,7 +16,7 @@ Written using SFML, TGUI, and C++.
 
 Watch some videos of gameplay (most recent first):
 
-(New as of December 2023 - Compendium Browsing)[![Compendium Browsing](https://img.youtube.com/vi/TSj7Rw3l3Iw/maxresdefault.jpg)](https://youtu.be/TSj7Rw3l3Iw)
+[![Compendium Browsing](https://img.youtube.com/vi/TSj7Rw3l3Iw/maxresdefault.jpg)](https://youtu.be/TSj7Rw3l3Iw)
 [![Entering the Dungeon](https://img.youtube.com/vi/AQ9LhK0ta8A/maxresdefault.jpg)](https://youtu.be/AQ9LhK0ta8A)
 [![Dungeon Events](https://img.youtube.com/vi/RG25iYrPBlg/maxresdefault.jpg)](https://youtu.be/RG25iYrPBlg)
 
@@ -37,12 +40,13 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 * ~~Temple~~ (DONE)
 * ~~Wipe Handling~~ (DONE)
 * ~~Dungeon Events~~ (DONE)
-* **Items and Inventory (DOING)**
-* **Compendium (DOING)**
+* ~~Compendium~~ (DONE)
+* ~~Inventory and Item Manipulation (DONE)~~
+* **Special Item Powers and Handling (DOING)**
+*
 * Boltac's Equipment Shop (TO DO)
 * Creatures and NPCs (TO DO)
 * Magic and Combat (TO DO)
-* Special Item Handling (TO DO)
 * Victory Handling (TO DO)
 * Strict (Legacy) Mode (TO DO)
 * Achivements (TO DO)
@@ -53,10 +57,11 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 * Sequels (II, III, V)
 * Procedurally-Generated Infinite Content (like Diablo)
 * Modding
+* Plugin/3D Graphics
 
-## What next? (as of March 2024)
+## What next? (as of September 2024)
 
-I've almost finished the Compendium (Museum/Bestiary/Spellbook), and I'm also making progress on Items, Inventory, and Item-Handling.
+Currently adding Item Usage and Item Invocation; normal inventory management has been mosty completed!
 
 Initially I am planning to remake Wizardry 1, then adding 2 and 3, and then subsequently providing infinite procedurally-generated content like that of Diablo for example. In the meantime, check out Snarfu's bugfix and recompilation of the original Wizardry for Apple II at <https://github.com/snafaru>.
 

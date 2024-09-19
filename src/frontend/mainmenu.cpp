@@ -170,8 +170,7 @@ auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 						else if (_system->input->check(DOWN, event))
 							selected_option = _main_menu->choose_next();
 						else if (_system->input->check(MOVE, event))
-							selected_option = _main_menu->set_mouse_selected(
-								static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+							selected_option = _main_menu->set_mouse_selected(_display->get_cur());
 						else if (_system->input->check(CONFIRM, event)) {
 							if (selected_option) {
 

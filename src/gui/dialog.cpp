@@ -274,10 +274,9 @@ auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WDB> {
 	case WDT::OK:
 
 		if (_system->input->check(CIN::MOVE, event))
-			check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+			check_for_mouse_move(_display->get_cur());
 		else if (_system->input->check(CIN::CONFIRM, event)) {
-			std::optional<WDB> button_chosen{
-				check_if_option_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)))};
+			std::optional<WDB> button_chosen{check_if_option_selected(_display->get_cur())};
 			if (button_chosen) {
 				if (button_chosen.value() == WDB::OK)
 					return WDB::OK;
@@ -304,10 +303,9 @@ auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WDB> {
 		else if (_system->input->check(CIN::BACK, event))
 			return WDB::NO;
 		else if (_system->input->check(CIN::MOVE, event))
-			check_for_mouse_move(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+			check_for_mouse_move(_display->get_cur());
 		else if (_system->input->check(CIN::CONFIRM, event)) {
-			std::optional<WDB> button_chosen{
-				check_if_option_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)))};
+			std::optional<WDB> button_chosen{check_if_option_selected(_display->get_cur())};
 
 			// Mouse click only
 			if (button_chosen) {

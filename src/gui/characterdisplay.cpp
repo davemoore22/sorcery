@@ -547,7 +547,7 @@ auto Sorcery::CharacterDisplay::draw(sf::RenderTarget &target, sf::RenderStates 
 	if (_view == PRIEST_SPELLS)
 		target.draw(*_spell_panel, states);
 
-	_display->window->draw_cursor_coord(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+	_display->window->draw_cursor_coord(_display->get_cur());
 }
 
 auto Sorcery::CharacterDisplay::_generate_display() -> void {

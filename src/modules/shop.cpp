@@ -136,7 +136,7 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 					else if (_system->input->check(CIN::DOWN, event))
 						opt = _menu->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						opt = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						opt = _menu->set_mouse_selected(_display->get_cur());
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						// We have selected something from the menu
@@ -176,7 +176,7 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 					else if (_system->input->check(CIN::DOWN, event))
 						opt_who = _who->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						opt_who = _who->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						opt_who = _who->set_mouse_selected(_display->get_cur());
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						// We have selected something from the menu
@@ -211,8 +211,7 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 					else if (_system->input->check(CIN::DOWN, event))
 						opt_act = _action->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						opt_act =
-							_action->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						opt_act = _action->set_mouse_selected(_display->get_cur());
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 						if (const MIM opt_shop{(*opt_act.value()).item}; opt_shop == MIM::SH_BACK) {
 							_stage = STS::WHO;

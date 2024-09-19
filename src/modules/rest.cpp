@@ -188,8 +188,7 @@ auto Sorcery::Rest::start(Character *character, REM mode, RET type) -> std::opti
 					else if (_system->input->check(CIN::DOWN, event))
 						opt_cont = _cont_menu->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						opt_cont =
-							_cont_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						opt_cont = _cont_menu->set_mouse_selected(_display->get_cur());
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						if (opt_cont) {
@@ -213,8 +212,7 @@ auto Sorcery::Rest::start(Character *character, REM mode, RET type) -> std::opti
 					else if (_system->input->check(CIN::DOWN, event))
 						opt_stop = _stop_menu->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						opt_stop =
-							_stop_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						opt_stop = _stop_menu->set_mouse_selected(_display->get_cur());
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						if (opt_stop) {
@@ -236,8 +234,7 @@ auto Sorcery::Rest::start(Character *character, REM mode, RET type) -> std::opti
 					else if (_system->input->check(CIN::DOWN, event))
 						opt_cont = _cont_menu->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						opt_cont =
-							_cont_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						opt_cont = _cont_menu->set_mouse_selected(_display->get_cur());
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						if (opt_cont) {

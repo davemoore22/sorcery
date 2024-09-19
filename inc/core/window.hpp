@@ -66,6 +66,7 @@ class Window {
 		auto get_disc() const -> sf::Sprite;
 		auto get_gui() -> tgui::Gui *;
 		auto get_window() -> sf::RenderWindow *;
+		auto get_cur() const -> sf::Vector2f;
 		auto get_x(const sf::Sprite &sprite, int x_position) const -> unsigned int;
 		auto get_y(const sf::Sprite &sprite, int y_position) const -> unsigned int;
 		auto get_x(const sf::Text &text, int x_position) const -> unsigned int;

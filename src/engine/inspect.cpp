@@ -191,7 +191,7 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 				else if (_system->input->check(CIN::DOWN, event))
 					selected = _menu->choose_next();
 				else if (_system->input->check(CIN::MOVE, event))
-					selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					selected = _menu->set_mouse_selected(_display->get_cur());
 				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					// We have selected something from the menu
@@ -431,8 +431,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 				else if (_system->input->check(CIN::DOWN, event))
 					item_trade_selected = _item_trade_menu->choose_next();
 				else if (_system->input->check(CIN::MOVE, event))
-					item_trade_selected = _item_trade_menu->set_mouse_selected(
-						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					item_trade_selected = _item_trade_menu->set_mouse_selected(_display->get_cur());
 				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					if (item_trade_selected) {
@@ -482,8 +481,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 				else if (_system->input->check(CIN::DOWN, event))
 					item_action_selected = _item_action_menu->choose_next();
 				else if (_system->input->check(CIN::MOVE, event))
-					item_action_selected = _item_action_menu->set_mouse_selected(
-						static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					item_action_selected = _item_action_menu->set_mouse_selected(_display->get_cur());
 				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					if (item_action_selected) {

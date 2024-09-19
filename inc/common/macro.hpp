@@ -119,4 +119,10 @@ inline auto TRIM_COPY(std::string s) -> std::string { // NOLINT(clang-diagnostic
 	return s;
 }
 
+// Shorthand for Vector2f cast
+inline auto VECF(const sf::Vector2i vec) -> sf::Vector2f {
+
+	return static_cast<sf::Vector2f>(vec);
+}
+
 }

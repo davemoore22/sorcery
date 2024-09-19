@@ -154,14 +154,14 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MIM> {
 				else if (_system->input->check(CIN::DOWN, event))
 					selected = _menu->choose_next();
 				else if (_system->input->check(CIN::MOVE, event))
-					selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					selected = _menu->set_mouse_selected(_display->get_cur());
 				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					// We have selected something from the menu
 					if (selected) {
-						if (const MIM option_chosen{(*selected.value()).item}; option_chosen == MIM::EC_RETURN_EDIT) {
+						if (const MIM opt{(*selected.value()).item}; opt == MIM::EC_RETURN_EDIT) {
 							return MIM::EC_RETURN_EDIT;
-						} else if (option_chosen == MIM::EC_CHANGE_NAME) {
+						} else if (opt == MIM::EC_CHANGE_NAME) {
 
 							auto change_name{std::make_unique<ChangeName>(
 								_system, _display, _graphics, _cur_char.value()->get_name())};
@@ -178,7 +178,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MIM> {
 								_game->save_game();
 							}
 							change_name->stop();
-						} else if (option_chosen == MIM::EC_CHANGE_CLASS) {
+						} else if (opt == MIM::EC_CHANGE_CLASS) {
 							auto &character{*_cur_char.value()};
 							auto change_class{std::make_unique<ChangeClass>(_system, _display, _graphics, &character)};
 
@@ -194,7 +194,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MIM> {
 								_display->set_input_mode(WIM::NAVIGATE_MENU);
 							}
 							change_class->stop();
-						} else if (option_chosen == MIM::EC_LEGATE_CHARACTER) {
+						} else if (opt == MIM::EC_LEGATE_CHARACTER) {
 							auto &character{*_cur_char.value()};
 							auto legate{std::make_unique<Legate>(_system, _display, _graphics, &character)};
 							if (auto legated{legate->start()}; legated) {

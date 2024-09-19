@@ -139,7 +139,7 @@ auto Sorcery::Inn::start() -> std::optional<MIM> {
 					else if (_system->input->check(CIN::DOWN, event))
 						opt = _menu->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						opt = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						opt = _menu->set_mouse_selected(_display->get_cur());
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						// We have selected something from the menu
@@ -168,8 +168,7 @@ auto Sorcery::Inn::start() -> std::optional<MIM> {
 								else if (_system->input->check(CIN::DOWN, event))
 									opt = _menu->choose_next();
 								else if (_system->input->check(CIN::MOVE, event))
-									opt = _menu->set_mouse_selected(
-										static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+									opt = _menu->set_mouse_selected(_display->get_cur());
 								else if (_system->input->check(CIN::CONFIRM, event)) {
 
 									// We have selected something from the menu
@@ -206,8 +205,7 @@ auto Sorcery::Inn::start() -> std::optional<MIM> {
 					else if (_system->input->check(CIN::DOWN, event))
 						opt_rost = _roster->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						opt_rost =
-							_roster->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						opt_rost = _roster->set_mouse_selected(_display->get_cur());
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						// We have selected something from the menu
@@ -256,8 +254,7 @@ auto Sorcery::Inn::start() -> std::optional<MIM> {
 						else if (_system->input->check(CIN::DOWN, event))
 							opt_bed = _bed->choose_next();
 						else if (_system->input->check(CIN::MOVE, event))
-							opt_bed =
-								_bed->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+							opt_bed = _bed->set_mouse_selected(_display->get_cur());
 						else if (_system->input->check(CIN::CONFIRM, event)) {
 
 							// We have selected something from the menu

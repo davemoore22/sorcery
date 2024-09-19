@@ -292,7 +292,7 @@ auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event) -> st
 	else if (_system->input->check(CIN::DOWN, event))
 		_method_menu->choose_next();
 	else if (_system->input->check(CIN::MOVE, event))
-		_method_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		_method_menu->set_mouse_selected(_display->get_cur());
 	else if (_system->input->check(CIN::BACK, event))
 		return MDR::BACK;
 	else if (_system->input->check(CIN::DELETE, event))
@@ -334,7 +334,7 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::option
 	auto candidate_name{_candidate.get_name()};
 	if (_system->input->check(CIN::MOVE, event)) {
 
-		sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
+		sf::Vector2f mouse_pos{_display->get_cur()};
 		std::optional<std::string> mouse_selected{
 			_keyboard->set_mouse_selected((*_display->layout)["character_create_stage_1:keyboard"], mouse_pos)};
 		if (mouse_selected)
@@ -429,7 +429,7 @@ auto Sorcery::Create::_handle_choose_race(const sf::Event &event) -> std::option
 	else if (_system->input->check(CIN::DOWN, event))
 		_race_menu->choose_next();
 	else if (_system->input->check(CIN::MOVE, event))
-		_race_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		_race_menu->set_mouse_selected(_display->get_cur());
 	else if (_system->input->check(CIN::BACK, event))
 		return MDR::BACK;
 	else if (_system->input->check(CIN::DELETE, event))
@@ -482,7 +482,7 @@ auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event) -> std::o
 	else if (_system->input->check(CIN::DOWN, event))
 		_alignment_menu->choose_next();
 	else if (_system->input->check(CIN::MOVE, event))
-		_alignment_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		_alignment_menu->set_mouse_selected(_display->get_cur());
 	else if (_system->input->check(CIN::BACK, event))
 		return MDR::BACK;
 	else if (_system->input->check(CIN::DELETE, event))
@@ -532,7 +532,7 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 	else if (_system->input->check(CIN::DOWN, event))
 		_attribute_menu->choose_next();
 	else if (_system->input->check(CIN::MOVE, event))
-		_attribute_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		_attribute_menu->set_mouse_selected(_display->get_cur());
 	else if (_system->input->check(CIN::LEFT, event) || _system->input->check(CIN::BACK, event) ||
 			 _system->input->check(CIN::DELETE, event)) {
 		if (selected) {
@@ -641,7 +641,7 @@ auto Sorcery::Create::_handle_choose_class(const sf::Event &event) -> std::optio
 	else if (_system->input->check(CIN::DOWN, event))
 		_class_menu->choose_next();
 	else if (_system->input->check(CIN::MOVE, event))
-		_class_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		_class_menu->set_mouse_selected(_display->get_cur());
 	else if (_system->input->check(CIN::BACK, event))
 		return MDR::BACK;
 	else if (_system->input->check(CIN::DELETE, event))
@@ -769,7 +769,7 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event) -> std:
 			else if (_system->input->check(CIN::DOWN, event))
 				_final_menu->choose_next();
 			else if (_system->input->check(CIN::MOVE, event))
-				_final_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+				_final_menu->set_mouse_selected(_display->get_cur());
 		}
 	} else {
 

@@ -455,8 +455,13 @@ auto Sorcery::Display::display_cursor() -> void {
 		else
 			return window->get_cursor();
 	})};
-	cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window->get_window())));
+	cursor.setPosition(window->get_cur());
 	window->get_window()->draw(cursor);
+}
+
+auto Sorcery::Display::get_cur() const -> sf::Vector2f {
+
+	return window->get_cur();
 }
 
 auto Sorcery::Display::fit_bg_movie() -> void {

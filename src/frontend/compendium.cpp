@@ -186,7 +186,7 @@ auto Sorcery::Compendium::_handle_input(const sf::Event &event) -> std::optional
 	else if (_system->input->check(CIN::DOWN, event))
 		_selected = _menu->choose_next();
 	else if (_system->input->check(CIN::MOVE, event))
-		_selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		_selected = _menu->set_mouse_selected(_display->get_cur());
 	else if (_system->input->check(CIN::CONFIRM, event)) {
 
 		// We have selected something from the menu

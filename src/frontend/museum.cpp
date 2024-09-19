@@ -204,7 +204,7 @@ auto Sorcery::Museum::_handle_input(const sf::Event &event) -> std::optional<MDR
 		_menu->generate(menu_c, true);
 		_update_display();
 	} else if (_system->input->check(CIN::MOVE, event)) {
-		_selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		_selected = _menu->set_mouse_selected(_display->get_cur());
 		if (_selected) {
 			// TODO This needs to be fixed as mouse-moving over scrolled menus is not 100%
 			const auto menu_c{(*_display->layout)["museum:menu"]};

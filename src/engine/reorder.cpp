@@ -115,7 +115,7 @@ auto Sorcery::Reorder::start() -> std::optional<std::vector<unsigned int>> {
 			else if (_system->input->check(CIN::DOWN, event))
 				option = _menu->choose_next();
 			else if (_system->input->check(CIN::MOVE, event))
-				option = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+				option = _menu->set_mouse_selected(_display->get_cur());
 			else if (_system->input->check(CIN::CONFIRM, event)) {
 
 				if (option) {

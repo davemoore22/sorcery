@@ -618,7 +618,7 @@ auto Sorcery::Engine::_handle_in_search(const sf::Event &event) -> std::optional
 	else if (_system->input->check(CIN::DOWN, event))
 		_search_option = _search_menu->choose_next();
 	else if (_system->input->check(CIN::MOVE, event))
-		_search_option = _search_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		_search_option = _search_menu->set_mouse_selected(_display->get_cur());
 	else if (_system->input->check(CIN::CONFIRM, event)) {
 
 		// We have selected something from the menu
@@ -667,7 +667,7 @@ auto Sorcery::Engine::_handle_in_action(const sf::Event &event) -> std::optional
 	else if (_system->input->check(CIN::DOWN, event))
 		_action_option = _action_menu->choose_next();
 	else if (_system->input->check(CIN::MOVE, event))
-		_action_option = _action_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		_action_option = _action_menu->set_mouse_selected(_display->get_cur());
 	else if (_system->input->check(CIN::CONFIRM, event)) {
 
 		// We have selected something from the menu
@@ -715,7 +715,7 @@ auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<in
 	else if (_system->input->check(CIN::DOWN, event))
 		_get_option = _get_menu->choose_next();
 	else if (_system->input->check(CIN::MOVE, event))
-		_get_option = _get_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		_get_option = _get_menu->set_mouse_selected(_display->get_cur());
 	else if (_system->input->check(CIN::CONFIRM, event)) {
 
 		// We have selected something from the menu
@@ -774,7 +774,7 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 	else if (_system->input->check(CIN::DOWN, event))
 		_camp_option = _camp_menu->choose_next();
 	else if (_system->input->check(CIN::MOVE, event))
-		_camp_option = _camp_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		_camp_option = _camp_menu->set_mouse_selected(_display->get_cur());
 	else if (_system->input->check(CIN::CONFIRM, event)) {
 
 		// We have selected something from the menu
@@ -912,8 +912,7 @@ auto Sorcery::Engine::_handle_elevator_a_f(const sf::Event &event) -> std::optio
 	else if (_system->input->check(CIN::DOWN, event))
 		_elevator_a_f_option = _elevator_a_f_menu->choose_next();
 	else if (_system->input->check(CIN::MOVE, event))
-		_elevator_a_f_option =
-			_elevator_a_f_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		_elevator_a_f_option = _elevator_a_f_menu->set_mouse_selected(_display->get_cur());
 	else if (_system->input->check(CIN::CONFIRM, event)) {
 
 		// We have selected something from the menu
@@ -980,8 +979,7 @@ auto Sorcery::Engine::_handle_elevator_a_d(const sf::Event &event) -> std::optio
 	else if (_system->input->check(CIN::DOWN, event))
 		_elevator_a_d_option = _elevator_a_d_menu->choose_next();
 	else if (_system->input->check(CIN::MOVE, event))
-		_elevator_a_d_option =
-			_elevator_a_d_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+		_elevator_a_d_option = _elevator_a_d_menu->set_mouse_selected(_display->get_cur());
 	else if (_system->input->check(CIN::CONFIRM, event)) {
 
 		// We have selected something from the menu
@@ -1337,7 +1335,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 		else if (_system->input->check(CIN::BACK, event))
 			_in_camp = true;
 		else if (_system->input->check(CIN::CONFIRM, event)) {
-			sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
+			sf::Vector2f mouse_pos{_display->get_cur()};
 			if (_party_panel->selected) {
 
 				// Status-bar selected is 1-indexed, not 0-indexed
@@ -1518,7 +1516,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_game->toggle_console();
 		else if (_system->input->check(CIN::MOVE, event)) {
 			// Check for Mouse Overs
-			sf::Vector2f mouse_pos{static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window))};
+			sf::Vector2f mouse_pos{_display->get_cur()};
 
 			if (std::optional<std::string> left_selected{_left_icon_panel->set_mouse_selected(
 					(*_display->layout)["engine_base_ui:left_icon_panel"], mouse_pos)};
@@ -2645,7 +2643,7 @@ auto Sorcery::Engine::_draw() -> void {
 		_display->window->get_gui()->draw();
 	}
 
-	_display->window->draw_cursor_coord(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+	_display->window->draw_cursor_coord(_display->get_cur());
 }
 
 auto Sorcery::Engine::_go_back() -> std::optional<int> {

@@ -205,6 +205,11 @@ auto Sorcery::Window::shove_text(const sf::Text &shovee, sf::Text &shover, unsig
 		shovee.getGlobalBounds().top - (shovee.getGlobalBounds().height / 4));
 }
 
+auto Sorcery::Window::get_cur() const -> sf::Vector2f {
+
+	return static_cast<sf::Vector2f>(sf::Mouse::getPosition(_window));
+}
+
 auto Sorcery::Window::set_pos(Component *component, sf::Transformable *object) const -> void {
 
 	const auto off_x{std::invoke([&] {

@@ -154,7 +154,7 @@ auto Sorcery::Legate::start() -> std::optional<CAL> {
 				else if (_system->input->check(CIN::DOWN, event))
 					selected = _menu->choose_next();
 				else if (_system->input->check(CIN::MOVE, event))
-					selected = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					selected = _menu->set_mouse_selected(_display->get_cur());
 				else if (_system->input->check(CIN::BACK, event)) {
 					_stage = CHG::CONFIRM;
 					_display->set_input_mode(WIM::CONFIRM_LEGATE);
