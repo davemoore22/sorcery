@@ -176,22 +176,21 @@ auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 							if (selected_option) {
 
 								// We have selected something from the menu
-								if (const MIM option_chosen{(*selected_option.value()).item};
-									option_chosen == MM_NEW_GAME) {
+								if (const MIM opt{(*selected_option.value()).item}; opt == MM_NEW_GAME) {
 									_display->set_input_mode(CONFIRM_NEW_GAME);
-								} else if (option_chosen == MM_CONTINUE_GAME) {
+								} else if (opt == MM_CONTINUE_GAME) {
 									_display->set_input_mode(NAVIGATE_MENU);
 									return MM_CONTINUE_GAME;
-								} else if (option_chosen == MM_LICENSE) {
+								} else if (opt == MM_LICENSE) {
 									_display->set_input_mode(DISPLAY_TEXT_FILE);
 									return MM_LICENSE;
-								} else if (option_chosen == MM_COMPENDIUM) {
+								} else if (opt == MM_COMPENDIUM) {
 									_display->set_input_mode(COMPENDIUM);
 									return MM_COMPENDIUM;
-								} else if (option_chosen == MM_OPTIONS) {
+								} else if (opt == MM_OPTIONS) {
 									_display->set_input_mode(GAME_OPTIONS);
 									return MM_OPTIONS;
-								} else if (option_chosen == ITEM_QUIT) {
+								} else if (opt == ITEM_QUIT) {
 									_display->set_input_mode(CONFIRM_QUIT_GAME);
 								}
 							}

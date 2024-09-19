@@ -196,9 +196,9 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 
 					// We have selected something from the menu
 					if (selected) {
-						const MIM option_chosen{(*selected.value()).item};
-						if (option_chosen == ET_TRAIN || option_chosen == CA_TAVERN || option_chosen == CA_TEMPLE ||
-							option_chosen == CA_INN || option_chosen == ITEM_CAMP || option_chosen == CA_SHOP) {
+						const MIM opt{(*selected.value()).item};
+						if (opt == ET_TRAIN || opt == CA_TAVERN || opt == CA_TEMPLE || opt == CA_INN ||
+							opt == ITEM_CAMP || opt == CA_SHOP) {
 							_display->set_input_mode(WIM::NAVIGATE_MENU);
 							_cur_char = std::nullopt;
 							return std::nullopt;
@@ -487,21 +487,21 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					if (item_action_selected) {
-						const MIM option_chosen{(*item_action_selected.value()).item};
-						if (option_chosen == MIM::C_ACTION_LEAVE) {
+						const MIM opt{(*item_action_selected.value()).item};
+						if (opt == MIM::C_ACTION_LEAVE) {
 							_in_item_action = false;
-						} else if (option_chosen == MIM::C_ACTION_EXAMINE) {
+						} else if (opt == MIM::C_ACTION_EXAMINE) {
 
 							// Examine an Item (only possible if it is identified)
 							_in_item_action = false;
 							_in_item_display = true;
 							_examine_item(character_id);
-						} else if (option_chosen == MIM::C_ACTION_DROP) {
+						} else if (opt == MIM::C_ACTION_DROP) {
 
 							// Drop an Item
 							_in_item_action = false;
 							_in_drop = true;
-						} else if (option_chosen == MIM::C_ACTION_EQUIP) {
+						} else if (opt == MIM::C_ACTION_EQUIP) {
 
 							// Equip an Item
 							_in_item_action = false;
@@ -513,7 +513,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 								_in_cursed = true;
 
 							_in_item_action = false;
-						} else if (option_chosen == MIM::C_ACTION_UNEQUIP) {
+						} else if (opt == MIM::C_ACTION_UNEQUIP) {
 							auto character{&_game->characters[character_id]};
 							auto slot_item{character->inventory[_character_display->get_inventory_item()]};
 							if (slot_item.has_value()) {
@@ -523,7 +523,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 
 								_in_item_action = false;
 							}
-						} else if (option_chosen == MIM::C_ACTION_IDENTIFY) {
+						} else if (opt == MIM::C_ACTION_IDENTIFY) {
 
 							// Attempt to Identify an Item
 							auto character{&_game->characters[character_id]};
@@ -549,7 +549,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 									}
 								}
 							}
-						} else if (option_chosen == MIM::C_ACTION_TRADE) {
+						} else if (opt == MIM::C_ACTION_TRADE) {
 							const auto dest_char_id{(*item_trade_selected.value()).index};
 							auto src_char{&_game->characters[character_id]};
 							auto dest_char{&_game->characters[dest_char_id]};

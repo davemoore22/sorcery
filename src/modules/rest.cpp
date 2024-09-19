@@ -117,7 +117,7 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 	_duration = DELAY_RESTING; // ms
 
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> option_continue{_continue_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> opt_cont{_continue_menu->items.begin()};
 	std::optional<std::vector<MenuEntry>::const_iterator> option_stop{_stop_menu->items.begin()};
 	bool proceed{false};
 	bool skip{false};
@@ -189,16 +189,16 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 					else if (_system->input->check(CIN::BACK, event))
 						return MIM::ITEM_CONTINUE;
 					else if (_system->input->check(CIN::UP, event))
-						option_continue = _continue_menu->choose_previous();
+						opt_cont = _continue_menu->choose_previous();
 					else if (_system->input->check(CIN::DOWN, event))
-						option_continue = _continue_menu->choose_next();
+						opt_cont = _continue_menu->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						option_continue = _continue_menu->set_mouse_selected(
+						opt_cont = _continue_menu->set_mouse_selected(
 							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
-						if (option_continue) {
-							if (const MIM option_chosen{(*option_continue.value()).item};
+						if (opt_cont) {
+							if (const MIM option_chosen{(*opt_cont.value()).item};
 								option_chosen == MIM::ITEM_CONTINUE) {
 								return MIM::ITEM_CONTINUE;
 							}
@@ -238,16 +238,16 @@ auto Sorcery::Rest::start(Character *character, RestMode mode, RestType type) ->
 					else if (_system->input->check(CIN::BACK, event))
 						return MIM::CP_LEAVE;
 					else if (_system->input->check(CIN::UP, event))
-						option_continue = _continue_menu->choose_previous();
+						opt_cont = _continue_menu->choose_previous();
 					else if (_system->input->check(CIN::DOWN, event))
-						option_continue = _continue_menu->choose_next();
+						opt_cont = _continue_menu->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						option_continue = _continue_menu->set_mouse_selected(
+						opt_cont = _continue_menu->set_mouse_selected(
 							static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
-						if (option_continue) {
-							if (const MIM option_chosen{(*option_continue.value()).item};
+						if (opt_cont) {
+							if (const MIM option_chosen{(*opt_cont.value()).item};
 								option_chosen == MIM::ITEM_CONTINUE) {
 								return MIM::ITEM_CONTINUE;
 							}

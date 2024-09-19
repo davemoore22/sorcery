@@ -122,16 +122,16 @@ auto Sorcery::Castle::start(DES destination) -> std::optional<MIM> {
 
 					// We have selected something from the menu
 					if (option) {
-						const MIM option_chosen{(*option.value()).item};
-						if (option_chosen == MIM::CA_EDGE_OF_TOWN)
+						const MIM opt{(*option.value()).item};
+						if (opt == MIM::CA_EDGE_OF_TOWN)
 							return MIM::CA_EDGE_OF_TOWN;
-						else if (option_chosen == MIM::CA_TAVERN)
+						else if (opt == MIM::CA_TAVERN)
 							return MIM::CA_TAVERN;
-						else if (option_chosen == MIM::CA_INN)
+						else if (opt == MIM::CA_INN)
 							return MIM::CA_INN;
-						else if (option_chosen == MIM::CA_SHOP)
+						else if (opt == MIM::CA_SHOP)
 							return MIM::CA_SHOP;
-						else if (option_chosen == MIM::CA_TEMPLE)
+						else if (opt == MIM::CA_TEMPLE)
 							return MIM::CA_TEMPLE;
 					}
 				} else if (_system->input->check(CIN::CANCEL, event) || _system->input->check(CIN::BACK, event)) {

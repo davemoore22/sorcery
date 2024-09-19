@@ -130,10 +130,10 @@ auto Sorcery::Training::start() -> std::optional<MIM> {
 
 				// We have selected something from the menu
 				if (selected) {
-					const MIM option_chosen{(*selected.value()).item};
-					if (option_chosen == MIM::TR_EDGE_OF_TOWN) {
+					const MIM opt{(*selected.value()).item};
+					if (opt == MIM::TR_EDGE_OF_TOWN) {
 						return MIM::ET_LEAVE_GAME;
-					} else if (option_chosen == MIM::TR_CREATE) {
+					} else if (opt == MIM::TR_CREATE) {
 						if (auto result{_create->start()}; result && result.value() == MIM::ITEM_ABORT) {
 							_create->stop();
 							return MIM::ITEM_ABORT;
@@ -141,7 +141,7 @@ auto Sorcery::Training::start() -> std::optional<MIM> {
 						_create->stop();
 						_display->generate("training_grounds");
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
-					} else if (option_chosen == MIM::TR_INSPECT) {
+					} else if (opt == MIM::TR_INSPECT) {
 						if (auto result{_inspect->start()}; result && result.value() == MIM::ITEM_ABORT) {
 							_inspect->stop();
 							return MIM::ITEM_ABORT;
@@ -149,7 +149,7 @@ auto Sorcery::Training::start() -> std::optional<MIM> {
 						_inspect->stop();
 						_display->generate("training_grounds");
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
-					} else if (option_chosen == MIM::TR_EDIT) {
+					} else if (opt == MIM::TR_EDIT) {
 						if (auto result{_edit->start()}; result && result.value() == MIM::ITEM_ABORT) {
 							_edit->stop();
 							return MIM::ITEM_ABORT;
@@ -157,7 +157,7 @@ auto Sorcery::Training::start() -> std::optional<MIM> {
 						_edit->stop();
 						_display->generate("training_grounds");
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
-					} else if (option_chosen == MIM::TR_DELETE) {
+					} else if (opt == MIM::TR_DELETE) {
 						if (auto result{_delete->start()}; result && result.value() == MIM::ITEM_ABORT) {
 							_delete->stop();
 							return MIM::ITEM_ABORT;

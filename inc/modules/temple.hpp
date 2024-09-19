@@ -96,7 +96,7 @@ class Temple {
 		unsigned int _t_count;
 		bool _t_finished;
 		unsigned int _duration;
-		std::unique_ptr<Menu> _continue_menu;
+		std::unique_ptr<Menu> _cont;
 		std::unique_ptr<Console> _console;
 		bool _show_console;
 

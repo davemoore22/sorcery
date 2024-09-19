@@ -40,8 +40,6 @@ Sorcery::ItemStore::ItemStore(System *system, const std::filesystem::path filena
 
 auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 
-	using enum Enums::Character::Align;
-	using enum Enums::Character::Class;
 	using enum Enums::Items::Category;
 	using enum Enums::Items::Effects::Invoke;
 	using enum Enums::Items::TypeID;
@@ -197,30 +195,30 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				ItemUsableClass item_usable{};
 				item_usable.fill(false);
 				if (allowed_classes_s.find('f') != std::string::npos)
-					item_usable[unenum(FIGHTER)] = true;
+					item_usable[unenum(CHC::FIGHTER)] = true;
 				if (allowed_classes_s.find('m') != std::string::npos)
-					item_usable[unenum(MAGE)] = true;
+					item_usable[unenum(CHC::MAGE)] = true;
 				if (allowed_classes_s.find('p') != std::string::npos)
-					item_usable[unenum(PRIEST)] = true;
+					item_usable[unenum(CHC::PRIEST)] = true;
 				if (allowed_classes_s.find('t') != std::string::npos)
-					item_usable[unenum(THIEF)] = true;
+					item_usable[unenum(CHC::THIEF)] = true;
 				if (allowed_classes_s.find('b') != std::string::npos)
-					item_usable[unenum(BISHOP)] = true;
+					item_usable[unenum(CHC::BISHOP)] = true;
 				if (allowed_classes_s.find('s') != std::string::npos)
-					item_usable[unenum(SAMURAI)] = true;
+					item_usable[unenum(CHC::SAMURAI)] = true;
 				if (allowed_classes_s.find('l') != std::string::npos)
-					item_usable[unenum(LORD)] = true;
+					item_usable[unenum(CHC::LORD)] = true;
 				if (allowed_classes_s.find('n') != std::string::npos)
-					item_usable[unenum(NINJA)] = true;
+					item_usable[unenum(CHC::NINJA)] = true;
 
 				ItemUsableAlignment item_alignment{};
 				item_alignment.fill(false);
 				if (allowed_alignments_s.find('g') != std::string::npos)
-					item_alignment[unenum(GOOD)] = true;
+					item_alignment[unenum(CAL::GOOD)] = true;
 				if (allowed_alignments_s.find('n') != std::string::npos)
-					item_alignment[unenum(NEUTRAL)] = true;
+					item_alignment[unenum(CAL::NEUTRAL)] = true;
 				if (allowed_alignments_s.find('e') != std::string::npos)
-					item_alignment[unenum(EVIL)] = true;
+					item_alignment[unenum(CAL::EVIL)] = true;
 
 				ItemType item_type{};
 				item_type.set_type_id(id.value());

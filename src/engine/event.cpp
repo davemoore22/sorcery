@@ -37,25 +37,23 @@
 Sorcery::Event::Event(System *system, Display *display, Graphics *graphics, Game *game, MAV type, unsigned int stage)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _type{type}, _stage{stage} {
 
-	using enum Enums::Map::Event;
-
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 	_dungeon_event = _game->get_event(_type);
 
 	// some events are passed through without input directly to an encounter
 	switch (_type) {
-	case FIRE_DRAGONS_COMBAT:
+	case MAV::FIRE_DRAGONS_COMBAT:
 		[[fallthrough]];
-	case WERDNA_COMBAT:
+	case MAV::WERDNA_COMBAT:
 		[[fallthrough]];
-	case DEADLY_RING_COMBAT:
+	case MAV::DEADLY_RING_COMBAT:
 		[[fallthrough]];
-	case GUARANTEED_COMBAT:
+	case MAV::GUARANTEED_COMBAT:
 		break;
-	case TREBOR_VOICE:
+	case MAV::TREBOR_VOICE:
 		[[fallthrough]];
-	case WERDNA_BOAST: {
+	case MAV::WERDNA_BOAST: {
 
 		// Others are multistage
 		_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CONTINUE);
@@ -94,25 +92,23 @@ Sorcery::Event::Event(System *system, Display *display, Graphics *graphics, Game
 
 auto Sorcery::Event::start() -> std::optional<MIM> {
 
-	using enum Enums::Map::Event;
-
 	switch (_type) {
-	case FIRE_DRAGONS_COMBAT:
+	case MAV::FIRE_DRAGONS_COMBAT:
 		[[fallthrough]];
-	case WERDNA_COMBAT:
+	case MAV::WERDNA_COMBAT:
 		[[fallthrough]];
-	case DEADLY_RING_COMBAT:
+	case MAV::DEADLY_RING_COMBAT:
 		[[fallthrough]];
-	case GUARANTEED_COMBAT:
+	case MAV::GUARANTEED_COMBAT:
 		return std::nullopt;
 		break;
 	default: {
 		_display->window->save_screen();
-		std::optional<std::vector<MenuEntry>::const_iterator> option_continue{_continue_menu->items.begin()};
+		std::optional<std::vector<MenuEntry>::const_iterator> opt{_continue_menu->items.begin()};
 
 		// Generate the display
 		std::string screen_key{};
-		if (_type == TREBOR_VOICE || _type == WERDNA_BOAST) {
+		if (_type == MAV::TREBOR_VOICE || _type == MAV::WERDNA_BOAST) {
 			screen_key = std::invoke([&] {
 				if (_stage == 1)
 					return _dungeon_event.component_key + "_1";
@@ -152,17 +148,16 @@ auto Sorcery::Event::start() -> std::optional<MIM> {
 				else if (_system->input->check(CIN::BACK, event))
 					return MIM::ITEM_CONTINUE;
 				else if (_system->input->check(CIN::UP, event))
-					option_continue = _continue_menu->choose_previous();
+					opt = _continue_menu->choose_previous();
 				else if (_system->input->check(CIN::DOWN, event))
-					option_continue = _continue_menu->choose_next();
+					opt = _continue_menu->choose_next();
 				else if (_system->input->check(CIN::MOVE, event))
-					option_continue =
+					opt =
 						_continue_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 				else if (_system->input->check(CIN::CONFIRM, event)) {
 
-					if (option_continue) {
-						if (const MIM option_chosen{(*option_continue.value()).item};
-							option_chosen == MIM::ITEM_CONTINUE) {
+					if (opt) {
+						if (const MIM option_chosen{(*opt.value()).item}; option_chosen == MIM::ITEM_CONTINUE) {
 							return MIM::ITEM_CONTINUE;
 						}
 					}
@@ -188,22 +183,20 @@ auto Sorcery::Event::stop() -> void {
 
 auto Sorcery::Event::_draw() -> void {
 
-	using enum Enums::Map::Event;
-
 	_display->window->restore_screen();
 
 	switch (_type) {
-	case FIRE_DRAGONS_COMBAT:
+	case MAV::FIRE_DRAGONS_COMBAT:
 		[[fallthrough]];
-	case WERDNA_COMBAT:
+	case MAV::WERDNA_COMBAT:
 		[[fallthrough]];
-	case DEADLY_RING_COMBAT:
+	case MAV::DEADLY_RING_COMBAT:
 		[[fallthrough]];
-	case GUARANTEED_COMBAT:
+	case MAV::GUARANTEED_COMBAT:
 		break;
-	case TREBOR_VOICE:
+	case MAV::TREBOR_VOICE:
 		[[fallthrough]];
-	case WERDNA_BOAST: {
+	case MAV::WERDNA_BOAST: {
 
 		// Others are multistage
 		const auto screen_key{std::invoke([&] {

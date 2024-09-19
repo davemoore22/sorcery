@@ -191,10 +191,10 @@ auto Sorcery::Compendium::_handle_input(const sf::Event &event) -> std::optional
 
 		// We have selected something from the menu
 		if (_selected) {
-			const MIM option_chosen{(*_selected.value()).item};
-			if (option_chosen == MIM::ITEM_RETURN)
+			const MIM opt{(*_selected.value()).item};
+			if (opt == MIM::ITEM_RETURN)
 				return MDR::BACK;
-			else if (option_chosen == MIM::CO_ITEMS) {
+			else if (opt == MIM::CO_ITEMS) {
 				if (auto result{_museum->start()}; result && result == EXIT_ALL) {
 					_museum->stop();
 					return MDR::EXIT;
@@ -202,7 +202,7 @@ auto Sorcery::Compendium::_handle_input(const sf::Event &event) -> std::optional
 				_museum->stop();
 				_generate_display();
 				_refresh_display();
-			} else if (option_chosen == MIM::CO_MONSTERS) {
+			} else if (opt == MIM::CO_MONSTERS) {
 				if (auto result{_bestiary->start()}; result && result == EXIT_ALL) {
 					_bestiary->stop();
 					return MDR::EXIT;

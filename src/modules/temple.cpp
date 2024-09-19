@@ -64,10 +64,9 @@ Sorcery::Temple::Temple(System *system, Display *display, Graphics *graphics, Ga
 	_pay->generate((*_display->layout)["temple_pay:menu"]);
 	_pay->setPosition(_display->get_centre_x(_pay->get_width()), (*_display->layout)["temple_pay:menu"].y);
 
-	_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CONTINUE);
-	_continue_menu->generate((*_display->layout)["temple_ress:continue_menu"]);
-	_continue_menu->setPosition(
-		_display->get_centre_x(_continue_menu->get_width()), (*_display->layout)["temple_ress:continue_menu"].y);
+	_cont = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CONTINUE);
+	_cont->generate((*_display->layout)["temple_ress:continue_menu"]);
+	_cont->setPosition(_display->get_centre_x(_cont->get_width()), (*_display->layout)["temple_ress:continue_menu"].y);
 
 	_console = std::make_unique<Console>(_display->window->get_gui(), _system, _display, _graphics, _game);
 
@@ -121,10 +120,10 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 
 	// And do the main loop
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
-	std::optional<std::vector<MenuEntry>::const_iterator> option_help{_help->items.begin()};
-	std::optional<std::vector<MenuEntry>::const_iterator> option_pay{_pay->items.begin()};
-	std::optional<std::vector<MenuEntry>::const_iterator> option_continue{_continue_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> opt{_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> opt_help{_help->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> opt_pay{_pay->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> opt_cont{_cont->items.begin()};
 	sf::Event event{};
 	auto heal_char_id{0u};
 	while (_window->isOpen()) {
@@ -156,16 +155,16 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 				// And handle input on the main menu
 				if (_stage == TempleStage::MENU) {
 					if (_system->input->check(CIN::UP, event))
-						option = _menu->choose_previous();
+						opt = _menu->choose_previous();
 					else if (_system->input->check(CIN::DOWN, event))
-						option = _menu->choose_next();
+						opt = _menu->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						option = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						opt = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						// We have selected something from the menu
-						if (option) {
-							if (const MIM option_chosen{(*option.value()).item}; option_chosen == MIM::TE_CASTLE) {
+						if (opt) {
+							if (const MIM option_chosen{(*opt.value()).item}; option_chosen == MIM::TE_CASTLE) {
 								return MIM::TE_CASTLE;
 							} else if (option_chosen == MIM::TE_INSPECT) {
 								if (auto result{_inspect->start(std::nullopt)};
@@ -177,7 +176,7 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 								_display->generate("temple");
 								_display->set_input_mode(WIM::NAVIGATE_MENU);
 								continue;
-							} else if (const MIM option_chosen{(*option.value()).item}; option_chosen == MIM::TE_HELP) {
+							} else if (const MIM option_chosen{(*opt.value()).item}; option_chosen == MIM::TE_HELP) {
 								_stage = TempleStage::HELP;
 								_party_panel->refresh();
 								_help->reload();
@@ -198,24 +197,24 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 						_help->reload();
 						_help->generate((*_display->layout)["temple_help:menu"]);
 					} else if (_system->input->check(CIN::UP, event))
-						option_help = _help->choose_previous();
+						opt_help = _help->choose_previous();
 					else if (_system->input->check(CIN::DOWN, event))
-						option_help = _help->choose_next();
+						opt_help = _help->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						option_help =
+						opt_help =
 							_help->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						// We have selected something from the menu
-						if (option_help) {
-							if (const MIM option_chosen{(*option_help.value()).item}; option_chosen == MIM::CA_TEMPLE) {
+						if (opt_help) {
+							if (const MIM option_chosen{(*opt_help.value()).item}; option_chosen == MIM::CA_TEMPLE) {
 								_stage = TempleStage::MENU;
 								_party_panel->refresh();
 								_help->reload();
 								_help->generate((*_display->layout)["temple_help:menu"]);
 								continue;
 							} else {
-								heal_char_id = (*option_help.value()).index;
+								heal_char_id = (*opt_help.value()).index;
 								const auto &help_character{_game->characters[heal_char_id]};
 								const auto cost{help_character.get_cure_cost()};
 								if (heal_char_id > 0) {
@@ -242,24 +241,23 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 						_help->reload();
 						_help->generate((*_display->layout)["temple_help:menu"]);
 					} else if (_system->input->check(CIN::UP, event))
-						option_pay = _pay->choose_previous();
+						opt_pay = _pay->choose_previous();
 					else if (_system->input->check(CIN::DOWN, event))
-						option_pay = _pay->choose_next();
+						opt_pay = _pay->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						option_pay =
-							_pay->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						opt_pay = _pay->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						// We have selected something from the menu
-						if (option_help) {
-							if (const MIM option_chosen{(*option_pay.value()).item}; option_chosen == MIM::CA_TEMPLE) {
+						if (opt_help) {
+							if (const MIM option_chosen{(*opt_pay.value()).item}; option_chosen == MIM::CA_TEMPLE) {
 								_stage = TempleStage::HELP;
 								_party_panel->refresh();
 								_help->reload();
 								_help->generate((*_display->layout)["temple_help:menu"]);
 								continue;
 							} else {
-								const auto pay_char_id{(*option_pay.value()).index};
+								const auto pay_char_id{(*opt_pay.value()).index};
 								_stage = TempleStage::RESS;
 								_t_finished = false;
 								_start_count_thread();
@@ -280,16 +278,16 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 						else if (_system->input->check(CIN::BACK, event))
 							return MIM::CP_LEAVE;
 						else if (_system->input->check(CIN::UP, event))
-							option_continue = _continue_menu->choose_previous();
+							opt_cont = _cont->choose_previous();
 						else if (_system->input->check(CIN::DOWN, event))
-							option_continue = _continue_menu->choose_next();
+							opt_cont = _cont->choose_next();
 						else if (_system->input->check(CIN::MOVE, event))
-							option_continue = _continue_menu->set_mouse_selected(
-								static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+							opt_cont =
+								_cont->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 						else if (_system->input->check(CIN::CONFIRM, event)) {
 
-							if (option_continue) {
-								if (const MIM option_chosen{(*option_continue.value()).item};
+							if (opt_cont) {
+								if (const MIM option_chosen{(*opt_cont.value()).item};
 									option_chosen == MIM::ITEM_CONTINUE) {
 									_stage = TempleStage::MENU;
 									_party_panel->refresh();
@@ -436,8 +434,8 @@ auto Sorcery::Temple::_draw() -> void {
 		_display->window->draw_text(_ress_count, (*_display->layout)["temple_ress:ress_message"], _get_ress_status());
 		if (_get_ress_count() > 5) {
 			_display->window->draw_text(_ress_result, (*_display->layout)["temple_ress:ress_result"], _result_text);
-			_continue_menu->generate((*_display->layout)["temple_ress:continue_menu"]);
-			_window->draw(*_continue_menu);
+			_cont->generate((*_display->layout)["temple_ress:continue_menu"]);
+			_window->draw(*_cont);
 		}
 	}
 

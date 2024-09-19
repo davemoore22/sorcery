@@ -101,8 +101,6 @@ Sorcery::Legate::~Legate() {
 
 auto Sorcery::Legate::start() -> std::optional<CAL> {
 
-	using enum Enums::Character::Align;
-
 	_stage = CHG::CONFIRM;
 	_display->generate("legate");
 	_display->set_input_mode(WIM::CONFIRM_LEGATE);
@@ -169,13 +167,13 @@ auto Sorcery::Legate::start() -> std::optional<CAL> {
 
 					switch ((*selected.value()).item) {
 					case MIM::CA_GOOD:
-						return GOOD;
+						return CAL::GOOD;
 						break;
 					case MIM::CA_NEUTRAL:
-						return NEUTRAL;
+						return CAL::NEUTRAL;
 						break;
 					case MIM::CA_EVIL:
-						return EVIL;
+						return CAL::EVIL;
 						break;
 					default:
 						return std::nullopt;

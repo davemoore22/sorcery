@@ -77,8 +77,6 @@ Sorcery::PartyPanel::PartyPanel(System *system, Display *display, Graphics *grap
 
 auto Sorcery::PartyPanel::refresh() -> void {
 
-	using enum Enums::Character::CStatus;
-
 	// We keep the frame and the legend but clear everything else
 	_sprites.resize(1);
 	_texts.resize(1);
@@ -115,7 +113,7 @@ auto Sorcery::PartyPanel::refresh() -> void {
 			}
 
 			switch (character.get_status()) {
-			case OK:
+			case CHT::OK:
 				if (character.get_poisoned_rate() > 0)
 					character_text.setFillColor(
 						sf::Color(std::stoull(_layout["colour_poisoned"].value(), nullptr, 16)));
@@ -125,30 +123,30 @@ auto Sorcery::PartyPanel::refresh() -> void {
 				else
 					character_text.setFillColor(sf::Color(std::stoull(_layout["colour_ok"].value(), nullptr, 16)));
 				break;
-			case AFRAID:
+			case CHT::AFRAID:
 				[[fallthrough]];
-			case SILENCED:
+			case CHT::SILENCED:
 				[[fallthrough]];
-			case ASLEEP:
+			case CHT::ASLEEP:
 				if (character.get_max_hp() / character.get_current_hp() > 5)
 					character_text.setFillColor(
 						sf::Color(std::stoull(_layout["colour_low_health"].value(), nullptr, 16)));
 				else
 					character_text.setFillColor(sf::Color(std::stoull(_layout["colour_ok"].value(), nullptr, 16)));
 				break;
-			case ASHES:
+			case CHT::ASHES:
 				character_text.setFillColor(sf::Color(std::stoull(_layout["colour_ashes"].value(), nullptr, 16)));
 				break;
-			case DEAD:
+			case CHT::DEAD:
 				character_text.setFillColor(sf::Color(std::stoull(_layout["colour_dead"].value(), nullptr, 16)));
 				break;
-			case HELD:
+			case CHT::HELD:
 				character_text.setFillColor(sf::Color(std::stoull(_layout["colour_held"].value(), nullptr, 16)));
 				break;
-			case LOST:
+			case CHT::LOST:
 				character_text.setFillColor(sf::Color(std::stoull(_layout["colour_lost"].value(), nullptr, 16)));
 				break;
-			case STONED:
+			case CHT::STONED:
 				character_text.setFillColor(sf::Color(std::stoull(_layout["colour_stoned"].value(), nullptr, 16)));
 				break;
 			default:
