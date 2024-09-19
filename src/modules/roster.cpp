@@ -43,7 +43,7 @@
 #include "types/component.hpp"
 
 // Standard Constructor
-Sorcery::Roster::Roster(System *system, Display *display, Graphics *graphics, Game *game, RosterMode mode)
+Sorcery::Roster::Roster(System *system, Display *display, Graphics *graphics, Game *game, ROM mode)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _mode{mode} {
 
 	// Get the Window and Graphics to Display
@@ -52,13 +52,13 @@ Sorcery::Roster::Roster(System *system, Display *display, Graphics *graphics, Ga
 
 	// Same object can be used in three different modes
 	switch (_mode) {
-	case RosterMode::INSPECT:
+	case ROM::INSPECT:
 		_screen_key = "roster_inspect";
 		break;
-	case RosterMode::EDIT:
+	case ROM::EDIT:
 		_screen_key = "roster_edit";
 		break;
-	case RosterMode::DELETE:
+	case ROM::DELETE:
 		_screen_key = "roster_delete";
 		break;
 	default:
@@ -95,13 +95,13 @@ auto Sorcery::Roster::start() -> std::optional<MIM> {
 	// Get the Background Display Components and load them into Display module
 	// storage (not local)
 	switch (_mode) {
-	case RosterMode::INSPECT:
+	case ROM::INSPECT:
 		_display->generate("roster_inspect");
 		break;
-	case RosterMode::EDIT:
+	case ROM::EDIT:
 		_display->generate("roster_edit");
 		break;
-	case RosterMode::DELETE:
+	case ROM::DELETE:
 		_display->generate("roster_delete");
 		break;
 	default:
@@ -179,14 +179,14 @@ auto Sorcery::Roster::start() -> std::optional<MIM> {
 
 					// We have selected something from the menu
 					if (selected) {
-						const MIM option_chosen{(*selected.value()).item};
-						if (option_chosen == MIM::ET_TRAIN) {
+						const MIM opt{(*selected.value()).item};
+						if (opt == MIM::ET_TRAIN) {
 							_display->set_input_mode(WIM::NAVIGATE_MENU);
 							_cur_char = std::nullopt;
 							return std::nullopt;
 						} else {
 
-							if (_mode == RosterMode::INSPECT) {
+							if (_mode == ROM::INSPECT) {
 
 								const auto character_chosen{(*selected.value()).index};
 								_cur_char = &_game->characters[character_chosen];
@@ -196,7 +196,7 @@ auto Sorcery::Roster::start() -> std::optional<MIM> {
 									_display->set_input_mode(WIM::BROWSE_CHARACTER);
 									_character_display->set_view(CHV::SUMMARY);
 								}
-							} else if (_mode == RosterMode::DELETE) {
+							} else if (_mode == ROM::DELETE) {
 
 								const auto character_chosen{(*selected.value()).index};
 								_cur_char = &_game->characters[character_chosen];
@@ -204,7 +204,7 @@ auto Sorcery::Roster::start() -> std::optional<MIM> {
 								if (_cur_char) {
 									_display->set_input_mode(WIM::CONFIRM_DELETE_CHARACTER);
 								}
-							} else if (_mode == RosterMode::EDIT) {
+							} else if (_mode == ROM::EDIT) {
 
 								const auto character_chosen{(*selected.value()).index};
 								auto result{_edit->start(character_chosen)};

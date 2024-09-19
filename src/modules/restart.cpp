@@ -116,8 +116,7 @@ auto Sorcery::Restart::start(unsigned int &character_chosen) -> std::optional<MI
 			else if (_system->input->check(CIN::CONFIRM, event)) {
 
 				if (selected) {
-					const MIM option_chosen{(*selected.value()).item};
-					if (option_chosen == MIM::TR_EDGE_OF_TOWN) {
+					if (const MIM opt{(*selected.value()).item}; opt == MIM::TR_EDGE_OF_TOWN) {
 						return MIM::TR_EDGE_OF_TOWN;
 					} else {
 

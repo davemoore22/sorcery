@@ -56,7 +56,7 @@ Sorcery::Event::Event(System *system, Display *display, Graphics *graphics, Game
 	case MAV::WERDNA_BOAST: {
 
 		// Others are multistage
-		_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CONTINUE);
+		_cont_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CONTINUE);
 		const auto menu_stage_key{std::invoke([&] {
 			if (_stage == 1)
 				return _dungeon_event.component_key + "_1:continue_menu";
@@ -67,16 +67,14 @@ Sorcery::Event::Event(System *system, Display *display, Graphics *graphics, Game
 			else
 				return std::string{};
 		})};
-		_continue_menu->generate((*_display->layout)[menu_stage_key]);
-		_continue_menu->setPosition(
-			_display->get_centre_x(_continue_menu->get_width()), (*_display->layout)[menu_stage_key].y);
+		_cont_menu->generate((*_display->layout)[menu_stage_key]);
+		_cont_menu->setPosition(_display->get_centre_x(_cont_menu->get_width()), (*_display->layout)[menu_stage_key].y);
 	} break;
 	default: {
-		_continue_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CONTINUE);
+		_cont_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CONTINUE);
 		const auto menu_key{_dungeon_event.component_key + ":continue_menu"};
-		_continue_menu->generate((*_display->layout)[menu_key]);
-		_continue_menu->setPosition(
-			_display->get_centre_x(_continue_menu->get_width()), (*_display->layout)[menu_key].y);
+		_cont_menu->generate((*_display->layout)[menu_key]);
+		_cont_menu->setPosition(_display->get_centre_x(_cont_menu->get_width()), (*_display->layout)[menu_key].y);
 	} break;
 	}
 
@@ -104,7 +102,7 @@ auto Sorcery::Event::start() -> std::optional<MIM> {
 		break;
 	default: {
 		_display->window->save_screen();
-		std::optional<std::vector<MenuEntry>::const_iterator> opt{_continue_menu->items.begin()};
+		std::optional<std::vector<MenuEntry>::const_iterator> opt{_cont_menu->items.begin()};
 
 		// Generate the display
 		std::string screen_key{};
@@ -148,16 +146,15 @@ auto Sorcery::Event::start() -> std::optional<MIM> {
 				else if (_system->input->check(CIN::BACK, event))
 					return MIM::ITEM_CONTINUE;
 				else if (_system->input->check(CIN::UP, event))
-					opt = _continue_menu->choose_previous();
+					opt = _cont_menu->choose_previous();
 				else if (_system->input->check(CIN::DOWN, event))
-					opt = _continue_menu->choose_next();
+					opt = _cont_menu->choose_next();
 				else if (_system->input->check(CIN::MOVE, event))
-					opt =
-						_continue_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					opt = _cont_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					if (opt) {
-						if (const MIM option_chosen{(*opt.value()).item}; option_chosen == MIM::ITEM_CONTINUE) {
+						if (const MIM opt_cont{(*opt.value()).item}; opt_cont == MIM::ITEM_CONTINUE) {
 							return MIM::ITEM_CONTINUE;
 						}
 					}
@@ -211,8 +208,8 @@ auto Sorcery::Event::_draw() -> void {
 		})};
 		const auto menu_key{screen_key + ":continue_menu"};
 		_display->display(screen_key, _sprites, _texts, _frames);
-		_continue_menu->generate((*_display->layout)[menu_key]);
-		_window->draw(*_continue_menu);
+		_cont_menu->generate((*_display->layout)[menu_key]);
+		_window->draw(*_cont_menu);
 
 		if (_icon)
 			_window->draw(_icon.value());
@@ -225,8 +222,8 @@ auto Sorcery::Event::_draw() -> void {
 		const auto screen_key{_dungeon_event.component_key};
 		const auto menu_key{_dungeon_event.component_key + ":continue_menu"};
 		_display->display(screen_key, _sprites, _texts, _frames);
-		_continue_menu->generate((*_display->layout)[menu_key]);
-		_window->draw(*_continue_menu);
+		_cont_menu->generate((*_display->layout)[menu_key]);
+		_window->draw(*_cont_menu);
 
 		if (_icon)
 			_window->draw(_icon.value());

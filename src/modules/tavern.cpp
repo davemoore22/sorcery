@@ -52,7 +52,7 @@ Sorcery::Tavern::Tavern(System *system, Display *display, Graphics *graphics, Ga
 	_party_panel =
 		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
 
-	_stage = TavernStage::MENU;
+	_stage = STV::MENU;
 
 	_divvy = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["tavern:dialog_divvy_gold_ok"],
 		(*_display->layout)["tavern:dialog_divvy_gold_ok_text"], WDT::OK);
@@ -102,15 +102,11 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 
 	// Refresh the Party characters
 	_party_panel->refresh();
-
-	// Generate the Custom Components
-	const Component party_banel_c{(*_display->layout)["global:party_panel"]};
 	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
-	;
 
 	// And do the main loop
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> opt{_menu->items.begin()};
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
@@ -150,33 +146,33 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 
 						// And handle input on the main menu
 						if (_system->input->check(CIN::UP, event))
-							option = _menu->choose_previous();
+							opt = _menu->choose_previous();
 						else if (_system->input->check(CIN::DOWN, event))
-							option = _menu->choose_next();
+							opt = _menu->choose_next();
 						else if (_system->input->check(CIN::MOVE, event))
-							option =
+							opt =
 								_menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 						else if (_system->input->check(CIN::CONFIRM, event)) {
 
 							// We have selected something from the menu
-							if (option) {
-								if (const MIM option_chosen{(*option.value()).item}; option_chosen == TA_CASTLE) {
+							if (opt) {
+								if (const MIM opt_tav{(*opt.value()).item}; opt_tav == TA_CASTLE) {
 									return TA_CASTLE;
-								} else if (option_chosen == TA_ADD_TO_PARTY) {
+								} else if (opt_tav == TA_ADD_TO_PARTY) {
 									_add->reload();
 									_stage = ADD;
 									_screen_key = "tavern_add";
 									_update_menus();
 									_display->generate(_screen_key);
 									continue;
-								} else if (option_chosen == TA_REMOVE_FROM_PARTY) {
+								} else if (opt_tav == TA_REMOVE_FROM_PARTY) {
 									_remove->reload();
 									_stage = REMOVE;
 									_screen_key = "tavern_remove";
 									_update_menus();
 									_display->generate(_screen_key);
 									continue;
-								} else if (option_chosen == TA_INSPECT) {
+								} else if (opt_tav == TA_INSPECT) {
 									if (auto result{_inspect->start(std::nullopt)};
 										result && result.value() == ITEM_ABORT) {
 										_game->save_game();
@@ -188,7 +184,7 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 									_display->generate("tavern");
 									_display->set_input_mode(WIM::NAVIGATE_MENU);
 									continue;
-								} else if (option_chosen == TA_REORDER) {
+								} else if (opt_tav == TA_REORDER) {
 									auto reorder{std::make_unique<Reorder>(_system, _display, _graphics, _game)};
 									if (auto new_party{reorder->start()}; new_party) {
 										// TODO: handle aborts here
@@ -202,7 +198,7 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 									_display->generate("tavern");
 									_display->set_input_mode(WIM::NAVIGATE_MENU);
 									continue;
-								} else if (option_chosen == TA_DIVVY_GOLD) {
+								} else if (opt_tav == TA_DIVVY_GOLD) {
 
 									_game->divvy_party_gold();
 									_game->save_game();
@@ -235,16 +231,16 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 
 				// And handle input on the main menu
 				if (_system->input->check(CIN::UP, event))
-					option = _add->choose_previous();
+					opt = _add->choose_previous();
 				else if (_system->input->check(CIN::DOWN, event))
-					option = _add->choose_next();
+					opt = _add->choose_next();
 				else if (_system->input->check(CIN::MOVE, event))
-					option = _add->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					opt = _add->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					// We have selected something from the menu
-					if (option) {
-						if (const MIM option_chosen{(*option.value()).item}; option_chosen == CA_TAVERN) {
+					if (opt) {
+						if (const MIM opt_tav{(*opt.value()).item}; opt_tav == CA_TAVERN) {
 
 							_stage = MENU;
 							_screen_key = "tavern";
@@ -254,7 +250,7 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 						} else {
 
 							// Add a character
-							const auto character_chosen{(*option.value()).index};
+							const auto character_chosen{(*opt.value()).index};
 							auto &character = _game->characters[character_chosen];
 							character.set_location(CHL::PARTY);
 							_game->state->add_character_by_id(character_chosen);
@@ -287,16 +283,16 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 
 				// And handle input on the main menu
 				if (_system->input->check(CIN::UP, event))
-					option = _remove->choose_previous();
+					opt = _remove->choose_previous();
 				else if (_system->input->check(CIN::DOWN, event))
-					option = _remove->choose_next();
+					opt = _remove->choose_next();
 				else if (_system->input->check(CIN::MOVE, event))
-					option = _remove->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					opt = _remove->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					// We have selected something from the menu
-					if (option) {
-						if (const MIM option_chosen{(*option.value()).item}; option_chosen == CA_TAVERN) {
+					if (opt) {
+						if (const MIM opt_tav{(*opt.value()).item}; opt_tav == CA_TAVERN) {
 
 							_stage = MENU;
 							_screen_key = "tavern";
@@ -306,7 +302,7 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 						} else {
 
 							// Remove a character
-							const auto character_chosen{(*option.value()).index};
+							const auto character_chosen{(*opt.value()).index};
 							auto &character = _game->characters[character_chosen];
 							character.set_location(CHL::TAVERN);
 							_game->state->remove_character_by_id(character_chosen);
@@ -365,13 +361,13 @@ auto Sorcery::Tavern::_draw() -> void {
 	_window->draw(*_party_panel);
 
 	// And the Menu
-	if (_stage == TavernStage::MENU) {
+	if (_stage == STV::MENU) {
 		_menu->generate((*_display->layout)["tavern:menu"]);
 		_window->draw(*_menu);
-	} else if (_stage == TavernStage::ADD) {
+	} else if (_stage == STV::ADD) {
 		_add->generate((*_display->layout)["tavern_add:menu"]);
 		_window->draw(*_add);
-	} else if (_stage == TavernStage::REMOVE) {
+	} else if (_stage == STV::REMOVE) {
 		_remove->generate((*_display->layout)["tavern_remove:menu"]);
 		_window->draw(*_remove);
 	}

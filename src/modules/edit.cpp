@@ -170,8 +170,7 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MIM> {
 								if (new_name.value() == EXIT_STRING)
 									return MIM::ITEM_ABORT;
 
-								// Update character name and resave the
-								// character!
+								// Update character name and resave the character!
 								auto changed_name{new_name.value()};
 								_cur_char.value()->set_name(changed_name);
 								auto &character{*_cur_char.value()};

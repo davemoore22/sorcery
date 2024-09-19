@@ -75,7 +75,7 @@ Sorcery::Temple::Temple(System *system, Display *display, Graphics *graphics, Ga
 		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
 	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MMD::TEMPLE);
 
-	_stage = TempleStage::NO_STAGE;
+	_stage = STT::NO_STAGE;
 
 	_cost = sf::Text();
 	_ress_count = sf::Text();
@@ -116,7 +116,7 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
 
 	// Start at the entry menu
-	_stage = TempleStage::MENU;
+	_stage = STT::MENU;
 
 	// And do the main loop
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
@@ -153,7 +153,7 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 					return std::nullopt;
 
 				// And handle input on the main menu
-				if (_stage == TempleStage::MENU) {
+				if (_stage == STT::MENU) {
 					if (_system->input->check(CIN::UP, event))
 						opt = _menu->choose_previous();
 					else if (_system->input->check(CIN::DOWN, event))
@@ -164,9 +164,9 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 
 						// We have selected something from the menu
 						if (opt) {
-							if (const MIM option_chosen{(*opt.value()).item}; option_chosen == MIM::TE_CASTLE) {
+							if (const MIM opt_temp{(*opt.value()).item}; opt_temp == MIM::TE_CASTLE) {
 								return MIM::TE_CASTLE;
-							} else if (option_chosen == MIM::TE_INSPECT) {
+							} else if (opt_temp == MIM::TE_INSPECT) {
 								if (auto result{_inspect->start(std::nullopt)};
 									result && result.value() == MIM::ITEM_ABORT) {
 									_inspect->stop();
@@ -176,8 +176,8 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 								_display->generate("temple");
 								_display->set_input_mode(WIM::NAVIGATE_MENU);
 								continue;
-							} else if (const MIM option_chosen{(*opt.value()).item}; option_chosen == MIM::TE_HELP) {
-								_stage = TempleStage::HELP;
+							} else if (const MIM opt_temp{(*opt.value()).item}; opt_temp == MIM::TE_HELP) {
+								_stage = STT::HELP;
 								_party_panel->refresh();
 								_help->reload();
 								_help->generate((*_display->layout)["temple_help:menu"]);
@@ -185,14 +185,14 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 							}
 						}
 					}
-				} else if (_stage == TempleStage::HELP) {
+				} else if (_stage == STT::HELP) {
 					if (_system->input->check(CIN::CANCEL, event)) {
-						_stage = TempleStage::MENU;
+						_stage = STT::MENU;
 						_party_panel->refresh();
 						_help->reload();
 						_help->generate((*_display->layout)["temple_help:menu"]);
 					} else if (_system->input->check(CIN::BACK, event)) {
-						_stage = TempleStage::MENU;
+						_stage = STT::MENU;
 						_party_panel->refresh();
 						_help->reload();
 						_help->generate((*_display->layout)["temple_help:menu"]);
@@ -207,8 +207,8 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 
 						// We have selected something from the menu
 						if (opt_help) {
-							if (const MIM option_chosen{(*opt_help.value()).item}; option_chosen == MIM::CA_TEMPLE) {
-								_stage = TempleStage::MENU;
+							if (const MIM opt_temp{(*opt_help.value()).item}; opt_temp == MIM::CA_TEMPLE) {
+								_stage = STT::MENU;
 								_party_panel->refresh();
 								_help->reload();
 								_help->generate((*_display->layout)["temple_help:menu"]);
@@ -218,7 +218,7 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 								const auto &help_character{_game->characters[heal_char_id]};
 								const auto cost{help_character.get_cure_cost()};
 								if (heal_char_id > 0) {
-									_stage = TempleStage::PAY;
+									_stage = STT::PAY;
 									_party_panel->refresh();
 									_pay->reload();
 									_refresh_pay_menu(cost);
@@ -228,15 +228,15 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 							}
 						}
 					}
-				} else if (_stage == TempleStage::PAY) {
+				} else if (_stage == STT::PAY) {
 
 					if (_system->input->check(CIN::CANCEL, event)) {
-						_stage = TempleStage::HELP;
+						_stage = STT::HELP;
 						_party_panel->refresh();
 						_help->reload();
 						_help->generate((*_display->layout)["temple_help:menu"]);
 					} else if (_system->input->check(CIN::BACK, event)) {
-						_stage = TempleStage::HELP;
+						_stage = STT::HELP;
 						_party_panel->refresh();
 						_help->reload();
 						_help->generate((*_display->layout)["temple_help:menu"]);
@@ -250,15 +250,15 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 
 						// We have selected something from the menu
 						if (opt_help) {
-							if (const MIM option_chosen{(*opt_pay.value()).item}; option_chosen == MIM::CA_TEMPLE) {
-								_stage = TempleStage::HELP;
+							if (const MIM opt_temp{(*opt_pay.value()).item}; opt_temp == MIM::CA_TEMPLE) {
+								_stage = STT::HELP;
 								_party_panel->refresh();
 								_help->reload();
 								_help->generate((*_display->layout)["temple_help:menu"]);
 								continue;
 							} else {
 								const auto pay_char_id{(*opt_pay.value()).index};
-								_stage = TempleStage::RESS;
+								_stage = STT::RESS;
 								_t_finished = false;
 								_start_count_thread();
 								if (pay_char_id > 0) {
@@ -270,7 +270,7 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 							}
 						}
 					}
-				} else if (_stage == TempleStage::RESS) {
+				} else if (_stage == STT::RESS) {
 					if (_t_finished) {
 						_stop_count_thread();
 						if (_system->input->check(CIN::CANCEL, event))
@@ -287,9 +287,8 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 						else if (_system->input->check(CIN::CONFIRM, event)) {
 
 							if (opt_cont) {
-								if (const MIM option_chosen{(*opt_cont.value()).item};
-									option_chosen == MIM::ITEM_CONTINUE) {
-									_stage = TempleStage::MENU;
+								if (const MIM opt_temp{(*opt_cont.value()).item}; opt_temp == MIM::ITEM_CONTINUE) {
+									_stage = STT::MENU;
 									_party_panel->refresh();
 									continue;
 								}
@@ -411,24 +410,24 @@ auto Sorcery::Temple::_draw() -> void {
 	_display->display("temple");
 	_window->draw(*_party_panel);
 
-	if (_stage == TempleStage::MENU) {
+	if (_stage == STT::MENU) {
 
 		// And the Menu
 		_menu->generate((*_display->layout)["temple:menu"]);
 		_window->draw(*_menu);
-	} else if (_stage == TempleStage::HELP) {
+	} else if (_stage == STT::HELP) {
 
 		// Choose Invalid Character
 		_help->generate((*_display->layout)["temple_help:menu"]);
 		_display->display("inn_choose", _h_sprites, _h_texts, _h_frames);
 		_window->draw(*_help);
-	} else if (_stage == TempleStage::PAY) {
+	} else if (_stage == STT::PAY) {
 
 		_pay->generate((*_display->layout)["temple_pay:menu"]);
 		_display->display("inn_pay", _p_sprites, _p_texts, _p_frames);
 		_display->window->draw_text(_cost, (*_display->layout)["temple_pay:cost_text"], _cost_text);
 		_window->draw(*_pay);
-	} else if (_stage == TempleStage::RESS) {
+	} else if (_stage == STT::RESS) {
 
 		_display->display("inn_ress", _r_sprites, _r_texts, _r_frames);
 		_display->window->draw_text(_ress_count, (*_display->layout)["temple_ress:ress_message"], _get_ress_status());

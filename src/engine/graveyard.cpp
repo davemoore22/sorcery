@@ -160,8 +160,8 @@ auto Sorcery::Graveyard::start() -> std::optional<MIM> {
 
 				// We have selected something from the menu
 				if (selected) {
-					const MIM option_chosen{(*selected.value()).item};
-					if (option_chosen == MIM::ITEM_CONTINUE) {
+					const MIM opt{(*selected.value()).item};
+					if (opt == MIM::ITEM_CONTINUE) {
 						return MIM::ITEM_CONTINUE;
 					}
 				}

@@ -70,7 +70,7 @@ class Temple {
 		sf::Sprite _bg;
 		std::unique_ptr<PartyPanel> _party_panel;
 		std::unique_ptr<Inspect> _inspect;
-		TempleStage _stage;
+		STT _stage;
 		std::unique_ptr<Menu> _help;
 		std::unique_ptr<Menu> _pay;
 		std::map<std::string, sf::Sprite> _h_sprites;

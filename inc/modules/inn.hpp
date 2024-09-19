@@ -73,7 +73,7 @@ class Inn {
 		sf::Sprite _bg;
 		std::unique_ptr<PartyPanel> _party_panel;
 		std::unique_ptr<Inspect> _inspect;
-		InnStage _stage;
+		STI _stage;
 		std::unique_ptr<Menu> _roster;
 		std::unique_ptr<Menu> _bed;
 		int _cur_char_id;

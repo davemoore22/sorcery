@@ -64,7 +64,7 @@ Sorcery::Inn::Inn(System *system, Display *display, Graphics *graphics, Game *ga
 		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
 	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MMD::INN);
 
-	_stage = InnStage::NO_STAGE;
+	_stage = STI::NO_STAGE;
 	_update = false;
 
 	_pool = std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["inn:dialog_pool_gold_ok"],
@@ -97,16 +97,16 @@ auto Sorcery::Inn::start() -> std::optional<MIM> {
 	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
 
 	// Start at the Menu Stage
-	_stage = InnStage::MENU;
+	_stage = STI::MENU;
 
 	// And do the main loop
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
-	std::optional<std::vector<MenuEntry>::const_iterator> option_choose{_roster->items.begin()};
-	std::optional<std::vector<MenuEntry>::const_iterator> option_bed{_bed->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> opt{_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> opt_rost{_roster->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> opt_bed{_bed->items.begin()};
 
 	// By default choose the first character in the party!
-	_cur_char_id = (*option_choose.value()).index;
+	_cur_char_id = (*opt_rost.value()).index;
 	_cur_char = &_game->characters[_cur_char_id];
 
 	sf::Event event{};
@@ -128,30 +128,30 @@ auto Sorcery::Inn::start() -> std::optional<MIM> {
 					_display->hide_overlay();
 
 				// And handle input on the main menu
-				if (_stage == InnStage::MENU) {
+				if (_stage == STI::MENU) {
 
 					if (_system->input->check(CIN::CANCEL, event))
 						return std::nullopt;
 					else if (_system->input->check(CIN::BACK, event))
 						return std::nullopt;
 					else if (_system->input->check(CIN::UP, event))
-						option = _menu->choose_previous();
+						opt = _menu->choose_previous();
 					else if (_system->input->check(CIN::DOWN, event))
-						option = _menu->choose_next();
+						opt = _menu->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						option = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						opt = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						// We have selected something from the menu
-						if (option) {
+						if (opt) {
 
-							if (const MIM option_chosen{(*option.value()).item}; option_chosen == MIM::IN_CASTLE) {
+							if (const MIM opt_inn{(*opt.value()).item}; opt_inn == MIM::IN_CASTLE) {
 								return MIM::IN_CASTLE;
-							} else if (option_chosen == MIM::IN_STAY_CHARACTER) {
-								_stage = InnStage::CHOOSE;
+							} else if (opt_inn == MIM::IN_STAY_CHARACTER) {
+								_stage = STI::CHOOSE;
 								_display->set_input_mode(WIM::NAVIGATE_MENU);
 								_party_panel->refresh();
-							} else if (option_chosen == MIM::IN_INSPECT) {
+							} else if (opt_inn == MIM::IN_INSPECT) {
 								if (auto result{_inspect->start(std::nullopt)};
 									result && result.value() == MIM::ITEM_ABORT) {
 									_inspect->stop();
@@ -164,20 +164,19 @@ auto Sorcery::Inn::start() -> std::optional<MIM> {
 								_display->set_input_mode(WIM::NAVIGATE_MENU);
 								continue;
 								if (_system->input->check(CIN::UP, event))
-									option = _menu->choose_previous();
+									opt = _menu->choose_previous();
 								else if (_system->input->check(CIN::DOWN, event))
-									option = _menu->choose_next();
+									opt = _menu->choose_next();
 								else if (_system->input->check(CIN::MOVE, event))
-									option = _menu->set_mouse_selected(
+									opt = _menu->set_mouse_selected(
 										static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 								else if (_system->input->check(CIN::CONFIRM, event)) {
 
 									// We have selected something from the menu
-									if (option) {
-										if (const MIM option_chosen{(*option.value()).item};
-											option_chosen == MIM::IN_CASTLE) {
+									if (opt) {
+										if (const MIM opt_inn{(*opt.value()).item}; opt_inn == MIM::IN_CASTLE) {
 											return MIM::IN_CASTLE;
-										} else if (option_chosen == MIM::IN_INSPECT) {
+										} else if (opt_inn == MIM::IN_INSPECT) {
 											if (auto result{_inspect->start(std::nullopt)};
 												result && result.value() == MIM::ITEM_ABORT) {
 												_inspect->stop();
@@ -195,33 +194,33 @@ auto Sorcery::Inn::start() -> std::optional<MIM> {
 							}
 						}
 					}
-				} else if (_stage == InnStage::CHOOSE) {
+				} else if (_stage == STI::CHOOSE) {
 					if (_system->input->check(CIN::CANCEL, event)) {
-						_stage = InnStage::MENU;
+						_stage = STI::MENU;
 						_party_panel->refresh();
 					} else if (_system->input->check(CIN::BACK, event)) {
-						_stage = InnStage::MENU;
+						_stage = STI::MENU;
 						_party_panel->refresh();
 					} else if (_system->input->check(CIN::UP, event))
-						option_choose = _roster->choose_previous();
+						opt_rost = _roster->choose_previous();
 					else if (_system->input->check(CIN::DOWN, event))
-						option_choose = _roster->choose_next();
+						opt_rost = _roster->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						option_choose =
+						opt_rost =
 							_roster->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						// We have selected something from the menu
-						if (option_choose) {
-							if (const MIM option_chosen{(*option_choose.value()).item}; option_chosen == MIM::CA_INN) {
-								_stage = InnStage::MENU;
+						if (opt_rost) {
+							if (const MIM opt_inn{(*opt_rost.value()).item}; opt_inn == MIM::CA_INN) {
+								_stage = STI::MENU;
 								_party_panel->refresh();
 								continue;
 							} else {
-								const auto character_chosen{(*option_choose.value()).index};
+								const auto character_chosen{(*opt_rost.value()).index};
 								_cur_char = &_game->characters[character_chosen];
 								if (_cur_char) {
-									_stage = InnStage::BED;
+									_stage = STI::BED;
 									_party_panel->refresh();
 									_cur_char_id = character_chosen;
 									_update = true;
@@ -229,7 +228,7 @@ auto Sorcery::Inn::start() -> std::optional<MIM> {
 							}
 						}
 					}
-				} else if (_stage == InnStage::BED) {
+				} else if (_stage == STI::BED) {
 
 					if (_show_pool) {
 
@@ -247,38 +246,36 @@ auto Sorcery::Inn::start() -> std::optional<MIM> {
 
 						_update = true;
 						if (_system->input->check(CIN::CANCEL, event)) {
-							_stage = InnStage::CHOOSE;
+							_stage = STI::CHOOSE;
 							_party_panel->refresh();
 						} else if (_system->input->check(CIN::BACK, event)) {
-							_stage = InnStage::CHOOSE;
+							_stage = STI::CHOOSE;
 							_party_panel->refresh();
 						} else if (_system->input->check(CIN::UP, event))
-							option_bed = _bed->choose_previous();
+							opt_bed = _bed->choose_previous();
 						else if (_system->input->check(CIN::DOWN, event))
-							option_bed = _bed->choose_next();
+							opt_bed = _bed->choose_next();
 						else if (_system->input->check(CIN::MOVE, event))
-							option_bed =
+							opt_bed =
 								_bed->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 						else if (_system->input->check(CIN::CONFIRM, event)) {
 
 							// We have selected something from the menu
-							if (option_bed) {
-								if (const MIM option_chosen{(*option_bed.value()).item};
-									option_chosen == MIM::IN_BACK) {
-									_stage = InnStage::CHOOSE;
+							if (opt_bed) {
+								if (const MIM opt_inn{(*opt_bed.value()).item}; opt_inn == MIM::IN_BACK) {
+									_stage = STI::CHOOSE;
 									_party_panel->refresh();
 									continue;
-								} else if (option_chosen == MIM::IN_POOL_GOLD) {
+								} else if (opt_inn == MIM::IN_POOL_GOLD) {
 
 									_game->pool_party_gold(_cur_char_id);
 									_game->save_game();
 
 									_show_pool = true;
 									_display->set_input_mode(WIM::NAVIGATE_MENU);
-								} else if (option_chosen == MIM::IN_STABLES) {
-									if (auto stables_option{
-											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::STABLES)};
-										stables_option && stables_option.value() == MIM::ITEM_ABORT) {
+								} else if (opt_inn == MIM::IN_STABLES) {
+									if (auto opt_stab{_rest->start(_cur_char.value(), REM::SINGLE, RET::STABLES)};
+										opt_stab && opt_stab.value() == MIM::ITEM_ABORT) {
 										_game->save_game();
 										_display->shutdown_SFML();
 										return MIM::ITEM_ABORT;
@@ -288,10 +285,9 @@ auto Sorcery::Inn::start() -> std::optional<MIM> {
 									_display->generate("inn");
 									_party_panel->refresh();
 									continue;
-								} else if (option_chosen == MIM::IN_COT) {
-									if (auto stables_option{
-											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::COT)};
-										stables_option && stables_option.value() == MIM::ITEM_ABORT) {
+								} else if (opt_inn == MIM::IN_COT) {
+									if (auto opt_stab{_rest->start(_cur_char.value(), REM::SINGLE, RET::COT)};
+										opt_stab && opt_stab.value() == MIM::ITEM_ABORT) {
 										_game->save_game();
 										_display->shutdown_SFML();
 										return MIM::ITEM_ABORT;
@@ -301,10 +297,9 @@ auto Sorcery::Inn::start() -> std::optional<MIM> {
 									_display->generate("inn");
 									_party_panel->refresh();
 									continue;
-								} else if (option_chosen == MIM::IN_ECONOMY) {
-									if (auto stables_option{
-											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::ECONOMY)};
-										stables_option && stables_option.value() == MIM::ITEM_ABORT) {
+								} else if (opt_inn == MIM::IN_ECONOMY) {
+									if (auto opt_stab{_rest->start(_cur_char.value(), REM::SINGLE, RET::ECONOMY)};
+										opt_stab && opt_stab.value() == MIM::ITEM_ABORT) {
 										_game->save_game();
 										_display->shutdown_SFML();
 										return MIM::ITEM_ABORT;
@@ -314,10 +309,9 @@ auto Sorcery::Inn::start() -> std::optional<MIM> {
 									_display->generate("inn");
 									_party_panel->refresh();
 									continue;
-								} else if (option_chosen == MIM::IN_MERCHANT) {
-									if (auto stables_option{
-											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::MERCHANT)};
-										stables_option && stables_option.value() == MIM::ITEM_ABORT) {
+								} else if (opt_inn == MIM::IN_MERCHANT) {
+									if (auto opt_stab{_rest->start(_cur_char.value(), REM::SINGLE, RET::MERCHANT)};
+										opt_stab && opt_stab.value() == MIM::ITEM_ABORT) {
 										_game->save_game();
 										_display->shutdown_SFML();
 										return MIM::ITEM_ABORT;
@@ -327,10 +321,9 @@ auto Sorcery::Inn::start() -> std::optional<MIM> {
 									_display->generate("inn");
 									_party_panel->refresh();
 									continue;
-								} else if (option_chosen == MIM::IN_ROYAL) {
-									if (auto stables_option{
-											_rest->start(_cur_char.value(), RestMode::SINGLE, RestType::ROYAL)};
-										stables_option && stables_option.value() == MIM::ITEM_ABORT) {
+								} else if (opt_inn == MIM::IN_ROYAL) {
+									if (auto opt_stab{_rest->start(_cur_char.value(), REM::SINGLE, RET::ROYAL)};
+										opt_stab && opt_stab.value() == MIM::ITEM_ABORT) {
 										_game->save_game();
 										_display->shutdown_SFML();
 										return MIM::ITEM_ABORT;
@@ -409,20 +402,20 @@ auto Sorcery::Inn::_draw() -> void {
 	_display->display("inn");
 	_window->draw(*_party_panel);
 
-	if (_stage == InnStage::MENU) {
+	if (_stage == STI::MENU) {
 
 		// And the Menu
 		_menu->generate((*_display->layout)["inn:menu"]);
 		_display->display("inn_welcome", _w_sprites, _w_texts, _w_frames);
 		_window->draw(*_menu);
 
-	} else if (_stage == InnStage::CHOOSE) {
+	} else if (_stage == STI::CHOOSE) {
 
 		// And the Menu
 		_roster->generate((*_display->layout)["inn_choose:menu"]);
 		_display->display("inn_choose", _c_sprites, _c_texts, _c_frames);
 		_window->draw(*_roster);
-	} else if (_stage == InnStage::BED) {
+	} else if (_stage == STI::BED) {
 
 		// And the Menu
 		_bed->generate((*_display->layout)["inn_bed:menu"]);

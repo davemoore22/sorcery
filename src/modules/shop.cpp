@@ -95,13 +95,13 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 	const Component party_banel_c{(*_display->layout)["global:party_panel"]};
 	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
 
-	_stage = ShopStage::MENU;
+	_stage = STS::MENU;
 
 	// And do the main loop
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
-	std::optional<std::vector<MenuEntry>::const_iterator> option_who{_who->items.begin()};
-	std::optional<std::vector<MenuEntry>::const_iterator> option_action{_action->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> opt{_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> opt_who{_who->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> opt_act{_action->items.begin()};
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
@@ -130,20 +130,20 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 					return std::nullopt;
 
 				// And handle input on the main menu
-				if (_stage == ShopStage::MENU) {
+				if (_stage == STS::MENU) {
 					if (_system->input->check(CIN::UP, event))
-						option = _menu->choose_previous();
+						opt = _menu->choose_previous();
 					else if (_system->input->check(CIN::DOWN, event))
-						option = _menu->choose_next();
+						opt = _menu->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						option = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						opt = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						// We have selected something from the menu
-						if (option) {
-							if (const MIM option_chosen{(*option.value()).item}; option_chosen == MIM::SH_CASTLE) {
+						if (opt) {
+							if (const MIM opt_shop{(*opt.value()).item}; opt_shop == MIM::SH_CASTLE) {
 								return MIM::SH_CASTLE;
-							} else if (option_chosen == MIM::SH_INSPECT) {
+							} else if (opt_shop == MIM::SH_INSPECT) {
 
 								auto result{_inspect->start(std::nullopt)};
 								if (result && result.value() == MIM::ITEM_ABORT) {
@@ -155,41 +155,40 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 								_display->generate("shop");
 								_display->set_input_mode(WIM::NAVIGATE_MENU);
 								continue;
-							} else if (option_chosen == MIM::SH_BUY_AND_SELL) {
-								_stage = ShopStage::WHO;
+							} else if (opt_shop == MIM::SH_BUY_AND_SELL) {
+								_stage = STS::WHO;
 								_display->set_input_mode(WIM::NAVIGATE_MENU);
 								continue;
 							}
 						}
 					}
-				} else if (_stage == ShopStage::WHO) {
+				} else if (_stage == STS::WHO) {
 					if (_system->input->check(CIN::CANCEL, event)) {
-						_stage = ShopStage::MENU;
+						_stage = STS::MENU;
 						_party_panel->refresh();
 						_menu->generate((*_display->layout)["shop:menu"]);
 					} else if (_system->input->check(CIN::BACK, event)) {
-						_stage = ShopStage::MENU;
+						_stage = STS::MENU;
 						_party_panel->refresh();
 						_menu->generate((*_display->layout)["shop:menu"]);
 					} else if (_system->input->check(CIN::UP, event))
-						option_who = _who->choose_previous();
+						opt_who = _who->choose_previous();
 					else if (_system->input->check(CIN::DOWN, event))
-						option_who = _who->choose_next();
+						opt_who = _who->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						option_who =
-							_who->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+						opt_who = _who->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						// We have selected something from the menu
-						if (option_who) {
-							if (const MIM option_chosen{(*option_who.value()).item}; option_chosen == MIM::CA_SHOP) {
-								_stage = ShopStage::MENU;
+						if (opt_who) {
+							if (const MIM opt_shop{(*opt_who.value()).item}; opt_shop == MIM::CA_SHOP) {
+								_stage = STS::MENU;
 								_party_panel->refresh();
 								_menu->generate((*_display->layout)["shop:menu"]);
 								continue;
 							} else {
-								_chosen_char_id = (*option_who.value()).index;
-								_stage = ShopStage::ACTION;
+								_chosen_char_id = (*opt_who.value()).index;
+								_stage = STS::ACTION;
 								_party_panel->refresh();
 								_action->generate((*_display->layout)["shop_action:menu"]);
 								continue;
@@ -197,26 +196,26 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 							}
 						}
 					}
-				} else if (_stage == ShopStage::ACTION) {
+				} else if (_stage == STS::ACTION) {
 
 					if (_system->input->check(CIN::CANCEL, event)) {
-						_stage = ShopStage::WHO;
+						_stage = STS::WHO;
 						_party_panel->refresh();
 						_who->generate((*_display->layout)["shop_who:menu"]);
 					} else if (_system->input->check(CIN::BACK, event)) {
-						_stage = ShopStage::WHO;
+						_stage = STS::WHO;
 						_party_panel->refresh();
 						_who->generate((*_display->layout)["shop_who:menu"]);
 					} else if (_system->input->check(CIN::UP, event))
-						option_action = _action->choose_previous();
+						opt_act = _action->choose_previous();
 					else if (_system->input->check(CIN::DOWN, event))
-						option_action = _action->choose_next();
+						opt_act = _action->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						option_action =
+						opt_act =
 							_action->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 					else if (_system->input->check(CIN::CONFIRM, event)) {
-						if (const MIM option_chosen{(*option_action.value()).item}; option_chosen == MIM::SH_BACK) {
-							_stage = ShopStage::WHO;
+						if (const MIM opt_shop{(*opt_act.value()).item}; opt_shop == MIM::SH_BACK) {
+							_stage = STS::WHO;
 							_party_panel->refresh();
 							_who->generate((*_display->layout)["shop_who:menu"]);
 							continue;
@@ -251,15 +250,15 @@ auto Sorcery::Shop::_draw() -> void {
 	_window->draw(*_party_panel);
 
 	// And the Menu
-	if (_stage == ShopStage::MENU) {
+	if (_stage == STS::MENU) {
 		_menu->generate((*_display->layout)["shop:menu"]);
 		_window->draw(*_menu);
-	} else if (_stage == ShopStage::WHO) {
+	} else if (_stage == STS::WHO) {
 
 		_who->generate((*_display->layout)["shop_who:menu"]);
 		_display->display("shop_who", _w_sprites, _w_texts, _w_frames);
 		_window->draw(*_who);
-	} else if (_stage == ShopStage::ACTION) {
+	} else if (_stage == STS::ACTION) {
 
 		// TODO: need to add who and cost texts
 

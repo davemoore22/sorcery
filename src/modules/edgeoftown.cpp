@@ -82,14 +82,11 @@ auto Sorcery::EdgeOfTown::start(DES destination) -> std::optional<MIM> {
 
 	// Refresh the Party characters
 	_party_panel->refresh();
-
-	// Draw the Custom Components
-	const Component party_banel_c{(*_display->layout)["global:party_panel"]};
 	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
 
 	// And do the main loop
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
+	std::optional<std::vector<MenuEntry>::const_iterator> opt{_menu->items.begin()};
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
@@ -110,24 +107,24 @@ auto Sorcery::EdgeOfTown::start(DES destination) -> std::optional<MIM> {
 
 				// And handle input on the main menu
 				if (_system->input->check(CIN::UP, event))
-					option = _menu->choose_previous();
+					opt = _menu->choose_previous();
 				else if (_system->input->check(CIN::DOWN, event))
-					option = _menu->choose_next();
+					opt = _menu->choose_next();
 				else if (_system->input->check(CIN::MOVE, event))
-					option = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
+					opt = _menu->set_mouse_selected(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*_window)));
 				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					// We have selected something from the menu
-					if (option) {
-						if (const MIM option_chosen{(*option.value()).item}; option_chosen == MIM::ET_CASTLE) {
+					if (opt) {
+						if (const MIM opt_edge{(*opt.value()).item}; opt_edge == MIM::ET_CASTLE) {
 							return MIM::ET_CASTLE;
-						} else if (option_chosen == MIM::ET_LEAVE_GAME)
+						} else if (opt_edge == MIM::ET_LEAVE_GAME)
 							_display->set_input_mode(WIM::CONFIRM_LEAVE_GAME);
-						else if (option_chosen == MIM::ET_MAZE)
+						else if (opt_edge == MIM::ET_MAZE)
 							return MIM::ET_MAZE;
-						else if (option_chosen == MIM::ET_TRAIN)
+						else if (opt_edge == MIM::ET_TRAIN)
 							return MIM::ET_TRAIN;
-						else if (option_chosen == MIM::ET_RESTART)
+						else if (opt_edge == MIM::ET_RESTART)
 							return MIM::ET_RESTART;
 					}
 				} else if (_system->input->check(CIN::CANCEL, event) || _system->input->check(CIN::BACK, event)) {

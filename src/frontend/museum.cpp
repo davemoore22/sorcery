@@ -215,8 +215,8 @@ auto Sorcery::Museum::_handle_input(const sf::Event &event) -> std::optional<MDR
 
 		// We have selected something from the menu
 		if (_selected) {
-			const MIM option_chosen{(*_selected.value()).item};
-			if (option_chosen == MIM::ITEM_RETURN)
+			const MIM opt{(*_selected.value()).item};
+			if (opt == MIM::ITEM_RETURN)
 				return MDR::BACK;
 		}
 	}

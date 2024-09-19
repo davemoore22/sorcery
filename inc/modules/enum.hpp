@@ -96,13 +96,13 @@ namespace Enums::Castle {
 	};
 }
 
-using InnStage = Enums::Castle::Inn;
-using RestMode = Enums::Castle::Rest::Mode;
-using RestStage = Enums::Castle::Rest::Stage;
-using RestType = Enums::Castle::Rest::Type;
-using RosterMode = Enums::Castle::Roster;
-using ShopStage = Enums::Castle::Shop;
-using TavernStage = Enums::Castle::Tavern;
-using TempleStage = Enums::Castle::Temple;
+using REM = Enums::Castle::Rest::Mode;
+using RET = Enums::Castle::Rest::Type;
+using ROM = Enums::Castle::Roster;
+using STI = Enums::Castle::Inn;
+using STR = Enums::Castle::Rest::Stage;
+using STS = Enums::Castle::Shop;
+using STT = Enums::Castle::Temple;
+using STV = Enums::Castle::Tavern;
 
 }

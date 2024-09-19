@@ -51,7 +51,7 @@ class Rest {
 		// Public Members
 
 		// Public Methods
-		auto start(Character *character, RestMode mode, RestType type) -> std::optional<MIM>;
+		auto start(Character *character, REM mode, RET type) -> std::optional<MIM>;
 		auto stop() -> void;
 
 	private:
@@ -67,16 +67,16 @@ class Rest {
 		Graphics *_graphics;
 		Game *_game;
 		Character *_character;
-		RestMode _mode;
-		RestType _type;
-		RestStage _stage;
+		REM _mode;
+		RET _type;
+		STR _stage;
 		std::unique_ptr<PartyPanel> _party_panel;
 		std::unique_ptr<TextPanel> _results;
 		sf::RenderWindow *_window;
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _start;
 		std::optional<std::chrono::time_point<std::chrono::system_clock>> _current_time;
 		unsigned int _duration;
-		std::unique_ptr<Menu> _continue_menu;
+		std::unique_ptr<Menu> _cont_menu;
 		std::unique_ptr<Menu> _stop_menu;
 		sf::Text _nap_text;
 		sf::Text _recup_text;
@@ -99,7 +99,7 @@ class Rest {
 		std::vector<sf::Text> _texts;
 		bool _level_up;
 		bool _birthday;
-		std::unique_ptr<Frame> _continue_frame;
+		std::unique_ptr<Frame> _cont_frame;
 		std::unique_ptr<Frame> _stop_frame;
 };
 

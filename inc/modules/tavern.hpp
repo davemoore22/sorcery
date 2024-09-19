@@ -71,7 +71,7 @@ class Tavern {
 		std::unique_ptr<Menu> _menu;
 		sf::Sprite _bg;
 		std::unique_ptr<PartyPanel> _party_panel;
-		TavernStage _stage;
+		STV _stage;
 		std::unique_ptr<Menu> _add;
 		std::unique_ptr<Menu> _remove;
 		std::unique_ptr<Inspect> _inspect;

@@ -47,7 +47,7 @@ class Roster {
 	public:
 
 		// Standard Constructor
-		Roster(System *system, Display *display, Graphics *graphics, Game *game, RosterMode mode);
+		Roster(System *system, Display *display, Graphics *graphics, Game *game, ROM mode);
 		Roster() = delete;
 
 		// Standard Destructor
@@ -75,7 +75,7 @@ class Roster {
 		std::unique_ptr<Frame> _menu_frame;
 		std::optional<Character *> _cur_char;
 		std::unique_ptr<Frame> _cur_char_frame;
-		RosterMode _mode;
+		ROM _mode;
 		std::string _screen_key;
 		std::unique_ptr<CharacterPanel> _char_panel;
 		int _cur_char_id;

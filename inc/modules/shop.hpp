@@ -73,7 +73,7 @@ class Shop {
 		std::unique_ptr<Menu> _who;
 		std::unique_ptr<Menu> _action;
 		sf::Sprite _bg;
-		ShopStage _stage;
+		STS _stage;
 		std::unique_ptr<PartyPanel> _party_panel;
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Console> _console;

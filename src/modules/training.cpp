@@ -52,9 +52,9 @@ Sorcery::Training::Training(System *system, Display *display, Graphics *graphics
 	_menu->generate((*_display->layout)["training_grounds:menu"]);
 	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["training_grounds:menu"].y);
 	_create = std::make_unique<Create>(_system, _display, _graphics, _game);
-	_inspect = std::make_unique<Roster>(_system, _display, _graphics, _game, RosterMode::INSPECT);
-	_delete = std::make_unique<Roster>(_system, _display, _graphics, _game, RosterMode::DELETE);
-	_edit = std::make_unique<Roster>(_system, _display, _graphics, _game, RosterMode::EDIT);
+	_inspect = std::make_unique<Roster>(_system, _display, _graphics, _game, ROM::INSPECT);
+	_delete = std::make_unique<Roster>(_system, _display, _graphics, _game, ROM::DELETE);
+	_edit = std::make_unique<Roster>(_system, _display, _graphics, _game, ROM::EDIT);
 }
 
 // Standard Destructor
