@@ -62,57 +62,55 @@ auto Sorcery::TextureStore::operator[](unsigned int index) const -> std::optiona
 // the entry in textures.json; whereas for all other spritesheets it refers to the actual sprite position
 auto Sorcery::TextureStore::get(const unsigned int index, GTT texture_type) const -> std::optional<sf::Sprite> {
 
-	using enum Enums::Graphics::TextureType;
-
 	std::optional<Sorcery::Texture> texture{std::nullopt};
 	sf::Texture *source{nullptr};
 	auto idx{0u};
 	switch (texture_type) {
-	case FLOOR:
+	case GTT::FLOOR:
 		texture = _get(index);
 		source = _floor_t;
 		idx = texture.value().floor;
 		break;
-	case CEILING:
+	case GTT::CEILING:
 		texture = _get(index);
 		source = _floor_t;
 		idx = texture.value().ceiling;
 		break;
-	case WALL:
+	case GTT::WALL:
 		texture = _get(index);
 		idx = texture.value().wall;
 		source = _wall_t;
 		break;
-	case DOOR:
+	case GTT::DOOR:
 		texture = _get(index);
 		idx = texture.value().door;
 		source = _door_t;
 		break;
-	case AUTOMAP:
+	case GTT::AUTOMAP:
 		idx = index;
 		source = _automap_t;
 		break;
-	case KNOWN_CREATURE:
+	case GTT::KNOWN_CREATURE:
 		idx = index;
 		source = _creatures_known_t;
 		break;
-	case UNKNOWN_CREATURE:
+	case GTT::UNKNOWN_CREATURE:
 		source = _creatures_unknown_t;
 		idx = index;
 		break;
-	case ITEMS:
+	case GTT::ITEMS:
 		idx = index;
 		source = _item_t;
 		break;
-	case PORTRAIT:
+	case GTT::PORTRAIT:
 		source = _portrait_t;
 		idx = index;
 		break;
-	case EVENTS:
+	case GTT::EVENTS:
 		source = _events_t;
 		idx = index;
 		break;
-	case WALLPAPER:
+	case GTT::WALLPAPER:
 		source = _wall_t;
 		idx = index;
 		break;
@@ -131,28 +129,26 @@ auto Sorcery::TextureStore::get(const unsigned int index, GTT texture_type) cons
 // stored in the Texture class
 auto Sorcery::TextureStore::get(const std::string name, GTT texture_type) const -> std::optional<sf::Sprite> {
 
-	using enum Enums::Graphics::TextureType;
-
 	std::optional<Sorcery::Texture> texture{std::nullopt};
 	sf::Texture *source{nullptr};
 	auto idx{0u};
 	switch (texture_type) {
-	case FLOOR:
+	case GTT::FLOOR:
 		texture = _get(name);
 		source = _floor_t;
 		idx = texture.value().floor;
 		break;
-	case CEILING:
+	case GTT::CEILING:
 		texture = _get(name);
 		source = _floor_t;
 		idx = texture.value().ceiling;
 		break;
-	case WALL:
+	case GTT::WALL:
 		texture = _get(name);
 		idx = texture.value().wall;
 		source = _wall_t;
 		break;
-	case DOOR:
+	case GTT::DOOR:
 		texture = _get(name);
 		idx = texture.value().door;
 		source = _door_t;
@@ -185,7 +181,6 @@ auto Sorcery::TextureStore::get_atlas(const Rect rect, bool feature = false) con
 auto Sorcery::TextureStore::_get(const std::string name) const -> std::optional<Texture> {
 
 	if (_loaded) {
-
 		auto it = std::find_if(
 			_texture_map.begin(), _texture_map.end(), [&](const auto &item) { return item.second.name == name; });
 
@@ -207,27 +202,25 @@ auto Sorcery::TextureStore::_get(const unsigned int index) const -> std::optiona
 
 auto Sorcery::TextureStore::_get_rect(unsigned int index, GTT texture_type) const -> sf::IntRect {
 
-	using enum Enums::Graphics::TextureType;
-
 	int tile_size{std::invoke([&] {
 		switch (texture_type) {
-		case AUTOMAP:
+		case GTT::AUTOMAP:
 			return AUTOMAP_TILE_SIZE;
 			break;
-		case KNOWN_CREATURE:
-		case UNKNOWN_CREATURE:
+		case GTT::KNOWN_CREATURE:
+		case GTT::UNKNOWN_CREATURE:
 			return CREATURE_TILE_SIZE;
 			break;
-		case PORTRAIT:
+		case GTT::PORTRAIT:
 			return PORTRAIT_TILE_SIZE;
 			break;
-		case ITEMS:
+		case GTT::ITEMS:
 			return ITEM_TILE_SIZE;
 			break;
-		case EVENTS:
+		case GTT::EVENTS:
 			return EVENT_TILE_SIZE;
 			break;
-		case WALLPAPER:
+		case GTT::WALLPAPER:
 			return WALLPAPER_TILE_SIZE;
 			break;
 		default:
@@ -237,23 +230,23 @@ auto Sorcery::TextureStore::_get_rect(unsigned int index, GTT texture_type) cons
 	})};
 	int tile_row_count{std::invoke([&] {
 		switch (texture_type) {
-		case AUTOMAP:
+		case GTT::AUTOMAP:
 			return AUTOMAP_TILE_ROW_COUNT;
 			break;
-		case KNOWN_CREATURE:
-		case UNKNOWN_CREATURE:
+		case GTT::KNOWN_CREATURE:
+		case GTT::UNKNOWN_CREATURE:
 			return CREATURE_TILE_ROW_COUNT;
 			break;
-		case PORTRAIT:
+		case GTT::PORTRAIT:
 			return PORTRAIT_TILE_ROW_COUNT;
 			break;
-		case ITEMS:
+		case GTT::ITEMS:
 			return ITEM_TILE_ROW_COUNT;
 			break;
-		case EVENTS:
+		case GTT::EVENTS:
 			return EVENT_TILE_ROW_COUNT;
 			break;
-		case WALLPAPER:
+		case GTT::WALLPAPER:
 			return WALLPAPER_TILE_ROW_COUNT;
 			break;
 		default:

@@ -64,9 +64,6 @@ Sorcery::Tavern::Tavern(System *system, Display *display, Graphics *graphics, Ga
 // Visit the Tavern
 auto Sorcery::Tavern::start() -> std::optional<MIM> {
 
-	using enum Enums::Castle::Tavern;
-	using enum Enums::Menu::Item;
-
 	// Do the Menus here when we has access to the game characters
 	_add.reset();
 	_remove.reset();
@@ -81,13 +78,13 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 
 	// Note Inspect is handled in a generic Inspect Module
 	switch (_stage) {
-	case MENU:
+	case STV::MENU:
 		_screen_key = "tavern";
 		break;
-	case ADD:
+	case STV::ADD:
 		_screen_key = "tavern_add";
 		break;
-	case REMOVE:
+	case STV::REMOVE:
 		_screen_key = "tavern_remove";
 		break;
 	default:
@@ -113,7 +110,7 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 
 			// Check for Window Close
 			if (event.type == sf::Event::Closed)
-				return ITEM_ABORT;
+				return MIM::ITEM_ABORT;
 
 			// Handle enabling help overlay
 			if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
@@ -122,7 +119,7 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 			} else
 				_display->hide_overlay();
 
-			if (_stage == MENU) {
+			if (_stage == STV::MENU) {
 
 				// If we are in normal input mode
 				if (_display->get_input_mode() == WIM::NAVIGATE_MENU) {
@@ -155,35 +152,35 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 
 							// We have selected something from the menu
 							if (opt) {
-								if (const MIM opt_tav{(*opt.value()).item}; opt_tav == TA_CASTLE) {
-									return TA_CASTLE;
-								} else if (opt_tav == TA_ADD_TO_PARTY) {
+								if (const MIM opt_tav{(*opt.value()).item}; opt_tav == MIM::TA_CASTLE) {
+									return MIM::TA_CASTLE;
+								} else if (opt_tav == MIM::TA_ADD_TO_PARTY) {
 									_add->reload();
-									_stage = ADD;
+									_stage = STV::ADD;
 									_screen_key = "tavern_add";
 									_update_menus();
 									_display->generate(_screen_key);
 									continue;
-								} else if (opt_tav == TA_REMOVE_FROM_PARTY) {
+								} else if (opt_tav == MIM::TA_REMOVE_FROM_PARTY) {
 									_remove->reload();
-									_stage = REMOVE;
+									_stage = STV::REMOVE;
 									_screen_key = "tavern_remove";
 									_update_menus();
 									_display->generate(_screen_key);
 									continue;
-								} else if (opt_tav == TA_INSPECT) {
+								} else if (opt_tav == MIM::TA_INSPECT) {
 									if (auto result{_inspect->start(std::nullopt)};
-										result && result.value() == ITEM_ABORT) {
+										result && result.value() == MIM::ITEM_ABORT) {
 										_game->save_game();
 										_inspect->stop();
-										return ITEM_ABORT;
+										return MIM::ITEM_ABORT;
 									}
 									_inspect->stop();
 									_update_menus();
 									_display->generate("tavern");
 									_display->set_input_mode(WIM::NAVIGATE_MENU);
 									continue;
-								} else if (opt_tav == TA_REORDER) {
+								} else if (opt_tav == MIM::TA_REORDER) {
 									auto reorder{std::make_unique<Reorder>(_system, _display, _graphics, _game)};
 									if (auto new_party{reorder->start()}; new_party) {
 										// TODO: handle aborts here
@@ -197,7 +194,7 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 									_display->generate("tavern");
 									_display->set_input_mode(WIM::NAVIGATE_MENU);
 									continue;
-								} else if (opt_tav == TA_DIVVY_GOLD) {
+								} else if (opt_tav == MIM::TA_DIVVY_GOLD) {
 
 									_game->divvy_party_gold();
 									_game->save_game();
@@ -210,10 +207,10 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 						}
 					}
 				}
-			} else if (_stage == ADD) {
+			} else if (_stage == STV::ADD) {
 
 				if (_system->input->check(CIN::CANCEL, event)) {
-					_stage = MENU;
+					_stage = STV::MENU;
 					_screen_key = "tavern";
 					_update_menus();
 					_display->generate(_screen_key);
@@ -221,7 +218,7 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 				}
 
 				if (_system->input->check(CIN::BACK, event)) {
-					_stage = MENU;
+					_stage = STV::MENU;
 					_screen_key = "tavern";
 					_update_menus();
 					_display->generate(_screen_key);
@@ -239,9 +236,9 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 
 					// We have selected something from the menu
 					if (opt) {
-						if (const MIM opt_tav{(*opt.value()).item}; opt_tav == CA_TAVERN) {
+						if (const MIM opt_tav{(*opt.value()).item}; opt_tav == MIM::CA_TAVERN) {
 
-							_stage = MENU;
+							_stage = STV::MENU;
 							_screen_key = "tavern";
 							_update_menus();
 							_display->generate(_screen_key);
@@ -255,17 +252,17 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 							_game->state->add_character_by_id(character_chosen);
 							_game->save_game();
 							_party_panel->refresh();
-							_stage = MENU;
+							_stage = STV::MENU;
 							_screen_key = "tavern";
 							_update_menus();
 							_display->generate(_screen_key);
 						}
 					}
 				}
-			} else if (_stage == REMOVE) {
+			} else if (_stage == STV::REMOVE) {
 
 				if (_system->input->check(CIN::CANCEL, event)) {
-					_stage = MENU;
+					_stage = STV::MENU;
 					_screen_key = "tavern";
 					_update_menus();
 					_display->generate(_screen_key);
@@ -273,7 +270,7 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 				}
 
 				if (_system->input->check(CIN::BACK, event)) {
-					_stage = MENU;
+					_stage = STV::MENU;
 					_screen_key = "tavern";
 					_update_menus();
 					_display->generate(_screen_key);
@@ -291,9 +288,9 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 
 					// We have selected something from the menu
 					if (opt) {
-						if (const MIM opt_tav{(*opt.value()).item}; opt_tav == CA_TAVERN) {
+						if (const MIM opt_tav{(*opt.value()).item}; opt_tav == MIM::CA_TAVERN) {
 
-							_stage = MENU;
+							_stage = STV::MENU;
 							_screen_key = "tavern";
 							_update_menus();
 							_display->generate(_screen_key);
@@ -308,7 +305,7 @@ auto Sorcery::Tavern::start() -> std::optional<MIM> {
 
 							_game->save_game();
 							_party_panel->refresh();
-							_stage = MENU;
+							_stage = STV::MENU;
 							_screen_key = "tavern";
 							_update_menus();
 							_display->generate(_screen_key);

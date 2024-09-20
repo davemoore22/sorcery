@@ -36,8 +36,6 @@
 Sorcery::AllocatePanel::AllocatePanel(System *system, Display *display, Graphics *graphics, Character *character)
 	: _system{system}, _display{display}, _graphics{graphics}, _character{character} {
 
-	using enum Enums::Menu::Item;
-
 	// Get the standard layout information
 	_layout = Component((*_display->layout)["global:allocate_panel"]);
 	_c_points_left = Component((*_display->layout)["allocate_panel:to_allocate_number"]);
@@ -55,14 +53,14 @@ Sorcery::AllocatePanel::AllocatePanel(System *system, Display *display, Graphics
 	_blue = sf::Color(0x4848ffff);
 
 	// Get and setup Allowed Class Icons
-	_class_icons[0] = (*_graphics->icons)[CC_SAMURAI].value();
-	_class_icons[1] = (*_graphics->icons)[CC_FIGHTER].value();
-	_class_icons[2] = (*_graphics->icons)[CC_LORD].value();
-	_class_icons[3] = (*_graphics->icons)[CC_THIEF].value();
-	_class_icons[4] = (*_graphics->icons)[CC_NINJA].value();
-	_class_icons[5] = (*_graphics->icons)[CC_PRIEST].value();
-	_class_icons[6] = (*_graphics->icons)[CC_BISHOP].value();
-	_class_icons[7] = (*_graphics->icons)[CC_MAGE].value();
+	_class_icons[0] = (*_graphics->icons)[MIM::CC_SAMURAI].value();
+	_class_icons[1] = (*_graphics->icons)[MIM::CC_FIGHTER].value();
+	_class_icons[2] = (*_graphics->icons)[MIM::CC_LORD].value();
+	_class_icons[3] = (*_graphics->icons)[MIM::CC_THIEF].value();
+	_class_icons[4] = (*_graphics->icons)[MIM::CC_NINJA].value();
+	_class_icons[5] = (*_graphics->icons)[MIM::CC_PRIEST].value();
+	_class_icons[6] = (*_graphics->icons)[MIM::CC_BISHOP].value();
+	_class_icons[7] = (*_graphics->icons)[MIM::CC_MAGE].value();
 	const sf::Vector2u icon_size{_c_allowed_classes.size, _c_allowed_classes.size};
 	constexpr auto texture_size{511.f};
 	sf::Vector2f scale{icon_size.x / texture_size, icon_size.y / texture_size};
@@ -158,27 +156,25 @@ auto Sorcery::AllocatePanel::_get_bar(CAR attribute) const
 
 auto Sorcery::AllocatePanel::_set_icons() -> void {
 
-	using enum Enums::Character::Class;
-
 	for (auto &icon : _class_icons)
 		icon.setColor(_red);
 
 	auto possible_classes = _character->get_pos_class();
-	if (possible_classes[SAMURAI])
+	if (possible_classes[CHC::SAMURAI])
 		_class_icons[0].setColor(_green);
-	if (possible_classes[FIGHTER])
+	if (possible_classes[CHC::FIGHTER])
 		_class_icons[1].setColor(_green);
-	if (possible_classes[LORD])
+	if (possible_classes[CHC::LORD])
 		_class_icons[2].setColor(_green);
-	if (possible_classes[THIEF])
+	if (possible_classes[CHC::THIEF])
 		_class_icons[3].setColor(_green);
-	if (possible_classes[NINJA])
+	if (possible_classes[CHC::NINJA])
 		_class_icons[4].setColor(_green);
-	if (possible_classes[PRIEST])
+	if (possible_classes[CHC::PRIEST])
 		_class_icons[5].setColor(_green);
-	if (possible_classes[BISHOP])
+	if (possible_classes[CHC::BISHOP])
 		_class_icons[6].setColor(_green);
-	if (possible_classes[MAGE])
+	if (possible_classes[CHC::MAGE])
 		_class_icons[7].setColor(_green);
 }
 

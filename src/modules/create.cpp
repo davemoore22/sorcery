@@ -284,7 +284,6 @@ auto Sorcery::Create::_handle_input(const sf::Event &event) -> std::optional<MDR
 auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event) -> std::optional<MDR> {
 
 	using enum Enums::Manage::Method;
-	using enum Enums::Menu::Item;
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_method_menu->selected};
 	if (_system->input->check(CIN::UP, event))
@@ -303,13 +302,13 @@ auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event) -> st
 		if (selected) {
 
 			switch ((*selected.value()).item) {
-			case CM_FULL:
+			case MIM::CM_FULL:
 				_method = FULL;
 				break;
-			case CM_QUICK:
+			case MIM::CM_QUICK:
 				_method = QUICK;
 				break;
-			case CM_RANDOM:
+			case MIM::CM_RANDOM:
 				_method = RANDOM;
 				break;
 			default:
@@ -421,7 +420,6 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::option
 auto Sorcery::Create::_handle_choose_race(const sf::Event &event) -> std::optional<MDR> {
 
 	using enum Enums::Character::Race;
-	using enum Enums::Menu::Item;
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_race_menu->selected};
 	if (_system->input->check(CIN::UP, event))
@@ -440,19 +438,19 @@ auto Sorcery::Create::_handle_choose_race(const sf::Event &event) -> std::option
 		if (selected) {
 
 			switch ((*selected.value()).item) {
-			case CR_HUMAN:
+			case MIM::CR_HUMAN:
 				_candidate.set_race(HUMAN);
 				break;
-			case CR_ELF:
+			case MIM::CR_ELF:
 				_candidate.set_race(ELF);
 				break;
-			case CR_DWARF:
+			case MIM::CR_DWARF:
 				_candidate.set_race(DWARF);
 				break;
-			case CR_GNOME:
+			case MIM::CR_GNOME:
 				_candidate.set_race(GNOME);
 				break;
-			case CR_HOBBIT:
+			case MIM::CR_HOBBIT:
 				_candidate.set_race(HOBBIT);
 				break;
 			default:
@@ -474,7 +472,6 @@ auto Sorcery::Create::_handle_choose_race(const sf::Event &event) -> std::option
 auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event) -> std::optional<MDR> {
 
 	using enum Enums::Character::Align;
-	using enum Enums::Menu::Item;
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_alignment_menu->selected};
 	if (_system->input->check(CIN::UP, event))
@@ -493,13 +490,13 @@ auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event) -> std::o
 		if (selected) {
 
 			switch ((*selected.value()).item) {
-			case CA_GOOD:
+			case MIM::CA_GOOD:
 				_candidate.set_alignment(GOOD);
 				break;
-			case CA_NEUTRAL:
+			case MIM::CA_NEUTRAL:
 				_candidate.set_alignment(NEUTRAL);
 				break;
-			case CA_EVIL:
+			case MIM::CA_EVIL:
 				_candidate.set_alignment(EVIL);
 				break;
 			default:
@@ -524,7 +521,6 @@ auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event) -> std::o
 auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std::optional<MDR> {
 
 	using enum Enums::Character::Attribute;
-	using enum Enums::Menu::Item;
 
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_attribute_menu->selected};
 	if (_system->input->check(CIN::UP, event))
@@ -536,34 +532,33 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 	else if (_system->input->check(CIN::LEFT, event) || _system->input->check(CIN::BACK, event) ||
 			 _system->input->check(CIN::DELETE, event)) {
 		if (selected) {
-			std::optional<CAR> stat_to_adjust{};
+			std::optional<CAR> adjust{};
 			switch (selected.value()->item) {
-			case CS_STRENGTH:
-				stat_to_adjust = STRENGTH;
+			case MIM::CS_STRENGTH:
+				adjust = STRENGTH;
 				break;
-			case CS_IQ:
-				stat_to_adjust = IQ;
+			case MIM::CS_IQ:
+				adjust = IQ;
 				break;
-			case CS_PIETY:
-				stat_to_adjust = PIETY;
+			case MIM::CS_PIETY:
+				adjust = PIETY;
 				break;
-			case CS_VITALITY:
-				stat_to_adjust = VITALITY;
+			case MIM::CS_VITALITY:
+				adjust = VITALITY;
 				break;
-			case CS_AGILITY:
-				stat_to_adjust = AGILITY;
+			case MIM::CS_AGILITY:
+				adjust = AGILITY;
 				break;
-			case CS_LUCK:
-				stat_to_adjust = LUCK;
+			case MIM::CS_LUCK:
+				adjust = LUCK;
 				break;
 			default:
 				break;
 			}
-			if (stat_to_adjust) {
+			if (adjust) {
 				if (_candidate.get_points_left() < _candidate.get_start_points()) {
-					if (_candidate.get_cur_attr(stat_to_adjust.value()) >
-						_candidate.get_start_attr(stat_to_adjust.value())) {
-						_candidate.set_cur_attr(stat_to_adjust.value(), -1);
+					if (_candidate.get_cur_attr(adjust.value()) > _candidate.get_start_attr(adjust.value())) {
+						_candidate.set_cur_attr(adjust.value(), -1);
 						_candidate.set_points_left(_candidate.get_points_left() + 1);
 					}
 				}
@@ -588,34 +583,33 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 		}
 
 		if (selected) {
-			std::optional<CAR> stat_to_adjust{};
+			std::optional<CAR> adjust{};
 			switch (selected.value()->item) {
-			case CS_STRENGTH:
-				stat_to_adjust = STRENGTH;
+			case MIM::CS_STRENGTH:
+				adjust = STRENGTH;
 				break;
-			case CS_IQ:
-				stat_to_adjust = IQ;
+			case MIM::CS_IQ:
+				adjust = IQ;
 				break;
-			case CS_PIETY:
-				stat_to_adjust = PIETY;
+			case MIM::CS_PIETY:
+				adjust = PIETY;
 				break;
-			case CS_VITALITY:
-				stat_to_adjust = VITALITY;
+			case MIM::CS_VITALITY:
+				adjust = VITALITY;
 				break;
-			case CS_AGILITY:
-				stat_to_adjust = AGILITY;
+			case MIM::CS_AGILITY:
+				adjust = AGILITY;
 				break;
-			case CS_LUCK:
-				stat_to_adjust = LUCK;
+			case MIM::CS_LUCK:
+				adjust = LUCK;
 				break;
 			default:
 				break;
 			}
-			if (stat_to_adjust) {
-
+			if (adjust) {
 				if (_candidate.get_points_left() > 0) {
-					if (_candidate.get_cur_attr(stat_to_adjust.value()) < 18) {
-						_candidate.set_cur_attr(stat_to_adjust.value(), 1);
+					if (_candidate.get_cur_attr(adjust.value()) < 18) {
+						_candidate.set_cur_attr(adjust.value(), 1);
 						_candidate.set_points_left(_candidate.get_points_left() - 1);
 					}
 				}
@@ -633,7 +627,6 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 auto Sorcery::Create::_handle_choose_class(const sf::Event &event) -> std::optional<MDR> {
 
 	using enum Enums::Character::Class;
-	using enum Enums::Menu::Item;
 
 	std::optional<std::vector<MenuEntry>::const_iterator> class_selected{_class_menu->selected};
 	if (_system->input->check(CIN::UP, event))
@@ -652,28 +645,28 @@ auto Sorcery::Create::_handle_choose_class(const sf::Event &event) -> std::optio
 		if (class_selected) {
 
 			switch ((*class_selected.value()).item) {
-			case CC_SAMURAI:
+			case MIM::CC_SAMURAI:
 				_candidate.set_class(SAMURAI);
 				break;
-			case CC_FIGHTER:
+			case MIM::CC_FIGHTER:
 				_candidate.set_class(FIGHTER);
 				break;
-			case CC_LORD:
+			case MIM::CC_LORD:
 				_candidate.set_class(LORD);
 				break;
-			case CC_THIEF:
+			case MIM::CC_THIEF:
 				_candidate.set_class(THIEF);
 				break;
-			case CC_NINJA:
+			case MIM::CC_NINJA:
 				_candidate.set_class(NINJA);
 				break;
-			case CC_PRIEST:
+			case MIM::CC_PRIEST:
 				_candidate.set_class(PRIEST);
 				break;
-			case CC_BISHOP:
+			case MIM::CC_BISHOP:
 				_candidate.set_class(BISHOP);
 				break;
-			case CC_MAGE:
+			case MIM::CC_MAGE:
 				_candidate.set_class(MAGE);
 				break;
 			default:
@@ -717,8 +710,6 @@ auto Sorcery::Create::_handle_choose_potraits(const sf::Event &event) -> std::op
 
 auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event) -> std::optional<MDR> {
 
-	using enum Enums::Menu::Item;
-
 	std::optional<std::vector<MenuEntry>::const_iterator> selected{_final_menu->selected};
 	if (_show_final_menu) {
 		if (_show_saved_ok) {
@@ -743,7 +734,7 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event) -> std:
 			} else if (_system->input->check(CIN::CONFIRM, event)) {
 				if (selected) {
 					switch ((*selected.value()).item) {
-					case RC_ACCEPT: {
+					case MIM::RC_ACCEPT: {
 						_candidate.set_stage(CHS::COMPLETED);
 						auto new_id{_game->add_character(_candidate)};
 						_game->characters[new_id] = _candidate; // TODO: HERE
@@ -751,11 +742,11 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event) -> std:
 						_game->load_game();
 						_show_saved_ok = true;
 					} break;
-					case RC_REJECT:
+					case MIM::RC_REJECT:
 						_show_final_menu = false;
 						return MDR::CLOSE;
 						break;
-					case RC_CANCEL:
+					case MIM::RC_CANCEL:
 						_show_final_menu = false;
 						_display->set_input_mode(WIM::REVIEW_AND_CONFIRM);
 						break;

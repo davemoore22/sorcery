@@ -394,10 +394,8 @@ auto Sorcery::CharacterDisplay::_get_spell_icon(SPC category) -> std::optional<s
 // Setting the view will regenerate the display components
 auto Sorcery::CharacterDisplay::set_view(const CHV value) -> void {
 
-	using enum Enums::Menu::Item;
-
 	_view = value;
-	_hl_action_item = NO_MENU_ITEM;
+	_hl_action_item = MIM::NO_MENU_ITEM;
 	_generate_display();
 }
 
@@ -557,7 +555,6 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 	using enum Enums::Character::Ability_Type;
 	using enum Enums::Character::Mode;
 	using enum Enums::Character::View;
-	using enum Enums::Menu::Item;
 	using enum Enums::Magic::SpellType;
 
 	_sprites.clear();
@@ -651,31 +648,35 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 		const auto offset_x_small{std::stoi(action_c["offset_x_small"].value())};
 		const auto offset_x_big{std::stoi(action_c["offset_x_big"].value())};
 
-		_add_action_button(action_c, C_ACTION_READ, "{:5}", "C_ACTION_READ", true);
+		_add_action_button(action_c, MIM::C_ACTION_READ, "{:5}", "C_ACTION_READ", true);
 		action_c.y += _display->window->get_ch();
-		_add_action_button(action_c, C_ACTION_EQUIP, "{:5}", "C_ACTION_EQUIP", _mode == AT_CASTLE || _mode == IN_MAZE);
+		_add_action_button(
+			action_c, MIM::C_ACTION_EQUIP, "{:5}", "C_ACTION_EQUIP", _mode == AT_CASTLE || _mode == IN_MAZE);
 		action_c.x = action_x + (offset_x_small * _display->window->get_cw());
 		action_c.y = action_y;
-		_add_action_button(action_c, C_ACTION_TRADE, "{:5}", "C_ACTION_TRADE", _mode == AT_CASTLE || _mode == IN_MAZE);
+		_add_action_button(
+			action_c, MIM::C_ACTION_TRADE, "{:5}", "C_ACTION_TRADE", _mode == AT_CASTLE || _mode == IN_MAZE);
 		action_c.y += _display->window->get_ch();
-		_add_action_button(action_c, C_ACTION_DROP, "{:5}", "C_ACTION_DROP", _mode == AT_CASTLE || _mode == IN_MAZE);
+		_add_action_button(
+			action_c, MIM::C_ACTION_DROP, "{:5}", "C_ACTION_DROP", _mode == AT_CASTLE || _mode == IN_MAZE);
 		action_c.x = action_c.x + (offset_x_small * _display->window->get_cw());
 		action_c.y = action_y;
-		_add_action_button(action_c, C_ACTION_POOL, "{:9}", "C_ACTION_POOL", _mode == AT_CASTLE || _mode == IN_MAZE);
+		_add_action_button(
+			action_c, MIM::C_ACTION_POOL, "{:9}", "C_ACTION_POOL", _mode == AT_CASTLE || _mode == IN_MAZE);
 		action_c.y += _display->window->get_ch();
-		_add_action_button(action_c, C_ACTION_IDENTIFY, "{:9}", "C_ACTION_IDENTIFY", _mode == IN_MAZE);
+		_add_action_button(action_c, MIM::C_ACTION_IDENTIFY, "{:9}", "C_ACTION_IDENTIFY", _mode == IN_MAZE);
 		action_c.x = action_c.x + (offset_x_big * _display->window->get_cw());
 		action_c.y = action_y;
-		_add_action_button(action_c, C_ACTION_SPELL, "{:5}", "C_ACTION_SPELL", _mode == IN_MAZE);
+		_add_action_button(action_c, MIM::C_ACTION_SPELL, "{:5}", "C_ACTION_SPELL", _mode == IN_MAZE);
 		action_c.y += _display->window->get_ch();
-		_add_action_button(action_c, C_ACTION_USE, "{:5}", "C_ACTION_USE", _mode == IN_MAZE);
+		_add_action_button(action_c, MIM::C_ACTION_USE, "{:5}", "C_ACTION_USE", _mode == IN_MAZE);
 		action_c.y += _display->window->get_ch();
 		action_c.x = action_c.x + (offset_x_small * _display->window->get_cw());
 		action_c.y = action_y;
 		_add_action_button(
-			action_c, C_ACTION_INVOKE, "{:6}", "C_ACTION_INVOKE", _mode == AT_CASTLE || _mode == IN_MAZE);
+			action_c, MIM::C_ACTION_INVOKE, "{:6}", "C_ACTION_INVOKE", _mode == AT_CASTLE || _mode == IN_MAZE);
 		action_c.y += _display->window->get_ch();
-		_add_action_button(action_c, C_ACTION_LEAVE, "{:6}", "C_ACTION_LEAVE", true);
+		_add_action_button(action_c, MIM::C_ACTION_LEAVE, "{:6}", "C_ACTION_LEAVE", true);
 
 	} else if (_view == DETAILED) {
 

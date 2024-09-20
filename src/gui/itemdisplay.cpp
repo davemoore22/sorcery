@@ -45,21 +45,19 @@ Sorcery::ItemDisplay::ItemDisplay(System *system, Display *display, Graphics *gr
 	_itemstore = _game->itemstore.get();
 	valid = false;
 
-	using enum Enums::Menu::Item;
-
 	// Stored in different order to enum, argh
-	_class_icons[0] = (*_graphics->icons)[CC_SAMURAI].value();
-	_class_icons[1] = (*_graphics->icons)[CC_FIGHTER].value();
-	_class_icons[2] = (*_graphics->icons)[CC_LORD].value();
-	_class_icons[3] = (*_graphics->icons)[CC_THIEF].value();
-	_class_icons[4] = (*_graphics->icons)[CC_NINJA].value();
-	_class_icons[5] = (*_graphics->icons)[CC_PRIEST].value();
-	_class_icons[6] = (*_graphics->icons)[CC_BISHOP].value();
-	_class_icons[7] = (*_graphics->icons)[CC_MAGE].value();
+	_class_icons[0] = (*_graphics->icons)[MIM::CC_SAMURAI].value();
+	_class_icons[1] = (*_graphics->icons)[MIM::CC_FIGHTER].value();
+	_class_icons[2] = (*_graphics->icons)[MIM::CC_LORD].value();
+	_class_icons[3] = (*_graphics->icons)[MIM::CC_THIEF].value();
+	_class_icons[4] = (*_graphics->icons)[MIM::CC_NINJA].value();
+	_class_icons[5] = (*_graphics->icons)[MIM::CC_PRIEST].value();
+	_class_icons[6] = (*_graphics->icons)[MIM::CC_BISHOP].value();
+	_class_icons[7] = (*_graphics->icons)[MIM::CC_MAGE].value();
 
-	_align_icons[0] = (*_graphics->icons)[CA_GOOD].value();
-	_align_icons[1] = (*_graphics->icons)[CA_NEUTRAL].value();
-	_align_icons[2] = (*_graphics->icons)[CA_EVIL].value();
+	_align_icons[0] = (*_graphics->icons)[MIM::CA_GOOD].value();
+	_align_icons[1] = (*_graphics->icons)[MIM::CA_NEUTRAL].value();
+	_align_icons[2] = (*_graphics->icons)[MIM::CA_EVIL].value();
 
 	auto icon_scaling{std::stof(_layout["icon_scale"].value())};
 
@@ -95,37 +93,34 @@ auto Sorcery::ItemDisplay::set(const unsigned int item_idx) -> void {
 
 	_display->generate("item_display", _sprites, _texts, _frames);
 
-	using enum Enums::Character::Class;
-	using enum Enums::Character::Align;
-
 	for (auto &icon : _class_icons)
 		icon.setColor(sf::Color(0xff1a1aff));
 	for (auto &icon : _align_icons)
 		icon.setColor(sf::Color(0xff1a1aff));
 
 	// Stored in different order to enum, argh
-	if (it.is_class_usable(FIGHTER))
+	if (it.is_class_usable(CHC::FIGHTER))
 		_class_icons[1].setColor(sf::Color(0x169016ff));
-	if (it.is_class_usable(MAGE))
+	if (it.is_class_usable(CHC::MAGE))
 		_class_icons[7].setColor(sf::Color(0x169016ff));
-	if (it.is_class_usable(PRIEST))
+	if (it.is_class_usable(CHC::PRIEST))
 		_class_icons[5].setColor(sf::Color(0x169016ff));
-	if (it.is_class_usable(THIEF))
+	if (it.is_class_usable(CHC::THIEF))
 		_class_icons[3].setColor(sf::Color(0x169016ff));
-	if (it.is_class_usable(BISHOP))
+	if (it.is_class_usable(CHC::BISHOP))
 		_class_icons[6].setColor(sf::Color(0x169016ff));
-	if (it.is_class_usable(SAMURAI))
+	if (it.is_class_usable(CHC::SAMURAI))
 		_class_icons[0].setColor(sf::Color(0x169016ff));
-	if (it.is_class_usable(LORD))
+	if (it.is_class_usable(CHC::LORD))
 		_class_icons[2].setColor(sf::Color(0x169016ff));
-	if (it.is_class_usable(NINJA))
+	if (it.is_class_usable(CHC::NINJA))
 		_class_icons[4].setColor(sf::Color(0x169016ff));
 
-	if (it.is_align_usable(GOOD))
+	if (it.is_align_usable(CAL::GOOD))
 		_align_icons[0].setColor(sf::Color(0x169016ff));
-	if (it.is_align_usable(NEUTRAL))
+	if (it.is_align_usable(CAL::NEUTRAL))
 		_align_icons[1].setColor(sf::Color(0x169016ff));
-	if (it.is_align_usable(EVIL))
+	if (it.is_align_usable(CAL::EVIL))
 		_align_icons[2].setColor(sf::Color(0x169016ff));
 
 	valid = true;

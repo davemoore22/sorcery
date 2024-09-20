@@ -157,20 +157,18 @@ auto Sorcery::CharacterPanel::set(Character *character) -> void {
 
 auto Sorcery::CharacterPanel::_get_icon(CHS type) -> std::optional<sf::Sprite> {
 
-	using enum Enums::Character::Stage;
-
 	switch (type) {
-	case CHOOSE_ALIGNMENT: {
+	case CHS::CHOOSE_ALIGNMENT: {
 		auto alignment{_character->alignment_to_str(_character->get_alignment())};
 		std::ranges::transform(alignment.begin(), alignment.end(), alignment.begin(), ::tolower);
 		return (*_graphics->icons)[alignment].value();
 	} break;
-	case CHOOSE_RACE: {
+	case CHS::CHOOSE_RACE: {
 		auto race{_character->race_to_str(_character->get_race())};
 		std::ranges::transform(race.begin(), race.end(), race.begin(), ::tolower);
 		return (*_graphics->icons)[race].value();
 	} break;
-	case CHOOSE_CLASS: {
+	case CHS::CHOOSE_CLASS: {
 		auto cclass{_character->class_to_str(_character->get_class())};
 		std::ranges::transform(cclass.begin(), cclass.end(), cclass.begin(), ::tolower);
 		return (*_graphics->icons)[cclass].value();

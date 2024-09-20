@@ -82,7 +82,6 @@ Sorcery::MainMenu::~MainMenu() {
 
 auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 
-	using enum Enums::Menu::Item;
 	using enum Enums::MainMenu::Type;
 	using enum Enums::Window::InputMode;
 	using enum Enums::Controls::Input;
@@ -133,7 +132,7 @@ auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 
 						// Check for Window Close
 						if (event.type == sf::Event::Closed)
-							return ITEM_ABORT;
+							return MIM::ITEM_ABORT;
 
 						// Check for any key being pressed to move onto the main
 						// menu
@@ -175,21 +174,21 @@ auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 							if (selected_option) {
 
 								// We have selected something from the menu
-								if (const MIM opt{(*selected_option.value()).item}; opt == MM_NEW_GAME) {
+								if (const MIM opt{(*selected_option.value()).item}; opt == MIM::MM_NEW_GAME) {
 									_display->set_input_mode(CONFIRM_NEW_GAME);
-								} else if (opt == MM_CONTINUE_GAME) {
+								} else if (opt == MIM::MM_CONTINUE_GAME) {
 									_display->set_input_mode(NAVIGATE_MENU);
-									return MM_CONTINUE_GAME;
-								} else if (opt == MM_LICENSE) {
+									return MIM::MM_CONTINUE_GAME;
+								} else if (opt == MIM::MM_LICENSE) {
 									_display->set_input_mode(DISPLAY_TEXT_FILE);
-									return MM_LICENSE;
-								} else if (opt == MM_COMPENDIUM) {
+									return MIM::MM_LICENSE;
+								} else if (opt == MIM::MM_COMPENDIUM) {
 									_display->set_input_mode(COMPENDIUM);
-									return MM_COMPENDIUM;
-								} else if (opt == MM_OPTIONS) {
+									return MIM::MM_COMPENDIUM;
+								} else if (opt == MIM::MM_OPTIONS) {
 									_display->set_input_mode(GAME_OPTIONS);
-									return MM_OPTIONS;
-								} else if (opt == ITEM_QUIT) {
+									return MIM::MM_OPTIONS;
+								} else if (opt == MIM::ITEM_QUIT) {
 									_display->set_input_mode(CONFIRM_QUIT_GAME);
 								}
 							}
@@ -206,7 +205,7 @@ auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 								return std::nullopt;
 							} else if (dialog_input.value() == WDB::YES) {
 								_display->set_input_mode(NAVIGATE_MENU);
-								return MM_NEW_GAME;
+								return MIM::MM_NEW_GAME;
 							} else if (dialog_input.value() == WDB::NO) {
 								_display->set_input_mode(NAVIGATE_MENU);
 							}
@@ -220,7 +219,7 @@ auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 								return std::nullopt;
 							} else if (dialog_input.value() == WDB::YES) {
 								_display->set_input_mode(NAVIGATE_MENU);
-								return ITEM_QUIT;
+								return MIM::ITEM_QUIT;
 							} else if (dialog_input.value() == WDB::NO) {
 								_display->set_input_mode(NAVIGATE_MENU);
 							}

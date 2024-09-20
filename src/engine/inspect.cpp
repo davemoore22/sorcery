@@ -104,7 +104,6 @@ Sorcery::Inspect::~Inspect() {
 auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::optional<MIM> {
 
 	using enum Enums::Menu::Mode;
-	using enum Enums::Menu::Item;
 
 	// Do we want to display a menu with all characters in the party, or just handle one character directly
 	_restricted = character_id.has_value();
@@ -171,7 +170,7 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
-					return ITEM_ABORT;
+					return MIM::ITEM_ABORT;
 
 				// Handle enabling help overlay
 				if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
@@ -197,8 +196,8 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 					// We have selected something from the menu
 					if (selected) {
 						const MIM opt{(*selected.value()).item};
-						if (opt == ET_TRAIN || opt == CA_TAVERN || opt == CA_TEMPLE || opt == CA_INN ||
-							opt == ITEM_CAMP || opt == CA_SHOP) {
+						if (opt == MIM::ET_TRAIN || opt == MIM::CA_TAVERN || opt == MIM::CA_TEMPLE ||
+							opt == MIM::CA_INN || opt == MIM::ITEM_CAMP || opt == MIM::CA_SHOP) {
 							_display->set_input_mode(WIM::NAVIGATE_MENU);
 							_cur_char = std::nullopt;
 							return std::nullopt;
@@ -216,9 +215,9 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 
 					// Display Character Panel
 					if (selected) {
-						if ((*selected.value()).item != ET_TRAIN && (*selected.value()).item != CA_TAVERN &&
-							(*selected.value()).item != CA_SHOP && (*selected.value()).item != CA_TEMPLE &&
-							(*selected.value()).item != CA_INN && (*selected.value()).item != ITEM_CAMP) {
+						if ((*selected.value()).item != MIM::ET_TRAIN && (*selected.value()).item != MIM::CA_TAVERN &&
+							(*selected.value()).item != MIM::CA_SHOP && (*selected.value()).item != MIM::CA_TEMPLE &&
+							(*selected.value()).item != MIM::CA_INN && (*selected.value()).item != MIM::ITEM_CAMP) {
 							const auto character_chosen{static_cast<int>((*selected.value()).index)};
 							if (character_chosen != _cur_char_id) {
 								auto character{&_game->characters[character_chosen]};
