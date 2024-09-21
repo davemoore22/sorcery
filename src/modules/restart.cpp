@@ -83,7 +83,7 @@ auto Sorcery::Restart::start(unsigned int &character_chosen) -> std::optional<MI
 	_window->clear();
 
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->items.begin()};
+	MenuSelect selected{_menu->items.begin()};
 
 	// And do the main loop
 	sf::Event event{};

@@ -112,8 +112,8 @@ auto Sorcery::Rest::start(Character *character, REM mode, RET type) -> std::opti
 	_duration = DELAY_RESTING; // ms
 
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> opt_cont{_cont_menu->items.begin()};
-	std::optional<std::vector<MenuEntry>::const_iterator> opt_stop{_stop_menu->items.begin()};
+	MenuSelect opt_cont{_cont_menu->items.begin()};
+	MenuSelect opt_stop{_stop_menu->items.begin()};
 	bool proceed{false};
 	bool skip{false};
 

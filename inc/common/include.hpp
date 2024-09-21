@@ -143,9 +143,11 @@ using ItemEffDef = std::array<bool, 22>;
 using ItemEffOff = std::array<bool, 15>;
 using ItemUsableClass = std::array<bool, 9>;
 using ItemUsableAlignment = std::array<bool, 4>;
+using MenuSelect = std::optional<std::vector<MenuEntry>::const_iterator>;
 using LevelID = std::pair<std::string, int>;
 using Range = std::tuple<unsigned int, unsigned int>;
 using SpellPoints = std::map<unsigned int, unsigned int>;
 using StringMap = std::map<std::string, std::string>;
+using TimePoint = std::chrono::time_point<std::chrono::system_clock>;
 
 }

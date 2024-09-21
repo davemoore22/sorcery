@@ -71,7 +71,7 @@ auto Sorcery::System::get_pause() -> bool {
 	if (_pause_clock_start && _clock_duration) {
 		auto elapsed{std::chrono::duration_cast<std::chrono::milliseconds>(
 			std::chrono::steady_clock::now() - _pause_clock_start.value())
-						 .count()};
+				.count()};
 
 		return (elapsed < _clock_duration.value());
 	} else
@@ -84,7 +84,7 @@ auto Sorcery::System::update_pause() -> bool {
 	if (_pause_clock_start && _clock_duration) {
 		auto elapsed{std::chrono::duration_cast<std::chrono::milliseconds>(
 			std::chrono::steady_clock::now() - _pause_clock_start.value())
-						 .count()};
+				.count()};
 		if (elapsed > _clock_duration.value()) {
 			_pause_clock_start = std::nullopt;
 			_clock_duration = std::nullopt;
@@ -109,8 +109,7 @@ auto Sorcery::System::dice_roll_to_str(
 }
 
 // Timepoint to String
-auto Sorcery::System::convert_tp_to_str(
-	const std::chrono::time_point<std::chrono::system_clock> tp) const -> std::string {
+auto Sorcery::System::convert_tp_to_str(const TimePoint tp) const -> std::string {
 
 	// Need to do it this way til std::chrono::locate_zone etc is supported
 	auto t_t{std::chrono::system_clock::to_time_t(tp)};

@@ -75,7 +75,7 @@ class Bestiary {
 		sf::RenderWindow *_window;
 		std::unique_ptr<Menu> _menu;
 		std::unique_ptr<MonsterDisplay> _monster_display;
-		std::optional<std::vector<MenuEntry>::const_iterator> _selected;
+		MenuSelect _selected;
 		sf::Sprite _known_monster_gfx;
 };
 

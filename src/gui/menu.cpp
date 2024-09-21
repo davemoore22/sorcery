@@ -523,7 +523,7 @@ auto Sorcery::Menu::_add_item(const int index, const MIT itemtype, const MIM cod
 }
 
 // Select the first enabled menu item
-auto Sorcery::Menu::_select_first() -> std::optional<std::vector<MenuEntry>::const_iterator> {
+auto Sorcery::Menu::_select_first() -> MenuSelect {
 
 	using enum Enums::Menu::ItemType;
 
@@ -540,7 +540,7 @@ auto Sorcery::Menu::_select_first() -> std::optional<std::vector<MenuEntry>::con
 }
 
 // Select the last enabled menu item
-auto Sorcery::Menu::_select_last() -> std::optional<std::vector<MenuEntry>::const_iterator> {
+auto Sorcery::Menu::_select_last() -> MenuSelect {
 
 	using enum Enums::Menu::ItemType;
 	using enum Enums::Menu::Type;
@@ -561,8 +561,7 @@ auto Sorcery::Menu::_select_last() -> std::optional<std::vector<MenuEntry>::cons
 }
 
 // Check if the mouse cursor is on a menu item, and if so set it
-auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
-	-> std::optional<std::vector<MenuEntry>::const_iterator> {
+auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos) -> MenuSelect {
 
 	using enum Enums::Menu::Type;
 	using enum Enums::Menu::ItemType;
@@ -592,7 +591,7 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos)
 }
 
 // Set selected based upon the item passed in
-auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEntry>::const_iterator> {
+auto Sorcery::Menu::choose(std::any option) -> MenuSelect {
 
 	using enum Enums::Character::Align;
 	using enum Enums::Character::Class;
@@ -696,8 +695,7 @@ auto Sorcery::Menu::choose(std::any option) -> std::optional<std::vector<MenuEnt
 		return std::nullopt;
 }
 
-auto Sorcery::Menu::_choose_by_index(const unsigned int index)
-	-> std::optional<std::vector<MenuEntry>::const_iterator> {
+auto Sorcery::Menu::_choose_by_index(const unsigned int index) -> MenuSelect {
 
 	// Iterate through til we have found the item with the associated index
 	if (auto it{
@@ -712,7 +710,7 @@ auto Sorcery::Menu::_choose_by_index(const unsigned int index)
 }
 
 // Set selected based upon the item index
-auto Sorcery::Menu::choose(const unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator> {
+auto Sorcery::Menu::choose(const unsigned int index) -> MenuSelect {
 
 	// Iterate through til we have found the item with the associated index
 	if (auto it{
@@ -726,18 +724,18 @@ auto Sorcery::Menu::choose(const unsigned int index) -> std::optional<std::vecto
 	return std::nullopt;
 }
 
-auto Sorcery::Menu::choose_first() -> std::optional<std::vector<MenuEntry>::const_iterator> {
+auto Sorcery::Menu::choose_first() -> MenuSelect {
 
 	return _select_first();
 }
 
-auto Sorcery::Menu::choose_last() -> std::optional<std::vector<MenuEntry>::const_iterator> {
+auto Sorcery::Menu::choose_last() -> MenuSelect {
 
 	return _select_last();
 }
 
 // Choose the previous selected item
-auto Sorcery::Menu::choose_previous() -> std::optional<std::vector<MenuEntry>::const_iterator> {
+auto Sorcery::Menu::choose_previous() -> MenuSelect {
 
 	using enum Enums::Menu::ItemType;
 
@@ -768,7 +766,7 @@ auto Sorcery::Menu::choose_previous() -> std::optional<std::vector<MenuEntry>::c
 }
 
 // Choose the next selected item
-auto Sorcery::Menu::choose_next() -> std::optional<std::vector<MenuEntry>::const_iterator> {
+auto Sorcery::Menu::choose_next() -> MenuSelect {
 
 	using enum Enums::Menu::ItemType;
 

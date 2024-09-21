@@ -142,7 +142,7 @@ auto Sorcery::ChangeClass::start() -> std::optional<CHC> {
 				if (_system->input->check(CIN::BACK, event))
 					return std::nullopt;
 
-				std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->selected};
+				MenuSelect selected{_menu->selected};
 				if (_system->input->check(CIN::UP, event))
 					selected = _menu->choose_previous();
 				else if (_system->input->check(CIN::DOWN, event))

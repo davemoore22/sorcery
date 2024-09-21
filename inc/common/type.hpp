@@ -49,6 +49,20 @@ struct MenuEntry {
 					(enabled == a.enabled) && (config == a.config) && (hint == a.hint) && (idx == a.idx));
 		}
 
+		auto operator=(const MenuEntry &other) -> MenuEntry & {
+
+			index = other.index;
+			type = other.type;
+			item = other.item;
+			key = other.key;
+			enabled = other.enabled;
+			config = other.config;
+			hint = other.hint;
+			idx = other.idx;
+
+			return *this;
+		};
+
 		unsigned int index;
 		Enums::Menu::ItemType type;
 		Enums::Menu::Item item;

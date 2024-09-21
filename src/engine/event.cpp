@@ -102,7 +102,7 @@ auto Sorcery::Event::start() -> std::optional<MIM> {
 		break;
 	default: {
 		_display->window->save_screen();
-		std::optional<std::vector<MenuEntry>::const_iterator> opt{_cont_menu->items.begin()};
+		MenuSelect opt{_cont_menu->items.begin()};
 
 		// Generate the display
 		std::string screen_key{};

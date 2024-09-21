@@ -105,8 +105,8 @@ class Game {
 		System *_system;
 		Display *_display;
 		Graphics *_graphics;
-		std::chrono::system_clock::time_point _start_time;
-		std::chrono::system_clock::time_point _last_time;
+		TimePoint _start_time;
+		TimePoint _last_time;
 		std::string _key;
 		unsigned int _id;
 		std::string _status;

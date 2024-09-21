@@ -84,7 +84,7 @@ auto Sorcery::Reorder::start() -> std::optional<std::vector<unsigned int>> {
 
 	// And do the main loop
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> option{_menu->items.begin()};
+	MenuSelect option{_menu->items.begin()};
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {

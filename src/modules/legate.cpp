@@ -148,7 +148,7 @@ auto Sorcery::Legate::start() -> std::optional<CAL> {
 
 			} else if (_stage == CHG::CHANGE_ALIGNMENT) {
 
-				std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->selected};
+				MenuSelect selected{_menu->selected};
 				if (_system->input->check(CIN::UP, event))
 					selected = _menu->choose_previous();
 				else if (_system->input->check(CIN::DOWN, event))

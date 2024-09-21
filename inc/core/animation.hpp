@@ -82,10 +82,10 @@ class Animation {
 		std::atomic<bool> _colcyc_dir;
 		std::atomic<bool> _finished;
 		std::atomic<bool> _attract_fade;
-		std::chrono::time_point<std::chrono::system_clock> _last_wallpaper;
-		std::chrono::time_point<std::chrono::system_clock> _last_attract;
-		std::chrono::time_point<std::chrono::system_clock> _ctime_attract;
-		std::chrono::time_point<std::chrono::system_clock> _ctime_wallpaper;
+		TimePoint _last_wallpaper;
+		TimePoint _last_attract;
+		TimePoint _ctime_attract;
+		TimePoint _ctime_wallpaper;
 		std::mutex _attract_mutex;
 		std::mutex _colour_mutex;
 		std::mutex _wallpaper_mutex;

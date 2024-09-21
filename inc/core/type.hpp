@@ -37,7 +37,7 @@ struct ConsoleMessage {
 
 		long int id;
 		IMT type;
-		std::chrono::time_point<std::chrono::system_clock> datetime;
+		TimePoint datetime;
 		std::string text;
 		static inline long s_id{0};
 
@@ -50,8 +50,7 @@ struct ConsoleMessage {
 			id = s_id++;
 		}
 
-		ConsoleMessage(Enums::Internal::MessageType message_type_,
-			std::chrono::time_point<std::chrono::system_clock> datetime_, std::string text_)
+		ConsoleMessage(Enums::Internal::MessageType message_type_, TimePoint datetime_, std::string text_)
 			: type{message_type_}, datetime{datetime_}, text{text_} {
 
 			id = s_id++;

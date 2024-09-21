@@ -73,8 +73,8 @@ class Rest {
 		std::unique_ptr<PartyPanel> _party_panel;
 		std::unique_ptr<TextPanel> _results;
 		sf::RenderWindow *_window;
-		std::optional<std::chrono::time_point<std::chrono::system_clock>> _start;
-		std::optional<std::chrono::time_point<std::chrono::system_clock>> _current_time;
+		std::optional<TimePoint> _start;
+		std::optional<TimePoint> _current_time;
 		unsigned int _duration;
 		std::unique_ptr<Menu> _cont_menu;
 		std::unique_ptr<Menu> _stop_menu;

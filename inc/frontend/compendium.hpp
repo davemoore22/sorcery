@@ -73,7 +73,7 @@ class Compendium {
 		Game *_game;
 		sf::RenderWindow *_window;
 		std::unique_ptr<Menu> _menu;
-		std::optional<std::vector<MenuEntry>::const_iterator> _selected;
+		MenuSelect _selected;
 		std::unique_ptr<Museum> _museum;
 		std::unique_ptr<Bestiary> _bestiary;
 };

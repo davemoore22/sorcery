@@ -120,10 +120,10 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 
 	// And do the main loop
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> opt{_menu->items.begin()};
-	std::optional<std::vector<MenuEntry>::const_iterator> opt_help{_help->items.begin()};
-	std::optional<std::vector<MenuEntry>::const_iterator> opt_pay{_pay->items.begin()};
-	std::optional<std::vector<MenuEntry>::const_iterator> opt_cont{_cont->items.begin()};
+	MenuSelect opt{_menu->items.begin()};
+	MenuSelect opt_help{_help->items.begin()};
+	MenuSelect opt_pay{_pay->items.begin()};
+	MenuSelect opt_cont{_cont->items.begin()};
 	sf::Event event{};
 	auto heal_char_id{0u};
 	while (_window->isOpen()) {

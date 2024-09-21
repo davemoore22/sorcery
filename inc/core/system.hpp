@@ -50,9 +50,9 @@ class System {
 		auto update_pause() -> bool;
 		auto stop_pause() -> void;
 		auto get_pause() -> bool;
-		auto convert_tp_to_str(const std::chrono::time_point<std::chrono::system_clock> tp) const -> std::string;
-		auto dice_roll_to_str(
-			const std::string &message, const int dice, const int roll, const int needed) const -> std::string;
+		auto convert_tp_to_str(const TimePoint tp) const -> std::string;
+		auto dice_roll_to_str(const std::string &message, const int dice, const int roll, const int needed) const
+			-> std::string;
 
 		// Public Members
 		std::unique_ptr<FileStore> files;

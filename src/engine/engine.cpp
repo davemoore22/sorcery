@@ -1851,11 +1851,11 @@ auto Sorcery::Engine::_move_forward() -> bool {
 			const auto elevator{_game->state->level->at(next_loc).has_elevator()};
 			if (elevator.value().bottom_depth == -4) {
 				_display->set_input_mode(WIM::NAVIGATE_MENU);
-				std::optional<std::vector<MenuEntry>::const_iterator> elevator_option{_elevator_a_d_menu->items.end()};
+				MenuSelect elevator_option{_elevator_a_d_menu->items.end()};
 				_in_elevator_a_d = true;
 			} else if (elevator.value().bottom_depth == -9) {
 				_display->set_input_mode(WIM::NAVIGATE_MENU);
-				std::optional<std::vector<MenuEntry>::const_iterator> elevator_option{_elevator_a_f_menu->items.end()};
+				MenuSelect elevator_option{_elevator_a_f_menu->items.end()};
 				_in_elevator_a_f = true;
 			}
 		} else {
@@ -1961,11 +1961,11 @@ auto Sorcery::Engine::_move_backward() -> bool {
 			const auto elevator{_game->state->level->at(next_loc).has_elevator()};
 			if (elevator.value().bottom_depth == -4) {
 				_display->set_input_mode(WIM::NAVIGATE_MENU);
-				std::optional<std::vector<MenuEntry>::const_iterator> elevator_option{_elevator_a_d_menu->items.end()};
+				MenuSelect elevator_option{_elevator_a_d_menu->items.end()};
 				_in_elevator_a_d = true;
 			} else if (elevator.value().bottom_depth == -9) {
 				_display->set_input_mode(WIM::NAVIGATE_MENU);
-				std::optional<std::vector<MenuEntry>::const_iterator> elevator_option{_elevator_a_f_menu->items.end()};
+				MenuSelect elevator_option{_elevator_a_f_menu->items.end()};
 				_in_elevator_a_f = true;
 			}
 		} else {

@@ -99,9 +99,9 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 
 	// And do the main loop
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> opt{_menu->items.begin()};
-	std::optional<std::vector<MenuEntry>::const_iterator> opt_who{_who->items.begin()};
-	std::optional<std::vector<MenuEntry>::const_iterator> opt_act{_action->items.begin()};
+	MenuSelect opt{_menu->items.begin()};
+	MenuSelect opt_who{_who->items.begin()};
+	MenuSelect opt_act{_action->items.begin()};
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {

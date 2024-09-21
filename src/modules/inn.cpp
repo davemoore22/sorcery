@@ -101,9 +101,9 @@ auto Sorcery::Inn::start() -> std::optional<MIM> {
 
 	// And do the main loop
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
-	std::optional<std::vector<MenuEntry>::const_iterator> opt{_menu->items.begin()};
-	std::optional<std::vector<MenuEntry>::const_iterator> opt_rost{_roster->items.begin()};
-	std::optional<std::vector<MenuEntry>::const_iterator> opt_bed{_bed->items.begin()};
+	MenuSelect opt{_menu->items.begin()};
+	MenuSelect opt_rost{_roster->items.begin()};
+	MenuSelect opt_bed{_bed->items.begin()};
 
 	// By default choose the first character in the party!
 	_cur_char_id = (*opt_rost.value()).index;

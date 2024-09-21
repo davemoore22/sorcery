@@ -47,8 +47,6 @@
 Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, Game *game, MMD mode)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _mode{mode} {
 
-	using enum Enums::Menu::Mode;
-
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 	_cur_char = std::nullopt;
@@ -58,19 +56,19 @@ Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, 
 
 	// Same object can be used in three different modes
 	switch (_mode) {
-	case TAVERN:
+	case MMD::TAVERN:
 		_screen_key = "tavern_inspect";
 		break;
-	case INN:
+	case MMD::INN:
 		_screen_key = "inn_inspect";
 		break;
-	case SHOP:
+	case MMD::SHOP:
 		_screen_key = "shop_inspect";
 		break;
-	case TEMPLE:
+	case MMD::TEMPLE:
 		_screen_key = "temple_inspect";
 		break;
-	case CAMP:
+	case MMD::CAMP:
 		_screen_key = "engine_base_ui";
 		break;
 	default:
@@ -78,7 +76,7 @@ Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, 
 	}
 
 	_char_panel = std::make_unique<CharacterPanel>(_system, _display, _graphics);
-	_character_display = std::make_unique<CharacterDisplay>(_system, _display, _graphics);
+	_char_disp = std::make_unique<CharacterDisplay>(_system, _display, _graphics);
 
 	_pool = _factory->make_dialog("inspect:dialog_pool_gold_ok");
 	_cursed = _factory->make_dialog("inspect:dialog_cursed_ok");
@@ -93,8 +91,8 @@ Sorcery::Inspect::Inspect(System *system, Display *display, Graphics *graphics, 
 	_in_drop = false;
 
 	_in_trade = false;
-	_in_item_action = false;
-	_in_item_display = false;
+	_in_action = false;
+	_in_examine = false;
 }
 
 // Standard Destructor
@@ -102,8 +100,6 @@ Sorcery::Inspect::~Inspect() {
 }
 
 auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::optional<MIM> {
-
-	using enum Enums::Menu::Mode;
 
 	// Do we want to display a menu with all characters in the party, or just handle one character directly
 	_restricted = character_id.has_value();
@@ -116,22 +112,22 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 
 		_cur_char_id = -1;
 
-		// Get the Background Display Components and load them into Display module
-		// storage (not local) unless its camp in which case we save the screen
+		// Get the Background Display Components and load them into Display module storage (not local) unless its camp
+		// in which case we save the screen
 		switch (_mode) {
-		case TAVERN:
+		case MMD::TAVERN:
 			_display->generate("tavern_inspect");
 			break;
-		case INN:
+		case MMD::INN:
 			_display->generate("inn_inspect");
 			break;
-		case SHOP:
+		case MMD::SHOP:
 			_display->generate("shop_inspect");
 			break;
-		case TEMPLE:
+		case MMD::TEMPLE:
 			_display->generate("temple_inspect");
 			break;
-		case CAMP:
+		case MMD::CAMP:
 			_display->window->save_screen();
 			break;
 		default:
@@ -161,7 +157,7 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 		_window->clear();
 
 		_display->set_input_mode(WIM::NAVIGATE_MENU);
-		std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->items.begin()};
+		MenuSelect selected{_menu->items.begin()};
 
 		// And do the main loop
 		sf::Event event{};
@@ -249,40 +245,37 @@ auto Sorcery::Inspect::start(std::optional<unsigned int> character_id) -> std::o
 
 auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::optional<MIM> {
 
-	using enum Enums::Window::DialogButton;
-	using enum Enums::Items::IdentifyOutcome;
-
 	const auto character_chosen{character_id};
 	_cur_char = &_game->characters[character_chosen];
-	_character_display->set(_cur_char.value());
+	_char_disp->set(_cur_char.value());
 	if (_cur_char) {
 		_display->set_input_mode(WIM::BROWSE_CHARACTER);
-		_character_display->set_view(CHV::SUMMARY);
+		_char_disp->set_view(CHV::SUMMARY);
 	}
 
 	_in_character = true;
-	_in_item_action = false;
-	_in_item_display = false;
+	_in_action = false;
+	_in_examine = false;
 	_in_trade = false;
 
-	_item_action_menu.reset();
-	_item_action_menu_frame.reset();
-	_item_display.reset();
-	_item_display_frame.reset();
-	_item_trade_menu.reset();
-	_item_trade_frame.reset();
+	_action_menu.reset();
+	_action_menu_frame.reset();
+	_examine.reset();
+	_examine_frame.reset();
+	_trade_menu.reset();
+	_trade_frame.reset();
 
-	_item_action_menu = _factory->make_menu("character_summary:item_action_menu", MTP::ITEM_ACTION, MMD::ACTION);
-	_item_trade_menu = _factory->make_menu("inspect:item_trade_menu", MTP::CHARACTER_TRADE, MMD::NO_MODE, character_id);
+	_action_menu = _factory->make_menu("character_summary:item_action_menu", MTP::ITEM_ACTION, MMD::ACTION);
+	_trade_menu = _factory->make_menu("inspect:item_trade_menu", MTP::CHARACTER_TRADE, MMD::NO_MODE, character_id);
 
-	_item_action_menu_frame = _factory->make_menu_frame("character_summary:item_action_menu_frame");
-	_item_display_frame = _factory->make_frame("inspect:item_display_frame");
+	_action_menu_frame = _factory->make_menu_frame("character_summary:item_action_menu_frame");
+	_examine_frame = _factory->make_frame("inspect:item_display_frame");
 
-	_item_display = std::make_unique<ItemDisplay>(_system, _display, _graphics, _game);
-	_item_display->setPosition((*_display->layout)["inspect:item_display"].pos());
+	_examine = std::make_unique<ItemDisplay>(_system, _display, _graphics, _game);
+	_examine->setPosition((*_display->layout)["inspect:item_display"].pos());
 
-	std::optional<std::vector<MenuEntry>::const_iterator> item_action_selected{_item_action_menu->items.begin()};
-	std::optional<std::vector<MenuEntry>::const_iterator> item_trade_selected{_item_trade_menu->items.begin()};
+	MenuSelect item_action_selected{_action_menu->items.begin()};
+	MenuSelect item_trade_selected{_trade_menu->items.begin()};
 
 	// And do the main loop inside the character
 	sf::Event event{};
@@ -303,10 +296,10 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 				// Handle Pool Gold Dialog
 				auto dialog_input{_pool->handle_input(event)};
 				if (dialog_input) {
-					if (dialog_input.value() == CLOSE) {
+					if (dialog_input.value() == WDB::CLOSE) {
 						_in_pool = false;
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
-					} else if (dialog_input.value() == OK) {
+					} else if (dialog_input.value() == WDB::OK) {
 
 						_game->pool_party_gold(character_id);
 						_game->save_game();
@@ -320,14 +313,14 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 				// Handle Drop Item Dialog
 				auto dialog_input{_drop->handle_input(event)};
 				if (dialog_input) {
-					if (dialog_input.value() == CLOSE || dialog_input.value() == NO) {
+					if (dialog_input.value() == WDB::CLOSE || dialog_input.value() == WDB::NO) {
 
 						_in_drop = false;
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
-					} else if (dialog_input.value() == YES) {
+					} else if (dialog_input.value() == WDB::YES) {
 
 						auto character{&_game->characters[character_id]};
-						character->inventory.drop_item(_character_display->get_inventory_item());
+						character->inventory.drop_item(_char_disp->get_inventory_item());
 						_game->save_game();
 						_in_drop = false;
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
@@ -338,7 +331,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 				// Handle Cursed Item Dialog
 				auto dialog_input{_cursed->handle_input(event)};
 				if (dialog_input) {
-					if ((dialog_input.value() == CLOSE) || (dialog_input.value() == OK)) {
+					if ((dialog_input.value() == WDB::CLOSE) || (dialog_input.value() == WDB::OK)) {
 						_in_cursed = false;
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 					}
@@ -348,7 +341,7 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 				// Handle Failed Item Identify
 				auto dialog_input{_failed->handle_input(event)};
 				if (dialog_input) {
-					if ((dialog_input.value() == CLOSE) || (dialog_input.value() == OK)) {
+					if ((dialog_input.value() == WDB::CLOSE) || (dialog_input.value() == WDB::OK)) {
 						_in_failed = false;
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 					}
@@ -358,12 +351,12 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 				// Handle Item Identify
 				auto dialog_input{_success->handle_input(event)};
 				if (dialog_input) {
-					if ((dialog_input.value() == CLOSE) || (dialog_input.value() == OK)) {
+					if ((dialog_input.value() == WDB::CLOSE) || (dialog_input.value() == WDB::OK)) {
 						_in_success = false;
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 					}
 				}
-			} else if (_in_item_display) {
+			} else if (_in_examine) {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
@@ -377,8 +370,8 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 					_display->hide_overlay();
 
 				if (_system->input->check(CIN::CANCEL, event)) {
-					_in_item_display = false;
-					_in_item_action = true;
+					_in_examine = false;
+					_in_action = true;
 					_in_cursed = false;
 					_in_failed = false;
 					_in_success = false;
@@ -386,8 +379,8 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 				}
 
 				if (_system->input->check(CIN::BACK, event)) {
-					_in_item_display = false;
-					_in_item_action = true;
+					_in_examine = false;
+					_in_action = true;
 					_in_cursed = false;
 					_in_failed = false;
 					_in_success = false;
@@ -395,8 +388,8 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 				}
 
 				if (_system->input->check(CIN::CONFIRM, event)) {
-					_in_item_display = false;
-					_in_item_action = true;
+					_in_examine = false;
+					_in_action = true;
 					_in_cursed = false;
 					_in_failed = false;
 					_in_success = false;
@@ -417,46 +410,46 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 
 				if (_system->input->check(CIN::CANCEL, event)) {
 					_in_trade = false;
-					_in_item_action = false;
+					_in_action = false;
 				}
 
 				if (_system->input->check(CIN::BACK, event)) {
 					_in_trade = false;
-					_in_item_action = false;
+					_in_action = false;
 				}
 
 				if (_system->input->check(CIN::UP, event))
-					item_trade_selected = _item_trade_menu->choose_previous();
+					item_trade_selected = _trade_menu->choose_previous();
 				else if (_system->input->check(CIN::DOWN, event))
-					item_trade_selected = _item_trade_menu->choose_next();
+					item_trade_selected = _trade_menu->choose_next();
 				else if (_system->input->check(CIN::MOVE, event))
-					item_trade_selected = _item_trade_menu->set_mouse_selected(_display->get_cur());
+					item_trade_selected = _trade_menu->set_mouse_selected(_display->get_cur());
 				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					if (item_trade_selected) {
 						if ((*item_trade_selected.value()).type == MIT::ENTRY) {
 							const auto dest_char_id{(*item_trade_selected.value()).index};
-							const auto slot_to_move{_character_display->get_inventory_item()};
+							const auto slot_to_move{_char_disp->get_inventory_item()};
 							auto src_char{&_game->characters[character_id]};
 							auto dest_char{&_game->characters[dest_char_id]};
 							if (src_char->inventory.has(slot_to_move)) {
 								auto item_to_move{src_char->inventory.get(slot_to_move)};
 								dest_char->inventory.add(item_to_move);
 								src_char->inventory.discard_item(slot_to_move);
-								_character_display->clear_inventory_item();
+								_char_disp->clear_inventory_item();
 							}
 
 							_in_trade = false;
-							_in_item_action = false;
+							_in_action = false;
 						} else {
 							_in_trade = false;
-							_in_item_action = true;
+							_in_action = true;
 							continue;
 						}
 					}
 				}
 
-			} else if (_in_item_action) {
+			} else if (_in_action) {
 
 				// Check for Window Close
 				if (event.type == sf::Event::Closed)
@@ -470,79 +463,78 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 					_display->hide_overlay();
 
 				if (_system->input->check(CIN::CANCEL, event))
-					_in_item_action = false;
+					_in_action = false;
 
 				if (_system->input->check(CIN::BACK, event))
-					_in_item_action = false;
+					_in_action = false;
 
 				if (_system->input->check(CIN::UP, event))
-					item_action_selected = _item_action_menu->choose_previous();
+					item_action_selected = _action_menu->choose_previous();
 				else if (_system->input->check(CIN::DOWN, event))
-					item_action_selected = _item_action_menu->choose_next();
+					item_action_selected = _action_menu->choose_next();
 				else if (_system->input->check(CIN::MOVE, event))
-					item_action_selected = _item_action_menu->set_mouse_selected(_display->get_cur());
+					item_action_selected = _action_menu->set_mouse_selected(_display->get_cur());
 				else if (_system->input->check(CIN::CONFIRM, event)) {
 
 					if (item_action_selected) {
 						const MIM opt{(*item_action_selected.value()).item};
 						if (opt == MIM::C_ACTION_LEAVE) {
-							_in_item_action = false;
+							_in_action = false;
 						} else if (opt == MIM::C_ACTION_EXAMINE) {
 
 							// Examine an Item (only possible if it is identified)
-							_in_item_action = false;
-							_in_item_display = true;
+							_in_action = false;
+							_in_examine = true;
 							_examine_item(character_id);
 						} else if (opt == MIM::C_ACTION_DROP) {
 
 							// Drop an Item
-							_in_item_action = false;
+							_in_action = false;
 							_in_drop = true;
 						} else if (opt == MIM::C_ACTION_EQUIP) {
 
 							// Equip an Item
-							_in_item_action = false;
+							_in_action = false;
 
 							auto character{&_game->characters[character_id]};
-							character->inventory.equip_item(_character_display->get_inventory_item());
+							character->inventory.equip_item(_char_disp->get_inventory_item());
 
-							if (character->inventory.is_equipped_cursed(_character_display->get_inventory_item()))
+							if (character->inventory.is_equipped_cursed(_char_disp->get_inventory_item()))
 								_in_cursed = true;
 
-							_in_item_action = false;
+							_in_action = false;
 						} else if (opt == MIM::C_ACTION_UNEQUIP) {
 							auto character{&_game->characters[character_id]};
-							auto slot_item{character->inventory[_character_display->get_inventory_item()]};
+							auto slot_item{character->inventory[_char_disp->get_inventory_item()]};
 							if (slot_item.has_value()) {
 								if (auto &item{slot_item.value()};
 									item->get_equipped() && item->get_usable() && !item->get_cursed())
 									item->set_equipped(false);
 
-								_in_item_action = false;
+								_in_action = false;
 							}
 						} else if (opt == MIM::C_ACTION_IDENTIFY) {
 
 							// Attempt to Identify an Item
 							auto character{&_game->characters[character_id]};
 							if (character->get_class() == CHC::BISHOP) {
-								auto slot_item{character->inventory[_character_display->get_inventory_item()]};
+								auto slot_item{character->inventory[_char_disp->get_inventory_item()]};
 								if (slot_item.has_value()) {
 									auto &item{slot_item.value()};
 									if (!item->get_known()) {
 										auto dice{(*_system->random)[RNT::D100]};
-										auto result{
-											character->inventory.identify_item(_character_display->get_inventory_item(),
-												dice, character->abilities().at(CAB::IDENTIFY_ITEMS),
-												character->abilities().at(CAB::IDENTIFY_CURSE))};
+										auto result{character->inventory.identify_item(_char_disp->get_inventory_item(),
+											dice, character->abilities().at(CAB::IDENTIFY_ITEMS),
+											character->abilities().at(CAB::IDENTIFY_CURSE))};
 
-										if (result == CURSED_FAIL || result == CURSED_SUCCESS)
+										if (result == IIR::CURSED_FAIL || result == IIR::CURSED_SUCCESS)
 											_in_cursed = true;
-										else if (result == FAIL)
+										else if (result == IIR::FAIL)
 											_in_failed = true;
-										else if (result == SUCCESS)
+										else if (result == IIR::SUCCESS)
 											_in_success = true;
 										else
-											_in_item_action = false;
+											_in_action = false;
 									}
 								}
 							}
@@ -550,73 +542,72 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 							const auto dest_char_id{(*item_trade_selected.value()).index};
 							auto src_char{&_game->characters[character_id]};
 							auto dest_char{&_game->characters[dest_char_id]};
-							Item *item_to_move{src_char->inventory[_character_display->get_inventory_item()].value()};
+							Item *item_to_move{src_char->inventory[_char_disp->get_inventory_item()].value()};
 							dest_char->inventory.items().emplace_back(std::move(*item_to_move));
-							_in_item_action = false;
+							_in_action = false;
 							_in_trade = true;
 						}
 					}
 				}
 			} else {
 
-				if (_character_display->get_view() == CHV::SUMMARY) {
-					if (_character_display->check_for_action_mouse_move(
+				if (_char_disp->get_view() == CHV::SUMMARY) {
+					if (_char_disp->check_for_action_mouse_move(
 							sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 								static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
-						_character_display->generate_display();
+						_char_disp->generate_display();
 					}
-					if (_character_display->check_for_inventory_mouse_move(
+					if (_char_disp->check_for_inventory_mouse_move(
 							sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 								static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
-						_character_display->generate_display();
+						_char_disp->generate_display();
 					}
 
 					if (_system->input->check(CIN::CONFIRM, event)) {
-						if (_character_display->get_hl_action_item() == MIM::C_ACTION_POOL) {
+						if (_char_disp->get_hl_action_item() == MIM::C_ACTION_POOL) {
 							_in_pool = true;
-						} else if (_character_display->get_hl_action_item() == MIM::C_ACTION_LEAVE) {
+						} else if (_char_disp->get_hl_action_item() == MIM::C_ACTION_LEAVE) {
 							_display->set_input_mode(WIM::NAVIGATE_MENU);
 							_cur_char = std::nullopt;
 							_in_character = false;
 							return std::nullopt;
-						} else if (_character_display->get_inventory_item() > 0) {
-							_in_item_action = true;
-							_set_in_item_action_menu(character_id, _character_display->get_inventory_item());
-							_item_action_menu->generate(
-								(*_display->layout)["character_summary:item_action_menu"], true);
+						} else if (_char_disp->get_inventory_item() > 0) {
+							_in_action = true;
+							_set_in_item_action_menu(character_id, _char_disp->get_inventory_item());
+							_action_menu->generate((*_display->layout)["character_summary:item_action_menu"], true);
 						}
 					}
 
 					if (_system->input->check(CIN::LEFT, event))
-						_character_display->left_view();
+						_char_disp->left_view();
 					else if (_system->input->check(CIN::RIGHT, event))
-						_character_display->right_view();
+						_char_disp->right_view();
 				} else {
 					if (_system->input->check(CIN::LEFT, event))
-						_character_display->left_view();
+						_char_disp->left_view();
 					else if (_system->input->check(CIN::RIGHT, event))
-						_character_display->right_view();
+						_char_disp->right_view();
 					if (_system->input->check(CIN::UP, event)) {
-						if (_character_display->get_view() == CHV::MAGE_SPELLS)
-							_character_display->dec_hl_spell(SPT::MAGE);
-						else if (_character_display->get_view() == CHV::PRIEST_SPELLS)
-							_character_display->dec_hl_spell(SPT::PRIEST);
+						if (_char_disp->get_view() == CHV::MAGE_SPELLS)
+							_char_disp->dec_hl_spell(SPT::MAGE);
+						else if (_char_disp->get_view() == CHV::PRIEST_SPELLS)
+							_char_disp->dec_hl_spell(SPT::PRIEST);
 
 					} else if (_system->input->check(CIN::DOWN, event)) {
-						if (_character_display->get_view() == CHV::MAGE_SPELLS)
-							_character_display->inc_hl_spell(SPT::MAGE);
-						else if (_character_display->get_view() == CHV::PRIEST_SPELLS)
-							_character_display->inc_hl_spell(SPT::PRIEST);
+						if (_char_disp->get_view() == CHV::MAGE_SPELLS)
+							_char_disp->inc_hl_spell(SPT::MAGE);
+						else if (_char_disp->get_view() == CHV::PRIEST_SPELLS)
+							_char_disp->inc_hl_spell(SPT::PRIEST);
 					} else if (_system->input->check(CIN::MOVE, event)) {
-						if (_character_display->check_for_mouse_move(
+						if (_char_disp->check_for_mouse_move(
 								sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 									static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
-							_character_display->set_view(_character_display->get_view());
+							_char_disp->set_view(_char_disp->get_view());
 						}
 						if (_system->input->check(CIN::LEFT, event))
-							_character_display->left_view();
+							_char_disp->left_view();
 						else if (_system->input->check(CIN::RIGHT, event))
-							_character_display->right_view();
+							_char_disp->right_view();
 						else if ((_system->input->check(CIN::CANCEL, event)) ||
 								 (_system->input->check(CIN::BACK, event))) {
 							_display->set_input_mode(WIM::NAVIGATE_MENU);
@@ -624,51 +615,51 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 							_in_character = false;
 							return std::nullopt;
 						} else if (_system->input->check(CIN::CONFIRM, event)) {
-							_character_display->right_view();
+							_char_disp->right_view();
 						} else if (_system->input->check(CIN::UP, event)) {
-							if (_character_display->get_view() == CHV::MAGE_SPELLS)
-								_character_display->dec_hl_spell(SPT::MAGE);
-							else if (_character_display->get_view() == CHV::PRIEST_SPELLS)
-								_character_display->dec_hl_spell(SPT::PRIEST);
+							if (_char_disp->get_view() == CHV::MAGE_SPELLS)
+								_char_disp->dec_hl_spell(SPT::MAGE);
+							else if (_char_disp->get_view() == CHV::PRIEST_SPELLS)
+								_char_disp->dec_hl_spell(SPT::PRIEST);
 
 						} else if (_system->input->check(CIN::DOWN, event)) {
-							if (_character_display->get_view() == CHV::MAGE_SPELLS)
-								_character_display->inc_hl_spell(SPT::MAGE);
-							else if (_character_display->get_view() == CHV::PRIEST_SPELLS)
-								_character_display->inc_hl_spell(SPT::PRIEST);
+							if (_char_disp->get_view() == CHV::MAGE_SPELLS)
+								_char_disp->inc_hl_spell(SPT::MAGE);
+							else if (_char_disp->get_view() == CHV::PRIEST_SPELLS)
+								_char_disp->inc_hl_spell(SPT::PRIEST);
 						} else if (_system->input->check(CIN::MOVE, event)) {
-							if (_character_display->check_for_mouse_move(
+							if (_char_disp->check_for_mouse_move(
 									sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 										static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
-								_character_display->set_view(_character_display->get_view());
+								_char_disp->set_view(_char_disp->get_view());
 							}
-							if (_character_display->check_for_action_mouse_move(
+							if (_char_disp->check_for_action_mouse_move(
 									sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 										static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
-								_character_display->generate_display();
+								_char_disp->generate_display();
 							}
-							if (_character_display->check_for_inventory_mouse_move(
+							if (_char_disp->check_for_inventory_mouse_move(
 									sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 										static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
-								_character_display->generate_display();
+								_char_disp->generate_display();
 							}
 						}
-						if (_character_display->check_for_action_mouse_move(
+						if (_char_disp->check_for_action_mouse_move(
 								sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 									static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
-							_character_display->generate_display();
+							_char_disp->generate_display();
 						}
-						if (_character_display->check_for_inventory_mouse_move(
+						if (_char_disp->check_for_inventory_mouse_move(
 								sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
 									static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
-							_character_display->generate_display();
+							_char_disp->generate_display();
 						}
 					}
 				}
 			}
 		}
 
-		_character_display->generate_display();
+		_char_disp->generate_display();
 		_draw();
 		_window->display();
 	}
@@ -679,15 +670,15 @@ auto Sorcery::Inspect::_handle_in_character(unsigned int character_id) -> std::o
 auto Sorcery::Inspect::_examine_item(const unsigned int character_id) -> void {
 
 	auto character{&_game->characters[character_id]};
-	auto slot_item{character->inventory[_character_display->get_inventory_item()]};
+	auto slot_item{character->inventory[_char_disp->get_inventory_item()]};
 	if (slot_item.has_value()) {
 		auto item{slot_item.value()};
-		_item_display->set(unenum(item->get_type_id()));
+		_examine->set(unenum(item->get_type_id()));
 
 		const auto item_gfx_c{(*_display->layout)["inspect:picture"]};
-		_item_display_gfx = _graphics->textures->get(unenum(item->get_type_id()) - 1, GTT::ITEMS).value();
-		_item_display_gfx.setPosition(item_gfx_c.pos());
-		_item_display_gfx.setScale(item_gfx_c.scl());
+		_gfx = _graphics->textures->get(unenum(item->get_type_id()) - 1, GTT::ITEMS).value();
+		_gfx.setPosition(item_gfx_c.pos());
+		_gfx.setScale(item_gfx_c.scl());
 	}
 }
 
@@ -703,59 +694,58 @@ auto Sorcery::Inspect::_set_in_item_action_menu(unsigned int character_id, unsig
 		if (_mode == MMD::CAMP) {
 
 			// Equip
-			_item_action_menu->items[0].enabled = item->get_usable() && !item->get_equipped() && !has_already_cursed;
+			_action_menu->items[0].enabled = item->get_usable() && !item->get_equipped() && !has_already_cursed;
 
 			// Unequip
-			_item_action_menu->items[1].enabled = (!item->get_cursed()) && item->get_equipped();
+			_action_menu->items[1].enabled = (!item->get_cursed()) && item->get_equipped();
 
 			// Trade
-			_item_action_menu->items[2].enabled = !item->get_equipped();
+			_action_menu->items[2].enabled = !item->get_equipped();
 
 			// Examine
-			_item_action_menu->items[3].enabled = item->get_known();
+			_action_menu->items[3].enabled = item->get_known();
 
 			// Invoke
-			_item_action_menu->items[4].enabled =
+			_action_menu->items[4].enabled =
 				(*_game->itemstore)[item->get_type_id()].get_eff_inv() != ITV::NO_INV_EFFECT;
 
 			// Use
-			_item_action_menu->items[5].enabled =
-				(*_game->itemstore)[item->get_type_id()].get_eff_use() != SPI::NO_SPELL;
+			_action_menu->items[5].enabled = (*_game->itemstore)[item->get_type_id()].get_eff_use() != SPI::NO_SPELL;
 
 			// Identify
-			_item_action_menu->items[6].enabled = (!item->get_known()) && character->get_class() == CHC::BISHOP;
+			_action_menu->items[6].enabled = (!item->get_known()) && character->get_class() == CHC::BISHOP;
 
 			// Drop
-			_item_action_menu->items[7].enabled = (!item->get_cursed()) && !item->get_equipped();
+			_action_menu->items[7].enabled = (!item->get_cursed()) && !item->get_equipped();
 		} else {
 
 			// Equip
-			_item_action_menu->items[0].enabled = item->get_usable() && !item->get_equipped() && !has_already_cursed;
+			_action_menu->items[0].enabled = item->get_usable() && !item->get_equipped() && !has_already_cursed;
 
 			// Unequip
-			_item_action_menu->items[1].enabled = (!item->get_cursed()) && item->get_equipped();
+			_action_menu->items[1].enabled = (!item->get_cursed()) && item->get_equipped();
 
 			// Trade
-			_item_action_menu->items[2].enabled = !item->get_equipped();
+			_action_menu->items[2].enabled = !item->get_equipped();
 
 			// Examine
-			_item_action_menu->items[3].enabled = true;
+			_action_menu->items[3].enabled = true;
 
 			// Invoke
-			_item_action_menu->items[4].enabled = false;
+			_action_menu->items[4].enabled = false;
 
 			// Use
-			_item_action_menu->items[5].enabled = false;
+			_action_menu->items[5].enabled = false;
 
 			// Identify
-			_item_action_menu->items[6].enabled = false;
+			_action_menu->items[6].enabled = false;
 
 			// Drop
-			_item_action_menu->items[7].enabled = (!item->get_cursed()) && (!item->get_equipped());
+			_action_menu->items[7].enabled = (!item->get_cursed()) && (!item->get_equipped());
 		}
 
 		// Leave
-		_item_action_menu->items[8].enabled = true;
+		_action_menu->items[8].enabled = true;
 	}
 }
 
@@ -766,27 +756,25 @@ auto Sorcery::Inspect::stop() -> void {
 
 auto Sorcery::Inspect::_draw() -> void {
 
-	using enum Enums::Menu::Mode;
-
 	if (!_in_character) {
 
 		_graphics->tile_bg(_window);
 
 		// Display Components
 		switch (_mode) {
-		case TAVERN:
+		case MMD::TAVERN:
 			_display->display("tavern");
 			break;
-		case INN:
+		case MMD::INN:
 			_display->display("inn");
 			break;
-		case SHOP:
+		case MMD::SHOP:
 			_display->display("shop");
 			break;
-		case TEMPLE:
+		case MMD::TEMPLE:
 			_display->display("temple");
 			break;
-		case CAMP:
+		case MMD::CAMP:
 			_display->window->restore_screen();
 			break;
 		default:
@@ -836,15 +824,15 @@ auto Sorcery::Inspect::_draw() -> void {
 
 		if (_cur_char) {
 
-			if (_mode == CAMP)
-				_character_display->set_mode(CHM::IN_MAZE);
+			if (_mode == MMD::CAMP)
+				_char_disp->set_mode(CHM::IN_MAZE);
 			else
-				_character_display->set_mode(CHM::AT_CASTLE);
+				_char_disp->set_mode(CHM::AT_CASTLE);
 
-			_character_display->setPosition((*_display->layout)[_screen_key + ":character"].pos());
-			_character_display->update();
+			_char_disp->setPosition((*_display->layout)[_screen_key + ":character"].pos());
+			_char_disp->update();
 			_display->window->restore_screen();
-			_window->draw(*_character_display);
+			_window->draw(*_char_disp);
 
 			if (_in_pool) {
 				_pool->update();
@@ -861,18 +849,18 @@ auto Sorcery::Inspect::_draw() -> void {
 			} else if (_in_drop) {
 				_drop->update();
 				_window->draw(*_drop);
-			} else if (_in_item_action) {
-				_window->draw(*_item_action_menu_frame);
-				_item_action_menu->generate((*_display->layout)["character_summary:item_action_menu"]);
-				_window->draw(*_item_action_menu);
-			} else if (_in_item_display) {
-				_window->draw(*_item_display_frame);
-				_window->draw(*_item_display);
-				_window->draw(_item_display_gfx);
+			} else if (_in_action) {
+				_window->draw(*_action_menu_frame);
+				_action_menu->generate((*_display->layout)["character_summary:item_action_menu"]);
+				_window->draw(*_action_menu);
+			} else if (_in_examine) {
+				_window->draw(*_examine_frame);
+				_window->draw(*_examine);
+				_window->draw(_gfx);
 			} else if (_in_trade) {
-				_window->draw(*_item_trade_frame);
-				_item_trade_menu->generate((*_display->layout)["inspect:item_trade_menu"]);
-				_window->draw(*_item_trade_menu);
+				_window->draw(*_trade_frame);
+				_trade_menu->generate((*_display->layout)["inspect:item_trade_menu"]);
+				_window->draw(*_trade_menu);
 			}
 
 			// And finally the Cursor

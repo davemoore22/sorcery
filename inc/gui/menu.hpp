@@ -56,15 +56,14 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		unsigned int count;
 
 		// Public Methods
-		auto choose_next() -> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto choose_previous() -> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto choose_first() -> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto choose_last() -> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto choose(const unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto choose(std::any option) -> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto set_mouse_selected(sf::Vector2f mouse_pos) -> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto get_mouse_clicked(const sf::Event::MouseButtonEvent mb_event)
-			-> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto choose_next() -> MenuSelect;
+		auto choose_previous() -> MenuSelect;
+		auto choose_first() -> MenuSelect;
+		auto choose_last() -> MenuSelect;
+		auto choose(const unsigned int index) -> MenuSelect;
+		auto choose(std::any option) -> MenuSelect;
+		auto set_mouse_selected(sf::Vector2f mouse_pos) -> MenuSelect;
+		auto get_mouse_clicked(const sf::Event::MouseButtonEvent mb_event) -> MenuSelect;
 		auto get_type() const -> MTP;
 		auto generate(const Component &component, bool force_refresh = false) -> void;
 		auto reload() -> void;
@@ -91,12 +90,12 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		auto _add_item(int index, const MIT itemtype, const MIM code, std::string key, unsigned int idx) -> void;
 		auto _populate_chars() -> void;
 		auto _populate_trade_chars(const unsigned int current_char) -> void;
-		auto _select_first() -> std::optional<std::vector<MenuEntry>::const_iterator>;
-		auto _select_last() -> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto _select_first() -> MenuSelect;
+		auto _select_last() -> MenuSelect;
 		auto _add_all_items() -> void;
 		auto _add_all_spells() -> void;
 		auto _add_all_monsters() -> void;
-		auto _choose_by_index(const unsigned int index) -> std::optional<std::vector<MenuEntry>::const_iterator>;
+		auto _choose_by_index(const unsigned int index) -> MenuSelect;
 
 		// Private Members
 		System *_system;

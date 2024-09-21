@@ -87,7 +87,7 @@ auto Sorcery::Options::start() -> int {
 	// And select the first option by default;
 	_display->set_input_mode(WIM::GAME_OPTIONS);
 	_menu->choose_first();
-	std::optional<std::vector<MenuEntry>::const_iterator> selected{_menu->items.begin()};
+	MenuSelect selected{_menu->items.begin()};
 	_set_infopanel(_menu->selected);
 
 	// And do the main loop

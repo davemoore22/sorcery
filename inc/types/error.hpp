@@ -59,7 +59,7 @@ class Error {
 		std::optional<tgui::Gui *> _gui;
 		Enums::System::Error _error_code;
 		std::exception _exception;
-		std::chrono::time_point<std::chrono::system_clock> _timestamp;
+		TimePoint _timestamp;
 		std::vector<std::string> _details;
 		std::string _notes;
 };

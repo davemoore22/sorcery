@@ -74,7 +74,7 @@ class Museum {
 		sf::RenderWindow *_window;
 		std::unique_ptr<Menu> _menu;
 		std::unique_ptr<ItemDisplay> _item_display;
-		std::optional<std::vector<MenuEntry>::const_iterator> _selected;
+		MenuSelect _selected;
 		sf::Sprite _item_gfx;
 };
 

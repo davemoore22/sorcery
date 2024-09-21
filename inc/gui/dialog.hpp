@@ -97,8 +97,8 @@ class Dialog: public sf::Transformable, public sf::Drawable {
 
 		std::unique_ptr<Frame> _frame;
 
-		std::optional<std::chrono::time_point<std::chrono::system_clock>> _start;
-		std::optional<std::chrono::time_point<std::chrono::system_clock>> _current_time;
+		std::optional<TimePoint> _start;
+		std::optional<TimePoint> _current_time;
 		bool _valid;
 		unsigned int _duration;
 

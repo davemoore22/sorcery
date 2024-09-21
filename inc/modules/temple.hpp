@@ -90,8 +90,8 @@ class Temple {
 		std::string _result_text;
 		std::jthread _count_thread;
 		std::atomic<bool> _allow_count;
-		std::chrono::time_point<std::chrono::system_clock> _last_count;
-		std::chrono::time_point<std::chrono::system_clock> _current_time;
+		TimePoint _last_count;
+		TimePoint _current_time;
 		std::mutex _count_mutex;
 		unsigned int _t_count;
 		bool _t_finished;

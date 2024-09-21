@@ -47,3 +47,5 @@
 #include <jsoncpp/json/json.h>
 #pragma GCC diagnostic pop
 // IWYU pragma: end_keep
+
+using TimePoint = std::chrono::time_point<std::chrono::system_clock>;

@@ -105,7 +105,7 @@ auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 	_display->fit_bg_movie();
 	_display->start_bg_movie();
 
-	std::optional<std::vector<MenuEntry>::const_iterator> selected_option{_main_menu->items.begin()};
+	MenuSelect selected_option{_main_menu->items.begin()};
 	if (_menu_stage == ATTRACT_MODE)
 		_display->set_input_mode(MENU_ATTRACT_MODE);
 	else

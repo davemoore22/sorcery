@@ -285,7 +285,7 @@ auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event) -> st
 
 	using enum Enums::Manage::Method;
 
-	std::optional<std::vector<MenuEntry>::const_iterator> selected{_method_menu->selected};
+	MenuSelect selected{_method_menu->selected};
 	if (_system->input->check(CIN::UP, event))
 		_method_menu->choose_previous();
 	else if (_system->input->check(CIN::DOWN, event))
@@ -421,7 +421,7 @@ auto Sorcery::Create::_handle_choose_race(const sf::Event &event) -> std::option
 
 	using enum Enums::Character::Race;
 
-	std::optional<std::vector<MenuEntry>::const_iterator> selected{_race_menu->selected};
+	MenuSelect selected{_race_menu->selected};
 	if (_system->input->check(CIN::UP, event))
 		_race_menu->choose_previous();
 	else if (_system->input->check(CIN::DOWN, event))
@@ -473,7 +473,7 @@ auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event) -> std::o
 
 	using enum Enums::Character::Align;
 
-	std::optional<std::vector<MenuEntry>::const_iterator> selected{_alignment_menu->selected};
+	MenuSelect selected{_alignment_menu->selected};
 	if (_system->input->check(CIN::UP, event))
 		_alignment_menu->choose_previous();
 	else if (_system->input->check(CIN::DOWN, event))
@@ -522,7 +522,7 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 
 	using enum Enums::Character::Attribute;
 
-	std::optional<std::vector<MenuEntry>::const_iterator> selected{_attribute_menu->selected};
+	MenuSelect selected{_attribute_menu->selected};
 	if (_system->input->check(CIN::UP, event))
 		_attribute_menu->choose_previous();
 	else if (_system->input->check(CIN::DOWN, event))
@@ -628,7 +628,7 @@ auto Sorcery::Create::_handle_choose_class(const sf::Event &event) -> std::optio
 
 	using enum Enums::Character::Class;
 
-	std::optional<std::vector<MenuEntry>::const_iterator> class_selected{_class_menu->selected};
+	MenuSelect class_selected{_class_menu->selected};
 	if (_system->input->check(CIN::UP, event))
 		_class_menu->choose_previous();
 	else if (_system->input->check(CIN::DOWN, event))
@@ -710,7 +710,7 @@ auto Sorcery::Create::_handle_choose_potraits(const sf::Event &event) -> std::op
 
 auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event) -> std::optional<MDR> {
 
-	std::optional<std::vector<MenuEntry>::const_iterator> selected{_final_menu->selected};
+	MenuSelect selected{_final_menu->selected};
 	if (_show_final_menu) {
 		if (_show_saved_ok) {
 			if (auto dialog_input{_dialog_saved_ok->handle_input(event)}; dialog_input) {
@@ -737,7 +737,7 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event) -> std:
 					case MIM::RC_ACCEPT: {
 						_candidate.set_stage(CHS::COMPLETED);
 						auto new_id{_game->add_character(_candidate)};
-						_game->characters[new_id] = _candidate; // TODO: HERE
+						_game->characters[new_id] = _candidate;
 						_game->save_game();
 						_game->load_game();
 						_show_saved_ok = true;
