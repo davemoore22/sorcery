@@ -25,6 +25,17 @@
 #pragma once
 
 // Library Includes
+#include "gui/enum.hpp"
 // IWYU pragma: begin_keep
 #include <TGUI/TGUI.hpp>
+
 // IWYU pragma: end_keep
+
+namespace Sorcery {
+
+using AMF = Enums::Automap::Feature;
+using WAL = Enums::Window::Alignment;
+using WIC = Enums::Window::InputCategory;
+using WFP = Enums::Window::FrameParts;
+
+}

@@ -27,6 +27,7 @@
 
 #include "common/include.hpp"
 #include "gui/enum.hpp"
+#include "gui/include.hpp"
 #include "types/component.hpp"
 
 namespace Sorcery {
@@ -43,8 +44,7 @@ class AttributeDisplay: public sf::Transformable, public sf::Drawable {
 	public:
 
 		// Constructors
-		AttributeDisplay(
-			System *system, Display *display, Graphics *graphics, Character *character, Alignment alignment);
+		AttributeDisplay(System *system, Display *display, Graphics *graphics, Character *character, WAL alignment);
 		AttributeDisplay() = default;
 
 		// Copy Constructors
@@ -82,7 +82,7 @@ class AttributeDisplay: public sf::Transformable, public sf::Drawable {
 		Component _text_c;
 		unsigned int _width;
 		unsigned int _height;
-		Alignment _alignment;
+		WAL _alignment;
 
 		std::vector<sf::RectangleShape> _bars;
 		std::array<sf::Sprite, 6> _attribute_icons;

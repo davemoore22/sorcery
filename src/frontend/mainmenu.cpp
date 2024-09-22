@@ -82,19 +82,14 @@ Sorcery::MainMenu::~MainMenu() {
 
 auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 
-	using enum Enums::MainMenu::Type;
-	using enum Enums::Window::InputMode;
-	using enum Enums::Controls::Input;
-
 	// Get the Background Display Components and load them into Display module storage (not local)
 	_display->generate("main_menu_attract");
 
 	// Clear the window
 	_window->clear();
 
-	_menu_stage = menu_stage;
-
 	// Now set up attract mode data
+	_menu_stage = menu_stage;
 	_attract_mode->data_temp.clear();
 
 	// Start relevant animation worker threads
@@ -105,11 +100,11 @@ auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 	_display->fit_bg_movie();
 	_display->start_bg_movie();
 
-	MenuSelect selected_option{_main_menu->items.begin()};
-	if (_menu_stage == ATTRACT_MODE)
-		_display->set_input_mode(MENU_ATTRACT_MODE);
+	MenuSelect selected{_main_menu->items.begin()};
+	if (_menu_stage == MMT::ATTRACT_MODE)
+		_display->set_input_mode(WIM::MENU_ATTRACT_MODE);
 	else
-		_display->set_input_mode(NAVIGATE_MENU);
+		_display->set_input_mode(WIM::NAVIGATE_MENU);
 
 	// See if we have a Game to Continue;
 	_set();
@@ -128,100 +123,95 @@ auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 				else {
 
 					// If we are in normal input mode
-					if (_display->get_input_mode() == MENU_ATTRACT_MODE) {
+					if (_display->get_input_mode() == WIM::MENU_ATTRACT_MODE) {
 
 						// Check for Window Close
 						if (event.type == sf::Event::Closed)
 							return MIM::ITEM_ABORT;
 
-						// Check for any key being pressed to move onto the main
-						// menu
-						if (_menu_stage == ATTRACT_MODE) {
+						// Check for any key being pressed to move onto the main menu
+						if (_menu_stage == MMT::ATTRACT_MODE) {
 
 							// Check for Window Close
 							if (event.type == sf::Event::Closed)
 								return std::nullopt;
 
-							// Check for any key being pressed to move onto the
-							// main menu
-							if (_system->input->check(ANYTHING, event)) {
+							// Check for any key being pressed to move onto the main menu
+							if (_system->input->check(CIN::ANYTHING, event)) {
 
-								_menu_stage = ATTRACT_MENU;
-								_display->set_input_mode(NAVIGATE_MENU);
+								_menu_stage = MMT::ATTRACT_MENU;
+								_display->set_input_mode(WIM::NAVIGATE_MENU);
 							}
 						}
-					} else if (_display->get_input_mode() == NAVIGATE_MENU) {
+					} else if (_display->get_input_mode() == WIM::NAVIGATE_MENU) {
 
 						// Check for Window Close
 						if (event.type == sf::Event::Closed)
 							return std::nullopt;
 
 						// Handle enabling help overlay
-						if (_system->input->check(SHOW_CONTROLS, event)) {
+						if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 							_display->show_overlay();
 							continue;
 						} else
 							_display->hide_overlay();
 
 						// And handle input on the main menu
-						if (_system->input->check(UP, event))
-							selected_option = _main_menu->choose_previous();
-						else if (_system->input->check(DOWN, event))
-							selected_option = _main_menu->choose_next();
-						else if (_system->input->check(MOVE, event))
-							selected_option = _main_menu->set_mouse_selected(_display->get_cur());
-						else if (_system->input->check(CONFIRM, event)) {
-							if (selected_option) {
+						if (_system->input->check(CIN::UP, event))
+							selected = _main_menu->choose_previous();
+						else if (_system->input->check(CIN::DOWN, event))
+							selected = _main_menu->choose_next();
+						else if (_system->input->check(CIN::MOVE, event))
+							selected = _main_menu->set_mouse_selected(_display->get_cur());
+						else if (_system->input->check(CIN::CONFIRM, event)) {
+							if (selected) {
 
 								// We have selected something from the menu
-								if (const MIM opt{(*selected_option.value()).item}; opt == MIM::MM_NEW_GAME) {
-									_display->set_input_mode(CONFIRM_NEW_GAME);
+								if (const MIM opt{(*selected.value()).item}; opt == MIM::MM_NEW_GAME) {
+									_display->set_input_mode(WIM::CONFIRM_NEW_GAME);
 								} else if (opt == MIM::MM_CONTINUE_GAME) {
-									_display->set_input_mode(NAVIGATE_MENU);
+									_display->set_input_mode(WIM::NAVIGATE_MENU);
 									return MIM::MM_CONTINUE_GAME;
 								} else if (opt == MIM::MM_LICENSE) {
-									_display->set_input_mode(DISPLAY_TEXT_FILE);
+									_display->set_input_mode(WIM::DISPLAY_TEXT_FILE);
 									return MIM::MM_LICENSE;
 								} else if (opt == MIM::MM_COMPENDIUM) {
-									_display->set_input_mode(COMPENDIUM);
+									_display->set_input_mode(WIM::COMPENDIUM);
 									return MIM::MM_COMPENDIUM;
 								} else if (opt == MIM::MM_OPTIONS) {
-									_display->set_input_mode(GAME_OPTIONS);
+									_display->set_input_mode(WIM::GAME_OPTIONS);
 									return MIM::MM_OPTIONS;
 								} else if (opt == MIM::ITEM_QUIT) {
-									_display->set_input_mode(CONFIRM_QUIT_GAME);
+									_display->set_input_mode(WIM::CONFIRM_QUIT_GAME);
 								}
 							}
-						} else if (_system->input->check(CANCEL, event) || _system->input->check(BACK, event)) {
-							_display->set_input_mode(CONFIRM_QUIT_GAME);
+						} else if (_system->input->check(CIN::CANCEL, event) ||
+								   _system->input->check(CIN::BACK, event)) {
+							_display->set_input_mode(WIM::CONFIRM_QUIT_GAME);
 						}
 
-					} else if (_display->get_input_mode() == CONFIRM_NEW_GAME) {
-
-						auto dialog_input{_dialog_new_game->handle_input(event)};
-						if (dialog_input) {
-							if (dialog_input.value() == WDB::CLOSE) {
-								_display->set_input_mode(NAVIGATE_MENU);
+					} else if (_display->get_input_mode() == WIM::CONFIRM_NEW_GAME) {
+						if (const auto input{_dialog_new_game->handle_input(event)}; input) {
+							if (input.value() == WDB::CLOSE) {
+								_display->set_input_mode(WIM::NAVIGATE_MENU);
 								return std::nullopt;
-							} else if (dialog_input.value() == WDB::YES) {
-								_display->set_input_mode(NAVIGATE_MENU);
+							} else if (input.value() == WDB::YES) {
+								_display->set_input_mode(WIM::NAVIGATE_MENU);
 								return MIM::MM_NEW_GAME;
-							} else if (dialog_input.value() == WDB::NO) {
-								_display->set_input_mode(NAVIGATE_MENU);
+							} else if (input.value() == WDB::NO) {
+								_display->set_input_mode(WIM::NAVIGATE_MENU);
 							}
 						}
-					} else if (_display->get_input_mode() == CONFIRM_QUIT_GAME) {
-
-						auto dialog_input{_dialog_exit->handle_input(event)};
-						if (dialog_input) {
-							if (dialog_input.value() == WDB::CLOSE) {
-								_display->set_input_mode(NAVIGATE_MENU);
+					} else if (_display->get_input_mode() == WIM::CONFIRM_QUIT_GAME) {
+						if (const auto input{_dialog_exit->handle_input(event)}; input) {
+							if (input.value() == WDB::CLOSE) {
+								_display->set_input_mode(WIM::NAVIGATE_MENU);
 								return std::nullopt;
-							} else if (dialog_input.value() == WDB::YES) {
-								_display->set_input_mode(NAVIGATE_MENU);
+							} else if (input.value() == WDB::YES) {
+								_display->set_input_mode(WIM::NAVIGATE_MENU);
 								return MIM::ITEM_QUIT;
-							} else if (dialog_input.value() == WDB::NO) {
-								_display->set_input_mode(NAVIGATE_MENU);
+							} else if (input.value() == WDB::NO) {
+								_display->set_input_mode(WIM::NAVIGATE_MENU);
 							}
 						}
 					}
@@ -229,7 +219,6 @@ auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 			}
 
 		} catch (std::exception &e) {
-
 			_error = std::make_unique<Error>(_display->window->get_gui(), SYE::UNHANDLED_EXCEPTION, e);
 		}
 
@@ -272,17 +261,16 @@ auto Sorcery::MainMenu::_draw() -> void {
 		_display->display("main_menu_attract", _menu_stage);
 
 		// Generate and draw the Attract Mode Graphics
-		Component attract_creatures_c{(*_display->layout)["main_menu_attract:attract_creatures"]};
+		Component attract_c{(*_display->layout)["main_menu_attract:attract_creatures"]};
 		_attract_mode->generate();
-		_attract_mode->setScale(attract_creatures_c.scl());
+		_attract_mode->setScale(attract_c.scl());
 		_attract_mode->set_alpha(_graphics->animation->attract_alpha);
 
 		// Horrible - but needed since the size of the Attract Mode Graphics are variable
-		const sf::Vector2f attract_mode_size{
-			_attract_mode->sprite.getGlobalBounds().width * _attract_mode->getScale().x,
+		const sf::Vector2f attract_size{_attract_mode->sprite.getGlobalBounds().width * _attract_mode->getScale().x,
 			_attract_mode->sprite.getGlobalBounds().height * _attract_mode->getScale().y};
-		const sf::Vector2f creature_pos(_display->window->centre.x - (attract_mode_size.x / 2),
-			_display->window->get_y(_attract_mode->sprite, attract_creatures_c.y));
+		const sf::Vector2f creature_pos(_display->window->centre.x - (attract_size.x / 2),
+			_display->window->get_y(_attract_mode->sprite, attract_c.y));
 		_attract_mode->setPosition(creature_pos);
 		_window->draw(*_attract_mode);
 

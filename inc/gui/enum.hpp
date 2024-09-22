@@ -133,9 +133,4 @@ namespace Enums::Window {
 	};
 };
 
-using AMF = Enums::Automap::Feature;
-using Alignment = Enums::Window::Alignment;
-using WIC = Enums::Window::InputCategory;
-using WFP = Enums::Window::FrameParts;
-
 }

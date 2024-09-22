@@ -27,6 +27,8 @@
 #include "core/graphics.hpp"
 #include "core/system.hpp"
 #include "core/window.hpp"
+#include "gui/enum.hpp"
+#include "gui/include.hpp"
 #include "resources/componentstore.hpp"
 #include "resources/iconstore.hpp"
 #include "resources/resourcemanager.hpp"
@@ -34,13 +36,13 @@
 
 // Standard Constructor
 Sorcery::AttributeDisplay::AttributeDisplay(
-	System *system, Display *display, Graphics *graphics, Character *character, Alignment alignment)
+	System *system, Display *display, Graphics *graphics, Character *character, WAL alignment)
 	: _system{system}, _display{display}, _graphics{graphics}, _character{character}, _alignment{alignment} {
 
 	_bars.clear();
 
 	// Get the standard layout information
-	if (alignment == Alignment::VERTICAL) {
+	if (alignment == WAL::VERTICAL) {
 		_bar_c = Component((*_display->layout)["attribute_display:stat_bar_vertical"]);
 		_icons_c = Component((*_display->layout)["attribute_display:attribute_icons_vertical"]);
 		_text_c = Component((*_display->layout)["attribute_display:stat_text_vertical"]);
@@ -64,7 +66,7 @@ Sorcery::AttributeDisplay::AttributeDisplay(
 	auto index{0};
 	for (auto &icon : _attribute_icons) {
 		icon.setScale(scale);
-		if (_alignment == Alignment::VERTICAL)
+		if (_alignment == WAL::VERTICAL)
 			icon.setPosition(8 + _icons_c.x + (index * _icons_c.size), _icons_c.y);
 		else
 			icon.setPosition(_icons_c.x, 8 + _icons_c.y + (index * _icons_c.size));
@@ -159,7 +161,7 @@ Sorcery::AttributeDisplay::AttributeDisplay(AttributeDisplay &&other) noexcept {
 	other._text_c = Component();
 	other._width = 0;
 	other._height = 0;
-	other._alignment = Alignment::NO_ALIGNMENT;
+	other._alignment = WAL::NO_ALIGNMENT;
 
 	other._bars.clear();
 	other._attribute_icons = {};
@@ -206,7 +208,7 @@ auto Sorcery::AttributeDisplay::operator=(AttributeDisplay &&other) noexcept -> 
 		other._text_c = Component();
 		other._width = 0;
 		other._height = 0;
-		other._alignment = Alignment::NO_ALIGNMENT;
+		other._alignment = WAL::NO_ALIGNMENT;
 
 		other._bars.clear();
 		other._attribute_icons = {};
@@ -229,7 +231,7 @@ auto Sorcery::AttributeDisplay::set() -> void {
 	for (const auto &[attribute, value] : _character->get_cur_attr()) {
 
 		auto bar{_get_bar(attribute)};
-		if (_alignment == Alignment::VERTICAL) {
+		if (_alignment == WAL::VERTICAL) {
 			bar.setPosition((_bar_c.w / 3) + _bar_c.x + (x * _display->window->get_cw() * _bar_c.scale),
 				_bar_c.y + _bar_c.size * 2);
 			bar.scale(1.0f, -1.0f);
@@ -252,7 +254,7 @@ auto Sorcery::AttributeDisplay::set() -> void {
 
 auto Sorcery::AttributeDisplay::_get_text(CAR attribute) -> sf::Text {
 
-	if (_alignment == Alignment::VERTICAL) {
+	if (_alignment == WAL::VERTICAL) {
 
 		sf::Text text{};
 
@@ -276,7 +278,7 @@ auto Sorcery::AttributeDisplay::_get_text(CAR attribute) -> sf::Text {
 auto Sorcery::AttributeDisplay::_get_bar(CAR attribute) -> sf::RectangleShape {
 
 	// Generate three bars which will simply be put on top of each other
-	if (_alignment == Alignment::VERTICAL) {
+	if (_alignment == WAL::VERTICAL) {
 		sf::RectangleShape attr(sf::Vector2f(_bar_c.w / 2, (_bar_c.h * _character->get_cur_attr(attribute) / 2)));
 		attr.setFillColor(sf::Color(_bar_c.colour));
 		attr.setOutlineThickness(1);
