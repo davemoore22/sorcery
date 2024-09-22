@@ -40,9 +40,6 @@ Sorcery::MonsterStore::MonsterStore(System *system, const std::filesystem::path 
 
 auto Sorcery::MonsterStore::_load(const std::filesystem::path filename) -> bool {
 
-	using enum Enums::Character::Align;
-	using enum Enums::Character::Class;
-
 	if (std::ifstream file{filename.string(), std::ifstream::binary}; file.good()) {
 
 #pragma GCC diagnostic push

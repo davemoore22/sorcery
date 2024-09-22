@@ -40,11 +40,6 @@ Sorcery::ItemStore::ItemStore(System *system, const std::filesystem::path filena
 
 auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 
-	using enum Enums::Items::Category;
-	using enum Enums::Items::Effects::Invoke;
-	using enum Enums::Items::TypeID;
-	using enum Enums::Magic::SpellID;
-
 	if (std::ifstream file{filename.string(), std::ifstream::binary}; file.good()) {
 
 #pragma GCC diagnostic push
@@ -65,11 +60,11 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 					if (items[i].isMember("category")) {
 						if (items[i]["category"].asString().length() > 0) {
 							auto category{magic_enum::enum_cast<ITC>(items[i]["category"].asString())};
-							return category.value_or(NO_ITEM_CATEGORY);
+							return category.value_or(ITC::NO_ITEM_CATEGORY);
 						} else
-							return NO_ITEM_CATEGORY;
+							return ITC::NO_ITEM_CATEGORY;
 					} else
-						return NO_ITEM_CATEGORY;
+						return ITC::NO_ITEM_CATEGORY;
 				})};
 				const std::string known_name(items[i]["known name"].asString());
 				const std::string unknown_name(items[i]["unknown name"].asString());
@@ -119,11 +114,11 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 					if (items[i].isMember("use")) {
 						if (items[i]["use"].asString().length() > 0) {
 							auto use{magic_enum::enum_cast<SPI>(items[i]["use"].asString())};
-							return use.value_or(NO_SPELL);
+							return use.value_or(SPI::NO_SPELL);
 						} else
-							return NO_SPELL;
+							return SPI::NO_SPELL;
 					} else
-						return NO_SPELL;
+						return SPI::NO_SPELL;
 				})};
 				const auto use_decay{std::invoke([&] {
 					if (items[i].isMember("use decay"))
@@ -148,11 +143,11 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 						if (items[i]["invoke"].asString().length() > 0) {
 							auto invoke{
 								magic_enum::enum_cast<Enums::Items::Effects::Invoke>(items[i]["invoke"].asString())};
-							return invoke.value_or(NO_INV_EFFECT);
+							return invoke.value_or(ITV::NO_INV_EFFECT);
 						} else
-							return NO_INV_EFFECT;
+							return ITV::NO_INV_EFFECT;
 					} else
-						return NO_INV_EFFECT;
+						return ITV::NO_INV_EFFECT;
 				})};
 				const auto invoke_decay{std::invoke([&] {
 					if (items[i].isMember("invoke decay"))

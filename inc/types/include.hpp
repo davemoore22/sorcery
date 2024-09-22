@@ -46,6 +46,28 @@
 #include <TGUI/TGUI.hpp>
 #include <jsoncpp/json/json.h>
 #pragma GCC diagnostic pop
+
 // IWYU pragma: end_keep
 
+// Aliases for Enums and Types
+namespace Sorcery {
+
+using CFG = Enums::Config::Options;
+using ITC = Enums::Items::Category;
+using ITD = Enums::Items::Effects::Defensive;
+using ITO = Enums::Items::Effects::Offensive;
+using ITV = Enums::Items::Effects::Invoke;
+using ITT = Enums::Items::TypeID;
+using IIR = Enums::Items::IdentifyOutcome;
+using MBR = Enums::Monsters::Breath;
+using MCL = Enums::Monsters::Class;
+using MCT = Enums::Monsters::Category;
+using MRE = Enums::Monsters::Resistance;
+using MPR = Enums::Monsters::Property;
+using MTI = Enums::Monsters::TypeID;
+
+using MonsterResistances = std::array<bool, 7>;
+using MonsterProperties = std::array<bool, 7>;
 using TimePoint = std::chrono::time_point<std::chrono::system_clock>;
+
+}

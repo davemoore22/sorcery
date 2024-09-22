@@ -210,8 +210,6 @@ auto Sorcery::Create::stop() -> void {
 
 auto Sorcery::Create::_do_event_loop() -> std::optional<MDR> {
 
-	using enum Enums::System::MessageDialogResult;
-
 	// And do the main loop
 	while (_window->isOpen()) {
 		sf::Event event{};
@@ -219,19 +217,19 @@ auto Sorcery::Create::_do_event_loop() -> std::optional<MDR> {
 
 			// See what happens
 			if (auto const module_result{_handle_input(event)}; module_result) {
-				if (module_result.value() == CLOSE)
-					return CLOSE;
-				else if (module_result.value() == EXIT)
-					return EXIT;
-				else if (module_result.value() == CANCEL)
-					return CANCEL;
-				else if (module_result.value() == BACK) {
+				if (module_result.value() == MDR::CLOSE)
+					return MDR::CLOSE;
+				else if (module_result.value() == MDR::EXIT)
+					return MDR::EXIT;
+				else if (module_result.value() == MDR::CANCEL)
+					return MDR::CANCEL;
+				else if (module_result.value() == MDR::BACK) {
 					if (_candidate.get_stage() == CHS::CHOOSE_METHOD)
 						return std::nullopt;
 					else
 						_go_to_previous_stage();
 					continue;
-				} else if (module_result.value() == NEXT) {
+				} else if (module_result.value() == MDR::NEXT) {
 					_go_to_next_stage();
 					continue;
 				}
@@ -247,8 +245,6 @@ auto Sorcery::Create::_do_event_loop() -> std::optional<MDR> {
 
 auto Sorcery::Create::_handle_input(const sf::Event &event) -> std::optional<MDR> {
 
-	using enum Enums::Character::Stage;
-
 	// Handle enabling help overlay
 	if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
 		_display->show_overlay();
@@ -261,29 +257,27 @@ auto Sorcery::Create::_handle_input(const sf::Event &event) -> std::optional<MDR
 		return MDR::EXIT;
 	else if (_system->input->check(CIN::CANCEL, event))
 		return MDR::CANCEL;
-	if (_candidate.get_stage() == CHOOSE_METHOD)
+	if (_candidate.get_stage() == CHS::CHOOSE_METHOD)
 		return _handle_choose_create_method(event);
-	else if (_candidate.get_stage() == ENTER_NAME)
+	else if (_candidate.get_stage() == CHS::ENTER_NAME)
 		return _handle_choose_name(event);
-	else if (_candidate.get_stage() == CHOOSE_RACE)
+	else if (_candidate.get_stage() == CHS::CHOOSE_RACE)
 		return _handle_choose_race(event);
-	else if (_candidate.get_stage() == CHOOSE_ALIGNMENT)
+	else if (_candidate.get_stage() == CHS::CHOOSE_ALIGNMENT)
 		return _handle_choose_alignment(event);
-	else if (_candidate.get_stage() == ALLOCATE_STATS)
+	else if (_candidate.get_stage() == CHS::ALLOCATE_STATS)
 		return _handle_allocate_attributes(event);
-	else if (_candidate.get_stage() == CHOOSE_CLASS)
+	else if (_candidate.get_stage() == CHS::CHOOSE_CLASS)
 		return _handle_choose_class(event);
-	else if (_candidate.get_stage() == CHOOSE_PORTRAIT)
+	else if (_candidate.get_stage() == CHS::CHOOSE_PORTRAIT)
 		return _handle_choose_potraits(event);
-	else if (_candidate.get_stage() == REVIEW_AND_CONFIRM)
+	else if (_candidate.get_stage() == CHS::REVIEW_AND_CONFIRM)
 		return _handle_review_and_confirm(event);
 	else
 		return std::nullopt;
 }
 
 auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event) -> std::optional<MDR> {
-
-	using enum Enums::Manage::Method;
 
 	MenuSelect selected{_method_menu->selected};
 	if (_system->input->check(CIN::UP, event))
@@ -303,13 +297,13 @@ auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event) -> st
 
 			switch ((*selected.value()).item) {
 			case MIM::CM_FULL:
-				_method = FULL;
+				_method = CRM::FULL;
 				break;
 			case MIM::CM_QUICK:
-				_method = QUICK;
+				_method = CRM::QUICK;
 				break;
 			case MIM::CM_RANDOM:
-				_method = RANDOM;
+				_method = CRM::RANDOM;
 				break;
 			default:
 				return std::nullopt;
@@ -419,8 +413,6 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::option
 
 auto Sorcery::Create::_handle_choose_race(const sf::Event &event) -> std::optional<MDR> {
 
-	using enum Enums::Character::Race;
-
 	MenuSelect selected{_race_menu->selected};
 	if (_system->input->check(CIN::UP, event))
 		_race_menu->choose_previous();
@@ -439,19 +431,19 @@ auto Sorcery::Create::_handle_choose_race(const sf::Event &event) -> std::option
 
 			switch ((*selected.value()).item) {
 			case MIM::CR_HUMAN:
-				_candidate.set_race(HUMAN);
+				_candidate.set_race(CHR::HUMAN);
 				break;
 			case MIM::CR_ELF:
-				_candidate.set_race(ELF);
+				_candidate.set_race(CHR::ELF);
 				break;
 			case MIM::CR_DWARF:
-				_candidate.set_race(DWARF);
+				_candidate.set_race(CHR::DWARF);
 				break;
 			case MIM::CR_GNOME:
-				_candidate.set_race(GNOME);
+				_candidate.set_race(CHR::GNOME);
 				break;
 			case MIM::CR_HOBBIT:
-				_candidate.set_race(HOBBIT);
+				_candidate.set_race(CHR::HOBBIT);
 				break;
 			default:
 				return std::nullopt;
@@ -471,8 +463,6 @@ auto Sorcery::Create::_handle_choose_race(const sf::Event &event) -> std::option
 
 auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event) -> std::optional<MDR> {
 
-	using enum Enums::Character::Align;
-
 	MenuSelect selected{_alignment_menu->selected};
 	if (_system->input->check(CIN::UP, event))
 		_alignment_menu->choose_previous();
@@ -491,13 +481,13 @@ auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event) -> std::o
 
 			switch ((*selected.value()).item) {
 			case MIM::CA_GOOD:
-				_candidate.set_alignment(GOOD);
+				_candidate.set_alignment(CAL::GOOD);
 				break;
 			case MIM::CA_NEUTRAL:
-				_candidate.set_alignment(NEUTRAL);
+				_candidate.set_alignment(CAL::NEUTRAL);
 				break;
 			case MIM::CA_EVIL:
-				_candidate.set_alignment(EVIL);
+				_candidate.set_alignment(CAL::EVIL);
 				break;
 			default:
 				return std::nullopt;
@@ -520,8 +510,6 @@ auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event) -> std::o
 
 auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std::optional<MDR> {
 
-	using enum Enums::Character::Attribute;
-
 	MenuSelect selected{_attribute_menu->selected};
 	if (_system->input->check(CIN::UP, event))
 		_attribute_menu->choose_previous();
@@ -535,22 +523,22 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 			std::optional<CAR> adjust{};
 			switch (selected.value()->item) {
 			case MIM::CS_STRENGTH:
-				adjust = STRENGTH;
+				adjust = CAR::STRENGTH;
 				break;
 			case MIM::CS_IQ:
-				adjust = IQ;
+				adjust = CAR::IQ;
 				break;
 			case MIM::CS_PIETY:
-				adjust = PIETY;
+				adjust = CAR::PIETY;
 				break;
 			case MIM::CS_VITALITY:
-				adjust = VITALITY;
+				adjust = CAR::VITALITY;
 				break;
 			case MIM::CS_AGILITY:
-				adjust = AGILITY;
+				adjust = CAR::AGILITY;
 				break;
 			case MIM::CS_LUCK:
-				adjust = LUCK;
+				adjust = CAR::LUCK;
 				break;
 			default:
 				break;
@@ -586,22 +574,22 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 			std::optional<CAR> adjust{};
 			switch (selected.value()->item) {
 			case MIM::CS_STRENGTH:
-				adjust = STRENGTH;
+				adjust = CAR::STRENGTH;
 				break;
 			case MIM::CS_IQ:
-				adjust = IQ;
+				adjust = CAR::IQ;
 				break;
 			case MIM::CS_PIETY:
-				adjust = PIETY;
+				adjust = CAR::PIETY;
 				break;
 			case MIM::CS_VITALITY:
-				adjust = VITALITY;
+				adjust = CAR::VITALITY;
 				break;
 			case MIM::CS_AGILITY:
-				adjust = AGILITY;
+				adjust = CAR::AGILITY;
 				break;
 			case MIM::CS_LUCK:
-				adjust = LUCK;
+				adjust = CAR::LUCK;
 				break;
 			default:
 				break;
@@ -626,8 +614,6 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 
 auto Sorcery::Create::_handle_choose_class(const sf::Event &event) -> std::optional<MDR> {
 
-	using enum Enums::Character::Class;
-
 	MenuSelect class_selected{_class_menu->selected};
 	if (_system->input->check(CIN::UP, event))
 		_class_menu->choose_previous();
@@ -646,28 +632,28 @@ auto Sorcery::Create::_handle_choose_class(const sf::Event &event) -> std::optio
 
 			switch ((*class_selected.value()).item) {
 			case MIM::CC_SAMURAI:
-				_candidate.set_class(SAMURAI);
+				_candidate.set_class(CHC::SAMURAI);
 				break;
 			case MIM::CC_FIGHTER:
-				_candidate.set_class(FIGHTER);
+				_candidate.set_class(CHC::FIGHTER);
 				break;
 			case MIM::CC_LORD:
-				_candidate.set_class(LORD);
+				_candidate.set_class(CHC::LORD);
 				break;
 			case MIM::CC_THIEF:
-				_candidate.set_class(THIEF);
+				_candidate.set_class(CHC::THIEF);
 				break;
 			case MIM::CC_NINJA:
-				_candidate.set_class(NINJA);
+				_candidate.set_class(CHC::NINJA);
 				break;
 			case MIM::CC_PRIEST:
-				_candidate.set_class(PRIEST);
+				_candidate.set_class(CHC::PRIEST);
 				break;
 			case MIM::CC_BISHOP:
-				_candidate.set_class(BISHOP);
+				_candidate.set_class(CHC::BISHOP);
 				break;
 			case MIM::CC_MAGE:
-				_candidate.set_class(MAGE);
+				_candidate.set_class(CHC::MAGE);
 				break;
 			default:
 				return std::nullopt;
@@ -940,45 +926,43 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 
 auto Sorcery::Create::_go_to_next_stage() -> void {
 
-	using enum Enums::Character::Stage;
-
 	if (_method == CRM::FULL) {
 
 		switch (_candidate.get_stage()) {
-		case CHOOSE_METHOD: {
+		case CHS::CHOOSE_METHOD: {
 			_stages.emplace_back(_candidate);
-			_candidate.set_stage(ENTER_NAME);
+			_candidate.set_stage(CHS::ENTER_NAME);
 			_display->generate("character_create_stage_1", _sprites, _texts, _frames);
 			_display->set_input_mode(WIM::INPUT_NAME);
 		} break;
-		case ENTER_NAME: {
+		case CHS::ENTER_NAME: {
 			_stages.emplace_back(_candidate);
-			_candidate.set_stage(CHOOSE_RACE);
+			_candidate.set_stage(CHS::CHOOSE_RACE);
 			_display->generate("character_create_stage_2", _sprites, _texts, _frames);
 			_display->set_input_mode(WIM::NAVIGATE_MENU);
 			_race_menu->choose_first();
 			_set_info_panel_contents(_race_menu->selected);
 
 		} break;
-		case CHOOSE_RACE: {
+		case CHS::CHOOSE_RACE: {
 			_stages.emplace_back(_candidate);
-			_candidate.set_stage(CHOOSE_ALIGNMENT);
+			_candidate.set_stage(CHS::CHOOSE_ALIGNMENT);
 			_display->generate("character_create_stage_3", _sprites, _texts, _frames);
 			_display->set_input_mode(WIM::NAVIGATE_MENU);
 			_alignment_menu->choose_first();
 		} break;
-		case CHOOSE_ALIGNMENT: {
+		case CHS::CHOOSE_ALIGNMENT: {
 			_stages.emplace_back(_candidate);
-			_candidate.set_stage(ALLOCATE_STATS);
+			_candidate.set_stage(CHS::ALLOCATE_STATS);
 			_display->generate("character_create_stage_4", _sprites, _texts, _frames);
 			_display->set_input_mode(WIM::ALLOCATE_STATS);
 			_attribute_menu->choose_first();
 			_ap->set();
 			_set_info_panel_contents(_attribute_menu->selected);
 		} break;
-		case ALLOCATE_STATS: {
+		case CHS::ALLOCATE_STATS: {
 			_stages.emplace_back(_candidate);
-			_candidate.set_stage(CHOOSE_CLASS);
+			_candidate.set_stage(CHS::CHOOSE_CLASS);
 			_display->generate("character_create_stage_5", _sprites, _texts, _frames);
 			_display->set_input_mode(WIM::NAVIGATE_MENU);
 			_ap->valid = false;
@@ -989,18 +973,18 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_class_menu->choose_first();
 			_set_info_panel_contents(_class_menu->selected);
 		} break;
-		case CHOOSE_CLASS: {
+		case CHS::CHOOSE_CLASS: {
 			_stages.emplace_back(_candidate);
-			_candidate.set_stage(CHOOSE_PORTRAIT);
+			_candidate.set_stage(CHS::CHOOSE_PORTRAIT);
 			_display->generate("character_create_stage_6", _sprites, _texts, _frames);
 			_display->set_input_mode(WIM::CHOOSE_PORTRAIT);
 			_candidate.set_portrait_index(0);
 		} break;
-		case CHOOSE_PORTRAIT: {
+		case CHS::CHOOSE_PORTRAIT: {
 			_stages.emplace_back(_candidate);
 			_candidate.finalise();
 			_add_starting_equipment();
-			_candidate.set_stage(REVIEW_AND_CONFIRM);
+			_candidate.set_stage(CHS::REVIEW_AND_CONFIRM);
 			_character_display->generate_display();
 			_display->generate("character_create_stage_7", _sprites, _texts, _frames);
 			_display->set_input_mode(WIM::REVIEW_AND_CONFIRM);
@@ -1022,26 +1006,26 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		_display->set_input_mode(WIM::REVIEW_AND_CONFIRM);
 	} else if (_method == CRM::QUICK) {
 		switch (_candidate.get_stage()) {
-		case CHOOSE_METHOD: {
+		case CHS::CHOOSE_METHOD: {
 			_stages.emplace_back(_candidate);
-			_candidate.set_stage(ENTER_NAME);
+			_candidate.set_stage(CHS::ENTER_NAME);
 			_display->generate("character_create_stage_1", _sprites, _texts, _frames);
 			_display->set_input_mode(WIM::INPUT_NAME);
 		} break;
-		case ENTER_NAME: {
+		case CHS::ENTER_NAME: {
 			_stages.emplace_back(_candidate);
 			_candidate.create_quick();
-			_candidate.set_stage(CHOOSE_PORTRAIT);
+			_candidate.set_stage(CHS::CHOOSE_PORTRAIT);
 			_display->generate("character_create_stage_6", _sprites, _texts, _frames);
 			_display->set_input_mode(WIM::CHOOSE_PORTRAIT);
 			_candidate.set_portrait_index(0);
 			_ap->valid = false;
 		} break;
-		case CHOOSE_PORTRAIT: {
+		case CHS::CHOOSE_PORTRAIT: {
 			_stages.emplace_back(_candidate);
 			_candidate.finalise();
 			_add_starting_equipment();
-			_candidate.set_stage(REVIEW_AND_CONFIRM);
+			_candidate.set_stage(CHS::REVIEW_AND_CONFIRM);
 			_character_display->set(&_candidate);
 			_character_display->set_view(CHV::SUMMARY);
 			_character_display->generate_display();
@@ -1058,17 +1042,15 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 
 auto Sorcery::Create::_set_classes_menu() -> void {
 
-	using enum Enums::Character::Class;
-
 	auto possible_classes{_candidate.get_pos_class()};
-	(*_class_menu)[0].enabled = possible_classes[SAMURAI];
-	(*_class_menu)[1].enabled = possible_classes[FIGHTER];
-	(*_class_menu)[2].enabled = possible_classes[LORD];
-	(*_class_menu)[3].enabled = possible_classes[THIEF];
-	(*_class_menu)[4].enabled = possible_classes[NINJA];
-	(*_class_menu)[5].enabled = possible_classes[PRIEST];
-	(*_class_menu)[6].enabled = possible_classes[BISHOP];
-	(*_class_menu)[7].enabled = possible_classes[MAGE];
+	(*_class_menu)[0].enabled = possible_classes[CHC::SAMURAI];
+	(*_class_menu)[1].enabled = possible_classes[CHC::FIGHTER];
+	(*_class_menu)[2].enabled = possible_classes[CHC::LORD];
+	(*_class_menu)[3].enabled = possible_classes[CHC::THIEF];
+	(*_class_menu)[4].enabled = possible_classes[CHC::NINJA];
+	(*_class_menu)[5].enabled = possible_classes[CHC::PRIEST];
+	(*_class_menu)[6].enabled = possible_classes[CHC::BISHOP];
+	(*_class_menu)[7].enabled = possible_classes[CHC::MAGE];
 }
 
 auto Sorcery::Create::_set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void {
@@ -1242,31 +1224,28 @@ auto Sorcery::Create::_get_character_portrait(const unsigned int index) -> std::
 
 auto Sorcery::Create::_add_starting_equipment() -> void {
 
-	using enum Enums::Character::Class;
-	using enum Enums::Items::TypeID;
-
 	_candidate.inventory.clear();
 
 	switch (_candidate.get_class()) { // NOLINT(clang-diagnostic-switch)
-	case FIGHTER:
-	case LORD:
-	case SAMURAI:
-		_candidate.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR], true);
-		_candidate.inventory.add_type((*_game->itemstore)[LONG_SWORD], true);
+	case CHC::FIGHTER:
+	case CHC::LORD:
+	case CHC::SAMURAI:
+		_candidate.inventory.add_type((*_game->itemstore)[ITT::LEATHER_ARMOR], true);
+		_candidate.inventory.add_type((*_game->itemstore)[ITT::LONG_SWORD], true);
 		break;
-	case MAGE:
-		_candidate.inventory.add_type((*_game->itemstore)[ROBES], true);
-		_candidate.inventory.add_type((*_game->itemstore)[DAGGER], true);
+	case CHC::MAGE:
+		_candidate.inventory.add_type((*_game->itemstore)[ITT::ROBES], true);
+		_candidate.inventory.add_type((*_game->itemstore)[ITT::DAGGER], true);
 		break;
-	case PRIEST:
-	case BISHOP:
-		_candidate.inventory.add_type((*_game->itemstore)[ROBES], true);
-		_candidate.inventory.add_type((*_game->itemstore)[STAFF], true);
+	case CHC::PRIEST:
+	case CHC::BISHOP:
+		_candidate.inventory.add_type((*_game->itemstore)[ITT::ROBES], true);
+		_candidate.inventory.add_type((*_game->itemstore)[ITT::STAFF], true);
 		break;
-	case THIEF:
-	case NINJA:
-		_candidate.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR], true);
-		_candidate.inventory.add_type((*_game->itemstore)[SHORT_SWORD], true);
+	case CHC::THIEF:
+	case CHC::NINJA:
+		_candidate.inventory.add_type((*_game->itemstore)[ITT::LEATHER_ARMOR], true);
+		_candidate.inventory.add_type((*_game->itemstore)[ITT::SHORT_SWORD], true);
 	default:
 		break;
 	}
