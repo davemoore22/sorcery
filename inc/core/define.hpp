@@ -44,20 +44,27 @@ static const std::string GFX_TRAPS{"display_traps"};
 static const std::string GFX_TELEPORTERS{"display_teleporters"};
 static const std::string GFX_ENCOUNTERS{"display_encounters"};
 static const std::string GFX_PROGRESS{"display_progress"};
-static const std::string GAME_ALLOW_MIXED_ALIGNMENT_PARTY{"allow_mixed_alignment_party"};
+static const std::string GAME_ALLOW_MIXED_ALIGNMENT_PARTY{
+	"allow_mixed_alignment_party"};
 static const std::string GAME_STAT_LOSS_ON_LEVEL_UP{"stat_loss_on_level_up"};
-static const std::string GAME_REROLL_HIT_POINTS_ON_LEVEL_GAIN{"reroll_hit_points_on_level_gain"};
-static const std::string GAME_STAT_RESET_ON_CLASS_CHANGE{"stat_reset_on_class_change"};
+static const std::string GAME_REROLL_HIT_POINTS_ON_LEVEL_GAIN{
+	"reroll_hit_points_on_level_gain"};
+static const std::string GAME_STAT_RESET_ON_CLASS_CHANGE{
+	"stat_reset_on_class_change"};
 static const std::string GAME_AGING_ON_CLASS_CHANGE{"aging_on_class_change"};
 static const std::string GAME_ALLOW_RANGED_WEAPONS{"allow_ranged_weapons"};
-static const std::string GAME_SPELLCASTING_IN_SURPRISE_ROUND{"spellcasting_in_surprise_round"};
-static const std::string GAME_BATCH_HEALING_AFTER_RETURN_TO_CASTLE{"batch_healing_after_return_to_castle"};
+static const std::string GAME_SPELLCASTING_IN_SURPRISE_ROUND{
+	"spellcasting_in_surprise_round"};
+static const std::string GAME_BATCH_HEALING_AFTER_RETURN_TO_CASTLE{
+	"batch_healing_after_return_to_castle"};
 static const std::string GAME_REROLL_ONES_ON_DICE{"reroll_ones_on_dice"};
 static const std::string GAME_PROTECT_TELEPORT{"protect_teleport_rock"};
 static const std::string GAME_ALLOW_LOST_LEGATED{"allow_lost_legated"};
-static const std::string GAME_ALLOW_CURABLE_DRAIN{"allow_curable_drained_levels"};
+static const std::string GAME_ALLOW_CURABLE_DRAIN{
+	"allow_curable_drained_levels"};
 static const std::string GAME_ALLOW_SHARED_INVENTORY{"allow_shared_inventory"};
-static const std::string GAME_CAMPING_RESTORE_SPELL_POINTS{"camping_restores_spell_points"};
+static const std::string GAME_CAMPING_RESTORE_SPELL_POINTS{
+	"camping_restores_spell_points"};
 static const std::string GAME_CHARGED_ITEMS{"charged_items"};
 
 // Command Line Arguments

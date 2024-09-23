@@ -39,7 +39,8 @@ namespace Sorcery {
 class System;
 class Frame;
 
-// Superclass to handle basic display requirements such as Windopw Access, Game Text and so on
+// Superclass to handle basic display requirements such as Windopw Access, Game
+// Text and so on
 class Display {
 
 	public:
@@ -50,12 +51,13 @@ class Display {
 
 		// Public Methods
 		auto generate(std::string_view screen) -> void;
-		auto display(std::string_view screen, std::optional<std::any> parameter = std::nullopt) -> void;
-		auto display(std::string_view screen, std::map<std::string, sf::Sprite> &sprites,
-			std::map<std::string, sf::Text> &texts, std::map<std::string, std::shared_ptr<Frame>> &frames,
-			std::optional<std::any> parameter = std::nullopt) -> void;
-		auto generate(std::string_view screen, std::map<std::string, sf::Sprite> &sprites,
-			std::map<std::string, sf::Text> &texts, std::map<std::string, std::shared_ptr<Frame>> &frames) -> void;
+		auto display(std::string_view screen,
+			std::optional<std::any> param = std::nullopt) -> void;
+		auto display(std::string_view screen, SpriteMap &sprites,
+			TextMap &texts, FrameMap &frames,
+			std::optional<std::any> param = std::nullopt) -> void;
+		auto generate(std::string_view screen, SpriteMap &sprites,
+			TextMap &texts, FrameMap &frames) -> void;
 		auto display_cursor() -> void;
 		auto fit_bg_movie() -> void;
 		auto start_bg_movie() -> void;
@@ -68,7 +70,7 @@ class Display {
 		auto hide_overlay() -> void;
 		auto display_overlay() -> void;
 		auto shutdown_SFML() -> void;
-		auto display_direction_indicator(MAD direction, bool monochrome) -> void;
+		auto display_direction_indicator(MAD dir, bool mono) -> void;
 		auto get_bold() const -> bool;
 		auto get_upper() const -> bool;
 		auto get_centre_pos(const sf::Vector2f size) const -> sf::Vector2f;
@@ -88,18 +90,18 @@ class Display {
 	private:
 
 		// Private Members
-		std::map<std::string, sf::Sprite> _sprites;
-		std::map<std::string, sf::Text> _texts;
-		std::map<std::string, std::shared_ptr<Frame>> _frames;
+		SpriteMap _sprites;
+		TextMap _texts;
+		FrameMap _frames;
 		System *_system;
-		sfe::Movie _background_movie;
-		std::map<Component, std::variant<sf::Sprite, sf::Text, std::shared_ptr<Frame>>> _components;
+		sfe::Movie _bg_movie;
+		ComponentList _components;
 		std::unique_ptr<IconStore> _icons;
 		bool _show_overlay;
-		unsigned int _wallpaper_idx;
+		unsigned int _wp_idx;
 		bool _bold_text;
 		bool _upper_text;
-		bool _accessing_disc;
+		bool _disc_access;
 
 		// Private Methods
 };

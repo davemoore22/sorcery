@@ -45,27 +45,28 @@ class Animation {
 		~Animation();
 
 		// Public Members
-		double colour_lerp;
+		double lerp;
 		unsigned int attract_alpha;
-		sf::Color selected_colour;
-		unsigned int wallpaper_idx;
+		sf::Color select_col;
+		unsigned int wp_idx;
 
 		// Public Methods
 		auto refresh_attract() -> void;
 		auto refresh_colcyc() -> void;
-		auto refresh_wallpaper() -> void;
+		auto refresh_wp() -> void;
 		auto start_attract() -> void;
-		auto start_attract_ani_threads() -> void;
+		auto start_attract_th() -> void;
 		auto start_colcyc() -> void;
-		auto start_colcycl_threads() -> void;
-		auto start_wallpaper() -> void;
-		auto start_wallpaper_threads() -> void;
+		auto start_colcycl_th() -> void;
+		auto start_wp() -> void;
+		auto start_wp_th() -> void;
 		auto stop_attract() -> void;
-		auto stop_attract_threads() -> void;
+		auto stop_attract_th() -> void;
+
 		auto stop_colcyc() -> void;
-		auto stop_colcyc_threads() -> void;
-		auto stop_wallpaper() -> void;
-		auto stop_wallpaper_threads() -> void;
+		auto stop_colcyc_th() -> void;
+		auto stop_wp() -> void;
+		auto stop_wp_th() -> void;
 		auto get_attract_data() -> std::vector<unsigned int>;
 
 	private:
@@ -73,33 +74,33 @@ class Animation {
 		// Private Members
 		System *_system;
 		Display *_display;
-		std::jthread _attract_thread;
-		std::jthread _colcyc_thread;
-		std::jthread _wallpaper_thread;
+		std::jthread _attract_th;
+		std::jthread _colcyc_th;
+		std::jthread _wallpaper_th;
 		std::atomic<bool> _allow_attract;
 		std::atomic<bool> _allow_colcyc;
-		std::atomic<bool> _allow_wallpaper;
+		std::atomic<bool> _allow_wp;
 		std::atomic<bool> _colcyc_dir;
 		std::atomic<bool> _finished;
 		std::atomic<bool> _attract_fade;
-		TimePoint _last_wallpaper;
+		TimePoint _last_wp;
 		TimePoint _last_attract;
 		TimePoint _ctime_attract;
-		TimePoint _ctime_wallpaper;
+		TimePoint _ctime_wp;
 		std::mutex _attract_mutex;
-		std::mutex _colour_mutex;
-		std::mutex _wallpaper_mutex;
+		std::mutex _colcyc_mutex;
+		std::mutex _wp_mutex;
 		std::vector<unsigned int> _attract_mode;
-		thor::ColorGradient _selected_gradient;
+		thor::ColorGradient _select_grad;
 		double _colcyc_step;
 
 		// Private Methods
-		auto _change_wallpaper(bool force) -> void;
+		auto _change_wp(bool force) -> void;
 		auto _animate_attract(bool force) -> void;
 		auto _colcyc(bool force) -> void;
 		auto _do_attract() -> void;
 		auto _do_colcyc() -> void;
-		auto _do_wallpaper() -> void;
+		auto _do_wp() -> void;
 };
 
 }

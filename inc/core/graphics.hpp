@@ -47,8 +47,10 @@ class Graphics {
 
 		// Public Methods
 		auto adjust_colour(int value, CAT ability_type) -> unsigned long long;
-		auto adjust_status_colour(Enums::Character::CStatus value, bool poisoned) -> unsigned long long;
-		auto adjust_brightness(sf::Color colour, double colour_lerp) -> unsigned long long;
+		auto adjust_status_colour(CHT value, bool poisoned)
+			-> unsigned long long;
+		auto adjust_brightness(sf::Color colour, double colour_lerp)
+			-> unsigned long long;
 		auto get_background_sprite() -> sf::Sprite;
 		auto tile_bg(sf::RenderWindow *window) -> void;
 
@@ -62,8 +64,8 @@ class Graphics {
 		// Private Members
 		System *_system;
 		Display *_display;
-		unsigned int _wallpaper_idx;
-		sf::Sprite _wallpaper;
+		unsigned int _wp_idx;
+		sf::Sprite _wp;
 
 		// Private Methods
 };

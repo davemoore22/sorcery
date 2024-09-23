@@ -76,7 +76,7 @@ Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics
 // Standard Destructor
 Sorcery::MainMenu::~MainMenu() {
 
-	_graphics->animation->stop_attract_threads();
+	_graphics->animation->stop_attract_th();
 	_display->stop_bg_movie();
 }
 
@@ -94,7 +94,7 @@ auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 
 	// Start relevant animation worker threads
 	_graphics->animation->refresh_attract();
-	_graphics->animation->start_attract_ani_threads();
+	_graphics->animation->start_attract_th();
 
 	// Play the background movie!
 	_display->fit_bg_movie();
@@ -257,7 +257,7 @@ auto Sorcery::MainMenu::_draw() -> void {
 	// Only draw the attract mode if we have something to draw (to avoid timing issues
 	if (_attract_mode->data_temp.size() > 0) {
 
-		const auto lerp{_graphics->animation->colour_lerp};
+		const auto lerp{_graphics->animation->lerp};
 		_display->display("main_menu_attract", _menu_stage);
 
 		// Generate and draw the Attract Mode Graphics

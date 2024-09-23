@@ -30,11 +30,13 @@ namespace Sorcery {
 
 // Use the + Operator or unenum to get the int value of an enum class
 template <typename T>
-constexpr auto operator+(T e) noexcept -> std::enable_if_t<std::is_enum<T>::value, std::underlying_type_t<T>> {
+constexpr auto operator+(T e) noexcept
+	-> std::enable_if_t<std::is_enum<T>::value, std::underlying_type_t<T>> {
 	return static_cast<std::underlying_type_t<T>>(e);
 }
 
-template <class Enum> constexpr std::underlying_type_t<Enum> unenum(Enum e) noexcept {
+template <class Enum>
+constexpr std::underlying_type_t<Enum> unenum(Enum e) noexcept {
 	return static_cast<std::underlying_type_t<Enum>>(e);
 }
 
@@ -57,7 +59,8 @@ inline auto WORDWRAP(std::string text, unsigned per_line) -> std::string {
 	unsigned line_begin{0};
 	while (line_begin < text.size()) {
 		const unsigned int ideal_end{line_begin + per_line};
-		unsigned int line_end = ideal_end <= text.size() ? ideal_end : text.size() - 1;
+		unsigned int line_end =
+			ideal_end <= text.size() ? ideal_end : text.size() - 1;
 
 		if (line_end == text.size() - 1)
 			++line_end;
@@ -89,16 +92,21 @@ inline auto PRINT(const std::string &string) -> void {
 	std::cout << string << std::endl;
 }
 
-// String trim Functions from https://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
+// String trim Functions from
+// https://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
 
 // Trim a string
 inline auto LTRIM(std::string &s) -> void {
-	s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) { return !std::isspace(ch); }));
+	s.erase(s.begin(), std::find_if(s.begin(), s.end(),
+						   [](unsigned char ch) { return !std::isspace(ch); }));
 }
 
 // Trim from end (in place)
 inline auto RTRIM(std::string &s) -> void {
-	s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) { return !std::isspace(ch); }).base(), s.end());
+	s.erase(std::find_if(s.rbegin(), s.rend(),
+				[](unsigned char ch) { return !std::isspace(ch); })
+				.base(),
+		s.end());
 }
 
 // Trim from both ends (in place)
@@ -108,13 +116,15 @@ inline auto TRIM(std::string &s) -> void {
 }
 
 // Trim from end (copying)
-inline auto RTRIM_COPY(std::string s) -> std::string { // NOLINT(clang-diagnostic-unused-function)
+inline auto RTRIM_COPY(std::string s)
+	-> std::string { // NOLINT(clang-diagnostic-unused-function)
 	RTRIM(s);
 	return s;
 }
 
 // Trim from both ends (copying)
-inline auto TRIM_COPY(std::string s) -> std::string { // NOLINT(clang-diagnostic-unused-function)
+inline auto TRIM_COPY(std::string s)
+	-> std::string { // NOLINT(clang-diagnostic-unused-function)
 	TRIM(s);
 	return s;
 }

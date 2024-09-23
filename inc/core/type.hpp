@@ -44,13 +44,14 @@ struct ConsoleMessage {
 		ConsoleMessage() {
 		}
 
-		ConsoleMessage(Enums::Internal::MessageType message_type_, std::string text_)
+		ConsoleMessage(IMT message_type_, std::string text_)
 			: type{message_type_}, text{text_} {
 			datetime = std::chrono::system_clock::now();
 			id = s_id++;
 		}
 
-		ConsoleMessage(Enums::Internal::MessageType message_type_, TimePoint datetime_, std::string text_)
+		ConsoleMessage(
+			IMT message_type_, TimePoint datetime_, std::string text_)
 			: type{message_type_}, datetime{datetime_}, text{text_} {
 
 			id = s_id++;
@@ -69,11 +70,16 @@ struct ConsoleMessage {
 
 // Struct to represent a game
 struct GameEntry {
-		GameEntry() : id{0}, key{}, status{}, start_time{}, time_point{}, data{} {};
+
+		GameEntry()
+			: id{0}, key{}, status{}, start_time{}, time_point{}, data{} {};
+
 		GameEntry(unsigned int id_, std::string key_, std::string status_,
-			std::chrono::system_clock::time_point start_time_, std::chrono::system_clock::time_point time_point_,
+			std::chrono::system_clock::time_point start_time_,
+			std::chrono::system_clock::time_point time_point_,
 			std::string data_)
-			: id{id_}, key{key_}, status{status_}, start_time{start_time_}, time_point{time_point_}, data{data_} {};
+			: id{id_}, key{key_}, status{status_}, start_time{start_time_},
+			  time_point{time_point_}, data{data_} {};
 
 		unsigned int id;
 		std::string key;
@@ -85,8 +91,11 @@ struct GameEntry {
 
 // Struct to represent an area of the screen (w, h)
 struct ScreenSize {
+
 		ScreenSize() : w{0}, h{0} {};
+
 		ScreenSize(unsigned int w_, unsigned int h_) : w{w_}, h{h_} {};
+
 		ScreenSize(const ScreenSize &other) : w{other.w}, h{other.h} {};
 
 		unsigned int w;
@@ -95,8 +104,11 @@ struct ScreenSize {
 
 // Struct to represent the size of an image
 struct ImageSize {
+
 		ImageSize() : w{0}, h{0} {};
+
 		ImageSize(unsigned int w_, unsigned int h_) : w{w_}, h{h_} {};
+
 		ImageSize(const ImageSize &other) : w{other.w}, h{other.h} {};
 
 		unsigned int w;
@@ -105,9 +117,14 @@ struct ImageSize {
 
 struct ShopStock {
 
-		ShopStock() : initial_stock{0}, current_stock{0}, buyable{false}, sellable{false} {};
-		ShopStock(int initial_stock_, int current_stock_, bool buyable_, bool sellable_)
-			: initial_stock{initial_stock_}, current_stock{current_stock_}, buyable{buyable_}, sellable{sellable_} {};
+		ShopStock()
+			: initial_stock{0}, current_stock{0}, buyable{false},
+			  sellable{false} {};
+
+		ShopStock(int initial_stock_, int current_stock_, bool buyable_,
+			bool sellable_)
+			: initial_stock{initial_stock_}, current_stock{current_stock_},
+			  buyable{buyable_}, sellable{sellable_} {};
 
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(initial_stock, current_stock, buyable, sellable);

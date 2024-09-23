@@ -37,37 +37,45 @@ Sorcery::Display::Display(System *system) : _system{system} {
 
 	string = std::make_unique<StringStore>((*_system->files)[STRINGS_FILE]);
 	layout = std::make_unique<ComponentStore>((*_system->files)[LAYOUT_FILE]);
-	window = std::make_unique<Window>(_system, string.get(), layout.get(), (*string)["TITLE_AND_VERSION_INFO"]);
-	overlay = std::make_unique<ControlOverlay>(_system, this, (*layout)["global:control_overlay"]);
+	window = std::make_unique<Window>(_system, string.get(), layout.get(),
+		(*string)["TITLE_AND_VERSION_INFO"]);
+	overlay = std::make_unique<ControlOverlay>(
+		_system, this, (*layout)["global:control_overlay"]);
 	ui_texture = (*_system->resources).textures[GTX::UI];
-	_background_movie.openFromFile(_system->files->get_path(VIDEO_FILE));
+	_bg_movie.openFromFile(_system->files->get_path(VIDEO_FILE));
 	auto icon_layout{(*layout)["global:icon"]};
 
-	// seperate copy of the icons store since graphics module is unaccessable here
-	_icons = std::make_unique<IconStore>(_system, icon_layout, (*_system->files)[ICONS_FILE]);
+	// seperate copy of the icons store since graphics module is unaccessable
+	// here
+	_icons = std::make_unique<IconStore>(
+		_system, icon_layout, (*_system->files)[ICONS_FILE]);
 
 	_bold_text = false;
 	_upper_text = false;
 	window->set_bold(_bold_text);
 	window->set_upper(_upper_text);
 
-	_accessing_disc = false;
+	_disc_access = false;
 }
 
-auto Sorcery::Display::get_centre_pos(const sf::Vector2f size) const -> sf::Vector2f {
+auto Sorcery::Display::get_centre_pos(const sf::Vector2f size) const
+	-> sf::Vector2f {
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnarrowing"
-	return sf::Vector2f{window->get_centre_x(size.x), window->get_centre_y(size.y)};
+	return sf::Vector2f{
+		window->get_centre_x(size.x), window->get_centre_y(size.y)};
 #pragma GCC diagnostic pop
 }
 
-auto Sorcery::Display::get_centre_x(const unsigned int width) const -> unsigned int {
+auto Sorcery::Display::get_centre_x(const unsigned int width) const
+	-> unsigned int {
 
 	return window->get_centre_x(width);
 }
 
-auto Sorcery::Display::get_centre_y(const unsigned int height) const -> unsigned int {
+auto Sorcery::Display::get_centre_y(const unsigned int height) const
+	-> unsigned int {
 
 	return window->get_centre_y(height);
 }
@@ -95,216 +103,236 @@ auto Sorcery::Display::shutdown_SFML() -> void {
 	window->get_window()->close();
 }
 
-auto Sorcery::Display::generate(std::string_view screen, std::map<std::string, sf::Sprite> &sprites,
-	std::map<std::string, sf::Text> &texts, std::map<std::string, std::shared_ptr<Frame>> &frames) -> void {
+auto Sorcery::Display::generate(std::string_view screen, SpriteMap &sprites,
+	TextMap &texts, FrameMap &frames) -> void {
 
 	sprites.clear();
 	texts.clear();
 	frames.clear();
 	const std::optional<std::vector<Component>> components{(*layout)(screen)};
 	if (components) {
-		for (const auto &component : components.value()) {
-			if (component.type == CPT::ICON) {
+		for (const auto &comp : components.value()) {
+			if (comp.type == CPT::ICON) {
 
 				// use string for the icon key
-				auto icon{(*_icons)[component.string_key]};
+				auto icon{(*_icons)[comp.string_key]};
 				if (icon) {
 					auto image{icon.value()};
 
 					// Check for Offsets
-					const auto offset_x{std::invoke([&] {
-						if (component["offset_x"])
-							return std::stoi(component["offset_x"].value());
+					const auto off_c{std::invoke([&] {
+						if (comp["offset_x"])
+							return std::stoi(comp["offset_x"].value());
 						else
 							return 0;
 					})};
-					const auto offset_y{std::invoke([&] {
-						if (component["offset_y"])
-							return std::stoi(component["offset_y"].value());
+					const auto off_y{std::invoke([&] {
+						if (comp["offset_y"])
+							return std::stoi(comp["offset_y"].value());
 						else
 							return 0;
 					})};
-					image.setPosition(component.x + offset_x, component.y + offset_y);
-					image.setScale(component.scl());
+					image.setPosition(comp.x + off_c, comp.y + off_y);
+					image.setScale(comp.scl());
 
-					if (component.colour != 0ULL)
-						image.setColor(sf::Color(component.colour));
+					if (comp.colour != 0ULL)
+						image.setColor(sf::Color(comp.colour));
 
 					// Add the image to the components ready to draw
-					sprites[component.unique_key] = image;
+					sprites[comp.unique_key] = image;
 				}
-			} else if (component.type == CPT::IMAGE) {
+			} else if (comp.type == CPT::IMAGE) {
 
 				// Skip in case of an error
-				if (component.texture == GTX::NO_TEXTURE)
+				if (comp.texture == GTX::NO_TEXTURE)
 					continue;
 
-				if (component.unique_key.ends_with("background")) {
+				if (comp.unique_key.ends_with("background")) {
 
 					// Town Frame Wallpapers
 					sf::IntRect bg_rect{};
-					bg_rect.width = std::stoi(component["source_w"].value());
-					bg_rect.height = std::stoi(component["source_h"].value());
+					bg_rect.width = std::stoi(comp["source_w"].value());
+					bg_rect.height = std::stoi(comp["source_h"].value());
 					bg_rect.top = 0;
-					bg_rect.left =
-						std::stoi(component["source_w"].value()) * std::stoi(component["source_index"].value());
+					bg_rect.left = std::stoi(comp["source_w"].value()) *
+								   std::stoi(comp["source_index"].value());
 					sf::Sprite image{};
 					image.setTexture(_system->resources->textures[GTX::TOWN]);
 					image.setTextureRect(bg_rect);
-					image.setScale(std::stof(component["scale_x"].value()), std::stof(component["scale_y"].value()));
-					image.setPosition(window->get_x(image, component.x), window->get_y(image, component.y));
+					image.setScale(std::stof(comp["scale_x"].value()),
+						std::stof(comp["scale_y"].value()));
+					image.setPosition(window->get_x(image, comp.x),
+						window->get_y(image, comp.y));
 
 					// Add the image to the components ready to draw
-					sprites[component.unique_key] = image;
+					sprites[comp.unique_key] = image;
 				} else {
 
 					// Get the texture
 					sf::Sprite image;
-					image.setTexture(_system->resources->textures[component.texture]);
+					image.setTexture(
+						_system->resources->textures[comp.texture]);
 
 					// Scale to less than the window size if needed
-					if (component.unique_key.ends_with("banner:banner_image") ||
-						component.unique_key.ends_with("splash:splash_image") ||
-						component.unique_key.ends_with("main_menu_attract:logo_image")) {
-						const ImageSize size{static_cast<unsigned int>(image.getLocalBounds().width),
-							static_cast<unsigned int>(image.getLocalBounds().height)};
+					if (comp.unique_key.ends_with("banner:banner_image") ||
+						comp.unique_key.ends_with("splash:splash_image") ||
+						comp.unique_key.ends_with(
+							"main_menu_attract:logo_image")) {
+						const ImageSize size{static_cast<unsigned int>(
+												 image.getLocalBounds().width),
+							static_cast<unsigned int>(
+								image.getLocalBounds().height)};
 						const ImageSize window_size{
-							window->get_window()->getSize().x, window->get_window()->getSize().y};
-						auto scale_ratio_needed{1.0f};
+							window->get_window()->getSize().x,
+							window->get_window()->getSize().y};
+						auto scale{1.0f};
 						if (size.w > window_size.w || size.h > window_size.h) {
-							auto shrink_width_needed{static_cast<float>(window_size.w) / static_cast<float>(size.w)};
-							auto shrink_height_needed{static_cast<float>(window_size.h) / static_cast<float>(size.h)};
-							scale_ratio_needed = std::min(shrink_width_needed, shrink_height_needed);
+							const auto shrink_w{
+								static_cast<float>(window_size.w) /
+								static_cast<float>(size.w)};
+							const auto shrink_h{
+								static_cast<float>(window_size.h) /
+								static_cast<float>(size.h)};
+							scale = std::min(shrink_w, shrink_h);
 						}
-						image.setScale(scale_ratio_needed, scale_ratio_needed);
-					} else if (component.unique_key.ends_with("wallpaper")) {
+						image.setScale(scale, scale);
+					} else if (comp.unique_key.ends_with("wallpaper")) {
 
 						// Handle background wallpaper tiling
 						image.setTextureRect(window->size);
 					}
 
 					// Check for Offsets
-					const auto offset_x{std::invoke([&] {
-						if (component["offset_x"])
-							return std::stoi(component["offset_x"].value());
+					const auto off_x{std::invoke([&] {
+						if (comp["offset_x"])
+							return std::stoi(comp["offset_x"].value());
 						else
 							return 0;
 					})};
-					const auto offset_y{std::invoke([&] {
-						if (component["offset_y"])
-							return std::stoi(component["offset_y"].value());
+					const auto off_y{std::invoke([&] {
+						if (comp["offset_y"])
+							return std::stoi(comp["offset_y"].value());
 						else
 							return 0;
 					})};
 
 					// Set the image position
-					const sf::Vector2f image_pos(
-						window->get_x(image, component.x + offset_x), window->get_y(image, component.y + offset_y));
-					image.setPosition(image_pos);
+					const sf::Vector2f pos(window->get_x(image, comp.x + off_x),
+						window->get_y(image, comp.y + off_y));
+					image.setPosition(pos);
 
 					// Add the image to the components ready to draw
-					sprites[component.unique_key] = image;
+					sprites[comp.unique_key] = image;
 				}
 
-			} else if (component.type == CPT::FRAME) {
+			} else if (comp.type == CPT::FRAME) {
 
-				auto frame = std::make_shared<Frame>(_system->resources->textures[GTX::UI], component.w, component.h,
-					component.colour, component.background, component.alpha);
+				auto frame = std::make_shared<Frame>(
+					_system->resources->textures[GTX::UI], comp.w, comp.h,
+					comp.colour, comp.background, comp.alpha);
 
 				// Check for Offsets
-				const auto offset_x{std::invoke([&] {
-					if (component["offset_x"])
-						return std::stoi(component["offset_x"].value());
+				const auto off_x{std::invoke([&] {
+					if (comp["offset_x"])
+						return std::stoi(comp["offset_x"].value());
 					else
 						return 0;
 				})};
-				const auto offset_y{std::invoke([&] {
-					if (component["offset_y"])
-						return std::stoi(component["offset_y"].value());
+				const auto off_y{std::invoke([&] {
+					if (comp["offset_y"])
+						return std::stoi(comp["offset_y"].value());
 					else
 						return 0;
 				})};
 
-				frame->setPosition(window->get_x(frame->sprite, component.x) + offset_x,
-					window->get_y(frame->sprite, component.y) + offset_y);
-				frames.emplace(std::make_pair(component.unique_key, std::move(frame)));
-			} else if (component.type == CPT::TEXT) {
+				frame->setPosition(window->get_x(frame->sprite, comp.x) + off_x,
+					window->get_y(frame->sprite, comp.y) + off_y);
+				frames.emplace(
+					std::make_pair(comp.unique_key, std::move(frame)));
+			} else if (comp.type == CPT::TEXT) {
 
 				sf::Text text{};
 
 				if (_bold_text)
 					text.setStyle(sf::Text::Bold);
-				text.setFont(_system->resources->fonts[component.font]);
-				text.setCharacterSize(component.size);
-				auto string_to_print{(*string)[component.string_key]};
+				text.setFont(_system->resources->fonts[comp.font]);
+				text.setCharacterSize(comp.size);
+				auto str{(*string)[comp.string_key]};
 				if (_upper_text)
-					std::transform(string_to_print.begin(), string_to_print.end(), string_to_print.begin(), ::toupper);
-				text.setFillColor(sf::Color(component.colour));
-				text.setString(string_to_print);
-				auto x{component.x == -1 ? window->centre.x : component.x};
-				auto y{component.y == -1 ? window->centre.y : component.y};
+					std::transform(
+						str.begin(), str.end(), str.begin(), ::toupper);
+				text.setFillColor(sf::Color(comp.colour));
+				text.setString(str);
+				auto x{comp.x == -1 ? window->centre.x : comp.x};
+				auto y{comp.y == -1 ? window->centre.y : comp.y};
 
 				// Check for Offsets
-				const auto offset_x{std::invoke([&] {
-					if (component["offset_x"])
-						return std::stoi(component["offset_x"].value());
+				const auto off_x{std::invoke([&] {
+					if (comp["offset_x"])
+						return std::stoi(comp["offset_x"].value());
 					else
 						return 0;
 				})};
-				const auto offset_y{std::invoke([&] {
-					if (component["offset_y"])
-						return std::stoi(component["offset_y"].value());
+				const auto off_y{std::invoke([&] {
+					if (comp["offset_y"])
+						return std::stoi(comp["offset_y"].value());
 					else
 						return 0;
 				})};
 
 				// And for Shoves
 				const auto shove_x{std::invoke([&] {
-					if (component["shove_x"])
-						return std::stoi(component["shove_x"].value()) * window->get_cw();
+					if (comp["shove_x"])
+						return std::stoi(comp["shove_x"].value()) *
+							   window->get_cw();
 					else
 						return 0u;
 				})};
 				const auto shove_y{std::invoke([&] {
-					if (component["shove_y"])
-						return std::stoi(component["shove_y"].value()) * window->get_ch();
+					if (comp["shove_y"])
+						return std::stoi(comp["shove_y"].value()) *
+							   window->get_ch();
 					else
 						return 0u;
 				})};
 
-				if (component.justification == JUS::CENTRE) {
-					text.setPosition(x + offset_x + shove_x, y + offset_y + shove_y);
+				if (comp.justification == JUS::CENTRE) {
+					text.setPosition(x + off_x + shove_x, y + off_y + shove_y);
 					text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
-				} else if (component.justification == JUS::RIGHT) {
-					text.setPosition(x + offset_x + shove_x, y + offset_y + shove_y);
+				} else if (comp.justification == JUS::RIGHT) {
+					text.setPosition(x + off_x + shove_x, y + off_y + shove_y);
 					const sf::FloatRect bounds{text.getLocalBounds()};
-					text.setPosition(component.x - bounds.width, component.y);
+					text.setPosition(comp.x - bounds.width, comp.y);
 				} else
-					text.setPosition(x + offset_x + shove_x, y + offset_y + shove_x);
+					text.setPosition(x + off_x + shove_x, y + off_y + shove_x);
 
 				// Add the image to the components ready to draw
-				texts[component.unique_key] = text;
+				texts[comp.unique_key] = text;
 			}
 		}
 	}
 }
 
 auto Sorcery::Display::show_overlay() -> void {
+
 	_show_overlay = true;
 }
 
 auto Sorcery::Display::hide_overlay() -> void {
+
 	_show_overlay = false;
 }
 
-auto Sorcery::Display::display(std::string_view screen, std::optional<std::any> parameter) -> void {
+auto Sorcery::Display::display(
+	std::string_view screen, std::optional<std::any> param) -> void {
 
-	display(screen, _sprites, _texts, _frames, parameter);
+	display(screen, _sprites, _texts, _frames, param);
 }
 
 auto Sorcery::Display::display_overlay() -> void {
 
-	const sf::Vector2f pos(window->get_x(overlay->width, (*layout)["global:control_overlay"].x),
+	const sf::Vector2f pos(
+		window->get_x(overlay->width, (*layout)["global:control_overlay"].x),
 		window->get_y(overlay->height, (*layout)["global:control_overlay"].y));
 
 	if (_show_overlay && overlay->valid) {
@@ -313,25 +341,26 @@ auto Sorcery::Display::display_overlay() -> void {
 	}
 }
 
-auto Sorcery::Display::display(std::string_view screen, std::map<std::string, sf::Sprite> &sprites,
-	std::map<std::string, sf::Text> &texts, std::map<std::string, std::shared_ptr<Frame>> &frames,
-	std::optional<std::any> parameter) -> void {
+auto Sorcery::Display::display(std::string_view screen, SpriteMap &sprites,
+	TextMap &texts, FrameMap &frames, std::optional<std::any> param) -> void {
 
 	// first draw anything with wallpaper/background
-	for (auto &[unique_key, sprite] : sprites) {
-		if (unique_key.ends_with("wallpaper"))
+	for (auto &[key, sprite] : sprites) {
+		if (key.ends_with("wallpaper"))
 			window->get_window()->draw(sprite);
-		if (unique_key.ends_with("background"))
+		if (key.ends_with("background"))
 			window->get_window()->draw(sprite);
 	}
 
 	// Handle the different sized window frames in the town menu
-	for (auto &[unique_key, frame] : frames) {
+	for (auto &[key, frame] : frames) {
 		if (screen == "create") {
-			if (parameter) {
-				if (const CHS character_stage{std::any_cast<CHS>(parameter.value())};
-					character_stage == CHS::CHOOSE_METHOD || character_stage == CHS::REVIEW_AND_CONFIRM) {
-					if (unique_key.ends_with("_frame_progress") || unique_key.ends_with("_summary_progres"))
+			if (param) {
+				if (const CHS stage{std::any_cast<CHS>(param.value())};
+					stage == CHS::CHOOSE_METHOD ||
+					stage == CHS::REVIEW_AND_CONFIRM) {
+					if (key.ends_with("_frame_progress") ||
+						key.ends_with("_summary_progres"))
 						continue;
 				}
 			}
@@ -341,38 +370,43 @@ auto Sorcery::Display::display(std::string_view screen, std::map<std::string, sf
 	}
 
 	// Display all other sprites, but not the background wallpaper
-	for (auto &[unique_key, sprite] : sprites) {
-		if (unique_key.ends_with("banner:banner_image") || unique_key.ends_with("splash:splash_image")) {
-			if (parameter) {
-				sprite.setColor(sf::Color(255, 255, 255, std::any_cast<unsigned int>(parameter.value())));
+	for (auto &[key, sprite] : sprites) {
+		if (key.ends_with("banner:banner_image") ||
+			key.ends_with("splash:splash_image")) {
+			if (param) {
+				sprite.setColor(sf::Color(
+					255, 255, 255, std::any_cast<unsigned int>(param.value())));
 			}
 		}
 
-		if (unique_key.ends_with("wallpaper"))
+		if (key.ends_with("wallpaper"))
 			continue;
-		else if (unique_key.ends_with("background"))
+		else if (key.ends_with("background"))
 			continue;
 		else
 			window->get_window()->draw(sprite);
 	}
 
-	for (const auto &[unique_key, text] : texts) {
+	for (const auto &[key, text] : texts) {
 
 		if (screen == "main_menu_attract") {
-			if (parameter) {
-				if (const MMT menu_stage{std::any_cast<MMT>(parameter.value())}; menu_stage == MMT::ATTRACT_MENU) {
-					if (unique_key.ends_with("main_menu_attract:press_any_key") ||
-						unique_key.ends_with("main_menu_attract:subtitle_1") ||
-						unique_key.ends_with("main_menu_attract:subtitle_2") ||
-						unique_key.ends_with("main_menu_attract:copyright"))
+			if (param) {
+				if (const MMT stage{std::any_cast<MMT>(param.value())};
+					stage == MMT::ATTRACT_MENU) {
+					if (key.ends_with("main_menu_attract:press_any_key") ||
+						key.ends_with("main_menu_attract:subtitle_1") ||
+						key.ends_with("main_menu_attract:subtitle_2") ||
+						key.ends_with("main_menu_attract:copyright"))
 						continue;
 				}
 			}
 		} else if (screen == "create") {
-			if (parameter) {
-				if (const CHS character_stage{std::any_cast<CHS>(parameter.value())};
-					character_stage == CHS::CHOOSE_METHOD || character_stage == CHS::REVIEW_AND_CONFIRM) {
-					if (unique_key.ends_with("_frame_progress") || unique_key.ends_with("_summary_progress"))
+			if (param) {
+				if (const CHS stage{std::any_cast<CHS>(param.value())};
+					stage == CHS::CHOOSE_METHOD ||
+					stage == CHS::REVIEW_AND_CONFIRM) {
+					if (key.ends_with("_frame_progress") ||
+						key.ends_with("_summary_progress"))
 						continue;
 				}
 			}
@@ -393,64 +427,69 @@ auto Sorcery::Display::get_input_mode() const -> WIM {
 	return window->get_input_mode();
 }
 
-auto Sorcery::Display::display_direction_indicator(MAD direction, bool monochrome = false) -> void {
+auto Sorcery::Display::display_direction_indicator(MAD dir, bool mono = false)
+	-> void {
 
-	auto di_layout{(*layout)["engine_base_ui:direction_indicator"]};
-	auto di_type{std::invoke([&] { return monochrome ? di_layout["mono"].value() : di_layout["not_mono"].value(); })};
+	const auto di_layout{(*layout)["engine_base_ui:direction_indicator"]};
+	const auto di_type{std::invoke([&] {
+		return mono ? di_layout["mono"].value() : di_layout["not_mono"].value();
+	})};
 	auto di_icon{(*_icons)[di_type]};
 	if (di_icon) {
-		auto indicator{di_icon.value()};
-		indicator.setOrigin(indicator.getLocalBounds().width / 2, indicator.getLocalBounds().height / 2);
-		switch (direction) {
+		auto ind{di_icon.value()};
+		ind.setOrigin(
+			ind.getLocalBounds().width / 2, ind.getLocalBounds().height / 2);
+		switch (dir) {
 		case MAD::NORTH:
-			indicator.setRotation(180.0f);
+			ind.setRotation(180.0f);
 			break;
 		case MAD::SOUTH:
-			indicator.setRotation(0.0f);
+			ind.setRotation(0.0f);
 			break;
 		case MAD::EAST:
-			indicator.setRotation(270.0f);
+			ind.setRotation(270.0f);
 			break;
 		case MAD::WEST:
-			indicator.setRotation(90.0f);
+			ind.setRotation(90.0f);
 			break;
 		default:
 			break;
 		}
 
-		const auto offset_x{std::invoke([&] {
+		const auto off_x{std::invoke([&] {
 			if (di_layout["offset_x"])
 				return std::stoi(di_layout["offset_x"].value());
 			else
 				return 0;
 		})};
-		const auto offset_y{std::invoke([&] {
+		const auto off_y{std::invoke([&] {
 			if (di_layout["offset_y"])
 				return std::stoi(di_layout["offset_y"].value());
 			else
 				return 0;
 		})};
 
-		sf::RectangleShape backdrop{sf::Vector2f(512, 512)};
-		backdrop.setFillColor(sf::Color(0, 0, 0));
-		backdrop.setOrigin(backdrop.getLocalBounds().width / 2, backdrop.getLocalBounds().height / 2);
+		sf::RectangleShape bg{sf::Vector2f(512, 512)};
+		bg.setFillColor(sf::Color(0, 0, 0));
+		bg.setOrigin(
+			bg.getLocalBounds().width / 2, bg.getLocalBounds().height / 2);
 
-		indicator.setPosition((indicator.getGlobalBounds().width / 2) + di_layout.x + offset_x,
-			(indicator.getGlobalBounds().height / 2) + di_layout.y + offset_y);
-		backdrop.setPosition((indicator.getGlobalBounds().width / 2) + di_layout.x + offset_x,
-			(indicator.getGlobalBounds().height / 2) + di_layout.y + offset_y);
-		indicator.setScale(di_layout.scl());
-		backdrop.setScale(di_layout.scl());
+		ind.setPosition((ind.getGlobalBounds().width / 2) + di_layout.x + off_x,
+			(ind.getGlobalBounds().height / 2) + di_layout.y + off_y);
+		bg.setPosition((ind.getGlobalBounds().width / 2) + di_layout.x + off_x,
+			(ind.getGlobalBounds().height / 2) + di_layout.y + off_y);
+		ind.setScale(di_layout.scl());
+		bg.setScale(di_layout.scl());
 
-		window->get_window()->draw(backdrop);
-		window->get_window()->draw(indicator);
+		window->get_window()->draw(bg);
+		window->get_window()->draw(ind);
 	}
 }
 
 auto Sorcery::Display::display_cursor() -> void {
 
 	auto cursor{std::invoke([&] {
-		if (_accessing_disc)
+		if (_disc_access)
 			return window->get_disc();
 		else
 			return window->get_cursor();
@@ -465,37 +504,39 @@ auto Sorcery::Display::get_cur() const -> sf::Vector2f {
 }
 
 auto Sorcery::Display::fit_bg_movie() -> void {
-	_background_movie.fit(0, 0, window->get_window()->getSize().x, window->get_window()->getSize().y);
+
+	_bg_movie.fit(0, 0, window->get_window()->getSize().x,
+		window->get_window()->getSize().y);
 }
 
 auto Sorcery::Display::start_bg_movie() -> void {
 
-	if (_background_movie.getStatus() == sfe::Stopped)
-		_background_movie.play();
+	if (_bg_movie.getStatus() == sfe::Stopped)
+		_bg_movie.play();
 }
 
 auto Sorcery::Display::get_disc() const -> bool {
 
-	return _accessing_disc;
+	return _disc_access;
 }
 
 auto Sorcery::Display::set_disc(const bool value) -> void {
 
-	_accessing_disc = value;
+	_disc_access = value;
 }
 
 auto Sorcery::Display::stop_bg_movie() -> void {
 
-	if (_background_movie.getStatus() == sfe::Playing)
-		_background_movie.stop();
+	if (_bg_movie.getStatus() == sfe::Playing)
+		_bg_movie.stop();
 }
 
 auto Sorcery::Display::update_bg_movie() -> void {
 
-	_background_movie.update();
+	_bg_movie.update();
 }
 
 auto Sorcery::Display::draw_bg_movie() -> void {
 
-	window->get_window()->draw(_background_movie);
+	window->get_window()->draw(_bg_movie);
 }

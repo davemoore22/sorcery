@@ -48,8 +48,9 @@ class State {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_version, _party, level, explored, _player_depth, _previous_depth, _player_pos, _previous_pos,
-				_playing_facing, _lit, _turns, _log, _shop);
+			archive(_version, _party, level, explored, _player_depth,
+				_previous_depth, _player_pos, _previous_pos, _playing_facing,
+				_lit, _turns, _log, _shop);
 		}
 
 		// Public Members
@@ -63,7 +64,8 @@ class State {
 		auto add_character_by_id(unsigned int char_id) -> bool;
 		auto check_character_in_party(unsigned int char_id) -> bool;
 		auto clear_party() -> void;
-		auto get_character_index(unsigned int char_id) -> std::optional<unsigned int>;
+		auto get_character_index(unsigned int char_id)
+			-> std::optional<unsigned int>;
 		auto get_party_characters() const -> std::vector<unsigned int>;
 		auto get_party_size() const -> unsigned int;
 		auto get_player_facing() const -> MAD;
@@ -71,7 +73,8 @@ class State {
 		auto get_player_prev_pos() const -> Coordinate;
 		auto get_player_prev_depth() const -> int;
 		auto party_has_members() const -> bool;
-		auto get_character_by_position(unsigned int index) -> std::optional<unsigned int>;
+		auto get_character_by_position(unsigned int index)
+			-> std::optional<unsigned int>;
 		auto remove_character_by_id(unsigned int char_id) -> bool;
 		auto remove_character_by_position(unsigned int index) -> bool;
 		auto set(System *system) -> void;
@@ -89,9 +92,10 @@ class State {
 		auto pass_turn(unsigned int turns = 1) -> void;
 		auto add_log_message(std::string text, IMT type) -> void;
 		auto clear_log_messages() -> void;
-		auto add_log_dice_roll(
-			const std::string &message, const int dice = -1, const int roll = -1, const int needed = -1) -> void;
-		auto get_log_messages(unsigned int last = 0) const -> std::vector<ConsoleMessage>;
+		auto add_log_dice_roll(const std::string &message, const int dice = -1,
+			const int roll = -1, const int needed = -1) -> void;
+		auto get_log_messages(unsigned int last = 0) const
+			-> std::vector<ConsoleMessage>;
 		auto print() -> void;
 
 	private:

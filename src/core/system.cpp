@@ -28,7 +28,8 @@
 #include "core/macro.hpp"
 
 // Standard Constructor
-Sorcery::System::System(int argc __attribute__((unused)), char **argv __attribute__((unused))) {
+Sorcery::System::System(
+	int argc __attribute__((unused)), char **argv __attribute__((unused))) {
 
 	// Files Module
 	files = std::make_unique<FileStore>();
@@ -38,7 +39,8 @@ Sorcery::System::System(int argc __attribute__((unused)), char **argv __attribut
 	settings->SetUnicode();
 	const auto settings_fp{(*files)[CONFIG_FILE]};
 	settings->LoadFile(CSTR(settings_fp));
-	config = std::make_unique<ConfigFile>(settings.get(), (*files)[CONFIG_FILE]);
+	config =
+		std::make_unique<ConfigFile>(settings.get(), (*files)[CONFIG_FILE]);
 
 	// Random Module
 	random = std::make_unique<Random>();
@@ -48,32 +50,32 @@ Sorcery::System::System(int argc __attribute__((unused)), char **argv __attribut
 
 	// Resource Manager
 	resources = std::make_unique<ResourceManager>(*files);
-	resources->textures[Enums::Graphics::Texture::BACKGROUND].setRepeated(true);
+	resources->textures[GTX::BACKGROUND].setRepeated(true);
 
 	// Input Module
 	input = std::make_unique<Input>();
 
 	// Pause Clock
-	_pause_clock_start = std::nullopt;
-	_clock_duration = std::nullopt;
+	_pause_start = std::nullopt;
+	_pause_dur = std::nullopt;
 }
 
-auto Sorcery::System::set_pause(unsigned int milliseconds) -> void {
+auto Sorcery::System::set_pause(unsigned int ms) -> void {
 
-	if (!_pause_clock_start) {
-		_clock_duration = milliseconds;
-		_pause_clock_start = std::chrono::steady_clock::now();
+	if (!_pause_start) {
+		_pause_dur = ms;
+		_pause_start = std::chrono::steady_clock::now();
 	}
 }
 
 auto Sorcery::System::get_pause() -> bool {
 
-	if (_pause_clock_start && _clock_duration) {
+	if (_pause_start && _pause_dur) {
 		auto elapsed{std::chrono::duration_cast<std::chrono::milliseconds>(
-			std::chrono::steady_clock::now() - _pause_clock_start.value())
+			std::chrono::steady_clock::now() - _pause_start.value())
 				.count()};
 
-		return (elapsed < _clock_duration.value());
+		return (elapsed < _pause_dur.value());
 	} else
 		return false;
 }
@@ -81,13 +83,13 @@ auto Sorcery::System::get_pause() -> bool {
 // Only returns true when the tiner has expired
 auto Sorcery::System::update_pause() -> bool {
 
-	if (_pause_clock_start && _clock_duration) {
+	if (_pause_start && _pause_dur) {
 		auto elapsed{std::chrono::duration_cast<std::chrono::milliseconds>(
-			std::chrono::steady_clock::now() - _pause_clock_start.value())
+			std::chrono::steady_clock::now() - _pause_start.value())
 				.count()};
-		if (elapsed > _clock_duration.value()) {
-			_pause_clock_start = std::nullopt;
-			_clock_duration = std::nullopt;
+		if (elapsed > _pause_dur.value()) {
+			_pause_start = std::nullopt;
+			_pause_dur = std::nullopt;
 			return true;
 		} else
 			return false;
@@ -97,19 +99,20 @@ auto Sorcery::System::update_pause() -> bool {
 
 auto Sorcery::System::stop_pause() -> void {
 
-	_pause_clock_start = std::nullopt;
-	_clock_duration = std::nullopt;
+	_pause_start = std::nullopt;
+	_pause_dur = std::nullopt;
 }
 
 // Diceroll to String
-auto Sorcery::System::dice_roll_to_str(
-	const std::string &message, const int dice, const int roll, const int needed) const -> std::string {
+auto Sorcery::System::dice_roll_to_str(const std::string &message,
+	const int dice, const int roll, const int needed) const -> std::string {
 
 	return fmt::format("d{:<3}: {:>3}/{:>3}: {}", dice, roll, needed, message);
 }
 
 // Timepoint to String
-auto Sorcery::System::convert_tp_to_str(const TimePoint tp) const -> std::string {
+auto Sorcery::System::convert_tp_to_str(const TimePoint tp) const
+	-> std::string {
 
 	// Need to do it this way til std::chrono::locate_zone etc is supported
 	auto t_t{std::chrono::system_clock::to_time_t(tp)};

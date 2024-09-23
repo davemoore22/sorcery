@@ -6,7 +6,7 @@ AllowShortFunctionsOnASingleLine: false
 AllowShortLambdasOnASingleLine: true
 AlwaysBreakBeforeMultilineStrings: true
 BasedOnStyle: LLVM
-ColumnLimit: 120
+ColumnLimit: 80
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
 EmptyLineAfterAccessModifier: Always

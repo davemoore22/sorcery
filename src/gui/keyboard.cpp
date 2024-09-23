@@ -203,7 +203,7 @@ auto Sorcery::Keyboard::set_selected_background() -> void {
 	// Find the text that is highlighted
 
 	_selected_bg = sf::RectangleShape(sf::Vector2(text_rect.width, text_rect.height));
-	_selected_bg.setFillColor(_graphics->animation->selected_colour);
+	_selected_bg.setFillColor(_graphics->animation->select_col);
 	_selected_bg.setPosition(
 		_texts.at(selected).getPosition().x + offset_x, _texts.at(selected).getPosition().y + offset_y);
 	_texts.at(selected).setFillColor(sf::Color(_text_c.colour));

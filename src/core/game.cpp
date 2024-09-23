@@ -32,8 +32,10 @@
 Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
-	itemstore = std::make_unique<ItemStore>(_system, (*_system->files)[ITEMS_FILE]);
-	monsterstore = std::make_unique<MonsterStore>(_system, (*_system->files)[MONSTERS_FILE]);
+	itemstore =
+		std::make_unique<ItemStore>(_system, (*_system->files)[ITEMS_FILE]);
+	monsterstore = std::make_unique<MonsterStore>(
+		_system, (*_system->files)[MONSTERS_FILE]);
 
 	valid = _system->database->has_game();
 	if (valid) {
@@ -44,7 +46,8 @@ Sorcery::Game::Game(System *system, Display *display, Graphics *graphics)
 		_load_game();
 	}
 
-	levelstore = std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
+	levelstore =
+		std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
 
 	_set_up_dungeon_events();
 }
@@ -64,7 +67,7 @@ auto Sorcery::Game::wipe_data() -> void {
 // Mappings for each type of special dungeon event in the Proving Grounds
 auto Sorcery::Game::_set_up_dungeon_events() -> void {
 
-	_dungeon_events.clear();
+	_events.clear();
 
 	// bool params are:
 	//
@@ -74,62 +77,100 @@ auto Sorcery::Game::_set_up_dungeon_events() -> void {
 	// teleport back to town
 
 	// Level 1
-	_dungeon_events.emplace_back(MAV::AREA_OF_OUT_BOUNDS, "event_area_out_of_bounds", false, false, false, false);
-	_dungeon_events.emplace_back(MAV::MAN_TELEPORT_CASTLE, "event_man_teleport_castle", false, false, false, true);
-	_dungeon_events.emplace_back(MAV::SILVER_KEY, "event_silver_key", true, false, false, false);
-	_dungeon_events.emplace_back(MAV::BRONZE_KEY, "event_bronze_key", true, false, false, false);
-	_dungeon_events.emplace_back(MAV::MURPHYS_GHOSTS, "event_murphys_ghosts", true, true, false, false);
+	_events.emplace_back(MAV::AREA_OF_OUT_BOUNDS, "event_area_out_of_bounds",
+		false, false, false, false);
+	_events.emplace_back(MAV::MAN_TELEPORT_CASTLE, "event_man_teleport_castle",
+		false, false, false, true);
+	_events.emplace_back(
+		MAV::SILVER_KEY, "event_silver_key", true, false, false, false);
+	_events.emplace_back(
+		MAV::BRONZE_KEY, "event_bronze_key", true, false, false, false);
+	_events.emplace_back(
+		MAV::MURPHYS_GHOSTS, "event_murphys_ghosts", true, true, false, false);
 
 	// Level 2
-	_dungeon_events.emplace_back(MAV::GOLD_KEY, "event_gold_key", true, false, false, false);
-	_dungeon_events.emplace_back(MAV::BEAR_STATUE, "event_bear_statue", true, false, false, false);
-	_dungeon_events.emplace_back(MAV::FROG_STATUE, "event_frog_statue", true, false, false, false);
-	_dungeon_events.emplace_back(MAV::PLACARD_PIT_1, "event_placard_pit_1", false, false, false, false);
-	_dungeon_events.emplace_back(MAV::PLACARD_PIT_2, "event_placard_pit_2", false, false, false, false);
-	_dungeon_events.emplace_back(MAV::PLACARD_PIT_3, "event_placard_pit_3", false, false, false, false);
-	_dungeon_events.emplace_back(MAV::NEED_SILVER_KEY, "event_need_silver_key", false, false, true, false);
-	_dungeon_events.emplace_back(MAV::NEED_BRONZE_KEY, "event_need_bronze_key", false, false, true, false);
-	_dungeon_events.emplace_back(MAV::NEED_BEAR_STATUE, "event_cannot_break_doors_down", false, false, true, false);
-	_dungeon_events.emplace_back(MAV::NEED_FROG_STATUE, "event_cannot_break_doors_down", false, false, true, false);
+	_events.emplace_back(
+		MAV::GOLD_KEY, "event_gold_key", true, false, false, false);
+	_events.emplace_back(
+		MAV::BEAR_STATUE, "event_bear_statue", true, false, false, false);
+	_events.emplace_back(
+		MAV::FROG_STATUE, "event_frog_statue", true, false, false, false);
+	_events.emplace_back(
+		MAV::PLACARD_PIT_1, "event_placard_pit_1", false, false, false, false);
+	_events.emplace_back(
+		MAV::PLACARD_PIT_2, "event_placard_pit_2", false, false, false, false);
+	_events.emplace_back(
+		MAV::PLACARD_PIT_3, "event_placard_pit_3", false, false, false, false);
+	_events.emplace_back(MAV::NEED_SILVER_KEY, "event_need_silver_key", false,
+		false, true, false);
+	_events.emplace_back(MAV::NEED_BRONZE_KEY, "event_need_bronze_key", false,
+		false, true, false);
+	_events.emplace_back(MAV::NEED_BEAR_STATUE, "event_cannot_break_doors_down",
+		false, false, true, false);
+	_events.emplace_back(MAV::NEED_FROG_STATUE, "event_cannot_break_doors_down",
+		false, false, true, false);
 
 	// Level 3
-	_dungeon_events.emplace_back(MAV::TURN_LEFT, "event_turn_left", false, false, false, false);
-	_dungeon_events.emplace_back(MAV::TURN_AROUND, "event_turn_around", false, false, false, false);
-	_dungeon_events.emplace_back(MAV::TURN_RIGHT, "event_turn_right", false, false, false, false);
+	_events.emplace_back(
+		MAV::TURN_LEFT, "event_turn_left", false, false, false, false);
+	_events.emplace_back(
+		MAV::TURN_AROUND, "event_turn_around", false, false, false, false);
+	_events.emplace_back(
+		MAV::TURN_RIGHT, "event_turn_right", false, false, false, false);
 
 	// Level 4
-	_dungeon_events.emplace_back(MAV::NEED_BEAR_STATUE_2, "event_need_bear_statue_2", false, false, true, false);
-	_dungeon_events.emplace_back(MAV::TESTING_GROUNDS, "event_testing_grounds", false, false, false, false);
-	_dungeon_events.emplace_back(MAV::ALARM_BELLS, "event_alarm_bells", false, true, false, false);
-	_dungeon_events.emplace_back(MAV::TREASURE_REPOSITORY, "event_treasure_repository", false, false, false, false);
-	_dungeon_events.emplace_back(
-		MAV::MONSTER_ALLOCATION_CENTRE, "event_monster_allocation_centre", false, false, false, false);
-	_dungeon_events.emplace_back(MAV::NEED_BLUE_RIBBON, "event_need_blue_ribbon", false, false, true, false);
-	_dungeon_events.emplace_back(MAV::SERVICE_ELEVATOR, "event_service_elevator", false, false, false, false);
-	_dungeon_events.emplace_back(MAV::GUARANTEED_COMBAT, "event_guaranteed_combat", false, true, false, false);
-	_dungeon_events.emplace_back(MAV::LARGE_DESK, "event_large_desk", false, false, false, false);
-	_dungeon_events.emplace_back(MAV::DEADLY_RING_COMBAT, "event_deadly_ring_combat", false, true, false, false);
-	_dungeon_events.emplace_back(MAV::TREBOR_VOICE, "event_trebor_voice", false, false, false, false);
+	_events.emplace_back(MAV::NEED_BEAR_STATUE_2, "event_need_bear_statue_2",
+		false, false, true, false);
+	_events.emplace_back(MAV::TESTING_GROUNDS, "event_testing_grounds", false,
+		false, false, false);
+	_events.emplace_back(
+		MAV::ALARM_BELLS, "event_alarm_bells", false, true, false, false);
+	_events.emplace_back(MAV::TREASURE_REPOSITORY, "event_treasure_repository",
+		false, false, false, false);
+	_events.emplace_back(MAV::MONSTER_ALLOCATION_CENTRE,
+		"event_monster_allocation_centre", false, false, false, false);
+	_events.emplace_back(MAV::NEED_BLUE_RIBBON, "event_need_blue_ribbon", false,
+		false, true, false);
+	_events.emplace_back(MAV::SERVICE_ELEVATOR, "event_service_elevator", false,
+		false, false, false);
+	_events.emplace_back(MAV::GUARANTEED_COMBAT, "event_guaranteed_combat",
+		false, true, false, false);
+	_events.emplace_back(
+		MAV::LARGE_DESK, "event_large_desk", false, false, false, false);
+	_events.emplace_back(MAV::DEADLY_RING_COMBAT, "event_deadly_ring_combat",
+		false, true, false, false);
+	_events.emplace_back(
+		MAV::TREBOR_VOICE, "event_trebor_voice", false, false, false, false);
 
 	// Level 6
-	_dungeon_events.emplace_back(MAV::THREE_HUMANOIDS, "event_three_humanoids", false, false, false, false);
+	_events.emplace_back(MAV::THREE_HUMANOIDS, "event_three_humanoids", false,
+		false, false, false);
 
 	// Level 7
-	_dungeon_events.emplace_back(MAV::GETTING_WARM_1, "event_getting_warm_1", false, false, false, false);
-	_dungeon_events.emplace_back(MAV::GETTING_WARM_2, "event_getting_warm_2", false, false, false, false);
-	_dungeon_events.emplace_back(MAV::GETTING_WARM_3, "event_getting_warm_3", false, false, false, false);
-	_dungeon_events.emplace_back(MAV::FIRE_DRAGONS_COMBAT, "event_fire_dragons_combat", false, true, false, false);
+	_events.emplace_back(MAV::GETTING_WARM_1, "event_getting_warm_1", false,
+		false, false, false);
+	_events.emplace_back(MAV::GETTING_WARM_2, "event_getting_warm_2", false,
+		false, false, false);
+	_events.emplace_back(MAV::GETTING_WARM_3, "event_getting_warm_3", false,
+		false, false, false);
+	_events.emplace_back(MAV::FIRE_DRAGONS_COMBAT, "event_fire_dragons_combat",
+		false, true, false, false);
 
 	// Level 10
-	_dungeon_events.emplace_back(MAV::WERDNA_BOAST, "event_werdna_boast", false, false, false, false);
-	_dungeon_events.emplace_back(MAV::TURN_BACK, "event_turn_back", false, false, false, false);
-	_dungeon_events.emplace_back(MAV::WERDNA_SIGN, "event_werdna_sign_1", false, false, false, false);
+	_events.emplace_back(
+		MAV::WERDNA_BOAST, "event_werdna_boast", false, false, false, false);
+	_events.emplace_back(
+		MAV::TURN_BACK, "event_turn_back", false, false, false, false);
+	_events.emplace_back(
+		MAV::WERDNA_SIGN, "event_werdna_sign_1", false, false, false, false);
 }
 
 auto Sorcery::Game::get_event(MAV event_type) const -> DungeonEvent {
 
-	auto it{std::ranges::find_if(_dungeon_events.begin(), _dungeon_events.end(),
-		[&](const auto &dungeon_event) { return (dungeon_event.event == event_type); })};
+	auto it{std::ranges::find_if(
+		_events.begin(), _events.end(), [&](const auto &dungeon_event) {
+			return (dungeon_event.event == event_type);
+		})};
 
 	return *it;
 
@@ -138,19 +179,23 @@ auto Sorcery::Game::get_event(MAV event_type) const -> DungeonEvent {
 
 auto Sorcery::Game::enable_event(MAV event_type) -> void {
 
-	auto it{std::ranges::find_if(_dungeon_events.begin(), _dungeon_events.end(),
-		[&](const auto &dungeon_event) { return (dungeon_event.event == event_type); })};
+	auto it{std::ranges::find_if(
+		_events.begin(), _events.end(), [&](const auto &dungeon_event) {
+			return (dungeon_event.event == event_type);
+		})};
 
-	if (it != _dungeon_events.end())
+	if (it != _events.end())
 		(*it).enabled = true;
 }
 
 auto Sorcery::Game::disable_event(MAV event_type) -> void {
 
-	auto it{std::ranges::find_if(_dungeon_events.begin(), _dungeon_events.end(),
-		[&](const auto &dungeon_event) { return (dungeon_event.event == event_type); })};
+	auto it{std::ranges::find_if(
+		_events.begin(), _events.end(), [&](const auto &dungeon_event) {
+			return (dungeon_event.event == event_type);
+		})};
 
-	if (it != _dungeon_events.end())
+	if (it != _events.end())
 		(*it).enabled = false;
 }
 
@@ -181,9 +226,9 @@ auto Sorcery::Game::enter_maze() -> void {
 	state->restart_expedition();
 }
 
-auto Sorcery::Game::delete_character(unsigned int character_id) -> void {
+auto Sorcery::Game::delete_character(unsigned int char_id) -> void {
 
-	_system->database->delete_character(_id, character_id);
+	_system->database->delete_character(_id, char_id);
 }
 
 auto Sorcery::Game::_clear() -> void {
@@ -199,9 +244,10 @@ auto Sorcery::Game::_clear() -> void {
 	}
 
 	characters.clear();
-	_characters_ids.clear();
+	_char_ids.clear();
 	state = std::make_unique<State>(_system);
-	levelstore = std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
+	levelstore =
+		std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
 
 	state->clear_log_messages();
 	state->reset_shop(itemstore.get());
@@ -225,14 +271,16 @@ auto Sorcery::Game::_create_game() -> void {
 auto Sorcery::Game::_load_game() -> void {
 
 	// Get Game and State Data
-	auto [id, key, status, start_time, last_time, data] = _system->database->load_game_state().value();
+	auto [id, key, status, start_time, last_time, data] =
+		_system->database->load_game_state().value();
 	_id = id;
 	_key = key;
 	_status = status;
 	_start_time = start_time;
 	_last_time = last_time;
 	state = std::make_unique<State>();
-	levelstore = std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
+	levelstore =
+		std::make_unique<LevelStore>(_system, (*_system->files)[LEVELS_FILE]);
 	if (data.length() > 0) {
 		std::stringstream ss;
 		ss.str(data);
@@ -291,7 +339,8 @@ auto Sorcery::Game::_save_game() -> void {
 }
 
 auto Sorcery::Game::_save_characters() -> void {
-	for (const auto &[character_id, character] : characters) {
+
+	for (const auto &[char_id, character] : characters) {
 
 		_update_party_location();
 		std::stringstream ss;
@@ -299,15 +348,16 @@ auto Sorcery::Game::_save_characters() -> void {
 			cereal::XMLOutputArchive out_archive(ss);
 			out_archive(character);
 		}
-		const auto character_data{ss.str()};
+		const auto char_data{ss.str()};
 
-		_system->database->update_character(_id, character_id, character.get_name(), character_data);
+		_system->database->update_character(
+			_id, char_id, character.get_name(), char_data);
 	}
 }
 
 auto Sorcery::Game::has_party_in_maze() const -> bool {
 
-	for (auto &[character_id, character] : characters) {
+	for (auto &[char_id, character] : characters) {
 
 		if (character.get_location() == CHL::MAZE)
 			return true;
@@ -319,8 +369,8 @@ auto Sorcery::Game::has_party_in_maze() const -> bool {
 auto Sorcery::Game::_update_party_location() -> void {
 
 	auto party{state->get_party_characters()};
-	for (auto &[character_id, character] : characters) {
-		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+	for (auto &[char_id, character] : characters) {
+		if (std::find(party.begin(), party.end(), char_id) != party.end()) {
 			character.depth = state->get_depth();
 			character.coordinate = state->get_player_pos();
 		}
@@ -330,10 +380,10 @@ auto Sorcery::Game::_update_party_location() -> void {
 auto Sorcery::Game::get_characters_at_loc() const -> std::vector<unsigned int> {
 
 	std::vector<unsigned int> results;
-	for (auto &[character_id, character] : characters) {
+	for (auto &[char_id, character] : characters) {
 		if (character.get_location() == CHL::MAZE) {
 			if (character.coordinate == state->get_player_pos()) {
-				results.emplace_back(character_id);
+				results.emplace_back(char_id);
 			}
 		}
 	}
@@ -348,12 +398,15 @@ auto Sorcery::Game::add_character(Character character) -> unsigned int {
 		cereal::XMLOutputArchive out_archive(ss);
 		out_archive(character);
 	}
-	const auto character_data{ss.str()};
+	const auto char_data{ss.str()};
 
-	return _system->database->add_character(_id, character.get_name(), character_data);
+	return _system->database->add_character(
+		_id, character.get_name(), char_data);
 }
 
-auto Sorcery::Game::update_character(unsigned int game_id, unsigned int character_id, Character &character) -> bool {
+auto Sorcery::Game::update_character(
+	unsigned int game_id, unsigned int char_id, Character &character) -> bool {
+
 	std::stringstream ss;
 	{
 		cereal::XMLOutputArchive out_archive(ss);
@@ -361,18 +414,19 @@ auto Sorcery::Game::update_character(unsigned int game_id, unsigned int characte
 	}
 	const auto character_data{ss.str()};
 
-	return _system->database->update_character(game_id, character_id, character.get_name(), character_data);
+	return _system->database->update_character(
+		game_id, char_id, character.get_name(), character_data);
 }
 
 auto Sorcery::Game::_load_characters() -> void {
 
-	_characters_ids.clear();
-	_characters_ids = _system->database->get_character_ids(_id);
+	_char_ids.clear();
+	_char_ids = _system->database->get_character_ids(_id);
 	characters.clear();
 
-	for (auto character_id : _characters_ids) {
+	for (auto char_id : _char_ids) {
 
-		const auto data{_system->database->get_character(_id, character_id)};
+		const auto data{_system->database->get_character(_id, char_id)};
 		std::stringstream ss;
 		ss.str(data);
 
@@ -385,7 +439,7 @@ auto Sorcery::Game::_load_characters() -> void {
 		}
 		character.create_spells();
 		character.set_spells();
-		characters[character_id] = character;
+		characters[char_id] = character;
 	}
 }
 
@@ -429,16 +483,16 @@ auto Sorcery::Game::print() -> void {
 
 	auto text{"Game:\n\n"s};
 
-	for (const auto &[id, character] : characters) {
-		auto line{
-			fmt::format("{}){:>16} {}", id, character.get_name(), magic_enum::enum_name(character.get_location()))};
+	for (const auto &[char_id, character] : characters) {
+		auto line{fmt::format("{}){:>16} {}", char_id, character.get_name(),
+			magic_enum::enum_name(character.get_location()))};
 		text.append(line);
 		text.append("\n");
 	}
 
 	text.append("\n[");
-	for (const auto id : state->get_party_characters()) {
-		auto line{fmt::format("{},", id)};
+	for (const auto char_id : state->get_party_characters()) {
+		auto line{fmt::format("{},", char_id)};
 		text.append(line);
 	}
 	text.append("]\n");
@@ -447,12 +501,14 @@ auto Sorcery::Game::print() -> void {
 
 namespace Sorcery {
 
-auto operator<<(std::ostream &out_stream, const Sorcery::Game &game) -> std::ostream & {
+auto operator<<(std::ostream &out_stream, const Sorcery::Game &game)
+	-> std::ostream & {
 
 	auto text{"Game:\n\n"s};
 
-	for (const auto &[id, character] : game.characters) {
-		auto line{fmt::format("{}){:>16}{}", id, character.get_name(), (int)character.get_location())};
+	for (const auto &[char_id, character] : game.characters) {
+		auto line{fmt::format("{}){:>16}{}", char_id, character.get_name(),
+			(int)character.get_location())};
 		text.append(line);
 		text.append("\n");
 	}

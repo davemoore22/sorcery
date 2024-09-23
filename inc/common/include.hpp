@@ -74,6 +74,7 @@
 #include <typeinfo>
 #include <utility>
 #include <uuid/uuid.h>
+#include <variant>
 #include <vector>
 
 // Internal Includes
@@ -83,9 +84,9 @@
 #include "types/dice.hpp"
 #include "types/error.hpp"
 
-// Aliases for Enums and Types
 namespace Sorcery {
 
+// Aliases for Enums
 using CAB = Enums::Character::Ability;
 using CAT = Enums::Character::Ability_Type;
 using CAL = Enums::Character::Align;
@@ -100,6 +101,7 @@ using CHV = Enums::Character::View;
 using CHL = Enums::Character::Location;
 using CPE = Enums::Window::ComponentElement;
 using CPT = Enums::Window::ComponentType;
+using CFG = Enums::Config::Options;
 using CIN = Enums::Controls::Input;
 using CRM = Enums::Manage::Method;
 using DES = Enums::System::Destination;
@@ -131,12 +133,21 @@ using WDT = Enums::Window::DialogType;
 using WDM = Enums::Window::DrawMode;
 using WDB = Enums::Window::DialogButton;
 
+// Forward Declarations
+class Component;
+class Frame;
+
+// Aliases for Types
 using CharacterAbilities = std::map<Enums::Character::Ability, int>;
 using CharacterAttributes = std::map<Enums::Character::Attribute, int>;
 using CharacterClassList = std::map<Enums::Character::Class, std::string>;
-using CharacterClassMenu = std::pair<Enums::Character::Class, Enums::Menu::Item>;
+using CharacterClassMenu =
+	std::pair<Enums::Character::Class, Enums::Menu::Item>;
 using CharacterClassQualified = std::map<Enums::Character::Class, bool>;
 using ComponentData = std::pair<std::string, std::string>;
+using ComponentList = std::map<Component,
+	std::variant<sf::Sprite, sf::Text, std::shared_ptr<Frame>>>;
+using FrameMap = std::map<std::string, std::shared_ptr<Frame>>;
 using IconLibrary = std::map<std::string, sf::Sprite>;
 using IconStorage = std::vector<std::pair<std::string, sf::Sprite>>;
 using ItemEffDef = std::array<bool, 22>;
@@ -147,7 +158,9 @@ using MenuSelect = std::optional<std::vector<MenuEntry>::const_iterator>;
 using LevelID = std::pair<std::string, int>;
 using Range = std::tuple<unsigned int, unsigned int>;
 using SpellPoints = std::map<unsigned int, unsigned int>;
+using SpriteMap = std::map<std::string, sf::Sprite>;
 using StringMap = std::map<std::string, std::string>;
+using TextMap = std::map<std::string, sf::Text>;
 using TimePoint = std::chrono::time_point<std::chrono::system_clock>;
 
 }

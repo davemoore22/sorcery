@@ -50,7 +50,8 @@ class Game {
 		Game(System *system, Display *display, Graphics *graphics);
 
 		// Overloaded Operator
-		auto friend operator<<(std::ostream &out_stream, const Game &game) -> std::ostream &;
+		auto friend operator<<(std::ostream &out_stream, const Game &game)
+			-> std::ostream &;
 
 		// Public Members
 		bool valid;
@@ -68,8 +69,9 @@ class Game {
 		auto load_game() -> void;
 		auto save_game() -> void;
 		auto add_character(Character character) -> unsigned int;
-		auto delete_character(unsigned int character_id) -> void;
-		auto update_character(unsigned game_id, unsigned character_id, Character &character) -> bool;
+		auto delete_character(unsigned int char_id) -> void;
+		auto update_character(
+			unsigned game_id, unsigned char_id, Character &character) -> bool;
 		auto enter_maze() -> void;
 		auto show_console() -> void;
 		auto hide_console() -> void;
@@ -81,7 +83,8 @@ class Game {
 		auto get_turns() const -> unsigned int;
 		auto divvy_party_gold() -> void;
 		auto pool_party_gold(unsigned int char_id) -> void;
-		auto log(const std::string &message, const int dice = -1, const int roll = -1, const int needed = -1) -> void;
+		auto log(const std::string &message, const int dice = -1,
+			const int roll = -1, const int needed = -1) -> void;
 		auto get_event(MAV event_type) const -> DungeonEvent;
 		auto enable_event(MAV event_type) -> void;
 		auto disable_event(MAV event_type) -> void;
@@ -110,9 +113,9 @@ class Game {
 		std::string _key;
 		unsigned int _id;
 		std::string _status;
-		std::vector<unsigned int> _characters_ids;
+		std::vector<unsigned int> _char_ids;
 		bool _show_console;
-		std::vector<DungeonEvent> _dungeon_events;
+		std::vector<DungeonEvent> _events;
 };
 
 }

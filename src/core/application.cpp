@@ -78,46 +78,60 @@ Sorcery::Application::Application(int argc, char **argv) {
 
 	// Start relevant animation worker threads
 	graphics->animation->refresh_colcyc();
-	graphics->animation->start_colcycl_threads();
-	graphics->animation->refresh_wallpaper();
-	graphics->animation->start_wallpaper_threads();
+	graphics->animation->start_colcycl_th();
+	graphics->animation->refresh_wp();
+	graphics->animation->start_wp_th();
 
 	// Create a Game (load the existing one if possible)
 	_game = std::make_unique<Game>(system.get(), display.get(), graphics.get());
 	_update_loading_window();
 
 	// Generate the necessary modules
-	_mainmenu = std::make_unique<MainMenu>(system.get(), display.get(), graphics.get(), _game.get());
+	_mainmenu = std::make_unique<MainMenu>(
+		system.get(), display.get(), graphics.get(), _game.get());
 	_update_loading_window();
-	_license = std::make_unique<License>(system.get(), display.get(), graphics.get());
+	_license =
+		std::make_unique<License>(system.get(), display.get(), graphics.get());
 	_update_loading_window();
-	_options = std::make_unique<Options>(system.get(), display.get(), graphics.get());
+	_options =
+		std::make_unique<Options>(system.get(), display.get(), graphics.get());
 	_update_loading_window();
-	_compendium = std::make_unique<Compendium>(system.get(), display.get(), graphics.get(), _game.get());
+	_compendium = std::make_unique<Compendium>(
+		system.get(), display.get(), graphics.get(), _game.get());
 	_update_loading_window();
-	_castle = std::make_unique<Castle>(system.get(), display.get(), graphics.get(), _game.get());
+	_castle = std::make_unique<Castle>(
+		system.get(), display.get(), graphics.get(), _game.get());
 	_update_loading_window();
-	_edgeoftown = std::make_unique<EdgeOfTown>(system.get(), display.get(), graphics.get(), _game.get());
+	_edgeoftown = std::make_unique<EdgeOfTown>(
+		system.get(), display.get(), graphics.get(), _game.get());
 	_update_loading_window();
-	_training = std::make_unique<Training>(system.get(), display.get(), graphics.get(), _game.get());
+	_training = std::make_unique<Training>(
+		system.get(), display.get(), graphics.get(), _game.get());
 	_update_loading_window();
-	_tavern = std::make_unique<Tavern>(system.get(), display.get(), graphics.get(), _game.get());
+	_tavern = std::make_unique<Tavern>(
+		system.get(), display.get(), graphics.get(), _game.get());
 	_update_loading_window();
-	_inn = std::make_unique<Inn>(system.get(), display.get(), graphics.get(), _game.get());
+	_inn = std::make_unique<Inn>(
+		system.get(), display.get(), graphics.get(), _game.get());
 	_update_loading_window();
-	_shop = std::make_unique<Shop>(system.get(), display.get(), graphics.get(), _game.get());
+	_shop = std::make_unique<Shop>(
+		system.get(), display.get(), graphics.get(), _game.get());
 	_update_loading_window();
-	_temple = std::make_unique<Temple>(system.get(), display.get(), graphics.get(), _game.get());
+	_temple = std::make_unique<Temple>(
+		system.get(), display.get(), graphics.get(), _game.get());
 	_update_loading_window();
-	_restart = std::make_unique<Restart>(system.get(), display.get(), graphics.get(), _game.get());
+	_restart = std::make_unique<Restart>(
+		system.get(), display.get(), graphics.get(), _game.get());
 	_hide_loading_window();
 
 	if (!_check_param(SKIP_INTRO)) {
 
 		// Show the Splash Screen and the Banner before starting the Main Menu
-		_splash = std::make_unique<Splash>(system.get(), display.get(), graphics.get());
+		_splash = std::make_unique<Splash>(
+			system.get(), display.get(), graphics.get());
 		_splash->start();
-		_banner = std::make_unique<Banner>(system.get(), display.get(), graphics.get());
+		_banner = std::make_unique<Banner>(
+			system.get(), display.get(), graphics.get());
 		_banner->start();
 	}
 }
@@ -125,8 +139,8 @@ Sorcery::Application::Application(int argc, char **argv) {
 // Standard Destructor
 Sorcery::Application::~Application() {
 
-	graphics->animation->stop_colcyc_threads();
-	graphics->animation->stop_wallpaper_threads();
+	graphics->animation->stop_colcyc_th();
+	graphics->animation->stop_wp_th();
 }
 
 auto Sorcery::Application::_quickstart() -> void {
@@ -134,13 +148,14 @@ auto Sorcery::Application::_quickstart() -> void {
 	_game->wipe_data();
 	_game->create_game();
 
-	// Create a new random party
-	auto party_alignment{(*system->random)[RNT::D2] == 1 ? CAL::GOOD : CAL::EVIL};
+	// Create a new random party of a random alignment
+	const auto align{(*system->random)[RNT::D2] == 1 ? CAL::GOOD : CAL::EVIL};
 	for (int i = 0; i < 6; i++) {
-		auto pc{Character(system.get(), display.get(), graphics.get(), _game->itemstore.get())};
+		auto pc{Character(system.get(), display.get(), graphics.get(),
+			_game->itemstore.get())};
 		switch (i) {
 		case 0:
-			pc.create_class_alignment(CHC::FIGHTER, party_alignment);
+			pc.create_class_alignment(CHC::FIGHTER, align);
 			break;
 		case 1:
 			pc.create_class_alignment(CHC::FIGHTER, CAL::NEUTRAL);
@@ -149,10 +164,10 @@ auto Sorcery::Application::_quickstart() -> void {
 			pc.create_class_alignment(CHC::THIEF, CAL::NEUTRAL);
 			break;
 		case 3:
-			pc.create_class_alignment(CHC::PRIEST, party_alignment);
+			pc.create_class_alignment(CHC::PRIEST, align);
 			break;
 		case 4:
-			pc.create_class_alignment(CHC::BISHOP, party_alignment);
+			pc.create_class_alignment(CHC::BISHOP, align);
 			break;
 		case 5:
 			pc.create_class_alignment(CHC::MAGE, CAL::NEUTRAL);
@@ -170,7 +185,8 @@ auto Sorcery::Application::_quickstart() -> void {
 		case CHC::FIGHTER:
 		case CHC::LORD:
 		case CHC::SAMURAI:
-			pc.inventory.add_type((*_game->itemstore)[ITT::LEATHER_ARMOR], true);
+			pc.inventory.add_type(
+				(*_game->itemstore)[ITT::LEATHER_ARMOR], true);
 			pc.inventory.add_type((*_game->itemstore)[ITT::LONG_SWORD], true);
 			break;
 		case CHC::MAGE:
@@ -183,14 +199,16 @@ auto Sorcery::Application::_quickstart() -> void {
 			pc.inventory.add_type((*_game->itemstore)[ITT::STAFF], true);
 			// pc.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR], true);
 			// pc.inventory.add_type((*_game->itemstore)[CHAIN_MAIL], true);
-			// pc.inventory.add_type((*_game->itemstore)[LONG_SWORD], false, true);
-			// pc.inventory.add_type((*_game->itemstore)[CHAIN_MINUS_2], false);
-			// pc.inventory.add_type((*_game->itemstore)[MACE_MINUS_1], false);
-			// pc.inventory.add_type((*_game->itemstore)[PLATE_MAIL], false, false);
+			// pc.inventory.add_type((*_game->itemstore)[LONG_SWORD], false,
+			// true); pc.inventory.add_type((*_game->itemstore)[CHAIN_MINUS_2],
+			// false); pc.inventory.add_type((*_game->itemstore)[MACE_MINUS_1],
+			// false); pc.inventory.add_type((*_game->itemstore)[PLATE_MAIL],
+			// false, false);
 			break;
 		case CHC::THIEF:
 		case CHC::NINJA:
-			pc.inventory.add_type((*_game->itemstore)[ITT::LEATHER_ARMOR], true);
+			pc.inventory.add_type(
+				(*_game->itemstore)[ITT::LEATHER_ARMOR], true);
 			pc.inventory.add_type((*_game->itemstore)[ITT::SHORT_SWORD], true);
 		default:
 			break;
@@ -210,11 +228,11 @@ auto Sorcery::Application::start() -> int {
 	// Check if we are doing any sort of shortcut
 	auto do_restart{false};
 	auto do_maze{false};
-	auto destination{DES::DEFAULT};
+	auto dest{DES::DEFAULT};
 	if (_check_param(CONTINUE_GAME) && _game->valid)
-		destination = DES::CONTINUE;
+		dest = DES::CONTINUE;
 	else if (_check_param(NEW_GAME))
-		destination = DES::NEW;
+		dest = DES::NEW;
 	else if (_check_param(RESTART_EXPEDITION) && _game->valid)
 		do_restart = true;
 	else if (_check_param(START_EXPEDITION) && _game->valid) {
@@ -223,11 +241,11 @@ auto Sorcery::Application::start() -> int {
 	} else if (_check_param(QUICKSTART))
 		_quickstart();
 	else if (_check_param(GO_TO_COMPENDIUM))
-		destination = DES::COMPENDIUM;
+		dest = DES::COMPENDIUM;
 	else if (_check_param(GO_TO_LICENSE))
-		destination = DES::LICENSE;
+		dest = DES::LICENSE;
 	else if (_check_param(GO_TO_OPTIONS))
-		destination = DES::OPTIONS;
+		dest = DES::OPTIONS;
 
 	std::optional<MIM> mm_opt{std::nullopt};
 	do {
@@ -247,11 +265,11 @@ auto Sorcery::Application::start() -> int {
 		}
 
 		// Run the Main Menu
-		mm_opt = _run_main_menu(destination);
+		mm_opt = _run_main_menu(dest);
 
 		// If we are going via a shortcut after we have done that, disable it
-		if (destination != DES::DEFAULT)
-			destination = DES::DEFAULT;
+		if (dest != DES::DEFAULT)
+			dest = DES::DEFAULT;
 
 		// That way the Program will always return to the Main Menu
 		if (mm_opt.value() == MIM::ITEM_QUIT) {
@@ -301,7 +319,8 @@ auto Sorcery::Application::start() -> int {
 				} else if (ed_opt.value() == MIM::ITEM_LEAVE_GAME)
 					break;
 
-			} while ((ed_opt.value() != MIM::ITEM_LEAVE_GAME) && (ca_opt.value() != MIM::ITEM_LEAVE_GAME));
+			} while ((ed_opt.value() != MIM::ITEM_LEAVE_GAME) &&
+					 (ca_opt.value() != MIM::ITEM_LEAVE_GAME));
 			_game->save_game();
 		}
 	} while ((mm_opt != MIM::ITEM_QUIT) && (mm_opt != MIM::ITEM_ABORT));
@@ -313,7 +332,8 @@ auto Sorcery::Application::start() -> int {
 auto Sorcery::Application::_start_expedition() -> std::optional<MIM> {
 
 	_game->enter_maze();
-	auto engine{std::make_unique<Engine>(system.get(), display.get(), graphics.get(), _game.get())};
+	auto engine{std::make_unique<Engine>(
+		system.get(), display.get(), graphics.get(), _game.get())};
 	if (auto result{engine->start()}; result == EXIT_APP) {
 		_game->save_game();
 		engine->stop();
@@ -327,15 +347,15 @@ auto Sorcery::Application::_start_expedition() -> std::optional<MIM> {
 auto Sorcery::Application::_run_restart() -> std::optional<MIM> {
 
 	std::optional<MIM> rs_opt{std::nullopt};
-	unsigned int character_chosen{0u};
+	unsigned int chosen{0u};
 
-	rs_opt = _restart->start(character_chosen);
+	rs_opt = _restart->start(chosen);
 	_restart->stop();
 	if (rs_opt.value() == MIM::ITEM_ABORT) {
 		display->shutdown_SFML();
 		return MIM::ITEM_QUIT;
 	} else if (rs_opt == MIM::RS_RESTART)
-		return _restart_expedition(character_chosen);
+		return _restart_expedition(chosen);
 	else
 		return MIM::CA_EDGE_OF_TOWN;
 }
@@ -351,7 +371,7 @@ auto Sorcery::Application::_run_edge_of_town() -> std::optional<MIM> {
 		} else if (opt == MIM::ET_TRAIN) {
 
 			// Remove everyone from the Party
-			for (auto &[character_id, character] : _game->characters) {
+			for (auto &[id, character] : _game->characters) {
 				if (character.get_location() == CHL::PARTY)
 					character.set_location(CHL::TAVERN);
 			}
@@ -372,19 +392,21 @@ auto Sorcery::Application::_run_edge_of_town() -> std::optional<MIM> {
 	return MIM::ITEM_ABORT;
 }
 
-auto Sorcery::Application::_restart_expedition(const unsigned int character_chosen) -> std::optional<MIM> {
+auto Sorcery::Application::_restart_expedition(
+	const unsigned int character_chosen) -> std::optional<MIM> {
 
-	// Find the location and floor of the character pointed to, and reload the maze, repopulate the
-	// party and restart the game from there
+	// Find the location and floor of the character pointed to, and reload the
+	// maze, repopulate the party and restart the game from there
 	auto &character{_game->characters[character_chosen]};
-	auto to_depth{character.depth.value()};
-	auto to_loc{character.coordinate.value()};
+	const auto to_depth{character.depth.value()};
+	const auto to_loc{character.coordinate.value()};
 	_game->state->clear_party();
-	for (auto &[character_id, character] : _game->characters) {
+	for (auto &[id, character] : _game->characters) {
 		if (character.get_location() == CHL::MAZE) {
-			if (character.depth.value() == to_depth && character.coordinate.value() == to_loc) {
+			if (character.depth.value() == to_depth &&
+				character.coordinate.value() == to_loc) {
 				character.set_location(CHL::PARTY);
-				_game->state->add_character_by_id(character_id);
+				_game->state->add_character_by_id(id);
 			}
 		}
 	}
@@ -395,7 +417,8 @@ auto Sorcery::Application::_restart_expedition(const unsigned int character_chos
 	Level level{((*_game->levelstore)[to_depth]).value()};
 	_game->state->set_current_level(&level);
 
-	auto engine{std::make_unique<Engine>(system.get(), display.get(), graphics.get(), _game.get())};
+	auto engine{std::make_unique<Engine>(
+		system.get(), display.get(), graphics.get(), _game.get())};
 	if (auto result{engine->start()}; result == EXIT_APP) {
 		_game->save_game();
 		engine->stop();
@@ -417,7 +440,8 @@ auto Sorcery::Application::_run_castle() -> std::optional<MIM> {
 		if (opt == MIM::CA_TAVERN) {
 
 			// Tavern
-			if (auto tavern_option{_tavern->start()}; tavern_option && tavern_option.value() == MIM::ITEM_ABORT) {
+			if (auto opt_tav{_tavern->start()};
+				opt_tav && opt_tav.value() == MIM::ITEM_ABORT) {
 				return MIM::ITEM_ABORT;
 			}
 			_tavern->stop();
@@ -425,19 +449,22 @@ auto Sorcery::Application::_run_castle() -> std::optional<MIM> {
 		} else if (opt == MIM::CA_INN) {
 
 			// Inn
-			if (auto inn_option{_inn->start()}; inn_option && inn_option.value() == MIM::ITEM_ABORT) {
+			if (auto opt_inn{_inn->start()};
+				opt_inn && opt_inn.value() == MIM::ITEM_ABORT) {
 				return MIM::ITEM_ABORT;
 			}
 			_inn->stop();
 		} else if (opt == MIM::CA_SHOP) {
 
 			// Shop
-			if (auto shop_option{_shop->start()}; shop_option && shop_option.value() == MIM::ITEM_ABORT) {
+			if (auto opt_shop{_shop->start()};
+				opt_shop && opt_shop.value() == MIM::ITEM_ABORT) {
 				return MIM::ITEM_ABORT;
 			}
 			_shop->stop();
 		} else if (opt == MIM::CA_TEMPLE) {
-			if (auto temple_option{_temple->start()}; temple_option && temple_option.value() == MIM::ITEM_ABORT) {
+			if (auto opt_temp{_temple->start()};
+				opt_temp && opt_temp.value() == MIM::ITEM_ABORT) {
 				return MIM::ITEM_ABORT;
 			}
 			_temple->stop();
@@ -456,26 +483,27 @@ auto Sorcery::Application::_run_castle() -> std::optional<MIM> {
 }
 
 // Run the Main Menu
-auto Sorcery::Application::_run_main_menu(const DES destination) -> std::optional<MIM> {
+auto Sorcery::Application::_run_main_menu(const DES dest)
+	-> std::optional<MIM> {
 
 	// Handle shortcuts
-	if (destination == DES::CONTINUE)
+	if (dest == DES::CONTINUE)
 		return MIM::MM_CONTINUE_GAME;
-	else if (destination == DES::NEW) {
+	else if (dest == DES::NEW) {
 		_game->wipe_data();
 		_game->create_game();
 		_game->save_game();
 		return MIM::MM_NEW_GAME;
-	} else if (destination == DES::RESTART) {
+	} else if (dest == DES::RESTART) {
 		return MIM::RS_RESTART;
 	}
 
 	std::optional<MIM> opt{MIM::NO_MENU_ITEM};
-	MMT menu_stage{MMT::ATTRACT_MODE};
+	MMT stage{MMT::ATTRACT_MODE};
 
 	do {
-		if (destination != DES::DEFAULT) {
-			switch (destination) {
+		if (dest != DES::DEFAULT) {
+			switch (dest) {
 			case DES::OPTIONS:
 				opt = MIM::MM_OPTIONS;
 				break;
@@ -490,7 +518,7 @@ auto Sorcery::Application::_run_main_menu(const DES destination) -> std::optiona
 			}
 
 		} else {
-			opt = _mainmenu->start(menu_stage);
+			opt = _mainmenu->start(stage);
 			_mainmenu->stop();
 		}
 
@@ -533,7 +561,7 @@ auto Sorcery::Application::_run_main_menu(const DES destination) -> std::optiona
 				break;
 			}
 
-			menu_stage = MMT::ATTRACT_MENU;
+			stage = MMT::ATTRACT_MENU;
 		}
 
 	} while (opt);
@@ -543,38 +571,46 @@ auto Sorcery::Application::_run_main_menu(const DES destination) -> std::optiona
 }
 
 // Check for a command line parameter
-auto Sorcery::Application::_check_param(std::string_view parameter) const -> bool {
+auto Sorcery::Application::_check_param(std::string_view param) const -> bool {
 
-	return std::ranges::any_of(_arguments, [&](const auto &arg) { return arg.find(parameter) != std::string::npos; });
+	return std::ranges::any_of(_arguments,
+		[&](const auto &arg) { return arg.find(param) != std::string::npos; });
 }
 
 auto Sorcery::Application::_display_loading_window() -> void {
 
 	// Just use the 2nd highest screen resolution to handle multimonitor modes
-	std::vector<sf::VideoMode> video_modes{sf::VideoMode::getFullscreenModes()};
-	sf::Vector2i screen_size{static_cast<int>(video_modes[1].width), static_cast<int>(video_modes[1].height)};
+	const std::vector<sf::VideoMode> vm{sf::VideoMode::getFullscreenModes()};
+	const sf::Vector2i scr{
+		static_cast<int>(vm[1].width), static_cast<int>(vm[1].height)};
 
 	// Hard Coded since we don't have access to any file resources at this point
 	const std::filesystem::path base_path{_get_exe_path()};
-	const std::filesystem::path image_path{base_path / GRAPHICS_DIR / LOADING_IMAGE};
-	const std::filesystem::path font_path{base_path / DATA_DIR / MONO_FONT_FILE};
+	const std::filesystem::path image_path{
+		base_path / GRAPHICS_DIR / LOADING_IMAGE};
+	const std::filesystem::path font_path{
+		base_path / DATA_DIR / MONO_FONT_FILE};
 	auto scale{0.75f};
 	sf::Image loading{};
 	loading.loadFromFile(image_path.string());
 
-	const sf::Vector2u splash_size{
-		static_cast<unsigned int>(loading.getSize().x * scale), static_cast<unsigned int>(loading.getSize().y * scale)};
+	const sf::Vector2u ss{
+		static_cast<unsigned int>(loading.getSize().x * scale),
+		static_cast<unsigned int>(loading.getSize().y * scale)};
 
 	_load_font.loadFromFile(font_path);
 	_load_text.setFont(_load_font);
 	_load_text.setColor(sf::Color::White);
 	_load_text.setCharacterSize(24);
-	_load_text.setPosition(16, splash_size.y - 48);
+	_load_text.setPosition(16, ss.y - 48);
 
-	// can't use sf::Style::None here due to None being defined somewhere else (no I don't know either), so use 0
-	_load_window.create(sf::VideoMode(splash_size.x, splash_size.y), "Sorcery: Shadows under Llylgamyn", 0);
+	// can't use sf::Style::None here due to None being defined somewhere else
+	// (no I don't know either), so use 0
+	_load_window.create(
+		sf::VideoMode(ss.x, ss.y), "Sorcery: Shadows under Llylgamyn", 0);
 	_load_window.setVerticalSyncEnabled(true);
-	_load_window.setPosition(sf::Vector2i((screen_size.x - splash_size.x) / 2, (screen_size.y - splash_size.y) / 2));
+	_load_window.setPosition(
+		sf::Vector2i((scr.x - ss.x) / 2, (scr.y - ss.y) / 2));
 	_load_window.clear({0, 0, 0, 175});
 
 	sf::Texture texture{};
@@ -606,7 +642,8 @@ auto Sorcery::Application::_update_loading_window() -> void {
 auto Sorcery::Application::_get_exe_path() const -> std::string_view {
 
 	char result[PATH_MAX];
-	if (const ssize_t count{readlink("/proc/self/exe", result, PATH_MAX)}; count != -1) {
+	if (const ssize_t count{readlink("/proc/self/exe", result, PATH_MAX)};
+		count != -1) {
 		const char *path{dirname(result)};
 		std::string_view base_path{path};
 		return base_path;

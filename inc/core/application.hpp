@@ -52,10 +52,12 @@ class Tavern;
 class Temple;
 class Training;
 
-// Application is a container class to hold the entire game structure, data, and any associated meta-objects. Only one
-// instance is ever created, at start-up, and it is (automatically) freed just before the game is exited. This class is
-// responsible for creating the various subclasses to handle all the other parts of the game. It's technically not a
-// singleton even though only one instance is ever created in main.cpp as there's nothing to prevent another copy being
+// Application is a container class to hold the entire game structure, data, and
+// any associated meta-objects. Only one instance is ever created, at start-up,
+// and it is (automatically) freed just before the game is exited. This class is
+// responsible for creating the various subclasses to handle all the other parts
+// of the game. It's technically not a singleton even though only one instance
+// is ever created in main.cpp as there's nothing to prevent another copy being
 // created.
 class Application {
 
@@ -83,18 +85,19 @@ class Application {
 	private:
 
 		// Private Methods
-		auto _check_param(std::string_view parameter) const -> bool;
+		auto _check_param(std::string_view param) const -> bool;
 		auto _display_loading_window() -> void;
 		auto _hide_loading_window() -> void;
 		auto _update_loading_window() -> void;
 		auto _get_exe_path() const -> std::string_view;
 		auto _quickstart() -> void;
 		auto _start_expedition() -> std::optional<MIM>;
-		auto _run_main_menu(const DES destination) -> std::optional<MIM>;
+		auto _run_main_menu(const DES dest) -> std::optional<MIM>;
 		auto _run_castle() -> std::optional<MIM>;
 		auto _run_edge_of_town() -> std::optional<MIM>;
 		auto _run_restart() -> std::optional<MIM>;
-		auto _restart_expedition(const unsigned int character_chosen) -> std::optional<MIM>;
+		auto _restart_expedition(const unsigned int chosen)
+			-> std::optional<MIM>;
 
 		// Private Members
 		std::unique_ptr<Banner> _banner;

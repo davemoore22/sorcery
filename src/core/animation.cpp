@@ -32,7 +32,8 @@
 #include "types/component.hpp"
 
 // Standard Constructor
-Sorcery::Animation::Animation(System *system, Display *display) : _system{system}, _display{display} {
+Sorcery::Animation::Animation(System *system, Display *display)
+	: _system{system}, _display{display} {
 
 	_finished = false;
 	_attract_mode.clear();
@@ -40,11 +41,16 @@ Sorcery::Animation::Animation(System *system, Display *display) : _system{system
 
 	// Setup Colour Cycling
 	_colcyc_dir = false;
-	_selected_gradient[0.0f] =
-		sf::Color(std::stoull((*_display->layout)["global:selected_item"]["minimum_background"].value(), nullptr, 16));
-	_selected_gradient[1.0f] =
-		sf::Color(std::stoull((*_display->layout)["global:selected_item"]["maximum_background"].value(), nullptr, 16));
-	_colcyc_step = std::stod((*_display->layout)["global:selected_item"]["step"].value());
+	_select_grad[0.0f] = sf::Color(std::stoull(
+		(*_display->layout)["global:selected_item"]["minimum_background"]
+			.value(),
+		nullptr, 16));
+	_select_grad[1.0f] = sf::Color(std::stoull(
+		(*_display->layout)["global:selected_item"]["maximum_background"]
+			.value(),
+		nullptr, 16));
+	_colcyc_step =
+		std::stod((*_display->layout)["global:selected_item"]["step"].value());
 }
 
 // Standard Destructor
@@ -53,9 +59,9 @@ Sorcery::Animation::~Animation() {
 	_finished = true;
 }
 
-auto Sorcery::Animation::refresh_wallpaper() -> void {
+auto Sorcery::Animation::refresh_wp() -> void {
 
-	_change_wallpaper(true);
+	_change_wp(true);
 }
 
 auto Sorcery::Animation::refresh_attract() -> void {
@@ -68,9 +74,9 @@ auto Sorcery::Animation::refresh_colcyc() -> void {
 	_colcyc(true);
 }
 
-auto Sorcery::Animation::start_wallpaper() -> void {
+auto Sorcery::Animation::start_wp() -> void {
 
-	_allow_wallpaper = true;
+	_allow_wp = true;
 }
 
 auto Sorcery::Animation::start_attract() -> void {
@@ -84,30 +90,30 @@ auto Sorcery::Animation::start_colcyc() -> void {
 	attract_alpha = 0;
 }
 
-auto Sorcery::Animation::start_wallpaper_threads() -> void {
+auto Sorcery::Animation::start_wp_th() -> void {
 
-	start_wallpaper();
-	if (!_wallpaper_thread.joinable())
-		_wallpaper_thread = std::jthread(&Animation::_change_wallpaper, this, false);
+	start_wp();
+	if (!_wallpaper_th.joinable())
+		_wallpaper_th = std::jthread(&Animation::_change_wp, this, false);
 }
 
-auto Sorcery::Animation::start_attract_ani_threads() -> void {
+auto Sorcery::Animation::start_attract_th() -> void {
 
 	start_attract();
-	if (!_attract_thread.joinable())
-		_attract_thread = std::jthread(&Animation::_animate_attract, this, false);
+	if (!_attract_th.joinable())
+		_attract_th = std::jthread(&Animation::_animate_attract, this, false);
 }
 
-auto Sorcery::Animation::start_colcycl_threads() -> void {
+auto Sorcery::Animation::start_colcycl_th() -> void {
 
 	start_colcyc();
-	if (!_colcyc_thread.joinable())
-		_colcyc_thread = std::jthread(&Animation::_colcyc, this, false);
+	if (!_colcyc_th.joinable())
+		_colcyc_th = std::jthread(&Animation::_colcyc, this, false);
 }
 
-auto Sorcery::Animation::stop_wallpaper() -> void {
+auto Sorcery::Animation::stop_wp() -> void {
 
-	_allow_wallpaper = false;
+	_allow_wp = false;
 }
 
 auto Sorcery::Animation::stop_attract() -> void {
@@ -120,47 +126,50 @@ auto Sorcery::Animation::stop_colcyc() -> void {
 	_allow_colcyc = false;
 }
 
-auto Sorcery::Animation::stop_wallpaper_threads() -> void {
+auto Sorcery::Animation::stop_wp_th() -> void {
 
 	_finished = true;
-	stop_wallpaper();
-	if (_wallpaper_thread.joinable())
-		_wallpaper_thread.join();
+	stop_wp();
+	if (_wallpaper_th.joinable())
+		_wallpaper_th.join();
 }
 
-auto Sorcery::Animation::stop_attract_threads() -> void {
+auto Sorcery::Animation::stop_attract_th() -> void {
 
 	_finished = true;
 	stop_attract();
-	if (_attract_thread.joinable())
-		_attract_thread.join();
+	if (_attract_th.joinable())
+		_attract_th.join();
 }
 
-auto Sorcery::Animation::stop_colcyc_threads() -> void {
+auto Sorcery::Animation::stop_colcyc_th() -> void {
 
 	_finished = true;
 	stop_colcyc();
-	if (_colcyc_thread.joinable())
-		_colcyc_thread.join();
+	if (_colcyc_th.joinable())
+		_colcyc_th.join();
 }
 
 // Generate an attract mode sprite to display
-auto Sorcery::Animation::_change_wallpaper(bool force) -> void {
+auto Sorcery::Animation::_change_wp(bool force) -> void {
 
 	if (force)
-		_do_wallpaper();
+		_do_wp();
 	else {
 
 		do {
-			_ctime_wallpaper = std::chrono::system_clock::now();
-			const auto time_elapsed{_ctime_wallpaper - _last_wallpaper};
-			if (const auto time_elapsed_msec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
-				time_elapsed_msec.count() > WALLPAPER_INTERVAL) {
-				if (_allow_wallpaper)
-					_do_wallpaper();
+			_ctime_wp = std::chrono::system_clock::now();
+			const auto elapsed{_ctime_wp - _last_wp};
+			if (const auto elapsed_msec{
+					std::chrono::duration_cast<std::chrono::milliseconds>(
+						elapsed)};
+				elapsed_msec.count() > WALLPAPER_INTERVAL) {
+				if (_allow_wp)
+					_do_wp();
 			}
 
-			std::this_thread::sleep_for(std::chrono::milliseconds(DELAY_TSLEEP));
+			std::this_thread::sleep_for(
+				std::chrono::milliseconds(DELAY_TSLEEP));
 		} while (!_finished);
 	}
 }
@@ -173,13 +182,16 @@ auto Sorcery::Animation::_animate_attract(bool force) -> void {
 	else {
 		do {
 			_ctime_attract = std::chrono::system_clock::now();
-			const auto time_elapsed{_ctime_attract - _last_attract};
-			if (const auto time_elapsed_msec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
-				time_elapsed_msec.count() > DELAY_ATTRACT)
+			const auto elapsed{_ctime_attract - _last_attract};
+			if (const auto elapsed_msec{
+					std::chrono::duration_cast<std::chrono::milliseconds>(
+						elapsed)};
+				elapsed_msec.count() > DELAY_ATTRACT)
 				if (_allow_attract)
 					_do_attract();
 
-			std::this_thread::sleep_for(std::chrono::milliseconds(DELAY_TSLEEP));
+			std::this_thread::sleep_for(
+				std::chrono::milliseconds(DELAY_TSLEEP));
 		} while (!_finished);
 	}
 }
@@ -199,12 +211,12 @@ auto Sorcery::Animation::_colcyc(bool force) -> void {
 	}
 }
 
-auto Sorcery::Animation::_do_wallpaper() -> void {
+auto Sorcery::Animation::_do_wp() -> void {
 
-	std::scoped_lock<std::mutex> _scoped_lock(_wallpaper_mutex);
+	std::scoped_lock<std::mutex> _scoped_lock(_wp_mutex);
 
-	wallpaper_idx = (*_system->random)[RNT::D165];
-	_last_wallpaper = std::chrono::system_clock::now();
+	wp_idx = (*_system->random)[RNT::D165];
+	_last_wp = std::chrono::system_clock::now();
 }
 
 // Note for Thread Safety Purposes, we only generate/update the IDs here
@@ -212,14 +224,15 @@ auto Sorcery::Animation::_do_wallpaper() -> void {
 auto Sorcery::Animation::_do_attract() -> void {
 
 	std::scoped_lock<std::mutex> _scoped_lock(_attract_mutex);
-	auto sprite_index{0u};
+	auto index{0u};
 	const auto num{(*_system->random)[RNT::D4]};
 	_attract_mode.clear();
 	for (auto i = 0u; i < num; i++) {
 		do {
-			sprite_index = (*_system->random)[RNT::ZERO_TO_399];
-		} while (std::ranges::find(_attract_mode.begin(), _attract_mode.end(), sprite_index) != _attract_mode.end());
-		_attract_mode.push_back(sprite_index);
+			index = (*_system->random)[RNT::ZERO_TO_399];
+		} while (std::ranges::find(_attract_mode.begin(), _attract_mode.end(),
+					 index) != _attract_mode.end());
+		_attract_mode.push_back(index);
 	}
 	attract_alpha = 0;
 	_last_attract = std::chrono::system_clock::now();
@@ -228,37 +241,38 @@ auto Sorcery::Animation::_do_attract() -> void {
 auto Sorcery::Animation::get_attract_data() -> std::vector<unsigned int> {
 
 	std::scoped_lock<std::mutex> _scoped_lock(_attract_mutex);
+
 	return _attract_mode;
 }
 
 // Called 50 times a second
 auto Sorcery::Animation::_do_colcyc() -> void {
 
-	std::scoped_lock<std::mutex> _scoped_lock(_colour_mutex);
+	std::scoped_lock<std::mutex> _scoped_lock(_colcyc_mutex);
 
 	// Colour Lerp goes back and forth between 0 and 1
 	if (_colcyc_dir) {
-		if (colour_lerp < 1.0L)
-			colour_lerp += _colcyc_step;
+		if (lerp < 1.0L)
+			lerp += _colcyc_step;
 		else {
 			_colcyc_dir = !_colcyc_dir;
-			colour_lerp -= _colcyc_step;
+			lerp -= _colcyc_step;
 		}
 	} else {
-		if (colour_lerp > 0.0L)
-			colour_lerp -= _colcyc_step;
+		if (lerp > 0.0L)
+			lerp -= _colcyc_step;
 		else {
 			_colcyc_dir = !_colcyc_dir;
-			colour_lerp += _colcyc_step;
+			lerp += _colcyc_step;
 		}
 	}
 
-	if (colour_lerp < 0.0L)
-		colour_lerp = 0.0L;
-	if (colour_lerp > 1.0L)
-		colour_lerp = 1.0L;
+	if (lerp < 0.0L)
+		lerp = 0.0L;
+	if (lerp > 1.0L)
+		lerp = 1.0L;
 
-	selected_colour = _selected_gradient.sampleColor(colour_lerp);
+	select_col = _select_grad.sampleColor(lerp);
 
 	// Handle Attract Mode Fade In/Out
 	if (_attract_fade == true) {

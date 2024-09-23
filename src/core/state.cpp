@@ -39,10 +39,12 @@ Sorcery::State::State(System *system) : _system{system} {
 
 auto Sorcery::State::reset_shop(ItemStore *itemstore) -> void {
 
-	for (int item_type_id = 1; item_type_id < 101; item_type_id++) {
-		const auto item_type{(*itemstore)[magic_enum::enum_cast<ITT>(item_type_id).value()]};
-		_shop[item_type_id] = {item_type.get_shop_inital_stock(), item_type.get_shop_inital_stock(),
-			item_type.get_buy(), item_type.get_sell()};
+	for (int id = 1; id < 101; id++) {
+		const auto item_type{
+			(*itemstore)[magic_enum::enum_cast<ITT>(id).value()]};
+		_shop[id] = {item_type.get_shop_inital_stock(),
+			item_type.get_shop_inital_stock(), item_type.get_buy(),
+			item_type.get_sell()};
 	}
 }
 
@@ -148,7 +150,8 @@ auto Sorcery::State::set(System *system) -> void {
 	_system = system;
 }
 
-auto Sorcery::State::set_party(std::vector<unsigned int> candidate_party) -> void {
+auto Sorcery::State::set_party(std::vector<unsigned int> candidate_party)
+	-> void {
 
 	_party = candidate_party;
 }
@@ -185,7 +188,8 @@ auto Sorcery::State::add_character_by_id(unsigned int char_id) -> bool {
 auto Sorcery::State::check_character_in_party(unsigned int char_id) -> bool {
 
 	if (_party.size() > 0) {
-		auto found{std::find_if(_party.begin(), _party.end(), [&](unsigned int id) { return id = char_id; })};
+		const auto found{std::find_if(_party.begin(), _party.end(),
+			[&](unsigned int id) { return id = char_id; })};
 		return found != std::end(_party);
 	} else
 		return false;
@@ -196,11 +200,13 @@ auto Sorcery::State::set_current_level(Level *other) -> void {
 	level->set(other);
 }
 
-auto Sorcery::State::get_character_index(unsigned int char_id) -> std::optional<unsigned int> {
+auto Sorcery::State::get_character_index(unsigned int char_id)
+	-> std::optional<unsigned int> {
 
 	if (_party.size() > 0) {
 
-		auto distance{std::find_if(_party.begin(), _party.end(), [&](unsigned int id) { return id == char_id; })};
+		const auto distance{std::find_if(_party.begin(), _party.end(),
+			[&](unsigned int id) { return id == char_id; })};
 		if (distance != _party.end())
 			return std::distance(_party.begin(), distance);
 		else
@@ -238,14 +244,16 @@ auto Sorcery::State::set_player_pos(const Coordinate position) -> void {
 auto Sorcery::State::remove_character_by_id(unsigned int char_id) -> bool {
 
 	if (_party.size() > 0) {
-		_party.erase(
-			std::remove_if(_party.begin(), _party.end(), [&](unsigned int id) { return id == char_id; }), _party.end());
+		_party.erase(std::remove_if(_party.begin(), _party.end(),
+						 [&](unsigned int id) { return id == char_id; }),
+			_party.end());
 		return true;
 	} else
 		return false;
 }
 
-auto Sorcery::State::get_character_by_position(unsigned int index) -> std::optional<unsigned int> {
+auto Sorcery::State::get_character_by_position(unsigned int index)
+	-> std::optional<unsigned int> {
 
 	if (_party.size() < index)
 		return std::nullopt;
@@ -262,7 +270,8 @@ auto Sorcery::State::remove_character_by_position(unsigned int index) -> bool {
 		return false;
 }
 
-auto Sorcery::State::add_log_message(std::string text, IMT type = IMT::STANDARD) -> void {
+auto Sorcery::State::add_log_message(std::string text, IMT type = IMT::STANDARD)
+	-> void {
 
 	_log.emplace_back(ConsoleMessage{type, text});
 }
@@ -272,18 +281,20 @@ auto Sorcery::State::clear_log_messages() -> void {
 	_log.clear();
 }
 
-auto Sorcery::State::add_log_dice_roll(const std::string &message, const int dice, const int roll, const int needed)
-	-> void {
+auto Sorcery::State::add_log_dice_roll(const std::string &message,
+	const int dice, const int roll, const int needed) -> void {
 
 	if (dice != -1 || roll != -1 || needed != -1) {
 		const auto success{roll < needed ? "SUCCESS" : "FAILURE"};
 		const auto string{fmt::format("{} ({})", message, success)};
-		add_log_message(_system->dice_roll_to_str(string, dice, roll, needed), IMT::ROLL);
+		add_log_message(
+			_system->dice_roll_to_str(string, dice, roll, needed), IMT::ROLL);
 	} else
 		add_log_message(message, IMT::GAME);
 }
 
-auto Sorcery::State::get_log_messages(unsigned int last) const -> std::vector<ConsoleMessage> {
+auto Sorcery::State::get_log_messages(unsigned int last) const
+	-> std::vector<ConsoleMessage> {
 
 	if (last == 0)
 		return _log;

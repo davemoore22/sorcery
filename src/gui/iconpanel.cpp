@@ -114,8 +114,8 @@ auto Sorcery::IconPanel::refresh(bool in_camp) -> void {
 	}
 }
 
-auto Sorcery::IconPanel::set_mouse_selected(
-	Component &component, sf::Vector2f mouse_pos) -> std::optional<std::string> {
+auto Sorcery::IconPanel::set_mouse_selected(Component &component, sf::Vector2f mouse_pos)
+	-> std::optional<std::string> {
 
 	// Now look through the global positions of each icon and see if it matches
 	// the mouse position
@@ -156,7 +156,7 @@ auto Sorcery::IconPanel::set_selected_background() -> void {
 
 			_selected_bg =
 				sf::RectangleShape(sf::Vector2(sprite.getGlobalBounds().width, sprite.getGlobalBounds().height));
-			_selected_bg.setFillColor(_graphics->animation->selected_colour);
+			_selected_bg.setFillColor(_graphics->animation->select_col);
 			_selected_bg.setPosition(sprite.getPosition().x - (sprite.getGlobalBounds().width / 2),
 				sprite.getPosition().y - (sprite.getGlobalBounds().height / 2));
 		}

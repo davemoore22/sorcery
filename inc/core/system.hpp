@@ -46,13 +46,13 @@ class System {
 		System(int argc, char **argv);
 
 		// Public Methods
-		auto set_pause(unsigned int milliseconds) -> void;
+		auto set_pause(unsigned int ms) -> void;
 		auto update_pause() -> bool;
 		auto stop_pause() -> void;
 		auto get_pause() -> bool;
 		auto convert_tp_to_str(const TimePoint tp) const -> std::string;
-		auto dice_roll_to_str(const std::string &message, const int dice, const int roll, const int needed) const
-			-> std::string;
+		auto dice_roll_to_str(const std::string &message, const int dice,
+			const int roll, const int needed) const -> std::string;
 
 		// Public Members
 		std::unique_ptr<FileStore> files;
@@ -66,8 +66,8 @@ class System {
 	private:
 
 		// Private Members
-		std::optional<std::chrono::steady_clock::time_point> _pause_clock_start;
-		std::optional<unsigned int> _clock_duration;
+		std::optional<std::chrono::steady_clock::time_point> _pause_start;
+		std::optional<unsigned int> _pause_dur;
 
 		// Private Methods
 };

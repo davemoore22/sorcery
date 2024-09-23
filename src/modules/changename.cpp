@@ -235,7 +235,7 @@ auto Sorcery::ChangeName::_draw() -> void {
 	_display->display("change_name");
 
 	// Handle Custom Components
-	auto lerp{_graphics->animation->colour_lerp};
+	auto lerp{_graphics->animation->lerp};
 	sf::Color adjusted{static_cast<sf::Color>(
 		_graphics->adjust_brightness(sf::Color((*_display->layout)["change_name:name_candidate"].colour), lerp))};
 	_name_candidate->set_fill_colour(adjusted);

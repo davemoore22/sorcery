@@ -169,7 +169,7 @@ auto Sorcery::PartyPanel::refresh() -> void {
 						sf::Vector2f(bar_width * _display->window->get_cw(), _display->window->get_ch())};
 					bg.setPosition(pos.x, pos.y);
 					if (_layout.animated)
-						bg.setFillColor(_graphics->animation->selected_colour);
+						bg.setFillColor(_graphics->animation->select_col);
 					else
 						bg.setFillColor(sf::Color(_layout.background));
 					_selected_bg = bg;

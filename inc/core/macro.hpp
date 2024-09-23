@@ -35,7 +35,7 @@ inline auto CSTR(const std::string &string) -> const char * {
 }
 
 // Timepoint to String
-inline auto TP2STR(const std::chrono::time_point<std::chrono::system_clock> tp) -> std::string {
+inline auto TP2STR(const TimePoint tp) -> std::string {
 
 	// Need to do it this way til std::chrono::locate_zone etc is supported
 	auto t{std::chrono::system_clock::to_time_t(tp)};

@@ -45,17 +45,20 @@ class Window {
 	public:
 
 		// Constructors
-		Window(System *system, StringStore *string, ComponentStore *layout, const std::string &title);
+		Window(System *system, StringStore *string, ComponentStore *layout,
+			const std::string &title);
 		Window() = delete;
 
 		// Public Methods
 		auto clear_window() -> void;
 		auto display_window() -> void;
 		auto draw_text(sf::Text &text) -> void;
-		auto draw_text(sf::Text &text, const Component &component, const double lerp = -1.0f) -> void;
-		auto draw_text(sf::Text &text, const Component &component, const std::string &string) -> void;
-		auto draw_text(sf::Text &text, const Component &component, const std::string &string, const double lerp)
-			-> void;
+		auto draw_text(sf::Text &text, const Component &comp,
+			const double lerp = -1.0f) -> void;
+		auto draw_text(sf::Text &text, const Component &comp,
+			const std::string &string) -> void;
+		auto draw_text(sf::Text &text, const Component &comp,
+			const std::string &string, const double lerp) -> void;
 		auto draw_gui() -> void;
 		auto get_ch() const -> unsigned int;
 		auto get_cw() const -> unsigned int;
@@ -67,18 +70,21 @@ class Window {
 		auto get_gui() -> tgui::Gui *;
 		auto get_window() -> sf::RenderWindow *;
 		auto get_cur() const -> sf::Vector2f;
-		auto get_x(const sf::Sprite &sprite, int x_position) const -> unsigned int;
-		auto get_y(const sf::Sprite &sprite, int y_position) const -> unsigned int;
-		auto get_x(const sf::Text &text, int x_position) const -> unsigned int;
-		auto get_y(const sf::Text &text, int y_position) const -> unsigned int;
-		auto get_x(unsigned int width, int x_position) const -> unsigned int;
-		auto get_y(unsigned int width, int y_position) const -> unsigned int;
-		auto hl_text(sf::Text &text, const Component &component, double lerp) -> sf::RectangleShape;
-		auto shove_text(const sf::Text &shovee, sf::Text &shover, unsigned int gap_units) const -> void;
-		auto shove_text(const sf::Text &shovee, sf::Text &shover, float gap_units) const -> void;
+		auto get_x(const sf::Sprite &sprite, int x_pos) const -> unsigned int;
+		auto get_y(const sf::Sprite &sprite, int y_pos) const -> unsigned int;
+		auto get_x(const sf::Text &text, int x_pos) const -> unsigned int;
+		auto get_y(const sf::Text &text, int y_pos) const -> unsigned int;
+		auto get_x(unsigned int width, int x_pos) const -> unsigned int;
+		auto get_y(unsigned int width, int y_pos) const -> unsigned int;
+		auto hl_text(sf::Text &text, const Component &comp, double lerp)
+			-> sf::RectangleShape;
+		auto shove_text(const sf::Text &shovee, sf::Text &shover,
+			unsigned int gap_units) const -> void;
+		auto shove_text(const sf::Text &shovee, sf::Text &shover,
+			float gap_units) const -> void;
 		auto set_input_mode(WIM value) -> void;
 		auto get_input_mode() const -> WIM;
-		auto set_pos(Component *component, sf::Transformable *object) const -> void;
+		auto set_pos(Component *comp, sf::Transformable *object) const -> void;
 		auto save_screen() -> void;
 		auto restore_screen() -> void;
 		auto set_bold(const bool value) -> void;
@@ -96,11 +102,14 @@ class Window {
 	private:
 
 		// Private Methods
-		auto _adjust_brightness(sf::Color colour, double colour_lerp) const -> unsigned long long;
-		auto _draw_text(sf::Text &text, const Component &component, const double lerp) -> void;
-		auto _draw_text(sf::Text &text, const Component &component, const std::string &string, const double lerp)
-			-> void;
-		auto _draw_text(sf::Text &text, const Component &component, const std::string &string) -> void;
+		auto _adjust_brightness(sf::Color colour, double lerp) const
+			-> unsigned long long;
+		auto _draw_text(
+			sf::Text &text, const Component &comp, const double lerp) -> void;
+		auto _draw_text(sf::Text &text, const Component &comp,
+			const std::string &string, const double lerp) -> void;
+		auto _draw_text(sf::Text &text, const Component &comp,
+			const std::string &string) -> void;
 		auto _draw_text(sf::Text &text) -> void;
 		auto _get_centre_x(const sf::Sprite &sprite) const -> unsigned int;
 		auto _get_centre_x(const sf::Text &text) const -> unsigned int;
@@ -108,13 +117,18 @@ class Window {
 		auto _get_centre_y(const sf::Sprite &sprite) const -> unsigned int;
 		auto _get_centre_y(const sf::Text &text) const -> unsigned int;
 		auto _get_centre_y(unsigned int height) const -> unsigned int;
-		auto _get_x(const sf::Sprite &sprite, const int x_position) const -> unsigned int;
-		auto _get_x(const sf::Text &text, const int x_position) const -> unsigned int;
-		auto _get_x(unsigned int width, const int x_position) const -> unsigned int;
-		auto _get_y(const sf::Sprite &sprite, const int y_position) const -> unsigned int;
-		auto _get_y(const sf::Text &text, const int y_position) const -> unsigned int;
-		auto _get_y(unsigned int width, const int y_position) const -> unsigned int;
-		auto _get_cursor_coord_text(sf::Vector2f mouse_pos, sf::Text &text) -> void;
+		auto _get_x(const sf::Sprite &sprite, const int x_pos) const
+			-> unsigned int;
+		auto _get_x(const sf::Text &text, const int x_pos) const
+			-> unsigned int;
+		auto _get_x(unsigned int width, const int x_pos) const -> unsigned int;
+		auto _get_y(const sf::Sprite &sprite, const int y_pos) const
+			-> unsigned int;
+		auto _get_y(const sf::Text &text, const int y_pos) const
+			-> unsigned int;
+		auto _get_y(unsigned int width, const int y_pos) const -> unsigned int;
+		auto _get_cursor_coord_text(sf::Vector2f mouse_pos, sf::Text &text)
+			-> void;
 
 		// Private Members
 		ScreenSize _default_size;

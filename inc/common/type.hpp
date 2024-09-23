@@ -32,21 +32,37 @@
 
 namespace Sorcery {
 
+// Preemptive Aliases
+using CFG = Enums::Config::Options;
+using MIT = Enums::Menu::ItemType;
+using MIM = Enums::Menu::Item;
+using SPC = Enums::Magic::SpellCategory;
+using SPI = Enums::Magic::SpellID;
+using SPT = Enums::Magic::SpellType;
+using MAV = Enums::Map::Event;
+
 // Struct to represent a menu entry
 struct MenuEntry {
+
 		MenuEntry()
-			: index{0}, type{Enums::Menu::ItemType::NO_MENU_ITEM_TYPE}, item{Enums::Menu::Item::NO_MENU_ITEM}, key{},
-			  enabled{false}, config{Enums::Config::Options::NONE}, hint{}, idx{0} {};
-		MenuEntry(unsigned int index_, Enums::Menu::ItemType type_, Enums::Menu::Item item_, std::string key_,
-			bool enabled_, Enums::Config::Options config_, std::string hint_)
-			: index{index_}, type{type_}, item{item_}, key{key_}, enabled{enabled_}, config{config_}, hint{hint_} {};
-		MenuEntry(unsigned int index_, Enums::Menu::ItemType type_, Enums::Menu::Item item_, std::string key_,
+			: index{0}, type{MIT::NO_MENU_ITEM_TYPE}, item{MIM::NO_MENU_ITEM},
+			  key{}, enabled{false}, config{CFG::NONE}, hint{}, idx{0} {};
+
+		MenuEntry(unsigned int index_, MIT type_, MIM item_, std::string key_,
+			bool enabled_, CFG config_, std::string hint_)
+			: index{index_}, type{type_}, item{item_}, key{key_},
+			  enabled{enabled_}, config{config_}, hint{hint_} {};
+
+		MenuEntry(unsigned int index_, MIT type_, MIM item_, std::string key_,
 			bool enabled_, unsigned int idx_)
-			: index{index_}, type{type_}, item{item_}, key{key_}, enabled{enabled_}, idx{idx_} {};
+			: index{index_}, type{type_}, item{item_}, key{key_},
+			  enabled{enabled_}, idx{idx_} {};
 
 		auto operator==(const MenuEntry &a) const -> bool {
-			return ((index == a.index) && (type == a.type) && (item == a.item) && (key == a.key) &&
-					(enabled == a.enabled) && (config == a.config) && (hint == a.hint) && (idx == a.idx));
+			return ((index == a.index) && (type == a.type) &&
+					(item == a.item) && (key == a.key) &&
+					(enabled == a.enabled) && (config == a.config) &&
+					(hint == a.hint) && (idx == a.idx));
 		}
 
 		auto operator=(const MenuEntry &other) -> MenuEntry & {
@@ -64,18 +80,20 @@ struct MenuEntry {
 		};
 
 		unsigned int index;
-		Enums::Menu::ItemType type;
-		Enums::Menu::Item item;
+		MIT type;
+		MIM item;
 		std::string key;
 		bool enabled;
-		Enums::Config::Options config;
+		CFG config;
 		std::string hint;
 		unsigned int idx;
 };
 
 // Could also hold an optional bounds for maximum and minimum values?
 struct Coordinate {
+
 		Coordinate() : x{0}, y{0} {};
+
 		Coordinate(int x_, int y_) : x{x_}, y{y_} {};
 
 		auto operator==(const Coordinate &a) const -> bool {
@@ -118,8 +136,11 @@ struct Coordinate {
 
 // Struct to represent the size of a map level
 struct Size {
+
 		Size() : w{0}, h{0} {};
+
 		Size(unsigned int w_, unsigned int h_) : w{w_}, h{h_} {};
+
 		Size(const Size &other) : w{other.w}, h{other.h} {};
 
 		auto operator=(const Size &other) -> Size & {
@@ -146,16 +167,21 @@ struct Size {
 struct Spell {
 
 		Spell()
-			: id{Enums::Magic::SpellID::NO_SPELL}, type{Enums::Magic::SpellType::NO_SPELL_TYPE},
-			  category{Enums::Magic::SpellCategory::NO_CATEGORY}, level{0}, known{false}, name{""}, translated_name{""},
-			  details{""} {};
-		Spell(Enums::Magic::SpellID id_, Enums::Magic::SpellType type_, Enums::Magic::SpellCategory category_,
-			unsigned int level_, bool known_, std::string name_, std::string translated_name_, std::string details_)
-			: id{id_}, type{type_}, category{category_}, level{level_}, known{known_}, name{name_},
-			  translated_name{translated_name_}, details{details_} {};
+			: id{SPI::NO_SPELL}, type{SPT::NO_SPELL_TYPE},
+			  category{SPC::NO_CATEGORY}, level{0}, known{false}, name{""},
+			  translated_name{""}, details{""} {};
+
+		Spell(SPI id_, SPT type_, SPC category_, unsigned int level_,
+			bool known_, std::string name_, std::string translated_name_,
+			std::string details_)
+			: id{id_}, type{type_}, category{category_}, level{level_},
+			  known{known_}, name{name_}, translated_name{translated_name_},
+			  details{details_} {};
+
 		Spell(const Spell &other)
-			: id{other.id}, type{other.type}, category{other.category}, level{other.level}, known{other.known},
-			  name{other.name}, translated_name{other.translated_name}, details{other.details} {};
+			: id{other.id}, type{other.type}, category{other.category},
+			  level{other.level}, known{other.known}, name{other.name},
+			  translated_name{other.translated_name}, details{other.details} {};
 
 		auto operator=(const Spell &other) -> Spell & {
 
@@ -173,9 +199,9 @@ struct Spell {
 		Spell(Spell &&other) = default;
 		Spell &operator=(Spell &&other) = default;
 
-		Enums::Magic::SpellID id;
-		Enums::Magic::SpellType type;
-		Enums::Magic::SpellCategory category;
+		SPI id;
+		SPT type;
+		SPC category;
 		unsigned int level;
 		bool known;
 		std::string name;
@@ -185,7 +211,7 @@ struct Spell {
 
 struct DungeonEvent {
 
-		Enums::Map::Event event;
+		MAV event;
 		std::string component_key;
 		bool search_after;
 		bool combat_after;
@@ -197,9 +223,10 @@ struct DungeonEvent {
 
 		DungeonEvent() = default;
 
-		DungeonEvent(Enums::Map::Event event_, std::string component_key_, bool search_after_, bool combat_after_,
-			bool go_back_after_, bool go_town_after_)
-			: event{event_}, component_key{component_key_}, search_after{search_after_}, combat_after{combat_after_},
+		DungeonEvent(MAV event_, std::string component_key_, bool search_after_,
+			bool combat_after_, bool go_back_after_, bool go_town_after_)
+			: event{event_}, component_key{component_key_},
+			  search_after{search_after_}, combat_after{combat_after_},
 			  go_back_after{go_back_after_}, go_town_after{go_town_after_} {
 
 			enabled = true;

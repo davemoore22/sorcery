@@ -129,7 +129,7 @@ auto Sorcery::CharacterDisplay::_generate_inventory(Component layout_c) -> void 
 		if (_hl_inventory_item == slot) {
 			sf::RectangleShape bg(sf::Vector2f(line.length() * _display->window->get_cw(), text_hl_bounds.height));
 			bg.setPosition(text_hl_bounds.left, text_hl_bounds.top);
-			bg.setFillColor(_graphics->animation->selected_colour);
+			bg.setFillColor(_graphics->animation->select_col);
 			text->setFillColor(sf::Color(layout_c.colour));
 			text->setOutlineColor(sf::Color(0, 0, 0));
 			text->setOutlineThickness(2);
@@ -469,9 +469,9 @@ auto Sorcery::CharacterDisplay::check_for_mouse_move(sf::Vector2f mouse_pos) -> 
 
 auto Sorcery::CharacterDisplay::update() -> void {
 
-	_hl_mage_spell_bg.setFillColor(_graphics->animation->selected_colour);
-	_hl_priest_spell_bg.setFillColor(_graphics->animation->selected_colour);
-	_hl_action_item_bg.setFillColor(_graphics->animation->selected_colour);
+	_hl_mage_spell_bg.setFillColor(_graphics->animation->select_col);
+	_hl_priest_spell_bg.setFillColor(_graphics->animation->select_col);
+	_hl_action_item_bg.setFillColor(_graphics->animation->select_col);
 
 	//_inventory_display->update();
 }
@@ -907,7 +907,7 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 					sf::RectangleShape bg(sf::Vector2f(
 						std::stoi(spell_name_c["bar_width"].value()) * _display->window->get_cw(), hl_bounds.height));
 					bg.setPosition(hl_bounds.left, hl_bounds.top);
-					bg.setFillColor(_graphics->animation->selected_colour);
+					bg.setFillColor(_graphics->animation->select_col);
 					spell_name->setFillColor(sf::Color(spell_name_c.colour));
 					spell_name->setOutlineColor(sf::Color(0, 0, 0));
 					spell_name->setOutlineThickness(2);
@@ -996,7 +996,7 @@ auto Sorcery::CharacterDisplay::_generate_display() -> void {
 					sf::RectangleShape bg(sf::Vector2f(
 						std::stoi(spell_name_c["bar_width"].value()) * _display->window->get_cw(), hl_bounds.height));
 					bg.setPosition(hl_bounds.left, hl_bounds.top);
-					bg.setFillColor(_graphics->animation->selected_colour);
+					bg.setFillColor(_graphics->animation->select_col);
 					spell_name->setFillColor(sf::Color(spell_name_c.colour));
 					spell_name->setOutlineColor(sf::Color(0, 0, 0));
 					spell_name->setOutlineThickness(2);
@@ -1073,7 +1073,7 @@ auto Sorcery::CharacterDisplay::_add_action_button(
 			sf::RectangleShape bg(
 				sf::Vector2f((*_display->string)[str].length() * _display->window->get_cw(), text_hl_bounds.height));
 			bg.setPosition(text_hl_bounds.left, text_hl_bounds.top);
-			bg.setFillColor(_graphics->animation->selected_colour);
+			bg.setFillColor(_graphics->animation->select_col);
 			text->setFillColor(sf::Color(layout_c.colour));
 			text->setOutlineColor(sf::Color(0, 0, 0));
 			text->setOutlineThickness(2);

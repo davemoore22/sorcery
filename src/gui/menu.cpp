@@ -849,7 +849,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 						_system->resources->get_font_height(component.font, component.size)));
 					bg.setPosition(0, entry_y);
 					if (component.animated)
-						bg.setFillColor(_graphics->animation->selected_colour);
+						bg.setFillColor(_graphics->animation->select_col);
 					else
 						bg.setFillColor(sf::Color(component.background));
 
@@ -958,7 +958,7 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 					sf::RectangleShape bg(sf::Vector2f(component.w * _display->window->get_cw(), bg_rect.height));
 					bg.setPosition(0, entry_y);
 					if (component.animated)
-						bg.setFillColor(_graphics->animation->selected_colour);
+						bg.setFillColor(_graphics->animation->select_col);
 					else
 						bg.setFillColor(sf::Color(component.background));
 

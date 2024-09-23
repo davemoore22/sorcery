@@ -452,16 +452,16 @@ auto Sorcery::Dialog::update() -> void {
 	case WDT::OK: {
 		if (_selected == WDB::OK) {
 			sf::RectangleShape &hl{_highlights.at(WDB::OK)};
-			hl.setFillColor(_graphics->animation->selected_colour);
+			hl.setFillColor(_graphics->animation->select_col);
 		}
 	} break;
 	case WDT::CONFIRM: {
 		if (_selected == WDB::YES) {
 			sf::RectangleShape &hl{_highlights.at(WDB::YES)};
-			hl.setFillColor(_graphics->animation->selected_colour);
+			hl.setFillColor(_graphics->animation->select_col);
 		} else if (_selected == WDB::NO) {
 			sf::RectangleShape &hl{_highlights.at(WDB::NO)};
-			hl.setFillColor(_graphics->animation->selected_colour);
+			hl.setFillColor(_graphics->animation->select_col);
 		}
 	} break;
 	case WDT::MENU:

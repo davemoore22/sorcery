@@ -1077,7 +1077,7 @@ auto Sorcery::Create::_draw() -> void {
 	_display->display("create", _candidate.get_stage());
 
 	// And draw the current state of the character!
-	const auto lerp{_graphics->animation->colour_lerp};
+	const auto lerp{_graphics->animation->lerp};
 	sf::Text summary_text{};
 	if (_candidate.get_stage() == CHS::CHOOSE_METHOD) {
 
