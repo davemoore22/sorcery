@@ -34,7 +34,8 @@
 #include "types/level.hpp"
 
 // Standard Constructor
-Sorcery::Render::Render(System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::Render::Render(
+	System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Setup the Draw Surface
@@ -68,20 +69,23 @@ auto Sorcery::Render::refresh() -> void {
 	_rtexture.display();
 }
 
-auto Sorcery::Render::_darken_sprite(const unsigned int depth, bool lit = true) const -> sf::Color {
+auto Sorcery::Render::_darken_sprite(
+	const unsigned int depth, bool lit = true) const -> sf::Color {
 
 	const auto max_depth{lit ? LIGHT_VIEW_DEPTH : DARK_VIEW_DEPTH};
 	const auto step{255 / max_depth};
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnarrowing"
-	const auto darkened{sf::Color{255 - (depth * step), 255 - (depth * step), 255 - (depth * step)}};
+	const auto darkened{sf::Color{
+		255 - (depth * step), 255 - (depth * step), 255 - (depth * step)}};
 #pragma GCC diagnostic pop
 
 	return darkened;
 }
 
-auto Sorcery::Render::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::Render::draw(
+	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 
@@ -133,23 +137,30 @@ auto Sorcery::Render::_get_right_side(MAD facing) const -> MAD {
 	}
 }
 
-auto Sorcery::Render::_has_secret_door(const Tile &tile, const Sorcery::MAD direction) const -> bool {
+auto Sorcery::Render::_has_secret_door(
+	const Tile &tile, const Sorcery::MAD direction) const -> bool {
 
-	return ((tile.has(direction, TLE::ONE_WAY_HIDDEN_DOOR)) || (tile.has(direction, TLE::SECRET_DOOR)));
+	return ((tile.has(direction, TLE::ONE_WAY_HIDDEN_DOOR)) ||
+			(tile.has(direction, TLE::SECRET_DOOR)));
 }
 
-auto Sorcery::Render::_has_normal_door(const Tile &tile, const Sorcery::MAD direction) const -> bool {
+auto Sorcery::Render::_has_normal_door(
+	const Tile &tile, const Sorcery::MAD direction) const -> bool {
 
-	return ((tile.has(direction, TLE::ONE_WAY_DOOR)) || (tile.has(direction, TLE::UNLOCKED_DOOR)) ||
+	return ((tile.has(direction, TLE::ONE_WAY_DOOR)) ||
+			(tile.has(direction, TLE::UNLOCKED_DOOR)) ||
 			(tile.has(direction, TLE::LOCKED_DOOR)));
 }
 
-auto Sorcery::Render::_has_wall(const Tile &tile, const Sorcery::MAD direction) const -> bool {
+auto Sorcery::Render::_has_wall(
+	const Tile &tile, const Sorcery::MAD direction) const -> bool {
 
-	return ((tile.has(direction, TLE::WALL)) || (tile.has(direction, TLE::ONE_WAY_WALL)));
+	return ((tile.has(direction, TLE::WALL)) ||
+			(tile.has(direction, TLE::ONE_WAY_WALL)));
 }
 
-auto Sorcery::Render::_render_wireframe(sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::Render::_render_wireframe(
+	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	sf::Texture wireframe_t{_system->resources->textures[GTX::WIREFRAME]};
 
@@ -392,9 +403,11 @@ auto Sorcery::Render::_render_wireframe(sf::RenderTarget &target, sf::RenderStat
 
 			if (tl1.has(TLF::MESSAGE) || tl1.has(TLF::NOTICE))
 				target.draw(vl1.floor, states);
-			if (tl1.has(TLF::STAIRS_DOWN) || tl1.has(TLF::LADDER_DOWN) || tl1.has(TLF::ELEVATOR_DOWN))
+			if (tl1.has(TLF::STAIRS_DOWN) || tl1.has(TLF::LADDER_DOWN) ||
+				tl1.has(TLF::ELEVATOR_DOWN))
 				target.draw(vl1.down, states);
-			if (tl1.has(TLF::STAIRS_UP) || tl1.has(TLF::LADDER_UP) || tl1.has(TLF::ELEVATOR_UP))
+			if (tl1.has(TLF::STAIRS_UP) || tl1.has(TLF::LADDER_UP) ||
+				tl1.has(TLF::ELEVATOR_UP))
 				target.draw(vl1.up, states);
 		}
 
@@ -415,9 +428,11 @@ auto Sorcery::Render::_render_wireframe(sf::RenderTarget &target, sf::RenderStat
 			}
 			if (tr1.has(TLF::MESSAGE) || tr1.has(TLF::NOTICE))
 				target.draw(vr1.floor, states);
-			if (tr1.has(TLF::STAIRS_DOWN) || tr1.has(TLF::LADDER_DOWN) || tr1.has(TLF::ELEVATOR_DOWN))
+			if (tr1.has(TLF::STAIRS_DOWN) || tr1.has(TLF::LADDER_DOWN) ||
+				tr1.has(TLF::ELEVATOR_DOWN))
 				target.draw(vr1.down, states);
-			if (tr1.has(TLF::STAIRS_UP) || tr1.has(TLF::LADDER_UP) || tr1.has(TLF::ELEVATOR_UP))
+			if (tr1.has(TLF::STAIRS_UP) || tr1.has(TLF::LADDER_UP) ||
+				tr1.has(TLF::ELEVATOR_UP))
 				target.draw(vr1.up, states);
 		}
 		if (tm1.is(TLP::DARKNESS))
@@ -437,9 +452,11 @@ auto Sorcery::Render::_render_wireframe(sf::RenderTarget &target, sf::RenderStat
 
 			if (tm1.has(TLF::MESSAGE) || tm1.has(TLF::NOTICE))
 				target.draw(vm1.floor, states);
-			if (tm1.has(TLF::STAIRS_DOWN) || tm1.has(TLF::LADDER_DOWN) || tm1.has(TLF::ELEVATOR_DOWN))
+			if (tm1.has(TLF::STAIRS_DOWN) || tm1.has(TLF::LADDER_DOWN) ||
+				tm1.has(TLF::ELEVATOR_DOWN))
 				target.draw(vm1.down, states);
-			if (tm1.has(TLF::STAIRS_UP) || tm1.has(TLF::LADDER_UP) || tm1.has(TLF::ELEVATOR_UP))
+			if (tm1.has(TLF::STAIRS_UP) || tm1.has(TLF::LADDER_UP) ||
+				tm1.has(TLF::ELEVATOR_UP))
 				target.draw(vm1.up, states);
 		}
 
@@ -488,9 +505,11 @@ auto Sorcery::Render::_render_wireframe(sf::RenderTarget &target, sf::RenderStat
 
 			if (tl0.has(TLF::MESSAGE) || tl0.has(TLF::NOTICE))
 				target.draw(vl0.floor, states);
-			if (tl0.has(TLF::STAIRS_DOWN) || tl0.has(TLF::LADDER_DOWN) || tl0.has(TLF::ELEVATOR_DOWN))
+			if (tl0.has(TLF::STAIRS_DOWN) || tl0.has(TLF::LADDER_DOWN) ||
+				tl0.has(TLF::ELEVATOR_DOWN))
 				target.draw(vl0.down, states);
-			if (tl0.has(TLF::STAIRS_UP) || tl0.has(TLF::LADDER_UP) || tl0.has(TLF::ELEVATOR_UP))
+			if (tl0.has(TLF::STAIRS_UP) || tl0.has(TLF::LADDER_UP) ||
+				tl0.has(TLF::ELEVATOR_UP))
 				target.draw(vl0.up, states);
 		}
 
@@ -509,9 +528,11 @@ auto Sorcery::Render::_render_wireframe(sf::RenderTarget &target, sf::RenderStat
 
 		if (tm0.has(TLF::MESSAGE) || tm0.has(TLF::NOTICE))
 			target.draw(vm0.floor, states);
-		if (tm0.has(TLF::STAIRS_DOWN) || tm0.has(TLF::LADDER_DOWN) || tm0.has(TLF::ELEVATOR_DOWN))
+		if (tm0.has(TLF::STAIRS_DOWN) || tm0.has(TLF::LADDER_DOWN) ||
+			tm0.has(TLF::ELEVATOR_DOWN))
 			target.draw(vm0.down, states);
-		if (tm0.has(TLF::STAIRS_UP) || tm0.has(TLF::LADDER_UP) || tm0.has(TLF::ELEVATOR_UP))
+		if (tm0.has(TLF::STAIRS_UP) || tm0.has(TLF::LADDER_UP) ||
+			tm0.has(TLF::ELEVATOR_UP))
 			target.draw(vm0.up, states);
 
 		if (_has_wall(tr0, player_facing))
@@ -532,9 +553,11 @@ auto Sorcery::Render::_render_wireframe(sf::RenderTarget &target, sf::RenderStat
 
 			if (tr0.has(TLF::MESSAGE) || tr0.has(TLF::NOTICE))
 				target.draw(vr0.floor, states);
-			if (tr0.has(TLF::STAIRS_DOWN) || tr0.has(TLF::LADDER_DOWN) || tr0.has(TLF::ELEVATOR_DOWN))
+			if (tr0.has(TLF::STAIRS_DOWN) || tr0.has(TLF::LADDER_DOWN) ||
+				tr0.has(TLF::ELEVATOR_DOWN))
 				target.draw(vr0.down, states);
-			if (tr0.has(TLF::STAIRS_UP) || tr0.has(TLF::LADDER_UP) || tr0.has(TLF::ELEVATOR_UP))
+			if (tr0.has(TLF::STAIRS_UP) || tr0.has(TLF::LADDER_UP) ||
+				tr0.has(TLF::ELEVATOR_UP))
 				target.draw(vr0.up, states);
 		}
 

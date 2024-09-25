@@ -29,8 +29,10 @@
 #include "core/system.hpp"
 #include "resources/iconstore.hpp"
 
-Sorcery::Search::Search(System *system, Display *display, Graphics *graphics, Game *game, Component layout)
-	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _layout{layout} {
+Sorcery::Search::Search(System *system, Display *display, Graphics *graphics,
+	Game *game, Component layout)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game},
+	  _layout{layout} {
 
 	_sprites.clear();
 	_texts.clear();
@@ -41,8 +43,8 @@ Sorcery::Search::Search(System *system, Display *display, Graphics *graphics, Ga
 		_frame.release();
 		_frame.reset();
 	}
-	_frame = std::make_unique<Frame>(
-		_display->ui_texture, _layout.w, _layout.h, _layout.colour, _layout.background, _layout.alpha);
+	_frame = std::make_unique<Frame>(_display->ui_texture, _layout.w, _layout.h,
+		_layout.colour, _layout.background, _layout.alpha);
 	auto fsprite{_frame->sprite};
 	fsprite.setPosition(0, 0);
 	_sprites.emplace_back(fsprite);
@@ -84,7 +86,8 @@ auto Sorcery::Search::refresh() -> void {
 	characters_here = other_characters.size() > 0;
 }
 
-auto Sorcery::Search::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::Search::draw(
+	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 

@@ -43,7 +43,8 @@ class Reorder {
 	public:
 
 		// Standard Constructor
-		Reorder(System *system, Display *display, Graphics *graphics, Game *game, MMD mode = MMD::NO_MODE);
+		Reorder(System *system, Display *display, Graphics *graphics,
+			Game *game, MMD mode = MMD::NO_MODE);
 		Reorder() = delete;
 
 		// Standard Destructor

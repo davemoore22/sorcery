@@ -42,7 +42,8 @@ class Search: public sf::Transformable, public sf::Drawable {
 	public:
 
 		// Constructors
-		Search(System *system, Display *display, Graphics *graphics, Game *game, Component layout);
+		Search(System *system, Display *display, Graphics *graphics, Game *game,
+			Component layout);
 		Search() = delete;
 
 		// Public Members
@@ -56,7 +57,8 @@ class Search: public sf::Transformable, public sf::Drawable {
 	private:
 
 		// Private Methods
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
 		System *_system;

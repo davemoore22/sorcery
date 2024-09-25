@@ -44,7 +44,8 @@ struct Coordinate3 {
 			return std::tie(x, y, z) < std::tie(a.x, a.y, a.z);
 		};
 
-		friend std::ostream &operator<<(std::ostream &os, Coordinate3 const &a) {
+		friend std::ostream &operator<<(
+			std::ostream &os, Coordinate3 const &a) {
 			return os << fmt::format("[{}/{}/{}]", a.x, a.y, a.z) << std::endl;
 		}
 

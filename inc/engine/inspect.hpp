@@ -47,7 +47,8 @@ class Inspect {
 	public:
 
 		// Standard Constructor
-		Inspect(System *system, Display *display, Graphics *graphics, Game *game, MMD mode);
+		Inspect(System *system, Display *display, Graphics *graphics,
+			Game *game, MMD mode);
 		Inspect() = delete;
 
 		// Standard Destructor
@@ -56,15 +57,18 @@ class Inspect {
 		// Public Members
 
 		// Public Methods
-		auto start(std::optional<unsigned int> character_id) -> std::optional<MIM>;
+		auto start(std::optional<unsigned int> character_id)
+			-> std::optional<MIM>;
 		auto stop() -> void;
 
 	private:
 
 		// Private Methods
 		auto _draw() -> void;
-		auto _handle_in_character(unsigned int character_id) -> std::optional<MIM>;
-		auto _set_in_item_action_menu(unsigned int character_id, unsigned int slot_id) -> void;
+		auto _handle_in_character(unsigned int character_id)
+			-> std::optional<MIM>;
+		auto _set_in_item_action_menu(
+			unsigned int character_id, unsigned int slot_id) -> void;
 
 		auto _examine_item(const unsigned int character_id) -> void;
 

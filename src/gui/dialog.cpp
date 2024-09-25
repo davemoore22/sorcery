@@ -37,14 +37,16 @@
 #include "resources/stringstore.hpp"
 
 // Standard Constructor
-Sorcery::Dialog::Dialog(
-	System *system, Display *display, Graphics *graphics, Component &frame_c, Component &string_c, WDT type)
-	: _system{system}, _display{display}, _graphics{graphics}, _frame_c{frame_c}, _string_c{string_c}, _type{type} {
+Sorcery::Dialog::Dialog(System *system, Display *display, Graphics *graphics,
+	Component &frame_c, Component &string_c, WDT type)
+	: _system{system}, _display{display}, _graphics{graphics},
+	  _frame_c{frame_c}, _string_c{string_c}, _type{type} {
 
 	_refresh(string_c, std::string{""});
 }
 
-auto Sorcery::Dialog::set(Component &string_c, const std::string &new_text) -> void {
+auto Sorcery::Dialog::set(Component &string_c, const std::string &new_text)
+	-> void {
 
 	_refresh(string_c, new_text);
 }
@@ -64,7 +66,8 @@ auto Sorcery::Dialog::get_size() const -> sf::Vector2f {
 	return sf::Vector2f{_width * 1.0f, _height * 1.0f};
 }
 
-auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text) -> void {
+auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
+	-> void {
 	_strings.clear();
 	_texts.clear();
 	_sprites.clear();
@@ -99,10 +102,12 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 
 	// Split the Text into lines
 	const std::regex regex(R"([@]+)");
-	std::sregex_token_iterator it{wrapped_text.begin(), wrapped_text.end(), regex, -1};
+	std::sregex_token_iterator it{
+		wrapped_text.begin(), wrapped_text.end(), regex, -1};
 	std::vector<std::string> split{it, {}};
-	split.erase(
-		std::remove_if(split.begin(), split.end(), [](std::string_view s) { return s.size() == 0; }), split.end());
+	split.erase(std::remove_if(split.begin(), split.end(),
+					[](std::string_view s) { return s.size() == 0; }),
+		split.end());
 	_strings = split;
 
 	// Now work out the vertical size of the Frame
@@ -128,11 +133,12 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 	}
 
 	// Add the standard components - first the frame
-	_frame = std::make_unique<Frame>(
-		_display->ui_texture, _frame_c.w, frame_h, _frame_c.colour, _frame_c.background, _frame_c.alpha);
+	_frame = std::make_unique<Frame>(_display->ui_texture, _frame_c.w, frame_h,
+		_frame_c.colour, _frame_c.background, _frame_c.alpha);
 	_frame->setPosition(0, 0);
 
-	// Note we can use the calculated size of the frame as the size of the component
+	// Note we can use the calculated size of the frame as the size of the
+	// component
 	_width = _frame->get_width();
 	_height = _frame->get_height();
 
@@ -148,12 +154,14 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 		text.setCharacterSize(_string_c.size);
 		text.setFillColor(sf::Color(_string_c.colour));
 		if (_display->get_upper())
-			std::transform(each_string.begin(), each_string.end(), each_string.begin(), ::toupper);
+			std::transform(each_string.begin(), each_string.end(),
+				each_string.begin(), ::toupper);
 		text.setString(each_string);
 
 		if (_string_c.justification == JUS::CENTRE) {
 			text.setPosition(
-				(x + (_frame_c.w * _display->window->get_cw()) / 2), y + (index * _display->window->get_ch()));
+				(x + (_frame_c.w * _display->window->get_cw()) / 2),
+				y + (index * _display->window->get_ch()));
 			text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
 		} else if (_string_c.justification == JUS::RIGHT) {
 			text.setPosition(x, y + (index * _display->window->get_ch()));
@@ -169,12 +177,14 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 	}
 
 	// Add the additional option texts/menu
-	y = _display->window->get_ch() * (1 + static_cast<unsigned int>(_strings.size()) + 1);
+	y = _display->window->get_ch() *
+		(1 + static_cast<unsigned int>(_strings.size()) + 1);
 	const auto centre_x{(_frame_c.w * _display->window->get_cw()) / 2};
 
 	switch (_type) {
 	case WDT::OK: {
-		const auto ok_x{(centre_x - (_display->window->get_cw() * 2)) + (_display->window->get_cw() * 2)};
+		const auto ok_x{(centre_x - (_display->window->get_cw() * 2)) +
+						(_display->window->get_cw() * 2)};
 		sf::Text ok_text{};
 		if (_display->get_bold())
 			ok_text.setStyle(sf::Text::Bold);
@@ -193,7 +203,8 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 		const sf::FloatRect ok_text_rect{ok_text_hl.getGlobalBounds()};
 		_buttons_fr[WDB::OK] = ok_text_rect;
 
-		sf::RectangleShape ok_text_bg(sf::Vector2(ok_text_rect.width, ok_text_rect.height));
+		sf::RectangleShape ok_text_bg(
+			sf::Vector2(ok_text_rect.width, ok_text_rect.height));
 		ok_text_bg.setPosition(ok_x, y);
 
 		_highlights[WDB::OK] = ok_text_bg;
@@ -220,7 +231,8 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 		const sf::FloatRect yes_text_rect{yes_text_hl.getGlobalBounds()};
 		_buttons_fr[WDB::YES] = yes_text_rect;
 
-		sf::RectangleShape yes_text_bg(sf::Vector2(yes_text_rect.width, yes_text_rect.height));
+		sf::RectangleShape yes_text_bg(
+			sf::Vector2(yes_text_rect.width, yes_text_rect.height));
 		yes_text_bg.setPosition(yes_x, y);
 
 		_highlights[WDB::YES] = yes_text_bg;
@@ -245,7 +257,8 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 		const sf::FloatRect no_text_rect{no_text_hl.getGlobalBounds()};
 		_buttons_fr[WDB::NO] = no_text_rect;
 
-		sf::RectangleShape no_text_bg(sf::Vector2(no_text_rect.width, no_text_rect.height));
+		sf::RectangleShape no_text_bg(
+			sf::Vector2(no_text_rect.width, no_text_rect.height));
 		no_text_bg.setPosition(no_x, y);
 		_highlights[WDB::NO] = no_text_bg;
 
@@ -276,7 +289,8 @@ auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WDB> {
 		if (_system->input->check(CIN::MOVE, event))
 			check_for_mouse_move(_display->get_cur());
 		else if (_system->input->check(CIN::CONFIRM, event)) {
-			std::optional<WDB> button_chosen{check_if_option_selected(_display->get_cur())};
+			std::optional<WDB> button_chosen{
+				check_if_option_selected(_display->get_cur())};
 			if (button_chosen) {
 				if (button_chosen.value() == WDB::OK)
 					return WDB::OK;
@@ -305,7 +319,8 @@ auto Sorcery::Dialog::handle_input(sf::Event event) -> std::optional<WDB> {
 		else if (_system->input->check(CIN::MOVE, event))
 			check_for_mouse_move(_display->get_cur());
 		else if (_system->input->check(CIN::CONFIRM, event)) {
-			std::optional<WDB> button_chosen{check_if_option_selected(_display->get_cur())};
+			std::optional<WDB> button_chosen{
+				check_if_option_selected(_display->get_cur())};
 
 			// Mouse click only
 			if (button_chosen) {
@@ -364,7 +379,8 @@ auto Sorcery::Dialog::toggle_highlighted() -> WDB {
 	return WDB::NO_BUTTON; // TODO optional
 }
 
-auto Sorcery::Dialog::check_for_mouse_move(const sf::Vector2f mouse_pos) -> std::optional<WDB> {
+auto Sorcery::Dialog::check_for_mouse_move(const sf::Vector2f mouse_pos)
+	-> std::optional<WDB> {
 
 	const sf::Vector2f global_pos{this->getPosition()};
 	const sf::Vector2f local_mouse_pos{mouse_pos - global_pos};
@@ -397,7 +413,8 @@ auto Sorcery::Dialog::check_for_mouse_move(const sf::Vector2f mouse_pos) -> std:
 }
 
 // Only works for the Mouse
-auto Sorcery::Dialog::check_if_option_selected(const sf::Vector2f mouse_pos) -> std::optional<WDB> {
+auto Sorcery::Dialog::check_if_option_selected(const sf::Vector2f mouse_pos)
+	-> std::optional<WDB> {
 
 	const sf::Vector2f global_pos{this->getPosition()};
 	const sf::Vector2f local_mouse_pos{mouse_pos - global_pos};
@@ -475,9 +492,10 @@ auto Sorcery::Dialog::update() -> void {
 
 			_current_time = std::chrono::system_clock::now();
 
-			const auto time_elapsed{_current_time.value() - _start.value()};
-			const auto time_elapsed_msec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
-			if (time_elapsed_msec.count() > _duration)
+			const auto elapsed{_current_time.value() - _start.value()};
+			const auto elapsed_msec{
+				std::chrono::duration_cast<std::chrono::milliseconds>(elapsed)};
+			if (elapsed_msec.count() > _duration)
 				_valid = false;
 		}
 
@@ -502,7 +520,8 @@ auto Sorcery::Dialog::get_valid() const -> bool {
 	return _valid;
 }
 
-auto Sorcery::Dialog::draw(sf::RenderTarget &target, sf::RenderStates state) const -> void {
+auto Sorcery::Dialog::draw(
+	sf::RenderTarget &target, sf::RenderStates state) const -> void {
 
 	if (_valid) {
 		state.transform *= getTransform();

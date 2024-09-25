@@ -66,10 +66,11 @@ class View {
 		// Private Methods
 		auto _load_tile_views() -> void;
 		auto _set_texture_coordinates(TileView &tileview) -> void;
-		auto _set_vertex_array(
-			sf::VertexArray &array, sf::Vector2f p1, sf::Vector2f p2, sf::Vector2f p3, sf::Vector2f p4) -> void;
-		auto _set_vertex_array(sf::VertexArray &array, sf::Vector2f p1, sf::Vector2f p2, sf::Vector2f p3,
-			sf::Vector2f p4, const sf::Color colour) -> void;
+		auto _set_vertex_array(sf::VertexArray &array, sf::Vector2f p1,
+			sf::Vector2f p2, sf::Vector2f p3, sf::Vector2f p4) -> void;
+		auto _set_vertex_array(sf::VertexArray &array, sf::Vector2f p1,
+			sf::Vector2f p2, sf::Vector2f p3, sf::Vector2f p4,
+			const sf::Color colour) -> void;
 };
 
 }

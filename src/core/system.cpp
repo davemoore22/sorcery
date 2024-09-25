@@ -71,11 +71,11 @@ auto Sorcery::System::set_pause(unsigned int ms) -> void {
 auto Sorcery::System::get_pause() -> bool {
 
 	if (_pause_start && _pause_dur) {
-		auto elapsed{std::chrono::duration_cast<std::chrono::milliseconds>(
+		auto elapsed_ms{std::chrono::duration_cast<std::chrono::milliseconds>(
 			std::chrono::steady_clock::now() - _pause_start.value())
 				.count()};
 
-		return (elapsed < _pause_dur.value());
+		return (elapsed_ms < _pause_dur.value());
 	} else
 		return false;
 }
@@ -84,10 +84,10 @@ auto Sorcery::System::get_pause() -> bool {
 auto Sorcery::System::update_pause() -> bool {
 
 	if (_pause_start && _pause_dur) {
-		auto elapsed{std::chrono::duration_cast<std::chrono::milliseconds>(
+		auto elapsed_ms{std::chrono::duration_cast<std::chrono::milliseconds>(
 			std::chrono::steady_clock::now() - _pause_start.value())
 				.count()};
-		if (elapsed > _pause_dur.value()) {
+		if (elapsed_ms > _pause_dur.value()) {
 			_pause_start = std::nullopt;
 			_pause_dur = std::nullopt;
 			return true;

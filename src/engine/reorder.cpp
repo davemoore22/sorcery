@@ -38,22 +38,26 @@
 #include "types/character.hpp"
 
 // Standard Constructor
-Sorcery::Reorder::Reorder(System *system, Display *display, Graphics *graphics, Game *game, MMD mode)
-	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _mode{mode} {
+Sorcery::Reorder::Reorder(
+	System *system, Display *display, Graphics *graphics, Game *game, MMD mode)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game},
+	  _mode{mode} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
 	// Setup Custom Components
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::PARTY_CHARACTER_NAMES);
+	_menu = std::make_unique<Menu>(
+		_system, _display, _graphics, _game, MTP::PARTY_CHARACTER_NAMES);
 	_menu->generate((*_display->layout)["reorder:menu"]);
-	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["reorder:menu"].y);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()),
+		(*_display->layout)["reorder:menu"].y);
 
 	_candidate_c = Component{(*_display->layout)["reorder:candidate_party"]};
 
 	// Modules
-	_party_panel =
-		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
+	_party_panel = std::make_unique<PartyPanel>(_system, _display, _graphics,
+		_game, (*_display->layout)["global:party_panel"]);
 }
 
 // Standard Destructor
@@ -79,8 +83,8 @@ auto Sorcery::Reorder::start() -> std::optional<std::vector<unsigned int>> {
 	_party_panel->refresh();
 
 	// Generate the Custom Components
-	const Component party_banel_c{(*_display->layout)["global:party_panel"]};
-	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
+	_party_panel->setPosition(_display->get_centre_x(_party_panel->width),
+		(*_display->layout)["global:party_panel"].y);
 
 	// And do the main loop
 	_display->set_input_mode(WIM::NAVIGATE_MENU);

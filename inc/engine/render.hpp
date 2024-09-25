@@ -41,7 +41,8 @@ class Render: public sf::Transformable, public sf::Drawable {
 	public:
 
 		// Constructors
-		Render(System *system, Display *display, Graphics *graphics, Game *game);
+		Render(
+			System *system, Display *display, Graphics *graphics, Game *game);
 		Render() = delete;
 
 		// Public Methods
@@ -63,19 +64,25 @@ class Render: public sf::Transformable, public sf::Drawable {
 		std::vector<sf::Sprite> _sprites;
 
 		// Private Methods
-		auto _darken_sprite(const unsigned int depth, bool lit) const -> sf::Color;
+		auto _darken_sprite(const unsigned int depth, bool lit) const
+			-> sf::Color;
 		auto _render_floor(bool lit) -> void;
 		auto _render_ceiling(bool lit) -> void;
 		auto _render_walls(bool lit) -> void;
 
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
-		auto _render_wireframe(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto _render_wireframe(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _get_left_side(MAD facing) const -> MAD;
 		auto _get_right_side(MAD facing) const -> MAD;
 
-		auto _has_wall(const Tile &tile, const Sorcery::MAD direction) const -> bool;
-		auto _has_secret_door(const Tile &tile, const Sorcery::MAD direction) const -> bool;
-		auto _has_normal_door(const Tile &tile, const Sorcery::MAD direction) const -> bool;
+		auto _has_wall(const Tile &tile, const Sorcery::MAD direction) const
+			-> bool;
+		auto _has_secret_door(
+			const Tile &tile, const Sorcery::MAD direction) const -> bool;
+		auto _has_normal_door(
+			const Tile &tile, const Sorcery::MAD direction) const -> bool;
 };
 
 }

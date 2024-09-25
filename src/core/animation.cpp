@@ -160,10 +160,10 @@ auto Sorcery::Animation::_change_wp(bool force) -> void {
 		do {
 			_ctime_wp = std::chrono::system_clock::now();
 			const auto elapsed{_ctime_wp - _last_wp};
-			if (const auto elapsed_msec{
+			if (const auto elapsed_ms{
 					std::chrono::duration_cast<std::chrono::milliseconds>(
 						elapsed)};
-				elapsed_msec.count() > WALLPAPER_INTERVAL) {
+				elapsed_ms.count() > WALLPAPER_INTERVAL) {
 				if (_allow_wp)
 					_do_wp();
 			}
@@ -183,10 +183,10 @@ auto Sorcery::Animation::_animate_attract(bool force) -> void {
 		do {
 			_ctime_attract = std::chrono::system_clock::now();
 			const auto elapsed{_ctime_attract - _last_attract};
-			if (const auto elapsed_msec{
+			if (const auto elapsed_ms{
 					std::chrono::duration_cast<std::chrono::milliseconds>(
 						elapsed)};
-				elapsed_msec.count() > DELAY_ATTRACT)
+				elapsed_ms.count() > DELAY_ATTRACT)
 				if (_allow_attract)
 					_do_attract();
 

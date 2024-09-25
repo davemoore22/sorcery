@@ -38,21 +38,25 @@
 #include "types/component.hpp"
 
 // Standard Constructor
-Sorcery::Rest::Rest(System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::Rest::Rest(
+	System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
 	// Custom Components
-	_cont_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CONTINUE);
+	_cont_menu = std::make_unique<Menu>(
+		_system, _display, _graphics, _game, MTP::CONTINUE);
 	_cont_menu->generate((*_display->layout)["rest:continue_menu"]);
-	_cont_menu->setPosition(
-		_display->get_centre_x(_cont_menu->get_width()), (*_display->layout)["rest:continue_menu"].y);
+	_cont_menu->setPosition(_display->get_centre_x(_cont_menu->get_width()),
+		(*_display->layout)["rest:continue_menu"].y);
 
-	_stop_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::STOP);
+	_stop_menu =
+		std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::STOP);
 	_stop_menu->generate((*_display->layout)["rest:stop_menu"]);
-	_stop_menu->setPosition(_display->get_centre_x(_stop_menu->get_width()), (*_display->layout)["rest:stop_menu"].y);
+	_stop_menu->setPosition(_display->get_centre_x(_stop_menu->get_width()),
+		(*_display->layout)["rest:stop_menu"].y);
 
 	// Ugly - need to change this
 	_nap_text = sf::Text();
@@ -62,24 +66,28 @@ Sorcery::Rest::Rest(System *system, Display *display, Graphics *graphics, Game *
 	_level_text = sf::Text();
 
 	Component _smf_c{(*_display->layout)["rest:stop_frame"]};
-	_stop_frame = std::make_unique<Frame>(
-		_display->ui_texture, _smf_c.w, _smf_c.h, _smf_c.colour, _smf_c.background, _smf_c.alpha);
+	_stop_frame = std::make_unique<Frame>(_display->ui_texture, _smf_c.w,
+		_smf_c.h, _smf_c.colour, _smf_c.background, _smf_c.alpha);
 	_stop_frame->setPosition(
-		_display->window->get_x(_stop_frame->sprite, _smf_c.x), _display->window->get_y(_stop_frame->sprite, _smf_c.y));
+		_display->window->get_x(_stop_frame->sprite, _smf_c.x),
+		_display->window->get_y(_stop_frame->sprite, _smf_c.y));
 
 	Component _cmf_c{(*_display->layout)["rest:continue_frame"]};
-	_cont_frame = std::make_unique<Frame>(
-		_display->ui_texture, _cmf_c.w, _cmf_c.h, _cmf_c.colour, _cmf_c.background, _cmf_c.alpha);
+	_cont_frame = std::make_unique<Frame>(_display->ui_texture, _cmf_c.w,
+		_cmf_c.h, _cmf_c.colour, _cmf_c.background, _cmf_c.alpha);
 	_cont_frame->setPosition(
-		_display->window->get_x(_cont_frame->sprite, _cmf_c.x), _display->window->get_y(_cont_frame->sprite, _cmf_c.y));
+		_display->window->get_x(_cont_frame->sprite, _cmf_c.x),
+		_display->window->get_y(_cont_frame->sprite, _cmf_c.y));
 
 	// Modules
-	_party_panel =
-		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
-	_results = std::make_unique<TextPanel>(_system, _display, _graphics, (*_display->layout)["rest:results_panel"]);
+	_party_panel = std::make_unique<PartyPanel>(_system, _display, _graphics,
+		_game, (*_display->layout)["global:party_panel"]);
+	_results = std::make_unique<TextPanel>(_system, _display, _graphics,
+		(*_display->layout)["rest:results_panel"]);
 }
 
-auto Sorcery::Rest::start(Character *character, REM mode, RET type) -> std::optional<MIM> {
+auto Sorcery::Rest::start(Character *character, REM mode, RET type)
+	-> std::optional<MIM> {
 
 	_character = character;
 	_mode = mode;
@@ -91,8 +99,10 @@ auto Sorcery::Rest::start(Character *character, REM mode, RET type) -> std::opti
 	_level_up_messages.clear();
 
 	auto name{character->get_name()};
-	_nap_message = fmt::format("{} {}", name, (*_display->string)["REST_NAPPING"]);
-	_recup_message = fmt::format("{} {}", name, (*_display->string)["REST_RECUPERATING"]);
+	_nap_message =
+		fmt::format("{} {}", name, (*_display->string)["REST_NAPPING"]);
+	_recup_message =
+		fmt::format("{} {}", name, (*_display->string)["REST_RECUPERATING"]);
 
 	_display->generate("rest");
 
@@ -101,7 +111,8 @@ auto Sorcery::Rest::start(Character *character, REM mode, RET type) -> std::opti
 
 	// Refresh the Party Characters and the Display
 	_party_panel->refresh();
-	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
+	_party_panel->setPosition(_display->get_centre_x(_party_panel->width),
+		(*_display->layout)["global:party_panel"].y);
 	_results->setPosition((*_display->layout)["rest:results_panel"].pos());
 
 	// Start at the Regen
@@ -124,9 +135,11 @@ auto Sorcery::Rest::start(Character *character, REM mode, RET type) -> std::opti
 		if (_stage == STR::REGEN) {
 
 			_current_time = std::chrono::system_clock::now();
-			const auto time_elapsed{_current_time.value() - _start.value()};
-			if (const auto time_elapsed_msec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
-				time_elapsed_msec.count() > _duration)
+			const auto elapsed{_current_time.value() - _start.value()};
+			if (const auto elapsed_ms{
+					std::chrono::duration_cast<std::chrono::milliseconds>(
+						elapsed)};
+				elapsed_ms.count() > _duration)
 				proceed = true;
 
 			if (proceed && !skip) {
@@ -188,11 +201,13 @@ auto Sorcery::Rest::start(Character *character, REM mode, RET type) -> std::opti
 					else if (_system->input->check(CIN::DOWN, event))
 						opt_cont = _cont_menu->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						opt_cont = _cont_menu->set_mouse_selected(_display->get_cur());
+						opt_cont =
+							_cont_menu->set_mouse_selected(_display->get_cur());
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						if (opt_cont) {
-							if (const MIM opt{(*opt_cont.value()).item}; opt == MIM::ITEM_CONTINUE) {
+							if (const MIM opt{(*opt_cont.value()).item};
+								opt == MIM::ITEM_CONTINUE) {
 								return MIM::ITEM_CONTINUE;
 							}
 						}
@@ -212,11 +227,13 @@ auto Sorcery::Rest::start(Character *character, REM mode, RET type) -> std::opti
 					else if (_system->input->check(CIN::DOWN, event))
 						opt_stop = _stop_menu->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						opt_stop = _stop_menu->set_mouse_selected(_display->get_cur());
+						opt_stop =
+							_stop_menu->set_mouse_selected(_display->get_cur());
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						if (opt_stop) {
-							if (const MIM opt{(*opt_stop.value()).item}; opt == MIM::ITEM_STOP) {
+							if (const MIM opt{(*opt_stop.value()).item};
+								opt == MIM::ITEM_STOP) {
 								_go_to_results();
 								_stage = STR::RESULTS;
 								continue;
@@ -234,11 +251,13 @@ auto Sorcery::Rest::start(Character *character, REM mode, RET type) -> std::opti
 					else if (_system->input->check(CIN::DOWN, event))
 						opt_cont = _cont_menu->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						opt_cont = _cont_menu->set_mouse_selected(_display->get_cur());
+						opt_cont =
+							_cont_menu->set_mouse_selected(_display->get_cur());
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						if (opt_cont) {
-							if (const MIM opt{(*opt_cont.value()).item}; opt == MIM::ITEM_CONTINUE) {
+							if (const MIM opt{(*opt_cont.value()).item};
+								opt == MIM::ITEM_CONTINUE) {
 								return MIM::ITEM_CONTINUE;
 							}
 						}
@@ -297,8 +316,10 @@ auto Sorcery::Rest::_recuperate() -> bool {
 		return true;
 	}
 
-	_recup_message_1 = fmt::format("{} ({:>5}/{:>5})", (*_display->string)["REST_HP"], hp, _character->get_max_hp());
-	_recup_message_2 = fmt::format("{} {}", (*_display->string)["REST_GOLD"], gold);
+	_recup_message_1 = fmt::format("{} ({:>5}/{:>5})",
+		(*_display->string)["REST_HP"], hp, _character->get_max_hp());
+	_recup_message_2 =
+		fmt::format("{} {}", (*_display->string)["REST_GOLD"], gold);
 
 	_party_panel->refresh();
 
@@ -332,8 +353,10 @@ auto Sorcery::Rest::_go_to_results() -> void {
 
 	} else {
 
-		const auto no_level_up_results{fmt::format("{} {} {}@{}", (*_display->string)["REST_XP_PREFIX_YOU"], need_xp,
-			(*_display->string)["REST_XP_SUFFIX_YOU"], (*_display->string)["REST_XP_2_YOU"])};
+		const auto no_level_up_results{fmt::format("{} {} {}@{}",
+			(*_display->string)["REST_XP_PREFIX_YOU"], need_xp,
+			(*_display->string)["REST_XP_SUFFIX_YOU"],
+			(*_display->string)["REST_XP_2_YOU"])};
 		_results->set_text(no_level_up_results);
 	}
 
@@ -358,7 +381,8 @@ auto Sorcery::Rest::_draw() -> void {
 
 		if (_stage == STR::REGEN) {
 
-			_display->window->draw_text(_nap_text, (*_display->layout)["rest:nap_text"], _nap_message);
+			_display->window->draw_text(
+				_nap_text, (*_display->layout)["rest:nap_text"], _nap_message);
 
 		} else if (_stage == STR::RESULTS) {
 
@@ -375,9 +399,12 @@ auto Sorcery::Rest::_draw() -> void {
 
 		if (_stage == STR::REGEN) {
 
-			_display->window->draw_text(_recup_text, (*_display->layout)["rest:nap_text"], _recup_message);
-			_display->window->draw_text(_recup_text_1, (*_display->layout)["rest:recup_text_1"], _recup_message_1);
-			_display->window->draw_text(_recup_text_2, (*_display->layout)["rest:recup_text_2"], _recup_message_2);
+			_display->window->draw_text(_recup_text,
+				(*_display->layout)["rest:nap_text"], _recup_message);
+			_display->window->draw_text(_recup_text_1,
+				(*_display->layout)["rest:recup_text_1"], _recup_message_1);
+			_display->window->draw_text(_recup_text_2,
+				(*_display->layout)["rest:recup_text_2"], _recup_message_2);
 
 			_stop_menu->generate((*_display->layout)["rest:stop_menu"]);
 

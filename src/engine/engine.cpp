@@ -47,11 +47,11 @@
 #include "types/type.hpp"
 
 // Standard Constructor
-Sorcery::Engine::Engine(System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::Engine::Engine(
+	System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	_game->hide_console();
-
 	_cursor_coords = sf::Text{};
 
 	// Setup the Factory
@@ -91,7 +91,6 @@ auto Sorcery::Engine::_initialise_state() -> void {
 	_pending_combat = false;
 	_show_encounter = false;
 	_next_combat = std::nullopt;
-
 	_monochrome = true;
 
 	_display->window->set_cursor_coord(true);
@@ -182,53 +181,83 @@ auto Sorcery::Engine::_initalise_components() -> void {
 
 	// Setup Menus
 	_camp_menu = _factory->make_menu("engine_base_ui:camp_menu", MTP::CAMP);
-	_search_menu = _factory->make_menu("engine_base_ui:search_menu", MTP::SEARCH);
-	_get_menu = _factory->make_menu("engine_base_ui:get_menu", MTP::CHARACTERS_HERE);
-	_action_menu = _factory->make_menu("engine_base_ui:action_menu", MTP::ACTION);
-	_elev_1_menu = _factory->make_menu("engine_base_ui:elevator_a_d_menu", MTP::ELEVATOR_A_D);
-	_elev_2_menu = _factory->make_menu("engine_base_ui:elevator_a_f_menu", MTP::ELEVATOR_A_F);
-	_camp_menu_frame = _factory->make_menu_frame("engine_base_ui:camp_menu_frame");
-	_search_menu_frame = _factory->make_menu_frame("engine_base_ui:search_menu_frame");
-	_get_menu_frame = _factory->make_menu_frame("engine_base_ui:get_menu_frame");
-	_action_menu_frame = _factory->make_menu_frame("engine_base_ui:action_menu_frame");
-	_elev_1_menu_frame = _factory->make_menu_frame("engine_base_ui:elevator_a_d_menu_frame");
-	_elev_2_menu_frame = _factory->make_menu_frame("engine_base_ui:elevator_a_f_menu_frame");
+	_search_menu =
+		_factory->make_menu("engine_base_ui:search_menu", MTP::SEARCH);
+	_get_menu =
+		_factory->make_menu("engine_base_ui:get_menu", MTP::CHARACTERS_HERE);
+	_action_menu =
+		_factory->make_menu("engine_base_ui:action_menu", MTP::ACTION);
+	_elev_1_menu = _factory->make_menu(
+		"engine_base_ui:elevator_a_d_menu", MTP::ELEVATOR_A_D);
+	_elev_2_menu = _factory->make_menu(
+		"engine_base_ui:elevator_a_f_menu", MTP::ELEVATOR_A_F);
+	_camp_menu_frame =
+		_factory->make_menu_frame("engine_base_ui:camp_menu_frame");
+	_search_menu_frame =
+		_factory->make_menu_frame("engine_base_ui:search_menu_frame");
+	_get_menu_frame =
+		_factory->make_menu_frame("engine_base_ui:get_menu_frame");
+	_action_menu_frame =
+		_factory->make_menu_frame("engine_base_ui:action_menu_frame");
+	_elev_1_menu_frame =
+		_factory->make_menu_frame("engine_base_ui:elevator_a_d_menu_frame");
+	_elev_2_menu_frame =
+		_factory->make_menu_frame("engine_base_ui:elevator_a_f_menu_frame");
 	_view_frame_small = _factory->make_frame("engine_base_ui:view_frame_small");
 	_view_frame_big = _factory->make_frame("engine_base_ui:view_frame_big");
 
 	// Dialogs
-	_ouch = _factory->make_dialog("engine_base_ui:ouch", WDT::TIMED, DELAY_OUCH);
+	_ouch =
+		_factory->make_dialog("engine_base_ui:ouch", WDT::TIMED, DELAY_OUCH);
 	_pool = _factory->make_dialog("engine_base_ui:dialog_pool_gold_ok");
-	_encounter = _factory->make_dialog("engine_base_ui:an_encounter", WDT::TIMED, DELAY_ENCOUNTER);
+	_encounter = _factory->make_dialog(
+		"engine_base_ui:an_encounter", WDT::TIMED, DELAY_ENCOUNTER);
 	_pit = _factory->make_dialog("engine_base_ui:pit", WDT::TIMED, DELAY_PIT);
-	_chute = _factory->make_dialog("engine_base_ui:chute", WDT::TIMED, DELAY_CHUTE);
-	_found = _factory->make_dialog("engine_base_ui:found_an_item", WDT::TIMED, DELAY_FIND_AN_ITEM);
-	_elevator = _factory->make_dialog("engine_base_ui:one_moment", WDT::TIMED, DELAY_ELEVATOR);
-	_confirm_stairs = _factory->make_dialog("engine_base_ui:dialog_stairs", WDT::CONFIRM);
-	_confirm_exit = _factory->make_dialog("engine_base_ui:dialog_exit", WDT::CONFIRM);
-	_confirm_search = _factory->make_dialog("engine_base_ui:dialog_search", WDT::CONFIRM);
+	_chute =
+		_factory->make_dialog("engine_base_ui:chute", WDT::TIMED, DELAY_CHUTE);
+	_found = _factory->make_dialog(
+		"engine_base_ui:found_an_item", WDT::TIMED, DELAY_FIND_AN_ITEM);
+	_elevator = _factory->make_dialog(
+		"engine_base_ui:one_moment", WDT::TIMED, DELAY_ELEVATOR);
+	_confirm_stairs =
+		_factory->make_dialog("engine_base_ui:dialog_stairs", WDT::CONFIRM);
+	_confirm_exit =
+		_factory->make_dialog("engine_base_ui:dialog_exit", WDT::CONFIRM);
+	_confirm_search =
+		_factory->make_dialog("engine_base_ui:dialog_search", WDT::CONFIRM);
+	_cur_char_frame = _factory->make_frame("engine_base_ui:character_frame");
 
-	_character_display = std::make_unique<CharacterDisplay>(_system, _display, _graphics);
+	_character_display =
+		std::make_unique<CharacterDisplay>(_system, _display, _graphics);
 
 	// Modules
-	_party_panel = std::make_unique<PartyPanel>(
-		_system, _display, _graphics, _game, (*_display->layout)["engine_base_ui:party_panel_small"]);
-	_reorder = std::make_unique<Reorder>(_system, _display, _graphics, _game, MMD::CAMP);
-	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MMD::CAMP);
+	_party_panel = std::make_unique<PartyPanel>(_system, _display, _graphics,
+		_game, (*_display->layout)["engine_base_ui:party_panel_small"]);
+	_reorder = std::make_unique<Reorder>(
+		_system, _display, _graphics, _game, MMD::CAMP);
+	_inspect = std::make_unique<Inspect>(
+		_system, _display, _graphics, _game, MMD::CAMP);
 	_render = std::make_unique<Render>(_system, _display, _graphics, _game);
-	_graveyard = std::make_unique<Graveyard>(_system, _display, _graphics, _game);
-	_automap = std::make_unique<AutoMap>(_system, _display, _graphics, _game, (*_display->layout)["global:automap"]);
-	_compass = std::make_unique<Compass>(_system, _display, _graphics, _game, (*_display->layout)["global:compass"]);
-	_buffbar = std::make_unique<BuffBar>(_system, _display, _graphics, _game, (*_display->layout)["global:buffbar"]);
-	_debuffbar =
-		std::make_unique<DebuffBar>(_system, _display, _graphics, _game, (*_display->layout)["global:debuffbar"]);
-	_search = std::make_unique<Search>(_system, _display, _graphics, _game, (*_display->layout)["global:search"]);
-	_console = std::make_unique<Console>(_display->window->get_gui(), _system, _display, _graphics, _game);
-	_left_icons = std::make_unique<IconPanel>(
-		_system, _display, _graphics, _game, (*_display->layout)["engine_base_ui:left_icon_panel"], true);
-	_right_icons = std::make_unique<IconPanel>(
-		_system, _display, _graphics, _game, (*_display->layout)["engine_base_ui:right_icon_panel"], false);
-	_map = std::make_unique<Map>(_system, _display, _graphics, _game, (*_display->layout)["engine_base_ui:map"]);
+	_graveyard =
+		std::make_unique<Graveyard>(_system, _display, _graphics, _game);
+	_automap = std::make_unique<AutoMap>(_system, _display, _graphics, _game,
+		(*_display->layout)["global:automap"]);
+	_compass = std::make_unique<Compass>(_system, _display, _graphics, _game,
+		(*_display->layout)["global:compass"]);
+	_buffbar = std::make_unique<BuffBar>(_system, _display, _graphics, _game,
+		(*_display->layout)["global:buffbar"]);
+	_debuffbar = std::make_unique<DebuffBar>(_system, _display, _graphics,
+		_game, (*_display->layout)["global:debuffbar"]);
+	_search = std::make_unique<Search>(_system, _display, _graphics, _game,
+		(*_display->layout)["global:search"]);
+	_console = std::make_unique<Console>(
+		_display->window->get_gui(), _system, _display, _graphics, _game);
+	_left_icons = std::make_unique<IconPanel>(_system, _display, _graphics,
+		_game, (*_display->layout)["engine_base_ui:left_icon_panel"], true);
+	_right_icons = std::make_unique<IconPanel>(_system, _display, _graphics,
+		_game, (*_display->layout)["engine_base_ui:right_icon_panel"], false);
+	_map = std::make_unique<Map>(_system, _display, _graphics, _game,
+		(*_display->layout)["engine_base_ui:map"]);
 }
 
 auto Sorcery::Engine::_update_direction_indicator_timer() -> void {
@@ -239,9 +268,10 @@ auto Sorcery::Engine::_update_direction_indicator_timer() -> void {
 
 		_dir_time = std::chrono::system_clock::now();
 
-		const auto time_elapsed{_dir_time.value() - _dir_start.value()};
-		const auto time_elapsed_msec{std::chrono::duration_cast<std::chrono::milliseconds>(time_elapsed)};
-		if (time_elapsed_msec.count() > DELAY_DIRECTION) {
+		const auto elapsed{_dir_time.value() - _dir_start.value()};
+		const auto elapsed_ms{
+			std::chrono::duration_cast<std::chrono::milliseconds>(elapsed)};
+		if (elapsed_ms.count() > DELAY_DIRECTION) {
 			_show_dir = false;
 			_dir_start = std::nullopt;
 		}
@@ -259,36 +289,29 @@ auto Sorcery::Engine::_place_components() -> void {
 
 	// Generate the Custom Components
 	if (_show_gui)
-		_party_panel->setPosition((*_display->layout)["engine_base_ui:party_panel_small"].pos());
-	else
 		_party_panel->setPosition(
-			_display->get_centre_x(_party_panel->width), (*_display->layout)["engine_base_ui:party_panel_big"].y);
+			(*_display->layout)["engine_base_ui:party_panel_small"].pos());
+	else
+		_party_panel->setPosition(_display->get_centre_x(_party_panel->width),
+			(*_display->layout)["engine_base_ui:party_panel_big"].y);
 
-	const Component automap_c{(*_display->layout)["global:automap"]};
-	_automap->setPosition(automap_c.pos());
-	const Component compass_c{(*_display->layout)["global:compass"]};
-	_compass->setPosition(compass_c.pos());
-	const Component buffbar_c{(*_display->layout)["global:buffbar"]};
-	_buffbar->setPosition(buffbar_c.pos());
-	const Component debuffbar_c{(*_display->layout)["global:debuffbar"]};
-	_debuffbar->setPosition(debuffbar_c.pos());
+	_automap->setPosition((*_display->layout)["global:automap"].pos());
+	_compass->setPosition((*_display->layout)["global:compass"].pos());
+	_buffbar->setPosition((*_display->layout)["global:buffbar"].pos());
+	_debuffbar->setPosition((*_display->layout)["global:debuffbar"].pos());
+	_left_icons->setPosition(
+		(*_display->layout)["engine_base_ui:left_icon_panel"].pos());
+	_right_icons->setPosition(
+		(*_display->layout)["engine_base_ui:right_icon_panel"].pos());
+	_map->setPosition((*_display->layout)["engine_base_ui:map"].pos());
+
 	const Component search_c{(*_display->layout)["global:search"]};
 	_search->setPosition(search_c.pos());
-
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnarrowing"
-	_search_bounds = sf::IntRect{search_c.x, search_c.y, _search->width, _search->height};
+	_search_bounds =
+		sf::IntRect{search_c.x, search_c.y, _search->width, _search->height};
 #pragma GCC diagnostic pop
-
-	const Component l_icon_panel_c{(*_display->layout)["engine_base_ui:left_icon_panel"]};
-	_left_icons->setPosition(l_icon_panel_c.pos());
-	const Component r_icon_panel_c{(*_display->layout)["engine_base_ui:right_icon_panel"]};
-	_right_icons->setPosition(r_icon_panel_c.pos());
-
-	const Component map_c{(*_display->layout)["engine_base_ui:map"]};
-	_map->setPosition(map_c.pos());
-
-	_cur_char_frame = _factory->make_frame("engine_base_ui:character_frame");
 }
 
 auto Sorcery::Engine::_refresh() const -> void {
@@ -342,14 +365,18 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	_system->stop_pause();
 	_last_movement = MAD::NO_DIRECTION;
 	_can_run_event = false;
-	const auto &starting_tile{_game->state->level->at(_game->state->get_player_pos())};
+
+	const auto &start{_game->state->level->at(_game->state->get_player_pos())};
 
 	if (!_tile_explored(_game->state->get_player_pos()))
 		_set_tile_explored(_game->state->get_player_pos());
 
 	// Now, we can also be on an elevator or a set of stairs too when we begin
-	_show_confirm_stairs = (_game->state->get_player_pos() == Coordinate{0, 0}) && (_game->state->get_depth() == -1);
-	if ((_game->state->get_player_pos() == Coordinate{0, 0}) && (_game->state->get_depth() == -1)) {
+	_show_confirm_stairs =
+		(_game->state->get_player_pos() == Coordinate{0, 0}) &&
+		(_game->state->get_depth() == -1);
+	if ((_game->state->get_player_pos() == Coordinate{0, 0}) &&
+		(_game->state->get_depth() == -1)) {
 
 		_show_confirm_stairs = true;
 		_game->state->set_player_facing(MAD::NORTH);
@@ -364,15 +391,15 @@ auto Sorcery::Engine::_set_maze_entry_start() -> void {
 	_opt_act = _camp_menu->items.begin();
 	_opt_search = _camp_menu->items.begin();
 
-	auto has_elevator{starting_tile.has_elevator()};
+	auto has_elevator{start.has_elevator()};
 	if (has_elevator) {
 
 		// TODO: clunky need to fix this
 		if (has_elevator.value().bottom_depth == -4) {
-			_in_elev_1 = starting_tile.has(TLF::ELEVATOR);
+			_in_elev_1 = start.has(TLF::ELEVATOR);
 			_opt_elev_1 = _elev_1_menu->items.end();
 		} else if (has_elevator.value().bottom_depth == -9) {
-			_in_elev_2 = starting_tile.has(TLF::ELEVATOR);
+			_in_elev_2 = start.has(TLF::ELEVATOR);
 			_opt_elev_2 = _elev_2_menu->items.end();
 		}
 	}
@@ -394,7 +421,8 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 	if (auto pending{_system->update_pause()}; pending) {
 		if (_pending_chute) {
 
-			const auto tile{_game->state->level->at(_game->state->get_player_pos())};
+			const auto tile{
+				_game->state->level->at(_game->state->get_player_pos())};
 			if (tile.has(TLF::CHUTE)) {
 
 				const auto dest{tile.has_teleport().value()};
@@ -416,7 +444,8 @@ auto Sorcery::Engine::_check_for_pending_events() -> void {
 			}
 		} else if (_pending_elevator) {
 
-			const auto tile{_game->state->level->at(_game->state->get_player_pos())};
+			const auto tile{
+				_game->state->level->at(_game->state->get_player_pos())};
 			if (tile.has(TLF::ELEVATOR)) {
 
 				Level level{((*_game->levelstore)[_dest_floor]).value()};
@@ -485,19 +514,29 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 			if (_game->state->level->at(at_loc).has_event()) {
 
 				// use the quest item flags for now
-
-				switch (auto event{_game->state->level->at(at_loc).has_event().value()}; event) {
+				switch (auto event{
+					_game->state->level->at(at_loc).has_event().value()};
+					event) {
 				case MAV::SILVER_KEY: {
 					_show_found = true;
 
-					// random character who has inventory free unless its a targeted search (TODO)
-					const auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
-					const auto text{fmt::format("{}{}", character.get_name(), (*_display->string)["FOUND_AN_ITEM"])};
-					_found->set((*_display->layout)["engine_base_ui:found_an_item"], text);
+					// random character who has inventory free unless its a
+					// targeted search (TODO)
+					const auto &character{_game->characters[_game->state
+							->get_character_by_position(1)
+							.value()]};
+					const auto text{fmt::format("{}{}", character.get_name(),
+						(*_display->string)["FOUND_AN_ITEM"])};
+					_found->set(
+						(*_display->layout)["engine_base_ui:found_an_item"],
+						text);
 					_found->reset_timed();
 
-					if (!_game->state->quest_item_flags[unenum(ItemQuest::SILVER_KEY)])
-						_game->state->quest_item_flags[unenum(ItemQuest::SILVER_KEY)] = true;
+					if (!_game->state
+							->quest_item_flags[unenum(ItemQuest::SILVER_KEY)])
+						_game->state
+							->quest_item_flags[unenum(ItemQuest::SILVER_KEY)] =
+							true;
 
 					return true;
 				} break;
@@ -505,14 +544,23 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 				case MAV::BRONZE_KEY: {
 					_show_found = true;
 
-					// random character who has inventory free unless its a targeted search (TODO)
-					const auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
-					const auto text{fmt::format("{}{}", character.get_name(), (*_display->string)["FOUND_AN_ITEM"])};
-					_found->set((*_display->layout)["engine_base_ui:found_an_item"], text);
+					// random character who has inventory free unless its a
+					// targeted search (TODO)
+					const auto &character{_game->characters[_game->state
+							->get_character_by_position(1)
+							.value()]};
+					const auto text{fmt::format("{}{}", character.get_name(),
+						(*_display->string)["FOUND_AN_ITEM"])};
+					_found->set(
+						(*_display->layout)["engine_base_ui:found_an_item"],
+						text);
 					_found->reset_timed();
 
-					if (!_game->state->quest_item_flags[unenum(ItemQuest::BRONZE_KEY)])
-						_game->state->quest_item_flags[unenum(ItemQuest::BRONZE_KEY)] = true;
+					if (!_game->state
+							->quest_item_flags[unenum(ItemQuest::BRONZE_KEY)])
+						_game->state
+							->quest_item_flags[unenum(ItemQuest::BRONZE_KEY)] =
+							true;
 
 					return true;
 				} break;
@@ -520,14 +568,23 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 				case MAV::GOLD_KEY: {
 					_show_found = true;
 
-					// random character who has inventory free unless its a targeted search (TODO)
-					const auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
-					const auto text{fmt::format("{}{}", character.get_name(), (*_display->string)["FOUND_AN_ITEM"])};
-					_found->set((*_display->layout)["engine_base_ui:found_an_item"], text);
+					// random character who has inventory free unless its a
+					// targeted search (TODO)
+					const auto &character{_game->characters[_game->state
+							->get_character_by_position(1)
+							.value()]};
+					const auto text{fmt::format("{}{}", character.get_name(),
+						(*_display->string)["FOUND_AN_ITEM"])};
+					_found->set(
+						(*_display->layout)["engine_base_ui:found_an_item"],
+						text);
 					_found->reset_timed();
 
-					if (!_game->state->quest_item_flags[unenum(ItemQuest::GOLD_KEY)])
-						_game->state->quest_item_flags[unenum(ItemQuest::GOLD_KEY)] = true;
+					if (!_game->state
+							->quest_item_flags[unenum(ItemQuest::GOLD_KEY)])
+						_game->state
+							->quest_item_flags[unenum(ItemQuest::GOLD_KEY)] =
+							true;
 
 					return true;
 				} break;
@@ -535,14 +592,23 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 				case MAV::BEAR_STATUE: {
 					_show_found = true;
 
-					// random character who has inventory free unless its a targeted search (TODO)
-					const auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
-					const auto text{fmt::format("{}{}", character.get_name(), (*_display->string)["FOUND_AN_ITEM"])};
-					_found->set((*_display->layout)["engine_base_ui:found_an_item"], text);
+					// random character who has inventory free unless its a
+					// targeted search (TODO)
+					const auto &character{_game->characters[_game->state
+							->get_character_by_position(1)
+							.value()]};
+					const auto text{fmt::format("{}{}", character.get_name(),
+						(*_display->string)["FOUND_AN_ITEM"])};
+					_found->set(
+						(*_display->layout)["engine_base_ui:found_an_item"],
+						text);
 					_found->reset_timed();
 
-					if (!_game->state->quest_item_flags[unenum(ItemQuest::BEAR_STATUE)])
-						_game->state->quest_item_flags[unenum(ItemQuest::BEAR_STATUE)] = true;
+					if (!_game->state
+							->quest_item_flags[unenum(ItemQuest::BEAR_STATUE)])
+						_game->state
+							->quest_item_flags[unenum(ItemQuest::BEAR_STATUE)] =
+							true;
 
 					return true;
 				} break;
@@ -550,14 +616,23 @@ auto Sorcery::Engine::_handle_confirm_search(const sf::Event &event) -> bool {
 				case MAV::FROG_STATUE: {
 					_show_found = true;
 
-					// random character who has inventory free unless its a targeted search (TODO)
-					const auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
-					const auto text{fmt::format("{}{}", character.get_name(), (*_display->string)["FOUND_AN_ITEM"])};
-					_found->set((*_display->layout)["engine_base_ui:found_an_item"], text);
+					// random character who has inventory free unless its a
+					// targeted search (TODO)
+					const auto &character{_game->characters[_game->state
+							->get_character_by_position(1)
+							.value()]};
+					const auto text{fmt::format("{}{}", character.get_name(),
+						(*_display->string)["FOUND_AN_ITEM"])};
+					_found->set(
+						(*_display->layout)["engine_base_ui:found_an_item"],
+						text);
 					_found->reset_timed();
 
-					if (!_game->state->quest_item_flags[unenum(ItemQuest::FROG_STATUE)])
-						_game->state->quest_item_flags[unenum(ItemQuest::FROG_STATUE)] = true;
+					if (!_game->state
+							->quest_item_flags[unenum(ItemQuest::FROG_STATUE)])
+						_game->state
+							->quest_item_flags[unenum(ItemQuest::FROG_STATUE)] =
+							true;
 
 					return true;
 				} break;
@@ -593,7 +668,8 @@ auto Sorcery::Engine::_handle_confirm_exit(const sf::Event &event) -> void {
 	}
 }
 
-auto Sorcery::Engine::_handle_in_search(const sf::Event &event) -> std::optional<int> {
+auto Sorcery::Engine::_handle_in_search(const sf::Event &event)
+	-> std::optional<int> {
 
 	_unhightlight_panels();
 
@@ -616,7 +692,8 @@ auto Sorcery::Engine::_handle_in_search(const sf::Event &event) -> std::optional
 		// We have selected something from the menu
 		if (_opt_search) {
 
-			if (const MIM opt{(*_opt_search.value()).item}; opt == MIM::AC_LEAVE) {
+			if (const MIM opt{(*_opt_search.value()).item};
+				opt == MIM::AC_LEAVE) {
 
 				_display->set_disc(true);
 				_refresh_display();
@@ -642,7 +719,8 @@ auto Sorcery::Engine::_handle_in_search(const sf::Event &event) -> std::optional
 	return std::nullopt;
 }
 
-auto Sorcery::Engine::_handle_in_action(const sf::Event &event) -> std::optional<int> {
+auto Sorcery::Engine::_handle_in_action(const sf::Event &event)
+	-> std::optional<int> {
 
 	_unhightlight_panels();
 
@@ -690,7 +768,8 @@ auto Sorcery::Engine::_handle_in_action(const sf::Event &event) -> std::optional
 	return std::nullopt;
 }
 
-auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<int> {
+auto Sorcery::Engine::_handle_in_get(const sf::Event &event)
+	-> std::optional<int> {
 
 	_unhightlight_panels();
 
@@ -749,7 +828,8 @@ auto Sorcery::Engine::_handle_in_get(const sf::Event &event) -> std::optional<in
 	return std::nullopt;
 }
 
-auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<int> {
+auto Sorcery::Engine::_handle_in_camp(const sf::Event &event)
+	-> std::optional<int> {
 
 	_unhightlight_panels();
 
@@ -772,7 +852,8 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 		// We have selected something from the menu
 		if (_opt_camp) {
 
-			if (const MIM opt{(*_opt_camp.value()).item}; opt == MIM::CP_LEAVE) {
+			if (const MIM opt{(*_opt_camp.value()).item};
+				opt == MIM::CP_LEAVE) {
 
 				_display->set_disc(true);
 				_refresh_display();
@@ -787,8 +868,9 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 			} else if (opt == MIM::CP_SAVE) {
 
 				auto party{_game->state->get_party_characters()};
-				for (auto &[character_id, character] : _game->characters) {
-					if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+				for (auto &[id, character] : _game->characters) {
+					if (std::find(party.begin(), party.end(), id) !=
+						party.end()) {
 						character.set_location(CHL::MAZE);
 					}
 				}
@@ -804,7 +886,8 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 				return CONTINUE;
 			} else if (opt == MIM::CP_OPTIONS) {
 
-				auto options{std::make_unique<Options>(_system, _display, _graphics)};
+				auto options{
+					std::make_unique<Options>(_system, _display, _graphics)};
 				if (auto result{options->start()}; result == STOP_ALL) {
 					options->stop();
 					return STOP_ALL;
@@ -814,7 +897,8 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 				_display->generate("engine_base_ui");
 			} else if (opt == MIM::CP_INSPECT) {
 				_party_panel->refresh();
-				if (auto result{_inspect->start(std::nullopt)}; result == MIM::ITEM_ABORT) {
+				if (auto result{_inspect->start(std::nullopt)};
+					result == MIM::ITEM_ABORT) {
 					_inspect->stop();
 					return STOP_ALL;
 				}
@@ -849,9 +933,10 @@ auto Sorcery::Engine::_handle_in_camp(const sf::Event &event) -> std::optional<i
 auto Sorcery::Engine::_check_for_wipe() const -> bool {
 
 	const auto party{_game->state->get_party_characters()};
-	for (auto &[character_id, character] : _game->characters) {
-		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-			if ((character.get_status() == CHT::OK) || (character.get_status() == CHT::AFRAID) ||
+	for (auto &[id, character] : _game->characters) {
+		if (std::find(party.begin(), party.end(), id) != party.end()) {
+			if ((character.get_status() == CHT::OK) ||
+				(character.get_status() == CHT::AFRAID) ||
 				(character.get_status() == CHT::SILENCED))
 				return false;
 		}
@@ -865,8 +950,8 @@ auto Sorcery::Engine::_do_wipe() -> int {
 	std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
 	const auto party{_game->state->get_party_characters()};
-	for (auto &[character_id, character] : _game->characters) {
-		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+	for (auto &[id, character] : _game->characters) {
+		if (std::find(party.begin(), party.end(), id) != party.end()) {
 			character.set_location(CHL::MAZE);
 			character.set_current_hp(0);
 		}
@@ -884,7 +969,8 @@ auto Sorcery::Engine::_do_wipe() -> int {
 	return STOP_ENGINE;
 }
 
-auto Sorcery::Engine::_handle_elevator_a_f(const sf::Event &event) -> std::optional<int> {
+auto Sorcery::Engine::_handle_elevator_a_f(const sf::Event &event)
+	-> std::optional<int> {
 
 	_unhightlight_panels();
 
@@ -907,34 +993,41 @@ auto Sorcery::Engine::_handle_elevator_a_f(const sf::Event &event) -> std::optio
 		// We have selected something from the menu
 		if (_opt_elev_2) {
 
-			if (const MIM opt{(*_opt_elev_2.value()).item}; opt == MIM::EL_LEAVE) {
+			if (const MIM opt{(*_opt_elev_2.value()).item};
+				opt == MIM::EL_LEAVE) {
 				_in_elev_2 = false;
 				_display->generate("engine_base_ui");
 				_display->set_input_mode(WIM::IN_GAME);
 				_pending_elevator = false;
 				_dest_floor = 0;
 				return CONTINUE;
-			} else if ((opt == MIM::EL_A) && (_game->state->get_depth() != -4)) {
+			} else if ((opt == MIM::EL_A) &&
+					   (_game->state->get_depth() != -4)) {
 				_dest_floor = -4;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((opt == MIM::EL_B) && (_game->state->get_depth() != -5)) {
+			} else if ((opt == MIM::EL_B) &&
+					   (_game->state->get_depth() != -5)) {
 				_dest_floor = -5;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((opt == MIM::EL_C) && (_game->state->get_depth() != -6)) {
+			} else if ((opt == MIM::EL_C) &&
+					   (_game->state->get_depth() != -6)) {
 				_dest_floor = -6;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((opt == MIM::EL_D) && (_game->state->get_depth() != -7)) {
+			} else if ((opt == MIM::EL_D) &&
+					   (_game->state->get_depth() != -7)) {
 				_dest_floor = -7;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((opt == MIM::EL_E) && (_game->state->get_depth() != -8)) {
+			} else if ((opt == MIM::EL_E) &&
+					   (_game->state->get_depth() != -8)) {
 				_dest_floor = -8;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((opt == MIM::EL_F) && (_game->state->get_depth() != -9)) {
+			} else if ((opt == MIM::EL_F) &&
+					   (_game->state->get_depth() != -9)) {
 				_dest_floor = -9;
 				_pending_elevator = true;
 				_elevator_if();
@@ -951,7 +1044,8 @@ auto Sorcery::Engine::_handle_elevator_a_f(const sf::Event &event) -> std::optio
 	return std::nullopt;
 }
 
-auto Sorcery::Engine::_handle_elevator_a_d(const sf::Event &event) -> std::optional<int> {
+auto Sorcery::Engine::_handle_elevator_a_d(const sf::Event &event)
+	-> std::optional<int> {
 
 	_unhightlight_panels();
 
@@ -974,26 +1068,31 @@ auto Sorcery::Engine::_handle_elevator_a_d(const sf::Event &event) -> std::optio
 		// We have selected something from the menu
 		if (_opt_elev_1) {
 
-			if (const MIM opt{(*_opt_elev_1.value()).item}; opt == MIM::EL_LEAVE) {
+			if (const MIM opt{(*_opt_elev_1.value()).item};
+				opt == MIM::EL_LEAVE) {
 				_in_elev_1 = false;
 				_display->generate("engine_base_ui");
 				_display->set_input_mode(WIM::IN_GAME);
 				_pending_elevator = false;
 				_dest_floor = 0;
 				return CONTINUE;
-			} else if ((opt == MIM::EL_A) && (_game->state->get_depth() != -1)) {
+			} else if ((opt == MIM::EL_A) &&
+					   (_game->state->get_depth() != -1)) {
 				_dest_floor = -1;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((opt == MIM::EL_B) && (_game->state->get_depth() != -2)) {
+			} else if ((opt == MIM::EL_B) &&
+					   (_game->state->get_depth() != -2)) {
 				_dest_floor = -2;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((opt == MIM::EL_C) && (_game->state->get_depth() != -3)) {
+			} else if ((opt == MIM::EL_C) &&
+					   (_game->state->get_depth() != -3)) {
 				_dest_floor = -3;
 				_pending_elevator = true;
 				_elevator_if();
-			} else if ((opt == MIM::EL_D) && (_game->state->get_depth() != -4)) {
+			} else if ((opt == MIM::EL_D) &&
+					   (_game->state->get_depth() != -4)) {
 				_dest_floor = -4;
 				_pending_elevator = true;
 				_elevator_if();
@@ -1010,9 +1109,11 @@ auto Sorcery::Engine::_handle_elevator_a_d(const sf::Event &event) -> std::optio
 	return std::nullopt;
 }
 
-auto Sorcery::Engine::_handle_in_map(const sf::Event &event) -> std::optional<int> {
+auto Sorcery::Engine::_handle_in_map(const sf::Event &event)
+	-> std::optional<int> {
 
-	if ((_system->input->check(CIN::MAZE_SHOW_MAP, event)) || (_system->input->check(CIN::CANCEL, event)) ||
+	if ((_system->input->check(CIN::MAZE_SHOW_MAP, event)) ||
+		(_system->input->check(CIN::CANCEL, event)) ||
 		(_system->input->check(CIN::CONFIRM, event))) {
 
 		_set_refresh_ui();
@@ -1026,9 +1127,10 @@ auto Sorcery::Engine::_handle_in_map(const sf::Event &event) -> std::optional<in
 auto Sorcery::Engine::_unpoison_characters() -> void {
 
 	const auto party{_game->state->get_party_characters()};
-	for (auto &[character_id, character] : _game->characters) {
-		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-			if ((character.get_status() == CHT::AFRAID) || (character.get_status() == CHT::SILENCED))
+	for (auto &[id, character] : _game->characters) {
+		if (std::find(party.begin(), party.end(), id) != party.end()) {
+			if ((character.get_status() == CHT::AFRAID) ||
+				(character.get_status() == CHT::SILENCED))
 				character.set_status(CHT::OK);
 			character.set_poisoned_rate(0);
 		}
@@ -1038,23 +1140,27 @@ auto Sorcery::Engine::_unpoison_characters() -> void {
 auto Sorcery::Engine::_triage_characters() -> void {
 
 	const auto party{_game->state->get_party_characters()};
-	for (auto &[character_id, character] : _game->characters) {
-		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-			if ((character.get_status() == CHT::DEAD) || (character.get_status() == CHT::ASHES) ||
-				(character.get_status() == CHT::STONED) || (character.get_status() == CHT::HELD)) {
+	for (auto &[id, character] : _game->characters) {
+		if (std::find(party.begin(), party.end(), id) != party.end()) {
+			if ((character.get_status() == CHT::DEAD) ||
+				(character.get_status() == CHT::ASHES) ||
+				(character.get_status() == CHT::STONED) ||
+				(character.get_status() == CHT::HELD)) {
 				character.set_location(CHL::TEMPLE);
-				_game->state->remove_character_by_id(character_id);
+				_game->state->remove_character_by_id(id);
 			} else if (character.get_status() == CHT::LOST) {
 				character.set_location(CHL::TRAINING);
-				_game->state->remove_character_by_id(character_id);
+				_game->state->remove_character_by_id(id);
 			}
 		}
 	}
 }
 
-auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<int> {
+auto Sorcery::Engine::_handle_in_game(const sf::Event &event)
+	-> std::optional<int> {
 
-	// Handle any events or encounters first - will run once then set _can_run_event to false
+	// Handle any events or encounters first - will run once then set
+	// _can_run_event to false
 	_event_if();
 	_encounter_if();
 	_combat_if();
@@ -1070,32 +1176,44 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 	}
 
 	// Various Debug Commands can be put here
-	if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F2))
+	if ((event.type == sf::Event::KeyPressed) &&
+		(event.key.code == sf::Keyboard::F2))
 		_debug_start_random_combat();
-	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F3))
+	else if ((event.type == sf::Event::KeyPressed) &&
+			 (event.key.code == sf::Keyboard::F3))
 		_debug_go_back();
-	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F4))
+	else if ((event.type == sf::Event::KeyPressed) &&
+			 (event.key.code == sf::Keyboard::F4))
 		_debug_send_non_party_characters_to_tavern();
-	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F5))
+	else if ((event.type == sf::Event::KeyPressed) &&
+			 (event.key.code == sf::Keyboard::F5))
 		_debug_kill_non_party_characters();
-	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F6))
+	else if ((event.type == sf::Event::KeyPressed) &&
+			 (event.key.code == sf::Keyboard::F6))
 		_debug_heal_party_to_full();
-	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F7))
+	else if ((event.type == sf::Event::KeyPressed) &&
+			 (event.key.code == sf::Keyboard::F7))
 		_debug_set_quest_item_flags();
-	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F8))
+	else if ((event.type == sf::Event::KeyPressed) &&
+			 (event.key.code == sf::Keyboard::F8))
 		_debug_clear_quest_item_flags();
-	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F9)) {
+	else if ((event.type == sf::Event::KeyPressed) &&
+			 (event.key.code == sf::Keyboard::F9)) {
 		_monochrome = true;
 		_debug_monochrome_wireframe();
-	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F10)) {
+	} else if ((event.type == sf::Event::KeyPressed) &&
+			   (event.key.code == sf::Keyboard::F10)) {
 		_monochrome = false;
 		_debug_colour_wireframe();
-	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Pause)) {
+	} else if ((event.type == sf::Event::KeyPressed) &&
+			   (event.key.code == sf::Keyboard::Pause)) {
 		_display_cursor = true;
 		_refresh_display();
-	} else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F11))
+	} else if ((event.type == sf::Event::KeyPressed) &&
+			   (event.key.code == sf::Keyboard::F11))
 		_debug_light_on();
-	else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::F12))
+	else if ((event.type == sf::Event::KeyPressed) &&
+			 (event.key.code == sf::Keyboard::F12))
 		_debug_light_off();
 
 	if (_system->input->check(CIN::MAZE_SHOW_MAP, event)) {
@@ -1161,7 +1279,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_display->set_input_mode(WIM::IN_GAME);
 				_show_chute = false;
 				_chute->set_valid(false);
-				if (const auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
+				if (const auto &next_tile{_game->state->level->at(
+						_game->state->get_player_pos())};
 					(next_tile.is(TLP::DARKNESS)) && (_game->state->get_lit()))
 					_game->state->set_lit(false);
 			}
@@ -1172,7 +1291,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_display->set_input_mode(WIM::IN_GAME);
 				_show_elevator = false;
 				_elevator->set_valid(false);
-				if (const auto &next_tile{_game->state->level->at(_game->state->get_player_pos())};
+				if (const auto &next_tile{_game->state->level->at(
+						_game->state->get_player_pos())};
 					(next_tile.is(TLP::DARKNESS)) && (_game->state->get_lit()))
 					_game->state->set_lit(false);
 			}
@@ -1181,8 +1301,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 
 		_unhightlight_panels();
 
-		auto input{_confirm_stairs->handle_input(event)};
-		if (input) {
+		if (auto input{_confirm_stairs->handle_input(event)}; input) {
 			if ((input.value() == WDB::CLOSE) || (input.value() == WDB::NO)) {
 				_display->set_input_mode(WIM::IN_GAME);
 				_show_confirm_stairs = false;
@@ -1190,9 +1309,11 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 				_show_confirm_stairs = false;
 
 				if (const auto at_loc{_game->state->get_player_pos()};
-					(at_loc == Coordinate{0, 0}) && (_game->state->get_depth() == -1)) {
+					(at_loc == Coordinate{0, 0}) &&
+					(_game->state->get_depth() == -1)) {
 
-					// On return to time - TODO: need also to do this on MALOR back as well
+					// On return to time - TODO: need also to do this on MALOR
+					// back as well
 					_unpoison_characters();
 					_triage_characters();
 
@@ -1226,21 +1347,24 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			_set_refresh_ui();
 			_game->pass_turn();
 		}
-		if ((_system->input->check(CIN::LEFT, event)) || (_system->input->check(CIN::MAZE_LEFT, event))) {
+		if ((_system->input->check(CIN::LEFT, event)) ||
+			(_system->input->check(CIN::MAZE_LEFT, event))) {
 			_show_dir = true;
 			_reset_direction_indicator();
 			_turn_left();
 			_spinner_if();
 			_set_refresh_ui();
 			_game->pass_turn();
-		} else if ((_system->input->check(CIN::RIGHT, event)) || (_system->input->check(CIN::MAZE_RIGHT, event))) {
+		} else if ((_system->input->check(CIN::RIGHT, event)) ||
+				   (_system->input->check(CIN::MAZE_RIGHT, event))) {
 			_show_dir = true;
 			_reset_direction_indicator();
 			_turn_right();
 			_spinner_if();
 			_set_refresh_ui();
 			_game->pass_turn();
-		} else if ((_system->input->check(CIN::UP, event)) || (_system->input->check(CIN::MAZE_FORWARD, event))) {
+		} else if ((_system->input->check(CIN::UP, event)) ||
+				   (_system->input->check(CIN::MAZE_FORWARD, event))) {
 			_game->pass_turn();
 			if (auto has_moved{_move_forward()}; !has_moved) {
 				_show_dir = false;
@@ -1269,7 +1393,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			}
 			_set_refresh_ui();
 			_can_run_event = true;
-		} else if ((_system->input->check(CIN::DOWN, event)) || (_system->input->check(CIN::MAZE_BACKWARD, event))) {
+		} else if ((_system->input->check(CIN::DOWN, event)) ||
+				   (_system->input->check(CIN::MAZE_BACKWARD, event))) {
 			_game->pass_turn();
 			if (auto has_moved{_move_backward()}; !has_moved) {
 				_show_dir = false;
@@ -1309,7 +1434,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 
 				// Status-bar selected is 1-indexed, not 0-indexed
 				const auto chosen{(_party_panel->selected.value())};
-				if (auto result{_inspect->start(chosen)}; result == MIM::ITEM_ABORT) {
+				if (auto result{_inspect->start(chosen)};
+					result == MIM::ITEM_ABORT) {
 					_inspect->stop();
 					return STOP_ALL;
 				} else {
@@ -1318,13 +1444,19 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 					_display->generate("engine_base_ui");
 					_display->set_input_mode(WIM::IN_GAME);
 				}
-			} else if (_left_icons->is_mouse_over((*_display->layout)["engine_base_ui:left_icon_panel"], mouse_pos)) {
+			} else if (_left_icons->is_mouse_over(
+						   (*_display
+								   ->layout)["engine_base_ui:left_icon_panel"],
+						   mouse_pos)) {
 
-				if (std::optional<std::string> selected{_left_icons->set_mouse_selected(
-						(*_display->layout)["engine_base_ui:left_icon_panel"], mouse_pos)};
+				if (std::optional<std::string> selected{
+						_left_icons->set_mouse_selected(
+							(*_display
+									->layout)["engine_base_ui:left_icon_panel"],
+							mouse_pos)};
 					selected) {
-					const auto &what(selected.value());
-					if (what.ends_with("reorder")) {
+					if (const auto &what(selected.value());
+						what.ends_with("reorder")) {
 						_party_panel->refresh();
 						if (auto new_party{_reorder->start()}; new_party) {
 
@@ -1357,7 +1489,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 					} else if (what.ends_with("kick")) {
 						// TODO
 					} else if (what.ends_with("options")) {
-						auto options{std::make_unique<Options>(_system, _display, _graphics)};
+						auto options{std::make_unique<Options>(
+							_system, _display, _graphics)};
 						if (auto result{options->start()}; result == STOP_ALL) {
 							options->stop();
 							return STOP_ALL;
@@ -1368,8 +1501,10 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						_display->set_input_mode(WIM::IN_GAME);
 					} else if (what.ends_with("save")) {
 						auto party{_game->state->get_party_characters()};
-						for (auto &[character_id, character] : _game->characters) {
-							if (std::find(party.begin(), party.end(), character_id) != party.end())
+						for (auto &[character_id, character] :
+							_game->characters) {
+							if (std::find(party.begin(), party.end(),
+									character_id) != party.end())
 								character.set_location(CHL::MAZE);
 						}
 						_display->set_disc(true);
@@ -1386,13 +1521,19 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						return CONTINUE;
 					}
 				}
-			} else if (_right_icons->is_mouse_over((*_display->layout)["engine_base_ui:right_icon_panel"], mouse_pos)) {
+			} else if (_right_icons->is_mouse_over(
+						   (*_display
+								   ->layout)["engine_base_ui:right_icon_panel"],
+						   mouse_pos)) {
 
-				if (std::optional<std::string> selected{_right_icons->set_mouse_selected(
-						(*_display->layout)["engine_base_ui:right_icon_panel"], mouse_pos)};
+				if (std::optional<std::string> selected{
+						_right_icons->set_mouse_selected(
+							(*_display->layout)
+								["engine_base_ui:right_icon_panel"],
+							mouse_pos)};
 					selected) {
-					const auto &what{selected.value()};
-					if (what.ends_with("left")) {
+					if (const auto &what{selected.value()};
+						what.ends_with("left")) {
 						_show_dir = true;
 						_reset_direction_indicator();
 						_turn_left();
@@ -1418,7 +1559,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 							_pit_if();
 							_chute_if();
 							if (!_tile_explored(_game->state->get_player_pos()))
-								_set_tile_explored(_game->state->get_player_pos());
+								_set_tile_explored(
+									_game->state->get_player_pos());
 							_update_automap = true;
 						}
 					} else if (what.ends_with("backward")) {
@@ -1434,7 +1576,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 							_pit_if();
 							_chute_if();
 							if (!_tile_explored(_game->state->get_player_pos()))
-								_set_tile_explored(_game->state->get_player_pos());
+								_set_tile_explored(
+									_game->state->get_player_pos());
 							_update_automap = true;
 						}
 					} else if (what.ends_with("camp")) {
@@ -1449,7 +1592,8 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						// TODO
 					} else if (what.ends_with("party")) {
 						_party_panel->refresh();
-						if (auto result{_inspect->start(std::nullopt)}; result == MIM::ITEM_ABORT) {
+						if (auto result{_inspect->start(std::nullopt)};
+							result == MIM::ITEM_ABORT) {
 							_inspect->stop();
 							return STOP_ALL;
 						}
@@ -1458,14 +1602,17 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 						_display->generate("engine_base_ui");
 						_display->set_input_mode(WIM::IN_GAME);
 					}
-				} else if (_right_icons->is_mouse_over((*_display->layout)["global:automap"], mouse_pos)) {
+				} else if (_right_icons->is_mouse_over(
+							   (*_display->layout)["global:automap"],
+							   mouse_pos)) {
 
 					_in_map = true;
 					_set_refresh_ui();
 
 				} else if (_is_mouse_over(_search_bounds, mouse_pos)) {
 
-					if (const auto others{_game->get_characters_at_loc()}; !others.empty()) {
+					if (const auto others{_game->get_characters_at_loc()};
+						!others.empty()) {
 						_in_get = true;
 						_get_menu->reload();
 						_set_refresh_ui();
@@ -1483,7 +1630,9 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			// Check for Mouse Overs
 			sf::Vector2f mouse_pos{_display->get_cur()};
 			if (std::optional<std::string> selected{
-					_left_icons->set_mouse_selected((*_display->layout)["engine_base_ui:left_icon_panel"], mouse_pos)};
+					_left_icons->set_mouse_selected(
+						(*_display->layout)["engine_base_ui:left_icon_panel"],
+						mouse_pos)};
 				selected) {
 				_left_icons->selected = selected.value();
 				if (_right_icons->selected)
@@ -1493,8 +1642,9 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 			}
 
 			if (std::optional<std::string> selected{
-					_right_icons->set_mouse_selected((*_display->layout)["engine_base_ui:right_icon_"
-																		 "panel"],
+					_right_icons->set_mouse_selected(
+						(*_display->layout)["engine_base_ui:right_icon_"
+											"panel"],
 						mouse_pos)};
 				selected) {
 				_right_icons->selected = selected.value();
@@ -1504,7 +1654,9 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 					_party_panel->selected = std::nullopt;
 			}
 
-			if (std::optional<unsigned int> selected{_party_panel->set_mouse_selected(mouse_pos)}; selected) {
+			if (std::optional<unsigned int> selected{
+					_party_panel->set_mouse_selected(mouse_pos)};
+				selected) {
 				_party_panel->selected = selected.value();
 				_party_panel->refresh();
 				if (_right_icons->selected)
@@ -1518,9 +1670,11 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event) -> std::optional<i
 	return std::nullopt;
 }
 
-auto Sorcery::Engine::_is_mouse_over(sf::IntRect rect, sf::Vector2f mouse_pos) const -> bool {
+auto Sorcery::Engine::_is_mouse_over(
+	sf::IntRect rect, sf::Vector2f mouse_pos) const -> bool {
 
-	return rect.contains(static_cast<int>(mouse_pos.x), static_cast<int>(mouse_pos.y));
+	return rect.contains(
+		static_cast<int>(mouse_pos.x), static_cast<int>(mouse_pos.y));
 }
 
 // Entering the Maze
@@ -1563,17 +1717,15 @@ auto Sorcery::Engine::start() -> int {
 					_display->hide_overlay();
 
 				// Combat encounters are handled a bit differently
-				if (const auto at_loc{_game->state->get_player_pos()}; _game->state->level->at(at_loc).has_event()) {
+				if (const auto at_loc{_game->state->get_player_pos()};
+					_game->state->level->at(at_loc).has_event()) {
 
 					// Find the event and do something with it!
-					const auto map_event{_game->state->level->at(at_loc).has_event().value()};
-					switch (map_event) {
+					const auto event{
+						_game->state->level->at(at_loc).has_event().value()};
+					switch (event) {
 					case MAV::GUARANTEED_COMBAT:
 						_pending_combat = true;
-						/*
-						_an_encounter->set((*_display->layout)["engine_base_ui:an_encounter"],
-							(*_display->string)["DIALOG_ENCOUNTER"]);
-						_an_encounter->reset_timed(); */
 						break;
 					case MAV::DEADLY_RING_COMBAT:
 						_pending_combat = true;
@@ -1600,24 +1752,24 @@ auto Sorcery::Engine::start() -> int {
 							// TODO: not sure this is used
 
 							// Find the event and do something with it!
-							const auto map_event{_game->state->level->at(at_loc).has_event().value()};
-							if (map_event == MAV::MURPHYS_GHOSTS)
+							const auto event{_game->state->level->at(at_loc)
+									.has_event()
+									.value()};
+							if (event == MAV::MURPHYS_GHOSTS)
 								_show_encounter = true;
 						}
 					}
 				} else if (_show_confirm_exit) {
 					_handle_confirm_exit(event);
 				} else if (_in_map) {
-					auto what_to_do{_handle_in_map(event)};
-					if (what_to_do) {
+					if (auto what_to_do{_handle_in_map(event)}; what_to_do) {
 						if (what_to_do.value() == CONTINUE) {
 							_in_map = false;
 							continue;
 						}
 					}
 				} else if (_in_camp) {
-					auto what_to_do{_handle_in_camp(event)};
-					if (what_to_do) {
+					if (auto what_to_do{_handle_in_camp(event)}; what_to_do) {
 						if (what_to_do.value() == CONTINUE)
 							continue;
 						else if (what_to_do.value() == STOP_ENGINE)
@@ -1627,37 +1779,29 @@ auto Sorcery::Engine::start() -> int {
 						}
 					}
 				} else if (_in_search) {
-
-					auto what_to_do{_handle_in_search(event)};
-					if (what_to_do) {
+					if (auto what_to_do{_handle_in_search(event)}; what_to_do) {
 						if (what_to_do.value() == CONTINUE)
 							continue;
 					}
 				} else if (_in_get) {
-
-					auto what_to_do{_handle_in_get(event)};
-					if (what_to_do) {
+					if (auto what_to_do{_handle_in_get(event)}; what_to_do) {
 						if (what_to_do.value() == CONTINUE)
 							continue;
 					}
 				} else if (_in_action) {
-
-					auto what_to_do{_handle_in_action(event)};
-					if (what_to_do) {
+					if (auto what_to_do{_handle_in_action(event)}; what_to_do) {
 						if (what_to_do.value() == CONTINUE)
 							continue;
 					}
 				} else if (_in_elev_1) {
-
-					auto what_to_do{_handle_elevator_a_d(event)};
-					if (what_to_do) {
+					if (auto what_to_do{_handle_elevator_a_d(event)};
+						what_to_do) {
 						if (what_to_do.value() == CONTINUE)
 							continue;
 					}
 				} else if (_in_elev_2) {
-
-					auto what_to_do{_handle_elevator_a_f(event)};
-					if (what_to_do) {
+					if (auto what_to_do{_handle_elevator_a_f(event)};
+						what_to_do) {
 						if (what_to_do.value() == CONTINUE)
 							continue;
 					}
@@ -1669,8 +1813,8 @@ auto Sorcery::Engine::start() -> int {
 						if (_check_for_wipe())
 							return _do_wipe();
 
-						auto what_to_do{_handle_in_game(event)};
-						if (what_to_do) {
+						if (auto what_to_do{_handle_in_game(event)};
+							what_to_do) {
 							if (what_to_do.value() == CONTINUE)
 								continue;
 							else if (what_to_do.value() == STOP_ENGINE)
@@ -1777,7 +1921,8 @@ auto Sorcery::Engine::_move_forward() -> bool {
 	auto this_tile{_game->state->level->at(at_loc)};
 	const auto &next_tile{_game->state->level->at(next_loc)};
 
-	if (const auto next_wall{_game->state->get_player_facing()}; this_tile.walkable(next_wall)) {
+	if (const auto next_wall{_game->state->get_player_facing()};
+		this_tile.walkable(next_wall)) {
 
 		_game->state->set_player_prev_depth(_game->state->get_depth());
 		_game->state->set_depth(_game->state->get_depth());
@@ -1791,21 +1936,27 @@ auto Sorcery::Engine::_move_forward() -> bool {
 
 		if (_game->state->level->stairs_at(next_loc)) {
 			const auto at_loc{_game->state->get_player_pos()};
-			if (const auto &to_tile{_game->state->level->at(at_loc)}; to_tile.has(TLF::LADDER_UP))
-				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_up_text"]);
+			if (const auto &to_tile{_game->state->level->at(at_loc)};
+				to_tile.has(TLF::LADDER_UP))
+				_confirm_stairs->set((
+					*_display->layout)["engine_base_ui:dialog_ladder_up_text"]);
 			else if (to_tile.has(TLF::LADDER_DOWN))
-				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_down_text"]);
+				_confirm_stairs->set((*_display
+						->layout)["engine_base_ui:dialog_ladder_down_text"]);
 			else if (to_tile.has(TLF::STAIRS_UP))
-				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_stairs_up_text"]);
+				_confirm_stairs->set((
+					*_display->layout)["engine_base_ui:dialog_stairs_up_text"]);
 			else if (to_tile.has(TLF::STAIRS_DOWN))
-				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_stairs_down_text"]);
+				_confirm_stairs->set((*_display
+						->layout)["engine_base_ui:dialog_stairs_down_text"]);
 			_show_confirm_stairs = true;
 		} else
 			_show_confirm_stairs = false;
 
 		// TODO: clunky
 		if (_game->state->level->elevator_at(next_loc)) {
-			const auto elevator{_game->state->level->at(next_loc).has_elevator()};
+			const auto elevator{
+				_game->state->level->at(next_loc).has_elevator()};
 			if (elevator.value().bottom_depth == -4) {
 				_display->set_input_mode(WIM::NAVIGATE_MENU);
 				MenuSelect opt_elev{_elev_1_menu->items.end()};
@@ -1820,7 +1971,8 @@ auto Sorcery::Engine::_move_forward() -> bool {
 			_in_elev_2 = false;
 		}
 
-		_last_movement = MAD::NORTH; // Remember this is COMPASS direction (i.e. on screen), not Map direction
+		_last_movement = MAD::NORTH; // Remember this is COMPASS direction (i.e.
+									 // on screen), not Map direction
 
 		return true;
 	} else
@@ -1898,21 +2050,27 @@ auto Sorcery::Engine::_move_backward() -> bool {
 
 		if (_game->state->level->stairs_at(next_loc)) {
 			const auto current_loc{_game->state->get_player_pos()};
-			if (const auto &this_tile{_game->state->level->at(current_loc)}; this_tile.has(TLF::LADDER_UP))
-				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_up_text"]);
+			if (const auto &this_tile{_game->state->level->at(current_loc)};
+				this_tile.has(TLF::LADDER_UP))
+				_confirm_stairs->set((
+					*_display->layout)["engine_base_ui:dialog_ladder_up_text"]);
 			else if (this_tile.has(TLF::LADDER_DOWN))
-				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_down_text"]);
+				_confirm_stairs->set((*_display
+						->layout)["engine_base_ui:dialog_ladder_down_text"]);
 			else if (this_tile.has(TLF::STAIRS_UP))
-				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_stairs_up_text"]);
+				_confirm_stairs->set((
+					*_display->layout)["engine_base_ui:dialog_stairs_up_text"]);
 			else if (this_tile.has(TLF::STAIRS_DOWN))
-				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_stairs_down_text"]);
+				_confirm_stairs->set((*_display
+						->layout)["engine_base_ui:dialog_stairs_down_text"]);
 			_show_confirm_stairs = true;
 		} else
 			_show_confirm_stairs = false;
 
 		// TODO:clunky
 		if (_game->state->level->elevator_at(next_loc)) {
-			const auto elevator{_game->state->level->at(next_loc).has_elevator()};
+			const auto elevator{
+				_game->state->level->at(next_loc).has_elevator()};
 			if (elevator.value().bottom_depth == -4) {
 				_display->set_input_mode(WIM::NAVIGATE_MENU);
 				MenuSelect opt_elev{_elev_1_menu->items.end()};
@@ -2006,7 +2164,9 @@ auto Sorcery::Engine::_turn_around() -> void {
 // TODO: rock/walkable for all levels/tiles!
 auto Sorcery::Engine::_pit_if() -> bool {
 
-	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has(TLF::PIT)) {
+	if (const auto tile{
+			_game->state->level->at(_game->state->get_player_pos())};
+		tile.has(TLF::PIT)) {
 		_show_pit = true;
 		_pit_oops();
 		_update_party_panel = true;
@@ -2022,7 +2182,8 @@ auto Sorcery::Engine::_combat_if() -> bool {
 
 	if (_next_combat) {
 
-		// Wait until the encounter window has disappeared then initialise combat
+		// Wait until the encounter window has disappeared then initialise
+		// combat
 		if (!_encounter->get_valid()) {
 
 			// do combat
@@ -2053,40 +2214,50 @@ auto Sorcery::Engine::_pit_oops() -> void {
 	deaths.clear();
 
 	auto party{_game->state->get_party_characters()};
-	for (auto &[character_id, character] : _game->characters) {
-		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+	for (auto &[id, character] : _game->characters) {
+		if (std::find(party.begin(), party.end(), id) != party.end()) {
 
-			const auto chance{(character.get_cur_attr(CAR::AGILITY) - _game->state->get_depth()) * 4};
+			const auto chance{(character.get_cur_attr(CAR::AGILITY) -
+								  _game->state->get_depth()) *
+							  4};
 			const auto roll((*_system->random)[RNT::D100]);
 			_game->state->add_log_dice_roll(
-				fmt::format("{:>16} - {}", character.get_name(), "Avoid Pit"), 100, roll, chance);
+				fmt::format("{:>16} - {}", character.get_name(), "Avoid Pit"),
+				100, roll, chance);
 			if (roll < chance) {
 
 				// Damage is avoided
 
 			} else {
 
-				// Now in the original Apple 2 version, pit damage is based upon 3 extra values stored in the square
-				// in the TMaze records - AUX0, AUX1, and AUX2. Thanks to the data extraction by Tommy Ewers, the
-				// relevant values for each pit in the game are 0, 8 and depth respectively. This is a long-winded
-				// way of saying that the pit damage (calculated in APIT and ROCKWATR) is 0 + (depth * d8), i.e. a
-				// d8 for level depth.
+				// Now in the original Apple 2 version, pit damage is based upon
+				// 3 extra values stored in the square in the TMaze records -
+				// AUX0, AUX1, and AUX2. Thanks to the data extraction by Tommy
+				// Ewers, the relevant values for each pit in the game are 0, 8
+				// and depth respectively. This is a long-winded way of saying
+				// that the pit damage (calculated in APIT and ROCKWATR) is 0 +
+				// (depth * d8), i.e. a d8 for level depth.
 
-				// Inflict damage! (remember depth is negative here and positve in original wizardry)
+				// Inflict damage! (remember depth is negative here and positve
+				// in original wizardry)
 				auto pit_damage{0U};
 				const auto dice{std::abs(_game->state->get_depth())};
 				for (int i = 1; i <= dice; i++)
 					pit_damage += (*_system->random)[RNT::D8];
 
 				_game->state->add_log_message(
-					fmt::format("{} fell into a pit and took {} points of damage!", character.get_name(), pit_damage),
+					fmt::format(
+						"{} fell into a pit and took {} points of damage!",
+						character.get_name(), pit_damage),
 					IMT::GAME);
 
-				if (const auto still_alive{character.damage(pit_damage)}; !still_alive) {
+				if (const auto alive{character.damage(pit_damage)}; !alive) {
 
-					// Oh dear death from a pit!
-					_game->state->add_log_message(fmt::format("{} has died!", character.get_name()), IMT::GAME);
-					deaths.emplace_back(character_id);
+					// Oh dear, death from a pit!
+					_game->state->add_log_message(
+						fmt::format("{} has died!", character.get_name()),
+						IMT::GAME);
+					deaths.emplace_back(id);
 				}
 			}
 		}
@@ -2100,17 +2271,19 @@ auto Sorcery::Engine::_pit_oops() -> void {
 
 auto Sorcery::Engine::_event_if() -> bool {
 
-	// If we are in-game, and are on something that will happen - note that consequences of these events are dealt
-	// with otherwise in the main loop when the various flags are set. Note that all events initially take the form
-	// of a popup screen with info on it and a continue button
-	if (const auto current_loc{_game->state->get_player_pos()};
-		_game->state->level->at(current_loc).has_event() && _can_run_event) {
+	// If we are in-game, and are on something that will happen - note that
+	// consequences of these events are dealt with otherwise in the main loop
+	// when the various flags are set. Note that all events initially take the
+	// form of a popup screen with info on it and a continue button
+	if (const auto at{_game->state->get_player_pos()};
+		_game->state->level->at(at).has_event() && _can_run_event) {
 
-		const auto event_type{_game->state->level->at(current_loc).has_event().value()};
+		const auto event_type{_game->state->level->at(at).has_event().value()};
 		const auto dungeon_event{_game->get_event(event_type)};
 
-		// First check the game quest flags (TODO - inventory items instead) - if we have the necessary item then we
-		// don't need to run the event at all
+		// First check the game quest flags (TODO - inventory items instead) -
+		// if we have the necessary item then we don't need to run the event at
+		// all
 		switch (event_type) {
 		case MAV::NEED_BEAR_STATUE:
 			[[fallthrough]];
@@ -2148,7 +2321,8 @@ auto Sorcery::Engine::_event_if() -> bool {
 			if (event_type == MAV::TREBOR_VOICE) {
 
 				// Linked events
-				auto event_1{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 1)};
+				auto event_1{std::make_unique<Event>(
+					_system, _display, _graphics, _game, event_type, 1)};
 				if (auto result{event_1->start()}; result == MIM::ITEM_ABORT) {
 					event_1->stop();
 					_can_run_event = false;
@@ -2159,8 +2333,10 @@ auto Sorcery::Engine::_event_if() -> bool {
 					event_1->stop();
 
 					_refresh_display();
-					auto event_2{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 2)};
-					if (auto result{event_2->start()}; result == MIM::ITEM_ABORT) {
+					auto event_2{std::make_unique<Event>(
+						_system, _display, _graphics, _game, event_type, 2)};
+					if (auto result{event_2->start()};
+						result == MIM::ITEM_ABORT) {
 
 						_can_run_event = false;
 						_display_cursor = true;
@@ -2172,20 +2348,29 @@ auto Sorcery::Engine::_event_if() -> bool {
 					_show_found = true;
 
 					// random character who has inventory free
-					const auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
-					const auto text{fmt::format("{}{}", character.get_name(), (*_display->string)["FOUND_AN_ITEM"])};
-					_found->set((*_display->layout)["engine_base_ui:found_an_item"], text);
+					const auto &character{_game->characters[_game->state
+							->get_character_by_position(1)
+							.value()]};
+					const auto text{fmt::format("{}{}", character.get_name(),
+						(*_display->string)["FOUND_AN_ITEM"])};
+					_found->set(
+						(*_display->layout)["engine_base_ui:found_an_item"],
+						text);
 					_found->reset_timed();
 
-					if (!_game->state->quest_item_flags[unenum(ItemQuest::BLUE_RIBBON)])
-						_game->state->quest_item_flags[unenum(ItemQuest::BLUE_RIBBON)] = true;
+					if (!_game->state
+							->quest_item_flags[unenum(ItemQuest::BLUE_RIBBON)])
+						_game->state
+							->quest_item_flags[unenum(ItemQuest::BLUE_RIBBON)] =
+							true;
 				}
 
 			} else if (event_type == MAV::WERDNA_BOAST) {
 
 				// Linked events
 				// Linked events
-				auto event_1{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 1)};
+				auto event_1{std::make_unique<Event>(
+					_system, _display, _graphics, _game, event_type, 1)};
 				if (auto result{event_1->start()}; result == MIM::ITEM_ABORT) {
 					event_1->stop();
 					_can_run_event = false;
@@ -2196,8 +2381,10 @@ auto Sorcery::Engine::_event_if() -> bool {
 					event_1->stop();
 
 					_refresh_display();
-					auto event_2{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 2)};
-					if (auto result{event_2->start()}; result == MIM::ITEM_ABORT) {
+					auto event_2{std::make_unique<Event>(
+						_system, _display, _graphics, _game, event_type, 2)};
+					if (auto result{event_2->start()};
+						result == MIM::ITEM_ABORT) {
 
 						_can_run_event = false;
 						_display_cursor = true;
@@ -2207,8 +2394,10 @@ auto Sorcery::Engine::_event_if() -> bool {
 						event_2->stop();
 
 						_refresh_display();
-						auto event_3{std::make_unique<Event>(_system, _display, _graphics, _game, event_type, 3)};
-						if (auto result{event_3->start()}; result == MIM::ITEM_ABORT) {
+						auto event_3{std::make_unique<Event>(_system, _display,
+							_graphics, _game, event_type, 3)};
+						if (auto result{event_3->start()};
+							result == MIM::ITEM_ABORT) {
 
 							_can_run_event = false;
 							_display_cursor = true;
@@ -2221,7 +2410,8 @@ auto Sorcery::Engine::_event_if() -> bool {
 
 			} else {
 
-				auto event{std::make_unique<Event>(_system, _display, _graphics, _game, event_type)};
+				auto event{std::make_unique<Event>(
+					_system, _display, _graphics, _game, event_type)};
 				if (auto result{event->start()}; result == MIM::ITEM_ABORT) {
 					event->stop();
 					_can_run_event = false;
@@ -2247,7 +2437,8 @@ auto Sorcery::Engine::_event_if() -> bool {
 			_set_refresh_ui();
 		} else if (dungeon_event.combat_after) {
 
-			// do combat (need combat event with an optional combat type - DEADLY RING, FIREDRAGONS, WERDNA, RANDOM)
+			// do combat (need combat event with an optional combat type -
+			// DEADLY RING, FIREDRAGONS, WERDNA, RANDOM)
 			std::cout << "An Encounter!" << std::endl;
 		}
 
@@ -2261,7 +2452,9 @@ auto Sorcery::Engine::_event_if() -> bool {
 
 auto Sorcery::Engine::_elevator_if() -> bool {
 
-	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has(TLF::ELEVATOR)) {
+	if (const auto tile{
+			_game->state->level->at(_game->state->get_player_pos())};
+		tile.has(TLF::ELEVATOR)) {
 		_show_elevator = true;
 		_elevator->set_valid(true);
 		_elevator->reset_timed();
@@ -2276,7 +2469,9 @@ auto Sorcery::Engine::_elevator_if() -> bool {
 
 auto Sorcery::Engine::_chute_if() -> bool {
 
-	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has(TLF::CHUTE)) {
+	if (const auto tile{
+			_game->state->level->at(_game->state->get_player_pos())};
+		tile.has(TLF::CHUTE)) {
 		_show_chute = true;
 		_chute->set_valid(true);
 		_chute->reset_timed();
@@ -2291,7 +2486,9 @@ auto Sorcery::Engine::_chute_if() -> bool {
 
 auto Sorcery::Engine::_spinner_if() const -> bool {
 
-	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has(TLF::SPINNER)) {
+	if (const auto tile{
+			_game->state->level->at(_game->state->get_player_pos())};
+		tile.has(TLF::SPINNER)) {
 
 		// Random Direction Change
 		auto new_facing{static_cast<MAD>((*_system->random)[RNT::ZERO_TO_3])};
@@ -2304,7 +2501,9 @@ auto Sorcery::Engine::_spinner_if() const -> bool {
 
 auto Sorcery::Engine::_stairs_if() -> bool {
 
-	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has_stairs()) {
+	if (const auto tile{
+			_game->state->level->at(_game->state->get_player_pos())};
+		tile.has_stairs()) {
 
 		auto destination{tile.has_stairs().value()};
 		auto to_level{destination.to_level};
@@ -2324,13 +2523,17 @@ auto Sorcery::Engine::_stairs_if() -> bool {
 				_game->state->set_lit(false);
 
 			if (next_tile.has(TLF::LADDER_UP))
-				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_up_text"]);
+				_confirm_stairs->set((
+					*_display->layout)["engine_base_ui:dialog_ladder_up_text"]);
 			else if (next_tile.has(TLF::LADDER_DOWN))
-				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_down_text"]);
+				_confirm_stairs->set((*_display
+						->layout)["engine_base_ui:dialog_ladder_down_text"]);
 			else if (next_tile.has(TLF::STAIRS_UP))
-				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_stairs_up_text"]);
+				_confirm_stairs->set((
+					*_display->layout)["engine_base_ui:dialog_stairs_up_text"]);
 			else if (next_tile.has(TLF::STAIRS_DOWN))
-				_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_stairs_down_text"]);
+				_confirm_stairs->set((*_display
+						->layout)["engine_base_ui:dialog_stairs_down_text"]);
 
 			return true;
 		}
@@ -2342,7 +2545,9 @@ auto Sorcery::Engine::_stairs_if() -> bool {
 auto Sorcery::Engine::_teleport_if() -> bool {
 
 	// TODO: handle anti-teleport here in the future
-	if (const auto tile{_game->state->level->at(_game->state->get_player_pos())}; tile.has_teleport()) {
+	if (const auto tile{
+			_game->state->level->at(_game->state->get_player_pos())};
+		tile.has_teleport()) {
 
 		auto destination{tile.has_teleport().value()};
 		if (destination.to_level == 0) {
@@ -2364,16 +2569,22 @@ auto Sorcery::Engine::_teleport_if() -> bool {
 			if ((next_tile.is(TLP::DARKNESS)) && (_game->state->get_lit()))
 				_game->state->set_lit(false);
 
-			if (_game->state->level->stairs_at(_game->state->get_player_pos())) {
+			if (_game->state->level->stairs_at(
+					_game->state->get_player_pos())) {
 				const auto current_loc{_game->state->get_player_pos()};
-				if (const auto &this_tile{_game->state->level->at(current_loc)}; this_tile.has(TLF::LADDER_UP))
-					_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_up_text"]);
-				else if (this_tile.has(TLF::LADDER_DOWN))
-					_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_ladder_down_text"]);
-				else if (this_tile.has(TLF::STAIRS_UP))
-					_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_stairs_up_text"]);
-				else if (this_tile.has(TLF::STAIRS_DOWN))
-					_confirm_stairs->set((*_display->layout)["engine_base_ui:dialog_stairs_down_text"]);
+				if (const auto &at{_game->state->level->at(current_loc)};
+					at.has(TLF::LADDER_UP))
+					_confirm_stairs->set((*_display
+							->layout)["engine_base_ui:dialog_ladder_up_text"]);
+				else if (at.has(TLF::LADDER_DOWN))
+					_confirm_stairs->set((*_display->layout)
+							["engine_base_ui:dialog_ladder_down_text"]);
+				else if (at.has(TLF::STAIRS_UP))
+					_confirm_stairs->set((*_display
+							->layout)["engine_base_ui:dialog_stairs_up_text"]);
+				else if (at.has(TLF::STAIRS_DOWN))
+					_confirm_stairs->set((*_display->layout)
+							["engine_base_ui:dialog_stairs_down_text"]);
 				_show_confirm_stairs = true;
 			} else
 				_show_confirm_stairs = false;
@@ -2403,22 +2614,26 @@ auto Sorcery::Engine::_draw() -> void {
 
 		_window->draw(*_view_frame_small);
 
-		const auto wfr_c{(*_display->layout)["engine_base_ui:wireframe_view_small"]};
-		_render->setScale(std::stof(wfr_c["scale_x"].value()), std::stof(wfr_c["scale_y"].value()));
+		const auto wfr_c{
+			(*_display->layout)["engine_base_ui:wireframe_view_small"]};
+		_render->setScale(std::stof(wfr_c["scale_x"].value()),
+			std::stof(wfr_c["scale_y"].value()));
 		_window->draw(*_view_frame_small);
-		_render->setPosition(
-			wfr_c.x + std::stoi(wfr_c["offset_x"].value()), wfr_c.y + std::stoi(wfr_c["offset_y"].value()));
+		_render->setPosition(wfr_c.x + std::stoi(wfr_c["offset_x"].value()),
+			wfr_c.y + std::stoi(wfr_c["offset_y"].value()));
 		_window->draw(*_render);
 
 	} else {
 
 		_window->draw(*_view_frame_big);
 
-		const auto wfr_c{(*_display->layout)["engine_base_ui:wireframe_view_big"]};
-		_render->setScale(std::stof(wfr_c["scale_x"].value()), std::stof(wfr_c["scale_y"].value()));
+		const auto wfr_c{
+			(*_display->layout)["engine_base_ui:wireframe_view_big"]};
+		_render->setScale(std::stof(wfr_c["scale_x"].value()),
+			std::stof(wfr_c["scale_y"].value()));
 		_window->draw(*_view_frame_big);
-		_render->setPosition(
-			wfr_c.x + std::stoi(wfr_c["offset_x"].value()), wfr_c.y + std::stoi(wfr_c["offset_y"].value()));
+		_render->setPosition(wfr_c.x + std::stoi(wfr_c["offset_x"].value()),
+			wfr_c.y + std::stoi(wfr_c["offset_y"].value()));
 		_window->draw(*_render);
 	}
 
@@ -2450,11 +2665,13 @@ auto Sorcery::Engine::_draw() -> void {
 		_window->draw(*_camp_menu);
 	} else if (_in_action) {
 		_window->draw(*_action_menu_frame);
-		_action_menu->generate((*_display->layout)["engine_base_ui:action_menu"]);
+		_action_menu->generate(
+			(*_display->layout)["engine_base_ui:action_menu"]);
 		_window->draw(*_action_menu);
 	} else if (_in_search) {
 		_window->draw(*_search_menu_frame);
-		_search_menu->generate((*_display->layout)["engine_base_ui:search_menu"]);
+		_search_menu->generate(
+			(*_display->layout)["engine_base_ui:search_menu"]);
 		_window->draw(*_search_menu);
 	} else if (_in_get) {
 		_window->draw(*_get_menu_frame);
@@ -2462,7 +2679,8 @@ auto Sorcery::Engine::_draw() -> void {
 		_window->draw(*_get_menu);
 	} else if (_in_elev_1) {
 		_window->draw(*_elev_1_menu_frame);
-		_elev_1_menu->generate((*_display->layout)["engine_base_ui:elevator_a_d_menu"]);
+		_elev_1_menu->generate(
+			(*_display->layout)["engine_base_ui:elevator_a_d_menu"]);
 		_window->draw(*_elev_1_menu);
 
 		if (_show_elevator) {
@@ -2475,7 +2693,8 @@ auto Sorcery::Engine::_draw() -> void {
 		}
 	} else if (_in_elev_2) {
 		_window->draw(*_elev_2_menu_frame);
-		_elev_2_menu->generate((*_display->layout)["engine_base_ui:elevator_a_f_menu"]);
+		_elev_2_menu->generate(
+			(*_display->layout)["engine_base_ui:elevator_a_f_menu"]);
 		_window->draw(*_elev_2_menu);
 
 		if (_show_elevator) {
@@ -2491,7 +2710,8 @@ auto Sorcery::Engine::_draw() -> void {
 
 			// If we have a character
 			_window->draw(*_cur_char_frame);
-			_character_display->setPosition((*_display->layout)["engine_base_ui:character"].pos());
+			_character_display->setPosition(
+				(*_display->layout)["engine_base_ui:character"].pos());
 			_character_display->update();
 			_window->draw(*_character_display);
 
@@ -2627,7 +2847,8 @@ auto Sorcery::Engine::_set_refresh_ui() -> void {
 	_update_render = true;
 }
 
-// Various Debug Functions - can be placed in _handle_in_game and associated with keypresses
+// Various Debug Functions - can be placed in _handle_in_game and associated
+// with keypresses
 auto Sorcery::Engine::_debug_go_back() -> std::optional<int> {
 
 	_go_back();
@@ -2647,14 +2868,16 @@ auto Sorcery::Engine::_debug_start_random_combat() -> std::optional<int> {
 
 auto Sorcery::Engine::_debug_set_quest_item_flags() -> std::optional<int> {
 
-	std::fill(_game->state->quest_item_flags.begin(), _game->state->quest_item_flags.end(), true);
+	std::fill(_game->state->quest_item_flags.begin(),
+		_game->state->quest_item_flags.end(), true);
 
 	return CONTINUE;
 }
 
 auto Sorcery::Engine::_debug_clear_quest_item_flags() -> std::optional<int> {
 
-	std::fill(_game->state->quest_item_flags.begin(), _game->state->quest_item_flags.end(), false);
+	std::fill(_game->state->quest_item_flags.begin(),
+		_game->state->quest_item_flags.end(), false);
 
 	return CONTINUE;
 }
@@ -2663,6 +2886,7 @@ auto Sorcery::Engine::_debug_go_to_graveyard() -> std::optional<int> {
 
 	_graveyard->start();
 	_graveyard->stop();
+
 	return STOP_ENGINE;
 }
 
@@ -2697,8 +2921,8 @@ auto Sorcery::Engine::_debug_go_up_a_level() -> std::optional<int> {
 auto Sorcery::Engine::_debug_heal_party_to_full() -> std::optional<int> {
 
 	const auto party{_game->state->get_party_characters()};
-	for (auto &[character_id, character] : _game->characters) {
-		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+	for (auto &[id, character] : _game->characters) {
+		if (std::find(party.begin(), party.end(), id) != party.end()) {
 			character.set_status(CHT::OK);
 			character.set_current_hp(character.get_max_hp());
 			character.reset_adjustment_per_turn();
@@ -2713,9 +2937,11 @@ auto Sorcery::Engine::_debug_heal_party_to_full() -> std::optional<int> {
 	return CONTINUE;
 }
 
-auto Sorcery::Engine::_debug_give_first_character_gold_xp() -> std::optional<int> {
+auto Sorcery::Engine::_debug_give_first_character_gold_xp()
+	-> std::optional<int> {
 
-	auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
+	auto &character{
+		_game->characters[_game->state->get_character_by_position(1).value()]};
 	auto next{character.get_next_xp()};
 	character.grant_xp(next - 1);
 	character.grant_gold(10000);
@@ -2727,9 +2953,11 @@ auto Sorcery::Engine::_debug_give_first_character_gold_xp() -> std::optional<int
 	return CONTINUE;
 }
 
-auto Sorcery::Engine::_debug_level_first_character_down() -> std::optional<int> {
+auto Sorcery::Engine::_debug_level_first_character_down()
+	-> std::optional<int> {
 
-	auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
+	auto &character{
+		_game->characters[_game->state->get_character_by_position(1).value()]};
 	character.level_down();
 
 	_set_refresh_ui();
@@ -2741,7 +2969,8 @@ auto Sorcery::Engine::_debug_level_first_character_down() -> std::optional<int> 
 
 auto Sorcery::Engine::_debug_level_first_character_up() -> std::optional<int> {
 
-	auto &character{_game->characters[_game->state->get_character_by_position(1).value()]};
+	auto &character{
+		_game->characters[_game->state->get_character_by_position(1).value()]};
 	auto next{character.get_next_xp()};
 	character.grant_xp(next + 1);
 
@@ -2754,7 +2983,7 @@ auto Sorcery::Engine::_debug_level_first_character_up() -> std::optional<int> {
 
 auto Sorcery::Engine::_debug_kill_non_party_characters() -> std::optional<int> {
 
-	for (auto &[character_id, character] : _game->characters) {
+	for (auto &[id, character] : _game->characters) {
 		if (character.get_location() != CHL::PARTY) {
 			character.set_current_hp(0);
 			character.set_status(CHT::DEAD);
@@ -2769,9 +2998,10 @@ auto Sorcery::Engine::_debug_kill_non_party_characters() -> std::optional<int> {
 	return CONTINUE;
 }
 
-auto Sorcery::Engine::_debug_send_non_party_characters_to_tavern() -> std::optional<int> {
+auto Sorcery::Engine::_debug_send_non_party_characters_to_tavern()
+	-> std::optional<int> {
 
-	for (auto &[character_id, character] : _game->characters) {
+	for (auto &[id, character] : _game->characters) {
 		if (character.get_location() != CHL::PARTY) {
 			character.set_current_hp(character.get_max_hp());
 			character.set_status(CHT::OK);
@@ -2789,8 +3019,8 @@ auto Sorcery::Engine::_debug_send_non_party_characters_to_tavern() -> std::optio
 auto Sorcery::Engine::_debug_give_party_random_hp() -> std::optional<int> {
 
 	auto party{_game->state->get_party_characters()};
-	for (auto &[character_id, character] : _game->characters) {
-		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+	for (auto &[id, character] : _game->characters) {
+		if (std::find(party.begin(), party.end(), id) != party.end()) {
 			character.set_current_hp(1);
 			if ((*_system->random)[RNT::ZERO_TO_2] == 0)
 				character.set_current_hp(1);
@@ -2809,10 +3039,13 @@ auto Sorcery::Engine::_debug_give_party_random_hp() -> std::optional<int> {
 auto Sorcery::Engine::_debug_give_party_random_status() -> std::optional<int> {
 
 	const auto party{_game->state->get_party_characters()};
-	for (auto &[character_id, character] : _game->characters) {
-		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
-			character.set_status(magic_enum::enum_cast<CHT>((*_system->random)[RNT::ZERO_TO_8]).value());
-			if ((character.get_status() == CHT::DEAD) || (character.get_status() == CHT::ASHES) ||
+	for (auto &[id, character] : _game->characters) {
+		if (std::find(party.begin(), party.end(), id) != party.end()) {
+			character.set_status(
+				magic_enum::enum_cast<CHT>((*_system->random)[RNT::ZERO_TO_8])
+					.value());
+			if ((character.get_status() == CHT::DEAD) ||
+				(character.get_status() == CHT::ASHES) ||
 				(character.get_status() == CHT::LOST)) {
 				character.set_current_hp(0);
 			} else

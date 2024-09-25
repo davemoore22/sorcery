@@ -43,7 +43,8 @@ class Event {
 	public:
 
 		// Standard Constructor
-		Event(System *system, Display *display, Graphics *graphics, Game *game, MAV type, unsigned int stage = 1);
+		Event(System *system, Display *display, Graphics *graphics, Game *game,
+			MAV type, unsigned int stage = 1);
 		Event() = delete;
 
 		// Standard Destructor

@@ -41,7 +41,8 @@ class Graveyard {
 	public:
 
 		// Standard Constructor
-		Graveyard(System *system, Display *display, Graphics *graphics, Game *game);
+		Graveyard(
+			System *system, Display *display, Graphics *graphics, Game *game);
 		Graveyard() = delete;
 
 		// Standard Destructor

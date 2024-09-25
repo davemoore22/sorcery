@@ -44,20 +44,24 @@
 #include "types/component.hpp"
 
 // Standard Constructor
-Sorcery::Graveyard::Graveyard(System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::Graveyard::Graveyard(
+	System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::GRAVEYARD);
+	_menu = std::make_unique<Menu>(
+		_system, _display, _graphics, _game, MTP::GRAVEYARD);
 	_menu->generate((*_display->layout)["graveyard:menu"]);
-	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["graveyard:menu"].y);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()),
+		(*_display->layout)["graveyard:menu"].y);
 
 	const Component menu_fc{(*_display->layout)["graveyard:menu_frame"]};
-	_menu_frame = std::make_unique<Frame>(
-		_display->ui_texture, menu_fc.w, menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
-	_menu_frame->setPosition(_display->window->get_x(_menu_frame->sprite, menu_fc.x),
+	_menu_frame = std::make_unique<Frame>(_display->ui_texture, menu_fc.w,
+		menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
+	_menu_frame->setPosition(
+		_display->window->get_x(_menu_frame->sprite, menu_fc.x),
 		_display->window->get_y(_menu_frame->sprite, menu_fc.y));
 
 	_sprites.clear();
@@ -72,7 +76,8 @@ Sorcery::Graveyard::~Graveyard() {
 
 auto Sorcery::Graveyard::start() -> std::optional<MIM> {
 
-	// Get the Background Display Components and load them into Display module storage (not local)
+	// Get the Background Display Components and load them into Display module
+	// storage (not local)
 	_display->generate("graveyard");
 
 	// Draw the gravestones
@@ -80,11 +85,15 @@ auto Sorcery::Graveyard::start() -> std::optional<MIM> {
 	const auto num_gs{std::stoi(gs_c["number"].value())};
 	auto gs_x{gs_c.x};
 	auto gs_y{gs_c.y};
-	auto inc_x{std::stoi(gs_c["offset_x"].value()) * _display->window->get_cw()};
-	auto inc_y{std::stoi(gs_c["offset_y"].value()) * _display->window->get_cw()};
+	auto inc_x{
+		std::stoi(gs_c["offset_x"].value()) * _display->window->get_cw()};
+	auto inc_y{
+		std::stoi(gs_c["offset_y"].value()) * _display->window->get_cw()};
 
 	for (int i = 0; i < num_gs; i++) {
-		auto gravestone{_graphics->textures->get(unenum(Enums::Graphics::Event::GRAVESTONE), GTT::EVENTS).value()};
+		auto gravestone{_graphics->textures
+				->get(unenum(Enums::Graphics::Event::GRAVESTONE), GTT::EVENTS)
+				.value()};
 		gravestone.setPosition(gs_x + (inc_x * i), gs_y + (inc_y * i));
 		gravestone.setScale(gs_c.scl());
 		_sprites.emplace_back(gravestone);
@@ -95,7 +104,8 @@ auto Sorcery::Graveyard::start() -> std::optional<MIM> {
 	names.clear();
 	const auto party{_game->state->get_party_characters()};
 	for (const auto &[character_id, character] : _game->characters) {
-		if (std::find(party.begin(), party.end(), character_id) != party.end()) {
+		if (std::find(party.begin(), party.end(), character_id) !=
+			party.end()) {
 			names.emplace_back(character.get_name());
 		}
 	}
@@ -105,9 +115,11 @@ auto Sorcery::Graveyard::start() -> std::optional<MIM> {
 	auto c_c{(*_display->layout)["graveyard:party_members"]};
 	auto text_x{c_c.x};
 	auto text_y{c_c.y};
-	auto text_spacing_y{std::stoi(c_c["spacing_y"].value()) * _display->window->get_ch()};
+	auto text_spacing_y{
+		std::stoi(c_c["spacing_y"].value()) * _display->window->get_ch()};
 	for (int i = 0; i < 6; i += 2) {
-		auto characters{fmt::format("{:^18}{:^18}", names.at(i), names.at(i + 1))};
+		auto characters{
+			fmt::format("{:^18}{:^18}", names.at(i), names.at(i + 1))};
 		sf::Text text{};
 		if (_display->get_bold())
 			text.setStyle(sf::Text::Bold);
@@ -115,7 +127,8 @@ auto Sorcery::Graveyard::start() -> std::optional<MIM> {
 		text.setCharacterSize(c_c.size);
 		text.setFillColor(sf::Color(c_c.colour));
 		if (_display->get_upper())
-			std::transform(characters.begin(), characters.end(), characters.begin(), ::toupper);
+			std::transform(characters.begin(), characters.end(),
+				characters.begin(), ::toupper);
 		text.setString(characters);
 		text.setPosition(text_x, text_y);
 		_texts.emplace_back(text);
@@ -204,8 +217,9 @@ auto Sorcery::Graveyard::_draw() -> void {
 	_menu->generate((*_display->layout)["graveyard:menu"]);
 	_window->draw(*_menu);
 
-	_display->window->draw_text(
-		_wipe_message, (*_display->layout)["graveyard:wipe_text"], (*_display->string)["GRAVEYARD_MESSAGE"]);
+	_display->window->draw_text(_wipe_message,
+		(*_display->layout)["graveyard:wipe_text"],
+		(*_display->string)["GRAVEYARD_MESSAGE"]);
 
 	// And finally the Cursor
 	_display->display_overlay();
