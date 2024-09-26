@@ -41,7 +41,8 @@
 #include "types/monstertype.hpp"
 
 // Standard Constructor
-Sorcery::Bestiary::Bestiary(System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::Bestiary::Bestiary(
+	System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 }
 
@@ -64,7 +65,7 @@ auto Sorcery::Bestiary::start() -> int {
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
 	_selected = _menu->items.begin();
 
-	if (auto module_result{_do_event_loop()}; module_result == MDR::EXIT) {
+	if (auto result{_do_event_loop()}; result == MDR::EXIT) {
 
 		// Shutdown
 		_display->shutdown_SFML();
@@ -96,7 +97,8 @@ auto Sorcery::Bestiary::_reset_components() -> void {
 auto Sorcery::Bestiary::_place_components() -> void {
 
 	_menu->setPosition((*_display->layout)["bestiary:menu"].pos());
-	_monster_display->setPosition((*_display->layout)["bestiary:monster_display"].pos());
+	_monster_display->setPosition(
+		(*_display->layout)["bestiary:monster_display"].pos());
 }
 
 auto Sorcery::Bestiary::_initalise_components() -> void {
@@ -104,12 +106,14 @@ auto Sorcery::Bestiary::_initalise_components() -> void {
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::BESTIARY);
+	_menu = std::make_unique<Menu>(
+		_system, _display, _graphics, _game, MTP::BESTIARY);
 	const auto menu_c{(*_display->layout)["bestiary:menu"]};
 	_menu->set_visible_size(std::stoi(menu_c["display_items"].value()));
 	_menu->generate(menu_c);
 
-	_monster_display = std::make_unique<MonsterDisplay>(_system, _display, _graphics, _game);
+	_monster_display =
+		std::make_unique<MonsterDisplay>(_system, _display, _graphics, _game);
 }
 
 auto Sorcery::Bestiary::_refresh_display() -> void {
@@ -132,7 +136,7 @@ auto Sorcery::Bestiary::_draw() -> void {
 	_menu->generate((*_display->layout)["bestiary:menu"]);
 	_window->draw(*_menu);
 
-	_window->draw(_known_monster_gfx);
+	_window->draw(_known_gfx);
 	_window->draw(*_monster_display);
 
 	_display->display_overlay();
@@ -141,13 +145,16 @@ auto Sorcery::Bestiary::_draw() -> void {
 
 auto Sorcery::Bestiary::_update_display() -> void {
 
-	const auto monster_gfx_c{(*_display->layout)["bestiary:picture"]};
-	const auto selected_idx{_selected.value()->idx};
-	const auto monster_type{(*_game->monsterstore)[magic_enum::enum_cast<MTI>(selected_idx).value()]};
-	_known_monster_gfx = _graphics->textures->get(monster_type.get_known_gfx(), GTT::KNOWN_CREATURE).value();
-	_known_monster_gfx.setPosition(monster_gfx_c.pos());
-	_known_monster_gfx.setScale(monster_gfx_c.scl());
-	_monster_display->set(selected_idx);
+	const auto gfx_c{(*_display->layout)["bestiary:picture"]};
+	const auto idx{_selected.value()->idx};
+	const auto type{
+		(*_game->monsterstore)[magic_enum::enum_cast<MTI>(idx).value()]};
+	_known_gfx =
+		_graphics->textures->get(type.get_known_gfx(), GTT::KNOWN_CREATURE)
+			.value();
+	_known_gfx.setPosition(gfx_c.pos());
+	_known_gfx.setScale(gfx_c.scl());
+	_monster_display->set(idx);
 };
 
 auto Sorcery::Bestiary::_do_event_loop() -> std::optional<MDR> {
@@ -156,13 +163,13 @@ auto Sorcery::Bestiary::_do_event_loop() -> std::optional<MDR> {
 	while (_window->isOpen()) {
 		sf::Event event{};
 		while (_window->pollEvent(event)) {
-			auto const module_result = _handle_input(event);
-			if (module_result) {
-				if (module_result.value() == MDR::CLOSE)
+			auto const result = _handle_input(event);
+			if (result) {
+				if (result.value() == MDR::CLOSE)
 					return MDR::CLOSE;
-				if (module_result.value() == MDR::BACK)
+				if (result.value() == MDR::BACK)
 					return MDR::BACK;
-				if (module_result.value() == MDR::EXIT)
+				if (result.value() == MDR::EXIT)
 					return MDR::EXIT;
 			}
 		}
@@ -177,7 +184,8 @@ auto Sorcery::Bestiary::_do_event_loop() -> std::optional<MDR> {
 	return std::nullopt;
 }
 
-auto Sorcery::Bestiary::_handle_input(const sf::Event &event) -> std::optional<MDR> {
+auto Sorcery::Bestiary::_handle_input(const sf::Event &event)
+	-> std::optional<MDR> {
 
 	// Check for Window Close
 	if (event.type == sf::Event::Closed)
@@ -209,7 +217,8 @@ auto Sorcery::Bestiary::_handle_input(const sf::Event &event) -> std::optional<M
 	} else if (_system->input->check(CIN::MOVE, event)) {
 		_selected = _menu->set_mouse_selected(_display->get_cur());
 		if (_selected) {
-			// TODO This needs to be fixed as mouse-moving over scrolled menus is not 100%
+			// TODO This needs to be fixed as mouse-moving over scrolled menus
+			// is not 100%
 			const auto menu_c{(*_display->layout)["bestiary:menu"]};
 			_menu->generate(menu_c, true);
 			_update_display();

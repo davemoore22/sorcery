@@ -29,9 +29,11 @@
 namespace Sorcery {
 
 // Pad a string to the desired length
-inline auto PADSTR(std::string &string, unsigned int width, bool pad_both = false) -> std::string {
+inline auto PADSTR(std::string &string, unsigned int width,
+	bool pad_both = false) -> std::string {
 	if (static_cast<unsigned int>(string.size()) < width) {
-		const std::string::size_type padding{pad_both ? (width - string.size()) / 2 : (width - string.size())};
+		const std::string::size_type padding{
+			pad_both ? (width - string.size()) / 2 : (width - string.size())};
 		std::string string_copy{string};
 		if (pad_both)
 			string_copy.insert(0, padding, ' ');

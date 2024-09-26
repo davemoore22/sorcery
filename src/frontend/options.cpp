@@ -56,9 +56,12 @@ Sorcery::Options::Options(System *system, Display *display, Graphics *graphics)
 	_ip = std::make_unique<InfoPanel>(_system, _display, _graphics);
 
 	// Create the Confirmation Dialog Boxes
-	_confirm_save = _factory->make_dialog("options:dialog_confirm_save", WDT::CONFIRM);
-	_confirm_cancel = _factory->make_dialog("options:dialog_confirm_cancel", WDT::CONFIRM);
-	_confirm_strict = _factory->make_dialog("options:dialog_confirm_strict_on", WDT::CONFIRM);
+	_confirm_save =
+		_factory->make_dialog("options:dialog_confirm_save", WDT::CONFIRM);
+	_confirm_cancel =
+		_factory->make_dialog("options:dialog_confirm_cancel", WDT::CONFIRM);
+	_confirm_strict =
+		_factory->make_dialog("options:dialog_confirm_strict_on", WDT::CONFIRM);
 }
 
 // Standard Destructor
@@ -126,28 +129,35 @@ auto Sorcery::Options::start() -> int {
 				} else if (_system->input->check(CIN::CONFIRM, event)) {
 					if (selected) {
 						if ((*_menu->selected).type == MIT::ENTRY) {
-							const CFG config_to_toggle{(*_menu->selected).config};
-							if (config_to_toggle == CFG::STRICT_MODE && !(*_system->config)[CFG::STRICT_MODE]) {
+							const CFG cfg{(*_menu->selected).config};
+							if (cfg == CFG::STRICT_MODE &&
+								!(*_system->config)[CFG::STRICT_MODE]) {
 
 								// Ask for confirmation of Strict Mode
-								_display->set_input_mode(WIM::CONFIRM_STRICT_MODE);
-							} else if (config_to_toggle == CFG::RECOMMENDED_MODE &&
-									   !(*_system->config)[CFG::RECOMMENDED_MODE]) {
+								_display->set_input_mode(
+									WIM::CONFIRM_STRICT_MODE);
+							} else if (cfg == CFG::RECOMMENDED_MODE &&
+									   !(*_system->config)
+										   [CFG::RECOMMENDED_MODE]) {
 
 								// Handle Recommended Toggling
 								_system->config->set_rec_mode();
-								(*_system->config)[CFG::RECOMMENDED_MODE] = true;
+								(*_system->config)[CFG::RECOMMENDED_MODE] =
+									true;
 
 							} else {
 
-								(*_system->config)[config_to_toggle] = !(*_system->config)[config_to_toggle];
+								(*_system->config)[cfg] =
+									!(*_system->config)[cfg];
 
 								// And toggling off strict mode
 								if (!_system->config->is_strict_mode())
-									(*_system->config)[CFG::STRICT_MODE] = false;
+									(*_system->config)[CFG::STRICT_MODE] =
+										false;
 
 								if (!_system->config->is_rec_mode())
-									(*_system->config)[CFG::RECOMMENDED_MODE] = false;
+									(*_system->config)[CFG::RECOMMENDED_MODE] =
+										false;
 							}
 						} else if ((*_menu->selected).type == MIT::SAVE) {
 
@@ -179,45 +189,43 @@ auto Sorcery::Options::start() -> int {
 
 				// All we can do is select Y or N
 				if (_display->get_input_mode() == WIM::CONFIRM_STRICT_MODE) {
-					auto dialog_input{_confirm_strict->handle_input(event)};
-					if (dialog_input) {
-						if (dialog_input.value() == WDB::CLOSE) {
+					if (auto input{_confirm_strict->handle_input(event)};
+						input) {
+						if (input.value() == WDB::CLOSE) {
 							_display->set_input_mode(WIM::NAVIGATE_MENU);
 							return EXIT_MODULE;
-						} else if (dialog_input.value() == WDB::YES) {
+						} else if (input.value() == WDB::YES) {
 							_system->config->set_strict_mode();
 							(*_system->config)[CFG::STRICT_MODE] = true;
 							_display->set_input_mode(WIM::GAME_OPTIONS);
-						} else if (dialog_input.value() == WDB::NO) {
+						} else if (input.value() == WDB::NO) {
 							_display->set_input_mode(WIM::GAME_OPTIONS);
 						}
 					}
 				} else if (_display->get_input_mode() == WIM::SAVE_CHANGES) {
-					auto dialog_input{_confirm_save->handle_input(event)};
-					if (dialog_input) {
-						if (dialog_input.value() == WDB::CLOSE) {
+					if (auto input{_confirm_save->handle_input(event)}; input) {
+						if (input.value() == WDB::CLOSE) {
 							_display->set_input_mode(WIM::NAVIGATE_MENU);
 							return EXIT_MODULE;
-						} else if (dialog_input.value() == WDB::YES) {
+						} else if (input.value() == WDB::YES) {
 							_display->set_input_mode(WIM::NAVIGATE_MENU);
 							_system->config->save();
 							return true;
-						} else if (dialog_input.value() == WDB::NO) {
+						} else if (input.value() == WDB::NO) {
 							_display->set_input_mode(WIM::GAME_OPTIONS);
 						}
 					}
 				} else if (_display->get_input_mode() == WIM::CANCEL_CHANGES) {
-
-					auto dialog_input{_confirm_cancel->handle_input(event)};
-					if (dialog_input) {
-						if (dialog_input.value() == WDB::CLOSE) {
+					if (auto input{_confirm_cancel->handle_input(event)};
+						input) {
+						if (input.value() == WDB::CLOSE) {
 							_display->set_input_mode(WIM::NAVIGATE_MENU);
 							return false;
-						} else if (dialog_input.value() == WDB::YES) {
+						} else if (input.value() == WDB::YES) {
 							_display->set_input_mode(WIM::NAVIGATE_MENU);
 							_system->config->load();
 							return true;
-						} else if (dialog_input.value() == WDB::NO) {
+						} else if (input.value() == WDB::NO) {
 							_display->set_input_mode(WIM::GAME_OPTIONS);
 						}
 					}
@@ -243,7 +251,8 @@ auto Sorcery::Options::stop() -> void {
 	_display->stop_bg_movie();
 }
 
-auto Sorcery::Options::_set_infopanel(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void {
+auto Sorcery::Options::_set_infopanel(
+	std::vector<Sorcery::MenuEntry>::const_iterator it) -> void {
 
 	// Set the Text
 	if ((*it).type == MIT::ENTRY) {

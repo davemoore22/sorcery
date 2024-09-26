@@ -43,7 +43,8 @@ class ItemDisplay: public sf::Transformable, public sf::Drawable {
 	public:
 
 		// Constructors
-		ItemDisplay(System *system, Display *display, Graphics *graphics, Game *game);
+		ItemDisplay(
+			System *system, Display *display, Graphics *graphics, Game *game);
 		ItemDisplay() = delete;
 
 		// Public Members
@@ -57,8 +58,10 @@ class ItemDisplay: public sf::Transformable, public sf::Drawable {
 	private:
 
 		// Private Methods
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
-		auto _add_text(Component &component, std::string format, std::string value) -> sf::Text *;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto _add_text(Component &component, std::string format,
+			std::string value) -> sf::Text *;
 
 		// Private Members
 		System *_system;

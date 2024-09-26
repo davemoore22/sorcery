@@ -44,7 +44,8 @@ class AttributeDisplay: public sf::Transformable, public sf::Drawable {
 	public:
 
 		// Constructors
-		AttributeDisplay(System *system, Display *display, Graphics *graphics, Character *character, WAL alignment);
+		AttributeDisplay(System *system, Display *display, Graphics *graphics,
+			Character *character, WAL alignment);
 		AttributeDisplay() = default;
 
 		// Copy Constructors
@@ -67,7 +68,8 @@ class AttributeDisplay: public sf::Transformable, public sf::Drawable {
 	private:
 
 		// Private Methods
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _get_bar(CAR attribute) -> sf::RectangleShape;
 		auto _get_text(CAR attribute) -> sf::Text;
 
@@ -85,7 +87,7 @@ class AttributeDisplay: public sf::Transformable, public sf::Drawable {
 		WAL _alignment;
 
 		std::vector<sf::RectangleShape> _bars;
-		std::array<sf::Sprite, 6> _attribute_icons;
+		std::array<sf::Sprite, 6> _icons;
 		std::vector<sf::Text> _texts;
 };
 

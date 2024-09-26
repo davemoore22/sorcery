@@ -41,7 +41,8 @@ class DebuffBar: public sf::Transformable, public sf::Drawable {
 	public:
 
 		// Constructors
-		DebuffBar(System *system, Display *display, Graphics *graphics, Game *game, Component layout);
+		DebuffBar(System *system, Display *display, Graphics *graphics,
+			Game *game, Component layout);
 		DebuffBar() = delete;
 
 		// Public Methods
@@ -50,7 +51,8 @@ class DebuffBar: public sf::Transformable, public sf::Drawable {
 	private:
 
 		// Private Methods
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		System *_system;
 		Display *_display;

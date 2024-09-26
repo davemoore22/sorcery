@@ -40,7 +40,8 @@ class Text: public sf::Transformable, public sf::Drawable {
 		// Constructors
 		Text();
 		Text(System *system, Display *display);
-		Text(System *system, Display *display, const std::optional<Component> component, const int bits);
+		Text(System *system, Display *display,
+			const std::optional<Component> component, const int bits);
 
 		// Public Members
 
@@ -60,7 +61,8 @@ class Text: public sf::Transformable, public sf::Drawable {
 	private:
 
 		// Private Methods
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
 		System *_system;

@@ -41,7 +41,8 @@ class Museum {
 	public:
 
 		// Standard Constructor
-		Museum(System *system, Display *display, Graphics *graphics, Game *game);
+		Museum(
+			System *system, Display *display, Graphics *graphics, Game *game);
 		Museum() = delete;
 
 		// Standard Destructor

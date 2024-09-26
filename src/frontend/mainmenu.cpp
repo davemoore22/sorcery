@@ -40,7 +40,8 @@
 #include "resources/factory.hpp"
 
 // Standard Constructor
-Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::MainMenu::MainMenu(
+	System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Get the Window and Graphics to Display
@@ -56,19 +57,22 @@ Sorcery::MainMenu::MainMenu(System *system, Display *display, Graphics *graphics
 	// Setup Custom Components
 	Component any_key_c{(*_display->layout)["main_menu_attract:press_any_key"]};
 	_press_any_key = std::make_unique<Text>(_system, _display, any_key_c,
-		unenum(CPE::COLOUR) | unenum(CPE::FONT) | unenum(CPE::STRING) | unenum(CPE::SIZE) | unenum(CPE::JUSTIFICATION));
+		unenum(CPE::COLOUR) | unenum(CPE::FONT) | unenum(CPE::STRING) |
+			unenum(CPE::SIZE) | unenum(CPE::JUSTIFICATION));
 	auto x{any_key_c.x == -1 ? _display->window->centre.x : any_key_c.x};
 	auto y{any_key_c.y == -1 ? _display->window->centre.y : any_key_c.y};
 	_press_any_key->setPosition(x, y);
 
 	// Now set up attract mode data
-	_attract_mode =
-		std::make_unique<AttractMode>(_graphics, (*_display->layout)["main_menu_attract:attract_creatures"]);
+	_attract_mode = std::make_unique<AttractMode>(
+		_graphics, (*_display->layout)["main_menu_attract:attract_creatures"]);
 	_attract_mode->data.clear();
 
 	// Create the Confirmation Dialogs
-	_dialog_exit = _factory->make_dialog("main_menu_attract:dialog_exit", WDT::CONFIRM);
-	_dialog_new_game = _factory->make_dialog("main_menu_attract:dialog_new_game", WDT::CONFIRM);
+	_dialog_exit =
+		_factory->make_dialog("main_menu_attract:dialog_exit", WDT::CONFIRM);
+	_dialog_new_game = _factory->make_dialog(
+		"main_menu_attract:dialog_new_game", WDT::CONFIRM);
 
 	_error = std::nullopt;
 }
@@ -82,7 +86,8 @@ Sorcery::MainMenu::~MainMenu() {
 
 auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 
-	// Get the Background Display Components and load them into Display module storage (not local)
+	// Get the Background Display Components and load them into Display module
+	// storage (not local)
 	_display->generate("main_menu_attract");
 
 	// Clear the window
@@ -129,21 +134,24 @@ auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 						if (event.type == sf::Event::Closed)
 							return MIM::ITEM_ABORT;
 
-						// Check for any key being pressed to move onto the main menu
+						// Check for any key being pressed to move onto the main
+						// menu
 						if (_menu_stage == MMT::ATTRACT_MODE) {
 
 							// Check for Window Close
 							if (event.type == sf::Event::Closed)
 								return std::nullopt;
 
-							// Check for any key being pressed to move onto the main menu
+							// Check for any key being pressed to move onto the
+							// main menu
 							if (_system->input->check(CIN::ANYTHING, event)) {
 
 								_menu_stage = MMT::ATTRACT_MENU;
 								_display->set_input_mode(WIM::NAVIGATE_MENU);
 							}
 						}
-					} else if (_display->get_input_mode() == WIM::NAVIGATE_MENU) {
+					} else if (_display->get_input_mode() ==
+							   WIM::NAVIGATE_MENU) {
 
 						// Check for Window Close
 						if (event.type == sf::Event::Closed)
@@ -162,18 +170,23 @@ auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 						else if (_system->input->check(CIN::DOWN, event))
 							selected = _main_menu->choose_next();
 						else if (_system->input->check(CIN::MOVE, event))
-							selected = _main_menu->set_mouse_selected(_display->get_cur());
+							selected = _main_menu->set_mouse_selected(
+								_display->get_cur());
 						else if (_system->input->check(CIN::CONFIRM, event)) {
 							if (selected) {
 
 								// We have selected something from the menu
-								if (const MIM opt{(*selected.value()).item}; opt == MIM::MM_NEW_GAME) {
-									_display->set_input_mode(WIM::CONFIRM_NEW_GAME);
+								if (const MIM opt{(*selected.value()).item};
+									opt == MIM::MM_NEW_GAME) {
+									_display->set_input_mode(
+										WIM::CONFIRM_NEW_GAME);
 								} else if (opt == MIM::MM_CONTINUE_GAME) {
-									_display->set_input_mode(WIM::NAVIGATE_MENU);
+									_display->set_input_mode(
+										WIM::NAVIGATE_MENU);
 									return MIM::MM_CONTINUE_GAME;
 								} else if (opt == MIM::MM_LICENSE) {
-									_display->set_input_mode(WIM::DISPLAY_TEXT_FILE);
+									_display->set_input_mode(
+										WIM::DISPLAY_TEXT_FILE);
 									return MIM::MM_LICENSE;
 								} else if (opt == MIM::MM_COMPENDIUM) {
 									_display->set_input_mode(WIM::COMPENDIUM);
@@ -182,7 +195,8 @@ auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 									_display->set_input_mode(WIM::GAME_OPTIONS);
 									return MIM::MM_OPTIONS;
 								} else if (opt == MIM::ITEM_QUIT) {
-									_display->set_input_mode(WIM::CONFIRM_QUIT_GAME);
+									_display->set_input_mode(
+										WIM::CONFIRM_QUIT_GAME);
 								}
 							}
 						} else if (_system->input->check(CIN::CANCEL, event) ||
@@ -190,8 +204,11 @@ auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 							_display->set_input_mode(WIM::CONFIRM_QUIT_GAME);
 						}
 
-					} else if (_display->get_input_mode() == WIM::CONFIRM_NEW_GAME) {
-						if (const auto input{_dialog_new_game->handle_input(event)}; input) {
+					} else if (_display->get_input_mode() ==
+							   WIM::CONFIRM_NEW_GAME) {
+						if (const auto input{
+								_dialog_new_game->handle_input(event)};
+							input) {
 							if (input.value() == WDB::CLOSE) {
 								_display->set_input_mode(WIM::NAVIGATE_MENU);
 								return std::nullopt;
@@ -202,8 +219,10 @@ auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 								_display->set_input_mode(WIM::NAVIGATE_MENU);
 							}
 						}
-					} else if (_display->get_input_mode() == WIM::CONFIRM_QUIT_GAME) {
-						if (const auto input{_dialog_exit->handle_input(event)}; input) {
+					} else if (_display->get_input_mode() ==
+							   WIM::CONFIRM_QUIT_GAME) {
+						if (const auto input{_dialog_exit->handle_input(event)};
+							input) {
 							if (input.value() == WDB::CLOSE) {
 								_display->set_input_mode(WIM::NAVIGATE_MENU);
 								return std::nullopt;
@@ -219,7 +238,8 @@ auto Sorcery::MainMenu::start(MMT menu_stage) -> std::optional<MIM> {
 			}
 
 		} catch (std::exception &e) {
-			_error = std::make_unique<Error>(_display->window->get_gui(), SYE::UNHANDLED_EXCEPTION, e);
+			_error = std::make_unique<Error>(
+				_display->window->get_gui(), SYE::UNHANDLED_EXCEPTION, e);
 		}
 
 		_window->clear();
@@ -254,22 +274,29 @@ auto Sorcery::MainMenu::_set() -> void {
 
 auto Sorcery::MainMenu::_draw() -> void {
 
-	// Only draw the attract mode if we have something to draw (to avoid timing issues
+	// Only draw the attract mode if we have something to draw (to avoid timing
+	// issues
 	if (_attract_mode->data_temp.size() > 0) {
 
 		const auto lerp{_graphics->animation->lerp};
 		_display->display("main_menu_attract", _menu_stage);
 
 		// Generate and draw the Attract Mode Graphics
-		Component attract_c{(*_display->layout)["main_menu_attract:attract_creatures"]};
+		Component attract_c{
+			(*_display->layout)["main_menu_attract:attract_creatures"]};
 		_attract_mode->generate();
 		_attract_mode->setScale(attract_c.scl());
 		_attract_mode->set_alpha(_graphics->animation->attract_alpha);
 
-		// Horrible - but needed since the size of the Attract Mode Graphics are variable
-		const sf::Vector2f attract_size{_attract_mode->sprite.getGlobalBounds().width * _attract_mode->getScale().x,
-			_attract_mode->sprite.getGlobalBounds().height * _attract_mode->getScale().y};
-		const sf::Vector2f creature_pos(_display->window->centre.x - (attract_size.x / 2),
+		// Horrible - but needed since the size of the Attract Mode Graphics are
+		// variable
+		const sf::Vector2f attract_size{
+			_attract_mode->sprite.getGlobalBounds().width *
+				_attract_mode->getScale().x,
+			_attract_mode->sprite.getGlobalBounds().height *
+				_attract_mode->getScale().y};
+		const sf::Vector2f creature_pos(
+			_display->window->centre.x - (attract_size.x / 2),
 			_display->window->get_y(_attract_mode->sprite, attract_c.y));
 		_attract_mode->setPosition(creature_pos);
 		_window->draw(*_attract_mode);
@@ -279,14 +306,17 @@ auto Sorcery::MainMenu::_draw() -> void {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnarrowing"
 			sf::Color adjusted{_graphics->adjust_brightness(
-				sf::Color((*_display->layout)["main_menu_attract:press_any_key"].colour), lerp)};
+				sf::Color((*_display->layout)["main_menu_attract:press_any_key"]
+						.colour),
+				lerp)};
 #pragma GCC diagnostic pop
 			_press_any_key->set_fill_colour(adjusted);
 			_window->draw(*_press_any_key);
 		} else {
 
 			// Draw the menu
-			_main_menu->generate((*_display->layout)["main_menu_attract:main_menu"]);
+			_main_menu->generate(
+				(*_display->layout)["main_menu_attract:main_menu"]);
 			_window->draw(*_main_menu);
 			if (_display->get_input_mode() == WIM::CONFIRM_QUIT_GAME) {
 				_dialog_exit->update();

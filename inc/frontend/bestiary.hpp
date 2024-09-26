@@ -42,7 +42,8 @@ class Bestiary {
 	public:
 
 		// Standard Constructor
-		Bestiary(System *system, Display *display, Graphics *graphics, Game *game);
+		Bestiary(
+			System *system, Display *display, Graphics *graphics, Game *game);
 		Bestiary() = delete;
 
 		// Standard Destructor
@@ -76,7 +77,7 @@ class Bestiary {
 		std::unique_ptr<Menu> _menu;
 		std::unique_ptr<MonsterDisplay> _monster_display;
 		MenuSelect _selected;
-		sf::Sprite _known_monster_gfx;
+		sf::Sprite _known_gfx;
 };
 
 }

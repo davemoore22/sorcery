@@ -50,15 +50,16 @@ auto Sorcery::Banner::start() -> int {
 	_display->generate("banner");
 
 	// Display the banner but interrupt on a keypress;
-	sf::Event input_event{};
+	sf::Event input{};
 	while (!_finished) {
-		_window->pollEvent(input_event);
+		_window->pollEvent(input);
 		_window->clear();
 		_update();
 		_draw();
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 		_window->display();
-		if (input_event.type == sf::Event::KeyPressed || input_event.type == sf::Event::MouseButtonPressed)
+		if (input.type == sf::Event::KeyPressed ||
+			input.type == sf::Event::MouseButtonPressed)
 			_finished = true;
 	}
 

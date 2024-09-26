@@ -39,7 +39,8 @@ class TextPanel: public sf::Transformable, public sf::Drawable {
 	public:
 
 		// Constructors
-		TextPanel(System *system, Display *display, Graphics *graphics, Component &component);
+		TextPanel(System *system, Display *display, Graphics *graphics,
+			Component &component);
 		TextPanel() = delete;
 
 		// Public Members
@@ -51,7 +52,8 @@ class TextPanel: public sf::Transformable, public sf::Drawable {
 	private:
 
 		// Private Methods
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
 		System *_system;

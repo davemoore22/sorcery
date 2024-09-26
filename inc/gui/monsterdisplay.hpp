@@ -43,7 +43,8 @@ class MonsterDisplay: public sf::Transformable, public sf::Drawable {
 	public:
 
 		// Constructors
-		MonsterDisplay(System *system, Display *display, Graphics *graphics, Game *game);
+		MonsterDisplay(
+			System *system, Display *display, Graphics *graphics, Game *game);
 		MonsterDisplay() = delete;
 
 		// Public Members
@@ -57,8 +58,10 @@ class MonsterDisplay: public sf::Transformable, public sf::Drawable {
 	private:
 
 		// Private Methods
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
-		auto _add_text(Component &component, std::string format, std::string value) -> sf::Text *;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto _add_text(Component &component, std::string format,
+			std::string value) -> sf::Text *;
 
 		// Private Members
 		System *_system;

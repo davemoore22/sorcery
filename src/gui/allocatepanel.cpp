@@ -33,49 +33,54 @@
 #include "resources/resourcemanager.hpp"
 #include "types/character.hpp"
 
-Sorcery::AllocatePanel::AllocatePanel(System *system, Display *display, Graphics *graphics, Character *character)
-	: _system{system}, _display{display}, _graphics{graphics}, _character{character} {
+Sorcery::AllocatePanel::AllocatePanel(
+	System *system, Display *display, Graphics *graphics, Character *character)
+	: _system{system}, _display{display}, _graphics{graphics},
+	  _character{character} {
 
 	// Get the standard layout information
 	_layout = Component((*_display->layout)["global:allocate_panel"]);
-	_c_points_left = Component((*_display->layout)["allocate_panel:to_allocate_number"]);
-	_c_points_started = Component((*_display->layout)["allocate_panel:bonus_points_number"]);
+	_c_left =
+		Component((*_display->layout)["allocate_panel:to_allocate_number"]);
+	_c_start =
+		Component((*_display->layout)["allocate_panel:bonus_points_number"]);
 	_stat_bar = Component((*_display->layout)["allocate_panel:stat_bar"]);
-	_c_allowed_classes = Component((*_display->layout)["allocate_panel:allowed_classes_panel"]);
+	_c_allowed =
+		Component((*_display->layout)["allocate_panel:allowed_classes_panel"]);
 
 	// Get the Background Display Components
 	_display->generate("allocate_panel", sprites, texts, frames);
 
-	// Colors used
+	// Colors used (TODO: change this)
 	_green = sf::Color(0x169016ff);
 	_red = sf::Color(0xff1a1aff);
 	_base = sf::Color(0x133201ff);
 	_blue = sf::Color(0x4848ffff);
 
 	// Get and setup Allowed Class Icons
-	_class_icons[0] = (*_graphics->icons)[MIM::CC_SAMURAI].value();
-	_class_icons[1] = (*_graphics->icons)[MIM::CC_FIGHTER].value();
-	_class_icons[2] = (*_graphics->icons)[MIM::CC_LORD].value();
-	_class_icons[3] = (*_graphics->icons)[MIM::CC_THIEF].value();
-	_class_icons[4] = (*_graphics->icons)[MIM::CC_NINJA].value();
-	_class_icons[5] = (*_graphics->icons)[MIM::CC_PRIEST].value();
-	_class_icons[6] = (*_graphics->icons)[MIM::CC_BISHOP].value();
-	_class_icons[7] = (*_graphics->icons)[MIM::CC_MAGE].value();
-	const sf::Vector2u icon_size{_c_allowed_classes.size, _c_allowed_classes.size};
+	_icons[0] = (*_graphics->icons)[MIM::CC_SAMURAI].value();
+	_icons[1] = (*_graphics->icons)[MIM::CC_FIGHTER].value();
+	_icons[2] = (*_graphics->icons)[MIM::CC_LORD].value();
+	_icons[3] = (*_graphics->icons)[MIM::CC_THIEF].value();
+	_icons[4] = (*_graphics->icons)[MIM::CC_NINJA].value();
+	_icons[5] = (*_graphics->icons)[MIM::CC_PRIEST].value();
+	_icons[6] = (*_graphics->icons)[MIM::CC_BISHOP].value();
+	_icons[7] = (*_graphics->icons)[MIM::CC_MAGE].value();
+	const sf::Vector2u icon_size{_c_allowed.size, _c_allowed.size};
 	constexpr auto texture_size{511.f};
 	sf::Vector2f scale{icon_size.x / texture_size, icon_size.y / texture_size};
 
 	auto index{0};
-	auto pos_x{_c_allowed_classes.x};
-	auto pos_y{_c_allowed_classes.y + 8};
-	for (auto &icon : _class_icons) {
+	auto pos_x{_c_allowed.x};
+	auto pos_y{_c_allowed.y + 8};
+	for (auto &icon : _icons) {
 		icon.setScale(scale);
 		icon.setPosition(pos_x, pos_y);
 		if (index == 3) {
-			pos_x += _c_allowed_classes.size;
-			pos_y = _c_allowed_classes.y + 8;
+			pos_x += _c_allowed.size;
+			pos_y = _c_allowed.y + 8;
 		} else
-			pos_y += _c_allowed_classes.size;
+			pos_y += _c_allowed.size;
 		++index;
 	}
 
@@ -99,7 +104,8 @@ auto Sorcery::AllocatePanel::set() -> void {
 		sf::Text text{};
 		text.setFont(_system->resources->fonts[_layout.font]);
 		text.setCharacterSize(_layout.size);
-		text.setFillColor(sf::Color(_graphics->adjust_colour(value, CAT::STAT)));
+		text.setFillColor(
+			sf::Color(_graphics->adjust_colour(value, CAT::STAT)));
 		text.setString(fmt::format("{:>2}", value));
 		// text.setOrigin(0, text.getLocalBounds().height / 2.0f);
 		text.setPosition(x, (y * _display->window->get_ch()));
@@ -108,28 +114,29 @@ auto Sorcery::AllocatePanel::set() -> void {
 		_texts.push_back(text);
 
 		// Get the bars (note drawing order!)
-		auto [max_bar, allocated_bar, base_bar] = _get_bar(attribute);
-		max_bar.setPosition(x + _layout.size * 2, y * _display->window->get_ch());
-		max_bar.setOrigin(0, 0 - max_bar.getLocalBounds().height / 2.0f);
-		allocated_bar.setPosition(x + _layout.size * 2, y * _display->window->get_ch());
-		allocated_bar.setOrigin(0, 0 - allocated_bar.getLocalBounds().height / 2.0f);
-		base_bar.setPosition(x + _layout.size * 2, y * _display->window->get_ch());
-		base_bar.setOrigin(0, 0 - base_bar.getLocalBounds().height / 2.0f);
-		_bars.push_back(max_bar);
-		_bars.push_back(allocated_bar);
-		_bars.push_back(base_bar);
+		auto [max, alloc, base] = _get_bar(attribute);
+		max.setPosition(x + _layout.size * 2, y * _display->window->get_ch());
+		max.setOrigin(0, 0 - max.getLocalBounds().height / 2.0f);
+		alloc.setPosition(x + _layout.size * 2, y * _display->window->get_ch());
+		alloc.setOrigin(0, 0 - alloc.getLocalBounds().height / 2.0f);
+		base.setPosition(x + _layout.size * 2, y * _display->window->get_ch());
+		base.setOrigin(0, 0 - base.getLocalBounds().height / 2.0f);
+		_bars.push_back(max);
+		_bars.push_back(alloc);
+		_bars.push_back(base);
 
 		++y;
 	}
 
-	sf::Text t_points_left{};
-	t_points_left.setFont(_system->resources->fonts[_c_points_left.font]);
-	t_points_left.setCharacterSize(_c_points_left.size);
-	t_points_left.setFillColor(sf::Color(_c_points_left.colour));
-	t_points_left.setString(fmt::format("{:>2}", _character->get_points_left()));
-	t_points_left.setPosition(_c_points_left.x - 4, _c_points_left.y);
+	// Show Points Left
+	sf::Text left{};
+	left.setFont(_system->resources->fonts[_c_left.font]);
+	left.setCharacterSize(_c_left.size);
+	left.setFillColor(sf::Color(_c_left.colour));
+	left.setString(fmt::format("{:>2}", _character->get_points_left()));
+	left.setPosition(_c_left.x - 4, _c_left.y);
 
-	_texts.push_back(t_points_left);
+	_texts.push_back(left);
 
 	valid = true;
 
@@ -140,45 +147,50 @@ auto Sorcery::AllocatePanel::_get_bar(CAR attribute) const
 	-> std::tuple<sf::RectangleShape, sf::RectangleShape, sf::RectangleShape> {
 
 	// Generate three bars which will simply be put on top of each other
-	sf::RectangleShape base(sf::Vector2f((_stat_bar.w * _character->get_start_attr(attribute) / 2), _stat_bar.h / 2));
+	sf::RectangleShape base(
+		sf::Vector2f((_stat_bar.w * _character->get_start_attr(attribute) / 2),
+			_stat_bar.h / 2));
 	base.setFillColor(_base);
 	base.setOutlineThickness(1);
-	sf::RectangleShape allocated(
-		sf::Vector2f((_stat_bar.w * _character->get_cur_attr(attribute)) / 2, _stat_bar.h / 2));
-	allocated.setFillColor(_green);
-	allocated.setOutlineThickness(1);
-	sf::RectangleShape max(sf::Vector2f((_stat_bar.w * 18) / 2, _stat_bar.h / 2));
+	sf::RectangleShape alloc(
+		sf::Vector2f((_stat_bar.w * _character->get_cur_attr(attribute)) / 2,
+			_stat_bar.h / 2));
+	alloc.setFillColor(_green);
+	alloc.setOutlineThickness(1);
+	sf::RectangleShape max(
+		sf::Vector2f((_stat_bar.w * 18) / 2, _stat_bar.h / 2));
 	max.setFillColor(_blue);
 	max.setOutlineThickness(1);
 
-	return std::make_tuple(max, allocated, base);
+	return std::make_tuple(max, alloc, base);
 }
 
 auto Sorcery::AllocatePanel::_set_icons() -> void {
 
-	for (auto &icon : _class_icons)
+	for (auto &icon : _icons)
 		icon.setColor(_red);
 
-	auto possible_classes = _character->get_pos_class();
-	if (possible_classes[CHC::SAMURAI])
-		_class_icons[0].setColor(_green);
-	if (possible_classes[CHC::FIGHTER])
-		_class_icons[1].setColor(_green);
-	if (possible_classes[CHC::LORD])
-		_class_icons[2].setColor(_green);
-	if (possible_classes[CHC::THIEF])
-		_class_icons[3].setColor(_green);
-	if (possible_classes[CHC::NINJA])
-		_class_icons[4].setColor(_green);
-	if (possible_classes[CHC::PRIEST])
-		_class_icons[5].setColor(_green);
-	if (possible_classes[CHC::BISHOP])
-		_class_icons[6].setColor(_green);
-	if (possible_classes[CHC::MAGE])
-		_class_icons[7].setColor(_green);
+	auto classes = _character->get_pos_class();
+	if (classes[CHC::SAMURAI])
+		_icons[0].setColor(_green);
+	if (classes[CHC::FIGHTER])
+		_icons[1].setColor(_green);
+	if (classes[CHC::LORD])
+		_icons[2].setColor(_green);
+	if (classes[CHC::THIEF])
+		_icons[3].setColor(_green);
+	if (classes[CHC::NINJA])
+		_icons[4].setColor(_green);
+	if (classes[CHC::PRIEST])
+		_icons[5].setColor(_green);
+	if (classes[CHC::BISHOP])
+		_icons[6].setColor(_green);
+	if (classes[CHC::MAGE])
+		_icons[7].setColor(_green);
 }
 
-auto Sorcery::AllocatePanel::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::AllocatePanel::draw(
+	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 
@@ -199,6 +211,6 @@ auto Sorcery::AllocatePanel::draw(sf::RenderTarget &target, sf::RenderStates sta
 	for (const auto &bar : _bars)
 		target.draw(bar, states);
 
-	for (const auto &icon : _class_icons)
+	for (const auto &icon : _icons)
 		target.draw(icon, states);
 }

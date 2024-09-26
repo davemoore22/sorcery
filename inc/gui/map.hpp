@@ -43,7 +43,8 @@ class Map: public sf::Transformable, public sf::Drawable {
 	public:
 
 		// Standard Constructor
-		Map(System *system, Display *display, Graphics *graphics, Game *game, Component layout);
+		Map(System *system, Display *display, Graphics *graphics, Game *game,
+			Component layout);
 		Map() = delete;
 
 		// Public Members
@@ -54,9 +55,11 @@ class Map: public sf::Transformable, public sf::Drawable {
 	private:
 
 		// Private Methods
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _draw_player(MAD direction, int x, int y, float scaling) -> void;
-		auto _draw_tile(Tile &tile, Coordinate loc, int x, int y, float scaling) -> void;
+		auto _draw_tile(Tile &tile, Coordinate loc, int x, int y, float scaling)
+			-> void;
 
 		// Private Members
 		System *_system;

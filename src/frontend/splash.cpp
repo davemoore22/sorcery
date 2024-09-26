@@ -57,7 +57,8 @@ auto Sorcery::Splash::start() -> int {
 		_draw();
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 		_window->display();
-		if (event.type == sf::Event::KeyPressed || event.type == sf::Event::MouseButtonPressed)
+		if (event.type == sf::Event::KeyPressed ||
+			event.type == sf::Event::MouseButtonPressed)
 			_finished = true;
 	}
 

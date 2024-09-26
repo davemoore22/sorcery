@@ -58,7 +58,8 @@ class Options {
 
 		// Private Methods
 		auto _draw() -> void;
-		auto _set_infopanel(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void;
+		auto _set_infopanel(std::vector<Sorcery::MenuEntry>::const_iterator it)
+			-> void;
 
 		// Private Members
 		System *_system;

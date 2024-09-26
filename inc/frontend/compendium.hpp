@@ -42,7 +42,8 @@ class Compendium {
 	public:
 
 		// Standard Constructor
-		Compendium(System *system, Display *display, Graphics *graphics, Game *game);
+		Compendium(
+			System *system, Display *display, Graphics *graphics, Game *game);
 		Compendium() = delete;
 
 		// Standard Destructor

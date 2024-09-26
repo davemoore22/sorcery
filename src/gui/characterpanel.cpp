@@ -35,7 +35,8 @@
 #include "types/character.hpp"
 
 // Standard Constructor
-Sorcery::CharacterPanel::CharacterPanel(System *system, Display *display, Graphics *graphics)
+Sorcery::CharacterPanel::CharacterPanel(
+	System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Get the standard layout information
@@ -59,73 +60,78 @@ auto Sorcery::CharacterPanel::set(Character *character) -> void {
 
 	// Get the Portrait
 	auto p_i{_character->get_portrait_index()};
-	sf::Sprite portrait{_graphics->textures->get(p_i, GTT::PORTRAIT).value()};
+	sf::Sprite gfx{_graphics->textures->get(p_i, GTT::PORTRAIT).value()};
 
 	Component p_c{(*_display->layout)["character_panel:portrait"]};
-	_display->window->set_pos(&p_c, &portrait);
-	portrait.setScale(p_c.scl());
-	_portrait = portrait;
+	_display->window->set_pos(&p_c, &gfx);
+	gfx.setScale(p_c.scl());
+	_portrait = gfx;
 
-	auto class_icon{_get_icon(CHS::CHOOSE_CLASS).value()};
-	_display->window->set_pos(&((*_display->layout)["character_panel:class_icon"]), &class_icon);
-	class_icon.setScale((*_display->layout)["character_panel:class_icon"].scl());
-	_icons.push_back(class_icon);
+	auto c_icon{_get_icon(CHS::CHOOSE_CLASS).value()};
+	_display->window->set_pos(
+		&((*_display->layout)["character_panel:class_icon"]), &c_icon);
+	c_icon.setScale((*_display->layout)["character_panel:class_icon"].scl());
+	_icons.push_back(c_icon);
 
-	auto race_icon{_get_icon(CHS::CHOOSE_RACE).value()};
-	_display->window->set_pos(&((*_display->layout)["character_panel:race_icon"]), &race_icon);
-	race_icon.setScale((*_display->layout)["character_panel:race_icon"].scl());
-	_icons.push_back(race_icon);
+	auto r_icon{_get_icon(CHS::CHOOSE_RACE).value()};
+	_display->window->set_pos(
+		&((*_display->layout)["character_panel:race_icon"]), &r_icon);
+	r_icon.setScale((*_display->layout)["character_panel:race_icon"].scl());
+	_icons.push_back(r_icon);
 
-	auto alignment_icon{_get_icon(CHS::CHOOSE_ALIGNMENT).value()};
-	_display->window->set_pos(&((*_display->layout)["character_panel:alignment_icon"]), &alignment_icon);
-	alignment_icon.setScale((*_display->layout)["character_panel:alignment_icon"].scl());
-	_icons.push_back(alignment_icon);
+	auto a_icon{_get_icon(CHS::CHOOSE_ALIGNMENT).value()};
+	_display->window->set_pos(
+		&((*_display->layout)["character_panel:alignment_icon"]), &a_icon);
+	a_icon.setScale(
+		(*_display->layout)["character_panel:alignment_icon"].scl());
+	_icons.push_back(a_icon);
 
-	auto level_icon{(*_graphics->icons)["level"].value()};
-	_display->window->set_pos(&((*_display->layout)["character_panel:level_icon"]), &level_icon);
-	level_icon.setScale((*_display->layout)["character_panel:level_icon"].scl());
-	_icons.push_back(level_icon);
+	auto l_icon{(*_graphics->icons)["level"].value()};
+	_display->window->set_pos(
+		&((*_display->layout)["character_panel:level_icon"]), &l_icon);
+	l_icon.setScale((*_display->layout)["character_panel:level_icon"].scl());
+	_icons.push_back(l_icon);
 
 	Component name_c{(*_display->layout)["character_panel:name_text"]};
-	sf::Text name_text{};
-	name_text.setFont(_system->resources->fonts[name_c.font]);
-	name_text.setCharacterSize(name_c.size);
-	name_text.setFillColor(sf::Color(name_c.colour));
+	sf::Text text{};
+	text.setFont(_system->resources->fonts[name_c.font]);
+	text.setCharacterSize(name_c.size);
+	text.setFillColor(sf::Color(name_c.colour));
 	if (_display->get_bold())
-		name_text.setStyle(sf::Text::Bold);
+		text.setStyle(sf::Text::Bold);
 
 	auto name{_character->get_name()};
 	if (_display->get_upper())
 		std::transform(name.begin(), name.end(), name.begin(), ::toupper);
-	name_text.setString(name);
-	_display->window->set_pos(&name_c, &name_text);
-	_texts.push_back(name_text);
+	text.setString(name);
+	_display->window->set_pos(&name_c, &text);
+	_texts.push_back(text);
 
 	Component level_c{(*_display->layout)["character_panel:level_text"]};
-	sf::Text level_text{};
-	level_text.setFont(_system->resources->fonts[level_c.font]);
-	level_text.setCharacterSize(level_c.size);
-	level_text.setFillColor(sf::Color(level_c.colour));
-	level_text.setString(std::to_string(_character->get_level()));
+	sf::Text level{};
+	level.setFont(_system->resources->fonts[level_c.font]);
+	level.setCharacterSize(level_c.size);
+	level.setFillColor(sf::Color(level_c.colour));
+	level.setString(std::to_string(_character->get_level()));
 	if (_display->get_bold())
-		level_text.setStyle(sf::Text::Bold);
-	_display->window->set_pos(&level_c, &level_text);
-	_texts.push_back(level_text);
+		level.setStyle(sf::Text::Bold);
+	_display->window->set_pos(&level_c, &level);
+	_texts.push_back(level);
 
 	Component status_c{(*_display->layout)["character_panel:status_value"]};
 	auto status{fmt::format("{}", _character->get_status_string())};
-	sf::Text status_text{};
-	status_text.setFont(_system->resources->fonts[status_c.font]);
-	status_text.setCharacterSize(status_c.size);
-	status_text.setFillColor(
-		sf::Color(_graphics->adjust_status_colour(_character->get_status(), _character->is_poisoned())));
+	sf::Text s_text{};
+	s_text.setFont(_system->resources->fonts[status_c.font]);
+	s_text.setCharacterSize(status_c.size);
+	s_text.setFillColor(sf::Color(_graphics->adjust_status_colour(
+		_character->get_status(), _character->is_poisoned())));
 	if (_display->get_upper())
 		std::transform(status.begin(), status.end(), status.begin(), ::toupper);
-	status_text.setString(status);
+	s_text.setString(status);
 	if (_display->get_bold())
-		status_text.setStyle(sf::Text::Bold);
-	_display->window->set_pos(&status_c, &status_text);
-	_texts.push_back(status_text);
+		s_text.setStyle(sf::Text::Bold);
+	_display->window->set_pos(&status_c, &s_text);
+	_texts.push_back(s_text);
 
 	Component hp_c{(*_display->layout)["character_panel:hp_value"]};
 	auto hp{fmt::format("{}", _character->get_hp_summary())};
@@ -159,18 +165,22 @@ auto Sorcery::CharacterPanel::_get_icon(CHS type) -> std::optional<sf::Sprite> {
 
 	switch (type) {
 	case CHS::CHOOSE_ALIGNMENT: {
-		auto alignment{_character->alignment_to_str(_character->get_alignment())};
-		std::ranges::transform(alignment.begin(), alignment.end(), alignment.begin(), ::tolower);
+		auto alignment{
+			_character->alignment_to_str(_character->get_alignment())};
+		std::ranges::transform(
+			alignment.begin(), alignment.end(), alignment.begin(), ::tolower);
 		return (*_graphics->icons)[alignment].value();
 	} break;
 	case CHS::CHOOSE_RACE: {
 		auto race{_character->race_to_str(_character->get_race())};
-		std::ranges::transform(race.begin(), race.end(), race.begin(), ::tolower);
+		std::ranges::transform(
+			race.begin(), race.end(), race.begin(), ::tolower);
 		return (*_graphics->icons)[race].value();
 	} break;
 	case CHS::CHOOSE_CLASS: {
 		auto cclass{_character->class_to_str(_character->get_class())};
-		std::ranges::transform(cclass.begin(), cclass.end(), cclass.begin(), ::tolower);
+		std::ranges::transform(
+			cclass.begin(), cclass.end(), cclass.begin(), ::tolower);
 		return (*_graphics->icons)[cclass].value();
 	} break;
 	default:
@@ -180,7 +190,8 @@ auto Sorcery::CharacterPanel::_get_icon(CHS type) -> std::optional<sf::Sprite> {
 	return std::nullopt;
 }
 
-auto Sorcery::CharacterPanel::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::CharacterPanel::draw(
+	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 

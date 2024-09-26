@@ -40,15 +40,17 @@ class Dialog: public sf::Transformable, public sf::Drawable {
 	public:
 
 		// Constructors
-		Dialog(
-			System *system, Display *display, Graphics *graphics, Component &_frame_c, Component &string_c, WDT type);
+		Dialog(System *system, Display *display, Graphics *graphics,
+			Component &_frame_c, Component &string_c, WDT type);
 		Dialog() = delete;
 
 		// Public Members
 
 		// Public Methods
-		auto check_for_mouse_move(const sf::Vector2f mouse_pos) -> std::optional<WDB>;
-		auto check_if_option_selected(const sf::Vector2f mouse_pos) -> std::optional<WDB>;
+		auto check_for_mouse_move(const sf::Vector2f mouse_pos)
+			-> std::optional<WDB>;
+		auto check_if_option_selected(const sf::Vector2f mouse_pos)
+			-> std::optional<WDB>;
 		auto get_selected() const -> WDB;
 		auto set_selected(WDB value) -> void;
 		auto toggle_highlighted() -> WDB;
@@ -66,7 +68,8 @@ class Dialog: public sf::Transformable, public sf::Drawable {
 	private:
 
 		// Private Methods
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _refresh(Component &string_c, const std::string &new_text) -> void;
 
 		// Private Members

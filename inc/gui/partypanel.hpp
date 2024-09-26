@@ -41,7 +41,8 @@ class PartyPanel: public sf::Transformable, public sf::Drawable {
 	public:
 
 		// Constructors
-		PartyPanel(System *system, Display *display, Graphics *graphics, Game *game, Component layout);
+		PartyPanel(System *system, Display *display, Graphics *graphics,
+			Game *game, Component layout);
 		PartyPanel() = delete;
 
 		// Public Members
@@ -54,12 +55,14 @@ class PartyPanel: public sf::Transformable, public sf::Drawable {
 
 		// Public Methods
 		auto refresh() -> void;
-		auto set_mouse_selected(sf::Vector2f mouse_pos) -> std::optional<unsigned int>;
+		auto set_mouse_selected(sf::Vector2f mouse_pos)
+			-> std::optional<unsigned int>;
 
 	private:
 
 		// Private Methods
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
 		System *_system;

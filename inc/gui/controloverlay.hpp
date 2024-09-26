@@ -55,7 +55,8 @@ class ControlOverlay: public sf::Transformable, public sf::Drawable {
 
 		// Private Methods
 		auto _get_control_gfx(WIC input) -> sf::Sprite;
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		// Private Members
 		System *_system;

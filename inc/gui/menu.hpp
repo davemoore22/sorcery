@@ -42,8 +42,9 @@ class Menu: public sf::Transformable, public sf::Drawable {
 	public:
 
 		// Constructors
-		Menu(System *system, Display *display, Graphics *graphics, Game *game, const MTP type,
-			std::optional<MMD> mode = std::nullopt, std::optional<unsigned int> data = 0);
+		Menu(System *system, Display *display, Graphics *graphics, Game *game,
+			const MTP type, std::optional<MMD> mode = std::nullopt,
+			std::optional<unsigned int> data = 0);
 		Menu() = delete;
 
 		// Overload operators
@@ -63,16 +64,22 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		auto choose(const unsigned int index) -> MenuSelect;
 		auto choose(std::any option) -> MenuSelect;
 		auto set_mouse_selected(sf::Vector2f mouse_pos) -> MenuSelect;
-		auto get_mouse_clicked(const sf::Event::MouseButtonEvent mb_event) -> MenuSelect;
+		auto get_mouse_clicked(const sf::Event::MouseButtonEvent mb_event)
+			-> MenuSelect;
 		auto get_type() const -> MTP;
-		auto generate(const Component &component, bool force_refresh = false) -> void;
+		auto generate(const Component &component, bool force_refresh = false)
+			-> void;
 		auto reload() -> void;
-		auto get_by_index(unsigned int index) -> std::optional<std::vector<MenuEntry>::iterator>;
+		auto get_by_index(unsigned int index)
+			-> std::optional<std::vector<MenuEntry>::iterator>;
 		auto num_enabled() -> unsigned int;
 		auto num_disabled() -> unsigned int;
-		auto enable_entry(const Component &component, unsigned int index) -> void;
-		auto disable_entry(const Component &component, unsigned int index) -> void;
-		auto disable_by_index(const Component &component, unsigned int index) -> void;
+		auto enable_entry(const Component &component, unsigned int index)
+			-> void;
+		auto disable_entry(const Component &component, unsigned int index)
+			-> void;
+		auto disable_by_index(const Component &component, unsigned int index)
+			-> void;
 		auto get_width() const -> unsigned int;
 		auto get_height() const -> unsigned int;
 		auto get_size() const -> sf::Vector2f;
@@ -82,12 +89,17 @@ class Menu: public sf::Transformable, public sf::Drawable {
 	private:
 
 		// Private Methods
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
-		auto _add_item(const int index, const MIT itemtype, const MIM code, std::string key, const bool enabled,
-			const CFG option, const std::string &hint) -> void;
-		auto _add_item(int index, const MIT itemtype, const MIM code, std::string key) -> void;
-		auto _add_item_disabled(int index, const MIT itemtype, const MIM code, std::string key) -> void;
-		auto _add_item(int index, const MIT itemtype, const MIM code, std::string key, unsigned int idx) -> void;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto _add_item(const int index, const MIT itemtype, const MIM code,
+			std::string key, const bool enabled, const CFG option,
+			const std::string &hint) -> void;
+		auto _add_item(int index, const MIT itemtype, const MIM code,
+			std::string key) -> void;
+		auto _add_item_disabled(int index, const MIT itemtype, const MIM code,
+			std::string key) -> void;
+		auto _add_item(int index, const MIT itemtype, const MIM code,
+			std::string key, unsigned int idx) -> void;
 		auto _populate_chars() -> void;
 		auto _populate_trade_chars(const unsigned int current_char) -> void;
 		auto _select_first() -> MenuSelect;

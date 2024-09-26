@@ -39,7 +39,8 @@
 #include "types/component.hpp"
 
 // Standard Constructor
-Sorcery::Museum::Museum(System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::Museum::Museum(
+	System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 }
 
@@ -62,7 +63,7 @@ auto Sorcery::Museum::start() -> int {
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
 	_selected = _menu->items.begin();
 
-	if (auto module_result{_do_event_loop()}; module_result == MDR::EXIT) {
+	if (auto result{_do_event_loop()}; result == MDR::EXIT) {
 
 		// Shutdown
 		_display->shutdown_SFML();
@@ -94,7 +95,8 @@ auto Sorcery::Museum::_reset_components() -> void {
 auto Sorcery::Museum::_place_components() -> void {
 
 	_menu->setPosition((*_display->layout)["museum:menu"].pos());
-	_item_display->setPosition((*_display->layout)["museum:item_display"].pos());
+	_item_display->setPosition(
+		(*_display->layout)["museum:item_display"].pos());
 }
 
 auto Sorcery::Museum::_initalise_components() -> void {
@@ -102,12 +104,14 @@ auto Sorcery::Museum::_initalise_components() -> void {
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::MUSEUM);
+	_menu = std::make_unique<Menu>(
+		_system, _display, _graphics, _game, MTP::MUSEUM);
 	const auto menu_c{(*_display->layout)["museum:menu"]};
 	_menu->set_visible_size(std::stoi(menu_c["display_items"].value()));
 	_menu->generate(menu_c);
 
-	_item_display = std::make_unique<ItemDisplay>(_system, _display, _graphics, _game);
+	_item_display =
+		std::make_unique<ItemDisplay>(_system, _display, _graphics, _game);
 }
 
 auto Sorcery::Museum::_refresh_display() -> void {
@@ -153,13 +157,13 @@ auto Sorcery::Museum::_do_event_loop() -> std::optional<MDR> {
 	while (_window->isOpen()) {
 		sf::Event event{};
 		while (_window->pollEvent(event)) {
-			auto const module_result = _handle_input(event);
-			if (module_result) {
-				if (module_result.value() == MDR::CLOSE)
+			auto const result = _handle_input(event);
+			if (result) {
+				if (result.value() == MDR::CLOSE)
 					return MDR::CLOSE;
-				if (module_result.value() == MDR::BACK)
+				if (result.value() == MDR::BACK)
 					return MDR::BACK;
-				if (module_result.value() == MDR::EXIT)
+				if (result.value() == MDR::EXIT)
 					return MDR::EXIT;
 			}
 		}
@@ -174,7 +178,8 @@ auto Sorcery::Museum::_do_event_loop() -> std::optional<MDR> {
 	return std::nullopt;
 }
 
-auto Sorcery::Museum::_handle_input(const sf::Event &event) -> std::optional<MDR> {
+auto Sorcery::Museum::_handle_input(const sf::Event &event)
+	-> std::optional<MDR> {
 
 	// Check for Window Close
 	if (event.type == sf::Event::Closed)
@@ -206,7 +211,8 @@ auto Sorcery::Museum::_handle_input(const sf::Event &event) -> std::optional<MDR
 	} else if (_system->input->check(CIN::MOVE, event)) {
 		_selected = _menu->set_mouse_selected(_display->get_cur());
 		if (_selected) {
-			// TODO This needs to be fixed as mouse-moving over scrolled menus is not 100%
+			// TODO This needs to be fixed as mouse-moving over scrolled menus
+			// is not 100%
 			const auto menu_c{(*_display->layout)["museum:menu"]};
 			_menu->generate(menu_c, true);
 			_update_display();

@@ -41,7 +41,8 @@ class BuffBar: public sf::Transformable, public sf::Drawable {
 	public:
 
 		// Constructors
-		BuffBar(System *system, Display *display, Graphics *graphics, Game *game, Component layout);
+		BuffBar(System *system, Display *display, Graphics *graphics,
+			Game *game, Component layout);
 		BuffBar() = delete;
 
 		// Public Methods
@@ -50,7 +51,8 @@ class BuffBar: public sf::Transformable, public sf::Drawable {
 	private:
 
 		// Private Methods
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 
 		System *_system;
 		Display *_display;

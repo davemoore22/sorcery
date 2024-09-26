@@ -44,21 +44,25 @@ class AutoMap: public sf::Transformable, public sf::Drawable {
 	public:
 
 		// Constructors
-		AutoMap(System *system, Display *display, Graphics *graphics, Game *game, Component layout);
+		AutoMap(System *system, Display *display, Graphics *graphics,
+			Game *game, Component layout);
 		AutoMap() = delete;
 
 		// Public Members
 
 		// Public Methods
-		auto is_mouse_over(Component &component, sf::Vector2f mouse_pos) const -> bool;
+		auto is_mouse_over(Component &component, sf::Vector2f mouse_pos) const
+			-> bool;
 		auto refresh() -> void;
 
 	private:
 
 		// Private Methods
-		auto virtual draw(sf::RenderTarget &target, sf::RenderStates states) const -> void;
+		auto virtual draw(
+			sf::RenderTarget &target, sf::RenderStates states) const -> void;
 		auto _draw_player(MAD direction, int x, int y, float scaling) -> void;
-		auto _draw_tile(Tile &tile, Coordinate loc, int x, int y, float scaling) -> void;
+		auto _draw_tile(Tile &tile, Coordinate loc, int x, int y, float scaling)
+			-> void;
 
 		// Private Members
 		System *_system;
