@@ -31,13 +31,16 @@
 #include "core/state.hpp"
 #include "core/system.hpp"
 #include "core/window.hpp"
+#include "resources/factory.hpp"
 #include "resources/resourcemanager.hpp"
 #include "resources/stringstore.hpp"
 #include "types/character.hpp"
 
 // Standard Constructor
-Sorcery::PartyPanel::PartyPanel(System *system, Display *display, Graphics *graphics, Game *game, Component layout)
-	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _layout{layout} {
+Sorcery::PartyPanel::PartyPanel(System *system, Display *display,
+	Graphics *graphics, Game *game, Component layout)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game},
+	  _layout{layout} {
 
 	_texts.clear();
 	_sprites.clear();
@@ -45,15 +48,13 @@ Sorcery::PartyPanel::PartyPanel(System *system, Display *display, Graphics *grap
 
 	selected = std::nullopt;
 
-	// Frame and Legend
-	_frame = std::make_unique<Frame>(
-		_display->ui_texture, _layout.w, _layout.h, _layout.colour, _layout.background, _layout.alpha);
-	auto fsprite{_frame->sprite};
-	fsprite.setPosition(0, 0);
-	_sprites.emplace_back(fsprite);
+	// Setup the Factory
+	_factory = std::make_unique<Factory>(_system, _display, _graphics, _game);
 
-	width = fsprite.getLocalBounds().width;
-	height = fsprite.getLocalBounds().height;
+	// Make the Frame
+	_frame = _factory->make_comp_frame(_layout, _sprites);
+	width = _sprites.at(0).getLocalBounds().width;
+	height = _sprites.at(0).getLocalBounds().height;
 
 	// Do the Legend
 	auto legend_x{std::stoi(_layout["legend_offset_x"].value())};
@@ -65,7 +66,8 @@ Sorcery::PartyPanel::PartyPanel(System *system, Display *display, Graphics *grap
 	legend_text.setFillColor(sf::Color(_layout.colour));
 	if (_display->get_bold())
 		legend_text.setStyle(sf::Text::Bold);
-	legend_text.setPosition(legend_x * _display->window->get_cw(), legend_y * _display->window->get_ch());
+	legend_text.setPosition(legend_x * _display->window->get_cw(),
+		legend_y * _display->window->get_ch());
 
 	auto legend{(*_display->string)["PARTY_PANEL_LEGEND"]};
 	if (_display->get_upper())
@@ -95,7 +97,8 @@ auto Sorcery::PartyPanel::refresh() -> void {
 			auto character{_game->characters.at(_id)};
 			auto summary{character.get_sb_text(position)};
 			if (_display->get_upper())
-				std::transform(summary.begin(), summary.end(), summary.begin(), ::toupper);
+				std::transform(
+					summary.begin(), summary.end(), summary.begin(), ::toupper);
 
 			sf::Text character_text{};
 			if (_display->get_bold())
@@ -115,13 +118,15 @@ auto Sorcery::PartyPanel::refresh() -> void {
 			switch (character.get_status()) {
 			case CHT::OK:
 				if (character.get_poisoned_rate() > 0)
-					character_text.setFillColor(
-						sf::Color(std::stoull(_layout["colour_poisoned"].value(), nullptr, 16)));
-				else if (character.get_max_hp() / character.get_current_hp() > 5)
-					character_text.setFillColor(
-						sf::Color(std::stoull(_layout["colour_low_health"].value(), nullptr, 16)));
+					character_text.setFillColor(sf::Color(std::stoull(
+						_layout["colour_poisoned"].value(), nullptr, 16)));
+				else if (character.get_max_hp() / character.get_current_hp() >
+						 5)
+					character_text.setFillColor(sf::Color(std::stoull(
+						_layout["colour_low_health"].value(), nullptr, 16)));
 				else
-					character_text.setFillColor(sf::Color(std::stoull(_layout["colour_ok"].value(), nullptr, 16)));
+					character_text.setFillColor(sf::Color(std::stoull(
+						_layout["colour_ok"].value(), nullptr, 16)));
 				break;
 			case CHT::AFRAID:
 				[[fallthrough]];
@@ -129,25 +134,31 @@ auto Sorcery::PartyPanel::refresh() -> void {
 				[[fallthrough]];
 			case CHT::ASLEEP:
 				if (character.get_max_hp() / character.get_current_hp() > 5)
-					character_text.setFillColor(
-						sf::Color(std::stoull(_layout["colour_low_health"].value(), nullptr, 16)));
+					character_text.setFillColor(sf::Color(std::stoull(
+						_layout["colour_low_health"].value(), nullptr, 16)));
 				else
-					character_text.setFillColor(sf::Color(std::stoull(_layout["colour_ok"].value(), nullptr, 16)));
+					character_text.setFillColor(sf::Color(std::stoull(
+						_layout["colour_ok"].value(), nullptr, 16)));
 				break;
 			case CHT::ASHES:
-				character_text.setFillColor(sf::Color(std::stoull(_layout["colour_ashes"].value(), nullptr, 16)));
+				character_text.setFillColor(sf::Color(
+					std::stoull(_layout["colour_ashes"].value(), nullptr, 16)));
 				break;
 			case CHT::DEAD:
-				character_text.setFillColor(sf::Color(std::stoull(_layout["colour_dead"].value(), nullptr, 16)));
+				character_text.setFillColor(sf::Color(
+					std::stoull(_layout["colour_dead"].value(), nullptr, 16)));
 				break;
 			case CHT::HELD:
-				character_text.setFillColor(sf::Color(std::stoull(_layout["colour_held"].value(), nullptr, 16)));
+				character_text.setFillColor(sf::Color(
+					std::stoull(_layout["colour_held"].value(), nullptr, 16)));
 				break;
 			case CHT::LOST:
-				character_text.setFillColor(sf::Color(std::stoull(_layout["colour_lost"].value(), nullptr, 16)));
+				character_text.setFillColor(sf::Color(
+					std::stoull(_layout["colour_lost"].value(), nullptr, 16)));
 				break;
 			case CHT::STONED:
-				character_text.setFillColor(sf::Color(std::stoull(_layout["colour_stoned"].value(), nullptr, 16)));
+				character_text.setFillColor(sf::Color(std::stoull(
+					_layout["colour_stoned"].value(), nullptr, 16)));
 				break;
 			default:
 				character_text.setFillColor(sf::Color(_layout.colour));
@@ -155,24 +166,28 @@ auto Sorcery::PartyPanel::refresh() -> void {
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnarrowing"
-			const sf::Vector2f pos{
-				character_x * _display->window->get_cw(), (character_y + position - 1) * _display->window->get_ch()};
-			character_text.setPosition(pos.x, pos.y - character_text.getLocalBounds().top);
+			const sf::Vector2f pos{character_x * _display->window->get_cw(),
+				(character_y + position - 1) * _display->window->get_ch()};
+			character_text.setPosition(
+				pos.x, pos.y - character_text.getLocalBounds().top);
 
 #pragma GCC diagnostic pop
-			bounds.emplace_back(pos.x, pos.y, bar_width * _display->window->get_cw(), _display->window->get_ch());
+			bounds.emplace_back(pos.x, pos.y,
+				bar_width * _display->window->get_cw(),
+				_display->window->get_ch());
 			_texts.emplace_back(character_text);
 
 			if (selected) {
 				if (selected.value() == position) {
 					sf::RectangleShape bg{
-						sf::Vector2f(bar_width * _display->window->get_cw(), _display->window->get_ch())};
+						sf::Vector2f(bar_width * _display->window->get_cw(),
+							_display->window->get_ch())};
 					bg.setPosition(pos.x, pos.y);
 					if (_layout.animated)
 						bg.setFillColor(_graphics->animation->select_col);
 					else
 						bg.setFillColor(sf::Color(_layout.background));
-					_selected_bg = bg;
+					_bg = bg;
 				}
 			}
 
@@ -182,22 +197,27 @@ auto Sorcery::PartyPanel::refresh() -> void {
 	}
 }
 
-auto Sorcery::PartyPanel::set_mouse_selected(sf::Vector2f mouse_pos) -> std::optional<unsigned int> {
+auto Sorcery::PartyPanel::set_mouse_selected(sf::Vector2f mouse_pos)
+	-> std::optional<unsigned int> {
 
 	if (bounds.size() > 0) {
 		const sf::Vector2f global_pos{this->getPosition()};
 		mouse_pos -= global_pos;
 		auto it{std::find_if(
-			bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) { return item.contains(mouse_pos); })};
+			bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) {
+				return item.contains(mouse_pos);
+			})};
 		if (it != bounds.end())
-			return std::distance(bounds.begin(), it) + 1; // we're working on position which is 1-indexed
+			return std::distance(bounds.begin(), it) +
+				   1; // we're working on position which is 1-indexed
 		else
 			return std::nullopt;
 	} else
 		return std::nullopt;
 }
 
-auto Sorcery::PartyPanel::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::PartyPanel::draw(
+	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 
@@ -206,7 +226,7 @@ auto Sorcery::PartyPanel::draw(sf::RenderTarget &target, sf::RenderStates states
 		target.draw(sprite, states);
 
 	if (selected)
-		target.draw(_selected_bg, states);
+		target.draw(_bg, states);
 
 	for (const auto &text : _texts) {
 		target.draw(text, states);

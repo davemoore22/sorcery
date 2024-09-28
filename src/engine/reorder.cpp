@@ -34,6 +34,7 @@
 #include "gui/menu.hpp"
 #include "gui/partypanel.hpp"
 #include "resources/componentstore.hpp"
+#include "resources/factory.hpp"
 #include "resources/resourcemanager.hpp"
 #include "types/character.hpp"
 

@@ -32,6 +32,7 @@ namespace Sorcery {
 
 // Forward Declarations
 class Display;
+class Factory;
 class Game;
 class Graphics;
 class System;
@@ -70,12 +71,11 @@ class PartyPanel: public sf::Transformable, public sf::Drawable {
 		Graphics *_graphics;
 		Game *_game;
 		Component _layout;
-
 		std::unique_ptr<Frame> _frame;
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Sprite> _sprites;
-
-		sf::RectangleShape _selected_bg;
+		sf::RectangleShape _bg;
+		std::unique_ptr<Factory> _factory;
 };
 
 }

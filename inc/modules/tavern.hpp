@@ -31,6 +31,7 @@
 #include "gui/menu.hpp"
 #include "gui/partypanel.hpp"
 #include "modules/enum.hpp"
+#include "resources/factory.hpp"
 
 namespace Sorcery {
 
@@ -45,7 +46,8 @@ class Tavern {
 	public:
 
 		// Standard Constructor
-		Tavern(System *system, Display *display, Graphics *graphics, Game *game);
+		Tavern(
+			System *system, Display *display, Graphics *graphics, Game *game);
 		Tavern() = delete;
 
 		// Public Members

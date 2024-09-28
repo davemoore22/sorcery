@@ -27,24 +27,22 @@
 #include "core/game.hpp"
 #include "core/graphics.hpp"
 #include "core/system.hpp"
+#include "resources/factory.hpp"
 
-Sorcery::DebuffBar::DebuffBar(System *system, Display *display, Graphics *graphics, Game *game, Component layout)
-	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _layout{layout} {
+Sorcery::DebuffBar::DebuffBar(System *system, Display *display,
+	Graphics *graphics, Game *game, Component layout)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game},
+	  _layout{layout} {
 
 	_sprites.clear();
 	_texts.clear();
 	_icons.clear();
 
-	// Frame sprite is always sprite 0
-	if (_frame.get()) {
-		_frame.release();
-		_frame.reset();
-	}
-	_frame = std::make_unique<Frame>(
-		_display->ui_texture, _layout.w, _layout.h, _layout.colour, _layout.background, _layout.alpha);
-	auto fsprite{_frame->sprite};
-	fsprite.setPosition(0, 0);
-	_sprites.emplace_back(fsprite);
+	// Setup the Factory
+	_factory = std::make_unique<Factory>(_system, _display, _graphics, _game);
+
+	// Make the Frame
+	_frame = _factory->make_comp_frame(_layout, _sprites);
 }
 
 auto Sorcery::DebuffBar::refresh() -> void {
@@ -87,7 +85,8 @@ auto Sorcery::DebuffBar::refresh() -> void {
 	*/
 }
 
-auto Sorcery::DebuffBar::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::DebuffBar::draw(
+	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 

@@ -32,6 +32,7 @@ namespace Sorcery {
 
 // Forward Declarations
 class Display;
+class Factory;
 class Game;
 class Graphics;
 class System;
@@ -80,6 +81,7 @@ class IconPanel: public sf::Transformable, public sf::Drawable {
 		IconStorage _icons;
 		bool _is_left;
 		sf::RectangleShape _selected_bg;
+		std::unique_ptr<Factory> _factory;
 };
 
 }

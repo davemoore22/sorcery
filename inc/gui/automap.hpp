@@ -33,6 +33,7 @@ namespace Sorcery {
 
 // Forward Declarations
 class Display;
+class Factory;
 class Game;
 class Graphics;
 class System;
@@ -77,6 +78,7 @@ class AutoMap: public sf::Transformable, public sf::Drawable {
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Sprite> _sprites;
 		int _map_radius;
+		std::unique_ptr<Factory> _factory;
 };
 
 }

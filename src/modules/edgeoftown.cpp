@@ -37,29 +37,34 @@
 #include "gui/menu.hpp"
 #include "gui/partypanel.hpp"
 #include "resources/componentstore.hpp"
+#include "resources/factory.hpp"
 #include "types/character.hpp"
 #include "types/component.hpp"
 
 // Standard Constructor
-Sorcery::EdgeOfTown::EdgeOfTown(System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::EdgeOfTown::EdgeOfTown(
+	System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
 	// Setup Custom Components
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::EDGE_OF_TOWN);
+	_menu = std::make_unique<Menu>(
+		_system, _display, _graphics, _game, MTP::EDGE_OF_TOWN);
 	_menu->generate((*_display->layout)["edge_of_town:menu"]);
-	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["edge_of_town:menu"].y);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()),
+		(*_display->layout)["edge_of_town:menu"].y);
 
-	_leave_game =
-		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["edge_of_town:dialog_leave_game"],
-			(*_display->layout)["edge_of_town:dialog_leave_game_text"], WDT::CONFIRM);
+	_leave_game = std::make_unique<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["edge_of_town:dialog_leave_game"],
+		(*_display->layout)["edge_of_town:dialog_leave_game_text"],
+		WDT::CONFIRM);
 	_leave_game->setPosition(_display->get_centre_pos(_leave_game->get_size()));
 
 	// Modules
-	_party_panel =
-		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
+	_party_panel = std::make_unique<PartyPanel>(_system, _display, _graphics,
+		_game, (*_display->layout)["global:party_panel"]);
 }
 
 // Standard Destructor
@@ -82,7 +87,8 @@ auto Sorcery::EdgeOfTown::start(DES destination) -> std::optional<MIM> {
 
 	// Refresh the Party characters
 	_party_panel->refresh();
-	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
+	_party_panel->setPosition(_display->get_centre_x(_party_panel->width),
+		(*_display->layout)["global:party_panel"].y);
 
 	// And do the main loop
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
@@ -116,7 +122,8 @@ auto Sorcery::EdgeOfTown::start(DES destination) -> std::optional<MIM> {
 
 					// We have selected something from the menu
 					if (opt) {
-						if (const MIM opt_edge{(*opt.value()).item}; opt_edge == MIM::ET_CASTLE) {
+						if (const MIM opt_edge{(*opt.value()).item};
+							opt_edge == MIM::ET_CASTLE) {
 							return MIM::ET_CASTLE;
 						} else if (opt_edge == MIM::ET_LEAVE_GAME)
 							_display->set_input_mode(WIM::CONFIRM_LEAVE_GAME);
@@ -127,7 +134,8 @@ auto Sorcery::EdgeOfTown::start(DES destination) -> std::optional<MIM> {
 						else if (opt_edge == MIM::ET_RESTART)
 							return MIM::ET_RESTART;
 					}
-				} else if (_system->input->check(CIN::CANCEL, event) || _system->input->check(CIN::BACK, event)) {
+				} else if (_system->input->check(CIN::CANCEL, event) ||
+						   _system->input->check(CIN::BACK, event)) {
 					_display->set_input_mode(WIM::CONFIRM_LEAVE_GAME);
 				}
 
@@ -142,8 +150,10 @@ auto Sorcery::EdgeOfTown::start(DES destination) -> std::optional<MIM> {
 					} else if (dialog_input.value() == WDB::YES) {
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 
-						// If we leave the game, move any current party members into the Tavern
-						for (auto &[character_id, character] : _game->characters) {
+						// If we leave the game, move any current party members
+						// into the Tavern
+						for (auto &[character_id, character] :
+							_game->characters) {
 							if (character.get_location() == CHL::PARTY)
 								character.set_location(CHL::TAVERN);
 						}

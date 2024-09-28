@@ -33,18 +33,20 @@
 #include "gui/menu.hpp"
 #include "resources/define.hpp"
 
-Sorcery::Factory::Factory(System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::Factory::Factory(
+	System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 }
 
-auto Sorcery::Factory::make_dialog(const std::string &component, const WDT type, const unsigned int duration)
-	-> std::unique_ptr<Dialog> {
+auto Sorcery::Factory::make_dialog(const std::string &component, const WDT type,
+	const unsigned int duration) -> std::unique_ptr<Dialog> {
 
 	auto component_text{component};
 	component_text.append("_text");
 
-	auto dialog = std::make_unique<Dialog>(
-		_system, _display, _graphics, (*_display->layout)[component], (*_display->layout)[component_text], type);
+	auto dialog = std::make_unique<Dialog>(_system, _display, _graphics,
+		(*_display->layout)[component], (*_display->layout)[component_text],
+		type);
 	dialog->setPosition(_display->get_centre_pos(dialog->get_size()));
 
 	if (duration > 0)
@@ -53,37 +55,56 @@ auto Sorcery::Factory::make_dialog(const std::string &component, const WDT type,
 	return dialog;
 }
 
-auto Sorcery::Factory::make_menu(const std::string &component, const MTP type, std::optional<MMD> mode,
-	std::optional<unsigned int> data, const bool reload) -> std::unique_ptr<Menu> {
+auto Sorcery::Factory::make_menu(const std::string &component, const MTP type,
+	std::optional<MMD> mode, std::optional<unsigned int> data,
+	const bool reload) -> std::unique_ptr<Menu> {
 
-	auto menu = std::make_unique<Menu>(_system, _display, _graphics, _game, type, mode, data);
+	auto menu = std::make_unique<Menu>(
+		_system, _display, _graphics, _game, type, mode, data);
 	if (reload)
 		menu->reload();
 	menu->generate((*_display->layout)[component]);
-	menu->setPosition(_display->get_centre_x(menu->get_width()), (*_display->layout)[component].y);
+	menu->setPosition(_display->get_centre_x(menu->get_width()),
+		(*_display->layout)[component].y);
 
 	return menu;
 }
 
-auto Sorcery::Factory::make_frame(const std::string &component) -> std::unique_ptr<Frame> {
+auto Sorcery::Factory::make_frame(const std::string &component)
+	-> std::unique_ptr<Frame> {
 
 	const Component comp{(*_display->layout)[component]};
 
-	auto frame =
-		std::make_unique<Frame>(_display->ui_texture, comp.w, comp.h, comp.colour, comp.background, comp.alpha);
-	frame->setPosition(_display->window->get_x(frame->sprite, comp.x), _display->window->get_y(frame->sprite, comp.y));
+	auto frame = std::make_unique<Frame>(_display->ui_texture, comp.w, comp.h,
+		comp.colour, comp.background, comp.alpha);
+	frame->setPosition(_display->window->get_x(frame->sprite, comp.x),
+		_display->window->get_y(frame->sprite, comp.y));
 
 	return frame;
 }
 
-auto Sorcery::Factory::make_menu_frame(const std::string &component) -> std::unique_ptr<Frame> {
+auto Sorcery::Factory::make_menu_frame(const std::string &component)
+	-> std::unique_ptr<Frame> {
 
 	const Component comp{(*_display->layout)[component]};
 
-	auto menu_frame =
-		std::make_unique<Frame>(_display->ui_texture, comp.w, comp.h, comp.colour, comp.background, comp.alpha);
-	menu_frame->setPosition(
-		_display->window->get_x(menu_frame->sprite, comp.x), _display->window->get_y(menu_frame->sprite, comp.y));
+	auto menu_frame = std::make_unique<Frame>(_display->ui_texture, comp.w,
+		comp.h, comp.colour, comp.background, comp.alpha);
+	menu_frame->setPosition(_display->window->get_x(menu_frame->sprite, comp.x),
+		_display->window->get_y(menu_frame->sprite, comp.y));
+
+	return menu_frame;
+}
+
+auto Sorcery::Factory::make_comp_frame(const Component &component,
+	std::vector<sf::Sprite> &sprites) -> std::unique_ptr<Frame> {
+
+	auto menu_frame = std::make_unique<Frame>(_display->ui_texture, component.w,
+		component.h, component.colour, component.background, component.alpha);
+
+	auto fsprite{menu_frame->sprite};
+	fsprite.setPosition(0, 0);
+	sprites.emplace_back(fsprite);
 
 	return menu_frame;
 }

@@ -28,6 +28,7 @@
 #include "core/graphics.hpp"
 #include "core/state.hpp"
 #include "core/system.hpp"
+#include "resources/factory.hpp"
 #include "resources/iconstore.hpp"
 
 Sorcery::BuffBar::BuffBar(System *system, Display *display, Graphics *graphics,
@@ -39,16 +40,11 @@ Sorcery::BuffBar::BuffBar(System *system, Display *display, Graphics *graphics,
 	_texts.clear();
 	_icons.clear();
 
-	// Frame sprite is always sprite 0
-	if (_frame.get()) {
-		_frame.release();
-		_frame.reset();
-	}
-	_frame = std::make_unique<Frame>(_display->ui_texture, _layout.w, _layout.h,
-		_layout.colour, _layout.background, _layout.alpha);
-	auto fsprite{_frame->sprite};
-	fsprite.setPosition(0, 0);
-	_sprites.emplace_back(fsprite);
+	// Setup the Factory
+	_factory = std::make_unique<Factory>(_system, _display, _graphics, _game);
+
+	// Make the Frame
+	_frame = _factory->make_comp_frame(_layout, _sprites);
 }
 
 auto Sorcery::BuffBar::refresh() -> void {
@@ -61,21 +57,21 @@ auto Sorcery::BuffBar::refresh() -> void {
 	auto maporfic{(*_graphics->icons)["shield-buff"].value()};
 	auto latumpaic{(*_graphics->icons)["knowledge-buff"].value()};
 
-	const auto initial_x{std::invoke([&] {
+	const auto off_x{std::invoke([&] {
 		if (_layout["offset_x"])
 			return std::stoi(_layout["offset_x"].value());
 		else
 			return 0;
 	})};
-	const auto initial_y{std::invoke([&] {
+	const auto off_y{std::invoke([&] {
 		if (_layout["offset_y"])
 			return std::stoi(_layout["offset_y"].value());
 		else
 			return 0;
 	})};
 
-	auto x{initial_x};
-	auto y{initial_y};
+	auto x{off_x};
+	auto y{off_y};
 
 	if (_game->state->get_lit()) {
 		lomilwa.setScale(_layout.scl());

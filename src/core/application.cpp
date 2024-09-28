@@ -47,6 +47,7 @@
 #include "modules/temple.hpp"
 #include "modules/training.hpp"
 #include "resources/define.hpp"
+#include "resources/factory.hpp"
 #include "resources/itemstore.hpp"
 #include "resources/levelstore.hpp"
 #include "types/character.hpp"

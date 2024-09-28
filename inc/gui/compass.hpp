@@ -31,6 +31,7 @@ namespace Sorcery {
 
 // Forward Declarations
 class Display;
+class Factory;
 class Game;
 class Graphics;
 class System;
@@ -66,6 +67,7 @@ class Compass: public sf::Transformable, public sf::Drawable {
 		std::unique_ptr<Frame> _frame;
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Sprite> _sprites;
+		std::unique_ptr<Factory> _factory;
 };
 
 }

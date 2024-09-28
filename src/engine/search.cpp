@@ -27,6 +27,7 @@
 #include "core/game.hpp"
 #include "core/graphics.hpp"
 #include "core/system.hpp"
+#include "resources/factory.hpp"
 #include "resources/iconstore.hpp"
 
 Sorcery::Search::Search(System *system, Display *display, Graphics *graphics,
@@ -38,18 +39,13 @@ Sorcery::Search::Search(System *system, Display *display, Graphics *graphics,
 	_texts.clear();
 	_icons.clear();
 
-	// Set up Frame
-	if (_frame.get()) {
-		_frame.release();
-		_frame.reset();
-	}
-	_frame = std::make_unique<Frame>(_display->ui_texture, _layout.w, _layout.h,
-		_layout.colour, _layout.background, _layout.alpha);
-	auto fsprite{_frame->sprite};
-	fsprite.setPosition(0, 0);
-	_sprites.emplace_back(fsprite);
-	width = fsprite.getGlobalBounds().width;
-	height = fsprite.getGlobalBounds().height;
+	// Setup the Factory
+	_factory = std::make_unique<Factory>(_system, _display, _graphics, _game);
+
+	// Make the Frame
+	_frame = _factory->make_comp_frame(_layout, _sprites);
+	width = _sprites.at(0).getGlobalBounds().width;
+	height = _sprites.at(0).getGlobalBounds().height;
 }
 
 auto Sorcery::Search::refresh() -> void {

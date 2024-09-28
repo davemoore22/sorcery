@@ -32,6 +32,7 @@ namespace Sorcery {
 
 // Forward Declarations
 class Display;
+class Factory;
 class Game;
 class Graphics;
 class System;
@@ -65,6 +66,7 @@ class DebuffBar: public sf::Transformable, public sf::Drawable {
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Sprite> _sprites;
 		IconStorage _icons;
+		std::unique_ptr<Factory> _factory;
 };
 
 }

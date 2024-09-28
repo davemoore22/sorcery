@@ -33,6 +33,7 @@
 #include "core/window.hpp"
 #include "engine/define.hpp"
 #include "resources/componentstore.hpp"
+#include "resources/factory.hpp"
 #include "resources/stringstore.hpp"
 #include "types/character.hpp"
 #include "types/component.hpp"

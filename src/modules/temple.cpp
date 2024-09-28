@@ -40,40 +40,52 @@
 #include "gui/partypanel.hpp"
 #include "modules/define.hpp"
 #include "resources/componentstore.hpp"
+#include "resources/factory.hpp"
 #include "resources/stringstore.hpp"
 #include "types/character.hpp"
 #include "types/component.hpp"
 
 // Standard Constructor
-Sorcery::Temple::Temple(System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::Temple::Temple(
+	System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
 	// Setup Custom Components
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::TEMPLE);
+	_menu = std::make_unique<Menu>(
+		_system, _display, _graphics, _game, MTP::TEMPLE);
 	_menu->generate((*_display->layout)["temple:menu"]);
-	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["temple:menu"].y);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()),
+		(*_display->layout)["temple:menu"].y);
 
-	_help = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::INVALID_CHARACTERS, MMD::TEMPLE);
+	_help = std::make_unique<Menu>(_system, _display, _graphics, _game,
+		MTP::INVALID_CHARACTERS, MMD::TEMPLE);
 	_help->generate((*_display->layout)["temple_help:menu"]);
-	_help->setPosition(_display->get_centre_x(_help->get_width()), (*_display->layout)["temple_help:menu"].y);
+	_help->setPosition(_display->get_centre_x(_help->get_width()),
+		(*_display->layout)["temple_help:menu"].y);
 
-	_pay = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::PARTY_CHARACTERS, MMD::TEMPLE);
+	_pay = std::make_unique<Menu>(_system, _display, _graphics, _game,
+		MTP::PARTY_CHARACTERS, MMD::TEMPLE);
 	_pay->generate((*_display->layout)["temple_pay:menu"]);
-	_pay->setPosition(_display->get_centre_x(_pay->get_width()), (*_display->layout)["temple_pay:menu"].y);
+	_pay->setPosition(_display->get_centre_x(_pay->get_width()),
+		(*_display->layout)["temple_pay:menu"].y);
 
-	_cont = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CONTINUE);
+	_cont = std::make_unique<Menu>(
+		_system, _display, _graphics, _game, MTP::CONTINUE);
 	_cont->generate((*_display->layout)["temple_ress:continue_menu"]);
-	_cont->setPosition(_display->get_centre_x(_cont->get_width()), (*_display->layout)["temple_ress:continue_menu"].y);
+	_cont->setPosition(_display->get_centre_x(_cont->get_width()),
+		(*_display->layout)["temple_ress:continue_menu"].y);
 
-	_console = std::make_unique<Console>(_display->window->get_gui(), _system, _display, _graphics, _game);
+	_console = std::make_unique<Console>(
+		_display->window->get_gui(), _system, _display, _graphics, _game);
 
 	// Modules
-	_party_panel =
-		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
-	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MMD::TEMPLE);
+	_party_panel = std::make_unique<PartyPanel>(_system, _display, _graphics,
+		_game, (*_display->layout)["global:party_panel"]);
+	_inspect = std::make_unique<Inspect>(
+		_system, _display, _graphics, _game, MMD::TEMPLE);
 
 	_stage = STT::NO_STAGE;
 
@@ -90,9 +102,10 @@ Sorcery::Temple::~Temple() {
 // Visit the Tavern
 auto Sorcery::Temple::start() -> std::optional<MIM> {
 
-	// Get the Background Display Components and load them into Display module storage (not local - and note that due to
-	// the way both menus are combined in this class, we need to have the menu stage set first in this case and this
-	// case only)
+	// Get the Background Display Components and load them into Display module
+	// storage (not local - and note that due to the way both menus are combined
+	// in this class, we need to have the menu stage set first in this case and
+	// this case only)
 	_display->generate("temple");
 	_display->generate("temple_help", _h_sprites, _h_texts, _h_frames);
 	_display->generate("temple_pay", _p_sprites, _p_texts, _p_frames);
@@ -113,7 +126,8 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 
 	// Generate the Components
 	const Component party_banel_c{(*_display->layout)["global:party_panel"]};
-	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
+	_party_panel->setPosition(_display->get_centre_x(_party_panel->width),
+		(*_display->layout)["global:party_panel"].y);
 
 	// Start at the entry menu
 	_stage = STT::MENU;
@@ -164,11 +178,13 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 
 						// We have selected something from the menu
 						if (opt) {
-							if (const MIM opt_temp{(*opt.value()).item}; opt_temp == MIM::TE_CASTLE) {
+							if (const MIM opt_temp{(*opt.value()).item};
+								opt_temp == MIM::TE_CASTLE) {
 								return MIM::TE_CASTLE;
 							} else if (opt_temp == MIM::TE_INSPECT) {
 								if (auto result{_inspect->start(std::nullopt)};
-									result && result.value() == MIM::ITEM_ABORT) {
+									result &&
+									result.value() == MIM::ITEM_ABORT) {
 									_inspect->stop();
 									return MIM::ITEM_ABORT;
 								}
@@ -176,11 +192,13 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 								_display->generate("temple");
 								_display->set_input_mode(WIM::NAVIGATE_MENU);
 								continue;
-							} else if (const MIM opt_temp{(*opt.value()).item}; opt_temp == MIM::TE_HELP) {
+							} else if (const MIM opt_temp{(*opt.value()).item};
+								opt_temp == MIM::TE_HELP) {
 								_stage = STT::HELP;
 								_party_panel->refresh();
 								_help->reload();
-								_help->generate((*_display->layout)["temple_help:menu"]);
+								_help->generate(
+									(*_display->layout)["temple_help:menu"]);
 								continue;
 							}
 						}
@@ -190,38 +208,45 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 						_stage = STT::MENU;
 						_party_panel->refresh();
 						_help->reload();
-						_help->generate((*_display->layout)["temple_help:menu"]);
+						_help->generate(
+							(*_display->layout)["temple_help:menu"]);
 					} else if (_system->input->check(CIN::BACK, event)) {
 						_stage = STT::MENU;
 						_party_panel->refresh();
 						_help->reload();
-						_help->generate((*_display->layout)["temple_help:menu"]);
+						_help->generate(
+							(*_display->layout)["temple_help:menu"]);
 					} else if (_system->input->check(CIN::UP, event))
 						opt_help = _help->choose_previous();
 					else if (_system->input->check(CIN::DOWN, event))
 						opt_help = _help->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						opt_help = _help->set_mouse_selected(_display->get_cur());
+						opt_help =
+							_help->set_mouse_selected(_display->get_cur());
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
 						// We have selected something from the menu
 						if (opt_help) {
-							if (const MIM opt_temp{(*opt_help.value()).item}; opt_temp == MIM::CA_TEMPLE) {
+							if (const MIM opt_temp{(*opt_help.value()).item};
+								opt_temp == MIM::CA_TEMPLE) {
 								_stage = STT::MENU;
 								_party_panel->refresh();
 								_help->reload();
-								_help->generate((*_display->layout)["temple_help:menu"]);
+								_help->generate(
+									(*_display->layout)["temple_help:menu"]);
 								continue;
 							} else {
 								heal_char_id = (*opt_help.value()).index;
-								const auto &help_character{_game->characters[heal_char_id]};
+								const auto &help_character{
+									_game->characters[heal_char_id]};
 								const auto cost{help_character.get_cure_cost()};
 								if (heal_char_id > 0) {
 									_stage = STT::PAY;
 									_party_panel->refresh();
 									_pay->reload();
 									_refresh_pay_menu(cost);
-									_pay->generate((*_display->layout)["temple_pay:menu"]);
+									_pay->generate(
+										(*_display->layout)["temple_pay:menu"]);
 									_update_cost(cost);
 								}
 							}
@@ -233,12 +258,14 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 						_stage = STT::HELP;
 						_party_panel->refresh();
 						_help->reload();
-						_help->generate((*_display->layout)["temple_help:menu"]);
+						_help->generate(
+							(*_display->layout)["temple_help:menu"]);
 					} else if (_system->input->check(CIN::BACK, event)) {
 						_stage = STT::HELP;
 						_party_panel->refresh();
 						_help->reload();
-						_help->generate((*_display->layout)["temple_help:menu"]);
+						_help->generate(
+							(*_display->layout)["temple_help:menu"]);
 					} else if (_system->input->check(CIN::UP, event))
 						opt_pay = _pay->choose_previous();
 					else if (_system->input->check(CIN::DOWN, event))
@@ -249,20 +276,24 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 
 						// We have selected something from the menu
 						if (opt_help) {
-							if (const MIM opt_temp{(*opt_pay.value()).item}; opt_temp == MIM::CA_TEMPLE) {
+							if (const MIM opt_temp{(*opt_pay.value()).item};
+								opt_temp == MIM::CA_TEMPLE) {
 								_stage = STT::HELP;
 								_party_panel->refresh();
 								_help->reload();
-								_help->generate((*_display->layout)["temple_help:menu"]);
+								_help->generate(
+									(*_display->layout)["temple_help:menu"]);
 								continue;
 							} else {
-								const auto pay_char_id{(*opt_pay.value()).index};
+								const auto pay_char_id{
+									(*opt_pay.value()).index};
 								_stage = STT::RESS;
 								_t_finished = false;
 								_start_count_thread();
 								if (pay_char_id > 0) {
 									_result_text = "";
-									_try_cure_or_ress(heal_char_id, pay_char_id);
+									_try_cure_or_ress(
+										heal_char_id, pay_char_id);
 									_party_panel->refresh();
 									_game->save_game();
 								}
@@ -281,11 +312,14 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 						else if (_system->input->check(CIN::DOWN, event))
 							opt_cont = _cont->choose_next();
 						else if (_system->input->check(CIN::MOVE, event))
-							opt_cont = _cont->set_mouse_selected(_display->get_cur());
+							opt_cont =
+								_cont->set_mouse_selected(_display->get_cur());
 						else if (_system->input->check(CIN::CONFIRM, event)) {
 
 							if (opt_cont) {
-								if (const MIM opt_temp{(*opt_cont.value()).item}; opt_temp == MIM::ITEM_CONTINUE) {
+								if (const MIM opt_temp{
+										(*opt_cont.value()).item};
+									opt_temp == MIM::ITEM_CONTINUE) {
 									_stage = STT::MENU;
 									_party_panel->refresh();
 									continue;
@@ -312,7 +346,8 @@ auto Sorcery::Temple::start() -> std::optional<MIM> {
 auto Sorcery::Temple::stop() -> void {
 }
 
-auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int pay_char_id) -> bool {
+auto Sorcery::Temple::_try_cure_or_ress(
+	unsigned int heal_char_id, unsigned int pay_char_id) -> bool {
 
 	auto &pay_char{_game->characters[pay_char_id]};
 	auto &heal_char{_game->characters[heal_char_id]};
@@ -327,10 +362,13 @@ auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int 
 		const auto roll((*_system->random)[RNT::D100]);
 
 		_game->state->add_log_dice_roll(
-			fmt::format("{:>16} - {}", heal_char.get_name(), "Ress from Dead"), 100, roll, chance);
+			fmt::format("{:>16} - {}", heal_char.get_name(), "Ress from Dead"),
+			100, roll, chance);
 		if (roll < chance) {
 
-			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_HEALED_PREFIX"], heal_char.get_name(),
+			_result_text = fmt::format("{} {} {}",
+				(*_display->string)["TEMPLE_HEALED_PREFIX"],
+				heal_char.get_name(),
 				(*_display->string)["TEMPLE_HEALED_SUFFIX"]);
 			heal_char.set_status(CHT::OK);
 			heal_char.set_current_hp(1);
@@ -338,7 +376,9 @@ auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int 
 			return true;
 		} else {
 
-			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_OOPS_DEAD_PREFIX"], heal_char.get_name(),
+			_result_text = fmt::format("{} {} {}",
+				(*_display->string)["TEMPLE_OOPS_DEAD_PREFIX"],
+				heal_char.get_name(),
 				(*_display->string)["TEMPLE_OOPS_DEAD_SUFFIX"]);
 			heal_char.set_status(CHT::ASHES);
 			return false;
@@ -349,10 +389,13 @@ auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int 
 		const auto chance{heal_char.get_ress_chance(true)};
 		const auto roll((*_system->random)[RNT::D100]);
 		_game->state->add_log_dice_roll(
-			fmt::format("{:>16} - {}", heal_char.get_name(), "Ress from Ashes"), 100, roll, chance);
+			fmt::format("{:>16} - {}", heal_char.get_name(), "Ress from Ashes"),
+			100, roll, chance);
 		if (roll < chance) {
 
-			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_HEALED_PREFIX"], heal_char.get_name(),
+			_result_text = fmt::format("{} {} {}",
+				(*_display->string)["TEMPLE_HEALED_PREFIX"],
+				heal_char.get_name(),
 				(*_display->string)["TEMPLE_HEALED_SUFFIX"]);
 			heal_char.set_status(CHT::OK);
 			heal_char.set_current_hp(1);
@@ -362,8 +405,10 @@ auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int 
 
 		} else {
 
-			_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_OOPS_ASHES_PREFIX"],
-				heal_char.get_name(), (*_display->string)["TEMPLE_OOPS_ASHES_SUFFIX"]);
+			_result_text = fmt::format("{} {} {}",
+				(*_display->string)["TEMPLE_OOPS_ASHES_PREFIX"],
+				heal_char.get_name(),
+				(*_display->string)["TEMPLE_OOPS_ASHES_SUFFIX"]);
 			heal_char.set_status(CHT::LOST);
 			heal_char.set_location(CHL::TRAINING);
 			heal_char.set_current_hp(0);
@@ -373,7 +418,8 @@ auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int 
 
 	} else {
 
-		_result_text = fmt::format("{} {} {}", (*_display->string)["TEMPLE_HEALED_PREFIX"], heal_char.get_name(),
+		_result_text = fmt::format("{} {} {}",
+			(*_display->string)["TEMPLE_HEALED_PREFIX"], heal_char.get_name(),
 			(*_display->string)["TEMPLE_HEALED_SUFFIX"]);
 		heal_char.set_status(CHT::OK);
 
@@ -383,8 +429,9 @@ auto Sorcery::Temple::_try_cure_or_ress(unsigned int heal_char_id, unsigned int 
 
 auto Sorcery::Temple::_update_cost(const unsigned int cost) -> void {
 
-	_cost_text = fmt::format(
-		"{} {} {}", (*_display->string)["TEMPLE_COST_PREFIX"], cost, (*_display->string)["TEMPLE_COST_SUFFIX"]);
+	_cost_text =
+		fmt::format("{} {} {}", (*_display->string)["TEMPLE_COST_PREFIX"], cost,
+			(*_display->string)["TEMPLE_COST_SUFFIX"]);
 }
 
 auto Sorcery::Temple::_refresh_pay_menu(const unsigned int cost) -> void {
@@ -423,14 +470,18 @@ auto Sorcery::Temple::_draw() -> void {
 
 		_pay->generate((*_display->layout)["temple_pay:menu"]);
 		_display->display("inn_pay", _p_sprites, _p_texts, _p_frames);
-		_display->window->draw_text(_cost, (*_display->layout)["temple_pay:cost_text"], _cost_text);
+		_display->window->draw_text(
+			_cost, (*_display->layout)["temple_pay:cost_text"], _cost_text);
 		_window->draw(*_pay);
 	} else if (_stage == STT::RESS) {
 
 		_display->display("inn_ress", _r_sprites, _r_texts, _r_frames);
-		_display->window->draw_text(_ress_count, (*_display->layout)["temple_ress:ress_message"], _get_ress_status());
+		_display->window->draw_text(_ress_count,
+			(*_display->layout)["temple_ress:ress_message"],
+			_get_ress_status());
 		if (_get_ress_count() > 5) {
-			_display->window->draw_text(_ress_result, (*_display->layout)["temple_ress:ress_result"], _result_text);
+			_display->window->draw_text(_ress_result,
+				(*_display->layout)["temple_ress:ress_result"], _result_text);
 			_cont->generate((*_display->layout)["temple_ress:continue_menu"]);
 			_window->draw(*_cont);
 		}

@@ -38,34 +38,44 @@
 #include "gui/menu.hpp"
 #include "gui/partypanel.hpp"
 #include "resources/componentstore.hpp"
+#include "resources/factory.hpp"
 #include "types/component.hpp"
 
 // Standard Constructor
-Sorcery::Shop::Shop(System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::Shop::Shop(
+	System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
 	// Setup Custom Components
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::SHOP);
+	_menu =
+		std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::SHOP);
 	_menu->generate((*_display->layout)["shop:menu"]);
-	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["shop:menu"].y);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()),
+		(*_display->layout)["shop:menu"].y);
 
-	_who = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::PARTY_CHARACTERS, MMD::SHOP);
+	_who = std::make_unique<Menu>(
+		_system, _display, _graphics, _game, MTP::PARTY_CHARACTERS, MMD::SHOP);
 	_who->generate((*_display->layout)["shop_who:menu"]);
-	_who->setPosition(_display->get_centre_x(_who->get_width()), (*_display->layout)["shop_who:menu"].y);
+	_who->setPosition(_display->get_centre_x(_who->get_width()),
+		(*_display->layout)["shop_who:menu"].y);
 
-	_action = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::SHOP_ACTION);
+	_action = std::make_unique<Menu>(
+		_system, _display, _graphics, _game, MTP::SHOP_ACTION);
 	_action->generate((*_display->layout)["shop_action:menu"]);
-	_action->setPosition(_display->get_centre_x(_action->get_width()), (*_display->layout)["shop_action:menu"].y);
+	_action->setPosition(_display->get_centre_x(_action->get_width()),
+		(*_display->layout)["shop_action:menu"].y);
 
 	// Modules
-	_party_panel =
-		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
-	_inspect = std::make_unique<Inspect>(_system, _display, _graphics, _game, MMD::SHOP);
+	_party_panel = std::make_unique<PartyPanel>(_system, _display, _graphics,
+		_game, (*_display->layout)["global:party_panel"]);
+	_inspect = std::make_unique<Inspect>(
+		_system, _display, _graphics, _game, MMD::SHOP);
 
-	_console = std::make_unique<Console>(_display->window->get_gui(), _system, _display, _graphics, _game);
+	_console = std::make_unique<Console>(
+		_display->window->get_gui(), _system, _display, _graphics, _game);
 	_game->hide_console();
 }
 
@@ -76,9 +86,10 @@ Sorcery::Shop::~Shop() {
 // Visit the Tavern
 auto Sorcery::Shop::start() -> std::optional<MIM> {
 
-	// Get the Background Display Components and load them into Display module storage (not local - and note that due to
-	// the way both menus are combined in this class, we need to have the menu stage set first in this case and this
-	// case only)
+	// Get the Background Display Components and load them into Display module
+	// storage (not local - and note that due to the way both menus are combined
+	// in this class, we need to have the menu stage set first in this case and
+	// this case only)
 	_display->generate("shop");
 	_display->generate("shop_who", _w_sprites, _w_texts, _w_frames);
 	_display->generate("shop_action", _a_sprites, _a_texts, _a_frames);
@@ -93,7 +104,8 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 
 	// Generate the Components
 	const Component party_banel_c{(*_display->layout)["global:party_panel"]};
-	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
+	_party_panel->setPosition(_display->get_centre_x(_party_panel->width),
+		(*_display->layout)["global:party_panel"].y);
 
 	_stage = STS::MENU;
 
@@ -141,12 +153,14 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 
 						// We have selected something from the menu
 						if (opt) {
-							if (const MIM opt_shop{(*opt.value()).item}; opt_shop == MIM::SH_CASTLE) {
+							if (const MIM opt_shop{(*opt.value()).item};
+								opt_shop == MIM::SH_CASTLE) {
 								return MIM::SH_CASTLE;
 							} else if (opt_shop == MIM::SH_INSPECT) {
 
 								auto result{_inspect->start(std::nullopt)};
-								if (result && result.value() == MIM::ITEM_ABORT) {
+								if (result &&
+									result.value() == MIM::ITEM_ABORT) {
 									_inspect->stop();
 									return MIM::ITEM_ABORT;
 								}
@@ -181,18 +195,22 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 
 						// We have selected something from the menu
 						if (opt_who) {
-							if (const MIM opt_shop{(*opt_who.value()).item}; opt_shop == MIM::CA_SHOP) {
+							if (const MIM opt_shop{(*opt_who.value()).item};
+								opt_shop == MIM::CA_SHOP) {
 								_stage = STS::MENU;
 								_party_panel->refresh();
-								_menu->generate((*_display->layout)["shop:menu"]);
+								_menu->generate(
+									(*_display->layout)["shop:menu"]);
 								continue;
 							} else {
 								_chosen_char_id = (*opt_who.value()).index;
 								_stage = STS::ACTION;
 								_party_panel->refresh();
-								_action->generate((*_display->layout)["shop_action:menu"]);
+								_action->generate(
+									(*_display->layout)["shop_action:menu"]);
 								continue;
-								// TODO: handle population of who and gold strings here
+								// TODO: handle population of who and gold
+								// strings here
 							}
 						}
 					}
@@ -211,16 +229,20 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 					else if (_system->input->check(CIN::DOWN, event))
 						opt_act = _action->choose_next();
 					else if (_system->input->check(CIN::MOVE, event))
-						opt_act = _action->set_mouse_selected(_display->get_cur());
+						opt_act =
+							_action->set_mouse_selected(_display->get_cur());
 					else if (_system->input->check(CIN::CONFIRM, event)) {
-						if (const MIM opt_shop{(*opt_act.value()).item}; opt_shop == MIM::SH_BACK) {
+						if (const MIM opt_shop{(*opt_act.value()).item};
+							opt_shop == MIM::SH_BACK) {
 							_stage = STS::WHO;
 							_party_panel->refresh();
-							_who->generate((*_display->layout)["shop_who:menu"]);
+							_who->generate(
+								(*_display->layout)["shop_who:menu"]);
 							continue;
 						} else {
 							PRINT("chosen");
-							// depending on what is chosen, go into sell, buy, etc
+							// depending on what is chosen, go into sell, buy,
+							// etc
 						}
 					}
 				}

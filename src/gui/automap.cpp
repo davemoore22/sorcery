@@ -31,6 +31,7 @@
 #include "core/system.hpp"
 #include "gui/enum.hpp"
 #include "gui/include.hpp"
+#include "resources/factory.hpp"
 #include "resources/resourcemanager.hpp"
 #include "resources/texturestore.hpp"
 #include "types/explore.hpp"
@@ -45,29 +46,21 @@ Sorcery::AutoMap::AutoMap(System *system, Display *display, Graphics *graphics,
 	_sprites.clear();
 	_texts.clear();
 
+	// Setup the Factory
+	_factory = std::make_unique<Factory>(_system, _display, _graphics, _game);
+
 	_map_radius = std::stoi(_layout["tile_count"].value()) / 2;
 
-	if (_top_frame.get()) {
-		_top_frame.release();
-		_top_frame.reset();
-	}
+	// Make the Top Frame
+	_top_frame = _factory->make_comp_frame(_layout, _sprites);
 
-	if (_bottom_frame.get()) {
-		_bottom_frame.release();
-		_bottom_frame.reset();
-	}
-	_top_frame = std::make_unique<Frame>(_display->ui_texture, _layout.w,
-		_layout.h, _layout.colour, _layout.background, _layout.alpha);
-	auto cfh{std::stoi(_layout["coordinates_frame_h"].value())};
-	auto cfy{std::stoi(_layout["coordinates_frame_y"].value())};
-
+	// Bottom Frame is Custom (TODO: break the coordinates out into new comp)
+	const auto cfh{std::stoi(_layout["coordinates_frame_h"].value())};
+	const auto cfy{std::stoi(_layout["coordinates_frame_y"].value())};
 	_bottom_frame = std::make_unique<Frame>(_display->ui_texture, _layout.w,
 		cfh, _layout.colour, _layout.background, _layout.alpha);
-	auto t_sprite{_top_frame->sprite};
 	auto b_sprite{_bottom_frame->sprite};
-	t_sprite.setPosition(0, 0);
 	b_sprite.setPosition(0, cfy);
-	_sprites.emplace_back(t_sprite);
 	_sprites.emplace_back(b_sprite);
 }
 

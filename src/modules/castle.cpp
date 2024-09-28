@@ -36,28 +36,32 @@
 #include "gui/menu.hpp"
 #include "gui/partypanel.hpp"
 #include "resources/componentstore.hpp"
+#include "resources/factory.hpp"
 #include "types/component.hpp"
 
 // Standard Constructor
-Sorcery::Castle::Castle(System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::Castle::Castle(
+	System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
 	// Setup Custom Components
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CASTLE);
+	_menu = std::make_unique<Menu>(
+		_system, _display, _graphics, _game, MTP::CASTLE);
 	_menu->generate((*_display->layout)["castle:menu"]);
-	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["castle:menu"].y);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()),
+		(*_display->layout)["castle:menu"].y);
 
-	_leave_game =
-		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["castle:dialog_leave_game"],
-			(*_display->layout)["castle:dialog_leave_game_text"], WDT::CONFIRM);
+	_leave_game = std::make_unique<Dialog>(_system, _display, _graphics,
+		(*_display->layout)["castle:dialog_leave_game"],
+		(*_display->layout)["castle:dialog_leave_game_text"], WDT::CONFIRM);
 	_leave_game->setPosition(_display->get_centre_pos(_leave_game->get_size()));
 
 	// Modules
-	_party_panel =
-		std::make_unique<PartyPanel>(_system, _display, _graphics, _game, (*_display->layout)["global:party_panel"]);
+	_party_panel = std::make_unique<PartyPanel>(_system, _display, _graphics,
+		_game, (*_display->layout)["global:party_panel"]);
 }
 
 // Standard Destructor
@@ -74,9 +78,10 @@ auto Sorcery::Castle::start(DES destination) -> std::optional<MIM> {
 	else if (destination == DES::MAZE)
 		return MIM::ET_MAZE;
 
-	// Get the Background Display Components and load them into Display module storage (not local - and note that due to
-	// the way both menus are combined in this class, we need to have the menu stage set first in this case and this
-	// case only)
+	// Get the Background Display Components and load them into Display module
+	// storage (not local - and note that due to the way both menus are combined
+	// in this class, we need to have the menu stage set first in this case and
+	// this case only)
 	_update_menus();
 	_display->generate("castle");
 
@@ -85,7 +90,8 @@ auto Sorcery::Castle::start(DES destination) -> std::optional<MIM> {
 
 	// Generate the Components
 	const Component party_banel_c{(*_display->layout)["global:party_panel"]};
-	_party_panel->setPosition(_display->get_centre_x(_party_panel->width), (*_display->layout)["global:party_panel"].y);
+	_party_panel->setPosition(_display->get_centre_x(_party_panel->width),
+		(*_display->layout)["global:party_panel"].y);
 
 	// Refresh the Party characters
 	_party_panel->refresh();
@@ -134,7 +140,8 @@ auto Sorcery::Castle::start(DES destination) -> std::optional<MIM> {
 						else if (opt == MIM::CA_TEMPLE)
 							return MIM::CA_TEMPLE;
 					}
-				} else if (_system->input->check(CIN::CANCEL, event) || _system->input->check(CIN::BACK, event)) {
+				} else if (_system->input->check(CIN::CANCEL, event) ||
+						   _system->input->check(CIN::BACK, event)) {
 					_display->set_input_mode(WIM::CONFIRM_LEAVE_GAME);
 				}
 			} else if (_display->get_input_mode() == WIM::CONFIRM_LEAVE_GAME) {
