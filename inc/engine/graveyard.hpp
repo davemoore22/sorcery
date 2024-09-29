@@ -30,6 +30,7 @@ namespace Sorcery {
 
 // Forward Declarations
 class Display;
+class Factory;
 class Frame;
 class Game;
 class Graphics;
@@ -70,6 +71,7 @@ class Graveyard {
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Sprite> _sprites;
 		sf::Text _wipe_message;
+		std::unique_ptr<Factory> _factory;
 };
 
 }

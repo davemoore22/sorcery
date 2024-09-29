@@ -1178,7 +1178,7 @@ auto Sorcery::Engine::_handle_in_game(const sf::Event &event)
 	// Various Debug Commands can be put here
 	if ((event.type == sf::Event::KeyPressed) &&
 		(event.key.code == sf::Keyboard::F2))
-		_debug_start_random_combat();
+		_debug_go_to_graveyard();
 	else if ((event.type == sf::Event::KeyPressed) &&
 			 (event.key.code == sf::Keyboard::F3))
 		_debug_go_back();

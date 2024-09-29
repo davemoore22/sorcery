@@ -36,6 +36,7 @@ class CharacterPanel;
 class Dialog;
 class Display;
 class Edit;
+class Factory;
 class Frame;
 class Game;
 class Graphics;
@@ -47,7 +48,8 @@ class Roster {
 	public:
 
 		// Standard Constructor
-		Roster(System *system, Display *display, Graphics *graphics, Game *game, ROM mode);
+		Roster(System *system, Display *display, Graphics *graphics, Game *game,
+			ROM mode);
 		Roster() = delete;
 
 		// Standard Destructor
@@ -74,7 +76,7 @@ class Roster {
 		sf::Sprite _bg;
 		std::unique_ptr<Frame> _menu_frame;
 		std::optional<Character *> _cur_char;
-		std::unique_ptr<Frame> _cur_char_frame;
+		std::unique_ptr<Frame> _char_frame;
 		ROM _mode;
 		std::string _screen_key;
 		std::unique_ptr<CharacterPanel> _char_panel;
@@ -83,6 +85,7 @@ class Roster {
 		std::unique_ptr<Dialog> _delete;
 		std::unique_ptr<Edit> _edit;
 		std::unique_ptr<CharacterDisplay> _character_display;
+		std::unique_ptr<Factory> _factory;
 };
 
 }
