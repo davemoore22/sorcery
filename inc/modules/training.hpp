@@ -31,6 +31,7 @@ namespace Sorcery {
 // Forward Declerations
 class Create;
 class Display;
+class Factory;
 class Frame;
 class Game;
 class Graphics;
@@ -43,7 +44,8 @@ class Training {
 	public:
 
 		// Standard Constructor
-		Training(System *system, Display *display, Graphics *graphics, Game *game);
+		Training(
+			System *system, Display *display, Graphics *graphics, Game *game);
 		Training() = delete;
 
 		// Standard Destructor
@@ -74,6 +76,7 @@ class Training {
 		std::unique_ptr<Roster> _inspect;
 		std::unique_ptr<Roster> _edit;
 		std::unique_ptr<Roster> _delete;
+		std::unique_ptr<Factory> _factory;
 };
 
 }

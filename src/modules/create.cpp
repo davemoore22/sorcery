@@ -34,6 +34,7 @@
 #include "core/window.hpp"
 #include "modules/define.hpp"
 #include "resources/componentstore.hpp"
+#include "resources/factory.hpp"
 #include "resources/itemstore.hpp"
 #include "resources/resourcemanager.hpp"
 #include "resources/texturestore.hpp"
@@ -42,8 +43,12 @@
 #include "types/inventory.hpp"
 
 // Standard Constructor
-Sorcery::Create::Create(System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::Create::Create(
+	System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
+
+	// Setup the Factory
+	_factory = std::make_unique<Factory>(_system, _display, _graphics, _game);
 }
 
 auto Sorcery::Create::_generate_display() -> void {
@@ -103,30 +108,28 @@ auto Sorcery::Create::_initalise_components() -> void {
 	_ip = std::make_unique<InfoPanel>(_system, _display, _graphics);
 
 	// Get the Allocate Stat Panel
-	_ap = std::make_unique<AllocatePanel>(_system, _display, _graphics, &_candidate);
+	_ap = std::make_unique<AllocatePanel>(
+		_system, _display, _graphics, &_candidate);
 
 	// Get the Texture for the Potraits
 	_potrait_texture = &_system->resources->textures[GTX::PORTRAITS];
 
 	// Character Display
-	_character_display = std::make_unique<CharacterDisplay>(_system, _display, _graphics);
+	_character_display =
+		std::make_unique<CharacterDisplay>(_system, _display, _graphics);
 
 	// Menus
-	_method_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CHOOSE_METHOD);
-	_race_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CHOOSE_CHARACTER_RACE);
-	_alignment_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CHOOSE_CHARACTER_ALIGNMENT);
-	_attribute_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::ALLOCATE_CHARACTER_ATTRIBUTES);
-	_class_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::CHOOSE_CHARACTER_CLASS);
-	_final_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::REVIEW_AND_CONFIRM);
+	_method_menu = _factory->make_menu(MTP::CHOOSE_METHOD);
+	_race_menu = _factory->make_menu(MTP::CHOOSE_CHARACTER_RACE);
+	_alignment_menu = _factory->make_menu(MTP::CHOOSE_CHARACTER_ALIGNMENT);
+	_attribute_menu = _factory->make_menu(MTP::ALLOCATE_CHARACTER_ATTRIBUTES);
+	_class_menu = _factory->make_menu(MTP::CHOOSE_CHARACTER_CLASS);
+	_final_menu = _factory->make_menu(MTP::REVIEW_AND_CONFIRM);
 
-	Component _fmf_c{(*_display->layout)["character_create_stage_7:menu_frame"]};
-	_final_menu_frame = std::make_unique<Frame>(
-		_display->ui_texture, _fmf_c.w, _fmf_c.h, _fmf_c.colour, _fmf_c.background, _fmf_c.alpha);
-
-	// Create the Confirmation Dialogs
-	_dialog_saved_ok = std::make_unique<Dialog>(_system, _display, _graphics,
-		(*_display->layout)["character_create_stage_7:dialog_saved_ok"],
-		(*_display->layout)["character_create_stage_7:dialog_saved_ok_text"], WDT::OK);
+	_dialog_saved_ok =
+		_factory->make_dialog("character_create_stage_7:dialog_saved_ok");
+	_final_menu_frame =
+		_factory->make_menu_frame("character_create_stage_7:menu_frame");
 }
 
 auto Sorcery::Create::_initialise_state() -> void {
@@ -141,38 +144,47 @@ auto Sorcery::Create::_initialise_state() -> void {
 	_show_saved_ok = false;
 
 	// Create the Candidate Character
-	_candidate = Character(_system, _display, _graphics, _game->itemstore.get());
+	_candidate =
+		Character(_system, _display, _graphics, _game->itemstore.get());
 	_character_display->set(&_candidate);
 }
 
 auto Sorcery::Create::_place_components() -> void {
 
 	_method_menu->generate((*_display->layout)["choose_method:menu"]);
-	_method_menu->setPosition(
-		_display->get_centre_x(_method_menu->get_width()), (*_display->layout)["choose_method:menu"].y);
+	_method_menu->setPosition(_display->get_centre_x(_method_menu->get_width()),
+		(*_display->layout)["choose_method:menu"].y);
 	_race_menu->generate((*_display->layout)["character_create_stage_2:menu"]);
-	_race_menu->setPosition(
-		_display->get_centre_x(_race_menu->get_width()), (*_display->layout)["character_create_stage_2:menu"].y);
-	_alignment_menu->generate((*_display->layout)["character_create_stage_3:menu"]);
+	_race_menu->setPosition(_display->get_centre_x(_race_menu->get_width()),
+		(*_display->layout)["character_create_stage_2:menu"].y);
+	_alignment_menu->generate(
+		(*_display->layout)["character_create_stage_3:menu"]);
 	_alignment_menu->setPosition(
-		_display->get_centre_x(_alignment_menu->get_width()), (*_display->layout)["character_create_stage_4:menu"].y);
-	_attribute_menu->generate((*_display->layout)["character_create_stage_4:menu"]);
+		_display->get_centre_x(_alignment_menu->get_width()),
+		(*_display->layout)["character_create_stage_4:menu"].y);
+	_attribute_menu->generate(
+		(*_display->layout)["character_create_stage_4:menu"]);
 	_attribute_menu->setPosition(
-		(*_display->layout)["character_create_stage_4:menu"].y, (*_display->layout)["character_create_stage_4:menu"].y);
+		(*_display->layout)["character_create_stage_4:menu"].y,
+		(*_display->layout)["character_create_stage_4:menu"].y);
 	_class_menu->generate((*_display->layout)["character_create_stage_5:menu"]);
-	_class_menu->setPosition(
-		_display->get_centre_x(_class_menu->get_width()), (*_display->layout)["character_create_stage_5:menu"].y);
+	_class_menu->setPosition(_display->get_centre_x(_class_menu->get_width()),
+		(*_display->layout)["character_create_stage_5:menu"].y);
 	_final_menu->generate((*_display->layout)["character_create_stage_7:menu"]);
-	_final_menu->setPosition(
-		_display->get_centre_x(_final_menu->get_width()), (*_display->layout)["character_create_stage_7:menu"].y);
+	_final_menu->setPosition(_display->get_centre_x(_final_menu->get_width()),
+		(*_display->layout)["character_create_stage_7:menu"].y);
 
-	_keyboard->setPosition((*_display->layout)["character_create_stage_1:keyboard"].pos());
-	_character_display->setPosition((*_display->layout)["character_create_stage_7:candidate"].pos());
-	_dialog_saved_ok->setPosition(_display->get_centre_pos(_dialog_saved_ok->get_size()));
-	_final_menu_frame->setPosition(_display->window->get_x(_final_menu_frame->sprite,
-									   (*_display->layout)["character_create_stage_7:menu_frame"].x),
-		_display->window->get_y(
-			_final_menu_frame->sprite, (*_display->layout)["character_create_stage_7:menu_frame"].y));
+	_keyboard->setPosition(
+		(*_display->layout)["character_create_stage_1:keyboard"].pos());
+	_character_display->setPosition(
+		(*_display->layout)["character_create_stage_7:candidate"].pos());
+	_dialog_saved_ok->setPosition(
+		_display->get_centre_pos(_dialog_saved_ok->get_size()));
+	_final_menu_frame->setPosition(
+		_display->window->get_x(_final_menu_frame->sprite,
+			(*_display->layout)["character_create_stage_7:menu_frame"].x),
+		_display->window->get_y(_final_menu_frame->sprite,
+			(*_display->layout)["character_create_stage_7:menu_frame"].y));
 }
 
 auto Sorcery::Create::start() -> std::optional<MIM> {
@@ -186,7 +198,8 @@ auto Sorcery::Create::start() -> std::optional<MIM> {
 
 	// Get the Keyboard
 
-	const Component name_c{(*_display->layout)["character_create_stage_1:name_candidate"]};
+	const Component name_c{
+		(*_display->layout)["character_create_stage_1:name_candidate"]};
 
 	// Set to the beginning stage
 	_character_display->set_mode(CHM::IN_CREATE);
@@ -243,7 +256,8 @@ auto Sorcery::Create::_do_event_loop() -> std::optional<MDR> {
 	return std::nullopt;
 }
 
-auto Sorcery::Create::_handle_input(const sf::Event &event) -> std::optional<MDR> {
+auto Sorcery::Create::_handle_input(const sf::Event &event)
+	-> std::optional<MDR> {
 
 	// Handle enabling help overlay
 	if (_system->input->check(CIN::SHOW_CONTROLS, event)) {
@@ -277,7 +291,8 @@ auto Sorcery::Create::_handle_input(const sf::Event &event) -> std::optional<MDR
 		return std::nullopt;
 }
 
-auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event) -> std::optional<MDR> {
+auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event)
+	-> std::optional<MDR> {
 
 	MenuSelect selected{_method_menu->selected};
 	if (_system->input->check(CIN::UP, event))
@@ -322,17 +337,20 @@ auto Sorcery::Create::_handle_choose_create_method(const sf::Event &event) -> st
 	return std::nullopt;
 }
 
-auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::optional<MDR> {
+auto Sorcery::Create::_handle_choose_name(const sf::Event &event)
+	-> std::optional<MDR> {
 
 	auto candidate_name{_candidate.get_name()};
 	if (_system->input->check(CIN::MOVE, event)) {
 
 		sf::Vector2f mouse_pos{_display->get_cur()};
-		std::optional<std::string> mouse_selected{
-			_keyboard->set_mouse_selected((*_display->layout)["character_create_stage_1:keyboard"], mouse_pos)};
+		std::optional<std::string> mouse_selected{_keyboard->set_mouse_selected(
+			(*_display->layout)["character_create_stage_1:keyboard"],
+			mouse_pos)};
 		if (mouse_selected)
 			_keyboard->selected = mouse_selected.value();
-	} else if (_system->input->check(CIN::ALPHANUMERIC, event) || _system->input->check(CIN::SPACE, event)) {
+	} else if (_system->input->check(CIN::ALPHANUMERIC, event) ||
+			   _system->input->check(CIN::SPACE, event)) {
 		if (candidate_name.length() < 16) {
 			candidate_name += static_cast<char>(event.text.unicode);
 			_candidate.set_name(candidate_name);
@@ -411,7 +429,8 @@ auto Sorcery::Create::_handle_choose_name(const sf::Event &event) -> std::option
 	return std::nullopt;
 }
 
-auto Sorcery::Create::_handle_choose_race(const sf::Event &event) -> std::optional<MDR> {
+auto Sorcery::Create::_handle_choose_race(const sf::Event &event)
+	-> std::optional<MDR> {
 
 	MenuSelect selected{_race_menu->selected};
 	if (_system->input->check(CIN::UP, event))
@@ -455,13 +474,15 @@ auto Sorcery::Create::_handle_choose_race(const sf::Event &event) -> std::option
 		}
 	}
 
-	// If we get here then we are still on the Race Choice screen so set the Info Panel
+	// If we get here then we are still on the Race Choice screen so set the
+	// Info Panel
 	_set_info_panel_contents(_race_menu->selected);
 
 	return std::nullopt;
 }
 
-auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event) -> std::optional<MDR> {
+auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event)
+	-> std::optional<MDR> {
 
 	MenuSelect selected{_alignment_menu->selected};
 	if (_system->input->check(CIN::UP, event))
@@ -494,21 +515,24 @@ auto Sorcery::Create::_handle_choose_alignment(const sf::Event &event) -> std::o
 				break;
 			}
 
-			// We have chosen an alignment, so what we need to do is to set the candidate's starting stats and enable
-			// the allocation panel before continuing
+			// We have chosen an alignment, so what we need to do is to set the
+			// candidate's starting stats and enable the allocation panel before
+			// continuing
 			_candidate.set_start_attr();
 			_ap->set();
 			return MDR::NEXT;
 		}
 	}
 
-	// If we get here then we are still on the Alignment Choice screen so set the Info Panel
+	// If we get here then we are still on the Alignment Choice screen so set
+	// the Info Panel
 	_set_info_panel_contents(_alignment_menu->selected);
 
 	return std::nullopt;
 }
 
-auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std::optional<MDR> {
+auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event)
+	-> std::optional<MDR> {
 
 	MenuSelect selected{_attribute_menu->selected};
 	if (_system->input->check(CIN::UP, event))
@@ -517,7 +541,8 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 		_attribute_menu->choose_next();
 	else if (_system->input->check(CIN::MOVE, event))
 		_attribute_menu->set_mouse_selected(_display->get_cur());
-	else if (_system->input->check(CIN::LEFT, event) || _system->input->check(CIN::BACK, event) ||
+	else if (_system->input->check(CIN::LEFT, event) ||
+			 _system->input->check(CIN::BACK, event) ||
 			 _system->input->check(CIN::DELETE, event)) {
 		if (selected) {
 			std::optional<CAR> adjust{};
@@ -544,10 +569,13 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 				break;
 			}
 			if (adjust) {
-				if (_candidate.get_points_left() < _candidate.get_start_points()) {
-					if (_candidate.get_cur_attr(adjust.value()) > _candidate.get_start_attr(adjust.value())) {
+				if (_candidate.get_points_left() <
+					_candidate.get_start_points()) {
+					if (_candidate.get_cur_attr(adjust.value()) >
+						_candidate.get_start_attr(adjust.value())) {
 						_candidate.set_cur_attr(adjust.value(), -1);
-						_candidate.set_points_left(_candidate.get_points_left() + 1);
+						_candidate.set_points_left(
+							_candidate.get_points_left() + 1);
 					}
 				}
 			}
@@ -555,13 +583,16 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 
 			// Handle going back if we have no assigned points
 			if (_system->input->check(CIN::BACK, event)) {
-				if (_candidate.get_points_left() == _candidate.get_start_points())
+				if (_candidate.get_points_left() ==
+					_candidate.get_start_points())
 					return MDR::BACK;
 			}
 		}
-	} else if (_system->input->check(CIN::RIGHT, event) || _system->input->check(CIN::CONFIRM, event)) {
+	} else if (_system->input->check(CIN::RIGHT, event) ||
+			   _system->input->check(CIN::CONFIRM, event)) {
 
-		if (_system->input->check(CIN::CONFIRM, event) && _candidate.get_points_left() == 0 &&
+		if (_system->input->check(CIN::CONFIRM, event) &&
+			_candidate.get_points_left() == 0 &&
 			_candidate.get_num_pos_class() > 0) {
 
 			// If we have confirmation AND have spent all the points AND have at
@@ -598,7 +629,8 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 				if (_candidate.get_points_left() > 0) {
 					if (_candidate.get_cur_attr(adjust.value()) < 18) {
 						_candidate.set_cur_attr(adjust.value(), 1);
-						_candidate.set_points_left(_candidate.get_points_left() - 1);
+						_candidate.set_points_left(
+							_candidate.get_points_left() - 1);
 					}
 				}
 			}
@@ -612,7 +644,8 @@ auto Sorcery::Create::_handle_allocate_attributes(const sf::Event &event) -> std
 	return std::nullopt;
 }
 
-auto Sorcery::Create::_handle_choose_class(const sf::Event &event) -> std::optional<MDR> {
+auto Sorcery::Create::_handle_choose_class(const sf::Event &event)
+	-> std::optional<MDR> {
 
 	MenuSelect class_selected{_class_menu->selected};
 	if (_system->input->check(CIN::UP, event))
@@ -669,7 +702,8 @@ auto Sorcery::Create::_handle_choose_class(const sf::Event &event) -> std::optio
 	return std::nullopt;
 }
 
-auto Sorcery::Create::_handle_choose_potraits(const sf::Event &event) -> std::optional<MDR> {
+auto Sorcery::Create::_handle_choose_potraits(const sf::Event &event)
+	-> std::optional<MDR> {
 
 	auto index{_candidate.get_portrait_index()};
 	if (_system->input->check(CIN::BACK, event))
@@ -694,12 +728,14 @@ auto Sorcery::Create::_handle_choose_potraits(const sf::Event &event) -> std::op
 	return std::nullopt;
 }
 
-auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event) -> std::optional<MDR> {
+auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event)
+	-> std::optional<MDR> {
 
 	MenuSelect selected{_final_menu->selected};
 	if (_show_final_menu) {
 		if (_show_saved_ok) {
-			if (auto dialog_input{_dialog_saved_ok->handle_input(event)}; dialog_input) {
+			if (auto dialog_input{_dialog_saved_ok->handle_input(event)};
+				dialog_input) {
 				if (dialog_input.value() == WDB::CLOSE) {
 					_show_final_menu = false;
 					_show_saved_ok = false;
@@ -714,7 +750,8 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event) -> std:
 			}
 		} else {
 
-			if (_system->input->check(CIN::BACK, event) || _system->input->check(CIN::DELETE, event)) {
+			if (_system->input->check(CIN::BACK, event) ||
+				_system->input->check(CIN::DELETE, event)) {
 				_show_final_menu = false;
 				_display->set_input_mode(WIM::REVIEW_AND_CONFIRM);
 			} else if (_system->input->check(CIN::CONFIRM, event)) {
@@ -772,14 +809,14 @@ auto Sorcery::Create::_handle_review_and_confirm(const sf::Event &event) -> std:
 			else if (_character_display->get_view() == CHV::PRIEST_SPELLS)
 				_character_display->inc_hl_spell(SPT::PRIEST);
 		} else if (_system->input->check(CIN::MOVE, event)) {
-			if (_character_display->check_for_mouse_move(
-					sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
-						static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
+			if (_character_display->check_for_mouse_move(sf::Vector2f(
+					static_cast<float>(sf::Mouse::getPosition(*_window).x),
+					static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
 				_character_display->set_view(_character_display->get_view());
 			}
-			if (_character_display->check_for_action_mouse_move(
-					sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(*_window).x),
-						static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
+			if (_character_display->check_for_action_mouse_move(sf::Vector2f(
+					static_cast<float>(sf::Mouse::getPosition(*_window).x),
+					static_cast<float>(sf::Mouse::getPosition(*_window).y)))) {
 				_character_display->generate_display();
 			}
 		}
@@ -809,7 +846,8 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CHS::ENTER_NAME);
-			_display->generate("character_create_stage_1", _sprites, _texts, _frames);
+			_display->generate(
+				"character_create_stage_1", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_display->set_input_mode(WIM::INPUT_NAME);
 		} break;
@@ -817,7 +855,8 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CHS::CHOOSE_RACE);
-			_display->generate("character_create_stage_2", _sprites, _texts, _frames);
+			_display->generate(
+				"character_create_stage_2", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_race_menu->choose(_candidate.get_race());
 			_set_info_panel_contents(_race_menu->selected);
@@ -827,7 +866,8 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CHS::CHOOSE_ALIGNMENT);
-			_display->generate("character_create_stage_3", _sprites, _texts, _frames);
+			_display->generate(
+				"character_create_stage_3", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_alignment_menu->choose(_candidate.get_alignment());
 			_set_info_panel_contents(_alignment_menu->selected);
@@ -838,7 +878,8 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CHS::ALLOCATE_STATS);
-			_display->generate("character_create_stage_4", _sprites, _texts, _frames);
+			_display->generate(
+				"character_create_stage_4", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_display->set_input_mode(WIM::ALLOCATE_STATS);
 			_attribute_menu->selected = _attribute_menu->items.begin();
@@ -849,10 +890,12 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CHS::CHOOSE_CLASS);
-			_display->generate("character_create_stage_5", _sprites, _texts, _frames);
+			_display->generate(
+				"character_create_stage_5", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_set_classes_menu();
-			_class_menu->generate((*_display->layout)["character_create_stage_5:menu"]);
+			_class_menu->generate(
+				(*_display->layout)["character_create_stage_5:menu"]);
 			_class_menu->choose(_candidate.get_class());
 			_set_info_panel_contents(_class_menu->selected);
 			_display->set_input_mode(WIM::NAVIGATE_MENU);
@@ -863,7 +906,8 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			_candidate = popped;
 			_candidate.set_stage(CHS::CHOOSE_PORTRAIT);
 			_character_display->generate_display();
-			_display->generate("character_create_stage_6", _sprites, _texts, _frames);
+			_display->generate(
+				"character_create_stage_6", _sprites, _texts, _frames);
 			_display->set_input_mode(WIM::CHOOSE_PORTRAIT);
 			_stages.pop_back();
 			_ap->valid = false;
@@ -903,7 +947,8 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CHS::ENTER_NAME);
-			_display->generate("character_create_stage_1", _sprites, _texts, _frames);
+			_display->generate(
+				"character_create_stage_1", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_display->set_input_mode(WIM::INPUT_NAME);
 			_ap->valid = false;
@@ -912,7 +957,8 @@ auto Sorcery::Create::_go_to_previous_stage() -> void {
 			auto popped{_stages.back()};
 			_candidate = popped;
 			_candidate.set_stage(CHS::CHOOSE_PORTRAIT);
-			_display->generate("character_create_stage_6", _sprites, _texts, _frames);
+			_display->generate(
+				"character_create_stage_6", _sprites, _texts, _frames);
 			_stages.pop_back();
 			_ap->valid = false;
 			_display->set_input_mode(WIM::CHOOSE_PORTRAIT);
@@ -932,13 +978,15 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		case CHS::CHOOSE_METHOD: {
 			_stages.emplace_back(_candidate);
 			_candidate.set_stage(CHS::ENTER_NAME);
-			_display->generate("character_create_stage_1", _sprites, _texts, _frames);
+			_display->generate(
+				"character_create_stage_1", _sprites, _texts, _frames);
 			_display->set_input_mode(WIM::INPUT_NAME);
 		} break;
 		case CHS::ENTER_NAME: {
 			_stages.emplace_back(_candidate);
 			_candidate.set_stage(CHS::CHOOSE_RACE);
-			_display->generate("character_create_stage_2", _sprites, _texts, _frames);
+			_display->generate(
+				"character_create_stage_2", _sprites, _texts, _frames);
 			_display->set_input_mode(WIM::NAVIGATE_MENU);
 			_race_menu->choose_first();
 			_set_info_panel_contents(_race_menu->selected);
@@ -947,14 +995,16 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		case CHS::CHOOSE_RACE: {
 			_stages.emplace_back(_candidate);
 			_candidate.set_stage(CHS::CHOOSE_ALIGNMENT);
-			_display->generate("character_create_stage_3", _sprites, _texts, _frames);
+			_display->generate(
+				"character_create_stage_3", _sprites, _texts, _frames);
 			_display->set_input_mode(WIM::NAVIGATE_MENU);
 			_alignment_menu->choose_first();
 		} break;
 		case CHS::CHOOSE_ALIGNMENT: {
 			_stages.emplace_back(_candidate);
 			_candidate.set_stage(CHS::ALLOCATE_STATS);
-			_display->generate("character_create_stage_4", _sprites, _texts, _frames);
+			_display->generate(
+				"character_create_stage_4", _sprites, _texts, _frames);
 			_display->set_input_mode(WIM::ALLOCATE_STATS);
 			_attribute_menu->choose_first();
 			_ap->set();
@@ -963,20 +1013,23 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		case CHS::ALLOCATE_STATS: {
 			_stages.emplace_back(_candidate);
 			_candidate.set_stage(CHS::CHOOSE_CLASS);
-			_display->generate("character_create_stage_5", _sprites, _texts, _frames);
+			_display->generate(
+				"character_create_stage_5", _sprites, _texts, _frames);
 			_display->set_input_mode(WIM::NAVIGATE_MENU);
 			_ap->valid = false;
 
 			// Set and enable the class menu depending on the possible classes!
 			_set_classes_menu();
-			_class_menu->generate((*_display->layout)["character_create_stage_5:menu"]);
+			_class_menu->generate(
+				(*_display->layout)["character_create_stage_5:menu"]);
 			_class_menu->choose_first();
 			_set_info_panel_contents(_class_menu->selected);
 		} break;
 		case CHS::CHOOSE_CLASS: {
 			_stages.emplace_back(_candidate);
 			_candidate.set_stage(CHS::CHOOSE_PORTRAIT);
-			_display->generate("character_create_stage_6", _sprites, _texts, _frames);
+			_display->generate(
+				"character_create_stage_6", _sprites, _texts, _frames);
 			_display->set_input_mode(WIM::CHOOSE_PORTRAIT);
 			_candidate.set_portrait_index(0);
 		} break;
@@ -986,7 +1039,8 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_add_starting_equipment();
 			_candidate.set_stage(CHS::REVIEW_AND_CONFIRM);
 			_character_display->generate_display();
-			_display->generate("character_create_stage_7", _sprites, _texts, _frames);
+			_display->generate(
+				"character_create_stage_7", _sprites, _texts, _frames);
 			_display->set_input_mode(WIM::REVIEW_AND_CONFIRM);
 			_show_final_menu = false;
 		} break;
@@ -1002,21 +1056,24 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 		_character_display->set_view(CHV::SUMMARY);
 		_character_display->generate_display();
 		_character_display->update();
-		_display->generate("character_create_stage_7", _sprites, _texts, _frames);
+		_display->generate(
+			"character_create_stage_7", _sprites, _texts, _frames);
 		_display->set_input_mode(WIM::REVIEW_AND_CONFIRM);
 	} else if (_method == CRM::QUICK) {
 		switch (_candidate.get_stage()) {
 		case CHS::CHOOSE_METHOD: {
 			_stages.emplace_back(_candidate);
 			_candidate.set_stage(CHS::ENTER_NAME);
-			_display->generate("character_create_stage_1", _sprites, _texts, _frames);
+			_display->generate(
+				"character_create_stage_1", _sprites, _texts, _frames);
 			_display->set_input_mode(WIM::INPUT_NAME);
 		} break;
 		case CHS::ENTER_NAME: {
 			_stages.emplace_back(_candidate);
 			_candidate.create_quick();
 			_candidate.set_stage(CHS::CHOOSE_PORTRAIT);
-			_display->generate("character_create_stage_6", _sprites, _texts, _frames);
+			_display->generate(
+				"character_create_stage_6", _sprites, _texts, _frames);
 			_display->set_input_mode(WIM::CHOOSE_PORTRAIT);
 			_candidate.set_portrait_index(0);
 			_ap->valid = false;
@@ -1030,7 +1087,8 @@ auto Sorcery::Create::_go_to_next_stage() -> void {
 			_character_display->set_view(CHV::SUMMARY);
 			_character_display->generate_display();
 			_character_display->update();
-			_display->generate("character_create_stage_7", _sprites, _texts, _frames);
+			_display->generate(
+				"character_create_stage_7", _sprites, _texts, _frames);
 			_display->set_input_mode(WIM::REVIEW_AND_CONFIRM);
 			_show_final_menu = false;
 		} break;
@@ -1053,7 +1111,8 @@ auto Sorcery::Create::_set_classes_menu() -> void {
 	(*_class_menu)[7].enabled = possible_classes[CHC::MAGE];
 }
 
-auto Sorcery::Create::_set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void {
+auto Sorcery::Create::_set_info_panel_contents(
+	std::vector<Sorcery::MenuEntry>::const_iterator it) -> void {
 
 	// Set the Text
 	if ((*it).type == MIT::ENTRY) {
@@ -1086,117 +1145,155 @@ auto Sorcery::Create::_draw() -> void {
 		_method_menu->generate((*_display->layout)["choose_method:menu"]);
 		_window->draw(*_method_menu);
 
-		_display->window->draw_text(
-			summary_text, (*_display->layout)["choose_method:summary_text"], _candidate.summary_text());
+		_display->window->draw_text(summary_text,
+			(*_display->layout)["choose_method:summary_text"],
+			_candidate.summary_text());
 
 		if (_ip->valid) {
-			_ip->setPosition((*_display->layout)["choose_method:info_panel"].pos());
+			_ip->setPosition(
+				(*_display->layout)["choose_method:info_panel"].pos());
 			_window->draw(*_ip);
 		}
 
 	} else if (_candidate.get_stage() == CHS::ENTER_NAME) {
 
-		_display->display("character_create_stage_1", _sprites, _texts, _frames);
+		_display->display(
+			"character_create_stage_1", _sprites, _texts, _frames);
 
 		// Font we are using replaces the { with a left cursor character
 		auto display_name{_candidate.get_name() + "{"};
 		sf::Text name_text{};
-		_display->window->draw_text(
-			name_text, (*_display->layout)["character_create_stage_1:name_candidate"], display_name, lerp);
-		_display->window->draw_text(
-			summary_text, (*_display->layout)["character_create_stage_1:summary_text"], _candidate.summary_text());
+		_display->window->draw_text(name_text,
+			(*_display->layout)["character_create_stage_1:name_candidate"],
+			display_name, lerp);
+		_display->window->draw_text(summary_text,
+			(*_display->layout)["character_create_stage_1:summary_text"],
+			_candidate.summary_text());
 
 		// Draw the On Screen Keyboard
 		_keyboard->set_selected_background();
 		_window->draw(*_keyboard);
 	} else if (_candidate.get_stage() == CHS::CHOOSE_RACE) {
 
-		_display->display("character_create_stage_2", _sprites, _texts, _frames);
-		_race_menu->generate((*_display->layout)["character_create_stage_2:menu"]);
+		_display->display(
+			"character_create_stage_2", _sprites, _texts, _frames);
+		_race_menu->generate(
+			(*_display->layout)["character_create_stage_2:menu"]);
 		_window->draw(*_race_menu);
 
-		_display->window->draw_text(
-			summary_text, (*_display->layout)["character_create_stage_2:summary_text"], _candidate.summary_text());
+		_display->window->draw_text(summary_text,
+			(*_display->layout)["character_create_stage_2:summary_text"],
+			_candidate.summary_text());
 
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
-			_ip->setPosition((*_display->layout)["character_create_stage_2:info_panel"].pos());
+			_ip->setPosition(
+				(*_display->layout)["character_create_stage_2:info_panel"]
+					.pos());
 			_window->draw(*_ip);
 		}
 	} else if (_candidate.get_stage() == CHS::CHOOSE_ALIGNMENT) {
 
-		_display->display("character_create_stage_3", _sprites, _texts, _frames);
-		_alignment_menu->generate((*_display->layout)["character_create_stage_3:menu"]);
+		_display->display(
+			"character_create_stage_3", _sprites, _texts, _frames);
+		_alignment_menu->generate(
+			(*_display->layout)["character_create_stage_3:menu"]);
 		_window->draw(*_alignment_menu);
 
-		_display->window->draw_text(
-			summary_text, (*_display->layout)["character_create_stage_3:summary_text"], _candidate.summary_text());
+		_display->window->draw_text(summary_text,
+			(*_display->layout)["character_create_stage_3:summary_text"],
+			_candidate.summary_text());
 
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
-			_ip->setPosition((*_display->layout)["character_create_stage_3:info_panel"].pos());
+			_ip->setPosition(
+				(*_display->layout)["character_create_stage_3:info_panel"]
+					.pos());
 			_window->draw(*_ip);
 		}
 	} else if (_candidate.get_stage() == CHS::ALLOCATE_STATS) {
 
-		_display->display("character_create_stage_4", _sprites, _texts, _frames);
-		_attribute_menu->generate((*_display->layout)["character_create_stage_4:menu"]);
+		_display->display(
+			"character_create_stage_4", _sprites, _texts, _frames);
+		_attribute_menu->generate(
+			(*_display->layout)["character_create_stage_4:menu"]);
 		_window->draw(*_attribute_menu);
 
-		_display->window->draw_text(
-			summary_text, (*_display->layout)["character_create_stage_4:summary_text"], _candidate.summary_text());
+		_display->window->draw_text(summary_text,
+			(*_display->layout)["character_create_stage_4:summary_text"],
+			_candidate.summary_text());
 
 		if (_ap->valid) {
-			_ap->setPosition((*_display->layout)["character_create_stage_4:allocate_panel"].pos());
+			_ap->setPosition(
+				(*_display->layout)["character_create_stage_4:allocate_panel"]
+					.pos());
 			_window->draw(*_ap);
 		}
 
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
-			_ip->setPosition((*_display->layout)["character_create_stage_4:info_panel"].pos());
+			_ip->setPosition(
+				(*_display->layout)["character_create_stage_4:info_panel"]
+					.pos());
 			_window->draw(*_ip);
 		}
 	} else if (_candidate.get_stage() == CHS::CHOOSE_CLASS) {
-		_display->display("character_create_stage_5", _sprites, _texts, _frames);
-		_class_menu->generate((*_display->layout)["character_create_stage_5:menu"]);
+		_display->display(
+			"character_create_stage_5", _sprites, _texts, _frames);
+		_class_menu->generate(
+			(*_display->layout)["character_create_stage_5:menu"]);
 		_window->draw(*_class_menu);
 
 		if (_ap->valid) {
-			_ap->setPosition((*_display->layout)["character_create_stage_4:allocate_panel"].pos());
+			_ap->setPosition(
+				(*_display->layout)["character_create_stage_4:allocate_panel"]
+					.pos());
 			_window->draw(*_ap);
 		}
 
-		_display->window->draw_text(
-			summary_text, (*_display->layout)["character_create_stage_5:summary_text"], _candidate.summary_text());
+		_display->window->draw_text(summary_text,
+			(*_display->layout)["character_create_stage_5:summary_text"],
+			_candidate.summary_text());
 
 		// Display bottom text depending on the menu item selected
 		if (_ip->valid) {
-			_ip->setPosition((*_display->layout)["character_create_stage_5:info_panel"].pos());
+			_ip->setPosition(
+				(*_display->layout)["character_create_stage_5:info_panel"]
+					.pos());
 			_window->draw(*_ip);
 		}
 
 	} else if (_candidate.get_stage() == CHS::CHOOSE_PORTRAIT) {
 
-		_display->display("character_create_stage_6", _sprites, _texts, _frames);
+		_display->display(
+			"character_create_stage_6", _sprites, _texts, _frames);
 
-		sf::Sprite portrait{_get_character_portrait(_candidate.get_portrait_index()).value()};
-		portrait.setPosition((*_display->layout)["character_create_stage_6:current_portrait"].pos());
-		portrait.setScale((*_display->layout)["character_create_stage_6:current_portrait"].scl());
+		sf::Sprite portrait{
+			_get_character_portrait(_candidate.get_portrait_index()).value()};
+		portrait.setPosition(
+			(*_display->layout)["character_create_stage_6:current_portrait"]
+				.pos());
+		portrait.setScale(
+			(*_display->layout)["character_create_stage_6:current_portrait"]
+				.scl());
 
-		_display->window->draw_text(
-			summary_text, (*_display->layout)["character_create_stage_6:summary_text"], _candidate.summary_text());
+		_display->window->draw_text(summary_text,
+			(*_display->layout)["character_create_stage_6:summary_text"],
+			_candidate.summary_text());
 
 		_window->draw(portrait);
 
 	} else if (_candidate.get_stage() == CHS::REVIEW_AND_CONFIRM) {
 
-		_display->display("character_create_stage_7", _sprites, _texts, _frames);
+		_display->display(
+			"character_create_stage_7", _sprites, _texts, _frames);
 
 		_character_display->update();
 		_window->draw(*_character_display);
 
 		if (_show_final_menu) {
-			_final_menu->generate((*_display->layout)["character_create_stage_7:menu"]);
+			_final_menu->generate(
+				(*_display->layout)["character_create_stage_7:menu"]);
 
 			_window->draw(*_final_menu_frame);
 			_window->draw(*_final_menu);
@@ -1215,7 +1312,8 @@ auto Sorcery::Create::_draw() -> void {
 	_display->display_cursor();
 }
 
-auto Sorcery::Create::_get_character_portrait(const unsigned int index) -> std::optional<sf::Sprite> {
+auto Sorcery::Create::_get_character_portrait(const unsigned int index)
+	-> std::optional<sf::Sprite> {
 
 	sf::Sprite portrait{_graphics->textures->get(index, GTT::PORTRAIT).value()};
 
@@ -1230,8 +1328,10 @@ auto Sorcery::Create::_add_starting_equipment() -> void {
 	case CHC::FIGHTER:
 	case CHC::LORD:
 	case CHC::SAMURAI:
-		_candidate.inventory.add_type((*_game->itemstore)[ITT::LEATHER_ARMOR], true);
-		_candidate.inventory.add_type((*_game->itemstore)[ITT::LONG_SWORD], true);
+		_candidate.inventory.add_type(
+			(*_game->itemstore)[ITT::LEATHER_ARMOR], true);
+		_candidate.inventory.add_type(
+			(*_game->itemstore)[ITT::LONG_SWORD], true);
 		break;
 	case CHC::MAGE:
 		_candidate.inventory.add_type((*_game->itemstore)[ITT::ROBES], true);
@@ -1244,8 +1344,10 @@ auto Sorcery::Create::_add_starting_equipment() -> void {
 		break;
 	case CHC::THIEF:
 	case CHC::NINJA:
-		_candidate.inventory.add_type((*_game->itemstore)[ITT::LEATHER_ARMOR], true);
-		_candidate.inventory.add_type((*_game->itemstore)[ITT::SHORT_SWORD], true);
+		_candidate.inventory.add_type(
+			(*_game->itemstore)[ITT::LEATHER_ARMOR], true);
+		_candidate.inventory.add_type(
+			(*_game->itemstore)[ITT::SHORT_SWORD], true);
 	default:
 		break;
 	}

@@ -51,6 +51,7 @@ class Factory {
 		// Public Methods
 		auto make_dialog(const std::string &component, const WDT type = WDT::OK,
 			const unsigned int duration = 0) -> std::unique_ptr<Dialog>;
+		auto make_menu(const MTP type) -> std::unique_ptr<Menu>;
 		auto make_menu(const std::string &component, const MTP type,
 			std::optional<MMD> mode = std::nullopt,
 			std::optional<unsigned int> data = 0, const bool reload = false)

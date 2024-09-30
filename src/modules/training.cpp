@@ -37,24 +37,31 @@
 #include "modules/enum.hpp"
 #include "modules/roster.hpp"
 #include "resources/componentstore.hpp"
+#include "resources/factory.hpp"
 #include "resources/resourcemanager.hpp"
 #include "types/character.hpp"
 #include "types/component.hpp"
 
 // Standard Constructor
-Sorcery::Training::Training(System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::Training::Training(
+	System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::TRAINING_GROUNDS);
-	_menu->generate((*_display->layout)["training_grounds:menu"]);
-	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["training_grounds:menu"].y);
+	// Setup the Factory
+	_factory = std::make_unique<Factory>(_system, _display, _graphics, _game);
+
+	// Create the Modules
+	_menu = _factory->make_menu("training_grounds:menu", MTP::TRAINING_GROUNDS);
 	_create = std::make_unique<Create>(_system, _display, _graphics, _game);
-	_inspect = std::make_unique<Roster>(_system, _display, _graphics, _game, ROM::INSPECT);
-	_delete = std::make_unique<Roster>(_system, _display, _graphics, _game, ROM::DELETE);
-	_edit = std::make_unique<Roster>(_system, _display, _graphics, _game, ROM::EDIT);
+	_inspect = std::make_unique<Roster>(
+		_system, _display, _graphics, _game, ROM::INSPECT);
+	_delete = std::make_unique<Roster>(
+		_system, _display, _graphics, _game, ROM::DELETE);
+	_edit = std::make_unique<Roster>(
+		_system, _display, _graphics, _game, ROM::EDIT);
 }
 
 // Standard Destructor
@@ -70,7 +77,8 @@ auto Sorcery::Training::start() -> std::optional<MIM> {
 		}
 	}
 
-	// Get the Background Display Components and load them into Display module storage (not local)
+	// Get the Background Display Components and load them into Display module
+	// storage (not local)
 	_display->generate("training_grounds");
 
 	// Set up the Custom Components
@@ -79,18 +87,17 @@ auto Sorcery::Training::start() -> std::optional<MIM> {
 	bg_rect.width = std::stoi(bg_c["source_w"].value());
 	bg_rect.height = std::stoi(bg_c["source_h"].value());
 	bg_rect.top = 0;
-	bg_rect.left = std::stoi(bg_c["source_w"].value()) * std::stoi(bg_c["source_index"].value());
+	bg_rect.left = std::stoi(bg_c["source_w"].value()) *
+				   std::stoi(bg_c["source_index"].value());
 
 	_bg.setTexture(_system->resources->textures[GTX::TOWN]);
 	_bg.setTextureRect(bg_rect);
-	_bg.setScale(std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
-	_bg.setPosition(_display->window->get_x(_bg, bg_c.x), _display->window->get_y(_bg, bg_c.y));
+	_bg.setScale(
+		std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
+	_bg.setPosition(_display->window->get_x(_bg, bg_c.x),
+		_display->window->get_y(_bg, bg_c.y));
 
-	const Component menu_fc{(*_display->layout)["training_grounds:menu_frame"]};
-	_menu_frame = std::make_unique<Frame>(
-		_display->ui_texture, menu_fc.w, menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
-	_menu_frame->setPosition(_display->window->get_x(_menu_frame->sprite, menu_fc.x),
-		_display->window->get_y(_menu_frame->sprite, menu_fc.y));
+	_menu_frame = _factory->make_menu_frame("training_grounds:menu_frame");
 
 	// Clear the window
 	_window->clear();
@@ -134,7 +141,8 @@ auto Sorcery::Training::start() -> std::optional<MIM> {
 					if (opt == MIM::TR_EDGE_OF_TOWN) {
 						return MIM::ET_LEAVE_GAME;
 					} else if (opt == MIM::TR_CREATE) {
-						if (auto result{_create->start()}; result && result.value() == MIM::ITEM_ABORT) {
+						if (auto result{_create->start()};
+							result && result.value() == MIM::ITEM_ABORT) {
 							_create->stop();
 							return MIM::ITEM_ABORT;
 						}
@@ -142,7 +150,8 @@ auto Sorcery::Training::start() -> std::optional<MIM> {
 						_display->generate("training_grounds");
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 					} else if (opt == MIM::TR_INSPECT) {
-						if (auto result{_inspect->start()}; result && result.value() == MIM::ITEM_ABORT) {
+						if (auto result{_inspect->start()};
+							result && result.value() == MIM::ITEM_ABORT) {
 							_inspect->stop();
 							return MIM::ITEM_ABORT;
 						}
@@ -150,7 +159,8 @@ auto Sorcery::Training::start() -> std::optional<MIM> {
 						_display->generate("training_grounds");
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 					} else if (opt == MIM::TR_EDIT) {
-						if (auto result{_edit->start()}; result && result.value() == MIM::ITEM_ABORT) {
+						if (auto result{_edit->start()};
+							result && result.value() == MIM::ITEM_ABORT) {
 							_edit->stop();
 							return MIM::ITEM_ABORT;
 						}
@@ -158,7 +168,8 @@ auto Sorcery::Training::start() -> std::optional<MIM> {
 						_display->generate("training_grounds");
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 					} else if (opt == MIM::TR_DELETE) {
-						if (auto result{_delete->start()}; result && result.value() == MIM::ITEM_ABORT) {
+						if (auto result{_delete->start()};
+							result && result.value() == MIM::ITEM_ABORT) {
 							_delete->stop();
 							return MIM::ITEM_ABORT;
 						}

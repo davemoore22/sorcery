@@ -39,6 +39,7 @@ namespace Sorcery {
 
 // Forward Declarations
 class Display;
+class Factory;
 class Game;
 class Graphics;
 class System;
@@ -48,7 +49,8 @@ class Create {
 	public:
 
 		// Constructor
-		Create(System *system, Display *display, Graphics *graphics, Game *game);
+		Create(
+			System *system, Display *display, Graphics *graphics, Game *game);
 		Create() = delete;
 
 		// Public Members
@@ -62,20 +64,27 @@ class Create {
 		// Private Methods
 		auto _draw() -> void;
 		auto _do_event_loop() -> std::optional<MDR>;
-		auto _get_character_portrait(const unsigned int index) -> std::optional<sf::Sprite>;
+		auto _get_character_portrait(const unsigned int index)
+			-> std::optional<sf::Sprite>;
 		auto _go_to_next_stage() -> void;
 		auto _go_to_previous_stage() -> void;
-		auto _handle_allocate_attributes(const sf::Event &event) -> std::optional<MDR>;
-		auto _handle_choose_create_method(const sf::Event &event) -> std::optional<MDR>;
+		auto _handle_allocate_attributes(const sf::Event &event)
+			-> std::optional<MDR>;
+		auto _handle_choose_create_method(const sf::Event &event)
+			-> std::optional<MDR>;
 		auto _handle_choose_name(const sf::Event &event) -> std::optional<MDR>;
 		auto _handle_choose_race(const sf::Event &event) -> std::optional<MDR>;
-		auto _handle_choose_alignment(const sf::Event &event) -> std::optional<MDR>;
+		auto _handle_choose_alignment(const sf::Event &event)
+			-> std::optional<MDR>;
 		auto _handle_choose_class(const sf::Event &event) -> std::optional<MDR>;
-		auto _handle_choose_potraits(const sf::Event &event) -> std::optional<MDR>;
+		auto _handle_choose_potraits(const sf::Event &event)
+			-> std::optional<MDR>;
 		auto _handle_input(const sf::Event &event) -> std::optional<MDR>;
-		auto _handle_review_and_confirm(const sf::Event &event) -> std::optional<MDR>;
+		auto _handle_review_and_confirm(const sf::Event &event)
+			-> std::optional<MDR>;
 		auto _set_classes_menu() -> void;
-		auto _set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void;
+		auto _set_info_panel_contents(
+			std::vector<Sorcery::MenuEntry>::const_iterator it) -> void;
 		auto _update_character(const sf::Event &event) -> std::optional<MDR>;
 		auto _generate_display() -> void;
 		auto _reset_components() -> void;
@@ -113,5 +122,6 @@ class Create {
 		bool _show_saved_ok;
 		std::unique_ptr<Dialog> _dialog_saved_ok;
 		std::unique_ptr<CharacterDisplay> _character_display;
+		std::unique_ptr<Factory> _factory;
 };
 } // namespace Sorcery
