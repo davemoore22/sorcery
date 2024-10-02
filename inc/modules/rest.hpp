@@ -36,6 +36,7 @@ namespace Sorcery {
 // Forward Declarations
 class Character;
 class Display;
+class Factory;
 class Game;
 class Graphics;
 class System;
@@ -51,7 +52,8 @@ class Rest {
 		// Public Members
 
 		// Public Methods
-		auto start(Character *character, REM mode, RET type) -> std::optional<MIM>;
+		auto start(Character *character, REM mode, RET type)
+			-> std::optional<MIM>;
 		auto stop() -> void;
 
 	private:
@@ -101,6 +103,7 @@ class Rest {
 		bool _birthday;
 		std::unique_ptr<Frame> _cont_frame;
 		std::unique_ptr<Frame> _stop_frame;
+		std::unique_ptr<Factory> _factory;
 };
 
 }

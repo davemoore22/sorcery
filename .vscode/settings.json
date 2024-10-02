@@ -135,7 +135,7 @@
 	"editor.fontLigatures": true,
 	"C_Cpp.errorSquiggles": "enabled",
 	"csharp.suppressDotnetInstallWarning": true,
-	"sonarlint.pathToCompileCommands": "/home/dave/Development/wizardry/sorcery-sfml/compile_commands.json",
+	"sonarlint.pathToCompileCommands": "${workspaceFolder}/compile_commands.json",
 	"editor.wordWrapColumn": 120,
 	"C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
 	"C_Cpp.default.compilerPath": "linux-gcc-x64",

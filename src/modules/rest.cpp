@@ -46,18 +46,13 @@ Sorcery::Rest::Rest(
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
-	// Custom Components
-	_cont_menu = std::make_unique<Menu>(
-		_system, _display, _graphics, _game, MTP::CONTINUE);
-	_cont_menu->generate((*_display->layout)["rest:continue_menu"]);
-	_cont_menu->setPosition(_display->get_centre_x(_cont_menu->get_width()),
-		(*_display->layout)["rest:continue_menu"].y);
+	// Setup the Factory
+	_factory = std::make_unique<Factory>(_system, _display, _graphics, _game);
 
-	_stop_menu =
-		std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::STOP);
-	_stop_menu->generate((*_display->layout)["rest:stop_menu"]);
-	_stop_menu->setPosition(_display->get_centre_x(_stop_menu->get_width()),
-		(*_display->layout)["rest:stop_menu"].y);
+	_cont_menu = _factory->make_menu("rest:continue_menu", MTP::CONTINUE);
+	_stop_menu = _factory->make_menu("rest:stop_menu", MTP::STOP);
+	_stop_frame = _factory->make_menu_frame("rest:stop_frame");
+	_cont_frame = _factory->make_menu_frame("rest:continue_frame");
 
 	// Ugly - need to change this
 	_nap_text = sf::Text();
@@ -65,20 +60,6 @@ Sorcery::Rest::Rest(
 	_no_level_text_2 = sf::Text();
 	_level_up_message = sf::Text();
 	_level_text = sf::Text();
-
-	Component _smf_c{(*_display->layout)["rest:stop_frame"]};
-	_stop_frame = std::make_unique<Frame>(_display->ui_texture, _smf_c.w,
-		_smf_c.h, _smf_c.colour, _smf_c.background, _smf_c.alpha);
-	_stop_frame->setPosition(
-		_display->window->get_x(_stop_frame->sprite, _smf_c.x),
-		_display->window->get_y(_stop_frame->sprite, _smf_c.y));
-
-	Component _cmf_c{(*_display->layout)["rest:continue_frame"]};
-	_cont_frame = std::make_unique<Frame>(_display->ui_texture, _cmf_c.w,
-		_cmf_c.h, _cmf_c.colour, _cmf_c.background, _cmf_c.alpha);
-	_cont_frame->setPosition(
-		_display->window->get_x(_cont_frame->sprite, _cmf_c.x),
-		_display->window->get_y(_cont_frame->sprite, _cmf_c.y));
 
 	// Modules
 	_party_panel = std::make_unique<PartyPanel>(_system, _display, _graphics,

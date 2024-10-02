@@ -30,6 +30,7 @@ namespace Sorcery {
 
 // Forward Declarations
 class Display;
+class Factory;
 class Frame;
 class Game;
 class Graphics;
@@ -41,7 +42,8 @@ class Restart {
 	public:
 
 		// Standard Constructor
-		Restart(System *system, Display *display, Graphics *graphics, Game *game);
+		Restart(
+			System *system, Display *display, Graphics *graphics, Game *game);
 		Restart() = delete;
 
 		// Standard Destructor
@@ -69,6 +71,7 @@ class Restart {
 		std::unique_ptr<Menu> _menu;
 		sf::Sprite _bg;
 		std::unique_ptr<Frame> _menu_frame;
+		std::unique_ptr<Factory> _factory;
 };
 
 }
