@@ -36,32 +36,32 @@
 #include "modules/define.hpp"
 #include "modules/legate.hpp"
 #include "resources/componentstore.hpp"
+#include "resources/factory.hpp"
 #include "resources/resourcemanager.hpp"
 #include "types/character.hpp"
 #include "types/component.hpp"
 
 // Standard Constructor
-Sorcery::Edit::Edit(System *system, Display *display, Graphics *graphics, Game *game)
+Sorcery::Edit::Edit(
+	System *system, Display *display, Graphics *graphics, Game *game)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
+
+	// Setup the Factory
+	_factory = std::make_unique<Factory>(_system, _display, _graphics, _game);
+
 	_cur_char = std::nullopt;
 
-	_char_panel = std::make_unique<CharacterPanel>(_system, _display, _graphics);
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::EDIT_CHARACTER);
-	_menu->generate((*_display->layout)["character_edit:menu"]);
-	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["character_edit:menu"].y);
+	_char_panel =
+		std::make_unique<CharacterPanel>(_system, _display, _graphics);
 
-	_changed = std::make_unique<Dialog>(_system, _display, _graphics,
-		(*_display->layout)["character_edit:dialog_class_changed"],
-		(*_display->layout)["character_edit:dialog_class_changed_text"], WDT::OK);
-	_changed->setPosition(_display->get_centre_pos(_changed->get_size()));
-
-	_legated =
-		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["character_edit:dialog_legated"],
-			(*_display->layout)["character_edit:dialog_legated_text"], WDT::OK);
-	_legated->setPosition(_display->get_centre_pos(_legated->get_size()));
+	_menu = _factory->make_menu("character_edit:menu", MTP::EDIT_CHARACTER);
+	_changed = _factory->make_dialog("character_edit:dialog_class_changed");
+	_legated = _factory->make_dialog("character_edit:dialog_legated");
+	_menu_frame = _factory->make_menu_frame("character_edit:menu_frame");
+	_preview_frame = _factory->make_frame("roster:preview_frame");
 }
 
 auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MIM> {
@@ -83,24 +83,15 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MIM> {
 	bg_rect.width = std::stoi(bg_c["source_w"].value());
 	bg_rect.height = std::stoi(bg_c["source_h"].value());
 	bg_rect.top = 0;
-	bg_rect.left = std::stoi(bg_c["source_w"].value()) * std::stoi(bg_c["source_index"].value());
+	bg_rect.left = std::stoi(bg_c["source_w"].value()) *
+				   std::stoi(bg_c["source_index"].value());
 
 	_bg.setTexture(_system->resources->textures[GTX::TOWN]);
 	_bg.setTextureRect(bg_rect);
-	_bg.setScale(std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
-	_bg.setPosition(_display->window->get_x(_bg, bg_c.x), _display->window->get_y(_bg, bg_c.y));
-
-	const Component menu_fc{(*_display->layout)["character_edit:menu_frame"]};
-	_menu_frame = std::make_unique<Frame>(
-		_display->ui_texture, menu_fc.w, menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
-	_menu_frame->setPosition(_display->window->get_x(_menu_frame->sprite, menu_fc.x),
-		_display->window->get_y(_menu_frame->sprite, menu_fc.y));
-
-	const Component p_fc{(*_display->layout)["roster:preview_frame"]};
-	_preview_frame =
-		std::make_unique<Frame>(_display->ui_texture, p_fc.w, p_fc.h, p_fc.colour, p_fc.background, p_fc.alpha);
-	_preview_frame->setPosition(_display->window->get_x(_preview_frame->sprite, p_fc.x),
-		_display->window->get_y(_preview_frame->sprite, p_fc.y));
+	_bg.setScale(
+		std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));
+	_bg.setPosition(_display->window->get_x(_bg, bg_c.x),
+		_display->window->get_y(_bg, bg_c.y));
 
 	// Clear the window
 	_window->clear();
@@ -125,18 +116,20 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MIM> {
 				_display->hide_overlay();
 
 			if (_show_changed) {
-				auto dialog_input{_changed->handle_input(event)};
-				if (dialog_input) {
-					if (dialog_input.value() == WDB::CLOSE || dialog_input.value() == WDB::OK) {
+				auto input{_changed->handle_input(event)};
+				if (input) {
+					if (input.value() == WDB::CLOSE ||
+						input.value() == WDB::OK) {
 						_show_changed = false;
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						return std::nullopt;
 					}
 				}
 			} else if (_show_legated) {
-				auto dialog_input{_legated->handle_input(event)};
-				if (dialog_input) {
-					if (dialog_input.value() == WDB::CLOSE || dialog_input.value() == WDB::OK) {
+				auto input{_legated->handle_input(event)};
+				if (input) {
+					if (input.value() == WDB::CLOSE ||
+						input.value() == WDB::OK) {
 						_show_legated = false;
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						return std::nullopt;
@@ -159,35 +152,42 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MIM> {
 
 					// We have selected something from the menu
 					if (selected) {
-						if (const MIM opt{(*selected.value()).item}; opt == MIM::EC_RETURN_EDIT) {
+						if (const MIM opt{(*selected.value()).item};
+							opt == MIM::EC_RETURN_EDIT) {
 							return MIM::EC_RETURN_EDIT;
 						} else if (opt == MIM::EC_CHANGE_NAME) {
 
-							auto change_name{std::make_unique<ChangeName>(
-								_system, _display, _graphics, _cur_char.value()->get_name())};
+							auto change_name{
+								std::make_unique<ChangeName>(_system, _display,
+									_graphics, _cur_char.value()->get_name())};
 							if (auto new_name{change_name->start()}; new_name) {
 
 								if (new_name.value() == EXIT_STRING)
 									return MIM::ITEM_ABORT;
 
-								// Update character name and resave the character!
+								// Update character name and resave the
+								// character!
 								auto changed_name{new_name.value()};
 								_cur_char.value()->set_name(changed_name);
 								auto &character{*_cur_char.value()};
-								_game->update_character(_game->get_id(), current_character_idx, character);
+								_game->update_character(_game->get_id(),
+									current_character_idx, character);
 								_game->save_game();
 							}
 							change_name->stop();
 						} else if (opt == MIM::EC_CHANGE_CLASS) {
 							auto &character{*_cur_char.value()};
-							auto change_class{std::make_unique<ChangeClass>(_system, _display, _graphics, &character)};
+							auto change_class{std::make_unique<ChangeClass>(
+								_system, _display, _graphics, &character)};
 
-							if (auto new_class{change_class->start()}; new_class) {
+							if (auto new_class{change_class->start()};
+								new_class) {
 
 								// Can't select same class in the change_class
 								// module - it returns nullopt if you do
 								character.change_class(new_class.value());
-								_game->update_character(_game->get_id(), current_character_idx, character);
+								_game->update_character(_game->get_id(),
+									current_character_idx, character);
 								_game->save_game();
 
 								_show_changed = true;
@@ -196,15 +196,18 @@ auto Sorcery::Edit::start(int current_character_idx) -> std::optional<MIM> {
 							change_class->stop();
 						} else if (opt == MIM::EC_LEGATE_CHARACTER) {
 							auto &character{*_cur_char.value()};
-							auto legate{std::make_unique<Legate>(_system, _display, _graphics, &character)};
+							auto legate{std::make_unique<Legate>(
+								_system, _display, _graphics, &character)};
 							if (auto legated{legate->start()}; legated) {
 
 								// How to exit from legated module?
 								character.legate(legated.value());
-								_game->update_character(_game->get_id(), current_character_idx, character);
+								_game->update_character(_game->get_id(),
+									current_character_idx, character);
 
 								_game->save_game();
-								auto cur_char{&_game->characters[current_character_idx]};
+								auto cur_char{
+									&_game->characters[current_character_idx]};
 								_char_panel->set(cur_char);
 
 								_show_legated = true;
@@ -253,7 +256,8 @@ auto Sorcery::Edit::_draw() -> void {
 	// Character Preview
 	_window->draw(*_preview_frame);
 	if (_char_panel->valid) {
-		_char_panel->setPosition((*_display->layout)["character_edit:info_panel"].pos());
+		_char_panel->setPosition(
+			(*_display->layout)["character_edit:info_panel"].pos());
 		_window->draw(*_char_panel);
 	}
 

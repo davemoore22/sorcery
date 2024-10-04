@@ -33,6 +33,7 @@ namespace Sorcery {
 class Character;
 class Dialog;
 class Display;
+class Factory;
 class Frame;
 class Game;
 class Graphics;
@@ -45,7 +46,8 @@ class ChangeClass {
 	public:
 
 		// Standard Constructor
-		ChangeClass(System *system, Display *display, Graphics *graphics, Character *character);
+		ChangeClass(System *system, Display *display, Graphics *graphics,
+			Character *character);
 		ChangeClass() = delete;
 
 		// Standard Destructor
@@ -62,7 +64,8 @@ class ChangeClass {
 		// Private Methods
 		auto _draw() -> void;
 		auto _set_classes_menu() -> void;
-		auto _set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void;
+		auto _set_info_panel_contents(
+			std::vector<Sorcery::MenuEntry>::const_iterator it) -> void;
 
 		// Private Members
 		System *_system;
@@ -80,6 +83,7 @@ class ChangeClass {
 		bool _show_confirm;
 		bool _show_not_changed;
 		std::optional<CHC> _new_class;
+		std::unique_ptr<Factory> _factory;
 };
 
 }

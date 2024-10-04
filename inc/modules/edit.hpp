@@ -35,6 +35,7 @@ namespace Sorcery {
 // Forward Declarations
 class Character;
 class Display;
+class Factory;
 class Game;
 class Graphics;
 class System;
@@ -77,6 +78,7 @@ class Edit {
 		bool _show_changed;
 		std::unique_ptr<Dialog> _legated;
 		bool _show_legated;
+		std::unique_ptr<Factory> _factory;
 };
 
 }

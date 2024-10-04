@@ -32,6 +32,7 @@ namespace Sorcery {
 class Character;
 class Dialog;
 class Display;
+class Factory;
 class Frame;
 class Graphics;
 class Menu;
@@ -42,7 +43,8 @@ class Legate {
 	public:
 
 		// Standard Constructor
-		Legate(System *system, Display *display, Graphics *graphics, Character *character);
+		Legate(System *system, Display *display, Graphics *graphics,
+			Character *character);
 		Legate() = delete;
 
 		// Standard Destructor
@@ -71,7 +73,8 @@ class Legate {
 		CHG _stage;
 		std::unique_ptr<Menu> _menu;
 		std::unique_ptr<Frame> _frame;
-		sf::Text _choose_alignment;
+		sf::Text _choose;
+		std::unique_ptr<Factory> _factory;
 };
 
 }

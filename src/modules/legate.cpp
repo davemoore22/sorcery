@@ -34,62 +34,60 @@
 #include "gui/frame.hpp"
 #include "gui/menu.hpp"
 #include "resources/componentstore.hpp"
+#include "resources/factory.hpp"
 #include "resources/resourcemanager.hpp"
 #include "resources/stringstore.hpp"
 #include "types/character.hpp"
 #include "types/component.hpp"
 
 // Standard Constructor
-Sorcery::Legate::Legate(System *system, Display *display, Graphics *graphics, Character *character)
-	: _system{system}, _display{display}, _graphics{graphics}, _character{character} {
+Sorcery::Legate::Legate(
+	System *system, Display *display, Graphics *graphics, Character *character)
+	: _system{system}, _display{display}, _graphics{graphics},
+	  _character{character} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
+	// Setup the Factory
+	_factory = std::make_unique<Factory>(_system, _display, _graphics, nullptr);
+
 	// Dialog
 	_proceed =
-		std::make_unique<Dialog>(_system, _display, _graphics, (*_display->layout)["legate:dialog_confirm_legate"],
-			(*_display->layout)["legate:dialog_confirm_legate_text"], WDT::CONFIRM);
-	_proceed->setPosition(_display->get_centre_pos(_proceed->get_size()));
+		_factory->make_dialog("legate:dialog_confirm_legate", WDT::CONFIRM);
 
 	// Menu
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr, MTP::CHOOSE_CHARACTER_ALIGNMENT);
-	_menu->generate((*_display->layout)["legate:menu"]);
-	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["legate:menu"].y);
-
+	_menu = _factory->make_menu("legate:menu", MTP::CHOOSE_CHARACTER_ALIGNMENT);
 	_set_alignment_menu();
 
 	// Frame
-	const Component menu_fc{(*_display->layout)["legate:menu_frame"]};
-	_frame = std::make_unique<Frame>(
-		_display->ui_texture, menu_fc.w, menu_fc.h, menu_fc.colour, menu_fc.background, menu_fc.alpha);
-	_frame->setPosition(
-		_display->window->get_x(_frame->sprite, menu_fc.x), _display->window->get_y(_frame->sprite, menu_fc.y));
+	_frame = _factory->make_menu_frame("legate:menu_frame");
 
 	// Text
 	const Component text_c{(*_display->layout)["legate:choose_alignment_text"]};
-	_choose_alignment = sf::Text();
-	_choose_alignment.setFont(_system->resources->fonts[text_c.font]);
-	_choose_alignment.setCharacterSize(text_c.size);
-	_choose_alignment.setFillColor(sf::Color(text_c.colour));
+	_choose = sf::Text();
+	_choose.setFont(_system->resources->fonts[text_c.font]);
+	_choose.setCharacterSize(text_c.size);
+	_choose.setFillColor(sf::Color(text_c.colour));
 	auto alignment{(*_display->string)["LEGATE_CHARACTER_ALIGNMENT"]};
 	if (_display->get_upper())
-		std::transform(alignment.begin(), alignment.end(), alignment.begin(), ::toupper);
+		std::transform(
+			alignment.begin(), alignment.end(), alignment.begin(), ::toupper);
 
-	_choose_alignment.setString((*_display->string)["LEGATE_CHARACTER_ALIGNMENT"]);
-	const auto offset_x{std::invoke([&] {
+	_choose.setString((*_display->string)["LEGATE_CHARACTER_ALIGNMENT"]);
+	const auto off_x{std::invoke([&] {
 		if (text_c["offset_x"])
 			return std::stoi(text_c["offset_x"].value());
 		else
 			return 0;
 	})};
-	const auto offset_y{std::invoke([&] {
+	const auto off_y{std::invoke([&] {
 		if (text_c["offset_y"])
 			return std::stoi(text_c["offset_y"].value());
 		else
 			return 0;
 	})};
-	_choose_alignment.setPosition(text_c.x + offset_x, text_c.y + offset_y);
+	_choose.setPosition(text_c.x + off_x, text_c.y + off_y);
 
 	// Initial Stage
 	_stage = CHG::NO_STAGE;
@@ -131,16 +129,16 @@ auto Sorcery::Legate::start() -> std::optional<CAL> {
 
 			if (_stage == CHG::CONFIRM) {
 
-				auto dialog_input{_proceed->handle_input(event)};
-				if (dialog_input) {
-					if (dialog_input.value() == WDB::CLOSE) {
+				auto input{_proceed->handle_input(event)};
+				if (input) {
+					if (input.value() == WDB::CLOSE) {
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						return std::nullopt;
-					} else if (dialog_input.value() == WDB::YES) {
+					} else if (input.value() == WDB::YES) {
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						_stage = CHG::CHANGE_ALIGNMENT;
 						continue;
-					} else if (dialog_input.value() == WDB::NO) {
+					} else if (input.value() == WDB::NO) {
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						return std::nullopt;
 					}
@@ -268,7 +266,7 @@ auto Sorcery::Legate::_draw() -> void {
 		_window->draw(*_frame);
 		_menu->generate((*_display->layout)["legate:menu"]);
 		_window->draw(*_menu);
-		_window->draw(_choose_alignment);
+		_window->draw(_choose);
 	}
 
 	// And finally the Cursor

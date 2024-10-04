@@ -34,42 +34,40 @@
 #include "gui/infopanel.hpp"
 #include "gui/menu.hpp"
 #include "resources/componentstore.hpp"
+#include "resources/factory.hpp"
 #include "types/character.hpp"
 #include "types/component.hpp"
 
 // Standard Constructor
-Sorcery::ChangeClass::ChangeClass(System *system, Display *display, Graphics *graphics, Character *character)
-	: _system{system}, _display{display}, _graphics{graphics}, _character{character} {
+Sorcery::ChangeClass::ChangeClass(
+	System *system, Display *display, Graphics *graphics, Character *character)
+	: _system{system}, _display{display}, _graphics{graphics},
+	  _character{character} {
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
+
+	// Setup the Factory
+	_factory = std::make_unique<Factory>(_system, _display, _graphics, nullptr);
 
 	// Get the Infopanel
 	_ip = std::make_unique<InfoPanel>(_system, _display, _graphics);
 
 	// Main Menu
-	_menu = std::make_unique<Menu>(_system, _display, _graphics, nullptr, MTP::CHANGE_CHARACTER_CLASS);
+	_menu =
+		_factory->make_menu("change_class:menu", MTP::CHANGE_CHARACTER_CLASS);
 	_set_classes_menu();
 	_menu->choose_first();
-	_menu->generate((*_display->layout)["change_class:menu"]);
-	_menu->setPosition(_display->get_centre_x(_menu->get_width()), (*_display->layout)["change_class:menu"].y);
-
-	;
 
 	// Info Panel
 	_ip->valid = false;
 	_set_info_panel_contents(_menu->selected);
 
 	// And the Dialogs
-	_not_changed = std::make_unique<Dialog>(_system, _display, _graphics,
-		(*_display->layout)["change_class:dialog_class_not_changed"],
-		(*_display->layout)["change_class:dialog_class_not_changed_text"], WDT::OK);
-	_not_changed->setPosition(_display->get_centre_pos(_not_changed->get_size()));
-
-	_confirm = std::make_unique<Dialog>(_system, _display, _graphics,
-		(*_display->layout)["change_class:dialog_confirm_change_class"],
-		(*_display->layout)["change_class:dialog_confirm_change_class_text"], WDT::CONFIRM);
-	_confirm->setPosition(_display->get_centre_pos(_confirm->get_size()));
+	_not_changed =
+		_factory->make_dialog("change_class:dialog_class_not_changed");
+	_confirm = _factory->make_dialog(
+		"change_class:dialog_confirm_change_class", WDT::CONFIRM);
 
 	_new_class = std::nullopt;
 }
@@ -106,13 +104,13 @@ auto Sorcery::ChangeClass::start() -> std::optional<CHC> {
 
 			if (_show_not_changed) {
 
-				auto dialog_input{_not_changed->handle_input(event)};
-				if (dialog_input) {
-					if (dialog_input.value() == WDB::CLOSE) {
+				auto input{_not_changed->handle_input(event)};
+				if (input) {
+					if (input.value() == WDB::CLOSE) {
 						_show_not_changed = false;
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						return std::nullopt;
-					} else if (dialog_input.value() == WDB::OK) {
+					} else if (input.value() == WDB::OK) {
 						_show_not_changed = false;
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						return std::nullopt;
@@ -120,15 +118,15 @@ auto Sorcery::ChangeClass::start() -> std::optional<CHC> {
 				};
 			} else if (_show_confirm) {
 
-				auto dialog_input{_confirm->handle_input(event)};
-				if (dialog_input) {
-					if (dialog_input.value() == WDB::CLOSE) {
+				auto input{_confirm->handle_input(event)};
+				if (input) {
+					if (input.value() == WDB::CLOSE) {
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						_show_confirm = false;
-					} else if (dialog_input.value() == WDB::YES) {
+					} else if (input.value() == WDB::YES) {
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						return _new_class;
-					} else if (dialog_input.value() == WDB::NO) {
+					} else if (input.value() == WDB::NO) {
 						_display->set_input_mode(WIM::NAVIGATE_MENU);
 						_show_confirm = false;
 					}
@@ -165,7 +163,8 @@ auto Sorcery::ChangeClass::start() -> std::optional<CHC> {
 							else {
 								_show_confirm = true;
 								_new_class = CHC::SAMURAI;
-								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(
+									WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MIM::CC_FIGHTER:
@@ -174,7 +173,8 @@ auto Sorcery::ChangeClass::start() -> std::optional<CHC> {
 							else {
 								_show_confirm = true;
 								_new_class = CHC::FIGHTER;
-								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(
+									WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MIM::CC_LORD:
@@ -183,7 +183,8 @@ auto Sorcery::ChangeClass::start() -> std::optional<CHC> {
 							else {
 								_show_confirm = true;
 								_new_class = CHC::LORD;
-								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(
+									WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MIM::CC_THIEF:
@@ -192,7 +193,8 @@ auto Sorcery::ChangeClass::start() -> std::optional<CHC> {
 							else {
 								_show_confirm = true;
 								_new_class = CHC::THIEF;
-								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(
+									WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MIM::CC_NINJA:
@@ -201,7 +203,8 @@ auto Sorcery::ChangeClass::start() -> std::optional<CHC> {
 							else {
 								_show_confirm = true;
 								_new_class = CHC::NINJA;
-								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(
+									WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MIM::CC_PRIEST:
@@ -210,7 +213,8 @@ auto Sorcery::ChangeClass::start() -> std::optional<CHC> {
 							else {
 								_show_confirm = true;
 								_new_class = CHC::PRIEST;
-								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(
+									WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MIM::CC_BISHOP:
@@ -219,7 +223,8 @@ auto Sorcery::ChangeClass::start() -> std::optional<CHC> {
 							else {
 								_show_confirm = true;
 								_new_class = CHC::BISHOP;
-								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(
+									WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						case MIM::CC_MAGE:
@@ -228,7 +233,8 @@ auto Sorcery::ChangeClass::start() -> std::optional<CHC> {
 							else {
 								_show_confirm = true;
 								_new_class = CHC::MAGE;
-								_display->set_input_mode(WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
+								_display->set_input_mode(
+									WIM::CONFIRM_CHANGE_CHARACTER_CLASS);
 							}
 							break;
 						default:
@@ -308,7 +314,8 @@ auto Sorcery::ChangeClass::_set_classes_menu() -> void {
 	_menu->choose(_character->get_class());
 }
 
-auto Sorcery::ChangeClass::_set_info_panel_contents(std::vector<Sorcery::MenuEntry>::const_iterator it) -> void {
+auto Sorcery::ChangeClass::_set_info_panel_contents(
+	std::vector<Sorcery::MenuEntry>::const_iterator it) -> void {
 
 	// Set the Text
 	if ((*it).type == MIT::ENTRY) {
