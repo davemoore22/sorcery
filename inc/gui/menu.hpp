@@ -118,7 +118,7 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		unsigned int _height;
 		MTP _type;
 		sf::RenderTexture _rtexture;
-		sf::Texture _texture;
+		sf::Texture *_texture;
 		std::vector<sf::Text> _texts;
 		std::vector<sf::Text> _options;
 		sf::RectangleShape _selected_bg;

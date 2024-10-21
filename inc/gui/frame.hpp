@@ -41,7 +41,7 @@ class Frame: public sf::Transformable, public sf::Drawable {
 		Frame(System *system);
 		Frame(System *system, Display *display, const Component layout);
 
-		Frame(sf::Texture texture, const unsigned int width_units,
+		Frame(sf::Texture *texture, const unsigned int width_units,
 			const unsigned int height_units, const unsigned long long colour,
 			const unsigned long long bg_colour, const unsigned int alpha);
 		Frame() = delete;
@@ -66,7 +66,7 @@ class Frame: public sf::Transformable, public sf::Drawable {
 		std::array<sf::IntRect, 8> _frame_parts;
 		std::array<sf::Sprite, 8> _frame_sprites;
 		sf::RenderTexture _rtexture;
-		sf::Texture _texture;
+		sf::Texture *_texture;
 		sf::Texture _frame_texture;
 		sf::Texture _bg_texture;
 

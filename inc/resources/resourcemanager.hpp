@@ -48,7 +48,10 @@ class ResourceManager {
 		std::shared_ptr<TextFile> license_file;
 
 		// Public Methods
-		auto get_font_height(const FTT font_type, const unsigned int size, bool bold = false) const -> unsigned int;
+		auto get_font_height(const FTT font_type, const unsigned int size,
+			bool bold = false) const -> unsigned int;
+		auto get_texture(const GTX texture_type) -> sf::Texture *;
+		auto get_texture_ref(const GTX texture_type) -> sf::Texture &;
 
 	private:
 
@@ -56,6 +59,7 @@ class ResourceManager {
 
 		// Private Members
 		FileStore _files;
+		std::map<Enums::Graphics::Texture, bool> _loaded;
 };
 
 }

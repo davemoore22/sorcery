@@ -90,7 +90,7 @@ auto Sorcery::Training::start() -> std::optional<MIM> {
 	bg_rect.left = std::stoi(bg_c["source_w"].value()) *
 				   std::stoi(bg_c["source_index"].value());
 
-	_bg.setTexture(_system->resources->textures[GTX::TOWN]);
+	_bg.setTexture(*_system->resources->get_texture(GTX::TOWN));
 	_bg.setTextureRect(bg_rect);
 	_bg.setScale(
 		std::stof(bg_c["scale_x"].value()), std::stof(bg_c["scale_y"].value()));

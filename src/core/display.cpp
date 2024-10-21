@@ -41,7 +41,7 @@ Sorcery::Display::Display(System *system) : _system{system} {
 		(*string)["TITLE_AND_VERSION_INFO"]);
 	overlay = std::make_unique<ControlOverlay>(
 		_system, this, (*layout)["global:control_overlay"]);
-	ui_texture = (*_system->resources).textures[GTX::UI];
+	ui_texture = _system->resources->get_texture(GTX::UI);
 	_bg_movie.openFromFile(_system->files->get_path(VIDEO_FILE));
 	auto icon_layout{(*layout)["global:icon"]};
 
@@ -157,7 +157,8 @@ auto Sorcery::Display::generate(std::string_view screen, SpriteMap &sprites,
 					bg_rect.left = std::stoi(comp["source_w"].value()) *
 								   std::stoi(comp["source_index"].value());
 					sf::Sprite image{};
-					image.setTexture(_system->resources->textures[GTX::TOWN]);
+					image.setTexture(
+						*_system->resources->get_texture(GTX::TOWN));
 					image.setTextureRect(bg_rect);
 					image.setScale(std::stof(comp["scale_x"].value()),
 						std::stof(comp["scale_y"].value()));
@@ -228,7 +229,7 @@ auto Sorcery::Display::generate(std::string_view screen, SpriteMap &sprites,
 			} else if (comp.type == CPT::FRAME) {
 
 				auto frame = std::make_shared<Frame>(
-					_system->resources->textures[GTX::UI], comp.w, comp.h,
+					_system->resources->get_texture(GTX::UI), comp.w, comp.h,
 					comp.colour, comp.background, comp.alpha);
 
 				// Check for Offsets

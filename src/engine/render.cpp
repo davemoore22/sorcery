@@ -162,9 +162,7 @@ auto Sorcery::Render::_has_wall(
 auto Sorcery::Render::_render_wireframe(
 	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
-	sf::Texture wireframe_t{_system->resources->textures[GTX::WIREFRAME]};
-
-	states.texture = &wireframe_t;
+	states.texture = _system->resources->get_texture(GTX::WIREFRAME);
 
 	const auto player_pos{_game->state->get_player_pos()};
 	const auto player_facing{_game->state->get_player_facing()};

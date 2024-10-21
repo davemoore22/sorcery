@@ -300,7 +300,7 @@ auto Sorcery::Window::_draw_text(sf::Text &text, const Component &comp,
 
 auto Sorcery::Window::get_cursor() const -> sf::Sprite {
 
-	sf::Sprite cursor(_system->resources->textures[GTX::UI]);
+	sf::Sprite cursor(*_system->resources->get_texture(GTX::UI));
 	const sf::IntRect cursor_rect(0, 85, 40, 40);
 	cursor.setTextureRect(cursor_rect);
 
@@ -323,7 +323,7 @@ auto Sorcery::Window::_get_cursor_coord_text(
 
 auto Sorcery::Window::get_disc() const -> sf::Sprite {
 
-	sf::Sprite disc(_system->resources->textures[GTX::UI]);
+	sf::Sprite disc(*_system->resources->get_texture(GTX::UI));
 	const sf::IntRect disc_rect(40, 85, 32, 32);
 	disc.setTextureRect(disc_rect);
 

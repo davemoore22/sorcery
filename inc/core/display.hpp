@@ -85,7 +85,7 @@ class Display {
 		std::unique_ptr<Window> window;
 		std::unique_ptr<ComponentStore> layout;
 		std::unique_ptr<ControlOverlay> overlay;
-		sf::Texture ui_texture;
+		sf::Texture *ui_texture;
 
 	private:
 

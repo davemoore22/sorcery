@@ -71,7 +71,7 @@ class Keyboard: public sf::Transformable, public sf::Drawable {
 		std::unique_ptr<Frame> _frame;
 		sf::RenderTexture _rtexture;
 		sf::Sprite _fsprite;
-		sf::Texture _texture;
+		sf::Texture *_texture;
 		sf::RectangleShape _selected_bg;
 };
 

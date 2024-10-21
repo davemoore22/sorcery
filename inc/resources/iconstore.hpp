@@ -38,7 +38,8 @@ class IconStore {
 	public:
 
 		// Constructors
-		IconStore(System *system, Component layout, const std::filesystem::path filename);
+		IconStore(System *system, Component layout,
+			const std::filesystem::path filename);
 		IconStore() = delete;
 
 		// Overload [] operator
@@ -56,7 +57,7 @@ class IconStore {
 		System *_system;
 		IconLibrary _icons;
 		bool _loaded;
-		sf::Texture _texture;
+		sf::Texture *_texture;
 		sf::Vector2f _size;
 		sf::Vector2f _scale;
 		Component _layout;
