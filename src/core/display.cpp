@@ -41,7 +41,6 @@ Sorcery::Display::Display(System *system) : _system{system} {
 		(*string)["TITLE_AND_VERSION_INFO"]);
 	overlay = std::make_unique<ControlOverlay>(
 		_system, this, (*layout)["global:control_overlay"]);
-	ui_texture = _system->resources->get_texture(GTX::UI);
 	_bg_movie.openFromFile(_system->files->get_path(VIDEO_FILE));
 	auto icon_layout{(*layout)["global:icon"]};
 

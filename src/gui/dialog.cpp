@@ -133,8 +133,9 @@ auto Sorcery::Dialog::_refresh(Component &string_c, const std::string &new_text)
 	}
 
 	// Add the standard components - first the frame
-	_frame = std::make_unique<Frame>(_display->ui_texture, _frame_c.w, frame_h,
-		_frame_c.colour, _frame_c.background, _frame_c.alpha);
+	_frame = std::make_unique<Frame>(_system->resources->get_texture(GTX::UI),
+		_frame_c.w, frame_h, _frame_c.colour, _frame_c.background,
+		_frame_c.alpha);
 	_frame->setPosition(0, 0);
 
 	// Note we can use the calculated size of the frame as the size of the

@@ -28,7 +28,8 @@
 #include "gui/frame.hpp"
 
 // Standard Constructor
-Sorcery::ControlOverlay::ControlOverlay(System *system, Display *display, Component layout)
+Sorcery::ControlOverlay::ControlOverlay(
+	System *system, Display *display, Component layout)
 	: _system{system}, _display{display}, _layout{layout} {
 
 	_sprites.clear();
@@ -52,15 +53,20 @@ auto Sorcery::ControlOverlay::set_input_mode(WIM input_mode) -> void {
 	switch (_input_mode) {
 	case WIM::ALLOCATE_STATS:
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_MOUSE_ALLOCATE_STATS"], _get_control_gfx(WIC::MOUSE_MOVE)));
+			std::make_pair((*_display->string)["CONTROL_MOUSE_ALLOCATE_STATS"],
+				_get_control_gfx(WIC::MOUSE_MOVE)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_UP_ALLOCATE_STATS"], _get_control_gfx(WIC::UP)));
+			std::make_pair((*_display->string)["CONTROL_UP_ALLOCATE_STATS"],
+				_get_control_gfx(WIC::UP)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_DOWN_ALLOCATE_STATS"], _get_control_gfx(WIC::DOWN)));
+			std::make_pair((*_display->string)["CONTROL_DOWN_ALLOCATE_STATS"],
+				_get_control_gfx(WIC::DOWN)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_LEFT_ALLOCATE_STATS"], _get_control_gfx(WIC::LEFT)));
+			std::make_pair((*_display->string)["CONTROL_LEFT_ALLOCATE_STATS"],
+				_get_control_gfx(WIC::LEFT)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_RIGHT_ALLOCATE_STATS"], _get_control_gfx(WIC::RIGHT)));
+			std::make_pair((*_display->string)["CONTROL_RIGHT_ALLOCATE_STATS"],
+				_get_control_gfx(WIC::RIGHT)));
 		break;
 	case WIM::MENU_ATTRACT_MODE:
 		valid = false;
@@ -68,20 +74,28 @@ auto Sorcery::ControlOverlay::set_input_mode(WIM input_mode) -> void {
 		break;
 	case WIM::CHOOSE_METHOD:
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_MOUSE_METHOD"], _get_control_gfx(WIC::MOUSE_MOVE)));
-		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_LEFT_METHOD"], _get_control_gfx(WIC::LEFT)));
+			std::make_pair((*_display->string)["CONTROL_MOUSE_METHOD"],
+				_get_control_gfx(WIC::MOUSE_MOVE)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_RIGHT_METHOD"], _get_control_gfx(WIC::RIGHT)));
+			std::make_pair((*_display->string)["CONTROL_LEFT_METHOD"],
+				_get_control_gfx(WIC::LEFT)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_CONFIRM_METHOD"], _get_control_gfx(WIC::CONFIRM)));
+			std::make_pair((*_display->string)["CONTROL_RIGHT_METHOD"],
+				_get_control_gfx(WIC::RIGHT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_CONFIRM_METHOD"],
+				_get_control_gfx(WIC::CONFIRM)));
 		break;
 	case WIM::CHOOSE_PORTRAIT:
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_LEFT_CHOOSE_PORTRAIT"], _get_control_gfx(WIC::LEFT)));
+			std::make_pair((*_display->string)["CONTROL_LEFT_CHOOSE_PORTRAIT"],
+				_get_control_gfx(WIC::LEFT)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_RIGHT_CHOOSE_PORTRAIT"], _get_control_gfx(WIC::RIGHT)));
-		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_CONFIRM_CHOOSE_PORTRAIT"], _get_control_gfx(WIC::CONFIRM)));
+			std::make_pair((*_display->string)["CONTROL_RIGHT_CHOOSE_PORTRAIT"],
+				_get_control_gfx(WIC::RIGHT)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_CONFIRM_CHOOSE_PORTRAIT"],
+			_get_control_gfx(WIC::CONFIRM)));
 		break;
 	case WIM::COMPENDIUM:
 		break;
@@ -91,107 +105,164 @@ auto Sorcery::ControlOverlay::set_input_mode(WIM input_mode) -> void {
 	case WIM::SAVE_CHANGES:
 	case WIM::CANCEL_CHANGES:
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_MOUSE_CONFIRMATION"], _get_control_gfx(WIC::MOUSE_MOVE)));
+			std::make_pair((*_display->string)["CONTROL_MOUSE_CONFIRMATION"],
+				_get_control_gfx(WIC::MOUSE_MOVE)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_LEFT_CONFIRMATION"], _get_control_gfx(WIC::LEFT)));
+			std::make_pair((*_display->string)["CONTROL_LEFT_CONFIRMATION"],
+				_get_control_gfx(WIC::LEFT)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_RIGHT_CONFIRMATION"], _get_control_gfx(WIC::RIGHT)));
+			std::make_pair((*_display->string)["CONTROL_RIGHT_CONFIRMATION"],
+				_get_control_gfx(WIC::RIGHT)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_CONFIRM_CONFIRMATION"], _get_control_gfx(WIC::CONFIRM)));
+			std::make_pair((*_display->string)["CONTROL_CONFIRM_CONFIRMATION"],
+				_get_control_gfx(WIC::CONFIRM)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_Y_N_CONFIRMATION"], _get_control_gfx(WIC::YES_NO)));
+			std::make_pair((*_display->string)["CONTROL_Y_N_CONFIRMATION"],
+				_get_control_gfx(WIC::YES_NO)));
 		break;
 	case WIM::DISPLAY_TEXT_FILE:
-		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_UP_FILE"], _get_control_gfx(WIC::UP)));
-		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_DOWN_FILE"], _get_control_gfx(WIC::DOWN)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_UP_FILE"], _get_control_gfx(WIC::UP)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_PAGE_UP_FILE"], _get_control_gfx(WIC::PAGE_UP)));
+			std::make_pair((*_display->string)["CONTROL_DOWN_FILE"],
+				_get_control_gfx(WIC::DOWN)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_PAGE_DOWN_FILE"], _get_control_gfx(WIC::PAGE_DOWN)));
-		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_HOME_FILE"], _get_control_gfx(WIC::HOME)));
-		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_END_FILE"], _get_control_gfx(WIC::END)));
+			std::make_pair((*_display->string)["CONTROL_PAGE_UP_FILE"],
+				_get_control_gfx(WIC::PAGE_UP)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_PAGE_DOWN_FILE"],
+				_get_control_gfx(WIC::PAGE_DOWN)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_HOME_FILE"],
+				_get_control_gfx(WIC::HOME)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_END_FILE"],
+				_get_control_gfx(WIC::END)));
 		break;
 	case WIM::GAME_OPTIONS:
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_MOUSE_OPTION"], _get_control_gfx(WIC::MOUSE_MOVE)));
-		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_UP_OPTION"], _get_control_gfx(WIC::UP)));
-		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_DOWN_OPTION"], _get_control_gfx(WIC::DOWN)));
-		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_LEFT_OPTION"], _get_control_gfx(WIC::LEFT)));
+			std::make_pair((*_display->string)["CONTROL_MOUSE_OPTION"],
+				_get_control_gfx(WIC::MOUSE_MOVE)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_RIGHT_OPTION"], _get_control_gfx(WIC::RIGHT)));
+			std::make_pair((*_display->string)["CONTROL_UP_OPTION"],
+				_get_control_gfx(WIC::UP)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_CONFIRM_OPTION"], _get_control_gfx(WIC::CONFIRM)));
+			std::make_pair((*_display->string)["CONTROL_DOWN_OPTION"],
+				_get_control_gfx(WIC::DOWN)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_LEFT_OPTION"],
+				_get_control_gfx(WIC::LEFT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_RIGHT_OPTION"],
+				_get_control_gfx(WIC::RIGHT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_CONFIRM_OPTION"],
+				_get_control_gfx(WIC::CONFIRM)));
 		break;
 	case WIM::INPUT_NAME:
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_MOUSE_INPUT_NAME"], _get_control_gfx(WIC::MOUSE_MOVE)));
-		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_UP_INPUT_NAME"], _get_control_gfx(WIC::UP)));
+			std::make_pair((*_display->string)["CONTROL_MOUSE_INPUT_NAME"],
+				_get_control_gfx(WIC::MOUSE_MOVE)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_DOWN_INPUT_NAME"], _get_control_gfx(WIC::DOWN)));
+			std::make_pair((*_display->string)["CONTROL_UP_INPUT_NAME"],
+				_get_control_gfx(WIC::UP)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_LEFT_INPUT_NAME"], _get_control_gfx(WIC::LEFT)));
+			std::make_pair((*_display->string)["CONTROL_DOWN_INPUT_NAME"],
+				_get_control_gfx(WIC::DOWN)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_RIGHT_INPUT_NAME"], _get_control_gfx(WIC::RIGHT)));
+			std::make_pair((*_display->string)["CONTROL_LEFT_INPUT_NAME"],
+				_get_control_gfx(WIC::LEFT)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_CONFIRM_INPUT_NAME"], _get_control_gfx(WIC::CONFIRM)));
+			std::make_pair((*_display->string)["CONTROL_RIGHT_INPUT_NAME"],
+				_get_control_gfx(WIC::RIGHT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_CONFIRM_INPUT_NAME"],
+				_get_control_gfx(WIC::CONFIRM)));
 		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_ALPHANUMERIC_INPUT_NAME"], _get_control_gfx(WIC::ALPHANUMERIC)));
+			(*_display->string)["CONTROL_ALPHANUMERIC_INPUT_NAME"],
+			_get_control_gfx(WIC::ALPHANUMERIC)));
 		break;
 	case WIM::NAVIGATE_MENU:
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_MOUSE_MOVE_MENU"], _get_control_gfx(WIC::MOUSE_MOVE)));
-		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_UP_MENU"], _get_control_gfx(WIC::UP)));
-		_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_DOWN_MENU"], _get_control_gfx(WIC::DOWN)));
+			std::make_pair((*_display->string)["CONTROL_MOUSE_MOVE_MENU"],
+				_get_control_gfx(WIC::MOUSE_MOVE)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_UP_MENU"], _get_control_gfx(WIC::UP)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_CONFIRM_MENU"], _get_control_gfx(WIC::CONFIRM)));
+			std::make_pair((*_display->string)["CONTROL_DOWN_MENU"],
+				_get_control_gfx(WIC::DOWN)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_CONFIRM_MENU"],
+				_get_control_gfx(WIC::CONFIRM)));
 		break;
 	case WIM::BROWSE_CHARACTER:
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_UP_BROWSER_CHARACTER"], _get_control_gfx(WIC::UP)));
-		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_DOWN_BROWSER_CHARACTER"], _get_control_gfx(WIC::DOWN)));
-		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_LEFT_BROWSER_CHARACTER"], _get_control_gfx(WIC::LEFT)));
-		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_RIGHT_BROWSER_CHARACTER"], _get_control_gfx(WIC::RIGHT)));
-		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_CONFIRM_BROWSER_CHARACTER"], _get_control_gfx(WIC::CONFIRM)));
+			std::make_pair((*_display->string)["CONTROL_UP_BROWSER_CHARACTER"],
+				_get_control_gfx(WIC::UP)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_DOWN_BROWSER_CHARACTER"],
+			_get_control_gfx(WIC::DOWN)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_LEFT_BROWSER_CHARACTER"],
+			_get_control_gfx(WIC::LEFT)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_RIGHT_BROWSER_CHARACTER"],
+			_get_control_gfx(WIC::RIGHT)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_CONFIRM_BROWSER_CHARACTER"],
+			_get_control_gfx(WIC::CONFIRM)));
 		break;
 	case WIM::REVIEW_AND_CONFIRM:
-		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_LEFT_REVIEW_AND_CONFIRM"], _get_control_gfx(WIC::LEFT)));
-		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_RIGHT_REVIEW_AND_CONFIRM"], _get_control_gfx(WIC::RIGHT)));
-		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_CONFIRM_REVIEW_AND_CONFIRM"], _get_control_gfx(WIC::CONFIRM)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_LEFT_REVIEW_AND_CONFIRM"],
+			_get_control_gfx(WIC::LEFT)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_RIGHT_REVIEW_AND_CONFIRM"],
+			_get_control_gfx(WIC::RIGHT)));
+		_controls.emplace_back(std::make_pair(
+			(*_display->string)["CONTROL_CONFIRM_REVIEW_AND_CONFIRM"],
+			_get_control_gfx(WIC::CONFIRM)));
 		break;
 	case WIM::IN_GAME:
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_LEFT_IN_GAME"], _get_control_gfx(WIC::MAZE_LEFT)));
+			std::make_pair((*_display->string)["CONTROL_LEFT_IN_GAME"],
+				_get_control_gfx(WIC::MAZE_LEFT)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_RIGHT_IN_GAME"], _get_control_gfx(WIC::MAZE_RIGHT)));
+			std::make_pair((*_display->string)["CONTROL_RIGHT_IN_GAME"],
+				_get_control_gfx(WIC::MAZE_RIGHT)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_UP_IN_GAME"], _get_control_gfx(WIC::MAZE_FORWARD)));
+			std::make_pair((*_display->string)["CONTROL_UP_IN_GAME"],
+				_get_control_gfx(WIC::MAZE_FORWARD)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_DOWN_IN_GAME"], _get_control_gfx(WIC::MAZE_BACKWARD)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_TURN_AROUND_IN_GAME"], _get_control_gfx(WIC::MAZE_TURN_AROUND)));
+			std::make_pair((*_display->string)["CONTROL_DOWN_IN_GAME"],
+				_get_control_gfx(WIC::MAZE_BACKWARD)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_CAMP_IN_GAME"], _get_control_gfx(WIC::MAZE_CAMP)));
+			std::make_pair((*_display->string)["CONTROL_TURN_AROUND_IN_GAME"],
+				_get_control_gfx(WIC::MAZE_TURN_AROUND)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_ACTION_IN_GAME"], _get_control_gfx(WIC::MAZE_ACTION)));
+			std::make_pair((*_display->string)["CONTROL_CAMP_IN_GAME"],
+				_get_control_gfx(WIC::MAZE_CAMP)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_SEARCH_IN_GAME"], _get_control_gfx(WIC::MAZE_SEARCH)));
+			std::make_pair((*_display->string)["CONTROL_ACTION_IN_GAME"],
+				_get_control_gfx(WIC::MAZE_ACTION)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_INSPECT_IN_GAME"], _get_control_gfx(WIC::MAZE_INSPECT)));
+			std::make_pair((*_display->string)["CONTROL_SEARCH_IN_GAME"],
+				_get_control_gfx(WIC::MAZE_SEARCH)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_1_TO_6_IN_GAME"], _get_control_gfx(WIC::SHOW_CHARACTER)));
+			std::make_pair((*_display->string)["CONTROL_INSPECT_IN_GAME"],
+				_get_control_gfx(WIC::MAZE_INSPECT)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_GUI_TOGGLE_IN_GAME"], _get_control_gfx(WIC::MAZE_GUI_TOGGLE)));
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_STATUS_TOGGLE_IN_GAME"], _get_control_gfx(WIC::MAZE_STATUSBAR_TOGGLE)));
+			std::make_pair((*_display->string)["CONTROL_1_TO_6_IN_GAME"],
+				_get_control_gfx(WIC::SHOW_CHARACTER)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_QUIT_IN_GAME"], _get_control_gfx(WIC::MAZE_QUIT)));
+			std::make_pair((*_display->string)["CONTROL_GUI_TOGGLE_IN_GAME"],
+				_get_control_gfx(WIC::MAZE_GUI_TOGGLE)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_STATUS_TOGGLE_IN_GAME"],
+				_get_control_gfx(WIC::MAZE_STATUSBAR_TOGGLE)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_QUIT_IN_GAME"],
+				_get_control_gfx(WIC::MAZE_QUIT)));
 		break;
 	default:
 		break;
@@ -201,14 +272,18 @@ auto Sorcery::ControlOverlay::set_input_mode(WIM input_mode) -> void {
 	case WIM::IN_GAME:
 		break;
 	default:
-		_controls.emplace_back(std::make_pair(
-			(*_display->string)["CONTROL_DELETE_BACK_ALWAYS"], _get_control_gfx(WIC::BACK_DELETE_CANCEL)));
 		_controls.emplace_back(
-			std::make_pair((*_display->string)["CONTROL_ESCAPE_ALWAYS"], _get_control_gfx(WIC::ESCAPE)));
+			std::make_pair((*_display->string)["CONTROL_DELETE_BACK_ALWAYS"],
+				_get_control_gfx(WIC::BACK_DELETE_CANCEL)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_ESCAPE_ALWAYS"],
+				_get_control_gfx(WIC::ESCAPE)));
 		break;
 	}
 
-	_controls.emplace_back(std::make_pair((*_display->string)["CONTROL_HELP_ALWAYS"], _get_control_gfx(WIC::HELP)));
+	_controls.emplace_back(
+		std::make_pair((*_display->string)["CONTROL_HELP_ALWAYS"],
+			_get_control_gfx(WIC::HELP)));
 
 	// Now generate the various Components
 	auto count{_controls.size()};
@@ -217,9 +292,11 @@ auto Sorcery::ControlOverlay::set_input_mode(WIM input_mode) -> void {
 		_frame.release();
 		_frame.reset();
 	}
-	_frame = std::make_unique<Frame>(_display->ui_texture, frame_c.w,
-		(count + std::stoi(frame_c["padding_y"].value())) * std::stof(frame_c["scale_y"].value()), frame_c.colour,
-		frame_c.background, frame_c.alpha);
+	_frame = std::make_unique<Frame>(_system->resources->get_texture(GTX::UI),
+		frame_c.w,
+		(count + std::stoi(frame_c["padding_y"].value())) *
+			std::stof(frame_c["scale_y"].value()),
+		frame_c.colour, frame_c.background, frame_c.alpha);
 	auto fsprite{_frame->sprite};
 	fsprite.setPosition(0, 0);
 	_sprites.emplace_back(fsprite);
@@ -243,7 +320,8 @@ auto Sorcery::ControlOverlay::set_input_mode(WIM input_mode) -> void {
 		text.setCharacterSize(text_c.size);
 		text.setFillColor(sf::Color(text_c.colour));
 		if (_display->get_upper())
-			std::transform(caption.begin(), caption.end(), caption.begin(), ::toupper);
+			std::transform(
+				caption.begin(), caption.end(), caption.begin(), ::toupper);
 		text.setString(caption);
 		text.setPosition(text_x, text_y);
 		if (_display->get_bold())
@@ -276,7 +354,8 @@ auto Sorcery::ControlOverlay::_get_control_gfx(WIC input) -> sf::Sprite {
 	return control;
 }
 
-auto Sorcery::ControlOverlay::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::ControlOverlay::draw(
+	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 

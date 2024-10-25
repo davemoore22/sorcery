@@ -57,8 +57,9 @@ Sorcery::AutoMap::AutoMap(System *system, Display *display, Graphics *graphics,
 	// Bottom Frame is Custom (TODO: break the coordinates out into new comp)
 	const auto cfh{std::stoi(_layout["coordinates_frame_h"].value())};
 	const auto cfy{std::stoi(_layout["coordinates_frame_y"].value())};
-	_bottom_frame = std::make_unique<Frame>(_display->ui_texture, _layout.w,
-		cfh, _layout.colour, _layout.background, _layout.alpha);
+	_bottom_frame =
+		std::make_unique<Frame>(_system->resources->get_texture(GTX::UI),
+			_layout.w, cfh, _layout.colour, _layout.background, _layout.alpha);
 	auto b_sprite{_bottom_frame->sprite};
 	b_sprite.setPosition(0, cfy);
 	_sprites.emplace_back(b_sprite);

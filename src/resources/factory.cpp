@@ -83,8 +83,9 @@ auto Sorcery::Factory::make_frame(const std::string &component)
 
 	const Component comp{(*_display->layout)[component]};
 
-	auto frame = std::make_unique<Frame>(_display->ui_texture, comp.w, comp.h,
-		comp.colour, comp.background, comp.alpha);
+	auto frame =
+		std::make_unique<Frame>(_system->resources->get_texture(GTX::UI),
+			comp.w, comp.h, comp.colour, comp.background, comp.alpha);
 	frame->setPosition(_display->window->get_x(frame->sprite, comp.x),
 		_display->window->get_y(frame->sprite, comp.y));
 
@@ -96,8 +97,9 @@ auto Sorcery::Factory::make_menu_frame(const std::string &component)
 
 	const Component comp{(*_display->layout)[component]};
 
-	auto menu_frame = std::make_unique<Frame>(_display->ui_texture, comp.w,
-		comp.h, comp.colour, comp.background, comp.alpha);
+	auto menu_frame =
+		std::make_unique<Frame>(_system->resources->get_texture(GTX::UI),
+			comp.w, comp.h, comp.colour, comp.background, comp.alpha);
 	menu_frame->setPosition(_display->window->get_x(menu_frame->sprite, comp.x),
 		_display->window->get_y(menu_frame->sprite, comp.y));
 
@@ -107,8 +109,9 @@ auto Sorcery::Factory::make_menu_frame(const std::string &component)
 auto Sorcery::Factory::make_comp_frame(const Component &component,
 	std::vector<sf::Sprite> &sprites) -> std::unique_ptr<Frame> {
 
-	auto menu_frame = std::make_unique<Frame>(_display->ui_texture, component.w,
-		component.h, component.colour, component.background, component.alpha);
+	auto menu_frame = std::make_unique<Frame>(
+		_system->resources->get_texture(GTX::UI), component.w, component.h,
+		component.colour, component.background, component.alpha);
 
 	auto fsprite{menu_frame->sprite};
 	fsprite.setPosition(0, 0);
