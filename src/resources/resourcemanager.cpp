@@ -33,46 +33,46 @@ Sorcery::ResourceManager::ResourceManager(FileStore &files) : _files{files} {
 	// Load all the Fixed Resources
 	try {
 
-		textures.acquire(GTX::AUTOMAP,
+		_textures.acquire(GTX::AUTOMAP,
 			thor::Resources::fromFile<sf::Texture>(_files[AUTOMAP_TEXTURE]));
-		textures.acquire(GTX::BACKGROUND,
+		_textures.acquire(GTX::BACKGROUND,
 			thor::Resources::fromFile<sf::Texture>(_files[BACKGROUND_TEXTURE]));
-		textures[GTX::BACKGROUND].setRepeated(true);
-		textures.acquire(GTX::BANNER,
+		_textures[GTX::BACKGROUND].setRepeated(true);
+		_textures.acquire(GTX::BANNER,
 			thor::Resources::fromFile<sf::Texture>(_files[BANNER_TEXTURE]));
-		textures.acquire(GTX::CONTROLS,
+		_textures.acquire(GTX::CONTROLS,
 			thor::Resources::fromFile<sf::Texture>(_files[CONTROLS_TEXTURE]));
-		textures.acquire(
+		_textures.acquire(
 			GTX::CREATURES_KNOWN, thor::Resources::fromFile<sf::Texture>(
 									  _files[CREATURES_KNOWN_TEXTURE]));
-		textures.acquire(
+		_textures.acquire(
 			GTX::CREATURES_UNKNOWN, thor::Resources::fromFile<sf::Texture>(
 										_files[CREATURES_UNKNOWN_TEXTURE]));
-		textures.acquire(GTX::DOORS,
+		_textures.acquire(GTX::DOORS,
 			thor::Resources::fromFile<sf::Texture>(_files[DOORS_TEXTURE]));
-		textures.acquire(GTX::EVENTS,
+		_textures.acquire(GTX::EVENTS,
 			thor::Resources::fromFile<sf::Texture>(_files[EVENTS_TEXTURE]));
-		textures.acquire(GTX::FLOORS,
+		_textures.acquire(GTX::FLOORS,
 			thor::Resources::fromFile<sf::Texture>(_files[FLOORS_TEXTURE]));
-		textures.acquire(GTX::ITEMS,
+		_textures.acquire(GTX::ITEMS,
 			thor::Resources::fromFile<sf::Texture>(_files[ITEMS_TEXTURE]));
-		textures.acquire(GTX::LOGO,
+		_textures.acquire(GTX::LOGO,
 			thor::Resources::fromFile<sf::Texture>(_files[LOGO_TEXTURE]));
-		textures.acquire(GTX::ICONS,
+		_textures.acquire(GTX::ICONS,
 			thor::Resources::fromFile<sf::Texture>(_files[ICONS_TEXTURE]));
-		textures.acquire(GTX::PORTRAITS,
+		_textures.acquire(GTX::PORTRAITS,
 			thor::Resources::fromFile<sf::Texture>(_files[PORTRAITS_TEXTURE]));
-		textures.acquire(GTX::SPLASH,
+		_textures.acquire(GTX::SPLASH,
 			thor::Resources::fromFile<sf::Texture>(_files[SPLASH_TEXTURE]));
-		textures.acquire(GTX::TOWN,
+		_textures.acquire(GTX::TOWN,
 			thor::Resources::fromFile<sf::Texture>(_files[TOWN_TEXTURE]));
-		textures.acquire(GTX::UI,
+		_textures.acquire(GTX::UI,
 			thor::Resources::fromFile<sf::Texture>(_files[UI_TEXTURE]));
-		textures.acquire(GTX::VIEW,
+		_textures.acquire(GTX::VIEW,
 			thor::Resources::fromFile<sf::Texture>(_files[VIEW_TEXTURE]));
-		textures.acquire(GTX::WALLS,
+		_textures.acquire(GTX::WALLS,
 			thor::Resources::fromFile<sf::Texture>(_files[WALLS_TEXTURE]));
-		textures.acquire(GTX::WIREFRAME,
+		_textures.acquire(GTX::WIREFRAME,
 			thor::Resources::fromFile<sf::Texture>(_files[WIREFRAME_TEXTURE]));
 
 		fonts.acquire(FTT::INPUT,
@@ -127,11 +127,11 @@ auto Sorcery::ResourceManager::get_font_height(const FTT font_type,
 auto Sorcery::ResourceManager::get_texture(const GTX texture_type)
 	-> sf::Texture * {
 
-	return &textures[texture_type];
+	return &_textures[texture_type];
 }
 
 auto Sorcery::ResourceManager::get_texture_ref(const GTX texture_type)
 	-> sf::Texture & {
 
-	return textures[texture_type];
+	return _textures[texture_type];
 }

@@ -50,7 +50,6 @@ Sorcery::System::System(
 
 	// Resource Manager
 	resources = std::make_unique<ResourceManager>(*files);
-	resources->textures[GTX::BACKGROUND].setRepeated(true);
 
 	// Input Module
 	input = std::make_unique<Input>();

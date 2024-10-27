@@ -112,7 +112,7 @@ auto Sorcery::Create::_initalise_components() -> void {
 		_system, _display, _graphics, &_candidate);
 
 	// Get the Texture for the Potraits
-	_potrait_texture = &_system->resources->textures[GTX::PORTRAITS];
+	_potrait_texture = _system->resources->get_texture(GTX::PORTRAITS);
 
 	// Character Display
 	_character_display =

@@ -36,7 +36,7 @@ Sorcery::ControlOverlay::ControlOverlay(
 	_texts.clear();
 
 	_input_mode = WIM::NO_INPUTMODE;
-	_control_texture = (*_system->resources).textures[GTX::CONTROLS];
+	_texture = _system->resources->get_texture(GTX::CONTROLS);
 
 	_controls.clear();
 }
@@ -344,11 +344,11 @@ auto Sorcery::ControlOverlay::set_input_mode(WIM input_mode) -> void {
 auto Sorcery::ControlOverlay::_get_control_gfx(WIC input) -> sf::Sprite {
 
 	constexpr auto row_height{100u};
-	const auto row_width{_control_texture.getSize().x};
+	const auto row_width{_texture->getSize().x};
 	const auto y{static_cast<unsigned int>(input) * row_height};
 	const auto crect{sf::IntRect(0, y, row_width, row_height)};
 
-	sf::Sprite control(_control_texture);
+	sf::Sprite control(*_texture);
 	control.setTextureRect(crect);
 
 	return control;

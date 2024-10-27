@@ -29,38 +29,44 @@
 #include "resources/resourcemanager.hpp"
 
 // Standard Constructor
-Sorcery::TextureStore::TextureStore(System *system, const std::filesystem::path filename) : _system{system} {
+Sorcery::TextureStore::TextureStore(
+	System *system, const std::filesystem::path filename)
+	: _system{system} {
 
 	// Prepare the icon stores
 	_texture_map.clear();
 
 	// Get the Textures
-	_automap_t = &_system->resources->textures[GTX::AUTOMAP];
-	_wall_t = &_system->resources->textures[GTX::WALLS];
-	_ceiling_t = &_system->resources->textures[GTX::FLOORS];
-	_floor_t = &_system->resources->textures[GTX::FLOORS];
-	_door_t = &_system->resources->textures[GTX::DOORS];
-	_item_t = &_system->resources->textures[GTX::ITEMS];
-	_creatures_known_t = &_system->resources->textures[GTX::CREATURES_KNOWN];
-	_creatures_unknown_t = &_system->resources->textures[GTX::CREATURES_UNKNOWN];
-	_portrait_t = &_system->resources->textures[GTX::PORTRAITS];
-	_view_t = &_system->resources->textures[GTX::VIEW];
-	_events_t = &_system->resources->textures[GTX::EVENTS];
+	_automap_t = _system->resources->get_texture(GTX::AUTOMAP);
+	_wall_t = _system->resources->get_texture(GTX::WALLS);
+	_ceiling_t = _system->resources->get_texture(GTX::FLOORS);
+	_floor_t = _system->resources->get_texture(GTX::FLOORS);
+	_door_t = _system->resources->get_texture(GTX::DOORS);
+	_item_t = _system->resources->get_texture(GTX::ITEMS);
+	_creatures_known_t = _system->resources->get_texture(GTX::CREATURES_KNOWN);
+	_creatures_unknown_t =
+		_system->resources->get_texture(GTX::CREATURES_UNKNOWN);
+	_portrait_t = _system->resources->get_texture(GTX::PORTRAITS);
+	_view_t = _system->resources->get_texture(GTX::VIEW);
+	_events_t = _system->resources->get_texture(GTX::EVENTS);
 
 	// Load the Mapping
 	_loaded = _load(filename);
 }
 
 // Overload [] Operator(const) -> std::optional<Texture>
-auto Sorcery::TextureStore::operator[](unsigned int index) const -> std::optional<Texture> {
+auto Sorcery::TextureStore::operator[](unsigned int index) const
+	-> std::optional<Texture> {
 
 	auto texture{_get(index)};
 	return texture;
 }
 
-// Get the indexed texture as an appropriate sprite - note that for  WALLS/CEILINGS/FLOORS/DOORS, the index refers to
-// the entry in textures.json; whereas for all other spritesheets it refers to the actual sprite position
-auto Sorcery::TextureStore::get(const unsigned int index, GTT texture_type) const -> std::optional<sf::Sprite> {
+// Get the indexed texture as an appropriate sprite - note that for
+// WALLS/CEILINGS/FLOORS/DOORS, the index refers to the entry in textures.json;
+// whereas for all other spritesheets it refers to the actual sprite position
+auto Sorcery::TextureStore::get(const unsigned int index,
+	GTT texture_type) const -> std::optional<sf::Sprite> {
 
 	std::optional<Sorcery::Texture> texture{std::nullopt};
 	sf::Texture *source{nullptr};
@@ -125,9 +131,10 @@ auto Sorcery::TextureStore::get(const unsigned int index, GTT texture_type) cons
 	return tile;
 }
 
-// Get the named texture as an appropriate sprite - WALLS/CEILINGS/FLOORS/DOORS  only since those are only texture ids
-// stored in the Texture class
-auto Sorcery::TextureStore::get(const std::string name, GTT texture_type) const -> std::optional<sf::Sprite> {
+// Get the named texture as an appropriate sprite - WALLS/CEILINGS/FLOORS/DOORS
+// only since those are only texture ids stored in the Texture class
+auto Sorcery::TextureStore::get(const std::string name, GTT texture_type) const
+	-> std::optional<sf::Sprite> {
 
 	std::optional<Sorcery::Texture> texture{std::nullopt};
 	sf::Texture *source{nullptr};
@@ -164,7 +171,8 @@ auto Sorcery::TextureStore::get(const std::string name, GTT texture_type) const 
 	return tile;
 }
 
-auto Sorcery::TextureStore::get_atlas(const Rect rect, bool feature = false) const -> sf::Sprite {
+auto Sorcery::TextureStore::get_atlas(
+	const Rect rect, bool feature = false) const -> sf::Sprite {
 
 	sf::Sprite view(*_view_t);
 #pragma GCC diagnostic push
@@ -178,11 +186,12 @@ auto Sorcery::TextureStore::get_atlas(const Rect rect, bool feature = false) con
 	return view;
 }
 
-auto Sorcery::TextureStore::_get(const std::string name) const -> std::optional<Texture> {
+auto Sorcery::TextureStore::_get(const std::string name) const
+	-> std::optional<Texture> {
 
 	if (_loaded) {
-		auto it = std::find_if(
-			_texture_map.begin(), _texture_map.end(), [&](const auto &item) { return item.second.name == name; });
+		auto it = std::find_if(_texture_map.begin(), _texture_map.end(),
+			[&](const auto &item) { return item.second.name == name; });
 
 		if (it != _texture_map.end())
 			return _texture_map.at((*it).first);
@@ -192,7 +201,8 @@ auto Sorcery::TextureStore::_get(const std::string name) const -> std::optional<
 		return std::nullopt;
 }
 
-auto Sorcery::TextureStore::_get(const unsigned int index) const -> std::optional<Texture> {
+auto Sorcery::TextureStore::_get(const unsigned int index) const
+	-> std::optional<Texture> {
 
 	if (_loaded)
 		return _texture_map.at(index);
@@ -200,7 +210,8 @@ auto Sorcery::TextureStore::_get(const unsigned int index) const -> std::optiona
 		return std::nullopt;
 }
 
-auto Sorcery::TextureStore::_get_rect(unsigned int index, GTT texture_type) const -> sf::IntRect {
+auto Sorcery::TextureStore::_get_rect(
+	unsigned int index, GTT texture_type) const -> sf::IntRect {
 
 	int tile_size{std::invoke([&] {
 		switch (texture_type) {
@@ -255,14 +266,16 @@ auto Sorcery::TextureStore::_get_rect(unsigned int index, GTT texture_type) cons
 		}
 	})};
 
-	return sf::IntRect(
-		tile_size * (index % tile_row_count), tile_size * (index / tile_row_count), tile_size, tile_size);
+	return sf::IntRect(tile_size * (index % tile_row_count),
+		tile_size * (index / tile_row_count), tile_size, tile_size);
 }
 
 // For those textures that are mapped
-auto Sorcery::TextureStore::_load(const std::filesystem::path filename) -> bool {
+auto Sorcery::TextureStore::_load(const std::filesystem::path filename)
+	-> bool {
 
-	if (std::ifstream file{filename.string(), std::ifstream::binary}; file.good()) {
+	if (std::ifstream file{filename.string(), std::ifstream::binary};
+		file.good()) {
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
@@ -276,17 +289,24 @@ auto Sorcery::TextureStore::_load(const std::filesystem::path filename) -> bool 
 			// Iterate through texture file one texture at a time
 			for (auto i = 0u; i < textures.size(); i++) {
 
-				// Get the mappings for each texture (note that all parameters should always be present for each
-				// texture entry in the mapping file or else this will error)
-				auto index{static_cast<unsigned int>(std::stoul(textures[i]["index"].asString()))};
-				auto wall{static_cast<unsigned int>(std::stoul(textures[i]["wall"].asString()))};
-				auto ceiling{static_cast<unsigned int>(std::stoul(textures[i]["ceiling"].asString()))};
-				auto floor{static_cast<unsigned int>(std::stoul(textures[i]["floor"].asString()))};
-				auto door{static_cast<unsigned int>(std::stoul(textures[i]["door"].asString()))};
+				// Get the mappings for each texture (note that all parameters
+				// should always be present for each texture entry in the
+				// mapping file or else this will error)
+				auto index{static_cast<unsigned int>(
+					std::stoul(textures[i]["index"].asString()))};
+				auto wall{static_cast<unsigned int>(
+					std::stoul(textures[i]["wall"].asString()))};
+				auto ceiling{static_cast<unsigned int>(
+					std::stoul(textures[i]["ceiling"].asString()))};
+				auto floor{static_cast<unsigned int>(
+					std::stoul(textures[i]["floor"].asString()))};
+				auto door{static_cast<unsigned int>(
+					std::stoul(textures[i]["door"].asString()))};
 				auto source{textures[i]["source"].asString()};
 				auto comment{textures[i]["comment"].asString()};
 				auto name{textures[i]["name"].asString()};
-				const Texture texture{name, index, wall, floor, ceiling, door, source, comment};
+				const Texture texture{
+					name, index, wall, floor, ceiling, door, source, comment};
 
 				_texture_map[index] = texture;
 			}

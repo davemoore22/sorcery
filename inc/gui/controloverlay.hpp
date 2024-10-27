@@ -66,7 +66,7 @@ class ControlOverlay: public sf::Transformable, public sf::Drawable {
 		Component _layout;
 		WIM _input_mode;
 		std::vector<std::pair<std::string, sf::Sprite>> _controls;
-		sf::Texture _control_texture;
+		sf::Texture *_texture;
 		std::unique_ptr<Frame> _frame;
 };
 } // namespace Sorcery

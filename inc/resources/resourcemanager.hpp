@@ -43,7 +43,6 @@ class ResourceManager {
 		ResourceManager() = delete;
 
 		// Public Members
-		thor::ResourceHolder<sf::Texture, Enums::Graphics::Texture> textures;
 		thor::ResourceHolder<sf::Font, FTT> fonts;
 		std::shared_ptr<TextFile> license_file;
 
@@ -60,6 +59,7 @@ class ResourceManager {
 		// Private Members
 		FileStore _files;
 		std::map<Enums::Graphics::Texture, bool> _loaded;
+		thor::ResourceHolder<sf::Texture, Enums::Graphics::Texture> _textures;
 };
 
 }

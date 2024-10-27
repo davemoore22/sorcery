@@ -171,7 +171,7 @@ auto Sorcery::Display::generate(std::string_view screen, SpriteMap &sprites,
 					// Get the texture
 					sf::Sprite image;
 					image.setTexture(
-						_system->resources->textures[comp.texture]);
+						*_system->resources->get_texture(comp.texture));
 
 					// Scale to less than the window size if needed
 					if (comp.unique_key.ends_with("banner:banner_image") ||
@@ -197,7 +197,6 @@ auto Sorcery::Display::generate(std::string_view screen, SpriteMap &sprites,
 						}
 						image.setScale(scale, scale);
 					} else if (comp.unique_key.ends_with("wallpaper")) {
-
 						// Handle background wallpaper tiling
 						image.setTextureRect(window->size);
 					}

@@ -60,7 +60,6 @@ class Render: public sf::Transformable, public sf::Drawable {
 		std::unique_ptr<View> _view;
 
 		sf::RenderTexture _rtexture;
-		sf::Texture _texture;
 		std::vector<sf::Sprite> _sprites;
 
 		// Private Methods
