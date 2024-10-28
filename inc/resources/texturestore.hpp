@@ -41,11 +41,14 @@ class TextureStore {
 		TextureStore() = delete;
 
 		// Overload [] operator
-		auto operator[](const unsigned int index) const -> std::optional<Texture>;
+		auto operator[](const unsigned int index) const
+			-> std::optional<Texture>;
 
 		// Public Methods
-		auto get(const unsigned int index, const GTT texture_type) const -> std::optional<sf::Sprite>;
-		auto get(const std::string name, const GTT texture_type) const -> std::optional<sf::Sprite>;
+		auto get(const unsigned int index, const GTT texture_type) const
+			-> std::optional<sf::Sprite>;
+		auto get(const std::string name, const GTT texture_type) const
+			-> std::optional<sf::Sprite>;
 		auto get_atlas(const Rect rect, bool feature) const -> sf::Sprite;
 
 	private:
@@ -53,23 +56,13 @@ class TextureStore {
 		// Private Members
 		System *_system;
 		bool _loaded;
-		sf::Texture *_automap_t;
-		sf::Texture *_wall_t;
-		sf::Texture *_ceiling_t;
-		sf::Texture *_floor_t;
-		sf::Texture *_door_t;
-		sf::Texture *_creatures_known_t;
-		sf::Texture *_creatures_unknown_t;
-		sf::Texture *_item_t;
-		sf::Texture *_portrait_t;
-		sf::Texture *_view_t;
-		sf::Texture *_events_t;
 		std::map<unsigned int, Texture> _texture_map;
 
 		// Private Methods
 		auto _get(const unsigned int index) const -> std::optional<Texture>;
 		auto _get(const std::string name) const -> std::optional<Texture>;
-		auto _get_rect(unsigned int index, GTT texture_type) const -> sf::IntRect;
+		auto _get_rect(unsigned int index, GTT texture_type) const
+			-> sf::IntRect;
 		auto _load(const std::filesystem::path filename) -> bool;
 };
 

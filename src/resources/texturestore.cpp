@@ -36,20 +36,6 @@ Sorcery::TextureStore::TextureStore(
 	// Prepare the icon stores
 	_texture_map.clear();
 
-	// Get the Textures
-	_automap_t = _system->resources->get_texture(GTX::AUTOMAP);
-	_wall_t = _system->resources->get_texture(GTX::WALLS);
-	_ceiling_t = _system->resources->get_texture(GTX::FLOORS);
-	_floor_t = _system->resources->get_texture(GTX::FLOORS);
-	_door_t = _system->resources->get_texture(GTX::DOORS);
-	_item_t = _system->resources->get_texture(GTX::ITEMS);
-	_creatures_known_t = _system->resources->get_texture(GTX::CREATURES_KNOWN);
-	_creatures_unknown_t =
-		_system->resources->get_texture(GTX::CREATURES_UNKNOWN);
-	_portrait_t = _system->resources->get_texture(GTX::PORTRAITS);
-	_view_t = _system->resources->get_texture(GTX::VIEW);
-	_events_t = _system->resources->get_texture(GTX::EVENTS);
-
 	// Load the Mapping
 	_loaded = _load(filename);
 }
@@ -74,50 +60,50 @@ auto Sorcery::TextureStore::get(const unsigned int index,
 	switch (texture_type) {
 	case GTT::FLOOR:
 		texture = _get(index);
-		source = _floor_t;
+		source = _system->resources->get_texture(GTX::FLOORS);
 		idx = texture.value().floor;
 		break;
 	case GTT::CEILING:
 		texture = _get(index);
-		source = _floor_t;
+		source = _system->resources->get_texture(GTX::FLOORS);
 		idx = texture.value().ceiling;
 		break;
 	case GTT::WALL:
 		texture = _get(index);
 		idx = texture.value().wall;
-		source = _wall_t;
+		source = _system->resources->get_texture(GTX::WALLS);
 		break;
 	case GTT::DOOR:
 		texture = _get(index);
 		idx = texture.value().door;
-		source = _door_t;
+		source = _system->resources->get_texture(GTX::DOORS);
 		break;
 	case GTT::AUTOMAP:
 		idx = index;
-		source = _automap_t;
+		source = _system->resources->get_texture(GTX::AUTOMAP);
 		break;
 	case GTT::KNOWN_CREATURE:
 		idx = index;
-		source = _creatures_known_t;
+		source = _system->resources->get_texture(GTX::CREATURES_KNOWN);
 		break;
 	case GTT::UNKNOWN_CREATURE:
-		source = _creatures_unknown_t;
+		source = _system->resources->get_texture(GTX::CREATURES_UNKNOWN);
 		idx = index;
 		break;
 	case GTT::ITEMS:
 		idx = index;
-		source = _item_t;
+		source = _system->resources->get_texture(GTX::ITEMS);
 		break;
 	case GTT::PORTRAIT:
-		source = _portrait_t;
+		source = _system->resources->get_texture(GTX::PORTRAITS);
 		idx = index;
 		break;
 	case GTT::EVENTS:
-		source = _events_t;
+		source = _system->resources->get_texture(GTX::EVENTS);
 		idx = index;
 		break;
 	case GTT::WALLPAPER:
-		source = _wall_t;
+		source = _system->resources->get_texture(GTX::WALLS);
 		idx = index;
 		break;
 	default:
@@ -142,23 +128,24 @@ auto Sorcery::TextureStore::get(const std::string name, GTT texture_type) const
 	switch (texture_type) {
 	case GTT::FLOOR:
 		texture = _get(name);
-		source = _floor_t;
+		source = _system->resources->get_texture(GTX::FLOORS);
+		;
 		idx = texture.value().floor;
 		break;
 	case GTT::CEILING:
 		texture = _get(name);
-		source = _floor_t;
+		source = _system->resources->get_texture(GTX::FLOORS);
 		idx = texture.value().ceiling;
 		break;
 	case GTT::WALL:
 		texture = _get(name);
 		idx = texture.value().wall;
-		source = _wall_t;
+		source = _system->resources->get_texture(GTX::WALLS);
 		break;
 	case GTT::DOOR:
 		texture = _get(name);
 		idx = texture.value().door;
-		source = _door_t;
+		source = _system->resources->get_texture(GTX::DOORS);
 		break;
 	default:
 		return std::nullopt;
@@ -174,7 +161,7 @@ auto Sorcery::TextureStore::get(const std::string name, GTT texture_type) const
 auto Sorcery::TextureStore::get_atlas(
 	const Rect rect, bool feature = false) const -> sf::Sprite {
 
-	sf::Sprite view(*_view_t);
+	sf::Sprite view(*_system->resources->get_texture(GTX::VIEW));
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnarrowing"
 	sf::IntRect tile_r{rect.x, rect.y, rect.w, rect.h};
