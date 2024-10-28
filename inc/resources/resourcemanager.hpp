@@ -58,7 +58,8 @@ class ResourceManager {
 
 		// Private Members
 		FileStore _files;
-		std::map<Enums::Graphics::Texture, bool> _loaded;
+		std::map<GTX, bool> _loaded;
+		std::map<GTX, std::string> _map;
 		thor::ResourceHolder<sf::Texture, Enums::Graphics::Texture> _textures;
 };
 

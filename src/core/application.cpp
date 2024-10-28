@@ -221,6 +221,7 @@ auto Sorcery::Application::_quickstart() -> void {
 	}
 
 	_game->save_game();
+
 	_start_expedition();
 }
 
