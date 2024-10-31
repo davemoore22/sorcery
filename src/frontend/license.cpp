@@ -42,7 +42,7 @@ Sorcery::License::License(System *system, Display *display, Graphics *graphics)
 	_window = _display->window->get_window();
 
 	// Setup text file
-	_textfile = system->resources->license_file;
+	_textfile = system->resources->license_file.get();
 	_current_line = 1;
 
 	// Setup Components

@@ -63,11 +63,14 @@ Sorcery::ResourceManager::ResourceManager(FileStore &files) : _files{files} {
 		fonts.acquire(FTT::TEXT,
 			thor::Resources::fromFile<sf::Font>(_files[TEXT_FONT_FILE]));
 
-		license_file = std::make_shared<TextFile>(_files[LICENSE_FILE]);
+		license_file = std::make_unique<TextFile>(_files[LICENSE_FILE]);
 
 	} catch (thor::ResourceLoadingException &e) {
 		std::cout << e.what() << std::endl;
 	}
+}
+
+Sorcery::ResourceManager::~ResourceManager() {
 }
 
 auto Sorcery::ResourceManager::get_font_height(const FTT font_type,

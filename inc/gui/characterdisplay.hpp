@@ -45,6 +45,9 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 		// Constructor
 		CharacterDisplay(System *system, Display *display, Graphics *graphics);
 
+		// Destructor
+		~CharacterDisplay();
+
 		// Public Methods
 		auto set(Character *character) -> void;
 		auto get_view() const -> CHV;
@@ -109,7 +112,7 @@ class CharacterDisplay: public sf::Transformable, public sf::Drawable {
 		std::map<std::string, sf::Sprite> _v_sprites;
 		std::map<std::string, sf::Text> _v_texts;
 		std::map<std::string, std::shared_ptr<Frame>> _v_frames;
-		std::shared_ptr<SpellPanel> _spell_panel;
+		std::unique_ptr<SpellPanel> _spell_panel;
 		Component _spell_panel_c;
 
 		SPI _hl_mage;

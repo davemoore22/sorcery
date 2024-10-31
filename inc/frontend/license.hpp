@@ -62,7 +62,7 @@ class License {
 		Graphics *_graphics;
 		sf::RenderWindow *_window;
 
-		std::shared_ptr<TextFile> _textfile;
+		TextFile *_textfile;
 		unsigned int _current_line;
 		sf::Text _progress_text;
 		sf::Text _line_text;

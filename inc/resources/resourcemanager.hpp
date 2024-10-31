@@ -40,11 +40,13 @@ class ResourceManager {
 
 		// Constructors
 		ResourceManager(FileStore &files);
-		ResourceManager() = delete;
+
+		// Destructors
+		~ResourceManager();
 
 		// Public Members
 		thor::ResourceHolder<sf::Font, FTT> fonts;
-		std::shared_ptr<TextFile> license_file;
+		std::unique_ptr<TextFile> license_file;
 
 		// Public Methods
 		auto get_font_height(const FTT font_type, const unsigned int size,

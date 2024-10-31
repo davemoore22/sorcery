@@ -38,9 +38,11 @@ class SpellPanel: public sf::Transformable, public sf::Drawable {
 
 	public:
 
-		// Constructors
+		// Constructor
 		SpellPanel(System *system, Display *display, Graphics *graphics);
-		SpellPanel() = delete;
+
+		// Destructor
+		~SpellPanel();
 
 		// Public Members
 		auto set(Spell spell) -> void;

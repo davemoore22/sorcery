@@ -67,13 +67,17 @@ Sorcery::CharacterDisplay::CharacterDisplay(
 	inv_texts.clear();
 	inv_bounds.clear();
 
-	_spell_panel = std::make_shared<SpellPanel>(_system, _display, _graphics);
+	_spell_panel = std::make_unique<SpellPanel>(_system, _display, _graphics);
 	_spell_panel->setPosition((*_display->layout)["global:spell_panel"].pos());
 
 	_mode = CHM::NO_MODE;
 	_character = nullptr;
 
 	_window = _display->window->get_window();
+}
+
+// Standard Destructor
+Sorcery::CharacterDisplay::~CharacterDisplay() {
 }
 
 auto Sorcery::CharacterDisplay::set(Character *character) -> void {

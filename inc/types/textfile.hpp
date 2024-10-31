@@ -42,7 +42,6 @@ class TextFile {
 
 		// Constructors
 		TextFile(std::filesystem::path text_file_path);
-		TextFile() = delete;
 
 		// Overloaded [] operator to get access to each line of the contained
 		// file

@@ -36,11 +36,16 @@
 #include "resources/resourcemanager.hpp"
 
 // Standard Constructor
-Sorcery::SpellPanel::SpellPanel(System *system, Display *display, Graphics *graphics)
+Sorcery::SpellPanel::SpellPanel(
+	System *system, Display *display, Graphics *graphics)
 	: _system{system}, _display{display}, _graphics{graphics} {
 
 	// Not valid until we call the set command
 	valid = false;
+}
+
+// Standard Destructor
+Sorcery::SpellPanel::~SpellPanel() {
 }
 
 auto Sorcery::SpellPanel::set(Spell spell) -> void {
@@ -78,9 +83,11 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 	_icon.setScale(icon_c.scl());
 	_icon.setPosition(icon_c.pos());
 	if (spell.known)
-		_icon.setColor(sf::Color(std::stoull(icon_c["known_colour"].value(), 0, 16)));
+		_icon.setColor(
+			sf::Color(std::stoull(icon_c["known_colour"].value(), 0, 16)));
 	else
-		_icon.setColor(sf::Color(std::stoull(icon_c["unknown_colour"].value(), 0, 16)));
+		_icon.setColor(
+			sf::Color(std::stoull(icon_c["unknown_colour"].value(), 0, 16)));
 
 	Component name_c{(*_display->layout)["spell_panel:name_text"]};
 	auto translated_name{spell.translated_name};
@@ -97,8 +104,10 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 
 	auto spell_type{spell.type == SPT::MAGE ? "Mage" : "Priest"};
 	std::string spell_category{magic_enum::enum_name<SPC>(spell.category)};
-	std::transform(spell_category.begin(), spell_category.end(), spell_category.begin(), ::tolower);
-	auto summary{fmt::format("Level {} {} {} spell", spell.level, spell_type, spell_category)};
+	std::transform(spell_category.begin(), spell_category.end(),
+		spell_category.begin(), ::tolower);
+	auto summary{fmt::format(
+		"Level {} {} {} spell", spell.level, spell_type, spell_category)};
 	Component summary_c{(*_display->layout)["spell_panel:summary_text"]};
 	sf::Text summary_text{};
 	summary_text.setFont(_system->resources->fonts[summary_c.font]);
@@ -117,13 +126,16 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 
 	// Split the display lines into a vector
 	const std::regex regex(R"([@]+)");
-	std::sregex_token_iterator it{wrapped_text.begin(), wrapped_text.end(), regex, -1};
+	std::sregex_token_iterator it{
+		wrapped_text.begin(), wrapped_text.end(), regex, -1};
 	std::vector<std::string> split{it, {}};
-	split.erase(
-		std::remove_if(split.begin(), split.end(), [](std::string const &s) { return s.size() == 0; }), split.end());
+	split.erase(std::remove_if(split.begin(), split.end(),
+					[](std::string const &s) { return s.size() == 0; }),
+		split.end());
 	_strings = split;
 
-	Component description_c{(*_display->layout)["spell_panel:description_text"]};
+	Component description_c{
+		(*_display->layout)["spell_panel:description_text"]};
 	auto x{description_c.x};
 	auto y{description_c.y};
 	for (const auto &each_string : _strings) {
@@ -151,7 +163,8 @@ auto Sorcery::SpellPanel::set(Spell spell) -> void {
 	valid = true;
 }
 
-auto Sorcery::SpellPanel::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::SpellPanel::draw(
+	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 	for (auto each_text : _texts) {
