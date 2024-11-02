@@ -226,9 +226,9 @@ auto Sorcery::Display::generate(std::string_view screen, SpriteMap &sprites,
 
 			} else if (comp.type == CPT::FRAME) {
 
-				auto frame = std::make_unique<Frame>(
+				auto frame{std::make_unique<Frame>(
 					_system->resources->get_texture(GTX::UI), comp.w, comp.h,
-					comp.colour, comp.background, comp.alpha);
+					comp.colour, comp.background, comp.alpha)};
 
 				// Check for Offsets
 				const auto off_x{std::invoke([&] {

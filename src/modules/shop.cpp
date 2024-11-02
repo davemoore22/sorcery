@@ -193,6 +193,23 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 						opt_who = _who->set_mouse_selected(_display->get_cur());
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
+						/* //
+						   pc.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR],
+						   true);
+									//
+						   pc.inventory.add_type((*_game->itemstore)[CHAIN_MAIL],
+						   true);
+									//
+						   pc.inventory.add_type((*_game->itemstore)[LONG_SWORD],
+						   false,
+									// true);
+						   pc.inventory.add_type((*_game->itemstore)[CHAIN_MINUS_2],
+									// false);
+						   pc.inventory.add_type((*_game->itemstore)[MACE_MINUS_1],
+									// false);
+						   pc.inventory.add_type((*_game->itemstore)[PLATE_MAIL],
+									// false, false);*/
+
 						// We have selected something from the menu
 						if (opt_who) {
 							if (const MIM opt_shop{(*opt_who.value()).item};
@@ -209,8 +226,6 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 								_action->generate(
 									(*_display->layout)["shop_action:menu"]);
 								continue;
-								// TODO: handle population of who and gold
-								// strings here
 							}
 						}
 					}
@@ -240,7 +255,7 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 								(*_display->layout)["shop_who:menu"]);
 							continue;
 						} else {
-							PRINT("chosen");
+
 							// depending on what is chosen, go into sell, buy,
 							// etc
 						}

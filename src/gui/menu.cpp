@@ -44,9 +44,11 @@
 #include "types/monstertype.hpp"
 
 // Standard Constructor
-Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics, Game *game, const MTP type,
-	std::optional<MMD> mode, std::optional<unsigned int> data)
-	: _system{system}, _display{display}, _graphics{graphics}, _game{game}, _type{type}, _mode{mode} {
+Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics,
+	Game *game, const MTP type, std::optional<MMD> mode,
+	std::optional<unsigned int> data)
+	: _system{system}, _display{display}, _graphics{graphics}, _game{game},
+	  _type{type}, _mode{mode} {
 
 	// Clear the Items
 	items.clear();
@@ -87,109 +89,163 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics, Game *
 		selected = items.begin();
 		break;
 	case MTP::ITEM_ACTION:
-		// Note these are enabled/disabled depending on the context in inspect.cpp
-		_add_item(0, MIT::ENTRY, MIM::C_ACTION_EQUIP, TRIM_COPY((*_display->string)["C_ACTION_EQUIP"]));
-		_add_item(1, MIT::ENTRY, MIM::C_ACTION_UNEQUIP, TRIM_COPY((*_display->string)["C_ACTION_UNEQUIP"]));
-		_add_item(2, MIT::ENTRY, MIM::C_ACTION_TRADE, TRIM_COPY((*_display->string)["C_ACTION_TRADE"]));
-		_add_item(3, MIT::ENTRY, MIM::C_ACTION_EXAMINE, TRIM_COPY((*_display->string)["C_ACTION_EXAMINE"]));
-		_add_item(4, MIT::ENTRY, MIM::C_ACTION_INVOKE, TRIM_COPY((*_display->string)["C_ACTION_INVOKE"]));
-		_add_item(5, MIT::ENTRY, MIM::C_ACTION_USE, TRIM_COPY((*_display->string)["C_ACTION_USE"]));
-		_add_item(6, MIT::ENTRY, MIM::C_ACTION_IDENTIFY, TRIM_COPY((*_display->string)["C_ACTION_IDENTIFY"]));
-		_add_item(7, MIT::ENTRY, MIM::C_ACTION_DROP, TRIM_COPY((*_display->string)["C_ACTION_DROP"]));
-		_add_item(8, MIT::ENTRY, MIM::C_ACTION_LEAVE, TRIM_COPY((*_display->string)["C_ACTION_LEAVE"]));
+		// Note these are enabled/disabled depending on the context in
+		// inspect.cpp
+		_add_item(0, MIT::ENTRY, MIM::C_ACTION_EQUIP,
+			TRIM_COPY((*_display->string)["C_ACTION_EQUIP"]));
+		_add_item(1, MIT::ENTRY, MIM::C_ACTION_UNEQUIP,
+			TRIM_COPY((*_display->string)["C_ACTION_UNEQUIP"]));
+		_add_item(2, MIT::ENTRY, MIM::C_ACTION_TRADE,
+			TRIM_COPY((*_display->string)["C_ACTION_TRADE"]));
+		_add_item(3, MIT::ENTRY, MIM::C_ACTION_EXAMINE,
+			TRIM_COPY((*_display->string)["C_ACTION_EXAMINE"]));
+		_add_item(4, MIT::ENTRY, MIM::C_ACTION_INVOKE,
+			TRIM_COPY((*_display->string)["C_ACTION_INVOKE"]));
+		_add_item(5, MIT::ENTRY, MIM::C_ACTION_USE,
+			TRIM_COPY((*_display->string)["C_ACTION_USE"]));
+		_add_item(6, MIT::ENTRY, MIM::C_ACTION_IDENTIFY,
+			TRIM_COPY((*_display->string)["C_ACTION_IDENTIFY"]));
+		_add_item(7, MIT::ENTRY, MIM::C_ACTION_DROP,
+			TRIM_COPY((*_display->string)["C_ACTION_DROP"]));
+		_add_item(8, MIT::ENTRY, MIM::C_ACTION_LEAVE,
+			TRIM_COPY((*_display->string)["C_ACTION_LEAVE"]));
 		selected = items.begin();
 		break;
 	case MTP::COMPENDIUM:
-		_add_item(0, MIT::ENTRY, MIM::CO_MONSTERS, (*_display->string)["MENU_MONSTERS"]);
-		_add_item(1, MIT::ENTRY, MIM::CO_ITEMS, (*_display->string)["MENU_ITEMS"]);
-		_add_item(2, MIT::ENTRY, MIM::CO_SPELLS, (*_display->string)["MENU_SPELLS"]);
-		_add_item(3, MIT::ENTRY, MIM::CO_FEATURES, (*_display->string)["MENU_FEATURES"]);
-		_add_item(4, MIT::ENTRY, MIM::CO_STATS, (*_display->string)["MENU_STATS"]);
-		_add_item(5, MIT::ENTRY, MIM::ITEM_RETURN, (*_display->string)["MENU_RETURN"]);
+		_add_item(0, MIT::ENTRY, MIM::CO_MONSTERS,
+			(*_display->string)["MENU_MONSTERS"]);
+		_add_item(
+			1, MIT::ENTRY, MIM::CO_ITEMS, (*_display->string)["MENU_ITEMS"]);
+		_add_item(
+			2, MIT::ENTRY, MIM::CO_SPELLS, (*_display->string)["MENU_SPELLS"]);
+		_add_item(3, MIT::ENTRY, MIM::CO_FEATURES,
+			(*_display->string)["MENU_FEATURES"]);
+		_add_item(
+			4, MIT::ENTRY, MIM::CO_STATS, (*_display->string)["MENU_STATS"]);
+		_add_item(5, MIT::ENTRY, MIM::ITEM_RETURN,
+			(*_display->string)["MENU_RETURN"]);
 		selected = items.begin();
 		break;
 	case MTP::EDIT_CHARACTER:
-		_add_item(0, MIT::ENTRY, MIM::EC_CHANGE_CLASS, (*_display->string)["EDIT_CHARACTER_CHANGE_CLASS"]);
-		_add_item(1, MIT::ENTRY, MIM::EC_CHANGE_NAME, (*_display->string)["EDIT_CHARACTER_CHANGE_NAME"]);
-		_add_item(2, MIT::ENTRY, MIM::EC_LEGATE_CHARACTER, (*_display->string)["EDIT_CHARACTER_LEGATE_CHARACTER"]);
-		_add_item(3, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-		_add_item(4, MIT::ENTRY, MIM::EC_RETURN_EDIT, (*_display->string)["EDIT_CHARACTER_RETURN_EDIT"]);
+		_add_item(0, MIT::ENTRY, MIM::EC_CHANGE_CLASS,
+			(*_display->string)["EDIT_CHARACTER_CHANGE_CLASS"]);
+		_add_item(1, MIT::ENTRY, MIM::EC_CHANGE_NAME,
+			(*_display->string)["EDIT_CHARACTER_CHANGE_NAME"]);
+		_add_item(2, MIT::ENTRY, MIM::EC_LEGATE_CHARACTER,
+			(*_display->string)["EDIT_CHARACTER_LEGATE_CHARACTER"]);
+		_add_item(3, MIT::SPACER, MIM::ITEM_SPACER,
+			(*_display->string)["MENU_SPACER"]);
+		_add_item(4, MIT::ENTRY, MIM::EC_RETURN_EDIT,
+			(*_display->string)["EDIT_CHARACTER_RETURN_EDIT"]);
 		selected = items.begin();
 		break;
 	case MTP::MAIN:
-		_add_item(0, MIT::ENTRY, MIM::MM_NEW_GAME, (*_display->string)["MAIN_MENU_OPTION_START"]);
-		_add_item(1, MIT::ENTRY, MIM::MM_CONTINUE_GAME, (*_display->string)["MAIN_MENU_OPTION_CONTINUE"]);
-		_add_item(2, MIT::ENTRY, MIM::MM_OPTIONS, (*_display->string)["MAIN_MENU_OPTION_OPTIONS"]);
-		_add_item(3, MIT::ENTRY, MIM::MM_COMPENDIUM, (*_display->string)["MAIN_MENU_OPTION_COMPENDIUM"]);
-		_add_item(4, MIT::ENTRY, MIM::MM_LICENSE, (*_display->string)["MAIN_MENU_OPTION_LICENSE"]);
-		_add_item(5, MIT::ENTRY, MIM::ITEM_QUIT, (*_display->string)["MAIN_MENU_OPTION_EXIT"]);
+		_add_item(0, MIT::ENTRY, MIM::MM_NEW_GAME,
+			(*_display->string)["MAIN_MENU_OPTION_START"]);
+		_add_item(1, MIT::ENTRY, MIM::MM_CONTINUE_GAME,
+			(*_display->string)["MAIN_MENU_OPTION_CONTINUE"]);
+		_add_item(2, MIT::ENTRY, MIM::MM_OPTIONS,
+			(*_display->string)["MAIN_MENU_OPTION_OPTIONS"]);
+		_add_item(3, MIT::ENTRY, MIM::MM_COMPENDIUM,
+			(*_display->string)["MAIN_MENU_OPTION_COMPENDIUM"]);
+		_add_item(4, MIT::ENTRY, MIM::MM_LICENSE,
+			(*_display->string)["MAIN_MENU_OPTION_LICENSE"]);
+		_add_item(5, MIT::ENTRY, MIM::ITEM_QUIT,
+			(*_display->string)["MAIN_MENU_OPTION_EXIT"]);
 		selected = items.begin();
 		break;
 	case MTP::REVIEW_AND_CONFIRM:
-		_add_item(0, MIT::ENTRY, MIM::RC_ACCEPT, (*_display->string)["RC_ACCEPT"]);
-		_add_item(1, MIT::ENTRY, MIM::RC_REJECT, (*_display->string)["RC_REJECT"]);
+		_add_item(
+			0, MIT::ENTRY, MIM::RC_ACCEPT, (*_display->string)["RC_ACCEPT"]);
+		_add_item(
+			1, MIT::ENTRY, MIM::RC_REJECT, (*_display->string)["RC_REJECT"]);
 		selected = items.begin();
 		break;
 	case MTP::ELEVATOR_A_D:
-		_add_item(0, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["BUTTONS_A_TO_D"]);
-		_add_item(1, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["PRESS_ONE"]);
-		_add_item(2, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
+		_add_item(0, MIT::TEXT, MIM::NC_WARNING,
+			(*_display->string)["BUTTONS_A_TO_D"]);
+		_add_item(
+			1, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["PRESS_ONE"]);
+		_add_item(2, MIT::SPACER, MIM::ITEM_SPACER,
+			(*_display->string)["MENU_SPACER"]);
 		_add_item(3, MIT::ENTRY, MIM::EL_A, (*_display->string)["ELEVATOR_A"]);
 		_add_item(4, MIT::ENTRY, MIM::EL_B, (*_display->string)["ELEVATOR_B"]);
 		_add_item(5, MIT::ENTRY, MIM::EL_C, (*_display->string)["ELEVATOR_C"]);
 		_add_item(6, MIT::ENTRY, MIM::EL_D, (*_display->string)["ELEVATOR_D"]);
-		_add_item(7, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-		_add_item(8, MIT::ENTRY, MIM::EL_LEAVE, (*_display->string)["ELEVATOR_LEAVE"]);
+		_add_item(7, MIT::SPACER, MIM::ITEM_SPACER,
+			(*_display->string)["MENU_SPACER"]);
+		_add_item(8, MIT::ENTRY, MIM::EL_LEAVE,
+			(*_display->string)["ELEVATOR_LEAVE"]);
 		selected = items.end();
 		break;
 	case MTP::ELEVATOR_A_F:
-		_add_item(0, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["BUTTONS_A_TO_F"]);
-		_add_item(1, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["PRESS_ONE"]);
-		_add_item(2, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
+		_add_item(0, MIT::TEXT, MIM::NC_WARNING,
+			(*_display->string)["BUTTONS_A_TO_F"]);
+		_add_item(
+			1, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["PRESS_ONE"]);
+		_add_item(2, MIT::SPACER, MIM::ITEM_SPACER,
+			(*_display->string)["MENU_SPACER"]);
 		_add_item(3, MIT::ENTRY, MIM::EL_A, (*_display->string)["ELEVATOR_A"]);
 		_add_item(4, MIT::ENTRY, MIM::EL_B, (*_display->string)["ELEVATOR_B"]);
 		_add_item(5, MIT::ENTRY, MIM::EL_C, (*_display->string)["ELEVATOR_C"]);
 		_add_item(6, MIT::ENTRY, MIM::EL_D, (*_display->string)["ELEVATOR_D"]);
 		_add_item(7, MIT::ENTRY, MIM::EL_E, (*_display->string)["ELEVATOR_E"]);
 		_add_item(8, MIT::ENTRY, MIM::EL_F, (*_display->string)["ELEVATOR_F"]);
-		_add_item(9, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-		_add_item(10, MIT::ENTRY, MIM::EL_LEAVE, (*_display->string)["ELEVATOR_LEAVE"]);
+		_add_item(9, MIT::SPACER, MIM::ITEM_SPACER,
+			(*_display->string)["MENU_SPACER"]);
+		_add_item(10, MIT::ENTRY, MIM::EL_LEAVE,
+			(*_display->string)["ELEVATOR_LEAVE"]);
 		selected = items.end();
 		break;
 	case MTP::CASTLE:
-		_add_item(0, MIT::ENTRY, MIM::CA_TAVERN, (*_display->string)["MENU_TAVERN"]);
+		_add_item(
+			0, MIT::ENTRY, MIM::CA_TAVERN, (*_display->string)["MENU_TAVERN"]);
 		_add_item(1, MIT::ENTRY, MIM::CA_INN, (*_display->string)["MENU_INN"]);
-		_add_item(2, MIT::ENTRY, MIM::CA_SHOP, (*_display->string)["MENU_SHOP"]);
-		_add_item(3, MIT::ENTRY, MIM::CA_TEMPLE, (*_display->string)["MENU_TEMPLE"]);
-		_add_item(4, MIT::ENTRY, MIM::CA_EDGE_OF_TOWN, (*_display->string)["MENU_EDGE_OF_TOWN"]);
+		_add_item(
+			2, MIT::ENTRY, MIM::CA_SHOP, (*_display->string)["MENU_SHOP"]);
+		_add_item(
+			3, MIT::ENTRY, MIM::CA_TEMPLE, (*_display->string)["MENU_TEMPLE"]);
+		_add_item(4, MIT::ENTRY, MIM::CA_EDGE_OF_TOWN,
+			(*_display->string)["MENU_EDGE_OF_TOWN"]);
 		selected = items.begin();
 		break;
 	case MTP::EDGE_OF_TOWN:
-		_add_item(0, MIT::ENTRY, MIM::ET_CASTLE, (*_display->string)["MENU_CASTLE"]);
-		_add_item(1, MIT::ENTRY, MIM::ET_TRAIN, (*_display->string)["MENU_TRAIN"]);
-		_add_item(2, MIT::ENTRY, MIM::ET_MAZE, (*_display->string)["MENU_MAZE"]);
-		_add_item(3, MIT::ENTRY, MIM::ET_RESTART, (*_display->string)["MENU_RESTART"]);
-		_add_item(4, MIT::ENTRY, MIM::ET_LEAVE_GAME, (*_display->string)["MENU_LEAVE_GAME"]);
+		_add_item(
+			0, MIT::ENTRY, MIM::ET_CASTLE, (*_display->string)["MENU_CASTLE"]);
+		_add_item(
+			1, MIT::ENTRY, MIM::ET_TRAIN, (*_display->string)["MENU_TRAIN"]);
+		_add_item(
+			2, MIT::ENTRY, MIM::ET_MAZE, (*_display->string)["MENU_MAZE"]);
+		_add_item(3, MIT::ENTRY, MIM::ET_RESTART,
+			(*_display->string)["MENU_RESTART"]);
+		_add_item(4, MIT::ENTRY, MIM::ET_LEAVE_GAME,
+			(*_display->string)["MENU_LEAVE_GAME"]);
 		selected = items.begin();
 		break;
 	case MTP::INN_CHOOSE_BED:
 		_add_item(0, MIT::ENTRY, MIM::IN_STABLES, (*_display->string)["INN_1"]);
 		_add_item(1, MIT::ENTRY, MIM::IN_COT, (*_display->string)["INN_2"]);
 		_add_item(2, MIT::ENTRY, MIM::IN_ECONOMY, (*_display->string)["INN_3"]);
-		_add_item(3, MIT::ENTRY, MIM::IN_MERCHANT, (*_display->string)["INN_4"]);
+		_add_item(
+			3, MIT::ENTRY, MIM::IN_MERCHANT, (*_display->string)["INN_4"]);
 		_add_item(4, MIT::ENTRY, MIM::IN_ROYAL, (*_display->string)["INN_5"]);
-		_add_item(5, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-		_add_item(6, MIT::ENTRY, MIM::IN_POOL_GOLD, (*_display->string)["INN_POOL"]);
-		_add_item(7, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
+		_add_item(5, MIT::SPACER, MIM::ITEM_SPACER,
+			(*_display->string)["MENU_SPACER"]);
+		_add_item(
+			6, MIT::ENTRY, MIM::IN_POOL_GOLD, (*_display->string)["INN_POOL"]);
+		_add_item(7, MIT::SPACER, MIM::ITEM_SPACER,
+			(*_display->string)["MENU_SPACER"]);
 		_add_item(8, MIT::ENTRY, MIM::IN_BACK, (*_display->string)["INN_BACK"]);
 		selected = items.begin();
 		break;
 	case MTP::CONTINUE:
-		_add_item(0, MIT::ENTRY, MIM::ITEM_CONTINUE, (*_display->string)["CONTINUE"]);
+		_add_item(
+			0, MIT::ENTRY, MIM::ITEM_CONTINUE, (*_display->string)["CONTINUE"]);
 		selected = items.begin();
 		break;
 	case MTP::GRAVEYARD:
-		_add_item(0, MIT::ENTRY, MIM::ITEM_CONTINUE, (*_display->string)["GRAVEYARD_MENU"]);
+		_add_item(0, MIT::ENTRY, MIM::ITEM_CONTINUE,
+			(*_display->string)["GRAVEYARD_MENU"]);
 		selected = items.begin();
 		break;
 	case MTP::STOP:
@@ -197,187 +253,284 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics, Game *
 		selected = items.begin();
 		break;
 	case MTP::TAVERN:
-		_add_item(0, MIT::ENTRY, MIM::TA_ADD_TO_PARTY, (*_display->string)["TAVERN_ADD_TO_PARTY"]);
-		_add_item(1, MIT::ENTRY, MIM::TA_REMOVE_FROM_PARTY, (*_display->string)["TAVERN_REMOVE_FROM_PARTY"]);
-		_add_item(2, MIT::ENTRY, MIM::TA_INSPECT, (*_display->string)["TAVERN_INSPECT"]);
-		_add_item(3, MIT::ENTRY, MIM::TA_REORDER, (*_display->string)["TAVERN_REORDER_PARTY"]);
-		_add_item(4, MIT::ENTRY, MIM::TA_DIVVY_GOLD, (*_display->string)["TAVERN_DIVVY_GOLD"]);
-		_add_item(5, MIT::ENTRY, MIM::TA_CASTLE, (*_display->string)["TAVERN_CASTLE"]);
+		_add_item(0, MIT::ENTRY, MIM::TA_ADD_TO_PARTY,
+			(*_display->string)["TAVERN_ADD_TO_PARTY"]);
+		_add_item(1, MIT::ENTRY, MIM::TA_REMOVE_FROM_PARTY,
+			(*_display->string)["TAVERN_REMOVE_FROM_PARTY"]);
+		_add_item(2, MIT::ENTRY, MIM::TA_INSPECT,
+			(*_display->string)["TAVERN_INSPECT"]);
+		_add_item(3, MIT::ENTRY, MIM::TA_REORDER,
+			(*_display->string)["TAVERN_REORDER_PARTY"]);
+		_add_item(4, MIT::ENTRY, MIM::TA_DIVVY_GOLD,
+			(*_display->string)["TAVERN_DIVVY_GOLD"]);
+		_add_item(5, MIT::ENTRY, MIM::TA_CASTLE,
+			(*_display->string)["TAVERN_CASTLE"]);
 		selected = items.begin();
 		break;
 	case MTP::INN:
-		_add_item(0, MIT::ENTRY, MIM::IN_STAY_CHARACTER, (*_display->string)["INN_STAY_ONE"]);
-		_add_item(1, MIT::ENTRY, MIM::IN_INSPECT, (*_display->string)["INN_INSPECT"]);
-		_add_item(2, MIT::ENTRY, MIM::IN_CASTLE, (*_display->string)["INN_CASTLE"]);
+		_add_item(0, MIT::ENTRY, MIM::IN_STAY_CHARACTER,
+			(*_display->string)["INN_STAY_ONE"]);
+		_add_item(
+			1, MIT::ENTRY, MIM::IN_INSPECT, (*_display->string)["INN_INSPECT"]);
+		_add_item(
+			2, MIT::ENTRY, MIM::IN_CASTLE, (*_display->string)["INN_CASTLE"]);
 		selected = items.begin();
 		break;
 	case MTP::SHOP:
-		_add_item(0, MIT::ENTRY, MIM::SH_BUY_AND_SELL, (*_display->string)["SHOP_BUY_AND_SELL"]);
-		_add_item(1, MIT::ENTRY, MIM::SH_UNCURSE, (*_display->string)["SHOP_UNCURSE"]);
-		_add_item(2, MIT::ENTRY, MIM::SH_IDENTIFY, (*_display->string)["SHOP_IDENTIFY"]);
-		_add_item(3, MIT::ENTRY, MIM::SH_INSPECT, (*_display->string)["SHOP_INSPECT"]);
-		_add_item(4, MIT::ENTRY, MIM::SH_CASTLE, (*_display->string)["SHOP_CASTLE"]);
+		_add_item(0, MIT::ENTRY, MIM::SH_BUY_AND_SELL,
+			(*_display->string)["SHOP_ENTER"]);
+		_add_item(1, MIT::ENTRY, MIM::SH_INSPECT,
+			(*_display->string)["SHOP_INSPECT"]);
+		_add_item(
+			2, MIT::ENTRY, MIM::SH_CASTLE, (*_display->string)["SHOP_CASTLE"]);
 		selected = items.begin();
 		break;
 	case MTP::SHOP_ACTION:
 		_add_item(0, MIT::ENTRY, MIM::SH_BUY, (*_display->string)["SHOP_BUY"]);
-		_add_item(1, MIT::ENTRY, MIM::SH_SELL, (*_display->string)["SHOP_SELL"]);
-		_add_item(2, MIT::ENTRY, MIM::SH_UNCURSE, (*_display->string)["SHOP_UNCURSE"]);
-		_add_item(3, MIT::ENTRY, MIM::SH_IDENTIFY, (*_display->string)["SHOP_IDENTIFY"]);
-		_add_item(4, MIT::ENTRY, MIM::SH_POOL_GOLD, (*_display->string)["SHOP_POOL"]);
-		_add_item(5, MIT::ENTRY, MIM::SH_BACK, (*_display->string)["SHOP_BACK"]);
+		_add_item(
+			1, MIT::ENTRY, MIM::SH_SELL, (*_display->string)["SHOP_SELL"]);
+		_add_item(2, MIT::ENTRY, MIM::SH_UNCURSE,
+			(*_display->string)["SHOP_UNCURSE"]);
+		_add_item(3, MIT::ENTRY, MIM::SH_IDENTIFY,
+			(*_display->string)["SHOP_IDENTIFY"]);
+		_add_item(
+			4, MIT::ENTRY, MIM::SH_POOL_GOLD, (*_display->string)["SHOP_POOL"]);
+		_add_item(
+			5, MIT::ENTRY, MIM::SH_BACK, (*_display->string)["SHOP_BACK"]);
 		selected = items.begin();
 		break;
 	case MTP::TEMPLE:
-		_add_item(0, MIT::ENTRY, MIM::TE_HELP, (*_display->string)["TEMPLE_HELP"]);
-		_add_item(1, MIT::ENTRY, MIM::TE_TITHE, (*_display->string)["TEMPLE_TITHE"]);
-		_add_item(2, MIT::ENTRY, MIM::TE_INSPECT, (*_display->string)["TEMPLE_INSPECT"]);
-		_add_item(3, MIT::ENTRY, MIM::TE_CASTLE, (*_display->string)["TEMPLE_CASTLE"]);
+		_add_item(
+			0, MIT::ENTRY, MIM::TE_HELP, (*_display->string)["TEMPLE_HELP"]);
+		_add_item(
+			1, MIT::ENTRY, MIM::TE_TITHE, (*_display->string)["TEMPLE_TITHE"]);
+		_add_item(2, MIT::ENTRY, MIM::TE_INSPECT,
+			(*_display->string)["TEMPLE_INSPECT"]);
+		_add_item(3, MIT::ENTRY, MIM::TE_CASTLE,
+			(*_display->string)["TEMPLE_CASTLE"]);
 		selected = items.begin();
 		break;
 	case MTP::TRAINING_GROUNDS:
-		_add_item(0, MIT::ENTRY, MIM::TR_CREATE, (*_display->string)["TRAINING_GROUNDS_MENU_OPTION_CREATE"]);
-		_add_item(1, MIT::ENTRY, MIM::TR_EDIT, (*_display->string)["TRAINING_GROUNDS_MENU_OPTION_EDIT"]);
-		_add_item(2, MIT::ENTRY, MIM::TR_DELETE, (*_display->string)["TRAINING_GROUNDS_MENU_OPTION_DELETE"]);
-		_add_item(3, MIT::ENTRY, MIM::TR_INSPECT, (*_display->string)["TRAINING_GROUNDS_MENU_OPTION_INSPECT"]);
-		_add_item(4, MIT::ENTRY, MIM::TR_EDGE_OF_TOWN, (*_display->string)["TRAINING_GROUNDS_MENU_OPTION_RETURN"]);
+		_add_item(0, MIT::ENTRY, MIM::TR_CREATE,
+			(*_display->string)["TRAINING_GROUNDS_MENU_OPTION_CREATE"]);
+		_add_item(1, MIT::ENTRY, MIM::TR_EDIT,
+			(*_display->string)["TRAINING_GROUNDS_MENU_OPTION_EDIT"]);
+		_add_item(2, MIT::ENTRY, MIM::TR_DELETE,
+			(*_display->string)["TRAINING_GROUNDS_MENU_OPTION_DELETE"]);
+		_add_item(3, MIT::ENTRY, MIM::TR_INSPECT,
+			(*_display->string)["TRAINING_GROUNDS_MENU_OPTION_INSPECT"]);
+		_add_item(4, MIT::ENTRY, MIM::TR_EDGE_OF_TOWN,
+			(*_display->string)["TRAINING_GROUNDS_MENU_OPTION_RETURN"]);
 		selected = items.begin();
 		break;
 	case MTP::ALLOCATE_CHARACTER_ATTRIBUTES:
-		_add_item(0, MIT::ENTRY, MIM::CS_STRENGTH, (*_display->string)["CHARACTER_STAT_STRENGTH"], true, CFG::NONE,
+		_add_item(0, MIT::ENTRY, MIM::CS_STRENGTH,
+			(*_display->string)["CHARACTER_STAT_STRENGTH"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_STAT_STRENGTH"]);
-		_add_item(1, MIT::ENTRY, MIM::CS_IQ, (*_display->string)["CHARACTER_STAT_INTELLIGENCE"], true, CFG::NONE,
+		_add_item(1, MIT::ENTRY, MIM::CS_IQ,
+			(*_display->string)["CHARACTER_STAT_INTELLIGENCE"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_STAT_INTELLIGENCE"]);
-		_add_item(2, MIT::ENTRY, MIM::CS_PIETY, (*_display->string)["CHARACTER_STAT_PIETY"], true, CFG::NONE,
+		_add_item(2, MIT::ENTRY, MIM::CS_PIETY,
+			(*_display->string)["CHARACTER_STAT_PIETY"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_STAT_PIETY"]);
-		_add_item(3, MIT::ENTRY, MIM::CS_VITALITY, (*_display->string)["CHARACTER_STAT_VITALITY"], true, CFG::NONE,
+		_add_item(3, MIT::ENTRY, MIM::CS_VITALITY,
+			(*_display->string)["CHARACTER_STAT_VITALITY"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_STAT_VITALITY"]);
-		_add_item(4, MIT::ENTRY, MIM::CS_AGILITY, (*_display->string)["CHARACTER_STAT_AGILITY"], true, CFG::NONE,
+		_add_item(4, MIT::ENTRY, MIM::CS_AGILITY,
+			(*_display->string)["CHARACTER_STAT_AGILITY"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_STAT_AGILITY"]);
-		_add_item(5, MIT::ENTRY, MIM::CS_LUCK, (*_display->string)["CHARACTER_STAT_LUCK"], true, CFG::NONE,
+		_add_item(5, MIT::ENTRY, MIM::CS_LUCK,
+			(*_display->string)["CHARACTER_STAT_LUCK"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_STAT_LUCK"]);
 		selected = items.begin();
 		break;
 	case MTP::CHOOSE_CHARACTER_ALIGNMENT:
-		_add_item(0, MIT::ENTRY, MIM::CA_GOOD, (*_display->string)["CHARACTER_ALIGNMENT_GOOD"], true, CFG::NONE,
+		_add_item(0, MIT::ENTRY, MIM::CA_GOOD,
+			(*_display->string)["CHARACTER_ALIGNMENT_GOOD"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_ALIGNMENT_GOOD"]);
-		_add_item(1, MIT::ENTRY, MIM::CA_NEUTRAL, (*_display->string)["CHARACTER_ALIGNMENT_NEUTRAL"], true, CFG::NONE,
+		_add_item(1, MIT::ENTRY, MIM::CA_NEUTRAL,
+			(*_display->string)["CHARACTER_ALIGNMENT_NEUTRAL"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_ALIGNMENT_NEUTRAL"]);
-		_add_item(2, MIT::ENTRY, MIM::CA_EVIL, (*_display->string)["CHARACTER_ALIGNMENT_EVIL"], true, CFG::NONE,
+		_add_item(2, MIT::ENTRY, MIM::CA_EVIL,
+			(*_display->string)["CHARACTER_ALIGNMENT_EVIL"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_ALIGNMENT_EVIL"]);
 		selected = items.begin();
 		break;
 	case MTP::CHOOSE_CHARACTER_CLASS:
 		[[fallthrough]];
 	case MTP::CHANGE_CHARACTER_CLASS:
-		_add_item(0, MIT::ENTRY, MIM::CC_SAMURAI, (*_display->string)["CHARACTER_CLASS_SAMURAI"], true, CFG::NONE,
+		_add_item(0, MIT::ENTRY, MIM::CC_SAMURAI,
+			(*_display->string)["CHARACTER_CLASS_SAMURAI"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_SAMURAI"]);
-		_add_item(1, MIT::ENTRY, MIM::CC_FIGHTER, (*_display->string)["CHARACTER_CLASS_FIGHTER"], true, CFG::NONE,
+		_add_item(1, MIT::ENTRY, MIM::CC_FIGHTER,
+			(*_display->string)["CHARACTER_CLASS_FIGHTER"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_FIGHTER"]);
-		_add_item(2, MIT::ENTRY, MIM::CC_LORD, (*_display->string)["CHARACTER_CLASS_LORD"], true, CFG::NONE,
+		_add_item(2, MIT::ENTRY, MIM::CC_LORD,
+			(*_display->string)["CHARACTER_CLASS_LORD"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_LORD"]);
-		_add_item(3, MIT::ENTRY, MIM::CC_THIEF, (*_display->string)["CHARACTER_CLASS_THIEF"], true, CFG::NONE,
+		_add_item(3, MIT::ENTRY, MIM::CC_THIEF,
+			(*_display->string)["CHARACTER_CLASS_THIEF"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_THIEF"]);
-		_add_item(4, MIT::ENTRY, MIM::CC_NINJA, (*_display->string)["CHARACTER_CLASS_NINJA"], true, CFG::NONE,
+		_add_item(4, MIT::ENTRY, MIM::CC_NINJA,
+			(*_display->string)["CHARACTER_CLASS_NINJA"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_NINJA"]);
-		_add_item(5, MIT::ENTRY, MIM::CC_PRIEST, (*_display->string)["CHARACTER_CLASS_PRIEST"], true, CFG::NONE,
+		_add_item(5, MIT::ENTRY, MIM::CC_PRIEST,
+			(*_display->string)["CHARACTER_CLASS_PRIEST"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_PRIEST"]);
-		_add_item(6, MIT::ENTRY, MIM::CC_BISHOP, (*_display->string)["CHARACTER_CLASS_BISHOP"], true, CFG::NONE,
+		_add_item(6, MIT::ENTRY, MIM::CC_BISHOP,
+			(*_display->string)["CHARACTER_CLASS_BISHOP"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_BISHOP"]);
-		_add_item(7, MIT::ENTRY, MIM::CC_MAGE, (*_display->string)["CHARACTER_CLASS_MAGE"], true, CFG::NONE,
+		_add_item(7, MIT::ENTRY, MIM::CC_MAGE,
+			(*_display->string)["CHARACTER_CLASS_MAGE"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_CLASS_MAGE"]);
 		selected = items.begin();
 		break;
 	case MTP::CHOOSE_CHARACTER_PORTRAIT:
 		break;
 	case MTP::CHOOSE_CHARACTER_RACE:
-		_add_item(0, MIT::ENTRY, MIM::CR_HUMAN, (*_display->string)["CHARACTER_RACE_HUMAN"], true, CFG::NONE,
+		_add_item(0, MIT::ENTRY, MIM::CR_HUMAN,
+			(*_display->string)["CHARACTER_RACE_HUMAN"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_RACE_HUMAN"]);
-		_add_item(1, MIT::ENTRY, MIM::CR_ELF, (*_display->string)["CHARACTER_RACE_ELF"], true, CFG::NONE,
+		_add_item(1, MIT::ENTRY, MIM::CR_ELF,
+			(*_display->string)["CHARACTER_RACE_ELF"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_RACE_ELF"]);
-		_add_item(2, MIT::ENTRY, MIM::CR_DWARF, (*_display->string)["CHARACTER_RACE_DWARF"], true, CFG::NONE,
+		_add_item(2, MIT::ENTRY, MIM::CR_DWARF,
+			(*_display->string)["CHARACTER_RACE_DWARF"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_RACE_DWARF"]);
-		_add_item(3, MIT::ENTRY, MIM::CR_GNOME, (*_display->string)["CHARACTER_RACE_GNOME"], true, CFG::NONE,
+		_add_item(3, MIT::ENTRY, MIM::CR_GNOME,
+			(*_display->string)["CHARACTER_RACE_GNOME"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_RACE_GNOME"]);
-		_add_item(4, MIT::ENTRY, MIM::CR_HOBBIT, (*_display->string)["CHARACTER_RACE_HOBBIT"], true, CFG::NONE,
+		_add_item(4, MIT::ENTRY, MIM::CR_HOBBIT,
+			(*_display->string)["CHARACTER_RACE_HOBBIT"], true, CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_RACE_HOBBIT"]);
 		selected = items.begin();
 		break;
 	case MTP::CHOOSE_METHOD:
-		_add_item(0, MIT::ENTRY, MIM::CM_FULL, (*_display->string)["CHARACTER_CREATION_METHOD_FULL"], true, CFG::NONE,
+		_add_item(0, MIT::ENTRY, MIM::CM_FULL,
+			(*_display->string)["CHARACTER_CREATION_METHOD_FULL"], true,
+			CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_CREATION_METHOD_FULL"]);
-		_add_item(1, MIT::ENTRY, MIM::CM_QUICK, (*_display->string)["CHARACTER_CREATION_METHOD_QUICK"], true, CFG::NONE,
+		_add_item(1, MIT::ENTRY, MIM::CM_QUICK,
+			(*_display->string)["CHARACTER_CREATION_METHOD_QUICK"], true,
+			CFG::NONE,
 			(*_display->string)["HINT_CHARACTER_CREATION_METHOD_QUICK"]);
-		_add_item(2, MIT::ENTRY, MIM::CM_RANDOM, (*_display->string)["CHARACTER_CREATION_METHOD_RANDOM"], true,
-			CFG::NONE, (*_display->string)["HINT_CHARACTER_CREATION_METHOD_RANDOM"]);
+		_add_item(2, MIT::ENTRY, MIM::CM_RANDOM,
+			(*_display->string)["CHARACTER_CREATION_METHOD_RANDOM"], true,
+			CFG::NONE,
+			(*_display->string)["HINT_CHARACTER_CREATION_METHOD_RANDOM"]);
 		selected = items.begin();
 		break;
 	case MTP::OPTIONS:
-		_add_item(0, MIT::ENTRY, MIM::OP_RECOMMENDED_MODE, (*_display->string)["CONFIG_RECOMMENDED_MODE"], true,
-			CFG::RECOMMENDED_MODE, (*_display->string)["HINT_CONFIG_RECOMMENDED_MODE"]);
-		_add_item(1, MIT::ENTRY, MIM::OP_STRICT_MODE, (*_display->string)["CONFIG_STRICT_MODE"], true, CFG::STRICT_MODE,
+		_add_item(0, MIT::ENTRY, MIM::OP_RECOMMENDED_MODE,
+			(*_display->string)["CONFIG_RECOMMENDED_MODE"], true,
+			CFG::RECOMMENDED_MODE,
+			(*_display->string)["HINT_CONFIG_RECOMMENDED_MODE"]);
+		_add_item(1, MIT::ENTRY, MIM::OP_STRICT_MODE,
+			(*_display->string)["CONFIG_STRICT_MODE"], true, CFG::STRICT_MODE,
 			(*_display->string)["HINT_CONFIG_STRICT_MODE"]);
-		_add_item(2, MIT::ENTRY, MIM::OP_CHEAT_MODE, (*_display->string)["CONFIG_CHEAT_MODE"], true, CFG::CHEAT_MODE,
+		_add_item(2, MIT::ENTRY, MIM::OP_CHEAT_MODE,
+			(*_display->string)["CONFIG_CHEAT_MODE"], true, CFG::CHEAT_MODE,
 			(*_display->string)["HINT_CONFIG_CHEAT_MODE"]);
-		_add_item(3, MIT::ENTRY, MIM::OP_AUTO_SAVE, (*_display->string)["CONFIG_AUTO_SAVE"], true, CFG::AUTO_SAVE,
+		_add_item(3, MIT::ENTRY, MIM::OP_AUTO_SAVE,
+			(*_display->string)["CONFIG_AUTO_SAVE"], true, CFG::AUTO_SAVE,
 			(*_display->string)["HINT_CONFIG_AUTO_SAVE"]);
-		_add_item(4, MIT::ENTRY, MIM::OP_DICE_ROLLS, (*_display->string)["CONFIG_DICE_ROLLS"], true, CFG::DICE_ROLLS,
+		_add_item(4, MIT::ENTRY, MIM::OP_DICE_ROLLS,
+			(*_display->string)["CONFIG_DICE_ROLLS"], true, CFG::DICE_ROLLS,
 			(*_display->string)["HINT_CONFIG_DICE_ROLLS"]);
-		_add_item(5, MIT::ENTRY, MIM::OP_ALLOW_MIXED_ALIGNMENT_PARTY, (*_display->string)["GAME_ALLOW_MIXED_ALIGNMENT"],
-			true, CFG::ALLOW_MIXED_ALIGNMENT_PARTY, (*_display->string)["HINT_GAME_ALLOW_MIXED_ALIGNMENT"]);
-		_add_item(6, MIT::ENTRY, MIM::OP_STAT_LOSS_ON_LEVEL_UP, (*_display->string)["GAME_STAT_LOSS_LEVEL_GAIN"], true,
-			CFG::STAT_LOSS_ON_LEVEL_UP, (*_display->string)["HINT_GAME_STAT_LOSS_LEVEL_GAIN"]);
-		_add_item(7, MIT::ENTRY, MIM::OP_REROLL_HIT_POINTS_ON_LEVEL_GAIN, (*_display->string)["GAME_REROLL_HIT_POINTS"],
-			true, CFG::REROLL_HIT_POINTS_ON_LEVEL_GAIN, (*_display->string)["HINT_GAME_REROLL_HIT_POINTS"]);
+		_add_item(5, MIT::ENTRY, MIM::OP_ALLOW_MIXED_ALIGNMENT_PARTY,
+			(*_display->string)["GAME_ALLOW_MIXED_ALIGNMENT"], true,
+			CFG::ALLOW_MIXED_ALIGNMENT_PARTY,
+			(*_display->string)["HINT_GAME_ALLOW_MIXED_ALIGNMENT"]);
+		_add_item(6, MIT::ENTRY, MIM::OP_STAT_LOSS_ON_LEVEL_UP,
+			(*_display->string)["GAME_STAT_LOSS_LEVEL_GAIN"], true,
+			CFG::STAT_LOSS_ON_LEVEL_UP,
+			(*_display->string)["HINT_GAME_STAT_LOSS_LEVEL_GAIN"]);
+		_add_item(7, MIT::ENTRY, MIM::OP_REROLL_HIT_POINTS_ON_LEVEL_GAIN,
+			(*_display->string)["GAME_REROLL_HIT_POINTS"], true,
+			CFG::REROLL_HIT_POINTS_ON_LEVEL_GAIN,
+			(*_display->string)["HINT_GAME_REROLL_HIT_POINTS"]);
 		_add_item(8, MIT::ENTRY, MIM::OP_STAT_RESET_ON_CLASS_CHANGE,
-			(*_display->string)["GAME_STAT_RESET_CLASS_CHANGE"], true, CFG::STAT_RESET_ON_CLASS_CHANGE,
+			(*_display->string)["GAME_STAT_RESET_CLASS_CHANGE"], true,
+			CFG::STAT_RESET_ON_CLASS_CHANGE,
 			(*_display->string)["HINT_GAME_STAT_RESET_CLASS_CHANGE"]);
-		_add_item(9, MIT::ENTRY, MIM::OP_AGING_ON_CLASS_CHANGE, (*_display->string)["GAME_AGING_CLASS_CHANGE"], true,
-			CFG::AGING_ON_CLASS_CHANGE, (*_display->string)["HINT_GAME_AGING_CLASS_CHANGE"]);
-		_add_item(10, MIT::ENTRY, MIM::OP_PROTECT_TELEPORT, (*_display->string)["GAME_PROTECT_TELEPORT"], true,
-			CFG::PROTECT_TELEPORT, (*_display->string)["HINT_GAME_PROTECT_TELEPORT"]);
-		_add_item(11, MIT::ENTRY, MIM::OP_ALLOW_RANGED_WEAPONS, (*_display->string)["GAME_ALLOW_RANGED_WEAPONS"], true,
-			CFG::ALLOW_RANGED_WEAPONS, (*_display->string)["HINT_GAME_ALLOW_RANGED_WEAPONS"]);
+		_add_item(9, MIT::ENTRY, MIM::OP_AGING_ON_CLASS_CHANGE,
+			(*_display->string)["GAME_AGING_CLASS_CHANGE"], true,
+			CFG::AGING_ON_CLASS_CHANGE,
+			(*_display->string)["HINT_GAME_AGING_CLASS_CHANGE"]);
+		_add_item(10, MIT::ENTRY, MIM::OP_PROTECT_TELEPORT,
+			(*_display->string)["GAME_PROTECT_TELEPORT"], true,
+			CFG::PROTECT_TELEPORT,
+			(*_display->string)["HINT_GAME_PROTECT_TELEPORT"]);
+		_add_item(11, MIT::ENTRY, MIM::OP_ALLOW_RANGED_WEAPONS,
+			(*_display->string)["GAME_ALLOW_RANGED_WEAPONS"], true,
+			CFG::ALLOW_RANGED_WEAPONS,
+			(*_display->string)["HINT_GAME_ALLOW_RANGED_WEAPONS"]);
 		_add_item(13, MIT::ENTRY, MIM::OP_BATCH_HEALING_AFTER_RETURN_TO_CASTLE,
-			(*_display->string)["GAME_BATCH_HEALING_AFTER_RETURN"], true, CFG::BATCH_HEALING_AFTER_RETURN_TO_CASTLE,
+			(*_display->string)["GAME_BATCH_HEALING_AFTER_RETURN"], true,
+			CFG::BATCH_HEALING_AFTER_RETURN_TO_CASTLE,
 			(*_display->string)["HINT_GAME_BATCH_HEALING_AFTER_RETURN"]);
-		_add_item(14, MIT::ENTRY, MIM::OP_REROLL_ONES_ON_DICE, (*_display->string)["GAME_REROLL_ONES"], true,
-			CFG::REROLL_ONES_ON_DICE, (*_display->string)["HINT_GAME_REROLL_ONES"]);
-		_add_item(15, MIT::ENTRY, MIM::OP_ALLOW_LOST_LEGATED, (*_display->string)["GAME_ALLOW_LOST_LEGATED"], true,
-			CFG::ALLOW_LOST_LEGATED, (*_display->string)["HINT_GAME_ALLOW_LOST_LEGATED"]);
-		_add_item(16, MIT::ENTRY, MIM::OP_ALLOW_CURABLE_DRAIN, (*_display->string)["GAME_ALLOW_CURABLE_DRAIN"], true,
-			CFG::ALLOW_CURABLE_DRAIN, (*_display->string)["HINT_GAME_ALLOW_CURABLE_DRAIN"]);
-		_add_item(19, MIT::ENTRY, MIM::OP_CHARGED_ITEMS, (*_display->string)["GAME_CHARGED_ITEMS"], true,
-			CFG::CHARGED_ITEMS, (*_display->string)["HINT_GAME_CHARGED_ITEMS"]);
-		_add_item(20, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-		_add_item(21, MIT::SAVE, MIM::ITEM_SAVE, (*_display->string)["MENU_OPTIONS_SAVE"]);
-		_add_item(22, MIT::CANCEL, MIM::ITEM_CANCEL, (*_display->string)["MENU_OPTIONS_CANCEL"]);
+		_add_item(14, MIT::ENTRY, MIM::OP_REROLL_ONES_ON_DICE,
+			(*_display->string)["GAME_REROLL_ONES"], true,
+			CFG::REROLL_ONES_ON_DICE,
+			(*_display->string)["HINT_GAME_REROLL_ONES"]);
+		_add_item(15, MIT::ENTRY, MIM::OP_ALLOW_LOST_LEGATED,
+			(*_display->string)["GAME_ALLOW_LOST_LEGATED"], true,
+			CFG::ALLOW_LOST_LEGATED,
+			(*_display->string)["HINT_GAME_ALLOW_LOST_LEGATED"]);
+		_add_item(16, MIT::ENTRY, MIM::OP_ALLOW_CURABLE_DRAIN,
+			(*_display->string)["GAME_ALLOW_CURABLE_DRAIN"], true,
+			CFG::ALLOW_CURABLE_DRAIN,
+			(*_display->string)["HINT_GAME_ALLOW_CURABLE_DRAIN"]);
+		_add_item(19, MIT::ENTRY, MIM::OP_CHARGED_ITEMS,
+			(*_display->string)["GAME_CHARGED_ITEMS"], true, CFG::CHARGED_ITEMS,
+			(*_display->string)["HINT_GAME_CHARGED_ITEMS"]);
+		_add_item(20, MIT::SPACER, MIM::ITEM_SPACER,
+			(*_display->string)["MENU_SPACER"]);
+		_add_item(21, MIT::SAVE, MIM::ITEM_SAVE,
+			(*_display->string)["MENU_OPTIONS_SAVE"]);
+		_add_item(22, MIT::CANCEL, MIM::ITEM_CANCEL,
+			(*_display->string)["MENU_OPTIONS_CANCEL"]);
 		selected = items.begin();
 		break;
 	case MTP::PAUSE:
 		[[fallthrough]];
 	case MTP::CAMP:
-		_add_item(0, MIT::ENTRY, MIM::CP_INSPECT, (*_display->string)["CAMP_INSPECT"]);
-		_add_item(1, MIT::ENTRY, MIM::CP_REORDER, (*_display->string)["CAMP_REORDER"]);
-		_add_item(2, MIT::ENTRY, MIM::CP_SAVE, (*_display->string)["CAMP_SAVE"]);
-		_add_item(3, MIT::ENTRY, MIM::CP_OPTIONS, (*_display->string)["CAMP_OPTIONS"]);
-		_add_item(4, MIT::ENTRY, MIM::ITEM_QUIT, (*_display->string)["CAMP_QUIT"]);
-		_add_item(5, MIT::ENTRY, MIM::CP_LEAVE, (*_display->string)["CAMP_LEAVE"]);
+		_add_item(0, MIT::ENTRY, MIM::CP_INSPECT,
+			(*_display->string)["CAMP_INSPECT"]);
+		_add_item(1, MIT::ENTRY, MIM::CP_REORDER,
+			(*_display->string)["CAMP_REORDER"]);
+		_add_item(
+			2, MIT::ENTRY, MIM::CP_SAVE, (*_display->string)["CAMP_SAVE"]);
+		_add_item(3, MIT::ENTRY, MIM::CP_OPTIONS,
+			(*_display->string)["CAMP_OPTIONS"]);
+		_add_item(
+			4, MIT::ENTRY, MIM::ITEM_QUIT, (*_display->string)["CAMP_QUIT"]);
+		_add_item(
+			5, MIT::ENTRY, MIM::CP_LEAVE, (*_display->string)["CAMP_LEAVE"]);
 		selected = items.begin();
 		break;
 	case MTP::SEARCH:
-		_add_item(0, MIT::ENTRY, MIM::AC_LEAVE, (*_display->string)["ACTION_LEAVE"]);
+		_add_item(
+			0, MIT::ENTRY, MIM::AC_LEAVE, (*_display->string)["ACTION_LEAVE"]);
 		selected = items.begin();
 		break;
 	case MTP::ACTION:
-		_add_item(0, MIT::ENTRY, MIM::CP_INSPECT, (*_display->string)["ACTION_INSPECT"]);
-		_add_item(1, MIT::ENTRY, MIM::AC_CAST_SPELL, (*_display->string)["ACTION_SPELL"]);
-		_add_item(2, MIT::ENTRY, MIM::AC_USE_ITEM, (*_display->string)["ACTION_USE"]);
-		_add_item(4, MIT::ENTRY, MIM::AC_SEARCH_CHARACTERS, (*_display->string)["ACTION_SEARCH_CHARACTERS"]);
-		_add_item(5, MIT::ENTRY, MIM::AC_SHOW_MAP, (*_display->string)["ACTION_FLOOR_MAP"]);
-		_add_item(5, MIT::ENTRY, MIM::AC_SEARCH_ITEMS, (*_display->string)["ACTION_SEARCH_ITEMS"]);
-		_add_item(6, MIT::ENTRY, MIM::AC_SEARCH_SECRET, (*_display->string)["ACTION_SEARCH_SECRET"]);
-		_add_item(7, MIT::ENTRY, MIM::AC_LEAVE, (*_display->string)["ACTION_LEAVE"]);
+		_add_item(0, MIT::ENTRY, MIM::CP_INSPECT,
+			(*_display->string)["ACTION_INSPECT"]);
+		_add_item(1, MIT::ENTRY, MIM::AC_CAST_SPELL,
+			(*_display->string)["ACTION_SPELL"]);
+		_add_item(
+			2, MIT::ENTRY, MIM::AC_USE_ITEM, (*_display->string)["ACTION_USE"]);
+		_add_item(4, MIT::ENTRY, MIM::AC_SEARCH_CHARACTERS,
+			(*_display->string)["ACTION_SEARCH_CHARACTERS"]);
+		_add_item(5, MIT::ENTRY, MIM::AC_SHOW_MAP,
+			(*_display->string)["ACTION_FLOOR_MAP"]);
+		_add_item(5, MIT::ENTRY, MIM::AC_SEARCH_ITEMS,
+			(*_display->string)["ACTION_SEARCH_ITEMS"]);
+		_add_item(6, MIT::ENTRY, MIM::AC_SEARCH_SECRET,
+			(*_display->string)["ACTION_SEARCH_SECRET"]);
+		_add_item(
+			7, MIT::ENTRY, MIM::AC_LEAVE, (*_display->string)["ACTION_LEAVE"]);
 		selected = items.begin();
 		break;
 	case MTP::MUSEUM:
@@ -408,8 +561,8 @@ auto Sorcery::Menu::_add_all_items() -> void {
 	const auto item_types{_game->itemstore->get_all_types()};
 	for (auto &item_type : item_types)
 		if (item_type.get_type_id() != ITT::BROKEN_ITEM)
-			_add_item(unenum(item_type.get_type_id()), MIT::ENTRY, MIM::MU_ITEM, item_type.get_display_name(),
-				unenum(item_type.get_type_id()));
+			_add_item(unenum(item_type.get_type_id()), MIT::ENTRY, MIM::MU_ITEM,
+				item_type.get_display_name(), unenum(item_type.get_type_id()));
 }
 
 // Monster List is special
@@ -417,15 +570,16 @@ auto Sorcery::Menu::_add_all_monsters() -> void {
 
 	const auto monster_types{_game->monsterstore->get_all_types()};
 	for (auto &monster : monster_types)
-		_add_item(unenum(monster.get_type_id()), MIT::ENTRY, MIM::MU_ITEM, monster.get_known_name(),
-			unenum(monster.get_type_id()));
+		_add_item(unenum(monster.get_type_id()), MIT::ENTRY, MIM::MU_ITEM,
+			monster.get_known_name(), unenum(monster.get_type_id()));
 }
 
 // Spellbook is special too
 auto Sorcery::Menu::_add_all_spells() -> void {
 }
 
-// The Character Menu is a special case and needs to be reloaded often when names and classes change
+// The Character Menu is a special case and needs to be reloaded often when
+// names and classes change
 auto Sorcery::Menu::reload() -> void {
 
 	// Clear the Items
@@ -472,59 +626,69 @@ auto Sorcery::Menu::get_type() const -> MTP {
 }
 
 // Add an item to the Menu
-auto Sorcery::Menu::_add_item(int index, const MIT itemtype, const MIM code, std::string key) -> void {
+auto Sorcery::Menu::_add_item(
+	int index, const MIT itemtype, const MIM code, std::string key) -> void {
 
 	// Note passing key by value as we are modifying the key here
 	if (key.length() % 2 == 0)
 		key.resize(key.length() + 1, 32);
 
 	auto hint{""s};
-	items.emplace_back(static_cast<unsigned int>(index), itemtype, code, key, true, CFG::NONE, hint);
+	items.emplace_back(static_cast<unsigned int>(index), itemtype, code, key,
+		true, CFG::NONE, hint);
 	++count;
 }
 
-auto Sorcery::Menu::_add_item_disabled(int index, const MIT itemtype, const MIM code, std::string key) -> void {
+auto Sorcery::Menu::_add_item_disabled(
+	int index, const MIT itemtype, const MIM code, std::string key) -> void {
 
 	// Note passing key by value as we are modifying the key here
 	if (key.length() % 2 == 0)
 		key.resize(key.length() + 1, 32);
 
 	auto hint{""s};
-	items.emplace_back(static_cast<unsigned int>(index), itemtype, code, key, false, CFG::NONE, hint);
+	items.emplace_back(static_cast<unsigned int>(index), itemtype, code, key,
+		false, CFG::NONE, hint);
 	++count;
 }
 
-auto Sorcery::Menu::_add_item(int index, const MIT itemtype, const MIM code, std::string key, unsigned int idx)
-	-> void {
+auto Sorcery::Menu::_add_item(int index, const MIT itemtype, const MIM code,
+	std::string key, unsigned int idx) -> void {
 
 	// Note passing key by value as we are modifying the key here
 	if (key.length() % 2 == 0)
 		key.resize(key.length() + 1, 32);
 
 	auto hint{""s};
-	items.emplace_back(static_cast<unsigned int>(index), itemtype, code, key, true, idx);
+	items.emplace_back(
+		static_cast<unsigned int>(index), itemtype, code, key, true, idx);
 	++count;
 }
 
 // Add an item to the Menu
-auto Sorcery::Menu::_add_item(const int index, const MIT itemtype, const MIM code, std::string key, const bool enabled,
-	const CFG option, const std::string &hint) -> void {
+auto Sorcery::Menu::_add_item(const int index, const MIT itemtype,
+	const MIM code, std::string key, const bool enabled, const CFG option,
+	const std::string &hint) -> void {
 
 	// Note passing key by value as we are modifying the key here
 	if (key.length() % 2 == 0)
 		key.resize(key.length() + 1, 32);
 
-	items.emplace_back(static_cast<unsigned int>(index), itemtype, code, key, enabled, option, hint);
+	items.emplace_back(static_cast<unsigned int>(index), itemtype, code, key,
+		enabled, option, hint);
 	++count;
 }
 
 // Select the first enabled menu item
 auto Sorcery::Menu::_select_first() -> MenuSelect {
 
-	auto it{std::ranges::find_if(items.begin(), items.end(), [&](const auto &menu_item) {
-		return (((menu_item.type == MIT::ENTRY) || (menu_item.type == MIT::SAVE) || (menu_item.type == MIT::CANCEL)) &&
-				(menu_item.enabled));
-	})};
+	auto it{std::ranges::find_if(
+		items.begin(), items.end(), [&](const auto &menu_item) {
+			return (((menu_item.type == MIT::ENTRY) ||
+						(menu_item.type == MIT::SAVE) ||
+						(menu_item.type == MIT::CANCEL)) &&
+					(menu_item.enabled));
+		})};
 
 	if (it != items.end()) {
 		selected = it;
@@ -536,10 +700,14 @@ auto Sorcery::Menu::_select_first() -> MenuSelect {
 // Select the last enabled menu item
 auto Sorcery::Menu::_select_last() -> MenuSelect {
 
-	// Would be nice to use a ranges reverse view to handle this, or a std::find_last_if, instead we have to do a
-	// forward iterator backwards since we can't use a backwards iterator either!
-	for (std::vector<MenuEntry>::const_iterator it = items.end() - 1; it != items.begin(); --it)
-		if (((*it).type == MIT::ENTRY || (*it).type == MIT::SAVE || (*it).type == MIT::CANCEL) && (*it).enabled) {
+	// Would be nice to use a ranges reverse view to handle this, or a
+	// std::find_last_if, instead we have to do a forward iterator backwards
+	// since we can't use a backwards iterator either!
+	for (std::vector<MenuEntry>::const_iterator it = items.end() - 1;
+		it != items.begin(); --it)
+		if (((*it).type == MIT::ENTRY || (*it).type == MIT::SAVE ||
+				(*it).type == MIT::CANCEL) &&
+			(*it).enabled) {
 			selected = it;
 			if (_type == MTP::MUSEUM) {
 
@@ -556,12 +724,15 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos) -> MenuSelect {
 
 	if (!bounds.empty()) {
 
-		// Look for the bounds the mouse cursor is in, but select and return the associated item with the same
-		// index, since both containers track each other
+		// Look for the bounds the mouse cursor is in, but select and return the
+		// associated item with the same index, since both containers track each
+		// other
 		const sf::Vector2f global_pos{this->getPosition()};
 		mouse_pos -= global_pos;
 		auto it{std::ranges::find_if(
-			bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) { return item.contains(mouse_pos); })};
+			bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) {
+				return item.contains(mouse_pos);
+			})};
 		if (it != bounds.end()) {
 			auto dist{std::distance(bounds.begin(), it)};
 			auto candidate{_visible_items.begin() + dist};
@@ -574,7 +745,8 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos) -> MenuSelect {
 			return std::nullopt;
 	}
 
-	// If we reach here it means that bounds (which requites a draw to take place, hasn't been populated yet)
+	// If we reach here it means that bounds (which requites a draw to take
+	// place, hasn't been populated yet)
 	return std::nullopt;
 }
 
@@ -669,8 +841,8 @@ auto Sorcery::Menu::choose(std::any option) -> MenuSelect {
 		break;
 	}
 
-	auto it{
-		std::ranges::find_if(items.begin(), items.end(), [&](const auto &item) { return item.item == search_for; })};
+	auto it{std::ranges::find_if(items.begin(), items.end(),
+		[&](const auto &item) { return item.item == search_for; })};
 	if (it != items.end()) {
 		selected = it;
 		return selected;
@@ -681,14 +853,15 @@ auto Sorcery::Menu::choose(std::any option) -> MenuSelect {
 auto Sorcery::Menu::_choose_by_index(const unsigned int index) -> MenuSelect {
 
 	// Iterate through til we have found the item with the associated index
-	if (auto it{
-			std::ranges::find_if(items.begin(), items.end(), [&](const auto &item) { return item.index == index; })};
+	if (auto it{std::ranges::find_if(items.begin(), items.end(),
+			[&](const auto &item) { return item.index == index; })};
 		it != items.end())
 		return it;
 	else
 		return std::nullopt;
 
-	// If we reach here the mouse cursor is outside the items so we don't do anything
+	// If we reach here the mouse cursor is outside the items so we don't do
+	// anything
 	return std::nullopt;
 }
 
@@ -696,14 +869,15 @@ auto Sorcery::Menu::_choose_by_index(const unsigned int index) -> MenuSelect {
 auto Sorcery::Menu::choose(const unsigned int index) -> MenuSelect {
 
 	// Iterate through til we have found the item with the associated index
-	if (auto it{
-			std::ranges::find_if(items.begin(), items.end(), [&](const auto &item) { return item.index == index; })};
+	if (auto it{std::ranges::find_if(items.begin(), items.end(),
+			[&](const auto &item) { return item.index == index; })};
 		it != items.end())
 		return it;
 	else
 		return std::nullopt;
 
-	// If we reach here the mouse cursor is outside the items so we don't do anything
+	// If we reach here the mouse cursor is outside the items so we don't do
+	// anything
 	return std::nullopt;
 }
 
@@ -722,17 +896,21 @@ auto Sorcery::Menu::choose_previous() -> MenuSelect {
 
 	if (selected > items.begin()) {
 
-		// Repeat the comment from above, that it would be nice to use a ranges reverse view to handle this, or a
-		// std::find_last_if, instead we have to do a forward iterator backwards since we can't use a backwards iterator
-		// either!
+		// Repeat the comment from above, that it would be nice to use a ranges
+		// reverse view to handle this, or a std::find_last_if, instead we have
+		// to do a forward iterator backwards since we can't use a backwards
+		// iterator either!
 
-		// Iterate backwards until we find the first previous enabled menu if we can
+		// Iterate backwards until we find the first previous enabled menu if we
+		// can
 		bool found{false};
 		std::vector<MenuEntry>::const_iterator working{selected};
 		do {
 			--working;
-			found = ((*working).enabled) && (((*working).type == MIT::ENTRY) || ((*working).type == MIT::SAVE) ||
-												((*working).type == MIT::CANCEL));
+			found =
+				((*working).enabled) && (((*working).type == MIT::ENTRY) ||
+											((*working).type == MIT::SAVE) ||
+											((*working).type == MIT::CANCEL));
 		} while ((working >= items.begin()) && (!found));
 		if (found) {
 			selected = working;
@@ -756,8 +934,10 @@ auto Sorcery::Menu::choose_next() -> MenuSelect {
 		std::vector<MenuEntry>::const_iterator working{selected};
 		do {
 			++working;
-			found = ((*working).enabled) && (((*working).type == MIT::ENTRY) || ((*working).type == MIT::SAVE) ||
-												((*working).type == MIT::CANCEL));
+			found =
+				((*working).enabled) && (((*working).type == MIT::ENTRY) ||
+											((*working).type == MIT::SAVE) ||
+											((*working).type == MIT::CANCEL));
 		} while ((working <= items.end() - 1) && (!found));
 		if (found) {
 
@@ -773,25 +953,32 @@ auto Sorcery::Menu::choose_next() -> MenuSelect {
 }
 
 // TODO: optimise this so that it isn't created on every refresh!
-auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> void {
+auto Sorcery::Menu::generate(const Component &component, bool force_refresh)
+	-> void {
 
-	// Figure out if we can display all the items to begin with or just a moving "window"
+	// Figure out if we can display all the items to begin with or just a moving
+	// "window"
 	if (_type != MTP::MUSEUM && _type != MTP::BESTIARY) {
 		_visible_items = items;
 	} else {
-		auto current{
-			static_cast<unsigned int>(std::distance<std::vector<MenuEntry>::const_iterator>(items.begin(), selected))};
+		auto current{static_cast<unsigned int>(
+			std::distance<std::vector<MenuEntry>::const_iterator>(
+				items.begin(), selected))};
 
 		if (current < component.h) {
 
-			// In this case, only display the first part of the vector of items as we haven't reached the bottom yet
-			_visible_items = std::span<Sorcery::MenuEntry>(items.begin(), items.begin() + component.h);
+			// In this case, only display the first part of the vector of items
+			// as we haven't reached the bottom yet
+			_visible_items = std::span<Sorcery::MenuEntry>(
+				items.begin(), items.begin() + component.h);
 		} else {
 
-			// Otherwise scroll the items appropriately with the selected item at the bottom
+			// Otherwise scroll the items appropriately with the selected item
+			// at the bottom
 			const auto start_span{items.begin() + current + 1 - component.h};
 			const auto end_span{items.begin() + current + 1};
-			_visible_items = std::span<Sorcery::MenuEntry>(start_span, end_span);
+			_visible_items =
+				std::span<Sorcery::MenuEntry>(start_span, end_span);
 		}
 	}
 
@@ -820,8 +1007,8 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 		for (const auto &item : _visible_items) {
 
 			auto current{_visible_items.begin() + index};
-			if (item.type == MIT::TEXT || item.type == MIT::ENTRY || item.type == MIT::SAVE ||
-				item.type == MIT::CANCEL) {
+			if (item.type == MIT::TEXT || item.type == MIT::ENTRY ||
+				item.type == MIT::SAVE || item.type == MIT::CANCEL) {
 				auto text_string{item.key};
 				sf::Text text{};
 				text.setFont(_system->resources->fonts[component.font]);
@@ -831,22 +1018,30 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 				if (item.enabled)
 					text.setFillColor(sf::Color(component.colour));
 				else
-					text.setFillColor(sf::Color(0x606060ff)); // TODO change this to be located in the layout file
+					text.setFillColor(
+						sf::Color(0x606060ff)); // TODO change this to be
+												// located in the layout file
 				if (_display->get_upper())
-					std::transform(text_string.begin(), text_string.end(), text_string.begin(), ::toupper);
+					std::transform(text_string.begin(), text_string.end(),
+						text_string.begin(), ::toupper);
 				text.setString(text_string);
 
 				// Check for alignment and set location appropriately
-				auto entry_x{(component.justification == JUS::CENTRE) ? texture_w / 2 : 0};
-				text.setPosition(entry_x - text.getLocalBounds().left, entry_y - text.getLocalBounds().top);
+				auto entry_x{(component.justification == JUS::CENTRE)
+								 ? texture_w / 2
+								 : 0};
+				text.setPosition(entry_x - text.getLocalBounds().left,
+					entry_y - text.getLocalBounds().top);
 
 				// If we have a selected entry, change the background colour
 				if ((*selected).index == (*current).index) {
 
 					// See
 					// https://stackoverflow.com/questions/14505571/centering-text-on-the-screen-with-sfml/15253837#15253837
-					sf::RectangleShape bg(sf::Vector2f(component.w * _display->window->get_cw(),
-						_system->resources->get_font_height(component.font, component.size)));
+					sf::RectangleShape bg(
+						sf::Vector2f(component.w * _display->window->get_cw(),
+							_system->resources->get_font_height(
+								component.font, component.size)));
 					bg.setPosition(0, entry_y);
 					if (component.animated)
 						bg.setFillColor(_graphics->animation->select_col);
@@ -861,18 +1056,23 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 				}
 
 				// Handle Justification
-				if (_type == MTP::OPTIONS || _type == MTP::ALLOCATE_CHARACTER_ATTRIBUTES) {
+				if (_type == MTP::OPTIONS ||
+					_type == MTP::ALLOCATE_CHARACTER_ATTRIBUTES) {
 					if (item.type == MIT::ENTRY) {
 						if (component.justification == JUS::CENTRE)
-							text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
-					} else if (item.type == MIT::SAVE || item.type == MIT::CANCEL) {
-						entry_x = (component.width * _display->window->get_cw()) / 2;
+							text.setOrigin(
+								text.getLocalBounds().width / 2.0f, 0);
+					} else if (item.type == MIT::SAVE ||
+							   item.type == MIT::CANCEL) {
+						entry_x =
+							(component.width * _display->window->get_cw()) / 2;
 						text.setPosition(entry_x, entry_y);
 						text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
 					}
 				} else if (_type == MTP::TEMPLE) {
 
-					// Override Justification for Invalid Characters so that it looks better
+					// Override Justification for Invalid Characters so that it
+					// looks better
 					if (item.item == MIM::IC_CHARACTER)
 						text.setOrigin(0, 0);
 					else if (component.justification == JUS::CENTRE)
@@ -885,7 +1085,8 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 				_texts.emplace_back(text);
 
 				// Now handle the mouse move/select!
-				if (item.type == MIT::ENTRY || item.type == MIT::SAVE || item.type == MIT::CANCEL) {
+				if (item.type == MIT::ENTRY || item.type == MIT::SAVE ||
+					item.type == MIT::CANCEL) {
 					const sf::FloatRect actual_rect{text.getGlobalBounds()};
 					bounds.push_back(actual_rect);
 				} else {
@@ -897,28 +1098,35 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 				if (_type == MTP::OPTIONS && item.type == MIT::ENTRY) {
 					auto option_y{entry_y};
 					auto option_x{component.w * _display->window->get_cw()};
-					const auto option_value{(*_system->config)[item.config] ? true : false};
+					const auto option_value{
+						(*_system->config)[item.config] ? true : false};
 					sf::Text option_text{};
 					if (option_value) {
 
 						// On
-						option_text.setFont(_system->resources->fonts[on_c.font]);
+						option_text.setFont(
+							_system->resources->fonts[on_c.font]);
 						option_text.setCharacterSize(on_c.size);
 						if (_display->get_bold())
 							option_text.setStyle(sf::Text::Bold);
 						option_text.setFillColor(sf::Color(on_c.colour));
-						option_text.setString((*_display->string)[on_c.string_key]);
+						option_text.setString(
+							(*_display->string)[on_c.string_key]);
 						sf::FloatRect bounds{option_text.getGlobalBounds()};
-						option_text.setPosition(option_x - bounds.width, option_y);
+						option_text.setPosition(
+							option_x - bounds.width, option_y);
 					} else {
 
 						// Off
-						option_text.setFont(_system->resources->fonts[off_c.font]);
+						option_text.setFont(
+							_system->resources->fonts[off_c.font]);
 						option_text.setCharacterSize(off_c.size);
 						option_text.setFillColor(sf::Color(off_c.colour));
-						option_text.setString((*_display->string)[off_c.string_key]);
+						option_text.setString(
+							(*_display->string)[off_c.string_key]);
 						sf::FloatRect bounds{option_text.getGlobalBounds()};
-						option_text.setPosition(option_x - bounds.width, option_y);
+						option_text.setPosition(
+							option_x - bounds.width, option_y);
 					}
 
 					if ((*selected).index == (*current).index) {
@@ -951,11 +1159,14 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 		const Component off_c{(*_display->layout)["options:off"]};
 		for (const auto &item : _visible_items) {
 			auto current{_visible_items.begin() + index};
-			if (item.type == MIT::TEXT || item.type == MIT::ENTRY || item.type == MIT::SAVE ||
-				item.type == MIT::CANCEL) {
+			if (item.type == MIT::TEXT || item.type == MIT::ENTRY ||
+				item.type == MIT::SAVE || item.type == MIT::CANCEL) {
 				if ((*selected).index == (*current).index) {
-					const sf::FloatRect bg_rect{_texts.at(index).getGlobalBounds()};
-					sf::RectangleShape bg(sf::Vector2f(component.w * _display->window->get_cw(), bg_rect.height));
+					const sf::FloatRect bg_rect{
+						_texts.at(index).getGlobalBounds()};
+					sf::RectangleShape bg(
+						sf::Vector2f(component.w * _display->window->get_cw(),
+							bg_rect.height));
 					bg.setPosition(0, entry_y);
 					if (component.animated)
 						bg.setFillColor(_graphics->animation->select_col);
@@ -963,7 +1174,8 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 						bg.setFillColor(sf::Color(component.background));
 
 					if (item.enabled)
-						_texts.at(index).setFillColor(sf::Color(component.colour));
+						_texts.at(index).setFillColor(
+							sf::Color(component.colour));
 					else
 						_texts.at(index).setFillColor(sf::Color(0x606060ff));
 					_texts.at(index).setOutlineColor(sf::Color(0, 0, 0));
@@ -976,24 +1188,35 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 
 					option_y = entry_y;
 					option_x = component.w * _display->window->get_cw();
-					if (const bool option_value{(*_system->config)[item.config] ? true : false}; option_value) {
+					if (const bool option_value{
+							(*_system->config)[item.config] ? true : false};
+						option_value) {
 
 						// On
-						_options.at(options_index).setString((*_display->string)[on_c.string_key]);
-						sf::FloatRect bounds{_options.at(options_index).getGlobalBounds()};
-						_options.at(options_index).setPosition(option_x - bounds.width, option_y);
-						_options.at(options_index).setFillColor(sf::Color(on_c.colour));
+						_options.at(options_index)
+							.setString((*_display->string)[on_c.string_key]);
+						sf::FloatRect bounds{
+							_options.at(options_index).getGlobalBounds()};
+						_options.at(options_index)
+							.setPosition(option_x - bounds.width, option_y);
+						_options.at(options_index)
+							.setFillColor(sf::Color(on_c.colour));
 					} else {
 
 						// Off
-						_options.at(options_index).setString((*_display->string)[off_c.string_key]);
-						sf::FloatRect bounds{_options.at(options_index).getGlobalBounds()};
-						_options.at(options_index).setPosition(option_x - bounds.width, option_y);
-						_options.at(options_index).setFillColor(sf::Color(off_c.colour));
+						_options.at(options_index)
+							.setString((*_display->string)[off_c.string_key]);
+						sf::FloatRect bounds{
+							_options.at(options_index).getGlobalBounds()};
+						_options.at(options_index)
+							.setPosition(option_x - bounds.width, option_y);
+						_options.at(options_index)
+							.setFillColor(sf::Color(off_c.colour));
 					}
 
 					if ((*selected).index == (*current).index) {
-						_options.at(options_index).setOutlineColor(sf::Color(0, 0, 0));
+						_options.at(options_index)
+							.setOutlineColor(sf::Color(0, 0, 0));
 						_options.at(options_index).setOutlineThickness(1);
 					}
 					++options_index;
@@ -1005,7 +1228,8 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh) -> 
 	}
 }
 
-auto Sorcery::Menu::draw(sf::RenderTarget &target, sf::RenderStates states) const -> void {
+auto Sorcery::Menu::draw(
+	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
 
@@ -1018,7 +1242,8 @@ auto Sorcery::Menu::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 			target.draw(option, states);
 }
 
-auto Sorcery::Menu::_populate_trade_chars(const unsigned int current_char) -> void {
+auto Sorcery::Menu::_populate_trade_chars(const unsigned int current_char)
+	-> void {
 
 	items.clear();
 	bounds.clear();
@@ -1027,13 +1252,17 @@ auto Sorcery::Menu::_populate_trade_chars(const unsigned int current_char) -> vo
 	_options.clear();
 	auto max_id{0};
 	if (_game->state->party_has_members()) {
-		_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["ACTION_TRADE_TO"]);
-		_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
+		_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING,
+			(*_display->string)["ACTION_TRADE_TO"]);
+		_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER,
+			(*_display->string)["MENU_SPACER"]);
 		auto party{_game->state->get_party_characters()};
 		for (auto id : party) {
 			if (id != current_char) {
-				auto slots_free{_game->characters[id].inventory.get_empty_slots()};
-				auto text{fmt::format("{} ({})", _game->characters[id].get_name(), slots_free)};
+				auto slots_free{
+					_game->characters[id].inventory.get_empty_slots()};
+				auto text{fmt::format(
+					"{} ({})", _game->characters[id].get_name(), slots_free)};
 				if (slots_free == 0)
 					_add_item_disabled(id, MIT::ENTRY, MIM::IC_CHARACTER, text);
 				else
@@ -1042,10 +1271,13 @@ auto Sorcery::Menu::_populate_trade_chars(const unsigned int current_char) -> vo
 			}
 		}
 	} else
-		_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS"]);
+		_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING,
+			(*_display->string)["MENU_NO_CHARACTERS"]);
 
-	_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-	_add_item(++max_id, MIT::CANCEL, MIM::AC_LEAVE, (*_display->string)["ACTION_CANCEL"]);
+	_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER,
+		(*_display->string)["MENU_SPACER"]);
+	_add_item(++max_id, MIT::CANCEL, MIM::AC_LEAVE,
+		(*_display->string)["ACTION_CANCEL"]);
 }
 
 auto Sorcery::Menu::_populate_chars() -> void {
@@ -1062,41 +1294,56 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		if (!_game->characters.empty()) {
 			for (auto &[id, character] : _game->characters) {
 				if (_mode.value() == MMD::TAVERN) {
-					if (character.get_location() == CHL::TAVERN || character.get_location() == CHL::PARTY) {
-						_add_item(id, MIT::ENTRY, MIM::IC_CHARACTER, character.get_summary());
+					if (character.get_location() == CHL::TAVERN ||
+						character.get_location() == CHL::PARTY) {
+						_add_item(id, MIT::ENTRY, MIM::IC_CHARACTER,
+							character.get_summary());
 						++max_id;
 					}
 				} else if (_mode.value() == MMD::INN) {
 					if (character.get_location() == CHL::PARTY) {
-						_add_item(id, MIT::ENTRY, MIM::IC_CHARACTER, character.get_summary());
+						_add_item(id, MIT::ENTRY, MIM::IC_CHARACTER,
+							character.get_summary());
 						++max_id;
 					}
 				} else if (_mode.value() == MMD::TEMPLE) {
-					if (character.get_location() == CHL::TEMPLE || character.get_location() == CHL::PARTY) {
-						_add_item(id, MIT::ENTRY, MIM::IC_CHARACTER, character.get_summary());
+					if (character.get_location() == CHL::TEMPLE ||
+						character.get_location() == CHL::PARTY) {
+						_add_item(id, MIT::ENTRY, MIM::IC_CHARACTER,
+							character.get_summary());
 						++max_id;
 					}
 				} else if (_mode.value() == MMD::TRAINING) {
-					_add_item(id, MIT::ENTRY, MIM::IC_CHARACTER, character.get_summary_and_out());
+					_add_item(id, MIT::ENTRY, MIM::IC_CHARACTER,
+						character.get_summary_and_out());
 					++max_id;
 				}
 			}
 		} else
-			_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS"]);
+			_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING,
+				(*_display->string)["MENU_NO_CHARACTERS"]);
 
 		if (_mode) {
 			if (_mode.value() == MMD::TRAINING) {
-				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-				_add_item(++max_id, MIT::ENTRY, MIM::ET_TRAIN, (*_display->string)["MENU_TRAIN"]);
+				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER,
+					(*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MIT::ENTRY, MIM::ET_TRAIN,
+					(*_display->string)["MENU_TRAIN"]);
 			} else if (_mode.value() == MMD::TAVERN) {
-				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-				_add_item(++max_id, MIT::ENTRY, MIM::CA_TAVERN, (*_display->string)["MENU_TAVERN"]);
+				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER,
+					(*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MIT::ENTRY, MIM::CA_TAVERN,
+					(*_display->string)["MENU_TAVERN"]);
 			} else if (_mode.value() == MMD::INN) {
-				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-				_add_item(++max_id, MIT::ENTRY, MIM::CA_TAVERN, (*_display->string)["MENU_INN"]);
+				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER,
+					(*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MIT::ENTRY, MIM::CA_TAVERN,
+					(*_display->string)["MENU_INN"]);
 			} else if (_mode.value() == MMD::TEMPLE) {
-				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-				_add_item(++max_id, MIT::ENTRY, MIM::CA_TAVERN, (*_display->string)["MENU_TEMPLE"]);
+				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER,
+					(*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MIT::ENTRY, MIM::CA_TAVERN,
+					(*_display->string)["MENU_TEMPLE"]);
 			}
 		}
 
@@ -1108,7 +1355,8 @@ auto Sorcery::Menu::_populate_chars() -> void {
 			bool found{false};
 			for (const auto &[id, character] : _game->characters) {
 				if (character.get_location() == CHL::MAZE &&
-					character.coordinate.value() == _game->state->get_player_pos() &&
+					character.coordinate.value() ==
+						_game->state->get_player_pos() &&
 					character.depth.value() == _game->state->get_depth()) {
 					found = true;
 					break;
@@ -1116,87 +1364,123 @@ auto Sorcery::Menu::_populate_chars() -> void {
 			}
 			if (found) {
 
-				_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["ACTION_FOUND_1"]);
-				_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["ACTION_FOUND_2"]);
-				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING,
+					(*_display->string)["ACTION_FOUND_1"]);
+				_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING,
+					(*_display->string)["ACTION_FOUND_2"]);
+				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER,
+					(*_display->string)["MENU_SPACER"]);
 				for (const auto &[id, character] : _game->characters) {
 					if (character.get_location() == CHL::MAZE &&
-						character.coordinate.value() == _game->state->get_player_pos() &&
+						character.coordinate.value() ==
+							_game->state->get_player_pos() &&
 						character.depth.value() == _game->state->get_depth())
-						_add_item(id, MIT::ENTRY, MIM::IC_CHARACTER, _game->characters[id].get_name_and_status());
+						_add_item(id, MIT::ENTRY, MIM::IC_CHARACTER,
+							_game->characters[id].get_name_and_status());
 					++max_id;
 				}
 			} else {
-				_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["ACTION_FOUND_1"]);
-				_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["ACTION_FOUND_2"]);
-				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-				_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS_HERE"]);
+				_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING,
+					(*_display->string)["ACTION_FOUND_1"]);
+				_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING,
+					(*_display->string)["ACTION_FOUND_2"]);
+				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER,
+					(*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING,
+					(*_display->string)["MENU_NO_CHARACTERS_HERE"]);
 			}
 		} else {
-			_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["ACTION_FOUND_1"]);
-			_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["ACTION_FOUND_2"]);
-			_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-			_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["PARTY_FULL"]);
+			_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING,
+				(*_display->string)["ACTION_FOUND_1"]);
+			_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING,
+				(*_display->string)["ACTION_FOUND_2"]);
+			_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER,
+				(*_display->string)["MENU_SPACER"]);
+			_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING,
+				(*_display->string)["PARTY_FULL"]);
 		}
 
-		_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-		_add_item(++max_id, MIT::CANCEL, MIM::AC_LEAVE, (*_display->string)["ACTION_LEAVE"]);
+		_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER,
+			(*_display->string)["MENU_SPACER"]);
+		_add_item(++max_id, MIT::CANCEL, MIM::AC_LEAVE,
+			(*_display->string)["ACTION_LEAVE"]);
 	} break;
 	case MTP::RESTART_EXPEDITION: {
-		_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["RESTART_TEXT_1"]);
-		_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["RESTART_TEXT_2"]);
-		_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
+		_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING,
+			(*_display->string)["RESTART_TEXT_1"]);
+		_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING,
+			(*_display->string)["RESTART_TEXT_2"]);
+		_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER,
+			(*_display->string)["MENU_SPACER"]);
 		auto possible{0U};
 		for (const auto &[id, character] : _game->characters) {
-			if (character.get_location() == CHL::MAZE && character.get_status() == CHT::OK) {
-				_add_item(id, MIT::ENTRY, MIM::IC_CHARACTER, _game->characters[id].get_name_and_loc());
+			if (character.get_location() == CHL::MAZE &&
+				character.get_status() == CHT::OK) {
+				_add_item(id, MIT::ENTRY, MIM::IC_CHARACTER,
+					_game->characters[id].get_name_and_loc());
 				++possible;
 				++max_id;
 			}
 		}
 		if (possible == 0)
-			_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS_IN_MAZE"]);
-		_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-		_add_item(
-			++max_id, MIT::CANCEL, MIM::TR_EDGE_OF_TOWN, (*_display->string)["RESTART_GROUNDS_MENU_OPTION_RETURN"]);
+			_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING,
+				(*_display->string)["MENU_NO_CHARACTERS_IN_MAZE"]);
+		_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER,
+			(*_display->string)["MENU_SPACER"]);
+		_add_item(++max_id, MIT::CANCEL, MIM::TR_EDGE_OF_TOWN,
+			(*_display->string)["RESTART_GROUNDS_MENU_OPTION_RETURN"]);
 		_go_first = false;
 	} break;
 	case MTP::PARTY_CHARACTER_NAMES: {
 		if (_game->state->party_has_members()) {
 			auto party{_game->state->get_party_characters()};
 			for (auto id : party) {
-				_add_item(id, MIT::ENTRY, MIM::IC_CHARACTER, _game->characters[id].get_name());
+				_add_item(id, MIT::ENTRY, MIM::IC_CHARACTER,
+					_game->characters[id].get_name());
 				++max_id;
 			}
 		} else
-			_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS"]);
+			_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING,
+				(*_display->string)["MENU_NO_CHARACTERS"]);
 	} break;
 	case MTP::PARTY_CHARACTERS: {
 		if (_game->state->party_has_members()) {
 			auto party{_game->state->get_party_characters()};
 			for (auto id : party) {
-				_add_item(id, MIT::ENTRY, MIM::IC_CHARACTER, _game->characters[id].get_summary());
+				_add_item(id, MIT::ENTRY, MIM::IC_CHARACTER,
+					_game->characters[id].get_summary());
 				++max_id;
 			}
 		} else
-			_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["MENU_NO_CHARACTERS"]);
+			_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING,
+				(*_display->string)["MENU_NO_CHARACTERS"]);
 
 		if (_mode) {
 			if (_mode.value() == MMD::TAVERN) {
-				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-				_add_item(++max_id, MIT::ENTRY, MIM::CA_TAVERN, (*_display->string)["MENU_TAVERN"]);
+				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER,
+					(*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MIT::ENTRY, MIM::CA_TAVERN,
+					(*_display->string)["MENU_TAVERN"]);
 			} else if (_mode.value() == MMD::INN) {
-				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-				_add_item(++max_id, MIT::ENTRY, MIM::CA_INN, (*_display->string)["MENU_INN"]);
+				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER,
+					(*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MIT::ENTRY, MIM::CA_INN,
+					(*_display->string)["MENU_INN"]);
 			} else if (_mode.value() == MMD::SHOP) {
-				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-				_add_item(++max_id, MIT::ENTRY, MIM::CA_SHOP, (*_display->string)["MENU_SHOP"]);
+				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER,
+					(*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MIT::ENTRY, MIM::CA_SHOP,
+					(*_display->string)["MENU_SHOP"]);
 			} else if (_mode.value() == MMD::TEMPLE) {
-				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-				_add_item(++max_id, MIT::ENTRY, MIM::CA_TEMPLE, (*_display->string)["MENU_TEMPLE"]);
+				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER,
+					(*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MIT::ENTRY, MIM::CA_TEMPLE,
+					(*_display->string)["MENU_TEMPLE"]);
 			} else if (_mode.value() == MMD::CAMP) {
-				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-				_add_item(++max_id, MIT::ENTRY, MIM::ITEM_CAMP, (*_display->string)["MENU_LEAVE"]);
+				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER,
+					(*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MIT::ENTRY, MIM::ITEM_CAMP,
+					(*_display->string)["MENU_LEAVE"]);
 			}
 		}
 	} break;
@@ -1204,11 +1488,13 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		auto count{0u};
 		auto party{_game->state->get_party_characters()};
 		for (auto &[id, character] : _game->characters) {
-			if (std::ranges::find(party.begin(), party.end(), id) == party.end()) {
+			if (std::ranges::find(party.begin(), party.end(), id) ==
+				party.end()) {
 
 				// TODO:: good and evil exclusion if in strict mode
 				if (character.get_location() == CHL::TAVERN) {
-					_add_item(id, MIT::ENTRY, MIM::IC_CHARACTER, character.get_summary());
+					_add_item(id, MIT::ENTRY, MIM::IC_CHARACTER,
+						character.get_summary());
 					++max_id;
 					++count;
 				}
@@ -1216,13 +1502,16 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		}
 
 		if (count == 0) {
-			_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["MENU_NO_MORE_CHARACTERS"]);
+			_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING,
+				(*_display->string)["MENU_NO_MORE_CHARACTERS"]);
 		}
 
 		if (_mode) {
 			if (_mode.value() == MMD::TAVERN) {
-				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-				_add_item(++max_id, MIT::ENTRY, MIM::CA_TAVERN, (*_display->string)["MENU_TAVERN"]);
+				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER,
+					(*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MIT::ENTRY, MIM::CA_TAVERN,
+					(*_display->string)["MENU_TAVERN"]);
 			}
 		}
 	} break;
@@ -1231,7 +1520,8 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		auto last_id{0u};
 		if (!_game->characters.empty()) {
 			for (const auto &[id, character] : _game->characters) {
-				if (character.get_status() != CHT::OK && character.get_status() != CHT::LOST &&
+				if (character.get_status() != CHT::OK &&
+					character.get_status() != CHT::LOST &&
 					character.get_location() == CHL::TEMPLE) {
 					const auto status{character.get_name_and_status()};
 					_add_item(id, MIT::ENTRY, MIM::IC_CHARACTER, status);
@@ -1244,13 +1534,16 @@ auto Sorcery::Menu::_populate_chars() -> void {
 		}
 
 		if (count == 0) {
-			_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING, (*_display->string)["MENU_NO_HELP_CHARACTERS"]);
+			_add_item(++max_id, MIT::TEXT, MIM::NC_WARNING,
+				(*_display->string)["MENU_NO_HELP_CHARACTERS"]);
 		}
 
 		if (_mode) {
 			if (_mode.value() == MMD::TEMPLE) {
-				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER, (*_display->string)["MENU_SPACER"]);
-				_add_item(++max_id, MIT::ENTRY, MIM::CA_TEMPLE, (*_display->string)["MENU_TEMPLE"]);
+				_add_item(++max_id, MIT::SPACER, MIM::ITEM_SPACER,
+					(*_display->string)["MENU_SPACER"]);
+				_add_item(++max_id, MIT::ENTRY, MIM::CA_TEMPLE,
+					(*_display->string)["MENU_TEMPLE"]);
 			}
 		}
 	} break;
@@ -1259,12 +1552,16 @@ auto Sorcery::Menu::_populate_chars() -> void {
 	}
 }
 
-auto Sorcery::Menu::get_by_index(unsigned int index) -> std::optional<std::vector<MenuEntry>::iterator> {
+auto Sorcery::Menu::get_by_index(unsigned int index)
+	-> std::optional<std::vector<MenuEntry>::iterator> {
 
-	auto it{std::ranges::find_if(items.begin(), items.end(), [index](const auto &menu_item) {
-		return (((menu_item.type == MIT::ENTRY) || (menu_item.type == MIT::SAVE) || (menu_item.type == MIT::CANCEL)) &&
-				(menu_item.index == index));
-	})};
+	auto it{std::ranges::find_if(
+		items.begin(), items.end(), [index](const auto &menu_item) {
+			return (((menu_item.type == MIT::ENTRY) ||
+						(menu_item.type == MIT::SAVE) ||
+						(menu_item.type == MIT::CANCEL)) &&
+					(menu_item.index == index));
+		})};
 
 	if (it != items.end()) {
 		selected = it;
@@ -1275,16 +1572,18 @@ auto Sorcery::Menu::get_by_index(unsigned int index) -> std::optional<std::vecto
 
 auto Sorcery::Menu::num_enabled() -> unsigned int {
 
-	return std::ranges::count_if(items.begin(), items.end(), [](const auto &menu_item) { return menu_item.enabled; });
+	return std::ranges::count_if(items.begin(), items.end(),
+		[](const auto &menu_item) { return menu_item.enabled; });
 }
 
 auto Sorcery::Menu::num_disabled() -> unsigned int {
 
-	return std::ranges::count_if(
-		items.begin(), items.end(), [](const auto &menu_item) { return menu_item.enabled == false; });
+	return std::ranges::count_if(items.begin(), items.end(),
+		[](const auto &menu_item) { return menu_item.enabled == false; });
 }
 
-auto Sorcery::Menu::enable_entry(const Component &component, unsigned int index) -> void {
+auto Sorcery::Menu::enable_entry(const Component &component, unsigned int index)
+	-> void {
 
 	auto entry{items.begin() + index};
 	auto current{(*entry).enabled};
@@ -1295,17 +1594,24 @@ auto Sorcery::Menu::enable_entry(const Component &component, unsigned int index)
 	}
 }
 
-auto Sorcery::Menu::disable_by_index(__attribute__((unused)) const Component &component, unsigned int index) -> void {
+auto Sorcery::Menu::disable_by_index(
+	__attribute__((unused)) const Component &component, unsigned int index)
+	-> void {
 
-	auto it{std::ranges::find_if(items.begin(), items.end(),
-		[index](const auto &menu_item) { return ((menu_item.type == MIT::ENTRY) && (menu_item.index == index)); })};
+	auto it{std::ranges::find_if(
+		items.begin(), items.end(), [index](const auto &menu_item) {
+			return (
+				(menu_item.type == MIT::ENTRY) && (menu_item.index == index));
+		})};
 
 	if (it != items.end()) {
 		(*it).enabled = false;
 	}
 }
 
-auto Sorcery::Menu::disable_entry(__attribute__((unused)) const Component &component, unsigned int index) -> void {
+auto Sorcery::Menu::disable_entry(
+	__attribute__((unused)) const Component &component, unsigned int index)
+	-> void {
 
 	auto entry{items.begin() + index};
 	auto current{(*entry).enabled};

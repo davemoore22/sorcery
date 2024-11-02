@@ -499,6 +499,75 @@ auto Sorcery::Game::print() -> void {
 	std::cout << text << std::endl;
 }
 
+auto Sorcery::Game::debug_create_random_party() -> void {
+
+	// Clear any existing party
+	state->clear_party();
+
+	// Create a new random party of a random alignment
+	const auto align{(*_system->random)[RNT::D2] == 1 ? CAL::GOOD : CAL::EVIL};
+	for (int i = 0; i < 6; i++) {
+		auto pc{Character(_system, _display, _graphics, itemstore.get())};
+		switch (i) {
+		case 0:
+			pc.create_class_alignment(CHC::FIGHTER, align);
+			break;
+		case 1:
+			pc.create_class_alignment(CHC::FIGHTER, CAL::NEUTRAL);
+			break;
+		case 2:
+			pc.create_class_alignment(CHC::THIEF, CAL::NEUTRAL);
+			break;
+		case 3:
+			pc.create_class_alignment(CHC::PRIEST, align);
+			break;
+		case 4:
+			pc.create_class_alignment(CHC::BISHOP, align);
+			break;
+		case 5:
+			pc.create_class_alignment(CHC::MAGE, CAL::NEUTRAL);
+			break;
+		default:
+			return;
+		}
+
+		pc.finalise();
+		pc.set_location(CHL::PARTY);
+		pc.set_stage(CHS::COMPLETED);
+		pc.inventory.clear();
+
+		switch (pc.get_class()) { // NOLINT(clang-diagnostic-switch)
+		case CHC::FIGHTER:
+		case CHC::LORD:
+		case CHC::SAMURAI:
+			pc.inventory.add_type((*itemstore)[ITT::LEATHER_ARMOR], true);
+			pc.inventory.add_type((*itemstore)[ITT::LONG_SWORD], true);
+			break;
+		case CHC::MAGE:
+			pc.inventory.add_type((*itemstore)[ITT::ROBES], true);
+			pc.inventory.add_type((*itemstore)[ITT::DAGGER], true);
+			break;
+		case CHC::PRIEST:
+		case CHC::BISHOP:
+			pc.inventory.add_type((*itemstore)[ITT::ROBES], true);
+			pc.inventory.add_type((*itemstore)[ITT::STAFF], true);
+			break;
+		case CHC::THIEF:
+		case CHC::NINJA:
+			pc.inventory.add_type((*itemstore)[ITT::LEATHER_ARMOR], true);
+			pc.inventory.add_type((*itemstore)[ITT::SHORT_SWORD], true);
+		default:
+			break;
+		}
+
+		auto char_id{add_character(pc)};
+		characters[char_id] = pc;
+		state->add_character_by_id(char_id);
+	}
+
+	save_game();
+}
+
 namespace Sorcery {
 
 auto operator<<(std::ostream &out_stream, const Sorcery::Game &game)
@@ -515,4 +584,5 @@ auto operator<<(std::ostream &out_stream, const Sorcery::Game &game)
 
 	return out_stream << text << std::endl;
 }
+
 } // namespace Sorcery

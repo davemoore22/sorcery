@@ -103,6 +103,13 @@ auto Sorcery::Castle::start(DES destination) -> std::optional<MIM> {
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
 
+			if ((event.type == sf::Event::KeyPressed) &&
+				(event.key.code == sf::Keyboard::F10)) {
+				_game->debug_create_random_party();
+				_party_panel->refresh();
+				_update_menus();
+			}
+
 			// If we are in normal input mode
 			if (_display->get_input_mode() == WIM::NAVIGATE_MENU) {
 

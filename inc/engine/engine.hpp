@@ -60,7 +60,8 @@ class Engine {
 	public:
 
 		// Standard Constructor
-		Engine(System *system, Display *display, Graphics *graphics, Game *game);
+		Engine(
+			System *system, Display *display, Graphics *graphics, Game *game);
 		Engine() = delete;
 
 		// Standard Destructor
@@ -117,7 +118,8 @@ class Engine {
 		auto _set_tile_explored(const Coordinate loc) -> void;
 		auto _reset_direction_indicator() -> void;
 		auto _update_direction_indicator_timer() -> void;
-		auto _is_mouse_over(sf::IntRect rect, sf::Vector2f mouse_pos) const -> bool;
+		auto _is_mouse_over(sf::IntRect rect, sf::Vector2f mouse_pos) const
+			-> bool;
 		auto _unpoison_characters() -> void;
 		auto _triage_characters() -> void;
 		auto _pit_oops() -> void;

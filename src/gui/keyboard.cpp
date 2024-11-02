@@ -193,8 +193,8 @@ Sorcery::Keyboard::Keyboard(
 	_rtexture.draw(_fsprite);
 
 	_rtexture.display();
-	*_texture = _rtexture.getTexture();
-	sprite = sf::Sprite(*_texture);
+	_texture = _rtexture.getTexture();
+	sprite = sf::Sprite(_texture);
 
 	width = sprite.getLocalBounds().width;
 	height = sprite.getLocalBounds().height;

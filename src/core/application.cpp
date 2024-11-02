@@ -198,13 +198,6 @@ auto Sorcery::Application::_quickstart() -> void {
 		case CHC::BISHOP:
 			pc.inventory.add_type((*_game->itemstore)[ITT::ROBES], true);
 			pc.inventory.add_type((*_game->itemstore)[ITT::STAFF], true);
-			// pc.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR], true);
-			// pc.inventory.add_type((*_game->itemstore)[CHAIN_MAIL], true);
-			// pc.inventory.add_type((*_game->itemstore)[LONG_SWORD], false,
-			// true); pc.inventory.add_type((*_game->itemstore)[CHAIN_MINUS_2],
-			// false); pc.inventory.add_type((*_game->itemstore)[MACE_MINUS_1],
-			// false); pc.inventory.add_type((*_game->itemstore)[PLATE_MAIL],
-			// false, false);
 			break;
 		case CHC::THIEF:
 		case CHC::NINJA:

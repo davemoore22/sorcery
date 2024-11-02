@@ -143,11 +143,11 @@
 	"cmake.debugConfig": {
 		"args": [
 			"-skip-intro",
-			"-quickstart"
+			"-new-game",
 		]
 	},
 	"cmake.configureArgs": [
-		"-DCMAKE_ECLIPSE_MAKE_ARGUMENTS=-j4"
+		"-DCMAKE_ECLIPSE_MAKE_ARGUMENTS=-j3"
 	],
 	"terminal.integrated.fontSize": 16,
 	"terminal.integrated.fontFamily": "ProggyVector"

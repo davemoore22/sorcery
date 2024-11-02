@@ -73,7 +73,6 @@ auto Sorcery::Engine::_generate_display() -> void {
 
 auto Sorcery::Engine::_initialise_state() -> void {
 
-	_update_automap = false;
 	_update_compass = false;
 	_update_buffbar = false;
 	_update_debuffbar = false;
@@ -92,6 +91,7 @@ auto Sorcery::Engine::_initialise_state() -> void {
 	_show_encounter = false;
 	_next_combat = std::nullopt;
 	_monochrome = true;
+	_update_automap = true;
 
 	_display->window->set_cursor_coord(true);
 }

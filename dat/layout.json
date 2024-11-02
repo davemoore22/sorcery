@@ -3762,9 +3762,9 @@
 				{
 					"name": "menu_frame",
 					"w": "26",
-					"h": "7",
+					"h": "5",
 					"x": "centre",
-					"y": "10",
+					"y": "11",
 					"alpha": "225",
 					"type": "frame",
 					"priority": "3",
@@ -3774,9 +3774,9 @@
 				{
 					"name": "menu",
 					"x": "centre",
-					"y": "11",
+					"y": "12",
 					"w": "25",
-					"h": "5",
+					"h": "3",
 					"font": "monospace",
 					"colour": "0xffffffff",
 					"size": "24",
