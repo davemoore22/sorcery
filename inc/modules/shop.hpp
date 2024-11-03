@@ -61,6 +61,7 @@ class Shop {
 
 		// Private Methods
 		auto _draw() -> void;
+		auto _update_welcome() -> void;
 
 		// Private Members
 		System *_system;
@@ -85,6 +86,10 @@ class Shop {
 		std::map<std::string, sf::Text> _a_texts;
 		std::map<std::string, std::shared_ptr<Frame>> _a_frames;
 		unsigned int _chosen_char_id;
+		sf::Text _action_gold;
+		sf::Text _action_name;
+		std::string _gold;
+		std::string _name;
 };
 
 }

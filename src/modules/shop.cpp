@@ -77,13 +77,16 @@ Sorcery::Shop::Shop(
 	_console = std::make_unique<Console>(
 		_display->window->get_gui(), _system, _display, _graphics, _game);
 	_game->hide_console();
+
+	_action_gold = sf::Text();
+	_action_name = sf::Text();
 }
 
 // Standard Destructor
 Sorcery::Shop::~Shop() {
 }
 
-// Visit the Tavern
+// Visit the Shop
 auto Sorcery::Shop::start() -> std::optional<MIM> {
 
 	// Get the Background Display Components and load them into Display module
@@ -223,6 +226,7 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 								_chosen_char_id = (*opt_who.value()).index;
 								_stage = STS::ACTION;
 								_party_panel->refresh();
+								_update_welcome();
 								_action->generate(
 									(*_display->layout)["shop_action:menu"]);
 								continue;
@@ -296,11 +300,13 @@ auto Sorcery::Shop::_draw() -> void {
 		_window->draw(*_who);
 	} else if (_stage == STS::ACTION) {
 
-		// TODO: need to add who and cost texts
-
 		_action->generate((*_display->layout)["shop_action:menu"]);
 		_display->display("shop_action", _a_sprites, _a_texts, _a_frames);
 		_window->draw(*_action);
+		_display->window->draw_text(_action_gold,
+			(*_display->layout)["shop_action:action_gold"], _gold);
+		_display->window->draw_text(_action_name,
+			(*_display->layout)["shop_action:action_name"], _name);
 	}
 
 	if (_game->get_console_status()) {
@@ -311,4 +317,14 @@ auto Sorcery::Shop::_draw() -> void {
 	// Always draw the following
 	_display->display_overlay();
 	_display->display_cursor();
+}
+
+auto Sorcery::Shop::_update_welcome() -> void {
+
+	const auto character{_game->characters[_chosen_char_id]};
+
+	_gold = fmt::format("{} {} {}", (*_display->string)["SHOP_GOLD_PREFIX"],
+		character.get_gold(), (*_display->string)["SHOP_GOLD_SUFFIX"]);
+	_name = fmt::format("{} {}", (*_display->string)["SHOP_WELCOME_PREFIX"],
+		character.get_name());
 }

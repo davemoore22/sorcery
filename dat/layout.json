@@ -4210,7 +4210,7 @@
 					"drawmode": "automatic"
 				},
 				{
-					"name": "action_text_1",
+					"name": "action_name",
 					"x": "14",
 					"y": "10",
 					"font": "monospace",
@@ -4220,10 +4220,10 @@
 					"justification": "left",
 					"type": "text",
 					"priority": "4",
-					"drawmode": "automatic"
+					"drawmode": "manual"
 				},
 				{
-					"name": "action_text_2",
+					"name": "action_gold",
 					"x": "14",
 					"y": "21",
 					"font": "monospace",
@@ -4233,7 +4233,7 @@
 					"justification": "left",
 					"type": "text",
 					"priority": "4",
-					"drawmode": "automatic"
+					"drawmode": "manual"
 				},
 				{
 					"name": "menu_frame",
