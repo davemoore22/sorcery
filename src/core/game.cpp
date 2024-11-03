@@ -449,14 +449,14 @@ auto Sorcery::Game::divvy_party_gold() -> void {
 	auto gold{0};
 
 	for (auto idx : party) {
-		auto _cur_char{&characters.at(idx)};
-		gold += _cur_char->get_gold();
+		auto cur_char{&characters.at(idx)};
+		gold += cur_char->get_gold();
 	}
 
 	gold = gold / party.size();
 	for (auto idx : party) {
-		auto _cur_char{&characters.at(idx)};
-		_cur_char->set_gold(gold);
+		auto cur_char{&characters.at(idx)};
+		cur_char->set_gold(gold);
 	}
 }
 
@@ -466,16 +466,16 @@ auto Sorcery::Game::pool_party_gold(unsigned int char_id) -> void {
 	auto gold{0};
 
 	for (auto idx : party) {
-		auto _cur_char{&characters.at(idx)};
-		gold += _cur_char->get_gold();
+		auto cur_char{&characters.at(idx)};
+		gold += cur_char->get_gold();
 	}
 
 	for (auto idx : party) {
-		auto _cur_char{&characters.at(idx)};
+		auto cur_char{&characters.at(idx)};
 		if (char_id != idx)
-			_cur_char->set_gold(0);
+			cur_char->set_gold(0);
 		else
-			_cur_char->set_gold(gold);
+			cur_char->set_gold(gold);
 	}
 }
 
@@ -503,6 +503,8 @@ auto Sorcery::Game::debug_create_random_party() -> void {
 
 	// Clear any existing party
 	state->clear_party();
+
+	PRINT("debug_create_random_party");
 
 	// Create a new random party of a random alignment
 	const auto align{(*_system->random)[RNT::D2] == 1 ? CAL::GOOD : CAL::EVIL};
@@ -563,6 +565,26 @@ auto Sorcery::Game::debug_create_random_party() -> void {
 		auto char_id{add_character(pc)};
 		characters[char_id] = pc;
 		state->add_character_by_id(char_id);
+	}
+
+	save_game();
+}
+
+auto Sorcery::Game::debug_fill_party_unid_items() -> void {
+
+	PRINT("debug_fill_party_unid_items");
+
+	const auto party{state->get_party_characters()};
+	for (auto idx : party) {
+		auto &cur_char{characters.at(idx)};
+		auto slots_free = cur_char.inventory.get_empty_slots();
+		for (auto i = 0u; i < slots_free; i++) {
+			if (cur_char.inventory.get_empty_slots() > 0) {
+				auto item{itemstore->get_random_item(
+					ITT::LONG_SWORD, ITT::RING_OF_DEATH)};
+				cur_char.inventory.add(item);
+			}
+		}
 	}
 
 	save_game();

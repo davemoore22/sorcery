@@ -108,6 +108,11 @@ auto Sorcery::Castle::start(DES destination) -> std::optional<MIM> {
 				_game->debug_create_random_party();
 				_party_panel->refresh();
 				_update_menus();
+			} else if ((event.type == sf::Event::KeyPressed) &&
+					   (event.key.code == sf::Keyboard::F9)) {
+				_game->debug_fill_party_unid_items();
+				_party_panel->refresh();
+				_update_menus();
 			}
 
 			// If we are in normal input mode
