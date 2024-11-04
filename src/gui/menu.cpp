@@ -578,6 +578,68 @@ auto Sorcery::Menu::_add_all_monsters() -> void {
 auto Sorcery::Menu::_add_all_spells() -> void {
 }
 
+// Item Menus
+auto Sorcery::Menu::_add_inventory_items(
+	const MIA mode, const unsigned int character_id) -> void {
+
+	const auto items{_game->characters[character_id].inventory.items()};
+	auto slot{1u};
+
+	for (const auto &item : items) {
+		const std::string flag{std::invoke([&] {
+			if (!item.get_known())
+				return "?";
+			else if (item.get_cursed() && item.get_equipped())
+				return "-";
+			else if (item.get_equipped())
+				return "*";
+			else if (!item.get_usable())
+				return "#";
+			else
+				return " ";
+		})};
+
+		auto name{fmt::format("{}){}{}", slot, flag, item.get_display_name())};
+
+		const bool enabled{std::invoke([&] {
+			// We can't selecte Equipped Items
+			if (mode == MIA::DROP || mode == MIA::TRADE || mode == MIA::SELL) {
+				if (item.get_cursed() && item.get_equipped())
+					return false;
+				else if (item.get_equipped())
+					return false;
+				else
+					return true;
+			} else if (mode == MIA::EQUIP)
+				return !item.get_equipped() && item.get_usable();
+			else if (mode == MIA::UNCURSE)
+				return item.get_cursed() && item.get_equipped();
+			else if (mode == MIA::IDENTIFY)
+				return !item.get_known();
+			else if (mode == MIA::USE) {
+				return item.get_known() &&
+					   _game->itemstore->has_usable(item.get_type_id());
+			} else if (mode == MIA::INVOKE) {
+				return item.get_known() &&
+					   _game->itemstore->has_invokable(item.get_type_id());
+			} else
+				return false;
+		})};
+
+		if (enabled)
+			_add_item(slot - 1, MIT::ENTRY, MIM::MU_ITEM, name);
+		else
+			_add_item_disabled(slot - 1, MIT::ENTRY, MIM::MU_ITEM, name);
+
+		++slot;
+	}
+
+	_add_item(++slot, MIT::SPACER, MIM::ITEM_SPACER,
+		(*_display->string)["MENU_SPACER"]);
+	_add_item(++slot, MIT::CANCEL, MIM::AC_LEAVE,
+		(*_display->string)["ACTION_CANCEL"]);
+}
+
 // The Character Menu is a special case and needs to be reloaded often when
 // names and classes change
 auto Sorcery::Menu::reload() -> void {
@@ -724,9 +786,9 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos) -> MenuSelect {
 
 	if (!bounds.empty()) {
 
-		// Look for the bounds the mouse cursor is in, but select and return the
-		// associated item with the same index, since both containers track each
-		// other
+		// Look for the bounds the mouse cursor is in, but select and return
+		// the associated item with the same index, since both containers
+		// track each other
 		const sf::Vector2f global_pos{this->getPosition()};
 		mouse_pos -= global_pos;
 		auto it{std::ranges::find_if(
@@ -896,13 +958,13 @@ auto Sorcery::Menu::choose_previous() -> MenuSelect {
 
 	if (selected > items.begin()) {
 
-		// Repeat the comment from above, that it would be nice to use a ranges
-		// reverse view to handle this, or a std::find_last_if, instead we have
-		// to do a forward iterator backwards since we can't use a backwards
-		// iterator either!
+		// Repeat the comment from above, that it would be nice to use a
+		// ranges reverse view to handle this, or a std::find_last_if,
+		// instead we have to do a forward iterator backwards since we can't
+		// use a backwards iterator either!
 
-		// Iterate backwards until we find the first previous enabled menu if we
-		// can
+		// Iterate backwards until we find the first previous enabled menu
+		// if we can
 		bool found{false};
 		std::vector<MenuEntry>::const_iterator working{selected};
 		do {
@@ -929,7 +991,8 @@ auto Sorcery::Menu::choose_next() -> MenuSelect {
 
 	if (selected < (items.end() - 1)) {
 
-		// Iterate forwards until we find the first next enabled menu if we can
+		// Iterate forwards until we find the first next enabled menu if we
+		// can
 		bool found{false};
 		std::vector<MenuEntry>::const_iterator working{selected};
 		do {
@@ -956,8 +1019,8 @@ auto Sorcery::Menu::choose_next() -> MenuSelect {
 auto Sorcery::Menu::generate(const Component &component, bool force_refresh)
 	-> void {
 
-	// Figure out if we can display all the items to begin with or just a moving
-	// "window"
+	// Figure out if we can display all the items to begin with or just a
+	// moving "window"
 	if (_type != MTP::MUSEUM && _type != MTP::BESTIARY) {
 		_visible_items = items;
 	} else {
@@ -967,14 +1030,14 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh)
 
 		if (current < component.h) {
 
-			// In this case, only display the first part of the vector of items
-			// as we haven't reached the bottom yet
+			// In this case, only display the first part of the vector of
+			// items as we haven't reached the bottom yet
 			_visible_items = std::span<Sorcery::MenuEntry>(
 				items.begin(), items.begin() + component.h);
 		} else {
 
-			// Otherwise scroll the items appropriately with the selected item
-			// at the bottom
+			// Otherwise scroll the items appropriately with the selected
+			// item at the bottom
 			const auto start_span{items.begin() + current + 1 - component.h};
 			const auto end_span{items.begin() + current + 1};
 			_visible_items =
@@ -1071,8 +1134,8 @@ auto Sorcery::Menu::generate(const Component &component, bool force_refresh)
 					}
 				} else if (_type == MTP::TEMPLE) {
 
-					// Override Justification for Invalid Characters so that it
-					// looks better
+					// Override Justification for Invalid Characters so that
+					// it looks better
 					if (item.item == MIM::IC_CHARACTER)
 						text.setOrigin(0, 0);
 					else if (component.justification == JUS::CENTRE)

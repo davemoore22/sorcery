@@ -108,6 +108,8 @@ class Menu: public sf::Transformable, public sf::Drawable {
 		auto _add_all_spells() -> void;
 		auto _add_all_monsters() -> void;
 		auto _choose_by_index(const unsigned int index) -> MenuSelect;
+		auto _add_inventory_items(
+			const MIA mode, const unsigned int character_id) -> void;
 
 		// Private Members
 		System *_system;

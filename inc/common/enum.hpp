@@ -635,7 +635,10 @@ namespace Enums::Menu {
 		SHOP_ACTION,
 		SPELLBOOK,
 		ITEM_ACTION,
-		CHARACTER_TRADE
+		CHARACTER_TRADE,
+		SELL_ITEMS,
+		UNCURSE_ITEMS,
+		IDENTIFY_ITEMS
 	};
 
 	enum class Mode {
@@ -648,6 +651,18 @@ namespace Enums::Menu {
 		CAMP,
 		ACTION,
 		SEARCH
+	};
+
+	enum class Action {
+		NO_ACTION,
+		TRADE,
+		EQUIP,
+		DROP,
+		IDENTIFY,
+		UNCURSE,
+		USE,
+		INVOKE,
+		SELL
 	};
 
 	// Menu Items

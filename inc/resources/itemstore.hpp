@@ -48,9 +48,13 @@ class ItemStore {
 
 		// Public methods
 		auto get_an_item(const ITT item_type_id) const -> Item;
-		auto get_random_item(const ITT min_item_type_id, const ITT max_item_type_id) const -> Item;
+		auto get_random_item(const ITT min_item_type_id,
+			const ITT max_item_type_id) const -> Item;
 		auto get_all_types() const -> std::vector<ItemType>;
-		auto is_usable(const ITT item_type_id, const CHC cclass, const CAL calign) const -> bool;
+		auto is_usable(const ITT item_type_id, const CHC cclass,
+			const CAL calign) const -> bool;
+		auto has_usable(const ITT item_type_id) const -> bool;
+		auto has_invokable(const ITT item_type_id) const -> bool;
 
 	private:
 
@@ -61,8 +65,10 @@ class ItemStore {
 
 		// Private methods
 		auto _load(const std::filesystem::path filename) -> bool;
-		auto _get_defensive_effects(const std::string defensive_s) const -> ItemEffDef;
-		auto _get_offensive_effects(const std::string offsensive_s) const -> ItemEffOff;
+		auto _get_defensive_effects(const std::string defensive_s) const
+			-> ItemEffDef;
+		auto _get_offensive_effects(const std::string offsensive_s) const
+			-> ItemEffOff;
 };
 
 }

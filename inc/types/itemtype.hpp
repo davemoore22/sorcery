@@ -38,7 +38,8 @@ class ItemType {
 		ItemType() = default;
 
 		// Overloaded Operators
-		auto friend operator<<(std::ostream &out_stream, const ItemType &ItemType) -> std::ostream &;
+		auto friend operator<<(std::ostream &out_stream,
+			const ItemType &ItemType) -> std::ostream &;
 
 		// Public Methods
 		auto get_type_id() const -> ITT;
@@ -111,41 +112,51 @@ class ItemType {
 		auto set_buy(const bool value) -> void;
 		auto set_effects(const std::string value) -> void;
 		auto get_effects() const -> std::string;
+		auto has_usable() const -> bool;
+		auto has_invokable() const -> bool;
 
 	private:
 
 		// Private Members
-		ITT _type;						// e.g. LONG_SWORD, LONG_SWORD_PLUS_1 etc
-		std::string _known_name;		// Friendly name once identified
-		std::string _display_name;		// Short display name once identified (max 16 characters)
-		std::string _unknown_name;		// Unknown name if not identified
-		ITC _category;					// e.g, WEAPON, ARMOUR etc
-		bool _cursed;					// Is a cursed item
-		unsigned int _value;			// Price to buy in shop (Sell/Identify Price is half this)
-		bool _sellable;					// Can be sold
-		ItemUsableClass _usable;		// Usable by class list
-		ItemUsableAlignment _alignment; // Usable by alignment (otherwise cursed)
-		int _swings;					// If a weapon, number of attacks granted
-		int _to_hit_modifier;			// Bonus to hit using this weapon
-		std::string _damage_str;		// 3d8+2
+		ITT _type;				   // e.g. LONG_SWORD, LONG_SWORD_PLUS_1 etc
+		std::string _known_name;   // Friendly name once identified
+		std::string _display_name; // Short display name once identified (max 16
+								   // characters)
+		std::string _unknown_name; // Unknown name if not identified
+		ITC _category;			   // e.g, WEAPON, ARMOUR etc
+		bool _cursed;			   // Is a cursed item
+		unsigned int
+			_value; // Price to buy in shop (Sell/Identify Price is half this)
+		bool _sellable;			 // Can be sold
+		ItemUsableClass _usable; // Usable by class list
+		ItemUsableAlignment
+			_alignment;			 // Usable by alignment (otherwise cursed)
+		int _swings;			 // If a weapon, number of attacks granted
+		int _to_hit_modifier;	 // Bonus to hit using this weapon
+		std::string _damage_str; // 3d8+2
 		Dice _damage_dice;
-		int _ac_modifier;					   // AC modifier if worn normally
-		int _curse_ac_modifier;				   // If a cursed item, AC modifier
-		int _regeneration;					   // Passive hp adjustment (25% chance per turn of this happening)
-		ItemEffOff _offensive_effects;		   // Offensive effects wielding this item bestows
-		ItemEffDef _defensive_effects;		   // Defensive effects wearing this item bestows
-		ITV _invocation_effect;				   // Effect when invoked
-		unsigned int _invocation_decay_chance; // % chance of turning into _decay_type when invoked
-		SPI _use_effect;					   // Effect when used (same as associated spell effect)
-		unsigned int _use_decay_chance;		   // % chance of turning into _decay_type when used
-		ITT _decay_type;					   // Item type decays to when used/invoked
-		int _shop_initial_stock;			   // Number in stock in shop at beginning of game
-		bool _discovered_by_player;			   // Has been discovered in this game
-		std::string _description;			   // Flowery Description
-		unsigned int _gfx;					   // Index of Item Graphic
-		bool _buy;							   // Can Player buy this item from Shop
-		bool _sell;							   // Can Player sell this item to Shop
-		std::string _effects;				   // Textual Representation of Effects
+		int _ac_modifier;		// AC modifier if worn normally
+		int _curse_ac_modifier; // If a cursed item, AC modifier
+		int _regeneration; // Passive hp adjustment (25% chance per turn of this
+						   // happening)
+		ItemEffOff
+			_offensive_effects; // Offensive effects wielding this item bestows
+		ItemEffDef
+			_defensive_effects; // Defensive effects wearing this item bestows
+		ITV _invocation_effect; // Effect when invoked
+		unsigned int _invocation_decay_chance; // % chance of turning into
+											   // _decay_type when invoked
+		SPI _use_effect; // Effect when used (same as associated spell effect)
+		unsigned int
+			_use_decay_chance; // % chance of turning into _decay_type when used
+		ITT _decay_type;	   // Item type decays to when used/invoked
+		int _shop_initial_stock; // Number in stock in shop at beginning of game
+		bool _discovered_by_player; // Has been discovered in this game
+		std::string _description;	// Flowery Description
+		unsigned int _gfx;			// Index of Item Graphic
+		bool _buy;					// Can Player buy this item from Shop
+		bool _sell;					// Can Player sell this item to Shop
+		std::string _effects;		// Textual Representation of Effects
 
 		static std::random_device _device; // Shared RNG
 		static std::mt19937_64 _random;

@@ -262,7 +262,8 @@ auto Sorcery::ItemType::set_usable_class(const ItemUsableClass value) -> void {
 	_usable = value;
 }
 
-auto Sorcery::ItemType::set_usable_alignment(const ItemUsableAlignment value) -> void {
+auto Sorcery::ItemType::set_usable_alignment(const ItemUsableAlignment value)
+	-> void {
 
 	_alignment = value;
 }
@@ -310,7 +311,8 @@ auto Sorcery::ItemType::set_eff_inv(const ITV value) -> void {
 auto Sorcery::ItemType::get_eff_def_str() const -> std::string {
 
 	auto effects{""s};
-	for (auto i = unenum(ITD::RESIST_COLD); i <= unenum(ITD::PREVENT_DECAPITATION); i++) {
+	for (auto i = unenum(ITD::RESIST_COLD);
+		i <= unenum(ITD::PREVENT_DECAPITATION); i++) {
 		if (_defensive_effects[i]) {
 			const auto eff_enum{magic_enum::enum_value<ITD>(i)};
 			std::string str{magic_enum::enum_name<ITD>(eff_enum)};
@@ -319,7 +321,8 @@ auto Sorcery::ItemType::get_eff_def_str() const -> std::string {
 			effects.append(", ");
 		}
 	}
-	for (auto i = unenum(ITD::PROTECTION_VS_ANIMAL); i <= unenum(ITD::PROTECTION_VS_WERE); i++) {
+	for (auto i = unenum(ITD::PROTECTION_VS_ANIMAL);
+		i <= unenum(ITD::PROTECTION_VS_WERE); i++) {
 		if (_defensive_effects[i]) {
 			const auto eff_enum{magic_enum::enum_value<ITD>(i)};
 			std::string str{magic_enum::enum_name<ITD>(eff_enum)};
@@ -335,7 +338,8 @@ auto Sorcery::ItemType::get_eff_def_str() const -> std::string {
 auto Sorcery::ItemType::get_eff_off_str() const -> std::string {
 
 	auto effects{""s};
-	for (auto i = unenum(ITO::PURPOSED_VS_ANIMAL); i <= unenum(ITO::AUTOKILL); i++) {
+	for (auto i = unenum(ITO::PURPOSED_VS_ANIMAL); i <= unenum(ITO::AUTOKILL);
+		i++) {
 		if (_offensive_effects[i]) {
 			const auto eff_enum{magic_enum::enum_value<ITO>(i)};
 			std::string str{magic_enum::enum_name<ITO>(eff_enum)};
@@ -408,9 +412,20 @@ auto Sorcery::ItemType::set_sell(const bool value) -> void {
 	_sell = value;
 }
 
+auto Sorcery::ItemType::has_usable() const -> bool {
+
+	return get_eff_use() != SPI::NO_SPELL;
+}
+
+auto Sorcery::ItemType::has_invokable() const -> bool {
+
+	return get_eff_inv() != ITV::NO_INV_EFFECT;
+}
+
 namespace Sorcery {
 
-auto operator<<(std::ostream &out_stream, const Sorcery::ItemType &itemtype) -> std::ostream & {
+auto operator<<(std::ostream &out_stream, const Sorcery::ItemType &itemtype)
+	-> std::ostream & {
 
 	const auto type{unenum(itemtype.get_type_id())};
 	const auto name{itemtype.get_known_name()};

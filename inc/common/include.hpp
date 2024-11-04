@@ -113,6 +113,7 @@ using JUS = Enums::Window::Justification;
 using MAD = Enums::Map::Direction;
 using MAT = Enums::Map::Type;
 using MAV = Enums::Map::Event;
+using MIA = Enums::Menu::Action;
 using MIM = Enums::Menu::Item;
 using MMD = Enums::Menu::Mode;
 using MTP = Enums::Menu::Type;

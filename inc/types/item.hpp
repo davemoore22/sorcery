@@ -45,11 +45,13 @@ class Item {
 		Item(const Item &item);
 
 		// Overloaded Operators
-		auto friend operator<<(std::ostream &out_stream, const Item &item) -> std::ostream &;
+		auto friend operator<<(std::ostream &out_stream, const Item &item)
+			-> std::ostream &;
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_type, _category, _known, _equipped, _cursed, _marked, _usable, _name, _id, s_id);
+			archive(_type, _category, _known, _equipped, _cursed, _marked,
+				_usable, _name, _id, s_id);
 		}
 
 		// Public Methods

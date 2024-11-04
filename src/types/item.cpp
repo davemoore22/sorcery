@@ -169,7 +169,8 @@ auto Sorcery::Item::decay_to(const ITT value) -> void {
 
 namespace Sorcery {
 
-auto operator<<(std::ostream &out_stream, const Sorcery::Item &item) -> std::ostream & {
+auto operator<<(std::ostream &out_stream, const Sorcery::Item &item)
+	-> std::ostream & {
 
 	const auto type{unenum(item.get_type_id())};
 	const auto name{item.get_name()};

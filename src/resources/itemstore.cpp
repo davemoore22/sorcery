@@ -30,7 +30,9 @@
 #include "core/system.hpp"
 
 // Standard Constructor
-Sorcery::ItemStore::ItemStore(System *system, const std::filesystem::path filename) : _system{system} {
+Sorcery::ItemStore::ItemStore(
+	System *system, const std::filesystem::path filename)
+	: _system{system} {
 
 	_items.clear();
 
@@ -40,7 +42,8 @@ Sorcery::ItemStore::ItemStore(System *system, const std::filesystem::path filena
 
 auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 
-	if (std::ifstream file{filename.string(), std::ifstream::binary}; file.good()) {
+	if (std::ifstream file{filename.string(), std::ifstream::binary};
+		file.good()) {
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
@@ -55,11 +58,13 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 			for (auto i = 0u; i < items.size(); i++) {
 
 				// Some fields are always present
-				const auto id{magic_enum::enum_cast<Enums::Items::TypeID>(items[i]["id"].asInt())};
+				const auto id{magic_enum::enum_cast<Enums::Items::TypeID>(
+					items[i]["id"].asInt())};
 				const auto category{std::invoke([&] {
 					if (items[i].isMember("category")) {
 						if (items[i]["category"].asString().length() > 0) {
-							auto category{magic_enum::enum_cast<ITC>(items[i]["category"].asString())};
+							auto category{magic_enum::enum_cast<ITC>(
+								items[i]["category"].asString())};
 							return category.value_or(ITC::NO_ITEM_CATEGORY);
 						} else
 							return ITC::NO_ITEM_CATEGORY;
@@ -67,12 +72,16 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 						return ITC::NO_ITEM_CATEGORY;
 				})};
 				const std::string known_name(items[i]["known name"].asString());
-				const std::string unknown_name(items[i]["unknown name"].asString());
-				const std::string display_name(items[i]["display name"].asString());
-				const auto value{static_cast<unsigned int>(std::stoul(items[i]["value"].asString()))};
+				const std::string unknown_name(
+					items[i]["unknown name"].asString());
+				const std::string display_name(
+					items[i]["display name"].asString());
+				const auto value{static_cast<unsigned int>(
+					std::stoul(items[i]["value"].asString()))};
 				const std::string allowed_classes_s{std::invoke([&] {
 					if (items[i].isMember("allowed classes")) {
-						return items[i]["allowed classes"].asString().length() > 0
+						return items[i]["allowed classes"].asString().length() >
+									   0
 								   ? items[i]["allowed classes"].asString()
 								   : "";
 					} else
@@ -80,7 +89,9 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				})};
 				const std::string allowed_alignments_s{std::invoke([&] {
 					if (items[i].isMember("allowed alignments"))
-						return items[i]["allowed alignments"].asString().length() > 0
+						return items[i]["allowed alignments"]
+										   .asString()
+										   .length() > 0
 								   ? items[i]["allowed alignments"].asString()
 								   : "";
 					else
@@ -94,7 +105,9 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				})};
 				const std::string damage_s{std::invoke([&] {
 					if (items[i].isMember("damage"))
-						return items[i]["damage"].asString().length() > 0 ? items[i]["damage"].asString() : "";
+						return items[i]["damage"].asString().length() > 0
+								   ? items[i]["damage"].asString()
+								   : "";
 					else
 						return std::string{};
 				})};
@@ -113,7 +126,8 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				const auto use_spell{std::invoke([&] {
 					if (items[i].isMember("use")) {
 						if (items[i]["use"].asString().length() > 0) {
-							auto use{magic_enum::enum_cast<SPI>(items[i]["use"].asString())};
+							auto use{magic_enum::enum_cast<SPI>(
+								items[i]["use"].asString())};
 							return use.value_or(SPI::NO_SPELL);
 						} else
 							return SPI::NO_SPELL;
@@ -128,21 +142,26 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				})};
 				const std::string offensive_s{std::invoke([&] {
 					if (items[i].isMember("offensive"))
-						return items[i]["offensive"].asString().length() > 0 ? items[i]["offensive"].asString() : "";
+						return items[i]["offensive"].asString().length() > 0
+								   ? items[i]["offensive"].asString()
+								   : "";
 					else
 						return std::string{};
 				})};
 				const std::string defensive_s{std::invoke([&] {
 					if (items[i].isMember("defensive"))
-						return items[i]["defensive"].asString().length() > 0 ? items[i]["defensive"].asString() : "";
+						return items[i]["defensive"].asString().length() > 0
+								   ? items[i]["defensive"].asString()
+								   : "";
 					else
 						return std::string{};
 				})};
 				const auto invoke_effect{std::invoke([&] {
 					if (items[i].isMember("invoke")) {
 						if (items[i]["invoke"].asString().length() > 0) {
-							auto invoke{
-								magic_enum::enum_cast<Enums::Items::Effects::Invoke>(items[i]["invoke"].asString())};
+							auto invoke{magic_enum::enum_cast<
+								Enums::Items::Effects::Invoke>(
+								items[i]["invoke"].asString())};
 							return invoke.value_or(ITV::NO_INV_EFFECT);
 						} else
 							return ITV::NO_INV_EFFECT;
@@ -181,7 +200,9 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				})};
 				const std::string effects{std::invoke([&] {
 					if (items[i].isMember("effects"))
-						return items[i]["effects"].asString().length() > 0 ? items[i]["effects"].asString() : "";
+						return items[i]["effects"].asString().length() > 0
+								   ? items[i]["effects"].asString()
+								   : "";
 					else
 						return std::string{};
 				})};
@@ -266,12 +287,15 @@ auto Sorcery::ItemStore::operator[](ITT item_type_id) const -> ItemType {
 
 auto Sorcery::ItemStore::operator[](std::string name) const -> ItemType {
 
-	auto it{std::ranges::find_if(_items.begin(), _items.end(),
-		[&](const auto &item_type) { return (item_type.second.get_display_name() == name); })};
+	auto it{std::ranges::find_if(
+		_items.begin(), _items.end(), [&](const auto &item_type) {
+			return (item_type.second.get_display_name() == name);
+		})};
 	return (*it).second;
 }
 
-auto Sorcery::ItemStore::operator()(const ITC category) const -> std::vector<ItemType> {
+auto Sorcery::ItemStore::operator()(const ITC category) const
+	-> std::vector<ItemType> {
 
 	std::vector<ItemType> items;
 	for (const auto &[key, value] : _items)
@@ -287,15 +311,29 @@ auto Sorcery::ItemStore::get_an_item(const ITT item_type_id) const -> Item {
 	return Item{_items.at(item_type_id)};
 }
 
-auto Sorcery::ItemStore::is_usable(const ITT item_type_id, const CHC cclass, const CAL calign) const -> bool {
+auto Sorcery::ItemStore::is_usable(
+	const ITT item_type_id, const CHC cclass, const CAL calign) const -> bool {
 
-	return _items.at(item_type_id).is_class_usable(cclass) && _items.at(item_type_id).is_align_usable(calign);
+	return _items.at(item_type_id).is_class_usable(cclass) &&
+		   _items.at(item_type_id).is_align_usable(calign);
 }
 
-auto Sorcery::ItemStore::get_random_item(const ITT min_item_type_id, const ITT max_item_type_id) const -> Item {
+auto Sorcery::ItemStore::has_usable(const ITT item_type_id) const -> bool {
+
+	return _items.at(item_type_id).has_usable();
+}
+
+auto Sorcery::ItemStore::has_invokable(const ITT item_type_id) const -> bool {
+
+	return _items.at(item_type_id).has_invokable();
+}
+
+auto Sorcery::ItemStore::get_random_item(
+	const ITT min_item_type_id, const ITT max_item_type_id) const -> Item {
 
 	// TODO: probably needs some bounds checking on this
-	auto item_type_id{_system->random->get(unenum(min_item_type_id), unenum(max_item_type_id))};
+	auto item_type_id{_system->random->get(
+		unenum(min_item_type_id), unenum(max_item_type_id))};
 
 	return Item{_items.at(magic_enum::enum_cast<ITT>(item_type_id).value())};
 }
@@ -309,52 +347,62 @@ auto Sorcery::ItemStore::get_all_types() const -> std::vector<ItemType> {
 	return items;
 }
 
-auto Sorcery::ItemStore::_get_defensive_effects(const std::string defensive_s) const -> ItemEffDef {
+auto Sorcery::ItemStore::_get_defensive_effects(
+	const std::string defensive_s) const -> ItemEffDef {
 
 	ItemEffDef effects{};
 	effects.fill(false);
 
 	if (defensive_s.length() > 0) {
 		std::regex regex{R"([,]+)"};
-		std::sregex_token_iterator it{defensive_s.begin(), defensive_s.end(), regex, -1};
+		std::sregex_token_iterator it{
+			defensive_s.begin(), defensive_s.end(), regex, -1};
 		std::vector<std::string> split{it, {}};
-		split.erase(
-			std::remove_if(split.begin(), split.end(), [](std::string_view s) { return s.size() == 0; }), split.end());
+		split.erase(std::remove_if(split.begin(), split.end(),
+						[](std::string_view s) { return s.size() == 0; }),
+			split.end());
 
 		for (const auto &term : split) {
 			if (term == "RESIST_ALL") {
-				for (auto i = unenum(ITD::RESIST_COLD); i <= unenum(ITD::PREVENT_DECAPITATION); i++)
+				for (auto i = unenum(ITD::RESIST_COLD);
+					i <= unenum(ITD::PREVENT_DECAPITATION); i++)
 					effects[i] = true;
 			}
 			if (term == "PROTECT_VS_ALL") {
-				for (auto i = unenum(ITD::PROTECTION_VS_ANIMAL); i <= unenum(ITD::PROTECTION_VS_WERE); i++)
+				for (auto i = unenum(ITD::PROTECTION_VS_ANIMAL);
+					i <= unenum(ITD::PROTECTION_VS_WERE); i++)
 					effects[i] = true;
 			};
 			auto def{magic_enum::enum_cast<ITD>(term)};
 			if (def.has_value())
-				effects[unenum(def.value())] = term.starts_with('!') ? false : true;
+				effects[unenum(def.value())] =
+					term.starts_with('!') ? false : true;
 		}
 	}
 
 	return effects;
 }
 
-auto Sorcery::ItemStore::_get_offensive_effects(const std::string offsensive_s) const -> ItemEffOff {
+auto Sorcery::ItemStore::_get_offensive_effects(
+	const std::string offsensive_s) const -> ItemEffOff {
 
 	ItemEffOff effects{};
 	effects.fill(false);
 
 	if (offsensive_s.length() > 0) {
 		std::regex regex{R"([,]+)"};
-		std::sregex_token_iterator it{offsensive_s.begin(), offsensive_s.end(), regex, -1};
+		std::sregex_token_iterator it{
+			offsensive_s.begin(), offsensive_s.end(), regex, -1};
 		std::vector<std::string> split{it, {}};
-		split.erase(
-			std::remove_if(split.begin(), split.end(), [](std::string_view s) { return s.size() == 0; }), split.end());
+		split.erase(std::remove_if(split.begin(), split.end(),
+						[](std::string_view s) { return s.size() == 0; }),
+			split.end());
 
 		for (const auto &term : split) {
 			auto off{magic_enum::enum_cast<ITO>(term)};
 			if (off.has_value())
-				effects[unenum(off.value())] = term.starts_with('!') ? false : true;
+				effects[unenum(off.value())] =
+					term.starts_with('!') ? false : true;
 		}
 	}
 	return effects;
