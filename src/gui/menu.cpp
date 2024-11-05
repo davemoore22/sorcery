@@ -599,9 +599,18 @@ auto Sorcery::Menu::_add_inventory_items(
 				return " ";
 		})};
 
-		auto name{fmt::format("{}){}{}", slot, flag, item.get_display_name())};
+		const auto name{std::invoke([&] {
+			if (mode == MIA::SELL || mode == MIA::UNCURSE ||
+				mode == MIA::IDENTIFY)
+				return fmt::format("{}){}{:<16}{:>10} GP", slot, flag,
+					item.get_display_name(),
+					_game->itemstore->sellable_price(item.get_type_id()));
+			else
+				return fmt::format(
+					"{}){}{}", slot, flag, item.get_display_name());
+		})};
 
-		const bool enabled{std::invoke([&] {
+		const auto enabled{std::invoke([&] {
 			// We can't selecte Equipped Items
 			if (mode == MIA::DROP || mode == MIA::TRADE || mode == MIA::SELL) {
 				if (item.get_cursed() && item.get_equipped())

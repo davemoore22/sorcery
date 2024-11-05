@@ -323,6 +323,18 @@ auto Sorcery::ItemStore::has_usable(const ITT item_type_id) const -> bool {
 	return _items.at(item_type_id).has_usable();
 }
 
+auto Sorcery::ItemStore::sellable_price(const ITT item_type_id) const
+	-> unsigned int {
+
+	return _items.at(item_type_id).get_value() / 2;
+}
+
+auto Sorcery::ItemStore::sellable_to_shop(const ITT item_type_id) const
+	-> bool {
+
+	return _items.at(item_type_id).get_buy();
+}
+
 auto Sorcery::ItemStore::has_invokable(const ITT item_type_id) const -> bool {
 
 	return _items.at(item_type_id).has_invokable();

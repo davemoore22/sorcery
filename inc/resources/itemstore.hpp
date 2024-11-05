@@ -55,6 +55,8 @@ class ItemStore {
 			const CAL calign) const -> bool;
 		auto has_usable(const ITT item_type_id) const -> bool;
 		auto has_invokable(const ITT item_type_id) const -> bool;
+		auto sellable_to_shop(const ITT item_type_id) const -> bool;
+		auto sellable_price(const ITT item_type_id) const -> unsigned int;
 
 	private:
 
