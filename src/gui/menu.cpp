@@ -545,6 +545,26 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics,
 		_add_all_spells();
 		selected = items.begin();
 		break;
+	case MTP::SELL_ITEMS:
+		_add_inventory_items(MIA::SELL, data.value_or(-1));
+		selected = items.begin();
+		break;
+	case MTP::UNCURSE_ITEMS:
+		_add_inventory_items(MIA::UNCURSE, data.value_or(-1));
+		selected = items.begin();
+		break;
+	case MTP::IDENTIFY_ITEMS:
+		_add_inventory_items(MIA::IDENTIFY, data.value_or(-1));
+		selected = items.begin();
+		break;
+	case MTP::INVOKE_ITEMS:
+		_add_inventory_items(MIA::INVOKE, data.value_or(-1));
+		selected = items.begin();
+		break;
+	case MTP::USE_ITEMS:
+		_add_inventory_items(MIA::USE, data.value_or(-1));
+		selected = items.begin();
+		break;
 	default:
 		break;
 	}

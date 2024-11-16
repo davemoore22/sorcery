@@ -3809,6 +3809,103 @@
 			]
 		},
 		{
+			"name": "sell",
+			"component": [
+				{
+					"name": "wallpaper",
+					"x": "0",
+					"y": "0",
+					"scale": "1.25",
+					"type": "image",
+					"priority": "1",
+					"texture": "background",
+					"drawmode": "manual"
+				},
+				{
+					"name": "title_frame",
+					"w": "24",
+					"h": "3",
+					"x": "centre",
+					"y": "1",
+					"alpha": "255",
+					"type": "frame",
+					"priority": "3",
+					"background": " 0x000000ff"
+				},
+				{
+					"name": "title_text",
+					"x": "centre",
+					"y": "2",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "SHOP_TITLE",
+					"justification": "centre",
+					"type": "text",
+					"priority": "4"
+				},
+				{
+					"name": "frame",
+					"w": "38",
+					"h": "25",
+					"x": "centre",
+					"y": "2",
+					"alpha": "0",
+					"type": "frame",
+					"priority": "1",
+					"background": " 0x000000ff",
+					"drawmode": "automatic"
+				},
+				{
+					"name": "menu_frame",
+					"w": "26",
+					"h": "5",
+					"x": "centre",
+					"y": "11",
+					"alpha": "225",
+					"type": "frame",
+					"priority": "3",
+					"drawmode": "automatic",
+					"background": " 0x000000ff"
+				},
+				{
+					"name": "menu",
+					"x": "centre",
+					"y": "12",
+					"w": "25",
+					"h": "3",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"animated": "true",
+					"width": "25",
+					"background": " 0xff0000ff",
+					"justification": "centre",
+					"type": "menu",
+					"priority": "4"
+				},
+				{
+					"name": "background",
+					"x": "centre",
+					"y": "2",
+					"scale": "1.25",
+					"type": "image",
+					"priority": "2",
+					"texture": "town",
+					"drawmode": "automatic",
+					"data": [
+						{
+							"scale_x": "2.05",
+							"scale_y": "1.6",
+							"source_w": "440",
+							"source_h": "420",
+							"source_index": "3"
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "inspect",
 			"component": [
 				{

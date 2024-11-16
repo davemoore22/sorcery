@@ -38,6 +38,7 @@ class Graphics;
 class Inspect;
 class Menu;
 class PartyPanel;
+class Sell;
 class System;
 
 class Shop {
@@ -69,6 +70,7 @@ class Shop {
 		Graphics *_graphics;
 		Game *_game;
 		sf::RenderWindow *_window;
+		std::unique_ptr<Sell> _sell;
 		std::unique_ptr<Frame> _frame;
 		std::unique_ptr<Menu> _menu;
 		std::unique_ptr<Menu> _who;

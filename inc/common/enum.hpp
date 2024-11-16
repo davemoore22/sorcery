@@ -638,7 +638,9 @@ namespace Enums::Menu {
 		CHARACTER_TRADE,
 		SELL_ITEMS,
 		UNCURSE_ITEMS,
-		IDENTIFY_ITEMS
+		IDENTIFY_ITEMS,
+		USE_ITEMS,
+		INVOKE_ITEMS
 	};
 
 	enum class Mode {

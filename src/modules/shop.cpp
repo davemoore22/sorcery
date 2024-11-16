@@ -37,6 +37,7 @@
 #include "gui/frame.hpp"
 #include "gui/menu.hpp"
 #include "gui/partypanel.hpp"
+#include "modules/sell.hpp"
 #include "resources/componentstore.hpp"
 #include "resources/factory.hpp"
 #include "types/component.hpp"
@@ -73,6 +74,8 @@ Sorcery::Shop::Shop(
 		_game, (*_display->layout)["global:party_panel"]);
 	_inspect = std::make_unique<Inspect>(
 		_system, _display, _graphics, _game, MMD::SHOP);
+	_sell =
+		std::make_unique<Sell>(_system, _display, _graphics, _game, MIA::SELL);
 
 	_console = std::make_unique<Console>(
 		_display->window->get_gui(), _system, _display, _graphics, _game);
@@ -196,23 +199,6 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 						opt_who = _who->set_mouse_selected(_display->get_cur());
 					else if (_system->input->check(CIN::CONFIRM, event)) {
 
-						/* //
-						   pc.inventory.add_type((*_game->itemstore)[LEATHER_ARMOR],
-						   true);
-									//
-						   pc.inventory.add_type((*_game->itemstore)[CHAIN_MAIL],
-						   true);
-									//
-						   pc.inventory.add_type((*_game->itemstore)[LONG_SWORD],
-						   false,
-									// true);
-						   pc.inventory.add_type((*_game->itemstore)[CHAIN_MINUS_2],
-									// false);
-						   pc.inventory.add_type((*_game->itemstore)[MACE_MINUS_1],
-									// false);
-						   pc.inventory.add_type((*_game->itemstore)[PLATE_MAIL],
-									// false, false);*/
-
 						// We have selected something from the menu
 						if (opt_who) {
 							if (const MIM opt_shop{(*opt_who.value()).item};
@@ -260,8 +246,22 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 							continue;
 						} else {
 
-							// depending on what is chosen, go into sell, buy,
-							// etc
+							if (opt_act) {
+								if (const MIM opt_what{(*opt_act.value()).item};
+									opt_shop == MIM::SH_SELL) {
+
+									auto result{_sell->start(
+										_game->characters[_chosen_char_id])};
+									if (result &&
+										result.value() == MIM::ITEM_ABORT) {
+										_sell->stop();
+										return MIM::ITEM_ABORT;
+									}
+								}
+
+								// depending on what is chosen, go into sell,
+								// buy, etc
+							}
 						}
 					}
 				}
