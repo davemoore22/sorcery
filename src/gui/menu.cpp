@@ -547,23 +547,23 @@ Sorcery::Menu::Menu(System *system, Display *display, Graphics *graphics,
 		break;
 	case MTP::SELL_ITEMS:
 		_add_inventory_items(MIA::SELL, data.value_or(-1));
-		selected = items.begin();
+		_select_first();
 		break;
 	case MTP::UNCURSE_ITEMS:
 		_add_inventory_items(MIA::UNCURSE, data.value_or(-1));
-		selected = items.begin();
+		_select_first();
 		break;
 	case MTP::IDENTIFY_ITEMS:
 		_add_inventory_items(MIA::IDENTIFY, data.value_or(-1));
-		selected = items.begin();
+		_select_first();
 		break;
 	case MTP::INVOKE_ITEMS:
 		_add_inventory_items(MIA::INVOKE, data.value_or(-1));
-		selected = items.begin();
+		_select_first();
 		break;
 	case MTP::USE_ITEMS:
 		_add_inventory_items(MIA::USE, data.value_or(-1));
-		selected = items.begin();
+		_select_first();
 		break;
 	default:
 		break;
@@ -622,7 +622,7 @@ auto Sorcery::Menu::_add_inventory_items(
 		const auto name{std::invoke([&] {
 			if (mode == MIA::SELL || mode == MIA::UNCURSE ||
 				mode == MIA::IDENTIFY)
-				return fmt::format("{}){}{:<16}{:>10} GP", slot, flag,
+				return fmt::format("{}){}{:<16} {:>10} GP", slot, flag,
 					item.get_display_name(),
 					_game->itemstore->sellable_price(item.get_type_id()));
 			else

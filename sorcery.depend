@@ -1814,7 +1814,26 @@
 
 1697388678 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/buy.cpp
 
-1697388719 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/sell.cpp
+1731870320 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/sell.cpp
+	"modules/sell.hpp"
+	"common/enum.hpp"
+	"common/macro.hpp"
+	"common/type.hpp"
+	"core/display.hpp"
+	"core/game.hpp"
+	"core/graphics.hpp"
+	"core/input.hpp"
+	"core/system.hpp"
+	"core/window.hpp"
+	"engine/inspect.hpp"
+	"gui/console.hpp"
+	"gui/frame.hpp"
+	"gui/menu.hpp"
+	"gui/partypanel.hpp"
+	"resources/componentstore.hpp"
+	"resources/factory.hpp"
+	"types/character.hpp"
+	"types/component.hpp"
 
 1591211577 source:/home/dave/Development/wizardry/sorcery-sfml/inc/3rdparty/simpleini/ConvertUTF.c
 	"ConvertUTF.h"
@@ -2726,7 +2745,7 @@
 	"common/include.hpp"
 	"modules/enum.hpp"
 
-1730651345 /home/dave/Development/wizardry/sorcery-sfml/inc/modules/shop.hpp
+1731777600 /home/dave/Development/wizardry/sorcery-sfml/inc/modules/shop.hpp
 	"common/include.hpp"
 	"modules/enum.hpp"
 
@@ -3262,7 +3281,7 @@
 	"types/level.hpp"
 	"types/tile.hpp"
 
-1731775388 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/menu.cpp
+1731871587 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/menu.cpp
 	"gui/menu.hpp"
 	"common/enum.hpp"
 	"common/macro.hpp"
@@ -3521,7 +3540,7 @@
 	"types/character.hpp"
 	"types/component.hpp"
 
-1730651479 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/shop.cpp
+1731865644 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/shop.cpp
 	"modules/shop.hpp"
 	"common/enum.hpp"
 	"common/macro.hpp"
@@ -3537,6 +3556,7 @@
 	"gui/frame.hpp"
 	"gui/menu.hpp"
 	"gui/partypanel.hpp"
+	"modules/sell.hpp"
 	"resources/componentstore.hpp"
 	"resources/factory.hpp"
 	"types/component.hpp"
@@ -4032,4 +4052,8 @@
 	"gui/frame.hpp"
 	"gui/menu.hpp"
 	"resources/define.hpp"
+
+1731865498 /home/dave/Development/wizardry/sorcery-sfml/inc/modules/sell.hpp
+	"common/include.hpp"
+	"modules/enum.hpp"
 

@@ -250,8 +250,7 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 								if (const MIM opt_what{(*opt_act.value()).item};
 									opt_shop == MIM::SH_SELL) {
 
-									auto result{_sell->start(
-										_game->characters[_chosen_char_id])};
+									auto result{_sell->start(_chosen_char_id)};
 									if (result &&
 										result.value() == MIM::ITEM_ABORT) {
 										_sell->stop();

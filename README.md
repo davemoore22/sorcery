@@ -4,7 +4,7 @@ An open source remake/remaster initially of the classic CRPG Wizardry, Proving G
 
 Written using SFML, TGUI, and C++.
 
-**(Updated 19th September 2024)**
+**(Updated 17th November 2024)**
 
 ![](/promo/screen1.png)
 ![](/promo/screen23.png)
@@ -13,8 +13,9 @@ Written using SFML, TGUI, and C++.
 ![](/promo/screen7.png)
 ![](/promo/screen18.png)
 ![](/promo/screen15.png)
+![](/promo/screen24.png)
 
-Watch some videos of gameplay (most recent first):
+Watch some (older) videos of gameplay:
 
 [![Compendium Browsing](https://img.youtube.com/vi/TSj7Rw3l3Iw/maxresdefault.jpg)](https://youtu.be/TSj7Rw3l3Iw)
 [![Entering the Dungeon](https://img.youtube.com/vi/AQ9LhK0ta8A/maxresdefault.jpg)](https://youtu.be/AQ9LhK0ta8A)
@@ -43,8 +44,7 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 * ~~Compendium~~ (DONE)
 * ~~Inventory and Item Manipulation (DONE)~~
 * **Special Item Powers and Handling (DOING)**
-*
-* Boltac's Equipment Shop (TO DO)
+* **Boltac's Equipment Shop (DOING)**
 * Creatures and NPCs (TO DO)
 * Magic and Combat (TO DO)
 * Victory Handling (TO DO)
@@ -59,9 +59,9 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 * Modding
 * Plugin/3D Graphics
 
-## What next? (as of September 2024)
+## What next? (as of November 2024)
 
-Currently adding Item Usage and Item Invocation; normal inventory management has been mosty completed!
+Currently adding Item Usage and Item Invocation, as well as buying, selling, uncursing, and identifying at Boltacs. Normal inventory management has been mosty completed!
 
 Initially I am planning to remake Wizardry 1, then adding 2 and 3, and then subsequently providing infinite procedurally-generated content like that of Diablo for example. In the meantime, check out Snarfu's bugfix and recompilation of the original Wizardry for Apple II at <https://github.com/snafaru>.
 

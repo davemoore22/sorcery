@@ -56,7 +56,7 @@ class Sell {
 		// Public Members
 
 		// Public Methods
-		auto start(Character &character) -> std::optional<MIM>;
+		auto start(const unsigned int character_id) -> std::optional<MIM>;
 		auto stop() -> void;
 
 	private:
@@ -83,7 +83,7 @@ class Sell {
 		std::map<std::string, sf::Sprite> _a_sprites;
 		std::map<std::string, sf::Text> _a_texts;
 		std::map<std::string, std::shared_ptr<Frame>> _a_frames;
-		unsigned int _chosen_char_id;
+		Character *_character;
 };
 
 }

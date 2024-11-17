@@ -51,25 +51,6 @@ Sorcery::Sell::Sell(System *system, Display *display, Graphics *graphics,
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
-	/* // Setup Custom Components
-	_menu =
-		std::make_unique<Menu>(_system, _display, _graphics, _game, MTP::SHOP);
-	_menu->generate((*_display->layout)["shop:menu"]);
-	_menu->setPosition(_display->get_centre_x(_menu->get_width()),
-		(*_display->layout)["shop:menu"].y);
-
-	_who = std::make_unique<Menu>(
-		_system, _display, _graphics, _game, MTP::PARTY_CHARACTERS, MMD::SHOP);
-	_who->generate((*_display->layout)["shop_who:menu"]);
-	_who->setPosition(_display->get_centre_x(_who->get_width()),
-		(*_display->layout)["shop_who:menu"].y);
-
-	_action = std::make_unique<Menu>(
-		_system, _display, _graphics, _game, MTP::SHOP_ACTION);
-	_action->generate((*_display->layout)["shop_action:menu"]);
-	_action->setPosition(_display->get_centre_x(_action->get_width()),
-		(*_display->layout)["shop_action:menu"].y); */
-
 	// Modules
 	_party_panel = std::make_unique<PartyPanel>(_system, _display, _graphics,
 		_game, (*_display->layout)["global:party_panel"]);
@@ -84,7 +65,8 @@ Sorcery::Sell::~Sell() {
 }
 
 // Selling and other Shop Interactions
-auto Sorcery::Sell::start(Character &character) -> std::optional<MIM> {
+auto Sorcery::Sell::start(const unsigned int character_id)
+	-> std::optional<MIM> {
 
 	_display->generate("sell");
 
@@ -95,6 +77,28 @@ auto Sorcery::Sell::start(Character &character) -> std::optional<MIM> {
 	_party_panel->refresh();
 
 	// TODO: generate the menu here
+	auto menu_type{std::invoke([&] {
+		switch (_action) {
+		case MIA::IDENTIFY:
+			return MTP::IDENTIFY_ITEMS;
+			break;
+		case MIA::SELL:
+			return MTP::SELL_ITEMS;
+			break;
+		case MIA::UNCURSE:
+			return MTP::UNCURSE_ITEMS;
+			break;
+		default:
+			return MTP::CHARACTER_TRADE;
+			break;
+		}
+	})};
+	// Setup Custom Components
+	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game,
+		menu_type, std::nullopt, character_id);
+	_menu->generate((*_display->layout)["sell:menu"]);
+	_menu->setPosition(_display->get_centre_x(_menu->get_width()),
+		(*_display->layout)["sell:menu"].y);
 
 	// Generate the Components
 	const Component party_banel_c{(*_display->layout)["global:party_panel"]};
@@ -153,6 +157,7 @@ auto Sorcery::Sell::_draw() -> void {
 	// Custom Components
 	_display->display("shop");
 	_window->draw(*_party_panel);
+	_window->draw(*_menu);
 
 	// Always draw the following
 	_display->display_overlay();
