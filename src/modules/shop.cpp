@@ -34,6 +34,7 @@
 #include "core/window.hpp"
 #include "engine/inspect.hpp"
 #include "gui/console.hpp"
+#include "gui/dialog.hpp"
 #include "gui/frame.hpp"
 #include "gui/menu.hpp"
 #include "gui/partypanel.hpp"
@@ -49,6 +50,9 @@ Sorcery::Shop::Shop(
 
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
+
+	// Setup the Factory
+	_factory = std::make_unique<Factory>(_system, _display, _graphics, _game);
 
 	// Setup Custom Components
 	_menu =
@@ -74,8 +78,7 @@ Sorcery::Shop::Shop(
 		_game, (*_display->layout)["global:party_panel"]);
 	_inspect = std::make_unique<Inspect>(
 		_system, _display, _graphics, _game, MMD::SHOP);
-	_sell =
-		std::make_unique<Sell>(_system, _display, _graphics, _game, MIA::SELL);
+	_pool = _factory->make_dialog("engine_base_ui:dialog_pool_gold_ok");
 
 	_console = std::make_unique<Console>(
 		_display->window->get_gui(), _system, _display, _graphics, _game);
@@ -115,6 +118,8 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 
 	_stage = STS::MENU;
 
+	_in_pool = false;
+
 	// And do the main loop
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
 	MenuSelect opt{_menu->items.begin()};
@@ -123,6 +128,33 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 	sf::Event event{};
 	while (_window->isOpen()) {
 		while (_window->pollEvent(event)) {
+
+			if (event.type == sf::Event::Closed)
+				return MIM::ITEM_ABORT;
+			else if (_system->input->check(CIN::CANCEL, event) ||
+					 _system->input->check(CIN::BACK, event)) {
+				_display->set_input_mode(WIM::NAVIGATE_MENU);
+				_in_pool = false;
+				return std::nullopt;
+			}
+
+			if (_in_pool) {
+
+				// Handle Pool Gold Dialog
+				auto input{_pool->handle_input(event)};
+				if (input) {
+					if (input.value() == WDB::CLOSE) {
+						_in_pool = false;
+						_display->set_input_mode(WIM::NAVIGATE_MENU);
+					} else if (input.value() == WDB::OK) {
+
+						_game->pool_party_gold(_chosen_char_id);
+						_game->save_game();
+						_in_pool = false;
+						_display->set_input_mode(WIM::NAVIGATE_MENU);
+					}
+				}
+			}
 
 			// If we are in normal input mode
 			if (_display->get_input_mode() == WIM::NAVIGATE_MENU) {
@@ -248,18 +280,46 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 
 							if (opt_act) {
 								if (const MIM opt_what{(*opt_act.value()).item};
-									opt_shop == MIM::SH_SELL) {
+									opt_what == MIM::SH_SELL) {
 
+									_sell = std::make_unique<Sell>(_system,
+										_display, _graphics, _game, MIA::SELL);
 									auto result{_sell->start(_chosen_char_id)};
 									if (result &&
 										result.value() == MIM::ITEM_ABORT) {
 										_sell->stop();
-										return MIM::ITEM_ABORT;
+										continue;
 									}
+								} else if (opt_what == MIM::SH_POOL_GOLD) {
+									_in_pool = true;
+									continue;
+								} else if (opt_what == MIM::SH_IDENTIFY) {
+									_sell = std::make_unique<Sell>(_system,
+										_display, _graphics, _game,
+										MIA::IDENTIFY);
+									auto result{_sell->start(_chosen_char_id)};
+									if (result &&
+										result.value() == MIM::ITEM_ABORT) {
+										_sell->stop();
+										continue;
+									}
+								} else if (opt_what == MIM::SH_UNCURSE) {
+									_sell = std::make_unique<Sell>(_system,
+										_display, _graphics, _game,
+										MIA::UNCURSE);
+									auto result{_sell->start(_chosen_char_id)};
+									if (result &&
+										result.value() == MIM::ITEM_ABORT) {
+										_sell->stop();
+										continue;
+									}
+								} else if (opt_what == MIM::SH_BACK) {
+									_stage = STS::WHO;
+									_party_panel->refresh();
+									_who->generate(
+										(*_display->layout)["shop_who:menu"]);
+									continue;
 								}
-
-								// depending on what is chosen, go into sell,
-								// buy, etc
 							}
 						}
 					}
@@ -306,6 +366,11 @@ auto Sorcery::Shop::_draw() -> void {
 			(*_display->layout)["shop_action:action_gold"], _gold);
 		_display->window->draw_text(_action_name,
 			(*_display->layout)["shop_action:action_name"], _name);
+
+		if (_in_pool) {
+			_pool->update();
+			_window->draw(*_pool);
+		}
 	}
 
 	if (_game->get_console_status()) {

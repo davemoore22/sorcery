@@ -84,6 +84,8 @@ class Sell {
 		std::map<std::string, sf::Text> _a_texts;
 		std::map<std::string, std::shared_ptr<Frame>> _a_frames;
 		Character *_character;
+		sf::Text _what;
+		std::string _what_text;
 };
 
 }

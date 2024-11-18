@@ -89,8 +89,10 @@ class Game {
 		auto enable_event(MAV event_type) -> void;
 		auto disable_event(MAV event_type) -> void;
 		auto print() -> void;
+
 		auto debug_create_random_party() -> void;
 		auto debug_fill_party_unid_items() -> void;
+		auto debug_give_party_gold() -> void;
 
 	private:
 

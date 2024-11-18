@@ -31,7 +31,9 @@ namespace Sorcery {
 
 // Forward Declarations
 class Console;
+class Dialog;
 class Display;
+class Factory;
 class Frame;
 class Game;
 class Graphics;
@@ -92,6 +94,9 @@ class Shop {
 		sf::Text _action_name;
 		std::string _gold;
 		std::string _name;
+		std::unique_ptr<Dialog> _pool;
+		bool _in_pool;
+		std::unique_ptr<Factory> _factory;
 };
 
 }

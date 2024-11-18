@@ -3858,7 +3858,7 @@
 					"drawmode": "automatic"
 				},
 				{
-					"name": "choose_text",
+					"name": "which_text",
 					"x": "centre",
 					"y": "10",
 					"font": "monospace",
@@ -3868,7 +3868,7 @@
 					"justification": "centre",
 					"type": "text",
 					"priority": "4",
-					"drawmode": "automatic"
+					"drawmode": "manual"
 				},
 				{
 					"name": "frame",

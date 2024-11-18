@@ -113,6 +113,11 @@ auto Sorcery::Castle::start(DES destination) -> std::optional<MIM> {
 				_game->debug_fill_party_unid_items();
 				_party_panel->refresh();
 				_update_menus();
+			} else if ((event.type == sf::Event::KeyPressed) &&
+					   (event.key.code == sf::Keyboard::F11)) {
+				_game->debug_give_party_gold();
+				_party_panel->refresh();
+				_update_menus();
 			}
 
 			// If we are in normal input mode

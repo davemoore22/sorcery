@@ -499,6 +499,17 @@ auto Sorcery::Game::print() -> void {
 	std::cout << text << std::endl;
 }
 
+auto Sorcery::Game::debug_give_party_gold() -> void {
+
+	PRINT("debug_give_party_gold");
+
+	const auto party{state->get_party_characters()};
+	for (auto idx : party) {
+		auto &cur_char{characters.at(idx)};
+		cur_char.set_gold(100000000);
+	}
+}
+
 auto Sorcery::Game::debug_create_random_party() -> void {
 
 	// Clear any existing party

@@ -603,9 +603,11 @@ auto Sorcery::Menu::_add_inventory_items(
 	const MIA mode, const unsigned int character_id) -> void {
 
 	const auto items{_game->characters[character_id].inventory.items()};
+	const auto gold{_game->characters[character_id].get_gold()};
 	auto slot{1u};
 
 	for (const auto &item : items) {
+		const auto price{_game->itemstore->sellable_price(item.get_type_id())};
 		const std::string flag{std::invoke([&] {
 			if (!item.get_known())
 				return "?";
@@ -623,8 +625,7 @@ auto Sorcery::Menu::_add_inventory_items(
 			if (mode == MIA::SELL || mode == MIA::UNCURSE ||
 				mode == MIA::IDENTIFY)
 				return fmt::format("{}){}{:<16} {:>10} GP", slot, flag,
-					item.get_display_name(),
-					_game->itemstore->sellable_price(item.get_type_id()));
+					item.get_display_name(), price);
 			else
 				return fmt::format(
 					"{}){}{}", slot, flag, item.get_display_name());
@@ -642,9 +643,9 @@ auto Sorcery::Menu::_add_inventory_items(
 			} else if (mode == MIA::EQUIP)
 				return !item.get_equipped() && item.get_usable();
 			else if (mode == MIA::UNCURSE)
-				return item.get_cursed() && item.get_equipped();
+				return item.get_cursed() && item.get_equipped() && price < gold;
 			else if (mode == MIA::IDENTIFY)
-				return !item.get_known();
+				return !item.get_known() && price < gold;
 			else if (mode == MIA::USE) {
 				return item.get_known() &&
 					   _game->itemstore->has_usable(item.get_type_id());

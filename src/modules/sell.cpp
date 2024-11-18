@@ -58,6 +58,8 @@ Sorcery::Sell::Sell(System *system, Display *display, Graphics *graphics,
 	_console = std::make_unique<Console>(
 		_display->window->get_gui(), _system, _display, _graphics, _game);
 	_game->hide_console();
+
+	_what = sf::Text();
 }
 
 // Standard Destructor
@@ -93,6 +95,23 @@ auto Sorcery::Sell::start(const unsigned int character_id)
 			break;
 		}
 	})};
+	_what_text = std::invoke([&] {
+		switch (_action) {
+		case MIA::IDENTIFY:
+			return (*_display->string)["SHOP_IDENTIFY_CHOOSE"];
+			break;
+		case MIA::SELL:
+			return (*_display->string)["SHOP_SELL_CHOOSE"];
+			break;
+		case MIA::UNCURSE:
+			return (*_display->string)["SHOP_UNCURSE_CHOOSE"];
+			break;
+		default:
+			return (*_display->string)["SHOP_SELL_CHOOSE"];
+			break;
+		}
+	});
+
 	// Setup Custom Components
 	_menu = std::make_unique<Menu>(_system, _display, _graphics, _game,
 		menu_type, std::nullopt, character_id);
@@ -158,6 +177,9 @@ auto Sorcery::Sell::_draw() -> void {
 	_display->display("shop");
 	_window->draw(*_party_panel);
 	_window->draw(*_menu);
+
+	_display->window->draw_text(
+		_what, (*_display->layout)["sell:which_text"], _what_text);
 
 	// Always draw the following
 	_display->display_overlay();
